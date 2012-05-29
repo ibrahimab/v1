@@ -1,0 +1,75 @@
+<?php
+
+if($_GET["tariefcopy"]) {
+	echo "De tarieven van het gekozen seizoen zijn gekopieerd.<p>";
+	echo "<a href=\"".ereg_replace("&tariefcopy=1","",$_SERVER["REQUEST_URI"])."\">Terug naar de optiegroep-pagina</a>";
+} else {
+	$cms->display_cms();
+	
+	if($_GET["show"]==12) {
+		# Kopieerfunctie tarieven naar ander seizoen
+		$db->query("SELECT os.winter, os.zomer, og.skipas_id FROM optie_soort os, optie_groep og, optie_onderdeel oo WHERE oo.optie_groep_id='".addslashes($_GET["12k0"])."' AND oo.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id AND og.optie_soort_id=os.optie_soort_id;");
+		if($db->next_record()) {
+			if($db->f("winter") and !$db->f("zomer")) $seizoentypewhere=" WHERE type=1";
+			if(!$db->f("winter") and $db->f("zomer")) $seizoentypewhere=" WHERE type=2";
+			if(!$db->f("skipas_id")) {
+				$db->query("SELECT DISTINCT s.seizoen_id, s.naam FROM seizoen s, optie_onderdeel oo, optie_tarief ot WHERE ot.seizoen_id=s.seizoen_id AND ot.optie_onderdeel_id=oo.optie_onderdeel_id AND oo.optie_groep_id='".addslashes($_GET["12k0"])."' ORDER BY begin, eind, naam;");
+				if($db->num_rows()) {
+					echo "&nbsp;<hr><b>Tarieven ".$cms->show_rightcell["naam"]." kopi&euml;ren naar ander seizoen</b><p>";
+					echo "<form method=\"post\" name=\"copyfrm\" action=\"".$_SERVER["REQUEST_URI"]."\">";
+					echo "<input type=\"hidden\" name=\"kopieer\" value=\"1\">";
+					echo "Kopieer alle optietarieven van seizoen&nbsp;";
+					# Van seizoen
+					echo "<select name=\"from\" onchange=\"if(document.forms['copyfrm'].elements['from'].value!='' && document.forms['copyfrm'].elements['from'].value==document.forms['copyfrm'].elements['to'].value) {alert('beide keuzes zijn hetzelfde seizoen');document.forms['copyfrm'].elements['from'].value='';}\">";
+					echo "<option value=\"\"></option>";
+					
+					while($db->next_record()) {
+						echo "<option value=\"".$db->f("seizoen_id")."\">".htmlentities($db->f("naam"))."</option>";
+					}
+					echo "</select>";
+			
+					# Naar seizoen
+					echo "&nbsp;naar seizoen&nbsp;";
+					echo "<select name=\"to\" onchange=\"if(document.forms['copyfrm'].elements['from'].value!='' && document.forms['copyfrm'].elements['from'].value==document.forms['copyfrm'].elements['to'].value) {alert('beide keuzes zijn hetzelfde seizoen');document.forms['copyfrm'].elements['to'].value='';}\">";
+					echo "<option value=\"\"></option>";
+					$db->query("SELECT seizoen_id, naam FROM seizoen".$seizoentypewhere." ORDER BY begin, eind, naam;");
+					while($db->next_record()) {
+						echo "<option id=\"option".$db->f("seizoen_id")."\" value=\"".$db->f("seizoen_id")."\">".htmlentities($db->f("naam"))."</option>";
+					}
+					echo "</select>";
+					echo "&nbsp;&nbsp;<input type=\"submit\" value=\" KOPIEER TARIEVEN \" id=\"submit1frm\" onclick=\"document.copyfrm.submit1frm.disabled=1;document.copyfrm.submit();\">";
+					echo "<p>Let op! Alle eventueel al aanwezige tarieven worden overschreven.</form>";
+				}
+				# Kopieerfunctie optiegroepen
+				echo "<hr><b>Optiegroep ".$cms->show_rightcell["naam"]." kopi&euml;ren naar nieuwe optiegroep</b><p>";
+				echo "<table>";
+				echo "<form method=\"post\" name=\"copyfrm2\" action=\"".$_SERVER["REQUEST_URI"]."\">";
+				echo "<input type=\"hidden\" name=\"kopieergroep\" value=\"1\">";
+				echo "<tr><td>Naam nieuwe optiegroep&nbsp;&nbsp;&nbsp;</td><td><input type=\"text\" name=\"naam\"></td></tr>";
+				echo "<tr><td>Leverancier</td><td>";
+				echo "<select name=\"leverancier\">";
+				echo "<option value=\"\"></option>";
+				$db->query("SELECT optieleverancier_id, naam FROM optieleverancier ORDER BY naam;");
+				while($db->next_record()) {
+					echo "<option id=\"option".$db->f("optieleverancier_id")."\" value=\"".$db->f("optieleverancier_id")."\">".htmlentities($db->f("naam"))."</option>";
+				}
+				echo "</select>";
+				echo "</td></tr>";
+				echo "<tr><td colspan=\"2\"><input type=\"submit\" value=\" KOPIEER OPTIEGROEP\" id=\"submit2frm\" onclick=\"document.copyfrm2.submit2frm.disabled=1;document.copyfrm2.submit();\"></td></tr>";
+				echo "</form>";
+				echo "</table>";
+				$db->query("SELECT a.accommodatie_id, a.naam, p.naam AS plaats FROM accommodatie a, plaats p, optie_accommodatie oa WHERE a.plaats_id=p.plaats_id AND oa.optie_groep_id='".addslashes($_GET["12k0"])."' AND oa.accommodatie_id=a.accommodatie_id ORDER BY p.naam, a.naam;");
+				if($db->num_rows()) {
+					echo "&nbsp;<hr><b>De volgende accommodaties zijn aan deze optiegroep gekoppeld:</b><ul>";
+					while($db->next_record()) {
+						echo "<li><a href=\"cms_accommodaties.php?show=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+					}
+					echo "</ul>";
+				}
+			}
+		}
+		$cms->display_log(12);
+	}
+}
+
+?>

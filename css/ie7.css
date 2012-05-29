@@ -1,0 +1,28 @@
+
+#plusone {
+	display: none;
+}
+
+#adthis_plusone {
+	margin-left: 44px;
+}
+
+.zoekresultaat_aanbieding {
+	float: right;
+	width: 70px;
+}
+
+#toonaccommodatie_aanbieding {
+	float: right;
+	width: 70px;
+}
+
+.zoekresultaat_type_typenaam_aanbieding {
+	width: 15px;
+}
+
+#zoekblok input[name='fzt'] {
+	margin-left: -34px;
+	background: #ffffff;
+	filter: '';
+}

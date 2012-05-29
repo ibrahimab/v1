@@ -1,0 +1,11 @@
+<?php
+
+if($mustlogin) {
+	echo boekingkoptekst($gegevens);
+}
+
+if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+
+$form->display_all();
+
+?>

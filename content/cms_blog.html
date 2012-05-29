@@ -1,0 +1,55 @@
+<?php
+
+$cms->display_cms();
+
+if($_GET["show"]==44) {
+
+/*
+	echo "<p><hr><h2>Plaatsen en regio's toevoegen</h2><table cellspacing=\"0\" class=\"tbl\">";
+	echo "<form name=\"toevoegen\" action=\"".$_SERVER["REQUEST_URI"]."\" method=\"post\">";
+	echo "<input type=\"hidden\" name=\"toevoegen_filled\" value=\"1\">";
+	echo "<tr><th>Soort</th><th>Naam</th></tr>";
+
+	echo "<tr><td>Plaatsen</td><td>";
+	$db->query("SELECT p.plaats_id, p.naam, s.naam AS regio FROM plaats p, skigebied s WHERE p.skigebied_id=s.skigebied_id AND p.land_id=5 AND p.wzt=2 ORDER BY s.naam, p.naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"plaatsen\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		unset($algehad);
+		while($db->next_record()) {
+			if(!$algehad[$db->f("regio")]) {
+				if($algehad) echo "</optgroup>";
+				echo "<optgroup label=\"".wt_he($db->f("regio"))."\">";
+				$algehad[$db->f("regio")]=true;
+			}
+			echo "<option value=\"".$db->f("plaats_id")."\">".htmlentities($db->f("naam"))."</option>";
+		}
+		echo "</optgroup>";		
+		echo "</select>";
+	} else {
+		echo "nog geen plaatsen aanwezig";
+	}
+	echo "</td></tr>";
+
+	echo "<tr><td>Regio's</td><td>";
+	$db->query("SELECT skigebied_id, naam FROM skigebied WHERE skigebied_id IN (SELECT DISTINCT skigebied_id FROM plaats WHERE land_id=5) AND wzt=2 ORDER BY naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"skigebieden\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("skigebied_id")."\">".htmlentities($db->f("naam"))."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen regio's aanwezig";
+	}
+	echo "</td></tr>";
+	echo "</form>";
+	echo "</table>";
+
+*/
+
+	$cms->display_log(44);
+}
+
+?>

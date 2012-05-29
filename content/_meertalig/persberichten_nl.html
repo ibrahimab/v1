@@ -1,0 +1,22 @@
+<?php
+
+$persbericht["2012-02-14_persbericht_italissima"]="Italissima: bijna 1000 Italiaanse vakantiehuizen om bij weg te dromen";
+$persbericht["2011-09-07_persbericht_groepen_boeken_wintersport_vanaf_zomervakantieadres"]="In de race voor het ideale chalet";
+$persbericht["2010-11-18_zomerhuisje_investeert_in_specialisme"]="Zomerhuisje.nl investeert in specialisme";
+$persbericht["2010-09-30_vallandry"]="Chalet.nl signaleert trend: kleinschalig dorp in groot skigebied";
+$persbericht["2010-09-29_strijden-tegen-kanker"]="Chalet.nl organiseert actie voor PV's: samen strijden tegen kanker";
+$persbericht["2010-09-28_wintersport magazine"]="Chalet.nl brengt wintersport magazine 'Winterse Sferen' uit";
+$persbericht["2009-12-18_persbericht_nieuw_merk_zomerhuisje"]="Zomerhuisje.nl start met vakantiehuizen in Europa";
+$persbericht["2009-09-30_persbericht_chalet.nl_10_jaar"]="10 jaar Chalet.nl: 'Een uit de hand gelopen hobby'";
+$persbericht["2009-09-03_persbericht_wintersport_persdag"]="Chalet.nl één van de grootste aanbieders van groepschalets";
+$persbericht["2009-08-14_persbericht_regionaal_zomerhuisje"]="Chalet.nl start met Zomerhuisje.nl";
+$persbericht["2009-06-08_persbericht_nieuwe_marketingmanager"]="Sélina Sijtsma nieuwe marketing manager bij Chalet.nl";
+
+echo "<ul>";
+while(list($key,$value)=each($persbericht)) {
+	$datum=strtotime(substr($key,0,10));
+	echo "<li><a href=\"pdf/persberichten/".$key.".pdf\" title=\"Download persbericht als PDF-bestand\" target=\"_blank\">".htmlentities($value)."</a> <img src=\"".$vars["path"]."pic/pdflogo.gif\" width=\"18\" height=\"18\" style=\"margin-bottom:-4px;\" alt=\"PDF-bestand\"> (".datum("D MAAND JJJJ",$datum).")</li>";
+}
+echo "</ul>";
+
+?>

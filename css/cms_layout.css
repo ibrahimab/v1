@@ -1,0 +1,773 @@
+
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.75em;
+	background-color: #0D3E88;
+}
+
+h1 {
+	font-size: 1.2em;
+	margin: 8px 0px;
+}
+
+h2 {
+	font-size: 1.1em;
+	margin: 8px 0px;
+}
+
+hr {
+	color: #D40139;
+	background-color: #D40139;
+	height: 1px;
+	border: 0px;
+}
+
+.greyhr {
+	color: #cccccc;
+	background-color: #cccccc;
+	height: 1px;
+	border: 0px;
+}
+
+.financiele_table {
+	margin-top: 5px;
+	margin-bottom: 20px;
+	background-color: #ffffff;
+	font-size: 0.8em;
+}
+
+.financiele_table th {
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+.financiele_table td {
+	text-align: right;
+	white-space: nowrap;
+}
+
+.financiele_table td:nth-child(1) {
+	width: 70px;
+}
+
+.financiele_table td:nth-child(2) {
+	width: 40px;
+}
+
+.financiele_table td:nth-child(3) {
+	width: 50px;
+}
+
+.financiele_table td:nth-child(4) {
+	width: 95px;
+}
+
+a:link,a:active,a:visited {
+	color: #0000FF;
+}
+
+a:hover {
+	color: #CC3333;
+}
+
+li {
+	padding: 3px;
+}
+
+#wrapper {
+	margin: 10px;
+	padding: 0px;
+	width: 1180px;
+}
+
+.wrapper_extrabreed {
+	width: 1500px;
+}
+
+#top {
+	margin: 0px;
+	padding: 0px;
+	height: 48px;
+}
+
+#logo {
+	float: left;
+}
+
+#logout {
+	top:10px;
+	float: right;
+	text-align: right;
+}
+
+#logout a {
+	color: #FFFFFF;
+}
+
+#logout a:hover {
+	color: #D40139;
+}
+
+#menu {
+	float: left;
+	width: 155px;
+	background-color: #FFFFFF;
+	padding: 8px;
+	border: solid #D40139 2px;
+	font-size: 1.1em;
+	line-height: 170%;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-left: 0px;
+	padding-right: 0px;
+	font-size: 0.8em;
+}
+
+#menu a {
+	outline: 0;
+}
+
+#menu a {
+	text-decoration: none;
+	border-top: solid 1px #FFFFFF;
+	border-bottom: solid 1px #FFFFFF;
+	width: 150px;
+	display: block;
+	padding-left: 5px;
+	padding-bottom: 1px;
+}
+
+#menu a:hover {
+	color: #D40139;
+	text-decoration: none;
+	border-top: solid 1px #D40139;
+	border-bottom: solid 1px #D40139;
+	background-color: #ebebeb;
+}
+
+#menu .selected {
+	font-weight: bold;
+	color: #000000;
+	border-top: solid 1px #FFFFFF;
+	border-bottom: solid 1px #FFFFFF;
+	padding-bottom: 1px;
+	display: block;
+	padding-left: 5px;
+}
+
+#menu .selected_clicked {
+	font-weight: bold;
+	padding-bottom: 1px;
+}
+
+#menu .not_clickable {
+	color: #000000;
+	border-top: solid 1px #FFFFFF;
+	border-bottom: solid 1px #FFFFFF;
+	padding-bottom: 1px;
+	display: block;
+	padding-left: 5px;
+}
+
+#menu .sub {
+	color: #D40139;
+	border-top: solid 1px #FFFFFF;
+	border-bottom: solid 1px #FFFFFF;
+	padding-bottom: 1px;
+	display: block;
+	padding-left: 0px;
+	font-size: 0.9em;
+	line-height: 130%;
+}
+
+#menu ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+#menu li {
+	margin: 0px;
+	padding: 0px;
+	vertical-align: middle;
+}
+
+#content {
+	float: left;
+	width: 991px;
+	margin-left: 10px;
+	background-color: #FFFFFF;
+	border: solid #D40139 2px;
+	padding: 8px;
+	min-height: 300px;
+}
+
+#clear {
+	clear: both;
+}
+
+#footer {
+	padding: 5px;
+	font-size: 0.75em;
+	width: 155px;
+	text-align: center;
+	color: #FFFFFF;
+}
+
+#footer a {
+	text-decoration: none;
+	color: #FFFFFF;
+}
+
+#footer a:hover {
+	text-decoration: none;
+	color: #D40139;
+}
+
+#terug {
+	visibility: hidden;
+	margin-top: 10px;
+	font-size: 0.75em;
+	text-align: right;
+}
+
+.borders {
+	width: 33%;
+	border: solid #282E82 1px;
+}
+
+.opmerkingen {
+	width: 400px;
+	font-family:  Verdana, Helvetica, Arial, sans-serif;
+	font-size: 1.0em;
+	border: 2px solid #282E82;
+}
+
+.tbl {
+	width: 100%;
+	border: solid #282E82 1px;
+}
+
+.tbl th {
+	background-color: #282E82;
+	text-align: left;
+	color: #ffffff;
+	border: solid #282E82 1px;
+	font-size: 1.1em;
+}
+
+.tbl td {
+	vertical-align: top;
+	border: solid #282E82 1px;
+	padding: 3px;
+}
+
+.tbl th a:visited {
+	color: #ffffff;
+}
+
+.tbl th a:link {
+	color: #ffffff;
+}
+
+.tbl th a:active {
+	color: #ffffff;
+}
+
+.tbl th a:hover {
+	color: #D40139;
+}
+
+.tbl .tbl_icon {
+	width: 20px;
+}
+
+.tbl .leftcell {
+	width: 10px;
+}
+
+.tbl .rightcell {
+
+}
+
+.logtbl {
+	background-color: #cccccc;
+}
+
+.difftbl del {
+	background-color: #ff6f6f;
+}
+
+.difftbl ins {
+	background-color: #8bff99;
+	text-decoration: none;
+}
+
+.row1 {
+	background-color: #FFFFFF;
+}
+
+.row2 {
+	background-color: #F3F3F3;
+}
+
+.row_delete {
+	background-color: #FFA9A9;
+}
+
+.row_delete_confirm {
+	background-color: #FF7979;
+}
+
+.row_edit {
+	background-color: #FDFF86;
+}
+
+.row_show {
+	background-color: #FDFF86;
+}
+
+.wt_cms_show {
+	width: 450px;
+	border: solid #282E82 2px;
+}
+
+.wt_cms_show th {
+	background-color: #282E82;
+	text-align: left;
+	color: #ffffff;
+	border: solid #282E82 1px;
+	font-size: 1.1em;
+}
+
+.wt_cms_show td {
+	padding: 3px;
+	vertical-align: top;
+}
+
+.wt_cms_show th a:visited {
+	color: #ffffff;
+}
+
+.wt_cms_show th a:link {
+	color: #ffffff;
+}
+
+.wt_cms_show th a:active {
+	color: #ffffff;
+}
+
+.wt_cms_show th a:hover {
+	color: #D40139;
+}
+
+.wt_cms_show .leftcell {
+	width: 10px;
+}
+
+.wt_cms_show .rightcell {
+
+}
+
+.frm_tbl {
+	width: 700px;
+	border: solid #282E82 1px;
+}
+
+.frm_tbl th {
+	background-color: #282E82;
+	text-align: left;
+	color: #ffffff;
+	border: solid #282E82 1px;
+	font-size: 1.1em;
+}
+
+.frm_tbl td {
+	padding: 3px;
+}
+
+
+.frm_tbl .cell_colspan {
+
+}
+
+.frm_tbl .wtform_input_narrow {
+
+}
+
+.frm_tbl .wtform_submitbutton {
+
+}
+
+.frm_img_tbl {
+	border: solid #282E82 1px;
+}
+
+.error {
+	color: red;
+}
+
+.wtform_table {
+	width: 100%;
+	background-color: #FFFFFF;
+	border: 2px solid #282E82;
+}
+
+.wtform_input {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 1.0em;
+	border: 1px solid #282E82;
+	width: 670px;
+	padding: 2px;
+}
+
+.wtform_input_narrow {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 1.0em;
+	border: 2px solid #282E82;
+}
+
+.wtform_error {
+	color: red;
+}
+
+.wtform_cell_left {
+	width: 281px;
+	padding: 6px;
+	vertical-align:top;
+	padding-top: 9px;
+}
+
+.wtform_cell_right {
+	width: 630px;
+	padding: 6px;
+}
+
+.wtform_textarea {
+	min-height: 100px;
+}
+
+.wtform_cell_colspan {
+	padding: 6px;
+}
+
+.wtform_img_tbl {
+	border: solid #282E82 2px;
+}
+
+.wtform_small {
+	font-size: 0.8em;
+}
+
+.wtform_multiradio_tbl {
+	border: solid #878481 1px;
+}
+
+.wtform_multiradio_tbl th {
+	background-color: #878481;
+	text-align: left;
+	color: #ffffff;
+	border: solid #878481 1px;
+	font-size: 1.1em;
+}
+
+.wtform_multiradio_tbl td {
+	vertical-align: top;
+	border: solid #878481 1px;
+	padding: 3px;
+}
+
+.onlyprint {
+	display: none;
+	height: 0px;
+}
+
+.hide {
+	visibility:hidden;
+}
+
+#content_voorkant {
+	background-color: #FFFFFF;
+	border: solid #D40139 2px;
+	padding: 8px;
+	height: 300px;
+}
+
+.content_popup {
+	font-size: 0.8em;
+	margin: 10px;
+	background-color: #FFFFFF;
+	border: solid #D40139 2px;
+	padding: 8px;
+}
+
+.content_popup input {
+	font-size: 1.0em;
+}
+
+.optie_knop {
+	font-size: 1.3em;
+	color: #FFFFFF;
+}
+
+.tarieventabel input[disabled] {
+	color: #000000;
+}
+
+.opvallend {
+	background-color: #FFFBBA;
+}
+
+.niet_invullen {
+	background-color: #D6D6D6;
+}
+
+.accinfo__in_typeform {
+	color: #878481;
+	font-size: 0.8em;
+}
+
+.tarieventabel_input {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	font-size: 1.0em;
+}
+
+.optietarievenwijzigen {
+
+}
+
+.tr_reserveringsnummer {
+	display: none;
+}
+
+.tr_datum_exact {
+
+}
+
+.tr_aankomstdatum {
+
+}
+
+.openklappen {
+	cursor: pointer;
+}
+
+.voorraad_readonly {
+	background-color: #d1d1d1;
+	font-style: italic;
+}
+
+.redlink {
+	color: red;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.redlink:hover {
+	color: #878481;
+	cursor: pointer;
+}
+
+.vertalingafvinken {
+	cursor: pointer;
+}
+
+.kleinwis {
+	font-size: 0.8em;
+}
+
+.noactive:focus {
+	outline:0;
+}
+
+.noactive:active {
+	outline:0;
+}
+
+/* ----------------------- */
+/*   opmerkingen-balloon   */
+/* ----------------------- */
+
+a.opm {
+	text-decoration: none;
+	color: #000000;
+	cursor: default;
+}
+
+a.opm:hover {
+	color: blue;
+}
+
+a.opm .balloon {
+	display: none;
+}
+
+a.opm:hover .balloon {
+	display: block;
+	position: absolute;
+	margin: -45px 0px 0px 0px;
+	border: 2px solid #000000;
+	background: #ffffff;
+	color: #000000;
+	min-height: 30px;
+	width: 300px;
+	text-align: left;
+	padding: 5px;
+}
+
+a.opm .balloon_fullwidth {
+	display: none;
+}
+
+a.opm:hover .balloon_fullwidth {
+	display: block;
+	position: absolute;
+	margin: -45px 0px 0px 0px;
+	border: 2px solid #000000;
+	background: #ffffff;
+	color: #000000;
+	min-height: 30px;
+	min-width: 300px;
+	text-align: left;
+	padding: 5px;
+}
+
+a.opm .balloon_small {
+	display: none;
+}
+
+a.opm:hover .balloon_small {
+	display: block;
+	position: absolute;
+	margin-top: 10px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: -2px;
+	border: 1px solid #000000;
+	background-color: yellow;
+	color: #000000;
+	min-height: 30px;
+	width: 270px;
+	text-align: left;
+	vertical-align: bottom;
+	padding: 5px;
+}
+
+
+/* ----------------------- */
+/*   scrollable table      */
+/* ----------------------- */
+
+.scrollContent {
+	display: block;
+	height: 300px;
+	overflow: auto;
+}
+
+.showhide ul {
+	margin-bottom: 0;
+}
+
+.tbl_cms_korting {
+	width:700px;
+	font-size:1.2em;
+	border:2px solid #282e82;
+}
+
+.inkoopgegevens_onopvallend td {
+
+}
+
+.inkoopgegevens_opvallend td {
+	background-color: #fffbba;
+	font-weight: bold;
+}
+
+.inkoopgegevens {
+	width: 300px;
+	margin-right: 15px;
+}
+
+.inkoopgegevens_actueel_positief {
+	color: green;
+	font-weight: bold;
+}
+
+.inkoopgegevens_actueel_negatief {
+	color: red;
+	font-weight: bold;
+}
+
+.inkoopgegevens_actueel_neutraal {
+	color: grey;
+}
+
+.bijkomend_doorstrepen div {
+	text-decoration: line-through;
+	color: grey;
+}
+
+.margebalk {
+	width: 100%;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+.margebalk td {
+	padding: 4px;
+}
+
+.margebalk tr {
+	color: #ffffff;
+	background-color: #00b0f0;
+}
+
+@media print {
+
+	body {
+		background-color: white;
+	}
+
+	#wrapper {
+		width: 100%;
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	#menu {
+		display: none;
+	}
+
+	#logout {
+		display: none;
+	}
+
+	#content {
+		margin-left: 0px;
+		background-color: #ffffff;
+		border: solid #282E82 0px;
+		padding: 8px;
+		height:300px;
+	}
+
+	#footer {
+		display: none;
+		height: 0px;
+	}
+
+	.frm_tbl {
+		width: 100%;
+		border: solid #282E82 1px;
+	}
+	
+	.noprint {
+		display: none;
+		height: 0px;
+	}
+
+	.onlyprint {
+		display: inline;
+	}
+}

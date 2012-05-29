@@ -1,0 +1,982 @@
+<?php
+
+unset($oranje_korting,$oranjebedragen_row_getoond,$toon_korting_row,$verborgen_regels,$gelebedragen,$voorraad,$toonkorting_1,$toonkorting_2,$aanbieding_row_getoond,$aanbiedingskleur);
+
+if(!$seizoenteller) {
+	$seizoenteller=1;
+}
+
+if($tarievenpopup or $print) {
+	if($_GET["printaccid"]) {
+		$typeid=$_GET["printaccid"];
+	} else {
+		$seizoenid=$_GET["sid"];
+		$typeid=$_GET["typeid"];
+	}
+	
+	$db2->query("SELECT a.toonper FROM accommodatie a, type t WHERE t.type_id='".addslashes($typeid)."' AND t.accommodatie_id=a.accommodatie_id;");
+	if($db2->next_record()) {
+		$toonper=$db2->f("toonper");
+	}
+	if($tarievenpopup) {
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/opmaak_alle_sites.css.phpcache?type=".$vars["websitetype"]."\" />\n\n";
+		
+		echo "<script type=\"text/javascript\" language=\"JavaScript1.2\" src=\"".$path."functions.js\"></script>\n\n";
+		echo "<style>\n.tarieventabel {\nfont-family: ".$font.";\nfont-size: 1.1em;\nborder: solid #0D3E88 1px;\nwidth: 100%;\n}\n</style>";
+	}
+}
+
+$db2->query("SELECT UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind, s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' AND s.seizoen_id='".addslashes($seizoenid)."' AND s.tonen>1;");
+if($db2->next_record()) {
+	unset($min,$max,$tarieven,$dag,$week,$maand,$tarieventabel_tonen,$week_min,$week_max);
+
+
+	$seizoen["begin"]=$db2->f("begin");
+	$seizoen["eind"]=$db2->f("eind");
+	
+	$seizoen["begin_org"]=$db2->f("begin");
+	$seizoen["eind_org"]=$db2->f("eind");
+	
+	$seizoen["naam"]=$db2->f("naam");
+
+	# $week_min en $week_max bepalen
+	$db2->query("SELECT MIN(week) AS week_min, MAX(week) AS week_max FROM tarief WHERE seizoen_id='".addslashes($seizoenid)."' AND type_id='".addslashes($typeid)."' AND (bruto>0 OR c_bruto>0);");
+	if($db2->next_record()) {
+		$week_min=$db2->f("week_min");
+		$week_max=$db2->f("week_max");
+	}
+
+	# Controle op vertrekdagaanpassing?
+	include("content/vertrekdagaanpassing.html");
+
+	# aflopen_allotment uit calculatiesjabloon halen
+	$db2->query("SELECT week, aflopen_allotment FROM calculatiesjabloon_week WHERE seizoen_id='".addslashes($seizoenid)."' AND leverancier_id='".addslashes($accinfo["leverancierid"])."';");
+	while($db2->next_record()) {
+		if($db2->f("aflopen_allotment")<>"") $aflopen_allotment[$db2->f("week")]=$db2->f("aflopen_allotment");
+	}
+	
+	#
+	# Tarieven uit database halen
+	#
+	if($toonper==3 or $vars["wederverkoop"]) {
+		#
+		# Toonper=3 ==> Prijs Accommodatie
+		#
+#		$vars["wederverkoop_kleuren"]=array(1=>"00FF00",2=>"FF9B0D",3=>"000000");
+		$vars["wederverkoop_kleuren"]=array(1=>"00FF00",2=>"ffcc99",3=>"000000");
+		
+		if($vars["wederverkoop"]) {
+			$db2->query("SELECT t.c_bruto, t.bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.wederverkoop_verkoopprijs, t.wederverkoop_commissie_agent, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting FROM tarief t WHERE t.seizoen_id='".addslashes($seizoenid)."' AND t.type_id='".addslashes($typeid)."';");
+			if($db2->num_rows()) {
+				$tarieven_ingevoerd[$seizoenid]=true;
+			}
+		} else {
+			$db2->query("SELECT t.c_bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting FROM tarief t WHERE t.seizoen_id='".addslashes($seizoenid)."' AND t.type_id='".addslashes($typeid)."';");
+			if($db2->num_rows()) {
+				$tarieven_ingevoerd[$seizoenid]=true;
+			}
+		}
+		while($db2->next_record()) {
+			# Voorraad bepalen t.b.v. Chalet-medewerkers
+			if($voorkant_cms) {
+				$voorraad["garantie"][$db2->f("week")]=$db2->f("voorraad_garantie");
+				$voorraad["allotment"][$db2->f("week")]=$db2->f("voorraad_allotment");
+				$voorraad["vervallen_allotment"][$db2->f("week")]=$db2->f("voorraad_vervallen_allotment");
+				if($accinfo["aflopen_allotment"]<>"" or $aflopen_allotment[$db2->f("week")]<>"" or $db2->f("aflopen_allotment")<>"") {
+					if($db2->f("aflopen_allotment")<>"") {
+						$temp_aflopen_allotment=$db2->f("aflopen_allotment");
+					} elseif($aflopen_allotment[$db2->f("week")]<>"") {
+						$temp_aflopen_allotment=$aflopen_allotment[$db2->f("week")];
+					} else {
+						$temp_aflopen_allotment=$accinfo["aflopen_allotment"];
+					}
+					$voorraad["aflopen_allotment"][$db2->f("week")]=mktime(0,0,0,date("m",$db2->f("week")),date("d",$db2->f("week"))-$temp_aflopen_allotment,date("Y",$db2->f("week")));
+				}
+				$voorraad["optie_leverancier"][$db2->f("week")]=$db2->f("voorraad_optie_leverancier");
+				$voorraad["xml"][$db2->f("week")]=$db2->f("voorraad_xml");
+				$voorraad["request"][$db2->f("week")]=$db2->f("voorraad_request");
+				$voorraad["optie_klant"][$db2->f("week")]=$db2->f("voorraad_optie_klant");
+				$voorraad["totaal"][$db2->f("week")]=$db2->f("voorraad_garantie")+$db2->f("voorraad_allotment")+$db2->f("voorraad_vervallen_allotment")+$db2->f("voorraad_optie_leverancier")+$db2->f("voorraad_xml")+$db2->f("voorraad_request")-$db2->f("voorraad_optie_klant");
+				$voorraad["voorraad_bijwerken"][$db2->f("week")]=$db2->f("voorraad_bijwerken");
+				$voorraad["blokkeren_wederverkoop"][$db2->f("week")]=$db2->f("blokkeren_wederverkoop");
+				$tarieventabel_tonen[$db2->f("week")]=1;
+			}
+
+			unset($temp_beschikbaar,$temp_bruto);
+			if($vars["wederverkoop"]) {
+				$temp_beschikbaar=$db2->f("beschikbaar");
+				if($db2->f("blokkeren_wederverkoop")) unset($temp_beschikbaar);
+				if($toonper==3) {
+					$temp_bruto=$db2->f("c_bruto");
+				} else {
+					$temp_bruto=$db2->f("bruto");
+				}
+				$temp_verkoop_site=$db2->f("wederverkoop_verkoopprijs");
+			} else {
+				$temp_beschikbaar=$db2->f("beschikbaar");
+				$temp_bruto=$db2->f("c_bruto");
+				$temp_verkoop_site=$db2->f("c_verkoop_site");
+			}
+
+			if($temp_verkoop_site>0 and $temp_bruto>0) {
+				# Korting bepalen om intern te kunnen tonen
+				if($db2->f("inkoopkorting_percentage")>0) $korting["inkoopkorting_percentage"][$db2->f("week")]=$db2->f("inkoopkorting_percentage");
+				if($db2->f("inkoopkorting_euro")>0) $korting["inkoopkorting_euro"][$db2->f("week")]=$db2->f("inkoopkorting_euro");
+				if($db2->f("aanbieding_acc_percentage")>0) $korting["aanbieding_acc_percentage"][$db2->f("week")]=$db2->f("aanbieding_acc_percentage");
+				if($db2->f("aanbieding_acc_euro")>0) $korting["aanbieding_acc_euro"][$db2->f("week")]=$db2->f("aanbieding_acc_euro");
+			}
+			
+			if($temp_verkoop_site>0 and $temp_beschikbaar and $temp_bruto>0) {
+				$tarieven[$db2->f("week")]=verwerk_aanbieding($temp_verkoop_site,$aanbieding[$seizoenid]["typeid_sort"][$typeid],$db2->f("week"));
+				if($temp_verkoop_site-$tarieven[$db2->f("week")]>0) $aanbieding[$seizoenid]["typeid_sort"][$typeid]["exact_bedrag_korting"][$db2->f("week")]=$temp_verkoop_site-$tarieven[$db2->f("week")];
+				if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["exact_bedrag_korting"][$db2->f("week")]<0) unset($aanbieding[$seizoenid]["typeid_sort"][$typeid]["exact_bedrag_korting"][$db2->f("week")]);
+				if($tarieven[$db2->f("week")]>0) {
+					$tarieventabel_tonen[$db2->f("week")]=1;
+					$tarieven_aanwezig[$seizoenid]=true;
+					$commissie[$db2->f("week")]=$db2->f("wederverkoop_commissie_agent");
+					if($vars["chalettour_aanpassing_commissie"]) {
+						$commissie[$db2->f("week")]=$commissie[$db2->f("week")]+$vars["chalettour_aanpassing_commissie"];
+					}
+				}
+				# Voorraad bepalen t.b.v. ingelogde reisbureaus
+				# 1 = groen, 2 = oranje, 3 = zwart
+				if($db2->f("voorraad_garantie")+$db2->f("voorraad_allotment")+$db2->f("voorraad_optie_leverancier")+$db2->f("voorraad_xml")-$db2->f("voorraad_optie_klant")>=1) {
+					$voorraad["wederverkoop_kleur"][$db2->f("week")]=1;
+				} elseif($db2->f("voorraad_request")>=1 or $db2->f("voorraad_optie_klant")>=1 or $db2->f("voorraad_vervallen_allotment")>=1) {
+					$voorraad["wederverkoop_kleur"][$db2->f("week")]=2;
+				} else {
+					$voorraad["wederverkoop_kleur"][$db2->f("week")]=3;
+				}
+
+				if($db2->f("week")>time()) {
+					# Aanbiedingskleur
+					if($db2->f("aanbiedingskleur")) $aanbiedingskleur[$db2->f("week")]=true;
+		
+					if($db2->f("aanbiedingskleur_korting") and ($db2->f("aanbieding_acc_percentage")>0 or $db2->f("aanbieding_acc_euro")>0)) {
+						$aanbiedingskleur[$db2->f("week")]=true;
+					}
+					
+					if($db2->f("toonexactekorting") and ($db2->f("aanbieding_acc_percentage")>0 or $db2->f("aanbieding_acc_euro")>0)) {
+						if($db2->f("aanbieding_acc_percentage")>0) {
+							$toonkorting_1[$db2->f("week")]=$db2->f("aanbieding_acc_percentage");
+							$toonkorting_soort_1[$db2->f("week")]=true;
+						}
+						if($db2->f("aanbieding_acc_euro")>0) {
+							$toonkorting_2[$db2->f("week")]=$db2->f("aanbieding_acc_euro");
+							$toonkorting_soort_2[$db2->f("week")]=true;
+						}
+					}
+				}
+			} else {
+				$voorraad["wederverkoop_kleur"][$db2->f("week")]=3;
+			}
+			
+		}
+	} else {
+		#
+		# Toonper=1 ==> Prijs Arrangement (accommodatie + skipas)
+		#
+	
+		unset($aanbieding[$seizoenid]["typeid_sort"][$typeid]["exact_bedrag"]);
+#		$db2->query("SELECT tp.week, tp.personen, tp.prijs, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant FROM tarief_personen tp, tarief t WHERE tp.seizoen_id='".addslashes($seizoenid)."' AND tp.type_id='".addslashes($typeid)."' AND t.type_id=tp.type_id AND t.seizoen_id=tp.seizoen_id AND t.week=tp.week AND (t.bruto>0 OR t.arrangementsprijs>0) AND t.beschikbaar=1;");
+		$db2->query("SELECT t.bruto, t.arrangementsprijs, t.beschikbaar, t.blokkeren_wederverkoop, tp.week, tp.personen, tp.prijs, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.toonexactekorting, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.aanbieding_skipas_percentage, t.aanbieding_skipas_euro FROM tarief_personen tp, tarief t WHERE tp.seizoen_id='".addslashes($seizoenid)."' AND tp.type_id='".addslashes($typeid)."' AND t.type_id=tp.type_id AND t.seizoen_id=tp.seizoen_id AND t.week=tp.week;");
+		if($db2->num_rows()) {
+			$tarieven_ingevoerd[$seizoenid]=true;
+		}
+		while($db2->next_record()) {
+			if($voorkant_cms) {
+				$voorraad["garantie"][$db2->f("week")]=$db2->f("voorraad_garantie");
+				$voorraad["allotment"][$db2->f("week")]=$db2->f("voorraad_allotment");
+				$voorraad["vervallen_allotment"][$db2->f("week")]=$db2->f("voorraad_vervallen_allotment");
+				if($accinfo["aflopen_allotment"]<>"" or $aflopen_allotment[$db2->f("week")]<>"" or $db2->f("aflopen_allotment")<>"") {
+					if($db2->f("aflopen_allotment")<>"") {
+						$temp_aflopen_allotment=$db2->f("aflopen_allotment");
+					} elseif($aflopen_allotment[$db2->f("week")]<>"") {
+						$temp_aflopen_allotment=$aflopen_allotment[$db2->f("week")];
+					} else {
+						$temp_aflopen_allotment=$accinfo["aflopen_allotment"];
+					}
+					$voorraad["aflopen_allotment"][$db2->f("week")]=mktime(0,0,0,date("m",$db2->f("week")),date("d",$db2->f("week"))-$temp_aflopen_allotment,date("Y",$db2->f("week")));
+				}
+				$voorraad["optie_leverancier"][$db2->f("week")]=$db2->f("voorraad_optie_leverancier");
+				$voorraad["xml"][$db2->f("week")]=$db2->f("voorraad_xml");
+				$voorraad["request"][$db2->f("week")]=$db2->f("voorraad_request");
+				$voorraad["optie_klant"][$db2->f("week")]=$db2->f("voorraad_optie_klant");
+				$voorraad["totaal"][$db2->f("week")]=$db2->f("voorraad_garantie")+$db2->f("voorraad_allotment")+$db2->f("voorraad_vervallen_allotment")+$db2->f("voorraad_optie_leverancier")+$db2->f("voorraad_xml")+$db2->f("voorraad_request")-$db2->f("voorraad_optie_klant");
+				$voorraad["voorraad_bijwerken"][$db2->f("week")]=$db2->f("voorraad_bijwerken");
+				$voorraad["blokkeren_wederverkoop"][$db2->f("week")]=$db2->f("blokkeren_wederverkoop");
+				$tarieventabel_tonen[$db2->f("week")]=1;
+			}
+
+# AND (t.bruto>0 OR t.arrangementsprijs>0) AND t.beschikbaar=1
+
+			if($db2->f("prijs")>0 and ($db2->f("bruto")>0 or $db2->f("arrangementsprijs")>0)) {
+				# Korting bepalen om intern te kunnen tonen
+				if($db2->f("inkoopkorting_percentage")>0) $korting["inkoopkorting_percentage"][$db2->f("week")]=$db2->f("inkoopkorting_percentage");
+				if($db2->f("inkoopkorting_euro")>0) $korting["inkoopkorting_euro"][$db2->f("week")]=$db2->f("inkoopkorting_euro");
+				if($db2->f("aanbieding_acc_percentage")>0) $korting["aanbieding_acc_percentage"][$db2->f("week")]=$db2->f("aanbieding_acc_percentage");
+				if($db2->f("aanbieding_acc_euro")>0) $korting["aanbieding_acc_euro"][$db2->f("week")]=$db2->f("aanbieding_acc_euro");
+				if($db2->f("aanbieding_skipas_percentage")>0) $korting["aanbieding_skipas_percentage"][$db2->f("week")]=$db2->f("aanbieding_skipas_percentage");
+				if($db2->f("aanbieding_skipas_euro")>0) $korting["aanbieding_skipas_euro"][$db2->f("week")]=$db2->f("aanbieding_skipas_euro");
+			}
+
+			if($db2->f("prijs")>0 and $db2->f("beschikbaar") and ($db2->f("bruto")>0 or $db2->f("arrangementsprijs")>0)) {
+				$tarieven[$db2->f("personen")][$db2->f("week")]=verwerk_aanbieding($db2->f("prijs"),$aanbieding[$seizoenid]["typeid_sort"][$typeid],$db2->f("week"));
+				if($db2->f("personen")>$max) $max=$db2->f("personen");
+				if(!$min) $min=$db2->f("personen");
+				if($db2->f("personen")<$min) $min=$db2->f("personen");
+				if($tarieven[$db2->f("personen")][$db2->f("week")]>0) {
+					$tarieventabel_tonen[$db2->f("week")]=1;
+					$tarieven_aanwezig[$seizoenid]=true;
+				}
+
+				if($db2->f("week")>time()) {
+					# Aanbiedingskleur
+					if($db2->f("aanbiedingskleur")) $aanbiedingskleur[$db2->f("week")]=true;
+					
+					if($db2->f("aanbiedingskleur_korting") and ($db2->f("aanbieding_acc_percentage")>0 or $db2->f("aanbieding_acc_euro")>0 or $db2->f("aanbieding_skipas_percentage")>0 or $db2->f("aanbieding_skipas_euro")>0)) {
+						$aanbiedingskleur[$db2->f("week")]=true;
+					}
+
+					if($db2->f("toonexactekorting") and ($db2->f("aanbieding_acc_percentage")>0 or $db2->f("aanbieding_acc_euro")>0)) {
+						if($db2->f("aanbieding_acc_percentage")>0) {
+							$toonkorting_1[$db2->f("week")]=$db2->f("aanbieding_acc_percentage");
+							$toonkorting_soort_1[$db2->f("week")]=true;
+						}
+						if($db2->f("aanbieding_acc_euro")>0) {
+							$toonkorting_2[$db2->f("week")]=$db2->f("aanbieding_acc_euro");
+							$toonkorting_soort_2[$db2->f("week")]=true;
+						}
+					}
+				}
+			}
+
+		}
+	}
+	if($vars["seizoentype"]==1) {
+		# winter
+
+		# Kijken of $seizoen["begin"] en $seizoen["eind"] moeten worden gewijzigd (begin- en eind zonder tarieven weglaten)
+		if($week_min and $week_min>$seizoen["begin"]) $seizoen["begin"]=$week_min;
+		if($week_max and $week_max<$seizoen["eind"]) $seizoen["eind"]=$week_max;
+
+		# Indien er minder dan 10 weken getoond worden: weer terug naar originele begin- en einddatum
+		if(ceil(($seizoen["eind"]-$seizoen["begin"])/604800)<10) {
+			$seizoen["begin"]=$seizoen["begin_org"];
+			$seizoen["eind"]=$seizoen["eind_org"];
+		}
+	} elseif($vars["seizoentype"]==2) {
+		# zomer
+#echo date("r",$week_min);
+#exit;
+		if($week_min and $week_min<komendezaterdag()) $week_min=komendezaterdag();
+
+		# Kijken of $seizoen["begin"] en $seizoen["eind"] moeten worden gewijzigd (begin- en eind zonder tarieven weglaten)
+		if($week_min and $week_min>$seizoen["begin"]) $seizoen["begin"]=$week_min;
+#		if($week_max and $week_max<$seizoen["eind"]) $seizoen["eind"]=$week_max;
+
+		# Indien er minder dan 10 weken getoond worden: kijken wat te doen
+		if($week_min and ceil(($seizoen["eind"]-$seizoen["begin"])/604800)<10) {
+			unset($seizoendoorloopteller);
+			while(ceil(($seizoen["eind"]-$seizoen["begin"])/604800)<10 and $seizoendoorloopteller<=100) {
+				$seizoen["begin"]=mktime(0,0,0,date("m",$week_min),date("d",$week_min)-7,date("Y",$week_min));
+				$seizoendoorloopteller++;
+			}
+			if($seizoendoorloopteller>=100) {
+
+				unset($seizoendoorloopteller);
+				while(ceil(($seizoen["eind"]-$seizoen["begin"])/604800)<10 and $seizoendoorloopteller<=100) {
+					$seizoen["eind"]=mktime(0,0,0,date("m",$week_max),date("d",$week_max)+7,date("Y",$week_max));
+					$seizoendoorloopteller++;
+				}
+
+				if($seizoendoorloopteller>=100) {
+					# weer terug naar originele begin- en einddatum
+					$seizoen["begin"]=$seizoen["begin_org"];
+					$seizoen["eind"]=$seizoen["eind_org"];
+				}
+			}
+		}
+		if($seizoen["begin"]<$seizoen["begin_org"]) $seizoen["begin"]=$seizoen["begin_org"];
+		if($seizoen["eind"]>$seizoen["eind_org"]) $seizoen["eind"]=$seizoen["eind_org"];
+	}
+	
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		if($vertrekdag[$seizoenid][date("dm",$week)] or $accinfo["aankomst_plusmin"]) {
+			$aangepaste_unixtime=mktime(0,0,0,date("m",$week),date("d",$week)+$vertrekdag[$seizoenid][date("dm",$week)]+$accinfo["aankomst_plusmin"],date("Y",$week));
+			$dag[$week]=date("d",$aangepaste_unixtime);
+			$maand[date("m",$aangepaste_unixtime)]++;
+			$exacte_unixtime=$aangepaste_unixtime;
+		} else {
+			$dag[$week]=date("d",$week);
+			$maand[date("m",$week)]++;
+			$exacte_unixtime=$week;
+		}
+		# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
+		if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))>=$exacte_unixtime) {
+			if($toonper==3 or $vars["wederverkoop"]) {
+				unset($tarieven[$week]);
+			} else {
+				for($i=1;$i<=$max;$i++) {
+					unset($tarieven[$i][$week]);
+				}
+			}
+			if(!$voorkant_cms) unset($tarieventabel_tonen[$week]);
+		}
+		
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+
+	# Aantal nachten bepalen
+	$week=$seizoen["begin"];
+	$eind=mktime(0,0,0,date("m",$seizoen["eind"]),date("d",$seizoen["eind"])+7,date("Y",$seizoen["eind"]));
+	while($week<=$eind) {
+		# Afwijkende vertrekdag
+		$aantalnachten_afwijking[date("dm",$week)]+=$vertrekdag[$seizoenid][date("dm",$week)];
+		$vorigeweek=mktime(0,0,0,date("n",$week),date("j",$week)-7,date("Y",$week));
+		$aantalnachten_afwijking[date("dm",$vorigeweek)]-=$vertrekdag[$seizoenid][date("dm",$week)];
+
+		# Afwijkende verblijfsduur
+		$aantalnachten_afwijking[date("dm",$week)]=$aantalnachten_afwijking[date("dm",$week)]+$accinfo["aankomst_plusmin"]-$accinfo["vertrek_plusmin"];
+
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+
+	if($tarieventabel_tonen and ((($toonper==1 or $toonper==2) and $max and $min) or $toonper==3 or $vars["wederverkoop"])) {
+		$tarieven_getoond[$seizoenid]=true;
+
+
+		if($vars["seizoentype"]==2) {
+			echo "<div class=\"tarieventabel_wrapper\">";
+			echo "<div class=\"tarieventabel_header\">";
+			if($voorkant_cms and !$tarievenpopup) {
+				echo "<div style=\"float:left;width:500px;\">";
+			}
+			echo html("tarieven","tarieventabel")." ".htmlentities(str_replace("zomer ","",$seizoen["naam"]))." - ".html("ineuros","tarieventabel").", ";
+			if($toonper==3 or $vars["wederverkoop"]) {
+				echo html("peraccommodatie","tarieventabel");
+			} elseif($vars["seizoentype"]==1) {
+				echo html("perpersooninclskipas","tarieventabel");
+			} else {
+				echo html("perpersoon","tarieventabel");
+			}
+			if($voorkant_cms and !$tarievenpopup) {
+				echo "</div><div style=\"font-size:0.75em;\">Wederverkoop:&nbsp;";
+				if($accinfo["wederverkoop"]) echo "ja"; else echo "nee";
+				echo "&nbsp;&nbsp;&nbsp;<a href=\"";
+				if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+					echo "http://www.chalet.nl";
+				}
+				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+					echo "/chalet";
+				}
+				echo ereg_replace("[a-z]+/$","",$path)."cms_tarieven.php?&sid=".$seizoenid."&tid=".$typeid."&from=".urlencode("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#tar")."\">";
+				echo "<IMG SRC=\"".$path."pic/class.cms_edit.gif\" border=\"0\" alt=\"Tarieven bewerken\" width=\"14\" height=\"14\"></a>";
+				echo "</div>";
+				echo "<div style=\"clear: both;\"></div>\n";
+			}
+			echo "</div>";
+		}
+
+		# Scrollbar tonen?
+		if($vars["seizoentype"]==2) {
+			if($vars["nieuwevormgeving"]) {
+				echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"tarieventabel_rondom\"><tr><td id=\"tarieventabel_links[".$seizoenteller."]\">";
+				echo "<span class=\"tarieventabel_arrow\" onmouseover=\"scrollleft_actief=1;scrollleft(".$seizoenteller.");return false;\" onmouseout=\"scrollleft_actief=0;\">";
+				echo "<img src=\"".$vars["path"]."pic/pijllinks_".($vars["websitetype"]==7 ? "italissima" : "zomer").".gif\"></span>";
+				echo "</td><td>";
+				echo "<div style=\"width:".($tarievenpopup ? "800px" : "640px").";overflow-x:auto;overflow-y:hidden;".(ereg("MSIE",$_SERVER["HTTP_USER_AGENT"]) ? "padding-bottom:18px;" : "")."\" id=\"tarieventabel_div[".$seizoenteller."]\" class=\"tarieventabel_div\">";
+			} else {
+				echo "<div style=\"background-color:".$bordercolor.";width:660px;overflow-x:auto;padding-bottom:15px;\">";
+			}
+		}
+		
+		echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"tarieventabel\" id=\"tarieventabel_table[".$seizoenteller."]\">";
+		if($vars["seizoentype"]==1) {
+			echo "<tr><th colspan=\"".(count($dag)+1)."\">";
+			if($voorkant_cms and !$tarievenpopup) {
+				echo "<div style=\"float:left;width:500px;\">";
+			}
+			echo html("tarieven","tarieventabel")." ".htmlentities($seizoen["naam"])." - ".html("ineuros","tarieventabel").", ";
+			if($toonper==3 or $vars["wederverkoop"]) {
+				echo html("peraccommodatie","tarieventabel");
+			} elseif($vars["seizoentype"]==1) {
+				echo html("perpersooninclskipas","tarieventabel");
+			} else {
+				echo html("perpersoon","tarieventabel");
+			}
+	#		if($aanbieding[$seizoenid]["typeid_sort"][$typeid]) {
+	#			echo ", ".html("kortingenaldoorgerekend","tarieventabel");
+	#		}
+			if($voorkant_cms and !$tarievenpopup) {
+				echo "</div><div style=\"font-size:0.75em;\">Wederverkoop:&nbsp;";
+				if($accinfo["wederverkoop"]) echo "ja"; else echo "nee";
+				echo "&nbsp;&nbsp;&nbsp;<a href=\"";
+				if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+					echo "http://www.chalet.nl";
+				}
+				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+					echo "/chalet";
+				}
+				echo ereg_replace("[a-z]+/$","",$path)."cms_tarieven.php?&sid=".$seizoenid."&tid=".$typeid."&from=".urlencode("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#tar")."\">";
+				echo "<IMG SRC=\"".$path."pic/class.cms_edit.gif\" border=\"0\" alt=\"Tarieven bewerken\" width=\"14\" height=\"14\"></a>";
+				echo "</div>";
+				echo "<div style=\"clear: both;\"></div>\n";
+			}
+			echo "</th></tr>";
+		}
+		
+#		if($aanbieding[$seizoenid]["typeid_sort"][$typeid]) {
+#			echo "<tr><td colspan=\"".(count($dag)+1)."\" class=\"aanbieding_td_tarieventabel\">";
+#			echo html("kortingenaldoorgerekend","tarieventabel");
+#			echo "</td></tr>";
+#		}
+
+		if($voorkant_cms) {
+
+			# Voorraad tonen
+
+			echo "<tr class=\"kop\"><td width=\"10%\">&nbsp;</td>";
+			reset($maand);
+			while(list($key,$value)=each($maand)) {
+				echo "<td colspan=\"".$value."\">".strftime("%b",mktime(0,0,0,$key,1,2006))."</td>\n";
+			}
+			echo "</tr>";
+	
+			echo "<tr class=\"kop\"><td width=\"10%\">".html("aankomstdatum","tarieventabel")."</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" width=\"".round(90/count($dag))."%\">".$value."</td>\n";
+			}
+			echo "</tr>";
+			
+			# Garantie
+			echo "<tr class=\"kop\" style=\"background-color:#00FF00;\"><td width=\"10%\">Garantie</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#00FF00;\">".($voorraad["garantie"][$key] ? $voorraad["garantie"][$key] : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# Allotment loopt af op
+			echo "<tr class=\"kop\" style=\"background-color:#CCFFCC;\"><td width=\"10%\">Allotment loopt af op</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"font-size:0.6em;background-color:#CCFFCC;padding-left:1px;padding-right:1px;\"".($voorraad["aflopen_allotment"][$key] ? "  title=\"Allotment loopt af op ".DATUM("DAG D MAAND JJJJ",$voorraad["aflopen_allotment"][$key])."\"" : "").">".($voorraad["aflopen_allotment"][$key] ? date("d/m",$voorraad["aflopen_allotment"][$key]) : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+			
+			# Allotment
+			echo "<tr class=\"kop\" style=\"background-color:#CCFFCC;\"><td width=\"10%\">Allotment</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#CCFFCC;\">".($voorraad["allotment"][$key] ? $voorraad["allotment"][$key] : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# Vervallen allotment
+			echo "<tr class=\"kop\" style=\"background-color:#f88912;\"><td width=\"10%\">Vervallen allotment</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#f88912;\">".($voorraad["vervallen_allotment"][$key] ? $voorraad["vervallen_allotment"][$key] : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# optie leverancier
+			echo "<tr class=\"kop\" style=\"background-color:#CCFFCC;\"><td width=\"10%\">Optie leveranc.</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#CCFFCC;\">".($voorraad["optie_leverancier"][$key] ? $voorraad["optie_leverancier"][$key] : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# XML
+			echo "<tr class=\"kop\" style=\"background-color:#FF99CC;\"><td width=\"10%\">XML</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#FF99CC;\">".($voorraad["xml"][$key] ? $voorraad["xml"][$key] : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# Request
+			echo "<tr class=\"kop\" style=\"background-color:#FFCC99;\"><td width=\"10%\">Request</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#FFCC99;\">".($voorraad["request"][$key] ? $voorraad["request"][$key] : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# Optie klant
+			echo "<tr class=\"kop\" style=\"background-color:#CCFFFF;\"><td width=\"10%\">Optie klant</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#CCFFFF;\">".($voorraad["optie_klant"][$key] ? $voorraad["optie_klant"][$key] : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# Totaal
+			echo "<tr class=\"kop\" style=\"background-color:#FFFF99;\"><td width=\"10%\">Totaal</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#FFFF99;\">".($voorraad["totaal"][$key] ? $voorraad["totaal"][$key] : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# Voorraad bijwerken
+			echo "<tr class=\"kop\" style=\"background-color:#FFFFFF;\"><td width=\"10%\">Aut.&nbsp;bijwerken</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#FFFFFF;\">".($voorraad["voorraad_bijwerken"][$key] ? "<img src=\"".$path."pic/vinkje.gif\" width=\"7\" height=\"7\" alt=\"\">" : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# Blokkeren wederverkoop
+			echo "<tr class=\"kop\" style=\"background-color:#FFFFFF;\"><td width=\"10%\">Blokkeren&nbsp;wederverk.</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#FFFFFF;\">".($voorraad["blokkeren_wederverkoop"][$key] ? "<img src=\"".$path."pic/kruisje.gif\" width=\"7\" height=\"7\" alt=\"\">" : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			# Aantal keer geboekt
+#			$db3->query("SELECT aankomstdatum, COUNT(aankomstdatum) AS aantal FROM boeking WHERE goedgekeurd=1 AND geannuleerd=0 AND type_id='".addslashes($typeid)."' AND seizoen_id='".addslashes($seizoenid)."' GROUP BY aankomstdatum;");
+#			while($db3->next_record()) {
+#				$aantal_geboekt[$db3->f("aankomstdatum")]=$db3->f("aantal");
+#			}
+			
+
+			# Aantal keer geboekt
+			$db3->query("SELECT aankomstdatum, aankomstdatum_exact, vertrekdatum_exact FROM boeking WHERE goedgekeurd=1 AND geannuleerd=0 AND type_id='".addslashes($typeid)."' AND seizoen_id='".addslashes($seizoenid)."';");
+			while($db3->next_record()) {
+				$aantal_geboekt[$db3->f("aankomstdatum")]++;
+				
+				# Kijken of de boeking langer dan 1 week is (en dan ook de volgende week/weken ophogen met 1)
+				$aantalwekengeboekt=round(($db3->f("vertrekdatum_exact")-$db3->f("aankomstdatum_exact"))/86400)/7;
+				if($aantalwekengeboekt>1) {
+					for($i=2;$i<=$aantalwekengeboekt;$i++) {
+						$aantalplusdagen=($i-1)*7;
+						$aantal_geboekt[mktime(0,0,0,date("m",$db3->f("aankomstdatum")),date("d",$db3->f("aankomstdatum"))+$aantalplusdagen,date("Y",$db3->f("aankomstdatum")))]++;
+					}
+				}
+			}
+			
+			
+			echo "<tr class=\"kop\" style=\"background-color:#ebebeb;\"><td width=\"10%\">Aantal geboekt</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#ebebeb;\">".($aantal_geboekt[$key] ? $aantal_geboekt[$key] : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+
+			echo "<tr><td colspan=\"".(count($dag)+1)."\">&nbsp;</td></tr>";
+			
+			
+			# Korting (intern) tonen
+			if($korting["inkoopkorting_percentage"] or $korting["inkoopkorting_euro"] or $korting["aanbieding_acc_percentage"] or $korting["aanbieding_acc_euro"] or $korting["aanbieding_skipas_percentage"] or $korting["aanbieding_skipas_euro"]) {
+				echo "<tr style=\"background-color:#d6d6d6;\"><td colspan=\"".(count($dag)+1)."\"><b>Kortingen</b>&nbsp;</td></tr>";
+
+				echo "<tr class=\"kop\" style=\"background-color:#d6d6d6;\"><td width=\"10%\">Inkoopkorting ".($toonper==1 ? "acc " : "")." %</td>";
+				reset($dag);
+				while(list($key,$value)=each($dag)) {
+					echo "<td class=\"getal\" style=\"background-color:#d6d6d6;\">".($korting["inkoopkorting_percentage"][$key]>0 ? round($korting["inkoopkorting_percentage"][$key])."%" : "&nbsp;")."</td>\n";
+				}
+				echo "</tr>";
+
+				echo "<tr class=\"kop\" style=\"background-color:#d6d6d6;\"><td width=\"10%\">Korting ".($toonper==1 ? "acc " : "")." %</td>";
+				reset($dag);
+				while(list($key,$value)=each($dag)) {
+					echo "<td class=\"getal\" style=\"background-color:#d6d6d6;\">".($korting["aanbieding_acc_percentage"][$key]>0 ? round($korting["aanbieding_acc_percentage"][$key])."%" : "&nbsp;")."</td>\n";
+				}
+				echo "</tr>";
+				
+				if($toonper==1) {
+					echo "<tr class=\"kop\" style=\"background-color:#d6d6d6;\"><td width=\"10%\">Korting skipas %</td>";
+					reset($dag);
+					while(list($key,$value)=each($dag)) {
+						echo "<td class=\"getal\" style=\"background-color:#d6d6d6;\">".($korting["aanbieding_skipas_percentage"][$key]>0 ? round($korting["aanbieding_skipas_percentage"][$key])."%" : "&nbsp;")."</td>\n";
+					}
+					echo "</tr>";
+				}
+
+				echo "<tr class=\"kop\" style=\"background-color:#d6d6d6;\"><td width=\"10%\">Inkoopkorting ".($toonper==1 ? "acc " : "")."&euro;</td>";
+				reset($dag);
+				while(list($key,$value)=each($dag)) {
+					echo "<td class=\"getal\" style=\"background-color:#d6d6d6;\">".($korting["inkoopkorting_euro"][$key]>0 ? round($korting["inkoopkorting_euro"][$key]) : "&nbsp;")."</td>\n";
+				}
+				echo "</tr>";
+
+				echo "<tr class=\"kop\" style=\"background-color:#d6d6d6;\"><td width=\"10%\">Korting ".($toonper==1 ? "acc " : "")." &euro;</td>";
+				reset($dag);
+				while(list($key,$value)=each($dag)) {
+					echo "<td class=\"getal\" style=\"background-color:#d6d6d6;\">".($korting["aanbieding_acc_euro"][$key]>0 ? round($korting["aanbieding_acc_euro"][$key]) : "&nbsp;")."</td>\n";
+				}
+				echo "</tr>";
+
+				if($toonper==1) {
+					echo "<tr class=\"kop\" style=\"background-color:#d6d6d6;\"><td width=\"10%\">Korting skipas &euro;</td>";
+					reset($dag);
+					while(list($key,$value)=each($dag)) {
+						echo "<td class=\"getal\" style=\"background-color:#d6d6d6;\">".($korting["aanbieding_skipas_euro"][$key]>0 ? round($korting["aanbieding_skipas_euro"][$key]) : "&nbsp;")."</td>\n";
+					}
+					echo "</tr>";
+				}
+				
+			
+				echo "<tr><td colspan=\"".(count($dag)+1)."\">&nbsp;</td></tr>";
+		
+			}
+		}
+		
+		echo "<tr class=\"kop\"><td width=\"10%\">&nbsp;</td>";
+		reset($maand);
+		while(list($key,$value)=each($maand)) {
+			echo "<td colspan=\"".$value."\">".strftime("%b",mktime(0,0,0,$key,1,2006))."</td>\n";
+		}
+		echo "</tr>";
+		echo "<tr class=\"kop\"><td width=\"10%\">".html("aankomstdatum","tarieventabel")."</td>";
+
+		reset($dag);
+		while(list($key,$value)=each($dag)) {
+			echo "<td class=\"getal\" width=\"".round(90/count($dag))."%\">".$value."</td>\n";
+		}
+		echo "</tr>";
+
+		echo "<tr class=\"kop\"><td width=\"10%\">".html("aantalnachten","tarieventabel")."</td>";
+		reset($dag);
+		while(list($key,$value)=each($dag)) {
+			echo "<td class=\"getal\">".(7-$aantalnachten_afwijking[date("dm",$key)])."</td>\n";
+		}
+		echo "</tr>";
+
+		if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_beschikbaarheid_inzien"]) or $voorkant_cms)) {
+			# Beschikbaarheid (alleen voor ingelogde reisbureaus)
+			echo "<tr><td width=\"10%\">".html("wederverkoop_beschikbaarheid","tarieventabel")."</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\" style=\"background-color:#".$vars["wederverkoop_kleuren"][$voorraad["wederverkoop_kleur"][$key]].";\">&nbsp;</td>\n";
+			}
+			echo "</tr>";
+		}
+
+		unset($korting_row,$toon_korting_row);
+
+		if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_percentage"] and $aanbieding[$seizoenid]["typeid_sort"][$typeid]["toon_als_aanbieding"]) {
+			#
+			# aanbieding % is actief
+			#
+			$korting_row.="<tr><td width=\"10%\">";
+			if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["toonkorting"]) {
+#				$korting_row.=html("korting","tarieventabel").($aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_euro"] ? " (%)" : "");
+				$korting_row.=html("korting","tarieventabel");
+			} else {
+				$korting_row.=html("aanbieding","tarieventabel");
+			}
+			$korting_row.="</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				if(($tarieven[$key]>0 or $tarieven[$max][$key]>0) and $aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_percentage"][$key]>0) {
+					$korting_row.="<td class=\"getal aanbieding\">";
+					if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["toonkorting"] and !$toonkorting_1[$key] and !$toonkorting_2[$key] and !$aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_euro"][$key]) {
+						$korting_row.=number_format($aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_percentage"][$key],0,',','')."%";
+					} else {
+						$korting_row.=html("ja","tarieventabel");
+					}
+					$korting_row.="</td>\n";
+					$oranje_korting=true;
+					$toon_korting_row=true;
+				} else {
+					$korting_row.="<td class=\"getal\">&nbsp;-&nbsp;</td>\n";
+				}
+			}
+			$korting_row.="</tr>";
+		}
+
+		if($toon_korting_row or $aanbiedingskleur) {
+			echo "<tr><td colspan=\"".(count($dag)+1)."\" class=\"aanbieding_td_aldoorgerekend\">";
+			echo html("oranjebedragen","tarieventabel",array("h_1"=>"","h_2"=>""));
+			echo "&nbsp;";
+			echo html("kortingenaldoorgerekend","tarieventabel").".";
+			echo "</td></tr>";
+			$oranjebedragen_row_getoond=true;
+			if($toon_korting_row) {
+				echo $korting_row;
+				$aanbieding_row_getoond=true;
+			}
+		}
+		
+		unset($korting_row,$toon_korting_row);
+		if(!$aanbieding_row_getoond and $aanbieding[$seizoenid]["typeid_sort"][$typeid]["toon_als_aanbieding"] and ($aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_euro"] or $aanbieding[$seizoenid]["typeid_sort"][$typeid]["exact_bedrag_korting"])) {
+			#
+			# aanbieding euro is actief
+			#
+			$korting_row.="<tr><td width=\"10%\">";
+			if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["toonkorting"]) {
+				$korting_row.=html("korting","tarieventabel");
+			} else {
+				$korting_row.=html("aanbieding","tarieventabel");
+			}
+			$korting_row.="</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				$totale_korting_euro=$aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_euro"][$key];
+				if($toonkorting_2[$key] and $toonkorting_soort_2[$key]) {
+					$totale_korting_euro=$totale_korting_euro+$toonkorting_2[$key];
+				}
+				if(($tarieven[$key]>0 or $tarieven[$max][$key]>0) and $totale_korting_euro>0) {
+					$korting_row.="<td class=\"getal aanbieding\">";
+					if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["toonkorting"] and !$toonkorting_1[$key]) {
+						$korting_row.=number_format($totale_korting_euro,0,',','');
+					} else {
+						$korting_row.=html("ja","tarieventabel");
+					}
+					$korting_row.="</td>\n";
+					$oranje_korting=true;
+					$toon_korting_row=true;
+				} else {
+					$korting_row.="<td class=\"getal\">&nbsp;-&nbsp;</td>\n";
+				}
+			}
+			$korting_row.="</tr>";
+		}
+		if(!$toon_korting_row and !$aanbieding_row_getoond and ($toonkorting_1 or $toonkorting_2)) {
+			#
+			# korting is actief (alleen tonen als er nog geen aanbiedingsregel is getoond)
+			#
+			unset($korting_row);
+			$korting_row.="<tr><td width=\"10%\">";
+			if($toonper==1) {
+				$korting_row.=html("kortingaccommodatie","tarieventabel");
+			} else {
+				$korting_row.=html("korting","tarieventabel");
+			}
+			$korting_row.="</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				if(($tarieven[$key]>0 or $tarieven[$max][$key]>0) and ($toonkorting_1[$key]>0 or $toonkorting_2[$key]>0)) {
+					$korting_row.="<td class=\"getal aanbieding\">";
+					if($toonkorting_soort_1[$key] and !$toonkorting_soort_2[$key]) {
+						$korting_row.=number_format($toonkorting_1[$key],0,',','')."%";
+					} elseif($toonkorting_soort_2[$key] and !$toonkorting_soort_1[$key]) {
+						$korting_row.=number_format($toonkorting_2[$key],0,',','');
+					} else {
+						$korting_row.=html("ja","tarieventabel");
+					}
+					$oranje_korting=true;
+					$toon_korting_row=true;
+					$korting_row.="</td>\n";
+				} else {
+					$korting_row.="<td class=\"getal\">&nbsp;-&nbsp;</td>\n";
+				}
+			}
+			$korting_row.="</tr>";
+		}
+
+		if($toon_korting_row or $aanbiedingskleur) {
+			if(!$oranjebedragen_row_getoond) {
+				echo "<tr><td colspan=\"".(count($dag)+1)."\" class=\"aanbieding_td_aldoorgerekend\">";
+				echo html("oranjebedragen","tarieventabel",array("h_1"=>"","h_2"=>""));
+				echo "&nbsp;";
+				echo html("kortingenaldoorgerekend","tarieventabel").".";
+				echo "</td></tr>";
+				$oranjebedragen_row_getoond=true;
+			}
+			if($toon_korting_row) echo $korting_row;
+		}
+
+		if(($toonper==1 or $toonper==2) and $max and $min and !$vars["wederverkoop"]) {
+			if($_GET["ap"]>$max or $_GET["ap"]<$min) unset($_GET["ap"]);
+		
+			if($_GET["ap"]) {
+				$maxtonen=$_GET["ap"]+2;
+				$mintonen=$_GET["ap"]-2;
+			} else {
+				$maxtonen=$max;
+				$mintonen=$max-4;
+			}
+			for($i=$max;$i>=$min;$i=$i-1) {
+				unset($opvalclass_tr,$opvalclass_td);
+				$aantal_getoonde_regels++;
+				
+				if($_GET["ap"] and $_GET["ap"]==$i) {
+					if($_GET["d"]) {
+						$opvalclass_td="opvallend";
+						$gelebedragen=true;
+					} else {
+						$opvalclass_tr="opvallend";
+						$gelebedragen=true;
+					}
+				}
+				if($i<$mintonen or $i>$maxtonen) {
+					echo "<tr class=\"tonen_verbergen_".$seizoenteller.($opvalclass_tr ? " ".$opvalclass_tr : "")."\">";
+					$verborgen_regels=true;
+				} else {
+					echo "<tr".($opvalclass_tr ? " class=\"".$opvalclass_tr."\"" : "").">";
+				}
+				echo "<td nowrap class=\"omschrijving".($opvalclass_td ? " ".$opvalclass_td : "")."\">".$i."&nbsp;".($i==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"));
+				echo "</td>";
+				reset($dag);
+				while(list($key,$value)=each($dag)) {
+					unset($opvalclass_td);
+					
+					if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_percentage"][$key]>0 or $aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_euro"][$key]>0 or $aanbiedingskleur[$key]) {
+						if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["toon_als_aanbieding"][$key] or $aanbiedingskleur[$key]) {
+							$opvalclass_td="aanbieding";
+							if($tarieven[$i][$key]>0) $oranje_korting=true;
+						}
+					}
+					
+					if($_GET["d"]==$key) {
+						if(!$_GET["ap"] or ($_GET["ap"] and $_GET["ap"]==$i)) {
+							$opvalclass_td="opvallend";
+							$gelebedragen=true;
+						}
+					}
+					echo "<td class=\"getal".($tarieven[$i][$key]>0 ?" selecteerbaarbedrag" : "").($opvalclass_td && $tarieven[$i][$key]>0 ? " ".$opvalclass_td : "")."\">";
+					if($tarieven[$i][$key]>0) {
+						$boekingsurl=$path.txt("menu_boeken").".php?tid=".$typeid."&d=".$key."&ap=".$i."&o=".urlencode($_GET["o"]);
+						if($_GET["id"]=="tarieventabel") {
+							$boekingsurl="javascript:window.opener.location='".$boekingsurl."';self.close();";
+						}
+						echo "<a href=\"".$boekingsurl."\" title=\"".html("accommodatieboeken","tarieventabel")."\">";
+						echo number_format($tarieven[$i][$key],0,',','');
+						echo "</a>";
+						$echt_tarieven_getoond=true;
+					} else {
+						echo "&nbsp;-&nbsp;";
+					}
+					echo "</td>\n";
+				}
+				echo "</tr>";
+			}
+		} elseif($toonper==3 or $vars["wederverkoop"]) {
+			echo "<tr>";
+			echo "<td nowrap class=\"omschrijving\">".html("prijsperaccommodatie","tarieventabel")."</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				unset($opvalclass_td);
+				if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["exact_bedrag_korting"][$key]>0 or $aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_percentage"][$key]>0 or $aanbieding[$seizoenid]["typeid_sort"][$typeid]["korting_euro"][$key]>0 or $aanbiedingskleur[$key]) {
+					if($aanbieding[$seizoenid]["typeid_sort"][$typeid]["toon_als_aanbieding"][$key] or $aanbiedingskleur[$key]) {
+						$opvalclass_td="aanbieding";
+						if($tarieven[$key]>0) $oranje_korting=true;
+					}
+				}
+				if($_GET["d"]==$key) {
+					$opvalclass_td="opvallend";
+					$gelebedragen=true;
+				}
+				if($vars["wederverkoop"] and $voorraad["wederverkoop_kleur"][$key]==3) {
+					unset($tarieven[$key]);
+				}
+				echo "<td class=\"getal".($tarieven[$key]>0 ?" selecteerbaarbedrag" : "").($opvalclass_td && $tarieven[$key]>0 ? " ".$opvalclass_td : "")."\">";
+				if($tarieven[$key]>0) {
+					$boekingsurl=$path.txt("menu_boeken").".php?tid=".$typeid."&d=".$key."&ap=&o=".urlencode($_GET["o"]);
+					if($_GET["id"]=="tarieventabel") {
+						$boekingsurl="javascript:window.opener.location='".$boekingsurl."';self.close();";
+					}
+					echo "<a href=\"".$boekingsurl."\" title=\"".html("accommodatieboeken","tarieventabel")."\">";
+					echo number_format($tarieven[$key],0,',','');
+					echo "</a>";
+					$echt_tarieven_getoond=true;
+				} else {
+					echo "&nbsp;-&nbsp;";
+				}
+				echo "</td>\n";
+			}
+			echo "</tr>";
+			$aantal_getoonde_regels=1;
+		}
+
+		if($vars["wederverkoop"] and $vars["chalettour_logged_in"] and $vars["wederverkoop_commissie_inzien"]) {
+			# Commissie (alleen voor ingelogde reisbureaus)
+			echo "<tr class=\"tonen_verbergen_".$seizoenteller."\"><td width=\"10%\">".html("wederverkoop_commissie","tarieventabel")."</td>";
+			reset($dag);
+			while(list($key,$value)=each($dag)) {
+				echo "<td class=\"getal\">".($commissie[$key]>0 ? number_format($commissie[$key],0,',','')."%" : "&nbsp;")."</td>\n";
+			}
+			echo "</tr>";
+		}
+		
+		if($tarievenpopup) {
+			if(!$vars["wederverkoop"] and $verborgen_regels and ($toonper==1 or $toonper==2)) {
+				echo "<tr><td nowrap class=\"onderste_regel\" style=\"font-size: 0.9em;\" colspan=\"".(count($dag)+1)."\">";
+				echo "<a href=\"javascript:toggle_tonen_verbergen('tonen_verbergen_".$seizoenteller."');\"><span id=\"toon_tekst\">".html("toonmeerminderpersonen","tarieventabel")."</span></a>";
+				echo "</td></tr>";
+			}
+			if($vars["wederverkoop"] and $vars["chalettour_logged_in"]) {
+				echo "<tr><td nowrap class=\"onderste_regel\" style=\"font-size: 0.9em;\" colspan=\"".(count($dag)+1)."\">";
+				if($vars["wederverkoop_commissie_inzien"]) {
+					echo "<a href=\"javascript:toggle_tonen_verbergen('tonen_verbergen_".$seizoenteller."');\"><span id=\"toon_tekst\">".html("wederverkoop_tooncommissie","tarieventabel")."</span></a>";
+				} else {
+					echo "&nbsp;";
+				}
+				echo "</td></tr>";
+			}
+		} elseif(!$print) {
+			
+			# Toelichting bij afwijkend vertrekdagtype tonen
+			if($vars["vertrekdagtype"][$seizoenid]["toelichting"]) {
+				echo "<tr><td nowrap class=\"afwijkingenaankomstdatum\" style=\"background-color:#ccffff;padding-top:4px;padding-bottom:4px;\" colspan=\"".(count($dag)+1)."\">";
+				echo "<b>".html("vertrekdagafwijking","tarieventabel").":</b>";
+				echo "<br>".nl2br(htmlentities($vars["vertrekdagtype"][$seizoenid]["toelichting"]));
+				echo "</td></tr>";
+			}
+
+			echo "<tr><td nowrap class=\"onderste_regel noprint\" colspan=\"".(count($dag)+1)."\">";
+			$popup_hoogte=240;
+			if($voorkant_cms) $aantal_getoonde_regels+=10;
+			if($_GET["d"] or ($_GET["ap"] and !$vars["wederverkoop"] and ($toonper==1 or $toonper==2))) $popup_hoogte+=22;
+			if($oranje_korting) $popup_hoogte+=70;
+			if($vars["wederverkoop_commissie_inzien"]) $popup_hoogte+=25;
+			$popup_hoogte+=$aantal_getoonde_regels*22;
+			echo "<a href=\"#\" onclick=\"popwindow(900,".$popup_hoogte.",'".$path."popup.php?id=tarieventabel&typeid=".$typeid."&sid=".$seizoenid.($_SERVER["QUERY_STRING"] ? "&".$_SERVER["QUERY_STRING"] : "")."');return false;\">".html("groterlettertype","tarieventabel")."</a>";
+			if($verborgen_regels and !$vars["wederverkoop"] and ($toonper==1 or $toonper==2)) {
+				echo " - <a href=\"javascript:toggle_tonen_verbergen('tonen_verbergen_".$seizoenteller."');\"><span id=\"toon_tekst\">".html("toonmeerminderpersonen","tarieventabel")."</span></a>";
+			}
+			if($vars["wederverkoop"] and $vars["chalettour_logged_in"] and $vars["wederverkoop_commissie_inzien"]) {
+				echo " - <a href=\"javascript:toggle_tonen_verbergen('tonen_verbergen_".$seizoenteller."');\"><span id=\"toon_tekst\">".html("wederverkoop_tooncommissie","tarieventabel")."</span></a>";
+			}
+			if(!$vars["wederverkoop"] and !$tarievenpopup) {
+				echo " - <a href=\"".$path."calc.php?tid=".htmlentities($typeid)."&ap=".htmlentities($_GET["ap"])."&d=".htmlentities($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")."</a>";
+			}
+			echo "</td></tr>";
+		}
+	
+		echo "</table>";
+
+		if($vars["seizoentype"]==2) {
+			echo "</div>"; # Afsluiten scrolldiv
+			echo "</td><td id=\"tarieventabel_rechts[".$seizoenteller."]\">";
+			echo "<span class=\"tarieventabel_arrow\" onmouseover=\"scrollright_actief=1;scrollright(".$seizoenteller.");return false;\" onmouseout=\"scrollright_actief=0;\">";
+			echo "<img src=\"".$vars["path"]."pic/pijlrechts_".($vars["websitetype"]==7 ? "italissima" : "zomer").".gif\"></span></td></tr></table>";
+			echo "</div>"; # Afsluiten tarieventabel_wrapper
+		}
+
+		if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_beschikbaarheid_inzien"]) or $voorkant_cms)) {
+			echo "<p style=\"font-size:0.8em;\" class=\"noprint\"><b>".html("wederverkoop_beschikbaarheid","tarieventabel").":</b>&nbsp;&nbsp;&nbsp;";
+			echo "<span style=\"border: solid #000000 1px;background-color:#".$vars["wederverkoop_kleuren"][1]."\">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;".html("wederverkoop_groen","tarieventabel")."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<span style=\"border: solid #000000 1px;background-color:#".$vars["wederverkoop_kleuren"][2]."\">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;".html("wederverkoop_oranje","tarieventabel")."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "<span style=\"border: solid #000000 1px;background-color:#".$vars["wederverkoop_kleuren"][3]."\">&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;".html("wederverkoop_zwart","tarieventabel")."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+			echo "</p>";
+		} else {
+			echo "<p><b>".html("voorwekenzonder","tarieventabel")."</b>";
+		}
+		
+		if($gelebedragen and ($_GET["d"] or ($_GET["ap"] and !$vars["wederverkoop"] and ($toonper==1 or $toonper==2)))) {
+			echo "<br>";
+			if($_GET["d"] and $_GET["ap"] and !$vars["wederverkoop"] and ($toonper==1 or $toonper==2)) {
+				echo html("gelebedragendatumpersonen","tarieventabel",array("h_1"=>"<span class=\"opvallend\">","h_2"=>"</span>"));
+			} elseif($_GET["d"]) {
+				echo html("gelebedragendatum","tarieventabel",array("h_1"=>"<span class=\"opvallend\">","h_2"=>"</span>"));
+			} else {
+				echo html("gelebedragenpersonen","tarieventabel",array("h_1"=>"<span class=\"opvallend\">","h_2"=>"</span>"));
+			}
+		}
+		
+		if($oranje_korting) {
+#			echo "<br>".html("oranjebedragen","tarieventabel",array("h_1"=>"<span class=\"aanbieding\">","h_2"=>"</span>"))."<br>";
+		}
+	}
+}
+
+?>

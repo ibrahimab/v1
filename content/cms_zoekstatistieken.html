@@ -1,0 +1,108 @@
+<?php
+
+if(!$_GET["k"]) $_GET["k"]=1;
+
+# Accommodatiegegevens ophalen
+$db->query("SELECT la.begincode, t.type_id, a.naam, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats FROM type t, accommodatie a, land la, plaats p WHERE a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.accommodatie_id=a.accommodatie_id AND a.wzt='".addslashes($_GET["wzt"])."';");
+while($db->next_record()) {
+	$accommodaties[$db->f("type_id")]="<a href=\"WEBSITEaccommodatie/".$db->f("begincode").$db->f("type_id")."/\" target=\"_blank\" title=\"".htmlentities($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)")."\">".$db->f("begincode").$db->f("type_id")."</a>";
+}
+
+$vars["zoekstatistieken_keuzes"]=array(1=>"Laatste 100 zoekopdrachten",2=>"Laatste 100 zoekopdrachten zonder resultaat",3=>"Top 25 deze maand",4=>"Top 25 ".DATUM("MAAND JJJJ",mktime(0,0,0,date("m")-1,1,date("Y"))),5=>"Top 25 ".DATUM("MAAND JJJJ",mktime(0,0,0,date("m")-2,1,date("Y"))));
+
+echo "<ul>";
+while(list($key,$value)=each($vars["zoekstatistieken_keuzes"])) {
+	echo "<li>";
+	if($key<>$_GET["k"]) {
+		$url=$_SERVER["REQUEST_URI"];
+		if(!ereg("k=[0-9]",$url)) {
+			$_SERVER["REQUEST_URI"].="&k=1";
+		}
+		echo "<a href=\"".htmlentities(ereg_replace("k=[0-9]","k=".$key,$_SERVER["REQUEST_URI"]))."\">";
+	}
+	echo htmlentities($value);
+	if($key==$_GET["k"]) {
+		if($key>2) {
+			echo "<ul><li><a href=\"#pulldown\">Pulldown-zoekopdrachten</a></li><li><a href=\"#tekst\">Tekstzoekopdrachten</a></li><li><a href=\"#zonderresultaten\">Zoekopdrachten zonder resultaten</a></li><li><a href=\"#zonderdoorklik\">Zoekopdrachten met resultaten maar zonder doorklik</a></li></ul>";
+		}
+	} else {
+		echo "</a>";
+	}
+	echo "</li>";
+}
+echo "</ul><hr>";
+
+
+if($_GET["k"]==1 or $_GET["k"]==2) {
+	# Laatste 100 zoekopdrachten
+	if($_GET["k"]==2) {
+		$andquery=" AND aantalresultaten=0";
+	} else {
+		$andquery="";
+	}
+	
+	$db->query("SELECT zoekstatistiek_id, zoekopdracht, tekstzoekopdracht, aantalresultaten, UNIX_TIMESTAMP(datumtijd) AS datumtijd, website, url FROM zoekstatistiek WHERE compleet=1 AND wzt='".addslashes($_GET["wzt"])."'".$andquery." ORDER BY datumtijd DESC LIMIT 0,100;");
+	if($db->num_rows()) {
+		$db->seek($db->num_rows()-1);
+		if($db->f("datumtijd")) {
+			$db2->query("SELECT zoekstatistiek_id, type_id, zoekresultaat FROM zoekstatistiek_doorklik WHERE UNIX_TIMESTAMP(datumtijd)>='".$db->f("datumtijd")."' ORDER BY datumtijd;");
+			while($db2->next_record()) {
+				$doorklik[$db2->f("zoekstatistiek_id")].="\nResultaat ".$db2->f("zoekresultaat").": ".$accommodaties[$db2->f("type_id")];
+			}
+		}
+		$db->seek(0);
+		echo "<h2>Laatste 100 zoekopdrachten";
+		if($_GET["k"]==2) {
+			echo " zonder resultaat";
+		}	
+		echo "</h2>";
+		echo "<table class=\"tbl\" cellspacing=\"0\"><tr><th>Datum/tijd</th><th>Site</th><th>Pulldown</th><th>Tekst</th><th>Resultaten</th><th style=\"width:140px;\">Doorklik</th><th>&nbsp;</th></tr>";
+		while($db->next_record()) {
+			$zoekopdracht=ereg_replace(" - ","\n",$db->f("zoekopdracht"));
+			echo "<tr><td>".date("d-m-Y, H:i",$db->f("datumtijd"))."u.</td><td>".$db->f("website")."</td><td>".nl2br(htmlentities($zoekopdracht))."</td><td>".($db->f("tekstzoekopdracht") ? htmlentities($db->f("tekstzoekopdracht")) : "&nbsp;")."</td><td>".$db->f("aantalresultaten")."</td><td>".($doorklik[$db->f("zoekstatistiek_id")] ? nl2br(trim(ereg_replace("WEBSITE",$vars["websites_basehref"][$db->f("website")],$doorklik[$db->f("zoekstatistiek_id")]))) : "&nbsp;")."</td><td><a href=\"".htmlentities($db->f("url"))."\" target=\"_blank\">&#187;</a></td></tr>\n";
+		}
+		echo "</table>";
+	}
+} else {
+	if($_GET["k"]==3) {
+		echo "<h2>Top 25 zoekopdrachten deze maand</h2>";
+		$maand=date("Ym");
+	} elseif($_GET["k"]==4) {
+		echo "<h2>Top 25 zoekopdrachten ".DATUM("MAAND JJJJ",mktime(0,0,0,date("m")-1,1,date("Y")))."</h2>";
+		$maand=date("Ym",mktime(0,0,0,date("m")-1,1,date("Y")));
+	} elseif($_GET["k"]==5) {
+		echo "<h2>Top 25 zoekopdrachten ".DATUM("MAAND JJJJ",mktime(0,0,0,date("m")-2,1,date("Y")))."</h2>";
+		$maand=date("Ym",mktime(0,0,0,date("m")-2,1,date("Y")));
+	}
+
+	echo "<a name=\"pulldown\" /><b><i>Pulldown-zoekopdrachten</i></b><p>";
+	top(1,$maand);
+
+	echo "<a name=\"tekst\" /><p><b><i>Tekstzoekopdrachten</i></b><p>";
+	top(2,$maand);
+
+	echo "<a name=\"zonderresultaten\" /><p><b><i>Zoekopdrachten zonder resultaten</i></b><p>";
+	top(3,$maand);
+
+	echo "<a name=\"zonderdoorklik\" /><p><b><i>Zoekopdrachten met resultaten maar zonder doorklik</i></b><p>";
+	top(4,$maand);
+
+}
+
+function top($type,$maand) {
+	global $db;
+	$db->query("SELECT zoekopdracht, aantal FROM zoekstatistiek_top WHERE type='".$type."' AND wzt='".addslashes($_GET["wzt"])."' AND maand='".$maand."' ORDER BY aantal DESC LIMIT 0,25;");
+	if($db->num_rows()) {
+		echo "<table class=\"tbl\" cellspacing=\"0\" style=\"width:700px;\"><tr><th>&nbsp;</th><th>Zoekopdracht</th><th>Aantal</th></tr>";
+		while($db->next_record()) {
+			$teller++;
+			$zoekopdracht=ereg_replace(" - ","\n",$db->f("zoekopdracht"));
+			echo "<tr><td style=\"text-align:right;width:30px;\">".$teller."</td><td>".nl2br(htmlentities($zoekopdracht))."</td><td style=\"text-align:right;width:70px;\">".$db->f("aantal")."</td></tr>\n";
+		}
+		echo "</table>";
+	} else {
+		echo "<i>nog niet beschikbaar</i>";
+	}
+}
+
+?>

@@ -1,0 +1,12 @@
+<?php
+
+cmslog_pagina_title("Mail klanten vorig seizoen - tekst specifieke boeking bewerken");
+
+$mailtekst=mailtekst_klanten_vorig_seizoen($_GET["bid"]);
+echo "<b>Mailtekst boeking <a href=\"cms_boekingen.php?show=21&bt=2&archief=0&21k0=".htmlentities($_GET["bid"])."\" target=\"_blank\">".htmlentities($mailtekst["boekingsnummer"])."</a></b><p>Onderwerp: <b>".htmlentities($mailtekst["subject"])."</b><p>";
+echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+echo "<textarea name=\"mailtekst\" cols=\"76\" rows=\"20\">".htmlentities($mailtekst["body"])."</textarea><p>";
+echo "<input type=\"submit\" value=\" TEKST OPSLAAN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\">";
+echo "</form>";
+
+?>

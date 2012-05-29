@@ -1,0 +1,15 @@
+<?php
+
+if($_GET["burl"]) {
+	echo "<a href=\"".htmlentities($_GET["burl"])."\">Terug naar vorige pagina</a><p>";
+}
+
+# Content
+if($_GET["fo"]=="frm") {
+
+} else {
+	$form->display_all();
+}
+
+
+?>

@@ -1,0 +1,17 @@
+<?php
+
+echo "Geef hieronder aan waar het printen moet beginnen:<p>";
+echo "<table cellspacing=\"0\" class=\"tbl\">";
+for($r=1;$r<=9;$r++) {
+	echo "<tr>";
+	for($c=1;$c<=3;$c++) {
+		echo "<td align=center>&nbsp;<br><a href=\"cms_overzichten_print.php?row=".$r."&col=".$c."&".$_SERVER["QUERY_STRING"]."\">begin hier</a><br>&nbsp;</td>";
+	}
+	echo "</tr>";
+}
+echo "</table>";
+
+
+
+
+?>

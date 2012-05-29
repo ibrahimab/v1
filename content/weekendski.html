@@ -1,0 +1,23 @@
+<?php
+
+echo "<table style=\"margin-bottom:10px;\" cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"".$vars["path"]."pic/weekendski1.jpg\" width=\"170\" height=\"128\" style=\"margin-right: 18px;\"></td>";
+echo "<td><img src=\"".$vars["path"]."pic/weekendski2.jpg\" width=\"170\" height=\"128\" style=\"margin-right: 18px;\"></td>";
+echo "<td><img src=\"".$vars["path"]."pic/weekendski3.jpg\" width=\"170\" height=\"128\" style=\"margin-right: 19px;\"></td>";
+echo "<td><img src=\"pic/weekendski4.jpg\" width=\"170\" height=\"128\" style=\"\"></td></tr></table>";
+
+
+echo html("alinea1","weekendski")."<p>";
+echo html("alinea2","weekendski",array("v_website"=>$vars["websitenaam"]))."<p>";
+
+# TIJDELIJK
+echo "<div style=\"padding:6px;border:1px solid #d40139;\">";
+echo html("alinea3","weekendski");
+echo "</div>";
+
+# Zoekform embedden
+$vars["zoekform_weekendski"]=true;
+include("content/zoek-en-boek.html");
+
+
+
+?>

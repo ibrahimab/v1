@@ -1,0 +1,170 @@
+<?php
+
+echo "<div id=\"koptekst\">";
+echo "<h1>".html("koptekst","index")." &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>";
+echo "</div>"; # afsluiten koptekst
+
+
+echo "<div id=\"hoofdpagina_middenkolom\">";
+
+$blokkenhoofdpagina=blokkenhoofdpagina();
+echo "<div id=\"hoofdpagina_fotoslide\">";
+
+echo "<div id=\"featured\" >";
+echo "<ul class=\"ui-tabs-nav\">";
+@reset($blokkenhoofdpagina);
+while(list($key,$value)=@each($blokkenhoofdpagina)) {
+	if(file_exists("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[$key]["id"].".jpg")) {
+		echo "<li class=\"ui-tabs-nav-item".(!$eersteblokgehad ? " ui-tabs-selected" : "")."\" id=\"nav-fragment-".$key."\"><a href=\"#fragment-".$key."\" onclick=\"document.location.href='".htmlentities($value["link"])."';return false;\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[$key]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[$key]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
+		$eersteblokgehad=true;
+	}
+}
+
+#echo "<li class=\"ui-tabs-nav-item\" id=\"nav-fragment-2\"><a href=\"#fragment-2\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[2]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[2]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
+#echo "<li class=\"ui-tabs-nav-item\" id=\"nav-fragment-3\"><a href=\"#fragment-3\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[3]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[3]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
+#echo "<li class=\"ui-tabs-nav-item\" id=\"nav-fragment-4\"><a href=\"#fragment-4\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[4]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[4]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
+echo "</ul>\n\n";
+
+unset($eersteblokgehad);
+@reset($blokkenhoofdpagina);
+while(list($key,$value)=@each($blokkenhoofdpagina)) {
+	echo "<div id=\"fragment-".$key."\" class=\"ui-tabs-panel".($eersteblokgehad ? " ui-tabs-hide" : "")."\" onclick=\"document.location.href='".htmlentities($value["link"])."';\">\n";
+	echo "<img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina/".$blokkenhoofdpagina[$key]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina/".$blokkenhoofdpagina[$key]["id"].".jpg")."\" alt=\"\" />\n";
+	if($voorkant_cms) {
+		# Minder ruimte voor tekst voor ingelogde gebruikers: om te voorkomen dat teksten te lang worden
+		echo "<div class=\"info\">\n";
+		echo "<div class=\"infointern\" style=\"padding-left:5px;padding-right:5px;\">\n";
+	} else {
+		echo "<div class=\"info\">\n";
+	}
+	echo "<h2>".htmlentities($value["titel"])."</h2>\n";
+	echo "<p>".htmlentities($value["omschrijving"])."</p>\n";
+	echo "<p class=\"hoofdpagina_fotoslide_meer\"><a href=\"".htmlentities($value["link"])."\">".html("meer","index")." &gt; &gt;</a></p>\n";
+	if($voorkant_cms) {
+		echo "</div>\n";
+	}
+	echo "</div>\n";
+	echo "</div>\n\n";
+	$eersteblokgehad=true;
+}
+
+echo "</div>";
+echo "</div>\n";
+
+if($last_acc_html) {
+	echo $last_acc_html;
+} else {
+	echo "<div id=\"laatstbekeken\" style=\"background-color:#ffffff;\">";
+	echo "<div id=\"blauwelijn_onderaan\" style=\"margin-top:10px;margin-bottom:8px;\"></div>\n";	
+	echo "<img src=\"".$vars["path"]."pic/chalet_hoofdpagina/laatste_acc_vervanging.jpg\" width=\"500\" height=\"130\">";
+	echo "</div>"; # afsluiten laatstbekeken
+}
+
+echo "</div>"; # afsluiten hoofdpagina_middenkolom
+
+echo "<div id=\"hoofdpagina_rechterkolom\">";
+
+echo "<div id=\"hoofdpagina_themas_blok\">";
+echo "<div class=\"bloklinks_blauwelijn\"></div>\n";
+echo "<div id=\"hoofdpagina_themas\">";
+
+echo "<div class=\"bloklinks_kop\">".html("themas","index")."</div>";
+$themateller=0;
+$db->query("SELECT thema_id, titelhoofdpagina".$vars["ttv"]." AS titelhoofdpagina, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt=1 AND actief=1 AND positiehoofdpagina>0 ORDER BY positiehoofdpagina;");
+while($db->next_record()) {
+	unset($url,$blank);
+	if($db->f("externeurl")) {
+		if(ereg("^http",$db->f("externeurl"))) {
+			$url=$db->f("externeurl");
+			$blank=" target=\"_blank\"";
+		} else {
+			$url=$vars["path"].$db->f("externeurl");
+		}
+	} elseif($db->f("url")) {
+		$url=$vars["path"].txt("menu_thema")."/".$db->f("url")."/";
+	}
+	if($vars["taal"]=="en" and $db->f("url")=="summer") {
+		unset($url);
+	}
+	if($db->f("titelhoofdpagina") and $url and $themateller<6) {
+#		echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" height=\"68\" border=\"0\"></a><br>";
+#		echo "<div style=\"padding-bottom:11px;\"><a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("titelhoofdpagina"))." &gt;&gt;</a></div>";
+		
+		echo "<div class=\"button\"><a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("titelhoofdpagina"))."</a></div>";
+		$themateller++;
+	}
+}
+#echo "<div class=\"button\" style=\"text-align:center;\" onclick=\"document.location.href='".$vars["path"].txt("menu_themas").".php'\">".html("meerinspiratie","index")."</div>";
+echo "<div class=\"button\"><a href=\"".htmlentities($vars["path"].txt("menu_themas").".php")."\">".html("meerinspiratie","index")."</a></div>";
+
+echo "<div style=\"clear:both;\"></div>";
+
+echo "</div>\n"; # afsluiten hoofdpagina_themas
+echo "</div>\n"; # afsluiten hoofdpagina_themas_blok
+
+
+
+if($vars["website"]=="C") {
+	# Nieuwsbrief
+	echo "<div id=\"hoofdpagina_nieuwsbrief\">";
+	echo "<div class=\"kop\">Nieuwsbrief</div>";
+	echo "<div>Schrijf je in voor onze nieuwsbrief en ontvang al onze aanbiedingen.</div>";
+	if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
+		$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
+	} else {
+		$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
+	}
+	echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
+	echo "<div style=\"margin-top:5px;\"><input type=\"text\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
+	echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
+	echo "</form>";
+	echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
+	
+	echo "<div style=\"clear:both;\"></div>";
+	
+	
+	echo "<div id=\"hoofdpagina_sociallinks\">";
+	echo "<div style=\"float:right;\">";
+	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+	echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+	echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+	echo "<a href=\"https://plus.google.com/102116407421806841336?prsrc=3\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+	echo "</div>\n";
+	echo "<div style=\"float:right;\"></div>";
+	echo "<div style=\"clear: both;\"></div>\n";
+	echo "</div>\n"; # afsluiten hoofdpagina_sociallinks
+
+	# Google Remarketing
+	echo '<!-- Google Code for Bezoekers homepage Remarketing List -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1070777463;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "Kg7oCI-_wgIQ94jL_gM";
+var google_conversion_value = 0;
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1070777463/?label=Kg7oCI-_wgIQ94jL_gM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>';	
+
+}
+
+echo "</div>"; # afsluiten hoofdpagina_rechterkolom
+
+echo "<div style=\"clear: both;\"></div>\n";
+
+#echo "<div id=\"hoofdpagina_lijn\">&nbsp;</div>\n";
+
+#echo "<div id=\"hoofdpagina_fotobalk\">";
+#echo "<img src=\"".$vars["path"]."pic/hoofdpagina_fotobalk.jpg\" width=\"735\" height=\"60\">";
+#echo "</div>\n";
+
+
+?>

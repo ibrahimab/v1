@@ -1,0 +1,20 @@
+<?php
+
+echo "Accommodaties:<ul>";
+echo "<li>Tarievenoptie A: Prijs arrangement (accommodatie_skipas): <a href=\"".$path."accommodatie/F430/\" target=\"_blank\">voorkant</a> - <a href=\"".$path."cms_accommodaties.php?show=1&1k0=126\">CMS Acc</a> - <a href=\"".$path."cms_types.php?show=2&2k0=430\">CMS Type</a></li>";
+#echo "<li>Tarievenoptie B: Prijs arrangement (pakket+toeslag onbezet bed): <a href=\"".$path."accommodatie/F269/\" target=\"_blank\">voorkant</a> - <a href=\"".$path."cms_accommodaties.php?show=1&1k0=58\">CMS Acc</a> - <a href=\"".$path."cms_types.php?show=2&2k0=269\">CMS Type</a></li>";
+echo "<li>Tarievenoptie C: Prijs accommodatie: <a href=\"".$path."accommodatie/O507/\" target=\"_blank\">voorkant</a> - <a href=\"".$path."cms_accommodaties.php?show=1&1k0=80\">CMS Acc</a> - <a href=\"".$path."cms_types.php?show=2&2k0=507\">CMS Type</a></li>";
+echo "<li>Met optietabel afhankelijk van datum: <a href=\"".$path."accommodatie/F167/\" target=\"_blank\">voorkant</a> - <a href=\"".$path."cms_accommodaties.php?show=1&1k0=32\">CMS Acc</a> - <a href=\"".$path."cms_types.php?show=2&2k0=167\">CMS Type</a></li>";
+echo "<li>Met meerdere seizoenen tegelijk: <a href=\"".$path."accommodatie/F305/\" target=\"_blank\">voorkant</a> - <a href=\"".$path."cms_accommodaties.php?show=1&1k0=66\">CMS Acc</a> - <a href=\"".$path."cms_types.php?show=2&2k0=305\">CMS Type</a></li>";
+
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	$db->query("SELECT boeking_id FROM boeking;");
+	if($db->num_rows()) {
+		echo "<li><a href=\"cms_testpaginas.php?wisboekingen=1\" onclick=\"return confirmDelete(this,'Alle boekingen wissen?')\">Wis alle boekingen</a></li>";
+	} else {
+		echo "<li><i>Geen boekingen in systeem aanwezig</i></li>";
+	}
+}
+echo "</ul>";
+
+?>

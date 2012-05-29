@@ -1,0 +1,169 @@
+<?php
+
+if($_GET["t"]==1 or $_GET["t"]==2) {
+
+#	if($_SERVER["REMOTE_ADDR"]<>"82.173.186.80" and $_SERVER["REMOTE_ADDR"]<>"172.16.1.10") {
+#		echo "<h2>Dit systeem is vanwege onderhoud tijdelijk niet beschikbaar.</h2>";
+#		exit;
+#	}
+
+	#
+	# Actielijst-systeem
+	#
+
+	if($_GET["edit"]==39 or $_GET["add"]==39) {
+		$cms->display_cms();
+		if($_GET["edit"]==39 and $login->userlevel>=10 and !preg_match("/Chrome/",$_SERVER["HTTP_USER_AGENT"])) {
+			$cms->display_log(39,true);
+		}
+	} else {
+		$cms->back_link(39,"overzicht actielijst");
+
+		if($_GET["t"]==1) {
+			echo "<div onclick=\"document.location.href='".$vars["path"]."cms_diversen.php?add=39&bc=".intval($_GET["bc"]+1)."&t=1'\" style=\"text-align:center;width:200px;cursor:pointer;padding:5px;border:1px solid #000000;background-color:#fefd87;\">Nieuwe actie toevoegen</div><br><br>";
+		}
+		
+		unset($where,$order1,$order2);
+		# Overzicht tonen
+		if($_GET["t"]==1) {
+			$where="AND a.status IN (7,1,2,3,4)";
+			$order1="7,1,2,3,4";
+			$order2=", prioriteitisnull ASC, prioriteit, einddatumisnull ASC, einddatum, adddatetime, editdatetime, naam";
+		} elseif($_GET["t"]==2) {
+			$where="AND a.status IN (5,6)";
+			$order1="5,6";
+			$order2=", editdatetime DESC";
+		}
+		if($login->userlevel<10) {
+			$where.=" AND alleenwebtastic=0";
+		}
+		if(!$login->has_priv(10) and $login->userlevel<10) {
+			$where.=" AND (betrokkenen REGEXP '[[:<:]]".addslashes($login->user_id)."[[:>:]]' OR status=1)";
+		}
+		
+		$db->query("SELECT u.voornaam, u.user_id, a.actie_id, a.naam, a.status, a.omschrijving, a.alleenwebtastic, a.prioriteit, a.prioriteit IS NULL AS prioriteitisnull, a.betrokkenen, a.soort, UNIX_TIMESTAMP(a.einddatum) AS einddatum, a.einddatum IS NULL AS einddatumisnull, a.geschattetijd, a.geschattetijd_min, a.geschattetijd_max, a.zie_ook, a.opmerkingen, a.interne_notities FROM actie a, user u WHERE a.user_id=u.user_id ".$where." ORDER BY FIELD(a.status,".$order1.")".$order2.";");
+#		echo $db->lastquery;
+		while($db->next_record()) {
+			if(!$status_gehad[$db->f("status")]) {
+				if($status_gehad) echo "<br><br>";
+				echo "<h1>".htmlentities($vars["actielijst_status"][$db->f("status")]).":</h1>";
+				$status_gehad[$db->f("status")]=true;
+				unset($bgcolor);
+			}
+			if($bgcolor=="#ebebeb") {
+				$bgcolor="#cccccc";
+			} else {
+				$bgcolor="#ebebeb";
+			}
+			if($login->user_id==$db->f("user_id") or ($login->user_id==1 and $db->f("alleenwebtastic"))) {
+				$extracolor="#fefd87";
+			} else {
+				$extracolor="";
+			}
+			echo "\n\n<div id=\"row1_".$db->f("status").$db->f("actie_id")."\" style=\"\">";
+			echo "<div id=\"row2_".$db->f("status").$db->f("actie_id")."\" style=\"padding:2px;\">";
+			echo "<div id=\"row_".$db->f("status")."_".$db->f("actie_id")."\" style=\"background-color:".($extracolor ? $extracolor : $bgcolor).";padding-top:6px;\">";
+			echo "<div style=\"float:left;width:20px;padding-top:3px;padding-left:2px;\"><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" border=\"0\"></div>";
+			echo "<div class=\"openklappen\" rel=\"row3_".$db->f("status").$db->f("actie_id")."\" style=\"width:760px;float:left;\"><a href=\"#\" onclick=\"return false;\">".htmlentities($db->f("naam"))."</a></div>";
+			if($login->userlevel>=10) {
+				echo "<div style=\"float:right;width:30px;margin-bottom:4px;margin-top:-3px;\"><a href=\"cms_diversen.php?bc=".intval($_GET["bc"]+1)."&delete=39&t=".htmlentities($_GET["t"])."&39k0=".$db->f("actie_id")."\" onclick=\"return confirmLink('row_".$db->f("status")."_".$db->f("actie_id")."',this,'Actie  wissen?')\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
+			}
+			echo "<div style=\"float:right;width:30px;margin-bottom:4px;margin-top:-3px;\"><a href=\"".$vars["path"]."cms_diversen.php?bc=".intval($_GET["bc"]+1)."&t=".htmlentities($_GET["t"])."&edit=39&39k0=".$db->f("actie_id")."\"><img src=\"".$vars["path"]."pic/class.cms_edit.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
+			echo "<div style=\"float:right;width:50px;\">".($db->f("alleenwebtastic")==1 ? "<i>intern</i>" : htmlentities($db->f("voornaam")))."</div>";
+			if($_GET["t"]<>2) {
+				echo "<div style=\"float:right;width:90px;\">";
+				if($db->f("prioriteit")) {
+					echo "<i>".($db->f("prioriteit") ? "prioriteit ".$db->f("prioriteit") : "&nbsp;")."</i><br>";
+				}
+				if($db->f("einddatum")>0) {
+					echo "<span style=\"font-size:0.8em;\">".DATUM("DD-MM-JJJJ",$db->f("einddatum"))."</span><br>";
+				} else {
+#					echo "<br><span style=\"font-size:0.8em;\">&nbsp;</span>";
+				}
+				if($db->f("geschattetijd_min")) {
+					echo "<span style=\"font-size:0.8em;\">".$db->f("geschattetijd_min").($db->f("geschattetijd_max") ? "-".$db->f("geschattetijd_max") : "")." uur</span>";
+				} else {
+#					echo "<br><span style=\"font-size:0.8em;\">&nbsp;</span>";				
+				}
+				echo "</div>";
+			}
+			if($_GET["t"]==1) {
+#				echo "<div style=\"float:right;width:230px;vertical-align:middle;\"><i>".($db->f("einddatum")>0 ? date("d-m-Y",$db->f("einddatum")) : "&nbsp;")."</i></div>";
+			}
+			echo "<div style=\"clear:both;\"></div>\n";
+			echo "</div>";
+			echo "<div id=\"row3_".$db->f("status").$db->f("actie_id")."\" style=\"display:none;padding-left:20px;\">\n";
+			echo "<table cellspacing=\"0\" class=\"tbl difftbl\" style=\"margin-top:5px;margin-bottom:15px;\"><tr><th style=\"width:170px;\">veld</th><th style=\"\">inhoud</th></tr>";
+			if($db->f("alleenwebtastic")) {
+				echo "<tr><td colspan=\"2\"><i>Alleen zichtbaar voor WebTastic</i></td></tr>";
+			}
+			if($_GET["t"]==1) {
+				if($db->f("prioriteit")>0) {
+					echo "<tr><td valign=\"top\">Prioriteit</td><td valign=\"top\">".$db->f("prioriteit")."</td></tr>";
+				}
+			}
+			echo "<tr><td valign=\"top\">Omschrijving</td><td valign=\"top\">".nl2br(wt_htmlentities($db->f("omschrijving"),true))."</td></tr>";
+			echo "<tr><td valign=\"top\">Betrokkenen</td><td valign=\"top\">";
+			unset($betrokkenen_getoond);
+			$betrokkenen=split(",",$db->f("betrokkenen"));
+			while(list($key,$value)=each($betrokkenen)) {
+				if($betrokkenen_getoond) {
+					echo ", ";
+				}
+				echo htmlentities($vars["allewerknemers"][$value]);
+				$betrokkenen_getoond=true;
+			}
+			echo "</td></tr>";
+			if($db->f("einddatum")) {
+				echo "<tr><td>Streefdatum oplevering</td><td>".DATUM("DAG D MAAND JJJJ",$db->f("einddatum"))."</td></tr>";
+			}
+			if($db->f("geschattetijd_min") or $db->f("geschattetijd")) {
+				echo "<tr><td>Geschatte ontwikkeltijd</td><td>";
+				if($db->f("geschattetijd_min")) {
+					echo htmlentities($db->f("geschattetijd_min").($db->f("geschattetijd_max") ? " - ".$db->f("geschattetijd_max") : ""))." uur ";
+				}
+				if($db->f("geschattetijd")) {
+					echo htmlentities($db->f("geschattetijd"));
+				}
+				echo "</td></tr>";
+			}
+			if($db->f("opmerkingen")) {
+				echo "<tr><td valign=\"top\">Opmerkingen</td><td valign=\"top\">".nl2br(wt_htmlentities($db->f("opmerkingen"),true))."</td></tr>";
+			}
+			if($db->f("interne_notities") and $login->userlevel>=10) {
+				echo "<tr><td valign=\"top\">Interne notities</td><td valign=\"top\">".nl2br(wt_htmlentities($db->f("interne_notities"),true))."</td></tr>";
+			}
+			
+			echo "</table>";
+			echo "</div></div>\n\n";
+		}
+	}
+
+} elseif($_GET["t"]==3) {
+	#
+	# Diverse instellingen
+	#
+	echo "<style type=\"text/css\"><!--\n.wtform_table {\nwidth: 600px;\n}\n--></style>";
+	
+	if($_GET["fo"]=="frm") {
+		echo "De wijzigingen zijn opgeslagen.<p><a href=\"cms_diversen.php?t=3\">Bewerk instellingen opnieuw</a>";
+	} else {
+		echo "Via onderstaand formulier zijn diverse instellingen m.b.t. de website aan te passen.<p>";
+		$form->display_all();
+	}
+} elseif($_GET["t"]==5) {
+
+	#
+	# Tonen welke voucherteksten er vertaald moeten worden
+	#
+	echo "De volgende termen worden gebruikt bij de vouchers:<ol>";
+	while(list($key,$value)=each($vars)) {
+		if(preg_match("/^voucher_/",$key)) {
+			echo "<li>".htmlentities($value["N"])."</li>";
+		}
+	}
+	echo "</ol>";
+	echo "Bij het toevoegen van een nieuwe vouchertaal kun je de vertalingen van deze termen aan Jeroen mailen.";
+}
+
+?>

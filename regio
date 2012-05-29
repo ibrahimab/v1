@@ -1,0 +1,6 @@
+<?php
+
+$otherid="toonskigebied";
+include("skigebied");
+
+?>

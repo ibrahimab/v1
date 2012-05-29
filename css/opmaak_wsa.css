@@ -1,0 +1,262 @@
+
+html {
+	background-color: #BAC5D6;
+	overflow-y: scroll;
+}
+
+* {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+td {
+	font-size: 0.8em;
+}
+
+body {
+	margin:0px;
+	padding: 0px;
+	color: #000000;
+	text-align:center;
+	font: 0.8em Verdana, Arial, sans-serif;
+}
+
+#wrapper {
+	width:770px;
+	background:#ffffff url(../pic/sneeuw.jpg) no-repeat left top;
+	text-align:left;
+	margin-left:auto;
+	margin-right:auto;
+	font-size: 10pt;
+}
+
+#header {
+	height:110px;
+	line-height:70px;	
+	margin-left: 10px;
+	margin-right: 10px;
+	padding-top: 5px;
+}
+
+#menu {
+	background: #FFFFFF;
+	text-align: center;
+	font-size: 1.0em;
+	font-weight: bolder;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+a.menu {
+	text-decoration: none;
+	color: #9999CC;
+}
+
+font.actiefmenu {
+	color: #333366;
+	font-weight: bold;
+}
+
+#content {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#submenu {
+	background-color: #BAC5D6;
+	text-align: center;
+	font-weight: bold;
+	font-size: 0.9em;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#footer {
+	font-size: 0.8em;
+	text-align: center;
+	padding-bottom: 5px;
+}
+
+a.submenu {
+	text-decoration: none;
+	color: #fff;
+}
+
+font.actiefsubmenu {
+	color: #333366;
+	font-weight: bold;
+}
+
+p {
+	margin-top:1em;
+}
+
+h1 {
+	font-size: 1.5em;
+	color: #CC0033;
+	margin-bottom: 0.5em;
+}
+
+h2 {
+	font-size: 1.3em;
+	color: #CC0033;
+	font-weight: bold;
+}
+
+.voorpagina h2 {
+	font-size: 1.75em;
+	color: #CC0033;
+	padding: 0;
+	margin: 0;
+}
+
+table.voorpagina {
+	border-collapse: collapse;
+	width: 369px;
+	border: 1px solid #BAC5D6;
+	border-spacing: 0px;
+	font-size: 1.0em;
+	line-height: 120%;
+	color: #333366;
+}
+
+a:hover {
+	color: #00cc00;
+}
+
+.onlyprint {
+	display: none;
+}
+
+#printlogo {
+	display: none;
+}
+
+
+#geenresultaten {
+	border: 2px solid #5f227b;
+}
+
+.zoekresultaten_paginas a {
+	background-color: #e8ebf1;
+	border: 1px solid #000000;
+	color: #000000;
+}
+
+.zoekresultaten_paginas_active {
+	background-color: #bac5d6;
+	border: 1px solid #000000;
+	color: #000000;
+}
+
+.zoekresultaten_paginas a:hover {
+	background-color: #bac5d6;
+	color: #000000;
+}
+
+.zoekresultaten_aantalgevonden {
+	background-color: #e8ebf1;
+	color: #000000;
+}
+
+.zoekresultaten_opmerking_tussen_resultaten {
+	background-color: #e8ebf1;
+	color: #000000;
+}
+
+.zoekresultaat {
+	border: 1px solid #e8ebf1;
+}
+
+.zoekresultaat:hover {
+	border: 1px solid #cc0033;
+}
+
+#hulp_zoekresultaat_hover {
+	color: #cc0033;
+}
+
+.zoekresultaat_type {
+	border-left: 1px solid #e8ebf1;
+	border-right: 1px solid #e8ebf1;
+	border-bottom: 1px solid #e8ebf1;
+}
+
+.zoekresultaat_type_een_resultaat {
+	border-top: 1px solid #e8ebf1;
+}
+
+.zoekresultaat_titel {
+	color: #000000;
+}
+
+.zoekresultaat_locatie {
+	color: #000000;
+}
+
+.zoekresultaat_top {
+	background-color: #e8ebf1;
+}
+
+.zoekresultaat_omschrijving {
+	color: #000000;
+}
+
+.zoekresultaat_prijs_bedrag {
+	color: #cc0033;
+}
+
+.zoekresultaat_prijs_per {
+	color: #cc0033;
+}
+
+@media print {
+
+	body {
+		text-align: left;
+	}
+
+	#wrapper {
+		background: #fff;
+	}
+
+	#paginainhoud, #footer, #header {
+		width: 650px;
+	}
+
+	#printlogo {
+		display: inline;
+		position:absolute;
+		top:0;
+		left:0;
+		width:100%;
+		height:110px;
+	}
+
+	#content {
+
+	}
+	
+	#menu, #submenu, #header {
+		display: none;
+		height: 0px;
+	}
+
+	table.voorpagina {
+		width: 325px;
+	}
+	
+	.noprint {
+		display: none;
+	}
+
+	.onlyprint {
+		display: inline;
+	}
+	
+	A {
+		text-decoration: none;
+	}
+}
+

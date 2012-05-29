@@ -1,0 +1,233 @@
+<?php
+
+if($_GET["ok"]==1) {
+	echo "<p>Bedankt voor je inschrijving voor de nieuwsbrief van Chalet.nl en Zomerhuisje.nl!</p>";
+	echo "<p>Binnen enkele minuten ontvang je een e-mail ter bevestiging.</p>";
+} else {
+	if($_POST["mail"] and $_POST["mail"]<>"e-mailadres") {
+	#	$extra="&mmprevalue_mail=".urlencode($_POST["mail"])."&mmhideintro=1";
+		echo "<div style=\"border:1px solid #d40139;padding:5px;width:600px;margin-top:20px;margin-bottom:10px;\">Vul hieronder je voor- en achternaam in om de inschrijving af te ronden.</div>";
+	} else {
+		if($vars["seizoentype"]==1) {
+			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en Zomerhuisje.nl en ontvang regelmatig een overzicht van onze aanbiedingen en andere belangrijke zaken rond je vakantie.</p>";
+		} else {
+			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en Chalet.nl en ontvang regelmatig een overzicht van onze aanbiedingen en andere belangrijke zaken rond je vakantie.</p>";
+		}
+	}
+	
+	echo "<div style=\"width:600px;padding:5px;border:1px solid ".$bordercolor.";margin-bottom:20px;\">";
+	
+	
+	if($vars["seizoentype"]==1) {
+	
+		#
+		# winterversie inschrijfformulier
+		#
+		?>
+		<script type='text/javascript' src='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/calendar.js'></script>
+		<script type='text/javascript' src='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/lang/calendar-nl.js'></script>
+		<script type='text/javascript' src='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/calendar-setup.js'></script>
+		<link rel='stylesheet' type='text/css' media='all' href='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/skins/aqua/theme.css' title='Aqua' />
+		<link rel='stylesheet' type='text/css' media='all' href='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/calendar-win2k-cold-1.css' title='win2k-cold-1' />
+		<script type='text/javascript'>function setRedBorder(id){ var elem = document.getElementById(id); if (elem && elem.style) { elem.style.border = '1px solid red';} } </script>
+		<script type='text/javascript'>function setHiddenBorder(id){ var elem = document.getElementById(id); if (elem && elem.style) { elem.style.border = '';} } </script>
+		<form method="post" action="https://m16.mailplus.nl/genericservice/code/servlet/Redirect" enctype="application/x-www-form-urlencoded" name="form1004" id="form1004" onsubmit="return checkFormform1004(this);">
+		<script type="text/javascript">
+		function checkFormform1004(myForm) {
+		try {
+			var errorMessage = 'Het formulier kon niet worden verzonden om de volgende redenenen(en):\n\n';
+			var errorFound = false;
+		
+			 setHiddenBorder('field1038TD');
+			if (myForm.field1038 != null) {
+				if (myForm.field1038.value == '') {
+					errorMessage = errorMessage + '- Geen waarde ingevuld voor E-mailadres.\n';
+					errorFound = true;
+					setRedBorder('field1038TD');
+				} else {
+					emailAddress = myForm.field1038.value;
+					if (emailAddress.search(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i) == -1) {
+						errorMessage = errorMessage + '- Geen geldig e-mail adres ingevuld voor E-mailadres.\n';
+						setRedBorder('field1038TD');
+						errorFound = true;
+					}
+				}
+			}
+			if (myForm.field1040 != null) {
+				if (myForm.field1040.value == '') {
+					errorMessage = errorMessage + '- Geen waarde ingevuld voor Voornaam.\n';
+						setRedBorder('field1040TD');
+					errorFound = true;
+				}
+				 else { setHiddenBorder('field1040TD'); }
+			}
+			if (myForm.field1036 != null) {
+				if (myForm.field1036.value == '') {
+					errorMessage = errorMessage + '- Geen waarde ingevuld voor Achternaam.\n';
+						setRedBorder('field1036TD');
+					errorFound = true;
+				}
+				 else { setHiddenBorder('field1036TD'); }
+			}
+		
+			
+			if (errorFound) {
+				alert(errorMessage);
+				return false;
+			}
+			
+			return true;
+		} catch (err) {
+			return false;
+		}
+		}
+		</script>
+		<table class="mpFormTable" border="0" cellpadding="5" cellspacing="0">
+		<tr class="mpFormRow">
+			<td class="mpFormLabel">E-mailadres *</td>
+			<td class="mpFormField" id="field1038TD"><input type="text" name="field1038" value="<?php if($_POST["mail"] and $_POST["mail"]<>"e-mailadres") echo htmlentities($_POST["mail"]); ?>">
+		</td>
+		</tr>
+		<tr class="mpFormRow">
+			<td class="mpFormLabel">Voornaam *</td>
+			<td class="mpFormField" id="field1040TD"><input type="text" name="field1040" value="">
+		</td>
+		</tr>
+		<tr class="mpFormRow">
+			<td class="mpFormLabel">Tussenvoegsel</td>
+			<td class="mpFormField" id="field1041TD"><input type="text" name="field1041" value="">
+		</td>
+		</tr>
+		<tr class="mpFormRow">
+			<td class="mpFormLabel">Achternaam *</td>
+			<td class="mpFormField" id="field1036TD"><input type="text" name="field1036" value="">
+		</td>
+		</tr>
+		
+		<tr><td class="submitCellSpacer">&nbsp;</td><td class="submitCell"><input type="submit" value="Aanmelden"></td></tr></table>
+		<input type="hidden" name="serviceInstanceId" id="serviceInstanceId" value="31302289">
+		<input type="hidden" name="okLink" id="okLink" value="<?php echo htmlentities($vars["basehref"]."nieuwsbrief.php?ok=1"); ?>">
+		<input type="hidden" name="redir" id="redir" value="formAdmin">
+		<input type="hidden" name="formEncId" id="formEncId" value="MwJLgCnDPkS9LWs">
+		
+		</form>
+		<?php
+	
+	} else {
+		#
+		# zomerversie inschrijfformulier
+		#
+		?>
+		<script type='text/javascript' src='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/calendar.js'></script>
+		<script type='text/javascript' src='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/lang/calendar-nl.js'></script>
+		<script type='text/javascript' src='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/calendar-setup.js'></script>
+		<link rel='stylesheet' type='text/css' media='all' href='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/skins/aqua/theme.css' title='Aqua' />
+		<link rel='stylesheet' type='text/css' media='all' href='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/calendar-win2k-cold-1.css' title='win2k-cold-1' />
+		<script type='text/javascript'>function setRedBorder(id){ var elem = document.getElementById(id); if (elem && elem.style) { elem.style.border = '1px solid red';} } </script>
+		<script type='text/javascript'>function setHiddenBorder(id){ var elem = document.getElementById(id); if (elem && elem.style) { elem.style.border = '';} } </script>
+		<form method="post" action="https://m16.mailplus.nl/genericservice/code/servlet/Redirect" enctype="application/x-www-form-urlencoded" name="form10081" id="form10081" onsubmit="return checkFormform10081(this);">
+		<script type="text/javascript">
+		function checkFormform10081(myForm) {
+		try {
+			var errorMessage = 'Het formulier kon niet worden verzonden om de volgende redenenen(en):\n\n';
+			var errorFound = false;
+		
+			 setHiddenBorder('field10751TD');
+			if (myForm.field10751 != null) {
+				if (myForm.field10751.value == '') {
+					errorMessage = errorMessage + '- Geen waarde ingevuld voor E-mailadres.\n';
+					errorFound = true;
+					setRedBorder('field10751TD');
+				} else {
+					emailAddress = myForm.field10751.value;
+					if (emailAddress.search(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i) == -1) {
+						errorMessage = errorMessage + '- Geen geldig e-mail adres ingevuld voor E-mailadres.\n';
+						setRedBorder('field10751TD');
+						errorFound = true;
+					}
+				}
+			}
+			if (myForm.field10761 != null) {
+				if (myForm.field10761.value == '') {
+					errorMessage = errorMessage + '- Geen waarde ingevuld voor Voornaam.\n';
+						setRedBorder('field10761TD');
+					errorFound = true;
+				}
+				 else { setHiddenBorder('field10761TD'); }
+			}
+			if (myForm.field10781 != null) {
+				if (myForm.field10781.value == '') {
+					errorMessage = errorMessage + '- Geen waarde ingevuld voor Achternaam.\n';
+						setRedBorder('field10781TD');
+					errorFound = true;
+				}
+				 else { setHiddenBorder('field10781TD'); }
+			}
+		
+			
+			if (errorFound) {
+				alert(errorMessage);
+				return false;
+			}
+			
+			return true;
+		} catch (err) {
+			return false;
+		}
+		}
+		</script>
+		<table class="mpFormTable" border="0" cellpadding="5" cellspacing="0">
+		<tr class="mpFormRow">
+			<td class="mpFormLabel">E-mailadres *</td>
+			<td class="mpFormField" id="field10751TD"><input type="text" name="field10751" value="<?php if($_POST["mail"] and $_POST["mail"]<>"e-mailadres") echo htmlentities($_POST["mail"]); ?>">
+		</td>
+		</tr>
+		<tr class="mpFormRow">
+			<td class="mpFormLabel">Voornaam *</td>
+			<td class="mpFormField" id="field10761TD"><input type="text" name="field10761" value="">
+		</td>
+		</tr>
+		<tr class="mpFormRow">
+			<td class="mpFormLabel">Tussenvoegsel</td>
+			<td class="mpFormField" id="field10771TD"><input type="text" name="field10771" value="">
+		</td>
+		</tr>
+		<tr class="mpFormRow">
+			<td class="mpFormLabel">Achternaam *</td>
+			<td class="mpFormField" id="field10781TD"><input type="text" name="field10781" value="">
+		</td>
+		</tr>
+		
+		<tr><td class="submitCellSpacer">&nbsp;</td><td class="submitCell"><input type="submit" value="Aanmelden"></td></tr></table>
+		<input type="hidden" name="serviceInstanceId" id="serviceInstanceId" value="31302289">
+		<input type="hidden" name="okLink" id="okLink" value="<?php echo htmlentities($vars["basehref"]."nieuwsbrief.php?ok=1"); ?>">
+		<input type="hidden" name="redir" id="redir" value="formAdmin">
+		<input type="hidden" name="formEncId" id="formEncId" value="J4XyB4nwd7v3yi8">
+		
+		</form>
+		<?php
+
+	}
+	echo "</div>";
+	
+	# eerder verstuurde nieuwsbrieven tonen (te bewerken via http://www.chalet.nl/cms_overzichten_overig.php?t=10)	
+	$db->query("SELECT ".($vars["seizoentype"]==1 ? "winternieuwsbrieven" : "zomernieuwsbrieven")." AS nieuwsbrief FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+	if($db->next_record()) {
+		$nieuwsbrieven_array=preg_split("/\n/",$db->f("nieuwsbrief"));
+		while(list($key,$value)=@each($nieuwsbrieven_array)) {
+			if(preg_match("/^([0-9]+) (.*)$/",$value,$regs)) {
+				$nieuwsbrieven[$regs[1]]=$regs[2];
+			}
+		}
+		if(is_array($nieuwsbrieven)) {
+			echo "<div style=\"margin-bottom:10px;\"><b>Onlangs verstuurde nieuwsbrieven:</b></div>";
+			echo "<ul>";
+			while(list($key,$value)=each($nieuwsbrieven)) {
+				echo "<li><a href=\"http://chaletnl.m16.mailplus.nl/archief/mailing-".wt_he($key).".html\" target=\"_blank\">".wt_he($value)."</a></li>";
+			}
+			echo "</ul>";
+		}
+	}
+}
+
+?>

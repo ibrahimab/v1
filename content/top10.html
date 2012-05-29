@@ -1,0 +1,136 @@
+<?php
+
+$top10website=$vars["websitetype"];
+
+$top10query="FROM accommodatie ac, type t, plaats p, land l, skigebied sg, seizoen s, tarief tr, top10_week_type tw WHERE (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tr.beschikbaar=1 AND tr.type_id=t.type_id AND tr.seizoen_id=tw.seizoen_id AND tr.week=tw.week AND ac.plaats_id=p.plaats_id AND t.websites LIKE '%".$vars["website"]."%' AND p.land_id=l.land_id AND p.skigebied_id=sg.skigebied_id AND t.accommodatie_id=ac.accommodatie_id AND s.type=".$vars["seizoentype"]." AND tw.site=".$top10website." AND s.tonen>=2 AND s.seizoen_id=tw.seizoen_id AND t.type_id=tw.type_id AND ac.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1".($_GET["d"] ? " AND tw.week='".addslashes($_GET["d"])."'" : "")." AND tw.week>'".time()."' ORDER BY tw.week".($_GET["d"] ? ", tw.volgorde, ac.naam" : "").";";
+
+echo "<p>".html("inleiding","top10")."<p>";
+if($_GET["d"]) {
+	$db->query("SELECT t.type_id, ac.naam AS accommodatie, ac.soortaccommodatie, ac.toonper, ac.accommodatie_id, t.naam".$vars["ttv"]." AS type, t.slaapkamers, t.badkamers, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, sg.naam AS skigebied, l.naam".$vars["ttv"]." AS land, l.begincode, s.seizoen_id ".$top10query);
+	if($db->num_rows()) {
+		echo html("andereselecteren","top10",array("l1"=>"top10"))."<p>";
+		echo "<TABLE width=\"740\">";
+		echo balk();
+		while($db->next_record()) {
+			unset($querystring,$soort_aanbieding,$tarief);
+			
+			$seizoenid=$db->f("seizoen_id");
+			
+			if(!$aanbieding[$db->f("seizoen_id")]) {
+				$aanbieding[$db->f("seizoen_id")]=aanbiedinginfo(0,$db->f("seizoen_id"),$_GET["d"]);
+			}
+		
+
+			# Tarieven
+			if($db->f("toonper")==3 or $vars["wederverkoop"]) {
+				if($vars["wederverkoop"]) {
+					$db2->query("SELECT wederverkoop_verkoopprijs AS c_verkoop_site FROM tarief WHERE type_id=".$db->f("type_id")." AND seizoen_id=".$db->f("seizoen_id")." AND week='".addslashes($_GET["d"])."';");
+					if($db2->next_record()) {
+						$tarief=$db2->f("c_verkoop_site");
+					}
+				} else {
+					$db2->query("SELECT c_verkoop_site FROM tarief WHERE type_id=".$db->f("type_id")." AND seizoen_id=".$db->f("seizoen_id")." AND week='".addslashes($_GET["d"])."';");
+					if($db2->next_record()) {
+						$tarief=$db2->f("c_verkoop_site");
+					}
+				}
+			} else {
+				$db2->query("SELECT prijs FROM tarief_personen WHERE type_id=".$db->f("type_id")." AND seizoen_id=".$db->f("seizoen_id")." AND week='".addslashes($_GET["d"])."' AND personen=".$db->f("maxaantalpersonen").";");
+				if($db2->next_record()) {
+					$tarief=$db2->f("prijs");
+				}
+			}
+			
+			# Zijn er aanbiedingen van toepassing?
+			if($aanbieding[$db->f("seizoen_id")]["typeid_sort"][$db->f("type_id")]["bedrag"][$_GET["d"]]) {
+				$tarief_org=$tarief;
+				$tarief=verwerk_aanbieding($tarief,$aanbieding[$db->f("seizoen_id")]["typeid_sort"][$db->f("type_id")],$_GET["d"]);
+				if($tarief_org>$tarief) $soort_aanbieding=txt("aanbieding","top10");
+			}
+
+			if($tarief>0) {
+				$tarief=number_format($tarief,0,",",".");
+				$top10teller++;
+				if($top10teller<=10) {
+					if(!$_GET["cronseizoen"]) {
+						echo "<TR><TD width=\"1%\"><a name=\"cnt".$top10teller."\"></a>";
+						$querystring="?back=".urlencode($_SERVER["REQUEST_URI"])."&cnt=".$top10teller;
+						$querystring.="&d=".$_GET["d"];
+						$ahref="<A HREF=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/".$querystring."\">";
+						if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
+							echo $ahref."<IMG SRC=\"".$path."pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg\" alt=\"".htmlentities($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></A>";
+						} elseif(file_exists("pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg")) {
+							echo $ahref."<IMG SRC=\"".$path."pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg\" alt=\"".htmlentities($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></A>";
+						} else {
+							echo "<IMG SRC=\"".$path."pic/cms/accommodaties_tn/0.jpg\" alt=\"".html("geenafbeelding")."\" border=\"0\" width=\"60\" height=\"45\" >";
+						}
+						echo "</TD><TD><B>".$ahref.htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""))."</A></B><BR>".htmlentities($db->f("plaats")." - ".$db->f("skigebied")." - ".$db->f("land"))."</TD><TD align=\"right\"><NOBR>";
+						if($db->f("soortaccommodatie")<>5) {
+							echo $db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? html("persoon") : html("personen"));
+						}
+						echo "</NOBR></TD>";
+						echo "<TD align=\"right\">";
+						if($soort_aanbieding) echo "<span class=\"aanbieding_klein\">&nbsp;".htmlentities($soort_aanbieding)."&nbsp;</span><br>";
+						if($db->f("toonper")==3 or $vars["wederverkoop"]) {
+							echo "<NOWRAP>&euro;&nbsp;".$tarief."&nbsp;";
+							echo html("per")."</NOWRAP><br>".html("accommodatie")."</TD>";
+						} elseif($db->f("toonper")==1) {
+							echo "<NOWRAP>".html("vanaf")."&nbsp;&euro;&nbsp;".$tarief."&nbsp;";
+							echo "p.p.</NOWRAP><br>".ereg_replace(" ","&nbsp;",html("inclskipas"))."</TD>";
+						} elseif($db->f("toonper")==2) {
+							echo "<NOWRAP>".html("vanaf")."&nbsp;&euro;&nbsp;".$tarief."&nbsp;";
+							echo "p.p.</NOWRAP><br>".ereg_replace(" ","&nbsp;",html("inclskipas"))."</TD>";
+						}
+						echo "</TR>";
+						echo balk();
+					}
+				}
+			}
+		}	
+		echo "</TABLE>";
+
+	} else {
+		echo html("dezedatumgeentop10beschikbaar","top10",array("l1"=>"top10"))."<p>";
+	}
+} else {
+	$db->query("SELECT DISTINCT tw.week ".$top10query);
+	if($db->num_rows()) {
+		echo html("klikopaankomstdatum","top10")."<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".txt("menu_top10").".php?d=".$db->f("week")."\">";
+			echo weekend_voluit($db->f("week"));
+			echo "</a></li>";
+		}
+		echo "</ul>";
+	} else {
+		echo "<p>".html("geentop10beschikbaar","top10",array("l1"=>"nieuwsbrief"));
+	}
+}
+
+
+
+if(!$seizoenid) {
+	if($_GET["cronseizoen"]) {
+		$seizoenid=$_GET["cronseizoen"];
+	} else {
+		# Seizoenid bepalen
+		$db->query("SELECT seizoen_id FROM seizoen WHERE type='".$vars["websitetype_namen_wzt"][$top10website]."' AND UNIX_TIMESTAMP(begin)<'".addslashes($_GET["d"])."' AND UNIX_TIMESTAMP(eind)>'".addslashes($_GET["d"])."';");
+		if($db->next_record()) {
+			$seizoenid=$db->f("seizoen_id");
+		} else {
+			$seizoenid="";
+		}
+	}
+}
+
+#echo "S:".$seizoenid;
+#exit;
+
+# Top 10 te klein? Opslaan
+if($top10teller<10) {
+	$db->query("UPDATE top10_week SET minderdan10=1 WHERE site='".$top10website."' AND seizoen_id='".addslashes($seizoenid)."' AND week='".addslashes($_GET["d"])."';");
+} else {
+	$db->query("UPDATE top10_week SET minderdan10=0 WHERE site='".$top10website."' AND seizoen_id='".addslashes($seizoenid)."' AND week='".addslashes($_GET["d"])."';");
+}
+
+?>

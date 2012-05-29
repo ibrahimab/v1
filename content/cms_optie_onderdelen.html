@@ -1,0 +1,90 @@
+<?php
+
+$cms->display_cms();
+
+if($_GET["show"]==13) {
+
+	# copy uit query-string halen
+	$_SERVER["REQUEST_URI"]=str_replace("&copy","",$_SERVER["REQUEST_URI"]);
+	
+	# Andere optie-onderdelen uit dezelfde optiegroep bepalen
+	if($_GET["12k0"]) {
+		if($_GET["11k0"]==7 or $_GET["11k0"]==16) {
+			# Kijken binnen andere optie-soorten ("Skipasaanpassingen" en "Skipasuitbreidingen" met dezelfde skipas)
+			$db->query("SELECT DISTINCT skipas_id FROM view_optie WHERE skipas_id>0 AND optie_onderdeel_id='".addslashes($_GET["13k0"])."';");
+			if($db->next_record()) {
+				$db2->query("SELECT DISTINCT snaam, optie_onderdeel_id, onaam FROM view_optie WHERE optie_soort_id IN (7,16) AND skipas_id='".addslashes($db->f("skipas_id"))."' AND optie_onderdeel_id<>'".addslashes($_GET["13k0"])."' ORDER BY snaam, onaam;");
+				while($db2->next_record()) {
+					$verwante_optieonderdelen[$db2->f("optie_onderdeel_id")]=$db2->f("snaam").": ".$db2->f("onaam");
+				}
+			}
+		} else {
+			# Kijken binnen dezelfde optie-groep
+			$db->query("SELECT DISTINCT oo.optie_onderdeel_id, oo.naam FROM optie_groep og, optie_onderdeel oo WHERE oo.optie_onderdeel_id<>'".addslashes($_GET["13k0"])."' AND og.optie_groep_id='".addslashes($_GET["12k0"])."' AND oo.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id;");
+			while($db->next_record()) {
+				$verwante_optieonderdelen[$db->f("optie_onderdeel_id")]=$db->f("naam");
+			}
+		}
+	}
+
+	$db->query("SELECT os.winter, os.zomer FROM optie_soort os, optie_groep og, optie_onderdeel oo WHERE oo.optie_onderdeel_id='".addslashes($_GET["13k0"])."' AND oo.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id AND og.optie_soort_id=os.optie_soort_id;");
+	if($db->next_record()) {
+		if($db->f("winter") and !$db->f("zomer")) $seizoentypewhere=" WHERE type=1";
+		if(!$db->f("winter") and $db->f("zomer")) $seizoentypewhere=" WHERE type=2";
+	}
+	
+	$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind FROM seizoen".$seizoentypewhere." ORDER BY begin, type;");
+	if($db->num_rows()) {
+		echo "<p>Tarieven bewerken:<ul>";
+		while($db->next_record()) {
+			if($db->f("eind")>(time()-86400*182)) {
+				echo "<li><a href=\"cms_optie_tarieven.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&ooid=".$_GET["13k0"]."\">".htmlentities($db->f("naam"))."</a></li>";
+				$kopieer_seizoenen[$db->f("seizoen_id")]=$db->f("naam");
+			}
+		}
+		echo "</ul>";
+	}
+	
+	# Kopieerfunctie
+	if($verwante_optieonderdelen and $kopieer_seizoenen) {
+		echo "<hr>Tarieven kopi&euml;ren:<p>";
+		if($_GET["copy"]==1) {
+			echo "<i>De tarieven zijn gekopieerd.</i><p>";
+		}
+		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+		echo "<input type=\"hidden\" name=\"optieonderdeel_kopieer\" value=\"1\">";
+		echo "Seizoen&nbsp;&nbsp;";
+		echo "<select name=\"seizoen\">";
+		echo "<option value=\"\"></option>";
+		while(list($key,$value)=each($kopieer_seizoenen)) {
+			echo "<option value=\"".$key."\">".htmlentities($value)."</option>\n";
+		}
+		echo "</select>&nbsp;&nbsp;";
+		echo "naar optie-onderdeel&nbsp;&nbsp;";
+		echo "<select name=\"optieonderdeel\">";
+		echo "<option value=\"\"></option>";
+		while(list($key,$value)=each($verwante_optieonderdelen)) {
+			echo "<option value=\"".$key."\">".htmlentities($value)."</option>\n";
+		}
+		echo "</select>&nbsp;&nbsp;";
+		echo "&nbsp;&nbsp;<input type=\"submit\" value=\" KOPIEER TARIEVEN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\">";
+		echo "</form>";
+	}
+	
+	# Actieve boekingen met deze optie
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b, boeking_optie o WHERE o.optie_onderdeel_id='".addslashes($_GET["13k0"])."' AND o.boeking_id=b.boeking_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.aankomstdatum_exact>'".(time()-691200)."' ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "<hr>Bij de volgende actieve boeking".($db->num_rows()>1 ? "en" : "")." is dit optie-onderdeel geboekt:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">";
+			if($db->f("boekingsnummer")) echo $db->f("boekingsnummer")." - ";
+			echo htmlentities($db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"));
+			echo "</a></li>";
+		}
+		echo "</ul>";
+	}
+	$cms->display_log(13);
+}
+
+
+?>

@@ -1,0 +1,168 @@
+<?php
+
+echo "<i>Systeem om klanten van vorig seizoen te benaderen m.b.t. het nieuwe seizoen</i>";
+
+echo "<h2>";
+if($_GET["status"]==1) {
+	echo "Actueel";
+} elseif($_GET["status"]==2) {
+	echo "Te mailen";
+} elseif($_GET["status"]==3) {
+	echo "Nabellen";
+} elseif($_GET["status"]==4) {
+	echo "Afgehandeld";
+}
+echo "</h2>";
+
+if($_POST["boeking"] or $_POST["verwijderboeking"]) {
+
+	while(list($key,$value)=@each($_POST["verwijderboeking"])) {
+		if($value==1) {
+			unset($log);
+			$db->query("SELECT log FROM boeking WHERE boeking_id='".addslashes($key)."';");
+			if($db->next_record()) {
+				$log=$db->f("log");
+				$log.="\n".time()."-c".$login->user_id."-a- verwijderd uit lijst \"mail klanten vorig seizoen\"";
+			}
+
+			$db->query("UPDATE boeking SET mailverbergen_klanten_vorig_seizoen=1, mailblokkeren_klanten_vorig_seizoen=1, log='".addslashes($log)."' WHERE boeking_id='".addslashes($key)."';");
+			$verbergteller++;
+		}
+	}
+	if($verbergteller) {
+		echo "Aantal boekingen verwijderd uit &quot;te verzenden&quot;-lijst: ".$verbergteller."<p>";
+	}
+
+	if(is_array($_POST["boeking"])) {
+		echo "De volgende mailtjes zijn verstuurd:<ul>";
+		while(list($key,$value)=@each($_POST["boeking"])) {
+			if($value==1) {
+				$mailtekst=mailtekst_klanten_vorig_seizoen($key);
+	
+				if(!$mailtekst["mailverstuurd_klanten_vorig_seizoen"] or $mailtekst["status_klanten_vorig_seizoen"]==3) {
+					$mail=new wt_mail;
+					$mail->fromname=$mailtekst["fromname"];
+					$mail->from=$mailtekst["from"];
+					$mail->to=$mailtekst["to"];
+	
+					if($mailtekst["bewerkt"] and $login->vars["email"]) {
+						$mail->bcc=$login->vars["email"];
+					}
+					$mail->subject=$mailtekst["subject"];
+					$mail->plaintext=$mailtekst["body"];
+	
+					$mail->send();
+					
+					# Loggen
+					chalet_log("mailtje \"boek nu in het nieuwe seizoen\" gemaild aan ".$mail->to,false,true);
+	
+					# Database opslaan
+					if($mailtekst["status_klanten_vorig_seizoen"]==3) {
+						# 2e (en verder) mailtje
+						$db->query("UPDATE boeking SET mailverstuurd2_klanten_vorig_seizoen=NOW(), status_klanten_vorig_seizoen=1 WHERE boeking_id='".addslashes($key)."';");
+					} else {
+						# Eerste mailtje aan klant
+						$db->query("UPDATE boeking SET mailverstuurd_klanten_vorig_seizoen=NOW(), status_klanten_vorig_seizoen=1 WHERE boeking_id='".addslashes($key)."';");
+					}
+					
+					echo "<li>".htmlentities($mail->to.": ".$mail->subject)."</li>";
+					flush();
+				}
+			}
+		}
+		echo "</ul>";
+	}
+	echo "<p><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\">Terug naar lijst</a>";
+} else {
+
+	# Boekingen die op "gemaild" staan automatisch op "nabellen" zetten na 7 dagen
+	$db->query("UPDATE boeking SET status_klanten_vorig_seizoen=2 WHERE UNIX_TIMESTAMP(mailverstuurd_klanten_vorig_seizoen)<='".mktime(0,0,0,date("m"),date("d")-7,date("Y"))."' AND status_klanten_vorig_seizoen=1 AND mailverstuurd2_klanten_vorig_seizoen IS NULL;");
+	$db->query("UPDATE boeking SET status_klanten_vorig_seizoen=2 WHERE UNIX_TIMESTAMP(mailverstuurd2_klanten_vorig_seizoen)<='".mktime(0,0,0,date("m"),date("d")-7,date("Y"))."' AND status_klanten_vorig_seizoen=1 AND mailverstuurd2_klanten_vorig_seizoen IS NOT NULL;");
+
+	$db->query("SELECT winter_vorig_seizoen_id, zomer_vorig_seizoen_id, winter_huidig_seizoen_id, zomer_huidig_seizoen_id FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+	if($db->next_record()) {
+		$vorigeseizoen=$db->f("winter_vorig_seizoen_id").",".$db->f("zomer_vorig_seizoen_id");
+		$huidigeseizoen=$db->f("winter_huidig_seizoen_id").",".$db->f("zomer_huidig_seizoen_id");
+	}
+	
+	unset($wherequery);
+	if($_GET["status"]==1) {
+		# Actuele boekingen tonen
+		$wherequery=" AND b.status_klanten_vorig_seizoen<=3";
+	} elseif($_GET["status"]==2) {
+		# Alleen te mailen boekingen tonen
+		$wherequery=" AND (b.status_vanaf_klanten_vorig_seizoen IS NULL OR UNIX_TIMESTAMP(status_vanaf_klanten_vorig_seizoen)<='".mktime(0,0,0,date("m"),date("d"),date("Y"))."') AND (b.status_klanten_vorig_seizoen=0 OR b.status_klanten_vorig_seizoen=3)";
+		if($_GET["showmailuitgezet"]) {
+			$wherequery.=" AND b.mailblokkeren_klanten_vorig_seizoen=1";
+		} else {
+			$wherequery.=" AND b.mailblokkeren_klanten_vorig_seizoen=0";
+		}
+	} elseif($_GET["status"]==3) {
+		# Nabellen
+		$wherequery=" AND (b.status_vanaf_klanten_vorig_seizoen IS NULL OR UNIX_TIMESTAMP(status_vanaf_klanten_vorig_seizoen)<='".mktime(0,0,0,date("m"),date("d"),date("Y"))."') AND b.status_klanten_vorig_seizoen=2";
+	} elseif($_GET["status"]==4) {
+		# Nabellen
+		$wherequery=" AND b.status_klanten_vorig_seizoen>=4";
+	}
+
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+		# Om te kunnen testen
+#		unset($wherequery);
+	}
+	
+	$db->query("SELECT DISTINCT b.boekingsnummer, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_klanten_vorig_seizoen, b.mailblokkeren_klanten_vorig_seizoen, b.opmerkingen_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd_klanten_vorig_seizoen) AS mailverstuurd_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd2_klanten_vorig_seizoen) AS mailverstuurd2_klanten_vorig_seizoen, b.status_klanten_vorig_seizoen, bp.voornaam, bp.tussenvoegsel, bp.achternaam, a.naam, p.naam AS plaats, l.begincode, a.accommodatie_id, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, skigebied s, tarief ta WHERE ta.type_id=t.type_id AND ta.seizoen_id IN (".$huidigeseizoen.") AND (ta.bruto>0 OR ta.c_bruto>0) AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.seizoen_id IN (".$vorigeseizoen.")".($_GET["accid"] ? " AND a.accommodatie_id='".addslashes($_GET["accid"])."'" : "")." AND b.mailverbergen_klanten_vorig_seizoen=0".$wherequery." ORDER BY ".($_GET["status"]==4 ? "b.boekingsnummer DESC, " : "")."a.wzt, p.naam, a.naam, t.optimaalaantalpersonen, a.accommodatie_id, b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
+	if($db->next_record()) {
+#		echo "Hieronder een overzicht van boekingen van vorig seizoen die nog geen &quot;Boek nu je vakantie voor volgend seizoen&quot; mailtje hebben gehad.<p>";
+		if($_GET["accid"]) {
+			echo "Accommodatie: <a href=\"cms_accommodaties.php?show=1&1k0=".htmlentities($_GET["accid"])."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a><p>";
+		}
+		if($_GET["status"]==2) {
+			if($_GET["showmailuitgezet"]) {
+				echo "<span style=\"background-color:#ffa9a9;\">Rood</span> = boeking waarbij mail m.b.t. volgend seizoen is uitgezet<p>";
+			} else {
+				echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&showmailuitgezet=1\">Bekijk boekingen waarbij mail m.b.t. volgend seizoen is uitgezet</a><p>";
+			}
+		}
+		echo "<table class=\"tbl\" cellspacing=\"0\">";
+		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+		
+		if($_GET["status"]==2) {
+			echo "<tr><th title=\"Verwijder de boeking uit deze lijst\" style=\"width:10px;\">Wis</th><th>Boeking</th>";
+			if(!$_GET["accid"]) {
+				echo "<th>Type</th>";
+			}
+			echo "<th>Hoofdboeker</th><th>Aankomst</th><th>Tekst</th><th>Bewerkt</th><th>Versturen</th></tr>";
+		} else {
+			echo "<tr><th title=\"Verwijder de boeking uit deze lijst\" style=\"width:10px;\">Wis</th><th>Boeking</th>";
+			echo "<th>Hoofdboeker</th><th>Opmerkingen</th><th>Verstuurd</th><th style=\"width:200px;\">Status</th></tr>";
+		}
+		$db->seek(0);
+		while($db->next_record()) {
+			# Niet geblokkeerde mailtjes altijd tonen, geblokkeerde mailtjes alleen tonen tot 6 weken voor vertrek
+			if(!$db->f("mailblokkeren_opties") or ($db->f("mailblokkeren_opties") and $db->f("aankomstdatum")>=$vars["zaterdag_over_6_weken"])) {
+				$regelteller++;
+				echo "<tr><td align=\"center\"><a name=\"regel".$regelteller."\"></a><input type=\"checkbox\" name=\"verwijderboeking[".$db->f("boeking_id")."]\" value=\"1\"></td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."&bestaande=1&back=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&regel=".$regelteller."\"".($_GET["status"]==2 ? " target=\"_blank\"" : "").">".htmlentities($db->f("boekingsnummer"))."</a></td>";
+				if($_GET["status"]==2) {
+					if(!$_GET["accid"]) {
+						echo "<td><a href=\"cms_types.php?show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)")."</a></td>";
+					}
+					echo "<td>".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td align=\"center\"><a href=\"javascript:popwindowXY(750,540,'".$vars["path"]."popup.php?id=cms_mail_klanten_vorig_seizoen_bewerken&bid=".$db->f("boeking_id")."','center');\">bewerken</a></td><td align=\"center\">&nbsp;";
+					echo "<span id=\"bewerk".$db->f("boeking_id")."\" style=\"".($db->f("mailtekst_klanten_vorig_seizoen")=="" ? "display:none;" : "")."\">";
+					echo "ja";
+					echo "</span>";
+					echo "&nbsp;</td><td align=\"center\"".($db->f("mailblokkeren_klanten_vorig_seizoen") ? "style=\"background-color:#ffa9a9;\"" : "")."><input type=\"checkbox\" name=\"boeking[".$db->f("boeking_id")."]\" value=\"1\">";
+					echo "</td></tr>\n";
+				} else {
+					echo "<td>".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td><td align=\"center\" title=\"".htmlentities($db->f("opmerkingen_klanten_vorig_seizoen"))."\">".($db->f("opmerkingen_klanten_vorig_seizoen") ? "ja" : "&nbsp;")."</td><td>".($db->f("mailverstuurd_klanten_vorig_seizoen")>0 ? date("d-m-Y",$db->f("mailverstuurd_klanten_vorig_seizoen")) : "&nbsp;").($db->f("mailverstuurd2_klanten_vorig_seizoen")>0 ? "<br>".date("d-m-Y",$db->f("mailverstuurd2_klanten_vorig_seizoen")) : "")."</td><td>".htmlentities($vars["status_bestaandeklanten"][$db->f("status_klanten_vorig_seizoen")])."</td></tr>\n";
+				}
+			}
+		}
+		echo "<tr><td colspan=\"8\" align=\"center\"><input type=\"submit\" value=\" ".($_GET["status"]==2 ? "MAILTJES VERSTUREN / " : "")."GEGEVENS OPSLAAN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"></td></tr>";
+		echo "</form>";
+		echo "</table>";
+	} else {
+		echo "<i>Geen boekingen gevonden.</i>";
+	}
+}
+
+?>

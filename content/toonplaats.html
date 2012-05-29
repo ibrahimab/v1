@@ -1,0 +1,171 @@
+<?php
+
+$db->query("SELECT p.plaats_id, p.naam, p.omschrijving".$vars["ttv"]." AS omschrijving, p.altnaam_zichtbaar, p.wandelen".$vars["ttv"]." AS wandelen, p.wandelen".$vars["ttv"]." AS wandelen, p.fietsen".$vars["ttv"]." AS fietsen, p.sportief".$vars["ttv"]." AS sportief, p.bezienswaardigheden".$vars["ttv"]." AS bezienswaardigheden, p.cultuur".$vars["ttv"]." AS cultuur, p.hoogte, p.luchthaven, p.afstandtotluchthaven, p.treinstation, p.afstandtottreinstation, p.vervoeromschrijving".$vars["ttv"]." AS vervoeromschrijving, p.afstandtotutrecht, p.toeristenbureau, p.weerbericht, p.webcam, p.kaart, p.plattegrond, s.webcam AS swebcam, s.weerbericht AS sweerbericht, s.kaart AS skaart, s.naam AS skigebied, l.naam AS land, l.land_id FROM plaats p, skigebied s, land l WHERE p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND plaats_id=".$plaatsid." AND p.wzt='".addslashes($vars["seizoentype"])."';");
+if(!$db->next_record()) {
+	echo "Plaats niet gevonden. Onze excuses voor het ongemak.";
+
+} else {
+
+	$inquery=$db->f("plaats_id");
+	
+	$db2->query("SELECT plaats_id FROM plaats WHERE hoortbij_plaats_id='".$db->f("plaats_id")."';");
+	while($db2->next_record()) {
+		$inquery.=",".$db2->f("plaats_id");
+	}
+	
+	$query="SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND p.plaats_id IN (".$inquery.") ORDER BY a.naam, t.optimaalaantalpersonen, t.naam".$vars["ttv"].";";
+	$db2->query($query);
+
+	
+	if($db2->num_rows()>1 and !$_GET["backtypeid"]) {
+		echo "&nbsp;<b>";
+		if($db2->num_rows()==1) {
+			echo html("bekijkonzeaccommodatie","toonplaats",array("l1"=>"#accommodaties","v_plaatsnaam"=>$db->f("naam")));
+		} else {
+			echo html("bekijkonzeaccommodaties","toonplaats",array("l1"=>"#accommodaties","v_aantal"=>$db2->num_rows(),"v_plaatsnaam"=>$db->f("naam")));
+		}
+		echo "</b><p>";
+	}
+
+	$toeristenbureau=$db->f("toeristenbureau");
+	if($db->f("weerbericht")) $weerbericht=$db->f("weerbericht"); elseif($db->f("sweerbericht")) $weerbericht=$db->f("sweerbericht");
+	if($db->f("webcam")) $webcam=$db->f("webcam"); elseif($db->f("swebcam")) $webcam=$db->f("swebcam");
+	if($db->f("kaart")) $kaart=$db->f("kaart"); elseif($db->f("skaart")) $kaart=$db->f("skaart");
+	if($db->f("plattegrond")) $plattegrond=$db->f("plattegrond");
+
+	echo terugnaaracc();
+	
+	echo "<TABLE cellspacing=\"0\" cellpadding=\"5\">";
+
+	# Foto en landkaart
+	if(file_exists("pic/cms/".$pic1) and file_exists("pic/cms/".$pic2)) {
+		echo "<TR><TD><TABLE width=\"660\" border=\"0\" class=\"\" cellspacing=\"0\">";
+		echo "<tr><td align=\"left\" valign=\"top\">";
+		$size=getimagesize("pic/cms/".$pic1);
+		if($size[0]>300) {
+			echo "<div style=\"border: solid ".$table." 1px;padding: 4px;padding-bottom: 0px;width: 133px;\"><a href=\"javascript:fotopopup(".($size[0]+0).",".($size[1]+0).",'".$path."foto.php?f=".urlencode("pic/cms/".$pic1)."',true)\">";
+#			echo "<IMG SRC=\"".$path."thumbnail.php?w=133&h=100&file=".urlencode($pic1)."\" alt=\"".html("klikopdefoto","imagetable")."\" width=\"133\" height=\"100\" border=\"0\">";
+			echo "<img src=\"".imageurl($pic1,133,100)."\" alt=\"".html("klikopdefoto","imagetable")."\" width=\"133\" height=\"100\" border=\"0\">";
+			echo "<br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div>";
+		} else {
+#			echo "<IMG SRC=\"".$path."thumbnail.php?w=133&h=100&file=".urlencode($pic1)."\" alt=\"".html("klikopdefoto","imagetable")."\" width=\"133\" height=\"100\" border=\"0\">";
+			echo "<img src=\"".imageurl($pic1,133,100)."\" alt=\"".html("klikopdefoto","imagetable")."\" width=\"133\" height=\"100\" border=\"0\">";
+		}
+		echo "</td><td align=\"center\" valign=\"top\" style=\"padding: 10px;\" width=\"80%\"><h2>".htmlentities($title[$id])."</h2></td><td align=\"right\" valign=\"top\">";
+		$size=getimagesize("pic/cms/".$pic2);
+		$width=round(($size[0]/$size[1])*100);
+		if($size[1]>100) {
+			echo "<div style=\"border: solid ".$table." 1px;padding: 4px;padding-bottom: 0px;width: ".$width."px;\"><a href=\"javascript:fotopopup(".($size[0]+0).",".($size[1]+0).",'".$path."foto.php?f=".urlencode("pic/cms/".$pic2)."',true)\">";
+			echo "<IMG SRC=\"".$path."thumbnail.php?lk=1&file=".urlencode($pic2)."\" alt=\"".html("klikopdefoto","imagetable")."\" width=\"".$width."\" height=\"100\" border=\"0\">";
+			echo "<br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div>";
+		} else {
+			if($size[1]>150) {
+				echo "<IMG SRC=\"".$path."thumbnail.php?lk=1&file=".urlencode($pic2)."\" alt=\"".html("klikopdefoto","imagetable")."\" width=\"".$width."\" height=\"150\" border=\"0\">";
+			} else {
+				echo "<IMG SRC=\"".$path."pic/cms/".$pic2."\" alt=\"\" width=\"".$width."\" height=\"150\">";
+			}
+		}
+		echo "</td></tr>";
+		echo "</table></td></tr>";
+	}
+
+	$table=new wt_table;
+	$table->bordercolor="#0D3E88";
+	$table->width="660";
+	$table->columnwidth="200";
+
+	# Algemene informatie
+	echo "<TR><TD><TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
+	echo "<TR><TH colspan=\"2\">".html("algemenegegevens","toonplaats")."</TH></TR>";
+	echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("skigebied","toonplaats")."</TD><TD><A HREF=\"".$path.txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/\">".htmlentities($db->f("skigebied"))."</a></TD></TR>";
+	echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("land","toonplaats")."</TD><TD>".htmlentities($db->f("land"))."</TD></TR>";
+	if($vars["seizoentype"]==1) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("hoogte","toonplaats")."</TD><TD>".htmlentities($db->f("hoogte"))." ".html("meter","toonplaats")."</TD></TR>";
+	if($db->f("afstandtotutrecht") and $vars["taal"]=="nl") echo "<TR><TD valign=\"top\" width=\"190\" nowrap>Afstand tot Utrecht</TD><TD>".htmlentities($db->f("afstandtotutrecht"))." ".html("kilometer","toonplaats")."</TD></TR>";
+	if($vars["seizoentype"]==1) {
+		if($db->f("omschrijving")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("omschrijving","toonplaats")."</TD><TD>"."<div>".htmlentities_uitgebreid(trim($db->f("omschrijving")))."</div>"."</TD></TR>";
+	} else {
+		if($db->f("omschrijving")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("algemeneomschrijving","toonplaats")."</TD><TD>"."<div>".htmlentities_uitgebreid(trim($db->f("omschrijving")))."</div>"."</TD></TR>";
+	}
+	if($db->f("altnaam_zichtbaar")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("alternatievespelling","toonplaats")."</TD><TD>".htmlentities($db->f("altnaam_zichtbaar"))."</TD></TR>";
+	
+	echo "</TABLE>";
+	echo "</TD></TR>";
+
+
+	if($vars["seizoentype"]==2 and ($db->f("wandelen") or $db->f("fietsen") or $db->f("sportief") or $db->f("bezienswaardigheden") or $db->f("cultuur"))) {
+		echo "<TR><TD><TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
+		echo "<TR><TH colspan=\"2\">".html("aanvullendeinformatie","toonplaats")."</TH></TR>";
+		if($db->f("wandelen")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("wandelen","toonplaats")."</TD><TD>".nl2br(htmlentities($db->f("wandelen")))."</TD></TR>";
+		if($db->f("fietsen")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("fietsen","toonplaats")."</TD><TD>".nl2br(htmlentities($db->f("fietsen")))."</TD></TR>";
+		if($db->f("sportief")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("sportief","toonplaats")."</TD><TD>".nl2br(htmlentities($db->f("sportief")))."</TD></TR>";
+		if($db->f("bezienswaardigheden")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("bezienswaardigheden","toonplaats")."</TD><TD>".nl2br(htmlentities($db->f("bezienswaardigheden")))."</TD></TR>";
+		if($db->f("cultuur")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("cultuur","toonplaats")."</TD><TD>".nl2br(htmlentities($db->f("cultuur")))."</TD></TR>";
+		echo "</TABLE>";
+		echo "</TD></TR>";
+	}
+
+
+	if($db->f("luchthaven") or $db->f("afstandtotluchthaven") or $db->f("treinstation") or $db->f("afstandtottreinstation") or $db->f("vervoeromschrijving")) {
+		echo "<TR><TD><TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
+		echo "<TR><TH colspan=\"2\">".html("vervoer","toonplaats")."</TH></TR>";
+		if($db->f("luchthaven")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("dichtstbijzijndeluchthaven","toonplaats")."</TD><TD>".htmlentities($db->f("luchthaven"))."</TD></TR>";
+		if($db->f("afstandtotluchthaven")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("afstandtotluchthaven","toonplaats")."</TD><TD>".htmlentities($db->f("afstandtotluchthaven"))." ".html("kilometer","toonplaats")."</TD></TR>";
+		if($db->f("treinstation")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("dichtstbijzijndetreinstation","toonplaats")."</TD><TD>".htmlentities($db->f("treinstation"))."</TD></TR>";
+		if($db->f("afstandtottreinstation")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("afstandtottreinstation","toonplaats")."</TD><TD>".htmlentities($db->f("afstandtottreinstation"))." ".html("kilometer","toonplaats")."</TD></TR>";
+		if($db->f("vervoeromschrijving")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aanvullendeinformatievervoer","toonplaats")."</TD><TD>".nl2br(htmlentities($db->f("vervoeromschrijving")))."</TD></TR>";
+		echo "</TABLE>";
+		echo "</TD></TR>";
+	}
+
+	# Links
+	if($toeristenbureau or $weerbericht or $webcam or $kaart or $plattegrond) {
+		echo "<TR><TD><TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
+		echo "<TR><TH>".html("links","toonplaats")."</TH></TR>";
+		if($toeristenbureau) echo "<TR><TD valign=\"top\" nowrap><a href=\"".$toeristenbureau."\" target=\"_blank\">".html("toeristenbureau","toonplaats")."</a></TD></TR>";
+		if($webcam) echo "<TR><TD valign=\"top\" nowrap><a href=\"".$webcam."\" target=\"_blank\">".html("webcam","toonplaats")."</a></TD></TR>";
+		if($weerbericht) echo "<TR><TD valign=\"top\" nowrap><a href=\"".$weerbericht."\" target=\"_blank\">".html("weerbericht","toonplaats")."</a></TD></TR>";
+		if($kaart) echo "<TR><TD valign=\"top\" nowrap><a href=\"".$kaart."\" target=\"_blank\">".html("plandespistes","toonplaats")."</a></TD></TR>";
+		if($plattegrond) echo "<TR><TD valign=\"top\" nowrap><a href=\"".$plattegrond."\" target=\"_blank\">".html("plattegrond","toonplaats")."</a></TD></TR>";
+		$pdf_plattegrond="pdf/plaats_plattegrond/".$db->f("plaats_id").".pdf";
+		if(file_exists($pdf_plattegrond)) {
+			echo "<TR><TD valign=\"top\" nowrap><a href=\"".$path.htmlentities($pdf_plattegrond)."\" target=\"_blank\">".html("pdfplattegrond","toonplaats")."</a></TD></TR>";
+		}
+		echo "</TABLE>";
+		echo "</TD></TR>";
+	}
+
+	echo "<TR><TD>";
+	imagetable(array("plaatsen","plaatsen_breed"),array($db->f("plaats_id"),$db->f("plaats_id")));
+	echo "</TD></TR></TABLE>";
+	echo "<a name=\"accommodaties\"></a><P><B>".html("accommodatiesin","toonplaats")." ".htmlentities($db->f("naam")).", ".htmlentities($db->f("skigebied"))." - ".htmlentities($db->f("land"))."</B>";
+	
+	if($db2->num_rows()) {
+		echo "<p><TABLE border=\"0\" cellspacing=\"0\" cellpadding=\"4\" width=\"740\">";
+		echo balk();
+		while($db2->next_record()) {
+			echo "<TR><TD width=\"1%\">";
+			if(file_exists("pic/cms/types_specifiek_tn/".$db2->f("type_id").".jpg")) {
+				$pic="pic/cms/types_specifiek_tn/".$db2->f("type_id").".jpg";
+			} else {
+				$pic="pic/cms/accommodaties_tn/".$db2->f("accommodatie_id").".jpg";
+			}
+			$naam=$db2->f("naam").($db2->f("type") ? " ".$db2->f("type") : "");
+			if(file_exists($pic)) {
+				echo "<A HREF=\"".$path.txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/\"><IMG SRC=\"".$path.$pic."\" alt=\"".htmlentities($naam)."\" border=\"0\"></A>";
+			} else {
+				echo "<IMG SRC=\"".$path."pic/cms/accommodaties_tn/0.jpg\" alt=\"Geen afbeelding beschikbaar\" border=\"0\">";
+			}
+			echo "</TD><TD><B><A HREF=\"".$path."accommodatie/".$db2->f("begincode").$db2->f("type_id")."/\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$naam)."</A></B>";
+			echo "<BR>".htmlentities($db2->f("plaats")." - ".$db2->f("skigebied")." - ".$db2->f("land"));
+			echo "</TD><TD align=\"right\"><NOBR>".($db2->f("soortaccommodatie")<>5 ? $db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ".html("personen") : "")."</NOBR></TD><TD>".($db2->f("slaapkamers") ? $db2->f("slaapkamers")."&nbsp;".($db2->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."<BR>" : "").($db2->f("badkamers") ? $db2->f("badkamers")."&nbsp;".($db2->f("badkamers")==1 ? html("badkamer") : html("badkamers")) : "")."</TD></TR>";
+			echo "</TD></TR>";
+			echo balk();
+		}
+		echo "</TABLE>";
+	} else {
+		echo "<P><B>".html("momenteelgeenaccommodaties","toonplaats",array("v_plaatsnaam"=>$db->f("naam")));
+		echo "<br>".html("welandereaccommodaties","toonplaats",array("l1"=>"accommodaties?filled=1&fsg=".$db->f("land_id")."-0","v_land"=>$db->f("land")))."<p>";
+	}
+}
+
+?>

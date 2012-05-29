@@ -1,0 +1,72 @@
+<?php
+
+$cms->display_cms();
+
+if($_GET["show"]==35) {
+
+	if($_GET["35k0"] and $login->userlevel<10) {
+		$db->query("UPDATE optieaanvraag SET gezien=1 WHERE optieaanvraag_id='".addslashes($_GET["35k0"])."';");
+	}
+	
+	$db->query("SELECT naam FROM leverancier WHERE leverancier_id='".addslashes($vars["temp_optieaanvraag"]["acc"]["leverancier_id"])."';");
+	if($db->next_record()) {
+		$leverancier=$db->f("naam");
+	}
+
+	echo "<p><table class=\"wt_cms_show\" cellspacing=\"0\" cellpadding=\"7\">";
+	echo "<tr><td colspan=\"2\"><a href=\"".htmlentities($vars["temp_optieaanvraag"]["acc"]["url"])."\" target=\"_blank\">".htmlentities($vars["alletypes"][$vars["temp_optieaanvraag"]["acc"]["type_id"]])."</a></td></tr>";
+
+	# Voorraad tonen
+	$db->query("SELECT voorraad_garantie, voorraad_allotment, voorraad_vervallen_allotment, voorraad_xml, voorraad_request FROM tarief WHERE type_id='".addslashes($vars["temp_optieaanvraag"]["acc"]["type_id"])."' AND week='".addslashes($vars["temp_optieaanvraag"]["aankomstdatum"])."';");
+	if($db->next_record()) {
+		if($db->f("voorraad_garantie")>0) echo "<tr><td style=\"width:140px;\">Voorraad in garantie</td><td>".$db->f("voorraad_garantie")."</td></tr>";
+		if($db->f("voorraad_allotment")>0) echo "<tr><td style=\"width:140px;\">Voorraad allotment</td><td>".$db->f("voorraad_allotment")."</td></tr>";
+		if($db->f("voorraad_vervallen_allotment")>0) echo "<tr><td style=\"width:140px;\">Voorraad vervallen allotment</td><td>".$db->f("voorraad_vervallen_allotment")."</td></tr>";
+		if($db->f("voorraad_xml")>0) echo "<tr><td style=\"width:140px;\">Voorraad XML</td><td>".$db->f("voorraad_xml")."</td></tr>";
+		if($db->f("voorraad_request")>0) echo "<tr><td style=\"width:140px;\">Voorraad request</td><td>".$db->f("voorraad_request")."</td></tr>";
+	}
+	echo "</table>";
+
+	if($_GET["sentmail"]) {
+		echo "<p><span style=\"color:green;\">Mail is verzonden aan <i>".htmlentities($_GET["sentmail"])."</i>.</span>";
+	}
+
+#echo wt_dump($vars["temp_optieaanvraag"]["acc"]);
+
+	echo "<p><b>Status: ".htmlentities($vars["optieaanvragen_status"][$_GET["status"]])."</b><p>";
+	echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+	echo "Status wijzigen:&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "<input type=\"hidden\" name=\"statusfilled\" value=\"\1\">";
+	echo "<select name=\"status\" onchange=\"document.frm.submit();\" style=\"width:344px;\">";
+	while(list($key,$value)=each($vars["optieaanvragen_status"])) {
+		echo "<option value=\"".$key."\"".($_GET["status"]==$key ? " selected" : "").">".htmlentities($value)."&nbsp;</option>\n";
+	}
+	echo "</select>";
+	echo "</form>";
+	
+	if($_GET["status"]<6) {
+		echo "<p>Of status wijzigen en mail sturen:<ul>";
+		if($_GET["status"]==1 or $_GET["status"]==2) {
+		} elseif($_GET["status"]==3) {
+			# Formulier "is goedgekeurd" of "is afgekeurd" + bijbehorend mailtje aan klant
+		} elseif($_GET["status"]==5) {
+		} elseif($_GET["status"]==4 or $_GET["status"]==6) {
+			# "klant gaat erop in" of "klant gaat er niet op in". Bij afkeuren: mailtje aan leverancier
+#			echo "<li><a href=\"cms_bestelmailfax.php?t=1&lid=".$vars["temp_optieaanvraag"]["acc"]["leverancier_id"]."&burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&oaid=".htmlentities($_GET["35k0"])."\">Klant gaat op optie in (leverancier bestelling mailen)</a></li>";
+		}
+
+		if($_GET["status"]<2) {
+			echo "<li><a href=\"cms_mailsystem.php?t=1&lid=".$vars["temp_optieaanvraag"]["acc"]["leverancier_id"]."&burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&oaid=".htmlentities($_GET["35k0"])."\">Optie aanvragen (leverancier mailen)</a></li>";
+		}
+		echo "<li><a href=\"cms_mailsystem.php?t=2&lid=".$vars["temp_optieaanvraag"]["acc"]["leverancier_id"]."&burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&oaid=".htmlentities($_GET["35k0"])."\">Leverancier heeft optie goedgekeurd (klant mailen)</a></li>";
+		echo "<li><a href=\"cms_mailsystem.php?t=3&lid=".$vars["temp_optieaanvraag"]["acc"]["leverancier_id"]."&burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&oaid=".htmlentities($_GET["35k0"])."\">Leverancier heeft optie afgekeurd (klant mailen)</a></li>";
+		echo "<li><a href=\"cms_mailsystem.php?t=4&lid=".$vars["temp_optieaanvraag"]["acc"]["leverancier_id"]."&burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&oaid=".htmlentities($_GET["35k0"])."\">Klant ziet van optie af (leverancier mailen)</a></li>";
+		echo "<li><a href=\"".htmlentities(ereg_replace("/[a-z0-9]+/[A-Z0-9]+/$","/",$vars["temp_optieaanvraag"]["acc"]["url"]))."boeken.php?tid=".$vars["temp_optieaanvraag"]["acc"]["type_id"]."&d=".$vars["temp_optieaanvraag"]["aankomstdatum"]."&ap=".$vars["temp_optieaanvraag"]["aantalpersonen"]."&oaid=".htmlentities($_GET["35k0"])."&back=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."\" target=\"_blank\">Klant gaat op optie in (boeking invoeren)</a></li>";
+
+		echo "</ul>";
+	}
+#	echo wt_dump($vars["temp_optieaanvraag"]);
+	$cms->display_log(35);
+}
+
+?>

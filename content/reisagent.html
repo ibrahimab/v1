@@ -1,0 +1,65 @@
+<?php
+
+if($login_rb->logged_in) {
+	echo html("ubentingelogd","reisbureau");
+	
+	echo "<br>&nbsp;<ul>";
+	if($vars["taal"]=="nl") {
+		echo "<li><span class=\"gekleurdetekst\" style=\"font-weight:bold;\">Nieuws:</span> <a href=\"".$vars["path"]."reisagent_nieuws.php\">Nieuwe functie: onze informatie met jouw logo!</a></li>";
+	}
+	echo "<li><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php\">".html("accommodatieboeken","reisbureau")."</a></li>";
+	echo "<li><a href=\"".$vars["path"]."reisagent_overzicht.php\">".html("overzichtboekingen","reisbureau")."</a></li>";
+	echo "<li><a href=\"".$vars["path"]."reisagent_overzicht.php?calculations=1\">".html("overzichtprijsberekeningen","reisbureau")."</a></li>";
+	echo "<li><a href=\"".$vars["path"]."reisagent_overzicht.php?fin=1\">".html("financieeloverzichtboekingen","reisbureau")."</a></li>";
+	echo "<li><a href=\"".$vars["path"]."reisagent_overzicht.php?mijngeg=1\">".html("mijngegevens_reisagent")."</a></li>";
+	
+	if($login_rb->vars["hoofdgebruiker"]) {
+		echo "<li><a href=\"".$vars["path"]."reisagent_aanmelden.php?newagent=1\">".html("nieuweagenttoevoegen","reisbureau")."</a></li>";
+	}
+	if($vars["taal"]=="nl") {
+		echo "<li><a href=\"".$vars["path"]."pdf/handleiding-inlog-reisagenten-chalettour-zomerhuisje.pdf\" target=\"_blank\">".html("handleiding","reisbureau")."</a> (PDF)</li>";
+	}
+	echo "</ul>";
+	if($vars["taal"]=="nl") {
+		# Verstuurde nieuwsbrieven tonen
+		if($xml=simplexml_load_file("http://www.mailingmanager.nl/xmlexport_m.php?listid=34&c=a68090ef")) {
+			foreach($xml->mailing as $value) {
+				if(intval($value->verzenddatum)>time()-(183*86400)) {
+					$mmregel[intval($value->verzenddatum)]="<li><a href=\"".utf8_decode($value->url)."\" target=\"_blank\" rel=\"nofollow\">".utf8_decode($value->onderwerp)."</a> (".DATUM("D MAAND JJJJ",intval($value->verzenddatum)).")</li>";
+				}
+			}
+		}
+		if(is_array($mmregel)) {
+			krsort($mmregel);
+			echo "<br><hr><br>";
+			echo "<div style=\"margin-bottom:10px;\">Bekijk onze onlangs verstuurde reisagent-nieuwsbrieven:</div>";
+			echo "<ul>";
+			while(list($key,$value)=each($mmregel)) {
+				$mmregel_teller++;
+				if($mmregel_teller<=3) {
+					echo $value;
+				}
+			}
+			echo "</ul>";
+		}
+		
+	}
+	
+	
+} else {
+	if($_GET["nietactief"]) {
+		echo "<div class=\"opmerkingbox\">".html("nietactief","reisbureau",array("v_website"=>$vars["websitenaam"]))."</div>";
+	}
+	if($voorkant_cms) {
+		echo "<div class=\"opmerkingbox\">Let op: je bent ingelogd in het CMS. Tegelijk als CMS-gebruiker en reisagent inloggen is niet toegestaan.</div>";
+	} else {
+		echo html("inleiding","reisbureau",array("h_1"=>"<a href=\"".txt("menu_inloggen").".php\">","h_2"=>"</a>"))."<p>";
+		$login_rb->loginform();
+		echo "<p><a href=\"".$path."reisagent_wachtwoord.php\">".html("wwvergeten","reisbureau")." &raquo;</a>";
+		if($vars["taal"]=="nl") {
+			echo "<p><a href=\"".$path."reisagent_aanmelden.php\">".html("noggeenaccount","reisbureau")." &raquo;</a>";
+		}
+	}
+}
+
+?>

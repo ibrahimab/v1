@@ -1,0 +1,159 @@
+<?php
+
+if($_GET["mijngeg"]) {
+	# Mijn gegevens
+	if($_GET["fo"]=="frm") {
+		echo html("gegevensaangepast","reisbureau_overzicht");
+	} else {
+		$form->display_all();
+	}
+
+} elseif($_GET["calculations"]) {
+	if($login_rb->vars["inzicht_prijsberekeningen"]) {
+		$reisbureau_user_id_inquery="SELECT user_id FROM reisbureau_user WHERE reisbureau_id=(SELECT reisbureau_id FROM reisbureau_user WHERE user_id='".addslashes($login_rb->user_id)."')";
+	} else {
+		$reisbureau_user_id_inquery=$login_rb->user_id;
+	}
+	$db->query("SELECT DISTINCT b.website, b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact FROM boeking b WHERE b.calc_bewaren=1 AND b.aankomstdatum>'".(time())."' AND b.reisbureau_user_id IN (".$reisbureau_user_id_inquery.") AND b.website='".$vars["website"]."';");
+#	echo $db->lastquery;
+	if($db->num_rows()) {
+		$tl=new tablelist;
+		$tl->settings["arrowcolor"]="white";
+		$tl->settings["systemid"]=1;
+	#	$tl->sort_desc=true;
+		$tl->sort=array("aankomst","nummer");
+		
+		$tl->field_show("calc.php?calcid=[ID]",txt("boekingopenen","reisbureau_overzicht"));
+		$tl->field_text("aankomst",txt("aankomst","reisbureau_overzicht"));
+		$tl->field_text("accommodatie",txt("accommodatie","reisbureau_overzicht"));
+		
+		while($db->next_record()) {
+	#	echo $db->f("bevestigdatum")." ";
+			$tl->add_url_id($db->f("primkey"),$url_id);
+	#		$tl->add_record("aankomst",$db->f("boeking_id"),wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")),$db->f("achternaam").$db->f("voornaam").$db->f("tussenvoegsel"));
+			$tl->add_record("aankomst",$db->f("boeking_id"),date("d-m-Y",$db->f("aankomstdatum_exact")),$db->f("aankomstdatum_exact"),true);
+			$tl->add_record("accommodatie",$db->f("boeking_id"),$db->f("naam_accommodatie"));
+		}
+		echo $tl->table("tbl",1);
+		
+	} else {
+		echo html("geenprijsberekeningen","reisbureau_overzicht");
+	}
+	$db->query("SELECT websites FROM reisbureau WHERE reisbureau_id='".addslashes($login_rb->vars["reisbureau_id"])."';");
+	if($db->next_record()) {
+		if(ereg(",",$db->f("websites"))) {
+			echo "<br><br>".html("voorandereprijsberekeningen","reisbureau_overzicht").":<ul>";
+			$sites=split(",",$db->f("websites"));
+			while(list($key,$value)=each($sites)) {
+				if($value<>$vars["website"]) {
+					$url=$vars["websiteinfo"]["basehref"][$value]."reisagent_overzicht.php?calculations=1";
+					echo "<li><a href=\"".htmlentities($url)."\" target=\"_blank\">".htmlentities($vars["websiteinfo"]["websitenaam"][$value])."</a></li>";
+				}
+			}
+			echo "</ul>";
+		}
+	}
+} elseif($_GET["fin"]) {
+	#
+	# Financieel overzicht
+	#
+	
+	# Betaalde bedragen (voldaan) bepalen
+	$db->query("SELECT boeking_id, sum(bedrag) AS bedrag FROM boeking_betaling GROUP BY boeking_id;");
+	while($db->next_record()) {
+		$voldaan_array[$db->f("boeking_id")]=round($db->f("bedrag"),2);
+	}
+	
+	if($login_rb->vars["inzicht_boekingen"]) {
+		$reisbureau_user_id_inquery="SELECT user_id FROM reisbureau_user WHERE reisbureau_id=(SELECT reisbureau_id FROM reisbureau_user WHERE user_id='".addslashes($login_rb->user_id)."')";
+	} else {
+		$reisbureau_user_id_inquery=$login_rb->user_id;
+	}
+	if($_GET["boekingenarchief"]) {
+		$andq=" AND b.vertrekdatum_exact<'".(time()-86400)."'";
+		echo "<b>".html("boekingenverleden","reisbureau_overzicht")."</b><br>";
+	} else {
+		$andq=" AND b.vertrekdatum_exact>='".(time()-86400)."'";
+		echo "<b>".html("actueleboekingen","reisbureau_overzicht")."</b><br>";
+	}
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.aankomstdatum_exact, b.totale_reissom, b.aanbetaling1_dagennaboeken, b.aanbetaling1 , b.aanbetaling1_gewijzigd, UNIX_TIMESTAMP(b.aanbetaling2_datum) AS aanbetaling2_datum, b.aanbetaling2, b.totale_reissom_dagenvooraankomst, b.aanmaning_tekst, b.aanmaning_mailblokkeren, UNIX_TIMESTAMP(b.aanmaning_verstuurdatum) AS aanmaning_verstuurdatum, b.aanmaning_aantal, b.opmerkingen_intern, UNIX_TIMESTAMP(b.opmerkingen_intern_gewijzigd) AS opmerkingen_intern_gewijzigd, b.reisbureau_user_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.plaats, bp.land FROM boeking b, boeking_persoon bp, factuur f WHERE f.boeking_id=b.boeking_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.boekingsnummer<>'' AND b.reisbureau_user_id IN (".$reisbureau_user_id_inquery.")".$andq." ORDER BY b.aankomstdatum_exact;");
+	if($db->num_rows()) {
+		echo "<br><table cellspacing=\"0\" class=\"tbl\">";
+		echo "<tr><th>".html("aankomst","reisbureau")."</th><th>".html("nummer","reisbureau")."</th><th>".html("hoofdboeker","reisbureau")."</th><th>".html("reissom","reisbureau")." &euro;</th><th>".html("voldaan","reisbureau")." &euro;</th><th>".html("openstaand","reisbureau")." &euro;</th><th>".html("factuur","reisbureau")."</th></tr>";
+		while($db->next_record()) {
+			$totaal=round($db->f("totale_reissom"),2);
+			$voldaan=$voldaan_array[$db->f("boeking_id")];
+			$voldaan=round($voldaan,2);
+			$openstaand=$totaal-$voldaan;
+			$openstaand=round($openstaand,2);
+			$factuur=true;
+			$db2->query("SELECT factuur_id FROM factuur WHERE boeking_id='".addslashes($db->f("boeking_id"))."' AND filename<>'' ORDER BY volgorde_datetime DESC LIMIT 0,1;");
+			if($db2->next_record()) {
+				$factuur=$db2->f("factuur_id");
+			} else {
+				$factuur="";
+			}
+			echo "<tr><td valign=\"top\">".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\">".htmlentities($db->f("boekingsnummer"))."</td><td valign=\"top\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")).", ".$db->f("plaats").(!eregi("nederland",$db->f("land")) ? " / ".$db->f("land") : ""))."</td><td align=\"right\" valign=\"top\">".number_format($db->f("totale_reissom"),2,",",".")."</td><td align=\"right\" valign=\"top\">".($voldaan_array[$db->f("boeking_id")]<>0 ? number_format($voldaan_array[$db->f("boeking_id")],2,",",".") : "-")."</td><td align=\"right\" valign=\"top\">".($openstaand<>0 ? number_format($openstaand,2,",",".") : "-")."</td><td align=\"center\" valign=\"top\">".($factuur ? "<a href=\"".$vars["path"]."reisagent_factuur_dl.php?f=".$factuur."\"><img src=\"".$vars["path"]."pic/pdflogo.gif\" border=\"0\" target=\"_blank\"></a>" : "&nbsp;")."</td></tr>";
+		}
+		echo "</table>";
+	} else {
+		echo html("geenboekingen","reisbureau_overzicht",array("v_websitenaam"=>$vars["websitenaam"]));
+	}
+	if($_GET["boekingenarchief"]) {
+		echo "<p><a href=\"".htmlentities(str_replace("&boekingenarchief=1","",$_SERVER["REQUEST_URI"]))."\">".html("bekijkboekingenactueel","reisbureau_overzicht")."</a></p>";
+	} else {
+		echo "<p><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&boekingenarchief=1\">".html("bekijkboekingenverleden","reisbureau_overzicht")."</a></p>";
+	}
+} else {
+	if($login_rb->vars["inzicht_boekingen"]) {
+		$reisbureau_user_id_inquery="SELECT user_id FROM reisbureau_user WHERE reisbureau_id=(SELECT reisbureau_id FROM reisbureau_user WHERE user_id='".addslashes($login_rb->user_id)."')";
+	} else {
+		$reisbureau_user_id_inquery=$login_rb->user_id;
+	}
+	$db->query("SELECT DISTINCT b.website, b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.plaats, bp.land FROM boeking b, boeking_persoon bp WHERE b.boeking_id=bp.boeking_id AND b.bevestigdatum IS NOT NULL AND b.aankomstdatum>'".(time()-864000)."' AND bp.persoonnummer=1 AND b.reisbureau_user_id IN (".$reisbureau_user_id_inquery.") AND b.website='".$vars["website"]."';");
+	if($db->num_rows()) {
+		$tl=new tablelist;
+		$tl->settings["arrowcolor"]="white";
+		$tl->settings["systemid"]=1;
+	#	$tl->sort_desc=true;
+		$tl->sort=array("aankomst","nummer");
+		
+		$tl->field_show("bsys.php?bid=[ID]",txt("boekingopenen","reisbureau_overzicht"));
+		$tl->field_text("aankomst",txt("aankomst","reisbureau_overzicht"));
+		$tl->field_text("boekingsnummer",txt("nummer","reisbureau_overzicht"),"",array("index_field"=>true));
+		$tl->field_text("accommodatie",txt("accommodatie","reisbureau_overzicht"));
+		$tl->field_text("hoofdboeker",txt("hoofdboeker","reisbureau_overzicht"));
+	
+		
+		while($db->next_record()) {
+	#	echo $db->f("bevestigdatum")." ";
+			$tl->add_url_id($db->f("primkey"),$url_id);
+	#		$tl->add_record("aankomst",$db->f("boeking_id"),wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")),$db->f("achternaam").$db->f("voornaam").$db->f("tussenvoegsel"));
+			$tl->add_record("aankomst",$db->f("boeking_id"),date("d-m-Y",$db->f("aankomstdatum_exact")),$db->f("aankomstdatum_exact"),true);
+			$tl->add_record("hoofdboeker",$db->f("boeking_id"),wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")).", ".$db->f("plaats").(!eregi("nederland",$db->f("land")) ? " / ".$db->f("land") : ""));
+			$tl->add_record("boekingsnummer",$db->f("boeking_id"),$db->f("boekingsnummer"));
+			$tl->add_record("accommodatie",$db->f("boeking_id"),$db->f("naam_accommodatie"));
+		}
+		echo $tl->table("tbl",1);
+		
+	} else {
+		echo html("geenboekingen","reisbureau_overzicht");
+	}
+	
+	$db->query("SELECT websites FROM reisbureau WHERE reisbureau_id='".addslashes($login_rb->vars["reisbureau_id"])."';");
+	if($db->next_record()) {
+		if(ereg(",",$db->f("websites"))) {
+			echo "<br><br>".html("voorandereboekingen","reisbureau_overzicht").":<ul>";
+			$sites=split(",",$db->f("websites"));
+			while(list($key,$value)=each($sites)) {
+				if($value<>$vars["website"]) {
+					$url=$vars["websiteinfo"]["basehref"][$value]."reisagent_overzicht.php";
+					echo "<li><a href=\"".htmlentities($url)."\" target=\"_blank\">".htmlentities($vars["websiteinfo"]["websitenaam"][$value])."</a></li>";
+				}
+			}
+			echo "</ul>";
+		}
+	}
+}
+
+?>

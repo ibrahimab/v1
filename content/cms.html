@@ -1,0 +1,593 @@
+<?php
+
+if(!$login->logged_in) {
+	if($_COOKIE["levli"]) {
+		echo "<p>Inloggen in het CMS kan niet als er al is ingelogd als leverancier/eigenaar.</p><a href=\"".$vars["path"]."lev_login.php?logout=145\">&gt; &gt; &gt; uitloggen als leverancier/eigenaar &gt; &gt; &gt;</a>";
+	} else {
+		echo "Dit systeem is alleen toegankelijk voor bevoegden.<p>";
+		$login->loginform();
+		if($_COOKIE["flc"]) {
+			echo "<p><a href=\"cms.php?delflc=1\">Ik wil de voorkant van de site bekijken zonder te zijn ingelogd</a>.";
+		}
+	}
+	if(!$_GET["logout"] and !$_GET["reloaded"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+		wt_mail("systeembeheer@webtastic.nl","Chalet inlogform opgevraagd",$vars["basehref"]."\n".$_SERVER["REQUEST_URI"]."\n\n_COOKIE\n".wt_dump($_COOKIE,false)."\n\n_SERVER\n".wt_dump($_SERVER,false));
+	}
+} else {
+
+#	echo "<span style=\"font-size:1.3em;color:red;\">Het nieuwe [....]systeem staat online. Bij eventuele problemen/onduidelijkheid: neem contact op met <a href=\"mailto:jeroen@webtastic.nl\">Jeroen</a>.</span><p>";
+
+	if($login->userlevel==10 and !$_GET["meldingen"]) {
+#		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+		
+#		gekoppelde_acc_opslaan_voor_zoekfunctie();		
+		
+		# Italissima-facturen op "nog niet geexporteerd" zetten
+#		$db->query("SELECT boeking_id FROM boeking WHERE website='I' ORDER BY boeking_id;");
+#		while($db->next_record()) {
+#			$db2->query("UPDATE factuur SET geexporteerd=0, exporteermoment=NULL WHERE boeking_id='".$db->f("boeking_id")."';");
+#			echo $db2->lq."<br>";
+#		}
+
+
+		#
+		# FUNCTIE BEWAREN!! Kan later nogmaals nodig zijn
+		#
+#		# kenmerk uit plaatsen halen
+#		$verwijderen="3";
+#		$db->query("SELECT plaats_id, kenmerken, kenmerken_nee, kenmerken_onbekend, kenmerken_irrelevant FROM plaats WHERE kenmerken REGEXP '[[:<:]]".$verwijderen."[[:>:]]' OR kenmerken_nee REGEXP '[[:<:]]".$verwijderen."[[:>:]]' OR kenmerken_onbekend REGEXP '[[:<:]]".$verwijderen."[[:>:]]' OR kenmerken_irrelevant REGEXP '[[:<:]]".$verwijderen."[[:>:]]';");
+#		while($db->next_record()) {
+#		
+#			$kenmerken=$db->f("kenmerken");
+#			$kenmerken=preg_replace("/^".$verwijderen."$/","",$kenmerken);
+#			$kenmerken=preg_replace("/^".$verwijderen.",/","",$kenmerken);
+#			$kenmerken=preg_replace("/,".$verwijderen."$/","",$kenmerken);
+#			$kenmerken=preg_replace("/,".$verwijderen.",/",",",$kenmerken);
+#
+#			$kenmerken_nee=$db->f("kenmerken_nee");
+#			$kenmerken_nee=preg_replace("/^".$verwijderen."$/","",$kenmerken_nee);
+#			$kenmerken_nee=preg_replace("/^".$verwijderen.",/","",$kenmerken_nee);
+#			$kenmerken_nee=preg_replace("/,".$verwijderen."$/","",$kenmerken_nee);
+#			$kenmerken_nee=preg_replace("/,".$verwijderen.",/",",",$kenmerken_nee);
+#
+#			$kenmerken_onbekend=$db->f("kenmerken_onbekend");
+#			$kenmerken_onbekend=preg_replace("/^".$verwijderen."$/","",$kenmerken_onbekend);
+#			$kenmerken_onbekend=preg_replace("/^".$verwijderen.",/","",$kenmerken_onbekend);
+#			$kenmerken_onbekend=preg_replace("/,".$verwijderen."$/","",$kenmerken_onbekend);
+#			$kenmerken_onbekend=preg_replace("/,".$verwijderen.",/",",",$kenmerken_onbekend);
+#
+#			$kenmerken_irrelevant=$db->f("kenmerken_irrelevant");
+#			$kenmerken_irrelevant=preg_replace("/^".$verwijderen."$/","",$kenmerken_irrelevant);
+#			$kenmerken_irrelevant=preg_replace("/^".$verwijderen.",/","",$kenmerken_irrelevant);
+#			$kenmerken_irrelevant=preg_replace("/,".$verwijderen."$/","",$kenmerken_irrelevant);
+#			$kenmerken_irrelevant=preg_replace("/,".$verwijderen.",/",",",$kenmerken_irrelevant);
+#
+#			$db2->query("UPDATE plaats SET kenmerken='".addslashes($kenmerken)."', kenmerken_nee='".addslashes($kenmerken_nee)."', kenmerken_onbekend='".addslashes($kenmerken_onbekend)."', kenmerken_irrelevant='".addslashes($kenmerken_irrelevant)."' WHERE plaats_id='".$db->f("plaats_id")."';");
+#			echo $db2->lq."<br>";
+#		}
+#
+		# reisbureaus aan Italissima koppelen
+#		$db->query("SELECT reisbureau_id, websites FROM reisbureau WHERE websites LIKE '%Z%';");
+#		while($db->next_record()) {
+#			if(!preg_match("/I/",$db->f("websites"))) {
+#				$db2->query("UPDATE reisbureau SET websites='".$db->f("websites").",I' WHERE reisbureau_id='".$db->f("reisbureau_id")."';");
+#				echo $db2->lq."<br>";
+#			}
+#		}
+
+#		# plaatsen aan Italissima toevoegen
+#		$db->query("SELECT DISTINCT v.plaats_id, p.websites FROM view_accommodatie v, plaats p WHERE v.plaats_id=p.plaats_id AND p.land_id=5 AND p.wzt=2 AND p.websites LIKE '%Z%';");
+#		while($db->next_record()) {
+#			if(!preg_match("/I/",$db->f("websites"))) {
+#				$db2->query("UPDATE plaats SET websites='".$db->f("websites").",I' WHERE plaats_id='".$db->f("plaats_id")."';");
+#				echo $db2->lq."<br>";
+#			}
+#		}
+
+#		# regio's aan Italissima toevoegen
+#		$db->query("SELECT DISTINCT v.skigebied_id, s.websites FROM view_accommodatie v, skigebied s WHERE v.skigebied_id=s.skigebied_id AND v.land_id=5 AND v.wzt=2 AND s.websites LIKE '%Z%';");
+#		while($db->next_record()) {
+#			if(!preg_match("/I/",$db->f("websites"))) {
+#				$db2->query("UPDATE skigebied SET websites='".$db->f("websites").",I' WHERE skigebied_id='".$db->f("skigebied_id")."';");
+#				echo $db2->lq."<br>";
+#			}
+#		}
+		
+#		# types aan Italissima toevoegen
+#		$db->query("SELECT v.type_id, v.websites FROM view_accommodatie v WHERE v.land_id=5 AND v.wzt=2 AND v.websites LIKE '%Z%';");
+#		while($db->next_record()) {
+#			if(!preg_match("/I/",$db->f("websites"))) {
+#				$db2->query("UPDATE type SET websites='".$db->f("websites").",I' WHERE type_id='".$db->f("type_id")."';");
+#				echo $db2->lq."<br>";				
+#			}
+#		}
+#
+#		# accommodaties aan Italissima toevoegen
+#		$db->query("SELECT DISTINCT v.accommodatie_id, a.websites FROM view_accommodatie v, accommodatie a WHERE v.accommodatie_id=a.accommodatie_id AND v.land_id=5 AND v.wzt=2 AND a.websites LIKE '%Z%';");
+#		while($db->next_record()) {
+#			if(!preg_match("/I/",$db->f("websites"))) {
+#				$db2->query("UPDATE accommodatie SET websites='".$db->f("websites").",I' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+#				echo $db2->lq."<br>";
+#			}
+#		}
+
+		#
+		# FUNCTIE BEWAREN!! Kan later nogmaals nodig zijn
+		#
+		# Nieuwe kenmerken als onbekend aanmerken bij zomeraccommodaties
+		#
+#		$nieuwe_kenmerken="39,40,41";
+#		$db->query("SELECT accommodatie_id, kenmerken_onbekend FROM accommodatie WHERE wzt=2;");
+#		while($db->next_record()) {
+#			if(!preg_match("/".$nieuwe_kenmerken."/",$db->f("kenmerken_onbekend"))) {
+#				if($db->f("kenmerken_onbekend")) {
+#					$db2->query("UPDATE accommodatie SET kenmerken_onbekend='".$db->f("kenmerken_onbekend").",".$nieuwe_kenmerken."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+#				} else {
+#					$db2->query("UPDATE accommodatie SET kenmerken_onbekend='".$nieuwe_kenmerken."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+#				}
+#				echo $db2->lq."<br>";
+#			}
+#		}
+
+#exit;
+		# totale_reissom_inkoop bepalen
+#		$db->query("SELECT boeking_id, totale_reissom_inkoop, seizoen_id FROM boeking WHERE 1=1 AND seizoen_id IN (17,18,19) AND boekingsnummer<>'' AND totale_reissom IS NOT NULL AND factuurdatum IS NOT NULL;");
+#		while($db->next_record()) {
+#			$gegevens=get_boekinginfo($db->f("boeking_id"));
+#			if($gegevens["stap1"]["totale_reissom"]==$gegevens["fin"]["totale_reissom"]) {
+#				echo $db->f("boeking_id").", seizoen ".$db->f("seizoen_id")."<br>";
+#				$reissom_tabel=reissom_tabel($gegevens,$gegevens["stap1"]["accinfo"],"",true);
+#
+#				$db2->query("DELETE FROM boeking_optieinkoop WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."';");
+#				while(list($key,$value)=@each($reissom_tabel["bedragen"]["optieinkoop"])) {
+#					if($key) {
+#						$db2->query("INSERT INTO boeking_optieinkoop SET boeking_id='".$gegevens["stap1"]["boekingid"]."', optiecategorie='".addslashes($key)."', bedrag='".$value."';");
+#					} elseif(!$gegevens["stap1"]["geannuleerd"]) {
+#						trigger_error("lege optiecategorie bij boeking ".$gegevens["stap1"]["boekingsnummer"],E_USER_NOTICE);
+#					}
+#				}
+#
+##				if($reissom_tabel["bedragen"]["inkoop"]>0) {
+##					if($db->f("totale_reissom_inkoop")) {
+##						if(floatval($db->f("totale_reissom_inkoop"))<>floatval($reissom_tabel["bedragen"]["inkoop"])) {
+##							echo "<b>anders: ".$db->f("totale_reissom_inkoop")."===".$reissom_tabel["bedragen"]["inkoop"]."</b><br>";
+##						}
+##					}
+##					$db2->query("UPDATE boeking SET totale_reissom_inkoop_actueel='".addslashes($reissom_tabel["bedragen"]["inkoop"])."' WHERE boeking_id='".$db->f("boeking_id")."';");
+##					echo $db2->lq."<br>";
+##				}
+#				flush();
+#			} else {
+#				echo "Bedragen verschillen: ".$db->f("boeking_id").", seizoen ".$db->f("seizoen_id").":".$gegevens["stap1"]["totale_reissom"]."<>".$gegevens["fin"]["totale_reissom"]."<br>";
+#				$db2->query("UPDATE boeking SET totale_reissom_inkoop_actueel='".addslashes($reissom_tabel["bedragen"]["inkoop"])."' WHERE boeking_id='".$db->f("boeking_id")."';");
+#			}
+#			echo "<hr>";
+#		}
+
+#		$db->query("UPDATE boeking SET factuurbedrag_gecontroleerd=0;");
+
+#		$db->query("UPDATE boeking SET eenmaliggecontroleerd=0 WHERE seizoen_id IN (17,19);");
+		
+		# leverancierscode_oud vullen
+#		$db->query("UPDATE boeking SET leverancierscode_oud=leverancierscode;");
+
+		# akkoordstatus overzetten naar factuurbedrag_gecontroleerd
+#		$db->query("UPDATE `boeking` SET factuurbedrag_gecontroleerd=1 WHERE akkoordstatus=1;");
+		
+		# besteldatum bepalen op basis van logbestand
+#		$db->query("SELECT boeking_id, log FROM boeking WHERE besteldatum IS NULL AND boekingsnummer<>'' AND seizoen_id IN (17,18,19) AND geannuleerd=0 AND besteldatum IS NULL ORDER BY boeking_id;");
+#		while($db->next_record()) {
+#			$besteldatum=0;
+#			echo $db->f("boeking_id")." ";
+#			if(preg_match("/([0-9]+)-[a-z][0-9]{0,3}-[a-z]- bestelmail/",$db->f("log"),$regs)) {
+#				echo date("r",$regs[1]);
+#				$besteldatum=$regs[1];
+#			} elseif(preg_match("/([0-9]+)-[a-z][0-9]{0,3}-[a-z]- bestelling via xml verzonden/",$db->f("log"),$regs)) {
+#				echo date("r",$regs[1])." (xml)";
+#				$besteldatum=$regs[1];
+#			} elseif(preg_match("/boeking gekoppeld aan garantie/",$db->f("log"))) {
+#				echo " garantie";
+#				$db2->query("SELECT UNIX_TIMESTAMP(inkoopdatum) AS inkoopdatum FROM garantie WHERE boeking_id='".$db->f("boeking_id")."';");
+#				if($db2->next_record()) {
+#					$besteldatum=$db2->f("inkoopdatum");
+#				}
+#			} elseif(preg_match("/voorraad allotment 1 afboeken/",$db->f("log"))) {
+#				echo " allotment";
+#			} else {
+#				echo " <b>onbekend</b>";
+##				echo htmlentities($db->f("log"));
+##				exit;
+#			}
+#			if($besteldatum) {
+#				$db2->query("UPDATE boeking SET besteldatum=FROM_UNIXTIME(".$besteldatum.") WHERE boeking_id='".$db->f("boeking_id")."';");
+#			}
+#			echo "<br>";
+#		}
+
+		# optiecategorie van bijkomende kosten overzetten naar extra_opties
+#		$db->query("SELECT bijkomendekosten_id, optiecategorie FROM bijkomendekosten;");
+#		while($db->next_record()) {
+#			$db2->query("UPDATE extra_optie SET optiecategorie='".$db->f("optiecategorie")."' WHERE bijkomendekosten_id='".$db->f("bijkomendekosten_id")."';");
+#			echo $db2->lq."<br>";
+#		}
+		
+		
+		# verzendmethode_reisdocumenten van reisbureaus overzetten naar boekingen
+#		$db->query("SELECT ru.user_id, r.verzendmethode_reisdocumenten FROM reisbureau r, reisbureau_user ru WHERE ru.reisbureau_id=r.reisbureau_id AND r.verzendmethode_reisdocumenten>0;");
+#		while($db->next_record()) {
+#			$verzendmethode_reisdocumenten[$db->f("user_id")]=$db->f("verzendmethode_reisdocumenten");
+#		}
+#		$db->query("SELECT boeking_id, reisbureau_user_id FROM boeking WHERE reisbureau_user_id>0 AND seizoen_id IN (17,18,19);");
+#		while($db->next_record()) {
+#			if($verzendmethode_reisdocumenten[$db->f("reisbureau_user_id")]) {
+#				$db2->query("UPDATE boeking SET verzendmethode_reisdocumenten='".$verzendmethode_reisdocumenten[$db->f("reisbureau_user_id")]."' WHERE boeking_id='".$db->f("boeking_id")."';");
+#				echo $db2->lq;
+#				echo "<br>";
+#			}
+#		}
+		
+	
+#		echo "<a href=\"verzendmethode.php?bid=100949&c=".substr(sha1("ldlklKDKLk"."100949"."JJJdkkk4uah!"),0,8)."\" target=\"_blank\">test verzendmethode</a><br>";
+#		if($_GET["bid"] and $_GET["c"]==substr(sha1("ldlklKDKLk".$_GET["bid"]."JJJdkkk4uah!"),0,8)) {
+
+		
+		# toeslag omzetten naar negatieve korting
+#		$db->query("UPDATE boeking SET inkoopkorting=inkoopkorting-inkooptoeslag, inkooptoeslag=NULL WHERE inkooptoeslag>0 AND inkoopkorting>0;");
+#		$db->query("UPDATE boeking SET inkoopkorting=0-inkooptoeslag, inkooptoeslag=NULL WHERE inkooptoeslag>0 AND inkoopkorting IS NULL;");
+		
+#		
+		# inkoopprijs_opslaan bij boekingen (via garanties) waar inkoopgegevens nog ontbreken
+#		$db->query("SELECT boeking_id FROM boeking WHERE 1=1 AND seizoen_id IN (17,18,19) AND boeking_id IN (SELECT boeking_id FROM garantie WHERE boeking_id>0) AND goedgekeurd=1 AND geannuleerd=0 AND boekingsnummer<>'' AND flexibel=0 AND geannuleerd=0 ORDER BY boeking_id;");
+#		while($db->next_record()) {
+#			echo "<a href=\"cms_boekingen_leveranciers.php?bid=".$db->f("boeking_id")."\" target=\"_blank\">boeking ".$db->f("boeking_id")."</a>";
+#			inkoopprijs_opslaan($db->f("boeking_id"));
+#			echo "<br>";
+#		}
+
+# SUBSTR('C11105001',2,8)
+
+# B102018 / 017902 lengte = 16 karakters
+		
+		# boekingsnummers omzetten van oud naar nieuw
+#		$db->query("SELECT boeking_id, boekingsnummer, UNIX_TIMESTAMP(bevestigdatum) AS bevestigdatum FROM boeking WHERE boekingsnummer<>'' ORDER BY bevestigdatum;");
+#		while($db->next_record()) {
+#			if(!$boekingteller[date("ym",$db->f("bevestigdatum"))]) {
+#				$boekingteller[date("ym",$db->f("bevestigdatum"))]=5001;
+#			} else {
+#				$boekingteller[date("ym",$db->f("bevestigdatum"))]++;
+#			}
+#			
+#			$boekingsnummer_nieuw=substr($db->f("boekingsnummer"),0,1).date("ym",$db->f("bevestigdatum")).substr("0000".$boekingteller[date("ym",$db->f("bevestigdatum"))],-4);
+#			$db2->query("UPDATE boeking SET boekingsnummer_oud=boekingsnummer, boekingsnummer_nieuw='".$boekingsnummer_nieuw."' WHERE boeking_id='".$db->f("boeking_id")."';");
+#			echo $db->f("boekingsnummer")." ".$db2->lastquery."<br>";
+#		}
+
+
+		
+#		$db->query("SELECT type_id, kenmerken, kenmerken_onbekend, kenmerken_nee, kenmerken_irrelevant FROM type WHERE tonen=1;");
+#		while($db->next_record()) {
+#			$k1=split(",",$db->f("kenmerken"));
+#			$k2=split(",",$db->f("kenmerken_nee"));
+#			$k3=split(",",$db->f("kenmerken_onbekend"));
+#			$k4=split(",",$db->f("kenmerken_irrelevant"));
+			
+#			while(list($key,$value)=@each($k1)) {
+#				if($value) {
+#					if(in_array($value,$k2)) echo "type ".$db->f("type_id")." kenmerk ".$value." komt ook voor in nee<br>";
+#					if(in_array($value,$k3)) echo "type ".$db->f("type_id")." kenmerk ".$value." komt ook voor in onbekend<br>";
+#					if(in_array($value,$k4)) echo "type ".$db->f("type_id")." kenmerk ".$value." komt ook voor in irrelevant<br>";
+#				}
+#			}
+#
+#			while(list($key,$value)=@each($k2)) {
+#				if($value) {
+#					if(in_array($value,$k1)) echo "type ".$db->f("type_id")." nee ".$value." komt ook voor in kenmerk<br>";
+#					if(in_array($value,$k3)) echo "type ".$db->f("type_id")." nee ".$value." komt ook voor in onbekend<br>";
+#					if(in_array($value,$k4)) echo "type ".$db->f("type_id")." nee ".$value." komt ook voor in irrelevant<br>";
+#				}
+#			}
+#
+#			while(list($key,$value)=@each($k3)) {
+#				if($value) {
+#					if(in_array($value,$k1)) echo "type ".$db->f("type_id")." onbekend ".$value." komt ook voor in kenmerk<br>";
+#					if(in_array($value,$k2)) echo "type ".$db->f("type_id")." onbekend ".$value." komt ook voor in nee<br>";
+#					if(in_array($value,$k4)) echo "type ".$db->f("type_id")." onbekend ".$value." komt ook voor in irrelevant<br>";
+#				}
+#			}
+#
+#			while(list($key,$value)=@each($k4)) {
+#				if($value) {
+#					if(in_array($value,$k1)) echo "type ".$db->f("type_id")." irr ".$value." komt ook voor in kenmerk<br>";
+#					if(in_array($value,$k2)) echo "type ".$db->f("type_id")." irr ".$value." komt ook voor in nee<br>";
+#					if(in_array($value,$k3)) echo "type ".$db->f("type_id")." irr ".$value." komt ook voor in onbekend<br>";
+#				}
+#			}
+
+#			exit;
+
+#		}
+		
+		
+#		$db->query("SELECT a.wzt, a.accommodatie_id, t.type_id, a.kenmerken_gecontroleerd, a.kenmerken, t.kenmerken AS tkenmerken FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id;");
+#		while($db->next_record()) {
+#			if($db->f("kenmerken_gecontroleerd")) {
+#				$opslaan_in="kenmerken_nee";
+#			} else {
+#				$opslaan_in="kenmerken_onbekend";
+#			}
+#			
+#			# accommodatie-kenmerken
+#			unset($akenmerken_opslaan);
+#			$akenmerken=split(",",$db->f("kenmerken"));
+#			ksort($vars["kenmerken_accommodatie_".$db->f("wzt")]);
+#			reset($vars["kenmerken_accommodatie_".$db->f("wzt")]);
+#			while(list($key,$value)=each($vars["kenmerken_accommodatie_".$db->f("wzt")])) {
+#				if(!in_array($key,$akenmerken)) {
+#					$akenmerken_opslaan.=",".$key;
+#				}
+#			}
+#			if($akenmerken_opslaan) {
+#				$db2->query("UPDATE accommodatie SET ".$opslaan_in."='".substr($akenmerken_opslaan,1)."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+#				echo $db2->lastquery."<br>";
+#			}
+#			
+#			# type-kenmerken
+#			unset($tkenmerken_opslaan);
+#			$tkenmerken=split(",",$db->f("tkenmerken"));
+#			ksort($vars["kenmerken_type_".$db->f("wzt")]);
+#			reset($vars["kenmerken_type_".$db->f("wzt")]);
+#			while(list($key,$value)=each($vars["kenmerken_type_".$db->f("wzt")])) {
+#				if(!in_array($key,$tkenmerken)) {
+#					$tkenmerken_opslaan.=",".$key;
+#				}
+#			}
+#			if($tkenmerken_opslaan) {
+#				$db2->query("UPDATE type SET ".$opslaan_in."='".substr($tkenmerken_opslaan,1)."' WHERE type_id='".$db->f("type_id")."';");
+#				echo $db2->lastquery."<br>";
+#			}
+##exit;
+#		}
+		
+#		$db->query("SELECT b.website, a.wzt, t.type_id, b.boeking_id, b.boekingsnummer FROM boeking b, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id AND b.website<>'Z' AND a.wzt=2;");
+#		while($db->next_record()) {
+#			echo $db->f("website")." ".$db->f("boeking_id")." ".$db->f("boekingsnummer")."<br>";
+#		}
+		
+#		$db->query("SELECT boeking_id FROM boeking_enquete WHERE vraag4=2;");
+#		while($db->next_record()) {
+#			echo $db->f("boeking_id")."<br>";
+#			$db2->query("UPDATE boeking SET mailblokkeren_klanten_vorig_seizoen=1 WHERE boeking_id='".addslashes($db->f("boeking_id"))."';");
+#			echo $db2->lastquery."<br>";
+#		}
+		
+#		$db->query("SELECT DISTINCT accommodatie_id FROM type WHERE leverancier_id=131;");
+#		while($db->next_record()) {
+#			$db2->query("UPDATE accommodatie SET flexibel=1 WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+#			echo $db2->lastquery."<br>";
+#		}
+		
+		
+		# enquetes omzetten naar decimaal systeem
+#		function enqomzet($cijfer) {
+#			if($cijfer==1) $return=2;
+#			if($cijfer==2) $return=4;
+#			if($cijfer==3) $return=6;
+#			if($cijfer==4) $return=8;
+#			if($cijfer==5) $return=9;
+#			if($cijfer==6) $return=11;
+#			return $return;
+#		}
+#		
+#		$db->query("SELECT * FROM boeking_enquete WHERE omgezet=0 ORDER BY boeking_id;");
+#		while($db->next_record()) {
+#			unset($setquery);
+#			
+#			# vraag 1
+#			for($i=1;$i<=7;$i++) {
+#				if($db->f("vraag1_".$i)>0) {
+#					$setquery.=", vraag1_".$i."='".enqomzet($db->f("vraag1_".$i))."'";
+#				}
+#			}
+#			# vraag 3
+#			for($i=1;$i<=9;$i++) {
+#				if($db->f("vraag3_".$i)>0) {
+#					$setquery.=", vraag3_".$i."='".enqomzet($db->f("vraag3_".$i))."'";
+#				}
+#			}
+#			
+#			if($setquery) {
+#				$query="UPDATE boeking_enquete SET omgezet=1".$setquery." WHERE boeking_id='".$db->f("boeking_id")."';";
+#				echo $query."<hr>";
+##				$db2->query($query);
+#			}
+#		}
+#		
+#		$db->query("SELECT * FROM korting WHERE korting_id NOT IN (SELECT DISTINCT korting_id FROM korting_tarief);");
+		
+		# veld aanbiedingskleur vullen met veld toonexactekorting
+#		$db->query("UPDATE korting SET aanbiedingskleur=toonexactekorting;");
+		
+		# Kijken bij welke types leverancier_id op 0 staat
+#		$db->query("SELECT type_id, accommodatie_id FROM type WHERE leverancier_id=0;");
+#		while($db->next_record()) {
+#			echo $db->f("type_id").": ";
+#			$db2->query("SELECT leverancier_id FROM accommodatie WHERE leverancier_id>0 AND accommodatie_id='".$db->f("accommodatie_id")."';");
+#			if($db2->next_record()) {
+#				$db3->query("UPDATE type SET leverancier_id='".$db2->f("leverancier_id")."' WHERE type_id='".$db->f("type_id")."';");
+#				echo $db3->lastquery;
+#			} else {
+#				echo "<b>ERROR</b>";
+#			}
+#			echo "<br>";
+#		}
+		
+		
+		# Kijken bij welke boekingen factuurbedrag afwijkt van berekende totale reissom
+#		$db->query("SELECT boeking_id, totale_reissom, boekingsnummer FROM boeking WHERE boekingsnummer<>'' AND aankomstdatum>'".time()."' ORDER BY aankomstdatum;");
+#		while($db->next_record()) {
+#			$gegevens=get_boekinginfo($db->f("boeking_id"));
+#			echo "<a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a> ";
+#			echo $db->f("totale_reissom")."===".$gegevens["fin"]["totale_reissom"];
+#			if($db->f("totale_reissom")<>$gegevens["fin"]["totale_reissom"]) echo " <b style=\"color:red;\">afwijkend</b>";
+#			echo "<br>";
+#		}
+		
+		# Kijken bij welke boekingen een overbetaling actief is
+#		$db->query("SELECT boeking_id, boekingsnummer, totale_reissom FROM boeking WHERE boekingsnummer<>'' AND boeking_id IN (SELECT DISTINCT boeking_id FROM boeking_betaling) ORDER BY aankomstdatum DESC LIMIT 200,100;");
+#		while($db->next_record()) {
+#			$db2->query("SELECT SUM(bedrag) AS totaal FROM boeking_betaling WHERE boeking_id='".addslashes($db->f("boeking_id"))."';");
+#			if($db2->next_record()) {
+#				$openstaand=$db->f("totale_reissom")-$db2->f("totaal");
+#				if($openstaand<0) {
+#					echo $db->f("boekingsnummer").": ".$openstaand;
+#					echo "<br>";
+#				}
+#			}
+#		}
+		
+		#
+		# Bestaande boekingen voorzien van accprijs (alles lager dan boekingid 52946 is niet via boeken.php voorzien van een accprijs)
+		#
+
+#		$db->query("UPDATE boeking SET accprijs=NULL WHERE boekingsnummer='';");
+		
+#		$db->query("SELECT type_id, boeking_id, toonper, aankomstdatum, wederverkoop, verkoop, verkoop_gewijzigd, boekingsnummer FROM boeking WHERE boekingsnummer<>'' AND (accprijs='' OR accprijs IS NULL) AND aankomstdatum>'".(time()-864000)."' ORDER BY boeking_id DESC;");
+#		echo $db->lastquery."<br>";
+#		while($db->next_record()) {
+#			unset($accprijs);
+#			if($db->f("toonper")==3 or $db->f("wederverkoop")==1) {
+#				unset($accprijs);
+#				if($db->f("verkoop_gewijzigd")>0) {
+#					$accprijs=$db->f("verkoop_gewijzigd");
+#				} else {
+#					$accprijs=$db->f("verkoop");
+#				}
+#				if($accprijs>0) {
+#					$db2->query("UPDATE boeking SET accprijs='".addslashes($accprijs)."' WHERE boeking_id='".$db->f("boeking_id")."';");
+##					echo $db2->lastquery."<br>";
+#				}
+#				echo "accommodatie: <b>".$db->f("boekingsnummer")."</b> ".$db->f("toonper")." ".$db->f("boeking_id")." ".$db->f("verkoop").($db->f("wederverkoop") ? " wederverkoop" : "")." ==".$accprijs."==<br>";
+#			} else {
+#				$db2->query("SELECT bruto, wederverkoop_verkoopprijs, wederverkoop_opslag_percentage FROM tarief WHERE week='".$db->f("aankomstdatum")."' AND type_id='".$db->f("type_id")."';");
+##				echo $db2->lastquery."<br>";
+#				if($db2->next_record()) {
+#					unset($accprijs);
+#					if($db2->f("wederverkoop_opslag_percentage")>0 and $db2->f("bruto")) {
+#						$accprijs=$db2->f("wederverkoop_verkoopprijs");
+#						$accprijs-=(($db2->f("wederverkoop_opslag_percentage")/100)*$db2->f("bruto"));
+#						$accprijs=floor(($accprijs)/5)*5;
+#					} elseif($db2->f("wederverkoop_verkoopprijs")) {
+#						$accprijs=$db2->f("wederverkoop_verkoopprijs");
+#					}
+#					if($accprijs>0) {
+#						$db2->query("UPDATE boeking SET accprijs='".addslashes($accprijs)."' WHERE boeking_id='".$db->f("boeking_id")."';");
+##						echo $db2->lastquery."<br>";
+#					}
+#				}
+#				echo "arrangement: <b>".$db->f("boekingsnummer")."</b> ".$db->f("toonper")." ".$db->f("boeking_id")." ".$db->f("verkoop")." ".$accprijs."<br>";
+#			}
+#		}
+		
+		# Reisbureau-adres naar postadres kopieren
+#		$db->query("SELECT reisbureau_id, adres, postcode, plaats, land FROM reisbureau;");
+#		while($db->next_record()) {
+#			$db2->query("UPDATE reisbureau SET post_adres='".addslashes($db->f("adres"))."', post_postcode='".addslashes($db->f("postcode"))."', post_plaats='".addslashes($db->f("plaats"))."', post_land='".addslashes($db->f("land"))."', inzicht_boekingen=1, inzicht_prijsberekeningen=1 WHERE reisbureau_id='".$db->f("reisbureau_id")."';");
+#			echo $db2->lastquery."<br>";
+#		}
+
+#		 Alle types Eurogroup met XML-koppeling: request op 0 zetten
+#		$db->query("SELECT t.type_id FROM type t, accommodatie a WHERE a.leverancier_id=4 AND t.accommodatie_id=a.accommodatie_id AND a.tonen=1 AND t.tonen=1 AND t.leverancierscode IS NOT NULL AND t.leverancierscode<>'';");
+#		while($db->next_record()) {
+#			$db2->query("UPDATE tarief SET voorraad_request=0 WHERE type_id='".$db->f("type_id")."' AND seizoen_id>=15;");
+#			echo $db2->lastquery."<br>";
+#		}
+
+
+		#
+		# BEWAREN: alle wederverkoop-percentages van seizoenid 16 omzetten (alleen bij bepaalde optiesoorten)
+		#
+#		$optiesoorten="6,17,36,37,13,22,23,38,39,28,31,18,15";
+#		$db->query("SELECT snaam, gnaam, optie_onderdeel_id FROM view_optie WHERE optie_soort_id IN (".$optiesoorten.") ORDER BY FIELD(optie_soort_id,".$optiesoorten.");");
+#		while($db->next_record()) {
+#			$db2->query("UPDATE optie_tarief SET wederverkoop_commissie_agent=10 WHERE optie_onderdeel_id='".$db->f("optie_onderdeel_id")."' AND seizoen_id IN (16);");
+#			echo "<b>".$db->f("snaam")."</b> - ".$db2->lastquery."<br>";
+#		}
+	}
+
+	if($vars["website"]<>"C") {
+		echo "<div class=\"opmerkingbox\" style=\"padding-top:30px;padding-bottom:30px;margin-bottom:10px;\"><b>Let op!</b> Je gebruikt het CMS nu niet via Chalet.nl! Ga voor een correcte werking van het CMS naar <a href=\"http://www.chalet.nl/cms.php\">http://www.chalet.nl/cms.php</a>. Gebruik dit CMS uitsluitend om eenmalig in te loggen.</div>";
+	}
+
+	if(!preg_match("/Chrome/",$_SERVER["HTTP_USER_AGENT"]) and !preg_match("/chromeframe/",$_SERVER["HTTP_USER_AGENT"])) {
+		echo "<div class=\"opmerkingbox\" style=\"padding-top:10px;padding-bottom:10px;\"><div style=\"float:left;\"><b>Let op!</b> Je gebruikt het CMS nu niet met de browser Google Chrome.<br><br>Het CMS gaat gebruik maken van functies die alleen in Google Chrome beschikbaar zijn.<br>Voor een gagarandeerde juiste werking: sluit deze browser en open het CMS in Google Chrome.";
+		if($_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.75") {
+			if(preg_match("/MSIE/",$_SERVER["HTTP_USER_AGENT"])) {
+				echo "<p>&nbsp;&nbsp;&nbsp;<a href=\"javascript:CFInstall.check({mode: 'popup',url:'http://www.google.com/chromeframe/eula.html'});\"><b>Google Chrome activeren binnen Internet Explorer &raquo;</b></a></p>";
+			} else {
+				echo "<p>&nbsp;&nbsp;&nbsp;<a href=\"http://www.google.com/chrome/\" target=\"_blank\"><b>Google Chrome downloaden en installeren &raquo;</b></a></p>";
+			}
+		}
+		echo "</div><div style=\"float:right;\"><img src=\"".$vars["path"]."pic/googlechrome.png\"></div><div style=\"clear:both;\"></div></div>";
+	}
+	
+	# Taalkeuze
+	echo "Taal: ";
+	while(list($key,$value)=each($vars["talen"])) {
+		$taalteller++;
+		if($key==$vars["cmstaal"]) {
+			echo "<b>";
+		} else {
+			echo "<a href=\"cms.php?cmstaal=".$key."\">";
+		}
+		echo htmlentities($value);
+		if($key==$vars["cmstaal"]) {
+			echo "</b>";
+		} else {
+			echo "</a>";
+		}
+		if($taalteller<count($vars["talen"])) echo " - ";
+	}
+	
+	#
+	# Testsite kiezen (op lokale server)
+	#
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+		$testsite_array=array("chaletnl"=>"Chalet.nl C","chaleteu"=>"Chalet.eu E","wsa"=>"WSA.nl W","chalettour"=>"Chalettour.nl T","chaletbe"=>"Chalet.be B","vallandrynl"=>"ChaletsinVallandry.nl V","vallandrycom"=>"ChaletsinVallandry.com Q","zomerhuisjenl"=>"Zomerhuisje.nl Z","zomerhuisjeeu"=>"Zomerhuisje.eu N");
+		echo "<hr>Testsite: ";
+		while(list($key,$value)=each($testsite_array)) {
+			echo "<a href=\"cms.php?testsite=".$key."\" target=\"_blank\" style=\"".($vars["testsite"]==$key ? "text-decoration:none;" : "")."\">";
+			if($vars["testsite"]==$key) {
+				echo "<span style=\"font-weight:bold;\">";
+			}
+			echo htmlentities($value);
+			if($vars["testsite"]==$key) {
+				echo "</span>";
+			}
+			echo "</a>";
+			echo " - ";
+		}
+	}
+
+	if($login->userlevel==10) {
+		echo "<hr>Testaccommodaties:<ul>";
+		echo "<li>Le Clos du Pr&eacute (arr): <a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=47\">CMS acc</a> - <a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=47&2k0=240\">CMS type</a> - <a href=\"accommodatie/F240/\" target=\"_blank\">website</a> - <a href=\"javascript:popwindowXY(900,627,'".$vars["path"]."popup.php?id=tarieventabel&typeid=240&sid=17',true);\">tarieven</a></li>";
+		echo "<li>Bauernhaus (acc): <a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=417\">CMS acc</a> - <a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=417&2k0=1038\">CMS type</a> - <a href=\"accommodatie/O1038/\" target=\"_blank\">website</a> - <a href=\"javascript:popwindowXY(900,527,'".$vars["path"]."popup.php?id=tarieventabel&typeid=1038&sid=17',true);\">tarieven</a></li>";
+		echo "<li>De Vallandry verzameltype (arr): <a href=\"cms_accommodaties.php?show=1&wzt=1&archief=0&1k0=48\">CMS acc</a> - <a href=\"cms_types.php?show=2&wzt=1&archief=0&1k0=48&2k0=247\">CMS type</a> - <a href=\"accommodatie/F247/\" target=\"_blank\">website</a> - <a href=\"javascript:popwindowXY(900,527,'".$vars["path"]."popup.php?id=tarieventabel&typeid=247&sid=17',true);\">tarieven</a></li>";
+		echo "<li>San Romolo 1 (acc, zomer): <a href=\"cms_accommodaties.php?show=1&1k0=1694\">CMS acc</a> - <a href=\"cms_types.php?wzt=2&show=2&1k0=1694&2k0=4139\">CMS type</a> - <a href=\"cms.php?testsite=zomerhuisjenl&gotourl=".urlencode("accommodatie/I4139/")."\" target=\"_blank\">website</a> - <a href=\"javascript:popwindowXY(900,527,'".$vars["path"]."popup.php?id=tarieventabel&typeid=4139&sid=18',true);\">tarieven</a></li>";
+		echo "</ul>";
+		
+		echo "Snelkoppelingen:<ul>";
+		echo "<li><a href=\"cms_leveranciers.php?beheerder=0\">leveranciers</a></li>";
+		echo "</ul>";
+		
+	}
+	
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and !$_GET["meldingen"]) {
+		echo "<hr><p><b>Meldingen zijn uitgeschakeld.</b></p>";
+		echo "<a href=\"cms.php?meldingen=1\">meldingen tonen &gt;</a>";
+	} else {
+		include("content/cms_meldingen.html");
+	}
+}
+
+?>

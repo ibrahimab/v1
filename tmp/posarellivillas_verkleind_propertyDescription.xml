@@ -1,0 +1,217 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<database name="export">
+	<table_structure name="export_posarelli_propertyDescription">
+		<field Field="id" Type="bigint(20)" Null="NO" Key="" Default="" Extra="" />
+		<field Field="language" Type="tinyint(4)" Null="NO" Key="" Default="" Extra="" />
+		<field Field="maindescription" Type="longtext" Null="NO" Key="" Default="" Extra="" />
+		<field Field="lastminute" Type="longtext" Null="NO" Key="" Default="" Extra="" />
+		<field Field="policies" Type="longtext" Null="NO" Key="" Default="" Extra="" />
+		<options Name="export_posarelli_propertyDescription" Engine="MyISAM" Version="10" Row_format="Dynamic" Rows="2893" Avg_row_length="955" Data_length="2764672" Max_data_length="281474976710655" Index_length="1024" Data_free="0" Create_time="2010-02-16 23:30:03" Update_time="2010-02-16 23:30:03" Collation="utf8_general_ci" Create_options="" Comment="" />
+	</table_structure>
+	<table_data name="export_posarelli_propertyDescription">
+	<row>
+		<field name="id">1001</field>
+		<field name="language">0</field>
+		<field name="maindescription">One of the most enchanting Italian villas in Tuscany, beautiful estate dating back to the 15th century situated on the hills surrounding the charming town of Cortona. This property comprises a stone farmhouse and two smaller outbuildings all of which nicely restored with all their original architectural features preserved and tastefully furnished with some antique pieces. Like all the Italian villas in Tuscany, the property, which has been turned into an independent accommodation, is quietly located and enjoys charming views over the surrounding landscape. The property is completely fenced. 
+&lt;b&gt;Distances:&lt;/b&gt; Tavarnelle di Cortona with food shops 500 m, Camucia with all kinds of shops 2 km, Cortona 3 km, Arezzo 30 km. The beautiful ancient Italian towns of Pienza, Perugia and Siena are within 50 km. Lake Trasimeno with equipped beaches is reachable in approx. 15 minutes from the villa. 
+&lt;b&gt;At guests’ disposal:&lt;/b&gt; nice garden furnished with garden furniture, swimming-pool (12 x 6 m – maximum depth 1,4 m – open from 01/05 to 15/10) for the sole use of guests, gazebo, table tennis, mini volley ground ( net m 6,50 x 1), 2 swings, barbecue and bread oven. 2 Highchairs (for free)Covered parking within the grounds. Electric gate.Safe. Hairdryer. Internet access available. 
+&lt;b&gt;Extra services:&lt;/b&gt;Tasting of wines. Lessons of toscane cooking. Tours in minibus. Service of transfer of and for the airport. maid service available by arrangement € 15,- / per hour to be paid on the spot. The villa is provided with air conditioning. Upon request and just for chuldren up to 13 years old 2 extra single beds at € 70,- / per bed / per week to be paid on the spot. Baby bed € 70, /  per week.
+
+&lt;i&gt;Upon clients arrival the owners will offer them a welcome aperitif with typical Tuscan products&lt;i&gt;</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+Arrivals between 5 pm and 8 pm
+&lt;br&gt;
+Departures between 8 am and 10 am</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">1</field>
+		<field name="maindescription">Bella proprietà situata in posizione tranquilla e panoramica sulle colline che circondano la graziosa cittadina di Cortona. Grazie ad un accurato restauro la casa colonica in pietra e le 2 piccole dépendance risalenti al XV secolo che si trovano all’interno della tenuta sono state trasformate in una bellissima villa indipendente arredata con gusto con un mix di mobili rustici e pezzi antichi. La proprietà è interamente recintata.
+&lt;b&gt;Distanze:&lt;/b&gt; Tavarnelle di Cortona con negozio di generi alimentari a 500 m, Camucia con tutti i generi di negozi a 2 km, Cortona a 3 km, Arezzo a 30 km. Pienza, Perugia e Siena si trovano nel raggio di 50 km. Il Lago Trasimeno con spiagge attrezzate è raggiungibile in circa 15 minuti. 
+&lt;b&gt;A disposizione degli ospiti:&lt;/b&gt; grande giardino attrezzato con tavoli e sedie, piscina ad uso esclusivo (12 x 6 m – massima profondità 1,4 m - aperta dal 01/05 al 15/10), gazebo, ping-pong, 2 biciclette (disponibili gratuitamente) barbecue e forno a legna. Disponibile collegamento ad internet. Mini Volley (rete 6.50mt  x 1mt), 2 altalene. Parcheggio all’interno della proprietà (posto auto coperto). Asciugacapelli, cancello elettrico, cassaforte e 2 seggioloni (gratuiti) da bambini.
+&lt;b&gt;Servizi extra:&lt;/b&gt; su richiesta possibilità di aiuto domestico a € 15,- / l’ora da pagare sul posto. Su richiesta è possibile organizzare cene a base di ricette tipiche toscane, degustazioni di vino, corsi di cucina, tours con pulmino, servizio trasferimenti da e per aeroporti. La villa è dotata di aria condizionata (pagamento sul posto). Su richiesta e solo per ragazzi fino a 13 anni di età è possibile affittare 2 letti singoli supplementari € 70,- / a settimana ciascuno da pagare sul posto. Lettino per bebé  disponibile al costo di € 70,- a settimana.
+
+&lt;i&gt;La sera dell'arrivo i proprietari offriranno agli ospiti di GIGLIOLA un aperitivo di benvenuto a base di prodotti tipici toscani.&lt;/i&gt;</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+Arrivi tra le ore 17:00 e le ore 20:00 
+&lt;br&gt;
+Partenze tra le ore 8:00 e le ore 10:00</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">2</field>
+		<field name="maindescription">Schöner Besitz bestehend aus einem antiken Landhaus (15. Jahrhundert) und 2 Nebengebäude, die perfekt restauriert wurden. Die originellen Architekturmerkmale und der ganze ursprüngliche Reiz wurden dabei behalten. Die Anlage befindet sich in ruhiger und panoramischer Lage in den Hügeln um der berühmten Stadt Cortona. Die Villa ist geschmackvoll eingerichtet und mit allen Komforts ausgestattet. Ganz eingezäuntes Landgut. 
+&lt;b&gt;Entfernungen:&lt;/b&gt; Tavarnelle di Cortona mit Lebensmittelgeschäft 500 m, Camucia mit allerlei Geschäften 2 km, Cortona 3 km, Arezzo 30 km, Pienza, Perugia und Siena in einem Umkreis von 50 km. Der trasimenische See mit ausgestatteten Stränden ist mit ca. 15 Minuten Autofahrt zu erreichen. 
+&lt;b&gt;Zur Verfügung der Gäste:&lt;/b&gt; grosser ausgestatteter Garten mit Tisch und Stühle, Schwimmbad (12 x 6 m - max. Tiefe 1,4 m - geöffnet von 01/05 bis 15/10), Gazebo, Tischtennis,2 Fahrräder,Minivolleyballplatz ( Netz m 6,50 x 1,2 Schaukeln. Barbecue und Holzofen. Zwei Fahrräder sind kostenlos verfügbar.2 kostenlosen Hochstühle. Parkplatz auf dem Grundstück (überdachter Autoeinstellplatz), Elektrischer Gittertör. Geldschrank.Haartrockner.Internetanschluss. 
+&lt;b&gt; Extra Services &lt;/b&gt;Auf Anfrage Haushaltshilfe für € 15,- / pro Stunde (Zahlung vor Ort). Auf Anfrage können Abendessen organisiert werden (toskanische Küche, Zahlung vor Ort). Weinproben, Kochkurse, Tour mit Klainbus, Transfer von und nach Flughafen, alles verfügbar auf Anfrage. Das Haus ist mit Klimaanlage ausgestattet (je nach Verbrauch vor Ort zu zahlen).2 zusätzlichen Betten für € 70,- /pro Woche/ pro Bett (sie sind nur für Kinder bis zu 12 Jahren Alt geeignet) ) . Kinderbett  verfügbar für € 70,- / pro Woche. 
+
+&lt;b&gt;Bei der Ankunft wird die Besitzer einen Wilkommensapertif mit typischen Gerichten anbieten! &lt;/b&gt;
+</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+Ankunfte zwischen 17:00 Uhr und 20:00 Uhr
+&lt;br&gt;
+Abfahrte zwischen 8:00 Uhr und 10:00 Uhr</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">3</field>
+		<field name="maindescription">Beau domaine situé en position tranquille et panoramique parmi les collines qui entourent la fameuse ville de Cortona. La propriété est composée d'une ferme en pierre et de 2 dépendances, toutes datant du XVème siècle, soigneusement restaurées en respectant l'architecture d'origine et décorées avec goût. Ameublement de style rustique avec quelques pièces anciennes. Air conditionné. Propriété clôuturée.
+&lt;b&gt;Distances:&lt;/b&gt; Tavarnelle di Cortona avec épicerie à 500 m, Camucia avec commerces variés à 2 km, Cortona à 3 km, Arezzo à 30 km, Pienza, Pérouse et Sienne se trouvent dans un rayon de 50 km. Le Lac Trasimène avec ses plages équipées est atteignable en 15 minutes de voiture.
+&lt;b&gt;A disposition des hôtes:&lt;/b&gt; grand jardin équipé avec tables et chaises, piscine privée (12 x 6 m - profondeur maximale 1,40 m - ouverte du 01/05 au 15/10), tonnelle, ping-pong, 2 vélos (gratuit), 2 balançoires,barbecue et four à bois. Accès à Internet. Mini Volley.2 Chiases d'enfant. Parking couvert dans la propriété. Sèche-cheveux, grille électrique, coffre-fort, air conditionné (selon consommation).
+&lt;b&gt;Services extra à demander au moment de la réservation et à payer sur place:&lt;/b&gt; aide domestique (€ 15,-/h), repas toscans (prix à définir). Les chambres sont dotées d'air conditionné (paiement sur place). Sur demande et seulement pour les enfants jusqu' à 13 ans possibilité de louer 2 lits supplémentaires à une place  (€ 70,-/semaine/lit), petit lit bébé (€ 70,-/semaine).
+
+
+&lt;i&gt;Le soir de l’arrivée, apéritif de bienvenue accompagné d’amuse-gueules 
+toscans.&lt;/i&gt;
+</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+Arrivées entre 17h00 et 20h00
+&lt;br&gt;
+Départs entre 8h00 et 10h00</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">4</field>
+		<field name="maindescription">Maravilhosa propriedade situada em uma posição panorâmica e de paz, sobre as colinas que ficam ao redor da charmosa cidade de Cortona. Na propriedade estão uma casa em pedra e duas dependências do século XV. As estruturas forão recuperadas com muito gosto e sabedoria para manter inalterado os detalhes da época e a decoração feita com uma mistura de mobília rústica e peças antigas. A mansão possui ar condicionado.
+&lt;b&gt;Distâncias:&lt;/b&gt; Tavarnelle di Cortona com loja alimentícia a 500 metros, Camucia com lojas variadas a 2 km, Cortona a 3 km, Arezzo a 30 km, Pienza, Perugia e Siena estão num raio de 50 km. O Lago Trasimeno, com praias equipadas, fica acerca de 15 minutos de carro.
+&lt;b&gt;À disposição dos hóspedes:&lt;/b&gt; grande jardim com mesas e cadeiras, piscina com uso exclusivo (12 x 6 m – máxima profundidade 1,4 m - aberta de 01/05 até 15/10), quiosque, mesa de ping-pong, duas bicicletas, churrasqueira e forno de madeira. Estacionamento privativo à propriedade e coberto. Cama de bebê disponível (euro 70,-/por semana)
+&lt;b&gt;Serviços extras:&lt;/b&gt; Sob pedido, serviço de empregada a 15 Euros por hora (pagamento no local). Ainda sob pedido, é possível organizar jantares com comida típica da região toscana (pagamento no lugar).</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">5</field>
+		<field name="maindescription">Hermosa propiedad en posiciòn tranquila y panoramica sobre las colinas que rodean la ciudad de Cortona .Gracias a un buen restauro la casa colonial en piedra y las 2 pequeñas dependencias que  remontan al siglo XV ,  las cuales  se encuentran  al interno de la propiedad , fueron transformadas en una bellìsima villa independiente decorada con una mescla de buen gusto ,  muebles rústicos y pedazos antiguos .
+&lt;b&gt;Distancia:&lt;/b&gt; Tavarnelle de Cortona con tiendas de vìveres  a 500 m , Camucia con todo  tipo de tiendas a 2 km , Cortona a 3 km ,Arezzo a 30 km .
+Pienza , Perugia y Siena se encuentran en el radio de 50 km ,El lago Trasimeno con playa  acomodadas  y  alcanzable  a 15 minutos.
+&lt;b&gt;A disposiciòn de los huèspedes:&lt;/b&gt; Gran jardìn amueblado con mesa y sillas ,piscina al uso exclusivo (12 x 6 m –maxima profundidad 1,4 m –abierta desde 01 /05 al 15 / 10 ), quiosco ,ping – pong ,2 bicicletas ( disponibles gratuitamente ) parrillada y horno de leña.
+Disponible conexiòn a internet .Mini Volleyball (red 6,50 m x 1mt), 2 columpios .Parqueo al interno de la propiedad (puesto de autos cubierto ). Secadora de pelo ,verja electrica ,caja fuerte y 2 sillones de bebe (gratuito).
+&lt;b&gt;Servicio extra :&lt;/b&gt; A  disposiciòn  posibilidad de ayudo domèstico a € 15,- / la hora  (pagar en el lugar) . A disposicòn es posible organizar  cenas a base de recetas tipicas toscanas ,degustaciòn de vinos ,cursos de cosina ,tours con autobus , servicio de tranferimiento desde y para el aereopuerto . La villa es dotada de aire condicionado ( pagar en el lugar ) . 2 camas personales suplementarias a  € 15,- / la semana cada cual debe pagar en el lugar .
+Cama para bebe disponible al costo de € 70 , -/ a  la semana .
+</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">6</field>
+		<field name="maindescription">Mooi landgoed, rustig en panoramisch gelegen in de heuvels bij het stadje Cortona. Dankzij een zorgvuldige restauratie zijn het natuurstenen boerenhuis en de 2 kleine bijgebouwen uit de 15de eeuw nu omgevormd in een schitterende vrijstaande villa smaakvol ingericht met een mix van landelijke meubels en antieke stukken. 
+&lt;b&gt;Afstanden:&lt;/b&gt; Tavarnelle di Cortona met kruideniers 500 m, Camucia met allerlei winkels 2 km, Cortona 3 km, Arezzo 30 km.
+Pienza, Perugia en Siena liggen binnen een straal  van 50 km. Het Trasimeno meer met strandjes is in ong. 15 minuten te bereiken. 
+&lt;b&gt;Ter beschikking van de gasten:&lt;/b&gt; grote tuin met tafels en stoelen, zwembad voor alleengebruik (12 x 6 m – max. diepte 1,4 m – open van 01/05 tot 15/10), gazebo, tafeltennis, 2 fietsen (gratis beschikbaar), barbecue en houtoven.
+Internetverbinding beschikbaar. Mini Volley (net 6.50m x 1m), 2 schommels. Parkeerplaats op het terrein (overdekte parkeerplaats). Haardroger, automatisch hek, kluisje en 2 kinderstoelen (gratis). 
+&lt;b&gt;Extra faciliteiten:&lt;/b&gt; op aanvraag hulp in de huishouding beschikbaar tegen € 15,- / per uur, betaling ter plaatse. Op aanvraag is het mogelijk typisch Toscaanse diners, wijnproeverijen, kookcursussen, bustochten  en transfers naar het vliegveld te organiseren. De villa beschikt over airconditioning (betaling ter plaatse). 2 extra bedden € 70,- / per week per bed, betaling ter plaatse.
+Babybedje beschikbaar tegen € 70,- per week.</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">7</field>
+		<field name="maindescription"></field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">8</field>
+		<field name="maindescription"></field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">9</field>
+		<field name="maindescription"></field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+</field>
+	</row>
+	<row>
+		<field name="id">1001</field>
+		<field name="language">10</field>
+		<field name="maindescription">Эта красивая частная собственность находится в тихом и панорамном месте, на холмах, окружающих город Кортона- некогда центра этрусской цивилизации Тосканы. Благодаря тщательной реставрации, каменный колониальный дом и 2 пристройки, построенные ещё вначале XV века, были преобразованы в великолепную отдельную виллу. Интерьер обставлен со вкусом, а старинная мебель с элементами антиквариата вызывает ощущение уюта и гармонии. 
+&lt;b&gt;Расположение&lt;/b&gt;: Тавернелле ди Кортона с продовольственными магазинами- 500 м, Камучиа со всевозможными магазинами- 2 км, Кортона- 3 км, Ареццо- 30 км. 
+Пиенца, Перуджа и Сиена находятся в 50 км. К Озеру Тразимено, с прекрасно оборудованными пляжами, можно добраться за 15 минут. 
+&lt;b&gt;В распоряжении гостей&lt;/b&gt;: большой сад со столами и стульями, бассейн для исключительного пользования гостей (12 х 6 м - максимальная глубина 1,4 м - открыт с 01/05 по 15.10), беседка, настольный теннис, 2 велосипеда (бесплатно) барбекю и дровяная печь для приготовления пиццы. 
+ Интернет- подключение, мини волейбол (сетка 6.50 м х 1 м), 2 качели. Парковка внутри собственности (закрытое парковочное место). Фен, электрические ворота, сейф и 2 детских стула для кормления (бесплатно). 
+&lt;b&gt;Дополнительные услуги&lt;/b&gt;: услуги горничной по запросу € 15, - / час, оплачивается на месте. 
+По желанию гостей, шеф-повар приготовит ужины по типичным тосканским рецептам, дегустации вин, кулинарные курсы, автобусные экскурсии, трансфер в / из аэропорта. В вилле имеется кондиционер (оплачивается на месте). 
+По запросу, только для детей до 13 лет, могут  быть арендованы 2 односпальные кровати ( € 70, - / в неделю каждая, оплачиваются на месте), а также детская кроватка  по цене € 70, -/ в неделю. 
+
+&lt;i&gt;В день заезда, гостей ожидает приятный сюрприз, приготовленный владельцами виллы: приветственный коктейль с типичными тосканскими продуктами.&lt;/i&gt; 
+
+</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+</field>
+	</row>
+	<row>
+		<field name="id">1003</field>
+		<field name="language">0</field>
+		<field name="maindescription">A luxury accommodation in Tuscany, a lovely stone farmhouse beautifully situated amidst the hills overlooking the town of Cortona in very quiet location. The farmhouse, offering enchanting views over Lake Trasimeno and the Chiana Valley in Tuscany, was tastefully restored preserving its ancient charm and many of its original architectural features like the terracotta-tiled floors and the charming beamed ceilings. The house, which was restored to be an independent luxury accommodation is elegantly furnished with antique pieces.The property is completely fenced. 
+&lt;b&gt;Distances:&lt;/b&gt; a food shop is approx. 500 m away, the centre of Cortona approx. 2 km, Arezzo approx. 30 km. Perugia and Siena are within 50 km while Lake Trasimeno with equipped beaches is accessible in a 20-minute drive. A tennis court is 2 km from the villa away.
+&lt;b&gt;At guests' disposal:&lt;/b&gt; large, beautiful terraced garden equipped with garden furniture and private swimming pool (10 x 5 m – maximum depth 2,4 m - open from 30/05 to 30/09) set in panoramic location overlooking Lake Trasimeno and the Chiana Valley. Windows on first floor are provided with mosquito nets. Parking within the grounds. Counter telephone available. Steam iron at the guests' disposal.
+&lt;b&gt;Extra services:&lt;/b&gt; baby bed available by paying an extra charge of € 52,- / per week to be paid on the spot. Maid service available by arrangement (€ 15,- / per hour to be paid on the spot). &lt;br&gt;Arrivals on Saturdays between 16.00 and 19.00 and we are unable to accept later arrivals.</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+Arrivals between 4 pm and 7 pm
+&lt;br&gt;
+Departures between 8 am and 10 am</field>
+	</row>
+	<row>
+		<field name="id">1003</field>
+		<field name="language">1</field>
+		<field name="maindescription">Bellissima casa colonica in pietra in affittto situata sulle colline che circondano Cortona, in posizione molto tranquilla e panoramica. La villa è stata sapientemente ristrutturata cercando di lasciare inalterato il suo antico fascino e di mantenere alcuni dettagli di arredamenti originari della Toscana come i bellissimi pavimenti in cotto e le travi a vista. L’arredamento è molto curato e dona alla casa un’atmosfera estremamente calda e confortevole. Proprietà completamente recintata.
+&lt;b&gt;Distanze:&lt;/b&gt; negozio di generi alimentari a 500 m, Cortona a ca. 2 km, Arezzo a ca. 30 km, Perugia e Siena si trovano nel raggio di 50 km, il Lago Trasimeno con le spiagge attrezzate a 18 km. Campo da tennis a 2 km. 
+&lt;b&gt;A disposizione degli ospiti:&lt;/b&gt; un grande e bel giardino a terrazze attrezzato con tavoli e sedie e una piscina ad uso esclusivo (10 x 5 m – massima profondità 2,4 m - aperta dal 30/05 al 30/09) posta in posizione panoramica con suggestiva vista sul Lago Trasimeno e sulla Valdichiana. Le finestre al primo piano della casa sono dotate di zanzariere. Parcheggio all'interno della proprietà. Telefono a scatti. A disposizione ferro da stiro. Su richiesta è possibile noleggiare un lettino per bebé a € 52,- / a settimana da pagare sul posto. 
+&lt;b&gt;Servizi extra:&lt;/b&gt; aiuto domestico disponibile su richiesta a € 15,- / l'ora da pagare sul posto. 
+&lt;b&gt;Gli arrivi sono compresi fra le 16.00 e le 19.00 del sabato pomeriggio. Arrivi oltre le ore 19.00 non saranno accettati.&lt;/b&gt;</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+Arrivi tra le ore 16:00 e le ore 19:00 
+&lt;br&gt;
+Partenze tra le ore 8:00 e le ore 10:00</field>
+	</row>
+	<row>
+		<field name="id">1003</field>
+		<field name="language">2</field>
+		<field name="maindescription">Wunderschönes, steinernes Bauernhaus, das sorgfältig restauriert und in eine Villa verwandelt wurde. Die alten Bauelemente und Materialien wurden dabei erhalten. Das Haus befindet sich in sehr ruhiger Lage in den Hügeln nahe der berühmten mittelalterlichen Stadt Cortona und geniesst einen wunderschönen Blick über das Chianatal und den Trasimenischen See. Dieses Landhaus ist vollkommen, einen Urlaub im Toskana zu verbringen. Das Haus ist gut ausgestattet und mit einigen antiken Möbeln geschmackvoll eingerichtet. Ganz eingezäuntes Landgut. 
+&lt;b&gt;Entfernungen:&lt;/b&gt; Lebensmittelgeschäft ca. 500 m, Cortona mit allerlei Geschäften ca. 2 Km, Arezzo ca. 30 Km, Perugia und Siena ca. 50 Km, der Trasimenische See mit gepflegten Stränden 18 Km. Ein Tennisplatz ist ca. 2 km vom Haus entfernt. 
+&lt;b&gt;Zur Verfügung der Gäste: &lt;/b&gt;ein grosser, terrassenförmig angelegter Garten mit Gartenmöbeln, privates Schwimmbad (10 x 5 m – max. Tiefe 2,4 m - geöffnet von 30/05 bis 30/09) in panoramischer Lage mit wunderschönem Blick über den Trasimenischen See und das Chianatal. Zufahrt zum Grundstück über eine nicht geteerte Strasse. Parkplatz auf dem Grundstück. Telefon zur Verfügung (Gebührenzähler). Bügeleisen zur Verfügung. Babybett zu mieten (€ 52,- / pro Woche, vor Ort zu zahlen). Haushaltshilfe auf Anfrage (€ 15,- / pro Stunde, vor Ort zu zahlen). 
+&lt;b&gt;Ankünfte am Samstags zwischen 16.00 und 19.00 Uhr. Ankünfte nach 19.00 Uhr werden nicht akzeptiert.&lt;/b&gt;
+</field>
+		<field name="lastminute"></field>
+		<field name="policies">
+
+Ankunft zwischen 16:00 Uhr und 19:00 Uhr
+&lt;br&gt;
+Abfahrt zwischen 8:00 Uhr und 10:00 Uhr</field>
+	</row>
+	</table_data>
+</database>
+</mysqldump>

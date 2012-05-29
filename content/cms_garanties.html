@@ -1,0 +1,152 @@
+<?php
+
+if($_GET["status"]==4) {
+
+	# Leveranciers-var vullen
+	$db->query("SELECT l.leverancier_id, l.naam FROM leverancier l, garantie g WHERE g.leverancier_id=l.leverancier_id ORDER BY l.naam;");
+	while($db->next_record()) {
+		$vars["leveranciers"][$db->f("leverancier_id")]=$db->f("naam");
+	}
+
+	# Seizoenen-var vullen
+	$db->query("SELECT DISTINCT s.seizoen_id, s.naam AS seizoen, UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind FROM garantie g, tarief t, seizoen s WHERE t.seizoen_id=s.seizoen_id AND g.type_id=t.type_id AND g.aankomstdatum=t.week ORDER BY s.begin, s.eind;");
+	while($db->next_record()) {
+		$vars["seizoenen_garanties"][$db->f("seizoen_id")]=$db->f("seizoen");
+
+		# javascript garanties_seizoen_naar_datum
+		$javascript_seizoenids.=",".$db->f("seizoen_id");
+		$javascript_begindatums.=",".date("Ymd",$db->f("begin"));
+		$javascript_einddatums.=",".date("Ymd",$db->f("eind"));
+	}
+	$javascript_seizoenids=substr($javascript_seizoenids,1);
+	$javascript_begindatums=substr($javascript_begindatums,1);
+	$javascript_einddatums=substr($javascript_einddatums,1);
+
+	# frm = formname (mag ook wat anders zijn)
+	$form=new form2("frm"); 
+	$form->settings["fullname"]="Periode";
+	$form->settings["layout"]["css"]=true;
+	$form->settings["type"]="get";
+	$form->settings["table_style"]="width:600px;";
+	
+	$form->settings["message"]["submitbutton"]["nl"]="GARANTIES TONEN";
+	
+	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
+	$form->settings["layout"]["goto_aname"]=true;
+	  
+	#_field: (obl),id,title,db,prevalue,options,layout
+	$van=mktime(0,0,0,date("m"),1,date("Y"));
+	$tot=mktime(0,0,0,date("m")+2,0,date("Y"));
+
+	$form->field_select(0,"seizoen","Seizoen","","",array("selection"=>$vars["seizoenen_garanties"]),array("onchange"=>"garanties_seizoen_naar_datum(this,'".$javascript_seizoenids."','".$javascript_begindatums."','".$javascript_einddatums."');"));
+	
+	$form->field_date(0,"van","Van","","",array("startyear"=>2009,"endyear"=>date("Y")+1),array("calendar"=>true));
+	$form->field_date(0,"tot","Tot en met","","",array("startyear"=>2009,"endyear"=>date("Y")+1),array("calendar"=>true));
+#	$form->field_date(1,"van","Van","",array("time"=>$van),array("startyear"=>2009,"endyear"=>date("Y")+1),array("calendar"=>true));
+#	$form->field_date(1,"tot","Tot en met","",array("time"=>$tot),array("startyear"=>2009,"endyear"=>date("Y")+1),array("calendar"=>true));
+	$form->field_select(0,"leverancier","Leverancier","","",array("selection"=>$vars["leveranciers"]));
+	$form->field_select(0,"status","Status","","",array("selection"=>array(1=>"ongebruikte",2=>"gebruikte",3=>"verlopen")));
+	
+	$form->check_input();
+
+	
+	$form->end_declaration();
+
+	echo "Selecteer de gewenste periode en/of leverancier:<p>";
+
+	$form->display_all();
+	echo "<p>";
+
+	if($form->okay) {
+		if($form->input["seizoen"]) {
+			$where.=" AND s.seizoen_id='".addslashes($form->input["seizoen"])."'";
+		}
+
+		if($form->input["van"]["unixtime"]) {
+			$where.=" AND g.aankomstdatum_exact>='".addslashes($form->input["van"]["unixtime"])."'";
+		}
+
+		if($form->input["tot"]["unixtime"]) {
+			$where.=" AND g.aankomstdatum_exact<='".addslashes($form->input["tot"]["unixtime"])."'";
+		}
+
+		if($form->input["leverancier"]) {
+			$where.=" AND g.leverancier_id='".addslashes($form->input["leverancier"])."'";
+		}
+
+		if($form->input["status"]==1) {
+			# Ongebruikte garanties
+			$where.=" AND g.boeking_id=0 AND g.aankomstdatum_exact>'".time()."'";
+		} elseif($form->input["status"]==2) {
+			# Gebruikte garanties
+			$where.=" AND g.boeking_id>0";
+		} elseif($form->input["status"]==3) {
+			# Verlopen garanties
+			$where.=" AND g.boeking_id=0 AND g.aankomstdatum_exact<='".time()."'";
+		}
+	
+		$db->query("SELECT g.garantie_id, g.type_id, g.aankomstdatum_exact, g.bruto, g.korting_percentage, g.korting_euro, g.netto, g.leverancier_id, g.boeking_id, s.naam AS seizoen FROM garantie g, tarief t, seizoen s WHERE t.seizoen_id=s.seizoen_id AND g.type_id=t.type_id AND g.aankomstdatum=t.week".($where ? " ".$where : "").";");
+		if($db->num_rows()) {
+			$tl=new tablelist;
+			$tl->settings["systemid"]=1;
+			$tl->settings["arrowcolor"]="white";
+			$tl->settings["max_results_per_page"]=1000;
+			$tl->settings["path"]=$vars["path"];
+			$tl->settings["resultpages_top"]=true;
+#			$tl->settings["th_id"]="col_";
+#			$tl->settings["td_class"]="col_";   # elke cel een class: "deze_voorloper+naam"
+	
+			$tl->sort=array("aankomstdatum_exact","accommodatie");
+	
+			$tl->field_show("cms_garanties.php?edit=34&status=leeg&gotouri=".urlencode($_SERVER["REQUEST_URI"])."&34k0=[ID]","Garantie bewerken");
+			$tl->field_text("accommodatie","Accommodatie");
+			$tl->field_text("aankomstdatum_exact","Aankomst");
+			$tl->field_text("seizoen","Seizoen");
+			$tl->field_text("inkoop","Inkoop");
+			$tl->field_text("leverancier","Leverancier");
+			$tl->field_text("status","Status");
+			
+			unset($totaal);
+			while($db->next_record()) {
+				# add_record($id,$key,$value,$sortvalue="",$datetime=false,$options="")
+				$tl->add_record("accommodatie",$db->f("garantie_id"),$vars["alletypes"][$db->f("type_id")]);
+				$tl->add_record("seizoen",$db->f("garantie_id"),$db->f("seizoen"));
+				$tl->add_record("aankomstdatum_exact",$db->f("garantie_id"),date("d-m-Y",$db->f("aankomstdatum_exact")),$db->f("aankomstdatum_exact"),true);
+				
+				$inkoop=$db->f("netto");
+				
+				$totaal+=$inkoop;
+				$tl->add_record("inkoop",$db->f("garantie_id"),number_format($inkoop,2,",","."),$inkoop);
+				$tl->add_record("leverancier",$db->f("garantie_id"),$vars["leveranciers"][$db->f("leverancier_id")]);
+				
+				if($db->f("boeking_id")==0 and $db->f("aankomstdatum_exact")>time()) {
+					$status="ongebruikt";
+				} elseif($db->f("boeking_id")>0) {
+					$status="gebruikt";
+				} elseif($db->f("boeking_id")==0 and $db->f("aankomstdatum_exact")<=time()) {
+					$status="verlopen";
+				}
+				$tl->add_record("status",$db->f("garantie_id"),$status);
+			}
+			echo "<b>Inkoop totaal: &euro;&nbsp;".number_format($totaal,2,",",".")."</b><p>";
+			echo $tl->table("tbl",1);
+		} else {
+			echo "Geen garanties gevonden die voldoen aan de zoekcriteria.";
+		}
+	}
+} else {
+	
+	if($_GET["34k0"]) {
+		echo "<p><a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?gar_id=".htmlentities($_GET["34k0"])."\">Inkoopbetalingen van deze garantie &raquo;</a></p>";
+	}
+		
+	$cms->display_cms();
+	
+	if($_GET["edit"]==34) {
+		echo "<p><a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?gar_id=".htmlentities($_GET["34k0"])."\">Inkoopbetalingen van deze garantie &raquo;</a></p>";
+		$cms->display_log(34);
+	}
+}
+
+
+?>

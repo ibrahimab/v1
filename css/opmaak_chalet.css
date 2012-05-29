@@ -1,0 +1,631 @@
+
+html {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.8em;
+	overflow-y: scroll;
+}
+
+body {
+	margin:0;
+	padding:0;
+	background-color: #f3f3f3;
+}
+
+a {
+	color: #003366;
+}
+
+a:hover {
+	color: #d40139;
+}
+
+a:active, a:focus {
+	outline: 0;
+}
+
+h1 {
+	padding: 0;
+	margin: 0;
+	color: #d40139;
+	font-size: 1.5em;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+
+h2 {
+	padding: 0;
+	margin: 0;
+	color: #d40139;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#toonaccommodatie_kopteksten h1 {
+	padding: 0;
+	margin: 0;
+	color: #d40139;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+h3 {
+	padding: 0;
+	margin: 0;
+	color: #000000;
+	font-size: 1.0em;
+	font-weight: bold;
+}
+
+form {
+	margin:0;
+}
+
+#wrapper {
+	width: 970px;
+	background-color: #ffffff;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#top {
+
+}
+
+#balkbovencontent {
+	height: 15px;
+	margin-right: 5px;
+}
+
+#telefoonblok {
+	position: absolute;
+	top: 200px;
+	margin-left: 30px;
+	width: 164px;
+	padding: 2px;
+	border: 1px solid #003366;
+	background-color: #d5e1f9;
+	color: #003366;
+}
+
+.telefoonblokhover {
+	cursor: pointer;
+}
+
+#telefoonblok_nummer {
+	padding-top: 2px;
+	font-size: 1.2em;
+}
+
+#telefoonblok_nummer img {
+	margin-right: 5px;
+}
+
+#telefoonblok_open {
+	padding-top: 2px;
+	padding-bottom: 1px;
+	font-size: 0.7em;
+	text-align: center;
+}
+
+#bekekenbewaard {
+	margin-left: 30px;
+	font-size: 0.8em;
+	text-align: left;
+	float: left;
+}
+
+#logo {
+	float: left;
+	text-align: center;
+	padding-top: 17px;
+	width: 230px;
+}
+
+#meldingen {
+	font-size: 0.85em;
+	float: right;
+}
+
+#meldingen a {
+	color: #7f99b2;
+	font-weight: normal;
+}
+
+#meldingen a:hover {
+	color: #d40139;
+}
+
+#menubalk {
+	float: left;
+	width:735px;
+}
+
+#submenu {
+	color: #7f99b2;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 0.85em;
+}
+
+#submenu a {
+	color: #7f99b2;
+	font-weight: normal;
+}
+
+#submenu_zomerhuisje a {
+	color: #999900
+}
+
+#submenu a:hover {
+	color: #d40139;
+}
+
+#lijn {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	height: 5px;
+	background-color: #d40139;
+}
+
+#hoofdmenubalk {
+	font-size: 1.1em;
+	height: 40px;
+	background-color: #d5e1f9;
+	color: #d40139;
+}
+
+#hoofdmenu {
+	float: left;
+	padding-top: 9px;
+}
+
+#hoofdmenu a {
+	color: #003366;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+#hoofdmenu a:hover {
+	color: #d40139;
+}
+
+.hoofdmenu_actief {
+	color: #d40139;
+}
+
+.hoofdmenuspacer {
+	color: #ffffff;
+}
+
+#kleinelogos {
+	float: right;
+	margin-top: 7px;
+	margin-right: 5px;
+}
+
+#content {
+
+}
+
+#contentvolledig {
+	margin-left: 30px;
+	margin-right: 5px;
+	padding-bottom: 3px;
+}
+
+#bloklinks_blok {
+	float: left;
+	width: 230px;
+	z-index: 0;
+	margin-top: 40px;
+}
+
+#bloklinks {
+	width: 170px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.zoekenboek_tekst {
+	font-style: italic;
+}
+
+.bloklinks_kop {
+	color: #d40139;
+	font-size: 1.4em;
+	font-weight: normal;
+}
+
+.laatstbekeken_favorieten {
+	border: 1px solid #003366;
+	background-color: #ffffff;
+	text-align: center;
+	margin-bottom: 10px;
+	width: 168px;
+}
+
+.laatstbekeken_favorieten a {
+	display: block;
+	text-decoration: none;
+}
+
+#zoekenboek_overlay {
+	position:absolute;
+	top:264px;
+	margin-left:30px;
+	width:170px;
+	height:205px;
+	z-index:2;
+	background-color:#ffffff;
+}
+
+#zoekenboek_leeg {
+	width:170px;
+	height:205px;
+}
+
+#zoekenboek_overlay select {
+	width: 170px;
+	margin: 0;	
+}
+
+#zoekenboek_overlay .tekstzoeken {
+	width: 165px;
+}
+
+#zoekenboek_overlay input {
+	margin: 0;
+}
+
+#zoekenboek_overlay .zoekenboek_invulveld {
+	margin-bottom: 11px;
+}
+
+#breadcrumbbalk {
+	height: 20px;
+	margin-right: 5px;
+}
+
+#breadcrumb_wrapper {
+	width: 970px;
+	background-color: #ffffff;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#breadcrumb_overlay {
+	position:absolute;
+	top: 195px;
+	margin-left: 230px;
+	width: 735px;
+	height: 20px;
+	z-index:2;
+	font-size: 0.8em;
+}
+
+#directnaar {
+	text-align:left;
+	padding-bottom: 5px;
+}
+
+#directnaar_kop {
+	padding-bottom: 3px;
+}
+
+#directnaar a {
+
+}
+
+#directnaar ul {
+	padding-left: 1px;
+}
+
+.bloklinks_blauwelijn {
+	height: 5px;
+	background-color: #d5e1f9;
+	width: 170px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 7px;
+}
+
+#blauwelijn_links {
+	height: 5px;
+	background-color: #d5e1f9;
+	margin-left: 0px;
+	width: 170px;
+	margin-right: auto;
+	margin-bottom: 7px;
+	float: left;
+}
+
+#blauwelijn_onderaan {
+	height: 5px;
+	background-color: #d5e1f9;
+	width: 100%;
+	margin-top: 5px;
+}
+
+#contactgegevens {
+	font-size: 0.85em;
+	text-align: right;
+	margin-bottom: 3px;
+}
+
+#koptekst_rechts {
+	float: left;
+}
+
+#contentrechts {
+	float: left;
+	width: 735px;
+}
+
+.button {
+	width: 168px;
+	font-size: 0.9em;
+	background-color: #d5e1f9;
+	border: 1px solid #d5e1f9;
+	color: #003366;
+	cursor: pointer;
+	text-align: center;
+	padding-top:6px;
+	height: 20px;
+	margin-top: 10px;
+}
+
+.button:hover {
+	border: 1px solid #d40139;
+}
+
+.button_zomer {
+	width: 168px;
+	font-size: 0.85em;
+	background-color: #d5e1f9;
+	border: 1px solid #d5e1f9;
+	color: #003366;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 1px;
+	height: 25px;
+	margin-top: 10px;
+}
+
+.button_zomer:hover {
+	border: 1px solid #5f227b;
+}
+
+.redbutton {
+	background-color: #fb6703;
+	border: 1px solid #fb6703;
+	color: #ffffff;
+	height: 30px;	
+}
+
+.redbutton:hover {
+	border: 1px solid #003366;
+	color: #003366;
+}
+
+.redtext {
+	color: #d40139;
+
+}
+
+.onlyprint {
+	display: none;
+	height: 0px;
+}
+
+.tarieventabel {
+	font-size: 0.8em;
+}
+
+.tarieventabel th {
+	color: #003366;
+	font-size: 1.3em;
+}
+
+.tarieventabel td {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
+	padding: 2px;
+}
+
+.tarieventabel .afwijkingenaankomstdatum {
+	font-size: 1.1em;
+}
+
+.tarieventabel .onderste_regel {
+	font-size: 1.2em;
+}
+
+.tarieventabel .onderste_regel a {
+	color: #003366;
+}
+
+.tarieventabel .onderste_regel a:hover {
+	color: #d40139;
+}
+
+.img-swap {
+	border: 0px;
+}
+
+#tabs {
+	margin-top: 20px;
+}
+
+#terugnaarboven {
+	text-align: right;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 0.85em;
+}
+
+#colofon_wrapper {
+	width: 970px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 10px;
+	background-color: #ffffff;
+}
+
+#colofon {
+	background-color: #003366;
+	height: 17px;
+	text-align: center;
+	color: #ffffff;
+	font-size: 0.85em;
+}
+
+#colofon a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+#colofon a:hover {
+	color: #878481;
+}
+
+#laatstbekeken {
+	float: left;
+	margin-top: 30px;
+	background-color: #d5e1f9;
+	width: 735px;
+}
+
+#laatstbekeken .kop {
+	color: #d40139;
+	font-size: 1.2em;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+#laatstbekeken_acc_wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 690px;
+}
+
+.laatstbekeken_acc {
+	float: left;
+	width: 150px;
+	text-align: left;
+	cursor: pointer;
+	font-size: 0.8em;
+	color: #003366;
+}
+
+.laatstbekeken_acc img {
+	width: 150px;
+}
+
+.laatstbekeken_img_div {
+	min-height: 115px;
+}
+
+.laatstbekeken_tekst {
+
+}
+
+.laatstbekeken_tekst_hover {
+	color: #d40139;
+}
+
+.laatstbekeken_divider {
+	float: left;
+	width: 30px;
+}
+
+#laatstbekeken_volledigelijst {
+	text-align: right;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+#geenresultaten {
+	border: 2px solid #d5e1f9;
+}
+
+#ondercolofon {
+	color: #999999;
+	font-size: 0.8em;
+	margin-top: 3px;
+	padding-bottom: 6px;
+	width: 990px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+#ondercolofon a {
+	color: #999999;
+}
+
+#ondercolofon a:hover {
+	color: #d40139;
+}
+
+.zoekblok_zoek_alleen_aanbiedingen {
+	background-color: #d40139;
+}
+
+.zoektabel_zoek_alleen_aanbiedingen {
+	background-color: #d40139;
+}
+
+/* TIJDELIJK!!!! */
+/* TIJDELIJK!!!! */
+/* TIJDELIJK!!!! */
+
+#alpedhuzes {
+	margin-top: 15px;
+	border: 1px solid #d5e1f9;
+}
+
+#alpedhuzes:hover {
+	cursor: pointer;
+	border:1px solid #003366;
+}
+
+
+@media print {
+
+	body {
+		background-color: white;
+	}
+
+	#wrapper {
+		width: 100%;
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	#menubalk {
+		display: none;
+	}
+
+	#submenu {
+		display: none;
+	}
+
+	.noprint {
+		display: none;
+		height: 0px;
+	}
+
+	.onlyprint {
+		display: inline;
+	}
+	
+	#menubalk_print {
+		padding-top: 20px;
+		float: left;
+	}
+	
+	a {
+		text-decoration: none;
+	}
+}

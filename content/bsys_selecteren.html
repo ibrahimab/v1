@@ -1,0 +1,21 @@
+<?php
+
+if($boekingid_inquery) {
+	if(!$_GET["back"] or ereg("^".$path."inloggen\.php",$_GET["back"])) $_GET["back"]=$path."bsys.php";
+	$db->query("SELECT t.type_id, a.naam AS accommodatie, t.naam".$vars["ttv"]." AS type, p.naam AS plaats, b.boeking_id, b.aankomstdatum, b.aantalpersonen FROM accommodatie a, type t, boeking b, plaats p WHERE t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id AND a.plaats_id=p.plaats_id AND b.boeking_id IN (".$boekingid_inquery.") ORDER BY b.aankomstdatum, a.naam, t.naam, p.naam;");
+#	$db->query("SELECT b.type_id FROM boeking WHERE boeking_id IN (".$boekingid_inquery.") ORDER BY b.aankomstdatum, a.naam, t.naam, p.naam;");
+	if($db->num_rows()) {
+		echo html("inleiding","bsys_selecteren")."<ul>";
+		while($db->next_record()) {
+#			$temp_accinfo=accinfo($db->f("type_id"),$db->f("aankomstdatum"),$db->f("aantalpersonen"));
+			$temp_accinfo=accinfo($db->f("type_id"),$db->f("aankomstdatum"));
+			echo "<li><a href=\"".$_GET["back"].(ereg("\?",$_GET["back"]) ? "&" : "?")."bid=".$db->f("boeking_id")."\">".$temp_accinfo["aankomstdatum"][$db->f("aankomstdatum")]." - ".htmlentities($temp_accinfo["plaats"]." - ".ucfirst($temp_accinfo["soortaccommodatie"])." ".$temp_accinfo["naam"])." - ".$db->f("aantalpersonen")." ".($db->f("aantalpersonen")==1 ? "persoon" : "personen")."</a></li>";
+		}
+		echo "</ul>";
+	}
+} else {
+	echo html("erzijngeenactueleboekingen","bsys_selecteren");
+}
+
+
+?>

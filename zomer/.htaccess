@@ -1,0 +1,37 @@
+RewriteEngine On
+
+#
+# www.chalet.nl/zomer/ doorsturen naar zomerhuisje.nl
+#
+RewriteCond %{HTTP_HOST} ^www[23]?\.chalet\.nl [NC]
+RewriteCond %{REQUEST_URI} /zomer/
+RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
+
+
+#
+# www.chalet.be/zomer/ doorsturen naar zomerhuisje.eu
+#
+RewriteCond %{HTTP_HOST} ^www[23]?\.chalet\.be [NC]
+RewriteCond %{REQUEST_URI} /zomer/
+RewriteRule ^(.*)$ http://www.zomerhuisje.eu/$1 [L,R=301]
+
+#
+# www.zomerhuisje.nl/zomer doorsturen naar /
+#
+RewriteCond %{HTTP_HOST} ^www\.zomerhuisje\.nl [NC]
+RewriteCond %{REQUEST_URI} /zomer/ [NC]
+RewriteRule ^(.*)$ /$1 [L,R=301]
+
+#
+# www.chalettour.nl/zomer doorsturen naar /
+#
+RewriteCond %{HTTP_HOST} ^www[23]?\.chalettour\.nl [NC]
+RewriteCond %{REQUEST_URI} /zomer/ [NC]
+RewriteRule ^(.*)$ http://www.zomerhuisje.nl/ [L,R=301]
+
+#
+# ss.postvak.net/chalet/zomer doorsturen naar testsite-zomerhuisje
+#
+RewriteCond %{HTTP_HOST} ss\.postvak\.net [NC]
+RewriteCond %{REQUEST_URI} /zomer/ [NC]
+RewriteRule ^(.*)$ http://ss.postvak.net/chalet/cms.php?testsite=zomerhuisjenl [L,R=301]

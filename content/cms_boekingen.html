@@ -1,0 +1,66 @@
+<?php
+
+
+if($_GET["show"]==21) {
+
+	$_GET["bid"]=$_GET["21k0"];
+	include("content/bsys.html");
+
+#echo betalingsinfo($gegevens,0);
+#exit;
+
+	if(!$_GET["menu"]) {
+		$log=split("\n",$vars["log"]);
+		if(is_array($log)) {
+			$db->query("SELECT user_id, voornaam FROM user;");
+			while($db->next_record()) {
+				$vars["werknemer"][$db->f("user_id")]=$db->f("voornaam");
+			}
+			echo "<p><table cellspacing=\"0\" class=\"toonacctabel\">";
+			echo "<tr><th colspan=\"3\">Logboek</th></tr>";
+			echo "<tr><td><strong>datum</strong></td><td><strong>door</strong></td><td><strong>gegevens</strong></td></tr>";
+			while(list($key,$value)=each($log)) {
+				if(ereg("^([0-9]+)-([a-z])([0-9]*)-([a-z])-(.*)$",$value,$regs)) {
+					echo "<tr><td valign=\"top\" nowrap>".date("d-m-Y, H:i",$regs[1])."u.</td><td valign=\"top\">";
+					if($regs[2]=="k") {
+						echo "klant";
+					} elseif($regs[2]=="s") {
+						echo "systeem";
+					} elseif($regs[3]) {
+						echo htmlentities($vars["werknemer"][$regs[3]]);
+					} else {
+						echo "Chalet.nl";
+					}
+					echo "</td><td valign=\"top\">".$regs[5]."</td></tr>";
+				}
+			}
+			echo "</table>";
+		}
+	}
+} else {
+	if($_GET["boekingsearch"]) {
+		if(ereg("^([0-9]+)$",$_GET["boekingsearch"],$regs)) {
+			$db->query("SELECT naam FROM accommodatie WHERE accommodatie_id='".addslashes($regs[1])."';");
+			if($db->next_record()) {
+				echo "<i>Boekingen van accommodatie ".htmlentities($db->f("naam")).".</i><p>";
+				$overzicht_per_accommodatie=$regs[1];
+			}
+		} else {
+			echo "<i>Boekingen doorzocht op: ".htmlentities($_GET["boekingsearch"]).".</i><p>";
+		}
+	}
+	if($_GET["bt"]==3) {
+		echo "Hieronder een overzicht van boekingen van de afgelopen 7 dagen die (nog) niet zijn afgerond.";
+	} elseif($_GET["bt"]==5) {
+		echo "Hieronder een overzicht van boekingen met een aankomstdatum tussen -8 dagen en +20 dagen.";
+	}
+	if($overzicht_per_accommodatie) {
+		echo "<p><a href=\"cms_mail_klanten_vorig_seizoen.php?status=2&accid=".$overzicht_per_accommodatie."\">Verstuur mailtjes aan boekingen van vorig seizoen</a><p>";
+	}
+	$cms->display_cms();
+	if($overzicht_per_accommodatie) {
+		echo "<p><a href=\"cms_mail_klanten_vorig_seizoen.php?status=2&accid=".$overzicht_per_accommodatie."\">Verstuur mailtjes aan boekingen van vorig seizoen</a>";
+	}
+}
+
+?>

@@ -1,0 +1,834 @@
+<?php
+
+#if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
+#	phpinfo();
+#	exit;
+#}
+
+$mustlogin=true;
+#$vars["acc_in_vars"]=true;
+
+include("admin/vars.php");
+
+if($_GET["1k0"]) {
+	$db->query("SELECT a.toonper FROM accommodatie a WHERE a.accommodatie_id='".addslashes($_GET["1k0"])."';");
+	if($db->next_record()) {
+		$oud_toonper=$db->f("toonper");
+	}
+
+	# Kijken of er aan deze accommodatie al boekingen hangen
+	$db->query("SELECT b.boeking_id FROM boeking b, accommodatie a, type t WHERE a.accommodatie_id='".addslashes($_GET["1k0"])."' AND b.stap_voltooid=5 AND t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id;");
+	if($db->next_record()) {
+		$accommodatie_heeft_boekingen=true;
+	}
+}
+
+if($_GET["xmlvoorraadreset"]) {
+	#
+	# XML-voorraad van alle onderliggende tarieven op 0 zetten (en daarna beschikbaarheid indien nodig aanpassen)
+	#
+	if($_GET["confirmed"] and $_GET["1k0"]) {
+		$db->query("SELECT seizoen_id FROM seizoen WHERE UNIX_TIMESTAMP(eind)>".(time()).";");
+		while($db->next_record()) {
+			$db2->query("SELECT DISTINCT type_id, week FROM tarief WHERE voorraad_xml<>0 AND seizoen_id='".addslashes($db->f("seizoen_id"))."' AND type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".addslashes($_GET["1k0"])."') ORDER BY week;");
+			while($db2->next_record()) {
+				voorraad_bijwerken($db2->f("type_id"),$db2->f("week"),false,"","","","",0,"","",false,5);
+#				echo $db2->f("type_id")." ".date("r",$db2->f("week"))."<br>";
+			}
+		}
+	}
+	$url=ereg_replace("&xmlvoorraadreset=1","",$_SERVER["REQUEST_URI"]);
+	$url=ereg_replace("&confirmed=1","",$url);
+	header("Location: ".$url);
+	exit;
+}
+
+# wzt opvragen indien niet meegegeven met query_string
+if(!$_GET["wzt"]) {
+	if($_GET["1k0"]) {
+		$db->query("SELECT wzt FROM accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
+		if($db->next_record()) {
+			$_GET["wzt"]=$db->f("wzt");
+		}
+	} else {
+		$_GET["wzt"]=1;
+	}
+}
+
+# Kijken of er actieve boekingen aan deze accommodaties hangen
+$db->query("SELECT DISTINCT og.optie_soort_id FROM boeking b, type t, accommodatie a, optie_groep og, optie_onderdeel oo, boeking_optie bo WHERE bo.boeking_id=b.boeking_id AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oo.optie_groep_id=og.optie_groep_id AND t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id AND a.accommodatie_id='".addslashes($_GET["1k0"])."' AND b.bevestigdatum>0 AND b.geannuleerd=0 AND b.vertrekdatum_exact>".time().";");
+while($db->next_record()) {
+	if(!$login->has_priv("6")) {
+		# Niet aan te passen optie_soorten niet wissen
+		if($inquery) $inquery.=",".$db->f("optie_soort_id"); else $inquery=$db->f("optie_soort_id");
+	}
+	$vars["temp"]["niet_wijzigen"][$db->f("optie_soort_id")]=true;
+}
+
+# Beschikbare opties opslaan
+if($_POST["opties_filled"]) {
+	$db->query("DELETE FROM optie_accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."'".($inquery ? " AND optie_soort_id NOT IN (".$inquery.")" : "").";");
+	@reset($_POST["groep"]);
+	while(list($key,$value)=@each($_POST["groep"])) {
+		if($key>0 and $value>0) $db->query("INSERT INTO optie_accommodatie SET accommodatie_id='".addslashes($_GET["1k0"])."', optie_soort_id='".addslashes($key)."', optie_groep_id='".addslashes($value)."';");
+	}
+	header("Location: cms_accommodaties.php?".$_SERVER["QUERY_STRING"]);
+	exit;
+}
+
+# Afwijkende vertrekdagtypes opslaan
+if($_POST["vertrekdagtypes_filled"]) {
+	@reset($_POST["vertrekdagtype"]);
+	while(list($key,$value)=@each($_POST["vertrekdagtype"])) {
+		if($key>0) {
+			if($value<>"") {
+				$db->query("INSERT INTO accommodatie_seizoen SET accommodatie_id='".addslashes($_GET["1k0"])."', seizoen_id='".addslashes($key)."', vertrekdagtype_id='".addslashes($value)."';");
+				if($db->Errno==1062) {
+					$db->query("UPDATE accommodatie_seizoen SET vertrekdagtype_id='".addslashes($value)."' WHERE accommodatie_id='".addslashes($_GET["1k0"])."' AND seizoen_id='".addslashes($key)."';");
+				}
+			}
+		}
+	}
+	header("Location: cms_accommodaties.php?".$_SERVER["QUERY_STRING"]);
+	exit;
+}
+
+# Gekoppelde accommodaties opslaan
+if($_POST["acckoppelen_filled"] and $_POST["accid"]) {
+	$db->query("INSERT INTO accommodatie_koppeling SET accommodatie1_id='".addslashes($_GET["1k0"])."', accommodatie2_id='".addslashes($_POST["accid"])."';");
+	gekoppelde_acc_opslaan_voor_zoekfunctie();
+	header("Location: cms_accommodaties.php?".$_SERVER["QUERY_STRING"]);
+	exit;
+}
+
+# Gekoppelde accommodaties wissen
+if($_GET["acckoppelen_delete"] and $_GET["confirmed"]) {
+	$db->query("DELETE FROM accommodatie_koppeling WHERE accommodatie1_id='".addslashes($_GET["acc1"])."' AND accommodatie2_id='".addslashes($_GET["acc2"])."';");
+	$db->query("DELETE FROM accommodatie_koppeling WHERE accommodatie1_id='".addslashes($_GET["acc2"])."' AND accommodatie2_id='".addslashes($_GET["acc1"])."';");
+	gekoppelde_acc_opslaan_voor_zoekfunctie();
+	header("Location: cms_accommodaties.php?".wt_stripget($_GET,array("acckoppelen_delete","confirmed","acc1","acc2")));
+	exit;
+}
+
+# Seizoenen laden t.b.v. vertrekinfo_seizoengoedgekeurd
+$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind, type FROM seizoen WHERE type='".addslashes($_GET["wzt"])."' AND UNIX_TIMESTAMP(eind)>'".(time()-(86400*60))."' ORDER BY type, begin, eind;");
+while($db->next_record()) {
+	$vars["seizoengoedgekeurd"][$db->f("seizoen_id")]=$db->f("naam");
+}
+
+$cms->settings[1]["list"]["show_icon"]=true;
+$cms->settings[1]["list"]["edit_icon"]=true;
+$cms->settings[1]["list"]["delete_icon"]=true;
+
+if(!$_GET["1where"]) {
+	$cms->db[1]["where"]="wzt='".addslashes($_GET["wzt"])."'";
+	if($_GET["controleren"] and !$_GET["1k0"]) {
+		$db->query("SELECT DISTINCT accommodatie_id FROM type WHERE controleren=1");
+		while($db->next_record()) {
+			$inquery_controleren.=",".$db->f("accommodatie_id");
+		}
+		if($inquery_controleren) {
+			$cms->db[1]["where"].=" AND (controleren=1 OR accommodatie_id IN (".substr($inquery_controleren,1)."))";
+		} else {
+			$cms->db[1]["where"].=" AND controleren=1";
+		}
+	}
+}
+$cms->db[1]["set"]="wzt='".addslashes($_GET["wzt"])."'";
+
+if($_GET["edit"]<>1 and $_GET["show"]<>1 and !$_GET["1where"]) {
+	if($_GET["archief"]) {
+		$cms->db[1]["where"].=" AND archief=1";
+		$cms->settings[1]["list"]["add_link"]=false;
+	} elseif(isset($_GET["archief"])) {
+		$cms->db[1]["where"].=" AND archief=0";
+	}
+	if($_GET["controleren"]) {
+		$cms->settings[1]["list"]["add_link"]=false;	
+	}
+}
+
+$cms->settings[1]["show"]["goto_new_record"]=true;
+$cms->settings[1]["edit"]["top_submit_button"]=true;
+
+# Database db_field($counter,$type,$id,$field="",$options="")
+$cms->db_field(1,"noedit","accommodatie_id");
+$cms->db_field(1,"text","naam");
+$cms->db_field(1,"text","internenaam");
+$cms->db_field(1,"text","bestelnaam");
+$cms->db_field(1,"text","korteomschrijving");
+if($vars["cmstaal"]) $cms->db_field(1,"text","korteomschrijving_".$vars["cmstaal"]);
+$cms->db_field(1,"text","altnaam");
+$cms->db_field(1,"text","altnaam_zichtbaar");
+$cms->db_field(1,"textarea","aantekeningen","",array("dontlog"=>true));
+$cms->db_field(1,"yesno","controleren");
+$cms->db_field(1,"yesno","tonen");
+$cms->db_field(1,"yesno","archief");
+$cms->db_field(1,"yesno","tonenzoekformulier");
+$cms->db_field(1,"text","leverancierscode");
+$cms->db_field(1,"url","url_leverancier");
+$cms->db_field(1,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
+$cms->db_field(1,"yesno","weekendski");
+$cms->db_field(1,"select","leverancier_id","",array("othertable"=>"3","otherkeyfield"=>"leverancier_id","otherfield"=>"naam","otherwhere"=>"beheerder=0"));
+$cms->db_field(1,"select","beheerder_id","",array("othertable"=>"3","otherkeyfield"=>"leverancier_id","otherfield"=>"naam","otherwhere"=>"beheerder=1"));
+$cms->db_field(1,"select","skipas_id","",array("othertable"=>"10","otherkeyfield"=>"skipas_id","otherfield"=>"naam"));
+$cms->db_field(1,"select","plaats_id","",array("othertable"=>"4","otherkeyfield"=>"plaats_id","otherfield"=>"naam","otherwhere"=>"wzt='".addslashes($_GET["wzt"])."'"));
+$cms->db_field(1,"select","soortaccommodatie","",array("selection"=>$vars["soortaccommodatie"]));
+if($oud_toonper==2) {
+	$cms->db_field(1,"select","toonper","",array("selection"=>$vars["toonper"]));
+} else {
+	$cms->db_field(1,"select","toonper","",array("selection"=>$vars["toonper_beperktekeuze"]));
+}
+$cms->db_field(1,"yesno","flexibel");
+$cms->db_field(1,"select","bijkomendekosten1_id","",array("othertable"=>"33","otherkeyfield"=>"bijkomendekosten_id","otherfield"=>"internenaam","otherwhere"=>"gekoppeldaan=1"));
+$cms->db_field(1,"select","bijkomendekosten2_id","",array("othertable"=>"33","otherkeyfield"=>"bijkomendekosten_id","otherfield"=>"internenaam","otherwhere"=>"gekoppeldaan=1"));
+$cms->db_field(1,"select","bijkomendekosten3_id","",array("othertable"=>"33","otherkeyfield"=>"bijkomendekosten_id","otherfield"=>"internenaam","otherwhere"=>"gekoppeldaan=1"));
+$cms->db_field(1,"select","bijkomendekosten4_id","",array("othertable"=>"33","otherkeyfield"=>"bijkomendekosten_id","otherfield"=>"internenaam","otherwhere"=>"gekoppeldaan=1"));
+$cms->db_field(1,"select","bijkomendekosten5_id","",array("othertable"=>"33","otherkeyfield"=>"bijkomendekosten_id","otherfield"=>"internenaam","otherwhere"=>"gekoppeldaan=1"));
+$cms->db_field(1,"select","bijkomendekosten6_id","",array("othertable"=>"33","otherkeyfield"=>"bijkomendekosten_id","otherfield"=>"internenaam","otherwhere"=>"gekoppeldaan=1"));
+$cms->db_field(1,"select","zoekvolgorde","",array("selection"=>$vars["zoekvolgorde"]));
+
+$cms->db_field(1,"select","aankomst_plusmin","",array("selection"=>$vars["aankomst_plusmin"]));
+$cms->db_field(1,"select","vertrek_plusmin","",array("selection"=>$vars["vertrek_plusmin"]));
+
+$cms->db_field(1,"textarea","omschrijving");
+#$cms->db_field(1,"checkbox","kenmerken","",array("selection"=>$vars["kenmerken_accommodatie_".$_GET["wzt"]]));
+$cms->db_field(1,"multiradio","kenmerken","",array("selection"=>$vars["kenmerken_accommodatie_".$_GET["wzt"]],"multiselection"=>array(1=>"ja",2=>"nee",3=>"onbekend",4=>"niet relevant"),"multiselectionfields"=>array(1=>"kenmerken",2=>"kenmerken_nee",3=>"kenmerken_onbekend",4=>"kenmerken_irrelevant")));
+#$cms->db_field(1,"yesno","kenmerken_gecontroleerd");
+$cms->db_field(1,"date","kenmerken_gecontroleerd_datum");
+if($vars["cmstaal"]) $cms->db_field(1,"textarea","omschrijving_".$vars["cmstaal"]);
+$cms->db_field(1,"select","kwaliteit","",array("selection"=>$vars["kwaliteit"]));
+$cms->db_field(1,"textarea","indeling");
+if($vars["cmstaal"]) $cms->db_field(1,"textarea","indeling_".$vars["cmstaal"]);
+$cms->db_field(1,"textarea","inclusief");
+if($vars["cmstaal"]) $cms->db_field(1,"textarea","inclusief_".$vars["cmstaal"]);
+$cms->db_field(1,"textarea","exclusief");
+if($vars["cmstaal"]) $cms->db_field(1,"textarea","exclusief_".$vars["cmstaal"]);
+$cms->db_field(1,"textarea","extraopties");
+if($vars["cmstaal"]) $cms->db_field(1,"textarea","extraopties_".$vars["cmstaal"]);
+$cms->db_field(1,"text","receptie");
+if($vars["cmstaal"]) $cms->db_field(1,"text","receptie_".$vars["cmstaal"]);
+$cms->db_field(1,"textarea","telefoonnummer");
+$cms->db_field(1,"textarea","reviews");
+if($vars["cmstaal"]) $cms->db_field(1,"textarea","reviews_".$vars["cmstaal"]);
+$cms->db_field(1,"textarea","voucherinfo");
+if($vars["cmstaal"]) $cms->db_field(1,"textarea","voucherinfo_".$vars["cmstaal"]);
+$cms->db_field(1,"integer","afstandwinkel");
+$cms->db_field(1,"text","afstandwinkelextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandwinkelextra_".$vars["cmstaal"]);
+$cms->db_field(1,"integer","afstandrestaurant");
+$cms->db_field(1,"text","afstandrestaurantextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandrestaurantextra_".$vars["cmstaal"]);
+$cms->db_field(1,"integer","afstandpiste");
+$cms->db_field(1,"text","afstandpisteextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandpisteextra_".$vars["cmstaal"]);
+$cms->db_field(1,"integer","afstandskilift");
+$cms->db_field(1,"text","afstandskiliftextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandskiliftextra_".$vars["cmstaal"]);
+$cms->db_field(1,"integer","afstandloipe");
+$cms->db_field(1,"text","afstandloipeextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandloipeextra_".$vars["cmstaal"]);
+$cms->db_field(1,"integer","afstandskibushalte");
+$cms->db_field(1,"text","afstandskibushalteextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandskibushalteextra_".$vars["cmstaal"]);
+
+$cms->db_field(1,"integer","afstandstrand");
+$cms->db_field(1,"text","afstandstrandextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandstrandextra_".$vars["cmstaal"]);
+
+$cms->db_field(1,"integer","afstandzwembad");
+$cms->db_field(1,"text","afstandzwembadextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandzwembadextra_".$vars["cmstaal"]);
+
+$cms->db_field(1,"integer","afstandzwemwater");
+$cms->db_field(1,"text","afstandzwemwaterextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandzwemwaterextra_".$vars["cmstaal"]);
+
+$cms->db_field(1,"integer","afstandgolfbaan");
+$cms->db_field(1,"text","afstandgolfbaanextra");
+if($vars["cmstaal"]) $cms->db_field(1,"text","afstandgolfbaanextra_".$vars["cmstaal"]);
+
+$cms->db_field(1,"select","mailtekst_id","",array("othertable"=>"32","otherkeyfield"=>"mailtekst_id","otherfield"=>"naam","otherwhere"=>"wzt='".addslashes($_GET["wzt"])."'"));
+$cms->db_field(1,"integer","optiedagen_klanten_vorig_seizoen","","",array("text"=>"10"));
+
+$cms->db_field(1,"text","gps_lat");
+$cms->db_field(1,"text","gps_long");
+
+$cms->db_field(1,"picture","picgroot","",array("savelocation"=>"pic/cms/accommodaties/","filetype"=>"jpg"));
+#$cms->db_field(1,"picture","picklein","",array("savelocation"=>"pic/cms/accommodaties_tn/","filetype"=>"jpg"));
+$cms->db_field(1,"picture","picaanvullend","",array("savelocation"=>"pic/cms/accommodaties_aanvullend/","filetype"=>"jpg","multiple"=>true));
+$cms->db_field(1,"picture","picaanvullendonderaan","",array("savelocation"=>"pic/cms/accommodaties_aanvullend_onderaan/","filetype"=>"jpg","multiple"=>true));
+$cms->db_field(1,"picture","picaanvullend_breed","",array("savelocation"=>"pic/cms/accommodaties_aanvullend_breed/","filetype"=>"jpg","multiple"=>true));
+
+# teksten goedkeuren
+$cms->db_field(1,"checkbox","teksten_seizoengoedgekeurd","",array("selection"=>$vars["seizoengoedgekeurd"]));
+
+# vertrekinfo in NL en EN
+$cms->db_field(1,"upload","route","",array("savelocation"=>"pdf/route_nl/","filetype"=>"pdf"));
+$cms->db_field(1,"checkbox","vertrekinfo_seizoengoedgekeurd","",array("selection"=>$vars["seizoengoedgekeurd"]));
+$cms->db_field(1,"upload","route_en","",array("savelocation"=>"pdf/route_en/","filetype"=>"pdf"));
+$cms->db_field(1,"checkbox","vertrekinfo_seizoengoedgekeurd_en","",array("selection"=>$vars["seizoengoedgekeurd"]));
+
+#
+#
+# List list_field($counter,$id,$title="",$options="",$layout="")
+#
+#
+#
+$cms->list_sort[1]=array("leverancier_id","plaats_id","naam");
+#$cms->list_field(1,"accommodatie_id","ID");
+$cms->list_field(1,"leverancier_id","Leverancier");
+$cms->list_field(1,"plaats_id","Plaats");
+$cms->list_field(1,"internenaam","Interne naam");
+if(!$_GET["archief"]) {
+	$cms->list_field(1,"tonen","Tonen");
+	$cms->list_field(1,"tonenzoekformulier","Zoektonen");
+}
+
+$cms->list_field(1,"websites","Sites");
+
+
+# Sommige velden zijn niet verplicht bij inactieve accommodaties
+$actief_obl=1;
+if($_POST["frm_filled"]) {
+	 if($_POST["input"]["archief"]) $actief_obl=0;
+	 if(!$_POST["input"]["tonen"]) $actief_obl=0;
+}
+
+#
+#
+# Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
+#
+#
+$cms->edit_field(1,0,"archief","Gearchiveerde accommodatie");
+$cms->edit_field(1,0,"controleren","Nog nakijken");
+$cms->edit_field(1,0,"tonen","Tonen op de website",array("selection"=>true));
+$cms->edit_field(1,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
+$cms->edit_field(1,0,"weekendski","Weekendski");
+if($_GET["edit"]==1) {
+	$cms->edit_field(1,0,"htmlrow","<hr><i><span style=\"color:red;\"><b>Let op!</b> Bij wijzigen &quot;websites&quot; worden alle onderliggende types aangepast.</span><br>Om dat te voorkomen kun je &quot;websites&quot; aanpassen op type-niveau.</i>");
+}
+$cms->edit_field(1,0,"websites","Websites",array("selection"=>($_GET["wzt"]==1 ? "B,C,T,W" : "N,O,Z")),"",array("one_per_line"=>true));
+if($_GET["edit"]==1) {
+	$cms->edit_field(1,0,"htmlrow","<hr>");
+}
+if($_GET["1k0"]) $cms->edit_field(1,1,"accommodatie_id","ID");
+$cms->edit_field(1,1,"naam","Naam op de website","","",array("onchange"=>"if(document.forms['frm'].elements['input[internenaam]'].value=='') document.forms['frm'].elements['input[internenaam]'].value=document.forms['frm'].elements['input[naam]'].value;if(document.forms['frm'].elements['input[bestelnaam]'].value=='') document.forms['frm'].elements['input[bestelnaam]'].value=document.forms['frm'].elements['input[naam]'].value;","info"=>"accommodatienaam die de klant krijgt te zien"));
+$cms->edit_field(1,1,"internenaam","Interne naam","","",array("info"=>"accommodatienaam voor intern gebruik"));
+$cms->edit_field(1,1,"bestelnaam","Naam volgens leverancier","","",array("info"=>"accommodatienaam zoals de leverancier 'm gebruikt (wordt o.a. gebruikt bij bestellen)"));
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"korteomschrijving","Korte omschrijving NL","",array("noedit"=>true));
+	$cms->edit_field(1,$actief_obl,"korteomschrijving_".$vars["cmstaal"],"Korte omschrijving ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,($login->userlevel>=10 ? 0 : $actief_obl),"korteomschrijving","Korte omschrijving","","",array("info"=>"Korte/krachtige omschrijving van de accommodatie in 1 zin voor op de accommodatiepagina (voor bezoekers en zoekmachines). Is ook in te voeren op typeniveau (die overschijft dan deze invoer)."));
+}
+$cms->edit_field(1,0,"altnaam","Zoekwoorden (intern zoekformulier)");
+$cms->edit_field(1,0,"altnaam_zichtbaar","Alternatieve spelling / trefwoorden (Google)");
+$cms->edit_field(1,0,"aantekeningen","Aantekeningen (intern)","",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
+if($_GET["add"]==1) {
+	$cms->edit_field(1,1,"leverancier_id","Leverancier");
+	$cms->edit_field(1,0,"beheerder_id","Beheerder");
+} else {
+	$cms->edit_field(1,1,"leverancier_id","Leverancier","",array("noedit"=>true));
+#	$cms->edit_field(1,0,"beheerder_id","Beheerder","",array("noedit"=>true));
+}
+$cms->edit_field(1,0,"leverancierscode","Leverancierscode accommodatie (voor XML)");
+$cms->edit_field(1,0,"url_leverancier","Directe link bij leverancier");
+if($_GET["wzt"]==1) {
+	$cms->edit_field(1,0,"skipas_id","Skipas");
+}
+$cms->edit_field(1,1,"plaats_id","Plaats");
+$cms->edit_field(1,0,"gps_lat","GPS latitude","","",array("info"=>"Vul de breedtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 52.086508"));
+$cms->edit_field(1,0,"gps_long","GPS longitude","","",array("info"=>"Vul de lengtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 4.886513"));
+$cms->edit_field(1,1,"soortaccommodatie","Soort accommodatie");
+if($accommodatie_heeft_boekingen) {
+	if($login->userlevel>=10) {
+		$cms->edit_field(1,0,"htmlrow","<hr><b>LET OP:</b> <i>Alleen WebTastic - Er zijn <a href=\"cms_boekingen.php?boekingsearch=_".htmlentities($_GET["1k0"])."\" target=\"_blank\">boekingen aan deze accommodatie gekoppeld</a>. - wijzigen alleen mogelijk door WebTastic. Boekingen worden gewist.</i>");
+		$cms->edit_field(1,1,"toonper","Noteer tarieven per","",array("noedit"=>false));	
+		$cms->edit_field(1,0,"htmlrow","<hr>");
+	} else {
+		$cms->edit_field(1,0,"htmlrow","<hr><i>Er zijn <a href=\"cms_boekingen.php?boekingsearch=_".htmlentities($_GET["1k0"])."\" target=\"_blank\">boekingen aan deze accommodatie gekoppeld</a>. Wijzigen van onderstaand veld is alleen mogelijk door WebTastic. Boekingen moeten in dat geval worden gewist.</i>");
+		$cms->edit_field(1,1,"toonper","Noteer tarieven per","",array("noedit"=>true));
+		$cms->edit_field(1,0,"htmlrow","<hr>");
+	}
+} else {
+	if($_GET["add"]<>1) {
+		$cms->edit_field(1,0,"htmlrow","<hr><b>LET OP:</b> <i>bij het wijzigen van dit veld worden alle ooit ingevoerde tarieven en kortingen gewist.</i>");
+	}
+	$cms->edit_field(1,1,"toonper","Noteer tarieven per");
+	if($_GET["add"]<>1) {
+		$cms->edit_field(1,0,"htmlrow","<hr>");
+	}
+}
+if($_GET["wzt"]==2) {
+	$cms->edit_field(1,0,"flexibel","Flexibele aankomst/vertrek mogelijk","","",array("info"=>"Zet hier alleen een vinkje als de leverancier via XML flexibele gegevens aanlevert (dat is zeer uitzonderlijk)."));
+}
+$cms->edit_field(1,0,"bijkomendekosten1_id","Bijkomende kosten 1");
+$cms->edit_field(1,0,"bijkomendekosten2_id","Bijkomende kosten 2");
+$cms->edit_field(1,0,"bijkomendekosten3_id","Bijkomende kosten 3");
+$cms->edit_field(1,0,"bijkomendekosten4_id","Bijkomende kosten 4");
+$cms->edit_field(1,0,"bijkomendekosten5_id","Bijkomende kosten 5");
+$cms->edit_field(1,0,"bijkomendekosten6_id","Bijkomende kosten 6");
+$cms->edit_field(1,1,"zoekvolgorde","Zoekvolgorde",array("selection"=>3));
+$cms->edit_field(1,0,"kwaliteit","Kwaliteit");
+$cms->edit_field(1,0,"htmlrow","<hr><b>Kenmerken</b>");
+#$cms->edit_field(1,0,"kenmerken_gecontroleerd","Alle kenmerken zijn gecontroleerd");
+$cms->edit_field(1,1,"kenmerken","Kenmerken");
+$cms->edit_field(1,0,"kenmerken_gecontroleerd_datum","Alle kenmerken zijn gecontroleerd op","",array("startyear"=>date("Y")-2,"endyear"=>date("Y")+1),array("calendar"=>true,"info"=>"Na het invullen van deze datum zal er een jaar lang op de CMS-hoofdpagina geen melding worden gemaakt indien er nog onbekende kenmerken zijn."));
+$cms->edit_field(1,0,"htmlrow","<a name=\"verblijfsduur\"></a><hr><b>Verblijfsduur</b>");
+$cms->edit_field(1,0,"aankomst_plusmin","Aankomst (afwijking in dagen)");
+$cms->edit_field(1,0,"vertrek_plusmin","Vertrek (afwijking in dagen)");
+$cms->edit_field(1,0,"htmlrow","<hr><b>Teksten</b>");
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"omschrijving","Omschrijving NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"omschrijving_".$vars["cmstaal"],"Omschrijving ".strtoupper($vars["cmstaal"]),"","",array("rows"=>25));
+} else {
+	$cms->edit_field(1,0,"omschrijving","Omschrijving","","",array("rows"=>25));
+}
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"indeling","Indeling NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"indeling_".$vars["cmstaal"],"Indeling ".strtoupper($vars["cmstaal"]),"","",array("rows"=>25));
+} else {
+	$cms->edit_field(1,0,"indeling","Indeling","","",array("rows"=>25));
+}
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"inclusief","Inclusief NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"inclusief_".$vars["cmstaal"],"Inclusief ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,0,"inclusief","Inclusief");
+}
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"exclusief","Exclusief NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"exclusief_".$vars["cmstaal"],"Exclusief ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,0,"exclusief","Exclusief");
+}
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"extraopties","Extra opties NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"extraopties_".$vars["cmstaal"],"Extra opties ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,0,"extraopties","Extra opties");
+}
+if($_GET["wzt"]==2) {
+	if($vars["cmstaal"]) {
+		$cms->edit_field(1,0,"reviews","Reviews NL","",array("noedit"=>true));
+		$cms->edit_field(1,0,"reviews_".$vars["cmstaal"],"Reviews ".strtoupper($vars["cmstaal"]));
+	} else {
+		$cms->edit_field(1,0,"reviews","Reviews","","",array("info"=>"Voer hier accommodatie-reviews van Posarelli in (voorlopig alleen Posarelli, later wellicht ook andere leveranciers)"));
+	}
+}
+
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"receptie","Receptie/Sleutel NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"receptie_".$vars["cmstaal"],"Receptie/Sleutel ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,0,"receptie","Receptie/Sleutel");
+}
+$cms->edit_field(1,0,"telefoonnummer","Telefoonnummer");
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"voucherinfo","Vouchertekst","",array("noedit"=>true));
+	$cms->edit_field(1,0,"voucherinfo_".$vars["cmstaal"],"Vouchertekst ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,0,"voucherinfo","Vouchertekst");
+}
+$cms->edit_field(1,0,"mailtekst_id","Mailtekst (8 weken voor vertrek)");
+$cms->edit_field(1,1,"optiedagen_klanten_vorig_seizoen","Aantal optiedagen voor klant die het volgende seizoen de accommodatie opnieuw boekt");
+
+
+$cms->edit_field(1,0,"htmlrow","<hr><b>Afstanden</b>");
+$cms->edit_field(1,0,"afstandwinkel","Afstand tot winkel (in meters)");
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"afstandwinkelextra","Toevoeging afstand winkel NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"afstandwinkelextra_".$vars["cmstaal"],"Toevoeging afstand winkel ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,0,"afstandwinkelextra","Toevoeging afstand winkel");
+}
+$cms->edit_field(1,0,"afstandrestaurant","Afstand tot restaurant (in meters)");
+$cms->edit_field(1,0,"afstandwinkel","Afstand tot winkel (in meters)");
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"afstandrestaurantextra","Toevoeging afstand restaurant NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"afstandrestaurantextra_".$vars["cmstaal"],"Toevoeging afstand restaurant ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(1,0,"afstandrestaurantextra","Toevoeging afstand restaurant");
+}
+if($_GET["wzt"]==1) {
+	$cms->edit_field(1,0,"afstandpiste","Afstand tot piste (in meters)");
+	if($vars["cmstaal"]) {
+		$cms->edit_field(1,0,"afstandpisteextra","Toevoeging afstand piste NL","",array("noedit"=>true));
+		$cms->edit_field(1,0,"afstandpisteextra_".$vars["cmstaal"],"Toevoeging afstand piste ".strtoupper($vars["cmstaal"]));
+	} else {
+		$cms->edit_field(1,0,"afstandpisteextra","Toevoeging afstand piste");
+	}
+	
+	$cms->edit_field(1,0,"afstandskilift","Afstand tot skilift (in meters)");
+	if($vars["cmstaal"]) {
+		$cms->edit_field(1,0,"afstandskiliftextra","Toevoeging afstand skilift NL","",array("noedit"=>true));
+		$cms->edit_field(1,0,"afstandskiliftextra_".$vars["cmstaal"],"Toevoeging afstand skilift ".strtoupper($vars["cmstaal"]));
+	} else {
+		$cms->edit_field(1,0,"afstandskiliftextra","Toevoeging afstand skilift");
+	}
+	
+	$cms->edit_field(1,0,"afstandloipe","Afstand tot loipe (in meters)");
+	
+	if($vars["cmstaal"]) {
+		$cms->edit_field(1,0,"afstandloipeextra","Toevoeging afstand loipe NL","",array("noedit"=>true));
+		$cms->edit_field(1,0,"afstandloipeextra_".$vars["cmstaal"],"Toevoeging afstand loipe ".strtoupper($vars["cmstaal"]));
+	} else {
+		$cms->edit_field(1,0,"afstandloipeextra","Toevoeging afstand loipe");
+	}
+	$cms->edit_field(1,0,"afstandskibushalte","Afstand tot skibushalte (in meters)");
+	if($vars["cmstaal"]) {
+		$cms->edit_field(1,0,"afstandskibushalteextra","Toevoeging afstand skibushalte NL","",array("noedit"=>true));
+		$cms->edit_field(1,0,"afstandskibushalteextra_".$vars["cmstaal"],"Toevoeging afstand skibushalte ".strtoupper($vars["cmstaal"]));
+	} else {
+		$cms->edit_field(1,0,"afstandskibushalteextra","Toevoeging afstand skibushalte");
+	}
+} else {
+	$cms->edit_field(1,0,"afstandstrand","Afstand tot strand (in meters)");
+	if($vars["cmstaal"]) {
+		$cms->edit_field(1,0,"afstandstrandextra","Toevoeging afstand strand NL","",array("noedit"=>true));
+		$cms->edit_field(1,0,"afstandstrandextra_".$vars["cmstaal"],"Toevoeging afstand strand ".strtoupper($vars["cmstaal"]));
+	} else {
+		$cms->edit_field(1,0,"afstandstrandextra","Toevoeging afstand strand");
+	}
+	$cms->edit_field(1,0,"afstandzwembad","Afstand tot zwembad (in meters)");
+	if($vars["cmstaal"]) {
+		$cms->edit_field(1,0,"afstandzwembadextra","Toevoeging afstand zwembad NL","",array("noedit"=>true));
+		$cms->edit_field(1,0,"afstandzwembadextra_".$vars["cmstaal"],"Toevoeging afstand zwembad ".strtoupper($vars["cmstaal"]));
+	} else {
+		$cms->edit_field(1,0,"afstandzwembadextra","Toevoeging afstand zwembad");
+	}
+	$cms->edit_field(1,0,"afstandzwemwater","Afstand tot zwemwater (in meters)");
+	if($vars["cmstaal"]) {
+		$cms->edit_field(1,0,"afstandzwemwaterextra","Toevoeging afstand zwemwater NL","",array("noedit"=>true));
+		$cms->edit_field(1,0,"afstandzwemwaterextra_".$vars["cmstaal"],"Toevoeging afstand zwemwater ".strtoupper($vars["cmstaal"]));
+	} else {
+		$cms->edit_field(1,0,"afstandzwemwaterextra","Toevoeging afstand zwemwater");
+	}
+	$cms->edit_field(1,0,"afstandgolfbaan","Afstand tot golfbaan (in meters)");
+	if($vars["cmstaal"]) {
+		$cms->edit_field(1,0,"afstandgolfbaanextra","Toevoeging afstand golfbaan NL","",array("noedit"=>true));
+		$cms->edit_field(1,0,"afstandgolfbaanextra_".$vars["cmstaal"],"Toevoeging afstand golfbaan ".strtoupper($vars["cmstaal"]));
+	} else {
+		$cms->edit_field(1,0,"afstandgolfbaanextra","Toevoeging afstand golfbaan");
+	}
+}
+
+$cms->edit_field(1,0,"htmlrow","<hr><b>Afbeeldingen</b><br><i>Afbeeldingen kunnen in groot formaat worden ge&uuml;pload; het systeem zet ze om naar de juiste afmetingen. De verhouding moet wel altijd 4:3 zijn.</i>");
+#$cms->edit_field(1,0,"picgroot","Grote hoofdafbeelding","",array("img_width"=>"240","img_height"=>"180"));
+#$cms->edit_field(1,0,"picklein","Kleine hoofdafbeelding","",array("img_width"=>"60","img_height"=>"45"));
+$cms->edit_field(1,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));
+$cms->edit_field(1,0,"picaanvullend","Aanvullende afbeelding(en)","",array("autoresize"=>true,"img_width"=>"600","img_height"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
+$cms->edit_field(1,0,"picaanvullendonderaan","Aanvullende afbeelding(en) (komen onderaan)","",array("autoresize"=>true,"img_width"=>"600","img_height"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
+$cms->edit_field(1,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("autoresize"=>true,"img_width"=>"400","img_height"=>"150","img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
+
+$cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><b>Goedkeuren bovenstaande teksten/gegevens</b>");
+$cms->edit_field(1,0,"teksten_seizoengoedgekeurd","Teksten zijn goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+
+$cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><b>Vertrekinfo + route Nederlands</b>");
+$cms->edit_field(1,0,"route","Bestand","",array("showfiletype"=>true));
+$cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+$cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Engels</b>");
+$cms->edit_field(1,0,"route_en","Bestand (Engelstalig)","",array("showfiletype"=>true));
+$cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd_en","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+
+
+# Controle op ingevoerde formuliergegevens
+$cms->set_edit_form_init(1);
+if($cms_form[1]->filled) {
+	if($cms_form[1]->input["aankomst_plusmin"]>0 and $cms_form[1]->input["vertrek_plusmin"]<0) {
+		if($cms_form[1]->input["aankomst_plusmin"]+abs($cms_form[1]->input["vertrek_plusmin"])>6) $cms_form[1]->error("vertrek_plusmin","overlap met aankomst");
+	}
+
+	# Controle op archief-functie
+	if($cms_form[1]->input["archief"]) {
+		if($cms_form[1]->input["tonen"]) {
+			$cms_form[1]->error("tonen","tonen moet inactief zijn bij een gearchiveerde accommodatie");
+		}
+	}
+	
+	# Controle of juiste taal wel actief is
+	if(!$vars["cmstaal"]) {
+		while(list($key,$value)=each($_POST["input"])) {
+			if(ereg("^omschrijving_",$key)) {
+				$cms_form[1]->error("taalprobleem","De CMS-taal is gewijzigd tijdens het bewerken. Opslaan is niet mogelijk. Ga terug naar het CMS-hoofdmenu en kies de gewenste taal",false,true);
+			}
+		}
+	}
+	
+	# Controle op tarievenoptie B (toonper 2)
+	if($cms_form[1]->input["toonper"]<>$oud_toonper and $cms_form[1]->input["toonper"]==2) {
+		$cms_form[1]->error("toonper","tarievenoptie B is niet meer in gebruik");		
+	}
+	
+	# Controle op wijzigen toonper
+	if($accommodatie_heeft_boekingen and $_POST["input"]["toonper"] and $_POST["input"]["toonper"]<>$oud_toonper) {
+		if($login->userlevel>=10) {
+		
+		} else {
+			$cms_form[1]->error("toonper","wijzigen kan niet; er zijn boekingen aan deze accommodatie gekoppeld");
+		}
+	}
+	
+	# Controle op gps_lat
+	if($cms_form[1]->input["gps_lat"]<>"") {
+		if(preg_match("/^-?[0-9]+\.[0-9]+$/",$cms_form[1]->input["gps_lat"])) {
+			if(floatval($cms_form[1]->input["gps_lat"])<33.797408767572485 or floatval($cms_form[1]->input["gps_lat"])>71.01695975726373) {
+				$cms_form[1]->error("gps_lat","opgegeven waarde ligt buiten Europa");
+			}
+		} else {
+			$cms_form[1]->error("gps_lat","gebruik alleen cijfers, &eacute;&eacute;n punt en eventueel een minteken");
+		}
+	}
+
+	# Controle op gps_long
+	if($cms_form[1]->input["gps_long"]<>"") {
+		if(preg_match("/^-?[0-9]+\.[0-9]+$/",$cms_form[1]->input["gps_long"])) {
+			if(floatval($cms_form[1]->input["gps_long"])<-9.393310546875 or floatval($cms_form[1]->input["gps_long"])>27.7734375) {
+				$cms_form[1]->error("gps_long","opgegeven waarde ligt buiten Europa");
+			}
+		} else {
+			$cms_form[1]->error("gps_long","gebruik alleen cijfers, &eacute;&eacute;n punt en eventueel een minteken");
+		}
+	}
+	if($cms_form[1]->input["gps_long"]<>"" and !$cms_form[1]->input["gps_lat"]) $cms_form[1]->error("gps_lat","vul zowel latitude als longitude in");
+	if($cms_form[1]->input["gps_lat"]<>"" and !$cms_form[1]->input["gps_long"]) $cms_form[1]->error("gps_long","vul zowel latitude als longitude in");
+	
+	
+
+	# Bij wijzigen van "toonper" alle tarieven wissen
+	if($cms_form[1]->input["toonper"]<>$oud_toonper and $oud_toonper and $cms_form[1]->input["toonper"] and (!$accommodatie_heeft_boekingen or $login->userlevel>=10) and !$cms_form[1]->error and $_GET["1k0"] and $_GET["edit"]==1) {
+		$db->query("SELECT type_id FROM type WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
+		while($db->next_record()) {
+			# tabel tarief wissen
+			$db2->query("DELETE FROM tarief WHERE type_id='".$db->f("type_id")."';");
+		
+			# tabel tarief_personen
+			$db2->query("DELETE FROM tarief_personen WHERE type_id='".$db->f("type_id")."';");
+
+			# kortingen wissen
+			$db2->query("DELETE FROM korting WHERE type_id='".$db->f("type_id")."';");
+			
+			# boekingen wissen
+			$db2->query("DELETE FROM boeking WHERE type_id='".$db->f("type_id")."';");
+		}
+	}
+#	$cms_form[1]->error("kwaliteit","testfout");
+}
+
+# functie na opslaan form
+function form_before_goto($form) {
+	$db=new DB_sql;
+	$db2=new DB_sql;
+	global $login,$vars;
+	
+	# datum pdf-upload vastleggen
+	if($form->settings["fullname"]=="cms_1") {
+		if($form->upload_okay["route"]) {
+			if($form->db_insert_id) {
+				$accid=$form->db_insert_id;
+			} elseif($_GET["1k0"]) {
+				$accid=$_GET["1k0"];
+			}
+			if($accid) {
+				if($vars["cmstaal"]) $ext="_".$vars["cmstaal"];
+				$db->query("UPDATE accommodatie SET pdfupload_user".$ext."='".addslashes($login->user_id)."', pdfupload_datum".$ext."=NOW() WHERE accommodatie_id='".addslashes($accid)."';");
+			}
+		}
+	}
+	
+	if($_GET["1k0"]) {	
+
+		# wijziging in websites: op alle onderliggende types doorvoeren
+
+		# oud bepalen
+		$oud=split(",",$form->fields["previous"]["websites"]["selection"]);
+		reset($vars["websites_wzt"][$_GET["wzt"]]);
+		while(list($key,$value)=each($vars["websites_wzt"][$_GET["wzt"]])) {
+			if(in_array($key,$oud)) {
+				if($oud_goedevolgorde) $oud_goedevolgorde.=",".$key; else $oud_goedevolgorde=$key;
+			}
+		}
+
+		# nieuw bepalen
+		$nieuw=split(",",$form->input["websites"]);
+		reset($vars["websites_wzt"][$_GET["wzt"]]);
+		while(list($key,$value)=each($vars["websites_wzt"][$_GET["wzt"]])) {
+			if(in_array($key,$nieuw)) {
+				if($nieuw_goedevolgorde) $nieuw_goedevolgorde.=",".$key; else $nieuw_goedevolgorde=$key;
+			}
+		}
+	
+		if($oud_goedevolgorde<>$nieuw_goedevolgorde) {
+			$db->query("UPDATE type SET websites='".addslashes($nieuw_goedevolgorde)."' WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
+		}
+	}
+	
+	# afbeeldingen verplaatsen en omzetten
+	if(is_array($form->upload_filename)) {
+		while(list($key,$value)=each($form->upload_filename)) {
+	
+			if(preg_match("/pic\/cms\/accommodaties\//",$key)) {
+				# hoofdfoto
+
+				# thumbnail aanmaken
+				wt_create_thumbnail("pic/cms/accommodaties/".basename($key),"pic/cms/accommodaties_tn/".basename($key),60,45);
+				chmod("pic/cms/accommodaties_tn/".basename($key),0666);
+				
+				# afbeelding naar juiste maat omzetten
+				wt_create_thumbnail("pic/cms/accommodaties/".basename($key),"pic/cms/accommodaties/".basename($key),240,180);
+				chmod("pic/cms/accommodaties/".basename($key),0666);
+			}
+		}
+	}
+}
+
+function form_after_imagedelete($form) {
+	# afbeeldingen wissen
+	if(is_array($form->deleted_images)) {
+		while(list($key,$value)=each($form->deleted_images)) {
+			if(preg_match("/pic\/cms\/accommodaties\//",$key)) {
+				# hoofdfoto: thumbnail wissen
+				unlink("pic/cms/accommodaties_tn/".basename($key));
+			}			
+		}
+	}
+}
+
+# Show show_field($counter,$id,$title="",$options="",$layout=""))
+$cms->show_name[1]="accommodatiegegevens";
+$cms->show_mainfield[1]="naam";
+#$cms->show_field(1,"naam");
+#$cms->show_field(1,"picklein","","",array("colspan2"=>true,"align"=>"center"));
+#$cms->show_field(1,"accommodatie_id","ID");
+$cms->show_field(1,"leverancier_id","Leverancier");
+$cms->show_field(1,"plaats_id","Plaats");
+$cms->show_field(1,"naam","Naam");
+$cms->show_field(1,"skipas_id","Skipas");
+$cms->show_field(1,"tonen");
+$cms->show_field(1,"toonper","Tarieventype");
+$cms->show_field(1,"aantekeningen");
+$cms->show_field(1,"picgroot","Afbeelding");
+#$cms->show_field(1,"route","Route");
+#$cms->show_field(1,"picklein","Af","",array("colspan2"=>true));
+
+
+# Controle op delete-opdracht
+if($_GET["delete"]==1 and $_GET["1k0"]) {
+	$db->query("SELECT type_id FROM type WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
+	if($db->next_record()) {
+		$cms->delete_error(1,"Deze accommodatie bevat nog gekoppelde types");
+	}
+}
+
+
+#
+# DELETEn van andere tabellen
+#
+if($cms->set_delete_init(1)) {
+
+}
+
+#
+#
+# Types
+#
+#
+$cms->settings[1]["connect"][]=2;
+$cms->settings[2]["parent"]=1;
+
+$cms->settings[2]["list"]["show_icon"]=true;
+$cms->settings[2]["list"]["edit_icon"]=true;
+$cms->settings[2]["list"]["delete_icon"]=true;
+
+# gebruikte naam na "prevalue" is niet de naam van het database-veld, maar van de id in het systeem!!
+$cms->settings[2]["prevalue"]["accommodatie_id"]=$_GET["1k0"];
+$cms->db[2]["where"]="accommodatie_id='".addslashes($_GET["1k0"])."'";
+
+# Verzameltypes
+$db->query("SELECT type_id, begincode, verzameltype, verzameltype_parent FROM view_accommodatie WHERE verzameltype=1 OR verzameltype_parent>0 ORDER BY verzameltype DESC;");
+while($db->next_record()) {
+	if($db->f("verzameltype")) {
+		$vars["verzameltypes"][$db->f("type_id")]=$db->f("begincode").$db->f("type_id")."  verzamel";
+		$verzameltype_naam[$db->f("type_id")]=$db->f("begincode").$db->f("type_id");
+	} else {
+		$vars["verzameltypes"][$db->f("type_id")]=$verzameltype_naam[$db->f("verzameltype_parent")]." gekoppeld";
+	}
+}
+
+#echo wt_dump($vars["verzameltypes"]);
+#exit;
+
+# Database db_field($counter,$type,$id,$field="",$options="")
+$cms->db_field(2,"noedit","type_id");
+$cms->db_field(2,"select","verzameltypekoppeling","type_id",array("selection"=>$vars["verzameltypes"]));
+$cms->db_field(2,"text","code");
+$cms->db_field(2,"text","naam");
+$cms->db_field(2,"integer","optimaalaantalpersonen");
+$cms->db_field(2,"integer","maxaantalpersonen");
+$cms->db_field(2,"yesno","tonen");
+$cms->db_field(2,"select","leverancier_id","",array("othertable"=>"3","otherkeyfield"=>"leverancier_id","otherfield"=>"naam","otherwhere"=>"beheerder=0"));
+$cms->db_field(2,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
+$cms->db_field(2,"yesno","verzameltype");
+$cms->db_field(2,"yesno","controleren");
+
+#$cms->db_field(2,"yesno","shortlist");
+
+
+
+# Listing list_field($counter,$id,$title="",$options="",$layout="")
+$cms->list_sort[2]=array("verzameltypekoppeling","optimaalaantalpersonen","maxaantalpersonen","naam");
+#$cms->list_sort_desc[2]=true;
+$cms->list_field(2,"verzameltypekoppeling","Verzamel");
+$cms->list_field(2,"leverancier_id","Leverancier");
+$cms->list_field(2,"type_id","ID");
+$cms->list_field(2,"naam","Naam");
+$cms->list_field(2,"code","Code");
+$cms->list_field(2,"optimaalaantalpersonen","Min");
+$cms->list_field(2,"maxaantalpersonen","Max");
+$cms->list_field(2,"tonen","Tonen");
+$cms->list_field(2,"websites","Sites");
+if($_GET["controleren"]) {
+	$cms->list_field(2,"controleren","Nakijken");
+}
+#$cms->list_field(2,"shortlist","Shortlist");
+
+
+
+
+#
+# Koppeling met accommodatie_review
+#
+$cms->settings[1]["connect"][]=48;
+$cms->settings[48]["parent"]=1;
+
+$cms->settings[48]["list"]["show_icon"]=false;
+$cms->settings[48]["list"]["edit_icon"]=true;
+$cms->settings[48]["list"]["delete_icon"]=true;
+$cms->settings[48]["list"]["add_link"]=true;
+$cms->settings[48]["list"]["delete_checkbox"]=true;
+
+$cms->settings[48]["list"]["hide"]=true;
+
+
+$cms->db[48]["where"]="accommodatie_id='".addslashes($_GET["1k0"])."'";
+$cms->db[48]["set"]="accommodatie_id='".addslashes($_GET["1k0"])."'";
+
+# Database db_field($counter,$type,$id,$field="",$options="")
+$cms->db_field(48,"yesno","actief");
+$cms->db_field(48,"select","bron","",array("selection"=>$vars["accommodatie_review_bron"]));
+$cms->db_field(48,"date","datum");
+
+# Listing list_field($counter,$id,$title="",$options="",$layout="")
+$cms->list_sort[48]=array("datum");
+$cms->list_field(48,"datum","Datum",array("date_format"=>"DD-MM-JJJJ"));
+$cms->list_field(48,"bron","Bron");
+
+
+
+# End declaration
+$cms->end_declaration();
+
+$layout->display_all($cms->page_title);
+
+?>

@@ -1,0 +1,45 @@
+RewriteEngine On
+
+#
+# www.chalet.nl/winter/ doorsturen naar www.chalet.nl/
+#
+RewriteCond %{HTTP_HOST} ^www[23]?\.chalet\.nl [NC]
+RewriteCond %{REQUEST_URI} /winter/
+RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} ^www[23]?\.chalet\.be [NC]
+RewriteCond %{REQUEST_URI} /winter/
+RewriteRule ^(.*)$ http://www.chalet.be/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} ^www[23]?\.chalettour\.nl [NC]
+RewriteCond %{REQUEST_URI} /winter/
+RewriteRule ^(.*)$ http://www.chalettour.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} ^www[23]?\.chalet\.eu [NC]
+RewriteCond %{REQUEST_URI} /winter/
+RewriteRule ^(.*)$ http://www.chalet.eu/$1 [L,R=301]
+
+#
+# www.zomerhuisje.nl/winter doorsturen naar /
+#
+RewriteCond %{HTTP_HOST} ^www\.zomerhuisje\.nl [NC]
+RewriteCond %{REQUEST_URI} /winter/ [NC]
+RewriteRule ^(.*)$ /$1 [L,R=301]
+
+
+#RewriteCond %{HTTP_HOST} ^www[23]?\.chalet\. [NC]
+#RewriteCond %{REQUEST_URI} /winter/ [NC]
+#RewriteRule ^(.*)$ /$1
+
+#RewriteCond %{HTTP_HOST} ^www[23]?\.chalettour\. [NC]
+#RewriteCond %{REQUEST_URI} /winter/ [NC]
+#RewriteRule ^(.*)$ /$1
+
+RewriteCond %{HTTP_HOST} \.postvak\.net [NC]
+RewriteCond %{REQUEST_URI} /winter/ [NC]
+RewriteRule ^(.*)$ /chalet/$1 [L,R=301]
+
+#RewriteCond %{HTTP_HOST} !^www[23]?\.chalet\. [NC]
+#RewriteCond %{HTTP_HOST} !^www[23]?\.chalettour\. [NC]
+#RewriteCond %{HTTP_HOST} !\.postvak\.net [NC]
+#RewriteRule ^(.*)$ / [L,R=301]

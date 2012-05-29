@@ -1,0 +1,22 @@
+<?php
+
+$cms->display_cms();
+
+if($_GET["show"]==7) {
+	echo "<hr><br>";
+	$db->query("SELECT DISTINCT v.accommodatie_id, v.wzt, v.soortaccommodatie, v.naam, v.plaats FROM view_accommodatie v, accommodatie_seizoen acs WHERE acs.accommodatie_id=v.accommodatie_id AND acs.vertrekdagtype_id='".addslashes($_GET["7k0"])."' AND archief=0 AND atonen=1 AND ttonen=1 ORDER BY v.wzt, v.plaats, v.naam;");
+	if($db->num_rows()) {
+		echo "De volgende accommodaties maken gebruik van dit vertrekdagtype:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</a></li>";
+		}
+		echo "</ul>";
+		
+		
+	
+	} else {
+		echo "Er zijn nog geen accommodaties aan dit vertrekdagtype gekoppeld.";
+	}
+}
+
+?>

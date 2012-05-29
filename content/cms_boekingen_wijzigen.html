@@ -1,0 +1,25 @@
+<?php
+
+if($mustlogin) {
+	echo boekingkoptekst($gegevens);
+}
+
+if($_GET["burl"] and $mustlogin) {
+	echo "<a href=\"".$_GET["burl"]."\">Terug naar overzichtspagina</a><p>";
+	if($gegevens["stap1"]["zit_in_beheersysteem_melding"]) echo $gegevens["stap1"]["zit_in_beheersysteem_melding"];
+}
+
+#if($gegevens["stap1"]["voucherstatus"]) echo "<b>Voucherstatus: ".$vars["voucherstatus"][$gegevens["stap1"]["voucherstatus"]]."</b><p>";
+
+if($_GET["stap"]==1) {
+	$form->display_all();
+} elseif($_GET["stap"]==2) {
+	$form->display_all();
+} elseif($_GET["stap"]==3) {
+	$form->display_all();
+} elseif($_GET["stap"]==4) {
+	$form->display_all();
+}
+
+
+?><p>&nbsp;<p>&nbsp;<p>

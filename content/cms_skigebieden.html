@@ -1,0 +1,22 @@
+<?php
+
+$cms->display_cms();
+
+if($_GET["show"]==5) {
+
+	$db->query("SELECT wzt, naam FROM skigebied WHERE skigebied_id='".addslashes($_GET["5k0"])."';");
+	if($db->next_record()) {
+		echo "<p>";
+		if($db->f("wzt")==1) {
+			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "http://www.chalet.nl/")."skigebied/".wt_convert2url($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.chalet.nl &gt;</a><br>";
+			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "http://www.chalet.eu/")."region/".wt_convert2url($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.chalet.eu &gt;</a><br>";
+		} else {
+			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "http://www.zomerhuisje.nl/")."regio/".wt_convert2url($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.zomerhuisje.nl &gt;</a><br>";
+		}
+		echo "</p>";
+	}
+
+	$cms->display_log(5);
+}
+	
+?>

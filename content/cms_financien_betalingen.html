@@ -1,0 +1,632 @@
+<?php
+
+if($_GET["uitgaand"]==1) {
+	#
+	# Uitgaande betalingen (naar leveranciers)
+	#
+
+#	echo "<style>\n#wrapper {\nwidth: 1400px;\n}#content {\nwidth:1200px;\n}\n</style>";
+
+	# leveranciers laden
+	$leveranciers_array[0]="-- Alle leveranciers --";
+	$db->query("SELECT leverancier_id, naam FROM leverancier WHERE beheerder=0 ORDER BY naam;");
+	while($db->next_record()) {
+		$leveranciers_array[$db->f("leverancier_id")]=$db->f("naam");
+	}
+
+	# frm = formname (mag ook wat anders zijn)
+	$form=new form2("frm"); 
+	$form->settings["fullname"]="Naam";
+	$form->settings["layout"]["css"]=false;
+	$form->settings["db"]["table"]="lid";
+	$form->settings["message"]["submitbutton"]["nl"]="OK";
+	$form->settings["type"]="get";
+	$form->settings["layout"]["goto_aname"]=true;
+	#_field: (obl),id,title,db,prevalue,options,layout
+	$over_7_dagen=mktime(0,0,0,date("m"),date("d")+7,date("Y"));
+	$form->field_date(0,"begindatum","Van","","",array("startyear"=>date("Y")-2,"endyear"=>date("Y")+2),array("calendar"=>true));
+	$form->field_date(1,"einddatum","Tot en met","",array("time"=>$over_7_dagen),array("startyear"=>date("Y")-2,"endyear"=>date("Y")+2),array("calendar"=>true));
+	$form->field_select(0,"leverancier_id","Leverancier","","",array("selection"=>$leveranciers_array,"no_empty_first_selection"=>true));
+	
+	$form->check_input();
+	
+	if($form->filled) {
+		if($form->input["begindatum"]["unixtime"] and $form->input["einddatum"]["unixtime"] and $form->input["begindatum"]["unixtime"]>$form->input["einddatum"]["unixtime"]) {
+			$form->error("einddatum","moet later zijn dan begindatum");
+		}
+	}
+
+	$form->end_declaration();
+	$form->display_all();
+	unset($andquery);
+	
+	$begindatum=0;
+	$einddatum=$over_7_dagen;
+	
+	if($form->okay) {
+		$einddatum=$form->input["einddatum"]["unixtime"];
+		if($form->input["begindatum"]["unixtime"]) {
+			$begindatum=$form->input["begindatum"]["unixtime"];
+		}
+		if($form->input["leverancier_id"]) {
+			$andquery.=" AND l.leverancier_id='".addslashes($form->input["leverancier_id"])."'";
+		}
+	}
+	
+	if(!$form->error) {
+	
+		# leverancier-gegevens laden
+		unset($lev);
+		$db->query("SELECT leverancier_id, naam, aanbetaling_dagen, aanbetaling_percentage, aanbetaling_euro, eindbetaling_dagen_aankomst, eindbetaling_dagen_factuur, aanbetaling_incl_toeslag FROM leverancier WHERE beheerder=0;");
+		while($db->next_record()) {
+			$lev[$db->f("leverancier_id")]["naam"]=$db->f("naam");
+			$lev[$db->f("leverancier_id")]["aanbetaling_dagen"]=$db->f("aanbetaling_dagen");
+			$lev[$db->f("leverancier_id")]["aanbetaling_percentage"]=$db->f("aanbetaling_percentage");
+			$lev[$db->f("leverancier_id")]["aanbetaling_euro"]=$db->f("aanbetaling_euro");
+			$lev[$db->f("leverancier_id")]["eindbetaling_dagen_aankomst"]=$db->f("eindbetaling_dagen_aankomst");
+			$lev[$db->f("leverancier_id")]["eindbetaling_dagen_factuur"]=$db->f("eindbetaling_dagen_factuur");
+			$lev[$db->f("leverancier_id")]["aanbetaling_incl_toeslag"]=$db->f("aanbetaling_incl_toeslag");
+		}
+		
+		# alle betalingen laden
+		$db->query("SELECT boeking_betaling_lev_id, boeking_id, garantie_id, bedrag, bedrag_goedgekeurd, UNIX_TIMESTAMP(editdatetime) AS editdatetime FROM boeking_betaling_lev;");
+		while($db->next_record()) {
+			if($db->f("boeking_id")>0) {
+				$use_key=$db->f("boeking_id");
+			} else {
+				$use_key="gar_".$db->f("garantie_id");
+			}
+			$betaling[$use_key]["bedrag"]+=$db->f("bedrag");
+			$betaling[$use_key]["bedrag_goedgekeurd"]+=$db->f("bedrag_goedgekeurd");
+			
+			if(!$db->f("bedrag_goedgekeurd")) {
+				$betaling[$use_key]["boeking_betaling_lev_id"]=$db->f("boeking_betaling_lev_id");
+				$betaling[$use_key]["onderweg"]+=$db->f("bedrag");
+				$boeking_betaling_lev[$use_key][$db->f("boeking_betaling_lev_id")]+=$db->f("bedrag");
+			}
+			if($db->f("editdatetime")>time()-10) {
+				$betaling[$use_key]["tonen"]+=$db->f("bedrag");
+			}
+		}
+		
+		$query["boekingen"]="SELECT b.boeking_id, b.boekingsnummer, b.factuurnummer_leverancier, b.leverancier_id, UNIX_TIMESTAMP(b.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.inkoopaanbetaling_gewijzigd, b.inkoopbruto, b.inkoopcommissie, l.naam AS leverancier FROM boeking b, leverancier l WHERE b.boekingsnummer<>'' AND b.leverancier_id=l.leverancier_id AND b.seizoen_id>=17".$andquery.";";
+		$query["garanties"]="SELECT g.garantie_id, UNIX_TIMESTAMP(g.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(g.inkoopdatum) AS bevestigdatum, g.aankomstdatum_exact, g.factuurnummer AS factuurnummer_leverancier, g.reserveringsnummer_extern AS boekingsnummer, g.netto AS totaalfactuurbedrag, g.bruto AS inkoopbruto, g.inkoopaanbetaling_gewijzigd, g.korting_percentage AS inkoopcommissie, l.leverancier_id, l.naam AS leverancier FROM garantie g, type t, leverancier l WHERE 1=1 AND g.aankomstdatum>1306879200 AND g.boeking_id=0 AND g.leverancier_id=l.leverancier_id AND g.type_id=t.type_id".$andquery.";";
+		
+		while(list($key0,$value0)=each($query)) {
+			$db->query($value0);
+#			echo $db->lq;
+			while($db->next_record()) {
+				unset($aanbetaling,$aanbetaling_unixtime,$melding,$bedrag_aanbetaling,$bedrag_aanbetaling_openstaand,$eindbetaling_unixtime,$bedrag_eindbetaling,$bedrag_eindbetaling_openstaand,$advies_nu,$advies_datum,$betaald,$verschil,$melding_toondatum);
+				
+				if($key0=="garanties") {
+					$boeking_key="gar_".$db->f("garantie_id");
+				} else {
+					$boeking_key=$db->f("boeking_id");
+				}
+		
+				# Aanbetaling
+				if($lev[$db->f("leverancier_id")]["aanbetaling_percentage"] or $lev[$db->f("leverancier_id")]["aanbetaling_euro"]) {
+					$aanbetaling=true;
+					if($db->f("inkoopfactuurdatum")) {
+						$aanbetaling_unixtime=mktime(0,0,0,date("m",$db->f("inkoopfactuurdatum")),date("d",$db->f("inkoopfactuurdatum"))+$lev[$db->f("leverancier_id")]["aanbetaling_dagen"],date("Y",$db->f("inkoopfactuurdatum")));
+					} else {
+						if($key0=="garanties") {
+							if($db->f("bevestigdatum")) {
+								$aanbetaling_unixtime=$db->f("bevestigdatum");
+							} else {
+								$aanbetaling_unixtime=$db->f("aankomstdatum_exact");
+								$melding[]="aanbetaling: <a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">inkoopdatum</a> nog niet ingevuld";
+							}
+						} else {
+							$aanbetaling_unixtime=$db->f("bevestigdatum");						
+						}
+						if(!$betaling[$boeking_key]) {
+							if($key0=="garanties") {
+								$melding[]="aanbetaling: <a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">factuurdatum</a> nog niet ingevuld";								
+							} else {
+								$melding[]="aanbetaling: <a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">factuurdatum</a> nog niet ingevuld";							
+							}
+						}
+					}
+					if($lev[$db->f("leverancier_id")]["aanbetaling_percentage"]) {
+						if($lev[$db->f("leverancier_id")]["aanbetaling_incl_toeslag"]) {
+							$bedrag_aanbetaling=round($db->f("totaalfactuurbedrag")*$lev[$db->f("leverancier_id")]["aanbetaling_percentage"]/100,2);
+						} else {
+							$inkoop_min_commissie=round($db->f("inkoopbruto")*(1-$db->f("inkoopcommissie")/100),2);
+							$bedrag_aanbetaling=round($inkoop_min_commissie*$lev[$db->f("leverancier_id")]["aanbetaling_percentage"]/100,2);
+						}
+					} else {
+						$bedrag_aanbetaling=$lev[$db->f("leverancier_id")]["aanbetaling_euro"];
+					}
+					if($db->f("inkoopaanbetaling_gewijzigd")<>"") {
+						$bedrag_aanbetaling=$db->f("inkoopaanbetaling_gewijzigd");
+					}
+					if($betaling[$boeking_key]["bedrag"]<$bedrag_aanbetaling) {
+						$bedrag_aanbetaling_openstaand=$bedrag_aanbetaling-$betaling[$boeking_key]["bedrag"];
+					}
+				}
+		
+				# Eindbetaling
+				if($lev[$db->f("leverancier_id")]["eindbetaling_dagen_aankomst"] or $lev[$db->f("leverancier_id")]["eindbetaling_dagen_factuur"]) {
+					$bedrag_eindbetaling=round($db->f("totaalfactuurbedrag")-$bedrag_aanbetaling,2);
+					if($lev[$db->f("leverancier_id")]["eindbetaling_dagen_aankomst"]<>"") {
+						$eindbetaling_unixtime=mktime(0,0,0,date("m",$db->f("aankomstdatum_exact")),date("d",$db->f("aankomstdatum_exact"))+$lev[$db->f("leverancier_id")]["eindbetaling_dagen_aankomst"],date("Y",$db->f("aankomstdatum_exact")));
+					} elseif($db->f("inkoopfactuurdatum")) {
+						$eindbetaling_unixtime=mktime(0,0,0,date("m",$db->f("inkoopfactuurdatum")),date("d",$db->f("inkoopfactuurdatum"))+$lev[$db->f("leverancier_id")]["eindbetaling_dagen_factuur"],date("Y",$db->f("inkoopfactuurdatum")));
+					} else {
+						if($key0=="garanties") {
+							$melding[]="eindbetaling: <a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">factuurdatum</a> nog niet ingevuld";
+						} else {
+							$melding[]="eindbetaling: <a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">factuurdatum</a> nog niet ingevuld";
+						}
+						$melding_toondatum=mktime(0,0,0,date("m",$db->f("aankomstdatum_exact")),date("d",$db->f("aankomstdatum_exact"))+30,date("Y",$db->f("aankomstdatum_exact")));
+						$eindbetaling_unixtime=$melding_toondatum;
+					}
+					if($betaling[$boeking_key]["bedrag"]<$db->f("totaalfactuurbedrag")) {
+						$bedrag_eindbetaling_openstaand=$db->f("totaalfactuurbedrag")-$betaling[$boeking_key]["bedrag"];
+					} elseif($betaling[$boeking_key]["bedrag"]>$db->f("totaalfactuurbedrag")) {
+						$bedrag_eindbetaling_openstaand=$db->f("totaalfactuurbedrag")-$betaling[$boeking_key]["bedrag"];
+					}
+					if(!$db->f("totaalfactuurbedrag")) {
+						if($key0=="garanties") {
+							$melding[]="<a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">nog geen inkoopbedrag opgeslagen</a>";
+						} else {
+							$melding[]="<a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">nog geen inkoopbedrag opgeslagen</a>";
+						}
+					}
+				} else {
+					$melding_lev[$db->f("leverancier_id")]="nog geen betalingsgegevens ingevoerd bij leverancier <a href=\"".$vars["path"]."cms_leveranciers.php?edit=8&beheerder=0&8k0=".$db->f("leverancier_id")."\" target=\"_blank\">".htmlentities($lev[$db->f("leverancier_id")]["naam"])."</a>";
+				}
+		
+				if($eindbetaling_unixtime<$einddatum and $eindbetaling_unixtime>=$begindatum) {
+					$advies_nu=$bedrag_eindbetaling_openstaand;
+					$advies_datum=$eindbetaling_unixtime;
+				} elseif($aanbetaling and $aanbetaling_unixtime<$einddatum and $aanbetaling_unixtime>=$begindatum) {
+					$advies_nu=$bedrag_aanbetaling_openstaand;
+					$advies_datum=$aanbetaling_unixtime;
+				}
+				$advies_nu=round($advies_nu,2);
+				$betaald=$betaling[$boeking_key]["bedrag_goedgekeurd"];
+				if($betaling[$boeking_key]["bedrag"] and $betaling[$boeking_key]["bedrag_goedgekeurd"]) {
+					$verschil=$betaling[$boeking_key]["bedrag"]-$betaling[$boeking_key]["bedrag_goedgekeurd"];
+				}
+	
+				$use_key=$db->f("leverancier")."_WT_".$db->f("leverancier_id")."_".$advies_datum."_".$boeking_key;
+		
+				if($melding_lev[$db->f("leverancier_id")] and !$melding_lev_gehad[$db->f("leverancier_id")]) {
+					$regel[$use_key]="<tr style=\"background-color:yellow;\"><td colspan=\"13\">".$melding_lev[$db->f("leverancier_id")]."</td></tr>";
+					$melding_lev_gehad[$db->f("leverancier_id")]=true;
+				} else {
+					if(($advies_nu and $advies_datum) or $melding or $verschil or $betaling[$boeking_key]["onderweg"] or $betaling[$boeking_key]["tonen"]) {
+					
+						$totaal["openstaand"][$db->f("leverancier_id")]+=$bedrag_eindbetaling_openstaand;
+						$totaal["advies_nu"][$db->f("leverancier_id")]+=$advies_nu;
+						if(!$melding) {
+							$totaal["onderweg"][$db->f("leverancier_id")]+=$betaling[$boeking_key]["onderweg"];
+							$totaal["betaald"][$db->f("leverancier_id")]+=$betaald;
+							$totaal["verschil"][$db->f("leverancier_id")]+=$verschil;
+						}
+						if(!$melding or ($melding and $melding_toondatum<=$einddatum) or ($melding and !$melding_toondatum)) {
+							if($key0=="garanties") {
+#								$bgcolor="#00ff00";
+								$bgcolor="#ffffff";
+							} else {
+								$bgcolor="#ffffff";
+							}
+							if($bedrag_eindbetaling_openstaand<0) {
+								$bgcolor="#bae9ff";							
+							}
+							$regel[$use_key]="<tr style=\"height:27px;background-color:".$bgcolor."\"><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td>".htmlentities($db->f("factuurnummer_leverancier"))."</td><td nowrap>";
+							if($key0=="garanties") {
+								$regel[$use_key].="<a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">garantie ".htmlentities($db->f("boekingsnummer"))."</a>";
+							} else {
+								$regel[$use_key].="<a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities(substr($db->f("boekingsnummer"),1))."</a>";
+							}
+							$regel[$use_key].="</td><td align=\"right\">".number_format($bedrag_eindbetaling_openstaand,2,",",".")."</td><td>".($advies_nu<>0 ? date("d-m-Y",$advies_datum) : "&nbsp;")."</td><td align=\"right\" nowrap>".($advies_nu<>0 ? number_format($advies_nu,2,",",".") : "&nbsp;")."</td>";
+							if($melding) {
+								$regel[$use_key].="<td colspan=\"5\" style=\"background-color:yellow;font-style:italic;\">";
+								while(list($key,$value)=each($melding)) {
+									if($key>0) $regel[$use_key].="<br>";
+									$regel[$use_key].=$value;
+								}
+								$regel[$use_key].="</td>";
+							} else {
+								$regel[$use_key].="<td>".($advies_nu ? "<input type=\"checkbox\" name=\"nieuwebetaling[".$boeking_key."]\" class=\"nieuwebetaling_checkbox nieuwebetaling_checkbox_".$db->f("leverancier_id")."\" value=\"".$advies_nu."\">" : "&nbsp;")."</td><td align=\"right\">".($betaling[$boeking_key]["onderweg"] ? number_format($betaling[$boeking_key]["onderweg"],2,",",".") : "&nbsp;")."</td><td>".($betaling[$boeking_key]["onderweg"]&&@count($boeking_betaling_lev[$boeking_key])==1 ? "<input type=\"checkbox\" name=\"nieuwegoedkeuring[".$betaling[$boeking_key]["boeking_betaling_lev_id"]."]\" class=\"nieuwegoedkeuring_checkbox nieuwegoedkeuring_checkbox_".$db->f("leverancier_id")."\" value=\"".$betaling[$boeking_key]["onderweg"]."\" class=\"nieuwegoedkeuring\">" : "&nbsp;")."</td><td align=\"right\">".($betaald ? number_format($betaald,2,",",".") : "&nbsp;")."</td><td align=\"right\">".($verschil ? number_format($verschil,2,",",".") : "&nbsp;")."</td></tr>";
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		function totalen_leverancier($leverancierid,$totaal) {
+			$return.="<tr style=\"background-color:grey;color:#ffffff;\"><td><b>Totaal</b></td><td>&nbsp;</td><td>&nbsp;</td><td align=\"right\">".number_format($totaal["openstaand"][$leverancierid],2,",",".")."</td><td>&nbsp;</td><td align=\"right\">".number_format($totaal["advies_nu"][$leverancierid],2,",",".")."</td><td>".($totaal["advies_nu"][$leverancierid]<>0 ? "<input type=\"checkbox\" class=\"nieuwebetaling_checkbox_alles\">" : "&nbsp;")."</td><td align=\"right\">".number_format($totaal["onderweg"][$leverancierid],2,",",".")."</td><td>".($totaal["onderweg"][$leverancierid]<>0 ? "<input type=\"checkbox\" class=\"nieuwegoedkeuring_checkbox_alles\">" : "&nbsp;")."</td><td align=\"right\">".number_format($totaal["betaald"][$leverancierid],2,",",".")."</td><td align=\"right\">".number_format($totaal["verschil"][$leverancierid],2,",",".")."</td></tr>";
+			$return.="<tr style=\"background-color:grey;color:#ffffff;\"><td colspan=\"4\">&nbsp;</td><td colspan=\"3\" align=\"right\"><span id=\"betaaltotaal_".$leverancierid."\"></span>&nbsp;&nbsp;<input type=\"submit\" value=\" onderweg &rarr; \" class=\"submit_disable\" id=\"betaalbutton_lev_".$leverancierid."\" disabled></td><td colspan=\"3\" align=\"right\"><span id=\"goedkeurtotaal_".$leverancierid."\"></span>&nbsp;&nbsp;<input type=\"submit\" value=\" betaald &rarr; \" class=\"submit_disable\" id=\"goedkeurbutton_lev_".$leverancierid."\" disabled></td><td colspan=\"1\">&nbsp;</td></tr>";
+	
+			return $return;
+		}
+		
+		if(is_array($regel)) {
+			ksort($regel);
+			echo "<div style=\"margin-top:30px;margin-bottom:10px;font-weight:bold;\">Openstaande betalingen ";
+			if($begindatum) {
+				echo "van ".datum("DAG D MAAND JJJJ",$begindatum)." t/m ".datum("DAG D MAAND JJJJ",$einddatum);
+			} else {
+				echo "op ".datum("DAG D MAAND JJJJ",$einddatum);			
+			}
+			echo "</div>";
+			echo "<table cellspacing=\"0\" class=\"tbl\">";
+	
+			if(!$form->input["leverancier_id"]) {
+				echo "<tr><th>aankomst</th><th>factuurnummer</th><th>reserveringsnr</th><th>openstaand</th><th>op datum</th><th>te betalen</th><th>&nbsp;</th><th>onderweg</th><th>&nbsp;</th><th>betaald</th><th>verschil</th></tr>";
+				echo "<tr style=\"background-color:grey;color:#ffffff;\"><td><b>Totaal</b></td><td>&nbsp;</td><td>&nbsp;</td><td align=\"right\">".number_format(@array_sum($totaal["openstaand"]),2,",",".")."</td><td>&nbsp;</td><td align=\"right\">".number_format(@array_sum($totaal["advies_nu"]),2,",",".")."</td><td>&nbsp;</td><td align=\"right\">".number_format(@array_sum($totaal["onderweg"]),2,",",".")."</td><td>&nbsp;</td><td align=\"right\">".number_format(@array_sum($totaal["betaald"]),2,",",".")."</td><td align=\"right\">".number_format(@array_sum($totaal["verschil"]),2,",",".")."</td></tr>";
+			}
+	
+			while(list($key,$value)=each($regel)) {
+				if(preg_match("/^(.*)_WT_([0-9]+)_/",$key,$regs)) {
+					if(!$al_gehad[$regs[2]]) {
+						if($laatste_leverancier) {
+							# totalen
+							if(!$melding_lev[$laatste_leverancier]) {
+								echo totalen_leverancier($laatste_leverancier,$totaal);
+							}
+						}
+						if($al_gehad) {
+							echo "</form>";
+						}
+						echo "<tr><td colspan=\"13\"><a name=\"lev_".$regs[2]."\"></a><br><br><b>Leverancier: <a href=\"".$vars["path"]."cms_leveranciers.php?show=8&beheerder=0&8k0=".$regs[2]."\" target=\"_blank\">".htmlentities($regs[1])."</a></b>";
+						echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"lev_form_".$regs[2]."\"><input type=\"hidden\" name=\"inkoopbetalingen_filled\" value=\"1\"><input type=\"hidden\" name=\"leverancier_id\" value=\"".$regs[2]."\">";
+						echo "</tr>";
+						echo "<tr><th>aankomst</th><th>factuurnummer</th><th>reserveringsnr</th><th>openstaand</th><th>op datum</th><th>te betalen</th><th><span style=\"visibility:hidden;\"><input type=\"checkbox\"></span></th><th>onderweg</th><th><span style=\"visibility:hidden;\"><input type=\"checkbox\"></span></th><th>betaald</th><th>verschil</th></tr>";
+						$al_gehad[$regs[2]]=true;
+						$laatste_leverancier=$regs[2];
+					}
+					echo $value;
+				}
+			}
+			if($laatste_leverancier) {
+				# totalen
+				echo totalen_leverancier($laatste_leverancier,$totaal);
+				echo "</form>";
+			}
+			echo "</table>";
+		} else {
+			echo "<p><i>Geen openstaande betalingen gevonden.</i></p>";
+		}
+	}
+} else {
+	#
+	# Binnenkomende betalingen (van klanten)
+	#
+
+	unset($andq,$inquery);
+	if($_POST["aanmaningenversturen"]) {
+		if(is_array($_POST["boeking"])) {
+			while(list($key,$value)=each($_POST["boeking"])) {
+				if($inquery) $inquery.=",".$key; else $inquery=$key;
+			}
+		}
+		if($inquery) {
+			$andq=" AND b.boeking_id IN (".$inquery.")";
+		} else {
+			# Geen boekingen geselecteerd
+			$andq=" AND b.boeking_id=0";
+		}
+		echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\">Terug naar overzicht betalingen en aanmaningen</a><p>";
+	} else {
+		if($_GET["actueel"]) {
+			$andq=" AND b.aankomstdatum_exact>'".(time()-86400*8)."' AND b.aankomstdatum_exact<'".(time()+86400*20)."'";
+		}
+	}
+	
+	# select op aankomstdatum: query bepalen
+	if($_GET["van"]) {
+		$andq.=" AND b.aankomstdatum_exact>='".strtotime($_GET["van"])."'";
+	}
+	if($_GET["tot"]) {
+		$andq.=" AND b.aankomstdatum_exact<='".strtotime($_GET["tot"])."'";
+	}
+	
+	# Laatste factuur bepalen
+	$db->query("SELECT boeking_id, UNIX_TIMESTAMP(datum) AS datum FROM factuur ORDER BY datum DESC;");
+	while($db->next_record()) {
+		if(!$laatstefactuur[$db->f("boeking_id")]) {
+			$laatstefactuur[$db->f("boeking_id")]=$db->f("datum");
+		}
+	}
+	
+	# Betaalde bedragen (voldaan) bepalen
+	$db->query("SELECT boeking_id, sum(bedrag) AS bedrag FROM boeking_betaling GROUP BY boeking_id;");
+	while($db->next_record()) {
+		$voldaan_array[$db->f("boeking_id")]=round($db->f("bedrag"),2);
+	}
+	
+	#echo wt_dump($voldaan_array);
+	#exit;
+	
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.aankomstdatum_exact, b.totale_reissom, b.goedgekeurde_betaling, b.aanbetaling1_dagennaboeken, b.aanbetaling1 , b.aanbetaling1_gewijzigd, UNIX_TIMESTAMP(b.aanbetaling2_datum) AS aanbetaling2_datum, b.aanbetaling2, b.totale_reissom_dagenvooraankomst, b.aanmaning_tekst, b.aanmaning_mailblokkeren, UNIX_TIMESTAMP(b.aanmaning_verstuurdatum) AS aanmaning_verstuurdatum, b.aanmaning_aantal, b.opmerkingen_intern, UNIX_TIMESTAMP(b.opmerkingen_intern_gewijzigd) AS opmerkingen_intern_gewijzigd, b.reisbureau_user_id, p.voornaam, p.tussenvoegsel, p.achternaam FROM boeking b, boeking_persoon p, factuur f WHERE f.boeking_id=b.boeking_id AND p.boeking_id=b.boeking_id AND p.persoonnummer=1 AND b.boekingsnummer<>''".$andq." ORDER BY b.aankomstdatum_exact;");
+#	if($db->num_rows()) {
+		if(!$db->num_rows()) {
+			echo "<p style=\"background-color:yellow;\"><b>geen resultaten gevonden...</b></p>";
+		}
+		if($_POST["aanmaningenversturen"]) {
+			echo "Voor de volgende boekingen is een aanmaning verstuurd:<ul>";
+		} else {
+			if($_GET["actueel"]) {
+				echo "<a href=\"cms_financien_betalingen.php?van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Alle boekingen</a>";
+				echo " - ";
+				echo "<a href=\"cms_financien_betalingen.php?openstaand=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Openstaande boekingen</a>";
+				echo " - ";
+				echo "<a href=\"cms_financien_betalingen.php?perdirect=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Per direct te voldoen</a>";
+				echo " - ";
+				echo "<b>Actuele boekingen</b>";
+			} elseif($_GET["openstaand"]) {
+				echo "<a href=\"cms_financien_betalingen.php?van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Alle boekingen</a>";
+				echo " - ";
+				echo "<b>Openstaande boekingen</b>";
+				echo " - ";
+				echo "<a href=\"cms_financien_betalingen.php?perdirect=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Per direct te voldoen</a>";
+				echo " - ";
+				echo "<a href=\"cms_financien_betalingen.php?actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
+			} elseif($_GET["perdirect"]) {
+				echo "<a href=\"cms_financien_betalingen.php?van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Alle boekingen</a>";
+				echo " - ";
+				echo "<a href=\"cms_financien_betalingen.php?openstaand=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Openstaande boekingen</a>";
+				echo " - ";
+				echo "<b>Per direct te voldoen</b>";
+				echo " - ";
+				echo "<a href=\"cms_financien_betalingen.php?actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
+			} else {
+				echo "<b>Alle boekingen</b>";
+				echo " - ";
+				echo "<a href=\"cms_financien_betalingen.php?openstaand=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Openstaande boekingen</a>";
+				echo " - ";
+				echo "<a href=\"cms_financien_betalingen.php?perdirect=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Per direct te voldoen</a>";
+				echo " - ";
+				echo "<a href=\"cms_financien_betalingen.php?actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
+			}
+			echo "<p>";
+			echo "<div style=\"float:left;\">";
+			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#ffa9a9;\">Rood</span> = boeking waarbij aanmaning is uitgezet</div>";
+			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#a6ffb3;\">Groen</span> = openstaand bedrag waarvan de <i>volledige betaling</i> al is goedgekeurd</div>";
+			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#94d3ff;\">Blauw</span> = openstaand bedrag waarvan een <i>gedeeltelijke betaling</i> al is goedgekeurd</div>";
+			echo "</div>";
+			echo "<div style=\"float:right;margin-top:-30px;\">";
+			echo "<table>";
+			echo "<form method=\"get\">";
+			echo "<tr><td colspan=\"2\"><i>Filter op aankomstdatum</i></td></tr>";
+			echo "<tr><td>Van</td><td><input type=\"text\" name=\"van\" value=\"".wt_he($_GET["van"])."\" class=\"jqueryui_datepicker\" autocomplete=\"off\"></td></tr>";
+			echo "<tr><td>Tot</td><td><input type=\"text\" name=\"tot\" value=\"".wt_he($_GET["tot"])."\" class=\"jqueryui_datepicker\" autocomplete=\"off\"></td></tr>";
+			while(list($key,$value)=each($_GET)) {
+				if($key<>"van" and $key<>"tot") {
+					echo "<input type=\"hidden\" name=\"".wt_he($key)."\" value=\"".wt_he($value)."\">";
+				}
+			}
+			echo "<tr><td colspan=\"2\"><input type=\"submit\" value=\" OK \"></td></tr>";
+			echo "</table>";
+			echo "</form>";
+			echo "</div>";
+			
+			echo "<div style=\"clear:both;\"></div>";
+			
+			echo "<p>";
+			echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+			echo "<input type=\"hidden\" name=\"aanmaningenversturen\" value=\"1\">";
+
+			echo "<div style=\"position:fixed;top:0px;left:189px;display:none;\" id=\"fixedtable_header_div\">";
+			echo "<table cellspacing=\"0\" class=\"tbl fixedtable_header_copy\">\n";
+			echo "<tr><th>&nbsp;</th></tr>\n";
+			echo "</table></div>";
+
+
+			echo "<div id=\"tablediv\">";
+			echo "<table cellspacing=\"0\" class=\"tbl\" style=\"background-color:#ffffff;\">\n";
+			echo "<thead>";
+			echo "<tr id=\"fixedtable_header\"><th>Res.nr.</th><th>Hoofdboeker</th><th title=\"Datum laatste wijziging opmerkingen\">Opm</th><th>Aank.</th><th title=\"Laatste factuur\">Factuur</th><th>Totaal</th><th>Voldaan</th><th>Openst.</th><th title=\"Per direct te voldoen\">P.direct</th><th title=\"Aantal verstuurde aanmaningen\">Aanm.</th><th title=\"Laatst verstuurde aanmaning\">L.</th><th>Tekst</th><th title=\"Tekst bewerkt ja/nee\">Bew.</th><th title=\"Aanmaning versturen\">Verst&nbsp;&nbsp;&nbsp;</th></tr>\n";
+			echo "</thead>";
+			echo "<tbody>";
+	
+			echo "<tr><td>&nbsp;</td><td>&nbsp;</td><td title=\"Datum laatste wijziging opmerkingen\">&nbsp;</td><td>&nbsp;</td><td title=\"Laatste factuur\">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td title=\"Per direct te voldoen\">&nbsp;</td><td title=\"Aantal verstuurde aanmaningen\">&nbsp;</td><td title=\"Laatst verstuurde aanmaning\">&nbsp;</td><td>&nbsp;</td><td title=\"Tekst bewerkt ja/nee\">&nbsp;</td><td title=\"Aanmaning versturen\">&nbsp;</td></tr>\n";
+	
+		}
+	
+		$speling=3; # 3 dagen speling (pas na 3 dagen te laat krijg je een aanmaning)
+		$controledatum=mktime(0,0,0,date("m"),date("d")-$speling,date("Y"));
+	
+		unset($reisbureau_inquery);
+		while($db->next_record()) {
+			if($db->f("reisbureau_user_id")) {
+				if($reisbureau_inquery) $reisbureau_inquery.=",".$db->f("reisbureau_user_id"); else $reisbureau_inquery=$db->f("reisbureau_user_id");
+			}
+		}
+		if($reisbureau_inquery) {
+			$db2->query("SELECT ru.user_id, r.naam FROM reisbureau r, reisbureau_user ru WHERE ru.reisbureau_id=r.reisbureau_id AND ru.user_id IN (".$reisbureau_inquery.");");
+			while($db2->next_record()) {
+				$reisbureau_namen[$db2->f("user_id")]=$db2->f("naam");
+			}
+		}
+		if($db->num_rows()) {
+			$db->seek();
+		}
+		while($db->next_record()) {
+			unset($regeltonen,$totaal,$voldaan,$openstaand,$telaat,$telaat_type,$tevoldoen);
+			$totaal=round($db->f("totale_reissom"),2);
+		
+			$voldaan=$voldaan_array[$db->f("boeking_id")];
+			
+			$voldaan=round($voldaan,2);
+			$openstaand=$totaal-$voldaan;
+			$openstaand=round($openstaand,2);
+	
+			$aantaldagen_na_boeken=round(($controledatum-$db->f("bevestigdatum"))/86400);
+			$aantaldagen_voor_aankomst=round(($db->f("aankomstdatum_exact")-$controledatum)/86400);
+	
+			# Bepalen of er te laat betaald is
+			if($openstaand>0) {
+				# Aanbetaling 1
+				if($db->f("aanbetaling1_gewijzigd")<>0 or $db->f("aanbetaling1_gewijzigd")=="0.00") {
+					$aanbetaling1=$db->f("aanbetaling1_gewijzigd");
+				} elseif($db->f("aanbetaling1")<>0) {
+					$aanbetaling1=$db->f("aanbetaling1");
+				} else {
+					$aanbetaling1="";
+				}
+				if($aanbetaling1 and $voldaan<$aanbetaling1 and $aantaldagen_na_boeken>$db->f("aanbetaling1_dagennaboeken")) {
+					$telaat=true;
+					$telaat_type=1;
+					$telaat_type_naam="aanbetaling1";
+					$tevoldoen=$aanbetaling1-$voldaan;
+				}
+		
+				# Aanbetaling 2
+				if($db->f("aanbetaling2_datum") and $voldaan<($aanbetaling1+$db->f("aanbetaling2")) and $controledatum>$db->f("aanbetaling2_datum")) {
+					$telaat=true;
+					$telaat_type=2;
+					$telaat_type_naam="aanbetaling2";
+					$tevoldoen=$aanbetaling1+$db->f("aanbetaling2")-$voldaan;
+				}
+				
+				# Eindbetaling
+				if($aantaldagen_voor_aankomst<$db->f("totale_reissom_dagenvooraankomst")) {
+					$telaat=true;
+					$telaat_type=3;
+					$telaat_type_naam="eindbetaling";
+					$tevoldoen=$openstaand;
+				}
+			}
+	
+#			$totaal=number_format($totaal,2,",",".");
+	#		$voldaan=number_format($voldaan,2,",",".");
+			if($tevoldoen<>0) {
+				$tevoldoentonen=number_format($tevoldoen,2,",",".");
+			} else {
+				$tevoldoentonen="&nbsp;";
+			}
+	
+			if($openstaand<>0) {
+				$toonopenstaand=round($openstaand,2);
+			} else {
+				$toonopenstaand="0";
+			}
+			
+			if($_GET["openstaand"]) {
+				if($openstaand<>0) $regeltonen=true;
+			} elseif($_GET["actueel"]) {
+				$regeltonen=true;
+			} elseif($_GET["perdirect"]) {
+				if($tevoldoen<>0) $regeltonen=true; 
+			} else {
+				$regeltonen=true;
+			}
+	
+			if($_POST["aanmaningenversturen"]) {
+				echo "<li><a href=\"cms_boekingen.php?show=21&archief=0&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a></li>";
+	
+				# Mailtekst bepalen
+				$mailtekst_aanmaning=mailtekst_aanmaning($db->f("boeking_id"),$telaat_type,$tevoldoen,$voldaan);
+	
+				# Mail versturen aan klant
+				$mail=new wt_mail;
+				if($login->vars["email"]) {
+					$mail->from=$login->vars["email"];
+					$mail->fromname=$mailtekst_aanmaning["fromname"].": ".$login->vars["voornaam"];
+				} else {
+					$mail->from=$mailtekst_aanmaning["from"];
+					$mail->fromname=$mailtekst_aanmaning["fromname"];
+				}
+	
+				if($mailtekst_aanmaning["bewerkt"] and $login->vars["email"]) {
+					$mail->bcc=$login->vars["email"];
+				}
+				$mail->subject=$mailtekst_aanmaning["subject"];
+				$mail->plaintext=$mailtekst_aanmaning["body"];
+	
+				if($mailtekst_aanmaning["to_1"] or $mailtekst_aanmaning["to_2"]) {
+					$mail->to=$mailtekst_aanmaning["to_1"];
+					$mail->send();
+					if($mailtekst_aanmaning["to_2"]) {
+						$mail->to=$mailtekst_aanmaning["to_2"];
+						$mail->send();
+					}
+				} else {
+					$mail->to=$mailtekst_aanmaning["to"];
+					$mail->send();
+				}
+	
+				# Opslaan in database
+				$db2->query("UPDATE boeking SET aanmaning_verstuurdatum=NOW(), aanmaning_aantal=aanmaning_aantal+1, aanmaning_tekst=NULL WHERE boeking_id='".addslashes($db->f("boeking_id"))."';");
+				
+				# Loggen
+				chalet_log("aanmaning ".$telaat_type_naam." (€ ".$mailtekst_aanmaning["bedrag"].") verstuurd aan ".$mailtekst_aanmaning["to_log"],false,true);
+	
+			} else {
+				if($regeltonen) {
+					echo "<tr><td nowrap><a href=\"cms_boekingen.php?show=21&archief=0&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a></td><td>".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")));
+					if($db->f("reisbureau_user_id")) {
+						echo " (".$reisbureau_namen[$db->f("reisbureau_user_id")].")";
+					}
+					echo "</td>";
+					if($db->f("opmerkingen_intern") and $db->f("opmerkingen_intern_gewijzigd")>0) {
+						echo "<td nowrap title=\"".htmlentities(ereg_replace("\n"," ",$db->f("opmerkingen_intern")))."\">".strftime("%e %b",$db->f("opmerkingen_intern_gewijzigd"))."</td>";
+					} else {
+						echo "<td>&nbsp;</td>";
+					}
+					echo "<td nowrap>".date("d-m-y",$db->f("aankomstdatum_exact"))."</td>".($laatstefactuur[$db->f("boeking_id")]>0 ? "<td align=\"right\" title=\"Laatste factuur: ".DATUM("DAG D MAAND JJJJ",$laatstefactuur[$db->f("boeking_id")])."\">".strftime("%e %b",$laatstefactuur[$db->f("boeking_id")]) : "<td>&nbsp;")."</td><td align=\"right\">".number_format($totaal,2,",",".")."</td><td align=\"right\">".number_format($voldaan,2,",",".")."</td>";
+					
+					# Achtergrondkleur en hovertext van de cel "Openst." bepalen
+					$cel_bgcolor="#ffffff";
+					$hovertext="";
+					if($db->f("goedgekeurde_betaling")>0) {
+						if($toonopenstaand>0) {
+							if($db->f("goedgekeurde_betaling")>=$toonopenstaand) {
+								$cel_bgcolor="#a6ffb3";
+							}
+							if($db->f("goedgekeurde_betaling")<$toonopenstaand) {
+								$cel_bgcolor="#94d3ff";
+								$hovertext="goedgekeurde betaling: &euro;&nbsp;".number_format($db->f("goedgekeurde_betaling"),2,",",".");
+							}
+						}
+					}
+					echo "<td title=\"".$hovertext."\" align=\"right\" style=\"background-color:".$cel_bgcolor.";\">".($toonopenstaand<>0 ? number_format($toonopenstaand,2,",",".") : "&nbsp;")."</td>";
+					echo "<td align=\"right\">".$tevoldoentonen."</td><td align=\"center\">".($db->f("aanmaning_aantal")>0 ? $db->f("aanmaning_aantal") : "&nbsp;")."</td>".($db->f("aanmaning_verstuurdatum")>0 ? "<td title=\"Laatste aanmaning verstuurd: ".DATUM("DAG D MAAND JJJJ, UU:ZZ",$db->f("aanmaning_verstuurdatum"))."u.\" nowrap>".strftime("%e %b",$db->f("aanmaning_verstuurdatum")) : "<td>&nbsp;")."</td>";
+					
+					if($openstaand>0 and $telaat and $db->f("aanmaning_verstuurdatum")<(time()-(86400*7))) {
+						echo "<td align=\"center\"><a href=\"javascript:popwindowXY(750,500,'".$path."popup.php?id=cms_mailtekst_aanmaningen_bewerken&bid=".$db->f("boeking_id")."&soortbetaling=".urlencode($telaat_type)."&bedrag=".urlencode($tevoldoen)."&voldaan=".urlencode($voldaan)."','center');\">bewerk</a></td><td align=\"center\">&nbsp;<span id=\"bewerk".$db->f("boeking_id")."\" style=\"".($db->f("aanmaning_tekst")=="" ? "display:none;" : "")."\">ja</span>&nbsp;";
+						echo "<td align=\"center\" style=\"padding:0px;".($db->f("aanmaning_mailblokkeren") ? "background-color:#ffa9a9;" : "")."\"><input type=\"checkbox\" name=\"boeking[".$db->f("boeking_id")."]\" value=\"1\">&nbsp;&nbsp;</td>";
+					} else {
+						echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+					}
+					
+					echo "</tr>\n";
+					
+					# totalen (voor onderaan de tabel) bepalen
+					$totaal_onderaan["totaal"]+=$totaal;
+					$totaal_onderaan["voldaan"]+=$voldaan;
+					if($toonopenstaand<>0) {
+						$totaal_onderaan["openstaand"]+=$toonopenstaand;
+					}
+					if($tevoldoen<>0) {
+						$totaal_onderaan["perdirect"]+=$tevoldoen;
+					}
+				}
+			}
+			flush();
+		}
+		if($_POST["aanmaningenversturen"]) {
+			echo "</ul>";
+		} else {
+			echo "</tbody>";
+			
+			# totaal onderaan
+			echo "<tr><td colspan=\"14\">&nbsp;</td></tr>";
+			echo "<tr style=\"background-color:#ebebeb;\"><td><b>Totaal</b></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td align=\"right\">".number_format($totaal_onderaan["totaal"],2,",",".")."</td><td align=\"right\">".number_format($totaal_onderaan["voldaan"],2,",",".")."</td><td align=\"right\">".number_format($totaal_onderaan["openstaand"],2,",",".")."</td><td align=\"right\">".number_format($totaal_onderaan["perdirect"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+			
+			echo "</table>";
+			echo "</div>";
+			echo "<p><center><input type=\"submit\" value=\" AANMANINGEN VERSTUREN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"></center>";
+			echo "</form>";
+		}
+#	}
+
+}
+?>

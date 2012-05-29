@@ -1,0 +1,61 @@
+<?php
+
+#
+# Vallandry
+#
+
+#echo "<br>";
+#echo "<ul>";
+#echo "<li><a href=\"#".html("winter","omgeving")."\">".html("wintersportinvallandry","omgeving")."</a></li>";
+#echo "<li><a href=\"#".html("zomer","omgeving")."\">".html("zomervakantieinvallandry","omgeving")."</a></li>";
+#echo "</ul>";
+#echo "<hr>";
+
+
+#
+# Winter
+#
+echo "<a name=\"".html("winter","omgeving")."\"></a>";
+echo "<div style=\"margin-top:10px;\"></div>";
+echo "<span style=\"font-size:1.2em;color:#6699cc\">".html("wintersportinvallandry","omgeving")."</span>";
+echo "<div style=\"position:relative;\">";
+echo "<div style=\"margin-top:10px;width:673px;padding:5px;color:#ffffff;background-color:#6699cc;\">";
+echo "<div style=\"margin-right:150px;\">";
+echo nl2br(html("wintertekst","omgeving"));
+echo "</div>"; # afsluiten naamloze div
+echo "</div>"; # afsluiten naamloze div
+
+echo "<div style=\"position:absolute;top:9px;right:20px;\">";
+echo "<img src=\"".$vars["path"]."pic/vallandry_winter.jpg\" width=\"141\" height=\"141\" style=\"border:1px solid #ffffff;\">";
+echo "</div>"; # afsluiten naamloze div
+echo "</div>"; # afsluiten naamloze div
+echo "<div style=\"width:683px;text-align:right;\" class=\"wintera\"><a href=\"".$vars["path"].txt("menu_skigebied")."/Paradiski_-_Les_Arcs/\">".html("meerinformatieover_skigebied","omgeving")." &gt;</a></div>";
+echo "<div style=\"width:683px;text-align:right;margin-top:3px;\" class=\"wintera\"><a href=\"".$vars["path"].txt("menu_plaats")."/Vallandry-Winter/\">".html("meerinformatieover_plaats","omgeving")." &gt;</a></div>";
+
+echo "<br><br>";
+#echo "<hr>";
+#
+# Zomer
+#
+echo "<a name=\"".html("zomer","omgeving")."\"></a>";
+echo "<span style=\"font-size:1.2em;color:#666600\">".html("zomervakantieinvallandry","omgeving")."</span>";
+echo "<div style=\"position:relative;\">";
+echo "<div style=\"margin-top:10px;width:673px;padding:5px;color:#ffffff;background-color:#666600;\">";
+echo "<div style=\"margin-right:150px;\">";
+echo nl2br(html("zomertekst","omgeving"));
+echo "</div>"; # afsluiten naamloze div
+echo "</div>"; # afsluiten naamloze div
+
+echo "<div style=\"position:absolute;top:9px;right:20px;\">";
+echo "<img src=\"".$vars["path"]."pic/vallandry_zomer.jpg\" width=\"141\" height=\"141\" style=\"border:1px solid #ffffff;\">";
+echo "</div>"; # afsluiten naamloze div
+echo "</div>"; # afsluiten naamloze div
+echo "<div style=\"width:683px;text-align:right;\"><a href=\"".$vars["path"].txt("menu_plaats")."/Vallandry/\">".html("meerinformatieover_plaats","omgeving")." &gt;</a></div>";
+
+
+
+
+
+
+
+?>

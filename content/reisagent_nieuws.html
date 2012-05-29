@@ -1,0 +1,53 @@
+<?php
+
+echo "<br><hr><span style=\"font-size:0.8em;\">bericht geplaatst: 3 februari 2011</span><br><br>";
+
+echo "<h2>Nieuwe functie: onze informatie met jouw logo!</h2>";
+
+echo "<p>Regelmatig krijgen wij het verzoek van reisagenten om een mogelijkheid in ons systeem te bouwen om productinformatie te downloaden en te voorzien van logo en n.a.w. gegevens van het reisbureau. Dit voorkomt veel tijdrovend knip- en plakwerk.</p>";
+ 
+echo "<p>Onlangs hebben wij deze functie voor jullie ontwikkeld. Het is vanaf nu mogelijk om productinformatie van Chalettour en Zomerhuisje te downloaden in een Word-bestand en hierbij je eigen logo te plaatsen.</p>";
+
+echo "<i>Om welke informatie gaat het?</i><br>&nbsp;<ul>";
+
+echo "<li>naam accommodatie</li>";
+echo "<li>land/skigebied/plaats</li>";
+echo "<li>hoofdfoto</li>";
+echo "<li>kenmerken</li>";
+echo "<li>omschrijving</li>";
+echo "<li>indeling</li>";
+echo "<li>foto's</li>";
+echo "<li>omgeving</li>";
+echo "<li>opties</li>";
+echo "</ul>";
+
+echo "<br><i>Hoe werkt het?</i><br>&nbsp;<ul>";
+
+if(!$login_rb->logged_in) {
+	echo "<li><b>Let op:</b> om dit te kunnen doen moet je wel ingelogd zijn. Indien je nog geen inloggegevens hebt, vul dan je gegevens dan in via <a href=\"".$vars["path"]."reisagent_aanmelden.php\">het aanmeldingsformulier</a>.</li>";
+}
+echo "<li>Wanneer je op een accommodatiepagina staat";
+
+if($vars["website"]=="T") {
+	$accid="F1643";
+} elseif($vars["website"]=="Z") {
+	$accid="I4529";
+} elseif($vars["website"]=="V") {
+	$accid="F4716";
+}
+if($accid) {
+	$link=$vars["basehref"].txt("menu_accommodatie")."/".$accid."/";
+	echo " (bijvoorbeeld <a href=\"".htmlentities($link)."\" target=\"_blank\">accommodatie ".htmlentities($accid)."</a>)";	
+}
+
+echo " dan zie je aan de rechterkant de functie &quot;Word-bestand downloaden&quot;</li>";
+echo "<li>Je logo kun je uploaden onder <a href=\"".$vars["path"]."reisagent_overzicht.php?mijngeg=1\">mijn gegevens</a> in het hoofdmenu.</li>";
+echo "<li><b>Belangrijk:</b> we adviseren om het document op te slaan als een <b>pdf</b> en het zo door te sturen naar de klant. Dit om technische redenen. De foto's verwijzen naar bestanden op onze website. Als je klant het Word-bestand opent en geen internetverbinding heeft, dan zijn de foto's niet zichtbaar. In een pdf zijn de foto's altijd zichtbaar.</li>";
+echo "</ul>";
+
+echo "<hr>";
+
+
+
+
+?>

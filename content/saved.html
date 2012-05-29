@@ -1,0 +1,43 @@
+<?php
+
+if($last_acc) {
+	$query="SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE t.type_id IN (".$last_acc_inquery.") AND a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id ORDER BY FIND_IN_SET(type_id,'".$last_acc_inquery."') DESC;";
+	$db->query($query);
+#	$db->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, type t, plaats p, land l WHERE t.type_id IN (".$last_acc_inquery.") AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1;");
+	if($db->num_rows()) {
+		while($db->next_record()) {
+			$results[$db->f("type_id")].="<TR><TD width=\"1%\">";
+			if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
+				$pic="pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg";
+			} else {
+				$pic="pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg";
+			}
+			$naam=$db->f("naam").($db->f("type") ? " ".$db->f("type") : "");
+			if(file_exists($pic)) {
+				$results[$db->f("type_id")].="<A HREF=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/\"><IMG SRC=\"".$path.$pic."\" alt=\"".htmlentities($naam)."\" border=\"0\"></A>";
+			} else {
+				$results[$db->f("type_id")].="<IMG SRC=\"".$path."pic/cms/accommodaties_tn/0.jpg\" alt=\"Geen afbeelding beschikbaar\" border=\"0\">";
+			}
+			$results[$db->f("type_id")].="</TD><TD><A HREF=\"".$path."accommodatie/".$db->f("begincode").$db->f("type_id")."/\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$naam)."</A>";
+			$results[$db->f("type_id")].="<BR>".htmlentities($db->f("plaats")." - ".$db->f("skigebied")." - ".$db->f("land"));
+			$results[$db->f("type_id")].="</TD><TD align=\"right\"><NOBR>".($db->f("soortaccommodatie")<>5 ? $db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".html("personen") : "")."</NOBR></TD><TD>".($db->f("slaapkamers") ? $db->f("slaapkamers")."&nbsp;".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."<BR>" : "").($db->f("badkamers") ? $db->f("badkamers")."&nbsp;".($db->f("badkamers")==1 ? html("badkamer") : html("badkamers")) : "")."</TD></TR>";
+			$results[$db->f("type_id")].=balk();
+		}
+
+		echo "<TABLE border=\"0\" cellspacing=\"0\" cellpadding=\"4\" width=\"730\">";
+		echo balk();
+
+		while(list($key,$value)=@each($results)) {
+			echo $value;
+		}
+
+		echo "</TABLE>";
+	} else {
+#		echo html("momenteelgeenaccommodaties","toonplaats",array("v_plaatsnaam"=>$db->f("naam")));
+#		echo "<p>".html("welandereaccommodaties","toonplaats",array("l1"=>"accommodaties?filled=1&fsg=".$db->f("land_id")."-0","v_land"=>$db->f("land")));
+	}
+} else {
+
+}
+
+?>

@@ -1,0 +1,68 @@
+<?php
+
+#if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+#	echo "Aanvraagid: ".$gegevens["stap1"]["boekingid"]."<br>".wt_dump($_SESSION["boeking"]["boekingid"])."<br>";
+#}
+
+#$niet_beschikbaar=true;
+#$accinfo["tonen"]=false;
+
+if($accinfo["tonen"] and !$niet_beschikbaar) {
+	echo html("inleiding1","boeken")."<p>".html("inleiding2","boeken")."<p>".html("inleiding3","boeken")."<ol>";
+	while(list($key,$value)=each($vars["boeken"])) {
+		echo "<li>";
+		if($_GET["stap"]==$key) echo "<strong>";
+#		if($gegevens["stap_voltooid"][$key-1] and $_GET["stap"]<>$key) echo "<a href=\"boeken.php?".$querystring."&stap=".$key."&r=".$_GET["stap"]."\">";
+		if($gegevens["stap_voltooid"][$key-1] and $_GET["stap"]<>$key) echo "<a href=\"".txt("menu_boeken").".php?bfbid=".$_GET["bfbid"]."&stap=".$key."&r=".$_GET["stap"]."\">";
+		echo htmlentities($value);
+		if($gegevens["stap_voltooid"][$key-1] and $_GET["stap"]<>$key) echo "</a>";
+		if($_GET["stap"]==$key) echo "</strong>";
+		echo "</li>";
+	}
+	echo "</ol><hr>";
+	echo "<h3>".html("stap","boeken")." ".$_GET["stap"]." - ".htmlentities($vars["boeken"][$_GET["stap"]])."</h3><p>";
+	if($_GET["stap"]==1) {
+		$form->display_all();
+	} elseif($_GET["stap"]==2) {
+		$form->display_all();
+	} elseif($_GET["stap"]==3) {
+		$form->display_all();
+	} elseif($_GET["stap"]==4) {
+		$form->display_all();
+	} elseif($_GET["stap"]==5) {
+		$form->display_all();
+	}
+} else {
+	if($niet_beschikbaar and $gegevens["stap1"]["aankomstdatum"]) {
+		echo html("helaasaccdatumnietbeschikbaar","boeken")."<p>";
+		echo html("viazoekformnogwel","boeken",array("l1"=>"accommodaties"));
+	} else {
+		if($_GET["bfbid"]) {
+			$db->query("SELECT stap_voltooid FROM boeking WHERE boeking_id='".addslashes($_GET["bfbid"])."';");
+			if($db->next_record()) {
+				if($db->f("stap_voltooid")==5) {
+					echo html("reedsbevestigd","boeken");
+				} else {
+					echo html("boekingnietbeschikbaar","boeken");
+#					trigger_error("boeking ".$_GET["bfbid"]." niet beschikbaar",E_USER_NOTICE);
+					if($niet_beschikbaar) {
+#						trigger_error("\$niet_beschikbaar=true",E_USER_NOTICE);
+					}
+					if(!$accinfo["tonen"]) {
+#						trigger_error("\$accinfo[\"tonen\"] is leeg",E_USER_NOTICE);
+					}
+#					mail("jeroen@webtastic.nl","Onbekende boeking debugtype 1 Chalet.nl","\nSession-boekingid: ".$_SESSION["boeking"]["boekingid"]."\nCookie-boekingid: ".$_COOKIE["CHALET"]["boeking"]["boekingid"]."\nGegevens:\n".wt_dump($gegevens["stap1"],false)."\n\nAccinfo:".wt_dump($accinfo,false)."\nCookie: ".wt_dump($_COOKIE,false)."\nSession: ".wt_dump($_SESSION,false)."\nVar niet_beschikbaar: ".$niet_beschikbaar."\nVar accinfo[tonen]: ".$accinfo["tonen"]."\n".wt_dump($_SERVER,false)."\n");
+				}
+			} else {
+#				trigger_error("boeking ".$_GET["bfbid"]." niet aanwezig in database",E_USER_NOTICE);
+#				mail("jeroen@webtastic.nl","Onbekende boeking debugtype 2 Chalet.nl","Gegevens:".wt_dump($gegevens["stap1"],false)."\n\nAccinfo:".wt_dump($accinfo,false)."\nCookie: ".wt_dump($_COOKIE,false)."\nSession: ".wt_dump($_SESSION,false)."\nVar niet_beschikbaar: ".$niet_beschikbaar."\nVar accinfo[tonen]: ".$accinfo["tonen"]."\n".wt_dump($_SERVER,false)."\n");
+			}
+		} else {
+			echo html("boekingnietbeschikbaar","boeken");
+#			trigger_error("boeking (met onbekend nummer) niet beschikbaar",E_USER_NOTICE);
+#			mail("jeroen@webtastic.nl","Onbekende boeking debugtype 3 Chalet.nl","Gegevens:".wt_dump($gegevens["stap1"],false)."\n\nAccinfo:".wt_dump($accinfo,false)."\nCookie: ".wt_dump($_COOKIE,false)."\nSession: ".wt_dump($_SESSION,false)."\nVar niet_beschikbaar: ".$niet_beschikbaar."\nVar accinfo[tonen]: ".$accinfo["tonen"]."\n".wt_dump($_SERVER,false)."\n");
+		}
+	}
+}
+
+?>

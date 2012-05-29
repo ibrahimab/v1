@@ -1,0 +1,287 @@
+<?php
+
+if($_GET["schoonmaakkosten"]) {
+	# Inzicht in schoonmaakkosten (functie die alleen bij Posarelli werkt)
+	
+	echo "<h2>Schoonmaakkosten Posarelli-accommodaties</h2>";
+	unset($inquery);
+	if($xml=@simplexml_load_file("http://export.posarellivillas.com/unit.xml")) {
+		$xml=xml_structure_convert($xml);
+#		echo wt_dump($xml);
+		while(list($key,$value)=each($xml)) {
+			if($value["final_cleaning"]<>0 or $value["final_cleaning_per_person"]<>0) {
+				$inquery.=",".$value["unique_serial"];
+				$final_cleaning[$value["unique_serial"]]=$value["final_cleaning"];
+				$final_cleaning_per_person[$value["unique_serial"]]=$value["final_cleaning_per_person"];
+			}
+		}
+		if($inquery) {
+			$db->query("SELECT t.type_id, a.accommodatie_id, a.soortaccommodatie, a.naam, a.bestelnaam AS abestelnaam, a.wzt, t.naam AS tnaam, t.leverancierscode, a.leverancierscode AS aleverancierscode, p.naam AS plaats, l.begincode FROM accommodatie a, type t, plaats p, land l WHERE p.land_id=l.land_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.leverancierscode IN (".substr($inquery,1).") AND t.leverancier_id=131 AND a.archief=0 AND a.tonen=1 AND t.tonen=1 ORDER BY a.wzt, p.naam, a.naam, t.naam;");
+			if($db->num_rows()) {
+				echo "<table cellspacing=\"0\" class=\"tbl\"><tr><th>Accommodatie</th><th>Final cleaning</th><th>Final cleaning per person</th></tr>";
+				while($db->next_record()) {
+					echo "<tr><td>";
+					echo "<a href=\"cms_types.php?wzt=".$db->f("wzt")."&bc=".$_GET["bc"]."&show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." ".htmlentities($db->f("plaats")."  - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")).($db->f("tnaam") ? " ".$db->f("tnaam") : "");
+					if($db->f("naam")<>$db->f("abestelnaam")) {
+						echo " <i>(".htmlentities($db->f("abestelnaam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")).")</i>";
+					}
+					echo "</a></td>";
+					echo "<td align=\"right\">&euro;&nbsp;".number_format($final_cleaning[$db->f("leverancierscode")],2,",",".")."</td>";
+					echo "<td align=\"right\">&euro;&nbsp;".number_format($final_cleaning_per_person[$db->f("leverancierscode")],2,",",".")."</td>";
+					echo "</tr>";
+				
+				}
+				echo "</table>";
+			
+			}
+		}
+	}
+} else {
+	$cms->display_cms();
+	
+	if($_GET["show"]==8) {
+	
+		echo "<hr>";
+	
+		# Leverancier-gegevens ophalen
+		$db->query("SELECT naam, xml_type FROM leverancier WHERE leverancier_id='".addslashes($_GET["8k0"])."';");
+		if($db->next_record()) {
+			$leveranciergegevens["naam"]=$db->f("naam");
+			$leveranciergegevens["xml_type"]=$db->f("xml_type");
+		}
+		
+		if(!$_GET["xmloverzicht"]) {
+			echo "<p>Calculatie-sjablonen bewerken:<ul>";
+		
+			# Calculatie-sjablonen
+			$db->query("SELECT DISTINCT s.seizoen_id, s.naam FROM seizoen s, leverancier l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.wzt=s.type AND t.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes($_GET["8k0"])."' AND UNIX_TIMESTAMP(s.eind)>".(time()-86400*360)." ORDER BY s.type, s.begin;");
+			if($db->num_rows()) {
+				while($db->next_record()) {
+					echo "<li><a href=\"cms_calculatiesjablonen.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&lid=".$_GET["8k0"]."\">".htmlentities($db->f("naam"))."</a></li>";
+				}
+			} else {
+				# Nog geen accommodaties bij deze leverancier: alle seizoenen tonen
+				$db->query("SELECT DISTINCT s.seizoen_id, s.naam FROM seizoen s WHERE UNIX_TIMESTAMP(s.eind)>".(time()-86400*360)." ORDER BY s.type, s.begin;");
+				if($db->num_rows()) {
+					while($db->next_record()) {
+						echo "<li><a href=\"cms_calculatiesjablonen.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&lid=".$_GET["8k0"]."\">".htmlentities($db->f("naam"))."</a></li>";
+					}
+				}
+			}
+			echo "</ul>";
+			echo "<hr>";
+		
+			# Nieuwe accommodaties importeren
+			if($vars["xmlnewimport_leveranciers"][$_GET["8k0"]]) {
+				echo "<b>XML-import accommodatiegegevens (teksten+foto's)</b><ul>";
+				echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."\">Nieuwe accommodaties importeren voor ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+				$db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id='".addslashes($_GET["8k0"])."';");
+				if($db->num_rows()) {
+					echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."&toonwijzigingen=1\">Wijzigingen bekijken bij XML ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+				}
+				
+				# Posarelli: link naar info over schoonmaakkosten
+				if($_GET["8k0"]==131) {
+					echo "<li><a href=\"cms_leveranciers.php?show=8&beheerder=0&8k0=131&schoonmaakkosten=1\">Inzicht in schoonmaakkosten per accommodatie</a> <i>(speciale functie voor Posarelli)</i></li>";
+				}
+				
+				echo "</ul><hr>";
+			}
+			
+			# Roominglists
+			echo "<form method=\"get\" action=\"cms_overzichten_print.php\">";
+			echo "<input type=\"hidden\" name=\"t\" value=\"2\">";
+			echo "<input type=\"hidden\" name=\"lid\" value=\"".$_GET["8k0"]."\">";
+			echo "<ul>";
+			echo "<li><a href=\"cms_overzichten_print.php?t=1&lid=".$_GET["8k0"]."\" target=\"_blank\">Roominglist totaal</a></li>";
+			echo "<li>Roominglist datum&nbsp;&nbsp;<select name=\"date\" onchange=\"submit();\">";
+			echo "<option value=\"0\">-- selecteer een aankomstdatum --</option>";
+			
+			# Gewone boekingen
+			$db->query("SELECT DISTINCT b.aankomstdatum FROM boeking b, accommodatie a, type t, leverancier l WHERE b.leverancier_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND l.leverancier_id='".addslashes($_GET["8k0"])."';");
+			while($db->next_record()) {
+				$roominglistlijst[$db->f("aankomstdatum")]=true;
+			}
+			
+			# Gewone boekingen (via beheerder)
+			$db->query("SELECT DISTINCT b.aankomstdatum FROM boeking b, accommodatie a, type t, leverancier l WHERE b.beheerder_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND l.leverancier_id='".addslashes($_GET["8k0"])."';");
+			while($db->next_record()) {
+				$roominglistlijst[$db->f("aankomstdatum")]=true;
+			}
+	
+			# Garanties
+			$db->query("SELECT DISTINCT g.aankomstdatum FROM garantie g, accommodatie a, type t, leverancier l WHERE g.leverancier_id=l.leverancier_id AND g.boeking_id=0 AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND l.leverancier_id='".addslashes($_GET["8k0"])."';");
+			while($db->next_record()) {
+				$roominglistlijst[$db->f("aankomstdatum")]=true;
+			}
+			if(is_array($roominglistlijst)) {
+				ksort($roominglistlijst);
+				while(list($key,$value)=each($roominglistlijst)) {
+					if(mktime(0,0,0,date("m"),date("d")-8,date("Y"))<=$key) {
+						echo "<option value=\"".$key."\">".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$key])."</option>";
+					}
+				}
+			}
+	#		$db->query("SELECT DISTINCT b.aankomstdatum FROM boeking b, accommodatie a, type t WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND b.leverancier_id='".addslashes($_GET["8k0"])."' ORDER BY aankomstdatum;");
+	#		while($db->next_record()) {
+	#		}
+			echo "</select></li>";
+			echo "</ul></form>";
+		
+			if($_GET["8k0"]==4 or $_GET["8k0"]==55 or $_GET["8k0"]==124) {
+				echo "<hr>";
+				echo "<b>XML-import beschikbaarheid/types</b><p>";
+				echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&xmloverzicht=1\">Bekijk het overzicht van XML-leveranciercodes</a><p>";
+			}
+		
+			# Overzicht types
+			$db->query("SELECT t.type_id, a.accommodatie_id, a.soortaccommodatie, a.naam, a.bestelnaam AS abestelnaam, a.wzt, t.naam AS tnaam, t.leverancierscode, UNIX_TIMESTAMP(t.xml_laatsteimport) AS xml_laatsteimport, a.leverancierscode AS aleverancierscode, p.naam AS plaats, l.begincode FROM accommodatie a, type t, plaats p, land l WHERE p.land_id=l.land_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.leverancier_id='".addslashes($_GET["8k0"])."' AND a.archief=0 AND a.tonen=1 AND t.tonen=1 ORDER BY a.wzt, p.naam, a.naam, t.naam;");
+			if($db->num_rows()) {
+				echo "<hr>";
+				echo "<b>Types</b>";
+				if($leveranciergegevens["xml_type"]) {
+					echo "<p><span style=\"background-color:#f4f38d;\">geel</span> = de laatste 30 dagen geen XML-import geconstateerd (m.b.t. de beschikbaarheid)<p>";
+				}
+	
+				echo "<ul>";
+				unset($seizoenheader);
+				while($db->next_record()) {
+					if(!$seizoenheader[$db->f("wzt")]) {
+						echo "<br><b>".htmlentities($vars["seizoentype_namen"][$db->f("wzt")])."</b>";
+						$seizoenheader[$db->f("wzt")]=true;
+					}
+					echo "<li>";
+					echo "<span style=\"";
+					if(($db->f("aleverancierscode") or $db->f("leverancierscode")) and (!$db->f("xml_laatsteimport") or $db->f("xml_laatsteimport")<(time()-2592000))) {
+						echo "background-color:#f4f38d;";
+					}
+					echo "\">";
+					echo "<a href=\"cms_types.php?wzt=".$db->f("wzt")."&bc=".$_GET["bc"]."&show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".$db->f("begincode").$db->f("type_id")." ".htmlentities($db->f("plaats")."  - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")).($db->f("tnaam") ? " ".$db->f("tnaam") : "");
+					if($db->f("naam")<>$db->f("abestelnaam")) {
+						echo " <i>(".htmlentities($db->f("abestelnaam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")).")</i>";
+					}
+					echo "</a>";
+					if($db->f("aleverancierscode") or $db->f("leverancierscode")) {
+						echo " (XML: ";
+						if($db->f("aleverancierscode")) {
+							echo "acc ".htmlentities($db->f("aleverancierscode"));
+							echo " / ";
+						}
+						if($db->f("leverancierscode")) {
+							echo "type ".htmlentities($db->f("leverancierscode"));
+						} else {
+							echo "<i>niet ingevuld</i>";
+						}
+						if($db->f("xml_laatsteimport")) {
+							echo " / laatste import: ";
+							if($login->userlevel>=10) {
+								echo date("d-m-Y, H:i",$db->f("xml_laatsteimport"));
+							} else {
+								echo date("d-m-Y",$db->f("xml_laatsteimport"));
+							}
+						}
+						echo ")";
+					}
+					echo "</span>";
+					echo "</li>";
+				}
+				echo "</ul>";
+			}
+	
+			if($boekingoverzicht=boekingoverzicht("b.leverancier_id='".addslashes($_GET["8k0"])."' AND a.wzt=1")) {
+				echo "<hr><br><b>Winterboekingen</b><br><br>";
+				echo $boekingoverzicht;
+			}
+			if($boekingoverzicht=boekingoverzicht("b.leverancier_id='".addslashes($_GET["8k0"])."' AND a.wzt=2")) {
+				echo "<hr><br><b>Zomerboekingen</b><br><br>";
+				echo $boekingoverzicht;
+			}
+		} else {
+			if($_GET["8k0"]==4) {
+				#
+				# XML-overzicht Eurogroup tonen
+				#
+				$client = new SoapClient("http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib",array('trace'=>1));
+				$result=$client->getDistribProposals2("eurogroup","chaletnl","partner","REBERE004","","");
+				echo "<br>&nbsp;<br><table cellspacing=\"0\" class=\"tbl\"><tr><th>Plaats</th><th>Accommodatie</th><th>Type</th><th>XML-code</th></tr>\n";
+				foreach($result->distribProposal as $value3) {
+					$key=utf8_decode($value3->etab_id)."_".utf8_decode($value3->room_type_code);
+					if(!$keygehad[$key]) {
+						$sortkey=utf8_decode($value3->station)."_".utf8_decode($value3->etab_name)."_".utf8_decode($value3->room_type_label);
+						$teller++;
+						$trregel[$sortkey."_".$teller]="<tr><td>".htmlentities(utf8_decode($value3->station))."</td><td>".htmlentities(utf8_decode($value3->etab_name))."</td><td>".htmlentities(utf8_decode($value3->room_type_label))."</td><td>".htmlentities($key)."</td></tr>\n";
+						$keygehad[$key]=true;
+					}
+				}
+				ksort($trregel);
+				while(list($key,$value)=each($trregel)) {
+					echo $value;
+				}
+				echo "</table>";
+			
+			} elseif($_GET["8k0"]==55) {
+			
+				# XML-codes Odalys tonen
+				echo "<p><hr>";
+				$xml=simplexml_load_file("tmp/PAC_CHALET_NL.xml");
+		#		echo "<pre>";
+				# Namen types ophalen
+				foreach($xml->Segments as $value3) {
+					foreach($value3->Entities as $value4) {
+						foreach($value4->Entity as $value5) {
+							foreach($value5->Ats as $value6) {
+								foreach($value6->At as $value7) {
+		#							if(isset($type_namen[trim($value7->Code->attributes()->Value)])) {
+		#								echo "<hr>ERROR: bestaat al!<hr>";
+		#							}
+									$type_namen[trim($value7->Code->attributes()->Value)]=utf8_decode(trim($value7->attributes()->Name));
+								}
+							}
+						}
+					}
+				}
+		#		echo wt_dump($type_namen);
+		
+				foreach($xml->Segments->Segment as $value3) {
+					$acc_leverancierscode=trim($value3->Code->attributes()->Value);
+					$acc_naam=utf8_decode(trim($value3));
+					echo "<b>".htmlentities($acc_naam).": <i>".$acc_leverancierscode."</i></b><p>";
+		#			echo "<i>Leverancierscode accommodatie (voor XML): ".<ul>";
+					echo "<ul>";
+					foreach($value3->Segments->Segment as $value4) {
+						echo "<li>".htmlentities($type_namen[substr(trim($value4->attributes()->Ref),1)]).": <i>".substr(trim($value4->attributes()->Ref),1)."</i></li>";
+					}
+					echo "</ul>";
+					echo "<hr>";
+				}
+			} elseif($_GET["8k0"]==124) {
+			
+				# XML-codes Almliesl tonen
+				echo "<p>";
+				$xml1=simplexml_load_file("http://www.almliesl.com/export_chalet_nl_anagraphics_de_w.xml");
+				$xml2=simplexml_load_file("http://www.almliesl.com/export_chalet_nl_occupancy_de_w.xml");
+				foreach($xml2->object as $value3) {
+					foreach($value3->lodging as $value4) {
+						$lodging[trim($value3->code)][trim($value4->no)]=trim($value4->id);
+					}
+				}
+				
+#				echo wt_dump($lodging);
+#				exit;
+				foreach($xml1->object as $value3) {
+					echo "Accommodatie <i>".wt_he(utf8_decode($value3->name))."</i>: XML-accommodatiecode: ".wt_he($value3->code)."<ul>";
+					foreach($value3->lodgings->lodging as $value4) {
+						echo "<li>Type: <i>".wt_he(utf8_decode($value4->title))."</i> ".$value4->personsmin."-".$value4->personsmax." pers ".$value4->size." m&#178;: XML-typecode: ".$lodging[trim($value3->code)][trim($value4->no)];
+						echo "<div style=\"background-color:#cccccc;margin-top:3px;margin-bottom:20px;\">".wt_he(utf8_decode($value4->longdescription))."</div>";
+						echo "</li>";
+					}
+					echo "</ul><hr>";
+				}
+
+			}
+		}
+		$cms->display_log(8);
+	}
+}
+
+?>

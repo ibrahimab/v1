@@ -1,0 +1,72 @@
+<?php
+
+$cms->display_cms();
+
+if($_GET["show"]==10) {
+	$db->query("SELECT seizoen_id, naam FROM seizoen WHERE type=1 AND UNIX_TIMESTAMP(eind)>".(time()-86400*360)." ORDER BY begin, type;");
+	if($db->num_rows()) {
+		echo "<p>Skipastarieven bewerken:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_skipastarieven.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&spid=".$_GET["10k0"]."\">".htmlentities($db->f("naam"))."</a></li>";
+		}
+		echo "</ul>";
+	}
+	echo "<hr>";
+
+	#
+	# Nieuwe calculatiemodule skipassen
+	#
+#	$db->query("SELECT seizoen_id, naam FROM seizoen WHERE type=1 ORDER BY begin, type;");
+#	if($db->num_rows()) {
+#		echo "<div style=\"opacity: .5;-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=50)';margin-top:30px;width:600px;border:1px solid #000000;padding:5px;background-color:#ebebeb;\">TESTSYSTEEM - NOG NIET GEBRUIKEN - Skipastarieven bewerken:<ul>";
+#		while($db->next_record()) {
+#			echo "<li><a href=\"cms_skipastarieven_new.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&spid=".$_GET["10k0"]."\">".htmlentities($db->f("naam"))."</a></li>";
+#		}
+#		echo "</ul>";
+#		echo "</div>";
+#		echo "<hr>";
+#	}
+
+
+	echo "<form method=\"get\" action=\"cms_overzichten_print.php\">";
+	echo "<input type=\"hidden\" name=\"t\" value=\"6\">";
+	echo "<input type=\"hidden\" name=\"spid\" value=\"".$_GET["10k0"]."\">";
+	echo "<ul>";
+#	echo "<li><a href=\"cms_overzichten_print.php?t=1&lid=".$_GET["8k0"]."\" target=\"_blank\">Roominglist totaal</a></li>";
+	echo "<li>Bestellijst &nbsp;&nbsp;";
+	$db->query("SELECT DISTINCT b.aankomstdatum FROM boeking b, accommodatie a, type t WHERE a.skipas_id='".addslashes($_GET["10k0"])."' AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id ORDER BY aankomstdatum;");
+	if(!$db->num_rows()) {
+		echo " - geen gekoppelde boekingen aanwezig -";
+	} else {
+		echo "<select name=\"date\" onchange=\"submit();\">";
+		echo "<option value=\"0\">-- selecteer een aankomstdatum --</option>";
+		while($db->next_record()) {
+			if(mktime(0,0,0,date("m"),date("d")-8,date("Y"))<=$db->f("aankomstdatum")) {
+				echo "<option value=\"".$db->f("aankomstdatum")."\">".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$db->f("aankomstdatum")])."</option>";
+			}
+		}
+		echo "</select>";
+	}
+	echo "</li>";
+	echo "</ul></form>";
+	
+	
+	# Gekoppelde accommodaties
+	$db->query("SELECT a.accommodatie_id, a.soortaccommodatie, a.naam, a.wzt, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.skipas_id='".addslashes($_GET["10k0"])."' ORDER BY a.wzt, p.naam, a.naam;");
+	if($db->num_rows()) {
+		echo "<hr>";
+		echo "<b>Gekoppelde accommodaties</b><ul>";
+		unset($seizoenheader);
+		while($db->next_record()) {
+			if(!$seizoenheader[$db->f("wzt")]) {
+				echo "<br><b>".htmlentities($vars["seizoentype_namen"][$db->f("wzt")])."</b>";
+				$seizoenheader[$db->f("wzt")]=true;
+			}
+			echo "<li><a href=\"cms_accommodaties.php?wzt=".$db->f("wzt")."&bc=".$_GET["bc"]."&show=1&1k0=".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")."  - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</a></li>";
+		}
+		echo "</ul>";
+	}
+	$cms->display_log(10);	
+}
+
+?>

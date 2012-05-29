@@ -1,0 +1,37 @@
+<?php
+
+if($_GET["back"]) {
+	echo "<A HREF=\"";
+	if(ereg("/accommodatie/",$_SERVER["HTTP_REFERER"])) {
+		echo "javascript:history.go(-1);";
+	} else {
+		echo "http://".$_SERVER["HTTP_HOST"].$_GET["back"];
+	}
+	echo "\">&lt; &lt; &lt; Back to the accommodation</A><P>";
+}
+
+?>
+We have disposal at a wide range of accommodations in a variety of size and quality. A big part is published on our website and we add new accommodations regularly. It is possible to search yourself for a suitable accommodation with the help of the searchform. You are able to check the availability by sending us an e-mail (via check availability). We will respond as soon as possible, to tell you if the requested accommodation is available for the requested week. If requested, we will put the accommodation in option. When the requested accommodation is not available anymore, you will receive an e-mail with some questions about your preferences, after receiving your answers we will make you an offer.<p> 
+To reserve an accommodation is possible at the following ways:<ul>
+<li>Fill out the booking request on our website</li>
+<li>Return the received e-mail, with the offered accommodation, with the statement that you would like to make a booking</li>
+<li>Approach us by telephone</li>
+</ul><br>
+If you fill out the booking request on our website, we will check the availability as soon as possible. If the requested accommodation is available, you will receive a confirmation per e-mail. If the requested accommodation is already booked by somebody else, we will propose you some other accommodations (accommodations, about which we think that they have similar quality, location and size compared to the accommodation that you wanted to reserve).<p>
+ 
+If you make a booking, you will receive a confirmation per e-mail. We kindly ask you to check that this confirmation is correct, compared with what you have booked. If it is correct, we ask you to sign and return the confirmation as soon as possible. Then, we will take care of the administrative handling of your booking. We demand a down payment within 10 days after booking. The remaining amount has to be paid at least 6 weeks before your departure.<p>
+
+About 8 weeks before departure we will send you a message with the option possibilities we can arrange for you. We ask you to provide us with a list of participants with their date of birth and their place of residence (if not provided at the time of booking). We need this information in connection with possible insurances, lift passes and renting material.<p>
+<?php
+
+if($_GET["back"]) {
+	echo "<A HREF=\"";
+	if(ereg("/accommodatie/",$_SERVER["HTTP_REFERER"])) {
+		echo "javascript:history.go(-1);";
+	} else {
+		echo "http://".$_SERVER["HTTP_HOST"].$_GET["back"];
+	}
+	echo "\">&lt; &lt; &lt; Back to the accommodation</A><P>";
+}
+
+?>

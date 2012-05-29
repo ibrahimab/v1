@@ -1,0 +1,782 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>CMS Chalet.nl - Kortingen</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+<meta name="robots" content="noindex,nofollow" />
+<link href="css/cms_layout.css" rel="stylesheet" type="text/css" />
+<link REL="shortcut icon" href="favicon.ico" />
+<script type="text/javascript" language="JavaScript1.2" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" language="JavaScript1.2" src="scripts/cms_kortingen_tarieven.js?cache=<?php echo @filemtime("scripts/cms_kortingen_tarieven.js"); ?>"></script>
+<script type="text/javascript" language="JavaScript1.2" src="scripts/cms_functions.js?cache=<?php echo @filemtime("scripts/cms_functions.js"); ?>"></script>
+</head>
+<?php
+
+
+# http://ss.postvak.net/chalet/cms_types.php?show=2&bc=6&wzt=1&archief=0&1k0=570&2k0=1507
+
+
+if($_GET["autosave"]) {
+	echo "<body onload=\"setTimeout('document.tarieven.submit()',".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "100" : "2000").");\">";
+	echo "<h1 style=\"color:#ffffff;font-size:2.0em;\">AUTOSAVE NA 2 SECONDEN</h1>\n"; 
+} else {
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+		echo "<body onload=\"bereken('kopieer',".mktime(0,0,0,date("m",$seizoen["begin"]),date("d",$seizoen["begin"])+21,date("Y",$seizoen["begin"])).");\">";
+	} else {
+		echo "<body onload=\"alles_doorrekenen();\">";
+	}
+}
+
+echo "<table class=\"content_popup\"><tr><td>";
+
+# Vertrekdagaanpassing van toepassing?
+$typeid=$_GET["tid"];
+include("content/vertrekdagaanpassing.html");
+
+function lege_regel() {
+	global $aantal_weken;
+	echo "<tr><td colspan=\"".($aantal_weken+3)."\">&nbsp;</td></tr>";
+}
+
+function datumregel($titel="") {
+	global $seizoen,$acc,$aantal_weken,$vertrekdag,$vars;
+	echo "<tr>";
+	echo "<th nowrap>".htmlentities($titel)."&nbsp;</th>";
+	echo "<th>Kopieer</th>";
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$temp_aantal_weken++;
+		if($vertrekdag[$_GET["sid"]][date("dm",$week)]) {
+			$vertrekdag_plusmin=$vertrekdag[$_GET["sid"]][date("dm",$week)];
+		} else {
+			$vertrekdag_plusmin=0;
+		}
+		
+		if($acc["aankomst_plusmin"]<>0 or $vertrekdag_plusmin<>0) {
+			$tempweek=mktime(0,0,0,date("m",$week),date("d",$week)+$acc["aankomst_plusmin"]+$vertrekdag_plusmin,date("Y",$week));
+		} else {
+			$tempweek=$week;
+		}
+		echo "<th>".date("d/m",$tempweek);
+		if(!$vars["datumregelgetoond"]) {
+			echo "<input type=\"hidden\" name=\"aankomstdatum_exact[".$week."]\" value=\"".$tempweek."\">";
+		}
+		echo "</th>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	echo "<th>&nbsp;</th>";
+	echo "</tr>";
+	if(!$aantal_weken) $aantal_weken=$temp_aantal_weken;
+	$vars["datumregelgetoond"]=true;
+}
+
+function kopieer($naam="",$nummer=0,$integer=false) {
+	global $kopieer_tabindex;
+	if($integer) {
+		$integer="1";
+	} else {
+		$integer="0";
+	}
+	if(eregi("[a-z]",$nummer)) $nummer="'".$nummer."'";
+	$kopieer_tabindex++;
+	if($naam) {
+		echo "<td nowrap><input type=\"text\" size=\"6\" value=\"\" id=\"kopieer_".$naam."\" onchange=\"kopieer(this,'".$naam."',".$nummer.",".$integer.")\" onkeypress=\"return disableEnterKey_kopieer(this,'".$naam."',".$nummer.",event)\" tabindex=\"".$kopieer_tabindex."\">&gt;";
+	} else {
+		echo "<td>&nbsp;</td>";
+	}
+}
+
+if($acc["verzameltype"]) {
+	echo "<h1>Dit is een verzameltype - bewerken niet mogelijk</h1>";
+	unset($seizoen["naam"]);
+}
+
+cmslog_pagina_title("Kortingensysteem".($seizoen["naam"] ? " - ".$seizoen["naam"] : ""));
+
+if($seizoen["naam"]) {
+
+	# Weken doorgeven aan javascript
+	echo "<form id=\"weken\">";
+	unset($teller);
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$teller++;
+		echo "<input type=\"hidden\" name=\"week".$teller."\" value=\"".$week."\">";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	unset($teller);
+	echo "</form>";
+	
+	# Het daadwerkelijke formulier
+	echo "<form name=\"tarieven\" id=\"tarieven\" method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\">";
+	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
+	echo "<input type=\"hidden\" name=\"toonper\" value=\"".$acc["toonper"]."\">";
+	echo "<input type=\"hidden\" name=\"maxpers\" value=\"".$acc["max"]."\">";
+	
+	# Calculatie wederverkoop doorgeven via hidden value
+	if(ereg("T",$acc["websites"]) or ereg("O",$acc["websites"]) or ereg("Z",$acc["websites"]) or ereg("E",$acc["websites"])) {
+		echo "<input type=\"hidden\" name=\"wederverkoop\" value=\"1\">";
+	} else {
+		echo "<input type=\"hidden\" name=\"wederverkoop\" value=\"0\">";
+	}
+	echo "<input type=\"hidden\" name=\"leverancierid\" value=\"".$acc["leverancier_id"]."\">";
+	
+	#
+	# Aanbieding
+	#
+	
+	# Zomer- of winter-sites in $temp_vars opslaan
+	while(list($key,$value)=each($vars["websitetype_namen"])) {
+		if($vars["websitetype_namen_wzt"][$key]==$acc["wzt"] or $key==6) {
+			$temp_vars["websitetype_namen"][$key]=$value;
+			
+			# Alles standaard aan, behalve Chalettour winter+zomer
+			if($standaard_aan) $standaard_aan.=",".$key; else $standaard_aan=$key;
+		}
+	}
+
+	echo "<div style=\"min-width:600px;\">";
+	echo "<h1>Korting - ".htmlentities($seizoen["naam"])."<br>".$acc["land_begincode"].$_GET["tid"].": ".htmlentities($acc["naam"]).($acc["code"] ? " - ".$acc["code"] : "")."<br>".htmlentities($acc["plaats"]." - ".$acc["min"])."-".$acc["max"]." personen<br>Leverancier: ".htmlentities($acc["leverancier"])."</h1>";
+	echo "</div>";
+	
+	echo "<div style=\"float:left;\">";
+	echo "<table cellspacing=\"0\" cellpadding=\"3\" class=\"tbl_cms_korting\">";
+	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[actief]\" value=\"1\" style=\"vertical-align:middle;\"".($_GET["kid"]&&!$korting["actief"] ? "" : " checked").">&nbsp;&nbsp;Actief</label></td></tr>";
+	echo "<tr><td nowrap>Interne naam <span style=\"font-size:0.8em;\">(optioneel)</span></td><td><input type=\"text\" name=\"input[naam]\" value=\"".htmlentities($korting["naam"])."\" class=\"wtform_input\" style=\"width:400px;\"></td></tr>";
+
+	echo "<tr><td colspan=\"3\"><hr></td></tr>";
+	echo "<tr><td nowrap>Naam voor bezoekers <span style=\"font-size:0.8em;\">(optioneel)</span></td><td><input type=\"text\" name=\"input[onlinenaam]\" value=\"".htmlentities($korting["onlinenaam"])."\" maxlength=\"50\" class=\"wtform_input\" style=\"width:400px;\"></td></tr>";
+	echo "<tr><td nowrap valign=\"top\">Omschrijving voor bezoekers <span style=\"font-size:0.8em;\">(optioneel)</span></td><td><textarea name=\"input[omschrijving]\" class=\"wtform_input\" style=\"width:400px;height:100px;\" onblur=\"if(document.tarieven.elements['input[onlinenaam]'].value==''&&document.tarieven.elements['input[omschrijving]'].value!='') alert('Vul ook \'Naam voor bezoekers\' in!');\">".htmlentities($korting["omschrijving"])."</textarea></td></tr>";
+	
+	if($acc["wzt"]==2) {
+		echo "<tr><td nowrap>Volgorde aanbiedingenpagina <span style=\"font-size:0.8em;\">(optioneel)</span></td><td><input type=\"text\" name=\"input[volgorde]\" value=\"".htmlentities($korting["volgorde"])."\" class=\"wtform_input\" style=\"width:400px;\"></td></tr>";
+	}
+	echo "<tr><td colspan=\"3\"><hr></td></tr>";
+	
+	# "Geldig vanaf" standaard vullen met huidige datum
+	if(!$korting["van"]) {
+		$korting["van"]=time();
+	}
+
+	if(!$korting["tot"]) {
+		$korting["tot"]=$seizoen["eind"];
+	}
+	
+	# Tonen vanaf
+	echo "<tr><td nowrap>Geldig vanaf</td><td>";
+	echo "<img src=\"pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('class.form_calendar.php?nm=tarieven&lang=nl&input=van&month='+document.tarieven.elements['input[van][month]'].value+'&year='+document.tarieven.elements['input[van][year]'].value, '_blank', 'scrollbars=no,width=345,height=250,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
+	# dag
+	echo "<select name=\"input[van][day]\" class=\"wtform_input_narrow\"><option></option>";
+	for($i=1;$i<=31;$i++) {
+		echo "<option value=\"".$i."\"".($korting["van"]&&date("d",$korting["van"])==$i ? " selected" : "").">".$i."&nbsp;</option>";
+	}
+	echo "</select>";
+	# maand
+	echo "&nbsp;&nbsp;<select name=\"input[van][month]\" class=\"wtform_input_narrow\"><option></option>";
+	for($i=1;$i<=12;$i++) {
+		echo "<option value=\"".$i."\"".($korting["van"]&&date("m",$korting["van"])==$i ? " selected" : "").">".strftime("%B",mktime(0,0,0,$i,1,2010))."&nbsp;</option>";
+	}
+	echo "</select>";
+	# jaar
+	echo "&nbsp;&nbsp;<select name=\"input[van][year]\" class=\"wtform_input_narrow\"><option></option>";
+	for($i=2010;$i<=date("Y")+2;$i++) {
+		echo "<option value=\"".$i."\"".($korting["van"]&&date("Y",$korting["van"])==$i ? " selected" : "").">".$i."&nbsp;</option>";
+	}
+	echo "</select>";
+	echo "</td></tr>";
+
+	# Tonen tot en met
+	echo "<tr><td nowrap>Geldig tot en met</td><td>";
+	echo "<img src=\"pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('class.form_calendar.php?nm=tarieven&lang=nl&input=tot&month='+document.tarieven.elements['input[tot][month]'].value+'&year='+document.tarieven.elements['input[tot][year]'].value, '_blank', 'scrollbars=no,width=345,height=250,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
+	# dag
+	echo "<select name=\"input[tot][day]\" class=\"wtform_input_narrow\"><option></option>";
+	for($i=1;$i<=31;$i++) {
+		echo "<option value=\"".$i."\"".($korting["tot"]&&date("d",$korting["tot"])==$i ? " selected" : "").">".$i."&nbsp;</option>";
+	}
+	echo "</select>";
+	# maand
+	echo "&nbsp;&nbsp;<select name=\"input[tot][month]\" class=\"wtform_input_narrow\"><option></option>";
+	for($i=1;$i<=12;$i++) {
+		echo "<option value=\"".$i."\"".($korting["tot"]&&date("m",$korting["tot"])==$i ? " selected" : "").">".strftime("%B",mktime(0,0,0,$i,1,2010))."&nbsp;</option>";
+	}
+	echo "</select>";
+	# jaar
+	echo "&nbsp;&nbsp;<select name=\"input[tot][year]\" class=\"wtform_input_narrow\"><option></option>";
+	for($i=2010;$i<=date("Y")+2;$i++) {
+		echo "<option value=\"".$i."\"".($korting["tot"]&&date("Y",$korting["tot"])==$i ? " selected" : "").">".$i."&nbsp;</option>";
+	}
+	echo "</select>";
+	echo "</td></tr>";
+
+	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[aanbiedingskleur]\" value=\"1\" style=\"vertical-align:middle;\"".($korting["aanbiedingskleur"]||!$_GET["kid"] ? " checked" : "").">&nbsp;&nbsp;Toon de korting met een oranje kleur in de tarieventabel</label></td></tr>";
+	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[toonexactekorting]\" value=\"1\" style=\"vertical-align:middle;\"".($korting["toonexactekorting"]||!$_GET["kid"] ? " checked" : "").">&nbsp;&nbsp;Toon het exacte kortingsbedrag/percentage</label></td></tr>";
+
+
+	
+
+	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"auto_overnemen\" value=\"1\" style=\"vertical-align:middle;\"".($_GET["kid"]&&!$acc["inkoopkorting_overnemen"] ? "" : " checked").">&nbsp;&nbsp;Inkoopkortingen automatisch overnemen</label></td></tr>";
+
+	# Tonen in overzicht op aanbiedingenpagina
+	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[toon_abpagina]\" value=\"1\" style=\"vertical-align:middle;position:relative;bottom:1px;\"".(!$_GET["kid"]||$korting["toon_abpagina"] ? " checked" : "").">&nbsp;&nbsp;Deze korting tonen op de aanbiedingenpagina</label></td></tr>";
+#	echo "<tr><td nowrap valign=\"top\">Tonen in overzicht op aanbiedingenpagina</td><td valign=\"top\">";
+#	reset($vars["websitetype_namen"]);
+#	while(list($key,$value)=each($vars["websitetype_namen"])) {
+#		if($vars["websitetype_namen_wzt"][$key]==$acc["wzt"] or $key==6) {
+#			echo "<input type=\"checkbox\" name=\"toon_abpagina[".$key."]\" value=\"1\" id=\"toon_abpagina".$key."\"><label for=\"toon_abpagina".$key."\">".htmlentities($value)."</label><br>";
+#		}
+#	}
+#	echo "</td></tr>";
+	
+
+	if($_GET["kid"]) {
+		if($korting["gekoppeld_code"]) {
+			echo "<tr><td colspan=\"2\"><i>Deze korting is geldig voor alle types van deze accommodatie</i></td></tr>";
+			echo "<input type=\"hidden\" name=\"input[gekoppeld_code]\" value=\"".$korting["gekoppeld_code"]."\">";
+		} else{
+			echo "<tr><td colspan=\"2\"><i>Deze korting geldt alleen voor dit type</i></td></tr>";
+		}
+	} else {
+		echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[gekoppeld_code]\" value=\"1\" style=\"vertical-align:middle;position:relative;bottom:1px;\"".($korting["gekoppeld_code"] ? " checked" : "").">&nbsp;Deze korting is geldig voor alle types van deze accommodatie</label></td></tr>";
+	}
+	
+	echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"button\" value=\" OPSLAAN \" onclick=\"checkform();\" id=\"but1\">&nbsp;&nbsp;&nbsp;<input type=\"button\" value=\" ANNULEREN \" id=\"but2\" onclick=\"this.disabled=1;document.forms['tarieven'].but1.disabled=1;document.location='".htmlentities($_GET["from"])."'\"></td></tr>";
+	
+	echo "</table>";
+	
+	echo "</div>";
+	
+	$vandaag=mktime(0,0,0,date("m"),date("d"),date("Y"));
+	$db2->query("SELECT korting_id, naam, gekoppeld_code, UNIX_TIMESTAMP(van) AS van, UNIX_TIMESTAMP(tot) AS tot FROM korting WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."'".($_GET["kid"] ? " AND korting_id<>'".addslashes($_GET["kid"])."'" : "")." ORDER BY van, tot, korting_id;");
+	if($db2->num_rows()) {
+		while($db2->next_record()) {
+			$kortingteller++;
+			$kortinglijst[$kortingteller]="<li><a href=\"cms_kortingen_tarieven.php?from=".htmlentities(urlencode($_GET["from"]))."&sid=".$_GET["sid"]."&tid=".$_GET["tid"]."&kid=".$db2->f("korting_id")."\">".($db2->f("naam") ? htmlentities($db2->f("naam"))." - " : "").date("d/m/Y",$db2->f("van"))." t/m ".date("d/m/Y",$db2->f("tot"))."</a>";
+			if($db2->f("van")<=$vandaag and $db2->f("tot")>=$vandaag) $kortinglijst[$kortingteller].=" (momenteel actief)";
+			if($db2->f("gekoppeld_code")) $kortinglijst[$kortingteller].=" (geldt voor alle types binnen deze accommodatie)";
+			$kortinglijst[$kortingteller].="</li>";
+		}
+	}
+	if($kortinglijst) {
+		echo "<div style=\"margin-left:30px;float:left;\">Overige kortingen bij dit type:<ul>";
+		while(list($key,$value)=each($kortinglijst)) {
+			echo $value."\n";
+		}
+		echo "</ul></div>";
+	}
+	
+	echo "<div style=\"clear:both;\"></div>";
+	
+	echo "<br><br>";
+
+	echo "<table cellspacing=\"0\" class=\"tbl tarieventabel\">";
+	echo "<input type=\"hidden\" name=\"max\" value=\"".$acc["max"]."\">";
+	echo "<input type=\"hidden\" name=\"min_tonen\" value=\"".$acc["min_tonen"]."\">";
+
+	if($acc["toonper"]==1) {
+
+		datumregel("Korting in %");
+	
+		# Inkoopkorting (percentage)
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Inkoopkorting accommodatie";
+		echo "<tr><td>".htmlentities($titel)."</td>";
+		kopieer("inkoopkorting_percentage");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"overnemen('".$week."',this.value,'aanbieding_acc_percentage');bereken(this,'".$week."');\" id=\"inkoopkorting_percentage[".$week."]\" name=\"inkoopkorting_percentage[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["inkoopkorting_percentage"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Aanbieding accommodatie";
+		echo "<tr><td nowrap>".htmlentities($titel)."</td>";
+		kopieer("aanbieding_acc_percentage");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"aanbieding_acc_percentage[".$week."]\" name=\"aanbieding_acc_percentage[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["aanbieding_acc_percentage"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Aanbieding skipas";
+		echo "<tr><td>".htmlentities($titel)."</td>";
+		kopieer("aanbieding_skipas_percentage");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"aanbieding_skipas_percentage[".$week."]\" name=\"aanbieding_skipas_percentage[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["aanbieding_skipas_percentage"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Lege regel
+		lege_regel();
+
+		datumregel("Korting in euro's");
+	
+		# Inkoopkorting (euro)
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Inkoopkorting accommodatie";
+		echo "<tr><td>".htmlentities($titel)."</td>";
+		kopieer("inkoopkorting_euro");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"overnemen('".$week."',this.value,'aanbieding_acc_euro');bereken(this,'".$week."');\" id=\"inkoopkorting_euro[".$week."]\" name=\"inkoopkorting_euro[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["inkoopkorting_euro"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Aanbieding accommodatie";
+		echo "<tr><td nowrap>".htmlentities($titel)."</td>";
+		kopieer("aanbieding_acc_euro");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"aanbieding_acc_euro[".$week."]\" name=\"aanbieding_acc_euro[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["aanbieding_acc_euro"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Aanbieding skipas";
+		echo "<tr><td nowrap>".htmlentities($titel)."</td>";
+		kopieer("aanbieding_skipas_euro");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"aanbieding_skipas_euro[".$week."]\" name=\"aanbieding_skipas_euro[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["aanbieding_skipas_euro"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+
+		# Lege regel
+		lege_regel();
+	
+		datumregel("Marges (bij ".$acc["max"]." personen)");
+	
+		# Marge op accommodatie (bij maximale bezetting)
+		$titel="Marge op accommodatie";
+		echo "<tr class=\"opvallend\"><td>".htmlentities($titel);
+		echo "</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			echo "<td align=\"right\" nowrap>%<input readonly type=\"text\" id=\"marge_accommodatie[".$week."]\" name=\"marge_accommodatie[".$week."]\" size=\"6\" value=\"".$seizoen["weken"][$week]["marge_accommodatie"][$acc["max"]]."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Marge op skipas
+		$titel="Marge op skipas";
+		echo "<tr class=\"opvallend\"><td>".htmlentities($titel);
+		echo "</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			echo "<td align=\"right\" nowrap>%<input readonly type=\"text\" id=\"marge_skipas[".$week."]\" name=\"marge_skipas[".$week."]\" size=\"6\" value=\"".$skipas["weken"][$week]["marge_op_verkoop"]."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Lege regel
+		lege_regel();
+	
+		datumregel("Verkoopprijs (bij ".$acc["max"]." personen)");
+	
+		# Verkoopprijs arrangement
+		$kolomteller=$kolomteller+1000;
+		$titel="Verkoopprijs arrangement p.p.";
+		echo "<tr class=\"niet_invullen\"><td nowrap>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"verkoopprijs_arrangement[".$week."]\" name=\"verkoopprijs_arrangement[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"\">";
+			echo "</td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Verkoopprijs accommodatie
+		$kolomteller=$kolomteller+1000;
+		$titel="Verkoopprijs accommodatie";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"verkoopprijs_accommodatie[".$week."]\" name=\"verkoopprijs_accommodatie[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"\">";
+			echo "<input type=\"hidden\" name=\"verkoopprijs_accommodatie_org[".$week."]\" value=\"".htmlentities($seizoen["weken"][$week]["bruto"])."\">";
+			echo "</td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Verkoopprijs skipas
+		$kolomteller=$kolomteller+1000;
+		$titel="Verkoopprijs skipas";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"verkoopprijs_skipas[".$week."]\" name=\"verkoopprijs_skipas[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($skipas["weken"][$week]["bruto"])."\">";
+			echo "<input type=\"hidden\" name=\"verkoopprijs_skipas_org[".$week."]\" value=\"".htmlentities($skipas["weken"][$week]["bruto"])."\">";
+			echo "</td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+		
+		# Lege regel
+		lege_regel();
+
+		datumregel("Inkoop");
+	
+		# Netto inkoop accommodatie (voorheen Netto-accommodatie)
+		$titel="Netto inkoop accommodatie";
+		echo "<tr class=\"opvallend\"><td nowrap>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			echo "<td align=\"right\" nowrap>&euro;<input readonly type=\"text\" id=\"netto[".$week."]\" name=\"netto[".$week."]\" size=\"6\" value=\"".$seizoen["weken"][$week]["netto"]."\"></td>";
+			echo "<input type=\"hidden\" name=\"netto_org[".$week."]\" value=\"".htmlentities($seizoen["weken"][$week]["netto"])."\">";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+
+		# Netto inkoop skipas
+		$titel="Netto inkoop skipas";
+		echo "<tr class=\"opvallend\"><td nowrap>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			echo "<td align=\"right\" nowrap>&euro;<input readonly type=\"text\" id=\"netto_skipas[".$week."]\" name=\"netto_skipas[".$week."]\" size=\"6\" value=\"".$skipas["weken"][$week]["netto"]."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+
+		# Lege regel
+		lege_regel();
+
+		datumregel("Uit tarievencalculatie");
+	
+		# Bruto-accommodatie
+		$kolomteller=$kolomteller+1000;
+		$titel="Bruto-accommodatie";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"bruto[".$week."]\" name=\"bruto[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["bruto"])."\">";
+#			echo "<input type=\"hidden\" name=\"huidigbruto[".$week."]\" value=\"".htmlentities(($oudtarief_bekend[$week] ? $oudtarief[$week] : ($xml_tarieven[$week] ? "" : $seizoen["weken"][$week]["bruto"])))."\">";
+			echo "</td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Kortingspercentage
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Commissie";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>%<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"korting_percentage[".$week."]\" name=\"korting_percentage[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["korting_percentage"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Inkoop -/- korting
+		$titel="Inkoop -/- commissie";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			echo "<td align=\"right\" nowrap>&euro;<input readonly disabled type=\"text\" id=\"inkoop_min_korting[".$week."]\" name=\"inkoop_min_korting[".$week."]\" size=\"6\" value=\"".$seizoen["weken"][$week]["inkoop_min_korting"]."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+
+		# Toeslag
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Toeslag";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"toeslag[".$week."]\" name=\"toeslag[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["toeslag"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Korting (euro)
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Korting";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"korting[".$week."]\" name=\"korting[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["korting"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+		
+		# Lege regel
+		lege_regel();
+	
+	} elseif($acc["toonper"]==2) {
+	
+		# Optie B (arrangementsprijs) (niet meer in gebruik)
+	
+	} elseif($acc["toonper"]==3) {
+		#
+		# Optie C
+		#
+		datumregel("Korting in %");
+	
+		# Inkoopkorting (percentage)
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Inkoopkorting accommodatie";
+		echo "<tr><td nowrap>".htmlentities($titel)."</td>";
+		kopieer("inkoopkorting_percentage");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"overnemen('".$week."',this.value,'aanbieding_acc_percentage');bereken(this,'".$week."');\" id=\"inkoopkorting_percentage[".$week."]\" name=\"inkoopkorting_percentage[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["inkoopkorting_percentage"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Aanbieding accommodatie";
+		echo "<tr><td nowrap>".htmlentities($titel)."</td>";
+		kopieer("aanbieding_acc_percentage");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"aanbieding_acc_percentage[".$week."]\" name=\"aanbieding_acc_percentage[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["aanbieding_acc_percentage"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Lege regel
+		lege_regel();
+
+		datumregel("Korting in euro's");
+	
+		# Inkoopkorting (euro)
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Inkoopkorting accommodatie";
+		echo "<tr><td>".htmlentities($titel)."</td>";
+		kopieer("inkoopkorting_euro");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"overnemen('".$week."',this.value,'aanbieding_acc_euro');bereken(this,'".$week."');\" id=\"inkoopkorting_euro[".$week."]\" name=\"inkoopkorting_euro[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["inkoopkorting_euro"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Aanbieding accommodatie";
+		echo "<tr><td nowrap>".htmlentities($titel)."</td>";
+		kopieer("aanbieding_acc_euro");
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"aanbieding_acc_euro[".$week."]\" name=\"aanbieding_acc_euro[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["aanbieding_acc_euro"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Lege regel
+		lege_regel();
+	
+		datumregel("Marge");
+	
+		# Marge op accommodatie (bij maximale bezetting)
+		$titel="Marge op accommodatie";
+		echo "<tr class=\"opvallend\"><td>".htmlentities($titel);
+		echo "</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			echo "<td align=\"right\" nowrap>%<input readonly type=\"text\" id=\"c_marge_percentage[".$week."]\" name=\"c_marge_percentage[".$week."]\" size=\"6\" value=\"".$seizoen["weken"][$week]["c_marge_percentage"]."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Lege regel
+		lege_regel();
+	
+		datumregel("Verkoopprijs");
+	
+		# Verkoopprijs accommodatie
+		$kolomteller=$kolomteller+1000;
+		$titel="Verkoopprijs accommodatie";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"c_verkoop_site[".$week."]\" name=\"c_verkoop_site[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"\">";
+			echo "<input type=\"hidden\" name=\"c_verkoop_site_org[".$week."]\" value=\"".htmlentities($seizoen["weken"][$week]["c_verkoop_zonder_kortingen"])."\">";
+			echo "</td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+		
+		# Lege regel
+		lege_regel();
+
+		datumregel("Inkoop");
+	
+		# Netto inkoop accommodatie (voorheen Netto-accommodatie)
+		$titel="Netto inkoop accommodatie";
+		echo "<tr class=\"opvallend\"><td nowrap>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			echo "<td align=\"right\" nowrap>&euro;<input readonly type=\"text\" id=\"c_netto[".$week."]\" name=\"c_netto[".$week."]\" size=\"6\" value=\"".$seizoen["weken"][$week]["c_netto"]."\"></td>";
+			echo "<input type=\"hidden\" name=\"c_netto_org[".$week."]\" value=\"".htmlentities($seizoen["weken"][$week]["c_netto"])."\">";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+
+		# Lege regel
+		lege_regel();
+
+		datumregel("Uit tarievencalculatie");
+	
+		# Bruto-accommodatie
+		$kolomteller=$kolomteller+1000;
+		$titel="Bruto-accommodatie";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"c_bruto[".$week."]\" name=\"c_bruto[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["c_bruto"])."\">";
+#			echo "<input type=\"hidden\" name=\"huidigbruto[".$week."]\" value=\"".htmlentities(($oudtarief_bekend[$week] ? $oudtarief[$week] : ($xml_tarieven[$week] ? "" : $seizoen["weken"][$week]["bruto"])))."\">";
+			echo "</td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Kortingspercentage
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Commissie";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>%<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"c_korting_percentage[".$week."]\" name=\"c_korting_percentage[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["c_korting_percentage"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Inkoop -/- korting
+		$titel="Inkoop -/- commissie";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			echo "<td align=\"right\" nowrap>&euro;<input readonly disabled type=\"text\" id=\"c_inkoop_min_korting[".$week."]\" name=\"c_inkoop_min_korting[".$week."]\" size=\"6\" value=\"".$seizoen["weken"][$week]["c_inkoop_min_korting"]."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+
+		# Toeslag
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Toeslag";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"c_toeslag[".$week."]\" name=\"c_toeslag[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["c_toeslag"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+	
+		# Korting (euro)
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Korting";
+		echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"right\" nowrap>&euro;<input disabled type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken(this,'".$week."');\" id=\"c_korting_euro[".$week."]\" name=\"c_korting_euro[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($seizoen["weken"][$week]["c_korting_euro"])."\"></td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".htmlentities($titel)."</td>";
+		echo "</tr>";
+		
+		# Lege regel
+		lege_regel();
+
+	}
+	echo "</form>";
+	echo "</table>";
+}
+
+echo "</td></tr></table></body></html>";
+
+?>

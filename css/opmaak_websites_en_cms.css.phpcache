@@ -1,0 +1,72 @@
+<?php
+
+$css=true;
+include("../admin/vars_websitetype.php");
+header("Content-type: text/css; charset=UTF-8");
+
+?>
+
+.toonacctabel {
+	border: solid <?php echo $table; ?> 1px;
+	width: 660px;
+	background-color: #FFFFFF;
+}
+
+.toonacctabel th {
+	color: <?php echo $thfontcolor; ?>;
+	background-color: <?php echo $table; ?>;
+	text-align: left;
+	padding: 5px;
+	font-size: <?php echo $thfontsize; ?>;
+	border: solid <?php echo $table; ?> 1px;
+}
+
+.toonacctabel td {
+	border: solid <?php echo $table; ?> 1px;
+	padding: 4px;
+}
+
+.toonacctabel_zonderborder {
+	border: solid <?php echo $table; ?> 1px;
+	width: 660px;
+	background-color: #FFFFFF;
+}
+
+.toonacctabel_zonderborder th {
+	color: #FFFFFF;
+	background-color: <?php echo $table; ?>;
+	text-align: left;
+	padding: 5px;
+	font-size: 0.8em;
+	border: solid <?php echo $table; ?> 1px;
+}
+
+.toonacctabel_zonderborder td {
+	padding: 4px;
+}
+
+.boekingstabel_bewerk {
+	background-color: <?php echo $table; ?>;
+	font-size: 0.8em;
+	color: #FFFFFF;
+}
+
+.boekingstabel_bewerk a:link,.boekingstabel_bewerk a:active,.boekingstabel_bewerk a:visited {
+	color: #FFFFFF;
+}
+
+.boekingstabel_bewerk a:hover {
+	color: #878481;
+}
+
+.opmerkingbox {
+	border: 1px solid #000000;
+	background-color: yellow;
+	padding: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.mpFormField input {
+	width: 400px;
+}

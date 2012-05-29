@@ -1,0 +1,142 @@
+<?php
+
+if($_GET["bid"]) {
+	echo boekingkoptekst($gegevens);
+} elseif($_GET["gar_id"]) {
+	echo "<h2>Garantie ".htmlentities($vars["temp_garantieinfo"]["accnaam"])." - ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])." - ".htmlentities($vars["temp_garantieinfo"]["naam"])."</h2>";
+	
+	echo "<p><a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".htmlentities($_GET["gar_id"])."\">Terug naar garantie</a></p>";
+}
+
+
+if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+
+if($_GET["edit"]<>43 and $_GET["add"]<>43) {
+	echo "<hr>";
+	
+	if($_GET["bid"]) {
+		echo "<b>Opmerkingen factuur:</b><p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\"><input type=\"hidden\" name=\"opmfilled\" value=\"1\"><textarea name=\"opmerkingen\" cols=90 rows=4>".htmlentities($gegevens["stap1"]["factuur_opmerkingen"])."</textarea><br><input type=\"submit\" value=\" OPMERKINGEN OPSLAAN \"></form><hr>";
+	}
+	echo "<b>Inkoopgegevens</b>";
+	echo "<br>&nbsp;<table border=\"0\" cellspacing=\"0\" cellpadding=\"6\">";
+	echo "<tr><td>Bruto-accommodatie&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["inkoopbruto"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+	if($gegevens["stap1"]["inkoopcommissie"]) {
+		echo "<tr><td>Commissie&nbsp;&nbsp;&nbsp;</td><td>&nbsp;</td><td align=\"right\">".number_format($gegevens["stap1"]["inkoopcommissie"],2,",",".")."</td><td>%</td><td>&nbsp;</td></tr>";
+		echo "<tr><td>Inkoop -/- commissie&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["inkoopbruto"]*(1-$gegevens["stap1"]["inkoopcommissie"]/100),2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+	}
+	if($gegevens["stap1"]["inkoopkorting"]) {
+		echo "<tr><td>Korting/Toeslag&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["inkoopkorting"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+	}
+	if($gegevens["stap1"]["inkoopkorting_percentage"]) {
+		echo "<tr><td>Inkoopkorting accommodatie&nbsp;&nbsp;&nbsp;</td><td>&nbsp;</td><td align=\"right\">".number_format($gegevens["stap1"]["inkoopkorting_percentage"],2,",",".")."</td><td>%</td><td>&nbsp;</td></tr>";
+	}
+	if($gegevens["stap1"]["inkoopkorting_euro"]) {
+		echo "<tr><td>Inkoopkorting accommodatie&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["inkoopkorting_euro"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+	}
+	echo "<tr style=\"background-color:#fffbba;font-weight:bold;\"><td>Totaalfactuurbedrag&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["totaalfactuurbedrag"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+	if($gegevens["stap1"]["totaal_volgens_ontvangen_factuur"]) {
+		echo "<tr><td>Totaal volgens ontvangen factuur&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["totaal_volgens_ontvangen_factuur"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		if($gegevens["stap1"]["betalingsverschil"]) {
+			echo "<tr><td>Betalingsverschil&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["betalingsverschil"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+		}
+		$betalingssaldo=$gegevens["stap1"]["totaalfactuurbedrag"]-$gegevens["stap1"]["totaal_volgens_ontvangen_factuur"]+$gegevens["stap1"]["betalingsverschil"];
+		if($betalingssaldo<>0) {
+			echo "<tr style=\"color:".($betalingssaldo<0 ? "red" : "green").";font-style:italic;font-weight:bold;\"><td>Saldo factuurbedrag&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($betalingssaldo,2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";	
+		}
+	}
+
+	echo "</table><hr>";
+	
+	# betalingsvoorwaarden leverancier ophalen
+	$db->query("SELECT naam, aanbetaling_dagen, aanbetaling_percentage, aanbetaling_euro, eindbetaling_dagen_aankomst, eindbetaling_dagen_factuur, aanbetaling_incl_toeslag FROM leverancier WHERE leverancier_id='".addslashes($gegevens["stap1"]["leverancierid"])."';");
+#	echo wt_dump($gegevens["stap1"]);
+	if($db->next_record()) {
+		echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"6\">";
+		echo "<tr><td><b>Factuurnummer leverancier</b></td><td align=\"right\">&nbsp;".($gegevens["stap1"]["factuurnummer_leverancier"] ? htmlentities($gegevens["stap1"]["factuurnummer_leverancier"]) : "<i>nog niet ingevoerd</i>")."</td></tr>";
+		echo "<tr><td><b>Ons factuurnummer</b></td><td align=\"right\">&nbsp;".($gegevens["stap1"]["boekingsnummer"] ? htmlentities($gegevens["stap1"]["boekingsnummer"]) : "<i>nog geen reserveringsnummer</i>")."</td></tr>";
+	
+		if($db->f("aanbetaling_percentage") or $db->f("aanbetaling_euro")) {
+			echo "<tr><td colspan=\"3\"><b>Aanbetaling</b> (";
+			if($db->f("aanbetaling_percentage")) {
+				echo number_format($db->f("aanbetaling_percentage"),2,",",".")."%";
+			} else {
+				echo "&euro; ".number_format($db->f("aanbetaling_percentage"),2,",",".");
+			}
+			if($gegevens["stap1"]["inkoopaanbetaling_gewijzigd"]<>"") {
+				echo " <i>handmatig gewijzigd in: &euro;&nbsp;".number_format($gegevens["stap1"]["inkoopaanbetaling_gewijzigd"],2,",",".")."</i>";
+			}
+			echo ")</td></tr>";
+			if($gegevens["stap1"]["inkoopfactuurdatum"]) {
+				$aanbetaling_unixtime=mktime(0,0,0,date("m",$gegevens["stap1"]["inkoopfactuurdatum"]),date("d",$gegevens["stap1"]["inkoopfactuurdatum"])+$db->f("aanbetaling_dagen"),date("Y",$gegevens["stap1"]["inkoopfactuurdatum"]));
+				$datum1=date("d-m-Y",$aanbetaling_unixtime);
+				$datum2="<i>(".$db->f("aanbetaling_dagen")." dag".($db->f("aanbetaling_dagen")==1 ? "" : "en")." na factuurdatum)</i>";
+			} else {
+				$datum1=$db->f("aanbetaling_dagen")." dag".($db->f("aanbetaling_dagen")==1 ? "" : "en")." na factuurdatum";
+				$datum2="<i>(factuurdatum nog niet ingevoerd)</i>";
+			}
+			if($db->f("aanbetaling_percentage")) {
+				if($db->f("aanbetaling_incl_toeslag")) {
+					$bedrag_aanbetaling=round($gegevens["stap1"]["totaalfactuurbedrag"]*$db->f("aanbetaling_percentage")/100,2);
+				} else {
+					$inkoop_min_commissie=round($gegevens["stap1"]["inkoopbruto"]*(1-$gegevens["stap1"]["inkoopcommissie"]/100),2);
+					$bedrag_aanbetaling=round($inkoop_min_commissie*$db->f("aanbetaling_percentage")/100,2);
+				}
+			} else {
+				$bedrag_aanbetaling=$db->f("aanbetaling_euro");
+			}
+			if($gegevens["stap1"]["inkoopaanbetaling_gewijzigd"]<>"") {
+				$bedrag_aanbetaling=$gegevens["stap1"]["inkoopaanbetaling_gewijzigd"];
+			}
+			if($vars["temp_al_betaald"]<$bedrag_aanbetaling) {
+				$bedrag_aanbetaling_openstaand=$bedrag_aanbetaling-$vars["temp_al_betaald"];
+			}
+			echo "<tr style=\"".($bedrag_aanbetaling_openstaand&&$aanbetaling_unixtime<time() ? "color:red;" : "")."\"><td style=\"width:210px;\">Advies betaaldatum</td><td align=\"right\">".$datum1."</td><td>".$datum2."</td></tr>";
+			echo "<tr><td>Bedrag aanbetaling</td><td align=\"right\">&euro;&nbsp;&nbsp;".number_format($bedrag_aanbetaling,2,",",".")."</td><td><form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"inkoopaanbetaling_gewijzigd\"><input type=\"hidden\" name=\"inkoopaanbetaling_gewijzigd_filled\" value=\"\1\"><input type=\"hidden\" name=\"inkoopaanbetaling_gewijzigd\" value=\"".$gegevens["stap1"]["inkoopaanbetaling_gewijzigd"]."\"><a href=\"#\" onclick=\"return inkoopaanbetaling_wijzigen();\">wijzigen</a></form></td></tr>";
+			echo "<tr><td>Te betalen aanbetaling</td><td align=\"right\">".($bedrag_aanbetaling_openstaand ? "&euro;&nbsp;&nbsp;".number_format($bedrag_aanbetaling_openstaand,2,",",".") : "<i>voldaan</i>")."</td><td>".($bedrag_aanbetaling_openstaand ? "<a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?add=43&burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."&gar_id=".htmlentities($_GET["gar_id"])."&pv_bedrag=".number_format($bedrag_aanbetaling_openstaand,2,",","")."\">betalen</a>" : "&nbsp;")."</td></tr>";
+		}
+		if($db->f("eindbetaling_dagen_aankomst") or $db->f("eindbetaling_dagen_factuur")) {
+			echo "<tr><td colspan=\"3\"><b>Eindbetaling</b></td></tr>";
+			$bedrag_eindbetaling=round($gegevens["stap1"]["totaalfactuurbedrag"]-$bedrag_aanbetaling,2);
+			if($db->f("eindbetaling_dagen_aankomst")<>"") {
+				$eindbetaling_unixtime=mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])+$db->f("eindbetaling_dagen_aankomst"),date("Y",$gegevens["stap1"]["aankomstdatum_exact"]));
+				$datum1=date("d-m-Y",$eindbetaling_unixtime);
+				$datum2="<i>(".abs($db->f("eindbetaling_dagen_aankomst"))." dag".(abs($db->f("eindbetaling_dagen_aankomst"))==1 ? "" : "en")." ".($db->f("eindbetaling_dagen_aankomst")<0 ? "v&oacute;&oacute;r" : "na")." aankomst)</i>";
+			} elseif($gegevens["stap1"]["inkoopfactuurdatum"]) {
+				$eindbetaling_unixtime=mktime(0,0,0,date("m",$gegevens["stap1"]["inkoopfactuurdatum"]),date("d",$gegevens["stap1"]["inkoopfactuurdatum"])+$db->f("eindbetaling_dagen_factuur"),date("Y",$gegevens["stap1"]["inkoopfactuurdatum"]));
+				$datum1=date("d-m-Y",$eindbetaling_unixtime);
+				$datum2="<i>(".abs($db->f("eindbetaling_dagen_factuur"))." dag".(abs($db->f("eindbetaling_dagen_factuur"))==1 ? "" : "en")." na factuurdatum)</i>";
+			} else {
+				$datum1=$db->f("eindbetaling_dagen_factuur")." dag".($db->f("eindbetaling_dagen_factuur")==1 ? "" : "en")." na factuurdatum";
+				$datum2="<i>(factuurdatum nog niet ingevoerd)</i>";
+			}
+			if($vars["temp_al_betaald"]<$gegevens["stap1"]["totaalfactuurbedrag"]) {
+				$bedrag_eindbetaling_openstaand=$gegevens["stap1"]["totaalfactuurbedrag"]-$vars["temp_al_betaald"];
+			} elseif($vars["temp_al_betaald"]>$gegevens["stap1"]["totaalfactuurbedrag"] and $vars["temp_al_betaald"]<>0) {
+				$bedrag_eindbetaling_openstaand=$gegevens["stap1"]["totaalfactuurbedrag"]-$vars["temp_al_betaald"];			
+			}
+			echo "<tr style=\"".($bedrag_eindbetaling_openstaand>0&&$eindbetaling_unixtime<time() ? "color:red;" : "")."\"><td style=\"width:210px;\">Advies betaaldatum</td><td align=\"right\">".$datum1."</td><td>".$datum2."</td></tr>";
+			echo "<tr><td>Bedrag</td><td align=\"right\">&euro;&nbsp;&nbsp;".number_format($bedrag_eindbetaling,2,",",".")."</td><td>&nbsp;</td></tr>";
+			echo "<tr><td colspan=\"3\"><hr></td></tr>";
+			echo "<tr style=\"font-weight:bold;\"><td>Totaal openstaand</td><td align=\"right\">".($bedrag_eindbetaling_openstaand<>0 ? "&euro;&nbsp;&nbsp;".number_format($bedrag_eindbetaling_openstaand,2,",",".") : "<i>voldaan</i>")."</td><td style=\"font-weight:normal;\">";
+			if($bedrag_eindbetaling_openstaand>0) {
+				echo "<a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?add=43&burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."&gar_id=".htmlentities($_GET["gar_id"])."&pv_bedrag=".number_format($bedrag_eindbetaling_openstaand,2,",","")."\">betalen</a>";
+			} elseif($bedrag_eindbetaling_openstaand<0) {
+				echo "<b style=\"color:blue;\">let op: teveel betaald!</b>";
+			} else {
+				echo "&nbsp;";
+			}
+			echo "</td></tr>";
+		} else {
+			echo "<tr><td colspan=\"3\" style=\"background-color:yellow;\">Er zijn bij <a href=\"".$vars["path"]."cms_leveranciers.php?edit=8&beheerder=0&8k0=".$gegevens["stap1"]["leverancierid"]."\" target=\"_blank\">".htmlentities($db->f("naam"))."</a> nog geen gegevens m.b.t. de eindbetaling bekend.</td></tr>";
+		}
+
+	}
+	echo "</table>";
+}
+
+if($login->has_priv("5")) {
+	echo "<hr>";
+	$cms->display_cms();
+}
+
+?>

@@ -1,0 +1,526 @@
+
+html {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.8em;
+	overflow-y: scroll;
+}
+
+body {
+	margin:0;
+	padding:0;
+	background-color: #f3f3f3;
+}
+
+a {
+	color: #666600;
+}
+
+a:hover {
+	color: #6699cc;
+}
+
+a:active, a:focus {
+	outline: 0;
+}
+
+.wintera a {
+	color: #6699cc;
+}
+
+.wintera a:hover {
+	color: #666600;
+}
+
+h1 {
+	padding: 0;
+	margin: 0;
+	color: #666600;
+	font-size: 1.5em;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+
+h2 {
+	padding: 0;
+	margin: 0;
+	color: #666600;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#toonaccommodatie_kopteksten h1 {
+	padding: 0;
+	margin: 0;
+	color: #666600;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+h3 {
+	padding: 0;
+	margin: 0;
+	color: #000000;
+	font-size: 1.0em;
+	font-weight: bold;
+}
+
+form {
+	margin:0;
+}
+
+#wrapper {
+	width: 970px;
+	background-color: #ffffff;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#top {
+	text-align: center;
+}
+
+#topfoto {
+	height:160px;
+	position:relative;
+}
+
+#balkbovencontent {
+	height: 20px;
+	margin-right: 5px;
+}
+
+#bekekenbewaard {
+	float: left;
+	margin-left: 15px;
+	font-size: 0.8em;
+	text-align: left;
+}
+
+#meldingen {
+	float: right;
+	font-size: 0.85em;
+}
+
+#meldingen a {
+	color: #666600;
+	font-weight: normal;
+}
+
+#meldingen a:hover {
+	color: #6699cc;
+}
+
+#menubalk {
+
+}
+
+#submenu {
+	color: #999999;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 0.85em;
+}
+
+#submenu a {
+	color: #999999;
+	font-weight: normal;
+}
+
+#submenu a:hover {
+	color: #6699cc;
+}
+
+#hoofdmenu {
+	font-size: 1.1em;
+	height: 29px;
+	background-color: #666600;
+	color: #99ccff;
+	padding-top: 11px;
+}
+
+#hoofdmenu a {
+	color: #99ccff;
+	text-decoration: none;
+	font-weight: normal;
+}
+
+#hoofdmenu a:hover {
+	color: #6699cc;
+}
+
+.hoofdmenu_actief {
+	color: #ffffff;
+}
+
+.hoofdmenuspacer {
+	color: #ffffff;
+}
+
+#content {
+
+}
+
+#contentvolledig {
+	margin-left: 15px;
+	margin-right: 5px;
+	padding-bottom: 3px;
+}
+
+#bloklinks {
+	float: left;
+	width: 185px;
+	margin-left: 0px;
+	margin-right: 5px;
+}
+
+#zoekenboek {
+	width: 170px;
+	margin-left: 15px;
+	margin-bottom: 6px;
+}
+
+#zoekenboek .zoekenboek_invulveld {
+	margin-bottom: 11px;
+}
+
+#zoekenboek .tekstzoeken {
+	width: 165px;
+}
+
+#zoekenboek select {
+	width: 170px;
+}
+
+.bloklinksrechts_kop {
+	color: #666600;
+	font-size: 1.4em;
+	font-weight: normal;
+}
+
+#contentrechts {
+	float: left;
+	width: 760px;
+	margin-left: 20px;
+}
+
+#blokaccommodatie {
+	padding: 10px;
+	height: 120px;
+	padding-left: 15px;
+}
+
+#blokaccommodatie_overlay {
+	position:absolute;
+	bottom: 0px;
+	left:0px;
+	height:33px;
+	width: 156px;
+	text-align: center;
+	padding: 2px;
+	padding-top: 4px;
+	background: url('../pic/fotoslider/transparent-bg.png');
+	font-size: 0.9em;
+	font-weight: normal;
+}
+
+.overlay_foto {
+	position:relative;
+	cursor: pointer;
+	color: #ffffff;
+}
+
+.overlay_foto:hover {
+	color:#6699cc;
+	text-decoration: underline;
+}
+
+.button {
+	width: 168px;
+	font-size: 0.9em;
+	background-color: #6699cc;
+	border: 1px solid #6699cc;
+	color: #ffffff;
+	cursor: pointer;
+	text-align: center;
+	padding-top:6px;
+	height: 20px;
+	margin-top: 10px;
+}
+
+.button:hover {
+	border: 1px solid #666600;
+}
+
+.buttonzomer {
+	background-color: #666600;
+	border: 1px solid #666600;
+}
+
+.buttonzomer:hover {
+	border: 1px solid #6699cc;
+}
+
+.button_zomer {
+	width: 168px;
+	font-size: 0.85em;
+	background-color: #666600;
+	border: 1px solid #666600;
+	color: #ffffff;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 1px;
+	height: 25px;
+	margin-top: 10px;
+}
+
+.button_zomer:hover {
+	border: 1px solid #6699cc;
+	color: #6699cc;
+}
+
+.button_winter {
+	width: 168px;
+	font-size: 0.85em;
+	background-color: #666600;
+	border: 1px solid #666600;
+	color: #ffffff;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 1px;
+	height: 25px;
+	margin-top: 10px;
+}
+
+.button_winter:hover {
+	border: 1px solid #6699cc;
+	color: #6699cc;
+}
+
+.redbutton {
+	background-color: #fb6703;
+	border: 1px solid #fb6703;
+	color: #ffffff;
+	height: 30px;	
+}
+
+.redbutton:hover {
+	border: 1px solid #666600;
+	color: #666600;
+}
+
+.redtext {
+	color: #6699cc;
+
+}
+
+.onlyprint {
+	display: none;
+	height: 0px;
+}
+
+.tarieventabel {
+	font-size: 0.8em;
+}
+
+.tarieventabel th {
+	font-size: 1.3em;
+}
+
+.tarieventabel td {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
+	padding: 2px;
+}
+
+.tarieventabel .afwijkingenaankomstdatum {
+	font-size: 1.1em;
+}
+
+.tarieventabel .onderste_regel {
+	font-size: 1.2em;
+}
+
+.tarieventabel .onderste_regel a {
+	color: #ffffff;
+}
+
+.tarieventabel .onderste_regel a:hover {
+	color: #666600;
+}
+
+#tabs {
+	margin-top: 20px;
+}
+
+#colofon {
+	background-color: #6699cc;
+	padding-top: 3px;
+	height: 17px;
+	margin-top: 5px;
+	text-align: center;
+	color: #ffffff;
+	font-size: 0.85em;
+}
+
+#colofon a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+#colofon a:hover {
+	color: #666600;
+}
+
+#terugnaarboven {
+	text-align: right;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 0.85em;
+}
+
+.dunnehr {
+	color: #6699cc;
+	background-color: #6699cc;
+	height: 1px;
+	border: 0px;
+}
+
+#geenresultaten {
+	border: 2px solid #6699cc;
+}
+
+.zoekresultaten_paginas a {
+	background-color: #b2cce5;
+	border: 1px solid #6699cc;
+	color: #666600;
+}
+
+.zoekresultaten_paginas_active {
+	background-color: #6699cc;
+	border: 1px solid #6699cc;
+	color: #ffffff;
+}
+
+.zoekresultaten_paginas a:hover {
+	background-color: #6699cc;
+	color: #ffffff;
+}
+
+.zoekresultaten_aantalgevonden {
+	background-color: #b2cce5;
+	color: #666600;
+}
+
+.zoekresultaten_opmerking_tussen_resultaten {
+	background-color: #b2cce5;
+	color: #666600;
+}
+
+.zoekresultaat {
+	border: 1px solid #b2cce5;
+}
+
+.zoekresultaat:hover {
+	border: 1px solid #6699cc;
+}
+
+#hulp_zoekresultaat_hover {
+	color: #6699cc;
+}
+
+.zoekresultaat_type {
+	border-left: 1px solid #cfbcd8;
+	border-right: 1px solid #cfbcd8;
+	border-bottom: 1px solid #cfbcd8;
+}
+
+.zoekresultaat_type_een_resultaat {
+	border-top: 1px solid #cfbcd8;
+}
+
+.zoekresultaat_titel {
+	color: #666600;
+}
+
+.zoekresultaat_locatie {
+	color: #666600;
+}
+
+.zoekresultaat_top {
+	background-color: #b2cce5;
+}
+
+.zoekresultaat_omschrijving {
+	color: #666600;
+}
+
+.zoekresultaat_prijs_vanaf {
+	color: #666600;
+}
+
+.zoekresultaat_prijs_periode {
+	color: #666600;
+}
+
+.zoekresultaat_prijs_bedrag {
+	color: #666600;
+}
+
+.zoekresultaat_prijs_per {
+	color: #666600;
+}
+
+.zoekresultaat_aanbieding {
+	color: #666600;
+}
+
+.zoekresultaat_type_aanbieding {
+	color: #666600;
+}
+
+.zoekresultaat_type_prijs_aanbieding {
+	color: #666600;
+}
+
+.zoekresultaat_prijs_bedrag_aanbieding {
+	color: #666600;
+}
+
+@media print {
+
+	body {
+		background-color: white;
+	}
+
+	#wrapper {
+		width: 100%;
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	#menubalk {
+		display: none;
+	}
+
+	#submenu {
+		display: none;
+	}
+
+	.noprint {
+		display: none;
+		height: 0px;
+	}
+
+	.onlyprint {
+		display: inline;
+	}
+	
+	#menubalk_print {
+		padding-top: 20px;
+		float: left;
+	}
+	
+	a {
+		text-decoration: none;
+	}
+}

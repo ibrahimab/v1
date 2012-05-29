@@ -1,0 +1,172 @@
+<?php
+
+# Bepalen wie voorrang krijgt: TradeTracker of Cleafs
+if(intval($_COOKIE["tradetracker"])>1230764400 and intval($_COOKIE["cleafs"])>1230764400) {
+	if(intval($_COOKIE["tradetracker"])>intval($_COOKIE["cleafs"])) {
+		$blokkeer_cleafs=true;
+	} else {
+		$blokkeer_tradetracker=true;
+	}
+}
+
+if($_GET["fo"]=="frm") {
+	echo html("uwbeschikbaarheidaanvraagisverzonden".($_GET["o"] ? "_optie" : ""),"beschikbaarheid")."<p>".html("zsmcontroleren","beschikbaarheid")."<p>";
+	echo html("mochtunogvragenhebben","beschikbaarheid",array("l1"=>"contact?accid=".$_GET["tid"]));
+	if($_GET["back"]) echo "<p><a href=\"http://".$_SERVER["HTTP_HOST"].$_GET["back"]."\">&lt;&nbsp;&lt;&nbsp;".html("terugnaardeaccommodatiegegevens","beschikbaarheid")."</a>";
+
+	$extrainfo_tradetracker="Formulier ingevuld: ".date("d-m-Y").", ".date("H:i")."u.";
+	if(!$vars["rebook"]) {
+
+		affiliate_tracking(false,true,true,array("ordernummer"=>"beschikbaarheidsaanvraag"));
+		
+		if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
+			// Set campaign ID and product ID
+			$campaignID = "693"; // The campaign ID is provided by TradeTracker
+			$productID = "791"; // The product ID is provided by TradeTracker
+			// Create session
+	#		session_start();
+			// Get tracking data from the session created on the landingpage
+			$trackingData = $_SESSION["TT2_" . $campaignID];
+			$trackingType = "1";
+			// If tracking data is empty
+			if(!$trackingData) {
+			// Get tracking data from the cookie created on the landingpage
+				$trackingData = $_COOKIE["TT2_" . $campaignID];
+				$trackingType = "2";
+			}
+			// Encode tracking data
+			$trackingData = urlencode($trackingData);
+			// Set transaction information
+			$transactionID = "beschikbaarheidsaanvraag"; // Transaction number (max 255 chars)
+			$email = $_COOKIE["naw"]["email"]; // Customer e-mail address (optional)
+			$additional = $extrainfo_tradetracker; // Additional transaction information (optional)
+			// Encode transaction information
+			$transactionID = urlencode($transactionID);
+			$email = urlencode($email);
+			$additional = urlencode($additional);
+			// Set image URL
+			$imageURL = "http://tl.tradetracker.nl/v2/$campaignID/$productID/$trackingData/$trackingType/";
+			$imageURL .= "$transactionID/$email/$additional";
+			if(!$voorkant_cms and !$blokkeer_tradetracker) {
+#				echo "<img src=\"$imageURL\" width=\"1\" height=\"1\" border=\"0\" alt=\"\"/>";
+			}
+		} elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl") {
+			// Set campaign ID and product ID
+			$campaignID = "958"; // The campaign ID is provided by TradeTracker
+			$productID = "1151"; // The product ID is provided by TradeTracker
+			// Create session
+	#		session_start();
+			// Get tracking data from the session created on the landingpage
+			$trackingData = $_SESSION["TT2_" . $campaignID];
+			$trackingType = "1";
+			// If tracking data is empty
+			if(!$trackingData) {
+			// Get tracking data from the cookie created on the landingpage
+				$trackingData = $_COOKIE["TT2_" . $campaignID];
+				$trackingType = "2";
+			}
+			// Encode tracking data
+			$trackingData = urlencode($trackingData);
+			// Set transaction information
+			$transactionID = "beschikbaarheidsaanvraag"; // Transaction number (max 255 chars)
+			$email = $_COOKIE["naw"]["email"]; // Customer e-mail address (optional)
+			$additional = $extrainfo_tradetracker; // Additional transaction information (optional)
+			// Encode transaction information
+			$transactionID = urlencode($transactionID);
+			$email = urlencode($email);
+			$additional = urlencode($additional);
+			// Set image URL
+			$imageURL = "http://tl.tradetracker.nl/v2/$campaignID/$productID/$trackingData/$trackingType/";
+			$imageURL .= "$transactionID/$email/$additional";
+			if(!$voorkant_cms and !$blokkeer_tradetracker) {
+#				echo "<img src=\"$imageURL\" width=\"1\" height=\"1\" border=\"0\" alt=\"\"/>";
+			}
+
+			#
+			# Cleafs
+			#
+			if(!$voorkant_cms and !$blokkeer_cleafs) {
+				$cleafs_code="88HCLzHs";
+				$cleafs_ordernummer=$temp_naw["email"];
+#				echo "<script type=\"text/javascript\" src=\"http://www.cleafs.com/tracker/track.js\"></script>\n<script type=\"text/javascript\">\n<!--\n_cl_md = \"".$cleafs_code."\";\n_clecml(\"".htmlentities($cleafs_ordernummer)."\");\n_cltracker();\n//-->\n</script>";
+			}
+
+		} elseif($_SERVER["HTTP_HOST"]=="www.chalet.nl") {
+			// configuration
+			$campaignID = 202;
+			$campaignProductID = 204;
+		
+			// create session
+		#	session_start();
+		
+			// get the tracking data from the session created on the redirect page
+			$trackingData = $_SESSION["TT2_" . $campaignID];
+		
+			// if tracking data is empty, try to get it from the cookie
+			if(!$trackingData)
+			$trackingData = $_COOKIE["TT2_" . $campaignID];
+		
+			// URL encode tracking data
+			$trackingData = urlencode($trackingData);
+		
+			// Set order ID, e-mail address and additional information (optional)
+			$orderID = "beschikbaarheidsaanvraag";
+			$email = $_COOKIE["naw"]["email"];
+			$additional = $extrainfo_tradetracker;
+		
+			// URL encode transaction information
+			$orderID = urlencode($orderID);
+			$email = urlencode($email);
+			$additional = urlencode($additional);
+			// Send the complete report to TradeTracker
+			
+			if(!$voorkant_cms and !$blokkeer_tradetracker) {
+#				echo "<img src=\"http://tl.tradetracker.nl/$campaignID/$campaignProductID/?trackingData=$trackingData&orderID=$orderID&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />";
+				
+			}
+			
+			#
+			# Cleafs
+			#
+			if(!$voorkant_cms and !$blokkeer_cleafs) {
+				$cleafs_code="Grr8823K";
+				$cleafs_ordernummer=$temp_naw["email"];
+#				echo "<script type=\"text/javascript\" src=\"http://www.cleafs.com/tracker/track.js\"></script>\n<script type=\"text/javascript\">\n<!--\n_cl_md = \"".$cleafs_code."\";\n_clecml(\"".htmlentities($cleafs_ordernummer)."\");\n_cltracker();\n//-->\n</script>";
+			}
+		}
+	}
+	if($_COOKIE["ga"]) {
+	?><p><!-- Google Code for lead Conversion Page -->
+<script language="JavaScript" type="text/javascript">
+<!--
+var google_conversion_id = 1070777463;
+var google_conversion_language = "nl";
+var google_conversion_format = "1";
+var google_conversion_color = "ffffff";
+if (1) {
+  var google_conversion_value = 1;
+}
+var google_conversion_label = "lead";
+//-->
+</script>
+<script language="JavaScript" src="http://www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<img height=1 width=1 border=0 src="http://www.googleadservices.com/pagead/conversion/1070777463/?value=1&label=lead&script=0">
+</noscript><?php }
+
+} else {
+	if($vars["rebook"] and $accinfo["optiedagen_klanten_vorig_seizoen"]>3) {
+		echo html("inleiding1_optie_rebook","beschikbaarheid",array("v_optiedagen"=>$accinfo["optiedagen_klanten_vorig_seizoen"],"h_1"=>"<b>","h_2"=>"</b>"));
+	} else {
+		echo html("inleiding1".($_GET["o"] ? "_optie" : ""),"beschikbaarheid");	
+	}
+	echo "<p>";
+	echo html("inleiding2","beschikbaarheid")."<p>";
+	if($_GET["o"]) {
+		echo "<b>".html("letop_optie","beschikbaarheid")."</b><p>";
+	}
+	$form->display_all();
+}
+
+?>

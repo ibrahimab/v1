@@ -1,0 +1,44 @@
+<?php
+
+if(!$_GET["edit"] and !$_GET["show"] and !$_GET["add"]) {
+	echo "Mailteksten worden 8 weken voor vertrek aan klanten gemaild, en bevatten een uitnodiging om in te loggen in &quot;Mijn boeking&quot; en opties bij te boeken.<p>Een aangemaakte mailtekst kan worden gekoppeld aan een accommodatie.<p>";
+	if($_GET["wzt"]==1) {
+		echo "<a href=\"".$path."cms_mailteksten_versturen.php\">Wintermailteksten nu versturen &gt; &gt; &gt;</a>";
+	} else {
+		echo "<hr><i>Zomerboekingen ontvangen automatisch een optie-bijboeken-mailtje (50 dagen voor vertrek).</i><br><br><b>De volgende tekst is van toepassing als er geen specifieke mailtekst aan een accommodatie wordt gekoppeld:</b><br><div style=\"margin-top:5px;width:700px;border:1px solid #878481;padding:3px;font-size:0.8em;\">".nl2br(htmlentities($txt["nl"]["vars"]["mailopties_wzt2_1"]."\n\n".$txt["nl"]["vars"]["mailopties_wzt2_2"]))."</div>";
+	}
+	echo "<hr>";
+#	echo "Taal:".$vars["taal"];
+}
+
+$cms->display_cms();
+
+if($_GET["add"] or $_GET["edit"]) {
+	if(!$_GET["add"]) {
+		$db->query("SELECT a.accommodatie_id, a.archief, a.wzt, a.internenaam AS naam, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.mailtekst_id='".addslashes($_GET["32k0"])."' ORDER BY a.wzt, p.naam, a.internenaam;");
+		if($db->num_rows()) {
+			echo "<hr>De volgende accommodaties zijn aan deze mailtekst gekoppeld:<ul>";
+			while($db->next_record()) {
+				echo "<li><a href=\"cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a>";
+				if($db->f("archief")) echo " <i>(archief)</i>";
+				echo "</li>";
+			}
+			echo "</ul>";
+		}
+	}
+} else {
+	$db->query("SELECT a.accommodatie_id, a.wzt, a.internenaam AS naam, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.mailtekst_id=0 AND a.archief=0 AND a.wzt='".addslashes($_GET["wzt"])."' ORDER BY a.wzt, p.naam, a.internenaam;");
+	if($db->num_rows()) {
+		echo "<hr>Aan de volgende accommodaties is nog geen mailtekst gekoppeld:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+		}
+		echo "</ul>";
+	}
+}
+
+if($_GET["edit"]==32) {
+	$cms->display_log(32);
+}
+
+?>

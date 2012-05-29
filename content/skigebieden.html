@@ -1,0 +1,56 @@
+<?php
+
+# Skigebied-array vullen
+#$db->query("SELECT DISTINCT s.skigebied_id, s.naam, l.naam AS land, l.land_id FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND a.tonen=1 AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id ORDER BY l.naam, s.naam;");
+unset($tabellen,$landenteller);
+$db->query("SELECT DISTINCT s.naam, l.naam".$vars["ttv"]." AS land, s.skigebied_id, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.websites LIKE '%".$vars["website"]."%' ORDER BY l.naam".$vars["ttv"].", s.naam;");
+if($db->num_rows()) {
+	while($db->next_record()) {
+		if(!$landgehad[$db->f("land_id")]) {
+			if($landgehad) $tabellen.="</TABLE>";
+			$landgehad[$db->f("land_id")]=true;
+			$tabellen.="<a name=\"".wt_convert2url($db->f("land"))."\"></a><P><TABLE border=\"0\" class=\"toonacctabel\" style=\"width: 500px\" cellspacing=\"0\">";
+			$tabellen.="<TR><TH colspan=\"2\">".htmlentities($db->f("land"))."</TH></TR>";
+#			$landnaam[$db->f("land_id")]=$db->f("land");
+			$alle_landen[$db->f("land_id")]=$db->f("land");
+		}
+		$db2->query("SELECT count(t.type_id) AS aantal FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE a.weekendski=0 AND t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.skigebied_id='".$db->f("skigebied_id")."' AND l.land_id='".$db->f("land_id")."' GROUP BY l.land_id, s.skigebied_id;");
+#		echo $db2->lastquery."<P>";
+		if($db2->next_record()) {
+			$aantal_acc=$db2->f("aantal");
+		} else {
+			$aantal_acc=0;
+		}
+		$tabellen.="<TR><TD valign=\"top\" width=\"350\" nowrap><A HREF=\"".txt("menu_skigebied")."/".wt_convert2url($db->f("naam"))."/\">".htmlentities($db->f("naam"))."</A></TD><TD>";
+		if($aantal_acc) {
+			$tabellen.="<A HREF=\"".txt("menu_accommodaties").".php?filled=1&fsg=".$db->f("land_id")."-".$db->f("skigebied_id")."\">";
+			$tabellen.=$aantal_acc." ".($aantal_acc==1 ? html("accommodatie") : html("accommodaties"));
+			$tabellen.="</A>";
+		} else {
+			$tabellen.="&nbsp;";
+		}
+		$tabellen.="</TD></TR>";
+	}
+	$tabellen.="</TABLE>";
+}
+
+unset($landen);
+while(list($key,$value)=@each($alle_landen)) {
+	$landenteller++;
+	$landen.="<a href=\"#".wt_convert2url($value)."\">".htmlentities($value)."</a>";
+	if(count($alle_landen)==$landenteller) {
+
+	} elseif(count($alle_landen)==$landenteller+1) {
+		$landen.=" ".html("en")." ";
+	} else {
+		$landen.=", ";
+	}
+}
+echo "<p>".html("viaonderstaandoverzicht","skigebieden",array("h_landen"=>$landen))." ";
+echo html("steltuspecifiekeeisen","skigebieden");
+echo "<p>";
+echo html("heeftualeenreisgeboekt","skigebieden");
+echo $tabellen;
+
+
+?>

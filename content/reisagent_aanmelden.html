@@ -1,0 +1,19 @@
+<?php
+
+# Mijn gegevens
+if($_GET["fo"]=="frm") {
+	if($_GET["newagent"]) {
+		echo html("bedankttoevoegen","reisagent_aanmelden");
+	} else {
+		echo html("bedankt","reisagent_aanmelden");	
+	}
+} else {
+	if($_GET["newagent"]) {
+		echo "<p>".html("inleidingtoevoegen","reisagent_aanmelden")."</p>";	
+	} else {
+		echo "<p>".html("inleiding","reisagent_aanmelden")."</p>";
+	}
+	$form->display_all();
+}
+
+?>

@@ -1,0 +1,179 @@
+<?php
+
+if(!$vars["lev_login_enquete"]) {
+	echo boekingkoptekst($gegevens);
+	if($_GET["burl"]) {
+		echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+	} elseif($_GET["bid"]) {
+		echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
+	}
+}
+
+
+$db->query("SELECT * FROM boeking_enquete WHERE boeking_id='".addslashes($_GET["bid"])."';");
+if($db->next_record()) {
+	
+	echo html("ingevuld","lev_login_enquete").": ".DATUM("DAG D MAAND JJJJ, UU:ZZ",strtotime($db->f("invulmoment")),$vars["taal"])."u.";
+	echo "<br><hr><br>";
+
+	# Vraag 1
+	echo "<b><i>".html("vraag1","enquete")."</i></b><p>";
+	
+	echo "<table class=\"tbl\" cellspacing=\"0\">";
+	echo "<tr><td colspan=\"2\">(<i>".html("geefeencijfer","enquete")."</i>)</td><td align=\"center\">1</td><td align=\"center\">2</td><td align=\"center\">3</td><td align=\"center\">4</td><td align=\"center\">5</td><td align=\"center\">6</td><td align=\"center\">7</td><td align=\"center\">8</td><td align=\"center\">9</td><td align=\"center\">10</td><td align=\"center\">".html("nvt","enquete")."</td></tr>";
+
+	for($i=1;$i<=6;$i++) {
+		echo "<tr><td>1.".$i."</td><td>".html("vraag1_".$i,"enquete")."</td>";
+		for($j=1;$j<=11;$j++) {
+			echo "<td align=\"center\" style=\"width:30px;".($db->f("vraag1_".$i)==$j ? "background-color:#ebebeb;" : "")."\">";
+			if($db->f("vraag1_".$i)==$j) {
+				echo "X";
+			} else {
+				echo "&nbsp;";
+			}
+			echo "</td>";
+		}
+		echo "</tr>";
+	}
+	echo "</table><p>";
+	echo html("toelichtingbij","enquete").":<div style=\"border: 1px #282e82 solid;background-color:#ebebeb;width:550px;padding:5px;\">";
+	if($db->f("vraag1_toelichting")) {
+		echo nl2br(wt_he($db->f("vraag1_toelichting")));
+	} else {
+		echo "<i>".html("nietingevuld","lev_login_enquete")."</i>";
+	}
+	echo "</div>";
+
+	echo "<hr>&nbsp;<br>";
+	
+	echo "<i><b>".html("totaaloordeel","enquete")."</b></i><p>";
+
+	echo "<table class=\"tbl\" cellspacing=\"0\">";
+	echo "<tr><td>(<i>".html("geefeencijfer","enquete")."</i>)</td><td align=\"center\">1</td><td align=\"center\">2</td><td align=\"center\">3</td><td align=\"center\">4</td><td align=\"center\">5</td><td align=\"center\">6</td><td align=\"center\">7</td><td align=\"center\">8</td><td align=\"center\">9</td><td align=\"center\">10</td></tr>";
+		echo "<tr><td>".html("vraag1_7","enquete")."</td>";
+		for($j=1;$j<=10;$j++) {
+			echo "<td align=\"center\" style=\"".($db->f("vraag1_7")==$j ? "background-color:#ebebeb;" : "")."\">";
+			if($db->f("vraag1_7")==$j) {
+				echo "X";
+			} else {
+				echo "&nbsp;";
+			}
+			echo "</td>";
+		}
+		echo "</tr>";
+	echo "</table><p>";
+
+	echo html("totaaloordeeltoelichten","enquete")."<div style=\"border: 1px #282e82 solid;background-color:#ebebeb;width:550px;padding:5px;\">";
+	if($db->f("websitetekst")) {
+		echo nl2br(wt_he($db->f("websitetekst")));
+	} else {
+		echo "<i>".html("nietingevuld","lev_login_enquete")."</i>";
+	}
+	echo "</div>";
+	
+	if(!$vars["lev_login_enquete"]) {
+		echo "<p>";
+		echo html("totaaloordeeltoelichten_naam","enquete")."<div style=\"border: 1px #282e82 solid;background-color:#ebebeb;width:550px;padding:5px;\">";
+		if($db->f("websitetekst_naam")) {
+			echo nl2br(wt_he($db->f("websitetekst_naam")));
+		} else {
+			echo "<i>".html("nietingevuld","lev_login_enquete")."</i>";
+		}
+		echo "</div>";
+	}
+
+	echo "<hr>&nbsp;<br>";
+
+	echo "<b><i>".html("vraag2","enquete")."</i></b><p>";
+	for($i=1;$i<=7;$i++) {
+		if($db->f("vraag2_".$i) or ($i==7 and $db->f("vraag2_anders"))) {
+			$gekleurd=true;
+		} else {
+			$gekleurd=false;
+		}
+		echo "<div style=\"margin-top:2px;height:20px;width:560px;".($gekleurd ? "border: 1px #282e82 solid;background-color:#ebebeb;" : "border: 1px #ffffff solid;")."\">";
+		echo "<input type=\"checkbox\" name=\"vraag2_".$i."\" value=\"1\" id=\"vraag2_".$i."\"".($db->f("vraag2_".$i) ? " checked" : "")." onclick=\"return false;\">";
+		echo "&nbsp;&nbsp;".html("vraag2_".$i,"enquete");
+		if($i==7) {
+			echo ":&nbsp;&nbsp;";
+			if($db->f("vraag2_anders")) {
+				echo wt_he($db->f("vraag2_anders"));
+			} else {
+				echo "&nbsp;";
+			}
+			echo "</span>";
+		}
+		echo "</div>";
+	}
+	echo "<hr>&nbsp;<br>";
+	
+
+	# Vraag 4
+	echo "<b><i>".html("vraag3","enquete",array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]))."</i></b><p>";
+	
+	echo "<table class=\"tbl\" cellspacing=\"0\">";
+	echo "<tr><td colspan=\"2\">(<i>".html("geefeencijfer","enquete")."</i>)</td><td align=\"center\">1</td><td align=\"center\">2</td><td align=\"center\">3</td><td align=\"center\">4</td><td align=\"center\">5</td><td align=\"center\">6</td><td align=\"center\">7</td><td align=\"center\">8</td><td align=\"center\">9</td><td align=\"center\">10</td><td align=\"center\">".html("nvt","enquete")."</td></tr>";
+
+	for($i=1;$i<=9;$i++) {
+		echo "<tr><td valign=\"top\">4.".$i."</td><td>".html("vraag3_".$i,"enquete",array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]))."</td>";
+		for($j=1;$j<=11;$j++) {
+			echo "<td align=\"center\" style=\"width:30px;".($db->f("vraag3_".$i)==$j ? "background-color:#ebebeb;" : "")."\">&nbsp;";
+			if($db->f("vraag3_".$i)==$j) {
+				echo "X";
+			} else {
+				echo "&nbsp;";
+			}
+			echo "&nbsp;</td>";
+		}
+		echo "</tr>";
+	}
+	echo "</table><p>";
+	echo html("toelichtingbij","enquete").":<div style=\"border: 1px #282e82 solid;background-color:#ebebeb;width:550px;padding:5px;\">";
+	if($db->f("vraag3_toelichting")) {
+		echo nl2br(wt_he($db->f("vraag3_toelichting")));
+	} else {
+		echo "<i>".html("nietingevuld","lev_login_enquete")."</i>";
+	}
+	echo "</div>";
+	
+	echo "<hr>&nbsp;<br>";
+
+	# Vraag 5
+	if(!$vars["lev_login_enquete"]) {
+		echo "<b><i>".html("vraag4","enquete")."</i></b><p>";
+		for($i=1;$i<=3;$i++) {
+			echo "<div style=\"height:20px;width:760px;".($db->f("vraag4")==$i ? "border: 1px #282e82 solid;background-color:#ebebeb;" : "border: 1px #ffffff solid;")."\">";
+			echo "<input type=\"radio\" name=\"vraag4\" value=\"".$i."\" id=\"vraag4_".$i."\"".($db->f("vraag4")==$i ? " checked" : "")." onclick=\"return false;\">";
+			echo "&nbsp;&nbsp;".html("vraag4_".$i,"enquete");
+			echo "</div>";
+		}
+		echo "<hr>&nbsp;<br>";
+	}
+
+	if($gegevens["stap1"]["taal"]=="nl" and !$vars["lev_login_enquete"]) {
+		# Vraag 6: nieuwsbrief (alleen voor Nederlanders en antwoord verbergen voor leveranciers)
+		echo "<b><i>".html("vraag6","enquete",array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]))."</i></b><p>";
+		for($i=1;$i<=3;$i++) {
+			echo "<div style=\"height:20px;width:560px;".($db->f("vraag6")==$i ? "border: 1px #282e82 solid;background-color:#ebebeb;" : "border: 1px #ffffff solid;")."\">";
+			echo "<input type=\"radio\" name=\"vraag6\" value=\"".$i."\" id=\"vraag6_".$i."\"".($db->f("vraag6")==$i ? " checked" : "")." onclick=\"return false;\">";
+			echo "&nbsp;&nbsp;".html("vraag6_".$i,"enquete");
+			echo "</div>";
+		}
+		echo "<hr>&nbsp;<br>";
+	}
+	
+	# Overige vragen
+#	echo "<b>".html("overigetoelichting","enquete").":</b><p><div style=\"border: 1px #282e82 solid;background-color:#ebebeb;width:550px;padding:5px;\">";
+#	if($db->f("overig") and strtotime($db->f("invulmoment"))>1271445421) {
+#		echo nl2br(wt_he($db->f("overig")));
+#	} else {
+#		echo "<i>".html("nietingevuld","lev_login_enquete")."</i>";
+#	}
+#	echo "</div>";
+
+} else {
+	echo "Bij deze boeking is geen enqu&ecirc;te ingevuld.";
+}
+
+
+?>

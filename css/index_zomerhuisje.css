@@ -1,0 +1,300 @@
+
+#hoofdpagina_fotoslide {
+	float: left;
+	width: 500px;
+	height: 320px;
+	background-color: #eff2be;
+	margin-bottom: 10px;	
+}
+
+#hoofdpagina_midden {
+	float: left;
+	width: 550px;
+}
+
+#hoofdpagina_rechts {
+	float: right;
+	width: 170px;
+	margin-bottom: 5px;
+	margin-right: 15px;
+	margin-top: -60px;
+}
+
+#hoofdpagina_waarom {
+	margin-top: 20px;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+	width: 169px;
+	background-color: #cfbcd8;
+	border: 1px solid #cfbcd8;	
+	padding-left: 14px;
+	color: #5f227b;
+	cursor: pointer;
+}
+
+#hoofdpagina_waarom:hover {
+	border: 1px solid #5f227b;
+}
+
+#hoofdpagina_waarom .kop {
+	color: #5f227b;
+	font-size: 1.2em;
+	padding-left: 2px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#hoofdpagina_waarom ul {
+	margin: 0;
+	padding-left: 0px;
+	list-style-type: none;
+}
+
+#hoofdpagina_waarom li {
+	background: url(../pic/waarom_vinkje_zomer.gif) no-repeat 0 0px;
+	padding-left: 13px;
+	font-size: 0.9em;
+	line-height: 0.9em;
+}
+
+#directnaar {
+	text-align:left;
+	padding-bottom: 5px;
+	margin-top: 5px;
+}
+
+#directnaar_kop {
+	padding-bottom: 8px;
+}
+
+#directnaar a {
+
+}
+
+#laatstbekeken {
+	width: 550px;
+	float: left;
+	margin-bottom: 10px;
+	margin-top: 30px;
+}
+
+#laatstbekeken_acc_wrapper {
+	width: 500px;
+}
+
+.laatstbekeken_divider {
+	width: 24px;
+}
+
+#directnaar ul {
+	padding-left: 1px;
+}
+
+#hoofdpagina_nieuwsbrief {
+	float: right;
+	width: 160px;
+	background-color: #cfbcd8;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #5f227b;
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+#hoofdpagina_nieuwsbrief .kop {
+	color: #5f227b;
+	font-size: 1.2em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#hoofdpagina_sociallinks {
+	width: 170px;
+	background-color: #ffffff;
+	color: #5f227b;
+	text-align: right;
+}
+
+#hoofdpagina_sociallinks img {
+	margin-left: 7px;
+	vertical-align: text-top;
+}
+
+/* Fotoslide */
+
+#featured {
+	position:relative;
+	background:#eff2be;
+	border: 10px solid #eff2be;
+	border-top: 20px solid #eff2be;
+	border-bottom: 17px solid #eff2be;
+	width: 530px;
+	height:305px;
+}
+
+#featured ul.ui-tabs-nav {
+	position:absolute;
+	top:0;
+	left:364px;
+	list-style:none;
+	padding:0; margin:0;
+	width:150px;
+	height: 300px;
+}
+
+#featured ul.ui-tabs-nav li {
+	padding:0; margin:0;
+	padding-left:19px;
+	vertical-align: top;
+	margin-top: 0px;
+	width: 150px;
+	height: 31px;
+}
+
+#featured ul.ui-tabs-nav li span {
+
+}
+
+#featured .ui-tabs-panel {
+	width:362px;
+	height:300px;
+	background:#eff2be;
+	position:relative;
+        overflow:hidden;
+        padding: 0;
+}
+
+#featured .ui-tabs-hide {
+	display:none;
+}
+
+#featured li.ui-tabs-nav-item a { /*On Hover Style*/
+	display:block;
+	height:14px;
+	background:#cbd328;
+	outline:none;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 6px;
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11px;
+}
+
+#featured li.ui-tabs-nav-item a:hover {
+	background:#5f227b;
+}
+
+#featured li.ui-tabs-selected { /*Selected tab style*/
+	background:url('../pic/selected-item-zomer.gif') top left no-repeat;
+}
+
+#featured ul.ui-tabs-nav li.ui-tabs-selected a {
+	background: #5f227b;
+}
+
+#featured ul.ui-tabs-nav li img {
+	float:left; margin:2px 5px;
+	background:#eff2be;
+	padding:0px;
+	border:0px solid #eff2be;
+}
+
+#featured .ui-tabs-panel .info {
+	position:absolute;
+	bottom:0px; left:0;
+	height:70px;
+	width: 370px;
+	background: url('../pic/fotoslider/transparent-bg-white.png');
+}
+
+#featured .info h2 {
+	font-size:15px;
+	color:#ffffff; padding:5px; margin:0;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+#featured .info p {
+	margin:0 5px;
+	font-size:11px;
+	line-height:13px;
+	color: #ffffff;
+	overflow:hidden;
+	height: 26px;
+}
+
+#featured .infointern h2 {
+	overflow:auto;
+	white-space:normal;
+}
+
+#featured .infointern p {
+	overflow:auto;
+	height: auto;
+}
+
+#featured .info a {
+	text-decoration: underline;
+	color:#ffffff;
+}
+
+#featured .info a:hover {
+	color:#5f227b;
+}
+
+.hoofdpagina_fotoslide_meer {
+	text-align: right;
+}
+
+#featured .ui-tabs-panel:hover {
+	cursor: pointer;
+}
+
+#meerinspiratie {
+	position:absolute;
+	right:-3px;
+	top:280px;
+	background-color: #cbd328;
+	color: #ffffff;
+	cursor: pointer;
+	width: 142px;
+	padding-left: 6px;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 11px;
+	height:12px;
+	padding-top: 2px;
+	padding-bottom: 4px;
+	border: 1px solid #5f227b;
+}
+
+#meerinspiratie:hover {
+	background-color: #5f227b;
+}
+
+h1 {
+	font-size: 1.8em;
+	text-align: justify;
+	text-transform:uppercase;
+	width: 550px;
+	margin-bottom: 10px;
+	height: 30px;
+}
+
+h2 {
+	font-weight: normal;
+	font-size: 1.8em;
+	text-transform: uppercase;
+	text-align: center;
+	width: 550px;
+	margin-bottom: 22px;
+	height: 30px;
+	margin-top: -12px;
+}
+
+/* TIJDELIJK!!!! */
+/* TIJDELIJK!!!! */
+/* TIJDELIJK!!!! */
+

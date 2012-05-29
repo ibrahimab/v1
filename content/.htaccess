@@ -1,0 +1,10 @@
+AuthUserFile .htpasswd
+AuthGroupFile .htgroup
+AuthName "wt_closed"
+AuthType Basic
+Satisfy Any
+<Limit GET POST>
+order deny,allow
+deny from all
+require valid-user
+</Limit>

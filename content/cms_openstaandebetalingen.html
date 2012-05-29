@@ -1,0 +1,23 @@
+<?php
+
+# Betalingen inladen
+#$db->query("SELECT boeking_id, bedrag FROM boeking_betaling;");
+#while($db->next_record()) {
+#	$betaald[$db->f("boeking_id")]+=$db->f("bedrag");
+#}
+
+#echo wt_dump($betaald);
+
+
+$db->query("SELECT boeking_id FROM boeking WHERE aankomstdatum>'".time()."' ORDER BY boeking_id;");
+while($db->next_record()) {
+	$boekinginfo=get_boekinginfo($db->f("boeking_id"));
+	$bedragen[$db->f("boeking_id")]=$boekinginfo["fin"]["totale_reissom"];
+}
+
+
+echo wt_dump($bedragen);
+
+
+
+?>

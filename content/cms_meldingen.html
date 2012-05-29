@@ -1,0 +1,1097 @@
+<?php
+
+#
+# Controle op het ontbreken van calculatiesjablonen (nodig voor diverse onderdelen van deze pagina)
+#
+$db->query("SELECT leverancier_id, seizoen_id FROM calculatiesjabloon;");
+while($db->next_record()) {
+	$calculatiesjabloon_bestaat[$db->f("leverancier_id")."_".$db->f("seizoen_id")]=true;
+}
+
+# gegevens uit login->priv omzetten
+reset($vars["cms_hoofdpagina_soorten"]);
+while(list($key,$value)=each($vars["cms_hoofdpagina_soorten"])) {
+	if($login->has_priv($key) or $vars["id"]=="cms_meldingen") $cmshoofdpagina_rol[$key]=$key;
+}
+
+# Alle te tonen gegevens cmshoofdpagina laden
+$db->query("SELECT onderdeel, subonderdeel, tonen, rol FROM cmshoofdpagina WHERE 1=1".($vars["id"]=="cms_meldingen" ? "" : " AND tonen=1").";");
+while($db->next_record()) {
+	if($db->f("subonderdeel")) {
+		$cmshoofdpagina[$db->f("rol")][$db->f("onderdeel")][$db->f("subonderdeel")]=true;
+	} else {
+		$cmshoofdpagina[$db->f("rol")][$db->f("onderdeel")]=true;
+	}
+}
+
+if($login->has_priv("21")) {
+	if($vars["id"]=="cms_meldingen") {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_beherenmeldingen\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('beherenmeldingen');return false;\" class=\"redlink\">Beheren welke meldingen moeten worden getoond op de hoofdpagina</a>";
+		echo "<div id=\"beherenmeldingen\" style=\"display:none;min-height:0;\">";
+	
+		# Aan/uitzetten onderdelen CMS-hoofdpagina
+		$db->query("SELECT cmshoofdpagina_id, omschrijving, onderdeel, subonderdeel, tonen, rol FROM cmshoofdpagina ORDER BY onderdeel, omschrijving;");
+		if($db->num_rows()) {
+			echo "<br><table cellspacing=\"0\" class=\"tbl\" style=\"width:800px;\">";
+			echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\">";
+			echo "<input type=\"hidden\" name=\"cms_meldingen\" value=\"1\">";
+			echo "<tr><th>onderdeel</th><th>hoort bij</th><th>toon op hoofdpagina</th></tr>";
+			while($db->next_record()) {
+				echo "<tr><td>".htmlentities($db->f("omschrijving"))."</td><td><select name=\"cms_hoofdpagina_soorten[".$db->f("cmshoofdpagina_id")."]\">";
+				reset($vars["cms_hoofdpagina_soorten"]);
+				while(list($key,$value)=each($vars["cms_hoofdpagina_soorten"])) {
+					if(!preg_match("/\(gereserveerd/",$value)) {
+						echo "<option value=\"".$key."\"".($key==$db->f("rol") ? " selected" : "").">".htmlentities($value)."</option>";
+					}
+				}
+				echo "</select></td>";
+				echo "<td align=\"center\"><input type=\"checkbox\" name=\"toon[".$db->f("cmshoofdpagina_id")."]\" value=\"1\"".($db->f("tonen") ? " checked" : "")."></td></tr>";
+			}
+			echo "<tr><td colspan=\"3\" align=\"center\"><input type=\"submit\" value=\" OPSLAAN \"></td></tr>";
+			echo "</form>";
+			echo "</table><br><br>\n<hr><br>";
+		}
+		
+		echo "</div>";
+		echo "\n<hr>";
+	}
+}
+
+if($vars["id"]=="cms_meldingen") {
+	echo "<h2>Hieronder staan alle relevante meldingen (waarvan een deel ook op de CMS-hoofdpagina is te zien):</h2><br>";
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[13]]["vertalingen"]) {
+	#
+	# Zijn er nog niet vertaalde teksten?
+	#
+	$doorloop_array=array("","t","b","v","z");
+	while(list($key,$value)=each($doorloop_array)) {
+		if($value) {
+			$afwijking="_".$value;
+		} else {
+			$afwijking="";
+		}
+
+		while(list($key2,$value2)=each($txta["nl".$afwijking])) {
+			if(!$txta["en".$afwijking][$key2]) {
+				$onvertaald=true;
+#				echo $key2."<br>";
+			}
+		}
+
+		while(list($key2,$value2)=each($txt["nl".$afwijking])) {
+			while(list($key3,$value3)=each($value2)) {
+				if(!$txt["en".$afwijking][$key2][$key3] and $key3) {
+					$onvertaald=true;
+				}
+			}
+		}
+	}
+	if($onvertaald) {
+		echo "\n<hr>&nbsp;<br><b>Let op! Er zijn teksten die nog niet in het Engels zijn vertaald. Ga naar de <a href=\"cms_vertalingen.php\">vertaalmodule</a> om de vertaling aan Jeroen door te geven.</b><br>&nbsp;";
+	}
+}
+
+
+if($cmshoofdpagina_rol[12]) {
+	# Zijn er onjuiste hoogseizoen-tarieven?
+	$db->query("SELECT a.accommodatie_id, a.internenaam, a.wzt, p.naam AS plaats, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, l.begincode, ts.seizoen_id, s.naam AS seizoen, lev.leverancier_id, lev.naam AS leverancier FROM accommodatie a, plaats p, type t, land l, seizoen s, type_seizoen ts, leverancier lev WHERE ts.hoogseizoencontrole=1 AND t.leverancier_id=lev.leverancier_id AND lev.hoogseizoencontrole=1 AND ts.seizoen_id=s.seizoen_id AND p.land_id=l.land_id AND t.accommodatie_id=a.accommodatie_id AND ts.type_id=t.type_id AND a.plaats_id=p.plaats_id AND ts.hoogseizoen_onjuiste_tarieven=1 ORDER BY lev.naam, a.wzt, p.naam, a.internenaam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_onjuisthoogseizoen\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('onjuisthoogseizoen');return false;\" style=\"color:red;\"><b>Bij de volgende types zijn de hoogseizoen-tarieven te laag</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"onjuisthoogseizoen\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+		
+		unset($levgehad);
+		while($db->next_record()) {
+			if(!$levgehad[$db->f("leverancier_id")]) {
+				$levgehad[$db->f("leverancier_id")]=true;
+				echo "<br><br><b>".htmlentities($db->f("leverancier"))."</b>&nbsp;&nbsp;&nbsp;&nbsp;<span style=\"font-size:0.9em;\">(<a href=\"cms.php?hoogseizoenlev=".$db->f("leverancier_id")."\" onclick=\"return confirmClick(this,'Onderstaande meldingen van ".htmlentities($db->f("leverancier"))." uitzetten?');\">onderstaande meldingen van deze leverancier uitzetten</a>)</span><br><br>";
+			}
+
+			echo "<li><a href=\"cms_tarieven.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$db->f("type_id")."\">".htmlentities($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("internenaam"))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." pers)</a> - ".htmlentities($db->f("seizoen"))."</li>";
+		}
+		echo "</ul></div>";
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["boekingen"]["nieuw"]) {
+
+	#
+	# Zijn er nieuwe boekingen?
+	#
+	$db->query("SELECT DISTINCT b.boeking_id, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.gezien=0 AND stap_voltooid=5 ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr>De volgende boeking".($db->num_rows()>1 ? "en zijn" : " is")." nieuw:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+		}
+		echo "</ul>";
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["boekingen"]["gewijzigd"]) {
+	#
+	# Zijn er te controleren boekingen?
+	#
+	unset($inquery);
+	$db->query("SELECT DISTINCT b.boeking_id FROM boeking b, boeking_optie bo WHERE bo.boeking_id=b.boeking_id AND bo.status=2;");
+	while($db->next_record()) {
+		if($inquery) $inquery.=",".$db->f("boeking_id"); else $inquery=$db->f("boeking_id");
+	}
+	$db->query("SELECT DISTINCT b.boeking_id FROM boeking b WHERE b.gewijzigd<>'';");
+	while($db->next_record()) {
+		if($inquery) $inquery.=",".$db->f("boeking_id"); else $inquery=$db->f("boeking_id");
+	}
+	$db->query("SELECT DISTINCT boeking_id FROM boeking_persoon WHERE annverz_voorheen IS NOT NULL;");
+	while($db->next_record()) {
+		if($inquery) $inquery.=",".$db->f("boeking_id"); else $inquery=$db->f("boeking_id");
+	}
+	
+	if($inquery) {
+		$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.boeking_id IN (".$inquery.") AND stap_voltooid=5 ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+		if($db->num_rows()) {
+			echo "\n<hr>Bij de volgende boeking".($db->num_rows()>1 ? "en" : "")." moeten nog onderdelen worden goedgekeurd:<ul>";
+			while($db->next_record()) {
+				echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">";
+				if($db->f("boekingsnummer")) echo $db->f("boekingsnummer")." - ";
+				echo htmlentities($db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"));
+				echo "</a></li>";
+				$niet_controleren_op_factuur_bedrag_wijkt_af.=",".$db->f("boeking_id");
+			}
+			echo "</ul>";
+		}
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["boekingen"]["gewijzigd"]) {
+	#
+	# Zijn er goedgekeurde boekingen waarbij nog geen factuur is verstuurd?
+	#
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND factuurdatum IS NULL ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr>Bij de volgende boeking".($db->num_rows()>1 ? "en" : "")." moet de eerste factuur nog aangemaakt worden:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+			$niet_controleren_op_factuur_bedrag_wijkt_af.=",".$db->f("boeking_id");
+		}
+		echo "</ul>";
+	}
+
+	#
+	# Zijn er aangepaste boekingen waarbij nog geen factuur is aangemaakt?
+	#
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND geannuleerd=0 AND stap_voltooid=5 AND factuurdatum>0 AND factuur_versturen=1 AND aankomstdatum>'".(time()-2592000)."' ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr>Bij de volgende boeking".($db->num_rows()>1 ? "en" : "")." moet de gecorrigeerde factuur nog aangemaakt worden:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+			$niet_controleren_op_factuur_bedrag_wijkt_af.=",".$db->f("boeking_id");
+		}
+		echo "</ul>";
+	}
+
+	#
+	# Zijn er boekingen waarbij het factuurbedrag afwijkt van berekende totale reissom ("factuur_bedrag_wijkt_af")
+	#
+	$niet_controleren_op_totale_reissom_inkoop=$niet_controleren_op_factuur_bedrag_wijkt_af;
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.stap_voltooid=5 AND factuur_bedrag_wijkt_af=1".($niet_controleren_op_factuur_bedrag_wijkt_af ? " AND boeking_id NOT IN (".substr($niet_controleren_op_factuur_bedrag_wijkt_af,1).")" : "")." ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr>Bij de volgende boeking".($db->num_rows()>1 ? "en" : "")." is het gefactureerde bedrag niet gelijk aan de totale reissom:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+			$niet_controleren_op_totale_reissom_inkoop.=",".$db->f("boeking_id");
+
+		}
+		echo "</ul>";
+	}
+
+	#
+	# Zijn er boekingen waarbij het de inkoopgegevens opnieuw moeten worden opgeslagen? (vanwege verschil totale_reissom_inkoop en totale_reissom_inkoop_actueel)
+	#
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.stap_voltooid=5 AND (totale_reissom_inkoop!=totale_reissom_inkoop_actueel OR (totale_reissom_inkoop<>0 AND totale_reissom_inkoop_actueel IS NULL) OR (totale_reissom_inkoop IS NULL AND totale_reissom_inkoop_actueel<>0) OR (totale_reissom_inkoop=0 AND totale_reissom_inkoop_actueel IS NULL) OR (totale_reissom_inkoop IS NULL AND totale_reissom_inkoop_actueel=0) OR (totale_reissom_inkoop IS NULL AND totale_reissom_inkoop_actueel IS NULL AND totale_reissom>0 AND seizoen_id>=17))".($niet_controleren_op_totale_reissom_inkoop ? " AND boeking_id NOT IN (".substr($niet_controleren_op_totale_reissom_inkoop,1).")" : "")." ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr>Bij de volgende boeking".($db->num_rows()>1 ? "en" : "")." moeten de inkoopgegevens nog worden opgeslagen: (".$db->num_rows().")<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f("boeking_id"))."&bid=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+			
+			# TIJDELIJK!!!
+#			$gegevens=get_boekinginfo($db->f("boeking_id"));
+#			if($gegevens["stap1"]["totale_reissom"]==$gegevens["fin"]["totale_reissom"]) {
+#				echo $db->f("boeking_id").", seizoen ".$db->f("seizoen_id")."<br>";
+#				$reissom_tabel=reissom_tabel($gegevens,$gegevens["stap1"]["accinfo"],"",true);
+#					if($db->f("totale_reissom_inkoop")) {
+#						if(floatval($db->f("totale_reissom_inkoop"))<>floatval($reissom_tabel["bedragen"]["inkoop"])) {
+#							echo "<b>anders: ".$db->f("totale_reissom_inkoop")."===".$reissom_tabel["bedragen"]["inkoop"]."</b><br>";
+#						}
+#					}
+#					$db2->query("UPDATE boeking SET totale_reissom_inkoop='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', totale_reissom_inkoop_actueel='".addslashes($reissom_tabel["bedragen"]["inkoop"])."' WHERE boeking_id='".$db->f("boeking_id")."';");
+#					echo $db2->lq."<br>";
+#				flush();
+#			} else {
+#				echo "Bedragen verschillen: ".$db->f("boeking_id").", seizoen ".$db->f("seizoen_id").":".$gegevens["stap1"]["totale_reissom"]."<>".$gegevens["fin"]["totale_reissom"]."<br>";
+##				$db2->query("UPDATE boeking SET totale_reissom_inkoop='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', totale_reissom_inkoop_actueel='".addslashes($reissom_tabel["bedragen"]["inkoop"])."' WHERE boeking_id='".$db->f("boeking_id")."';");
+#			}
+		}
+		echo "</ul>";
+	}
+
+	#
+	# Zijn er boekingen waarbij het inkoop-factuurbedrag nog niet akkoord is?
+	#
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.factuurbedrag_gecontroleerd IN (0) AND b.seizoen_id>=17 ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_inkoopgegevens_akkoord\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('inkoopgegevens_akkoord');return false;\"><b>Bij de volgende boekingen is het inkoop-factuurbedrag nog niet akkoord</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"inkoopgegevens_akkoord\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+	#
+	# Zijn er boekingen waarbij de eindbevestiging van de inkoopgegevens later volgt?
+	#
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.factuurbedrag_gecontroleerd IN (2) AND b.eenmaliggecontroleerd NOT IN (1) ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_eindbevestiging_later\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('eindbevestiging_later');return false;\"><b>Bij de volgende boekingen volgt de eindbevestiging van de inkoopgegevens later</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"eindbevestiging_later\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+	
+	#
+	# Zijn er boekingen waarbij de schriftelijke bevestiging nog moet komen?
+	#
+	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.geannuleerd=0 AND b.stap_voltooid=5 AND b.bestelstatus_schriftelijk_later=1 AND UNIX_TIMESTAMP(b.bestelstatus_schriftelijk_later_aanvinkmoment)<'".(time()-86400)."' ORDER BY b.besteldatum, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_bestelstatus_schriftelijk_later\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('bestelstatus_schriftelijk_later');return false;\"><b>Bij de volgende boekingen moet worden gecontroleerd of de schriftelijke bevestiging al binnen is</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"bestelstatus_schriftelijk_later\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+
+	#
+	# Zijn er boekingen die nog niet besteld zijn?
+	#
+	$db->query("SELECT SUBSTRING(b.boekingsnummer,2), b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.besteldatum IS NULL AND b.seizoen_id>=17 ORDER BY 1, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_bestelstatus_nog_geen_besteldatum\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('bestelstatus_nog_geen_besteldatum');return false;\"><b>De volgende boekingen moeten nog besteld worden / hebben nog geen besteldatum</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"bestelstatus_nog_geen_besteldatum\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["nietbekeken"]) {
+	#
+	# Controle op onbekeken optie-aanvragen
+	#
+	
+# TIJDELIJK UITGEZET (op verzoek van Bert; 17-02-2012)
+#	$db->query("SELECT o.optieaanvraag_id, o.status, UNIX_TIMESTAMP(o.einddatum_klant) AS einddatum_klant, a.internenaam AS naam, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, l.begincode, p.naam AS plaats, o.aankomstdatum_exact, o.voornaam, o.tussenvoegsel, o.achternaam FROM optieaanvraag o, accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND o.type_id=t.type_id AND o.status<7 AND o.gezien=0 ORDER BY o.invulmoment, o.achternaam, a.internenaam;");
+#	if($db->num_rows()) {
+#		echo "\n<hr><b>Nog niet bekeken optie-aanvragen:</b><ul>";
+#		while($db->next_record()) {
+#			echo "<li><a href=\"cms_optieaanvragen.php?show=35&status=".$db->f("status")."&35k0=".$db->f("optieaanvraag_id")."\">";
+#			echo htmlentities($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("naam"))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." pers)"." - ";
+#			echo date("d-m-Y",$db->f("aankomstdatum_exact"))."</a> - ";
+#			echo wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
+#			echo "</li>";
+#		}
+#		echo "</ul>";
+#	}
+}
+
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["aflopend-klant"]) {
+	#
+	# Controle op aflopende opties (einddatum_klant)
+	#
+	$db->query("SELECT o.optieaanvraag_id, o.status, UNIX_TIMESTAMP(o.einddatum_klant) AS einddatum_klant, a.internenaam AS naam, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, l.begincode, p.naam AS plaats, o.aankomstdatum_exact, o.voornaam, o.tussenvoegsel, o.achternaam FROM optieaanvraag o, accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND o.type_id=t.type_id AND o.status<=7 AND o.einddatum_klant IS NOT NULL AND UNIX_TIMESTAMP(o.einddatum_klant)<='".(mktime(0,0,0,date("m"),date("d"),date("Y")))."' ORDER BY o.einddatum_klant, o.achternaam, a.internenaam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_aflopend_optie_klant\">&nbsp;<span onclick=\"slidetoggle('aflopend_optie_klant');\" class=\"redlink\">Aflopende optie-aanvragen (klant)</span> <b>(".$db->num_rows().")</b>";
+#		echo "<div id=\"xmlbestaand".$db->f("leverancier_id")."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+#		echo "\n<hr><span onclick=\"slidetoggle('aflopend_optie_klant');\" class=\"redlink\">Aflopende optie-aanvragen (klant)</span>";
+		echo "<div id=\"aflopend_optie_klant\" style=\"display:none;min-height:0;\">";
+		echo "<ul>";
+		while($db->next_record()) {
+			$looptijd=round(($db->f("einddatum_klant")-mktime(0,0,0,date("m"),date("d"),date("Y")))/86400);
+			echo "<li><a href=\"cms_optieaanvragen.php?show=35&status=".$db->f("status")."&35k0=".$db->f("optieaanvraag_id")."\">";
+			echo htmlentities($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("naam"))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." pers)"." - ";
+			echo date("d-m-Y",$db->f("aankomstdatum_exact"))."</a> - ";
+			echo wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
+			echo " - ";
+			if($looptijd<1) echo "<span style=\"color:red;font-weight:bold;\">";
+			echo "looptijd: nog ".$looptijd." ";
+			if($looptijd==1) echo "dag"; else echo "dagen";
+			if($looptijd<0) echo "</span>";
+			echo "</li>";
+		}
+		echo "</ul>";
+		echo "</div>";
+	}
+}
+
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["aflopend-leverancier"]) {
+	#
+	# Controle op aflopende opties (einddatum_leverancier)
+	#
+	$db->query("SELECT o.optieaanvraag_id, o.status, UNIX_TIMESTAMP(o.einddatum_leverancier) AS einddatum_leverancier, a.internenaam AS naam, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, l.begincode, p.naam AS plaats, o.aankomstdatum_exact, o.voornaam, o.tussenvoegsel, o.achternaam FROM optieaanvraag o, accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND o.type_id=t.type_id AND o.status<=7 AND o.einddatum_leverancier IS NOT NULL AND UNIX_TIMESTAMP(o.einddatum_leverancier)<='".(mktime(0,0,0,date("m"),date("d"),date("Y")))."' ORDER BY o.einddatum_leverancier, o.achternaam, a.internenaam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_aflopend_optie_leverancier\">&nbsp;<span onclick=\"slidetoggle('aflopend_optie_leverancier');\" class=\"redlink\">Aflopende optie-aanvragen (leverancier)</span> <b>(".$db->num_rows().")</b>";
+#		echo "\n<hr><span onclick=\"slidetoggle('aflopend_optie_leverancier');\" class=\"redlink\">Aflopende optie-aanvragen (leverancier)</span>";
+		echo "<div id=\"aflopend_optie_leverancier\" style=\"display:none;min-height:0;\">";
+		echo "<ul>";
+		while($db->next_record()) {
+			$looptijd=round(($db->f("einddatum_leverancier")-mktime(0,0,0,date("m"),date("d"),date("Y")))/86400);
+			echo "<li><a href=\"cms_optieaanvragen.php?show=35&status=".$db->f("status")."&35k0=".$db->f("optieaanvraag_id")."\">";
+			echo htmlentities($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("naam"))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." pers)"." - ";
+			echo date("d-m-Y",$db->f("aankomstdatum_exact"))."</a> - ";
+			echo wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
+			echo " - ";
+			if($looptijd<1) echo "<span style=\"color:red;font-weight:bold;\">";
+			echo "looptijd: nog ".$looptijd." ";
+			if($looptijd==1) echo "dag"; else echo "dagen";
+			if($looptijd<0) echo "</span>";
+			echo "</li>";
+		}
+		echo "</ul>";
+		echo "</div>";
+	}
+}
+
+# Controle of er Top10's zijn met te weinig accommodaties
+$db->query("SELECT t.site, t.week, t.seizoen_id, t.bloknaam FROM top10_week t, seizoen s WHERE blokvolgorde>0 AND t.seizoen_id=s.seizoen_id AND t.week>'".time()."' AND t.minderdan10=1 ORDER BY s.type, t.site, t.blokvolgorde;");
+if($db->num_rows()) {
+	echo "\n<hr><span class=\"error\"><b>De volgende aanbiedingen-top 10's zijn niet volledig:</b></span><ul>";
+	while($db->next_record()) {
+		echo "<li><a href=\"cms_top10s.php?show=18&bc=".$_GET["bc"]."&18k0=".$db->f("site")."&18k1=".$db->f("seizoen_id")."&week=".$db->f("week")."\">".($db->f("bloknaam") ? htmlentities($db->f("bloknaam")) : DATUM("D MAAND JJJJ",$db->f("week")))."</a></li>";
+	}
+	echo "</ul>";
+}
+
+if($cmshoofdpagina_rol[14]) {
+	#
+	# Zijn er accommodaties zonder reisverzekering?
+	#
+	unset($temp_inquery);
+	$db->query("SELECT DISTINCT accommodatie_id FROM optie_accommodatie;");
+	while($db->next_record()) {
+		if($temp_inquery) $temp_inquery.=",".$db->f("accommodatie_id"); else $temp_inquery=$db->f("accommodatie_id");
+	}
+	if($temp_inquery) {
+		$db->query("SELECT a.accommodatie_id, a.internenaam AS naam, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.accommodatie_id NOT IN (".$temp_inquery.") ORDER BY p.naam, a.internenaam;");
+		if($db->num_rows()) {
+			echo "\n<hr><span class=\"error\"><b>Aan de volgende accommodaties zijn nog geen opties (en dus ook geen reisverzekering) gekoppeld:</b></span><ul>";
+			while($db->next_record()) {
+				echo "<li><a href=\"cms_accommodaties.php?show=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+			}
+			echo "</ul>";
+		}
+	}
+}
+
+# Zijn er inactieve aanbiedingen die niet zijn gearchiveerd?
+if($cmshoofdpagina_rol[17]) {
+	$db->query("SELECT aanbieding_id FROM aanbieding WHERE wzt=1 AND archief=0 AND tonen=0;");
+	if($db->num_rows()) {
+		echo "\n<hr><a href=\"".$vars["path"]."cms_aanbiedingen.php?wzt=1&t=2\"><b>Er zijn inactieve winteraanbiedingen</b></a> <b>(".$db->num_rows().").</b>";
+	}
+	$db->query("SELECT aanbieding_id FROM aanbieding WHERE wzt=2 AND archief=0 AND tonen=0;");
+	if($db->num_rows()) {
+		echo "\n<hr><a href=\"".$vars["path"]."cms_aanbiedingen.php?wzt=2&t=2\"><b>Er zijn inactieve zomeraanbiedingen</b></a> <b>(".$db->num_rows().").</b>";
+	}
+}
+
+# Zijn er inactieve kortingscodes
+if($cmshoofdpagina_rol[17]) {
+	$db->query("SELECT kortingscode_id FROM kortingscode WHERE UNIX_TIMESTAMP(einddatum)<'".mktime(0,0,0,date("m"),date("d"),date("Y"))."' AND archief=0;");
+	if($db->num_rows()) {
+		echo "\n<hr><a href=\"".$vars["path"]."cms_kortingscodes.php?t=2\"><b>Er zijn inactieve kortingscodes</b></a> <b>(".$db->num_rows().").</b>";
+	}
+}
+
+if($cmshoofdpagina_rol[12]) {
+	#
+	# Controle op het ontbreken van skipastarieven (per seizoen)
+	#
+	# welke skipastarieven zijn er?
+	$db->query("SELECT skipas_id, seizoen_id FROM skipas_tarief WHERE prijs>0;");
+	while($db->next_record()) {
+		$skipas_heeft_tarief[$db->f("seizoen_id")."_".$db->f("skipas_id")]=true;
+	}
+	$db->query("SELECT DISTINCT s.naam AS seizoen, s.seizoen_id, sk.naam AS skipas, sk.skipas_id FROM seizoen s, skipas sk, type t, accommodatie a, tarief ta WHERE t.accommodatie_id=a.accommodatie_id AND ta.seizoen_id=s.seizoen_id AND ta.type_id=t.type_id AND a.skipas_id=sk.skipas_id AND a.toonper=1 AND ta.bruto>0 AND UNIX_TIMESTAMP(s.eind)>'".(time())."' AND a.tonen=1 AND t.tonen=1 AND a.archief=0 ORDER BY s.begin, sk.naam;");
+	while($db->next_record()) {
+		if(!$skipas_heeft_tarief[$db->f("seizoen_id")."_".$db->f("skipas_id")]) {
+			$ontbrekende_skipastarieven.="<li><a href=\"cms_skipastarieven.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&spid=".$db->f("skipas_id")."\">".$db->f("skipas")." - ".$db->f("seizoen")."</a></li>";
+		}
+	}
+	if($ontbrekende_skipastarieven) {
+		echo "\n<hr><span class=\"error\"><b>De volgende skipastarieven moeten z.s.m. worden gevuld:</b></span> (er zijn al types met tarieven aan gekoppeld)<ul>";
+		echo $ontbrekende_skipastarieven;
+		echo "</ul>";
+	}
+}
+
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[15]]["mailen"]["optiesbijboeken"]) {
+	#
+	# Controle of er opties-bijboeken-mailtjes moeten worden verstuurd (alleen winterboekingen; zomerboekingen worden automatisch verstuurd)
+	#
+
+	# Kijken welke reisbureau_user_ids geen mailtje moeten ontvangen
+	unset($reisbureau_user_blokkeren);
+	$db->query("SELECT user_id FROM reisbureau_user ru, reisbureau r WHERE ru.reisbureau_id=r.reisbureau_id AND r.mailblokkeren_opties=1;");
+	while($db->next_record()) {
+		if($reisbureau_user_blokkeren) $reisbureau_user_blokkeren.=",".$db->f("user_id"); else $reisbureau_user_blokkeren=$db->f("user_id");
+	}
+
+#	$db->query("SELECT b.boekingsnummer, b.boeking_id, b.aankomstdatum_exact, b.website, b.mailtekst_opties FROM boeking b WHERE b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailblokkeren_opties=0 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".$vars["zaterdag_over_6_weken"]."' AND b.aankomstdatum<='".$vars["zaterdag_over_8_weken"]."';");
+#	$db->query("SELECT b.boekingsnummer FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE a.wzt=1 AND (b.mailblokkeren_opties=0 OR (b.mailblokkeren_opties=1 AND b.aankomstdatum>='".$vars["zaterdag_over_6_weken"]."')) AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".mktime(0,0,0,date("m"),date("d")+1,date("Y"))."' AND b.aankomstdatum<='".$vars["zaterdag_over_8_weken"]."' ORDER BY b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
+#	$db->query("SELECT b.boekingsnummer FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE a.wzt=1 AND b.mailblokkeren_opties=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".mktime(0,0,0,date("m"),date("d")+1,date("Y"))."' AND b.aankomstdatum<='".$vars["zaterdag_over_8_weken"]."' ORDER BY b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
+	$db->query("SELECT b.boekingsnummer FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.mailverstuurd_opties IS NULL AND b.aankomstdatum>='".mktime(0,0,0,date("m"),date("d")+1,date("Y"))."' AND b.aankomstdatum<='".$vars["zaterdag_over_8_weken"]."' AND a.wzt=1 AND b.mailblokkeren_opties=0".($reisbureau_user_blokkeren ? " AND (b.reisbureau_user_id IS NULL OR b.reisbureau_user_id NOT IN (".$reisbureau_user_blokkeren."))" : "")." ORDER BY b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
+	
+	if($db->num_rows()) {
+		echo "\n<hr><span><b>Er zijn te verzenden <a href=\"cms_mailteksten_versturen.php\">opties-bijboeken-mailtjes</a> (".$db->num_rows().").</b></span>";
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[15]]["mailen"]["bestaandeklanten"]) {
+	#
+	# Controle op verzenden Mailing bestaande klanten m.b.t. volgend seizoen
+	#
+	$db->query("SELECT winter_vorig_seizoen_id, zomer_vorig_seizoen_id, winter_huidig_seizoen_id, zomer_huidig_seizoen_id FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+	if($db->next_record()) {
+		$vorigeseizoen=$db->f("winter_vorig_seizoen_id").",".$db->f("zomer_vorig_seizoen_id");
+		$huidigeseizoen=$db->f("winter_huidig_seizoen_id").",".$db->f("zomer_huidig_seizoen_id");
+	}
+#	$db->query("SELECT DISTINCT b.boekingsnummer, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_klanten_vorig_seizoen, bp.voornaam, bp.tussenvoegsel, bp.achternaam, a.naam, p.naam AS plaats, l.begincode, a.accommodatie_id, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, skigebied s, tarief ta WHERE b.mailblokkeren_klanten_vorig_seizoen=0 AND ta.type_id=t.type_id AND ta.seizoen_id IN (".$huidigeseizoen.") AND (ta.bruto>0 OR ta.c_bruto>0) AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.seizoen_id IN (".$vorigeseizoen.") AND b.mailverstuurd_klanten_vorig_seizoen IS NULL AND b.mailverbergen_klanten_vorig_seizoen=0 ORDER BY p.naam, a.naam, t.optimaalaantalpersonen, a.accommodatie_id, b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
+	$wherequery=" AND (b.status_vanaf_klanten_vorig_seizoen IS NULL OR UNIX_TIMESTAMP(status_vanaf_klanten_vorig_seizoen)<='".mktime(0,0,0,date("m"),date("d"),date("Y"))."') AND (b.status_klanten_vorig_seizoen=0 OR b.status_klanten_vorig_seizoen=3)";
+	$db->query("SELECT DISTINCT b.boekingsnummer, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_klanten_vorig_seizoen, b.mailblokkeren_klanten_vorig_seizoen, b.opmerkingen_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd_klanten_vorig_seizoen) AS mailverstuurd_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd2_klanten_vorig_seizoen) AS mailverstuurd2_klanten_vorig_seizoen, b.status_klanten_vorig_seizoen, bp.voornaam, bp.tussenvoegsel, bp.achternaam, a.internenaam AS naam, p.naam AS plaats, l.begincode, a.accommodatie_id, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, skigebied s, tarief ta WHERE ta.type_id=t.type_id AND ta.seizoen_id IN (".$huidigeseizoen.") AND (ta.bruto>0 OR ta.c_bruto>0) AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.seizoen_id IN (".$vorigeseizoen.") AND b.mailverbergen_klanten_vorig_seizoen=0 AND b.mailblokkeren_klanten_vorig_seizoen=0".$wherequery.";");
+	
+	if($db->num_rows()) {
+		echo "\n<hr><span><b>Er zijn te verzenden <a href=\"cms_mail_klanten_vorig_seizoen.php?status=2\">mailtjes bestaande klanten m.b.t. volgend seizoen</a> (".$db->num_rows().").</b></span>";
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["garanties"]["zondervolgnummer"]) {
+	#
+	# Kijken of er garanties zijn zonder leveranciers-volgnummer
+	#
+	$db->query("SELECT garantie_id FROM garantie WHERE (reserveringsnummer_extern IS NULL OR reserveringsnummer_extern='') AND boeking_id=0 AND aankomstdatum>'".time()."';");
+	if($db->num_rows()) {
+		echo "\n<hr><span class=\"error\"><b>Aantal garanties zonder leveranciers-volgnummer: ".$db->num_rows()."</b></span> - <a href=\"cms_garanties.php?status=1&volgnr=leeg\">nu invullen</a><br>";
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[12]]["zoekformulierweinigtarieven"]) {
+	#
+	# Controle of opmerking "omdat een groot deel van de accommodaties nog niet geprijsd is..." aan staat bij het zoekformulier
+	#
+	$db->query("SELECT zoekformulier_weinig_tarieven_1, zoekformulier_weinig_tarieven_2 FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+	if($db->next_record()) {
+		if($db->f("zoekformulier_weinig_tarieven_1")==1 or $db->f("zoekformulier_weinig_tarieven_2")==1) {
+			echo "\n<hr>";
+		}
+		if($db->f("zoekformulier_weinig_tarieven_1")==1) {
+			echo "<span><b>Bij het winter-zoekformulier staat de opmerking dat een groot deel van de accommodaties nog niet is geprijsd.</b> - <a href=\"cms_diversen.php?t=3&back=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."\">aanpassen</a></span>";
+		}
+		if($db->f("zoekformulier_weinig_tarieven_2")==1) {
+			if($db->f("zoekformulier_weinig_tarieven_1")==1) echo "<br>";
+			echo "<span><b>Bij het zomer-zoekformulier staat de opmerking dat een groot deel van de accommodaties nog niet is geprijsd.</b> - <a href=\"cms_diversen.php?t=3&back=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."\">aanpassen</a></span>";
+		}
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[12]]["xml"]["tarieven"]) {
+
+	# Controle op XML-tarievenimport die nog moet worden goedgekeurd
+	if(!file_exists("tmp/autobijwerken.txt") or filemtime("tmp/autobijwerken.txt")<(time()-300)) {
+
+		# Handmatig goedkeuren XML-tarieven
+		unset($algehad);
+		$db->query("SELECT DISTINCT la.begincode, t.type_id, t.leverancier_id, a.internenaam AS naam, a.accommodatie_id, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, p.naam AS plaats, l.naam AS leverancier, x.seizoen_id FROM type t, accommodatie a, leverancier l, land la, plaats p, xml_tarievenimport x, tarief ta WHERE x.type_id=ta.type_id AND x.week=ta.week AND x.seizoen_id=ta.seizoen_id AND x.seizoen_id>0 AND x.type_id=t.type_id AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND ta.autoimportxmltarief=0 ORDER BY t.leverancier_id, a.wzt, a.internenaam, t.naam, t.optimaalaantalpersonen;");
+		if($db->num_rows()) {
+			echo "\n<hr><span><b>De volgende tarieven zijn via XML ge&iuml;mporteerd en moeten nog <i>handmatig</i> worden nagekeken:</b></span>";
+			echo "<p>";
+			while($db->next_record()) {
+				if(!$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]) {
+					if($algehad) echo "</ul>";
+					echo "<b>".htmlentities($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")]).":</b><ul>";
+					$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]=true;
+				}
+				echo "<li><a href=\"".$path."cms_tarieven.php?xmlgoedkeuren=1&from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$db->f("type_id")."\">".$db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a></li>";
+			}
+			if($algehad) {
+				echo "</ul>";
+			}
+		}
+
+		# Automatisch goedkeuren (bestaande tarieven vervangen)
+		unset($algehad,$tellerperleverancier);
+		$db->query("SELECT DISTINCT la.begincode, t.type_id, t.leverancier_id, a.internenaam AS naam, a.accommodatie_id, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, p.naam AS plaats, l.naam AS leverancier, x.seizoen_id FROM type t, accommodatie a, leverancier l, land la, plaats p, xml_tarievenimport x, tarief ta WHERE x.type_id=ta.type_id AND x.week=ta.week AND x.seizoen_id=ta.seizoen_id AND x.seizoen_id>0 AND x.type_id=t.type_id AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND ta.autoimportxmltarief=1 ORDER BY t.leverancier_id, a.wzt, a.internenaam, t.naam, t.optimaalaantalpersonen;");
+		if($db->num_rows()) {
+			echo "\n<hr><span><b>De volgende tarieven zijn via XML ge&iuml;mporteerd en moeten nog worden geactiveerd:</b></span>";
+			echo " (of: <a href=\"cms_tarieven_autosubmit.php?first=1&check=1&t=2\" onclick=\"return confirmClick(this,'De browser kan gedurende het automatisch opslaan niet gebruikt worden. Doorgaan?');\" target=\"_blank\">alle automatische XML-tarieven goedkeuren</a>)";
+			echo "<p>";
+			while($db->next_record()) {
+				$tellerperleverancier[$db->f("leverancier_id")."_".$db->f("wzt")]++;
+			}
+			$db->seek();
+			while($db->next_record()) {
+				if(!$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]) {
+					if($algehad) echo "</ul></div></p>";
+					
+					echo "<p><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_xmlbestaand".$db->f("leverancier_id")."_".$db->f("wzt")."\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('xmlbestaand".$db->f("leverancier_id")."_".$db->f("wzt")."');return false;\"><b>".htmlentities($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")])."</a> (".$tellerperleverancier[$db->f("leverancier_id")."_".$db->f("wzt")].")</b>";
+					echo "<div id=\"xmlbestaand".$db->f("leverancier_id")."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+					
+#					echo "<b>".htmlentities($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")]).":</b><ul>";
+					$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]=true;
+				}
+				echo "<li>";
+				if($calculatiesjabloon_bestaat[$db->f("leverancier_id")."_".$db->f("seizoen_id")]) {
+					echo "<a href=\"".$path."cms_tarieven.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$db->f("type_id")."\">";
+				}
+				echo $db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)";
+				if($calculatiesjabloon_bestaat[$db->f("leverancier_id")."_".$db->f("seizoen_id")]) {
+					echo "</a>";
+				} else {
+					echo "&nbsp;&nbsp;<span class=\"error\">calculatiesjabloon ontbreekt</span>";
+				}
+				echo "</li>";
+			}
+			echo "</ul></div></p>";
+		}
+
+		# Automatisch goedkeuren (nog niet ingevoerde tarieven)
+		unset($algehad,$tellerperleverancier);
+		$db->query("SELECT DISTINCT la.begincode, t.type_id, t.leverancier_id, a.internenaam AS naam, a.accommodatie_id, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, p.naam AS plaats, l.naam AS leverancier, x.seizoen_id FROM type t, accommodatie a, leverancier l, land la, plaats p, xml_tarievenimport x WHERE x.seizoen_id>0 AND x.type_id=t.type_id AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id ORDER BY t.leverancier_id, a.wzt, a.internenaam, t.naam, t.optimaalaantalpersonen;");
+		if($db->num_rows()) {
+			while($db->next_record()) {
+				$tellerperleverancier[$db->f("leverancier_id")."_".$db->f("wzt")]++;
+			}
+			$db->seek();
+			while($db->next_record()) {
+				$db2->query("SELECT type_id FROM tarief WHERE type_id='".$db->f("type_id")."' AND seizoen_id='".$db->f("seizoen_id")."';");
+				if(!$db2->num_rows()) {
+					if(!$autogoedkeuren_nieuw) {
+						echo "\n<hr><span><b>De volgende nieuwe tarieven zijn via XML ge&iuml;mporteerd en moeten nog worden geactiveerd:</b></span>";
+						echo " (of: <a href=\"cms_tarieven_autosubmit.php?first=1&check=1&t=2\" onclick=\"return confirmClick(this,'De browser kan gedurende het automatisch opslaan niet gebruikt worden. Doorgaan?');\" target=\"_blank\">alle automatische XML-tarieven goedkeuren</a>)";
+						echo "<p>";
+						$autogoedkeuren_nieuw=true;
+					}
+					if(!$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]) {
+						if($algehad) echo "</ul></div></p>";
+	
+						echo "<p><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_xmlnieuw".$db->f("leverancier_id")."_".$db->f("wzt")."\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('xmlnieuw".$db->f("leverancier_id")."_".$db->f("wzt")."');return false;\"><b>".htmlentities($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")])."</a> (".$tellerperleverancier[$db->f("leverancier_id")."_".$db->f("wzt")].")</b>";
+						echo "<div id=\"xmlnieuw".$db->f("leverancier_id")."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+	#					echo "<b>".htmlentities($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")]).":</b><ul>";
+	
+						$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]=true;
+					}
+					echo "<li>";
+					if($calculatiesjabloon_bestaat[$db->f("leverancier_id")."_".$db->f("seizoen_id")]) {
+						echo "<a href=\"".$path."cms_tarieven.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$db->f("type_id")."\">";
+					}
+					echo $db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)";
+					if($calculatiesjabloon_bestaat[$db->f("leverancier_id")."_".$db->f("seizoen_id")]) {
+						echo "</a>";
+					} else {
+						echo "&nbsp;&nbsp;<span class=\"error\">calculatiesjabloon ontbreekt</span>";
+					}
+					echo "</li>";
+				}
+			}
+			if($algehad) {
+				echo "</ul></div></p>";
+			}
+		}
+		
+		# Goedkeuren XML-tarieven_flex FLEXIBEL - Automatisch goedkeuren
+		unset($algehad,$tellerperleverancier,$autogoedkeuren_nieuw);
+		$db->query("SELECT DISTINCT la.begincode, t.type_id, t.leverancier_id, a.internenaam AS naam, a.accommodatie_id, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, p.naam AS plaats, l.naam AS leverancier, x.seizoen_id FROM type t, accommodatie a, leverancier l, land la, plaats p, xml_tarievenimport_flex x WHERE x.seizoen_id>0 AND x.type_id=t.type_id AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id ORDER BY t.leverancier_id, a.wzt, a.internenaam, t.naam, t.optimaalaantalpersonen;");
+#		if($db->num_rows() and ($_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
+		if($db->num_rows()) {
+			while($db->next_record()) {
+				$tellerperleverancier[$db->f("leverancier_id")."_".$db->f("wzt")]++;
+			}
+			$db->seek();
+			while($db->next_record()) {
+				if(!$autogoedkeuren_nieuw) {
+					echo "\n<hr><span><b>De volgende <i>flexibele</i> tarieven zijn via XML ge&iuml;mporteerd en moeten nog worden geactiveerd:</b></span>";
+					echo " (of: <a href=\"cms_tarieven_autosubmit.php?first=1&check=1&t=10\" onclick=\"return confirmClick(this,'De browser kan gedurende het automatisch opslaan niet gebruikt worden. Doorgaan?');\" target=\"_blank\">alle automatische XML-tarieven goedkeuren</a>)";
+					echo "<p>";
+					$autogoedkeuren_nieuw=true;
+				}
+				if(!$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]) {
+					if($algehad) echo "</ul></div></p>";
+
+					echo "<p><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_xmlnieuw".$db->f("leverancier_id")."_".$db->f("wzt")."\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('xmlnieuw".$db->f("leverancier_id")."_".$db->f("wzt")."');return false;\"><b>".htmlentities($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")])."</a> (".$tellerperleverancier[$db->f("leverancier_id")."_".$db->f("wzt")].")</b>";
+					echo "<div id=\"xmlnieuw".$db->f("leverancier_id")."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+#					echo "<b>".htmlentities($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")]).":</b><ul>";
+
+					$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]=true;
+				}
+				echo "<li>";
+				if($calculatiesjabloon_bestaat[$db->f("leverancier_id")."_".$db->f("seizoen_id")]) {
+					echo "<a href=\"".$path."cms_tarieven_flex.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$db->f("type_id")."\">";
+				}
+				echo $db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)";
+				if($calculatiesjabloon_bestaat[$db->f("leverancier_id")."_".$db->f("seizoen_id")]) {
+					echo "</a>";
+				} else {
+					echo "&nbsp;&nbsp;<span class=\"error\">calculatiesjabloon ontbreekt</span>";
+				}
+				echo "</li>";
+			}
+			if($algehad) {
+				echo "</ul></div></p>";
+			}
+		}
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[14]]["xml"]["accommodaties"]) {
+	#
+	# Controle op wijzigingen bij XML-accommodatie-imports
+	#
+	$db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL;");
+	if($db->num_rows()) {
+		echo "\n<hr><span><b>Bij de volgende leveranciers zijn gewijzigde XML-gegevens bekend:</b></span><ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_xmlnewimport.php?lev=".$db->f("leverancier_id")."&toonwijzigingen=1\">".htmlentities($vars["xmlnewimport_leveranciers"][$db->f("leverancier_id")])."</a></li>";
+		}
+		echo "</ul>";
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[12]]["calculatiesjablonen"]) {
+	#
+	# Controlen op ontbreken calculatiesjablonen
+	#
+#	$db->query("SELECT DISTINCT l.naam, s.naam AS seizoen, l.leverancier_id, s.seizoen_id FROM leverancier l, seizoen s, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.wzt=s.type AND t.leverancier_id=l.leverancier_id AND l.beheerder=0 AND s.eind>NOW() AND a.archief=0 ORDER BY s.type, l.naam;");
+	$db->query("SELECT DISTINCT l.naam, s.naam AS seizoen, l.leverancier_id, s.seizoen_id FROM leverancier l, seizoen s, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.wzt=s.type AND t.leverancier_id=l.leverancier_id AND l.beheerder=0 AND s.eind>NOW() AND a.archief=0 AND a.tonen=1 AND t.tonen=1 ORDER BY s.type, l.naam;");
+	while($db->next_record()) {
+		if(!$calculatiesjabloon_bestaat[$db->f("leverancier_id")."_".$db->f("seizoen_id")]) {
+			$calculatiesjabloon_ontbreekt[]="<a href=\"cms_leveranciers.php?show=8&beheerder=0&8k0=".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</a>:&nbsp;&nbsp;&nbsp;<a href=\"cms_calculatiesjablonen.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&lid=".$db->f("leverancier_id")."\">".$db->f("seizoen")."</a>";
+		}
+	}
+	if($calculatiesjabloon_ontbreekt) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_calculatiesjablonen\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('calculatiesjablonen');return false;\"><b>De volgende calculatiesjablonen ontbreken</a> (".count($calculatiesjabloon_ontbreekt).")</b>";
+		echo "<div id=\"calculatiesjablonen\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\">";
+	
+		echo "<ul>";
+		while(list($key,$value)=each($calculatiesjabloon_ontbreekt)) {
+			echo "<li>".$value."</li>";
+		}
+		echo "</ul>";
+		echo "</div>";
+	}
+}
+
+#
+# Controle op het ontbreken van tarieven (per seizoen)
+#
+$db->query("SELECT type_id, seizoen_id FROM type_seizoen WHERE melding_geen_tarieven_verbergen=1;");
+while($db->next_record()) {
+	$melding_geen_tarieven_verbergen[$db->f("seizoen_id")].=",".$db->f("type_id");
+}
+
+$db->query("SELECT seizoen_id, naam, type FROM seizoen WHERE UNIX_TIMESTAMP(eind)>'".(time())."' ORDER BY type, begin, eind;");
+while($db->next_record()) {
+	if($cmshoofdpagina[$cmshoofdpagina_rol[12]]["ontbrekendetarieven"]["seizoen".$db->f("seizoen_id")]) {
+		unset($niettonen_getoond,$tonen_getoond);
+		$doorloop_array=array("1","0");
+		while(list($key,$value)=each($doorloop_array)) {
+			unset($leverancier_lijst,$laatste_levid,$levteller);
+			if($value==1) {
+				$wherequery=" AND a.tonen=1 AND t.tonen=1";
+				$meldingstekst="";
+			} else {
+				$wherequery=" AND (a.tonen=0 OR t.tonen=0)";
+				$meldingstekst=" (<i>niet tonen</i>)";
+			}
+			
+			# Bekijken welke types al voldoende tarieven hebben
+			unset($inquery);
+			#SELECT DISTINCT type_id FROM tarief WHERE seizoen_id='".$db->f("seizoen_id")."'
+			if($db->f("type")==1) {
+				# winter
+				$db2->query("SELECT type_id, COUNT(type_id) AS aantal FROM tarief WHERE seizoen_id='".$db->f("seizoen_id")."' GROUP BY type_id;");
+				while($db2->next_record()) {
+					$inquery.=",".$db2->f("type_id");
+				}
+			} else {
+				# zomer
+				$db2->query("SELECT type_id, COUNT(type_id) AS aantal FROM tarief WHERE seizoen_id='".$db->f("seizoen_id")."' AND DATE_FORMAT(FROM_UNIXTIME(week),'%c') IN (6,7,8,9) AND c_verkoop_site>0 GROUP BY type_id;");
+				while($db2->next_record()) {
+					if($db2->f("aantal")>=10) {
+						$inquery.=",".$db2->f("type_id");
+					}
+				}
+			}
+			if($melding_geen_tarieven_verbergen[$db->f("seizoen_id")]) {
+				$inquery.=$melding_geen_tarieven_verbergen[$db->f("seizoen_id")];
+			}
+			if($inquery) {
+				$inquery=substr($inquery,1);
+			} else {
+				$inquery="0";
+			}
+			$db2->query("SELECT a.accommodatie_id, a.internenaam AS naam, t.leverancier_id, a.tonen, t.tonen AS ttonen, t.type_id, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, l.begincode, le.leverancier_id, le.naam AS leverancier FROM accommodatie a, plaats p, type t, land l, leverancier le WHERE t.leverancier_id=le.leverancier_id AND p.land_id=l.land_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND a.archief=0 AND a.wzt='".$db->f("type")."' AND t.type_id NOT IN (".$inquery.")".$wherequery." ORDER BY le.naam, p.naam, a.internenaam, t.naam;");
+			if($db2->num_rows()) {
+				echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_tarievennietbekend".$value.$db->f("seizoen_id")."\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('tarievennietbekend".$value.$db->f("seizoen_id")."');return false;\"><b>".htmlentities($db->f("naam"))." - Bij de volgende types".$meldingstekst." zijn onvoldoende tarieven bekend</a> (".$db2->num_rows().")</b>";
+				echo "<div id=\"tarievennietbekend".$value.$db->f("seizoen_id")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\">";
+				echo "<ul>";
+				while($db2->next_record()) {
+					if(!$leverancier_lijst[$db2->f("leverancier_id")]) {
+						if($leverancier_lijst[$laatste_levid]) {
+							echo ereg_replace("\[\[AANTAL\]\]",strval($levteller[$laatste_levid]),$leverancier_lijst[$laatste_levid]);
+						}
+						$leverancier_lijst[$db2->f("leverancier_id")].="<p><b>".htmlentities($db2->f("leverancier"))." ([[AANTAL]]):</b></p>";
+					}
+					$leverancier_lijst[$db2->f("leverancier_id")].="<li>";
+					if($calculatiesjabloon_bestaat[$db2->f("leverancier_id")."_".$db->f("seizoen_id")]) {
+						$leverancier_lijst[$db2->f("leverancier_id")].="<a href=\"".$path."cms_tarieven.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$db2->f("type_id")."\" target=\"_blank\">";
+					}
+					$leverancier_lijst[$db2->f("leverancier_id")].=$db2->f("begincode").$db2->f("type_id")." - ".htmlentities($db2->f("plaats")." - ".$db2->f("naam").($db2->f("tnaam") ? " ".$db2->f("tnaam") : ""))." (".$db2->f("optimaalaantalpersonen").($db2->f("optimaalaantalpersonen")<>$db2->f("maxaantalpersonen") ? "-".$db2->f("maxaantalpersonen") : "")." pers.)";
+					if($calculatiesjabloon_bestaat[$db2->f("leverancier_id")."_".$db->f("seizoen_id")]) {
+						$leverancier_lijst[$db2->f("leverancier_id")].="</a>";
+					} else {
+						$leverancier_lijst[$db2->f("leverancier_id")].="&nbsp;&nbsp;<span class=\"error\">calculatiesjabloon ontbreekt</span>";
+					}
+					$leverancier_lijst[$db2->f("leverancier_id")].="</li>";
+					$levteller[$db2->f("leverancier_id")]++;
+					$laatste_levid=$db2->f("leverancier_id");
+				}
+				echo ereg_replace("\[\[AANTAL\]\]",strval($levteller[$laatste_levid]),$leverancier_lijst[$laatste_levid]);
+				echo "</ul>";
+				echo "</div>";
+			}
+		}
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[14]]["kenmerkencontroleren"]) {
+	#
+	# Tonen bij welke accommodaties de kenmerken nog niet zijn gecontroleerd
+	#
+	$doorloop_array=array("1","2");
+	while(list($key,$value)=each($doorloop_array)) {
+		unset($leverancier_lijst,$laatste_levid,$levteller);
+		if($value==1) {
+			$meldingstekst="winter";
+		} else {
+			$meldingstekst="zomer";
+		}		
+		
+		
+		# accommodaties
+		$db->query("SELECT DISTINCT a.accommodatie_id, a.internenaam AS naam, p.naam AS plaats, le.leverancier_id, le.naam AS leverancier, a.wzt FROM accommodatie a, plaats p, leverancier le, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=le.leverancier_id AND a.plaats_id=p.plaats_id AND (a.kenmerken_gecontroleerd_datum IS NULL OR UNIX_TIMESTAMP(a.kenmerken_gecontroleerd_datum)<'".mktime(0,0,0,date("m"),date("d"),date("Y")-1)."') AND a.kenmerken_onbekend<>'' AND a.wzt='".$value."' AND a.archief=0 AND a.tonen=1 ORDER BY le.naam, p.naam, a.internenaam;");
+		if($db->num_rows()) {
+			echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_".$meldingstekst."kenmerken\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('".$meldingstekst."kenmerken');return false;\"><b>Bij de volgende ".$meldingstekst."accommodaties zijn nog onbekende kenmerken</a> (".$db->num_rows().")</b>";
+			echo "<div id=\"".$meldingstekst."kenmerken\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\">";
+			echo "<ul>";
+			unset($wzt_gehad,$leverancier_lijst,$levteller,$laatste_levid);
+			while($db->next_record()) {
+				if(!$leverancier_lijst[$db->f("leverancier_id")]) {
+					if($leverancier_lijst[$laatste_levid]) {
+						echo ereg_replace("\[\[AANTAL\]\]",strval($levteller[$laatste_levid]),$leverancier_lijst[$laatste_levid]);
+					}
+					$leverancier_lijst[$db->f("leverancier_id")].="<p><b>".htmlentities($db->f("leverancier"))." ([[AANTAL]]):</b></p>";
+				}
+				$leverancier_lijst[$db->f("leverancier_id")].="<li><a href=\"cms_accommodaties.php?edit=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+				$levteller[$db->f("leverancier_id")]++;
+				$laatste_levid=$db->f("leverancier_id");
+			}
+			echo ereg_replace("\[\[AANTAL\]\]",strval($levteller[$laatste_levid]),$leverancier_lijst[$laatste_levid]);
+			echo "</ul>";
+			echo "</div>";
+		}
+
+		# types
+		$db->query("SELECT t.type_id, a.accommodatie_id, a.internenaam AS naam, t.naam AS naam, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, le.leverancier_id, le.naam AS leverancier, a.wzt, l.begincode FROM accommodatie a, plaats p, leverancier le, land l, type t WHERE p.land_id=l.land_id AND t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=le.leverancier_id AND a.plaats_id=p.plaats_id AND (a.kenmerken_gecontroleerd_datum IS NULL OR UNIX_TIMESTAMP(a.kenmerken_gecontroleerd_datum)<'".mktime(0,0,0,date("m"),date("d"),date("Y")-1)."') AND t.kenmerken_onbekend<>'' AND a.wzt='".$value."' AND a.archief=0 AND a.tonen=1 AND t.tonen=1 ORDER BY le.naam, p.naam, a.internenaam;");
+		if($db->num_rows()) {
+			echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_".$meldingstekst."kenmerkentypes\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('".$meldingstekst."kenmerkentypes');return false;\"><b>Bij de volgende ".$meldingstekst."types zijn nog onbekende kenmerken</a> (".$db->num_rows().")</b>";
+			echo "<div id=\"".$meldingstekst."kenmerkentypes\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\">";
+			echo "<ul>";
+			unset($wzt_gehad,$leverancier_lijst,$levteller,$laatste_levid);
+			while($db->next_record()) {
+				if(!$leverancier_lijst[$db->f("leverancier_id")]) {
+					if($leverancier_lijst[$laatste_levid]) {
+						echo ereg_replace("\[\[AANTAL\]\]",strval($levteller[$laatste_levid]),$leverancier_lijst[$laatste_levid]);
+					}
+					$leverancier_lijst[$db->f("leverancier_id")].="<p><b>".htmlentities($db->f("leverancier"))." ([[AANTAL]]):</b></p>";
+				}
+				$leverancier_lijst[$db->f("leverancier_id")].="<li><a href=\"cms_types.php?edit=2&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".htmlentities($db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)")."</a></li>";
+				$levteller[$db->f("leverancier_id")]++;
+				$laatste_levid=$db->f("leverancier_id");
+			}
+			echo ereg_replace("\[\[AANTAL\]\]",strval($levteller[$laatste_levid]),$leverancier_lijst[$laatste_levid]);
+			echo "</ul>";
+			echo "</div>";
+		}
+
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[14]]["zonderfoto"]["plaatsen"]) {
+	#
+	# Tonen bij welke skigebieden er nog geen foto's zijn ingevoerd
+	#
+	$dir="pic/cms/skigebieden/";
+	$d=dir($dir);
+	while($entry=$d->read()) {
+		if(ereg("^([0-9]+)-([0-9]{1,3})\.jpg$",$entry,$regs)) {
+			if($fotoskigebied_inquery) $fotoskigebied_inquery.=",".$regs[1]; else $fotoskigebied_inquery=$regs[1];
+		}
+	}
+	if($fotoskigebied_inquery) {
+		$db->query("SELECT skigebied_id, wzt, naam FROM skigebied WHERE skigebied_id NOT IN (".$fotoskigebied_inquery.") ORDER BY wzt, naam;");
+		if($db->num_rows()) {
+			echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_regiofoto\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('regiofoto');return false;\"><b>De volgende skigebieden/regio's bevatten nog geen foto's</a> (".$db->num_rows().")</b>";
+			echo "<div id=\"regiofoto\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\">";
+			echo "<ul>";
+			unset($wzt_gehad);
+			while($db->next_record()) {
+				if(!$wzt_gehad[$db->f("wzt")]) {
+					echo "<p><b>".$vars["seizoentype_namen"][$db->f("wzt")]."</b></p>";
+					$wzt_gehad[$db->f("wzt")]=true;
+				}
+				echo "<li><a href=\"cms_skigebieden.php?edit=5&wzt=".$db->f("wzt")."&5k0=".$db->f("skigebied_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+			}
+			echo "</ul>";
+			echo "</div>";
+		}
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[14]]["zonderfoto"]["skigebieden"]) {
+	#
+	# Tonen bij welke plaatsen er nog geen foto's zijn ingevoerd
+	#
+	$dir="pic/cms/plaatsen/";
+	$d=dir($dir);
+	while($entry=$d->read()) {
+		if(ereg("^([0-9]+)-([0-9]{1,3})\.jpg$",$entry,$regs)) {
+			if($fotoplaats_inquery) $fotoplaats_inquery.=",".$regs[1]; else $fotoplaats_inquery=$regs[1];
+		}
+	}
+	$dir="pic/cms/plaatsen_breed/";
+	$d=dir($dir);
+	while($entry=$d->read()) {
+		if(ereg("^([0-9]+)-([0-9]{1,3})\.jpg$",$entry,$regs)) {
+			if($fotoplaats_inquery) $fotoplaats_inquery.=",".$regs[1]; else $fotoplaats_inquery=$regs[1];
+		}
+	}
+	if($fotoplaats_inquery) {
+		$db->query("SELECT plaats_id, wzt, naam FROM plaats WHERE plaats_id NOT IN (".$fotoplaats_inquery.") ORDER BY wzt, naam;");
+		if($db->num_rows()) {
+			echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_plaatsfoto\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('plaatsfoto');return false;\"><b>De volgende plaatsen bevatten nog geen foto's</a> (".$db->num_rows().")</b>";
+			echo "<div id=\"plaatsfoto\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\">";
+			echo "<ul>";
+			unset($wzt_gehad);
+			while($db->next_record()) {
+				if(!$wzt_gehad[$db->f("wzt")]) {
+					echo "<p><b>".$vars["seizoentype_namen"][$db->f("wzt")]."</b></p>";
+					$wzt_gehad[$db->f("wzt")]=true;
+				}
+				echo "<li><a href=\"cms_plaatsen.php?edit=4&wzt=".$db->f("wzt")."&4k0=".$db->f("plaats_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+			}
+			echo "</ul>";
+			echo "</div>";
+		}
+	}
+}
+
+if($cmshoofdpagina[$cmshoofdpagina_rol[14]]["pdfcontrole"]) {
+	#
+	# Oudste PDF-controle
+	#
+	$db->query("SELECT UNIX_TIMESTAMP(pdfupload_datum) AS pdfupload_datum FROM plaats WHERE pdfupload_datum IS NOT NULL ORDER BY pdfupload_datum LIMIT 0,1;");
+	if($db->next_record()) {
+		if($db->f("pdfupload_datum")<$pdfupload_datum or !$pdfupload_datum) {
+			$pdfupload_datum=$db->f("pdfupload_datum");
+		}
+	}
+	$db->query("SELECT UNIX_TIMESTAMP(pdfupload_datum) AS pdfupload_datum FROM accommodatie WHERE pdfupload_datum IS NOT NULL ORDER BY pdfupload_datum LIMIT 0,1;");
+	if($db->next_record()) {
+		if($db->f("pdfupload_datum")<$pdfupload_datum or !$pdfupload_datum) {
+			$pdfupload_datum=$db->f("pdfupload_datum");
+		}
+	}
+	$db->query("SELECT UNIX_TIMESTAMP(pdfupload_datum_en) AS pdfupload_datum FROM accommodatie WHERE pdfupload_datum_en IS NOT NULL ORDER BY pdfupload_datum_en LIMIT 0,1;");
+	if($db->next_record()) {
+		if($db->f("pdfupload_datum")<$pdfupload_datum or !$pdfupload_datum) {
+			$pdfupload_datum=$db->f("pdfupload_datum");
+		}
+	}
+	if($pdfupload_datum) {
+		echo "\n<hr>";
+		if($pdfupload_datum<(time()-86400*182)) echo "<span><b>Let op! ";
+		echo "Oudste PDF-bestanden: <a href=\"cms_pdfcontrole.php\">".date("d-m-Y",$pdfupload_datum)."</a>";
+		if($pdfupload_datum<(time()-86400*182)) echo "</b></span>";
+	}
+}
+
+# Actielijst WebTastic: wacht op antwoord
+#$db->query("SELECT actie_id, naam FROM actie WHERE status IN (6,9,10) ".($login->userlevel<10 ? " AND alleenwebtastic=0" : "")." AND user_id='".$login->user_id."' ORDER BY prioriteit, naam;");
+#if($db->num_rows()) {
+#	echo "\n<hr><b>WebTastic wacht op antwoord:</b><ul>";
+#	while($db->next_record()) {
+#		echo "<li><a href=\"".$vars["path"]."cms_diversen.php?t=1&edit=39&39k0=".$db->f("actie_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+#	}
+#	echo "</ul>";
+#}
+
+# Actielijst WebTastic: nog geen prioriteit
+#$db->query("SELECT actie_id, naam FROM actie WHERE status=4 ".($login->userlevel<10 ? " AND alleenwebtastic=0" : "")." AND user_id='".$login->user_id."' AND (prioriteit=0 OR prioriteit IS NULL) ORDER BY prioriteit, naam;");
+#if($db->num_rows()) {
+#	echo "\n<hr><b>Bij de volgende acties moet nog een prioriteit worden ingevoerd:</b><ul>";
+#	while($db->next_record()) {
+#		echo "<li><a href=\"".$vars["path"]."cms_diversen.php?t=1&edit=39&39k0=".$db->f("actie_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+#	}
+#	echo "</ul>";
+#}
+
+
+if($cmshoofdpagina_rol[14]) {
+	# rol 14 = Accommodatiegegevens
+
+	# Geen GPS-gegevens accommodaties
+	$db->query("SELECT a.accommodatie_id, a.internenaam, a.wzt, p.naam AS plaats, l.naam AS leverancier, l.leverancier_id FROM accommodatie a, plaats p, leverancier l WHERE a.leverancier_id=l.leverancier_id AND a.plaats_id=p.plaats_id AND a.archief=0 AND a.tonen=1 AND (a.gps_lat='' OR a.gps_long='' OR a.gps_lat IS NULL OR a.gps_long IS NULL) ORDER BY l.naam, p.naam, a.internenaam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_gpsonjuist\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('gpsonjuist');return false;\"><b>Bij de volgende accommodaties zijn nog geen GPS-gegevens ingevoerd</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"gpsonjuist\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+	
+		unset($levgehad);
+		while($db->next_record()) {
+			if(!$levgehad[$db->f("leverancier_id")]) {
+				$levgehad[$db->f("leverancier_id")]=true;
+				echo "<br><br><b>".htmlentities($db->f("leverancier"))."</b>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>";
+			}
+			echo "<li><a href=\"cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("internenaam"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+	
+	# Geen GPS-gegevens plaatsen
+	$db->query("SELECT p.plaats_id, p.naam, p.wzt FROM plaats p WHERE (p.gps_lat='' OR p.gps_long='' OR p.gps_lat IS NULL OR p.gps_long IS NULL) ORDER BY p.wzt, p.naam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_geengpsplaats\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('geengpsplaats');return false;\"><b>Bij de volgende plaatsen zijn nog geen GPS-gegevens ingevoerd</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"geengpsplaats\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+	
+		unset($seizoengehad);
+		while($db->next_record()) {
+			if(!$seizoengehad[$db->f("wzt")]) {
+				$seizoengehad[$db->f("wzt")]=true;
+				echo "<br><br><b>".($db->f("wzt")==1 ? "winter" : "zomer")."</b>&nbsp;&nbsp;&nbsp;&nbsp;<br><br>";
+			}
+			echo "<li><a href=\"cms_plaatsen.php?edit=4&wzt=".$db->f("wzt")."&4k0=".$db->f("plaats_id")."\" target=\"_blank\">".htmlentities($db->f("naam"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+
+	# Geen description plaatsen
+	$db->query("SELECT p.plaats_id, p.naam, p.wzt FROM plaats p WHERE descriptiontag='' ORDER BY p.wzt, p.naam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_geendescplaats\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('geendescplaats');return false;\"><b>Bij de volgende plaatsen is nog geen description ingevoerd</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"geendescplaats\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+	
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_plaatsen.php?edit=4&wzt=".$db->f("wzt")."&4k0=".$db->f("plaats_id")."\" target=\"_blank\">".htmlentities($db->f("naam"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+	
+	# Geen description regio's
+	$db->query("SELECT s.skigebied_id, s.naam, s.wzt FROM skigebied s WHERE descriptiontag='' ORDER BY s.wzt, s.naam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_geendescregio\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('geendescregio');return false;\"><b>Bij de volgende regio's is nog geen description ingevoerd</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"geendescregio\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+	
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_skigebieden.php?edit=5&wzt=".$db->f("wzt")."&5k0=".$db->f("skigebied_id")."\" target=\"_blank\">".htmlentities($db->f("naam"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+	
+	echo "\n<hr>";
+	echo "<br><a name=\"tijdelijk\"></a><div class=\"opmerkingbox\"><b>Tijdelijke meldingen (verdwijnen voorgoed zodra opgelost):</b></div>";
+	#
+	# TIJDELIJK
+	#
+
+	# inkoopgegevens nog nakijken
+	$db->query("SELECT SUBSTRING(boekingsnummer,2), boeking_id, boekingsnummer FROM boeking WHERE seizoen_id IN (17,18,19) AND goedgekeurd=1 AND geannuleerd=0 AND boekingsnummer<>'' AND geannuleerd=0 AND eenmaliggecontroleerd=0 ORDER BY 1;");
+	if($db->num_rows()) {
+		echo "<a name=\"eenmaliggecontroleerd\"></a>";
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_eenmaliggecontroleerd\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('eenmaliggecontroleerd');return false;\"><b>Bij de volgende boekingen moeten de inkoopgegevens nog worden nagekeken</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"eenmaliggecontroleerd\" class=\"showhide\" style=\"background-color:#ffffff;".($_GET["eenmaliggecontroleerd"] ? "" : "display:none;")."\"><ul>";
+	
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_boekingen_leveranciers.php?burl=%2Fcms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."&cmscontrole=1\">".htmlentities($db->f("boekingsnummer"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+
+	# Geen 'Korte omschrijving'
+	$db->query("SELECT a.accommodatie_id, a.internenaam, a.wzt, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.archief=0 AND a.tonen=1 AND (a.korteomschrijving='' OR a.korteomschrijving IS NULL) ORDER BY p.naam, a.internenaam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_geenkorteomschrijving\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('geenkorteomschrijving');return false;\"><b>Bij de volgende accommodaties is nog geen korte omschrijving ingevoerd</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"geenkorteomschrijving\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+	
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("internenaam"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+
+	# Accommodaties zonder afstand tot piste
+	$db->query("SELECT a.accommodatie_id, a.internenaam AS naam, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND a.afstandpiste IS NULL AND a.wzt=1 ORDER BY p.naam, a.internenaam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_acczonderafstpiste\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('acczonderafstpiste');return false;\"><b>Bij de volgende accommodaties is &quot;afstand tot piste&quot; niet ingevuld</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"acczonderafstpiste\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+	
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_accommodaties.php?edit=1&wzt=1&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+	
+	# omzetbonus bij optietarieven (veld wordt niet meer gebruikt)
+#	$db->query("SELECT DISTINCT oo.naam, ot.optie_onderdeel_id, ot.seizoen_id FROM optie_onderdeel oo, optie_tarief ot WHERE ot.optie_onderdeel_id=oo.optie_onderdeel_id AND ot.omzetbonus>0 AND ot.seizoen_id IN (17,18,19) ORDER BY ot.seizoen_id, oo.naam;");
+#	if($db->num_rows()) {
+#		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_omzetbonus\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('omzetbonus');return false;\"><b>Bij de volgende optie-tarieven is nog een omzetbonus actief</a> (".$db->num_rows().")</b>";
+#		echo "<div id=\"omzetbonus\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+#		while($db->next_record()) {
+#			echo "<li><a href=\"cms_optie_tarieven.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&ooid=".$db->f("optie_onderdeel_id")."\" target=\"_blank\">".htmlentities($db->f("naam"))."</a></li>";
+#		}
+#		echo "</ul></div>";
+#	}
+
+
+	# handmatige opties voorzien van optiecategorie
+#	$db->query("SELECT DISTINCT SUBSTRING(b.boekingsnummer,2), b.boeking_id, b.boekingsnummer FROM boeking b, extra_optie e WHERE e.optiecategorie=0 AND e.boeking_id=b.boeking_id AND b.seizoen_id IN (17,18,19) AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'' ORDER BY 1;");
+#	if($db->num_rows()) {
+#		echo "<a name=\"optiecategorietoevoegen\"></a>";
+#		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_optiecategorietoevoegen\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('optiecategorietoevoegen');return false;\"><b>Bij de volgende boekingen moeten handmatige opties worden voorzien van een optie-categorie</a> (".$db->num_rows().")</b>";
+#		echo "<div id=\"optiecategorietoevoegen\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+#	
+#		while($db->next_record()) {
+#			echo "<li><a href=\"cms_handmatige_opties.php?burl=%2Fcms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities($db->f("boekingsnummer"))."</a></li>";
+#		}
+#		echo "</ul></div>";
+#	}
+
+	# Pagina afsluiten met een hr
+	echo "\n<hr>";
+}
+
+?>

@@ -1,0 +1,6 @@
+<?php
+
+echo html("inleiding","inloggen_geblokkeerd",array("v_datumtijd"=>DATUM("DAG D MAAND JJJJ, UU:ZZ",$_GET["blocktime"],$vars["taal"])."u."))."<p>";
+echo html("bentuuwwachtwoordvergeten","inloggen_geblokkeerd",array("l1"=>"wachtwoord","v_tijd"=>date("H:i",$_GET["blocktime"])."u."))."<p>";
+
+?>

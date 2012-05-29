@@ -1,0 +1,61 @@
+<?php
+
+$db->query("SELECT thema_id, toelichting".$vars["ttv"]." AS toelichting, uitgebreid".$vars["ttv"]." AS uitgebreid FROM thema WHERE url".$vars["ttv"]."='".addslashes($_GET["thema"])."' AND wzt='".addslashes($vars["seizoentype"])."';");
+if($db->next_record()) {
+
+
+	$dir="pic/cms/themas/";
+	$d=dir($dir);
+	while($entry=$d->read()) {
+		if(ereg("^".$db->f("thema_id")."-([0-9]{1,3})\.jpg$",$entry,$regs)) {
+			$foto[]="themas/".$entry;
+		}
+	}
+	if(is_array($foto)) {
+		sort($foto);
+		echo "<table style=\"margin-bottom:10px;\" cellspacing=\"0\" cellpadding=\"0\"><tr>";
+		$fototeller=0;
+		while(list($key,$value)=each($foto)) {
+			$fototeller++;
+			echo "<td><img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($value)."&w=170&h=127\" width=\"170\" height=\"127\" style=\"";
+			if($fototeller<3) {
+				echo "margin-right: 18px;";
+			} elseif($fototeller==3) {
+				echo "margin-right: 19px;";
+		}
+			echo "\"></td>";
+	
+		}
+		echo "</tr></table>";
+	}
+	
+	echo "<h1>".htmlentities($vars["themainfo"]["naam"])."</h1>\n";
+	echo htmlentities_uitgebreid(trim($db->f("toelichting")));
+
+	# Totaal aantal accommodaties opvragen: kan getoond worden bij "tarievenbekend_seizoen_id"
+	if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
+		$db->query("SELECT DISTINCT COUNT(t.type_id) AS aantal FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".addslashes($vars["website"])."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0;");
+		if($db->next_record()) {
+			$totaal_tarievenbekend_seizoen_id=$db->f("aantal");
+		}
+	}
+
+#echo $totaal_tarievenbekend_seizoen_id;
+	
+	if($db->f("uitgebreid")) {
+		echo "<div style=\"padding-top:10px;text-align:right;\"><a href=\"#\" class=\"showhidelink\">".html("meerinformatie","thema")." &gt;</a></div>";
+		echo "<div id=\"\" class=\"showhide\" style=\"display:none;\">";
+		echo nl2br(htmlentities(trim($db->f("uitgebreid"))));
+		echo "</div>";
+		$uitgebreid=true;
+	}
+
+	# Zoekform embedden
+	$vars["zoekform_thema"]=true;
+
+	if($vars["themainfo"]["typekenmerk"] or $vars["themainfo"]["accommodatiekenmerk"] or $vars["themainfo"]["plaatskenmerk"] or $vars["themainfo"]["skigebiedkenmerk"] or $vars["themainfo"]["zoekterm"] or $vars["themainfo"]["tarievenbekend_seizoen_id"]) {
+		include("content/zoek-en-boek.html");
+	}
+}
+
+?>

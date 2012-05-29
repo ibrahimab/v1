@@ -1,0 +1,10 @@
+<?php
+
+if($_GET["fo"]=="frm") {
+	echo html("indienuwemailadresreedsbijonsbekend","reisagent_wachtwoord",array("l1"=>"reisagent"));
+} else {
+	echo html("inleiding","reisagent_wachtwoord")."<p>";
+	$form->display_all();
+}
+
+?>

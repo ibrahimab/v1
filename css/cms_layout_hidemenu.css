@@ -1,0 +1,17 @@
+
+#wrapper {
+	margin: 0px;
+	width: 1010px;
+}
+
+#top {
+	display: none;
+}
+
+#menu {
+	display: none;
+}
+
+#content {
+	margin-left: 0px;
+}

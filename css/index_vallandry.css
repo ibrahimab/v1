@@ -1,0 +1,19 @@
+
+#index_blok {
+	background-color: #b2cce5;
+	width: 670px;
+	height: 305px;
+	padding: 10px;
+	padding-left: 20px;
+}
+
+#index_tekstblok {
+	width: 400px;
+	margin-top: 5px;
+}
+
+h1 {
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: 15px;
+}

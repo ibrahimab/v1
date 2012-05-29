@@ -1,0 +1,60 @@
+<?php
+
+if(!$vars["dont_delete_vertrekdag_var"]) {
+	unset($vertrekdag);
+}
+if($typeid) {
+	# Afwijkende vertrekdag (=aankomst) (bepaald per seizoen per accommodatie)
+	$db2->query("SELECT v.naam, v.toelichting".$vars["ttv"]." AS toelichting, v.vertrekdagtype_id, v.soort, v.afwijking, UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind, asz.seizoen_id FROM accommodatie a, vertrekdagtype v, type t, seizoen s, accommodatie_seizoen asz WHERE a.accommodatie_id=asz.accommodatie_id AND a.accommodatie_id=t.accommodatie_id AND t.type_id='".addslashes($typeid)."' AND asz.vertrekdagtype_id=v.vertrekdagtype_id AND asz.seizoen_id=s.seizoen_id;");
+	while($db2->next_record()) {
+		$vars["vertrekdagtype"][$db2->f("seizoen_id")]["naam"]=$db2->f("naam");
+		$vars["vertrekdagtype"][$db2->f("seizoen_id")]["toelichting"]=$db2->f("toelichting");
+		$vars["vertrekdagtype"][$db2->f("seizoen_id")]["id"]=$db2->f("vertrekdagtype_id");
+		if($db2->f("soort")==2) {
+			# Optie B - zondag-zondag
+			$week=$db2->f("begin");
+			$eind=mktime(0,0,0,date("m",$db2->f("eind")),date("d",$db2->f("eind"))+7,date("Y",$db2->f("eind")));
+			while($week<=$eind) {
+				$vertrekdag[$db2->f("seizoen_id")][date("dm",$week)]=1;
+				$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+			}
+		} elseif($db2->f("soort")==1 and $db2->f("afwijking")) {
+			# Unieke afwijking
+			$data=@split("\n",$db2->f("afwijking"));
+			while(list($key,$value)=@each($data)) {
+				if(ereg("^([0-9]{4}) (.[0-9])$",trim($value),$regs)) {
+					$vertrekdag[$db2->f("seizoen_id")][$regs[1]]=intval($regs[2]);
+				}
+			}
+		}
+	}
+	$vars["vertrekdagtype"]["check"]=true;
+} elseif($typeid_inquery_vertrekdag) {
+	# Afwijkende vertrekdag (=aankomst) (bepaald per seizoen per accommodatie)
+	$db2->query("SELECT t.type_id, v.naam, v.toelichting".$vars["ttv"]." AS toelichting, v.vertrekdagtype_id, v.soort, v.afwijking, UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind, asz.seizoen_id FROM accommodatie a, vertrekdagtype v, type t, seizoen s, accommodatie_seizoen asz WHERE a.accommodatie_id=asz.accommodatie_id AND a.accommodatie_id=t.accommodatie_id".($typeid_inquery_vertrekdag=="ALL" ? "" : " AND t.type_id IN (".addslashes($typeid_inquery_vertrekdag).")")." AND asz.vertrekdagtype_id=v.vertrekdagtype_id AND asz.seizoen_id=s.seizoen_id;");
+	while($db2->next_record()) {
+#		$vars["vertrekdagtype"][$db2->f("type_id")][$db2->f("seizoen_id")]["naam"]=$db2->f("naam");
+#		$vars["vertrekdagtype"][$db2->f("type_id")][$db2->f("seizoen_id")]["toelichting"]=$db2->f("toelichting");
+#		$vars["vertrekdagtype"][$db2->f("type_id")][$db2->f("seizoen_id")]["id"]=$db2->f("vertrekdagtype_id");
+		if($db2->f("soort")==2) {
+			# Optie B - zondag-zondag
+			$week=$db2->f("begin");
+			$eind=mktime(0,0,0,date("m",$db2->f("eind")),date("d",$db2->f("eind"))+7,date("Y",$db2->f("eind")));
+			while($week<=$eind) {
+				$vertrekdag[$db2->f("type_id")][$db2->f("seizoen_id")][date("dm",$week)]=1;
+				$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+			}
+		} elseif($db2->f("soort")==1 and $db2->f("afwijking")) {
+			# Unieke afwijking
+			$data=@split("\n",$db2->f("afwijking"));
+			while(list($key,$value)=@each($data)) {
+				if(ereg("^([0-9]{4}) (.[0-9])$",trim($value),$regs)) {
+					$vertrekdag[$db2->f("type_id")][$db2->f("seizoen_id")][$regs[1]]=intval($regs[2]);
+				}
+			}
+		}
+	}
+	$vars["vertrekdagtype"]["check"]=true;
+}
+
+?>

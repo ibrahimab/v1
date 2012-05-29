@@ -1,0 +1,179 @@
+<?php
+
+# Bepalen wie voorrang krijgt: TradeTracker of Cleafs
+if(intval($_COOKIE["tradetracker"])>1230764400 and intval($_COOKIE["cleafs"])>1230764400) {
+	if(intval($_COOKIE["tradetracker"])>intval($_COOKIE["cleafs"])) {
+		$blokkeer_cleafs=true;
+	} else {
+		$blokkeer_tradetracker=true;
+	}
+}
+
+# Content
+if($_GET["fo"]=="frm") {
+	echo html("bedankt","contact");
+	
+	affiliate_tracking(false,true,true,array("ordernummer"=>"contactaanvraag"));
+	
+	$extrainfo_tradetracker="Formulier ingevuld: ".date("d-m-Y").", ".date("H:i")."u.";
+	if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
+		// Set campaign ID and product ID
+		$campaignID = "693"; // The campaign ID is provided by TradeTracker
+		$productID = "791"; // The product ID is provided by TradeTracker
+		// Create session
+#		session_start();
+		// Get tracking data from the session created on the landingpage
+		$trackingData = $_SESSION["TT2_" . $campaignID];
+		$trackingType = "1";
+		// If tracking data is empty
+		if(!$trackingData) {
+		// Get tracking data from the cookie created on the landingpage
+			$trackingData = $_COOKIE["TT2_" . $campaignID];
+			$trackingType = "2";
+		}
+		// Encode tracking data
+		$trackingData = urlencode($trackingData);
+		// Set transaction information
+		$transactionID = "contactaanvraag"; // Transaction number (max 255 chars)
+		$email = $_COOKIE["naw"]["email"]; // Customer e-mail address (optional)
+		$additional = $extrainfo_tradetracker; // Additional transaction information (optional)
+		// Encode transaction information
+		$transactionID = urlencode($transactionID);
+		$email = urlencode($email);
+		$additional = urlencode($additional);
+		// Set image URL
+		$imageURL = "http://tl.tradetracker.nl/v2/$campaignID/$productID/$trackingData/$trackingType/";
+		$imageURL .= "$transactionID/$email/$additional";
+		if(!$voorkant_cms and !$blokkeer_tradetracker) {
+#			echo "<img src=\"$imageURL\" width=\"1\" height=\"1\" border=\"0\" alt=\"\"/>";
+		}
+	} elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl") {
+		// Set campaign ID and product ID
+		$campaignID = "958"; // The campaign ID is provided by TradeTracker
+		$productID = "1151"; // The product ID is provided by TradeTracker
+		// Create session
+#		session_start();
+		// Get tracking data from the session created on the landingpage
+		$trackingData = $_SESSION["TT2_" . $campaignID];
+		$trackingType = "1";
+		// If tracking data is empty
+		if(!$trackingData) {
+		// Get tracking data from the cookie created on the landingpage
+			$trackingData = $_COOKIE["TT2_" . $campaignID];
+			$trackingType = "2";
+		}
+		// Encode tracking data
+		$trackingData = urlencode($trackingData);
+		// Set transaction information
+		$transactionID = "contactaanvraag"; // Transaction number (max 255 chars)
+		$email = $_COOKIE["naw"]["email"]; // Customer e-mail address (optional)
+		$additional = $extrainfo_tradetracker; // Additional transaction information (optional)
+		// Encode transaction information
+		$transactionID = urlencode($transactionID);
+		$email = urlencode($email);
+		$additional = urlencode($additional);
+		// Set image URL
+		$imageURL = "http://tl.tradetracker.nl/v2/$campaignID/$productID/$trackingData/$trackingType/";
+		$imageURL .= "$transactionID/$email/$additional";
+		if(!$voorkant_cms and !$blokkeer_tradetracker) {
+#			echo "<img src=\"$imageURL\" width=\"1\" height=\"1\" border=\"0\" alt=\"\"/>";
+		}
+
+		#
+		# Cleafs
+		#
+		if(!$voorkant_cms and !$blokkeer_cleafs) {
+			$cleafs_code="88HCLzHs";
+			$cleafs_ordernummer=$temp_naw["email"];
+#			echo "<script type=\"text/javascript\" src=\"http://www.cleafs.com/tracker/track.js\"></script>\n<script type=\"text/javascript\">\n<!--\n_cl_md = \"".$cleafs_code."\";\n_clecml(\"".htmlentities($cleafs_ordernummer)."\");\n_cltracker();\n//-->\n</script>";
+		}
+	} elseif($_SERVER["HTTP_HOST"]=="www.chalet.nl") {
+		// configuration
+		$campaignID = 202;
+		$campaignProductID = 204;
+	
+		// create session
+	#	session_start();
+	
+		// get the tracking data from the session created on the redirect page
+		$trackingData = $_SESSION["TT2_" . $campaignID];
+	
+		// if tracking data is empty, try to get it from the cookie
+		if(!$trackingData)
+		$trackingData = $_COOKIE["TT2_" . $campaignID];
+	
+		// URL encode tracking data
+		$trackingData = urlencode($trackingData);
+	
+		// Set order ID, e-mail address and additional information (optional)
+		$orderID = "contactaanvraag";
+		$email = $_COOKIE["naw"]["email"];
+		$additional = $extrainfo_tradetracker;
+	
+		// URL encode transaction information
+		$orderID = urlencode($orderID);
+		$email = urlencode($email);
+		$additional = urlencode($additional);
+		// Send the complete report to TradeTracker
+		
+		if(!$voorkant_cms and !$blokkeer_tradetracker) {
+#			echo "<img src=\"http://tl.tradetracker.nl/$campaignID/$campaignProductID/?trackingData=$trackingData&orderID=$orderID&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />";
+		}
+
+		#
+		# Cleafs
+		#
+		if(!$voorkant_cms and !$blokkeer_cleafs) {
+			$cleafs_code="Grr8823K";
+			$cleafs_ordernummer=$temp_naw["email"];
+#			echo "<script type=\"text/javascript\" src=\"http://www.cleafs.com/tracker/track.js\"></script>\n<script type=\"text/javascript\">\n<!--\n_cl_md = \"".$cleafs_code."\";\n_clecml(\"".htmlentities($cleafs_ordernummer)."\");\n_cltracker();\n//-->\n</script>";
+		}
+	}
+} else {
+	if($vars["website"]=="T") {
+		echo html("inleiding_chalettour","contact");
+	} else {
+		echo html("inleiding","contact",array("h_1"=>"<nobr>","h_2"=>"</nobr>"));
+		echo "<P><CENTER><B>".htmlentities($vars["websitenaam"])."<BR>";
+		echo "Lindenhof 5<BR>3442 GT Woerden<BR>";
+		if($vars["websiteland"]<>"nl") echo html("nederland","contact")."<br>";
+		echo html("telefoonnummer_chalet","contact")."<BR>";
+		echo html("fax_chalet","contact")."<BR>";
+		echo html("email_kort","contact").": <a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</A><br>";
+		if($vars["websiteland"]=="nl") echo "KvK: 30209634<br>";
+		echo "</B></CENTER>";
+
+#		if($vars["website"]=="CA") {
+#			echo "&nbsp;<br>";
+#			echo "<b>Wintersport Magazine</b><br>";
+#			echo "Naast onze uitgebreide website hebben wij een magazine samengesteld met daarin een impressie van ons aanbod en de mogelijkheden die we je als wintersportspecialist te bieden hebben. <a href=\"".$vars["path"]."brochure.php\">Bekijk dit Wintersport Magazine online</a> of <a href=\"".$vars["path"]."brochure.php#wtform_frm\">laat het thuisbezorgen</a>.<br>";
+#		}
+		if($vars["website"]=="C") {
+			echo "&nbsp;<br><div style=\"border:1px solid #d5e1f9;padding:5px;\">";
+			echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
+			echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/wintersportmagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
+			echo "<b>Wintersport Magazine</b><br>";
+			echo "Naast onze uitgebreide website hebben wij een magazine samengesteld met daarin een impressie van ons aanbod en de mogelijkheden die we je als wintersportspecialist te bieden hebben. <a href=\"".$vars["path"]."brochure.php\">Bekijk dit Wintersport Magazine online</a>.";
+			echo "</td></tr></table>";	
+			echo "</div><p>";
+		}
+		if($vars["website"]=="Z") {
+			echo "&nbsp;<br><div style=\"border:1px solid #5f227b;padding:5px;\">";
+			echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
+			echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/zomerhuisjemagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
+			echo "<b>Zomerhuisje Magazine</b><br>";
+			echo "Naast onze uitgebreide website hebben wij een inspiratie-magazine samengesteld met daarin niet alleen een impressie van ons aanbod maar ook een aantal reistips, recepten en interviews.<br><a href=\"".$vars["path"]."brochure.php\">Bekijk dit Zomerhuisje Magazine online</a> of <a href=\"".$vars["path"]."brochure.php#wtform_frm\">laat het thuisbezorgen</a>.";
+			echo "</td></tr></table>";	
+			echo "</div><p>";
+		}
+		
+	}
+	echo "&nbsp;<p><b>".html("contactformulier","contact")."</b><br>";
+	$form->display_all();
+
+	if($vars["website"]=="T") {
+		echo "<p><span style=\"font-size:0.85em;\">".html("onderschrift_chalettour","contact",array("h_1"=>"<a href=\"mailto:info@chalettour.nl\">","h_2"=>"</a>"))."</span>";
+	}
+}
+
+?></CENTER>

@@ -1,0 +1,114 @@
+<?php
+
+$form->display_all();
+
+if($form->okay) {
+	echo "<br><br>";
+	
+	# Reisbureau-gegevens uit database halen
+	$db->query("SELECT ru.user_id AS reisbureau_user_id, ru.email, r.naam, r.adres, r.postcode, r.plaats, r.land, r.telefoonnummer FROM reisbureau r, reisbureau_user ru WHERE ru.reisbureau_id=r.reisbureau_id AND r.actief=1;");
+	while($db->next_record()) {
+		$rb[$db->f("reisbureau_user_id")]["naam"]=$db->f("naam");
+		$rb[$db->f("reisbureau_user_id")]["adres"]=$db->f("adres");
+		$rb[$db->f("reisbureau_user_id")]["postcode"]=$db->f("postcode");
+		$rb[$db->f("reisbureau_user_id")]["plaats"]=$db->f("plaats");
+		$rb[$db->f("reisbureau_user_id")]["land"]=$db->f("land");
+		$rb[$db->f("reisbureau_user_id")]["email"]=$db->f("email");
+		$rb[$db->f("reisbureau_user_id")]["email"]=$db->f("email");
+		$rb[$db->f("reisbureau_user_id")]["telefoonnummer"]=$db->f("telefoonnummer");
+	}
+	
+	# Enquête-gegevens uit database halen
+	$db->query("SELECT boeking_id FROM boeking_enquete;");
+	while($db->next_record()) {
+		$enquete[$db->f("boeking_id")]=true;
+	}
+
+	$db->query("SELECT b.boeking_id, b.aankomstdatum_exact, b.reisbureau_user_id, b.website, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.adres, bp.postcode, bp.plaats, bp.land, bp.email, bp.telefoonnummer FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.aankomstdatum_exact>='".$form->input["van"]["unixtime"]."' AND b.aankomstdatum_exact<='".$form->input["tot"]["unixtime"]."' AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY b.aankomstdatum_exact DESC;");
+#	echo $db->lastquery."<br>";
+	if($db->num_rows()) {
+		$tl=new tablelist;
+		$tl->settings["systemid"]=1;
+		$tl->settings["arrowcolor"]="white";
+#		$tl->settings["max_results_per_page"]=200;
+		$tl->settings["path"]=$vars["path"];
+		$tl->settings["resultpages_top"]=true;
+		$tl->settings["th_id"]="col_";
+		$tl->settings["td_class"]="col_";   # elke cel een class: "deze_voorloper+naam"
+
+		$tl->sort=array("aankomstdatum_exact","achternaam","voornaam");
+
+		$tl->sort_desc=false;
+		
+#		$tl->field_show("show.php?id=[ID]","Details bekijken");
+		$tl->field_text("aankomstdatum_exact","Aankomst");
+		$tl->field_text("voornaam","Voornaam");
+		$tl->field_text("tussenvoegsel","Tussenvoegsel");
+		$tl->field_text("achternaam","Achternaam");
+		$tl->field_text("adres","Adres");
+		$tl->field_text("postcode","Postcode");
+		$tl->field_text("plaats","Plaats");
+		$tl->field_text("land","Land");
+		$tl->field_text("telefoonnummer","Telefoon");
+		$tl->field_text("email","Mail");
+		$tl->field_text("website","Site");
+		$tl->field_text("enquete","Enquête");
+		while($db->next_record()) {
+			# add_record($id,$key,$value,$sortvalue="",$datetime=false,$options="")
+			unset($naw);
+			if($db->f("reisbureau_user_id")) {
+				$naw["achternaam"]=$rb[$db->f("reisbureau_user_id")]["naam"];
+				$naw["adres"]=$rb[$db->f("reisbureau_user_id")]["adres"];
+				$naw["postcode"]=$rb[$db->f("reisbureau_user_id")]["postcode"];
+				$naw["plaats"]=$rb[$db->f("reisbureau_user_id")]["plaats"];
+				$naw["land"]=$rb[$db->f("reisbureau_user_id")]["land"];
+				$naw["telefoonnummer"]=$rb[$db->f("reisbureau_user_id")]["telefoonnummer"];
+				$naw["email"]=$rb[$db->f("reisbureau_user_id")]["email"];
+			} else {
+				$naw["voornaam"]=$db->f("voornaam");
+				$naw["tussenvoegsel"]=$db->f("tussenvoegsel");
+				$naw["achternaam"]=$db->f("achternaam");
+				$naw["adres"]=$db->f("adres");
+				$naw["postcode"]=$db->f("postcode");
+				$naw["plaats"]=$db->f("plaats");
+				$naw["land"]=$db->f("land");
+				$naw["telefoonnummer"]=$db->f("telefoonnummer");
+				$naw["email"]=$db->f("email");
+			}
+			
+			# Dubbele adressen eruit filteren
+			$controle=strtolower(ereg_replace("[^0-9]+","",$naw["adres"]))."_".strtolower(ereg_replace(" ","",$naw["postcode"]));
+			if($algehad[$controle]) {
+				unset($naw);
+			} else {
+				$algehad[$controle]=true;
+			}
+			
+			if(isset($naw)) {
+				$teller++;
+				$tl->add_record("aankomstdatum_exact",$db->f("boeking_id"),date("d-m-Y",$db->f("aankomstdatum_exact")),$db->f("aankomstdatum_exact"),true);
+				$tl->add_record("voornaam",$db->f("boeking_id"),$naw["voornaam"]);
+				$tl->add_record("tussenvoegsel",$db->f("boeking_id"),$naw["tussenvoegsel"]);
+				$tl->add_record("achternaam",$db->f("boeking_id"),$naw["achternaam"]);
+				$tl->add_record("adres",$db->f("boeking_id"),$naw["adres"]);
+				$tl->add_record("postcode",$db->f("boeking_id"),$naw["postcode"]);
+				$tl->add_record("plaats",$db->f("boeking_id"),$naw["plaats"]);
+				$tl->add_record("land",$db->f("boeking_id"),$naw["land"]);
+				$tl->add_record("telefoonnummer",$db->f("boeking_id"),$naw["telefoonnummer"]);
+				$tl->add_record("email",$db->f("boeking_id"),$naw["email"]);
+				$tl->add_record("website",$db->f("boeking_id"),$db->f("website"));
+				$tl->add_record("enquete",$db->f("boeking_id"),($enquete[$db->f("boeking_id")] ? "ja" : ""));
+			}
+		}
+		if($teller) {
+			echo "Aantal resultaten: ".intval($teller)."<br><br>";
+			echo $tl->table("tbl",1);
+		} else {
+			echo "Geen resultaten.";		
+		}
+	} else {
+		echo "Geen resultaten.";
+	}
+}
+
+?>

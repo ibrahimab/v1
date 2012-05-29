@@ -1,0 +1,13 @@
+<?php
+if($_GET["add"]==6) {
+	echo "<div style=\"border: 1px #000000 solid;background-color:yellow;width:450px;padding:5px;\">";
+	echo "<b>Let op!</b> Bij het toevoegen van een land moeten de voucher-termen in de betreffende taal aan Jeroen worden doorgegeven.";
+	echo "</div><p>";
+}
+$cms->display_cms();
+
+if($_GET["edit"]==6) {
+	$cms->display_log(6);
+}
+
+?>

@@ -1,0 +1,14 @@
+<?php
+
+# Content
+if($_GET["fo"]=="frm") {
+	echo "<p>Bedankt voor je aanvraag. Je ontvangt binnen 24 uur (ma t/m za) een aantal passende suggesties van ons.</p>";
+} else {
+	echo "<p>".html("alinea1","vraagonsadvies",array("v_websitenaam"=>$vars["websitenaam"]))."</p>";
+	echo "<p>".html("alinea2","vraagonsadvies")."</p>";
+	echo "<p style=\"margin-bottom:25px;\">".html("alinea3","vraagonsadvies")."</p>";
+	$form->display_all();
+}
+
+
+?>

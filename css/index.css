@@ -1,0 +1,270 @@
+
+#koptekst {
+	font-size: 1.2em;
+	height: 40px;
+	text-align: justify;
+	width: 708px;
+	text-transform:uppercase;
+}
+
+#koptekst h1 {
+
+}
+
+#hoofdpagina_middenkolom {
+	float: left;
+	width: 500px;
+}
+
+#hoofdpagina_rechterkolom {
+	float: right;
+	width: 170px;
+	margin-right: 28px;
+}
+
+
+#hoofdpagina_waaromchalet {
+	margin-top: 15px;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+	width: 168px;
+	background-color: #d5e1f9;
+	padding-left: 3px;
+	color: #003366;
+	cursor: pointer;
+}
+
+#hoofdpagina_waaromchalet .kop {
+	color: #d40139;
+	font-size: 1.2em;
+	padding-left: 2px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#hoofdpagina_waaromchalet ul {
+	margin: 0;
+	padding-left: 0px;
+	list-style-type: none;
+}
+
+#hoofdpagina_waaromchalet li {
+	background: url(../pic/waarom_vinkje.gif) no-repeat 0 0px;
+	padding-left: 13px;
+	font-size: 0.9em;
+	line-height: 0.9em;
+}
+
+#hoofdpagina_nieuwsbrief {
+	float: right;
+	width: 160px;
+	background-color: #d5e1f9;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #003366;
+	margin-bottom: 10px;
+}
+
+#hoofdpagina_nieuwsbrief .kop {
+	color: #d40139;
+	font-size: 1.2em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#hoofdpagina_sociallinks {
+	margin: 0;
+	width: 170px;
+	background-color: #ffffff;
+	color: #003366;
+	text-align: right;
+}
+
+#hoofdpagina_sociallinks img {
+	margin-left: 7px;
+	vertical-align: text-top;
+}
+
+#hoofdpagina_fotoslide {
+	float: left;
+	width: 500px;
+	height: 313px;
+	background-color: #d5e1f9;
+	margin-bottom: 15px;
+}
+
+#hoofdpagina_themas_blok {
+	float: right;
+	width: 170px;
+	margin-bottom: 25px;
+}
+
+#hoofdpagina_themas {
+	width: 170px;
+}
+
+#hoofdpagina_lijn {
+	margin-top: 15px;
+	margin-bottom: 5px;
+	height: 5px;
+	background-color: #d5e1f9;
+}
+
+#hoofdpagina_themas .button {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	height: 15px;
+}
+
+#hoofdpagina_themas .button a {
+	display: block;
+	text-decoration: none;
+	height: 20px;
+}
+
+#hoofdpagina_themas .button a:hover {
+	color: #003366;
+}
+
+#laatstbekeken {
+	width: 500px;
+	float: left;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+#laatstbekeken_acc_wrapper {
+	width: 476px;
+}
+
+.laatstbekeken_divider {
+	width: 12px;
+}
+
+/* Fotoslide */
+
+#featured {
+	z-index: 0;
+	position:relative;
+	height:250px;
+	background:#d5e1f9;
+	border:10px solid #d5e1f9;
+	border-top: 18px solid #d5e1f9;
+}
+
+#featured ul.ui-tabs-nav {
+	position:absolute;
+	top:0; left:370px;
+	list-style:none;
+	padding:0; margin:0;
+	width:105px;
+	height: 278px;
+}
+
+#featured ul.ui-tabs-nav li {
+	padding:0; margin:0;
+	padding-left:26px;
+	vertical-align: top;
+	margin-top: -5px;
+	height: 79px;
+	width: 85px;
+}
+
+#featured ul.ui-tabs-nav li span {
+
+}
+
+#featured .ui-tabs-panel {
+	width:370px;
+	height:278px;
+	background:#ffffff;
+	position:relative;
+        overflow:hidden;
+}
+
+#featured .ui-tabs-hide {
+	display:none;
+}
+
+#featured li.ui-tabs-nav-item a { /*On Hover Style*/
+	display:block;
+	height:60px;
+	background:#d5e1f9;
+	outline:none;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+#featured li.ui-tabs-nav-item a:hover {
+	background:#ffffff;
+}
+
+#featured li.ui-tabs-selected { /*Selected tab style*/
+	background:url('../pic/fotoslider/selected-item.gif') top left no-repeat;
+}
+
+#featured ul.ui-tabs-nav li.ui-tabs-selected a {
+	background: #ffffff;
+}
+
+#featured ul.ui-tabs-nav li img {
+	float:left; margin:2px 5px;
+	background:#d5e1f9;
+	padding:0px;
+	border:0px solid #d5e1f9;
+}
+
+#featured .ui-tabs-panel .info {
+	position:absolute;
+	bottom:0px; left:0;
+	height:70px;
+	width: 370px;
+	background: url('../pic/fotoslider/transparent-bg.png');
+}
+
+#featured .info h2 {
+	font-size:15px;
+	color:#ffffff; padding:5px; margin:0;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+#featured .info p {
+	margin:0 5px;
+	font-size:11px;
+	line-height:13px;
+	color: #ffffff;
+	overflow:hidden;
+	height: 26px;
+}
+
+#featured .infointern h2 {
+	overflow:auto;
+	white-space:normal;
+}
+
+#featured .infointern p {
+	overflow:auto;
+	height: auto;
+}
+
+#featured .info a {
+	text-decoration: underline;
+	color:#ffffff;
+}
+
+#featured .info a:hover {
+	color:#d40139;
+}
+
+.hoofdpagina_fotoslide_meer {
+	text-align: right;
+}
+
+#featured .ui-tabs-panel:hover {
+	cursor: pointer;
+}
+
+/* TIJDELIJK!!!! */
+/* TIJDELIJK!!!! */
+/* TIJDELIJK!!!! */

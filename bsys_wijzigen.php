@@ -1,0 +1,9 @@
+<?php
+
+$boeking_wijzigen=true;
+$vars["verberg_breadcrumbs"]=true;
+
+#include("admin/vars.php");
+include("cms_boekingen_wijzigen.php");
+
+?>

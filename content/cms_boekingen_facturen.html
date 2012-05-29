@@ -1,0 +1,45 @@
+<?php
+
+if($mustlogin) {
+	echo boekingkoptekst($gegevens);
+}
+
+#echo wt_dump($gegevens);
+
+if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+
+$d=dir("pdf/facturen/");
+while($entry=$d->read()) {
+	if(ereg("^factuur_".basename($_GET["bid"])."_[0-9]+\.pdf$",$entry,$regs)) {
+		$facturen[$entry]=filemtime("pdf/facturen/".$entry);
+	}
+}
+
+$db->query("SELECT filename, UNIX_TIMESTAMP(datum) AS datum FROM factuur WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."' AND filename<>'' ORDER BY datum;");
+while($db->next_record()) {
+	$database_factuurdatum[$db->f("filename")]=$db->f("datum");
+}
+
+if(is_array($database_factuurdatum)) {
+	echo "Reeds aangemaakte facturen:<ul>";
+	while(list($key,$value)=@each($database_factuurdatum)) {
+#		echo "<li><a href=\"pdf/facturen/".$key."\" target=\"_blank\">".($database_factuurdatum[$key]>0 ? date("d-m-Y",$database_factuurdatum[$key]) : "onbekende datum (open factuur om de datum te bekijken)")."</a></li>";
+		echo "<li>";
+		if(ereg("MSIE",$_SERVER["HTTP_USER_AGENT"])) {
+			echo "<a href=\"cms_pdfdownload.php?pdffile=".urlencode("pdf/facturen/".$key)."\" target=\"_blank\">";
+		} else {
+			echo "<a href=\"#\" onclick=\"window.open('cms_pdfdownload.php?pdffile=".urlencode("pdf/facturen/".$key)."','_blank');return false;\">";
+		}
+		echo ($database_factuurdatum[$key]>0 ? date("d-m-Y",$database_factuurdatum[$key]) : "onbekende datum (open factuur om de datum te bekijken)")."</a></li>";
+	}
+	echo "</ul><hr>";
+}
+
+if($gegevens["stap1"]["geannuleerd"]) {
+	echo "<b style=\"color:red\">Let op: deze boeking is geannuleerd. Het crediteren van de boeking is boekhoudkundig gezien al automatisch gebeurd.</b><p>";
+}
+
+$form->display_all();
+
+
+?>

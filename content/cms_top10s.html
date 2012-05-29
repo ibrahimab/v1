@@ -1,0 +1,258 @@
+<?php
+
+if($_GET["show"]==18) {
+
+	echo "<p>XML-feed: <a href=\"http://www.chalet.nl/xml/top10.php?chad=KWX12\" target=\"_blank\">http://www.chalet.nl/xml/top10.php?chad=KWX12</a> (incl. trackingcode Snowplaza)</p>";
+
+	if($_GET["week"]) {
+
+		$aanbieding=aanbiedinginfo(0,$_GET["18k1"],$_GET["week"]);
+
+		echo "<style type=\"text/css\">";
+		echo "OPTION.garantie{background-color:#00FF00; color:#000000;}";
+		echo "OPTION.allotment{background-color:#CCFFCC; color:#000000;}";
+		echo "OPTION.optie_leverancier{background-color:#CCFFCC; color:#000000;}";
+		echo "OPTION.xml{background-color:#FF99CC; color:#000000;}";
+		echo "OPTION.vervallen_allotment{background-color:#F88912; color:#000000;}";
+		echo "OPTION.request{background-color:#FFCC99; color:#000000;}";
+		echo "OPTION.optie_klant{background-color:#CCFFFF; color:#000000;}";
+		echo "OPTION.normaal{background-color:#FFFFFF; color:#000000;}";
+		echo "OPTION.aanbieding{color:blue;}";
+		echo "</style>";
+
+		# Accommodaties uit db halen
+		$db->query("SELECT DISTINCT a.naam AS accommodatie, a.soortaccommodatie, a.toonper, a.accommodatie_id, t.websites, t.type_id, t.naam AS type, t.code, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, l.naam AS land, l.begincode, tr.voorraad_garantie, tr.voorraad_allotment, tr.voorraad_vervallen_allotment, tr.voorraad_optie_leverancier, tr.voorraad_xml, tr.voorraad_request, tr.voorraad_optie_klant, tr.beschikbaar, tr.bruto, tr.c_bruto, tr.arrangementsprijs, a.tonen, t.tonen AS ttonen, tr.aanbiedingskleur, tr.toonexactekorting, tr.aanbieding_acc_percentage, tr.aanbieding_acc_euro FROM type t, accommodatie a, plaats p, land l, tarief tr WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.wzt='".$vars["tempseizoen"]["type"]."' AND tr.seizoen_id='".addslashes($_GET["18k1"])."' AND tr.week='".addslashes($_GET["week"])."' AND tr.type_id=t.type_id ORDER BY p.naam, a.naam, t.type_id, t.naam, t.maxaantalpersonen;");
+		while($db->next_record()) {
+			$vars["top10_types"][$db->f("type_id")]=substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,80)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ";
+			$vars["top10_types_links"][$db->f("type_id")]=$vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/";
+			
+			if($db->f("voorraad_garantie")) {
+				$vars["top10_types_voorraad"][$db->f("type_id")]="garantie";
+			} elseif($db->f("voorraad_allotment")) {
+				$vars["top10_types_voorraad"][$db->f("type_id")]="allotment";
+			} elseif($db->f("voorraad_optie_leverancier")) {
+				$vars["top10_types_voorraad"][$db->f("type_id")]="optie_leverancier";
+			} elseif($db->f("voorraad_xml")) {
+				$vars["top10_types_voorraad"][$db->f("type_id")]="xml";
+			} elseif($db->f("voorraad_vervallen_allotment")) {
+				$vars["top10_types_voorraad"][$db->f("type_id")]="vervallen_allotment";
+			} elseif($db->f("voorraad_request")) {
+				$vars["top10_types_voorraad"][$db->f("type_id")]="request";
+			} elseif($db->f("voorraad_optie_klant")) {
+				$vars["top10_types_voorraad"][$db->f("type_id")]="optie_klant";
+			} else {
+				$vars["top10_types_voorraad"][$db->f("type_id")]="normaal";
+			}
+
+			if($db->f("tonen") and $db->f("ttonen")) {
+#				$tonen[$db->f("type_id")]=true;
+				
+				if($db->f("beschikbaar") and ($db->f("bruto")>0 or $db->f("c_bruto")>0 or $db->f("arrangementsprijs")>0)) {
+					$vars["top10_types_beschikbaar"][$db->f("type_id")]=substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,80)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ";
+
+					# Aanbieding van toepassing?
+					if($aanbieding["typeid_sort"][$db->f("type_id")]["bedrag"][$_GET["week"]] or $db->f("aanbiedingskleur") or ($db->f("toonexactekorting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0))) {
+						$vars["top10_types_beschikbaar"][$db->f("type_id")]=$vars["top10_types_beschikbaar"][$db->f("type_id")]." (AANBIEDING)";
+						if($vars["top10_types_voorraad"][$db->f("type_id")]) {
+							$vars["top10_types_voorraad"][$db->f("type_id")].=" aanbieding";
+						} else {
+							$vars["top10_types_voorraad"][$db->f("type_id")]="aanbieding";
+						}
+					}
+					
+					if(ereg("C",$db->f("websites"))) {
+						$vars["top10_types_beschikbaar_websites"][1][$db->f("type_id")]=true;
+					}
+#					if(ereg("W",$db->f("websites"))) {
+#						$vars["top10_types_beschikbaar_websites"][2][$db->f("type_id")]=true;
+#					}
+#					if(ereg("Z",$db->f("websites"))) {
+#						$vars["top10_types_beschikbaar_websites"][3][$db->f("type_id")]=true;
+#					}
+#					if(ereg("T",$db->f("websites"))) {
+#						$vars["top10_types_beschikbaar_websites"][4][$db->f("type_id")]=true;
+#					}
+#					if(ereg("O",$db->f("websites"))) {
+#						$vars["top10_types_beschikbaar_websites"][5][$db->f("type_id")]=true;
+#					}
+				}
+			}
+		}
+	
+		# Alle sites doorlopen
+		reset($vars["websitetype_namen"]);
+		while(list($key,$value)=each($vars["websitetype_namen"])) {
+			if($vars["top10_types_beschikbaar_websites"][$key]) {
+				unset($top10_teller);
+				if($vars["websitetype_namen_wzt"][$key]==$vars["tempseizoen"]["type"]) {
+#					echo "<span style=\"font-weight:bold;font-size:1.1em;\">Top 10 ".htmlentities($value)."</span><p>";
+	
+					echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"volgorde".$key."\">";
+					echo "<input type=\"hidden\" name=\"acctoevoegen\" value=\"1\">";
+					echo "<input type=\"hidden\" name=\"site\" value=\"".$key."\">";
+					echo "Accommodatie toevoegen:&nbsp;&nbsp;";
+					echo "<select name=\"type\" onchange=\"submit();\" style=\"width: 700px;\">";
+					echo "<option value=\"\">&nbsp;</option>";
+					reset($vars["top10_types_beschikbaar"]);
+					while(list($key2,$value2)=each($vars["top10_types_beschikbaar"])) {
+						if($vars["top10_types_beschikbaar_websites"][$key][$key2]) {
+							echo "<option value=\"".$key2."\" class=\"".$vars["top10_types_voorraad"][$key2]."\">".htmlentities($value2)."</option>\n";
+						}
+					}
+					echo "</select>";
+					echo "</form><p>";
+	#				$db->query("SELECT volgorde, type_id FROM top10_week_type WHERE site='".$key."' AND seizoen_id='".addslashes($_GET["18k1"])."' AND week='".addslashes($_GET["week"])."' ORDER BY volgorde;");
+					$db->query("SELECT t.volgorde, t.type_id, tr.voorraad_garantie, tr.voorraad_allotment, tr.voorraad_vervallen_allotment, tr.voorraad_optie_leverancier, tr.voorraad_xml, tr.voorraad_request, tr.voorraad_optie_klant, tr.bruto, tr.c_bruto, tr.arrangementsprijs, tr.beschikbaar, tr.aanbiedingskleur, tr.toonexactekorting, tr.aanbieding_acc_percentage, tr.aanbieding_acc_euro FROM top10_week_type t, tarief tr WHERE t.site='".$key."' AND t.seizoen_id='".addslashes($_GET["18k1"])."' AND t.week='".addslashes($_GET["week"])."' AND tr.type_id=t.type_id AND tr.seizoen_id=t.seizoen_id AND tr.week=t.week ORDER BY t.volgorde;");
+					if($db->num_rows()) {
+						$top10_teller;
+						echo "<table class=\"tbl\" cellspacing=\"0\">";
+						echo "<tr><th colspan=\"2\" style=\"text-align:right\">Nr</th><th>Accommodatie</th><th>&nbsp;</th><th>Volgorde</th></tr>";
+						echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"volgorde".$key."\">";
+						echo "<input type=\"hidden\" name=\"volgordeveranderen\" value=\"1\">";
+						echo "<input type=\"hidden\" name=\"site\" value=\"".$key."\">";
+						$regelteller=0;
+						while($db->next_record()) {
+						
+							# Bepalen of accommodatie wordt getoond in de top10
+							$wordt_getoond=false;
+							if($vars["top10_types_beschikbaar"][$db->f("type_id")] and $vars["top10_types_beschikbaar_websites"][$key][$db->f("type_id")]) {
+								$wordt_getoond=true;
+								$top10_teller++;
+							}
+	
+							if($db->f("voorraad_garantie")) {
+								$trcolor="#00FF00";
+							} elseif($db->f("voorraad_allotment")) {
+								$trcolor="#CCFFCC";
+							} elseif($db->f("voorraad_optie_leverancier")) {
+								$trcolor="#CCFFCC";
+							} elseif($db->f("voorraad_xml")) {
+								$trcolor="#FF99CC";
+							} elseif($db->f("voorraad_vervallen_allotment")) {
+								$trcolor="#F88912";
+							} elseif($db->f("voorraad_request")) {
+								$trcolor="#FFCC99";
+							} elseif($db->f("voorraad_optie_klant")) {
+								$trcolor="#CCFFFF";
+							} else {
+								$trcolor="#FFFFFF";
+							}
+							echo "<tr style=\"background-color:".$trcolor.";color:#000000;".($wordt_getoond ? "" : "background-color:#ffffff;color:#878481;")."\">";
+							echo "<td style=\"width:20px;\"><a href=\"".$_SERVER["REQUEST_URI"]."&deletetype=".$db->f("type_id")."&site=".$key."\"><img src=\"pic/class.cms_delete.gif\" width=\"20\" height=\"20\" border=\"0\"></a></td><td align=\"right\">".($wordt_getoond ? $top10_teller : "&nbsp;")."</td>";
+#							if($aanbieding["typeid_sort"][$db->f("type_id")]["bedrag"][$_GET["week"]] or $db->f("aanbiedingskleur") or $db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0) {
+							if($aanbieding["typeid_sort"][$db->f("type_id")]["bedrag"][$_GET["week"]] or $db->f("aanbiedingskleur") or ($db->f("toonexactekorting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0))) {
+								echo "<td style=\"color:blue;\">";
+							} else {
+								echo "<td>";							
+							}
+							echo htmlentities($vars["top10_types"][$db->f("type_id")]);
+#							if($aanbieding["typeid_sort"][$db->f("type_id")]["bedrag"][$_GET["week"]] or $db->f("aanbiedingskleur") or $db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0) {
+							if($aanbieding["typeid_sort"][$db->f("type_id")]["bedrag"][$_GET["week"]] or $db->f("aanbiedingskleur") or ($db->f("toonexactekorting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0))) {
+								echo " (AANBIEDING)";
+							}
+							$regelteller++;
+							echo "</td>";
+							echo "<td><a href=\"".htmlentities($vars["top10_types_links"][$db->f("type_id")])."\" target=\"_blank\">website</a></td>";
+
+							echo "<td style=\"width:20px;\"><input type=\"text\" name=\"type[".$db->f("type_id")."]\" value=\"".($regelteller*10)."\" size=\"5\"></td></tr>\n";
+						}
+						if($top10_teller<10) {
+							echo "<tr><td colspan=\"5\"><span class=\"error\" style=\"font-weight:bold;\">Deze top10 is niet compleet! (".$top10_teller." i.p.v. 10 accommodaties)</span></td></tr>";
+						}
+	
+						echo "<tr><td colspan=\"5\" align=\"center\"><input type=\"submit\" value=\" VOLGORDE OPSLAAN \"></td></tr>";
+						echo "</form>";
+						echo "</table>";
+						if($key==1) {
+							echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frmcopydate\">";
+							echo "<input type=\"hidden\" name=\"copydate_fromsite\" value=\"1\">";
+							echo "<p><b>Kopi&euml;ren</b><ul>";
+#							echo "<li><a href=\"".$_SERVER["REQUEST_URI"]."&kopieer=2&from=1\">Kopieer bovenstaande Top 10 naar Wintersportaccommodaties.nl &gt; &gt;</a> (Top 10 Wintersportaccommodaties.nl wordt overschreven)</li>";
+#							echo "<li><a href=\"".$_SERVER["REQUEST_URI"]."&kopieer=4&from=1\">Kopieer bovenstaande Top 10 naar Chalettour.nl &gt; &gt;</a> (Top 10 Chalettour.nl wordt overschreven)</li>";
+							echo "<li>Kopieer bovenstaande Top 10 naar &nbsp;&nbsp;&nbsp;";
+							echo "<select name=\"copy_date\" onchange=\"confirmSubmit(document.frmcopydate,'Let op: de geselecteerde Top 10 wordt volledig overschreven. Doorgaan?');\">";
+							echo "<option value=\"\">  -- kies aankomstdatum --  </option>\n";
+							# Alle weken tonen
+							$timeteller=$vars["tempseizoen"]["begin"];
+							while($timeteller<=$vars["tempseizoen"]["eind"]) {
+								echo "<option value=\"".$timeteller."\"".($timeteller==$_GET["week"] ? " disabled" : "").">".DATUM("D MAAND JJJJ",$timeteller)."</option>\n";
+								$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
+							}
+							
+							echo "</select>";
+							echo "&nbsp;&nbsp;&nbsp;(Top 10 van Chalet.nl van die datum wordt overschreven)</li>";
+							echo "</ul>";
+							echo "</form>";
+						} elseif($key==3) {
+							echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frmcopydate\">";
+							echo "<input type=\"hidden\" name=\"copydate_fromsite\" value=\"3\">";
+							echo "<p><b>Kopi&euml;ren</b><ul>";
+							echo "<li><a href=\"".$_SERVER["REQUEST_URI"]."&kopieer=5&from=3\">Kopieer bovenstaande Top 10 naar Chalettour.nl &gt; &gt;</a> (Top 10 Chalettour.nl wordt overschreven)</li>";
+							echo "<li>Kopieer bovenstaande Top 10 naar &nbsp;&nbsp;&nbsp;";
+							echo "<select name=\"copy_date\" onchange=\"confirmSubmit(document.frmcopydate,'Let op: de geselecteerde Top 10 wordt volledig overschreven. Doorgaan?');\">";
+							echo "<option value=\"\">  -- kies aankomstdatum --  </option>\n";
+							# Alle weken tonen
+							$timeteller=$vars["tempseizoen"]["begin"];
+							while($timeteller<=$vars["tempseizoen"]["eind"]) {
+								echo "<option value=\"".$timeteller."\"".($timeteller==$_GET["week"] ? " disabled" : "").">".DATUM("D MAAND JJJJ",$timeteller)."</option>\n";
+								$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
+							}
+							
+							echo "</select>";
+							echo "&nbsp;&nbsp;&nbsp;(Top 10 van Chalet.nl Zomer van die datum wordt overschreven)</li>";
+							echo "</ul>";
+							echo "</form>";
+						}
+					} else {
+						echo "Er zijn nog geen accommodaties aanwezig in deze top 10.";
+					}
+					
+					
+					echo "<hr>";
+				}
+				$db->query("UPDATE top10_week SET minderdan10='".($top10_teller<10 ? "1" : "0")."' WHERE site='".$key."' AND seizoen_id='".addslashes($_GET["18k1"])."' AND week='".addslashes($_GET["week"])."';");
+			}
+		}
+	} else {
+		$db->query("SELECT week, blokvolgorde, bloknaam FROM top10_week WHERE seizoen_id='".addslashes($_GET["18k1"])."' AND site=1;");
+		while($db->next_record()) {
+			$blokvolgorde[$db->f("week")]=$db->f("blokvolgorde");
+			$bloknaam[$db->f("week")]=$db->f("bloknaam");
+			if($db->f("blokvolgorde")>0) $blokvolgorde_ingevuld=true;
+		}
+		
+		if(!$blokvolgorde_ingevuld) {
+			echo "<div class=\"opmerkingbox\"><b>Let op: er is nog geen blok-volgorde ingevuld!</b> Zonder deze volgorde is de XML-feed leeg.</div>";
+		}
+		
+		echo "<p>Klik op een aankomstdatum of bewerk de blok-gegevens:</p>";
+		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\">";
+		echo "<input type=\"hidden\" name=\"blokgegevens_filled\" value=\"1\">";
+		echo "<input type=\"hidden\" name=\"site\" value=\"1\">";
+		echo "<table class=\"tbl\" cellspacing=\"0\" style=\"width:550px;\">";
+		echo "<tr><th>Aankomstdatum</th><th>Blok-volgorde</th><th>Naam blok</th></tr>";
+		# Alle weken tonen
+		$timeteller=$vars["tempseizoen"]["begin"];
+		while($timeteller<=$vars["tempseizoen"]["eind"]) {
+			echo "<tr>";
+			echo "<td><a href=\"".$vars["path"]."cms_top10s.php?".$_SERVER["QUERY_STRING"]."&week=".$timeteller."\">".DATUM("D MAAND JJJJ",$timeteller)."</a></td>";
+			echo "<td align=\"center\"><input type=\"text\" maxlength=\"3\" style=\"width:20px;\" value=\"".htmlentities($blokvolgorde[$timeteller])."\" name=\"blokvolgorde[".$timeteller."]\"></td>";
+			echo "<td><input type=\"text\" maxlength=\"35\" style=\"width:250px;\" value=\"".htmlentities($bloknaam[$timeteller])."\" name=\"bloknaam[".$timeteller."]\"></td>";
+			echo "<input type=\"hidden\" name=\"blokweken[".$timeteller."]\" value=\"1\">";
+			
+			echo "</tr>";
+			$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
+		}
+		echo "<tr><td colspan=\"3\" align=\"center\"><input type=\"submit\" value=\" OPSLAAN \"></td></tr>";
+		echo "</table>";
+		echo "</form>";
+	}
+} else {
+	if(!$_GET["edit"] and !$_GET["add"]) {
+		echo "<div class=\"opmerkingbox\">De Top 10's worden gebruikt voor de XML-export naar Snowplaza.</div>";
+	}
+	$cms->display_cms();
+}
+
+
+?>

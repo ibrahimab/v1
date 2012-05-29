@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>CMS Chalet.nl - Skipastarieven</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-15" />
+<meta name="robots" content="noindex,nofollow" />
+<link href="css/cms_layout.css" rel="stylesheet" type="text/css" />
+<link REL="shortcut icon" href="favicon.ico" />
+<script type="text/javascript" language="JavaScript1.2" src="scripts/jquery.js"></script>
+<script type="text/javascript" language="JavaScript1.2" src="scripts/cms_tarieven.js"></script>
+</head>
+<body><?php
+echo "<table class=\"content_popup\"><tr><td>";
+
+function lege_regel() {
+	global $aantal_weken;
+	echo "<tr><td colspan=\"".($aantal_weken+3)."\">&nbsp;</td></tr>";
+}
+
+function kopieer($naam="",$nummer=0,$integer=false) {
+	global $kopieer_tabindex;
+	if($integer) {
+		$integer="1";
+	} else {
+		$integer="0";
+	}
+	$kopieer_tabindex++;
+	if($naam) {
+		echo "<td nowrap><input type=\"text\" size=\"6\" value=\"\" id=\"kopieer_".$naam."\" onchange=\"kopieer(this,'".$naam."','skipas',".$integer.")\" onkeypress=\"return disableEnterKey_kopieer(this,'".$naam."','skipas',event)\" tabindex=\"".$kopieer_tabindex."\">&gt;";
+	} else {
+		echo "<td>&nbsp;</td>";
+	}
+}
+
+cmslog_pagina_title("Skipastarieven".($seizoen["naam"] ? " - ".$seizoen["naam"] : ""));
+
+if($seizoen["naam"]) {
+
+	# Weken doorgeven aan javascript
+	echo "<form id=\"weken\">";
+	unset($teller);
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$teller++;
+		echo "<input type=\"hidden\" name=\"week".$teller."\" value=\"".$week."\">";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	unset($teller);
+	echo "</form>";
+	
+	# Het daadwerkelijke formulier
+	echo "<form id=\"tarieven\" method=\"post\" action=\"cms_skipastarieven.php?".$_SERVER["QUERY_STRING"]."\">";
+	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
+	echo "<input type=\"hidden\" name=\"toonper\" value=\"0\">";
+	echo "<div style=\"float:left;\">";
+	echo "<h1>Tarieven - ".htmlentities($seizoen["naam"])." - ".htmlentities($skipas["naam"])."</h1>";
+	echo "<input type=\"button\" value=\" OPSLAAN \" id=\"but1\" onclick=\"this.disabled=1;document.forms['tarieven'].but2.disabled=1;document.forms['tarieven'].submit();\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+	echo "<input type=\"button\" value=\" ANNULEREN \" id=\"but2\" onclick=\"this.disabled=1;document.forms['tarieven'].but1.disabled=1;document.location='".htmlentities($_GET["from"])."'\"><p>";
+	echo "</div>";
+	echo "<div style=\"margin-left:10px;float:left;text-align:right;\"><b>Opmerkingen</b><br>";
+	echo "<textarea name=\"opmerkingen\" rows=\"5\" cols=\"55\">".htmlentities($opmerkingen)."</textarea>";
+	echo "</div>";
+	echo "<div style=\"clear: both;\"></div><br>";
+	echo "<table cellspacing=\"0\" class=\"tbl\">";
+	echo "<input type=\"hidden\" name=\"max\" value=\"".$acc["max"]."\">";
+	echo "<input type=\"hidden\" name=\"min_tonen\" value=\"".$acc["min_tonen"]."\">";
+	
+	# Titels
+	echo "<tr>";
+	echo "<th>&nbsp;</th>";
+	echo "<th>Kopieer</th>";
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$aantal_weken++;
+		echo "<th>".date("d/m",$week)."</th>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+#	echo $week-$seizoen["begin"]." ".floor(fmod(((($week-$seizoen["begin"])/604800)),7))." ".($week%86400);
+	echo "<th>&nbsp;</th>";
+	echo "</tr>";
+
+	# Skipas: Bruto
+	$kolomteller=$kolomteller+1000;
+	$regelteller=0;
+	$titel="Bruto inkoop";
+	echo "<tr><td nowrap>".htmlentities($titel)."</td>";
+	kopieer("skipas_bruto");
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$regelteller++;
+		echo "<td align=\"right\" nowrap>&euro;<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_skipas(this,'".$week."');\" id=\"skipas_bruto[".$week."]\" name=\"skipas_bruto[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($skipas["weken"][$week]["bruto"])."\"></td>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	echo "<td nowrap>".htmlentities($titel)."</td>";
+	echo "</tr>";
+
+	# Skipas: Netto ink.
+	$kolomteller=$kolomteller+1000;
+	$regelteller=0;
+	$titel="Netto inkoop";
+	echo "<tr><td>".htmlentities($titel)."</td>";
+	kopieer("skipas_netto_ink");
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$regelteller++;
+		echo "<td align=\"right\" nowrap>&euro;<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_skipas(this,'".$week."');\" id=\"skipas_netto_ink[".$week."]\" name=\"skipas_netto_ink[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($skipas["weken"][$week]["netto_ink"])."\"></td>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	echo "<td nowrap>".htmlentities($titel)."</td>";
+	echo "</tr>";
+
+	# Skipas: Korting in %
+	$kolomteller=$kolomteller+1000;
+	$regelteller=0;
+	$titel="Korting %";
+	echo "<tr><td>".htmlentities($titel)."</td>";
+	kopieer("skipas_korting");
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$regelteller++;
+		echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_skipas(this,'".$week."');\" id=\"skipas_korting[".$week."]\" name=\"skipas_korting[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($skipas["weken"][$week]["korting"])."\"></td>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	echo "<td nowrap>".htmlentities($titel)."</td>";
+	echo "</tr>";
+
+	# Skipas: Korting in euro's
+	$kolomteller=$kolomteller+1000;
+	$regelteller=0;
+	$titel="Korting €";
+	echo "<tr><td>".htmlentities($titel,ENT_QUOTES,'ISO-8859-15')."</td>";
+	kopieer("skipas_verkoopkorting");
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$regelteller++;
+		echo "<td align=\"right\" nowrap>&euro;<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_skipas(this,'".$week."');\" id=\"skipas_verkoopkorting[".$week."]\" name=\"skipas_verkoopkorting[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($skipas["weken"][$week]["verkoopkorting"])."\"></td>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	echo "<td nowrap>".htmlentities($titel,ENT_QUOTES,'ISO-8859-15')."</td>";
+	echo "</tr>";
+
+
+
+	# Skipas: prijs
+	$titel="Skipas";
+	echo "<tr class=\"niet_invullen\"><td>".htmlentities($titel)."</td>";
+	kopieer();
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		echo "<td align=\"right\" nowrap>&euro;<input readonly type=\"text\" id=\"skipas_prijs[".$week."]\" name=\"skipas_prijs[".$week."]\" size=\"6\" value=\"".htmlentities($skipas["weken"][$week]["prijs"])."\"></td>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	echo "<td nowrap>".htmlentities($titel)."</td>";
+	echo "</tr>";
+
+	# Skipas: Omzetbonus
+	$kolomteller=$kolomteller+1000;
+	$regelteller=0;
+	$titel="Omzetbonus";
+
+# Tijdelijk uitgezet op verzoek van Bert (wordt voorlopig niet gebruikt) - 11 november 2010
+#	echo "<tr><td>".htmlentities($titel)."</td>";
+	echo "<tr style=\"display:none;\"><td>".htmlentities($titel)."</td>";
+	kopieer("skipas_omzetbonus");
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$regelteller++;
+		echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_skipas(this,'".$week."');\" id=\"skipas_omzetbonus[".$week."]\" name=\"skipas_omzetbonus[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($skipas["weken"][$week]["omzetbonus"])."\"></td>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	echo "<td nowrap>".htmlentities($titel)."</td>";
+	echo "</tr>";
+
+	# Skipas: wederverkoop_commissie_agent
+	$kolomteller=$kolomteller+1000;
+	$regelteller=0;
+	$titel="Wederverkoop-commissie";
+	echo "<tr><td nowrap>".htmlentities($titel)."</td>";
+	kopieer("skipas_wederverkoop_commissie_agent");
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		$regelteller++;
+		echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_skipas(this,'".$week."');\" id=\"skipas_wederverkoop_commissie_agent[".$week."]\" name=\"skipas_wederverkoop_commissie_agent[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".htmlentities($skipas["weken"][$week]["wederverkoop_commissie_agent"])."\"></td>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	echo "<td nowrap>".htmlentities($titel)."</td>";
+	echo "</tr>";
+
+
+	# Skipas: Netto
+	$titel="Netto-skipas";
+	echo "<tr class=\"opvallend\"><td>".htmlentities($titel)."</td>";
+	kopieer();
+	$week=$seizoen["begin"];
+	while($week<=$seizoen["eind"]) {
+		echo "<td align=\"right\" nowrap>&euro;<input readonly type=\"text\" id=\"skipas_netto[".$week."]\" name=\"skipas_netto[".$week."]\" size=\"6\" value=\"".htmlentities($skipas["weken"][$week]["netto"])."\"></td>";
+		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+	}
+	echo "<td nowrap>".htmlentities($titel)."</td>";
+	echo "</tr>";
+
+	echo "</form>";
+	echo "</table>";
+
+
+#	echo "<p>&nbsp;<br><b>Aantekeningen</b><br><textarea name=\"aantekeningen\" ROWS=\"10\" COLS=\"70\">".htmlentities($aantekeningen)."</textarea></p>";
+}
+
+?></td></tr></table></body></html>

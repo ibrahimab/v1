@@ -1,0 +1,166 @@
+<?php
+
+if($_GET["show"]==1) {
+	echo "<a href=\"cms_boekingen.php?boekingsearch=_".$_GET["1k0"]."\">Bekijk alle boekingen van deze accommodatie</a><p>";
+}
+$cms->display_cms();
+
+if($_GET["show"]==1) {
+	$db2->query("SELECT t.type_id FROM accommodatie a, type t, leverancier l WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.accommodatie_id='".addslashes($_GET["1k0"])."' AND (t.leverancierscode<>'' OR a.leverancierscode<>'') AND l.xml_type>0;");
+	if($db2->num_rows()) {
+		echo "<p><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&xmlvoorraadreset=1\" onclick=\"return confirmClick(this,'De XML-voorraad van alle types van deze accommodatie zullen op 0 worden gezet. Doorgaan?')\";>Zet bij alle bovenstaande types de XML-voorraad op 0</a>";
+	}
+
+	echo "<p><hr><h2>Beschikbare opties</h2>";
+	
+	# Kijken of er geboekte optiesoorten aan deze accommodaties hangen
+	if($vars["temp"]["niet_wijzigen"]) {
+		if(!$login->has_priv("6")) {
+			echo "<b style=\"color:red\">Opmerking:</b> het wijzigen van optiesoorten waaraan een actieve boeking is gekoppeld, is niet mogelijk.<p>";
+		} else {
+			echo "<b style=\"color:red\">Let op bij het wijzigen van roodgekleurde optiesoorten!</b> Aan deze optiesoorten zijn actieve boekingen gekoppeld.<p>";
+		}
+	}
+		
+	$db->query("SELECT optie_soort_id, optie_groep_id FROM optie_accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
+	while($db->next_record()) {
+		$optie_accommodatie[$db->f("optie_soort_id")]=$db->f("optie_groep_id");
+	}
+	$db->query("SELECT optie_soort_id, internenaam, winter, zomer, beschikbaar_directeklanten, beschikbaar_wederverkoop FROM optie_soort WHERE gekoppeld_id=0 ORDER BY volgorde;");
+	if($db->num_rows()) {
+		echo "<form name=\"opties\" method=\"post\" action=\"cms_accommodaties.php?".$_SERVER["QUERY_STRING"]."\">";
+		echo "<input type=\"hidden\" name=\"opties_filled\" value=\"1\">";
+		echo "<table cellspacing=\"0\" class=\"tbl\">";
+		echo "<tr><th>Optie-soort</th><th>Optie-groep</th></tr>";
+		while($db->next_record()) {
+			$optie_soort[$db->f("optie_soort_id")]=$db->f("internenaam");
+			$optie_soort_winter[$db->f("optie_soort_id")]=$db->f("winter");
+			$optie_soort_zomer[$db->f("optie_soort_id")]=$db->f("zomer");
+			
+			if($db->f("beschikbaar_directeklanten") and !$db->f("beschikbaar_wederverkoop")) {
+				$optie_soort_directeverkoop_wederverkoop[$db->f("optie_soort_id")]="alleen&nbsp;directe&nbsp;klanten";
+			} elseif(!$db->f("beschikbaar_directeklanten") and $db->f("beschikbaar_wederverkoop")) {
+				$optie_soort_directeverkoop_wederverkoop[$db->f("optie_soort_id")]="alleen&nbsp;wederverkoop";
+			}
+			
+			$db2->query("SELECT optie_soort_id, internenaam FROM optie_soort WHERE gekoppeld_id='".$db->f("optie_soort_id")."' ORDER BY volgorde;");
+			while($db2->next_record()) {
+				$optie_soort[$db2->f("optie_soort_id")]=$db2->f("internenaam");
+			}
+		}
+		while(list($key,$value)=each($optie_soort)) {
+			$db->query("SELECT optie_groep_id, naam FROM optie_groep WHERE optie_soort_id='".$key."' ORDER BY naam;");
+			if(($_GET["wzt"]==1 and $optie_soort_winter[$key]) or ($_GET["wzt"]==2 and $optie_soort_zomer[$key]) or $optie_accommodatie[$key]) {
+				echo "<tr>";
+				echo "<td>";
+				if($vars["temp"]["niet_wijzigen"][$key] and $login->has_priv("6")) echo "<span class=\"error\">";
+				echo htmlentities($value)."</td>";
+				if($vars["temp"]["niet_wijzigen"][$key] and $login->has_priv("6")) echo "</span>";
+				echo "<td>";
+				if(!$vars["temp"]["niet_wijzigen"][$key] or $login->has_priv("6")) {
+					echo "<select name=\"groep[".$key."]\" onchange=\"document.opties.submitfrm.disabled=0;\" class=\"wtform_input\" style=\"width:450px\">";
+					echo "<option value=\"0\"></option>";
+					while($db->next_record()) {
+						echo "<option".($optie_accommodatie[$key]==$db->f("optie_groep_id") ? " selected" : "")." value=\"".$db->f("optie_groep_id")."\">".htmlentities($db->f("naam"))."</option>\n";
+					}
+					echo "</select>";
+				} else {
+					echo "<select name=\"niet_groep[".$key."]\" disabled class=\"wtform_input\">";
+					while($db->next_record()) {
+						if($optie_accommodatie[$key]==$db->f("optie_groep_id")) echo "<option value=\"0\">".htmlentities($db->f("naam"))."</option>";
+					}
+				}
+				if($optie_soort_directeverkoop_wederverkoop[$key]) echo "&nbsp;&nbsp;<span style=\"font-size:0.8em;\">".$optie_soort_directeverkoop_wederverkoop[$key]."</span>";
+				echo "</td>";
+				echo "</tr>";
+			} else {
+#				echo "Nog geen optie-groepen aanwezig";
+			}
+		}
+		echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" OPSLAAN \" disabled id=\"submitfrm\" onclick=\"document.opties.submitfrm.disabled=1;document.opties.submit();\" class=\"wtform_submitbutton\"></td></tr>";
+		echo "</table>";
+		echo "</form>";
+	} else {
+		echo "Er zijn nog geen optie-soorten in het systeem aanwezig.";
+	}
+	echo "<p><hr><h2>Vertrekdagtypes</h2>";
+	echo "<b>Let op!</b> Alleen invullen als de vertrekdagen per seizoen wisselen. Indien de verblijfsduur bij deze accommodatie altijd afwijkt (bijvoorbeeld altijd zondag-zondag) dan kan dat bij de <a href=\"cms_accommodaties.php?edit=1&bc=".($_GET["bc"]+1)."&1k0=".$_GET["1k0"]."&wzt=".$_GET["wzt"]."#verblijfsduur\">accommodatiegegevens</a> ingevoerd worden.</a><p>";
+	$db->query("SELECT naam, seizoen_id, verplichtekeuze_vertrekdagtype FROM seizoen WHERE type='".addslashes($_GET["wzt"])."' AND UNIX_TIMESTAMP(eind)>'".(time()-2592000)."' ORDER BY begin, eind, naam;");
+	if($db->num_rows()) {
+		echo "<form name=\"vertrekdagtypes\" method=\"post\" action=\"cms_accommodaties.php?".$_SERVER["QUERY_STRING"]."\">";
+		echo "<input type=\"hidden\" name=\"vertrekdagtypes_filled\" value=\"1\">";
+		echo "<table cellspacing=\"0\" class=\"tbl\">";
+		echo "<tr><th>Seizoen</th><th>Vertrekdagtype</th></tr>";
+		while($db->next_record()) {
+			unset($vertrekdagtypeid_bekend);
+			echo "<tr><td>".htmlentities($db->f("naam"))."</td><td>";
+			$db2->query("SELECT vertrekdagtype_id FROM accommodatie_seizoen WHERE seizoen_id='".$db->f("seizoen_id")."' AND accommodatie_id='".addslashes($_GET["1k0"])."';");
+			if($db2->next_record()) {
+				$vertrekdagtypeid=$db2->f("vertrekdagtype_id");
+				$vertrekdagtypeid_bekend=true;
+			} else {
+				$vertrekdagtypeid=0;
+			}
+			$db2->query("SELECT vertrekdagtype_id, naam FROM vertrekdagtype WHERE seizoen_id='".$db->f("seizoen_id")."' ORDER BY naam;");
+			echo "<select name=\"vertrekdagtype[".$db->f("seizoen_id")."]\" onchange=\"document.vertrekdagtypes.submitfrm.disabled=0;\" class=\"wtform_input\">";
+			if($db->f("verplichtekeuze_vertrekdagtype") and !$vertrekdagtypeid_bekend) {
+				echo "<option value=\"\">-- kies vertrekdagtype --</option>";
+			}
+			echo "<option value=\"0\">A: Geen afwijking op seizoensniveau</option>";
+			while($db2->next_record()) {
+				echo "<option".($vertrekdagtypeid==$db2->f("vertrekdagtype_id") ? " selected" : "")." value=\"".$db2->f("vertrekdagtype_id")."\">".htmlentities($db2->f("naam"))."</option>\n";
+			}
+			echo "</select>";
+			echo "</td></tr>";
+		}
+		echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" OPSLAAN \" disabled id=\"submitfrm\" onclick=\"document.vertrekdagtypes.submitfrm.disabled=1;document.vertrekdagtypes.submit();\" class=\"wtform_submitbutton\"></td></tr>";
+		echo "</table>";
+		echo "</form>";
+	} else {
+		echo "Er zijn nog geen seizoenen in het systeem aanwezig.";
+	}
+	
+	echo "<p><hr><h2>Gekoppelde accommodaties t.b.v. accommodatiepagina</h2>";
+
+	$gekoppeld=gekoppelde_acc($_GET["1k0"]);
+	
+	if(count($gekoppeld)>1) {
+		reset($gekoppeld);
+		while(list($key,$value)=each($gekoppeld)) {
+			if($gekoppeld_inquery) $gekoppeld_inquery.=",".$key; else $gekoppeld_inquery=$key;
+		}
+		$db->query("SELECT DISTINCT a.accommodatie_id, a.naam, l.naam AS leverancier FROM accommodatie a, leverancier l, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.accommodatie_id IN (".$gekoppeld_inquery.") AND t.leverancier_id=l.leverancier_id;");
+		while($db->next_record()) {
+			$vars["gekoppeld_acc"][$db->f("accommodatie_id")]=$db->f("leverancier")." - ".$db->f("naam");
+		}
+		echo "<table cellspacing=\"0\" class=\"tbl\">";
+		echo "<tr><th colspan=\"2\">&nbsp;</th></tr>";
+		reset($gekoppeld);
+		while(list($key,$value)=each($gekoppeld)) {
+			if($key<>$_GET["1k0"]) {
+				echo "<tr><td width=\"15\"><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&acckoppelen_delete=1&acc1=".$key."&acc2=".$value."\" onclick=\"return confirmClick(this,'Koppeling wissen?');\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" alt=\"Koppeling wissen\" title=\"Type wissen\" width=\"20\" height=\"20\" border=\"0\"></a></td><td>".htmlentities($vars["gekoppeld_acc"][$key])."</td></tr>";
+			}
+		}
+		echo "</table><p>";
+	}
+	echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frmacckoppelen\">";
+	echo "<input type=\"hidden\" name=\"acckoppelen_filled\" value=\"1\">";
+	echo "Koppelen:&nbsp;&nbsp;";
+	echo "<select name=\"accid\" onchange=\"document.frmacckoppelen.submit();\">";
+	echo "<option value=\"0\">-- selecteer de te koppelen accommodatie --</option>";
+	$db->query("SELECT DISTINCT a.accommodatie_id, a.naam, l.naam AS leverancier FROM accommodatie a, leverancier l, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.archief=0 AND t.leverancier_id=l.leverancier_id AND a.plaats_id=(SELECT plaats_id FROM accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."') ORDER BY l.naam, a.naam;");
+	while($db->next_record()) {
+		if(!$gekoppeld[$db->f("accommodatie_id")]) {
+			echo "<option value=\"".$db->f("accommodatie_id")."\">".htmlentities($db->f("leverancier")." - ".$db->f("naam"))."</option>\n";
+		}
+	}
+	echo "</select>";
+	echo "</form>";
+
+	echo "<hr><h2>Accommodatie-reviews</h2>";
+	$cms->display_list(48);
+	
+	$cms->display_log(1);
+}
+
+?>

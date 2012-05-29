@@ -1,0 +1,19 @@
+<?php
+
+if($_GET["add"]==38 or $_GET["edit"]==38) {
+	echo "<div style=\"border: 1px #000000 solid;background-color:yellow;width:450px;padding:5px;\">";
+	echo "<b>Let op!</b> Voor de teksten is maar beperkt ruimte beschikbaar. Controleer na invoeren/wijzigen van de teksten altijd via de voorkant van de site of de teksten niet te lang zijn.";
+	echo "</div><p>";
+} else {
+	echo "Via dit systeem kun je de accommodatieblokken aan de linkerkant van ".($_GET["wst"]==7 ? "Italissima" : "Zomerhuisje")." bepalen.<br><br>";
+	
+#	echo "<div class=\"opmerkingbox\"><b>Let op:</b> deze blokken staan op de Zomerhuisje-hoofdpagina tijdelijk uit (i.v.m. link naar Zomerhuisje Magazine).</div>";
+}
+
+$cms->display_cms();
+
+if($_GET["edit"]==38) {
+	$cms->display_log(38);
+}
+
+?>

@@ -1,0 +1,144 @@
+<?php
+
+echo "<div id=\"hoofdpagina_midden\">";
+
+
+$blokkenhoofdpagina=blokkenhoofdpagina();
+echo "<div id=\"hoofdpagina_fotoslide\">";
+
+#echo wt_dump($blokkenhoofdpagina);
+
+echo "<div id=\"featured\" >";
+echo "<ul class=\"ui-tabs-nav\">";
+@reset($blokkenhoofdpagina);
+while(list($key,$value)=@each($blokkenhoofdpagina)) {
+	echo "<li class=\"ui-tabs-nav-item".(!$eersteblokgehad ? " ui-tabs-selected" : "")."\" id=\"nav-fragment-".$key."\"><a href=\"#fragment-".$key."\" onclick=\"document.location.href='".htmlentities($value["link"])."';return false;\">".htmlentities($value["titel"])."<span></span></a></li>";
+	$eersteblokgehad=true;
+}
+echo "</ul>\n\n";
+
+echo "<div id=\"meerinspiratie\" onclick=\"document.location.href='".$vars["path"].html("menu_themas").".php'\">";
+echo ucfirst(html("meerinspiratie","index"));
+echo "</div>";
+
+unset($eersteblokgehad);
+@reset($blokkenhoofdpagina);
+while(list($key,$value)=@each($blokkenhoofdpagina)) {
+	echo "<div id=\"fragment-".$key."\" class=\"ui-tabs-panel".($eersteblokgehad ? " ui-tabs-hide" : "")."\" onclick=\"document.location.href='".htmlentities($value["link"])."';\">\n";
+	echo "<img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina/".$blokkenhoofdpagina[$key]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina/".$blokkenhoofdpagina[$key]["id"].".jpg")."\" alt=\"\" />\n";
+	if($value["omschrijving"]) {
+		if($voorkant_cms) {
+			# Minder ruimte voor tekst voor ingelogde gebruikers: om te voorkomen dat teksten te lang worden
+			echo "<div class=\"info\">\n";
+			echo "<div class=\"infointern\" style=\"padding-left:5px;padding-right:5px;\">\n";
+		} else {
+			echo "<div class=\"info\">\n";
+		}
+		echo "<h2>".htmlentities($value["titel"])."</h2>\n";
+		echo "<p>".htmlentities($value["omschrijving"])."</p>\n";
+		echo "<p class=\"hoofdpagina_fotoslide_meer\"><a href=\"".htmlentities($value["link"])."\">".html("meer","index")." &gt; &gt;</a></p>\n";
+		if($voorkant_cms) {
+			echo "</div>\n";
+		}
+		echo "</div>\n";
+	}
+	echo "</div>\n\n";
+	$eersteblokgehad=true;
+}
+echo "</div>"; # afsluiten featured
+echo "</div>"; # afsluiten hoofdpagina_fotoslide
+
+if($last_acc_html) {
+	echo $last_acc_html;
+} else {
+	echo "<div id=\"laatstbekeken\" style=\"background-color:#ffffff;\">";
+	echo "<img src=\"".$vars["path"]."pic/zomerhuisje_hoofdpagina/laatste_acc_vervanging.jpg\" width=\"550\" height=\"200\">";
+	echo "</div>"; # afsluiten laatstbekeken
+}
+
+echo "</div>"; # afsluiten hoofdpagina_midden
+
+#echo "<div style=\"clear: both;\"></div>\n";
+
+#echo "</div>\n";
+
+echo "<div id=\"hoofdpagina_rechts\">";
+echo "<div>";
+echo "<div style=\"margin-bottom:0px;\"><span class=\"bloklinksrechts_kop\">".html("zoekenopkaart","index")."</span></div>";
+?>
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="170" height="142" id="Kaart Europa" align="middle">
+<param name="allowScriptAccess" value="sameDomain" />
+<param name="allowFullScreen" value="false" />
+<param name="movie" value="<?php echo $vars["path"] ; ?>flash/kaarteuropa_20120215.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" />	<embed src="<?php echo $vars["path"] ; ?>flash/kaarteuropa_20120215.swf" quality="high" bgcolor="#ffffff" width="170" height="142" name="Kaart Europa" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" />
+</object>
+<?php
+#echo "<a href=\"".$vars["path"].txt("menu_bestemmingen").".php\"><img src=\"".$vars["path"]."pic/maps/europe_map_klein.gif\" width=\"170\" height=\"150\" border=\"0\"></a>";
+echo "<div id=\"directnaar\">";
+echo "<div id=\"directnaar_kop\"><span class=\"bloklinksrechts_kop\">".html("directnaar","index")."</span></div>";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("frankrijk","index"))."/\">".html("frankrijk","index")."</a><br />";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("italie","index"))."/\">".html("italie","index")."</a><br />";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("spanje","index"))."/\">".html("spanje","index")."</a><br />";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("oostenrijk","index"))."/\">".html("oostenrijk","index")."</a><br />";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("zwitserland","index"))."/\">".html("zwitserland","index")."</a><br />";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("duitsland","index"))."/\">".html("duitsland","index")."</a><br />";
+#echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("tsjechie","index"))."/\">".html("tsjechie","index")."</a><br />";
+#echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_bestemmingen").".php\">".html("overigelanden","index")."</a><br />";
+echo "</div>\n";
+echo "</div>\n";
+
+
+# Nieuwsbrief
+echo "<div id=\"hoofdpagina_nieuwsbrief\">";
+echo "<div class=\"kop\">Nieuwsbrief</div>";
+echo "<div>Schrijf je in voor onze nieuwsbrief en ontvang al onze aanbiedingen.</div>";
+if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
+	$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
+} else {
+	$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
+}
+echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
+echo "<div style=\"margin-top:5px;\"><input type=\"text\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
+echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
+echo "</form>";
+echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
+
+echo "<div id=\"hoofdpagina_sociallinks\">";
+echo "<div style=\"float:right;\">";
+echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+echo "<a href=\"https://www.facebook.com/Zomerhuisje.nl\" title=\"Volg Zomerhuisje.nl via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+echo "<a href=\"https://twitter.com/@Zomerhuisje\" title=\"Volg Zomerhuisje.nl via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+echo "<a href=\"https://plus.google.com/113644542072220125279?prsrc=3\" title=\"Volg Zomerhuisje.nl via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+echo "</div>\n";
+echo "<div style=\"float:right;\"></div>";
+echo "<div style=\"clear: both;\"></div>\n";
+echo "</div>\n"; # afsluiten hoofdpagina_sociallinks
+
+echo '<!-- Google Code for Bezoekers homepage Remarketing List -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1070777463;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "Kg7oCI-_wgIQ94jL_gM";
+var google_conversion_value = 0;
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1070777463/?label=Kg7oCI-_wgIQ94jL_gM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>';	
+
+echo "</div>\n"; # afsluiten naamloze div
+
+echo "</div>\n"; # afsluiten hoofdpagina_rechts
+
+echo "<div style=\"clear: both;\"></div>\n";
+
+#echo "<div style=\"height:80px;\"></div>\n";
+
+
+?>

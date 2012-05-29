@@ -1,0 +1,51 @@
+
+.tarieventabel {
+	width:690px;
+	border: 0px;
+}
+
+#toonaccommodatie_content {
+	float: left;
+	width:730px;
+}
+
+.toonacctabel {
+	width: 690px;
+}
+
+.selecteerbaarbedrag {
+
+}
+
+.tarieventabel_rondom {
+	background-color: #ffffff;
+}
+
+.tarieventabel_arrow {
+	cursor: pointer;
+}
+
+.tarieventabel_header {
+	background-color: #666600;
+	color: #ffffff;
+	padding: 7px;
+	font-weight: bold;
+	margin-left: 22px;
+	margin-right: 24px;
+}
+
+.tarieventabel_wrapper {
+
+}
+
+.tarieventabel_div {
+	border: 1px solid #666600;
+}
+
+#toonaccommodatie_vallandry_spacer {
+	height: 10px;
+}
+
+#toonaccommodatie_aanbieding {
+	color: #666600;
+}

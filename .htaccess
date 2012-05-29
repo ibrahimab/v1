@@ -1,0 +1,371 @@
+AddType application/x-httpd-php .php .php3 .php4 .phtml .phpcache
+php_flag magic_quotes_gpc off
+php_value memory_limit 64M
+
+ErrorDocument 404 /404.php
+
+#
+# Geen enkele pagina tonen wegens werkzaamheden
+#
+#RewriteCond %{REQUEST_URI} !unavailable [NC]
+#RewriteCond %{REQUEST_URI} !logo [NC]
+#RewriteCond %{REQUEST_URI} !wt_phpmysqldump [NC]
+#RewriteCond %{REQUEST_URI} !wtpma [NC]
+#RewriteRule ^(.*)$ /unavailable.php
+
+
+RewriteEngine On
+
+#
+# favicons
+#
+
+# zomerhuisje
+RewriteCond %{HTTP_HOST} zomerhuisje [NC]
+RewriteRule ^favicon.ico$ favicon_zomerhuisje.ico
+
+# vallandry
+RewriteCond %{HTTP_HOST} vallandry [NC]
+RewriteRule ^favicon.ico$ favicon_vallandry.ico
+
+# wintersportaccommodaties
+RewriteCond %{HTTP_HOST} wintersportaccommodaties [NC]
+RewriteRule ^favicon.ico$ favicon_wsa.ico
+
+# italissima
+RewriteCond %{HTTP_HOST} italissima [NC]
+RewriteRule ^favicon.ico$ favicon_italissima.ico
+
+
+# http://ss.postvak.net/chalet/chalet/ doorsturen naar ss.postvak.net/chalet/
+RewriteCond %{HTTP_HOST} ^ss\.postvak\.net [NC]
+RewriteRule ^chalet/(.*)$ /chalet/$1 [R=301,L]
+
+# /index.php doorsturen naar /
+RewriteRule ^index\.php$ / [R=301,L]
+
+#
+# zonder www doorsturen naar met www
+#
+RewriteCond %{HTTP_HOST} chalet\.nl [NC]
+RewriteCond %{HTTP_HOST} !^www[23]?\.chalet\.nl [NC]
+RewriteCond %{HTTP_HOST} !^srv01\.chalet\.nl [NC]
+RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
+RewriteCond %{HTTP_HOST} !^www\.wintersportaccommodaties\.nl [NC]
+RewriteRule ^(.*)$ http://www.wintersportaccommodaties.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} chalet\.eu [NC]
+RewriteCond %{HTTP_HOST} !^www\.chalet\.eu [NC]
+RewriteRule ^(.*)$ http://www.chalet.eu/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} chalettour\.nl [NC]
+RewriteCond %{HTTP_HOST} !^www\.chalettour\.nl [NC]
+RewriteRule ^(.*)$ http://www.chalettour.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} chalet\.be [NC]
+RewriteCond %{HTTP_HOST} !^www\.chalet\.be [NC]
+RewriteRule ^(.*)$ http://www.chalet.be/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} wintersportaccommodations\.eu [NC]
+RewriteRule ^(.*)$ http://www.chalet.eu/ [L,R=301]
+
+RewriteCond %{HTTP_HOST} zomerhuisje\.nl [NC]
+RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.nl [NC]
+RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} zomerhuisje\.eu [NC]
+RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.eu [NC]
+RewriteRule ^(.*)$ http://www.zomerhuisje.eu/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} chaletsinvallandry\.nl [NC]
+RewriteCond %{HTTP_HOST} !^www\.chaletsinvallandry\.nl [NC]
+RewriteRule ^(.*)$ http://www.chaletsinvallandry.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} chaletsinvallandry\.com [NC]
+RewriteCond %{HTTP_HOST} !^www\.chaletsinvallandry\.com [NC]
+RewriteRule ^(.*)$ http://www.chaletsinvallandry.com/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} italissima\.nl [NC]
+RewriteCond %{HTTP_HOST} !^www\.italissima\.nl [NC]
+RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
+
+#
+# Spelfout-domeinnamen doorsturen naar de juiste domeinnaam
+#
+RewriteCond %{HTTP_HOST} italisima\.nl [NC]
+RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
+
+
+# Facebook-fout (fb_xd_fragment) redirecten
+RewriteCond %{QUERY_STRING} ^(.*)fb_xd_fragment=?[A-Za-z0-9]*&?(.*)$
+RewriteRule (.*) /$1?%1%2 [R=301,L]
+
+
+#
+# TIJDELIJK: www.italissima.nl doorsturen naar Zomerhuisje
+#
+#RewriteCond %{HTTP_HOST} ^www\.italissima\.nl [NC]
+#RewriteCond %{REMOTE_ADDR} !^82\.173\.186\.80 [NC]
+#RewriteCond %{REMOTE_ADDR} !^80\.101\.166\.235 [NC]
+#RewriteCond %{REMOTE_ADDR} !^94\.210\.181\.62 [NC]
+#RewriteCond %{REMOTE_ADDR} !^82\.171\.230\.221 [NC]
+#RewriteRule ^(.*)$ http://www.zomerhuisje.nl/land/Italie/ [L,R=301]
+
+RewriteRule groepsreizen\.php$ /accommodaties.php [R=301,L]
+
+RewriteRule ^thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
+RewriteRule ^theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
+RewriteRule ^land/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
+RewriteRule ^country/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
+
+
+# XML-feeds
+RewriteRule ^xml/(accommodations)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_STRING}
+RewriteRule ^xml/(accommodation-units)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_STRING}
+RewriteRule ^xml/(availability-and-prices)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_STRING}
+
+
+# Vallandry
+RewriteRule ^chalets/([A-Za-z0-9-]*)/([A-Za-z0-9-]*)/?$ chalets.php?chaletpark=$1&seizoen=$2&%{QUERY_STRING}
+
+# In Google Ads gebruikte URL's
+RewriteRule wintersport/?$ / [R=301,L]
+
+
+#
+# Oude grizzly-links doorsturen
+#
+RewriteRule ^chalet/zomervakantie-oostenrijk\.htm$ http://www.zomerhuisje.nl/accommodaties.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=2-0 [R=301,L]
+RewriteRule ^chalet/zomervakantie-frankrijk\.htm$ http://www.zomerhuisje.nl/accommodaties.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=1-0 [R=301,L]
+RewriteRule ^chalet/zomervakantie-zwitserland\.htm$ http://www.zomerhuisje.nl/accommodaties.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=3-0 [R=301,L]
+RewriteRule ^chalet/wintersport-les-menuires\.htm$ /plaats/Les_Menuires/ [R=301,L]
+RewriteRule ^chalet/val-cenis\.htm$ /plaats/Val_Cenis/ [R=301,L]
+RewriteRule ^chalet/la-rosiere\.htm$ /plaats/La_Rosiere/ [R=301,L]
+RewriteRule ^chalet/chalet-zwitserland\.htm$ /land/Zwitserland/ [R=301,L]
+RewriteRule ^chalet/chalet-wallis\.htm$ /land/Zwitserland/ [R=301,L]
+RewriteRule ^chalet/chalet-val-thorens\.htm$ /plaats/Val_Thorens/ [R=301,L]
+RewriteRule ^chalet/chalet-oostenrijk\.htm$ /land/Oostenrijk/  [R=301,L]
+RewriteRule ^chalet/chalet-les-menuires\.htm$ /plaats/Les_Menuires/ [R=301,L]
+RewriteRule ^chalet/chalet-les-deux-alpes\.htm$ /plaats/Les_Deux_Alpes/ [R=301,L]
+RewriteRule ^chalet/chalet-la-plagne\.htm$ /skigebied/Paradiski_-_La_Plagne/ [R=301,L]
+RewriteRule ^chalet/chalet-des-neiges\.htm$ /accommodatie/F116/ [R=301,L]
+RewriteRule ^chalet$ /land/Frankrijk/ [R=301,L]
+RewriteRule ^chalet/.*$ / [R=301,L]
+
+
+# Nieuwe Grizzly-links verwerken (zodat grizzly.php ertussen wordt gezet)
+RewriteRule ^vakantie/([A-Za-z0-9-]*)\.php$ grizzly.php?grizzlyfile=$1&%{QUERY_STRING}
+
+# Oude reisbureau-pagina's
+RewriteRule ^reisbureau\.php$ /reisagent.php [R=301,L]
+RewriteRule ^reisbureau_overzicht\.php$ /reisagent_overzicht.php [R=301,L]
+
+# Zomerhuisje Tsjechie: bestaat niet meer
+RewriteCond %{HTTP_HOST} zomerhuisje [NC]
+RewriteRule Tsjechie /bestemmingen.php [R=301,L]
+
+# Leverancier-login
+RewriteRule ^ownerlogin/?$ /lev_login.php [R=301,L]
+
+# oude tmp_verzendmethode doorsturen naar verzendmethode
+RewriteRule ^tmp_verzendmethode\.php$ /verzendmethode.php [R=301,L]
+
+#
+# Rewriten van .php-pagina's
+#
+
+RewriteRule ^sitemap/$ /sitemap [L,R=301]
+#RewriteRule ^sitemap\.php$ /sitemap [L,R=301]
+RewriteRule ^sitemap$ sitemap.php?%{QUERY_STRING}
+RewriteRule ^agriturismo-italie$ agriturismo-italie.php?%{QUERY_STRING}
+RewriteRule ^agriturismo-toscane$ agriturismo-toscane.php?%{QUERY_STRING}
+RewriteRule ^vakantiehuizen-gardameer$ vakantiehuizen-gardameer.php?%{QUERY_STRING}
+RewriteRule ^vakantie-in-italie$ vakantie-in-italie.php?%{QUERY_STRING}
+
+RewriteRule ^aanbiedingen$ /aanbiedingen/ [L,R=301]
+RewriteRule ^aanbiedingen/$ aanbiedingen_zomerhuisje.php?%{QUERY_STRING}
+RewriteRule ^aanbiedingen/([A-Za-z0-9-]*)$ /aanbiedingen/$1/
+RewriteRule ^aanbiedingen/([A-Za-z0-9-]*)/$ aanbiedingen_zomerhuisje.php?land=$1&%{QUERY_STRING}
+
+# TradeTracker
+RewriteCond %{HTTP_HOST} italissima\.nl [NC]
+RewriteRule ^italie/$ /tradetracker/ [L]
+
+# Accommodatiepagina's
+RewriteRule wintersport/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
+RewriteRule winter-sports/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
+RewriteRule vakantiehuizen/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
+RewriteRule holiday-homes/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
+
+#
+# Tijdelijke pagina's
+#
+
+# Agentenactie
+RewriteRule ^agentenactie/$ /agentenactie [R=301,L]
+RewriteRule ^agentenactie$ agentenactie.php?%{QUERY_STRING}
+
+# montegufoni
+RewriteRule ^montegufoni/$ /montegufoni [R=301,L]
+RewriteRule ^montegufoni$ montegufoni.php?%{QUERY_STRING}
+
+# twitter-actie
+RewriteRule ^twitteractie/$ /twitteractie [L,R=301]
+RewriteRule ^twitteractie$ twitteractie.php?%{QUERY_STRING}
+
+# nieuwsbrief-actie
+RewriteRule ^nieuwsbriefactie/$ /nieuwsbriefactie [L,R=301]
+RewriteRule ^nieuwsbriefactie$ nieuwsbriefactie.php?%{QUERY_STRING}
+
+
+#
+# Speciale file-instellingen
+#
+
+<FilesMatch "^cms.*\.php$">
+php_value memory_limit 128M
+</FilesMatch>
+
+<Files accommodatie>
+ForceType application/x-httpd-php
+</Files>
+
+<Files accommodation>
+ForceType application/x-httpd-php
+</Files>
+
+<Files skigebied>
+ForceType application/x-httpd-php
+</Files>
+
+<Files regio>
+ForceType application/x-httpd-php
+</Files>
+
+<Files region>
+ForceType application/x-httpd-php
+</Files>
+
+<Files plaats>
+ForceType application/x-httpd-php
+</Files>
+
+<Files resort>
+ForceType application/x-httpd-php
+</Files>
+
+<Files boeken.php>
+php_value memory_limit 256M
+</Files>
+
+<Files cms_financien.php>
+php_value memory_limit 384M
+</Files>
+
+<Files cms_boekingen.php>
+php_value memory_limit 128M
+</Files>
+
+<Files cms_boekingen_wijzigen.php>
+php_value memory_limit 128M
+</Files>
+
+<Files cms_boekingen_vouchers.php>
+php_value memory_limit 128M
+</Files>
+
+<Files cms_xmlnewimport.php>
+php_value memory_limit 256M
+</Files>
+
+<Files elkuur.php>
+php_value memory_limit 256M
+</Files>
+
+<Files cms_zoekstatistieken.php>
+php_value memory_limit 256M
+</Files>
+
+<Files cms_optieaanvragen.php>
+php_value memory_limit 256M
+</Files>
+
+<Files thumbnail.php>
+php_value memory_limit 128M
+</Files>
+
+<Files xml_import.php>
+php_value memory_limit 256M
+</Files>
+
+<Files cms_leveranciers.php>
+php_value memory_limit 128M
+</Files>
+
+<Files cms_accommodaties.php>
+php_value memory_limit 256M
+php_value upload_max_filesize 100M
+php_value post_max_size 100M
+</Files>
+
+<Files cms_types.php>
+php_value memory_limit 256M
+php_value upload_max_filesize 100M
+php_value post_max_size 100M
+</Files>
+
+<Files cms_plaatsen.php>
+php_value memory_limit 256M
+php_value upload_max_filesize 100M
+php_value post_max_size 100M
+</Files>
+
+<Files cms_skigebieden.php>
+php_value memory_limit 256M
+php_value upload_max_filesize 100M
+php_value post_max_size 100M
+</Files>
+
+<Files cms_aanbiedingen.php>
+php_value memory_limit 256M
+php_value upload_max_filesize 100M
+php_value post_max_size 100M
+</Files>
+
+<Files wt_phpmysqldump.php>
+php_value memory_limit 256M
+</Files>
+
+<Files bsys_wijzigen.php>
+php_value memory_limit 128M
+</Files>
+
+<IfModule mod_expires.c>
+	#
+	# mod_headers en mod_expires
+	#
+	# Turn on Expires and set default to 0
+	ExpiresActive On
+	ExpiresDefault A0
+	 
+	# Set up caching on for 180 days
+	<FilesMatch "\.(css|gif|jpg|jpeg|png|swf|ico|js)$">
+	ExpiresDefault A15552000
+	Header append Cache-Control "public"
+	</FilesMatch>
+	
+	<FilesMatch "\.phpcache$">
+	ExpiresActive On
+	ExpiresDefault A15552000
+	Header append Cache-Control "public"
+	</FilesMatch>
+	
+	# Force no caching for dynamic files
+	<FilesMatch "\.(php|cgi|pl|htm|html)$">
+	ExpiresActive Off
+	Header set Cache-Control "private, no-cache, no-store, proxy-revalidate, no-transform"
+	Header set Pragma "no-cache"
+	</FilesMatch>
+</IfModule>

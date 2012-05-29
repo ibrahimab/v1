@@ -1,0 +1,114 @@
+<?php
+
+echo "<div id=\"hoofdpagina_links\">";
+
+echo "<div id=\"hoofdpagina_koptekst\">";
+echo "<h1>Agriturismi en overige vakantiehuizen in Itali&euml;</h1>";
+echo "</div>"; # afsluiten hoofdpagina_koptekst
+
+echo "<div id=\"hoofdpagina_blok\">";
+
+$blokkenhoofdpagina=blokkenhoofdpagina();
+
+if(is_array($blokkenhoofdpagina)) {
+	while(list($key,$value)=each($blokkenhoofdpagina)) {
+		if($blokkenhoofdpagina_teller>=16) {
+			break;
+		}
+		$blokkenhoofdpagina_teller++;
+		echo "<div class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "").">";
+		$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
+		echo "<div><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\"></a></div>";
+		echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";
+		echo "<div class=\"hoofdpagina_blok_omschrijving\">".wt_he($value["omschrijving"])."</div>";
+		echo "</div>";
+	}
+	echo "<div id=\"hoofdpagina_blok_tellers\">";
+	if($blokkenhoofdpagina_teller>1) {
+		for($i=1;$i<=$blokkenhoofdpagina_teller;$i++) {
+			echo "<div id=\"hoofdpagina_blok_teller_".$i."\" class=\"hoofdpagina_blok_teller".($i==1 ? " hoofdpagina_blok_teller_active" : "")."\">".$i."</div>";
+		}
+	}
+	echo "</div>"; # afsluiten hoofdpagina_blok_tellers
+}
+
+echo "</div>"; # afsluiten hoofdpagina_blok
+
+echo "<div id=\"hoofdpagina_midden\">";
+
+echo "<div id=\"hoofdpagina_kaart\" onclick=\"document.location.href='".$vars["path"]."bestemmingen.php'\" title=\"Zoeken op kaart\">";
+echo "<h2>Zoeken op kaart</h2>";
+echo "<img src=\"".$vars["path"]."pic/italissima-kaart.gif\" width=\"167\" height=\"204\" border=\"0\">";
+echo "</div>"; # afsluiten hoofdpagina_kaart
+
+echo "<div id=\"hoofdpagina_meerinfo\">";
+echo "<h2>Direct naar:</h2>";
+echo "<a href=\"".$vars["path"]."bestemmingen.php\">Alle regio's van Itali&euml; &raquo;</a>";
+echo "</div>"; # afsluiten hoofdpagina_meerinfo
+
+echo "</div>"; # afsluiten hoofdpagina_midden
+
+echo "<div style=\"clear: both;\"></div>\n";
+
+if($last_acc_html) {
+	echo $last_acc_html;
+} else {
+	echo "<div id=\"laatstbekeken\" style=\"background-color:#ffffff;\">";
+	echo "<img src=\"".$vars["path"]."pic/italissima_hoofdpagina/laatste_acc_vervanging.jpg\" width=\"580\" height=\"200\">";
+	echo "</div>"; # afsluiten laatstbekeken
+}
+
+echo "<div style=\"clear: both;\"></div>\n";
+
+echo "</div>"; # afsluiten hoofdpagina_links
+
+echo "<div id=\"hoofdpagina_rechts\">";
+echo "<div id=\"hoofdpagina_blog\">";
+echo "<h2><a href=\"".$vars["path"]."blog.php\">Blog Italissima</a></h2>";
+$db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE 1=1 AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,2;");
+while($db->next_record()) {
+	echo "<div class=\"hoofdpagina_blog_item\">";
+	$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
+	if($blogitem_gehad) echo "<hr>";
+	$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
+	if(file_exists($file)) {
+		echo "<div><a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("homepage_titel"))."\"></a></div>";
+	}
+	echo "<div class=\"hoofdpagina_blog_titel\"><a href=\"".htmlentities($url)."\">".wt_he($db->f("homepage_titel"))."</a></div>";
+	echo "<div class=\"hoofdpagina_blog_inleiding\">".wt_he($db->f("homepage_inleiding"))."</div>";
+	echo "<div class=\"hoofdpagina_blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></div>";
+	
+	echo "</div>"; # afsluiten class hoofdpagina_blog_item
+	$blogitem_gehad=true;
+}
+#hoofdpagina_blog_titel
+echo "</div>"; # afsluiten hoofdpagina_blog
+
+echo "<div id=\"hoofdpagina_sociallinks\">";
+echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+echo "<a href=\"https://www.facebook.com/pages/Italissimanl/272671556122756\" title=\"Volg Italissima via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+echo "<a href=\"https://twitter.com/@Italissima\" title=\"Volg Italissima via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
+echo "<a href=\"https://plus.google.com/118061823772005667855/\" title=\"Volg Italissima via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>\n";
+echo '<!-- Google Code for Bezoekers homepage Remarketing List -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1070777463;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "Kg7oCI-_wgIQ94jL_gM";
+var google_conversion_value = 0;
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1070777463/?label=Kg7oCI-_wgIQ94jL_gM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>';
+echo "</div>"; # afsluiten hoofdpagina_sociallinks
+
+echo "</div>"; # afsluiten hoofdpagina_rechts
+
+?>

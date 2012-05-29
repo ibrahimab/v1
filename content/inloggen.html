@@ -1,0 +1,11 @@
+<?php
+
+if($login->logged_in) {
+
+} else {
+	echo html("inleiding","inloggen")."<p>";
+	$login->loginform();
+	echo "<p><a href=\"".$path."wachtwoord.php\">".html("wwvergeten","inloggen")." &raquo;</a>";
+}
+
+?>

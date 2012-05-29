@@ -1,0 +1,2072 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<database name="export">
+	<table_structure name="export_posarelli_amenities">
+		<field Field="type" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
+		<field Field="xml_reference" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
+		<field Field="language" Type="int(11)" Null="NO" Key="" Default="" Extra="" />
+		<field Field="amenity_description" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
+		<options Name="export_posarelli_amenities" Engine="MyISAM" Version="10" Row_format="Dynamic" Rows="343" Avg_row_length="33" Data_length="11476" Max_data_length="281474976710655" Index_length="1024" Data_free="0" Create_time="2009-10-07 22:30:04" Update_time="2009-10-07 22:30:04" Collation="utf8_general_ci" Create_options="" Comment="" />
+	</table_structure>
+	<table_data name="export_posarelli_amenities">
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p10_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Riding facilities</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p10_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Maneggio</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p10_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Reitplatz</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p10_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Manège</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p10_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Riding</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p10_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Riding</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p10_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Riding</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p11_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Bikes for rent</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p11_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Biciclette</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p11_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Fahrradverleih</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p11_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Bicyclettes</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p11_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Bike</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p11_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Bicicleta</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p11_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Fiets</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p12_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Parking</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p12_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Parcheggio</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p12_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Parkplatz</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p12_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Parking</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p12_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Parking</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p12_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Parqueo</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p12_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Parkeerplaats</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p13_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Restaurant</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p13_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Ristorante</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p13_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Restaurant</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p13_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Restaurant</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p13_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Restaurant</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p13_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Restaurante</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p13_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Restaurant</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p14_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Garden, terrace</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p14_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Giardino, terrazza</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p14_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Garten, Terrasse</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p14_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Jardin, terrasse</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p14_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Garden</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p14_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Jardin, terraza</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p14_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Tuin, Terras</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p15_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Walk to town</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p15_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Vicino al paese</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p15_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Ortsnähe</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p15_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Près d'un centre habité</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p15_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Near Village</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p15_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Vecino al pueblo</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p15_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Loop naar Centrum</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p16_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p16_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p16_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p16_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p16_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p16_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p16_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p17_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Internet Fast</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p17_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Fast internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p17_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Fast Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p17_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Internet rapide</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p17_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Internet Fast</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p17_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Fast Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p17_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Snel Internet</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p19_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Maid service</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p19_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Aiuto domestico</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p19_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Haushaltshilfe</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p19_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Aide domestique</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p19_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Maid</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p19_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Ayudo doméstico</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p19_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Hulp in de Huishouding</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p20_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Baby bed</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p20_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Lettino bebé</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p20_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Babybett</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p20_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Lit pour bébé</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p20_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Baby Bed</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p20_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Cuna para bebé</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p20_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Babybedje</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p21_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Wedding </field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p21_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Matrimoni</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p21_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Hochzeiten</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p21_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Idéal pour mariages</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p21_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Weddings</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p21_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Matrimonio</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p21_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Bruiloften</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p22_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Wellness</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p22_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Benessere</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p22_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Wellness</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p22_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Services </field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p22_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Wellness</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p22_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Wellness</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p22_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Wellness</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p23_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">In town</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p23_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">In paese</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p23_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Im Dorf</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p23_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">En ville</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p23_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">In Village</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p23_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">En el pueblo</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p23_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">In Centrum</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p24_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Next Year Available</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p24_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Next Year Available</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p24_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Next Year Available</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p24_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Next Year Available</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p24_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Next Year Available</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p24_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Next Year Available</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p24_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Next Year Available</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p25_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Chef</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p25_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Chef</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p25_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Chef</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p25_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Chef</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p25_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Chef</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p25_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Chef</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p25_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Chef</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p3_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Near the beach</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p3_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Vicino al mare</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p3_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Strandnähe</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p3_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Près de la plage</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p3_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Near Water</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p3_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Vecino al mar</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p3_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Dichtbij het Strand</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p4_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Skiing</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p4_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Sci</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p4_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Skiing</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p4_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Skiing</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p4_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Skiing</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p4_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Skiing</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p4_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Skiing</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p5_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Golf</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p5_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Campo da golf</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p5_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Golfplatz</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p5_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Terrain de golf</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p5_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Golf</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p5_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Picadero</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p5_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Golf</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p6_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Swimming pool</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p6_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Piscina</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p6_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Schwimmbad</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p6_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Piscine</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p6_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Swimmingpool</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p6_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Piscina</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p6_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Zwembad</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p7_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Tennis</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p7_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Campo da tennis</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p7_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Tennisplatz</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p7_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Court de tennis </field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p7_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Tenniscourt</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p7_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Campo de tenis</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p7_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Tennisbaan</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p9_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description"></field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p9_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description"></field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p9_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description"></field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p9_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description"></field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p9_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Fishing</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p9_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Fishing</field>
+	</row>
+	<row>
+		<field name="type">property</field>
+		<field name="xml_reference">p9_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Fishing</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u10_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">VCR / DVD</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u10_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">VCR / DVD</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u10_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">VCR / DVD</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u10_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">VCR / DVD</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u10_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Dvd/vcr Player</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u10_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">VCR/DVD</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u10_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">DVD speler/Video</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u11_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Satellite TV</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u11_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">TV Satellitare</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u11_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Satelliten TV</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u11_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">TV Satellitaire</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u11_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Satellite Tv</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u11_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">TV-SAT</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u11_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Satelliet TV</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u12_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Fireplace</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u12_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Camino</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u12_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Kamin</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u12_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Cheminée</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u12_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Fireplace</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u12_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Chimenea</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u12_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Open Haard</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u13_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Patio</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u13_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Patio</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u13_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Patio</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u13_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Patio</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u13_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Patio</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u13_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Patio</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u13_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Patio</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u14_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Fridge</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u14_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Frigorifero</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u14_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Tiefkühler</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u14_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Congélateur</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u14_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Fridge</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u14_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Fridge</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u14_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Fridge</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u15_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Washing-machine</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u15_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Lavatrice</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u15_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Waschmaschine</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u15_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Lave-linge</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u15_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Washing Machine</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u15_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Lavadora</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u15_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Wasmachine</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u16_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Dishwasher</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u16_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Lavastoviglie</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u16_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Spülmaschine</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u16_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Lave-vaisselle</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u16_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Dishwash</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u16_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Lavaplatos</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u16_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Vaatwasser</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u17_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Radio / Cd</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u17_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Radio / Cd</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u17_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Radio / Cd</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u17_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Radio / Cd</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u17_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Stereo Hifi</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u17_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Stereo Hifi</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u17_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Stereo Hifi</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u18_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Barbecue</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u18_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Barbecue</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u18_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Barbecue</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u18_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Barbecue</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u18_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Barbecue</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u18_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Parrillada</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u18_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Barbecue</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u19_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Microwave</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u19_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Microonde</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u19_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Mikrowelle</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u19_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Micro-ondes</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u19_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Microwave</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u19_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Microonda</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u19_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Magnetron</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u1_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Kitchen</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u1_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Cucina</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u1_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Küche</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u1_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Cuisine</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u1_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Kitchen</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u1_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Kitchen</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u1_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Kitchen</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u20_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Private outdoor area</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u20_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Spazio esterno privato</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u20_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Privater Aussenbereich</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u20_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Espace extérieur privé</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u20_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Garden</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u20_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Espacio externo privado</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u20_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Eigen zitplaats buiten</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u22_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Mosquito nets</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u22_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Zanzariere</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u22_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Mückennetze</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u22_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Moustiquaires</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u22_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Mosquitonet</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u22_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Mosquitero</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u22_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Horren</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u23_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Private swimming pool</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u23_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Piscina privata</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u23_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Privates Schwimmbad</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u23_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Piscine privée</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u23_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Swimmingpool</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u23_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Piscina privada</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u23_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Privé Zwembad</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u24_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Independent</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u24_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Indipendente</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u24_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Independent</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u24_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Indépendant</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u24_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Independent Unit</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u24_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Indipendiente</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u24_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Vrijstaande Woning</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u25_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Gourmet Kitchen</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u25_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Cucina ben attrezzata</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u25_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Professionelle Küche</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u25_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Cuisine bien équipée</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u25_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Well-equipped Kitchen</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u25_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Cocina bien equipada</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u25_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Goed uitgeruste Keuken</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u26_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Panoramic view</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u26_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Vista panoramica</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u26_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Panoramablick</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u26_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Vue panoramique</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u26_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Panoramic View</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u26_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Vista panoramica</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u26_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Panoramisch Uitzicht</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u27_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Freezer</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u27_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Freezer</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u27_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Tiefkühler</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u27_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Freezer</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u27_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Freezer</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u27_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Freezer</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u27_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Diepvriezer</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u28_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description"></field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u28_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Idromassaggio interno</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u28_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description"></field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u28_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description"></field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u28_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Jacuzi Bathtub</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u28_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Jacuzi Bathtub</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u28_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Jacuzi Bathtub</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u29_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Outdoor Jacuzzi</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u29_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Idromassaggio esterno</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u29_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Hydromassage-Pool</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u29_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Hydromassage à l'extérieur</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u29_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Outdoor Jacuzi</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u29_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Hidromasage externo</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u29_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Jacuzzi Buiten</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u2_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Phone</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u2_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Telefono</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u2_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Telefon</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u2_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Téléphone</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u2_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Phone</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u2_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Telefono</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u2_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Telefoon</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u3_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Television</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u3_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Televisione</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u3_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Fernseher</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u3_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Télévision</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u3_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Television</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u3_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Televisiòn</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u3_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Televisie</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u4_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Air conditioning</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u4_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Aria condizionata</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u4_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Klimaanlage</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u4_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Air conditionné</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u4_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Air Conditioning</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u4_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Aire condicionado</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u4_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Airconditioning</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u5_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Heating</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u5_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Riscaldamento</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u5_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Heizung</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u5_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Chauffage</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u5_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Heating</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u5_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Calefaccion</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u5_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Verwarming</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u6_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Child Ok</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u6_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Child Ok</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u6_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Child Ok</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u6_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Child Ok</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u6_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Child Ok</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u6_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Child Ok</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u6_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Child Ok</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u7_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Suitable for disabled guests </field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u7_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Accesso a disabili</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u7_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">für Behinderte geeignet</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u7_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Accessible aux handicapés</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u7_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Handicap Ok</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u7_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Acceso para los minusvalido</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u7_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Mindervaliden OK</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u8_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">Pets allowed</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u8_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Animali ammessi</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u8_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">Haustiere willkommen</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u8_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">Animaux admis</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u8_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">Pets Allowed</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u8_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">Animales admitidos</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u8_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">Huisdieren Welkom</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u9_f</field>
+		<field name="language">0</field>
+		<field name="amenity_description">No Smoking</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u9_f</field>
+		<field name="language">1</field>
+		<field name="amenity_description">Non fumatori</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u9_f</field>
+		<field name="language">2</field>
+		<field name="amenity_description">No Smoking</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u9_f</field>
+		<field name="language">3</field>
+		<field name="amenity_description">No Smoking</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u9_f</field>
+		<field name="language">4</field>
+		<field name="amenity_description">No Smoking</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u9_f</field>
+		<field name="language">5</field>
+		<field name="amenity_description">No Smoking</field>
+	</row>
+	<row>
+		<field name="type">unit</field>
+		<field name="xml_reference">u9_f</field>
+		<field name="language">6</field>
+		<field name="amenity_description">No Smoking</field>
+	</row>
+	</table_data>
+</database>
+</mysqldump>

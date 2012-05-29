@@ -1,0 +1,25 @@
+<?php
+
+if($mustlogin) {
+	echo boekingkoptekst($gegevens);
+}
+
+if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar overzichtspagina</a><p>";
+
+$cms->display_cms();
+
+if($_GET["add"]<>23 and $_GET["edit"]<>23) {
+	# Verzekerde bedragen opnieuw berekenen
+
+	$temp_gegevens=get_boekinginfo($_GET["bid"]);
+	while(list($key,$value)=@each($temp_gegevens["stap3"])) {
+		# Verzekerd bedrag opslaan
+#		if(($temp_gegevens["stap1"]["annuleringsverzekering_wijzigen_toegestaan"] and $gegevens["stap3"][$regs[1]]["annverz"]) {
+		if($temp_gegevens["stap1"]["annuleringsverzekering_wijzigen_toegestaan"] and $temp_gegevens["stap3"][$key]["annverz_verzekerdbedrag"]) {
+			$db->query("UPDATE boeking_persoon SET annverz_verzekerdbedrag='".addslashes($temp_gegevens["stap4"][$key]["annverz_verzekerdbedrag_actueel"])."' WHERE boeking_id='".addslashes($temp_gegevens["stap1"]["boekingid"])."' AND persoonnummer='".addslashes($key)."';");
+#			echo $db->lastquery."<br>";
+		}
+	}
+}
+
+?>

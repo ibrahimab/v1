@@ -1,0 +1,67 @@
+<?php
+
+$db->query("SELECT user_id, voornaam FROM user;");
+while($db->next_record()) {
+	$werknemer[$db->f("user_id")]=$db->f("voornaam");
+}
+
+$db->query("SELECT plaats_id, naam, UNIX_TIMESTAMP(pdfupload_datum) AS pdfupload_datum, pdfupload_user FROM plaats WHERE pdfupload_datum IS NOT NULL;");
+while($db->next_record()) {
+	$teller++;
+	$kolom1[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]=$db->f("pdfupload_datum");
+	if($db->f("pdfupload_user")) {
+		$kolom2[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]=$werknemer[$db->f("pdfupload_user")];
+	} else {
+		$kolom2[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="onbekend";
+	}
+	$kolom3[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="Plattegrond ".$db->f("naam");
+	$kolom4[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="plaats_plattegrond/".$db->f("plaats_id").".pdf";
+	$kolom5[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="plaats_".$db->f("plaats_id");
+}
+
+$db->query("SELECT a.accommodatie_id, a.naam, p.naam AS plaats, UNIX_TIMESTAMP(a.pdfupload_datum) AS pdfupload_datum, a.pdfupload_user FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.pdfupload_datum IS NOT NULL;");
+while($db->next_record()) {
+	$teller++;
+	$kolom1[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]=$db->f("pdfupload_datum");
+	if($db->f("pdfupload_user")) {
+		$kolom2[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]=$werknemer[$db->f("pdfupload_user")];
+	} else {
+		$kolom2[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="onbekend";
+	}
+	$kolom3[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="Vertrekinfo + route ".$db->f("naam")." - ".$db->f("plaats");
+	$kolom4[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="route_nl/".$db->f("accommodatie_id").".pdf";
+	$kolom5[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="route_nl_".$db->f("accommodatie_id");
+}
+
+$db->query("SELECT a.accommodatie_id, a.naam, p.naam AS plaats, UNIX_TIMESTAMP(a.pdfupload_datum_en) AS pdfupload_datum, a.pdfupload_user_en AS pdfupload_user FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.pdfupload_datum_en IS NOT NULL;");
+while($db->next_record()) {
+	$teller++;
+	$kolom1[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]=$db->f("pdfupload_datum");
+	if($db->f("pdfupload_user")) {
+		$kolom2[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]=$werknemer[$db->f("pdfupload_user")];
+	} else {
+		$kolom2[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="onbekend";
+	}
+	$kolom3[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="Vertrekinfo + route (Engels) ".$db->f("naam")." - ".$db->f("plaats");;
+	$kolom4[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="route_en/".$db->f("accommodatie_id").".pdf";
+	$kolom5[date("Ymd",$db->f("pdfupload_datum"))."_".$teller]="route_en_".$db->f("accommodatie_id");
+}
+
+
+if(is_array($kolom1)) {
+	ksort($kolom1);
+	echo "Hieronder een overzicht van alle PDF-bestanden (plaats-plattegronden en accommodatie-vertrekinfo/routes), gesorteerd op controle-datum. De PDF's kunnen opnieuw worden gecontroleerd door op het PDF-icoon te klikken en bij goedkeuring de kolom &quot;Opnieuw gecontroleerd&quot aan te vinken. Vergeet na afloop niet op &quot;CONTROLE OPSLAAN&quot; te klikken.<p>";
+	echo "<form method=\"post\" action=\"cms_pdfcontrole.php\" name=\"frm\">";
+	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
+	echo "<input type=\"submit\" value=\" CONTROLE OPSLAAN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit2frm.disabled=1;document.frm.submit();\"><p>";
+	echo "<table class=\"tbl\" cellspacing=\"0\">";
+	echo "<tr><th>Laatste controle</th><th>Door</th><th>Omschrijving</th><th>&nbsp;</th><th>Opnieuw gecontroleerd</th></tr>";
+	while(list($key,$value)=each($kolom1)) {
+		echo "<tr><td valign=\"top\">".date("d-m-Y",$value)."</td><td valign=\"top\">".htmlentities($kolom2[$key])."</td><td valign=\"top\">".htmlentities($kolom3[$key])."</td><td valign=\"top\"><a href=\"".$path."pdf/".$kolom4[$key]."\" target=\"_blank\"><img src=\"pic/pdflogo.gif\" border=\"0\" width=\"18\" height=\"18\"></a></td><td valign=\"top\" align=\"center\"><input type=\"checkbox\" name=\"input[".htmlentities($kolom5[$key])."]\"></td></tr>";
+	}
+	echo "</table>";
+	echo "<p><input type=\"submit\" value=\" CONTROLE OPSLAAN \" id=\"submit2frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit2frm.disabled=1;document.frm.submit();\">";
+	echo "</form>";
+}
+
+?>

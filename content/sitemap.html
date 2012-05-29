@@ -1,0 +1,53 @@
+<?php
+
+if($vars["websitetype"]==7) {
+	# Italissima
+	# Bestemmingen: regio's
+	echo "<p>";
+	echo "<b>".html("bestemmingen","sitemap").":</b><ul>";
+	$db->query("SELECT DISTINCT v.skigebied FROM view_accommodatie v WHERE v.wzt='".addslashes($vars["seizoentype"])."' AND v.websites LIKE '%".addslashes($vars["website"])."%' AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 ORDER BY 1;");
+	while($db->next_record()) {
+		echo "<li><a href=\"".$vars["path"].txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/\">".html("chaletsin","sitemap")." ".htmlentities($db->f("skigebied"))."</a></li>";
+	}
+	echo "<li><a href=\"".$vars["path"]."agriturismo-italie\">Agriturismi in Itali&euml;</a></li>";
+	echo "<li><a href=\"".$vars["path"]."agriturismo-toscane\">Agriturismi in Toscane</a></li>";
+	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-gardameer\">Vakantiehuizen Gardameer</a></li>";
+	echo "<li><a href=\"".$vars["path"]."vakantie-in-italie\">Vakantie in Itali&euml;</a></li>";
+	echo "</ul>";
+	echo "</p>";
+} else {
+	# Bestemmingen: landen
+	echo "<p>";
+	echo "<b>".html("bestemmingen","sitemap").":</b><ul>";
+	$db->query("SELECT DISTINCT l.naam".$vars["ttv"]." AS land FROM view_accommodatie v, land l WHERE l.land_id=v.land_id AND v.wzt='".addslashes($vars["seizoentype"])."' AND v.websites LIKE '%".addslashes($vars["website"])."%' AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 ORDER BY 1;");
+	while($db->next_record()) {
+		echo "<li><a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/\">".html("chaletsin","sitemap")." ".htmlentities($db->f("land"))."</a></li>";
+	}
+	echo "</ul>";
+	echo "</p>";
+}
+
+# Thema's
+if($vars["website"]<>"W" and $vars["website"]<>"V" and $vars["website"]<>"Q" and $vars["websitetype"]<>7) {
+	echo "<p>";
+	echo "<b>".html("themas","sitemap").":</b><ul>";
+	$db->query("SELECT naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 AND naam".$vars["ttv"]."<>'' AND url".$vars["ttv"]."<>'' ORDER BY 1;");
+	while($db->next_record()) {
+		echo "<li><a href=\"".$vars["path"].txt("menu_thema")."/".htmlentities($db->f("url"))."/\">".htmlentities($db->f("naam"))."</a></li>";
+	}
+	echo "</ul>";
+	echo "</p>";
+}
+
+# Algemeen
+echo "<p>";
+echo "<b>".html("algemeen","sitemap").":</b><ul>";
+echo "<li><a href=\"".$vars["path"].txt("menu_contact").".php\">".html("title_contact")."</a></li>";
+if($submenu["nieuwsbrief"]) echo "<li><a href=\"".$vars["path"].txt("menu_nieuwsbrief").".php\">".html("title_nieuwsbrief")."</a></li>";
+if($submenu["wie-zijn-wij"]) echo "<li><a href=\"".$vars["path"].txt("menu_wie-zijn-wij").".php\">".html("title_wiezijnwij")."</a></li>";
+echo "<li><a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php\">".html("title_algemenevoorwaarden")."</a></li>";
+echo "<li><a href=\"".$vars["path"].txt("menu_verzekeringen").".php\">".html("title_verzekeringen")."</a></li>";
+echo "</ul>";
+echo "</p>";
+
+?>

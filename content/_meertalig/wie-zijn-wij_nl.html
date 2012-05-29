@@ -1,0 +1,35 @@
+<?php
+
+if($vars["website"]=="T") {
+	echo "Chalettour is een handelsnaam van Chalet.nl B.V. ";
+}
+
+echo "Chalet.nl is een zelfstandige touroperator en specialist in de verhuur van vrijstaande chalets en luxe appartementen van 2 tot 44 personen in Frankrijk, Oostenrijk en Zwitserland. De organisatie is in 1999 als een eenmanszaak opgestart en uitgegroeid tot een volwaardige reisorganisatie met een team van achttien mensen. Wij zijn gevestigd in Woerden. Chalet.nl is lid van het SGR.<p>";
+if($vars["website"]<>"T") {
+	echo "Reserveringen kunnen direct via de website of telefonisch gemaakt worden. ";
+}
+echo "Chalet.nl is eveneens eigenaar van de websites: <a href=\"http://www.chalet.be/\" target=\"_blank\">Chalet.be</a>, <a href=\"http://www.chalet.eu/\" target=\"_blank\">Chalet.eu</a>, <a href=\"http://www.wintersportaccommodaties.nl/\" target=\"_blank\">Wintersportaccommodaties.nl</a>, <a href=\"http://www.chalettour.nl/\" target=\"_blank\">Chalettour.nl</a>, <a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a> en <a href=\"http://www.italissima.nl/\" target=\"_blank\">Italissima</a>.<p>";
+
+echo "<h2>Specialisme is het sleutelwoord</h2>";
+echo "Chalet.nl kiest voor specialisme. Wintersportliefhebbers kunnen bij ons terecht voor een wintersportvakantie in een chalet of luxe appartement in &eacute;&eacute;n van de Alpenlanden, desgewenst inclusief skipassen, skimateriaal, catering en andere opties. Ons verkoopteam beschikt over een uitgebreide kennis van de diverse bestemmingen. Dit geldt ook voor de accommodaties. Wij streven er altijd naar om de accommodaties persoonlijk te bezoeken.<p>";
+
+echo "<h2>Hoge servicekwaliteit</h2>";
+echo "De kwaliteit van de service staat hoog in het vaandel bij Chalet.nl. Indien je de wensen aan ons doorgeeft, kunnen wij een aantal passende accommodaties op maat voor je uitzoeken. Is accommodatie al volgeboekt? Dan bieden wij de mogelijke alternatieven. Heb je vervolgens nog wijzigingen of extra informatie nodig dan verzorgen wij dit kosteloos, tot tenminste 6 weken voor vertrek.<p>";
+
+if($vars["website"]=="C") {
+	echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
+	echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/wintersportmagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
+	echo "<h2>Wintersport Magazine</h2>";
+	echo "Naast onze uitgebreide website hebben wij een magazine samengesteld met daarin een impressie van ons aanbod en de mogelijkheden die we je als wintersportspecialist te bieden hebben.<br><a href=\"".$vars["path"]."brochure.php\">Bekijk dit Wintersport Magazine online</a>.";
+	echo "</td></tr></table>";	
+	echo "<p>";
+}
+
+echo "<h2>Werken bij Chalet.nl</h2>";
+echo "Interesse in een functie binnen ons bedrijf of op zoek naar een stageplaats? Stuur je cv en motivatiebrief naar <a href=\"mailto:jetske@chalet.nl\">jetske@chalet.nl</a> of neem contact op met Jetske Stols, tel: 0348-434649.<p>";
+if($vars["actuele_vacature"]) echo "<a href=\"".$vars["path"]."vacatures.php\">Bekijk onze actuele vacature: ".wt_he($vars["actuele_vacature"])." &raquo;</a><br><br>";
+
+echo "<h2>Persberichten</h2>";
+echo "Chalet.nl stuurt regelmatig persberichten om de media op de hoogte te brengen van haar activiteiten.<br><a href=\"".$vars["path"]."persberichten.php\">Meer informatie &gt;</a>";
+
+?>

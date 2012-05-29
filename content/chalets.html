@@ -1,0 +1,52 @@
+<?php
+
+if($_GET["chaletpark"]) {
+	echo "<div style=\"position:relative;\">";
+	echo "<div style=\"margin-top:10px;width:673px;height:152px;padding:5px;color:#ffffff;background-color:".($_GET["seizoen"]=="zomer" ? "#666600" : "#6699cc").";\">";
+	echo "<div style=\"margin-right:150px;\">";
+	if($_GET["seizoen"]=="winter") {
+		echo nl2br(html($_GET["chaletpark"]."_lang","chalets"));
+	} else {
+		echo nl2br(html($_GET["chaletpark"]."_lang_zomer","chalets"));
+	}
+	echo "</div>"; # afsluiten naamloze div
+	echo "</div>"; # afsluiten naamloze div
+	
+	echo "<div style=\"position:absolute;top:9px;right:20px;\">";
+	echo "<img src=\"".$vars["path"]."pic/vallandry_".htmlentities($_GET["seizoen"])."_".htmlentities($_GET["chaletpark"]).".jpg?cache=1\" width=\"141\" height=\"141\" style=\"border:1px solid #ffffff;\">";
+	echo "</div>"; # afsluiten naamloze div
+	echo "</div>"; # afsluiten naamloze div
+	
+	# Zoekform embedden
+	$vars["zoekform_vallandrychalets"]=true;
+	echo "<a name=\"acc\"></a>";
+	include("content/zoek-en-boek.html");
+	
+} else {
+	
+	
+	$doorloop_array=array("bellecote","vallandry","overigechalets");
+	echo "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"padding-right:5px;\">";
+	
+	while(list($key,$value)=each($doorloop_array)) {
+		echo "<tr><td colspan=\"3\"><br><hr class=\"dunnehr\"><br></td></tr>";
+		echo "<tr><td>";
+		echo "<h2>".htmlentities(ucfirst(txt($value,"chalets")))."</h2>";
+		echo html($value."_kort","chalets");
+		echo "<table cellspacing=\"0\" cellpadding=\"0\" style=\"padding-right:5px;\">";
+		echo "<tr><td>";
+		echo "<div class=\"button\" style=\"\" onclick=\"document.location.href='".$vars["path"]."chalets/".$value."/".txt("winter")."/'\">".html("bekijkwinter","chalets")."</div>";
+		echo "</td><td>&nbsp;&nbsp;<td>";
+		echo "<div class=\"button buttonzomer\" style=\"\" onclick=\"document.location.href='".$vars["path"]."chalets/".$value."/".txt("zomer")."/'\">".html("bekijkzomer","chalets")."</div>";
+		echo "</td></tr></table>";
+		echo "</td><td>&nbsp;</td><td>";
+		echo "<img src=\"".$vars["path"]."pic/vallandry_winter_".$value.".jpg?cache=1\" width=\"75\" align=\"right\">";
+		echo "</td></tr>";
+	}
+	echo "<tr><td colspan=\"3\"><br><hr class=\"dunnehr\"><br></td></tr>";
+	echo "</table>";
+	
+}
+
+
+?>

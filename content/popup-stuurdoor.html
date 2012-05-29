@@ -1,0 +1,121 @@
+<?php
+
+$accinfo=accinfo($_GET["acc"]);
+
+if($accinfo["naam"]) {
+	
+	$form=new form2("frm"); 
+	$form->settings["fullname"]="stuurdoor";
+	$form->settings["layout"]["css"]=false;
+	$form->settings["message"]["submitbutton"]["nl"]=txt("versturen","popup_stuurdoor");
+	#$form->settings["target"]="_blank";
+	$form->settings["go_nowhere"]=true;
+	$form->settings["layout"]["stars"]=false;
+
+	$form->settings["message"]["error_foutform"][$vars["taal"]]=txt("jehebtnietallevelden","vars");
+
+	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
+	$form->settings["layout"]["goto_aname"]=true;
+	  
+	#_field: (obl),id,title,db,prevalue,options,layout
+	
+	$form->field_text(1,"naam",txt("jouwnaam","popup_stuurdoor"));
+	$form->field_email(1,"senderemail",txt("jouwmail","popup_stuurdoor"));
+	$form->field_textarea(1,"emailadressen",html("emailadressen","popup_stuurdoor")."<span class=\"wtform_small\"><p>- ".html("eenperregel","popup_stuurdoor")."<br>- ".html("maximaal10","popup_stuurdoor")."</span>","","","",array("title_html"=>true,"newline"=>false));
+	
+	$form->check_input();
+	
+	if($form->filled) {
+	#	if($form->input["naam"]=="hallo") $form->error("naam","Hallo is niet toegestaan");
+	#	if($form->input["geboortedatum"]["unixtime"]>time()) $form->error("geboortedatum","geen datum in de toekomst mogelijk","","","Geboortedatum persoon 1");
+		if($form->input["naam"]) {
+			$testnaam=wt_stripaccents($form->input["naam"]);
+			if(!eregi("^[a-z0-9'_ -]+$",$testnaam)) {
+				$form->error("naam",html("geenspecialekarakters","popup_stuurdoor"));
+			}
+			if(!eregi("^.{2,} .{2,}$",$testnaam)) {
+				$form->error("naam",html("volledigenaam","popup_stuurdoor"));
+			}
+			if(strlen($form->input["naam"])<5) {
+				$form->error("naam",html("volledigenaam","popup_stuurdoor"));
+			}
+		}
+		if($form->input["emailadressen"]) {
+			$emailarray=@split("\n",$form->input["emailadressen"]);
+			if(is_array($emailarray)) {
+				while(list($key,$value)=each($emailarray)) {
+					$value=trim($value);
+					if(strlen($value)>2) {
+						if(wt_validmail($value)) {
+							$mailadressen[strtolower($value)]=true;
+						} else {
+							$ongeldig[$value]=true;
+						}
+					} else {
+						$ongeldig[$value]=true;
+					}
+				}
+			}
+			if(is_array($mailadressen)) {
+				if(count($mailadressen)>10) {
+					$form->error("",ucfirst(html("maximaal10","popup_stuurdoor")),false,true);
+				}
+			}
+			if(is_array($ongeldig)) {
+				while(list($key,$value)=each($ongeldig)) {
+					if($ongeldig_tekst) $ongeldig_tekst.=", ".$key; else $ongeldig_tekst=$key;
+				}
+				if(count($ongeldig)==1) {
+					$form->error("",html("ongeldig","popup_stuurdoor").": ".$ongeldig_tekst,false,true);
+				} else {
+					$form->error("",html("ongeldig_meervoud","popup_stuurdoor").": ".$ongeldig_tekst,false,true);
+				}
+			}
+		}
+	}
+	
+	$form->end_declaration();
+	
+	# Content
+	echo "&nbsp;<br>";
+	if($form->okay) {
+		if(is_array($mailadressen)) {
+			reset($mailadressen);
+			while(list($key,$value)=each($mailadressen)) {
+				$mail=new wt_mail;
+				$mail->fromname=trim($form->input["naam"]);
+				$mail->from=$vars["email"];
+				$mail->to=$key;
+				$mail->replyto=trim($form->input["senderemail"]);
+				$mail->subject=txt("mailsubject","popup_stuurdoor",array("v_websitenaam"=>$vars["websitenaam"]));
+				$mail->plaintext=" \n".txt("mailbody1","popup_stuurdoor",array("v_naam"=>ucfirst(trim($form->input["naam"])),"v_websitenaam"=>$vars["websitenaam"]));
+				$mail->plaintext.="\n\n".$accinfo["plaats"]." / ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam"]."\n".$accinfo["url"]."\n\n";
+				
+#				echo $mail->to."<p>".nl2br($mail->plaintext)."<hr>";
+				
+				$mail->send();
+			}
+		}	
+	
+		if(@count($mailadressen)==1) {
+			echo html("bedankt","popup_stuurdoor",array("v_email"=>$mail->to));
+		} else {
+			echo html("bedankt_meervoud","popup_stuurdoor");
+			echo "<ul>";
+			@reset($mailadressen);
+			while(list($key,$value)=@each($mailadressen)) {
+				echo "<li>".htmlentities($key)."</li>";
+			}
+			echo "</ul>";
+
+		}
+		echo "<p><a href=\"javascript:self.close();\">".html("venstersluiten","popup_stuurdoor")."</a>";
+	} else {
+		echo html("inleiding","popup_stuurdoor",array("v_accnaam"=>ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam"]))."<p>";
+		$form->display_all();
+	}
+}	
+	
+
+
+?>

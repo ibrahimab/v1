@@ -1,0 +1,23 @@
+
+#toonplaats_kenmerken {
+	width: 502px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #003366;
+	padding: 5px;
+}
+
+#toonplaats_kenmerken_1 {
+	float: left;
+	width: 245px;
+	font-size: 0.9em;
+	color: #747474;
+}
+
+#toonplaats_kenmerken_2 {
+	float: left;
+	width: 245px;
+	margin-left: 10px;
+	font-size: 0.9em;
+	color: #888888;
+}

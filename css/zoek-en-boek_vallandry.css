@@ -1,0 +1,25 @@
+
+
+.zoekresultaat_winter {
+	background-color: #c0d5ea;
+}
+
+.zoekresultaat_winter a {
+	color: #666600;
+}
+
+.zoekresultaat_winter a:hover {
+	color: #000000;
+}
+
+.zoekresultaat_zomer {
+	background-color: #c0c096;
+}
+
+.zoekresultaat_zomer a {
+	color: #666600;
+}
+
+.zoekresultaat_zomer a:hover {
+	color: #000000;
+}

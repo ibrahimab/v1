@@ -1,0 +1,55 @@
+<?php
+
+if($_GET["11k0"]==41 and $_GET["edit"]<>11) {
+	echo "<div class=\"opmerkingbox\"><b>Onderstaande gegevens bewerken heeft geen zin.</b> Deze skipas-opties zijn automatisch door het systeem aangemaakt (gekoppeld aan gewone skipassen t.b.v. wederverkoop). Wijzigingen aan de <a href=\"cms_skipassen.php\">skipassen</a> worden 4x per dag automatisch overgenomen.</div>";
+}
+
+$cms->display_cms();
+
+if($_GET["show"]==11) {
+
+
+	# Overzicht van accommodaties waaraan deze optiesoort nog niet gekoppeld is
+	$db->query("SELECT accommodatie_id FROM optie_accommodatie WHERE optie_soort_id='".addslashes($_GET["11k0"])."';");
+	while($db->next_record()) {
+		if($inquery) $inquery.=",".$db->f("accommodatie_id"); else $inquery=$db->f("accommodatie_id");
+	}
+	if($inquery) {
+		for($i=1;$i<=2;$i++) {
+			for($j=1;$j<=2;$j++) {
+			unset($wzt_gehad);
+				$db->query("SELECT a.wzt, a.accommodatie_id, a.naam, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.wzt='".$j."' AND a.plaats_id=p.plaats_id AND a.accommodatie_id ".($i==1 ? "NOT " : "")."IN (".$inquery.") ORDER BY a.wzt, p.naam, a.naam;");
+#				echo $db->lastquery."<br>";
+				if($db->num_rows()) {
+					while($db->next_record()) {
+						if(!$wzt_gehad[$db->f("wzt")]) {
+							if($wzt_gehad) echo "</ul></div>";
+							echo "&nbsp;<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_acc_".$i."_".$db->f("wzt")."\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('acc_".$i."_".$db->f("wzt")."');return false;\">De volgende ".($db->num_rows()>1 ? $db->num_rows() : "")." ".($db->f("wzt")==1 ? "winter" : "zomer")."accommodatie".($db->num_rows()>1 ? "s zijn" : " is")." ".($i==1 ? "nog NIET" : "al WEL")." aan deze optiesoort gekoppeld:</a>";
+							echo "<div id=\"acc_".$i."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\">";
+							echo "<ul>";
+							$wzt_gehad[$db->f("wzt")]=true;
+						}
+						echo "<li><a href=\"cms_accommodaties.php?show=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+					}
+					echo "</ul></div>";
+				}
+			}
+		}
+	}
+	
+	# Overzicht van boekingen waaraan deze optiesoort is gekoppeld
+	$db->query("SELECT DISTINCT SUBSTR(b.boekingsnummer,2), b.boeking_id, b.boekingsnummer, s.naam FROM boeking b, boeking_optie bo, view_optie v, seizoen s WHERE b.seizoen_id=s.seizoen_id AND s.eind>NOW() AND v.optie_soort_id='".addslashes($_GET["11k0"])."' AND bo.optie_onderdeel_id=v.optie_onderdeel_id AND bo.boeking_id=b.boeking_id AND boekingsnummer<>'' ORDER BY 1;");
+	if($db->num_rows()) {
+		echo "<br><hr><br>Deze optie-soort is aan de volgende actuele boekingen gekoppeld:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer"))."</a> (".$db->f("naam").")</li>";
+		}
+		echo "</ul>";
+	} else {
+		echo "<hr>Deze optie-soort is niet aan actuele boekingen gekoppeld.";
+	}
+	
+	$cms->display_log(11);
+}
+
+?>

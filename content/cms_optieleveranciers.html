@@ -1,0 +1,26 @@
+<?php
+
+$cms->display_cms();
+
+if($_GET["show"]==24) {
+	echo "<form method=\"get\" action=\"cms_overzichten_print.php\">";
+	echo "<input type=\"hidden\" name=\"t\" value=\"5\">";
+	echo "<input type=\"hidden\" name=\"olid\" value=\"".$_GET["24k0"]."\">";
+	echo "<ul>";
+#	echo "<li><a href=\"cms_overzichten_print.php?t=1&lid=".$_GET["8k0"]."\" target=\"_blank\">Roominglist totaal</a></li>";
+	echo "<li>Bestellijst &nbsp;&nbsp;<select name=\"date\" onchange=\"submit();\">";
+	echo "<option value=\"0\">-- selecteer een aankomstdatum --</option>";
+	$db->query("SELECT DISTINCT b.aankomstdatum FROM boeking b, accommodatie a, type t WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id ORDER BY aankomstdatum;");
+	while($db->next_record()) {
+		if(mktime(0,0,0,date("m"),date("d")-8,date("Y"))<=$db->f("aankomstdatum")) {
+			echo "<option value=\"".$db->f("aankomstdatum")."\">".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$db->f("aankomstdatum")])."</option>";
+		}
+	}
+	echo "</select></li>";
+	echo "</ul></form>";
+	
+	$cms->display_log(24);
+}
+
+
+?>

@@ -1,0 +1,112 @@
+<?php
+
+$cms->display_cms();
+
+if($_GET["show"]==29) {
+	
+	echo "<p><hr><h2>Accommodaties en types toevoegen</h2>Als je geen accommodaties of types toevoegt, is de code geldig voor alle accommodaties en types.<p><table cellspacing=\"0\" class=\"tbl\">";
+	echo "<form name=\"toevoegen\" action=\"".$_SERVER["REQUEST_URI"]."\" method=\"post\">";
+	echo "<input type=\"hidden\" name=\"toevoegen_filled\" value=\"1\">";
+	echo "<tr><th>Soort</th><th>Accommodatie/type</th></tr>";
+
+	echo "<tr><td>Accommodaties</td><td>";
+	$db->query("SELECT a.wzt, a.accommodatie_id, a.naam, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id ".($vars["inquery_accommodatie"] ? " AND a.accommodatie_id NOT IN (".$vars["inquery_accommodatie"].")" : "").($vars["inquery_type_accommodatie"] ? " AND a.accommodatie_id NOT IN (".$vars["inquery_type_accommodatie"].")" : "")." ORDER BY a.wzt, p.naam, a.naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"accommodaties\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("accommodatie_id")."\">".($db->f("wzt")==1 ? "W" : "Z").": ".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen accommodaties aanwezig";
+	}
+	echo "</td></tr>";
+
+	echo "<tr><td>Types</td><td>";
+	$db->query("SELECT a.wzt, a.naam AS accommodatie, a.accommodatie_id, t.type_id, t.naam AS type, t.code, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, l.naam AS land, l.begincode FROM type t, accommodatie a, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id".($vars["inquery_type"] ? " AND t.type_id NOT IN (".$vars["inquery_type"].")" : "").($vars["inquery_accommodatie"] ? " AND a.accommodatie_id NOT IN (".$vars["inquery_accommodatie"].")" : "")." ORDER BY a.wzt, p.naam, a.naam, t.type_id, t.naam, t.maxaantalpersonen;");
+	if($db->num_rows()) {
+		echo "<select name=\"types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("type_id")."\">".($db->f("wzt")==1 ? "W" : "Z").": ".htmlentities(substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ")."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen types aanwezig";
+	}
+	echo "</td></tr>";
+	echo "</form>";
+	echo "</table>";
+	
+	
+	$db->query("SELECT code FROM kortingscode WHERE kortingscode_id='".addslashes($_GET["29k0"])."';");
+	if($db->next_record()) {
+		if($db->f("code")=="AUTOMATISCH") {
+			echo "<hr><h2>Automatische codes</h2>";
+			echo "<div style=\"border:1px solid #878481;padding:5px;width:400px;margin-top:10px;margin-bottom:10px;\">";
+			echo "<b>Nieuwe codes aanmaken</b><br>";
+			echo "<table cellspacing=\"0\" cellpadding=\"0\">";
+			echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\"><input type=\"hidden\" name=\"filled_aantalcodes\" value=\"1\">";
+			echo "<tr><td>Aantal nieuwe codes:</td><td>&nbsp;</td><td><input type=\"text\" name=\"aantalcodes\" value=\"10\"></td></tr>";
+			echo "<tr><td>Aantal karakters:</td><td>&nbsp;</td><td><input type=\"text\" name=\"lengte\" value=\"6\"></td></tr>";
+			echo "<tr><td colspan=\"3\"><input type=\"checkbox\" name=\"vergeven\" value=\"1\" id=\"vergeven\"><label for=\"vergeven\">&nbsp;Aangemaakte codes meteen als vergeven markeren</label></td></tr>";
+			echo "<tr><td colspan=\"3\">&nbsp;</td></tr>";
+			echo "<tr><td colspan=\"3\"><input type=\"submit\" value=\" CODES AANMAKEN \"></td></tr></form></table>";
+			echo "</div>";
+			if($_POST["filled_aantalcodes"]==1 and $_POST["aantalcodes"]>0 and $_POST["lengte"]>=4 and $_POST["lengte"]<=18) {
+				echo "<b><i>Zojuist aangemaakte codes:</i></b>:<div style=\"border:1px solid #878481;padding:5px;width:400px;margin-top:10px;margin-bottom:10px;\">";
+				$chars="ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+				for($i=0;$i<$_POST["aantalcodes"];$i++) {
+					unset($okay,$id);
+					while(!$okay) {
+						while(strlen($id)<$_POST["lengte"]) {
+							$num=mt_rand(0,strlen($chars)-1);
+							$id=$id.substr($chars,$num,1);
+						}
+						$db->query("SELECT kortingscode_id FROM kortingscode WHERE code='".addslashes($id)."';");
+						if(!$db->num_rows()) {
+							$db->query("SELECT kortingscode_eenmalig_id FROM kortingscode_eenmalig WHERE code='".addslashes($id)."';");
+							if(!$db->num_rows()) {
+								$okay=true;
+							}
+						}
+					}
+					if($okay) {
+						$db->query("INSERT INTO kortingscode_eenmalig SET kortingscode_id='".addslashes($_GET["29k0"])."', code='".addslashes($id)."', ".($_POST["vergeven"]==1 ? "status=1, " : "")."adddatetime=NOW(), editdatetime=NOW();");
+						echo htmlentities($id)."<br>";
+					}
+				}
+				echo "</div>";
+			}
+			
+			$db->query("SELECT kortingscode_eenmalig_id, code, status, boeking_id FROM kortingscode_eenmalig WHERE kortingscode_id='".addslashes($_GET["29k0"])."' ORDER BY status, kortingscode_eenmalig_id DESC;");
+			if($db->num_rows()) {
+				echo "<b>Alle aangemaakte codes</b></p>";
+				echo "<table cellspacing=\"0\" class=\"tbl\" style=\"width:250px;\"><tr><th>code</th><th>status</th></tr><form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\"><input type=\"hidden\" name=\"status_filled\" value=\"1\">";
+				while($db->next_record()) {
+					echo "<tr style=\"height:25px;".($db->f("status")==0 ? "background-color:yellow;" : ($db->f("status")==2 ? "background-color:#cccccc;" : ""))."\"><td>".htmlentities($db->f("code"))."</td><td>";
+					if($db->f("status")==0) {
+						echo "<select name=\"status[".$db->f("kortingscode_eenmalig_id")."]\"><option value=\"0\"".($db->f("status")==0 ? " selected" : "").">nieuw</option><option value=\"1\"".($db->f("status")==1 ? " selected" : "").">vergeven</option></select>";
+					} elseif($db->f("status")==1) {
+						echo "vergeven";
+					} elseif($db->f("status")==2) {
+						if($db->f("boeking_id")) echo "<a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">";
+						echo "gebruikt bij boeking";
+						if($db->f("boeking_id")) echo "</a>";
+					}
+					echo "</td></tr>";
+				}
+				echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" OPSLAAN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"></td></tr>";
+				echo "</form></table>";
+			}
+
+		}
+		
+	}
+
+	$cms->display_log(29);
+}
+
+
+?>

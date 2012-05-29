@@ -1,0 +1,107 @@
+
+.tarieventabel {
+	width:690px;
+	border: 0px;
+}
+
+#toonaccommodatie_content {
+	float: left;
+	width:730px;
+}
+
+.toonacctabel {
+	width: 690px;
+}
+
+.selecteerbaarbedrag {
+
+}
+
+.tarieventabel_rondom {
+	background-color: #ffffff;
+}
+
+.tarieventabel_arrow {
+	cursor: pointer;
+}
+
+.tarieventabel_header {
+	background-color: #ffd38f;
+	color: #661700;
+	padding: 7px;
+	font-weight: bold;
+	margin-left: 22px;
+	margin-right: 24px;
+}
+
+.tarieventabel_wrapper {
+
+}
+
+.tarieventabel_div {
+	border: 1px solid #ffd38f;
+}
+
+.tarieventabel .kop {
+	background-color: #e0d1cc;
+}
+
+.geenbordertable td {
+	border:0px;
+}
+
+#bekijkflexibel a:hover {
+	color: #ffffff;
+}
+
+#toonaccommodatie_kenmerken {
+	border: 1px solid #ff9900;
+}
+
+#breadcrumb_wrapper {
+	margin-left: 10px;
+}
+
+#reviews {
+	border-top: 1px solid #ffd38f;
+}
+
+.reviewblok {
+	border-top: 1px solid #ffd38f;
+	border-bottom: 1px solid #ffd38f;
+	background-color: #e0d1cc;
+}
+
+#telefoonblok {
+	margin-left: 15px;
+	width: 166px;
+	padding: 2px;
+}
+
+#telefoonblok_nummer img {
+	margin-left: 0px;
+	margin-right: 5px;
+}
+
+#toonaccommodatie_aanbieding {
+	color: #661700;
+}
+
+.aanbieding {
+	background-color: #661700;
+	color: #ffffff !important;
+}
+
+.aanbieding a {
+	background-color: #661700;
+	color: #ffffff !important;
+}
+
+.aanbieding_td_aldoorgerekend {
+	background-color: #661700;
+	color: #ffffff;
+}
+
+.aanbieding a:hover {
+	color: #000000 !important;
+}

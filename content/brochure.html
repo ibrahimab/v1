@@ -1,0 +1,82 @@
+<?php
+
+
+#
+# Folder
+#
+
+
+
+#
+# OMZETTEN van PDF naar JPG's:
+#
+# gebruik het programma XnView, en kies voor "Create", "Multi-Page file", "Extract All into"
+#
+#
+
+echo "<script type=\"text/javascript\">\n";
+while(list($key,$value)=each($files)) {
+	echo "files[".$key."]='".$value."';\n";
+}
+echo "</script>\n";
+
+#<div id="blokaccommodatie" style="background-color:#5f227b"><div style="position:relative;" class="overlay_foto" onclick="document.location.href='/accommodatie/I3281/'"><img src="/pic/cms/accommodaties/1286.jpg" width="160" border="0"><div id="blokaccommodatie_overlay"><div>Toscane</div><div style="padding-top: 3px;">4 - 5 personen</div></div></div></div></div>
+
+# Content
+if($_GET["fo"]=="frm") {
+	echo "<p>Bedankt voor uw gegevens. U zult ons magazine binnenkort per post ontvangen.<p>";
+	echo "<a href=\"".$vars["path"]."brochure.php\">Magazine online bekijken</a>";
+} else {
+
+	echo "<div style=\"height:470px;width:700px;margin-right:0px;\">";
+
+#	echo "<center><h1>Chalet.nl Wintersport Magazine</h1></center>";
+	
+	if($vars["seizoentype"]==2) {
+		echo "<p>Naast onze uitgebreide website hebben wij een inspiratie-magazine samengesteld met daarin niet alleen een impressie van ons aanbod maar ook een aantal reistips, recepten en interviews. Daarnaast is er aandacht voor onze thema's die gericht zijn op een favoriete vakantiebesteding. Zo vind je gemakkelijker het vakantiehuis dat bij je past.<br><br>Bekijk dit Magazine online of laat het thuisbezorgen door onderstaand formulier in te vullen.</p>";
+	} else {
+		echo "<p>Voor een impressie van ons aanbod en de mogelijkheden die we je als wintersportspecialist te bieden hebben, verwijzen wij je graag naar ons Wintersport Magazine.</p>";
+	}
+	
+	for($i=0;$i<25;$i++) {
+		echo "<div style=\"display:none;\"><a class=\"fancybox\" rel=\"group2\" id=\"link".$i."\" href=\"".$vars["path"]."pic/folder/".$files[0]."\">link</a></div>";
+	}
+
+	echo "<div style=\"position:relative;\">";
+		echo "<div style=\"position:absolute;z-index:1;left:338px;top:11px;\">";
+	echo "</div>";
+	echo "<div style=\"position:absolute;z-index:0;\">";
+		echo "<div id=\"leftpage\" class=\"folderclick\"><a class=\"fancybox\" id=\"link25\" href=\"".$vars["path"]."pic/folder/".$files[0]."\"><img src=\"".$vars["path"]."pic/folder_tn/".$files[0]."\" id=\"leftimg\" border=\"0\"></a></div>";
+		echo "<div id=\"rightpage\" class=\"folderclick\"><a class=\"fancybox\" rel=\"group1\" id=\"link26\" href=\"".$vars["path"]."pic/folder/".$files[1]."\"><img src=\"".$vars["path"]."pic/folder_tn/".$files[1]."\" id=\"rightimg\" border=\"0\"></a></div>";
+		
+		echo "<div class=\"clear\"></div>";
+	echo "</div>";
+	
+	echo "<div style=\"position:relative;top:360px;width:700px;height:30px;\">";
+		echo "<div id=\"previous\" style=\"visibility:hidden;\"><input type=\"button\" id=\"previousbutton\" class=\"pnbutton\" value=\"&lt; VORIGE\" onFocus=\"this.blur();\"></div>";
+		echo "<div id=\"midden\"><i>klik voor een vergroting</i></div>";
+		echo "<div id=\"next\"><input type=\"button\" id=\"nextbutton\" class=\"pnbutton\" value=\"VOLGENDE &gt;\" onFocus=\"this.blur();\"></div>";
+		echo "<div class=\"clear\"></div>";
+	echo "</div>";
+	
+	echo "<div>&nbsp;</div>";
+	for($i=27;$i<50;$i++) {
+		echo "<div style=\"display:none;\"><a class=\"fancybox\" rel=\"group1\" id=\"link".$i."\" href=\"".$vars["path"]."pic/folder/".$files[$i-25]."\">link</a></div>";
+	}
+
+	echo "</div>";
+	echo "</div>";
+
+	if($vars["website"]=="Z") {
+	
+		echo "<div style=\"margin-top:50px;\">";
+		echo "<h2>Magazine aanvragen</h2>";
+		echo "<br>";
+		$form->display_all();
+		echo "</div>";
+	}
+}
+
+echo "<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>";
+
+?>

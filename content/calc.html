@@ -1,0 +1,152 @@
+<?php
+
+for($i=0;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+	$aantalarray[$i]=$i;
+}
+
+if($_GET["back"]) {
+	echo "<a href=\"".htmlentities($_GET["back"])."\">".html("terugnaardeaccommodatiegegevens","calc")."</a><p>";
+}
+
+if($_GET["stap"]==1) {
+	if(!$temp_aankomstdatum_beschikbaar) {
+		echo nl2br(html("geenbeschikbaretarieven","calc"))."<p>";
+	} elseif(!$temp_optietarieven_beschikbaar) {
+		echo nl2br(html("geenoptietarieven_beschikbaar","calc"))."<p>";
+	} else {
+		$form->display_all();
+	}
+} elseif($_GET["stap"]==2) {
+
+	if((is_array($optie_soort["naam_enkelvoud"]) and is_array($optie_onderdeel)) or is_array($optie_keuzes)) {
+		echo html("inleiding","calc")."<p>";
+	}
+	echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+	
+	echo "<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;border:2px solid ".$bordercolor.";padding:3px;\">";
+	echo "<tr><td style=\"padding-bottom:4px;\"><b>".html("accommodatie","boeken")."</b>&nbsp;</td><td style=\"padding-bottom:4px;\">".htmlentities($accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</td></tr>";
+	echo "<tr><td><b>".html("plaats","boeken")."</b>&nbsp;</td><td>".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
+	if($vars["wederverkoop"] and $login_rb->logged_in) {
+		echo "<tr><td colspan=\"2\">&nbsp;</td></tr>";
+		echo "<tr><td><b>".html("referentie","calc")."</b>&nbsp;(".html("optioneel","calc").")</td><td><input type=\"text\" name=\"referentie\" value=\"\" class=\"wtform_input\"></td></tr>";
+		echo "<tr><td colspan=\"2\">&nbsp;</td></tr>";
+		echo "<tr><td valign=\"top\"><b>".html("opmerkingen","calc")."</b>&nbsp;<br>(".html("optioneel","calc").")</td><td><textarea name=\"opmerkingen\" class=\"wtform_input wtform_textarea\" rows=\"5\" style=\"width:480px;\"></textarea></td></tr>";
+	}
+
+	echo "<tr><td colspan=\"2\" align=\"center\">&nbsp;</td></tr>";
+	echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".strtoupper(html("berekenen","calc"))." \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"></td></tr>";
+	echo "<tr><td colspan=\"2\" align=\"center\">".html("voegnogoptiestoe","calc")."</td></tr>";
+
+	echo "</table><hr>";
+
+	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
+
+	# Foutmelding bij ingevuld formulier
+	if(is_array($error)) {
+		echo "<span class=\"wtform_error\"><ul>";
+		while(list($key,$value)=each($error)) {
+			echo "<li>".htmlentities($value)."</li>";
+		}
+		echo "</ul></span><p>";
+	}
+
+
+	# Algemene opties
+	echo "<b>".html("algemeneopties","boeken")."</b><p>";
+	echo "<table cellspacing=\"0\" class=\"tbl\">";
+	echo "<tr><td>".html("schadeverzekering","calc")."<td>";
+	echo "<select name=\"schadeverzekering\" style=\"width:100%;\"><option value=\"0\">".html("nee")."</option><option value=\"1\">".html("ja")."</option></select>";
+	echo "</td></tr>";
+	if(is_array($optie_soort_algemeen["naam_enkelvoud"]) and is_array($optie_keuzes)) {
+		reset($optie_soort_algemeen["naam_enkelvoud"]);
+		while(list($key,$value)=each($optie_soort_algemeen["naam_enkelvoud"])) {
+			if(is_array($optie_onderdeel[$key])) {
+				echo "<tr><td>".htmlentities($value)."<td>";
+				reset($optie_onderdeel[$key]);
+				echo "<select name=\"inputalg[".$key."]\" style=\"width:100%;\"><option value=\"\">&nbsp;</option>";
+				while(list($key2,$value2)=each($optie_onderdeel[$key])) {
+					echo "<option value=\"".$key2."\"".($_POST["inputalg"][$key]==$key2 ? " selected" : "").">".htmlentities($value2["naam"]).": &euro;&nbsp;".number_format($value2["verkoop"],2,",",".")."</option>";
+				}
+				echo "</select></td></tr>";
+			}
+		}
+	}
+	echo "</table><hr>";
+
+	if(is_array($optie_soort["naam_enkelvoud"]) and is_array($optie_onderdeel)) {
+		echo "<table cellspacing=\"0\" class=\"tbl\">";
+		echo "<b>".html("optiesperpersoon","calc")."</b><p>";
+		echo "<tr><th>".html("soortoptie","calc")."</th><th style=\"text-align:center;\">".html("prijs","calc")."</th><th style=\"text-align:center;\">".html("aantal","calc")."</th></tr>";
+		while(list($key,$value)=each($optie_soort["naam_enkelvoud"])) {
+			if(is_array($optie_onderdeel[$key])) {
+				echo "<tr><td colspan=\"3\"><b>";
+				if($teveel[$key]) echo "<span class=\"wtform_error\">";
+				echo htmlentities($value);
+				if($teveel[$key]) echo "</span>";
+				echo "</b></td></tr>";
+				while(list($key2,$value2)=each($optie_onderdeel[$key])) {
+					if($key=="ann") {
+						echo "<tr><td colspan=\"2\">".htmlentities($value2["naam"])."</td>";
+					} else {
+						echo "<tr><td>".htmlentities($value2["naam"])."</td><td align=\"right\">&euro;&nbsp;".number_format(abs($value2["verkoop"]),2,",",".").($value2["verkoop"]<0 ? " ".html("korting","vars") : "")."</td>";
+					}
+					echo "<td align=\"center\"><select name=\"input[".$key."][".$key2."]\">";
+					for($i=0;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+						echo "<option value=\"".$i."\"".($_POST["input"][$key][$key2]==$i ? " selected" : "").">".$i."&nbsp;</option>";
+					}
+					echo "</select></td>";
+					echo "</tr>";
+				}
+				echo "<tr><td colspan=\"3\">&nbsp;</td></tr>";
+			}
+		}
+
+		echo "<tr><td colspan=\"3\" align=\"center\"><input type=\"submit\" value=\" ".strtoupper(html("berekenen","calc"))." \" id=\"submit2frm\" onclick=\"document.frm.submit2frm.disabled=1;document.frm.submit();\"></td></tr>";
+		echo "</table>";
+	} else {
+		echo html("optietarievennietbekend","calc");
+	}
+	echo "</form>";
+} elseif($_GET["stap"]==3) {
+
+	# Totaalbedrag tonen
+	
+	echo $overzicht;
+	
+	echo "<p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\" name=\"frm\">";
+	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
+
+	if($vars["wederverkoop"] and $login_rb->logged_in) {
+		echo "<a href=\"#\" onclick=\"document.frm.submit();return false;\">".html("mailditoverzicht_wederverkoop","calc")." &gt;</a>&nbsp;(".htmlentities($login_rb->vars["email"]).")";
+		echo "<input type=\"hidden\" name=\"mail\" value=\"".htmlentities($login_rb->vars["email"])."\"><p>";
+		
+		if($gegevens["stap1"]["calc_bewaren"]) {
+			echo "<b>".html("calcisopgeslagen_wederverkoop","calc")."</b> - ";
+			echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&wissen=1\">".html("calcwis_wederverkoop","calc")." &gt;</a><p>";
+		} else {
+			echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&bewaren=1\">".html("calcopslaan_wederverkoop","calc")." &gt;</a><p>";
+		}
+		
+	} else {
+		echo html("mailditoverzicht","calc").":&nbsp;&nbsp;&nbsp;";
+		$temp_naw=getnaw();
+		if(isset($_POST["mail"])) {
+			$mailvalue=$_POST["mail"];
+		} elseif($temp_naw["email"]) {
+			$mailvalue=$temp_naw["email"];
+		} else {
+			$mailvalue="";
+		}
+		echo "<input type=\"text\" name=\"mail\" value=\"".htmlentities($mailvalue)."\" style=\"width:270px;\">&nbsp;&nbsp;&nbsp;";
+		echo "<input type=\"submit\" value=\" ".strtoupper(html("verzenden","calc"))." \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"><br>";
+	}
+	if($error) {
+		echo "<span class=\"wtform_error\">".$error."</span><br>";
+	}
+	if($melding) {
+		echo "<b>".$melding."</b><br>";
+	}
+	echo "</form>";
+}
+
+?>

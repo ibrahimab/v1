@@ -1,0 +1,110 @@
+<table border="0" style="width:750px;" cellspacing="0" cellpadding="0">
+<tr>	<td valign="top">
+	<table class="voorpagina">
+	<tr>	<td bgcolor="#CC0033"><img src="pic/leeg.gif" alt="" height="29" width="29"></td>
+		<td bgcolor="#FFFFFF"><img src="pic/leeg.gif" alt="" height="29" width="5"></td>
+		<td bgcolor="#FFFFFF"><h2><a href="zoek-en-boek.php">Zoek &amp; boek</a></h2></td>
+		<td bgcolor="#E8EBF1"></td></tr>
+	<tr>	<td bgcolor="#E8EBF1"></td>
+		<td bgcolor="#E8EBF1"></td>
+		<td bgcolor="#E8EBF1" valign="middle" width="99%">Chalets en appartementen in verschillende prijsklassen. Bijboeken van skipas, huurmateriaal, vervoer, maaltijden en verzekeringen is mogelijk bij een groot deel van de accommodaties.<br><a href="zoek-en-boek.php">Lees meer &gt;&gt;</a></td>
+		<td valign="top"><a href="accommodaties.php"><img src="pic/foto1_w.jpg" alt="" height="119" width="119" border="0"></a></td></tr>
+	</table>
+	</td>
+	<td>&nbsp;</td>
+	<td valign="top" align="right">
+	<table class="voorpagina">
+	<tr>	<td bgcolor="#CC0033"><img src="pic/leeg.gif" alt="" height="29" width="29"></td>
+		<td bgcolor="#FFFFFF"><img src="pic/leeg.gif" alt="" height="29" width="5"></td>
+		<td bgcolor="#FFFFFF"><h2><a href="aanbiedingen.php">Aanbiedingen</a></h2></td>
+		<td bgcolor="#E8EBF1"></td></tr>
+	<tr>	<td bgcolor="#E8EBF1"></td>
+		<td bgcolor="#E8EBF1"></td>
+		<td bgcolor="#E8EBF1" valign="middle" width="99%">Een actueel overzicht van onze extra aantrekkelijk geprijsde accommodaties.<br><a href="aanbiedingen.php">Lees meer &gt;&gt;</a></td>
+		<td valign="top"><a href="accommodaties.php"><img src="pic/foto2_w.jpg" alt="" height="119" width="119" border="0"></a></td></tr>
+	</table>
+	</td></tr>
+<tr>	<td colspan="3"><img src="pic/leeg.gif" alt="" height="12" width="5"></td></tr>
+<tr>	<td valign="top">
+	<table class="voorpagina" border="0">
+	<tr>	<td bgcolor="#E8EBF1"></td>
+		<td bgcolor="#FFFFFF"><img src="pic/leeg.gif" alt="" height="29" width="5"></td>
+		<td bgcolor="#FFFFFF"><h2><a href="skigebieden.php">Skigebieden</a></h2></td>
+		<td bgcolor="#CC0033"><img src="pic/leeg.gif" alt="" height="29" width="29"></td></tr>
+	<tr>	<td valign="top"><a href="aanbiedingen.php"><img src="pic/foto3_w.jpg" alt="" height="119" width="119" border="0"></a></td>
+		<td bgcolor="#E8EBF1"></td>
+		<td bgcolor="#E8EBF1" valign="middle" width="99%">Uitgebreide informatie over skigebieden in Frankrijk, Oostenrijk, Zwitserland en Itali&euml; met ondermeer een overzichtskaart, het aantal pistes, liften en weersinformatie. <br><a href="skigebieden.php">Lees meer &gt;&gt;</a></td>
+		<td bgcolor="#E8EBF1"></td></tr>
+	</table>
+	</td>
+	<td>&nbsp;&nbsp;</td>
+	<td valign="top" align="right"><?php
+
+#	$blok[1]["titel"]="Chalet Resort Brixen";
+#	$blok[1]["url"]="accommodatie/O2330/";
+#	$blok[1]["img"]="1";
+#	$blok[1]["tekst"]="Vrijstaande chalets bij oefenweide in Brixen im Thale. Restaurant op het terrein.";
+	
+	$blok[1]["titel"]="Chalet Le Hameau du Puy";
+	$blok[1]["url"]="accommodatie/F1758/";
+	$blok[1]["img"]="1";
+	$blok[1]["tekst"]="Comfortabele twee-onder-één-kap chalets in Superdevoluy. Gunstige ligging.";
+
+	$blok[2]["titel"]="Appartement Hummerau";
+	$blok[2]["url"]="accommodatie/O2777/";
+	$blok[2]["img"]="2";
+	$blok[2]["tekst"]="Centraal gelegen appartementencomplex in Alpbach. Geschikt voor gezinnen.";
+
+	$blok[3]["titel"]="Les Balcons de Val Cenis";
+	$blok[3]["url"]="accommodatie/F42/";
+	$blok[3]["img"]="3";
+	$blok[3]["tekst"]="Appartementencomplex met fitnessruimte en 2 sauna’s in mooi skigebied.";
+
+	$blok[4]["titel"]="Appartement Zillertal";
+	$blok[4]["url"]="accommodatie/O4711/";
+	$blok[4]["img"]="4";
+	$blok[4]["tekst"]="Mooi complex met ruime appartementen bij Kaltenbach. Restaurant en bar. Wellnessfaciliteiten in naastgelegen hotel.";
+
+	echo "<table class=\"voorpagina\" border=\"0\">";
+	echo "<tr><td bgcolor=\"#E8EBF1\" style=\"width:119px;height:29px;\">&nbsp;</td>";
+	echo "<td bgcolor=\"#FFFFFF\" style=\"width:5px;height:29px;\"><img src=\"pic/leeg.gif\" alt=\"\" height=\"29\" width=\"5\"></td>";
+	echo "<td bgcolor=\"#FFFFFF\" style=\"width:219px;height:29px;\">";
+	reset($blok);
+	while(list($key,$value)=each($blok)) {
+		echo "<div style=\"position:relative;\">";
+		echo "<div style=\"position:absolute;margin-top:-8px;".($key==1 ? "" : "display:none;")."\" class=\"slide".$key."\">";
+		echo "<h2 style=\"font-size:1.4em;\"><a href=\"".htmlentities($blok[$key]["url"])."\">".htmlentities($blok[$key]["titel"])."</a></h2>";
+		echo "</div>";
+		echo "</div>";
+	}
+	echo "</td>";
+	echo "<td bgcolor=\"#CC0033\" style=\"width:29px;height:29px;\"><img src=\"pic/leeg.gif\" alt=\"\" height=\"29\" width=\"29\"></td></tr>";
+	echo "<tr><td valign=\"top\" style=\"width:125px;height:120px;\">";
+	reset($blok);
+	while(list($key,$value)=each($blok)) {
+		echo "<div style=\"position:relative;\">";
+		echo "<div style=\"position:absolute;".($key==1 ? "" : "display:none;")."\" class=\"fotoslide".$key."\">";
+		echo "<a href=\"".htmlentities($blok[$key]["url"])."\"><img src=\"pic/wsa_temp/hoofdpagina".$blok[$key]["img"].".jpg?c=1\" alt=\"\" height=\"119\" width=\"119\" border=\"0\"></a>";
+		echo "</div>";
+		echo "</div>";
+	}
+
+	echo "</td>";
+	echo "<td bgcolor=\"#E8EBF1\" style=\"width:5px;height:119px;\">&nbsp;</td>";
+	echo "<td bgcolor=\"#E8EBF1\" valign=\"middle\" style=\"width:219px;height:120px;\">";
+	reset($blok);
+	while(list($key,$value)=each($blok)) {
+		echo "<div style=\"position:relative;margin-top:-28px;\">";
+		echo "<div style=\"position:absolute;".($key==1 ? "" : "display:none;")."\" class=\"slide".$key."\">";
+		echo nl2br(htmlentities($blok[$key]["tekst"]));
+		echo "<br><a href=\"".htmlentities($blok[$key]["url"])."\">Lees meer &gt;&gt;</a>";
+		echo "</div>";
+		echo "</div>";
+	}
+	echo "</td>";
+	echo "<td bgcolor=\"#E8EBF1\" style=\"width:29px;height:119px;\">&nbsp;</td></tr>";
+	echo "</table>";
+	
+	?>
+	</td></tr>
+</table>

@@ -1,0 +1,55 @@
+
+#leftpage {
+	float:left;
+	position:relative;
+	overflow:hidden;
+	width:350px;
+	height:360px;
+	cursor:pointer;
+}
+
+#rightpage {
+	float:left;
+	position:relative;
+	overflow:hidden;
+	width:350px;
+	height:360px;
+	cursor:pointer;
+}
+
+#leftpage {
+
+}
+
+#rightpage {
+
+}
+
+#midden {
+	float: left;
+	margin-left: 167px;
+}
+
+#previous {
+	float: left;
+	cursor: pointer;
+	margin-right: auto;
+}
+
+#next {
+	float: right;
+	cursor: pointer;	
+}
+
+.pnbutton {
+	border: 1px solid #000000;
+	width: 100px;
+	color: #ffffff;
+	text-align: center;
+	background-color: #d30239;
+	cursor: pointer;
+}
+
+#terugnaarboven {
+	display: none;
+}

@@ -1,0 +1,198 @@
+<?php
+
+if($_GET["t"]==4) {
+	# Inactieve kortingen (geen aanbiedingen!) tonen
+	echo "<p>Bij de volgende actieve kortingen is de einddatum verstreken:</p>";
+	
+	$db->query("SELECT v.begincode, v.accommodatie_id, v.type_id, v.naam, v.tnaam, v.plaats, v.optimaalaantalpersonen, v.maxaantalpersonen, v.leverancier_id, v.leverancier, k.korting_id, k.gekoppeld_code, k.seizoen_id, k.naam AS kortingnaam, UNIX_TIMESTAMP(k.tot) AS tot FROM korting k, view_accommodatie v WHERE v.wzt='".addslashes($_GET["wzt"])."' AND v.atonen=1 AND v.ttonen=1 AND k.type_id=v.type_id AND k.actief=1 AND k.tot<NOW() ORDER BY leverancier, plaats, naam, tnaam, optimaalaantalpersonen, maxaantalpersonen;");
+	if($db->num_rows()) {
+		echo "<table class=\"tbl\" cellspacing=\"0\">";
+		echo "<tr><th>&nbsp;</th><th>Leverancier</th><th>Plaats</th><th>Accommodatie</th><th>Type</th><th>Kortingnaam</th><th>Einddatum</th></tr>";
+		while($db->next_record()) {
+			if($db->f("gekoppeld_code")) {
+				if($gekoppeld_code_algehad[$db->f("accommodatie_id")."_".$db->f("gekoppeld_code")]) {
+					continue;
+				} else {
+					$gekoppeld_code_algehad[$db->f("accommodatie_id")."_".$db->f("gekoppeld_code")]=true;
+				}
+			}
+			echo "<tr><td><a href=\"".$vars["path"]."cms_kortingen_tarieven.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&tid=".$db->f("type_id")."&kid=".$db->f("korting_id")."\"><img src=\"".$vars["path"]."pic/class.cms_show.gif\" width=\"20\" height=\"20\" border=\"0\"></a><td>".wt_he($db->f("leverancier"))."</td><td>".wt_he($db->f("plaats"))."</td><td>".wt_he($db->f("naam"))."</td><td>".($db->f("gekoppeld_code") ? "<i>alle types</i>" : wt_he(($db->f("tnaam") ? $db->f("tnaam")." - " : "").$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen"): "")."p."))."</td><td>".wt_he($db->f("kortingnaam"))."</td><td>".date("d-m-Y",$db->f("tot"))."</td></tr>";
+		}
+		echo "</table>";
+	} else {
+		echo "Geen kortingen gevonden.";
+	}
+} else {
+	# aanbiedingen-CMS
+	$cms->display_cms();
+}
+
+if($_GET["show"]==14) {
+
+	unset($link);
+	echo "<p><hr><h2>Aanbieding tonen bij zoekformulier</h2>";
+	$db->query("SELECT onlinenaam, omschrijving FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
+	if($db->next_record() and $db->f("onlinenaam")) {
+		if($_GET["wzt"]==2) {
+			$link="http://www.zomerhuisje.nl/zoek-en-boek.php?abid=".$_GET["14k0"];	
+		} else {
+			$link="http://www.chalet.nl/zoek-en-boek.php?abid=".$_GET["14k0"];	
+		}
+	}
+	if($link) {
+		echo "Link: <a href=\"".htmlentities($link)."\" target=\"_blank\">".htmlentities($link)."</a><br>";
+	} else {
+		echo "<i>Aanbieding tonen bij zoekformulier is alleen mogelijk als deze een naam heeft.</i><br>";
+	}
+
+#	$db->query("SELECT a.bedrag_soort, s.naam AS seizoen FROM aanbieding a, seizoen s WHERE s.seizoen_id=a.seizoen_id AND a.aanbieding_id='".addslashes($_GET["14k0"])."';");
+	$db->query("SELECT a.bedrag_soort, a.wzt FROM aanbieding a WHERE a.aanbieding_id='".addslashes($_GET["14k0"])."';");
+	if($db->next_record()) {
+		$ab["bedrag_soort"]=$db->f("bedrag_soort");
+		$ab["wzt"]=$db->f("wzt");
+#		$ab["seizoen"]=$db->f("seizoen");
+	}
+	
+	echo "<p><hr><h2>Accommodaties, types en leveranciers toevoegen</h2><table cellspacing=\"0\" class=\"tbl\">";
+	echo "<form name=\"toevoegen\" action=\"".$_SERVER["REQUEST_URI"]."\" method=\"post\">";
+	echo "<input type=\"hidden\" name=\"toevoegen_filled\" value=\"1\">";
+	echo "<tr><th>Soort</th><th>Naam</th></tr>";
+
+	echo "<tr><td>Accommodaties</td><td>";
+	$db->query("SELECT a.accommodatie_id, a.internenaam AS naam, p.naam AS plaats FROM accommodatie a, plaats p WHERE ".($ab["bedrag_soort"]==3 ? "a.toonper=3 AND " : "")."a.plaats_id=p.plaats_id ".($vars["inquery_accommodatie"] ? " AND a.accommodatie_id NOT IN (".$vars["inquery_accommodatie"].")" : "").($vars["inquery_type_accommodatie"] ? " AND a.accommodatie_id NOT IN (".$vars["inquery_type_accommodatie"].")" : "")." AND a.wzt='".$ab["wzt"]."' AND a.tonen=1 AND a.archief=0 ORDER BY p.naam, a.naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"accommodaties\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen accommodaties aanwezig";
+	}
+	echo "</td></tr>";
+
+	echo "<tr><td>Types</td><td>";
+	$db->query("SELECT a.naam AS accommodatie, a.accommodatie_id, t.type_id, t.naam AS type, t.code, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, l.naam AS land, l.begincode FROM type t, accommodatie a, plaats p, land l WHERE ".($ab["bedrag_soort"]==3 ? "a.toonper=3 AND " : "")."t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id".($vars["inquery_type"] ? " AND t.type_id NOT IN (".$vars["inquery_type"].")" : "").($vars["inquery_accommodatie"] ? " AND a.accommodatie_id NOT IN (".$vars["inquery_accommodatie"].")" : "")." AND a.wzt='".$ab["wzt"]."' AND a.tonen=1 AND a.archief=0 AND t.tonen=1 ORDER BY p.naam, a.naam, t.type_id, t.naam, t.maxaantalpersonen;");
+	if($db->num_rows()) {
+		echo "<select name=\"types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+#			$vars["top10_types"][$db->f("type_id")]=substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ";		
+			echo "<option value=\"".$db->f("type_id")."\">".htmlentities(substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ")."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen types aanwezig";
+	}
+	echo "</td></tr>";
+
+#	echo "<tr><td>Leveranciers</td><td>";
+#	$db->query("SELECT DISTINCT lev.leverancier_id, lev.naam FROM leverancier lev, accommodatie a, type t, plaats p, land l WHERE a.wzt='".addslashes($_GET["wzt"])."' AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND t.leverancier_id=lev.leverancier_id AND lev.beheerder=0 AND a.tonen=1 AND t.tonen=1 AND a.archief=0 ORDER BY lev.naam, l.naam;");
+#	if($db->num_rows()) {
+#		echo "<select name=\"leveranciers\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+#		echo "<option value=\"0\"></option>";
+#		while($db->next_record()) {
+#			echo "<option value=\"".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</option>";
+#		}
+#		echo "</select>";
+#	} else {
+#		echo "nog geen leveranciers aanwezig";
+#	}
+#	echo "</td></tr>";
+
+	echo "<tr><td>Alle types van een leverancier (types worden los toegevoegd)</td><td>";
+	$db->query("SELECT DISTINCT lev.leverancier_id, lev.naam FROM leverancier lev, accommodatie a, type t, plaats p, land l WHERE a.wzt='".addslashes($_GET["wzt"])."' AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND t.leverancier_id=lev.leverancier_id AND lev.beheerder=0 AND a.tonen=1 AND t.tonen=1 AND a.archief=0 ORDER BY lev.naam, l.naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"leveranciers_types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen leveranciers aanwezig";
+	}
+	echo "</td></tr>";
+
+	echo "<tr><td>Alle types van leveranciers actief in (types worden los toegevoegd)</td><td>";
+	$db->query("SELECT DISTINCT l.land_id, l.naam FROM leverancier lev, accommodatie a, type t, plaats p, land l WHERE a.wzt='".addslashes($_GET["wzt"])."' AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND t.leverancier_id=lev.leverancier_id AND lev.beheerder=0 AND a.tonen=1 AND t.tonen=1 AND a.archief=0 ORDER BY l.naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"landen\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("land_id")."\">".htmlentities($db->f("naam"))."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen landen aanwezig";
+	}
+	echo "</td></tr>";
+	
+	echo "</form>";
+
+	# CSV uploaden
+	echo "<tr><td>Types uploaden via CSV-bestand<br><br><span style=\"font-size:0.8em;\">kolom 1: typecode, bijv. F240<br>kolom 2: alle types van zelfde accommodatie toevoegen (ja/nee)</span></td><td>";
+	echo "<form method=\"post\" name=\"frm_csvimport\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" enctype=\"multipart/form-data\">";
+	echo "<input type=\"file\" name=\"csv\" size=\"60\">";
+	echo "<input type=\"hidden\" name=\"csvimport\" value=\"1\">";
+	echo "<input type=\"submit\" value=\" CSV UPLOADEN \" id=\"sbmt\" onclick=\"document.frm_csvimport.sbmt.disabled=1;document.frm_csvimport.submit();\">";
+	echo "</form>";
+	echo "</td></tr>";
+
+	echo "</table>";
+
+
+	$db->query("SELECT seizoen1_id, seizoen2_id, seizoen3_id, seizoen4_id FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
+	if($db->next_record()) {
+		unset($inquery);
+		for($i=1;$i<=4;$i++) {
+			if($db->f("seizoen".$i."_id")) {
+				if($inquery) $inquery.=",".$db->f("seizoen".$i."_id"); else $inquery=$db->f("seizoen".$i."_id");
+			}
+		}
+	}
+	if(!$inquery) $inquery="0";
+	
+	$db->query("SELECT UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind FROM seizoen s WHERE s.seizoen_id IN (".$inquery.");");
+	while($db->next_record()) {
+		# Aankomstdatum-array vullen
+		$timeteller=$db->f("begin");
+		while($timeteller<=$db->f("eind")) {
+			$abdata[$timeteller]=1;
+			$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
+		}
+	}
+	@ksort($abdata);
+
+	if($ab["bedrag_soort"]==4) {
+		# Geen bedrag
+		$db->query("DELETE FROM aanbieding_aankomstdatum WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
+		while(list($key,$value)=each($abdata)) {
+			$db->query("INSERT INTO aanbieding_aankomstdatum SET week='".addslashes($key)."', aanbieding_id='".addslashes($_GET["14k0"])."';");
+		}
+	} else {
+		# Overige aanbiedingen
+#		echo "<p><hr><h2>".$ab["bedrag_soort"]."Aankomstdata</h2><table cellspacing=\"0\" class=\"tbl\">";
+		echo "<p><hr><h2>Aankomstdata</h2><table cellspacing=\"0\" class=\"tbl\">";
+		echo "<form name=\"aankomstdata\" action=\"".$_SERVER["REQUEST_URI"]."\" method=\"post\">";
+		echo "<input type=\"hidden\" name=\"aankomstdata_filled\" value=\"1\">";
+	#	echo "<tr><th>".htmlentities($ab["seizoen"])."</th></tr>";
+		echo "<tr><td align=\"center\"><input type=\"submit\" value=\" AANKOMSTDATA OPSLAAN \" id=\"opslaan1\" onclick=\"document.aankomstdata.opslaan1.disabled=1;document.aankomstdata.submit();\"></td></tr>";
+		echo "<tr><td><input type=\"checkbox\" name=\"allemaal\" onclick=\"checkUncheckAll(this)\" id=\"allemaal\"><label for=\"allemaal\">Alle aankomstdata aan/uit</label></td></tr>";
+		while(list($key,$value)=@each($abdata)) {	
+			echo "<tr><td><input type=\"checkbox\" name=\"aankomstdatum[".$key."]\" value=\"1\"".($vars["aanbiedingen_aankomstdata"][$key] ? " checked" : "")." id=\"ad".$key."\"><label for=\"ad".$key."\">Weekend ".date("j",$key)." ".datum("MAAND JJJJ",$key)."</label></td></tr>";
+		}
+		
+		echo "</td></tr>";
+		echo "<tr><td align=\"center\"><input type=\"submit\" value=\" AANKOMSTDATA OPSLAAN \" id=\"opslaan2\" onclick=\"document.aankomstdata.opslaan2.disabled=1;document.aankomstdata.submit();\"></td></tr>";
+		echo "</form>";
+	}
+
+	echo "</table>";
+	
+	$cms->display_log(14);
+}
+
+
+?>

@@ -1,0 +1,137 @@
+<?php
+
+if($_GET["c"]) {
+	$db->query("SELECT reisbureau_id, naam, xmlfeed_winter, xmlfeed_zomer, xmlfeed_toegangscode, xmlfeed_log FROM reisbureau WHERE xmlfeed=1 AND actief=1 AND xmlfeed_toegangscode='".addslashes($_GET["c"])."';");
+	if($db->next_record()) {
+		$reisbureau["reisbureau_id"]=$db->f("reisbureau_id");
+		$reisbureau["naam"]=$db->f("naam");
+		$reisbureau["xmlfeed_winter"]=$db->f("xmlfeed_winter");
+		$reisbureau["xmlfeed_zomer"]=$db->f("xmlfeed_zomer");
+		$reisbureau["xmlfeed_toegangscode"]=$db->f("xmlfeed_toegangscode");
+		$reisbureau["xmlfeed_log"]=$db->f("xmlfeed_log");
+	}
+}
+
+if($reisbureau["reisbureau_id"]) {
+	echo "<h1>Manual XML export ".htmlentities($vars["websitenaam"])."</h1><b>Only valid for: ".htmlentities($reisbureau["naam"])."</b><br><br>";
+	if($_GET["table"]) {
+	
+		echo "<a href=\"".$vars["path"]."xmlmanual.php?c=".htmlentities($reisbureau["xmlfeed_toegangscode"])."\">&lt; Back to list of feeds</a><br><br>";
+	
+
+		if($_GET["table"]=="accommodations") {
+			$url=$vars["basehref"]."xml/accommodations.xml?c=".htmlentities($reisbureau["xmlfeed_toegangscode"]);
+			echo "<b>Feed: Accommodations</b><br>";
+			echo "This feed contains semi-static information about the accommodations.<br><br>";
+		} elseif($_GET["table"]=="accommodationunits") {
+			$url=$vars["basehref"]."xml/accommodation-units.xml?c=".htmlentities($reisbureau["xmlfeed_toegangscode"]);
+			echo "<b>Feed: Accommodation-units</b><br>";
+			echo "This feed contains semi-static information about the units; each unit is part of an accommodation.<br><br>";
+		} elseif($_GET["table"]=="availabilityprices") {
+			$url=$vars["basehref"]."xml/availability-and-prices.xml?c=".htmlentities($reisbureau["xmlfeed_toegangscode"]);
+			echo "<b>Feed: Availability and Prices</b><br>";
+			echo "This feed contains frequently updated information about the availability and prices of the accommodation-units.<br><br>";
+		}	
+		if($url) {
+			echo "<b>URL:</b>&nbsp;&nbsp;<a href=\"".htmlentities($url)."\" target=\"_blank\">".htmlentities($url)."</a><br><br>";
+			
+			echo "<table class=\"tbl xmlmanualtable\" cellspacing=\"0\">";
+			echo "<tr><th>Field name</th><th>Data type</th><th>Description</th><th>Optional</th><th style=\"width:150px;\">Remarks</th></tr>";
+			if($_GET["table"]=="accommodations") {
+				echo "<tr><td>accommodation_id</td><td>number</td><td>ID of the accommodaton</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>name</td><td>text</td><td>name of the accommodaton</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>resort</td><td>text</td><td>resort of the accommodaton</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>region</td><td>text</td><td>region of the accommodaton</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>country</td><td>text</td><td>country of the accommodaton</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>kind</td><td>possible values:<br>- chalet<br>- apartment<br>- chalet-apartment<br>- hotel<br>- holiday accommodation</td><td>kind of accommodation</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				if($vars["websitetype"]=="6") {
+					echo "<tr><td>season</td><td>possible values:<br>- winter<br>- summer</td><td>season type of the accommodaton</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				}
+				echo "<tr><td>description</td><td>text</td><td>description of the accommodaton</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>including</td><td>text</td><td>what's included</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>excluding</td><td>text</td><td>what's excluded</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>distance_shop</td><td>meters</td><td>distance to shop</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>distance_shop_extra</td><td>text</td><td>distance to shop - extra info</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>distance_restaurant</td><td>meters</td><td>distance to restaurant</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>distance_restaurant_extra</td><td>text</td><td>distance to restaurant - extra info</td><td>yes</td><td>&nbsp;</td></tr>";
+				if($vars["seizoentype"]==1 or $vars["websitetype"]=="6") {
+					if($vars["websitetype"]=="6") {
+						$remarks="only for winter accommodations";
+					} else {
+						$remarks="&nbsp;";
+					}
+					echo "<tr><td>distance_piste</td><td>meters</td><td>distance to piste</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_piste_extra</td><td>text</td><td>distance to piste - extra info</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_skilift</td><td>meters</td><td>distance to ski lift</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_skilift_extra</td><td>text</td><td>distance to ski lift - extra info</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_crosscountry</td><td>meters</td><td>distance to cross-country course</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_crosscountry_extra</td><td>text</td><td>distance to cross-country course - extra info</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_skibusstop</td><td>meters</td><td>distance to ski-bus stop</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_skibusstop_extra</td><td>text</td><td>distance to ski-bus stop - extra info</td><td>yes</td><td>".$remarks."</td></tr>";
+				}
+				
+				if($vars["seizoentype"]==2 or $vars["websitetype"]=="6") {
+					if($vars["websitetype"]=="6") {
+						$remarks="only for summer accommodations";
+					} else {
+						$remarks="&nbsp;";
+					}
+					echo "<tr><td>distance_beach</td><td>meters</td><td>distance to beach</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_beach_extra</td><td>text</td><td>distance to beach - extra info</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_pool</td><td>meters</td><td>distance to swimming pool</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_pool_extra</td><td>text</td><td>distance to swimming pool - extra info</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_swimmingwater</td><td>meters</td><td>distance to swimming water</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_swimmingwater_extra</td><td>text</td><td>distance to swimming water - extra info</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_golfcourse</td><td>meters</td><td>distance to golf course</td><td>yes</td><td>".$remarks."</td></tr>";
+					echo "<tr><td>distance_golfcourse_extra</td><td>text</td><td>distance to golf course - extra info</td><td>yes</td><td>".$remarks."</td></tr>";
+				}
+				echo "<tr><td>photos > main</td><td>URL</td><td>URL of the main photo</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>photos > extra</td><td>URL</td><td>URL of extra photo</td><td>yes</td><td>multiple entries possible</td></tr>";
+				echo "<tr><td>photos > extra_wide</td><td>URL</td><td>URL of extra panoramic photo</td><td>yes</td><td>multiple entries possible</td></tr>";
+			} elseif($_GET["table"]=="accommodationunits") {
+				echo "<tr><td>unit_id</td><td>code</td><td>ID of the accommodaton-unit</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>accommodation_id</td><td>number</td><td>ID of the parent accommodaton</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>accommodation_name</td><td>text</td><td>name of the parent accommodaton</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>unit_name</td><td>text</td><td>name of the accommodaton-unit (unit specific)</td><td>yes</td><td>&nbsp;</td></tr>";
+				if($vars["websitetype"]=="6") {
+					echo "<tr><td>season</td><td>possible values:<br>- winter<br>- summer</td><td>season type of the accommodaton</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				}
+				echo "<tr><td>capacity</td><td>number</td><td>capacity of the accommodaton-unit</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>max_capacity</td><td>number</td><td>maximum capacity of the accommodaton-unit</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>quality</td><td>number (1 to 5)</td><td>quality of the accommodaton-unit (1 to 5 stars)</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>description</td><td>text</td><td>description of the accommodaton-unit (unit specific)</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>including</td><td>text</td><td>what's included (unit specific)</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>excluding</td><td>text</td><td>what's excluded (unit specific)</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>layout</td><td>text</td><td>lay-out of the accommodaton-unit</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>area</td><td>square meters</td><td>area of the accommodaton-unit</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>area_extra</td><td>text</td><td>area of the accommodaton - extra info</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>bedrooms</td><td>number</td><td>number of bedrooms</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>bedrooms_extra</td><td>text</td><td>number of bedrooms - extra info</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>bathrooms</td><td>number</td><td>number of bathrooms</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>bathrooms_extra</td><td>text</td><td>number of bathrooms - extra info</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>photos > main</td><td>URL</td><td>URL of the main photo</td><td>yes</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>photos > extra</td><td>URL</td><td>URL of extra photo</td><td>yes</td><td>multiple entries possible</td></tr>";
+				echo "<tr><td>photos > extra_wide</td><td>URL</td><td>URL of extra panoramic photo</td><td>yes</td><td>multiple entries possible</td></tr>";
+			} elseif($_GET["table"]=="availabilityprices") {
+				echo "<tr><td>unit_id</td><td>code</td><td>ID of the accommodaton-unit</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>date</td><td>YYYY-MM-DD</td><td>arrival date</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>nights</td><td>number</td><td>number of nights</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>price</td><td>price in euro's</td><td>price of this date</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+				echo "<tr><td>availability</td><td>possible values:<br>- directly<br>- request<br>- unavailable</td><td>availability of this date</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+			}	
+			echo "</table>";
+		}
+	
+	} else {
+		echo "The XML export is based on 3 XML feeds:<br><br><ul>";
+		echo "<li><a href=\"".$vars["path"]."xmlmanual.php?c=".htmlentities($reisbureau["xmlfeed_toegangscode"])."&table=accommodations\">Accommodations</a>: semi-static information about the accommodations;</li>";
+		echo "<li><a href=\"".$vars["path"]."xmlmanual.php?c=".htmlentities($reisbureau["xmlfeed_toegangscode"])."&table=accommodationunits\">Accommodation-units</a>: semi-static information about the units; each unit is part of an accommodation;</li>";
+		echo "<li><a href=\"".$vars["path"]."xmlmanual.php?c=".htmlentities($reisbureau["xmlfeed_toegangscode"])."&table=availabilityprices\">Availability and Prices</a>: frequently updated information about the availability and prices of the accommodation-units.</li>";
+		echo "</ul>";
+		echo "<br>Click on each feed for the structure and the exact URL.";
+	}
+} else {
+	echo "This page is not available. Please contact us for more information.";
+}	
+
+?>

@@ -1,0 +1,69 @@
+<?php
+
+if($mustlogin) {
+	echo boekingkoptekst($gegevens,false);
+}
+
+if($_GET["burl"]) {
+	if(preg_match("/cms_overzichten_overig/",$_GET["burl"])) {
+		echo "<a href=\"".htmlentities($_GET["burl"])."\">terug naar overzicht vouchers</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"]."\">ga naar boekingsgegevens ".$gegevens["stap1"]["boekingsnummer"]."</a><p>";
+	} else {
+		echo "<a href=\"".htmlentities($_GET["burl"])."\">terug naar boekingsgegevens</a><p>";
+	}
+}
+
+
+echo "<br>".$vars["temp_pdfprinttable"];
+
+echo "<iframe src=\"".$path."cms_iframesave.php?t=1&amp;voucherstatus=".$gegevens["stap1"]["voucherstatus"]."&amp;bid=".$gegevens["stap1"]["boekingid"]."\" style=\"width:900px;height:35px;\" frameborder=\"0\" scrolling=\"no\" marginwidth=\"0\" marginheight=\"0\"></iframe><br><br><br>";
+
+#echo wt_dump($vars["temp_voucherfiles"]);
+
+if(is_array($vars["temp_voucherfiles"]) and count($vars["temp_voucherfiles"])>=2) {
+	reset($vars["temp_voucherfiles"]);
+	echo "<hr>Archief aangemaakte vouchers:<ul>";
+	while(list($key,$value)=@each($vars["temp_voucherfiles"])) {
+		$temp_voucherfilesteller++;
+		if($temp_voucherfilesteller<count($vars["temp_voucherfiles"])) {
+			echo "<li>";
+			if(ereg("MSIE",$_SERVER["HTTP_USER_AGENT"])) {
+				echo "<a href=\"cms_pdfdownload.php?pdffile=".urlencode("pdf/vouchers/".$key)."\" target=\"_blank\">";
+			} else {
+				echo "<a href=\"#\" onclick=\"window.open('cms_pdfdownload.php?pdffile=".urlencode("pdf/vouchers/".$key)."','_blank');return false;\">";
+			}
+			echo date("d-m-Y",$value)."</a>";
+			echo " (niet actueel)";
+			echo "</li>";
+		}
+	}
+	echo "</ul><br><br>";
+}
+
+if($vars["temp_openstaand_minus_goedgekeurd"]) {
+	$meldingen.="<div class=\"opmerkingbox\" style=\"background-color:#ffa9a9;\"><b>Let op:</b> betaling is nog niet volledig voldaan!</div>";
+} else {
+	$meldingen.="<div class=\"opmerkingbox\" style=\"background-color:#a6ffb3;\">Betaling is voldaan.</div>";	
+}
+if(!$vars["temp_pdffiles_aanwezig"]) {
+	$meldingen.="<div class=\"opmerkingbox\" style=\"background-color:#fdff86;\"><b>Let op:</b> mailen van de vouchers naar de klant niet mogelijk - niet alle PDF's zijn beschikbaar</div>";
+}
+
+if(isset($vars["temp_vertrekinfo_goedgekeurd"]) and !$vars["temp_vertrekinfo_goedgekeurd"]) {
+	$meldingen.="<div class=\"opmerkingbox\" style=\"background-color:#e587f6;\"><b>Let op:</b> vertrekinfo is niet goedgekeurd voor het betreffende seizoen</div>";
+}
+
+
+
+echo $meldingen;
+
+echo "<div class=\"opmerkingbox\" style=\"background-color:#ffffff;\">Gekozen verzendmethode: ".($gegevens["stap1"]["verzendmethode_reisdocumenten"] ? $vars["verzendmethode_reisdocumenten"][$gegevens["stap1"]["verzendmethode_reisdocumenten"]] : "onbekend")."</div>";
+
+#echo "<div class=\"opmerkingbox\" style=\"background-color:yellow;\">Let op: de teksten van het voucher-mailsysteem zijn aangepast, maar nog niet definitief goedgekeurd. Ook zijn de Engelse teksten nog niet beschikaar.<br><br>Dit is alleen van toepassing als je de vouchers gaat mailen. Aanmaken van voucher kan dus sowieso.</div>";
+
+echo "<p><a href=\"#\" onclick=\"document.frm.target='_blank';document.frm.elements['alleen_tonen'].value=1;document.frm.submit();document.frm.target='';document.frm.elements['alleen_tonen'].value=0;\">Bekijk de aan te maken vouchers &raquo;</a>&nbsp;&nbsp;(zonder ze op te slaan of te printen)</p>";
+
+$form->display_all();
+
+echo $meldingen;
+
+?>
