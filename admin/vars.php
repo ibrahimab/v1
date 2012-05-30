@@ -96,7 +96,7 @@ if($_SERVER["WINDIR"]) {
 
 require($unixdir."admin/class.mysql.php");
 
-if($vars["lokale_testserver"]) {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$db->query("SET CHARACTER SET 'latin1';");
 }
 
