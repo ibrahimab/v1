@@ -29,7 +29,7 @@ if($vars["lokale_testserver"]) {
 	if($_SERVER["WINDIR"]<>"") {
 		$vars["cms_basehref"]="http://localhost/chalet/";
 		if(!$vars["testsite"]) {
-			$vars["testsite"]=@file_get_contents("C:/Program Files/EasyPHP-5.3.9/www/chalet/tmp/testsite.txt");
+			$vars["testsite"]=@file_get_contents($_SERVER["DOCUMENT_ROOT"]."chalet/tmp/testsite.txt");
 		}
 		if(!$vars["testsite"]) {
 			$vars["testsite"]="chaletnl";
