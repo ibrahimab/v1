@@ -3,7 +3,11 @@
 set_time_limit(0);
 
 if($_GET["testsite"]) {
-	file_put_contents("/home/webtastic/html/chalet/tmp/testsite.txt",$_GET["testsite"]);
+	if($_SERVER["WINDIR"]) {
+		file_put_contents($_SERVER["DOCUMENT_ROOT"]."chalet/tmp/testsite.txt",$_GET["testsite"]);
+	} else {
+		file_put_contents("/home/webtastic/html/chalet/tmp/testsite.txt",$_GET["testsite"]);
+	}
 	if($_GET["gotourl"]) {
 		header("Location: /chalet/".$_GET["gotourl"]);	
 	} else {
