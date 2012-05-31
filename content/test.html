@@ -1,8 +1,16 @@
 <?php
-
+ function custumSort($string1, $string2) 
+    { 
+        $search = array('Ä','Ö','Ü','ß'); 
+        $replace = array('A','O','U','s'); 
+        return strcmp( 
+           str_ireplace($search, $replace, $string1), 
+           str_ireplace($search, $replace, $string2) 
+           ); 
+    } 
 $skigebieden=array("Zillertal","Arlberg","Ötztal Sölden","Rauris");
 
-sort($skigebieden);
+uasort($skigebieden, "custumSort");
 
 echo "<p>Volgorde:<ul>";
 while(list($key,$value)=each($skigebieden)) {
