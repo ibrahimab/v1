@@ -1,5 +1,5 @@
 <?php
-
+error_reporting("E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED");
 if(!$cron and !$css) {
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
