@@ -1,0 +1,14 @@
+<?php
+
+$skigebieden=array("Zillertal","Arlberg","Ötztal Sölden","Rauris");
+
+sort($skigebieden);
+
+echo "<p>Volgorde:<ul>";
+while(list($key,$value)=each($skigebieden)) {
+	echo "<li>".wt_he($value)."</li>";
+}
+echo "</ul></p>";
+
+
+?>

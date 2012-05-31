@@ -29,3 +29,4 @@ Disallow: /search-and-book.php*&z=*
 Disallow: /thema/*filled=1
 Disallow: /theme/*filled=1
 Disallow: /*toonflex=1
+Disallow: test*
