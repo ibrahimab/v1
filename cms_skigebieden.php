@@ -214,7 +214,7 @@ if($italissima) {
 	}
 	$cms->edit_field(5,0,"htmlrow","<i>Kleuren</i><p>".$kleurcodehtml);
 	$cms->edit_field(5,1,"kleurcode","Kleurcode");
-	$cms->edit_field(5,0,"accommodatiecodes","Accommodatiecodes (gescheiden door spaties)");
+	$cms->edit_field(5,0,"accommodatiecodes","Accommodatiecodes (gescheiden door komma's)");
 	$cms->edit_field(5,0,"googlemaps_zoomlevel","Google Maps Zoomlevel (0 = hele wereld, 15 = heel dichtbij)");
 
 	$cms->edit_field(5,0,"afbeelding_italissima","Hoofdafbeelding","",array("autoresize"=>true,"img_width"=>"250","img_height"=>"188","img_ratio_width"=>"4","img_ratio_height"=>"3"));

@@ -57,7 +57,7 @@ $cms->edit_field(44,1,"categorie","Categorie");
 $cms->edit_field(44,1,"inleiding");
 $cms->edit_field(44,1,"inhoud","Inhoud","","",array("rows"=>60,"info"=>$vars["wysiwyg_info"]));
 
-$cms->edit_field(44,0,"accommodatiecodes","Accommodatiecodes (gescheiden door spaties)");
+$cms->edit_field(44,0,"accommodatiecodes","Accommodatiecodes (gescheiden door komma's)");
 $cms->edit_field(44,1,"afbeelding","Afbeelding","",array("autoresize"=>true,"img_maxwidth"=>"300"));
 
 $cms->edit_field(44,0,"htmlrow","<hr><b>Verwijzing op de homepage</b>");
