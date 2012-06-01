@@ -337,8 +337,10 @@ while($db->next_record()) {
 		}
 	}
 }
-#echo wt_dump($vars["skigebied"]);
-ksort($vars["skigebied"]);
+
+setlocale(LC_COLLATE,"nl_NL.ISO8859-1");
+ksort($vars["skigebied"],SORT_LOCALE_STRING);
+setlocale(LC_COLLATE,"C");
 
 function addwhere($string) {
 	global $wherequery;

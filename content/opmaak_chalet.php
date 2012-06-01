@@ -512,7 +512,9 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("naam")]=$db->f("land_id")."-".$db->f("skigebied_id");
 		}
 	}
-	ksort($vars["skigebied"]);
+	setlocale(LC_COLLATE,"nl_NL.ISO8859-1");
+	ksort($vars["skigebied"],SORT_LOCALE_STRING);
+	setlocale(LC_COLLATE,"C");
 
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<select name=\"fsg\" class=\"selectbox\">";
