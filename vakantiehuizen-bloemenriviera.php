@@ -6,10 +6,10 @@ $meta_description="Op zoek naar een vakantiehuis aan de Bloemenrivièra in Itali
 
 include("admin/vars.php");
 
-//if($vars["websitetype"]<>7) {
-//	header("Location: ".$vars["path"]);
-//	exit;
-//}
+if($vars["websitetype"]<>7) {
+	header("Location: ".$vars["path"]);
+	exit;
+}
 
 include("content/opmaak.php");
 
