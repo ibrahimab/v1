@@ -10,17 +10,12 @@
 # IP-adres server bij opvragen XML: 87.250.137.106
 #
 
-#
-# Testversie?
-#
-
-
-#echo "XML-import\n";
 
 # Tijdelijk bepaalde leverancierid uitzetten
 #$vars["leverancierid_tijdelijk_niet_importeren"]="4";
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["WINDIR"]<>"") {
+	# Lokaal testen
 	$testsysteem=true;
 	header("Content-type: text/plain; charset=utf-8");
 } else {
@@ -43,6 +38,8 @@ if($_SERVER["HTTP_HOST"]) {
 	$unzip="/usr/bin/unzip";
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$tmpdir="/home/webtastic/html/chalet/tmp/";
+	} elseif($_SERVER["WINDIR"]<>"") {
+		$tmpdir=$_SERVER["DOCUMENT_ROOT"]."/chalet/tmp/";
 	} else {
 		$tmpdir="/tmp/";
 	}
@@ -56,7 +53,7 @@ include($unixdir."admin/vars.php");
 include($unixdir."admin/vars_xmlimport.php");
 
 #
-# Vaste run, of handmatig gestarte run?
+# Vaste run, of handmatig gestarte run via https://www.chalet.nl/cms_diversen.php?t=3?
 #
 if(!$argv[1] and !$testsysteem) {
 	if(date("i")==5 and (date("H")==0 or date("H")==3 or date("H")==9 or date("H")==12 or date("H")==15 or date("H")==18 or date("H")==21)) {
@@ -85,10 +82,6 @@ flush();
 if(!$testsysteem) {
 	# Temp-gegevens wissen
 	$db->query("DELETE FROM xml_import_flex_temp;");
-}
-
-if(!$_SERVER["HTTP_HOST"]) {
-#	mail("systeembeheer@webtastic.nl","Chalet-cron xml_import","Cron is gestart om ".date("r"));
 }
 
 if(date("H")==9 or $argv[1]=="5") {
@@ -188,41 +181,35 @@ $xml_urls[16][3]="http://www.almliesl.com/export_chalet_nl_occupancy_de_s.xml"; 
 $xml_urls[16][4]="http://www.almliesl.com/export_chalet_nl_prices_de_s.xml"; # prijzen zomer
 
 
-
-# Odalys alleen 's ochtends downloaden (wordt maar 1x per dag bijgewerkt)
-#if(!$argv[1] and date("H")<>9 and date("H")<>12) {
-#	unset($xml_urls[11][1]);
-#}
-
 #
 # Voor testsysteem
 #
 if($testsysteem) {
 	unset($xml_urls);
 	unset($soap_urls);
-	$xml_urls[2][]="/tmp/alpenchalets.xml";
-#	$xml_urls[3][]="/tmp/skifrance.xml";
-#	$xml_urls[4][]="/tmp/results.xml";
+	$xml_urls[2][]=$tmpdir."alpenchalets.xml";
+#	$xml_urls[3][]=$tmpdir."skifrance.xml";
+#	$xml_urls[4][]=$tmpdir."results.xml";
 #	$csv_urls[5]=$tmpdir."dispo.csv";
-#	$xml_urls[6][1]="/tmp/Vakanzen.xml";
-#	$xml_urls[6][2]="/tmp/Preise.xml";
-#	$xml_urls[7][1]="/tmp/bel.xml";
-#	$xml_urls[7][2]="/tmp/belt.xml";
-#	$xml_urls[8][1]="/tmp/availability.xml.1";
-#	$xml_urls[8][2]="/tmp/unitrates.xml";
-#	$xml_urls[8][3]="/tmp/unit.xml";
-#	$xml_urls[9][2]="/tmp/nl";
-#	$xml_urls[10][1]="/tmp/1.xml";
-#	$xml_urls[11][1]="/tmp/PAC_CHALET_NL.xml"; # Odalys
-#	$xml_urls[11][2]="/tmp/PAC_CHALET_NL.xml"; # Odalys
-#	$xml_urls[12][1]="/tmp/deuxalpes.xml";
+#	$xml_urls[6][1]=$tmpdir."Vakanzen.xml";
+#	$xml_urls[6][2]=$tmpdir."Preise.xml";
+#	$xml_urls[7][1]=$tmpdir."bel.xml";
+#	$xml_urls[7][2]=$tmpdir."belt.xml";
+#	$xml_urls[8][1]=$tmpdir."availability.xml.1";
+#	$xml_urls[8][2]=$tmpdir."unitrates.xml";
+#	$xml_urls[8][3]=$tmpdir."unit.xml";
+#	$xml_urls[9][2]=$tmpdir."nl";
+#	$xml_urls[10][1]=$tmpdir."1.xml";
+#	$xml_urls[11][1]=$tmpdir."PAC_CHALET_NL.xml"; # Odalys
+#	$xml_urls[11][2]=$tmpdir."PAC_CHALET_NL.xml"; # Odalys
+#	$xml_urls[12][1]=$tmpdir."deuxalpes.xml";
 #	$soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
-#	$xml_urls[14][1]="/tmp/deuxalpes.xml";
+#	$xml_urls[14][1]=$tmpdir."deuxalpes.xml";
 #	$soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
-#	$xml_urls[16][1]="/tmp/export_chalet_nl_occupancy_de_w.xml";
-#	$xml_urls[16][2]="/tmp/export_chalet_nl_prices_de_w.xml";
-#	$xml_urls[16][3]="/tmp/export_chalet_nl_occupancy_de_s.xml";
-#	$xml_urls[16][4]="/tmp/export_chalet_nl_prices_de_s.xml";
+#	$xml_urls[16][1]=$tmpdir."export_chalet_nl_occupancy_de_w.xml";
+#	$xml_urls[16][2]=$tmpdir."export_chalet_nl_prices_de_w.xml";
+#	$xml_urls[16][3]=$tmpdir."export_chalet_nl_occupancy_de_s.xml";
+#	$xml_urls[16][4]=$tmpdir."export_chalet_nl_prices_de_s.xml";
 }
 
 #
@@ -250,12 +237,6 @@ if($testsysteem) {
 	}
 }
 
-#echo $test_leverancierids;
-#exit;
-
-#echo wt_dump($flexibele_xmlcodes);
-#exit;
-
 #
 # Indien argv[1] opgegeven: alle andere $xml_urls en $soap_urls wissen
 #
@@ -274,8 +255,6 @@ if(intval($argv[1])>0) {
 	}
 }
 
-#echo "2:".memory_get_usage()."<br>"; flush();
-
 #
 # XML-url's verwerken
 #
@@ -283,11 +262,9 @@ if(intval($argv[1])>0) {
 while(list($key,$value)=@each($xml_urls)) {
 	unset($xml);
 	while(list($key2,$value2)=each($value)) {
-#		echo "3:".memory_get_usage()."<br>"; flush();
 	
 		if($xml=@simplexml_load_file($value2)) {
-#			print_r($xml);
-#			exit;
+
 		} else {
 			unset($xml);
 			sleep(30);
@@ -297,7 +274,6 @@ while(list($key,$value)=@each($xml_urls)) {
 				unset($xml);
 			}
 		}
-#		echo "4:".memory_get_usage()."<br>"; flush();
 	
 		if(is_object($xml)) {
 			$correct_gedownload[$key]=true;
