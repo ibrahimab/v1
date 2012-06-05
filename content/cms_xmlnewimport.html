@@ -266,7 +266,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					$uniekeid=trim($value2["unique_serial"]);
 					
 					$volgnummer++;
+					
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" and $volgnummer>50) {
+	# testsysteem: maximaal 50 resultaten tonen
 	continue;
 }
 
