@@ -11,9 +11,9 @@ if($_POST["optieonderdeel_kopieer"]==1) {
 		$db->query("DELETE FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($_POST["optieonderdeel"])."' AND seizoen_id='".addslashes($_POST["seizoen"])."';");
 		
 		# Dan kopiëren
-		$db->query("SELECT week, beschikbaar, verkoop, inkoop, korting, omzetbonus, wederverkoop_commissie_agent FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($_GET["13k0"])."' AND seizoen_id='".addslashes($_POST["seizoen"])."';");
+		$db->query("SELECT week, beschikbaar, verkoop, netto_ink, inkoop, korting, korting_euro, omzetbonus, wederverkoop_commissie_agent FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($_GET["13k0"])."' AND seizoen_id='".addslashes($_POST["seizoen"])."';");
 		while($db->next_record()) {
-			$db2->query("INSERT INTO optie_tarief SET week='".addslashes($db->f("week"))."', beschikbaar='".addslashes($db->f("beschikbaar"))."', verkoop='".addslashes($db->f("verkoop"))."', inkoop='".addslashes($db->f("inkoop"))."', korting='".addslashes($db->f("korting"))."', omzetbonus='".addslashes($db->f("omzetbonus"))."', wederverkoop_commissie_agent='".addslashes($db->f("wederverkoop_commissie_agent"))."', optie_onderdeel_id='".addslashes($_POST["optieonderdeel"])."', seizoen_id='".addslashes($_POST["seizoen"])."';");
+			$db2->query("INSERT INTO optie_tarief SET week='".addslashes($db->f("week"))."', beschikbaar='".addslashes($db->f("beschikbaar"))."', verkoop='".addslashes($db->f("verkoop"))."', netto_ink='".addslashes($db->f("netto_ink"))."', inkoop='".addslashes($db->f("inkoop"))."', korting='".addslashes($db->f("korting"))."', korting_euro='".addslashes($db->f("korting_euro"))."', omzetbonus='".addslashes($db->f("omzetbonus"))."', wederverkoop_commissie_agent='".addslashes($db->f("wederverkoop_commissie_agent"))."', optie_onderdeel_id='".addslashes($_POST["optieonderdeel"])."', seizoen_id='".addslashes($_POST["seizoen"])."';");
 		}
 		header("Location: ".$_SERVER["REQUEST_URI"]."&copy=1");
 		exit;
