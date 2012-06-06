@@ -825,9 +825,11 @@ $vars["bedrag_soort"]=array(1=>"Korting in euro's",2=>"Kortingspercentage",3=>"E
 # 213.125.164.75 = kantoor verbinding 2
 # 82.93.130.238  = Bert thuis
 # 82.173.186.80  = WebTastic
+# 82.173.186.80  = WebTastic 2
 # 172.16.1.10    = t.b.v. testserver
 # 172.16.1.35    = t.b.v. testserver (laptop)
-$vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.75","82.93.130.238","82.173.186.80","172.16.1.10","172.16.1.35");
+# 127.0.0.1	 = t.b.v. testserver (Miguel)
+$vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.75","82.93.130.238","82.173.186.80","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
 
 $vars["xml_type"]=array(1=>"Huetten (1)",2=>"Alpenchalets Ski France (2)",3=>"France Reisen Ski France (3)",4=>"CGH (4)",5=>"Pierre & Vacances (5)",6=>"Frosch (6)",7=>"CIS / Bellecôte Chalets (VVE) (7)",8=>"Posarelli Villas (8)",9=>"Maisons Vacances Ann Giraud (9)",10=>"CIS Immobilier (10)",11=>"Odalys Résidences (11)",12=>"Deux Alpes Voyages (12)",13=>"Eurogroup (13)",14=>"Marche Holiday (14)",15=>"Des Neiges (15)",16=>"Almliesl (16)");
 asort($vars["xml_type"]);
