@@ -29,7 +29,7 @@ if(substr($_SERVER["REQUEST_URI"],-1)<>"/" and !eregi("\?",$_SERVER["REQUEST_URI
 	exit;
 }
 
-$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, titletag".$vars["ttv"]." AS titletag, descriptiontag".$vars["ttv"]." AS descriptiontag, url, typekenmerk, accommodatiekenmerk, plaatskenmerk, skigebiedkenmerk, zoekterm, tarievenbekend_seizoen_id, uitgebreidzoeken_url FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND url".$vars["ttv"]."='".addslashes($_GET["thema"])."' AND actief=1;");
+$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, titletag".$vars["ttv"]." AS titletag, descriptiontag".$vars["ttv"]." AS descriptiontag, url".$vars["ttv"]." AS url, typekenmerk, accommodatiekenmerk, plaatskenmerk, skigebiedkenmerk, zoekterm, tarievenbekend_seizoen_id, uitgebreidzoeken_url FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND url".$vars["ttv"]."='".addslashes($_GET["thema"])."' AND actief=1;");
 if($db->next_record()) {
 	if($db->f("titletag")) {
 		$title["thema"]=$db->f("titletag");
