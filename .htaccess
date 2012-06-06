@@ -116,7 +116,11 @@ RewriteRule (.*) /$1?%1%2 [R=301,L]
 RewriteRule groepsreizen\.php$ /accommodaties.php [R=301,L]
 
 RewriteRule ^thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
+RewriteRule ^wintersport/thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
+RewriteRule ^vakantiehuizen/thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
+RewriteRule ^winter-sports/theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
+RewriteRule ^holiday-homes/theme/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^land/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
 RewriteRule ^country/([A-Za-z0-9-]*)/?$ land.php?land=$1&%{QUERY_STRING}
 
