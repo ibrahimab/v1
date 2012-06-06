@@ -1,0 +1,10 @@
+<?php
+
+# Gegevens gekozen accommodatie opvragen
+$accinfo=accinfo($_GET["accid"]);
+echo "<p>Naam accommodatie: ".wt_he($accinfo["accnaam"])."</p>";
+
+echo "<p>Meer informatie over deze accommodatie: ".wt_dump($accinfo)."</p>";
+
+
+?>
