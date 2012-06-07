@@ -1,3 +1,15 @@
+<style>
+.thumbnail
+{
+float: left;
+width: 189px;
+margin: 0 15px 15px 0;
+}
+.thumbnail img {
+	width:189px;
+	height:142px; 
+}
+</style>
 <?php
 
 echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
@@ -8,20 +20,7 @@ $db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." A
 
 
 if($db->num_rows()) {
-	$array[] = array();
-	echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\">";
-    $aantal = $db->num_rows();
-            if($aantal%3>0){
-            	for($i =0; $i<(3-$aantal%3);$i++){
-                	array_push($array, $i);
-                }
-            }
-            else{
-            //voor het geval het om een even getal getaal gaat moet hij even extra corrigeren
-                for($i =0; $i<(2-$aantal%3);$i++){
-                	array_push($array, $i);
-                }
-            }
+	
 	while($db->next_record()) {
 		unset($url,$blank);
 		if($db->f("externeurl")) {
@@ -35,20 +34,9 @@ if($db->num_rows()) {
 			$url=$vars["path"].txt("menu_thema")."/".$db->f("url")."/";
 		}
 		if($db->f("naam")) {
-			
-            foreach($array as $k => $value){
-            	if($k%3 == 0){
-                	echo "<tr>";
-                }
-                
-                echo "<td><a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" width=\"189\" height=\"142\" border=\"0\"></a><BR />";
-                
-                echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br /><br /></td>";
-                $db->next_record();
-                if($k%3==2){
-                	echo "</tr>";
-                   
-                }
+	    	echo "<div class=\"thumbnail\"><a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" width=\"189\" height=\"142\" border=\"0\"></a><BR />
+            <a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />
+            </div>";
                 
             }
             
@@ -56,6 +44,6 @@ if($db->num_rows()) {
         
 	}
 	echo "</table>";
-}
+//}
 
 ?>
