@@ -5,8 +5,6 @@ echo "<br>&nbsp;<br>";
 
 $db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 ORDER BY ".($vars["seizoentype"]==2 ? "positiehoofdpagina, " : "")."naam".$vars["ttv"].";");
 
-
-
 if($db->num_rows()) {
 	$teller = 1;
 	while($db->next_record()) {
@@ -25,17 +23,15 @@ if($db->num_rows()) {
 		}
 		if($db->f("naam")) {
         	// deze div wordt herhaald voor iedere foto.
-	    	echo "<div class=\"thumbnail\"><a href=\"".htmlentities($url)."\"".$blank.">
-            			<img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\"></a><BR />
-            			<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />
-            	</div>"; 
+	    	echo "<div class=\"thumbnail\">";
+            echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\"></a><BR />";
+            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
+            echo "</div>";
 		}
         if($teller%3==0){
             echo "<br class=\"clearboth\">";    	
 		}
 		$teller++;     
-	}
-        
+	}       
 }
-
 ?>
