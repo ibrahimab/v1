@@ -29,7 +29,7 @@ if(substr($_SERVER["REQUEST_URI"],-1)<>"/" and !eregi("\?",$_SERVER["REQUEST_URI
 	exit;
 }
 
-$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, titletag".$vars["ttv"]." AS titletag, descriptiontag".$vars["ttv"]." AS descriptiontag, typekenmerk, accommodatiekenmerk, plaatskenmerk, skigebiedkenmerk, zoekterm, tarievenbekend_seizoen_id, uitgebreidzoeken_url FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND url".$vars["ttv"]."='".addslashes($_GET["thema"])."' AND actief=1;");
+$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, titletag".$vars["ttv"]." AS titletag, descriptiontag".$vars["ttv"]." AS descriptiontag, url".$vars["ttv"]." AS url, typekenmerk, accommodatiekenmerk, plaatskenmerk, skigebiedkenmerk, zoekterm, tarievenbekend_seizoen_id, uitgebreidzoeken_url FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND url".$vars["ttv"]."='".addslashes($_GET["thema"])."' AND actief=1;");
 if($db->next_record()) {
 	if($db->f("titletag")) {
 		$title["thema"]=$db->f("titletag");
@@ -56,9 +56,7 @@ if($db->next_record()) {
 		$meta_description=$vars["themainfo"]["descriptiontag"];
 	}
 
-	if(ereg("\?",$_SERVER["REQUEST_URI"])) {
-		$vars["canonical"]=ereg_replace("\?.*","",$_SERVER["REQUEST_URI"]);
-	}
+	$vars["canonical"]=$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_thema")."/".$db->f("url")."/";
 
 	if($vars["seizoentype"]==2) {
 		$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, toelichting".$vars["ttv"]." AS toelichting, uitgebreid".$vars["ttv"]." AS uitgebreid, kleurcode, accommodatiecodes FROM thema WHERE wzt=2 AND url".$vars["ttv"]."='".addslashes($_GET["thema"])."';");

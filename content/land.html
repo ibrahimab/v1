@@ -37,7 +37,7 @@ if($vars["seizoentype"]==2) {
 
 # Skigebied-array vullen
 unset($tabellen,$landenteller,$landgehad);
-$db->query("SELECT DISTINCT s.naam, l.naam".$vars["ttv"]." AS land, s.skigebied_id, s.minhoogte, s.maxhoogte, s.kilometerpiste, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.websites LIKE '%".$vars["website"]."%' AND l.land_id='".addslashes($landinfo["id"])."' ORDER BY l.naam".$vars["ttv"].", s.naam;");
+$db->query("SELECT DISTINCT s.naam, l.naam".$vars["ttv"]." AS land, s.skigebied_id, s.minhoogte, s.maxhoogte, s.kilometerpiste, s.kortenaam1, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.websites LIKE '%".$vars["website"]."%' AND l.land_id='".addslashes($landinfo["id"])."' ORDER BY l.naam".$vars["ttv"].", s.naam;");
 if($db->num_rows()) {
 	while($db->next_record()) {
 
@@ -72,16 +72,16 @@ if($db->num_rows()) {
 	
 				$alle_landen[$db->f("land_id")]=$db->f("land");
 			}
-			$tabellen.="<TR><TD valign=\"top\" width=\"350\" nowrap><A HREF=\"".$vars["path"].txt("menu_skigebied")."/".wt_convert2url($db->f("naam"))."/#beschrijving\">".htmlentities($db->f("naam"))."</A></td>";
+			$tabellen.="<tr><td valign=\"top\" width=\"350\" nowrap><A HREF=\"".$vars["path"].txt("menu_skigebied")."/".wt_convert2url($db->f("naam"))."/#beschrijving\">".htmlentities($db->f("naam"))."</A></td>";
 			
 			if($vars["seizoentype"]<>2) {
 				$tabellen.="<td align=\"right\">".($db->f("kilometerpiste") ? $db->f("kilometerpiste")." km" : "&nbsp;")."</td>";
 				$tabellen.="<td align=\"right\">".$db->f("minhoogte")." m - ".$db->f("maxhoogte")." m</td>";
 			}
 			
-			$tabellen.="<TD align=\"right\">";
+			$tabellen.="<td align=\"right\">";
 			if($aantal_acc) {
-				$tabellen.="<A HREF=\"".$vars["path"].txt("menu_accommodaties").".php?filled=1&fsg=".$db->f("land_id")."-".$db->f("skigebied_id")."\">";
+				$tabellen.="<a href=\"".$vars["path"].txt("menu_accommodaties").".php?filled=1&fsg=".$db->f("land_id")."-".$db->f("skigebied_id").($db->f("kortenaam1") ? "-1" : "")."\">";
 				if($vars["seizoentype"]==2) {
 					$tabellen.=$aantal_acc." ".($aantal_acc==1 ? html("vakantiehuis") : html("vakantiehuizen"));
 				} else {
@@ -91,11 +91,11 @@ if($db->num_rows()) {
 			} else {
 				$tabellen.="&nbsp;";
 			}
-			$tabellen.="</TD></TR>";
+			$tabellen.="</td></tr>";
 		}
 	}
 	if($tabellen) {
-		$tabellen.="</TABLE></div>";
+		$tabellen.="</table></div>";
 	}
 }
 

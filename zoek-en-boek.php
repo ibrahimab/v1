@@ -36,7 +36,7 @@ if(ereg("^[A-Za-z]([0-9]+)$",trim($_GET["fzt"]),$regs)) {
 
 # Zoekopdracht_id aanmaken (en plaatsen in $_GET["z"])
 if($_GET["filled"] and !$vars["zoekform_aanbiedingen"]) {
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or (!$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]))) {
+	if(!$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
 		if($_GET["z"]) {
 			$zoekopdrachtid=intval($_GET["z"]);
 		} else {
