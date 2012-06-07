@@ -34,6 +34,7 @@ if($db->num_rows()) {
 			$url=$vars["path"].txt("menu_thema")."/".$db->f("url")."/";
 		}
 		if($db->f("naam")) {
+        	// deze div wordt herhaald voor iedere foto.
 	    	echo "<div class=\"thumbnail\"><a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" width=\"189\" height=\"142\" border=\"0\"></a><BR />
             <a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />
             </div>";
