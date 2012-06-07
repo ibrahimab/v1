@@ -1,15 +1,3 @@
-<style>
-.thumbnail
-{
-float: left;
-width: 189px;
-margin: 0 15px 15px 0;
-}
-.thumbnail img {
-	width:189px;
-	height:142px; 
-}
-</style>
 <?php
 
 echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
@@ -20,31 +8,34 @@ $db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." A
 
 
 if($db->num_rows()) {
-	
+	$teller = 1;
 	while($db->next_record()) {
 		unset($url,$blank);
 		if($db->f("externeurl")) {
 			if(ereg("^http",$db->f("externeurl"))) {
 				$url=$db->f("externeurl");
 				$blank=" target=\"_blank\"";
-			} else {
+			} 
+            else {
 				$url=$vars["path"].$db->f("externeurl");
 			}
-		} elseif($db->f("url")) {
+		} 
+        elseif($db->f("url")) {
 			$url=$vars["path"].txt("menu_thema")."/".$db->f("url")."/";
 		}
 		if($db->f("naam")) {
         	// deze div wordt herhaald voor iedere foto.
-	    	echo "<div class=\"thumbnail\"><a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" width=\"189\" height=\"142\" border=\"0\"></a><BR />
-            <a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />
-            </div>";
-                
-            }
-            
+	    	echo "<div class=\"thumbnail\"><a href=\"".htmlentities($url)."\"".$blank.">
+            			<img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\"></a><BR />
+            			<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />
+            	</div>"; 
 		}
-        
+        if($teller%3==0){
+            echo "<br class=\"clearboth\">";    	
+		}
+		$teller++;     
 	}
-	echo "</table>";
-//}
+        
+}
 
 ?>
