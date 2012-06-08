@@ -4,7 +4,42 @@
 $accinfo=accinfo($_GET["accid"]);
 echo "<p>Naam accommodatie: ".wt_he($accinfo["accnaam"])."</p>";
 
-echo "<p>Meer informatie over deze accommodatie: ".wt_dump($accinfo)."</p>";
+//echo "<p>Meer informatie over deze accommodatie: ".wt_dump($accinfo)."</p>";
+?>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>"  method="post" name="mailAcc">
+<table id="mailTable">
+  <tr>
+    <td>Uw naam: </td>
+    <td><input type="text" name="VerzenderNaam" id="VerzenderNaam" onkeyup="setVerzender()" /></td>
+  </tr>
+  <tr>
+    <td>Uw email adres:</td>
+    <td><label for="verzenderAdres"></label>
+      <input type="text" name="verzenderAdres" id="verzenderAdres" /></td>
+  </tr>
+  <tr>
+    <td>De email adres van de ontvangers:</td>
+    <td><label for="EmailOntvanger"></label>
+      <input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
+  </tr>
+  <tr>
+    <td>Zo zal uw email er uit zien:</td>
+    <td>
+    	<textarea name="bericht" cols="60" rows="6">Hallo! 
+Ik heb een accomodatie gevonden op: <?php echo wt_he($accinfo["url_seo"]); ?>
+ Wat vind je ervan?
+Groeten,</textarea>	
+      <div style="width:325px;" id="Verzender"></div><br /><br />
+    </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><button type="button" onclick="controlEnSend()" name="verzend" id="verzend" value="VERZENDEN">VERZENDEN</button>
+    </td>
+  </tr>
+</table>
+</form>
+<?php
 
 
 ?>
