@@ -13,8 +13,11 @@
 	height:140px;
 	background-image:url(../pic/textArea.png);
 	background-repeat:no-repeat;
+	overflow:auto;
 	border:0px;
-	padding:10px;
+	padding: 10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
 }
 
 #mailTable input{
