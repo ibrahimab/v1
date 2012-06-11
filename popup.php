@@ -111,7 +111,7 @@ function validateEmail(email) {
 
 function setVerzender(){
 	//window.alert(document.getElementById("VerzenderNaam").value);
-	document.getElementById("Verzender").innerHTML = document.getElementById("VerzenderNaam").value;
+	//document.getElementById("Verzender").innerHTML = document.getElementById("VerzenderNaam").value;
 }
 function controlEnSend(){
 	if(document.getElementById("VerzenderNaam").value == ""){

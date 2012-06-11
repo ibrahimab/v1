@@ -10,20 +10,28 @@ echo "<p>Naam accommodatie: ".wt_he($accinfo["accnaam"])."</p>";
 <table id="mailTable">
   <tr>
     <td>Uw naam: </td>
+  </tr>
+  <tr>
     <td><input type="text" name="VerzenderNaam" id="VerzenderNaam" onkeyup="setVerzender()" /></td>
   </tr>
   <tr>
-    <td>Uw email adres:</td>
+    <td>Van: (Email adres)</td>
+  </tr>
+  <tr>
     <td><label for="verzenderAdres"></label>
       <input type="text" name="verzenderAdres" id="verzenderAdres" /></td>
   </tr>
   <tr>
-    <td>De email adres van de ontvangers:</td>
+    <td>Aan: (Email adres(en)</td>
+  </tr>
+  <tr>
     <td><label for="EmailOntvanger"></label>
       <input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
   </tr>
   <tr>
-    <td>Zo zal uw email er uit zien:</td>
+    <td>Bericht:</td>
+  </tr>
+  <tr>
     <td>
     	<textarea name="bericht" cols="100" rows="8">Hallo! 
 Ik heb een accomodatie gevonden op:
@@ -34,7 +42,6 @@ Groeten,</textarea>
     </td>
   </tr>
   <tr>
-    <td>&nbsp;</td>
     <td><button type="button" onclick="controlEnSend()" name="verzend" id="verzend" value="VERZENDEN">VERZENDEN</button>
     </td>
   </tr>
