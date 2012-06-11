@@ -104,58 +104,57 @@ if($vars["websitetype"]==2) {
 echo "\">";
 ?>
 <script type="text/javascript">
-	function validateEmail(email) {  
-		var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-		return email.match(pattern);     
-	}  
+function validateEmail(email) {  
+	var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+	return email.match(pattern);     
+}  
 
-	function setVerzender(){
-		//window.alert(document.getElementById("VerzenderNaam").value);
-		document.getElementById("Verzender").innerHTML = document.getElementById("VerzenderNaam").value;
+function setVerzender(){
+	//window.alert(document.getElementById("VerzenderNaam").value);
+	document.getElementById("Verzender").innerHTML = document.getElementById("VerzenderNaam").value;
+}
+function controlEnSend(){
+	if(document.getElementById("VerzenderNaam").value == ""){
+		//window.alert("OK");
+		document.getElementById("Verzender").style.backgroundColor = 'red';
+		document.getElementById("Verzender").style.color = 'white';
+		document.getElementById("Verzender").style.padding = '10px';
+		document.getElementById("Verzender").innerHTML = "U hebt uw naam niet ingevuld";
 	}
-	function controlEnSend(){
-		if(document.getElementById("VerzenderNaam").value == ""){
-			//window.alert("OK");
-			document.getElementById("Verzender").style.backgroundColor = 'red';
-			document.getElementById("Verzender").style.color = 'white';
-			document.getElementById("Verzender").style.padding = '10px';
-			document.getElementById("Verzender").innerHTML = "U hebt uw naam niet ingevuld";
-		}
-		else if(document.getElementById("verzenderAdres").value == ""){
-			//window.alert("OK");
-			document.getElementById("Verzender").style.backgroundColor = 'red';
-			document.getElementById("Verzender").style.color = 'white';
-			document.getElementById("Verzender").style.padding = '10px';
-			document.getElementById("Verzender").innerHTML = "U hebt uw email adres niet ingevuld";
-		}
-		else if(document.getElementById("EmailOntvanger").value == ""){
-			//window.alert("OK");
-			document.getElementById("Verzender").style.backgroundColor = 'red';
-			document.getElementById("Verzender").style.color = 'white';
-			document.getElementById("Verzender").style.padding = '10px';
-			document.getElementById("Verzender").innerHTML = "U hebt de email adres(en) van de ontvanger(s) niet ingevuld";
-		}
-		else{
-			var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-			var container = document.getElementById("EmailOntvanger").value;
-			var emailAdressen = container.split(" ");
-			for(var i =0; i < emailAdressen.length; i++){
-				if(!validateEmail(emailAdressen[i])){
-					window.alert(emailAdressen[i] + " is niet goed");
-					document.getElementById("Verzender").style.backgroundColor = 'red';
-					document.getElementById("Verzender").style.color = 'white';
-					document.getElementById("Verzender").style.padding = '10px';
-					document.getElementById("Verzender").innerHTML = "Vul A.u.b geldige email adres(sen) in";
-					break;
-				}
-				else{
-					document.getElementById("Verzender").innerHTML ="";
-					document.forms["mailAcc"].submit();
-					break;
-				}
+	else if(document.getElementById("verzenderAdres").value == ""){
+		//window.alert("OK");
+		document.getElementById("Verzender").style.backgroundColor = 'red';
+		document.getElementById("Verzender").style.color = 'white';
+		document.getElementById("Verzender").style.padding = '10px';
+		document.getElementById("Verzender").innerHTML = "U hebt uw email adres niet ingevuld";
+	}
+	else if(document.getElementById("EmailOntvanger").value == ""){
+		//window.alert("OK");
+		document.getElementById("Verzender").style.backgroundColor = 'red';
+		document.getElementById("Verzender").style.color = 'white';
+		document.getElementById("Verzender").style.padding = '10px';
+		document.getElementById("Verzender").innerHTML = "U hebt de email adres(en) van de ontvanger(s) niet ingevuld";
+	}
+	else{
+		var container = document.getElementById("EmailOntvanger").value;
+		var emailAdressen = container.split(" ");
+		for(var i =0; i < emailAdressen.length; i++){
+			if(!validateEmail(emailAdressen[i])){
+				window.alert(emailAdressen[i] + " is geen geldige email adres. Geef aub alleen maar geldige email adressen op.");
+				document.getElementById("Verzender").style.backgroundColor = 'red';
+				document.getElementById("Verzender").style.color = 'white';
+				document.getElementById("Verzender").style.padding = '10px';
+				document.getElementById("Verzender").innerHTML = "Vul A.u.b geldige email adres(sen) in";
+				break;
+			}
+			else{
+				document.getElementById("Verzender").innerHTML ="";
+				document.forms["mailAcc"].submit();
+				break;
 			}
 		}
 	}
+}
 </script>
 <style type="text/css">
 
@@ -336,25 +335,25 @@ if($noprint[$_GET["id"]]) echo "&nbsp;"; else echo "<A HREF=\"javascript:window.
 echo "</TD><TD width=\"75\" align=\"right\"><FONT SIZE=\"1\"><A HREF=\"javascript:self.close();\" class=\"venstersluiten\">".ereg_replace(" ","&nbsp;",html("venstersluiten"))."</A></FONT></TD></TR></TABLE></TD></TR>";
 echo "<TR><TD bgcolor=\"#FFFFFF\" valign=\"top\" align=\"left\" class=\"content\">";
 #echo "&nbsp;<BR><B>".htmlentities($title[$_GET["id"]])."</B><P>";
-	if(isset($_POST['VerzenderNaam'])){
-		$emails = explode(" ", $_POST['verzenderAdres']);
-		for($i = 0; $i<sizeof($emails); $i++){
-			$mail=new wt_mail;
-			$mail->fromname=$vars["websitenaam"];
-			$mail->from=$_POST['verzenderAdres'];
-			$mail->toname=$_POST[''];
-			$mail->to=$emails[$i];;
-			$mail->subject=$_POST['bericht'];
-		
-			$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-		
-			$mail->html_top="";
-			//$mail->html="<b>Hier de inhoud van de mail met opmaak via html</b>"; # Hier kun je al je html in kwijt
-			$mail->html_bottom="";
-			$mail->send(); # mailtje daadwerkelijk verzenden
-		}
-		echo "<b>Bedankt, uw email(s) zijn verzonden</b>";
+if(isset($_POST['VerzenderNaam'])){
+	$emails = explode(" ", $_POST['verzenderAdres']);
+	for($i = 0; $i<sizeof($emails); $i++){
+		$mail=new wt_mail;
+		$mail->fromname=$vars["websitenaam"];
+		$mail->from=$_POST['verzenderAdres'];
+		$mail->toname=$_POST[''];
+		$mail->to=$emails[$i];
+		$mail->subject=$_POST['bericht'];
+	
+		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
+	
+		$mail->html_top="";
+		//$mail->html="<b>Hier de inhoud van de mail met opmaak via html</b>"; # Hier kun je al je html in kwijt
+		$mail->html_bottom="";
+		$mail->send(); # mailtje daadwerkelijk verzenden
 	}
+	echo "<b>Bedankt, uw email(s) zijn verzonden</b>";
+}
 if($_GET["id"]) {
 	if(in_array($_GET["id"],$meertalig_array)) {
 		include "content/_meertalig/popup-".$_GET["id"]."_".$vars["taal"].".html";
