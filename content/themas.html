@@ -20,12 +20,16 @@ if($db->num_rows()) {
 		}
 		if($db->f("naam")) {
 			// deze div wordt herhaald voor iedere foto.
-			echo "<div class=\"thumbnail\">";
-			echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\"></a><BR />";
-			echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
+			echo "<div class=\"themas_keuze\">";
+            echo "<div class=\"themas_keuze_top\">";
+            echo "<div style=\"position:relative;\">";
+            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
+            echo "</div>";
+            echo "</div>";
+			echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" width=\"170\"></a><BR />";
 			echo "</div>";
 		}
-		if($teller%3==0) {
+		if($teller%4==0) {
 			echo "<br class=\"clearboth\">";    	
 		}
 		$teller++;

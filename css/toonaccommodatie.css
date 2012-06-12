@@ -1,4 +1,47 @@
+#mailTable{
+	width:80%;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:16px;	
+}
 
+#mailTable td{
+	width:100px;
+}
+
+#mailTable textarea{
+	width:333px;
+	height:140px;
+	background-image:url(../pic/textArea.png);
+	background-repeat:no-repeat;
+	overflow:auto;
+	border:0px;
+	padding: 10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+}
+
+#mailTable input{
+	font-family: <?php echo $font; ?>;
+	font-size: 1.0em;
+	width: 325px;
+    height: 49px;
+	border: 0px;
+	padding:10px;
+
+    background-image:url(../pic/inputFieldBackground-img.png);
+    background-repeat: no-repeat;	
+}
+#mailTable button {
+  color: #000000;
+  font-weight: bold;
+  font-size: 100%;
+  text-transform: uppercase;
+  background-image:url(../pic/formButton.png);
+  background-repeat:no-repeat;
+  width:158px;
+  height:58px;
+  border:0px;
+}
 h2 {
 	color: #000000;
 	font-size: 1.0em;
