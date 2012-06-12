@@ -94,7 +94,6 @@ echo "<HTML><HEAD>";
 echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">\n";
 echo "<META NAME=\"robots\" CONTENT=\"noindex,follow\">";
 echo "<TITLE>".htmlentities($title[$_GET["id"]])."</TITLE>";
-echo "<link rel=\"stylesheet\" href=\"css/toonaccommodatie.css\">";
 echo "<link REL=\"SHORTCUT ICON\" href=\"".$path;
 if($vars["websitetype"]==2) {
 	echo "favicon_wsa.ico";
@@ -282,6 +281,7 @@ if($noprint[$_GET["id"]]) echo "&nbsp;"; else echo "<A HREF=\"javascript:window.
 echo "</TD><TD width=\"75\" align=\"right\"><FONT SIZE=\"1\"><A HREF=\"javascript:self.close();\" class=\"venstersluiten\">".ereg_replace(" ","&nbsp;",html("venstersluiten"))."</A></FONT></TD></TR></TABLE></TD></TR>";
 echo "<TR><TD bgcolor=\"#FFFFFF\" valign=\"top\" align=\"left\" class=\"content\">";
 #echo "&nbsp;<BR><B>".htmlentities($title[$_GET["id"]])."</B><P>";
+
 if($_GET["id"]) {
 	if(in_array($_GET["id"],$meertalig_array)) {
 		include "content/_meertalig/popup-".$_GET["id"]."_".$vars["taal"].".html";
@@ -292,6 +292,5 @@ if($_GET["id"]) {
 	}
 }
 
- ?></TD></TR></TABLE>
- </BODY>
+ ?></TD></TR></TABLE></BODY>
 </HTML>
