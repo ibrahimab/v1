@@ -30,7 +30,7 @@ echo "<body>";
 echo "<div style=\"margin:10px;\">";
 
 if($login_lev->logged_in and $_GET["bid"]) {
-	$db->query("SELECT b.boeking_id FROM boeking b, type t WHERE b.boeking_id='".addslashes($_GET["bid"])."' AND b.type_id=t.type_id AND (t.leverancier_id='".addslashes($login_lev->user_id)."' OR t.beheerder_id='".addslashes($login_lev->user_id)."') AND b.boekingsnummer<>'' AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.seizoen_id>=17;");
+	$db->query("SELECT b.boeking_id FROM boeking b, type t WHERE b.boeking_id='".addslashes($_GET["bid"])."' AND b.type_id=t.type_id AND (t.leverancier_id='".addslashes($login_lev->user_id)."' OR t.beheerder_id='".addslashes($login_lev->user_id)."' OR t.eigenaar_id='".addslashes($login_lev->user_id)."') AND b.boekingsnummer<>'' AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.seizoen_id>=17;");
 	if($db->next_record()) {
 		$vars["lev_login_enquete"]=true;
 		$gegevens=get_boekinginfo($_GET["bid"]);

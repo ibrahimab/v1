@@ -5,6 +5,7 @@ $vars["verberg_lastacc"]=true;
 $vars["verberg_zoekenboeklinks"]=true;
 $vars["verberg_directnaar"]=true;
 $vars["verberg_linkerkolom"]=true;
+$laat_titel_weg=true;
 
 include("admin/vars.php");
 
@@ -18,6 +19,17 @@ if($login_lev->logged_in) {
 		$vars["taal"]=$login_lev->vars["inlog_taal"];
 		if($vars["taal"]<>"nl") $vars["ttv_lev_login"]="_".$vars["taal"];
 	}
+
+	# uitlog-link bovenaan tonen
+	unset($helemaalboven);
+	$helemaalboven=htmlentities($login_lev->vars["naam"])."&nbsp;&nbsp;";
+	if($_GET["t"]) {
+		$helemaalboven.="<a href=\"".$vars["path"]."lev_login.php\">".html("hoofdmenu","lev_login")."</a>&nbsp;&nbsp;&nbsp;";
+	}
+	$helemaalboven.="<a href=\"".$vars["path"]."lev_login.php?logout=145\">".html("uitloggen","vars",array("v_gebruiker"=>$login_lev->vars["naam"]))."</a>";
+
+} else {
+	$vars["verberg_linkerkolom"]=false;
 }
 
 if($login_lev->logged_in and $_GET["t"]==1) {

@@ -601,8 +601,13 @@ class Login {
 									setcookie($this->settings["extra_unsafe_cookie"]."[".$this->settings["name"]."]",md5($_SERVER["REMOTE_ADDR"]."_".$this->settings["name"]."_QjJEJ938ja2"),$time,"/");
 								}
 							} else {
-								# Inloggen gelukt - niks opslaan in cookie
+								# Inloggen gelukt - login niet onthouden
 								$this->logged_in=true;
+								
+								if($this->settings["extra_unsafe_cookie"]) {
+									setcookie($this->settings["extra_unsafe_cookie"]."[".$this->settings["name"]."]",md5($_SERVER["REMOTE_ADDR"]."_".$this->settings["name"]."_QjJEJ938ja2"),$time,"/");
+								}
+								
 							}
 						}
 					} else {

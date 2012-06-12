@@ -1549,13 +1549,16 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				$tarief_meerdere_weken[$db->f("type_id")][$db->f("week")]=$db->f("wederverkoop_verkoopprijs");
 			}
 #			echo wt_dump($tarief_meerdere_weken);
-			# aanbiedingen voor alle datums ophalen
-			$aanbieding_doorlopen=$aanbieding;
+#			$aanbieding_doorlopen=$aanbieding;
+#			@reset($aanbieding_doorlopen);
+#			while(list($key,$value)=@each($aanbieding_doorlopen)) {
+
+			# aanbiedingen voor alle seizoenen ophalen
 			unset($aanbieding);
-			@reset($aanbieding_doorlopen);
-			while(list($key,$value)=@each($aanbieding_doorlopen)) {
-#				$aanbieding[$db->f("seizoen_id")]=aanbiedinginfo(0,$key);
-				$aanbieding[$key]=aanbiedinginfo(0,$key);
+			$db->query("SELECT seizoen_id FROM seizoen WHERE tonen".($voorkant_cms ? ">=" : "=")."3 AND type='".addslashes($vars["seizoentype"])."' AND eind>='".date("Y-m-d")."' ORDER BY begin;");
+			while($db->next_record()) {
+				$aanbieding[$db->f("seizoen_id")]=aanbiedinginfo(0,$db->f("seizoen_id"));
+#				$aanbieding[$key]=aanbiedinginfo(0,$key);
 			}
 		}
 		if($vars["websitetype"]==6) {

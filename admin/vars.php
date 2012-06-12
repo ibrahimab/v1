@@ -349,13 +349,6 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->end_declaration();
 		
 		if($login_lev->logged_in) {
-			# uitlog-link bovenaan tonen
-			unset($helemaalboven);
-			$helemaalboven=htmlentities($login_lev->vars["naam"])."&nbsp;&nbsp;";
-			if($_GET["t"]) {
-				$helemaalboven.="<a href=\"".$vars["path"]."lev_login.php\">".html("hoofdmenu","lev_login")."</a>&nbsp;&nbsp;&nbsp;";
-			}
-			$helemaalboven.="<a href=\"".$vars["path"]."lev_login.php?logout=145\">".html("uitloggen","vars",array("v_gebruiker"=>$login_lev->vars["naam"]))."</a>";
 			
 			if($login_lev->vars["inlog_taal"]=="en") {
 				# zorgen voor koptekst in de juiste taal
