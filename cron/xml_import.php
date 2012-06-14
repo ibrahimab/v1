@@ -1,6 +1,6 @@
 <?php
 
-# /usr/local/bin/php --php-ini /home/sites/chalet.nl/php_cli.ini /home/sites/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 16...)
+# /usr/local/bin/php --php-ini /home/sites/chalet.nl/php_cli.ini /home/sites/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 17...)
 
 #
 # Script wordt elke minuut gerund, maar alleen volledig afgelopen om: 5 minuten over 0,3,9,12,15,18,21 uur
@@ -84,7 +84,7 @@ if(!$testsysteem) {
 	$db->query("DELETE FROM xml_import_flex_temp;");
 }
 
-if(date("H")==9 or $argv[1]=="5") {
+if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 	if(!$testsysteem) {
 		#
 		# CSV downloaden bij P&V Pierre & Vacances (pas beschikbaar vanaf de ochtend)
@@ -107,6 +107,35 @@ if(date("H")==9 or $argv[1]=="5") {
 			}
 		}
 		$csv_urls[5]=$tmpdir."dispo.csv";
+	}
+}
+
+if(!$argv[1] or $argv[1]=="17") {
+	if(!$testsysteem) {
+
+		# XML downloaden bij Alpin Rentals Kaprun
+		$tmp_insert = array(
+		'user' => 'chaletnl',
+		'pass' => 'aTL9!32',
+		);
+		
+		$tmp_insertStr = http_build_query($tmp_insert, '', '&'); 
+		
+		$tmp_url = "http://www.alpinrentals.co.uk/api/get";
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		curl_setopt($ch, CURLOPT_URL, $tmp_url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $tmp_insertStr);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		$tmp_results = curl_exec($ch);
+		curl_close($ch);
+		
+		$temp_filename[17]=$tmpdir."alpin_rentals_kaprun_".date("Y-m-d-H-i").".xml";
+		file_put_contents($temp_filename[17],$tmp_results);
+		
+		unset($tmp_results,$ch,$tmp_insert,$tmp_insertStr);
 	}
 }
 
@@ -180,6 +209,12 @@ $xml_urls[16][2]="http://www.almliesl.com/export_chalet_nl_prices_de_w.xml"; # p
 $xml_urls[16][3]="http://www.almliesl.com/export_chalet_nl_occupancy_de_s.xml"; # beschikbaarheid zomer
 $xml_urls[16][4]="http://www.almliesl.com/export_chalet_nl_prices_de_s.xml"; # prijzen zomer
 
+# Alpin Rentals Kaprun
+if(file_exists($temp_filename[17])) {
+	$xml_urls[17][1]=$temp_filename[17];
+}
+
+
 
 #
 # Voor testsysteem
@@ -187,7 +222,7 @@ $xml_urls[16][4]="http://www.almliesl.com/export_chalet_nl_prices_de_s.xml"; # p
 if($testsysteem) {
 	unset($xml_urls);
 	unset($soap_urls);
-	$xml_urls[2][]=$tmpdir."alpenchalets.xml";
+#	$xml_urls[2][]=$tmpdir."alpenchalets.xml";
 #	$xml_urls[3][]=$tmpdir."skifrance.xml";
 #	$xml_urls[4][]=$tmpdir."results.xml";
 #	$csv_urls[5]=$tmpdir."dispo.csv";
@@ -210,6 +245,7 @@ if($testsysteem) {
 #	$xml_urls[16][2]=$tmpdir."export_chalet_nl_prices_de_w.xml";
 #	$xml_urls[16][3]=$tmpdir."export_chalet_nl_occupancy_de_s.xml";
 #	$xml_urls[16][4]=$tmpdir."export_chalet_nl_prices_de_s.xml";
+	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-06-14-16-22.xml";
 }
 
 #
@@ -654,6 +690,20 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
+			} elseif($key==17) {
+				#
+				# Leverancier Alpin Rentals Kaprun
+				#
+				
+				# $week = de betreffende week in unixtime
+
+				# Beschikbaarheid
+				$xml_beschikbaar[$key][XML_CODE_VAN_DE_ACCOMMODATIE][$week]=true;
+				
+				
+				# Tarieven
+				$xml_brutoprijs[$key][XML_CODE_VAN_DE_ACCOMMODATIE][$week]=BEDRAG_PER_WEEK;
+				
 			}
 		} else {
 			trigger_error("_notice: URL ".$value2." onbereikbaar",E_USER_NOTICE);
@@ -839,8 +889,12 @@ while($db->next_record()) {
 if($testsysteem) {
 	# test-query
 #	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.type_id=3394 ORDER BY t.leverancier_id;");
+
 	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.leverancier_id IN (".$test_leverancierids.") ORDER BY t.leverancier_id;");
-#	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.type_id=5269 ORDER BY t.leverancier_id;");
+
+#	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.type_id=427 ORDER BY t.leverancier_id;");
+#	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.leverancier_id IN (30) ORDER BY t.leverancier_id;");
+
 #	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, t.xmltarievenimport, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND a.accommodatie_id=2015 ORDER BY t.leverancier_id, a.wzt;");
 #	echo $db->lastquery."<p>kk";
 } else {
@@ -878,6 +932,16 @@ while($db->next_record()) {
 		$type_namen[$db->f("type_id")]="<a href=\"http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_tarieven.php?xmlgoedkeuren=1&sid=_SEIZOEN_ID_&tid=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a>";
 		$wzt[$db->f("type_id")]=$db->f("wzt");
 		
+		
+		# Bij sommige leveranciers: extra informatie uit leverancierscode halen
+		unset($extra_info_leverancierscode);
+		if($db->f("xml_type")==1) {
+			if(preg_match("/^(.*)-(.*)$/",$value,$regs)) {
+				$value=trim($regs[1]);
+				$extra_info_leverancierscode=trim($regs[2]);
+			}
+		}
+		
 		# Kijken naar laatste import (puur voor het overzicht van laatste imports)
 		if($xml_laatsteimport_gezien[$db->f("xml_type")][$value]) {
 			$xml_laatsteimport[$db->f("type_id")]=true;
@@ -892,6 +956,7 @@ while($db->next_record()) {
 			#
 			# Leverancier Huetten
 			#
+			
 			
 			# Beschikbaarheid Huetten
 			$aantal_beschikbaar[$db->f("xml_type")][$db->f("type_id")]++;
@@ -936,7 +1001,7 @@ while($db->next_record()) {
 
 			# Tarieven Huetten
 			$xml_url="https://api.huetten.com/dataexchange/MasterData.aspx?PartnerId=76640&Pwd=chalet.nl&xmlFile=%3Cparameter%3E%3CLodgeId%3E".$value."%3C/LodgeId%3E%3C/parameter%3E";
-			echo "Tarieven: ".$xml_url."\n";
+			echo "Tarieven typeid ".$db->f("type_id").": ".$xml_url."\n";
 			unset($xml,$season);
 			
 			if($xml=@simplexml_load_file($xml_url)) {
@@ -946,12 +1011,17 @@ while($db->next_record()) {
 
 				unset($tarief_season);
 				if(is_object($xml->huette->prices->price_group->price)) {
+
 					# Tarieven in $tarief_season zetten (op basis van season-id)
 					foreach($xml->huette->prices->price_group as $value3) {
-						foreach($value3->price as $value4) {
-							if(trim($value4->attributes()->perPerson)=="false") {
-								if($tarief_season[trim($value4->attributes()->season)]<trim($value4)) {
-									$tarief_season[trim($value4->attributes()->season)]=trim($value4);
+						# Indien $extra_info_leverancierscode is ingesteld: alleen voor dat aantal personen de tarieven ophalen
+						if(!$extra_info_leverancierscode or ($extra_info_leverancierscode and $value3->attributes()->persons==$extra_info_leverancierscode)) {
+
+							foreach($value3->price as $value4) {
+								if(trim($value4->attributes()->perPerson)=="false") {
+									if($tarief_season[trim($value4->attributes()->season)]<trim($value4)) {
+										$tarief_season[trim($value4->attributes()->season)]=trim($value4);
+									}
 								}
 							}
 						}
@@ -1230,6 +1300,24 @@ while($db->next_record()) {
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
+		} elseif($db->f("xml_type")==17) {
+			#
+			# Leverancier Alpin Rentals Kaprun
+			#
+
+			# Beschikbaarheid
+			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
+				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
+				while(list($key2,$value2)=each($xml_beschikbaar[$db->f("xml_type")][$value])) {
+					$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]+=$value2;
+					$xml_laatsteimport[$db->f("type_id")]=true;
+				}
+			}
+ 
+
+			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
+ 
+
 		}
 
 		#
@@ -1240,9 +1328,9 @@ while($db->next_record()) {
 			#
 			# week-tarieven
 			#
-			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16") {
+			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17") {
 				#
-				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6): TIJDELIJK NIET (24-8-2011), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16)
+				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6): TIJDELIJK NIET (24-8-2011), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17)
 				#
 				if(is_array($xml_brutoprijs[$db->f("xml_type")][$value])) {
 					reset($xml_brutoprijs[$db->f("xml_type")][$value]);
@@ -1756,6 +1844,10 @@ if($mailtxt or $tarievenbijgewerkt) {
 if(!$testsysteem) {
 	# Temp-gegevens wissen
 	$db->query("DELETE FROM xml_import_flex_temp;");
+	
+	while(list($key,$value)=each($temp_filename)) {
+		unlink($value);
+	}
 }
 
 echo "\n\nKlaar.\n";
