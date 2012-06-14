@@ -1,8 +1,37 @@
+Adwords generator.
+
 <?php
+// You can set the include path to src directory or reference
+// AdWordsUser.php directly via require_once.
+// $path = '/path/to/pda_api_php_lib/src';
+$path = '..\adwords_Api\src';
+set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+require_once($path.'\Google\Api\Ads\AdWords\Lib\AdWordsUser.php');
 
-
-echo "<p>Via deze pagina kunnen ontwikkel-tests worden uitgevoerd.</p>";
-
+$user = new AdWordsUser();
+$campagneService = $user->GetService('CampaignService', 'v201109');
+$aantalcampagnes = 3;
+$operaties = array();
+for($i =0; $i<$aantalcampagnes; $i++){
+	$campagne = new Campaign();
+}
+echo "<BR><BR>accommodaties chalet<BR><BR>";
+//$db->query("SELECT DISTINCT naam, plaats, skigebied FROM view_accommodatie WHERE websites LIKE '%C%' AND atonen='1'");
+//if($db->num_rows()){
+//  echo "Naam | Plaats | Regio <BR />";
+//  while($db->next_record()){
+//      //echo $db->f("naam")."| ";
+////      echo $db->f("plaats")."| ";
+////      echo $db->f("skigebied")."<BR /><BR />";
+//  }
+//   echo "<BR><BR>accommodaties Zomerhuis<BR><BR>";
+//   $db->query("SELECT DISTINCT naam, plaats, skigebied FROM view_accommodatie WHERE websites LIKE '%Z%' AND atonen='1'");
+//   while($db->next_record()){
+//        echo $db->f("naam")."| ";
+//        echo $db->f("plaats")."| ";
+//        echo $db->f("skigebied")."<BR /><BR />";
+//    }
+//}
 
 echo "<h1>XML-import Alpin Rentals Kaprun</h1>";
 
