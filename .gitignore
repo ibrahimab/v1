@@ -1,10 +1,4 @@
 
-# afbeeldingen via CMS
-pic/cms/
-
-# afbeeldingen-cache
-pic/cms/_imgcache/
-
 # /tmp-map
 tmp/
 

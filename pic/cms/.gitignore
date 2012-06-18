@@ -1,0 +1,5 @@
+
+# Alleen de CMS-afbeeldingen zelf ignoren, niet de mappen
+*.jpg
+*.gif
+*.png
