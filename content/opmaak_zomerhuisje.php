@@ -542,16 +542,6 @@ if($vars["verberg_linkerkolom"]) {
 			}
 		}
 	}
-	
-# TIJDELIJK
-# Alpe d'HuZes
-if($id<>"zoek-en-boek" and $id<>"alpedhuzes" and !$_GET["test"]) {
-	$html_ipv_blokaccommodatie.="<div id=\"alpedhuzes\">";
-	$html_ipv_blokaccommodatie.="<a href=\"".$vars["path"]."alpedhuzes.php\"><img src=\"".$vars["path"]."pic/tijdelijk/alpedhuzes_zomer.gif\" width=\"158\" height=\"78\" border=\"0\"></a>";
-	$html_ipv_blokaccommodatie.="</div>";
-	
-}
-
 
 	if($html_ipv_blokaccommodatie) {
 		echo "<div id=\"blokaccommodatie\"".($html_ipv_blokaccommodatie_bgcolor ? " style=\"background-color:".$html_ipv_blokaccommodatie_bgcolor."\"" : "").">";
