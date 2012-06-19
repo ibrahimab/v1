@@ -6,6 +6,8 @@
 #
 # ========================>>>>>>>>>>>>>>>> LET OP: bij deze file wordt een cache gebruikt! <<<<<<<<<<<<<<<<==================================
 #
+# Elke dag om 04:00 uur en 18:00 uur wordt de nieuwe cache aangemaakt (via cron/elkuur.php)
+#
 # handmatig starten aanmaken cache: /usr/local/bin/php --php-ini /home/sites/chalet.nl/php_cli.ini /home/sites/chalet.nl/html/cron/elkuur.php xmlopnieuw
 #
 #
