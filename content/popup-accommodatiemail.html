@@ -1,3 +1,60 @@
+<style type="text/css">
+#mailTable{
+	width:80%;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;	
+}
+
+#mailTable td{
+	width:100px;
+}
+
+#presentbericht{
+	width:333px;
+	height:140px;
+	background-image:url(../pic/textArea.png);
+	background-repeat:no-repeat;
+	overflow:auto;
+	border:0px;
+	padding: 10px 10px 10px 10px;
+	font-size:12px;
+	font-family:Verdana, Geneva, sans-serif;
+}
+#mailTable textarea{
+	width:333px;
+	height:140px;
+	background-image:url(../pic/textArea.png);
+	background-repeat:no-repeat;
+	overflow:auto;
+	border:0px;
+	padding: 10px 10px 10px 10px;
+	font-size:10px;
+	font-family:Verdana, Geneva, sans-serif;
+}
+
+#mailTable input{
+	font-family: verdana;
+	font-size: 1.0em;
+	width: 325px;
+    height: 49px;
+	border: 0px;
+	padding:10px;
+
+    background-image:url(../pic/inputFieldBackground-img.png);
+    background-repeat: no-repeat;	
+}
+#mailTable button {
+  color: #000000;
+  font-weight: bold;
+  font-size: 100%;
+  text-transform: uppercase;
+  background-image:url(../pic/formButton.png);
+  background-repeat:no-repeat;
+  width:158px;
+  height:58px;
+  border:0px;
+}
+</style>
 <script type="text/javascript">
 function validateEmail(email) {  
 	var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
@@ -44,6 +101,9 @@ function controlEnSend(){
 			}
 			else{
 				document.getElementById("Verzender").innerHTML ="";
+				var bericht = document.getElementById("presentbericht").innerHTML;
+				//window.alert(bericht);
+				document.getElementById("bericht").value = bericht;
 				document.forms["mailAcc"].submit();
 				break;
 			}
@@ -64,16 +124,27 @@ if(isset($_POST['VerzenderNaam'])){
 	$emails = explode(" ", $_POST['verzenderAdres']);
 	for($i = 0; $i<sizeof($emails); $i++){
 		$mail=new wt_mail;
-		$mail->fromname=$vars["websitenaam"];
+		$mail->fromname=$_POST["VerzenderNaam"];
 		$mail->from=$_POST['verzenderAdres'];
 		$mail->toname=$_POST[''];
 		$mail->to=$emails[$i];
 		$mail->subject=$_POST['bericht'];
-	
+		$mail->subject.=$mail->fromname;
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-	
 		$mail->html_top="";
-		//$mail->html="<b>Hier de inhoud van de mail met opmaak via html</b>"; # Hier kun je al je html in kwijt
+        $mail->html.="<html>";
+        $mail->html.="<head>";
+        $mail->html.="</head>";
+        $mail->html.="<body>";
+        $mail->html.="<table width=\"100%\" border=\"0\">";
+        $mail->html.="<tr><td>";
+        $mail->html.="<img src=\"http://192.168.1.32/chalet/pic/zomerhuisje_topbalk.png\" alt=\"Zomerhuisje\">";
+        $mail->html.="</td></tr><tr><td>";
+        $mail->html.="<font face=\"Verdana, Geneva, sans-serif\" color=\"#003366\">$mail->subject</font>";
+        $mail->html.="</tr></td>";
+        $mail->html.="</table>";
+        $mail->html.="</body>";
+        $mail->html.="</html>";
 		$mail->html_bottom="";
 		$mail->send(); # mailtje daadwerkelijk verzenden
 	}
@@ -84,35 +155,40 @@ if(isset($_POST['VerzenderNaam'])){
 <form action="<?php echo $_SERVER["REQUEST_URI"] ?>"  method="post" name="mailAcc">
 <table id="mailTable">
   <tr>
-    <td>Uw naam: </td>
+    <td><strong>Uw naam: </strong></td>
   </tr>
   <tr>
     <td><input type="text" name="VerzenderNaam" id="VerzenderNaam" onkeyup="setVerzender()" /></td>
   </tr>
   <tr>
-    <td>Van: (Email adres)</td>
+    <td><strong>Van: (Email adres)</strong></td>
   </tr>
   <tr>
     <td><label for="verzenderAdres"></label>
       <input type="text" name="verzenderAdres" id="verzenderAdres" /></td>
   </tr>
   <tr>
-    <td>Aan: (Email adres(sen))</td>
+    <td><strong>Aan: (Email adres(sen))</strong></td>
   </tr>
   <tr>
     <td><label for="EmailOntvanger"></label>
       <input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
   </tr>
   <tr>
-    <td>Bericht:</td>
+    <td><strong>Bericht:</strong></td>
   </tr>
   <tr>
     <td>
-    	<textarea name="bericht" cols="100" rows="8">Hallo! 
-Ik heb een accomodatie gevonden op:
-<?php echo wt_he($accinfo["url"]); ?>
- Wat vind je ervan?
-Groeten,</textarea>	
+    	<div id="presentbericht" contenteditable="true">
+        	Hallo!<br /> 
+Ik heb een accomodatie gevonden. <br />
+<b><?php echo wt_he($accinfo["accnaam"]) ?></b><br />Aantal: <?php echo wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." "?>Personen<br />
+Klik <a href="<?php echo wt_he($accinfo["url"])?>">hier</a> om dit huis te bekijken. 
+ <BR />
+ <br />
+Groeten,<br />
+        </div>
+    	<input type="hidden" name="bericht" id="bericht"></input>	
       <div style="width:325px;" id="Verzender"></div><br /><br />
     </td>
   </tr>
