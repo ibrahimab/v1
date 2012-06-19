@@ -1,33 +1,31 @@
 .themas_keuze {
-border: 1px solid 
-white;
-width: 170px;
-text-align: center;
-margin-right: 10px;
-margin-bottom: 10px;
-float: left;
-color: 
-white;
+	border: 1px solid white;
+	width: 170px;
+	text-align: center;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	float: left;
+	color: white;
 }
 
 .themas_keuze_top {
-background-color: #d5e1f9;
-height: 30px;
-width: 170px;
-vertical-align: middle;
-display: table-cell;
-font-size: 1.1em;
-font-weight: bold;
-padding-top:10px;
+	background-color: #d5e1f9;
+	height: 30px;
+	width: 170px;
+	vertical-align: middle;
+	display: table-cell;
+	font-size: 1.1em;
+	font-weight: bold;
+	padding-top:10px;
 }
 
 .themas_keuze_top a{
-	color:#0074cf;
+	color:#002682;
 	text-decoration:none;
 }
 
 .themas_keuze_top a:hover{
-	color:RED;
+	color:#d40139;
 	text-decoration:none;
 }
 
