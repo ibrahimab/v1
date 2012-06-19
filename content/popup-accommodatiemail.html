@@ -44,15 +44,15 @@
     background-repeat: no-repeat;	
 }
 #mailTable button {
-  color: #000000;
-  font-weight: bold;
-  font-size: 100%;
-  text-transform: uppercase;
-  background-image:url(../pic/formButton.png);
-  background-repeat:no-repeat;
-  width:158px;
-  height:58px;
-  border:0px;
+	color: #000000;
+	font-weight: bold;
+	font-size: 100%;
+	text-transform: uppercase;
+	background-image:url(../pic/formButton.png);
+	background-repeat:no-repeat;
+	width:158px;
+	height:58px;
+	border:0px;
 }
 </style>
 <script type="text/javascript">
@@ -182,7 +182,7 @@ if(isset($_POST['VerzenderNaam'])){
     	<div id="presentbericht" contenteditable="true">
         	Hallo!<br /> 
 Ik heb een accomodatie gevonden. <br />
-<b><?php echo wt_he($accinfo["accnaam"]) ?></b><br />Aantal: <?php echo wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." "?>Personen<br />
+<b><?php echo wt_he($accinfo["accnaam"]) ?></b><br /><table><tr><td><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; echo "<img src=\"$impath\"/>";?></td></tr></tr></table>Aantal: <?php echo wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." "?>Personen<br />
 Klik <a href="<?php echo wt_he($accinfo["url"])?>">hier</a> om dit huis te bekijken. 
  <BR />
  <br />
