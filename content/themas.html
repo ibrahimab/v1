@@ -1,11 +1,7 @@
 <?php
 
-if($vars["lokale_testserver"]) {
-
-	#
-	# Nieuwe themas-pagina
-	#
-
+if($_GET["testsysteem"] or $vars["lokale_testserver1"]) {
+	
 	echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
 	echo "<br>&nbsp;<br>";
 	
@@ -32,7 +28,7 @@ if($vars["lokale_testserver"]) {
 	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
 	            echo "</div>";
 	            echo "</div>";
-				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" width=\"170\"></a><BR />";
+				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170\"></a><br />";
 				echo "</div>";
 			}
 			if($teller%4==0) {
