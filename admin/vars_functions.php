@@ -218,6 +218,13 @@ function accinfo($typeid,$aankomstdatum=0,$aantalpersonen=0,$options="") {
 			$return["aantalpersonen_array"][$i]=$i." ".($i==1 ? txt("persoon") : txt("personen"));
 		}
 		
+		# Hoofdfoto bepalen
+		if(file_exists($unixdir."pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
+			$return["hoofdfoto"]="pic/cms/types_specifiek/".$db->f("type_id").".jpg";
+		} elseif(file_exists($unixdir."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
+			$return["hoofdfoto"]="pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg";
+		}
+		
 		# Vertekdagen bepalen
 		include($unixdir."content/vertrekdagaanpassing.html");
 		
