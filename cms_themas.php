@@ -104,7 +104,7 @@ if($vars["cmstaal"]) {
 
 if($_GET["wzt"]==1) {
 	# winter-thema's
-	$cms->edit_field(36,1,"kleineafbeelding","Afbeelding","",array("img_width"=>"170","img_height"=>"150"));
+	$cms->edit_field(36,1,"kleineafbeelding","Afbeelding","",array("img_width"=>"170","img_height"=>"128"));
 } else {
 	# zomer-thema's
 	$cms->edit_field(36,1,"kleineafbeelding","Afbeelding","",array("img_width"=>"240","img_height"=>"180"));
