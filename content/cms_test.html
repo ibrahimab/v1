@@ -8,13 +8,29 @@ $path = '..\adwords_Api\src';
 set_include_path(get_include_path() . PATH_SEPARATOR . $path);
 require_once($path.'\Google\Api\Ads\AdWords\Lib\AdWordsUser.php');
 
-$user = new AdWordsUser();
-$campagneService = $user->GetService('CampaignService', 'v201109');
-$aantalcampagnes = 3;
-$operaties = array();
-for($i =0; $i<$aantalcampagnes; $i++){
-	$campagne = new Campaign();
-}
+$user = new AdWordsUser(null, "miguel@chalet.nl", "Migleboos1986", "dKpNWkkHffYOS7_Io7RuqA", "", "217-138-4351");
+$campagneService = $user->getCampaignService('v201109', 'https://adwords.google.com');
+
+$campaign = new Campaign();
+$campaign->name = 'test campagne';
+$campaign->status = 'ACTIVE';
+$campaign->biddingStrategy = new ManualCPC();
+$campaign->budget = new Budget('DAILY', new Money(50000000), 'STANDARD');
+
+$operation = new CampaignOperation();
+$operation->operand = $campaign;
+$operation->operator = 'ADD';
+$operations[] = $operation;
+
+// Add campaign.
+$campaignReturnValue = $campagneService->mutate($operations);
+     
+     
+//$aantalcampagnes = 3;
+//$operaties = array();
+//for($i =0; $i<$aantalcampagnes; $i++){
+//	$campagne = new Campaign();
+//}
 echo "<BR><BR>accommodaties chalet<BR><BR>";
 //$db->query("SELECT DISTINCT naam, plaats, skigebied FROM view_accommodatie WHERE websites LIKE '%C%' AND atonen='1'");
 //if($db->num_rows()){
