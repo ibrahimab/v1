@@ -110,6 +110,7 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 	}
 }
 
+/*
 if(!$argv[1] or $argv[1]=="17") {
 	if(!$testsysteem) {
 
@@ -138,6 +139,7 @@ if(!$argv[1] or $argv[1]=="17") {
 		unset($tmp_results,$ch,$tmp_insert,$tmp_insertStr);
 	}
 }
+*/
 
 #
 # XML-gegevens ophalen van sites die de gegevens via 1 XML-bestand aanleveren
@@ -1845,7 +1847,7 @@ if(!$testsysteem) {
 	# Temp-gegevens wissen
 	$db->query("DELETE FROM xml_import_flex_temp;");
 	
-	while(list($key,$value)=each($temp_filename)) {
+	while(list($key,$value)=@each($temp_filename)) {
 		unlink($value);
 	}
 }
