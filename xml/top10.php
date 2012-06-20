@@ -72,17 +72,17 @@ if($db->num_rows()) {
 			$aantal_acc_per_blok[$db->f("seizoen_id")][$db->f("week")]++;
 
 			echo "<trip>\n";
-			echo "<bloknummer>".wt_xml($db->f("blokvolgorde"))."</bloknummer>\n";
-			echo "<bloknaam>".wt_xml($db->f("bloknaam"))."</bloknaam>\n";
+			echo "<bloknummer>".xml_text($db->f("blokvolgorde"))."</bloknummer>\n";
+			echo "<bloknaam>".xml_text($db->f("bloknaam"))."</bloknaam>\n";
 			echo "<continent>Europa</continent>\n";
-			echo "<country>".wt_xml($db->f("land"))."</country>\n";
-			echo "<region>".wt_xml($db->f("skigebied"))."</region>\n";
-			echo "<city>".wt_xml($db->f("plaats"))."</city>\n";
+			echo "<country>".xml_text($db->f("land"))."</country>\n";
+			echo "<region>".xml_text($db->f("skigebied"))."</region>\n";
+			echo "<city>".xml_text($db->f("plaats"))."</city>\n";
 		
 			$aantalpersonen=$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? "persoon" : "personen");
 			$accnaam=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".$aantalpersonen;
 			
-			echo "<name>".wt_xml($accnaam)."</name>\n";
+			echo "<name>".xml_text($accnaam)."</name>\n";
 			echo "<stars></stars>\n";
 		
 			unset($description);
@@ -92,7 +92,7 @@ if($db->num_rows()) {
 					$description.="\n\n";
 				}
 				$description.=$db->f("tomschrijving");
-				echo "<description>".wt_xml($description)."</description>\n";
+				echo "<description>".xml_text($description)."</description>\n";
 			} else {
 				echo "<description></description>\n";
 			}
@@ -106,7 +106,7 @@ if($db->num_rows()) {
 					$url.="&utm_source=Snowplaza&utm_medium=Snowplaza&utm_campaign=Aanbiedingen";
 				}
 			}
-			echo "<deeplink>".wt_xml($url)."</deeplink>\n";
+			echo "<deeplink>".xml_text($url)."</deeplink>\n";
 			
 			$imgurl="";
 			if(file_exists("../pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
@@ -115,7 +115,7 @@ if($db->num_rows()) {
 				$imgurl=$vars["basehref"]."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg";
 			}
 			if($imgurl) {
-				echo "<image_url>".wt_xml($imgurl)."</image_url>\n";
+				echo "<image_url>".xml_text($imgurl)."</image_url>\n";
 			}
 			echo "<room>\n";
 			
@@ -164,25 +164,25 @@ if($db->num_rows()) {
 				} else {
 					$kwaliteit=$db->f("kwaliteit");
 				}
-				echo "<field name=\"stars\" value=\"".wt_xml($kwaliteit,false)."\" />\n";
+				echo "<field name=\"stars\" value=\"".xml_text($kwaliteit,false)."\" />\n";
 			}
 	
-			echo "<field name=\"country\" value=\"".wt_xml($db->f("land"),false)."\" />\n";
+			echo "<field name=\"country\" value=\"".xml_text($db->f("land"),false)."\" />\n";
 			if($vars["seizoentype"]==1) {
-				echo "<field name=\"ski_area\" value=\"".wt_xml($db->f("skigebied"),false)."\" />\n";
-				echo "<field name=\"resort\" value=\"".wt_xml($db->f("plaats"),false)."\" />\n";
+				echo "<field name=\"ski_area\" value=\"".xml_text($db->f("skigebied"),false)."\" />\n";
+				echo "<field name=\"resort\" value=\"".xml_text($db->f("plaats"),false)."\" />\n";
 			} else {
-				echo "<field name=\"region\" value=\"".wt_xml($db->f("skigebied"),false)."\" />\n";
-				echo "<field name=\"city\" value=\"".wt_xml($db->f("plaats"),false)."\" />\n";
+				echo "<field name=\"region\" value=\"".xml_text($db->f("skigebied"),false)."\" />\n";
+				echo "<field name=\"city\" value=\"".xml_text($db->f("plaats"),false)."\" />\n";
 			}
-			echo "<field name=\"persons_from\" value=\"".wt_xml($db->f("optimaalaantalpersonen"),false)."\" />\n";
-			echo "<field name=\"persons_to\" value=\"".wt_xml($db->f("maxaantalpersonen"),false)."\" />\n";
+			echo "<field name=\"persons_from\" value=\"".xml_text($db->f("optimaalaantalpersonen"),false)."\" />\n";
+			echo "<field name=\"persons_to\" value=\"".xml_text($db->f("maxaantalpersonen"),false)."\" />\n";
 			if($db->f("toonper")==3) {
-				echo "<field name=\"price_description\" value=\"".wt_xml("vanaf ".number_format($prijs,2,",",".")." euro per accommodatie",false)."\" />\n";
+				echo "<field name=\"price_description\" value=\"".xml_text("vanaf ".number_format($prijs,2,",",".")." euro per accommodatie",false)."\" />\n";
 			} else {
-				echo "<field name=\"price_description\" value=\"".wt_xml("vanaf ".number_format($prijs,2,",",".")." euro per persoon incl. skipas",false)."\" />\n";
+				echo "<field name=\"price_description\" value=\"".xml_text("vanaf ".number_format($prijs,2,",",".")." euro per persoon incl. skipas",false)."\" />\n";
 			}
-			echo "<field name=\"number_of_nights\" value=\"".wt_xml("7",false)."\" />\n";
+			echo "<field name=\"number_of_nights\" value=\"".xml_text("7",false)."\" />\n";
 			
 			# Aanvullende afbeeldingen
 			$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")),"../");
@@ -190,21 +190,21 @@ if($db->num_rows()) {
 				$fototeller=0;
 				while(list($key,$value)=each($foto["pic"])) {
 					$fototeller++;
-					echo "<field name=\"extra_image_".$fototeller."\" value=\"".wt_xml($vars["basehref"]."pic/cms/".$value,false)."\" />\n";
+					echo "<field name=\"extra_image_".$fototeller."\" value=\"".xml_text($vars["basehref"]."pic/cms/".$value,false)."\" />\n";
 				}
 			}
 			if(is_array($foto["picbreed"])) {
 				$fototeller=0;
 				while(list($key,$value)=each($foto["picbreed"])) {
 					$fototeller++;
-					echo "<field name=\"extra_image_wide_".$fototeller."\" value=\"".wt_xml($vars["basehref"]."pic/cms/".$value,false)."\" />\n";
+					echo "<field name=\"extra_image_wide_".$fototeller."\" value=\"".xml_text($vars["basehref"]."pic/cms/".$value,false)."\" />\n";
 				}
 			}
 		
 			echo "</additional>\n";
 			echo "<categories>\n";
 			$categorie=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")]);
-			echo "<category name=\"".wt_xml($categorie.(eregi("appartement",$categorie)||eregi("vakantiewoning",$categorie) ? "en" : "s"))."\" />\n";
+			echo "<category name=\"".xml_text($categorie.(eregi("appartement",$categorie)||eregi("vakantiewoning",$categorie) ? "en" : "s"))."\" />\n";
 			echo "</categories>\n";
 			echo "</product>\n";
 	*/		
@@ -221,22 +221,6 @@ if(is_array($aantal_acc_per_blok)) {
 			$db->query("UPDATE top10_week SET minderdan10='".($value2<10 ? "1" : "0")."' WHERE site='".$top10website."' AND seizoen_id='".$key."' AND week='".$key2."';");
 		}
 	}
-}
-
-function wt_xml($text,$use_cdata=true) {
-	$return=$text;
-	if($return) {
-		$return=iconv("Windows-1252","UTF-8",$return);
-		if(preg_match("/</",$return) or preg_match("/&/",$return)) {
-			if($use_cdata) {
-				$return="<![CDATA[".$return."]]>";
-			} else {
-				$return=preg_replace("/&/","&amp;",$return);
-				$return=preg_replace("/</","&lt;",$return);
-			}
-		}
-	}
-	return $return;
 }
 
 ?>
