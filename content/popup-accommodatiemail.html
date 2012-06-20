@@ -10,10 +10,8 @@
 }
 
 #presentbericht{
-	width:333px;
-	height:140px;
-	background-image:url(../pic/textArea.png);
-	background-repeat:no-repeat;
+	width:600px;
+	height:350px;
 	overflow:auto;
 	border:0px;
 	padding: 10px 10px 10px 10px;
@@ -23,8 +21,6 @@
 #mailTable textarea{
 	width:333px;
 	height:140px;
-	background-image:url(../pic/textArea.png);
-	background-repeat:no-repeat;
 	overflow:auto;
 	border:0px;
 	padding: 10px 10px 10px 10px;
@@ -40,20 +36,17 @@
 	border: 0px;
 	padding:10px;
 
-    background-image:url(../pic/inputFieldBackground-img.png);
-    background-repeat: no-repeat;	
 }
 #mailTable button {
 	color: #000000;
 	font-weight: bold;
 	font-size: 100%;
 	text-transform: uppercase;
-	background-image:url(../pic/formButton.png);
-	background-repeat:no-repeat;
 	width:158px;
 	height:58px;
 	border:0px;
 }
+
 </style>
 <script type="text/javascript">
 function validateEmail(email) {  
@@ -136,13 +129,7 @@ if(isset($_POST['VerzenderNaam'])){
         $mail->html.="<head>";
         $mail->html.="</head>";
         $mail->html.="<body>";
-        $mail->html.="<table width=\"100%\" border=\"0\">";
-        $mail->html.="<tr><td>";
-        $mail->html.="<img src=\"http://192.168.1.32/chalet/pic/zomerhuisje_topbalk.png\" alt=\"Zomerhuisje\">";
-        $mail->html.="</td></tr><tr><td>";
-        $mail->html.="<font face=\"Verdana, Geneva, sans-serif\" color=\"#003366\">$mail->subject</font>";
-        $mail->html.="</tr></td>";
-        $mail->html.="</table>";
+        $mail->html.=$mail->subject;
         $mail->html.="</body>";
         $mail->html.="</html>";
 		$mail->html_bottom="";
@@ -179,11 +166,24 @@ if(isset($_POST['VerzenderNaam'])){
   </tr>
   <tr>
     <td>
+    	
+
     	<div id="presentbericht" contenteditable="true">
-        	Hallo!<br /> 
-Ik heb een accomodatie gevonden. <br />
-<b><?php echo wt_he($accinfo["accnaam"]) ?></b><br /><table><tr><td><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; echo "<img src=\"$impath\"/>";?></td></tr></tr></table>Aantal: <?php echo wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." "?>Personen<br />
-Klik <a href="<?php echo wt_he($accinfo["url"])?>">hier</a> om dit huis te bekijken. 
+        <table width="350" cellpadding="0" cellspacing="5" bgcolor="#cbd328">
+  <tr>
+    <td colspan="2"><?php echo "<span style=\"color:#5f227b; font-weight:bold; font-family:verdana; font-size:14px;\">".wt_he($accinfo["soortaccommodatie"])." ".wt_he($accinfo["accommodatie"])."</span>";?></td>
+    </tr>
+  <tr>
+    <td><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; echo "<img src=\"$impath\" width=\"200px\"/>";?></td>
+    <td valign="top"><?php echo "<span style=\"font-weight:Bold; font-family:verdana; font-size:11px;\">".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen</span>"?></td>
+    </tr>
+  <tr>
+    <td colspan="2"><?php echo "<span style=\"font-weight:bold; font-size:11px; font-family:verdana;\">".wt_he($accinfo["type"])."</span><BR><BR><span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["plaats"])."<BR>".wt_he($accinfo["skigebied"])."<BR>".wt_he($accinfo["land"])."</span>"; ?><br />
+      <br />
+      <span style="color:#FFFFFF; font-weight:bold; font-family:Verdana, Geneva, sans-serif; font-size:11px;">Klik <a href="<?php echo wt_he($accinfo["url"])?>">hier</a> om dit huis te bekijken.</span></td>
+  </tr>
+  </table>
+ 
  <BR />
  <br />
 Groeten,<br />

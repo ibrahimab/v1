@@ -113,19 +113,19 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 		$db->query("SELECT DISTINCT a.accommodatie_id, a.naam, a.wzt, a.soortaccommodatie, p.naam AS plaats, s.naam AS skigebied, l.naam".$vars["ttv"]." AS land, a.omschrijving".$vars["ttv"]." AS omschrijving, a.inclusief".$vars["ttv"]." AS inclusief, a.exclusief".$vars["ttv"]." AS exclusief, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND t.accommodatie_id=a.accommodatie_id AND a.wzt IN (".$wzt.")".($alletypes ? " AND t.type_id IN (".$alletypes.")" : "")." ORDER BY a.accommodatie_id;");
 		while($db->next_record()) {
 			echo "	<accommodation>\n";
-			echo "		<accommodation_id>".wt_xml($db->f("accommodatie_id"))."</accommodation_id>\n";
-			echo "		<name>".wt_xml($db->f("naam"))."</name>\n";
-			echo "		<resort>".wt_xml($db->f("plaats"))."</resort>\n";
-			echo "		<region>".wt_xml($db->f("skigebied"))."</region>\n";
-			echo "		<country>".wt_xml($db->f("land"))."</country>\n";
-			echo "		<kind>".wt_xml($vars["soortaccommodatie"][$db->f("soortaccommodatie")])."</kind>\n";
+			echo "		<accommodation_id>".xml_text($db->f("accommodatie_id"))."</accommodation_id>\n";
+			echo "		<name>".xml_text($db->f("naam"))."</name>\n";
+			echo "		<resort>".xml_text($db->f("plaats"))."</resort>\n";
+			echo "		<region>".xml_text($db->f("skigebied"))."</region>\n";
+			echo "		<country>".xml_text($db->f("land"))."</country>\n";
+			echo "		<kind>".xml_text($vars["soortaccommodatie"][$db->f("soortaccommodatie")])."</kind>\n";
 			if($vars["websitetype"]=="6") {
 				# ChaletsInVallandry: season
-				echo "		<season>".wt_xml(($db->f("wzt")==1 ? "winter" : "summer"))."</season>\n";
+				echo "		<season>".xml_text(($db->f("wzt")==1 ? "winter" : "summer"))."</season>\n";
 			}	
-			echo "		<description>".wt_xml($db->f("omschrijving"))."</description>\n";
-			echo "		<including>".wt_xml($db->f("inclusief"))."</including>\n";
-			echo "		<excluding>".wt_xml($db->f("exclusief"))."</excluding>\n";
+			echo "		<description>".xml_text($db->f("omschrijving"))."</description>\n";
+			echo "		<including>".xml_text($db->f("inclusief"))."</including>\n";
+			echo "		<excluding>".xml_text($db->f("exclusief"))."</excluding>\n";
 			if($db->f("wzt")==1) {
 				# winter
 				$doorloop_afstanden=array(
@@ -148,8 +148,8 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 				);
 			}
 			while(list($key,$value)=each($doorloop_afstanden)) {
-				echo "		<".$value.">".($db->f($key) ? wt_xml($db->f($key)) : "")."</".$value.">\n";
-				echo "		<".$value."_extra>".wt_xml($db->f($key."extra"))."</".$value."_extra>\n";
+				echo "		<".$value.">".($db->f($key) ? xml_text($db->f($key)) : "")."</".$value.">\n";
+				echo "		<".$value."_extra>".xml_text($db->f($key."extra"))."</".$value."_extra>\n";
 			}
 			
 			# Foto's
@@ -157,18 +157,18 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 
 			# hoofdfoto
 			if(file_exists("../pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-				echo "			<main>".wt_xml($vars["basehref"]."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")."</main>\n";
+				echo "			<main>".xml_text($vars["basehref"]."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")."</main>\n";
 			}
 			# extra foto's
 			$foto=imagearray(array("accommodaties_aanvullend","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed"),array($db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id")),"../");
 			if(is_array($foto["pic"])) {
 				while(list($key,$value)=each($foto["pic"])) {
-					echo "			<extra>".wt_xml($vars["basehref"]."pic/cms/".$value)."</extra>\n";
+					echo "			<extra>".xml_text($vars["basehref"]."pic/cms/".$value)."</extra>\n";
 				}
 			}
 			if(is_array($foto["picbreed"])) {
 				while(list($key,$value)=each($foto["picbreed"])) {
-					echo "			<extra_wide>".wt_xml($vars["basehref"]."pic/cms/".$value)."</extra_wide>\n";
+					echo "			<extra_wide>".xml_text($vars["basehref"]."pic/cms/".$value)."</extra_wide>\n";
 				}
 			}
 			echo "		</photos>\n";
@@ -186,27 +186,27 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 		$db->query("SELECT t.type_id, l.begincode, a.accommodatie_id, a.naam AS anaam, a.wzt, t.naam".$vars["ttv"]." AS naam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.kwaliteit, t.omschrijving".$vars["ttv"]." AS omschrijving, t.inclusief".$vars["ttv"]." AS inclusief, t.exclusief".$vars["ttv"]." AS exclusief, t.indeling".$vars["ttv"]." AS indeling, t.oppervlakte, t.oppervlakteextra".$vars["ttv"]." AS oppervlakteextra, t.slaapkamers, t.slaapkamersextra".$vars["ttv"]." AS slaapkamersextra, t.badkamers, t.badkamersextra".$vars["ttv"]." AS badkamersextra FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND t.accommodatie_id=a.accommodatie_id AND a.wzt IN (".$wzt.")".($alletypes ? " AND t.type_id IN (".$alletypes.")" : "")." ORDER BY t.type_id;");
 		while($db->next_record()) {
 			echo "	<accommodation_unit>\n";
-			echo "		<unit_id>".wt_xml($db->f("begincode").$db->f("type_id"))."</unit_id>\n";
-			echo "		<accommodation_id>".wt_xml($db->f("accommodatie_id"))."</accommodation_id>\n";
-			echo "		<accommodation_name>".wt_xml($db->f("anaam"))."</accommodation_name>\n";
-			echo "		<unit_name>".wt_xml($db->f("naam"))."</unit_name>\n";
+			echo "		<unit_id>".xml_text($db->f("begincode").$db->f("type_id"))."</unit_id>\n";
+			echo "		<accommodation_id>".xml_text($db->f("accommodatie_id"))."</accommodation_id>\n";
+			echo "		<accommodation_name>".xml_text($db->f("anaam"))."</accommodation_name>\n";
+			echo "		<unit_name>".xml_text($db->f("naam"))."</unit_name>\n";
 			if($vars["websitetype"]=="6") {
 				# ChaletsInVallandry: season
-				echo "		<season>".wt_xml(($db->f("wzt")==1 ? "winter" : "summer"))."</season>\n";
+				echo "		<season>".xml_text(($db->f("wzt")==1 ? "winter" : "summer"))."</season>\n";
 			}	
-			echo "		<capacity>".wt_xml($db->f("optimaalaantalpersonen"))."</capacity>\n";
-			echo "		<max_capacity>".wt_xml($db->f("maxaantalpersonen"))."</max_capacity>\n";
-			echo "		<quality>".($db->f("kwaliteit") ? wt_xml($db->f("kwaliteit")) : "")."</quality>\n";
-			echo "		<description>".wt_xml($db->f("omschrijving"))."</description>\n";
-			echo "		<including>".wt_xml($db->f("inclusief"))."</including>\n";
-			echo "		<excluding>".wt_xml($db->f("exclusief"))."</excluding>\n";
-			echo "		<layout>".wt_xml($db->f("indeling"))."</layout>\n";
-			echo "		<area>".($db->f("oppervlakte") ? wt_xml($db->f("oppervlakte")) : "")."</area>\n";
-			echo "		<area_extra>".wt_xml($db->f("oppervlakteextra"))."</area_extra>\n";
-			echo "		<bedrooms>".wt_xml($db->f("slaapkamers"))."</bedrooms>\n";
-			echo "		<bedrooms_extra>".wt_xml($db->f("slaapkamersextra"))."</bedrooms_extra>\n";
-			echo "		<bathrooms>".wt_xml($db->f("badkamers"))."</bathrooms>\n";
-			echo "		<bathrooms_extra>".wt_xml($db->f("badkamersextra"))."</bathrooms_extra>\n";
+			echo "		<capacity>".xml_text($db->f("optimaalaantalpersonen"))."</capacity>\n";
+			echo "		<max_capacity>".xml_text($db->f("maxaantalpersonen"))."</max_capacity>\n";
+			echo "		<quality>".($db->f("kwaliteit") ? xml_text($db->f("kwaliteit")) : "")."</quality>\n";
+			echo "		<description>".xml_text($db->f("omschrijving"))."</description>\n";
+			echo "		<including>".xml_text($db->f("inclusief"))."</including>\n";
+			echo "		<excluding>".xml_text($db->f("exclusief"))."</excluding>\n";
+			echo "		<layout>".xml_text($db->f("indeling"))."</layout>\n";
+			echo "		<area>".($db->f("oppervlakte") ? xml_text($db->f("oppervlakte")) : "")."</area>\n";
+			echo "		<area_extra>".xml_text($db->f("oppervlakteextra"))."</area_extra>\n";
+			echo "		<bedrooms>".xml_text($db->f("slaapkamers"))."</bedrooms>\n";
+			echo "		<bedrooms_extra>".xml_text($db->f("slaapkamersextra"))."</bedrooms_extra>\n";
+			echo "		<bathrooms>".xml_text($db->f("badkamers"))."</bathrooms>\n";
+			echo "		<bathrooms_extra>".xml_text($db->f("badkamersextra"))."</bathrooms_extra>\n";
 			echo "	</accommodation_unit>\n";
 
 			# Foto's
@@ -214,7 +214,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 
 			# hoofdfoto
 			if(file_exists("../pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
-				echo "			<main>".wt_xml($vars["basehref"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg")."</main>\n";
+				echo "			<main>".xml_text($vars["basehref"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg")."</main>\n";
 			}
 			
 			# extra foto's
@@ -222,12 +222,12 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 
 			if(is_array($foto["pic"])) {
 				while(list($key,$value)=each($foto["pic"])) {
-					echo "			<extra>".wt_xml($vars["basehref"]."pic/cms/".$value)."</extra>\n";
+					echo "			<extra>".xml_text($vars["basehref"]."pic/cms/".$value)."</extra>\n";
 				}
 			}
 			if(is_array($foto["picbreed"])) {
 				while(list($key,$value)=each($foto["picbreed"])) {
-					echo "			<extra_wide>".wt_xml($vars["basehref"]."pic/cms/".$value)."</extra_wide>\n";
+					echo "			<extra_wide>".xml_text($vars["basehref"]."pic/cms/".$value)."</extra_wide>\n";
 				}
 			}
 			echo "		</photos>\n";
@@ -257,7 +257,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 			$aanbieding[$db->f("seizoen_id")]=aanbiedinginfo($db->f("type_id"),$db->f("seizoen_id"),$db->f("week"));
 			if(($db->f("toonper")==3 and $db->f("c_bruto")>0) or ($db->f("toonper")==1 and $db->f("bruto")>0)) {
 				echo "	<accommodation_unit>\n";
-				echo "		<unit_id>".wt_xml($db->f("begincode").$db->f("type_id"))."</unit_id>\n";
+				echo "		<unit_id>".xml_text($db->f("begincode").$db->f("type_id"))."</unit_id>\n";
 				
 				# Exacte aankomstdatum
 				$week=$db->f("week");
@@ -267,7 +267,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 				} else {
 					$exacte_unixtime=$week;
 				}
-				echo "		<date>".wt_xml(date("Y-m-d",$exacte_unixtime))."</date>\n";
+				echo "		<date>".xml_text(date("Y-m-d",$exacte_unixtime))."</date>\n";
 
 				# Aantal nachten
 
@@ -279,7 +279,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 				# Afwijkende verblijfsduur
 				$aantalnachten_afwijking=$aantalnachten_afwijking+$db->f("aankomst_plusmin")-$db->f("vertrek_plusmin");
 				$nachten=7-$aantalnachten_afwijking;
-				echo "		<nights>".wt_xml($nachten)."</nights>\n";
+				echo "		<nights>".xml_text($nachten)."</nights>\n";
 			
 
 				# Beschikbaarheid
@@ -296,14 +296,14 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 					# Prijs
 					# aanbiedingen verwerken
 					$prijs=verwerk_aanbieding($db->f("wederverkoop_verkoopprijs"),$aanbieding[$db->f("seizoen_id")]["typeid_sort"][$db->f("type_id")],$db->f("week"));
-					echo "		<price>".wt_xml(number_format($prijs,2,".",""))."</price>\n";
+					echo "		<price>".xml_text(number_format($prijs,2,".",""))."</price>\n";
 					if($prijs>0 and $prijs<>$db->f("wederverkoop_verkoopprijs")) {
 #						echo "		<special_offer>true</special_offer>\n";
 					} else {
 #						echo "		<special_offer>false</special_offer>\n";
 					}
 				}
-				echo "		<availability>".wt_xml($availability_keuzes[$availability])."</availability>\n";
+				echo "		<availability>".xml_text($availability_keuzes[$availability])."</availability>\n";
 				
 				echo "	</accommodation_unit>\n";
 			}
@@ -312,17 +312,6 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 	}
 } else {
 	echo "Error: wrong URL. Please contact us.";
-}
-
-function wt_xml($text) {
-	$return=$text;
-	if($return) {
-		$return=iconv("Windows-1252","UTF-8",$return);
-		if(preg_match("/</",$return) or preg_match("/&/",$return)) {
-			$return="<![CDATA[".$return."]]>";
-		}
-	}
-	return $return;
 }
 
 ?>

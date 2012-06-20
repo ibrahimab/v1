@@ -33,9 +33,9 @@ if($_GET["t"] and ($_SERVER["REMOTE_ADDR"]=="172.16.1.10" or $_SERVER["REMOTE_AD
 			$user = $xml->addChild("user");
 			$user->addChild("lidnummer",utf8_encode($db->f("user_id")));
 			$user->addChild("actief","True");
-			$user->addChild("voornaam",wt_xml($db->f("voornaam"),false));
-			$user->addChild("tussenvoegsel",wt_xml($db->f("tussenvoegsel"),false));
-			$user->addChild("achternaam",wt_xml($db->f("achternaam"),false));
+			$user->addChild("voornaam",xml_text($db->f("voornaam"),false));
+			$user->addChild("tussenvoegsel",xml_text($db->f("tussenvoegsel"),false));
+			$user->addChild("achternaam",xml_text($db->f("achternaam"),false));
 			if($db->f("geslacht")==1) {
 				$geslacht="M";
 			} elseif($db->f("geslacht")==2) {
@@ -53,22 +53,6 @@ if($_GET["t"] and ($_SERVER["REMOTE_ADDR"]=="172.16.1.10" or $_SERVER["REMOTE_AD
 	}
 } else {
 	trigger_error("onjuist remote_addr",E_USER_NOTICE);
-}
-
-function wt_xml($text,$use_cdata=true) {
-	$return=$text;
-	if($return) {
-		$return=iconv("Windows-1252","UTF-8",$return);
-		if(preg_match("/</",$return) or preg_match("/&/",$return)) {
-			if($use_cdata) {
-				$return="<![CDATA[".$return."]]>";
-			} else {
-				$return=preg_replace("/&/","&amp;",$return);
-				$return=preg_replace("/</","&lt;",$return);
-			}
-		}
-	}
-	return $return;
 }
 
 ?>

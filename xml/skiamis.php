@@ -121,13 +121,13 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 		while($db->next_record()) {
 
 			echo "<Lot>\n";
-			echo "<lot_imme_no>".wt_xml($db->f("accommodatie_id"))."</lot_imme_no>\n";
-			echo "<lot_no>".wt_xml($db->f("type_id"))."</lot_no>\n";
-			echo "<lot_ref>".wt_xml($db->f("begincode").$db->f("type_id"))."</lot_ref>\n";
-			echo "<imme_nom>".wt_xml($db->f("anaam").($db->f("naam") ? " ".$db->f("naam") : ""))."</imme_nom>\n";
-			echo "<lot_desi>".wt_xml($vars["soortaccommodatie"][$db->f("soortaccommodatie")])."</lot_desi>\n";
-			echo "<lot_ville>".wt_xml($db->f("plaats"))."</lot_ville>\n";
-			echo "<lot_pax>".wt_xml($db->f("maxaantalpersonen"))."</lot_pax>\n";
+			echo "<lot_imme_no>".xml_text($db->f("accommodatie_id"))."</lot_imme_no>\n";
+			echo "<lot_no>".xml_text($db->f("type_id"))."</lot_no>\n";
+			echo "<lot_ref>".xml_text($db->f("begincode").$db->f("type_id"))."</lot_ref>\n";
+			echo "<imme_nom>".xml_text($db->f("anaam").($db->f("naam") ? " ".$db->f("naam") : ""))."</imme_nom>\n";
+			echo "<lot_desi>".xml_text($vars["soortaccommodatie"][$db->f("soortaccommodatie")])."</lot_desi>\n";
+			echo "<lot_ville>".xml_text($db->f("plaats"))."</lot_ville>\n";
+			echo "<lot_pax>".xml_text($db->f("maxaantalpersonen"))."</lot_pax>\n";
 			echo "<crit1_libelle></crit1_libelle>\n";
 			echo "<crit2_libelle></crit2_libelle>\n";
 			echo "<crit3_libelle></crit3_libelle>\n";
@@ -143,9 +143,9 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 
 			# hoofdfoto
 			if(file_exists("../pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
-				echo "<ImageResid>".wt_xml($vars["basehref"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg")."</ImageResid>\n";
+				echo "<ImageResid>".xml_text($vars["basehref"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg")."</ImageResid>\n";
 			} elseif(file_exists("../pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-				echo "<ImageResid>".wt_xml($vars["basehref"]."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")."</ImageResid>\n";
+				echo "<ImageResid>".xml_text($vars["basehref"]."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")."</ImageResid>\n";
 			} else {
 				echo "<ImageResid></ImageResid>\n";
 			}
@@ -160,7 +160,7 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 				$fototeller=0;
 				while(list($key,$value)=each($foto["pic"])) {
 					$fototeller++;
-					echo "<ImageDivers".$fototeller.">".wt_xml($vars["basehref"]."pic/cms/".$value)."</ImageDivers".$fototeller.">\n";
+					echo "<ImageDivers".$fototeller.">".xml_text($vars["basehref"]."pic/cms/".$value)."</ImageDivers".$fototeller.">\n";
 				}
 			}
 			if($fototeller<1) echo "<ImageDivers1></ImageDivers1>\n";
@@ -173,7 +173,7 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 				$lot_desc.=trim($db->f("aindeling")).($db->f("aindeling")&&$db->f("tindeling") ? "\n\n" : "").trim($db->f("tindeling"));
 			}
 #			$lot_desc=preg_replace("/\n\n\n/","",$lot_desc);
-			echo "<lot_desc_com>".wt_xml($lot_desc)."</lot_desc_com>\n";
+			echo "<lot_desc_com>".xml_text($lot_desc)."</lot_desc_com>\n";
 			echo "</Lot>\n";
 		}
 
@@ -239,9 +239,9 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 				}
 				
 				if($availability==3 and $show_availability) {
-					echo "<lot_ref>".wt_xml($db->f("begincode").$db->f("type_id"))."</lot_ref>\n";
-					echo "<ocpt_debut>".wt_xml(date("d/m/Y",$exacte_unixtime))."</ocpt_debut>\n";
-					echo "<ocpt_fin>".wt_xml(date("d/m/Y",$vertrekdag))."</ocpt_fin>\n";
+					echo "<lot_ref>".xml_text($db->f("begincode").$db->f("type_id"))."</lot_ref>\n";
+					echo "<ocpt_debut>".xml_text(date("d/m/Y",$exacte_unixtime))."</ocpt_debut>\n";
+					echo "<ocpt_fin>".xml_text(date("d/m/Y",$vertrekdag))."</ocpt_fin>\n";
 				}
 				
 				if($availability<>3) {
@@ -251,10 +251,10 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 					$prijs=verwerk_aanbieding($db->f("wederverkoop_verkoopprijs"),$aanbieding[$db->f("seizoen_id")]["typeid_sort"][$db->f("type_id")],$db->f("week"));
 					if($show_prices and $prijs>0) {
 						echo "<Tarif>\n";
-						echo "<lot_ref>".wt_xml($db->f("begincode").$db->f("type_id"))."</lot_ref>\n";
-						echo "<ptar_debut>".wt_xml(date("d/m/Y",$exacte_unixtime))."</ptar_debut>\n";
-						echo "<ptar_fin>".wt_xml(date("d/m/Y",$vertrekdag))."</ptar_fin>\n";
-						echo "<ptar_montant>".wt_xml(number_format($prijs,2,".",""))."</ptar_montant>\n";
+						echo "<lot_ref>".xml_text($db->f("begincode").$db->f("type_id"))."</lot_ref>\n";
+						echo "<ptar_debut>".xml_text(date("d/m/Y",$exacte_unixtime))."</ptar_debut>\n";
+						echo "<ptar_fin>".xml_text(date("d/m/Y",$vertrekdag))."</ptar_fin>\n";
+						echo "<ptar_montant>".xml_text(number_format($prijs,2,".",""))."</ptar_montant>\n";
 						echo "</Tarif>\n";
 					}
 				}
@@ -265,17 +265,6 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 
 } else {
 	echo "Error: wrong URL. Please contact us.";
-}
-
-function wt_xml($text) {
-	$return=$text;
-	if($return) {
-		$return=iconv("Windows-1252","UTF-8",$return);
-		if(preg_match("/</",$return) or preg_match("/&/",$return)) {
-			$return="<![CDATA[".$return."]]>";
-		}
-	}
-	return $return;
 }
 
 ?>

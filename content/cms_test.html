@@ -1,20 +1,76 @@
-Adwords generator.
-
 <?php
+//Demo embeding video
+
+echo "<iframe src=\"http://player.vimeo.com/video/44320696\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href=\"http://vimeo.com/44320696\">Chalet Michelle</a> from <a href=\"http://vimeo.com/user12198492\">Chalet.nl Vakantie woningen</a></p></iframe>";
+
+echo "<iframe src=\"http://player.vimeo.com/video/44377043\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href=\"http://vimeo.com/44377043\">Chalet Collons</a> from <a href=\"http://vimeo.com/user12198492\">Chalet.nl Vakantie woningen</a></p></iframe>";
+
+echo "<iframe src=\"http://player.vimeo.com/video/44377044\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href=\"http://vimeo.com/44377044\">Flocons de neige</a> from <a href=\"http://vimeo.com/user12198492\">Chalet.nl Vakantie woningen</a></p></iframe>";
+
+echo "<iframe src=\"http://player.vimeo.com/video/44377045\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href=\"http://vimeo.com/44377045\">Teychenne</a> from <a href=\"http://vimeo.com/user12198492\">Chalet.nl Vakantie woningen</a></p></iframe>";
+
+
+#
+# XML-import downloaden bij Alpin Rentals Kaprun
+#
+
+//$tmp_insert = array(
+//'user' => 'chaletnl',
+//'pass' => 'aTL9!32',
+//);
+
+//$tmp_insertStr = http_build_query($tmp_insert, '', '&'); 
+
+//$tmp_url = "http://www.alpinrentals.co.uk/api/get";
+
+//$ch = curl_init();
+//curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+//curl_setopt($ch, CURLOPT_URL, $tmp_url);
+//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//curl_setopt($ch, CURLOPT_POSTFIELDS, $tmp_insertStr);
+//curl_setopt($ch, CURLOPT_POST, 1);
+//$tmp_results = curl_exec($ch);
+//curl_close($ch);
+
+//print($tmp_results);
+
+
+#
+# Adwords generator
+#
+
+echo "<p>Adwords generator.";
+
 // You can set the include path to src directory or reference
 // AdWordsUser.php directly via require_once.
 // $path = '/path/to/pda_api_php_lib/src';
-$path = '..\adwords_Api\src';
-set_include_path(get_include_path() . PATH_SEPARATOR . $path);
-require_once($path.'\Google\Api\Ads\AdWords\Lib\AdWordsUser.php');
-
-$user = new AdWordsUser();
-$campagneService = $user->GetService('CampaignService', 'v201109');
-$aantalcampagnes = 3;
-$operaties = array();
-for($i =0; $i<$aantalcampagnes; $i++){
-	$campagne = new Campaign();
-}
+//$path = '..\adwords_Api\src';
+//set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+//require_once($path.'\Google\Api\Ads\AdWords\Lib\AdWordsUser.php');
+//
+//$user = new AdWordsUser(null, "miguel@chalet.nl", "Migleboos1986", "dKpNWkkHffYOS7_Io7RuqA", "", "217-138-4351");
+//$campagneService = $user->getCampaignService('v201109', 'https://adwords.google.com');
+//
+//$campaign = new Campaign();
+//$campaign->name = 'test campagne';
+//$campaign->status = 'ACTIVE';
+//$campaign->biddingStrategy = new ManualCPC();
+//$campaign->budget = new Budget('DAILY', new Money(50000000), 'STANDARD');
+//
+//$operation = new CampaignOperation();
+//$operation->operand = $campaign;
+//$operation->operator = 'ADD';
+//$operations[] = $operation;
+//
+//// Add campaign.
+//$campaignReturnValue = $campagneService->mutate($operations);
+     
+     
+//$aantalcampagnes = 3;
+//$operaties = array();
+//for($i =0; $i<$aantalcampagnes; $i++){
+//	$campagne = new Campaign();
+//}
 echo "<BR><BR>accommodaties chalet<BR><BR>";
 //$db->query("SELECT DISTINCT naam, plaats, skigebied FROM view_accommodatie WHERE websites LIKE '%C%' AND atonen='1'");
 //if($db->num_rows()){
@@ -32,5 +88,7 @@ echo "<BR><BR>accommodaties chalet<BR><BR>";
 //        echo $db->f("skigebied")."<BR /><BR />";
 //    }
 //}
+
+echo "</p>";
 
 ?>

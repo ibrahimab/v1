@@ -3690,4 +3690,25 @@ function acc_zoekresultaat($data,$newresultsminmax,$newresults_multiple,$aanbied
 	return $return;
 }
 
+function xml_text($text,$use_cdata=true) {
+	#
+	# function om tekst om te zetten naar correcte XML-inhoud
+	#
+	$return=$text;
+	if($return) {
+		$return=iconv("Windows-1252","UTF-8",$return);
+		if(preg_match("/</",$return) or preg_match("/>/",$return) or preg_match("/&/",$return) or preg_match('/"/',$return)) {
+			if($use_cdata) {
+				$return="<![CDATA[".$return."]]>";
+			} else {
+				$return=preg_replace("/</","&lt;",$return);
+				$return=preg_replace("/>/","&gt;",$return);
+				$return=preg_replace("/&/","&amp;",$return);
+				$return=preg_replace('/"/',"&quot;",$return);
+			}
+		}
+	}
+	return $return;
+}
+
 ?>
