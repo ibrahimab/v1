@@ -1,41 +1,42 @@
 <?php
 $unixdir="../";
 include("../admin/vars.php");
-$db->query("SELECT DISTINCT land_id, land FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND wzt='".addslashes($vars["seizoentype"])."'");
+$db->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats, plaats_id FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND wzt='".addslashes($vars["seizoentype"])."'");
 if($db->num_rows()){
+	$xmloutput=header("Content-Type: text/xml; charset=ISO-8859-1");
 	$xmloutput="";
-	$xmloutput.="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>";
-	$xmloutput.="<landen>";
+	$xmloutput.="<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n";
+	$xmloutput.="<landen>\n";
 	while($db->next_record()){
-		$xmloutput.="<land>";
+		$xmloutput.="<land>\n";
 		$xmloutput.="<landID>";
 		$xmloutput.=$db->f("land_id");
-		$xmloutput.="</landID>";
+		$xmloutput.="</landID>\n";
 		$xmloutput.="<landNaam>";
 		$xmloutput.=$db->f("land");
-		$xmloutput.="</landNaam>";
+		$xmloutput.="</landNaam>\n";
 		$xmloutput.="<landUrl>";
 		$xmloutput.=$vars["basehref"].txt("menu_land")."/".wt_convert2url($db->f("land"));
-		$xmloutput.="</landUrl>";
+		$xmloutput.="</landUrl>\n";
 		$xmloutput.="<skigebiedID>";
 		$xmloutput.=$db->f("skigebied_id");
-		$xmloutput.="</skigebiedID>";
+		$xmloutput.="</skigebiedID>\n";
 		$xmloutput.="<skigebiedNaam>";
 		$xmloutput.=$db->f("skigebied");
-		$xmloutput.="</skigebiedNaam>";
+		$xmloutput.="</skigebiedNaam>\n";
 		$xmloutput.="<skigebiedUrl>";
 		$xmloutput.=$vars["basehref"].txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"));
-		$xmloutput.="</skigebiedUrl>";
+		$xmloutput.="</skigebiedUrl>\n";
 		$xmloutput.="<plaatsID>";
 		$xmloutput.=$db->f("plaats_id");
-		$xmloutput.="</plaatsID>";
+		$xmloutput.="</plaatsID>\n";
 		$xmloutput.="<plaatsNaam>";
 		$xmloutput.=$db->f("plaats");
-		$xmloutput.="</plaatsNaam>";
+		$xmloutput.="</plaatsNaam>\n";
 		$xmloutput.="<plaatsUrl>";
 		$xmloutput.=$vars["basehref"].txt("menu_plaats")."/".wt_convert2url($db->f("plaats"));
-		$xmloutput.="</plaatsUrl>";
-		$xmloutput.="</land>"; 
+		$xmloutput.="</plaatsUrl>\n";
+		$xmloutput.="</land>\n"; 
 	}
 	$xmloutput.="</landen>";
 	print($xmloutput);
