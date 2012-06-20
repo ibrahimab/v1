@@ -1,6 +1,37 @@
-Adwords generator.
-
 <?php
+
+
+#
+# XML-import downloaden bij Alpin Rentals Kaprun
+#
+
+$tmp_insert = array(
+'user' => 'chaletnl',
+'pass' => 'aTL9!32',
+);
+
+$tmp_insertStr = http_build_query($tmp_insert, '', '&'); 
+
+$tmp_url = "http://www.alpinrentals.co.uk/api/get";
+
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+curl_setopt($ch, CURLOPT_URL, $tmp_url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $tmp_insertStr);
+curl_setopt($ch, CURLOPT_POST, 1);
+$tmp_results = curl_exec($ch);
+curl_close($ch);
+
+
+
+
+#
+# Adwords generator
+#
+
+echo "<p>Adwords generator.";
+
 // You can set the include path to src directory or reference
 // AdWordsUser.php directly via require_once.
 // $path = '/path/to/pda_api_php_lib/src';
@@ -48,5 +79,7 @@ echo "<BR><BR>accommodaties chalet<BR><BR>";
 //        echo $db->f("skigebied")."<BR /><BR />";
 //    }
 //}
+
+echo "</p>";
 
 ?>

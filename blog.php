@@ -42,11 +42,21 @@ if($_GET["b"]) {
 		$form->field_text(1,"naam","Naam");
 		$form->field_email(0,"email","E-mailadres","","","",array("add_html_after_field"=>"<br><span style=\"font-size:0.8em;font-style:italic;\">Je mailadres wordt niet op de website gepubliceerd.</span>"));
 		$form->field_textarea(1,"reactie","Reactie","","","",array("newline"=>true));
-		$form->field_htmlrow("","<i>Bij misbruik behoudt Italissima zich het recht voor om reacties (deels) te verwijderen.</i>");
+		$form->field_htmlrow("","<i>Bij misbruik behoudt Italissima zich het recht voor om reacties (deels) te verwijderen. Het plaatsen van links is niet mogelijk.</i>");
 		
 		$form->check_input();
 		
 		if($form->filled) {
+	
+			$filter_array=array("http://","https://");
+			while(list($key,$value)=each($filter_array)) {
+				$pos=strpos(" ".$form->input["reactie"],$value);
+				if($pos!==false) {
+					$form->error("reactie","het plaatsen van links is vanwege spam-misbruik helaas niet toegestaan");
+					$niet_opslaan=true;
+					break;
+				}
+			}
 
 		}
 		
@@ -56,7 +66,7 @@ if($_GET["b"]) {
 			$filter_array=array("<a href=\"","[url=","[link=");
 			
 			while(list($key,$value)=each($filter_array)) {
-				$pos=strpos($form->input["reactie"],$value);
+				$pos=strpos(" ".$form->input["reactie"],$value);
 				if($pos!==false) {
 					$niet_opslaan=true;
 				}
