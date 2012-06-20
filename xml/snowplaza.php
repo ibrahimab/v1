@@ -6,6 +6,7 @@ if($db->num_rows()){
 	$xmloutput=header("Content-Type: text/xml; charset=utf-8");
 	$xmloutput="";
 	$xmloutput.="<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+	$xmloutput.="<LocatieInfos>\n";
 	$xmloutput.="<landen>\n";
 	while($db->next_record()){
 		$xmloutput.="<land>\n";
@@ -20,6 +21,7 @@ if($db->num_rows()){
 		$xmloutput.="</landUrl>\n";
 		$xmloutput.="</land>\n"; 
 	}
+	$xmloutput.="</landen>\n";
 	$db->query("SELECT DISTINCT skigebied, skigebied_id FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND wzt='".addslashes($vars["seizoentype"])."'");
 	if($db->num_rows()){
 		$xmloutput.="<skigebieden>\n";
@@ -56,7 +58,7 @@ if($db->num_rows()){
 			$xmloutput.="</plaatsen>\n";
 		}
 	}
-	$xmloutput.="</landen>\n";
+	$xmloutput.="</LocatieInfos>\n";
 	print($xmloutput);
 }
 ?>
