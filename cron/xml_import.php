@@ -168,7 +168,7 @@ $xml_urls[4][1]="http://www.cgh-partenaires.com/results.xml";
 
 # Frosch
 $xml_urls[6][1]="http://f0038e54:chaletnl@www.frosch-info.de/schnittstelle/chaletnl/daily/Vakanzen.xml";
-#$xml_urls[6][2]="http://f0038e54:chaletnl@www.frosch-info.de/schnittstelle/chaletnl/daily/Preise.xml";
+$xml_urls[6][2]="http://f0038e54:chaletnl@www.frosch-info.de/schnittstelle/chaletnl/daily/Preise.xml";
 
 # CIS / Bellecôte Chalets (VVE)
 $xml_urls[7][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=extr_plng@top_id='CHALE'";
@@ -228,8 +228,8 @@ if($testsysteem) {
 #	$xml_urls[3][]=$tmpdir."skifrance.xml";
 #	$xml_urls[4][]=$tmpdir."results.xml";
 #	$csv_urls[5]=$tmpdir."dispo.csv";
-#	$xml_urls[6][1]=$tmpdir."Vakanzen.xml";
-#	$xml_urls[6][2]=$tmpdir."Preise.xml";
+	$xml_urls[6][1]=$tmpdir."Vakanzen.xml";
+	$xml_urls[6][2]=$tmpdir."Preise.xml";
 #	$xml_urls[7][1]=$tmpdir."bel.xml";
 #	$xml_urls[7][2]=$tmpdir."belt.xml";
 #	$xml_urls[8][1]=$tmpdir."availability.xml.1";
@@ -247,7 +247,7 @@ if($testsysteem) {
 #	$xml_urls[16][2]=$tmpdir."export_chalet_nl_prices_de_w.xml";
 #	$xml_urls[16][3]=$tmpdir."export_chalet_nl_occupancy_de_s.xml";
 #	$xml_urls[16][4]=$tmpdir."export_chalet_nl_prices_de_s.xml";
-	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-06-14-16-22.xml";
+#	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-06-14-16-22.xml";
 }
 
 #
@@ -348,7 +348,7 @@ while(list($key,$value)=@each($xml_urls)) {
 	
 			} elseif($key==6) {
 				#
-				# Leverancier Frosche
+				# Leverancier Frosch
 				#
 				foreach($xml->ROWDATA->ROW as $value3) {
 					if($key2==1) {
@@ -357,7 +357,7 @@ while(list($key,$value)=@each($xml_urls)) {
 							$datum_begin=strtotime($value3->Vom);
 							$datum_eind=strtotime($value3->Bis);
 
-							# Frosche stuurt meestal zaterdagen, soms zondagen: omzetten naar zaterdag
+							# Frosch stuurt meestal zaterdagen, soms zondagen: omzetten naar zaterdag
 							if(date("w",$datum_begin)<>6) {
 								$datum_begin=dichtstbijzijnde_zaterdag($datum_begin);
 							}
@@ -379,7 +379,7 @@ while(list($key,$value)=@each($xml_urls)) {
 							$datum_begin=strtotime($value3->Vom);
 							$datum_eind=strtotime($value3->Bis);
 
-							# Frosche stuurt meestal zaterdagen, soms zondagen: omzetten naar zaterdag
+							# Frosch stuurt meestal zaterdagen, soms zondagen: omzetten naar zaterdag
 							if(date("w",$datum_begin)<>6) {
 								$datum_begin=dichtstbijzijnde_zaterdag($datum_begin);
 							}
@@ -1093,7 +1093,7 @@ while($db->next_record()) {
 			}
 		} elseif($db->f("xml_type")==6) {
 			#
-			# Leverancier Frosche
+			# Leverancier Frosch
 			#
 			
 			# Beschikbaarheid
@@ -1333,9 +1333,9 @@ while($db->next_record()) {
 			#
 			# week-tarieven
 			#
-			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17") {
+			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17") {
 				#
-				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6): TIJDELIJK NIET (24-8-2011), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17)
+				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17)
 				#
 				if(is_array($xml_brutoprijs[$db->f("xml_type")][$value])) {
 					reset($xml_brutoprijs[$db->f("xml_type")][$value]);
