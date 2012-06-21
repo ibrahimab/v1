@@ -110,7 +110,7 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 	}
 }
 
-/*
+
 if(!$argv[1] or $argv[1]=="17") {
 	if(!$testsysteem) {
 
@@ -139,7 +139,7 @@ if(!$argv[1] or $argv[1]=="17") {
 		unset($tmp_results,$ch,$tmp_insert,$tmp_insertStr);
 	}
 }
-*/
+
 
 #
 # XML-gegevens ophalen van sites die de gegevens via 1 XML-bestand aanleveren
@@ -693,18 +693,21 @@ while(list($key,$value)=@each($xml_urls)) {
 					}
 				}
 			} elseif($key==17) {
-				#
-				# Leverancier Alpin Rentals Kaprun
+				# Miguel
+				# Leverancier Alpin Rentals Kaprun hier verder uitbouwen. Lees de ccommodatie code volgens de leverencier uit. de 
 				#
 				
 				# $week = de betreffende week in unixtime
 
 				# Beschikbaarheid
-				$xml_beschikbaar[$key][XML_CODE_VAN_DE_ACCOMMODATIE][$week]=true;
+				# lees de beschikbaarheid per week uit. een dag bezet = niet beschikbaar voor de hele week
+				# week is aabkomst datum strandard altijd op zaterdag.
+				#alle beschikbaarheden in array stoppen 
+				$xml_beschikbaar[$key][$XML_CODE_VAN_DE_ACCOMMODATIE_VOLGENS_LEVERANCIER][$week]=true;
 				
 				
 				# Tarieven
-				$xml_brutoprijs[$key][XML_CODE_VAN_DE_ACCOMMODATIE][$week]=BEDRAG_PER_WEEK;
+				$xml_brutoprijs[$key][$XML_CODE_VAN_DE_ACCOMMODATIE_VOLGENS_LEVERANCIER][$week]=$BEDRAG_PER_WEEK;
 				
 			}
 		} else {
