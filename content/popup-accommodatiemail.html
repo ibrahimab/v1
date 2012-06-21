@@ -10,8 +10,8 @@
 }
 
 #presentbericht{
-	width:600px;
-	height:350px;
+	width:1050px;
+	height:600px;
 	overflow:auto;
 	border:0px;
 	padding: 10px 10px 10px 10px;
@@ -169,24 +169,36 @@ if(isset($_POST['VerzenderNaam'])){
     	
 
     	<div id="presentbericht" contenteditable="true">
-        <table width="350" cellpadding="0" cellspacing="5" bgcolor="#cbd328">
+        
+ 
+        <p><BR />
+         <div id="topfoto">
+         	<img src="/chalet/pic/topfoto/topfoto1.jpg?c=1338455779" width="194" height="120" alt="" class="noprint">
+            <img src="/chalet/pic/topfoto/topfoto2.jpg?c=1338455779" width="194" height="120" alt="" class="noprint">
+            <img src="/chalet/pic/leeg.gif" width="194" height="120" alt="" class="noprint">
+            <img src="/chalet/pic/topfoto/topfoto3.jpg?c=1338455779" width="194" height="120" alt="" class="noprint">
+            <img src="/chalet/pic/topfoto/topfoto4.jpg?c=1338455779" width="194" height="120" alt="" class="noprint">
+            
+            
+            <div style="position:relative; left:8px;top:-22px;width:194px;height:154px;">
+            	<a href="/chalet/"><span style="position:relative; top:-100px; "><img src="/chalet/pic/zomerhuisje_topbalk.png" width="970" height="154" alt="Zomerhuisje.nl" border="0" class="noprint" /></span></a>
+            </div>
+         </div>
+         
+  <table width="100%" border="1">
   <tr>
-    <td colspan="2"><?php echo "<span style=\"color:#5f227b; font-weight:bold; font-family:verdana; font-size:14px;\">".wt_he($accinfo["soortaccommodatie"])." ".wt_he($accinfo["accommodatie"])."</span>";?></td>
-    </tr>
+    <td rowspan="2"><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; echo "<img src=\"$impath\" width=\"200px\"/>";?></td>
+    <td><?php echo "<span style=\"font-weight:bold; font-size:11px; font-family:verdana;\">".wt_he($accinfo["accnaam"])."</span><BR><BR><span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["plaats"])."<BR>".wt_he($accinfo["skigebied"])."<BR>".wt_he($accinfo["land"])."</span>"; ?></td>
+    <td rowspan="2"><?php echo wt_he($accinfo["oppervlakte"]);?></td>
+  </tr>
   <tr>
-    <td><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; echo "<img src=\"$impath\" width=\"200px\"/>";?></td>
-    <td valign="top"><?php echo "<span style=\"font-weight:Bold; font-family:verdana; font-size:11px;\">".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen</span>"?></td>
-    </tr>
-  <tr>
-    <td colspan="2"><?php echo "<span style=\"font-weight:bold; font-size:11px; font-family:verdana;\">".wt_he($accinfo["type"])."</span><BR><BR><span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["plaats"])."<BR>".wt_he($accinfo["skigebied"])."<BR>".wt_he($accinfo["land"])."</span>"; ?><br />
-      <br />
-      <span style="color:#FFFFFF; font-weight:bold; font-family:Verdana, Geneva, sans-serif; font-size:11px;">Klik <a href="<?php echo wt_he($accinfo["url"])?>">hier</a> om dit huis te bekijken.</span></td>
+    <td><?php echo "<span style=\"font-weight:Bold; font-family:verdana; font-size:11px;\">".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen</span>"?></td>
   </tr>
   </table>
- 
- <BR />
- <br />
-Groeten,<br />
+
+        <br />
+          Groeten,<br />
+        </p>
         </div>
     	<input type="hidden" name="bericht" id="bericht"></input>	
       <div style="width:325px;" id="Verzender"></div><br /><br />
