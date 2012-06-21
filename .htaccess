@@ -229,8 +229,9 @@ RewriteRule ^nieuwsbriefactie$ nieuwsbriefactie.php?%{QUERY_STRING}
 # Speciale file-instellingen
 #
 
-<FilesMatch "^cms.*\.php$">
+<FilesMatch "^cms.*">
 php_value memory_limit 128M
+php_value max_input_vars 50000
 </FilesMatch>
 
 <Files accommodatie>
