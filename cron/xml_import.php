@@ -725,7 +725,7 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
-				//echo var_dump($xml_beschikbaar);
+				echo var_dump($xml_beschikbaar);
 				$xml_laatsteimport_leverancier[$key]=true;
 			}
 		} else {
