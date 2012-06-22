@@ -13,5 +13,6 @@ allow from 82.173.186.80
 allow from 80.101.166.235
 allow from 213.125.164.75
 allow from 82.93.130.238
+allow from 192.168.1.32
 require valid-user
 </Limit>
