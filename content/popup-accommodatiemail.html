@@ -10,13 +10,14 @@
 }
 
 #presentbericht{
-	width:1050px;
-	height:600px;
+	width:720px;
+	height:470px;
 	overflow:auto;
 	border:0px;
 	padding: 10px 10px 10px 10px;
 	font-size:12px;
 	font-family:Verdana, Geneva, sans-serif;
+	overflow:hidden;
 }
 #mailTable textarea{
 	width:333px;
@@ -35,6 +36,8 @@
     height: 49px;
 	border: 0px;
 	padding:10px;
+	background-image:url(../pic/inputFieldBackground-img.png);
+	background-repeat:no-repeat;
 
 }
 #mailTable button {
@@ -45,6 +48,8 @@
 	width:158px;
 	height:58px;
 	border:0px;
+	background-image:url(../pic/formButton.png);
+	background-repeat:no-repeat;
 }
 
 </style>
@@ -93,7 +98,6 @@ function controlEnSend(){
 				break;
 			}
 			else{
-				document.getElementById("Verzender").innerHTML ="";
 				var bericht = document.getElementById("presentbericht").innerHTML;
 				//window.alert(bericht);
 				document.getElementById("bericht").value = bericht;
@@ -121,7 +125,7 @@ if(isset($_POST['VerzenderNaam'])){
 		$mail->from=$_POST['verzenderAdres'];
 		$mail->toname=$_POST[''];
 		$mail->to=$emails[$i];
-		$mail->subject=$_POST['bericht'];
+		$mail->subject.=$_POST['bericht'];
 		$mail->subject.=$mail->fromname;
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
@@ -172,37 +176,30 @@ if(isset($_POST['VerzenderNaam'])){
         
  
         <p><BR />
-         <div id="topfoto">
-         	<img src="/chalet/pic/topfoto/topfoto1.jpg?c=1338455779" width="194" height="120" alt="" class="noprint">
-            <img src="/chalet/pic/topfoto/topfoto2.jpg?c=1338455779" width="194" height="120" alt="" class="noprint">
-            <img src="/chalet/pic/leeg.gif" width="194" height="120" alt="" class="noprint">
-            <img src="/chalet/pic/topfoto/topfoto3.jpg?c=1338455779" width="194" height="120" alt="" class="noprint">
-            <img src="/chalet/pic/topfoto/topfoto4.jpg?c=1338455779" width="194" height="120" alt="" class="noprint">
-            
-            
-            <div style="position:relative; left:8px;top:-22px;width:194px;height:154px;">
-            	<a href="/chalet/"><span style="position:relative; top:-100px; "><img src="/chalet/pic/zomerhuisje_topbalk.png" width="970" height="154" alt="Zomerhuisje.nl" border="0" class="noprint" /></span></a>
+         	<img src="http://192.168.1.32/chalet/pic/topfoto/zomerhuisje_leaderboard_1.jpg" alt="" class="noprint">
+           	<div contenteditable="true" style="width:705px; color:#666; height:100px; padding:10px 10px 10px 10px;  border:1px solid #FFFFFF; font-family:Verdana, Geneva, sans-serif">
+            	
+				Dit moet je zien! Ik heb dit leuke vakantiehuis gevonden op Zomerhuisje.nl:
             </div>
-         </div>
-         
-  <table width="100%" border="1">
+<div style=" border:1px solid #FFFFFF; width:725px;">
+<table width="700" border="0" cellpadding="0" cellspacing="5">
   <tr>
-    <td rowspan="2"><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; echo "<img src=\"$impath\" width=\"200px\"/>";?></td>
-    <td><?php echo "<span style=\"font-weight:bold; font-size:11px; font-family:verdana;\">".wt_he($accinfo["accnaam"])."</span><BR><BR><span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["plaats"])."<BR>".wt_he($accinfo["skigebied"])."<BR>".wt_he($accinfo["land"])."</span>"; ?></td>
-    <td rowspan="2"><?php echo wt_he($accinfo["oppervlakte"]);?></td>
+    <td width="300px" rowspan="3" valign="top"><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; $url ="url"; echo "<a href=\".wt_he($accinfo[$url]).\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a>";?></td>
+    <td valign="top"><?php echo "<span style=\"font-weight:bold; font-size:11px; font-family:verdana;\">".wt_he($accinfo["accnaam"])."</span><BR><BR><span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["plaats"])."-".wt_he($accinfo["skigebied"])."-".wt_he($accinfo["land"])."</span>"; ?></td>
+    <td rowspan="3" valign="top"><?php //echo wt_he($accinfo["oppervlakte"])." m2";?></td>
   </tr>
   <tr>
-    <td><?php echo "<span style=\"font-weight:Bold; font-family:verdana; font-size:11px;\">".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen</span>"?></td>
+    <td valign="top"><?php echo "<span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen<BR>".wt_he($accinfo["slaapkamers"])." slaapkamer(s)<BR>".wt_he($accinfo["badkamers"] )." badkamer(s)</span>"?></td>
+  </tr>
+  <tr>
+    <td valign="bottom"><b><a style="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;" href="<?php echo wt_he($accinfo["url"])?>">Dit huis bekijken</a></b></td>
   </tr>
   </table>
-
-        <br />
-          Groeten,<br />
-        </p>
-        </div>
+</div>
+            	</span></div>
+    	</div>
     	<input type="hidden" name="bericht" id="bericht"></input>	
-      <div style="width:325px;" id="Verzender"></div><br /><br />
-    </td>
+    <div id="Verzender"></div></td>
   </tr>
   <tr>
     <td><button type="button" onclick="controlEnSend()" name="verzend" id="verzend" value="VERZENDEN">VERZENDEN</button>
