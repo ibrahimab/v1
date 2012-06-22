@@ -60,5 +60,6 @@ if($db->num_rows()){
 	}
 	$xmloutput.="</LocatieInfos>\n";
 	print($xmloutput);
+	
 }
 ?>
