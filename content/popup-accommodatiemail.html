@@ -98,6 +98,7 @@ function controlEnSend(){
 				break;
 			}
 			else{
+				document.getElementById("afzender").innerHTML = document.getElementById("VerzenderNaam").value;
 				var bericht = document.getElementById("presentbericht").innerHTML;
 				//window.alert(bericht);
 				document.getElementById("bericht").value = bericht;
@@ -126,7 +127,7 @@ if(isset($_POST['VerzenderNaam'])){
 		$mail->toname=$_POST[''];
 		$mail->to=$emails[$i];
 		$mail->subject.=$_POST['bericht'];
-		$mail->subject.=$mail->fromname;
+		//$mail->subject.=$mail->fromname;
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
         $mail->html.="<html>";
@@ -149,7 +150,7 @@ if(isset($_POST['VerzenderNaam'])){
     <td><strong>Uw naam: </strong></td>
   </tr>
   <tr>
-    <td><input type="text" name="VerzenderNaam" id="VerzenderNaam" onkeyup="setVerzender()" /></td>
+    <td><input type="text" name="VerzenderNaam" id="VerzenderNaam" /></td>
   </tr>
   <tr>
     <td><strong>Van: (Email adres)</strong></td>
@@ -177,14 +178,17 @@ if(isset($_POST['VerzenderNaam'])){
  
         <p><BR />
          	<img src="http://192.168.1.32/chalet/pic/topfoto/zomerhuisje_leaderboard_1.jpg" alt="" class="noprint">
-           	<div contenteditable="true" style="width:705px; color:#666; height:100px; padding:10px 10px 10px 10px;  border:1px solid #FFFFFF; font-family:Verdana, Geneva, sans-serif">
+           	<div contenteditable="true" style="width:705px; height:20px; color:#666;  padding:10px 10px 10px 10px;  border:1px solid #FFFFFF; font-family:Verdana, Geneva, sans-serif">
             	
-				Dit moet je zien! Ik heb dit leuke vakantiehuis gevonden op Zomerhuisje.nl:
+				Ik heb een leuk vakantiehuis gevonden op Zomerhuisje.nl. Dit moet je zien!<br />
+				<br />
+				Groeten,<br />
             </div>
+            <div id="afzender" style="width:705px; height:20px; color:#666;  padding:10px 10px 10px 10px;  border:1px solid #FFFFFF; font-family:Verdana, Geneva, sans-serif"></div>
 <div style=" border:1px solid #FFFFFF; width:725px;">
 <table width="700" border="0" cellpadding="0" cellspacing="5">
   <tr>
-    <td width="300px" rowspan="3" valign="top"><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; $url ="url"; echo "<a href=\".wt_he($accinfo[$url]).\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a>";?></td>
+    <td width="300px" rowspan="3" valign="top"><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; $url ="url"; echo "<a href=\"$accinfo[$url]\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a>";?></td>
     <td valign="top"><?php echo "<span style=\"font-weight:bold; font-size:11px; font-family:verdana;\">".wt_he($accinfo["accnaam"])."</span><BR><BR><span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["plaats"])."-".wt_he($accinfo["skigebied"])."-".wt_he($accinfo["land"])."</span>"; ?></td>
     <td rowspan="3" valign="top"><?php //echo wt_he($accinfo["oppervlakte"])." m2";?></td>
   </tr>
@@ -192,7 +196,7 @@ if(isset($_POST['VerzenderNaam'])){
     <td valign="top"><?php echo "<span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen<BR>".wt_he($accinfo["slaapkamers"])." slaapkamer(s)<BR>".wt_he($accinfo["badkamers"] )." badkamer(s)</span>"?></td>
   </tr>
   <tr>
-    <td valign="bottom"><b><a style="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;" href="<?php echo wt_he($accinfo["url"])?>">Dit huis bekijken</a></b></td>
+    <td valign="bottom"><b><a style="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;" href="<?php echo wt_he($accinfo["url"])?>">Lees meer over dit vakantiehuis</a></b></td>
   </tr>
   </table>
 </div>
