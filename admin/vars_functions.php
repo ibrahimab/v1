@@ -3702,14 +3702,15 @@ function xml_text($text,$use_cdata=true) {
 	$return=$text;
 	if($return) {
 		$return=iconv("Windows-1252","UTF-8",$return);
-		if(preg_match("/</",$return) or preg_match("/>/",$return) or preg_match("/&/",$return) or preg_match('/"/',$return)) {
+		if(strpos(" ".$return,"<") or strpos(" ".$return,">") or strpos(" ".$return,"&") or strpos(" ".$return,'"') or strpos(" ".$return,"'")) {
 			if($use_cdata) {
 				$return="<![CDATA[".$return."]]>";
 			} else {
-				$return=preg_replace("/</","&lt;",$return);
-				$return=preg_replace("/>/","&gt;",$return);
-				$return=preg_replace("/&/","&amp;",$return);
-				$return=preg_replace('/"/',"&quot;",$return);
+				$return=str_replace("&","&amp;",$return);
+				$return=str_replace("<","&lt;",$return);
+				$return=str_replace(">","&gt;",$return);
+				$return=str_replace('"',"&quot;",$return);
+				$return=str_replace("'","&apos;",$return);
 			}
 		}
 	}
