@@ -31,7 +31,7 @@ function txt($id,$page="",$settings="",$html=false) {
 			# Chalettour.nl
 			$return=$txt[$taal."_t"][$page][$id];
 		} elseif($websitetype==6 and isset($txt[$taal."_v"][$page][$id])) {
-			# Chalets in Vallandry NL
+			# Chalets in Vallandry
 			$return=$txt[$taal."_v"][$page][$id];
 		} elseif($websiteland=="be" and isset($txt[$taal."_b"][$page][$id])) {
 			# Belgie
