@@ -177,12 +177,8 @@ if(isset($_POST['VerzenderNaam'])){
         
  
         <p><BR />
-         	<img src="http://192.168.1.32/chalet/pic/topfoto/zomerhuisje_leaderboard_1.jpg" alt="" class="noprint">
-           	<div contenteditable="true" style="width:705px; height:20px; color:#666;  padding:10px 10px 10px 10px;  border:1px solid #FFFFFF; font-family:Verdana, Geneva, sans-serif">
-            	
-				Ik heb een leuk vakantiehuis gevonden op Zomerhuisje.nl. Dit moet je zien!<br />
-				<br />
-				Groeten,<br />
+         	<img src="<?php echo $vars['mail_topfoto']?>" alt="" class="noprint">
+           	<div contenteditable="true" style="width:705px; height:20px; color:#666;  padding:10px 10px 10px 10px;  border:1px solid #FFFFFF; font-family:Verdana, Geneva, sans-serif"><?php echo $vars['mail_form_mid_div_content'];?>
             </div>
             <div id="afzender" style="width:705px; height:20px; color:#666;  padding:10px 10px 10px 10px;  border:1px solid #FFFFFF; font-family:Verdana, Geneva, sans-serif"></div>
 <div style=" border:1px solid #FFFFFF; width:725px;">
@@ -196,7 +192,7 @@ if(isset($_POST['VerzenderNaam'])){
     <td valign="top"><?php echo "<span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen<BR>".wt_he($accinfo["slaapkamers"])." slaapkamer(s)<BR>".wt_he($accinfo["badkamers"] )." badkamer(s)</span>"?></td>
   </tr>
   <tr>
-    <td valign="bottom"><b><a style="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;" href="<?php echo wt_he($accinfo["url"])?>">Lees meer over dit vakantiehuis</a></b></td>
+    <td valign="bottom"><b><a style="<?php echo $vars['mail_form_aLink_style']; ?>" href="<?php echo wt_he($accinfo["url"])?>">Lees meer over dit vakantiehuis</a></b></td>
   </tr>
   </table>
 </div>
