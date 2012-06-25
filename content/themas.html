@@ -28,7 +28,7 @@ if($_GET["testsysteem"] or $vars["lokale_testserver"]) {
 	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
 	            echo "</div>";
 	            echo "</div>";
-				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170\"></a><br />";
+				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170\" border=\"0\"></a><br />";
 				echo "</div>";
 			}
 			if($teller%4==0) {
