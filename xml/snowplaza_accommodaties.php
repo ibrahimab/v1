@@ -67,7 +67,7 @@ if($_GET["aanbiedingen"]) {
 	}
 }
 
-$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, t.naam AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra, a.afstandskilift, a.afstandskiliftextra, a.afstandloipe, a.afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, s.skigebied_id, s.naam AS skigebied, l.naam AS land, l.begincode, p.naam AS plaats, p.plaats_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? " LIMIT 0,10" : "").";");
+$db->query("SELECT DISTINCT t.type_id, p.plaats_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, t.naam AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra, a.afstandskilift, a.afstandskiliftextra, a.afstandloipe, a.afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, s.skigebied_id, s.naam AS skigebied, l.naam AS land, l.begincode, p.naam AS plaats FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" ? " LIMIT 0,10" : "").";");
 while($db->next_record()) {
 
 	# Prijs bepalen
@@ -119,7 +119,7 @@ while($db->next_record()) {
 
 	if($prijs) {
 		echo "<product id=\"".$db->f("type_id")."\">\n";
-	
+		echo "<plaats id=\"".$db->f("plaats_id")."\"/>\n";
 		$aantalpersonen=$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? "persoon" : "personen");
 		$accnaam=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".$aantalpersonen;
 		
@@ -152,14 +152,10 @@ while($db->next_record()) {
 		echo "<field name=\"country\" value=\"".xml_text($db->f("land"),false)."\" />\n";
 		if($vars["seizoentype"]==1) {
 			echo "<field name=\"ski_area\" value=\"".xml_text($db->f("skigebied"),false)."\" />\n";
-			echo "<field name=\"ski_area_id\" value=\"".xml_text($db->f("skigebied_id"),false)."\" />\n";
 			echo "<field name=\"resort\" value=\"".xml_text($db->f("plaats"),false)."\" />\n";
-			echo "<field name=\"resort_id\" value=\"".xml_text($db->f("plaats_id"),false)."\" />\n";
 		} else {
 			echo "<field name=\"region\" value=\"".xml_text($db->f("skigebied"),false)."\" />\n";
-			echo "<field name=\"region_id\" value=\"".xml_text($db->f("skigebied_id"),false)."\" />\n";
 			echo "<field name=\"city\" value=\"".xml_text($db->f("plaats"),false)."\" />\n";
-			echo "<field name=\"city_id\" value=\"".xml_text($db->f("plaats_id"),false)."\" />\n";
 		}
 		echo "<field name=\"persons_from\" value=\"".xml_text($db->f("optimaalaantalpersonen"),false)."\" />\n";
 		echo "<field name=\"persons_to\" value=\"".xml_text($db->f("maxaantalpersonen"),false)."\" />\n";

@@ -1,204 +1,9 @@
 <?php
 
-#
-# Bewerk dit bestand met Notepad++
-# Te downloaden via: http://downloads.sourceforge.net/notepad-plus/npp.3.9.Installer.exe?modtime=1159999358&big_mirror=0
-#
-#
-#
-# TEKSTEN Chalet.nl en Chalet.eu
-#
-#
-# UITLEG hoe dit bestand te bewerken:
-#
-#
-#
-# Voorbeeld:
-# $txt["nl"]["vars"]["voorbeeldzin"]="Dit is een voorbeeldzin";
-# $txt["en"]["vars"]["voorbeeldzin"]="";
-#
-# op de eerste regel staat de Nederlandse tekst
-# op de tweede regel moet de Engelse tekst komen
-# Het eerste deel van elke regel is van technische aard; hier hoef je niet naar te kijken. Let alleen op het laatste
-# gedeelte (helemaal rechts) tussen de aanhalingstekens. Zet de vertaalde tekst ook tussen de aanhalingstekens.
-#
-#
-# Aandachtspunten/opmerkingen:
-# - leestekens en enters in zinnen graag ook overnemen
-# - voor dubbele aanhalingstekens in teksten een backslash zetten \" (zie ook de Nederlandse teksten)
-# - woorden tussen [[dubbele haken]] exact overnemen, inclusief de haken zelf
-# - zorg dat de vertaling van korte zinnen/losse woorden niet heel veel langer is dan in het Nederlands (vanwege ruimtegebrek op de diverse pagina's)
-# - een hoop woorden komen meerdere keren terug in onderstaand overzicht. Dat is omdat bepaalde woorden vaak terugkomen in de site, en het (met het oog op toekomstige wijzigingen) handig is om die steeds opnieuw te definieren
-# - bovenaan elke groep woorden staat van welke pagina ze komen. Het is handig om tijdens het vertalen deze pagina als geheel te bekijken, zodat de context van alle zinnen duidelijker is
-# - sommige woorden/zinnen zijn al vertaald (was nodig om het systeem alvast wat te testen). Deze regels kun je dus overslaan.
-# 
-#
-#
-# Nog los vertalen:
-# - werkwijze
-# - algemene voorwaarden
-# - annuleringsverzekering
-# - pdf's: 
-#	- algemene_voorwaarden.pdf
-#	- voorwaarden_europeesche_annverz.pdf
-#	- voorwaarden_europeesche_reisverz.pdf
-#
-
 
 #
-# Algemene teksten
+# Gebruik in vars.php
 #
-$txta["nl"]["accommodatie"]="accommodatie";
-$txta["en"]["accommodatie"]="accommodation";
-
-$txta["nl"]["accommodaties"]="accommodaties";
-$txta["en"]["accommodaties"]="accommodations";
-
-$txta["nl"]["chalets"]="chalets";
-$txta["en"]["chalets"]="chalets";
-
-$txta["nl"]["vakantiehuis"]="vakantiehuis";
-$txta["en"]["vakantiehuis"]="accommodation";
-
-$txta["nl"]["vakantiehuizen"]="vakantiehuizen";
-$txta["en"]["vakantiehuizen"]="accommodations";
-
-$txta["nl"]["aanbiedingen"]="aanbiedingen";
-$txta["en"]["aanbiedingen"]="special offers";
-
-$txta["nl"]["leesverder"]="Lees verder";
-$txta["en"]["leesverder"]="More";
-
-$txta["nl"]["top10perweek"]="top 10 per week";
-$txta["en"]["top10perweek"]="top 10 per week";
-
-#$txta["nl"]["groepsreizen"]="groepsreizen";
-#$txta["en"]["groepsreizen"]="group travel";
-
-$txta["nl"]["geenafbeelding"]="Geen afbeelding beschikbaar";
-$txta["en"]["geenafbeelding"]="No illustration available";
-
-$txta["nl"]["met"]="met";
-$txta["en"]["met"]="with";
-
-$txta["nl"]["persoon"]="persoon";
-$txta["en"]["persoon"]="person";
-
-$txta["nl"]["personen"]="personen";
-$txta["en"]["personen"]="persons";
-
-$txta["nl"]["pers"]="pers.";
-$txta["en"]["pers"]="pers.";
-
-$txta["nl"]["max"]="max.";
-$txta["en"]["max"]="max.";
-
-$txta["nl"]["ja"]="ja";
-$txta["en"]["ja"]="yes";
-
-$txta["nl"]["nee"]="nee";
-$txta["en"]["nee"]="no";
-
-$txta["nl"]["badkamer"]="badkamer";
-$txta["en"]["badkamer"]="bathroom";
-
-$txta["nl"]["badkamers"]="badkamers";
-$txta["en"]["badkamers"]="bathrooms";
-
-$txta["nl"]["slaapkamer"]="slaapkamer";
-$txta["en"]["slaapkamer"]="bedroom";
-
-$txta["nl"]["slaapkamers"]="slaapkamers";
-$txta["en"]["slaapkamers"]="bedrooms";
-
-$txta["nl"]["pp"]="p.p.";
-$txta["en"]["pp"]="p.p";
-
-$txta["nl"]["per"]="per";
-$txta["en"]["per"]="per";
-
-$txta["nl"]["accommodatie"]="accommodatie";
-$txta["en"]["accommodatie"]="accommodation";
-
-$txta["nl"]["inclskipas"]="incl. skipas";
-$txta["en"]["inclskipas"]="including ski lift pass";
-
-$txta["nl"]["vanaf"]="vanaf";
-$txta["en"]["vanaf"]="from";
-
-$txta["nl"]["terugnaarboven"]="Terug naar boven";
-$txta["en"]["terugnaarboven"]="Top of page";
-
-$txta["nl"]["venstersluiten"]="Venster sluiten";
-$txta["en"]["venstersluiten"]="Close";
-
-$txta["nl"]["ontwikkelddoor"]="ontwikkeld door";
-$txta["en"]["ontwikkelddoor"]="developed by";
-
-$txta["nl"]["handelsnaam"]="Chalet.nl is een handelsnaam van Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden";
-$txta["en"]["handelsnaam"]="Chalet.eu is a trademark of Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands";
-
-$txta["nl_t"]["handelsnaam"]="Chalettour.nl is een handelsnaam van Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden";
-$txta["en_t"]["handelsnaam"]="-";
-
-$txta["nl_b"]["handelsnaam"]="Chalet.be is een handelsnaam van Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - Nederland";
-$txta["en_b"]["handelsnaam"]="-";
-
-$txta["nl"]["handelsnaam_zomerhuisje"]="Zomerhuisje.nl is een handelsnaam van Chalet.nl B.V.";
-$txta["en"]["handelsnaam_zomerhuisje"]="-";
-
-$txta["nl_b"]["handelsnaam_zomerhuisje"]="Zomerhuisje.eu is een handelsnaam van Chalet.nl B.V.";
-$txta["en_b"]["handelsnaam_zomerhuisje"]="-";
-
-$txta["nl"]["chaletsinvallandry"]="Chalets in Vallandry";
-$txta["en"]["chaletsinvallandry"]="Chalets in Vallandry";
-
-$txta["nl"]["telefoonnummer"]="Tel. 0348 - 43 46 49";
-$txta["en"]["telefoonnummer"]="Phone +31 348 43 46 49";
-
-$txta["nl_b"]["telefoonnummer"]="Tel. +31 348 43 46 49";
-$txta["en_b"]["telefoonnummer"]="-";
-
-$txta["nl"]["telefoonnummer_colofon"]="tel: 0348 - 43 46 49";
-$txta["en"]["telefoonnummer_colofon"]="phone: +31 348 43 46 49";
-
-$txta["nl_b"]["telefoonnummer_colofon"]="tel: +31 348 43 46 49";
-$txta["en_b"]["telefoonnummer_colofon"]="-";
-
-$txta["nl"]["telefoonnummer_alleen"]="0348 - 43 46 49";
-$txta["en"]["telefoonnummer_alleen"]="+31 348 43 46 49";
-
-$txta["nl_b"]["telefoonnummer_alleen"]="+31 348 43 46 49";
-$txta["en_b"]["telefoonnummer_alleen"]="-";
-
-$txta["nl"]["telefoonnummer_telefoonblok"]="0348 - 43 46 49";
-$txta["en"]["telefoonnummer_telefoonblok"]="+31 348 434649";
-
-$txta["nl_b"]["telefoonnummer_telefoonblok"]="+31348434649";
-$txta["en_b"]["telefoonnummer_telefoonblok"]="-";
-
-$txta["nl"]["openingstijden_telefoonblok"]="ma-vr 9-17:30 / za 10-17:30";
-$txta["en"]["openingstijden_telefoonblok"]="Mo-Fr 9-17:30 / Sa 10-17:30";
-
-$txta["nl"]["aankomst"]="aankomst";
-$txta["en"]["aankomst"]="arrival";
-
-$txta["nl"]["weekend_van"]="weekend van";
-$txta["en"]["weekend_van"]="Weekend of";
-
-$txta["nl"]["weekend"]="weekend";
-$txta["en"]["weekend"]="Weekend";
-
-$txta["nl"]["en"]="en";
-$txta["en"]["en"]="and";
-
-$txt["nl"]["popup"]["paginaafdrukken"]="Pagina afdrukken";
-$txt["en"]["popup"]["paginaafdrukken"]="Print page";
-
-
-
-
-
 
 $txt["nl"]["vars"]["dag"]="dag";
 $txt["en"]["vars"]["dag"]="day";
@@ -616,6 +421,11 @@ Fax: +31 (0)348 - 69 07 52
 E-mail: [EMAIL]";
 
 
+#
+# Popup.php
+#
+$txt["nl"]["popup"]["paginaafdrukken"]="Pagina afdrukken";
+$txt["en"]["popup"]["paginaafdrukken"]="Print page";
 
 
 #

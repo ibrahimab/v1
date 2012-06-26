@@ -112,6 +112,7 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 
 
 if(!$argv[1] or $argv[1]=="17") {
+#	if($testsysteem) {
 	if(!$testsysteem) {
 
 		# XML downloaden bij Alpin Rentals Kaprun
@@ -228,8 +229,8 @@ if($testsysteem) {
 #	$xml_urls[3][]=$tmpdir."skifrance.xml";
 #	$xml_urls[4][]=$tmpdir."results.xml";
 #	$csv_urls[5]=$tmpdir."dispo.csv";
-	$xml_urls[6][1]=$tmpdir."Vakanzen.xml";
-	$xml_urls[6][2]=$tmpdir."Preise.xml";
+#	$xml_urls[6][1]=$tmpdir."Vakanzen.xml";
+#	$xml_urls[6][2]=$tmpdir."Preise.xml";
 #	$xml_urls[7][1]=$tmpdir."bel.xml";
 #	$xml_urls[7][2]=$tmpdir."belt.xml";
 #	$xml_urls[8][1]=$tmpdir."availability.xml.1";
@@ -247,7 +248,7 @@ if($testsysteem) {
 #	$xml_urls[16][2]=$tmpdir."export_chalet_nl_prices_de_w.xml";
 #	$xml_urls[16][3]=$tmpdir."export_chalet_nl_occupancy_de_s.xml";
 #	$xml_urls[16][4]=$tmpdir."export_chalet_nl_prices_de_s.xml";
-#	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-06-14-16-22.xml";
+	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-06-22-11-42.xml";
 }
 
 #
@@ -703,12 +704,29 @@ while(list($key,$value)=@each($xml_urls)) {
 				# lees de beschikbaarheid per week uit. een dag bezet = niet beschikbaar voor de hele week
 				# week is aabkomst datum strandard altijd op zaterdag.
 				#alle beschikbaarheden in array stoppen 
-				$xml_beschikbaar[$key][$XML_CODE_VAN_DE_ACCOMMODATIE_VOLGENS_LEVERANCIER][$week]=true;
-				
-				
-				# Tarieven
-				$xml_brutoprijs[$key][$XML_CODE_VAN_DE_ACCOMMODATIE_VOLGENS_LEVERANCIER][$week]=$BEDRAG_PER_WEEK;
-				
+				echo "Bij Miguel";
+				foreach($xml->House as $acc){
+					if($acc->Availability == "Free"){
+						if(ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})",$acc->Date,$regs)) {
+							$unixtime=mktime(0,0,0,$regs[1],$regs[2],$regs[3]);
+							$xml_beschikbaar[$key][trim($acc->HouseCode)][$unixtime]=true;
+							
+							# Tarieven
+							$tariefPerdag = $acc->Price;
+							$BEDRAG_PER_WEEK = $tariefPerdag * 7;
+							$xml_brutoprijs[$key][trim($acc->HouseCode)][$unixtime]=$BEDRAG_PER_WEEK;
+							
+						}
+					}
+					elseif($acc->Availability == "Occupied"){
+						if(ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})",$acc->Date,$regs)) {
+							$unixtime=mktime(0,0,0,$regs[1],$regs[2],$regs[3]);
+							$xml_beschikbaar[$key][trim($acc->HouseCode)][$unixtime]=false;
+						}
+					}
+				}
+				echo var_dump($xml_beschikbaar);
+				$xml_laatsteimport_leverancier[$key]=true;
 			}
 		} else {
 			trigger_error("_notice: URL ".$value2." onbereikbaar",E_USER_NOTICE);

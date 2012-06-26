@@ -1,7 +1,7 @@
 <?php
 $unixdir="../";
 include("../admin/vars.php");
-$db->query("SELECT DISTINCT land_id, land FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND wzt='".addslashes($vars["seizoentype"])."'");
+$db->query("SELECT DISTINCT land_id, land FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND websites LIKE '%".$vars["website"]."%' AND wzt='".addslashes($vars["seizoentype"])."'");
 if($db->num_rows()){
 	$xmloutput=header("Content-Type: text/xml; charset=utf-8");
 	$xmloutput="";
@@ -22,7 +22,7 @@ if($db->num_rows()){
 		$xmloutput.="</land>\n"; 
 	}
 	$xmloutput.="</landen>\n";
-	$db->query("SELECT DISTINCT skigebied, skigebied_id FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND wzt='".addslashes($vars["seizoentype"])."'");
+	$db->query("SELECT DISTINCT skigebied, skigebied_id FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND websites LIKE '%".$vars["website"]."%' AND wzt='".addslashes($vars["seizoentype"])."'");
 	if($db->num_rows()){
 		$xmloutput.="<skigebieden>\n";
 		while($db->next_record()){
@@ -39,7 +39,7 @@ if($db->num_rows()){
 			$xmloutput.="</skigebied>\n";
 		}
 		$xmloutput.="</skigebieden>\n";
-		$db->query("SELECT DISTINCT plaats_id, plaats FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND wzt='".addslashes($vars["seizoentype"])."'");
+		$db->query("SELECT DISTINCT plaats_id, plaats FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND websites LIKE '%".$vars["website"]."%' AND wzt='".addslashes($vars["seizoentype"])."'");
 		if($db->num_rows()){
 			$xmloutput.="<plaatsen>\n";
 			while($db->next_record()){
@@ -60,5 +60,6 @@ if($db->num_rows()){
 	}
 	$xmloutput.="</LocatieInfos>\n";
 	print($xmloutput);
+	
 }
 ?>
