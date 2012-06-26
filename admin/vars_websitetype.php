@@ -65,8 +65,8 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-	$vars["mail_topfoto"]="http://www.chalet.nl/pic/topfoto_1.jpg";
-	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op Chalet.nl. Dit moet je zien!<br /><br />Groeten,<br />";
+	$vars["mail_topfoto"]="http://www.chalet.nl/pic/topfoto/chalet_leaderboard_4.jpg";
+	$vars["mail_form_mid_div_content"]="Ik heb een leuke accommodatie gevonden op Chalet.nl. Dit moet je zien!<br /><br />Groeten,<br />";
 	$vars["mail_form_aLink_style"]="color:#002682; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 } elseif($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="wsa")) {
 	# Wintersportaccommodaties
@@ -107,7 +107,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=0;
 	$vars["wederverkoop"]=true;
-	$vars["mail_topfoto"]="http://www.chalet.nl/pic/topfoto_1.jpg";
+	$vars["mail_topfoto"]="http://www.chalet.nl/pic/topfoto/chalet_leaderboard_4.jpg";
 	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op chalet.eu. Dit moet je zien!<br /><br />Groeten,<br />";
 	$vars["mail_form_aLink_style"]="color:#002682; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 } elseif($_SERVER["HTTP_HOST"]=="www.chalettour.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="chalettour")) {
@@ -129,7 +129,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-	$vars["mail_topfoto"]="http://www.chalet.nl/pic/topfoto_1.jpg";
+	$vars["mail_topfoto"]="http://www.chalet.nl/pic/topfoto/chalet_leaderboard_4.jpg";
 	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op chalettour.nl. Dit moet je zien!<br /><br />Groeten,<br />";
 	$vars["mail_form_aLink_style"]="color:#002682; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.be" or ($vars["lokale_testserver"] and $vars["testsite"]=="chaletbe")) {
@@ -150,7 +150,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-	$vars["mail_topfoto"]="http://www.chalet.nl/pic/topfoto_1.jpg";
+	$vars["mail_topfoto"]="http://www.chalet.nl/pic/topfoto/chalet_leaderboard_4.jpg";
 	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op chalet.be. Dit moet je zien!<br /><br />Groeten,<br />";
 	$vars["mail_form_aLink_style"]="color:#002682; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="zomerhuisjenl")) {
@@ -174,7 +174,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
 	//deze plaatje ook live zetten en deze url aanpassen naar live url
-	$vars["mail_topfoto"]="http://192.168.1.32/chalet/pic/topfoto/zomerhuisje_leaderboard_1.jpg";
+	$vars["mail_topfoto"]="http://www.zomerhuisje.nl/pic/topfoto/zomerhuisje_leaderboard_1.jpg";
 	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op zomerhuisje.nl. Dit moet je zien!<br /><br />Groeten,<br />";
 	$vars["mail_form_aLink_style"]="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 
@@ -199,7 +199,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-	$vars["mail_topfoto"]="http://192.168.1.32/chalet/pic/topfoto/zomerhuisje_leaderboard_1.jpg";
+	$vars["mail_topfoto"]="http://www.zomerhuisje.nl/pic/topfoto/zomerhuisje_leaderboard_1.jpg";
 	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op zomerhuisje.eu. Dit moet je zien!<br /><br />Groeten,<br />";
 	$vars["mail_form_aLink_style"]="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 	# Tijdelijk
@@ -264,9 +264,9 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-	$vars["mail_topfoto"]="http://192.168.1.32/chalet/pic/topfoto/zomerhuisje_leaderboard_1.jpg";
+	$vars["mail_topfoto"]=" http://www.italissima.nl/pic/topfoto/italissima_banner_728x90.jpg";
 	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op italissima.nl. Dit moet je zien!<br /><br />Groeten,<br />";
-	$vars["mail_form_aLink_style"]="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
+	$vars["mail_form_aLink_style"]="color:#fe9900; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 
 	# Tijdelijk
 	$vars["nieuwevormgeving"]=true;
