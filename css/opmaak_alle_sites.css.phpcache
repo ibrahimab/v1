@@ -1413,3 +1413,9 @@ td.selecteerbaarbedrag:hover{
 .chzn-disabled .chzn-choices .search-choice .search-choice-close {
   cursor: default;
 }
+
+
+// CSS specifiek voor tablets
+@media only screen and (device-width:768px) { 
+
+}

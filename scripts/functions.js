@@ -464,9 +464,18 @@ $(document).ready(function() {
 
 	if(gebruik_jquery==true) {
 		// jquery
-		
-		
+	
 		if($().tabs) {
+		
+			// Google Analytics bij switchen tussen tabs
+			
+			if($("#tabs").length != 0) {
+				$("#tabs").bind("tabsselect",function(event,ui) {
+//					_gaq.push(['_trackPageview', window.location.pathname + '/tab-' + ui.tab.innerHTML]);
+//					alert(window.location.pathname+ui.tab.innerHTML);
+				});
+			}
+		
 			// fotoslide hoofdpagina
 		//	$("#featured").tabs({fx:{opacity: "toggle"}}).tabs("rotate", 5000, true);
 			$("#featured > ul").tabs({event: 'mouseover',fx:{opacity: "toggle"}}).tabs("rotate", 5000, true);  
