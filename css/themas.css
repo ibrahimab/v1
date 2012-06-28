@@ -17,14 +17,14 @@
 
 .themas_blok_top {
 	background-color: #d5e1f9;
-	height: 34px;
-	width: 166px;
-	padding-left: 2px;
-	padding-right: 2px;
+	height: 38px;
+	width: 164px;
+	padding-left: 3px;
+	padding-right: 3px;
 	vertical-align: middle;
 	display: table-cell;
 	font-size: 1.0em;
-	font-weight: bold;
+	font-weight: normal;
 }
 
 .themas_blok:hover {
