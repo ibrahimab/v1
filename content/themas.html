@@ -32,55 +32,11 @@ if($db->num_rows()) {
 			$naam=$db->f("naam");
 			
 			# Te lange naam "Te gast op de boerderij" veranderen in "Op de boerderij"
-h:170px; height:17px;\">";
-	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
-	            echo "</div>";
-	            echo "</div>";
-				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170px\" height=\"128\" border=\"0\"></a><br />";
-				echo "</div>";
-			}
-			if($teller%4==0) {
-				echo "<br class=\"clearboth\">";    	
-			}
-			$teller++;
-		}
-	}
-} else {
-	#
-	# Originele themas-pagina (zoals 'ie nu nog online staat)
-	#
-	echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
-	echo "<br>&nbsp;<br>";
-	
-	$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 ORDER BY ".($vars["seizoentype"]==2 ? "positiehoofdpagina, " : "")."naam".$vars["ttv"].";");
-	if($db->num_rows()) {
-		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" w
+			if($naam=="Te gast op de boerderij") $naam="Op de boerderij";
 			
 			echo "<a href=\"".wt_he($url)."\" class=\"themas_blok\"".$blank.">";
 			echo "<div class=\"themas_blok_top\"><div style=\"position: relative;\">".wt_he($naam)."</div></div><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170\" height=\"128\" alt=\"".wt_he($naam)."\">";
-h:170px; height:17px;\">";
-	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
-	            echo "</div>";
-	            echo "</div>";
-				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170px\" height=\"128\" border=\"0\"></a><br />";
-				echo "</div>";
-			}
-			if($teller%4==0) {
-				echo "<br class=\"clearboth\">";    	
-			}
-			$teller++;
-		}
-	}
-} else {
-	#
-	# Originele themas-pagina (zoals 'ie nu nog online staat)
-	#
-	echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
-	echo "<br>&nbsp;<br>";
-	
-	$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 ORDER BY ".($vars["seizoentype"]==2 ? "positiehoofdpagina, " : "")."naam".$vars["ttv"].";");
-	if($db->num_rows()) {
-		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" w
+			echo "</a>";
 
 			if($teller%4==0) {
 				# Na 4 blokken: nieuwe regel
