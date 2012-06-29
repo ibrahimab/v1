@@ -58,7 +58,7 @@ include($unixdir."admin/vars_xmlimport.php");
 if(!$argv[1] and !$testsysteem) {
 	if(date("i")==5 and (date("H")==0 or date("H")==3 or date("H")==9 or date("H")==12 or date("H")==15 or date("H")==18 or date("H")==21)) {
 		# Alle leveranciers worden doorlopen
-	
+
 	} else {
 		$db->query("SELECT handmatige_xmlimport_id FROM diverse_instellingen WHERE handmatige_xmlimport_id>0;");
 		if($db->next_record()) {
@@ -90,7 +90,7 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 		# CSV downloaden bij P&V Pierre & Vacances (pas beschikbaar vanaf de ochtend)
 		#
 		$dispo="DISPO_TO3_".date("d").strtoupper(date("M")).date("Y");
-		
+
 		# Zip-file downloaden
 		if(@filemtime($tmpdir."dispo.zip")<(time()-3600)) {
 			@unlink($tmpdir."dispo.zip");
@@ -98,12 +98,12 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 				$fh=fopen($tmpdir."dispo.zip","w",false);
 				fwrite($fh,$zip);
 				fclose($fh);
-		
+
 				# Zip-file uitpakken
 				@unlink($tmpdir."dispo.csv");
 				exec($unzip." ".$tmpdir."dispo.zip -d ".$tmpdir);
 				rename($tmpdir.$dispo.".csv",$tmpdir."dispo.csv");
-			
+
 			}
 		}
 		$csv_urls[5]=$tmpdir."dispo.csv";
@@ -120,11 +120,11 @@ if(!$argv[1] or $argv[1]=="17") {
 		'user' => 'chaletnl',
 		'pass' => 'aTL9!32',
 		);
-		
+
 		$tmp_insertStr = http_build_query($tmp_insert, '', '&'); 
-		
+
 		$tmp_url = "http://www.alpinrentals.co.uk/api/get";
-		
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 		curl_setopt($ch, CURLOPT_URL, $tmp_url);
@@ -133,10 +133,10 @@ if(!$argv[1] or $argv[1]=="17") {
 		curl_setopt($ch, CURLOPT_POST, 1);
 		$tmp_results = curl_exec($ch);
 		curl_close($ch);
-		
+
 		$temp_filename[17]=$tmpdir."alpin_rentals_kaprun_".date("Y-m-d-H-i").".xml";
 		file_put_contents($temp_filename[17],$tmp_results);
-		
+
 		unset($tmp_results,$ch,$tmp_insert,$tmp_insertStr);
 	}
 }
@@ -248,7 +248,7 @@ if($testsysteem) {
 #	$xml_urls[16][2]=$tmpdir."export_chalet_nl_prices_de_w.xml";
 #	$xml_urls[16][3]=$tmpdir."export_chalet_nl_occupancy_de_s.xml";
 #	$xml_urls[16][4]=$tmpdir."export_chalet_nl_prices_de_s.xml";
-	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-06-22-11-42.xml";
+	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-06-29-10-46.xml";
 }
 
 #
@@ -301,19 +301,19 @@ if(intval($argv[1])>0) {
 while(list($key,$value)=@each($xml_urls)) {
 	unset($xml);
 	while(list($key2,$value2)=each($value)) {
-	
+
 		if($xml=@simplexml_load_file($value2)) {
 
 		} else {
 			unset($xml);
 			sleep(30);
 			if($xml=@simplexml_load_file($value2)) {
-	
+
 			} else {
 				unset($xml);
 			}
 		}
-	
+
 		if(is_object($xml)) {
 			$correct_gedownload[$key]=true;
 			if($key==2 or $key==3) {
@@ -324,10 +324,10 @@ while(list($key,$value)=@each($xml_urls)) {
 					if(ereg("^([0-9]{2})\.([0-9]{2})\.([0-9]{4})",$value3->dateOfArrival,$regs)) {
 						$unixtime=mktime(0,0,0,$regs[2],$regs[1],$regs[3]);
 						$xml_beschikbaar[$key][trim($value3->apartmentId)][$unixtime]=true;
-						
+
 						# Tarieven Alpenchalets en France Reisen
 						$xml_brutoprijs[$key][trim($value3->apartmentId)][$unixtime]=trim($value3->price);
-						
+
 						$xml_laatsteimport_leverancier[$key]=true;
 					}
 				}
@@ -346,7 +346,7 @@ while(list($key,$value)=@each($xml_urls)) {
 				#
 				# Leverancier P&V Pierre & Vacances : geen XML (maar CSV)
 				#
-	
+
 			} elseif($key==6) {
 				#
 				# Leverancier Frosch
@@ -365,7 +365,7 @@ while(list($key,$value)=@each($xml_urls)) {
 							if(date("w",$datum_eind)<>6) {
 								$datum_eind=dichtstbijzijnde_zaterdag($datum_eind);
 							}
-		
+
 							# Doorlopen van begin tot eind
 							$week=$datum_begin;
 							while($week<$datum_eind) {
@@ -387,7 +387,7 @@ while(list($key,$value)=@each($xml_urls)) {
 							if(date("w",$datum_eind)<>6) {
 								$datum_eind=dichtstbijzijnde_zaterdag($datum_eind);
 							}
-		
+
 							# Doorlopen van begin tot eind
 							$week=$datum_begin;
 							while($week<$datum_eind) {
@@ -450,21 +450,21 @@ while(list($key,$value)=@each($xml_urls)) {
 					# Beschikbaarheid
 					$xml=xml_structure_convert($xml);
 					while(list($key3,$value3)=@each($xml)) {
-					
+
 						$datum_begin=strtotime($value3["offsetdate"]);
 
 						# Doorlopen van begin tot eind
 						unset($temp_beschikbaar);
 						for($i=0;$i<=strlen($value3["days"]);$i++) {
 							$dag=mktime(0,0,0,date("m",$datum_begin),date("d",$datum_begin)+$i,date("Y",$datum_begin));
-							
+
 							# Dag omzetten naar week (zaterdagen)
 							if(date("w",$dag)==6) {
 								$week=$dag;
 							} else {
 								$week=mktime(0,0,0,date("m",$dag),date("d",$dag)-(date("w",$dag)+1),date("Y",$dag));
 							}
-							
+
 							# Beschikbaar op dag (0=beschikbaar)
 							if(substr($value3["days"],$i,1)=="0") {
 								# wel beschikbaar
@@ -489,10 +489,10 @@ while(list($key,$value)=@each($xml_urls)) {
 									$xml_laatsteimport_leverancier[$key]=true;
 								}
 							}
-							
+
 							# Laatste import bijhouden (ook als er geen enkele beschikbaarheid was)
 							$xml_laatsteimport_gezien[$key][trim($value3["unique_serial"])]=true;
-							
+
 						}
 					}
 				} elseif($key2==2) {
@@ -504,7 +504,7 @@ while(list($key,$value)=@each($xml_urls)) {
 						if($value3["weekly"]) {
 							$datum_begin=strtotime($value3["start_period"]);
 							$datum_eind=strtotime($value3["end_period"]);
-		
+
 							# Doorlopen van begin tot eind
 							$week=$datum_begin;
 							while($week<$datum_eind) {
@@ -545,13 +545,13 @@ while(list($key,$value)=@each($xml_urls)) {
 				if($key2==1) {
 					# Beschikbaarheid
 					# losse XML's per accommodatie
-					
+
 				} elseif($key2==2) {
 					# Tarieven
 					foreach($xml->periode as $value3) {
 						$datum_begin=strtotime($value3->datedebut);
 						$datum_eind=strtotime($value3->datefin);
-		
+
 						# Doorlopen van begin tot eind
 						$week=$datum_begin;
 						while($week<$datum_eind) {
@@ -566,7 +566,7 @@ while(list($key,$value)=@each($xml_urls)) {
 				#
 				# Leverancier Odalys
 				#
-			
+
 				# Tarieven en beschikbaarheid
 				foreach($xml->Segments->Segment as $value3) {
 					$leverancierscode_a=trim($value3->Code->attributes()->Value);
@@ -576,7 +576,7 @@ while(list($key,$value)=@each($xml_urls)) {
 						foreach($value4->Begins->Begin as $value5) {
 							if(trim($value5->Duration->attributes()->Ref)=="D7") {
 								$week=strtotime(trim($value5->attributes()->Value));
-								
+
 								# Tarief
 								$xml_brutoprijs[$key][$leverancierscode_a."_".$leverancierscode_t][$week]=floatval(trim($value5->Price->attributes()->Value)/100);
 
@@ -584,7 +584,7 @@ while(list($key,$value)=@each($xml_urls)) {
 								# B0 = 0 Available
 								# BS = Some Available
 								# BM = Many Available
-								
+
 								$aantalbeschikbaar=trim($value5->attributes()->Ref);
 								if($aantalbeschikbaar=="BS") {
 									$xml_beschikbaar[$key][$leverancierscode_a."_".$leverancierscode_t][$week]=1;
@@ -603,7 +603,7 @@ while(list($key,$value)=@each($xml_urls)) {
 				#
 				# Leverancier Almliesl
 				#
-			
+
 				# Tarieven en beschikbaarheid
 
 
@@ -613,13 +613,13 @@ while(list($key,$value)=@each($xml_urls)) {
 						foreach($value3->lodging as $value4) {
 
 							$use_key=trim($value3->code)."_".trim($value4->id);
-							
+
 							# lodging-code en id aan elkaar koppelen
 							$hulp_array[$key][trim($value3->code)."_".trim($value4->no)]=trim($value4->id);
-						
+
 							$datum_begin=strtotime($value4->startday);
 							$datum_eind=strtotime($value4->endday);
-	
+
 							# Doorlopen van begin tot eind
 							unset($temp_beschikbaar);
 							for($i=0;$i<=strlen($value4->availability);$i++) {
@@ -630,7 +630,7 @@ while(list($key,$value)=@each($xml_urls)) {
 								} else {
 									$week=mktime(0,0,0,date("m",$dag),date("d",$dag)-(date("w",$dag)+1),date("Y",$dag));
 								}
-								
+
 								# Beschikbaar op dag (0=beschikbaar)
 								if(substr($value4->availability,$i,1)=="Y") {
 									# wel beschikbaar
@@ -655,10 +655,10 @@ while(list($key,$value)=@each($xml_urls)) {
 										$xml_laatsteimport_leverancier[$key]=true;
 									}
 								}
-								
+
 								# Laatste import bijhouden (ook als er geen enkele beschikbaarheid was)
 								$xml_laatsteimport_gezien[$key][$use_key]=true;
-								
+
 							}
 						}
 					}
@@ -670,10 +670,10 @@ while(list($key,$value)=@each($xml_urls)) {
 							$use_key=trim($value3->code)."_".trim($hulp_array[$key][trim($value3->code)."_".trim($value4->no)]);
 
 							foreach($value4->prices->price as $value5) {
-						
+
 								$datum_begin=strtotime($value5->fromdate);
 								$datum_eind=strtotime($value5->todate);
-							
+
 								# Doorlopen van begin tot eind
 								$week=$datum_begin;
 								while($week<$datum_eind) {
@@ -697,7 +697,7 @@ while(list($key,$value)=@each($xml_urls)) {
 				# Miguel
 				# Leverancier Alpin Rentals Kaprun hier verder uitbouwen. Lees de ccommodatie code volgens de leverencier uit. de 
 				#
-				
+
 				# $week = de betreffende week in unixtime
 
 				# Beschikbaarheid
@@ -705,27 +705,49 @@ while(list($key,$value)=@each($xml_urls)) {
 				# week is aabkomst datum strandard altijd op zaterdag.
 				#alle beschikbaarheden in array stoppen 
 				echo "Bij Miguel";
+				$gehad=array();
 				foreach($xml->House as $acc){
-					if($acc->Availability == "Free"){
+					if($acc->Availability=="Free"){
+						$prijs=0;
 						if(ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})",$acc->Date,$regs)) {
-							$unixtime=mktime(0,0,0,$regs[1],$regs[2],$regs[3]);
-							$xml_beschikbaar[$key][trim($acc->HouseCode)][$unixtime]=true;
-							
-							# Tarieven
-							$tariefPerdag = $acc->Price;
-							$BEDRAG_PER_WEEK = $tariefPerdag * 7;
-							$xml_brutoprijs[$key][trim($acc->HouseCode)][$unixtime]=$BEDRAG_PER_WEEK;
-							
+							$unixtime=mktime(0,0,0,$regs[2],$regs[1],$regs[3]);
+							$mijnWeek=date("W",$unixtime);
+							echo "Week:".$mijnWeek;
+							$nodes=simplexml_load_file('..\tmp\alpin_rentals_kaprun_2012-06-29-10-46.xml') or die("Error: Kan xml bestand niet bouwen");
+							$results=$nodes->xpath("/Houses/House[HouseCode='$acc->HouseCode']");
+							$dagen=array();
+							for($i=0;$i<count($results);$i++){
+								if((ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})",$results[$i]->Date,$regs2))and($results[$i]->Availability=="Free")) {
+									$xml_beschikbaar[$key][trim($acc->HouseCode)][$unixtime]=true;
+									$toCheck=$results[$i]->HouseCode."-".$mijnWeek;
+									$unixtime2=mktime(0,0,0,$regs2[2],$regs2[1],$regs2[3]);
+									if($mijnWeek==date("W",$unixtime2)){
+										array_push($dagen, $results[$i]);
+									}	
+								}
+							}
+							echo "dagen: ".count($dagen)." HouseCode: ".$acc->HouseCode." Week: ".$mijnWeek;
+							if(!in_array($toCheck,$gehad)){
+								if(count($dagen>=4)){
+									for($a=0;$a<count($dagen);$a++){
+										$prijs=$prijs+trim($dagen[$a]->Price);
+									}
+									echo "Prijs is: ".$prijs;
+								}
+								$voorGeaHad=$acc->HouseCode."-".$mijnWeek;
+								array_push($gehad, $voorGeaHad);
+								# Tarieven
+								$xml_brutoprijs[$key][trim($acc->HouseCode)][$unixtime]=$prijs;
+							}
 						}
 					}
 					elseif($acc->Availability == "Occupied"){
 						if(ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})",$acc->Date,$regs)) {
-							$unixtime=mktime(0,0,0,$regs[1],$regs[2],$regs[3]);
+							$unixtime=mktime(0,0,0,$regs[2],$regs[1],$regs[3]);
 							$xml_beschikbaar[$key][trim($acc->HouseCode)][$unixtime]=false;
 						}
 					}
 				}
-				echo var_dump($xml_beschikbaar);
 				$xml_laatsteimport_leverancier[$key]=true;
 			}
 		} else {
@@ -789,7 +811,7 @@ while(list($key,$value)=@each($soap_urls)) {
 	if(file_exists($tmpdir."soapfile_".$key.".txt")) {
 		$client = @new SoapClient($tmpdir."soapfile_".$key.".txt",array('trace'=>1));
 		if(is_object($client)) {
-		
+
 			if($key==13 or $key==15) {
 				#
 				# Eurogroup
@@ -803,7 +825,7 @@ while(list($key,$value)=@each($soap_urls)) {
 					$soap_conventionid="";
 					$soap_allotment="";
 				}
-				
+
 				#
 				# Des Neiges
 				#
@@ -815,14 +837,14 @@ while(list($key,$value)=@each($soap_urls)) {
 					$soap_conventionid="";
 					$soap_allotment="0";
 				}
-				
+
 				while(list($key2,$value2)=each($te_doorlopen_partnercodes)) {
 					unset($soap_error);
 					try {
 						$result=$client->getDistribProposals2($soap_baseid,$soap_username,$soap_password,$value2,$soap_conventionid,$soap_allotment);
 					} catch (Exception $e) {
 #						echo($e->getMessage());
-						
+
 						if(!$soap_error_getoond[$key]) {
 							trigger_error("_notice: SOAP-id ".$key." onbereikbaar: ".$e->getMessage(),E_USER_NOTICE);
 							$soap_error_getoond[$key]=true;
@@ -833,14 +855,14 @@ while(list($key,$value)=@each($soap_urls)) {
 						if(is_array($result->distribProposal)) {
 							foreach($result->distribProposal as $value3) {
 								$typeid=utf8_decode($value3->etab_id)."_".utf8_decode($value3->room_type_code);
-					
+
 								$datum_begin=strtotime($value3->start_date);
 								$datum_eind=strtotime($value3->end_date);
-					
+
 								$aantal=$value3->allotment_availability;
-								
+
 								$aantaldagen=round(($datum_eind-$datum_begin)/86400);
-								
+
 								if($aantaldagen>=6 and $aantaldagen<=9) {
 									$xml_beschikbaar[$key][$typeid][$datum_begin]+=$aantal;
 									$xml_brutoprijs[$key][$typeid][$datum_begin]=utf8_decode($value3->public_price);
@@ -894,7 +916,7 @@ while($db->next_record()) {
 	while($week<=$db->f("eind")) {
 		$seizoenen[$db->f("type")][$week]=$db->f("seizoen_id");
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
-		
+
 		# Het actieve seizoen bepalen
 		if(!$actieve_seizoen[$db->f("type")]) {
 			$actieve_seizoen[$db->f("type")]=$db->f("seizoen_id");
@@ -954,8 +976,8 @@ while($db->next_record()) {
 #		$type_namen[$db->f("type_id")]="<a href=\"http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_tarieven.php?xmlgoedkeuren=1&from=%2Fcms_types.php%3Fshow%3D2%26wzt%3D".$db->f("wzt")."%261k0%3D".$db->f("accommodatie_id")."%262k0%3D".$db->f("type_id")."&sid=_SEIZOEN_ID_&tid=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a>";
 		$type_namen[$db->f("type_id")]="<a href=\"http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_tarieven.php?xmlgoedkeuren=1&sid=_SEIZOEN_ID_&tid=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a>";
 		$wzt[$db->f("type_id")]=$db->f("wzt");
-		
-		
+
+
 		# Bij sommige leveranciers: extra informatie uit leverancierscode halen
 		unset($extra_info_leverancierscode);
 		if($db->f("xml_type")==1) {
@@ -964,23 +986,23 @@ while($db->next_record()) {
 				$extra_info_leverancierscode=trim($regs[2]);
 			}
 		}
-		
+
 		# Kijken naar laatste import (puur voor het overzicht van laatste imports)
 		if($xml_laatsteimport_gezien[$db->f("xml_type")][$value]) {
 			$xml_laatsteimport[$db->f("type_id")]=true;
 		}
-		
+
 		if($db->f("xml_type")==1) {
 
 			if($testsysteem) {
 #				continue;
 			}
-			
+
 			#
 			# Leverancier Huetten
 			#
-			
-			
+
+
 			# Beschikbaarheid Huetten
 			$aantal_beschikbaar[$db->f("xml_type")][$db->f("type_id")]++;
 
@@ -1026,9 +1048,9 @@ while($db->next_record()) {
 			$xml_url="https://api.huetten.com/dataexchange/MasterData.aspx?PartnerId=76640&Pwd=chalet.nl&xmlFile=%3Cparameter%3E%3CLodgeId%3E".$value."%3C/LodgeId%3E%3C/parameter%3E";
 			echo "Tarieven typeid ".$db->f("type_id").": ".$xml_url."\n";
 			unset($xml,$season);
-			
+
 			if($xml=@simplexml_load_file($xml_url)) {
-			
+
 			}
 			if(is_object($xml)) {
 
@@ -1050,7 +1072,7 @@ while($db->next_record()) {
 						}
 					}
 				}
-				
+
 				# Seasons doorlopen
 				if(is_object($xml->huette->prices->seasons->season)) {
 					foreach($xml->huette->prices->seasons->season as $value3) {
@@ -1059,7 +1081,7 @@ while($db->next_record()) {
 
 #						$datum_begin=$value4["begin"];
 #						$datum_eind=$value4["eind"];
-	
+
 						# Doorlopen van begin tot eind
 						$week=$datum_begin;
 						while($week<$datum_eind) {
@@ -1068,7 +1090,7 @@ while($db->next_record()) {
 							}
 							$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 						}
-					
+
 					}
 				}
 			}
@@ -1100,7 +1122,7 @@ while($db->next_record()) {
 			#
 			# Leverancier P&V Pierre et Vacances
 			#
-			
+
 			# Beschikbaarheid
 			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
 				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
@@ -1113,7 +1135,7 @@ while($db->next_record()) {
 			#
 			# Leverancier Frosch
 			#
-			
+
 			# Beschikbaarheid
 			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
 				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
@@ -1152,7 +1174,7 @@ while($db->next_record()) {
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=122&top=3037&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			}
 			if($xml=@simplexml_load_file($xml_url)) {
-			
+
 			}
 			if(is_object($xml)) {
 				foreach($xml->Tarif as $value3) {
@@ -1160,7 +1182,7 @@ while($db->next_record()) {
 					$xml_brutoprijs[$db->f("xml_type")][trim($value3->lot_ref)][$unixtime]=trim($value3->ptar_montant);
 				}
 			}
-			
+
 		} elseif($db->f("xml_type")==8) {
 			#
 			# Leverancier Posarelli Villas
@@ -1174,7 +1196,7 @@ while($db->next_record()) {
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
-			
+
 			# Aanbiedingen (lastminutes)
 			if($xml_lastminute[$db->f("xml_type")][$value]) {
 				$lastminute[$db->f("xml_type")][$xml_lastminute[$db->f("xml_type")][$value]][$db->f("wzt")][$db->f("type_id")]=true;
@@ -1182,7 +1204,7 @@ while($db->next_record()) {
 			}
 
 			# Tarieven (zie hieronder bij "Tarieven bijwerken")
-			
+
 		} elseif($db->f("xml_type")==9) {
 			#
 			# Leverancier Maisons Vacances
@@ -1192,13 +1214,13 @@ while($db->next_record()) {
 			unset($xml);
 			$xml_url="http://www.rent-villas-france.com/servicespub/rent/reservations-".$value;
 			if($xml=@simplexml_load_file($xml_url)) {
-			
+
 			}
 			if(is_object($xml)) {
 				if($xml->error) {
 					# bij XML-error van Maisons Vacances: alle datums als bezet noteren
 					echo "Fout bij Maisons Vacances accommodatie F".$db->f("type_id")." (".$value."): ".$xml->error->message."\n";
-					
+
 					# $nietbeschikbaar voor dit type wissen
 					unset($nietbeschikbaar[$db->f("xml_type")][$db->f("type_id")]);
 
@@ -1213,15 +1235,15 @@ while($db->next_record()) {
 
 					$xml_laatsteimport[$db->f("type_id")]=true;
 					foreach($xml->reservation as $value3) {
-	
+
 						$datum_begin=strtotime($value3->datedebut);
 						$datum_eind=strtotime($value3->datefin);
-	
+
 						# Niet-zaterdagen omzetten naar zaterdagen
 						if(date("w",$datum_begin)<>6) {
 							$datum_begin=mktime(0,0,0,date("m",$datum_begin),date("d",$datum_begin)-(date("w",$datum_begin)+1),date("Y",$datum_begin));
 						}
-						
+
 						# Niet-vrijdagen omzetten naar vrijdagen
 						if(date("w",$datum_eind)<>5) {
 							if(date("w",$datum_eind)==6) {
@@ -1230,7 +1252,7 @@ while($db->next_record()) {
 								$datum_eind=mktime(0,0,0,date("m",$datum_eind),date("d",$datum_eind)-(date("w",$datum_eind)+2),date("Y",$datum_eind));
 							}
 						}
-	
+
 						# Doorlopen van begin tot eind
 						$week=$datum_begin;
 						while($week<$datum_eind) {
@@ -1260,7 +1282,7 @@ while($db->next_record()) {
 			#
 			# Leverancier Eurogroup
 			#
-			
+
 			# Beschikbaarheid
 			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
 				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
@@ -1274,7 +1296,7 @@ while($db->next_record()) {
 			# Leverancier Marche Holiday
 			#
 
-			
+
 			# Beschikbaarheid en tarieven uit XML halen
 
 			# Alle seizoenen doorlopen
@@ -1301,7 +1323,7 @@ while($db->next_record()) {
 			#
 			# Leverancier Den Neiges
 			#
-			
+
 			# Beschikbaarheid
 			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
 				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
@@ -1314,7 +1336,7 @@ while($db->next_record()) {
 			#
 			# Leverancier Almliesl
 			#
-			
+
 			# Beschikbaarheid
 			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
 				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
@@ -1347,7 +1369,7 @@ while($db->next_record()) {
 		# Tarieven bijwerken
 		#	
 		if($db->f("xmltarievenimport")==1) {
-		
+
 			#
 			# week-tarieven
 			#
@@ -1358,10 +1380,10 @@ while($db->next_record()) {
 				if(is_array($xml_brutoprijs[$db->f("xml_type")][$value])) {
 					reset($xml_brutoprijs[$db->f("xml_type")][$value]);
 					while(list($key2,$value2)=each($xml_brutoprijs[$db->f("xml_type")][$value])) {
-					
+
 						# Alleen tarieven van datums die nog niet voorbij zijn importeren
 						if($key2>(time()-604800)) {
-	
+
 							# Rekening houden met afwijkende vertrekdagen
 							unset($zaterdag,$welk_seizoen,$zaterdag_wijziging_toegepast);
 							if(date("w",$key2)<>6) {
@@ -1381,16 +1403,16 @@ while($db->next_record()) {
 								$key2=$zaterdag;
 								$zaterdag_wijziging_toegepast=true;
 							}
-							
+
 							# Rekening houden met afwijkende verblijfsduur ("Aankomst (afwijking in dagen)" op accommodatieniveau)
 							if($db->f("aankomst_plusmin") and !$zaterdag_wijziging_toegepast) {
 								$key2=mktime(0,0,0,date("m",$key2),date("d",$key2)-$db->f("aankomst_plusmin"),date("Y",$key2));
 							}
 
-					
+
 							# Alleen tarieven met datum in de toekomst (nu -7 dagen) importeren
 							if($key2>(time()-(86400*7))) {
-	
+
 								# Oude tarief opvragen
 								$oudtarief=0;
 								unset($oudseizoen,$seizoen_opslaan,$blokkeerxml);
@@ -1407,7 +1429,7 @@ while($db->next_record()) {
 										$blokkeerxml=true;
 									}
 								}
-								
+
 								if(!$blokkeerxml) {
 
 									# Oude XML-tarief opvragen
@@ -1423,7 +1445,7 @@ while($db->next_record()) {
 										$totaaltarief[$key2."_".$db->f("type_id")]+=$value2;
 										$leverancierscodes_teller[$key2]++;
 									} else {
-									
+
 									}
 									$nieuwxmltarief=$totaaltarief[$key2."_".$db->f("type_id")];
 
@@ -1436,7 +1458,7 @@ while($db->next_record()) {
 										} else {
 											$seizoen_opslaan=$seizoenen[$wzt[$db->f("type_id")]][$key2];
 										}
-									
+
 										if($nieuwxmltarief>0 and floor($oudtarief)<>floor($nieuwxmltarief) and (floor($xmltarief_al_in_db)<>floor($nieuwxmltarief) or $seizoen_al_in_db<>$seizoen_opslaan)) {
 
 											$tarievenquery="week='".addslashes($key2)."', bruto='".addslashes($nieuwxmltarief)."', type_id='".addslashes($db->f("type_id"))."', seizoen_id='".addslashes($seizoen_opslaan)."', importmoment=NOW()";
@@ -1466,7 +1488,7 @@ while($db->next_record()) {
 			# dag-tarieven
 			#
 			if($db->f("xml_type")==8 and $db->f("flexibel")) {
-			
+
 				# bestaande tarieven, beschikbaar, voorraad_bijwerken voorraad uit database halen
 				unset($flex_bruto,$flex_beschikbaar,$flex_voorraad_bijwerken,$flex_voorraad,$flex_voorraad_xml);
 				$db2->query("SELECT bruto, dag, beschikbaar, voorraad_bijwerken, voorraad_garantie, voorraad_allotment, voorraad_vervallen_allotment, voorraad_optie_leverancier, voorraad_request, voorraad_xml FROM tarief_flex WHERE type_id='".$db->f("type_id")."' AND dag>='".$eerste_datum_alle_seizoenen."';");
@@ -1477,7 +1499,7 @@ while($db->next_record()) {
 					$flex_voorraad[$db2->f("dag")]=$db2->f("voorraad_garantie")+$db2->f("voorraad_allotment")+$db2->f("voorraad_vervallen_allotment")+$db2->f("voorraad_optie_leverancier")+$db2->f("voorraad_request");
 					$flex_voorraad_xml[$db2->f("dag")]=$db2->f("voorraad_xml");
 				}
-				
+
 				# tarieven opslaan in xml_tarievenimport_flex
 				$db2->query("SELECT dag, waarde FROM xml_import_flex_temp WHERE xml_type='".$db->f("xml_type")."' AND xmlcode='".addslashes($value)."' AND var='brutoprijs';");
 				while($db2->next_record()) {
@@ -1493,13 +1515,13 @@ while($db->next_record()) {
 						}
 					}
 				}
-				
+
 				# minimum_aantal_nachten opslaan
 				$db2->query("SELECT dag, waarde FROM xml_import_flex_temp WHERE xml_type='".$db->f("xml_type")."' AND xmlcode='".addslashes($value)."' AND var='minnachten';");
 				while($db2->next_record()) {
 					$db3->query("UPDATE tarief_flex SET minimum_aantal_nachten='".addslashes(intval($db2->f("waarde")))."' WHERE type_id='".$db->f("type_id")."' AND dag='".addslashes($db2->f("dag"))."';");
 				}
-				
+
 				# beschikbaarheid opslaan
 				$db2->query("SELECT dag, waarde FROM xml_import_flex_temp WHERE xml_type='".$db->f("xml_type")."' AND xmlcode='".addslashes($value)."' AND var='beschikbaar';");
 				while($db2->next_record()) {
@@ -1559,7 +1581,7 @@ while(list($key,$value)=@each($beschikbaar)) {
 	while(list($key2,$value2)=@each($value)) {
 		$db->query("SELECT ta.seizoen_id, ta.voorraad_garantie, ta.voorraad_allotment, ta.voorraad_vervallen_allotment, ta.voorraad_optie_leverancier, ta.voorraad_xml, ta.voorraad_request, ta.voorraad_bijwerken, ta.beschikbaar, ta.seizoen_id, ta.type_id, ta.week, t.accommodatie_id, t.leverancier_id FROM tarief ta, type t WHERE ta.type_id=t.type_id AND ta.type_id='".$key2."' AND ta.week>'".time()."' AND (ta.bruto>0 OR ta.c_bruto>0) AND ta.blokkeerxml=0 ORDER BY ta.week;");
 		while($db->next_record()) {
-		
+
 			# Rekening houden met afwijkende vertrekdagen
 			if(!in_array($db->f("leverancier_id"),$geen_vertrekdagaanpassing_leverancier) and $vertrekdagtype[$db->f("accommodatie_id")][$db->f("seizoen_id")]) {
 				$databaseweek=vertrekdagaanpassing($db->f("week"),1,$vertrekdagtype[$db->f("accommodatie_id")][$db->f("seizoen_id")]);
@@ -1584,7 +1606,7 @@ while(list($key,$value)=@each($beschikbaar)) {
 							$mailtxt[$key."_".$wzt[$key2]].=ereg_replace("_SEIZOEN_ID_",$db->f("seizoen_id"),$type_namen[$key2])." ".date("d-m-Y",$databaseweek).": van <i>niet beschikbaar</i> naar <i>beschikbaar</i><br>\n";
 							$wijzig_beschikbaar=1;
 						}
-						
+
 					} else {
 						$tempbeschikbaar=0;
 						if($db->f("beschikbaar")) {
@@ -1595,7 +1617,7 @@ while(list($key,$value)=@each($beschikbaar)) {
 				} else {
 					$tempbeschikbaar=$db->f("beschikbaar");
 				}
-				
+
 				$query="UPDATE tarief SET voorraad_xml='".addslashes($aantal)."', beschikbaar='".addslashes($tempbeschikbaar)."' WHERE type_id='".addslashes($key2)."' AND week='".addslashes($db->f("week"))."';";
 				$xml_laatsteimport[$key2]=true;
 				$xml_laatstewijziging[$db->f("type_id")]=true;
@@ -1693,11 +1715,11 @@ if(is_array($lastminute)) {
 			while(list($key3,$value3)=each($value2)) {
 				unset($aanbiedinginfo);
 				# $key3 = winter of zomer
-			
+
 				unset($percentage,$before,$aanbieding_xmlcode);
-				
+
 				$aanbieding_xmlcode=$key."_".$key3."_".$key2;
-				
+
 				if(ereg("^([0-9]+)_([0-9]+)$",$key2,$regs)) {
 					$percentage=$regs[1];
 					$before=$regs[2];
@@ -1706,7 +1728,7 @@ if(is_array($lastminute)) {
 				$aanbiedinginfo["onlinenaam"]="Last minute korting van ".$percentage."%";
 				$aanbiedinginfo["omschrijving"]="Voor reserveringen (van tenminste 7 nachten) die binnen ".$before." dagen voor aankomst gemaakt worden geldt een last minute korting van ".$percentage."%.";
 				$aanbiedinginfo["volgorde2_abpagina"]=$before;
-				
+
 				unset($aanbiedingid);
 				$db->query("SELECT aanbieding_id FROM aanbieding WHERE xml=1 AND xmlcode='".$aanbieding_xmlcode."';");
 				if($db->next_record()) {
@@ -1721,13 +1743,13 @@ if(is_array($lastminute)) {
 				if($aanbiedingid) {
 					$db->query("UPDATE aanbieding_aankomstdatum SET delete_after_xmlimport=1 WHERE aanbieding_id='".$aanbiedingid."';");
 					$db->query("UPDATE aanbieding_type SET delete_after_xmlimport=1 WHERE aanbieding_id='".$aanbiedingid."';");
-	
+
 					# Accommodaties opslaan
 					while(list($key4,$value4)=each($value3)) {
 						$db->query("INSERT INTO aanbieding_type SET aanbieding_id='".$aanbiedingid."', type_id='".$key4."', delete_after_xmlimport=0;");
 	#					echo $db->lastquery."<br>";
 					}
-					
+
 					# Aankomstdata opslaan
 					reset($seizoenen[$key3]);
 					while(list($key4,$value4)=each($seizoenen[$key3])) {
@@ -1800,7 +1822,7 @@ if($mailtxt or $tarievenbijgewerkt) {
 		}
 		$sendmailtxt1.=$value;
 	}
-	
+
 	# Tekst gewijzigde tarieven
 	while(list($key,$value)=@each($tarievenbijgewerkt)) {
 		while(list($key2,$value2)=each($value)) {
@@ -1831,7 +1853,7 @@ if($mailtxt or $tarievenbijgewerkt) {
 	}
 
 	if($sendmailtxt1 or $sendmailtxt2) {
-		
+
 		$mail=new wt_mail;
 		$mail->fromname="Chalet.nl XML-systeem";
 		$mail->from="system@chalet.nl";
@@ -1857,7 +1879,7 @@ if($mailtxt or $tarievenbijgewerkt) {
 
 		# Ook naar WT mailen
 		$mail->bcc="systeembeheer@webtastic.nl";
-	
+
 		$mail->send();
 
 		echo "\n\n---------------------------------\n\nXML-import - naar info@chalet.nl gemaild:\n\n".$mail->html;
@@ -1867,7 +1889,7 @@ if($mailtxt or $tarievenbijgewerkt) {
 if(!$testsysteem) {
 	# Temp-gegevens wissen
 	$db->query("DELETE FROM xml_import_flex_temp;");
-	
+
 	while(list($key,$value)=@each($temp_filename)) {
 		unlink($value);
 	}
@@ -1883,7 +1905,7 @@ function wt_dump_with_unixtime($array,$html=true) {
 	} else {
 		echo "Geen array: ".$array;
 	}
-	
+
 	$return=ob_get_contents();
 	ob_end_clean();
 	if($return) {
