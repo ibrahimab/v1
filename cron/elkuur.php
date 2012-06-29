@@ -397,7 +397,7 @@ if(date("H")==3) {
 }
 
 #
-# Cache Tradetracker en Cleafs
+# Cache Tradetracker
 #
 #
 # handmatig starten: /usr/local/bin/php --php-ini /home/sites/chalet.nl/php_cli.ini /home/sites/chalet.nl/html/cron/elkuur.php xmlopnieuw
@@ -412,10 +412,7 @@ if(date("H")==4 or date("H")==18 or $argv[1]=="xmlopnieuw") {
 		"tradetracker_I"=>"http://www.italissima.nl/xml/tradetracker.php?nocache=1",
 		"tradetracker_aanbiedingen_C"=>"http://www.chalet.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_Z"=>"http://www.zomerhuisje.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
-		"tradetracker_aanbiedingen_I"=>"http://www.italissima.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
-		"cleafs_C"=>"http://www.chalet.nl/xml/cleafs.php?nocache=1",
-		"cleafs_Z"=>"http://www.zomerhuisje.nl/xml/cleafs.php?nocache=1",
-		"cleafs_I"=>"http://www.italissima.nl/xml/cleafs.php?nocache=1"
+		"tradetracker_aanbiedingen_I"=>"http://www.italissima.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1"
 	);
 	while(list($key,$value)=each($doorloop_array)) {
 		if($argv[1]=="xmlopnieuw") {
