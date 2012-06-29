@@ -477,7 +477,7 @@ if($form->okay) {
 				}
 		
 				$pdf->SetY(6+$y);
-				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
+				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
 					# Zomerhuisje - positie "VOUCHER" helemaal links
 					$pdf->SetX(10);
 					$pdf->SetFont('Arial','',20);
@@ -639,8 +639,8 @@ if($form->okay) {
 				}
 				$pdf->Ln(7.3);
 
-				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
-					# Zomerhuisje - anders centreren
+				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
+					# Zomerhuisje/Italissima - anders centreren
 					$pdf->Cell(35,4,"",0,0,'L',0);
 #					$pdf->Cell(5,4,"",0,0,'L',0);
 					$pdf->Ln(0);
@@ -655,12 +655,19 @@ if($form->okay) {
 				$pdf->Ln(5);
 	
 				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
-					# Zomerhuisje - onderaan andere URL's tonen
+					# Zomerhuisje - onderaan andere URL tonen
 					$pdf->Cell(35,4,"",0,0,'L',0);
 #					$pdf->Cell(0,4,"",0,0,'L',0);
 					$pdf->Ln(0);
 					$pdf->SetFont('Arial','B',10);
 					$pdf->Cell(0,4,"www.zomerhuisje.nl",0,0,'C',0);
+				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
+					# Italissima - onderaan andere URL tonen
+					$pdf->Cell(35,4,"",0,0,'L',0);
+#					$pdf->Cell(0,4,"",0,0,'L',0);
+					$pdf->Ln(0);
+					$pdf->SetFont('Arial','B',10);
+					$pdf->Cell(0,4,"www.italissima.nl",0,0,'C',0);
 				} else {				
 					$pdf->Cell(35,4,"",0,0,'L',0);
 					$pdf->Cell(5,4,"",0,0,'L',0);
@@ -672,6 +679,11 @@ if($form->okay) {
 					$pdf->SetFont('Arial','B',6);
 					$pdf->Ln(4);
 					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@zomerhuisje.nl",0,0,'C',0);
+				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
+					# Italissima-mailadres
+					$pdf->SetFont('Arial','B',6);
+					$pdf->Ln(4);
+					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@italissima.nl",0,0,'C',0);
 				} else {
 					$pdf->SetFont('Arial','B',7);
 					$pdf->Ln(4);

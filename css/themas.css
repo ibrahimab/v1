@@ -1,42 +1,170 @@
-.themas_keuze {
-	border:1px solid;
+
+h:170px; height:17px;\">";
+	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
+	            echo "</div>";
+	            echo "</div>";
+				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170px\" height=\"128\" border=\"0\"></a><br />";
+				echo "</div>";
+			}
+			if($teller%4==0) {
+				echo "<br class=\"clearboth\">";    	
+			}
+			$teller++;
+		}
+	}
+} else {
+	#
+	# Originele themas-pagina (zoals 'ie nu nog online staat)
+	#
+	echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
+	echo "<br>&nbsp;<br>";
+	
+	$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 ORDER BY ".($vars["seizoentype"]==2 ? "positiehoofdpagina, " : "")."naam".$vars["ttv"].";");
+	if($db->num_rows()) {
+		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" w
+	border: 1px solid #ffffff;
 	text-align:center;
 	margin-right:10px;
 	margin-bottom:10px;
 	float:left;
-	color:white;
+h:170px; height:17px;\">";
+	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
+	            echo "</div>";
+	            echo "</div>";
+				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170px\" height=\"128\" border=\"0\"></a><br />";
+				echo "</div>";
+			}
+			if($teller%4==0) {
+				echo "<br class=\"clearboth\">";    	
+			}
+			$teller++;
+		}
+	}
+} else {
+	#
+	# Originele themas-pagina (zoals 'ie nu nog online staat)
+	#
+	echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
+	echo "<br>&nbsp;<br>";
+	
+	$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 ORDER BY ".($vars["seizoentype"]==2 ? "positiehoofdpagina, " : "")."naam".$vars["ttv"].";");
+	if($db->num_rows()) {
+		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" w
+h:170px; height:17px;\">";
+	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
+	            echo "</div>";
+	            echo "</div>";
+				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170px\" height=\"128\" border=\"0\"></a><br />";
+				echo "</div>";
+			}
+			if($teller%4==0) {
+				echo "<br class=\"clearboth\">";    	
+			}
+			$teller++;
+		}
+	}
+} else {
+	#
+	# Originele themas-pagina (zoals 'ie nu nog online staat)
+	#
+	echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
+	echo "<br>&nbsp;<br>";
+	
+	$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 ORDER BY ".($vars["seizoentype"]==2 ? "positiehoofdpagina, " : "")."naam".$vars["ttv"].";");
+	if($db->num_rows()) {
+		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" w
+h:170px; height:17px;\">";
+	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
+	            echo "</div>";
+	            echo "</div>";
+				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170px\" height=\"128\" border=\"0\"></a><br />";
+				echo "</div>";
+			}
+			if($teller%4==0) {
+				echo "<br class=\"clearboth\">";    	
+			}
+			$teller++;
+		}
+	}
+} else {
+	#
+	# Originele themas-pagina (zoals 'ie nu nog online staat)
+	#
+	echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
+	echo "<br>&nbsp;<br>";
+	
+	$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 ORDER BY ".($vars["seizoentype"]==2 ? "positiehoofdpagina, " : "")."naam".$vars["ttv"].";");
+	if($db->num_rows()) {
+		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" w
+h:170px; height:17px;\">";
+	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
+	            echo "</div>";
+	            echo "</div>";
+				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170px\" height=\"128\" border=\"0\"></a><br />";
+				echo "</div>";
+			}
+			if($teller%4==0) {
+				echo "<br class=\"clearboth\">";    	
+			}
+			$teller++;
+		}
+	}
+} else {
+	#
+	# Originele themas-pagina (zoals 'ie nu nog online staat)
+	#
+	echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
+	echo "<br>&nbsp;<br>";
+	
+	$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 ORDER BY ".($vars["seizoentype"]==2 ? "positiehoofdpagina, " : "")."naam".$vars["ttv"].";");
+	if($db->num_rows()) {
+		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" w
+h:170px; height:17px;\">";
+	            echo "<a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("naam"))."</a><br /><br />";
+	            echo "</div>";
+	            echo "</div>";
+				echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170px\" height=\"128\" border=\"0\"></a><br />";
+				echo "</div>";
+			}
+			if($teller%4==0) {
+				echo "<br class=\"clearboth\">";    	
+			}
+			$teller++;
+		}
+	}
+} else {
+	#
+	# Originele themas-pagina (zoals 'ie nu nog online staat)
+	#
+	echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
+	echo "<br>&nbsp;<br>";
+	
+	$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, url".$vars["ttv"]." AS url, externeurl".$vars["ttv"]." AS externeurl FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND actief=1 ORDER BY ".($vars["seizoentype"]==2 ? "positiehoofdpagina, " : "")."naam".$vars["ttv"].";");
+	if($db->num_rows()) {
+		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" w
+	text-decoration: none;
 }
 
-.themas_keuze_top {
-	background-color:#CBD328;
-	height:30px;
-	width:170px;
-	vertical-align:middle;
-	display:table-cell;
-	font-weight:bold;
-	font-size: 1.1em;
+.themas_blok img {
+	border: 0px;
 }
 
-.themas_keuze_top a{
-	color:#ffffff;
-	text-decoration:none;
+.themas_blok_top {
+	background-color: #d5e1f9;
+	height: 38px;
+	width: 164px;
+	padding-left: 3px;
+	padding-right: 3px;
+	vertical-align: middle;
+	display: table-cell;
+	font-size: 1.0em;
+	font-weight: normal;
 }
 
-.themas_keuze_top a:hover{
-	color:#639;
-	text-decoration:none;
-}
-
-.thumbnail {
-	float: left;
-	width: 189px;
-	margin: 0 15px 15px 0;
-}
-
-.thumbnail img {
-	width:189px;
-	height:142px;
-	border:0px; 
+.themas_blok:hover {
+	border: 1px solid #d40139;
+	color: #d40139;
+	cursor: pointer;
 }
 
 .clearboth { 
