@@ -1,0 +1,38 @@
+
+.themas_blok {
+	display: block;
+	border: 1px solid #ffffff;
+	width: 170px;
+	text-align: center;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	float: left;
+	color: #003366;
+	text-decoration: none;
+}
+
+.themas_blok img {
+	border: 0px;
+}
+
+.themas_blok_top {
+	background-color: #d5e1f9;
+	height: 38px;
+	width: 164px;
+	padding-left: 3px;
+	padding-right: 3px;
+	vertical-align: middle;
+	display: table-cell;
+	font-size: 1.0em;
+	font-weight: normal;
+}
+
+.themas_blok:hover {
+	border: 1px solid #d40139;
+	color: #d40139;
+	cursor: pointer;
+}
+
+.clearboth { 
+	clear: both; 
+}

@@ -1,0 +1,49 @@
+.themas_keuze {
+	border: 1px solid 
+	white;
+	width: 170px;
+	text-align: center;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	float: left;
+	color: 
+	white;
+}
+
+.themas_keuze_top {
+	background-color: 
+	#CBD328;
+	height: 30px;
+	width: 170px;
+	vertical-align: middle;
+	display: table-cell;
+	font-size: 1.1em;
+	font-weight: bold;
+	padding-top:10px;
+}
+
+.themas_keuze_top a{
+	color:#ffffff;
+	text-decoration:none;
+}
+
+.themas_keuze_top a:hover{
+	color:#639;
+	text-decoration:none;
+}
+
+.thumbnail {
+	float: left;
+	width: 189px;
+	margin: 0 15px 15px 0;
+}
+
+.thumbnail img {
+	width:189px;
+	height:142px;
+	border:0px; 
+}
+
+.clearboth { 
+	clear: both; 
+}
