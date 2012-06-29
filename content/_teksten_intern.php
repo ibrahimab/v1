@@ -487,6 +487,9 @@ $txta["en"]["title_huiseigenaren"]="Chalet owners";
 $txta["nl"]["title_blog"]="Blog Italissima";
 $txta["en"]["title_blog"]="-";
 
+$txta["nl"]["title_privacy-statement"]="Privacy-statement";
+$txta["en"]["title_privacy-statement"]="";
+
 
 # Pop-up-titels
 $txta["nl"]["popuptitle_soort"]="Uitleg soort accommodaties";
