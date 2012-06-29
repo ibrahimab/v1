@@ -10,19 +10,17 @@
 
 .themas_keuze_top {
 	background-color: #d5e1f9;
-	height: 55px;
-	width: 170px;
+	height:55px;
+	width:170px;
 	vertical-align: middle;
-	display: table-cell;
-	font-size: 1.1em;
-	font-weight: bold;
-	padding:5px;
+	display:table-cell;
+	font-size:1.1em;
+	padding-bottom:10px;
 }
 
 .themas_keuze_top a{
 	color:#002682;
 	text-decoration:none;
-	font-size:12px;
 }
 
 .themas_keuze_top a:hover{

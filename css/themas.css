@@ -1,25 +1,20 @@
 .themas_keuze {
-	border: 1px solid 
-	white;
-	width: 170px;
-	text-align: center;
-	margin-right: 10px;
-	margin-bottom: 10px;
-	float: left;
-	color: 
-	white;
+	border:1px solid;
+	text-align:center;
+	margin-right:10px;
+	margin-bottom:10px;
+	float:left;
+	color:white;
 }
 
 .themas_keuze_top {
-	background-color: 
-	#CBD328;
-	height: 30px;
-	width: 170px;
-	vertical-align: middle;
-	display: table-cell;
+	background-color:#CBD328;
+	height:30px;
+	width:170px;
+	vertical-align:middle;
+	display:table-cell;
+	font-weight:bold;
 	font-size: 1.1em;
-	font-weight: bold;
-	padding-top:10px;
 }
 
 .themas_keuze_top a{
