@@ -3,6 +3,8 @@
 #echo "Vallandry";
 #exit;
 
+
+
 echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
   \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
 echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
@@ -214,10 +216,9 @@ if(!$include) {
 
 if($vars["verberg_linkerkolom"]) {
 	echo "<div id=\"contentvolledig\">";
-
+	
 	# Content includen
 	include($include);
-
 	echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 
 #	if(!$vars["wederverkoop"]) {
@@ -227,7 +228,7 @@ if($vars["verberg_linkerkolom"]) {
 	echo "</div>\n";
 } else {
 	echo "<div id=\"bloklinks\">";
-
+	
 	if($vars["verberg_zoekenboeklinks"]) {
 		echo "&nbsp;";	
 	} else {
@@ -338,6 +339,7 @@ if($vars["verberg_linkerkolom"]) {
 }
 
 echo "<div id=\"colofon\" class=\"noprint\">".html("chaletsinvallandry")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".ereg_replace("invallandry","<i>in</i>vallandry",htmlentities($vars["email"]))."</a>&nbsp;&nbsp;-&nbsp;&nbsp;".html("telefoonnummer")."</div>\n";
+echo "<div id=\"submenu\" class=\"noprint\" style=\"text-align:center;\"> <a href=\"".htmlentities($vars["websiteinfo"]["privacystatement"][$vars["website"]])."\">Privacy statement</a> - <a href=\"".htmlentities($vars["websiteinfo"]["disclaimer"][$vars["website"]])."\">Disclaimer</a></div>";
 
 echo "</div>\n"; # "content" afsluiten
 

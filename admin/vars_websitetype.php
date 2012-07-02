@@ -426,6 +426,8 @@ if($vars["lokale_testserver"]) {
 #	
 $vars["websiteinfo"]["websitenaam"]["W"]="Wintersportaccommodaties.nl";
 $vars["websiteinfo"]["langewebsitenaam"]["W"]="Chalet.nl B.V. / Wintersportaccommodaties.nl";
+$vars["websiteinfo"]["privacystatement"]["W"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["W"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["email"]["W"]="info@wintersportaccommodaties.nl";
 $vars["websiteinfo"]["basehref"]["W"]="http://www.wintersportaccommodaties.nl/";
 $vars["websiteinfo"]["websitetype"]["W"]=2;
@@ -434,6 +436,8 @@ $vars["websiteinfo"]["websiteland"]["W"]="nl";
 $vars["websiteinfo"]["taal"]["W"]="nl";
 
 $vars["websiteinfo"]["websitenaam"]["E"]="Chalet.eu";
+$vars["websiteinfo"]["privacystatement"]["E"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["E"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["E"]="Chalet.nl B.V. / Chalet.eu";
 $vars["websiteinfo"]["email"]["E"]="info@chalet.eu";
 $vars["websiteinfo"]["basehref"]["E"]="http://www.chalet.eu/";
@@ -444,6 +448,8 @@ $vars["websiteinfo"]["websiteland"]["E"]="en";
 $vars["websiteinfo"]["taal"]["E"]="en";
 
 $vars["websiteinfo"]["websitenaam"]["Z"]="Zomerhuisje.nl";
+$vars["websiteinfo"]["privacystatement"]["Z"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["Z"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["Z"]="Chalet.nl B.V. / Zomerhuisje.nl";
 $vars["websiteinfo"]["email"]["Z"]="info@zomerhuisje.nl";
 $vars["websiteinfo"]["basehref"]["Z"]="http://www.zomerhuisje.nl/";
@@ -454,6 +460,8 @@ $vars["websiteinfo"]["websiteland"]["Z"]="nl";
 $vars["websiteinfo"]["taal"]["Z"]="nl";
 
 $vars["websiteinfo"]["websitenaam"]["S"]="Chalet.eu";
+$vars["websiteinfo"]["privacystatement"]["S"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["S"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["S"]="Chalet.nl B.V. / Chalet.eu";
 $vars["websiteinfo"]["email"]["S"]="info@chalet.eu";
 $vars["websiteinfo"]["basehref"]["S"]="http://www.chalet.eu/summer/";
@@ -463,6 +471,8 @@ $vars["websiteinfo"]["websiteland"]["S"]="en";
 $vars["websiteinfo"]["taal"]["S"]="en";
 
 $vars["websiteinfo"]["websitenaam"]["T"]="Chalettour.nl";
+$vars["websiteinfo"]["privacystatement"]["T"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["T"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["T"]="Chalet.nl B.V. / Chalettour.nl";
 $vars["websiteinfo"]["email"]["T"]="info@chalettour.nl";
 $vars["websiteinfo"]["basehref"]["T"]="http://www.chalettour.nl/";
@@ -473,6 +483,8 @@ $vars["websiteinfo"]["websiteland"]["T"]="nl";
 $vars["websiteinfo"]["taal"]["T"]="nl";
 
 $vars["websiteinfo"]["websitenaam"]["O"]="Chalettour.nl";
+$vars["websiteinfo"]["privacystatement"]["O"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["O"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["O"]="Chalet.nl B.V. / Chalettour.nl";
 $vars["websiteinfo"]["email"]["O"]="info@chalettour.nl";
 $vars["websiteinfo"]["basehref"]["O"]="http://www.chalettour.nl/zomer/";
@@ -483,6 +495,8 @@ $vars["websiteinfo"]["websiteland"]["O"]="nl";
 $vars["websiteinfo"]["taal"]["O"]="nl";
 
 $vars["websiteinfo"]["websitenaam"]["B"]="Chalet.be";
+$vars["websiteinfo"]["privacystatement"]["B"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["B"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["B"]="Chalet.nl B.V. / Chalet.be";
 $vars["websiteinfo"]["email"]["B"]="info@chalet.be";
 $vars["websiteinfo"]["basehref"]["B"]="http://www.chalet.be/";
@@ -492,6 +506,8 @@ $vars["websiteinfo"]["websiteland"]["B"]="be";
 $vars["websiteinfo"]["taal"]["B"]="nl";
 
 $vars["websiteinfo"]["websitenaam"]["N"]="Zomerhuisje.eu";
+$vars["websiteinfo"]["privacystatement"]["N"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["N"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["N"]="Chalet.nl B.V. / Zomerhuisje.eu";
 $vars["websiteinfo"]["email"]["N"]="info@zomerhuisje.eu";
 $vars["websiteinfo"]["basehref"]["N"]="http://www.zomerhuisje.eu/";
@@ -501,6 +517,8 @@ $vars["websiteinfo"]["websiteland"]["N"]="be";
 $vars["websiteinfo"]["taal"]["N"]="nl";
 
 $vars["websiteinfo"]["websitenaam"]["V"]="Chalets in Vallandry";
+$vars["websiteinfo"]["privacystatement"]["V"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["V"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["V"]="Chalets in Vallandry";
 $vars["websiteinfo"]["email"]["V"]="info@chaletsinvallandry.nl";
 $vars["websiteinfo"]["basehref"]["V"]="http://www.chaletsinvallandry.nl/";
@@ -511,6 +529,8 @@ $vars["websiteinfo"]["websiteland"]["V"]="nl";
 $vars["websiteinfo"]["taal"]["V"]="nl";
 
 $vars["websiteinfo"]["websitenaam"]["Q"]="Chalets in Vallandry";
+$vars["websiteinfo"]["privacystatement"]["Q"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["Q"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["Q"]="Chalets in Vallandry";
 $vars["websiteinfo"]["email"]["Q"]="info@chaletsinvallandry.com";
 $vars["websiteinfo"]["basehref"]["Q"]="http://www.chaletsinvallandry.com/";
@@ -521,6 +541,8 @@ $vars["websiteinfo"]["websiteland"]["Q"]="en";
 $vars["websiteinfo"]["taal"]["Q"]="en";
 
 $vars["websiteinfo"]["websitenaam"]["I"]="Italissima";
+$vars["websiteinfo"]["privacystatement"]["I"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["I"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["I"]="Chalet.nl B.V. / Italissima";
 $vars["websiteinfo"]["email"]["I"]="info@italissima.nl";
 $vars["websiteinfo"]["basehref"]["I"]="http://www.italissima.nl/";
@@ -531,6 +553,8 @@ $vars["websiteinfo"]["websiteland"]["I"]="nl";
 $vars["websiteinfo"]["taal"]["I"]="nl";
 
 $vars["websiteinfo"]["websitenaam"]["C"]="Chalet.nl";
+$vars["websiteinfo"]["privacystatement"]["C"]="http://192.168.1.32/chalet/privacy-statement.php";
+$vars["websiteinfo"]["disclaimer"]["C"]="http://192.168.1.32/chalet/disclaimer.php";
 $vars["websiteinfo"]["langewebsitenaam"]["C"]="Chalet.nl B.V.";
 $vars["websiteinfo"]["email"]["C"]="info@chalet.nl";
 $vars["websiteinfo"]["basehref"]["C"]="http://www.chalet.nl/";
