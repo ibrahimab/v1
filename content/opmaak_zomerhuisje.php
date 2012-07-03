@@ -639,6 +639,7 @@ echo "<div id=\"colofon\" class=\"noprint\">".html("handelsnaam_zomerhuisje")."&
 if($id=="index") {
 #	echo "<div id=\"grizzly\">";
 #	echo "<a href=\"http://www.zomerhuisje.nl/vakantie/vakantievilla-zuid-frankrijk.php\">Vakantievilla Zuid Frankrijk</a> - <a href=\"http://www.zomerhuisje.nl/vakantie/vakantiehuis-alpen.php\">Vakantiehuis Alpen</a> - <a href=\"http://www.zomerhuisje.nl/vakantie/index.php\">Vakantiehuis Toscane</a>";
+echo "<div id=\"submenu\" style=\"text-align:center;\"><a href=\"http://192.168.1.32/chalet/disclaimer.php\">Disclaimer</a> - <a href=\"http://192.168.1.32/chalet/privacy-statement.php\">Privacy statement</a></div>";
 #	echo "</div>";
 }
 

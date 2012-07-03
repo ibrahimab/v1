@@ -339,7 +339,7 @@ if($vars["verberg_linkerkolom"]) {
 }
 
 echo "<div id=\"colofon\" class=\"noprint\">".html("chaletsinvallandry")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".ereg_replace("invallandry","<i>in</i>vallandry",htmlentities($vars["email"]))."</a>&nbsp;&nbsp;-&nbsp;&nbsp;".html("telefoonnummer")."</div>\n";
-echo "<div id=\"submenu\" class=\"noprint\" style=\"text-align:center;\"> <a href=\"".htmlentities($vars["websiteinfo"]["privacystatement"][$vars["website"]])."\">Privacy statement</a> - <a href=\"".htmlentities($vars["websiteinfo"]["disclaimer"][$vars["website"]])."\">Disclaimer</a></div>";
+echo "<div id=\"submenu\" class=\"noprint\" style=\"text-align:center;\"> <a href=\"http://192.168.1.32/chalet/disclaimer.php\">Disclaimer</a> - <a href=\"http://192.168.1.32/chalet/privacy-statement.php\">Privacy statement</a></div>";
 
 echo "</div>\n"; # "content" afsluiten
 
