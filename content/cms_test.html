@@ -8,8 +8,34 @@ echo "<iframe src=\"http://player.vimeo.com/video/44377045\" width=\"500\" heigh
 //echo "<iframe src=\"http://player.vimeo.com/video/44377044\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href=\"http://vimeo.com/44377044\">Flocons de neige</a> from <a href=\"http://vimeo.com/user12198492\">Chalet.nl Vakantie woningen</a></p></iframe>";
 
 //echo "<iframe src=\"http://player.vimeo.com/video/44377045\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe> <p><a href=\"http://vimeo.com/44377045\">Teychenne</a> from <a href=\"http://vimeo.com/user12198492\">Chalet.nl Vakantie woningen</a></p></iframe>";
+#Twitter
 
 
+$username='ChaletNL';
+$format='xml';
+$tweet=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$username}.{$format}");
+$cursor=1;
+$size=0;
+for($i=-1;$i<35;$i++){
+      $trends_url = "http://api.twitter.com/1/statuses/followers/{$username}.json?cursor=".$i; 
+      $ch = curl_init();  
+      curl_setopt($ch, CURLOPT_URL, $trends_url); 
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+      $curlout = curl_exec($ch); 
+      curl_close($ch); 
+      $response = json_decode($curlout, true); 
+      foreach($response as $friends){ 
+          $size++; 
+       }
+ }
+echo "Followers: ".$size;
+
+
+echo "<br><br>Twitter berichten<BR><BR>". $tweet->status[0]->text;
+echo "<br>".$tweet->status[1]->text;
+
+echo "<div style=\"width:175px; height:300px; background-image:url(file:///C|/Users/MiguelMoukinou/Desktop/tweetBacktest.png); background-repeat:repeat-x;\>mijn Div</div>";
+#Eind
 #
 # XML-import downloaden bij Alpin Rentals Kaprun
 #
