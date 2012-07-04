@@ -137,7 +137,7 @@ echo googleanalytics();
 		?>
 		</div><?php } ?>
 	<div id="footer">Wintersportaccommodaties.nl - Lindenhof 5 - 3442 GT Woerden - <b><nobr>Telefoon 0348 - 43 46 49</nobr></b></div>
-	 <div id="footer" class=\"noprint\" style="text-align:center;"> <a href="http://192.168.1.32/chalet/disclaimer.php">Disclaimer</a> - <a href="http://192.168.1.32/chalet/privacy-statement.php">Privacy statement</a></div>
+	 <div id="footer" class=\"noprint\" style="text-align:center;"> <a href="<?php echo $vars["path"] ?>disclaimer.php">Disclaimer</a> - <a href="<?php echo $vars["path"]?>privacy-statement.php">Privacy statement</a></div>
 	</div>
 	<div id="printlogo">
 		<img src="<?php echo $path; ?>pic/logo_wintersportaccommodaties.gif" alt="Wintersportaccommodaties.nl" border="0" height="100" width="420">
