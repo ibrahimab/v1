@@ -564,6 +564,7 @@ $title["vroegboekkorting"]="Unieke aanbieding: 5% vroegboekkorting op je zomerva
 $title["montegufoni"]="Lezersaanbieding Smaak van Italië";
 $title["alpedhuzes"]="Alpe d'huZes";
 $title["privacy-statement"]=txt("title_privacy-statement");
+$title["disclaimer"]=txt("title_disclaimer","",array("v_websitenaam"=>$vars["websitenaam"]));
 
 $title["lev_login"]=txt("title_lev_login");
 

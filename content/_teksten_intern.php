@@ -488,7 +488,10 @@ $txta["nl"]["title_blog"]="Blog Italissima";
 $txta["en"]["title_blog"]="-";
 
 $txta["nl"]["title_privacy-statement"]="Privacy-statement";
-$txta["en"]["title_privacy-statement"]="";
+$txta["en"]["title_privacy-statement"]="Privacy statement";
+
+$txta["nl"]["title_disclaimer"]="Disclaimer voor [[v_websitenaam]]";
+$txta["en"]["title_disclaimer"]="Disclaimer for [[v_websitenaam]]";
 
 
 # Pop-up-titels
