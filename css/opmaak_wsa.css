@@ -78,6 +78,13 @@ font.actiefmenu {
 	padding-bottom: 5px;
 }
 
+#footer  a{
+	font-size: 0.8em;
+	text-align: center;
+	padding-bottom: 5px;
+	color:#000000;
+}
+
 a.submenu {
 	text-decoration: none;
 	color: #fff;

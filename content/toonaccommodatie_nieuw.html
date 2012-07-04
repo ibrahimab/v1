@@ -84,7 +84,7 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 #echo $seizoenen_inquery;
 #exit;
 
-$db->query("SELECT DISTINCT a.wzt, a.accommodatie_id, a.naam, a.altnaam_zichtbaar, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, a.kenmerken_gecontroleerd, a.url_leverancier AS aurl_leverancier, t.zomerwinterkoppeling_accommodatie_id, t.code, t.altnaam_zichtbaar AS taltnaam_zichtbaar, t.naam".$vars["ttv"]." AS tnaam, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.url_leverancier AS turl_leverancier, t.verzameltype, a.soortaccommodatie, a.omschrijving".$vars["ttv"]." AS omschrijving, t.omschrijving".$vars["ttv"]." AS tomschrijving, a.kwaliteit AS akwaliteit, a.kenmerken AS kenmerken_accommodatie, t.type_id, t.kwaliteit, t.optimaalaantalpersonen, a.toonper, a.aantekeningen, t.aantekeningen AS taantekeningen, t.kenmerken AS kenmerken_type, t.maxaantalpersonen, t.oppervlakte, t.oppervlakteextra".$vars["ttv"]." AS oppervlakteextra, t.slaapkamers, t.slaapkamersextra".$vars["ttv"]." AS slaapkamersextra, t.badkamers, t.badkamersextra".$vars["ttv"]." AS badkamersextra, a.indeling".$vars["ttv"]." AS indeling, t.indeling".$vars["ttv"]." AS tindeling, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, p.afstandtotutrecht, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra, a.inclusief".$vars["ttv"]." AS inclusief, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, t.inclusief".$vars["ttv"]." AS tinclusief, a.exclusief".$vars["ttv"]." AS exclusief, a.extraopties".$vars["ttv"]." AS extraopties, t.exclusief".$vars["ttv"]." AS texclusief, t.url_virtuele_rondgang, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats, p.omschrijving".$vars["ttv"]." AS plaatsomschrijving, p.plaats_id, p.kenmerken AS kenmerken_plaats, s.naam AS skigebied, s.omschrijving".$vars["ttv"]." AS skigebiedomschrijving, s.kenmerken AS kenmerken_skigebied, lev.leverancier_id, lev.naam AS leverancier, lev.opmerkingen_intern AS lopmerkingen_intern, lev.url AS url_leverancier FROM accommodatie a, plaats p, skigebied s, land l, type t, leverancier lev WHERE a.accommodatie_id=t.accommodatie_id AND p.land_id=l.land_id AND t.type_id='".addslashes($typeid)."' AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.leverancier_id=lev.leverancier_id AND t.tonen=1;");
+$db->query("SELECT DISTINCT a.wzt, a.accommodatie_id, a.naam, a.altnaam_zichtbaar,a.video, a.videoEmbedCode, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, a.kenmerken_gecontroleerd, a.url_leverancier AS aurl_leverancier, t.zomerwinterkoppeling_accommodatie_id, t.code, t.altnaam_zichtbaar AS taltnaam_zichtbaar, t.naam".$vars["ttv"]." AS tnaam, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.url_leverancier AS turl_leverancier, t.verzameltype, a.soortaccommodatie, a.omschrijving".$vars["ttv"]." AS omschrijving, t.omschrijving".$vars["ttv"]." AS tomschrijving, a.kwaliteit AS akwaliteit, a.kenmerken AS kenmerken_accommodatie, t.type_id, t.kwaliteit, t.optimaalaantalpersonen, a.toonper, a.aantekeningen, t.aantekeningen AS taantekeningen, t.kenmerken AS kenmerken_type, t.maxaantalpersonen, t.oppervlakte, t.oppervlakteextra".$vars["ttv"]." AS oppervlakteextra, t.slaapkamers, t.slaapkamersextra".$vars["ttv"]." AS slaapkamersextra, t.badkamers, t.badkamersextra".$vars["ttv"]." AS badkamersextra, a.indeling".$vars["ttv"]." AS indeling, t.indeling".$vars["ttv"]." AS tindeling, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, p.afstandtotutrecht, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra, a.inclusief".$vars["ttv"]." AS inclusief, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, t.inclusief".$vars["ttv"]." AS tinclusief, a.exclusief".$vars["ttv"]." AS exclusief, a.extraopties".$vars["ttv"]." AS extraopties, t.exclusief".$vars["ttv"]." AS texclusief, t.url_virtuele_rondgang, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats, p.omschrijving".$vars["ttv"]." AS plaatsomschrijving, p.plaats_id, p.kenmerken AS kenmerken_plaats, s.naam AS skigebied, s.omschrijving".$vars["ttv"]." AS skigebiedomschrijving, s.kenmerken AS kenmerken_skigebied, lev.leverancier_id, lev.naam AS leverancier, lev.opmerkingen_intern AS lopmerkingen_intern, lev.url AS url_leverancier FROM accommodatie a, plaats p, skigebied s, land l, type t, leverancier lev WHERE a.accommodatie_id=t.accommodatie_id AND p.land_id=l.land_id AND t.type_id='".addslashes($typeid)."' AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.leverancier_id=lev.leverancier_id AND t.tonen=1;");
 if($db->next_record()) {
 	$accid=$db->f("accommodatie_id");
 	
@@ -242,22 +242,41 @@ if($db->next_record()) {
 
 	#
 	# Tabs
-	#
+	#html("tab_fotos","toonaccommodatie")
 	echo "<div id=\"tabs\">";
 	echo "<ul class=\"noprint\">";
 	echo "<li><a href=\"#tabs_overzicht\">".html("tab_overzicht","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#tabs_indeling\">".html("tab_indeling","toonaccommodatie")."</a></li>";
 #	echo "<li><a href=\"#tabs_incl\">".html("tab_incl","toonaccommodatie")."</a></li>";
-	echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos","toonaccommodatie")."</a></li>";
+	if($db->f("video")=="1"){
+	echo "<li><a href=\"#tabs_fotos\">foto's & filmpjes</a></li>";
+    }
+    else{
+    echo "<li><a href=\"#tabs_fotos\">foto's</a></li>";
+    }
 	echo "<li><a href=\"#tabs_ligging\">".html("tab_ligging","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#tabs_opties\">".html("tab_opties","toonaccommodatie")."</a></li>";
 #	echo "<li".($aanbieding_actief ? " class=\"aanbiedingtab\"" : "")."><a href=\"#tabs_tarieven\">".html("tab_tarieven","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#tabs_tarieven\">".html("tab_tarieven","toonaccommodatie")."</a></li>";
 	echo "</ul>";
 	
+    echo "<script type=\"text/javascript\">function openpopupvideo() {
+ 
+windowhandle=window.open(\"\", \"newwin\", \"height=300, width=530\");
+windowhandle.document.write('<title>Chalet.nl - Media</title>');
+windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>'); 
+}</script>";
+    
 	# Tab "overzicht"
 	echo "<div id=\"tabs_overzicht\">";
-
+	if($db->f("video")=="1"){
+    	echo "<a onclick=\"openpopupvideo();\" href=\"#\" >";
+    	echo "<img src=\"http://192.168.1.32/chalet/pic/cms/accommodaties_aanvullend/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" />";
+        echo "</a>";
+        echo "<BR />";
+    	//echo $db->f("videoEmbedCode");
+        //echo "<iframe src=\"".$db->f("videoEmbedCode")."\" width=\"300\" height=\"200\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen 	allowFullScreen></iframe>";
+    }
 	# Interne gegevens tonen
 	if($voorkant_cms) {
 		unset($temp_intern);
@@ -472,7 +491,17 @@ if($db->next_record()) {
 	# Tab "foto's"
 	echo "<div id=\"tabs_fotos\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("fotos","vars")."</h3></div>";
-
+	if($db->f("video")=="1"){
+    	
+    	echo "<a onclick=\"openpopupvideo();\" href=\"#\" >";
+    	echo "<img src=\"http://192.168.1.32/chalet/pic/cms/accommodaties_aanvullend/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" />";
+        echo "</a>";
+        
+        echo "<BR />";
+    }
+    
+    
+    //
 	if($db->f("url_virtuele_rondgang")) {
 		echo "<div style=\"padding-bottom:5px;\">";
 		echo "<a href=\"".htmlentities($db->f("url_virtuele_rondgang"))."\" target=\"_blank\">";

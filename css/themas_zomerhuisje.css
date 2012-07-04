@@ -7,7 +7,7 @@
 	margin-right: 10px;
 	margin-bottom: 10px;
 	float: left;
-	color: #003366;
+	color:#ffffff;
 	text-decoration: none;
 }
 
@@ -16,20 +16,20 @@
 }
 
 .themas_blok_top {
-	background-color: #d5e1f9;
-	height: 38px;
-	width: 164px;
-	padding-left: 3px;
-	padding-right: 3px;
+	background-color: #cbd328;
+	height: 30px;
+	width: 166px;
+	padding-left: 2px;
+	padding-right: 2px;
 	vertical-align: middle;
 	display: table-cell;
-	font-size: 1.0em;
-	font-weight: normal;
+	font-size: 1.1em;
+	font-weight: bold;
 }
 
 .themas_blok:hover {
-	border: 1px solid #d40139;
-	color: #d40139;
+	border: 1px solid #5f227b;
+	color: #5f227b;
 	cursor: pointer;
 }
 

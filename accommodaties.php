@@ -8,6 +8,12 @@ if(ereg("/accommodaties\.php",$_SERVER["REQUEST_URI"])) {
 	exit;
 }
 
+if(ereg("/accommodations\.php",$_SERVER["REQUEST_URI"])) {
+	$goto=ereg_replace("/accommodations\.php","/search-and-book.php",$_SERVER["REQUEST_URI"]);
+	header("Location: ".$goto,true,301);
+	exit;
+}
+
 if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
 	$_GET["fzt"]="";
 }

@@ -636,11 +636,12 @@ if($vars["verberg_linkerkolom"]) {
 echo "<div id=\"colofon\" class=\"noprint\">".html("handelsnaam_zomerhuisje")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a>&nbsp;&nbsp;-&nbsp;&nbsp;tel:&nbsp;".html("telefoonnummer_alleen")."</div>\n";
 
 # Girzzly-links
-if($id=="index") {
+#if($id=="index") {
 #	echo "<div id=\"grizzly\">";
 #	echo "<a href=\"http://www.zomerhuisje.nl/vakantie/vakantievilla-zuid-frankrijk.php\">Vakantievilla Zuid Frankrijk</a> - <a href=\"http://www.zomerhuisje.nl/vakantie/vakantiehuis-alpen.php\">Vakantiehuis Alpen</a> - <a href=\"http://www.zomerhuisje.nl/vakantie/index.php\">Vakantiehuis Toscane</a>";
+echo "<div id=\"submenu\" style=\"text-align:center;\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 #	echo "</div>";
-}
+#}
 
 echo "</div>\n"; # "content" afsluiten
 

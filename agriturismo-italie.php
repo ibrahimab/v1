@@ -22,6 +22,7 @@ $html_ipv_blokaccommodatie.="<div style=\"margin-bottom:5px;\"><a href=\"".$vars
 $html_ipv_blokaccommodatie.="<div style=\"margin-bottom:5px;\"><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=5-122&fap=0&fas=0&fad=0&fdu=0&vf_kenm38=1\">".wt_he("Agriturismi in Umbrië")."</a></div>";
 $html_ipv_blokaccommodatie.="<div style=\"margin-bottom:5px;\"><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=5-142&fap=0&fas=0&fad=0&fdu=0&vf_kenm38=1\">".wt_he("Agriturismi in Merengebied / Lombardije")."</a></div>";
 $html_ipv_blokaccommodatie.="<div style=\"margin-bottom:5px;\"><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=5-125&fap=0&fas=0&fad=0&fdu=0&vf_kenm38=1\">".wt_he("Agriturismi in Lazio")."</a></div>";
+$html_ipv_blokaccommodatie.="<div style=\"margin-bottom:5px;\"><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=5-130&fap=0&fas=0&fad=0&fdu=0&vf_kenm38=1\">".wt_he("Agriturismi in Ligurië")."</a></div>";
 $html_ipv_blokaccommodatie.="</div>";
 include "content/opmaak.php";
 
