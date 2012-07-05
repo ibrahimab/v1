@@ -1369,6 +1369,8 @@ $txt["en"]["contact"]["onderschrift_chalettour"]="-";
 $txt["nl"]["contact"]["contactformulier"]="Contactformulier";
 $txt["en"]["contact"]["contactformulier"]="Contact Form";
 
+$txt["nl"]["contact"]["linkniettoegestaan"]="een link invullen is niet toegestaan";
+$txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 
 
 #

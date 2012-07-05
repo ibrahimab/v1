@@ -58,6 +58,20 @@ if($vars["taal"]=="nl" and (!$vars["wederverkoop"] or $vars["website"]=="Z")) {
 }
 
 $form->check_input();
+
+if($form->filled) {
+	if(strpos(" ".$form->input["voornaam"],"http://")) $form->error("voornaam",txt("linkniettoegestaan","contact"));
+	if(strpos(" ".$form->input["tussenvoegsel"],"http://")) $form->error("tussenvoegsel",txt("linkniettoegestaan","contact"));
+	if(strpos(" ".$form->input["achternaam"],"http://")) $form->error("achternaam",txt("linkniettoegestaan","contact"));
+	if(strpos(" ".$form->input["adres"],"http://")) $form->error("adres",txt("linkniettoegestaan","contact"));
+	if(strpos(" ".$form->input["postcode"],"http://")) $form->error("postcode",txt("linkniettoegestaan","contact"));
+	if(strpos(" ".$form->input["woonplaats"],"http://")) $form->error("woonplaats",txt("linkniettoegestaan","contact"));
+	if(strpos(" ".$form->input["land"],"http://")) $form->error("land",txt("linkniettoegestaan","contact"));
+	if(strpos(" ".$form->input["telefoonnummer"],"http://")) $form->error("telefoonnummer",txt("linkniettoegestaan","contact"));
+	if(strpos(" ".$form->input["mobielwerk"],"http://")) $form->error("mobielwerk",txt("linkniettoegestaan","contact"));
+}
+
+
 if(eregi("^belgie$",$form->input["land"])) $form->input["land"]="België";
 
 if($form->okay) {

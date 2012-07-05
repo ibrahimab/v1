@@ -426,7 +426,7 @@ if($login_lev->logged_in) {
 			}
 		
 			# Voorraad
-			$db->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") ORDER BY a.wzt DESC, ta.week;");
+			$db->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") ORDER BY a.wzt DESC, ta.week;");
 			while($db->next_record()) {
 				unset($tempclass,$temptext);
 				if(!$db->f("beschikbaar") and $db->f("opmerking_bezeteigenaar")) {
@@ -438,6 +438,9 @@ if($login_lev->logged_in) {
 				} elseif(!$db->f("beschikbaar") and $db->f("opmerking_nietbeschikbaarverhuur")) {
 					$tempclass="voorraad_nietbeschikbaarvoorverhuur";
 					$temptext=txt("nietbeschikbaarvoorverhuur","lev_login").": ".$db->f("opmerking_nietbeschikbaarverhuur");
+				} elseif($db->f("voorraad_optie_klant")) {
+					$tempclass="staatinoptievoorklant";
+					$temptext=txt("staatinoptievoorklant","lev_login");
 				} elseif($db->f("voorraad_allotment")) {
 					$tempclass="voorraad_allotment";
 					$temptext=txt("directbeschikbaar","lev_login");
@@ -464,7 +467,7 @@ if($login_lev->logged_in) {
 								$text[$dag]=$temptext;
 							}
 						}
-					} elseif($tempclass=="boeking_eigenaar" or $tempclass=="boeking_viaderden" or $tempclass=="voorraad_nietbeschikbaarvoorverhuur") {
+					} elseif($tempclass=="boeking_eigenaar" or $tempclass=="boeking_viaderden" or $tempclass=="voorraad_nietbeschikbaarvoorverhuur" or $tempclass=="staatinoptievoorklant") {
 						$colorclass[$dag]=$tempclass;
 						$text[$dag]=$temptext;
 					}
