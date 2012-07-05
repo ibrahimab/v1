@@ -249,10 +249,10 @@ if($db->next_record()) {
 	echo "<li><a href=\"#tabs_indeling\">".html("tab_indeling","toonaccommodatie")."</a></li>";
 #	echo "<li><a href=\"#tabs_incl\">".html("tab_incl","toonaccommodatie")."</a></li>";
 	if($db->f("video")=="1"){
-	echo "<li><a href=\"#tabs_fotos\">foto's & filmpjes</a></li>";
+	echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos","toonaccommodatie_metvideo")."</a></li>";
     }
     else{
-    echo "<li><a href=\"#tabs_fotos\">foto's</a></li>";
+    echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos","toonaccommodatie_zondervideo")."</a></li>";
     }
 	echo "<li><a href=\"#tabs_ligging\">".html("tab_ligging","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#tabs_opties\">".html("tab_opties","toonaccommodatie")."</a></li>";
