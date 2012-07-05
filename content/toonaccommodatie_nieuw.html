@@ -271,11 +271,9 @@ windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=
 	echo "<div id=\"tabs_overzicht\">";
 	if($db->f("video")=="1"){
     	echo "<a onclick=\"openpopupvideo();\" href=\"#\" >";
-    	echo "<img src=\"http://192.168.1.32/chalet/pic/cms/accommodaties_aanvullend/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" />";
+    	echo "<img src=\"".$vars['path']."/pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" />";
         echo "</a>";
         echo "<BR />";
-    	//echo $db->f("videoEmbedCode");
-        //echo "<iframe src=\"".$db->f("videoEmbedCode")."\" width=\"300\" height=\"200\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen 	allowFullScreen></iframe>";
     }
 	# Interne gegevens tonen
 	if($voorkant_cms) {
@@ -494,7 +492,7 @@ windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=
 	if($db->f("video")=="1"){
     	
     	echo "<a onclick=\"openpopupvideo();\" href=\"#\" >";
-    	echo "<img src=\"http://192.168.1.32/chalet/pic/cms/accommodaties_aanvullend/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" />";
+    	echo "<img src=\"".$vars['path']."/pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" />";
         echo "</a>";
         
         echo "<BR />";
