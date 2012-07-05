@@ -60,6 +60,7 @@ if($vars["taal"]=="nl" and (!$vars["wederverkoop"] or $vars["website"]=="Z")) {
 $form->check_input();
 
 if($form->filled) {
+	# invoer filteren op spam
 	if(strpos(" ".$form->input["voornaam"],"http://")) $form->error("voornaam",txt("linkniettoegestaan","contact"));
 	if(strpos(" ".$form->input["tussenvoegsel"],"http://")) $form->error("tussenvoegsel",txt("linkniettoegestaan","contact"));
 	if(strpos(" ".$form->input["achternaam"],"http://")) $form->error("achternaam",txt("linkniettoegestaan","contact"));
@@ -69,6 +70,16 @@ if($form->filled) {
 	if(strpos(" ".$form->input["land"],"http://")) $form->error("land",txt("linkniettoegestaan","contact"));
 	if(strpos(" ".$form->input["telefoonnummer"],"http://")) $form->error("telefoonnummer",txt("linkniettoegestaan","contact"));
 	if(strpos(" ".$form->input["mobielwerk"],"http://")) $form->error("mobielwerk",txt("linkniettoegestaan","contact"));
+	
+	# opmerkingenveld filteren op <a href, [url=, [link=
+	$filter_array=array("<a href=","[url=","[link=");
+	while(list($key,$value)=each($filter_array)) {
+		$pos=strpos(" ".$form->input["opmerkingen"],$value);
+		if($pos) {
+			$form->error("opmerkingen",txt("linkniettoegestaan","contact"));
+			break;
+		}
+	}
 }
 
 
