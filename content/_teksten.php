@@ -1693,6 +1693,8 @@ $txt["en"]["toonaccommodatie"]["tab_incl"]="including/excluding";
 
 $txt["nl"]["toonaccommodatie"]["tab_fotos"]="foto's";
 $txt["en"]["toonaccommodatie"]["tab_fotos"]="photo's";
+$txt["nl"]["toonaccommodatie"]["tab_fotos_filmpjes"]="foto's & filmpjes";
+$txt["en"]["toonaccommodatie"]["tab_fotos_filmpjes"]="photo's & films";
 
 $txt["nl"]["toonaccommodatie"]["tab_ligging"]="ligging";
 $txt["en"]["toonaccommodatie"]["tab_ligging"]="location";
