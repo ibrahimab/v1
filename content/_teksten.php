@@ -4254,8 +4254,8 @@ $txt["en"]["lev_login"]["afspraken"]="Agreements";
 $txt["nl"]["lev_login"]["mijngegevens"]="Mijn gegevens";
 $txt["en"]["lev_login"]["mijngegevens"]="My data";
 
-$txt["nl"]["lev_login"]["boekingenviachalet"]="Boekingen via [[v_websitenaam]]";
-$txt["en"]["lev_login"]["boekingenviachalet"]="Bookings through [[v_websitenaam]]";
+$txt["nl"]["lev_login"]["boekingenviachalet"]="Boekingen + enquêtes via [[v_websitenaam]]";
+$txt["en"]["lev_login"]["boekingenviachalet"]="Bookings + surveys through [[v_websitenaam]]";
 
 $txt["nl"]["lev_login"]["boekingenviaderden"]="Boekingen via derden";
 $txt["en"]["lev_login"]["boekingenviaderden"]="Bookings through third parties";
