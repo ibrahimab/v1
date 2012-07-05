@@ -1,6 +1,6 @@
 <?php
 
-if($_COOKIE["levli"] and $_GET["roominglist"]) {
+if($_COOKIE["levli"] and ($_GET["roominglist"] or $_GET["vertreklijst"])) {
 	#
 	# Ingelogde leverancier/eigenaar
 	#
@@ -13,11 +13,16 @@ if($_COOKIE["levli"] and $_GET["roominglist"]) {
 }
 include("admin/vars.php");
 
-if($_COOKIE["levli"] and $_GET["roominglist"]) {
+if($_COOKIE["levli"] and ($_GET["roominglist"] or $_GET["vertreklijst"])) {
 	#
 	# Ingelogde leverancier/eigenaar
 	#
-	$_GET["t"]=1;
+	if($_GET["roominglist"]) {
+		$_GET["t"]=1;
+	}
+	if($_GET["vertreklijst"]) {
+		$_GET["t"]=4;
+	}
 	$_GET["lid"]=$login_lev->user_id;
 } else {
 	#
@@ -266,42 +271,92 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	}
 } elseif($_GET["t"]==4) {
 
-	cmslog_pagina_title("Overzichten - Vertreklijst");
+	if($_GET["vertreklijst"]) {
+		#
+		# Vertreklijst voor eigenaren (via eigenarenlogin)
+		#
 
-	$ms->filename="vertreklijst";
+# nog niet in gebruik
+exit;
+
+		cmslog_pagina_title("Overzichten - Vertreklijst");
 	
-	# Reisbureau-gegevens ophalen
-	$db->query("SELECT r.reisbureau_id, u.user_id AS reisbureau_user_id, r.naam, u.naam AS usernaam, u.email, r.reserveringskosten, r.adres, r.postcode, r.plaats, r.land, r.aanpassing_commissie FROM reisbureau r, reisbureau_user u, boeking b WHERE u.reisbureau_id=r.reisbureau_id AND b.reisbureau_user_id=u.user_id;");
-	while($db->next_record()) {
-		$vars["reisbureau_naam"][$db->f("reisbureau_user_id")]=$db->f("naam");
-	}
-	
-	
-	# Boekingen ophalen
-#	$db->query("SELECT SUBSTRING(b.boekingsnummer,11) AS boekingsnummer, b.reisbureau_user_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.telefoonnummer, bp.mobielwerk, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, b.opmerkingen_vertreklijst, b.aantalpersonen, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY SUBSTRING(b.boekingsnummer,11), p.naam, a.naam, t.naam;");
-	$db->query("SELECT SUBSTRING(b.boekingsnummer,2,6) AS boekingsnummer1, SUBSTRING(b.boekingsnummer,11) AS boekingsnummer2, SUBSTRING(b.boekingsnummer,2,8) AS boekingsnummer, b.reisbureau_user_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.telefoonnummer, bp.mobielwerk, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, b.opmerkingen_vertreklijst, b.aantalpersonen, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY SUBSTRING(b.boekingsnummer,11), SUBSTRING(b.boekingsnummer,2,8), p.naam, a.naam, t.naam;");
-	if($db->num_rows()) {
-		$ms->html.="<table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
-		$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Volgnr.</th><th>Res.<br>nr.</th><th>Hoofdboeker</th><th>Telefoon<br>hoofdboeker</th><th>Aankomst</th><th>Plaats</th><th>Accommodatie</th><th>Type</th><th>Cap.</th><th>Pers.</th><th>Leverancier</th><th>Res.<br>code</th></tr></thead>";
+		$ms->filename="vertreklijst";
+		
+		# Reisbureau-gegevens ophalen
+		$db->query("SELECT r.reisbureau_id, u.user_id AS reisbureau_user_id, r.naam, u.naam AS usernaam, u.email, r.reserveringskosten, r.adres, r.postcode, r.plaats, r.land, r.aanpassing_commissie FROM reisbureau r, reisbureau_user u, boeking b WHERE u.reisbureau_id=r.reisbureau_id AND b.reisbureau_user_id=u.user_id;");
 		while($db->next_record()) {
-			if($db->f("telefoonnummer") and $db->f("mobielwerk")) {
-				$telefoon=$db->f("telefoonnummer")."<br>".$db->f("mobielwerk");
-			} elseif($db->f("telefoonnummer")) {
-				$telefoon=$db->f("telefoonnummer");
-			} elseif($db->f("mobielwerk")) {
-				$telefoon=$db->f("mobielwerk");
-			} else {
-				$telefoon="&nbsp;";
-			}
-			$accnaam=$db->f("accommodatie")." ".($db->f("type") ? $db->f("type")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." p)";
-			if($db->f("accommodatie")<>$db->f("abestelnaam")) {
-				$accnaam_toevoeging=" <i>(".htmlentities($db->f("abestelnaam").($db->f("type") ? " ".$db->f("type") : "")).")</i>";
-			} else {
-				$accnaam_toevoeging="";
-			}
-			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".($db->f("boekingsnummer2") ? $db->f("boekingsnummer2") : $db->f("boekingsnummer"))."</td><td valign=\"top\">".($db->f("boekingsnummer2") ? $db->f("boekingsnummer1") : $db->f("boekingsnummer"))."</td><td valign=\"top\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))).($db->f("opmerkingen_vertreklijst") ? " (".htmlentities(trim($db->f("opmerkingen_vertreklijst"))).")" : "").($vars["reisbureau_naam"][$db->f("reisbureau_user_id")] ? htmlentities(" (via ".$vars["reisbureau_naam"][$db->f("reisbureau_user_id")].")") : "")."</td><td valign=\"top\">".$telefoon."</td><td valign=\"top\" nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\">".htmlentities($db->f("plaats"))."</td><td valign=\"top\">".htmlentities($accnaam).$accnaam_toevoeging."</td><td valign=\"top\">".($db->f("code") ? htmlentities($db->f("code")) : "&nbsp;")."</td><td valign=\"top\">".$db->f("maxaantalpersonen")."</td><td valign=\"top\">".$db->f("aantalpersonen")."</td><td valign=\"top\">".htmlentities($db->f("leverancier"))."</td><td valign=\"top\">".($db->f("leverancierscode") ? htmlentities($db->f("leverancierscode")) : "&nbsp;")."</td></tr>";
+			$vars["reisbureau_naam"][$db->f("reisbureau_user_id")]=$db->f("naam");
 		}
-		$ms->html.="</table>";
+		
+		
+		# Boekingen ophalen
+	#	$db->query("SELECT SUBSTRING(b.boekingsnummer,11) AS boekingsnummer, b.reisbureau_user_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.telefoonnummer, bp.mobielwerk, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, b.opmerkingen_vertreklijst, b.aantalpersonen, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY SUBSTRING(b.boekingsnummer,11), p.naam, a.naam, t.naam;");
+		$db->query("SELECT SUBSTRING(b.boekingsnummer,2,6) AS boekingsnummer1, SUBSTRING(b.boekingsnummer,11) AS boekingsnummer2, SUBSTRING(b.boekingsnummer,2,8) AS boekingsnummer, b.reisbureau_user_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.telefoonnummer, bp.mobielwerk, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, b.opmerkingen_vertreklijst, b.aantalpersonen, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY SUBSTRING(b.boekingsnummer,11), SUBSTRING(b.boekingsnummer,2,8), p.naam, a.naam, t.naam;");
+		if($db->num_rows()) {
+			$ms->html.="<table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
+			$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Volgnr.</th><th>Res.<br>nr.</th><th>Hoofdboeker</th><th>Telefoon<br>hoofdboeker</th><th>Aankomst</th><th>Plaats</th><th>Accommodatie</th><th>Type</th><th>Cap.</th><th>Pers.</th><th>Leverancier</th><th>Res.<br>code</th></tr></thead>";
+			while($db->next_record()) {
+				if($db->f("telefoonnummer") and $db->f("mobielwerk")) {
+					$telefoon=$db->f("telefoonnummer")."<br>".$db->f("mobielwerk");
+				} elseif($db->f("telefoonnummer")) {
+					$telefoon=$db->f("telefoonnummer");
+				} elseif($db->f("mobielwerk")) {
+					$telefoon=$db->f("mobielwerk");
+				} else {
+					$telefoon="&nbsp;";
+				}
+				$accnaam=$db->f("accommodatie")." ".($db->f("type") ? $db->f("type")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." p)";
+				if($db->f("accommodatie")<>$db->f("abestelnaam")) {
+					$accnaam_toevoeging=" <i>(".htmlentities($db->f("abestelnaam").($db->f("type") ? " ".$db->f("type") : "")).")</i>";
+				} else {
+					$accnaam_toevoeging="";
+				}
+				$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".($db->f("boekingsnummer2") ? $db->f("boekingsnummer2") : $db->f("boekingsnummer"))."</td><td valign=\"top\">".($db->f("boekingsnummer2") ? $db->f("boekingsnummer1") : $db->f("boekingsnummer"))."</td><td valign=\"top\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))).($db->f("opmerkingen_vertreklijst") ? " (".htmlentities(trim($db->f("opmerkingen_vertreklijst"))).")" : "").($vars["reisbureau_naam"][$db->f("reisbureau_user_id")] ? htmlentities(" (via ".$vars["reisbureau_naam"][$db->f("reisbureau_user_id")].")") : "")."</td><td valign=\"top\">".$telefoon."</td><td valign=\"top\" nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\">".htmlentities($db->f("plaats"))."</td><td valign=\"top\">".htmlentities($accnaam).$accnaam_toevoeging."</td><td valign=\"top\">".($db->f("code") ? htmlentities($db->f("code")) : "&nbsp;")."</td><td valign=\"top\">".$db->f("maxaantalpersonen")."</td><td valign=\"top\">".$db->f("aantalpersonen")."</td><td valign=\"top\">".htmlentities($db->f("leverancier"))."</td><td valign=\"top\">".($db->f("leverancierscode") ? htmlentities($db->f("leverancierscode")) : "&nbsp;")."</td></tr>";
+			}
+			$ms->html.="</table>";
+		}
+	} else {
+		#
+		# Interne vertreklijst
+		#
+		cmslog_pagina_title("Overzichten - Vertreklijst");
+	
+		$ms->filename="vertreklijst";
+		
+		# Reisbureau-gegevens ophalen
+		$db->query("SELECT r.reisbureau_id, u.user_id AS reisbureau_user_id, r.naam, u.naam AS usernaam, u.email, r.reserveringskosten, r.adres, r.postcode, r.plaats, r.land, r.aanpassing_commissie FROM reisbureau r, reisbureau_user u, boeking b WHERE u.reisbureau_id=r.reisbureau_id AND b.reisbureau_user_id=u.user_id;");
+		while($db->next_record()) {
+			$vars["reisbureau_naam"][$db->f("reisbureau_user_id")]=$db->f("naam");
+		}
+		
+		
+		# Boekingen ophalen
+	#	$db->query("SELECT SUBSTRING(b.boekingsnummer,11) AS boekingsnummer, b.reisbureau_user_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.telefoonnummer, bp.mobielwerk, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, b.opmerkingen_vertreklijst, b.aantalpersonen, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY SUBSTRING(b.boekingsnummer,11), p.naam, a.naam, t.naam;");
+		$db->query("SELECT SUBSTRING(b.boekingsnummer,2,6) AS boekingsnummer1, SUBSTRING(b.boekingsnummer,11) AS boekingsnummer2, SUBSTRING(b.boekingsnummer,2,8) AS boekingsnummer, b.reisbureau_user_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.telefoonnummer, bp.mobielwerk, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, b.opmerkingen_vertreklijst, b.aantalpersonen, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY SUBSTRING(b.boekingsnummer,11), SUBSTRING(b.boekingsnummer,2,8), p.naam, a.naam, t.naam;");
+		if($db->num_rows()) {
+			$ms->html.="<table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
+			$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Volgnr.</th><th>Res.<br>nr.</th><th>Hoofdboeker</th><th>Telefoon<br>hoofdboeker</th><th>Aankomst</th><th>Plaats</th><th>Accommodatie</th><th>Type</th><th>Cap.</th><th>Pers.</th><th>Leverancier</th><th>Res.<br>code</th></tr></thead>";
+			while($db->next_record()) {
+				if($db->f("telefoonnummer") and $db->f("mobielwerk")) {
+					$telefoon=$db->f("telefoonnummer")."<br>".$db->f("mobielwerk");
+				} elseif($db->f("telefoonnummer")) {
+					$telefoon=$db->f("telefoonnummer");
+				} elseif($db->f("mobielwerk")) {
+					$telefoon=$db->f("mobielwerk");
+				} else {
+					$telefoon="&nbsp;";
+				}
+				$accnaam=$db->f("accommodatie")." ".($db->f("type") ? $db->f("type")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." p)";
+				if($db->f("accommodatie")<>$db->f("abestelnaam")) {
+					$accnaam_toevoeging=" <i>(".htmlentities($db->f("abestelnaam").($db->f("type") ? " ".$db->f("type") : "")).")</i>";
+				} else {
+					$accnaam_toevoeging="";
+				}
+				$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".($db->f("boekingsnummer2") ? $db->f("boekingsnummer2") : $db->f("boekingsnummer"))."</td><td valign=\"top\">".($db->f("boekingsnummer2") ? $db->f("boekingsnummer1") : $db->f("boekingsnummer"))."</td><td valign=\"top\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))).($db->f("opmerkingen_vertreklijst") ? " (".htmlentities(trim($db->f("opmerkingen_vertreklijst"))).")" : "").($vars["reisbureau_naam"][$db->f("reisbureau_user_id")] ? htmlentities(" (via ".$vars["reisbureau_naam"][$db->f("reisbureau_user_id")].")") : "")."</td><td valign=\"top\">".$telefoon."</td><td valign=\"top\" nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\">".htmlentities($db->f("plaats"))."</td><td valign=\"top\">".htmlentities($accnaam).$accnaam_toevoeging."</td><td valign=\"top\">".($db->f("code") ? htmlentities($db->f("code")) : "&nbsp;")."</td><td valign=\"top\">".$db->f("maxaantalpersonen")."</td><td valign=\"top\">".$db->f("aantalpersonen")."</td><td valign=\"top\">".htmlentities($db->f("leverancier"))."</td><td valign=\"top\">".($db->f("leverancierscode") ? htmlentities($db->f("leverancierscode")) : "&nbsp;")."</td></tr>";
+			}
+			$ms->html.="</table>";
+		}
 	}
 } elseif($_GET["t"]==5 or $_GET["t"]==9) {
 	# CSV-opties

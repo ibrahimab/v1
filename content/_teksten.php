@@ -1369,6 +1369,8 @@ $txt["en"]["contact"]["onderschrift_chalettour"]="-";
 $txt["nl"]["contact"]["contactformulier"]="Contactformulier";
 $txt["en"]["contact"]["contactformulier"]="Contact Form";
 
+$txt["nl"]["contact"]["linkniettoegestaan"]="een link invullen is niet toegestaan";
+$txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 
 
 #
@@ -1691,6 +1693,8 @@ $txt["en"]["toonaccommodatie"]["tab_incl"]="including/excluding";
 
 $txt["nl"]["toonaccommodatie"]["tab_fotos"]="foto's";
 $txt["en"]["toonaccommodatie"]["tab_fotos"]="photo's";
+$txt["nl"]["toonaccommodatie"]["tab_fotos_filmpjes"]="foto's & filmpjes";
+$txt["en"]["toonaccommodatie"]["tab_fotos_filmpjes"]="photo's & films";
 
 $txt["nl"]["toonaccommodatie"]["tab_ligging"]="ligging";
 $txt["en"]["toonaccommodatie"]["tab_ligging"]="location";
@@ -4250,8 +4254,8 @@ $txt["en"]["lev_login"]["afspraken"]="Agreements";
 $txt["nl"]["lev_login"]["mijngegevens"]="Mijn gegevens";
 $txt["en"]["lev_login"]["mijngegevens"]="My data";
 
-$txt["nl"]["lev_login"]["boekingenviachalet"]="Boekingen via [[v_websitenaam]]";
-$txt["en"]["lev_login"]["boekingenviachalet"]="Bookings through [[v_websitenaam]]";
+$txt["nl"]["lev_login"]["boekingenviachalet"]="Boekingen + enquêtes via [[v_websitenaam]]";
+$txt["en"]["lev_login"]["boekingenviachalet"]="Bookings + surveys through [[v_websitenaam]]";
 
 $txt["nl"]["lev_login"]["boekingenviaderden"]="Boekingen via derden";
 $txt["en"]["lev_login"]["boekingenviaderden"]="Bookings through third parties";
