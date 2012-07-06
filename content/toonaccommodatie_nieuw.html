@@ -260,21 +260,11 @@ if($db->next_record()) {
 	echo "<li><a href=\"#tabs_tarieven\">".html("tab_tarieven","toonaccommodatie")."</a></li>";
 	echo "</ul>";
 	
-    echo "<script type=\"text/javascript\">function openpopupvideo() {
- 
-windowhandle=window.open(\"\", \"newwin\", \"height=300, width=530, menubar=no, status=no, toolbar=no, scrollbars=no, resizable=no\" );
-windowhandle.document.write('<title>".$vars["websitenaam"]." - Media</title>');
-windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>'); 
-}</script>";
+    echo "<script type=\"text/javascript\">sessionStorage.click=0;function openpopupvideo(){windowhandle=window.open(\"\", \"newwin\", \"height=300, width=530, menubar=no, status=no, toolbar=no, scrollbars=no, resizable=no\" );windowhandle.document.write('<title>".$vars["websitenaam"]." - Media</title>');if (sessionStorage.click<2){
+        	windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');windowhandle.focus();}var timer = setInterval(function() {if(windowhandle.closed){clearInterval(timer);sessionStorage.click=0;}}, 500);return false;}</script>";
     
 	# Tab "overzicht"
 	echo "<div id=\"tabs_overzicht\">";
-	if($db->f("video")=="1"){
-    	echo "<a onclick=\"openpopupvideo();\" href=\"#\" >";
-    	echo "<img src=\"".$vars['path']."/pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" border=\"0\" />";
-        echo "</a>";
-        echo "<BR />";
-    }
 	# Interne gegevens tonen
 	if($voorkant_cms) {
 		unset($temp_intern);
@@ -394,6 +384,12 @@ windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=
 	if(is_array($foto["pic"])) {
 		echo "<div id=\"toonaccommodatie_overzicht_fotos\" class=\"noprint\">";
 		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr>";
+        if($db->f("video")=="1"){
+            echo "<td><a onclick=\"sessionStorage.click++;return openpopupvideo();\" href=\"#\">";
+            echo "<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" border=\"0\"/>";
+            echo "</a></td>";
+            $fototeller++;
+        }
 		while(list($key,$value)=each($foto["pic"])) {
 			$fototeller++;
 			if($fototeller<=3) {
@@ -489,16 +485,7 @@ windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=
 	# Tab "foto's"
 	echo "<div id=\"tabs_fotos\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("fotos","vars")."</h3></div>";
-	if($db->f("video")=="1"){
-    	
-    	echo "<a onclick=\"openpopupvideo();\" href=\"#\" >";
-    	echo "<img src=\"".$vars['path']."/pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" border=\"0\" />";
-        echo "</a>";
-        
-        echo "<BR />";
-    }
-    
-    
+	
     //
 	if($db->f("url_virtuele_rondgang")) {
 		echo "<div style=\"padding-bottom:5px;\">";
@@ -509,14 +496,19 @@ windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=
 	}
 	
 #	imagetable(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
-	if(is_array($foto["pic"]) or is_array($foto["picbreed"])) {
+	$foto_table="";
+    if($db->f("video")=="1") {
+        $foto_table.="<tr>";
+        $foto_table.="<td align=\"center\"><a onclick=\"sessionStorage.click++; return openpopupvideo();\" href=\"#\">";
+        $foto_table.="<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" border=\"0\"/>";
+        $foto_table.="</a></td>";
+        $trcounter++;
+    }
+    if(is_array($foto["pic"]) or is_array($foto["picbreed"])) {
 		@reset($foto["pic"]);
 		@reset($foto["picbreed"]);
 		unset($counter);
-
-		$foto_table="";
-		if(is_array($foto["pic"])) {
-			$foto_table.="<tr>";
+        if(is_array($foto["pic"])){
 			while(list($key,$value)=@each($foto["pic"])) {
 				if($trcounter==3) {
 					$foto_table.="</tr><tr>";
