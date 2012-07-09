@@ -105,24 +105,67 @@ echo "</div>\n"; # afsluiten hoofdpagina_themas_blok
 
 
 if($vars["website"]=="C") {
-	# Nieuwsbrief
-	echo "<div id=\"hoofdpagina_nieuwsbrief\">";
-	echo "<div class=\"kop\">Nieuwsbrief</div>";
-	echo "<div>Schrijf je in voor onze nieuwsbrief en ontvang al onze aanbiedingen.</div>";
-	if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
-		$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
-	} else {
-		$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
-	}
-	echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
-	echo "<div style=\"margin-top:5px;\"><input type=\"text\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
-	echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
-	echo "</form>";
-	echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
-	
-	echo "<div style=\"clear:both;\"></div>";
-	
-	
+#Twitter
+#bij een aanrequest blokkeert twitter de aanvragem. de hieronder staande code zorgt ervoor dat er geen warnings op de homepage komen te staan.
+ini_set('display_errors', 'Off');
+ini_set('display_startup_errors', 'Off');
+error_reporting(0);
+$username='ChaletNL';
+$format='xml';
+$tweet=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$username}.{$format}");
+if($tweet->status[0]->text!=""){
+    $bericht="";
+    $berichtNext="";
+    $berichtNextNext="";
+    $bericht1=explode(" ",$tweet->status[0]->text);
+    $bericht2=explode(" ",$tweet->status[1]->text);
+    $bericht3=explode(" ",$tweet->status[2]->text);
+    for($a=0; $a<count($bericht1);$a++){
+      if(substr($bericht1[$a],0,4)=="http"){
+          $bericht.=htmlentities("<a href=");
+          $bericht.=htmlentities($bericht1[$a]);
+          $bericht.=htmlentities("> ");
+          $bericht.=htmlentities($bericht1[$a]);
+          $bericht.=htmlentities("</a>");
+      }
+      else{
+          $bericht.=" ".htmlentities($bericht1[$a]);
+      }
+    }
+    for($a=0; $a<count($bericht2);$a++){
+      if(substr($bericht2[$a],0,4)=="http"){
+          $berichtNext.=htmlentities("<a href=");
+          $berichtNext.=htmlentities($bericht2[$a]);
+          $berichtNext.=htmlentities("> ");
+          $berichtNext.=htmlentities($bericht2[$a]);
+          $berichtNext.=htmlentities("</a>");
+      }
+      else{
+          $berichtNext.=" ".htmlentities($bericht2[$a]);
+      }
+    }
+    for($a=0; $a<count($bericht3);$a++){
+      if(substr($bericht3[$a],0,4)=="http"){
+          $berichtNextNext.=htmlentities("<a href=");
+          $berichtNextNext.=htmlentities($bericht3[$a]);
+          $berichtNextNext.=htmlentities("> ");
+          $berichtNextNext.=htmlentities($bericht3[$a]);
+          $berichtNextNext.=htmlentities("</a>");
+      }
+      else{
+          $berichtNextNext.=" ".htmlentities($bericht3[$a]);
+      }
+    }
+    echo "<BR>";
+    echo"<table id=\"hoofdpagina_waaromchalet\" width=\"30\" cellspacing=\"2\" style=\"background-color:#d5e1f9; font-size:11px; padding:5px;\">
+    <tr><td class=\"kop\" style=\"font-size:15px;\" colspan=\"2\">".$vars['websitenaam']." op twitter</td></tr>
+    <tr><td><a href=\"https://twitter.com/intent/user?screen_name=ChaletNL\"><img src=\"http://www.chalet.nl/pic/logo_chalet.gif\" width=\"50\" height=\"50\"></a></td><td><a href=\"https://twitter.com/intent/user?screen_name=ChaletNL\">ChaletNL:</a></td></tr><tr><td></td><td></td></tr>
+    <tr><td valign=\"top\" colspan=\"2\">".htmlspecialchars_decode($bericht)."<hr></td></tr>
+    <tr><td valign=\"top\" colspan=\"2\">".htmlspecialchars_decode($berichtNext)."<hr></td></tr>
+    <tr><td valign=\"top\" colspan=\"2\">".htmlspecialchars_decode($berichtNextNext)."<hr></td>
+    </table>";
+}
+#	
 	echo "<div id=\"hoofdpagina_sociallinks\">";
 	echo "<div style=\"float:right;\">";
 	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";

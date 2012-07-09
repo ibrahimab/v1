@@ -86,21 +86,66 @@ echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("
 echo "</div>\n";
 echo "</div>\n";
 
-
-# Nieuwsbrief
-echo "<div id=\"hoofdpagina_nieuwsbrief\">";
-echo "<div class=\"kop\">Nieuwsbrief</div>";
-echo "<div>Schrijf je in voor onze nieuwsbrief en ontvang al onze aanbiedingen.</div>";
-if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
-	$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
-} else {
-	$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
+#Twitter
+#bij een aanrequest blokkeert twitter de aanvragem. de hieronder staande code zorgt ervoor dat er geen warnings op de homepage komen te staan.
+ini_set('display_errors', 'Off');
+ini_set('display_startup_errors', 'Off');
+error_reporting(0);
+$username='Zomerhuisje';
+$format='xml';
+$tweet=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$username}.{$format}");
+if($tweet->status[0]->text!=""){
+    $bericht="";
+    $berichtNext="";
+    $berichtNextNext="";
+    $bericht1=explode(" ",$tweet->status[0]->text);
+    $bericht2=explode(" ",$tweet->status[1]->text);
+    $bericht3=explode(" ",$tweet->status[2]->text);
+    for($a=0; $a<count($bericht1);$a++){
+      if(substr($bericht1[$a],0,4)=="http"){
+          $bericht.=htmlentities("<a style=\"text-decoration:none;\" href=");
+          $bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
+          $bericht.=htmlentities("> ");
+          $bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
+          $bericht.=htmlentities("</a>");
+      }
+      else{
+          $bericht.=" ".htmlentities($bericht1[$a]);
+      }
+    }
+    for($a=0; $a<count($bericht2);$a++){
+      if(substr($bericht2[$a],0,4)=="http"){
+          $berichtNext.=htmlentities("<a style=\"text-decoration:none;\" href=");
+          $berichtNext.=htmlentities($bericht2[$a]);
+          $berichtNext.=htmlentities("> ");
+          $berichtNext.=htmlentities($bericht2[$a]);
+          $berichtNext.=htmlentities("</a>");
+      }
+      else{
+          $berichtNext.=" ".htmlentities($bericht2[$a]);
+      }
+    }
+    for($a=0; $a<count($bericht3);$a++){
+      if(substr($bericht3[$a],0,4)=="http"){
+          $berichtNextNext.=htmlentities("<a style=\"text-decoration:none;\" href=");
+          $berichtNextNext.=htmlentities($bericht3[$a]);
+          $berichtNextNext.=htmlentities("> ");
+          $berichtNextNext.=htmlentities($bericht3[$a]);
+          $berichtNextNext.=htmlentities("</a>");
+      }
+      else{
+          $berichtNextNext.=" ".htmlentities($bericht3[$a]);
+      }
+    }
+    echo "<BR>";
+    echo"<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_nieuwsbrief\" cellspacing=\"2\" style=\"background-color:#cfbcd8; padding:5px;\">
+    <tr><td class=\"kop\" colspan=\"2\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=Zomerhuisje\">".$vars['websitenaam']." op twitter</a></td></tr>
+    <tr><td><a href=\"https://twitter.com/intent/user?screen_name=Zomerhuisje\"><img src=\"https://si0.twimg.com/profile_images/1388402637/ZOMERHUISJE_NL_vierkant.jpg\" width=\"50\" height=\"50\"></a></td><td><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=Zomerhuisje\">Zomerhuisje:</a></td></tr><tr><td></td><td></td></tr>
+    <tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".htmlspecialchars_decode($bericht)."<BR><hr></td></tr>
+    <tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".htmlspecialchars_decode($berichtNext)."<BR><hr></td></tr>
+    <tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".htmlspecialchars_decode($berichtNextNext)."<BR><BR></td>
+    </table></div>";
 }
-echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
-echo "<div style=\"margin-top:5px;\"><input type=\"text\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
-echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
-echo "</form>";
-echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
 
 echo "<div id=\"hoofdpagina_sociallinks\">";
 echo "<div style=\"float:right;\">";
@@ -111,7 +156,8 @@ echo "<a href=\"https://plus.google.com/113644542072220125279?prsrc=3\" title=\"
 echo "</div>\n";
 echo "<div style=\"float:right;\"></div>";
 echo "<div style=\"clear: both;\"></div>\n";
-echo "</div>\n"; # afsluiten hoofdpagina_sociallinks
+echo "</div>\n";
+ # afsluiten hoofdpagina_sociallinks
 
 echo '<!-- Google Code for Bezoekers homepage Remarketing List -->
 <script type="text/javascript">
