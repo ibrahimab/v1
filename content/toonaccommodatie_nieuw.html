@@ -1520,7 +1520,7 @@ if($db->next_record()) {
 		if(!in_array($typeid,$klantfavs)){
 			echo "<div style=\"padding:5px;\">";
 			echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
-			echo "<img src=\"".$vars["path"]."pic/icon_plus.png\">";
+			echo "<img border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";
 			echo " Plaats in mijn favorieten";
 			echo "</a>";
 			echo "</div>";
@@ -1528,7 +1528,7 @@ if($db->next_record()) {
 		else{
 			echo "<div style=\"padding:5px;\">";
 			echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','delete')\" href=\"#\">";
-			echo "<img width=\"13\" height=\"13\" src=";
+			echo "<img border=\"0\" width=\"13\" height=\"13\" src=";
 			echo $vars["path"];
 			echo "pic/icon_notokay.png>";
 			echo " Uit mijn favorieten halen";

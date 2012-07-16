@@ -280,7 +280,7 @@ foreach($klantfavs as $id){
 		} else {
 			$afbeelding="accommodaties/0";
 		}
-		echo"<table text-align=\"left\" border=\"0\" width=\"100%\" bgcolor=\"#d5e1f9\">";
+		echo"<table style=\"display:inline-table;background-color:#d5e1f9;\" text-align=\"left\" border=\"0\" width=\"100%\" bgcolor=\"#d5e1f9\">";
 		echo"<tr><td bgcolor=\"#003366\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".$db->f("naam")."</td></tr>";
 		echo"<tr><td rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".imageurl($afbeelding.".jpg",200,150)."\" width=\"200\" height=\"150\"></td>";
 		echo"<td>".$db->f("land")."</td></tr><tr>";
@@ -291,11 +291,11 @@ foreach($klantfavs as $id){
 		echo"<td>".$db->f("slaapkamers")." slaapkamer(s)</td></tr><tr>";
 		echo"<td>".$db->f("badkamers")." badkamer(s)</td></tr><tr>";
 		$teken=substr($db->f("land"),0,1);
-		echo"<td align=\"right\" colspan=\"2\"><a href=\"accommodatie.php/".$teken.$id."\"><img src=\"http://192.168.1.32/chalet/pic/leesMeerButton.png\" width=\"82\" height=\"23\"></img></a></td></tr><tr>";
+		echo"<td align=\"right\" colspan=\"2\"><a href=\"accommodatie.php/".$teken.$id."\"><img border=\"0\" src=\"http://192.168.1.32/chalet/pic/leesMeerButton.png\" width=\"82\" height=\"23\"></img></a></td></tr><tr>";
 		echo"</table>";
 		echo "<div style=\"padding:5px;\">";
 		echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$id."','delete')\" href=\"#\">";
-		echo "<img width=\"13\" height=\"13\" src=";
+		echo "<img border=\"0\" width=\"13\" height=\"13\" src=";
 		echo $vars["path"];
 		echo "pic/icon_notokay.png>";
 		echo " Uit mijn favorieten halen";
