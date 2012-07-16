@@ -7,8 +7,8 @@
 	<input type="button" value="OK" onClick="Popup.hide('modal')"></div>
 </div>
 <script type="text/javascript">
-function printDiv() { 
-    var printContents = document.getElementById("printDi").innerHTML; 
+function printDiv(divName) { 
+    var printContents = document.getElementById(divName).innerHTML; 
     var originalContents = document.body.innerHTML; 
 
     document.body.innerHTML = printContents; 
@@ -252,7 +252,7 @@ elseif(isset($_GET['VerzenderNaam'])&& $_GET['action']=="mailDoor"){
 }
 echo "<div>";
 echo "<div id=\"meldingen\" style=\"position:relative;\"></div>";
-echo "<div style=\"float:left;\"><a style=\"text-decoration:none;\" onclick=\"document.getElementById('mailForm').style.display='inline'\" href=\"#\"><img src=\"".$vars["path"]."pic/mailIcoon.png\">Versturen via email</img></a> | <a style=\"text-decoration:none;\" onclick=\"printDiv()\" href=\"#\"><img src=\"".$vars["path"]."pic/printen.png\" width=\"30\" height=\"30\">Printen</img></a></div>";
+echo "<div style=\"float:left;\"><a style=\"text-decoration:none;\" onclick=\"document.getElementById('mailForm').style.display='inline'\" href=\"#\"><img border=\"0\" src=\"".$vars["path"]."pic/mailIcoon.png\">Versturen via email</img></a> | <a style=\"text-decoration:none;\" onclick=\"printDiv('printDi')\" href=\"#\"><img border=\"0\" src=\"".$vars["path"]."pic/printen.png\" width=\"30\" height=\"30\">Printen</img></a></div>";
 echo "<div style=\"height:20px;\"></div>";
 echo "<div id=\"mailForm\" style=\"display:none\">";
 echo "<form>";
