@@ -95,47 +95,47 @@ $username='Zomerhuisje';
 $format='xml';
 $tweet=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$username}.{$format}");
 if($tweet->status[0]->text!=""){
-    $bericht="";
+	$bericht="";
     $berichtNext="";
     $berichtNextNext="";
     $bericht1=explode(" ",$tweet->status[0]->text);
     $bericht2=explode(" ",$tweet->status[1]->text);
     $bericht3=explode(" ",$tweet->status[2]->text);
     for($a=0; $a<count($bericht1);$a++){
-      if(substr($bericht1[$a],0,4)=="http"){
-          $bericht.=htmlentities("<a style=\"text-decoration:none;\" href=");
-          $bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
-          $bericht.=htmlentities("> ");
-          $bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
-          $bericht.=htmlentities("</a>");
-      }
-      else{
-          $bericht.=" ".htmlentities($bericht1[$a]);
-      }
+		if(substr($bericht1[$a],0,4)=="http"){
+			$bericht.=htmlentities("<a style=\"text-decoration:none;\" href=");
+          	$bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
+          	$bericht.=htmlentities("> ");
+          	$bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
+          	$bericht.=htmlentities("</a>");
+      	}
+      	else{
+          	$bericht.=" ".htmlentities($bericht1[$a]);
+      	}
     }
     for($a=0; $a<count($bericht2);$a++){
-      if(substr($bericht2[$a],0,4)=="http"){
-          $berichtNext.=htmlentities("<a style=\"text-decoration:none;\" href=");
-          $berichtNext.=htmlentities($bericht2[$a]);
-          $berichtNext.=htmlentities("> ");
-          $berichtNext.=htmlentities($bericht2[$a]);
-          $berichtNext.=htmlentities("</a>");
-      }
-      else{
-          $berichtNext.=" ".htmlentities($bericht2[$a]);
-      }
+		if(substr($bericht2[$a],0,4)=="http"){
+			$berichtNext.=htmlentities("<a style=\"text-decoration:none;\" href=");
+          	$berichtNext.=htmlentities($bericht2[$a]);
+          	$berichtNext.=htmlentities("> ");
+          	$berichtNext.=htmlentities($bericht2[$a]);
+          	$berichtNext.=htmlentities("</a>");
+      	}
+      	else{
+          	$berichtNext.=" ".htmlentities($bericht2[$a]);
+      	}
     }
     for($a=0; $a<count($bericht3);$a++){
-      if(substr($bericht3[$a],0,4)=="http"){
-          $berichtNextNext.=htmlentities("<a style=\"text-decoration:none;\" href=");
-          $berichtNextNext.=htmlentities($bericht3[$a]);
-          $berichtNextNext.=htmlentities("> ");
-          $berichtNextNext.=htmlentities($bericht3[$a]);
-          $berichtNextNext.=htmlentities("</a>");
-      }
-      else{
-          $berichtNextNext.=" ".htmlentities($bericht3[$a]);
-      }
+		if(substr($bericht3[$a],0,4)=="http"){
+			$berichtNextNext.=htmlentities("<a style=\"text-decoration:none;\" href=");
+          	$berichtNextNext.=htmlentities($bericht3[$a]);
+          	$berichtNextNext.=htmlentities("> ");
+          	$berichtNextNext.=htmlentities($bericht3[$a]);
+          	$berichtNextNext.=htmlentities("</a>");
+      	}
+      	else{
+			$berichtNextNext.=" ".htmlentities($bericht3[$a]);
+      	}
     }
     echo "<BR>";
     echo"<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_nieuwsbrief\" cellspacing=\"2\" style=\"background-color:#cfbcd8; padding:5px;\">

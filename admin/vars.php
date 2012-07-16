@@ -51,13 +51,21 @@ if($_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["DOCUMENT_ROOT"]=="/home
 }
 
 # Bestanden includen
-require($unixdir."admin/allfunctions.php");
-require($unixdir."admin/class.login.php");
-require($unixdir."admin/class.cms2.php");
-require($unixdir."admin/class.form.php");
-require($unixdir."admin/class.tablelist.php");
-require($unixdir."admin/class.cms.layout.php");
-require($unixdir."admin/vars_functions.php");
+#require($unixdir."admin/allfunctions.php");
+#ze staan toch in dezelfe map? waarom nogmaal naar die map verwijzen?
+require($unixdir."allfunctions.php");
+#require($unixdir."admin/class.login.php");
+require($unixdir."class.login.php");
+#require($unixdir."admin/class.cms2.php");
+require($unixdir."class.cms2.php");
+#require($unixdir."admin/class.form.php");
+require($unixdir."class.form.php");
+#require($unixdir."admin/class.tablelist.php");
+require($unixdir."class.tablelist.php");
+#require($unixdir."admin/class.cms.layout.php");
+require($unixdir."class.cms.layout.php");
+#require($unixdir."admin/vars_functions.php");
+require($unixdir."vars_functions.php");
 
 
 #
@@ -93,8 +101,9 @@ if($_SERVER["WINDIR"]) {
 } else {
 	$mysqlsettings["host"]="localhost";# Hostname bij provider
 }
-
-require($unixdir."admin/class.mysql.php");
+#waarom nogmaals naar die map verwijzen? ze staan al in dezelfde map
+#require($unixdir."admin/class.mysql.php");
+require($unixdir."class.mysql.php");
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$db->query("SET CHARACTER SET 'latin1';");
@@ -113,7 +122,8 @@ $vars["ads"]=array(1=>"Google AdWords algemeen",2=>"Google AdWords Oostenrijk",3
 $vars["ads_controle"]=array(9=>"TDF",12=>"KWX",31=>"KSQ",32=>"PWL"); # voeg toe aan URL (bijvoorbeeld): ?chad=KWX12
 $vars["ads_referermail"]=array(9=>"jeroen@webtastic.nl",12=>"j.fokke@snowplaza.nl");
 if(!$cron and !$cronmap and !$css and !$geen_tracker_cookie and !$_GET["nocache"]) {
-	include($unixdir."admin/trackercookie.php");
+	#include($unixdir."admin/trackercookie.php");
+	include($unixdir."trackercookie.php");
 }
 
 #
@@ -147,7 +157,7 @@ if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
 #
 # Websitetype en seizoentype bepalen
 #
-require($unixdir."admin/vars_websitetype.php");
+require($unixdir."vars_websitetype.php");
 
 #
 # Land-instellingen
@@ -162,7 +172,9 @@ if($vars["taal"]=="en") {
 }
 
 require($unixdir."content/_teksten_intern.php");
+//require("../content/_teksten_intern.php");
 require($unixdir."content/_teksten.php");
+//require("../content/_teksten.php");
 
 $vars["path"]=$path;
 
@@ -455,10 +467,12 @@ if($vars["nieuwevormgeving"]) {
 			$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		}
 	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
+		$submenu["favorieten"]=txt("submenutitle_favorieten");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		$submenu["sitemap"]=txt("submenutitle_sitemap");
+		//deze submenu(sitemap) moet nog naar de footer worden verplaatst.
+		//$submenu["sitemap"]=txt("submenutitle_sitemap");
 		$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
 	}
 
