@@ -1479,7 +1479,13 @@ class form2 {
 							$savevalue="''";
 						}
 					} else {
-						$savevalue="'".$this->input[$key2]["unixtime"]."'";
+						if($this->input[$key2]["unixtime"]<>"") {
+							$savevalue="'".$this->input[$key2]["unixtime"]."'";
+						} elseif($this->fields["db"][$key2]["null"]) {
+							$savevalue="NULL";
+						} else {
+							$savevalue="''";
+						}
 					}
 				} elseif($this->fields["type"][$key2]=="noedit") {
 					if($this->fields["prevalue"][$key2]["selection"]) {
@@ -1557,6 +1563,9 @@ class form2 {
 				if($this->db[$key]["editdatetime"]) {
 					if($setquery) $setquery.=", editdatetime=NOW()"; else $setquery="editdatetime=NOW()";
 				}
+				if($this->db[$key]["editdatetime_bigint"]) {
+					if($setquery) $setquery.=", editdatetime='".time()."'"; else $setquery="editdatetime='".time()."'";
+				}
 				$query="UPDATE ".$key." SET ".$setquery." WHERE ".$value["where"].";";
 				$db0->query($query);
 				if($db0->Errno) {
@@ -1570,6 +1579,9 @@ class form2 {
 			} else {
 				if($this->db[$key]["adddatetime"]) {
 					if($setquery) $setquery.=", adddatetime=NOW(), editdatetime=NOW()"; else $setquery="adddatetime=NOW(), editdatetime=NOW()";
+				}
+				if($this->db[$key]["adddatetime_bigint"]) {
+					if($setquery) $setquery.=", adddatetime='".time()."', editdatetime='".time()."'"; else $setquery="adddatetime='".time()."', editdatetime='".time()."'";
 				}
 				$query="INSERT INTO ".$key." SET ".$setquery.($this->settings["db"]["set"] ? ", ".$this->settings["db"]["set"] : "").";";
 				$db0->query($query);
@@ -1603,7 +1615,10 @@ class form2 {
 	
 						# adddatetime en editdatetime?
 						if($db0->f("Field")=="adddatetime" and $db0->f("Type")=="datetime") $this->db[$key]["adddatetime"]=true;
+						if($db0->f("Field")=="adddatetime" and preg_match("/bigint/",$db0->f("Type"))) $this->db[$key]["adddatetime_bigint"]=true;
+
 						if($db0->f("Field")=="editdatetime" and $db0->f("Type")=="datetime") $this->db[$key]["editdatetime"]=true;
+						if($db0->f("Field")=="editdatetime" and preg_match("/bigint/",$db0->f("Type"))) $this->db[$key]["editdatetime_bigint"]=true;
 				
 						$id=array_search($db0->f("Field"),$this->db[$key]["fields"]);
 						if($id) {
