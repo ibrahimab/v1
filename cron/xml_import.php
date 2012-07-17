@@ -410,7 +410,7 @@ while(list($key,$value)=@each($xml_urls)) {
 					$datum_eind=strtotime(ereg_replace("/","-",$value3->ocpt_fin));
 					
 					if(date("Y",$datum_eind)>(date("Y")+1)) {
-						# heel hoge jaartallen: niet meenemen
+						# hoge jaartallen: niet meenemen
 						$datum_eind=time()+(86400*365*2);
 					}
 
