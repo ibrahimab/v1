@@ -9,49 +9,6 @@
 	width:100px;
 }
 
-#presentbericht{
-	width:720px;
-	height:470px;
-	overflow:auto;
-	border:0px;
-	padding: 10px 10px 10px 10px;
-	font-size:12px;
-	font-family:Verdana, Geneva, sans-serif;
-	overflow:hidden;
-}
-#mailTable textarea{
-	width:333px;
-	height:140px;
-	overflow:auto;
-	border:0px;
-	padding: 10px 10px 10px 10px;
-	font-size:10px;
-	font-family:Verdana, Geneva, sans-serif;
-}
-
-#mailTable input{
-	font-family: verdana;
-	font-size: 1.0em;
-	width: 325px;
-    height: 49px;
-	border: 0px;
-	padding:10px;
-	background-image:url(../pic/inputFieldBackground-img.png);
-	background-repeat:no-repeat;
-
-}
-#mailTable button {
-	color: #000000;
-	font-weight: bold;
-	font-size: 100%;
-	text-transform: uppercase;
-	width:158px;
-	height:58px;
-	border:0px;
-	background-image:url(../pic/formButton.png);
-	background-repeat:no-repeat;
-}
-
 </style>
 <script type="text/javascript">
 function validateEmail(email) {  
@@ -59,10 +16,6 @@ function validateEmail(email) {
 	return email.match(pattern);     
 }  
 
-function setVerzender(){
-	//window.alert(document.getElementById("VerzenderNaam").value);
-	//document.getElementById("Verzender").innerHTML = document.getElementById("VerzenderNaam").value;
-}
 function controlEnSend(){
 	if(document.getElementById("VerzenderNaam").value == ""){
 		//window.alert("OK");
@@ -98,10 +51,9 @@ function controlEnSend(){
 				break;
 			}
 			else{
-				document.getElementById("afzender").innerHTML = document.getElementById("VerzenderNaam").value;
 				var bericht = document.getElementById("presentbericht").innerHTML;
 				//window.alert(bericht);
-				document.getElementById("bericht").value = bericht;
+				document.getElementById("bericht2").value = bericht;
 				document.forms["mailAcc"].submit();
 				break;
 			}
@@ -111,7 +63,27 @@ function controlEnSend(){
 </script>
 
 <?php
-
+if($vars["websitetype"]==1){
+	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerChalet.png";
+	$vars["mail_form_mid_div_content"]="Ik heb een leuke accommodatie gevonden op Chalet.nl. Dit moet je zien!\n\nGroeten,\n";
+	$vars["mail_form_aLink_style"]="color:#002682; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
+	$vars["balkkleur"]="#003366";
+	$vars["backcolor"]="#d5e1f9";
+}
+elseif($vars["websitetype"]==3){
+	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerZomerhuisje.png";
+	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op zomerhuisje.nl. Dit moet je zien!\n\nGroeten,\n";
+	$vars["mail_form_aLink_style"]="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
+	$vars["balkkleur"]="#5f227b";
+	$vars["backcolor"]="#eaeda9";
+}
+elseif($vars["websitetype"]==7){
+	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerItalissima.png";
+	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op italissima.nl. Dit moet je zien!\n\nGroeten,\n";
+	$vars["mail_form_aLink_style"]="color:#fe9900; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
+	$vars["balkkleur"]="#661700";
+	$vars["backcolor"]="#FFFFFF";
+}
 # Gegevens gekozen accommodatie opvragen
 $accinfo=accinfo($_GET["accid"]);
 echo "<p>Naam accommodatie: ".wt_he($accinfo["accnaam"])."</p>";
@@ -127,14 +99,16 @@ if(isset($_POST['VerzenderNaam'])){
 		$mail->toname=$_POST[''];
 		$mail->to=$emails[$i];
 		$mail->subject.=$_POST['bericht'];
-		//$mail->subject.=$mail->fromname;
+		$mail->subject="Leuke accommodatie tip van ".$_POST["VerzenderNaam"];
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
         $mail->html.="<html>";
         $mail->html.="<head>";
         $mail->html.="</head>";
-        $mail->html.="<body>";
-        $mail->html.=$mail->subject;
+        $mail->html.="<body style=\"font-family:verdana;\">";
+        $mail->html.="<a href=".$vars["basehref"]."><img src=".$vars['mail_topfoto']."></a><BR><BR>";
+		$mail->html.=$_POST['bericht']."\n";
+		$mail->html.=$_POST['bericht2']."\n";
         $mail->html.="</body>";
         $mail->html.="</html>";
 		$mail->html_bottom="";
@@ -145,69 +119,58 @@ if(isset($_POST['VerzenderNaam'])){
 
 ?>
 <form action="<?php echo $_SERVER["REQUEST_URI"] ?>"  method="post" name="mailAcc">
-<table id="mailTable">
-  <tr>
-    <td><strong>Uw naam: </strong></td>
-  </tr>
-  <tr>
-    <td><input type="text" name="VerzenderNaam" id="VerzenderNaam" /></td>
-  </tr>
-  <tr>
-    <td><strong>Van: (Email adres)</strong></td>
-  </tr>
-  <tr>
-    <td><label for="verzenderAdres"></label>
-      <input type="text" name="verzenderAdres" id="verzenderAdres" /></td>
-  </tr>
-  <tr>
-    <td><strong>Aan: (Email adres(sen))</strong></td>
-  </tr>
-  <tr>
-    <td><label for="EmailOntvanger"></label>
-      <input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
-  </tr>
-  <tr>
-    <td><strong>Bericht:</strong></td>
-  </tr>
-  <tr>
-    <td>
-    	
-
-    	<div id="presentbericht" contenteditable="true">
-        
- 
-        <p><BR />
-         	<img src="<?php echo $vars['mail_topfoto']?>" alt="" class="noprint">
-           	<div contenteditable="true" style="width:705px; height:20px; color:#666;  padding:10px 10px 10px 10px;  border:1px solid #FFFFFF; font-family:Verdana, Geneva, sans-serif"><?php echo $vars['mail_form_mid_div_content'];?>
-            </div>
-            <div id="afzender" style="width:705px; height:20px; color:#666;  padding:10px 10px 10px 10px;  border:1px solid #FFFFFF; font-family:Verdana, Geneva, sans-serif"></div>
-<div style=" border:1px solid #FFFFFF; width:725px;">
-<table width="700" border="0" cellpadding="0" cellspacing="5">
-  <tr>
-    <td width="300px" rowspan="3" valign="top"><?php $impath = $vars["basehref"].$accinfo["hoofdfoto"]; $url ="url"; echo "<a href=\"$accinfo[$url]\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a>";?></td>
-    <td valign="top"><?php echo "<span style=\"font-weight:bold; font-size:11px; font-family:verdana;\">".wt_he($accinfo["accnaam"])."</span><BR><BR><span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["plaats"])."-".wt_he($accinfo["skigebied"])."-".wt_he($accinfo["land"])."</span>"; ?></td>
-    <td rowspan="3" valign="top"><?php //echo wt_he($accinfo["oppervlakte"])." m2";?></td>
-  </tr>
-  <tr>
-    <td valign="top"><?php echo "<span style=\"font-family:verdana; font-size:11px;\">".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen<BR>".wt_he($accinfo["slaapkamers"])." slaapkamer(s)<BR>".wt_he($accinfo["badkamers"] )." badkamer(s)</span>"?></td>
-  </tr>
-  <tr>
-    <td valign="bottom"><b><a style="<?php echo $vars['mail_form_aLink_style']; ?>" href="<?php echo wt_he($accinfo["url"])?>">Lees meer over dit vakantiehuis</a></b></td>
-  </tr>
-  </table>
-</div>
-            	</span></div>
-    	</div>
-    	<input type="hidden" name="bericht" id="bericht"></input>	
-    <div id="Verzender"></div></td>
-  </tr>
-  <tr>
-    <td><button type="button" onclick="controlEnSend()" name="verzend" id="verzend" value="VERZENDEN">VERZENDEN</button>
-    </td>
-  </tr>
-</table>
+	<table id="mailTable">
+  		<tr>
+    		<td><strong>Uw naam: </strong></td>
+  		</tr>
+  		<tr>
+    		<td><input type="text" name="VerzenderNaam" id="VerzenderNaam" /></td>
+  		</tr>
+  		<tr>
+    		<td><strong>Van: (Email adres)</strong></td>
+  		</tr>
+  		<tr>
+    		<td>
+      			<input type="text" name="verzenderAdres" id="verzenderAdres" />
+      		</td>
+  		</tr>
+ 		 <tr>
+    		<td><strong>Aan: (Email adres(sen))</strong></td>
+  		</tr>
+  		<tr>
+    		<td><input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
+  		</tr>
+  		<tr>
+    		<td><strong>Bericht:</strong></td>
+  		</tr>
+  		<tr>
+  			<td><textarea name="bericht" id="bericht" cols="50" rows=7 /><?php echo $vars['mail_form_mid_div_content'];?></textarea></td>
+  		</tr>
+  		<tr>
+    		<td>
+    			<div id="presentbericht" contenteditable="true">
+        			<p><BR />
+            		<?php
+	        			echo"<table style=\"display:inline-table;background-color:".$vars["backcolor"].";font-family:verdana\" text-align=\"left\" border=\"0\" width=\"100%\" bgcolor=\"".$vars["backcolor"]."\">";
+						echo"<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".wt_he($accinfo["accnaam"])."</td></tr>";
+						$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
+						$url="url";
+						echo"<tr><td rowspan=\"8\"><a href=\"$accinfo[$url]\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a></td>";
+						echo"<td>".wt_he($accinfo["accnaam"])."</td></tr><tr>";
+						echo"<td>".wt_he($accinfo["plaats"])."-".wt_he($accinfo["skigebied"])."-".wt_he($accinfo["land"])."</td></tr><tr>";
+						echo"<td>".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen</td></tr><tr>";
+						echo"<td style=\"color:".$vars["backcolor"].";\">jshgjhgsjhgsjgjgshjgsjhgjsgjhsgjhsdghjgsjhsdgjhgsdjhgjsgjsgjhsdgjhgdsjgsdjhgsdjh</td></tr><tr>";
+						echo"<td>".wt_he($accinfo["oppervlakte"])." m2</td></tr><tr>";
+						echo"<td>".wt_he($accinfo["slaapkamers"])." slaapkamer(s)</td></tr><tr>";
+						echo"<td>".wt_he($accinfo["badkamers"])." badkamer(s)</td></tr>";
+						echo"</table>";?>
+        		</div>
+    			<input type="hidden" name="bericht2" id="bericht2"></input>	
+    			<div id="Verzender"></div></td>
+  		</tr>
+  		<tr>
+    		<td><button type="button" onclick="controlEnSend()" name="verzend" id="verzend" value="VERZENDEN">VERZENDEN</button>
+    		</td>
+  		</tr>
+	</table>
 </form>
-<?php
-
-
-?>
