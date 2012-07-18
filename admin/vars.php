@@ -455,7 +455,9 @@ if($vars["nieuwevormgeving"]) {
 			$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		}
 	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
-		$submenu["favorieten"]=txt("submenutitle_favorieten");
+		if($_GET["testsysteem"]) {
+			$submenu["favorieten"]=txt("submenutitle_favorieten");
+		}
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");

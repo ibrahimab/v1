@@ -17,7 +17,7 @@ $onload="initialize_googlemaps();";
 
 #$vars["jquery_scrollto"]=true;
 include_once "admin/vars.php";
-if($vars["websitetype"]==1){
+if($vars["websitetype"]==1 and $_GET["testsysteem"]) {
 	$klantfavs=array();
 	if($_GET['action']=="insert"){
 		$klantID=$_GET['klantID'];
