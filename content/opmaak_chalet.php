@@ -3,12 +3,12 @@
 # Te includen bestand bepalen
 if($language_content) {
 	if(file_exists("content/_meertalig/".$id."_".$vars["taal"].".html")) {
-	$include="content/_meertalig/".$id."_".$vars["taal"].".html";
+		$include="content/_meertalig/".$id."_".$vars["taal"].".html";
 	}
-}else {
+} else {
 	if(file_exists("content/".$id."_nieuw.html")) {
 		$include="content/".$id."_nieuw.html";
-	}elseif(file_exists("content/".$id.".html")) {
+	} elseif(file_exists("content/".$id.".html")) {
 		$include="content/".$id.".html";
 	}
 }
@@ -27,11 +27,11 @@ echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\" />\n";
 echo "<title>";
 if($grizzly_title) {
 	echo $grizzly_title;
-}else {
+} else {
 	if($id=="index") {
-	echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("subtitel"));
-	$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("subtitel");
-	}else {
+		echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("subtitel"));
+		$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("subtitel");
+	} else {
 		if($title[$id] and $id) {
 			echo htmlentities($title[$id])." - ";
 			$vars["facebook_title"]=$title[$id];
@@ -48,7 +48,7 @@ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opm
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_chalet.css?cache=".@filemtime("css/opmaak_chalet.css")."\" />\n";
 if(file_exists("css/".$id."_chalet.css")) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/".$id."_chalet.css?cache=".@filemtime("css/".$id."_chalet.css")."\" />\n";
-}elseif(file_exists("css/".$id.".css")) {
+} elseif(file_exists("css/".$id.".css")) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/".$id.".css?cache=".@filemtime("css/".$id.".css")."\" />\n";
 }
 if(file_exists("css/".$id."_chalet_extra.css")) {
@@ -76,18 +76,18 @@ if($vars["canonical"]) {
 # JQuery
 echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
 if($id=="index") {
-# Voor de sliders op de hoofdpagina is een oudere jquery-ui nodig
+	# Voor de sliders op de hoofdpagina is een oudere jquery-ui nodig
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js\" ></script>\n";
-	}else {
+		echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js\" ></script>\n";
+	} else {
 #		echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery-ui-1.5.3.min.js\" ></script>\n";
 		echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js\" ></script>\n";
 	}
-}else {
+} else {
 	echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
 }
 if($vars["googlemaps"]) {
-# Google Maps API
+	# Google Maps API
 	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&sensor=false\" type=\"text/javascript\"></script>\n";
 }
 
@@ -178,7 +178,7 @@ while(list($key,$value)=each($submenu)) {
 #					echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 				}
 			}
-		}else {
+		} else {
 			echo "<a href=\"".$vars["path"].txt("menu_".$key).(@in_array($key,$submenu_url_zonder_punt_php) ? "" : ".php")."\">";
 			echo htmlentities($value);
 			echo "</a>";
@@ -207,7 +207,7 @@ echo "<div id=\"topfoto\">";
 echo "<img src=\"".$vars["path"]."pic/topfoto_";
 if($id=="index") {
 	echo "1";
-}else {
+} else {
 	echo "2";
 }
 echo ".jpg\" width=\"725\" height=\"106\">";
@@ -218,7 +218,7 @@ echo "<div id=\"hoofdmenu\">";
 while(list($key,$value)=each($menu)) {
 	if($vars["active_menu_item"]) {
 		$checkid=$vars["active_menu_item"];
-	}else {
+	} else {
 		$checkid=$id;
 	}
 	if($menuteller) {
@@ -287,7 +287,7 @@ if($vars["verberg_linkerkolom"]) {
 #	echo "<div class=\"koptekst_rechts\"></div>\n";
 #	echo "<div style=\"clear: both;\"></div>\n";
 
-# Content includen
+	# Content includen
 	include($include);
 #	echo "<br>&nbsp;";
 
@@ -304,7 +304,7 @@ if($vars["verberg_linkerkolom"]) {
 	}
 
 	echo "</div>\n";
-}else {
+} else {
 	echo "<div id=\"bloklinks_blok\">";
 
 	echo "<div id=\"bloklinks\">";
@@ -331,7 +331,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("zwitserland","index"))."/\">".html("zwitserland","index")."</a><br />";
 		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("italie","index"))."/\">".html("italie","index")."</a><br />";
 		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("duitsland","index"))."/\">".html("duitsland","index")."</a><br />";
-		#		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".txt("menu_land")."/".wt_convert2url(txt("frankrijk","index"))."/\">".html("overigelanden","index")."</a><br />";
+#		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".txt("menu_land")."/".wt_convert2url(txt("frankrijk","index"))."/\">".html("overigelanden","index")."</a><br />";
 		echo "</div>\n";
 		if($id=="index") {
 			# Opsomming "Waarom Chalet.nl?"
@@ -353,7 +353,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div>Schrijf je in voor onze nieuwsbrief en ontvang al onze aanbiedingen.</div>";
 		if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
 			$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
-		}else {
+		} else {
 			$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
 		}
 		echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
@@ -401,8 +401,8 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
 	if(!$vars["wederverkoop"] and $id<>"index") {
-		#		echo "<div id=\"blauwelijn_onderaan\"></div>\n";
-		#		echo "<div id=\"contactgegevens\">".htmlentities($vars["websitenaam"])."&nbsp;&nbsp;&nbsp;".html("telefoonnummer")."&nbsp;&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a></div>";
+#		echo "<div id=\"blauwelijn_onderaan\"></div>\n";
+#		echo "<div id=\"contactgegevens\">".htmlentities($vars["websitenaam"])."&nbsp;&nbsp;&nbsp;".html("telefoonnummer")."&nbsp;&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a></div>";
 	}
 }
 
@@ -454,7 +454,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 	
-	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";
+#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";
 	
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<input type=\"text\" name=\"fzt\" class=\"tekstzoeken\" value=\"-- ".html("trefwoord","index")." --\" onfocus=\"if(this.value=='-- ".html("trefwoord","index")." --') this.value='';\" onblur=\"if(this.value=='') this.value='-- ".html("trefwoord","index")." --';\">";
@@ -502,7 +502,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 			if($db->f("kortenaam4")) {
 				$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam4")]=$db->f("land_id")."-".$db->f("skigebied_id")."-4";
 			}
-		}else {
+		} else {
 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("naam")]=$db->f("land_id")."-".$db->f("skigebied_id");
 		}
 	}
@@ -545,7 +545,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 		$vars["aantalpersonen"][$i]=$i;
 	}
 
-	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
+#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<select name=\"fap\" class=\"selectbox\">";
 	while(list($key,$value)=each($vars["aantalpersonen"])) {
@@ -555,7 +555,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	}
 	echo "</select>";
 	echo "</div>";
-	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aankomstdatum","index")."</div>";
+#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aankomstdatum","index")."</div>";
 	
 	# Aankomstdatum vullen
 	$vars["aankomstdatum_weekend_afkorting"]["-"]="-- ".txt("aankomstdatum","index")." --";
@@ -575,7 +575,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "</select>";
 	echo "</div>";
 	
-	#	echo "<div style=\"margin-top:0px;\">&nbsp;</div>";
+#	echo "<div style=\"margin-top:0px;\">&nbsp;</div>";
 	
 	echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
 	

@@ -51,21 +51,13 @@ if($_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["DOCUMENT_ROOT"]=="/home
 }
 
 # Bestanden includen
-#require($unixdir."admin/allfunctions.php");
-#ze staan toch in dezelfe map? waarom nogmaal naar die map verwijzen?
-require($unixdir."allfunctions.php");
-#require($unixdir."admin/class.login.php");
-require($unixdir."class.login.php");
-#require($unixdir."admin/class.cms2.php");
-require($unixdir."class.cms2.php");
-#require($unixdir."admin/class.form.php");
-require($unixdir."class.form.php");
-#require($unixdir."admin/class.tablelist.php");
-require($unixdir."class.tablelist.php");
-#require($unixdir."admin/class.cms.layout.php");
-require($unixdir."class.cms.layout.php");
-#require($unixdir."admin/vars_functions.php");
-require($unixdir."vars_functions.php");
+require($unixdir."admin/allfunctions.php");
+require($unixdir."admin/class.login.php");
+require($unixdir."admin/class.cms2.php");
+require($unixdir."admin/class.form.php");
+require($unixdir."admin/class.tablelist.php");
+require($unixdir."admin/class.cms.layout.php");
+require($unixdir."admin/vars_functions.php");
 
 
 #
@@ -101,9 +93,8 @@ if($_SERVER["WINDIR"]) {
 } else {
 	$mysqlsettings["host"]="localhost";# Hostname bij provider
 }
-#waarom nogmaals naar die map verwijzen? ze staan al in dezelfde map
-#require($unixdir."admin/class.mysql.php");
-require($unixdir."class.mysql.php");
+
+require($unixdir."admin/class.mysql.php");
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$db->query("SET CHARACTER SET 'latin1';");
@@ -122,8 +113,7 @@ $vars["ads"]=array(1=>"Google AdWords algemeen",2=>"Google AdWords Oostenrijk",3
 $vars["ads_controle"]=array(9=>"TDF",12=>"KWX",31=>"KSQ",32=>"PWL"); # voeg toe aan URL (bijvoorbeeld): ?chad=KWX12
 $vars["ads_referermail"]=array(9=>"jeroen@webtastic.nl",12=>"j.fokke@snowplaza.nl");
 if(!$cron and !$cronmap and !$css and !$geen_tracker_cookie and !$_GET["nocache"]) {
-	#include($unixdir."admin/trackercookie.php");
-	include($unixdir."trackercookie.php");
+	include($unixdir."admin/trackercookie.php");
 }
 
 #
@@ -157,7 +147,7 @@ if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
 #
 # Websitetype en seizoentype bepalen
 #
-require($unixdir."vars_websitetype.php");
+require($unixdir."admin/vars_websitetype.php");
 
 #
 # Land-instellingen
@@ -172,9 +162,7 @@ if($vars["taal"]=="en") {
 }
 
 require($unixdir."content/_teksten_intern.php");
-//require("../content/_teksten_intern.php");
 require($unixdir."content/_teksten.php");
-//require("../content/_teksten.php");
 
 $vars["path"]=$path;
 
@@ -467,7 +455,9 @@ if($vars["nieuwevormgeving"]) {
 			$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		}
 	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
-		$submenu["favorieten"]=txt("submenutitle_favorieten");
+		if($_GET["testsysteem"]) {
+			$submenu["favorieten"]=txt("submenutitle_favorieten");
+		}
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
@@ -840,7 +830,7 @@ $vars["bedrag_soort"]=array(1=>"Korting in euro's",2=>"Kortingspercentage",3=>"E
 # 127.0.0.1	 = t.b.v. testserver (Miguel)
 $vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.75","82.93.130.238","82.173.186.80","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
 
-$vars["xml_type"]=array(1=>"Huetten (1)",2=>"Alpenchalets Ski France (2)",3=>"France Reisen Ski France (3)",4=>"CGH (4)",5=>"Pierre & Vacances (5)",6=>"Frosch (6)",7=>"CIS / Bellecôte Chalets (VVE) (7)",8=>"Posarelli Villas (8)",9=>"Maisons Vacances Ann Giraud (9)",10=>"CIS Immobilier (10)",11=>"Odalys Résidences (11)",12=>"Deux Alpes Voyages (12)",13=>"Eurogroup (13)",14=>"Marche Holiday (14)",15=>"Des Neiges (15)",16=>"Almliesl (16)",17=>"Alpin Rentals Kaprun (17)");
+$vars["xml_type"]=array(1=>"Huetten (1)",2=>"Alpenchalets Ski France (2)",3=>"France Reisen Ski France (3)",4=>"CGH (4)",5=>"Pierre & Vacances (5)",6=>"Frosch (6)",7=>"CIS / Bellecôte Chalets (VVE) (7)",8=>"Posarelli Villas (8)",9=>"Maisons Vacances Ann Giraud (9)",10=>"CIS Immobilier (10)",11=>"Odalys Résidences (11)",12=>"Deux Alpes Voyages (12)",13=>"Eurogroup (13)",14=>"Marche Holiday (14)",15=>"Des Neiges (15)",16=>"Almliesl (16)",17=>"Alpin Rentals Kaprun (17)",18=>"Agence des Belleville (18)");
 asort($vars["xml_type"]);
 
 # vars reisbureaus
