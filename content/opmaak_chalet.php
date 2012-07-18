@@ -3,7 +3,7 @@
 # Te includen bestand bepalen
 if($language_content) {
 	if(file_exists("content/_meertalig/".$id."_".$vars["taal"].".html")) {
-	$include="content/_meertalig/".$id."_".$vars["taal"].".html";
+		$include="content/_meertalig/".$id."_".$vars["taal"].".html";
 	}
 } else {
 	if(file_exists("content/".$id."_nieuw.html")) {
@@ -29,8 +29,8 @@ if($grizzly_title) {
 	echo $grizzly_title;
 } else {
 	if($id=="index") {
-	echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("subtitel"));
-	$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("subtitel");
+		echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("subtitel"));
+		$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("subtitel");
 	} else {
 		if($title[$id] and $id) {
 			echo htmlentities($title[$id])." - ";
