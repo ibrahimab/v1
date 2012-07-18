@@ -117,8 +117,12 @@ form {
 #logo {
 	float: left;
 	text-align: center;
-	padding-top: 17px;
+	padding-top: 19px;
 	width: 230px;
+}
+
+#logo img {
+
 }
 
 #meldingen {

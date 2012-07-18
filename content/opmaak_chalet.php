@@ -143,7 +143,7 @@ echo "<img src=\"".$vars["path"]."pic/logo_chalet";
 if($vars["taal"]<>"nl") echo "_eu";
 if($vars["websiteland"]=="be") echo "_be";
 if($vars["websitetype"]==4 or $vars["websitetype"]==5) echo "_tour";
-echo ".gif\" width=\"169\" height=\"151\" border=\"0\" alt=\"".htmlentities($vars["websitenaam"])."\">";
+echo ".gif?c=1\" width=\"188\" height=\"140\" border=\"0\" alt=\"".htmlentities($vars["websitenaam"])."\">";
 if($id<>"index") echo "</a>";
 echo "</div>\n";
 
