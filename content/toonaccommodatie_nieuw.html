@@ -9,77 +9,59 @@
 <script language="javascript" type="text/javascript">
 //Browser Support Code
 function ajaxFunctionUpdateFav(){
- var ajaxRequestup;  // The variable that makes Ajax possible!
-	
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequestup = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequestup = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-    	  ajaxRequestup = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         // Something went wrong
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
- // Create a function that will receive data 
- // sent from the server and will update
- // div section in the same page.
- ajaxRequestup.onreadystatechange = function(){
-   if(ajaxRequestup.readyState == 4){
-	   location.reload(true);
-   }
- }
- // Now get the value from user and pass it to
- // server script.
- var queryString = "?action=update" ;
- ajaxRequestup.open("GET", queryString, true);
- ajaxRequestup.send(null); 
+	var ajaxRequestup;
+	try{
+		ajaxRequestup = new XMLHttpRequest();
+	}catch (e){
+		try{
+		ajaxRequestup = new ActiveXObject("Msxml2.XMLHTTP");
+		}catch (e) {
+			try{
+			ajaxRequestup = new ActiveXObject("Microsoft.XMLHTTP");
+			}catch (e){
+				alert("Your browser broke!");
+				return false;
+			}
+		}
+	}
+	ajaxRequestup.onreadystatechange = function(){
+		if(ajaxRequestup.readyState == 4){
+			location.reload(true);
+		}
+	}
+	var queryString = "?action=update" ;
+	ajaxRequestup.open("GET", queryString, true);
+	ajaxRequestup.send(null); 
 }
 
 function ajaxFunction(klantid, accid, action){
- var ajaxRequest;  // The variable that makes Ajax possible!
-	
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         // Something went wrong
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
- // Create a function that will receive data 
- // sent from the server and will update
- // div section in the same page.
- ajaxRequest.onreadystatechange = function(){
-   if(ajaxRequest.readyState == 4){
-	   Popup.showModal('modal','position','Screen.getBody()','top left',{'constrainToScreen':true,'screenColor':'#000000','screenOpacity':.6});
-	   ajaxFunctionUpdateFav();
-	   return false;
-   }
- }
- // Now get the value from user and pass it to
- // server script.
- var queryString = "?klantID=" + klantid ;
- queryString +=  "&accommodatie=" + accid;
- queryString +=  "&action=" + action;
- ajaxRequest.open("GET", queryString, true);
- ajaxRequest.send(null); 
+	var ajaxRequest;	
+ 	try{
+		ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+		try{
+			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}catch (e) {
+			try{
+				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}catch (e){
+				alert("Your browser broke!");
+				return false;
+			}
+		}
+	}
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			Popup.showModal('modal','position','Screen.getBody()','top left',{'constrainToScreen':true,'screenColor':'#000000','screenOpacity':.6});
+			ajaxFunctionUpdateFav();
+			return false;
+		}
+	}
+	var queryString = "?klantID=" + klantid ;
+	queryString +=  "&accommodatie=" + accid;
+	queryString +=  "&action=" + action;
+	ajaxRequest.open("GET", queryString, true);
+	ajaxRequest.send(null); 
 }
 </script>
 <?php
@@ -124,23 +106,18 @@ if($toonper==3 or $vars["wederverkoop"]) {
 		$seizoen_begin[$db2->f("seizoen_id")]=$db2->f("begin");
 		$seizoen_eind[$db2->f("seizoen_id")]=$db2->f("eind");
 	}
-	
 	# Skipasgegevens uit database halen
 	$db->query("SELECT s.website_omschrijving".$vars["ttv"]." AS website_omschrijving FROM skipas s, accommodatie a WHERE a.skipas_id=s.skipas_id AND a.accommodatie_id='".addslashes($accinfo["accommodatie_id"])."';");
 	if($db->next_record()) {
 		if($db->f("website_omschrijving")) $skipas_website_omschrijving=$db->f("website_omschrijving");
 	}
 }
-
-
 # Tarieventabellen inladen
 unset($tarieventabel);
 @reset($seizoen_tarieven);
 while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
-
 	$seizoenid=$key_s;
 	$seizoenteller++;
-
 	$aanbieding[$seizoenid]=aanbiedinginfo($typeid,$seizoenid);
 	$vandaag=mktime(0,0,0,date("m"),date("d"),date("Y"));
 	$db->query("SELECT korting_id, onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving, UNIX_TIMESTAMP(tot) AS tot FROM korting WHERE onlinenaam".$vars["ttv"]."<>'' AND omschrijving".$vars["ttv"]."<>'' AND type_id='".addslashes($typeid)."' AND seizoen_id='".addslashes($seizoenid)."' AND UNIX_TIMESTAMP(van)<='".$vandaag."' AND UNIX_TIMESTAMP(tot)>='".$vandaag."';");
@@ -149,18 +126,13 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 		$aanbieding[$seizoenid]["aanbiedingid_sort"]["korting_".$db->f("korting_id")]["omschrijving"]=$db->f("omschrijving");
 		$aanbieding[$seizoenid]["aanbiedingid_sort"]["korting_".$db->f("korting_id")]["einddatum"]=$db->f("tot");
 		$aanbieding[$seizoenid]["aanbiedingid_sort"]["korting_".$db->f("korting_id")]["toon_als_aanbieding"]=true;
-		
 		$db2->query("SELECT week FROM korting_tarief WHERE korting_id='".$db->f("korting_id")."';");
 		while($db2->next_record()) {
 			$aanbieding[$seizoenid]["aanbiedingid_sort"]["korting_".$db->f("korting_id")]["weken"][$db2->f("week")]=true;
 		}
-
-# aanzetten indien tekst-aanbieding!
-#$aanbieding_actief=true;
-
-
+		# aanzetten indien tekst-aanbieding!
+		#$aanbieding_actief=true;
 	}
-
 	ob_start();
 	include("content/tarieventabel.html");
 	$tarieventabel[$seizoenid]=ob_get_contents();
@@ -172,24 +144,17 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 		}
 	}
 }
-
 #echo wt_dump($aanbieding);
 #exit;
-
 #echo $seizoenen_inquery;
 #exit;
-
 $db->query("SELECT DISTINCT a.wzt, a.accommodatie_id, a.naam, a.altnaam_zichtbaar,a.video, a.videoEmbedCode, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, a.kenmerken_gecontroleerd, a.url_leverancier AS aurl_leverancier, t.zomerwinterkoppeling_accommodatie_id, t.code, t.altnaam_zichtbaar AS taltnaam_zichtbaar, t.naam".$vars["ttv"]." AS tnaam, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.url_leverancier AS turl_leverancier, t.verzameltype, a.soortaccommodatie, a.omschrijving".$vars["ttv"]." AS omschrijving, t.omschrijving".$vars["ttv"]." AS tomschrijving, a.kwaliteit AS akwaliteit, a.kenmerken AS kenmerken_accommodatie, t.type_id, t.kwaliteit, t.optimaalaantalpersonen, a.toonper, a.aantekeningen, t.aantekeningen AS taantekeningen, t.kenmerken AS kenmerken_type, t.maxaantalpersonen, t.oppervlakte, t.oppervlakteextra".$vars["ttv"]." AS oppervlakteextra, t.slaapkamers, t.slaapkamersextra".$vars["ttv"]." AS slaapkamersextra, t.badkamers, t.badkamersextra".$vars["ttv"]." AS badkamersextra, a.indeling".$vars["ttv"]." AS indeling, t.indeling".$vars["ttv"]." AS tindeling, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, p.afstandtotutrecht, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra, a.inclusief".$vars["ttv"]." AS inclusief, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, t.inclusief".$vars["ttv"]." AS tinclusief, a.exclusief".$vars["ttv"]." AS exclusief, a.extraopties".$vars["ttv"]." AS extraopties, t.exclusief".$vars["ttv"]." AS texclusief, t.url_virtuele_rondgang, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats, p.omschrijving".$vars["ttv"]." AS plaatsomschrijving, p.plaats_id, p.kenmerken AS kenmerken_plaats, s.naam AS skigebied, s.omschrijving".$vars["ttv"]." AS skigebiedomschrijving, s.kenmerken AS kenmerken_skigebied, lev.leverancier_id, lev.naam AS leverancier, lev.opmerkingen_intern AS lopmerkingen_intern, lev.url AS url_leverancier FROM accommodatie a, plaats p, skigebied s, land l, type t, leverancier lev WHERE a.accommodatie_id=t.accommodatie_id AND p.land_id=l.land_id AND t.type_id='".addslashes($typeid)."' AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.leverancier_id=lev.leverancier_id AND t.tonen=1;");
 if($db->next_record()) {
-	$accid=$db->f("accommodatie_id");
-	
-	echo "<div id=\"toonaccommodatie_content\">";
-	
+	$accid=$db->f("accommodatie_id");	
+	echo "<div id=\"toonaccommodatie_content\">";	
 	echo "<div id=\"toonaccommodatie_bovenbalk\">";
-	
 	echo "<div id=\"toonaccommodatie_foto\">";
 	if(($vars["seizoentype"]==1 or $vars["seizoentype"]==2) and $vars["websitetype"]<>6) {
-
 		# telefoonblok
 		if($vars["website"]<>"T" and (!$vars["verberg_linkerkolom"] or $id=="toonaccommodatie")) {
 			echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "")." style=\"margin-left:0px;\">";
@@ -205,7 +170,6 @@ if($db->next_record()) {
 			echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 			echo "</div>"; # afsluiten telefoonblok
 		}
-	
 		if($last_accNOT) {
 			echo "<div id=\"laatstbekeken_favorieten_blok\" style=\"margin-top: 40px;\">";
 			echo "<div class=\"laatstbekeken_favorieten\">";
@@ -224,8 +188,7 @@ if($db->next_record()) {
 			}
 		}
 	}
-	echo "<div style=\"clear: both;\"></div>\n";
-	
+	echo "<div style=\"clear: both;\"></div>\n";	
 	if(file_exists("pic/cms/types_specifiek/".$typeid.".jpg")) {
 		$afbeelding="types_specifiek/".$typeid;
 #		$afbeeldingborder=true;
@@ -237,28 +200,21 @@ if($db->next_record()) {
 	}
 #	echo "<img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
 	echo "<img src=\"".imageurl($afbeelding.".jpg",170,127)."\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
-	
-	echo "</div>";
-	
+	echo "</div>";	
 	echo "<div id=\"toonaccommodatie_kopteksten\">";
 	if($aanbieding_actief) {
 		echo "<a href=\"#prijsinformatie\" onclick=\"\$('#tabs').tabs().tabs('select','#tabs_tarieven');\" id=\"toonaccommodatie_aanbieding\" title=\"".html("bekijkdeaanbieding","toonaccommodatie")."\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding_klein","toonaccommodatie")."</a>";
 	}
-	
 	if($accinfo["bestelnaam"] and $voorkant_cms) echo "<i>(".htmlentities($accinfo["bestelnaam"]).")</i><br>";
 	echo "<h1>".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</h1>";
 	echo "<h3 style=\"padding-bottom:3px;\">".($db->f("tnaam") ? htmlentities($db->f("tnaam")) : "&nbsp;")."</h3>";
-
 	if($vars["websitetype"]==6) {
 		echo "<div id=\"toonaccommodatie_vallandry_spacer\">&nbsp;</div>";
 	} else {
 		echo "<div class=\"invisible_link\"><a href=\"".$path.txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/\">".htmlentities($db->f("plaats"))."</a> - <a href=\"".$path.txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/\">".htmlentities($db->f("skigebied"))."</a></div>";
 	}
-
 	echo "<div id=\"toonaccommodatie_kenmerken\">";
-
 	echo "<div id=\"toonaccommodatie_kenmerken_1\">";
-	
 	echo "<ul>";
 	# Aantal personen
 	echo "<li>".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ";
@@ -268,7 +224,6 @@ if($db->next_record()) {
 		echo html("personen");
 	}
 	echo "</li>";
-	
 	# Aantal slaapkamers
 	if($db->f("slaapkamers")) {
 		echo "<li>";
@@ -283,7 +238,6 @@ if($db->next_record()) {
 		}
 		echo "</li>";
 	}
-
 	# Aantal badkamers
 	if($db->f("badkamers")) {
 		echo "<li>";
@@ -305,7 +259,6 @@ if($db->next_record()) {
 	if($db->f("oppervlakte")) {
 		echo "<li>".$db->f("oppervlakte")." m&#178;".($db->f("oppervlakteextra") ? " - ".htmlentities($db->f("oppervlakteextra")) : "")."</li>";
 	}
-
 	if($db->f("akwaliteit") or $db->f("kwaliteit")) {
 		if($db->f("kwaliteit")) {
 			$kwaliteit=$db->f("kwaliteit");
@@ -317,24 +270,15 @@ if($db->next_record()) {
 			echo "<img src=\"".$vars["path"]."pic/ster.gif?cache=1\" width=\"19\" height=\"17\">";
 		}
 		echo "</li>";
-	}
-	
+	}	
 	echo "</ul>";
 	echo "</div>";
 	echo "<div style=\"clear: both;\"></div>\n";
-
-	
-	echo "</div>";
-	
-
-	echo "</div>";
-	
+	echo "</div>";	
+	echo "</div>";	
 	echo "<div style=\"clear: both;height:2px;\"></div>\n";
-
 	# Foto's
 	$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
-
-
 	#
 	# Tabs
 	#html("tab_fotos","toonaccommodatie")
@@ -344,20 +288,18 @@ if($db->next_record()) {
 	echo "<li><a href=\"#tabs_indeling\">".html("tab_indeling","toonaccommodatie")."</a></li>";
 #	echo "<li><a href=\"#tabs_incl\">".html("tab_incl","toonaccommodatie")."</a></li>";
 	if($db->f("video")=="1"){
-	echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos_filmpjes","toonaccommodatie")."</a></li>";
-    }
-    else{
-    echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos","toonaccommodatie")."</a></li>";
-    }
+		echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos_filmpjes","toonaccommodatie")."</a></li>";
+	}
+	else{
+		echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos","toonaccommodatie")."</a></li>";
+	}
 	echo "<li><a href=\"#tabs_ligging\">".html("tab_ligging","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#tabs_opties\">".html("tab_opties","toonaccommodatie")."</a></li>";
 #	echo "<li".($aanbieding_actief ? " class=\"aanbiedingtab\"" : "")."><a href=\"#tabs_tarieven\">".html("tab_tarieven","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#tabs_tarieven\">".html("tab_tarieven","toonaccommodatie")."</a></li>";
-	echo "</ul>";
-	
-    echo "<script type=\"text/javascript\">sessionStorage.click=0;function openpopupvideo(){windowhandle=window.open(\"\", \"newwin\", \"height=300, width=530, menubar=no, status=no, toolbar=no, scrollbars=no, resizable=no\" );windowhandle.document.write('<title>".$vars["websitenaam"]." - Media</title>');if (sessionStorage.click<2){
-        	windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');windowhandle.focus();}var timer = setInterval(function() {if(windowhandle.closed){clearInterval(timer);sessionStorage.click=0;}}, 500);return false;}</script>";
-    
+	echo "</ul>";	
+	echo "<script type=\"text/javascript\">sessionStorage.click=0;function openpopupvideo(){windowhandle=window.open(\"\", \"newwin\", \"height=300, width=530, menubar=no, status=no, toolbar=no, scrollbars=no, resizable=no\" );windowhandle.document.write('<title>".$vars["websitenaam"]." - Media</title>');if (sessionStorage.click<2){
+		windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');windowhandle.focus();}var timer = setInterval(function() {if(windowhandle.closed){clearInterval(timer);sessionStorage.click=0;}}, 500);return false;}</script>";
 	# Tab "overzicht"
 	echo "<div id=\"tabs_overzicht\">";
 	# Interne gegevens tonen
@@ -365,8 +307,7 @@ if($db->next_record()) {
 		unset($temp_intern);
 		$temp_intern.="<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 		$temp_intern.="<tr><th colspan=\"2\">Interne gegevens (alleen zichtbaar voor Chalet.nl)</th></tr>";
-		$temp_intern.="<tr><td valign=\"top\" width=\"175\" nowrap class=\"leftcell\">Code</TD><TD class=\"rightcell\">".htmlentities($db->f("begincode").$db->f("type_id")).($db->f("code") ? " - ".htmlentities($db->f("code")) : "").($db->f("verzameltype") ? " - verzameltype" : "")."</TD></TR>";
-		
+		$temp_intern.="<tr><td valign=\"top\" width=\"175\" nowrap class=\"leftcell\">Code</TD><TD class=\"rightcell\">".htmlentities($db->f("begincode").$db->f("type_id")).($db->f("code") ? " - ".htmlentities($db->f("code")) : "").($db->f("verzameltype") ? " - verzameltype" : "")."</TD></TR>";		
 		$temp_intern.="<tr><td valign=\"top\" width=\"175\" nowrap class=\"leftcell\">Lev.</TD><TD class=\"rightcell\"><a href=\"".$vars["cmspath"]."cms_leveranciers.php?show=8&beheerder=0&8k0=".$db->f("leverancier_id")."\" target=\"_blank\">".htmlentities($db->f("leverancier"))."</a>";
 		if($db->f("url_leverancier")) {
 			$temp_intern.="<br><br>&bull;&nbsp;&nbsp;<a href=\"".htmlentities($db->f("url_leverancier"))."\" target=\"_blank\">Website leverancier</a>";
@@ -387,9 +328,7 @@ if($db->next_record()) {
 		if($db->f("taantekeningen")) {
 			$temp_intern.="<tr><td valign=\"top\" width=\"175\" nowrap class=\"leftcell\">Type</TD><TD class=\"rightcell\"><div class=\"rightcelldiv\">".tooninterneopmerkingen($db->f("taantekeningen"))."</div></TD></TR>";
 		}
-
 		$temp_intern.="<tr><td valign=\"top\" width=\"175\" nowrap class=\"leftcell\">Kenmerken</TD><TD class=\"rightcell\"><div class=\"rightcelldiv\">".($db->f("kenmerken_gecontroleerd") ? "gecontroleerd" : "niet gecontroleerd")."</div></TD></TR>";
-		
 		#
 		# Kenmerken
 		#
@@ -404,8 +343,7 @@ if($db->next_record()) {
 				}
 				$temp_intern.="</td></tr>";
 			}
-		}
-		
+		}		
 		#
 		# Enquête
 		#
@@ -431,7 +369,6 @@ if($db->next_record()) {
 			$temp_intern.="<tr><td>Prijs/kwaliteit&nbsp;</td><td>".($enquete_teller[6] ? number_format(($enquete_optellen[6]/$enquete_teller[6]),1,",",".") : "&nbsp;")."</td></tr>";
 			$temp_intern.="</table>";
 			$temp_intern.="</div></TD></TR>";
-
 			$temp_intern.="<tr><td valign=\"top\" width=\"175\" nowrap class=\"leftcell\">Enqu&ecirc;tes<br>(volledig)</TD><TD class=\"rightcell\"><div class=\"rightcelldiv\">";
 			while(list($key,$value)=each($complete_enquete)) {
 				$temp_intern.="&bull;&nbsp;&nbsp;".$value."<br>";
@@ -450,14 +387,9 @@ if($db->next_record()) {
 			$temp_intern.="<a href=\"".htmlentities($accinfo["url"]."#extraopties")."\" target=\"_blank\">".htmlentities($accinfo["url"]."#extraopties")."</a><br>";
 			$temp_intern.="<a href=\"".htmlentities($accinfo["url"]."#prijsinformatie")."\" target=\"_blank\">".htmlentities($accinfo["url"]."#prijsinformatie")."</a><br>";
 			$temp_intern.="</TD></TR>";
-		}
-	
-		
-		$temp_intern.="</table><p>";
-		
-		
-#		echo $temp_intern;
-		
+		}	
+		$temp_intern.="</table><p>";		
+#		echo $temp_intern;		
 #		if($db->f("type_id")==1542) {
 			$interneinfo=$temp_intern;
 #		}
@@ -467,7 +399,6 @@ if($db->next_record()) {
 #			echo "<b>".html("geentarieven_accvol","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</b><hr>";
 #		}
 #	}
-
 	if(!$echt_tarieven_getoond) {
 #		if($tarieven_ingevoerd) {
 #			echo "<b>".html("geentarieven_accvol","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</b><hr>";;
@@ -475,34 +406,30 @@ if($db->next_record()) {
 #			echo "<b>".html("tarievennognietbekend","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</b><hr>";
 #		}
 	}
-	
 	if(is_array($foto["pic"])) {
 		echo "<div id=\"toonaccommodatie_overzicht_fotos\" class=\"noprint\">";
 		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr>";
-        if($db->f("video")=="1"){
-            echo "<td><a onclick=\"sessionStorage.click++;return openpopupvideo();\" href=\"#\">";
-            echo "<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" border=\"0\"/>";
-            echo "</a></td>";
-            $fototeller++;
-        }
+		if($db->f("video")=="1"){
+			$fototeller++;
+			echo "<td rowspan=\"2\"><a onclick=\"sessionStorage.click++;return openpopupvideo();\" href=\"#\">";
+			echo "<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" border=\"0\">";
+			echo "</a></td>";
+		}
 		while(list($key,$value)=each($foto["pic"])) {
 			$fototeller++;
 			if($fototeller<=3) {
 #				echo "<img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($value)."&w=170&h=127\" width=\"170\" height=\"127\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".txt("foto","vars")." ".$fototeller)."\">&nbsp;";
 				echo "<td rowspan=\"2\"><img src=\"".imageurl($value,170,127)."\" width=\"170\" height=\"127\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".txt("foto","vars")." ".$fototeller)."\"></td>";
 			}
-		}
-		
+		}		
 		# Afbeelding "bekijk ligging" plaatsen
 		if($vars["websitetype"]<>7 and (($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>""))) {
-		
 			echo "<td valign=\"top\">";
 			echo "<a href=\"#tabs_ligging\" class=\"gototabs_ligging\"><img src=\"".$vars["path"]."pic/bekijkligging-".strtolower($vars["website"]).".png\" border=\"0\" width=\"150\" height=\"100\" title=\"Google Maps\"></a>";
 			echo "</td></tr>";
 		} else {
 			echo "<td>&nbsp;</td></tr>";
 		}
-		
 		echo "<tr><td valign=\"bottom\">";
 		if($fototeller>3 or $foto["picbreed"]) {
 			echo "<a href=\"#tabs_fotos\" class=\"noprint\" id=\"meerfotos\">".html("meerfotos","toonaccommodatie")." &gt;</a>";
@@ -512,7 +439,6 @@ if($db->next_record()) {
 		echo "</td></tr></table>";
 		echo "</div>";
 	}
-	
 	if($db->f("korteomschrijving") or $db->f("tkorteomschrijving")) {
 		echo "<h2>";
 		if($db->f("tkorteomschrijving")) {
@@ -521,12 +447,10 @@ if($db->next_record()) {
 			echo wt_he($db->f("korteomschrijving"));
 		}
 		echo "</h2>";
-	}
-	
+	}	
 	if($db->f("omschrijving") or $db->f("tomschrijving")) {
 		echo "<div style=\"margin-top:15px;\">".toon_tekst_acc_en_type($db->f("omschrijving"),$db->f("tomschrijving"))."</div>";
-	}
-	
+	}	
 	# trefwoorden uitgezet op verzoek van Grizzly (8 december 2010)
 #	if($vars["websitetype"]<>6) {
 #		echo "<hr><div style=\"margin-top:10px;\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"top\">".html("trefwoorden","toonaccommodatie").":</td><td>&nbsp;</td><td valign=\"top\">".htmlentities($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".html("trefwoordenlijst","toonaccommodatie")." ".htmlentities($db->f("naam"));
@@ -537,8 +461,7 @@ if($db->next_record()) {
 #			echo " ".ereg_replace("/"," ",$db->f("taltnaam_zichtbaar"));
 #		}
 #		echo "</td></tr></table></div>";
-#	}
-	
+#	}	
 	# Reviews
 	if($vars["taal"]=="nl" and $vars["websitetype"]==7) {
 		$db2->query("SELECT UNIX_TIMESTAMP(datum) AS datum, naam, tekst, afbreken FROM accommodatie_review WHERE actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
@@ -556,14 +479,11 @@ if($db->next_record()) {
 			}
 			echo "</div>";
 		}
-	}
-	
+	}	
 	echo "</div>";
-
 	# Tab "indeling"
 	echo "<div id=\"tabs_indeling\">";
-	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("indeling","toonaccommodatie")."</h3></div>";
-	
+	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("indeling","toonaccommodatie")."</h3></div>";	
 	# Interne gegevens tonen
 #	if($voorkant_cms and $db->f("taantekeningen")) {
 #		echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
@@ -571,17 +491,13 @@ if($db->next_record()) {
 #		echo "<TR><TD>".nl2br(htmlentities($db->f("taantekeningen")))."</TD></TR>";
 #		echo "</TABLE><p>";
 #	}
-	
 	if($db->f("indeling") or $db->f("tindeling")) {
 		echo toon_tekst_acc_en_type($db->f("indeling"),$db->f("tindeling"));
 	}
 	echo "</div><!-- afsluiten_tabs_indeling -->";
-
 	# Tab "foto's"
 	echo "<div id=\"tabs_fotos\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("fotos","vars")."</h3></div>";
-	
-    //
 	if($db->f("url_virtuele_rondgang")) {
 		echo "<div style=\"padding-bottom:5px;\">";
 		echo "<a href=\"".htmlentities($db->f("url_virtuele_rondgang"))."\" target=\"_blank\">";
@@ -589,21 +505,20 @@ if($db->next_record()) {
 		echo " &gt;</a>";
 		echo "</div>";
 	}
-	
 #	imagetable(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
 	$foto_table="";
-    if($db->f("video")=="1") {
-        $foto_table.="<tr>";
-        $foto_table.="<td align=\"center\"><a onclick=\"sessionStorage.click++; return openpopupvideo();\" href=\"#\">";
-        $foto_table.="<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" border=\"0\"/>";
-        $foto_table.="</a></td>";
-        $trcounter++;
-    }
-    if(is_array($foto["pic"]) or is_array($foto["picbreed"])) {
+	if($db->f("video")=="1") {
+		$foto_table.="<tr>";
+		$foto_table.="<td align=\"center\"><div class=\"foto_doorklik\"><a onclick=\"sessionStorage.click++; return openpopupvideo();\" href=\"#\">";
+		$foto_table.="<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" border=\"0\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\">";
+		$foto_table.="</a><br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div></div></td>";
+		$trcounter++;
+	}
+	if(is_array($foto["pic"]) or is_array($foto["picbreed"])) {
 		@reset($foto["pic"]);
 		@reset($foto["picbreed"]);
 		unset($counter);
-        if(is_array($foto["pic"])){
+		if(is_array($foto["pic"])){
 			while(list($key,$value)=@each($foto["pic"])) {
 				if($trcounter==3) {
 					$foto_table.="</tr><tr>";
@@ -665,7 +580,6 @@ if($db->next_record()) {
 		} else {
 			$foto_table.="</TR>";
 		}
-		
 #		echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 #		echo "<TR><TH>".html("fotos","vars")."</TH><TH style=\"text-align:right;font-size:0.7em;\" class=\"noprint\">";
 #		if($vergroting) {
@@ -683,14 +597,10 @@ if($db->next_record()) {
 		echo "<i>".html("geenfotos","toonaccommodatie")."</i>";	
 	}
 	echo "</div><!-- afsluiten_tabs_fotos -->";
-
 	echo "<div id=\"tabs_ligging\">";
-	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("ligging","toonaccommodatie")."</h3></div>";
-	
+	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("ligging","toonaccommodatie")."</h3></div>";	
 	echo "<table width=\"660\" border=\"0\" cellspacing=\"0\" cellpadding=\"5\">";
-	
 	$pdf_plattegrond="pdf/plaats_plattegrond/".$accinfo["plaats_id"].".pdf";
-
 	if($vars["websitetype"]==6) {
 		# Vallandry
 		echo "<tr><td width=\"175\" nowrap>".html("plaats","toonaccommodatie")."</TD><TD><a href=\"".$path.txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/#beschrijving\">".htmlentities($db->f("plaats"))."</A>".(file_exists($pdf_plattegrond) ? " - <a href=\"".$path.htmlentities($pdf_plattegrond)."\" target=\"_blank\">".html("pdfplattegrond","toonaccommodatie")."</a>" : "")."</TD></TR>";
@@ -719,7 +629,6 @@ if($db->next_record()) {
 		if($db->f("afstandgolfbaan")) echo "<tr><td width=\"175\" nowrap>".html("afstandgolfbaan","toonaccommodatie")."</TD><TD>".htmlentities(toonafstand($db->f("afstandgolfbaan"),$db->f("afstandgolfbaanextra"),html("meter","toonaccommodatie")))."</TD></TR>";
 	}
 	echo "</table>";
-	
 	if(($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
 		# Google Maps - plattegrond
 		if(($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
@@ -729,7 +638,6 @@ if($db->next_record()) {
 			$gps_lat=$db->f("gps_lat");
 			$gps_long=$db->f("gps_long");
 		}
-		
 		echo "<script>\n";
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 			echo "var googlemaps_base='/chalet/';\n";
@@ -741,7 +649,6 @@ if($db->next_record()) {
 		if(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
 			echo "var googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
 		}
-		
 		echo "var googlemaps_accid=".$db->f("accommodatie_id").";var googlemaps_typeid=".$db->f("type_id").";\nvar googlemaps_selected_icon=".$vars["websitetype"].";\nvar googlemaps_lat=".$gps_lat.";\nvar googlemaps_long=".$gps_long.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("land")))."';\nvar zoomlevel=".($vars["seizoentype"]==2 ? "9" : "11").";\n</script>\n";
 		echo "<div id=\"map_canvas\"></div>";
 		if($voorkant_cms or $_GET["test"]==1 or $vars["websitetype"]==7) {
@@ -754,13 +661,10 @@ if($db->next_record()) {
 			echo "<p style=\"font-style:italic;margin-top:10px;\">".html("kaartkanafwijken","toonaccommodatie")."</p>";
 		}
 	}
-
 	echo "</div><!-- afsluiten_tabs_ligging -->";
-
 	# Tab "Extra opties"
 	echo "<div id=\"tabs_opties\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br></div>";
-	
 	@reset($seizoen_tarieven);
 	while(list($key,$value)=@each($seizoen_tarieven)) {
 		unset($gratis_optie,$tarieven_ingevuld,$niet_hetzelfde,$toon_optie_pulldown,$optiesoort_beschikbaar);
@@ -831,13 +735,11 @@ if($db->next_record()) {
 							}
 						}
 						$optiesoort_tabel_html.="</TABLE></TD></TR>";
-						
 						if($optiesoort_beschikbaar) {
 							$optie_tabel_html.=$optiesoort_tabel_html;
 						}
 					}
-				}
-				
+				}				
 				if($optie_tabel_html and $optietarieventonen[$seizoenid]) {
 					echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel optietabelclass\" cellspacing=\"0\">";
 					echo "<form name=\"optietabel".$seizoenid."\" method=\"get\" action=\"".$_SERVER["PHP_SELF"]."#selecttab_opties\">";
@@ -1558,7 +1460,7 @@ if($db->next_record()) {
 			?>
 			<script language="Javascript">
 			function open_smallwindow(url){
-				mywin = window.open(url,"small",'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=800px,height=980px,top=0,left=135');				
+				mywin = window.open(url,"small",'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=800px,height=650px,top=0,left=135');				
 			} 
 			</script><?php
 			echo "<div id=\"mailfunctie\"><a href= \"javascript:open_smallwindow('".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."')\"><img src=\"../../pic/mailIcoon.png\" border=\"0\"></a></div>";
