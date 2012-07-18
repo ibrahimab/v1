@@ -512,7 +512,7 @@ if($form->okay) {
 					# Op verzoek van Bert: altijd zomerlogo op voucher
 					#
 	#				$pdf->Image("pic/factuur_logo".($gegevens["stap1"]["website_specifiek"]["websitetype"]==3 ? "_zomer" : "").".png",169.5,1+$y,32);
-					$pdf->Image("pic/factuur_logo_zomer.png",169.5,1+$y,32);
+					$pdf->Image("pic/factuur_logo.png",169.5,1+$y,32);
 				}
 
 #				$pdf->Ln(19);
