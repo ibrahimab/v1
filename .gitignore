@@ -1,6 +1,8 @@
-
 # /tmp-map
 tmp/
+
+# /cache-map
+cache/
 
 # OS generated files
 Thumbs.db
