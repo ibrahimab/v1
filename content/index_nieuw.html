@@ -105,24 +105,8 @@ echo "</div>\n"; # afsluiten hoofdpagina_themas_blok
 
 
 if($vars["website"]=="C") {
-	# Nieuwsbrief
-	echo "<div id=\"hoofdpagina_nieuwsbrief\">";
-	echo "<div class=\"kop\">Nieuwsbrief</div>";
-	echo "<div>Schrijf je in voor onze nieuwsbrief en ontvang al onze aanbiedingen.</div>";
-	if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
-		$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
-	} else {
-		$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
-	}
-	echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
-	echo "<div style=\"margin-top:5px;\"><input type=\"text\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
-	echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
-	echo "</form>";
-	echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
-	
-	echo "<div style=\"clear:both;\"></div>";
-	
-	
+#Twitter
+	include("cache/twitterChaletNL.html");		
 	echo "<div id=\"hoofdpagina_sociallinks\">";
 	echo "<div style=\"float:right;\">";
 	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
@@ -136,23 +120,23 @@ if($vars["website"]=="C") {
 
 	# Google Remarketing
 	echo '<!-- Google Code for Bezoekers homepage Remarketing List -->
-<script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 1070777463;
-var google_conversion_language = "en";
-var google_conversion_format = "3";
-var google_conversion_color = "ffffff";
-var google_conversion_label = "Kg7oCI-_wgIQ94jL_gM";
-var google_conversion_value = 0;
-/* ]]> */
-</script>
-<script type="text/javascript" src="https://www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/1070777463/?label=Kg7oCI-_wgIQ94jL_gM&amp;guid=ON&amp;script=0"/>
-</div>
-</noscript>';	
+	<script type="text/javascript">
+	/* <![CDATA[ */
+	var google_conversion_id = 1070777463;
+	var google_conversion_language = "en";
+	var google_conversion_format = "3";
+	var google_conversion_color = "ffffff";
+	var google_conversion_label = "Kg7oCI-_wgIQ94jL_gM";
+	var google_conversion_value = 0;
+	/* ]]> */
+	</script>
+	<script type="text/javascript" src="https://www.googleadservices.com/pagead/conversion.js">
+	</script>
+	<noscript>
+	<div style="display:inline;">
+	<img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/1070777463/?label=Kg7oCI-_wgIQ94jL_gM&amp;guid=ON&amp;script=0"/>
+	</div>
+	</noscript>';	
 
 }
 

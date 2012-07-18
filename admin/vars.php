@@ -455,10 +455,14 @@ if($vars["nieuwevormgeving"]) {
 			$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		}
 	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
+		if($_GET["testsysteem"]) {
+			$submenu["favorieten"]=txt("submenutitle_favorieten");
+		}
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		$submenu["sitemap"]=txt("submenutitle_sitemap");
+		//deze submenu(sitemap) moet nog naar de footer worden verplaatst.
+		//$submenu["sitemap"]=txt("submenutitle_sitemap");
 		$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
 	}
 
@@ -666,7 +670,7 @@ $vars["minpersonen_boeking"]=array("1"=>"1","2"=>"1","3"=>"1","4"=>"2","5"=>"2",
 $vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina's",4=>"tonen op de accommodatiepagina's en bij intern gebruik het zoekformulier",3=>"tonen op de accommodatiepagina's en het zoekformulier");
 $vars["geslacht"]=array(1=>txt("man","vars"),2=>txt("vrouw","vars"));
 $vars["verzendmethode_reisdocumenten"]=array(1=>txt("email","vars"),2=>txt("post","vars"));
-$vars["blogcategorie_italissima"]=array(1=>"culinair",2=>"tradities & feestdagen",3=>"bezienswaardigheden",4=>"mode & design",5=>"films",6=>"overig");
+$vars["blogcategorie_italissima"]=array(1=>"eten & drinken",2=>"tradities & feestdagen",3=>"kunst & cultuur",4=>"mode & design",5=>"films",6=>"Overig",7=>"levenstijl");
 
 
 

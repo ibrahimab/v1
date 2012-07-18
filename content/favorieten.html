@@ -1,0 +1,308 @@
+<script language="javascript" src="http://192.168.1.32/chalet/scripts/main.js"></script>
+<script language="javascript" src="http://192.168.1.32/chalet/scripts/popup.js"></script>
+<div id="modal" style=" width:300px; height:160px;background-image:url(http://192.168.1.32/chalet/pic/popBack.png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position absolute;left:35%; top:20px; display:none;">
+	<div style="padding:50px;";>Je favorieten worden hier opgeslagen.<br>
+	Hier kun je je favoriete accommodaties vergelijken,<br> 
+	delen en afdrukken.<br>
+	<input type="button" value="OK" onClick="Popup.hide('modal')"></div>
+</div>
+<script type="text/javascript">
+function printDiv(divName) { 
+    var printContents = document.getElementById(divName).innerHTML; 
+    var originalContents = document.body.innerHTML; 
+
+    document.body.innerHTML = printContents; 
+
+    window.print(); 
+
+    document.body.innerHTML = originalContents; 
+} 
+
+function validateEmail(email) {  
+	var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+	return email.match(pattern);     
+}  
+
+function setVerzender(){
+	//window.alert(document.getElementById("VerzenderNaam").value);
+	//document.getElementById("Verzender").innerHTML = document.getElementById("VerzenderNaam").value;
+}
+function controlEnSend(){
+	if(document.getElementById("VerzenderNaam").value == ""){
+		//window.alert("OK");
+		document.getElementById("meldingen").style.backgroundColor = 'red';
+		document.getElementById("meldingen").style.color = 'white';
+		document.getElementById("meldingen").style.padding = '10px';
+		document.getElementById("meldingen").innerHTML = "U hebt uw naam niet ingevuld";
+	}
+	else if(document.getElementById("verzenderAdres").value == ""){
+		//window.alert("OK");
+		document.getElementById("meldingen").style.backgroundColor = 'red';
+		document.getElementById("meldingen").style.color = 'white';
+		document.getElementById("meldingen").style.padding = '10px';
+		document.getElementById("meldingen").innerHTML = "U hebt uw email adres niet ingevuld";
+	}
+	else if(document.getElementById("EmailOntvanger").value == ""){
+		//window.alert("OK");
+		document.getElementById("meldingen").style.backgroundColor = 'red';
+		document.getElementById("meldingen").style.color = 'white';
+		document.getElementById("meldingen").style.padding = '10px';
+		document.getElementById("meldingen").innerHTML = "U hebt de email adres(en) van de ontvanger(s) niet ingevuld";
+	}
+	else{
+		var container = document.getElementById("EmailOntvanger").value;
+		var emailAdressen = container.split(" ");
+		for(var i =0; i < emailAdressen.length; i++){
+			if(!validateEmail(emailAdressen[i])){
+				window.alert(emailAdressen[i] + " is geen geldige email adres. Geef aub alleen maar geldige email adressen op.");
+				document.getElementById("meldingen").style.backgroundColor = 'red';
+				document.getElementById("meldingen").style.color = 'white';
+				document.getElementById("meldingen").style.padding = '10px';
+				document.getElementById("meldingen").innerHTML = "Vul A.u.b geldige email adres(sen) in";
+				break;
+			}
+			else{
+				//document.getElementById("afzender").innerHTML = document.getElementById("VerzenderNaam").value;
+				//var bericht = document.getElementById("presentbericht").innerHTML;
+				//window.alert(bericht);
+				//document.getElementById("bericht").value = bericht;
+				//document.forms["mailAcc"].submit();
+				document.getElementById("verzenden").disabled=true;
+				document.getElementById("Annuleren").disabled=true;
+				ajaxMailFunction();
+				break;
+			}
+		}
+	}
+}
+</script>
+<script language="javascript" type="text/javascript">
+function ajaxMailFunction(){
+	 var ajaxRequest;  // The variable that makes Ajax possible!
+		
+	 try{
+	   // Opera 8.0+, Firefox, Safari
+	   ajaxRequest = new XMLHttpRequest();
+	 }catch (e){
+	   // Internet Explorer Browsers
+	   try{
+	      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+	   }catch (e) {
+	      try{
+	         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+	      }catch (e){
+	         // Something went wrong
+	         alert("Your browser broke!");
+	         return false;
+	      }
+	   }
+	 }
+	 ajaxRequest.onreadystatechange = function(){
+	   if(ajaxRequest.readyState == 4){
+		   window.alert('Bedankt, uw email(s) zijn verzonden');
+		   document.getElementById('meldingen').innerHTML='Bedankt, uw email(s) zijn verzonden';
+		   document.getElementById('VerzenderNaam').value=""; ;
+		   document.getElementById('verzenderAdres').value="";
+		   document.getElementById('EmailOntvanger').value="";
+		   document.getElementById('presentatiebericht').value="";
+		   document.getElementById("verzenden").disabled=false;
+			document.getElementById("Annuleren").disabled=false;
+		   return false;
+	   }
+	 }
+	 // Now get the value from user and pass it to
+	 // server script.
+	 var queryString = "?VerzenderNaam=" + document.getElementById('VerzenderNaam').value ;
+	 queryString +=  "&verzenderAdres=" + document.getElementById('verzenderAdres').value;
+	 queryString +=  "&EmailOntvanger=" + document.getElementById('EmailOntvanger').value;
+	 queryString +=  "&bericht=" + document.getElementById('presentatiebericht').value;
+	 queryString +=  "&action=mailDoor";
+	 ajaxRequest.open("GET", queryString, true);
+	 ajaxRequest.send(null); 
+}
+function ajaxFunctionUpdateFav(){
+ var ajaxRequestup;  // The variable that makes Ajax possible!
+	
+ try{
+   // Opera 8.0+, Firefox, Safari
+   ajaxRequestup = new XMLHttpRequest();
+ }catch (e){
+   // Internet Explorer Browsers
+   try{
+      ajaxRequestup = new ActiveXObject("Msxml2.XMLHTTP");
+   }catch (e) {
+      try{
+    	  ajaxRequestup = new ActiveXObject("Microsoft.XMLHTTP");
+      }catch (e){
+         alert("Your browser broke!");
+         return false;
+      }
+   }
+ }
+
+ ajaxRequestup.onreadystatechange = function(){
+   if(ajaxRequestup.readyState == 4){
+	   location.reload(true);
+   }
+ }
+ // Now get the value from user and pass it to
+ // server script.
+ var queryString = "?action=update" ;
+ ajaxRequestup.open("GET", queryString, true);
+ ajaxRequestup.send(null); 
+}
+
+function ajaxFunction(klantid, accid, action){
+ var ajaxRequest;  // The variable that makes Ajax possible!
+	
+ try{
+   // Opera 8.0+, Firefox, Safari
+   ajaxRequest = new XMLHttpRequest();
+ }catch (e){
+   // Internet Explorer Browsers
+   try{
+      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+   }catch (e) {
+      try{
+         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+      }catch (e){
+         // Something went wrong
+         alert("Your browser broke!");
+         return false;
+      }
+   }
+ }
+ ajaxRequest.onreadystatechange = function(){
+   if(ajaxRequest.readyState == 4){
+	   Popup.showModal('modal','position','Screen.getBody()','top left',{'constrainToScreen':true,'screenColor':'#000000','screenOpacity':.6});
+	   ajaxFunctionUpdateFav();
+	   return false;
+   }
+ }
+ var queryString = "?klantID=" + klantid ;
+ queryString +=  "&accommodatie=" + accid;
+ queryString +=  "&action=" + action;
+ ajaxRequest.open("GET", queryString, true);
+ ajaxRequest.send(null); 
+}
+</script>
+<h1>Mijn favorieten</h1>
+<br></br>
+<?php
+if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])){
+	if($_GET['action']=="insert"){
+		$klantID=$_GET['klantID'];
+		$accommodatieID=$_GET['accommodatie'];
+		$db->query("insert into bezoeker_favoriet(bezoeker_id, type_id, adddatetime, editdatetime)values('$klantID','$accommodatieID','date()','time()')");
+	}
+	elseif($_GET['action']=="delete"){
+		$klantID=$_GET['klantID'];
+		$accommodatieID=$_GET['accommodatie'];
+		$db->query("delete from bezoeker_favoriet where bezoeker_id='$klantID' and type_id='$accommodatieID'");
+	}
+}
+elseif(isset($_GET['VerzenderNaam'])&& $_GET['action']=="mailDoor"){
+	$emails = explode(" ", $_GET['verzenderAdres']);
+	for($i = 0; $i<sizeof($emails); $i++){
+		$mail=new wt_mail;
+		$mail->fromname=$_GET["VerzenderNaam"];
+		$mail->from=$_GET['verzenderAdres'];
+		$mail->toname=$_GET[''];
+		$mail->to=$emails[$i];
+		$mail->subject.="Accomodatie door mail";
+		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
+		$mail->html_top="";
+        $mail->html.="<html>";
+        $mail->html.="<head>";
+        $mail->html.="</head>";
+		$mail->html.="<body>";
+		$mail->html.=$_GET["bericht"];
+		foreach($klantfavs as $id){
+			$db->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+			while($db->next_record()){
+				$accid=$db->f("accommodatie_id");
+				if(file_exists("pic/cms/types_specifiek/".$id.".jpg")) {
+					$afbeelding="types_specifiek/".$id;
+				} elseif(file_exists("pic/cms/accommodaties/".$accid.".jpg")) {
+					$afbeelding="accommodaties/".$accid;
+				} else {
+					$afbeelding="accommodaties/0";
+				}
+				$mail->html.="<table text-align=\"left\" style=\"font-family:verdana;\" border=\"0\" width=\"100%\" bgcolor=\"#d5e1f9\">";
+				$mail->html.="<tr><td bgcolor=\"#003366\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".$db->f("naam")."</td></tr>";
+				$mail->html.="<tr><td rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["path"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\"></td>";
+				$mail->html.="<td>".$db->f("land")."</td></tr><tr>";
+				$mail->html.="<td>".$db->f("plaats")."</td></tr><tr>";
+				$mail->html.="<td>".$db->f("skigebied")."</td></tr><tr>";
+				$mail->html.="<td style=\"color:Red;\">".$db->f("korteomschrijving")."</td></tr><tr>";
+				$mail->html.="<td>".$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen")." personen</td></tr><tr>";
+				$mail->html.="<td>".$db->f("slaapkamers")." slaapkamer(s)</td></tr><tr>";
+				$mail->html.="<td>".$db->f("badkamers")." badkamer(s)</td></tr><tr>";
+				$teken=substr($db->f("land"),0,1);
+				$mail->html.="<td align=\"right\" colspan=\"2\"><a href=\"http://192.168.1.32/".$vars["path"]."accommodatie.php/".$teken.$id."\"><img src=\"http://192.168.1.32/chalet/pic/leesMeerButton.png\" width=\"82\" height=\"23\"></img></a></td></tr><tr>";
+				$mail->html.="</table>";
+				echo "<BR>";
+			}
+		}
+		$mail->html.="</body>";
+        $mail->html.="</html>";
+		$mail->html_bottom="";
+		$mail->send();
+	}
+}
+echo "<div>";
+echo "<div id=\"meldingen\" style=\"position:relative;\"></div>";
+echo "<div style=\"float:left;\"><a style=\"text-decoration:none;\" onclick=\"document.getElementById('mailForm').style.display='inline'\" href=\"#\"><img border=\"0\" src=\"".$vars["path"]."pic/mailIcoon.png\">Versturen via email</img></a> | <a style=\"text-decoration:none;\" onclick=\"printDiv('printDi')\" href=\"#\"><img border=\"0\" src=\"".$vars["path"]."pic/printen.png\" width=\"30\" height=\"30\">Printen</img></a></div>";
+echo "<div style=\"height:20px;\"></div>";
+echo "<div id=\"mailForm\" style=\"display:none\">";
+echo "<form>";
+echo "<br>Uw naam:<BR>"; 
+echo "<input type=\"text\" name=\"VerzenderNaam\" id=\"VerzenderNaam\" /><br />";
+echo "Van:(Email adres)<BR>";
+echo "<input type=\"text\" name=\"verzenderAdres\" id=\"verzenderAdres\" /><br/>";
+echo "Naar:(Email adres(sen))<BR>";
+echo "<input type=\"text\" name=\"EmailOntvanger\" id=\"EmailOntvanger\" /><BR>";
+echo "Bericht:<BR>";
+echo "<textarea name=\"presentatiebericht\" rows=\"5\" cols=\"50\" id=\"presentatiebericht\" />Ik heb een leuke accommodatie gevonden. Dit moet je zien!</textarea><BR>";
+echo "<input type=\"button\" name=\"verzenden\" id=\"verzenden\" onclick=\"controlEnSend()\" value=\"Versturen\" />";
+echo "<input type=\"button\" name=\"Annuleren\" id=\"Annuleren\" value=\"Annuleren\" onclick=\"document.getElementById('mailForm').style.display='none'\" />";
+echo "</form><BR>";
+echo "</div>";
+echo "<div id=\"printDi\">";
+foreach($klantfavs as $id){
+	$db->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+	while($db->next_record()){
+		$accid=$db->f("accommodatie_id");
+		if(file_exists("pic/cms/types_specifiek/".$id.".jpg")) {
+			$afbeelding="types_specifiek/".$id;
+		} elseif(file_exists("pic/cms/accommodaties/".$accid.".jpg")) {
+			$afbeelding="accommodaties/".$accid;
+		} else {
+			$afbeelding="accommodaties/0";
+		}
+		echo"<table style=\"display:inline-table;background-color:#d5e1f9;\" text-align=\"left\" border=\"0\" width=\"100%\" bgcolor=\"#d5e1f9\">";
+		echo"<tr><td bgcolor=\"#003366\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".$db->f("naam")."</td></tr>";
+		echo"<tr><td rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".imageurl($afbeelding.".jpg",200,150)."\" width=\"200\" height=\"150\"></td>";
+		echo"<td>".$db->f("land")."</td></tr><tr>";
+		echo"<td>".$db->f("plaats")."</td></tr><tr>";
+		echo"<td>".$db->f("skigebied")."</td></tr><tr>";
+		echo"<td style=\"color:Red;\">".$db->f("korteomschrijving")."</td></tr><tr>";
+		echo"<td>".$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen")." personen</td></tr><tr>";
+		echo"<td>".$db->f("slaapkamers")." slaapkamer(s)</td></tr><tr>";
+		echo"<td>".$db->f("badkamers")." badkamer(s)</td></tr><tr>";
+		$teken=substr($db->f("land"),0,1);
+		echo"<td align=\"right\" colspan=\"2\"><a href=\"accommodatie.php/".$teken.$id."\"><img border=\"0\" src=\"http://192.168.1.32/chalet/pic/leesMeerButton.png\" width=\"82\" height=\"23\"></img></a></td></tr><tr>";
+		echo"</table>";
+		echo "<div style=\"padding:5px;\">";
+		echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$id."','delete')\" href=\"#\">";
+		echo "<img border=\"0\" width=\"13\" height=\"13\" src=";
+		echo $vars["path"];
+		echo "pic/icon_notokay.png>";
+		echo " Uit mijn favorieten halen";
+		echo "</a>";
+		echo "</div>";
+		echo "<BR>";
+	}
+}
+echo "</div>";
+?>

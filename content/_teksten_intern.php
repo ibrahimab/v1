@@ -42,6 +42,9 @@ $txta["en_z"]["menu_anderesite"]="winter";
 $txta["nl"]["menu_nieuwsbrief"]="nieuwsbrief";
 $txta["en"]["menu_nieuwsbrief"]="mailing";
 
+$txta["nl"]["menu_favorieten"]="favorieten";
+$txta["en"]["menu_favorieten"]="favorites";
+
 $txta["nl"]["menu_bestemmingen"]="bestemmingen";
 $txta["en"]["menu_bestemmingen"]="destinations";
 
@@ -185,6 +188,9 @@ if($vars["websitetype"]==3 or $vars["websitetype"]==5 or $vars["websitetype"]==7
 	$txta["nl"]["submenutitle_skigebieden"]="skigebieden";
 }
 $txta["en"]["submenutitle_skigebieden"]="regions";
+
+$txta["nl"]["submenutitle_favorieten"]="favorieten";
+$txta["en"]["submenutitle_favorieten"]="favorites";
 
 $txta["nl"]["submenutitle_algemenevoorwaarden"]="algemene voorwaarden";
 $txta["en"]["submenutitle_algemenevoorwaarden"]="conditions";
@@ -330,6 +336,9 @@ $txta["en"]["title_zoekenboek"]="Search and book";
 
 $txta["nl"]["title_algemenevoorwaarden"]="Algemene reis- en verkoopvoorwaarden ".$vars["websitenaam"];
 $txta["en"]["title_algemenevoorwaarden"]="General Terms and Conditions of Travel and Sale ".$vars["websitenaam"];
+
+$txta["nl"]["title_favorieten"]="Mijn favorieten";
+$txta["en"]["title_favorieten"]="My favorites";
 
 $txta["nl"]["title_werkwijze"]="Werkwijze ".$vars["websitenaam"];
 $txta["en"]["title_werkwijze"]="How we work";

@@ -1,8 +1,5 @@
 <?php
 
-#echo wt_dump($_POST);
-#exit;
-
 #
 #
 # Verschil onlyinoutput / noedit : 

@@ -2,6 +2,9 @@
 
 #phpinfo();
 #exit;
+//dat heb ik zo gedaan omdat de menu al wordt opgebouwd voordat de html pagina wordt opgeladen. wanneer deze is opgeladen gebeurt er niks meer 
+//met de menu balk. tijdens het ophalen van deze php bestand wordt de vars bestand opgehaald en kan de menubalk nog worden overschreven.
+//ik geprobeerd om deze gebeurtenis vanuit de html pagina te laten gebeuren maar zonder succes.
 
 $vars["jquery_fancybox"]=true;
 $vars["verberg_linkerkolom"]=true;
@@ -14,7 +17,19 @@ $onload="initialize_googlemaps();";
 
 #$vars["jquery_scrollto"]=true;
 include_once "admin/vars.php";
-
+if($vars["websitetype"]==1 and $_GET["testsysteem"]) {
+	$klantfavs=array();
+	if($_GET['action']=="insert"){
+		$klantID=$_GET['klantID'];
+		$accommodatieID=$_GET['accommodatie'];
+		$db->query("insert into bezoeker_favoriet(bezoeker_id, type_id, adddatetime, editdatetime)values('$klantID','$accommodatieID','date()','time()')");
+	}
+	$db->query("select type_id from bezoeker_favoriet where bezoeker_id='".$_COOKIE["sch"]."'");
+	while($db->next_record()){
+		array_push($klantfavs,$db->f("type_id"));
+	}
+	$submenu["favorieten"]=txt("submenutitle_favorieten")."(".count($klantfavs).")";
+}
 if($_POST["ookbeschikbaarkeuze"]) {
 	$location=eregi_replace("/".txt("menu_accommodatie")."/[a-zA-Z0-9]+/","/".txt("menu_accommodatie")."/".urlencode($_POST["ookbeschikbaarkeuze"])."/",$_SERVER["REQUEST_URI"]);
 	header("Location: ".$location);
