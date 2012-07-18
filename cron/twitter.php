@@ -38,7 +38,7 @@ foreach($username as $userAccount){
 			if(substr($bericht1[$a],0,4)=="http"){
 				$bericht.=htmlentities("<a style=\"text-decoration:underline;\" href=");
 				$bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
-				$bericht.=htmlentities("> ");
+				$bericht.=htmlentities(" target=\"_blank\">");
 				$bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
 				$bericht.=htmlentities("</a>");
 			}
@@ -50,7 +50,7 @@ foreach($username as $userAccount){
 			if(substr($bericht2[$a],0,4)=="http"){
 				$berichtNext.=htmlentities("<a style=\"text-decoration:underline;\" href=");
 				$berichtNext.=htmlentities($bericht2[$a]);
-				$berichtNext.=htmlentities("> ");
+				$berichtNext.=htmlentities(" target=\"_blank\"> ");
 				$berichtNext.=htmlentities($bericht2[$a]);
 				$berichtNext.=htmlentities("</a>");
 			}
@@ -62,7 +62,7 @@ foreach($username as $userAccount){
 			if(substr($bericht3[$a],0,4)=="http"){
 				$berichtNextNext.=htmlentities("<a style=\"text-decoration:underline;\" href=");
 				$berichtNextNext.=htmlentities($bericht3[$a]);
-				$berichtNextNext.=htmlentities("> ");
+				$berichtNextNext.=htmlentities(" target=\"_blank\"> ");
 				$berichtNextNext.=htmlentities($bericht3[$a]);
 				$berichtNextNext.=htmlentities("</a>");
 			}
@@ -74,9 +74,9 @@ foreach($username as $userAccount){
 			$content="<BR>";
 			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_nieuwsbrief\" cellspacing=\"2\" style=\"background-color:".$backColor."; padding:5px;\">";
 			$content.="<tr><td font-color=\"".$kopColor."\" class=\"kop\" colspan=\"2\">".$naam." op twitter</td></tr>";
-			$content.="<tr><td><a href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\">";
+			$content.="<tr><td><a href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\" target=\"_blank\">";
 			$content.="<img src=\"".$imgSrc."\" width=\"50\" height=\"50\"></a></td>";
-			$content.="<td><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\">".$userAccount.":</a></td></tr><tr><td></td><td></td></tr>";
+			$content.="<td><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\" target=\"_blank\">".$userAccount.":</a></td></tr><tr><td></td><td></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".htmlspecialchars_decode($bericht)."<BR><BR></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".htmlspecialchars_decode($berichtNext)."<BR><BR></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".htmlspecialchars_decode($berichtNextNext)."<BR><BR></td>";
@@ -85,7 +85,7 @@ foreach($username as $userAccount){
 		}
 		else{
 			$content="<br><table id=\"hoofdpagina_blog\" cellspacing=\"0\" style=\"background-color:#e0d1cc; padding-left:25px; padding-right:25px; width:580px;\">
-					<tr><td colspan=\"2\"><h2><a href=\"https://twitter.com/intent/user?screen_name=Italissima\">Italissima op twitter</a></h2></td></tr>
+					<tr><td colspan=\"2\"><h2><a href=\"https://twitter.com/intent/user?screen_name=Italissima\" target=\"_blank\">Italissima op twitter</a></h2></td></tr>
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".htmlspecialchars_decode($bericht)."<hr></td></tr>
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".htmlspecialchars_decode($berichtNext)."<hr></td></tr>
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".htmlspecialchars_decode($berichtNextNext)."</td>
