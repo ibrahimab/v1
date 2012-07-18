@@ -51,21 +51,13 @@ if($_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["DOCUMENT_ROOT"]=="/home
 }
 
 # Bestanden includen
-#require($unixdir."admin/allfunctions.php");
-#ze staan toch in dezelfe map? waarom nogmaal naar die map verwijzen?
-require($unixdir."allfunctions.php");
-#require($unixdir."admin/class.login.php");
-require($unixdir."class.login.php");
-#require($unixdir."admin/class.cms2.php");
-require($unixdir."class.cms2.php");
-#require($unixdir."admin/class.form.php");
-require($unixdir."class.form.php");
-#require($unixdir."admin/class.tablelist.php");
-require($unixdir."class.tablelist.php");
-#require($unixdir."admin/class.cms.layout.php");
-require($unixdir."class.cms.layout.php");
-#require($unixdir."admin/vars_functions.php");
-require($unixdir."vars_functions.php");
+require($unixdir."admin/allfunctions.php");
+require($unixdir."admin/class.login.php");
+require($unixdir."admin/class.cms2.php");
+require($unixdir."admin/class.form.php");
+require($unixdir."admin/class.tablelist.php");
+require($unixdir."admin/class.cms.layout.php");
+require($unixdir."admin/vars_functions.php");
 
 
 #
@@ -101,9 +93,8 @@ if($_SERVER["WINDIR"]) {
 } else {
 	$mysqlsettings["host"]="localhost";# Hostname bij provider
 }
-#waarom nogmaals naar die map verwijzen? ze staan al in dezelfde map
-#require($unixdir."admin/class.mysql.php");
-require($unixdir."class.mysql.php");
+
+require($unixdir."admin/class.mysql.php");
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$db->query("SET CHARACTER SET 'latin1';");
@@ -172,9 +163,7 @@ if($vars["taal"]=="en") {
 }
 
 require($unixdir."content/_teksten_intern.php");
-//require("../content/_teksten_intern.php");
 require($unixdir."content/_teksten.php");
-//require("../content/_teksten.php");
 
 $vars["path"]=$path;
 
