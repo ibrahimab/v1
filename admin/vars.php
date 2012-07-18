@@ -113,8 +113,7 @@ $vars["ads"]=array(1=>"Google AdWords algemeen",2=>"Google AdWords Oostenrijk",3
 $vars["ads_controle"]=array(9=>"TDF",12=>"KWX",31=>"KSQ",32=>"PWL"); # voeg toe aan URL (bijvoorbeeld): ?chad=KWX12
 $vars["ads_referermail"]=array(9=>"jeroen@webtastic.nl",12=>"j.fokke@snowplaza.nl");
 if(!$cron and !$cronmap and !$css and !$geen_tracker_cookie and !$_GET["nocache"]) {
-	#include($unixdir."admin/trackercookie.php");
-	include($unixdir."trackercookie.php");
+	include($unixdir."admin/trackercookie.php");
 }
 
 #
@@ -148,7 +147,7 @@ if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
 #
 # Websitetype en seizoentype bepalen
 #
-require($unixdir."vars_websitetype.php");
+require($unixdir."admin/vars_websitetype.php");
 
 #
 # Land-instellingen
