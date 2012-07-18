@@ -91,7 +91,7 @@ foreach($username as $userAccount){
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".htmlspecialchars_decode($berichtNextNext)."</td>
 					</table>";
 		}
-		$toWrite="../content/twitter".$userAccount.".html";
+		$toWrite="../cache/twitter".$userAccount.".html";
 		$handle=fopen($toWrite,'w') or die('Cannot open file:  '.$toWrite);
 		$data=$content;
 		fwrite($handle, $data);
