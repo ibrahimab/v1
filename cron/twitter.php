@@ -1,6 +1,18 @@
 <?php 
-#Twitter
+
+# Twitter-cache aanmaken
+
 #bij een aanrequest blokkeert twitter de aanvragem. de hieronder staande code zorgt ervoor dat er geen warnings op de homepage komen te staan.
+
+set_time_limit(0);
+if($_SERVER["HTTP_HOST"]) {
+	$unixdir="../";
+	$tmpdir="/tmp/";
+} else {
+	$unixdir="/home/sites/chalet.nl/html/";
+	$tmpdir="/home/sites/chalet.nl/html/tmp/";
+}
+
 ini_set('display_errors', 'Off');
 ini_set('display_startup_errors', 'Off');
 error_reporting(0);
@@ -91,7 +103,7 @@ foreach($username as $userAccount){
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".htmlspecialchars_decode($berichtNextNext)."</td>
 					</table>";
 		}
-		$toWrite="../cache/twitter".$userAccount.".html";
+		$toWrite=$unixdir."cache/twitter".$userAccount.".html";
 		$handle=fopen($toWrite,'w') or die('Cannot open file:  '.$toWrite);
 		$data=$content;
 		fwrite($handle, $data);
