@@ -169,8 +169,8 @@ if($_GET["b"]) {
 	echo "<div style=\"margin-top:20px;padding-top:20px;border-top:2px solid #ffd38f; width:500px;\"><a href=\"".$vars["path"]."blog.php?archief=1\">";
 	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 2,18446744073709551615");
 	while($db->next_record()){
-	$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
-	echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></div>";
+		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
+		echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></div>";
 		echo "<div style=\"height:20px;\" class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
 	}
 	//if($_GET["cat"]) {
