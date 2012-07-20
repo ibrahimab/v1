@@ -100,17 +100,17 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->subject="Leuke accommodatie tip van ".$_POST["VerzenderNaam"];
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
-        $mail->html.="<html>";
-        $mail->html.="<head>";
-        $mail->html.="</head>";
-        $mail->html.="<body style=\"font-family:verdana;\">";
+		$mail->html.="<html>";
+		$mail->html.="<head>";
+		$mail->html.="</head>";
+		$mail->html.="<body style=\"font-family:verdana;\">";
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
-        $mail->html.="<a href=".$vars["basehref"]."><img src=".$vars['mail_topfoto']."></a><BR><BR>";
+		$mail->html.="<a href=".$vars["basehref"]."><img src=".$vars['mail_topfoto']."></a><BR><BR>";
 		$mail->html.="<BR><div style=\"color:".$vars["textColor"].";text-align:left;width:681px;\">".$_POST['bericht']."</div>\n";
 		$mail->html.=$_POST['bericht2']."\n";
 		$mail->html.="</div>";
-        $mail->html.="</body>";
-        $mail->html.="</html>";
+		$mail->html.="</body>";
+		$mail->html.="</html>";
 		$mail->html_bottom="";
 		$mail->send(); # mailtje daadwerkelijk verzenden
 	}
@@ -120,54 +120,55 @@ if(isset($_POST['verzenderAdres'])){
 ?>
 <form action="<?php echo $_SERVER["REQUEST_URI"] ?>"  method="post" name="mailAcc">
 	<table id="mailTable">
-  		<tr>
-    		<td><strong>Van: (Email adres)</strong></td>
-  		</tr>
-  		<tr>
-    		<td>
-      			<input type="text" name="verzenderAdres" id="verzenderAdres" />
-      		</td>
-  		</tr>
- 		 <tr>
-    		<td><strong>Naar:(meerdere emailadressen scheiden met een spatie)</strong></td>
-  		</tr>
-  		<tr>
-    		<td><input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
-  		</tr>
-  		<tr>
-    		<td><strong>Bericht:</strong></td>
-  		</tr>
-  		<tr>
-  			<td><textarea name="bericht" id="bericht" cols="50" rows=7 /><?php echo $vars['mail_form_mid_div_content'];?></textarea></td>
-  		</tr>
-  		<tr>
-    		<td>
-    			<div id="presentbericht" contenteditable="true">
-        			<p><BR />
-            		<?php
-	        			echo"<table style=\"display:inline-table;background-color:".$vars["backcolor"].";font-family:verdana\" text-align=\"left\" border=\"0\" width=\"681px\" bgcolor=\"".$vars["backcolor"]."\">";
-						echo"<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".wt_he($accinfo["accnaam"])."</td></tr>";
-						$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
-						$url="url";
-						echo"<tr><td rowspan=\"8\"><a href=\"$accinfo[$url]\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a></td>";
-						echo"<td>".wt_he($accinfo["accnaam"])."</td></tr><tr>";
-						echo"<td>".wt_he($accinfo["plaats"])."-".wt_he($accinfo["skigebied"])."-".wt_he($accinfo["land"])."</td></tr><tr>";
-						echo"<td>".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen</td></tr><tr>";
-						echo"<td style=\"color:".$vars["backcolor"].";\">sgjhsgjhsdghjgsjhsdgjhgsdjhgjsgjsgjhsdgjhgdsjgsdjhgsdjh</td></tr><tr>";
-						echo"<td>".wt_he($accinfo["oppervlakte"])." m2</td></tr><tr>";
-						echo"<td>".wt_he($accinfo["slaapkamers"])." slaapkamer(s)</td></tr><tr>";
-						echo"<td>".wt_he($accinfo["badkamers"])." badkamer(s)</td></tr>";
-						echo"</table>";?>
-        		</div>
-    			<input type="hidden" name="bericht2" id="bericht2"></input>	
-    			<div id="Verzender"></div></td>
-  		</tr>
-  		<tr>
-  			<td><input type="checkbox" name="jaNee" id="jaNee"> Stuur een kopie naar mezelf</td>
-  		</tr>
-  		<tr>
-    		<td><button type="button" onclick="controlEnSend()" name="verzend" id="verzend" value="VERZENDEN">VERZENDEN</button>
-    		</td>
-  		</tr>
+		<tr>
+			<td><strong>Van: (Email adres)</strong></td>
+		</tr>
+		<tr>
+			<td>
+				<input type="text" name="verzenderAdres" id="verzenderAdres" />
+			</td>
+		</tr>
+		<tr>
+			<td><strong>Naar:(meerdere emailadressen scheiden met een spatie)</strong></td>
+		</tr>
+		<tr>
+			<td><input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
+		</tr>
+		<tr>
+			<td><strong>Bericht:</strong></td>
+		</tr>
+		<tr>
+			<td><textarea name="bericht" id="bericht" cols="50" rows=7 /><?php echo $vars['mail_form_mid_div_content'];?></textarea></td>
+		</tr>
+		<tr>
+			<td>
+				<div id="presentbericht" contenteditable="true">
+					<p><BR />
+						<?php
+							echo"<table style=\"display:inline-table;background-color:".$vars["backcolor"].";font-family:verdana\" text-align=\"left\" border=\"0\" width=\"681px\" bgcolor=\"".$vars["backcolor"]."\">";
+							echo"<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".wt_he($accinfo["accnaam"])."</td></tr>";
+							$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
+							$url="url";
+							echo"<tr><td rowspan=\"8\"><a href=\"$accinfo[$url]\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a></td>";
+							echo"<td>".wt_he($accinfo["accnaam"])."</td></tr><tr>";
+							echo"<td>".wt_he($accinfo["plaats"])."-".wt_he($accinfo["skigebied"])."-".wt_he($accinfo["land"])."</td></tr><tr>";
+							echo"<td>".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen</td></tr><tr>";
+							echo"<td style=\"color:".$vars["backcolor"].";\">sgjhsgjhsdghjgsjhsdgjhgsdjhgjsgjsgjhsdgjhgdsjgsdjhgsdjh</td></tr><tr>";
+							echo"<td>".wt_he($accinfo["oppervlakte"])." m2</td></tr><tr>";
+							echo"<td>".wt_he($accinfo["slaapkamers"])." slaapkamer(s)</td></tr><tr>";
+							echo"<td>".wt_he($accinfo["badkamers"])." badkamer(s)</td></tr>";
+							echo"</table>";
+						?>
+				</div>
+				<input type="hidden" name="bericht2" id="bericht2"></input>	
+				<div id="Verzender"></div></td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" name="jaNee" id="jaNee"> Stuur een kopie naar mezelf</td>
+		</tr>
+		<tr>
+			<td><button type="button" onclick="controlEnSend()" name="verzend" id="verzend" value="VERZENDEN">VERZENDEN</button>
+			</td>
+		</tr>
 	</table>
 </form>
