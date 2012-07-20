@@ -74,108 +74,95 @@ function controlEnSend(){
 function ajaxMailFunction(welOfgeenKopie){
 	var ajaxRequest;  // The variable that makes Ajax possible!		
 	try{
-	   // Opera 8.0+, Firefox, Safari
 		ajaxRequest = new XMLHttpRequest();
-	 }catch (e){
-	   // Internet Explorer Browsers
-	   try{
-	      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-	   }catch (e) {
-	      try{
-	         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-	      }catch (e){
-	         // Something went wrong
-	         alert("Your browser broke!");
-	         return false;
-	      }
-	   }
-	 }
-	 ajaxRequest.onreadystatechange = function(){
-	   if(ajaxRequest.readyState == 4){
-		   window.alert('Bedankt, uw email(s) zijn verzonden');
-		   document.getElementById('meldingen').innerHTML='Bedankt, uw email(s) zijn verzonden';
-		   document.getElementById('verzenderAdres').value="";
-		   document.getElementById('EmailOntvanger').value="";
-		   document.getElementById('presentatiebericht').value="";
-		   document.getElementById("verzenden").disabled=false;
+	}catch (e){
+		try{
+			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}catch (e) {
+			try{
+				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}catch (e){
+				alert("Your browser broke!");
+					return false;
+			}
+		}
+	}
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			window.alert('Bedankt, uw email(s) zijn verzonden');
+			document.getElementById('meldingen').innerHTML='Bedankt, uw email(s) zijn verzonden';
+			document.getElementById('verzenderAdres').value="";
+			document.getElementById('EmailOntvanger').value="";
+			document.getElementById('presentatiebericht').value="";
+			document.getElementById("verzenden").disabled=false;
 			document.getElementById("Annuleren").disabled=false;
-		   return false;
-	   }
-	 }
-	 // Now get the value from user and pass it to
-	 // server script.
-	 var queryString = "?verzenderAdres=" + document.getElementById('verzenderAdres').value;
-	 queryString +="&welofGeenKopie" + welOfgeenKopie;
-	 queryString +=  "&EmailOntvanger=" + document.getElementById('EmailOntvanger').value;
-	 queryString +=  "&bericht=" + document.getElementById('presentatiebericht').value;
-	 queryString +=  "&action=mailDoor";
-	 ajaxRequest.open("GET", queryString, true);
-	 ajaxRequest.send(null); 
+			return false;
+		}
+	}
+	var queryString = "?verzenderAdres=" + document.getElementById('verzenderAdres').value;
+	queryString +="&welofGeenKopie" + welOfgeenKopie;
+	queryString +=  "&EmailOntvanger=" + document.getElementById('EmailOntvanger').value;
+	queryString +=  "&bericht=" + document.getElementById('presentatiebericht').value;
+	queryString +=  "&action=mailDoor";
+	ajaxRequest.open("GET", queryString, true);
+	ajaxRequest.send(null); 
 }
 function ajaxFunctionUpdateFav(){
- var ajaxRequestup;  // The variable that makes Ajax possible!
-	
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequestup = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequestup = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-    	  ajaxRequestup = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
-
- ajaxRequestup.onreadystatechange = function(){
-   if(ajaxRequestup.readyState == 4){
-	   location.reload(true);
-   }
- }
- // Now get the value from user and pass it to
- // server script.
- var queryString = "?action=update" ;
- ajaxRequestup.open("GET", queryString, true);
- ajaxRequestup.send(null); 
+	var ajaxRequestup;  // The variable that makes Ajax possible!	
+	try{
+		// Opera 8.0+, Firefox, Safari
+		ajaxRequestup = new XMLHttpRequest();
+	}catch (e){
+	// Internet Explorer Browsers
+		try{
+		ajaxRequestup = new ActiveXObject("Msxml2.XMLHTTP");
+		}catch (e) {
+			try{
+				ajaxRequestup = new ActiveXObject("Microsoft.XMLHTTP");
+			}catch (e){
+				alert("Your browser broke!");
+				return false;
+			}
+		}
+	}
+	ajaxRequestup.onreadystatechange = function(){
+		if(ajaxRequestup.readyState == 4){
+			location.reload(true);
+		}
+ 	}
+	var queryString = "?action=update" ;
+	ajaxRequestup.open("GET", queryString, true);
+	ajaxRequestup.send(null); 
 }
 
 function ajaxFunction(klantid, accid, action){
- var ajaxRequest;  // The variable that makes Ajax possible!
-	
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         // Something went wrong
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
- ajaxRequest.onreadystatechange = function(){
-   if(ajaxRequest.readyState == 4){
-	   Popup.showModal('modal','position','Screen.getBody()','top left',{'constrainToScreen':true,'screenColor':'#000000','screenOpacity':.6});
-	   ajaxFunctionUpdateFav();
-	   return false;
-   }
- }
- var queryString = "?klantID=" + klantid ;
- queryString +=  "&accommodatie=" + accid;
- queryString +=  "&action=" + action;
- ajaxRequest.open("GET", queryString, true);
- ajaxRequest.send(null); 
+	var ajaxRequest;
+	try{
+		ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+		try{
+			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}catch (e) {
+			try{
+				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}catch (e){
+				alert("Your browser broke!");
+				return false;
+			}
+		}
+	}
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			Popup.showModal('modal','position','Screen.getBody()','top left',{'constrainToScreen':true,'screenColor':'#000000','screenOpacity':.6});
+			ajaxFunctionUpdateFav();
+			return false;
+		}
+	}
+	var queryString = "?klantID=" + klantid ;
+	queryString +=  "&accommodatie=" + accid;
+	queryString +=  "&action=" + action;
+	ajaxRequest.open("GET", queryString, true);
+	ajaxRequest.send(null); 
 }
 </script>
 <h1>Mijn favorieten</h1>
@@ -207,9 +194,9 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->subject.="Mijn favoriete vakantiehuizen";
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
-        $mail->html.="<html>";
-        $mail->html.="<head>";
-        $mail->html.="</head>";
+		$mail->html.="<html>";
+		$mail->html.="<head>";
+		$mail->html.="</head>";
 		$mail->html.="<body>";
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
 		$mail->html.="<table style=\"font-family:verdana;color:#003366;\" border=\"0\" width=\"681\"><tr><td>";
@@ -248,7 +235,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		}
 		$mail->html.="</div>";
 		$mail->html.="</body>";
-        $mail->html.="</html>";
+		$mail->html.="</html>";
 		$mail->html_bottom="";
 		$mail->send();
 	}
