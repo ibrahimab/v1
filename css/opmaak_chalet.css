@@ -297,6 +297,16 @@ form {
 	margin-right: auto;
 }
 
+#hoofdpagina_nieuwsbrief {
+	float: right;
+	width: 160px;
+	background-color: #d5e1f9;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #003366;
+	margin-bottom: 10px;
+}
+
 #breadcrumb_overlay {
 	position:absolute;
 	top: 195px;
@@ -310,6 +320,7 @@ form {
 #directnaar {
 	text-align:left;
 	padding-bottom: 5px;
+	margin-bottom: 10px;
 }
 
 #directnaar_kop {
