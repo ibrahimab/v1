@@ -102,7 +102,9 @@ function ajaxMailFunction(welOfgeenKopie){
 	var queryString = "?verzenderAdres=" + document.getElementById('verzenderAdres').value;
 	queryString +="&welofGeenKopie" + welOfgeenKopie;
 	queryString +=  "&EmailOntvanger=" + document.getElementById('EmailOntvanger').value;
-	queryString +=  "&bericht=" + document.getElementById('presentatiebericht').value;
+	var text = document.getElementById('presentatiebericht').value; 
+	text=text.replace(/\n\r?/g, '<br/>'); 	
+	queryString +=  "&bericht=" + text;
 	queryString +=  "&action=mailDoor";
 	ajaxRequest.open("GET", queryString, true);
 	ajaxRequest.send(null); 
