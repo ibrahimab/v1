@@ -46,6 +46,7 @@ function controlEnSend(){
 			else{
 				var bericht = document.getElementById("presentbericht").innerHTML;
 				//window.alert(bericht);
+				bericht=bericht.replace(/\n\r?/g, '<br/>'); 	
 				document.getElementById("bericht2").value = bericht;
 				document.forms["mailAcc"].submit();
 				break;
