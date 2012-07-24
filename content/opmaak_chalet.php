@@ -94,6 +94,7 @@ if($vars["googlemaps"]) {
 # Chosen
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.min.js\"></script>\n";
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_chalet.js?cache=".@filemtime("scripts/functions_chalet.js")."\" ></script>\n";
 if(file_exists("scripts/functions_".$id.".js")) {
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."\" ></script>\n";
 }
@@ -143,7 +144,7 @@ echo "<img src=\"".$vars["path"]."pic/logo_chalet";
 if($vars["taal"]<>"nl") echo "_eu";
 if($vars["websiteland"]=="be") echo "_be";
 if($vars["websitetype"]==4 or $vars["websitetype"]==5) echo "_tour";
-echo ".gif\" width=\"169\" height=\"151\" border=\"0\" alt=\"".htmlentities($vars["websitenaam"])."\">";
+echo ".gif?c=1\" width=\"188\" height=\"140\" border=\"0\" alt=\"".htmlentities($vars["websitenaam"])."\">";
 if($id<>"index") echo "</a>";
 echo "</div>\n";
 
@@ -346,30 +347,31 @@ if($vars["verberg_linkerkolom"]) {
 			echo "</ul></div>";
 			echo "</div>\n";
 		}
-		#voor twitter aanpassingen toegebracht in test omgeving. wachtend voor goedkeuring
 		# Nieuwsbrief
-		echo "<div id=\"hoofdpagina_nieuwsbrief\">";
-		echo "<div class=\"kop\">Nieuwsbrief</div>";
-		echo "<div>Schrijf je in voor onze nieuwsbrief en ontvang al onze aanbiedingen.</div>";
-		if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
-			$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
-		} else {
-			$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
-		}
-		echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
-		echo "<div style=\"margin-top:5px;\"><input type=\"text\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
-		echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
-		echo "</form>";
-		echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
+		if($vars["website"]=="C") {
+			echo "<div id=\"hoofdpagina_nieuwsbrief\">";
+			echo "<div class=\"kop\">Nieuwsbrief</div>";
+			echo "<div>Schrijf je in voor onze nieuwsbrief en ontvang al onze aanbiedingen.</div>";
+			if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
+				$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
+			} else {
+				$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
+			}
+			echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
+			echo "<div style=\"margin-top:5px;\"><input type=\"text\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
+			echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
+			echo "</form>";
+			echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
+				
+			echo "<div style=\"clear:both;\"></div>";
 			
-		echo "<div style=\"clear:both;\"></div>";
-		
-		//if(($vars["website"]=="C" or $vars["website"]=="T") and $id<>"alpedhuzes") {
-		//			# Alpe d'HuZes
-		//			echo "<div id=\"alpedhuzes\">";
-		//			echo "<a href=\"".$vars["path"]."alpedhuzes.php\"><img src=\"".$vars["path"]."pic/tijdelijk/alpedhuzes".($vars["website"]=="T" ? "_chalettour" : "").".gif\" width=\"168\" height=\"83\" border=\"0\"></a>";
-		//			echo "</div>";
-		//		}
+			//if(($vars["website"]=="C" or $vars["website"]=="T") and $id<>"alpedhuzes") {
+			//			# Alpe d'HuZes
+			//			echo "<div id=\"alpedhuzes\">";
+			//			echo "<a href=\"".$vars["path"]."alpedhuzes.php\"><img src=\"".$vars["path"]."pic/tijdelijk/alpedhuzes".($vars["website"]=="T" ? "_chalettour" : "").".gif\" width=\"168\" height=\"83\" border=\"0\"></a>";
+			//			echo "</div>";
+			//		}
+		}
 	}
 	
 	echo "</div>\n";
@@ -444,6 +446,9 @@ echo "<div id=\"colofon\" class=\"noprint\">".htmlentities($vars["websiteinfo"][
 //if($id=="index" and $vars["website"]=="C") weggedaan omdat deze nu overal moet komen.
 if($vars["website"]=="C") {
 	echo "<div id=\"ondercolofon\" class=\"noprint\">Onze andere labels:&nbsp;&nbsp;<a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"http://www.italissima.nl/\" target=\"_blank\">Italissima</a> | <a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
+}
+else{
+	echo "<div id=\"ondercolofon\" class=\"noprint\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 }
 echo "</div>";
 

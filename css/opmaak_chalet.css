@@ -117,8 +117,12 @@ form {
 #logo {
 	float: left;
 	text-align: center;
-	padding-top: 17px;
+	padding-top: 19px;
 	width: 230px;
+}
+
+#logo img {
+
 }
 
 #meldingen {
@@ -293,6 +297,23 @@ form {
 	margin-right: auto;
 }
 
+#hoofdpagina_nieuwsbrief {
+	float: right;
+	width: 160px;
+	background-color: #d5e1f9;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #003366;
+	margin-bottom: 10px;
+}
+
+#hoofdpagina_nieuwsbrief .kop {
+	color: #d40139;
+	font-size: 1.2em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
 #breadcrumb_overlay {
 	position:absolute;
 	top: 195px;
@@ -306,6 +327,7 @@ form {
 #directnaar {
 	text-align:left;
 	padding-bottom: 5px;
+	margin-bottom: 10px;
 }
 
 #directnaar_kop {

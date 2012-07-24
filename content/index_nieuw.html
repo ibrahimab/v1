@@ -1,56 +1,85 @@
 <?php
-
+echo"<script type=\"text/javascript\" src=\"".$vars["basehref"]."scripts/sliderfunctionChalet.js\"></script>";
 echo "<div id=\"koptekst\">";
 echo "<h1>".html("koptekst","index")." &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>";
 echo "</div>"; # afsluiten koptekst
 
 
 echo "<div id=\"hoofdpagina_middenkolom\">";
+if($_GET["testsysteem"] and $_GET["testsysteem"]==1){
+echo "<div id=\"hoofdpagina_blok\">";
 
 $blokkenhoofdpagina=blokkenhoofdpagina();
-echo "<div id=\"hoofdpagina_fotoslide\">";
 
-echo "<div id=\"featured\" >";
-echo "<ul class=\"ui-tabs-nav\">";
-@reset($blokkenhoofdpagina);
-while(list($key,$value)=@each($blokkenhoofdpagina)) {
-	if(file_exists("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[$key]["id"].".jpg")) {
-		echo "<li class=\"ui-tabs-nav-item".(!$eersteblokgehad ? " ui-tabs-selected" : "")."\" id=\"nav-fragment-".$key."\"><a href=\"#fragment-".$key."\" onclick=\"document.location.href='".htmlentities($value["link"])."';return false;\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[$key]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[$key]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
+	if(is_array($blokkenhoofdpagina)) {
+		while(list($key,$value)=each($blokkenhoofdpagina)) {
+			if($blokkenhoofdpagina_teller>=16) {
+				break;
+			}
+			$blokkenhoofdpagina_teller++;
+			echo "<div class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "").">";
+			$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
+			echo "<div><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\"/></a></div>";
+			echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";
+			echo "<div class=\"hoofdpagina_blok_omschrijving\">".wt_he($value["omschrijving"])."</div>";
+			echo "</div>";
+		}
+		echo "<div id=\"hoofdpagina_blok_tellers\">";
+		if($blokkenhoofdpagina_teller>1) {
+			for($i=1;$i<=$blokkenhoofdpagina_teller;$i++) {
+				echo "<div id=\"hoofdpagina_blok_teller_".$i."\" class=\"hoofdpagina_blok_teller".($i==1 ? " hoofdpagina_blok_teller_active" : "")."\">".$i."</div>";
+			}
+		}
+		echo "</div>"; # afsluiten hoofdpagina_blok_tellers
+	}
+
+	echo "</div>"; # afsluiten hoofdpagina_blok
+}
+else{
+	$blokkenhoofdpagina=blokkenhoofdpagina();
+	echo "<div id=\"hoofdpagina_fotoslide\">";
+
+	echo "<div id=\"featured\" >";
+	echo "<ul class=\"ui-tabs-nav\">";
+	@reset($blokkenhoofdpagina);
+	while(list($key,$value)=@each($blokkenhoofdpagina)) {
+		if(file_exists("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[$key]["id"].".jpg")) {
+			echo "<li class=\"ui-tabs-nav-item".(!$eersteblokgehad ? " ui-tabs-selected" : "")."\" id=\"nav-fragment-".$key."\"><a href=\"#fragment-".$key."\" onclick=\"document.location.href='".htmlentities($value["link"])."';return false;\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[$key]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[$key]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
+			$eersteblokgehad=true;
+		}
+	}
+
+	#echo "<li class=\"ui-tabs-nav-item\" id=\"nav-fragment-2\"><a href=\"#fragment-2\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[2]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[2]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
+	#echo "<li class=\"ui-tabs-nav-item\" id=\"nav-fragment-3\"><a href=\"#fragment-3\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[3]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[3]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
+	#echo "<li class=\"ui-tabs-nav-item\" id=\"nav-fragment-4\"><a href=\"#fragment-4\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[4]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[4]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
+	echo "</ul>\n\n";
+
+	unset($eersteblokgehad);
+	@reset($blokkenhoofdpagina);
+	while(list($key,$value)=@each($blokkenhoofdpagina)) {
+		echo "<div id=\"fragment-".$key."\" class=\"ui-tabs-panel".($eersteblokgehad ? " ui-tabs-hide" : "")."\" onclick=\"document.location.href='".htmlentities($value["link"])."';\">\n";
+		echo "<img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina/".$blokkenhoofdpagina[$key]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina/".$blokkenhoofdpagina[$key]["id"].".jpg")."\" alt=\"\" />\n";
+		if($voorkant_cms) {
+			# Minder ruimte voor tekst voor ingelogde gebruikers: om te voorkomen dat teksten te lang worden
+			echo "<div class=\"info\">\n";
+			echo "<div class=\"infointern\" style=\"padding-left:5px;padding-right:5px;\">\n";
+		} else {
+			echo "<div class=\"info\">\n";
+		}
+		echo "<h2>".htmlentities($value["titel"])."</h2>\n";
+		echo "<p>".htmlentities($value["omschrijving"])."</p>\n";
+		echo "<p class=\"hoofdpagina_fotoslide_meer\"><a href=\"".htmlentities($value["link"])."\">".html("meer","index")." &gt; &gt;</a></p>\n";
+		if($voorkant_cms) {
+			echo "</div>\n";
+		}
+		echo "</div>\n";
+		echo "</div>\n\n";
 		$eersteblokgehad=true;
 	}
-}
 
-#echo "<li class=\"ui-tabs-nav-item\" id=\"nav-fragment-2\"><a href=\"#fragment-2\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[2]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[2]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
-#echo "<li class=\"ui-tabs-nav-item\" id=\"nav-fragment-3\"><a href=\"#fragment-3\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[3]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[3]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
-#echo "<li class=\"ui-tabs-nav-item\" id=\"nav-fragment-4\"><a href=\"#fragment-4\"><img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[4]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina_tn/".$blokkenhoofdpagina[4]["id"].".jpg")."\" alt=\"\" /><span></span></a></li>";
-echo "</ul>\n\n";
-
-unset($eersteblokgehad);
-@reset($blokkenhoofdpagina);
-while(list($key,$value)=@each($blokkenhoofdpagina)) {
-	echo "<div id=\"fragment-".$key."\" class=\"ui-tabs-panel".($eersteblokgehad ? " ui-tabs-hide" : "")."\" onclick=\"document.location.href='".htmlentities($value["link"])."';\">\n";
-	echo "<img src=\"".$vars["path"]."pic/cms/blokkenhoofdpagina/".$blokkenhoofdpagina[$key]["id"].".jpg?cache=".filemtime("pic/cms/blokkenhoofdpagina/".$blokkenhoofdpagina[$key]["id"].".jpg")."\" alt=\"\" />\n";
-	if($voorkant_cms) {
-		# Minder ruimte voor tekst voor ingelogde gebruikers: om te voorkomen dat teksten te lang worden
-		echo "<div class=\"info\">\n";
-		echo "<div class=\"infointern\" style=\"padding-left:5px;padding-right:5px;\">\n";
-	} else {
-		echo "<div class=\"info\">\n";
-	}
-	echo "<h2>".htmlentities($value["titel"])."</h2>\n";
-	echo "<p>".htmlentities($value["omschrijving"])."</p>\n";
-	echo "<p class=\"hoofdpagina_fotoslide_meer\"><a href=\"".htmlentities($value["link"])."\">".html("meer","index")." &gt; &gt;</a></p>\n";
-	if($voorkant_cms) {
-		echo "</div>\n";
-	}
+	echo "</div>";
 	echo "</div>\n";
-	echo "</div>\n\n";
-	$eersteblokgehad=true;
 }
-
-echo "</div>";
-echo "</div>\n";
-
 if($last_acc_html) {
 	echo $last_acc_html;
 } else {

@@ -156,7 +156,12 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 					} else {
 						if($_GET["27k0"]=="38") {
 							# xml-links voor Ski Amis (die wijken af van de standaard-feed)
-							echo "<p>Feeds voor Ski Amis zijn nog niet ontwikkeld.</p>";
+							echo "<p><b>Let op: voor Ski Amis zijn speciale XML-links ontwikkeld:</b></p>";
+							echo "<ul>";
+							echo "<li>property list: <a href=\"http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=lotst_list@top_id='AMIS',@st='0'\" target=\"_blank\">".wt_he("http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=lotst_list@top_id='AMIS',@st='0'")."</a> (alle accommodaties)</li>";
+							echo "<li>property prices: <a href=\"http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=tarif_lotref@top_id='AMIS',@lot_ref='F249'\" target=\"_blank\">".wt_he("http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=tarif_lotref@top_id='AMIS',@lot_ref='F249'")."</a> (voor F249)</li>";
+							echo "<li>property availability: <a href=\"http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=extr_plng@top_id='AMIS'\" target=\"_blank\">".wt_he("http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=extr_plng@top_id='AMIS'")."</a> (alle accommodaties)</li>";
+							echo "</ul>";
 						} else {
 							# overige reisbureaus
 							if($key==1) {

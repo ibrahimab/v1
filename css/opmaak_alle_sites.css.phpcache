@@ -754,6 +754,15 @@ td.selecteerbaarbedrag:hover{
 
 }
 
+#zoekresultaten_sorteer a {
+	display: block;
+	margin-left: 10px;
+	float: right;
+	background-color: #d5e1f9;
+	padding: 5px;
+	text-decoration: none;
+}
+
 .zoekresultaten_opmerking_tussen_resultaten {
 	font-size: 1.0em;
 	padding: 5px;
