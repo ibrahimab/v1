@@ -1484,13 +1484,21 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 						trigger_error("geen optietarief (extra_optie_id".$key.") gevonden",E_USER_NOTICE);
 					}
 				} else {
-					$db->query("SELECT inkoop, korting FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($key)."' AND week='".addslashes($gegevens["stap1"]["aankomstdatum"])."'");
+					$db->query("SELECT inkoop, korting, netto_ink FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($key)."' AND week='".addslashes($gegevens["stap1"]["aankomstdatum"])."'");
 					if($db->next_record()) {
 						$kleurteller_inkoop++;
 						if($kleurteller_inkoop>1) unset($kleurteller_inkoop);
-						$inkoopbedrag=$db->f("inkoop");
-						$korting=$db->f("korting");
+
+						if($db->f("netto_ink")>0) {
+							# Indien "Netto inkoop (zelf invoeren)" is ingevuld in het optietarieven-CMS: alleen dit bedrag gebruiken (geen korting van toepassing)
+							$inkoopbedrag=$db->f("netto_ink");
+							$korting=0;
+						} else {
+							$inkoopbedrag=$db->f("inkoop");
+							$korting=$db->f("korting");
+						}
 						$inkoop_netto=round($inkoopbedrag*(1-$korting/100),2);
+
 						$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td valign=\"top\" style=\"padding-right:10px\">".htmlentities(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]));
 						$return_inkoop.="</td><td valign=\"top\">(".bedrag_korting_tekst($inkoopbedrag,$korting,0,0).")</td><td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format(abs($inkoop_netto),2,',','.')."</td>";
 						$return_inkoop.="<td valign=\"top\" nowrap style=\"padding-right:10px\"> x ".$value."</td><td valign=\"top\" style=\"padding-right:10px\">=</td>";
