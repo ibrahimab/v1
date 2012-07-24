@@ -1,7 +1,6 @@
 var scrollleft_actief=0;
 var scrollright_actief=0;
 
-//window.onload=onloadfunction;
 
 
 //Get cookie routine by Shelley Powers 
