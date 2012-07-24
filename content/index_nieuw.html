@@ -1,6 +1,17 @@
 <?php
-
 echo"<script type=\"text/javascript\" src=\"".$vars["basehref"]."scripts/sliderfunctionChalet.js\"></script>";
+if($vars["website"]=="C"){
+	$vars["basehref"]="http://www.chalet.nl";
+}
+elseif($vars["website"]=="E"){
+	$vars["basehref"]="http://www.chalet.eu";
+}
+elseif($vars["website"]=="T"){
+	$vars["basehref"]="http://www.chalettour.nl";
+}
+elseif($vars["website"]=="B"){
+	$vars["basehref"]="http://www.chalet.be";
+}
 echo "<div id=\"koptekst\">";
 echo "<h1>".html("koptekst","index")." &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>";
 echo "</div>"; # afsluiten koptekst
