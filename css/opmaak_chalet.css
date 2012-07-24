@@ -307,6 +307,13 @@ form {
 	margin-bottom: 10px;
 }
 
+#hoofdpagina_nieuwsbrief .kop {
+	color: #d40139;
+	font-size: 1.2em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
 #breadcrumb_overlay {
 	position:absolute;
 	top: 195px;
