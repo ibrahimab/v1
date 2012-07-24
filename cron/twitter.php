@@ -38,7 +38,7 @@ foreach($username as $userAccount){
 				$kopColor="#5F227B";
 			}
 			elseif($userAccount=='ChaletNL'){
-				$imgSrc="http://www.chalet.nl/pic/logo_chalet.gif";
+				$imgSrc="http://www.chalet.nl/pic/logo_chalet.gif?c=1";
 				$backColor="#d5e1f9";
 				$naam="Chalet.nl";
 				$kopColor="#D40139";
