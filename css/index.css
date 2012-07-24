@@ -138,19 +138,18 @@
 	float: left;
 	text-align: center;
 	width: 17px;
-	background-color: #003366;
-	color: #d40139;
+	background-color: #FFFFFF;
+	color: #003366;
 	margin-left: 4px;
-	border: 1px solid #FFFFFF;
 	cursor: pointer;
 }
 
 .hoofdpagina_blok_teller:hover {
-	border: 1px solid #ffffff;
+	border: 1px solid #003366;
 }
 
 .hoofdpagina_blok_teller_active {
-	background-color: #ffffff;
+	border: 1px solid #d71246;
 }
 
 #hoofdpagina_themas_blok {
