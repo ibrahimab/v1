@@ -516,7 +516,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 
 } elseif($_GET["t"]==1 and $_GET["wzt"]==1) {
 	# chalet 728x90
-	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_728x90.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_728x90.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:22px;left:295px;\">\n";
 	winter_land();
@@ -531,7 +531,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 
 } elseif($_GET["t"]==2 and $_GET["wzt"]==1) {
 	# chalet 468x60
-	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_468x60.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_468x60.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:7px;left:95px;\">\n";
 	winter_land();
@@ -545,7 +545,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>\n";
 } elseif($_GET["t"]==3 and $_GET["wzt"]==1) {
 	# chalet 250x250
-	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_250x250.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_250x250.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:113px;left:20px;\">\n";
 	winter_land("120px");
@@ -561,7 +561,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	# chalet 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 	
-	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_234x60.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_234x60.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:5px;left:80px;\">\n";
 	winter_land("100px");
@@ -577,7 +577,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	# chalet 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 	
-	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_120x600.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_120x600.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:235px;left:3px;\">\n";
 	winter_land("110px");
@@ -591,7 +591,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>\n";
 } elseif($_GET["t"]==6 and $_GET["wzt"]==1) {
 	# chalet 250x250
-	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_300x250.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_300x250.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:113px;left:40px;\">\n";
 	winter_land("120px");
