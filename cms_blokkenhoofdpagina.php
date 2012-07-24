@@ -46,7 +46,7 @@ $cms->db_field(37,"integer","volgorde");
 $cms->db_field(37,"date","begindatum");
 $cms->db_field(37,"date","einddatum");
 $cms->db_field(37,"picture","picgroot","",array("savelocation"=>"pic/cms/blokkenhoofdpagina/","filetype"=>"jpg"));
-$cms->db_field(37,"picture","picklein","",array("savelocation"=>"pic/cms/blokkenhoofdpagina_tn/","filetype"=>"jpg"));
+#$cms->db_field(37,"picture","picklein","",array("savelocation"=>"pic/cms/blokkenhoofdpagina_tn/","filetype"=>"jpg"));
 
 #
 # List
@@ -108,8 +108,8 @@ $cms->edit_field(37,0,"begindatum","Begindatum","","",array("calendar"=>true));
 $cms->edit_field(37,0,"einddatum","Einddatum","","",array("calendar"=>true));
 $cms->edit_field(37,0,"htmlrow","<hr><b>Afbeeldingen</b>");
 if($_GET["wzt"]==1) {
-	$cms->edit_field(37,1,"picgroot","Grote afbeelding","",array("img_width"=>"370","img_height"=>"278"));
-	$cms->edit_field(37,1,"picklein","Kleine afbeelding","",array("img_width"=>"75","img_height"=>"56"));
+	$cms->edit_field(37,1,"picgroot","Afbeelding","",array("img_width"=>"500","img_height"=>"278"));
+#	$cms->edit_field(37,1,"picklein","Kleine afbeelding","",array("img_width"=>"75","img_height"=>"56"));
 } elseif($_GET["wzt"]==3) {
 	$cms->edit_field(37,1,"picgroot","Afbeelding","",array("img_width"=>"360","img_height"=>"270"));
 } else {
