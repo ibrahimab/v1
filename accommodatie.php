@@ -2,9 +2,6 @@
 
 #phpinfo();
 #exit;
-//dat heb ik zo gedaan omdat de menu al wordt opgebouwd voordat de html pagina wordt opgeladen. wanneer deze is opgeladen gebeurt er niks meer 
-//met de menu balk. tijdens het ophalen van deze php bestand wordt de vars bestand opgehaald en kan de menubalk nog worden overschreven.
-//ik geprobeerd om deze gebeurtenis vanuit de html pagina te laten gebeuren maar zonder succes.
 
 $vars["jquery_fancybox"]=true;
 $vars["verberg_linkerkolom"]=true;
@@ -19,12 +16,7 @@ $onload="initialize_googlemaps();";
 include_once "admin/vars.php";
 if($vars["websitetype"]==1 and $_GET["testsysteem"]) {
 	$klantfavs=array();
-	if($_GET['action']=="insert"){
-		$klantID=$_GET['klantID'];
-		$accommodatieID=$_GET['accommodatie'];
-		$db->query("insert into bezoeker_favoriet(bezoeker_id, type_id, adddatetime, editdatetime)values('$klantID','$accommodatieID','date()','time()')");
-	}
-	$db->query("select type_id from bezoeker_favoriet where bezoeker_id='".$_COOKIE["sch"]."'");
+	$db->query("SELECT type_id FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."';");
 	while($db->next_record()){
 		array_push($klantfavs,$db->f("type_id"));
 	}
