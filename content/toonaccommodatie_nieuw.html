@@ -72,7 +72,7 @@ if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])){
 	if($_GET['action']=="insert"){
 		$klantID=$_GET['klantID'];
 		$accommodatieID=$_GET['accommodatie'];
-		$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime, editdatetime)VALUES('".addslashes($klantID)."','".addslashes($accommodatieID)."','date()','time()');");
+		$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($klantID)."','".addslashes($accommodatieID)."',NOW());");
 	}
 	elseif($_GET['action']=="delete"){
 		$klantID=$_GET['klantID'];
