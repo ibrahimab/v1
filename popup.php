@@ -277,7 +277,7 @@ if($_GET["id"]=="tarieventabel") {
 <?php 
 
 echo "<TR><TD height=\"30\"><TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><TR><TD><FONT color=\"".$thfontcolor."\"><B>".htmlentities($title[$_GET["id"]])."&nbsp;</B></FONT></TD><TD width=\"20\">";
-if($noprint[$_GET["id"]]) echo "&nbsp;"; else echo "<A HREF=\"javascript:window.print();\"><IMG SRC=\"pic/printer.gif\" border=\"0\" alt=\"".html("paginaafdrukken","popup")."\" width=\"20\" height=\"18\"></A>";
+if($noprint[$_GET["id"]]) echo "&nbsp;"; //else echo "<A HREF=\"javascript:window.print();\"><IMG SRC=\"pic/printer.gif\" border=\"0\" alt=\"".html("paginaafdrukken","popup")."\" width=\"20\" height=\"18\"></A>";
 echo "</TD><TD width=\"75\" align=\"right\"><FONT SIZE=\"1\"><A HREF=\"javascript:self.close();\" class=\"venstersluiten\">".ereg_replace(" ","&nbsp;",html("venstersluiten"))."</A></FONT></TD></TR></TABLE></TD></TR>";
 echo "<TR><TD bgcolor=\"#FFFFFF\" valign=\"top\" align=\"left\" class=\"content\">";
 #echo "&nbsp;<BR><B>".htmlentities($title[$_GET["id"]])."</B><P>";
