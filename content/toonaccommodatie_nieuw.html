@@ -1421,7 +1421,7 @@ if($db->next_record()) {
 	}
 	
 	echo "</form>";
-	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" and $_GET["testsysteem"]) {
+	if(($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I") and $_GET["testsysteem"]) {
 		if(!in_array($typeid,$klantfavs)) {
 			echo "<div style=\"padding:5px;\">";
 			echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
@@ -1429,8 +1429,7 @@ if($db->next_record()) {
 			echo " Plaats in mijn favorieten";
 			echo "</a>";
 			echo "</div>";
-		}
-		else{
+		} else {
 			echo "<div style=\"padding:5px;\">";
 			echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','delete')\" href=\"#\">";
 			echo "<img border=\"0\" width=\"13\" height=\"13\" src=";
