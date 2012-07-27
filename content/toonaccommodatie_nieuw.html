@@ -1421,7 +1421,7 @@ if($db->next_record()) {
 	}
 	
 	echo "</form>";
-	if($vars["website"]=="C" and $_GET["testsysteem"]) {
+	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" and $_GET["testsysteem"]) {
 		if(!in_array($typeid,$klantfavs)) {
 			echo "<div style=\"padding:5px;\">";
 			echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
