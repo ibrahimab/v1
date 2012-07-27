@@ -14,13 +14,15 @@ $onload="initialize_googlemaps();";
 
 #$vars["jquery_scrollto"]=true;
 include_once "admin/vars.php";
-if($vars["websitetype"]==1 and $_GET["testsysteem"]) {
-	$klantfavs=array();
-	$db->query("SELECT type_id FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."';");
-	while($db->next_record()){
-		array_push($klantfavs,$db->f("type_id"));
+if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==7) {
+	if($_GET["testsysteem"]==1){
+		$klantfavs=array();
+		$db->query("SELECT type_id FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."';");
+		while($db->next_record()){
+			array_push($klantfavs,$db->f("type_id"));
+		}
+		$submenu["favorieten"]=txt("submenutitle_favorieten")."(".count($klantfavs).")";
 	}
-	$submenu["favorieten"]=txt("submenutitle_favorieten")."(".count($klantfavs).")";
 }
 if($_POST["ookbeschikbaarkeuze"]) {
 	$location=eregi_replace("/".txt("menu_accommodatie")."/[a-zA-Z0-9]+/","/".txt("menu_accommodatie")."/".urlencode($_POST["ookbeschikbaarkeuze"])."/",$_SERVER["REQUEST_URI"]);
