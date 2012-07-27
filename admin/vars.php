@@ -381,9 +381,14 @@ if($vars["nieuwevormgeving"]) {
 		$submenu["reisagent"]=txt("submenutitle_reisagent");
 #		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+		if($_GET["testsysteem"]) {
+			$submenu["favorieten"]=txt("submenutitle_favorieten");
+		}
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		$submenu["sitemap"]=txt("submenutitle_sitemap");
+		if(!$_GET["testsysteem"]) {
+			$submenu["sitemap"]=txt("submenutitle_sitemap");
+		}
 	} elseif($vars["seizoentype"]==2) {
 		#
 		# Zomerhuisje
@@ -409,9 +414,14 @@ if($vars["nieuwevormgeving"]) {
 
 	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+		if($_GET["testsysteem"]) {
+			$submenu["favorieten"]=txt("submenutitle_favorieten");
+		}
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		$submenu["sitemap"]=txt("submenutitle_sitemap");
+		if(!$_GET["testsysteem"]) {
+			$submenu["sitemap"]=txt("submenutitle_sitemap");
+		}
 		$submenu["chaletwinter"]=txt("submenutitle_chaletwinter");
 	} elseif($vars["websitetype"]==6) {
 		#
@@ -462,7 +472,9 @@ if($vars["nieuwevormgeving"]) {
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 		//deze submenu(sitemap) moet nog naar de footer worden verplaatst.
-		//$submenu["sitemap"]=txt("submenutitle_sitemap");
+		if(!$_GET["testsysteem"]) {
+			$submenu["sitemap"]=txt("submenutitle_sitemap");
+		}
 		$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
 	}
 
@@ -665,7 +677,10 @@ $vars["bijkomendekosten_velden"]=array("verkoop","netto_ink","inkoop","korting",
 $vars["sjabloon_skipas"]=array("bruto","netto_ink","korting","verkoopkorting","prijs","omzetbonus","wederverkoop_commissie_agent","netto");
 $vars["aantalslaapkamers"]=array(0=>$vars["geenvoorkeur"],1=>txt("minimaal","accommodaties")." 1",2=>txt("minimaal","accommodaties")." 2",3=>txt("minimaal","accommodaties")." 3",4=>txt("minimaal","accommodaties")." 4",5=>txt("minimaal","accommodaties")." 5",6=>txt("minimaal","accommodaties")." 6",7=>txt("minimaal","accommodaties")." 7",8=>txt("minimaal","accommodaties")." 8",9=>txt("minimaal","accommodaties")." 9",10=>txt("minimaal","accommodaties")." 10");
 #$vars["minpersonen"]=array("1"=>"1","2"=>"2","3"=>"3","4"=>"4","5"=>"5","6"=>"6","7"=>"7","8"=>"8","9"=>"9","10"=>"10","11"=>"11","12"=>"12","13"=>"13","14"=>"14","15"=>"14","16"=>"16","17"=>"16","18"=>"16","19"=>"18","20"=>"18");
-$vars["maxpersonen"]=array("1"=>"4","2"=>"6","3"=>"6","4"=>"8","5"=>"9","6"=>"10","7"=>"11","8"=>"12","9"=>"13","10"=>"14","11"=>"15","12"=>"16","13"=>"18","14"=>"19","15"=>"20","16"=>"25","17"=>"25","18"=>"28","19"=>"28","20"=>"50");
+#$vars["maxpersonen"]=array("1"=>"4","2"=>"6","3"=>"6","4"=>"8","5"=>"9","6"=>"10","7"=>"11","8"=>"12","9"=>"13","10"=>"14","11"=>"15","12"=>"16","13"=>"18","14"=>"19","15"=>"20","16"=>"25","17"=>"25","18"=>"28","19"=>"28","20"=>"50");
+$vars["maxpersonen"]=array("1"=>"8","2"=>"12","3"=>"12","4"=>"16","5"=>"18","6"=>"20","7"=>"22","8"=>"24","9"=>"26","10"=>"28","11"=>"30","12"=>"32","13"=>"36","14"=>"38","15"=>"40","16"=>"50","17"=>"50","18"=>"50","19"=>"50","20"=>"50");
+$vars["optimaalmaxpersonen"]=array("1"=>"4","2"=>"6","3"=>"6","4"=>"8","5"=>"9","6"=>"10","7"=>"11","8"=>"12","9"=>"13","10"=>"14","11"=>"15","12"=>"16","13"=>"18","14"=>"19","15"=>"20","16"=>"25","17"=>"25","18"=>"28","19"=>"28","20"=>"50");
+
 $vars["minpersonen_boeking"]=array("1"=>"1","2"=>"1","3"=>"1","4"=>"2","5"=>"2","6"=>"3","7"=>"4","8"=>"4","9"=>"5","10"=>"6","11"=>"7","12"=>"7","13"=>"8","14"=>"8","15"=>"9","16"=>"10","17"=>"11","18"=>"12","19"=>"12","20"=>"13");
 $vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina's",4=>"tonen op de accommodatiepagina's en bij intern gebruik het zoekformulier",3=>"tonen op de accommodatiepagina's en het zoekformulier");
 $vars["geslacht"]=array(1=>txt("man","vars"),2=>txt("vrouw","vars"));

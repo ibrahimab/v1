@@ -374,7 +374,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 	} elseif($vars["nieuwevormgeving"]) {
 		echo "<div style=\"padding-bottom:10px;".(!$uitgebreid ? "padding-top:10px;" : "")."\">";
 		if($vars["themainfo"]["uitgebreidzoeken_url"]) {
-			echo "<div class=\"button\" onclick=\"document.location.href='".$vars["path"].txt("menu_zoek-en-boek").".php?".htmlentities($vars["themainfo"]["uitgebreidzoeken_url"])."#vf';\">";
+			echo "<div class=\"button\" onclick=\"document.location.href='".$vars["path"].txt("menu_zoek-en-boek").".php?".wt_he($vars["themainfo"]["uitgebreidzoeken_url"])."#vf';\">";
 			echo html("uitgebreidzoeken","thema");
 			echo "</div>";
 		} else {
@@ -433,7 +433,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		while(list($key,$value)=each($vars["skigebied"])) {
 			if(ereg("^([0-9]+)-0$",$value,$regs) and $vars["websitetype"]<>7) {
 				if($optgroup_open) echo "</optgroup>\n";
-				echo "<optgroup label=\"".htmlentities($landnaam[$regs[1]])."\">\n";
+				echo "<optgroup label=\"".wt_he($landnaam[$regs[1]])."\">\n";
 				$optgroup_open=true;
 			}
 			echo "<option value=\"".$value."\"";
@@ -441,7 +441,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 				echo " selected";
 				if($value) $save_query["regio"]=$vars["skigebied_nl"][$value];
 			}
-			echo ">".htmlentities(ereg_replace("^.*___","",$key))."</option>";
+			echo ">".wt_he(ereg_replace("^.*___","",$key))."</option>";
 		}
 		if($optgroup_open) echo "</optgroup>\n";
 		echo "</select>";
@@ -458,9 +458,9 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	echo "<form method=\"get\" action=\"";
 	if($vars["zoekform_thema"]) {
 		if($themalandinfo["soort"]=="land") {
-			$urlself=$vars["path"].txt("menu_land")."/".htmlentities($_GET["land"])."/#form";
+			$urlself=$vars["path"].txt("menu_land")."/".wt_he($_GET["land"])."/#form";
 		} else {
-			$urlself=$vars["path"].txt("menu_thema")."/".htmlentities($_GET["thema"])."/#form";
+			$urlself=$vars["path"].txt("menu_thema")."/".wt_he($_GET["thema"])."/#form";
 		}
 	} elseif($vars["zoekform_weekendski"]) {
 		$urlself=$vars["path"].txt("menu_weekendski").".php";
@@ -478,11 +478,11 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 
 	if($_GET["abid"]) {
 		# abid = aanbiedingid = toon alleen accommodaties van een specifieke aanbieding
-		echo "<input type=\"hidden\" name=\"abid\" value=\"".htmlentities($_GET["abid"])."\">\n";
+		echo "<input type=\"hidden\" name=\"abid\" value=\"".wt_he($_GET["abid"])."\">\n";
 	}
 	if($_GET["aab"]) {
 		# aab = alleen aanbiedingen
-		echo "<input type=\"hidden\" name=\"aab\" value=\"".htmlentities($_GET["aab"])."\">\n";
+		echo "<input type=\"hidden\" name=\"aab\" value=\"".wt_he($_GET["aab"])."\">\n";
 	}
 	if($_GET["testsysteem"]==1) {
 		# testsysteem
@@ -725,7 +725,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 				echo " selected";
 				if($key) $save_query["verblijfsduur"]=$vars["verblijfsduur"][$key];
 			}
-			echo ">".htmlentities($value)."</option>";
+			echo ">".wt_he($value)."</option>";
 		}
 		echo "</optgroup>";
 		
@@ -753,7 +753,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			if($_GET["filled"] and $_GET["lev"]==$db->f("leverancier_id")) {
 				echo " selected";
 			}
-			echo ">".htmlentities($db->f("naam"))."</option>\n";
+			echo ">".wt_he($db->f("naam"))."</option>\n";
 		}
 		echo "</select>";
 		echo "</div>"; # afsluiten .zoekblok_field
@@ -794,7 +794,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			echo "<div class=\"zoekblok_verfijn_actief\">";
 			while(list($key2,$value2)=each($toonactief_verfijn[$key])) {
 				$qs=wt_stripget($_GET,array("page",$value["getname"].$key2));
-				echo "<div>".html($value2,"zoek-en-boek")." - <a href=\"".htmlentities($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
+				echo "<div>".html($value2,"zoek-en-boek")." - <a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
 			}
 			echo "</div>"; # afsluiten .zoekblok_field
 		
@@ -829,12 +829,12 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			if($value["combinatiesmogelijk"]) {
 				while(list($key2,$value2)=@each($value["fields"])) {
 					if($_GET[$value["getname"].$value2] or $_GET[$value["getname"].$value2]=="0") {
-						echo "<input type=\"hidden\" name=\"".$value["getname"].$value2."\" value=\"".htmlentities($_GET[$value["getname"].$value2])."\">\n";
+						echo "<input type=\"hidden\" name=\"".$value["getname"].$value2."\" value=\"".wt_he($_GET[$value["getname"].$value2])."\">\n";
 					}
 				}
 			} else {
 				if($_GET[$value["getname"]."1"] or $_GET[$value["getname"]."1"]=="0") {
-					echo "<input type=\"hidden\" name=\"".$value["getname"]."1\" value=\"".htmlentities($_GET[$value["getname"]."1"])."\">\n";
+					echo "<input type=\"hidden\" name=\"".$value["getname"]."1\" value=\"".wt_he($_GET[$value["getname"]."1"])."\">\n";
 				}
 			}
 		}
@@ -858,9 +858,9 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	echo "<form method=\"get\" action=\"";
 	if($vars["zoekform_thema"]) {
 		if($themalandinfo["soort"]=="land") {
-			$urlself=$vars["path"].txt("menu_land")."/".htmlentities($_GET["land"])."/#form";
+			$urlself=$vars["path"].txt("menu_land")."/".wt_he($_GET["land"])."/#form";
 		} else {
-			$urlself=$vars["path"].txt("menu_thema")."/".htmlentities($_GET["thema"])."/#form";
+			$urlself=$vars["path"].txt("menu_thema")."/".wt_he($_GET["thema"])."/#form";
 		}
 	} elseif($vars["zoekform_weekendski"]) {
 		$urlself=$vars["path"].txt("menu_weekendski").".php";
@@ -879,11 +879,11 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	
 	if($_GET["abid"]) {
 		# abid = aanbiedingid = toon alleen accommodaties van een specifieke aanbieding
-		echo "<input type=\"hidden\" name=\"abid\" value=\"".htmlentities($_GET["abid"])."\">\n";
+		echo "<input type=\"hidden\" name=\"abid\" value=\"".wt_he($_GET["abid"])."\">\n";
 	}
 	if($_GET["aab"]) {
 		# aab = alleen aanbiedingen
-		echo "<input type=\"hidden\" name=\"aab\" value=\"".htmlentities($_GET["aab"])."\">\n";
+		echo "<input type=\"hidden\" name=\"aab\" value=\"".wt_he($_GET["aab"])."\">\n";
 	}
 	if($_GET["testsysteem"]==1) {
 		# testsysteem
@@ -901,7 +901,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
 	echo "<tr><td valign=bottom>".html("zoekenmbvtekst","accommodaties")."</td></tr>";
 	echo "</table></td>";
-	echo "<td valign=top align=left width=65%><input type=\"text\" name=\"fzt\" value=\"".htmlentities($_GET["fzt"])."\" class=\"formstyle100 txtzoeken\"></td></tr>";
+	echo "<td valign=top align=left width=65%><input type=\"text\" name=\"fzt\" value=\"".wt_he($_GET["fzt"])."\" class=\"formstyle100 txtzoeken\"></td></tr>";
 	echo "<tr><td colspan=\"2\" style=\"padding-top:4px;padding-bottom:4px;\"><span class=\"kleinfont\">(".html("opnaam","accommodaties").")</span></td></tr>";
 	echo "<tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
 
@@ -913,7 +913,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		while(list($key,$value)=each($vars["skigebied"])) {
 			if(ereg("^([0-9]+)-0$",$value,$regs) and $vars["websitetype"]<>7) {
 				if($optgroup_open) echo "</optgroup>\n";
-				echo "<optgroup label=\"".htmlentities($landnaam[$regs[1]])."\">\n";
+				echo "<optgroup label=\"".wt_he($landnaam[$regs[1]])."\">\n";
 				$optgroup_open=true;
 			}
 			echo "<option value=\"".$value."\"";
@@ -921,7 +921,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 				echo " selected";
 				if($value) $save_query["regio"]=$vars["skigebied_nl"][$value];
 			}
-			echo ">".htmlentities(ereg_replace("^.*___","",$key))."</option>";
+			echo ">".wt_he(ereg_replace("^.*___","",$key))."</option>";
 		}
 		if($optgroup_open) echo "</optgroup>\n";
 		echo "</select></td></tr><tr><td colspan=2><img src=\"".$vars["path"]."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
@@ -1094,7 +1094,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 				echo " selected";
 				if($key) $save_query["verblijfsduur"]=$vars["verblijfsduur"][$key];
 			}
-			echo ">".htmlentities($value)."</option>";
+			echo ">".wt_he($value)."</option>";
 		}
 		echo "</optgroup></select></td></tr><tr><td colspan=2><img src=\"".$vars["path"]."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
 	}
@@ -1110,7 +1110,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			if($_GET["filled"] and $_GET["lev"]==$db->f("leverancier_id")) {
 				echo " selected";
 			}
-			echo ">".htmlentities($db->f("naam"))."</option>\n";
+			echo ">".wt_he($db->f("naam"))."</option>\n";
 		}
 		echo "</select></td></tr><tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
 	}
@@ -1145,7 +1145,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
 			while(list($key2,$value2)=each($toonactief_verfijn[$key])) {
 				$qs=wt_stripget($_GET,array("page",$value["getname"].$key2));
-				echo "<tr><td valign=top>".html($value2,"zoek-en-boek")." - <a href=\"".htmlentities($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></td></tr>";
+				echo "<tr><td valign=top>".html($value2,"zoek-en-boek")." - <a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></td></tr>";
 			}
 			echo "</table>";
 			echo "</td></tr><tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
@@ -1174,12 +1174,12 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			if($value["combinatiesmogelijk"]) {
 				while(list($key2,$value2)=@each($value["fields"])) {
 					if($_GET[$value["getname"].$value2] or $_GET[$value["getname"].$value2]=="0") {
-						echo "<input type=\"hidden\" name=\"".$value["getname"].$value2."\" value=\"".htmlentities($_GET[$value["getname"].$value2])."\">\n";
+						echo "<input type=\"hidden\" name=\"".$value["getname"].$value2."\" value=\"".wt_he($_GET[$value["getname"].$value2])."\">\n";
 					}
 				}
 			} else {
 				if($_GET[$value["getname"]."1"] or $_GET[$value["getname"]."1"]=="0") {
-					echo "<input type=\"hidden\" name=\"".$value["getname"]."1\" value=\"".htmlentities($_GET[$value["getname"]."1"])."\">\n";
+					echo "<input type=\"hidden\" name=\"".$value["getname"]."1\" value=\"".wt_he($_GET[$value["getname"]."1"])."\">\n";
 				}
 			}
 		}
@@ -1195,7 +1195,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 }
 
 if($vars["website"]=="Z" and $id=="zoek-en-boek" and (!$_GET["filled"] or $_SERVER["HTTP_REFERER"]=="http://www.zomerhuisje.nl/" or $_SERVER["HTTP_REFERER"]=="http://www.zomerhuisje.eu/" or $_SERVER["HTTP_REFERER"]=="http://ss.postvak.net/chalet/")) {
-	echo "<div style=\"margin-top:30px;margin-bottom:20px;width:672px;border:2px solid #5f227b;padding:7px;background-color:#fb6703;\" class=\"whitehover boxshadow\">Onze huizen worden standaard aangeboden van zaterdag tot zaterdag. Een afwijkende verblijfsduur in Itali&euml; is <a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fsg=5-0\">online te boeken</a>. Voor de overige landen is dit op aanvraag. Neem hiervoor <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op.</div>";
+	echo "<div style=\"margin-top:30px;margin-bottom:20px;width:672px;border:2px solid #5f227b;padding:7px;background-color:#fb6703;\" class=\"whitehover boxshadow\">Onze huizen worden standaard aangeboden van zaterdag tot zaterdag. Ook een afwijkende verblijfsduur in Itali&euml; is <a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fsg=5-0\">online te boeken</a>. Voor de overige landen is dit op aanvraag. Neem hiervoor <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op.</div>";
 }
 
 if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"]) {
@@ -1206,7 +1206,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				$db0->query("SELECT onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["abid"])."';");
 				if($db0->next_record() and $db0->f("onlinenaam")) {
 					echo "<div style=\"border:2px solid #fb6703;padding:7px;width:646px;\">";
-					echo "<h2>".htmlentities($db0->f("onlinenaam"))."</h2>";
+					echo "<h2>".wt_he($db0->f("onlinenaam"))."</h2>";
 					$h2_getoond=true;
 					if($db0->f("omschrijving")) {
 						echo "<p>".nl2br(wt_htmlentities($db0->f("omschrijving")))."</p>";
@@ -1216,12 +1216,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			}
 			if(!$h2_getoond) {
 				echo "<h2>".html("zoekresultaten","accommodaties");
-				if($zoekresultaten_title) echo " - ".htmlentities($zoekresultaten_title);
+				if($zoekresultaten_title) echo " - ".wt_he($zoekresultaten_title);
 				echo "</h2>";
 			}
 		} else {
 			echo "<font CLASS=\"titel\">".html("zoekresultaten","accommodaties");
-			if($zoekresultaten_title) echo " - ".htmlentities($zoekresultaten_title);
+			if($zoekresultaten_title) echo " - ".wt_he($zoekresultaten_title);
 			echo "</font><br />";
 		}
 	}
@@ -1245,7 +1245,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			$max=50;
 		} else {
 			$min=$_GET["fap"];
-			$max=$vars["maxpersonen"][$_GET["fap"]]*2;
+			$max=$vars["maxpersonen"][$_GET["fap"]];
 		}
 		addwhere("t.maxaantalpersonen>=".addslashes($min));
 		addwhere("t.maxaantalpersonen<=".addslashes($max));
@@ -1733,7 +1733,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				}
 				if($alt_aantalresultaten[$i]>0) {
 					$flex_alt[$doorloop_array_van[$i]."_".$doorloop_array_tot[$i]]="".DATUM("DAG D MAAND JJJJ",$doorloop_array_van[$i],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",mktime(0,0,0,date("m",$doorloop_array_tot[$i]),date("d",$doorloop_array_tot[$i])+1,date("Y",$doorloop_array_tot[$i])),$vars["taal"]);
-					$flex_alt_resultatenlink[$doorloop_array_van[$i]."_".$doorloop_array_tot[$i]]="<a href=\"".htmlentities($vars["path"].txt("menu_zoek-en-boek").".php?".$qs."#vf")."\">".$alt_aantalresultaten[$i]." resultaten</a>";
+					$flex_alt_resultatenlink[$doorloop_array_van[$i]."_".$doorloop_array_tot[$i]]="<a href=\"".wt_he($vars["path"].txt("menu_zoek-en-boek").".php?".$qs."#vf")."\">".$alt_aantalresultaten[$i]." resultaten</a>";
 					$flex_alt_resultatenzonderlink[$doorloop_array_van[$i]."_".$doorloop_array_tot[$i]]=$alt_aantalresultaten[$i]." resultaten";
 				}
 			}
@@ -2203,8 +2203,6 @@ $nieuw_sorteersysteem=true;
 					$sorteer.=$koppeling[$db->f("skigebied_id")];
 				}
 				
-				
-				
 				if($_GET["sort"]==1 or !$_GET["sort"]) {
 					# standaard-sortering
 
@@ -2218,12 +2216,22 @@ $nieuw_sorteersysteem=true;
 						}
 					}
 
+					# Nieuwe zoekmarge
 					# Komt het aantal personen goed overeen met waar de bezoeker om vraagt?
 					if($_GET["fap"]) {
-						if($_GET["fap"]>=$db->f("optimaalaantalpersonen") and $_GET["fap"]<=round($db->f("maxaantalpersonen")*1.5)) {
-							$sorteer.="11-";
+					
+						if($_GET["fap"]>20) {
+							$min_zoekmarge=$_GET["fap"];
+							$max_zoekmarge=50;
 						} else {
-							$sorteer.="99-";
+							$min_zoekmarge=$_GET["fap"];
+							$max_zoekmarge=$vars["optimaalmaxpersonen"][$_GET["fap"]];
+						}
+					
+						if($db->f("optimaalaantalpersonen")>=$min_zoekmarge and $db->f("maxaantalpersonen")<=$max_zoekmarge) {
+							$sorteer.="22-";
+						} else {
+							$sorteer.="88-";
 						}
 					}
 					if($prijsperaccommodatie) {
@@ -2453,22 +2461,22 @@ $nieuw_sorteersysteem=true;
 			}
 
 #			$ahref="<a href=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/".$querystring."\" onclick=\"i=new Image();i.src='".$path."click.php?tl=RESULTAATTELLER&t=".$db->f("type_id")."&i=".intval($_GET["z"])."';\">";
-			$ahref="<a href=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/".htmlentities($querystring)."\">";
+			$ahref="<a href=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/".wt_he($querystring)."\">";
 			if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
-				$results[$sorteer].=$ahref."<img src=\"".$path."pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg\" alt=\"".htmlentities($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></a>";
+				$results[$sorteer].=$ahref."<img src=\"".$path."pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg\" alt=\"".wt_he($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></a>";
 			} elseif(file_exists("pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg")) {
-				$results[$sorteer].=$ahref."<img src=\"".$path."pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg\" alt=\"".htmlentities($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></a>";
+				$results[$sorteer].=$ahref."<img src=\"".$path."pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg\" alt=\"".wt_he($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></a>";
 			} else {
 				$results[$sorteer].="<img src=\"".$path."pic/cms/accommodaties_tn/0.jpg\" alt=\"".html("geenafbeelding")."\" border=\"0\" width=\"60\" height=\"45\" >";
 			}
-			$results[$sorteer].="</td><td>".$bold1.$ahref.htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a>".$bold2;
+			$results[$sorteer].="</td><td>".$bold1.$ahref.wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a>".$bold2;
 			
 			if($vars["websitetype"]==6) {
 				if($id=="zoek-en-boek") {
 					$results[$sorteer].=" (".txt($vars["seizoentype_namen"][$db->f("wzt")]).")";
 				}
 			} else {
-				$results[$sorteer].="<br />".htmlentities($db->f("plaats")." - ".$db->f("skigebied")." - ".$db->f("land"));
+				$results[$sorteer].="<br />".wt_he($db->f("plaats")." - ".$db->f("skigebied")." - ".$db->f("land"));
 			}
 			$results[$sorteer].="</td><td align=\"right\"><NOBR>";
 			if($db->f("soortaccommodatie")<>5) {
@@ -2482,7 +2490,7 @@ $nieuw_sorteersysteem=true;
 			$results[$sorteer].=($db->f("slaapkamers") ? $db->f("slaapkamers")."&nbsp;".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."<br />" : "").($db->f("badkamers") ? $db->f("badkamers")."&nbsp;".($db->f("badkamers")==1 ? html("badkamer") : html("badkamers")) : "&nbsp;")."</td>";
 			if($tarief) {
 				$results[$sorteer].="<td align=\"right\" nowrap>";
-				if($soort_aanbieding) $results[$sorteer].="<span class=\"aanbieding_klein\">&nbsp;".htmlentities($soort_aanbieding)."&nbsp;</span><br>";
+				if($soort_aanbieding) $results[$sorteer].="<span class=\"aanbieding_klein\">&nbsp;".wt_he($soort_aanbieding)."&nbsp;</span><br>";
 				$results[$sorteer].="<NOWRAP>&euro;&nbsp;".$tarief."&nbsp;";
 				if($db->f("toonper")==3 or $vars["wederverkoop"]) {
 					$results[$sorteer].=html("per")."</NOWRAP><br>";
@@ -2826,15 +2834,26 @@ $nieuw_sorteersysteem=true;
 		if($nieuw_sorteersysteem) {
 			if($tarieven_tonen) {
 				echo "<td colspan=\"5\" align=\"right\" valign=\"bottom\" style=\"padding-right:10px;\">";
-				echo "<div id=\"zoekresultaten_sorteer\">";
+				echo "<div id=\"zoekresultaten_sorteer".($_GET["versie2"] ? "_versie2" : "")."\">";
 				if($_GET["testsysteem"]==1) {
 					$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
 					$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
 					$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
-					echo html("sorteer","zoek-en-boek");
-					while(list($key,$value)=each($vars["sorteerkeuzes"])) {
-						echo "<a href=\"\">".wt_he($value)."</a>";
+					if(preg_match("/sort=[0-9]/",$_SERVER["REQUEST_URI"])) {
+						$sorteer_url=preg_replace("/sort=[0-9]/","sort=SORT",$_SERVER["REQUEST_URI"]);
+					} elseif(preg_match("/\?/",$_SERVER["REQUEST_URI"])) {
+						$sorteer_url=$_SERVER["REQUEST_URI"]."&sort=SORT";
+					} else {
+						$sorteer_url=$_SERVER["REQUEST_URI"]."?sort=SORT";					
 					}
+					while(list($key,$value)=each($vars["sorteerkeuzes"])) {
+						if($_GET["sort"]==$key or (!$_GET["sort"] and $key==1)) {
+							echo "<div class=\"active\">".wt_he($value)."</div>";
+						} else {
+							echo "<a href=\"".wt_he(preg_replace("/sort=SORT/","sort=".$key,$sorteer_url))."#res\">".wt_he($value)."</a>";
+						}
+					}
+					echo "<div id=\"zoekresultaten_sorteer_tekst\">".html("sorteer","zoek-en-boek").":</div>";
 				} else {
 					$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
 					$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
@@ -3023,17 +3042,17 @@ if($vars["verfijnen_aanbieden"]) {
 					if($combinatiesmogelijk or !$_GET[$getname.$getnumber]) {
 						if($_GET[$getname.$getnumber]==$getvalue) {
 							$qs=wt_stripget($_GET,array("page",$getname.$getnumber));
-							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".htmlentities($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
+							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
 						} elseif($verfijnd[$verfijndname][$value]>0) {
-							$keuzes.="<div class=\"keuzeopsomming\"><a href=\"".htmlentities($_SERVER["REQUEST_URI"]).($_SERVER["QUERY_STRING"] ? "&" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&fzt=&").$getname.$getnumber."=".$getvalue."#vf\">".html($key,"zoek-en-boek")."</a> (".$verfijnd[$verfijndname][$value].")</div>";
+							$keuzes.="<div class=\"keuzeopsomming\"><a href=\"".wt_he($_SERVER["REQUEST_URI"]).($_SERVER["QUERY_STRING"] ? "&" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&fzt=&").$getname.$getnumber."=".$getvalue."#vf\">".html($key,"zoek-en-boek")."</a> (".$verfijnd[$verfijndname][$value].")</div>";
 						} else {
 							$keuzes.="<div class=\"keuzeopsomming_leeg\">".html($key,"zoek-en-boek")."</a> (0)</div>";
 						}
 					} else {
 						if($_GET[$getname.$getnumber]==$getvalue) {
-#							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".htmlentities($urlself."?".wt_stripget($_GET,array("page",$getname.$getnumber)))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
+#							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".wt_he($urlself."?".wt_stripget($_GET,array("page",$getname.$getnumber)))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
 							$qs=wt_stripget($_GET,array("page",$getname.$getnumber));
-							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".htmlentities($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
+							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
 						} else {
 							$keuzes.="<div class=\"keuzeopsomming_leeg\">".html($key,"zoek-en-boek")."</a></div>";
 						}

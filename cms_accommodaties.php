@@ -1,10 +1,5 @@
 <?php
 
-#if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
-#	phpinfo();
-#	exit;
-#}
-
 $mustlogin=true;
 #$vars["acc_in_vars"]=true;
 
@@ -269,6 +264,10 @@ $cms->db_field(1,"checkbox","vertrekinfo_seizoengoedgekeurd","",array("selection
 $cms->db_field(1,"upload","route_en","",array("savelocation"=>"pdf/route_en/","filetype"=>"pdf"));
 $cms->db_field(1,"checkbox","vertrekinfo_seizoengoedgekeurd_en","",array("selection"=>$vars["seizoengoedgekeurd"]));
 
+# Video
+$cms->db_field(1,"yesno","video");
+$cms->db_field(1,"url","videoEmbedCode");
+
 #
 #
 # List list_field($counter,$id,$title="",$options="",$layout="")
@@ -522,6 +521,10 @@ $cms->edit_field(1,0,"picaanvullend","Aanvullende afbeelding(en)","",array("auto
 $cms->edit_field(1,0,"picaanvullendonderaan","Aanvullende afbeelding(en) (komen onderaan)","",array("autoresize"=>true,"img_width"=>"600","img_height"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
 $cms->edit_field(1,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("autoresize"=>true,"img_width"=>"400","img_height"=>"150","img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
 
+$cms->edit_field(1,0,"htmlrow","<hr><b>Video</b>");
+$cms->edit_field(1,0,"videoEmbedCode","URL van Vimeo");
+$cms->edit_field(1,0,"video","Toon deze video op de accommodatiepagina");
+
 $cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><b>Goedkeuren bovenstaande teksten/gegevens</b>");
 $cms->edit_field(1,0,"teksten_seizoengoedgekeurd","Teksten zijn goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 
@@ -593,7 +596,11 @@ if($cms_form[1]->filled) {
 	}
 	if($cms_form[1]->input["gps_long"]<>"" and !$cms_form[1]->input["gps_lat"]) $cms_form[1]->error("gps_lat","vul zowel latitude als longitude in");
 	if($cms_form[1]->input["gps_lat"]<>"" and !$cms_form[1]->input["gps_long"]) $cms_form[1]->error("gps_long","vul zowel latitude als longitude in");
-	
+
+	# Controle op Vimeo-link
+	if($cms_form[1]->input["videoEmbedCode"] and !preg_match("/^http:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[1]->input["videoEmbedCode"])) {
+		$cms_form[1]->error("videoEmbedCode","onjuist formaat. Voorbeeld: http://player.vimeo.com/video/44377043");
+	}
 	
 
 	# Bij wijzigen van "toonper" alle tarieven wissen

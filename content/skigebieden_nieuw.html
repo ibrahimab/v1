@@ -27,7 +27,7 @@ if($db->num_rows()) {
 				$landgehad[$db->f("land_id")]=true;
 				$tabellen.="<div id=\"tabs_".$tabteller."\">";
 				if($db->f("omschrijving")) {
-					$tabellen.="<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/\">".html("meerinformatieoverland","skigebieden",array("h_land"=>$db->f("land")))." &gt;</a><p>";
+					$tabellen.="<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/\">".html("meerinformatieoverland","skigebieden",array("v_land"=>$db->f("land")))." &gt;</a><p>";
 				}
 				$tabellen.="<P><TABLE border=\"0\" class=\"toonacctabel\" style=\"width:100%\" cellspacing=\"0\">";
 				$tabellen.="<tr><th>".html("naam","skigebieden")."</th><th nowrap>".html("pistes","skigebieden")."</th><th>".html("hoogte","skigebieden")."</th><th>".html("accommodaties","skigebieden")."</th></tr>";

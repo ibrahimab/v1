@@ -16,6 +16,7 @@ if($_SERVER["HTTP_HOST"]) {
 ini_set('display_errors', 'Off');
 ini_set('display_startup_errors', 'Off');
 error_reporting(0);
+include($unixdir."admin/vars.php");
 $username=array();
 $username[0]='Zomerhuisje';
 $username[1]='Italissima';
@@ -38,7 +39,7 @@ foreach($username as $userAccount){
 				$kopColor="#5F227B";
 			}
 			elseif($userAccount=='ChaletNL'){
-				$imgSrc="http://www.chalet.nl/pic/logo_chalet.gif?c=1";
+				$imgSrc="http://www.chalet.nl/pic/logo_chalet.gif";
 				$backColor="#d5e1f9";
 				$naam="Chalet.nl";
 				$kopColor="#D40139";
@@ -48,59 +49,59 @@ foreach($username as $userAccount){
 				$kopColor="#D40139";
 			}
 			if(substr($bericht1[$a],0,4)=="http"){
-				$bericht.=htmlentities("<BR><a style=\"text-decoration:underline;\" href=");
-				$bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
-				$bericht.=htmlentities(" target=\"_blank\">");
-				$bericht.=htmlentities($bericht1[$a],ENT_COMPAT, "ISO-8859-1");
-				$bericht.=htmlentities("</a>");
+				$bericht.="<BR><a style=\"text-decoration:underline;\" href=";
+				$bericht.=wt_he(utf8_decode($bericht1[$a]));
+				$bericht.=" target=\"_blank\">";
+				$bericht.=wt_he(utf8_decode($bericht1[$a]));
+				$bericht.="</a>";
 			}
 			else{
-				$bericht.=" ".htmlentities($bericht1[$a]);
+				$bericht.=" ".wt_he($bericht1[$a]);
 			}
 		}
 		for($a=0; $a<count($bericht2);$a++){
 			if(substr($bericht2[$a],0,4)=="http"){
-				$berichtNext.=htmlentities("<BR><a style=\"text-decoration:underline;\" href=");
-				$berichtNext.=htmlentities($bericht2[$a]);
-				$berichtNext.=htmlentities(" target=\"_blank\">");
-				$berichtNext.=htmlentities($bericht2[$a]);
-				$berichtNext.=htmlentities("</a>");
+				$berichtNext.="<BR><a style=\"text-decoration:underline;\" href=";
+				$berichtNext.=wt_he(utf8_decode($bericht2[$a]));
+				$berichtNext.=wt_he(" target=\"_blank\">");
+				$berichtNext.=wt_he(utf8_decode($bericht2[$a]));
+				$berichtNext.="</a>";
 			}
 			else{
-				$berichtNext.=" ".htmlentities($bericht2[$a]);
+				$berichtNext.=" ".wt_he(utf8_decode($bericht2[$a]));
 			}
 		}
 		for($a=0; $a<count($bericht3);$a++){
 			if(substr($bericht3[$a],0,4)=="http"){
-				$berichtNextNext.=htmlentities("<BR><a style=\"text-decoration:underline;\" href=");
-				$berichtNextNext.=htmlentities($bericht3[$a]);
-				$berichtNextNext.=htmlentities(" target=\"_blank\">");
-				$berichtNextNext.=htmlentities($bericht3[$a]);
-				$berichtNextNext.=htmlentities("</a>");
+				$berichtNextNext.="<BR><a style=\"text-decoration:underline;\" href=";
+				$berichtNextNext.=wt_he(utf8_decode($bericht3[$a]));
+				$berichtNextNext.=" target=\"_blank\">";
+				$berichtNextNext.=wt_he(utf8_decode($bericht3[$a]));
+				$berichtNextNext.="</a>";
 			}
 			else{
-				$berichtNextNext.=" ".htmlentities($bericht3[$a]);
+				$berichtNextNext.=" ".wt_he(utf8_decode($bericht3[$a]));
 			}
 		}
 		if($userAccount!='Italissima'){
 			$content="<BR>";
-			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_nieuwsbrief\" cellspacing=\"2\" style=\"background-color:".$backColor."; padding:5px;\">";
-			$content.="<tr><td font-color=\"".$kopColor."\" class=\"kop\" colspan=\"2\">".$naam." op twitter</td></tr>";
+			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_themas_blok\" cellspacing=\"2\" style=\"background-color:".$backColor."; padding:5px;\">";
+			$content.="<tr><td style=\"color:".$kopColor.";font-size:14px;\" colspan=\"2\">".$naam." op twitter</td></tr>";
 			$content.="<tr><td><a href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\" target=\"_blank\">";
 			$content.="<img src=\"".$imgSrc."\" width=\"50\" height=\"45\" border=\"0\"></a></td>";
 			$content.="<td><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\" target=\"_blank\">".$userAccount.":</a></td></tr><tr><td></td><td></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".htmlspecialchars_decode($bericht)."<BR><BR></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".htmlspecialchars_decode($berichtNext)."<BR><BR></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".htmlspecialchars_decode($berichtNextNext)."<BR><BR></td>";
+			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht."<BR><BR></td></tr>";
+			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNext."<BR><BR></td></tr>";
+			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNextNext."<BR><BR></td>";
 			$content.="</table></div>";
 
 		}
 		else{
 			$content="<br><table cellspacing=\"0\" style=\"background-color:#e0d1cc; font-family: Verdana, Arial, Helvetica, sans-serif; padding-left:25px;padding-top:5px; padding-bottom:5px; padding-right:25px; width:580px;\">
 					<tr><td style=\"color:#661700; font-size:14px;\" colspan=\"2\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=Italissima\" target=\"_blank\">Italissima op twitter</a></td></tr>
-					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".htmlspecialchars_decode($bericht)."<hr></td></tr>
-					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".htmlspecialchars_decode($berichtNext)."<hr></td></tr>
-					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".htmlspecialchars_decode($berichtNextNext)."</td>
+					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht."<hr></td></tr>
+					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$berichtNext."<hr></td></tr>
+					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$berichtNextNext."</td>
 					</table>";
 		}
 		$toWrite=$unixdir."cache/twitter".$userAccount.".html";
