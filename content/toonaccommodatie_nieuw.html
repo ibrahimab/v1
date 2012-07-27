@@ -290,7 +290,7 @@ if($db->next_record()) {
 	echo "<li><a href=\"#tabs_overzicht\">".html("tab_overzicht","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#tabs_indeling\">".html("tab_indeling","toonaccommodatie")."</a></li>";
 #	echo "<li><a href=\"#tabs_incl\">".html("tab_incl","toonaccommodatie")."</a></li>";
-	if($db->f("video")=="1" and $_GET["testsysteem"]){
+	if($db->f("video")=="1") {
 		echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos_filmpjes","toonaccommodatie")."</a></li>";
 	}
 	else{
@@ -412,7 +412,7 @@ if($db->next_record()) {
 	if(is_array($foto["pic"])) {
 		echo "<div id=\"toonaccommodatie_overzicht_fotos\" class=\"noprint\">";
 		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr>";
-		if($db->f("video")=="1" and $_GET["testsysteem"]) {
+		if($db->f("video")=="1") {
 			$fototeller++;
 			echo "<td rowspan=\"2\"><a onclick=\"sessionStorage.click++;return openpopupvideo();\" href=\"#\">";
 			echo "<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" border=\"0\">";
@@ -510,7 +510,7 @@ if($db->next_record()) {
 	}
 #	imagetable(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
 	$foto_table="";
-	if($db->f("video")=="1" and $_GET["testsysteem"]) {
+	if($db->f("video")=="1") {
 		$foto_table.="<tr>";
 		$foto_table.="<td align=\"center\"><div class=\"foto_doorklik\"><a onclick=\"sessionStorage.click++; return openpopupvideo();\" href=\"#\">";
 		$foto_table.="<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" border=\"0\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\">";
@@ -1422,7 +1422,7 @@ if($db->next_record()) {
 	
 	echo "</form>";
 	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I") {
-		if($_GET["testsysteem"]==1){
+		if($_GET["testsysteem"]==1) {
 			if(!in_array($typeid,$klantfavs)) {
 				echo "<div style=\"padding:5px;\">";
 				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
