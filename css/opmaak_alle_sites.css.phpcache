@@ -761,6 +761,36 @@ td.selecteerbaarbedrag:hover{
 	background-color: #d5e1f9;
 	padding: 5px;
 	text-decoration: none;
+	border: 1px solid #ffffff;
+	color: #003366;
+}
+
+#zoekresultaten_sorteer .active {
+	display: block;
+	margin-left: 10px;
+	float: right;
+	background-color: #d5e1f9;
+	padding: 5px;
+	text-decoration: none;
+	border: 1px solid #003366;
+	color: #003366;	
+}
+
+#zoekresultaten_sorteer a:hover {
+	text-decoration: none;
+	border: 1px solid #003366;
+	color: #003366;	
+}
+
+#zoekresultaten_sorteer_tekst {
+	display: block;
+	margin-left: 10px;
+	float: right;
+	background-color: #ffffff;
+	padding: 5px;
+	text-decoration: none;
+	border: 1px solid #ffffff;
+	color: #003366;
 }
 
 .zoekresultaten_opmerking_tussen_resultaten {
