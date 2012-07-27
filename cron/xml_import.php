@@ -112,7 +112,8 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 
 
 if(!$argv[1] or $argv[1]=="17") {
-	if($testsysteem) {
+#	if($testsysteem) {
+	if(!$testsysteem) {
 
 		# XML downloaden bij Alpin Rentals Kaprun
 		$tmp_insert = array(
@@ -250,8 +251,8 @@ if($testsysteem) {
 #	$xml_urls[16][2]=$tmpdir."export_chalet_nl_prices_de_w.xml";
 #	$xml_urls[16][3]=$tmpdir."export_chalet_nl_occupancy_de_s.xml";
 #	$xml_urls[16][4]=$tmpdir."export_chalet_nl_prices_de_s.xml";
-#	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-06-29-10-46.xml";
-	$xml_urls[18][1]=$tmpdir."agence.xml";
+	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-07-20-15-05.xml";
+#	$xml_urls[18][1]=$tmpdir."agence.xml";
 }
 
 #
@@ -713,50 +714,41 @@ while(list($key,$value)=@each($xml_urls)) {
 				# week is aabkomst datum strandard altijd op zaterdag.
 				#alle beschikbaarheden in array stoppen 
 				echo "Bij Miguel";
-				$gehad=array();
-				foreach($xml->House as $acc){
-					if($acc->Availability=="Free"){
-						$prijs=0;
-						if(ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})",$acc->Date,$regs)) {
-							$unixtime=mktime(0,0,0,$regs[2],$regs[1],$regs[3]);
-							$mijnWeek=date("W",$unixtime);
-							echo "Week:".$mijnWeek;
-							$nodes=simplexml_load_file('..\tmp\alpin_rentals_kaprun_2012-06-29-10-46.xml') or die("Error: Kan xml bestand niet bouwen");
-							$results=$nodes->xpath("/Houses/House[HouseCode='$acc->HouseCode']");
-							$dagen=array();
-							for($i=0;$i<count($results);$i++){
-								if((ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})",$results[$i]->Date,$regs2))and($results[$i]->Availability=="Free")) {
-									$xml_beschikbaar[$key][trim($acc->HouseCode)][$unixtime]=true;
-									$toCheck=$results[$i]->HouseCode."-".$mijnWeek;
-									$unixtime2=mktime(0,0,0,$regs2[2],$regs2[1],$regs2[3]);
-									if($mijnWeek==date("W",$unixtime2)){
-										array_push($dagen, $results[$i]);
-									}	
-								}
-							}
-							echo "dagen: ".count($dagen)." HouseCode: ".$acc->HouseCode." Week: ".$mijnWeek;
-							if(!in_array($toCheck,$gehad)){
-								if(count($dagen>=4)){
-									for($a=0;$a<count($dagen);$a++){
-										$prijs=$prijs+trim($dagen[$a]->Price);
-									}
-									echo "Prijs is: ".$prijs;
-								}
-								$voorGeaHad=$acc->HouseCode."-".$mijnWeek;
-								array_push($gehad, $voorGeaHad);
-								# Tarieven
-								$xml_brutoprijs[$key][trim($acc->HouseCode)][$unixtime]=$prijs;
-							}
-						}
+				foreach($xml->House as $accommodatie) {
+					unset($temp_beschikbaar);
+					$datevars=explode("-", $accommodatie->Date);
+					$datum=strtotime($datevars[2]."-".$datevars[1]."-".$datevars[0]);
+					$dag=mktime(0,0,0,date("m",$datum),date("d",$datum)+1,date("Y",$datum));
+
+					if(date("w",$dag)==6) {
+						$week=$dag;
+					} else {
+						$week=mktime(0,0,0,date("m",$dag),date("d",$dag)-(date("w",$dag)+1),date("Y",$dag));
 					}
-					elseif($acc->Availability == "Occupied"){
-						if(ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})",$acc->Date,$regs)) {
-							$unixtime=mktime(0,0,0,$regs[2],$regs[1],$regs[3]);
-							$xml_beschikbaar[$key][trim($acc->HouseCode)][$unixtime]=false;
+					if($accommodatie->Availability=="Free" and $accommodatie->MinNights == "7"){
+						$xml_beschikbaar[$key][trim($accommodatie->HouseCode)][$week]+=1;
+						$prijs=$accommodatie->Price*7;
+						$xml_brutoprijs[$key][trim($accommodatie->HouseCode)][$week]=$prijs;
+						//echo $xmle->House[$i]->HouseCode." op ".$week." beschkbaar";
+						$week=mktime(0,0,0,date("m",strtotime($accommodatie->Date)),date("d",strtotime($accommodatie->Date)+7),date("Y",strtotime($accommodatie->Date)));
+						$xml_laatsteimport_leverancier[$key]=true;
+					}
+					elseif($accommodatie->Availability=="Free" and $accommodatie->MinNights != "7"){
+						$temp_beschikbaar[$week]++;
+					}
+					if(date("w",$dag)==5) {
+						if($temp_beschikbaar[$week]==7) {
+							$prijs=$accommodatie->Price;
+							$xml_beschikbaar[$key][trim($accommodatie->HouseCode)][$week]+=1;
+							$prijs+=$accommodatie->Price*$accommodatie->MinNights;
+							$xml_brutoprijs[$key][trim($accommodatie->HouseCode)][$week]=$prijs;
+							//echo $xmle->House[$i]->HouseCode." op ".$week." beschkbaar";
+							$xml_laatsteimport_leverancier[$key]=true;
 						}
 					}
 				}
-				$xml_laatsteimport_leverancier[$key]=true;
+				//var_dump($xml_brutoprijs);
+				echo wt_dump_with_unixtime($xml_beschikbaar);
 			}
 		} else {
 			trigger_error("_notice: URL ".$value2." onbereikbaar",E_USER_NOTICE);
