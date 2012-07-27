@@ -2834,7 +2834,7 @@ $nieuw_sorteersysteem=true;
 		if($nieuw_sorteersysteem) {
 			if($tarieven_tonen) {
 				echo "<td colspan=\"5\" align=\"right\" valign=\"bottom\" style=\"padding-right:10px;\">";
-				echo "<div id=\"zoekresultaten_sorteer\">";
+				echo "<div id=\"zoekresultaten_sorteer".($_GET["versie2"] ? "_versie2" : "")."\">";
 				if($_GET["testsysteem"]==1) {
 					$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
 					$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
