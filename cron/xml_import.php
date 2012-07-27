@@ -112,8 +112,7 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 
 
 if(!$argv[1] or $argv[1]=="17") {
-#	if($testsysteem) {
-	if(!$testsysteem) {
+	if($testsysteem and $NU_EVEN_NIET) {
 
 		# XML downloaden bij Alpin Rentals Kaprun
 		$tmp_insert = array(
@@ -254,6 +253,7 @@ if($testsysteem) {
 	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-07-20-15-05.xml";
 #	$xml_urls[18][1]=$tmpdir."agence.xml";
 }
+
 
 #
 # Bepalen welke flexibele xmlcodes van toepassing zijn
@@ -748,7 +748,8 @@ while(list($key,$value)=@each($xml_urls)) {
 					}
 				}
 				//var_dump($xml_brutoprijs);
-				echo wt_dump_with_unixtime($xml_beschikbaar);
+#				echo wt_dump_with_unixtime($xml_beschikbaar);
+#				exit;
 			}
 		} else {
 			trigger_error("_notice: URL ".$value2." onbereikbaar",E_USER_NOTICE);
@@ -942,6 +943,7 @@ if($testsysteem) {
 
 #	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, t.xmltarievenimport, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND a.accommodatie_id=2015 ORDER BY t.leverancier_id, a.wzt;");
 #	echo $db->lastquery."<p>kk";
+#	exit;
 } else {
 	# echte query
 	if(intval($argv[1])>0) {
@@ -1584,7 +1586,6 @@ while(list($key,$value)=@each($beschikbaar)) {
 	while(list($key2,$value2)=@each($value)) {
 		$db->query("SELECT ta.seizoen_id, ta.voorraad_garantie, ta.voorraad_allotment, ta.voorraad_vervallen_allotment, ta.voorraad_optie_leverancier, ta.voorraad_xml, ta.voorraad_request, ta.voorraad_bijwerken, ta.beschikbaar, ta.seizoen_id, ta.type_id, ta.week, t.accommodatie_id, t.leverancier_id FROM tarief ta, type t WHERE ta.type_id=t.type_id AND ta.type_id='".$key2."' AND ta.week>'".time()."' AND (ta.bruto>0 OR ta.c_bruto>0) AND ta.blokkeerxml=0 ORDER BY ta.week;");
 		while($db->next_record()) {
-
 			# Rekening houden met afwijkende vertrekdagen
 			if(!in_array($db->f("leverancier_id"),$geen_vertrekdagaanpassing_leverancier) and $vertrekdagtype[$db->f("accommodatie_id")][$db->f("seizoen_id")]) {
 				$databaseweek=vertrekdagaanpassing($db->f("week"),1,$vertrekdagtype[$db->f("accommodatie_id")][$db->f("seizoen_id")]);
@@ -1625,6 +1626,10 @@ while(list($key,$value)=@each($beschikbaar)) {
 				$xml_laatsteimport[$key2]=true;
 				$xml_laatstewijziging[$db->f("type_id")]=true;
 				$db2->query($query);
+				
+				if($testsysteem) {
+					echo "Voorraad: ".$query."\n";
+				}
 
 				if($db2->affected_rows()>0) {
 					# beschikaarheid en voorraad loggen
