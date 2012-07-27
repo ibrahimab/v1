@@ -2302,8 +2302,8 @@ $txt["en"]["skigebieden"]["viaonderstaandoverzicht"]="The overview below provide
 $txt["nl_z"]["skigebieden"]["viaonderstaandoverzicht"]="Via onderstaand overzicht vind je uitgebreide informatie over regio's in [[h_landen]].";
 $txt["en_z"]["skigebieden"]["viaonderstaandoverzicht"]="The overview below provides detailed information about regions in [[h_landen]].";
 
-$txt["nl"]["skigebieden"]["meerinformatieoverland"]="Meer informatie over [[h_land]]";
-$txt["en"]["skigebieden"]["meerinformatieoverland"]="More information about [[h_land]]";
+$txt["nl"]["skigebieden"]["meerinformatieoverland"]="Meer informatie over [[v_land]]";
+$txt["en"]["skigebieden"]["meerinformatieoverland"]="More information about [[v_land]]";
 
 $txt["nl"]["skigebieden"]["steltuspecifiekeeisen"]="Stel je specifieke eisen aan een skigebied, zoek dan eerst een skigebied dat bij je past en kijk welke mogelijkheden wij in deze gebieden hebben.";
 $txt["en"]["skigebieden"]["steltuspecifiekeeisen"]="If you want a skiing area to meet specific requirements, look first for a skiing area that suits your requirements and then look for what we can offer in these areas.";
