@@ -381,9 +381,14 @@ if($vars["nieuwevormgeving"]) {
 		$submenu["reisagent"]=txt("submenutitle_reisagent");
 #		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+		if($_GET["testsysteem"]) {
+			$submenu["favorieten"]=txt("submenutitle_favorieten");
+		}
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		$submenu["sitemap"]=txt("submenutitle_sitemap");
+		if(!$_GET["testsysteem"]){
+			$submenu["sitemap"]=txt("submenutitle_sitemap");
+		}
 	} elseif($vars["seizoentype"]==2) {
 		#
 		# Zomerhuisje
@@ -409,9 +414,14 @@ if($vars["nieuwevormgeving"]) {
 
 	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+		if($_GET["testsysteem"]) {
+			$submenu["favorieten"]=txt("submenutitle_favorieten");
+		}
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		$submenu["sitemap"]=txt("submenutitle_sitemap");
+		if(!$_GET["testsysteem"]){
+			$submenu["sitemap"]=txt("submenutitle_sitemap");
+		}
 		$submenu["chaletwinter"]=txt("submenutitle_chaletwinter");
 	} elseif($vars["websitetype"]==6) {
 		#
@@ -462,7 +472,9 @@ if($vars["nieuwevormgeving"]) {
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 		//deze submenu(sitemap) moet nog naar de footer worden verplaatst.
-		//$submenu["sitemap"]=txt("submenutitle_sitemap");
+		if(!$_GET["testsysteem"]){
+			$submenu["sitemap"]=txt("submenutitle_sitemap");
+		}
 		$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
 	}
 
