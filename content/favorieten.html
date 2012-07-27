@@ -190,7 +190,6 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->from=$_GET['verzenderAdres'];
 		$mail->toname=$_GET[''];
 		$mail->to=$_GET["verzenderAdres"];
-		$mail->subject.="Mijn favoriete vakantiehuizen";
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
 		$mail->html.="<html>";
@@ -200,7 +199,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
 		$mail->html.="<table style=\"font-family:verdana;color:#003366;\" border=\"0\" width=\"681\"><tr><td><i>Deze mail is een kopie van de lijst met favoriete vakantiehuizen welke jijzelf hebt doorgestuurd op ".$vars["websitenaam"]."</i><br/><br><br></td></tr><tr><td>";
 		$mail->html.="<img src=\"".$vars["basehref"]."pic/topfoto/headerChalet.png\" border=\"0\"></td></tr>";
-		$mail->html.="<tr><td style=\"text-align:center;\"><br><br>".$_GET["bericht"]."<BR/><BR/><BR/>";
+		$mail->html.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";\"><br><br>".$_GET["bericht"]."<BR/><BR/><BR/>";
 		$mail->html.="</td></tr>";
 		$mail->html.="</table>";
 		foreach($klantfavs as $id){
@@ -214,13 +213,14 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				} else {
 					$afbeelding="accommodaties/0";
 				}
-				$mail->html.="<table text-align=\"left\" style=\"font-family:verdana;text-align:left;\" border=\"0\" width=\"681\" bgcolor=\"#d5e1f9\">";
-				$mail->html.="<tr><td bgcolor=\"#003366\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
+				$mail->html.="<table style=\"font-family:verdana;text-align:left;\" border=\"0\" width=\"681\" bgcolor=\"".$vars["backcolor"]."\">";
+				$mail->html.="<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
+				$mail->subject.=htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." ";
 				$mail->html.="<tr><td valign=\"top\" rowspan=\"8\"><a href=\"".$vars["basehref"]."accommodatie.php/".$teken.$id."\"><img border=\"0\" style=\"padding-right:10px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\"></a></td>";
 				$mail->html.="<td>".$db->f("land")."</td></tr><tr>";
 				$mail->html.="<td>".$db->f("plaats")."</td></tr><tr>";
 				$mail->html.="<td>".$db->f("skigebied")."</td></tr><tr>";
-				$mail->html.="<td style=\"color:Red;\">".$db->f("korteomschrijving")."</td></tr><tr>";
+				$mail->html.="<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving")."</td></tr><tr>";
 				if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")){
 					$rev=$db->f("optimaalaantalpersonen");
 				}
@@ -251,7 +251,6 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->from=$_GET['verzenderAdres'];
 		$mail->toname=$_GET[''];
 		$mail->to=$emails[$i];
-		$mail->subject.="Mijn favoriete vakantiehuizen";
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
 		$mail->html.="<html>";
@@ -261,7 +260,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
 		$mail->html.="<table style=\"font-family:verdana;color:#003366;\" border=\"0\" width=\"681\"><tr><td>";
 		$mail->html.="<img src=\"".$vars["basehref"]."pic/topfoto/headerChalet.png\" border=\"0\"></td></tr>";
-		$mail->html.="<tr><td style=\"text-align:center;\"><br><br>".$_GET["bericht"]."<BR/><BR/><BR/>";
+		$mail->html.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";\"><br><br>".$_GET["bericht"]."<BR/><BR/><BR/>";
 		$mail->html.="</td></tr>";
 		$mail->html.="</table>";
 		foreach($klantfavs as $id){
@@ -275,13 +274,14 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				} else {
 					$afbeelding="accommodaties/0";
 				}
-				$mail->html.="<table text-align=\"left\" style=\"font-family:verdana;text-align:left;\" border=\"0\" width=\"681\" bgcolor=\"#d5e1f9\">";
-				$mail->html.="<tr><td bgcolor=\"#003366\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
+				$mail->html.="<table text-align=\"left\" style=\"font-family:verdana;text-align:left;\" border=\"0\" width=\"681\" bgcolor=\"".$vars["backcolor"]."\">";
+				$mail->html.="<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
+				$mail->subject.=htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." ";
 				$mail->html.="<tr><td valign=\"top\" rowspan=\"8\"><a href=\"".$vars["basehref"]."accommodatie.php/".$teken.$id."\"><img border=\"0\" style=\"padding-right:10px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\"></a></td>";
 				$mail->html.="<td>".$db->f("land")."</td></tr><tr>";
 				$mail->html.="<td>".$db->f("plaats")."</td></tr><tr>";
 				$mail->html.="<td>".$db->f("skigebied")."</td></tr><tr>";
-				$mail->html.="<td style=\"color:Red;\">".$db->f("korteomschrijving")."</td></tr><tr>";
+				$mail->html.="<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving")."</td></tr><tr>";
 				if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")){
 					$rev=$db->f("optimaalaantalpersonen");
 				}
@@ -340,13 +340,13 @@ else{
 			} else {
 				$afbeelding="accommodaties/0";
 			}
-			echo"<table style=\"display:inline-table;background-color:#d5e1f9;\" text-align=\"left\" border=\"0\" width=\"100%\" bgcolor=\"#d5e1f9\">";
-			echo"<tr><td bgcolor=\"#003366\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
+			echo"<table style=\"display:inline-table;background-color:".$vars["backcolor"].";\" text-align=\"left\" border=\"0\" width=\"100%\" bgcolor=\"".$vars["backcolor"]."\">";
+			echo"<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
 			echo"<tr><td rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
 			echo"<td>".$db->f("land")."</td></tr><tr>";
 			echo"<td>".$db->f("plaats")."</td></tr><tr>";
 			echo"<td>".$db->f("skigebied")."</td></tr><tr>";
-			echo"<td style=\"color:Red;\">".$db->f("korteomschrijving")."</td></tr><tr>";
+			echo"<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving")."</td></tr><tr>";
 			if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")){
 				$rev=$db->f("optimaalaantalpersonen");
 			}
@@ -357,7 +357,7 @@ else{
 			echo"<td>".$db->f("slaapkamers")." slaapkamer(s)</td></tr><tr>";
 			echo"<td>".$db->f("badkamers")." badkamer(s)</td></tr><tr>";
 			$teken=substr($db->f("land"),0,1);
-			echo"<td align=\"right\" colspan=\"2\"><a href=\"accommodatie.php/".$teken.$id."\"><img border=\"0\" src=\"".$vars["basehref"]."pic/leesMeerButton.png\" width=\"82\" height=\"23\"></img></a></td></tr><tr>";
+			echo"<td align=\"right\" colspan=\"2\"><a href=\"accommodatie.php/".$teken.$id."\">".$knopLeesmeer."</td></tr><tr>";
 			echo"</table>";
 			echo "<div style=\"padding:5px;\">";
 			echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$id."','delete')\" href=\"#\">";
