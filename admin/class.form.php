@@ -440,7 +440,7 @@ class form2 {
 			}
 			$this->init=true;
 		}
-		if(!ereg("^[a-z0-9_]+$",$id)) {
+		if(!ereg("^[a-zA-Z0-9_]+$",$id)) {
 			trigger_error("WT-Error: Wrong table-id '".$id."'",E_USER_ERROR);
 		} elseif($this->fields["type"][$id]) {
 			trigger_error("WT-Error: Double table-id '".$id."'",E_USER_ERROR);
