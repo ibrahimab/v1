@@ -442,6 +442,7 @@ if($db->next_record()) {
 		echo "</td></tr></table>";
 		echo "</div>";
 	}
+
 	if($db->f("korteomschrijving") or $db->f("tkorteomschrijving")) {
 		echo "<h2>";
 		if($db->f("tkorteomschrijving")) {
