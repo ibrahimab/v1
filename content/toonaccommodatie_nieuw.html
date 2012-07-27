@@ -1421,24 +1421,26 @@ if($db->next_record()) {
 	}
 	
 	echo "</form>";
-	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" and $_GET["testsysteem"]) {
-		if(!in_array($typeid,$klantfavs)) {
-			echo "<div style=\"padding:5px;\">";
-			echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
-			echo "<img border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";
-			echo " Plaats in mijn favorieten";
-			echo "</a>";
-			echo "</div>";
-		}
-		else{
-			echo "<div style=\"padding:5px;\">";
-			echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','delete')\" href=\"#\">";
-			echo "<img border=\"0\" width=\"13\" height=\"13\" src=";
-			echo $vars["path"];
-			echo "pic/icon_notokay.png>";
-			echo " Uit mijn favorieten halen";
-			echo "</a>";
-			echo "</div>";
+	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I") {
+		if($_GET["testsysteem"]==1){
+			if(!in_array($typeid,$klantfavs)) {
+				echo "<div style=\"padding:5px;\">";
+				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
+				echo "<img border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";
+				echo " Plaats in mijn favorieten";
+				echo "</a>";
+				echo "</div>";
+			}
+			else{
+				echo "<div style=\"padding:5px;\">";
+				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','delete')\" href=\"#\">";
+				echo "<img border=\"0\" width=\"13\" height=\"13\" src=";
+				echo $vars["path"];
+				echo "pic/icon_notokay.png>";
+				echo " Uit mijn favorieten halen";
+				echo "</a>";
+				echo "</div>";
+			}
 		}
 	}
 	echo "<div id=\"toonaccommodatie_kleinelinks\">";
