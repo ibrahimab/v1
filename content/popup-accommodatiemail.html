@@ -29,7 +29,7 @@ function controlEnSend(){
 		document.getElementById("Verzender").style.backgroundColor = 'red';
 		document.getElementById("Verzender").style.color = 'white';
 		document.getElementById("Verzender").style.padding = '10px';
-		document.getElementById("Verzender").innerHTML = "U hebt de email adres(en) van de ontvanger(s) niet ingevuld";
+		document.getElementById("Verzender").innerHTML = "U hebt het emailadres (de emailadressen) van de ontvanger(s) niet ingevuld";
 	}
 	else{
 		var container = document.getElementById("EmailOntvanger").value;
@@ -59,11 +59,12 @@ function controlEnSend(){
 <?php
 if($vars["websitetype"]==1){
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerChalet.png";
-	$vars["mail_form_mid_div_content"]="Ik heb een leuke accommodatie gevonden op Chalet.nl. Dit moet je zien!";
+	$vars["mail_form_mid_div_content"]="Ik heb een leuk chalet/appartement gevonden op Chalet.nl. Dit moet je zien!";
 	$vars["mail_form_aLink_style"]="color:#002682; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 	$vars["balkkleur"]="#003366";
 	$vars["backcolor"]="#d5e1f9";
 	$vars["textColor"]="#003366";
+	$vars["korteOmschrijvinkleur"]="#d40139";
 }
 elseif($vars["websitetype"]==3){
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerZomerhuisje.png";
@@ -72,24 +73,47 @@ elseif($vars["websitetype"]==3){
 	$vars["balkkleur"]="#5f227b";
 	$vars["backcolor"]="#eaeda9";
 	$vars["textColor"]="#5f227b";
+	$vars["korteOmschrijvinkleur"]="#5f227b";
 }
 elseif($vars["websitetype"]==7){
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerItalissima.png";
-	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op italissima.nl. Dit moet je zien!";
+	$vars["mail_form_mid_div_content"]="Ik heb een aantal leuke chalets en appartementen gevonden op italissima.nl. Dit moet je zien!";
 	$vars["mail_form_aLink_style"]="color:#fe9900; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 	$vars["balkkleur"]="#661700";
-	$vars["backcolor"]="#FFFFFF";
+	$vars["backcolor"]="#ffd699";
 	$vars["textColor"]="#661700";
+	$vars["korteOmschrijvinkleur"]="#661700";
 }
 # Gegevens gekozen accommodatie opvragen
 $accinfo=accinfo($_GET["accid"]);
-echo "<p>Naam accommodatie: ".wt_he($accinfo["accnaam"])."</p>";
+//echo "<p>Naam accommodatie: ".wt_he($accinfo["accnaam"])."</p>";
 
 //echo "<p>Meer informatie over deze accommodatie: ".wt_dump($accinfo)."</p>";
 
 if(isset($_POST['verzenderAdres'])){
-	if($_POST['welofGeenKopie']=="ja"){
-		$_POST['EmailOntvanger'].=" ".$_POST['verzenderAdres'];
+	if($_POST['jaNee']=="on"){
+		$mail=new wt_mail;
+		$mail->fromname=$_POST["verzenderAdres"];
+		$mail->from=$_POST['verzenderAdres'];
+		$mail->toname=$_POST[''];
+		$mail->to=$_POST['verzenderAdres'];
+		$mail->subject=wt_he($accinfo["accnaam"]);
+		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
+		$mail->html_top="";
+		$mail->html.="<html>";
+		$mail->html.="<head>";
+		$mail->html.="</head>";
+		$mail->html.="<body style=\"font-family:verdana;\">";
+		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
+		$mail->html.="<br><i>Deze mail is een kopie van de accommodatie welke jijzelf hebt doorgestuurd op ".$vars["websitenaam"]."</i><br><br>";
+		$mail->html.="<a href=".$vars["basehref"]."><img src=".$vars['mail_topfoto']."></a><BR><BR>";
+		$mail->html.="<BR><div style=\"color:".$vars["textColor"].";text-align:left;width:681px;\">".nl2br($_POST['bericht'])."</div>\n";
+		$mail->html.=$_POST['bericht2']."\n";
+		$mail->html.="</div>";
+		$mail->html.="</body>";
+		$mail->html.="</html>";
+		$mail->html_bottom="";
+		$mail->send();
 	}
 	$emails = explode(" ", $_POST['EmailOntvanger']);
 	for($i = 0; $i<sizeof($emails); $i++){
@@ -98,7 +122,7 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->from=$_POST['verzenderAdres'];
 		$mail->toname=$_POST[''];
 		$mail->to=$emails[$i];
-		$mail->subject="Leuke accommodatie tip van ".$_POST["VerzenderNaam"];
+		$mail->subject=wt_he($accinfo["accnaam"]);
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
 		$mail->html.="<html>";
@@ -107,7 +131,7 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="<body style=\"font-family:verdana;\">";
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
 		$mail->html.="<a href=".$vars["basehref"]."><img src=".$vars['mail_topfoto']."></a><BR><BR>";
-		$mail->html.="<BR><div style=\"color:".$vars["textColor"].";text-align:left;width:681px;\">".$_POST['bericht']."</div>\n";
+		$mail->html.="<BR><div style=\"color:".$vars["textColor"].";text-align:left;width:681px;\">".nl2br($_POST['bericht'])."</div>\n";
 		$mail->html.=$_POST['bericht2']."\n";
 		$mail->html.="</div>";
 		$mail->html.="</body>";
@@ -130,7 +154,7 @@ if(isset($_POST['verzenderAdres'])){
 			</td>
 		</tr>
 		<tr>
-			<td><strong>Naar:(meerdere emailadressen scheiden met een spatie)</strong></td>
+			<td><strong>Naar: (Meerdere emailadressen scheiden met een spatie)</strong></td>
 		</tr>
 		<tr>
 			<td><input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
@@ -146,18 +170,25 @@ if(isset($_POST['verzenderAdres'])){
 				<div id="presentbericht" contenteditable="true">
 					<p><BR />
 						<?php
+							if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
+								$rev=wt_he($accinfo["optimaalaantalpersonen"]);
+							}
+							else{
+								$rev=wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"]);
+							}
 							echo"<table style=\"display:inline-table;background-color:".$vars["backcolor"].";font-family:verdana\" text-align=\"left\" border=\"0\" width=\"681px\" bgcolor=\"".$vars["backcolor"]."\">";
-							echo"<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".wt_he($accinfo["accnaam"])."</td></tr>";
+							echo"<tr><td bgcolor=\"".$vars["balkkleur"]."\" colspan=\"2\" style=\"color:#FFFFFF; padding-left:5px;\">".wt_he($accinfo["accnaam"])."</td></tr>";
 							$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
 							$url="url";
-							echo"<tr><td rowspan=\"8\"><a href=\"$accinfo[$url]\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a></td>";
-							echo"<td>".wt_he($accinfo["accnaam"])."</td></tr><tr>";
-							echo"<td>".wt_he($accinfo["plaats"])."-".wt_he($accinfo["skigebied"])."-".wt_he($accinfo["land"])."</td></tr><tr>";
-							echo"<td>".wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"])." personen</td></tr><tr>";
-							echo"<td style=\"color:".$vars["backcolor"].";\">sgjhsgjhsdghjgsjhsdgjhgsdjhgjsgjsgjhsdgjhgdsjgsdjhgsdjh</td></tr><tr>";
-							echo"<td>".wt_he($accinfo["oppervlakte"])." m2</td></tr><tr>";
-							echo"<td>".wt_he($accinfo["slaapkamers"])." slaapkamer(s)</td></tr><tr>";
-							echo"<td>".wt_he($accinfo["badkamers"])." badkamer(s)</td></tr>";
+							echo"<tr><td width=\"220px\" valign=\"top\" rowspan=\"8\"><a href=\"$accinfo[$url]\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a></td>";
+							echo"<td style=\"text-align:left;\" width=\"461px\"><b>".wt_he($accinfo["land"])."</b></td></tr><tr>";
+							echo"<td width=\"461px\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
+							echo "<td width=\"461px\">".wt_he($accinfo["skigebied"])."</td><tr><tr>";
+							echo"<td width=\"461px\" style=\"color:".$vars["korteOmschrijvinkleur"].";\">".wt_he($accinfo["korteomschrijving"])."</td></tr><tr>";
+							echo"<td width=\"461px\">".$rev." personen</td></tr><tr>";
+							echo"<td width=\"461px\">".wt_he($accinfo["slaapkamers"])." slaapkamer(s)</td></tr><tr>";
+							echo"<td valign=\"top\" width=\"461px\">".wt_he($accinfo["badkamers"])." badkamer(s)</td></tr>";
+							echo"<td width=\"461px\"></td><td style=\"color:".$vars["backcolor"]."\">jhdgsjhgsdhjgsdjhgdsjgsdhjgjhsdghjgsdjhgdkjhshsdkhjfhgdfkjghfkjf</td></tr>";
 							echo"</table>";
 						?>
 				</div>
