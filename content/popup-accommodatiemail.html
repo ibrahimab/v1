@@ -22,14 +22,14 @@ function controlEnSend(){
 		document.getElementById("Verzender").style.backgroundColor = 'red';
 		document.getElementById("Verzender").style.color = 'white';
 		document.getElementById("Verzender").style.padding = '10px';
-		document.getElementById("Verzender").innerHTML = "U hebt uw email adres niet ingevuld";
+		document.getElementById("Verzender").innerHTML = "U heeft uw email adres niet ingevuld";
 	}
 	else if(document.getElementById("EmailOntvanger").value == ""){
 		//window.alert("OK");
 		document.getElementById("Verzender").style.backgroundColor = 'red';
 		document.getElementById("Verzender").style.color = 'white';
 		document.getElementById("Verzender").style.padding = '10px';
-		document.getElementById("Verzender").innerHTML = "U hebt het emailadres (de emailadressen) van de ontvanger(s) niet ingevuld";
+		document.getElementById("Verzender").innerHTML = "U heeft het emailadres (de emailadressen) van de ontvanger(s) niet ingevuld";
 	}
 	else{
 		var container = document.getElementById("EmailOntvanger").value;
