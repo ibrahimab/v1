@@ -3616,13 +3616,18 @@ function googleanalytics() {
 
 	# gegevens voor in opmaak.php
 	if($vars["googleanalytics"] and !$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html" and !$_GET["wtfatalerror"]) {
+	
+		if($_COOKIE["abt"]) {
+			$extra.="_gaq.push(['_setCustomVar', 1, 'AB-testing', '".$_COOKIE["abt"]."', 1]);\n";
+		}
+	
 		$return="<script type=\"text/javascript\">
 		
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', '".$vars["googleanalytics"]."']);
 		  _gaq.push(['_trackPageview']);
 		  _gaq.push(['_trackPageLoadTime']);
-		  ".$vars["googleanalytics_extra"]."
+		  ".$vars["googleanalytics_extra"].$extra."
 		
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

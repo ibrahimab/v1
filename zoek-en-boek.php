@@ -22,6 +22,11 @@ if($vars["websitetype"]<>6) {
 	$vars["verfijnen_aanbieden"]=true;
 }
 
+# t.b.v. A/B-testing: sort ingevoerd?
+if($_GET["sort"]) {
+	$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 1, 'Gesorteerd', '1', 3]);\n";
+}
+
 if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
 	$_GET["fzt"]="";
 }
