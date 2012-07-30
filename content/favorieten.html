@@ -27,14 +27,14 @@ function controlEnSend(){
 		document.getElementById("meldingen").style.backgroundColor = 'red';
 		document.getElementById("meldingen").style.color = 'white';
 		document.getElementById("meldingen").style.padding = '10px';
-		document.getElementById("meldingen").innerHTML = "U hebt uw email adres niet ingevuld";
+		document.getElementById("meldingen").innerHTML = "U heeft uw emailadres niet ingevuld";
 	}
 	else if(document.getElementById("EmailOntvanger").value == ""){
 		//window.alert("OK");
 		document.getElementById("meldingen").style.backgroundColor = 'red';
 		document.getElementById("meldingen").style.color = 'white';
 		document.getElementById("meldingen").style.padding = '10px';
-		document.getElementById("meldingen").innerHTML = "U hebt de email adres(en) van de ontvanger(s) niet ingevuld";
+		document.getElementById("meldingen").innerHTML = "U heeft het emailadres (de emailadressen) van de ontvanger(s) niet ingevuld";
 	}
 	else{
 		var container = document.getElementById("EmailOntvanger").value;
@@ -51,7 +51,7 @@ function controlEnSend(){
 				document.getElementById("meldingen").style.backgroundColor = 'red';
 				document.getElementById("meldingen").style.color = 'white';
 				document.getElementById("meldingen").style.padding = '10px';
-				document.getElementById("meldingen").innerHTML = "Vul A.u.b geldige email adres(sen) in";
+				document.getElementById("meldingen").innerHTML = "Vul a.u.b een geldig emailadres in";
 				break;
 			}
 			else{
