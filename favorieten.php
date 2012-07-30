@@ -7,9 +7,7 @@ while($db->next_record()){
 	array_push($klantfavs,$db->f("type_id"));
 }
 $submenu["favorieten"]=txt("submenutitle_favorieten")."(".count($klantfavs).")";
-echo "<script language=\"javascript\">";
-echo "sessionStorage.counter=".count($klantfavs);
-echo "</script>";
+
 if($vars["websitetype"]==1){
 	$standardtext="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd.<BR><BR>Ga naar de pagina van een chalet of appartement en klik op <a href=\"#\">";
 	$standardtext.="<img border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";

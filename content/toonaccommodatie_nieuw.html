@@ -9,6 +9,11 @@ if($_GET["testsysteem"]) { ?>
 	delen en afdrukken.<br>
 	<input type="button" value="OK" onClick="Popup.hide('modal')"></div>
 </div>
+<?php
+echo "<script language=\"javascript\">";
+echo "sessionStorage.counter=".count($klantfavs);
+echo "</script>";
+?>
 <script language="javascript" type="text/javascript">
 function ajaxFunctionUpdateFav(){
 	var ajaxRequestup;

@@ -22,9 +22,6 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==7
 			array_push($klantfavs,$db->f("type_id"));
 		}
 		$submenu["favorieten"]=txt("submenutitle_favorieten")."(".count($klantfavs).")";
-		echo "<script language=\"javascript\">";
-		echo "sessionStorage.counter=".count($klantfavs);
-		echo "</script>";
 	}
 	if($vars["websitetype"]==1){
 		$popup=$vars["basehref"]."pic/popBack.png";
