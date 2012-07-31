@@ -29,9 +29,9 @@ foreach($username as $userAccount){
 		$bericht="";
 		$berichtNext="";
 		$berichtNextNext="";
-		$bericht1=explode(" ",$tweet->status[0]->text);
-		$bericht2=explode(" ",$tweet->status[1]->text);
-		$bericht3=explode(" ",$tweet->status[2]->text);
+		$bericht1=explode(" ",iconv("UTF-8","cp1252",$tweet->status[0]->text));
+		$bericht2=explode(" ",iconv("UTF-8","cp1252",$tweet->status[1]->text));
+		$bericht3=explode(" ",iconv("UTF-8","cp1252",$tweet->status[2]->text));
 		for($a=0; $a<count($bericht1);$a++){
 			if($userAccount=='Zomerhuisje'){
 				$imgSrc="https://si0.twimg.com/profile_images/1388402637/ZOMERHUISJE_NL_vierkant.jpg";
@@ -51,37 +51,37 @@ foreach($username as $userAccount){
 			}
 			if(substr($bericht1[$a],0,4)=="http"){
 				$bericht.="<BR><a style=\"text-decoration:underline;\" href=";
-				$bericht.=wt_he(utf8_decode($bericht1[$a]));
+				$bericht.=wt_he($bericht1[$a]);
 				$bericht.=" target=\"_blank\">";
-				$bericht.=wt_he(utf8_decode($bericht1[$a]));
+				$bericht.=wt_he($bericht1[$a]);
 				$bericht.="</a>";
 			}
 			else{
-				$bericht.=" ".wt_he(utf8_decode($bericht1[$a]));
+				$bericht.=" ".wt_he($bericht1[$a]);
 			}
 		}
 		for($a=0; $a<count($bericht2);$a++){
 			if(substr($bericht2[$a],0,4)=="http"){
 				$berichtNext.="<BR><a style=\"text-decoration:underline;\" href=";
-				$berichtNext.=wt_he(utf8_decode($bericht2[$a]));
+				$berichtNext.=wt_he($bericht2[$a]);
 				$berichtNext.=" target=\"_blank\">";
-				$berichtNext.=wt_he(utf8_decode($bericht2[$a]));
+				$berichtNext.=wt_he($bericht2[$a]);
 				$berichtNext.="</a>";
 			}
 			else{
-				$berichtNext.=" ".wt_he(utf8_decode($bericht2[$a]));
+				$berichtNext.=" ".wt_he($bericht2[$a]);
 			}
 		}
 		for($a=0; $a<count($bericht3);$a++){
 			if(substr($bericht3[$a],0,4)=="http"){
 				$berichtNextNext.="<BR><a style=\"text-decoration:underline;\" href=";
-				$berichtNextNext.=wt_he(utf8_decode($bericht3[$a]));
+				$berichtNextNext.=wt_he($bericht3[$a]);
 				$berichtNextNext.=" target=\"_blank\">";
-				$berichtNextNext.=wt_he(utf8_decode($bericht3[$a]));
+				$berichtNextNext.=wt_he($bericht3[$a]);
 				$berichtNextNext.="</a>";
 			}
 			else{
-				$berichtNextNext.=" ".wt_he(utf8_decode($bericht3[$a]));
+				$berichtNextNext.=" ".wt_he($bericht3[$a]);
 			}
 		}
 		if($userAccount!='Italissima'){
@@ -92,7 +92,7 @@ foreach($username as $userAccount){
 			$content.="<img src=\"".$imgSrc."\" width=\"50\" height=\"45\" border=\"0\"></a></td>";
 			$content.="<td><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\" target=\"_blank\">".$userAccount.":</a></td></tr><tr><td></td><td></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht."<BR><BR></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".str_replace("?","€",$berichtNext)."<BR><BR></td></tr>";
+			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNext."<BR><BR></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNextNext."<BR><BR></td>";
 			$content.="</table></div>";
 
