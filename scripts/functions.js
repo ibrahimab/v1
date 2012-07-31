@@ -810,6 +810,44 @@ $(document).ready(function() {
 				}
 			});
 		}
+		
+		//
+		// autocomplete zoekformulier
+		//
+		if($("#zoekblok").length!=0) {
+			
+			$( "input[name=fzt]" ).autocomplete({
+				source: function( request, response ) {
+					$.ajax({
+						url: "rpc_json.php",
+						dataType: "json",
+						data: {
+							t: 3,
+							maxRows: 12,
+							q: request.term
+						},
+						success: function( data ) {
+							response( $.map( data.results, function( item ) {
+								return {
+									label: item.name,
+									value: item.name
+								}
+							}));
+						}
+					});
+				},
+				minLength: 2,
+				select: function( event, ui ) {
+
+				},
+				open: function() {
+					$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+				},
+				close: function() {
+					$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+				}
+			});
+		}
 	}
 });
 
