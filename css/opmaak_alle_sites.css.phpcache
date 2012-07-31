@@ -793,13 +793,16 @@ td.selecteerbaarbedrag:hover{
 	color: #000000;
 }
 
+#zoekresultaten_sorteer_versie2 {
+
+}
+
 #zoekresultaten_sorteer_versie2 a {
 	display: block;
 	margin-left: 10px;
 	float: right;
 	padding: 5px;
 	text-decoration: underline;
-	color: #003366;
 }
 
 #zoekresultaten_sorteer_versie2 .active {
@@ -808,7 +811,6 @@ td.selecteerbaarbedrag:hover{
 	float: right;
 	padding: 5px;
 	text-decoration: none;
-	color: #003366;
 	font-weight: bold;
 }
 
@@ -818,7 +820,6 @@ td.selecteerbaarbedrag:hover{
 	float: right;
 	padding: 5px;
 	text-decoration: underline;
-	color: #d40139;
 }
 
 #zoekresultaten_sorteer_versie2 #zoekresultaten_sorteer_tekst {
