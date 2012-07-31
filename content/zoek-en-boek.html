@@ -2834,8 +2834,8 @@ $nieuw_sorteersysteem=true;
 		if($nieuw_sorteersysteem) {
 			if($tarieven_tonen) {
 				echo "<td colspan=\"5\" align=\"right\" valign=\"bottom\" style=\"padding-right:10px;\">";
-				echo "<div id=\"zoekresultaten_sorteer".($_GET["versie2"] ? "_versie2" : "")."\">";
-				if($_GET["testsysteem"]==1) {
+				echo "<div id=\"zoekresultaten_sorteer".($vars["sorteerweergave_versie"]==2 ? "_versie2" : "")."\">";
+#				if($_GET["testsysteem"]==1) {
 					$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
 					$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
 					$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
@@ -2854,25 +2854,25 @@ $nieuw_sorteersysteem=true;
 						}
 					}
 					echo "<div id=\"zoekresultaten_sorteer_tekst\">".html("sorteer","zoek-en-boek").":</div>";
-				} else {
-					$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
-					$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
-					$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
-					
-					echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php#res\">";
-					while(list($key,$value)=each($_GET)) {
-						if($key<>"sort") echo "<input type=\"hidden\" name=\"".wt_he($key)."\" value=\"".wt_he($value)."\">";
-					}
-					echo html("sorteer","zoek-en-boek")."&nbsp;&nbsp;";
-					echo "<select name=\"sort\" class=\"onchangesubmit\">";
-					while(list($key,$value)=each($vars["sorteerkeuzes"])) {
-						echo "<option value=\"".$key."\"";
-						if((!$_GET["sort"] and $key==1) or $_GET["sort"]==$key) echo " selected";
-						echo ">".wt_he($value)."</option>";
-					}
-					echo "</select>";
-					echo "</form>";
-				}
+#				} else {
+#					$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
+#					$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
+#					$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
+#					
+#					echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php#res\">";
+#					while(list($key,$value)=each($_GET)) {
+#						if($key<>"sort") echo "<input type=\"hidden\" name=\"".wt_he($key)."\" value=\"".wt_he($value)."\">";
+#					}
+#					echo html("sorteer","zoek-en-boek")."&nbsp;&nbsp;";
+#					echo "<select name=\"sort\" class=\"onchangesubmit\">";
+#					while(list($key,$value)=each($vars["sorteerkeuzes"])) {
+#						echo "<option value=\"".$key."\"";
+#						if((!$_GET["sort"] and $key==1) or $_GET["sort"]==$key) echo " selected";
+#						echo ">".wt_he($value)."</option>";
+#					}
+#					echo "</select>";
+#					echo "</form>";
+#				}
 				echo "</div>";
 				echo "</td>";
 			}
