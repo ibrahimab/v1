@@ -1,9 +1,7 @@
 <?php 
 
 # Twitter-cache aanmaken
-
 #bij een aanrequest blokkeert twitter de aanvragem. de hieronder staande code zorgt ervoor dat er geen warnings op de homepage komen te staan.
-
 set_time_limit(0);
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
@@ -59,14 +57,14 @@ foreach($username as $userAccount){
 				$bericht.="</a>";
 			}
 			else{
-				$bericht.=" ".wt_he($bericht1[$a]);
+				$bericht.=" ".wt_he(utf8_decode($bericht1[$a]));
 			}
 		}
 		for($a=0; $a<count($bericht2);$a++){
 			if(substr($bericht2[$a],0,4)=="http"){
 				$berichtNext.="<BR><a style=\"text-decoration:underline;\" href=";
 				$berichtNext.=wt_he(utf8_decode($bericht2[$a]));
-				$berichtNext.=wt_he(" target=\"_blank\">");
+				$berichtNext.=" target=\"_blank\">";
 				$berichtNext.=wt_he(utf8_decode($bericht2[$a]));
 				$berichtNext.="</a>";
 			}
@@ -94,7 +92,7 @@ foreach($username as $userAccount){
 			$content.="<img src=\"".$imgSrc."\" width=\"50\" height=\"45\" border=\"0\"></a></td>";
 			$content.="<td><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\" target=\"_blank\">".$userAccount.":</a></td></tr><tr><td></td><td></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht."<BR><BR></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNext."<BR><BR></td></tr>";
+			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".str_replace("?","€",$berichtNext)."<BR><BR></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNextNext."<BR><BR></td>";
 			$content.="</table></div>";
 
