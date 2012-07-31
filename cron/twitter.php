@@ -13,6 +13,9 @@ if($_SERVER["HTTP_HOST"]) {
 	$tmpdir="/home/sites/chalet.nl/html/tmp/";
 }
 
+$cron=true;
+$geen_tracker_cookie=true;
+
 ini_set('display_errors', 'Off');
 ini_set('display_startup_errors', 'Off');
 error_reporting(0);
