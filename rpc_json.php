@@ -14,6 +14,8 @@ $geen_tracker_cookie=true;
 include("admin/vars.php");
 
 
+#mail("jeroen@webtastic.nl","rpc_json.php",$_SERVER["REQUEST_URI"]);
+
 if($_GET["test"]) {
 
 } else {
@@ -128,8 +130,17 @@ if($_GET["t"]==1) {
 			$return["aantal"]++;
 		}
 	}
+} elseif($_GET["t"]==3) {
+	#
+	# Autocomplete zoekformulier
+	#
+	$return["totalResultsCount"]++;
+	$return["results"][1]["name"]="test 1";
+	$return["results"][2]["name"]="dit is een test";
 }
 
 echo json_encode($return);
+
+#mail("jeroen@webtastic.nl","rpc_json.php",$_SERVER["REQUEST_URI"]."\n\n".json_encode($return));
 
 ?>

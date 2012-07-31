@@ -131,7 +131,7 @@
 	margin-right: 15px;
 	top:92%;
 	position:absolute;
-	right:0%;
+	right:0;
 }
 
 .hoofdpagina_blok_teller {
@@ -142,14 +142,15 @@
 	color: #003366;
 	margin-left: 4px;
 	cursor: pointer;
+	border: 1px solid #d71246;
 }
 
 .hoofdpagina_blok_teller:hover {
-	
+	border: 1px solid #003366;
 }
 
 .hoofdpagina_blok_teller_active {
-	border: 1px solid #d71246;
+	background-color:#d5e1f9;
 }
 
 #hoofdpagina_themas_blok {

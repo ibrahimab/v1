@@ -22,9 +22,24 @@ if($vars["websitetype"]<>6) {
 	$vars["verfijnen_aanbieden"]=true;
 }
 
-# t.b.v. A/B-testing: sort ingevoerd?
+# A/B-testing
+if($_COOKIE["abt"] and ($_COOKIE["abt"] % 2)==0) {
+	# Versie 1 sorteerweergave
+	$vars["sorteerweergave_versie"]=1;	
+} else {
+	# Versie 2 sorteerweergave
+	$vars["sorteerweergave_versie"]=2;
+
+}
+
+if($_GET["sorteerweergave_versie"]) {
+	$vars["sorteerweergave_versie"]=$_GET["sorteerweergave_versie"];
+}
+
+$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 2, 'Sorteer-versie', '".$vars["sorteerweergave_versie"]."', 3]);\n";
 if($_GET["sort"]) {
-	$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 1, 'Gesorteerd', '1', 3]);\n";
+	# sort ingevoerd?
+	$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 3, 'Gesorteerd', '1', 3]);\n";
 }
 
 if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {

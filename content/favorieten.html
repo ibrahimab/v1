@@ -1,6 +1,9 @@
 <?php echo"<script type=\"text/javascript\" src=\"".$vars["basehref"]."scripts/main.js\"></script>";?>
 <?php echo"<script type=\"text/javascript\" src=\"".$vars["basehref"]."scripts/popup.js\"></script>";?>
-<?php echo"<div id=\"modal\" style=\"width:300px; height:160px;background-image:url(".$vars["basehref"]."pic/popBack.png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position absolute;left:35%; top:20px; display:none;\">";?>
+<?php echo "<script language=\"javascript\">";
+echo "sessionStorage.counter=".count($klantfavs);
+echo "</script>";?>
+<?php echo"<div id=\"modal\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position absolute;left:35%; top:20px; display:none;\">";?>
 	<div style="padding:50px;">Je favorieten worden hier opgeslagen.<br/>
 	Hier kun je je favoriete accommodaties vergelijken,<br/> 
 	delen en afdrukken.<br/>
@@ -27,14 +30,14 @@ function controlEnSend(){
 		document.getElementById("meldingen").style.backgroundColor = 'red';
 		document.getElementById("meldingen").style.color = 'white';
 		document.getElementById("meldingen").style.padding = '10px';
-		document.getElementById("meldingen").innerHTML = "U hebt uw email adres niet ingevuld";
+		document.getElementById("meldingen").innerHTML = "U heeft uw emailadres niet ingevuld";
 	}
 	else if(document.getElementById("EmailOntvanger").value == ""){
 		//window.alert("OK");
 		document.getElementById("meldingen").style.backgroundColor = 'red';
 		document.getElementById("meldingen").style.color = 'white';
 		document.getElementById("meldingen").style.padding = '10px';
-		document.getElementById("meldingen").innerHTML = "U hebt de email adres(en) van de ontvanger(s) niet ingevuld";
+		document.getElementById("meldingen").innerHTML = "U heeft het emailadres (de emailadressen) van de ontvanger(s) niet ingevuld";
 	}
 	else{
 		var container = document.getElementById("EmailOntvanger").value;
@@ -43,7 +46,6 @@ function controlEnSend(){
 		if(checkBox.checked){
 			container = container+" "+document.getElementById("verzenderAdres").value;
 			kopie="ja";
-			window.alert("Er wordt een kopie naar u gemaild");
 		}
 		var emailAdressen = container.split(" ");
 		for(var i =0; i < emailAdressen.length; i++){
@@ -52,7 +54,7 @@ function controlEnSend(){
 				document.getElementById("meldingen").style.backgroundColor = 'red';
 				document.getElementById("meldingen").style.color = 'white';
 				document.getElementById("meldingen").style.padding = '10px';
-				document.getElementById("meldingen").innerHTML = "Vul A.u.b geldige email adres(sen) in";
+				document.getElementById("meldingen").innerHTML = "Vul a.u.b een geldig emailadres in";
 				break;
 			}
 			else{
@@ -89,7 +91,6 @@ function ajaxMailFunction(welOfgeenKopie){
 	}
 	ajaxRequest.onreadystatechange = function(){
 		if(ajaxRequest.readyState == 4){
-			window.alert('Bedankt, uw email(s) zijn verzonden');
 			document.getElementById('meldingen').innerHTML='Bedankt, uw email(s) zijn verzonden';
 			document.getElementById('verzenderAdres').value="";
 			document.getElementById('EmailOntvanger').value="";
@@ -156,7 +157,9 @@ function ajaxFunction(klantid, accid, action){
 	}
 	ajaxRequest.onreadystatechange = function(){
 		if(ajaxRequest.readyState == 4){
-			Popup.showModal('modal','position','Screen.getBody()','top left',{'constrainToScreen':true,'screenColor':'#000000','screenOpacity':.6});
+			if(sessionStorage.counter < 1){
+				Popup.showModal('modal','position','Screen.getBody()','top left',{'constrainToScreen':true,'screenColor':'#000000','screenOpacity':.6});
+			}
 			ajaxFunctionUpdateFav();
 			return false;
 		}
@@ -189,6 +192,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->fromname=$_GET["verzenderAdres"];
 		$mail->from=$_GET['verzenderAdres'];
 		$mail->toname=$_GET[''];
+		$mail->subject=$onderwerpText;
 		$mail->to=$_GET["verzenderAdres"];
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
@@ -198,7 +202,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->html.="<body>";
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
 		$mail->html.="<table style=\"font-family:verdana;color:#003366;\" border=\"0\" width=\"681\"><tr><td><i>Deze mail is een kopie van de lijst met favoriete vakantiehuizen welke jijzelf hebt doorgestuurd op ".$vars["websitenaam"]."</i><br/><br><br></td></tr><tr><td>";
-		$mail->html.="<img src=\"".$vars["basehref"]."pic/topfoto/headerChalet.png\" border=\"0\"></td></tr>";
+		$mail->html.="<img src=\"".$vars["mail_topfoto"]."\" border=\"0\"></td></tr>";
 		$mail->html.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";\"><br><br>".$_GET["bericht"]."<BR/><BR/><BR/>";
 		$mail->html.="</td></tr>";
 		$mail->html.="</table>";
@@ -215,7 +219,6 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				}
 				$mail->html.="<table style=\"font-family:verdana;text-align:left;\" border=\"0\" width=\"681\" bgcolor=\"".$vars["backcolor"]."\">";
 				$mail->html.="<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
-				$mail->subject.=htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." ";
 				$mail->html.="<tr><td valign=\"top\" rowspan=\"8\"><a href=\"".$vars["basehref"]."accommodatie.php/".$teken.$id."\"><img border=\"0\" style=\"padding-right:10px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\"></a></td>";
 				$mail->html.="<td>".$db->f("land")."</td></tr><tr>";
 				$mail->html.="<td>".$db->f("plaats")."</td></tr><tr>";
@@ -231,7 +234,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				$mail->html.="<td>".$db->f("slaapkamers")." slaapkamer(s)</td></tr><tr>";
 				$mail->html.="<td>".$db->f("badkamers")." badkamer(s)</td></tr><tr>";
 				$teken=substr($db->f("land"),0,1);
-				$mail->html.="<td align=\"right\" width=\"90%\"><a href=\"".$vars["basehref"]."accommodatie.php/".$teken.$id."\"><img src=\"".$vars["basehref"]."pic/leesMeerButton.png\" width=\"82\" height=\"23\"></img></a></td></tr><tr>";
+				$mail->html.="<td align=\"right\" width=\"90%\"><a href=\"".$vars["basehref"]."accommodatie.php/".$teken.$id."\">".$knopLeesmeer."</td></tr><tr>";
 				$mail->html.="<td colospan=\"2\" bgcolor=\"#FFFFFF\" height=\"200px\"></td>";	
 				$mail->html.="<td colospan=\"2\" bgcolor=\"#FFFFFF\" height=\"200px\"></td></tr>";			
 				$mail->html.="</table>";
@@ -250,6 +253,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->fromname=$_GET["verzenderAdres"];
 		$mail->from=$_GET['verzenderAdres'];
 		$mail->toname=$_GET[''];
+		$mail->subject=$onderwerpText;
 		$mail->to=$emails[$i];
 		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 		$mail->html_top="";
@@ -259,7 +263,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->html.="<body>";
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
 		$mail->html.="<table style=\"font-family:verdana;color:#003366;\" border=\"0\" width=\"681\"><tr><td>";
-		$mail->html.="<img src=\"".$vars["basehref"]."pic/topfoto/headerChalet.png\" border=\"0\"></td></tr>";
+		$mail->html.="<img src=\"".$vars["mail_topfoto"]."\" border=\"0\"></td></tr>";
 		$mail->html.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";\"><br><br>".$_GET["bericht"]."<BR/><BR/><BR/>";
 		$mail->html.="</td></tr>";
 		$mail->html.="</table>";
@@ -276,7 +280,6 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				}
 				$mail->html.="<table text-align=\"left\" style=\"font-family:verdana;text-align:left;\" border=\"0\" width=\"681\" bgcolor=\"".$vars["backcolor"]."\">";
 				$mail->html.="<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
-				$mail->subject.=htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." ";
 				$mail->html.="<tr><td valign=\"top\" rowspan=\"8\"><a href=\"".$vars["basehref"]."accommodatie.php/".$teken.$id."\"><img border=\"0\" style=\"padding-right:10px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\"></a></td>";
 				$mail->html.="<td>".$db->f("land")."</td></tr><tr>";
 				$mail->html.="<td>".$db->f("plaats")."</td></tr><tr>";
@@ -292,7 +295,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				$mail->html.="<td>".$db->f("slaapkamers")." slaapkamer(s)</td></tr><tr>";
 				$mail->html.="<td>".$db->f("badkamers")." badkamer(s)</td></tr><tr>";
 				$teken=substr($db->f("land"),0,1);
-				$mail->html.="<td align=\"right\" width=\"90%\"><a href=\"".$vars["basehref"]."accommodatie.php/".$teken.$id."\"><img src=\"".$vars["basehref"]."pic/leesMeerButton.png\" width=\"82\" height=\"23\"></img></a></td></tr><tr>";
+				$mail->html.="<td align=\"right\" width=\"90%\"><a href=\"".$vars["basehref"]."accommodatie.php/".$teken.$id."\">".$knopLeesmeer."</td></tr><tr>";
 				$mail->html.="<td colospan=\"2\" bgcolor=\"#FFFFFF\" height=\"200px\"></td>";	
 				$mail->html.="<td colospan=\"2\" bgcolor=\"#FFFFFF\" height=\"200px\"></td></tr>";			
 				$mail->html.="</table>";
@@ -318,7 +321,7 @@ else{
 	echo "<form action=".$_SERVER["REQUEST_URI"]."><br/>";
 	echo "Van:(Email adres)<BR/>";
 	echo "<input type=\"text\" name=\"verzenderAdres\" id=\"verzenderAdres\" /><br/>";
-	echo "Naar:(meerdere emailadressen scheiden met een spatie)<BR>";
+	echo "Naar:(Meerdere emailadressen scheiden met een spatie)<BR>";
 	echo "<input type=\"text\" name=\"EmailOntvanger\" id=\"EmailOntvanger\" /><BR>";
 	echo "Bericht:<BR/>";
 	echo "<textarea name=\"presentatiebericht\" rows=\"5\" cols=\"50\" id=\"presentatiebericht\" />".$doormailText."</textarea><BR/>";
@@ -342,7 +345,7 @@ else{
 			}
 			echo"<table style=\"display:inline-table;background-color:".$vars["backcolor"].";\" text-align=\"left\" border=\"0\" width=\"100%\" bgcolor=\"".$vars["backcolor"]."\">";
 			echo"<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
-			echo"<tr><td rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
+			echo"<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
 			echo"<td>".$db->f("land")."</td></tr><tr>";
 			echo"<td>".$db->f("plaats")."</td></tr><tr>";
 			echo"<td>".$db->f("skigebied")."</td></tr><tr>";

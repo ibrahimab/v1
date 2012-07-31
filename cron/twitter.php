@@ -1,9 +1,7 @@
 <?php 
 
 # Twitter-cache aanmaken
-
 #bij een aanrequest blokkeert twitter de aanvragem. de hieronder staande code zorgt ervoor dat er geen warnings op de homepage komen te staan.
-
 set_time_limit(0);
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
@@ -12,6 +10,9 @@ if($_SERVER["HTTP_HOST"]) {
 	$unixdir="/home/sites/chalet.nl/html/";
 	$tmpdir="/home/sites/chalet.nl/html/tmp/";
 }
+
+$cron=true;
+$geen_tracker_cookie=true;
 
 ini_set('display_errors', 'Off');
 ini_set('display_startup_errors', 'Off');
@@ -28,9 +29,9 @@ foreach($username as $userAccount){
 		$bericht="";
 		$berichtNext="";
 		$berichtNextNext="";
-		$bericht1=explode(" ",$tweet->status[0]->text);
-		$bericht2=explode(" ",$tweet->status[1]->text);
-		$bericht3=explode(" ",$tweet->status[2]->text);
+		$bericht1=explode(" ",iconv("UTF-8","cp1252",$tweet->status[0]->text));
+		$bericht2=explode(" ",iconv("UTF-8","cp1252",$tweet->status[1]->text));
+		$bericht3=explode(" ",iconv("UTF-8","cp1252",$tweet->status[2]->text));
 		for($a=0; $a<count($bericht1);$a++){
 			if($userAccount=='Zomerhuisje'){
 				$imgSrc="https://si0.twimg.com/profile_images/1388402637/ZOMERHUISJE_NL_vierkant.jpg";
@@ -50,9 +51,9 @@ foreach($username as $userAccount){
 			}
 			if(substr($bericht1[$a],0,4)=="http"){
 				$bericht.="<BR><a style=\"text-decoration:underline;\" href=";
-				$bericht.=wt_he(utf8_decode($bericht1[$a]));
+				$bericht.=wt_he($bericht1[$a]);
 				$bericht.=" target=\"_blank\">";
-				$bericht.=wt_he(utf8_decode($bericht1[$a]));
+				$bericht.=wt_he($bericht1[$a]);
 				$bericht.="</a>";
 			}
 			else{
@@ -62,25 +63,25 @@ foreach($username as $userAccount){
 		for($a=0; $a<count($bericht2);$a++){
 			if(substr($bericht2[$a],0,4)=="http"){
 				$berichtNext.="<BR><a style=\"text-decoration:underline;\" href=";
-				$berichtNext.=wt_he(utf8_decode($bericht2[$a]));
-				$berichtNext.=wt_he(" target=\"_blank\">");
-				$berichtNext.=wt_he(utf8_decode($bericht2[$a]));
+				$berichtNext.=wt_he($bericht2[$a]);
+				$berichtNext.=" target=\"_blank\">";
+				$berichtNext.=wt_he($bericht2[$a]);
 				$berichtNext.="</a>";
 			}
 			else{
-				$berichtNext.=" ".wt_he(utf8_decode($bericht2[$a]));
+				$berichtNext.=" ".wt_he($bericht2[$a]);
 			}
 		}
 		for($a=0; $a<count($bericht3);$a++){
 			if(substr($bericht3[$a],0,4)=="http"){
 				$berichtNextNext.="<BR><a style=\"text-decoration:underline;\" href=";
-				$berichtNextNext.=wt_he(utf8_decode($bericht3[$a]));
+				$berichtNextNext.=wt_he($bericht3[$a]);
 				$berichtNextNext.=" target=\"_blank\">";
-				$berichtNextNext.=wt_he(utf8_decode($bericht3[$a]));
+				$berichtNextNext.=wt_he($bericht3[$a]);
 				$berichtNextNext.="</a>";
 			}
 			else{
-				$berichtNextNext.=" ".wt_he(utf8_decode($bericht3[$a]));
+				$berichtNextNext.=" ".wt_he($bericht3[$a]);
 			}
 		}
 		if($userAccount!='Italissima'){

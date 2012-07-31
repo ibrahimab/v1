@@ -722,7 +722,13 @@ while(list($key,$value)=@each($xml_urls)) {
 
 					if(date("w",$dag)==6) {
 						$week=$dag;
-					} else {
+						
+					} 
+					elseif(date("w",$dag)==5){
+						//de data hier blijken op een donderdag te vallen. door twee dagen bij te doen, komen ze op een zaterdag te vallen.
+						$dag=mktime(0,0,0,date("m",$datum),date("d",$datum)+2,date("Y",$datum));
+					}
+					else {
 						$week=mktime(0,0,0,date("m",$dag),date("d",$dag)-(date("w",$dag)+1),date("Y",$dag));
 					}
 					if($accommodatie->Availability=="Free" and $accommodatie->MinNights == "7"){
@@ -734,17 +740,14 @@ while(list($key,$value)=@each($xml_urls)) {
 						$xml_laatsteimport_leverancier[$key]=true;
 					}
 					elseif($accommodatie->Availability=="Free" and $accommodatie->MinNights != "7"){
-						$temp_beschikbaar[$week]++;
-					}
-					if(date("w",$dag)==5) {
-						if($temp_beschikbaar[$week]==7) {
+						$xml_beschikbaar[$key][trim($accommodatie->HouseCode)][$week]+=1;
+						
+						if($xml_beschikbaar[$key][trim($accommodatie->HouseCode)][$week]==7) {
 							$prijs=$accommodatie->Price;
-							$xml_beschikbaar[$key][trim($accommodatie->HouseCode)][$week]+=1;
-							$prijs+=$accommodatie->Price*$accommodatie->MinNights;
+							$prijs+=$accommodatie->Price*7;
 							$xml_brutoprijs[$key][trim($accommodatie->HouseCode)][$week]=$prijs;
-							//echo $xmle->House[$i]->HouseCode." op ".$week." beschkbaar";
-							$xml_laatsteimport_leverancier[$key]=true;
 						}
+						$xml_laatsteimport_leverancier[$key]=true;
 					}
 				}
 				//var_dump($xml_brutoprijs);
