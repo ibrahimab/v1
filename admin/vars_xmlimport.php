@@ -64,7 +64,7 @@ global $marche_server,$marche_script;
 global $use_debug; 
 #$use_debug=1;
 if ($use_debug >0) echo "Request:<br><textarea rows=18 cols=80>$req</textarea><br>"; 
-  $fs=fsockopen($marche_server,80);
+  $fs=@fsockopen($marche_server,80);
   if ($fs) 
   { fputs($fs,$req);
     while ($l=fgets($fs)) $reply.=$l; 
