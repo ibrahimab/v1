@@ -4,10 +4,8 @@ if($_GET["testsysteem"]) { ?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/main.js\"></script>";?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/popup.js\"></script>";?>
 <?php echo"<div id=\"modal\" style=\" width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position absolute;left:35%; top:20px; display:none;\">";?>
-	<div style="padding:50px;";>Je favorieten worden hier opgeslagen.<br>
-	Hier kun je je favoriete accommodaties vergelijken,<br> 
-	delen en afdrukken.<br>
-	<input type="button" value="OK" onClick="Popup.hide('modal')"></div>
+	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
+	<input type=\"button\" value=\"OK\" onClick=\"Popup.hide('modal');ajaxFunctionUpdateFav();\"></div>";?>
 </div>
 <?php
 echo "<script language=\"javascript\">";
@@ -61,7 +59,9 @@ function ajaxFunction(klantid, accid, action){
 			if(sessionStorage.counter < 1){
 				Popup.showModal('modal','position','Screen.getBody()','top left',{'constrainToScreen':true,'screenColor':'#000000','screenOpacity':.6});
 			}
-			ajaxFunctionUpdateFav();
+			else{
+				ajaxFunctionUpdateFav();
+			}
 			return false;
 		}
 	}
@@ -1432,19 +1432,35 @@ if($db->next_record()) {
 		if($_GET["testsysteem"]==1) {
 			if(!in_array($typeid,$klantfavs)) {
 				echo "<div style=\"padding:5px;\">";
+				if($vars["website"]=="C"){
+					echo "<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\"> ";
+				}
+				elseif($vars["website"]=="Z"){
+					echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/toevoegenZomer.png\"> ";
+				}
+				elseif($vars["website"]=="I"){
+					echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/plaatsItalissima.png\"> ";
+				}
 				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
-				echo "<img border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";
-				echo " Plaats in mijn favorieten";
+				echo html("plaatsinfavorieten","favorieten");
 				echo "</a>";
 				echo "</div>";
 			}
 			else{
 				echo "<div style=\"padding:5px;\">";
-				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','delete')\" href=\"#\">";
-				echo "<img border=\"0\" width=\"13\" height=\"13\" src=";
+				echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=";
 				echo $vars["path"];
-				echo "pic/icon_notokay.png>";
-				echo " Uit mijn favorieten halen";
+				if($vars["website"]=="C"){
+					echo "pic/icon_notokay.png> ";
+				}
+				elseif($vars["website"]=="Z"){
+					echo "pic/verwijderenZomer.png> ";
+				}
+				elseif($vars["website"]=="I"){
+					echo "pic/verwijderItalissima.png> ";
+				}
+				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','delete')\" href=\"#\">";
+				echo html("Uitmijnfavorietenhalen","favorieten");
 				echo "</a>";
 				echo "</div>";
 			}
