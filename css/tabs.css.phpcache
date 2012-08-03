@@ -79,7 +79,9 @@ header("Content-type: text/css; charset=windows-1252");
 	.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
 	.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 	.ui-tabsOUD .ui-tabs-panelOUD { padding: 1em 1.4em; display: block; border-width: 0; border: 1px solid <?php echo $activetabcolor; ?>; }
-	.ui-tabs .ui-tabs-panel { padding: 1em 1.4em; display: inline-block; width:697px; border-width: 0; border: 1px solid <?php echo $activetabcolor; ?>; }
+	.ui-tabsOUD .ui-tabs-panelOUD { padding: 1em 1.4em; display: inline-block; width:697px; border-width: 0; border: 1px solid <?php echo $activetabcolor; ?>; }
+
+	.ui-tabs .ui-tabs-panel { padding: 1em 1.4em; display: block; border-width: 0; width:697px; border: 1px solid <?php echo $activetabcolor; ?>; }
 
 	.ui-tabs .ui-tabs-hide {
 		position: absolute;
