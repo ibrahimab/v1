@@ -22,6 +22,9 @@ if($vars["websitetype"]<>6) {
 	$vars["verfijnen_aanbieden"]=true;
 }
 
+# jQuery UI theme laden (t.b.v. autocomplete)
+$vars["page_with_jqueryui"]=true;
+
 # A/B-testing
 if($_COOKIE["abt"] and ($_COOKIE["abt"] % 2)==0) {
 	# Versie 1 sorteerweergave

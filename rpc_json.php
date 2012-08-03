@@ -134,9 +134,43 @@ if($_GET["t"]==1) {
 	#
 	# Autocomplete zoekformulier
 	#
-	$return["totalResultsCount"]++;
-	$return["results"][1]["name"]="test 1";
-	$return["results"][2]["name"]="dit is een test";
+	require($unixdir."admin/class.search.php");
+
+	$search=new search;
+	$search->settings["delete_ignorewords"]=false;
+	$search->settings["only_whole_words"]=false;
+	$search->wordsplit($_GET["q"]);
+	
+	$andquery1=$search->regexpquery(array("naam"));
+	$andquery2=$search->regexpquery(array("plaats"));
+	$andquery3=$search->regexpquery(array("skigebied"));
+	
+	if($andquery1) {
+		$query[1]="SELECT naam AS result FROM view_accommodatie WHERE (".$andquery1.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
+		$query[2]="SELECT plaats AS result FROM view_accommodatie WHERE (".$andquery2.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
+		$query[3]="SELECT skigebied AS result FROM view_accommodatie WHERE (".$andquery3.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
+		
+		while(list($key,$value)=each($query)) {
+			$db->query($value);
+			while($db->next_record()) {
+				if($db->f("result")) $results[$db->f("result")]=true;
+			}
+		}
+	}
+	
+	if(is_array($results)) {
+
+		setlocale(LC_COLLATE,"nl_NL.ISO8859-1");
+		ksort($results,SORT_LOCALE_STRING);
+		setlocale(LC_COLLATE,"C");
+		
+		while(list($key,$value)=each($results)) {
+			if($key and $return["totalResultsCount"]<=10) {
+				$return["totalResultsCount"]++;
+				$return["results"][$return["totalResultsCount"]]["name"]=utf8_encode($key);
+			}
+		}
+	}
 } elseif($_GET["t"]==4) {
 	#
 	# Favorietenfunctie
@@ -161,12 +195,8 @@ if($_GET["t"]==1) {
 
 	$return["ok"]=true;
 	$return["waarde_die_je_wilt_terugsturen"]="waarde";
-	
-	
 }
 
 echo json_encode($return);
-
-#mail("jeroen@webtastic.nl","rpc_json.php",$_SERVER["REQUEST_URI"]."\n\n".json_encode($return));
 
 ?>
