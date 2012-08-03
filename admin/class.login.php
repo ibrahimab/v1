@@ -169,7 +169,7 @@ class Login {
 			if($this->settings["sysop"]) echo " (".$this->settings["sysop"].")";
 			echo ".<P>";
 			echo "Indien u een vinkje zet bij &quot;Voortaan automatisch inloggen&quot;, dan hoeft u de volgende keer dat u ";
-			if($this->settings["systemname"]) echo htmlentities($this->settings["systemname"]); else echo "het systeem";
+			if($this->settings["systemname"]) echo wt_he($this->settings["systemname"]); else echo "het systeem";
 			echo " gebruikt geen gebruikersnaam en wachtwoord in te voeren. Dit werkt alleen als u na gebruik van het systeem niet op &quot;uitloggen&quot; klikt. Voor deze functie dient uw browser zogenaamde cookies te accepteren. Is dit niet het geval, kijk dan bij de helpfunctie van uw browser hoe u het accepteren van cookies activeert.<p>";
 			echo "Als u een openbare computer gebruikt, is het verstandig de functie &quot;Voortaan automatisch inloggen&quot; niet te gebruiken, omdat de kans bestaat dat u vergeet uit te loggen. In dat geval is het mogelijk dat onbevoegden het systeem gebruiken.<p>";
 			echo "Heeft u &quot;Voortaan automatisch inloggen&quot; gebruikt maar wilt u toch uitloggen, dan kan dat op ieder moment door ";
@@ -271,9 +271,9 @@ class Login {
 			if($this->settings["font"]["face"]) echo "</FONT>";
 			echo "</TD><TD width=\"99%\"><INPUT TYPE=\"text\" name=\"username[".$this->settings["name"]."]\" size=\"20\" maxlength=\"128\"";
 			if($_POST["loginfilled"]) {
-				echo " VALUE=\"".htmlentities($_POST["username"][$this->settings["name"]])."\"";
+				echo " VALUE=\"".wt_he($_POST["username"][$this->settings["name"]])."\"";
 			} elseif($_GET["username"]) {
-				echo " VALUE=\"".htmlentities($_GET["username"])."\""; 
+				echo " VALUE=\"".wt_he($_GET["username"])."\""; 
 			}
 			echo " style=\"width: 100%;";
 			if($this->settings["font"]["face"]) echo " font-family:".$this->settings["font"]["face"];
@@ -285,7 +285,7 @@ class Login {
 			if($this->settings["font"]["face"]) echo "</FONT>";
 			echo "</TD><TD width=\"99%\"><INPUT TYPE=\"password\" name=\"password[".$this->settings["name"]."]\" size=\"10\" maxlength=\"32\"";
 			if($_POST["loginfilled"]) {
-				echo " VALUE=\"",htmlentities($_POST["password"][$this->settings["name"]]),"\"";
+				echo " VALUE=\"",wt_he($_POST["password"][$this->settings["name"]]),"\"";
 			}
 			echo " style=\"width: 100%;\"></TD></TR>";
 			if($this->settings["settings"]["sendnewpassword"]) echo "<TR><TD colspan=2 align=right><FONT FACE=\"".$this->settings["font"]["face"]."\" SIZE=\"".($this->settings["font"]["size"]-1)."\"><A HREF=\"".$this->currenturl().($_SERVER["QUERY_STRING"] ? "&" : "?")."mailpassword=1\">".$this->settings["message"]["forget"]."</A></FONT></TD></TR>";

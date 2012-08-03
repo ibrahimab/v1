@@ -194,12 +194,17 @@ class cms2 {
 	}
 
 	function message($title,$html=true,$value_array="") {
+		global $vars;
 		$return=$this->settings["message"][$title][$this->settings["language"]];
 		while(list($key,$value)=@each($value_array)) {
 			$return=ereg_replace("_VAL".$key."_",$value,$return);
 		}
 		if($html) {
-			$return=htmlentities($return,ENT_QUOTES,"iso-8859-15");
+			if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+				$return=wt_he($return);
+			} else {
+				$return=htmlentities($return,ENT_QUOTES,"iso-8859-15");
+			}
 		}
 		@reset($value_array);
 		while(list($key,$value)=@each($value_array)) {
@@ -605,7 +610,7 @@ class cms2 {
 			}
 			if($this->settings[$counter]["list"]["edit_icon"]) $tl->field_edit($this->php_self($counter)."edit=".$counter."&".$url."&[ID]",$this->message("veldnaambewerken",false,array("veldnaam"=>ucfirst($this->settings[$counter]["type_single"]))));
 			if($this->settings[$counter]["list"]["print_icon"]) $tl->field_print($this->php_self($counter)."print=1&".$url."&[ID]",$this->message("veldnaamprinten",false,array("veldnaam"=>ucfirst($this->settings[$counter]["type_single"]))));
-			if($this->settings[$counter]["list"]["delete_icon"]) $tl->field_delete($this->php_self($counter)."delete=".$counter."&".$url."&[ID]",$this->message("veldnaamwissen",false,array("veldnaam"=>ucfirst(htmlentities($this->settings[$counter]["type_single"]))." ".($this->settings[$counter]["list"]["delete_question_and"] ? $this->settings[$counter]["list"]["delete_question_and"]." " : "")))."?",$this->message("veldnaamwissen",false,array("veldnaam"=>ucfirst($this->settings[$counter]["type_single"]))));
+			if($this->settings[$counter]["list"]["delete_icon"]) $tl->field_delete($this->php_self($counter)."delete=".$counter."&".$url."&[ID]",$this->message("veldnaamwissen",false,array("veldnaam"=>ucfirst(wt_he($this->settings[$counter]["type_single"]))." ".($this->settings[$counter]["list"]["delete_question_and"] ? $this->settings[$counter]["list"]["delete_question_and"]." " : "")))."?",$this->message("veldnaamwissen",false,array("veldnaam"=>ucfirst($this->settings[$counter]["type_single"]))));
 			if($this->settings[$counter]["list"]["delete_checkbox"]) $tl->field_delete_checkbox();
 
 			while(list($key,$value)=@each($this->list[$counter]["title"])) {
@@ -685,7 +690,7 @@ class cms2 {
 					} elseif($this->db[$counter]["type"][$key]=="yesno") {
 						$tl->add_record($key,$db->f("primkey"),($db->f($key) ? $this->message("ja",false) : ($this->list[$counter]["options"][$key]["showno"] ? $this->message("nee",false) : "")),$db->f($key));
 					} elseif($this->list[$counter]["options"][$key]["pretext"] or $this->list[$counter]["options"][$key]["posttext"]) {
-						$tl->add_record($key,$db->f("primkey"),ereg_replace("\[FIELD_VALUE\]",$db->f($key),$this->list[$counter]["options"][$key]["pretext"]).htmlentities($db->f($key)).$this->list[$counter]["options"][$key]["posttext"],$db->f($key),"",array("html"=>true));
+						$tl->add_record($key,$db->f("primkey"),ereg_replace("\[FIELD_VALUE\]",$db->f($key),$this->list[$counter]["options"][$key]["pretext"]).wt_he($db->f($key)).$this->list[$counter]["options"][$key]["posttext"],$db->f($key),"",array("html"=>true));
 					} else {
 						# Overige types
 						$tl->add_record($key,$db->f("primkey"),$db->f($key));
@@ -699,11 +704,11 @@ class cms2 {
 					echo $this->delete_error_firstline; 
 				} else {
 					echo $this->message("foutbijhetwissenvan")." ";
-					$temp_recordnaam=htmlentities($tl->fields["content"][($this->settings[$counter]["list"]["mainfield"] ? $this->settings[$counter]["list"]["mainfield"] : $this->show_mainfield[$counter])][$this->delete_key]);
+					$temp_recordnaam=wt_he($tl->fields["content"][($this->settings[$counter]["list"]["mainfield"] ? $this->settings[$counter]["list"]["mainfield"] : $this->show_mainfield[$counter])][$this->delete_key]);
 					if($temp_recordnaam) {
 						echo $temp_recordnaam;
 					} else {
-						echo htmlentities($this->settings[$counter]["type_single"]);
+						echo wt_he($this->settings[$counter]["type_single"]);
 					}
 					echo ":";
 				}
@@ -719,7 +724,7 @@ class cms2 {
 			} else {
 				if($this->settings[$counter]["list"]["add_link"]) $this->list_addlink($counter);
 				if($this->settings[$counter]["list"]["delete_checkbox"]) {
-					echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm_delete_checkbox_".$counter."\">";
+					echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm_delete_checkbox_".$counter."\">";
 					echo "<input type=\"hidden\" name=\"delete_checkbox_filled[".$counter."]\" value=\"1\">";
 				}
 				echo "<p>".$tl->table("tbl",$counter);
@@ -752,7 +757,7 @@ class cms2 {
 				echo "<form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\" name=\"pulldownadd".$counter."\"><select class=\"wtform_input\" name=\"addlink[".$counter."]\" onchange=\"this.form.submit();\">";
 				echo "<option value=\"0\">- ".$this->message("selecteereentoetevoegenveldnaam",true,array("veldnaam"=>$this->settings[$counter]["type_single"]))." -</option>";
 				while(list($key2,$value2)=each($this->db[$counter]["options"][$key]["selection"])) {
-					echo "<option value=\"".htmlentities($key2)."\">".htmlentities($value2)."</option>\n";
+					echo "<option value=\"".wt_he($key2)."\">".wt_he($value2)."</option>\n";
 				}
 				echo "</select></form>";
 			} else {
@@ -771,7 +776,7 @@ class cms2 {
 					echo "&pv_".$key."=".urlencode($value);				
 				}
 			}
-			echo "\">".htmlentities(ucfirst($this->message("veldnaamtoevoegen",false,array("veldnaam"=>$this->settings[$counter]["type_single"]))))."</a>";
+			echo "\">".wt_he(ucfirst($this->message("veldnaamtoevoegen",false,array("veldnaam"=>$this->settings[$counter]["type_single"]))))."</a>";
 		}
 	}
 
@@ -1217,43 +1222,43 @@ class cms2 {
 				
 				if($key=="wt_naam") {
 					# wt_naam
-					$this->show_rightcell[$key]=htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")));
+					$this->show_rightcell[$key]=wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")));
 				} elseif($key=="wt_naam2") {
 					# wt_naam2
-					$this->show_rightcell[$key]=htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"),true));
+					$this->show_rightcell[$key]=wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"),true));
 				} elseif($key=="wt_naam3") {
 					# wt_naam3
-					$this->show_rightcell[$key]=htmlentities(wt_naam($db->f("voorletters"),$db->f("tussenvoegsel"),$db->f("achternaam"),false,true));
+					$this->show_rightcell[$key]=wt_he(wt_naam($db->f("voorletters"),$db->f("tussenvoegsel"),$db->f("achternaam"),false,true));
 				} elseif($key=="wt_naam4") {
 					# wt_naam4
-					$this->show_rightcell[$key]=htmlentities(wt_naam($db->f("voorletters"),$db->f("tussenvoegsel"),$db->f("achternaam"),true,true));
+					$this->show_rightcell[$key]=wt_he(wt_naam($db->f("voorletters"),$db->f("tussenvoegsel"),$db->f("achternaam"),true,true));
 				} elseif($this->db[$counter]["type"][$key]=="checkbox") {
 					$checkbox_waarde=split(",",$db->f($recordname));
 					while(list($key2,$value2)=each($checkbox_waarde)) {
 						if($this->show_rightcell[$key]) {
-							$this->show_rightcell[$key].="<br>".htmlentities($this->db[$counter]["options"][$key]["selection"][$value2]);
+							$this->show_rightcell[$key].="<br>".wt_he($this->db[$counter]["options"][$key]["selection"][$value2]);
 						} else {
-							$this->show_rightcell[$key]=htmlentities($this->db[$counter]["options"][$key]["selection"][$value2]);
+							$this->show_rightcell[$key]=wt_he($this->db[$counter]["options"][$key]["selection"][$value2]);
 						}
 					}
 				} elseif($this->db[$counter]["type"][$key]=="currency") {
-					$this->show_rightcell[$key]=htmlentities(ereg_replace("\.",",",$db->f($recordname)));
+					$this->show_rightcell[$key]=wt_he(ereg_replace("\.",",",$db->f($recordname)));
 				} elseif($this->db[$counter]["type"][$key]=="date" or $this->db[$counter]["type"][$key]=="datetime") {
 					if($db->f($recordname)) {
-						$this->show_rightcell[$key]=htmlentities(datum($this->show[$counter]["options"][$key]["date_format"],$db->f($recordname),$this->settings["language"]));
+						$this->show_rightcell[$key]=wt_he(datum($this->show[$counter]["options"][$key]["date_format"],$db->f($recordname),$this->settings["language"]));
 					} else {
 						$this->show_rightcell[$key]="";
 					}
 				} elseif($this->db[$counter]["type"][$key]=="email") {
-					if($db->f($recordname)) $this->show_rightcell[$key]="<a href=\"mailto:".$db->f($recordname)."\">".htmlentities($db->f($recordname))."</a>";
+					if($db->f($recordname)) $this->show_rightcell[$key]="<a href=\"mailto:".$db->f($recordname)."\">".wt_he($db->f($recordname))."</a>";
 				} elseif($this->db[$counter]["type"][$key]=="float") {
-					$this->show_rightcell[$key]=htmlentities(ereg_replace("\.",",",$db->f($recordname)));
+					$this->show_rightcell[$key]=wt_he(ereg_replace("\.",",",$db->f($recordname)));
 				} elseif($this->db[$counter]["type"][$key]=="integer") {
-					$this->show_rightcell[$key]=htmlentities($db->f($recordname));
+					$this->show_rightcell[$key]=wt_he($db->f($recordname));
 				} elseif($this->db[$counter]["type"][$key]=="noedit") {
-					$this->show_rightcell[$key]=htmlentities($db->f($recordname));
+					$this->show_rightcell[$key]=wt_he($db->f($recordname));
 				} elseif($this->db[$counter]["type"][$key]=="onlyinoutput") {
-					$this->show_rightcell[$key]=htmlentities($db->f($recordname));
+					$this->show_rightcell[$key]=wt_he($db->f($recordname));
 				} elseif($this->db[$counter]["type"][$key]=="picture") {
 					unset($temp["img"]);
 					unset($this->show_leftcell[$key]);
@@ -1268,16 +1273,16 @@ class cms2 {
 					}
 					if(file_exists($temp["img"]["file"])) {
 						$this->show_leftcell[$key]=$value;
-						$this->show_rightcell[$key]="<img src=\"".$temp["img"]["file"]."?anticache=".time()."\" width=\"".$temp["img"]["width"]."\" height=\"".$temp["img"]["height"]."\" alt=\"".htmlentities($temp["img"]["file"])."\">";
+						$this->show_rightcell[$key]="<img src=\"".$temp["img"]["file"]."?anticache=".time()."\" width=\"".$temp["img"]["width"]."\" height=\"".$temp["img"]["height"]."\" alt=\"".wt_he($temp["img"]["file"])."\">";
 					}
 				} elseif($this->db[$counter]["type"][$key]=="radio") {
-					$this->show_rightcell[$key]=htmlentities($this->db[$counter]["options"][$key]["selection"][$db->f($recordname)]);
+					$this->show_rightcell[$key]=wt_he($this->db[$counter]["options"][$key]["selection"][$db->f($recordname)]);
 				} elseif($this->db[$counter]["type"][$key]=="select") {
-					$this->show_rightcell[$key]=htmlentities($this->db[$counter]["options"][$key]["selection"][$db->f($recordname)]);
+					$this->show_rightcell[$key]=wt_he($this->db[$counter]["options"][$key]["selection"][$db->f($recordname)]);
 				} elseif($this->db[$counter]["type"][$key]=="text") {
-					$this->show_rightcell[$key]=htmlentities($db->f($recordname));
+					$this->show_rightcell[$key]=wt_he($db->f($recordname));
 				} elseif($this->db[$counter]["type"][$key]=="textarea") {
-					$this->show_rightcell[$key]=nl2br(htmlentities($db->f($recordname)));
+					$this->show_rightcell[$key]=nl2br(wt_he($db->f($recordname)));
 				} elseif($this->db[$counter]["type"][$key]=="upload") {
 					unset($temp["upload"]);
 					unset($this->show_leftcell[$key]);
@@ -1289,10 +1294,10 @@ class cms2 {
 						} else {
 							$temp["upload"]["icon"]="class.form_unknown_icon.gif";
 						}
-						$this->show_rightcell[$key]="<a href=\"".htmlentities($temp["upload"]["file"])."?c=".@filemtime($temp["upload"]["file"])."\" target=\"_blank\"><img src=\"pic/".$temp["upload"]["icon"]."\" width=\"20\" height=\"20\" alt=\"".htmlentities($temp["upload"]["file"])."\" border=\"0\"></a>";
+						$this->show_rightcell[$key]="<a href=\"".wt_he($temp["upload"]["file"])."?c=".@filemtime($temp["upload"]["file"])."\" target=\"_blank\"><img src=\"pic/".$temp["upload"]["icon"]."\" width=\"20\" height=\"20\" alt=\"".wt_he($temp["upload"]["file"])."\" border=\"0\"></a>";
 					}
 				} elseif($this->db[$counter]["type"][$key]=="url") {
-					if($db->f($recordname)) $this->show_rightcell[$key]="<a href=\"".$db->f($recordname)."\" target=\"_blank\">".htmlentities($db->f($recordname))."</a>";
+					if($db->f($recordname)) $this->show_rightcell[$key]="<a href=\"".$db->f($recordname)."\" target=\"_blank\">".wt_he($db->f($recordname))."</a>";
 				} elseif($this->db[$counter]["type"][$key]=="yesno") {
 					$this->show_rightcell[$key]=($db->f($recordname) ? $this->message("ja") : $this->message("nee"));
 				} elseif(ereg("^htmlcol_",$key)) {
@@ -1379,7 +1384,7 @@ class cms2 {
 		if(!$contains_bc) {
 			if($qs) $qs.="&bc=".$_GET["bc"]; else $qs="bc=".$_GET["bc"];
 		}
-#echo htmlentities($qs);		
+#echo wt_he($qs);		
 		if($custom) {
 			# Huidige gegevens opslaan
 			$_SESSION["CMS2"]["back"][$_GET["bc"]]["file"]=$_SERVER["PHP_SELF"];
@@ -1399,7 +1404,7 @@ class cms2 {
 			if($_GET["bc"]) {
 				if($_SESSION["CMS2"]["back"][$backcounter-1]["title"] and !$terug_naar_getoond[$_SESSION["CMS2"]["back"][$backcounter-1]["title"]]) {
 					echo "<a href=\"".$_SESSION["CMS2"]["back"][$backcounter-1]["file"].($_SESSION["CMS2"]["back"][$backcounter-1]["qs"] ? "?".$_SESSION["CMS2"]["back"][$backcounter-1]["qs"] : "")."\">";
-#					echo "Van ".$backcounter." TERUG NAAR ".($backcounter-1)." ".htmlentities($_SESSION["CMS2"]["back"][$backcounter-1]["title"])."</a><br>";
+#					echo "Van ".$backcounter." TERUG NAAR ".($backcounter-1)." ".wt_he($_SESSION["CMS2"]["back"][$backcounter-1]["title"])."</a><br>";
 					echo $this->message("terugnaarveldnaam",true,array("veldnaam"=>$_SESSION["CMS2"]["back"][$backcounter-1]["title"]))."</a><br>";
 					$terug_naar_getoond[$_SESSION["CMS2"]["back"][$backcounter-1]["title"]]=true;
 					$echo=true;
@@ -1410,14 +1415,14 @@ class cms2 {
 			if($_GET["bc"]) {
 				if($_SESSION["CMS2"]["back"][$backcounter-2]["file"] and !$terug_naar_getoond[$_SESSION["CMS2"]["back"][$backcounter-2]["title"]]) {
 					echo "<a href=\"".$_SESSION["CMS2"]["back"][$backcounter-2]["file"].($_SESSION["CMS2"]["back"][$backcounter-2]["qs"] ? "?".$_SESSION["CMS2"]["back"][$backcounter-2]["qs"] : "")."\">";
-#					echo "Van ".$backcounter." TERUG NAAR ".($backcounter-2)." ".htmlentities($_SESSION["CMS2"]["back"][$backcounter-2]["title"])."</a><br>";
+#					echo "Van ".$backcounter." TERUG NAAR ".($backcounter-2)." ".wt_he($_SESSION["CMS2"]["back"][$backcounter-2]["title"])."</a><br>";
 					echo $this->message("terugnaarveldnaam",true,array("veldnaam"=>$_SESSION["CMS2"]["back"][$backcounter-2]["title"]))."</a><br>";
 					$terug_naar_getoond[$_SESSION["CMS2"]["back"][$backcounter-2]["title"]]=true;
 					$echo=true;
 				}
 				if($_SESSION["CMS2"]["back"][$backcounter-1]["file"] and  !$terug_naar_getoond[$_SESSION["CMS2"]["back"][$backcounter-1]["title"]]) {
 					echo "<a href=\"".$_SESSION["CMS2"]["back"][$backcounter-1]["file"].($_SESSION["CMS2"]["back"][$backcounter-1]["qs"] ? "?".$_SESSION["CMS2"]["back"][$backcounter-1]["qs"] : "")."\">";
-#					echo "Van ".$backcounter." TERUG NAAR ".($backcounter-1)." ".htmlentities($_SESSION["CMS2"]["back"][$backcounter-1]["title"])."</a><br>";
+#					echo "Van ".$backcounter." TERUG NAAR ".($backcounter-1)." ".wt_he($_SESSION["CMS2"]["back"][$backcounter-1]["title"])."</a><br>";
 					echo $this->message("terugnaarveldnaam",true,array("veldnaam"=>$_SESSION["CMS2"]["back"][$backcounter-1]["title"]))."</a><br>";
 					$terug_naar_getoond[$_SESSION["CMS2"]["back"][$backcounter-1]["title"]]=true;
 					$echo=true;
@@ -1494,11 +1499,11 @@ class cms2 {
 				echo "</tr></table>";
 			}
 			if($this->show_header[$counter]) {
-				echo "<h2>".htmlentities($this->show_header[$counter])."</h2>";
+				echo "<h2>".wt_he($this->show_header[$counter])."</h2>";
 			}
 			
 			if($this->show_name[$counter] and $this->show_mainfield[$counter]) {
-				echo "<h2>".htmlentities(ucfirst($this->show_name[$counter]))." ".$this->show_rightcell[$this->show_mainfield[$counter]]."</h2>";
+				echo "<h2>".wt_he(ucfirst($this->show_name[$counter]))." ".$this->show_rightcell[$this->show_mainfield[$counter]]."</h2>";
 			}
 			echo "<p><table class=\"wt_cms_show\" cellspacing=\"0\" cellpadding=\"7\">";
 			
@@ -1521,7 +1526,7 @@ class cms2 {
 			while(list($key,$value)=@each($this->settings[$counter]["connect"])) {
 				if(!$this->settings[$value]["list"]["hide"]) {
 					echo "<p><hr>";
-					if($this->settings[$value]["types"]) echo "<h2>".htmlentities(ucfirst($this->settings[$value]["types"]))."</h2>";
+					if($this->settings[$value]["types"]) echo "<h2>".wt_he(ucfirst($this->settings[$value]["types"]))."</h2>";
 					$this->display_list($value);
 				}
 			}
@@ -1545,14 +1550,14 @@ class cms2 {
 			echo "<tr style=\"font-weight:bold;\"><td style=\"width:150px;\">wijzigdatum</td><td>door</td><td>veld</td><td style=\"width:30%;\">van</td><td style=\"width:30%;\">naar</td></tr>";
 			while($db->next_record()) {
 				if($db->f("specialtype")==1) {
-					echo "<tr><td>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".htmlentities($this->vars["users"][$db->f("user_id")])."</td><td colspan=\"3\"><i>".$this->message("record_toegevoegd")."</i></td></tr>";
+					echo "<tr><td>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".wt_he($this->vars["users"][$db->f("user_id")])."</td><td colspan=\"3\"><i>".$this->message("record_toegevoegd")."</i></td></tr>";
 				} else {
 					if(strlen($db->f("previous"))>0 and strlen($db->f("now"))>0 and (strlen($db->f("previous"))>10 or strlen($db->f("now"))>10)) {
 						$now=nl2br(wt_diff($db->f("previous"),$db->f("now")));
 					} else {
-						$now=nl2br(htmlentities($db->f("now")));
+						$now=nl2br(wt_he($db->f("now")));
 					}
-					echo "<tr><td>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".htmlentities($this->vars["users"][$db->f("user_id")])."</td><td>".htmlentities($db->f("field_name"))."</td><td>".nl2br(htmlentities($db->f("previous")))."</td><td>".$now."</td></tr>";
+					echo "<tr><td>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".wt_he($this->vars["users"][$db->f("user_id")])."</td><td>".wt_he($db->f("field_name"))."</td><td>".nl2br(wt_he($db->f("previous")))."</td><td>".$now."</td></tr>";
 				}
 				if($_GET["displaylog"]<>$counter and !$showall) {
 					break;
@@ -1560,7 +1565,7 @@ class cms2 {
 
 			}
 			if($_GET["displaylog"]<>$counter and $db->num_rows()>1 and !$showall) {
-				echo "<tr><td colspan=\"5\"><br><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&amp;displaylog=".$counter."#displaylog".$counter."\">Bekijk het volledige logboek &gt;</a> (".$db->num_rows()." regels)</td></tr>";
+				echo "<tr><td colspan=\"5\"><br><a href=\"".wt_he($_SERVER["REQUEST_URI"])."&amp;displaylog=".$counter."#displaylog".$counter."\">Bekijk het volledige logboek &gt;</a> (".$db->num_rows()." regels)</td></tr>";
 			}
 		} else {
 			echo "<tr><td colspan=\"5\"><i>Logboek is nog leeg</i></td></tr>";
