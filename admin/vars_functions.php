@@ -3625,9 +3625,9 @@ function googleanalytics() {
 		
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', '".$vars["googleanalytics"]."']);
+		  ".$vars["googleanalytics_extra"].$extra."
 		  _gaq.push(['_trackPageview']);
 		  _gaq.push(['_trackPageLoadTime']);
-		  ".$vars["googleanalytics_extra"].$extra."
 		
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

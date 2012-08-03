@@ -36,10 +36,16 @@ if($_GET["sorteerweergave_versie"]) {
 	$vars["sorteerweergave_versie"]=$_GET["sorteerweergave_versie"];
 }
 
-$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 2, 'Sorteer-versie', '".$vars["sorteerweergave_versie"]."', 3]);\n";
-if($_GET["sort"]) {
-	# sort ingevoerd?
-	$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 3, 'Gesorteerd', '1', 3]);\n";
+if($_GET["fap"] and ($_GET["fad"] or $_GET["fadf_d"])) {
+	$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 2, 'Sorteer-versie', '".$vars["sorteerweergave_versie"]."', 3]);\n";
+	if($_GET["sort"]) {
+		# sort ingevoerd?
+		$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 3, 'Gesorteerd', '1', 3]);\n";
+	} else {
+		$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 3, 'Gesorteerd', '0', 3]);\n";
+	}
+} else {
+	$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 2, 'Sorteer-versie', '0', 3]);\n";
 }
 
 if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
