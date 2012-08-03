@@ -137,6 +137,32 @@ if($_GET["t"]==1) {
 	$return["totalResultsCount"]++;
 	$return["results"][1]["name"]="test 1";
 	$return["results"][2]["name"]="dit is een test";
+} elseif($_GET["t"]==4) {
+	#
+	# Favorietenfunctie
+	#
+	
+	# Communicatie met dit script via jQuery
+	/*
+
+
+	$.getJSON("rpc_json.php", {
+		"t": 4,
+		"waarde_die_je_wilt_doorsturen": "waarde"
+	}, function(data) {
+		if(data.ok) {
+
+		}
+	});
+	
+	
+	*/
+
+
+	$return["ok"]=true;
+	$return["waarde_die_je_wilt_terugsturen"]="waarde";
+	
+	
 }
 
 echo json_encode($return);
