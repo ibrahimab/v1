@@ -89,8 +89,12 @@ echo "</div>\n"; # afsluiten hoofdpagina_themas_blok
 
 
 if($vars["website"]=="C") {
-#Twitter
-	include("cache/twitterChaletNL.html");		
+
+	echo "<div style=\"clear: both;\"></div>\n";	
+
+	# Twitterblok includen
+	include("cache/twitterChaletNL.html");
+	
 	echo "<div id=\"hoofdpagina_sociallinks\">";
 	echo "<div style=\"float:right;\">";
 	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";

@@ -789,7 +789,7 @@ function boekinginfo($boekingid) {
 		}
 		
 		if($return["stap1"]["reisbureau_user_id"]) {
-			$db->query("SELECT r.reisbureau_id, u.voornaam, u.tussenvoegsel, u.achternaam, u.code, r.naam, u.naam AS usernaam, u.email, r.email_facturen, r.bevestiging_naar_reisbureau, r.aanmaning_naar_reisbureau, r.verzendmethode_reisdocumenten, u.bevestiging_naar_gebruiker, u.aanmaning_naar_gebruiker, r.reserveringskosten, r.adres, r.postcode, r.plaats, r.land, r.aanpassing_commissie FROM reisbureau r, reisbureau_user u WHERE u.reisbureau_id=r.reisbureau_id AND u.user_id='".addslashes($return["stap1"]["reisbureau_user_id"])."';");
+			$db->query("SELECT r.reisbureau_id, u.voornaam, u.tussenvoegsel, u.achternaam, u.code, r.naam, u.naam AS usernaam, u.email, r.email_facturen, r.bevestiging_naar_reisbureau, r.aanmaning_naar_reisbureau, r.verzendmethode_reisdocumenten, u.bevestiging_naar_gebruiker, u.aanmaning_naar_gebruiker, r.reserveringskosten, r.adres, r.postcode, r.plaats, r.land, r.aanpassing_commissie, r.btwnummer FROM reisbureau r, reisbureau_user u WHERE u.reisbureau_id=r.reisbureau_id AND u.user_id='".addslashes($return["stap1"]["reisbureau_user_id"])."';");
 			if($db->next_record()) {
 				$return["stap1"]["reisbureau_id"]=$db->f("reisbureau_id");
 				$return["stap1"]["reisbureau_naam"]=$db->f("naam");
@@ -848,6 +848,7 @@ function boekinginfo($boekingid) {
 				$return["stap1"]["reisbureau_land"]=$db->f("land");
 				$return["stap1"]["reisbureau_aanpassing_commissie"]=$db->f("aanpassing_commissie");
 				$return["stap1"]["reisbureau_reserveringskosten"]=$db->f("reserveringskosten");
+				$return["stap1"]["reisbureau_btwnummer"]=$db->f("btwnummer");
 				
 				if($commissie_opnieuw_opgehaald) {
 					$return["stap1"]["commissie"]=$return["stap1"]["commissie"]+$db->f("aanpassing_commissie");
@@ -3625,9 +3626,9 @@ function googleanalytics() {
 		
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', '".$vars["googleanalytics"]."']);
+		  ".$vars["googleanalytics_extra"].$extra."
 		  _gaq.push(['_trackPageview']);
 		  _gaq.push(['_trackPageLoadTime']);
-		  ".$vars["googleanalytics_extra"].$extra."
 		
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

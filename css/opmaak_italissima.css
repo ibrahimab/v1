@@ -587,6 +587,18 @@ form {
 	margin-right: auto;
 	text-align: center;
 }
+#ondercolofon_nieuw {
+	font-size: 0.8em;
+	margin-top: 3px;
+	margin-bottom: 6px;
+	width: 72%;
+}
+#ondercolofon_nieuw a {
+	text-decoration:none;
+}
+#ondercolofon_nieuw a:hover {
+	color: #ff9900;
+}
 
 #ondercolofon a {
 	color: #999999;

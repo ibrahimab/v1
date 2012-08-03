@@ -57,6 +57,11 @@
 	line-height: 0.9em;
 }
 
+#hoofdpagina_twitter_blok {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
 #directnaar {
 	text-align:left;
 	padding-bottom: 5px;

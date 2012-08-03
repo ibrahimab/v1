@@ -33,12 +33,17 @@ class cms_layout {
 	}
 
 	function message($title,$html=true,$value_array="") {
+		global $vars;
 		$return=$this->settings["message"][$title][$this->settings["language"]];
 		while(list($key,$value)=@each($value_array)) {
 			$return=ereg_replace("_VAL".$key."_",$value,$return);
 		}
 		if($html) {
-			$return=htmlentities($return,ENT_QUOTES,"iso-8859-15");
+			if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+				$return=wt_he($return);
+			} else {
+				$return=htmlentities($return,ENT_QUOTES,"iso-8859-15");
+			}
 		}
 		@reset($value_array);
 		while(list($key,$value)=@each($value_array)) {
@@ -106,12 +111,16 @@ class cms_layout {
 		echo "  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
 		echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">";
 		echo "<head>\n";
-		echo "<title>".htmlentities($this->settings["system_name"]);
+		echo "<title>".wt_he($this->settings["system_name"]);
 
 
-		if($current_title and $this->pageid<>"index" and $current_title<>$this->settings["system_name"]) echo " - ".htmlentities($current_title);
+		if($current_title and $this->pageid<>"index" and $current_title<>$this->settings["system_name"]) echo " - ".wt_he($current_title);
 		echo "</title>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
+		if($vars["wt_htmlentities_utf8"]) {
+			echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
+		} else {
+			echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";		
+		}
 		echo "<meta http-equiv=\"content-language\" content=\"".$this->settings["language"]."\" />\n";
 		if($this->settings["render_as_ie7"]) {
 			if($this->settings["chromeframe"]) {
@@ -163,7 +172,7 @@ class cms_layout {
 
 		if(is_array($this->settings["extra_javascriptfiles"])) {
 			while(list($key,$value)=each($this->settings["extra_javascriptfiles"])) {
-				echo "<script type=\"text/javascript\" src=\"".htmlentities($value)."\"></script>\n";
+				echo "<script type=\"text/javascript\" src=\"".wt_he($value)."\"></script>\n";
 			}
 		}
 		echo "<script type=\"text/javascript\" src=\"".($this->settings["scripts_folder"] ? $this->settings["scripts_folder"] : "")."cms_functions.js?t=1".($this->settings["javascript_cacheversion"] ? "&cache=".$this->settings["javascript_cacheversion"] : "")."\"></script>\n";
@@ -207,7 +216,7 @@ class cms_layout {
 		} else {
 			echo "http://www.webtastic.nl/pic/logo3.gif\" width=\"299\" height=\"39\"";
 		}
-		echo " border=\"0\" alt=\"".htmlentities($this->settings["system_name"])."\">";
+		echo " border=\"0\" alt=\"".wt_he($this->settings["system_name"])."\">";
 		if($this->pageid<>$this->settings["mainpage"]) echo "</a>";
 		echo "</div>\n";
 		echo "<div id=\"logout\">";
@@ -220,7 +229,7 @@ class cms_layout {
 			}
 			echo "</a>";
 		}
-		if($lists[$_GET["listid"]]) echo "<br><h1>".htmlentities($lists[$_GET["listid"]])."</h1>";
+		if($lists[$_GET["listid"]]) echo "<br><h1>".wt_he($lists[$_GET["listid"]])."</h1>";
 		if($this->settings["logout_extra"]) echo $this->settings["logout_extra"];
 		echo "</div></div><div id=\"menu\"><div id=\"meet_hoogte_menu\"><ul>";
 		while(list($key,$value)=each($this->menu_item)) {
@@ -310,7 +319,7 @@ class cms_layout {
 				}
 				if($value["parent"]) echo "&nbsp;-&nbsp;";
 
-				echo htmlentities($value["title"]);
+				echo wt_he($value["title"]);
 				echo "</span>";
 				if($currentpage or !$this->menu_item[$key]["clickable"]) {
 					if($slide_href) {
@@ -340,9 +349,9 @@ class cms_layout {
 		echo "<div id=\"content\">";
 		echo "<h1>";
 		if($current_title) {
-			echo htmlentities($current_title);
+			echo wt_he($current_title);
 		} else {
-			echo htmlentities($this->settings["system_name"]);
+			echo wt_he($this->settings["system_name"]);
 		}
 		echo "</h1>";
 		
