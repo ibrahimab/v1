@@ -75,8 +75,8 @@ class tablelist {
 	
 	function field_delete($url,$confirm,$alttext,$img="",$imgwidth=20,$imgheight=20) {
 		if(!$img) $img=$this->settings["path"]."pic/class.cms_delete.gif";
-#		$this->delete="<td class=\"tbl_icon\" onmouseover=\"row[ROWCOUNTER].className='row_delete';\" id=\"td[ROWCOUNTER]\" onmouseout=\"row_".$this->settings["systemid"]."[ROWCOUNTER].className='row[ROW_1_OR_2]';\"><a href=\"".$url."\" onclick=\"row[ROWCOUNTER].className='row_edit';return confirmLink(this,'".addslashes($confirm)."')\"><img src=\"".$img."\" alt=\"".htmlentities($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
-		$this->delete="<td class=\"tbl_icon\" onmouseover=\"ToggleClass('row_".$this->settings["systemid"]."_[ROWCOUNTER]','row[ROW_1_OR_2]');\" onmouseout=\"ToggleClass('row_".$this->settings["systemid"]."_[ROWCOUNTER]','row[ROW_1_OR_2]');\"><a href=\"".$url."\" onclick=\"return confirmLink('row_".$this->settings["systemid"]."_[ROWCOUNTER]',this,'".addslashes($confirm)."')\"><img src=\"".$img."\" alt=\"".htmlentities($alttext)."\" title=\"".htmlentities($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
+#		$this->delete="<td class=\"tbl_icon\" onmouseover=\"row[ROWCOUNTER].className='row_delete';\" id=\"td[ROWCOUNTER]\" onmouseout=\"row_".$this->settings["systemid"]."[ROWCOUNTER].className='row[ROW_1_OR_2]';\"><a href=\"".$url."\" onclick=\"row[ROWCOUNTER].className='row_edit';return confirmLink(this,'".addslashes($confirm)."')\"><img src=\"".$img."\" alt=\"".wt_he($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
+		$this->delete="<td class=\"tbl_icon\" onmouseover=\"ToggleClass('row_".$this->settings["systemid"]."_[ROWCOUNTER]','row[ROW_1_OR_2]');\" onmouseout=\"ToggleClass('row_".$this->settings["systemid"]."_[ROWCOUNTER]','row[ROW_1_OR_2]');\"><a href=\"".$url."\" onclick=\"return confirmLink('row_".$this->settings["systemid"]."_[ROWCOUNTER]',this,'".addslashes($confirm)."')\"><img src=\"".$img."\" alt=\"".wt_he($alttext)."\" title=\"".wt_he($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
 	}
 
 	function field_delete_checkbox() {
@@ -85,17 +85,17 @@ class tablelist {
 	
 	function field_edit($url,$alttext,$img="",$imgwidth=20,$imgheight=20) {
 		if(!$img) $img=$this->settings["path"]."pic/class.cms_edit.gif";
-		$this->edit="<td class=\"tbl_icon\" onmouseover=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row_edit';\" onmouseout=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row[ROW_1_OR_2]';\"><a href=\"".$url."\"><img src=\"".$img."\" alt=\"".htmlentities($alttext)."\" title=\"".htmlentities($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
+		$this->edit="<td class=\"tbl_icon\" onmouseover=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row_edit';\" onmouseout=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row[ROW_1_OR_2]';\"><a href=\"".$url."\"><img src=\"".$img."\" alt=\"".wt_he($alttext)."\" title=\"".wt_he($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
 	}
 
 	function field_show($url,$alttext,$img="",$imgwidth=20,$imgheight=20) {
 		if(!$img) $img=$this->settings["path"]."pic/class.cms_show.gif";
-		$this->show="<td class=\"tbl_icon\" onmouseover=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row_show';\" onmouseout=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row[ROW_1_OR_2]';\"><a href=\"".$url."\"><img src=\"".$img."\" alt=\"".htmlentities($alttext)."\" title=\"".htmlentities($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
+		$this->show="<td class=\"tbl_icon\" onmouseover=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row_show';\" onmouseout=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row[ROW_1_OR_2]';\"><a href=\"".$url."\"><img src=\"".$img."\" alt=\"".wt_he($alttext)."\" title=\"".wt_he($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
 	}
 
 	function field_print($url,$alttext,$img="",$imgwidth=20,$imgheight=20) {
 		if(!$img) $img=$this->settings["path"]."pic/class.cms_print.gif";
-		$this->print="<td class=\"tbl_icon\" onmouseover=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row_print';\" onmouseout=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row[ROW_1_OR_2]';\"><a href=\"".$url."\"><img src=\"".$img."\" alt=\"".htmlentities($alttext)."\" title=\"".htmlentities($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
+		$this->print="<td class=\"tbl_icon\" onmouseover=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row_print';\" onmouseout=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row[ROW_1_OR_2]';\"><a href=\"".$url."\"><img src=\"".$img."\" alt=\"".wt_he($alttext)."\" title=\"".wt_he($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
 	}
 	
 	function field_text($id,$title,$content="",$options="",$layout="") {
@@ -138,15 +138,15 @@ class tablelist {
 		}
 		$return=ereg_replace("\[ONLY_ID\]",urlencode($id),$return);
 		if($javascript) {
-			$return=ereg_replace("\[RECORD\]",addslashes(htmlentities($this->fields["content"][$this->main_field][$id])),$return);
+			$return=ereg_replace("\[RECORD\]",addslashes(wt_he($this->fields["content"][$this->main_field][$id])),$return);
 		} else {
-			$return=ereg_replace("\[RECORD\]",htmlentities($this->fields["content"][$this->main_field][$id]),$return);
+			$return=ereg_replace("\[RECORD\]",wt_he($this->fields["content"][$this->main_field][$id]),$return);
 		}
 		if($rowcounter) {
-			$return=ereg_replace("\[ROWCOUNTER\]",htmlentities($rowcounter),$return);
+			$return=ereg_replace("\[ROWCOUNTER\]",wt_he($rowcounter),$return);
 		}
 		if($row_1_or_2) {
-			$return=ereg_replace("\[ROW_1_OR_2\]",htmlentities($row_1_or_2),$return);
+			$return=ereg_replace("\[ROW_1_OR_2\]",wt_he($row_1_or_2),$return);
 		}
 		return $return;
 	}
@@ -278,7 +278,7 @@ class tablelist {
 			while(list($key,$value)=each($this->fields["title"])) {
 				$return.="<th nowrap".($this->settings["th_id"] ? " id=\"".$this->settings["th_id"].$key."\"" : "").">";
 #				$return.="<a href=\"".$_SERVER["PHP_SELF"]."?";
-				$return.="<a href=\"".htmlentities(ereg_replace("\?.*","",$_SERVER["REQUEST_URI"]))."?";
+				$return.="<a href=\"".wt_he(ereg_replace("\?.*","",$_SERVER["REQUEST_URI"]))."?";
 				
 				reset($_GET);
 				unset($temp["get_sort"]);
@@ -314,7 +314,7 @@ class tablelist {
 					$return.="#".wt_he($this->settings["aname_top"]);
 				}
 				$return.="\">";
-				$return.=htmlentities($value);
+				$return.=wt_he($value);
 				$return.="</a>";
 				if($this->set_sort[1]==$key) {
 					$return.="&nbsp;<img src=\"".$this->settings["path"]."pic/class.tablelist_".($this->sort_desc_temp ? "up" : "down")."_".$this->settings["arrowcolor"].".gif\" alt=\"\">";
@@ -363,7 +363,7 @@ class tablelist {
 #						echo substr($this->fields["content"][$key2][$key],0,1)."==".$aname."<br>";
 #						$aname=array_search(strtolower(substr($this->fields["content"][$key2][$key],0,1)),$this->index_array);
 						if($aname and !$aname_geplaatst[$aname]) {
-							$aname_in_td="<a name=\"".htmlentities($aname)."\"></a>";
+							$aname_in_td="<a name=\"".wt_he($aname)."\"></a>";
 							$aname_geplaatst[$aname]=true;
 						} else {
 							$aname_in_td="";
@@ -395,7 +395,7 @@ class tablelist {
 							if($this->fields["options"][$key2][$key]["html"]) {
 								$return.=$this->fields["content"][$key2][$key];
 							} else {
-								$return.=htmlentities($this->fields["content"][$key2][$key]);							
+								$return.=wt_he($this->fields["content"][$key2][$key]);							
 							}
 						} else {
 							$return.="&nbsp;";

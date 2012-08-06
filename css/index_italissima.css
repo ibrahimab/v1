@@ -31,6 +31,10 @@
 	line-height: 1.1em;
 }
 
+#hoofdpagina_twitter_blok {
+	margin-top: 15px;
+}
+
 #hoofdpagina_links {
 	margin-top: -5px;
 	float: left;

@@ -57,9 +57,12 @@ if($last_acc_html) {
 	echo "<img src=\"".$vars["path"]."pic/italissima_hoofdpagina/laatste_acc_vervanging.jpg\" width=\"580\" height=\"200\">";
 	echo "</div>"; # afsluiten laatstbekeken
 }
-#mijn aanpassingen
-#twitter
+
+# Twitterblok includen
+echo "<div style=\"clear: both;\"></div>\n";
+echo "<div id=\"hoofdpagina_twitter_blok\" >";
 include("cache/twitterItalissima.html");
+echo "</div>";
 echo "<div style=\"clear: both;\"></div>\n";
 
 echo "</div>"; # afsluiten hoofdpagina_links

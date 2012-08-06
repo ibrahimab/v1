@@ -417,12 +417,17 @@ class form2 {
 	# Interne functies
 	#
 	function message($title,$html=true,$value_array="") {
+		global $vars;
 		$return=$this->settings["message"][$title][$this->settings["language"]];
 		while(list($key,$value)=@each($value_array)) {
 			$return=ereg_replace("_VAL".$key."_",$value,$return);
 		}
 		if($html) {
-			$return=htmlentities($return,ENT_QUOTES,"iso-8859-15");
+			if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+				$return=wt_he($return);
+			} else {
+				$return=htmlentities($return,ENT_QUOTES,"iso-8859-15");
+			}
 		}
 		@reset($value_array);
 		while(list($key,$value)=@each($value_array)) {
@@ -645,7 +650,7 @@ class form2 {
 				reset($_GET);
 				while(list($key,$value)=each($_GET)) {
 					if(!is_array($value)) {
-						$hidden.="<input type=\"hidden\" name=\"".$key."\" value=\"".htmlentities($value)."\">\n";
+						$hidden.="<input type=\"hidden\" name=\"".$key."\" value=\"".wt_he($value)."\">\n";
 					}
 				}				
 			} else {
@@ -671,7 +676,7 @@ class form2 {
 		$return.=$hidden."<input type=\"hidden\" name=\"".$this->settings["formname"]."_filled\" value=\"1\"><input type=\"hidden\" name=\"pg\" value=\"1\">";
 		if(is_array($this->hidden)) {
 			while(list($key,$value)=each($this->hidden)) {
-				$return.="<input type=\"hidden\" name=\"".$key."\" value=\"".htmlentities($value["value"])."\">\n";
+				$return.="<input type=\"hidden\" name=\"".$key."\" value=\"".wt_he($value["value"])."\">\n";
 			}
 		}
 		return $return;
@@ -722,13 +727,18 @@ class form2 {
 	}
 	
 	function display_title($id) {
+		global $vars;
 		if($this->error[$id]) $return.="<font class=\"wtform_error\">";
 		if($this->fields["title"][$id]) {
 #			if($this->fields["checktype"][$id]=="currency") $return.="<span style=\"float:left;\">";
 			if($this->fields["layout"][$id]["title_html"]) {
 				$return.=$this->fields["title"][$id];
 			} else {
-				$return.=htmlentities($this->fields["title"][$id],ENT_QUOTES,"iso-8859-15");
+				if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+					$return.=wt_he($this->fields["title"][$id]);
+				} else {
+					$return.=htmlentities($this->fields["title"][$id],ENT_QUOTES,"iso-8859-15");
+				}
 			}
 			if($this->settings["layout"]["stars"] and $this->fields["obl"][$id] and substr($return,-1)<>"*") $return.="*";
 			if($this->error[$id]) $return.="</font>";
@@ -741,6 +751,7 @@ class form2 {
 	}
 	
 	function display_input($id,$infobox="") {
+		global $vars;
 		if($this->fields["type"][$id]=="checkbox") {
 			# Checkbox
 			if(!$this->filled) {
@@ -765,7 +776,7 @@ class form2 {
 						# inspringen indien keuze meerdere regels bevat
 						$return.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"top\">";
 					}
-					$return.="<input type=\"checkbox\" id=\"checkbox".$id.$key."\" name=\"input[".$id."][".htmlentities($key)."]\" ".($this->value[$id][$key]=="on" ? "checked " : "");
+					$return.="<input type=\"checkbox\" id=\"checkbox".$id.$key."\" name=\"input[".$id."][".wt_he($key)."]\" ".($this->value[$id][$key]=="on" ? "checked " : "");
 					if($this->fields["layout"][$id]["onchange"]) {
 						$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 					}
@@ -782,7 +793,7 @@ class form2 {
 					if($this->fields["layout"][$id]["content_html"]) {
 						$return.=$value;
 					} else {
-						$return.=htmlentities($value);
+						$return.=wt_he($value);
 					}
 					$return.="</label>";
 					if($this->fields["layout"][$id]["indent"]) {
@@ -946,7 +957,7 @@ class form2 {
 		} elseif($this->fields["type"][$id]=="htmlcol") {
 			# Htmlcol
 			if($this->fields["prevalue"][$id]["text"]) {
-				$return=htmlentities($this->fields["prevalue"][$id]["text"]);
+				$return=wt_he($this->fields["prevalue"][$id]["text"]);
 			} elseif($this->fields["prevalue"][$id]["html"]) {
 				$return=$this->fields["prevalue"][$id]["html"];
 			}
@@ -995,12 +1006,12 @@ class form2 {
 			reset($this->fields["options"][$id]["selection"]);
 			while(list($key,$value)=each($this->fields["options"][$id]["selection"])) {
 				$return.="<tr><td valign=\"top\">";
-				$return.=htmlentities($value);
+				$return.=wt_he($value);
 				$return.="</td>";
 				reset($this->fields["options"][$id]["multiselection"]);
 				while(list($key2,$value2)=each($this->fields["options"][$id]["multiselection"])) {
 					$return.="<td align=\"center\" valign=\"top\">";
-					$return.="<input type=\"radio\" id=\"multiradio".$id."_".$key."_".$key2."\" name=\"input[".$id."][".$key."]\" ".($this->value[$id][$key]==$key2 ? "checked " : "")."value=\"".htmlentities($key2)."\"";
+					$return.="<input type=\"radio\" id=\"multiradio".$id."_".$key."_".$key2."\" name=\"input[".$id."][".$key."]\" ".($this->value[$id][$key]==$key2 ? "checked " : "")."value=\"".wt_he($key2)."\"";
 					if($this->fields["layout"][$id]["onchange"]) {
 						$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 					}
@@ -1037,7 +1048,7 @@ class form2 {
 								$return.="&nbsp;";
 							}
 						} else {
-							$return.=nl2br(htmlentities($this->fields["prevalue"][$id]["text"]));
+							$return.=nl2br(wt_he($this->fields["prevalue"][$id]["text"]));
 						}
 					}
 				}
@@ -1056,7 +1067,11 @@ class form2 {
 			}
 			$return.="<input type=\"password\" name=\"input[".$id."]\" autocomplete=\"off\" value=\"";
 			if(isset($this->value[$id]) and !$this->fields["options"][$id]["delete_password_input"]) {
-				$return.=htmlentities($this->value[$id],ENT_QUOTES,"iso-8859-15");
+				if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+					$return.=wt_he($this->value[$id]);
+				} else {
+					$return.=htmlentities($this->value[$id],ENT_QUOTES,"iso-8859-15");
+				}
 			}
 			$return.="\"";
 			if($this->fields["options"][$id]["maxlength"]) $return.=" maxlength=\"".$this->fields["options"][$id]["maxlength"]."\"";
@@ -1076,7 +1091,7 @@ class form2 {
 				if($this->fields["layout"][$id]["one_per_line"]) {
 					$return.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"top\">";
 				}
-				$return.="<input type=\"radio\" id=\"radio".$id.$key."\" name=\"input[".$id."]\" ".($this->value[$id]==$key ? "checked " : "")."value=\"".htmlentities($key)."\"";
+				$return.="<input type=\"radio\" id=\"radio".$id.$key."\" name=\"input[".$id."]\" ".($this->value[$id]==$key ? "checked " : "")."value=\"".wt_he($key)."\"";
 				if($this->fields["layout"][$id]["onchange"]) {
 					$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 				}
@@ -1103,9 +1118,9 @@ class form2 {
 				if($this->fields["layout"][$id]["content_html"]) {
 					$return.=$value;
 				} else {
-					$return.=htmlentities($value);
+					$return.=wt_he($value);
 				}
-#				$return.=htmlentities($value);
+#				$return.=wt_he($value);
 				$return.="</label>".($this->fields["options"][$id]["subselection"][$key] ? "<div style=\"\">".$this->fields["options"][$id]["subselection"][$key]."</div>" : "").($otherfield_toshow ? "<div style=\"\">".$otherfield_toshow."</div>" : "").($this->fields["layout"][$id]["one_per_line"] ? "<br>" : "&nbsp;&nbsp;");
 				if($this->fields["layout"][$id]["one_per_line"]) {
 					$return.="</td></tr></table>";
@@ -1135,14 +1150,14 @@ class form2 {
 				while(list($key,$value)=each($this->fields["options"][$id]["selection"])) {
 					if($this->fields["options"][$id]["optgroup"][$key]) {
 						if($optgroup_open) $return.="</optgroup>";
-						$return.="<optgroup label=\"".htmlentities($this->fields["options"][$id]["optgroup"][$key])."\">";
+						$return.="<optgroup label=\"".wt_he($this->fields["options"][$id]["optgroup"][$key])."\">";
 						$optgroup_open=true;
 					}
 					$return.="<option";
 					if(strval($this->value[$id])==strval($key)) {
 						$return.=" selected";
 					}
-					$return.=" value=\"".htmlentities($key)."\">".wt_he($value)."&nbsp;</option>\n";
+					$return.=" value=\"".wt_he($key)."\">".wt_he($value)."&nbsp;</option>\n";
 				}
 				if($optgroup_open) $return.="</optgroup>";
 				$return.="</select>";
@@ -1171,7 +1186,11 @@ class form2 {
 					# Indien currency/float: punt in komma veranderen
 					$return.=ereg_replace("\.",",",$this->value[$id]);
 				} else {
-					$return.=htmlentities($this->value[$id],ENT_QUOTES,"iso-8859-15");
+					if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+						$return.=wt_he($this->value[$id]);
+					} else {
+						$return.=htmlentities($this->value[$id],ENT_QUOTES,"iso-8859-15");
+					}
 				}
 			} elseif($this->fields["checktype"][$id]=="url") {
 				$return.="http://";
@@ -1196,7 +1215,15 @@ class form2 {
 			if(!$this->fields["layout"][$id]["cols"]) $this->fields["layout"][$id]["cols"]=40;
 #			if($this->fields["options"][$id]["year_onfocus"]) $return.=" onfocus=\"".$this->fields["options"][$id]["year_onfocus"]."\"";
 			
-			$return.="<textarea class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input wtform_textarea")."\" name=\"input[".$id."]\" rows=\"".$this->fields["layout"][$id]["rows"]."\" cols=\"".$this->fields["layout"][$id]["cols"]."\"".($this->fields["layout"][$id]["style"] ? " style=\"".$this->fields["layout"][$id]["style"]."\"" : "").($this->fields["options"][$id]["onfocus"] ? " onfocus=\"".$this->fields["options"][$id]["onfocus"]."\"" : "").">".($this->value[$id] ? htmlentities($this->value[$id],ENT_QUOTES,"iso-8859-15") : "")."</textarea>";
+			$return.="<textarea class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input wtform_textarea")."\" name=\"input[".$id."]\" rows=\"".$this->fields["layout"][$id]["rows"]."\" cols=\"".$this->fields["layout"][$id]["cols"]."\"".($this->fields["layout"][$id]["style"] ? " style=\"".$this->fields["layout"][$id]["style"]."\"" : "").($this->fields["options"][$id]["onfocus"] ? " onfocus=\"".$this->fields["options"][$id]["onfocus"]."\"" : "").">";
+			if($this->value[$id]) {
+				if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+					$return.=wt_he($this->value[$id]);
+				} else {
+					$return.=htmlentities($this->value[$id],ENT_QUOTES,"iso-8859-15");
+				}
+			}
+			$return.="</textarea>";
 		} elseif($this->fields["type"][$id]=="upload") {
 			# Upload
 			if($this->fields["options"][$id]["multiple"] and $this->fields["options"][$id]["number_of_uploadbuttons"]) {
@@ -1248,18 +1275,18 @@ class form2 {
 						$ext=strtolower(substr($value,strrpos($value,".")+1,strlen($value)-strrpos($value,".")-1));
 						if($ext=="jpg" or $ext=="gif" or $ext=="png") {
 							$return.="<table class=\"wtform_img_tbl\">";
-							$return.="<tr><td align=\"center\"><img src=\"".($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value)."?anticache=".time()."\" width=\"".$temp["width"]."\" height=\"".$temp["height"]."\" border=\"0\" alt=\"".htmlentities($value)."\" title=\"".htmlentities($value)."\"><br>";
+							$return.="<tr><td align=\"center\"><img src=\"".($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value)."?anticache=".time()."\" width=\"".$temp["width"]."\" height=\"".$temp["height"]."\" border=\"0\" alt=\"".wt_he($value)."\" title=\"".wt_he($value)."\"><br>";
 							if(!$this->fields["layout"][$id]["verberg_imgsize"]) $return.="<span style=\"font-size:0.8em;\">".$temp["filesize"][0]." x ".$temp["filesize"][1]." ".$this->message("pixels")."</span><br>";
 							if(!$this->fields["obl"][$id] and !$this->fields["layout"][$id]["verberg_afbeeldingwissen"]) $return.="<input type=\"checkbox\" name=\"imagedelete[".$id."]".($this->fields["options"][$id]["multiple"] ? "[".$key."]" : "")."\" id=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\"><label for=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\">".$this->message("afbeeldingwissen")."</label>";
 							if($this->fields["options"][$id]["multiple"] and @count($temp["filename"])>1 and !$this->fields["options"][$id]["blokkeer_volgorde"]) {
-								$return.="<br>".$this->message("afbeeldingvolgorde").":&nbsp;<input type=\"text\" name=\"imgorder[".$id."][".htmlentities(basename($value))."]\" value=\"".($afbeeldingteller*10)."\" style=\"width:40px;\">";
-								$return.="<input type=\"hidden\" name=\"orgimgorder[".$id."][".htmlentities(basename($value))."]\" value=\"".($afbeeldingteller*10)."\">";
+								$return.="<br>".$this->message("afbeeldingvolgorde").":&nbsp;<input type=\"text\" name=\"imgorder[".$id."][".wt_he(basename($value))."]\" value=\"".($afbeeldingteller*10)."\" style=\"width:40px;\">";
+								$return.="<input type=\"hidden\" name=\"orgimgorder[".$id."][".wt_he(basename($value))."]\" value=\"".($afbeeldingteller*10)."\">";
 							}
 							$return.="</td></tr>";
 							$return.="</table><br>";
 						} elseif($ext=="pdf" or $ext=="doc" or $ext=="pps") {
 							$return.="<table class=\"wtform_img_tbl\">";
-							$return.="<tr><td align=\"center\"><a href=\"".htmlentities(($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value))."?c=".@filemtime($value)."\" target=\"_blank\"><img src=\"".$this->settings["path"]."pic/class.form_".$ext."_icon.gif\" width=\"20\" height=\"20\" border=\"0\" alt=\"".htmlentities($value)."\" title=\"".htmlentities($value)."\"></a><br>";
+							$return.="<tr><td align=\"center\"><a href=\"".wt_he(($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value))."?c=".@filemtime($value)."\" target=\"_blank\"><img src=\"".$this->settings["path"]."pic/class.form_".$ext."_icon.gif\" width=\"20\" height=\"20\" border=\"0\" alt=\"".wt_he($value)."\" title=\"".wt_he($value)."\"></a><br>";
 							if(!$this->fields["obl"][$id]) $return.="<input type=\"checkbox\" name=\"imagedelete[".$id."]".($this->fields["options"][$id]["multiple"] ? "[".$key."]" : "")."\" id=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\"><label for=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\">".$this->message("bestandwissen")."</label>";
 							$return.="</td></tr>";
 							$return.="</table><br>";
@@ -1306,14 +1333,18 @@ class form2 {
 			} else {
 				$waarde=1;
 			}
-			$return.="<div style=\"float:left;margin-right:10px;\"><input type=\"checkbox\" name=\"input[".$id."]\" id=\"yesno".$id."\" ".($this->value[$id]==$waarde ? "checked " : "")."value=\"".htmlentities($waarde)."\"";
+			$return.="<div style=\"float:left;margin-right:10px;\"><input type=\"checkbox\" name=\"input[".$id."]\" id=\"yesno".$id."\" ".($this->value[$id]==$waarde ? "checked " : "")."value=\"".wt_he($waarde)."\"";
 			if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 			if($this->fields["layout"][$id]["onclick"]) $return.=" onclick=\"".$this->fields["layout"][$id]["onclick"]."\"";
 			$return.="></div><div style=\"float:left;width:90%;\"><label for=\"yesno".$id."\">";
 			if($this->fields["layout"][$id]["title_html"]) {
 				$return.=$this->fields["title"][$id];
 			} else {
-				$return.=htmlentities($this->fields["title"][$id],ENT_QUOTES,"iso-8859-15");
+				if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+					$return.=wt_he($this->fields["title"][$id]);
+				} else {
+					$return.=htmlentities($this->fields["title"][$id],ENT_QUOTES,"iso-8859-15");
+				}
 			}
 			$return.="</label>".$infobox."</div>";
 		}
@@ -1792,7 +1823,7 @@ class form2 {
 							if($this->fields["layout"][$key]["content_html"]) {
 								$checkbox_value=strip_tags($this->fields["options"][$key]["selection"][$key2],"<a><b><i><u><strong>");
 							} else {
-								$checkbox_value=htmlentities($this->fields["options"][$key]["selection"][$key2]);
+								$checkbox_value=wt_he($this->fields["options"][$key]["selection"][$key2]);
 							}
 							if($this->outputtable_cell[$key]) $this->outputtable_cell[$key].="<br>".$checkbox_value; else $this->outputtable_cell[$key]=$checkbox_value;
 						}
@@ -1867,7 +1898,7 @@ class form2 {
 					}
 				} elseif($value=="email") {
 					$this->input[$key]=strtolower($this->value[$key]);
-					$this->outputtable_cell[$key]="<a href=\"mailto:".htmlentities($this->value[$key])."\">".htmlentities($this->value[$key])."</a>";
+					$this->outputtable_cell[$key]="<a href=\"mailto:".wt_he($this->value[$key])."\">".wt_he($this->value[$key])."</a>";
 					if($this->value[$key] and !wt_validmail($this->value[$key])) $this->error[$key]=$this->message("error_email");
 					if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
 				} elseif($value=="float") {
@@ -1906,7 +1937,7 @@ class form2 {
 					if($this->fields["layout"][$key]["content_html"]) {
 #						$this->outputtable_cell[$key]=$this->fields["options"][$key]["selection"][$this->value[$key]];
 					} else {
-#						$this->outputtable_cell[$key]=htmlentities($this->fields["options"][$key]["selection"][$this->value[$key]]);
+#						$this->outputtable_cell[$key]=wt_he($this->fields["options"][$key]["selection"][$this->value[$key]]);
 					}
 					reset($this->fields["options"][$key]["selection"]);
 					while(list($key2,$value2)=each($this->fields["options"][$key]["selection"])) {
@@ -1936,7 +1967,7 @@ class form2 {
 					} elseif($_GET["pv_".$key]) {
 						# Indien _GET["pv"] waarde in onlyinoutput plaatsen
 						$this->input[$key]=$_GET["pv_".$key];
-						$this->outputtable_cell[$key]=htmlentities($_GET["pv_".$key]);
+						$this->outputtable_cell[$key]=wt_he($_GET["pv_".$key]);
 					}
 				} elseif($value=="password") {
 					$this->input[$key]=$this->value[$key];
@@ -1957,7 +1988,7 @@ class form2 {
 					if($this->fields["layout"][$key]["content_html"]) {
 						$this->outputtable_cell[$key]=$this->fields["options"][$key]["selection"][$this->value[$key]];
 					} else {
-						$this->outputtable_cell[$key]=htmlentities($this->fields["options"][$key]["selection"][$this->value[$key]]);
+						$this->outputtable_cell[$key]=wt_he($this->fields["options"][$key]["selection"][$this->value[$key]]);
 					}
 					if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
 				} elseif($value=="select") {
@@ -1965,7 +1996,7 @@ class form2 {
 					if($this->fields["layout"][$key]["content_html"]) {
 						$this->outputtable_cell[$key]=$this->fields["options"][$key]["selection"][$this->value[$key]];
 					} else {
-						$this->outputtable_cell[$key]=htmlentities($this->fields["options"][$key]["selection"][$this->value[$key]]);
+						$this->outputtable_cell[$key]=wt_he($this->fields["options"][$key]["selection"][$this->value[$key]]);
 					}
 					if($this->fields["options"][$key]["allow_0"]) {
 						if($this->fields["obl"][$key] and !$this->value[$key] and $this->value[$key]<>"0") $this->error[$key]="obl";
@@ -1974,11 +2005,11 @@ class form2 {
 					}
 				} elseif($value=="text") {
 					$this->input[$key]=$this->value[$key];
-					$this->outputtable_cell[$key]=htmlentities($this->value[$key]);
+					$this->outputtable_cell[$key]=wt_he($this->value[$key]);
 					if($this->fields["obl"][$key] and $this->value[$key]=="") $this->error[$key]="obl";
 				} elseif($value=="textarea") {
 					$this->input[$key]=$this->value[$key];
-					$this->outputtable_cell[$key]=nl2br(htmlentities($this->value[$key]));
+					$this->outputtable_cell[$key]=nl2br(wt_he($this->value[$key]));
 					if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
 				} elseif($value=="upload") {
 					$file_upload[$key]=false;
@@ -2165,7 +2196,7 @@ class form2 {
 					# Trailing slash toevoegen
 					if(ereg("^https?://(.*)",$this->value[$key],$regs) and !ereg("/",$regs[1])) $this->value[$key].="/";
 					$this->input[$key]=$this->value[$key];
-					$this->outputtable_cell[$key]="<a href=\"".htmlentities($this->value[$key])."\">".htmlentities($this->value[$key])."</a>";
+					$this->outputtable_cell[$key]="<a href=\"".wt_he($this->value[$key])."\">".wt_he($this->value[$key])."</a>";
 					if($this->value[$key] and !ereg("^https?://",$this->value[$key])) $this->error[$key]=$this->message("error_url");
 					if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
 				} elseif($value=="yesno") {
@@ -2227,7 +2258,7 @@ class form2 {
 		} else {
 			$mail->html.=$topbody;
 			$url="http://".$_SERVER["HTTP_HOST"].$_SERVER["PHP_SELF"].($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "");
-			$mail->html.="<p>".ereg_replace("\[URL\]","<a href=\"".$url."\">".htmlentities($url)."</a>",$this->message("volgendegegevens")).":<p>".$this->outputtable()."<p>";
+			$mail->html.="<p>".ereg_replace("\[URL\]","<a href=\"".$url."\">".wt_he($url)."</a>",$this->message("volgendegegevens")).":<p>".$this->outputtable()."<p>";
 			$mail->html.=$bottombody;
 		}
 		$mail->html.="</td></tr></table></body></html>";

@@ -67,8 +67,8 @@ class DB_Sql {
 			} else {
 				$GLOBALS["mysqlsettings"]["host"]="ss.postvak.net";
 			}
-			if($_SERVER["HOSTNAME"]=="bl.postvak.net" and $GLOBALS["mysqlsettings"]["host"]=="ss.postvak.net") {
-				$GLOBALS["mysqlsettings"]["host"]="82.173.186.80";
+			if($_SERVER["HTTP_HOST"]=="bl.postvak.net" and $GLOBALS["mysqlsettings"]["host"]=="ss.postvak.net") {
+				$GLOBALS["mysqlsettings"]["host"]="vps.postvak.net:13306";
 			}
 			$GLOBALS["mysqlsettings"]["user"]="dbmysql";
 			$GLOBALS["mysqlsettings"]["password"]="sh47fm9G";

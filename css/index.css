@@ -1,6 +1,4 @@
 
-
-
 #koptekst {
 	font-size: 1.2em;
 	height: 40px;
@@ -156,11 +154,15 @@
 #hoofdpagina_themas_blok {
 	float: right;
 	width: 170px;
-	margin-bottom: 25px;
+	margin-bottom: 15px;
 }
 
 #hoofdpagina_themas {
 	width: 170px;
+}
+
+#hoofdpagina_twitter_blok {
+	margin-bottom: 10px;
 }
 
 #hoofdpagina_lijn {
