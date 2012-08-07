@@ -144,11 +144,13 @@ if($_GET["t"]==1) {
 	$andquery1=$search->regexpquery(array("naam"));
 	$andquery2=$search->regexpquery(array("plaats","plaats_altnaam"));
 	$andquery3=$search->regexpquery(array("skigebied","skigebied_altnaam"));
+	$andquery4=$search->regexpquery(array("woord"));
 	
 	if($andquery1) {
 		$query[1]="SELECT naam AS result FROM view_accommodatie WHERE (".$andquery1.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
 		$query[2]="SELECT plaats AS result FROM view_accommodatie WHERE (".$andquery2.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
 		$query[3]="SELECT skigebied AS result FROM view_accommodatie WHERE (".$andquery3.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
+		$query[4]="SELECT woord AS result FROM woord_autocomplete WHERE (".$andquery4.");";
 		
 		while(list($key,$value)=each($query)) {
 			$db->query($value);
@@ -157,6 +159,13 @@ if($_GET["t"]==1) {
 			}
 		}
 	}
+	
+	if(is_array($woorden_autocomplete)) {
+		while(list($key,$value)=each($woorden_autocomplete)) {
+		
+		}
+	}
+
 	$return["ok"]=true;	
 	if(is_array($results)) {
 

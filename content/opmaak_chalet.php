@@ -451,10 +451,9 @@ echo "<div id=\"colofon_wrapper\" class=\"noprint\">";
 echo "<div id=\"colofon\" class=\"noprint\">".htmlentities($vars["websiteinfo"]["langewebsitenaam"][$vars["website"]])." - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon")."</div>";
 //if($id=="index" and $vars["website"]=="C") weggedaan omdat deze nu overal moet komen.
 if($vars["website"]=="C") {
-	echo "<div id=\"ondercolofon\" class=\"noprint\">Onze andere labels:&nbsp;&nbsp;<a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"http://www.italissima.nl/\" target=\"_blank\">Italissima</a> | <a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
-}
-else{
-	echo "<div id=\"ondercolofon\" class=\"noprint\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
+	echo "<div id=\"ondercolofon\" class=\"noprint\">Onze andere labels:&nbsp;&nbsp;<a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"http://www.italissima.nl/\" target=\"_blank\">Italissima</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
+} else {
+	echo "<div id=\"ondercolofon\" class=\"noprint\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 }
 echo "</div>";
 
