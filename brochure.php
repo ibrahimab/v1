@@ -6,6 +6,13 @@ $vars["jquery_fancybox"]=true;
 
 include("admin/vars.php");
 
+# Wintersport Magazine uitgeschakeld op verzoek van Bjorn (07-08-2012)
+if($vars["website"]=="C") {
+	header("Location: ".$vars["path"]);
+	exit;
+}
+
+
 # Afbeeldingen resizen
 $files[]="leeg.gif";
 $d=dir("pic/folder/");
