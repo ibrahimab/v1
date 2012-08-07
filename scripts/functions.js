@@ -823,14 +823,15 @@ $(document).ready(function() {
 						dataType: "json",
 						data: {
 							t: 3,
-							maxRows: 12,
 							q: request.term
 						},
 						success: function( data ) {
 							response( $.map( data.results, function( item ) {
-								return {
-									label: item.name,
-									value: item.name
+								if(item.name!='') {
+									return {
+										label: item.name,
+										value: item.name
+									}
 								}
 							}));
 						}
