@@ -838,7 +838,11 @@ $(document).ready(function() {
 				},
 				minLength: 2,
 				select: function( event, ui ) {
-
+					// waarde in input-field plaatsen
+					$("input[name=fzt]").val(ui.item.value);
+					
+					// form submitten
+					$("#zoeken").submit();
 				},
 				open: function() {
 					$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
