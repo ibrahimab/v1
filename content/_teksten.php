@@ -1398,9 +1398,9 @@ $txt["en"]["favorieten"]["buttonLeesmeer"]="Read more";
 $txt["nl"]["favorieten"]["midcontentTextChalet"]="Ik heb een leuk chalet/appartement gevonden op Chalet.nl. Dit moet je zien!";
 $txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/appartments on Chalet.nl. You have to see this!";
 
-$txt["nl"]["favorieten"]["LabelVan"]="Van: (E-mail adres)";
+$txt["nl"]["favorieten"]["LabelVan"]="Van: (E-mailadres)";
 $txt["en"]["favorieten"]["LabelVan"]="From: (E-mail)";
-$txt["nl"]["favorieten"]["LabelNaar"]="Naar: (Meerdere emailadressen scheiden met een spatie)";
+$txt["nl"]["favorieten"]["LabelNaar"]="Naar: (Meerdere e-mailadressen scheiden met een spatie)";
 $txt["en"]["favorieten"]["LabelNaar"]="To: (use space as a separation for the e-mails)";
 $txt["nl"]["favorieten"]["LabelBericht"]="Bericht:";
 $txt["en"]["favorieten"]["LabelBericht"]="Message:";
