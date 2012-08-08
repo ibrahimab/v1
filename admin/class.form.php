@@ -1357,11 +1357,15 @@ class form2 {
 		
 		} else {
 			$this->counter["submitbutton"]++;
-			$return.="<input type=\"submit\" value=\" ".$this->message("submitbutton")." \" id=\"submit".$this->counter["submitbutton"].$this->settings["formname"]."\"";
-			if(!$this->settings["submitbutton"]["no_action"]) {
-				$return.=" onclick=\"document.".$this->settings["formname"].".submit".$this->counter["submitbutton"].$this->settings["formname"].".disabled=1;document.".$this->settings["formname"].".submit();\"";
+			if($this->settings["submitbutton"]["button_element"]) {
+				$return.="<button class=\"".($this->settings["submitbutton"]["class"] ? $this->settings["submitbutton"]["class"] : "wtform_submitbutton")."\" type=\"submit\">".$this->message("submitbutton")."</button>";
+			} else {
+				$return.="<input type=\"submit\" value=\" ".$this->message("submitbutton")." \" id=\"submit".$this->counter["submitbutton"].$this->settings["formname"]."\"";
+				if(!$this->settings["submitbutton"]["no_action"]) {
+					$return.=" onclick=\"document.".$this->settings["formname"].".submit".$this->counter["submitbutton"].$this->settings["formname"].".disabled=1;document.".$this->settings["formname"].".submit();\"";
+				}
+				$return.=" class=\"".($this->settings["submitbutton"]["class"] ? $this->settings["submitbutton"]["class"] : "wtform_submitbutton")."\">";
 			}
-			$return.=" class=\"".($this->settings["submitbutton"]["class"] ? $this->settings["submitbutton"]["class"] : "wtform_submitbutton")."\">";
 		}
 		return $return;
 	}

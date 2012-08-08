@@ -119,7 +119,7 @@ class cms_layout {
 		if($vars["wt_htmlentities_utf8"]) {
 			echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n";
 		} else {
-			echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";		
+			echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 		}
 		echo "<meta http-equiv=\"content-language\" content=\"".$this->settings["language"]."\" />\n";
 		if($this->settings["render_as_ie7"]) {

@@ -771,6 +771,10 @@ if($form->okay) {
 			$mail->send();
 			if($algemene_informatie and !$gegevens["stap1"]["reisbureau_user_id"]) {
 				# Mail met vertrekinformatie mailen (niet als het een wederverkoop-boeking betreft)
+				
+				# even wachten (zodat mailtje 2 later aankomt dan mailtje 1)
+				sleep(2);
+				
 				unset($mail);
 				$mail=new wt_mail;
 				$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];

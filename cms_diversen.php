@@ -228,6 +228,10 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 	$form->field_htmlrow("","<hr><b>XML-import handmatig starten</b><br><br><i>Na opslaan wordt de import binnen 1 minuut gestart (tenzij er op dit moment al een XML-import draait; dan start de import zodra die andere import is afgerond).</i>");
 	$form->field_select(0,"handmatige_xmlimport_id","Leverancier",array("field"=>"handmatige_xmlimport_id"),"",array("selection"=>$vars["xml_type"]));
+
+	$form->field_htmlrow("","<hr><b>Autocomplete-woorden zoekfunctie (1 per regel)</b>");
+	$form->field_textarea(0,"woorden_autocomplete","Woordenlijst",array("field"=>"woorden_autocomplete"));
+	
 	
 	
 	#$form->field_htmlrow("","<hr><b>Nieuwe vormgeving</b>");
@@ -246,6 +250,17 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	
 	if($form->okay) {
 		$form->save_db();
+		
+		# Woordenlijst
+		$db->query("SELECT woorden_autocomplete FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+		if($db->next_record()) {
+			$woorden_autocomplete=preg_split("/\n/",$db->f("woorden_autocomplete"));
+		}
+		$db->query("DELETE FROM woord_autocomplete;");
+		while(list($key,$value)=each($woorden_autocomplete)) {
+			$db->query("INSERT INTO woord_autocomplete SET woord='".addslashes($value)."', adddatetime=NOW(), editdatetime=NOW();");
+		}
+	
 	#	if($form->input["nieuwevormgeving"]) {
 	#		setcookie("nieuwevormgeving_fixed",1,mktime(3,0,0,date("m"),date("d"),date("Y")+1),"/");
 	#	} else {

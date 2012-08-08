@@ -3774,7 +3774,7 @@ We ask you to carefully check these documents, and please let us know as soon as
 
 Please print all the travel documents and bring these with you to your destination. Please follow all the instructions on these vouchers. You can only claim the services you booked with us if you have the vouchers.
 
-[[h_1]]Please note: You can only use each voucher 1 time. If you use a voucher several times, and we will charge you[[h_2]] for any damaged caused to [[v_langewebsitenaam]].
+[[h_1]]Please note: You can only use each voucher 1 time. If you use a voucher several times, and we will charge you for any damaged caused to [[v_langewebsitenaam]].[[h_2]]
 PDF files can be read with the Adobe Reader, which you can download for free at [[h_3]].
 
 Please let us know if there are any questions!
@@ -3804,11 +3804,50 @@ Medewerkers [[v_websitenaam]]
 +31 (0)348 - 43 46 49";
 $txt["en_z"]["voucher"]["mailtje"]="-";
 
+$txt["nl_v"]["voucher"]["mailtje"]="Beste [[v_voornaam]],
+
+Hierbij ontvang je de reisdocumenten voor je vakantie.
+
+Wij verzoeken je om deze documenten direct zorgvuldig te controleren en eventuele fouten zo spoedig mogelijk aan ons te melden, zodat wij deze nog voor vertrek kunnen proberen te corrigeren.
+
+De reisdocumenten dien je in zijn geheel uit te printen en mee te nemen naar jullie bestemming. Wij verzoeken je om de instructies zorgvuldig op te volgen en de vouchers op de betreffende plaatsen in te leveren. Je kunt alleen met de vouchers aanspraak maken op de door jullie geboekte diensten.
+
+[[h_1]]Let op: je dient er zorg voor te dragen dat elke voucher maar 1x ingeleverd wordt. Lever je een voucher toch meerdere keren in, dan zal de ontstane schade door [[v_langewebsitenaam]] bij jou in rekening worden gebracht.[[h_2]]
+PDF-bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via [[h_3]].
+
+Mocht je nog vragen hebben waar je niet uitkomt, dan horen wij het graag.
+
+Wij wensen je een goede reis en een plezierige vakantie toe!
+
+Medewerkers [[v_websitenaam]]
++31 (0)348 - 43 46 49";
+$txt["en_v"]["voucher"]["mailtje"]="Dear [[v_voornaam]],
+
+These are your travel documents for your holiday.
+
+We ask you to carefully check these documents, and please let us know as soon as possible if you find any errors. This way we can still try to correct any mistakes.
+
+Please print all the travel documents and bring these with you to your destination. Please follow all the instructions on these vouchers. You can only claim the services you booked with us if you have the vouchers.
+
+[[h_1]]Please note: You can only use each voucher 1 time. If you use a voucher several times, and we will charge you for any damaged caused to [[v_langewebsitenaam]].[[h_2]]
+PDF files can be read with the Adobe Reader, which you can download for free at [[h_3]].
+
+Please let us know if there are any questions!
+
+We wish you a pleasant journey and a great vacation!
+
+Team [[v_websitenaam]]
++31 (0)348 - 43 46 49";
+
+
 $txt["nl"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="Algemene informatie over je wintersport";
 $txt["en"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="General information about your winter holiday";
 
 $txt["nl_z"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="Algemene informatie over je vakantie";
 $txt["en_z"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="-";
+
+$txt["nl_v"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="Algemene informatie over je vakantie";
+$txt["en_v"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="General information about your holiday";
 
 $txt["nl"]["voucher"]["mailtje_onderwerp_1van2"]="(mail 1 van 2)";
 $txt["en"]["voucher"]["mailtje_onderwerp_1van2"]="(mail 1 of 2)";
@@ -3854,6 +3893,31 @@ Wij wensen je een goede reis en een plezierige vakantie toe!
 Medewerkers [[v_websitenaam]]
 +31 (0)348 - 43 46 49";
 $txt["en_z"]["voucher"]["mailtje_zonder_voucher"]="-";
+
+$txt["nl_v"]["voucher"]["mailtje_zonder_voucher"]="Beste [[v_voornaam]], het is bijna zover!
+
+Hierbij ontvang je de reisinformatie over je vakantie. Je kunt dit mailtje naar wens doorsturen naar de overige reisgenoten. De vouchers van je vakantie ontvang je in een ander mailtje.
+
+Alle informatie bevindt zich in PDF-bestand(en) die als attachment bij dit mailtje zijn opgenomen. Deze bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via [[h_3]].
+
+Mocht je nog vragen hebben waar je niet uitkomt, dan horen wij het graag.
+
+Wij wensen je een goede reis en een plezierige vakantie toe!
+
+Medewerkers [[v_websitenaam]]
++31 (0)348 - 43 46 49";
+$txt["en_v"]["voucher"]["mailtje_zonder_voucher"]="Dear [[v_voornaam]], it's almost time!
+
+These are your travel documents for your holiday. You can forward this e-mail to your travel companions. The vouchers for your holiday will be sent with another e-mail.
+
+All information you will need is found in the attached PDF files. These files can be read with Adobe Reader, which can be downloaded for free at [[h_3]].
+
+Please let us know if there are any questions!
+
+We wish you a pleasant journey and a great vacation!
+
+Team [[v_websitenaam]]
++31 (0)348 - 43 46 49";
 
 $txt["nl"]["voucher"]["attachmentnaam_voorbrief_pdf"]="algemene_informatie.pdf";
 $txt["en"]["voucher"]["attachmentnaam_voorbrief_pdf"]="general_information.pdf";
