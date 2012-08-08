@@ -175,6 +175,18 @@ if($_GET["t"]==1) {
 	#
 	# Favorietenfunctie
 	#
+	if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])){
+		if($_GET['action']=="insert"){
+			$klantID=$_GET['klantID'];
+			$accommodatieID=$_GET['accommodatie'];
+			$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($klantID)."','".addslashes($accommodatieID)."',NOW());");
+		}
+		elseif($_GET['action']=="delete"){
+			$klantID=$_GET['klantID'];
+			$accommodatieID=$_GET['accommodatie'];
+			$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($klantID)."' AND type_id='".addslashes($accommodatieID)."';");
+		}
+	}
 	
 	# Communicatie met dit script via jQuery
 	/*
