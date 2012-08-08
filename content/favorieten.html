@@ -77,7 +77,9 @@ function validateEmail(email) {
 	var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 	return email.match(pattern);     
 }  
-
+</script>
+<?php if($vars["website"]!="E"){?>
+<script type="text/javascript">
 function controlEnSend(){
 	if(document.getElementById("verzenderAdres").value == ""){
 		//window.alert("OK");
@@ -178,6 +180,113 @@ function ajaxMailFunction(welOfgeenKopie){
 	ajaxRequest.open("GET", queryString, true);
 	ajaxRequest.send(null); 
 }
+</script>
+<?php } else{?>
+<script type="text/javascript">
+function controlEnSend(){
+	if(document.getElementById("verzenderAdres").value == ""){
+		//window.alert("OK");
+		document.getElementById("errorLabel").style.display='inline';
+		document.getElementById("errorLabel").style.backgroundColor = 'red';
+		document.getElementById("errorLabel").style.color = 'white';
+		document.getElementById("errorLabel").style.padding = '10px';
+		document.getElementById("errorLabel").innerHTML = "Youre e-mailaddress is empty";
+	}
+	else if(!validateEmail(document.getElementById("verzenderAdres").value)){
+		document.getElementById("errorLabel").style.display='inline';
+		document.getElementById("errorLabel").style.backgroundColor = 'red';
+		document.getElementById("errorLabel").style.color = 'white';
+		document.getElementById("errorLabel").style.padding = '10px';
+		document.getElementById("errorLabel").innerHTML = "Your e-mailaddress is not correct.";
+	}
+	else if(document.getElementById("EmailOntvanger").value == ""){
+		//window.alert("OK");
+		document.getElementById("errorLabel").style.display='inline';
+		document.getElementById("errorLabel").style.backgroundColor = 'red';
+		document.getElementById("errorLabel").style.color = 'white';
+		document.getElementById("errorLabel").style.padding = '10px';
+		document.getElementById("errorLabel").innerHTML = "You have not filled all the required fields";
+	}
+	else{
+		var container = document.getElementById("EmailOntvanger").value;
+		var checkBox=document.getElementById("jaNee");
+		var kopie="nee"
+		if(checkBox.checked){
+			container = container+" "+document.getElementById("verzenderAdres").value;
+			kopie="ja";
+		}
+		var emailAdressen = container.split(" ");
+		for(var i =0; i < emailAdressen.length; i++){
+			if(!validateEmail(emailAdressen[i])){
+				document.getElementById("errorLabel").style.display='inline';
+				document.getElementById("errorLabel").style.backgroundColor = 'red';
+				document.getElementById("errorLabel").style.color = 'white';
+				document.getElementById("errorLabel").style.padding = '10px';
+				document.getElementById("errorLabel").innerHTML = emailAdressen[i] + " is not a valid e-mailaddress.";
+				break;
+			}
+			else{
+				//document.getElementById("afzender").innerHTML = document.getElementById("VerzenderNaam").value;
+				//var bericht = document.getElementById("presentbericht").innerHTML;
+				//window.alert(bericht);
+				//document.getElementById("bericht").value = bericht;
+				//document.forms["mailAcc"].submit();
+				document.getElementById("verzenden").disabled=true;
+				document.getElementById("Annuleren").disabled=true;
+				ajaxMailFunction(kopie);
+				break;
+			}
+		}
+	}
+}
+</script>
+<script language="javascript" type="text/javascript">
+function ajaxMailFunction(welOfgeenKopie){
+	var ajaxRequest;  // The variable that makes Ajax possible!		
+	try{
+		ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+		try{
+			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+		}catch (e) {
+			try{
+				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+			}catch (e){
+				alert("Your browser broke!");
+					return false;
+			}
+		}
+	}
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			document.getElementById("errorLabel").style.display='inline';
+			document.getElementById("errorLabel").style.backgroundColor = 'white';
+			document.getElementById("errorLabel").style.color = 'black';
+			document.getElementById("errorLabel").style.padding = '10px';
+			document.getElementById('errorLabel').innerHTML='Youre e-mails have been sent. Thank you.';
+			document.getElementById('verzenderAdres').value="";
+			document.getElementById('EmailOntvanger').value="";
+			document.getElementById('presentatiebericht').value="";
+			document.getElementById("verzenden").disabled=false;
+			document.getElementById("Annuleren").disabled=false;
+			return false;
+		}
+	}
+	var queryString = "?verzenderAdres=" + document.getElementById('verzenderAdres').value;
+	queryString +="&welofGeenKopie" + welOfgeenKopie;
+	queryString +=  "&EmailOntvanger=" + document.getElementById('EmailOntvanger').value;
+	var text = document.getElementById('presentatiebericht').value;
+	text=text.replace(/\n\r?/g, '<br/>'); 	
+	queryString +=  "&bericht=" + text;
+	queryString +=  "&kopie=" + welOfgeenKopie;
+	queryString +=  "&action=mailDoor";
+	ajaxRequest.open("GET", queryString, true);
+	ajaxRequest.send(null); 
+}
+
+
+<?php }?>
+<script type="text/javascript">
 function ajaxFunctionUpdateFav(){
 	var ajaxRequestup;  // The variable that makes Ajax possible!	
 	try{

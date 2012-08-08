@@ -26,9 +26,9 @@ if($vars["websitetype"]==1){
 	$doormailText=html("doormailTextChalet","favorieten")." ".$vars["websitenaam"];
 }
 elseif($vars["websitetype"]==3 or $vars["websitetype"]==7){
-	$standardtext="Je hebt momenteel geen vakantiehuizen aan je favorieten toegevoegd.<BR><BR>Ga naar de pagina van een vakantiehuis en klik op <a href=\"#\">";
-	$standardtext.="<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";
-	$standardtext.=" Plaats in mijn favorieten";
+	$standardtext="Je hebt momenteel geen vakantiehuizen aan je favorieten toegevoegd.<BR><BR>Ga naar de pagina van een vakantiehuis en klik op ";
+	$standardtext.="<img style=\"vertical-align:middle;\" border=\"0\" width=\"16\" height=\"16\" src=\"".$vars["path"]."pic/toevoegenZomer.png\">";
+	$standardtext.=" <a href=\"#\">Plaats in mijn favorieten";
 	$standardtext.="</a> om een vakantiehuis aan je lijst met favorieten toe te voegen.";
 	$onderwerpText="Mijn favoriete vakantiehuizen";
 	$doormailText="Ik heb een aantal leuke vakantiehuizen gevonden op  ".$vars["websitenaam"]. " Dit moet je zien!";
