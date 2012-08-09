@@ -357,8 +357,9 @@ if($form->okay) {
 			$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_naam"],0,1);
 			$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_adres"],0,1);
 			$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_postcode"]." ".$gegevens["stap1"]["reisbureau_plaats"].($gegevens["stap1"]["reisbureau_land"]<>"Nederland" ? " / ".$gegevens["stap1"]["reisbureau_land"] : ""),0,1);
-			if($_GET["testsysteem"]==1){
-				$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_btwnummer"],0,1);
+			//$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_btwnummer"],0,1);
+			if($gegevens["stap1"]["reisbureau_btwnummer"]){
+				$pdf->Cell(0,4,"test",0,1);
 			}
 		} else {
 			# NAW hoofdboeker
