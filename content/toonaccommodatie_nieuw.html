@@ -1428,11 +1428,14 @@ if($db->next_record()) {
 	}
 	
 	echo "</form>";
-	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I") {
+	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="E") {
 		if($_GET["testsysteem"]==1) {
 			if(!in_array($typeid,$klantfavs)) {
 				echo "<div style=\"padding:5px;\">";
 				if($vars["website"]=="C"){
+					echo "<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\"> ";
+				}
+				elseif($vars["website"]=="E"){
 					echo "<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\"> ";
 				}
 				elseif($vars["website"]=="Z"){
@@ -1450,7 +1453,7 @@ if($db->next_record()) {
 				echo "<div style=\"padding:5px;\">";
 				echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=";
 				echo $vars["path"];
-				if($vars["website"]=="C"){
+				if($vars["website"]=="C" or $vars["website"]=="E"){
 					echo "pic/icon_notokay.png> ";
 				}
 				elseif($vars["website"]=="Z"){
