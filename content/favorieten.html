@@ -614,83 +614,82 @@ else{
 			} else {
 				$afbeelding="accommodaties/0";
 			}
-			echo"<table style=\"display:inline-table;background-color:".$vars["backcolor"].";\" text-align=\"left\" border=\"0\" width=\"100%\" bgcolor=\"".$vars["backcolor"]."\">";
-			echo"<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
-			echo"<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
-			echo"<td>".$db->f("land")."</td></tr><tr>";
-			echo"<td>".$db->f("plaats")."</td></tr><tr>";
-			echo"<td>".$db->f("skigebied")."</td></tr><tr>";
+			echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"700\" id=\"zoekresultatentable\">";
+			echo "<tr><td colspan=\"5\" align=\"left\">";
+			echo "<a name=\"cnt1\"></a>";		
+			echo "<div class=\"zoekresultaat_block boxshadow\">";
+			#
+			echo "<div class=\"zoekresultaat\">";
+				echo "<div class=\"zoekresultaat_top\">";
+					echo "<div class=\"zoekresultaat_titel\">";
+						echo htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
+					echo "</div>";
+				echo "</div>";
+				echo"<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
+		echo"<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
+		echo"<td>".$db->f("land")."</td></tr><tr>";
+		echo"<td>".$db->f("plaats")."</td></tr><tr>";
+		echo"<td>".$db->f("skigebied")."</td></tr><tr>";
+		if($vars["website"]!="E"){
+			echo"<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving")."</td></tr><tr>";
+		}
+		else{
+			echo"<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving_en")."</td></tr><tr>";
+		}
+		if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")){
+			$rev=$db->f("optimaalaantalpersonen");
+		}
+		else{
+			$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
+		}
+		if($vars["website"]!="E"){
+			echo"<td>".$rev." personen</td></tr><tr>";
+		}
+		else{
+			echo"<td>".$rev." persons</td></tr><tr>";
+		}
+		if($db->f("slaapkamers")==1){
 			if($vars["website"]!="E"){
-				echo"<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving")."</td></tr><tr>";
+				$slkamer="slaapkamer";
 			}
 			else{
-				echo"<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving_en")."</td></tr><tr>";
+				$slkamer="bedroom";
 			}
-			if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")){
-				$rev=$db->f("optimaalaantalpersonen");
-			}
-			else{
-				$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
-			}
+		}
+		else{
 			if($vars["website"]!="E"){
-				echo"<td>".$rev." personen</td></tr><tr>";
+				$slkamer="slaapkamers";
 			}
 			else{
-				echo"<td>".$rev." persons</td></tr><tr>";
+				$slkamer="bedrooms";
 			}
-			if($db->f("slaapkamers")==1){
-				if($vars["website"]!="E"){
-					$slkamer="slaapkamer";
-				}
-				else{
-					$slkamer="bedroom";
-				}
+		}
+		echo"<td>".$db->f("slaapkamers")." ".$slkamer."</td></tr><tr>";
+		if($db->f("badkamers")==1){
+			if($vars["website"]!="E"){
+				$bdkamer="badkamer";
 			}
 			else{
-				if($vars["website"]!="E"){
-					$slkamer="slaapkamers";
-				}
-				else{
-					$slkamer="bedrooms";
-				}
+				$bdkamer="bathroom";
 			}
-			echo"<td>".$db->f("slaapkamers")." ".$slkamer."</td></tr><tr>";
-			if($db->f("badkamers")==1){
-				if($vars["website"]!="E"){
-					$bdkamer="badkamer";
-				}
-				else{
-					$bdkamer="bathroom";
-				}
+		}
+		else{
+			if($vars["website"]!="E"){
+				$bdkamer="badkamers";
 			}
 			else{
-				if($vars["website"]!="E"){
-					$bdkamer="badkamers";
-				}
-				else{
-					$bdkamer="bathrooms";
-				}
+				$bdkamer="bathrooms";
 			}
-			echo"<td>".$db->f("badkamers")." ".$bdkamer."</td></tr><tr>";
-			$teken=substr($db->f("land"),0,1);
-			echo"<td align=\"right\" colspan=\"2\"><a href=\"accommodatie/".$teken.$id."\"><input type=\"button\" value=\"".html("buttonLeesmeer","favorieten")."\" class=\"".$knopLeesmeer."\"></td></tr><tr>";
-			echo"</table>";
-			echo "<div style=\"padding:5px;\">";
-			echo "<img style=\"vertical-align:middle;\" border=\"0\" width=\"13\" height=\"13\" src=";
-			echo $vars["basehref"];
-			if($vars["website"]=="C" or $vars["website"]=="E"){
-				echo "pic/icon_notokay.png> ";
-			}
-			elseif($vars["website"]=="Z"){
-				echo "pic/verwijderenZomer.png> ";
-			}
-			elseif($vars["website"]=="I"){
-				echo "pic/verwijderItalissima.png> ";
-			}
-			echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$id."','delete')\" href=\"#\">";
-			echo html("Uitmijnfavorietenhalen","favorieten");
-			echo "</a>";
+		}
+		echo"<td>".$db->f("badkamers")." ".$bdkamer."</td></tr><tr>";
+		$teken=substr($db->f("land"),0,1);
+		echo "<td align=\"right\" width=\"90%\"><a href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\"><input type=\"button\" value=\"".html("buttonLeesmeer","favorieten")."\" class=\"".$knopLeesmeer."\"></td></tr>";
+		echo"</table>";
+			
+			#	
 			echo "</div>";
+			echo "</td></tr>";
+			echo "</table>";
 			echo "<BR/>";
 		}
 	}
