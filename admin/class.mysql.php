@@ -60,15 +60,15 @@ class DB_Sql {
   function connect($Database = "", $Host = "", $User = "", $Password = "") {
     /* Handle defaults */
 	if(is_array($GLOBALS["mysqlsettings"])) {
-		if(ereg("/home/webtastic/html",$_SERVER["DOCUMENT_ROOT"]) or $_SERVER["HOSTNAME"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="bl.postvak.net" or substr($_SERVER["PHP_SELF"],0,21)=="/home/webtastic/html/") {
+		if(ereg("/home/webtastic/html",$_SERVER["DOCUMENT_ROOT"]) or $_SERVER["HOSTNAME"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="bl.postvak.net" or $_SERVER["HOSTNAME"]=="bl2.postvak.net" or substr($_SERVER["PHP_SELF"],0,21)=="/home/webtastic/html/") {
 			if($GLOBALS["mysqlsettings"]["name"]["local"]) $GLOBALS["mysqlsettings"]["name"]["remote"]=$GLOBALS["mysqlsettings"]["name"]["local"];
 			if($GLOBALS["mysqlsettings"]["localhost"]) {
 				$GLOBALS["mysqlsettings"]["host"]=$GLOBALS["mysqlsettings"]["localhost"];
 			} else {
 				$GLOBALS["mysqlsettings"]["host"]="ss.postvak.net";
 			}
-			if($_SERVER["HTTP_HOST"]=="bl.postvak.net" and $GLOBALS["mysqlsettings"]["host"]=="ss.postvak.net") {
-				$GLOBALS["mysqlsettings"]["host"]="vps.postvak.net:13306";
+			if($_SERVER["HTTP_HOST"]=="bl2.postvak.net" and $GLOBALS["mysqlsettings"]["host"]=="ss.postvak.net") {
+				$GLOBALS["mysqlsettings"]["host"]="127.0.0.1:13306";
 			}
 			$GLOBALS["mysqlsettings"]["user"]="dbmysql";
 			$GLOBALS["mysqlsettings"]["password"]="sh47fm9G";
