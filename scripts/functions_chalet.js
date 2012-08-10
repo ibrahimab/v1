@@ -44,7 +44,7 @@ function hoofdpagina_carousel(teller) {
 			hoofdpagina_blok_teller=teller;
 		}
 		document.cookie="hoofdpagina_blok_teller="+hoofdpagina_blok_teller;
-		$("#blok_"+teller).css("display","block");
+//		$("#blok_"+teller).css("display","block");
 		$("#blok_"+teller).fadeIn("slow");
 		$("#hoofdpagina_blok_teller_"+teller).addClass("hoofdpagina_blok_teller_active");
 	}
