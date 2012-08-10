@@ -87,7 +87,7 @@ function italissima_datum($width="130px") {
 	if($_GET["themadatum"]==1) {
 		echo "<select name=\"t\" style=\"width:".$width.";\" onchange=\"formsubmit('t');\">\n";
 		echo "<option value=\"0\" selected>Zoek op thema</option>\n";
-		echo "<option value=\"1\">Welness</option>\n";
+		echo "<option value=\"1\">Wellness</option>\n";
 		echo "<option value=\"2\">Bij golfbaan</option>\n";
 		echo "<option value=\"3\">Bij het water</option>\n";
 		echo "<option value=\"4\">Met zwembad</option>\n";
@@ -118,7 +118,7 @@ function zomer_thema($width="130px") {
 	if($_GET["themadatum"]==1) {
 		echo "<select name=\"t\" style=\"width:".$width.";\" onchange=\"formsubmit('t');\">\n";
 		echo "<option value=\"0\" selected>Zoek op thema</option>\n";
-		echo "<option value=\"1\">Welness</option>\n";
+		echo "<option value=\"1\">Wellness</option>\n";
 		echo "<option value=\"2\">Bij golfbaan</option>\n";
 		echo "<option value=\"3\">Bij het water</option>\n";
 		echo "<option value=\"4\">Met zwembad</option>\n";

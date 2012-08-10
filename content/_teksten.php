@@ -1065,8 +1065,8 @@ $txt["en"]["zoek-en-boek"]["bijzonder"]="special";
 $txt["nl"]["zoek-en-boek"]["levensgenieters"]="levensgenieters";
 $txt["en"]["zoek-en-boek"]["levensgenieters"]="taking it slow";
 
-$txt["nl"]["zoek-en-boek"]["vleugjewelness"]="vleugje welness";
-$txt["en"]["zoek-en-boek"]["vleugjewelness"]="touch of welness";
+$txt["nl"]["zoek-en-boek"]["vleugjewelness"]="vleugje wellness";
+$txt["en"]["zoek-en-boek"]["vleugjewelness"]="touch of wellness";
 
 $txt["nl"]["zoek-en-boek"]["topselectie"]="topselectie";
 $txt["en"]["zoek-en-boek"]["topselectie"]="top selection";
@@ -1872,11 +1872,11 @@ $txt["en"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations 
 $txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
 $txt["en_z"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
-$txt["nl"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale winteraanbod)";
-$txt["en"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of types with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
+#$txt["nl"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale winteraanbod)";
+#$txt["en"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of types with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
-$txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
-$txt["en_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
+#$txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
+#$txt["en_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
 $txt["nl"]["thema"]["zoekcriteriaopgeven"]="Zoekcriteria opgeven";
 $txt["en"]["thema"]["zoekcriteriaopgeven"]="Enter search criteria";
