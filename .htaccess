@@ -176,6 +176,11 @@ RewriteRule ^ownerlogin/?$ /lev_login.php [R=301,L]
 # oude tmp_verzendmethode doorsturen naar verzendmethode
 RewriteRule ^tmp_verzendmethode\.php$ /verzendmethode.php [R=301,L]
 
+
+# Engelstalige pagina's
+RewriteRule ^favourites\.php$ favorieten.php?%{QUERY_STRING}
+
+
 #
 # Rewriten van .php-pagina's
 #
