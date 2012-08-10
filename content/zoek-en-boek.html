@@ -354,7 +354,7 @@ for($i=1;$i<=40;$i++) {
 	$vars["aantalpersonen"][$i]=$i;
 }
 
-if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_aanbiedingen"]) {
+if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_aanbiedingen"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "<a name=\"form\"></a>";
 	if($vars["zoekform_aanbiedingen"]) {
 		echo "<p>".html("inleidingaanbiedingen","zoek-en-boek",array("l1"=>"aanbiedingen","l2"=>"top10","v_websitenaam"=>$vars["websitenaam"]))."</p>";
@@ -367,7 +367,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 	echo "<br />";
 }
 
-if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"]) {
+if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	if($_GET["filled"]) {
 		echo "<div>&nbsp;</div>";
 		echo "<div>";
@@ -468,6 +468,8 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$urlself=$vars["path"]."chalets/".$_GET["chaletpark"]."/".$_GET["seizoen"]."/";
 	} elseif($vars["zoekform_aanbiedingen"]) {
 		$urlself=$vars["path"].txt("menu_aanbiedingen").".php";
+	} elseif($vars["zoekform_italissima_nieuwe_tarieven"]) {
+		$urlself=$vars["path"].$id.".php";
 	} else {
 		$urlself=txt("menu_zoek-en-boek").".php#vf";
 	}
@@ -868,6 +870,8 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$urlself=$vars["path"]."chalets/".$_GET["chaletpark"]."/".$_GET["seizoen"]."/";
 	} elseif($vars["zoekform_aanbiedingen"]) {
 		$urlself=$vars["path"].txt("menu_aanbiedingen").".php";
+	} elseif($vars["zoekform_italissima_nieuwe_tarieven"]) {
+		$urlself=$vars["path"].$id.".php";
 	} else {
 		$urlself=txt("menu_zoek-en-boek").".php";
 	}
@@ -1190,7 +1194,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 }
 
 
-if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"]) {
+if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "</div>";
 }
 
@@ -1198,9 +1202,9 @@ if($vars["website"]=="Z" and $id=="zoek-en-boek" and (!$_GET["filled"] or $_SERV
 	echo "<div style=\"margin-top:30px;margin-bottom:20px;width:672px;border:2px solid #5f227b;padding:7px;background-color:#fb6703;\" class=\"whitehover boxshadow\">Onze huizen worden standaard aangeboden van zaterdag tot zaterdag. Ook een afwijkende verblijfsduur in Itali&euml; is <a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fsg=5-0\">online te boeken</a>. Voor de overige landen is dit op aanvraag. Neem hiervoor <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op.</div>";
 }
 
-if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"]) {
+if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "<p><a name=\"res\"></a>";
-	if(!$vars["zoekform_thema"] and !$vars["zoekform_weekendski"] and !$vars["zoekform_vallandrychalets"]) {
+	if(!$vars["zoekform_thema"] and !$vars["zoekform_weekendski"] and !$vars["zoekform_vallandrychalets"] and !$vars["zoekform_italissima_nieuwe_tarieven"]) {
 		if($vars["nieuwevormgeving"]) {
 			if($_GET["abid"]) {
 				$db0->query("SELECT onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["abid"])."';");
@@ -2799,7 +2803,7 @@ $nieuw_sorteersysteem=true;
 		} else {
 			echo "<tr><td colspan=\"4\" align=\"left\">";		
 		}
-		if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"]) {
+		if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 			if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and !$_GET["filled"]) {
 #				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten/$totaal_tarievenbekend_seizoen_id)*100);
 				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
