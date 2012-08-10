@@ -1065,8 +1065,8 @@ $txt["en"]["zoek-en-boek"]["bijzonder"]="special";
 $txt["nl"]["zoek-en-boek"]["levensgenieters"]="levensgenieters";
 $txt["en"]["zoek-en-boek"]["levensgenieters"]="taking it slow";
 
-$txt["nl"]["zoek-en-boek"]["vleugjewelness"]="vleugje welness";
-$txt["en"]["zoek-en-boek"]["vleugjewelness"]="touch of welness";
+$txt["nl"]["zoek-en-boek"]["vleugjewelness"]="vleugje wellness";
+$txt["en"]["zoek-en-boek"]["vleugjewelness"]="touch of wellness";
 
 $txt["nl"]["zoek-en-boek"]["topselectie"]="topselectie";
 $txt["en"]["zoek-en-boek"]["topselectie"]="top selection";
