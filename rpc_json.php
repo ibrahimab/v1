@@ -142,13 +142,15 @@ if($_GET["t"]==1) {
 	$search->wordsplit($_GET["q"]);
 	
 	$andquery1=$search->regexpquery(array("naam"));
-	$andquery2=$search->regexpquery(array("plaats"));
-	$andquery3=$search->regexpquery(array("skigebied"));
+	$andquery2=$search->regexpquery(array("plaats","plaats_altnaam"));
+	$andquery3=$search->regexpquery(array("skigebied","skigebied_altnaam"));
+	$andquery4=$search->regexpquery(array("woord"));
 	
 	if($andquery1) {
 		$query[1]="SELECT naam AS result FROM view_accommodatie WHERE (".$andquery1.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
 		$query[2]="SELECT plaats AS result FROM view_accommodatie WHERE (".$andquery2.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
 		$query[3]="SELECT skigebied AS result FROM view_accommodatie WHERE (".$andquery3.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
+		$query[4]="SELECT woord AS result FROM woord_autocomplete WHERE wzt='".$vars["seizoentype"]."' AND taal='".$vars["taal"]."' AND (".$andquery4.");";
 		
 		while(list($key,$value)=each($query)) {
 			$db->query($value);
@@ -158,6 +160,13 @@ if($_GET["t"]==1) {
 		}
 	}
 	
+	if(is_array($woorden_autocomplete)) {
+		while(list($key,$value)=each($woorden_autocomplete)) {
+		
+		}
+	}
+
+	$return["ok"]=true;	
 	if(is_array($results)) {
 
 		setlocale(LC_COLLATE,"nl_NL.ISO8859-1");
@@ -170,11 +179,25 @@ if($_GET["t"]==1) {
 				$return["results"][$return["totalResultsCount"]]["name"]=utf8_encode($key);
 			}
 		}
+	} else {
+		$return["results"][1]["name"]="";
 	}
 } elseif($_GET["t"]==4) {
 	#
 	# Favorietenfunctie
 	#
+	if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])){
+		if($_GET['action']=="insert"){
+			$klantID=$_GET['klantID'];
+			$accommodatieID=$_GET['accommodatie'];
+			$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($klantID)."','".addslashes($accommodatieID)."',NOW());");
+		}
+		elseif($_GET['action']=="delete"){
+			$klantID=$_GET['klantID'];
+			$accommodatieID=$_GET['accommodatie'];
+			$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($klantID)."' AND type_id='".addslashes($accommodatieID)."';");
+		}
+	}
 	
 	# Communicatie met dit script via jQuery
 	/*

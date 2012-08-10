@@ -228,7 +228,11 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 	$form->field_htmlrow("","<hr><b>XML-import handmatig starten</b><br><br><i>Na opslaan wordt de import binnen 1 minuut gestart (tenzij er op dit moment al een XML-import draait; dan start de import zodra die andere import is afgerond).</i>");
 	$form->field_select(0,"handmatige_xmlimport_id","Leverancier",array("field"=>"handmatige_xmlimport_id"),"",array("selection"=>$vars["xml_type"]));
-	
+
+	$form->field_htmlrow("","<hr><b>Autocomplete-woorden zoekfunctie (1 woord per regel)</b>");
+	$form->field_textarea(0,"woorden_autocomplete_winter","Woordenlijst winter (NL)",array("field"=>"woorden_autocomplete_winter"));
+	$form->field_textarea(0,"woorden_autocomplete_winter_en","Woordenlijst winter (EN)",array("field"=>"woorden_autocomplete_winter_en"));
+	$form->field_textarea(0,"woorden_autocomplete_zomer","Woordenlijst zomer (NL)",array("field"=>"woorden_autocomplete_zomer"));
 	
 	#$form->field_htmlrow("","<hr><b>Nieuwe vormgeving</b>");
 	#$form->field_yesno("nieuwevormgeving","Toon op deze computer \"".$login->username."\" Chalet.nl/winter in de nieuwe vormgeving","",array("selection"=>$_COOKIE["nieuwevormgeving_fixed"]));
@@ -246,6 +250,34 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	
 	if($form->okay) {
 		$form->save_db();
+		
+		# Woordenlijst
+		$db->query("SELECT woorden_autocomplete_winter, woorden_autocomplete_winter_en, woorden_autocomplete_zomer FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+		if($db->next_record()) {
+			$woorden_autocomplete[1]=preg_split("/\n/",$db->f("woorden_autocomplete_winter"));
+			$woorden_autocomplete[2]=preg_split("/\n/",$db->f("woorden_autocomplete_winter_en"));
+			$woorden_autocomplete[3]=preg_split("/\n/",$db->f("woorden_autocomplete_zomer"));
+		}
+		$db->query("DELETE FROM woord_autocomplete;");
+		while(list($key,$value)=each($woorden_autocomplete)) {
+			while(list($key2,$value2)=each($value)) {
+				unset($wzt,$taal);
+				if($key==1) {
+					$wzt=1;
+					$taal="nl";
+				} elseif($key==2) {
+					$wzt=1;
+					$taal="en";
+				} elseif($key==3) {
+					$wzt=2;
+					$taal="nl";
+				}
+				if($wzt and $taal) {
+					$db->query("INSERT INTO woord_autocomplete SET woord='".addslashes($value2)."', wzt='".$wzt."', taal='".$taal."', adddatetime=NOW(), editdatetime=NOW();");
+				}
+			}
+		}
+	
 	#	if($form->input["nieuwevormgeving"]) {
 	#		setcookie("nieuwevormgeving_fixed",1,mktime(3,0,0,date("m"),date("d"),date("Y")+1),"/");
 	#	} else {

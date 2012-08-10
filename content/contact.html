@@ -142,21 +142,17 @@ if($_GET["fo"]=="frm") {
 		echo html("email_kort","contact").": <a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</A><br>";
 		if($vars["websiteland"]=="nl") echo "KvK: 30209634<br>";
 		echo "</B></CENTER>";
-
-#		if($vars["website"]=="CA") {
-#			echo "&nbsp;<br>";
+		
+# Wintersport Magazine uitgeschakeld op verzoek van Bjorn (07-08-2012)
+#		if($vars["website"]=="C") {
+#			echo "&nbsp;<br><div style=\"border:1px solid #d5e1f9;padding:5px;\">";
+#			echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
+#			echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/wintersportmagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
 #			echo "<b>Wintersport Magazine</b><br>";
-#			echo "Naast onze uitgebreide website hebben wij een magazine samengesteld met daarin een impressie van ons aanbod en de mogelijkheden die we je als wintersportspecialist te bieden hebben. <a href=\"".$vars["path"]."brochure.php\">Bekijk dit Wintersport Magazine online</a> of <a href=\"".$vars["path"]."brochure.php#wtform_frm\">laat het thuisbezorgen</a>.<br>";
+#			echo "Naast onze uitgebreide website hebben wij een magazine samengesteld met daarin een impressie van ons aanbod en de mogelijkheden die we je als wintersportspecialist te bieden hebben. <a href=\"".$vars["path"]."brochure.php\">Bekijk dit Wintersport Magazine online</a>.";
+#			echo "</td></tr></table>";	
+#			echo "</div><p>";
 #		}
-		if($vars["website"]=="C") {
-			echo "&nbsp;<br><div style=\"border:1px solid #d5e1f9;padding:5px;\">";
-			echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
-			echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/wintersportmagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
-			echo "<b>Wintersport Magazine</b><br>";
-			echo "Naast onze uitgebreide website hebben wij een magazine samengesteld met daarin een impressie van ons aanbod en de mogelijkheden die we je als wintersportspecialist te bieden hebben. <a href=\"".$vars["path"]."brochure.php\">Bekijk dit Wintersport Magazine online</a>.";
-			echo "</td></tr></table>";	
-			echo "</div><p>";
-		}
 		if($vars["website"]=="Z") {
 			echo "&nbsp;<br><div style=\"border:1px solid #5f227b;padding:5px;\">";
 			echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";

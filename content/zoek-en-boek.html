@@ -354,7 +354,7 @@ for($i=1;$i<=40;$i++) {
 	$vars["aantalpersonen"][$i]=$i;
 }
 
-if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_aanbiedingen"]) {
+if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_aanbiedingen"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "<a name=\"form\"></a>";
 	if($vars["zoekform_aanbiedingen"]) {
 		echo "<p>".html("inleidingaanbiedingen","zoek-en-boek",array("l1"=>"aanbiedingen","l2"=>"top10","v_websitenaam"=>$vars["websitenaam"]))."</p>";
@@ -367,7 +367,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 	echo "<br />";
 }
 
-if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"]) {
+if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	if($_GET["filled"]) {
 		echo "<div>&nbsp;</div>";
 		echo "<div>";
@@ -387,7 +387,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 			echo "</div>";
 		}
 		if($vars["zoekform_thema"] and $vars["seizoentype"]==1) {
-			echo "<div class=\"button\" style=\"margin-left:10px;float:right;\" onclick=\"document.location.href='".$vars["path"].txt("menu_themas").".php'\">".html("meerinspiratie","thema")."</div>";
+			echo "<div class=\"button\" style=\"margin-left:10px;margin-right:45px;float:right;\" onclick=\"document.location.href='".$vars["path"].txt("menu_themas").".php'\">".html("meerinspiratie","thema")."</div>";
 		}
 		echo "<div style=\"clear:both;\"></div>";
 
@@ -468,6 +468,8 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$urlself=$vars["path"]."chalets/".$_GET["chaletpark"]."/".$_GET["seizoen"]."/";
 	} elseif($vars["zoekform_aanbiedingen"]) {
 		$urlself=$vars["path"].txt("menu_aanbiedingen").".php";
+	} elseif($vars["zoekform_italissima_nieuwe_tarieven"]) {
+		$urlself=$vars["path"].$id.".php";
 	} else {
 		$urlself=txt("menu_zoek-en-boek").".php#vf";
 	}
@@ -678,6 +680,45 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		showformfield_bestemming();
 	}
 
+
+	if($vars["seizoentype"]==1 and $vars["websitetype"]<>6) {
+		# Winter: skidorp
+		echo "<div class=\"zoekblok_item\">";
+		echo "<div class=\"zoekblok_titel\">";
+		echo html("skidorp","zoek-en-boek");
+		echo "</div>"; # afsluiten .zoekblok_titel
+		echo "<div class=\"zoekblok_field\">";
+		echo "<input type=\"hidden\" name=\"fpl\" value=\"".wt_he($_GET["fpl"])."\">";
+		echo "<select id=\"fpl_multiple\" data-placeholder=\"-- ".html("geenvoorkeur","vars")." --\" multiple data-no_results_text=\"".html("geenresultatenmet","zoek-en-boek")."\">";
+		echo "<option value=\"0\"".(!$_GET["fpl"] ? " selected" : "")."></option>";
+		
+		unset($optgroup_open);
+		$db->query("SELECT DISTINCT plaats_id, plaats, skigebied, land FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY land, skigebied, plaats;");
+		while($db->next_record()) {
+			if(!$landskigebied_gehad[$db->f("land")."_".$db->f("skigebied")]) {
+				if($optgroup_open) echo "</optgroup>\n";
+				echo "<optgroup label=\"".wt_he($db->f("land")." - ".$db->f("skigebied"))."\">\n";
+				$optgroup_open=true;
+				$landskigebied_gehad[$db->f("land")."_".$db->f("skigebied")]=true;
+			}
+			echo "<option value=\"".$db->f("plaats_id")."\"";
+			if($_GET["filled"] and preg_match("/\b".$db->f("plaats_id")."\b/",$_GET["fpl"])) {
+				echo " selected";
+#				if($value) $save_query["regio"]=$vars["skigebied_nl"][$value];
+			}
+			echo ">".wt_he($db->f("plaats"))."</option>";
+		}
+		if($optgroup_open) echo "</optgroup>\n";
+		echo "</select>";
+		echo "</div>"; # afsluiten .zoekblok_field
+
+		echo "<div class=\"clear\"></div>";
+
+		echo "</div>"; # afsluiten .zoekblok_item
+		
+		
+	}
+
 	if($vars["seizoentype"]==2 and $vars["websitetype"]<>6) {
 		#
 		# Verblijfsduur
@@ -868,6 +909,8 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$urlself=$vars["path"]."chalets/".$_GET["chaletpark"]."/".$_GET["seizoen"]."/";
 	} elseif($vars["zoekform_aanbiedingen"]) {
 		$urlself=$vars["path"].txt("menu_aanbiedingen").".php";
+	} elseif($vars["zoekform_italissima_nieuwe_tarieven"]) {
+		$urlself=$vars["path"].$id.".php";
 	} else {
 		$urlself=txt("menu_zoek-en-boek").".php";
 	}
@@ -1190,7 +1233,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 }
 
 
-if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"]) {
+if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "</div>";
 }
 
@@ -1198,9 +1241,9 @@ if($vars["website"]=="Z" and $id=="zoek-en-boek" and (!$_GET["filled"] or $_SERV
 	echo "<div style=\"margin-top:30px;margin-bottom:20px;width:672px;border:2px solid #5f227b;padding:7px;background-color:#fb6703;\" class=\"whitehover boxshadow\">Onze huizen worden standaard aangeboden van zaterdag tot zaterdag. Ook een afwijkende verblijfsduur in Itali&euml; is <a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fsg=5-0\">online te boeken</a>. Voor de overige landen is dit op aanvraag. Neem hiervoor <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op.</div>";
 }
 
-if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"]) {
+if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "<p><a name=\"res\"></a>";
-	if(!$vars["zoekform_thema"] and !$vars["zoekform_weekendski"] and !$vars["zoekform_vallandrychalets"]) {
+	if(!$vars["zoekform_thema"] and !$vars["zoekform_weekendski"] and !$vars["zoekform_vallandrychalets"] and !$vars["zoekform_italissima_nieuwe_tarieven"]) {
 		if($vars["nieuwevormgeving"]) {
 			if($_GET["abid"]) {
 				$db0->query("SELECT onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["abid"])."';");
@@ -1236,6 +1279,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			if($landgebied[1]>0) addwhere("p.skigebied_id='".addslashes($landgebied[1])."'");
 			if($landgebied[0]>0) addwhere("l.land_id='".addslashes($landgebied[0])."'");
 		}
+	}
+	
+	# Skidorp(en)
+	if($_GET["fpl"]=="0") unset($_GET["fpl"]);
+	if($_GET["fpl"]) {
+		addwhere("p.plaats_id IN (".addslashes($_GET["fpl"]).")");
 	}
 
 	# Aantal personen
@@ -2590,6 +2639,7 @@ $nieuw_sorteersysteem=true;
 					$querystring.="&flad=".$flex_aankomstdatum;
 					$querystring.="&fldu=".$_GET["fdu"];
 				}
+				if($_GET["fpl"]) $querystring.="&fpl=".$_GET["fpl"];
 				
 				# aanbieding?
 				if($value2["type_id_aanbieding"]) {
@@ -2799,17 +2849,17 @@ $nieuw_sorteersysteem=true;
 		} else {
 			echo "<tr><td colspan=\"4\" align=\"left\">";		
 		}
-		if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"]) {
+		if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 			if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and !$_GET["filled"]) {
 #				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten/$totaal_tarievenbekend_seizoen_id)*100);
 				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
 				if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
-				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\">".html("aantalaccommodatiesmettarieven_types","thema",array("v_aantal"=>$toon_aantalresultaten_verschillende_types,"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
+				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$toon_aantalresultaten_verschillende_types,"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
 				if($_GET["save_tarievenbekend"]) {
-					file_put_contents($unixdir."tmp/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten."-".$totaal_tarievenbekend_percentage);
+					file_put_contents($unixdir."tmp/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
 				}
 			} else {
-				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\">".html("aantalgevonden","accommodaties").": ".$toon_aantalresultaten.($toon_aantalresultaten_verschillende_types>1 ? "&nbsp;&nbsp;(".$toon_aantalresultaten_verschillende_types." ".html("verschillendetypes","zoek-en-boek").")" : "")."</div>";
+				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\">".html("aantalgevonden","accommodaties").": ".$toon_aantalresultaten_verschillende_types."</div>";
 			}
 		} else {
 			if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and @filemtime($unixdir."tmp/tarievenbekend_".$vars["website"].".txt")>(time()-86400) and !$_GET["filled"]) {
@@ -2822,7 +2872,7 @@ $nieuw_sorteersysteem=true;
 					echo html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$a[0],"v_percentage"=>$a[1]."%"))."<br><br>";
 				}
 			}
-			echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\">".html("aantalgevonden","accommodaties").": ".$toon_aantalresultaten.($toon_aantalresultaten_verschillende_types>1 ? "&nbsp;&nbsp;(".$toon_aantalresultaten_verschillende_types." ".html("verschillendetypes","zoek-en-boek").")" : "")."</div>";
+			echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\">".html("aantalgevonden","accommodaties").": ".$toon_aantalresultaten_verschillende_types."</div>";
 			echo "</td></tr><tr><td colspan=\"5\">";
 		}
 

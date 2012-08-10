@@ -22,25 +22,24 @@ function controlEnSend(){
 		document.getElementById("Verzender").style.backgroundColor = 'red';
 		document.getElementById("Verzender").style.color = 'white';
 		document.getElementById("Verzender").style.padding = '10px';
-		document.getElementById("Verzender").innerHTML = "U heeft uw email adres niet ingevuld";
+		document.getElementById("Verzender").innerHTML = "Je hebt je e-mail adres niet ingevuld";
 	}
 	else if(document.getElementById("EmailOntvanger").value == ""){
 		//window.alert("OK");
 		document.getElementById("Verzender").style.backgroundColor = 'red';
 		document.getElementById("Verzender").style.color = 'white';
 		document.getElementById("Verzender").style.padding = '10px';
-		document.getElementById("Verzender").innerHTML = "U heeft het emailadres (de emailadressen) van de ontvanger(s) niet ingevuld";
+		document.getElementById("Verzender").innerHTML = "Je hebt het e-mailadres (de e-mailadressen) van de ontvanger(s) niet ingevuld";
 	}
 	else{
 		var container = document.getElementById("EmailOntvanger").value;
 		var emailAdressen = container.split(" ");
 		for(var i =0; i < emailAdressen.length; i++){
 			if(!validateEmail(emailAdressen[i])){
-				window.alert(emailAdressen[i] + " is geen geldige email adres. Geef aub alleen maar geldige email adressen op.");
 				document.getElementById("Verzender").style.backgroundColor = 'red';
 				document.getElementById("Verzender").style.color = 'white';
 				document.getElementById("Verzender").style.padding = '10px';
-				document.getElementById("Verzender").innerHTML = "Vul A.u.b geldige email adres(sen) in";
+				document.getElementById("Verzender").innerHTML = emailAdressen[i] + " is geen geldige e-mail adres. Geef aub alleen maar geldige email adressen op.";
 				break;
 			}
 			else{
@@ -68,7 +67,7 @@ if($vars["websitetype"]==1){
 }
 elseif($vars["websitetype"]==3){
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerZomerhuisje.png";
-	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op zomerhuisje.nl. Dit moet je zien!";
+	$vars["mail_form_mid_div_content"]=html("midcontentTextChalet","favorieten");
 	$vars["mail_form_aLink_style"]="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 	$vars["balkkleur"]="#5f227b";
 	$vars["backcolor"]="#eaeda9";
@@ -139,14 +138,14 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html_bottom="";
 		$mail->send(); # mailtje daadwerkelijk verzenden
 	}
-	echo "<b>Bedankt, uw email(s) zijn verzonden</b>";
+	echo "<b>Bedankt, je e-mail(s) zijn verzonden</b>";
 }
 
 ?>
 <form action="<?php echo $_SERVER["REQUEST_URI"] ?>"  method="post" name="mailAcc">
 	<table id="mailTable">
 		<tr>
-			<td><strong>Van: (Email adres)</strong></td>
+			<td><strong><?php echo html("LabelVan","favorieten"); ?></strong></td>
 		</tr>
 		<tr>
 			<td>
@@ -154,13 +153,13 @@ if(isset($_POST['verzenderAdres'])){
 			</td>
 		</tr>
 		<tr>
-			<td><strong>Naar: (Meerdere emailadressen scheiden met een spatie)</strong></td>
+			<td><strong><?php echo html("LabelNaar","favorieten"); ?></strong></td>
 		</tr>
 		<tr>
 			<td><input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
 		</tr>
 		<tr>
-			<td><strong>Bericht:</strong></td>
+			<td><strong><?php echo html("LabelBericht","favorieten"); ?></strong></td>
 		</tr>
 		<tr>
 			<td><textarea name="bericht" id="bericht" cols="50" rows=7 /><?php echo $vars['mail_form_mid_div_content'];?></textarea></td>
@@ -196,7 +195,7 @@ if(isset($_POST['verzenderAdres'])){
 				<div id="Verzender"></div></td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" name="jaNee" id="jaNee"> Stuur een kopie naar mezelf</td>
+			<td><input type="checkbox" name="jaNee" id="jaNee"> <?php echo html("stuurkopie","favorieten");?></td>
 		</tr>
 		<tr>
 			<td><button type="button" onclick="controlEnSend()" name="verzend" id="verzend" value="VERZENDEN">VERZENDEN</button>

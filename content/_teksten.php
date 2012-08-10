@@ -1065,8 +1065,8 @@ $txt["en"]["zoek-en-boek"]["bijzonder"]="special";
 $txt["nl"]["zoek-en-boek"]["levensgenieters"]="levensgenieters";
 $txt["en"]["zoek-en-boek"]["levensgenieters"]="taking it slow";
 
-$txt["nl"]["zoek-en-boek"]["vleugjewelness"]="vleugje welness";
-$txt["en"]["zoek-en-boek"]["vleugjewelness"]="touch of welness";
+$txt["nl"]["zoek-en-boek"]["vleugjewelness"]="vleugje wellness";
+$txt["en"]["zoek-en-boek"]["vleugjewelness"]="touch of wellness";
 
 $txt["nl"]["zoek-en-boek"]["topselectie"]="topselectie";
 $txt["en"]["zoek-en-boek"]["topselectie"]="top selection";
@@ -1200,6 +1200,9 @@ $txt["en"]["zoek-en-boek"]["sorteer_prijsaflopend"]="by price (descending)";
 
 $txt["nl"]["zoek-en-boek"]["inleidingaanbiedingen"]="Via onderstaand formulier kun je zoeken binnen onze aanbiedingen. Vul de velden in waarop je wilt zoeken. Gebruik de tabel aan de linkerkant om je zoekopdracht verder te verfijnen.";
 $txt["en"]["zoek-en-boek"]["inleidingaanbiedingen"]="Through this form you can search within our current applicable offers. Fill in the fields you wish to search for. Use the table on the left side to further refine your search.";
+
+$txt["nl"]["zoek-en-boek"]["skidorp"]="Skidorp(en)";
+$txt["en"]["zoek-en-boek"]["skidorp"]="Ski village(s)";
 
 #
 # Aanbiedingen-pagina (http://www.chalet.nl/aanbiedingen.php)
@@ -1372,6 +1375,40 @@ $txt["en"]["contact"]["contactformulier"]="Contact Form";
 $txt["nl"]["contact"]["linkniettoegestaan"]="een link invullen is niet toegestaan";
 $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 
+#favorieten pagina
+$txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
+$txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved hier. This enables you to comapare, share en print them.";
+$txt["nl"]["favorieten"]["Uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
+$txt["en"]["favorieten"]["Uitmijnfavorietenhalen"]="Remove from my favourites";
+$txt["nl"]["favorieten"]["plaatsinfavorieten"]="Plaats in mijn favorieten";
+$txt["en"]["favorieten"]["plaatsinfavorieten"]="Add to my favourites";
+$txt["nl"]["favorieten"]["standardtextChalet"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Om een chalet of appartement aan je lijst met favorieten toe te voegen, ga naar de pagina van een chalet of appartement en klik op";
+$txt["en"]["favorieten"]["standardtextChalet"]="Your list of favourites is empty. to add items to your list, go to the accommodation page and click on";
+$txt["nl"]["favorieten"]["onderwerpTextChalet"]="Mijn favoriete chalets en appartementen";
+$txt["en"]["favorieten"]["onderwerpTextChalet"]="My favourite chalets and appartments";
+$txt["nl"]["favorieten"]["doormailTextChalet"]="Dit moet je zien! Ik heb een aantal leuke chalets en appartementen gevonden op";
+$txt["en"]["favorieten"]["doormailTextChalet"]="You must see this! I have found some interesting chalets and appartments on";
+
+$txt["nl"]["favorieten"]["versturenPermail"]="Versturen via email";
+$txt["en"]["favorieten"]["versturenPermail"]="Send by e-mail";
+
+$txt["nl"]["favorieten"]["inhoudprinten"]="Printen";
+$txt["en"]["favorieten"]["inhoudprinten"]="Print";
+$txt["nl"]["favorieten"]["buttonLeesmeer"]="Lees meer";
+$txt["en"]["favorieten"]["buttonLeesmeer"]="Read more";
+
+#accommodatie doormail functie
+$txt["nl"]["favorieten"]["midcontentTextChalet"]="Ik heb een leuk chalet/appartement gevonden op Chalet.nl. Dit moet je zien!";
+$txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/appartments on Chalet.nl. You have to see this!";
+
+$txt["nl"]["favorieten"]["LabelVan"]="Van: (E-mailadres)";
+$txt["en"]["favorieten"]["LabelVan"]="From: (E-mail)";
+$txt["nl"]["favorieten"]["LabelNaar"]="Naar: (Meerdere e-mailadressen scheiden met een spatie)";
+$txt["en"]["favorieten"]["LabelNaar"]="To: (use space as a separation for the e-mails)";
+$txt["nl"]["favorieten"]["LabelBericht"]="Bericht:";
+$txt["en"]["favorieten"]["LabelBericht"]="Message:";
+$txt["nl"]["favorieten"]["stuurkopie"]="Stuur een kopie naar mijzelf";
+$txt["en"]["favorieten"]["stuurkopie"]="Send me a copy";
 
 #
 # Accommodatiepagina (bijvoorbeeld http://www.chalet.nl/accommodatie/F265/)
@@ -1838,11 +1875,11 @@ $txt["en"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations 
 $txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
 $txt["en_z"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
-$txt["nl"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale winteraanbod)";
-$txt["en"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of types with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
+#$txt["nl"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale winteraanbod)";
+#$txt["en"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of types with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
-$txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
-$txt["en_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
+#$txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Aantal verschillende types met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
+#$txt["en_z"]["thema"]["aantalaccommodatiesmettarieven_types"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
 $txt["nl"]["thema"]["zoekcriteriaopgeven"]="Zoekcriteria opgeven";
 $txt["en"]["thema"]["zoekcriteriaopgeven"]="Enter search criteria";
@@ -3740,7 +3777,7 @@ We ask you to carefully check these documents, and please let us know as soon as
 
 Please print all the travel documents and bring these with you to your destination. Please follow all the instructions on these vouchers. You can only claim the services you booked with us if you have the vouchers.
 
-[[h_1]]Please note: You can only use each voucher 1 time. If you use a voucher several times, and we will charge you[[h_2]] for any damaged caused to [[v_langewebsitenaam]].
+[[h_1]]Please note: You can only use each voucher 1 time. If you use a voucher several times, and we will charge you for any damaged caused to [[v_langewebsitenaam]].[[h_2]]
 PDF files can be read with the Adobe Reader, which you can download for free at [[h_3]].
 
 Please let us know if there are any questions!
@@ -3770,11 +3807,50 @@ Medewerkers [[v_websitenaam]]
 +31 (0)348 - 43 46 49";
 $txt["en_z"]["voucher"]["mailtje"]="-";
 
+$txt["nl_v"]["voucher"]["mailtje"]="Beste [[v_voornaam]],
+
+Hierbij ontvang je de reisdocumenten voor je vakantie.
+
+Wij verzoeken je om deze documenten direct zorgvuldig te controleren en eventuele fouten zo spoedig mogelijk aan ons te melden, zodat wij deze nog voor vertrek kunnen proberen te corrigeren.
+
+De reisdocumenten dien je in zijn geheel uit te printen en mee te nemen naar jullie bestemming. Wij verzoeken je om de instructies zorgvuldig op te volgen en de vouchers op de betreffende plaatsen in te leveren. Je kunt alleen met de vouchers aanspraak maken op de door jullie geboekte diensten.
+
+[[h_1]]Let op: je dient er zorg voor te dragen dat elke voucher maar 1x ingeleverd wordt. Lever je een voucher toch meerdere keren in, dan zal de ontstane schade door [[v_langewebsitenaam]] bij jou in rekening worden gebracht.[[h_2]]
+PDF-bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via [[h_3]].
+
+Mocht je nog vragen hebben waar je niet uitkomt, dan horen wij het graag.
+
+Wij wensen je een goede reis en een plezierige vakantie toe!
+
+Medewerkers [[v_websitenaam]]
++31 (0)348 - 43 46 49";
+$txt["en_v"]["voucher"]["mailtje"]="Dear [[v_voornaam]],
+
+These are your travel documents for your holiday.
+
+We ask you to carefully check these documents, and please let us know as soon as possible if you find any errors. This way we can still try to correct any mistakes.
+
+Please print all the travel documents and bring these with you to your destination. Please follow all the instructions on these vouchers. You can only claim the services you booked with us if you have the vouchers.
+
+[[h_1]]Please note: You can only use each voucher 1 time. If you use a voucher several times, and we will charge you for any damaged caused to [[v_langewebsitenaam]].[[h_2]]
+PDF files can be read with the Adobe Reader, which you can download for free at [[h_3]].
+
+Please let us know if there are any questions!
+
+We wish you a pleasant journey and a great vacation!
+
+Team [[v_websitenaam]]
++31 (0)348 - 43 46 49";
+
+
 $txt["nl"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="Algemene informatie over je wintersport";
 $txt["en"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="General information about your winter holiday";
 
 $txt["nl_z"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="Algemene informatie over je vakantie";
 $txt["en_z"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="-";
+
+$txt["nl_v"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="Algemene informatie over je vakantie";
+$txt["en_v"]["voucher"]["mailtje_zonder_voucher_onderwerp"]="General information about your holiday";
 
 $txt["nl"]["voucher"]["mailtje_onderwerp_1van2"]="(mail 1 van 2)";
 $txt["en"]["voucher"]["mailtje_onderwerp_1van2"]="(mail 1 of 2)";
@@ -3820,6 +3896,31 @@ Wij wensen je een goede reis en een plezierige vakantie toe!
 Medewerkers [[v_websitenaam]]
 +31 (0)348 - 43 46 49";
 $txt["en_z"]["voucher"]["mailtje_zonder_voucher"]="-";
+
+$txt["nl_v"]["voucher"]["mailtje_zonder_voucher"]="Beste [[v_voornaam]], het is bijna zover!
+
+Hierbij ontvang je de reisinformatie over je vakantie. Je kunt dit mailtje naar wens doorsturen naar de overige reisgenoten. De vouchers van je vakantie ontvang je in een ander mailtje.
+
+Alle informatie bevindt zich in PDF-bestand(en) die als attachment bij dit mailtje zijn opgenomen. Deze bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via [[h_3]].
+
+Mocht je nog vragen hebben waar je niet uitkomt, dan horen wij het graag.
+
+Wij wensen je een goede reis en een plezierige vakantie toe!
+
+Medewerkers [[v_websitenaam]]
++31 (0)348 - 43 46 49";
+$txt["en_v"]["voucher"]["mailtje_zonder_voucher"]="Dear [[v_voornaam]], it's almost time!
+
+These are your travel documents for your holiday. You can forward this e-mail to your travel companions. The vouchers for your holiday will be sent with another e-mail.
+
+All information you will need is found in the attached PDF files. These files can be read with Adobe Reader, which can be downloaded for free at [[h_3]].
+
+Please let us know if there are any questions!
+
+We wish you a pleasant journey and a great vacation!
+
+Team [[v_websitenaam]]
++31 (0)348 - 43 46 49";
 
 $txt["nl"]["voucher"]["attachmentnaam_voorbrief_pdf"]="algemene_informatie.pdf";
 $txt["en"]["voucher"]["attachmentnaam_voorbrief_pdf"]="general_information.pdf";

@@ -773,6 +773,20 @@ $(document).ready(function() {
 					return true;
 				}
 			});
+			
+			//
+			// Multiple-skidorp verwerken
+			//
+			$("#zoeken").submit( function() {
+				$("input[name=fpl]").val($("#fpl_multiple").val());
+			});
+
+			
+			$("#fpl_multiple").blur(function() {
+
+			});
+//			var value = ;
+			
 		}
 		
 		// zoekresultaten: ie8-bug m.b.t. hover en border
@@ -823,14 +837,15 @@ $(document).ready(function() {
 						dataType: "json",
 						data: {
 							t: 3,
-							maxRows: 12,
 							q: request.term
 						},
 						success: function( data ) {
 							response( $.map( data.results, function( item ) {
-								return {
-									label: item.name,
-									value: item.name
+								if(item.name!='') {
+									return {
+										label: item.name,
+										value: item.name
+									}
 								}
 							}));
 						}
@@ -838,7 +853,11 @@ $(document).ready(function() {
 				},
 				minLength: 2,
 				select: function( event, ui ) {
-
+					// waarde in input-field plaatsen
+					$("input[name=fzt]").val(ui.item.value);
+					
+					// form submitten
+					$("#zoeken").submit();
 				},
 				open: function() {
 					$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );

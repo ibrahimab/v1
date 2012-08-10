@@ -85,11 +85,8 @@ foreach($username as $userAccount){
 			}
 		}
 		if($userAccount!='Italissima'){
-			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_twitter_blok\" cellspacing=\"2\" style=\"background-color:".$backColor."; padding:5px;\">";
-			$content.="<tr><td style=\"color:".$kopColor.";font-size:14px;\" colspan=\"2\">".$naam." op twitter</td></tr>";
-			$content.="<tr><td><a href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\" target=\"_blank\">";
-			$content.="<img src=\"".$imgSrc."\" width=\"50\" height=\"45\" border=\"0\"></a></td>";
-			$content.="<td><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=".$userAccount."\" target=\"_blank\">".$userAccount.":</a></td></tr><tr><td></td><td></td></tr>";
+			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table  id=\"hoofdpagina_twitter_blok\" cellspacing=\"2\" style=\"background-color:".$backColor."; padding:5px;\">";
+			$content.="<td style=\"color:".$kopColor.";font-size:14px;\"><div style=\"cursor:pointer;\" onclick=\"document.location.href='https://twitter.com/intent/user?screen_name=$userAccount';\">".$naam." op twitter</div></td></tr><tr><td></td><td></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht."<br><br></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNext."<br><br></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNextNext."<br><br></td></tr>";
@@ -97,7 +94,7 @@ foreach($username as $userAccount){
 
 		} else {
 			$content="<table cellspacing=\"0\" style=\"background-color:#e0d1cc; font-family: Verdana, Arial, Helvetica, sans-serif; padding-left:25px;padding-top:5px; padding-bottom:5px; padding-right:25px; width:580px;\">
-					<tr><td style=\"color:#661700; font-size:14px;\" colspan=\"2\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=Italissima\" target=\"_blank\">Italissima op twitter</a></td></tr>
+					<tr><td style=\"color:#661700; font-size:1.2em;padding-bottom:10px;\" colspan=\"2\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=Italissima\" target=\"_blank\">Italissima op twitter</a></td></tr>
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht."<hr></td></tr>
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$berichtNext."<hr></td></tr>
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$berichtNextNext."</td></tr>
