@@ -439,7 +439,7 @@ if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcru
 }
 echo "<div id=\"colofon_wrapper\" class=\"noprint\">";
 echo "<div id=\"colofon\" class=\"noprint\">Italissima is een handelsnaam van Chalet.nl B.V. - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon"). " - <a rel=\"nofollow\" href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a rel=\"nofollow\" href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
-if($id=="index") {
+if($_GET["testsysteem"]==1 and $id=="index") {
 	echo "<table id=\"ondercolofon_nieuw\" class=\"noprint\" border=\"0\" align=\"center\">";
 	echo "<tr>";
 	echo "<td><a href=\"".$vars["path"]."agriturismo-italie\"><li>Agriturismi in Itali&euml;</li></a></td>";
