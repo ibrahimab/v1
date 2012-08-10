@@ -384,7 +384,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->html.="</td></tr>";
 		$mail->html.="</table>";
 		foreach($klantfavs as $id){
-			$db->query("SELECT a.accommodatie_id, a.korteomschrijving_en, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+			$db->query("SELECT a.accommodatie_id, a.kwaliteit, a.korteomschrijving_en, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
 			while($db->next_record()){
 				$accid=$db->f("accommodatie_id");
 				if(file_exists("pic/cms/types_specifiek/".$id.".jpg")) {
@@ -394,17 +394,38 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				} else {
 					$afbeelding="accommodaties/0";
 				}
-				$mail->html.="<table style=\"font-family:verdana;text-align:left;\" border=\"0\" width=\"681\" bgcolor=\"".$vars["backcolor"]."\">";
-				$mail->html.="<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
-				$mail->html.="<tr><td valign=\"top\" rowspan=\"8\"><a href=\"".$vars["basehref"]."accommodatie.php/".$teken.$id."\"><img border=\"0\" style=\"padding-right:10px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\"></a></td>";
-				$mail->html.="<td>".$db->f("land")."</td></tr><tr>";
-				$mail->html.="<td>".$db->f("plaats")."</td></tr><tr>";
-				$mail->html.="<td>".$db->f("skigebied")."</td></tr><tr>";
+				$mail->html.="<table cellspacing=\"0\" cellpadding=\"0\" width=\"681\" style=\"font-family:verdana;font-size:12px;\">";
+				$mail->html.="<tr><td colspan=\"5\" align=\"left\">";
+				$mail->html.="<a name=\"cnt1\"></a>";		
+				$mail->html.="<div style=\"background-color: white; width: 681px;\">";
+				$mail->html.="<div style=\"\">";
+				$mail->html.="<div style=\"background-color:".$vars["balkkleur"].";padding: 5px;\">";
+				$mail->html.="<div style=\"color:".$vars["textColor"].";font-size: 1.2em;font-weight: bold; font-family:verdana;\">";
+				$mail->html.=htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
+				$mail->html.="</div>";
+				$mail->html.="</div>";
+
+				$mail->html.="<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
+				$mail->html.="<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
+				$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana; font-size:14px;\">".$db->f("land")."</td></tr><tr>";
+				$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px\">".$db->f("plaats")."</td></tr><tr>";
+				$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px\">".$db->f("skigebied")."</td></tr><tr>";
+				//if($db->f("kwaliteit")){
+					$mail->html.="<td colspan=\"2\">";
+					for($i=0; $i<$db->f("kwaliteit");$i++){
+						$mail->html.="<img src=\"".$vars["basehref"]."pic/ster.gif\">";
+					}
+				//}
+				//else{
+				//	$mail->html.="<td colspan=\"2\" height=\"5\" style=\"font-family:verdana;\"></td>";
+				//}
+
+				$mail->html.="</td></tr>";
 				if($vars["website"]!="E"){
-					$mail->html.="<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving")."</td></tr><tr>";
+					$mail->html.="<td valign=\"top\" width=\"100%\" colspan=\"2\" style=\"font-family:verdana; color:".$vars["korteOmschrijvinkleur"].";font-size:12px;\"><i>".$db->f("korteomschrijving")."</i></td></tr><tr>";
 				}
 				else{
-					$mail->html.="<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving_en")."</td></tr><tr>";
+					$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana; color:".$vars["korteOmschrijvinkleur"].";font-size:12px;\"><i>".$db->f("korteomschrijving_en")."</i></td></tr><tr>";
 				}
 				if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")){
 					$rev=$db->f("optimaalaantalpersonen");
@@ -413,49 +434,52 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 					$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
 				}
 				if($vars["website"]!="E"){
-					$mail->html.="<td>".$rev." personen</td></tr><tr>";
+					$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px;\">".$rev." personen</td></tr><tr>";
 				}
 				else{
-					$mail->html.="<td>".$rev." persons</td></tr><tr>";
+					$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px;\">".$rev." persons</td></tr><tr>";
 				}
 				if($db->f("slaapkamers")==1){
 					if($vars["website"]!="E"){
-						$skamer="bedroom";
+						$slkamer="slaapkamer";
 					}
 					else{
-						$skamer="slaapkamer";
+						$slkamer="bedroom";
 					}
 				}
 				else{
 					if($vars["website"]!="E"){
-						$skamer="slaapkamers";
+						$slkamer="slaapkamers";
 					}
 					else{
-						$skamer="bedrooms";
+						$slkamer="bedrooms";
 					}
 				}
-				$mail->html.="<td>".$db->f("slaapkamers")." ".$skamer."</td></tr><tr>";
+				$teken=substr($db->f("land"),0,1);
+				$mail->html.="<td valign=\"top\" style=\"font-family:verdana;font-size:12px\">".$db->f("slaapkamers")." ".$slkamer."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."text-decoration:none;\" href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
 				if($db->f("badkamers")==1){
 					if($vars["website"]!="E"){
-						$bkamer="badkamer";
+						$bdkamer="badkamer";
 					}
 					else{
-						$bkamer="bathroom";
+						$bdkamer="bathroom";
 					}
 				}
 				else{
 					if($vars["website"]!="E"){
-						$bkamer="badkamers";
+						$bdkamer="badkamers";
 					}
 					else{
-						$bkamer="bathrooms";
+						$bdkamer="bathrooms";
 					}
 				}
-				$mail->html.="<td>".$db->f("badkamers")." ".$bkamer."</td></tr><tr>";
-				$teken=substr($db->f("land"),0,1);
-				$mail->html.="<td align=\"right\" width=\"90%\"><a href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\"><input type=\"button\" value=\"".html("buttonLeesmeer","favorieten")."\" class=\"".$knopLeesmeer."\"></td></tr>";	
+				$mail->html.="<td style=\"font-family:verdana;font-size:12px\">".$db->f("badkamers")." ".$bdkamer."</td></tr>";
 				$mail->html.="</table>";
-				echo "<BR/>";
+				$mail->html.= "<BR/>";
+				$mail->html.="</div>";
+				$mail->html.="</td></tr>";
+				$mail->html.="</table>";
+				$mail->html.="<BR>";
 			}
 		}
 		$mail->html.="</div>";
@@ -485,7 +509,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->html.="</td></tr>";
 		$mail->html.="</table>";
 		foreach($klantfavs as $id){
-			$db->query("SELECT a.accommodatie_id, a.korteomschrijving_en, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+			$db->query("SELECT a.accommodatie_id, a.kwaliteit, a.korteomschrijving_en, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
 			while($db->next_record()){
 				$accid=$db->f("accommodatie_id");
 				if(file_exists("pic/cms/types_specifiek/".$id.".jpg")) {
@@ -495,17 +519,39 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				} else {
 					$afbeelding="accommodaties/0";
 				}
-				$mail->html.="<table text-align=\"left\" style=\"font-family:verdana;text-align:left;\" border=\"0\" width=\"681\" bgcolor=\"".$vars["backcolor"]."\">";
-				$mail->html.="<tr><td bgcolor=\"".$vars["balkkleur"]."\" style=\"color:#FFFFFF; padding-left:5px;\" colspan=\"2\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</td></tr>";
-				$mail->html.="<tr><td valign=\"top\" rowspan=\"8\"><a href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\"><img border=\"0\" style=\"padding-right:10px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\"></a></td>";
-				$mail->html.="<td>".$db->f("land")."</td></tr><tr>";
-				$mail->html.="<td>".$db->f("plaats")."</td></tr><tr>";
-				$mail->html.="<td>".$db->f("skigebied")."</td></tr><tr>";
+				$mail->html.="<table cellspacing=\"0\" cellpadding=\"0\" width=\"681\" style=\"font-family:verdana;font-size:12px;\">";
+				$mail->html.="<tr><td colspan=\"5\" align=\"left\">";
+				$mail->html.="<a name=\"cnt1\"></a>";		
+				$mail->html.="<div style=\"background-color: white; width: 681px;\">";
+				$mail->html.="<div style=\"\">";
+				$mail->html.="<div style=\"background-color:".$vars["balkkleur"].";padding: 5px;\">";
+				$mail->html.="<div style=\"color:".$vars["textColor"].";font-size: 1.2em;font-weight: bold; font-family:verdana;\">";
+				$mail->html.=htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
+				$mail->html.="</div>";
+				$mail->html.="</div>";
+
+				$mail->html.="<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
+				$mail->html.="<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
+				$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana; font-size:14px;\">".$db->f("land")."</td></tr><tr>";
+				$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px\">".$db->f("plaats")."</td></tr><tr>";
+				$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px\">".$db->f("skigebied")."</td></tr><tr>";
+				//if($db->f("kwaliteit")){
+					$mail->html.="<td colspan=\"2\">";
+					for($i=0; $i<$db->f("kwaliteit");$i++){
+						//$mail->html.="test";
+						$mail->html.="<img src=\"".$vars["basehref"]."pic/ster.gif\">";
+					}
+				//}
+				//else{
+				//	$mail->html.="<td colspan=\"2\" height=\"5\" style=\"font-family:verdana;\"></td>";
+				//}
+
+				$mail->html.="</td></tr>";
 				if($vars["website"]!="E"){
-					$mail->html.="<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving")."</td></tr><tr>";
+					$mail->html.="<td valign=\"top\" width=\"100%\" colspan=\"2\" style=\"font-family:verdana; color:".$vars["korteOmschrijvinkleur"].";font-size:12px;\"><i>".$db->f("korteomschrijving")."</i></td></tr><tr>";
 				}
 				else{
-					$mail->html.="<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving_en")."</td></tr><tr>";
+					$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana; color:".$vars["korteOmschrijvinkleur"].";font-size:12px;\"><i>".$db->f("korteomschrijving_en")."</i></td></tr><tr>";
 				}
 				if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")){
 					$rev=$db->f("optimaalaantalpersonen");
@@ -514,49 +560,52 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 					$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
 				}
 				if($vars["website"]!="E"){
-					$mail->html.="<td>".$rev." personen</td></tr><tr>";
+					$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px;\">".$rev." personen</td></tr><tr>";
 				}
 				else{
-					$mail->html.="<td>".$rev." persons</td></tr><tr>";
+					$mail->html.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px;\">".$rev." persons</td></tr><tr>";
 				}
 				if($db->f("slaapkamers")==1){
 					if($vars["website"]!="E"){
-						$skamer="slaapkamer";
+						$slkamer="slaapkamer";
 					}
 					else{
-						$skamer="bedroom";
+						$slkamer="bedroom";
 					}
 				}
 				else{
 					if($vars["website"]!="E"){
-						$skamer="slaapkamers";
+						$slkamer="slaapkamers";
 					}
 					else{
-						$skamer="bedrooms";
+						$slkamer="bedrooms";
 					}
 				}
-				$mail->html.="<td>".$db->f("slaapkamers")." ".$skamer."</td></tr><tr>";
+				$teken=substr($db->f("land"),0,1);
+				$mail->html.="<td valign=\"top\" style=\"font-family:verdana;font-size:12px\">".$db->f("slaapkamers")." ".$slkamer."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."text-decoration:none;\" href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
 				if($db->f("badkamers")==1){
 					if($vars["website"]!="E"){
-						$bkamer="badkamer";
+						$bdkamer="badkamer";
 					}
 					else{
-						$bkamer="bathroom";
+						$bdkamer="bathroom";
 					}
 				}
 				else{
 					if($vars["website"]!="E"){
-						$bkamer="badkamers";
+						$bdkamer="badkamers";
 					}
 					else{
-						$bkamer="bathrooms";
+						$bdkamer="bathrooms";
 					}
 				}
-				$mail->html.="<td>".$db->f("badkamers")." ".$bkamer."</td></tr><tr>";
-				$teken=substr($db->f("land"),0,1);
-				$mail->html.="<td align=\"right\" width=\"90%\"><a href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\"><input type=\"button\" value=\"".html("buttonLeesmeer","favorieten")."\" class=\"".$knopLeesmeer."\"></td></tr>";		
+				$mail->html.="<td style=\"font-family:verdana;font-size:12px\">".$db->f("badkamers")." ".$bdkamer."</td></tr>";
 				$mail->html.="</table>";
-				echo "<BR/>";
+				$mail->html.= "<BR/>";
+				$mail->html.="</div>";
+				$mail->html.="</td></tr>";
+				$mail->html.="</table>";
+				$mail->html.="<BR>";
 			}
 		}
 		$mail->html.="</div>";
@@ -604,7 +653,7 @@ else{
 	echo "</div>";
 	echo "<div>";
 	foreach($klantfavs as $id){
-		$db->query("SELECT a.accommodatie_id, a.korteomschrijving_en, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+		$db->query("SELECT a.accommodatie_id, a.kwaliteit, a.korteomschrijving_en, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
 		while($db->next_record()){
 			$accid=$db->f("accommodatie_id");
 			if(file_exists("pic/cms/types_specifiek/".$id.".jpg")) {
@@ -627,14 +676,25 @@ else{
 				echo "</div>";
 				echo"<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
 		echo"<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
-		echo"<td>".$db->f("land")."</td></tr><tr>";
-		echo"<td>".$db->f("plaats")."</td></tr><tr>";
-		echo"<td>".$db->f("skigebied")."</td></tr><tr>";
-		if($vars["website"]!="E"){
-			echo"<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving")."</td></tr><tr>";
+		echo"<td colspan=\"2\" style=\"font-size:14px;\">".$db->f("land")."</td></tr><tr>";
+		echo"<td colspan=\"2\">".$db->f("plaats")."</td></tr><tr>";
+		echo"<td colspan=\"2\">".$db->f("skigebied")."</td></tr><tr>";
+		if($db->f("kwaliteit")){
+			echo "<td colspan=\"2\">";
+			for($i=0; $i<$db->f("kwaliteit");$i++){
+				echo "<img src=\"".$vars["path"]."pic/ster.gif\">";
+			}
 		}
 		else{
-			echo"<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving_en")."</td></tr><tr>";
+			echo "<td colspan=\"2\" height=\"5\"></td>";
+		}
+		
+		echo "</td></tr>";
+		if($vars["website"]!="E"){
+			echo"<td valign=\"top\" width=\"100%\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";\"><i>".$db->f("korteomschrijving")."</i></td></tr><tr>";
+		}
+		else{
+			echo"<td valign=\"top\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";\"><i>".$db->f("korteomschrijving_en")."</i></td></tr><tr>";
 		}
 		if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")){
 			$rev=$db->f("optimaalaantalpersonen");
@@ -643,10 +703,10 @@ else{
 			$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
 		}
 		if($vars["website"]!="E"){
-			echo"<td>".$rev." personen</td></tr><tr>";
+			echo"<td valign=\"top\" colspan=\"2\">".$rev." personen</td></tr><tr>";
 		}
 		else{
-			echo"<td>".$rev." persons</td></tr><tr>";
+			echo"<td valign=\"top\" colspan=\"2\">".$rev." persons</td></tr><tr>";
 		}
 		if($db->f("slaapkamers")==1){
 			if($vars["website"]!="E"){
@@ -664,7 +724,8 @@ else{
 				$slkamer="bedrooms";
 			}
 		}
-		echo"<td>".$db->f("slaapkamers")." ".$slkamer."</td></tr><tr>";
+		$teken=substr($db->f("land"),0,1);
+		echo"<td valign=\"top\">".$db->f("slaapkamers")." ".$slkamer."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\"><input type=\"button\" value=\"".html("buttonLeesmeer","favorieten")."\" class=\"".$knopLeesmeer."\"></td></tr><tr>";
 		if($db->f("badkamers")==1){
 			if($vars["website"]!="E"){
 				$bdkamer="badkamer";
@@ -681,16 +742,30 @@ else{
 				$bdkamer="bathrooms";
 			}
 		}
-		echo"<td>".$db->f("badkamers")." ".$bdkamer."</td></tr><tr>";
-		$teken=substr($db->f("land"),0,1);
-		echo "<td align=\"right\" width=\"90%\"><a href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\"><input type=\"button\" value=\"".html("buttonLeesmeer","favorieten")."\" class=\"".$knopLeesmeer."\"></td></tr>";
+		echo"<td>".$db->f("badkamers")." ".$bdkamer."</td></tr>";
 		echo"</table>";
-			
+
+		echo "<div style=\"padding-left:5px;\">";
+				echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=";
+				echo $vars["path"];
+				if($vars["website"]=="C" or $vars["website"]=="E"){
+					echo "pic/icon_notokay.png> ";
+				}
+				elseif($vars["website"]=="Z"){
+					echo "pic/verwijderenZomer.png> ";
+				}
+				elseif($vars["website"]=="I"){
+					echo "pic/verwijderItalissima.png> ";
+				}
+				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$id."','delete')\" href=\"#\">";
+				echo html("Uitmijnfavorietenhalen","favorieten");
+				echo "</a>";
+				echo "</div>";
+		
 			#	
 			echo "</div>";
 			echo "</td></tr>";
 			echo "</table>";
-			echo "<BR/>";
 		}
 	}
 }
@@ -698,7 +773,7 @@ echo "</div>";
 echo "</div>";
 echo "<div id=\"printDi\" style=\"display:none;\">";
 foreach($klantfavs as $id){
-	$db->query("SELECT a.accommodatie_id, a.korteomschrijving_en, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+	$db->query("SELECT a.accommodatie_id, a.kwaliteit, a.korteomschrijving_en, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
 	while($db->next_record()){
 		$accid=$db->f("accommodatie_id");
 		if(file_exists("pic/cms/types_specifiek/".$id.".jpg")) {
@@ -714,6 +789,11 @@ foreach($klantfavs as $id){
 		echo"<td>".$db->f("land")."</td></tr><tr>";
 		echo"<td>".$db->f("plaats")."</td></tr><tr>";
 		echo"<td>".$db->f("skigebied")."</td></tr><tr>";
+		echo "<td>";
+		for($i=0; $i<$db->f("kwaliteit");$i++){
+			echo "<img src=\"".$vars["path"]."pic/ster.gif\">";
+		}
+		echo "</td></tr><tr>";
 		if($vars["website"]!="E"){
 			echo"<td style=\"color:".$vars["korteOmschrijvinkleur"].";\">".$db->f("korteomschrijving")."</td></tr><tr>";
 		}
