@@ -680,6 +680,45 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		showformfield_bestemming();
 	}
 
+
+	if($vars["seizoentype"]==1 and $vars["websitetype"]<>6) {
+		# Winter: skidorp
+		echo "<div class=\"zoekblok_item\">";
+		echo "<div class=\"zoekblok_titel\">";
+		echo html("skidorp","zoek-en-boek");
+		echo "</div>"; # afsluiten .zoekblok_titel
+		echo "<div class=\"zoekblok_field\">";
+		echo "<input type=\"hidden\" name=\"fpl\" value=\"".wt_he($_GET["fpl"])."\">";
+		echo "<select id=\"fpl_multiple\" data-placeholder=\"-- ".html("geenvoorkeur","vars")." --\" multiple data-no_results_text=\"".html("geenresultatenmet","zoek-en-boek")."\">";
+		echo "<option value=\"0\"".(!$_GET["fpl"] ? " selected" : "")."></option>";
+		
+		unset($optgroup_open);
+		$db->query("SELECT DISTINCT plaats_id, plaats, skigebied, land FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY land, skigebied, plaats;");
+		while($db->next_record()) {
+			if(!$landskigebied_gehad[$db->f("land")."_".$db->f("skigebied")]) {
+				if($optgroup_open) echo "</optgroup>\n";
+				echo "<optgroup label=\"".wt_he($db->f("land")." - ".$db->f("skigebied"))."\">\n";
+				$optgroup_open=true;
+				$landskigebied_gehad[$db->f("land")."_".$db->f("skigebied")]=true;
+			}
+			echo "<option value=\"".$db->f("plaats_id")."\"";
+			if($_GET["filled"] and preg_match("/\b".$db->f("plaats_id")."\b/",$_GET["fpl"])) {
+				echo " selected";
+#				if($value) $save_query["regio"]=$vars["skigebied_nl"][$value];
+			}
+			echo ">".wt_he($db->f("plaats"))."</option>";
+		}
+		if($optgroup_open) echo "</optgroup>\n";
+		echo "</select>";
+		echo "</div>"; # afsluiten .zoekblok_field
+
+		echo "<div class=\"clear\"></div>";
+
+		echo "</div>"; # afsluiten .zoekblok_item
+		
+		
+	}
+
 	if($vars["seizoentype"]==2 and $vars["websitetype"]<>6) {
 		#
 		# Verblijfsduur
@@ -1240,6 +1279,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			if($landgebied[1]>0) addwhere("p.skigebied_id='".addslashes($landgebied[1])."'");
 			if($landgebied[0]>0) addwhere("l.land_id='".addslashes($landgebied[0])."'");
 		}
+	}
+	
+	# Skidorp(en)
+	if($_GET["fpl"]=="0") unset($_GET["fpl"]);
+	if($_GET["fpl"]) {
+		addwhere("p.plaats_id IN (".addslashes($_GET["fpl"]).")");
 	}
 
 	# Aantal personen
@@ -2594,6 +2639,7 @@ $nieuw_sorteersysteem=true;
 					$querystring.="&flad=".$flex_aankomstdatum;
 					$querystring.="&fldu=".$_GET["fdu"];
 				}
+				if($_GET["fpl"]) $querystring.="&fpl=".$_GET["fpl"];
 				
 				# aanbieding?
 				if($value2["type_id_aanbieding"]) {

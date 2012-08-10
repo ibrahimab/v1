@@ -1201,6 +1201,9 @@ $txt["en"]["zoek-en-boek"]["sorteer_prijsaflopend"]="by price (descending)";
 $txt["nl"]["zoek-en-boek"]["inleidingaanbiedingen"]="Via onderstaand formulier kun je zoeken binnen onze aanbiedingen. Vul de velden in waarop je wilt zoeken. Gebruik de tabel aan de linkerkant om je zoekopdracht verder te verfijnen.";
 $txt["en"]["zoek-en-boek"]["inleidingaanbiedingen"]="Through this form you can search within our current applicable offers. Fill in the fields you wish to search for. Use the table on the left side to further refine your search.";
 
+$txt["nl"]["zoek-en-boek"]["skidorp"]="Skidorp(en)";
+$txt["en"]["zoek-en-boek"]["skidorp"]="Ski village(s)";
+
 #
 # Aanbiedingen-pagina (http://www.chalet.nl/aanbiedingen.php)
 #

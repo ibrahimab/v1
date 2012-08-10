@@ -773,6 +773,20 @@ $(document).ready(function() {
 					return true;
 				}
 			});
+			
+			//
+			// Multiple-skidorp verwerken
+			//
+			$("#zoeken").submit( function() {
+				$("input[name=fpl]").val($("#fpl_multiple").val());
+			});
+
+			
+			$("#fpl_multiple").blur(function() {
+
+			});
+//			var value = ;
+			
 		}
 		
 		// zoekresultaten: ie8-bug m.b.t. hover en border
