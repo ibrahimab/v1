@@ -1,0 +1,18 @@
+<?php
+
+
+# Totaal aantal accommodaties opvragen: kan getoond worden bij "tarievenbekend_seizoen_id"
+if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
+	$db->query("SELECT DISTINCT COUNT(t.type_id) AS aantal FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".addslashes($vars["website"])."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0;");
+	if($db->next_record()) {
+		$totaal_tarievenbekend_seizoen_id=$db->f("aantal");
+	}
+}
+
+$vars["zoekform_italissima_nieuwe_tarieven"]=true;
+#$vars["zoekform_thema"]=true;
+
+# zoek-en-boek includen
+include("content/zoek-en-boek.html");
+
+?>
