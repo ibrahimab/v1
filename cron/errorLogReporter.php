@@ -40,6 +40,42 @@ function transformTodate($stringMaand,$stringDag,$stringTime){
 			case "Dec":
 			$stringMaand=12;
 			break;
+			case "jan":
+			$stringMaand=1;
+			break;
+			case "feb":
+			$stringMaand=2;
+			break;
+			case "mar":
+			$stringMaand=3;
+			break;
+			case "apr":
+			$stringMaand=4;
+			break;
+			case "may":
+			$stringMaand=5;
+			break;
+			case "jun":
+			$stringMaand=6;
+			break;
+			case "jul":
+			$stringMaand=7;
+			break;
+			case "aug":
+			$stringMaand=8;
+			break;
+			case "sep":
+			$stringMaand=9;
+			break;
+			case "oct":
+			$stringMaand=10;
+			break;
+			case "nov":
+			$stringMaand=11;
+			break;
+			case "dec":
+			$stringMaand=12;
+			break;
 	}
 	$jaar=date("Y");
 	$date=strtotime($jaar."/".$stringMaand."/".$stringDag." ".$stringTime);
@@ -128,9 +164,9 @@ if($handle){
 	}
 	if($logs!=""){
 		$mail=new wt_mail;
-		$mail->fromname="Systeem@chalet";
+		$mail->fromname="Chalet.nl";
 		$mail->from="info@chalet.nl";
-		$mail->toname="dienst@chalet";
+		$mail->toname="Chalet.nl";
 		$mail->to="info@chalet.nl";
 		$mail->subject.="Httpd errorlog report";
 		$mail->plaintext=$logs; # deze leeg laten bij een opmaak-mailtje
