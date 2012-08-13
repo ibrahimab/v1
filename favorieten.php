@@ -25,6 +25,9 @@ if($vars["websitetype"]==1){
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerChalet.png";
 	$doormailText=html("doormailTextChalet","favorieten")." ".$vars["websitenaam"];
 	$leesmeerKnopMail="text-decoration:none;background-color:#003366;display:inline-block;color:#ffffff;font-family:arial;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;";
+	if($vars["website"]=="E"){
+		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerChaletEU.png";
+	}
 }
 elseif($vars["websitetype"]==3 or $vars["websitetype"]==7){
 	$standardtext="Je hebt momenteel geen vakantiehuizen aan je favorieten toegevoegd.<BR><BR>Ga naar de pagina van een vakantiehuis en klik op ";

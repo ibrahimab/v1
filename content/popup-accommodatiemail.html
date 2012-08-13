@@ -177,6 +177,9 @@ if($vars["websitetype"]==1){
 	$vars["textColor"]="#003366";
 	$vars["korteOmschrijvinkleur"]="#003366";
 	$leesmeerKnopMail="text-decoration:none;background-color:#003366;display:inline-block;color:#ffffff;font-family:arial;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;";
+	if($vars["website"]=="E"){
+		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerChaletEU.png";
+	}
 
 }
 elseif($vars["websitetype"]==3){
@@ -244,7 +247,7 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="</head>";
 		$mail->html.="<body style=\"font-family:verdana;\">";
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
-		$mail->html.="<br><i>Deze mail is een kopie van de accommodatie welke jijzelf hebt doorgestuurd op ".$vars["websitenaam"]."</i><br><br>";
+		$mail->html.="<br><i>"html("kopie","favorieten")." ".$vars["websitenaam"]."</i><br><br>";
 		$mail->html.="<a href=".$vars["basehref"]."><img src=".$vars['mail_topfoto']."></a><BR><BR>";
 		$mail->html.="<BR><div style=\"color:".$vars["textColor"].";text-align:left;width:681px;\">".nl2br($_POST['bericht'])."</div>\n";
 		$mail->html.=$_POST['bericht2']."\n";

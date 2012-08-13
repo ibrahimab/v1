@@ -190,7 +190,7 @@ function controlEnSend(){
 		document.getElementById("errorLabel").style.backgroundColor = 'red';
 		document.getElementById("errorLabel").style.color = 'white';
 		document.getElementById("errorLabel").style.padding = '10px';
-		document.getElementById("errorLabel").innerHTML = "Youre e-mailaddress is empty";
+		document.getElementById("errorLabel").innerHTML = "you need to fill in your e-mailadress";
 	}
 	else if(!validateEmail(document.getElementById("verzenderAdres").value)){
 		document.getElementById("errorLabel").style.display='inline';
@@ -263,7 +263,7 @@ function ajaxMailFunction(welOfgeenKopie){
 			document.getElementById("errorLabel").style.backgroundColor = 'white';
 			document.getElementById("errorLabel").style.color = 'black';
 			document.getElementById("errorLabel").style.padding = '10px';
-			document.getElementById('errorLabel').innerHTML='Youre e-mails have been sent. Thank you.';
+			document.getElementById('errorLabel').innerHTML='your e-mails have been sent. Thank you.';
 			document.getElementById('verzenderAdres').value="";
 			document.getElementById('EmailOntvanger').value="";
 			document.getElementById('presentatiebericht').value="";
@@ -378,7 +378,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		$mail->html.="</head>";
 		$mail->html.="<body>";
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
-		$mail->html.="<table style=\"font-family:verdana;color:#003366;\" border=\"0\" width=\"681\"><tr><td><i>Deze mail is een kopie van de lijst met favoriete vakantiehuizen welke jijzelf hebt doorgestuurd op ".$vars["websitenaam"]."</i><br/><br><br></td></tr><tr><td>";
+		$mail->html.="<table style=\"font-family:verdana;color:#003366;\" border=\"0\" width=\"681\"><tr><td><i>".html("kopie", "favorieten")." ".$vars["websitenaam"]."</i><br/><br><br></td></tr><tr><td>";
 		$mail->html.="<img src=\"".$vars["mail_topfoto"]."\" border=\"0\"></td></tr>";
 		$mail->html.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";\"><br><br>".$_GET["bericht"]."<BR/><BR/><BR/>";
 		$mail->html.="</td></tr>";
