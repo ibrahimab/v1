@@ -1,14 +1,119 @@
 <style type="text/css">
+.zoekresultaat_block {
+	background-color: #ffffff;
+	margin-bottom: 25px;
+	width:690px;
+}
+.zoekresultaat {
+	display: block;
+	cursor: pointer;
+	border: 1px solid #d5e1f9;
+	border-top-left-radius: 5px;
+	-moz-border-top-left-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	-moz-border-top-right-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	text-decoration: none;
+}
+
+.zoekresultaat:hover {
+	border-top-left-radius: 5px;
+	-moz-border-top-left-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	-moz-border-top-right-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	color: #000000;
+}
+.boxshadow {
+	-moz-box-shadow: 5px 5px 5px #888;
+	-webkit-box-shadow: 5px 5px 5px #888;
+	box-shadow: 5px 5px 5px #888;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#888888')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#888888');
+}
+.zoekresultaat_top {
+	background-color: #d5e1f9;
+	padding: 5px;
+	border-top-left-radius: 5px;
+	-moz-border-top-left-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	-moz-border-top-right-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+}
+
+.zoekresultaat_content {
+	float: left;
+	width: 411px;
+	color: #000000;
+	margin-top: 5px;
+	padding-left: 5px;
+	position: relative;
+}
+.zoekresultaat_titel {
+	color: #003366;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+</style>
+<style type="text/css">
+.body{
+	font-family:verdana;
+}
+.LeesMeerChalet {
+	
+	background-color:#003366;
+	display:inline-block;
+	border:1px solid #dcdcdc;
+	color:#ffffff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	cursor:pointer;
+}.LeesMeerChalet:hover {
+	border:1px solid #d40139;
+}.LeesMeerChalet:active {
+	position:relative;
+	top:1px;
+}
+
+.LessmeerZomerItalissima {
+	background-color:#ff9900;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	cursor:pointer;
+}.LessmeerZomerItalissima:hover {
+	border:1px solid #661700;
+}.LessmeerZomerItalissima:active {
+	position:relative;
+	top:1px;
+}
 #mailTable{
 	width:80%;
-	font-family:Verdana, Geneva, sans-serif;
+	font-family:Verdana;
 	font-size:12px;	
 }
 
 #mailTable td{
 	width:100px;
+	font-family:verdana;
+	font-size:12px;
 }
 
+#mailTable td textarea{
+	font-family:verdana;
+	font-size:12px;
+}
 </style>
 <script type="text/javascript">
 function validateEmail(email) {  
@@ -22,7 +127,13 @@ function controlEnSend(){
 		document.getElementById("Verzender").style.backgroundColor = 'red';
 		document.getElementById("Verzender").style.color = 'white';
 		document.getElementById("Verzender").style.padding = '10px';
-		document.getElementById("Verzender").innerHTML = "Je hebt je e-mail adres niet ingevuld";
+		document.getElementById("Verzender").innerHTML = "Je hebt je e-mailadres niet ingevuld";
+	}
+	else if(!validateEmail(document.getElementById("verzenderAdres").value)){
+		document.getElementById("Verzender").style.backgroundColor = 'red';
+		document.getElementById("Verzender").style.color = 'white';
+		document.getElementById("Verzender").style.padding = '10px';
+		document.getElementById("Verzender").innerHTML = "Je e-mailadres voldoet niet aan de eisen van een geldig e-mailadres";
 	}
 	else if(document.getElementById("EmailOntvanger").value == ""){
 		//window.alert("OK");
@@ -39,7 +150,7 @@ function controlEnSend(){
 				document.getElementById("Verzender").style.backgroundColor = 'red';
 				document.getElementById("Verzender").style.color = 'white';
 				document.getElementById("Verzender").style.padding = '10px';
-				document.getElementById("Verzender").innerHTML = emailAdressen[i] + " is geen geldige e-mail adres. Geef aub alleen maar geldige email adressen op.";
+				document.getElementById("Verzender").innerHTML = emailAdressen[i] + " is geen geldig e-mailadres. Geef ajb alleen maar een geldig e-mailadres op.";
 				break;
 			}
 			else{
@@ -57,31 +168,60 @@ function controlEnSend(){
 
 <?php
 if($vars["websitetype"]==1){
+	$knopLeesmeer="LeesMeerChalet";
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerChalet.png";
-	$vars["mail_form_mid_div_content"]="Ik heb een leuk chalet/appartement gevonden op Chalet.nl. Dit moet je zien!";
-	$vars["mail_form_aLink_style"]="color:#002682; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
-	$vars["balkkleur"]="#003366";
+	$vars["mail_form_mid_div_content"]=html("midcontentTextChalet","favorieten");
+	$vars["mail_form_aLink_style"]="color:#002682; font-family:Verdana; text-decoration:none;";
+	$vars["balkkleur"]="#d5e1f9";
 	$vars["backcolor"]="#d5e1f9";
 	$vars["textColor"]="#003366";
-	$vars["korteOmschrijvinkleur"]="#d40139";
+	$vars["korteOmschrijvinkleur"]="#003366";
+	$leesmeerKnopMail="text-decoration:none;background-color:#003366;display:inline-block;color:#ffffff;font-family:arial;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;";
+
 }
 elseif($vars["websitetype"]==3){
+	$knopLeesmeer="LessmeerZomerHuis";
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerZomerhuisje.png";
-	$vars["mail_form_mid_div_content"]=html("midcontentTextChalet","favorieten");
-	$vars["mail_form_aLink_style"]="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
-	$vars["balkkleur"]="#5f227b";
+	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op zomerhuisje.nl. Dit moet je zien!";
+	$vars["mail_form_aLink_style"]="color:#5f227b; font-family:Verdana; text-decoration:none;";
+	$vars["balkkleur"]="#cfbcd8";
 	$vars["backcolor"]="#eaeda9";
 	$vars["textColor"]="#5f227b";
 	$vars["korteOmschrijvinkleur"]="#5f227b";
+	$leesmeerKnopMail="background-color:#cbd328;
+	display:inline-block;
+	color:#5f227b;
+	font-family:verdana;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	cursor:pointer;text-decoration:none;";
 }
 elseif($vars["websitetype"]==7){
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerItalissima.png";
-	$vars["mail_form_mid_div_content"]="Ik heb een aantal leuke chalets en appartementen gevonden op italissima.nl. Dit moet je zien!";
-	$vars["mail_form_aLink_style"]="color:#fe9900; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
-	$vars["balkkleur"]="#661700";
+	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op italissima.nl. Dit moet je zien!";
+	$vars["mail_form_aLink_style"]="color:#fe9900; font-family:Verdana; text-decoration:none;";
 	$vars["backcolor"]="#ffd699";
 	$vars["textColor"]="#661700";
 	$vars["korteOmschrijvinkleur"]="#661700";
+		$vars["balkkleur"]="#ffd38f";
+		$vars["backcolor"]="#FFFFFF";
+		$vars["textColor"]="#661700";
+		$vars["korteOmschrijvinkleur"]="#661700";
+		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerItalissima.png";
+		$knopLeesmeer="LessmeerZomerItalissima";
+		$popup=$vars["basehref"]."pic/popBackItal.png";
+		$leesmeerKnopMail="background-color:#ff9900;
+	display:inline-block;
+	color:#ffffff;
+	font-family:verdana;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	cursor:pointer;text-decoration:none;";
+
 }
 # Gegevens gekozen accommodatie opvragen
 $accinfo=accinfo($_GET["accid"]);
@@ -145,7 +285,7 @@ if(isset($_POST['verzenderAdres'])){
 <form action="<?php echo $_SERVER["REQUEST_URI"] ?>"  method="post" name="mailAcc">
 	<table id="mailTable">
 		<tr>
-			<td><strong><?php echo html("LabelVan","favorieten"); ?></strong></td>
+			<td><?php echo html("LabelVan","favorieten"); ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -153,13 +293,13 @@ if(isset($_POST['verzenderAdres'])){
 			</td>
 		</tr>
 		<tr>
-			<td><strong><?php echo html("LabelNaar","favorieten"); ?></strong></td>
+			<td><?php echo html("LabelNaar","favorieten"); ?></td>
 		</tr>
 		<tr>
 			<td><input type="text" name="EmailOntvanger" id="EmailOntvanger" /></td>
 		</tr>
 		<tr>
-			<td><strong><?php echo html("LabelBericht","favorieten"); ?></strong></td>
+			<td><?php echo html("LabelBericht","favorieten"); ?></td>
 		</tr>
 		<tr>
 			<td><textarea name="bericht" id="bericht" cols="50" rows=7 /><?php echo $vars['mail_form_mid_div_content'];?></textarea></td>
@@ -169,26 +309,92 @@ if(isset($_POST['verzenderAdres'])){
 				<div id="presentbericht" contenteditable="true">
 					<p><BR />
 						<?php
-							if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
-								$rev=wt_he($accinfo["optimaalaantalpersonen"]);
-							}
-							else{
-								$rev=wt_he($accinfo["optimaalaantalpersonen"])." - ".wt_he($accinfo["maxaantalpersonen"]);
-							}
-							echo"<table style=\"display:inline-table;background-color:".$vars["backcolor"].";font-family:verdana\" text-align=\"left\" border=\"0\" width=\"681px\" bgcolor=\"".$vars["backcolor"]."\">";
-							echo"<tr><td bgcolor=\"".$vars["balkkleur"]."\" colspan=\"2\" style=\"color:#FFFFFF; padding-left:5px;\">".wt_he($accinfo["accnaam"])."</td></tr>";
-							$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
-							$url="url";
-							echo"<tr><td width=\"220px\" valign=\"top\" rowspan=\"8\"><a href=\"$accinfo[$url]\"><img src=\"$impath\" width=\"220px\" border=\"0\"/></a></td>";
-							echo"<td style=\"text-align:left;\" width=\"461px\"><b>".wt_he($accinfo["land"])."</b></td></tr><tr>";
-							echo"<td width=\"461px\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
-							echo "<td width=\"461px\">".wt_he($accinfo["skigebied"])."</td><tr><tr>";
-							echo"<td width=\"461px\" style=\"color:".$vars["korteOmschrijvinkleur"].";\">".wt_he($accinfo["korteomschrijving"])."</td></tr><tr>";
-							echo"<td width=\"461px\">".$rev." personen</td></tr><tr>";
-							echo"<td width=\"461px\">".wt_he($accinfo["slaapkamers"])." slaapkamer(s)</td></tr><tr>";
-							echo"<td valign=\"top\" width=\"461px\">".wt_he($accinfo["badkamers"])." badkamer(s)</td></tr>";
-							echo"<td width=\"461px\"></td><td style=\"color:".$vars["backcolor"]."\">jhdgsjhgsdhjgsdjhgdsjgsdhjgjhsdghjgsdjhgdkjhshsdkhjfhgdfkjghfkjf</td></tr>";
-							echo"</table>";
+							#
+							echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"681\" style=\"font-family:verdana;font-size:12px;\">";
+			echo "<tr><td colspan=\"5\" align=\"left\">";
+			echo "<a name=\"cnt1\"></a>";		
+			echo "<div class=\"zoekresultaat_block boxshadow\">";
+			#
+			echo "<div class=\"zoekresultaat\">";
+			echo "<div style=\"background-color:".$vars["balkkleur"].";\" class=\"zoekresultaat_top\">";
+			echo "<div style=\"color:".$vars["textColor"].";font-size: 15px;font-weight: bold; font-family:verdana;\">";
+			echo wt_he($accinfo["accnaam"]);
+			echo "</div>";
+			echo "</div>";
+			$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
+			$url="url";
+			echo"<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
+			echo"<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$impath."\" width=\"200\" height=\"150\" border=\"0\"></td>";
+			echo"<td width=\"100%\" colspan=\"2\" style=\"font-size:14px; font-family:verdana;\">".wt_he($accinfo["land"])."</td></tr><tr>";
+			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"100%\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
+			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"100%\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
+			if($db->f("kwaliteit")){
+				echo "<td colspan=\"2\">";
+				for($i=0; $i<$db->f("kwaliteit");$i++){
+					echo "<img src=\"".$vars["path"]."pic/ster.gif\">";
+				}
+			}
+			else{
+				echo "<td colspan=\"2\" height=\"5\"></td>";
+			}
+		
+			echo "</td></tr>";
+			
+			echo"<td valign=\"top\" width=\"100%\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family:verdana;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
+			if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
+				$rev=wt_he($accinfo["optimaalaantalpersonen"]);
+			}
+			else{
+				$rev=wt_he($accinfo["optimaalaantalpersonen"])."-".wt_he($accinfo["maxaantalpersonen"]);
+			}
+			if($vars["website"]!="E"){
+				echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\" colspan=\"2\">".$rev." personen</td></tr><tr>";
+			}
+			else{
+				echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\" colspan=\"2\">".$rev." persons</td></tr><tr>";
+			}
+			if(wt_he($accinfo["slaapkamers"])==1){
+				if($vars["website"]!="E"){
+					$slkamer="slaapkamer";
+				}
+				else{
+					$slkamer="bedroom";
+				}
+			}
+			else{
+				if($vars["website"]!="E"){
+					$slkamer="slaapkamers";
+				}
+				else{
+					$slkamer="bedrooms";
+				}
+			}
+			$teken=substr(wt_he($accinfo["land"]),0,1);
+			echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".$slkamer."</td><td style=\"font-family:verdana;\" valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"".$vars["basehref"]."accommodatie/".$teken.$_GET["accid"]."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
+			if(wt_he($accinfo["badkamers"])==1){
+				if($vars["website"]!="E"){
+					$bdkamer="badkamer";
+				}
+				else{
+					$bdkamer="bathroom";
+				}
+			}
+			else{
+				if($vars["website"]!="E"){
+					$bdkamer="badkamers";
+				}
+				else{
+					$bdkamer="bathrooms";
+				}
+			}
+			echo"<td style=\"font-family:verdana;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".$bdkamer."</td></tr>";
+			echo"</table>";
+		
+			#	
+			echo "</div>";
+			echo "</td></tr>";
+			echo "</table>";
+
 						?>
 				</div>
 				<input type="hidden" name="bericht2" id="bericht2"></input>	
