@@ -1844,8 +1844,8 @@ $txt["en"]["weekendski"]["alinea1"]="Want to escape your regular environment, or
 $txt["nl"]["weekendski"]["alinea2"]="[[v_website]] biedt diverse mogelijkheden voor korte wintersportvakanties.  In principe is zaterdag de aankomstdag. Ook andere aankomstdagen zijn mogelijk. Neem hiervoor contact met ons op. De meeste mogelijkheden voor weekendski vind je in de maand januari en vanaf half maart.";
 $txt["en"]["weekendski"]["alinea2"]="[[v_website]] offers several possibilities for short winter holidays. The arrival will usually be on Saturday, but other days are possibilities too. You can contact us for details. You will find that you have the most possibilities for weekendski in the month January and from mid-March.";
 
-$txt["nl"]["weekendski"]["alinea3"]="Hieronder alvast enkele accommodaties. Binnenkort wordt deze pagina aangevuld met ons volledige weekendski aanbod. Voor meer informatie staan we je tot die tijd graag telefonisch te woord of je kunt je vragen en wensen per email aan ons doorgeven.";
-$txt["en"]["weekendski"]["alinea3"]="Below you will already find several accommodations. Soon this page will be completed with our complete range of weekendski possibilities. For more information you can always give us a call, or you can ask us your questions or tell us your requests via email.";
+$txt["nl"]["weekendski"]["alinea3"]="Als suggestie vind je hieronder enkele accommodaties waarbij een kort verblijf geboekt kan worden. Voor meer informatie en mogelijkheden staan we je graag telefonisch te woord of je kunt je vragen en wensen per email aan ons doorgeven.";
+$txt["en"]["weekendski"]["alinea3"]="As a suggestion, you can find here below several accommodations that can be booked for a short stay. For more information and possibilities you can always give us a call or send your request by email.";
 
 
 #
