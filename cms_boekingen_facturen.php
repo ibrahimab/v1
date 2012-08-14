@@ -359,7 +359,7 @@ if($form->okay) {
 			$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_postcode"]." ".$gegevens["stap1"]["reisbureau_plaats"].($gegevens["stap1"]["reisbureau_land"]<>"Nederland" ? " / ".$gegevens["stap1"]["reisbureau_land"] : ""),0,1);
 			$pdf->Ln();
 			$pdf->Ln();
-			$pdf->Cell(0,4,"BTW nummer: ".$gegevens["stap1"]["reisbureau_btwnummer"],0,1);
+			$pdf->Cell(0,4,html("btwnummer","factuur").$gegevens["stap1"]["reisbureau_btwnummer"],0,1);
 			
 		} else {
 			# NAW hoofdboeker
