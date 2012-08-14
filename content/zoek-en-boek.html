@@ -1407,7 +1407,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		} else {
 			$zoektekst_opslaan=strtolower($_GET["fzt"]);
 			$zoektekst=ereg_replace("[',+]"," ",strtolower($_GET["fzt"]));
-			$zoektekst=ereg_replace("-"," ",strtolower($zoektekst));
+#			$zoektekst=ereg_replace("-"," ",strtolower($zoektekst));
 			$zoektekst=split("[ \+,/]",$zoektekst);
 			while(list($key,$value)=each($zoektekst)) {
 				if($value) {
