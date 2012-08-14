@@ -1388,6 +1388,8 @@ $txt["nl"]["favorieten"]["onderwerpTextChalet"]="Mijn favoriete chalets en appar
 $txt["en"]["favorieten"]["onderwerpTextChalet"]="My favourite chalets and appartments";
 $txt["nl"]["favorieten"]["doormailTextChalet"]="Dit moet je zien! Ik heb een aantal leuke chalets en appartementen gevonden op";
 $txt["en"]["favorieten"]["doormailTextChalet"]="You must see this! I have found some interesting chalets and appartments on";
+$txt["nl"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete vakantiehuizen welke jijzelf hebt doorgestuurd op";
+$txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have send on ";
 
 $txt["nl"]["favorieten"]["versturenPermail"]="Versturen via email";
 $txt["en"]["favorieten"]["versturenPermail"]="Send by e-mail";
