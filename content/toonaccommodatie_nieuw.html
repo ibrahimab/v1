@@ -1472,7 +1472,7 @@ if($db->next_record()) {
 	echo "<div id=\"toonaccommodatie_kleinelinks\">";
 	
 	echo "<ul>";
-	if($vars["website"]=="C" or $vars["website"]=="Z" or  $vars["website"]=="I") {
+	if($vars["website"]=="C" or $vars["website"]=="Z" or  $vars["website"]=="I" or $vars["website"]=="E") {
 	
 		# Facebook
 		echo "<div id=\"likebutton\" style=\"height:20px;margin-bottom:10px;margin-left:41px;\"><script src=\"https://connect.facebook.net/nl_NL/all.js#xfbml=1\"></script><fb:like href=\"".htmlentities($vars["canonical"])."\" layout=\"button_count\" width=\"120\"></fb:like>";
@@ -1496,38 +1496,38 @@ if($db->next_record()) {
 			</script><?php
 			echo "<div id=\"mailfunctie\"><a href= \"javascript:open_smallwindow('".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."')\"><img src=\"../../pic/mailIcoon.png\" border=\"0\"></a></div>";
 		}
+		if($vars["website"]!="E"){
+			# AddThis
+			echo "<!-- AddThis Button BEGIN -->\n";
+			echo "<div style=\"float:left;\" class=\"addthis_toolbox addthis_default_style \">\n";
+			echo "<a class=\"addthis_button_print\"></a>\n";
+			echo "<a class=\"addthis_button_email\"></a>\n";
+			echo "<a class=\"addthis_button_twitter\"".($vars["canonical"] ? " addthis:url=\"".htmlentities($vars["canonical"])."\"" : "")."\"></a>\n";
+#			echo "<a class=\"addthis_button_facebook_like\"></a>\n";
+			echo "<a class=\"addthis_button_compact\"></a>\n";
+#			echo "<a class=\"addthis_button_compact\"></a>\n";
+#			echo "<a class=\"addthis_counter addthis_bubble_style\"></a>\n";
+			echo "</div>\n";
+			echo "<script type=\"text/javascript\">var addthis_config = {\"data_track_clickback\":true,\"ui_language\":\"".$vars["taal"]."\",\"data_ga_property\":\"".$vars["googleanalytics"]."\",\"data_ga_social\":true};</script>\n";
+			echo "<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dcd35266d5e8054\"></script>\n";
+			echo "<!-- AddThis Button END -->\n";
 		
-		# AddThis
-		echo "<!-- AddThis Button BEGIN -->\n";
-		echo "<div style=\"float:left;\" class=\"addthis_toolbox addthis_default_style \">\n";
-		echo "<a class=\"addthis_button_print\"></a>\n";
-		echo "<a class=\"addthis_button_email\"></a>\n";
-		echo "<a class=\"addthis_button_twitter\"".($vars["canonical"] ? " addthis:url=\"".htmlentities($vars["canonical"])."\"" : "")."\"></a>\n";
-#		echo "<a class=\"addthis_button_facebook_like\"></a>\n";
-		echo "<a class=\"addthis_button_compact\"></a>\n";
-#		echo "<a class=\"addthis_button_compact\"></a>\n";
-#		echo "<a class=\"addthis_counter addthis_bubble_style\"></a>\n";
-		echo "</div>\n";
-		echo "<script type=\"text/javascript\">var addthis_config = {\"data_track_clickback\":true,\"ui_language\":\"".$vars["taal"]."\",\"data_ga_property\":\"".$vars["googleanalytics"]."\",\"data_ga_social\":true};</script>\n";
-		echo "<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dcd35266d5e8054\"></script>\n";
-		echo "<!-- AddThis Button END -->\n";
-		
-		# Google+
-		echo "<div id=\"plusone\">\n";
-		echo "<g:plusone size=\"small\" annotation=\"none\"></g:plusone>";
-		echo "<script type=\"text/javascript\">window.___gcfg = {\nlang: 'nl'\n};\n(function() {\nvar po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;\npo.src = 'https://apis.google.com/js/plusone.js';\nvar s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);\n})();\n</script>\n";
-		echo "</div>";
+			# Google+
+			echo "<div id=\"plusone\">\n";
+			echo "<g:plusone size=\"small\" annotation=\"none\"></g:plusone>";
+			echo "<script type=\"text/javascript\">window.___gcfg = {\nlang: 'nl'\n};\n(function() {\nvar po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;\npo.src = 'https://apis.google.com/js/plusone.js';\nvar s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);\n})();\n</script>\n";
+			echo "</div>";
 
-		echo "<div style=\"clear:both;\"></div>";
+			echo "<div style=\"clear:both;\"></div>";
 
-		echo "</div>";
+			echo "</div>";
 		
-		echo "<br>";
+			echo "<br>";
 		
-		if($vars["wederverkoop"] and ($vars["chalettour_logged_in"] or $voorkant_cms)) {
-			echo "<li><a href=\"".$vars["path"]."accommodatie_word.php?accid=".htmlentities($typeid)."\" rel=\"nofollow\">".html("wordbestanddownloaden","toonaccommodatie")."</a></li>";
+			if($vars["wederverkoop"] and ($vars["chalettour_logged_in"] or $voorkant_cms)) {
+				echo "<li><a href=\"".$vars["path"]."accommodatie_word.php?accid=".htmlentities($typeid)."\" rel=\"nofollow\">".html("wordbestanddownloaden","toonaccommodatie")."</a></li>";
+			}
 		}
-
 	} else {
 		if($vars["wederverkoop"] and ($vars["chalettour_logged_in"] or $voorkant_cms)) {
 			echo "<li><a href=\"".$vars["path"]."accommodatie_word.php?accid=".htmlentities($typeid)."\" rel=\"nofollow\">".html("wordbestanddownloaden","toonaccommodatie")."</a></li>";
