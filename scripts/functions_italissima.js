@@ -172,7 +172,7 @@ $(document).ready(function() {
 	
 	// hover "lees meer" bij hoofdpagina_vraagonsadvies
 	$("#hoofdpagina_vraagonsadvies").mouseenter(function() {
-		$("#hoofdpagina_vraagonsadvies_leesmeer").css("color","#ff9900");
+		$("#hoofdpagina_vraagonsadvies_leesmeer").css("color","#ffffff");
 	});
 
 	$("#hoofdpagina_vraagonsadvies").mouseleave(function() {
@@ -181,7 +181,7 @@ $(document).ready(function() {
 
 	// hover "bekijk het aanbod" bij hoofdpagina_tarievenalbekend
 	$("#hoofdpagina_tarievenalbekend").mouseenter(function() {
-		$("#hoofdpagina_tarievenalbekend_bekijk").css("color","#ff9900");
+		$("#hoofdpagina_tarievenalbekend_bekijk").css("color","#ffffff");
 	});
 
 	$("#hoofdpagina_tarievenalbekend").mouseleave(function() {

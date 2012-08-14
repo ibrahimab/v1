@@ -134,7 +134,7 @@ function accinfo($typeid,$aankomstdatum=0,$aantalpersonen=0,$options="") {
 	if($options["gebruik_gegevensvar_niet"]) {
 
 	} else {
-		global $gegevens;	
+		global $gegevens;
 	}
 	
 	# Als het een boeking betreft, taal afstemmen op boeking
