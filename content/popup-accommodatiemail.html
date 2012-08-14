@@ -247,7 +247,7 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="</head>";
 		$mail->html.="<body style=\"font-family:verdana;\">";
 		$mail->html.="<div style=\"width:681px; position:absolute; left:10%;\">";
-		$mail->html.="<br><i>"html("kopie","favorieten")." ".$vars["websitenaam"]."</i><br><br>";
+		$mail->html.="<br><i>".html("kopie","favorieten")." ".$vars["websitenaam"]."</i><br><br>";
 		$mail->html.="<a href=".$vars["basehref"]."><img src=".$vars['mail_topfoto']."></a><BR><BR>";
 		$mail->html.="<BR><div style=\"color:".$vars["textColor"].";text-align:left;width:681px;\">".nl2br($_POST['bericht'])."</div>\n";
 		$mail->html.=$_POST['bericht2']."\n";
@@ -326,11 +326,11 @@ if(isset($_POST['verzenderAdres'])){
 			echo "</div>";
 			$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
 			$url="url";
-			echo"<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
-			echo"<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$impath."\" width=\"200\" height=\"150\" border=\"0\"></td>";
-			echo"<td width=\"100%\" colspan=\"2\" style=\"font-size:14px; font-family:verdana;\">".wt_he($accinfo["land"])."</td></tr><tr>";
-			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"100%\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
-			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"100%\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
+			echo"<table cellspacing=\"0\" style=\"display:inline-table;font-family:verdana;\" text-align=\"left\" border=\"1\" width=\"100%\">";
+			echo"<tr><td width=\"205\" valign=\"top\" rowspan=\"8\"></td>";
+			echo"<td width=\"90%\" colspan=\"2\" style=\"font-size:14px; font-family:verdana;\">".wt_he($accinfo["land"])."</td></tr><tr>";
+			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"90%\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
+			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"90%\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
 			if($db->f("kwaliteit")){
 				echo "<td colspan=\"2\">";
 				for($i=0; $i<$db->f("kwaliteit");$i++){
@@ -343,7 +343,7 @@ if(isset($_POST['verzenderAdres'])){
 		
 			echo "</td></tr>";
 			
-			echo"<td valign=\"top\" width=\"100%\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family:verdana;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
+			echo"<td valign=\"top\" width=\"90%\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family:verdana;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
 			if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
 				$rev=wt_he($accinfo["optimaalaantalpersonen"]);
 			}
