@@ -119,7 +119,7 @@ LI {
 	font-size: 1.0em;
 }
 
-HR {
+hr {
 	color: <?php echo $hr; ?>;
 	background-color: <?php echo $hr; ?>;
 	height: 2px;
