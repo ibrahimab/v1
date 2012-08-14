@@ -40,26 +40,27 @@
 
 #hoofdpagina_tarievenalbekend {
 	display: block;
-	background-color: #ffd38f;
+	background-color: #ff9900;
 	padding-top: 6px;
 	padding-left: 9px;
 	padding-right: 9px;
 	padding-bottom: 8px;
 	margin-bottom: 10px;
-	border: 1px solid #ffd38f;
+	margin-top: 15px;
+	border: 1px solid #ff9900;
 	text-decoration: none;
 	color: #000000;
 }
 
 #hoofdpagina_tarievenalbekend:hover {
-	border: 1px solid #ff9900;
+	border: 1px solid #661700;
 	color: #000000;
 }
 
 #hoofdpagina_tarievenalbekend h2 {
 	font-weight: bold;
 	margin-bottom: 6px;
-	color: #661700 !important;
+	color: #ffffff !important;
 }
 
 #hoofdpagina_tarievenalbekend img {
@@ -198,11 +199,11 @@
 
 #hoofdpagina_vraagonsadvies {
 	display: block;
-	background-color: #ffd38f;
+	background-color: #ff9900;
 	padding: 9px;
 	padding-bottom: 12px;
 	margin-bottom: 15px;
-	border: 1px solid #ffd38f;
+	border: 1px solid #ff9900;
 	text-decoration: none;
 	color: #000000;
 }
@@ -211,12 +212,11 @@
 	font-weight: bold;
 	margin-top: 2px;
 	margin-bottom: 8px;
-	color: #661700 !important;
+	color: #ffffff !important;
 }
 
 #hoofdpagina_vraagonsadvies:hover {
-	border: 1px solid #ff9900;
-	color: #000000;
+	border: 1px solid #661700;
 }
 
 #hoofdpagina_vraagonsadvies_leesmeer {
