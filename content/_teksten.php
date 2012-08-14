@@ -3479,6 +3479,9 @@ $txt["en"]["bsys_selecteren"]["erzijngeenactueleboekingen"]="No current bookings
 $txt["nl"]["factuur"]["hierbijontvangjedegecorrigeerdebevestiging"]="Hierbij ontvang je de gecorrigeerde bevestiging van onderstaande boeking:";
 $txt["en"]["factuur"]["hierbijontvangjedegecorrigeerdebevestiging"]="Attached, you will find the amended confirmation of the following booking:";
 
+$txt["nl"]["factuur"]["btwnummer"]="BTW-nummer: ";
+$txt["en"]["factuur"]["btwnummer"]="VAT-number: ";
+
 $txt["nl"]["factuur"]["hierbijontvangjedebevestiging"]="Hierbij ontvang je de bevestiging voor onderstaande boeking:";
 $txt["en"]["factuur"]["hierbijontvangjedebevestiging"]="Please find the confirmation of your booking below:";
 
