@@ -326,24 +326,24 @@ if(isset($_POST['verzenderAdres'])){
 			echo "</div>";
 			$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
 			$url="url";
-			echo"<table cellspacing=\"0\" style=\"display:inline-table;font-family:verdana;\" text-align=\"left\" border=\"1\" width=\"100%\">";
-			echo"<tr><td width=\"205\" valign=\"top\" rowspan=\"8\"></td>";
-			echo"<td width=\"90%\" colspan=\"2\" style=\"font-size:14px; font-family:verdana;\">".wt_he($accinfo["land"])."</td></tr><tr>";
-			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"90%\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
-			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"90%\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
-			if($db->f("kwaliteit")){
+			echo"<table cellspacing=\"0\" style=\"display:inline-table;font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"681\">";
+			echo"<tr><td width=\"205\" valign=\"top\" rowspan=\"8\"><img src=\"".$impath."\" width=\"205\" height=\"150\"></td>";
+			echo"<td width=\"476\" colspan=\"2\" style=\"font-size:14px; font-family:verdana;\">".wt_he($accinfo["land"])."</td></tr><tr>";
+			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
+			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
+			if($accinfo["kwaliteit"]){
 				echo "<td colspan=\"2\">";
-				for($i=0; $i<$db->f("kwaliteit");$i++){
-					echo "<img src=\"".$vars["path"]."pic/ster.gif\">";
+				for($i=0; $i<$accinfo["kwaliteit"];$i++){
+					echo "<img src=\"".$vars["basehref"]."pic/ster.gif\">";
 				}
 			}
 			else{
-				echo "<td colspan=\"2\" height=\"5\"></td>";
+				echo "<td colspan=\"2\" height=\"10\"></td>";
 			}
 		
 			echo "</td></tr>";
 			
-			echo"<td valign=\"top\" width=\"90%\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family:verdana;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
+			echo"<td valign=\"top\" width=\"476\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family:verdana;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
 			if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
 				$rev=wt_he($accinfo["optimaalaantalpersonen"]);
 			}
@@ -406,8 +406,15 @@ if(isset($_POST['verzenderAdres'])){
 		<tr>
 			<td><input type="checkbox" name="jaNee" id="jaNee"> <?php echo html("stuurkopie","favorieten");?></td>
 		</tr>
-		<tr>
-			<td><button type="button" onclick="controlEnSend()" name="verzend" id="verzend" value="VERZENDEN">VERZENDEN</button>
+		<tr> <?php
+			if($vars["website"]=="E"){
+				$value="Send";
+			}
+			else{
+				$value="Verzenden";
+			}
+			echo "<td><button type=\"button\" onclick=\"controlEnSend()\" name=\"verzend\" id=\"verzend\" value=\"VERZENDEN\">".$value."</button>";
+			?>
 			</td>
 		</tr>
 	</table>
