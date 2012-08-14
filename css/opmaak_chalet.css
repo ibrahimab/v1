@@ -513,13 +513,14 @@ form {
 #laatstbekeken {
 	float: left;
 	margin-top: 30px;
-	background-color: #d5e1f9;
+	background-color: #eaf0fc;
 	width: 735px;
 }
 
 #laatstbekeken .kop {
-	color: #d40139;
+	color: #003366;
 	font-size: 1.2em;
+	font-weight: bold;
 	margin-top: 8px;
 	margin-bottom: 8px;
 }

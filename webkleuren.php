@@ -9,6 +9,7 @@
 <span style="background-color:#d40139;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#d40139<br>
 <span style="background-color:#003366;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#003366<br>
 <span style="background-color:#d5e1f9;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#d5e1f9<br>
+<span style="background-color:#eaf0fc;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#eaf0fc<br>
 
 <br><b>Zomerhuisje.nl / Zomerhuisje.eu</b><br>
 <span style="background-color:#5f227b;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#5f227b<br>

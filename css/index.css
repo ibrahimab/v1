@@ -28,15 +28,16 @@
 	margin-bottom: 10px;
 	padding-bottom: 5px;
 	width: 168px;
-	background-color: #d5e1f9;
+	background-color: #eaf0fc;
 	padding-left: 3px;
 	color: #003366;
 	cursor: pointer;
 }
 
 #hoofdpagina_waaromchalet .kop {
-	color: #d40139;
+	color: #003366;
 	font-size: 1.2em;
+	font-weight: bold;
 	padding-left: 2px;
 	padding-top: 10px;
 	padding-bottom: 10px;
@@ -49,7 +50,7 @@
 }
 
 #hoofdpagina_waaromchalet li {
-	background: url(../pic/waarom_vinkje.gif) no-repeat 0 0px;
+	background: url(../pic/waarom_vinkje.gif?c=1) no-repeat 0 0px;
 	padding-left: 13px;
 	font-size: 0.9em;
 	line-height: 0.9em;
@@ -115,6 +116,7 @@
 	height: 22px;
 	overflow: hidden;
 	padding-left:5px;
+	margin-top: 3px;
 }
 
 .hoofdpagina_blok_omschrijving {
@@ -126,7 +128,7 @@
 
 #hoofdpagina_blok_tellers {
 	margin-top: 5px;
-	margin-right: 15px;
+	margin-right: 8px;
 	top:92%;
 	position:absolute;
 	right:0;
@@ -134,21 +136,20 @@
 
 .hoofdpagina_blok_teller {
 	float: left;
-	text-align: center;
-	width: 17px;
-	background-color: #FFFFFF;
-	color: #003366;
-	margin-left: 4px;
+	text-align: right;
 	cursor: pointer;
-	border: 1px solid #d71246;
+	color: #ffffff;
+	font-size: 26px;
+	margin-top: -9px;
+	margin-left: 5px;
 }
 
 .hoofdpagina_blok_teller:hover {
-	border: 1px solid #003366;
+	color: #003366;
 }
 
 .hoofdpagina_blok_teller_active {
-	background-color:#d5e1f9;
+	color: #003366;
 }
 
 #hoofdpagina_themas_blok {
@@ -163,6 +164,7 @@
 
 #hoofdpagina_twitter_blok {
 	margin-bottom: 10px;
+	margin-top: 15px;
 }
 
 #hoofdpagina_lijn {

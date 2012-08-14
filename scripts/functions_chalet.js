@@ -64,7 +64,7 @@ $(document).ready(function() {
 			},5000);
 			$(".hoofdpagina_blok_teller").click(function() {
 				clearInterval(intervalID);
-				hoofdpagina_carousel(parseInt($(this).html()));
+				hoofdpagina_carousel(parseInt($(this).data("value")));
 				hoofdpagina_sla_1_ronde_over=1;
 				intervalID = setInterval(function(){
 					hoofdpagina_carousel(0);
