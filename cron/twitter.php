@@ -41,9 +41,9 @@ foreach($username as $userAccount){
 			}
 			elseif($userAccount=='ChaletNL'){
 				$imgSrc="http://www.chalet.nl/pic/logo_chalet.gif";
-				$backColor="#d5e1f9";
+				$backColor="#eaf0fc";
 				$naam="Chalet.nl";
-				$kopColor="#D40139";
+				$kopColor="#003366";
 			}
 			elseif($userAccount=='Italissima'){
 				$backColor="#e0d1cc";
@@ -85,7 +85,7 @@ foreach($username as $userAccount){
 			}
 		}
 		if($userAccount!='Italissima'){
-			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table  id=\"hoofdpagina_twitter_blok\" cellspacing=\"2\" style=\"background-color:".$backColor."; padding:5px;\">";
+			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_twitter_blok\" cellspacing=\"2\" style=\"background-color:".$backColor."; padding:5px;\">";
 			$content.="<td style=\"color:".$kopColor.";font-size:14px;\"><div style=\"cursor:pointer;\" onclick=\"document.location.href='https://twitter.com/intent/user?screen_name=$userAccount';\">".$naam." op twitter</div></td></tr><tr><td></td><td></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht."<br><br></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNext."<br><br></td></tr>";

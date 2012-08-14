@@ -1,13 +1,20 @@
 
 #hoofdpagina_waarom {
-	margin-top: 20px;
-	margin-bottom: 10px;
+	display: block;
+	margin-top: 15px;
+	margin-bottom: 15px;
 	padding-bottom: 5px;
-	width: 190px;
+	width: 188px;
+	border: 1px solid #e0d1cc;	
 	background-color: #e0d1cc;
-	padding-left: 10px;
+	padding-left: 9px;
 	color: #000000;
 	cursor: pointer;
+	text-decoration: none;
+}
+
+#hoofdpagina_waarom:hover {
+	border: 1px solid #ff9900;
 }
 
 #hoofdpagina_waarom .kop {
@@ -31,8 +38,51 @@
 	line-height: 1.1em;
 }
 
+#hoofdpagina_tarievenalbekend {
+	display: block;
+	background-color: #ffd38f;
+	padding-top: 6px;
+	padding-left: 9px;
+	padding-right: 9px;
+	padding-bottom: 8px;
+	margin-bottom: 10px;
+	border: 1px solid #ffd38f;
+	text-decoration: none;
+	color: #000000;
+}
+
+#hoofdpagina_tarievenalbekend:hover {
+	border: 1px solid #ff9900;
+	color: #000000;
+}
+
+#hoofdpagina_tarievenalbekend h2 {
+	font-weight: bold;
+	margin-bottom: 6px;
+	color: #661700 !important;
+}
+
+#hoofdpagina_tarievenalbekend img {
+	display: block;
+	margin-bottom: 3px;
+}
+
+#hoofdpagina_tarievenalbekend_bekijk {
+	margin-top: 3px;
+	color: #661700;
+	text-decoration: underline;
+	float: right;
+}
+
 #hoofdpagina_twitter_blok {
 	margin-top: 15px;
+}
+
+#hoofdpagina_twitter_blok hr {
+	color: #ffffff;
+	background-color: #ffffff;
+	height: 2px;
+	border: 0px;
 }
 
 #hoofdpagina_links {
@@ -144,6 +194,35 @@
 	margin-top: -5px;
 	margin-left: 10px;
 	width: 170px;
+}
+
+#hoofdpagina_vraagonsadvies {
+	display: block;
+	background-color: #ffd38f;
+	padding: 9px;
+	padding-bottom: 12px;
+	margin-bottom: 15px;
+	border: 1px solid #ffd38f;
+	text-decoration: none;
+	color: #000000;
+}
+
+#hoofdpagina_vraagonsadvies h2 {
+	font-weight: bold;
+	margin-top: 2px;
+	margin-bottom: 8px;
+	color: #661700 !important;
+}
+
+#hoofdpagina_vraagonsadvies:hover {
+	border: 1px solid #ff9900;
+	color: #000000;
+}
+
+#hoofdpagina_vraagonsadvies_leesmeer {
+	color: #661700;
+	text-decoration: underline;
+	float: right;
 }
 
 #hoofdpagina_blog {

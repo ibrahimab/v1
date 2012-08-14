@@ -357,7 +357,7 @@ if($vars["verberg_linkerkolom"]) {
 	
 	if($id=="index") {
 		# Opsomming "Waarom Italissima?"
-		echo "<div id=\"hoofdpagina_waarom\" onclick=\"document.location.href='".txt("menu_wie-zijn-wij").".php';\">";
+		echo "<a href=\"".$vars["path"].txt("menu_wie-zijn-wij").".php\" id=\"hoofdpagina_waarom\">";
 		echo "<div class=\"kop\">".html("waarom","index",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
 		echo "<div><ul>";
 		echo "<li>Uniek aanbod</li>";
@@ -366,8 +366,18 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<li>Prijsbewust</li>";
 		echo "<li>12 jaar ervaring</li>";
 		echo "<li>Lid SGR-Garantiefonds</li>";
-		echo "</ul></div>"; # afsluiten hoofdpagina_waarom
-		echo "</div>\n"; # afsluiten naamloze div
+		echo "</ul></div>"; # afsluiten naamloze div
+		echo "</a>\n"; # afsluiten hoofdpagina_waarom
+		
+		echo "<a href=\"".$vars["path"]."zomer2013.php\" id=\"hoofdpagina_tarievenalbekend\">";
+		echo "<h2>Zomer 2013</h2>";
+		echo "<img src=\"".$vars["path"]."pic/italissima_hoofdpagina/tarievenalbekend.jpg\" width=\"180\" height=\"120\" border=\"0\">";
+		echo "<div>Een aantal vakantiehuizen is nu al te boeken voor zomer volgend jaar!</div>";
+		echo "<div id=\"hoofdpagina_tarievenalbekend_bekijk\">Bekijk het aanbod &raquo;</div>";
+		echo "<div class=\"clear\"></div>";
+		echo "</a>\n"; # afsluiten hoofdpagina_waarom
+		
+		
 	}
 
 	echo "</div>\n"; # afsluiten bloklinks
