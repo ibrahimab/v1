@@ -69,13 +69,13 @@ $db->query("SELECT type_id FROM bezoeker_favoriet;");
 	echo "<BR><BR><h1>Aantal keer dat een accommodatie als favoriet is opgeslagen: ".$counter."</h1>";
 if($_GET['maandEen'] != "" and $_GET['maandTWee'] !=""){
 	$rowCounter=0;
-	$db2->query("SELECT type_id, COUNT(type_id) as aantalMaal FROM bezoeker_favoriet WHERE DATE(adddatetime) BETWEEN '".$_GET['maandEen']."' AND '".$_GET['maandTWee']."' GROUP BY type_id ORDER BY aantalMaal DESC;");
+	$db2->query("SELECT type_id, COUNT(type_id) as aantalMaal FROM bezoeker_favoriet WHERE DATE(adddatetime) BETWEEN '".addslashes($_GET['maandEen'])."' AND '".addslashes($_GET['maandTWee'])."' GROUP BY type_id ORDER BY aantalMaal DESC;");
 	echo "<table width=\"100%\" border=\"1\" bordercolor=\"#282e82\" cellspacing=\"0\">";
 	echo"<tr bgcolor=\"#282e82\" style=\"color:#FFFFFF\">";
 	echo"<td></td><td><b>Accommodatienaam</b></td><td><b>Aantal personen</b></td><td><b>Aantal x als favoriet opgeslagen</td></tr><tr bgcolor=\"#f3f3f3\">";
 	while($db2->next_record()){
 		$rowCounter++;
-		$db3->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($db2->f("type_id"))."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+		$db3->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".addslashes($vars["ttv"])." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".addslashes($vars["ttv"])." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($db2->f("type_id"))."' AND t.websites LIKE '%".addslashes($vars["website"])."%' AND a.plaats_id=p.plaats_id;");
 		while($db3->next_record()){
 			echo"<td>".$rowCounter."</td>";
 			echo"<td>".htmlentities(ucfirst($vars["soortaccommodatie"][$db3->f("soortaccommodatie")])." ".$db3->f("naam").($db3->f("tnaam") ? " ".$db3->f("tnaam") : ""))."</td>";
@@ -112,7 +112,7 @@ else{
 	echo "<td></td><td><b>Accommodatienaam</b></td><td><b>Aantal personen</b></td><td><b>Aantal x als favoriet opgeslagen</td></tr><tr bgcolor=\"#f3f3f3\">";
 	while($db2->next_record()){
 		$rowCounter++;
-		$db3->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($db2->f("type_id"))."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+		$db3->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".addslashes($vars["ttv"])." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".addslashes($vars["ttv"])." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($db2->f("type_id"))."' AND t.websites LIKE '%".addslashes($vars["website"])."%' AND a.plaats_id=p.plaats_id;");
 		while($db3->next_record()){
 			echo "<td>".$rowCounter."</td>";
 			echo "<td>".htmlentities(ucfirst($vars["soortaccommodatie"][$db3->f("soortaccommodatie")])." ".$db3->f("naam").($db3->f("tnaam") ? " ".$db3->f("tnaam") : ""))."</td>";
