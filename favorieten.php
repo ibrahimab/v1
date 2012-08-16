@@ -10,9 +10,9 @@ if($_GET['testsysteem']==1){
 	$submenu["favorieten"]=txt("submenutitle_favorieten")."(".count($klantfavs).")";
 }
 if($vars["websitetype"]==1){
-	$standardtext=html("standardtextChalet","favorieten")." "."<a href=\"#\">";
-	$standardtext.="<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";
-	$standardtext.=html("plaatsinfavorieten","favorieten");
+	$standardtext=html("standardtextChalet","favorieten");
+	$standardtext.=" <img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";
+	$standardtext.=" <a href=\"#\">".html("plaatsinfavorieten","favorieten");
 	$standardtext.="</a>";
 	$vars["balkkleur"]="#d5e1f9";
 	$vars["backcolor"]="#d5e1f9";
@@ -56,6 +56,10 @@ elseif($vars["websitetype"]==3 or $vars["websitetype"]==7){
 		
 	}
 	elseif($vars["websitetype"]==7){
+		$standardtext="Je hebt momenteel geen vakantiehuizen aan je favorieten toegevoegd.<BR><BR>Ga naar de pagina van een vakantiehuis en klik op ";
+		$standardtext.="<img style=\"vertical-align:middle;\" border=\"0\" width=\"16\" height=\"16\" src=\"".$vars["path"]."pic/plaatsItalissima.png\">";
+		$standardtext.=" <a href=\"#\">Plaats in mijn favorieten";
+		$standardtext.="</a> om een vakantiehuis aan je lijst met favorieten toe te voegen.";
 		$vars["balkkleur"]="#ffd38f";
 		$vars["backcolor"]="#FFFFFF";
 		$vars["textColor"]="#661700";
