@@ -53,10 +53,14 @@ if($_GET["t"]==5 or $_GET["t"]==8 or $_GET["t"]==9 or $_GET["t"]==10 or $_GET["t
 
 if($_GET["t"]==1 or $_GET["t"]==2) {
 	# t=1 --> Roominglist totaal
-	# t=2 --> Roominglist op datum
+	# t=2 --> Roominglist op datum (=aankomstlijst)
 
 	if($mustlogin) {
-		cmslog_pagina_title("Overzichten - Roominglist");
+		if($_GET["t"]==1) {
+			cmslog_pagina_title("Overzichten - Roominglist");
+		} else {
+			cmslog_pagina_title("Overzichten - Aankomstlijst");		
+		}
 	}
 	
 	$colspan=9;

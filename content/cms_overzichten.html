@@ -208,7 +208,7 @@ if($_GET["internelijst"]) {
 		
 		if(is_array($roominglistlijst)) {
 			ksort($roominglistlijst);
-			echo "<li>Roominglist:<ul>";
+			echo "<li>Aankomstlijst op datum:<ul>";
 			while(list($key,$value)=each($roominglistlijst)) {
 				echo $value;
 			}
