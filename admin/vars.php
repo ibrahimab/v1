@@ -384,7 +384,7 @@ if($vars["nieuwevormgeving"]) {
 		if($_GET["testsysteem"]) {
 			$submenu["favorieten"]=txt("submenutitle_favorieten");
 		}
-		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+		//$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 		if(!$_GET["testsysteem"]) {
 			$submenu["sitemap"]=txt("submenutitle_sitemap");
