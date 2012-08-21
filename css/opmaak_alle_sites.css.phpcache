@@ -758,54 +758,11 @@ td.selecteerbaarbedrag:hover{
 	display: block;
 	margin-left: 10px;
 	float: right;
-	background-color: #d5e1f9;
-	padding: 5px;
-	text-decoration: none;
-	border: 1px solid #d5e1f9;
-	color: #003366;
-}
-
-#zoekresultaten_sorteer .active {
-	display: block;
-	margin-left: 10px;
-	float: right;
-	background-color: #d5e1f9;
-	padding: 5px;
-	text-decoration: none;
-	border: 1px solid #003366;
-	color: #003366;	
-}
-
-#zoekresultaten_sorteer a:hover {
-	text-decoration: none;
-	border: 1px solid #003366;
-	color: #003366;	
-}
-
-#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
-	display: block;
-	margin-left: 10px;
-	float: right;
-	background-color: #ffffff;
-	padding: 5px;
-	text-decoration: none;
-	border: 1px solid #ffffff;
-	color: #000000;
-}
-
-#zoekresultaten_sorteer_versie2 {
-
-}
-
-#zoekresultaten_sorteer_versie2 a {
-	display: block;
-	margin-left: 10px;
-	float: right;
 	padding: 5px;
 	text-decoration: underline;
 }
 
-#zoekresultaten_sorteer_versie2 .active {
+#zoekresultaten_sorteer .active {
 	display: block;
 	margin-left: 10px;
 	float: right;
@@ -814,7 +771,7 @@ td.selecteerbaarbedrag:hover{
 	font-weight: bold;
 }
 
-#zoekresultaten_sorteer_versie2 a:hover {
+#zoekresultaten_sorteer a:hover {
 	display: block;
 	margin-left: 10px;
 	float: right;
@@ -822,7 +779,7 @@ td.selecteerbaarbedrag:hover{
 	text-decoration: underline;
 }
 
-#zoekresultaten_sorteer_versie2 #zoekresultaten_sorteer_tekst {
+#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
 	display: block;
 	margin-left: 10px;
 	float: right;

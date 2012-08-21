@@ -25,32 +25,6 @@ if($vars["websitetype"]<>6) {
 # jQuery UI theme laden (t.b.v. autocomplete)
 $vars["page_with_jqueryui"]=true;
 
-# A/B-testing
-if($_COOKIE["abt"] and ($_COOKIE["abt"] % 2)==0) {
-	# Versie 1 sorteerweergave
-	$vars["sorteerweergave_versie"]=1;	
-} else {
-	# Versie 2 sorteerweergave
-	$vars["sorteerweergave_versie"]=2;
-
-}
-
-if($_GET["sorteerweergave_versie"]) {
-	$vars["sorteerweergave_versie"]=$_GET["sorteerweergave_versie"];
-}
-
-if($_GET["fap"] and ($_GET["fad"] or $_GET["fadf_d"])) {
-	$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 2, 'Sorteer-versie', '".$vars["sorteerweergave_versie"]."', 3]);\n";
-	if($_GET["sort"]) {
-		# sort ingevoerd?
-		$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 3, 'Gesorteerd', '1', 3]);\n";
-	} else {
-		$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 3, 'Gesorteerd', '0', 3]);\n";
-	}
-} else {
-	$vars["googleanalytics_extra"].="_gaq.push(['_setCustomVar', 2, 'Sorteer-versie', '0', 3]);\n";
-}
-
 if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
 	$_GET["fzt"]="";
 }
