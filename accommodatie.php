@@ -45,10 +45,11 @@ if($_GET["accid"]) {
 
 if($url[0]) {
 
-	if(substr($_SERVER["REQUEST_URI"],-1)<>"/" and !eregi("\?",$_SERVER["REQUEST_URI"]) and !eregi("#",$_SERVER["REQUEST_URI"]) and !$url[1] and !$url[2] and !$_GET["accid"]) {
-		header("Location: ".$_SERVER["REQUEST_URI"]."/",true,301);
-		exit;
-	}
+# 	uitgezet (op 16-08-2012 trad hierbij ineens een oneindige redirect op)
+#	if(substr($_SERVER["REQUEST_URI"],-1)<>"/" and !eregi("\?",$_SERVER["REQUEST_URI"]) and !eregi("#",$_SERVER["REQUEST_URI"]) and !$url[1] and !$url[2] and !$_GET["accid"]) {
+#		header("Location: ".$_SERVER["REQUEST_URI"]."/",true,301);
+#		exit;
+#	}
 	
 	if(eregi("^([A-Z]{1,2})([0-9]+)",$url[0],$regs)) {
 		$begincode=$regs[1];

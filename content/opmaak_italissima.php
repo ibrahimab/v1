@@ -336,7 +336,7 @@ if($vars["verberg_linkerkolom"]) {
 			echo $html_ipv_blokaccommodatie;
 			echo "</div>";
 		} elseif($blokaccommodatie) {
-			$bgcolor="#ff9900";
+			$bgcolor="#ffd38f";
 			$random_blokaccommodatie=rand(1,$blokaccommodatie_teller);
 			echo "<div id=\"blokaccommodatie\" style=\"background-color:".$bgcolor."\">";
 			echo "<div id=\"blokaccommodatie_innerdiv\" style=\"position:relative;".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "height:130px;" : "")."\" class=\"overlay_foto\" onclick=\"document.location.href='".htmlentities($blokaccommodatie[$random_blokaccommodatie]["url"])."'\">";

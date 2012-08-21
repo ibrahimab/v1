@@ -272,7 +272,7 @@ if($form->okay) {
 			
 			function Header() {
 				if($this->gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
-					$this->Image('pic/factuur_logo_zomer.png',10,8,50);
+					$this->Image('pic/factuur_logo_vakantiewoningen.png',10,8,50);
 				} elseif($this->gegevens["stap1"]["website_specifiek"]["websitetype"]==2) {
 					if($this->vars["temp_leverancier"]["bestelfax_logo"]) {
 						$this->Image('pic/factuur_logo_wsa.png',10,10,100);

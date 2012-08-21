@@ -25,23 +25,34 @@ function wt_popwindowXY(wWidth,wHeight,url,align) {
 }
 
 function wt_post_to_url(path, params, method) {
-    method = method || "post"; // Set method to post by default, if not specified.
+	method = method || "post"; // Set method to post by default, if not specified.
+	
+	// The rest of this code assumes you are not using a library.
+	// It can be made less wordy if you use one.
+	var form = document.createElement("form");
+	form.setAttribute("method", method);
+	form.setAttribute("action", path);
+	
+	for(var key in params) {
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", key);
+		hiddenField.setAttribute("value", params[key]);
+		
+		form.appendChild(hiddenField);
+	}
+	
+	document.body.appendChild(form);
+	form.submit();
+}
 
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        var hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", key);
-        hiddenField.setAttribute("value", params[key]);
-
-        form.appendChild(hiddenField);
-    }
-
-    document.body.appendChild(form);
-    form.submit();
+function wt_equalHeight(group) {
+	var tallest = 0;
+	$(group).each(function() {
+		var thisHeight = $(this).height();
+		if(thisHeight > tallest) {
+			tallest = thisHeight;
+		}
+	});
+	$(group).height(tallest);
 }

@@ -1175,7 +1175,7 @@ if($_COOKIE["sch"] and !$boeking_wijzigen) {
 				if($last_acc_teller) {
 					$last_acc_html.="<div class=\"laatstbekeken_divider\">&nbsp;</div>";
 				}
-				$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."';\">";
+				$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."/';\">";
 				$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\"></div>";
 				$last_acc_html.="<div class=\"laatstbekeken_tekst\">";
 				$last_acc_html.="<div>".wt_he($value["naam"])."</div>";

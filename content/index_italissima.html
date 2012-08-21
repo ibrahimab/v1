@@ -26,7 +26,7 @@ if(is_array($blokkenhoofdpagina)) {
 	echo "<div id=\"hoofdpagina_blok_tellers\">";
 	if($blokkenhoofdpagina_teller>1) {
 		for($i=1;$i<=$blokkenhoofdpagina_teller;$i++) {
-			echo "<div id=\"hoofdpagina_blok_teller_".$i."\" class=\"hoofdpagina_blok_teller".($i==1 ? " hoofdpagina_blok_teller_active" : "")."\">".$i."</div>";
+			echo "<div id=\"hoofdpagina_blok_teller_".$i."\" class=\"hoofdpagina_blok_teller".($i==1 ? " hoofdpagina_blok_teller_active" : "")."\" data-value=\"".$i."\">&bull;</div>";
 		}
 	}
 	echo "</div>"; # afsluiten hoofdpagina_blok_tellers
