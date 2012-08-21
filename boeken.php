@@ -1006,7 +1006,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_integer(1,"mailverstuurd_persoonsgegevens_dagenvoorvertrek","Mailtje \"persoonsgegevens gewenst\" (dagen voor vertrek)","",array("text"=>$gegevens["stap1"]["mailverstuurd_persoonsgegevens_dagenvoorvertrek"]));
 #			$form->field_textarea(0,"opmerkingen_voucher","Extra op bevestiging/ roominglist/ accommodatievoucher","",array("text"=>$gegevens["stap1"]["opmerkingen_voucher"]));
 			$form->field_textarea(0,"opmerkingen_klant","Opmerkingen voor klant<br><span style=\"font-size:0.75em;\">(bevestiging)</span>","",array("text"=>$gegevens["stap1"]["opmerkingen_klant"]),"",array("title_html"=>true));
-			$form->field_textarea(0,"opmerkingen_voucher","Opmerkingen voor leverancier<br><span style=\"font-size:0.75em;\">(bestelmail, roominglist en accommodatievoucher)</span>","",array("text"=>$gegevens["stap1"]["opmerkingen_voucher"]),"",array("title_html"=>true));
+			$form->field_textarea(0,"opmerkingen_voucher","Opmerkingen voor leverancier<br><span style=\"font-size:0.75em;\">(bestelmail, roominglist, aankomstlijst en accommodatievoucher)</span>","",array("text"=>$gegevens["stap1"]["opmerkingen_voucher"]),"",array("title_html"=>true));
 		} elseif(!$boeking_wijzigen) {
 			$form->field_noedit("accnaam",txt("accommodatie","boeken"),"",array("text"=>htmlentities($accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])),"",array("html"=>true));
 		}
