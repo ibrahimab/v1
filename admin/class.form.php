@@ -230,6 +230,8 @@ if($_GET["fo"]=="frm") {
 class form2 {
 
 	function form2($name="frm") {
+		global $vars;
+	
 		$this->settings["formname"]=$name;
 
 		$this->settings["language"]="nl";
@@ -247,6 +249,7 @@ class form2 {
 		$this->settings["show_save_message"]=false;
 		$this->settings["show_upload_message"]=false;
 		$this->settings["bcc_mail_https"]=false;
+		$this->settings["download_uploaded_files"]=true;
 		
 		# Messages
 		$this->settings["message"]["verplichtveld"]["nl"]="Verplicht veld";
@@ -437,6 +440,8 @@ class form2 {
 	}
 	
 	function newfield($type,$checktype,$obl,$id,$title,$db,$prevalue,$options,$layout) {
+		global $vars;
+
 		# Initialiseren
 		if(!$this->init) {
 			if($this->settings["language"]=="nl") {
@@ -577,6 +582,8 @@ class form2 {
 	#
 
 	function display_css() {
+		global $vars;
+	
 		ob_start();
 		?>
 		<style type="text/css"><!-- 
@@ -633,6 +640,8 @@ class form2 {
 	}
 	
 	function display_openform() {
+		global $vars;
+	
 		$return.="<form class=\"wtform\" method=\"".$this->settings["type"]."\" action=\"";
 		if($_SERVER["REQUEST_URI"]) {
 			if($_SERVER["QUERY_STRING"]) {
@@ -683,6 +692,8 @@ class form2 {
 	}
 
 	function display_error() {
+		global $vars;
+
 		# Toon foutmeldingen
 		
 		# Eerst foutmeldingen van de veldnamen tonen en vervolgens extra foutmeldingen
@@ -1286,7 +1297,11 @@ class form2 {
 							$return.="</table><br>";
 						} elseif($ext=="pdf" or $ext=="doc" or $ext=="pps") {
 							$return.="<table class=\"wtform_img_tbl\">";
-							$return.="<tr><td align=\"center\"><a href=\"".wt_he(($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value))."?c=".@filemtime($value)."\" target=\"_blank\"><img src=\"".$this->settings["path"]."pic/class.form_".$ext."_icon.gif\" width=\"20\" height=\"20\" border=\"0\" alt=\"".wt_he($value)."\" title=\"".wt_he($value)."\"></a><br>";
+							$return.="<tr><td align=\"center\">";
+							if($this->settings["download_uploaded_files"]) $return.="<a href=\"".wt_he(($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value))."?c=".@filemtime($value)."\" target=\"_blank\">";
+							$return.="<img src=\"".$this->settings["path"]."pic/class.form_".$ext."_icon.gif\" width=\"20\" height=\"20\" border=\"0\" alt=\"".wt_he($value)."\" title=\"".wt_he($value)."\">";
+							if($this->settings["download_uploaded_files"]) $return.="</a>";
+							$return.="<br>";
 							if(!$this->fields["obl"][$id]) $return.="<input type=\"checkbox\" name=\"imagedelete[".$id."]".($this->fields["options"][$id]["multiple"] ? "[".$key."]" : "")."\" id=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\"><label for=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\">".$this->message("bestandwissen")."</label>";
 							$return.="</td></tr>";
 							$return.="</table><br>";
@@ -1353,6 +1368,8 @@ class form2 {
 	}
 
 	function display_submitbutton() {
+		global $vars;
+	
 		if($this->disable_form) {
 		
 		} else {
@@ -1371,6 +1388,8 @@ class form2 {
 	}
 
 	function display_annuleerbutton() {
+		global $vars;
+	
 		if($this->disable_form) {
 		
 		} else {
@@ -1381,11 +1400,15 @@ class form2 {
 	}
 	
 	function display_closeform() {
+		global $vars;
+	
 		$return.="</form>";
 		return $return;
 	}
 
 	function display_all() {
+		global $vars;
+	
 		if(!$this->okay or $this->settings["type"]=="get" or $this->settings["alwaysshowform"]) {
 			if(!is_array($this->fields["type"])) {
 				trigger_error("WT-Error: this form has no fields",E_USER_NOTICE);
@@ -1466,6 +1489,8 @@ class form2 {
 	#
 	
 	function error($id,$message,$overrule=false,$extra=false,$other_fieldname="") {
+		global $vars;
+	
 		# id = id van het form-field
 		# bericht (evt. incl. html)
 		# overrule = overschrijf reeds eerder aangemaakte error-message
@@ -1490,6 +1515,8 @@ class form2 {
 	}
 
 	function save_db() {
+		global $vars;
+	
 		# Gegevens opslaan in database
 		global $db0;
 		reset($this->db);
@@ -1631,6 +1658,8 @@ class form2 {
 	}
 	
 	function get_db() {
+		global $vars;
+	
 		if(is_array($this->fields["db"]) and !$this->get_db) {
 			global $db0;
 			reset($this->db);
@@ -1766,6 +1795,8 @@ class form2 {
 	}
 	
 	function display_output_field($id,$layout="") {
+		global $vars;
+	
 		if($this->fields["checktype"][$id]=="currency") {
 			if($this->input[$id]) $value=$this->input[$id]; else $value=$this->fields["prevalue"][$id]["text"];
 		} elseif($this->fields["checktype"][$id]=="date") {
@@ -1813,6 +1844,8 @@ class form2 {
 	
 	
 	function check_input() {
+		global $vars;
+
 		# - Foutcontrole (alle velden goed ingevuld?)
 		# - Output-table vullen
 		$this->check_input=true;
@@ -2218,6 +2251,8 @@ class form2 {
 	}
 
 	function outputtable($complete=true) {
+		global $vars;
+
 		$return="<table class=\"wtform_table\">";
 		if($complete) {
 			$return.="<tr><td class=\"wtform_cell_left\">Formulier</td><td class=\"wtform_cell_right\">".$this->settings["fullname"]."</td></tr>";
@@ -2241,6 +2276,8 @@ class form2 {
 	}
 	
 	function mail($to,$toname,$subject,$fullbody="",$topbody="",$bottombody="",$from="formmail@webtastic.nl",$fromname="WebTastic FormMail",$special_settings="") {
+		global $vars;
+
 		$mail=new wt_mail;
 		if($this->settings["bcc_mail_https"]) $mail->send_bcc=true;
 		$mail->fromname=$fromname;
@@ -2291,6 +2328,8 @@ class form2 {
 	}
 	
 	function mail_css() {
+		global $vars;
+
 		if(file_exists("class.form.css")) {
 			$return="<style type=\"text/css\"><!--\n".file_get_contents("class.form.css")."\n--></style>";
 		} else {
@@ -2350,6 +2389,8 @@ class form2 {
 	}
 		
 	function end_declaration() {
+		global $vars;
+
 		if(!$this->settings["fullname"]) {
 			trigger_error("WT-Error: Form has no fullname",E_USER_ERROR);
 		} elseif(!$this->check_input) {

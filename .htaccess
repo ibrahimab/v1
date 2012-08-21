@@ -2,6 +2,8 @@ AddType application/x-httpd-php .php .php3 .php4 .phtml .phpcache
 php_flag magic_quotes_gpc off
 php_value memory_limit 64M
 
+AddDefaultCharset ISO-8859-1
+
 ErrorDocument 404 /404.php
 
 #

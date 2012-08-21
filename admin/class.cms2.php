@@ -188,6 +188,8 @@ class cms2 {
 		if(!isset($this->settings[$counter]["show"]["add_link"])) $this->settings[$counter]["show"]["add_link"]=false; # DOET HET NOG NIET
 
 		if(!isset($this->settings[$counter]["log"]["active"])) $this->settings[$counter]["log"]["active"]=false;
+
+		if(!isset($this->settings[$counter]["download_uploaded_files"])) $this->settings[$counter]["download_uploaded_files"]=true;
 		
 		$this->init[$counter]=true;
 		return true;
@@ -810,6 +812,7 @@ class cms2 {
 			$cms_form[$counter]->settings["language"]=$this->settings["language"];
 			$cms_form[$counter]->settings["show_save_message"]=$this->settings["show_save_message"];
 			$cms_form[$counter]->settings["show_upload_message"]=$this->settings["show_upload_message"];
+			$cms_form[$counter]->settings["download_uploaded_files"]=$this->settings[$counter]["download_uploaded_files"];
 			
 			if($add) {
 				$cms_form[$counter]->settings["message"]["submitbutton"][$this->settings["language"]]=$this->message("toevoegen",false);
