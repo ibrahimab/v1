@@ -302,7 +302,7 @@ if($form->okay) {
 					# Zomerhuisje
 					if($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="be") {
 						# .be
-						$this->Image('pic/factuur_logo_zomer_be.png',10,8,50);
+						$this->Image('pic/factuur_logo_zomerhuisje.png',10,8,50);
 					} elseif($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="en") {
 						# .eu
 						$this->Image('pic/factuur_logo_eu.png',10,8,50);
