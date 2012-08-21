@@ -622,45 +622,18 @@ form {
 }
 
 #zoekresultaten_sorteer a {
-	background-color: #cfbcd8;
-	border: 1px solid #cfbcd8;
 	color: #5f227b;
 }
 
 #zoekresultaten_sorteer .active {
-	background-color: #cfbcd8;
-	border: 1px solid #5f227b;
-	color: #5f227b;	
+	color: #5f227b;
 }
 
 #zoekresultaten_sorteer a:hover {
-	border: 1px solid #5f227b;
-	color: #5f227b;	
-}
-
-#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
-	background-color: #ffffff;
-	border: 1px solid #ffffff;
-	color: #000000;
-}
-
-#zoekresultaten_sorteer_versie2 {
-	margin-top: 10px;
-}
-
-#zoekresultaten_sorteer_versie2 a {
-	color: #5f227b;
-}
-
-#zoekresultaten_sorteer_versie2 .active {
-	color: #5f227b;
-}
-
-#zoekresultaten_sorteer_versie2 a:hover {
 	color: #636f07;
 }
 
-#zoekresultaten_sorteer_versie2 #zoekresultaten_sorteer_tekst {
+#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
 	background-color: #ffffff;
 	color: #000000;
 }
