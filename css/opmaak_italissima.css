@@ -858,6 +858,39 @@ form {
 	color: #661700;	
 }
 
+#footerWrap{
+	width:100%;
+	background-color:#e0d1cc;
+	font-size:11px;
+	color:#661700;
+}
+
+.noIND{
+	width:100%;
+}
+.noIND td{
+	width:200px;
+	border:0px;
+	border-color:black;
+	border-style: solid;
+	text-align:center;
+}
+.IND{
+	width:100%;
+}
+.divSepIND{
+	float:left;
+	padding-left:10px; 
+	height:10px;
+}
+.divContentIND{
+	float:left;
+	padding-left:60px;	
+}
+.padnoIND{
+	padding-left:10px;
+}
+
 @media print {
 
 	body {
