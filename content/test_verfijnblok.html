@@ -1,6 +1,11 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $vars["path"]; ?>css/zoek-en-boek_chalet.css?cache=1330946942" />
 <style>
 
+#verfijn {
+	background-color: #eaf0fc;
+	border: 1px solid #003366;
+}
+
 #hoofdpagina_nieuwsbrief {
 	display: none;
 }
@@ -12,6 +17,8 @@
 .keuzes_kopjes {
 	margin-top: 15px;
 	margin-bottom: 5px;
+	font-size: 12.2833px;
+	padding-bottom: 2px;
 }
 
 .keuzes {
@@ -20,25 +27,25 @@
 
 .keuzeopsomming {
 	font-size: 1.2em;
-	background: #d5e1f9 url('pic/tijdelijk/checkbox_no.png') no-repeat left top;
+	background: #eaf0fc url('pic/tijdelijk/checkbox_no.png') no-repeat left top;
 	padding-left: 18px;
 	padding-bottom: 5px;
 	margin-left: 3px;
 }
 
 .keuzeopsomming:hover {
-	background: #d5e1f9 url('pic/tijdelijk/checkbox_yes.png') no-repeat left top;
+	background: #eaf0fc url('pic/tijdelijk/checkbox_yes.png') no-repeat left top;
 	color: #000000 !important;
 }
 
 .keuzeopsomming_actief {
-	background: #d5e1f9 url('pic/tijdelijk/checkbox_yes.png') no-repeat left top;
+	background: #eaf0fc url('pic/tijdelijk/checkbox_yes.png') no-repeat left top;
 	color: #000000;
 	font-weight: bold;
 }
 
 .keuzeopsomming_actief:hover {
-	background: #d5e1f9 url('pic/tijdelijk/checkbox_no.png') no-repeat left top;
+	background: #eaf0fc url('pic/tijdelijk/checkbox_no.png') no-repeat left top;
 }
 
 .keuzeopsomming {
@@ -53,7 +60,8 @@
 }
 
 #verfijntopheader {
-	margin-bottom: -7px;
+	font-weight: normal;
+	margin-left: 5px;
 }
 
 .alleswissen {
@@ -76,7 +84,7 @@
 </style>
 <div style="margin-left:100px;">
 
-<div id="verfijn" class="boxshadow"><div id="verfijntopheader">Verfijn je zoekopdracht</div><div class="keuzes">
+<div id="verfijn" class=""><div id="verfijntopheader">Verfijn je zoekopdracht</div><div class="keuzes">
 
 <div class="keuzes_kopjes">Afstand tot de piste</div><a class="keuzeopsomming">aan de piste <span class="aantal">(96)</span></a><a class="keuzeopsomming keuzeopsomming_actief">max. 250 meter</a><a class="keuzeopsomming">max. 500 meter <span class="aantal">(190)</span></a><a class="keuzeopsomming">max. 1000 meter <span class="aantal">(212)</span></a>
 
