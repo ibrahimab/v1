@@ -112,11 +112,11 @@ $intervals[23]=-8;
 $intervals[24]=-7;
 $intervals[25]=-6;
 $intervals[26]=-5;
-$intervals[27]=-4;
+$intervals[27]=-4; 
 $intervals[28]=-3;
 $intervals[29]=-2;
 $intervals[30]=-1;
-$handle=@fopen($vars["basehref"]."httpd-error.log", "r");
+$handle=@fopen("/var/log/httpd-error.log", "r");
 if($handle){
 	$logs="";
 	while(($buffer=fgets($handle,4096))!==false) {
