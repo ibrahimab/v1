@@ -166,7 +166,7 @@ if($handle){
 		$mail=new wt_mail;
 		$mail->fromname="Chalet.nl";
 		$mail->from="info@chalet.nl";
-		$mail->toname="Chalet.nl";
+		$mail->toname="Miguel Moukimou";
 		$mail->to="miguel@chalet.nl";
 		$mail->subject.="Httpd errorlog report";
 		$mail->plaintext=$logs; # deze leeg laten bij een opmaak-mailtje
