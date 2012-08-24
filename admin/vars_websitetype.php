@@ -27,7 +27,7 @@ if($vars["lokale_testserver"]) {
 	
 	# Testsite bepalen voor Miguel
 	if($_SERVER["WINDIR"]<>"") {
-		$vars["cms_basehref"]="http://192.168.1.32/chalet/";
+		$vars["cms_basehref"]="http://test.chalet.nl/chalet/";
 		if(!$vars["testsite"]) {
 			$vars["testsite"]=@file_get_contents($_SERVER["DOCUMENT_ROOT"]."/chalet/tmp/testsite.txt");
 		}

@@ -145,7 +145,7 @@ if($mustlogin) {
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.js";
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.tablescroll.js";
 
-	if($login->logged_in and $id<>"cms" and $_SERVER["HTTP_HOST"]<>"www.chalet.nl" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+	if($login->logged_in and $id<>"cms" and $_SERVER["HTTP_HOST"]<>"www.chalet.nl" and !$vars["lokale_testserver"]) {
 		$layout->settings["cms_via_verkeerde_site"]=true;
 	}
 

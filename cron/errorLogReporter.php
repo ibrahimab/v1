@@ -187,7 +187,7 @@ if($handle) {
 		$mail->from="info@chalet.nl";
 		$mail->toname="Miguel Moukimou";
 		$mail->to="miguel@chalet.nl";
-		$mail->bcc="jeroen@webtastic.nl";
+#		$mail->bcc="jeroen@webtastic.nl";
 		$mail->subject.="httpd errorlog report";
 		$mail->plaintext=$logs; # deze leeg laten bij een opmaak-mailtje
 		$mail->send();
