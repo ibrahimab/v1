@@ -1354,6 +1354,15 @@ $txt["en"]["contact"]["naamreisbureau_chalettour"]="-";
 $txt["nl"]["contact"]["nederland"]="Nederland"; # Dit veld blijft leeg bij de Nederlandstalige versie
 $txt["en"]["contact"]["nederland"]="The Netherlands";
 
+$txt["nl"]["contact"]["adresgegevens"]="Adresgegevens: ";
+$txt["en"]["contact"]["adresgegevens"]="Contact informations: ";
+
+$txt["nl"]["contact"]["postadres"]="Postadres: ";
+$txt["en"]["contact"]["postadres"]="Mailing address: ";
+
+$txt["nl"]["contact"]["overigegegevens"]="Overige gegevens : ";
+$txt["en"]["contact"]["overigegegevens"]="Other informations: ";
+
 $txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0348 - 43 46 49";
 $txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
 
@@ -1379,7 +1388,7 @@ $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 $txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
 $txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved hier. This enables you to comapare, share en print them.";
 $txt["nl"]["favorieten"]["Uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
-$txt["en"]["favorieten"]["Uitmijnfavorietenhalen"]="Remove from my favourites";
+$txt["en"]["favorieten"]["Uitmijnfavorietenhalen"]="Erase from my favourites";
 $txt["nl"]["favorieten"]["plaatsinfavorieten"]="Plaats in mijn favorieten";
 $txt["en"]["favorieten"]["plaatsinfavorieten"]="Add to my favourites";
 $txt["nl"]["favorieten"]["standardtextChalet"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Om een chalet of appartement aan je lijst met favorieten toe te voegen, ga naar de pagina van een chalet of appartement en klik op";

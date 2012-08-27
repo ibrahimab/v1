@@ -134,14 +134,29 @@ if($_GET["fo"]=="frm") {
 		echo html("inleiding_chalettour","contact");
 	} else {
 		echo html("inleiding","contact",array("h_1"=>"<nobr>","h_2"=>"</nobr>"));
-		echo "<P><CENTER><B>".htmlentities($vars["websitenaam"])."<BR>";
-		echo "Lindenhof 5<BR>3442 GT Woerden<BR>";
+		echo "<P><B>".html("adresgegevens","contact")."</B><BR>";
+		echo "<P>".html("postadres","contact").htmlentities($vars["websitenaam"]).", Lindenhof 5, 3442 GT Woerden<BR>";
+		//echo "Lindenhof 5<BR>3442 GT Woerden<BR>";
 		if($vars["websiteland"]<>"nl") echo html("nederland","contact")."<br>";
 		echo html("telefoonnummer_chalet","contact")."<BR>";
 		echo html("fax_chalet","contact")."<BR>";
 		echo html("email_kort","contact").": <a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</A><br>";
-		if($vars["websiteland"]=="nl") echo "KvK: 30209634<br>";
-		echo "</B></CENTER>";
+		if($vars["website"]!="B"){
+			echo "<p><b>".html("overigegegevens","contact")."</b><BR>";
+		}
+		if($vars["websiteland"]=="nl"){
+			echo "BTW: NL-8129.05.386.B.01<br>";
+			echo "KvK: 30209634<br>";
+			echo "SGR: 3199<br>";
+			echo "</p>";
+		}
+		else{
+			if($vars["website"]!="B"){
+				echo "VAT: NL-8129.05.386.B.01<br>";
+				echo "CoC: 30209634<br>";
+			}
+		}
+		echo "</B>";
 		
 # Wintersport Magazine uitgeschakeld op verzoek van Bjorn (07-08-2012)
 #		if($vars["website"]=="C") {

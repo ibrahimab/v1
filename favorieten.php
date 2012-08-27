@@ -12,8 +12,8 @@ if($_GET['testsysteem']==1){
 if($vars["websitetype"]==1){
 	$standardtext=html("standardtextChalet","favorieten");
 	$standardtext.=" <img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";
-	$standardtext.=" <a href=\"#\">".html("plaatsinfavorieten","favorieten");
-	$standardtext.="</a>";
+	$standardtext.=" <u>".html("plaatsinfavorieten","favorieten");
+	$standardtext.="</u>";
 	$vars["balkkleur"]="#d5e1f9";
 	$vars["backcolor"]="#d5e1f9";
 	$vars["textColor"]="#003366";
@@ -32,8 +32,8 @@ if($vars["websitetype"]==1){
 elseif($vars["websitetype"]==3 or $vars["websitetype"]==7){
 	$standardtext="Je hebt momenteel geen vakantiehuizen aan je favorieten toegevoegd.<BR><BR>Ga naar de pagina van een vakantiehuis en klik op ";
 	$standardtext.="<img style=\"vertical-align:middle;\" border=\"0\" width=\"16\" height=\"16\" src=\"".$vars["path"]."pic/toevoegenZomer.png\">";
-	$standardtext.=" <a href=\"#\">Plaats in mijn favorieten";
-	$standardtext.="</a> om een vakantiehuis aan je lijst met favorieten toe te voegen.";
+	$standardtext.=" <u>Plaats in mijn favorieten";
+	$standardtext.="</u> om een vakantiehuis aan je lijst met favorieten toe te voegen.";
 	$onderwerpText="Mijn favoriete vakantiehuizen";
 	$doormailText="Ik heb een aantal leuke vakantiehuizen gevonden op  ".$vars["websitenaam"]. " Dit moet je zien!";
 	if($vars["websitetype"]==3){
@@ -58,8 +58,8 @@ elseif($vars["websitetype"]==3 or $vars["websitetype"]==7){
 	elseif($vars["websitetype"]==7){
 		$standardtext="Je hebt momenteel geen vakantiehuizen aan je favorieten toegevoegd.<BR><BR>Ga naar de pagina van een vakantiehuis en klik op ";
 		$standardtext.="<img style=\"vertical-align:middle;\" border=\"0\" width=\"16\" height=\"16\" src=\"".$vars["path"]."pic/plaatsItalissima.png\">";
-		$standardtext.=" <a href=\"#\">Plaats in mijn favorieten";
-		$standardtext.="</a> om een vakantiehuis aan je lijst met favorieten toe te voegen.";
+		$standardtext.=" <u>Plaats in mijn favorieten";
+		$standardtext.="</u> om een vakantiehuis aan je lijst met favorieten toe te voegen.";
 		$vars["balkkleur"]="#ffd38f";
 		$vars["backcolor"]="#FFFFFF";
 		$vars["textColor"]="#661700";

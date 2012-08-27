@@ -43,7 +43,7 @@ $txta["nl"]["menu_nieuwsbrief"]="nieuwsbrief";
 $txta["en"]["menu_nieuwsbrief"]="mailing";
 
 $txta["nl"]["menu_favorieten"]="favorieten";
-$txta["en"]["menu_favorieten"]="favorites";
+$txta["en"]["menu_favorieten"]="favourites";
 
 $txta["nl"]["menu_bestemmingen"]="bestemmingen";
 $txta["en"]["menu_bestemmingen"]="destinations";
