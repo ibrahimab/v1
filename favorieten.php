@@ -7,7 +7,7 @@ while($db->next_record()){
 	array_push($klantfavs,$db->f("type_id"));
 }
 if($_GET['testsysteem']==1){
-	$submenu["favorieten"]=txt("submenutitle_favorieten")."(".count($klantfavs).")";
+	$submenu["favorieten"]=txt("submenutitle_favorieten")." (".count($klantfavs).")";
 }
 if($vars["websitetype"]==1){
 	$standardtext=html("standardtextChalet","favorieten");
