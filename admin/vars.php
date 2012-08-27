@@ -242,7 +242,7 @@ if($vars["wederverkoop"]) {
 		} else {
 			$login_rb->settings["mustlogin"]=false;
 		}
-		if($vars["website"]=="C" or $vars["website"]=="Z") {
+		if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
 			$login_rb->settings["mustlogin_via_https"]=true;
 		}
 
@@ -325,7 +325,7 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["mustlogin"]=true;
 		$login_lev->settings["salt"]=$vars["salt"];
 		
-		if($vars["website"]=="C" or $vars["website"]=="Z") {
+		if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
 			$login_lev->settings["mustlogin_via_https"]=true;
 		}
 
@@ -950,10 +950,8 @@ if($boeking_wijzigen) {
 	} else {
 		$login->settings["mustlogin"]=true;
 	}
-	if($vars["website"]=="C" or $vars["website"]=="Z") {
-#		if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
-			$login->settings["mustlogin_via_https"]=true;
-#		}
+	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
+		$login->settings["mustlogin_via_https"]=true;
 	}
 	$login->settings["loginpage"]=$path.txt("menu_inloggen").".php";
 	$login->settings["checkloginpage"]=txt("menu_inloggen").".php";
