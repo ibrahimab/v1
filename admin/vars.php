@@ -656,7 +656,7 @@ $vars["reserveringskosten"]=20;
 $vars["boeken"]=array(1=>html("accommodatiegegevensopgeven","vars"),2=>html("gegevenshoofdboekeropgeven","vars"),3=>html("gegevensoverigepersonenopgeven","vars"),4=>html("optiesselecteren","vars"),5=>html("boekingbevestigen","vars"));
 $vars["boeken_cms"]=array(1=>"Accommodatie, aantal personen of aankomstdatum wijzigen",2=>"Gegevens hoofdboeker wijzigen",3=>"Gegevens overige personen wijzigen",4=>"Opties wijzigen");
 $vars["stappen_log"]=array(1=>"aantal personen en aankomstdatum ingevoerd",2=>"gegevens hoofdboeker ingevoerd",3=>"gegevens overige personen ingevoerd",4=>"opties geselecteerd",5=>"boeking bevestigd");
-$vars["talen"]=array("nl"=>"Nederlands","en"=>"English");
+$vars["talen"]=array("nl"=>"Nederlands","en"=>"English","de"=>"Deutsch");
 #$vars["begineinddagen"]=array(-7=>"-7 dagen",-6=>"-6 dagen",-5=>"-5 dagen",-4=>"-4 dagen",-3=>"-3 dagen",-2=>"-2 dagen",-1=>"-1 dag",0=>"geen aanpassing",1=>"+1 dag",2=>"+2 dagen",3=>"+3 dagen",4=>"+4 dagen",5=>"+5 dagen",6=>"+6 dagen",7=>"+7 dagen");
 $vars["begineinddagen"]=array(-10=>"-10 dagen",-9=>"-9 dagen",-8=>"-8 dagen",-7=>"-7 dagen",-6=>"-6 dagen",-5=>"-5 dagen",-4=>"-4 dagen",-3=>"-3 dagen",-2=>"-2 dagen",-1=>"-1 dag",0=>"geen aanpassing",1=>"+1 dag",2=>"+2 dagen",3=>"+3 dagen",4=>"+4 dagen",5=>"+5 dagen",6=>"+6 dagen",7=>"+7 dagen",8=>"+8 dagen",9=>"+9 dagen",10=>"+10 dagen");
 $vars["geenvoorkeur"]="-- ".txt("geenvoorkeur","vars")." --";

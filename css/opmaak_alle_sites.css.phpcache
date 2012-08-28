@@ -854,7 +854,6 @@ td.selecteerbaarbedrag:hover{
 
 .zoekresultaatFAV_img {
 	padding: 5px;
-
 }
 
 .zoekresultaatFAV_img img {
@@ -888,10 +887,11 @@ td.selecteerbaarbedrag:hover{
 	float: left;
 	width: 411px;
 	color: #000000;
-	margin-top: 5px;
+	margin-top: 2px;
 	padding-left: 5px;
 	position: relative;
 }
+
 .zoekresultaatFAV_content {
 	float: left;
 	width: 411px;

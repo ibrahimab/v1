@@ -131,6 +131,7 @@ if($mustlogin) {
 	$layout->settings["css_folder"]=$vars["path"]."css/";
 	$layout->settings["scripts_folder"]=$vars["path"]."scripts/";
 	$layout->settings["logo"]="pic/cms_logo_".$vars["cmstaal"].".gif";
+#	echo 	$layout->settings["logo"];exit;
 	$layout->settings["mainpage"]="cms";
 	$layout->settings["loginname_field"]="voornaam";
 	$layout->settings["css_cacheversion"]=@filemtime("css/cms_layout.css");

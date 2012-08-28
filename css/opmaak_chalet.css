@@ -605,7 +605,8 @@ form {
 
 #oudzoekblok {
 	background-color: #eaf0fc;
-	border: 1px solid #003366;	
+	border: 1px solid #003366;
+	width: 668px;
 }
 
 #oudzoekblok #zoektabel {
