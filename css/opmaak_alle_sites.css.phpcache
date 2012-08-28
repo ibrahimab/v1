@@ -746,7 +746,7 @@ td.selecteerbaarbedrag:hover{
 	background-color: #d5e1f9;
 	width: 680px;
 	margin-top: 10px;
-	margin-bottom: 15px;
+	margin-bottom: 5px;
 	color: #003366;
 }
 

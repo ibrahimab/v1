@@ -603,6 +603,15 @@ form {
 /* TIJDELIJK!!!! */
 /* TIJDELIJK!!!! */
 
+#oudzoekblok {
+	background-color: #eaf0fc;
+	border: 1px solid #003366;	
+}
+
+#oudzoekblok #zoektabel {
+	background-color: #eaf0fc;
+}
+
 #alpedhuzes {
 	margin-top: 15px;
 	border: 1px solid #d5e1f9;

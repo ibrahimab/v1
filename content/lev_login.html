@@ -539,9 +539,25 @@ if($login_lev->logged_in) {
 
 		}
 	}
+	
+#	print_r($login_lev);
 } else {
-	if($voorkant_cms) {
-		echo "<div class=\"opmerkingbox\">Let op: je bent ingelogd in het CMS. Tegelijk als CMS-gebruiker en leverancier inloggen is niet toegestaan.</div>";
+	if($voorkant_cms and $login->logged_in) {
+		echo "<div class=\"opmerkingbox\"><p>Als je bent ingelogd in het CMS kun je eenvoudig als eigenaar inloggen:</p>";
+		
+		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
+		echo "<input type=\"hidden\" name=\"lev_login_cms\" value=\"1\">";
+		echo "<select name=\"leverancier_id\">";
+		echo "<option></option>";
+		$db->query("SELECT leverancier_id, naam FROM leverancier WHERE inlog_toegestaan=1 ORDER BY naam;");
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</option>";
+		}
+		echo "</select>";
+		echo "&nbsp;&nbsp;&nbsp;<input type=\"submit\" value=\" INLOGGEN ALS \">";
+		echo "</form>";
+		
+		echo "</div>";
 	} else {
 		echo html("inleiding_login","lev_login")."<p>";
 		$login_lev->loginform();
