@@ -29,7 +29,7 @@ if($_GET["t"]==1) {
 	#
 	$db->query("SELECT table_name, record_id FROM cmslog WHERE cmslog_id='".addslashes($_GET["cmslog_id"])."'");
 	if($db->next_record()) {
-		$db2->query("UPDATE cmslog SET vertaald=1 WHERE table_name='".$db->f("table_name")."' AND record_id='".$db->f("record_id")."';");
+		$db2->query("UPDATE cmslog SET vertaald_".$vars["cmstaal"]."=1 WHERE table_name='".$db->f("table_name")."' AND record_id='".$db->f("record_id")."';");
 	}
 
 	$json["afgevinkt"]=1;
