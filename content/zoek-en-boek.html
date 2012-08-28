@@ -2889,44 +2889,24 @@ $nieuw_sorteersysteem=true;
 			if($tarieven_tonen) {
 				echo "<td colspan=\"5\" align=\"right\" valign=\"bottom\" style=\"padding-right:10px;\">";
 				echo "<div id=\"zoekresultaten_sorteer\">";
-#				if($_GET["testsysteem"]==1) {
-					$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
-					$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
-					$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
-					if(preg_match("/sort=[0-9]/",$_SERVER["REQUEST_URI"])) {
-						$sorteer_url=preg_replace("/sort=[0-9]/","sort=SORT",$_SERVER["REQUEST_URI"]);
-					} elseif(preg_match("/\?/",$_SERVER["REQUEST_URI"])) {
-						$sorteer_url=$_SERVER["REQUEST_URI"]."&sort=SORT";
+				$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
+				$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
+				$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
+				if(preg_match("/sort=[0-9]/",$_SERVER["REQUEST_URI"])) {
+					$sorteer_url=preg_replace("/sort=[0-9]/","sort=SORT",$_SERVER["REQUEST_URI"]);
+				} elseif(preg_match("/\?/",$_SERVER["REQUEST_URI"])) {
+					$sorteer_url=$_SERVER["REQUEST_URI"]."&sort=SORT";
+				} else {
+					$sorteer_url=$_SERVER["REQUEST_URI"]."?sort=SORT";					
+				}
+				while(list($key,$value)=each($vars["sorteerkeuzes"])) {
+					if($_GET["sort"]==$key or (!$_GET["sort"] and $key==1)) {
+						echo "<div class=\"active\">".wt_he($value)."</div>";
 					} else {
-						$sorteer_url=$_SERVER["REQUEST_URI"]."?sort=SORT";					
+						echo "<a href=\"".wt_he(preg_replace("/sort=SORT/","sort=".$key,$sorteer_url))."#res\">".wt_he($value)."</a>";
 					}
-					while(list($key,$value)=each($vars["sorteerkeuzes"])) {
-						if($_GET["sort"]==$key or (!$_GET["sort"] and $key==1)) {
-							echo "<div class=\"active\">".wt_he($value)."</div>";
-						} else {
-							echo "<a href=\"".wt_he(preg_replace("/sort=SORT/","sort=".$key,$sorteer_url))."#res\">".wt_he($value)."</a>";
-						}
-					}
-					echo "<div id=\"zoekresultaten_sorteer_tekst\">".html("sorteer","zoek-en-boek").":</div>";
-#				} else {
-#					$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
-#					$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
-#					$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
-#					
-#					echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php#res\">";
-#					while(list($key,$value)=each($_GET)) {
-#						if($key<>"sort") echo "<input type=\"hidden\" name=\"".wt_he($key)."\" value=\"".wt_he($value)."\">";
-#					}
-#					echo html("sorteer","zoek-en-boek")."&nbsp;&nbsp;";
-#					echo "<select name=\"sort\" class=\"onchangesubmit\">";
-#					while(list($key,$value)=each($vars["sorteerkeuzes"])) {
-#						echo "<option value=\"".$key."\"";
-#						if((!$_GET["sort"] and $key==1) or $_GET["sort"]==$key) echo " selected";
-#						echo ">".wt_he($value)."</option>";
-#					}
-#					echo "</select>";
-#					echo "</form>";
-#				}
+				}
+				echo "<div id=\"zoekresultaten_sorteer_tekst\">".html("sorteer","zoek-en-boek").":</div>";
 				echo "</div>";
 				echo "</td>";
 			}

@@ -1,6 +1,6 @@
 <?php
 
-if($_GET["testsysteem"]) { ?>
+if($_GET["testsysteem"] or $vars["lokale_testserver"]) { ?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/main.js\"></script>";?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/popup.js\"></script>";?>
 <?php 
@@ -1438,7 +1438,7 @@ if($db->next_record()) {
 	
 	echo "</form>";
 	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="E") {
-		if($_GET["testsysteem"]==1) {
+		if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 			if(!in_array($typeid,$klantfavs)) {
 				echo "<div style=\"padding:5px;\">";
 				if($vars["website"]=="C"){

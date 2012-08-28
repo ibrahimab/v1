@@ -313,7 +313,7 @@ if($vars["verberg_linkerkolom"]) {
 
 	echo "</div>\n";
 } else {
-	echo "<div id=\"bloklinks_blok\">";
+	echo "<div id=\"bloklinks_blok\" class=\"noprint\">";
 
 	echo "<div id=\"bloklinks\">";
 	if($last_accNOT and $id<>"saved" and $id<>"boeken") {
@@ -356,7 +356,7 @@ if($vars["verberg_linkerkolom"]) {
 		}
 		# Nieuwsbrief
 		if($vars["website"]=="C") {
-			echo "<div id=\"hoofdpagina_nieuwsbrief\">";
+			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
 			echo "<div class=\"kop\">Nieuwsbrief</div>";
 			echo "<div>Schrijf je in voor onze nieuwsbrief en ontvang al onze aanbiedingen.</div>";
 			if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {

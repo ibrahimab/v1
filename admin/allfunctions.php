@@ -26,12 +26,6 @@ if(ini_get('register_globals') and !$wt_register_globals_on) {
 	@reset($_COOKIE);
 }
 
-# session-probleem FC4 bij bl.postvak.net verhelpen
-if($_SERVER["HOSTNAME"]=="bl.postvak.net") {
-	ini_set("session.entropy_file", "/dev/random");
-	ini_set("session.entropy_length", "512");
-}
-
 # magic quotes verwijderen
 if (!function_exists("remove_magic_quotes")) {
 	function remove_magic_quotes($vars,$suffix = '') {
