@@ -1321,7 +1321,7 @@ $txt["en"]["contact"]["telefoonnummer"]="Telephone number";
 $txt["nl"]["contact"]["mobielwerk"]="Mobiel of werktelefoonnummer";
 $txt["en"]["contact"]["mobielwerk"]="Mobile telephone or telephone at work";
 
-$txt["nl"]["contact"]["email"]="E-mailadres";
+$txt["nl"]["contact"]["email"]="E-mailadres: ";
 $txt["en"]["contact"]["email"]="E-mailadress";
 
 $txt["nl"]["contact"]["email_kort"]="E-mail";
@@ -1339,10 +1339,10 @@ $txt["en"]["contact"]["nieuwsbriefvraag"]="-";
 $txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik wil graag lid worden van de [[v_websitenaam]]- en Chalet.nl-nieuwsbrief";
 $txt["en_z"]["contact"]["nieuwsbriefvraag"]="-";
 
-$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen via telefoonnummer [[h_1]]0348 - 43 46 49[[h_2]]. Wij zijn telefonisch bereikbaar op maandag t/m vrijdag van 09.00 tot 17.30 uur en op zaterdag van 10.00 tot 17.30 uur. Je kunt ons ook een e-mail sturen met het verzoek om je terug te bellen.";
-$txt["en"]["contact"]["inleiding"]="If you have any questions, comments or any other things you would like to let us know, please complete the form below, send us an e-mail or contact us by telephone on telephone number [[h_1]]0348 - 43 46 49[[h_2]]. You can reach us by telephone Monday to Friday from 9 am. to 5.30 pm. and Saturdays from 10 am. to 5.30 pm. You can also send us an e-mail asking us to call you back.";
+$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["en"]["contact"]["inleiding"]="If you have any questions, comments or any other things you would like to let us know, please complete the form below, send us an e-mail or contact us by telephone.";
 
-$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen via telefoonnummer [[h_1]]+31 348 43 46 49[[h_2]]. Je kunt ons ook een e-mail sturen met het verzoek om je terug te bellen.";
+$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
 $txt["en_b"]["contact"]["inleiding"]="-";
 
 $txt["nl"]["contact"]["inleiding_chalettour"]="Neem voor meer informatie, vragen of opmerkingen direct contact op met uw reisbureau of vul onderstaand contactformulier in.";
@@ -1354,26 +1354,29 @@ $txt["en"]["contact"]["naamreisbureau_chalettour"]="-";
 $txt["nl"]["contact"]["nederland"]="Nederland"; # Dit veld blijft leeg bij de Nederlandstalige versie
 $txt["en"]["contact"]["nederland"]="The Netherlands";
 
-$txt["nl"]["contact"]["adresgegevens"]="Adresgegevens: ";
-$txt["en"]["contact"]["adresgegevens"]="Contact informations: ";
+$txt["nl"]["contact"]["adresgegevens"]="Adresgegevens ";
+$txt["en"]["contact"]["adresgegevens"]="Contact information ";
 
 $txt["nl"]["contact"]["postadres"]="Postadres: ";
-$txt["en"]["contact"]["postadres"]="Mailing address: ";
+$txt["en"]["contact"]["postadres"]="Address: ";
 
-$txt["nl"]["contact"]["overigegegevens"]="Overige gegevens : ";
-$txt["en"]["contact"]["overigegegevens"]="Other informations: ";
+$txt["nl"]["contact"]["overigegegevens"]="Overige gegevens ";
+$txt["en"]["contact"]["overigegegevens"]="Other information ";
 
-$txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0348 - 43 46 49";
-$txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
+$txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon:";
+$txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone:";
 
-$txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon: +31 348 43 46 49";
-$txt["en_b"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
+$txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon:";
+$txt["en_b"]["contact"]["telefoonnummer_chalet"]="Telephone:";
 
-$txt["nl"]["contact"]["fax_chalet"]="Fax: 0348 - 69 07 52";
-$txt["en"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
+$txt["nl"]["contact"]["fax_chalet"]="Fax: ";
+$txt["en"]["contact"]["fax_chalet"]="Fax:";
 
-$txt["nl_b"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
-$txt["en_b"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
+$txt["nl"]["contact"]["telefonischeBereikbaarheid"]="Telefonische bereikbaarheid ";
+$txt["en"]["contact"]["telefonischeBereikbaarheid"]="Reach us by telephone (local time)";
+
+$txt["nl_b"]["contact"]["fax_chalet"]="Fax:";
+$txt["en_b"]["contact"]["fax_chalet"]="Fax:";
 
 $txt["nl"]["contact"]["onderschrift_chalettour"]="Chalettour is een handelsnaam van Chalet.nl B.V., Lindenhof 5, 3442 GT Woerden, tel: 0348-434649, [[h_1]]info@chalettour.nl[[h_2]]";
 $txt["en"]["contact"]["onderschrift_chalettour"]="-";
