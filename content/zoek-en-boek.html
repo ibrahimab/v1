@@ -365,10 +365,14 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 	}
 } else {
 	if($vars["websitetype"]==7) echo "<div style=\"height:10px;\"></div>";
-	echo html("inleiding","accommodaties",array("l1"=>"aanbiedingen","l2"=>"top10","v_websitenaam"=>$vars["websitenaam"]));
-	echo "<br />";
-	echo "<a name=\"form\"></a>";
-	echo "<br />";
+	if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
+		echo "<a name=\"form\"></a>";	
+	} else {
+		echo html("inleiding","accommodaties",array("l1"=>"aanbiedingen","l2"=>"top10","v_websitenaam"=>$vars["websitenaam"]));
+		echo "<br />";
+		echo "<a name=\"form\"></a>";
+		echo "<br />";
+	}
 }
 
 if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
@@ -412,7 +416,7 @@ echo "<div id=\"hulp_zoekresultaat_hover\"></div>";
 
 
 
-if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	#
 	# Nieuw zoekformulier
 	#
@@ -897,7 +901,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	#
 	# Oud zoekformulier
 	#
-	echo "<div class=\"div_met_border boxshadow\">";
+	echo "<div class=\"div_met_border boxshadow\" id=\"oudzoekblok\">";
 
 	echo "<table border=\"0\" width=\"600\" bgcolor=\"#FFFFFF\" cellspacing=\"0\" cellpadding=\"0\" class=\"tabel_met_border\" id=\"zoektabel\">";
 	echo "<form method=\"get\" action=\"";
@@ -1261,10 +1265,10 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 					echo "</div>";
 				}
 			}
-			if(!$h2_getoond) {
-				echo "<h2>".html("zoekresultaten","accommodaties");
-				if($zoekresultaten_title) echo " - ".wt_he($zoekresultaten_title);
-				echo "</h2>";
+			if(!$h2_getoond and $zoekresultaten_title) {
+#				echo "<h2>".html("zoekresultaten","accommodaties");
+#				if($zoekresultaten_title) echo " - ".wt_he($zoekresultaten_title);
+#				echo "</h2>";
 			}
 		} else {
 			echo "<font CLASS=\"titel\">".html("zoekresultaten","accommodaties");
@@ -3049,7 +3053,7 @@ $nieuw_sorteersysteem=true;
 
 if($vars["verfijnen_aanbieden"]) {
 	if($results) {
-		$lhtml="<a name=\"vf\"></a><div id=\"verfijn\" class=\"boxshadow\">";
+		$lhtml="<a name=\"vf\"></a><div id=\"verfijn\" class=\"nu_even_niet_boxshadow\">";
 		$lhtml.="<div id=\"verfijntopheader\">".html("verfijnzoekopdracht","zoek-en-boek")."</div>";
 
 		if(is_array($verfijnd["kenmerken"])) {

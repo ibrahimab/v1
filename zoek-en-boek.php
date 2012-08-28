@@ -102,6 +102,10 @@ if($vars["zoekform_aanbiedingen"]) {
 	}
 }
 
+if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
+	$laat_titel_weg=true;
+}
+
 include "content/opmaak.php";
 
 ?>
