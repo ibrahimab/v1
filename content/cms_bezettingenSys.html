@@ -1,0 +1,947 @@
+<?php echo"<script type=\"text/javascript\" src=\"".$vars["basehref"]."scripts/popupCalender.js\"></script>";?>
+<?php
+echo "<table class=\"tbl\" cellspacing=\"0\">";
+echo "<tr><td>Accommodaties</td><td>";
+	$db->query("SELECT a.naam AS accommodatie, a.accommodatie_id, t.type_id, t.naam AS type, t.code, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, l.naam AS land, l.begincode FROM type t, accommodatie a, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.tonen=1 AND a.archief=0 AND t.tonen=1 ORDER BY p.naam, a.naam, t.type_id, t.naam, t.maxaantalpersonen;");
+	if($db->num_rows()) {
+		echo "<select multiple=\"multiple\" id=\"types\" name=\"types\" style=\"width:550px\">";
+		echo "<option value=\"\"></option>";
+		while($db->next_record()) {
+#			$vars["top10_types"][$db->f("type_id")]=substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ";		
+			echo "<option value=\"".$db->f("type_id")."\">".htmlentities(substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ")."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen types aanwezig";
+	}
+	echo "</td></tr>";
+echo "</table>";
+?>
+<script language="javascript" type="text/javascript">
+var cal = new CalendarPopup();
+function getRapport(){	
+	if(document.getElementById('types').value==""){
+		window.alert("Selecteer a.u.b een type");
+	}
+	else{
+		var elements=document.getElementById('types');
+		var select;
+		var type="";
+		for(i=0; i<elements.length;i++){
+			select=elements.options[i];
+			if(select.selected){
+				type +=select.value;
+				type +=",";
+			}
+		}
+		sessionStorage.type=type;
+		var ajaxRequest;  // The variable that makes Ajax possible!	
+		try{
+			ajaxRequest = new XMLHttpRequest();
+		}catch (e){
+			try{
+				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}catch (e) {
+				try{
+					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}catch (e){
+					alert("Your browser broke!");
+						return false;
+				}
+			}
+		}
+		ajaxRequest.onreadystatechange = function(){
+			if(ajaxRequest.readyState == 4){
+				if(sessionStorage.van==null && sessionStorage.tot==null){
+					window.location = "/chalet/cms_bezettingensys.php?getRapport=true&type=" + type;
+					return false;
+				}
+				else if(sessionStorage.van!=null && sessionStorage.tot!=null){
+					window.location = "/chalet/cms_bezettingensys.php?getRapport=true&type=" + type+"&periode=true&van="+sessionStorage.van+"&tot="+sessionStorage.tot;
+					return false;
+				}
+			}
+		}
+		//var queryString = "?getRapport=true&type="+document.getElementById('types').value;type
+		var queryString = "?getRapport=true&type="+type;
+		if(document.getElementById('Maandeen').value !="" && document.getElementById('Maandtwee').value !=""){
+			sessionStorage.van=document.getElementById('Maandeen').value;
+			sessionStorage.tot=document.getElementById('Maandtwee').value;
+			queryString +="&periode=true&van=" + document.getElementById('Maandeen').value;
+			queryString +=  "&tot=" + document.getElementById('Maandtwee').value;
+		}
+		
+		ajaxRequest.open("GET", queryString, true);
+		ajaxRequest.send(null); 
+	}
+}
+
+function exportFile(){	
+		var ajaxRequest;  // The variable that makes Ajax possible!	
+		try{
+			ajaxRequest = new XMLHttpRequest();
+		}catch (e){
+			try{
+				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+			}catch (e) {
+				try{
+					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+				}catch (e){
+					alert("Your browser broke!");
+						return false;
+				}
+			}
+		}
+		ajaxRequest.onreadystatechange = function(){
+			if(ajaxRequest.readyState == 4){
+				if(sessionStorage.van == null && sessionStorage.tot == null){
+					window.location = "/chalet/cms_bezettingensys.php?exportFile=true&periode=false&type="+sessionStorage.type;
+					return false;
+				}
+				else if(sessionStorage.van != null && sessionStorage.tot != null){
+					window.location = "/chalet/cms_bezettingensys.php?exportFile=true&periode=true&van=" + sessionStorage.van+"&tot="+sessionStorage.tot+"&type="+sessionStorage.type;
+					//sessionStorage.van = null;
+					//sessionStorage.tot = null;
+					return false;
+				}
+			}
+		}
+		if(sessionStorage.van == null && sessionStorage.tot == null){
+			var queryString = "?exportFile=true&periode=false";
+		}
+		else if(sessionStorage.van != null && sessionStorage.tot != null){
+			var queryString = "?periode=true&van=" + sessionStorage.van ;
+			queryString +=  "&tot=" + sessionStorage.tot;
+		}
+			//queryString +=  "&tot=" + document.getElementById('Maandtwee').value;
+			ajaxRequest.open("GET", queryString, true);
+			ajaxRequest.send(null); 
+}
+
+function printDiv(divName) {
+	var content=document.getElementById(divName).innerHTML;
+	var pwin=window.open('','print_content','width=800,height=600');
+	pwin.document.open();
+	pwin.document.write('<html><body onload="window.print()">'+content+'</body></html>');
+	pwin.document.close();
+	setTimeout(function(){pwin.close();},1000);
+} 
+</script>
+<?php
+$status["beschikbaar"]="#008000";
+$status["Navragen"]="#FFA500";
+$status["inoptie"]="#FFFF00";
+$status["viachalet"]="#ADD8E6";
+$status["doorDerden"]="#800080";
+$status["geblokeerd"]="#C53C96";
+$status["nietbeschikbaar"]="#FF0000";
+$status["inplaning"]="#FFFFFF";
+
+$beschikbaar = array(
+	'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb'=>'008000'),
+    ),
+);
+$inplaning = array(
+	'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb'=>'FFFFFF'),
+    ),
+);
+$nietbeschikbaar = array(
+	'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb'=>'FF0000'),
+    ),
+);
+$geblokeerd = array(
+	'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb'=>'C53C96'),
+    ),
+);
+$doorDerden = array(
+	'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb'=>'800080'),
+    ),
+);
+$viachalet = array(
+
+	'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb'=>'ADD8E6'),
+    ),
+);
+$inoptie = array(
+
+	'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb'=>'FFFF00'),
+    ),
+);
+$Navragen = array(
+
+	'fill' => array(
+        'type' => PHPExcel_Style_Fill::FILL_SOLID,
+        'color' => array('rgb'=>'FFA500'),
+    ),
+);
+
+//contactpersoon_contract
+
+?>
+<form name="periode">
+<table>
+  <tr>
+    <td>Periode:</td>
+    <td><input type="text" name=date1 id="Maandeen" readonly="readonly" value=""><A HREF="#"
+
+   onClick="cal.select(document.forms['periode'].date1,'Maandeen','yyyy-MM-dd'); return false;"
+   NAME="Maandeen" ID="Maandeen">Selecteer</A>
+    </input>
+    </td>
+    <td><input type="text" name=date2 id="Maandtwee" readonly="readonly" value=""><A HREF="#"
+
+   onClick="cal.select(document.forms['periode'].date2,'Maandtwee','yyyy-MM-dd'); return false;"
+   NAME="Maandtwee" ID="Maandtwee">Selecteer</A>
+    </input>
+    </td>
+  	<td><input type="button" value="Rapport ophalen" onclick="getRapport()" </td>
+  </tr>
+  <tr>
+  	<td height="20"></td>
+  </tr><?php 
+	if(isset($_GET["getRapport"])){
+		echo "<tr>";
+  		echo 	"<td><a href=\"#\" onclick=\"exportFile()\">Excel bestand exporteren</a></td>";
+  		echo "</tr>";
+	}
+ ?>
+</table>
+</form>
+<?php
+$types=explode(",",$_GET["type"]);
+if(isset($_GET["exportFile"])=="true"){
+	if($_GET["periode"]=="false"){
+		$objPHPExcel = new PHPExcel();
+		$sheet = $objPHPExcel->getActiveSheet();
+		$sheet->setCellValue('A1', '');
+		$sheet->setCellValue('B1', '');
+		$sheet->setCellValue('C1', 'Weken');
+		$sheet->setCellValue('A2', '');
+		$sheet->setCellValue('B2', 'Eigenaarsnaam');
+		$sheet->setCellValue("C2", date("M")." ".date("Y"));
+		$currDate=date("Y-m-d",date("Y")."-".date("m")."- 01");
+		$a=0;
+		$l="C";
+		$next_l=$l;
+		for($i=0;$i<31;$i++){
+			$currDate=strtotime('+1 day', $currDate);
+			if(date("l",$currDate)=="Saturday" and $a<4){
+				$data=date("d",$currDate)+1;
+				$sheet->setCellValue($next_l."3", $data);
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				$a++;
+			}
+		}
+		$huidigerij=4;
+		$l="C";
+		$next_l=$l;
+		for($i=0; $i<count($types)-1;$i++){
+		$db->query("SELECT leverancier_id FROM type WHERE type_id='".$types[$i]."';");
+		while($db->next_record()){
+			$db2->query("SELECT contactpersoon_contract FROM leverancier WHERE leverancier_id='".$db->f("leverancier_id")."'");
+			while($db2->next_record()){
+				$levNaam=$db2->f("contactpersoon_contract");
+			}
+			$db4->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id = ".addslashes($types[$i])." ORDER BY ta.week ASC;");
+			if(!$db4->f("beschikbaar") and $db4->f("opmerking_boekingderden") or !$db4->f("beschikbaar") and $db4->f("opmerking_nietbeschikbaarverhuur")){
+				$db3->query("SELECT b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id = ".addslashes($types[$i])." OR b.verzameltype_gekozentype_id = (".addslashes($types[$i]).")) AND b.seizoen_id>=17 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'';");
+				$sheet->setCellValue('A'.$huidigerij, $types[$i]);
+				$sheet->setCellValue('B'.$huidigerij, $levNaam);
+				$done=0;
+				while($db3->next_record()){
+					if(date("Y",$db3->f("aankomstdatum_exact"))==date("Y") and date("M",$db3->f("aankomstdatum_exact"))==date("M") and date("Y",$db3->f("aankomstdatum_exact")) != "1970"){		
+						$l="C";
+						for($b=date("d",$db3->f("aankomstdatum_exact")); $b<date("d",$db3->f("vertrekdatum_exact")); $b++){
+							if($db4->f("opmerking_boekingderden")){
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($doorDerden);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "*");
+								}
+							}
+							elseif($db4->f("opmerking_nietbeschikbaarverhuur")){
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($nietbeschikbaar);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "*");
+								}		
+							}
+							elseif($db3->f("besteldatum")>0 or $db3->f("vertrekdatum_exact")<time()) {
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($viachalet);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "");
+								}
+							}
+							else {
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($inoptie);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "");
+								}
+							}
+							$next_l=++$l;	
+						}
+						$done=0;
+					}
+				}
+				$huidigerij++;
+				$next_l="C";		
+		}
+		else{
+			$done=0;
+			$sheet->setCellValue('A'.$huidigerij, $types[$i]);
+			$sheet->setCellValue('B'.$huidigerij, $levNaam);
+			while($db4->next_record()){
+				if(date("Y",$db4->f("week"))==date("Y") and date("M",$db4->f("week"))==date("M") and date("Y",$db4->f("week")) != "1970"){							
+					
+					for($b=date("d",$db4->f("week"))+1; $b<date("d",$db4->f("week"))+7; $b++){
+						if($db4->f("voorraad_optie_klant")){
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($inoptie);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij,"");
+								}
+							}
+							elseif($db4->f("voorraad_request")){
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($Navragen);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "");
+								}
+							}
+							elseif($db4->f("voorraad_allotment")) {
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($beschikbaar);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "");
+								}
+							}
+							else {
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($inplaning);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "");
+								}
+							}
+						++$next_l;
+					}
+					$done=0;
+				}
+				
+			}
+			$huidigerij++;
+			$next_l="C";
+			}
+		}
+	}
+}
+elseif($_GET["periode"]=="true"){
+		$datumFrom=strtotime($_GET["van"]);
+		$datumTo=strtotime($_GET["tot"]);
+		$objPHPExcel = new PHPExcel();
+		$sheet = $objPHPExcel->getActiveSheet();
+		$sheet->setCellValue('A1', '');
+		$sheet->setCellValue('B1', '');
+		$sheet->setCellValue('C1', 'Weken');
+		$sheet->setCellValue('A2', '');
+		$sheet->setCellValue('B2', 'Eigenaarsnaam');
+		$sheet->setCellValue("C2", "");
+		$datumToTo=$datumTo;
+		$datumFromFrom=$datumFrom;
+		$verschil=$datumToTo-$datumFromFrom;
+		$years = floor($verschil / (365*60*60*24)); 
+		$months = floor(($verschil - $years * 365*60*60*24) / (30*60*60*24)); 
+		$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24)); 
+		$a=0;
+		$l="C";
+		$next_l=$l;
+		do{
+			$datumFromFrom=strtotime('+1 day', $datumFromFrom);
+			if(date("l",$datumFromFrom)=="Saturday" and $a<4*$verschil){
+				$data=date("d/m/Y",$datumFromFrom);
+				$sheet->setCellValue($next_l."3", $data);
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$sheet->setCellValue($next_l."3", "");
+				++$next_l;
+				$a++;
+			}
+		}
+		while($datumFromFrom < $datumToTo);
+		$huidigerij=4;
+		$l="C";
+		$next_l=$l;
+		for($i=0; $i<count($types)-1;$i++){
+		$db->query("SELECT leverancier_id FROM type WHERE type_id='".$types[$i]."';");
+		while($db->next_record()){
+			$db2->query("SELECT contactpersoon_contract FROM leverancier WHERE leverancier_id='".$db->f("leverancier_id")."'");
+			while($db2->next_record()){
+				$levNaam=$db2->f("contactpersoon_contract");
+			}
+			$db4->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.week BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND ta.type_id = '".addslashes($types[$i])."' ORDER BY ta.week ASC;");
+			if(!$db4->f("beschikbaar") and $db4->f("opmerking_boekingderden") or !$db4->f("beschikbaar") and $db4->f("opmerking_nietbeschikbaarverhuur")){
+				$db3->query("SELECT b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE b.aankomstdatum_exact BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id = ".addslashes($types[$i])." OR b.verzameltype_gekozentype_id = ('".addslashes($types[$i])."')) AND b.seizoen_id>=17 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'';");
+				$sheet->setCellValue("A".$huidigerij,$types[$i]);
+				$sheet->setCellValue("B".$huidigerij,$levNaam);
+				$done=0;
+				while($db3->next_record()){	
+						$l="C";
+						for($b=date("d",$db3->f("aankomstdatum_exact")); $b<date("d",$db3->f("vertrekdatum_exact")); $b++){
+							if($db4->f("opmerking_boekingderden")){
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($doorDerden);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->setCellValue($next_l.$huidigerij, "");
+								}
+							}
+							elseif($db4->f("opmerking_nietbeschikbaarverhuur")){
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($nietbeschikbaar);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "*");
+								}		
+							}
+							elseif($db3->f("besteldatum")>0 or $db3->f("vertrekdatum_exact")<time()) {
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($viachalet);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "");
+								}
+							}
+							else {
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($inoptie);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, date("d/m/Y",$db3->f("aankomstdatum_exact")));
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "");
+								}
+							}
+							$next_l=++$l;	
+						}
+						$done=0;
+					}
+					$huidigerij++;
+					$next_l="C";
+				}
+			else{
+					$sheet->setCellValue('A'.$huidigerij, $types[$i]);
+					$sheet->setCellValue('B'.$huidigerij, $levNaam);
+					$done=0;
+					while($db4->next_record()){	
+						for($b=date("d",$db4->f("week"))+1; $b<date("d",$db4->f("week"))+7; $b++){
+							if($db4->f("voorraad_optie_klant")){
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($inoptie);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij,"*");
+								}
+							}
+							elseif($db4->f("voorraad_request")){
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($Navragen);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "*");
+								}
+							}
+							elseif($db4->f("voorraad_allotment")) {
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($beschikbaar);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "*");
+								}
+							}
+							else {
+								$sheet->getStyle($next_l.$huidigerij)->applyFromArray($inplaning);
+								if($done==0){
+									$sheet->setCellValue($next_l.$huidigerij, "");
+									$done++;
+								}
+								else{
+									$sheet->getColumnDimension($next_l.$huidigerij)->setAutoSize(true);
+									$sheet->getColumnDimension($next_l.$huidigerij)->setWidth(12);
+									$sheet->setCellValue($next_l.$huidigerij, "");
+								}
+							}
+							++$next_l;
+						}
+						$done=0;
+					}
+				}
+				$huidigerij++;
+				$next_l="C";
+			}
+		}
+		
+	}
+	$huidigerij+=3;
+	$sheet->setCellValue('A'.$huidigerij, "Legenda");
+	$huidigerij++;
+	$sheet->getStyle('A'.$huidigerij)->applyFromArray($beschikbaar);
+	$sheet->setCellValue('A'.$huidigerij, "");
+	$sheet->setCellValue('B'.$huidigerij, "Direct beschikbaar");
+	$huidigerij++;
+	$sheet->getStyle('A'.$huidigerij)->applyFromArray($Navragen);
+	$sheet->setCellValue('A'.$huidigerij, "");
+	$sheet->setCellValue('B'.$huidigerij, "Navragen bij eigenaar");
+	$huidigerij++;
+	$sheet->getStyle('A'.$huidigerij)->applyFromArray($inoptie);
+	$sheet->setCellValue('A'.$huidigerij, "");
+	$sheet->setCellValue('B'.$huidigerij, "Staat in optie voor klant");
+	$huidigerij++;
+	$sheet->getStyle('A'.$huidigerij)->applyFromArray($viachalet);
+	$sheet->setCellValue('A'.$huidigerij, "");
+	$sheet->setCellValue('B'.$huidigerij, "Boeking via Chalet.nl");
+	$huidigerij++;
+	$sheet->getStyle('A'.$huidigerij)->applyFromArray($doorDerden);
+	$sheet->setCellValue('A'.$huidigerij, "");
+	$sheet->setCellValue('B'.$huidigerij, "Boeking door derde");
+	$huidigerij++;
+	$sheet->getStyle('A'.$huidigerij)->applyFromArray($geblokeerd);
+	$sheet->setCellValue('A'.$huidigerij, "");
+	$sheet->setCellValue('B'.$huidigerij, "Geblokkeerd door eigenaar");
+	$huidigerij++;
+	$sheet->getStyle('A'.$huidigerij)->applyFromArray($nietbeschikbaar);
+	$sheet->setCellValue('A'.$huidigerij, "");
+	$sheet->setCellValue('B'.$huidigerij, "Niet beschikbaar voor verhuur");
+	$huidigerij++;
+	$sheet->getStyle('A'.$huidigerij)->applyFromArray($inplaning);
+	$sheet->setCellValue('A'.$huidigerij, "");
+	$sheet->setCellValue('B'.$huidigerij, "Nog niet in planning");
+
+	$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+	$objWriter->save('testPHPExcel.xlsx');
+	echo "Done writing<BR><BR>";
+	echo "<a href=\"testPHPExcel.xlsx\">Download bestand</a><BR><BR>";
+}
+if($_GET["periode"]=="true" and isset($_GET["getRapport"]) or $_GET["periode"]=="true" and isset($_GET["exportFile"])){	
+	$datumFrom=strtotime($_GET["van"]);
+	$datumTo=strtotime($_GET["tot"]);
+	$table="<table width=\"100%\" border=\"1\" cellspacing=\"0\">";
+	$table.="<tr>";
+	$table.="<td></td>";
+	$table.="<td></td>";
+	$table.="<td colspan=\"1000\"><b>Weken</b></td>";
+	$table.="</tr><tr>";
+	$table.="<td></td>";
+	$table.="<td><b>Eigenaar naam</b></td>";
+	$table.="<td colspan=\"1000\">";
+	$table.="<table border=\"1\" cellspacing=\"0\" width=\"100%\">";
+	$table.="<tr>";
+	$datumToTo=$datumTo;
+	$datumFromFrom=$datumFrom;
+	$verschil=$datumToTo-$datumFromFrom;
+	$years = floor($verschil / (365*60*60*24)); 
+	$months = floor(($verschil - $years * 365*60*60*24) / (30*60*60*24)); 
+	$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24)); 
+	//echo $months;
+	//$a=0;
+	do{
+		$datumFromFrom=strtotime('+1 day', $datumFromFrom);
+		if(date("l",$datumFromFrom)=="Saturday" and $a<4*$verschil){
+			$data=date("d/m/Y",$datumFromFrom);
+			$table.="<td width=\"10\" bgcolor=\"".$stat."\">".$data."</td>";
+			$table.="<td width=\"10\" bgcolor=\"".$stat."\"></td>";
+			$table.="<td width=\"10\" bgcolor=\"".$stat."\"></td>";
+			$table.="<td width=\"10\" bgcolor=\"".$stat."\"></td>";
+			$table.="<td width=\"10\" bgcolor=\"".$stat."\"></td>";
+			$table.="<td width=\"10\" bgcolor=\"".$stat."\"></td>";
+			$a++;
+		}
+
+	}
+	while($datumFromFrom < $datumToTo);
+		
+	$table.="</tr>";
+	$table.="</table>";
+	$table.="</td>";
+	$table.="</tr><tr>";
+	$table.="</tr><tr>";
+	for($i=0; $i<count($types)-1;$i++){
+		$db->query("SELECT leverancier_id FROM type WHERE type_id='".$types[$i]."';");
+		while($db->next_record()){
+			$db2->query("SELECT contactpersoon_contract FROM leverancier WHERE leverancier_id='".$db->f("leverancier_id")."'");
+			while($db2->next_record()){
+				$levNaam=$db2->f("contactpersoon_contract");
+			}
+		$db4->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.week BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND ta.type_id = ".addslashes($types[$i])." ORDER BY ta.week ASC;");
+		if(!$db4->f("beschikbaar") and $db4->f("opmerking_boekingderden") or !$db4->f("beschikbaar") and $db4->f("opmerking_nietbeschikbaarverhuur")){
+			$db3->query("SELECT b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE b.aankomstdatum_exact BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id = ".addslashes($types[$i])." OR b.verzameltype_gekozentype_id = (".addslashes($types[$i]).")) AND b.seizoen_id>=17 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'';");
+			$table.="<td>".$types[$i]."</td>";
+			$table.="<td>".$levNaam."</td>";
+			$table.="<td>";
+			$table.="<table border=\"0\" cellspacing=\"0\" width=\"100%\">";
+			$table.="<tr>";
+			while($db3->next_record()){	
+				if($db4->f("opmerking_boekingderden")){
+					$stat=$status["doorDerden"];
+				}
+				elseif($db4->f("opmerking_nietbeschikbaarverhuur")){
+					$stat=$status["nietbeschikbaar"];			
+				}	
+				elseif($db3->f("besteldatum")>0 or $db3->f("vertrekdatum_exact")<time()) {
+					$stat=$status["viachalet"];
+				}
+				else {
+					$stat=$status["inoptie"];
+				}
+				//echo "<td bgcolor=\"".$stat."\">".date("d",$db3->f("aankomstdatum_exact"))."</td>";
+				for($b=date("d",$db3->f("aankomstdatum_exact")); $b<date("d",$db3->f("vertrekdatum_exact")); $b++){
+					if($db4->f("opmerking_boekingderden")){
+						$stat=$status["doorDerden"];
+					}
+					elseif($db4->f("opmerking_nietbeschikbaarverhuur")){
+						$stat=$status["nietbeschikbaar"];			
+					}	
+					elseif($db3->f("besteldatum")>0 or $db3->f("vertrekdatum_exact")<time()) {
+						$stat=$status["viachalet"];
+					}
+					else {
+						$stat=$status["inoptie"];
+					}
+					echo "<td height=\"10\" bgcolor=\"".$stat."\"></td>";
+				}
+			}
+		}
+		else{
+				$table.="<td>".$types[$i]."</td>";
+				$table.="<td>".$levNaam."</td>";
+				$table.="<td>";
+				$table.="<table border=\"0\" cellspacing=\"0\" width=\"100%\">";
+				$table.="<tr>";
+				while($db4->next_record()){	
+						$a=0;
+						//while($a<$db4->num_rows()){
+						//while($huidig == $db2->f("type_id")){	
+							if($db4->f("voorraad_optie_klant")){
+								$stat=$status["inoptie"];
+							}
+							elseif($db4->f("voorraad_allotment")) {
+								$stat=$status["beschikbaar"];
+							}
+							elseif($db4->f("voorraad_request")){
+								$stat=$status["Navragen"];
+							}
+							//$table.="<td bgcolor=\"".$stat."\">".date("d/m/Y",$db4->f("week"))."</td>";
+							for($b=date("d",$db4->f("week"))+1; $b<date("d",$db4->f("week"))+7; $b++){
+								//if(!$db4->f("beschikbaar") and $db3->f("opmerking_bezeteigenaar")) {
+								//	$stat=$status["geblokeerd"];
+								//}
+								//elseif(!$db4->f("beschikbaar") and $db3->f("opmerking_boekingderden")){
+								//	$stat=$status["doorDerden"];
+								//}
+								//elseif(!$db4->f("beschikbaar") and $db3->f("opmerking_nietbeschikbaarverhuur")){
+								//	$stat=$status["nietbeschikbaar"];
+								//}
+								if($db4->f("voorraad_optie_klant")){
+									$stat=$status["inoptie"];
+								}
+								elseif($db4->f("voorraad_allotment")) {
+									$stat=$status["beschikbaar"];
+								}
+								elseif($db4->f("voorraad_request")){
+									$stat=$status["Navragen"];
+								}
+								$table.="<td height=\"10\" width=\"20\" bgcolor=\"".$stat."\"></td>";
+							}
+							//$db4->next_record();
+							//$a++;
+						//}
+					
+					//
+					//$table.="</tr><tr>";
+				}
+			$table.="</tr>";
+			$table.="</table>";
+			$table.="</td>";
+			$table.="</tr><tr>";
+			}
+
+		}
+
+	}
+	$table.="</tr>";
+	$table.="</table>";
+	echo $table;
+	echo "<BR><BR><BR>";
+}
+else{
+	if(isset($_GET["getRapport"]) or $_GET["periode"]=="false" and isset($_GET["exportFile"])){
+	$showNaam=0;
+	echo "<table width=\"100%\" border=\"1\" cellspacing=\"0\">";
+	echo "<tr>";
+	echo "<td></td>";
+	echo "<td></td>";
+	echo "<td colspan=\"1000\"><b>Weken</b></td>";
+	echo "</tr><tr>";
+	echo "<td></td>";
+	echo "<td><b>Eigenaar naam</b></td>";
+	echo "<td colspan=\"1000\">".date("M")." ".date("Y")."</td>";
+	echo "</tr><tr>";
+	echo "<td></td><td></td>";
+	echo "<td colspan=\"1000\">";
+	echo "<table border=\"1\" cellspacing=\"0\" width=\"100%\">";
+	echo "<tr>";
+	$currDate=date("Y-m-d",date("Y")."-".date("m")."- 01");
+	$a=0;
+	for($i=0;$i<31;$i++){
+		$currDate=strtotime('+1 day', $currDate);
+		if(date("l",$currDate)=="Saturday" and $a<4){
+			$data=date("d",$currDate)+1;
+			echo "<td width=\"15\" bgcolor=\"".$stat."\">".$data."</td>";
+			echo "<td bgcolor=\"".$stat."\"></td>";
+			echo "<td bgcolor=\"".$stat."\"></td>";
+			echo "<td bgcolor=\"".$stat."\"></td>";
+			echo "<td bgcolor=\"".$stat."\"></td>";
+			echo "<td bgcolor=\"".$stat."\"></td>";
+			$a++;
+		}
+	}
+	echo "</tr>";
+	echo "</table>";
+	echo "</td>";
+	echo "</tr><tr>";
+	$count =0;
+	for($i=0; $i<count($types)-1;$i++){
+		$db->query("SELECT leverancier_id FROM type WHERE type_id='".$types[$i]."';");
+		while($db->next_record()){
+			$db2->query("SELECT contactpersoon_contract FROM leverancier WHERE leverancier_id='".$db->f("leverancier_id")."'");
+			while($db2->next_record()){
+				$levNaam=$db2->f("contactpersoon_contract");
+			}
+		$db4->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur, lev.contactpersoon_contract, lev.leverancier_id FROM leverancier lev, tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND lev.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id = '".addslashes($types[$i])."' ORDER BY a.wzt DESC, ta.week;");
+		if(!$db4->f("beschikbaar") and $db4->f("opmerking_boekingderden") or !$db4->f("beschikbaar") and $db4->f("opmerking_nietbeschikbaarverhuur")){
+			$db3->query("SELECT b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam, lev.contactpersoon_contract, lev.leverancier_id FROM leverancier lev, boeking b, type t, boeking_persoon bp WHERE t.leverancier_id=lev.leverancier_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id = ".addslashes($types[$i])." OR b.verzameltype_gekozentype_id = (".addslashes($types[$i]).")) AND b.seizoen_id>=17 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'';");
+			echo "<td>".$types[$i]."</td>";
+			echo "<td>".$levNaam."</td>";
+			echo "<td>";
+			echo "<table border=\"1\" width=\"100%\">";
+			echo "<tr>";
+			while($db3->next_record()){
+				if(date("Y",$db3->f("aankomstdatum_exact"))==date("Y") and date("M",$db3->f("aankomstdatum_exact"))==date("M") and date("Y",$db3->f("aankomstdatum_exact")) != "1970"){		
+					if($db4->f("opmerking_boekingderden")){
+						$stat=$status["doorDerden"];
+					}
+					elseif($db4->f("opmerking_nietbeschikbaarverhuur")){
+						$stat=$status["nietbeschikbaar"];			
+					}	
+					elseif($db3->f("besteldatum")>0 or $db3->f("vertrekdatum_exact")<time()) {
+						$stat=$status["viachalet"];
+					}
+					else {
+						$stat=$status["inoptie"];
+					}
+					//echo "<td bgcolor=\"".$stat."\">".date("d",$db3->f("aankomstdatum_exact"))."</td>";
+					for($b=date("d",$db3->f("aankomstdatum_exact")); $b<date("d",$db3->f("vertrekdatum_exact")); $b++){
+						if($db4->f("opmerking_boekingderden")){
+							$stat=$status["doorDerden"];
+						}
+						elseif($db4->f("opmerking_nietbeschikbaarverhuur")){
+							$stat=$status["nietbeschikbaar"];			
+						}	
+						elseif($db3->f("besteldatum")>0 or $db3->f("vertrekdatum_exact")<time()) {
+							$stat=$status["viachalet"];
+						}
+						else {
+							$stat=$status["inoptie"];
+						}
+				
+						echo "<td height=\"10\" bgcolor=\"".$stat."\"></td>";
+					}
+
+				}	
+			}
+			echo "</tr>";
+			echo "</table>";
+			echo "</td>";
+			echo "</tr><tr>";
+		}
+		else{
+			echo "<td>".$types[$i]."</td>";
+			echo "<td>".$levNaam."</td>";
+			echo "<td>";
+			echo "<table border=\"0\" cellspacing=\"0\" width=\"100%\">";
+			echo "<tr>";
+			while($db4->next_record()){
+				if(date("Y",$db4->f("week"))==date("Y") and date("M",$db4->f("week"))==date("M") and date("Y",$db4->f("week")) != "1970"){
+						if($db4->f("voorraad_optie_klant")){
+							$stat=$status["inoptie"];
+						}
+						elseif($db4->f("voorraad_allotment")) {
+							$stat=$status["beschikbaar"];
+						}
+						elseif($db4->f("voorraad_request")){
+							$stat=$status["Navragen"];
+						}
+						//echo "<td bgcolor=\"".$stat."\">".date("d",$db4->f("week"))."</td>";
+						for($b=date("d",$db4->f("week"))+1; $b<date("d",$db4->f("week"))+7; $b++){
+							//if(!$db4->f("beschikbaar") and $db3->f("opmerking_bezeteigenaar")) {
+							//	$stat=$status["geblokeerd"];
+							//}
+							//elseif(!$db4->f("beschikbaar") and $db3->f("opmerking_boekingderden")){
+							//	$stat=$status["doorDerden"];
+							//}
+							//elseif(!$db4->f("beschikbaar") and $db3->f("opmerking_nietbeschikbaarverhuur")){
+							//	$stat=$status["nietbeschikbaar"];
+							//}
+							if($db4->f("voorraad_optie_klant")){
+								$stat=$status["inoptie"];
+							}
+							elseif($db4->f("voorraad_allotment")) {
+								$stat=$status["beschikbaar"];
+							}
+							elseif($db4->f("voorraad_request")){
+								$stat=$status["Navragen"];
+							}
+							echo "<td height=\"10\" width=\"20\" bgcolor=\"".$stat."\"></td>";
+						}
+					}
+				}
+			}
+			echo "</tr>";
+			echo "</table>";
+			echo "</td>";
+			echo "</tr><tr>";
+			}
+
+		}
+		echo 	"</tr>";
+		echo 	"</table>";
+		//echo "</div>";
+		echo "<BR><BR><BR>";
+	}
+}
+?>
+<table width="60%" border="0">
+	<tr>
+	<td colspan="2"><b>Legenda</b></td>
+	</tr>
+	<tr>
+		<td bgcolor="#008000" width="5%"></td><td>Direct beschikbaar</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFA500" width="5%"></td><td>Navragen bij eigenaar</td>
+	</tr>
+	<tr>
+		<td bgcolor="#C53C96" width="5%"></td><td>Geblokkeerd door eigenaar</td>
+	</tr>
+	<tr>
+		<td bgcolor="#800080" width="5%"></td><td>Boeking door derde</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FF0000" width="5%"></td><td>Niet beschikbaar voor verhuur</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFFF00" width="5%"></td><td>Staat in optie voor klant</td>
+	</tr>
+	<tr>
+		<td bgcolor="#ADD8E6" width="5%"></td><td>Boeking via Chalet.nl</td>
+	</tr>
+	<tr>
+		<td bgcolor="#FFFFFF" width="5%"></td><td>Nog niet in planning</td>
+	</tr>
+</table>

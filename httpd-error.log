@@ -1,0 +1,5 @@
+Aug 13 13:37:00 srv01 newsyslog[6697]: logfile turned over due to size>9000K
+[Mon Aug 13 13:39:00 2012] [notice] Digest: generating secret for digest authentication ...
+[Mon Aug 13 13:40:00 2012] [error] [client 209.217.120.101] File does not exist: /home/sites/chalet.nl/html/administrator
+[Mon Aug 13 13:35:00 2012] [error] [client 87.233.20.138] Invalid URI in request Connection: close
+
