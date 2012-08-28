@@ -30,9 +30,8 @@ if($login_lev->logged_in) {
 
 } else {
 	$vars["verberg_linkerkolom"]=false;
-	
 	if($voorkant_cms and $login->logged_in and $_POST["lev_login_cms"] and $_POST["leverancier_id"]) {
-		setcookie("levli","1");
+		setcookie("levli[leverancier]","1");
 		$_SESSION["LOGIN"]["leverancier"]["logged_in"]=true;
 		$_SESSION["LOGIN"]["leverancier"]["leverancier_id"]=intval($_POST["leverancier_id"]);
 		$login_lev->end_declaration();
