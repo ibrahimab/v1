@@ -867,8 +867,27 @@ $(document).ready(function() {
 				}
 			});
 		}
+		
 	}
 });
+
+// sluiten cookiemelding-bar
+function cookie_bottombar_close() {
+	$("#cookie_bottombar").css("display","none");
+	chalet_createCookie("cookiemelding_gelezen","1",3650);
+	return false;
+}
+
+function chalet_createCookie(name,value,days) {
+	// functie om eenvoudig cookies te plaatsen
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
 
 function weektarieven_openklappen() {
 	$('#weektarieven').slideDown('slow','linear', function() {
