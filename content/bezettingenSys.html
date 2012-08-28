@@ -574,9 +574,7 @@ elseif($_GET["periode"]=="true"){
 }
 if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["exportFile"]) and $_GET["periode"]=="true"){	
 	$datumFrom=strtotime($_GET["van"]);
-	echo "from ".$datumFrom;
 	$datumTo=strtotime($_GET["tot"]);
-	echo "to ".$datumTo;
 	$table="<table width=\"100%\" border=\"1\" cellspacing=\"0\">";
 	$table.="<tr>";
 	$table.="<td></td>";
@@ -658,63 +656,92 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 			$inquery_type_id=$db->f("type_id");
 		}
 	}
-	$db3->query("SELECT b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE b.aankomstdatum_exact BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id IN (".addslashes($inquery_type_id).") OR b.verzameltype_gekozentype_id IN (".addslashes($inquery_type_id).")) AND b.seizoen_id>=17 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'';");
+	$periode=array();
+	$result=$db3->query("SELECT b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE b.aankomstdatum_exact BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id IN (".addslashes($inquery_type_id).") OR b.verzameltype_gekozentype_id IN (".addslashes($inquery_type_id).")) AND b.seizoen_id>=17 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'';");
 		$tr=false;
-		if($db3->num_rows()>0){
+	if(count($result)>0){
+		while($row=mysql_fetch_array($result)){
 			$tr=true;
 			$table.="<td>".$db2->f("type_id")."</td>";
 			$table.="<td>".$naam."</td>";
 			$table.="<td>";
 			$table.="<table border=\"1\" cellspacing=\"0\" width=\"100%\">";
 			$table.="<tr>";
-			while($db3->next_record()){
-				if($db3->f("besteldatum")>0 or $db3->f("vertrekdatum_exact")<time()) {
+				if($row["besteldatum"]>0 or $row["vertrekdatum_exact"]<time()) {
 					$stat=$status["viachalet"];
+					//$table.="<td bgcolor=\"".$status["viachalet"]."\">1</td>";
 				}
 				else {
 					$stat=$status["inoptie"];
+					//$table.="<td bgcolor=\"".$status["inoptie"]."\">1</td>";
 				}
-				$table.="<td bgcolor=\"".$stat."\"></td>";
-			}
-		}	
-	$db4->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.week BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND ta.type_id IN ('".addslashes($inquery_type_id)."') ORDER BY ta.week ASC;");			
+				$aankomst=date("d",$row["aankomstdatum_exact"]);
+				$vertrek=date("d",$row["vertrekdatum_exact"]);
+				//echo $aankomst;
+				//echo " ";
+				//echo $vertrek;
+				if(date("d",$row["aankomstdatum_exact"]) > date("d",$row["vertrekdatum_exact"])){
+					echo "hier";
+					$tussentijd=$aankomst+$vertrek;
+					if($tussentijd>30){
+						$tussentijd = 31;
+					}
+					for($i=$aankomst; $i<$tussentijd; $i++){
+						$periode[$i]=$stat;
+					}
+				}
+				else{
+					for($i=$aankomst;$i<$vertrek;$i++){
+						$periode[$i]=$stat;
+					}
+				}
+		}
+	}	
+	$result2=$db4->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.week BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND ta.type_id IN ('".addslashes($inquery_type_id)."') ORDER BY ta.week ASC;");			
 	if(!$tr){	
 		$table.="<td>".$db2->f("type_id")."</td>";
 		$table.="<td>".$naam."</td>";
 		$table.="<td>";
-		$table.="<table border=\"1\" cellspacing=\"0\" width=\"100%\">";
+		$table.="<table border=\"0\" cellspacing=\"0\" width=\"100%\">";
 		$table.="<tr>";
 	}
-	while($db4->next_record()){	
-		if($db4->f("voorraad_optie_klant")){
+	if(count($result2)>0)
+	while($row2=mysql_fetch_array($result2)){	
+		if($row2["voorraad_optie_klant"]){
 			$stat=$status["inoptie"];
 		}
-		elseif($db4->f("voorraad_allotment")) {
+		elseif($row2["voorraad_allotment"]) {
 			$stat=$status["beschikbaar"];
 		}
-		elseif($db4->f("voorraad_request")){
+		elseif($row2["voorraad_request"]){
 			$stat=$status["Navragen"];
 		}
-		if(!$db4->f("beschikbaar") and $db3->f("opmerking_bezeteigenaar")) {
-			$stat=$status["geblokeerd"];
-		}
-		elseif(!$db4->f("beschikbaar") and $db3->f("opmerking_boekingderden")){
-			$stat=$status["doorDerden"];
-		}
-		elseif(!$db4->f("beschikbaar") and $db3->f("opmerking_nietbeschikbaarverhuur")){
-		$stat=$status["nietbeschikbaar"];
-		}
-		if($db4->f("voorraad_optie_klant")){
-			$stat=$status["inoptie"];
-		}
-		elseif($db4->f("voorraad_allotment")) {
-			$stat=$status["beschikbaar"];
-		}
-		elseif($db4->f("voorraad_request")){
-			$stat=$status["Navragen"];
-		}
-		$table.="<td width=\"20\" height=\"10\" bgcolor=\"".$stat."\"></td>";
+		//$table.="<td bgcolor=\"".$stat."\">".date("d/m/Y",$db4->f("week"))."</td>";
+		//for($i=date("d",$db4->f("week"))+0; $i<date("d",$db4->f("week"))+6; $i++){
+			if(!$row2["beschikbaar"] and $row2["opmerking_bezeteigenaar"]) {
+				$stat=$status["geblokeerd"];
+			}
+			elseif(!$row2["beschikbaar"] and $row2["opmerking_boekingderden"]){
+				$stat=$status["doorDerden"];
+			}
+			elseif(!$row2["beschikbaar"] and $row2["opmerking_nietbeschikbaarverhuur"]){
+			$stat=$status["nietbeschikbaar"];
+			}
+			if($row2["voorraad_optie_klant"]){
+				$stat=$status["inoptie"];
+			}
+			elseif($row2["voorraad_allotment"]) {
+				$stat=$status["beschikbaar"];
+			}
+			elseif($row2["voorraad_request"]){
+				$stat=$status["Navragen"];
+			}
+			//$table.="<td width=\"20\" height=\"10\" bgcolor=\"".$stat."\"></td>";
+			$periode[date("d",$row2["week"])]=$stat;
+		//}
 	}
+	ksort($periode);
+	var_dump($periode);
 	$table.="</tr>";
 	$table.="</table>";
 	$table.="</td>";
@@ -786,13 +813,17 @@ else{
 		echo "<table border=\"1\" cellspacing=\"0\" width=\"100%\">";
 		echo "<tr>";
 		while($db3->next_record()){
-			if($db3->f("besteldatum")>0 or $db3->f("vertrekdatum_exact")<time()) {
-				$stat=$status["viachalet"];
-			}
-			else {
-				$stat=$status["inoptie"];
-			}
-			echo "<td bgcolor=\"".$stat."\"></td>";
+			//if(date("Y",$db3->f("aankomstdatum_exact"))==date("Y") and date("M",$db3->f("aankomstdatum_exact"))==date("M")){
+				//for($i=date("d",$db3->f("aankomstdatum_exact")); $i<date("d",$db3->f("vertrekdatum_exact")); $i++){
+					if($db3->f("besteldatum")>0 or $db3->f("vertrekdatum_exact")<time()) {
+						$stat=$status["viachalet"];
+					}
+					else {
+						$stat=$status["inoptie"];
+					}
+					echo "<td bgcolor=\"".$stat."\"></td>";
+				//}
+			//}
 		}
 	}
 	if(!$tr){
@@ -833,9 +864,6 @@ else{
 		}
 		elseif($db4->f("voorraad_request")){
 			$stat=$status["Navragen"];
-		}
-		else{
-			$stat=$status["inplaning"];
 		}
 		echo "<td  bgcolor=\"".$stat."\"></td>";
 	//}
