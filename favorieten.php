@@ -6,7 +6,7 @@ $db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeke
 while($db->next_record()){
 	array_push($klantfavs,$db->f("type_id"));
 }
-if($_GET['testsysteem']==1){
+if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 	$submenu["favorieten"]=txt("submenutitle_favorieten")." (".count($klantfavs).")";
 }
 if($vars["websitetype"]==1){
