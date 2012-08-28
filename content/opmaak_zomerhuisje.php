@@ -327,7 +327,7 @@ if($vars["verberg_linkerkolom"]) {
 
 	echo "</div>\n";
 } else {
-	echo "<div id=\"bloklinks\">";
+	echo "<div id=\"bloklinks\" class=\"noprint\">";
 
 	# telefoonblok
 	echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "").">";

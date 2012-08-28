@@ -1,10 +1,5 @@
 <?php
 
-#echo "Vallandry";
-#exit;
-
-
-
 echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
   \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
 echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
@@ -113,7 +108,7 @@ echo "<div id=\"wrapper\">";
 
 echo "<div id=\"top\">";
 
-echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
+echo "<div id=\"menubalk_print\" style=\"margin-bottom:100px;\" class=\"onlyprint\">";
 echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
 echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</b>";
 echo "</div>";
@@ -135,7 +130,7 @@ if($vars["taal"]=="en") {
 
 echo "</div>\n";
 
-echo "<div id=\"topfoto\">";
+echo "<div id=\"topfoto\" class=\"noprint\">";
 if($id<>"index") echo "<a href=\"".$vars["path"]."\">";
 echo "<img src=\"".$vars["path"]."pic/vallandry_topbalk".($vars["taal"]=="en" ? "_en" : "").".jpg\" width=\"970\" height=\"161\" alt=\"\" border=\"0\">";
 if($id<>"index") echo "</a>";
@@ -228,7 +223,7 @@ if($vars["verberg_linkerkolom"]) {
 
 	echo "</div>\n";
 } else {
-	echo "<div id=\"bloklinks\">";
+	echo "<div id=\"bloklinks\" class=\"noprint\">";
 	
 	if($vars["verberg_zoekenboeklinks"]) {
 		echo "&nbsp;";	
