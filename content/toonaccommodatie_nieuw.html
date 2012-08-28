@@ -3,19 +3,21 @@
 if($_GET["testsysteem"] or $vars["lokale_testserver"]) { ?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/main.js\"></script>";?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/popup.js\"></script>";?>
+<?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";?>
 <?php 
 	if($vars["website"]=="I"){
-		echo"<div id=\"modal\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position relative;left:42%; top:20px; display:none;\">";
+		echo"<div id=\"popUpDiv\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position: relative;left:42%; top:20px; display:none;\">";
 	}
 	elseif($vars["website"]=="E"){
-		echo"<div id=\"modal\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position relative;left:38%; top:20px; display:none;\">";
+		echo"<div id=\"popUpDiv\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position: relative;left:38%; top:20px; display:none;\">";
 	}
 	else{
-		echo"<div id=\"modal\" style=\"width:100%; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position relative;left:35%; top:20px; display:none; \">";
+		echo "<div id=\"blanket\" style=\"display:none;\"></div>";
+		echo"<div id=\"popUpDiv\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none; \">";
 	}	
 ?>	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
 	<input type=\"button\" value=\"OK\" onClick=\"Popup.hide('modal');ajaxFunctionUpdateFav();\"></div>";?>
-</div>
+</div> 
 <?php
 echo "<script language=\"javascript\">";
 echo "sessionStorage.counter=".count($klantfavs);
@@ -66,7 +68,9 @@ function ajaxFunction(klantid, accid, action){
 	ajaxRequest.onreadystatechange = function(){
 		if(ajaxRequest.readyState == 4){
 			if(sessionStorage.counter < 1){
-				Popup.showModal('modal','null','null',{'screenColor':'#000000','screenOpacity':.6});
+				//Popup.showModal('modal','null','null',{'screenColor':'#000000','screenOpacity':.6});
+				//Popup.show('modal','wrapper','top left',{'constrainToScreen':false});
+				popup('popUpDiv');
 			}
 			else{
 				ajaxFunctionUpdateFav();
@@ -1453,8 +1457,8 @@ if($db->next_record()) {
 				elseif($vars["website"]=="I"){
 					echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/plaatsItalissima.png\"> ";
 				}
-				//echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
-				echo "<a id=\"voegfavToe\" href=\"#\">";
+				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
+				//echo "<a id=\"voegfavToe\" href=\"#\">";
 				echo html("plaatsinfavorieten","favorieten");
 				echo "</a>";
 				echo "</div>";
