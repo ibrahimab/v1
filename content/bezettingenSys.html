@@ -686,14 +686,16 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 					if($tussentijd>30){
 						$tussentijd = 31;
 					}
-					for($i=$aankomst; $i<$tussentijd; $i++){
-						$periode[$i]=$stat;
-					}
+					//for($i=$aankomst; $i<$tussentijd; $i++){
+						$periode[date("d",$row["aankomstdatum_exact"])]=$stat;
+						$periode[$tussentijd]=$stat;
+					//}
 				}
 				else{
-					for($i=$aankomst;$i<$vertrek;$i++){
-						$periode[$i]=$stat;
-					}
+					//for($i=$aankomst;$i<$vertrek;$i++){
+						$periode[$aankomst]=$stat;
+						$periode[$vertrek]=$stat;
+					//}
 				}
 		}
 	}	
@@ -741,6 +743,25 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 		//}
 	}
 	ksort($periode);
+	$elementen=count($periode);
+	$counter=$elementen-($elementen-1);
+	$currentKey = key($periode);
+	next($periode); 
+    $nextcurrentKey = key($periode);
+	echo   $nextcurrentKey;
+	$last=1;
+	do{
+		for($i=$currentKey;$i<$currentKey+6;$i++){
+			$table.="<td width=\"5\" height=\"10\" bgcolor=\"".$periode[$currentKey]."\">$currentKey</td>";
+			if($i!=$currentKey){
+				$table.="<td width=\"20\" height=\"10\" bgcolor=\"".$periode[$currentKey]."\">$currentKey</td>";
+			}
+		}
+		next($periode); 
+       $currentKey = key($periode);
+		//echo "curr key ".$currentKey;
+	}
+	while($currentKey !== null && $currentKey != $key);
 	var_dump($periode);
 	$table.="</tr>";
 	$table.="</table>";
