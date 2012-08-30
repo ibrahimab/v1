@@ -94,6 +94,16 @@ function printDiv(divName) {
 } 
 </script>
 <?php
+
+function deep_ksort(&$arr) { 
+    ksort($arr); 
+    foreach ($arr as &$a) { 
+        if (is_array($a) && !empty($a)) { 
+            deep_ksort($a); 
+        } 
+    } 
+} 
+
 $status["beschikbaar"]="#008000";
 $status["Navragen"]="#FFA500";
 $status["inoptie"]="#FFFF00";
@@ -574,78 +584,24 @@ elseif($_GET["periode"]=="true"){
 }
 if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["exportFile"]) and $_GET["periode"]=="true"){	
 	$datumFrom=strtotime($_GET["van"]);
+	$naamMaand0=date("M",$datumFrom);
+	$naamMaand0=array();
 	$datumTo=strtotime($_GET["tot"]);
-	$table="<table width=\"100%\" border=\"1\" cellspacing=\"0\">";
-	$table.="<tr>";
-	$table.="<td></td>";
-	$table.="<td></td>";
-	$table.="<td colspan=\"1000\"><b>Weken</b></td>";
-	$table.="</tr><tr>";
-	$table.="<td></td>";
-	$table.="<td><b>Eigenaar naam</b></td>";
-	$table.="<td colspan=\"1000\">";
-	$table.="<table border=\"1\" cellspacing=\"0\" width=\"100%\">";
-	$table.="<tr>";
+
 	$datumToTo=$datumTo;
 	$datumFromFrom=$datumFrom;
 	$verschil=$datumToTo-$datumFromFrom;
 	$years = floor($verschil / (365*60*60*24)); 
 	$months = floor(($verschil - $years * 365*60*60*24) / (30*60*60*24)); 
 	$days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
-	$eersteWaarde=false;
-	$maan = date("M",$datumFromFrom);
-		if(($maan == "Jan") or ($maan == "Mar") or ($maan == "May") or ($maan == "Jul") or ($maan == "Aug") or ($maan == "Oct") or ($maan == "Dec")){
-			$dagen=31;
+	if($months>1){
+		for($ax=1;$ax<$months;$ax++){
+			$next=$datumFromFrom=strtotime(+$ax.' month', $datumFromFrom);
+			$mon=date("M",$next);
+			$naamMaand.$ax=$mon;
 		}
-		else{
-			$dagen=30;
-		}
-		if(!$eersteWaarde){
-			$data=date("M",$datumFromFrom);
-			$table.="<td width=\"5\" bgcolor=\"".$stat."\">".$data."</td>";
-			for($i=1; $i<24;$i++){
-				$table.="<td width=\"5\" bgcolor=\"".$stat."\"></td>";
-			}
-			$eersteWaarde=true;
-		}
-	if($months > 1){
-		do{		
-		$datumFromFrom=strtotime('+1 month', $datumFromFrom);
-			if($a<$months){
-				$data=date("M",$datumFromFrom);
-				$table.="<td width=\"5\" bgcolor=\"".$stat."\">".$data."</td>";
-				for($i=1; $i<24;$i++){
-					$table.="<td width=\"5\" bgcolor=\"".$stat."\"></td>";
-				}
-				$a++;
-			}
-			//$datumFromFrom=strtotime(+$dagen.'day', $datumFromFrom);
-		}
-		while($datumFromFrom < $datumToTo);
 	}
 	
-	$table.="</tr><tr>";
-	$datumToTo=$datumTo;
-	$datumFromFrom=$datumFrom;	
-	do{
-		$datumFromFrom=strtotime('+1 day', $datumFromFrom);
-		if(date("l",$datumFromFrom)=="Saturday" and $a<4*$months+7){
-			$data=date("d",$datumFromFrom);
-			$table.="<td width=\"5\" bgcolor=\"".$stat."\">".$data."</td>";
-			$table.="<td width=\"5\" bgcolor=\"".$stat."\"></td>";
-			$table.="<td width=\"5\" bgcolor=\"".$stat."\"></td>";
-			$table.="<td width=\"5\" bgcolor=\"".$stat."\"></td>";
-			$table.="<td width=\"5\" bgcolor=\"".$stat."\"></td>";
-			$table.="<td width=\"5\" bgcolor=\"".$stat."\"></td>";
-			$a++;
-		}
-	}
-	while($datumFromFrom < $datumToTo);
-	$table.="</tr>";
-	$table.="</table>";
-	$table.="</td>";
-	$table.="</tr><tr>";
-	$table.="</tr><tr>";
 	$db->query("SELECT DISTINCT type_id FROM view_accommodatie WHERE leverancier_id='157' AND atonen=1 AND ttonen=1;");
 	while($db->next_record()){
 		$db2->query("SELECT type_id FROM type WHERE zomerwinterkoppeling_accommodatie_id='".addslashes($db->f("type_id"))."';");
@@ -658,55 +614,35 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 	}
 	$periode=array();
 	$result=$db3->query("SELECT b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE b.aankomstdatum_exact BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id IN (".addslashes($inquery_type_id).") OR b.verzameltype_gekozentype_id IN (".addslashes($inquery_type_id).")) AND b.seizoen_id>=17 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'';");
-		$tr=false;
 	if(count($result)>0){
 		while($row=mysql_fetch_array($result)){
-			$tr=true;
-			$table.="<td>".$db2->f("type_id")."</td>";
-			$table.="<td>".$naam."</td>";
-			$table.="<td>";
-			$table.="<table border=\"1\" cellspacing=\"0\" width=\"100%\">";
-			$table.="<tr>";
+			for($ab=0;$ab<months;$ab++){
 				if($row["besteldatum"]>0 or $row["vertrekdatum_exact"]<time()) {
 					$stat=$status["viachalet"];
-					//$table.="<td bgcolor=\"".$status["viachalet"]."\">1</td>";
 				}
 				else {
 					$stat=$status["inoptie"];
-					//$table.="<td bgcolor=\"".$status["inoptie"]."\">1</td>";
 				}
 				$aankomst=date("d",$row["aankomstdatum_exact"]);
 				$vertrek=date("d",$row["vertrekdatum_exact"]);
-				//echo $aankomst;
-				//echo " ";
-				//echo $vertrek;
 				if(date("d",$row["aankomstdatum_exact"]) > date("d",$row["vertrekdatum_exact"])){
-					echo "hier";
 					$tussentijd=$aankomst+$vertrek;
 					if($tussentijd>30){
 						$tussentijd = 31;
 					}
-					//for($z=$aankomst; $z<$tussentijd; $z++){
-						$periode[date("Y",$row["aankomstdatum_exact"])][date("m",$row["aankomstdatum_exact"])][date("d",$row["aankomstdatum_exact"])]=$stat;
-						//$periode[$tussentijd]=$stat;
-					//}
+					for($z=$aankomst; $z<$tussentijd; $z++){
+						$naamMaand0[$z]=$stat;
+					}
 				}
 				else{
-					//for($y=$aankomst;$y<$vertrek;$y++){
-						$periode[date("Y",$row["aankomstdatum_exact"])][date("m",$row["aankomstdatum_exact"])][date("d",$row["aankomstdatum_exact"])]=$stat;
-						//$periode[$vertrek]=$stat;
-					//}
+					for($y=$aankomst;$y<$vertrek;$y++){
+						$naamMaand0[$y]=$stat;
+					}
 				}
+			}
 		}
 	}	
 	$result2=$db4->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.week BETWEEN ".addslashes($datumFrom)." AND ".addslashes($datumTo)." AND ta.type_id IN ('".addslashes($inquery_type_id)."') ORDER BY ta.week ASC;");			
-	if(!$tr){	
-		$table.="<td>".$db2->f("type_id")."</td>";
-		$table.="<td>".$naam."</td>";
-		$table.="<td>";
-		$table.="<table border=\"0\" cellspacing=\"0\" width=\"100%\">";
-		$table.="<tr>";
-	}
 	if(count($result2)>0)
 	while($row2=mysql_fetch_array($result2)){
 		if(!$row2["beschikbaar"] and $row2["opmerking_bezeteigenaar"]) {
@@ -736,56 +672,117 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 		elseif($row2["voorraad_request"]){
 			$stat=$status["Navragen"];
 		}
-		//$table.="<td bgcolor=\"".$stat."\">".date("d/m/Y",$db4->f("week"))."</td>";
-		$periode[date("Y",$row2["week"])][date("m",$row2["week"])][date("d",$row2["week"])+0]=$stat;
-		$dagen=date("d",$row2["week"]);
-		//for($i=0; $i<5; $i++){
-			//if($dagen < 31){
-		//		$dagen+=1;
-			//}
-			if(!$row2["beschikbaar"] and $row2["opmerking_bezeteigenaar"]) {
-				$stat2=$status["geblokeerd"];
-			}
-			elseif(!$row2["beschikbaar"] and $row2["opmerking_boekingderden"]){
-				$stat2=$status["doorDerden"];
-			}
-			elseif(!$row2["beschikbaar"] and $row2["opmerking_nietbeschikbaarverhuur"]){
-			$stat2=$status["nietbeschikbaar"];
-			}
-			if($row2["voorraad_optie_klant"]){
-				$stat2=$status["inoptie"];
-			}
-			elseif($row2["voorraad_allotment"]) {
-				$stat2=$status["beschikbaar"];
-			}
-			elseif($row2["voorraad_request"]){
-				$stat2=$status["Navragen"];
-			}
-			//$table.="<td width=\"20\" height=\"10\" bgcolor=\"".$stat."\"></td>";
-			//$periode[date("Y",$row2["week"])][date("m",$row2["week"])][$dagen]=$stat2;
-		//}
+		$naamMaand0[date("d",$row2["week"])+0]=$stat;
+		if(!$row2["beschikbaar"] and $row2["opmerking_bezeteigenaar"]) {
+			$stat2=$status["geblokeerd"];
+		}
+		elseif(!$row2["beschikbaar"] and $row2["opmerking_boekingderden"]){
+			$stat2=$status["doorDerden"];
+		}
+		elseif(!$row2["beschikbaar"] and $row2["opmerking_nietbeschikbaarverhuur"]){
+		$stat2=$status["nietbeschikbaar"];
+		}
+		if($row2["voorraad_optie_klant"]){
+			$stat2=$status["inoptie"];
+		}
+		elseif($row2["voorraad_allotment"]) {
+			$stat2=$status["beschikbaar"];
+		}
+		elseif($row2["voorraad_request"]){
+			$stat2=$status["Navragen"];
+		}
 	}
-	ksort($periode);
-	//$elementen=count($periode);
-	//$counter=$elementen-($elementen-1);
-	//$currentKey = key($periode);
-	//next($periode); 
-   // $nextcurrentKey = key($periode);
-	//echo   $nextcurrentKey;
-	//$last=1;
-	//do{
-	//	for($i=$currentKey;$i<$currentKey+6;$i++){
-	//		$table.="<td width=\"5\" height=\"10\" bgcolor=\"".$periode[$currentKey]."\">$currentKey</td>";
-	//		if($i!=$currentKey){
-	//			$table.="<td width=\"20\" height=\"10\" bgcolor=\"".$periode[$currentKey]."\">$currentKey</td>";
-	//		}
-	//	}
-	//	next($periode); 
-    //   $currentKey = key($periode);
-		//echo "curr key ".$currentKey;
+	
+	$table="<table width=\"100%\" border=\"1\" cellspacing=\"0\">";
+	$table.="<tr>";
+	$table.="<td></td>";
+	$table.="<td></td>";
+	$table.="<td colspan=\"1000\"><b>Weken</b></td>";
+	$table.="</tr><tr>";
+	$table.="<td></td>";
+	$table.="<td><b>Eigenaar naam</b></td>";
+	$table.="<td colspan=\"1000\">";
+	
+	$table.="</td>";
+	$table.="</tr><tr>";
+	//$table.="</tr><tr>";
+	$table.="<td>".$db2->f("type_id")."</td>";
+	$table.="<td>".$naam."</td>";
+	$table.="<td>";
+	$table.="<table border=\"1\" cellspacing=\"0\" width=\"100%\">";
+	$table.="<tr>";
+	
+	$data=date("M",$datumFromFrom);
+	ksort($naamMaand0);
+	$currentKey = key($naamMaand0);
+   	$nextcurrentKey = key($naamMaand0);
+
+	$dagenarr=array();
+	$table.="<td width=\"5\">".$data."</td>";
+	
+	if($months > 1){
+		do{		
+		$datumFromFrom=strtotime('+1 month', $datumFromFrom);
+			if($a<$months){
+				$data=date("M",$datumFromFrom);
+				$table.="<td width=\"5\">".$data."</td>";
+				$a++;
+			}
+		}
+		while($datumFromFrom < $datumToTo);
+	}
+	$table.="</tr><tr>";
+	echo "month ".$month;
+	for($h=0;$h<$months;$h++){
+		for($x=1;$x<32;$x++){
+			$dagenarr[$x]=$x;
+			$table.="<td width=\"5\" height=\"10\">$x</td>";
+		}
+		$table.="</tr><tr>";
+	}
+	
+	
+	$table.="</tr>";
+	$table.="</table>";
+	$table.="<table border=\"0\" cellspacing=\"0\" width=\"100%\">";
+	$table.="<tr>";
+	//$table.="</tr><tr>";
+	$datumToTo=$datumTo;
+	$datumFromFrom=$datumFrom;	
+	
+	//$table.="</tr><tr>";
+	$table.="</tr><tr>";
+	$currentKey = key($naamMaand0);
+	do{
+		for($x=$currentKey;$x<$nextcurrentKey;$x++){
+			$dagenarr[$x]=$naamMaand0[$currentKey];
+			
+		}
+		$currentKey = $nextcurrentKey;
+		next($naamMaand0); 
+    	$nextcurrentKey = key($naamMaand0);
+		echo "test ".$currentKey;
+	}
+	while($currentKey != null && $currentKey != $key);
+	for($g=1;$g<count($dagenarr)+3;$g++){
+		if(substr($dagenarr[$g],0,1)!="#"){
+			$table.="<td width=\"5\" height=\"10\" bgcolor=\"#FFFFFF\"></td>";
+		}
+		else{
+			$table.="<td width=\"5\" height=\"10\" bgcolor=\"".$dagenarr[$g]."\"></td>";
+		}
+	}
+	//deep_ksort($periode);
+	//for($x=1;$x<31;$x++){
+		//foreach($periode[$currentKey])
+		foreach($periode as $per) { 
+			foreach($per as $dag){
+				echo "dag ".$dag;
+			}
+			//$table.="<td width=\"5\" height=\"10\" bgcolor=\"".$periode[$currentKey]."\">$x</td>";
+		}
 	//}
-	//while($currentKey !== null && $currentKey != $key);
-	var_dump($periode);
+	var_dump($naamMaand0);
 	$table.="</tr>";
 	$table.="</table>";
 	$table.="</td>";
