@@ -686,16 +686,16 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 					if($tussentijd>30){
 						$tussentijd = 31;
 					}
-					//for($i=$aankomst; $i<$tussentijd; $i++){
-						$periode[date("d",$row["aankomstdatum_exact"])]=$stat;
-						$periode[$tussentijd]=$stat;
-					//}
+					for($i=$aankomst; $i<$tussentijd; $i++){
+						$periode[date("Y",$row["aankomstdatum_exact"])][date("m",$row["aankomstdatum_exact"])][$i]=$stat;
+						//$periode[$tussentijd]=$stat;
+					}
 				}
 				else{
-					//for($i=$aankomst;$i<$vertrek;$i++){
-						$periode[$aankomst]=$stat;
-						$periode[$vertrek]=$stat;
-					//}
+					for($i=$aankomst;$i<$vertrek;$i++){
+						$periode[date("Y",$row["aankomstdatum_exact"])][date("m",$row["aankomstdatum_exact"])][$i]=$stat;
+						//$periode[$vertrek]=$stat;
+					}
 				}
 		}
 	}	
@@ -719,7 +719,10 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 			$stat=$status["Navragen"];
 		}
 		//$table.="<td bgcolor=\"".$stat."\">".date("d/m/Y",$db4->f("week"))."</td>";
-		//for($i=date("d",$db4->f("week"))+0; $i<date("d",$db4->f("week"))+6; $i++){
+		$periode[date("Y",$row2["week"])][date("m",$row2["week"])][date("d",$row2["week"])]=$stat;
+		$dagen=date("d",$row2["week"]);
+		for($i=0; $i<6; $i++){
+			$dagen+=$i;
 			if(!$row2["beschikbaar"] and $row2["opmerking_bezeteigenaar"]) {
 				$stat=$status["geblokeerd"];
 			}
@@ -739,29 +742,29 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 				$stat=$status["Navragen"];
 			}
 			//$table.="<td width=\"20\" height=\"10\" bgcolor=\"".$stat."\"></td>";
-			$periode[date("d",$row2["week"])]=$stat;
-		//}
-	}
-	ksort($periode);
-	$elementen=count($periode);
-	$counter=$elementen-($elementen-1);
-	$currentKey = key($periode);
-	next($periode); 
-    $nextcurrentKey = key($periode);
-	echo   $nextcurrentKey;
-	$last=1;
-	do{
-		for($i=$currentKey;$i<$currentKey+6;$i++){
-			$table.="<td width=\"5\" height=\"10\" bgcolor=\"".$periode[$currentKey]."\">$currentKey</td>";
-			if($i!=$currentKey){
-				$table.="<td width=\"20\" height=\"10\" bgcolor=\"".$periode[$currentKey]."\">$currentKey</td>";
-			}
+			$periode[date("Y",$row2["week"])][date("m",$row2["week"])][$dagen]=$stat;
 		}
-		next($periode); 
-       $currentKey = key($periode);
-		//echo "curr key ".$currentKey;
 	}
-	while($currentKey !== null && $currentKey != $key);
+	//ksort($periode);
+	//$elementen=count($periode);
+	//$counter=$elementen-($elementen-1);
+	//$currentKey = key($periode);
+	//next($periode); 
+   // $nextcurrentKey = key($periode);
+	//echo   $nextcurrentKey;
+	//$last=1;
+	//do{
+	//	for($i=$currentKey;$i<$currentKey+6;$i++){
+	//		$table.="<td width=\"5\" height=\"10\" bgcolor=\"".$periode[$currentKey]."\">$currentKey</td>";
+	//		if($i!=$currentKey){
+	//			$table.="<td width=\"20\" height=\"10\" bgcolor=\"".$periode[$currentKey]."\">$currentKey</td>";
+	//		}
+	//	}
+	//	next($periode); 
+    //   $currentKey = key($periode);
+		//echo "curr key ".$currentKey;
+	//}
+	//while($currentKey !== null && $currentKey != $key);
 	var_dump($periode);
 	$table.="</tr>";
 	$table.="</table>";
