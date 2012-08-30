@@ -5,18 +5,21 @@ if($_GET["testsysteem"] or $vars["lokale_testserver"]) { ?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/popup.js\"></script>";?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";?>
 <?php 
-	if($vars["website"]=="I"){
+
+echo "<div style=\"position:absolute;top:8px;\">";
+
+	if($vars["website"]=="I") {
 		echo"<div id=\"popUpDiv\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position: relative;left:42%; top:20px; display:none;\">";
-	}
-	elseif($vars["website"]=="E"){
+	} elseif($vars["website"]=="E") {
 		echo"<div id=\"popUpDiv\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position: relative;left:38%; top:20px; display:none;\">";
-	}
-	else{
+	} else {
 		echo "<div id=\"blanket\" style=\"display:none;\"></div>";
-		echo"<div id=\"popUpDiv\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none; \">";
+		echo "<div id=\"popUpDiv\" style=\"margin-left:210px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	}	
 ?>	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
+
 	<input type=\"button\" value=\"OK\" onClick=\"Popup.hide('modal');ajaxFunctionUpdateFav();\"></div>";?>
+</div>
 </div> 
 <?php
 echo "<script language=\"javascript\">";
@@ -1750,7 +1753,7 @@ function toon_tekst_acc_en_type($tekst1,$tekst2="") {
 
 echo "<script type=\"text/javascript\">";
 echo "$(\"#voegfavToe\").click(function () {";
-echo "window.alert(\"Hier\")";
+echo "window.alert(\"Hier\");";
 echo "$.getJSON(\"rpc_json.php\", {";
 echo "\"t\": 4,";
 echo "\"klantID\":\"".$_COOKIE["sch"]."\",";
