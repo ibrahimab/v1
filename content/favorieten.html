@@ -633,7 +633,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 	echo "<div id=\"errorLabel\" dispaly:inline;\"></div><br>";
 	echo "<div style=\"dispaly:inline; height:20px;\"></div>";
 	if(count($klantfavs)!=0){
-		echo "<div style=\"float:left;\"><a id=\"showForm\" style=\"text-decoration:none;\" href=\"#\"><img style=\"vertical-align:middle;\" width=\"18\" height=\"16\" border=\"0\" src=\"".$vars["path"]."pic/button_mail_small.png\"/> ". html("versturenPermail","favorieten")."</a> | <a style=\"text-decoration:none;\" onclick=\"printDiv('printDi')\" href=\"#\"><img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/printer.gif\" width=\"20\" height=\"18\"/> ". html("inhoudprinten","favorieten")."</a></div><br/>";
+		echo "<div style=\"float:left;\"><a id=\"showForm\" style=\"text-decoration:none;\" href=\"#\"><img style=\"vertical-align:middle;\" width=\"18\" height=\"16\" border=\"0\" src=\"".$vars["path"]."pic/button_mail_small.png\"/> ". html("versturenPermail","favorieten")."</a> | <a style=\"text-decoration:none;\" href=\"javascript:window.print()\"><img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/printer.gif\" width=\"20\" height=\"18\"/> ". html("inhoudprinten","favorieten")."</a></div><br/>";
 	}
 	echo "<div style=\"height:20px;\"></div>";
 	echo "<div id=\"mailForm\" style=\"display:none\">";
