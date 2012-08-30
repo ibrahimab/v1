@@ -1099,7 +1099,7 @@ td.selecteerbaarbedrag:hover{
 	left: 0px;
 	z-index: 9999;
 	background-color: #e3e2e2;
-	border: 1px solid #c3c3c3;
+	border-top: 1px solid #c3c3c3;
 	border-bottom: none;
 	margin: 0px auto;
 	-moz-opacity: .90;
@@ -1109,6 +1109,32 @@ td.selecteerbaarbedrag:hover{
 	right: 0;
 	text-align: center;
 	padding: 7px;
+}
+
+#cookie_bottombar_wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 728px;
+}
+
+#cookie_bottombar_text {
+	float: left;
+}
+
+#cookie_bottombar_close {
+	float: left;
+	display: block;
+	width: 120px;
+	background-image:url('../pic/close_icon.png');
+	background-repeat:no-repeat;
+	background-position: 20px 2px;
+	cursor: pointer;
+	text-decoration: underline;
+	color: #003366;
+}
+
+#cookie_bottombar_close:hover {
+	color: <?php echo $hover; ?>;
 }
 
 //

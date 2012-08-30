@@ -609,9 +609,9 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 
 # Cookie-bar
 if($_GET["testsysteem"] or $vars["lokale_testserver"]) {
-	if($vars["taal"]=="nl" and $id<>"privacy-statement" and !$_COOKIE["cookiemelding_gelezen"]) {
+	if($vars["taal"]=="nl" and !$_COOKIE["cookiemelding_gelezen"]) {
 		echo "<p>&nbsp;</p>";
-		echo "<div id=\"cookie_bottombar\">Deze website maakt gebruik van cookies. Lees ons <a href=\"".$vars["path"]."privacy-statement.php\">privacy statement</a> voor meer informatie. <a href=\"#\" onclick=\"return cookie_bottombar_close();\">sluiten</a></div>";
+		echo "<div id=\"cookie_bottombar\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">Deze website maakt gebruik van cookies. Lees ons <a href=\"".$vars["path"]."privacy-statement.php?testsysteem=1\">privacy statement</a> voor meer informatie.</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
 	}
 }
 

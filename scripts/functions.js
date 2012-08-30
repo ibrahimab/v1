@@ -868,15 +868,14 @@ $(document).ready(function() {
 			});
 		}
 		
+		// sluiten cookie-bar
+		$("#cookie_bottombar_close").click(function () {
+			$("#cookie_bottombar").css("display","none");
+			chalet_createCookie("cookiemelding_gelezen","1",3650);
+			return false;
+		});
 	}
 });
-
-// sluiten cookiemelding-bar
-function cookie_bottombar_close() {
-	$("#cookie_bottombar").css("display","none");
-	chalet_createCookie("cookiemelding_gelezen","1",3650);
-	return false;
-}
 
 function chalet_createCookie(name,value,days) {
 	// functie om eenvoudig cookies te plaatsen

@@ -572,7 +572,7 @@ function wt_validmail($mail="") {
 
 function wt_ss_beep() {
 	# Laat een beep horen op de server ss.postvak.net
-	$fp = fsockopen("ss.postvak.net", 1200, $errno, $errstr, 1);
+	$fp = fsockopen("vps.postvak.net",11200,$errno,$errstr,1);
 }
 
 function wt_get_extension($file,$filename="") {
