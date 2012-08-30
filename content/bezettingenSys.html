@@ -686,16 +686,16 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 					if($tussentijd>30){
 						$tussentijd = 31;
 					}
-					for($i=$aankomst; $i<$tussentijd; $i++){
-						$periode[date("Y",$row["aankomstdatum_exact"])][date("m",$row["aankomstdatum_exact"])][$i]=$stat;
+					//for($z=$aankomst; $z<$tussentijd; $z++){
+						$periode[date("Y",$row["aankomstdatum_exact"])][date("m",$row["aankomstdatum_exact"])][date("d",$row["aankomstdatum_exact"])]=$stat;
 						//$periode[$tussentijd]=$stat;
-					}
+					//}
 				}
 				else{
-					for($i=$aankomst;$i<$vertrek;$i++){
-						$periode[date("Y",$row["aankomstdatum_exact"])][date("m",$row["aankomstdatum_exact"])][$i]=$stat;
+					//for($y=$aankomst;$y<$vertrek;$y++){
+						$periode[date("Y",$row["aankomstdatum_exact"])][date("m",$row["aankomstdatum_exact"])][date("d",$row["aankomstdatum_exact"])]=$stat;
 						//$periode[$vertrek]=$stat;
-					}
+					//}
 				}
 		}
 	}	
@@ -708,7 +708,25 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 		$table.="<tr>";
 	}
 	if(count($result2)>0)
-	while($row2=mysql_fetch_array($result2)){	
+	while($row2=mysql_fetch_array($result2)){
+		if(!$row2["beschikbaar"] and $row2["opmerking_bezeteigenaar"]) {
+			$stat2=$status["geblokeerd"];
+		}
+		elseif(!$row2["beschikbaar"] and $row2["opmerking_boekingderden"]){
+			$stat2=$status["doorDerden"];
+		}
+		elseif(!$row2["beschikbaar"] and $row2["opmerking_nietbeschikbaarverhuur"]){
+			$stat2=$status["nietbeschikbaar"];
+		}
+		if($row2["voorraad_optie_klant"]){
+			$stat2=$status["inoptie"];
+		}
+		elseif($row2["voorraad_allotment"]) {
+			$stat2=$status["beschikbaar"];
+		}
+		elseif($row2["voorraad_request"]){
+			$stat2=$status["Navragen"];
+		}
 		if($row2["voorraad_optie_klant"]){
 			$stat=$status["inoptie"];
 		}
@@ -719,33 +737,35 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true" or isset($_GET["expo
 			$stat=$status["Navragen"];
 		}
 		//$table.="<td bgcolor=\"".$stat."\">".date("d/m/Y",$db4->f("week"))."</td>";
-		$periode[date("Y",$row2["week"])][date("m",$row2["week"])][date("d",$row2["week"])]=$stat;
+		$periode[date("Y",$row2["week"])][date("m",$row2["week"])][date("d",$row2["week"])+0]=$stat;
 		$dagen=date("d",$row2["week"]);
-		for($i=0; $i<6; $i++){
-			$dagen+=$i;
+		//for($i=0; $i<5; $i++){
+			//if($dagen < 31){
+		//		$dagen+=1;
+			//}
 			if(!$row2["beschikbaar"] and $row2["opmerking_bezeteigenaar"]) {
-				$stat=$status["geblokeerd"];
+				$stat2=$status["geblokeerd"];
 			}
 			elseif(!$row2["beschikbaar"] and $row2["opmerking_boekingderden"]){
-				$stat=$status["doorDerden"];
+				$stat2=$status["doorDerden"];
 			}
 			elseif(!$row2["beschikbaar"] and $row2["opmerking_nietbeschikbaarverhuur"]){
-			$stat=$status["nietbeschikbaar"];
+			$stat2=$status["nietbeschikbaar"];
 			}
 			if($row2["voorraad_optie_klant"]){
-				$stat=$status["inoptie"];
+				$stat2=$status["inoptie"];
 			}
 			elseif($row2["voorraad_allotment"]) {
-				$stat=$status["beschikbaar"];
+				$stat2=$status["beschikbaar"];
 			}
 			elseif($row2["voorraad_request"]){
-				$stat=$status["Navragen"];
+				$stat2=$status["Navragen"];
 			}
 			//$table.="<td width=\"20\" height=\"10\" bgcolor=\"".$stat."\"></td>";
-			$periode[date("Y",$row2["week"])][date("m",$row2["week"])][$dagen]=$stat;
-		}
+			//$periode[date("Y",$row2["week"])][date("m",$row2["week"])][$dagen]=$stat2;
+		//}
 	}
-	//ksort($periode);
+	ksort($periode);
 	//$elementen=count($periode);
 	//$counter=$elementen-($elementen-1);
 	//$currentKey = key($periode);
