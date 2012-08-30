@@ -186,18 +186,24 @@ if($_GET["t"]==1) {
 	#
 	# Favorietenfunctie
 	#
-	if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])){
-		if($_GET['action']=="insert"){
-			$klantID=$_GET['klantID'];
-			$accommodatieID=$_GET['accommodatie'];
-			$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($klantID)."','".addslashes($accommodatieID)."',NOW());");
-		}
-		elseif($_GET['action']=="delete"){
-			$klantID=$_GET['klantID'];
-			$accommodatieID=$_GET['accommodatie'];
-			$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($klantID)."' AND type_id='".addslashes($accommodatieID)."';");
-		}
+if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])){
+	if($_GET['action']=="insert"){
+		$klantID=$_GET['klantID'];
+		$accommodatieID=$_GET['accommodatie'];
+		$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($klantID)."','".addslashes($accommodatieID)."',NOW());");
+		$return=$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
+		echo count($return);
+		//return count($return);
 	}
+	elseif($_GET['action']=="delete"){
+		$klantID=$_GET['klantID'];
+		$accommodatieID=$_GET['accommodatie'];
+		$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($klantID)."' AND type_id='".addslashes($accommodatieID)."';");
+		$return=$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
+		echo count($return);
+		//return count($return);
+	}
+}
 	
 	# Communicatie met dit script via jQuery
 	/*
