@@ -9,16 +9,20 @@ if($_GET["testsysteem"] or $vars["lokale_testserver"]) { ?>
 echo "<div style=\"position:absolute;top:8px;\">";
 
 	if($vars["website"]=="I") {
-		echo"<div id=\"popUpDiv\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position: relative;left:42%; top:20px; display:none;\">";
+		echo "<div id=\"blanket\" style=\"display:none;\"></div>";
+		echo"<div id=\"popUpDiv\" style=\"margin-left:340px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	} elseif($vars["website"]=="E") {
-		echo"<div id=\"popUpDiv\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position: relative;left:38%; top:20px; display:none;\">";
+		echo "<div id=\"blanket\" style=\"display:none;\"></div>";
+		echo"<div id=\"popUpDiv\" style=\"margin-left:260px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	} else {
 		echo "<div id=\"blanket\" style=\"display:none;\"></div>";
 		echo "<div id=\"popUpDiv\" style=\"margin-left:210px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	}	
 ?>	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
 
-	<input type=\"button\" value=\"OK\" onClick=\"Popup.hide('modal');ajaxFunctionUpdateFav();\"></div>";?>
+	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');ajaxFunctionUpdateFav();\"></div>";
+	
+?>
 </div>
 </div> 
 <?php
@@ -26,32 +30,36 @@ echo "<script language=\"javascript\">";
 echo "sessionStorage.counter=".count($klantfavs);
 echo "</script>";
 ?>
-<script language="javascript" type="text/javascript">
-function ajaxFunctionUpdateFav(){
-	var ajaxRequestup;
-	try{
+<?php 
+echo "<script language=\"javascript\" type=\"text/javascript\">";
+echo "function ajaxFunctionUpdateFav(){";
+echo "var ajaxRequestup;";
+echo"	try{
 		ajaxRequestup = new XMLHttpRequest();
 	}catch (e){
-		try{
-		ajaxRequestup = new ActiveXObject("Msxml2.XMLHTTP");
-		}catch (e) {
+		try{";
+echo "		ajaxRequestup = new ActiveXObject(\"Msxml2.XMLHTTP\");";
+echo "		}catch (e) {
 			try{
-			ajaxRequestup = new ActiveXObject("Microsoft.XMLHTTP");
-			}catch (e){
-				alert("Your browser broke!");
+			ajaxRequestup = new ActiveXObject(\"Microsoft.XMLHTTP\");";
+echo "			}catch (e){
+				alert(\"Your browser broke!\");
 				return false;
 			}
 		}
-	}
-	ajaxRequestup.onreadystatechange = function(){
+	}";
+echo"	ajaxRequestup.onreadystatechange = function(){
 		if(ajaxRequestup.readyState == 4){
-			location.reload(true);
+			//location.reload(true);
+			$(\"#favorietenaantal\").html(\"3\");
+			window.alert(\"hier\");
 		}
 	}
-	var queryString = "?action=update" ;
-	ajaxRequestup.open("GET", queryString, true);
+	var queryString = \"rpc_json.php?action=update\" ;
+	ajaxRequestup.open(\"GET\", queryString, true);
 	ajaxRequestup.send(null); 
-}
+}";
+?>
 function ajaxFunction(klantid, accid, action){
 	var ajaxRequest;	
 	try{
@@ -73,17 +81,20 @@ function ajaxFunction(klantid, accid, action){
 			if(sessionStorage.counter < 1){
 				//Popup.showModal('modal','null','null',{'screenColor':'#000000','screenOpacity':.6});
 				//Popup.show('modal','wrapper','top left',{'constrainToScreen':false});
+				window.alert(ajaxRequest.responseText);
 				popup('popUpDiv');
 			}
 			else{
+				window.alert(ajaxRequest.responseText);
 				ajaxFunctionUpdateFav();
 			}
 			return false;
 		}
 	}
-	var queryString = "?klantID=" + klantid ;
+	var queryString = "rpc_json.php?klantID=" + klantid ;
 	queryString +=  "&accommodatie=" + accid;
 	queryString +=  "&action=" + action;
+	queryString +=  "&t=4";
 	ajaxRequest.open("GET", queryString, true);
 	ajaxRequest.send(null); 
 }
@@ -96,11 +107,17 @@ if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])){
 		$klantID=$_GET['klantID'];
 		$accommodatieID=$_GET['accommodatie'];
 		$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($klantID)."','".addslashes($accommodatieID)."',NOW());");
+		$return=$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
+		echo count($return);
+		return count($return);
 	}
 	elseif($_GET['action']=="delete"){
 		$klantID=$_GET['klantID'];
 		$accommodatieID=$_GET['accommodatie'];
 		$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($klantID)."' AND type_id='".addslashes($accommodatieID)."';");
+		$return=$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
+		echo count($return);
+		return count($return);
 	}
 }
 if($_GET["cmsuit"]) {
