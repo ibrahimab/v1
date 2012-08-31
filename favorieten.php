@@ -6,9 +6,9 @@ $db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeke
 while($db->next_record()){
 	array_push($klantfavs,$db->f("type_id"));
 }
-if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
-	$submenu["favorieten"]=txt("submenutitle_favorieten")." (".count($klantfavs).")";
-}
+#if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
+#	$submenu["favorieten"]=txt("submenutitle_favorieten");
+#}
 if($vars["websitetype"]==1){
 	$standardtext=html("standardtextChalet","favorieten");
 	$standardtext.=" <img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\">";

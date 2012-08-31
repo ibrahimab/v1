@@ -188,7 +188,11 @@ while(list($key,$value)=each($submenu)) {
 			}
 		} else {
 			echo "<a href=\"".$vars["path"].txt("menu_".$key).(@in_array($key,$submenu_url_zonder_punt_php) ? "" : ".php")."\">";
-			echo htmlentities($value);
+			if($key=="favorieten") {
+				echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">0</span>)";
+			} else {
+				echo wt_he($value);
+			}
 			echo "</a>";
 			if(($vars["website"]<>"E" and $vars["website"]<>"B") or $submenuteller<(count($submenu)-1)) {
 				echo "&nbsp;&nbsp;|&nbsp;&nbsp;";

@@ -1390,16 +1390,22 @@ $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 #favorieten pagina
 $txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
 $txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved hier. This enables you to comapare, share en print them.";
+
 $txt["nl"]["favorieten"]["Uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
 $txt["en"]["favorieten"]["Uitmijnfavorietenhalen"]="Erase from my favourites";
+
 $txt["nl"]["favorieten"]["plaatsinfavorieten"]="Plaats in mijn favorieten";
 $txt["en"]["favorieten"]["plaatsinfavorieten"]="Add to my favourites";
+
 $txt["nl"]["favorieten"]["standardtextChalet"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Om een chalet of appartement aan je lijst met favorieten toe te voegen, ga naar de pagina van een chalet of appartement en klik op";
 $txt["en"]["favorieten"]["standardtextChalet"]="Your list of favourites is empty. to add items to your list, go to the accommodation page and click on";
+
 $txt["nl"]["favorieten"]["onderwerpTextChalet"]="Mijn favoriete chalets en appartementen";
 $txt["en"]["favorieten"]["onderwerpTextChalet"]="My favourite chalets and appartments";
+
 $txt["nl"]["favorieten"]["doormailTextChalet"]="Dit moet je zien! Ik heb een aantal leuke chalets en appartementen gevonden op";
 $txt["en"]["favorieten"]["doormailTextChalet"]="You must see this! I have found some interesting chalets and appartments on";
+
 $txt["nl"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete vakantiehuizen welke jijzelf hebt doorgestuurd op";
 $txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have send on ";
 
@@ -1408,6 +1414,7 @@ $txt["en"]["favorieten"]["versturenPermail"]="Send by e-mail";
 
 $txt["nl"]["favorieten"]["inhoudprinten"]="Printen";
 $txt["en"]["favorieten"]["inhoudprinten"]="Print";
+
 $txt["nl"]["favorieten"]["buttonLeesmeer"]="Lees meer";
 $txt["en"]["favorieten"]["buttonLeesmeer"]="Read more";
 
@@ -1417,10 +1424,13 @@ $txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting 
 
 $txt["nl"]["favorieten"]["LabelVan"]="Van: (E-mailadres)";
 $txt["en"]["favorieten"]["LabelVan"]="From: (E-mail)";
+
 $txt["nl"]["favorieten"]["LabelNaar"]="Naar: (Meerdere e-mailadressen scheiden met een spatie)";
 $txt["en"]["favorieten"]["LabelNaar"]="To: (use space as a separation for the e-mails)";
+
 $txt["nl"]["favorieten"]["LabelBericht"]="Bericht:";
 $txt["en"]["favorieten"]["LabelBericht"]="Message:";
+
 $txt["nl"]["favorieten"]["stuurkopie"]="Stuur een kopie naar mijzelf";
 $txt["en"]["favorieten"]["stuurkopie"]="Send me a copy";
 
