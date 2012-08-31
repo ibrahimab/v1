@@ -286,6 +286,11 @@ class phpmysqldump
 				}
 				$this->backup_comment("debut_table", $tablename);
 
+				# charset goed zetten
+				#$query_charset = mysql_query("SET CHARACTER SET 'latin1';");
+				$this->ecrire("SET CHARACTER SET 'latin1';\n");
+
+
 				// debut du query on vire la table si elle existe deja // if the table exist we erase it
 				$this->ecrire("DROP TABLE IF EXISTS `$tablename`;\n");
 			  
