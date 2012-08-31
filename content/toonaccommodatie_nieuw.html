@@ -4,6 +4,7 @@ if($_GET["testsysteem"] or $vars["lokale_testserver"]) { ?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/main.js\"></script>";?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/popup.js\"></script>";?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";?>
+<?php echo "<script language=\"javascript\">getfavsandCheckAvailability('".$_COOKIE["sch"]."','".$typeid."')</script>";?>
 <?php 
 
 echo "<div style=\"position:absolute;top:8px;\">";
@@ -20,96 +21,14 @@ echo "<div style=\"position:absolute;top:8px;\">";
 	}	
 ?>	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
 
-	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');ajaxFunctionUpdateFav();\"></div>";
+	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');ajaxFunctionUpdateFav('".$_COOKIE["sch"]."','".$typeid."');\"></div>";
 	
 ?>
 </div>
 </div> 
-<?php
-echo "<script language=\"javascript\">";
-echo "$.getJSON(\"/chalet/rpc_json.php\", {";
-echo "		\"t\": 4,";
-echo"		\"klantID\": '".$_COOKIE["sch"]."',";
-echo"		\"action\": 'getfavs'";
-echo"	}, function(data) {";
-echo"		if(data.ok) {";
-echo "$(\"#favorietenaantal\").html(data.aantal);";
-echo"	currentTID=".$typeid.";";
 
-echo "if(data.favs==0){";
-echo "document.getElementById(\"favadd\").style.display='inline';";
-echo "document.getElementById(\"favremove\").style.display='none';";
-echo "}";
-echo "for(i=0;i<data.favs.length;i++){";
-echo "if(data.favs[i]==currentTID){";
-//echo"			window.alert(data.favs[i]);";
-echo "document.getElementById(\"favadd\").style.display='none';";
-echo "document.getElementById(\"favremove\").style.display='inline';";
-echo "break;";
-echo "}";
-echo "else{";
-echo "document.getElementById(\"favadd\").style.display='inline';";
-echo "document.getElementById(\"favremove\").style.display='none';";
-echo "break;";
-echo"}";
-echo"}";
-echo"		}
-	});";
-echo "sessionStorage.counter=".count($klantfavs);
-echo "</script>";
-?>
-<?php 
-echo "<script language=\"javascript\" type=\"text/javascript\">";
-echo "function ajaxFunctionUpdateFav(){";
-echo "$.getJSON(\"/chalet/rpc_json.php\", {";
-echo "		\"t\": 4,";
-echo"		\"klantID\": '".$_COOKIE["sch"]."',";
-echo"		\"action\": 'getfavs'";
-echo"	}, function(data) {";
-echo"		if(data.ok) {";
-echo "$(\"#favorietenaantal\").html(data.aantal);";
-echo"	currentTID=".$typeid.";";
-
-echo "if(data.favs==0){";
-echo "document.getElementById(\"favadd\").style.display='inline';";
-echo "document.getElementById(\"favremove\").style.display='none';";
-echo "}";
-echo "for(i=0;i<data.favs.length;i++){";
-echo "if(data.favs[i]==currentTID){";
-//echo"			window.alert(data.favs[i]);";
-echo "document.getElementById(\"favadd\").style.display='none';";
-echo "document.getElementById(\"favremove\").style.display='inline';";
-echo "break;";
-echo "}";
-echo "else{";
-echo "document.getElementById(\"favadd\").style.display='inline';";
-echo "document.getElementById(\"favremove\").style.display='none';";
-echo "break;";
-echo"}";
-echo"}";
-echo"		}
-	});";
-echo "}";
-?>
-function ajaxFunction(klantid, accid, action){
-		$.getJSON("/chalet/rpc_json.php", {
-		"t": 4,
-		"klantID": klantid,
-		"accommodatie": accid,
-		"action": action
-	}, function(data) {
-		if(data.ok) {
-			if(data.aantal==1){
-				popup('popUpDiv');
-			}
-			$("#favorietenaantal").html(data.aantal);
-		}
-	});
-}
-</script>
 <?php
 }
-
 if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])){
 	if($_GET['action']=="insert"){
 		$klantID=$_GET['klantID'];

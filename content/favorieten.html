@@ -777,11 +777,10 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 			echo "</div>";
 			echo "</td></tr>";
 			echo "</table>";
-			echo "</div>";
+			//echo "</div>";
 		}
 	}
 //}
-echo "</div>";
 echo "</div>";
 echo "<div id=\"printDi\" style=\"display:none;\">";
 foreach($klantfavs as $id){
@@ -875,5 +874,5 @@ echo "$(\"#Annuleren\").click(function () {";
 echo "$(\"#mailForm\").slideToggle();";
 echo "});";
 echo"</script>";
-echo "<div>";
+//echo "<div>";
 ?>

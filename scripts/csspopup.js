@@ -47,3 +47,79 @@ function popup(windowname) {
 	toggle("blanket");
 	toggle(windowname);
 }
+
+function getfavsandCheckAvailability(klantid, typeid){
+	$.getJSON("/chalet/rpc_json.php", {
+		"t": 4,
+		"klantID": klantid,
+		"action": "getfavs"
+	}, function(data) {
+		if(data.ok) {
+			$("#favorietenaantal").html(data.aantal);
+			currentTID=typeid;
+			if(data.favs==0){
+				document.getElementById("favadd").style.display='inline';
+				document.getElementById("favremove").style.display='none';
+			}
+			for(i=0;i<data.favs.length;i++){
+				if(data.favs[i]==currentTID){
+					//echo"			window.alert(data.favs[i]);";
+					document.getElementById("favadd").style.display='none';
+					document.getElementById("favremove").style.display='inline';
+					break;
+				}
+				else{
+					document.getElementById("favadd").style.display='inline';
+					document.getElementById("favremove").style.display='none';
+					break;
+				}
+			}
+		}
+	});
+}
+function ajaxFunctionUpdateFav(klantid, typeid){
+	$.getJSON("/chalet/rpc_json.php", {
+		"t": 4,
+		"klantID": klantid,
+		"action": 'getfavs'
+	}, function(data) {
+		if(data.ok) {
+			$("#favorietenaantal").html(data.aantal);
+			currentTID=typeid;
+
+			if(data.favs==0){
+				document.getElementById("favadd").style.display='inline';
+				document.getElementById("favremove").style.display='none';
+			}
+			for(i=0;i<data.favs.length;i++){
+				if(data.favs[i]==currentTID){
+					//echo"			window.alert(data.favs[i]);";
+					document.getElementById("favadd").style.display='none';
+					document.getElementById("favremove").style.display='inline';
+					break;
+				}
+				else{
+					document.getElementById("favadd").style.display='inline';
+					document.getElementById("favremove").style.display='none';
+					break;
+				}
+			}
+		}
+	});
+}
+
+function ajaxFunction(klantid, accid, action){
+	$.getJSON("/chalet/rpc_json.php", {
+	"t": 4,
+	"klantID": klantid,
+	"accommodatie": accid,
+	"action": action
+	}, function(data) {
+		if(data.ok) {
+			if(data.aantal==1){
+				popup('popUpDiv');
+			}
+			$("#favorietenaantal").html(data.aantal);
+		}
+	});
+}
