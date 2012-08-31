@@ -27,39 +27,69 @@ echo "<div style=\"position:absolute;top:8px;\">";
 </div> 
 <?php
 echo "<script language=\"javascript\">";
+echo "$.getJSON(\"/chalet/rpc_json.php\", {";
+echo "		\"t\": 4,";
+echo"		\"klantID\": '".$_COOKIE["sch"]."',";
+echo"		\"action\": 'getfavs'";
+echo"	}, function(data) {";
+echo"		if(data.ok) {";
+echo "$(\"#favorietenaantal\").html(data.aantal);";
+echo"	currentTID=".$typeid.";";
+
+echo "if(data.favs==0){";
+echo "document.getElementById(\"favadd\").style.display='inline';";
+echo "document.getElementById(\"favremove\").style.display='none';";
+echo "}";
+echo "for(i=0;i<data.favs.length;i++){";
+echo "if(data.favs[i]==currentTID){";
+//echo"			window.alert(data.favs[i]);";
+echo "document.getElementById(\"favadd\").style.display='none';";
+echo "document.getElementById(\"favremove\").style.display='inline';";
+echo "break;";
+echo "}";
+echo "else{";
+echo "document.getElementById(\"favadd\").style.display='inline';";
+echo "document.getElementById(\"favremove\").style.display='none';";
+echo "break;";
+echo"}";
+echo"}";
+echo"		}
+	});";
 echo "sessionStorage.counter=".count($klantfavs);
 echo "</script>";
 ?>
 <?php 
 echo "<script language=\"javascript\" type=\"text/javascript\">";
 echo "function ajaxFunctionUpdateFav(){";
+echo "$.getJSON(\"/chalet/rpc_json.php\", {";
+echo "		\"t\": 4,";
+echo"		\"klantID\": '".$_COOKIE["sch"]."',";
+echo"		\"action\": 'getfavs'";
+echo"	}, function(data) {";
+echo"		if(data.ok) {";
+echo "$(\"#favorietenaantal\").html(data.aantal);";
+echo"	currentTID=".$typeid.";";
 
-echo "var ajaxRequestup;";
-echo"	try{
-		ajaxRequestup = new XMLHttpRequest();
-	}catch (e){
-		try{";
-echo "		ajaxRequestup = new ActiveXObject(\"Msxml2.XMLHTTP\");";
-echo "		}catch (e) {
-			try{
-			ajaxRequestup = new ActiveXObject(\"Microsoft.XMLHTTP\");";
-echo "			}catch (e){
-				alert(\"Your browser broke!\");
-				return false;
-			}
-		}
-	}";
-echo"	ajaxRequestup.onreadystatechange = function(){
-		if(ajaxRequestup.readyState == 4){
-			//location.reload(true);
-			$(\"#favorietenaantal\").html(\"3\");
-			window.alert(\"hier\");
-		}
-	}
-	var queryString = \"rpc_json.php?action=update\" ;
-	ajaxRequestup.open(\"GET\", queryString, true);
-	ajaxRequestup.send(null); 
-}";
+echo "if(data.favs==0){";
+echo "document.getElementById(\"favadd\").style.display='inline';";
+echo "document.getElementById(\"favremove\").style.display='none';";
+echo "}";
+echo "for(i=0;i<data.favs.length;i++){";
+echo "if(data.favs[i]==currentTID){";
+//echo"			window.alert(data.favs[i]);";
+echo "document.getElementById(\"favadd\").style.display='none';";
+echo "document.getElementById(\"favremove\").style.display='inline';";
+echo "break;";
+echo "}";
+echo "else{";
+echo "document.getElementById(\"favadd\").style.display='inline';";
+echo "document.getElementById(\"favremove\").style.display='none';";
+echo "break;";
+echo"}";
+echo"}";
+echo"		}
+	});";
+echo "}";
 ?>
 function ajaxFunction(klantid, accid, action){
 		$.getJSON("/chalet/rpc_json.php", {
@@ -69,8 +99,10 @@ function ajaxFunction(klantid, accid, action){
 		"action": action
 	}, function(data) {
 		if(data.ok) {
-			$("#favorietenaantal").html(data.aantal);	
-			popup('popUpDiv')
+			if(data.aantal==1){
+				popup('popUpDiv');
+			}
+			$("#favorietenaantal").html(data.aantal);
 		}
 	});
 }
@@ -1439,8 +1471,8 @@ if($db->next_record()) {
 	echo "</form>";
 	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="E") {
 		if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
-			if(!in_array($typeid,$klantfavs)) {
-				echo "<div style=\"padding:5px;\">";
+				
+				echo "<div id=\"favadd\" style=\"padding:5px;display:none;\">";
 				if($vars["website"]=="C"){
 					echo "<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\"> ";
 				}
@@ -1458,9 +1490,8 @@ if($db->next_record()) {
 				echo html("plaatsinfavorieten","favorieten");
 				echo "</a>";
 				echo "</div>";
-			}
-			else{
-				echo "<div style=\"padding:5px;\">";
+			
+				echo "<div id=\"favremove\" style=\"padding:5px;display:none;\">";
 				echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=";
 				echo $vars["path"];
 				if($vars["website"]=="C" or $vars["website"]=="E"){
@@ -1476,7 +1507,16 @@ if($db->next_record()) {
 				echo "<div style=\"float:right;\">".html("Uitmijnfavorietenhalen","favorieten")."</div>";
 				echo "</a>";
 				echo "</div>";
-			}
+
+			//if(!in_array($typeid,$klantfavs)) {
+			//	echo "<script>";
+			//	echo "document.getElementById(\"favadd\").style.display='block'";
+			//	echo "document.getElementById(\"favremove\").style.display='none'";
+			//	echo "</script>";
+			//}
+			//else{
+			//	echo "tester";
+			//}
 		}
 	}
 	echo "<div id=\"toonaccommodatie_kleinelinks\">";
