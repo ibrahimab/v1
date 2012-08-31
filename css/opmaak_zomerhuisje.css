@@ -300,6 +300,14 @@ form {
 	background-color: #ffffff;
 }
 
+#cookie_bottombar a {
+	color: #cfbcd8;
+}
+
+#cookie_bottombar_close {
+	color: #cfbcd8;
+}
+
 #grizzly {
 	width:970px;
 	margin-left:auto;

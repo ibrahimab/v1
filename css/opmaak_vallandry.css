@@ -223,6 +223,14 @@ form {
 	font-weight: normal;
 }
 
+#cookie_bottombar a {
+	color: #b2cce5;
+}
+
+#cookie_bottombar_close {
+	color: #b2cce5;
+}
+
 .overlay_foto {
 	position:relative;
 	cursor: pointer;
