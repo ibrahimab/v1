@@ -52,6 +52,7 @@ RewriteRule ^index\.php$ / [R=301,L]
 RewriteCond %{HTTP_HOST} chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www[23]?\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^srv01\.chalet\.nl [NC]
+RewriteCond %{HTTP_HOST} !^test\.chalet\.nl [NC]
 RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]

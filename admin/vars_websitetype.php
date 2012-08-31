@@ -17,7 +17,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["WINDIR"]<>"") 
 if($vars["lokale_testserver"]) {
 
 	# Testsite bepalen indien niet bekend
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and !$vars["testsite"]) {
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$vars["cms_basehref"]="http://ss.postvak.net/chalet/";
 
 		if(!$vars["testsite"]) {

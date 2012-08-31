@@ -2434,14 +2434,20 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				$accid=$db->f("accommodatie_id");
 			}
 			$newresults_acc[$sorteer]=$accid;
+			
+			
+			# sorteren types binnen de accommodatie bepalen
+			unset($acc_sorteer);
 			if($tarief_float>0) {
 				$tarief_sorteer=$tarief_float;
+				$acc_sorteer.="1";
 			} else {
 				$tarief_sorteer="99999999";			
+				$acc_sorteer.="9";
 			}
 #			$acc_sorteer=substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".$db->f("type_id");
 
-			$acc_sorteer=substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".$db->f("type_id");
+			$acc_sorteer.=substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".$db->f("type_id");
 			
 			$newresults[$accid][$acc_sorteer]["type_id"]=$db->f("type_id");
 			$newresults[$accid][$acc_sorteer]["accommodatie_id"]=$db->f("accommodatie_id");
