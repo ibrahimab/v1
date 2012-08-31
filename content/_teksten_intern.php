@@ -190,7 +190,7 @@ if($vars["websitetype"]==3 or $vars["websitetype"]==5 or $vars["websitetype"]==7
 $txta["en"]["submenutitle_skigebieden"]="regions";
 
 $txta["nl"]["submenutitle_favorieten"]="favorieten";
-$txta["en"]["submenutitle_favorieten"]="favourites ";
+$txta["en"]["submenutitle_favorieten"]="favourites";
 
 $txta["nl"]["submenutitle_algemenevoorwaarden"]="algemene voorwaarden";
 $txta["en"]["submenutitle_algemenevoorwaarden"]="conditions";

@@ -33,6 +33,7 @@ echo "</script>";
 <?php 
 echo "<script language=\"javascript\" type=\"text/javascript\">";
 echo "function ajaxFunctionUpdateFav(){";
+
 echo "var ajaxRequestup;";
 echo"	try{
 		ajaxRequestup = new XMLHttpRequest();
@@ -61,42 +62,17 @@ echo"	ajaxRequestup.onreadystatechange = function(){
 }";
 ?>
 function ajaxFunction(klantid, accid, action){
-	var ajaxRequest;	
-	try{
-		ajaxRequest = new XMLHttpRequest();
-	}catch (e){
-		try{
-			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-		}catch (e) {
-			try{
-				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-			}catch (e){
-				alert("Your browser broke!");
-				return false;
-			}
+		$.getJSON("/chalet/rpc_json.php", {
+		"t": 4,
+		"klantID": klantid,
+		"accommodatie": accid,
+		"action": action
+	}, function(data) {
+		if(data.ok) {
+			$("#favorietenaantal").html(data.aantal);	
+			popup('popUpDiv')
 		}
-	}
-	ajaxRequest.onreadystatechange = function(){
-		if(ajaxRequest.readyState == 4){
-			if(sessionStorage.counter < 1){
-				//Popup.showModal('modal','null','null',{'screenColor':'#000000','screenOpacity':.6});
-				//Popup.show('modal','wrapper','top left',{'constrainToScreen':false});
-				window.alert(ajaxRequest.responseText);
-				popup('popUpDiv');
-			}
-			else{
-				window.alert(ajaxRequest.responseText);
-				ajaxFunctionUpdateFav();
-			}
-			return false;
-		}
-	}
-	var queryString = "rpc_json.php?klantID=" + klantid ;
-	queryString +=  "&accommodatie=" + accid;
-	queryString +=  "&action=" + action;
-	queryString +=  "&t=4";
-	ajaxRequest.open("GET", queryString, true);
-	ajaxRequest.send(null); 
+	});
 }
 </script>
 <?php
@@ -1767,21 +1743,5 @@ function toon_tekst_acc_en_type($tekst1,$tekst2="") {
 		return nl2br(wt_htmlentities($tekst2));
 	}
 }
-
-echo "<script type=\"text/javascript\">";
-echo "$(\"#voegfavToe\").click(function () {";
-echo "window.alert(\"Hier\");";
-echo "$.getJSON(\"rpc_json.php\", {";
-echo "\"t\": 4,";
-echo "\"klantID\":\"".$_COOKIE["sch"]."\",";
-echo "\"accommodatie\":".$typeid.",";
-echo "\"action\": \"insert\"";
-//echo "\"waarde_die_je_wilt_doorsturen\": \"waarde\"";
-echo "}, function(data) {";
-echo "if(data.ok) {";
-echo "window.alert(\"OK\")";
-echo "}";
-echo "});";
-echo"</script>";
 
 ?>

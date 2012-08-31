@@ -153,7 +153,11 @@ while(list($key,$value)=each($submenu)) {
 	$submenuteller++;
 	if($value<>"-") {
 		echo "<a href=\"".$vars["path"].txt("menu_".$key).(@in_array($key,$submenu_url_zonder_punt_php) ? "" : ".php")."\">";
-		echo htmlentities($value);
+		if($key=="favorieten") {
+			echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">0</span>)";
+		} else {
+			echo wt_he($value);
+		}
 		echo "</a>";
 		if($submenuteller<(count($submenu))) {
 			echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
