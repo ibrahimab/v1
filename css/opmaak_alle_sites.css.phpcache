@@ -1098,8 +1098,9 @@ td.selecteerbaarbedrag:hover{
 	bottom: 0px;
 	left: 0px;
 	z-index: 9999;
-	background-color: #e3e2e2;
-	border-top: 1px solid #c3c3c3;
+	background-color: #555555;
+	border-top: 1px solid #222222;
+	color: #ffffff;
 	border-bottom: none;
 	margin: 0px auto;
 	-moz-opacity: .90;
@@ -1109,6 +1110,14 @@ td.selecteerbaarbedrag:hover{
 	right: 0;
 	text-align: center;
 	padding: 7px;
+}
+
+#cookie_bottombar a {
+	color: #d5e1f9;
+}
+
+#cookie_bottombar a:hover {
+	color: #ffffff;
 }
 
 #cookie_bottombar_wrapper {
@@ -1130,11 +1139,11 @@ td.selecteerbaarbedrag:hover{
 	background-position: 20px 2px;
 	cursor: pointer;
 	text-decoration: underline;
-	color: #003366;
+	color: #d5e1f9;
 }
 
 #cookie_bottombar_close:hover {
-	color: <?php echo $hover; ?>;
+	color: #ffffff;
 }
 
 //

@@ -1744,20 +1744,4 @@ function toon_tekst_acc_en_type($tekst1,$tekst2="") {
 	}
 }
 
-echo "<script type=\"text/javascript\">";
-echo "$(\"#voegfavToe\").click(function () {";
-echo "window.alert(\"Hier\");";
-echo "$.getJSON(\"rpc_json.php\", {";
-echo "\"t\": 4,";
-echo "\"klantID\":\"".$_COOKIE["sch"]."\",";
-echo "\"accommodatie\":".$typeid.",";
-echo "\"action\": \"insert\"";
-//echo "\"waarde_die_je_wilt_doorsturen\": \"waarde\"";
-echo "}, function(data) {";
-echo "if(data.ok) {";
-echo "window.alert(\"OK\")";
-echo "}";
-echo "});";
-echo"</script>";
-
 ?>
