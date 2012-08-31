@@ -405,6 +405,14 @@ form {
 	color: #ffd38f;
 }
 
+#cookie_bottombar a {
+	color: #ffd38f;
+}
+
+#cookie_bottombar_close {
+	color: #ffd38f;
+}
+
 .button {
 	width: 168px;
 	font-size: 0.9em;

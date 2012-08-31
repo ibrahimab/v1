@@ -718,6 +718,13 @@ if($vars["zoekenboek_overlay_doorschuiven"]) {
 	echo "<style type=\"text/css\"><!--\n#zoekenboek_overlay {\ntop:".(264+$vars["zoekenboek_overlay_doorschuiven"])."px;\n}\n--></style>\n";
 }
 
+# Balk met cookie-melding
+if($vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
+	echo "<p>&nbsp;</p>";
+	echo "<div class=\"clear\"></div>";
+	echo "<div id=\"cookie_bottombar\"><div id=\"cookie_bottombar_wrapper\">Deze website maakt gebruik van cookies. Lees ons <a href=\"".$vars["path"]."privacy-statement.php?testsysteem=1\">privacy statement</a> voor meer informatie.<div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
+}
+
 echo "</body>";
 echo "</html>";
 
