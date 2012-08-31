@@ -1698,7 +1698,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 	}
 	
 	if(!$tarieven_opgezocht) {
-		if($vars["seizoentype"]==1 and !$vars["wederverkoop"] and ($_GET["testsysteem"]==1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2")) {
+		if($vars["seizoentype"]==1 and !$vars["wederverkoop"] and ($vars["lokale_testserver"] or $voorkant_cms)) {
 			#
 			# Vanaf-prijzen berekenen
 			#
