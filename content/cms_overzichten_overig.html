@@ -147,6 +147,11 @@ if($_GET["t"]==1) {
 	#
 	# Overzicht te vertalen teksten
 	#
+	if($_GET["cmstaal"]) {
+		$vars["cmstaal"]=$_GET["cmstaal"];
+	}
+	
+	
 	if($vars["cmstaal"]) {
 	
 		if($vars["cmstaal"]=="en") {
@@ -154,125 +159,176 @@ if($_GET["t"]==1) {
 		} elseif($vars["cmstaal"]=="de") {
 			$vars["cmstaal_website"]="D";
 		}
-	
-		echo "Klik op <img src=\"".$vars["path"]."pic/icon_okay.png\" width=\"20\" height=\"20\" border=\"0\"> na het controleren/vertalen van alle velden van een record.<br><br>";
-		$db->query("SELECT DISTINCT table_name, cms_id FROM cmslog WHERE vertaald_".$vars["cmstaal"]."=0 AND specialtype NOT IN (2,3) ORDER BY table_name;");
-		while($db->next_record()) {
-			$db2->query("SHOW COLUMNS FROM ".$db->f("table_name").";");
-			while($db2->next_record()) {
-				if(ereg("^(.*)_".$vars["cmstaal"]."$",$db2->f("Field"),$regs)) {
-					$onvertaald[$db->f("table_name")]["inquery"].=",'".$regs[1]."'";
-					$cms_name[$db->f("table_name")]=$cms->settings[$db->f("cms_id")]["types"];
+		
+		if($_GET["initieel_vertalen"]) {
+			# Overzicht nog niet vertaalde types en accommodaties
+			
+			
+			
+			# Welke velden moeten worden vertaald bij de accommodaties?
+			$ignore_fields=array("pdfupload","vertrekinfo_seizoengoedgekeurd","pdfupload_user","pdfupload_datum");
+			$db->query("SHOW COLUMNS FROM accommodatie;");
+			while($db->next_record()) {
+				if(preg_match("/^(.*)_".$vars["cmstaal"]."$/",$db->f("Field"),$regs) and !in_array($regs[1],$ignore_fields)) {
+					$orquery.=" OR (a.".$regs[1]."<>'' AND a.".$regs[1]."_".$vars["cmstaal"]."='')";
 				}
 			}
-		}
-		
-		#
-		# Bepalen welke records uitsluitend gebruikt moeten worden (bijv. vanwege zomer-accommodaties, archief, tonen=0)
-		#
+
+			# Accommodaties
+			$db->query("SELECT DISTINCT a.accommodatie_id, a.naam, a.wzt FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.websites LIKE '%".$vars["cmstaal_website"]."%' AND (".substr($orquery,3).") AND archief=0 AND a.tonen=1 AND t.tonen=1 ORDER BY a.naam;");
+			if($db->num_rows()) {
+				echo "Bij de volgende accommodaties zijn nog onvertaalde ".strtoupper($vars["cmstaal"])."-teksten:<ul>";
+				while($db->next_record()) {
+					echo "<li><a href=\"cms_accommodaties.php?edit=1&1k0=".$db->f("accommodatie_id")."&wzt=".$db->f("wzt")."&archief=0&cmstaal=".$vars["cmstaal"]."&hidecmsmenu=1\" class=\"vertalingbewerken\">".wt_he($vars["alleacc"][$db->f("accommodatie_id")])."</a></li>";
+				}
+				echo "</ul>";
+			}
+			
+			
+			# Welke velden moeten worden vertaald bij de types?
+			unset($orquery);
+			$ignore_fields=array("pdfupload","vertrekinfo_seizoengoedgekeurd","pdfupload_user","pdfupload_datum");
+			$db->query("SHOW COLUMNS FROM type;");
+			while($db->next_record()) {
+				if(preg_match("/^(.*)_".$vars["cmstaal"]."$/",$db->f("Field"),$regs) and !in_array($regs[1],$ignore_fields)) {
+					$orquery.=" OR (t.".$regs[1]."<>'' AND t.".$regs[1]."_".$vars["cmstaal"]."='')";
+				}
+			}
+
+			# Types
+			$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.wzt FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.websites LIKE '%".$vars["cmstaal_website"]."%' AND (".substr($orquery,3).") AND archief=0 AND a.tonen=1 AND t.tonen=1 ORDER BY t.naam;");
+			if($db->num_rows()) {
+				echo "<br>Bij de volgende types zijn nog onvertaalde ".strtoupper($vars["cmstaal"])."-teksten:<ul>";
+				while($db->next_record()) {
+					echo "<li><a href=\"cms_types.php?edit=2&2k0=".$db->f("type_id")."&1k0=".$db->f("accommodatie_id")."&wzt=".$db->f("wzt")."&archief=0&pv_accommodatie_id=".$db->f("accommodatie_id")."&cmstaal=".$vars["cmstaal"]."&hidecmsmenu=1\" class=\"vertalingbewerken\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
+				}
+				echo "</ul>";
+			}
+			
+		} else {
+			if($vars["cmstaal"]=="de") {
+				echo "<p class=\"opvalblok\"><a href=\"".$_SERVER["REQUEST_URI"]."&initieel_vertalen=1\">Bekijk de niet eerder ".strtoupper($vars["cmstaal"])."-vertaalde accommodaties en types &raquo;</a></p>";
+			}
 	
-		# aanbiedingen
-		$db->query("SELECT aanbieding_id FROM aanbieding WHERE wzt=1;");
-		while($db->next_record()) {
-			$alleen_inquery["aanbieding"].=",".$db->f("aanbieding_id");
-		}
+			echo "Klik op <img src=\"".$vars["path"]."pic/icon_okay.png\" width=\"20\" height=\"20\" border=\"0\"> na het controleren/vertalen van alle velden van een record.<br><br>";
+			$db->query("SELECT DISTINCT table_name, cms_id FROM cmslog WHERE vertaald_".$vars["cmstaal"]."=0 AND specialtype NOT IN (2,3) ORDER BY table_name;");
+			while($db->next_record()) {
+				$db2->query("SHOW COLUMNS FROM ".$db->f("table_name").";");
+				while($db2->next_record()) {
+					if(ereg("^(.*)_".$vars["cmstaal"]."$",$db2->f("Field"),$regs)) {
+						$onvertaald[$db->f("table_name")]["inquery"].=",'".$regs[1]."'";
+						$cms_name[$db->f("table_name")]=$cms->settings[$db->f("cms_id")]["types"];
+					}
+				}
+			}
+			
+			#
+			# Bepalen welke records uitsluitend gebruikt moeten worden (bijv. vanwege zomer-accommodaties, archief, tonen=0)
+			#
 		
-		# accommodaties
-		$db->query("SELECT a.accommodatie_id FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.wzt=1 AND a.archief=0 AND a.websites LIKE '%".$vars["cmstaal_website"]."%' AND a.tonen=1 ORDER BY p.naam, a.naam;");
-		while($db->next_record()) {
-			$alleen_inquery["accommodatie"].=",".$db->f("accommodatie_id");
-		}
-	
-		# types
-		$db->query("SELECT t.type_id FROM type t, accommodatie a, plaats p WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.tonen=1 AND t.websites LIKE '%".$vars["cmstaal_website"]."%' AND a.accommodatie_id IN (".substr($alleen_inquery["accommodatie"],1).") ORDER BY p.naam, a.naam, t.naam, t.optimaalaantalpersonen;");
-		while($db->next_record()) {
-			$alleen_inquery["type"].=",".$db->f("type_id");
-		}
+			# aanbiedingen
+			$db->query("SELECT aanbieding_id FROM aanbieding WHERE wzt=1;");
+			while($db->next_record()) {
+				$alleen_inquery["aanbieding"].=",".$db->f("aanbieding_id");
+			}
+			
+			# accommodaties
+			$db->query("SELECT a.accommodatie_id FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.wzt=1 AND a.archief=0 AND a.websites LIKE '%".$vars["cmstaal_website"]."%' AND a.tonen=1 ORDER BY p.naam, a.naam;");
+			while($db->next_record()) {
+				$alleen_inquery["accommodatie"].=",".$db->f("accommodatie_id");
+			}
 		
-		# skigebieden
-		$db->query("SELECT skigebied_id, naam FROM skigebied WHERE wzt=1 ORDER BY naam;");
-		while($db->next_record()) {
-			$alleen_inquery["skigebied"].=",".$db->f("skigebied_id");
-		}
-	
-		# plaatsen
-		$db->query("SELECT plaats_id, naam FROM plaats WHERE wzt=1 ORDER BY naam;");
-		while($db->next_record()) {
-			$alleen_inquery["plaats"].=",".$db->f("plaats_id");
-		}
-	
-		# thema's
-		$db->query("SELECT thema_id FROM thema WHERE wzt=1;");
-		while($db->next_record()) {
-			$alleen_inquery["thema"].=",".$db->f("thema_id");
-		}
+			# types
+			$db->query("SELECT t.type_id FROM type t, accommodatie a, plaats p WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.tonen=1 AND t.websites LIKE '%".$vars["cmstaal_website"]."%' AND a.accommodatie_id IN (".substr($alleen_inquery["accommodatie"],1).") ORDER BY p.naam, a.naam, t.naam, t.optimaalaantalpersonen;");
+			while($db->next_record()) {
+				$alleen_inquery["type"].=",".$db->f("type_id");
+			}
+			
+			# skigebieden
+			$db->query("SELECT skigebied_id, naam FROM skigebied WHERE wzt=1 ORDER BY naam;");
+			while($db->next_record()) {
+				$alleen_inquery["skigebied"].=",".$db->f("skigebied_id");
+			}
 		
-		while(list($key,$value)=@each($onvertaald)) {
-			if($value["inquery"]) {
-				$db->query("SELECT cmslog_id, table_name, cms_id, cms_name, record_id, record_name, hide, field, field_name, previous, now, url FROM cmslog WHERE table_name='".addslashes($key)."' AND vertaald_".$vars["cmstaal"]."=0 AND field IN (".substr($value["inquery"],1).")".($alleen_inquery[$key] ? " AND record_id IN (".substr($alleen_inquery[$key],1).") ORDER BY FIELD(record_id,".substr($alleen_inquery[$key],1)."), hide" : " ORDER BY record_id, hide").";");
-				if($db->num_rows()) {
-					echo "\n<br><h2>".htmlentities(ucfirst($cms_name[$key]))."</h2>\n";
-				
-					unset($record_gehad,$table_geopend);
-					while($db->next_record()) {
+			# plaatsen
+			$db->query("SELECT plaats_id, naam FROM plaats WHERE wzt=1 ORDER BY naam;");
+			while($db->next_record()) {
+				$alleen_inquery["plaats"].=",".$db->f("plaats_id");
+			}
+		
+			# thema's
+			$db->query("SELECT thema_id FROM thema WHERE wzt=1;");
+			while($db->next_record()) {
+				$alleen_inquery["thema"].=",".$db->f("thema_id");
+			}
+			
+			while(list($key,$value)=@each($onvertaald)) {
+				if($value["inquery"]) {
+					$db->query("SELECT cmslog_id, table_name, cms_id, cms_name, record_id, record_name, hide, field, field_name, previous, now, url FROM cmslog WHERE table_name='".addslashes($key)."' AND vertaald_".$vars["cmstaal"]."=0 AND field IN (".substr($value["inquery"],1).")".($alleen_inquery[$key] ? " AND record_id IN (".substr($alleen_inquery[$key],1).") ORDER BY FIELD(record_id,".substr($alleen_inquery[$key],1)."), hide" : " ORDER BY record_id, hide").";");
+					if($db->num_rows()) {
+						echo "\n<br><h2>".htmlentities(ucfirst($cms_name[$key]))."</h2>\n";
 					
-						if($key=="accommodatie") {
-							$naam=$vars["alleacc"][$db->f("record_id")];
-						} elseif($key=="type") {
-							$naam=$vars["alletypes"][$db->f("record_id")];
-						} else {
-							$naam=$db->f("record_name");
-						}
-						if(!$naam) $naam="- leeg -";
-						if(!$record_gehad[$db->f("record_id")] and !preg_match("/zomer/",$db->f("field"))) {
-							$tevertalen_getoond=true;
-							if($record_gehad) echo "</table></div></div></div>\n\n";
-							unset($table_geopend);
-							echo "\n\n<div id=\"row1_".$key.$db->f("record_id")."\" style=\"\"><hr>";
-							echo "<div id=\"row2_".$key.$db->f("record_id")."\" style=\"padding:2px;\">";
-							if($db->f("hide")==1) {
-								echo "<div style=\"float:left;width:20px;padding-top:2px;\"></div>";
-								echo "<div style=\"float:left;\">".htmlentities($naam)."</div>";
+						unset($record_gehad,$table_geopend);
+						while($db->next_record()) {
+						
+							if($key=="accommodatie") {
+								$naam=$vars["alleacc"][$db->f("record_id")];
+							} elseif($key=="type") {
+								$naam=$vars["alletypes"][$db->f("record_id")];
 							} else {
-								echo "<div style=\"float:left;width:20px;padding-top:2px;\"><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" border=\"0\"></div>";
-								echo "<div style=\"float:left;\"><a href=\"#\" class=\"openklappen\" rel=\"row3_".$key.$db->f("record_id")."\">".htmlentities($naam)."</a></div>";
+								$naam=$db->f("record_name");
 							}
-							echo "<div style=\"float:right;width:30px;\"><img src=\"".$vars["path"]."pic/icon_okay.png\" width=\"20\" height=\"20\" border=\"0\" class=\"vertalingafvinken\" rel=\"".$key.$db->f("record_id").",".$db->f("cmslog_id")."\"></div>";
-							$url=$db->f("url");
-							$url=preg_replace("/&add=".$db->f("cms_id")."/","&edit=".$db->f("cms_id")."&".$db->f("cms_id")."k0=".$db->f("record_id"),$url);
-							$url=preg_replace("/\?add=".$db->f("cms_id")."/","&edit=".$db->f("cms_id")."&".$db->f("cms_id")."k0=".$db->f("record_id"),$url);
-							echo "<div style=\"float:right;width:30px;\"><a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet" : "").htmlentities(ereg_replace("\&bc=[0-9]+","",$url))."&cmstaal=en&hidecmsmenu=1\" class=\"vertalingbewerken\" rel=\"row3_".$key.$db->f("record_id")."\"><img src=\"".$vars["path"]."pic/class.cms_edit.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
-							echo "<div style=\"clear:both;\"></div>\n";
-							echo "<div id=\"row3_".$key.$db->f("record_id")."\" style=\"display:none;padding-left:20px;\">\n";
-							if($db->f("hide")==0) {
-								echo "<table cellspacing=\"0\" class=\"tbl difftbl\" style=\"margin-top:5px;\"><tr><th style=\"width:140px;\">veld</th><th style=\"width:40%;\">van</th><th style=\"width:40%;\">naar</th></tr>";
-								$table_geopend=true;
-							}
-							$record_gehad[$db->f("record_id")]=true;
-						}
-						if($table_geopend) {
-							if($db->f("hide")==0) {
-								if(!preg_match("/zomer/",$db->f("field"))) {
-									echo "<tr><td valign=\"top\">".htmlentities($db->f("field_name"))."</td><td valign=\"top\">".nl2br(htmlentities($db->f("previous")))."</td><td valign=\"top\">".nl2br(wt_diff($db->f("previous"),$db->f("now")))."</td></tr>";
+							if(!$naam) $naam="- leeg -";
+							if(!$record_gehad[$db->f("record_id")] and !preg_match("/zomer/",$db->f("field"))) {
+								$tevertalen_getoond=true;
+								if($record_gehad) echo "</table></div></div></div>\n\n";
+								unset($table_geopend);
+								echo "\n\n<div id=\"row1_".$key.$db->f("record_id")."\" style=\"\"><hr>";
+								echo "<div id=\"row2_".$key.$db->f("record_id")."\" style=\"padding:2px;\">";
+								if($db->f("hide")==1) {
+									echo "<div style=\"float:left;width:20px;padding-top:2px;\"></div>";
+									echo "<div style=\"float:left;\">".htmlentities($naam)."</div>";
+								} else {
+									echo "<div style=\"float:left;width:20px;padding-top:2px;\"><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" border=\"0\"></div>";
+									echo "<div style=\"float:left;\"><a href=\"#\" class=\"openklappen\" rel=\"row3_".$key.$db->f("record_id")."\">".htmlentities($naam)."</a></div>";
 								}
-							} else {
-								echo "<tr><td valign=\"top\" colspan=\"3\"> + Controleer alle velden</td></tr>";
+								echo "<div style=\"float:right;width:30px;\"><img src=\"".$vars["path"]."pic/icon_okay.png\" width=\"20\" height=\"20\" border=\"0\" class=\"vertalingafvinken\" rel=\"".$key.$db->f("record_id").",".$db->f("cmslog_id")."\"></div>";
+								$url=$db->f("url");
+								$url=preg_replace("/&add=".$db->f("cms_id")."/","&edit=".$db->f("cms_id")."&".$db->f("cms_id")."k0=".$db->f("record_id"),$url);
+								$url=preg_replace("/\?add=".$db->f("cms_id")."/","&edit=".$db->f("cms_id")."&".$db->f("cms_id")."k0=".$db->f("record_id"),$url);
+								echo "<div style=\"float:right;width:30px;\"><a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet" : "").htmlentities(ereg_replace("\&bc=[0-9]+","",$url))."&cmstaal=".$vars["cmstaal"]."&hidecmsmenu=1\" class=\"vertalingbewerken\" rel=\"row3_".$key.$db->f("record_id")."\"><img src=\"".$vars["path"]."pic/class.cms_edit.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
+								echo "<div style=\"clear:both;\"></div>\n";
+								echo "<div id=\"row3_".$key.$db->f("record_id")."\" style=\"display:none;padding-left:20px;\">\n";
+								if($db->f("hide")==0) {
+									echo "<table cellspacing=\"0\" class=\"tbl difftbl\" style=\"margin-top:5px;\"><tr><th style=\"width:140px;\">veld</th><th style=\"width:40%;\">van</th><th style=\"width:40%;\">naar</th></tr>";
+									$table_geopend=true;
+								}
+								$record_gehad[$db->f("record_id")]=true;
+							}
+							if($table_geopend) {
+								if($db->f("hide")==0) {
+									if(!preg_match("/zomer/",$db->f("field"))) {
+										echo "<tr><td valign=\"top\">".htmlentities($db->f("field_name"))."</td><td valign=\"top\">".nl2br(htmlentities($db->f("previous")))."</td><td valign=\"top\">".nl2br(wt_diff($db->f("previous"),$db->f("now")))."</td></tr>";
+									}
+								} else {
+									echo "<tr><td valign=\"top\" colspan=\"3\"> + Controleer alle velden</td></tr>";
+								}
 							}
 						}
-					}
-					if($record_gehad) {
-					
-						if($table_geopend) {
-							echo "</table>";
+						if($record_gehad) {
+						
+							if($table_geopend) {
+								echo "</table>";
+							}
+							echo "</div></div></div>\n\n";
+							echo "<hr>";
 						}
-						echo "</div></div></div>\n\n";
-						echo "<hr>";
 					}
 				}
 			}
-		}
-		if(!$tevertalen_getoond) {
-			echo "<hr><b>Er zijn geen te vertalen teksten.</b>";
+			if(!$tevertalen_getoond) {
+				echo "<hr><b>Er zijn geen te vertalen teksten.</b>";
+			}
 		}
 	} else {
 		echo "Selecteer de gewenste taal (Engels of Duits) via de <a href=\"".$vars["path"]."cms.php\">cms-hoofdpagina</a>.";

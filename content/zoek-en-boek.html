@@ -1705,13 +1705,13 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			
 			$vanaf_prijzen_tonen=true;
 			
-			# toonper = 1 en 2
-			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM accommodatie a, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND t.accommodatie_id=a.accommodatie_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
+			# toonper = 1 en 2 (arrangement)
+			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM accommodatie a, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND t.accommodatie_id=a.accommodatie_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fap"] ? " AND tp.personen='".addslashes($_GET["fap"])."'" : "").($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
 			while($db->next_record()) {
 				$vanafprijs_12[$db->f("type_id")]=$db->f("prijs_per_persoon");
 			}
 
-			# toonper = 3
+			# toonper = 3 (accommodatie)
 			$db->query("SELECT tr.type_id, MIN(tr.c_verkoop_site) AS c_verkoop_site FROM accommodatie a, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tr.type_id;");
 			while($db->next_record()) {
 				$vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
@@ -2434,14 +2434,20 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				$accid=$db->f("accommodatie_id");
 			}
 			$newresults_acc[$sorteer]=$accid;
+			
+			
+			# sorteren types binnen de accommodatie bepalen
+			unset($acc_sorteer);
 			if($tarief_float>0) {
 				$tarief_sorteer=$tarief_float;
+				$acc_sorteer.="1";
 			} else {
 				$tarief_sorteer="99999999";			
+				$acc_sorteer.="9";
 			}
 #			$acc_sorteer=substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".$db->f("type_id");
 
-			$acc_sorteer=substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".$db->f("type_id");
+			$acc_sorteer.=substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".$db->f("type_id");
 			
 			$newresults[$accid][$acc_sorteer]["type_id"]=$db->f("type_id");
 			$newresults[$accid][$acc_sorteer]["accommodatie_id"]=$db->f("accommodatie_id");
