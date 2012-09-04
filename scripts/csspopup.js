@@ -56,22 +56,22 @@ function getfavsandCheckAvailability(klantid, typeid){
 	}, function(data) {
 		if(data.ok) {
 			$("#favorietenaantal").html(data.aantal);
-			currentTID=typeid;
-			if(data.favs==0){
-				document.getElementById("favadd").style.display='inline';
-				document.getElementById("favremove").style.display='none';
-			}
-			for(i=0;i<data.favs.length;i++){
-				if(data.favs[i]==currentTID){
-					//echo"			window.alert(data.favs[i]);";
-					document.getElementById("favadd").style.display='none';
-					document.getElementById("favremove").style.display='inline';
-					break;
-				}
-				else{
+			if(typeid != null || typeid != ""){
+				currentTID=typeid;
+				if(data.favs==0){
 					document.getElementById("favadd").style.display='inline';
 					document.getElementById("favremove").style.display='none';
-					break;
+				}
+				for(i=0;i<data.favs.length;i++){
+					if(data.favs[i]==currentTID){
+						document.getElementById("favadd").style.display='none';
+						document.getElementById("favremove").style.display='inline';
+					}
+					else{
+						document.getElementById("favadd").style.display='inline';
+						document.getElementById("favremove").style.display='none';
+
+					}
 				}
 			}
 		}
@@ -93,15 +93,12 @@ function ajaxFunctionUpdateFav(klantid, typeid){
 			}
 			for(i=0;i<data.favs.length;i++){
 				if(data.favs[i]==currentTID){
-					//echo"			window.alert(data.favs[i]);";
 					document.getElementById("favadd").style.display='none';
 					document.getElementById("favremove").style.display='inline';
-					break;
 				}
 				else{
 					document.getElementById("favadd").style.display='inline';
 					document.getElementById("favremove").style.display='none';
-					break;
 				}
 			}
 		}
@@ -123,3 +120,5 @@ function ajaxFunction(klantid, accid, action){
 		}
 	});
 }
+
+
