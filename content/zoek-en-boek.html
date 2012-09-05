@@ -1698,7 +1698,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 	}
 	
 	if(!$tarieven_opgezocht) {
-		if($vars["seizoentype"]==1 and !$vars["wederverkoop"] and ($vars["lokale_testserver"] or $voorkant_cms)) {
+		if($vars["seizoentype"]==1 and !$vars["wederverkoop"]) {
 			#
 			# Vanaf-prijzen berekenen
 			#
@@ -2915,12 +2915,14 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
 			$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
 			$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
-			if(preg_match("/sort=[0-9]/",$_SERVER["REQUEST_URI"])) {
-				$sorteer_url=preg_replace("/sort=[0-9]/","sort=SORT",$_SERVER["REQUEST_URI"]);
-			} elseif(preg_match("/\?/",$_SERVER["REQUEST_URI"])) {
-				$sorteer_url=$_SERVER["REQUEST_URI"]."&sort=SORT";
+			$sorteer_url=$_SERVER["REQUEST_URI"];
+			$sorteer_url=preg_replace("/page=[0-9]{1,}/","page=",$sorteer_url);
+			if(preg_match("/sort=[0-9]/",$sorteer_url)) {
+				$sorteer_url=preg_replace("/sort=[0-9]/","sort=SORT",$sorteer_url);
+			} elseif(preg_match("/\?/",$sorteer_url)) {
+				$sorteer_url=$sorteer_url."&sort=SORT";
 			} else {
-				$sorteer_url=$_SERVER["REQUEST_URI"]."?sort=SORT";					
+				$sorteer_url=$sorteer_url."?sort=SORT";					
 			}
 			while(list($key,$value)=each($vars["sorteerkeuzes"])) {
 				if($_GET["sort"]==$key or (!$_GET["sort"] and $key==1)) {
