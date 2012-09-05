@@ -1698,7 +1698,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 	}
 	
 	if(!$tarieven_opgezocht) {
-		if($vars["seizoentype"]==1 and !$vars["wederverkoop"] and ($vars["lokale_testserver"] or $voorkant_cms)) {
+		if($vars["seizoentype"]==1 and !$vars["wederverkoop"]) {
 			#
 			# Vanaf-prijzen berekenen
 			#
@@ -1706,7 +1706,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			$vanaf_prijzen_tonen=true;
 			
 			# toonper = 1 en 2 (arrangement)
-			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM accommodatie a, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND t.accommodatie_id=a.accommodatie_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fap"] ? " AND tp.personen='".addslashes($_GET["fap"])."'" : "").($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
+#			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM accommodatie a, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND t.accommodatie_id=a.accommodatie_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fap"] ? " AND tp.personen='".addslashes($_GET["fap"])."'" : "").($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
+			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM tarief tr, tarief_personen tp, seizoen sz WHERE tr.seizoen_id=sz.seizoen_id AND tp.type_id=tr.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0".($_GET["fap"] ? " AND tp.personen='".addslashes($_GET["fap"])."'" : "").($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
+#			echo $db->lq;
 			while($db->next_record()) {
 				$vanafprijs_12[$db->f("type_id")]=$db->f("prijs_per_persoon");
 			}
@@ -2913,12 +2915,14 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
 			$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
 			$vars["sorteerkeuzes"][1]=txt("sorteer_standaard","zoek-en-boek");
-			if(preg_match("/sort=[0-9]/",$_SERVER["REQUEST_URI"])) {
-				$sorteer_url=preg_replace("/sort=[0-9]/","sort=SORT",$_SERVER["REQUEST_URI"]);
-			} elseif(preg_match("/\?/",$_SERVER["REQUEST_URI"])) {
-				$sorteer_url=$_SERVER["REQUEST_URI"]."&sort=SORT";
+			$sorteer_url=$_SERVER["REQUEST_URI"];
+			$sorteer_url=preg_replace("/page=[0-9]{1,}/","page=",$sorteer_url);
+			if(preg_match("/sort=[0-9]/",$sorteer_url)) {
+				$sorteer_url=preg_replace("/sort=[0-9]/","sort=SORT",$sorteer_url);
+			} elseif(preg_match("/\?/",$sorteer_url)) {
+				$sorteer_url=$sorteer_url."&sort=SORT";
 			} else {
-				$sorteer_url=$_SERVER["REQUEST_URI"]."?sort=SORT";					
+				$sorteer_url=$sorteer_url."?sort=SORT";					
 			}
 			while(list($key,$value)=each($vars["sorteerkeuzes"])) {
 				if($_GET["sort"]==$key or (!$_GET["sort"] and $key==1)) {

@@ -1123,8 +1123,12 @@ td.selecteerbaarbedrag:hover{
 #cookie_bottombar_wrapper {
 	margin-left: auto;
 	margin-right: auto;
-	width: 705px;
+	width: 965px;
 	text-align: left;
+}
+
+#cookie_bottombar_text {
+	float: left;
 }
 
 #cookie_bottombar_close {

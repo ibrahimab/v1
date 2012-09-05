@@ -2,7 +2,7 @@
 
 
 #
-# Gebruik in vars.php
+# Gebruik in vars.php of site-breed
 #
 
 $txt["nl"]["vars"]["dag"]="dag";
@@ -154,6 +154,9 @@ $txt["en"]["vars"]["post"]="post";
 
 $txt["nl"]["vars"]["gaverdermetboeken"]="Ga verder met boeken";
 $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
+
+$txt["nl"]["vars"]["cookiemelding"]="Om deze website beter te laten functioneren wordt er gebruik gemaakt van cookies. Lees ons [[h_1]]privacy-statement[[h_2]] voor meer informatie.";
+$txt["en"]["vars"]["cookiemelding"]="-";
 
 $txt["nl"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
 $txt["en"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
@@ -4228,7 +4231,7 @@ $txt["nl"]["enquete"]["vraag6_3"]="Ik ben al geabonneerd";
 $txt["en"]["enquete"]["vraag6_3"]="I am already subscribed";
 
 $txt["nl"]["enquete"]["vraag7"]="Vraag 7: Sinds december 2009 bieden wij vakantiehuizen in Europa aan via onze nieuwe website [[h_1]]Zomerhuisje.nl[[h_2]]. Wil je je abonneren op de nieuwsbrief van Zomerhuisje.nl en voortaan alle nieuwtjes en aanbiedingen ontvangen?";
-$txt["en"]["enquete"]["vraag7"]="Question 7: Since December 2009 we have villas in Europe via our new website [[h1_1]]Zomerhuisje.nl[[h_2]]. Do you want to subscrive to the newsletter of Zomerhuisje.nl and receive all new information and special offers?";
+$txt["en"]["enquete"]["vraag7"]="Question 7: Since December 2009 we have villas in Europe via our new website [[h_1]]Zomerhuisje.nl[[h_2]]. Do you want to subscrive to the newsletter of Zomerhuisje.nl and receive all new information and special offers?";
 
 $txt["nl"]["enquete"]["vraag7_1"]="Ja";
 $txt["en"]["enquete"]["vraag7_1"]="Yes";
