@@ -623,6 +623,70 @@ form {
 	border:1px solid #003366;
 }
 
+#footerWrap{
+	width:100%;
+	background-color:#FFFFFF;
+	font-size:11px;
+	color:#d40139;
+}
+
+.noIND{
+	width:100%;
+}
+.noIND td{
+	width:200px;
+	border:0px;
+	border-color:black;
+	border-style: solid;
+	text-align:center;
+}
+.IND{
+	width:100%;
+}
+.divSepIND{
+	float:left;
+	padding-left:10px; 
+	height:10px;
+}
+
+.divSepIND a{
+	text-decoration:none;
+}
+
+.divSepIND a li{
+	background-image: url(../pic/li_img_chalet_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+
+.divSepIND a:hover{
+	text-decoration:underline;
+}
+.divContentIND{
+	float:left;
+	padding-left:60px;	
+}
+
+.divContentIND a{
+	text-decoration:none;
+}
+.divContentIND a:hover{
+	text-decoration:underline;
+}
+
+.divContentIND a li{
+	background-image: url(../pic/li_img_chalet_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+.padnoIND{
+	padding-left:10px;
+}
+
 #blanket {
  	background-color:#111;
  	opacity: 0.65;

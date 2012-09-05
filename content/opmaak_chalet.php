@@ -455,8 +455,90 @@ if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcru
 echo "<div id=\"colofon_wrapper\" class=\"noprint\">";
 echo "<div id=\"colofon\" class=\"noprint\">".htmlentities($vars["websiteinfo"]["langewebsitenaam"][$vars["website"]])." - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon")."</div>";
 
-if($vars["website"]=="C") {
-	echo "<div id=\"ondercolofon\" class=\"noprint\">Onze andere labels:&nbsp;&nbsp;<a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"http://www.italissima.nl/\" target=\"_blank\">Italissima</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy-statement</a></div>";
+if($vars["website"]=="C" or $vars["website"]=="B") {
+	//echo "<div id=\"ondercolofon\" class=\"noprint\">Onze andere labels:&nbsp;&nbsp;<a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"http://www.italissima.nl/\" target=\"_blank\">Italissima</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy-statement</a></div>";
+	if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
+		if($vars["website"]=="B"){
+			$naam="Chalet.be";
+		}
+		elseif($vars["website"]=="C"){
+			$naam="Chalet.nl";
+		}
+		if($id!="index"){
+			echo"<div id=\"footerWrap\">";
+			echo "<table class=\"IND\">";
+			echo "<tr><td><div class=\"divSepIND\">";
+			echo "<br><b>".$naam." © 2012</b><br><br>";
+			echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\"><li>Algemene voorwaarden</li></a><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\"><li>Disclaimer</li></a><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\"><li>Privacy statement</li></a><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\"><li>Sitemap</li></a>";
+			echo "</div>";
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Onze bestemmingen</b><br><br>";
+			echo "<a href=\"".$vars["path"]."land/Frankrijk/\" rel=\"nofollow\"><li>Chalets in Frankrijk</li></a>";
+			echo"<a href=\"".$vars["path"]."land/Oostenrijk/\" rel=\"nofollow\"><li>Chalets in Oostenrijk</li></a>";
+			echo "<a href=\"".$vars["path"]."land/Zwitserland/\" rel=\"nofollow\"><li>Chalets in Zwitserland</li></a>";
+			echo "<a href=\"".$vars["path"]."land/Italie/\" rel=\"nofollow\"><li>Chalets in Itali&euml;</li></a>";
+			echo "<a href=\"".$vars["path"]."land/Duitsland/\" rel=\"nofollow\"><li>Chalets in Duitsland</li></a>";
+			echo "</div>";
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Populaire skigebieden</b><br><br>";
+			echo "<a href=\"".$vars["path"]."skigebied/Les_Trois_Vallees/\" rel=\"nofollow\"><li>Wintersport in Les Trois Vall&eacute;es</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Les_Deux_Alpes/\" rel=\"nofollow\"><li>Wintersport in Les Deux Alpes</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Zillertal/\" rel=\"nofollow\"><li>Wintersport in Zillertal</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Zell_am_See_Kaprun/\" rel=\"nofollow\"><li>Wintersport in Zell am See / Kaprun</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Paradiski_-_Les_Arcs/\" rel=\"nofollow\"><li>Wintersport in Les Arcs / Paradiski</li></a>";
+			echo "</div>";
+			
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Populaire skidorpen</b><br><br>";
+			echo "<a href=\"".$vars["path"]."plaats/Konigsleiten/\" rel=\"nofollow\"><li>Wintersport in K&ouml;nigsleiten</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Kaprun/\" rel=\"nofollow\"><li>Wintersport in Kaprun</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Val_Thorens/\" rel=\"nofollow\"><li>Wintersport in Val Thorens</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Les_Deux_Alpes/\" rel=\"nofollow\"><li>Wintersport in Les Deux Alpes</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Les_Menuires/\" rel=\"nofollow\"><li>Wintersport in Les Menuires</li></a>";
+			echo "</div>";
+			
+			echo "</td></tr>";
+			echo "</table>";	
+			echo "</div>";
+		}
+		elseif($id=="index"){
+			echo"<div id=\"footerWrap\">";
+			echo "<table class=\"IND\">";
+			echo "<tr><td><div class=\"divSepIND\">";
+			echo "<br><b>".$naam." © 2012</b><br><br>";
+			echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php\"><li>Algemene voorwaarden</li></a><a href=\"".$vars["path"]."disclaimer.php\"><li>Disclaimer</li></a><a href=\"".$vars["path"]."privacy-statement.php\"><li>Privacy statement</li></a><a href=\"".$vars["path"]."sitemap\"><li>Sitemap</li></a>";
+			echo "</div>";
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Onze bestemmingen</b><br><br>";
+			echo "<a href=\"".$vars["path"]."land/Frankrijk/\"><li>Chalets in Frankrijk</li></a>";
+			echo"<a href=\"".$vars["path"]."land/Oostenrijk/\"><li>Chalets in Oostenrijk</li></a>";
+			echo "<a href=\"".$vars["path"]."land/Zwitserland/\"><li>Chalets in Zwitserland</li></a>";
+			echo "<a href=\"".$vars["path"]."land/Italie/\"><li>Chalets in Itali&euml;</li></a>";
+			echo "<a href=\"".$vars["path"]."land/Duitsland/\"><li>Chalets in Duitsland</li></a>";
+			echo "</div>";
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Populaire skigebieden</b><br><br>";
+			echo "<a href=\"".$vars["path"]."skigebied/Les_Trois_Vallees/\"><li>Wintersport in Les Trois Vall&eacute;es</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Les_Deux_Alpes/\"><li>Wintersport in Les Deux Alpes</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Zillertal/\"><li>Wintersport in Zillertal</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Zell_am_See_Kaprun/\"><li>Wintersport in Zell am See / Kaprun</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Paradiski_-_Les_Arcs/\"><li>Wintersport in Les Arcs / Paradiski</li></a>";
+			echo "</div>";
+			
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Populaire skidorpen</b><br><br>";
+			echo "<a href=\"".$vars["path"]."plaats/Konigsleiten/\"><li>Wintersport in K&ouml;nigsleiten</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Kaprun/\"><li>Wintersport in Kaprun</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Val_Thorens/\"><li>Wintersport in Val Thorens</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Les_Deux_Alpes/\"><li>Wintersport in Les Deux Alpes</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Les_Menuires/\"><li>Wintersport in Les Menuires</li></a>";
+			echo "</div>";
+			
+			echo "</td></tr>";
+			echo "</table>";	
+			echo "</div>";
+		}
+	}
 } else {
 	echo "<div id=\"ondercolofon\" class=\"noprint\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 }
@@ -614,7 +696,8 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 # Balk met cookie-melding
 if($vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
 	echo "<p>&nbsp;</p>";
-	echo "<div id=\"cookie_bottombar\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
+	echo "<div class=\"clear\"></div>";
+	echo "<div id=\"cookie_bottombar\"><div id=\"cookie_bottombar_wrapper\">Deze website maakt gebruik van cookies. Lees ons <a href=\"".$vars["path"]."privacy-statement.php?testsysteem=1\">privacy statement</a> voor meer informatie.<div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
 }
 
 # Zorgen dat zoekenboek_overlay naar beneden schuift i.v.m. "laatst bekeken"-button
