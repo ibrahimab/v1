@@ -1,20 +1,26 @@
-<?php echo"<script type=\"text/javascript\" src=\"".$vars["basehref"]."scripts/main.js\"></script>";?>
-<?php echo"<script type=\"text/javascript\" src=\"".$vars["basehref"]."scripts/popup.js\"></script>";?>
+<?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";?>
+<?php echo "<script language=\"javascript\">getfavsandCheckAvailability('".$typeid."')</script>";?>
+<?php 
+echo "<div style=\"position:absolute;top:8px;\">";
+
+	if($vars["website"]=="I") {
+		echo"<div id=\"popUpDiv\" style=\"margin-left:140px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	} elseif($vars["website"]=="E") {
+		echo"<div id=\"popUpDiv\" style=\"margin-left:50px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	} else {
+		echo "<div id=\"popUpDiv\" style=\"margin-left:25px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	}	
+?>	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
+
+	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');getfavsandCheckAvailability('".$typeid."');\"></div>";
+	
+?>
+</div>
+</div> 
 <?php echo "<script language=\"javascript\">";
 echo "sessionStorage.counter=".count($klantfavs);
 echo "</script>";?>
-<?php 
 
-	if($vars["website"]=="I" or $vars["website"]=="E"){
-		echo"<div id=\"modal\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position relative;left:42%; top:20px; display:none;\">";
-	}
-	else{
-		echo"<div id=\"modal\" style=\"width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; position relative;left:35%; top:20px; display:none;\">";
-	}		
-?>
-<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
-	<input type=\"button\" value=\"OK\" onClick=\"Popup.hide('modal');ajaxFunctionUpdateFav();\"></div>";?>
-</div>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <style type="text/css">
 .LeesMeerChalet {
@@ -323,7 +329,7 @@ function ajaxFunctionUpdateFav(){
 	ajaxRequestup.send(null); 
 }
 
-function ajaxFunction(klantid, accid, action){
+function ajaxFunctionDeleteFavs(klantid, accid, action){
 	var ajaxRequest;
 	try{
 		ajaxRequest = new XMLHttpRequest();
@@ -768,7 +774,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				elseif($vars["website"]=="I"){
 					echo "pic/verwijderItalissima.png> ";
 				}
-				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$id."','delete')\" href=\"#\">";
+				echo "<a onclick=\"ajaxFunctionDeleteFavs('".$_COOKIE["sch"]."','".$id."','delete')\" href=\"#\">";
 				echo html("Uitmijnfavorietenhalen","favorieten");
 				echo "</a>";
 				echo "</div>";
