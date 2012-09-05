@@ -1,26 +1,21 @@
 <?php
 
 if($_GET["testsysteem"] or $vars["lokale_testserver"]) { ?>
-<?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/main.js\"></script>";?>
-<?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/popup.js\"></script>";?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";?>
-<?php echo "<script language=\"javascript\">getfavsandCheckAvailability('".$_COOKIE["sch"]."','".$typeid."')</script>";?>
+<?php echo "<script language=\"javascript\">getfavsandCheckAvailability('".$typeid."')</script>";?>
 <?php 
 echo "<div style=\"position:absolute;top:8px;\">";
 
 	if($vars["website"]=="I") {
-		echo "<div id=\"blanket\" style=\"display:none;\"></div>";
 		echo"<div id=\"popUpDiv\" style=\"margin-left:340px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	} elseif($vars["website"]=="E") {
-		echo "<div id=\"blanket\" style=\"display:none;\"></div>";
 		echo"<div id=\"popUpDiv\" style=\"margin-left:260px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	} else {
-		echo "<div id=\"blanket\" style=\"display:none;\"></div>";
 		echo "<div id=\"popUpDiv\" style=\"margin-left:210px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	}	
 ?>	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
 
-	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');ajaxFunctionUpdateFav('".$_COOKIE["sch"]."','".$typeid."');\"></div>";
+	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');getfavsandCheckAvailability('".$typeid."');\"></div>";
 	
 ?>
 </div>
@@ -1403,8 +1398,7 @@ if($db->next_record()) {
 				elseif($vars["website"]=="I"){
 					echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/plaatsItalissima.png\"> ";
 				}
-				echo "<a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','insert')\" href=\"#\">";
-				//echo "<a id=\"voegfavToe\" href=\"#\">";
+				echo "<a onclick=\"ajaxFunctionInsertDelete('".$typeid."','insert')\" href=\"#\">";
 				echo html("plaatsinfavorieten","favorieten");
 				echo "</a>";
 				echo "</div>";
@@ -1421,20 +1415,10 @@ if($db->next_record()) {
 				elseif($vars["website"]=="I"){
 					echo "pic/verwijderItalissima.png> ";
 				}
-				echo "<div style=\"float:left;\"><a onclick=\"ajaxFunction('".$_COOKIE["sch"]."','".$typeid."','delete')\" href=\"#\"></div>";
-				echo "<div style=\"float:right;\">".html("Uitmijnfavorietenhalen","favorieten")."</div>";
+				echo "<a onclick=\"ajaxFunctionInsertDelete('".$typeid."','delete')\" href=\"#\">";
+				echo html("Uitmijnfavorietenhalen","favorieten");
 				echo "</a>";
 				echo "</div>";
-
-			//if(!in_array($typeid,$klantfavs)) {
-			//	echo "<script>";
-			//	echo "document.getElementById(\"favadd\").style.display='block'";
-			//	echo "document.getElementById(\"favremove\").style.display='none'";
-			//	echo "</script>";
-			//}
-			//else{
-			//	echo "tester";
-			//}
 		}
 	}
 	echo "<div id=\"toonaccommodatie_kleinelinks\">";
