@@ -44,55 +44,37 @@ function window_pos(popUpDivVar) {
 	popUpDiv.style.left = window_width + 'px';
 }
 function popup(windowname) {
-	toggle("blanket");
 	toggle(windowname);
 }
 
-function getfavsandCheckAvailability(klantid, typeid){
+click=0;
+function showpopupYesno(aantal){
+	if(aantal==1 && click==0){
+		popup('popUpDiv');
+		click++;
+	}
+}
+function getfavsandCheckAvailability(typeid){
 	$.getJSON("/chalet/rpc_json.php", {
 		"t": 4,
-		"klantID": klantid,
 		"action": "getfavs"
 	}, function(data) {
 		if(data.ok) {
 			$("#favorietenaantal").html(data.aantal);
+			showpopupYesno(data.aantal);
 			if(typeid != null || typeid != ""){
 				currentTID=typeid;
+				gevonden=0;
 				if(data.favs==0){
 					document.getElementById("favadd").style.display='inline';
 					document.getElementById("favremove").style.display='none';
 				}
 				for(i=0;i<data.favs.length;i++){
 					if(data.favs[i]==currentTID){
-						document.getElementById("favadd").style.display='none';
-						document.getElementById("favremove").style.display='inline';
-					}
-					else{
-						document.getElementById("favadd").style.display='inline';
-						document.getElementById("favremove").style.display='none';
-
+						gevonden = 1;
 					}
 				}
-			}
-		}
-	});
-}
-function ajaxFunctionUpdateFav(klantid, typeid){
-	$.getJSON("/chalet/rpc_json.php", {
-		"t": 4,
-		"klantID": klantid,
-		"action": 'getfavs'
-	}, function(data) {
-		if(data.ok) {
-			$("#favorietenaantal").html(data.aantal);
-			currentTID=typeid;
-
-			if(data.favs==0){
-				document.getElementById("favadd").style.display='inline';
-				document.getElementById("favremove").style.display='none';
-			}
-			for(i=0;i<data.favs.length;i++){
-				if(data.favs[i]==currentTID){
+				if(gevonden==1){
 					document.getElementById("favadd").style.display='none';
 					document.getElementById("favremove").style.display='inline';
 				}
@@ -105,18 +87,15 @@ function ajaxFunctionUpdateFav(klantid, typeid){
 	});
 }
 
-function ajaxFunction(klantid, accid, action){
+function ajaxFunctionInsertDelete(accid, action){
 	$.getJSON("/chalet/rpc_json.php", {
 	"t": 4,
-	"klantID": klantid,
 	"accommodatie": accid,
 	"action": action
 	}, function(data) {
 		if(data.ok) {
-			if(data.aantal==1){
-				popup('popUpDiv');
-			}
-			$("#favorietenaantal").html(data.aantal);
+			//$("#favorietenaantal").html(data.aantal);
+			getfavsandCheckAvailability(accid);
 		}
 	});
 }
