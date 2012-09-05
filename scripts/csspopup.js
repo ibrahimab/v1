@@ -1,8 +1,10 @@
+//het zichtbaar of onzichtbaar maken van een de popup
 function toggle(div_id) {
 	var el = document.getElementById(div_id);
 	if ( el.style.display == 'none' ) {	el.style.display = 'block';}
 	else {el.style.display = 'none';}
 }
+//deze algoritme heb ik niet geschreven. maar zo te zien bepaalt deze de plaatsing van de achtergrond div die het scherm zwart kleurde. deze div(Blanket) wordt niet meer gebruikt.
 function blanket_size(popUpDivVar) {
 	if (typeof window.innerWidth != 'undefined') {
 		viewportheight = window.innerHeight;
@@ -24,6 +26,7 @@ function blanket_size(popUpDivVar) {
 	popUpDiv_height=blanket_height/2-150;//150 is half popup's height
 	popUpDiv.style.top = popUpDiv_height + 'px';
 }
+//deze algoritme heb ik niet geschreven. maar zo te zien bepaalt deze de plaatsing van de achtergrond div die het scherm zwart kleurde. deze div(Blanket) wordt niet meer gebruikt.
 function window_pos(popUpDivVar) {
 	if (typeof window.innerWidth != 'undefined') {
 		viewportwidth = window.innerHeight;
@@ -43,10 +46,12 @@ function window_pos(popUpDivVar) {
 	window_width=window_width/2-150;//150 is half popup's width
 	popUpDiv.style.left = window_width + 'px';
 }
+//het zichtbaar of onzichtbaar maken van de informatie popup.
 function popup(windowname) {
 	toggle(windowname);
 }
 
+//deze code bepaalt wanneer de informatie popup moet worden getoond
 click=0;
 function showpopupYesno(aantal){
 	if(aantal==1 && click==0){
@@ -54,6 +59,8 @@ function showpopupYesno(aantal){
 		click++;
 	}
 }
+//deze methode is verantwoordelijk voor het bepalen van welke knop der moet worden weergegeven. de invoer of de verwijder knop.
+//deze methode zet ook de aantallen op de menu balk en roept een anedere methode die verantwoordelijk is voor het checken of de informatie popup moet worden getoond of niet
 function getfavsandCheckAvailability(typeid){
 	$.getJSON("/chalet/rpc_json.php", {
 		"t": 4,
@@ -86,7 +93,7 @@ function getfavsandCheckAvailability(typeid){
 		}
 	});
 }
-
+//Deze methode zorgt voor het invoeren en verwijderen van favorieten. accid is de type en action staat voor een insert of een delete action
 function ajaxFunctionInsertDelete(accid, action){
 	$.getJSON("/chalet/rpc_json.php", {
 	"t": 4,
