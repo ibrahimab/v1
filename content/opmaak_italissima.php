@@ -457,8 +457,7 @@ echo "<div id=\"colofon\" class=\"noprint\">Italissima is een handelsnaam van Ch
 if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 	if($id!="index"){
 		echo"<div id=\"footerWrap\">";
-		echo "<table class=\"IND\">";
-		echo "<tr><td><div class=\"divSepIND\">";
+		echo "<div class=\"divSepIND\">";
 		echo "<br><b>Italissima © 2012</b><br><br>";
 		echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\"><li>Algemene voorwaarden</li></a><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\"><li>Disclaimer</li></a><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\"><li>Privacy statement</li></a><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\"><li>Sitemap</li></a>";
 		echo "</div>";
@@ -486,15 +485,14 @@ if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 		echo "<a href=\"".$vars["path"]."vakantiehuizen-bloemenriviera\" rel=\"nofollow\"><li>Vakantiehuizen Bloemenrivi&egrave;ra</li></a>";
 		echo "<a href=\"".$vars["path"]."vakantie-in-italie\" rel=\"nofollow\"><li>Vakantie in Itali&euml;</li></a>";
 		echo "<a href=\"http://www.chalet.nl/land/Italie/\" target=\"_blank\" rel=\"nofollow\"><li>Wintersport in Itali&euml;</li></a>";
-		echo "</div>";
-		echo "</td></tr>";
-		echo "</table>";	
+		echo "</div>";	
 		echo "</div>";
 	}
 	elseif($id=="index"){
 		echo"<div id=\"footerWrap\">";
-		echo "<table class=\"IND\">";
-		echo "<tr><td><div class=\"divSepIND\">";
+		//echo "<table border=\"0\" cellspacing=\"0\" class=\"IND\">";
+		//echo "<tr><td>
+		echo "<div class=\"divSepIND\">";
 		echo "<br><b>Italissima © 2012</b><br><br>";
 		echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php\"><li>Algemene voorwaarden</li></a><a href=\"".$vars["path"]."disclaimer.php\"><li>Disclaimer</li></a><a href=\"".$vars["path"]."privacy-statement.php\"><li>Privacy statement</li></a><a href=\"".$vars["path"]."sitemap\"><li>Sitemap</li></a>";
 		echo "</div>";
@@ -502,7 +500,7 @@ if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 		echo "<br><b>Onze bestemmingen</b><br><br>";
 		echo "<a href=\"".$vars["path"]."agriturismo-italie\"><li>Agriturismi in Itali&euml;</li></a>";
 		echo"<a href=\"".$vars["path"]."agriturismo-toscane\"><li>Agriturismi in Toscane</li></a>";
-		echo "<a href=\"".$vars["path"]."regio/Campanie/\"><li>Vakantiehuizen in campani&euml;</li></a>";
+		echo "<a href=\"".$vars["path"]."regio/Campanie/\"><li>Vakantiehuizen in Campani&euml;</li></a>";
 		echo "<a href=\"".$vars["path"]."regio/Dolomieten/\"><li>Vakantiehuizen in Dolomieten</li></a>";
 		echo "<a href=\"".$vars["path"]."regio/Lazio/\"><li>Vakantiehuizen in Lazio</li></a>";
 		echo "<a href=\"".$vars["path"]."regio/Le_Marche/\"><li>Vakantiehuizen in Le Marche</li></a>";
@@ -523,8 +521,8 @@ if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 		echo "<a href=\"".$vars["path"]."vakantie-in-italie\"><li>Vakantie in Itali&euml;</li></a>";
 		echo "<a href=\"http://www.chalet.nl/land/Italie/\" target=\"_blank\"><li>Wintersport in Itali&euml;</li></a>";
 		echo "</div>";
-		echo "</td></tr>";
-		echo "</table>";	
+		//echo "</td></tr>";
+		//echo "</table>";	
 		echo "</div>";
 	}
 	//echo "<table id=\"ondercolofon_nieuw\" class=\"noprint\" border=\"0\" align=\"center\">";

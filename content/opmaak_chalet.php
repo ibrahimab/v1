@@ -466,11 +466,11 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 		}
 		if($id!="index"){
 			echo"<div id=\"footerWrap\">";
-			echo "<table class=\"IND\">";
-			echo "<tr><td><div class=\"divSepIND\">";
+			echo "<div class=\"divSepIND\">";
 			echo "<br><b>".$naam." © 2012</b><br><br>";
 			echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\"><li>Algemene voorwaarden</li></a><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\"><li>Disclaimer</li></a><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\"><li>Privacy statement</li></a><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\"><li>Sitemap</li></a>";
 			echo "</div>";
+			echo "<div class=\"wrap\">";
 			echo "<div class=\"divContentIND\">";
 			echo "<br><b>Onze bestemmingen</b><br><br>";
 			echo "<a href=\"".$vars["path"]."land/Frankrijk/\" rel=\"nofollow\"><li>Chalets in Frankrijk</li></a>";
@@ -482,32 +482,30 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 			echo "<div class=\"divContentIND\">";
 			echo "<br><b>Populaire skigebieden</b><br><br>";
 			echo "<a href=\"".$vars["path"]."skigebied/Les_Trois_Vallees/\" rel=\"nofollow\"><li>Wintersport in Les Trois Vall&eacute;es</li></a>";
-			echo "<a href=\"".$vars["path"]."skigebied/Les_Deux_Alpes/\" rel=\"nofollow\"><li>Wintersport in Les Deux Alpes</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Paradiski_-_Les_Arcs/\" rel=\"nofollow\"><li>Wintersport in Les Arcs / Paradiski</li></a>";
 			echo "<a href=\"".$vars["path"]."skigebied/Zillertal/\" rel=\"nofollow\"><li>Wintersport in Zillertal</li></a>";
 			echo "<a href=\"".$vars["path"]."skigebied/Zell_am_See_Kaprun/\" rel=\"nofollow\"><li>Wintersport in Zell am See / Kaprun</li></a>";
-			echo "<a href=\"".$vars["path"]."skigebied/Paradiski_-_Les_Arcs/\" rel=\"nofollow\"><li>Wintersport in Les Arcs / Paradiski</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Les_Deux_Alpes/\" rel=\"nofollow\"><li>Wintersport in Les Deux Alpes</li></a>";
 			echo "</div>";
 			
 			echo "<div class=\"divContentIND\">";
 			echo "<br><b>Populaire skidorpen</b><br><br>";
 			echo "<a href=\"".$vars["path"]."plaats/Konigsleiten/\" rel=\"nofollow\"><li>Wintersport in K&ouml;nigsleiten</li></a>";
-			echo "<a href=\"".$vars["path"]."plaats/Kaprun/\" rel=\"nofollow\"><li>Wintersport in Kaprun</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Zell_am_See/\" rel=\"nofollow\"><li>Wintersport in Zell am See</li></a>";
 			echo "<a href=\"".$vars["path"]."plaats/Val_Thorens/\" rel=\"nofollow\"><li>Wintersport in Val Thorens</li></a>";
-			echo "<a href=\"".$vars["path"]."plaats/Les_Deux_Alpes/\" rel=\"nofollow\"><li>Wintersport in Les Deux Alpes</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Chatel/\" rel=\"nofollow\"><li>Wintersport in Ch&acirc;tel</li></a>";
 			echo "<a href=\"".$vars["path"]."plaats/Les_Menuires/\" rel=\"nofollow\"><li>Wintersport in Les Menuires</li></a>";
 			echo "</div>";
-			
-			echo "</td></tr>";
-			echo "</table>";	
+			echo "</div>";	
 			echo "</div>";
 		}
 		elseif($id=="index"){
 			echo"<div id=\"footerWrap\">";
-			echo "<table class=\"IND\">";
-			echo "<tr><td><div class=\"divSepIND\">";
+			echo "<div class=\"divSepIND\">";
 			echo "<br><b>".$naam." © 2012</b><br><br>";
 			echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php\"><li>Algemene voorwaarden</li></a><a href=\"".$vars["path"]."disclaimer.php\"><li>Disclaimer</li></a><a href=\"".$vars["path"]."privacy-statement.php\"><li>Privacy statement</li></a><a href=\"".$vars["path"]."sitemap\"><li>Sitemap</li></a>";
 			echo "</div>";
+			echo "<div class=\"wrap\">";
 			echo "<div class=\"divContentIND\">";
 			echo "<br><b>Onze bestemmingen</b><br><br>";
 			echo "<a href=\"".$vars["path"]."land/Frankrijk/\"><li>Chalets in Frankrijk</li></a>";
@@ -519,23 +517,21 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 			echo "<div class=\"divContentIND\">";
 			echo "<br><b>Populaire skigebieden</b><br><br>";
 			echo "<a href=\"".$vars["path"]."skigebied/Les_Trois_Vallees/\"><li>Wintersport in Les Trois Vall&eacute;es</li></a>";
-			echo "<a href=\"".$vars["path"]."skigebied/Les_Deux_Alpes/\"><li>Wintersport in Les Deux Alpes</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Paradiski_-_Les_Arcs/\"><li>Wintersport in Les Arcs / Paradiski</li></a>";
 			echo "<a href=\"".$vars["path"]."skigebied/Zillertal/\"><li>Wintersport in Zillertal</li></a>";
 			echo "<a href=\"".$vars["path"]."skigebied/Zell_am_See_Kaprun/\"><li>Wintersport in Zell am See / Kaprun</li></a>";
-			echo "<a href=\"".$vars["path"]."skigebied/Paradiski_-_Les_Arcs/\"><li>Wintersport in Les Arcs / Paradiski</li></a>";
+			echo "<a href=\"".$vars["path"]."skigebied/Les_Deux_Alpes/\"><li>Wintersport in Les Deux Alpes</li></a>";
 			echo "</div>";
 			
 			echo "<div class=\"divContentIND\">";
 			echo "<br><b>Populaire skidorpen</b><br><br>";
 			echo "<a href=\"".$vars["path"]."plaats/Konigsleiten/\"><li>Wintersport in K&ouml;nigsleiten</li></a>";
-			echo "<a href=\"".$vars["path"]."plaats/Kaprun/\"><li>Wintersport in Kaprun</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Zell_am_See/\"><li>Wintersport in Zell am See</li></a>";
 			echo "<a href=\"".$vars["path"]."plaats/Val_Thorens/\"><li>Wintersport in Val Thorens</li></a>";
-			echo "<a href=\"".$vars["path"]."plaats/Les_Deux_Alpes/\"><li>Wintersport in Les Deux Alpes</li></a>";
+			echo "<a href=\"".$vars["path"]."plaats/Chatel/\"><li>Wintersport in Ch&acirc;tel</li></a>";
 			echo "<a href=\"".$vars["path"]."plaats/Les_Menuires/\"><li>Wintersport in Les Menuires</li></a>";
 			echo "</div>";
-			
-			echo "</td></tr>";
-			echo "</table>";	
+			echo "</div>";
 			echo "</div>";
 		}
 	}

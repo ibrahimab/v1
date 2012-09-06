@@ -646,7 +646,11 @@ form {
 .divSepIND{
 	float:left;
 	padding-left:10px; 
-	height:10px;
+	height:200px;
+	width:160px;
+	background-color:#d5e1f9;
+	position:absolute;
+	margin-left:30px;
 }
 
 .divSepIND a{
@@ -664,9 +668,13 @@ form {
 .divSepIND a:hover{
 	text-decoration:underline;
 }
+.wrap{
+	position:absolute;
+	left:32.4%;
+}
 .divContentIND{
 	float:left;
-	padding-left:60px;	
+	padding-left:55px;	
 }
 
 .divContentIND a{

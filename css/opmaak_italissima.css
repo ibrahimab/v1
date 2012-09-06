@@ -846,6 +846,10 @@ form {
 	color:#661700;
 }
 
+#footerWrap table{
+	border-top-color:#661700;	
+}
+
 .noIND{
 	width:100%;
 }
@@ -855,6 +859,7 @@ form {
 	border-color:black;
 	border-style: solid;
 	text-align:center;
+	top:0px;
 }
 .IND{
 	width:100%;
@@ -862,7 +867,9 @@ form {
 .divSepIND{
 	float:left;
 	padding-left:10px; 
-	height:10px;
+	height:200px;;
+	width:198px;
+	background-color:#e0d1cc;
 }
 
 .divSepIND a{
@@ -882,7 +889,7 @@ form {
 }
 .divContentIND{
 	float:left;
-	padding-left:60px;	
+	padding-left:40px;	
 }
 
 .divContentIND a{
