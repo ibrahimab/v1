@@ -9,7 +9,7 @@ if($_GET["gewijzigddoor"]=="jeroen") {
 	$name2="miguelChalet";
 }
 
-$xml=simplexml_load_file("https://github.com/Chalet/Website-Chalet.nl/commits/testing.atom?login=Boschman&token=b24645dd74ea0c2e0e61d8bce51cb90e");
+$xml=simplexml_load_file("https://github.com/Chalet/Website-Chalet.nl/commits/testing.atom?login=Boschman&token=3684977747f27b1594020e5144f7cb4d");
 if(is_object($xml)) {
 	foreach($xml->entry as $value) {
 		if($sha1_1) {
