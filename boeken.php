@@ -1919,7 +1919,14 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 						if($temp_garantie_leverancierscode) {
 							# Leveranciers-reserveringsnummer, bruto, netto, inkoopdatum uit garantie koppelen aan boeking
-							$setquery.=", leverancierscode='".addslashes($temp_garantie_leverancierscode)."', bestelstatus=3, besteldatum=FROM_UNIXTIME('".$temp_garantie_inkoopdatum."'), inkoopnetto='".addslashes($temp_garantie_netto)."', inkoopbruto='".addslashes($temp_garantie_bruto)."'";
+							$setquery.=", leverancierscode='".addslashes($temp_garantie_leverancierscode)."', bestelstatus=3, inkoopnetto='".addslashes($temp_garantie_netto)."', inkoopbruto='".addslashes($temp_garantie_bruto)."'";
+							if($temp_garantie_inkoopdatum>0) {
+								# inkoopdatum garantie opslaan in besteldatum boeking
+								$setquery.=", besteldatum=FROM_UNIXTIME('".$temp_garantie_inkoopdatum."')";
+							} else {
+								# nog geen inkoopdatum bij de garantie
+								$setquery.=", besteldatum=NULL";
+							}
 							if($temp_garantie_inkoopaanbetaling_gewijzigd<>"") {
 								$setquery.=", inkoopaanbetaling_gewijzigd='".addslashes($temp_garantie_inkoopaanbetaling_gewijzigd)."'";
 							}

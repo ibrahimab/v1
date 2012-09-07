@@ -62,6 +62,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-1";
 	$vars["facebook_pageid"]="156825034385110";
+	$vars["twitter_user"]="ChaletNL";
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
@@ -158,6 +159,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-2";
 	$vars["facebook_pageid"]="168449903215909";
+	$vars["twitter_user"]="Zomerhuisje";
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
@@ -246,6 +248,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-11";
 	$vars["facebook_pageid"]="272671556122756";
+	$vars["twitter_user"]="Italissima";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;

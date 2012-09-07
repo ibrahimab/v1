@@ -3244,6 +3244,7 @@ function flex_is_dit_flexibel($aankomstdatum,$verblijfsduur) {
 }
 
 function facebook_opengraph($info="") {
+	# toon meta-tags in header t.b.v. Facebook en Twitter
 	global $vars,$title,$id,$meta_description,$typeid,$temp_accid;
 	if($vars["facebook_title"]) {
 		$return.="<meta property=\"og:title\" content=\"".htmlentities($vars["facebook_title"])."\" />\n";
@@ -3302,6 +3303,13 @@ function facebook_opengraph($info="") {
 	if($meta_description) {
 		$return.="<meta property=\"og:description\" content=\"".htmlentities($meta_description)."\" />\n";
 	}
+	
+	# Twitter
+	$return.="<meta property=\"twitter:card\" content=\"summary\" />\n";
+	if($vars["twitter_user"]) {
+		$return.="<meta property=\"twitter:site\" content=\"@".wt_he($vars["twitter_user"])."\" />\n";
+	}
+	
 	return $return;
 }
 
