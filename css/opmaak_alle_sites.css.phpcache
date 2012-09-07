@@ -107,6 +107,7 @@ LI {
 }
 
 .formstyle100 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.0em;
 	width: 100%;
 }
@@ -116,6 +117,7 @@ LI {
 }
 
 .submitbutton {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.0em;
 }
 
