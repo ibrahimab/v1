@@ -872,11 +872,7 @@ form {
 	background-color:#e0d1cc;
 }
 
-.divSepIND a{
-	text-decoration:none;
-}
-
-.divSepIND a li{
+.divSepIND li{
 	background-image: url(../pic/li_img_italissima_footer.png);
 	background-position: 0px 3px;
   	background-repeat: no-repeat;
@@ -884,12 +880,43 @@ form {
   	list-style: none;
 }
 
+.divSepIND a{
+	text-decoration:none;
+}
+
+
 .divSepIND a:hover{
 	text-decoration:underline;
 }
+.divSepIND{
+	float:left;
+	padding-left:20px; 
+	height:200px;;
+	width:190px;
+	background-color:#e0d1cc;
+}
+
+.wrap{
+	float:left;
+	position:relative;
+	left:25px;
+	width:650px;
+	border:0px;
+	border-color:black;
+	border-style: solid;
+}
+
+.divContentIND li{
+	background-image: url(../pic/li_img_italissima_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+
 .divContentIND{
 	float:left;
-	padding-left:40px;	
+	padding-left:15px;	
 }
 
 .divContentIND a{
@@ -899,13 +926,8 @@ form {
 	text-decoration:underline;
 }
 
-.divContentIND a li{
-	background-image: url(../pic/li_img_italissima_footer.png);
-	background-position: 0px 3px;
-  	background-repeat: no-repeat;
-  	padding-left: 10px;
-  	list-style: none;
-}
+
+
 .padnoIND{
 	padding-left:10px;
 }

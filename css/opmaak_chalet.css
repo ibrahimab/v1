@@ -624,7 +624,7 @@ form {
 }
 
 #footerWrap{
-	width:100%;
+	width:990px;
 	background-color:#FFFFFF;
 	font-size:11px;
 	color:#d40139;
@@ -645,19 +645,15 @@ form {
 }
 .divSepIND{
 	float:left;
-	padding-left:10px; 
+	padding-left:4px; 
 	height:200px;
-	width:160px;
+	width:167px;
 	background-color:#d5e1f9;
 	position:absolute;
 	margin-left:30px;
 }
 
-.divSepIND a{
-	text-decoration:none;
-}
-
-.divSepIND a li{
+.divSepIND li{
 	background-image: url(../pic/li_img_chalet_footer.png);
 	background-position: 0px 3px;
   	background-repeat: no-repeat;
@@ -665,16 +661,33 @@ form {
   	list-style: none;
 }
 
+
+.divContentIND li{
+	background-image: url(../pic/li_img_chalet_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+.wrap{
+	float:left;
+	position:relative;
+	left:223px;
+	width:650px;
+}
+
+.divSepIND a{
+	text-decoration:none;
+}
+
+
 .divSepIND a:hover{
 	text-decoration:underline;
 }
-.wrap{
-	position:absolute;
-	left:32.4%;
-}
+
 .divContentIND{
 	float:left;
-	padding-left:55px;	
+	padding-left:20px;	
 }
 
 .divContentIND a{
@@ -682,14 +695,6 @@ form {
 }
 .divContentIND a:hover{
 	text-decoration:underline;
-}
-
-.divContentIND a li{
-	background-image: url(../pic/li_img_chalet_footer.png);
-	background-position: 0px 3px;
-  	background-repeat: no-repeat;
-  	padding-left: 10px;
-  	list-style: none;
 }
 .padnoIND{
 	padding-left:10px;
