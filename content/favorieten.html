@@ -631,9 +631,10 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 			} else {
 				$afbeelding="accommodaties/0";
 			}
+			$teken=substr($db->f("land"),0,1);
+			echo "<a style=\"text-decoration:none; border:none;\" name=\"cnt1\" href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\">";	
 			echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"700\" id=\"zoekresultatentable\">";
-			echo "<tr><td colspan=\"5\" align=\"left\">";
-			echo "<a name=\"cnt1\"></a>";		
+			echo "<tr><td colspan=\"5\" align=\"left\">";	
 			echo "<div class=\"zoekresultaat_block boxshadow\">";
 			#
 			echo "<div class=\"zoekresultaat\">";
@@ -650,7 +651,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 		if($db->f("kwaliteit")){
 			echo "<td colspan=\"2\">";
 			for($i=0; $i<$db->f("kwaliteit");$i++){
-				echo "<img src=\"".$vars["path"]."pic/ster.gif\">";
+				echo "<img src=\"".$vars["path"]."pic/ster.gif\" border=\"0\">";
 			}
 		}
 		else{
@@ -693,7 +694,9 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 			}
 		}
 		$teken=substr($db->f("land"),0,1);
-		echo"<td valign=\"top\">".$db->f("slaapkamers")." ".$slkamer."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\"><input type=\"button\" value=\"".html("buttonLeesmeer","favorieten")."\" class=\"".$knopLeesmeer."\"></td></tr><tr>";
+		echo"<td valign=\"top\">".$db->f("slaapkamers")." ".$slkamer."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"></td></tr><tr>";
+		//was de lees meer knop die werd weergegeven in de td hierboven
+		//<input type=\"button\" value=\"".html("buttonLeesmeer","favorieten")."\" class=\"".$knopLeesmeer."\"><a href=\"".$vars["basehref"]."accommodatie/".$teken.$id."\"></a>
 		if($db->f("badkamers")==1){
 			if($vars["website"]!="E"){
 				$bdkamer="badkamer";
@@ -736,6 +739,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 			echo "</table>";
 			//echo "</div>";
 		}
+		echo "</a>";
 	}
 //}
 echo "</div>";
