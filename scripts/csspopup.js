@@ -52,11 +52,13 @@ function popup(windowname) {
 }
 
 //deze code bepaalt wanneer de informatie popup moet worden getoond
-click=0;
+//window.alert(sessionStorage.click);
 function showpopupYesno(aantal){
-	if(aantal==1 && click==0){
-		popup('popUpDiv');
-		click++;
+	if(sessionStorage.click==1){
+		if(aantal==1){	
+			popup('popUpDiv');
+			sessionStorage.click++;
+		}
 	}
 }
 //deze methode is verantwoordelijk voor het bepalen van welke knop der moet worden weergegeven. de invoer of de verwijder knop.
@@ -93,6 +95,39 @@ function getfavsandCheckAvailability(typeid){
 		}
 	});
 }
+
+//Omdat er op deze paginas geen divs staan met ids favadd en favremove. dat zorgde ervoor dat de boel niet juiste werkte
+function getfavsandCheckAvailabilityFavorietenPagina(typeid){
+	$.getJSON("/chalet/rpc_json.php", {
+		"t": 4,
+		"action": "getfavs"
+	}, function(data) {
+		if(data.ok) {
+			$("#favorietenaantal").html(data.aantal);
+//			if(typeid != null || typeid != ""){
+//				currentTID=typeid;
+//				gevonden=0;
+//				if(data.favs==0){
+//					document.getElementById("favadd").style.display='inline';
+//					document.getElementById("favremove").style.display='none';
+//				}
+//				for(i=0;i<data.favs.length;i++){
+//					if(data.favs[i]==currentTID){
+//						gevonden = 1;
+//					}
+//				}
+//				if(gevonden==1){
+//					document.getElementById("favadd").style.display='none';
+//					document.getElementById("favremove").style.display='inline';
+//				}
+//				else{
+//					document.getElementById("favadd").style.display='inline';
+//					document.getElementById("favremove").style.display='none';
+//				}
+//			}
+		}
+	});
+}
 //Deze methode zorgt voor het invoeren en verwijderen van favorieten. accid is de type en action staat voor een insert of een delete action
 function ajaxFunctionInsertDelete(accid, action){
 	$.getJSON("/chalet/rpc_json.php", {
@@ -102,6 +137,7 @@ function ajaxFunctionInsertDelete(accid, action){
 	}, function(data) {
 		if(data.ok) {
 			//$("#favorietenaantal").html(data.aantal);
+			sessionStorage.click++;
 			getfavsandCheckAvailability(accid);
 		}
 	});

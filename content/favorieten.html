@@ -1,5 +1,5 @@
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";?>
-<?php echo "<script language=\"javascript\">getfavsandCheckAvailability('".$typeid."')</script>";?>
+<?php echo "<script language=\"javascript\">getfavsandCheckAvailabilityFavorietenPagina('".$typeid."')</script>";?>
 <?php 
 echo "<div style=\"position:absolute;top:8px;\">";
 
@@ -12,7 +12,7 @@ echo "<div style=\"position:absolute;top:8px;\">";
 	}	
 ?>	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
 
-	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');getfavsandCheckAvailability('".$typeid."');\"></div>";
+	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');getfavsandCheckAvailabilityFavorietenPagina('".$typeid."');\"></div>";
 	
 ?>
 </div>
@@ -301,66 +301,17 @@ function ajaxMailFunction(welOfgeenKopie){
 
 <?php }?>
 <script type="text/javascript">
-function ajaxFunctionUpdateFav(){
-	var ajaxRequestup;  // The variable that makes Ajax possible!	
-	try{
-		// Opera 8.0+, Firefox, Safari
-		ajaxRequestup = new XMLHttpRequest();
-	}catch (e){
-	// Internet Explorer Browsers
-		try{
-		ajaxRequestup = new ActiveXObject("Msxml2.XMLHTTP");
-		}catch (e) {
-			try{
-				ajaxRequestup = new ActiveXObject("Microsoft.XMLHTTP");
-			}catch (e){
-				alert("Your browser broke!");
-				return false;
-			}
-		}
-	}
-	ajaxRequestup.onreadystatechange = function(){
-		if(ajaxRequestup.readyState == 4){
-			location.reload(true);
-		}
- 	}
-	var queryString = "?action=update" ;
-	ajaxRequestup.open("GET", queryString, true);
-	ajaxRequestup.send(null); 
-}
-
 function ajaxFunctionDeleteFavs(klantid, accid, action){
-	var ajaxRequest;
-	try{
-		ajaxRequest = new XMLHttpRequest();
-	}catch (e){
-		try{
-			ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-		}catch (e) {
-			try{
-				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-			}catch (e){
-				alert("Your browser broke!");
-				return false;
+	$.getJSON("/chalet/rpc_json.php", {
+		"t": 4,
+		"accommodatie": accid,
+		"action": action
+		}, function(data) {
+			if(data.ok) {
+				//$("#favorietenaantal").html(data.aantal);
+				location.reload();
 			}
-		}
-	}
-	ajaxRequest.onreadystatechange = function(){
-		if(ajaxRequest.readyState == 4){
-			if(sessionStorage.counter < 1){
-				Popup.showModal('modal','position','Screen.getBody()','top left',{'constrainToScreen':false,'screenColor':'#000000','screenOpacity':.6});
-			}
-			else{
-				ajaxFunctionUpdateFav();
-			}
-			return false;
-		}
-	}
-	var queryString = "?klantID=" + klantid ;
-	queryString +=  "&accommodatie=" + accid;
-	queryString +=  "&action=" + action;
-	ajaxRequest.open("GET", queryString, true);
-	ajaxRequest.send(null); 
+	});
 }
 </script>
 <br></br>
@@ -774,7 +725,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor"){
 				elseif($vars["website"]=="I"){
 					echo "pic/verwijderItalissima.png> ";
 				}
-				echo "<a onclick=\"ajaxFunctionDeleteFavs('".$_COOKIE["sch"]."','".$id."','delete')\" href=\"#\">";
+				echo "<a onclick=\"ajaxFunctionDeleteFavs('".$_COOKIE["sch"]."','".$id."','delete')\">";
 				echo html("Uitmijnfavorietenhalen","favorieten");
 				echo "</a>";
 				echo "</div>";

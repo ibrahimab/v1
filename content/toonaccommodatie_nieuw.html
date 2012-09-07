@@ -2,7 +2,6 @@
 
 if($_GET["testsysteem"] or $vars["lokale_testserver"]) { ?>
 <?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";?>
-<?php echo "<script language=\"javascript\">getfavsandCheckAvailability('".$typeid."')</script>";?>
 <?php 
 echo "<div style=\"position:absolute;top:8px;\">";
 
@@ -15,7 +14,7 @@ echo "<div style=\"position:absolute;top:8px;\">";
 	}	
 ?>	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
 
-	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');getfavsandCheckAvailability('".$typeid."');\"></div>";
+	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');sessionStorage.click++;getfavsandCheckAvailability('".$typeid."');\"></div>";
 	
 ?>
 </div>
@@ -1382,10 +1381,10 @@ if($db->next_record()) {
 	}
 	
 	echo "</form>";
-	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="E") {
-		if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
+	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="E" or $vars["website"]=="B") {
+		//if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 				
-				echo "<div id=\"favadd\" style=\"padding:5px;display:none;\">";
+				echo "<div id=\"favadd\" style=\"padding:5px;display:inline;\">";
 				if($vars["website"]=="C"){
 					echo "<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\"> ";
 				}
@@ -1403,7 +1402,7 @@ if($db->next_record()) {
 				echo "</a>";
 				echo "</div>";
 			
-				echo "<div id=\"favremove\" style=\"padding:5px;display:none;\">";
+				echo "<div id=\"favremove\" style=\"padding:5px;display:inline;\">";
 				echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=";
 				echo $vars["path"];
 				if($vars["website"]=="C" or $vars["website"]=="E"){
@@ -1419,8 +1418,9 @@ if($db->next_record()) {
 				echo html("Uitmijnfavorietenhalen","favorieten");
 				echo "</a>";
 				echo "</div>";
-		}
+		//}
 	}
+	echo "<script language=\"javascript\">getfavsandCheckAvailability('".$typeid."')</script>";
 	echo "<div id=\"toonaccommodatie_kleinelinks\">";
 	
 	echo "<ul>";
