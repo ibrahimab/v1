@@ -23,13 +23,13 @@ if($_GET["controleren"]) {
 	
 	#_field: (obl),id,title,db,prevalue,options,layout
 	
-	$form->field_htmlrow("","<b>Bekijk onderstaande enqu&ecirc;te en vul de status in.</b>");
-	$form->field_select(1,"beoordeeld","Status",array("field"=>"beoordeeld"),"",array("selection"=>$vars["enquetestatus"],"allow_0"=>true));
+#	$form->field_htmlrow("","<b>Bekijk onderstaande enqu&ecirc;te en vul de status in.</b>");
+	$form->field_select(1,"beoordeeld","Status van onderstaande enquête",array("field"=>"beoordeeld"),"",array("selection"=>$vars["enquetestatus"],"allow_0"=>true));
 	$db->query("SELECT websitetekst FROM boeking_enquete WHERE boeking_id='".addslashes($_GET["bid"])."';");
 	if($db->next_record() and $db->f("websitetekst")<>"") {
 		$form->field_textarea(0,"websitetekst_gewijzigd","Totaaloordeel",array("field"=>"websitetekst_gewijzigd"),"",array("newline"=>true));
 	} else {
-		$form->field_htmlcol("","Totaaloordeel",array("html"=>"<i>niet ingevuld</i>"));
+		$form->field_htmlcol("","Tekst totaaloordeel",array("html"=>"<i>niet ingevuld</i>"));
 	}
 	
 	$form->check_input();
@@ -40,6 +40,17 @@ if($_GET["controleren"]) {
 	
 	if($form->okay) {
 	
+		# Wijzigingen loggen bij boeking	
+		$db->query("SELECT beoordeeld, websitetekst_gewijzigd FROM boeking_enquete WHERE boeking_id='".addslashes($_GET["bid"])."';");
+		if($db->next_record()) {
+			if($db->f("beoordeeld")<>$form->input["beoordeeld"]) {
+				chalet_log("status enquête gewijzigd naar: ".$vars["enquetestatus"][$form->input["beoordeeld"]],false,true);
+			}
+			if($db->f("websitetekst_gewijzigd")<>$form->input["websitetekst_gewijzigd"]) {
+				chalet_log("enquête: tekst totaaloordeel gewijzigd",false,true);
+			}
+		}
+		
 		# Gegevens opslaan in de database
 		$form->save_db();
 		
