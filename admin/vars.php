@@ -637,6 +637,8 @@ if($_GET["t"]==2) {
 	$title["cms_overzichten_overig"]="Overzicht na te kijken zomeraccommodaties";
 } elseif($_GET["t"]==10) {
 	$title["cms_overzichten_overig"]="Overzicht nieuwsbrief-leden";
+} elseif($_GET["t"]==11) {
+	$title["cms_overzichten_overig"]="Na te kijken beoordelingen";
 } else {
 	$title["cms_overzichten_overig"]="Overzichten - overig";
 	$title["cms_diversen"]="Actielijst WebTastic";

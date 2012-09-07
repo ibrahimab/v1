@@ -6,9 +6,14 @@ if(!$vars["lev_login_enquete"]) {
 		echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
 	} elseif($_GET["bid"]) {
 		echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
+		
+		if($_GET["controleren"]) {
+			echo "<p>";
+			$form->display_all();
+			echo "</p>";
+		}
 	}
 }
-
 
 $db->query("SELECT * FROM boeking_enquete WHERE boeking_id='".addslashes($_GET["bid"])."';");
 if($db->next_record()) {

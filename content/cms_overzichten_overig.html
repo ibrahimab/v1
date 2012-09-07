@@ -595,7 +595,39 @@ if($_GET["t"]==1) {
 
 	$form->display_all();
 
+} elseif($_GET["t"]==11) {
+	#
+	# Overzicht met na te kijken enquêtes
+	#
 
+	if(!$_GET["enquetestatus"]) {
+		if($login->user_id==4 or $login->user_id==6) {
+			$_GET["enquetestatus"]=2;
+		} else {
+			$_GET["enquetestatus"]=0;		
+		}
+	}
+	
+	echo "<div class=\"opvalblok\"><form method=\"get\" action=\"cms_overzichten_overig.php?t=11\">Status:&nbsp;&nbsp;&nbsp;<select name=\"enquetestatus\" onchange=\"this;submit();\">";
+	while(list($key,$value)=each($vars["enquetestatus"])) {
+		echo "<option value=\"".$key."\"".($key==$_GET["enquetestatus"] ? " selected" : "").">".wt_he($value)."</option>";
+	}
+	echo "</select>";
+	while(list($key,$value)=each($_GET)) {
+		if($key<>"enquetestatus") echo "<input type=\"hidden\" name=\"".wt_he($key)."\" value=\"".wt_he($value)."\">";
+	}
+	echo "</form></div>";
+	
+	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.aankomstdatum_exact, UNIX_TIMESTAMP(e.invulmoment) AS invulmoment, b.type_id, v.plaats, v.naam FROM boeking b, boeking_enquete e, view_accommodatie v WHERE v.type_id=b.type_id AND e.boeking_id=b.boeking_id AND e.beoordeeld='".addslashes($_GET["enquetestatus"])."' ORDER BY e.invulmoment;");
+	if($db->num_rows()) {
+		echo "<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".wt_he("cms_boekingen_enquete.php?bid=".$db->f("boeking_id")."&from=".urlencode($_SERVER["REQUEST_URI"])."&controleren=1")."\">".wt_he($db->f("boekingsnummer")." - ".date("d/m/Y",$db->f("aankomstdatum_exact"))." - ".$vars["alletypes"][$db->f("type_id")])."</a></li>";
+		}
+		echo "</ul>";
+	} else {
+		echo "<p>Geen beoordelingen met deze status gevonden.</p>";
+	}
 
 } else {
 
