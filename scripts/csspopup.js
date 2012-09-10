@@ -53,9 +53,11 @@ function popup(windowname) {
 
 //deze code bepaalt wanneer de informatie popup moet worden getoond
 //window.alert(sessionStorage.click);
-function showpopupYesno(aantal){
-	if(sessionStorage.click==1){
-		if(aantal==1){	
+function showpopupYesno(huidigstaat,aantal){
+	
+	//window.alert("session c "+sessionStorage.click+ " huidige a "+huidigstaat+" aantal "+aantal);
+	if(sessionStorage.click==0){
+		if(huidigstaat==0 && aantal==1){	
 			popup('popUpDiv');
 			sessionStorage.click++;
 		}
@@ -69,8 +71,9 @@ function getfavsandCheckAvailability(typeid){
 		"action": "getfavs"
 	}, function(data) {
 		if(data.ok) {
+			huidigefavs=parseInt($("#favorietenaantal").text());
 			$("#favorietenaantal").html(data.aantal);
-			showpopupYesno(data.aantal);
+			showpopupYesno(huidigefavs,data.aantal);
 			if(typeid != null || typeid != ""){
 				currentTID=typeid;
 				gevonden=0;
@@ -137,7 +140,6 @@ function ajaxFunctionInsertDelete(accid, action){
 	}, function(data) {
 		if(data.ok) {
 			//$("#favorietenaantal").html(data.aantal);
-			sessionStorage.click++;
 			getfavsandCheckAvailability(accid);
 		}
 	});
