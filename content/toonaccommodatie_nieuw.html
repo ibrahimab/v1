@@ -310,7 +310,7 @@ if($db->next_record()) {
 		#
 		# Enquête
 		#
-		$db2->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7 FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.type_id='".addslashes($typeid)."' ORDER BY b.aankomstdatum_exact DESC;");
+		$db2->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.beoordeeld, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7 FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.type_id='".addslashes($typeid)."' ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
 		if($db2->num_rows()) {
 			while($db2->next_record()) {
 				for($i=1;$i<=7;$i++) {
@@ -319,7 +319,12 @@ if($db->next_record()) {
 						$enquete_teller[$i]++;
 					}
 				}
-				$complete_enquete[$db2->f("boeking_id")]="<a href=\"".$vars["cms_basehref"]."cms_boekingen_enquete.php?bid=".$db2->f("boeking_id")."\" target=\"_blank\">".date("d-m-Y",$db2->f("aankomstdatum_exact"))."</a>".($db2->f("vraag1_7") ? " (totaaloordeel: ".$db2->f("vraag1_7").")" : "");
+				$complete_enquete[$db2->f("boeking_id")]="<a href=\"".$vars["cms_basehref"]."cms_boekingen_enquete.php?bid=".$db2->f("boeking_id")."&controleren=1\" target=\"_blank\">".date("d-m-Y",$db2->f("aankomstdatum_exact"))."</a>".($db2->f("vraag1_7") ? " (totaaloordeel: ".$db2->f("vraag1_7").")" : "");
+				if($db2->f("beoordeeld")==0 or ($db2->f("beoordeeld")==2 and $login->user_id==4 or $login->user_id==6)) {
+					$complete_enquete[$db2->f("boeking_id")].=" <a href=\"".$vars["cms_basehref"]."cms_boekingen_enquete.php?bid=".$db2->f("boeking_id")."&controleren=1\" target=\"_blank\">controleren</a>";
+				} elseif($db2->f("beoordeeld")==3) {
+					$complete_enquete[$db2->f("boeking_id")].=" <span style=\"color:red;\">afgekeurd</span>";
+				}
 			}
 			$temp_intern.="<tr><td valign=\"top\" width=\"175\" nowrap class=\"leftcell\">Enqu&ecirc;tes<br>(gemiddeld)</TD><TD class=\"rightcell\"><div class=\"rightcelldiv\">";
 			$temp_intern.="<table cellspacing=\"0\" cellpadding=\"0\">";
@@ -334,7 +339,7 @@ if($db->next_record()) {
 			$temp_intern.="</div></TD></TR>";
 			$temp_intern.="<tr><td valign=\"top\" width=\"175\" nowrap class=\"leftcell\">Enqu&ecirc;tes<br>(volledig)</TD><TD class=\"rightcell\"><div class=\"rightcelldiv\">";
 			while(list($key,$value)=each($complete_enquete)) {
-				$temp_intern.="&bull;&nbsp;&nbsp;".$value."<br>";
+				$temp_intern.="<div style=\"white-space:nowrap;\">&bull;&nbsp;".$value."</div>";
 			}
 			$temp_intern.="</div></TD></TR>";
 		}

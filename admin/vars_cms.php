@@ -295,6 +295,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Vouchers",array("t"=>"5"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken winteracc.",array("t"=>"6"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken zomeracc.",array("t"=>"7"),true);
+	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken beoordelingen",array("t"=>"11"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Nieuwsbrief-leden",array("t"=>"10"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Overig",array("t"=>"9"),true);
 
@@ -856,6 +857,8 @@ $vars["optiecategorie"]=array(1=>"n.v.t.",2=>"bijkomende kosten verblijf",3=>"sk
 $vars["inkoopbetaling_status"]=array(1=>"onderweg",2=>"ingeboekt");
 $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nitalics: [i]tekst[/i]\n\ninterne link: [links=/accommodatie/I4529/]tekst[/link]\n\nexterne link: [link=http://www.test.com/]tekst[/link]\n\n";
 $vars["accommodatie_review_bron"]=array(1=>"door eigen klant ingevulde enquête",2=>"Posarelli");
+$vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
+
 
 # Soorten hoofdpagina-meldingen / rollen
 $vars["cms_hoofdpagina_soorten"]=array(
