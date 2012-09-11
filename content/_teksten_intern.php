@@ -338,7 +338,7 @@ $txta["nl"]["title_algemenevoorwaarden"]="Algemene reis- en verkoopvoorwaarden "
 $txta["en"]["title_algemenevoorwaarden"]="General Terms and Conditions of Travel and Sale ".$vars["websitenaam"];
 
 $txta["nl"]["title_favorieten"]="Mijn favorieten";
-$txta["en"]["title_favorieten"]="My favorites";
+$txta["en"]["title_favorieten"]="My favourites";
 
 $txta["nl"]["title_werkwijze"]="Werkwijze ".$vars["websitenaam"];
 $txta["en"]["title_werkwijze"]="How we work";

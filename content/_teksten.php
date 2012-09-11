@@ -1392,7 +1392,7 @@ $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 
 #favorieten pagina
 $txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
-$txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved hier. This enables you to comapare, share en print them.";
+$txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved here. This enables you to comapare, share and print them.";
 
 $txt["nl"]["favorieten"]["Uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
 $txt["en"]["favorieten"]["Uitmijnfavorietenhalen"]="Erase from my favourites";
