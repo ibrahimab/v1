@@ -1,44 +1,30 @@
 <?php
 
-if($_GET["testsysteem"] or $vars["lokale_testserver"]) { ?>
-<?php echo"<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";?>
-<?php 
-echo "<div style=\"position:absolute;top:8px;\">";
-
-	if($vars["website"]=="I") {
-		echo"<div id=\"popUpDiv\" style=\"margin-left:340px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
-	} elseif($vars["website"]=="E") {
-		echo"<div id=\"popUpDiv\" style=\"margin-left:260px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
-	} else {
-		echo "<div id=\"popUpDiv\" style=\"margin-left:210px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
-	}	
-?>	<?php echo"<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
-
-	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');sessionStorage.click++;getfavsandCheckAvailability('".$typeid."');\"></div>";
+if($_GET["testsysteem"] or $vars["lokale_testserver"]) {
+	#
+	# Favorieten-popup tonen en correct positioneren
+	#
 	
-?>
-</div>
-</div> 
-
-<?php
-}
-if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])){
-	if($_GET['action']=="insert"){
-		$klantID=$_GET['klantID'];
-		$accommodatieID=$_GET['accommodatie'];
-		$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($klantID)."','".addslashes($accommodatieID)."',NOW());");
-		$return=$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
-		echo count($return);
-		return count($return);
+	if($vars["websitetype"]==1) {
+		$popup=$vars["basehref"]."pic/popBack.png";
+	} elseif($vars["websitetype"]==3) {
+		$popup=$vars["basehref"]."pic/popBackZomer.png";
+	} elseif($vars["websitetype"]==7) {
+		$popup=$vars["basehref"]."pic/popBackItal.png";
 	}
-	elseif($_GET['action']=="delete"){
-		$klantID=$_GET['klantID'];
-		$accommodatieID=$_GET['accommodatie'];
-		$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($klantID)."' AND type_id='".addslashes($accommodatieID)."';");
-		$return=$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
-		echo count($return);
-		return count($return);
-	}
+	
+	if($vars["website"]=="I") {
+		echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:315px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	} elseif($vars["website"]=="E") {
+		echo "<div style=\"position:absolute;top:8px;\"><div id=\"popUpDiv\" style=\"margin-left:245px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	} elseif($vars["website"]=="Z") {
+		echo "<div style=\"position:absolute;top:16px;\"><div id=\"popUpDiv\" style=\"margin-left:220px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	} else {
+		echo "<div style=\"position:absolute;top:8px;\"><div id=\"popUpDiv\" style=\"margin-left:210px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	}	
+	echo "<div style=\"padding-top:55px;padding-left:10px;padding-right:10px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<div style=\"margin-top:10px;\"><input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');sessionStorage.click++;getfavsandCheckAvailability('".$typeid."');\"></div></div>";
+	echo "</div>";
+	echo "</div>";
 }
 if($_GET["cmsuit"]) {
 	unset($voorkant_cms);
@@ -75,6 +61,7 @@ if($toonper==3 or $vars["wederverkoop"]) {
 		if($db->f("website_omschrijving")) $skipas_website_omschrijving=$db->f("website_omschrijving");
 	}
 }
+
 # Tarieventabellen inladen
 unset($tarieventabel);
 @reset($seizoen_tarieven);
@@ -107,10 +94,6 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 		}
 	}
 }
-#echo wt_dump($aanbieding);
-#exit;
-#echo $seizoenen_inquery;
-#exit;
 $db->query("SELECT DISTINCT a.wzt, a.accommodatie_id, a.naam, a.altnaam_zichtbaar, a.video, a.videoEmbedCode, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, a.kenmerken_gecontroleerd, a.url_leverancier AS aurl_leverancier, t.zomerwinterkoppeling_accommodatie_id, t.code, t.altnaam_zichtbaar AS taltnaam_zichtbaar, t.naam".$vars["ttv"]." AS tnaam, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.url_leverancier AS turl_leverancier, t.verzameltype, a.soortaccommodatie, a.omschrijving".$vars["ttv"]." AS omschrijving, t.omschrijving".$vars["ttv"]." AS tomschrijving, a.kwaliteit AS akwaliteit, a.kenmerken AS kenmerken_accommodatie, t.type_id, t.kwaliteit, t.optimaalaantalpersonen, a.toonper, a.aantekeningen, t.aantekeningen AS taantekeningen, t.kenmerken AS kenmerken_type, t.maxaantalpersonen, t.oppervlakte, t.oppervlakteextra".$vars["ttv"]." AS oppervlakteextra, t.slaapkamers, t.slaapkamersextra".$vars["ttv"]." AS slaapkamersextra, t.badkamers, t.badkamersextra".$vars["ttv"]." AS badkamersextra, a.indeling".$vars["ttv"]." AS indeling, t.indeling".$vars["ttv"]." AS tindeling, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, p.afstandtotutrecht, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra, a.inclusief".$vars["ttv"]." AS inclusief, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, t.inclusief".$vars["ttv"]." AS tinclusief, a.exclusief".$vars["ttv"]." AS exclusief, a.extraopties".$vars["ttv"]." AS extraopties, t.exclusief".$vars["ttv"]." AS texclusief, t.url_virtuele_rondgang, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats, p.omschrijving".$vars["ttv"]." AS plaatsomschrijving, p.plaats_id, p.kenmerken AS kenmerken_plaats, s.naam AS skigebied, s.omschrijving".$vars["ttv"]." AS skigebiedomschrijving, s.kenmerken AS kenmerken_skigebied, lev.leverancier_id, lev.naam AS leverancier, lev.opmerkingen_intern AS lopmerkingen_intern, lev.url AS url_leverancier FROM accommodatie a, plaats p, skigebied s, land l, type t, leverancier lev WHERE a.accommodatie_id=t.accommodatie_id AND p.land_id=l.land_id AND t.type_id='".addslashes($typeid)."' AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.leverancier_id=lev.leverancier_id AND t.tonen=1;");
 if($db->next_record()) {
 	$accid=$db->f("accommodatie_id");	
@@ -154,14 +137,11 @@ if($db->next_record()) {
 	echo "<div style=\"clear: both;\"></div>\n";	
 	if(file_exists("pic/cms/types_specifiek/".$typeid.".jpg")) {
 		$afbeelding="types_specifiek/".$typeid;
-#		$afbeeldingborder=true;
 	} elseif(file_exists("pic/cms/accommodaties/".$accid.".jpg")) {
 		$afbeelding="accommodaties/".$accid;
-#		$afbeeldingborder=true;
 	} else {
 		$afbeelding="accommodaties/0";
 	}
-#	echo "<img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
 	echo "<img src=\"".imageurl($afbeelding.".jpg",170,127)."\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
 	echo "</div>";	
 	echo "<div id=\"toonaccommodatie_kopteksten\">";
@@ -486,7 +466,7 @@ if($db->next_record()) {
 		@reset($foto["pic"]);
 		@reset($foto["picbreed"]);
 		unset($counter);
-		if(is_array($foto["pic"])){
+		if(is_array($foto["pic"])) {
 			while(list($key,$value)=@each($foto["pic"])) {
 				if($trcounter==3) {
 					$foto_table.="</tr><tr>";
@@ -1391,16 +1371,13 @@ if($db->next_record()) {
 		if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 				
 				echo "<div id=\"favadd\" style=\"padding:5px;display:none;\">";
-				if($vars["website"]=="C"){
+				if($vars["website"]=="C") {
 					echo "<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\"> ";
-				}
-				elseif($vars["website"]=="E"){
+				} elseif($vars["website"]=="E") {
 					echo "<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\"> ";
-				}
-				elseif($vars["website"]=="Z"){
+				} elseif($vars["website"]=="Z") {
 					echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/toevoegenZomer.png\"> ";
-				}
-				elseif($vars["website"]=="I"){
+				} elseif($vars["website"]=="I") {
 					echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/plaatsItalissima.png\"> ";
 				}
 				echo "<a onclick=\"ajaxFunctionInsertDelete('".$typeid."','insert')\" href=\"#\">";
@@ -1411,13 +1388,13 @@ if($db->next_record()) {
 				echo "<div id=\"favremove\" style=\"padding:5px;display:none;\">";
 				echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=";
 				echo $vars["path"];
-				if($vars["website"]=="C" or $vars["website"]=="E"){
+				if($vars["website"]=="C" or $vars["website"]=="E") {
 					echo "pic/icon_notokay.png> ";
 				}
-				elseif($vars["website"]=="Z"){
+				elseif($vars["website"]=="Z") {
 					echo "pic/verwijderenZomer.png> ";
 				}
-				elseif($vars["website"]=="I"){
+				elseif($vars["website"]=="I") {
 					echo "pic/verwijderItalissima.png> ";
 				}
 				echo "<a onclick=\"ajaxFunctionInsertDelete('".$typeid."','delete')\" href=\"#\">";
@@ -1448,14 +1425,14 @@ if($db->next_record()) {
 		if($vars["lokale_testserver"]) {
 			?>
 			<script language="Javascript">
-			function open_smallwindow(url){
+			function open_smallwindow(url) {
 				mywin = window.open(url,"small",'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=800px,height=650px,top=0,left=135');				
 			} 
 			</script><?php
 			echo "<div id=\"mailfunctie\"><a href= \"javascript:open_smallwindow('".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."')\"><img src=\"../../pic/mailIcoon.png\" border=\"0\"></a></div>";
 		}
 		
-		if($vars["website"]!="E"){
+		if($vars["website"]!="E") {
 			# AddThis
 			echo "<!-- AddThis Button BEGIN -->\n";
 			echo "<div style=\"float:left;\" class=\"addthis_toolbox addthis_default_style \">\n";

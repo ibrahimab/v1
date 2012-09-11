@@ -469,7 +469,9 @@ if($vars["nieuwevormgeving"]) {
 			$submenu["favorieten"]=txt("submenutitle_favorieten");
 		}
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+		if($vars["website"]!="T") {
+			$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+		}
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 		//deze submenu(sitemap) moet nog naar de footer worden verplaatst.
 		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"]) {
