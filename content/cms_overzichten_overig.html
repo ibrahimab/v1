@@ -600,7 +600,7 @@ if($_GET["t"]==1) {
 	# Overzicht met na te kijken enquêtes
 	#
 
-	if(!$_GET["enquetestatus"]) {
+	if(!isset($_GET["enquetestatus"])) {
 		if($login->user_id==4 or $login->user_id==6) {
 			$_GET["enquetestatus"]=2;
 		} else {
@@ -618,10 +618,15 @@ if($_GET["t"]==1) {
 	}
 	echo "</form></div>";
 	
-	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.aankomstdatum_exact, UNIX_TIMESTAMP(e.invulmoment) AS invulmoment, b.type_id, v.plaats, v.naam FROM boeking b, boeking_enquete e, view_accommodatie v WHERE v.type_id=b.type_id AND e.boeking_id=b.boeking_id AND e.beoordeeld='".addslashes($_GET["enquetestatus"])."' AND b.type_id IN (SELECT t.type_id FROM type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND a.archief=0 AND t.tonen=1 AND a.tonen=1) ORDER BY v.plaats, b.aankomstdatum_exact, e.invulmoment;");
+	unset($algehad);
+	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.aankomstdatum_exact, UNIX_TIMESTAMP(e.invulmoment) AS invulmoment, b.type_id, v.plaats, v.naam, v.wzt FROM boeking b, boeking_enquete e, view_accommodatie v WHERE v.type_id=b.type_id AND e.boeking_id=b.boeking_id AND e.beoordeeld='".addslashes($_GET["enquetestatus"])."' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 ORDER BY v.wzt, v.plaats, b.aankomstdatum_exact, e.invulmoment;");
 	if($db->num_rows()) {
 		echo "<ul>";
 		while($db->next_record()) {
+			if(!$algehad[$db->f("wzt")]) {
+				echo "<br><b>".$vars["seizoentype_namen"][$db->f("wzt")]."</b><br>";
+				$algehad[$db->f("wzt")]=true;
+			}
 			echo "<li><a href=\"".wt_he("cms_boekingen_enquete.php?bid=".$db->f("boeking_id")."&from=".urlencode($_SERVER["REQUEST_URI"])."&controleren=1")."\">".wt_he($db->f("boekingsnummer")." - ".date("d/m/Y",$db->f("aankomstdatum_exact"))." - ".$vars["alletypes"][$db->f("type_id")])."</a></li>";
 		}
 		echo "</ul>";

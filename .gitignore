@@ -8,6 +8,12 @@ cache/
 Thumbs.db
 .DS_Store*
 
+# afbeeldingen via CMS
+pic/cms/
+
+# afbeeldingen-cache
+pic/cms/_imgcache/
+
 # pdf's
 pdf/facturen
 pdf/facturen

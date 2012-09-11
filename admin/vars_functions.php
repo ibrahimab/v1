@@ -1411,7 +1411,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 				
 				$inkoop_opties[3]+=round($netto*($gegevens["stap1"]["aantalpersonen"]-$afwijkende_skipas),2);
 			} else {
-				trigger_error("geen skipastarief gevonden (skipasid ".$gegevens["stap1"]["accinfo"]["skipasid"].", week ".$gegevens["stap1"]["aankomstdatum"].", toonper:".$accinfo["toonper"],E_USER_NOTICE);
+#				trigger_error("geen skipastarief gevonden (skipasid ".$gegevens["stap1"]["accinfo"]["skipasid"].", week ".$gegevens["stap1"]["aankomstdatum"].", toonper:".$accinfo["toonper"],E_USER_NOTICE);
 			}
 		}
 	}

@@ -428,7 +428,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 									}
 									$voorraad_afboeken_onchange_first.="if(this.value=='voorraad_garantie_".$db->f("type_id")."_".$db2->f("garantie_id")."') { document.frm.elements['input[leverancierid]'].value='".$db2->f("leverancier_id")."'; } ";
 								}
-								$voorraad_afboeken_onchange.=" else document.frm.elements['input[reserveringsnummer_2]'].value='".$reserveringsnummer_2."';";
+#								$voorraad_afboeken_onchange.=" else document.frm.elements['input[reserveringsnummer_2]'].value='".$reserveringsnummer_2."';";
 							} elseif($db->f("voorraad_garantie")>0) {
 								$voorraad_afboeken_keuzes["voorraad_garantie_".$db->f("type_id")]=$verzameltypes_gekoppeld[$db->f("type_id")]." - in garantie (".$db->f("voorraad_garantie")." beschikbaar) ".$netto;
 							}
@@ -473,7 +473,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 									$voorraad_afboeken_onchange=$voorraad_afboeken_onchange_temp;
 								}
 							}
-							$voorraad_afboeken_onchange.=" else document.frm.elements['input[reserveringsnummer_2]'].value='".$reserveringsnummer_2."';";
+#							$voorraad_afboeken_onchange.=" else document.frm.elements['input[reserveringsnummer_2]'].value='".$reserveringsnummer_2."';";
 						} elseif($db->f("voorraad_garantie")>0) {
 							$voorraad_afboeken_keuzes["voorraad_garantie"]="In garantie (".$db->f("voorraad_garantie")." beschikbaar)";
 						}
