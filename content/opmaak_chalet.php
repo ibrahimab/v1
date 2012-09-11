@@ -189,7 +189,7 @@ while(list($key,$value)=each($submenu)) {
 		} else {
 			echo "<a href=\"".$vars["path"].txt("menu_".$key).(@in_array($key,$submenu_url_zonder_punt_php) ? "" : ".php")."\">";
 			if($key=="favorieten") {
-				echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">0</span>)";
+				echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">".intval($vars["bezoeker_aantal_favorieten"])."</span>)";
 			} else {
 				echo wt_he($value);
 			}

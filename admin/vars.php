@@ -1140,105 +1140,111 @@ if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET
 	}
 }
 
-# Laatst bekeken accommodaties
-if($_COOKIE["sch"] and !$boeking_wijzigen) {
-	$db->query("SELECT last_acc FROM bezoeker WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' and last_acc IS NOT NULL;");
+# Favorieten en Laatst bekeken accommodaties uit database halen
+if($_COOKIE["sch"]) {
+	$db->query("SELECT COUNT(b.type_id) AS aantal FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
 	if($db->next_record()) {
-		$vars["last_acc_bezoeker"]=$db->f("last_acc");
-		$last_acc_bezoeker=@split(",",$db->f("last_acc"));
-		@reset($last_acc_bezoeker);
-		while(list($key,$value)=@each($last_acc_bezoeker)) {
-			if($value>0) {
-				if($last_acc_inquery) $last_acc_inquery.=",".addslashes($value); else $last_acc_inquery=addslashes($value);
-			}
-		}
-		if($last_acc_inquery) {
-			$db->query("SELECT begincode, type_id, accommodatie_id, naam, tnaam, optimaalaantalpersonen, maxaantalpersonen, plaats, skigebied, land FROM view_accommodatie WHERE type_id IN (".$last_acc_inquery.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(type_id,'".$last_acc_inquery."') DESC;");
-			while($db->next_record()) {
-				$last_acc[$db->f("type_id")]["begincode"]=$db->f("begincode");
-				$last_acc[$db->f("type_id")]["naam"]=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".txt("pers").")";
-				$last_acc[$db->f("type_id")]["plaats"]=$db->f("plaats");
-				$last_acc[$db->f("type_id")]["skigebied"]=$db->f("skigebied");
-				$last_acc[$db->f("type_id")]["land"]=$db->f("land");
-				if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
-					$last_acc[$db->f("type_id")]["afbeelding"]="types_specifiek/".$db->f("type_id").".jpg";
-				} elseif(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-					$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/".$db->f("accommodatie_id").".jpg";
-				} else {
-					$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/0.jpg";
-				}
-			}
-		}
-		if(is_array($last_acc)) {
-			$last_acc_html.="<div id=\"laatstbekeken\" class=\"noprint\">";
-			$last_acc_html.="<div id=\"laatstbekeken_acc_wrapper\">";
-			$last_acc_html.="<div class=\"kop\">".html("laatstbekekenaccommodaties","index")."</div>";
-			$last_acc_teller=0;
-			while(list($key,$value)=each($last_acc)) {
-				if($last_acc_teller) {
-					$last_acc_html.="<div class=\"laatstbekeken_divider\">&nbsp;</div>";
-				}
-				$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."/';\">";
-				$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\"></div>";
-				$last_acc_html.="<div class=\"laatstbekeken_tekst\">";
-				$last_acc_html.="<div>".wt_he($value["naam"])."</div>";
-				$last_acc_html.="<div style=\"margin-top:7px;\">";
-				if($vars["websitetype"]==7) {
-					$last_acc_html.=wt_he($value["plaats"].", ".$value["skigebied"]);
-				} else {
-					$last_acc_html.=wt_he($value["plaats"].", ".$value["land"]);
-				}
-				$last_acc_html.="</div>";
-				$last_acc_html.="</div>"; # afsluiten laatstbekeken_tekst
-				$last_acc_html.="</div>"; # afsluiten laatstbekeken_acc
-				$last_acc_teller++;
-				if($last_acc_teller>=($id=="index" ? 3 : 4)) {
-					break;
-				}
-			}
-			$last_acc_html.="<div style=\"clear: both;\"></div>\n";			
-			$last_acc_html.="</div>"; # afsluiten laatstbekeken_acc_wrapper
-			$last_acc_html.="<div id=\"laatstbekeken_volledigelijst\"><a href=\"".$vars["path"]."saved.php\">".html("laatstbekekenaccommodaties_volledigelijst","index")." &raquo;</a></div>";
-			$last_acc_html.="</div>"; # afsluiten laatstbekeken
-
-			$last_acc_html.="<div style=\"clear: both;\"></div>\n";
-		}
-		
-		if($vars["websitetype"]==6) {
-			# "laatst bekeken"-blok (nog) niet tonen op ChaletsInVallandry
-			unset($last_acc_html);
-		}
-		
-		#
-		# SPECIAAL voor WSA : mag verwijderd worden zodra WSA van nieuwe vormgeving is voorzien (opmerking geplaatst: 02-09-2011)
-		#
-		if($last_acc_inquery and $vars["website"]=="W") {
-			$db->query("SELECT t.type_id, a.accommodatie_id, a.naam, a.soortaccommodatie, t.naam AS tnaam, l.begincode, p.naam AS plaats FROM accommodatie a, type t, plaats p, land l WHERE t.type_id IN (".$last_acc_inquery.") AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1;");
-	#		echo $db->lastquery;
-			while($db->next_record()) {
-				$last_acc_array[$db->f("type_id")]="<a href=\"".$vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/\" title=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "").", ".$db->f("plaats"))."\"><img src=\"".$vars["basehref"]."pic/cms/";
-				if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
-					$last_acc_array[$db->f("type_id")].="types_specifiek_tn/".$db->f("type_id");
-				} elseif(file_exists("pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg")) {
-					$last_acc_array[$db->f("type_id")].="accommodaties_tn/".$db->f("accommodatie_id");
-				} else {
-					$last_acc_array[$db->f("type_id")].="accommodaties_tn/0";
-				}
-				$last_acc_array[$db->f("type_id")].=".jpg\" width=\"32\" height=\"24\" border=\"0\" class=\"pic_met_border\"></a>";
-	#			$last_acc_teller++;
-			}
-			@krsort($last_acc_bezoeker);
+		$vars["bezoeker_aantal_favorieten"]=$db->f("aantal");
+	}
+	if(!$boeking_wijzigen) {
+		$db->query("SELECT last_acc FROM bezoeker WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' and last_acc IS NOT NULL;");
+		if($db->next_record()) {
+			$vars["last_acc_bezoeker"]=$db->f("last_acc");
+			$last_acc_bezoeker=@split(",",$db->f("last_acc"));
 			@reset($last_acc_bezoeker);
-		#	unset($last_acc_teller);
 			while(list($key,$value)=@each($last_acc_bezoeker)) {
-				if($last_acc_teller<10 and $last_acc_array[$value]) {
-					$last_acc_teller++;
-					$last_acc_content=$last_acc_array[$value]."&nbsp;".$last_acc_content;
+				if($value>0) {
+					if($last_acc_inquery) $last_acc_inquery.=",".addslashes($value); else $last_acc_inquery=addslashes($value);
 				}
 			}
-			if($last_acc_teller and $last_acc_content) {
-				$last_acc_wsa="<span class=\"wtform_small\">".html(($last_acc_teller>7 ? "laatstbekeken_10" : "laatstbekeken")).":</span>&nbsp;<br>";
-				$last_acc_wsa.=$last_acc_content;
+			if($last_acc_inquery) {
+				$db->query("SELECT begincode, type_id, accommodatie_id, naam, tnaam, optimaalaantalpersonen, maxaantalpersonen, plaats, skigebied, land FROM view_accommodatie WHERE type_id IN (".$last_acc_inquery.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(type_id,'".$last_acc_inquery."') DESC;");
+				while($db->next_record()) {
+					$last_acc[$db->f("type_id")]["begincode"]=$db->f("begincode");
+					$last_acc[$db->f("type_id")]["naam"]=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".txt("pers").")";
+					$last_acc[$db->f("type_id")]["plaats"]=$db->f("plaats");
+					$last_acc[$db->f("type_id")]["skigebied"]=$db->f("skigebied");
+					$last_acc[$db->f("type_id")]["land"]=$db->f("land");
+					if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
+						$last_acc[$db->f("type_id")]["afbeelding"]="types_specifiek/".$db->f("type_id").".jpg";
+					} elseif(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
+						$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/".$db->f("accommodatie_id").".jpg";
+					} else {
+						$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/0.jpg";
+					}
+				}
+			}
+			if(is_array($last_acc)) {
+				$last_acc_html.="<div id=\"laatstbekeken\" class=\"noprint\">";
+				$last_acc_html.="<div id=\"laatstbekeken_acc_wrapper\">";
+				$last_acc_html.="<div class=\"kop\">".html("laatstbekekenaccommodaties","index")."</div>";
+				$last_acc_teller=0;
+				while(list($key,$value)=each($last_acc)) {
+					if($last_acc_teller) {
+						$last_acc_html.="<div class=\"laatstbekeken_divider\">&nbsp;</div>";
+					}
+					$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."/';\">";
+					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\"></div>";
+					$last_acc_html.="<div class=\"laatstbekeken_tekst\">";
+					$last_acc_html.="<div>".wt_he($value["naam"])."</div>";
+					$last_acc_html.="<div style=\"margin-top:7px;\">";
+					if($vars["websitetype"]==7) {
+						$last_acc_html.=wt_he($value["plaats"].", ".$value["skigebied"]);
+					} else {
+						$last_acc_html.=wt_he($value["plaats"].", ".$value["land"]);
+					}
+					$last_acc_html.="</div>";
+					$last_acc_html.="</div>"; # afsluiten laatstbekeken_tekst
+					$last_acc_html.="</div>"; # afsluiten laatstbekeken_acc
+					$last_acc_teller++;
+					if($last_acc_teller>=($id=="index" ? 3 : 4)) {
+						break;
+					}
+				}
+				$last_acc_html.="<div style=\"clear: both;\"></div>\n";			
+				$last_acc_html.="</div>"; # afsluiten laatstbekeken_acc_wrapper
+				$last_acc_html.="<div id=\"laatstbekeken_volledigelijst\"><a href=\"".$vars["path"]."saved.php\">".html("laatstbekekenaccommodaties_volledigelijst","index")." &raquo;</a></div>";
+				$last_acc_html.="</div>"; # afsluiten laatstbekeken
+	
+				$last_acc_html.="<div style=\"clear: both;\"></div>\n";
+			}
+			
+			if($vars["websitetype"]==6) {
+				# "laatst bekeken"-blok (nog) niet tonen op ChaletsInVallandry
+				unset($last_acc_html);
+			}
+			
+			#
+			# SPECIAAL voor WSA : mag verwijderd worden zodra WSA van nieuwe vormgeving is voorzien (opmerking geplaatst: 02-09-2011)
+			#
+			if($last_acc_inquery and $vars["website"]=="W") {
+				$db->query("SELECT t.type_id, a.accommodatie_id, a.naam, a.soortaccommodatie, t.naam AS tnaam, l.begincode, p.naam AS plaats FROM accommodatie a, type t, plaats p, land l WHERE t.type_id IN (".$last_acc_inquery.") AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1;");
+		#		echo $db->lastquery;
+				while($db->next_record()) {
+					$last_acc_array[$db->f("type_id")]="<a href=\"".$vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/\" title=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "").", ".$db->f("plaats"))."\"><img src=\"".$vars["basehref"]."pic/cms/";
+					if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
+						$last_acc_array[$db->f("type_id")].="types_specifiek_tn/".$db->f("type_id");
+					} elseif(file_exists("pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg")) {
+						$last_acc_array[$db->f("type_id")].="accommodaties_tn/".$db->f("accommodatie_id");
+					} else {
+						$last_acc_array[$db->f("type_id")].="accommodaties_tn/0";
+					}
+					$last_acc_array[$db->f("type_id")].=".jpg\" width=\"32\" height=\"24\" border=\"0\" class=\"pic_met_border\"></a>";
+		#			$last_acc_teller++;
+				}
+				@krsort($last_acc_bezoeker);
+				@reset($last_acc_bezoeker);
+			#	unset($last_acc_teller);
+				while(list($key,$value)=@each($last_acc_bezoeker)) {
+					if($last_acc_teller<10 and $last_acc_array[$value]) {
+						$last_acc_teller++;
+						$last_acc_content=$last_acc_array[$value]."&nbsp;".$last_acc_content;
+					}
+				}
+				if($last_acc_teller and $last_acc_content) {
+					$last_acc_wsa="<span class=\"wtform_small\">".html(($last_acc_teller>7 ? "laatstbekeken_10" : "laatstbekeken")).":</span>&nbsp;<br>";
+					$last_acc_wsa.=$last_acc_content;
+				}
 			}
 		}
 	}

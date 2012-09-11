@@ -4,25 +4,28 @@ if($_GET["testsysteem"] or $vars["lokale_testserver"]) {
 	#
 	# Favorieten-popup tonen en correct positioneren
 	#
-	
-	if($vars["websitetype"]==1) {
-		$popup=$vars["basehref"]."pic/popBack.png";
-	} elseif($vars["websitetype"]==3) {
-		$popup=$vars["basehref"]."pic/popBackZomer.png";
+#	echo "<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";
+
+	if($vars["websitetype"]==3) {
+		$popup_url="favorieten_popup_background_zomerhuisje";
 	} elseif($vars["websitetype"]==7) {
-		$popup=$vars["basehref"]."pic/popBackItal.png";
+		$popup_url="favorieten_popup_background_italissima";
+	} else {
+		$popup_url="favorieten_popup_background";
 	}
 	
 	if($vars["website"]=="I") {
-		echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:315px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+		echo "<div style=\"position:absolute;top:8px;\"><div id=\"popUpDiv\" style=\"margin-left:332px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	} elseif($vars["website"]=="E") {
-		echo "<div style=\"position:absolute;top:8px;\"><div id=\"popUpDiv\" style=\"margin-left:245px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+		echo "<div style=\"position:absolute;top:8px;\"><div id=\"popUpDiv\" style=\"margin-left:255px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	} elseif($vars["website"]=="Z") {
-		echo "<div style=\"position:absolute;top:16px;\"><div id=\"popUpDiv\" style=\"margin-left:220px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+		echo "<div style=\"position:absolute;top:12px;\"><div id=\"popUpDiv\" style=\"margin-left:234px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	} elseif($vars["website"]=="T") {
+		echo "<div style=\"position:absolute;top:8px;\"><div id=\"popUpDiv\" style=\"margin-left:262px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	} else {
-		echo "<div style=\"position:absolute;top:8px;\"><div id=\"popUpDiv\" style=\"margin-left:210px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+		echo "<div style=\"position:absolute;top:7px;\"><div id=\"popUpDiv\" style=\"margin-left:220px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 	}	
-	echo "<div style=\"padding-top:55px;padding-left:10px;padding-right:10px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<div style=\"margin-top:10px;\"><input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');sessionStorage.click++;getfavsandCheckAvailability('".$typeid."');\"></div></div>";
+	echo "<div style=\"padding-top:55px;padding-left:10px;padding-right:10px;width:270px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<div style=\"margin-top:10px;\"><input type=\"button\" value=\"OK\" onClick=\"$('#popUpDiv').css('display','none');\"></div></div>";
 	echo "</div>";
 	echo "</div>";
 }
@@ -1366,44 +1369,47 @@ if($db->next_record()) {
 	}
 	
 	echo "</form>";
-	echo "<BR>";
-	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="E" or $vars["website"]=="B") {
+	echo "<br />";
+	
+	
+	if($vars["websitetype"]<>6) { # geen favorieten bij Chaletsinvallandry
 		if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 				
-				echo "<div id=\"favadd\" style=\"padding:5px;display:none;\">";
-				if($vars["website"]=="C") {
-					echo "<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\"> ";
-				} elseif($vars["website"]=="E") {
-					echo "<img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/icon_plus.png\"> ";
-				} elseif($vars["website"]=="Z") {
-					echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/toevoegenZomer.png\"> ";
-				} elseif($vars["website"]=="I") {
-					echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/plaatsItalissima.png\"> ";
+				$db0->query("SELECT type_id FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' AND type_id='".addslashes($typeid)."';");
+				if($db0->num_rows()) {
+					$favorieten_plaatsbutton=false;
+				} else {
+					$favorieten_plaatsbutton=true;
 				}
-				echo "<a onclick=\"ajaxFunctionInsertDelete('".$typeid."','insert')\" href=\"#\">";
+
+				if($vars["websitetype"]==7) {
+					$favorieten_toevoegen_button="favorieten_toevoegen_italissima";
+				} elseif($vars["websitetype"]==3) {
+					$favorieten_toevoegen_button="favorieten_toevoegen_zomerhuisje";
+				} else {
+					$favorieten_toevoegen_button="favorieten_toevoegen";				
+				}
+				
+				echo "<div style=\"width:170px;text-align:center;\">";
+				
+				echo "<div id=\"favadd\" style=\"".($favorieten_plaatsbutton ? "" : "display:none;")."\">";
+				echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/".$favorieten_toevoegen_button.".png\"> ";
+				echo " <a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen('".$typeid."','insert');\">";
 				echo html("plaatsinfavorieten","favorieten");
 				echo "</a>";
 				echo "</div>";
-			
-				echo "<div id=\"favremove\" style=\"padding:5px;display:none;\">";
-				echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=";
-				echo $vars["path"];
-				if($vars["website"]=="C" or $vars["website"]=="E") {
-					echo "pic/icon_notokay.png> ";
-				}
-				elseif($vars["website"]=="Z") {
-					echo "pic/verwijderenZomer.png> ";
-				}
-				elseif($vars["website"]=="I") {
-					echo "pic/verwijderItalissima.png> ";
-				}
-				echo "<a onclick=\"ajaxFunctionInsertDelete('".$typeid."','delete')\" href=\"#\">";
+
+				echo "<div id=\"favremove\" style=\"".($favorieten_plaatsbutton ? "display:none;" : "")."\">";
+				echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=\"".$vars["path"]."pic/icon_notokay.png\"> ";
+				echo "<a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen('".$typeid."','delete');\">";
 				echo html("Uitmijnfavorietenhalen","favorieten");
 				echo "</a>";
 				echo "</div>";
+
+				echo "</div>";
+
 		}
 	}
-	echo "<script language=\"javascript\">getfavsandCheckAvailability('".$typeid."')</script>";
 	echo "<div id=\"toonaccommodatie_kleinelinks\">";
 	
 	echo "<ul>";

@@ -1,28 +1,10 @@
-<?php echo "<script language=\"javascript\" src=\"".$vars["basehref"]."scripts/csspopup.js\"></script>";?>
-<?php echo "<script language=\"javascript\">getfavsandCheckAvailabilityFavorietenPagina('".$typeid."')</script>";?>
-<?php 
-echo "<div style=\"position:absolute;top:8px;\">";
+<?php
 
-	if($vars["website"]=="I") {
-		echo "<div id=\"popUpDiv\" style=\"margin-left:140px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
-	} elseif($vars["website"]=="E") {
-		echo "<div id=\"popUpDiv\" style=\"margin-left:50px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
-	} else {
-		echo "<div id=\"popUpDiv\" style=\"margin-left:25px;width:300px; height:160px;background-image:url(".$popup.");background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
-	}	
-?>	<?php echo "<div style=\"padding:50px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<BR/>
-
-	<input type=\"button\" value=\"OK\" onClick=\"popup('popUpDiv');getfavsandCheckAvailabilityFavorietenPagina('".$typeid."');\"></div>";
-	
-?>
-</div>
-</div> 
-<?php echo "<script language=\"javascript\">";
+echo "<script language=\"javascript\">";
 echo "sessionStorage.counter=".count($klantfavs);
-echo "</script>";?>
+echo "</script>";
 
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<style type="text/css">
+?><style type="text/css">
 @media print{
 	.favScreen{
 		display:block;
