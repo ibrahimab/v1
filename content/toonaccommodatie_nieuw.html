@@ -1386,6 +1386,7 @@ if($db->next_record()) {
 	}
 	
 	echo "</form>";
+	echo "<BR>";
 	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="E" or $vars["website"]=="B") {
 		if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 				
@@ -1453,6 +1454,7 @@ if($db->next_record()) {
 			</script><?php
 			echo "<div id=\"mailfunctie\"><a href= \"javascript:open_smallwindow('".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."')\"><img src=\"../../pic/mailIcoon.png\" border=\"0\"></a></div>";
 		}
+		
 		if($vars["website"]!="E"){
 			# AddThis
 			echo "<!-- AddThis Button BEGIN -->\n";
