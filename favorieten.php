@@ -78,6 +78,7 @@ elseif($vars["websitetype"]==3 or $vars["websitetype"]==7){
 	cursor:pointer;text-decoration:none;";
 	}
 }
+
 include "content/opmaak.php";
 
 ?>

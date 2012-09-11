@@ -502,6 +502,9 @@ $txta["en"]["title_privacy-statement"]="Privacy statement";
 $txta["nl"]["title_disclaimer"]="Disclaimer voor [[v_websitenaam]]";
 $txta["en"]["title_disclaimer"]="Disclaimer for [[v_websitenaam]]";
 
+$txta["nl"]["title_favorieten"]="Favorieten";
+$txta["en"]["title_favorieten"]="Favourites";
+
 
 # Pop-up-titels
 $txta["nl"]["popuptitle_soort"]="Uitleg soort accommodaties";
