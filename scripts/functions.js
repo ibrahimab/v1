@@ -300,6 +300,10 @@ var googlemaps_infowindow;
 var googlemaps_counter=0;
 var googlemaps_skigebiedid=0;
 var zoekblok_tekst='';
+var absolute_path='/';
+if(location.href.indexOf("/chalet/")>1) {
+	var absolute_path='/chalet/';
+}
 
 function initialize_googlemaps() {
 	//http://code.google.com/intl/nl/apis/maps/documentation/javascript/reference.html
@@ -897,4 +901,32 @@ function weektarieven_openklappen() {
 	return false;
 }
 
-//window.onhashchange = check_hash;
+
+
+function favorieten_opslaan_verwijderen(typeid, action) {
+	// functie om favorieten op te slaan en te verwijderen
+	$.getJSON(absolute_path+"rpc_json.php", {
+	"t": 4,
+	"typeid": typeid,
+	"action": action
+	}, function(data) {
+		if(data.ok) {
+			$("#favorietenaantal").html(data.aantal);
+			if(action=="insert") {
+				$("#favadd").css("display","none");
+				$("#favremove").css("display","inline");
+				if(data.aantal==1) {
+					// popup tonen
+					$("#popUpDiv").css("display","inline");
+				} else {
+//					$("#favorietenaantal").parent("a").css("background-color","yellow");
+//					$("#favorietenaantal").parent("a").delay(1000).css("background-color","white");
+				}
+			} else if(action=="delete") {
+				$("#favadd").css("display","inline");
+				$("#favremove").css("display","none");
+			}
+		}
+	});
+	return false;
+}

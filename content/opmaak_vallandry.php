@@ -342,9 +342,9 @@ echo "</div>\n"; # "content" afsluiten
 echo "</div>\n"; # "wrapper" afsluiten
 
 # Balk met cookie-melding
-if($vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
+if($vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {
 	echo "<p>&nbsp;</p>";
-	echo "<div id=\"cookie_bottombar\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
+	echo "<div id=\"cookie_bottombar\" class=\"noprint\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
 }
 
 if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {

@@ -186,57 +186,21 @@ if($_GET["t"]==1) {
 	#
 	# Favorietenfunctie
 	#
-	//if(isset($_GET['accommodatie'])) {
-		if($_GET['action']=="insert") {
-			//$klantID=$_GET['klantID'];
-			$accommodatieID=$_GET['accommodatie'];
-			$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($_COOKIE["sch"])."','".addslashes($accommodatieID)."',NOW());");
-			$return1=$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
-			$return["aantal"]=count($return1);
-		}
-		elseif($_GET['action']=="delete"){
-			//$klantID=$_GET['klantID'];
-			$accommodatieID=$_GET['accommodatie'];
-			$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' AND type_id='".addslashes($accommodatieID)."';");
-			$return1=$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
-			$return["aantal"]=count($return1);
-		}
-		elseif($_GET['action']=="getfavs"){
-			//$klantID=$_GET['klantID'];
-			//$accommodatieID=$_GET['accommodatie'];
-			//$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($klantID)."' AND type_id='".addslashes($accommodatieID)."';");
-			$return1=$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
-			//$return["aantal"]=count($return1);
-			$favs=array();
-			while($row=mysql_fetch_array($return1)){
-				array_push($favs,$row["type_id"]);
-			}
-			$return["favs"]=$favs;
-			$return["aantal"]=count($favs);
-		}
-	//}
-	
-	
+	if($_GET["action"]=="insert") {
+		$typeID=$_GET["typeid"];
+		$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($_COOKIE["sch"])."','".addslashes($typeID)."',NOW());");
+	} elseif($_GET["action"]=="delete") {
+		$typeID=$_GET["typeid"];
+		$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' AND type_id='".addslashes($typeID)."';");
+	}
+
+	$db->query("SELECT COUNT(b.type_id) AS aantal FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
+	if($db->next_record()) {
+		$return["aantal"]=$db->f("aantal");
+	}
+
 	if(!$return["aantal"]) $return["aantal"]=0;
-
-	# Communicatie met dit script via jQuery
-
-
-#	$.getJSON("rpc_json.php", {
-#		"t": 4,
-#		"klantID": "waarde",
-#		"accommodatie": "waarde"
-#	}, function(data) {
-#		if(data.ok) {
-#			
-#		}
-#	});
-	
-	
-
-
 	$return["ok"]=true;
-#	$return["waarde_die_je_wilt_terugsturen"]="waarde";
 }
 
 echo json_encode($return);

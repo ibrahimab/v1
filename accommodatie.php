@@ -14,25 +14,7 @@ $onload="initialize_googlemaps();";
 
 #$vars["jquery_scrollto"]=true;
 include_once "admin/vars.php";
-if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==7) {
-	if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
-#		$klantfavs=array();
-#		$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
-#		while($db->next_record()){
-#			array_push($klantfavs,$db->f("type_id"));
-#		}
-#		$submenu["favorieten"]=txt("submenutitle_favorieten");
-	}
-	if($vars["websitetype"]==1) {
-		$popup=$vars["basehref"]."pic/popBack.png";
-	}
-	elseif($vars["websitetype"]==3) {
-		$popup=$vars["basehref"]."pic/popBackZomer.png";
-	}
-	elseif($vars["websitetype"]==7) {
-		$popup=$vars["basehref"]."pic/popBackItal.png";
-	}
-}
+
 if($_POST["ookbeschikbaarkeuze"]) {
 	$location=eregi_replace("/".txt("menu_accommodatie")."/[a-zA-Z0-9]+/","/".txt("menu_accommodatie")."/".urlencode($_POST["ookbeschikbaarkeuze"])."/",$_SERVER["REQUEST_URI"]);
 	header("Location: ".$location);

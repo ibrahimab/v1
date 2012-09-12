@@ -1404,10 +1404,10 @@ $txt["nl"]["favorieten"]["standardtextChalet"]="Je hebt momenteel geen chalets e
 $txt["en"]["favorieten"]["standardtextChalet"]="Your list of favourites is empty. to add items to your list, go to the accommodation page and click on";
 
 $txt["nl"]["favorieten"]["onderwerpTextChalet"]="Mijn favoriete chalets en appartementen";
-$txt["en"]["favorieten"]["onderwerpTextChalet"]="My favourite chalets and appartments";
+$txt["en"]["favorieten"]["onderwerpTextChalet"]="My favourite chalets and apartments";
 
 $txt["nl"]["favorieten"]["doormailTextChalet"]="Dit moet je zien! Ik heb een aantal leuke chalets en appartementen gevonden op";
-$txt["en"]["favorieten"]["doormailTextChalet"]="You must see this! I have found some interesting chalets and appartments on";
+$txt["en"]["favorieten"]["doormailTextChalet"]="You must see this! I have found some interesting chalets and apartments on";
 
 $txt["nl"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete vakantiehuizen welke jijzelf hebt doorgestuurd op";
 $txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have send on ";
@@ -1423,7 +1423,7 @@ $txt["en"]["favorieten"]["buttonLeesmeer"]="Read more";
 
 #accommodatie doormail functie
 $txt["nl"]["favorieten"]["midcontentTextChalet"]="Ik heb een leuk chalet/appartement gevonden op Chalet.nl. Dit moet je zien!";
-$txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/appartments on Chalet.nl. You have to see this!";
+$txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/apartments on Chalet.nl. You have to see this!";
 
 $txt["nl"]["favorieten"]["LabelVan"]="Van: (E-mailadres)";
 $txt["en"]["favorieten"]["LabelVan"]="From: (E-mail)";

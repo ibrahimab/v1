@@ -189,7 +189,7 @@ while(list($key,$value)=each($submenu)) {
 		} else {
 			echo "<a href=\"".$vars["path"].txt("menu_".$key).(@in_array($key,$submenu_url_zonder_punt_php) ? "" : ".php")."\">";
 			if($key=="favorieten") {
-				echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">0</span>)";
+				echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">".intval($vars["bezoeker_aantal_favorieten"])."</span>)";
 			} else {
 				echo wt_he($value);
 			}
@@ -455,20 +455,13 @@ if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcru
 echo "<div id=\"colofon_wrapper\" class=\"noprint\">";
 echo "<div id=\"colofon\" class=\"noprint\">".htmlentities($vars["websiteinfo"]["langewebsitenaam"][$vars["website"]])." - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon")."</div>";
 
-if($vars["website"]=="C" or $vars["website"]=="B") {
-	//echo "<div id=\"ondercolofon\" class=\"noprint\">Onze andere labels:&nbsp;&nbsp;<a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"http://www.italissima.nl/\" target=\"_blank\">Italissima</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy-statement</a></div>";
+if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 	if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
-		if($vars["website"]=="B"){
-			$naam="Chalet.be";
-		}
-		elseif($vars["website"]=="C"){
-			$naam="Chalet.nl";
-		}
-		if($id!="index"){
+		if($id!="index") {
 			echo"<div id=\"footerWrap\">";
 			echo "<div class=\"disclaimerWrap\">";
 			echo "<div class=\"divSepIND\">";
-			echo "<br><b>".$naam." &copy; 2012</b><br><br>";
+			echo "<br><b>".wt_he($vars["websitenaam"])." &copy; 2012</b><br><br>";
 			echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
 			echo "</div>";
 			echo "</div>";
@@ -500,15 +493,12 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 			echo "</div>";
 			echo "</div>";	
 			echo "</div>";
-		}
-		elseif($id=="index"){
+		} elseif($id=="index") {
 			echo"<div id=\"footerWrap\">";
-			//echo "<div class=\"disclaimerWrap\">";
 			echo "<div class=\"divSepIND\">";
-			echo "<br><b>".$naam." &copy; 2012</b><br><br>";
+			echo "<br><b>".wt_he($vars["websitenaam"])." &copy; 2012</b><br><br>";
 			echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
 			echo "</div>";
-			//echo "</div>";
 			echo "<div class=\"wrap\">";
 			echo "<div class=\"divContentIND\">";
 			echo "<br><b>Onze bestemmingen</b><br><br>";
@@ -694,9 +684,8 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 }
 
 # Balk met cookie-melding
-if($vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
-	echo "<p>&nbsp;</p>";
-	echo "<div id=\"cookie_bottombar\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
+if($vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {
+	echo "<div id=\"cookie_bottombar\" class=\"noprint\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
 }
 
 # Zorgen dat zoekenboek_overlay naar beneden schuift i.v.m. "laatst bekeken"-button
