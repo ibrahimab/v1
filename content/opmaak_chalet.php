@@ -189,7 +189,7 @@ while(list($key,$value)=each($submenu)) {
 		} else {
 			echo "<a href=\"".$vars["path"].txt("menu_".$key).(@in_array($key,$submenu_url_zonder_punt_php) ? "" : ".php")."\">";
 			if($key=="favorieten") {
-				echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">".intval($vars["bezoeker_aantal_favorieten"])."</span>)";
+				echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">0</span>)";
 			} else {
 				echo wt_he($value);
 			}
@@ -456,12 +456,19 @@ echo "<div id=\"colofon_wrapper\" class=\"noprint\">";
 echo "<div id=\"colofon\" class=\"noprint\">".htmlentities($vars["websiteinfo"]["langewebsitenaam"][$vars["website"]])." - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon")."</div>";
 
 if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
+	//echo "<div id=\"ondercolofon\" class=\"noprint\">Onze andere labels:&nbsp;&nbsp;<a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"http://www.italissima.nl/\" target=\"_blank\">Italissima</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy-statement</a></div>";
 	if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
-		if($id!="index") {
+		if($vars["website"]=="B"){
+			$naam="Chalet.be";
+		}
+		elseif($vars["website"]=="C"){
+			$naam="Chalet.nl";
+		}
+		if($id!="index"){
 			echo"<div id=\"footerWrap\">";
 			echo "<div class=\"disclaimerWrap\">";
 			echo "<div class=\"divSepIND\">";
-			echo "<br><b>".wt_he($vars["websitenaam"])." &copy; 2012</b><br><br>";
+			echo "<br><b>".$naam." &copy; 2012</b><br><br>";
 			echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
 			echo "</div>";
 			echo "</div>";
@@ -493,12 +500,15 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 			echo "</div>";
 			echo "</div>";	
 			echo "</div>";
-		} elseif($id=="index") {
+		}
+		elseif($id=="index"){
 			echo"<div id=\"footerWrap\">";
+			//echo "<div class=\"disclaimerWrap\">";
 			echo "<div class=\"divSepIND\">";
-			echo "<br><b>".wt_he($vars["websitenaam"])." &copy; 2012</b><br><br>";
+			echo "<br><b>".$naam." &copy; 2012</b><br><br>";
 			echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
 			echo "</div>";
+			//echo "</div>";
 			echo "<div class=\"wrap\">";
 			echo "<div class=\"divContentIND\">";
 			echo "<br><b>Onze bestemmingen</b><br><br>";
@@ -529,7 +539,88 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 			echo "</div>";
 		}
 	}
-} else {
+}elseif($vars["website"]=="E") {
+	//echo "<div id=\"ondercolofon\" class=\"noprint\">Onze andere labels:&nbsp;&nbsp;<a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\">Zomerhuisje.nl</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"http://www.italissima.nl/\" target=\"_blank\">Italissima</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy-statement</a></div>";
+	if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
+			$naam="Chalet.eu";
+		if($id!="index"){
+			echo"<div id=\"footerWrap\">";
+			echo "<div class=\"disclaimerWrap\">";
+			echo "<div class=\"divSepIND\">";
+			echo "<br><b>".$naam." &copy; 2012</b><br><br>";
+			echo "<li><a href=\"".$vars["path"]."conditions.php\" rel=\"nofollow\">Conditions</a></li><li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
+			echo "</div>";
+			echo "</div>";
+			echo "<div class=\"wrap\">";
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Our destinations</b><br><br>";
+			echo "<li><a href=\"".$vars["path"]."country/France/\" rel=\"nofollow\">Chalets in France</a></li>";
+			echo"<li><a href=\"".$vars["path"]."country/Austria/\" rel=\"nofollow\">Chalets in Austria</a></li>";
+			echo "<li><a href=\"".$vars["path"]."country/Switzerland/\" rel=\"nofollow\">Chalets in Switzerland</a></li>";
+			echo "<li><a href=\"".$vars["path"]."country/Italy/\" rel=\"nofollow\">Chalets in Italy</a></li>";
+			echo "<li><a href=\"".$vars["path"]."country/Germany/\" rel=\"nofollow\">Chalets in Germany</a></li>";
+			echo "</div>";
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Popular ski regions</b><br><br>";
+			echo "<li><a href=\"".$vars["path"]."region/Les_Trois_Vallees/\" rel=\"nofollow\">Chalets in Les Trois Vall&eacute;es</a></li>";
+			echo "<li><a href=\"".$vars["path"]."region/Paradiski_-_Les_Arcs/\" rel=\"nofollow\">Chalets in Les Arcs / Paradiski</a></li>";
+			echo "<li><a href=\"".$vars["path"]."region/Zillertal/\" rel=\"nofollow\">Chalets in Zillertal</a></li>";
+			echo "<li><a href=\"".$vars["path"]."region/Zell_am_See_Kaprun/\" rel=\"nofollow\">Chalets in Zell am See / Kaprun</a></li>";
+			echo "<li><a href=\"".$vars["path"]."region/Les_Deux_Alpes/\" rel=\"nofollow\">Chalets in Les Deux Alpes</a></li>";
+			echo "</div>";
+			
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Popular ski villages</b><br><br>";
+			echo "<li><a href=\"".$vars["path"]."resort/Konigsleiten/\" rel=\"nofollow\">Chalets in K&ouml;nigsleiten</li></a>";
+			echo "<li><a href=\"".$vars["path"]."resort/Zell_am_See/\" rel=\"nofollow\">Chalets in Zell am See</a></li>";
+			echo "<li><a href=\"".$vars["path"]."resort/Val_Thorens/\" rel=\"nofollow\">Chalets in Val Thorens</a></li>";
+			echo "<li><a href=\"".$vars["path"]."resort/Chatel/\" rel=\"nofollow\">Chalets in Ch&acirc;tel</a></li>";
+			echo "<li><a href=\"".$vars["path"]."resort/Les_Menuires/\" rel=\"nofollow\">Chalets in Les Menuires</a></li>";
+			echo "</div>";
+			echo "</div>";	
+			echo "</div>";
+		}
+		elseif($id=="index"){
+			echo"<div id=\"footerWrap\">";
+			//echo "<div class=\"disclaimerWrap\">";
+			echo "<div class=\"divSepIND\">";
+			echo "<br><b>".$naam." &copy; 2012</b><br><br>";
+			echo "<li><a href=\"".$vars["path"]."conditions.php\">Conditions</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
+			echo "</div>";
+			//echo "</div>";
+			echo "<div class=\"wrap\">";
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Our destinations</b><br><br>";
+			echo "<li><a href=\"".$vars["path"]."country/France/\">Chalets in France</a></li>";
+			echo"<li><a href=\"".$vars["path"]."country/Austria/\">Chalets in Austria</a></li>";
+			echo "<li><a href=\"".$vars["path"]."country/Switzerland/\">Chalets in Switzerland</a></li>";
+			echo "<li><a href=\"".$vars["path"]."country/Italy/\">Chalets in Italy</a></li>";
+			echo "<li><a href=\"".$vars["path"]."country/Germany/\">Chalets in Germany</a></li>";
+			echo "</div>";
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Popular ski regions</b><br><br>";
+			echo "<li><a href=\"".$vars["path"]."region/Les_Trois_Vallees/\">Chalets in Les Trois Vall&eacute;es</a></li>";
+			echo "<li><a href=\"".$vars["path"]."region/Paradiski_-_Les_Arcs/\">Chalets in Les Arcs / Paradiski</a></li>";
+			echo "<li><a href=\"".$vars["path"]."region/Zillertal/\">Chalets in Zillertal</a></li>";
+			echo "<li><a href=\"".$vars["path"]."region/Zell_am_See_Kaprun/\">Chalets in Zell am See / Kaprun</a></li>";
+			echo "<li><a href=\"".$vars["path"]."region/Les_Deux_Alpes/\">Chalets in Les Deux Alpes</a></li>";
+			echo "</div>";
+			
+			echo "<div class=\"divContentIND\">";
+			echo "<br><b>Popular ski villages</b><br><br>";
+			echo "<li><a href=\"".$vars["path"]."resort/Konigsleiten/\">Chalets in K&ouml;nigsleiten</a></li>";
+			echo "<li><a href=\"".$vars["path"]."resort/Zell_am_See/\">Chalets in Zell am See</a></li>";
+			echo "<li><a href=\"".$vars["path"]."resort/Val_Thorens/\">Chalets in Val Thorens</a></li>";
+			echo "<li><a href=\"".$vars["path"]."resort/Chatel/\">Chalets in Ch&acirc;tel</a></li>";
+			echo "<li><a href=\"".$vars["path"]."resort/Les_Menuires/\">Chalets in Les Menuires</a></li>";
+			echo "</div>";
+			echo "</div>";
+			echo "</div>";
+		}
+	}
+}
+
+else {
 	echo "<div id=\"ondercolofon\" class=\"noprint\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 }
 echo "</div>";
@@ -684,8 +775,9 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 }
 
 # Balk met cookie-melding
-if($vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {
-	echo "<div id=\"cookie_bottombar\" class=\"noprint\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
+if($vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
+	echo "<p>&nbsp;</p>";
+	echo "<div id=\"cookie_bottombar\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
 }
 
 # Zorgen dat zoekenboek_overlay naar beneden schuift i.v.m. "laatst bekeken"-button
