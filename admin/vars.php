@@ -469,9 +469,10 @@ if($vars["nieuwevormgeving"]) {
 			$submenu["favorieten"]=txt("submenutitle_favorieten");
 		}
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		if($vars["website"]!="T") {
-			$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
-		}
+		//De nieuwe footer komt op chalettour, chaletnl, chaletbe en chaleteu. daarmee is deze code overbodig geworden.
+		//if($vars["website"]!="T" and $vars["website"]!="C") {
+		//	$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+		//}
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 		//deze submenu(sitemap) moet nog naar de footer worden verplaatst.
 		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"]) {
