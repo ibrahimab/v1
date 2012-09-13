@@ -326,8 +326,9 @@ if(isset($_POST['verzenderAdres'])){
 			echo "</div>";
 			$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
 			$url="url";
-			echo"<table cellspacing=\"0\" style=\"display:inline-table;font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"681\">";
-			echo"<tr><td width=\"205\" valign=\"top\" rowspan=\"8\"><img src=\"".$impath."\" width=\"205\" height=\"150\"></td>";
+			//<img src=\"".$impath."\" width=\"205\" height=\"150\" border=\"0\"/>
+			echo"<table cellspacing=\"5\" style=\"display:inline-table;font-family:verdana;width:681px;\" text-align=\"left\" border=\"0\" >";
+			echo"<tr><td style=\"background-image:url(".$impath.");background-repeat: no-repeat;\" width=\"205\" valign=\"top\" rowspan=\"8\"></td>";
 			echo"<td width=\"476\" colspan=\"2\" style=\"font-size:14px; font-family:verdana;\">".wt_he($accinfo["land"])."</td></tr><tr>";
 			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
 			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
@@ -373,7 +374,7 @@ if(isset($_POST['verzenderAdres'])){
 				}
 			}
 			$teken=substr(wt_he($accinfo["land"]),0,1);
-			echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".$slkamer."</td><td style=\"font-family:verdana;\" valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"".$vars["basehref"]."accommodatie/".$teken.$_GET["accid"]."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
+			echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".$slkamer."</td><td style=\"font-family:verdana;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"".$vars["basehref"]."accommodatie/".$teken.$_GET["accid"]."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
 			if(wt_he($accinfo["badkamers"])==1){
 				if($vars["website"]!="E"){
 					$bdkamer="badkamer";
