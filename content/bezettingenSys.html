@@ -55,15 +55,15 @@ function exportFile(){
 			ajaxRequest.open("GET", queryString, true);
 			ajaxRequest.send(null); 
 }
-
-function printDiv(divName) {
-	var content=document.getElementById(divName).innerHTML;
-	var pwin=window.open('','print_content','width=800,height=600');
-	pwin.document.open();
-	pwin.document.write('<html><body onload="window.print()">'+content+'</body></html>');
-	pwin.document.close();
-	setTimeout(function(){pwin.close();},1000);
-} 
+//printen gebeurt al in excel
+<!--function printDiv(divName) {-->
+<!--	var content=document.getElementById(divName).innerHTML;-->
+<!--	var pwin=window.open('','print_content','width=800,height=600');-->
+<!--	pwin.document.open();-->
+<!--	pwin.document.write('<html><body onload="window.print()">'+content+'</body></html>');-->
+<!--	pwin.document.close();-->
+<!--	setTimeout(function(){pwin.close();},1000);-->
+<!--} -->
 </script>
 <?php
 
@@ -360,6 +360,8 @@ if(!isset($_GET["exportFile"]) and $_GET["periode"]=="true"){
 	$maadenGedaan=0;
 	$dagenarr=array();
 	$ids=array();
+	//ondestaand query vervangen door query. die de groep id van de huidige leverancier gaat uitlezen. daarna alle types van de groepen gaat ophalen de kopelingen samenvoegt en 
+	//een overzicht opbouwen en op het scherm tonen.
 	$db->query("SELECT DISTINCT type_id FROM view_accommodatie WHERE leverancier_id='130' AND atonen=1 AND ttonen=1;");
 	while($db->next_record()){
 		//$db2->query("SELECT type_id FROM type WHERE zomerwinterkoppeling_accommodatie_id='".addslashes($db->f("type_id"))."';");
