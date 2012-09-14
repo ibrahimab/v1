@@ -892,6 +892,19 @@ function chalet_createCookie(name,value,days) {
 	document.cookie = name+"="+value+expires+"; path=/";
 }
 
+function chalet_getCookie(c_name) {
+	// functie om eenvoudig cookies uit te lezen
+	var i,x,y,ARRcookies=document.cookie.split(";");
+	for (i=0;i<ARRcookies.length;i++) {
+		x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+		y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+		x=x.replace(/^\s+|\s+$/g,"");
+		if (x==c_name) {
+			return unescape(y);
+		}
+	}
+}
+
 function weektarieven_openklappen() {
 	$('#weektarieven').slideDown('slow','linear', function() {
 		// workaround bug in IE9 (tarieventabel 'groeit' bij onmouseover op de tarieven)
@@ -913,23 +926,27 @@ function favorieten_opslaan_verwijderen(typeid, action) {
 		if(data.ok) {
 			$("#favorietenaantal").html(data.aantal);
 			if(action=="insert") {
+				// plaats en verwijderbuttons uit/aanzetten
 				$("#favadd").css("display","none");
 				$("#favremove").css("display","inline");
 				if(data.aantal==1) {
 					// popup tonen
-					$("#popUpDiv").css("display","inline");
+					if(chalet_getCookie("favorietenpopup")!="1") {
+						$("#popUpDiv").css("display","inline");
+						chalet_createCookie("favorietenpopup","1",3650);
+					}
 				} else {
 //					$("#favorietenaantal").parent("a").css("background-color","yellow");
 //					$("#favorietenaantal").parent("a").delay(1000).css("background-color","white");
 				}
 			} else if(action=="delete") {
+				// plaats en verwijderbuttons aan/uitzetten
 				$("#favadd").css("display","inline");
 				$("#favremove").css("display","none");
 
 				if($("#fav_table_"+typeid).length!=0) {
 					// favorietenpagina: fadeOut van het accommodatieblok
 					$("#fav_table_"+typeid).fadeTo("slow",0,function() {
-//						$("#terugnaarboven").css("visibility","hidden");
 						$("#fav_table_"+typeid).slideUp("normal", function() {
 							if(data.aantal==0) {
 								// indien pagina hierna leeg is: herladen (zodat melding getoond kan worden)
