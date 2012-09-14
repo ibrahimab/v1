@@ -1698,7 +1698,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 	}
 	
 	if(!$tarieven_opgezocht) {
-		if($vars["seizoentype"]==1 and !$vars["wederverkoop"]) {
+		if($vars["seizoentype"]==1 and !$vars["wederverkoop"] and !$vars["zoekform_weekendski"]) {
 			#
 			# Vanaf-prijzen berekenen
 			#

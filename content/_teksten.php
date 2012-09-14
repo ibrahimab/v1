@@ -1400,8 +1400,11 @@ $txt["en"]["favorieten"]["Uitmijnfavorietenhalen"]="Erase from my favourites";
 $txt["nl"]["favorieten"]["plaatsinfavorieten"]="Plaats in mijn favorieten";
 $txt["en"]["favorieten"]["plaatsinfavorieten"]="Add to my favourites";
 
-$txt["nl"]["favorieten"]["standardtextChalet"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Om een chalet of appartement aan je lijst met favorieten toe te voegen, ga naar de pagina van een chalet of appartement en klik op";
-$txt["en"]["favorieten"]["standardtextChalet"]="Your list of favourites is empty. to add items to your list, go to the accommodation page and click on";
+$txt["nl"]["favorieten"]["geenfavorieten"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Ga naar de pagina van een chalet of appartement en klik op [[h_1]]Plaats in mijn favorieten[[h_2]] om een favoriet toe te voegen.";
+$txt["en"]["favorieten"]["geenfavorieten"]="Your list of favourites is empty. To add items to your list, go to the accommodation page and click on [[h_1]]Add to my favourites[[h_2]].";
+
+$txt["nl_z"]["favorieten"]["geenfavorieten"]="Je hebt momenteel geen vakantiehuizen aan je favorieten toegevoegd. Ga naar de pagina van een vakantiehuis en klik op [[h_1]]Plaats in mijn favorieten[[h_2]] om een favoriet toe te voegen.";
+$txt["en_z"]["favorieten"]["geenfavorieten"]="-";
 
 $txt["nl"]["favorieten"]["onderwerpTextChalet"]="Mijn favoriete chalets en appartementen";
 $txt["en"]["favorieten"]["onderwerpTextChalet"]="My favourite chalets and apartments";

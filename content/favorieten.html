@@ -1,75 +1,3 @@
-<?php
-
-echo "<script language=\"javascript\">";
-echo "sessionStorage.counter=".count($klantfavs);
-echo "</script>";
-
-?><style type="text/css">
-@media print{
-	.favScreen{
-		display:block;
-	}
-	#options{
-		display:none;
-	}
-	#removeFromfavs{
-		display:none;
-	}
-}
-.LeesMeerChalet {
-	
-	background-color:#003366;
-	display:inline-block;
-	border:1px solid #dcdcdc;
-	color:#ffffff;
-	font-family:arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	cursor:pointer;
-}.LeesMeerChalet:hover {
-	border:1px solid #d40139;
-}.LeesMeerChalet:active {
-	position:relative;
-	top:1px;
-}
-.LessmeerZomerHuis {
-	
-	background-color:#cbd328;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	color:#5f227b;
-	font-family:arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	cursor:pointer;
-}.LessmeerZomerHuis:hover {
-	border:1px solid #5f227b;
-}.LessmeerZomerHuis:active {
-	position:relative;
-	top:1px;
-}
-.LessmeerZomerItalissima {
-	background-color:#ff9900;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	color:#ffffff;
-	font-family:arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	cursor:pointer;
-}.LessmeerZomerItalissima:hover {
-	border:1px solid #661700;
-}.LessmeerZomerItalissima:active {
-	position:relative;
-	top:1px;
-}
-</style>
 <script type="text/javascript">
 function printDiv(divName) {
 	var content=document.getElementById(divName).innerHTML;
@@ -84,9 +12,9 @@ function validateEmail(email) {
 	var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 	return email.match(pattern);     
 }  
-</script>
+
 <?php if($vars["website"]!="E") {?>
-<script type="text/javascript">
+
 function controlEnSend(){
 	if(document.getElementById("verzenderAdres").value == ""){
 		//window.alert("OK");
@@ -143,8 +71,7 @@ function controlEnSend(){
 		}
 	}
 }
-</script>
-<script language="javascript" type="text/javascript">
+
 function ajaxMailFunction(welOfgeenKopie){
 	var ajaxRequest;  // The variable that makes Ajax possible!		
 	try{
@@ -187,9 +114,9 @@ function ajaxMailFunction(welOfgeenKopie){
 	ajaxRequest.open("GET", queryString, true);
 	ajaxRequest.send(null); 
 }
-</script>
-<?php } else{?>
-<script type="text/javascript">
+
+<?php } else { ?>
+
 function controlEnSend(){
 	if(document.getElementById("verzenderAdres").value == ""){
 		//window.alert("OK");
@@ -246,8 +173,6 @@ function controlEnSend(){
 		}
 	}
 }
-</script>
-<script language="javascript" type="text/javascript">
 function ajaxMailFunction(welOfgeenKopie){
 	var ajaxRequest;  // The variable that makes Ajax possible!		
 	try{
@@ -290,9 +215,10 @@ function ajaxMailFunction(welOfgeenKopie){
 	ajaxRequest.open("GET", queryString, true);
 	ajaxRequest.send(null); 
 }
-</script>
 
-<?php }?>
+
+<?php } ?>
+</script>
 <script type="text/javascript">
 function ajaxFunctionDeleteFavs(klantid, accid, action){
 	$.getJSON("/chalet/rpc_json.php", {
@@ -309,19 +235,7 @@ function ajaxFunctionDeleteFavs(klantid, accid, action){
 </script>
 <?php
 
-if(isset($_GET['klantID'])&& isset($_GET['accommodatie'])) {
-	if($_GET['action']=="insert") {
-		$klantID=$_GET['klantID'];
-		$accommodatieID=$_GET['accommodatie'];
-		$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($klantID)."','".addslashes($accommodatieID)."',NOW());");
-	}
-	elseif($_GET['action']=="delete") {
-		$klantID=$_GET['klantID'];
-		$accommodatieID=$_GET['accommodatie'];
-		$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($klantID)."' AND type_id='".addslashes($accommodatieID)."';");
-	}
-}
-elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor") {
+if(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor") {
 	if($_GET['kopie']=="ja") {
 		$mail=new wt_mail;
 		$mail->fromname=$_GET["verzenderAdres"];
@@ -573,18 +487,14 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor") {
 		$mail->send();
 	}
 }
-//onclick=\"document.getElementById('mailForm').style.display='inline'\"
 
-	echo "<div style=\"float:left; width:100%;\">";
-	if(count($klantfavs)==0) {
-		echo $standardtext;
-		echo "</div>";
-	}
-	echo "<div id=\"errorLabel\" dispaly:inline;\"></div><br>";
-	echo "<div style=\"dispaly:inline; height:20px;\"></div>";
-	if(count($klantfavs)!=0) {
-		echo "<div id=\"options\" style=\"float:left;\"><a id=\"showForm\" style=\"text-decoration:none;\" href=\"#\"><img style=\"vertical-align:middle;\" width=\"18\" height=\"16\" border=\"0\" src=\"".$vars["path"]."pic/button_mail_small.png\"/> ". html("versturenPermail","favorieten")."</a> | <a style=\"text-decoration:none;\" href=\"javascript:print();\"><img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/printer.gif\" width=\"20\" height=\"18\"/> ". html("inhoudprinten","favorieten")."</a></div><br/>";
-	}
+$db->query("SELECT b.type_id FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
+if($db->num_rows()) {
+	
+#	echo "<div style=\"float:left; width:100%;\">";
+	echo "<div id=\"errorLabel\" dispaly:inline;\"></div>";
+	#echo "<div style=\"dispaly:inline; height:20px;\"></div>";
+	echo "<div id=\"options\" style=\"float:left;\"><a id=\"showForm\" style=\"text-decoration:none;\" href=\"#\"><img style=\"vertical-align:middle;\" width=\"18\" height=\"16\" border=\"0\" src=\"".$vars["path"]."pic/button_mail_small.png\"/> ". html("versturenPermail","favorieten")."</a> | <a style=\"text-decoration:none;\" href=\"javascript:print();\"><img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/printer.gif\" width=\"20\" height=\"18\"/> ". html("inhoudprinten","favorieten")."</a></div><br/>";
 	echo "<div style=\"height:20px;\"></div>";
 	echo "<div id=\"mailForm\" style=\"display:none\">";
 	echo "<form action=".$_SERVER["REQUEST_URI"]."><br/>";
@@ -634,17 +544,17 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor") {
 			#
 			
 			echo "<div class=\"zoekresultaat\">";
-				echo "<div class=\"zoekresultaat_top\">";
-					echo "<div class=\"zoekresultaat_titel\">";
-						echo htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
-					echo "</div>";
-				echo "</div>";
-				echo "</a>";
-				echo "<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
-		echo "<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
-		echo "<td colspan=\"2\" style=\"font-size:14px;\">".$db->f("land")."</td></tr><tr>";
-		echo "<td colspan=\"2\">".$db->f("plaats")."</td></tr><tr>";
-		echo "<td colspan=\"2\">".$db->f("skigebied")."</td></tr><tr>";
+			echo "<div class=\"zoekresultaat_top\">";
+			echo "<div class=\"zoekresultaat_titel\">";
+			echo htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
+			echo "</div>";
+			echo "</div>";
+			echo "</a>";
+			echo "<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
+			echo "<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
+			echo "<td colspan=\"2\" style=\"font-size:14px;\">".$db->f("land")."</td></tr><tr>";
+			echo "<td colspan=\"2\">".$db->f("plaats")."</td></tr><tr>";
+			echo "<td colspan=\"2\">".$db->f("skigebied")."</td></tr><tr>";
 		if($db->f("kwaliteit")) {
 			echo "<td colspan=\"2\">";
 			for($i=0; $i<$db->f("kwaliteit");$i++) {
@@ -713,7 +623,7 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor") {
 		echo "<td>".$db->f("badkamers")." ".$bdkamer."</td></tr>";
 		echo "</table>";
 			
-
+	
 		
 			#
 				
@@ -738,19 +648,33 @@ elseif(isset($_GET['verzenderAdres'])&& $_GET['action']=="mailDoor") {
 				echo "</div>";
 			echo "</td></tr>";
 			echo "</table>";
-			//echo "</div>";
 	}
-//}
-if(count($klantfavs)>0) {echo "</div>";}
-echo "</div>";
-echo "<script type=\"text/javascript\">";
-echo "$(\"#showForm\").click(function () {";
-echo "$(\"#mailForm\").slideToggle();";
-echo "});";
+	
+	echo "</div>";
+	echo "</div>";
+	echo "<script type=\"text/javascript\">";
+	echo "$(\"#showForm\").click(function () {";
+	echo "$(\"#mailForm\").slideToggle();";
+	echo "});";
+	
+	echo "$(\"#Annuleren\").click(function () {";
+	echo "$(\"#mailForm\").slideToggle();";
+	echo "});";
+	echo "</script>";
+} else {
+	#
+	# Nog geen favorieten
+	#
+	
 
-echo "$(\"#Annuleren\").click(function () {";
-echo "$(\"#mailForm\").slideToggle();";
-echo "});";
-echo "</script>";
-//echo "<div>";
+	if($vars["websitetype"]==7) {
+		$favorieten_toevoegen_button="favorieten_toevoegen_italissima";
+	} elseif($vars["websitetype"]==3) {
+		$favorieten_toevoegen_button="favorieten_toevoegen_zomerhuisje";
+	} else {
+		$favorieten_toevoegen_button="favorieten_toevoegen";
+	}
+	echo html("geenfavorieten","favorieten",array("h_1"=>"<img style=\"vertical-align:middle;\" src=\"".$vars["path"]."pic/".$favorieten_toevoegen_button.".png\" width=\"13\" height=\"13\" border=\"0\"> <u>","h_2"=>"</u>"));
+}
+
 ?>
