@@ -10,6 +10,7 @@
 		display:none;
 	}
 }
+
 .LeesMeerChalet {
 	
 	background-color:#003366;
@@ -62,4 +63,8 @@
 }.LessmeerZomerItalissima:active {
 	position:relative;
 	top:1px;
+}
+
+#favorietenopsomming {
+	min-height: 550px;
 }

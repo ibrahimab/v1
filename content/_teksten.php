@@ -1390,7 +1390,9 @@ $txt["en"]["contact"]["contactformulier"]="Contact Form";
 $txt["nl"]["contact"]["linkniettoegestaan"]="een link invullen is niet toegestaan";
 $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 
-#favorieten pagina
+#
+# Favorieten (http://www.chalet.nl/favorieten.php)
+#
 $txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
 $txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved here. This enables you to comapare, share and print them.";
 
@@ -1424,7 +1426,17 @@ $txt["en"]["favorieten"]["inhoudprinten"]="Print";
 $txt["nl"]["favorieten"]["buttonLeesmeer"]="Lees meer";
 $txt["en"]["favorieten"]["buttonLeesmeer"]="Read more";
 
-#accommodatie doormail functie
+$txt["nl"]["favorieten"]["versturen"]="Versturen";
+$txt["en"]["favorieten"]["versturen"]="Send";
+
+$txt["nl"]["favorieten"]["annuleren"]="Annuleren";
+$txt["en"]["favorieten"]["annuleren"]="Cancel";
+
+
+
+#
+# Accommodatie doormail functie
+#
 $txt["nl"]["favorieten"]["midcontentTextChalet"]="Ik heb een leuk chalet/appartement gevonden op Chalet.nl. Dit moet je zien!";
 $txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/apartments on Chalet.nl. You have to see this!";
 

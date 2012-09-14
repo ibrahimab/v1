@@ -925,6 +925,19 @@ function favorieten_opslaan_verwijderen(typeid, action) {
 			} else if(action=="delete") {
 				$("#favadd").css("display","inline");
 				$("#favremove").css("display","none");
+
+				if($("#fav_table_"+typeid).length!=0) {
+					// favorietenpagina: fadeOut van het accommodatieblok
+					$("#fav_table_"+typeid).fadeTo("slow",0,function() {
+//						$("#terugnaarboven").css("visibility","hidden");
+						$("#fav_table_"+typeid).slideUp("normal", function() {
+							if(data.aantal==0) {
+								// indien pagina hierna leeg is: herladen (zodat melding getoond kan worden)
+								location.reload();
+							}
+						});
+					});
+				}
 			}
 		}
 	});

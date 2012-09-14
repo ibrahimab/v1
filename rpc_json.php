@@ -187,11 +187,9 @@ if($_GET["t"]==1) {
 	# Favorietenfunctie
 	#
 	if($_GET["action"]=="insert") {
-		$typeID=$_GET["typeid"];
-		$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime)VALUES('".addslashes($_COOKIE["sch"])."','".addslashes($typeID)."',NOW());");
+		$db->query("INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime) VALUES ('".addslashes($_COOKIE["sch"])."','".addslashes($_GET["typeid"])."',NOW());");
 	} elseif($_GET["action"]=="delete") {
-		$typeID=$_GET["typeid"];
-		$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' AND type_id='".addslashes($typeID)."';");
+		$db->query("DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' AND type_id='".addslashes($_GET["typeid"])."';");
 	}
 
 	$db->query("SELECT COUNT(b.type_id) AS aantal FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
