@@ -1,5 +1,4 @@
 <?php
-
 if($vars["seizoentype"]==2) {
 	# Zomer
 } else {
@@ -31,7 +30,22 @@ if($vars["seizoentype"]==2) {
 		echo "</tr></table>";
 	}
 	
-	echo "<div style=\"margin-top:5px;\">".nl2br(htmlentities($landinfo["omschrijving"]))."</div>";;
+	echo "<div style=\"margin-top:5px;\">".nl2br(htmlentities($landinfo["omschrijving"]))."</div>";
+		echo "<div style=\"clear: both;\"></div>\n";
+	if($landinfo["id"]) {
+		if($landinfo["omschrijving_openklap"]) {
+			# Openklap-tekst (omschrijving_openklap)
+			echo "<div style=\"margin-left:0px;margin-right:10px;margin-bottom:10px\">";
+			echo "<a href=\"#\" id=\"land_omschrijving_openklappen\" class=\"land_omschrijving_openklappen\">Lees verder &raquo;</a>";
+			echo "<div id=\"land_omschrijving_afgebrokendeel\">";
+			echo htmlentities_uitgebreid(trim($landinfo["omschrijving_openklap"]));
+			echo "<a href=\"#\" class=\"land_omschrijving_openklappen\">Dichtklappen &laquo;</a>";
+			echo "</div>";
+			echo "</div>";
+		}
+
+#		echo "<div style=\"margin-left:10px;margin-top:10px;margin-bottom:15px;font-weight:bold;\"><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=".$landinfo["id"]."-0&fap=0&fas=0&fad=0&fdu=0\">Toon lijst met alle vakantiehuizen in ".wt_he($landinfo["naam"])." &raquo;</a></div>";
+	}
 
 }
 
@@ -313,3 +327,17 @@ if($vars["seizoentype"]==2 and ($themalandinfo["naam"]=="Frankrijk" or $themalan
 }
 
 ?>
+<script>
+//landen omschrijving lees meer knop
+$(".land_omschrijving_openklappen").click(function(e) {
+	e.preventDefault();
+	$("#land_omschrijving_openklappen").html("");
+	$("#land_omschrijving_afgebrokendeel").slideToggle("slow",function() {
+		if($("#land_omschrijving_afgebrokendeel").is(":hidden")) {
+			$("#land_omschrijving_openklappen").html("Lees verder &raquo;");
+		} else {
+			$("#land_omschrijving_openklappen").html("Dichtklappen &laquo;");
+		}
+	});
+});
+</script>
