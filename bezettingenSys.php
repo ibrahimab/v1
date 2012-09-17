@@ -1,6 +1,7 @@
 <?php
-
+session_start();
 //$mustlogin=true;
+
 $vars["verberg_linkerkolom"]=true;
 $vars["verberg_lastacc"]=true;
 $vars["verberg_zoekenboeklinks"]=true;
@@ -12,5 +13,4 @@ require_once("excel/Classes/PHPExcel.php");
 include("admin/vars.php");
 
 include "content/opmaak.php";
-
 ?>
