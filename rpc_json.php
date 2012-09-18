@@ -190,7 +190,7 @@ if ( $_GET["t"]==1 ) {
 	// Favorietenfunctie
 	//
 	if ( $_GET["action"]=="insert" ) {
-		$db->query( "INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime) VALUES ('".addslashes( $_COOKIE["sch"] )."','".addslashes( $_GET["typeid"] )."',NOW());" );
+		$db->query( "INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime, editdatetime) VALUES ('".addslashes( $_COOKIE["sch"] )."','".addslashes( $_GET["typeid"] )."',NOW(), NOW());" );
 	} elseif ( $_GET["action"]=="delete" ) {
 		$db->query( "DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes( $_COOKIE["sch"] )."' AND type_id='".addslashes( $_GET["typeid"] )."';" );
 	}

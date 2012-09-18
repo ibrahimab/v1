@@ -359,8 +359,44 @@ if($vars["leverancier_mustlogin"]) {
 	}
 }
 
-#echo $taal;
-#exit;
+# 80.101.166.235 = kantoor verbinding 1
+# 213.125.164.75 = kantoor verbinding 2
+# 82.93.130.238  = Bert thuis
+# 82.173.186.80  = WebTastic
+# 82.173.186.80  = WebTastic 2
+# 172.16.1.10    = t.b.v. testserver
+# 172.16.1.35    = t.b.v. testserver (laptop)
+# 127.0.0.1	 = t.b.v. testserver (Miguel)
+$vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.75","82.93.130.238","82.173.186.80","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
+
+# Geldigheidsduur intern FLC-cookie verlengen
+if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
+
+	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
+		if($_SERVER["REMOTE_ADDR"]=="80.101.166.235" or $_SERVER["REMOTE_ADDR"]=="213.125.164.75") {
+			# binnen kantoor
+		} else {
+			# buiten kantoor
+			if($_SERVER["HTTPS"]=="on") {
+				ini_set("session.cookie_secure",1);
+			} elseif(!$_POST) {
+				header("Location: https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+				exit;
+			}
+		}
+	}
+
+	$voorkant_cms=true;
+	$vars["annverzekering_mogelijk"]=1;
+	$vars["reisverzekering_mogelijk"]=1;
+	if(in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
+		$cookie_expire=mktime(3,0,0,date("m"),date("d"),date("Y")+1);
+	} else {
+		$cookie_expire=0;
+	}
+	setcookie("flc",substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8),$cookie_expire,"/");
+}
+
 
 if($vars["nieuwevormgeving"]) {
 
@@ -840,18 +876,6 @@ $vars["aanbieding_soort"]=array(1=>txt("gewoneaanbieding","vars"),2=>txt("lastmi
 $vars["aanbieding_soort_cms"]=array(1=>"Aanbieding met toelichting voor bezoeker",2=>"Aanbieding zonder toelichting (= gewoon korting)");
 $vars["bedrag_soort"]=array(1=>"Korting in euro's",2=>"Kortingspercentage",3=>"Exact bedrag",4=>"Geen bedrag (handmatige verwerking)");
 
-#$vars["vertrouwde_ips"]=array("84.80.91.23","82.93.130.238","82.173.186.80","82.157.130.166","213.125.164.75","80.101.166.235","172.16.1.10","SELINA_NU_NIET_94.210.180.59","194.109.6.13","80.61.78.127");
-
-# 80.101.166.235 = kantoor verbinding 1
-# 213.125.164.75 = kantoor verbinding 2
-# 82.93.130.238  = Bert thuis
-# 82.173.186.80  = WebTastic
-# 82.173.186.80  = WebTastic 2
-# 172.16.1.10    = t.b.v. testserver
-# 172.16.1.35    = t.b.v. testserver (laptop)
-# 127.0.0.1	 = t.b.v. testserver (Miguel)
-$vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.75","82.93.130.238","82.173.186.80","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
-
 $vars["xml_type"]=array(1=>"Huetten (1)",2=>"Alpenchalets Ski France (2)",3=>"France Reisen Ski France (3)",4=>"CGH (4)",5=>"Pierre & Vacances (5)",6=>"Frosch (6)",7=>"CIS / Bellecôte Chalets (VVE) (7)",8=>"Posarelli Villas (8)",9=>"Maisons Vacances Ann Giraud (9)",10=>"CIS Immobilier (10)",11=>"Odalys Résidences (11)",12=>"Deux Alpes Voyages (12)",13=>"Eurogroup (13)",14=>"Marche Holiday (14)",15=>"Des Neiges (15)",16=>"Almliesl (16)",17=>"Alpin Rentals Kaprun (17)",18=>"Agence des Belleville (18)");
 asort($vars["xml_type"]);
 
@@ -912,34 +936,6 @@ $vars["aanbetaling1_dagennaboeken"]=10;
 $vars["totale_reissom_dagenvooraankomst"]=42;
 $vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
 $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js";
-
-# Geldigheidsduur intern FLC-cookie verlengen
-if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
-
-	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
-		if($_SERVER["REMOTE_ADDR"]=="80.101.166.235" or $_SERVER["REMOTE_ADDR"]=="213.125.164.75" or $_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
-			# binnen kantoor
-		} else {
-			# buiten kantoor
-			if($_SERVER["HTTPS"]=="on") {
-				ini_set("session.cookie_secure",1);
-			} elseif(!$_POST) {
-				header("Location: https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-				exit;
-			}
-		}
-	}
-
-	$voorkant_cms=true;
-	$vars["annverzekering_mogelijk"]=1;
-	$vars["reisverzekering_mogelijk"]=1;
-	if(in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
-		$cookie_expire=mktime(3,0,0,date("m"),date("d"),date("Y")+1);
-	} else {
-		$cookie_expire=0;
-	}
-	setcookie("flc",substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8),$cookie_expire,"/");
-}
 
 if($boeking_wijzigen) {
 	# Login-class klanten
