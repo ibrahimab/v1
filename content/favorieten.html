@@ -1,47 +1,79 @@
 <script type="text/javascript">
 
+
+var RecaptchaOptions = {
+	theme : 'clean'
+ };
+
 function controlEnSend() {
-	if(document.getElementById("verzenderAdres").value == "") {
-		//window.alert("OK");
-		document.getElementById("errorLabel").style.backgroundColor = 'red';
-		document.getElementById("errorLabel").style.color = 'white';
-		document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresnietingevuld","favorieten"); ?>";
-	} else if(!validateEmail(document.getElementById("verzenderAdres").value)) {
-		document.getElementById("errorLabel").style.backgroundColor = 'red';
-		document.getElementById("errorLabel").style.color = 'white';
-		document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresnietcorrect","favorieten"); ?>";
-	} else if(document.getElementById("EmailOntvanger").value == "") {
-		//window.alert("OK");
-		document.getElementById("errorLabel").style.backgroundColor = 'red';
-		document.getElementById("errorLabel").style.color = 'white';
-		document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresnietingevuld","favorieten"); ?>";
-	} else {
-		var container = document.getElementById("EmailOntvanger").value;
-		var checkBox=document.getElementById("jaNee");
-		var kopie="nee"
-		if(checkBox.checked) {
-			container = container+" "+document.getElementById("verzenderAdres").value;
-			kopie="ja";
-		}
-		var emailAdressen = container.split(" ");
-		errors=0;
-		for(var i =0; i < emailAdressen.length; i++) {
-			if(!validateEmail(emailAdressen[i])){
+
+	// ReCAPTCHA testen via rpc_json
+	var recaptcha_ok=false;
+	$.getJSON(absolute_path+"rpc_json.php", {
+		"t": 6,
+		"recaptcha_response_field": $('#recaptcha_response_field').val(),
+		"recaptcha_challenge_field": $('#recaptcha_challenge_field').val(),
+	}, function(data) {
+		if(data.ok) {
+
+			if(data.recaptcha_ok) {
+				var recaptcha_ok=true;
+			}
+
+			// errorLabel leegmaken
+			document.getElementById("errorLabel").innerHTML="";
+			document.getElementById("errorLabel").style.backgroundColor = '#ffffff';
+
+			if(document.getElementById("verzenderAdres").value == "") {
 				document.getElementById("errorLabel").style.backgroundColor = 'red';
 				document.getElementById("errorLabel").style.color = 'white';
-				document.getElementById("errorLabel").innerHTML = emailAdressen[i] + " <?php echo html("geengeldigmailadres","favorieten"); ?>";
-				errors++;
-			} 
+				document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresnietingevuld","favorieten"); ?>";
+			} else if(!validateEmail(document.getElementById("verzenderAdres").value)) {
+				document.getElementById("errorLabel").style.backgroundColor = 'red';
+				document.getElementById("errorLabel").style.color = 'white';
+				document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresnietcorrect","favorieten"); ?>";
+			} else if(document.getElementById("EmailOntvanger").value == "") {
+				document.getElementById("errorLabel").style.backgroundColor = 'red';
+				document.getElementById("errorLabel").style.color = 'white';
+				document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresontvangernietingevuld","favorieten"); ?>";
+			} else {
+				var container = document.getElementById("EmailOntvanger").value;
+				var checkBox=document.getElementById("jaNee");
+				var kopie="nee"
+				if(checkBox.checked) {
+					container = container+" "+document.getElementById("verzenderAdres").value;
+					kopie="ja";
+				}
+
+				var emailAdressen = container.split(" ");
+				errors=0;
+				for(var i =0; i < emailAdressen.length; i++) {
+					if(!validateEmail(emailAdressen[i])) {
+						document.getElementById("errorLabel").style.backgroundColor = 'red';
+						document.getElementById("errorLabel").style.color = 'white';
+						document.getElementById("errorLabel").innerHTML = emailAdressen[i] + " <?php echo html("geengeldigmailadres","favorieten"); ?>";
+						errors++;
+					}
+				}
+				if(errors==0) {
+					if(recaptcha_ok===true) {
+						document.getElementById("verzenden").disabled=true;
+						document.getElementById("Annuleren").disabled=true;
+						ajaxMailFunction(kopie);
+						Recaptcha.reload();
+					} else {
+						document.getElementById("errorLabel").style.backgroundColor = 'red';
+						document.getElementById("errorLabel").style.color = 'white';
+						document.getElementById("errorLabel").innerHTML = "<?php echo html("recaptchanietcorrect","favorieten"); ?>";
+						Recaptcha.reload();
+					}
+				}
+			}
 		}
-		if(errors==0){
-			document.getElementById("verzenden").disabled=true;
-			document.getElementById("Annuleren").disabled=true;
-			ajaxMailFunction(kopie);
-		}
-	}
+	});
 }
 
-function ajaxMailFunction(welOfgeenKopie){
+function ajaxMailFunction(welOfgeenKopie) {
 	var ajaxRequest;  // The variable that makes Ajax possible!
 	try{
 		ajaxRequest = new XMLHttpRequest();
@@ -52,13 +84,13 @@ function ajaxMailFunction(welOfgeenKopie){
 			try{
 				ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
 			}catch (e){
-					alert("Your browser broke!");
+					alert("error");
 					return false;
 			}
 		}
 	}
-	ajaxRequest.onreadystatechange = function(){
-		if(ajaxRequest.readyState == 4){
+	ajaxRequest.onreadystatechange = function() {
+		if(ajaxRequest.readyState == 4) {
 			document.getElementById("errorLabel").style.backgroundColor = 'white';
 			document.getElementById("errorLabel").style.color = 'black';
 			document.getElementById('errorLabel').innerHTML='<?php echo html("emailszijnverzonden","favorieten"); ?>';
@@ -88,130 +120,129 @@ function ajaxMailFunction(welOfgeenKopie){
 
 if(isset($_GET["verzenderAdres"])&& $_GET["action"]=="mailDoor") {
 
-	$db->query("SELECT DISTINCT b.type_id FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
-	$klantfavs=array();
-	while($db->next_record()){
-		array_push($klantfavs,$db->f("type_id"));
-	}
 
-	unset($mail_content);
-	$mail_content.="<html>";
-	$mail_content.="<head>";
-	$mail_content.="</head>";
-	$mail_content.="<body>";
-	$mail_content.="<div style=\"width:681px; position:absolute; left:10%;\"><!-- kopiemelding -->";
-	$mail_content.="<table style=\"font-family:verdana;color:#003366;\" border=\"0\" width=\"681\"><tr><td>";
-	$mail_content.="<img src=\"".$vars["mail_topfoto"]."\" border=\"0\"></td></tr>";
-	$mail_content.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";\"><br><br>".$_GET["bericht"]."<BR/><BR/><BR/>";
-	$mail_content.="</td></tr>";
-	$mail_content.="</table>";
-#	foreach($klantfavs as $klantfav_id) {
-#	$db->query("SELECT a.accommodatie_id, a.kwaliteit, a.korteomschrijving_en, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($klantfav_id)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
+	if ($_SESSION["recaptcha_ok"]) {
 
-	$db->query("SELECT b.type_id, a.accommodatie_id, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS akorteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.optimaalaantalpersonen, t.maxaantalpersonen, t.slaapkamers,t.badkamers, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied FROM bezoeker_favoriet b, type t, accommodatie a, plaats p, skigebied s, land l WHERE t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND b.bezoeker_id='".addslashes($_COOKIE["sch"])."';");
+		# ReCAPTCHA maximaal 1x geldig
+		unset($_SESSION["recaptcha_ok"]);
 
-	while($db->next_record()) {
-		$accid=$db->f("accommodatie_id");
-		if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
-			$afbeelding="types_specifiek/".$db->f("type_id");
-		} elseif(file_exists("pic/cms/accommodaties/".$accid.".jpg")) {
-			$afbeelding="accommodaties/".$accid;
-		} else {
-			$afbeelding="accommodaties/0";
+		$db->query("SELECT DISTINCT b.type_id FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
+		$klantfavs=array();
+		while($db->next_record()){
+			array_push($klantfavs,$db->f("type_id"));
 		}
-		$mail_content.="<table cellspacing=\"0\" cellpadding=\"0\" width=\"681\" style=\"font-family:verdana;font-size:12px;\">";
-		$mail_content.="<tr><td colspan=\"5\" align=\"left\">";
-		$mail_content.="<a name=\"cnt1\"></a>";
-		$mail_content.="<div style=\"background-color: white; width: 681px;\">";
-		$mail_content.="<div style=\"\">";
-		$mail_content.="<div style=\"background-color:".$vars["balkkleur"].";padding: 5px;\">";
-		$mail_content.="<div style=\"color:".$vars["textColor"].";font-size: 1.2em;font-weight: bold; font-family:verdana;\">";
-		$mail_content.=htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
-		$mail_content.="</div>";
-		$mail_content.="</div>";
 
-		$mail_content.="<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
-		$mail_content.="<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
-		$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana; font-size:14px;\">".$db->f("land")."</td></tr><tr>";
-		$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px\">".$db->f("plaats")."</td></tr><tr>";
-		$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px\">".$db->f("skigebied")."</td></tr><tr>";
-		//if($db->f("kwaliteit")) {
+		unset($mail_content);
+		$mail_content.="<html>";
+		$mail_content.="<head>";
+		$mail_content.="</head>";
+		$mail_content.="<body>";
+		$mail_content.="<div style=\"width:681px; position:absolute; left:10%;\"><!-- kopiemelding -->";
+		$mail_content.="<table style=\"font-family:Verdana, Arial, Helvetica, sans-serif;color:#003366;\" border=\"0\" width=\"681\"><tr><td>";
+		$mail_content.="<img src=\"".$vars["mail_topfoto"]."\" border=\"0\"></td></tr>";
+		$mail_content.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";\"><br><br>".$_GET["bericht"]."<BR/><BR/><BR/>";
+		$mail_content.="</td></tr>";
+		$mail_content.="</table>";
+
+		$db->query("SELECT b.type_id, a.accommodatie_id, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS akorteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.optimaalaantalpersonen, t.maxaantalpersonen, t.slaapkamers,t.badkamers, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied FROM bezoeker_favoriet b, type t, accommodatie a, plaats p, skigebied s, land l WHERE t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND b.bezoeker_id='".addslashes($_COOKIE["sch"])."';");
+
+		while($db->next_record()) {
+			$accid=$db->f("accommodatie_id");
+			if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
+				$afbeelding="types_specifiek/".$db->f("type_id");
+			} elseif(file_exists("pic/cms/accommodaties/".$accid.".jpg")) {
+				$afbeelding="accommodaties/".$accid;
+			} else {
+				$afbeelding="accommodaties/0";
+			}
+			$mail_content.="<table cellspacing=\"0\" cellpadding=\"0\" width=\"681\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">";
+			$mail_content.="<tr><td colspan=\"5\" align=\"left\">";
+			$mail_content.="<div style=\"background-color: white; width: 681px;border:1px solid ".$vars["balkkleur"].";\">";
+			$mail_content.="<div style=\"\">";
+			$mail_content.="<div style=\"background-color:".$vars["balkkleur"].";padding: 5px;\">";
+			$mail_content.="<div style=\"color:".$vars["textColor"].";font-size: 1.2em;font-weight: bold; font-family:Verdana, Arial, Helvetica, sans-serif;\">";
+			$mail_content.=htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
+			$mail_content.="</div>";
+			$mail_content.="</div>";
+
+			$mail_content.="<table style=\"display:inline-table;\" font-family:Verdana, Arial, Helvetica, sans-serif;\" text-align=\"left\" border=\"0\" width=\"100%\">";
+			$mail_content.="<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
+			$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px;\">".$db->f("land")."</td></tr><tr>";
+			$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("plaats")."</td></tr><tr>";
+			$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("skigebied")."</td></tr><tr>";
 			$mail_content.="<td colspan=\"2\">";
 			for($i=0; $i<$db->f("kwaliteit");$i++) {
 				//$mail_content.="test";
 				$mail_content.="<img src=\"".$vars["basehref"]."pic/ster.gif\">";
 			}
-		//}
-		//else{
-		//	$mail_content.="<td colspan=\"2\" height=\"5\" style=\"font-family:verdana;\"></td>";
-		//}
 
-		$mail_content.="</td></tr>";
+			$mail_content.="</td></tr>";
 
-		unset($korteomschrijving);
-		if($db->f("akorteomschrijving") or $db->f("tkorteomschrijving")) {
-			if($db->f("tkorteomschrijving")) {
-				$korteomschrijving=$db->f("tkorteomschrijving");
-			} else {
-				$korteomschrijving=$db->f("akorteomschrijving");
+			unset($korteomschrijving);
+			if($db->f("akorteomschrijving") or $db->f("tkorteomschrijving")) {
+				if($db->f("tkorteomschrijving")) {
+					$korteomschrijving=$db->f("tkorteomschrijving");
+				} else {
+					$korteomschrijving=$db->f("akorteomschrijving");
+				}
 			}
-		}
 
-		$mail_content.="<td valign=\"top\" width=\"100%\" colspan=\"2\" style=\"font-family:verdana; color:".$vars["korteOmschrijvinkleur"].";font-size:12px;\"><i>".wt_he($korteomschrijving)."</i></td></tr><tr>";
-		if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")) {
-			$rev=$db->f("optimaalaantalpersonen");
-		} else {
-			$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
+			$mail_content.="<td valign=\"top\" width=\"100%\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif; color:".$vars["korteOmschrijvinkleur"].";font-size:12px;\"><i>".wt_he($korteomschrijving)."</i></td></tr><tr>";
+			if($db->f("optimaalaantalpersonen")==$db->f("maxaantalpersonen")) {
+				$rev=$db->f("optimaalaantalpersonen");
+			} else {
+				$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
+			}
+			$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".$rev." ".html("personen")."</td></tr><tr>";
+			$mail_content.="<td valign=\"top\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("slaapkamers")." ".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."text-decoration:none;\" href=\"".wt_he($vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/")."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
+			$mail_content.="<td style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("badkamers")." ".($db->f("badkamers")==1 ? html("badkamer") : html("badkamers"))."</td></tr>";
+			$mail_content.="</table>";
+			$mail_content.= "<br />";
+			$mail_content.="</div>";
+			$mail_content.="</td></tr>";
+			$mail_content.="</table>";
+			$mail_content.="<br />";
 		}
-		$mail_content.="<td valign=\"top\" colspan=\"2\" style=\"font-family:verdana;font-size:12px;\">".$rev." ".html("personen")."</td></tr><tr>";
-		$mail_content.="<td valign=\"top\" style=\"font-family:verdana;font-size:12px\">".$db->f("slaapkamers")." ".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."text-decoration:none;\" href=\"".wt_he($vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/")."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
-		$mail_content.="<td style=\"font-family:verdana;font-size:12px\">".$db->f("badkamers")." ".($db->f("badkamers")==1 ? html("badkamer") : html("badkamers"))."</td></tr>";
-		$mail_content.="</table>";
-		$mail_content.= "<BR/>";
 		$mail_content.="</div>";
-		$mail_content.="</td></tr>";
-		$mail_content.="</table>";
-		$mail_content.="<BR>";
-	}
-	$mail_content.="</div>";
-	$mail_content.="</body>";
-	$mail_content.="</html>";
+		$mail_content.="</body>";
+		$mail_content.="</html>";
 
-	$emails = explode(" ", $_GET["EmailOntvanger"]);
-	for($i = 0; $i<sizeof($emails); $i++) {
+		$emails = explode(" ",$_GET["EmailOntvanger"]);
+		for($i = 0; $i<sizeof($emails); $i++) {
 
-		$mail=new wt_mail;
-		$mail->fromname=$_GET["verzenderAdres"];
-		$mail->from=$_GET["verzenderAdres"];
-		$mail->toname=$_GET[""];
-		$mail->subject=$onderwerpText;
-		$mail->to=$emails[$i];
-		$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-		$mail->html_top="";
-		$mail->html_bottom="";
-		$mail->html=$mail_content;
-		$mail->send();
-	}
+			$mail=new wt_mail;
+			$mail->fromname=$_GET["verzenderAdres"];
+			$mail->from=$_GET["verzenderAdres"];
+			$mail->toname=$_GET[""];
+			$mail->subject=$onderwerpText;
+			$mail->to=$emails[$i];
+			$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
+			$mail->html_top="";
+			$mail->html_bottom="";
+			$mail->html=$mail_content;
+			$mail->send();
+		}
 
-	if($_GET["kopie"]=="ja") {
-		#
-		# Kopie naar afzender sturen
-		#
-		$mail=new wt_mail;
-		$mail->fromname=$_GET["verzenderAdres"];
-		$mail->from=$_GET["verzenderAdres"];
-		$mail->toname=$_GET[""];
-		$mail->subject=$onderwerpText;
-		$mail->to=$_GET["verzenderAdres"];
+		if($_GET["kopie"]=="ja") {
+			#
+			# Kopie naar afzender sturen
+			#
+			$mail=new wt_mail;
+			$mail->fromname=$_GET["verzenderAdres"];
+			$mail->from=$_GET["verzenderAdres"];
+			$mail->toname=$_GET[""];
+			$mail->subject=$onderwerpText;
+			$mail->to=$_GET["verzenderAdres"];
 
-		$mail->html_top="";
-		$mail->html_bottom="";
+			$mail->html_top="";
+			$mail->html_bottom="";
 
-		# melding over kopie toevoegen
-		$mail_content=str_replace("<!-- kopiemelding -->","<table style=\"font-family:verdana;color:#003366;\" border=\"0\" width=\"681\"><tr><td><i>".html("kopie", "favorieten")." ".wt_he($vars["websitenaam"])."</i><br/><br><br></td></tr><tr><td>",$mail_content);
+			# melding over kopie toevoegen
+			$mail_content=str_replace("<!-- kopiemelding -->","<table style=\"font-family:Verdana, Arial, Helvetica, sans-serif;color:#003366;\" border=\"0\" width=\"681\"><tr><td><i>".html("kopie", "favorieten")." ".wt_he($vars["websitenaam"])."</i><br/><br><br></td></tr><tr><td>",$mail_content);
 
-		$mail->html=$mail_content;
-		$mail->send();
+			$mail->html=$mail_content;
+			$mail->send();
+		}
 	}
 }
 
@@ -232,9 +263,16 @@ if($db->num_rows()) {
 	echo "<div class=\"mailForm_veldnaam\">".html("LabelNaar","favorieten")."</div>";
 	echo "<div class=\"mailForm_veld\"><input type=\"text\" name=\"EmailOntvanger\" id=\"EmailOntvanger\" size=\"56\" /></div>";
 	echo "<div class=\"mailForm_veldnaam\">".html("LabelBericht","favorieten")."</div>";
-	echo "<div class=\"mailForm_veld\"><textarea style=\"font-family:verdana; font-size:12px;\" name=\"presentatiebericht\" rows=\"5\" cols=\"50\" id=\"presentatiebericht\" />".$doormailText."</textarea></div>";
-	echo "<div class=\"mailForm_veld\"><input type=\"checkbox\" name=\"jaNee\" id=\"jaNee\"/><label for=\"jaNee\"> ".html("stuurkopie","favorieten")."</label>";
-	echo "</div>";
+	echo "<div class=\"mailForm_veld\"><textarea style=\"font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px;\" name=\"presentatiebericht\" rows=\"5\" cols=\"50\" id=\"presentatiebericht\" />".$doormailText."</textarea></div>";
+
+	# ReCAPTCHA
+	require_once($vars["unixdir"]."admin/recaptchalib.php");
+	echo "<div class=\"mailForm_veldnaam\">".html("recaptcha_uitleg","favorieten")."</div>";
+	echo "<div class=\"mailForm_veld\">".recaptcha_get_html($vars["recaptcha_publickey"])."</div>";
+
+	echo "<div class=\"mailForm_veld\"><input type=\"checkbox\" name=\"jaNee\" id=\"jaNee\"/><label for=\"jaNee\"> ".html("stuurkopie","favorieten")."</label></div>";
+
+
 	echo "<div class=\"mailForm_veldnaam\"><input type=\"button\" name=\"verzenden\" id=\"verzenden\" onclick=\"controlEnSend();\" value=\"".html("versturen","favorieten")."\" />&nbsp;";
 	echo "<input type=\"button\" name=\"Annuleren\" id=\"Annuleren\" value=\"".html("annuleren","favorieten")."\" /></div>";
 	echo "</form>";
@@ -262,7 +300,7 @@ if($db->num_rows()) {
 		echo "</div>"; # afsluiten .zoekresultaat_top
 		echo "</div>"; # afsluiten .zoekresultaat_titel
 
-		echo "<table style=\"display:inline-table;\" font-family:verdana;\" text-align=\"left\" border=\"0\" width=\"100%\">";
+		echo "<table style=\"display:inline-table;\" font-family:Verdana, Arial, Helvetica, sans-serif;\" text-align=\"left\" border=\"0\" width=\"100%\">";
 		echo "<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
 		echo "<td colspan=\"2\" style=\"font-size:14px;\">".$db->f("land")."</td></tr><tr>";
 		echo "<td colspan=\"2\">".$db->f("plaats")."</td></tr><tr>";

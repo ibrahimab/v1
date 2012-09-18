@@ -4,7 +4,7 @@ if(!$cron and !$css) {
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
 
-# diverse $vars 
+# diverse $vars
 # zoekvolgorde mag maximaal 8 zijn
 $vars["zoekvolgorde"]=array(1=>"Categorie 1 (hoogst)",2=>"Categorie 2 (hoger)",3=>"Categorie 3 (neutraal)",4=>"Categorie 4 (lager)",5=>"Categorie 5 (laagst)");
 $vars["wt_htmlentities_cp1252"]=true;
@@ -81,7 +81,7 @@ if($_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="www3.chale
 	if($_SERVER["WINDIR"]) {
 		$mysqlsettings["name"]["remote"]="dbtest_chalet";	# Databasenaam bij provider
 	} else {
-		$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider	
+		$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider
 	}
 	$mysqlsettings["user"]="chaletdb";		# Username bij provider
 	$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
@@ -278,7 +278,7 @@ if($vars["wederverkoop"]) {
 						$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent.php\">".html("hoofdmenu_reisagent")."</a>";
 					}
 #					$helemaalboven=htmlentities($db->f("naam"))."&nbsp;&nbsp;<a href=\"".$vars["path"]."reisagent.php?logout=45\">".htmlentities($login_rb->vars["voornaam"])." uitloggen</a>&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php\">".html("overzichtboekingen")."</a>";
-					
+
 #					Overzicht actuele boekingen
 #					$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php?calculations=1\">".html("overzichtprijsberekeningen")."</a>";
 #					$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php?mijngeg=1\">".html("mijngegevens_reisagent")."</a>";
@@ -289,7 +289,7 @@ if($vars["wederverkoop"]) {
 				$vars["chalettour_naam"]=$db->f("naam");
 				$vars["chalettour_reisagentnaam"]=wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"]);
 				$vars["chalettour_telefoonnummer"]=$db->f("telefoonnummer");
-				
+
 				$vars["wederverkoop_beschikbaarheid_inzien"]=$db->f("beschikbaarheid_inzien");
 
 # Tijdelijk uitgezet (op verzoek van Bert). - 23 juni 2010 - weer aangezet in september
@@ -324,7 +324,7 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["extra_unsafe_cookie"]="levli"; # ReisBureauLogIn
 		$login_lev->settings["mustlogin"]=true;
 		$login_lev->settings["salt"]=$vars["salt"];
-		
+
 		if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
 			$login_lev->settings["mustlogin_via_https"]=true;
 		}
@@ -347,14 +347,14 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["save_user_agent"]=true;
 		$login_lev->settings["recheck_userdata"]=true;
 		$login_lev->end_declaration();
-		
+
 		if($login_lev->logged_in) {
-			
+
 			if($login_lev->vars["inlog_taal"]=="en") {
 				# zorgen voor koptekst in de juiste taal
 				$txta["nl"]["title_lev_login"]=$txta["en"]["title_lev_login"];
 			}
-			
+
 		}
 	}
 }
@@ -381,12 +381,12 @@ if($vars["nieuwevormgeving"]) {
 		$submenu["reisagent"]=txt("submenutitle_reisagent");
 #		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		if($_GET["testsysteem"] or $vars["lokale_testserver"]) {
+		if($_GET["testsysteem"] or $vars["lokale_testserver"] or $voorkant_cms) {
 			$submenu["favorieten"]=txt("submenutitle_favorieten");
 		}
 		//$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"]) {
+		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"] and !$voorkant_cms) {
 			$submenu["sitemap"]=txt("submenutitle_sitemap");
 		}
 	} elseif($vars["seizoentype"]==2) {
@@ -400,7 +400,7 @@ if($vars["nieuwevormgeving"]) {
 		$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
 		$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 		$menu["contact"]=txt("menutitle_contact");
-	
+
 		if($vars["wederverkoop"]) {
 			if(!$vars["chalettour_logged_in"]) {
 				$submenu["inloggen"]=txt("submenutitle_inloggen");
@@ -409,17 +409,17 @@ if($vars["nieuwevormgeving"]) {
 		} else {
 			$submenu["inloggen"]=txt("submenutitle_inloggen");
 		}
-		
+
 		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 
 	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		if($_GET["testsysteem"] or $vars["lokale_testserver"]) {
+		if($_GET["testsysteem"] or $vars["lokale_testserver"] or $voorkant_cms) {
 			$submenu["favorieten"]=txt("submenutitle_favorieten");
 		}
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"]) {
+		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"] and !$voorkant_cms) {
 			$submenu["sitemap"]=txt("submenutitle_sitemap");
 		}
 		$submenu["chaletwinter"]=txt("submenutitle_chaletwinter");
@@ -451,7 +451,7 @@ if($vars["nieuwevormgeving"]) {
 		$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
 		$menu["weekendski"]=txt("menutitle_weekendski");
 		$menu["contact"]=txt("menutitle_contact");
-	
+
 		if($vars["wederverkoop"]) {
 			if(!$vars["chalettour_logged_in"]) {
 				$submenu["inloggen"]=txt("submenutitle_inloggen");
@@ -460,12 +460,12 @@ if($vars["nieuwevormgeving"]) {
 		} else {
 			$submenu["inloggen"]=txt("submenutitle_inloggen");
 		}
-		
+
 		if(!$vars["wederverkoop"]) {
 			$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		}
 	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
-		if($_GET["testsysteem"] or $vars["lokale_testserver"]) {
+		if($_GET["testsysteem"] or $vars["lokale_testserver"] or $voorkant_cms) {
 			$submenu["favorieten"]=txt("submenutitle_favorieten");
 		}
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
@@ -475,7 +475,7 @@ if($vars["nieuwevormgeving"]) {
 		//}
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 		//deze submenu(sitemap) moet nog naar de footer worden verplaatst.
-		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"]) {
+		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"] and !$voorkant_cms) {
 			$submenu["sitemap"]=txt("submenutitle_sitemap");
 		}
 		$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
@@ -485,7 +485,7 @@ if($vars["nieuwevormgeving"]) {
 #	$bold2="</b>";
 
 } else {
-	
+
 	$bold1="<b>";
 	$bold2="</b>";
 
@@ -693,7 +693,8 @@ $vars["geslacht"]=array(1=>txt("man","vars"),2=>txt("vrouw","vars"));
 $vars["verzendmethode_reisdocumenten"]=array(1=>txt("email","vars"),2=>txt("post","vars"));
 $vars["blogcategorie_italissima"]=array(1=>"eten & drinken",2=>"tradities & feestdagen",3=>"kunst & cultuur",4=>"mode & design",5=>"films",6=>"Overig",7=>"levenstijl");
 
-
+$vars["recaptcha_publickey"]="6LdyodYSAAAAAORWNxjHjtO7q76k38LP7eQpYzg9";
+$vars["recaptcha_privatekey"]="6LdyodYSAAAAAIVrp5gAZBhBygsy1KObuX6XAM-W";
 
 $vars["vertrekdagtypes_soorten"]=array(1=>"unieke afwijkdagen",3=>"zaterdag-zaterdag",2=>"zondag-zondag");
 
@@ -928,7 +929,7 @@ if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["l
 			}
 		}
 	}
-	
+
 	$voorkant_cms=true;
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
@@ -971,15 +972,15 @@ if($boeking_wijzigen) {
 	} else {
 		$login->settings["message"]["wronglogintemp"]="Account blocked: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">read more</a>";
 	}
-	
+
 	if($vars["taal"]=="en") {
 		$login->settings["message"]["login"]="Email address";
 	} else {
-		$login->settings["message"]["login"]="E-mailadres";	
+		$login->settings["message"]["login"]="E-mailadres";
 	}
 	$login->settings["save_user_agent"]=true;
 	$login->end_declaration();
-		
+
 	# Om welke wederverkoop-boeking gaat het?
 	if($vars["wederverkoop"] and $login_rb->logged_in and $_GET["bid"]) {
 
@@ -1058,9 +1059,9 @@ if($boeking_wijzigen) {
 		$login->settings["sysop"]="<a href=\"http://www.webtastic.nl/6.html\">WebTastic</a>";
 		$login->settings["save_user_agent"]=true;
 		$login->settings["salt"]=$vars["salt"];
-		
+
 		$login->end_declaration();
-		
+
 		if(!$helemaalboven and !$_GET["cmsuit"]) {
 			if($vars["nieuwevormgeving"]) {
 				$helemaalboven="Intern ingelogd: ".htmlentities($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://www.chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
@@ -1072,7 +1073,7 @@ if($boeking_wijzigen) {
 				$helemaalboven.="</span>";
 			}
 		}
-		
+
 		if($vars["chalettour_logged_in"] and $login->logged_in and !$css) {
 			$login_rb->logout();
 			trigger_error("dubbele login (CMS en reisagent)",E_USER_NOTICE);
@@ -1080,7 +1081,7 @@ if($boeking_wijzigen) {
 			exit;
 		}
 	}
-	
+
 	#
 	# Voorkant website
 	#
@@ -1099,13 +1100,13 @@ if($boeking_wijzigen) {
 			while($timeteller<=$db->f("eind")) {
 				$vars["aankomstdatum"][$timeteller]=datum("DAG D MAAND JJJJ",$timeteller,$vars["taal"]);
 				$vars["aankomstdatum_kort"][$timeteller]=datum("D MAAND JJJJ",$timeteller,$vars["taal"]);
-	
+
 				# aankomstdatum_weekend vullen (alleen indien niet langer dan 8 dagen geleden)
 				if($timeteller>=time()-691200) {
 					$vars["aankomstdatum_weekend"][$timeteller]=txt("weekend","vars")." ".date("j",$timeteller)." ".datum("MAAND JJJJ",$timeteller,$vars["taal"]);
 					$vars["aankomstdatum_weekend_afkorting"][$timeteller]=txt("weekend","vars")." ".date("j",$timeteller)." ".datum("MND JJJJ",$timeteller,$vars["taal"]);
 				}
-	
+
 				$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
 			}
 		}
@@ -1202,19 +1203,19 @@ if($_COOKIE["sch"]) {
 						break;
 					}
 				}
-				$last_acc_html.="<div style=\"clear: both;\"></div>\n";			
+				$last_acc_html.="<div style=\"clear: both;\"></div>\n";
 				$last_acc_html.="</div>"; # afsluiten laatstbekeken_acc_wrapper
 				$last_acc_html.="<div id=\"laatstbekeken_volledigelijst\"><a href=\"".$vars["path"]."saved.php\">".html("laatstbekekenaccommodaties_volledigelijst","index")." &raquo;</a></div>";
 				$last_acc_html.="</div>"; # afsluiten laatstbekeken
-	
+
 				$last_acc_html.="<div style=\"clear: both;\"></div>\n";
 			}
-			
+
 			if($vars["websitetype"]==6) {
 				# "laatst bekeken"-blok (nog) niet tonen op ChaletsInVallandry
 				unset($last_acc_html);
 			}
-			
+
 			#
 			# SPECIAAL voor WSA : mag verwijderd worden zodra WSA van nieuwe vormgeving is voorzien (opmerking geplaatst: 02-09-2011)
 			#

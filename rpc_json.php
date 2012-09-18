@@ -13,8 +13,12 @@ $geen_tracker_cookie=true;
 
 include "admin/vars.php";
 
+session_start();
 
-#wt_mail( "jeroen@webtastic.nl", "rpc_json.php", $_SERVER["REQUEST_URI"] );
+#if($vars["lokale_testserver"]) {
+#	wt_mail( "jeroen@webtastic.nl", "rpc_json.php", "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"] );
+#	exit;
+#}
 
 if ( $_GET["test"] ) {
 
@@ -109,7 +113,6 @@ if ( $_GET["t"]==1 ) {
 		// Bij MSIE 6 en 7: alleen plaatsen uit de actieve regio tonen (vanwege de Javascript-traagheid van die browsers)
 		$andquery.=" AND p.skigebied_id='".intval( $_GET["skigebiedid"] )."'";
 	}
-
 
 	$db->query( "SELECT count(t.type_id) AS aantal, p.plaats_id, p.skigebied_id, p.naam, p.gps_lat, p.gps_long, s.naam AS skigebied FROM plaats p, land l, type t, accommodatie a, skigebied s WHERE p.skigebied_id=s.skigebied_id AND a.weekendski=0 AND t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id".$andquery." GROUP BY p.plaats_id;" );
 	// wt_jabber("boschman@gmail.com",$db->lastquery);
@@ -220,6 +223,26 @@ if ( $_GET["t"]==1 ) {
 		$db->query( "INSERT INTO levgroepkoppeling(leverancier_id, groep_id) VALUES('".addslashes( $_GET["levid"] )."','".addslashes( $_GET["grid"] )."');" );
 		$return["ok"]=true;
 	}
+} elseif ( $_GET["t"]==6 ) {
+	//
+	// Ingevoerde ReCAPTCHA controleren
+	//
+	if($vars["lokale_testserver"]) {
+		$server_remote_addr=file_get_contents("http://www.webtastic.nl/ipadres/direct.php");
+	} else {
+		$server_remote_addr=$_SERVER["REMOTE_ADDR"];
+
+	}
+	require_once($vars["unixdir"]."admin/recaptchalib.php");
+	$resp = recaptcha_check_answer ($vars["recaptcha_privatekey"],
+                                $server_remote_addr,
+                                $_GET["recaptcha_challenge_field"],
+                                $_GET["recaptcha_response_field"]);
+	if ($resp->is_valid) {
+		$return["recaptcha_ok"]=true;
+		$_SESSION["recaptcha_ok"]=true;
+	}
+	$return["ok"]=true;
 }
 
 echo json_encode( $return );

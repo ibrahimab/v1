@@ -1414,8 +1414,11 @@ $txt["en"]["favorieten"]["onderwerpTextChalet"]="My favourite chalets and apartm
 $txt["nl"]["favorieten"]["doormailTextChalet"]="Dit moet je zien! Ik heb een aantal leuke chalets en appartementen gevonden op";
 $txt["en"]["favorieten"]["doormailTextChalet"]="You must see this! I have found some interesting chalets and apartments on";
 
-$txt["nl"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete vakantiehuizen welke jijzelf hebt doorgestuurd op";
+$txt["nl"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete chalets die je hebt doorgestuurd op";
 $txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have send on ";
+
+$txt["nl_z"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete vakantiehuizen die je hebt doorgestuurd op";
+$txt["en_z"]["favorieten"]["kopie"]="-";
 
 $txt["nl"]["favorieten"]["versturenPermail"]="Versturen via email";
 $txt["en"]["favorieten"]["versturenPermail"]="Send by e-mail";
@@ -1447,8 +1450,11 @@ $txt["en"]["favorieten"]["geengeldigmailadres"]="is not a valid email address.";
 $txt["nl"]["favorieten"]["emailszijnverzonden"]="Bedankt, je e-mail(s) zijn verzonden.";
 $txt["en"]["favorieten"]["emailszijnverzonden"]="Your e-mails have been sent. Thank you.";
 
-$txt["nl"]["favorieten"][""]="";
-$txt["en"]["favorieten"][""]="";
+$txt["nl"]["favorieten"]["recaptcha_uitleg"]="Typ de volgende woorden over:";
+$txt["en"]["favorieten"]["recaptcha_uitleg"]="Please type the following words:";
+
+$txt["nl"]["favorieten"]["recaptchanietcorrect"]="De woorden zijn niet correct overgetypt.";
+$txt["en"]["favorieten"]["recaptchanietcorrect"]="The typed words aren't correct.";
 
 $txt["nl"]["favorieten"][""]="";
 $txt["en"]["favorieten"][""]="";
