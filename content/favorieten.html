@@ -28,24 +28,25 @@ function controlEnSend() {
 			kopie="ja";
 		}
 		var emailAdressen = container.split(" ");
+		
+		errors=0;
 		for(var i =0; i < emailAdressen.length; i++){
 			if(!validateEmail(emailAdressen[i])){
 				document.getElementById("errorLabel").style.backgroundColor = 'red';
 				document.getElementById("errorLabel").style.color = 'white';
 				document.getElementById("errorLabel").innerHTML = emailAdressen[i] + " is geen geldig e-mailadres. Geef ajb alleen maar een geldig e-mailadres op.";
-				break;
+				errors++;
 			}
-			else{
-				//document.getElementById("afzender").innerHTML = document.getElementById("VerzenderNaam").value;
-				//var bericht = document.getElementById("presentbericht").innerHTML;
-				//window.alert(bericht);
-				//document.getElementById("bericht").value = bericht;
-				//document.forms["mailAcc"].submit();
-				document.getElementById("verzenden").disabled=true;
-				document.getElementById("Annuleren").disabled=true;
-				ajaxMailFunction(kopie);
-				break;
-			}
+		}
+		if(errors==0){
+			//document.getElementById("afzender").innerHTML = document.getElementById("VerzenderNaam").value;
+			//var bericht = document.getElementById("presentbericht").innerHTML;
+			//window.alert(bericht);
+			//document.getElementById("bericht").value = bericht;
+			//document.forms["mailAcc"].submit();
+			document.getElementById("verzenden").disabled=true;
+			document.getElementById("Annuleren").disabled=true;
+			ajaxMailFunction(kopie);
 		}
 	}
 }
@@ -120,24 +121,24 @@ function controlEnSend(){
 			kopie="ja";
 		}
 		var emailAdressen = container.split(" ");
+		errors=0;
 		for(var i =0; i < emailAdressen.length; i++){
 			if(!validateEmail(emailAdressen[i])){
 				document.getElementById("errorLabel").style.backgroundColor = 'red';
 				document.getElementById("errorLabel").style.color = 'white';
 				document.getElementById("errorLabel").innerHTML = emailAdressen[i] + " is not a valid e-mailaddress.";
-				break;
+				errors++;
 			}
-			else{
-				//document.getElementById("afzender").innerHTML = document.getElementById("VerzenderNaam").value;
-				//var bericht = document.getElementById("presentbericht").innerHTML;
-				//window.alert(bericht);
-				//document.getElementById("bericht").value = bericht;
-				//document.forms["mailAcc"].submit();
-				document.getElementById("verzenden").disabled=true;
-				document.getElementById("Annuleren").disabled=true;
-				ajaxMailFunction(kopie);
-				break;
-			}
+		}
+		if(errors==0){
+			//document.getElementById("afzender").innerHTML = document.getElementById("VerzenderNaam").value;
+			//var bericht = document.getElementById("presentbericht").innerHTML;
+			//window.alert(bericht);
+			//document.getElementById("bericht").value = bericht;
+			//document.forms["mailAcc"].submit();
+			document.getElementById("verzenden").disabled=true;
+			document.getElementById("Annuleren").disabled=true;
+			ajaxMailFunction(kopie);
 		}
 	}
 }
