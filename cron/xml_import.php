@@ -112,32 +112,29 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 
 
 if(!$argv[1] or $argv[1]=="17") {
-	if($testsysteem and $NU_EVEN_NIET) {
 
-		# XML downloaden bij Alpin Rentals Kaprun
-		$tmp_insert = array(
-		'user' => 'chaletnl',
-		'pass' => 'aTL9!32',
-		);
+	# XML downloaden bij Alpin Rentals Kaprun
+	$tmp_insert = array(
+	'user' => 'chaletnl',
+	'pass' => 'aTL9!32',
+	);
 
-		$tmp_insertStr = http_build_query($tmp_insert, '', '&'); 
+	$tmp_insertStr = http_build_query($tmp_insert, '', '&'); 
 
-		$tmp_url = "http://www.alpinrentals.co.uk/api/get";
+	$tmp_url = "http://www.alpinrentals.com/api/get";
 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-		curl_setopt($ch, CURLOPT_URL, $tmp_url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $tmp_insertStr);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		$tmp_results = curl_exec($ch);
-		curl_close($ch);
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+	curl_setopt($ch, CURLOPT_URL, $tmp_url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $tmp_insertStr);
+	curl_setopt($ch, CURLOPT_POST, 1);
+	$tmp_results = curl_exec($ch);
+	curl_close($ch);
 
-		$temp_filename[17]=$tmpdir."alpin_rentals_kaprun_".date("Y-m-d-H-i").".xml";
-		file_put_contents($temp_filename[17],$tmp_results);
-
-		unset($tmp_results,$ch,$tmp_insert,$tmp_insertStr);
-	}
+	$temp_filename[17]=$tmpdir."alpin_rentals_kaprun_".date("Y-m-d-H-i").".xml";
+	file_put_contents($temp_filename[17],$tmp_results);
+	unset($tmp_results,$ch,$tmp_insert,$tmp_insertStr);
 }
 
 
@@ -250,7 +247,8 @@ if($testsysteem) {
 #	$xml_urls[16][2]=$tmpdir."export_chalet_nl_prices_de_w.xml";
 #	$xml_urls[16][3]=$tmpdir."export_chalet_nl_occupancy_de_s.xml";
 #	$xml_urls[16][4]=$tmpdir."export_chalet_nl_prices_de_s.xml";
-	$xml_urls[17][1]=$tmpdir."alpin_rentals_kaprun_2012-07-20-15-05.xml";
+	$xml_urls[17][1]=$temp_filename[17];
+	
 #	$xml_urls[18][1]=$tmpdir."agence.xml";
 }
 
