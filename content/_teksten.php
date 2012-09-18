@@ -1432,7 +1432,12 @@ $txt["en"]["favorieten"]["versturen"]="Send";
 $txt["nl"]["favorieten"]["annuleren"]="Annuleren";
 $txt["en"]["favorieten"]["annuleren"]="Cancel";
 
+#land.html lees verder
 
+$txt["nl"]["land"]["leesverder"]="Lees verder";
+$txt["en"]["land"]["leesverder"]="Read more";
+$txt["nl"]["land"]["dichtklappen"]="Dichtklappen";
+$txt["en"]["land"]["dichtklappen"]="Show less";
 
 #
 # Accommodatie doormail functie
