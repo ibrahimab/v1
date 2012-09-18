@@ -14,7 +14,7 @@ function controlEnSend() {
 		//window.alert("OK");
 		document.getElementById("errorLabel").style.backgroundColor = 'red';
 		document.getElementById("errorLabel").style.color = 'white';
-		document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresnietcorrect","favorieten"); ?>";
+		document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresnietingevuld","favorieten"); ?>";
 	} else {
 		var container = document.getElementById("EmailOntvanger").value;
 		var checkBox=document.getElementById("jaNee");
@@ -24,18 +24,19 @@ function controlEnSend() {
 			kopie="ja";
 		}
 		var emailAdressen = container.split(" ");
+		errors=0;
 		for(var i =0; i < emailAdressen.length; i++) {
 			if(!validateEmail(emailAdressen[i])){
 				document.getElementById("errorLabel").style.backgroundColor = 'red';
 				document.getElementById("errorLabel").style.color = 'white';
 				document.getElementById("errorLabel").innerHTML = emailAdressen[i] + " <?php echo html("geengeldigmailadres","favorieten"); ?>";
-				break;
-			} else {
-				document.getElementById("verzenden").disabled=true;
-				document.getElementById("Annuleren").disabled=true;
-				ajaxMailFunction(kopie);
-				break;
-			}
+				errors++;
+			} 
+		}
+		if(errors==0){
+			document.getElementById("verzenden").disabled=true;
+			document.getElementById("Annuleren").disabled=true;
+			ajaxMailFunction(kopie);
 		}
 	}
 }
