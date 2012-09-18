@@ -14,7 +14,7 @@ $geen_tracker_cookie=true;
 include "admin/vars.php";
 
 
-wt_mail( "jeroen@webtastic.nl", "rpc_json.php", $_SERVER["REQUEST_URI"] );
+#wt_mail( "jeroen@webtastic.nl", "rpc_json.php", $_SERVER["REQUEST_URI"] );
 
 if ( $_GET["test"] ) {
 
