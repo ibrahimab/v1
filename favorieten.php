@@ -12,14 +12,14 @@ if($vars["websitetype"]==1) {
 	//straks kijken moet een css knop worden
 	$knopLeesmeer="LeesMeerChalet";
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerChalet.png";
-	$doormailText=html("doormailTextChalet","favorieten")." ".$vars["websitenaam"].".";
+	$doormailText=html("doormailTextChalet","favorieten")." ".wt_he($vars["websitenaam"]).".";
 	$leesmeerKnopMail="text-decoration:none;background-color:#003366;display:inline-block;color:#ffffff;font-family:arial;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;";
 	if($vars["website"]=="E") {
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerChaletEU.png";
 	}
 } elseif($vars["websitetype"]==3 or $vars["websitetype"]==7) {
 	$onderwerpText="Mijn favoriete vakantiehuizen";
-	$doormailText="Ik heb een aantal leuke vakantiehuizen gevonden op  ".$vars["websitenaam"]. ". Dit moet je zien!";
+	$doormailText="Ik heb een aantal leuke vakantiehuizen gevonden op ".wt_he($vars["websitenaam"]). ". Dit moet je zien!";
 	if($vars["websitetype"]==3) {
 		$vars["balkkleur"]="#cfbcd8";
 		$vars["backcolor"]="#eaeda9";
@@ -37,9 +37,8 @@ if($vars["websitetype"]==1) {
 	padding:6px 24px;
 	text-decoration:none;
 	cursor:pointer;text-decoration:none;";
-		
-	}
-	elseif($vars["websitetype"]==7) {
+
+	} elseif($vars["websitetype"]==7) {
 		$vars["balkkleur"]="#ffd38f";
 		$vars["backcolor"]="#FFFFFF";
 		$vars["textColor"]="#661700";

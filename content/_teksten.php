@@ -721,12 +721,12 @@ $txt["en"]["index"]["inleidingvallandry"]="Vallandry is a versatile mountain vil
 # Eerste blok
 if(date("Ymd")<=20091017) {
 	$vars["linkhoofdpagina"]["slider1"]=$vars["path"]."jubileum.php";
-	
+
 	$vars["linkhoofdpagina"]["slider1_photoadd"]="_1";
-	
+
 	$txt["nl"]["index"]["slider1_kop"]="10 jaar Chalet.nl! Actie verlengd";
 	$txt["en"]["index"]["slider1_kop"]="Party time: 10 years Chalet.nl!";
-	
+
 	$txt["nl"]["index"]["slider1_toelichting"]="Ontdek onze vernieuwde website en boek tussen 1 en 17 oktober a.s. Je krijgt dan van ons een taart thuisbezorgd!";
 	$txt["en"]["index"]["slider1_toelichting"]="Discover our new website and book up to 10 October. We will then send a cake right to your doormat!";
 } else {
@@ -734,7 +734,7 @@ if(date("Ymd")<=20091017) {
 
 	$txt["nl"]["index"]["slider1_kop"]="24-pers. chalet: korting voor hele seizoen!";
 	$txt["en"]["index"]["slider1_kop"]="24-persons chalet: all season discount!";
-	
+
 	$txt["nl"]["index"]["slider1_toelichting"]="Aan de piste in het sneeuwzekere Les Deux Alpes, 12 slaapkamers+badkamers. Zonnige ligging op het zuiden.";
 	$txt["en"]["index"]["slider1_toelichting"]="-";
 }
@@ -1431,6 +1431,37 @@ $txt["en"]["favorieten"]["versturen"]="Send";
 
 $txt["nl"]["favorieten"]["annuleren"]="Annuleren";
 $txt["en"]["favorieten"]["annuleren"]="Cancel";
+
+$txt["nl"]["favorieten"]["mailadresnietingevuld"]="Je hebt je e-mailadres niet ingevuld.";
+$txt["en"]["favorieten"]["mailadresnietingevuld"]="You need to fill in your email address.";
+
+$txt["nl"]["favorieten"]["mailadresnietcorrect"]="Je e-mailadres voldoet niet aan de eisen van een geldig e-mailadres.";
+$txt["en"]["favorieten"]["mailadresnietcorrect"]="Your e-mailaddress is not correct.";
+
+$txt["nl"]["favorieten"]["mailadresontvangernietingevuld"]="Je hebt het e-mailadres (de e-mailadressen) van de ontvanger(s) niet ingevuld.";
+$txt["en"]["favorieten"]["mailadresontvangernietingevuld"]="You have not filled all the required fields.";
+
+$txt["nl"]["favorieten"]["geengeldigmailadres"]="is geen geldig e-mailadres. Geef a.j.b. alleen maar een geldig e-mailadres op.";
+$txt["en"]["favorieten"]["geengeldigmailadres"]="is not a valid email address.";
+
+$txt["nl"]["favorieten"]["emailszijnverzonden"]="Bedankt, je e-mail(s) zijn verzonden.";
+$txt["en"]["favorieten"]["emailszijnverzonden"]="Your e-mails have been sent. Thank you.";
+
+$txt["nl"]["favorieten"][""]="";
+$txt["en"]["favorieten"][""]="";
+
+$txt["nl"]["favorieten"][""]="";
+$txt["en"]["favorieten"][""]="";
+
+$txt["nl"]["favorieten"][""]="";
+$txt["en"]["favorieten"][""]="";
+
+$txt["nl"]["favorieten"][""]="";
+$txt["en"]["favorieten"][""]="";
+
+$txt["nl"]["favorieten"][""]="";
+$txt["en"]["favorieten"][""]="";
+
 
 #land.html lees verder
 
@@ -3073,7 +3104,7 @@ $txt["en"]["reisbureau"]["factuur"]="Invoice";
 
 $txt["nl"]["reisbureau"]["welkomstmail"]="Beste [[v_voornaam]],
 
-Bedankt voor de belangstelling in onze producten en diensten. Om je optimaal van dienst te kunnen zijn sturen wij je de inloggegevens van onze agentenwebsites. 
+Bedankt voor de belangstelling in onze producten en diensten. Om je optimaal van dienst te kunnen zijn sturen wij je de inloggegevens van onze agentenwebsites.
 
 Gebruikersnaam: [[v_email]]
 Wachtwoord: [[v_wachtwoord]]

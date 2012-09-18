@@ -173,11 +173,11 @@ function wt_mktime () {
     // *     example 3: diff = (real - make);
     // *     results 3: diff < 5
     // *     example 4: mktime(0, 0, 0, 13, 1, 1997)
-    // *     returns 4: 883612800 
+    // *     returns 4: 883612800
     // *     example 5: mktime(0, 0, 0, 1, 1, 1998)
-    // *     returns 5: 883612800 
+    // *     returns 5: 883612800
     // *     example 6: mktime(0, 0, 0, 1, 1, 98)
-    // *     returns 6: 883612800 
+    // *     returns 6: 883612800
     // *     example 7: mktime(23, 59, 59, 13, 0, 2010)
     // *     returns 7: 1293839999
     // *     example 8: mktime(0, 0, -1, 1, 1, 1970)
@@ -232,9 +232,9 @@ function testgegevens() {
 
 function check_hash() {
 	if($().tabs) {
-	
+
 		var $tabs = $('#tabs').tabs();
-		
+
 		// accommodatiepagina
 		if(location.hash=="#overzicht") {
 			$tabs.tabs('select','#tabs_overzicht');
@@ -254,7 +254,7 @@ function check_hash() {
 		if(location.hash=="#prijsinformatie") {
 			$tabs.tabs('select','#tabs_tarieven');
 		}
-	
+
 		// regiopagina / plaatspagina
 		if(location.hash=="#beschrijving") {
 			$tabs.tabs('select','#tabs_beschrijving');
@@ -358,7 +358,7 @@ function googlemaps_createmarker(value,main) {
 	}
 	var marker = googlemaps_marker[googlemaps_counter];
 	marker = new google.maps.Marker({
-		map: map, 
+		map: map,
 		position: myLatLng,
 		draggable: false,
 		icon: googlemaps_base+'pic/googlemapsicons/'+(main ? googlemaps_icon[googlemaps_selected_icon] : googlemaps_icon_ander[googlemaps_selected_icon]),
@@ -467,46 +467,46 @@ var landkaartklikbaar_info_hoverkleur="#636f07";
 $(document).ready(function() {
 
 	if(gebruik_jquery==true) {
-		// jquery
-	
+			// jquery
+
 		if($().tabs) {
-		
+
 			// Google Analytics bij switchen tussen tabs
-			
+
 			if($("#tabs").length != 0) {
 				$("#tabs").bind("tabsselect",function(event,ui) {
 //					_gaq.push(['_trackPageview', window.location.pathname + '/tab-' + ui.tab.innerHTML]);
 //					alert(window.location.pathname+ui.tab.innerHTML);
 				});
 			}
-		
+
 			// fotoslide hoofdpagina
 		//	$("#featured").tabs({fx:{opacity: "toggle"}}).tabs("rotate", 5000, true);
-			$("#featured > ul").tabs({event: 'mouseover',fx:{opacity: "toggle"}}).tabs("rotate", 5000, true);  
-		
-			// tabs	
+			$("#featured > ul").tabs({event: 'mouseover',fx:{opacity: "toggle"}}).tabs("rotate", 5000, true);
+
+			// tabs
 			var $tabs = $('#tabs').tabs();
-		
+
 		//	$(".tabclick").click(function () {
 		//		window.location.hash = $(this).attr("href");
 		//	});
-		
+
 			$('#meerfotos').click(function() {
 				$tabs.tabs('select','#tabs_fotos');
 				return false;
 			});
-		
+
 			$('.gototabs_tarieven').click(function() {
 				$tabs.tabs('select','#tabs_tarieven');
 				return false;
 			});
-	
+
 			$('.gototabs_ligging').click(function() {
 				$tabs.tabs('select','#tabs_ligging');
 				return false;
 			});
 		}
-			
+
 		var myFile = document.location.toString();
 		if (myFile.match('#')) {
 			var myAnchor = myFile.split('#')[1];
@@ -523,9 +523,9 @@ $(document).ready(function() {
 		} else if (myFile.match('otsid=') && myFile.match('&optie_datum=')) {
 			$tabs.tabs('select','#tabs_opties');
 		}
-	
+
 		check_hash();
-	
+
 	//	$("#tabs a").click(function () {
 	//		if(this.hash=="#tabs_overzicht") {
 	//			window.location.hash = "#overzicht";
@@ -546,7 +546,7 @@ $(document).ready(function() {
 	//			window.location.hash = "#prijsinformatie";
 	//		}
 	//	});
-	
+
 		// show/hide toggle
 		$(".showhidelink").click(function () {
 			$(".showhide").slideToggle("slow",function() {
@@ -560,7 +560,7 @@ $(document).ready(function() {
 			});
 			return false;
 		});
-	
+
 		// show click
 		$(".showlink").click(function () {
 			$(".showlinkdiv").slideDown("slow",function() {
@@ -568,10 +568,10 @@ $(document).ready(function() {
 			});
 			return false;
 		});
-	
+
 
 		if($().fancybox) {
-		
+
 			// foto-popups via fancybox
 			$(".fotopopup").fancybox({
 				'transitionIn'	:	'elastic',
@@ -585,18 +585,18 @@ $(document).ready(function() {
 				'hideOnContentClick' :	true,
 				'overlayColor' :	'#454545',
 				'onComplete'	:	function() {
-		
+
 				},
 				'cyclic'	:	true,
-				'overlayOpacity' :	.8
+				'overlayOpacity' :	0.8
 			});
 		}
-		
-		// functies voor zoekformulier	
+
+		// functies voor zoekformulier
 		$(".onchangesubmit").change(function() {
 			this.form.submit();
 		});
-	
+
 		$(".txtzoeken").change(function() {
 			txtzoeken=this.value;
 		});
@@ -630,13 +630,13 @@ $(document).ready(function() {
 				$(this).children(".laatstbekeken_tekst").removeClass("laatstbekeken_tekst_hover");
 //				$(this).children("img").removeClass("laatstbekeken_img_hover");
 		});
-		
+
 		// img hover on / off inclusief preload
 		$(".img-swap").hover(
 			function(){this.src = this.src.replace("_off","_on");},
 			function(){this.src = this.src.replace("_on","_off");
 		});
-		
+
 		$.fn.preload = function() {
 			this.each(function(){
 				$('<img/>')[0].src = this;
@@ -651,13 +651,13 @@ $(document).ready(function() {
 			// Loop through all images which are used in our image swap function
 			// Get the file name of the active images to be loaded by replacing _off with _on
 			imgUrl = this.src.replace("_off","_on");
-	
+
 			// Store the file name in our array
 			imgSwap.push(imgUrl);
 		});
 		// Pass the array to our preload function
 		$(imgSwap).preload();
-		
+
 		// landkaarten Zomerhuisje: imagemap en onmouseover
 		if($().maphilight && $(".map").length!=0) {
 			$.fn.maphilight.defaults = {
@@ -684,8 +684,8 @@ $(document).ready(function() {
 			}
 
 			$(".map").maphilight();
-			
-			
+
+
 			$("#landkaartklikbaar_namen div").mouseover(function() {
 				$("#area"+$(this).attr("rel")).mouseover();
 			});
@@ -702,12 +702,12 @@ $(document).ready(function() {
 				$("#regio_"+$(this).attr("rel")+" a").css("color","");
 				$("#landkaartklikbaar_info").html("");
 			});
-			
+
 			$(".nomaphref").click(function() {
 				return false;
 			});
 		}
-		
+
 		// afbreken reviews
 		if($(".reviewblok_afbreken").length!=0) {
 			$('.reviewblok_afbreken').each(function() {
@@ -715,12 +715,12 @@ $(document).ready(function() {
 					$(this).next(".reviewblok_afbreken_openklap").css("display","block");
 				}
 			});
-			
+
 			$(".reviewblok_afbreken_openklap").click(function () {
 				if($(this).prev(".reviewblok_afbreken").css("max-height")=="3000px") {
 					$(this).prev(".reviewblok_afbreken").css("max-height","85px");
 					$(this).html("<a href=\"#\" onclick=\"return false;\">Lees verder</a>");
-					
+
 				} else {
 					$(this).prev(".reviewblok_afbreken").css("max-height","3000px");
 					$(this).html("<a href=\"#\" onclick=\"return false;\">Beoordeling inklappen</a>");
@@ -735,7 +735,7 @@ $(document).ready(function() {
 			_gaq.push(['_trackSocial', 'facebook', 'share', '']);
 			return false;
 		});
-		
+
 		// bug in tarieventabel bij IE9
 		if($(".tarieventabel_div").length!=0) {
 			if($("#weektarieven").length!=0) {
@@ -745,7 +745,7 @@ $(document).ready(function() {
 				$(".tarieventabel_div").css("height",$(".tarieventabel_div").height());
 			}
 		}
-		
+
 		// Opmaak zoekbox via jQuery Chosen
 		if($().chosen) {
 			$("#zoekblok select:not(.zoekblok_select_date)").chosen({allow_single_deselect:true,search_contains:true}).change(function() {
@@ -762,13 +762,13 @@ $(document).ready(function() {
 				zoekblok_tekst=$("#zoekblok input[name=fzt]").val();
 			});
 
-			// na blur op tekstzoeken: form submit			
+			// na blur op tekstzoeken: form submit
 			$("#zoekblok input[name=fzt]").blur(function() {
 				if(zoekblok_tekst!=$("#zoekblok input[name=fzt]").val()) {
 					$("#zoeken").submit();
 				}
 			});
-		
+
 			$("#zoekblok input[name=fzt]").keypress(function(e) {
 				var code = (e.keyCode ? e.keyCode : e.which);
 				if(code==13) {
@@ -777,7 +777,7 @@ $(document).ready(function() {
 					return true;
 				}
 			});
-			
+
 			//
 			// Multiple-skidorp verwerken
 			//
@@ -785,14 +785,14 @@ $(document).ready(function() {
 				$("input[name=fpl]").val($("#fpl_multiple").val());
 			});
 
-			
+
 			$("#fpl_multiple").blur(function() {
 
 			});
 //			var value = ;
-			
+
 		}
-		
+
 		// zoekresultaten: ie8-bug m.b.t. hover en border
 		$(".zoekresultaat_type").hover(
 			function() {
@@ -808,7 +808,7 @@ $(document).ready(function() {
 				$(this).removeAttr("style");
 			}
 		);
-		
+
 		$(".zoekresultaat").hover(
 			function() {
 				$(this).find(".zoekresultaat_type_een_resultaat").css("color","#000000");
@@ -817,7 +817,7 @@ $(document).ready(function() {
 				$(this).find(".zoekresultaat_type_een_resultaat").removeAttr("style");
 			}
 		);
-		
+
 		// bij zoekresultaten met aanbiedingen: breedte zoekresultaat_type_typenaam_aanbieding aanpassen aan de hand van breedte zoekresultaat_type_aanbieding
 		if($(".zoekresultaat_type_aanbieding").length!=0) {
 
@@ -828,12 +828,12 @@ $(document).ready(function() {
 				}
 			});
 		}
-		
+
 		//
 		// autocomplete zoekformulier
 		//
 		if($("#zoekblok").length!=0) {
-			
+
 			$( "input[name=fzt]" ).autocomplete({
 				source: function( request, response ) {
 					$.ajax({
@@ -859,7 +859,7 @@ $(document).ready(function() {
 				select: function( event, ui ) {
 					// waarde in input-field plaatsen
 					$("input[name=fzt]").val(ui.item.value);
-					
+
 					// form submitten
 					$("#zoeken").submit();
 				},
@@ -871,7 +871,7 @@ $(document).ready(function() {
 				}
 			});
 		}
-		
+
 		// sluiten cookie-bar
 		$("#cookie_bottombar_close").click(function () {
 			$("#cookie_bottombar").css("display","none");
