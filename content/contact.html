@@ -133,37 +133,6 @@ if($_GET["fo"]=="frm") {
 	if($vars["website"]=="T") {
 		echo html("inleiding_chalettour","contact");
 	} else {
-		if($vars["websiteland"]=="nl"){
-			$foonnumber ="0348 - 43 46 49";
-			$land = "Nederland";
-			$fax = "0348 - 69 07 52";
-			if($vars["websiteland"]=="nl"){
-				$maanTmvrij="Maandag t/m vrijdag: ";
-				$zaterdag="Zaterdag: ";
-				$zondag="Zondag: ";
-				$tijd="Van 9:00 tot 17:30";
-				$tijdsat="Van 10:00 tot 17:30";
-				$tijdsun="Gesloten ";
-			}
-		}
-		else{
-			$foonnumber ="+31 348 43 46 49";
-			$land = "The Netherlands";
-			if($vars["website"]=="B"){
-				$land = "Nederland";
-			}
-			$fax = "+31 348 69 07 52";
-			$maanTmvrij="From monday to friday:";
-			$zaterdag="Saturday: ";
-			$zondag="Sunday: ";
-			$tijd="From 9 am to 5:30 pm";
-			$tijdsat="From 10 am to 5:30 pm";
-			$tijdsun="Closed";
-			//echo "</tr>";
-			//echo "<tr>";
-			//echo "<td></td>";
-			//echo "<td>".$land."</td>";
-		}
 		echo html("inleiding","contact",array("h_1"=>"<nobr>","h_2"=>"</nobr>"));
 		echo "<br><br>";
 		//echo "<br><br><B>".html("adresgegevens","contact")."</B>";
@@ -186,17 +155,17 @@ if($_GET["fo"]=="frm") {
 		if($vars["websiteland"]<>"nl"){
 			echo "<tr>";
 			echo "<td></td>";
-			echo "<td>".$land."</td>";
+			echo "<td>".html("landNaam","contact")."</td>";
 			echo "</tr>";
 		}
 		echo "<tr>";
-		echo "<td>".html("telefoonnummer_chalet","contact")."</td>";
+		echo "<td>".html("telefoonnummer","contact")."</td>";
 		
-		echo "<td>".$foonnumber."</td>";
+		echo "<td>".html("telefoonNummerGetal","contact")."</td>";
 		echo "</tr>";
 		echo "<tr>";
 		echo "<td>".html("fax_chalet","contact")."</td>";
-		echo "<td>".$fax."</td>";
+		echo "<td>".html("faxNummerGetal","contact")."</td>";
 		echo "</tr>";
 		echo "<tr>";
 		echo "<td>".html("email_kort","contact").":</td>";
@@ -213,57 +182,32 @@ if($_GET["fo"]=="frm") {
 		//if($vars["website"]!="B"){
 			echo "</tr><tr><td colspan=\"2\"><br><b>".html("overigegegevens","contact")."</b></td></tr>";
 		//}
-		if($vars["websiteland"]=="nl"){
 			//echo "</tr>";
 			echo "<tr>";
-			echo "<td>BTW:</td><td>NL-8129.05.386.B.01</td>";
+			echo "<td>".html("BTW","contact")."</td><td>NL-8129.05.386.B.01</td>";
 			echo "</tr>";
 			echo "<tr>";
-			echo "<td>KvK:</td><td>30209634</td>";
+			echo "<td>".html("KvK","contact")."</td><td>30209634</td>";
 			echo "</tr>";
-			echo "<td>SGR:</td><td>3199</td>";
+			if($vars["websiteland"]=="nl"){
+				echo "<td>SGR:</td><td>3199</td>";
+			}
 			echo "</p>";
-		}
-		else{
-			if($vars["website"]=="B"){
-				echo "<tr>";
-				echo "<td>BTW:</td><td>NL-8129.05.386.B.01</td>";
-				echo "</tr>";
-				echo "<tr>";
-				echo "<td>KvK:</td><td>30209634</td>";
-				echo "</tr>";
-				//echo "<td>SGR:</td><td>3199</td>";
-				echo "</p>";
-				$maanTmvrij="Maandag t/m vrijdag: ";
-				$zaterdag="Zaterdag: ";
-				$zondag="Zondag: ";
-				$tijd="Van 9:00 tot 17:30";
-				$tijdsat="Van 10:00 tot 17:30";
-				$tijdsun="Gesloten";
-			}
-			elseif($vars["website"]!="B"){
-				echo "<tr>";
-				echo "<td>VAT:</td><td>NL-8129.05.386.B.01</td>";
-				echo "</tr>";
-				echo "<tr>";
-				echo "<td>CoC:</td><td>30209634</td>";
-			}
-		}
 		echo "</tr>";
 		echo "<tr>";
 		echo "<td colspan=\"2\"><br><b>".html("telefonischeBereikbaarheid","contact")."</b></td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".$maanTmvrij."</td>";
-		echo "<td>".$tijd."</td>";
+		echo "<td>".html("maandagTMvrijdag","contact")."</td>";
+		echo "<td>".html("tijd","contact")."</td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".$zaterdag."</td>";
-		echo "<td>".$tijdsat."</td>";
+		echo "<td>".html("zaterdag","contact")."</td>";
+		echo "<td>".html("tijdsat","contact")."</td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".$zondag."</td>";
-		echo "<td>".$tijdsun."</td>";
+		echo "<td>".html("zondag","contact")."</td>";
+		echo "<td>".html("tijdsun","contact")."</td>";
 		//echo "</tr>";
 		//echo "</B>";
 		echo "</tr>";

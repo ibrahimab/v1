@@ -1282,6 +1282,42 @@ $txt["en"]["top10"]["aanbieding"]="special offer";
 $txt["nl"]["contact"]["ok"]="OK";
 $txt["en"]["contact"]["ok"]="OK";
 
+$txt["nl"]["contact"]["maandagTMvrijdag"]="Maandag t/m vrijdag:";
+$txt["en"]["contact"]["maandagTMvrijdag"]="From monday to friday:";
+
+$txt["nl"]["contact"]["zaterdag"]="Zaterdag:";
+$txt["en"]["contact"]["zaterdag"]="Saturday:";
+
+$txt["nl"]["contact"]["zondag"]="Zondag:";
+$txt["en"]["contact"]["zondag"]="Sunday:";
+
+$txt["nl"]["contact"]["tijd"]="Van 9:00 tot 17:30";
+$txt["en"]["contact"]["tijd"]="From 9 am to 5:30 pm";
+
+$txt["nl"]["contact"]["tijdsat"]="Van 10:00 tot 17:30";
+$txt["en"]["contact"]["tijdsat"]="From 10 am to 5:30 pm";
+
+$txt["nl"]["contact"]["telefoonNummerGetal"]="0348 - 43 46 49";
+$txt["en"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
+
+$txt["nl"]["contact"]["faxNummerGetal"]="0348 - 69 07 52";
+$txt["en"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
+
+$txt["nl_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
+$txt["en_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
+
+$txt["nl_b"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
+$txt["en_b"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
+
+$txt["nl"]["contact"]["tijdsun"]="Gesloten";
+$txt["en"]["contact"]["tijdsun"]="Closed";
+
+$txt["nl"]["contact"]["BTW"]="BTW:";
+$txt["en"]["contact"]["BTW"]="VAT:";
+
+$txt["nl"]["contact"]["KvK"]="KvK:";
+$txt["en"]["contact"]["KvK"]="CoC:";
+
 $txt["nl"]["contact"]["verzenden"]="verzenden";
 $txt["en"]["contact"]["verzenden"]="send";
 
@@ -1318,8 +1354,11 @@ $txt["en"]["contact"]["woonplaats"]="Town";
 $txt["nl"]["contact"]["land"]="Land";
 $txt["en"]["contact"]["land"]="Country";
 
-$txt["nl"]["contact"]["telefoonnummer"]="Telefoonnummer";
-$txt["en"]["contact"]["telefoonnummer"]="Telephone number";
+$txt["nl"]["contact"]["landNaam"]="Nederland";
+$txt["en"]["contact"]["landNaam"]="The Netherlands";
+
+$txt["nl"]["contact"]["telefoonnummer"]="Telefoonnummer:";
+$txt["en"]["contact"]["telefoonnummer"]="Telephone number:";
 
 $txt["nl"]["contact"]["mobielwerk"]="Mobiel of werktelefoonnummer";
 $txt["en"]["contact"]["mobielwerk"]="Mobile telephone or telephone at work";
@@ -1365,9 +1404,6 @@ $txt["en"]["contact"]["postadres"]="Address: ";
 
 $txt["nl"]["contact"]["overigegegevens"]="Overige gegevens ";
 $txt["en"]["contact"]["overigegegevens"]="Other information ";
-
-$txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon:";
-$txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone:";
 
 $txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon:";
 $txt["en_b"]["contact"]["telefoonnummer_chalet"]="Telephone:";
