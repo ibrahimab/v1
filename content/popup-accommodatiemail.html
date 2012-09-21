@@ -99,13 +99,12 @@
 	top:1px;
 }
 #mailTable{
-	width:80%;
+	width:681px;
 	font-family:Verdana;
 	font-size:12px;	
 }
 
 #mailTable td{
-	width:100px;
 	font-family:verdana;
 	font-size:12px;
 }
@@ -116,57 +115,84 @@
 }
 </style>
 <script type="text/javascript">
+var RecaptchaOptions = {
+	theme : 'clean'
+};
 function validateEmail(email) {  
-	var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+	var pattern = /^[_a-zA-Z0-9-]+((\.[_a-zA-Z0-9-]+)*|(\+[_a-zA-Z0-9-]+)*)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/;
 	return email.match(pattern);     
 }  
 
 function controlEnSend(){
-	if(document.getElementById("verzenderAdres").value == ""){
-		//window.alert("OK");
-		document.getElementById("Verzender").style.backgroundColor = 'red';
-		document.getElementById("Verzender").style.color = 'white';
-		document.getElementById("Verzender").style.padding = '10px';
-		document.getElementById("Verzender").innerHTML = "Je hebt je e-mailadres niet ingevuld";
-	}
-	else if(!validateEmail(document.getElementById("verzenderAdres").value)){
-		document.getElementById("Verzender").style.backgroundColor = 'red';
-		document.getElementById("Verzender").style.color = 'white';
-		document.getElementById("Verzender").style.padding = '10px';
-		document.getElementById("Verzender").innerHTML = "Je e-mailadres voldoet niet aan de eisen van een geldig e-mailadres";
-	}
-	else if(document.getElementById("EmailOntvanger").value == ""){
-		//window.alert("OK");
-		document.getElementById("Verzender").style.backgroundColor = 'red';
-		document.getElementById("Verzender").style.color = 'white';
-		document.getElementById("Verzender").style.padding = '10px';
-		document.getElementById("Verzender").innerHTML = "Je hebt het e-mailadres (de e-mailadressen) van de ontvanger(s) niet ingevuld";
-	}
-	else{
-		var container = document.getElementById("EmailOntvanger").value;
-		var emailAdressen = container.split(" ");
-		for(var i =0; i < emailAdressen.length; i++){
-			if(!validateEmail(emailAdressen[i])){
+	// ReCAPTCHA testen via rpc_json
+	var recaptcha_ok=false;
+	$.getJSON("<?php echo $vars["basehref"]; ?>rpc_json.php", {
+		"t": 6,
+		"recaptcha_response_field": $('#recaptcha_response_field').val(),
+		"recaptcha_challenge_field": $('#recaptcha_challenge_field').val(),
+	},function(data) {
+		if(data.ok) {
+			if(data.recaptcha_ok) {
+				var recaptcha_ok=true;
+			}
+			// errorLabel leegmaken
+			document.getElementById("Verzender").innerHTML="";
+			document.getElementById("Verzender").style.backgroundColor = '#ffffff';
+			if(document.getElementById("verzenderAdres").value == ""){
+				//window.alert("OK");
 				document.getElementById("Verzender").style.backgroundColor = 'red';
 				document.getElementById("Verzender").style.color = 'white';
 				document.getElementById("Verzender").style.padding = '10px';
-				document.getElementById("Verzender").innerHTML = emailAdressen[i] + " is geen geldig e-mailadres. Geef ajb alleen maar een geldig e-mailadres op.";
-				break;
+				document.getElementById("Verzender").innerHTML = "<?php echo html("mailadresnietingevuld","favorieten"); ?>";
+			}
+			else if(!validateEmail(document.getElementById("verzenderAdres").value)){
+				document.getElementById("Verzender").style.backgroundColor = 'red';
+				document.getElementById("Verzender").style.color = 'white';
+				document.getElementById("Verzender").style.padding = '10px';
+				document.getElementById("Verzender").innerHTML = "<?php echo html("mailadresnietcorrect","favorieten"); ?>";
+			}
+			else if(document.getElementById("EmailOntvanger").value == ""){
+				//window.alert("OK");
+				document.getElementById("Verzender").style.backgroundColor = 'red';
+				document.getElementById("Verzender").style.color = 'white';
+				document.getElementById("Verzender").style.padding = '10px';
+				document.getElementById("Verzender").innerHTML = "<?php echo html("mailadresontvangernietingevuld","favorieten"); ?>";
 			}
 			else{
-				var bericht = document.getElementById("presentbericht").innerHTML;
-				//window.alert(bericht);
-				bericht=bericht.replace(/\n\r?/g, '<br/>'); 	
-				document.getElementById("bericht2").value = bericht;
-				document.forms["mailAcc"].submit();
-				break;
+				var container = document.getElementById("EmailOntvanger").value;
+				var emailAdressen = container.split(" ");
+				errors = 0;
+				for(var i =0; i < emailAdressen.length; i++){
+					if(!validateEmail(emailAdressen[i])){
+						document.getElementById("Verzender").style.backgroundColor = 'red';
+						document.getElementById("Verzender").style.color = 'white';
+						document.getElementById("Verzender").style.padding = '10px';
+						document.getElementById("Verzender").innerHTML = emailAdressen[i] + " <?php echo html("geengeldigmailadres","favorieten"); ?>";
+						errors++;
+					}
+				}
+				if(errors==0){
+					if(recaptcha_ok===true) {
+						var bericht = document.getElementById("presentbericht").innerHTML;
+						bericht=bericht.replace(/\n\r?/g, '<br/>'); 	
+						document.getElementById("bericht2").value = bericht;
+						document.forms["mailAcc"].submit();
+					}
+					else {
+						document.getElementById("Verzender").style.backgroundColor = 'red';
+						document.getElementById("Verzender").style.color = 'white';
+						document.getElementById("Verzender").innerHTML = "<?php echo html("recaptchanietcorrect","favorieten"); ?>";
+						Recaptcha.reload();
+					}
+				}
 			}
 		}
-	}
+	});
 }
 </script>
 
 <?php
+
 if($vars["websitetype"]==1){
 	$knopLeesmeer="LeesMeerChalet";
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/headerChalet.png";
@@ -228,6 +254,7 @@ elseif($vars["websitetype"]==7){
 }
 # Gegevens gekozen accommodatie opvragen
 $accinfo=accinfo($_GET["accid"]);
+//echo "href ".$vars["basehref"].$accinfo["hoofdfoto"];
 //echo "<p>Naam accommodatie: ".wt_he($accinfo["accnaam"])."</p>";
 
 //echo "<p>Meer informatie over deze accommodatie: ".wt_dump($accinfo)."</p>";
@@ -281,12 +308,12 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html_bottom="";
 		$mail->send(); # mailtje daadwerkelijk verzenden
 	}
-	echo "<b>Bedankt, je e-mail(s) zijn verzonden</b>";
+	echo html("emailszijnverzonden","favorieten");
 }
 
 ?>
 <form action="<?php echo $_SERVER["REQUEST_URI"] ?>"  method="post" name="mailAcc">
-	<table id="mailTable">
+	<table id="mailTable" border="0">
 		<tr>
 			<td><?php echo html("LabelVan","favorieten"); ?></td>
 		</tr>
@@ -328,7 +355,7 @@ if(isset($_POST['verzenderAdres'])){
 			$url="url";
 			//<img src=\"".$impath."\" width=\"205\" height=\"150\" border=\"0\"/>
 			echo"<table cellspacing=\"5\" style=\"display:inline-table;font-family:verdana;width:681px;\" text-align=\"left\" border=\"0\" >";
-			echo"<tr><td style=\"background-image:url(".$impath.");background-repeat: no-repeat;\" width=\"205\" valign=\"top\" rowspan=\"8\"></td>";
+			echo"<tr><td width=\"205\" valign=\"top\" rowspan=\"8\"><img src=\"".$impath."\" width=\"205\" height=\"150\" border=\"0\"/></td>";
 			echo"<td width=\"476\" colspan=\"2\" style=\"font-size:14px; font-family:verdana;\">".wt_he($accinfo["land"])."</td></tr><tr>";
 			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
 			echo"<td style=\"font-family:verdana;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
@@ -351,47 +378,22 @@ if(isset($_POST['verzenderAdres'])){
 			else{
 				$rev=wt_he($accinfo["optimaalaantalpersonen"])."-".wt_he($accinfo["maxaantalpersonen"]);
 			}
-			if($vars["website"]!="E"){
-				echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\" colspan=\"2\">".$rev." personen</td></tr><tr>";
-			}
-			else{
-				echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\" colspan=\"2\">".$rev." persons</td></tr><tr>";
-			}
+			echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\" colspan=\"2\">".$rev." ".html("personen")."</td></tr><tr>";
 			if(wt_he($accinfo["slaapkamers"])==1){
-				if($vars["website"]!="E"){
-					$slkamer="slaapkamer";
-				}
-				else{
-					$slkamer="bedroom";
-				}
+				echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamer")."</td>";
 			}
 			else{
-				if($vars["website"]!="E"){
-					$slkamer="slaapkamers";
-				}
-				else{
-					$slkamer="bedrooms";
-				}
+				echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamers")."</td>";
 			}
 			$teken=substr(wt_he($accinfo["land"]),0,1);
-			echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".$slkamer."</td><td style=\"font-family:verdana;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"".$vars["basehref"]."accommodatie/".$teken.$_GET["accid"]."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
+			echo "<td style=\"font-family:verdana;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"".$vars["basehref"]."accommodatie/".$teken.$_GET["accid"]."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
 			if(wt_he($accinfo["badkamers"])==1){
-				if($vars["website"]!="E"){
-					$bdkamer="badkamer";
-				}
-				else{
-					$bdkamer="bathroom";
-				}
+				echo"<td style=\"font-family:verdana;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamer")."</td>";
 			}
 			else{
-				if($vars["website"]!="E"){
-					$bdkamer="badkamers";
-				}
-				else{
-					$bdkamer="bathrooms";
-				}
+				echo"<td style=\"font-family:verdana;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamers")."</td>";
 			}
-			echo"<td style=\"font-family:verdana;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".$bdkamer."</td></tr>";
+			echo "</tr>";
 			echo"</table>";
 		
 			#	
@@ -408,13 +410,13 @@ if(isset($_POST['verzenderAdres'])){
 			<td><input type="checkbox" name="jaNee" id="jaNee"> <?php echo html("stuurkopie","favorieten");?></td>
 		</tr>
 		<tr> <?php
-			if($vars["website"]=="E"){
-				$value="Send";
-			}
-			else{
-				$value="Verzenden";
-			}
-			echo "<td><button type=\"button\" onclick=\"controlEnSend()\" name=\"verzend\" id=\"verzend\" value=\"VERZENDEN\">".$value."</button>";
+			echo "<td>";
+			# ReCAPTCHA
+			require_once($vars["unixdir"]."admin/recaptchalib.php");
+			echo "<div class=\"mailForm_veldnaam\">".html("recaptcha_uitleg","favorieten")."</div>";
+			echo "<div class=\"mailForm_veld\">".recaptcha_get_html($vars["recaptcha_publickey"],"",true)."</div>";
+			echo "</td></tr><tr>";
+			echo "<td><div class=\"mailForm_veldnaam\"><button type=\"button\" onclick=\"controlEnSend()\" name=\"verzenden\" id=\"verzenden\" value=\"".html("versturen","favorieten")."\"/>".html("versturen","favorieten")."</div>";
 			?>
 			</td>
 		</tr>
