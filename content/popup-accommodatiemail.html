@@ -176,11 +176,13 @@ function controlEnSend(){
 						var bericht = document.getElementById("presentbericht").innerHTML;
 						bericht=bericht.replace(/\n\r?/g, '<br/>'); 	
 						document.getElementById("bericht2").value = bericht;
+						document.getElementById("verzenden").disabled=true;
 						document.forms["mailAcc"].submit();
 					}
 					else {
 						document.getElementById("Verzender").style.backgroundColor = 'red';
 						document.getElementById("Verzender").style.color = 'white';
+						document.getElementById("Verzender").style.padding = '10px';
 						document.getElementById("Verzender").innerHTML = "<?php echo html("recaptchanietcorrect","favorieten"); ?>";
 						Recaptcha.reload();
 					}
