@@ -12,9 +12,9 @@ if(intval($_COOKIE["tradetracker"])>1230764400 and intval($_COOKIE["cleafs"])>12
 # Content
 if($_GET["fo"]=="frm") {
 	echo html("bedankt","contact");
-	
+
 	affiliate_tracking(false,true,true,array("ordernummer"=>"contactaanvraag"));
-	
+
 	$extrainfo_tradetracker="Formulier ingevuld: ".date("d-m-Y").", ".date("H:i")."u.";
 	if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
 		// Set campaign ID and product ID
@@ -91,31 +91,31 @@ if($_GET["fo"]=="frm") {
 		// configuration
 		$campaignID = 202;
 		$campaignProductID = 204;
-	
+
 		// create session
 	#	session_start();
-	
+
 		// get the tracking data from the session created on the redirect page
 		$trackingData = $_SESSION["TT2_" . $campaignID];
-	
+
 		// if tracking data is empty, try to get it from the cookie
 		if(!$trackingData)
 		$trackingData = $_COOKIE["TT2_" . $campaignID];
-	
+
 		// URL encode tracking data
 		$trackingData = urlencode($trackingData);
-	
+
 		// Set order ID, e-mail address and additional information (optional)
 		$orderID = "contactaanvraag";
 		$email = $_COOKIE["naw"]["email"];
 		$additional = $extrainfo_tradetracker;
-	
+
 		// URL encode transaction information
 		$orderID = urlencode($orderID);
 		$email = urlencode($email);
 		$additional = urlencode($additional);
 		// Send the complete report to TradeTracker
-		
+
 		if(!$voorkant_cms and !$blokkeer_tradetracker) {
 #			echo "<img src=\"http://tl.tradetracker.nl/$campaignID/$campaignProductID/?trackingData=$trackingData&orderID=$orderID&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />";
 		}
@@ -141,7 +141,7 @@ if($_GET["fo"]=="frm") {
 		echo "<td colspan=\"2\"><B>".html("adresgegevens","contact")."</B></td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".html("postadres","contact")."</td>";
+		echo "<td>".html("postadres","contact").":</td>";
 		echo "<td>".htmlentities($vars["websitenaam"])."</td>";
 		echo "</tr>";
 		echo "<tr>";
@@ -159,54 +159,43 @@ if($_GET["fo"]=="frm") {
 			echo "</tr>";
 		}
 		echo "<tr>";
-		echo "<td>".html("telefoonnummer","contact")."</td>";
-		
+		echo "<td>".html("telefoonnummer","contact").":</td>";
+
 		echo "<td>".html("telefoonNummerGetal","contact")."</td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".html("fax_chalet","contact")."</td>";
+		echo "<td>".html("fax","contact").":</td>";
 		echo "<td>".html("faxNummerGetal","contact")."</td>";
 		echo "</tr>";
 		echo "<tr>";
 		echo "<td>".html("email_kort","contact").":</td>";
 		echo "<td><a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</A></td>";
-		
-		//echo "<P>".html("postadres","contact").htmlentities($vars["websitenaam"]);
-		//echo "<BR>Lindenhof 5,";
-		//echo "<BR>3442 GT Woerden<BR>";
-		//echo "Lindenhof 5<BR>3442 GT Woerden";
-		//if($vars["websiteland"]<>"nl") echo html("nederland","contact")."<br>";
-		//echo html("telefoonnummer_chalet","contact")."<BR>";
-		//echo html("fax_chalet","contact")."<BR>";
-		//echo html("email_kort","contact").": <a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</A>";
-		//if($vars["website"]!="B"){
-			echo "</tr><tr><td colspan=\"2\"><br><b>".html("overigegegevens","contact")."</b></td></tr>";
-		//}
-			//echo "</tr>";
-			echo "<tr>";
-			echo "<td>".html("BTW","contact")."</td><td>NL-8129.05.386.B.01</td>";
-			echo "</tr>";
-			echo "<tr>";
-			echo "<td>".html("KvK","contact")."</td><td>30209634</td>";
-			echo "</tr>";
-			if($vars["websiteland"]=="nl"){
-				echo "<td>SGR:</td><td>3199</td>";
-			}
-			echo "</p>";
+
+		echo "</tr><tr><td colspan=\"2\"><br><b>".html("overigegegevens","contact")."</b></td></tr>";
+		echo "<tr>";
+		echo "<td>".html("BTW","contact")."</td><td>NL-8129.05.386.B.01</td>";
+		echo "</tr>";
+		echo "<tr>";
+		echo "<td>".html("KvK","contact")."</td><td>30209634</td>";
+		echo "</tr>";
+		if($vars["websiteland"]=="nl"){
+			echo "<td>SGR:</td><td>3199</td>";
+		}
+		echo "</p>";
 		echo "</tr>";
 		echo "<tr>";
 		echo "<td colspan=\"2\"><br><b>".html("telefonischeBereikbaarheid","contact")."</b></td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".html("maandagTMvrijdag","contact")."</td>";
+		echo "<td>".html("maandagTMvrijdag","contact").":</td>";
 		echo "<td>".html("tijd","contact")."</td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".html("zaterdag","contact")."</td>";
+		echo "<td>".html("zaterdag","contact").":</td>";
 		echo "<td>".html("tijdsat","contact")."</td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".html("zondag","contact")."</td>";
+		echo "<td>".html("zondag","contact").":</td>";
 		echo "<td>".html("tijdsun","contact")."</td>";
 		//echo "</tr>";
 		//echo "</B>";
@@ -220,7 +209,7 @@ if($_GET["fo"]=="frm") {
 #			echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/wintersportmagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
 #			echo "<b>Wintersport Magazine</b><br>";
 #			echo "Naast onze uitgebreide website hebben wij een magazine samengesteld met daarin een impressie van ons aanbod en de mogelijkheden die we je als wintersportspecialist te bieden hebben. <a href=\"".$vars["path"]."brochure.php\">Bekijk dit Wintersport Magazine online</a>.";
-#			echo "</td></tr></table>";	
+#			echo "</td></tr></table>";
 #			echo "</div><p>";
 #		}
 		if($vars["website"]=="Z") {
@@ -229,10 +218,10 @@ if($_GET["fo"]=="frm") {
 			echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/zomerhuisjemagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
 			echo "<b>Zomerhuisje Magazine</b><br>";
 			echo "Naast onze uitgebreide website hebben wij een inspiratie-magazine samengesteld met daarin niet alleen een impressie van ons aanbod maar ook een aantal reistips, recepten en interviews.<br><a href=\"".$vars["path"]."brochure.php\">Bekijk dit Zomerhuisje Magazine online</a> of <a href=\"".$vars["path"]."brochure.php#wtform_frm\">laat het thuisbezorgen</a>.";
-			echo "</td></tr></table>";	
+			echo "</td></tr></table>";
 			echo "</div><p>";
 		}
-		
+
 	}
 	echo "&nbsp;<p><b>".html("contactformulier","contact")."</b><br>";
 	$form->display_all();

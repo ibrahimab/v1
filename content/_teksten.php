@@ -1282,14 +1282,14 @@ $txt["en"]["top10"]["aanbieding"]="special offer";
 $txt["nl"]["contact"]["ok"]="OK";
 $txt["en"]["contact"]["ok"]="OK";
 
-$txt["nl"]["contact"]["maandagTMvrijdag"]="Maandag t/m vrijdag:";
-$txt["en"]["contact"]["maandagTMvrijdag"]="From monday to friday:";
+$txt["nl"]["contact"]["maandagTMvrijdag"]="Maandag t/m vrijdag";
+$txt["en"]["contact"]["maandagTMvrijdag"]="From Monday to Friday";
 
-$txt["nl"]["contact"]["zaterdag"]="Zaterdag:";
-$txt["en"]["contact"]["zaterdag"]="Saturday:";
+$txt["nl"]["contact"]["zaterdag"]="Zaterdag";
+$txt["en"]["contact"]["zaterdag"]="Saturday";
 
-$txt["nl"]["contact"]["zondag"]="Zondag:";
-$txt["en"]["contact"]["zondag"]="Sunday:";
+$txt["nl"]["contact"]["zondag"]="Zondag";
+$txt["en"]["contact"]["zondag"]="Sunday";
 
 $txt["nl"]["contact"]["tijd"]="Van 9:00 tot 17:30";
 $txt["en"]["contact"]["tijd"]="From 9 am to 5:30 pm";
@@ -1357,14 +1357,11 @@ $txt["en"]["contact"]["land"]="Country";
 $txt["nl"]["contact"]["landNaam"]="Nederland";
 $txt["en"]["contact"]["landNaam"]="The Netherlands";
 
-$txt["nl"]["contact"]["telefoonnummer"]="Telefoonnummer:";
-$txt["en"]["contact"]["telefoonnummer"]="Telephone number:";
-
 $txt["nl"]["contact"]["mobielwerk"]="Mobiel of werktelefoonnummer";
 $txt["en"]["contact"]["mobielwerk"]="Mobile telephone or telephone at work";
 
-$txt["nl"]["contact"]["email"]="E-mailadres: ";
-$txt["en"]["contact"]["email"]="E-mailadress";
+$txt["nl"]["contact"]["email"]="E-mailadres";
+$txt["en"]["contact"]["email"]="Email address";
 
 $txt["nl"]["contact"]["email_kort"]="E-mail";
 $txt["en"]["contact"]["email_kort"]="E-mail";
@@ -1396,32 +1393,35 @@ $txt["en"]["contact"]["naamreisbureau_chalettour"]="-";
 $txt["nl"]["contact"]["nederland"]="Nederland"; # Dit veld blijft leeg bij de Nederlandstalige versie
 $txt["en"]["contact"]["nederland"]="The Netherlands";
 
-$txt["nl"]["contact"]["adresgegevens"]="Adresgegevens ";
-$txt["en"]["contact"]["adresgegevens"]="Contact information ";
+$txt["nl"]["contact"]["adresgegevens"]="Adresgegevens";
+$txt["en"]["contact"]["adresgegevens"]="Contact information";
 
-$txt["nl"]["contact"]["postadres"]="Postadres: ";
-$txt["en"]["contact"]["postadres"]="Address: ";
+$txt["nl"]["contact"]["postadres"]="Postadres";
+$txt["en"]["contact"]["postadres"]="Address";
 
-$txt["nl"]["contact"]["overigegegevens"]="Overige gegevens ";
-$txt["en"]["contact"]["overigegegevens"]="Other information ";
+$txt["nl"]["contact"]["overigegegevens"]="Overige gegevens";
+$txt["en"]["contact"]["overigegegevens"]="Other information";
 
 $txt["nl"]["contact"]["telefoonnummer"]="Telefoonnummer";
 $txt["en"]["contact"]["telefoonnummer"]="Telephone number";
 
-$txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon:";
-$txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone:";
+$txt["nl"]["contact"]["fax"]="Fax";
+$txt["en"]["contact"]["fax"]="Fax";
 
-$txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon:";
-$txt["en_b"]["contact"]["telefoonnummer_chalet"]="Telephone:";
+$txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0348 - 43 46 49";
+$txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
 
-$txt["nl"]["contact"]["fax_chalet"]="Fax: ";
-$txt["en"]["contact"]["fax_chalet"]="Fax:";
+$txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon: +31 348 43 46 49";
+$txt["en_b"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
+
+$txt["nl"]["contact"]["fax_chalet"]="Fax: 0348 - 69 07 52";
+$txt["en"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
+
+$txt["nl_b"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
+$txt["en_b"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
 
 $txt["nl"]["contact"]["telefonischeBereikbaarheid"]="Telefonische bereikbaarheid ";
 $txt["en"]["contact"]["telefonischeBereikbaarheid"]="Reach us by telephone (local time)";
-
-$txt["nl_b"]["contact"]["fax_chalet"]="Fax:";
-$txt["en_b"]["contact"]["fax_chalet"]="Fax:";
 
 $txt["nl"]["contact"]["onderschrift_chalettour"]="Chalettour is een handelsnaam van Chalet.nl B.V., Lindenhof 5, 3442 GT Woerden, tel: 0348-434649, [[h_1]]info@chalettour.nl[[h_2]]";
 $txt["en"]["contact"]["onderschrift_chalettour"]="-";
@@ -1462,7 +1462,7 @@ $txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite 
 $txt["nl_z"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete vakantiehuizen die je hebt doorgestuurd op";
 $txt["en_z"]["favorieten"]["kopie"]="-";
 
-$txt["nl"]["favorieten"]["versturenPermail"]="Versturen via email";
+$txt["nl"]["favorieten"]["versturenPermail"]="Versturen via e-mail";
 $txt["en"]["favorieten"]["versturenPermail"]="Send by e-mail";
 
 $txt["nl"]["favorieten"]["inhoudprinten"]="Printen";
