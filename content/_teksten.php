@@ -1453,8 +1453,11 @@ $txt["en_z"]["favorieten"]["geenfavorieten"]="-";
 $txt["nl"]["favorieten"]["onderwerpTextChalet"]="Mijn favoriete chalets en appartementen";
 $txt["en"]["favorieten"]["onderwerpTextChalet"]="My favourite chalets and apartments";
 
-$txt["nl"]["favorieten"]["doormailTextChalet"]="Dit moet je zien! Ik heb een aantal leuke chalets en appartementen gevonden op";
-$txt["en"]["favorieten"]["doormailTextChalet"]="You must see this! I have found some interesting chalets and apartments on";
+$txt["nl"]["favorieten"]["doormailtekst"]="Dit moet je zien! Ik heb een aantal leuke chalets en appartementen gevonden op [[v_websitenaam]].";
+$txt["en"]["favorieten"]["doormailtekst"]="You must see this! I have found some interesting chalets and apartments on [[v_websitenaam]].";
+
+$txt["nl_z"]["favorieten"]["doormailtekst"]="Dit moet je zien! Ik heb een aantal leuke vakantiehuizen gevonden op [[v_websitenaam]].";
+$txt["en_z"]["favorieten"]["doormailtekst"]="-";
 
 $txt["nl"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete chalets die je hebt doorgestuurd op";
 $txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have send on ";

@@ -603,7 +603,7 @@ td.selecteerbaarbedrag:hover{
 
 #zoekblok input[name='fzt'] {
 	background-color: #ffffff;
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );   
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );
 	background: #fff url('../pic/chosen-sprite.png') no-repeat 100% -22px;
 	background: url('../pic/chosen-sprite.png') no-repeat 100% -22px, -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
 	background: url('../pic/chosen-sprite.png') no-repeat 100% -22px, -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
@@ -663,7 +663,7 @@ td.selecteerbaarbedrag:hover{
 	background-image: -moz-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
 	background-image: -o-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
 	background-image: -ms-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
-	background-image: linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%); 
+	background-image: linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
 	-webkit-border-radius: 5px;
 	-moz-border-radius   : 5px;
 	border-radius        : 5px;
@@ -871,7 +871,7 @@ td.selecteerbaarbedrag:hover{
 
 .zoekresultaat_locatie {
 	margin-top: 3px;
-	color: #003366;	
+	color: #003366;
 }
 
 .zoekresultaat_top {
@@ -956,7 +956,7 @@ td.selecteerbaarbedrag:hover{
 }
 
 .zoekresultaat_prijs_periode {
-	
+
 }
 
 .zoekresultaat_prijs_vanaf {
@@ -1060,7 +1060,7 @@ td.selecteerbaarbedrag:hover{
 .zoekresultaat_type_aanbieding {
 	float: right;
 	color: #d40139;
-	white-space: nowrap;	
+	white-space: nowrap;
 }
 
 .zoekresultaat_type_prijs_aanbieding {
@@ -1148,6 +1148,14 @@ td.selecteerbaarbedrag:hover{
 #cookie_bottombar_close:hover {
 	color: #ffffff;
 }
+
+#popUpDiv {
+	position:absolute;
+	width:300px;
+	height:300px;
+	z-index: 9002;
+}
+
 
 //
 // jQuery Chosen
@@ -1555,6 +1563,6 @@ td.selecteerbaarbedrag:hover{
 
 
 // CSS specifiek voor tablets
-@media only screen and (device-width:768px) { 
+@media only screen and (device-width:768px) {
 
 }

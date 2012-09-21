@@ -276,7 +276,7 @@ form {
 
 #zoekenboek_overlay select {
 	width: 170px;
-	margin: 0;	
+	margin: 0;
 }
 
 #zoekenboek_overlay .tekstzoeken {
@@ -706,7 +706,7 @@ form {
 
 .aanbiedingtabel td {
 	border: 0px;
-	padding: 6px;	
+	padding: 6px;
 }
 
 .gekleurdetekst {
@@ -832,11 +832,11 @@ form {
 }
 
 .zoekresultaat_type_prijs_aanbieding {
-	color: #661700;	
+	color: #661700;
 }
 
 .zoekresultaat_prijs_bedrag_aanbieding {
-	color: #661700;	
+	color: #661700;
 }
 
 #footerWrap{
@@ -847,7 +847,7 @@ form {
 }
 
 #footerWrap table{
-	border-top-color:#661700;	
+	border-top-color:#661700;
 }
 
 .noIND{
@@ -866,7 +866,7 @@ form {
 }
 .divSepIND{
 	float:left;
-	padding-left:10px; 
+	padding-left:10px;
 	height:200px;;
 	width:198px;
 	background-color:#e0d1cc;
@@ -890,7 +890,7 @@ form {
 }
 .divSepIND{
 	float:left;
-	padding-left:20px; 
+	padding-left:20px;
 	height:200px;;
 	width:190px;
 	background-color:#e0d1cc;
@@ -916,7 +916,7 @@ form {
 
 .divContentIND{
 	float:left;
-	padding-left:15px;	
+	padding-left:15px;
 }
 
 .divContentIND a{
@@ -941,15 +941,7 @@ form {
  	top:0px;
  	left:0px;
  	width:100%;
- }
- #popUpDiv {
- 	position:absolute;
- 	width:300px;
- 	height:300px;
- 	z-index: 9002;
- 	top:5px;
- 	left:45%;
- }
+}
 
 @media print {
 
@@ -962,11 +954,11 @@ form {
 		margin: 0px;
 		padding: 0px;
 	}
-	
+
 	#contentrechts {
 
 	}
-	
+
 	#menubalk {
 		display: none;
 	}
@@ -983,14 +975,14 @@ form {
 	.onlyprint {
 		display: inline;
 	}
-	
+
 	#menubalk_print {
 		position: absolute;
 		top: 10px;
 		right: 0px;
 		text-align: right;
 	}
-	
+
 	a {
 		text-decoration: none;
 	}

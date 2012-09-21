@@ -154,7 +154,7 @@ while(list($key,$value)=each($submenu)) {
 	if($value<>"-") {
 		echo "<a href=\"".$vars["path"].txt("menu_".$key).(@in_array($key,$submenu_url_zonder_punt_php) ? "" : ".php")."\">";
 		if($key=="favorieten") {
-			echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">0</span>)";
+			 echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">".intval($vars["bezoeker_aantal_favorieten"])."</span>)";
 		} else {
 			echo wt_he($value);
 		}
@@ -264,7 +264,7 @@ if($vars["verberg_linkerkolom"]) {
 
 	# Content includen
 	include($include);
-	
+
 	echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	echo "</div>\n";
 } else {
@@ -280,7 +280,7 @@ if($vars["verberg_linkerkolom"]) {
 	if(!$vars["verberg_directnaar"]) {
 		echo "<div id=\"directnaar\" class=\"noprint\">";
 #		echo "<div id=\"directnaar_kop\"><span class=\"bloklinks_kop\">".html("directnaar","index")."</span></div>";
-		
+
 #		echo "Accommodatietip";
 #		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("frankrijk","index"))."/\">".html("frankrijk","index")."</a><br />";
 #		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("oostenrijk","index"))."/\">".html("oostenrijk","index")."</a><br />";
@@ -288,7 +288,7 @@ if($vars["verberg_linkerkolom"]) {
 #		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("italie","index"))."/\">".html("italie","index")."</a><br />";
 #		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".txt("menu_land")."/".wt_convert2url(txt("frankrijk","index"))."/\">".html("overigelanden","index")."</a><br />";
 		echo "</div>\n"; # afsluiten directnaar
-	
+
 		#
 		# Blok links met accommodatie
 		#
@@ -307,7 +307,7 @@ if($vars["verberg_linkerkolom"]) {
 				if($db->f("begindatum") and $db->f("begindatum")>$checkdate) {
 					$binnendatum=false;
 				}
-				
+
 				if($db->f("einddatum") and $db->f("einddatum")<$checkdate) {
 					$binnendatum=false;
 				}
@@ -334,7 +334,7 @@ if($vars["verberg_linkerkolom"]) {
 				}
 			}
 		}
-		
+
 		if($html_ipv_blokaccommodatie) {
 			echo "<div id=\"blokaccommodatie\"".($html_ipv_blokaccommodatie_bgcolor ? " style=\"background-color:".$html_ipv_blokaccommodatie_bgcolor."\"" : "").">";
 			echo $html_ipv_blokaccommodatie;
@@ -352,15 +352,15 @@ if($vars["verberg_linkerkolom"]) {
 			}
 			echo "</div>"; # afsluiten blokaccommodatie_overlay
 			echo "</div>"; # afsluiten blokaccommodatie_innerdiv
-			
+
 			echo "</div>";
 		} else {
 	#		echo "<div id=\"blokaccommodatie\" >&nbsp;</div>";
 		}
 	}
-	
+
 	if($id=="index") {
-		
+
 		# Tarieven al bekend: link naar zomer2013.php
 		echo "<a href=\"".$vars["path"]."zomer2013.php\" id=\"hoofdpagina_tarievenalbekend\">";
 		echo "<h2>Zomer 2013</h2>";
@@ -386,7 +386,7 @@ if($vars["verberg_linkerkolom"]) {
 	echo "</div>\n"; # afsluiten bloklinks
 
 	echo "</div>\n"; # afsluiten bloklinks_blok
-	
+
 	echo "<div id=\"contentrechts\">";
 
 	if($id<>"index" and $id<>"toonaccommodatie" and !$laat_titel_weg) {
@@ -485,7 +485,7 @@ if($id!="index") {
 	echo "<li><a href=\"".$vars["path"]."vakantie-in-italie\" rel=\"nofollow\">Vakantie in Itali&euml;</a></li>";
 	echo "<li><a href=\"http://www.chalet.nl/land/Italie/\" target=\"_blank\" rel=\"nofollow\">Wintersport in Itali&euml;</a></li>";
 	echo "</div>";
-	echo "</div>";	
+	echo "</div>";
 	echo "</div>";
 } elseif($id=="index") {
 	echo"<div id=\"footerWrap\">";
@@ -523,7 +523,7 @@ if($id!="index") {
 	echo "</div>";
 	echo "</div>";
 	//echo "</td></tr>";
-	//echo "</table>";	
+	//echo "</table>";
 	echo "</div>";
 }
 
@@ -532,7 +532,7 @@ echo "</div>"; # afsluiten colofon_wrapper
 if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 
 	echo "<div id=\"zoekenboek_overlay\" class=\"noprint\">";
-	
+
 	if($id=="aanbiedingen_zomerhuisje") {
 		echo "<div id=\"zoekenboek_aanbiedingen\">";
 		echo "<div id=\"zoekenboek_aanbiedingen_kop\">";
@@ -571,7 +571,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 		if(!$landgehad[$db->f("land")]) {
 #			$vars["skigebied"][$db->f("land_id")."-0"]="".txt("alleskigebiedenin","accommodaties")." ".$db->f("land")."";
 			$vars["skigebied"][$db->f("land")."AAAAA___".txt("heelskigebieden","accommodaties")." ".$db->f("land")]=$db->f("land_id")."-0";
-			
+
 			$landnaam[$db->f("land_id")]=$db->f("land");
 			$landgehad[$db->f("land")]=true;
 		}
@@ -636,7 +636,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "</select>";
 	echo "</div>";
 #	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aankomstdatum","index")."</div>";
-	
+
 	# Aankomstdatum vullen
 	$vars["aankomstdatum_weekend_afkorting"]["-"]="-- ".txt("aankomstdatum","index")." --";
 	$vars["aankomstdatum_weekend_afkorting"][0]=txt("geenvoorkeur","index");
@@ -662,7 +662,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
 	$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
 	$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
-	
+
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<select name=\"fdu\" class=\"selectbox\">";
 	while(list($key,$value)=each($vars["verblijfsduur"])) {
@@ -676,18 +676,18 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
 	echo "</div>";
-	
+
 	echo "<div style=\"margin-top:7px;margin-bottom:0px;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php".($id=="aanbiedingen_zomerhuisje" ? "?aab=1&faab=1&filled=1" : "")."\">".html("uitgebreidzoeken","index")."</a></div>";
 	echo "</form>";
 
 	echo "</div>";
 	echo "</div>\n";
-	
+
 	if($id=="aanbiedingen_zomerhuisje") {
 		echo "</div>";
 		echo "</div>";
 	}
-	
+
 } elseif($lhtml) {
 
 	# Afwijkende content linkerblok plaatsen

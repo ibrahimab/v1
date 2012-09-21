@@ -25,7 +25,7 @@ echo "</title>";
 
 if($vars["page_with_tabs"]) {
 #	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."\" />\n";
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."?type=".$vars["websitetype"]."\" />\n";	
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."?type=".$vars["websitetype"]."\" />\n";
 }
 
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_websites_en_cms.css.phpcache?cache=".@filemtime("css/opmaak_websites_en_cms.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
@@ -184,7 +184,7 @@ while(list($key,$value)=each($submenu)) {
 		} else {
 			echo "<a href=\"".$vars["path"].txt("menu_".$key).(@in_array($key,$submenu_url_zonder_punt_php) ? "" : ".php")."\">";
 			if($key=="favorieten") {
-				echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">0</span>)";
+				 echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">".intval($vars["bezoeker_aantal_favorieten"])."</span>)";
 			} else {
 				echo wt_he($value);
 			}
@@ -227,7 +227,7 @@ if($vars["websiteland"]=="nl") {
 	echo "<div style=\"position:absolute;bottom:4px;right:4px;\" class=\"noprint\">";
 	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" border=\"0\" width=\"35\" height=\"33\" style=\"margin-top:4px;\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
 	echo "</div>";
-}	
+}
 echo "</div>";
 
 echo "<div id=\"hoofdmenu\" class=\"noprint\">";
@@ -339,7 +339,7 @@ if($vars["verberg_linkerkolom"]) {
 	echo "</div>"; # afsluiten telefoonblok
 
 	if($vars["verberg_zoekenboeklinks"]) {
-		echo "&nbsp;";	
+		echo "&nbsp;";
 	} else {
 		echo "<div id=\"zoekenboek\">";
 		if($id=="aanbiedingen_zomerhuisje") {
@@ -353,30 +353,30 @@ if($vars["verberg_linkerkolom"]) {
 			echo html("zoekenboek","index");
 			echo "</span></div>";
 		}
-	
+
 		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\">";
 		echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 		if($id=="aanbiedingen_zomerhuisje") {
 			echo "<input type=\"hidden\" name=\"aab\" value=\"1\">";
 			echo "<input type=\"hidden\" name=\"faab\" value=\"1\">";
-		}	
+		}
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";
-	
+
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<input type=\"text\" name=\"fzt\" class=\"tekstzoeken\" value=\"-- ".html("trefwoord","index")." --\" onfocus=\"if(this.value=='-- ".html("trefwoord","index")." --') this.value='';\" onblur=\"if(this.value=='') this.value='-- ".html("trefwoord","index")." --';\">";
 		echo "</div>";
-	
+
 		# Skigebied-array vullen
 		$vars["skigebied"]["AAAAA___-- ".txt("bestemming","index")." --"]=0;
 		$vars["skigebied"]["AAAAB___".txt("geenvoorkeur","index")]=0;
-	
+
 		$db->query("SELECT DISTINCT s.skigebied_id, s.naam, s.kortenaam1, s.kortenaam2, s.kortenaam3, s.kortenaam4, l.naam".$vars["ttv"]." AS land, l.naam AS landnl, l.land_id, s.koppeling_1_1, s.koppeling_1_2, s.koppeling_1_3, s.koppeling_1_4, s.koppeling_1_5, s.koppeling_2_1, s.koppeling_2_2, s.koppeling_2_3, s.koppeling_2_4, s.koppeling_2_5, s.koppeling_3_1, s.koppeling_3_2, s.koppeling_3_3, s.koppeling_3_4, s.koppeling_3_5, s.koppeling_4_1, s.koppeling_4_2, s.koppeling_4_3, s.koppeling_4_4, s.koppeling_4_5, s.koppeling_5_1, s.koppeling_5_2, s.koppeling_5_3, s.koppeling_5_4, s.koppeling_5_5 FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id ORDER BY l.naam".$vars["ttv"].", s.naam;");
 		while($db->next_record()) {
 			$landen[$db->f("land")]=true;
 			if(!$landgehad[$db->f("land")]) {
 	#			$vars["skigebied"][$db->f("land_id")."-0"]="".txt("alleskigebiedenin","accommodaties")." ".$db->f("land")."";
 				$vars["skigebied"][$db->f("land")."AAAAA___".txt("heelskigebieden","accommodaties")." ".$db->f("land")]=$db->f("land_id")."-0";
-				
+
 				$landnaam[$db->f("land_id")]=$db->f("land");
 				$landgehad[$db->f("land")]=true;
 			}
@@ -396,7 +396,7 @@ if($vars["verberg_linkerkolom"]) {
 			}
 		}
 		ksort($vars["skigebied"]);
-	
+
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fsg\" class=\"selectbox\">";
@@ -424,17 +424,17 @@ if($vars["verberg_linkerkolom"]) {
 			echo htmlentities(ereg_replace("^.*___","",$key))."</OPTION>";
 		}
 		if($optgroup_open) echo "</OPTGROUP>\n";
-	
+
 		echo "</select>";
 		echo "</div>";
-	
+
 		# aantalpersonen-array vullen
 		$vars["aantalpersonen"]["-"]="-- ".txt("aantalpersonen","index")." --";
 		$vars["aantalpersonen"][0]=txt("geenvoorkeur","index");
 		for($i=1;$i<=40;$i++) {
 			$vars["aantalpersonen"][$i]=$i;
 		}
-	
+
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fap\" class=\"selectbox\">";
@@ -446,12 +446,12 @@ if($vars["verberg_linkerkolom"]) {
 		echo "</select>";
 		echo "</div>";
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aankomstdatum","index")."</div>";
-		
+
 		# Aankomstdatum vullen
 		$vars["aankomstdatum_weekend_afkorting"]["-"]="-- ".txt("aankomstdatum","index")." --";
 		$vars["aankomstdatum_weekend_afkorting"][0]=txt("geenvoorkeur","index");
 		ksort($vars["aankomstdatum_weekend_afkorting"]);
-	
+
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fad\" class=\"selectbox\">";
 		while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
@@ -472,7 +472,7 @@ if($vars["verberg_linkerkolom"]) {
 		$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
 		$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
 		$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
-		
+
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fdu\" class=\"selectbox\">";
 		while(list($key,$value)=each($vars["verblijfsduur"])) {
@@ -482,9 +482,9 @@ if($vars["verberg_linkerkolom"]) {
 		}
 		echo "</select>";
 		echo "</div>";
-	
+
 		echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
-		
+
 		echo "<div style=\"margin-top:4px;margin-bottom:0px;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php".($id=="aanbiedingen_zomerhuisje" ? "?aab=1&faab=1&filled=1" : "")."\">".html("uitgebreidzoeken","index")."</a></div>";
 		echo "</form>";
 
@@ -494,9 +494,9 @@ if($vars["verberg_linkerkolom"]) {
 		}
 		echo "</div>"; # afsluiten "zoekenboek"
 	}
-	
+
 	#
-	# Blok links met accommodatie	
+	# Blok links met accommodatie
 	#
 	unset($blokaccommodatie,$where);
 	# where bepalen
@@ -519,7 +519,7 @@ if($vars["verberg_linkerkolom"]) {
 			if($db->f("begindatum") and $db->f("begindatum")>$checkdate) {
 				$binnendatum=false;
 			}
-			
+
 			if($db->f("einddatum") and $db->f("einddatum")<$checkdate) {
 				$binnendatum=false;
 			}
@@ -568,7 +568,7 @@ if($vars["verberg_linkerkolom"]) {
 		}
 		echo "</div>";
 		echo "</div>";
-		
+
 		echo "</div>";
 	} else {
 		echo "<div id=\"blokaccommodatie\">&nbsp;</div>";
@@ -603,12 +603,12 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
 		echo "</form>";
 		echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
-		echo "</div>";		
+		echo "</div>";
 	}
-	
+
 	echo "</div>\n";
 
-	
+
 	echo "<div id=\"contentrechts\">";
 
 	if($id<>"index" and $id<>"toonaccommodatie" and !$laat_titel_weg) {
@@ -626,10 +626,10 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<h2>Vakantiehuizen voor levensgenieters</h2>";
 
 		include($include);
-		
+
 #		echo "<p>hallo</p>";
 	} else {
-	
+
 		if($id=="zoek-en-boek") {
 			# zorgen voor hoge content i.v.m. "verfijn"-blok
 			echo "<div style=\"min-height:840px;\">";
@@ -649,7 +649,7 @@ if($vars["verberg_linkerkolom"]) {
 #		echo "<br>&nbsp;";
 		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
-	
+
 	echo "</div>";
 	echo "<div style=\"clear: both;\"></div>\n";
 }

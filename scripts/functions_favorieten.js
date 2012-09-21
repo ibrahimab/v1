@@ -4,15 +4,29 @@ function validateEmail(email) {
 	return email.match(pattern);
 }
 
+function mailFormToggle() {
+	// mailformulier favorietenfunctie open/dichtklappen
+	if ($("#mailForm").is(":hidden")) {
+		// bij openen: div voor errormelding tonen
+		$("#errorLabel").css("display","block");
+	} else {
+		// bij sluiten: div voor errormelding verbergen
+		$("#errorLabel").css("display","none");
+	}
+	$("#mailForm").slideToggle();
+
+	document.getElementById("errorLabel").innerHTML="";
+	document.getElementById("errorLabel").style.backgroundColor = '#ffffff';
+
+	return false;
+}
+
 $(document).ready(function() {
 	$("#showForm").click(function () {
-			$("#mailForm").slideToggle();
-			return false;
+		return mailFormToggle();
 	});
 
-
 	$("#Annuleren").click(function () {
-		$("#mailForm").slideToggle();
-		return false;
+		return mailFormToggle();
 	});
 });

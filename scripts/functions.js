@@ -300,9 +300,11 @@ var googlemaps_infowindow;
 var googlemaps_counter=0;
 var googlemaps_skigebiedid=0;
 var zoekblok_tekst='';
+var lokale_testserver=false;
 var absolute_path='/';
 if(location.href.indexOf("/chalet/")>1) {
 	var absolute_path='/chalet/';
+	var lokale_testserver=true;
 }
 
 function initialize_googlemaps() {
@@ -931,7 +933,7 @@ function favorieten_opslaan_verwijderen(typeid, action) {
 				$("#favremove").css("display","inline");
 				if(data.aantal==1) {
 					// popup tonen
-					if(chalet_getCookie("favorietenpopup")!="1") {
+					if(chalet_getCookie("favorietenpopup")!="1"||lokale_testserver) {
 						$("#popUpDiv").css("display","inline");
 						chalet_createCookie("favorietenpopup","1",3650);
 					}

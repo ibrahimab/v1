@@ -281,7 +281,7 @@ form {
 
 #zoekenboek_overlay select {
 	width: 170px;
-	margin: 0;	
+	margin: 0;
 }
 
 #zoekenboek_overlay .tekstzoeken {
@@ -432,7 +432,7 @@ form {
 	background-color: #fb6703;
 	border: 1px solid #fb6703;
 	color: #ffffff;
-	height: 30px;	
+	height: 30px;
 }
 
 .redbutton:hover {
@@ -656,7 +656,7 @@ form {
 }
 .divSepIND{
 	float:left;
-	padding-left:4px; 
+	padding-left:4px;
 	height:200px;
 	width:167px;
 	background-color:#d5e1f9;
@@ -698,7 +698,7 @@ form {
 
 .divContentIND{
 	float:left;
-	padding-left:20px;	
+	padding-left:20px;
 }
 
 .divContentIND a{
@@ -721,14 +721,7 @@ form {
  	left:0px;
  	width:100%;
  }
- #popUpDiv {
- 	position:absolute;
- 	width:300px;
- 	height:300px;
- 	z-index: 9002;
- 	top:5px;
- 	left:34%;
- }
+
 
 
 @media print {
@@ -742,7 +735,7 @@ form {
 		margin: 0px;
 		padding: 0px;
 	}
-	
+
 	#menubalk {
 		display: none;
 	}
@@ -759,12 +752,12 @@ form {
 	.onlyprint {
 		display: inline;
 	}
-	
+
 	#menubalk_print {
 		padding-top: 20px;
 		float: left;
 	}
-	
+
 	a {
 		text-decoration: none;
 	}
