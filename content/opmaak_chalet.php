@@ -373,9 +373,9 @@ if($vars["verberg_linkerkolom"]) {
 			echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
 			echo "</form>";
 			echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
-				
+
 			echo "<div style=\"clear:both;\"></div>";
-			
+
 			//if(($vars["website"]=="C" or $vars["website"]=="T") and $id<>"alpedhuzes") {
 			//			# Alpe d'HuZes
 			//			echo "<div id=\"alpedhuzes\">";
@@ -384,13 +384,13 @@ if($vars["verberg_linkerkolom"]) {
 			//		}
 		}
 	}
-	
+
 	echo "</div>\n";
-	
+
 	echo "</div>\n";
-	
+
 	echo "<div id=\"contentrechts\">";
-	
+
 	if($id<>"index" and $id<>"toonaccommodatie" and !$laat_titel_weg) {
 		if($header[$id]) {
 			echo "<h1>".htmlentities($header[$id])."</h1>";
@@ -398,7 +398,7 @@ if($vars["verberg_linkerkolom"]) {
 			echo "<h1>".htmlentities($title[$id])."</h1>";
 		}
 	}
-	
+
 	# Content includen
 	if($id=="index") {
 		include($include);
@@ -406,11 +406,11 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div style=\"min-height:290px;\">";
 		include($include);
 		echo "</div>";
-	
+
 		if($last_acc_html and $id<>"saved" and (!$vars["verberg_directnaar"] or $id=="zoek-en-boek") and !$vars["verberg_lastacc"]) {
 			echo $last_acc_html;
 		}
-	
+
 		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
 	if(!$vars["wederverkoop"] and $id<>"index") {
@@ -481,7 +481,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<li><a href=\"".$vars["path"]."skigebied/Zell_am_See_Kaprun/\" rel=\"nofollow\">Wintersport in Zell am See / Kaprun</a></li>";
 		echo "<li><a href=\"".$vars["path"]."skigebied/Les_Deux_Alpes/\" rel=\"nofollow\">Wintersport in Les Deux Alpes</a></li>";
 		echo "</div>";
-		
+
 		echo "<div class=\"divContentIND\">";
 		echo "<br><b>Populaire skidorpen</b><br><br>";
 		echo "<li><a href=\"".$vars["path"]."plaats/Konigsleiten/\" rel=\"nofollow\">Wintersport in K&ouml;nigsleiten</li></a>";
@@ -490,7 +490,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<li><a href=\"".$vars["path"]."plaats/Chatel/\" rel=\"nofollow\">Wintersport in Ch&acirc;tel</a></li>";
 		echo "<li><a href=\"".$vars["path"]."plaats/Les_Menuires/\" rel=\"nofollow\">Wintersport in Les Menuires</a></li>";
 		echo "</div>";
-		echo "</div>";	
+		echo "</div>";
 		echo "</div>";
 	} elseif($id=="index") {
 		echo"<div id=\"footerWrap\">";
@@ -515,7 +515,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<li><a href=\"".$vars["path"]."skigebied/Zell_am_See_Kaprun/\">Wintersport in Zell am See / Kaprun</a></li>";
 		echo "<li><a href=\"".$vars["path"]."skigebied/Les_Deux_Alpes/\">Wintersport in Les Deux Alpes</a></li>";
 		echo "</div>";
-		
+
 		echo "<div class=\"divContentIND\">";
 		echo "<br><b>Populaire skidorpen</b><br><br>";
 		echo "<li><a href=\"".$vars["path"]."plaats/Konigsleiten/\">Wintersport in K&ouml;nigsleiten</a></li>";
@@ -554,7 +554,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<li><a href=\"".$vars["path"]."region/Zell_am_See_Kaprun/\" rel=\"nofollow\">Chalets in Zell am See / Kaprun</a></li>";
 		echo "<li><a href=\"".$vars["path"]."region/Les_Deux_Alpes/\" rel=\"nofollow\">Chalets in Les Deux Alpes</a></li>";
 		echo "</div>";
-		
+
 		echo "<div class=\"divContentIND\">";
 		echo "<br><b>Popular ski villages</b><br><br>";
 		echo "<li><a href=\"".$vars["path"]."resort/Konigsleiten/\" rel=\"nofollow\">Chalets in K&ouml;nigsleiten</li></a>";
@@ -563,7 +563,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<li><a href=\"".$vars["path"]."resort/Chatel/\" rel=\"nofollow\">Chalets in Ch&acirc;tel</a></li>";
 		echo "<li><a href=\"".$vars["path"]."resort/Les_Menuires/\" rel=\"nofollow\">Chalets in Les Menuires</a></li>";
 		echo "</div>";
-		echo "</div>";	
+		echo "</div>";
 		echo "</div>";
 	} elseif($id=="index") {
 		echo"<div id=\"footerWrap\">";
@@ -588,7 +588,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<li><a href=\"".$vars["path"]."region/Zell_am_See_Kaprun/\">Chalets in Zell am See / Kaprun</a></li>";
 		echo "<li><a href=\"".$vars["path"]."region/Les_Deux_Alpes/\">Chalets in Les Deux Alpes</a></li>";
 		echo "</div>";
-		
+
 		echo "<div class=\"divContentIND\">";
 		echo "<br><b>Popular ski villages</b><br><br>";
 		echo "<li><a href=\"".$vars["path"]."resort/Konigsleiten/\">Chalets in K&ouml;nigsleiten</a></li>";
@@ -608,12 +608,12 @@ echo "</div>";
 if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<div id=\"zoekenboek_overlay\" class=\"noprint\">";
 	echo "<div class=\"bloklinks_kop\" style=\"margin-bottom:5px;\">".html("zoekenboek","index")."</div>";
-	
+
 	echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
-	
+
 #	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";
-	
+
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<input type=\"text\" name=\"fzt\" class=\"tekstzoeken\" value=\"-- ".html("trefwoord","index")." --\" onfocus=\"if(this.value=='-- ".html("trefwoord","index")." --') this.value='';\" onblur=\"if(this.value=='') this.value='-- ".html("trefwoord","index")." --';\">";
 	echo "</div>";
@@ -632,20 +632,20 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	# Skigebied-array vullen
 	$vars["skigebied"]["00AAAAA___-- ".txt("skigebied","index")." --"]=0;
 	$vars["skigebied"]["00AAAAB___".txt("geenvoorkeur","index")]=0;
-	
+
 	$db->query("SELECT DISTINCT s.skigebied_id, s.naam, s.kortenaam1, s.kortenaam2, s.kortenaam3, s.kortenaam4, l.naam".$vars["ttv"]." AS land, l.naam AS landnl, l.land_id, s.koppeling_1_1, s.koppeling_1_2, s.koppeling_1_3, s.koppeling_1_4, s.koppeling_1_5, s.koppeling_2_1, s.koppeling_2_2, s.koppeling_2_3, s.koppeling_2_4, s.koppeling_2_5, s.koppeling_3_1, s.koppeling_3_2, s.koppeling_3_3, s.koppeling_3_4, s.koppeling_3_5, s.koppeling_4_1, s.koppeling_4_2, s.koppeling_4_3, s.koppeling_4_4, s.koppeling_4_5, s.koppeling_5_1, s.koppeling_5_2, s.koppeling_5_3, s.koppeling_5_4, s.koppeling_5_5 FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id ORDER BY l.naam".$vars["ttv"].", s.naam;");
 	while($db->next_record()) {
 		$landen[$db->f("land")]=true;
-	
+
 		if($landen_sort[$db->f("land_id")]) {
 			$sorteer=$landen_sort[$db->f("land_id")];
 		} else {
 			$sorteer=$db->f("land");
 		}
-	
+
 		if(!$landgehad[$db->f("land")]) {
 			$vars["skigebied"][$sorteer."AAAAA___".txt("heelskigebieden","accommodaties")." ".$db->f("land")]=$db->f("land_id")."-0";
-				
+
 			$landnaam[$db->f("land_id")]=$db->f("land");
 			$landgehad[$db->f("land")]=true;
 		}
@@ -667,7 +667,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	setlocale(LC_COLLATE,"nl_NL.ISO8859-1");
 	ksort($vars["skigebied"],SORT_LOCALE_STRING);
 	setlocale(LC_COLLATE,"C");
-	
+
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<select name=\"fsg\" class=\"selectbox\">";
 	while(list($key,$value)=each($vars["skigebied"])) {
@@ -692,10 +692,10 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 		echo htmlentities(ereg_replace("^.*___","",$key))."</option>";
 	}
 	if($optgroup_open) echo "</optgroup>\n";
-	
+
 	echo "</select>";
 	echo "</div>";
-	
+
 	# aantalpersonen-array vullen
 	$vars["aantalpersonen"]["-"]="-- ".txt("aantalpersonen","index")." --";
 	$vars["aantalpersonen"][0]=txt("geenvoorkeur","index");
@@ -714,7 +714,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "</select>";
 	echo "</div>";
 #	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aankomstdatum","index")."</div>";
-	
+
 	# Aankomstdatum vullen
 	$vars["aankomstdatum_weekend_afkorting"]["-"]="-- ".txt("aankomstdatum","index")." --";
 	$vars["aankomstdatum_weekend_afkorting"][0]=txt("geenvoorkeur","index");
@@ -732,11 +732,11 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	}
 	echo "</select>";
 	echo "</div>";
-	
+
 #	echo "<div style=\"margin-top:0px;\">&nbsp;</div>";
-	
+
 	echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
-	
+
 	echo "<div style=\"margin-top:4px;margin-bottom:4px;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php\">".html("uitgebreidzoeken","index")."</a></div>";
 	echo "</form>";
 	echo "</div>";
@@ -755,7 +755,7 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 }
 
 # Balk met cookie-melding
-if($vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {
+if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {
 	echo "<div id=\"cookie_bottombar\" class=\"noprint\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
 }
 

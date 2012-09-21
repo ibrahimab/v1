@@ -115,6 +115,7 @@ $vars["ads_referermail"]=array(9=>"jeroen@webtastic.nl",12=>"j.fokke@snowplaza.n
 if(!$cron and !$cronmap and !$css and !$geen_tracker_cookie and !$_GET["nocache"]) {
 	include($unixdir."admin/trackercookie.php");
 }
+$vars["cookiemelding_tonen"]=false;
 
 #
 # Plaats- en accommodatie-pagina zonder afsluitende "/" reloaden

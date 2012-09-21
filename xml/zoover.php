@@ -3,7 +3,7 @@
 #
 #
 # XML-export van alle accommodaties t.b.v. Zoover
-# 
+#
 #
 #
 
@@ -38,10 +38,10 @@ while($db->next_record()) {
 
 		$accommodatie_getoond[$db->f("accommodatie_id")]=true;
 		$accommodatienaam_plaats_getoond[$db->f("naam")."_".$db->f("plaats")]=true;
-		
-		
 
-/*		
+
+
+/*
 		# Prijs bepalen
 		unset($prijs);
 		if($db->f("toonper")==3) {
@@ -55,29 +55,29 @@ while($db->next_record()) {
 				$prijs=$db2->f("prijs");
 			}
 		}
-	
+
 		# Aanbiedingen verwerken
 
-*/		
-	
+*/
+
 
 		echo "<accommodation>\n";
 		echo "<continent>Europe</continent>\n";
 		echo "<country><![CDATA[".wt_utf8encode($db->f("land"))."]]></country>\n";
 		echo "<region><![CDATA[".wt_utf8encode($db->f("skigebied"))."]]></region>\n";
 		echo "<place><![CDATA[".wt_utf8encode($db->f("plaats"))."]]></place>\n";
-	
+
 #			$aantalpersonen=$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? "persoon" : "personen");
 #			$accnaam=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".$aantalpersonen;
 
 #			$accnaam=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "");
 		$accnaam=$db->f("naam");
-		
+
 		echo "<accommodationname><![CDATA[".wt_utf8encode($accnaam)."]]></accommodationname>\n";
 		echo "<accommodationtype><![CDATA[".wt_utf8encode(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")]))."]]></accommodationtype>\n";
 
 #			echo "<price><![CDATA[".$prijs."]]></price>\n";
-	
+
 		unset($description);
 		if($db->f("omschrijving") or $db->f("tomschrijving")) {
 			$description=$db->f("omschrijving");
@@ -87,10 +87,10 @@ while($db->next_record()) {
 			$description.=$db->f("tomschrijving");
 			echo "<description><![CDATA[".wt_utf8encode($description)."]]></description>\n";
 		}
-		
+
 		$url=$vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/".$campaigncode;
 
-/*			
+/*
 		# Hoofd-afbeelding
 		$imgurl="";
 		if(file_exists("../pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
@@ -101,7 +101,7 @@ while($db->next_record()) {
 		if($imgurl) {
 #				echo "<MainImageURL><![CDATA[".wt_utf8encode($imgurl)."]]></MainImageURL>\n";
 		}
-		
+
 		# Extra afbeeldingen
 		$img_array=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")),"../");
 		while(list($key,$value)=@each($img_array)) {
@@ -111,7 +111,7 @@ while($db->next_record()) {
 		}
 
 */
-		
+
 #			echo "<additional>\n";
 #			if($db->f("kwaliteit") or $db->f("tkwaliteit")) {
 #				if($db->f("tkwaliteit")) {
@@ -142,14 +142,14 @@ while($db->next_record()) {
 		echo "<id>".$db->f("type_id")."</id>\n";
 		$gps_lat=trim($db->f("gps_lat"));
 		$gps_long=trim($db->f("gps_long"));
-		
+
 		if($gps_lat and $gps_long) {
 			if(preg_match("/^[0-9\.\-]+$/",$gps_lat) and preg_match("/^[0-9\.\-]+$/",$gps_long)) {
 				echo "<latitude>".$gps_lat."</latitude>\n";
 				echo "<longitude>".$gps_long."</longitude>\n";
 			}
 		}
-		
+
 		echo "</accommodation>\n";
 	}
 }
@@ -163,7 +163,7 @@ function wt_utf8encode($text) {
 	$return=ereg_replace(chr(147),"\"",$return); # “ omzetten naar "
 	$return=ereg_replace(chr(148),"\"",$return); # ” omzetten naar "
 	$return=utf8_encode($return);
-	
+
 	return $return;
 }
 
