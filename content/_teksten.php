@@ -1405,6 +1405,12 @@ $txt["en"]["contact"]["postadres"]="Address: ";
 $txt["nl"]["contact"]["overigegegevens"]="Overige gegevens ";
 $txt["en"]["contact"]["overigegegevens"]="Other information ";
 
+$txt["nl"]["contact"]["telefoonnummer"]="Telefoonnummer";
+$txt["en"]["contact"]["telefoonnummer"]="Telephone number";
+
+$txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon:";
+$txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone:";
+
 $txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon:";
 $txt["en_b"]["contact"]["telefoonnummer_chalet"]="Telephone:";
 
