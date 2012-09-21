@@ -35,6 +35,20 @@ $keuzes[3][3][2]="Italissima htmlbanner regio-datum-personen 250x250";
 $keuzes[3][4][2]="Italissima htmlbanner regio-datum 234x60";
 $keuzes[3][5][2]="Italissima htmlbanner regio-datum-personen 120x600";
 
+$keuzes[4][1][1]="Chalet.be htmlbanner land-thema 728x90";
+$keuzes[4][2][1]="Chalet.be htmlbanner land-thema 468x60";
+$keuzes[4][3][1]="Chalet.be htmlbanner land-thema 250x250";
+$keuzes[4][4][1]="Chalet.be htmlbanner land-thema 234x60";
+$keuzes[4][5][1]="Chalet.be htmlbanner land-thema 120x600";
+$keuzes[4][6][1]="Chalet.be htmlbanner land-thema 300x250";
+
+$keuzes[4][1][2]="Chalet.be htmlbanner land-datum 728x90";
+$keuzes[4][2][2]="Chalet.be htmlbanner land-datum 468x60";
+$keuzes[4][3][2]="Chalet.be htmlbanner land-datum 250x250";
+$keuzes[4][4][2]="Chalet.be htmlbanner land-datum 234x60";
+$keuzes[4][5][2]="Chalet.be htmlbanner land-datum 120x600";
+$keuzes[4][6][2]="Chalet.be htmlbanner land-datum 300x250";
+
 $netwerken[1]="TradeTracker";
 $netwerken[2]="Cleafs";
 $netwerken[3]="Snowplaza";
