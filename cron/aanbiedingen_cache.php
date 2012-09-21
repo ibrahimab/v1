@@ -61,6 +61,10 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 			sleep(1);
 		}
 	} elseif($key<>"S" and $key<>"O") {
+
+		# winter: geen cache meer van toepassing (vandaar een continue)
+		continue;
+
 		# alle andere sites - per datum
 		$url=$value.$txta[$vars["websiteinfo"]["taal"][$key]]["menu_aanbiedingen"].".php";
 		echo "\n-----------------------------------\n".$url."\n\n";
