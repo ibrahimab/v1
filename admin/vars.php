@@ -415,16 +415,9 @@ if($vars["nieuwevormgeving"]) {
 
 		$submenu["inloggen"]=txt("submenutitle_inloggen");
 		$submenu["reisagent"]=txt("submenutitle_reisagent");
-#		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		if($_GET["testsysteem"] or $vars["lokale_testserver"] or $voorkant_cms) {
-			$submenu["favorieten"]=txt("submenutitle_favorieten");
-		}
-		//$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+		$submenu["favorieten"]=txt("submenutitle_favorieten");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"] and !$voorkant_cms) {
-			$submenu["sitemap"]=txt("submenutitle_sitemap");
-		}
 	} elseif($vars["seizoentype"]==2) {
 		#
 		# Zomerhuisje
@@ -448,16 +441,10 @@ if($vars["nieuwevormgeving"]) {
 
 		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 
-	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		if($_GET["testsysteem"] or $vars["lokale_testserver"] or $voorkant_cms) {
-			$submenu["favorieten"]=txt("submenutitle_favorieten");
-		}
+		$submenu["favorieten"]=txt("submenutitle_favorieten");
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"] and !$voorkant_cms) {
-			$submenu["sitemap"]=txt("submenutitle_sitemap");
-		}
 		$submenu["chaletwinter"]=txt("submenutitle_chaletwinter");
 	} elseif($vars["websitetype"]==6) {
 		#
@@ -500,26 +487,11 @@ if($vars["nieuwevormgeving"]) {
 		if(!$vars["wederverkoop"]) {
 			$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		}
-	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
-		if($_GET["testsysteem"] or $vars["lokale_testserver"] or $voorkant_cms) {
-			$submenu["favorieten"]=txt("submenutitle_favorieten");
-		}
+		$submenu["favorieten"]=txt("submenutitle_favorieten");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		//De nieuwe footer komt op chalettour, chaletnl, chaletbe en chaleteu. daarmee is deze code overbodig geworden.
-		//if($vars["website"]!="T" and $vars["website"]!="C") {
-		//	$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
-		//}
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		//deze submenu(sitemap) moet nog naar de footer worden verplaatst.
-		if(!$_GET["testsysteem"] and !$vars["lokale_testserver"] and !$voorkant_cms) {
-			$submenu["sitemap"]=txt("submenutitle_sitemap");
-		}
 		$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
 	}
-
-#	$bold1="<b>";
-#	$bold2="</b>";
-
 } else {
 
 	$bold1="<b>";

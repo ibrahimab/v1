@@ -15,10 +15,9 @@ include "admin/vars.php";
 
 session_start();
 
-#if($vars["lokale_testserver"]) {
+if($vars["lokale_testserver"]) {
 #	wt_mail( "jeroen@webtastic.nl", "rpc_json.php", "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"] );
-#	#exit;
-#}
+}
 
 if ( $_GET["test"] ) {
 
@@ -248,11 +247,6 @@ if ( $_GET["t"]==1 ) {
 	// favorieten mailen
 	//
 
-# TEST <<<<==== !
-#$_SESSION["recaptcha_ok"]=true;
-
-#echo wt_dump($_GET);
-
 	if ($_SESSION["recaptcha_ok"]) {
 
 		# ReCAPTCHA maximaal 1x geldig
@@ -264,7 +258,7 @@ if ( $_GET["t"]==1 ) {
 			array_push($klantfavs,$db->f("type_id"));
 		}
 
-		if ( $vars["websitetype"]==1 ) {
+		if ( $vars["websitetype"]==1 or $vars["websitetype"]==4 ) {
 			$vars["balkkleur"]="#d5e1f9";
 			$vars["backcolor"]="#d5e1f9";
 			$vars["textColor"]="#003366";
@@ -277,30 +271,13 @@ if ( $_GET["t"]==1 ) {
 				$vars["backcolor"]="#eaeda9";
 				$vars["textColor"]="#5f227b";
 				$vars["korte_omschrijving_kleur"]="#5f227b";
-				$leesmeerKnopMail="background-color:#cbd328;
-			display:inline-block;
-			color:#5f227b;
-			font-family:arial;
-			font-size:15px;
-			font-weight:bold;
-			padding:6px 24px;
-			text-decoration:none;
-			cursor:pointer;text-decoration:none;";
-
+				$leesmeerKnopMail="background-color:#cbd328;display:inline-block;color:#5f227b;font-family:arial;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;text-decoration:none;";
 			} elseif ( $vars["websitetype"]==7 ) {
 				$vars["balkkleur"]="#ffd38f";
 				$vars["backcolor"]="#FFFFFF";
 				$vars["textColor"]="#661700";
 				$vars["korte_omschrijving_kleur"]="#661700";
-				$leesmeerKnopMail="background-color:#ff9900;
-			display:inline-block;
-			color:#ffffff;
-			font-family:verdana;
-			font-size:15px;
-			font-weight:bold;
-			padding:6px 24px;
-			text-decoration:none;
-			cursor:pointer;text-decoration:none;";
+				$leesmeerKnopMail="background-color:#ff9900;display:inline-block;color:#ffffff;font-family:verdana;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;text-decoration:none;";
 			}
 		}
 
@@ -326,15 +303,14 @@ if ( $_GET["t"]==1 ) {
 			$mail_topfoto="favorietenmail_logo_chalet";
 		}
 
-		$mail_content.="<a href=\"".$vars["basehref"]."\"><img src=\"".wt_he($vars["basehref"]."pic/topfoto/".$mail_topfoto.".png")."\" border=\"0\" width=\"681\"></a></td></tr>";
+		$mail_content.="<a href=\"".$vars["basehref"]."\"><img src=\"".wt_he($vars["basehref"]."pic/topfoto/".$mail_topfoto.".png")."\" border=\"0\"></a></td></tr>";
 		$bericht=$_GET["bericht"];
 		$bericht=trim($_GET["bericht"]);
-#			$bericht=str_replace("<br/>","\n",$bericht);
 		$bericht=utf8_decode($bericht);
 		$bericht=wt_he($bericht);
 		$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."\">".wt_he($vars["websitenaam"])."</a>",$bericht);
 
-		$mail_content.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
+		$mail_content.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";font-size:14px;\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
 		$mail_content.="</td></tr>";
 		$mail_content.="</table>";
 
@@ -412,32 +388,35 @@ if ( $_GET["t"]==1 ) {
 		for($i = 0; $i<sizeof($emails); $i++) {
 
 			$mail=new wt_mail;
-			$mail->fromname=$_GET["verzenderAdres"];
 			$mail->from=$_GET["verzenderAdres"];
-			$mail->subject=html("onderwerpTextChalet","favorieten");
+			$mail->fromname=$_GET["verzenderAdres"];
+			$mail->subject=html("mailonderwerp","favorieten");
 			$mail->to=$emails[$i];
+
 			$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 			$mail->html_top="";
 			$mail->html_bottom="";
+
 			$mail->html=$mail_content;
 			$mail->send();
 		}
 
-		if($_GET["kopie"]=="ja") {
+		if($_GET["kopie"]=="1") {
 			#
 			# Kopie naar afzender sturen
 			#
 			$mail=new wt_mail;
-			$mail->fromname=$_GET["verzenderAdres"];
 			$mail->from=$_GET["verzenderAdres"];
-			$mail->subject=html("onderwerpTextChalet","favorieten");
+			$mail->fromname=$_GET["verzenderAdres"];
+			$mail->subject=html("mailonderwerp","favorieten");
 			$mail->to=$_GET["verzenderAdres"];
 
+			$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 			$mail->html_top="";
 			$mail->html_bottom="";
 
 			# melding over kopie toevoegen
-			$mail_content=str_replace("<!-- kopiemelding -->","<table style=\"font-family:Verdana, Arial, Helvetica, sans-serif;color:#003366;\" border=\"0\" width=\"681\"><tr><td><i>".html("kopie", "favorieten")." ".wt_he($vars["websitenaam"])."</i><br/><br><br></td></tr><tr><td>",$mail_content);
+			$mail_content=str_replace("<!-- kopiemelding -->","<table style=\"font-family:Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:14px;\" border=\"0\" width=\"681\"><tr><td><i>".html("kopie", "favorieten")." ".wt_he($vars["websitenaam"])."</i><br/><br><br></td></tr><tr><td>",$mail_content);
 
 			$mail->html=$mail_content;
 			$mail->send();
