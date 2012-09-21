@@ -17,8 +17,8 @@ ini_set('zlib.output_compression_level', '9');
 
 $host="localhost";
 $base="db_chalet";
-$login="chaletdb";
-$password="kskL2K2kaQ";
+$login="admin";
+$password="Ll2k9qjdjp";
 
 require("admin/class.phpmysqldump.php");
 
