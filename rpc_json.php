@@ -313,20 +313,20 @@ if ( $_GET["t"]==1 ) {
 		$mail_content.="<table style=\"font-family:Verdana, Arial, Helvetica, sans-serif;color:#003366;\" border=\"0\" width=\"681\"><tr><td>";
 
 		if($vars["website"]=="I") {
-			$mail_topfoto="headerItalissima";
+			$mail_topfoto="favorietenmail_logo_italissima";
 		} elseif($vars["website"]=="E") {
-			$mail_topfoto="headerChaletEU";
+			$mail_topfoto="favorietenmail_logo_chaleteu";
 		} elseif($vars["website"]=="Z") {
-			$mail_topfoto="headerZomerhuisje";
+			$mail_topfoto="favorietenmail_logo_zomerhuisje";
 		} elseif($vars["website"]=="T") {
-			$mail_topfoto="headerChalet";
+			$mail_topfoto="favorietenmail_logo_chalettour";
 		} elseif($vars["website"]=="B") {
-			$mail_topfoto="headerChalet";
+			$mail_topfoto="favorietenmail_logo_chaletbe";
 		} else {
-			$mail_topfoto="headerChalet";
+			$mail_topfoto="favorietenmail_logo_chalet";
 		}
 
-		$mail_content.="<a href=\"".$vars["basehref"]."\"><img src=\"".wt_he($vars["basehref"]."pic/topfoto/".$mail_topfoto.".png")."\" border=\"0\"></a></td></tr>";
+		$mail_content.="<a href=\"".$vars["basehref"]."\"><img src=\"".wt_he($vars["basehref"]."pic/topfoto/".$mail_topfoto.".png")."\" border=\"0\" width=\"681\"></a></td></tr>";
 		$bericht=$_GET["bericht"];
 		$bericht=trim($_GET["bericht"]);
 #			$bericht=str_replace("<br/>","\n",$bericht);
