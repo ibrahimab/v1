@@ -303,7 +303,7 @@ function formsubmit(type) {
 		} else {
 		<?php if($_GET["wzt"]==2) { ?>
 			url='http://www.zomerhuisje.nl/?<?php echo $extra_qs.$utm; ?>';
-		<?php } elseif($_GET["wzt"]==2) { ?>
+		<?php } elseif($_GET["wzt"]==3) { ?>
 			url='http://www.italissima.nl/?<?php echo $extra_qs.$utm; ?>';
 				<?php } elseif($_GET["wzt"]==4) { ?>
 			url='http://www.chalet.be/?<?php echo $extra_qs.$utm; ?>';
