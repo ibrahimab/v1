@@ -1,218 +1,206 @@
 
-<!--<?php echo"<script type=\"text/javascript\" src=\"".$vars["basehref"]."scripts/popupCalender.js\"></script>";?>-->
-<!--<script language="javascript" type="text/javascript">-->
-<!--var cal = new CalendarPopup();-->
-<!--function getRapport(){	-->
-<!--	if(document.getElementById('Maandeen').value==""){-->
-<!--		window.alert("Geef a.u.b een geldige begin maand op.");-->
-<!--	}-->
-<!--	else if(document.getElementById('Maandtwee').value==""){-->
-<!--		window.alert("Geef a.u.b een geldige eind maand op.");-->
-<!--	}-->
-<!--	else{-->
-<!--		var ajaxRequest;  // The variable that makes Ajax possible!	-->
-<!--		try{-->
-<!--			ajaxRequest = new XMLHttpRequest();-->
-<!--		}catch (e){-->
-<!--			try{-->
-<!--				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");-->
-<!--			}catch (e) {-->
-<!--				try{-->
-<!--					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");-->
-<!--				}catch (e){-->
-<!--					alert("Your browser broke!");-->
-<!--						return false;-->
-<!--				}-->
-<!--			}-->
-<!--		}-->
-<!--		ajaxRequest.onreadystatechange = function(){-->
-<!--			if(ajaxRequest.readyState == 4){-->
-<!--				window.location = "/chalet/cms_test.php?maandEen=" + document.getElementById('Maandeen').value+"&maandTWee="+document.getElementById('Maandtwee').value;-->
-<!--				return false;-->
-<!--			}-->
-<!--		}-->
-<!--		var queryString = "?maandEen=" + document.getElementById('Maandeen').value;-->
-<!--		queryString +=  "&maandTWee=" + document.getElementById('Maandtwee').value;-->
-<!--		ajaxRequest.open("GET", queryString, true);-->
-<!--		ajaxRequest.send(null); -->
-<!--	}-->
-<!--}-->
-<!--</script>-->
-<!--<form name="periode">-->
-<!--<table>-->
-<!--  <tr>-->
-<!--    <th>Favorienten functie monitor</th>-->
-<!--  </tr>-->
-<!--  <tr>-->
-<!--    <td>Periode:</td>-->
-<!--    <td><input type="text" name=date1 id="Maandeen" value=""><A HREF="#"-->
-<!---->
-<!--   onClick="cal.select(document.forms['periode'].date1,'Maandeen','yyyy-MM-dd'); return false;"-->
-<!--   NAME="Maandeen" ID="Maandeen">Selecteer</A>-->
-<!--    </input>-->
-<!--    </td>-->
-<!--    <td><input type="text" name=date2 id="Maandtwee" value=""><A HREF="#"-->
-<!---->
-<!--   onClick="cal.select(document.forms['periode'].date2,'Maandtwee','yyyy-MM-dd'); return false;"-->
-<!--   NAME="Maandtwee" ID="Maandtwee">Selecteer</A>-->
-<!--    </input>-->
-<!--    </td>-->
-<!--  	<td><input type="button" value="Rapport ophalen" onclick="getRapport()" </td>-->
-<!--  </tr>-->
-<!--</table>-->
-<!--</form>-->
-<!--<?php-->
-<!--$db->query("SELECT type_id FROM bezoeker_favoriet;");-->
-<!--	$counter=0;-->
-<!--	while($db->next_record()){-->
-<!--		$counter++;-->
-<!--	}-->
-<!--	echo "<BR><BR><h1>Aantal keer dat een accommodatie als favoriet is opgeslagen: ".$counter."</h1>";-->
-<!--if($_GET['maandEen'] != "" and $_GET['maandTWee'] !=""){-->
-<!--	$rowCounter=0;-->
-<!--	$db2->query("SELECT type_id, COUNT(type_id) as aantalMaal FROM bezoeker_favoriet WHERE DATE(adddatetime) BETWEEN '".addslashes($_GET['maandEen'])."' AND '".addslashes($_GET['maandTWee'])."' GROUP BY type_id ORDER BY aantalMaal DESC;");-->
-<!--	echo "<table width=\"100%\" border=\"1\" bordercolor=\"#282e82\" cellspacing=\"0\">";-->
-<!--	echo"<tr bgcolor=\"#282e82\" style=\"color:#FFFFFF\">";-->
-<!--	echo"<td></td><td><b>Accommodatienaam</b></td><td><b>Aantal personen</b></td><td><b>Aantal x als favoriet opgeslagen</td></tr><tr bgcolor=\"#f3f3f3\">";-->
-<!--	while($db2->next_record()){-->
-<!--		$rowCounter++;-->
-<!--		$db3->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".addslashes($vars["ttv"])." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".addslashes($vars["ttv"])." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($db2->f("type_id"))."' AND t.websites LIKE '%".addslashes($vars["website"])."%' AND a.plaats_id=p.plaats_id;");-->
-<!--		while($db3->next_record()){-->
-<!--			echo"<td>".$rowCounter."</td>";-->
-<!--			echo"<td>".htmlentities(ucfirst($vars["soortaccommodatie"][$db3->f("soortaccommodatie")])." ".$db3->f("naam").($db3->f("tnaam") ? " ".$db3->f("tnaam") : ""))."</td>";-->
-<!--			if($db3->f("optimaalaantalpersonen")==$db3->f("maxaantalpersonen")){-->
-<!--				$rev=$db3->f("optimaalaantalpersonen");-->
-<!--			}-->
-<!--			else{-->
-<!--				$rev=$db3->f("optimaalaantalpersonen")."-".$db3->f("maxaantalpersonen");-->
-<!--			}-->
-<!--			echo"<td>".$rev."</td>";-->
-<!--			$counterSpecific=0;-->
-<!--			$db4->query("SELECT type_id FROM bezoeker_favoriet WHERE type_id='".addslashes($db2->f("type_id"))."';");-->
-<!--			while($db4->next_record()){-->
-<!--				$counterSpecific++;-->
-<!--			}-->
-<!--			if($rowCounter%2==0){-->
-<!--				$bgcolor="#f3f3f3";-->
-<!--			}-->
-<!--			else{-->
-<!--				$bgcolor="#FFFFFF";-->
-<!--			}-->
-<!--			echo"<td>".$counterSpecific."</td>";-->
-<!--			echo"</tr><tr bgcolor=\"".$bgcolor."\">";-->
-<!--		}-->
-<!--	}-->
-<!--	echo"</tr></table";-->
-<!--}-->
-<!--else{-->
-<!--	#favorieten functie monitor-->
-<!--	$rowCounter=0;-->
-<!--	$db2->query("SELECT type_id, COUNT(type_id) as aantalMaal FROM bezoeker_favoriet GROUP BY type_id ORDER BY aantalMaal DESC;");-->
-<!--	echo "<table width=\"100%\" border=\"1\" bordercolor=\"#282e82\" cellspacing=\"0\">";-->
-<!--	echo "<tr bgcolor=\"#282e82\" style=\"color:#FFFFFF\">";-->
-<!--	echo "<td></td><td><b>Accommodatienaam</b></td><td><b>Aantal personen</b></td><td><b>Aantal x als favoriet opgeslagen</td></tr><tr bgcolor=\"#f3f3f3\">";-->
-<!--	while($db2->next_record()){-->
-<!--		$rowCounter++;-->
-<!--		$db3->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".addslashes($vars["ttv"])." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".addslashes($vars["ttv"])." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($db2->f("type_id"))."' AND t.websites LIKE '%".addslashes($vars["website"])."%' AND a.plaats_id=p.plaats_id;");-->
-<!--		while($db3->next_record()){-->
-<!--			echo "<td>".$rowCounter."</td>";-->
-<!--			echo "<td>".htmlentities(ucfirst($vars["soortaccommodatie"][$db3->f("soortaccommodatie")])." ".$db3->f("naam").($db3->f("tnaam") ? " ".$db3->f("tnaam") : ""))."</td>";-->
-<!--			if($db3->f("optimaalaantalpersonen")==$db3->f("maxaantalpersonen")){-->
-<!--				$rev=$db3->f("optimaalaantalpersonen");-->
-<!--			}-->
-<!--			else{-->
-<!--				$rev=$db3->f("optimaalaantalpersonen")."-".$db3->f("maxaantalpersonen");-->
-<!--			}-->
-<!--			echo "<td>".$rev."</td>";-->
-<!--			$counterSpecific=0;-->
-<!--			$db4->query("SELECT type_id FROM bezoeker_favoriet WHERE type_id='".addslashes($db2->f("type_id"))."';");-->
-<!--			while($db4->next_record()){-->
-<!--				$counterSpecific++;-->
-<!--			}-->
-<!--			if($rowCounter%2==0){-->
-<!--				$bgcolor="#f3f3f3";-->
-<!--			}-->
-<!--			else{-->
-<!--				$bgcolor="#FFFFFF";-->
-<!--			}-->
-<!--			echo "<td>".$counterSpecific."</td>";-->
-<!--			echo "</tr><tr bgcolor=\"".$bgcolor."\">";	-->
-<!--		}-->
-<!--	}-->
-<!--}-->
-<!--?>-->
-<!--<div id="rapport"></div>-->
-<!--<?php-->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<!---->
-<!--#-->
-<!--# Adwords generator-->
-<!--#-->
-<!---->
-<!--//echo "<p>Adwords generator.";-->
-<!---->
-<!--// You can set the include path to src directory or reference-->
-<!--// AdWordsUser.php directly via require_once.-->
-<!--// $path = '/path/to/pda_api_php_lib/src';-->
-<!--//$path = '..\adwords_Api\src';-->
-<!--//set_include_path(get_include_path() . PATH_SEPARATOR . $path);-->
-<!--//require_once($path.'\Google\Api\Ads\AdWords\Lib\AdWordsUser.php');-->
-<!--//-->
-<!--//$user = new AdWordsUser(null, "miguel@chalet.nl", "Migleboos1986", "dKpNWkkHffYOS7_Io7RuqA", "", "217-138-4351");-->
-<!--//$campagneService = $user->getCampaignService('v201109', 'https://adwords.google.com');-->
-<!--//-->
-<!--//$campaign = new Campaign();-->
-<!--//$campaign->name = 'test campagne';-->
-<!--//$campaign->status = 'ACTIVE';-->
-<!--//$campaign->biddingStrategy = new ManualCPC();-->
-<!--//$campaign->budget = new Budget('DAILY', new Money(50000000), 'STANDARD');-->
-<!--//-->
-<!--//$operation = new CampaignOperation();-->
-<!--//$operation->operand = $campaign;-->
-<!--//$operation->operator = 'ADD';-->
-<!--//$operations[] = $operation;-->
-<!--//-->
-<!--//// Add campaign.-->
-<!--//$campaignReturnValue = $campagneService->mutate($operations);-->
-<!--     -->
-<!--     -->
-<!--//$aantalcampagnes = 3;-->
-<!--//$operaties = array();-->
-<!--//for($i =0; $i<$aantalcampagnes; $i++){-->
-<!--//	$campagne = new Campaign();-->
-<!--//}-->
-<!--//echo "<BR><BR>accommodaties chalet<BR><BR>";-->
-<!--//$db->query("SELECT DISTINCT naam, plaats, skigebied FROM view_accommodatie WHERE websites LIKE '%C%' AND atonen='1'");-->
-<!--//if($db->num_rows()){-->
-<!--//  echo "Naam | Plaats | Regio <BR />";-->
-<!--//  while($db->next_record()){-->
-<!--//      //echo $db->f("naam")."| ";-->
-<!--////      echo $db->f("plaats")."| ";-->
-<!--////      echo $db->f("skigebied")."<BR /><BR />";-->
-<!--//  }-->
-<!--//   echo "<BR><BR>accommodaties Zomerhuis<BR><BR>";-->
-<!--//   $db->query("SELECT DISTINCT naam, plaats, skigebied FROM view_accommodatie WHERE websites LIKE '%Z%' AND atonen='1'");-->
-<!--//   while($db->next_record()){-->
-<!--//        echo $db->f("naam")."| ";-->
-<!--//        echo $db->f("plaats")."| ";-->
-<!--//        echo $db->f("skigebied")."<BR /><BR />";-->
-<!--//    }-->
-<!--//}-->
-<!---->
-<!--//echo "</p>";-->
+<?php 
+//echo"<script type=\"text/javascript\" src=\"".$vars["basehref"]."scripts/popupCalender.js\"></script>";
+//<script language="javascript" type="text/javascript">
+//var cal = new CalendarPopup();
+//function getRapport(){
+//	if(document.getElementById('Maandeen').value==""){
+//		window.alert("Geef a.u.b een geldige begin maand op.");
+//	}
+//	else if(document.getElementById('Maandtwee').value==""){
+//		window.alert("Geef a.u.b een geldige eind maand op.");
+//	}
+//	else{
+//		var ajaxRequest;  
+// 			The variable that makes Ajax possible!	
+//		try{
+//			ajaxRequest = new XMLHttpRequest();
+//		}catch (e){
+//			try{
+//				ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+//			}catch (e) {
+//				try{
+//					ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+//				}catch (e){
+//					alert("Your browser broke!");
+//						return false;
+//				}
+//			}
+//		}
+//		ajaxRequest.onreadystatechange = function(){
+//			if(ajaxRequest.readyState == 4){
+//				window.location = "/chalet/cms_test.php?maandEen=" + document.getElementById('Maandeen').value+"&maandTWee="+document.getElementById('Maandtwee').value;
+//				return false;
+//			}
+//		}
+//		var queryString = "?maandEen=" + document.getElementById('Maandeen').value;
+//		queryString +=  "&maandTWee=" + document.getElementById('Maandtwee').value;
+//		ajaxRequest.open("GET", queryString, true);
+//		ajaxRequest.send(null); 
+//	}
+//}
+//</script>
+//<form name="periode">
+//<table>
+//  <tr>
+//    <th>Favorienten functie monitor</th>
+// </tr>
+// <tr>
+//   <td>Periode:</td>
+//    <td><input type="text" name=date1 id="Maandeen" value=""><A HREF="#"
+//   onClick="cal.select(document.forms['periode'].date1,'Maandeen','yyyy-MM-dd'); return false;"
+//  NAME="Maandeen" ID="Maandeen">Selecteer</A>
+//   </input>
+//    </td>
+//   <td><input type="text" name=date2 id="Maandtwee" value=""><A HREF="#"
+//   onClick="cal.select(document.forms['periode'].date2,'Maandtwee','yyyy-MM-dd'); return false;"
+//  NAME="Maandtwee" ID="Maandtwee">Selecteer</A>
+//    </input>
+//    </td>
+//  	<td><input type="button" value="Rapport ophalen" onclick="getRapport()" </td>
+//  </tr>
+//</table>
+//</form>
+//<?php
+//$db->query("SELECT type_id FROM bezoeker_favoriet;");
+//	$counter=0;
+//	while($db->next_record()){
+//		$counter++;
+//	}
+//echo "<BR><BR><h1>Aantal keer dat een accommodatie als favoriet is opgeslagen: ".$counter."</h1>";
+//if($_GET['maandEen'] != "" and $_GET['maandTWee'] !=""){
+//$rowCounter=0;
+//$db2->query("SELECT type_id, COUNT(type_id) as aantalMaal FROM bezoeker_favoriet WHERE DATE(adddatetime) BETWEEN '".addslashes($_GET['maandEen'])."' AND '".addslashes($_GET['maandTWee'])."' GROUP BY type_id ORDER BY aantalMaal DESC;");
+//echo "<table width=\"100%\" border=\"1\" bordercolor=\"#282e82\" cellspacing=\"0\">";
+//echo"<tr bgcolor=\"#282e82\" style=\"color:#FFFFFF\">";
+//echo"<td></td><td><b>Accommodatienaam</b></td><td><b>Aantal personen</b></td><td><b>Aantal x als favoriet opgeslagen</td></tr><tr bgcolor=\"#f3f3f3\">";
+//while($db2->next_record()){
+//$rowCounter++;
+//$db3->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".addslashes($vars["ttv"])." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".addslashes($vars["ttv"])." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($db2->f("type_id"))."' AND t.websites LIKE '%".addslashes($vars["website"])."%' AND a.plaats_id=p.plaats_id;");
+//while($db3->next_record()){
+//echo"<td>".$rowCounter."</td>";
+//echo"<td>".htmlentities(ucfirst($vars["soortaccommodatie"][$db3->f("soortaccommodatie")])." ".$db3->f("naam").($db3->f("tnaam") ? " ".$db3->f("tnaam") : ""))."</td>";
+//if($db3->f("optimaalaantalpersonen")==$db3->f("maxaantalpersonen")){
+//$rev=$db3->f("optimaalaantalpersonen");
+//}
+//else{
+//$rev=$db3->f("optimaalaantalpersonen")."-".$db3->f("maxaantalpersonen");
+//}
+//echo"<td>".$rev."</td>";
+//$counterSpecific=0;
+//$db4->query("SELECT type_id FROM bezoeker_favoriet WHERE type_id='".addslashes($db2->f("type_id"))."';");
+//while($db4->next_record()){
+//$counterSpecific++;
+//}
+//if($rowCounter%2==0){
+//$bgcolor="#f3f3f3";
+//}
+//else{
+//$bgcolor="#FFFFFF";
+//}
+//echo"<td>".$counterSpecific."</td>";
+//echo"</tr><tr bgcolor=\"".$bgcolor."\">";
+//}
+//}
+//echo"</tr></table";
+//}
+//else{
+//#favorieten functie monitor
+//$rowCounter=0;
+//$db2->query("SELECT type_id, COUNT(type_id) as aantalMaal FROM bezoeker_favoriet GROUP BY type_id ORDER BY aantalMaal DESC;");
+//echo "<table width=\"100%\" border=\"1\" bordercolor=\"#282e82\" cellspacing=\"0\">";
+//echo "<tr bgcolor=\"#282e82\" style=\"color:#FFFFFF\">";
+//echo "<td></td><td><b>Accommodatienaam</b></td><td><b>Aantal personen</b></td><td><b>Aantal x als favoriet opgeslagen</td></tr><tr bgcolor=\"#f3f3f3\">";
+//while($db2->next_record()){
+//$rowCounter++;
+//$db3->query("SELECT a.accommodatie_id, a.naam, a.wzt, t.naam".addslashes($vars["ttv"])." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".addslashes($vars["ttv"])." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen,a.korteomschrijving, t.tonen AS ttonen, t.optimaalaantalpersonen, t.slaapkamers,t.badkamers, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($db2->f("type_id"))."' AND t.websites LIKE '%".addslashes($vars["website"])."%' AND a.plaats_id=p.plaats_id;");
+//while($db3->next_record()){
+//echo "<td>".$rowCounter."</td>";
+//echo "<td>".htmlentities(ucfirst($vars["soortaccommodatie"][$db3->f("soortaccommodatie")])." ".$db3->f("naam").($db3->f("tnaam") ? " ".$db3->f("tnaam") : ""))."</td>";
+//if($db3->f("optimaalaantalpersonen")==$db3->f("maxaantalpersonen")){
+//$rev=$db3->f("optimaalaantalpersonen");
+//}
+//else{
+//$rev=$db3->f("optimaalaantalpersonen")."-".$db3->f("maxaantalpersonen");
+//}
+//echo "<td>".$rev."</td>";
+//$counterSpecific=0;
+//$db4->query("SELECT type_id FROM bezoeker_favoriet WHERE type_id='".addslashes($db2->f("type_id"))."';");
+//while($db4->next_record()){
+//$counterSpecific++;
+//}
+//if($rowCounter%2==0){
+//$bgcolor="#f3f3f3";
+//}
+//else{
+//$bgcolor="#FFFFFF";
+//}
+//echo "<td>".$counterSpecific."</td>";
+//echo "</tr><tr bgcolor=\"".$bgcolor."\">";
+//}
+//}
+//}
+
+//<div id="rapport"></div>
+?>
+<?php
+
+
+
+#
+# Adwords generator
+//echo "<p>Adwords generator.";
+
+// You can set the include path to src directory or reference
+// AdWordsUser.php directly via require_once.
+// $path = '/path/to/pda_api_php_lib/src';
+//$path = '..\adwords_Api\src';
+//set_include_path(get_include_path() . PATH_SEPARATOR . $path);
+//require_once($path.'\Google\Api\Ads\AdWords\Lib\AdWordsUser.php');
+
+//$user = new AdWordsUser(null, "miguel@chalet.nl", "Migleboos1986", "dKpNWkkHffYOS7_Io7RuqA", "", "217-138-4351");
+//$campagneService = $user->getCampaignService('v201109', 'https://adwords.google.com');
+//$campaign = new Campaign();
+//$campaign->name = 'test campagne';
+//$campaign->status = 'ACTIVE';-->
+//$campaign->biddingStrategy = new ManualCPC();
+//$campaign->budget = new Budget('DAILY', new Money(50000000), 'STANDARD');
+
+//$operation = new CampaignOperation();
+//$operation->operand = $campaign;
+//$operation->operator = 'ADD';
+//$operations[] = $operation;
+// Add campaign.
+//$campaignReturnValue = $campagneService->mutate($operations);
+
+//$aantalcampagnes = 3;
+//$operaties = array();
+//for($i =0; $i<$aantalcampagnes; $i++){
+//	$campagne = new Campaign();
+//}
+//echo "<BR><BR>accommodaties chalet<BR><BR>";
+//$db->query("SELECT DISTINCT naam, plaats, skigebied FROM view_accommodatie WHERE websites LIKE '%C%' AND atonen='1'");
+//if($db->num_rows()){
+//  echo "Naam | Plaats | Regio <BR />";
+//  while($db->next_record()){
+//      //echo $db->f("naam")."| ";
+//      echo $db->f("plaats")."| ";
+//      echo $db->f("skigebied")."<BR /><BR />";
+//  }
+//   echo "<BR><BR>accommodaties Zomerhuis<BR><BR>";-->
+//   $db->query("SELECT DISTINCT naam, plaats, skigebied FROM view_accommodatie WHERE websites LIKE '%Z%' AND atonen='1'");
+//   while($db->next_record()){
+//        echo $db->f("naam")."| ";
+//        echo $db->f("plaats")."| ";
+//        echo $db->f("skigebied")."<BR /><BR />";
+//    }
+//}
+//echo "</p>";
+?>
 <form methode="get" action="/chalet/cms_test.php" >
  Gezocht: <input type="text" name="gezochteWaarde" /><br />
  Vervangen met: <input type="text" name="teZettenWaarde" />
-  <input type="submit" name="teZettenWaarde" />
+  <input type="submit" name="fireForm" />
  </form> 
 <?php
 $nietMeeTellen=array();
@@ -235,30 +223,46 @@ $nietMeeTellen[14]="TABLE_PRIVILEGES";
 $nietMeeTellen[15]="TRIGGERS";
 $nietMeeTellen[16]="USER_PRIVILEGES";
 $nietMeeTellen[17]="VIEWS";
-if(isset($_GET["gezochteWaarde"])){
-	$gezochteWaarde=$_GET["gezochteWaarde"];
-	$teZettenWaarde=$_GET["teZettenWaarde"];
-	$db->query("SELECT table_name FROM information_schema.tables");
-	$affectedRows=0;
-	while($db->next_record()){
-		if(!in_array($db->f("table_name"),$nietMeeTellen)){
-			$db2->query("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_NAME = '".addslashes($db->f("table_name"))."';");
-			while($db2->next_record()){
-				$colName=$db2->f("COLUMN_NAME");
-				$db3->query("SELECT ".addslashes($colName)." FROM ".addslashes($db->f("table_name"))." WHERE ".$colName." LIKE '%".addslashes($gezochteWaarde)."%';");
-				if($db3->num_rows()>0){
+if(isset($_get["fireForm"]) and $_GET["gezochteWaarde"] == "" or $_GET["teZettenWaarde"] == ""){
+	echo "Geef eerst de gezochten en de nieuwe waarde op.";
+}
+else{
+	if(isset($_GET["gezochteWaarde"])){
+		$gezochteWaarde=$_GET["gezochteWaarde"];
+		$teZettenWaarde=$_GET["teZettenWaarde"];
+		$db->query("SELECT table_name FROM information_schema.tables");
+		$affectedRows=0;
+		while($db->next_record()){
+			if(!in_array($db->f("table_name"),$nietMeeTellen)){
+				$db2->query("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_NAME = '".addslashes($db->f("table_name"))."';");
+				while($db2->next_record()){
+					$contentArr=array();
+					$colName=$db2->f("COLUMN_NAME");
+					$db3->query("SELECT ".addslashes($colName)." FROM ".addslashes($db->f("table_name"))." WHERE ".$colName." LIKE '%".addslashes($gezochteWaarde)."%';");
 					while($db3->next_record()){
 						$bufferTekst=$db3->f($colName);
-						$bewerkteTekst=str_replace($gezochteWaarde, $teZettenWaarde, $bufferTekst);
-						$db4->query("UPDATE ".addslashes($db->f("table_name"))." SET ".addslashes($db2->f("COLUMN_NAME"))."='".addslashes($bewerkteTekst)."' WHERE ".addslashes($db2->f("COLUMN_NAME"))." LIKE '%".addslashes($gezochteWaarde)."%';");
-#						if($db4->affected_rows()>0){
-							$affectedRows++;
-#						}
+						array_push($contentArr, $bufferTekst);
+					}
+					if(count($contentArr)==0){
+						echo "Geen rijen bijgewerkt in tabel. ".$db->f("table_name")." in colom ".$colName."<BR>";
+					}
+					else{
+						for($i=0;$i<count($contentArr);$i++){
+							$bewerkteTekst=str_replace($gezochteWaarde, $teZettenWaarde, $contentArr[$i]);
+							echo "<b>buffer </b>".$contentArr[$i]."<BR>";
+							echo "<b>Bewerkt </b>".$bewerkteTekst."<BR>";
+							$db4->query("UPDATE ".addslashes($db->f("table_name"))." SET ".addslashes($db2->f("COLUMN_NAME"))."='".addslashes($bewerkteTekst)."' WHERE ".addslashes($db2->f("COLUMN_NAME"))." = '".addslashes($contentArr[$i])."';");
+#							if($db4->affected_rows()>0){
+								$affectedRows++;
+#							}
+							echo "affected ".$db4->affected_rows();
+							echo "<BR>";
+							echo $affectedRows." rijen bijgewerkt in tabel. ".$db->f("table_name")." in colom ".$colName."<BR>";	
+						}
 					}
 				}
 			}
 		}
-		//echo $affectedRows." rijen bijgewerkt in tabel. ".$db->f("table_name")."<BR>";
 		echo "Taak voldaan";
 	}
 }
