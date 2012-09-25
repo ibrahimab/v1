@@ -46,7 +46,7 @@ if($_GET["wzt"]==2) {
 	}
 } elseif($_GET["wzt"]==4){
 		$site="chalet";
-		$siteurl="https://www.chalet.be/";
+		$siteurl="http://www.chalet.be/";
 } else {
 	$site="chalet";
 	$siteurl="https://www.chalet.nl/";
@@ -178,8 +178,6 @@ echo "<title></title>\n";
 echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js\" ></script>\n";
 if($_GET["themadatum"]==2) {
 	echo "<script type=\"text/javascript\" src=\"".$siteurl."pic/banners/htmlbanners/datums.php\" ></script>\n";
-	//onderstaand lijn was bedoeld voor test doeleinden.
-	//echo "<script type=\"text/javascript\" src=\"https://www.chalet.nl/pic/banners/htmlbanners/datums.php\" ></script>\n";
 }
 if($_GET["n"]==2) {
 	echo "<script type=\"text/javascript\" src=\"http://www.cleafs.nl/js/htmlbanner.js\" ></script>\n";
