@@ -52,6 +52,7 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 	} elseif($key=="I") {
 		# italissima: alleen aanbiedingen Italië ophalen
 		$url=$value.$txta[$vars["websiteinfo"]["taal"][$key]]["menu_aanbiedingen"]."/?nocache=1";
+		echo "\n-----------------------------------\n".$url."\n\n";
 		$opsomming=@file_get_contents($url);
 		if(preg_match("/<!-- WTbegin -->(.*)<!-- WTend -->/s",$opsomming,$regs)) {
 			$filename=$unixdir."cache/aanbiedingen_land_5_".$key.".html";

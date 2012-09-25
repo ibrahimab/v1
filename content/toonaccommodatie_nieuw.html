@@ -301,8 +301,12 @@ if($db->next_record()) {
 					}
 				}
 				$complete_enquete[$db2->f("boeking_id")]="<a href=\"".$vars["cms_basehref"]."cms_boekingen_enquete.php?bid=".$db2->f("boeking_id")."&controleren=1\" target=\"_blank\">".date("d-m-Y",$db2->f("aankomstdatum_exact"))."</a>".($db2->f("vraag1_7") ? " (totaaloordeel: ".$db2->f("vraag1_7").")" : "");
-				if($db2->f("beoordeeld")==0 or ($db2->f("beoordeeld")==2 and $login->user_id==4 or $login->user_id==6)) {
+				if($db2->f("beoordeeld")==0) {
 					$complete_enquete[$db2->f("boeking_id")].=" <a href=\"".$vars["cms_basehref"]."cms_boekingen_enquete.php?bid=".$db2->f("boeking_id")."&controleren=1\" target=\"_blank\">controleren</a>";
+				} elseif($db2->f("beoordeeld")==2 and ($login->user_id==4 or $login->user_id==6)) {
+					$complete_enquete[$db2->f("boeking_id")].=" <a href=\"".$vars["cms_basehref"]."cms_boekingen_enquete.php?bid=".$db2->f("boeking_id")."&controleren=1\" title=\"Controleren door Bert of Barteld\" target=\"_blank\">controleren B/B</a>";
+				} elseif($db2->f("beoordeeld")==2) {
+					$complete_enquete[$db2->f("boeking_id")].=" <span title=\"Controleren door Bert of Barteld\" style=\"border-bottom: 1px dotted #000000;\">controleren B/B</span>";
 				} elseif($db2->f("beoordeeld")==3) {
 					$complete_enquete[$db2->f("boeking_id")].=" <span style=\"color:red;\">afgekeurd</span>";
 				}
