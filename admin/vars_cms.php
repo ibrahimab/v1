@@ -13,15 +13,15 @@ if($mustlogin) {
 	ini_set("session.enable_trans_sid",1);
 	ini_set("session.use_trans_sid",0);
 	ini_set("session.cookie_httponly",1);
-	
+
 	session_start();
-	
+
 	if(!$cron and !$cronmap and !$css) {
 		include_once "Text/Diff.php";
 		include_once "Text/Diff/Renderer.php";
 		include_once "Text/Diff/Renderer/inline.php";
 	}
-	
+
 	# Taal bepalen
 	if($_GET["cmstaal"]) {
 		if($_GET["cmstaal"]=="nl") {
@@ -42,7 +42,7 @@ if($mustlogin) {
 			}
 		}
 	}
-	
+
 	# wzt bepalen
 	if(!$_GET["wzt"] and $_GET["edit"] and ($id=="cms_accommodaties" or $id=="cms_plaatsen" or $id=="cms_skigebieden")) {
 		if($id=="cms_accommodaties" and ($_GET["edit"]==1 or $_GET["show"]==1) and $_GET["1k0"]) {
@@ -71,7 +71,7 @@ if($mustlogin) {
 	}
 	$vars["allewerknemers"]=$werknemer;
 	$vars["allewerknemers_mail"]=$werknemer_mail;
-	
+
 	# Login-class CMS
 	#
 	# priv:
@@ -79,14 +79,14 @@ if($mustlogin) {
 	# 2 = Verwijderen boeking
 	# 3 = Financiële overzichten
 	# 4 = Tarievenoptie van bestaande accommodaties aanpassen
-	# 
-	# 
+	#
+	#
 	$login = new Login;
 	$login->settings["logout_number"]=1;
 	$login->settings["adminmail"]=$vars["email"];
 	$login->settings["db"]["tablename"]="user";
 	if($vars["mustlogin_cms_cron_false"]) {
-		$login->settings["mustlogin"]=false;	
+		$login->settings["mustlogin"]=false;
 	} else {
 		$login->settings["mustlogin"]=true;
 	}
@@ -102,12 +102,12 @@ if($mustlogin) {
 	$login->settings["salt"]=$vars["salt"];
 
 	if($vars["website"]=="C" or $vars["website"]=="Z") {
-		if(!$vars["lokale_testserver"] and $_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.75" and $_SERVER["REMOTE_ADDR"]<>"82.173.186.80") {
+		if(!$vars["lokale_testserver"] and $_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74" and $_SERVER["REMOTE_ADDR"]<>"82.173.186.80") {
 			# Buiten kantoor
 			$login->settings["mustlogin_via_https"]=true;
 		}
 	}
-	
+
 	if(!in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
 		$login->settings["settings"]["rememberpassword"]=false;
 		$login->settings["settings"]["no_autocomplete"]=true;
@@ -157,7 +157,7 @@ if($mustlogin) {
 	if($id=="cms_financien_betalingen" or $id=="cms_overzichten_overig") {
 		$layout->settings["render_as_ie7"]=true;
 	}
-	
+
 	# Achtergrondkleur CMS bepalen
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=878481";
@@ -174,7 +174,7 @@ if($mustlogin) {
 			}
 		}
 	}
-	
+
 	if($vars["cmstaal"] and $vars["cmstaal"]<>"nl") $layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_anderetaal.css";
 	if($login->logged_in) $layout->settings["logout_extra"]="<div style=\"margin-top:3px;\"><form method=\"get\" style=\"margin:0px;\" action=\"".$vars["path"]."cms.php\"><input type=\"hidden\" name=\"bc\" value=\"".htmlentities($_GET["bc"])."\"><input type=\"text\" name=\"cmssearch\">&nbsp;<input type=\"submit\" value=\" OK \"></form></div>";
 	$layout->menu_item("cms","Hoofdpagina","",false);
@@ -202,7 +202,7 @@ if($mustlogin) {
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Actief",array("status"=>"1"),true);
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Afgehandeld",array("status"=>"4"),true);
 	}
-	
+
 	$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true);
 
 #	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true);
@@ -338,20 +338,20 @@ if($mustlogin) {
 	$layout->submenu_item("archief--archief__WTIS__1","","cms_accommodaties","Zomeraccommodaties",array("wzt"=>"2","archief"=>"1"),true);
 	$layout->submenu_item("archief--archief__WTIS__1","","cms_boekingen","Boekingen",array("bt"=>"4","archief"=>"1"),true);
 	$layout->submenu_item("archief--archief__WTIS__1","","cms_optie_soorten","Opties",array("verborgen"=>"1"),true);
-	
+
 	if($login->userlevel>=10) {
 		$layout->menu_item("cms_testpaginas","Testpagina's (WT)","",true);
 	}
 
 	$layout->title=$title;
 	$layout->end_declaration();
-	
+
 	# CMS
 	$cms=new cms2;
-	
+
 	$cms->settings["show_upload_message"]=true;
 	$cms->vars["users"]=$werknemer;
-	
+
 	# 1 = accommodatie
 	if($_GET["wzt"]==2) {
 		$cms->settings[1]["types"]="zomeraccommodaties";
@@ -366,7 +366,7 @@ if($mustlogin) {
 	$cms->settings[1]["file"]="cms_accommodaties.php";
 	$cms->settings[1]["log"]["active"]=true;
 	$cms->db[1]["maintable"]="accommodatie";
-	
+
 	# 2 = type
 	$cms->settings[2]["types"]="types";
 	$cms->settings[2]["type_single"]="type";
@@ -418,7 +418,7 @@ if($mustlogin) {
 	$cms->settings[7]["file"]="cms_vertrekdagtypes.php";
 	$cms->settings[7]["log"]["active"]=true;
 	$cms->db[7]["maintable"]="vertrekdagtype";
-	
+
 	# 8 = beheerder (via leverancier)
 	if($_GET["beheerder"]) {
 		$cms->settings[8]["types"]="beheerders";
@@ -444,7 +444,7 @@ if($mustlogin) {
 	$cms->settings[10]["file"]="cms_skipassen.php";
 	$cms->settings[10]["log"]["active"]=true;
 	$cms->db[10]["maintable"]="skipas";
-	
+
 	# 11 = optie_soort
 	$cms->settings[11]["types"]="optie-soorten";
 	$cms->settings[11]["type_single"]="optie-soort";
@@ -594,7 +594,7 @@ if($mustlogin) {
 
 	# 27 = reisbureaus
 	if($_GET["t"]==2) {
-		$cms->settings[27]["types"]="inactieve reisbureaus";	
+		$cms->settings[27]["types"]="inactieve reisbureaus";
 	} else {
 		$cms->settings[27]["types"]="reisbureaus";
 	}
@@ -614,9 +614,9 @@ if($mustlogin) {
 	if($_GET["t"]==2) {
 		$cms->settings[29]["types"]="inactieve kortingscodes";
 	} elseif($_GET["t"]==3) {
-		$cms->settings[29]["types"]="gearchiveerde kortingscodes";	
+		$cms->settings[29]["types"]="gearchiveerde kortingscodes";
 	} else {
-		$cms->settings[29]["types"]="kortingscodes";	
+		$cms->settings[29]["types"]="kortingscodes";
 	}
 	$cms->settings[29]["type_single"]="kortingscode";
 	$cms->settings[29]["file"]="cms_kortingscodes.php";
@@ -916,7 +916,7 @@ function mailtekst_opties($boekingid) {
 	if($boekingid) {
 		$gegevens=get_boekinginfo($boekingid);
 		$taal=$gegevens["stap1"]["taal"];
-	
+
 		$return["subject"]="[".$gegevens["stap1"]["boekingsnummer"]."] ".$txt[$taal]["vars"]["mailopties_wzt".$gegevens["stap1"]["accinfo"]["wzt"]."_vakantie"]." ".$gegevens["stap1"]["accinfo"]["plaats"];
 		$return["from"]=$gegevens["stap1"]["website_specifiek"]["email"];
 		$return["fromname"]=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
@@ -924,13 +924,13 @@ function mailtekst_opties($boekingid) {
 		$return["plaats"]=$gegevens["stap1"]["accinfo"]["plaats"];
 		$return["to"]=$gegevens["stap2"]["email"];
 		$return["mailverstuurd_opties"]=$gegevens["stap1"]["mailverstuurd_opties"];
-		
+
 		if($gegevens["stap1"]["mailtekst_opties"]) {
 			$return["body"].=$gegevens["stap1"]["mailtekst_opties"];
 			$return["bewerkt"]=true;
 		} else {
 			$return["body"]=$txt[$taal]["vars"]["mailopties_wzt".$gegevens["stap1"]["accinfo"]["wzt"]."_1"]."\n\n";
-			
+
 			# Kijken of er voor deze accommodatie een specifieke tekst toegevoegd moet worden
 			if($gegevens["stap1"]["accinfo"]["mailtekst_id"]) {
 				if($taal<>"nl") {
@@ -941,7 +941,7 @@ function mailtekst_opties($boekingid) {
 					$return["body"].=trim($db->f("tekst"))."\n\n";
 				}
 			}
-			
+
 			$return["body"].=$txt[$taal]["vars"]["mailopties_wzt".$gegevens["stap1"]["accinfo"]["wzt"]."_2"];
 
 
@@ -953,11 +953,11 @@ function mailtekst_opties($boekingid) {
 				$return["body"]=ereg_replace("\(\[WACHTWOORD\]\) ","",$return["body"]);
 				$return["body"]=ereg_replace("\[WACHTWOORD\]","",$return["body"]);
 			}
-			
+
 			# Link naar verzendmethode_reisdocumenten invullen
 			$url=$vars["websites_basehref"][$gegevens["stap1"]["website"]]."verzendmethode.php?bid=".$boekingid."&c=".substr(sha1("ldlklKDKLk".$boekingid."JJJdkkk4uah!"),0,8);
 			$return["body"]=ereg_replace("\[VERZENDMETHODE_REISDOCUMENTEN_URL\]",$url,$return["body"]);
-			
+
 			# Gegevens overzetten
 			$return["body"]=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$return["body"]);
 			$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
@@ -966,8 +966,8 @@ function mailtekst_opties($boekingid) {
 			$return["body"]=ereg_replace("\[VERZEKERINGLINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_verzekeringen"].".php",$return["body"]);
 			$return["body"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["body"]);
 		}
-		
-		
+
+
 		return $return;
 	} else {
 		return false;
@@ -984,18 +984,18 @@ function mailtekst_persoonsgegevens($boekingid,$gewenst,$reminder=false) {
 		$return["boekingsnummer"]=$gegevens["stap1"]["boekingsnummer"];
 		$return["plaats"]=$gegevens["stap1"]["accinfo"]["plaats"];
 		$return["to"]=$gegevens["stap2"]["email"];
-		
+
 #		echo "mailpersoonsgegevens_".($reminder ? "reminder_" : "")."wzt".$gegevens["stap1"]["accinfo"]["wzt"];
-		
+
 		$return["body"]=$txt[$taal]["vars"]["mailpersoonsgegevens_".($reminder ? "reminder_" : "")."wzt".$gegevens["stap1"]["accinfo"]["wzt"]];
-		
+
 		if($return["body"]) {
 			@ksort($gewenst["tekst"]);
 			while(list($key,$value)=@each($gewenst["tekst"])) {
 				$gewenst_tekst.=$value."\n";
 			}
 			$return["body"]=ereg_replace("\[GEGEVENS\]",trim($gewenst_tekst),$return["body"]);
-			
+
 			# Gegevens overzetten
 			$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
 			$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
@@ -1016,14 +1016,14 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 	if($boekingid) {
 		$gegevens=get_boekinginfo($boekingid);
 		$taal=$gegevens["stap1"]["taal"];
-		
+
 		$db->query("SELECT s.naam FROM seizoen s, diverse_instellingen d WHERE ".($gegevens["stap1"]["accinfo"]["wzt"]==2 ? "zomer" : "winter")."_huidig_seizoen_id=seizoen_id AND d.diverse_instellingen_id=1;");
 		if($db->next_record()) {
 			$seizoennaam=$db->f("naam");
 		}
-		
+
 		$return["subject"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_subject_".$gegevens["stap1"]["accinfo"]["wzt"]];
-		
+
 		$return["from"]=$gegevens["stap1"]["website_specifiek"]["email"];
 		$return["fromname"]=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
 		$return["boekingsnummer"]=$gegevens["stap1"]["boekingsnummer"];
@@ -1033,7 +1033,7 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 		$return["status_klanten_vorig_seizoen"]=$gegevens["stap1"]["status_klanten_vorig_seizoen"];
 
 		$return["subject"]=ereg_replace("\[SEIZOEN\]",$seizoennaam,$return["subject"]);
-		
+
 		if($gegevens["stap1"]["mailtekst_klanten_vorig_seizoen"]) {
 			$return["body"].=$gegevens["stap1"]["mailtekst_klanten_vorig_seizoen"];
 			$return["bewerkt"]=true;
@@ -1044,7 +1044,7 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 			} else {
 				$return["body"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_".$gegevens["stap1"]["accinfo"]["wzt"]];
 			}
-			
+
 			# Gegevens overzetten
 			$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
 			$return["body"]=ereg_replace("\[OPTIEDAGEN\]",$gegevens["stap1"]["accinfo"]["optiedagen_klanten_vorig_seizoen"],$return["body"]);
@@ -1075,11 +1075,11 @@ function mailtekst_verzendmethode_reisdocumenten($boekingid) {
 		$return["boekingsnummer"]=$gegevens["stap1"]["boekingsnummer"];
 		$return["plaats"]=$gegevens["stap1"]["accinfo"]["plaats"];
 		$return["to"]=$gegevens["stap2"]["email"];
-		
+
 		$return["body"]=$txt[$taal]["vars"]["mailverzendmethode_reisdocumenten_wzt".$gegevens["stap1"]["accinfo"]["wzt"]];
-		
+
 		if($return["body"] and strlen($return["body"])>10) {
-			
+
 			# Gegevens overzetten
 			$return["body"]=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$return["body"]);
 			$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
@@ -1094,7 +1094,7 @@ function mailtekst_verzendmethode_reisdocumenten($boekingid) {
 			# uiterlijke datum dat de voorkeur mag worden doorgegeven invullen
 			$uiterlijke_datum=mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-intval($gegevens["stap1"]["wijzigen_dagen"]),date("Y",$gegevens["stap1"]["aankomstdatum_exact"]));
 			$return["body"]=ereg_replace("\[UITERLIJKE_DATUM\]",DATUM("DAG D MAAND JJJJ",$uiterlijke_datum,$taal),$return["body"]);
-			
+
 			return $return;
 		} else {
 			return false;
@@ -1124,7 +1124,7 @@ function persoonsgegevensgewenst($gegevens) {
 				}
 			}
 		}
-		
+
 		# Opties
 		if($gegevens["stap4"]["persoonsgegevensgewenst"][$i]) {
 			if(!$gegevens["stap3"][$i]["voornaam"] or !$gegevens["stap3"][$i]["achternaam"] or !$gegevens["stap3"]["geboortedatum_ingevuld"][$i]) {
@@ -1170,7 +1170,7 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 		$return["fromname"]=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
 		$return["boekingsnummer"]=$gegevens["stap1"]["boekingsnummer"];
 		$return["plaats"]=$gegevens["stap1"]["accinfo"]["plaats"];
-		
+
 		if($gegevens["stap1"]["reisbureau_aanmaning_email_1"]) {
 			# reisbureau
 			if($gegevens["stap1"]["reisbureau_aanmaning_email_2"]) {
@@ -1185,7 +1185,7 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 			$return["to"]=$gegevens["stap2"]["email"];
 			$return["to_log"]=$gegevens["stap2"]["email"];
 		}
-			
+
 #		$return["mailverstuurd_opties"]=$gegevens["stap1"]["mailverstuurd_opties"];
 		$return["soortvakantie"]=$txt[$taal]["vars"]["mailaanmaning_soortvakantie_wzt".$gegevens["stap1"]["accinfo"]["wzt"]];
 		$return["soortbetaling"]=$txt[$taal]["vars"]["mailaanmaning_soortbetaling_".$soortbetaling];
@@ -1196,7 +1196,7 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 			$return["bewerkt"]=true;
 		} else {
 			$return["body"]=$txt[$taal]["vars"]["mailaanmaning"]."\n\n";
-			
+
 			# Gegevens overzetten
 			$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
 			$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
@@ -1228,7 +1228,7 @@ function mailtekst_ontvangenbetaling($boekingid,$bedrag,$datum) {
 	if($boekingid) {
 		$gegevens=get_boekinginfo($boekingid);
 		$taal=$gegevens["stap1"]["taal"];
-		
+
 		$totaal=round($gegevens["stap1"]["totale_reissom"],2);
 		$db->query("SELECT sum(bedrag) AS bedrag FROM boeking_betaling WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		if($db->next_record()) {
@@ -1237,7 +1237,7 @@ function mailtekst_ontvangenbetaling($boekingid,$bedrag,$datum) {
 		$voldaan=round($voldaan,2);
 		$openstaand=$totaal-$voldaan;
 		$openstaand=round($openstaand,2);
-		
+
 		$return["subject"]="[".$gegevens["stap1"]["boekingsnummer"]."] ".$txt[$taal]["vars"]["mailbetaling_subject"]." ".$gegevens["stap1"]["accinfo"]["plaats"];
 		$return["from"]=$gegevens["stap1"]["website_specifiek"]["email"];
 		$return["fromname"]=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
@@ -1258,7 +1258,7 @@ function mailtekst_ontvangenbetaling($boekingid,$bedrag,$datum) {
 			$return["to"]=$gegevens["stap2"]["email"];
 			$return["to_log"]=$gegevens["stap2"]["email"];
 		}
-		
+
 #		$return["mailverstuurd_opties"]=$gegevens["stap1"]["mailverstuurd_opties"];
 		$return["soortvakantie"]=$txt[$taal]["vars"]["mailaanmaning_soortvakantie_wzt".$gegevens["stap1"]["accinfo"]["wzt"]];
 #		$return["bedrag"]=number_format($bedrag,2,",",".");
@@ -1271,7 +1271,7 @@ function mailtekst_ontvangenbetaling($boekingid,$bedrag,$datum) {
 		} else {
 			$return["body"]=$txt[$taal]["vars"]["mailbetaling_voldaan"]."\n\n";
 		}
-			
+
 		# Gegevens overzetten
 		$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
 #		$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
@@ -1281,11 +1281,11 @@ function mailtekst_ontvangenbetaling($boekingid,$bedrag,$datum) {
 		$return["body"]=ereg_replace("\[SOORTVAKANTIE\]",$return["soortvakantie"],$return["body"]);
 #		$return["body"]=ereg_replace("\[SOORTBETALING\]",$return["soortbetaling"],$return["body"]);
 		$return["body"]=ereg_replace("\[BEDRAG\]",number_format($bedrag,2,",","."),$return["body"]);
-		
+
 		if($gegevens["stap1"]["reisbureau_user_id"]) {
 			$return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"]." (".wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]).")",$return["body"]);
 		} else {
-			$return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"],$return["body"]);		
+			$return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"],$return["body"]);
 #			$return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"]." (".wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]).")",$return["body"]);
 		}
 
@@ -1306,7 +1306,7 @@ function betalingsinfo($gegevens,$voldaan) {
 	$totaal=$gegevens["stap1"]["totale_reissom"];
 	$openstaand=$totaal-$voldaan;
 	$openstaand=$openstaand;
-	
+
 	# Totale reissom (voor test)
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$return.="€ ".number_format($totaal,2,',','.')." Totale reissom\n";
@@ -1316,20 +1316,20 @@ function betalingsinfo($gegevens,$voldaan) {
 	if($voldaan>0) {
 		$return.=ereg_replace("\[BEDRAG\]",number_format($voldaan,2,',','.'),$txt[$taal]["vars"]["mailbetalingsinfo_ontvangenbedrag"])."\n";
 	}
-	
+
 	# Aanbetaling 1
 	if($gegevens["fin"]["aanbetaling"] and $voldaan<$gegevens["fin"]["aanbetaling"]) {
 		$tevoldoen=$gegevens["fin"]["aanbetaling"]-$voldaan;
 		$tevoldoen=round($tevoldoen,2);
 		if($tevoldoen>0) {
 			$return.=ereg_replace("\[BEDRAG\]",number_format($tevoldoen,2,',','.'),$txt[$taal]["vars"]["mailbetalingsinfo_nogteontvangenaanbetaling"])."\n";
-	
+
 			$aanbetaling1_datum=mktime(0,0,0,date("m",$gegevens["stap1"]["bevestigdatum"]),date("d",$gegevens["stap1"]["bevestigdatum"])+$gegevens["stap1"]["aanbetaling1_dagennaboeken"],date("Y",$gegevens["stap1"]["bevestigdatum"]));
-			
+
 			if($aanbetaling1_datum<$gegevens["stap1"]["bevestigdatum"]) {
 				$aanbetaling1_datum=$gegevens["stap1"]["bevestigdatum"];
 			}
-	
+
 			$return=ereg_replace("\[DATUM\]",DATUM("D MAAND JJJJ",$aanbetaling1_datum,$taal),$return);
 			$getoond["aanbetaling1"]=true;
 		}
@@ -1363,7 +1363,7 @@ function betalingsinfo($gegevens,$voldaan) {
 		$return.=ereg_replace("\[BEDRAG\]",number_format($eindbetaling,2,',','.'),$txt[$taal]["vars"]["mailbetalingsinfo_nogteontvangeneindbetaling"])."\n";
 
 		$eindbetaling_datum=mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-$gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"]));
-		
+
 		# Nooit eerder dan boekingsmoment
 		if($eindbetaling_datum<$gegevens["stap1"]["bevestigdatum"]) {
 			$eindbetaling_datum=$gegevens["stap1"]["bevestigdatum"];
@@ -1373,11 +1373,11 @@ function betalingsinfo($gegevens,$voldaan) {
 		if($aanbetaling1_datum>0 and $eindbetaling_datum<$aanbetaling1_datum) {
 			$eindbetaling_datum=$aanbetaling1_datum;
 		}
-		
+
 		$return=ereg_replace("\[DATUM\]",DATUM("D MAAND JJJJ",$eindbetaling_datum,$taal),$return);
 		$getoond["eindbetaling"]=true;
 	}
-	
+
 	# Totaal nog te ontvangen
 	#
 	# Te betalen bedrag moet hoger dan 0.01 zijn (vanwege afrondingsverschillen) - 25 november 2010
@@ -1386,7 +1386,7 @@ function betalingsinfo($gegevens,$voldaan) {
 		$return.=ereg_replace("\[BEDRAG\]",number_format($openstaand,2,',','.'),$txt[$taal]["vars"]["mailbetalingsinfo_totaalnogteontvangen"])."\n";
 		$getoond["totaal"]=true;
 	}
-		
+
 	return $return;
 }
 
@@ -1408,14 +1408,14 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 		}
 		if($gegevens["stap2"]["achternaam"]) $return.=" - ".htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
 		if($gegevens["stap1"]["reisbureau_naam"]) $return.=" (via ".htmlentities($gegevens["stap1"]["reisbureau_naam"]).")";
-		
+
 		# Laatste wijziging
 		$db->query("SELECT UNIX_TIMESTAMP(datum) AS datum FROM factuur WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."' ORDER BY datum DESC LIMIT 0,1;");
 		if($db->next_record()) {
 			$laatstefactuur=date("d-m-Y",$db->f("datum"));
 		}
 		if(!$laatstefactuur) $laatstefactuur="-";
-		
+
 		$return.="</td><td align=\"right\">Laatste factuur</td><td>&nbsp;&nbsp;</td><td>".htmlentities($laatstefactuur)."</td></tr>";
 		$return.="<tr><td style=\"width:700px;\">";
 		$return.=htmlentities($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." - ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam"]." (".$gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"].($gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"]<>$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] ? "-".$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] : "")."p.)");
@@ -1425,7 +1425,7 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 #		$return.=DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]);
 		if($temp["leverancier_naam"]) $return.="Leverancier: ".htmlentities($temp["leverancier_naam"]); else $return.="&nbsp;";
 		$return.="</td>";
-		
+
 		# Openstaand bedrag
 #		$nog_te_betalen=$gegevens["fin"]["totale_reissom"];
 		$nog_te_betalen=round($gegevens["stap1"]["totale_reissom"],2);
@@ -1443,7 +1443,7 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 		$return.="</td><td align=\"right\">Voucherstatus</td><td>&nbsp;&nbsp;</td><td nowrap>".$vars["voucherstatus"][$gegevens["stap1"]["voucherstatus"]]."</td></tr>";
 
 		$return.="</table>";
-		
+
 		# balk met inkoop en marge
 		$return.="<table cellspacing=\"0\" class=\"margebalk\" border=\"0\">";
 		$reissom_tabel=reissom_tabel($gegevens,$gegevens["stap1"]["accinfo"],"",true);
@@ -1463,7 +1463,7 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 			#
 			# Verschil
 			#
-			
+
 			# marge oude bedragen bepalen
 			$marge_euro_oud=$gegevens["stap1"]["totale_reissom"]-$gegevens["stap1"]["totale_reissom_inkoop"];
 			if($gegevens["stap1"]["totale_reissom"]) {
@@ -1473,19 +1473,19 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 			} else {
 				$marge_percentage_oud=0;
 			}
-			
+
 			if($marge_euro_oud<0) {
 				$margebgcolor="red";
 			} else {
 				$margebgcolor="";
 			}
-		
+
 			$return.="<tr>";
 			$return.="<td style=\"text-align:left;width:70px;\">Huidig</td><td style=\"text-align:left;width:50px;\">Verkoop:</td><td style=\"text-align:left;width:1px;\">&euro;</td><td colspan=\"2\" style=\"text-align:right;width:1px;\">".number_format($gegevens["stap1"]["totale_reissom"],2,",",".")."</td><td style=\"width:200px;\">&nbsp;</td>";
 			$return.="<td style=\"text-align:left;\">Inkoop:</td><td style=\"text-align:left;width:1px;\">&euro;</td><td colspan=\"2\" style=\"text-align:right;width:1px;\">".number_format($gegevens["stap1"]["totale_reissom_inkoop"],2,",",".")."</td><td style=\"width:200px;\">&nbsp;</td>";
 			$return.="<td style=\"text-align:right;background-color:".$margebgcolor."\">Marge:</td><td style=\"text-align:left;width:1px;background-color:".$margebgcolor."\">&euro;</td><td style=\"text-align:right;width:1px;background-color:".$margebgcolor."\">".number_format($marge_euro_oud,2,",",".")."</td><td style=\"text-align:right;background-color:".$margebgcolor."\">(".number_format($marge_percentage_oud,2,",",".")."%)</td>";
 			$return.="</tr>";
-			
+
 			if($marge_euro_oud<$reissom_tabel["bedragen"]["marge_euro"]) {
 				# nieuwe marge is hoger
 				$bgcolor="#c2d69a";
@@ -1522,7 +1522,7 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 			$return.="<td style=\"text-align:left;\">&nbsp;</td><td style=\"text-align:left;width:1px;\">&euro;</td><td colspan=\"2\" style=\"text-align:right;width:1px;\">".number_format($reissom_tabel["bedragen"]["inkoop"],2,",",".")."</td><td style=\"width:200px;\">&nbsp;</td>";
 			$return.="<td style=\"text-align:right;background-color:".$margebgcolor."\">&nbsp;</td><td style=\"text-align:left;width:1px;background-color:".$margebgcolor."\">&euro;</td><td style=\"text-align:right;width:1px;background-color:".$margebgcolor."\">".number_format($reissom_tabel["bedragen"]["marge_euro"],2,",",".")."</td><td style=\"text-align:right;background-color:".$margebgcolor."\">(".number_format($reissom_tabel["bedragen"]["marge_percentage"],2,",",".")."%)</td>";
 			$return.="</tr>";
-			
+
 			$verschil_getoond=true;
 		} else {
 			$return.="<tr>";
@@ -1547,22 +1547,22 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 			$return.="<br><br><a href=\"".$path."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"])."&bid=".$gegevens["stap1"]["boekingid"]."\">inkoopgegevens controleren en opslaan &raquo;</a></td></tr>";
 		}
 		$return.="</table>";
-		
+
 		if($verschil>0.01) {
 			$factuur_bedrag_wijkt_af=1;
 		} elseif($verschil<-0.01) {
 			$factuur_bedrag_wijkt_af=1;
 		}
-		
+
 		if($gegevens["stap1"]["aankomstdatum_exact"]>time() and (($gegevens["stap1"]["factuur_bedrag_wijkt_af"] and !$factuur_bedrag_wijkt_af) or (!$gegevens["stap1"]["factuur_bedrag_wijkt_af"] and $factuur_bedrag_wijkt_af))) {
 			$db->query("UPDATE boeking SET factuur_bedrag_wijkt_af='".$factuur_bedrag_wijkt_af."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		}
-		
+
 		if($gegevens["stap1"]["totale_reissom_inkoop_actueel"]<>"" and !$verschil_getoond) {
 			# totale_reissom_inkoop_actueel opslaan
 			$db->query("UPDATE boeking SET totale_reissom_inkoop_actueel='".addslashes($reissom_tabel["bedragen"]["inkoop"])."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		}
-		
+
 		return $return;
 	}
 }
@@ -1581,7 +1581,7 @@ function boekingoverzicht($wherequery) {
 	}
 	# Boekingen opvragen
 	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.aankomstdatum_exact, b.vertrekdatum_exact, b.seizoen_id, b.reisbureau_user_id, b.toonper, b.wederverkoop, s.naam AS seizoen, t.type_id, a.accommodatie_id, a.soortaccommodatie, a.naam, a.wzt, t.naam AS tnaam, t.leverancierscode, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, l.begincode, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM accommodatie a, type t, plaats p, land l, boeking b, boeking_persoon bp, seizoen s WHERE bp.persoonnummer=1 AND bp.boeking_id=b.boeking_id AND b.seizoen_id=s.seizoen_id AND b.type_id=t.type_id AND b.geannuleerd=0 AND b.boekingsnummer<>'' AND p.land_id=l.land_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND ".$wherequery.";");
-	
+
 	if($db->num_rows()) {
 		$tl=new tablelist;
 		$tl->settings["systemid"]=$tl_teller;
@@ -1601,7 +1601,7 @@ function boekingoverzicht($wherequery) {
 		$tl->field_text("accommodatie","Accommodatie");
 		$tl->field_text("hoofdboeker","Hoofdboeker");
 		$tl->field_text("acc_of_arrangement","Ac/Ar/Co");
-		
+
 		while($db->next_record()) {
 			# add_record($id,$key,$value,$sortvalue="",$datetime=false,$options="")
 			$tl->add_record("aankomst",$db->f("boeking_id"),date("d-m-Y",$db->f("aankomstdatum_exact")),$db->f("aankomstdatum_exact"),true);
@@ -1637,7 +1637,7 @@ function get_reserveringsnummer_2($leverancierid,$aankomstdatum_exact) {
 
 	global $vars;
 	$db=new DB_sql;
-	
+
 	$reserveringsnummer_2=substr("00".$leverancierid,-3);
 
 	# Hoogste nummer uit tabel boeking halen
@@ -1660,7 +1660,7 @@ function get_reserveringsnummer_2($leverancierid,$aankomstdatum_exact) {
 				$reserveringsnummer_2.="301";
 			} else {
 				$reserveringsnummer_2.=substr("000".($boekingsnummer+1),-3);
-			
+
 			}
 		} elseif(boekjaar($aankomstdatum_exact)==2009) {
 			if($boekjaarcijfer<5) {
@@ -1697,7 +1697,7 @@ function get_reserveringsnummer_2($leverancierid,$aankomstdatum_exact) {
 		}
 		$reserveringsnummer_2.=$boekjaarcijfer."01";
 	}
-	
+
 	return $reserveringsnummer_2;
 }
 
@@ -1715,10 +1715,10 @@ function inkoopgegevens_berekenen_en_opslaan($gegevens) {
 	global $vars;
 	$db=new DB_sql;
 	$reissom_tabel=reissom_tabel($gegevens,$gegevens["stap1"]["accinfo"],"",true);
-	
+
 
 	# bekomende kosten accommodatieleverancier berekenen
-	
+
 	# verborgen opties laden
 	$db->query("SELECT extra_optie_id, persoonnummer, deelnemers, naam, inkoop, korting, hoort_bij_accommodatieinkoop FROM extra_optie WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."' AND verberg_voor_klant=1 AND hoort_bij_accommodatieinkoop=1 ORDER BY soort, naam;");
 	while($db->next_record()) {
@@ -1737,7 +1737,7 @@ function inkoopgegevens_berekenen_en_opslaan($gegevens) {
 			$gegevens["stap4"]["persoonsoptie_fin"]["naam"][$db->f("extra_optie_id")]=$db->f("naam");
 		}
 	}
-	
+
 	# gewone (niet-handmatige) opties laden waarbij hoort_bij_accommodatieinkoop aan staat
 	while(list($key,$value)=@each($gegevens["stap4"]["optie_hoort_bij_accommodatieinkoop"])) {
 		$db->query("SELECT bo.hoort_bij_accommodatieinkoop, ot.inkoop, ot.korting FROM boeking_optie bo, optie_tarief ot WHERE ot.week='".$gegevens["stap1"]["aankomstdatum"]."' AND bo.boeking_id='".$gegevens["stap1"]["boekingid"]."' AND ot.optie_onderdeel_id=bo.optie_onderdeel_id AND ot.optie_onderdeel_id='".addslashes($key)."' AND bo.hoort_bij_accommodatieinkoop=1;");
@@ -1767,7 +1767,7 @@ function inkoopgegevens_berekenen_en_opslaan($gegevens) {
 
 
 	// inkoopmincommissie berekenen
-	
+
 	$fin["inkoopmincommissie"]=bedrag_min_korting($gegevens["stap1"]["inkoopbruto"],$gegevens["stap1"]["inkoopcommissie"]);
 
 	// inkoopnetto berekenen
@@ -1780,10 +1780,10 @@ function inkoopgegevens_berekenen_en_opslaan($gegevens) {
 	// totaalfactuurbedrag berekenen
 	$fin["totaalfactuurbedrag"]=$fin["inkoopnetto"];
 	$fin["totaalfactuurbedrag"]=$fin["totaalfactuurbedrag"]+$temp_extraopties_totaal;
-	
+
 	$db->query("UPDATE boeking SET totale_reissom_inkoop='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', totale_reissom_inkoop_actueel='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', inkoopnetto='".addslashes($fin["inkoopnetto"])."', totaalfactuurbedrag='".addslashes($fin["totaalfactuurbedrag"])."' WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."';");
-	
-	# inkoop van opties	
+
+	# inkoop van opties
 	$db->query("DELETE FROM boeking_optieinkoop WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."';");
 	while(list($key,$value)=@each($reissom_tabel["bedragen"]["optieinkoop"])) {
 		if($key) {
@@ -1809,7 +1809,7 @@ function object2array($object,$utf8decode=false) {
 		if(is_object($object)) {
 			$var = get_object_vars($object);
 		}
-	
+
 		if($var) {
 			foreach($var as $key => $value)	$return[$key] = object2array($value,$utf8decode);
 		} else {
@@ -1834,7 +1834,7 @@ function xml_structure_convert($tempxml) {
 	while(list($key,$value)=each($xml["database"]["table_structure"]["field"])) {
 		$field[$key]=$value["@attributes"]["Field"];
 	}
-	
+
 	while(list($key,$value)=@each($xml["database"]["table_data"]["row"])) {
 		$teller++;
 		while(list($key2,$value2)=each($value["field"])) {
@@ -1843,7 +1843,7 @@ function xml_structure_convert($tempxml) {
 			}
 		}
 	}
-	
+
 	$return=$data;
 	return $return;
 }
@@ -1866,22 +1866,22 @@ function verzameltype_berekenen($seizoenid,$typeid) {
 	$db=new DB_sql;
 	$db2=new DB_sql;
 	$db3=new DB_sql;
-	
+
 	$db->query("SELECT t.verzameltype_parent, a.toonper FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".addslashes($typeid)."' AND t.verzameltype_parent>0;");
 	if($db->next_record()) {
 		$verzameltype_parent=$db->f("verzameltype_parent");
 		$toonper=$db->f("toonper");
-		
+
 		# Oude gegevens wissen
 		$db->query("DELETE FROM tarief WHERE type_id='".addslashes($verzameltype_parent)."' AND seizoen_id='".addslashes($seizoenid)."';");
 		if($toonper==1) {
 			$db->query("DELETE FROM tarief_personen WHERE type_id='".addslashes($verzameltype_parent)."' AND seizoen_id='".addslashes($seizoenid)."';");
-		}		
+		}
 		$db->query("SELECT type_id FROM type WHERE verzameltype_parent='".addslashes($verzameltype_parent)."';");
 		while($db->next_record()) {
 			if($verzameltype_inquery) $verzameltype_inquery.=",".$db->f("type_id"); else $verzameltype_inquery=$db->f("type_id");
 		}
-		
+
 		# Voorraad + beschikbaar opslaan
 		if($toonper==1) {
 			# toonper==1: arrangement
@@ -1890,9 +1890,9 @@ function verzameltype_berekenen($seizoenid,$typeid) {
 			# toonper==3: accommodatie
 			$main_price_field="c_verkoop_site";
 		}
-		
+
 		$nietovernemen_tarief=array("type_id","seizoen_id","week","beschikbaar","voorraad_garantie","voorraad_allotment","voorraad_vervallen_allotment","voorraad_optie_leverancier","voorraad_xml","voorraad_request","voorraad_optie_klant","opgeslagen");
-		
+
 		# bepalen welke velden allemaal over te nemen
 		$db->query("SHOW COLUMNS FROM tarief;");
 		while($db->next_record()) {
@@ -1944,7 +1944,7 @@ function verzameltype_berekenen($seizoenid,$typeid) {
 				if($toonper==1) {
 					$tarief_personen_reserve[$db->f("week")]=$db->f("type_id");
 				}
-			
+
 				$weekgehad_reserve[$db->f("week")]=true;
 			}
 
@@ -1989,7 +1989,7 @@ function verzameltype_berekenen($seizoenid,$typeid) {
 			}
 			$db2->query("INSERT INTO tarief SET type_id='".$verzameltype_parent."', seizoen_id='".addslashes($seizoenid)."', week='".$key."', opgeslagen=NOW()".$setquery.";");
 #			echo $db2->lastquery."<br>";
-			
+
 			if($tarief_personen[$key]) {
 				$db2->query("SELECT personen, prijs, afwijking FROM tarief_personen WHERE type_id='".$tarief_personen[$key]."' AND week='".$key."' AND seizoen_id='".addslashes($seizoenid)."';");
 #				echo $db2->lastquery."<br>";

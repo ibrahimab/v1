@@ -35,11 +35,11 @@ while($db->next_record()) {
 		} else {
 			$browser[$db->f("user_id")]=$a[0];
 		}
-		
+
 		if(preg_match("/\[([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\]/",$a[0],$regs)) {
 			if($regs[1]=="80.101.166.235") {
 				$ipadres[$db->f("user_id")]="Kantoor (ADSL)";
-			} elseif($regs[1]=="213.125.164.75") {
+			} elseif($regs[1]=="213.125.164.74") {
 				$ipadres[$db->f("user_id")]="Kantoor (Ziggo)";
 			} elseif($regs[1]=="82.93.130.238") {
 				$ipadres[$db->f("user_id")]="Bert thuis";
@@ -87,7 +87,7 @@ if($_GET["t"]==2) {
 	if($login->userlevel<10) {
 		$cms->db[25]["where"]="user<>'webtastic' AND userlevel>=1";
 	} else {
-		$cms->db[25]["where"]="userlevel>=1";	
+		$cms->db[25]["where"]="userlevel>=1";
 	}
 }
 

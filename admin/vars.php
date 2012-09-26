@@ -73,7 +73,7 @@ if($_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="www3.chale
 	$robot_noindex=true;
 	#
 	# www2 en www3 afschermen voor andere gebruikers
-	if($_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.75" and $_SERVER["REMOTE_ADDR"]<>"82.173.186.80" and $_SERVER["REMOTE_ADDR"]<>"172.16.1.10") {
+	if($_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74" and $_SERVER["REMOTE_ADDR"]<>"82.173.186.80" and $_SERVER["REMOTE_ADDR"]<>"172.16.1.10") {
 		header("Location: http://www.chalet.nl/");
 		exit;
 	}
@@ -360,21 +360,21 @@ if($vars["leverancier_mustlogin"]) {
 	}
 }
 
-# 80.101.166.235 = kantoor verbinding 1
-# 213.125.164.75 = kantoor verbinding 2
+# 80.101.166.235 = kantoor verbinding 1 (ADSL)
+# 213.125.164.74 = kantoor verbinding 2 (Ziggo)
 # 82.93.130.238  = Bert thuis
 # 82.173.186.80  = WebTastic
 # 82.173.186.80  = WebTastic 2
 # 172.16.1.10    = t.b.v. testserver
 # 172.16.1.35    = t.b.v. testserver (laptop)
 # 127.0.0.1	 = t.b.v. testserver (Miguel)
-$vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.75","82.93.130.238","82.173.186.80","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
+$vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.74","82.93.130.238","82.173.186.80","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
 
 # Geldigheidsduur intern FLC-cookie verlengen
 if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
 
 	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
-		if($_SERVER["REMOTE_ADDR"]=="80.101.166.235" or $_SERVER["REMOTE_ADDR"]=="213.125.164.75") {
+		if($_SERVER["REMOTE_ADDR"]=="80.101.166.235" or $_SERVER["REMOTE_ADDR"]=="213.125.164.74") {
 			# binnen kantoor
 		} else {
 			# buiten kantoor
