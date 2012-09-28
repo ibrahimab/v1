@@ -1167,6 +1167,10 @@ $txt["en"]["zoek-en-boek"]["sauna"]="sauna";
 $txt["nl"]["zoek-en-boek"]["openhaardhoutkachel"]="open haard/houtkachel";
 $txt["en"]["zoek-en-boek"]["openhaardhoutkachel"]="fire place/wood stove";
 
+$txt["nl"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] of meer";
+$txt["en"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] or more";
+
+
 # zoek-en-boek m.b.t. flexibel
 $txt["nl"]["zoek-en-boek"]["bekijkookzaterdagzaterdag"]="Bekijk ook de mogelijkheden bij een verblijf van zaterdag tot zaterdag.";
 $txt["en"]["zoek-en-boek"]["bekijkookzaterdagzaterdag"]="Check out the possibilities for stays from Saturday to Saturday.";
