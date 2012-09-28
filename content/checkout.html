@@ -1,0 +1,126 @@
+<div id="transactieResult" style="display:none;"></div>
+<div id="firstScreen">
+<table width="70%" align="center">
+	<tr>
+		<td>Totaal openstaand bedrag:</td>
+		<td><?php echo $boekingObject["Totaal boeking bedrag"]." Euro"; ?></td>
+	</tr>
+	<tr>
+		<td>Maak een keuze voor de betaling</td>
+		<td>
+			<select id="opties">
+				<option>Maak een keuze</option>
+				<option>Deel betaling doen</option>
+				<option>Totaal openstaand bedrag betalen</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="button" id="verder" value="Doorgaan"/></td>
+	</tr>
+</table>
+</div>
+<div id="secondScreen" style="display:none;">
+<table width="70%" align="center">
+	<tr>
+		<td>Nu te voldoen totaal bedrag:</td>
+		<td>
+			<script>
+				if(sessionStorage.keuze=="Deel betaling doen"){
+					document.write("<?php echo $boekingObject["Termijn"];?> Euro");
+				}
+				else if(sessionStorage.keuze=="Totaal openstaand bedrag betalen"){
+					document.write("<?php echo $boekingObject["Totaal boeking bedrag"];?> Euro");
+				}
+			</script>
+		</td>
+	</tr>
+	<tr>
+		<td>Maak een keuze voor de betaling</td>
+		<td>
+			<select id="bankenLijst">
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="button" id="afrekenen" value="Betalen"/></td>
+	</tr>
+</table>
+</div>
+<?php
+if(isset($_GET["success"]) or isset($_GET["canceled"]) or isset($_GET["canceled"])){
+?>
+<script>
+	$.getJSON("/chalet/rpc_json.php", {
+		"t": 8,
+		"action": "getstatus",
+		"trxid":"<?php echo $_GET["trxid"];?>",
+	}, function(data) {
+		if(data.ok) {
+			$("#firstScreen").html(" ");
+			if(data.transaction.status=="Success"){
+				$("#transactieResult").html("Je transactie is succesvol uitgevoerd. Je transactie is uitgevoerd op: "+data.transaction.timestamp);
+			}
+			else{
+				$("#transactieResult").html("De transactie is niet gelukt. Probeer het later nogmaals. De status van je transactie is: "+data.transaction.status+"\n");
+			}
+			$("#transactieResult").slideToggle();
+		}		
+	});
+</script>
+<?php } ?>
+<script>
+$("#afrekenen").click(function () {
+	var bedrag;
+	if(sessionStorage.keuze=="Deel betaling doen"){
+		bedrag="<?php echo $boekingObject["Termijn"]*100;?>";
+	}
+	else if(sessionStorage.keuze=="Totaal openstaand bedrag betalen"){
+		bedrag="<?php echo $boekingObject["Totaal boeking bedrag"]*100;?>";
+	}
+	var e = document.getElementById("bankenLijst"); 
+	var strUser = e.options[e.selectedIndex].value; 
+	if(strUser =="Selecteer een bank"){
+		window.alert("Selecteer eerst een bank");
+	}
+	else{
+		$.getJSON("/chalet/rpc_json.php", {
+			"t": 8,
+			"action": "doTransaction",
+			"bankID":strUser,
+			"bedrag":bedrag,
+		}, function(data) {
+			if(data.ok) {
+				window.location=decodeURIComponent(data.transaction.issuerurl);	
+			}		
+		});
+	}
+});
+$("#verder").click(function () {
+	var typ;
+	var e = document.getElementById("opties"); 
+	var strUser = e.options[e.selectedIndex].text; 
+	if(strUser =="Maak een keuze"){
+		window.alert("Selecteer eerst hoe je verder wil afrekenen");
+	}
+	else{
+		$.getJSON("/chalet/rpc_json.php", {
+			"t": 8,
+			"action": "getBanks",
+		}, function(data) {
+			if(data.ok) {
+				typ ="<option value='Selecteer een bank'>Selecteer een bank</option>";
+				for(i=0;i<data.banken.length;i++){
+					typ +="<option value="+data.banken[i].id+">"+data.banken[i].naam+"</option>";
+				}
+				 $("#bankenLijst").html(typ);
+			}		
+		});
+		sessionStorage.keuze=strUser;
+		$("#firstScreen").slideToggle();
+		$("#secondScreen").slideToggle();
+	}
+});
+</script>
