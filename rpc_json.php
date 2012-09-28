@@ -423,6 +423,75 @@ if ( $_GET["t"]==1 ) {
 		}
 	}
 	$return["ok"]=true;
+}elseif($_GET["t"]==8){
+#	Ideal betalingssysteem
+#het ophalen van een lijst met alle aangesloten banken.
+	if($_GET["action"]=="getBanks"){
+		//header('Content-type: application/xml');
+		$bankenArr=array();
+		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/DirectoryRequest?test=true';
+		$handle = fopen($daurl, "r");
+		$xml="";
+		if ($handle) {   
+			while (!feof($handle)) {        
+				$buffer = fgets($handle, 4096); 
+				$xml.= $buffer;       
+			}    
+			fclose($handle);
+		}
+		$xmle=simplexml_load_string($xml);
+		//print_r($xmle);
+		$i=0;
+		foreach($xmle->directory->issuer as $bank){
+			$banknaam["id"]=(string)$bank->issuerid;
+			$banknaam["naam"]=(string)$bank->issuername;
+			$bankenArr[$i]=$banknaam;
+			$i++;
+		}
+		$return["banken"]=$bankenArr;
+	}elseif($_GET["action"]=="doTransaction"){
+#Verzoek tot het uitvoeren van een transactie.
+		$signature=sha1("12345uniqueentrance".$_GET["bedrag"]."25374805605a3f9de17a1ac057e637aeaba1afedd2070d75ba");
+		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/TransactionRequest?shopid=&merchantid=2537480560&payment=&purchaseid=12345&amount='.$_GET["bedrag"].'&entrancecode=uniqueentrance&description=IdealAfbetaling&issuerid='.$_GET["bankID"].'&returnurl=http://192.168.1.32/chalet/checkout.php?success=true&cancelurl=http://192.168.1.32/chalet/checkout.php?canceled=true&callbackurl=http://192.168.1.32/chalet/checkout.php?callback=true&sha1='.$signature.'&testmode=true';
+		$handle = fopen($daurl, "r");
+		$xml="";
+		if ($handle) {   
+			while (!feof($handle)) {        
+				$buffer = fgets($handle, 4096); 
+				$xml.= $buffer;       
+			}    
+			fclose($handle);
+		}
+		$xmle=simplexml_load_string($xml);
+		$return["transaction"]["trxid"]=(string)$xmle->transaction->trxid;
+		$return["transaction"]["issuerurl"]=(string)$xmle->transaction->issuerurl;
+		//print_r($xmle);
+	}elseif($_GET["action"]=="getstatus"){
+#het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
+		$signature=sha1($_GET["trxid"]."25374805605a3f9de17a1ac057e637aeaba1afedd2070d75ba");
+		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/StatusRequest?trxid='.$_GET["trxid"].'&shopid=&merchantid=2537480560&sha1='.$signature;
+		$handle = fopen($daurl, "r");
+		$xml="";
+		if ($handle) {   
+			while (!feof($handle)) {        
+				$buffer = fgets($handle, 4096); 
+				$xml.= $buffer;       
+			}    
+			fclose($handle);
+		}
+		$xmle=simplexml_load_string($xml);
+		$return["transaction"]["trxid"]=(string)$xmle->transaction->trxid;
+		$return["transaction"]["status"]=(string)$xmle->transaction->status;
+		$return["transaction"]["amount"]=(string)$xmle->transaction->amount;
+		$return["transaction"]["purchaseid"]=(string)$xmle->transaction->purchaseid;
+		$return["transaction"]["description"]=(string)$xmle->transaction->description;
+		$return["transaction"]["timestamp"]=(string)$xmle->transaction->timestamp;
+		$return["transaction"]["consumername"]=(string)$xmle->transaction->consumername;
+		$return["transaction"]["consumeraccount"]=(string)$xmle->transaction->consumeraccount;
+		$return["transaction"]["consumercity"]=(string)$xmle->transaction->consumercity;
+		//print_r($xmle);
+	}
+	$return["ok"]=true;
 }
 
 echo json_encode( $return );
