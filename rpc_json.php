@@ -422,7 +422,7 @@ if ( $_GET["t"]==1 ) {
 			$mail->send();
 		}
 	}
-	$return["ok"]=true;
+	
 }elseif($_GET["t"]==8){
 #	Ideal betalingssysteem
 #het ophalen van een lijst met alle aangesloten banken.
@@ -491,9 +491,8 @@ if ( $_GET["t"]==1 ) {
 		$return["transaction"]["consumercity"]=(string)$xmle->transaction->consumercity;
 		//print_r($xmle);
 	}
-	$return["ok"]=true;
 }
-
+$return["ok"]=true;
 echo json_encode( $return );
 
 ?>
