@@ -3247,20 +3247,20 @@ function facebook_opengraph($info="") {
 	# toon meta-tags in header t.b.v. Facebook en Twitter
 	global $vars,$title,$id,$meta_description,$typeid,$temp_accid;
 	if($vars["facebook_title"]) {
-		$return.="<meta property=\"og:title\" content=\"".htmlentities($vars["facebook_title"])."\" />\n";
+		$return.="<meta property=\"og:title\" content=\"".wt_he($vars["facebook_title"])."\" />\n";
 	} else {
-		$return.="<meta property=\"og:title\" content=\"".htmlentities($vars["websitenaam"])."\" />\n";
+		$return.="<meta property=\"og:title\" content=\"".wt_he($vars["websitenaam"])."\" />\n";
 	}
 	$return.="<meta property=\"og:type\" content=\"website\" />\n";
 	if($vars["canonical"]) {
-		$return.="<meta property=\"og:url\" content=\"".htmlentities($vars["canonical"])."\" />\n";
+		$return.="<meta property=\"og:url\" content=\"".wt_he($vars["canonical"])."\" />\n";
 	} else {
-		$return.="<meta property=\"og:url\" content=\"".htmlentities(substr($vars["basehref"],0,-1).$_SERVER["REQUEST_URI"])."\" />\n";
+		$return.="<meta property=\"og:url\" content=\"".wt_he(substr($vars["basehref"],0,-1).$_SERVER["REQUEST_URI"])."\" />\n";
 	}
-	$return.="<meta property=\"og:site_name\" content=\"".htmlentities($vars["websitenaam"])."\" />\n";
+	$return.="<meta property=\"og:site_name\" content=\"".wt_he($vars["websitenaam"])."\" />\n";
 	$return.="<meta property=\"fb:admins\" content=\"100002331327337\" />\n";
 	if($vars["facebook_pageid"]) {
-		$return.="<meta property=\"fb:page_id\" content=\"".htmlentities($vars["facebook_pageid"])."\" />\n";
+		$return.="<meta property=\"fb:page_id\" content=\"".wt_he($vars["facebook_pageid"])."\" />\n";
 	}
 	if($id=="toonaccommodatie") {
 		if(file_exists("pic/cms/types_specifiek/".$typeid.".jpg")) {
@@ -3270,7 +3270,7 @@ function facebook_opengraph($info="") {
 		}
 	}
 	if($afbeelding) {
-		$return.="<meta property=\"og:image\" content=\"".htmlentities($vars["basehref"])."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127\" />\n";
+		$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"])."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127\" />\n";
 	} else {
 		# logo als afbeelding
 		if($vars["website"]=="Z") {
@@ -3296,16 +3296,23 @@ function facebook_opengraph($info="") {
 			$logo_afbeelding="logo_italissima.gif";
 		}
 		if($logo_afbeelding) {
-			$return.="<meta property=\"og:image\" content=\"".htmlentities($vars["basehref"])."pic/".$logo_afbeelding."\" />\n";
+			$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"])."pic/".$logo_afbeelding."\" />\n";
 		}
 	}
 
 	if($meta_description) {
-		$return.="<meta property=\"og:description\" content=\"".htmlentities($meta_description)."\" />\n";
+		$return.="<meta property=\"og:description\" content=\"".wt_he($meta_description)."\" />\n";
+	} else {
+		$return.="<meta property=\"og:description\" content=\"".wt_he(($meta_description ? $meta_description : ($title[$id]&&$id&&$id<>"index" ? $title[$id] : txt("description"))))."\" />\n";
 	}
 
 	# Twitter
 	$return.="<meta property=\"twitter:card\" content=\"summary\" />\n";
+	if($meta_description) {
+		$return.="<meta property=\"twitter:description\" content=\"".wt_he($meta_description)."\" />\n";
+	} else {
+		$return.="<meta property=\"twitter:description\" content=\"".wt_he(($meta_description ? $meta_description : ($title[$id]&&$id&&$id<>"index" ? $title[$id] : txt("description"))))."\" />\n";
+	}
 	if($vars["twitter_user"]) {
 		$return.="<meta property=\"twitter:site\" content=\"@".wt_he($vars["twitter_user"])."\" />\n";
 	}
