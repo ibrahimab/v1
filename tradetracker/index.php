@@ -36,7 +36,7 @@ if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
 	#
 
 	//! Tradetracker Landingpage
-	
+
 	//===================================================================================================
 	//											Configuration											/
 	//===================================================================================================
@@ -44,7 +44,7 @@ if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
 	$domainName = "wintersportaccommodaties.nl";	//the domain name on which the landingpage runs, without www.
 	$secretKey = "";		//the secret-key is provided by TradeTracker
 	//===================================================================================================
-	
+
 	// V1 support
 	if($_GET["campaignID"]) {
 		//set parameters
@@ -58,30 +58,30 @@ if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
 		list($campaignID, $materialID, $affiliateID, $reference) = explode('_', $_GET["tt"]);
 		$redirectURL = $_GET["r"];
 	}
-	
+
 	// Calculate MD5 checksum
 	$checkSum = md5("CHK_{$campaignID}::{$materialID}::{$affiliateID}::{$reference}::{$secretKey}");
-	
+
 	// Set session/cookie arguments
 	$cookieName = "TT2_{$campaignID}";
 	$cookieValue = "{$materialID}::{$affiliateID}::{$reference}::{$checkSum}";
-	
+
 	# Cookie niet plaatsen bij werknemers Chalet
 	if(!$_COOKIE["flc"]) {
 		// Create tracking cookie
 		@setcookie($cookieName, $cookieValue, (time() + 3456000), "/", ".{$domainName}");
 	}
-	
+
 	// Create tracking session
 	session_start();
-	
-	
+
+
 	// Set session data
 	$_SESSION[$cookieName] = $cookieValue;
-	
+
 	// Set track-back URL
 	$trackBackURL = "http://tc.tradetracker.nl/v2/{$campaignID}/{$materialID}/{$affiliateID}/" . urlencode($reference) . "?r=" . urlencode($redirectURL);
-	
+
 	// Redirect to TradeTracker
 	header("Location: {$trackBackURL}", true, 301);
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl") {
@@ -89,7 +89,7 @@ if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
 	# Zomerhuisje.nl
 	#
 	//! Tradetracker Landingpage
-	
+
 	//===================================================================================================
 	//											Configuration											/
 	//===================================================================================================
@@ -97,7 +97,7 @@ if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
 	$domainName = "zomerhuisje.nl";	//the domain name on which the landingpage runs, without www.
 	$secretKey = "0420046291";		//the secret-key is provided by TradeTracker
 	//===================================================================================================
-	
+
 	// V1 support
 	if($_GET["campaignID"]) {
 		//set parameters
@@ -111,29 +111,29 @@ if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
 		list($campaignID, $materialID, $affiliateID, $reference) = explode('_', $_GET["tt"]);
 		$redirectURL = $_GET["r"];
 	}
-	
+
 	// Calculate MD5 checksum
 	$checkSum = md5("CHK_{$campaignID}::{$materialID}::{$affiliateID}::{$reference}::{$secretKey}");
-	
+
 	// Set session/cookie arguments
 	$cookieName = "TT2_{$campaignID}";
 	$cookieValue = "{$materialID}::{$affiliateID}::{$reference}::{$checkSum}";
-	
+
 	# Cookie niet plaatsen bij werknemers Chalet
 	if(!$_COOKIE["flc"]) {
 		// Create tracking cookie
 		@setcookie($cookieName, $cookieValue, (time() + 3456000), "/", ".{$domainName}");
 	}
-		
+
 	// Create tracking session
 	session_start();
-	
+
 	// Set session data
 	$_SESSION[$cookieName] = $cookieValue;
-	
+
 	// Set track-back URL
 	$trackBackURL = "http://tc.tradetracker.nl/v2/{$campaignID}/{$materialID}/{$affiliateID}/" . urlencode($reference) . "?r=" . urlencode($redirectURL);
-	
+
 	// Redirect to TradeTracker
 	header("Location: {$trackBackURL}", true, 301);
 
@@ -205,49 +205,53 @@ if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
 
 
 	#
-	# Chalet.nl Winter
+	# Chalet.nl Winter / Chalet.be Winter
 	#
 
 	// configuration
-	$domainName = "chalet.nl";
-	
+	if($_SERVER["HTTP_HOST"]=="www.chalet.be") {
+		$domainName = "chalet.be";
+	} else {
+		$domainName = "chalet.nl";
+	}
+
 	// create session
 	session_start();
-	
+
 	// define arguments
 	$campaignID = $_GET["campaignID"];
 	$materialID = $_GET["materialID"];
 	$affiliateID = $_GET["affiliateID"];
 	$redirectURL = $_GET["redirectURL"];
-	
+
 	// set current timestamp
 	$timeStamp = time();
-	
+
 	// calculate MD5 checksum
 	$checkSum = md5("CHK_" . $campaignID . "::" . $materialID . "::" . $affiliateID . "::". $timeStamp);
-	
+
 	// set session/cookie arguments
 	$cookieName = "TT2_" . $campaignID;
 	$cookieValue = $materialID . "::" . $affiliateID . "::" . $timeStamp . "::" . $checkSum;
 	$cookieExpire = time() + (60 * 60 * 24 * 40);
 	$cookiePath = "/";
 	$cookieDomain = "." . $domainName;
-	
+
 	// set session data
 	$_SESSION[$cookieName] = $cookieValue;
-	
+
 	# Cookie niet plaatsen bij werknemers Chalet
 	if(!$_COOKIE["flc"]) {
 		// create the normal tracking cookie
 		@setcookie($cookieName, $cookieValue, $cookieExpire, $cookiePath, $cookieDomain);
 	}
-		
+
 	// Set trackBackURL
 	$trackBackURL = "http://tc.tradetracker.nl/$campaignID/$materialID/$affiliateID";
-	
+
 	// If redirect URL is defined, add it to the trackBackURL
 	if($redirectURL != "") $trackBackURL = $trackBackURL . "/?redirectURL=" . urlencode($redirectURL);
-	
+
 	// redirect to TradeTracker
 	header("Location: $trackBackURL");
 }
