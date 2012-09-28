@@ -45,7 +45,9 @@ while($db->next_record()) {
 				$ipadres[$db->f("user_id")]="Bert thuis";
 			} elseif($regs[1]=="VERBERGEN_83.215.210.75") {
 				$ipadres[$db->f("user_id")]="Bauernhaus";
-			} elseif($regs[1]=="82.173.186.80") {
+			} elseif($regs[1]=="31.223.173.113") {
+				$ipadres[$db->f("user_id")]="WebTastic";
+			} elseif($regs[1]=="37.34.56.191") {
 				$ipadres[$db->f("user_id")]="WebTastic";
 			} else {
 				$ipadres[$db->f("user_id")]="IP-adres ".$regs[1];

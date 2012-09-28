@@ -3390,6 +3390,15 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		#
 		$cleafs_code="Grr8823K";
 		$cleafs_bedrag=0;
+	} elseif($vars["website"]=="B") {
+
+		#
+		# TradeTracker
+		#
+		$tradetracker_campaignID="8901";
+		$tradetracker_productID="13471";
+		$tradetracker_bedrag="";
+
 	} elseif($vars["website"]=="I") {
 
 		#
