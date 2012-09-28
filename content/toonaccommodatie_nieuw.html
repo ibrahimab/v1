@@ -1394,14 +1394,14 @@ if($db->next_record()) {
 
 		echo "<div id=\"favadd\" style=\"".($favorieten_plaatsbutton ? "" : "display:none;")."\">";
 		echo "<img style=\"vertical-align:middle;\" width=\"13\" height=\"13\" border=\"0\" src=\"".$vars["path"]."pic/".$favorieten_toevoegen_button.".png\"> ";
-		echo " <a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen('".$typeid."','insert');_gaq.push(['_trackEvent', 'favorieten', 'toevoegen', 'accommodatie_pagina']);\">";
+		echo " <a href=\"#\" onclick=\"_gaq.push(['_trackEvent', 'favorieten', 'toevoegen', 'accommodatie_pagina']);return favorieten_opslaan_verwijderen('".$typeid."','insert');\">";
 		echo html("plaatsinfavorieten","favorieten");
 		echo "</a>";
 		echo "</div>";
 
 		echo "<div id=\"favremove\" style=\"".($favorieten_plaatsbutton ? "display:none;" : "")."\">";
 		echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=\"".$vars["path"]."pic/icon_notokay.png\"> ";
-		echo "<a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen('".$typeid."','delete');_gaq.push(['_trackEvent', 'favorieten', 'verwijderen', 'accommodatie_pagina']);\">";
+		echo "<a href=\"#\" onclick=\"_gaq.push(['_trackEvent', 'favorieten', 'verwijderen', 'accommodatie_pagina']);return favorieten_opslaan_verwijderen('".$typeid."','delete');\">";
 		echo html("Uitmijnfavorietenhalen","favorieten");
 		echo "</a>";
 		echo "</div>";
