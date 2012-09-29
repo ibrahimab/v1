@@ -26,12 +26,6 @@ if(ini_get('register_globals') and !$wt_register_globals_on) {
 	@reset($_COOKIE);
 }
 
-# session-probleem FC4 bij bl.postvak.net verhelpen
-if($_SERVER["HOSTNAME"]=="bl.postvak.net") {
-	ini_set("session.entropy_file", "/dev/random");
-	ini_set("session.entropy_length", "512");
-}
-
 # magic quotes verwijderen
 if (!function_exists("remove_magic_quotes")) {
 	function remove_magic_quotes($vars,$suffix = '') {
@@ -86,16 +80,16 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			$GLOBALS["errorcounterfunction"]["simplexml"]++;
 			if($GLOBALS["errorcounterfunction"]["simplexml"]>1) $nietopslaan=true;
 		}
-		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr)) {
-			$GLOBALS["errorcounterfunction"]["sql"]++;
-			if($GLOBALS["errorcounterfunction"]["sql"]>1) $nietopslaan=true;
-		}
+		// if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr)) {
+		// 	$GLOBALS["errorcounterfunction"]["sql"]++;
+		// 	if($GLOBALS["errorcounterfunction"]["sql"]>1) $nietopslaan=true;
+		// }
 
-# tijdelijk: MySQL-connectiefouten niet opslaan
-if(preg_match("/pconnect/",$errstr) or preg_match("/lost mysql connection/",$errstr)) {
-	$GLOBALS["errorcounterfunction"]["sql"]++;
-	$nietopslaan=true;
-}
+		// # tijdelijk: MySQL-connectiefouten niet opslaan
+		// if(preg_match("/pconnect/",$errstr) or preg_match("/lost mysql connection/",$errstr)) {
+		// 	$GLOBALS["errorcounterfunction"]["sql"]++;
+		// 	$nietopslaan=true;
+		// }
 
 		if(!$nietopslaan) {
 			if(preg_match("/^_WT_FILENAME_(.*)_WT_FILENAME__WT_LINENUMBER_(.*)_WT_LINENUMBER_(.*)$/",$errstr,$regs)) {
@@ -240,7 +234,7 @@ class wt_mail {
 		$this->settings["plaintext_utf8"]=false; # werkt nog niet met attachments!
 		return true;
 	}
-	
+
 	function attachment($file,$mimetype="",$inline=false,$otherfilename="") {
 		if(file_exists($file)) {
 			$f=fopen($file,'rb');
@@ -332,7 +326,7 @@ class wt_mail {
 		if($_SERVER["SERVER_ADDR"]) $this->send_header.="X-Server-IP: ".$_SERVER["SERVER_ADDR"]."\n";
 		if($this->extraheaders) $this->send_header.=$this->extraheaders."\n";
 		if($this->xheaders) $this->send_header.=$this->xheaders."\n";
-		
+
 		# Bevat fromname vreemde karakters?
 		if(eregi("^[a-z0-9[:space:]]*$",$this->fromname)) {
 			$this->send_header.="From: ".$this->fromname." <".$this->from.">";
@@ -363,9 +357,9 @@ class wt_mail {
 				$this->send_attachment.=$value["encoded"];
 			}
 		}
-		
+
 		$this->send_plaintext=$this->plaintext;
-		
+
 		if($this->settings["plaintext_wordwrap"]) {
 			$this->send_plaintext=wordwrap($this->send_plaintext);
 		}
@@ -404,7 +398,7 @@ class wt_mail {
 			}
 			$this->send_html=$this->html_top.$this->html.$this->html_bottom."\n\n";
 		}
-		
+
 		#
 		# $this->send_body en $this-send_header bepalen
 		#
@@ -480,11 +474,11 @@ class wt_mail {
 				$this->send_body.="\n--".$boundary0."--\n";
 			}
 		}
-		
+
 		# "\r\n" vervangen door "\n" in send_body
 #		$this->send_body=ereg_replace("\r\n","\n",$this->send_body);
 		$this->send_body=str_replace("\r\n","\n",$this->send_body);
-		
+
 		# BCC track@webtastic.nl aan?
 		if($this->send_bcc) $bcc="Bcc: track@webtastic.nl\n"; else $bcc="";
 
@@ -561,7 +555,7 @@ function wt_jabber($to,$msg) {
 		fclose($dataFile);
 		return trim($buffer);
 	} else {
-		# Verbinding niet mogelijk	
+		# Verbinding niet mogelijk
 #		echo "\n\nFOUT met jabber!!\n\n";
 		return "FOUT met jabber";
 	}
@@ -578,7 +572,7 @@ function wt_validmail($mail="") {
 
 function wt_ss_beep() {
 	# Laat een beep horen op de server ss.postvak.net
-	$fp = fsockopen("ss.postvak.net", 1200, $errno, $errstr, 1);
+	$fp = fsockopen("vps.postvak.net",11200,$errno,$errstr,1);
 }
 
 function wt_get_extension($file,$filename="") {
@@ -604,7 +598,7 @@ function XXstartElement($parser, $name, $attrs) {
    global $depth;
    global $stack;
    global $tree;
-  
+
    $element = array();
    $element['name'] = $name;
    foreach ($attrs as $key => $value) {
@@ -624,7 +618,7 @@ function wt_xmlstartElement($parser, $name, $attrs) {
 	global $wt_xmlstack;
 	global $wt_xmltree;
 	global $wt_xmlteller;
-	
+
 	$element = array();
 	foreach ($attrs as $key => $value) {
 		$element[strtolower($key)]=$value;
@@ -638,7 +632,7 @@ function wt_xmlstartElement($parser, $name, $attrs) {
 		}
 
 #		$wt_xmlstack[strtolower($name)][0] = &$element;
-	
+
 		$wt_xmlstack[key($wt_xmlstack)][strtolower($name)][$wt_xmlteller[$wt_xmldepth]] = &$element;
 		$wt_xmlstack[strtolower($name)][$wt_xmlteller[$wt_xmldepth]] = &$element;
 	} else {
@@ -865,13 +859,13 @@ function wt_adodb_date($var,$time) {
 	return $return;
 }
 
-if (!function_exists("array_search")) { 
-	function array_search ($needle, $haystack, $strict = FALSE) { 
+if (!function_exists("array_search")) {
+	function array_search ($needle, $haystack, $strict = FALSE) {
 		if(is_array($haystack)) {
 			foreach($haystack as $key => $value) {
 				if($strict) {
-					if($value === $needle) return $key; 
-				} else { 
+					if($value === $needle) return $key;
+				} else {
 					if ($value == $needle) return $key;
 				}
 			}
@@ -881,7 +875,7 @@ if (!function_exists("array_search")) {
 	return FALSE;
 	}
 }
-if (!function_exists("printarray")) { 
+if (!function_exists("printarray")) {
 	function printarray($array) {
 		if(is_array($array)) {
 			echo "<TABLE border=1 cellspacing=0 cellpadding=3 bordercolor=#878481>";
@@ -900,7 +894,7 @@ if (!function_exists("printarray")) {
 	}
 }
 
-if (!function_exists("vtanaam")) { 
+if (!function_exists("vtanaam")) {
 	# Functie om voornaam, tussenvoegsel, achternaam weer te geven
 	function vtanaam($voornaam='',$tussenvoegsel='',$achternaam) {
 		$return=$voornaam;
@@ -916,12 +910,12 @@ function wt_create_thumbnail($file,$newfile,$width,$height,$cut=false,$type="jpg
 	#
 	# Aanmaken jpg-thumbnail / resizen / thumbnails
 	#
-	
+
 	# aspectratio bepalen
 	$imgsize=getimagesize($file);
 
 	$aspectratio=$imgsize[0]/$imgsize[1];
-	
+
 	# Nieuwe afmetingen bepalen
 	if($width and $height) {
 		$newwidth=$width;
@@ -951,7 +945,7 @@ function wt_create_thumbnail($file,$newfile,$width,$height,$cut=false,$type="jpg
 			$tempwidth=ceil($newheight*$aspectratio);
 		}
 	}
-		
+
 	# Afbeeldingen resizen
 	if($tempwidth==$imgsize[0] and $tempheight==$imgsize[1]) {
 		# Afbeelding resizen is niet nodig
@@ -982,7 +976,7 @@ function wt_create_thumbnail($file,$newfile,$width,$height,$cut=false,$type="jpg
 		} elseif($type=="gif") {
 			imagegif($img,$newfile);
 		} else {
-			imagejpeg($img,$newfile,$quality);		
+			imagejpeg($img,$newfile,$quality);
 		}
 		imagedestroy($img);
 	} else {
@@ -1025,20 +1019,20 @@ function wt_create_thumbnail($file,$newfile,$width,$height,$cut=false,$type="jpg
 			imagefill($img2,0,0,$kleur);
 			imagecopyresized($img2,$img,$thumbx,$thumby,0,0,$tempwidth,$tempheight,$tempwidth,$tempheight);
 		}
-		
+
 		if($type=="png") {
 			$pngcompression=round((100-$quality)/10);
 			imagepng($img2,$newfile,$pngcompression);
 		} elseif($type=="gif") {
 			imagegif($img2,$newfile);
 		} else {
-			imagejpeg($img2,$newfile,$quality);		
+			imagejpeg($img2,$newfile,$quality);
 		}
 		imagedestroy($img2);
 	}
 }
 
-if (!function_exists("wt_stripurl")) { 
+if (!function_exists("wt_stripurl")) {
 	function wt_stripurl($stripget) {
 		if(preg_match("/\?/",$_SERVER["REQUEST_URI"])) {
 			$return=preg_replace("/\?.*$/","",$_SERVER["REQUEST_URI"]);
@@ -1058,7 +1052,7 @@ if (!function_exists("wt_stripurl")) {
 }
 
 
-if (!function_exists("wt_stripget")) { 
+if (!function_exists("wt_stripget")) {
 	function wt_stripget($get,$strip="") {
 		@reset($get);
 		while(list($key,$value)=@each($get)) {
@@ -1102,7 +1096,7 @@ if (!function_exists("wt_stripget")) {
 	}
 }
 
-if (!function_exists("wt_stripaccents")) { 
+if (!function_exists("wt_stripaccents")) {
 	function wt_stripaccents($text) {
 		return( strtr( $text,
 		"ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñš",
@@ -1122,8 +1116,8 @@ if (!function_exists("htmlmail")) {
 }
 
 # Oude webstats-functie. Bij voorkeur "wt_webstats" gebruiken.
-if (!function_exists("webstats")) { 
-	function webstats($siteid,$pageid,$extra='',$frameset=false) { 
+if (!function_exists("webstats")) {
+	function webstats($siteid,$pageid,$extra='',$frameset=false) {
 		global $webstats;
 	?><script type="text/javascript" language="javascript"><!--
 	an=navigator.appName;d=document;function
@@ -1134,7 +1128,7 @@ if (!function_exists("webstats")) {
 	srb=s.colorDepth:srb=s.pixelDepth;//-->
 	</script><script type="text/javascript" language="javascript"><!--
 	pr();//--></script><noscript><img src="http<?php if($_SERVER["HTTPS"]=="on") echo "s"; ?>://stats.webtastic.nl/count.php?siteid=<?php echo $siteid ?>&amp;pageid=<?php echo $pageid; ?>&amp;javascript=0&amp;vc=<?php echo $webstats["visitcounter"] ?>&amp;lvt=<?php echo $webstats["lastvisittime"]; if($extra) echo "&amp;e=".urlencode($extra); ?>" height=1 width=1 alt=""></noscript><?php
-	
+
 	}
 }
 
@@ -1155,10 +1149,10 @@ pr();//--></script><noscript><img src="http<?php if($_SERVER["HTTPS"]=="on") ech
 }
 
 
-if (!function_exists("webstatscookies")) { 
+if (!function_exists("webstatscookies")) {
 	function webstatscookies() {
 		global $webstats,$_COOKIE;
-		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"'); 
+		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 		setcookie("tempcounter[webstats]","on");
 		if($_COOKIE["tempcounter"]["webstats"]<>"on") {
 			$webstats["lastvisittime"]=$_COOKIE["visit"]["webstats"];
@@ -1169,7 +1163,7 @@ if (!function_exists("webstatscookies")) {
 	}
 }
 
-if(!function_exists("searchengine")) { 
+if(!function_exists("searchengine")) {
 	function searchengine() {
 		global $HTTP_USER_AGENT;
 		$searchenginenames = Array("spider","crawler","robot","lycos","infoseek","jeeves","scooter","googlebot","diibot","arachnia","linkwalker","eidetica","webcraft","phpdig","aspseek");
@@ -1182,7 +1176,7 @@ if(!function_exists("searchengine")) {
 	}
 }
 
-if(!function_exists("checkbox2db")) { 
+if(!function_exists("checkbox2db")) {
 	function checkbox2db($array) {
 		while(list($key,$value)=each($array)) {
 			if($return) $return.=",".$key; else $return=$key;
@@ -1223,7 +1217,7 @@ function wt_htmlentities($text,$clicklinks=false,$li=false) {
 
 function wt_has_value($value) {
 	if($value<>"" or $value=="0") {
-		return true;	
+		return true;
 	} else {
 		return false;
 	}
@@ -1251,7 +1245,7 @@ class wt_table {
 	function wt_table() {
 		return true;
 	}
-	
+
 	function header($title,$cols=2) {
 		$this->cols=$cols;
 		if(!$this->starttable) $return.=$this->starttable();
@@ -1311,7 +1305,7 @@ class wt_table {
 }
 
 function wt_random($low,$high,$srand) {
-	
+
 
 
 }
@@ -1325,7 +1319,7 @@ function wt_dump($array,$html=true) {
 	} else {
 		echo "Geen array: ".$array;
 	}
-	
+
 	$return=ob_get_contents();
 	ob_end_clean();
 	if($html) {
@@ -1461,7 +1455,7 @@ function mm_newmember($email,$listcode,$values) {
 	$mail->plaintext="MM_MAIL";
 	$mail->html="MM_MAIL\n";
 	$mail->html.="<div style=\"display:none\">WT_MM_MAIL_BEGIN";
-	
+
 	$values["email"]=$email;
 	@reset($values);
 	while(list($key,$value)=@each($values)) {
@@ -1567,47 +1561,47 @@ function maketime ($hour = false, $minute = false, $second = false, $month = fal
        // All knowledge was passed on by the Arabians, who showed an error in leaping
        // In 1232 Sacrobosco (Eng.) calculated the error at 1 day per 288 years
        //    In 1582, Pope Gregory XIII removed 10 days (Oct 15-24) to partially undo the
-       // error, and he instituted the 400-year-exception in the 100-year-exception, 
+       // error, and he instituted the 400-year-exception in the 100-year-exception,
        // (notice 400 rather than 288 years) to undo the rest of the error
        // From about 2044, spring will again coincide with the tropic of Cancer
        // Around 4100, the calendar will need some adjusting again
-   
+
        if ($hour === false)  $hour  = Date ("G");
        if ($minute === false) $minute = Date ("i");
        if ($second === false) $second = Date ("s");
        if ($month === false)  $month  = Date ("n");
        if ($date === false)  $date  = Date ("j");
        if ($year === false)  $year  = Date ("Y");
-   
+
        if ($year >= 1970) return mktime ($hour, $minute, $second, $month, $date, $year);
-   
+
        //    date before 1-1-1970 (Win32 Fix)
        $m_days = Array (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
        if ($year % 4 == 0 && ($year % 100 > 0 || $year % 400 == 0))
        {
            $m_days[1] = 29; // non leap-years can be: 1700, 1800, 1900, 2100, etc.
        }
-   
+
        //    go backward (-), based on $year
        $d_year = 1970 - $year;
        $days = 0 - $d_year * 365;
        $days -= floor ($d_year / 4);          // compensate for leap-years
        $days += floor (($d_year - 70) / 100);  // compensate for non-leap-years
        $days -= floor (($d_year - 370) / 400); // compensate again for giant leap-years
-           
+
        //    go forward (+), based on $month and $date
        for ($i = 1; $i < $month; $i++)
        {
            $days += $m_days [$i - 1];
        }
        $days += $date - 1;
-   
+
        //    go forward (+) based on $hour, $minute and $second
        $stamp = $days * 86400;
        $stamp += $hour * 3600;
        $stamp += $minute * 60;
        $stamp += $second;
-   
+
        return $stamp;
 }
 
@@ -1649,7 +1643,7 @@ function wt_csvrevert($string,$delimiter=",") {
 
 function wt_csv_to_array($filename='', $delimiter=';') {
 	if(!file_exists($filename) || !is_readable($filename)) return FALSE;
-	
+
 	$header = NULL;
 	$data = array();
 	if (($handle = fopen($filename, 'r')) !== FALSE) {
@@ -1723,34 +1717,34 @@ if (!function_exists("imap_8bit")) {
 	function imap_8bit($sText,$bEmulate_imap_8bit=true) {
 	  // split text into lines
 	  $aLines=explode(chr(13).chr(10),$sText);
-	
+
 	  for ($i=0;$i<count($aLines);$i++) {
 	    $sLine =& $aLines[$i];
 	    if (strlen($sLine)===0) continue; // do nothing, if empty
-	
+
 	    $sRegExp = '/[^\x09\x20\x21-\x3C\x3E-\x7E]/e';
-	
+
 	    // imap_8bit encodes x09 everywhere, not only at lineends,
 	    // for EBCDIC safeness encode !"#$@[\]^`{|}~,
 	    // for complete safeness encode every character :)
 	    if ($bEmulate_imap_8bit)
 	      $sRegExp = '/[^\x20\x21-\x3C\x3E-\x7E]/e';
-	
+
 	    $sReplmt = 'sprintf( "=%02X", ord ( "$0" ) ) ;';
-	    $sLine = preg_replace( $sRegExp, $sReplmt, $sLine ); 
-	
+	    $sLine = preg_replace( $sRegExp, $sReplmt, $sLine );
+
 	    // encode x09,x20 at lineends
 	    {
 	      $iLength = strlen($sLine);
 	      $iLastChar = ord($sLine{$iLength-1});
-	
-	      //              !!!!!!!!   
+
+	      //              !!!!!!!!
 	      // imap_8_bit does not encode x20 at the very end of a text,
 	      // here is, where I don't agree with imap_8_bit,
 	      // please correct me, if I'm wrong,
 	      // or comment next line for RFC2045 conformance, if you like
 	      if (!($bEmulate_imap_8bit && ($i==count($aLines)-1)))
-	         
+
 	      if (($iLastChar==0x09)||($iLastChar==0x20)) {
 	        $sLine{$iLength-1}='=';
 	        $sLine .= ($iLastChar==0x09)?'09':'20';
@@ -1764,16 +1758,16 @@ if (!function_exists("imap_8bit")) {
 	      //$sLine=str_replace('=0D ','=0D=20',$sLine);
 	      //$sLine=str_replace('=0A ','=0A=20',$sLine);
 	    }
-	
+
 	    // finally split into softlines no longer than 76 chars,
 	    // for even more safeness one could encode x09,x20
 	    // at the very first character of the line
 	    // and after soft linebreaks, as well,
-	    // but this wouldn't be caught by such an easy RegExp                  
+	    // but this wouldn't be caught by such an easy RegExp
 	    preg_match_all( '/.{1,73}([^=]{0,2})?/', $sLine, $aMatch );
 	    $sLine = implode( '=' . chr(13).chr(10), $aMatch[0] ); // add soft crlf's
 	  }
-	
+
 	  // join lines into text
 	  return implode(chr(13).chr(10),$aLines);
 	}
@@ -1786,7 +1780,7 @@ class SMTPMAIL {
 	var $state;
 	var $con=null;
 	var $greets="";
-	
+
 	function SMTPMAIL() {
 		global $wt_smtpclass_con,$wt_smtpclass_state;
 		$this->host="localhost";
@@ -1816,7 +1810,7 @@ class SMTPMAIL {
 #				$this->error="Error : connection already open.";
 			return true;
 		}
-		
+
 		$wt_smtpclass_con=@fsockopen($this->host,$this->port,$errno,$errstr);
 		if(!$wt_smtpclass_con)
 		{
@@ -1905,7 +1899,7 @@ class SMTPMAIL {
 		global $wt_smtpclass_con,$wt_smtpclass_state;
 		return @fputs($wt_smtpclass_con,"$msg\r\n");
 	}
-	
+
 	function close() {
 		global $wt_smtpclass_con,$wt_smtpclass_state;
 		@fclose($wt_smtpclass_con);
@@ -1919,22 +1913,22 @@ class SMTPMAIL {
 /**
 ADOdb Date Library, part of the ADOdb abstraction library
 	Version Number
-	
+
 	http://phplens.com/phpeverywhere/adodb_date_library
-	
+
 */
 define('ADODB_DATE_VERSION',0.33);
 
 $ADODB_DATETIME_CLASS = (PHP_VERSION >= 5.2);
 
 /*
-	This code was originally for windows. But apparently this problem happens 
+	This code was originally for windows. But apparently this problem happens
 	also with Linux, RH 7.3 and later!
-	
+
 	glibc-2.2.5-34 and greater has been changed to return -1 for dates <
 	1970.  This used to work.  The problem exists with RedHat 7.3 and 8.0
 	echo (mktime(0, 0, 0, 1, 1, 1960));  // prints -1
-	
+
 	References:
 	 http://bugs.php.net/bug.php?id=20048&edit=2
 	 http://lists.debian.org/debian-glibc/2002/debian-glibc-200205/msg00010.html
@@ -1948,7 +1942,7 @@ function adodb_date_test_date($y1,$m,$d=13)
 	$t = adodb_mktime($h,0,0,$m,$d,$y1);
 	$rez = adodb_date('Y-n-j H:i:s',$t);
 	if ($h == 0) $h = '00';
-	else if ($h < 10) $h = '0'.$h;	
+	else if ($h < 10) $h = '0'.$h;
 	if ("$y1-$m-$d $h:00:00" != $rez) {
 		print "<b>$y1 error, expected=$y1-$m-$d $h:00:00, adodb=$rez</b><br>";
 		return false;
@@ -1960,74 +1954,74 @@ function adodb_date_test_strftime($fmt)
 {
 	$s1 = strftime($fmt);
 	$s2 = adodb_strftime($fmt);
-	
+
 	if ($s1 == $s2) return true;
-	
+
 	echo "error for $fmt,  strftime=$s1, adodb=$s2<br>";
 	return false;
 }
 
 /**
 	 Test Suite
-*/		
+*/
 function adodb_date_test()
 {
-	
+
 	for ($m=-24; $m<=24; $m++)
 		echo "$m :",adodb_date('d-m-Y',adodb_mktime(0,0,0,1+$m,20,2040)),"<br>";
-	
+
 	error_reporting(E_ALL);
 	print "<h4>Testing adodb_date and adodb_mktime. version=".ADODB_DATE_VERSION.' PHP='.PHP_VERSION."</h4>";
 	@set_time_limit(0);
 	$fail = false;
-	
+
 	// This flag disables calling of PHP native functions, so we can properly test the code
 	if (!defined('ADODB_TEST_DATES')) define('ADODB_TEST_DATES',1);
-	
+
 	$t = time();
-	
-	
+
+
 	$fmt = 'Y-m-d H:i:s';
 	echo '<pre>';
 	echo 'adodb: ',adodb_date($fmt,$t),'<br>';
 	echo 'php  : ',date($fmt,$t),'<br>';
 	echo '</pre>';
-	
+
 	adodb_date_test_strftime('%Y %m %x %X');
 	adodb_date_test_strftime("%A %d %B %Y");
 	adodb_date_test_strftime("%H %M S");
-	
+
 	$t = adodb_mktime(0,0,0);
 	if (!(adodb_date('Y-m-d') == date('Y-m-d'))) print 'Error in '.adodb_mktime(0,0,0).'<br>';
-	
+
 	$t = adodb_mktime(0,0,0,6,1,2102);
 	if (!(adodb_date('Y-m-d',$t) == '2102-06-01')) print 'Error in '.adodb_date('Y-m-d',$t).'<br>';
-	
+
 	$t = adodb_mktime(0,0,0,2,1,2102);
 	if (!(adodb_date('Y-m-d',$t) == '2102-02-01')) print 'Error in '.adodb_date('Y-m-d',$t).'<br>';
-	
-	
+
+
 	print "<p>Testing gregorian <=> julian conversion<p>";
 	$t = adodb_mktime(0,0,0,10,11,1492);
 	//http://www.holidayorigins.com/html/columbus_day.html - Friday check
 	if (!(adodb_date('D Y-m-d',$t) == 'Fri 1492-10-11')) print 'Error in Columbus landing<br>';
-	
+
 	$t = adodb_mktime(0,0,0,2,29,1500);
 	if (!(adodb_date('Y-m-d',$t) == '1500-02-29')) print 'Error in julian leap years<br>';
-	
+
 	$t = adodb_mktime(0,0,0,2,29,1700);
 	if (!(adodb_date('Y-m-d',$t) == '1700-03-01')) print 'Error in gregorian leap years<br>';
-	
+
 	print  adodb_mktime(0,0,0,10,4,1582).' ';
 	print adodb_mktime(0,0,0,10,15,1582);
 	$diff = (adodb_mktime(0,0,0,10,15,1582) - adodb_mktime(0,0,0,10,4,1582));
 	if ($diff != 3600*24) print " <b>Error in gregorian correction = ".($diff/3600/24)." days </b><br>";
-		
+
 	print " 15 Oct 1582, Fri=".(adodb_dow(1582,10,15) == 5 ? 'Fri' : '<b>Error</b>')."<br>";
 	print " 4 Oct 1582, Thu=".(adodb_dow(1582,10,4) == 4 ? 'Thu' : '<b>Error</b>')."<br>";
-	
+
 	print "<p>Testing overflow<p>";
-	
+
 	$t = adodb_mktime(0,0,0,3,33,1965);
 	if (!(adodb_date('Y-m-d',$t) == '1965-04-02')) print 'Error in day overflow 1 <br>';
 	$t = adodb_mktime(0,0,0,4,33,1971);
@@ -2040,7 +2034,7 @@ function adodb_date_test()
 	if (!(adodb_date('Y-m-d',$t) == '1966-02-01')) print 'Error in day overflow 5 '.adodb_date('Y-m-d',$t).' <br>';
 	$t = adodb_mktime(0,0,0,13,3,1965);
 	if (!(adodb_date('Y-m-d',$t) == '1966-01-03')) print 'Error in mth overflow 1 <br>';
-	
+
 	print "Testing 2-digit => 4-digit year conversion<p>";
 	if (adodb_year_digit_check(00) != 2000) print "Err 2-digit 2000<br>";
 	if (adodb_year_digit_check(10) != 2010) print "Err 2-digit 2010<br>";
@@ -2049,10 +2043,10 @@ function adodb_date_test()
 	if (adodb_year_digit_check(40) != 1940) print "Err 2-digit 1940<br>";
 	if (adodb_year_digit_check(50) != 1950) print "Err 2-digit 1950<br>";
 	if (adodb_year_digit_check(90) != 1990) print "Err 2-digit 1990<br>";
-	
+
 	// Test string formating
 	print "<p>Testing date formating</p>";
-	
+
 	$fmt = '\d\a\t\e T Y-m-d H:i:s a A d D F g G h H i j l L m M n O \R\F\C2822 r s t U w y Y z Z 2003';
 	$s1 = date($fmt,0);
 	$s2 = adodb_date($fmt,0);
@@ -2075,12 +2069,12 @@ function adodb_date_test()
 					break;
 				}
 			}
-			print "<b>Error date(): $ts<br><pre> 
+			print "<b>Error date(): $ts<br><pre>
 &nbsp; \"$s1\" (date len=".strlen($s1).")
 &nbsp; \"$s2\" (adodb_date len=".strlen($s2).")</b></pre><br>";
 			$fail = true;
 		}
-		
+
 		$a1 = getdate($ts);
 		$a2 = adodb_getdate($ts);
 		$rez = array_diff($a1,$a2);
@@ -2093,7 +2087,7 @@ function adodb_date_test()
 			$fail = true;
 		}
 	}
-	
+
 	// Test generation of dates outside 1901-2038
 	print "<p>Testing random dates between 100 and 4000</p>";
 	adodb_date_test_date(100,1);
@@ -2101,7 +2095,7 @@ function adodb_date_test()
 		$y1 = 100+rand(0,1970-100);
 		$m = rand(1,12);
 		adodb_date_test_date($y1,$m);
-		
+
 		$y1 = 3000-rand(0,3000-1970);
 		adodb_date_test_date($y1,$m);
 	}
@@ -2112,7 +2106,7 @@ function adodb_date_test()
 	$offset = 36000+rand(10000,60000);
 	$max = 365*$yrs*86400;
 	$lastyear = 0;
-	
+
 	// we generate a timestamp, convert it to a date, and convert it back to a timestamp
 	// and check if the roundtrip broke the original timestamp value.
 	print "Testing $start to ".($start+$yrs).", or $max seconds, offset=$offset: ";
@@ -2139,58 +2133,58 @@ function adodb_date_test()
 }
 
 /**
-	Returns day of week, 0 = Sunday,... 6=Saturday. 
+	Returns day of week, 0 = Sunday,... 6=Saturday.
 	Algorithm from PEAR::Date_Calc
 */
 function adodb_dow($year, $month, $day)
 {
 /*
-Pope Gregory removed 10 days - October 5 to October 14 - from the year 1582 and 
-proclaimed that from that time onwards 3 days would be dropped from the calendar 
+Pope Gregory removed 10 days - October 5 to October 14 - from the year 1582 and
+proclaimed that from that time onwards 3 days would be dropped from the calendar
 every 400 years.
 
-Thursday, October 4, 1582 (Julian) was followed immediately by Friday, October 15, 1582 (Gregorian). 
+Thursday, October 4, 1582 (Julian) was followed immediately by Friday, October 15, 1582 (Gregorian).
 */
 	if ($year <= 1582) {
-		if ($year < 1582 || 
+		if ($year < 1582 ||
 			($year == 1582 && ($month < 10 || ($month == 10 && $day < 15)))) $greg_correction = 3;
 		 else
 			$greg_correction = 0;
 	} else
 		$greg_correction = 0;
-	
+
 	if($month > 2)
 	    $month -= 2;
 	else {
 	    $month += 10;
 	    $year--;
 	}
-	
+
 	$day =  floor((13 * $month - 1) / 5) +
 	        $day + ($year % 100) +
 	        floor(($year % 100) / 4) +
 	        floor(($year / 100) / 4) - 2 *
 	        floor($year / 100) + 77 + $greg_correction;
-	
+
 	return $day - 7 * floor($day / 7);
 }
 
 
 /**
- Checks for leap year, returns true if it is. No 2-digit year check. Also 
+ Checks for leap year, returns true if it is. No 2-digit year check. Also
  handles julian calendar correctly.
 */
-function _adodb_is_leap_year($year) 
+function _adodb_is_leap_year($year)
 {
 	if ($year % 4 != 0) return false;
-	
+
 	if ($year % 400 == 0) {
 		return true;
 	// if gregorian calendar (>1582), century not-divisible by 400 is not leap
 	} else if ($year > 1582 && $year % 100 == 0 ) {
 		return false;
-	} 
-	
+	}
+
 	return true;
 }
 
@@ -2198,7 +2192,7 @@ function _adodb_is_leap_year($year)
 /**
  checks for leap year, returns true if it is. Has 2-digit year check
 */
-function adodb_is_leap_year($year) 
+function adodb_is_leap_year($year)
 {
 	return  _adodb_is_leap_year(adodb_year_digit_check($year));
 }
@@ -2207,13 +2201,13 @@ function adodb_is_leap_year($year)
 	Fix 2-digit years. Works for any century.
  	Assumes that if 2-digit is more than 30 years in future, then previous century.
 */
-function adodb_year_digit_check($y) 
+function adodb_year_digit_check($y)
 {
 	if ($y < 100) {
-	
+
 		$yr = (integer) date("Y");
 		$century = (integer) ($yr /100);
-		
+
 		if ($yr%100 > 50) {
 			$c1 = $century + 1;
 			$c0 = $century;
@@ -2230,24 +2224,24 @@ function adodb_year_digit_check($y)
 	return $y;
 }
 
-function adodb_get_gmt_diff_ts($ts) 
+function adodb_get_gmt_diff_ts($ts)
 {
 	if (0 <= $ts && $ts <= 0x7FFFFFFF) { // check if number in 32-bit signed range) {
 		$arr = getdate($ts);
 		$y = $arr['year'];
 		$m = $arr['mon'];
 		$d = $arr['mday'];
-		return adodb_get_gmt_diff($y,$m,$d);	
+		return adodb_get_gmt_diff($y,$m,$d);
 	} else {
 		return adodb_get_gmt_diff(false,false,false);
 	}
-	
+
 }
 
 /**
  get local time zone offset from GMT. Does not handle historical timezones before 1970.
 */
-function adodb_get_gmt_diff($y,$m,$d) 
+function adodb_get_gmt_diff($y,$m,$d)
 {
 static $TZ,$tzo;
 global $ADODB_DATETIME_CLASS;
@@ -2268,7 +2262,7 @@ global $ADODB_DATETIME_CLASS;
 		$y = date('Y');
 		$TZ = mktime(0,0,0,12,2,$y,0) - gmmktime(0,0,0,12,2,$y,0);
 	}
-	
+
 	return $TZ;
 }
 
@@ -2294,7 +2288,7 @@ function adodb_date_gentable($out=true)
 
 	for ($i=1970; $i >= 1600; $i-=10) {
 		$s = adodb_gmmktime(0,0,0,1,1,$i);
-		echo "$i => $s,<br>";	
+		echo "$i => $s,<br>";
 	}
 }
 adodb_date_gentable();
@@ -2310,22 +2304,22 @@ echo "<hr />$i ";
 
 $_month_table_normal = array("",31,28,31,30,31,30,31,31,30,31,30,31);
 $_month_table_leaf = array("",31,29,31,30,31,30,31,31,30,31,30,31);
-	
+
 function adodb_validdate($y,$m,$d)
 {
 global $_month_table_normal,$_month_table_leaf;
 
 	if (_adodb_is_leap_year($y)) $marr = $_month_table_leaf;
 	else $marr = $_month_table_normal;
-	
+
 	if ($m > 12 || $m < 1) return false;
-	
+
 	if ($d > 31 || $d < 1) return false;
-	
+
 	if ($marr[$m] < $d) return false;
-	
+
 	if ($y < 1000 && $y > 3000) return false;
-	
+
 	return true;
 }
 
@@ -2343,17 +2337,17 @@ global $_month_table_normal,$_month_table_leaf;
 	$_day_power = 86400;
 	$_hour_power = 3600;
 	$_min_power = 60;
-	
-	if ($d < -12219321600) $d -= 86400*10; // if 15 Oct 1582 or earlier, gregorian correction 
-	
+
+	if ($d < -12219321600) $d -= 86400*10; // if 15 Oct 1582 or earlier, gregorian correction
+
 	$_month_table_normal = array("",31,28,31,30,31,30,31,31,30,31,30,31);
 	$_month_table_leaf = array("",31,29,31,30,31,30,31,31,30,31,30,31);
-	
+
 	$d366 = $_day_power * 366;
 	$d365 = $_day_power * 365;
-	
+
 	if ($d < 0) {
-		
+
 		if (empty($YRS)) $YRS = array(
 			1970 => 0,
 			1960 => -315619200,
@@ -2395,28 +2389,28 @@ global $_month_table_normal,$_month_table_leaf;
 			1600 => -11676096000);
 
 		if ($is_gmt) $origd = $d;
-		// The valid range of a 32bit signed timestamp is typically from 
+		// The valid range of a 32bit signed timestamp is typically from
 		// Fri, 13 Dec 1901 20:45:54 GMT to Tue, 19 Jan 2038 03:14:07 GMT
 		//
-		
+
 		# old algorithm iterates through all years. new algorithm does it in
 		# 10 year blocks
-		
+
 		/*
 		# old algo
 		for ($a = 1970 ; --$a >= 0;) {
 			$lastd = $d;
-			
+
 			if ($leaf = _adodb_is_leap_year($a)) $d += $d366;
 			else $d += $d365;
-			
+
 			if ($d >= 0) {
 				$year = $a;
 				break;
 			}
 		}
 		*/
-		
+
 		$lastsecs = 0;
 		$lastyear = 1970;
 		foreach($YRS as $year => $secs) {
@@ -2427,27 +2421,27 @@ global $_month_table_normal,$_month_table_leaf;
 			$lastsecs = $secs;
 			$lastyear = $year;
 		}
-		
+
 		$d -= $lastsecs;
 		if (!isset($a)) $a = $lastyear;
-		
+
 		//echo ' yr=',$a,' ', $d,'.';
-		
+
 		for (; --$a >= 0;) {
 			$lastd = $d;
-			
+
 			if ($leaf = _adodb_is_leap_year($a)) $d += $d366;
 			else $d += $d365;
-			
+
 			if ($d >= 0) {
 				$year = $a;
 				break;
 			}
 		}
 		/**/
-		
+
 		$secsInYear = 86400 * ($leaf ? 366 : 365) + $lastd;
-		
+
 		$d = $lastd;
 		$mtab = ($leaf) ? $_month_table_leaf : $_month_table_normal;
 		for ($a = 13 ; --$a > 0;) {
@@ -2459,17 +2453,17 @@ global $_month_table_normal,$_month_table_leaf;
 				break;
 			}
 		}
-		
+
 		$d = $lastd;
 		$day = $ndays + ceil(($d+1) / ($_day_power));
 
 		$d += ($ndays - $day+1)* $_day_power;
 		$hour = floor($d/$_hour_power);
-	
+
 	} else {
 		for ($a = 1970 ;; $a++) {
 			$lastd = $d;
-			
+
 			if ($leaf = _adodb_is_leap_year($a)) $d -= $d366;
 			else $d -= $d365;
 			if ($d < 0) {
@@ -2494,7 +2488,7 @@ global $_month_table_normal,$_month_table_leaf;
 		$d = $d - ($day-1) * $_day_power;
 		$hour = floor($d /$_hour_power);
 	}
-	
+
 	$d -= $hour * $_hour_power;
 	$min = floor($d/$_min_power);
 	$secs = $d - $min * $_min_power;
@@ -2511,8 +2505,8 @@ global $_month_table_normal,$_month_table_leaf;
 		'ndays' => $ndays
 		);
 	}
-	
-	
+
+
 	$dow = adodb_dow($year,$month,$day);
 
 	return array(
@@ -2531,18 +2525,18 @@ global $_month_table_normal,$_month_table_leaf;
 }
 /*
 		if ($isphp5)
-				$dates .= sprintf('%s%04d',($gmt<=0)?'+':'-',abs($gmt)/36); 
+				$dates .= sprintf('%s%04d',($gmt<=0)?'+':'-',abs($gmt)/36);
 			else
-				$dates .= sprintf('%s%04d',($gmt<0)?'+':'-',abs($gmt)/36); 
+				$dates .= sprintf('%s%04d',($gmt<0)?'+':'-',abs($gmt)/36);
 			break;*/
 function adodb_tz_offset($gmt,$isphp5)
 {
 	$zhrs = abs($gmt)/3600;
 	$hrs = floor($zhrs);
-	if ($isphp5) 
-		return sprintf('%s%02d%02d',($gmt<=0)?'+':'-',floor($zhrs),($zhrs-$hrs)*60); 
+	if ($isphp5)
+		return sprintf('%s%02d%02d',($gmt<=0)?'+':'-',floor($zhrs),($zhrs-$hrs)*60);
 	else
-		return sprintf('%s%02d%02d',($gmt<0)?'+':'-',floor($zhrs),($zhrs-$hrs)*60); 
+		return sprintf('%s%02d%02d',($gmt<0)?'+':'-',floor($zhrs),($zhrs-$hrs)*60);
 	break;
 }
 
@@ -2556,17 +2550,17 @@ function adodb_gmdate($fmt,$d=false)
 function adodb_date2($fmt, $d=false, $is_gmt=false)
 {
 	if ($d !== false) {
-		if (!preg_match( 
-			"|^([0-9]{4})[-/\.]?([0-9]{1,2})[-/\.]?([0-9]{1,2})[ -]?(([0-9]{1,2}):?([0-9]{1,2}):?([0-9\.]{1,4}))?|", 
+		if (!preg_match(
+			"|^([0-9]{4})[-/\.]?([0-9]{1,2})[-/\.]?([0-9]{1,2})[ -]?(([0-9]{1,2}):?([0-9]{1,2}):?([0-9\.]{1,4}))?|",
 			($d), $rr)) return adodb_date($fmt,false,$is_gmt);
 
 		if ($rr[1] <= 100 && $rr[2]<= 1) return adodb_date($fmt,false,$is_gmt);
-	
+
 		// h-m-s-MM-DD-YY
 		if (!isset($rr[5])) $d = adodb_mktime(0,0,0,$rr[2],$rr[3],$rr[1],false,$is_gmt);
 		else $d = @adodb_mktime($rr[5],$rr[6],$rr[7],$rr[2],$rr[3],$rr[1],false,$is_gmt);
 	}
-	
+
 	return adodb_date($fmt,$d,$is_gmt);
 }
 
@@ -2588,31 +2582,31 @@ global $ADODB_DATETIME_CLASS;
 		}
 	}
 	$_day_power = 86400;
-	
+
 	$arr = _adodb_getdate($d,true,$is_gmt);
-	
+
 	if (!isset($daylight)) $daylight = function_exists('adodb_daylight_sv');
 	if ($daylight) adodb_daylight_sv($arr, $is_gmt);
-	
+
 	$year = $arr['year'];
 	$month = $arr['mon'];
 	$day = $arr['mday'];
 	$hour = $arr['hours'];
 	$min = $arr['minutes'];
 	$secs = $arr['seconds'];
-	
+
 	$max = strlen($fmt);
 	$dates = '';
-	
+
 	$isphp5 = PHP_VERSION >= 5;
-	
+
 	/*
 		at this point, we have the following integer vars to manipulate:
 		$year, $month, $day, $hour, $min, $secs
 	*/
 	for ($i=0; $i < $max; $i++) {
 		switch($fmt[$i]) {
-		case 'T': 
+		case 'T':
 			if ($ADODB_DATETIME_CLASS) {
 				$dt = new DateTime();
 				$dt->SetDate($year,$month,$day);
@@ -2623,23 +2617,23 @@ global $ADODB_DATETIME_CLASS;
 		// YEAR
 		case 'L': $dates .= $arr['leap'] ? '1' : '0'; break;
 		case 'r': // Thu, 21 Dec 2000 16:01:07 +0200
-		
+
 			// 4.3.11 uses '04 Jun 2004'
 			// 4.3.8 uses  ' 4 Jun 2004'
-			$dates .= gmdate('D',$_day_power*(3+adodb_dow($year,$month,$day))).', '		
+			$dates .= gmdate('D',$_day_power*(3+adodb_dow($year,$month,$day))).', '
 				. ($day<10?'0'.$day:$day) . ' '.date('M',mktime(0,0,0,$month,2,1971)).' '.$year.' ';
-			
-			if ($hour < 10) $dates .= '0'.$hour; else $dates .= $hour; 
-			
+
+			if ($hour < 10) $dates .= '0'.$hour; else $dates .= $hour;
+
 			if ($min < 10) $dates .= ':0'.$min; else $dates .= ':'.$min;
-			
+
 			if ($secs < 10) $dates .= ':0'.$secs; else $dates .= ':'.$secs;
-			
+
 			$gmt = adodb_get_gmt_diff($year,$month,$day);
-			
+
 			$dates .= ' '.adodb_tz_offset($gmt,$isphp5);
 			break;
-			
+
 		case 'Y': $dates .= $year; break;
 		case 'y': $dates .= substr($year,strlen($year)-2,2); break;
 		// MONTH
@@ -2656,47 +2650,47 @@ global $ADODB_DATETIME_CLASS;
 		case 'D': $dates .= gmdate('D',$_day_power*(3+adodb_dow($year,$month,$day))); break;
 		case 'j': $dates .= $day; break;
 		case 'd': if ($day<10) $dates .= '0'.$day; else $dates .= $day; break;
-		case 'S': 
+		case 'S':
 			$d10 = $day % 10;
 			if ($d10 == 1) $dates .= 'st';
 			else if ($d10 == 2 && $day != 12) $dates .= 'nd';
 			else if ($d10 == 3) $dates .= 'rd';
 			else $dates .= 'th';
 			break;
-			
+
 		// HOUR
 		case 'Z':
 			$dates .= ($is_gmt) ? 0 : -adodb_get_gmt_diff($year,$month,$day); break;
-		case 'O': 
+		case 'O':
 			$gmt = ($is_gmt) ? 0 : adodb_get_gmt_diff($year,$month,$day);
-			
+
 			$dates .= adodb_tz_offset($gmt,$isphp5);
 			break;
-			
-		case 'H': 
-			if ($hour < 10) $dates .= '0'.$hour; 
-			else $dates .= $hour; 
+
+		case 'H':
+			if ($hour < 10) $dates .= '0'.$hour;
+			else $dates .= $hour;
 			break;
-		case 'h': 
-			if ($hour > 12) $hh = $hour - 12; 
+		case 'h':
+			if ($hour > 12) $hh = $hour - 12;
 			else {
-				if ($hour == 0) $hh = '12'; 
+				if ($hour == 0) $hh = '12';
 				else $hh = $hour;
 			}
-			
+
 			if ($hh < 10) $dates .= '0'.$hh;
 			else $dates .= $hh;
 			break;
-			
-		case 'G': 
+
+		case 'G':
 			$dates .= $hour;
 			break;
-			
+
 		case 'g':
-			if ($hour > 12) $hh = $hour - 12; 
+			if ($hour > 12) $hh = $hour - 12;
 			else {
-				if ($hour == 0) $hh = '12'; 
-				else $hh = $hour; 
+				if ($hour == 0) $hh = '12';
+				else $hh = $hour;
 			}
 			$dates .= $hh;
 			break;
@@ -2718,7 +2712,7 @@ global $ADODB_DATETIME_CLASS;
 		default:
 			$dates .= $fmt[$i]; break;
 		// ESCAPE
-		case "\\": 
+		case "\\":
 			$i++;
 			if ($i < $max) $dates .= $fmt[$i];
 			break;
@@ -2728,7 +2722,7 @@ global $ADODB_DATETIME_CLASS;
 }
 
 /**
-	Returns a timestamp given a GMT/UTC time. 
+	Returns a timestamp given a GMT/UTC time.
 	Note that $is_dst is not implemented and is ignored.
 */
 function adodb_gmmktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=false)
@@ -2739,33 +2733,33 @@ function adodb_gmmktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=
 /**
 	Return a timestamp given a local time. Originally by jackbbs.
 	Note that $is_dst is not implemented and is ignored.
-	
+
 	Not a very fast algorithm - O(n) operation. Could be optimized to O(1).
 */
-function adodb_mktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=false,$is_gmt=false) 
+function adodb_mktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=false,$is_gmt=false)
 {
 	if (!defined('ADODB_TEST_DATES')) {
 
 		if ($mon === false) {
 			return $is_gmt? @gmmktime($hr,$min,$sec): @mktime($hr,$min,$sec);
 		}
-		
-		// for windows, we don't check 1970 because with timezone differences, 
+
+		// for windows, we don't check 1970 because with timezone differences,
 		// 1 Jan 1970 could generate negative timestamp, which is illegal
 		$usephpfns = (1971 < $year && $year < 2038
 			|| !defined('ADODB_NO_NEGATIVE_TS') && (1901 < $year && $year < 2038)
-			); 
-			
-		
+			);
+
+
 		if ($usephpfns && ($year + $mon/12+$day/365.25+$hr/(24*365.25) >= 2038)) $usephpfns = false;
-			
+
 		if ($usephpfns) {
 				return $is_gmt ?
 					@gmmktime($hr,$min,$sec,$mon,$day,$year):
 					@mktime($hr,$min,$sec,$mon,$day,$year);
 		}
 	}
-	
+
 	$gmt_different = ($is_gmt) ? 0 : adodb_get_gmt_diff($year,$mon,$day);
 
 	/*
@@ -2778,8 +2772,8 @@ function adodb_mktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=fa
 	$mon = intval($mon);
 	$day = intval($day);
 	$year = intval($year);
-	
-	
+
+
 	$year = adodb_year_digit_check($year);
 
 	if ($mon > 12) {
@@ -2791,14 +2785,14 @@ function adodb_mktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=fa
 		$year -= $y;
 		$mon += $y*12;
 	}
-	
+
 	$_day_power = 86400;
 	$_hour_power = 3600;
 	$_min_power = 60;
-	
+
 	$_month_table_normal = array("",31,28,31,30,31,30,31,31,30,31,30,31);
 	$_month_table_leaf = array("",31,29,31,30,31,30,31,31,30,31,30,31);
-	
+
 	$_total_date = 0;
 	if ($year >= 1970) {
 		for ($a = 1970 ; $a <= $year; $a++) {
@@ -2810,7 +2804,7 @@ function adodb_mktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=fa
 				$loop_table = $_month_table_normal;
 				$_add_date = 365;
 			}
-			if ($a < $year) { 
+			if ($a < $year) {
 				$_total_date += $_add_date;
 			} else {
 				for($b=1;$b<$mon;$b++) {
@@ -2820,7 +2814,7 @@ function adodb_mktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=fa
 		}
 		$_total_date +=$day-1;
 		$ret = $_total_date * $_day_power + $hr * $_hour_power + $min * $_min_power + $sec + $gmt_different;
-	
+
 	} else {
 		for ($a = 1969 ; $a >= $year; $a--) {
 			$leaf = _adodb_is_leap_year($a);
@@ -2839,13 +2833,13 @@ function adodb_mktime($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_dst=fa
 			}
 		}
 		$_total_date += $loop_table[$mon] - $day;
-		
+
 		$_day_time = $hr * $_hour_power + $min * $_min_power + $sec;
 		$_day_time = $_day_power - $_day_time;
 		$ret = -( $_total_date * $_day_power + $_day_time - $gmt_different);
 		if ($ret < -12220185600) $ret += 10*86400; // if earlier than 5 Oct 1582 - gregorian correction
 		else if ($ret < -12219321600) $ret = -12219321600; // if in limbo, reset to 15 Oct 1582.
-	} 
+	}
 	//print " dmy=$day/$mon/$year $hr:$min:$sec => " .$ret;
 	return $ret;
 }
@@ -2867,7 +2861,7 @@ global $ADODB_DATE_LOCALE;
 
 		}
 	}
-	
+
 	if (empty($ADODB_DATE_LOCALE)) {
 	/*
 		$tstr = strtoupper(gmstrftime('%c',31366800)); // 30 Dec 1970, 1 am
@@ -2879,11 +2873,11 @@ global $ADODB_DATE_LOCALE;
 		$sep = substr($dstr,2,1);
 		$tstr = strtoupper(gmstrftime('%X',31366800)); // 30 Dec 1970, 1 am
 		$hasAM = strrpos($tstr,'M') !== false;
-		
+
 		$ADODB_DATE_LOCALE = array();
-		$ADODB_DATE_LOCALE[] =  strncmp($tstr,'30',2) == 0 ? 'd'.$sep.'m'.$sep.'y' : 'm'.$sep.'d'.$sep.'y';	
+		$ADODB_DATE_LOCALE[] =  strncmp($tstr,'30',2) == 0 ? 'd'.$sep.'m'.$sep.'y' : 'm'.$sep.'d'.$sep.'y';
 		$ADODB_DATE_LOCALE[]  = ($hasAM) ? 'h:i:s a' : 'H:i:s';
-			
+
 	}
 	$inpct = false;
 	$fmtdate = '';
@@ -2896,7 +2890,7 @@ global $ADODB_DATE_LOCALE;
 			} else
 				$inpct = true;
 		} else if ($inpct) {
-		
+
 			$inpct = false;
 			switch($ch) {
 			case '0':
@@ -2912,9 +2906,9 @@ global $ADODB_DATE_LOCALE;
 			case 'E':
 			case 'O':
 				/* ignore format modifiers */
-				$inpct = true; 
+				$inpct = true;
 				break;
-				
+
 			case 'a': $fmtdate .= 'D'; break;
 			case 'A': $fmtdate .= 'l'; break;
 			case 'h':

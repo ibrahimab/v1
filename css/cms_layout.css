@@ -520,6 +520,12 @@ li {
 	background-color: #FFFBBA;
 }
 
+.opvalblok {
+	background-color: #FFFBBA;
+	padding: 10px;
+	border: 1px solid #ebebeb;
+}
+
 .niet_invullen {
 	background-color: #D6D6D6;
 }

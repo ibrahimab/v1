@@ -4,7 +4,7 @@ if(!$cron and !$css) {
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
 
-# diverse $vars 
+# diverse $vars
 # zoekvolgorde mag maximaal 8 zijn
 $vars["zoekvolgorde"]=array(1=>"Categorie 1 (hoogst)",2=>"Categorie 2 (hoger)",3=>"Categorie 3 (neutraal)",4=>"Categorie 4 (lager)",5=>"Categorie 5 (laagst)");
 $vars["wt_htmlentities_cp1252"]=true;
@@ -73,7 +73,7 @@ if($_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="www3.chale
 	$robot_noindex=true;
 	#
 	# www2 en www3 afschermen voor andere gebruikers
-	if($_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.75" and $_SERVER["REMOTE_ADDR"]<>"82.173.186.80" and $_SERVER["REMOTE_ADDR"]<>"172.16.1.10") {
+	if($_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74" and $_SERVER["REMOTE_ADDR"]<>"82.173.186.80" and $_SERVER["REMOTE_ADDR"]<>"172.16.1.10") {
 		header("Location: http://www.chalet.nl/");
 		exit;
 	}
@@ -81,7 +81,7 @@ if($_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="www3.chale
 	if($_SERVER["WINDIR"]) {
 		$mysqlsettings["name"]["remote"]="dbtest_chalet";	# Databasenaam bij provider
 	} else {
-		$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider	
+		$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider
 	}
 	$mysqlsettings["user"]="chaletdb";		# Username bij provider
 	$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
@@ -115,6 +115,7 @@ $vars["ads_referermail"]=array(9=>"jeroen@webtastic.nl",12=>"j.fokke@snowplaza.n
 if(!$cron and !$cronmap and !$css and !$geen_tracker_cookie and !$_GET["nocache"]) {
 	include($unixdir."admin/trackercookie.php");
 }
+$vars["cookiemelding_tonen"]=false;
 
 #
 # Plaats- en accommodatie-pagina zonder afsluitende "/" reloaden
@@ -242,7 +243,7 @@ if($vars["wederverkoop"]) {
 		} else {
 			$login_rb->settings["mustlogin"]=false;
 		}
-		if($vars["website"]=="C" or $vars["website"]=="Z") {
+		if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
 			$login_rb->settings["mustlogin_via_https"]=true;
 		}
 
@@ -278,7 +279,7 @@ if($vars["wederverkoop"]) {
 						$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent.php\">".html("hoofdmenu_reisagent")."</a>";
 					}
 #					$helemaalboven=htmlentities($db->f("naam"))."&nbsp;&nbsp;<a href=\"".$vars["path"]."reisagent.php?logout=45\">".htmlentities($login_rb->vars["voornaam"])." uitloggen</a>&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php\">".html("overzichtboekingen")."</a>";
-					
+
 #					Overzicht actuele boekingen
 #					$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php?calculations=1\">".html("overzichtprijsberekeningen")."</a>";
 #					$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php?mijngeg=1\">".html("mijngegevens_reisagent")."</a>";
@@ -289,7 +290,7 @@ if($vars["wederverkoop"]) {
 				$vars["chalettour_naam"]=$db->f("naam");
 				$vars["chalettour_reisagentnaam"]=wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"]);
 				$vars["chalettour_telefoonnummer"]=$db->f("telefoonnummer");
-				
+
 				$vars["wederverkoop_beschikbaarheid_inzien"]=$db->f("beschikbaarheid_inzien");
 
 # Tijdelijk uitgezet (op verzoek van Bert). - 23 juni 2010 - weer aangezet in september
@@ -324,8 +325,8 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["extra_unsafe_cookie"]="levli"; # ReisBureauLogIn
 		$login_lev->settings["mustlogin"]=true;
 		$login_lev->settings["salt"]=$vars["salt"];
-		
-		if($vars["website"]=="C" or $vars["website"]=="Z") {
+
+		if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
 			$login_lev->settings["mustlogin_via_https"]=true;
 		}
 
@@ -347,20 +348,56 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["save_user_agent"]=true;
 		$login_lev->settings["recheck_userdata"]=true;
 		$login_lev->end_declaration();
-		
+
 		if($login_lev->logged_in) {
-			
+
 			if($login_lev->vars["inlog_taal"]=="en") {
 				# zorgen voor koptekst in de juiste taal
 				$txta["nl"]["title_lev_login"]=$txta["en"]["title_lev_login"];
 			}
-			
+
 		}
 	}
 }
 
-#echo $taal;
-#exit;
+# 80.101.166.235 = kantoor verbinding 1 (ADSL)
+# 213.125.164.74 = kantoor verbinding 2 (Ziggo)
+# 82.93.130.238  = Bert thuis
+# 82.173.186.80  = WebTastic
+# 82.173.186.80  = WebTastic 2
+# 172.16.1.10    = t.b.v. testserver
+# 172.16.1.35    = t.b.v. testserver (laptop)
+# 127.0.0.1	 = t.b.v. testserver (Miguel)
+$vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.74","82.93.130.238","82.173.186.80","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
+
+# Geldigheidsduur intern FLC-cookie verlengen
+if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
+
+	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
+		if($_SERVER["REMOTE_ADDR"]=="80.101.166.235" or $_SERVER["REMOTE_ADDR"]=="213.125.164.74") {
+			# binnen kantoor
+		} else {
+			# buiten kantoor
+			if($_SERVER["HTTPS"]=="on") {
+				ini_set("session.cookie_secure",1);
+			} elseif(!$_POST) {
+				header("Location: https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+				exit;
+			}
+		}
+	}
+
+	$voorkant_cms=true;
+	$vars["annverzekering_mogelijk"]=1;
+	$vars["reisverzekering_mogelijk"]=1;
+	if(in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
+		$cookie_expire=mktime(3,0,0,date("m"),date("d"),date("Y")+1);
+	} else {
+		$cookie_expire=0;
+	}
+	setcookie("flc",substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8),$cookie_expire,"/");
+}
+
 
 if($vars["nieuwevormgeving"]) {
 
@@ -379,16 +416,9 @@ if($vars["nieuwevormgeving"]) {
 
 		$submenu["inloggen"]=txt("submenutitle_inloggen");
 		$submenu["reisagent"]=txt("submenutitle_reisagent");
-#		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		if($_GET["testsysteem"]) {
-			$submenu["favorieten"]=txt("submenutitle_favorieten");
-		}
-		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+		$submenu["favorieten"]=txt("submenutitle_favorieten");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		if(!$_GET["testsysteem"]) {
-			$submenu["sitemap"]=txt("submenutitle_sitemap");
-		}
 	} elseif($vars["seizoentype"]==2) {
 		#
 		# Zomerhuisje
@@ -400,7 +430,7 @@ if($vars["nieuwevormgeving"]) {
 		$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
 		$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 		$menu["contact"]=txt("menutitle_contact");
-	
+
 		if($vars["wederverkoop"]) {
 			if(!$vars["chalettour_logged_in"]) {
 				$submenu["inloggen"]=txt("submenutitle_inloggen");
@@ -409,19 +439,13 @@ if($vars["nieuwevormgeving"]) {
 		} else {
 			$submenu["inloggen"]=txt("submenutitle_inloggen");
 		}
-		
+
 		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 
-	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		if($_GET["testsysteem"]) {
-			$submenu["favorieten"]=txt("submenutitle_favorieten");
-		}
+		$submenu["favorieten"]=txt("submenutitle_favorieten");
 		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		if(!$_GET["testsysteem"]) {
-			$submenu["sitemap"]=txt("submenutitle_sitemap");
-		}
 		$submenu["chaletwinter"]=txt("submenutitle_chaletwinter");
 	} elseif($vars["websitetype"]==6) {
 		#
@@ -451,7 +475,7 @@ if($vars["nieuwevormgeving"]) {
 		$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
 		$menu["weekendski"]=txt("menutitle_weekendski");
 		$menu["contact"]=txt("menutitle_contact");
-	
+
 		if($vars["wederverkoop"]) {
 			if(!$vars["chalettour_logged_in"]) {
 				$submenu["inloggen"]=txt("submenutitle_inloggen");
@@ -460,29 +484,17 @@ if($vars["nieuwevormgeving"]) {
 		} else {
 			$submenu["inloggen"]=txt("submenutitle_inloggen");
 		}
-		
+
 		if(!$vars["wederverkoop"]) {
 			$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 		}
-	#	$submenu["veelgestelde-vragen"]=txt("submenutitle_veelgesteldevragen");
-		if($_GET["testsysteem"]) {
-			$submenu["favorieten"]=txt("submenutitle_favorieten");
-		}
+		$submenu["favorieten"]=txt("submenutitle_favorieten");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		//deze submenu(sitemap) moet nog naar de footer worden verplaatst.
-		if(!$_GET["testsysteem"]) {
-			$submenu["sitemap"]=txt("submenutitle_sitemap");
-		}
 		$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
 	}
-
-#	$bold1="<b>";
-#	$bold2="</b>";
-
 } else {
-	
+
 	$bold1="<b>";
 	$bold2="</b>";
 
@@ -581,6 +593,7 @@ $title["montegufoni"]="Lezersaanbieding Smaak van Italië";
 $title["alpedhuzes"]="Alpe d'huZes";
 $title["privacy-statement"]=txt("title_privacy-statement");
 $title["disclaimer"]=txt("title_disclaimer","",array("v_websitenaam"=>$vars["websitenaam"]));
+$title["favorieten"]=txt("title_favorieten");
 
 $title["lev_login"]=txt("title_lev_login");
 
@@ -637,6 +650,8 @@ if($_GET["t"]==2) {
 	$title["cms_overzichten_overig"]="Overzicht na te kijken zomeraccommodaties";
 } elseif($_GET["t"]==10) {
 	$title["cms_overzichten_overig"]="Overzicht nieuwsbrief-leden";
+} elseif($_GET["t"]==11) {
+	$title["cms_overzichten_overig"]="Na te kijken beoordelingen";
 } else {
 	$title["cms_overzichten_overig"]="Overzichten - overig";
 	$title["cms_diversen"]="Actielijst WebTastic";
@@ -656,7 +671,7 @@ $vars["reserveringskosten"]=20;
 $vars["boeken"]=array(1=>html("accommodatiegegevensopgeven","vars"),2=>html("gegevenshoofdboekeropgeven","vars"),3=>html("gegevensoverigepersonenopgeven","vars"),4=>html("optiesselecteren","vars"),5=>html("boekingbevestigen","vars"));
 $vars["boeken_cms"]=array(1=>"Accommodatie, aantal personen of aankomstdatum wijzigen",2=>"Gegevens hoofdboeker wijzigen",3=>"Gegevens overige personen wijzigen",4=>"Opties wijzigen");
 $vars["stappen_log"]=array(1=>"aantal personen en aankomstdatum ingevoerd",2=>"gegevens hoofdboeker ingevoerd",3=>"gegevens overige personen ingevoerd",4=>"opties geselecteerd",5=>"boeking bevestigd");
-$vars["talen"]=array("nl"=>"Nederlands","en"=>"English");
+$vars["talen"]=array("nl"=>"Nederlands","en"=>"English","de"=>"Deutsch");
 #$vars["begineinddagen"]=array(-7=>"-7 dagen",-6=>"-6 dagen",-5=>"-5 dagen",-4=>"-4 dagen",-3=>"-3 dagen",-2=>"-2 dagen",-1=>"-1 dag",0=>"geen aanpassing",1=>"+1 dag",2=>"+2 dagen",3=>"+3 dagen",4=>"+4 dagen",5=>"+5 dagen",6=>"+6 dagen",7=>"+7 dagen");
 $vars["begineinddagen"]=array(-10=>"-10 dagen",-9=>"-9 dagen",-8=>"-8 dagen",-7=>"-7 dagen",-6=>"-6 dagen",-5=>"-5 dagen",-4=>"-4 dagen",-3=>"-3 dagen",-2=>"-2 dagen",-1=>"-1 dag",0=>"geen aanpassing",1=>"+1 dag",2=>"+2 dagen",3=>"+3 dagen",4=>"+4 dagen",5=>"+5 dagen",6=>"+6 dagen",7=>"+7 dagen",8=>"+8 dagen",9=>"+9 dagen",10=>"+10 dagen");
 $vars["geenvoorkeur"]="-- ".txt("geenvoorkeur","vars")." --";
@@ -687,7 +702,8 @@ $vars["geslacht"]=array(1=>txt("man","vars"),2=>txt("vrouw","vars"));
 $vars["verzendmethode_reisdocumenten"]=array(1=>txt("email","vars"),2=>txt("post","vars"));
 $vars["blogcategorie_italissima"]=array(1=>"eten & drinken",2=>"tradities & feestdagen",3=>"kunst & cultuur",4=>"mode & design",5=>"films",6=>"Overig",7=>"levenstijl");
 
-
+$vars["recaptcha_publickey"]="6LdyodYSAAAAAORWNxjHjtO7q76k38LP7eQpYzg9";
+$vars["recaptcha_privatekey"]="6LdyodYSAAAAAIVrp5gAZBhBygsy1KObuX6XAM-W";
 
 $vars["vertrekdagtypes_soorten"]=array(1=>"unieke afwijkdagen",3=>"zaterdag-zaterdag",2=>"zondag-zondag");
 
@@ -833,19 +849,7 @@ $vars["aanbieding_soort"]=array(1=>txt("gewoneaanbieding","vars"),2=>txt("lastmi
 $vars["aanbieding_soort_cms"]=array(1=>"Aanbieding met toelichting voor bezoeker",2=>"Aanbieding zonder toelichting (= gewoon korting)");
 $vars["bedrag_soort"]=array(1=>"Korting in euro's",2=>"Kortingspercentage",3=>"Exact bedrag",4=>"Geen bedrag (handmatige verwerking)");
 
-#$vars["vertrouwde_ips"]=array("84.80.91.23","82.93.130.238","82.173.186.80","82.157.130.166","213.125.164.75","80.101.166.235","172.16.1.10","SELINA_NU_NIET_94.210.180.59","194.109.6.13","80.61.78.127");
-
-# 80.101.166.235 = kantoor verbinding 1
-# 213.125.164.75 = kantoor verbinding 2
-# 82.93.130.238  = Bert thuis
-# 82.173.186.80  = WebTastic
-# 82.173.186.80  = WebTastic 2
-# 172.16.1.10    = t.b.v. testserver
-# 172.16.1.35    = t.b.v. testserver (laptop)
-# 127.0.0.1	 = t.b.v. testserver (Miguel)
-$vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.75","82.93.130.238","82.173.186.80","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
-
-$vars["xml_type"]=array(1=>"Huetten (1)",2=>"Alpenchalets Ski France (2)",3=>"France Reisen Ski France (3)",4=>"CGH (4)",5=>"Pierre & Vacances (5)",6=>"Frosch (6)",7=>"CIS / Bellecôte Chalets (VVE) (7)",8=>"Posarelli Villas (8)",9=>"Maisons Vacances Ann Giraud (9)",10=>"CIS Immobilier (10)",11=>"Odalys Résidences (11)",12=>"Deux Alpes Voyages (12)",13=>"Eurogroup (13)",14=>"Marche Holiday (14)",15=>"Des Neiges (15)",16=>"Almliesl (16)",17=>"Alpin Rentals Kaprun (17)",18=>"Agence des Belleville (18)");
+$vars["xml_type"]=array(1=>"Huetten (1)",2=>"Alpenchalets Ski France (2)",3=>"France Reisen Ski France (3)",4=>"CGH (4)",5=>"Pierre & Vacances (5)",6=>"Frosch (6)",7=>"CIS / Bellecôte Chalets (VVE) (7)",8=>"Posarelli Villas (8)",9=>"Maisons Vacances Ann Giraud (9)",10=>"CIS Immobilier (10)",11=>"Odalys Résidences (11)",12=>"Deux Alpes Voyages (12)",13=>"Eurogroup (13)",14=>"Marche Holiday (14)",15=>"Des Neiges (15)",16=>"Almliesl (16)",17=>"Alpin Rentals Kaprun (17)",18=>"Agence des Belleville (18)",19=>"Oxygène Immobilier (19)",20=>"Centrale Locative de l'Immobilière des Hauts Forts (20)");
 asort($vars["xml_type"]);
 
 # vars reisbureaus
@@ -906,34 +910,6 @@ $vars["totale_reissom_dagenvooraankomst"]=42;
 $vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
 $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js";
 
-# Geldigheidsduur intern FLC-cookie verlengen
-if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
-
-	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
-		if($_SERVER["REMOTE_ADDR"]=="80.101.166.235" or $_SERVER["REMOTE_ADDR"]=="213.125.164.75" or $_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
-			# binnen kantoor
-		} else {
-			# buiten kantoor
-			if($_SERVER["HTTPS"]=="on") {
-				ini_set("session.cookie_secure",1);
-			} elseif(!$_POST) {
-				header("Location: https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-				exit;
-			}
-		}
-	}
-	
-	$voorkant_cms=true;
-	$vars["annverzekering_mogelijk"]=1;
-	$vars["reisverzekering_mogelijk"]=1;
-	if(in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
-		$cookie_expire=mktime(3,0,0,date("m"),date("d"),date("Y")+1);
-	} else {
-		$cookie_expire=0;
-	}
-	setcookie("flc",substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8),$cookie_expire,"/");
-}
-
 if($boeking_wijzigen) {
 	# Login-class klanten
 	$login = new Login;
@@ -950,10 +926,8 @@ if($boeking_wijzigen) {
 	} else {
 		$login->settings["mustlogin"]=true;
 	}
-	if($vars["website"]=="C" or $vars["website"]=="Z") {
-#		if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
-			$login->settings["mustlogin_via_https"]=true;
-#		}
+	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
+		$login->settings["mustlogin_via_https"]=true;
 	}
 	$login->settings["loginpage"]=$path.txt("menu_inloggen").".php";
 	$login->settings["checkloginpage"]=txt("menu_inloggen").".php";
@@ -967,15 +941,15 @@ if($boeking_wijzigen) {
 	} else {
 		$login->settings["message"]["wronglogintemp"]="Account blocked: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">read more</a>";
 	}
-	
+
 	if($vars["taal"]=="en") {
 		$login->settings["message"]["login"]="Email address";
 	} else {
-		$login->settings["message"]["login"]="E-mailadres";	
+		$login->settings["message"]["login"]="E-mailadres";
 	}
 	$login->settings["save_user_agent"]=true;
 	$login->end_declaration();
-		
+
 	# Om welke wederverkoop-boeking gaat het?
 	if($vars["wederverkoop"] and $login_rb->logged_in and $_GET["bid"]) {
 
@@ -1054,9 +1028,9 @@ if($boeking_wijzigen) {
 		$login->settings["sysop"]="<a href=\"http://www.webtastic.nl/6.html\">WebTastic</a>";
 		$login->settings["save_user_agent"]=true;
 		$login->settings["salt"]=$vars["salt"];
-		
+
 		$login->end_declaration();
-		
+
 		if(!$helemaalboven and !$_GET["cmsuit"]) {
 			if($vars["nieuwevormgeving"]) {
 				$helemaalboven="Intern ingelogd: ".htmlentities($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://www.chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
@@ -1068,7 +1042,7 @@ if($boeking_wijzigen) {
 				$helemaalboven.="</span>";
 			}
 		}
-		
+
 		if($vars["chalettour_logged_in"] and $login->logged_in and !$css) {
 			$login_rb->logout();
 			trigger_error("dubbele login (CMS en reisagent)",E_USER_NOTICE);
@@ -1076,7 +1050,7 @@ if($boeking_wijzigen) {
 			exit;
 		}
 	}
-	
+
 	#
 	# Voorkant website
 	#
@@ -1095,13 +1069,13 @@ if($boeking_wijzigen) {
 			while($timeteller<=$db->f("eind")) {
 				$vars["aankomstdatum"][$timeteller]=datum("DAG D MAAND JJJJ",$timeteller,$vars["taal"]);
 				$vars["aankomstdatum_kort"][$timeteller]=datum("D MAAND JJJJ",$timeteller,$vars["taal"]);
-	
+
 				# aankomstdatum_weekend vullen (alleen indien niet langer dan 8 dagen geleden)
 				if($timeteller>=time()-691200) {
 					$vars["aankomstdatum_weekend"][$timeteller]=txt("weekend","vars")." ".date("j",$timeteller)." ".datum("MAAND JJJJ",$timeteller,$vars["taal"]);
 					$vars["aankomstdatum_weekend_afkorting"][$timeteller]=txt("weekend","vars")." ".date("j",$timeteller)." ".datum("MND JJJJ",$timeteller,$vars["taal"]);
 				}
-	
+
 				$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
 			}
 		}
@@ -1137,105 +1111,111 @@ if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET
 	}
 }
 
-# Laatst bekeken accommodaties
-if($_COOKIE["sch"] and !$boeking_wijzigen) {
-	$db->query("SELECT last_acc FROM bezoeker WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' and last_acc IS NOT NULL;");
+# Favorieten en Laatst bekeken accommodaties uit database halen
+if($_COOKIE["sch"]) {
+	$db->query("SELECT COUNT(b.type_id) AS aantal FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
 	if($db->next_record()) {
-		$vars["last_acc_bezoeker"]=$db->f("last_acc");
-		$last_acc_bezoeker=@split(",",$db->f("last_acc"));
-		@reset($last_acc_bezoeker);
-		while(list($key,$value)=@each($last_acc_bezoeker)) {
-			if($value>0) {
-				if($last_acc_inquery) $last_acc_inquery.=",".addslashes($value); else $last_acc_inquery=addslashes($value);
-			}
-		}
-		if($last_acc_inquery) {
-			$db->query("SELECT begincode, type_id, accommodatie_id, naam, tnaam, optimaalaantalpersonen, maxaantalpersonen, plaats, skigebied, land FROM view_accommodatie WHERE type_id IN (".$last_acc_inquery.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(type_id,'".$last_acc_inquery."') DESC;");
-			while($db->next_record()) {
-				$last_acc[$db->f("type_id")]["begincode"]=$db->f("begincode");
-				$last_acc[$db->f("type_id")]["naam"]=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".txt("pers").")";
-				$last_acc[$db->f("type_id")]["plaats"]=$db->f("plaats");
-				$last_acc[$db->f("type_id")]["skigebied"]=$db->f("skigebied");
-				$last_acc[$db->f("type_id")]["land"]=$db->f("land");
-				if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
-					$last_acc[$db->f("type_id")]["afbeelding"]="types_specifiek/".$db->f("type_id").".jpg";
-				} elseif(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-					$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/".$db->f("accommodatie_id").".jpg";
-				} else {
-					$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/0.jpg";
-				}
-			}
-		}
-		if(is_array($last_acc)) {
-			$last_acc_html.="<div id=\"laatstbekeken\" class=\"noprint\">";
-			$last_acc_html.="<div id=\"laatstbekeken_acc_wrapper\">";
-			$last_acc_html.="<div class=\"kop\">".html("laatstbekekenaccommodaties","index")."</div>";
-			$last_acc_teller=0;
-			while(list($key,$value)=each($last_acc)) {
-				if($last_acc_teller) {
-					$last_acc_html.="<div class=\"laatstbekeken_divider\">&nbsp;</div>";
-				}
-				$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."';\">";
-				$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\"></div>";
-				$last_acc_html.="<div class=\"laatstbekeken_tekst\">";
-				$last_acc_html.="<div>".wt_he($value["naam"])."</div>";
-				$last_acc_html.="<div style=\"margin-top:7px;\">";
-				if($vars["websitetype"]==7) {
-					$last_acc_html.=wt_he($value["plaats"].", ".$value["skigebied"]);
-				} else {
-					$last_acc_html.=wt_he($value["plaats"].", ".$value["land"]);
-				}
-				$last_acc_html.="</div>";
-				$last_acc_html.="</div>"; # afsluiten laatstbekeken_tekst
-				$last_acc_html.="</div>"; # afsluiten laatstbekeken_acc
-				$last_acc_teller++;
-				if($last_acc_teller>=($id=="index" ? 3 : 4)) {
-					break;
-				}
-			}
-			$last_acc_html.="<div style=\"clear: both;\"></div>\n";			
-			$last_acc_html.="</div>"; # afsluiten laatstbekeken_acc_wrapper
-			$last_acc_html.="<div id=\"laatstbekeken_volledigelijst\"><a href=\"".$vars["path"]."saved.php\">".html("laatstbekekenaccommodaties_volledigelijst","index")." &raquo;</a></div>";
-			$last_acc_html.="</div>"; # afsluiten laatstbekeken
-
-			$last_acc_html.="<div style=\"clear: both;\"></div>\n";
-		}
-		
-		if($vars["websitetype"]==6) {
-			# "laatst bekeken"-blok (nog) niet tonen op ChaletsInVallandry
-			unset($last_acc_html);
-		}
-		
-		#
-		# SPECIAAL voor WSA : mag verwijderd worden zodra WSA van nieuwe vormgeving is voorzien (opmerking geplaatst: 02-09-2011)
-		#
-		if($last_acc_inquery and $vars["website"]=="W") {
-			$db->query("SELECT t.type_id, a.accommodatie_id, a.naam, a.soortaccommodatie, t.naam AS tnaam, l.begincode, p.naam AS plaats FROM accommodatie a, type t, plaats p, land l WHERE t.type_id IN (".$last_acc_inquery.") AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1;");
-	#		echo $db->lastquery;
-			while($db->next_record()) {
-				$last_acc_array[$db->f("type_id")]="<a href=\"".$vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/\" title=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "").", ".$db->f("plaats"))."\"><img src=\"".$vars["basehref"]."pic/cms/";
-				if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
-					$last_acc_array[$db->f("type_id")].="types_specifiek_tn/".$db->f("type_id");
-				} elseif(file_exists("pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg")) {
-					$last_acc_array[$db->f("type_id")].="accommodaties_tn/".$db->f("accommodatie_id");
-				} else {
-					$last_acc_array[$db->f("type_id")].="accommodaties_tn/0";
-				}
-				$last_acc_array[$db->f("type_id")].=".jpg\" width=\"32\" height=\"24\" border=\"0\" class=\"pic_met_border\"></a>";
-	#			$last_acc_teller++;
-			}
-			@krsort($last_acc_bezoeker);
+		$vars["bezoeker_aantal_favorieten"]=$db->f("aantal");
+	}
+	if(!$boeking_wijzigen) {
+		$db->query("SELECT last_acc FROM bezoeker WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' and last_acc IS NOT NULL;");
+		if($db->next_record()) {
+			$vars["last_acc_bezoeker"]=$db->f("last_acc");
+			$last_acc_bezoeker=@split(",",$db->f("last_acc"));
 			@reset($last_acc_bezoeker);
-		#	unset($last_acc_teller);
 			while(list($key,$value)=@each($last_acc_bezoeker)) {
-				if($last_acc_teller<10 and $last_acc_array[$value]) {
-					$last_acc_teller++;
-					$last_acc_content=$last_acc_array[$value]."&nbsp;".$last_acc_content;
+				if($value>0) {
+					if($last_acc_inquery) $last_acc_inquery.=",".addslashes($value); else $last_acc_inquery=addslashes($value);
 				}
 			}
-			if($last_acc_teller and $last_acc_content) {
-				$last_acc_wsa="<span class=\"wtform_small\">".html(($last_acc_teller>7 ? "laatstbekeken_10" : "laatstbekeken")).":</span>&nbsp;<br>";
-				$last_acc_wsa.=$last_acc_content;
+			if($last_acc_inquery) {
+				$db->query("SELECT begincode, type_id, accommodatie_id, naam, tnaam, optimaalaantalpersonen, maxaantalpersonen, plaats, skigebied, land FROM view_accommodatie WHERE type_id IN (".$last_acc_inquery.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(type_id,'".$last_acc_inquery."') DESC;");
+				while($db->next_record()) {
+					$last_acc[$db->f("type_id")]["begincode"]=$db->f("begincode");
+					$last_acc[$db->f("type_id")]["naam"]=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".txt("pers").")";
+					$last_acc[$db->f("type_id")]["plaats"]=$db->f("plaats");
+					$last_acc[$db->f("type_id")]["skigebied"]=$db->f("skigebied");
+					$last_acc[$db->f("type_id")]["land"]=$db->f("land");
+					if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
+						$last_acc[$db->f("type_id")]["afbeelding"]="types_specifiek/".$db->f("type_id").".jpg";
+					} elseif(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
+						$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/".$db->f("accommodatie_id").".jpg";
+					} else {
+						$last_acc[$db->f("type_id")]["afbeelding"]="accommodaties/0.jpg";
+					}
+				}
+			}
+			if(is_array($last_acc)) {
+				$last_acc_html.="<div id=\"laatstbekeken\" class=\"noprint\">";
+				$last_acc_html.="<div id=\"laatstbekeken_acc_wrapper\">";
+				$last_acc_html.="<div class=\"kop\">".html("laatstbekekenaccommodaties","index")."</div>";
+				$last_acc_teller=0;
+				while(list($key,$value)=each($last_acc)) {
+					if($last_acc_teller) {
+						$last_acc_html.="<div class=\"laatstbekeken_divider\">&nbsp;</div>";
+					}
+					$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."/';\">";
+					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\"></div>";
+					$last_acc_html.="<div class=\"laatstbekeken_tekst\">";
+					$last_acc_html.="<div>".wt_he($value["naam"])."</div>";
+					$last_acc_html.="<div style=\"margin-top:7px;\">";
+					if($vars["websitetype"]==7) {
+						$last_acc_html.=wt_he($value["plaats"].", ".$value["skigebied"]);
+					} else {
+						$last_acc_html.=wt_he($value["plaats"].", ".$value["land"]);
+					}
+					$last_acc_html.="</div>";
+					$last_acc_html.="</div>"; # afsluiten laatstbekeken_tekst
+					$last_acc_html.="</div>"; # afsluiten laatstbekeken_acc
+					$last_acc_teller++;
+					if($last_acc_teller>=($id=="index" ? 3 : 4)) {
+						break;
+					}
+				}
+				$last_acc_html.="<div style=\"clear: both;\"></div>\n";
+				$last_acc_html.="</div>"; # afsluiten laatstbekeken_acc_wrapper
+				$last_acc_html.="<div id=\"laatstbekeken_volledigelijst\"><a href=\"".$vars["path"]."saved.php\">".html("laatstbekekenaccommodaties_volledigelijst","index")." &raquo;</a></div>";
+				$last_acc_html.="</div>"; # afsluiten laatstbekeken
+
+				$last_acc_html.="<div style=\"clear: both;\"></div>\n";
+			}
+
+			if($vars["websitetype"]==6) {
+				# "laatst bekeken"-blok (nog) niet tonen op ChaletsInVallandry
+				unset($last_acc_html);
+			}
+
+			#
+			# SPECIAAL voor WSA : mag verwijderd worden zodra WSA van nieuwe vormgeving is voorzien (opmerking geplaatst: 02-09-2011)
+			#
+			if($last_acc_inquery and $vars["website"]=="W") {
+				$db->query("SELECT t.type_id, a.accommodatie_id, a.naam, a.soortaccommodatie, t.naam AS tnaam, l.begincode, p.naam AS plaats FROM accommodatie a, type t, plaats p, land l WHERE t.type_id IN (".$last_acc_inquery.") AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1;");
+		#		echo $db->lastquery;
+				while($db->next_record()) {
+					$last_acc_array[$db->f("type_id")]="<a href=\"".$vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/\" title=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "").", ".$db->f("plaats"))."\"><img src=\"".$vars["basehref"]."pic/cms/";
+					if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
+						$last_acc_array[$db->f("type_id")].="types_specifiek_tn/".$db->f("type_id");
+					} elseif(file_exists("pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg")) {
+						$last_acc_array[$db->f("type_id")].="accommodaties_tn/".$db->f("accommodatie_id");
+					} else {
+						$last_acc_array[$db->f("type_id")].="accommodaties_tn/0";
+					}
+					$last_acc_array[$db->f("type_id")].=".jpg\" width=\"32\" height=\"24\" border=\"0\" class=\"pic_met_border\"></a>";
+		#			$last_acc_teller++;
+				}
+				@krsort($last_acc_bezoeker);
+				@reset($last_acc_bezoeker);
+			#	unset($last_acc_teller);
+				while(list($key,$value)=@each($last_acc_bezoeker)) {
+					if($last_acc_teller<10 and $last_acc_array[$value]) {
+						$last_acc_teller++;
+						$last_acc_content=$last_acc_array[$value]."&nbsp;".$last_acc_content;
+					}
+				}
+				if($last_acc_teller and $last_acc_content) {
+					$last_acc_wsa="<span class=\"wtform_small\">".html(($last_acc_teller>7 ? "laatstbekeken_10" : "laatstbekeken")).":</span>&nbsp;<br>";
+					$last_acc_wsa.=$last_acc_content;
+				}
 			}
 		}
 	}

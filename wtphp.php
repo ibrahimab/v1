@@ -1,10 +1,10 @@
 <?php
 
-# test 2
+# test 4
 
 include("admin/allfunctions.php");
-#if($_COOKIE["flc"]) {
+if($_COOKIE["flc"]) {
 	phpinfo();
-#}
+}
 
 ?>

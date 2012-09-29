@@ -302,7 +302,7 @@ if($form->okay) {
 					# Zomerhuisje
 					if($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="be") {
 						# .be
-						$this->Image('pic/factuur_logo_zomer_be.png',10,8,50);
+						$this->Image('pic/factuur_logo_zomerhuisje.png',10,8,50);
 					} elseif($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="en") {
 						# .eu
 						$this->Image('pic/factuur_logo_eu.png',10,8,50);
@@ -357,19 +357,18 @@ if($form->okay) {
 			$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_naam"],0,1);
 			$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_adres"],0,1);
 			$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_postcode"]." ".$gegevens["stap1"]["reisbureau_plaats"].($gegevens["stap1"]["reisbureau_land"]<>"Nederland" ? " / ".$gegevens["stap1"]["reisbureau_land"] : ""),0,1);
-			if($vars["lokale_testserver"]) {
-				//$pdf->Cell(0,4,$gegevens["stap1"]["reisbureau_btwnummer"],0,1);
-				if($gegevens["stap1"]["reisbureau_btwnummer"]){
-					$pdf->Cell(0,4,"test",0,1);
-				}
+			if($gegevens["stap1"]["reisbureau_btwnummer"]){
+				$pdf->Ln();
+				$pdf->Ln();
+				$pdf->Cell(0,4,html("btwnummer","factuur").$gegevens["stap1"]["reisbureau_btwnummer"],0,1);
 			}
+			
 		} else {
 			# NAW hoofdboeker
 			$pdf->Cell(0,4,wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]),0,1);
 			$pdf->Cell(0,4,$gegevens["stap2"]["adres"],0,1);
 			$pdf->Cell(0,4,$gegevens["stap2"]["postcode"]." ".$gegevens["stap2"]["plaats"].($gegevens["stap2"]["land"]<>"Nederland" ? " / ".$gegevens["stap2"]["land"] : ""),0,1);
 		}
-		$pdf->Ln();
 		$pdf->Ln();
 		$pdf->Cell(0,4,"Woerden, ".DATUM("D MAAND JJJJ",$form->input["datum_nieuwefactuur"]["unixtime"],$gegevens["stap1"]["taal"]),0,1);
 		$pdf->Ln();

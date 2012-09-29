@@ -107,6 +107,7 @@ LI {
 }
 
 .formstyle100 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.0em;
 	width: 100%;
 }
@@ -116,10 +117,11 @@ LI {
 }
 
 .submitbutton {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.0em;
 }
 
-HR {
+hr {
 	color: <?php echo $hr; ?>;
 	background-color: <?php echo $hr; ?>;
 	height: 2px;
@@ -601,7 +603,7 @@ td.selecteerbaarbedrag:hover{
 
 #zoekblok input[name='fzt'] {
 	background-color: #ffffff;
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );   
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );
 	background: #fff url('../pic/chosen-sprite.png') no-repeat 100% -22px;
 	background: url('../pic/chosen-sprite.png') no-repeat 100% -22px, -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
 	background: url('../pic/chosen-sprite.png') no-repeat 100% -22px, -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
@@ -661,7 +663,7 @@ td.selecteerbaarbedrag:hover{
 	background-image: -moz-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
 	background-image: -o-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
 	background-image: -ms-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
-	background-image: linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%); 
+	background-image: linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
 	-webkit-border-radius: 5px;
 	-moz-border-radius   : 5px;
 	border-radius        : 5px;
@@ -746,7 +748,7 @@ td.selecteerbaarbedrag:hover{
 	background-color: #d5e1f9;
 	width: 680px;
 	margin-top: 10px;
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 	color: #003366;
 }
 
@@ -758,54 +760,11 @@ td.selecteerbaarbedrag:hover{
 	display: block;
 	margin-left: 10px;
 	float: right;
-	background-color: #d5e1f9;
-	padding: 5px;
-	text-decoration: none;
-	border: 1px solid #d5e1f9;
-	color: #003366;
-}
-
-#zoekresultaten_sorteer .active {
-	display: block;
-	margin-left: 10px;
-	float: right;
-	background-color: #d5e1f9;
-	padding: 5px;
-	text-decoration: none;
-	border: 1px solid #003366;
-	color: #003366;	
-}
-
-#zoekresultaten_sorteer a:hover {
-	text-decoration: none;
-	border: 1px solid #003366;
-	color: #003366;	
-}
-
-#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
-	display: block;
-	margin-left: 10px;
-	float: right;
-	background-color: #ffffff;
-	padding: 5px;
-	text-decoration: none;
-	border: 1px solid #ffffff;
-	color: #000000;
-}
-
-#zoekresultaten_sorteer_versie2 {
-
-}
-
-#zoekresultaten_sorteer_versie2 a {
-	display: block;
-	margin-left: 10px;
-	float: right;
 	padding: 5px;
 	text-decoration: underline;
 }
 
-#zoekresultaten_sorteer_versie2 .active {
+#zoekresultaten_sorteer .active {
 	display: block;
 	margin-left: 10px;
 	float: right;
@@ -814,7 +773,7 @@ td.selecteerbaarbedrag:hover{
 	font-weight: bold;
 }
 
-#zoekresultaten_sorteer_versie2 a:hover {
+#zoekresultaten_sorteer a:hover {
 	display: block;
 	margin-left: 10px;
 	float: right;
@@ -822,7 +781,7 @@ td.selecteerbaarbedrag:hover{
 	text-decoration: underline;
 }
 
-#zoekresultaten_sorteer_versie2 #zoekresultaten_sorteer_tekst {
+#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
 	display: block;
 	margin-left: 10px;
 	float: right;
@@ -897,7 +856,6 @@ td.selecteerbaarbedrag:hover{
 
 .zoekresultaatFAV_img {
 	padding: 5px;
-
 }
 
 .zoekresultaatFAV_img img {
@@ -913,7 +871,7 @@ td.selecteerbaarbedrag:hover{
 
 .zoekresultaat_locatie {
 	margin-top: 3px;
-	color: #003366;	
+	color: #003366;
 }
 
 .zoekresultaat_top {
@@ -931,10 +889,11 @@ td.selecteerbaarbedrag:hover{
 	float: left;
 	width: 411px;
 	color: #000000;
-	margin-top: 5px;
+	margin-top: 2px;
 	padding-left: 5px;
 	position: relative;
 }
+
 .zoekresultaatFAV_content {
 	float: left;
 	width: 411px;
@@ -997,7 +956,7 @@ td.selecteerbaarbedrag:hover{
 }
 
 .zoekresultaat_prijs_periode {
-	
+
 }
 
 .zoekresultaat_prijs_vanaf {
@@ -1101,7 +1060,7 @@ td.selecteerbaarbedrag:hover{
 .zoekresultaat_type_aanbieding {
 	float: right;
 	color: #d40139;
-	white-space: nowrap;	
+	white-space: nowrap;
 }
 
 .zoekresultaat_type_prijs_aanbieding {
@@ -1136,9 +1095,66 @@ td.selecteerbaarbedrag:hover{
 	background-color: #CCFFFF;
 }
 
+#cookie_bottombar {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	z-index: 9999;
+	background-color: #555555;
+	border-top: 1px solid #222222;
+	color: #ffffff;
+	border-bottom: none;
+	margin: 0px auto;
+	-moz-opacity: .90;
+	filter: alpha(opacity=90);
+	opacity: .90;
+	left: 0;
+	right: 0;
+	text-align: center;
+	padding: 7px;
+}
 
+#cookie_bottombar a {
+	color: #d5e1f9;
+}
 
+#cookie_bottombar a:hover {
+	color: #ffffff;
+}
 
+#cookie_bottombar_wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 965px;
+	text-align: left;
+}
+
+#cookie_bottombar_text {
+	float: left;
+}
+
+#cookie_bottombar_close {
+	float: right;
+	display: block;
+	padding-left: 20px;
+	background-image:url('../pic/close_icon.png');
+	background-repeat:no-repeat;
+	background-position: 0px 2px;
+	cursor: pointer;
+	text-decoration: underline;
+	color: #d5e1f9;
+}
+
+#cookie_bottombar_close:hover {
+	color: #ffffff;
+}
+
+#popUpDiv {
+	position:absolute;
+	width:300px;
+	height:300px;
+	z-index: 9002;
+}
 
 
 //
@@ -1547,6 +1563,6 @@ td.selecteerbaarbedrag:hover{
 
 
 // CSS specifiek voor tablets
-@media only screen and (device-width:768px) { 
+@media only screen and (device-width:768px) {
 
 }

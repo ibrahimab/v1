@@ -428,7 +428,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 									}
 									$voorraad_afboeken_onchange_first.="if(this.value=='voorraad_garantie_".$db->f("type_id")."_".$db2->f("garantie_id")."') { document.frm.elements['input[leverancierid]'].value='".$db2->f("leverancier_id")."'; } ";
 								}
-								$voorraad_afboeken_onchange.=" else document.frm.elements['input[reserveringsnummer_2]'].value='".$reserveringsnummer_2."';";
+#								$voorraad_afboeken_onchange.=" else document.frm.elements['input[reserveringsnummer_2]'].value='".$reserveringsnummer_2."';";
 							} elseif($db->f("voorraad_garantie")>0) {
 								$voorraad_afboeken_keuzes["voorraad_garantie_".$db->f("type_id")]=$verzameltypes_gekoppeld[$db->f("type_id")]." - in garantie (".$db->f("voorraad_garantie")." beschikbaar) ".$netto;
 							}
@@ -473,7 +473,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 									$voorraad_afboeken_onchange=$voorraad_afboeken_onchange_temp;
 								}
 							}
-							$voorraad_afboeken_onchange.=" else document.frm.elements['input[reserveringsnummer_2]'].value='".$reserveringsnummer_2."';";
+#							$voorraad_afboeken_onchange.=" else document.frm.elements['input[reserveringsnummer_2]'].value='".$reserveringsnummer_2."';";
 						} elseif($db->f("voorraad_garantie")>0) {
 							$voorraad_afboeken_keuzes["voorraad_garantie"]="In garantie (".$db->f("voorraad_garantie")." beschikbaar)";
 						}
@@ -1006,7 +1006,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_integer(1,"mailverstuurd_persoonsgegevens_dagenvoorvertrek","Mailtje \"persoonsgegevens gewenst\" (dagen voor vertrek)","",array("text"=>$gegevens["stap1"]["mailverstuurd_persoonsgegevens_dagenvoorvertrek"]));
 #			$form->field_textarea(0,"opmerkingen_voucher","Extra op bevestiging/ roominglist/ accommodatievoucher","",array("text"=>$gegevens["stap1"]["opmerkingen_voucher"]));
 			$form->field_textarea(0,"opmerkingen_klant","Opmerkingen voor klant<br><span style=\"font-size:0.75em;\">(bevestiging)</span>","",array("text"=>$gegevens["stap1"]["opmerkingen_klant"]),"",array("title_html"=>true));
-			$form->field_textarea(0,"opmerkingen_voucher","Opmerkingen voor leverancier<br><span style=\"font-size:0.75em;\">(bestelmail, roominglist en accommodatievoucher)</span>","",array("text"=>$gegevens["stap1"]["opmerkingen_voucher"]),"",array("title_html"=>true));
+			$form->field_textarea(0,"opmerkingen_voucher","Opmerkingen voor leverancier<br><span style=\"font-size:0.75em;\">(bestelmail, roominglist, aankomstlijst en accommodatievoucher)</span>","",array("text"=>$gegevens["stap1"]["opmerkingen_voucher"]),"",array("title_html"=>true));
 		} elseif(!$boeking_wijzigen) {
 			$form->field_noedit("accnaam",txt("accommodatie","boeken"),"",array("text"=>htmlentities($accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])),"",array("html"=>true));
 		}
@@ -1919,7 +1919,14 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 						if($temp_garantie_leverancierscode) {
 							# Leveranciers-reserveringsnummer, bruto, netto, inkoopdatum uit garantie koppelen aan boeking
-							$setquery.=", leverancierscode='".addslashes($temp_garantie_leverancierscode)."', bestelstatus=3, besteldatum=FROM_UNIXTIME('".$temp_garantie_inkoopdatum."'), inkoopnetto='".addslashes($temp_garantie_netto)."', inkoopbruto='".addslashes($temp_garantie_bruto)."'";
+							$setquery.=", leverancierscode='".addslashes($temp_garantie_leverancierscode)."', bestelstatus=3, inkoopnetto='".addslashes($temp_garantie_netto)."', inkoopbruto='".addslashes($temp_garantie_bruto)."'";
+							if($temp_garantie_inkoopdatum>0) {
+								# inkoopdatum garantie opslaan in besteldatum boeking
+								$setquery.=", besteldatum=FROM_UNIXTIME('".$temp_garantie_inkoopdatum."')";
+							} else {
+								# nog geen inkoopdatum bij de garantie
+								$setquery.=", besteldatum=NULL";
+							}
 							if($temp_garantie_inkoopaanbetaling_gewijzigd<>"") {
 								$setquery.=", inkoopaanbetaling_gewijzigd='".addslashes($temp_garantie_inkoopaanbetaling_gewijzigd)."'";
 							}

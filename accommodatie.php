@@ -14,25 +14,7 @@ $onload="initialize_googlemaps();";
 
 #$vars["jquery_scrollto"]=true;
 include_once "admin/vars.php";
-if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==7) {
-	if($_GET["testsysteem"]==1){
-		$klantfavs=array();
-		$db->query("SELECT b.type_id, b.bezoeker_id, t.websites, t.type_id FROM  bezoeker_favoriet b, type t WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=t.type_id AND t.websites LIKE '%".$vars["website"]."%';");
-		while($db->next_record()){
-			array_push($klantfavs,$db->f("type_id"));
-		}
-		$submenu["favorieten"]=txt("submenutitle_favorieten")."(".count($klantfavs).")";
-	}
-	if($vars["websitetype"]==1){
-		$popup=$vars["basehref"]."pic/popBack.png";
-	}
-	elseif($vars["websitetype"]==3){
-		$popup=$vars["basehref"]."pic/popBackZomer.png";
-	}
-	elseif($vars["websitetype"]==7){
-		$popup=$vars["basehref"]."pic/popBackItal.png";
-	}
-}
+
 if($_POST["ookbeschikbaarkeuze"]) {
 	$location=eregi_replace("/".txt("menu_accommodatie")."/[a-zA-Z0-9]+/","/".txt("menu_accommodatie")."/".urlencode($_POST["ookbeschikbaarkeuze"])."/",$_SERVER["REQUEST_URI"]);
 	header("Location: ".$location);
@@ -45,10 +27,11 @@ if($_GET["accid"]) {
 
 if($url[0]) {
 
-	if(substr($_SERVER["REQUEST_URI"],-1)<>"/" and !eregi("\?",$_SERVER["REQUEST_URI"]) and !eregi("#",$_SERVER["REQUEST_URI"]) and !$url[1] and !$url[2] and !$_GET["accid"]) {
-		header("Location: ".$_SERVER["REQUEST_URI"]."/",true,301);
-		exit;
-	}
+# 	uitgezet (op 16-08-2012 trad hierbij ineens een oneindige redirect op)
+#	if(substr($_SERVER["REQUEST_URI"],-1)<>"/" and !eregi("\?",$_SERVER["REQUEST_URI"]) and !eregi("#",$_SERVER["REQUEST_URI"]) and !$url[1] and !$url[2] and !$_GET["accid"]) {
+#		header("Location: ".$_SERVER["REQUEST_URI"]."/",true,301);
+#		exit;
+#	}
 	
 	if(eregi("^([A-Z]{1,2})([0-9]+)",$url[0],$regs)) {
 		$begincode=$regs[1];

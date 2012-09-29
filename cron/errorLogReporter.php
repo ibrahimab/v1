@@ -1,7 +1,23 @@
 <?php
-# errorLog
-$unixdir="../";
+
+#
+# errorLog - wordt elke 15 minuten gerund en doorzoekt /var/log/httpd-error.log op nieuwe foutmeldingen van Apache
+#
+
+
+set_time_limit(0);
+if($_SERVER["HTTP_HOST"]) {
+	$unixdir="../";
+} elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/errorLogReporter.php") {
+	$unixdir="/home/webtastic/html/chalet/";
+} else {
+	$unixdir="/home/sites/chalet.nl/html/";
+}
+$cron=true;
+$geen_tracker_cookie=true;
+$boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
+
 function transformTodate($stringMaand,$stringDag,$stringTime){
 	switch($stringMaand){
 		case "Jan":
@@ -40,6 +56,42 @@ function transformTodate($stringMaand,$stringDag,$stringTime){
 			case "Dec":
 			$stringMaand=12;
 			break;
+			case "jan":
+			$stringMaand=1;
+			break;
+			case "feb":
+			$stringMaand=2;
+			break;
+			case "mar":
+			$stringMaand=3;
+			break;
+			case "apr":
+			$stringMaand=4;
+			break;
+			case "may":
+			$stringMaand=5;
+			break;
+			case "jun":
+			$stringMaand=6;
+			break;
+			case "jul":
+			$stringMaand=7;
+			break;
+			case "aug":
+			$stringMaand=8;
+			break;
+			case "sep":
+			$stringMaand=9;
+			break;
+			case "oct":
+			$stringMaand=10;
+			break;
+			case "nov":
+			$stringMaand=11;
+			break;
+			case "dec":
+			$stringMaand=12;
+			break;
 	}
 	$jaar=date("Y");
 	$date=strtotime($jaar."/".$stringMaand."/".$stringDag." ".$stringTime);
@@ -48,6 +100,10 @@ function transformTodate($stringMaand,$stringDag,$stringTime){
 $negate=array();
 $negate[0]=" [notice";
 $negate[1]=" File does not exist:";
+$negate[2]=" [notice";
+
+
+
 $intervals=array();
 $intervals[0]=0;
 $intervals[1]=1;
@@ -76,12 +132,12 @@ $intervals[23]=-8;
 $intervals[24]=-7;
 $intervals[25]=-6;
 $intervals[26]=-5;
-$intervals[27]=-4;
+$intervals[27]=-4; 
 $intervals[28]=-3;
 $intervals[29]=-2;
 $intervals[30]=-1;
-$handle=@fopen($vars["basehref"]."httpd-error.log", "r");
-if($handle){
+$handle=@fopen("/var/log/httpd-error.log", "r");
+if($handle) {
 	$logs="";
 	while(($buffer=fgets($handle,4096))!==false) {
 		if(substr($buffer,0,1)!="["){
@@ -95,14 +151,13 @@ if($handle){
 			$tot=date("i");
 			$verschil=$van-$tot;
 			$data=strtotime(date("Y/m/d"));
-			if(date("d/m/Y",$datum)==date("d/m/Y",$data) and date("H",$datum)==date("H")){
-				if(in_array($verschil,$intervals)){
+			if(date("d/m/Y",$datum)==date("d/m/Y",$data) and date("H",$datum)==date("H")) {
+				if(in_array($verschil,$intervals)) {
 					$logs.=$buffer;
 					$logs.="\n";
 				}
 			}
-		}
-		else{
+		} else {
 			$params=explode("]",$buffer);
 			$paramsVerder=explode(" ",$params[0]);
 			$dag=$paramsVerder[2];
@@ -113,8 +168,8 @@ if($handle){
 			$tot=date("i");
 			$verschil=$van-$tot;
 			$data=strtotime(date("Y/m/d"));
-			if((!in_array($params[1],$negate)) and (!in_array(substr($params[3],0,21),$negate))){
-				if(date("d/m/Y",$datum)==date("d/m/Y",$data) and date("H",$datum)==date("H")){
+			if((!in_array($params[1],$negate)) and (!in_array(substr($params[3],0,21),$negate))) {
+				if(date("d/m/Y",$datum)==date("d/m/Y",$data) and date("H",$datum)==date("H")) {
 					if(in_array($verschil,$intervals)){
 						$logs.=$buffer;
 						$logs.="\n";
@@ -128,11 +183,12 @@ if($handle){
 	}
 	if($logs!=""){
 		$mail=new wt_mail;
-		$mail->fromname="Systeem@chalet";
+		$mail->fromname="Chalet.nl";
 		$mail->from="info@chalet.nl";
-		$mail->toname="dienst@chalet";
-		$mail->to="info@chalet.nl";
-		$mail->subject.="Httpd errorlog report";
+		$mail->toname="Miguel Moukimou";
+		$mail->to="miguel@chalet.nl";
+#		$mail->bcc="jeroen@webtastic.nl";
+		$mail->subject.="httpd errorlog report";
 		$mail->plaintext=$logs; # deze leeg laten bij een opmaak-mailtje
 		$mail->send();
 		echo "mail met log berichten succesvol verzonden";

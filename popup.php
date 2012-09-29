@@ -94,6 +94,8 @@ if(ereg("(.*)\-query-(.*)",$_GET["id"],$regs)) {
 echo "<HTML><HEAD>";
 echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">\n";
 echo "<META NAME=\"robots\" CONTENT=\"noindex,follow\">";
+# JQuery
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
 echo "<TITLE>".htmlentities($title[$_GET["id"]])."</TITLE>";
 echo "<link REL=\"SHORTCUT ICON\" href=\"".$path;
 if($vars["websitetype"]==2) {
@@ -263,9 +265,9 @@ LI {
 
 if($_GET["id"]=="tarieventabel") {
 
-
-
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/".$id."_chalet.css?cache=".@filemtime("css/".$id."_chalet.css")."\" />\n";	
+	if(file_exists("css/".$id)) {
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/".$id."_chalet.css?cache=".@filemtime("css/".$id."_chalet.css")."\" />\n";	
+	}
 
 	if($vars["seizoentype"]==2) {
 		echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_zomerhuisje.js?cache=".@filemtime("scripts/functions_zomerhuisje.js")."\" ></script>\n";

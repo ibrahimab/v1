@@ -15,7 +15,7 @@ if(ereg("/pic/chalets/",$_SERVER["REQUEST_URI"])) {
 		}
 		header("Location: ".$path.txt("menu_accommodatie")."/".strtoupper($regs404[1])."/",true,301);
 		exit;
-	}	
+	}
 
 	# /f1815 doorsturen naar /accommodatie/F1815
 	if(eregi("^/([a-z]{1,2}[0-9]+)/?$",$_SERVER["REQUEST_URI"],$regs404)) {
@@ -55,7 +55,7 @@ if(ereg("/pic/chalets/",$_SERVER["REQUEST_URI"])) {
 
 	wt_404(true);
 	header("HTTP/1.0 404 Not Found");
-	
+
 	include "content/opmaak.php";
 }
 

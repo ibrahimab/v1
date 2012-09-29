@@ -223,6 +223,14 @@ form {
 	font-weight: normal;
 }
 
+#cookie_bottombar a {
+	color: #b2cce5;
+}
+
+#cookie_bottombar_close {
+	color: #b2cce5;
+}
+
 .overlay_foto {
 	position:relative;
 	cursor: pointer;
@@ -413,50 +421,22 @@ form {
 
 #zoekresultaten_sorteer {
 	margin-top: 10px;
-	margin-right: 40px;
-}
-
-#zoekresultaten_sorteer a {
-	background-color: #b2cce5;
-	border: 1px solid #b2cce5;
-	color: #666600;
-}
-
-#zoekresultaten_sorteer .active {
-	background-color: #b2cce5;
-	border: 1px solid #666600;
-	color: #666600;	
-}
-
-#zoekresultaten_sorteer a:hover {
-	border: 1px solid #666600;
-	color: #666600;	
-}
-
-#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
-	background-color: #ffffff;
-	border: 1px solid #ffffff;
-	color: #000000;
-}
-
-#zoekresultaten_sorteer_versie2 {
-	margin-top: 10px;
 	margin-right: 40px;	
 }
 
-#zoekresultaten_sorteer_versie2 a {
+#zoekresultaten_sorteer a {
 
 }
 
-#zoekresultaten_sorteer_versie2 .active {
+#zoekresultaten_sorteer .active {
 	color: #666600;
 }
 
-#zoekresultaten_sorteer_versie2 a:hover {
+#zoekresultaten_sorteer a:hover {
 
 }
 
-#zoekresultaten_sorteer_versie2 #zoekresultaten_sorteer_tekst {
+#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
 	background-color: #ffffff;
 	color: #000000;
 }

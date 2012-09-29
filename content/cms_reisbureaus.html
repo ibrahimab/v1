@@ -5,7 +5,7 @@
 #
 if($_FILES["gebruikersimport"]["tmp_name"]) {
 	echo "De volgende gebruikers zijn ge&iuml;mporteerd:<ul>";
-	
+
 	$db->query("SELECT websites FROM reisbureau WHERE reisbureau_id='".addslashes($_GET["27k0"])."';");
 	if($db->next_record()) {
 		$websites_array=split(",",$db->f("websites"));
@@ -15,7 +15,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 		}
 	}
 	if(!$links_naar_sites) $links_naar_sites="http://www.chalettour.nl/reisagent.php";
-	
+
 	$handle=fopen($_FILES["gebruikersimport"]["tmp_name"],"r");
 	while(($data = fgetcsv($handle,0,";"))!== FALSE) {
 		if($data[0]<>"e-mailadres") {
@@ -35,7 +35,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 					if($data[2] and $data[4] and $data[12] and $data[13] and $data[14] and $data[15] and $data[16] and $data[17]) {
 						$password=wt_generate_password(6);
 						$db->query("INSERT INTO reisbureau_user SET reisbureau_id='".addslashes($_GET["27k0"])."', email='".addslashes($data[0])."', password='".addslashes(md5($password))."', code='".addslashes($data[1])."', voornaam='".addslashes($data[2])."', tussenvoegsel='".addslashes($data[3])."', achternaam='".addslashes($data[4])."', adres='".addslashes($data[5])."', postcode='".addslashes($data[6])."', plaats='".addslashes($data[7])."', land='".addslashes($data[8])."', telefoonnummer='".addslashes($data[9])."', mobiel='".addslashes($data[10])."', website='".addslashes($data[11])."', inzicht_boekingen='".($data[12]=="ja" ? "1" : "0")."', inzicht_prijsberekeningen='".($data[13]=="ja" ? "1" : "0")."', bevestiging_naar_gebruiker='".($data[14]=="ja" ? "1" : "0")."', aanmaning_naar_gebruiker='".($data[15]=="ja" ? "1" : "0")."', mailingmanager_gewonenieuwsbrief='".($data[16]=="ja" ? "1" : "0")."', mailingmanager_agentennieuwsbrief='".($data[17]=="ja" ? "1" : "0")."', opmerkingen='".addslashes($data[18])."', adddatetime=NOW(), editdatetime=NOW();");
-						
+
 						$mail=new wt_mail;
 						$mail->fromname="Chalet.nl";
 						$mail->from="info@chalet.nl";
@@ -44,7 +44,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 #						$mail->to="jeroen@webtastic.nl";
 
 						$mail->subject="Inloggegevens Chalettour.nl";
-			
+
 						$mail->plaintext=txt("welkomstmail","reisbureau",array("v_websites"=>$links_naar_sites,"v_email"=>$data[0],"v_wachtwoord"=>$password,"v_voornaam"=>$data[2]));
 						$mail->send();
 						echo "correct toegevoegd + mail verzonden";
@@ -61,29 +61,29 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 	echo "</ul>";
 	echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\">Alle ge&iuml;mporteerde gebruikers bekijken &gt;</a><p>";
 } else {
-	
+
 	if($_GET["show"]<>27 and $_GET["edit"]<>27 and $_GET["add"]<>27) {
 		echo "<div class=\"opmerkingbox\" style=\"background-color: #ebebeb;width:400px;\">Naamgeving:<br><br>reisbureau = hoofdkantoor<br>reisagent = onderliggende gebruiker reisbureau</div>";
 	}
 
-	$chaletsinvallandry_reisbureaus=array("20","21","37","39");
-	
+	$chaletsinvallandry_reisbureaus=array("37","39");
+
 	$cms->display_cms();
-	
+
 	if(!$_GET["edit"] and !$_GET["add"] and !$_GET["show"] and $_GET["t"]<>2) {
-	
-	
+
+
 		# Laatste winter- en zomerseizoen bepalen
 		$db->query("SELECT seizoen_id FROM seizoen WHERE type=1 AND eind>NOW() ORDER BY begin LIMIT 0,1;");
 		if($db->next_record()) {
 			$winterid=$db->f("seizoen_id");
 		}
-	
+
 		$db->query("SELECT seizoen_id FROM seizoen WHERE type=2 AND eind>NOW() ORDER BY begin LIMIT 0,1;");
 		if($db->next_record()) {
 			$zomerid=$db->f("seizoen_id");
 		}
-		
+
 		# Toon accommodaties zonder wederverkoop
 		$db->query("SELECT DISTINCT t.type_id, a.wzt, l.leverancier_id, l.naam AS leverancier FROM type t, accommodatie a, plaats p, leverancier l WHERE a.leverancier_id=l.leverancier_id AND (t.websites NOT LIKE '%T%' AND t.websites NOT LIKE '%O%' AND t.websites NOT LIKE '%Z%') AND t.websites<>'' AND a.tonen=1 AND t.tonen=1 AND a.plaats_id=p.plaats_id AND a.archief=0 AND t.accommodatie_id=a.accommodatie_id ORDER BY a.wzt, l.naam, p.naam, a.accommodatie_id, t.type_id;");
 		if($db->num_rows()) {
@@ -108,43 +108,43 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 			echo "</ul>";
 		}
 	}
-	
+
 	if($_GET["show"]==27 and $_GET["t"]<>2) {
-	
+
 		if($vars["taal"]=="nl") {
 			#
 			# Reisbureau-gebruikers importeren
 			#
 			echo "<br><b>Reisbureau-gebruikers importeren via CSV</b><p>";
 			echo "<a href=\"".$vars["path"]."xml/voorbeeld_gebruikers.csv\" target=\"_blank\">voorbeeld-CSV downloaden</a><br>";
-			
+
 			echo "<form method=\"post\" name=\"frm\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" enctype=\"multipart/form-data\"><input type=\"file\" name=\"gebruikersimport\" size=\"60\"><p><input type=\"submit\" value=\" Gebruikers importeren \" id=\"sbmt\" onclick=\"document.frm.sbmt.disabled=1;document.frm.submit();\"></form><p>";
 			echo "<i>Na importeren ontvangen de nieuwe gebruikers automatisch een e-mail met hun inloggegevens.</i>";
-			
+
 			echo "<hr>";
 		}
-	
+
 		$db->query("SELECT xmlfeed, xmlfeed_toegangscode, xmlfeed_winter, xmlfeed_zomer FROM reisbureau WHERE reisbureau_id='".addslashes($_GET["27k0"])."';");
 		if($db->next_record()) {
 			if($db->f("xmlfeed") and $db->f("xmlfeed_toegangscode")) {
 				#
 				# XML-feed
-				#		
+				#
 				if($db->f("xmlfeed_winter")) $doorloop_wzt[1]=true;
 				if($db->f("xmlfeed_zomer")) $doorloop_wzt[2]=true;
-				
+
 				# Kijken welke types geen wederverkoopprijzen hebben
 				$db2->query("SELECT DISTINCT type_id FROM tarief WHERE wederverkoop_verkoopprijs>0 AND week>'".time()."';");
 				while($db2->next_record()) {
 					$is_wederverkoop_type[$db2->f("type_id")]=true;
 				}
-				
+
 				# Kijken welke accommodaties geen wederverkoopprijzen hebben
 				$db2->query("SELECT DISTINCT t.accommodatie_id FROM tarief ta, type t WHERE ta.wederverkoop_verkoopprijs>0 AND ta.week>'".time()."' AND ta.type_id=t.type_id;");
 				while($db2->next_record()) {
 					$is_wederverkoop_acc[$db2->f("accommodatie_id")]=true;
 				}
-				
+
 				while(list($key,$value)=each($doorloop_wzt)) {
 					echo "<br><br><hr><br><b>XML-feeds ".$vars["seizoentype_namen"][$key]."</b><br><br>";
 					if(in_array($_GET["27k0"],$chaletsinvallandry_reisbureaus)) {
@@ -175,7 +175,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 							}
 						}
 					}
-	
+
 					echo "<br><i>Landen, leveranciers, accommodaties en types toevoegen</i>";
 					# tijdelijk? uit (alle accommodaties in een feed maakt het systeem te traag)
 #					echo " <b>(laat je alles leeg dan bevat de feed alle accommodaties)</b>";
@@ -184,7 +184,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 					echo "<input type=\"hidden\" name=\"toevoegen_filled\" value=\"1\">";
 					echo "<input type=\"hidden\" name=\"wzt\" value=\"".$key."\">";
 					echo "<tr><th>Soort</th><th>Accommodatie/type</th></tr>";
-	
+
 					echo "<tr><td><a name=\"land".$key."\">Landen</td><td>";
 					unset($xmlselectie);
 					$db2->query("SELECT v.land_id, v.land FROM view_accommodatie v, reisbureau_xml_land r WHERE r.land_id=v.land_id AND r.wzt='".$key."' AND r.reisbureau_id='".addslashes($_GET["27k0"])."' ORDER BY land;");
@@ -208,7 +208,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 						echo "</ul>";
 					}
 					echo "</td></tr>";
-	
+
 					echo "<tr><td><a name=\"leverancier".$key."\"></a>Leveranciers</td><td>";
 					unset($xmlselectie);
 					$db2->query("SELECT v.leverancier_id, v.leverancier FROM view_accommodatie v, reisbureau_xml_leverancier r WHERE r.leverancier_id=v.leverancier_id AND r.wzt='".$key."' AND r.reisbureau_id='".addslashes($_GET["27k0"])."' ORDER BY leverancier;");
@@ -232,7 +232,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 						echo "</ul>";
 					}
 					echo "</td></tr>";
-			
+
 					# Accommodaties
 					echo "<tr><td><a name=\"accommodatie".$key."\"></a>Accommodaties</td><td>";
 					unset($xmlselectie);
@@ -257,7 +257,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 						echo "</ul>";
 					}
 					echo "</td></tr>";
-				
+
 					# Types
 					echo "<tr><td><a name=\"type".$key."\">Types</td><td>";
 					unset($xmlselectie);
@@ -287,18 +287,18 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 				}
 			}
 		}
-		
-		
+
+
 		#
 		# Financieel overzicht
 		#
-		
+
 		# Betaalde bedragen (voldaan) bepalen
 		$db->query("SELECT boeking_id, sum(bedrag) AS bedrag FROM boeking_betaling GROUP BY boeking_id;");
 		while($db->next_record()) {
 			$voldaan_array[$db->f("boeking_id")]=round($db->f("bedrag"),2);
 		}
-		
+
 		$reisbureau_user_id_inquery="SELECT user_id FROM reisbureau_user WHERE reisbureau_id='".addslashes($_GET["27k0"])."'";
 		echo "<br><hr><br><b>Financieel overzicht</b><br>";
 		$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.aankomstdatum_exact, b.totale_reissom, b.aanbetaling1_dagennaboeken, b.aanbetaling1 , b.aanbetaling1_gewijzigd, UNIX_TIMESTAMP(b.aanbetaling2_datum) AS aanbetaling2_datum, b.aanbetaling2, b.totale_reissom_dagenvooraankomst, b.aanmaning_tekst, b.aanmaning_mailblokkeren, UNIX_TIMESTAMP(b.aanmaning_verstuurdatum) AS aanmaning_verstuurdatum, b.aanmaning_aantal, b.opmerkingen_intern, UNIX_TIMESTAMP(b.opmerkingen_intern_gewijzigd) AS opmerkingen_intern_gewijzigd, b.reisbureau_user_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.plaats, bp.land FROM boeking b, boeking_persoon bp, factuur f WHERE f.boeking_id=b.boeking_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.boekingsnummer<>'' AND b.reisbureau_user_id IN (".$reisbureau_user_id_inquery.")".$andq." ORDER BY b.aankomstdatum_exact DESC;");
@@ -331,7 +331,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 			echo "<tr><td colspan=\"3\"><b>Totaal</b></td><td align=\"right\" valign=\"top\">".number_format($totaal_reissom,2,",",".")."</td><td align=\"right\" valign=\"top\">".number_format($totaal_voldaan,2,",",".")."</td><td align=\"right\" valign=\"top\">".number_format($totaal_openstaand,2,",",".")."</td></tr>";
 			echo "</table>";
 		}
-			
+
 		$cms->display_log(27);
 	}
 }

@@ -119,12 +119,12 @@ $cms->edit_field(8,0,"noodnummer");
 $cms->edit_field(8,0,"adresregels","Naam + adresgegevens");
 if($_GET["beheerder"]) {
 	$cms->edit_field(8,1,"bestelmailfax_taal","Taal");
-	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op roominglist",array("selection"=>false));
-	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op roominglist",array("selection"=>true));
+	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op aankomstlijst",array("selection"=>false));
+	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op aankomstlijst",array("selection"=>true));
 } else {
 	$cms->edit_field(8,0,"htmlrow","<hr>");
-	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op roominglist",array("selection"=>false));
-	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op roominglist",array("selection"=>true));
+	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op aankomstlijst",array("selection"=>false));
+	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op aankomstlijst",array("selection"=>true));
 	$cms->edit_field(8,0,"hoogseizoencontrole","Controle uitvoeren op hoogseizoen-tarieven",array("selection"=>true));
 	$cms->edit_field(8,1,"zwitersefranken","Deze leverancier gebruikt Zwitserse Franken");
 	$cms->edit_field(8,0,"xml_type","Type XML-importeerfunctie");

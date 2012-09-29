@@ -6,15 +6,15 @@
 #verfijn {
 	padding-top: 5px;
 	text-align: left;
-	border: 2px solid #003366;
-	background-color: #d5e1f9;
+	border: 1px solid #003366;
+	background-color: #eaf0fc;
 	width: 180px;
 	margin-top: -6px;
 }
 
 .keuzes {
 	font-size: 0.8em;
-	line-height: 150%;
+	line-height: 180%;
 	padding-top: 0px;
 }
 
@@ -60,7 +60,7 @@
 
 .keuzes_kopjes {
 	font-weight: bold;
-	margin-top: 10px;
+	margin-top: 15px;
 	color: #ffffff;
 	background-color: #003366;
 	text-align: left;

@@ -1,14 +1,10 @@
 <?php
 
-#echo "Vallandry";
-#exit;
-
-
-
 echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
   \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
 echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
 echo "<head>";
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\" />\n";
 echo "<title>";
 if($id=="index") {
@@ -23,7 +19,7 @@ echo "</title>";
 
 if($vars["page_with_tabs"]) {
 #	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."\" />\n";
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."?type=".$vars["websitetype"]."\" />\n";	
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."?type=".$vars["websitetype"]."\" />\n";
 }
 
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_websites_en_cms.css.phpcache?cache=".@filemtime("css/opmaak_websites_en_cms.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
@@ -112,7 +108,7 @@ echo "<div id=\"wrapper\">";
 
 echo "<div id=\"top\">";
 
-echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
+echo "<div id=\"menubalk_print\" style=\"margin-bottom:100px;\" class=\"onlyprint\">";
 echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
 echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</b>";
 echo "</div>";
@@ -134,7 +130,7 @@ if($vars["taal"]=="en") {
 
 echo "</div>\n";
 
-echo "<div id=\"topfoto\">";
+echo "<div id=\"topfoto\" class=\"noprint\">";
 if($id<>"index") echo "<a href=\"".$vars["path"]."\">";
 echo "<img src=\"".$vars["path"]."pic/vallandry_topbalk".($vars["taal"]=="en" ? "_en" : "").".jpg\" width=\"970\" height=\"161\" alt=\"\" border=\"0\">";
 if($id<>"index") echo "</a>";
@@ -216,7 +212,7 @@ if(!$include) {
 
 if($vars["verberg_linkerkolom"]) {
 	echo "<div id=\"contentvolledig\">";
-	
+
 	# Content includen
 	include($include);
 	echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
@@ -227,29 +223,29 @@ if($vars["verberg_linkerkolom"]) {
 
 	echo "</div>\n";
 } else {
-	echo "<div id=\"bloklinks\">";
-	
+	echo "<div id=\"bloklinks\" class=\"noprint\">";
+
 	if($vars["verberg_zoekenboeklinks"]) {
-		echo "&nbsp;";	
+		echo "&nbsp;";
 	} else {
 		echo "<div id=\"zoekenboek\">";
-		
+
 		echo "<div class=\"zoekenboek_kop\" style=\"margin-bottom:15px;\"><span class=\"bloklinksrechts_kop\">".html("zoekenboek","index")."</span></div>";
-	
+
 		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\">";
 		echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
-	
+
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<input type=\"text\" name=\"fzt\" class=\"tekstzoeken\" value=\"-- ".html("trefwoord","index")." --\" onfocus=\"if(this.value=='-- ".html("trefwoord","index")." --') this.value='';\" onblur=\"if(this.value=='') this.value='-- ".html("trefwoord","index")." --';\">";
 		echo "</div>";
-	
+
 		# aantalpersonen-array vullen
 		$vars["aantalpersonen"]["-"]="-- ".txt("aantalpersonen","index")." --";
 		$vars["aantalpersonen"][0]=txt("geenvoorkeur","index");
 		for($i=1;$i<=40;$i++) {
 			$vars["aantalpersonen"][$i]=$i;
 		}
-	
+
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fap\" class=\"selectbox\">";
@@ -261,12 +257,12 @@ if($vars["verberg_linkerkolom"]) {
 		echo "</select>";
 		echo "</div>";
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aankomstdatum","index")."</div>";
-		
+
 		# Aankomstdatum vullen
 		$vars["aankomstdatum_weekend_afkorting"]["-"]="-- ".txt("aankomstdatum","index")." --";
 		$vars["aankomstdatum_weekend_afkorting"][0]=txt("geenvoorkeur","index");
 		ksort($vars["aankomstdatum_weekend_afkorting"],SORT_STRING);
-	
+
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fad\" class=\"selectbox\">";
 		while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
@@ -287,7 +283,7 @@ if($vars["verberg_linkerkolom"]) {
 #		$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
 #		$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
 #		$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
-#		
+#
 #		echo "<div class=\"zoekenboek_invulveld\">";
 #		echo "<select name=\"fdu\" class=\"selectbox\">";
 #		while(list($key,$value)=each($vars["verblijfsduur"])) {
@@ -297,9 +293,9 @@ if($vars["verberg_linkerkolom"]) {
 #		}
 #		echo "</select>";
 #		echo "</div>";
-	
+
 		echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
-		
+
 		echo "<div style=\"margin-top:10px;margin-bottom:0px;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php\">".html("uitgebreidzoeken","index")."</a></div>";
 		echo "</form>";
 
@@ -308,12 +304,12 @@ if($vars["verberg_linkerkolom"]) {
 		} else {
 			echo "<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"35\" height=\"33\" style=\"margin-top:20px;margin-bottom:100px;\" border=\"0\">";
 		}
-		
+
 		echo "</div>"; # afsluiten "zoekenboek"
 	}
-	
+
 	echo "</div>\n";
-	
+
 	echo "<div id=\"contentrechts\">";
 
 	if($id<>"index" and $id<>"toonaccommodatie" and !$laat_titel_weg) {
@@ -327,13 +323,13 @@ if($vars["verberg_linkerkolom"]) {
 	# Content includen
 	if($id=="index") {
 		include($include);
-		
+
 	} else {
 		include($include);
 #		echo "<br>&nbsp;";
 		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
-	
+
 	echo "</div>";
 	echo "<div style=\"clear: both;\"></div>\n";
 }
@@ -345,6 +341,11 @@ echo "</div>\n"; # "content" afsluiten
 
 echo "</div>\n"; # "wrapper" afsluiten
 
+# Balk met cookie-melding
+if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {
+	echo "<p>&nbsp;</p>";
+	echo "<div id=\"cookie_bottombar\" class=\"noprint\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
+}
 
 if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 		echo "<div id=\"interneinfo_rechts\">";

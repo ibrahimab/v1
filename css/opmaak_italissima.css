@@ -276,7 +276,7 @@ form {
 
 #zoekenboek_overlay select {
 	width: 170px;
-	margin: 0;	
+	margin: 0;
 }
 
 #zoekenboek_overlay .tekstzoeken {
@@ -402,6 +402,14 @@ form {
 }
 
 #blokaccommodatie .overlay_foto:hover {
+	color: #ffd38f;
+}
+
+#cookie_bottombar a {
+	color: #ffd38f;
+}
+
+#cookie_bottombar_close {
 	color: #ffd38f;
 }
 
@@ -698,7 +706,7 @@ form {
 
 .aanbiedingtabel td {
 	border: 0px;
-	padding: 6px;	
+	padding: 6px;
 }
 
 .gekleurdetekst {
@@ -740,45 +748,18 @@ form {
 }
 
 #zoekresultaten_sorteer a {
-	background-color: #ffd38f;
-	border: 1px solid #ffd38f;
 	color: #661700;
 }
 
 #zoekresultaten_sorteer .active {
-	background-color: #ffd38f;
-	border: 1px solid #661700;
-	color: #661700;	
+	color: #661700;
 }
 
 #zoekresultaten_sorteer a:hover {
-	border: 1px solid #661700;
-	color: #661700;	
-}
-
-#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
-	background-color: #ffffff;
-	border: 1px solid #ffffff;
-	color: #000000;
-}
-
-#zoekresultaten_sorteer_versie2 {
-	margin-top: 10px;
-}
-
-#zoekresultaten_sorteer_versie2 a {
-	color: #661700;
-}
-
-#zoekresultaten_sorteer_versie2 .active {
-	color: #661700;
-}
-
-#zoekresultaten_sorteer_versie2 a:hover {
 	color: #ff9900;
 }
 
-#zoekresultaten_sorteer_versie2 #zoekresultaten_sorteer_tekst {
+#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
 	background-color: #ffffff;
 	color: #000000;
 }
@@ -851,11 +832,102 @@ form {
 }
 
 .zoekresultaat_type_prijs_aanbieding {
-	color: #661700;	
+	color: #661700;
 }
 
 .zoekresultaat_prijs_bedrag_aanbieding {
-	color: #661700;	
+	color: #661700;
+}
+
+#footerWrap{
+	width:100%;
+	background-color:#FFFFFF;
+	font-size:11px;
+	color:#661700;
+}
+
+#footerWrap table{
+	border-top-color:#661700;
+}
+
+.noIND{
+	width:100%;
+}
+.noIND td{
+	width:200px;
+	border:0px;
+	border-color:black;
+	border-style: solid;
+	text-align:center;
+	top:0px;
+}
+.IND{
+	width:100%;
+}
+.divSepIND{
+	float:left;
+	padding-left:10px;
+	height:200px;;
+	width:198px;
+	background-color:#e0d1cc;
+}
+
+.divSepIND li{
+	background-image: url(../pic/li_img_italissima_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+
+.divSepIND a{
+	text-decoration:none;
+}
+
+
+.divSepIND a:hover{
+	text-decoration:underline;
+}
+.divSepIND{
+	float:left;
+	padding-left:20px;
+	height:200px;;
+	width:190px;
+	background-color:#e0d1cc;
+}
+
+.wrap{
+	float:left;
+	position:relative;
+	left:25px;
+	width:650px;
+	border:0px;
+	border-color:black;
+	border-style: solid;
+}
+
+.divContentIND li{
+	background-image: url(../pic/li_img_italissima_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+
+.divContentIND{
+	float:left;
+	padding-left:15px;
+}
+
+.divContentIND a{
+	text-decoration:none;
+}
+.divContentIND a:hover{
+	text-decoration:underline;
+}
+
+.padnoIND{
+	padding-left:10px;
 }
 
 @media print {
@@ -869,11 +941,11 @@ form {
 		margin: 0px;
 		padding: 0px;
 	}
-	
+
 	#contentrechts {
 
 	}
-	
+
 	#menubalk {
 		display: none;
 	}
@@ -890,14 +962,14 @@ form {
 	.onlyprint {
 		display: inline;
 	}
-	
+
 	#menubalk_print {
 		position: absolute;
 		top: 10px;
 		right: 0px;
 		text-align: right;
 	}
-	
+
 	a {
 		text-decoration: none;
 	}

@@ -53,10 +53,14 @@ if($_GET["t"]==5 or $_GET["t"]==8 or $_GET["t"]==9 or $_GET["t"]==10 or $_GET["t
 
 if($_GET["t"]==1 or $_GET["t"]==2) {
 	# t=1 --> Roominglist totaal
-	# t=2 --> Roominglist op datum
+	# t=2 --> Roominglist op datum (=aankomstlijst)
 
 	if($mustlogin) {
-		cmslog_pagina_title("Overzichten - Roominglist");
+		if($_GET["t"]==1) {
+			cmslog_pagina_title("Overzichten - Roominglist");
+		} else {
+			cmslog_pagina_title("Overzichten - Aankomstlijst");		
+		}
 	}
 	
 	$colspan=9;
@@ -201,7 +205,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	}
 	
 	$ms->html.=": Chalet.nl / Wintersportaccommodaties.nl / Zomerhuisje.nl</h3>Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
-	$ms->html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo_zomer.png\"></td></tr></thead></table>";
+	$ms->html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></thead></table>";
 	$ms->html.="</td></tr>";
 	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th>";
 	
@@ -507,7 +511,7 @@ exit;
 	$ms->html.="<table width=100% border=0><tr><td><h3>";
 #	$ms->html.="Orderlist ".htmlentities($skipas["naam"])." - ".date("d-m-Y",$_GET["date"]);
 	$ms->html.="Chalet.nl / Wintersportaccommodaties.nl</h3>Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands<br>Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
-	$ms->html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo.png\"></td></tr></table>";
+	$ms->html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></table>";
 	$ms->html.="</td></tr></thead>";
 #	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th><th>Arrival</th><th>Departure</th><th>Resort</th><th>Accommodation</th><th>Type</th><th>Cap.</th><th>Reserv.<br>Nr.</th><th>Extra<br>Options</th></tr></thead>";
 	$ms->html.="<tr><td><table border=0 width=100%><tr><td>Dear reservation team of <b>".htmlentities($skipas["naam"])."</b>,<p>We want to make the following reservation(s) for the period from the <b>".date("d-m-Y",$_GET["date"])."</b></td></tr></table></td></tr>";

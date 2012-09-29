@@ -8,10 +8,10 @@
  *
  * $Id: db_mysql.inc,v 1.23 1999/10/24 12:15:21 kk Exp $
  *
- */ 
+ */
 
 class DB_Sql {
-  
+
   /* public: connection parameters */
   var $Host     = "";
   var $Database = "";
@@ -39,7 +39,7 @@ class DB_Sql {
   /* private: link and query handles */
   var $Link_ID  = 0;
   var $Query_ID = 0;
-  
+
 
 
   /* public: constructor */
@@ -60,14 +60,18 @@ class DB_Sql {
   function connect($Database = "", $Host = "", $User = "", $Password = "") {
     /* Handle defaults */
 	if(is_array($GLOBALS["mysqlsettings"])) {
-		if(ereg("/home/webtastic/html",$_SERVER["DOCUMENT_ROOT"]) or $_SERVER["HOSTNAME"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="bl.postvak.net" or $_SERVER["HOSTNAME"]=="bl2.postvak.net" or substr($_SERVER["PHP_SELF"],0,21)=="/home/webtastic/html/") {
+		if(ereg("/home/webtastic/html",$_SERVER["DOCUMENT_ROOT"]) or $_SERVER["HOSTNAME"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="vpn.postvak.net" or $_SERVER["HOSTNAME"]=="vpnonline.postvak.net" or substr($_SERVER["PHP_SELF"],0,21)=="/home/webtastic/html/") {
 			if($GLOBALS["mysqlsettings"]["name"]["local"]) $GLOBALS["mysqlsettings"]["name"]["remote"]=$GLOBALS["mysqlsettings"]["name"]["local"];
 			if($GLOBALS["mysqlsettings"]["localhost"]) {
-				$GLOBALS["mysqlsettings"]["host"]=$GLOBALS["mysqlsettings"]["localhost"];
+				if($GLOBALS["mysqlsettings"]["localhost"]=="ss.postvak.net") {
+					$GLOBALS["mysqlsettings"]["host"]="127.0.0.1";
+				} else {
+					$GLOBALS["mysqlsettings"]["host"]=$GLOBALS["mysqlsettings"]["localhost"];
+				}
 			} else {
-				$GLOBALS["mysqlsettings"]["host"]="ss.postvak.net";
+				$GLOBALS["mysqlsettings"]["host"]="127.0.0.1";
 			}
-			if($_SERVER["HTTP_HOST"]=="bl2.postvak.net" and $GLOBALS["mysqlsettings"]["host"]=="ss.postvak.net") {
+			if(($_SERVER["HTTP_HOST"]=="vpn.postvak.net" or $_SERVER["HTTP_HOST"]=="vpnonline.postvak.net")) {
 				$GLOBALS["mysqlsettings"]["host"]="127.0.0.1:13306";
 			}
 			$GLOBALS["mysqlsettings"]["user"]="dbmysql";
@@ -91,7 +95,7 @@ class DB_Sql {
     /* establish connection, select database */
     if ( 0 == $this->Link_ID ) {
 
-#	if($_SERVER["HOSTNAME"]=="bl.postvak.net") {    
+#	if($_SERVER["HOSTNAME"]=="bl.postvak.net") {
 #		$this->Link_ID=@mysql_connect($Host, $User, $Password,MYSQL_CLIENT_COMPRESS);
 #	} else {
 		$this->Link_ID=@mysql_pconnect($Host, $User, $Password);
@@ -106,7 +110,7 @@ class DB_Sql {
         return 0;
       }
     }
-    
+
     return $this->Link_ID;
   }
 
@@ -189,7 +193,7 @@ class DB_Sql {
     else {
       $this->halt("seek($pos) failed: result has ".$this->num_rows()." rows");
 
-      /* half assed attempt to save the day, 
+      /* half assed attempt to save the day,
        * but do not consider this documented or even
        * desireable behaviour.
        */
@@ -204,7 +208,7 @@ class DB_Sql {
   /* public: table locking */
   function lock($table, $mode="write") {
     $this->connect();
-    
+
     $query="lock tables ";
     if (is_array($table)) {
       while (list($key,$value)=each($table)) {
@@ -225,7 +229,7 @@ class DB_Sql {
     }
     return $res;
   }
-  
+
   function unlock() {
     $this->connect();
 
@@ -279,7 +283,7 @@ class DB_Sql {
   /* public: sequence numbers */
   function nextid($seq_name) {
     $this->connect();
-    
+
     if ($this->lock($this->Seq_Table)) {
       /* get sequence number (locked) and increment */
       $q  = sprintf("select nextid from %s where seq_name = '%s'",
@@ -287,7 +291,7 @@ class DB_Sql {
                 $seq_name);
       $id  = @mysql_query($q, $this->Link_ID);
       $res = @mysql_fetch_array($id);
-      
+
       /* No current value, make one */
       if (!is_array($res)) {
         $currentid = 0;
@@ -353,11 +357,11 @@ class DB_Sql {
       if (!$id)
         $this->halt("Metadata query failed.");
     } else {
-      $id = $this->Query_ID; 
+      $id = $this->Query_ID;
       if (!$id)
         $this->halt("No query specified.");
     }
- 
+
     $count = @mysql_num_fields($id);
 
     // made this IF due to performance (one if is faster than $count if's)
@@ -371,7 +375,7 @@ class DB_Sql {
       }
     } else { // full
       $res["num_fields"]= $count;
-    
+
       for ($i=0; $i<$count; $i++) {
         $res[$i]["table"] = @mysql_field_table ($id, $i);
         $res[$i]["name"]  = @mysql_field_name  ($id, $i);
@@ -381,7 +385,7 @@ class DB_Sql {
         $res["meta"][$res[$i]["name"]] = $i;
       }
     }
-    
+
     // free the result only if we were called on a table
     if ($table) @mysql_free_result($id);
     return $res;
@@ -393,7 +397,7 @@ function halt($msg) {
 	$this->Error = @mysql_error($this->Link_ID);
 	$this->Errno = @mysql_errno($this->Link_ID);
 	if ($this->Errno==1062) return;
-	
+
 	# Bestand en regelnummer bepalen
 	$debug=@debug_backtrace();
 	if(is_array($debug)) {
@@ -417,7 +421,7 @@ function halt($msg) {
 	} else {
 	    	if($GLOBALS["wt_error_handler"]) {
 	    		if($this->Errno==2006 and $GLOBALS["wt_mysql_lost_nolog"]) {
-	    		
+
 	    		} else {
 			    	$msg=$msg.($this->Error ? " / ".$this->Error." (".$this->Errno.")" : "");
 		    		if($filename) {

@@ -17,7 +17,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["WINDIR"]<>"") 
 if($vars["lokale_testserver"]) {
 
 	# Testsite bepalen indien niet bekend
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and !$vars["testsite"]) {
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$vars["cms_basehref"]="http://ss.postvak.net/chalet/";
 
 		if(!$vars["testsite"]) {
@@ -27,7 +27,7 @@ if($vars["lokale_testserver"]) {
 	
 	# Testsite bepalen voor Miguel
 	if($_SERVER["WINDIR"]<>"") {
-		$vars["cms_basehref"]="http://192.168.1.32/chalet/";
+		$vars["cms_basehref"]="http://test.chalet.nl/chalet/";
 		if(!$vars["testsite"]) {
 			$vars["testsite"]=@file_get_contents($_SERVER["DOCUMENT_ROOT"]."/chalet/tmp/testsite.txt");
 		}
@@ -62,6 +62,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-1";
 	$vars["facebook_pageid"]="156825034385110";
+	$vars["twitter_user"]="ChaletNL";
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
@@ -158,6 +159,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-2";
 	$vars["facebook_pageid"]="168449903215909";
+	$vars["twitter_user"]="Zomerhuisje";
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
@@ -246,6 +248,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-11";
 	$vars["facebook_pageid"]="272671556122756";
+	$vars["twitter_user"]="Italissima";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
@@ -524,24 +527,25 @@ $vars["websiteinfo"]["taal"]["C"]="nl";
 
 # Diverse vars
 
-$vars["websites"]=array("C"=>"Chalet.nl Winter","Z"=>"Zomerhuisje.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu Engelstalig Winter","S"=>"Chalet.eu Engelstalig Zomer (niet meer actief)","T"=>"Chalettour.nl Winter","O"=>"Chalettour.nl Zomer (niet meer actief)","B"=>"Chalet.be Winter","N"=>"Zomerhuisje.eu","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima");
-$vars["websites_actief"]=array("C"=>"Chalet.nl Winter","Z"=>"Zomerhuisje.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu Engelstalig Winter","T"=>"Chalettour.nl Winter","B"=>"Chalet.be Winter","N"=>"Zomerhuisje.eu","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima");
-$vars["websites_basehref"]=array("C"=>"http://www.chalet.nl/","Z"=>"http://www.zomerhuisje.nl/","W"=>"http://www.wintersportaccommodaties.nl/","E"=>"http://www.chalet.eu/","S"=>"http://www.chalet.nl/summer/","T"=>"http://www.chalettour.nl/","O"=>"http://www.chalettour.nl/zomer/","B"=>"http://www.chalet.be/","N"=>"http://www.zomerhuisje.eu/","V"=>"http://www.chaletsinvallandry.nl/","Q"=>"http://www.chaletsinvallandry.com/","I"=>"http://www.italissima.nl/");
+$vars["websites"]=array("C"=>"Chalet.nl Winter","Z"=>"Zomerhuisje.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu Engelstalig Winter","S"=>"Chalet.eu Engelstalig Zomer (niet meer actief)","T"=>"Chalettour.nl Winter","O"=>"Chalettour.nl Zomer (niet meer actief)","B"=>"Chalet.be Winter","D"=>"Chalet Duitstalig Winter","N"=>"Zomerhuisje.eu","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima");
+$vars["websites_actief"]=array("C"=>"Chalet.nl Winter","Z"=>"Zomerhuisje.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu Engelstalig Winter","T"=>"Chalettour.nl Winter","B"=>"Chalet.be Winter","D"=>"Chalet Duitstalig Winter","N"=>"Zomerhuisje.eu","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima");
+$vars["websites_basehref"]=array("C"=>"http://www.chalet.nl/","Z"=>"http://www.zomerhuisje.nl/","W"=>"http://www.wintersportaccommodaties.nl/","E"=>"http://www.chalet.eu/","S"=>"http://www.chalet.nl/summer/","T"=>"http://www.chalettour.nl/","O"=>"http://www.chalettour.nl/zomer/","B"=>"http://www.chalet.be/","D"=>"http://www.chalet.eu/","N"=>"http://www.zomerhuisje.eu/","V"=>"http://www.chaletsinvallandry.nl/","Q"=>"http://www.chaletsinvallandry.com/","I"=>"http://www.italissima.nl/");
 $vars["websites_inactief"]=array("S"=>true,"O"=>true);
 #$vars["websites_basehref_siteid"]=array(1=>"http://www.chalet.nl/",2=>"http://www.wintersportaccommodaties.nl/",3=>"http://www.zomerhuisje.nl/",4=>"http://www.chalettour.nl/",5=>"http://www.chalettour.nl/zomer/",6=>"http://www.chaletsinvallandry.nl/");
 #$vars["websites_wzt_siteid"]=array(1=>1,2=>1,3=>2,4=>1,5=>2,6=>1);
 #$vars["websitetype_namen"]=array(1=>"Chalet.nl / Chalet.eu winter",2=>"Wintersportaccommodaties.nl",3=>"Chalet.nl / Chalet.eu zomer",4=>"Chalettour.nl winter",5=>"Chalettour.nl zomer");
 #$vars["wederverkoop_sites"]=array("T","O","Z");
 
-$vars["websites_wzt"][1]=array("C"=>"Chalet.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)");
+$vars["websites_wzt"][1]=array("C"=>"Chalet.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","D"=>"Chalet (Duitstalig)","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)");
 $vars["websites_wzt"][2]=array("Z"=>"Zomerhuisje.nl","N"=>"Zomerhuisje.eu (gericht op België)","S"=>"Chalet.eu Engelstalig Zomer (niet meer actief)","O"=>"Chalettour.nl Zomer (niet meer actief)","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima");
 
-$vars["websites_wzt_actief"][1]=array("C"=>"Chalet.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)");
+$vars["websites_wzt_actief"][1]=array("C"=>"Chalet.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","D"=>"Chalet Duitstalig","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)");
 $vars["websites_wzt_actief"][2]=array("Z"=>"Zomerhuisje.nl","N"=>"Zomerhuisje.eu (gericht op België)","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima");
 
 #$vars["websitetype_namen_oud"]=array(1=>"Chalet.nl/.eu/.be winter",2=>"Wintersportaccommodaties.nl",3=>"Zomerhuisje.nl/.eu",4=>"Chalettour.nl (wederverkoop)",5=>"Chalettour.nl zomer (niet meer actief)",6=>"Chalets in Vallandry (.nl en .com)");
 $vars["websitetype_namen"]=array(1=>"Chalet.nl/.eu/.be",2=>"Wintersportaccommodaties.nl",3=>"Zomerhuisje.nl/.eu",4=>"Chalettour.nl",6=>"Chalets in Vallandry (.nl en .com)",7=>"Italissima");
 
+# websitetype_namen koppelen aan seizoentype (1=winter, 2=zomer)
 $vars["websitetype_namen_wzt"]=array(1=>1,2=>1,3=>2,4=>1,5=>2,6=>1,7=>2);
 
 ?>

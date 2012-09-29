@@ -36,6 +36,12 @@ if($_GET["wzt"]==3) {
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(37,"yesno","tonen");
+
+unset($vars["websites_wzt"][1]["D"]);
+unset($vars["websites_wzt"][1]["Q"]);
+unset($vars["websites_wzt"][1]["V"]);
+unset($vars["websites_wzt"][1]["W"]);
+
 $cms->db_field(37,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(37,"text","link");
 $cms->db_field(37,"text","titel");
@@ -61,6 +67,9 @@ $cms->settings[37]["list"]["add_link"]=true;
 $cms->list_sort[37]=array("volgorde","begindatum","titel");
 $cms->list_field(37,"titel","Koptekst");
 $cms->list_field(37,"tonen","Tonen");
+if($_GET["wzt"]==1) {
+	$cms->list_field(37,"websites","Websites");
+}
 $cms->list_field(37,"volgorde","Volgorde");
 $cms->list_field(37,"begindatum","Begindatum",array("date_format"=>"DAG D MAAND JJJJ"));
 $cms->list_field(37,"einddatum","Einddatum",array("date_format"=>"DAG D MAAND JJJJ"));
@@ -81,13 +90,15 @@ if($cms->set_delete_init(37)) {
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(37,0,"tonen","Tonen op de website",array("selection"=>true));
-#$cms->edit_field(37,0,"websites","Websites",array("selection"=>($_GET["wzt"]==1 ? "B,C,E,T,W" : "N,O,S,Z")),"",array("one_per_line"=>true));
 
 if($_GET["wzt"]==1) {
+
+	$cms->edit_field(37,0,"websites","Websites",array("selection"=>"B,C,E,T"),"",array("one_per_line"=>true));
+
 	$cms->edit_field(37,1,"titel","Koptekst");
-	$cms->edit_field(37,1,"titel_en","Koptekst (Engels)");
+	$cms->edit_field(37,0,"titel_en","Koptekst (Engels)");
 	$cms->edit_field(37,1,"omschrijving","Omschrijving");
-	$cms->edit_field(37,1,"omschrijving_en","Omschrijving (Engels)");
+	$cms->edit_field(37,0,"omschrijving_en","Omschrijving (Engels)");
 } elseif($_GET["wzt"]==3) {
 	$cms->edit_field(37,1,"titel","Titel");
 	$cms->edit_field(37,1,"omschrijving","Omschrijving");
@@ -126,6 +137,12 @@ if($cms_form[37]->filled) {
 		if(substr($cms_form[37]->input["link"],0,1)<>"/") {
 			$cms_form[37]->error("link","moet beginnen met een slash (/)");
 		}
+
+		# Verplichte Engelse velden bij Chalet.eu aangevinkt:
+		if(preg_match("/E/",$cms_form[37]->input["websites"])) {
+			if(!$cms_form[37]->input["titel_en"]) $cms_form[37]->error("titel_en","obl");
+			if(!$cms_form[37]->input["omschrijving_en"]) $cms_form[37]->error("omschrijving_en","obl");
+		}
 	}
 }
 
@@ -135,7 +152,7 @@ function form_before_goto($form) {
 	$db=new DB_sql;
 	$db2=new DB_sql;
 	global $login,$vars,$cms;
-	
+
 	$volgorde=0;
 	$db->query("SELECT blokhoofdpagina_id FROM blokhoofdpagina WHERE ".$cms->db[37]["where"]." ORDER BY volgorde;");
 	while($db->next_record()) {

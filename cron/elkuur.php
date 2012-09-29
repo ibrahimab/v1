@@ -43,9 +43,9 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]
 		$seizoen_eind[$db->f("seizoen_id")]=$db->f("eind");
 	}
 	$db->query("UPDATE korting SET delete_after_automatische_korting=1 WHERE automatische_korting=1;");
-#echo $db->lastquery."<br>";	
+#echo $db->lastquery."<br>";
 	$db->query("SELECT DISTINCT ta.seizoen_id, ta.type_id FROM tarief ta, type t WHERE ta.type_id=t.type_id AND t.leverancier_id IN (SELECT leverancier_id FROM leverancier WHERE zwitersefranken=1) AND ta.week>'".time()."';");
-#echo $db->lastquery."<br>";	
+#echo $db->lastquery."<br>";
 	while($db->next_record()) {
 		$db2->query("SELECT korting_id FROM korting WHERE automatische_korting=1 AND type_id='".addslashes($db->f("type_id"))."' AND seizoen_id='".addslashes($db->f("seizoen_id"))."';");
 		if($db2->next_record()) {
@@ -66,7 +66,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]
 #echo $db2->lastquery."<br>";
 				$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 			}
-			
+
 		}
 #		echo "<br>&nbsp;<hr>&nbsp;<br>";
 	}
@@ -74,9 +74,9 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]
 	$db->query("DELETE FROM korting_tarief WHERE korting_id IN (SELECT korting_id FROM korting WHERE delete_after_automatische_korting=1 AND automatische_korting=1);");
 	$db->query("DELETE FROM korting WHERE delete_after_automatische_korting=1 AND automatische_korting=1;");
 	$db->query("UPDATE korting SET delete_after_automatische_korting=0;");
-	
+
 	unset($seizoen_zwitersefranken_kortingspercentage,$seizoen_begin,$seizoen_eind,$week,$kortingid);
-}	
+}
 
 #
 # Alle kortingen/aanbiedingen doorrekenen
@@ -117,14 +117,14 @@ while(list($key,$value)=each($hoogseizoen)) {
 
 	reset($doorloop_array);
 	while(list($toonper,$dbfield)=each($doorloop_array)) {
-		
+
 		unset($laagseizoen);
 		# hoogste prijs buiten hoogseizoen bepalen
 		$db2->query("SELECT t.type_id, MAX(ta.".$dbfield.") AS maximum FROM tarief ta, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND ta.".$dbfield.">0 AND ta.seizoen_id='".$key."' AND ta.type_id=t.type_id AND a.toonper='".$toonper."' AND ta.week IN (".substr($inquery_buitenhoogseizoen,1).") GROUP BY type_id;");
 		while($db2->next_record()) {
 			$laagseizoen[$db2->f("type_id")]=$db2->f("maximum");
 		}
-		
+
 		# laagste hoogseizoen-prijs opvragen (en kijken of deze hoger is dan max-bedrag)
 		$db2->query("SELECT t.type_id, MIN(ta.".$dbfield.") AS hoogseizoentarief FROM tarief ta, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND ta.".$dbfield.">0 AND ta.seizoen_id='".$key."' AND ta.type_id=t.type_id AND a.toonper='".$toonper."' AND ta.week IN (".substr($inquery_hoogseizoen,1).") AND ta.week>'".time()."' GROUP BY type_id;");
 		while($db2->next_record()) {
@@ -160,7 +160,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		}
 	}
 	if($leverancier_geen_import) {
-		
+
 		$mail=new wt_mail;
 		$mail->fromname="Chalet.nl XML-systeem";
 		$mail->from="system@chalet.nl";
@@ -168,15 +168,15 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		$mail->to="info@chalet.nl";
 		$mail->bcc="systeembeheer@webtastic.nl";
 		$mail->subject="Geen XML-import";
-	
+
 		$mail->plaintext="";
-	
+
 		$mail->html_top="";
 		$mail->html="<B>Bij de volgende leverancier(s) heeft op ".DATUM("DAG D MAAND JJJJ",$gisteren)." de hele dag geen XML-import plaatsgevonden:</B><ul>".$leverancier_geen_import."</ul>";
 		$mail->html_bottom="";
-	
+
 		$mail->send();
-	
+
 	}
 
 }
@@ -220,18 +220,18 @@ if((date("H")>12 and date("H")<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]
 
 			$mail->subject=txt("mail_subject","enquete");
 			$mail->plaintext=txt("mail_body","enquete");
-			
+
 			$link=$gegevens["stap1"]["website_specifiek"]["basehref"]."enquete.php?bid=".$gegevens["stap1"]["boekingid"]."&ch=".substr(sha1($gegevens["stap1"]["boekingid"]."kkSLlejkd"),0,8);
 			$mail->plaintext=ereg_replace("\[LINK\]",$link,$mail->plaintext);
 			$mail->plaintext=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$mail->plaintext);
 			$mail->plaintext=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$mail->plaintext);
-		
+
 			if(!ereg("MISSING",$mail->subject)) {
 				$mail->send();
-	
+
 				echo "enquete-uitnodiging verstuurd aan ".$gegevens["stap2"]["email"]." ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])." - ".date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]).": ".$gegevens["stap1"]["boekingid"]."\n\n";
 				flush();
-			
+
 				$db2->query("UPDATE boeking SET mailverstuurd_enquete=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 				chalet_log("enquête-verzoek verstuurd aan ".$mail->to,false,true);
 			}
@@ -316,7 +316,7 @@ while($db->next_record()) {
 $db->query("SELECT zoekstatistiek_id, wzt, zoekopdracht, tekstzoekopdracht, aantalresultaten, UNIX_TIMESTAMP(datumtijd) AS datumtijd FROM zoekstatistiek WHERE compleet=1 AND intopopgeslagen=0 AND UNIX_TIMESTAMP(datumtijd)<'".(time()-3600)."';");
 while($db->next_record()) {
 	$maand=date("Ym");
-	
+
 	# Gewone zoekopdracht
 	if($db->f("zoekopdracht")) {
 		$db2->query("INSERT INTO zoekstatistiek_top SET type=1, wzt='".$db->f("wzt")."', maand='".$maand."', zoekopdracht='".addslashes($db->f("zoekopdracht"))."', aantal=1;");
@@ -324,7 +324,7 @@ while($db->next_record()) {
 			$db2->query("UPDATE zoekstatistiek_top SET aantal=aantal+1 WHERE type=1 AND wzt='".$db->f("wzt")."' AND maand='".$maand."' AND zoekopdracht='".addslashes($db->f("zoekopdracht"))."';");
 		}
 	}
-	
+
 	# Tekstzoekopdracht
 	if($db->f("tekstzoekopdracht")) {
 		$db2->query("INSERT INTO zoekstatistiek_top SET type=2, wzt='".$db->f("wzt")."', maand='".$maand."', zoekopdracht='".addslashes($db->f("tekstzoekopdracht"))."', aantal=1;");
@@ -332,7 +332,7 @@ while($db->next_record()) {
 			$db2->query("UPDATE zoekstatistiek_top SET aantal=aantal+1 WHERE type=2 AND wzt='".$db->f("wzt")."' AND maand='".$maand."' AND zoekopdracht='".addslashes($db->f("tekstzoekopdracht"))."';");
 		}
 	}
-	
+
 	# Zonder resultaten
 	if(($db->f("zoekopdracht") or $db->f("tekstzoekopdracht")) and $db->f("aantalresultaten")==0) {
 		$zoekopdracht=$db->f("zoekopdracht");
@@ -361,7 +361,7 @@ while($db->next_record()) {
 			}
 		}
 	}
-	
+
 	$db2->query("UPDATE zoekstatistiek SET intopopgeslagen=1 WHERE zoekstatistiek_id='".$db->f("zoekstatistiek_id")."';");
 
 }
@@ -382,13 +382,13 @@ if(date("H")==3) {
 
 	# Bezoeken zonder ad of referer wissen
 	$db->query("DELETE FROM bezoek WHERE UNIX_TIMESTAMP(datumtijd)<'".(time()-86400)."' AND ad=0 AND referer='';");
-	
+
 	# Browser-info wissen na 1 dag
 	$db->query("UPDATE bezoek SET browser='' WHERE UNIX_TIMESTAMP(datumtijd)<'".(time()-86400)."';");
 
 	# Tabel bezoeker zonder gegevens bijwerken (na 1 dag wissen)
 	$db->query("DELETE FROM bezoeker WHERE achternaam IS NULL AND last_acc IS NULL AND UNIX_TIMESTAMP(gewijzigd)<'".(time()-86400)."';");
-	
+
 	# Tabel bezoeker met alleen last_acc bijwerken (na 12 maanden wissen)
 	$db->query("DELETE FROM bezoeker WHERE achternaam IS NULL AND UNIX_TIMESTAMP(gewijzigd)<'".mktime(0,0,0,date("m")-12,date("d"),date("Y"))."';");
 
@@ -408,9 +408,11 @@ if(date("H")==4 or date("H")==18 or $argv[1]=="xmlopnieuw") {
 	}
 	$doorloop_array=array(
 		"tradetracker_C"=>"http://www.chalet.nl/xml/tradetracker.php?nocache=1",
+		"tradetracker_B"=>"http://www.chalet.be/xml/tradetracker.php?nocache=1",
 		"tradetracker_Z"=>"http://www.zomerhuisje.nl/xml/tradetracker.php?nocache=1",
 		"tradetracker_I"=>"http://www.italissima.nl/xml/tradetracker.php?nocache=1",
 		"tradetracker_aanbiedingen_C"=>"http://www.chalet.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
+		"tradetracker_aanbiedingen_B"=>"http://www.chalet.be/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_Z"=>"http://www.zomerhuisje.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_I"=>"http://www.italissima.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1"
 	);
@@ -456,7 +458,7 @@ if(date("H")==4) {
 	$db->query("SELECT boeking_id, totale_reissom, boekingsnummer FROM boeking WHERE totale_reissom>0 AND boekingsnummer<>'' AND geannuleerd=0 AND aankomstdatum>'".time()."' ORDER BY aankomstdatum;");
 	while($db->next_record()) {
 		$gegevens=get_boekinginfo($db->f("boeking_id"));
-		if($gegevens["stap1"]["totale_reissom"]>0 and $gegevens["fin"]["totale_reissom"]>0) {	
+		if($gegevens["stap1"]["totale_reissom"]>0 and $gegevens["fin"]["totale_reissom"]>0) {
 			$verschil=round($gegevens["stap1"]["totale_reissom"]-$gegevens["fin"]["totale_reissom"],2);
 			if(abs($verschil)>0.01) {
 				$factuur_bedrag_wijkt_af=1;
@@ -499,7 +501,7 @@ if(date("H")==5) {
 	$db->query("DELETE FROM aanbieding_type WHERE aanbieding_id NOT IN (SELECT aanbieding_id FROM aanbieding);");
 	$db->query("DELETE FROM aanbieding_accommodatie WHERE aanbieding_id NOT IN (SELECT aanbieding_id FROM aanbieding);");
 	$db->query("DELETE FROM aanbieding_leverancier WHERE aanbieding_id NOT IN (SELECT aanbieding_id FROM aanbieding);");
-	
+
 	$db->query("SHOW TABLE STATUS;");
 	while($db->next_record()) {
 		$db2->query("ANALYZE TABLE `".$db->f("Name")."`;");

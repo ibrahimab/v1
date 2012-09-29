@@ -14,22 +14,22 @@
 * Auteur/author... : Pascal CASENOVE  phpdev@cawete.com
 * English version. : Eve CASENOVE     eve@cawete.com
 *
-* licence......... : The GNU General Public License (GPL) 
+* licence......... : The GNU General Public License (GPL)
 *					 http://www.opensource.org/licenses/gpl-license.html
 *
 * changements..... : fixe set_timeout automatique, separe ( merci à ADL )
 *					 ajout de la sauvegarde au vol sans compression du fichier
 *					 reecriture de la methode backup pour en faciliter la lecture
-*					 problème de restauration avec certaine configuations de données (merci à Laurent)					 
+*					 problème de restauration avec certaine configuations de données (merci à Laurent)
 *
 * change ......... : set_timout detect, fly backup, rewrite backup methode to make easy to read
 *
-* A faire......... : compression à la volée					 
+* A faire......... : compression à la volée
 *					 une autre classe en preparation pour sauvegarder en une seule opreration
 *					 les bases et le site dans un seul fichier compresse
-* 
+*
 * Todo	.......... : fly compress
-*					 
+*
 * Suggestion...... : Pour toutes remarques, suggestions ... n'hésitez pas à me contacter
 *					 pascal@cawete.com
 * Suggestions..... : for all comments, suggestions… don’t hesitate, contact me
@@ -44,9 +44,9 @@
 *					 doit etre simple: j'ouvre la page web je telecharge le fichier, c'est fini.
 *					 le fichier peut etre compresse avec la gzlib de PHP,donc sans utiliser le shell et
 *					 quelque soit le systeme d'exploitation.
-*					 
+*
 *					 Pour la restoration je n'ai rien prevu, simplement parceque pour reconstruire une base
-*					 il vaut mieux savoir et verifier ce que l'on fait. il vaut donc mieux utiliser un des 
+*					 il vaut mieux savoir et verifier ce que l'on fait. il vaut donc mieux utiliser un des
 *					 nombreux outils prevus a cet effet qui travaillent en direct sur le port MySQL.
 *					 Certain outils de traitement des fichier sql ne suppoortent pas les commantaire.
 *					 en mettant $class->format_out = "no_comment" le probleme est regle
@@ -55,11 +55,11 @@
 *					 To use it in PHP you shoul have an access to the shell and to be in the path
 *					 It is not always the case following the host, the system, Microsoft, Linux…
 * 					 I needed a tool that generates a full back up of basis to the most curent format and independant of the plateform
-*					 As a basic user should be able to do the backup, the system must be easy 
-*					 : I open the webpage, I download the file THAT’S IT.  
-*					 The file can be ziped with the gzlib of PHP without using the shell or any operating system	
+*					 As a basic user should be able to do the backup, the system must be easy
+*					 : I open the webpage, I download the file THAT’S IT.
+*					 The file can be ziped with the gzlib of PHP without using the shell or any operating system
 *
-*					 For the restoration I planed nothing because to rebuild a basis it is better to understand and check what is done . 
+*					 For the restoration I planed nothing because to rebuild a basis it is better to understand and check what is done .
 *					 It is then better to use one of the tools done for it and that work directly on MySQL port.
 *				 	 Some of that tools don’t handle comments, Adding $class->format_out = "no_comment" the problem is solved
 *					 If you must to restore in PHP and you think you know what you do, contact me.
@@ -70,73 +70,73 @@
 *					 la securite n'est pas geree par cette class. Si vous ne le faite pas
 *					 avec des htaccess ou du code n'importe quel visiteur peut avoir une copie de vos bases
 *					 La compression est desactivee pour la sauvegarde a la volee
-* reamarks ....... : the back up file is created in the script directory. 
+* reamarks ....... : the back up file is created in the script directory.
 *					 You should be allowed to write in that directory because the security is not administrated by that class.
 *					 If you don’t do it with some htaccess or encoding it any visitor could have a copy of your data.
-*                    Compress is disable if fly is on.					 
+*                    Compress is disable if fly is on.
 *
-* Methodes........ : **nettoyage() 
+* Methodes........ : **nettoyage()
 *					   permet de vider le repertoire temporaire dans lequel sont crees les sauvegardes
 *					   si cette methode n'est pas utilisee les sauvegardes sont archivées.
 *
 *					   Allows to empty the temp directory in which are all the backup.
 *					   If you don’t use that method the backups are archived
 *
-*                    **backup($fichier) 
+*                    **backup($fichier)
 *					   realise la sauvegarde dans le fichier $fichier
 *					   si $fichier est ommis un nom de fichier est attribue (methode recomandee)
 *					   le fichier est cree dans un sous repertoire temp du repertoire ou s'execute le script
-*					   Si temp n'existe pas il est cree.verifiez bien si vous avez le droit d'ecrire. 
+*					   Si temp n'existe pas il est cree.verifiez bien si vous avez le droit d'ecrire.
 *					   Pour la sauvegarde a la volée ( $fly=1 ) rien n'est ecrit sur le disque.
 *					   le nom du fichier est utilise pour le transfert HTTP
 *
 *					   makes the backup in the file $fichier
-*					   if $fichier is forgotten un name of file is given ( recomended method) 
+*					   if $fichier is forgotten un name of file is given ( recomended method)
 *      				   the file is created in a temp subdirectory of the directory is executed in the script
 *				       if temp doesn’t exist it is created ( Check if you are allowed to write )
 *					   in on fly backup nothing is write on hard drive, $fichier is the name of the file
 *					   in HTTP transfert
 *
-*					 **compress() 
+*					 **compress()
 *					   compresse au format gzip le fichier cree avec backup et le renome en .gz
 *					   il vaut mieux utiliser le flag compress_ok pour activer ou desactiver l'utilisation de la methode
 *
-*					   This methode zip to the format gzip the file created with backup and rename it in .gz			
+*					   This methode zip to the format gzip the file created with backup and rename it in .gz
 *					   It' better to use the compress_ok flag to activate or desactivate compress for the class.
-*			
-* Proprietes...... : **format_out 
+*
+* Proprietes...... : **format_out
 * Property			   si ="no_comment" la sauvegarde est faite sans commentaires
 *					   utilie pour certains outils de restoration. A n'utiliser que si votre outil de restoration
 *					   ne lit pas correctement le fichier
 *
-*					   the backup is done without comment 
-*					   usefull for some restoring tools. Use it only if your restoring tool doesn’t read correctly the file					   
+*					   the backup is done without comment
+*					   usefull for some restoring tools. Use it only if your restoring tool doesn’t read correctly the file
 *
-*					 **$fly 
+*					 **$fly
 *					   la sauvegarde n'est pas écrite sur le disque elle est directement telegargee
 *					   The backup is not write on the server, it send to the browser on fly.
 *					 **$compress_ok
 *						 active la compression gz sauf si $fly
 *						 Activate compression exept if $fly is on (=1)
-*						
+*
 *
 * Parametres...... : $sav = new phpmysqldump($link, $host, $user, $password, $base, $langue);
-* Parameters		 
+* Parameters
 *					 **$link est un link vers une base deja ouverte, les autres parametre sont alors ""
 *					 si $link est "" les autres parametres sont utilises et n'ont pas besoin de commentaires
 *					 se sont les parametre de la base a sauvegarder
 
 *					 **$link is a valid link to an already open base, the other parameters are then  ""
-*				 	 If $link is "" the other parameters are used and don’t need comments. 
+*				 	 If $link is "" the other parameters are used and don’t need comments.
 *					 They are the parameters of the base to backup
-*					
+*
 *   				 **$langue par defaut "fr" "en" supporte le reste viendra
-*					 $langue default language is fr en is support other comming soon				
+*					 $langue default language is fr en is support other comming soon
 ****/
-		
+
 /*******************************************************************
 *
-*    class 
+*    class
 *
 ********************************************************************/
 @set_time_limit(0);
@@ -144,7 +144,7 @@
 class phpmysqldump
 {
 	var $link;				// lien vers la base a sauvegarder 		//link to the database to backup
-	var $base;				// nom de la base						// the database name						
+	var $base;				// nom de la base						// the database name
 	var $errr;				// remontees d'erreurs					// for error messages
 	var $host;				// nom ou ip du serveur de MySQL		// name or IP of the MySQL server
 	var $filename; 			// nom du fichier de sauvegarde			// name of the backup file
@@ -157,36 +157,36 @@ class phpmysqldump
 	var $language;			// pret pour d'autres langues defaut "fr" sinon "en" "sp" "ge" 	// language
 	var $fly;				// flag si oui sauvegarde au vol								// flag for fly backup
 	var $compress_ok;		// flag pour la compression										// flag for compress
-	var $data_yes=1;		// si pas 1 sav structure seulement								
-							// flag 1 structure and data backup, other only structure 
+	var $data_yes=1;		// si pas 1 sav structure seulement
+							// flag 1 structure and data backup, other only structure
 	var $no_time_limit=TRUE;// si la fonction set_time_limit() est désactivée devient FALSE
-							// time limit for big database			
+							// time limit for big database
 //**** constructeur *********************************************
 	function phpmysqldump( $host, $user, $password, $base, $langue="fr", $link=NULL)
-	{	
+	{
 		$this->language=$langue;
 		// recherche si set_time_limit() est desactivee  // look for set_time_limit() active
-		if(get_cfg_var("safe_mode")){ 
+		if(get_cfg_var("safe_mode")){
 #			$this->no_time_limit=FALSE;
 		}
 		//***
-		
+
 		//ouverture de la base												// opening the database
 		if($link){ 			// si un lien ouvert vers la base est fourni 	// if a MySQL link is provided
 			$this->link = $link;
-		}else{				// sinon login password ...						// else host, login, password ...			
+		}else{				// sinon login password ...						// else host, login, password ...
 			$this->link = @mysql_connect($host, $user, $password);
 			if(!$this->link ){$this->errr=$this->message("err_mysql"); return false;}
 		}
-		
+
 		if(!mysql_select_db($base)){$this->errr=$this->message("err_base"); return false;}
 		$this->base=$base;
 		$this->host=$host;
-		
+
 		$this->max_aantal_inserts_tegelijk=10000;
 	}
 //**** fin du constructeur **************************************
-	// dirige la sortie du dump navigateur client ou fichier			// write backup to file or to browser	
+	// dirige la sortie du dump navigateur client ou fichier			// write backup to file or to browser
 	function ecrire($val){
 		if($this->fly){echo $val;}else{fwrite($this->fp, $val);}
 	}
@@ -194,12 +194,12 @@ class phpmysqldump
 //***************************************************************
 	// si envoi vers le navigateur entete HTTP							// HTTP header for on fly backup
 	function entete($filename){
-		header( "Content-type: application/force-download");  
+		header( "Content-type: application/force-download");
     	header( "Content-Disposition: inline; filename=\"" . $filename . "\"");
-		header( "Expires: Mon, 1 Jul 1999 01:00:00 GMT"); 
+		header( "Expires: Mon, 1 Jul 1999 01:00:00 GMT");
     	header( "Cache-Control: no-cache, must-revalidate, post-check=0, pre-check=0");
 	}
-	
+
 //************** dump de la base ***************** beging the dump****
 	function backup($fichier="") // si $fichier null ignoré sinon utilise comme nom de fichier de sauvegarde
 	{							 // $fichier is optional If is used is the name of the backup file
@@ -207,8 +207,8 @@ class phpmysqldump
 		if($this->errr)
 		{
 			return false;
-		}else{ 
-			
+		}else{
+
 			if($fichier){ 				// *** si un nom de fichier en parametre on l'utilise
 										// *** if you provide a file name we use it
 				$this->filename=$this->sousdir.$fichier;
@@ -229,12 +229,12 @@ class phpmysqldump
 		if($this->compress_ok && !$this->fly){$this->compress();}
 	}
 	//*********
-	function backup_suite($fichier="") 		// construction du backup  // build backup	
-	{		
+	function backup_suite($fichier="") 		// construction du backup  // build backup
+	{
 			$this->backup_comment("debut");
-			
+
 			// liste des tables  // tables list
-			$ltable = mysql_list_tables($this->base,$this->link); 
+			$ltable = mysql_list_tables($this->base,$this->link);
 			$nb_row = mysql_num_rows($ltable);
 
 			$i = 0;
@@ -261,50 +261,56 @@ class phpmysqldump
 						$ignore_table=true;
 					}
 				}
-				
-				# views niet exporteren als table				
-				if(ereg("^view_",$tablename)) {
-#					$this->ecrire("DROP VIEW IF EXISTS `$tablename`;\n");
-				  
-					// creation des views
-#					$query = "SHOW CREATE VIEW $tablename";
-#					$tbcreate = mysql_query($query);
-#					$row = mysql_fetch_array($tbcreate);
-#					$create = $row[1].";";
-#					$this->ecrire("$create\n\n");
-				
-					unset($ignore_table);
-					$i++;
-					continue;
-				}
 
+				# tabel overslaan
 				if($ignore_table) {
 					$this->ecrire("-- WEGGELATEN: ".$tablename."\n");
 					unset($ignore_table);
 					$i++;
 					continue;
 				}
+
+				// creation des views
+				$query = "SHOW CREATE VIEW `$tablename`";
+				$tbcreate = mysql_query($query);
+				$row = @mysql_fetch_array($tbcreate);
+				if($row[1]) {
+					# dit is een view
+					$this->ecrire("DROP VIEW IF EXISTS `$tablename`;\n");
+					$create = $row[1].";";
+					$create=preg_replace("/DEFINER=`[a-z0-9]+`@`[a-z0-9\.]+`/","",$create);
+					$this->ecrire("$create\n\n");
+
+					$i++;
+					continue;
+				}
+
 				$this->backup_comment("debut_table", $tablename);
+
+				# charset goed zetten
+				#$query_charset = mysql_query("SET CHARACTER SET 'latin1';");
+				$this->ecrire("SET CHARACTER SET 'latin1';\n");
+
 
 				// debut du query on vire la table si elle existe deja // if the table exist we erase it
 				$this->ecrire("DROP TABLE IF EXISTS `$tablename`;\n");
-			  
+
 				// creation des tables									// table creation
 				$query = "SHOW CREATE TABLE `$tablename`";
 				$tbcreate = mysql_query($query);
 				$row = mysql_fetch_array($tbcreate);
 				$create = $row[1].";";
 				$this->ecrire("$create\n\n");
-				
+
 				// recuperation des data								// dump of the data
 				if($this->data_yes==1) {
-					
+
 					if($this->where[$tablename]) {
 						$query = "SELECT * FROM `".$tablename."` WHERE ".$this->where[$tablename];
 					} else {
 						$query = "SELECT * FROM `$tablename`";
 					}
-					
+
 					if($this->unbuffered_query) {
 						$datacreate = mysql_unbuffered_query($query,$this->link);
 					} else {
@@ -312,14 +318,14 @@ class phpmysqldump
 					}
 
 					if (mysql_num_rows($datacreate) > 0 or $this->unbuffered_query)	{
-					
+
 						if(!$this->unbuffered_query) {
 							$this->backup_comment("debut_dump", $tablename);
 							// sauvegarde des donnees
 							$qinsert = "LOCK TABLES `$tablename` WRITE; \n";
 							$qinsert .= "INSERT INTO `$tablename` values \n  ";
 						}
-					
+
 					if($this->maximaal_aantal_rows and !$this->unbuffered_query) {
 						$maximaal_aantal_rows=$this->maximaal_aantal_rows;
 					} else {
@@ -334,7 +340,7 @@ class phpmysqldump
 						$loop_teller=0;
 					}
 					for($loop_max=0;$loop_max<=$loop_teller;$loop_max++) {
-					
+
 						if($met_loop) {
 							# query opnieuw
 							$newquery=$query." LIMIT ".intval($loop_max*$maximaal_aantal_rows).",".$maximaal_aantal_rows.";";
@@ -342,7 +348,7 @@ class phpmysqldump
 						} else {
 							# query niet opnieuw
 						}
-					
+
 						unset($header_getoond,$rowteller);
 						while($row12 = mysql_fetch_assoc($datacreate)) {
 							$rowteller++;
@@ -369,11 +375,11 @@ class phpmysqldump
 							   														// function $this->separe
 							   														// put data in an array
 							   $data = implode(",",$newrow);							// tableau -> chaine unique
-							   														// convert array in string				
+							   														// convert array in string
 							   $data = "$qinsert($data)";							// assemblage pour value() pour 1er enregistrement
-							   														// make the SQL string														
+							   														// make the SQL string
 							   $this->ecrire("$data\n");
-							   
+
 							   if($rowteller>$this->max_aantal_inserts_tegelijk) {
 								$qinsert = ";\nINSERT INTO `$tablename` VALUES \n  ";
 								$rowteller=0;
@@ -400,7 +406,7 @@ class phpmysqldump
 	//*******************************************
 	function backup_comment($section, $tablename=""){
 		if($this->format_out=="no_comment"){return;}
-		
+
 		// en tete du fichier dump  // top of the backup
 		if($section=="debut"){
 			$this->ecrire("-- PHPMySQLDump $this->version   phpdev@cawete.com \n");
@@ -416,9 +422,9 @@ class phpmysqldump
 			$this->ecrire("\n\n");
 			$this->ecrire("-- Start: ".date("r")."\n\n");
 			$this->starttime=time();
-			
-			
-			
+
+
+
 #			$this->ecrire("SET LOW_PRIORITY_UPDATES=1;\n");
 		}
 		// commentaires de debut de table 		// top of thr table section
@@ -446,7 +452,7 @@ class phpmysqldump
 		}
 	}
 	//************************************
-	
+
 	// ******* fonction utilisee pour la separer les data // to convert incoming data to backup data
 	function separe($tbl) // utilisee dans array_map dans backup pour formater la recup du query  // used in array_map
 	{
@@ -458,7 +464,7 @@ class phpmysqldump
 		return "'"."$tbl"."'";				//tout est converti en chaine  // all data become string
 	}
 	//************************************************
-			
+
 	function compress()
 	{	// compresse un fichier sans utiliser le shell				// compress file without shell
 		// pour ne pas se preocuper de la plateforme sur laquelle tourne le script
@@ -480,9 +486,9 @@ class phpmysqldump
 	//***********************************
 	function nettoyage() // pour suprimer les fichiers de sauvegardes du serveur  // destroy old backup files
 	{ 	if(!$this->errr){
-			if ($dir = @opendir($this->sousdir)) 
+			if ($dir = @opendir($this->sousdir))
 			{
-				while($file = @readdir($dir)) 
+				while($file = @readdir($dir))
 				{
 					@unlink($this->sousdir.$file);
 				}
@@ -497,30 +503,30 @@ class phpmysqldump
 	}
 	//****************************
 	function message($numero){ // messages d'erreur  // errors messages
-	
+
 		$lang=$this->language;
 		if(!$lang){$lang="fr";}
-		
+
 		$message["err_compress"][fr]="Erreur de compression de fichier";
 		$message["err_compress"][en]="Error when compress file";
 		$message["err_compress"][sp]="Erreur de compression de fichier a traduire";
 		$message["err_compress"][ge]="Erreur de compression de fichier a traduire";
-	
+
 		$message["err_fichier"][fr]="Erreur d'ouverture de fichier";
 		$message["err_fichier"][en]="Error when open file";
 		$message["err_fichier"][sp]="Erreur d'ouverture de fichier a traduire";
 		$message["err_fichier"][ge]="Erreur d'ouverture de fichier a traduire";
-				
+
 		$message["err_base"][fr]="base mysql inexistante";
 		$message["err_base"][en]="mysql database not exist";
 		$message["err_base"][sp]="base mysql inexistante a traduire";
 		$message["err_base"][ge]="base mysql inexistante a traduire";
-		
+
 		$message["err_mysql"][fr]="Erreur d'ouverture de mysql";
 		$message["err_mysql"][en]="mysql server not found";
 		$message["err_mysql"][sp]="Erreur d'ouverture de mysql a traduire";
 		$message["err_mysql"][ge]="Erreur d'ouverture de mysql a traduire";
-		
+
 		return $message[$numero][$lang];
 	}
 }

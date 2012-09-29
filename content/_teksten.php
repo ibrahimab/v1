@@ -2,7 +2,7 @@
 
 
 #
-# Gebruik in vars.php
+# Gebruik in vars.php of site-breed
 #
 
 $txt["nl"]["vars"]["dag"]="dag";
@@ -154,6 +154,9 @@ $txt["en"]["vars"]["post"]="post";
 
 $txt["nl"]["vars"]["gaverdermetboeken"]="Ga verder met boeken";
 $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
+
+$txt["nl"]["vars"]["cookiemelding"]="Om deze website beter te laten functioneren wordt er gebruik gemaakt van cookies. Lees ons [[h_1]]privacy-statement[[h_2]] voor meer informatie.";
+$txt["en"]["vars"]["cookiemelding"]="-";
 
 $txt["nl"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
 $txt["en"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
@@ -718,12 +721,12 @@ $txt["en"]["index"]["inleidingvallandry"]="Vallandry is a versatile mountain vil
 # Eerste blok
 if(date("Ymd")<=20091017) {
 	$vars["linkhoofdpagina"]["slider1"]=$vars["path"]."jubileum.php";
-	
+
 	$vars["linkhoofdpagina"]["slider1_photoadd"]="_1";
-	
+
 	$txt["nl"]["index"]["slider1_kop"]="10 jaar Chalet.nl! Actie verlengd";
 	$txt["en"]["index"]["slider1_kop"]="Party time: 10 years Chalet.nl!";
-	
+
 	$txt["nl"]["index"]["slider1_toelichting"]="Ontdek onze vernieuwde website en boek tussen 1 en 17 oktober a.s. Je krijgt dan van ons een taart thuisbezorgd!";
 	$txt["en"]["index"]["slider1_toelichting"]="Discover our new website and book up to 10 October. We will then send a cake right to your doormat!";
 } else {
@@ -731,7 +734,7 @@ if(date("Ymd")<=20091017) {
 
 	$txt["nl"]["index"]["slider1_kop"]="24-pers. chalet: korting voor hele seizoen!";
 	$txt["en"]["index"]["slider1_kop"]="24-persons chalet: all season discount!";
-	
+
 	$txt["nl"]["index"]["slider1_toelichting"]="Aan de piste in het sneeuwzekere Les Deux Alpes, 12 slaapkamers+badkamers. Zonnige ligging op het zuiden.";
 	$txt["en"]["index"]["slider1_toelichting"]="-";
 }
@@ -1164,6 +1167,10 @@ $txt["en"]["zoek-en-boek"]["sauna"]="sauna";
 $txt["nl"]["zoek-en-boek"]["openhaardhoutkachel"]="open haard/houtkachel";
 $txt["en"]["zoek-en-boek"]["openhaardhoutkachel"]="fire place/wood stove";
 
+$txt["nl"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] of meer";
+$txt["en"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] or more";
+
+
 # zoek-en-boek m.b.t. flexibel
 $txt["nl"]["zoek-en-boek"]["bekijkookzaterdagzaterdag"]="Bekijk ook de mogelijkheden bij een verblijf van zaterdag tot zaterdag.";
 $txt["en"]["zoek-en-boek"]["bekijkookzaterdagzaterdag"]="Check out the possibilities for stays from Saturday to Saturday.";
@@ -1279,6 +1286,42 @@ $txt["en"]["top10"]["aanbieding"]="special offer";
 $txt["nl"]["contact"]["ok"]="OK";
 $txt["en"]["contact"]["ok"]="OK";
 
+$txt["nl"]["contact"]["maandagTMvrijdag"]="Maandag t/m vrijdag";
+$txt["en"]["contact"]["maandagTMvrijdag"]="From Monday to Friday";
+
+$txt["nl"]["contact"]["zaterdag"]="Zaterdag";
+$txt["en"]["contact"]["zaterdag"]="Saturday";
+
+$txt["nl"]["contact"]["zondag"]="Zondag";
+$txt["en"]["contact"]["zondag"]="Sunday";
+
+$txt["nl"]["contact"]["tijd"]="Van 9:00 tot 17:30";
+$txt["en"]["contact"]["tijd"]="From 9 am to 5:30 pm";
+
+$txt["nl"]["contact"]["tijdsat"]="Van 10:00 tot 17:30";
+$txt["en"]["contact"]["tijdsat"]="From 10 am to 5:30 pm";
+
+$txt["nl"]["contact"]["telefoonNummerGetal"]="0348 - 43 46 49";
+$txt["en"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
+
+$txt["nl"]["contact"]["faxNummerGetal"]="0348 - 69 07 52";
+$txt["en"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
+
+$txt["nl_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
+$txt["en_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
+
+$txt["nl_b"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
+$txt["en_b"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
+
+$txt["nl"]["contact"]["tijdsun"]="Gesloten";
+$txt["en"]["contact"]["tijdsun"]="Closed";
+
+$txt["nl"]["contact"]["BTW"]="BTW:";
+$txt["en"]["contact"]["BTW"]="VAT:";
+
+$txt["nl"]["contact"]["KvK"]="KvK:";
+$txt["en"]["contact"]["KvK"]="CoC:";
+
 $txt["nl"]["contact"]["verzenden"]="verzenden";
 $txt["en"]["contact"]["verzenden"]="send";
 
@@ -1315,14 +1358,14 @@ $txt["en"]["contact"]["woonplaats"]="Town";
 $txt["nl"]["contact"]["land"]="Land";
 $txt["en"]["contact"]["land"]="Country";
 
-$txt["nl"]["contact"]["telefoonnummer"]="Telefoonnummer";
-$txt["en"]["contact"]["telefoonnummer"]="Telephone number";
+$txt["nl"]["contact"]["landNaam"]="Nederland";
+$txt["en"]["contact"]["landNaam"]="The Netherlands";
 
 $txt["nl"]["contact"]["mobielwerk"]="Mobiel of werktelefoonnummer";
 $txt["en"]["contact"]["mobielwerk"]="Mobile telephone or telephone at work";
 
 $txt["nl"]["contact"]["email"]="E-mailadres";
-$txt["en"]["contact"]["email"]="E-mailadress";
+$txt["en"]["contact"]["email"]="Email address";
 
 $txt["nl"]["contact"]["email_kort"]="E-mail";
 $txt["en"]["contact"]["email_kort"]="E-mail";
@@ -1339,10 +1382,10 @@ $txt["en"]["contact"]["nieuwsbriefvraag"]="-";
 $txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik wil graag lid worden van de [[v_websitenaam]]- en Chalet.nl-nieuwsbrief";
 $txt["en_z"]["contact"]["nieuwsbriefvraag"]="-";
 
-$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen via telefoonnummer [[h_1]]0348 - 43 46 49[[h_2]]. Wij zijn telefonisch bereikbaar op maandag t/m vrijdag van 09.00 tot 17.30 uur en op zaterdag van 10.00 tot 17.30 uur. Je kunt ons ook een e-mail sturen met het verzoek om je terug te bellen.";
-$txt["en"]["contact"]["inleiding"]="If you have any questions, comments or any other things you would like to let us know, please complete the form below, send us an e-mail or contact us by telephone on telephone number [[h_1]]0348 - 43 46 49[[h_2]]. You can reach us by telephone Monday to Friday from 9 am. to 5.30 pm. and Saturdays from 10 am. to 5.30 pm. You can also send us an e-mail asking us to call you back.";
+$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["en"]["contact"]["inleiding"]="If you have any questions, comments or any other things you would like to let us know, please complete the form below, send us an e-mail or contact us by telephone.";
 
-$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen via telefoonnummer [[h_1]]+31 348 43 46 49[[h_2]]. Je kunt ons ook een e-mail sturen met het verzoek om je terug te bellen.";
+$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
 $txt["en_b"]["contact"]["inleiding"]="-";
 
 $txt["nl"]["contact"]["inleiding_chalettour"]="Neem voor meer informatie, vragen of opmerkingen direct contact op met uw reisbureau of vul onderstaand contactformulier in.";
@@ -1353,6 +1396,21 @@ $txt["en"]["contact"]["naamreisbureau_chalettour"]="-";
 
 $txt["nl"]["contact"]["nederland"]="Nederland"; # Dit veld blijft leeg bij de Nederlandstalige versie
 $txt["en"]["contact"]["nederland"]="The Netherlands";
+
+$txt["nl"]["contact"]["adresgegevens"]="Adresgegevens";
+$txt["en"]["contact"]["adresgegevens"]="Contact information";
+
+$txt["nl"]["contact"]["postadres"]="Postadres";
+$txt["en"]["contact"]["postadres"]="Address";
+
+$txt["nl"]["contact"]["overigegegevens"]="Overige gegevens";
+$txt["en"]["contact"]["overigegegevens"]="Other information";
+
+$txt["nl"]["contact"]["telefoonnummer"]="Telefoonnummer";
+$txt["en"]["contact"]["telefoonnummer"]="Telephone number";
+
+$txt["nl"]["contact"]["fax"]="Fax";
+$txt["en"]["contact"]["fax"]="Fax";
 
 $txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0348 - 43 46 49";
 $txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
@@ -1366,6 +1424,9 @@ $txt["en"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
 $txt["nl_b"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
 $txt["en_b"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
 
+$txt["nl"]["contact"]["telefonischeBereikbaarheid"]="Telefonische bereikbaarheid ";
+$txt["en"]["contact"]["telefonischeBereikbaarheid"]="Reach us by telephone (local time)";
+
 $txt["nl"]["contact"]["onderschrift_chalettour"]="Chalettour is een handelsnaam van Chalet.nl B.V., Lindenhof 5, 3442 GT Woerden, tel: 0348-434649, [[h_1]]info@chalettour.nl[[h_2]]";
 $txt["en"]["contact"]["onderschrift_chalettour"]="-";
 
@@ -1375,38 +1436,113 @@ $txt["en"]["contact"]["contactformulier"]="Contact Form";
 $txt["nl"]["contact"]["linkniettoegestaan"]="een link invullen is niet toegestaan";
 $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 
-#favorieten pagina
+#
+# Favorieten (http://www.chalet.nl/favorieten.php)
+#
 $txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
-$txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved hier. This enables you to comapare, share en print them.";
+$txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved here. This enables you to comapare, share and print them.";
+
 $txt["nl"]["favorieten"]["Uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
-$txt["en"]["favorieten"]["Uitmijnfavorietenhalen"]="Remove from my favourites";
+$txt["en"]["favorieten"]["Uitmijnfavorietenhalen"]="Erase from my favourites";
+
 $txt["nl"]["favorieten"]["plaatsinfavorieten"]="Plaats in mijn favorieten";
 $txt["en"]["favorieten"]["plaatsinfavorieten"]="Add to my favourites";
-$txt["nl"]["favorieten"]["standardtextChalet"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Om een chalet of appartement aan je lijst met favorieten toe te voegen, ga naar de pagina van een chalet of appartement en klik op";
-$txt["en"]["favorieten"]["standardtextChalet"]="Your list of favourites is empty. to add items to your list, go to the accommodation page and click on";
-$txt["nl"]["favorieten"]["onderwerpTextChalet"]="Mijn favoriete chalets en appartementen";
-$txt["en"]["favorieten"]["onderwerpTextChalet"]="My favourite chalets and appartments";
-$txt["nl"]["favorieten"]["doormailTextChalet"]="Dit moet je zien! Ik heb een aantal leuke chalets en appartementen gevonden op";
-$txt["en"]["favorieten"]["doormailTextChalet"]="You must see this! I have found some interesting chalets and appartments on";
 
-$txt["nl"]["favorieten"]["versturenPermail"]="Versturen via email";
+$txt["nl"]["favorieten"]["geenfavorieten"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Ga naar de pagina van een chalet of appartement en klik op [[h_1]]Plaats in mijn favorieten[[h_2]] om een favoriet toe te voegen.";
+$txt["en"]["favorieten"]["geenfavorieten"]="Your list of favourites is empty. To add items to your list, go to the accommodation page and click on [[h_1]]Add to my favourites[[h_2]].";
+
+$txt["nl_z"]["favorieten"]["geenfavorieten"]="Je hebt momenteel geen vakantiehuizen aan je favorieten toegevoegd. Ga naar de pagina van een vakantiehuis en klik op [[h_1]]Plaats in mijn favorieten[[h_2]] om een favoriet toe te voegen.";
+$txt["en_z"]["favorieten"]["geenfavorieten"]="-";
+
+$txt["nl"]["favorieten"]["mailonderwerp"]="Mijn favoriete chalets en appartementen";
+$txt["en"]["favorieten"]["mailonderwerp"]="My favourite chalets and apartments";
+
+$txt["nl_z"]["favorieten"]["mailonderwerp"]="Mijn favoriete vakantiehuizen";
+$txt["en_z"]["favorieten"]["mailonderwerp"]="-";
+
+$txt["nl"]["favorieten"]["doormailtekst"]="Dit moet je zien! Ik heb een aantal leuke chalets en appartementen gevonden op [[v_websitenaam]].";
+$txt["en"]["favorieten"]["doormailtekst"]="You must see this! I have found some interesting chalets and apartments on [[v_websitenaam]].";
+
+$txt["nl_z"]["favorieten"]["doormailtekst"]="Dit moet je zien! Ik heb een aantal leuke vakantiehuizen gevonden op [[v_websitenaam]].";
+$txt["en_z"]["favorieten"]["doormailtekst"]="-";
+
+$txt["nl"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete chalets die je hebt doorgestuurd op";
+$txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have send on ";
+
+$txt["nl_z"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete vakantiehuizen die je hebt doorgestuurd op";
+$txt["en_z"]["favorieten"]["kopie"]="-";
+
+$txt["nl"]["favorieten"]["versturenPermail"]="Versturen via e-mail";
 $txt["en"]["favorieten"]["versturenPermail"]="Send by e-mail";
 
 $txt["nl"]["favorieten"]["inhoudprinten"]="Printen";
 $txt["en"]["favorieten"]["inhoudprinten"]="Print";
+
 $txt["nl"]["favorieten"]["buttonLeesmeer"]="Lees meer";
 $txt["en"]["favorieten"]["buttonLeesmeer"]="Read more";
 
-#accommodatie doormail functie
+$txt["nl"]["favorieten"]["versturen"]="Versturen";
+$txt["en"]["favorieten"]["versturen"]="Send";
+
+$txt["nl"]["favorieten"]["annuleren"]="Annuleren";
+$txt["en"]["favorieten"]["annuleren"]="Cancel";
+
+$txt["nl"]["favorieten"]["mailadresnietingevuld"]="Je hebt je e-mailadres niet ingevuld.";
+$txt["en"]["favorieten"]["mailadresnietingevuld"]="You need to fill in your email address.";
+
+$txt["nl"]["favorieten"]["mailadresnietcorrect"]="Je e-mailadres voldoet niet aan de eisen van een geldig e-mailadres.";
+$txt["en"]["favorieten"]["mailadresnietcorrect"]="Your e-mailaddress is not correct.";
+
+$txt["nl"]["favorieten"]["mailadresontvangernietingevuld"]="Je hebt het e-mailadres (de e-mailadressen) van de ontvanger(s) niet ingevuld.";
+$txt["en"]["favorieten"]["mailadresontvangernietingevuld"]="You have not filled all the required fields.";
+
+$txt["nl"]["favorieten"]["geengeldigmailadres"]="is geen geldig e-mailadres. Geef a.j.b. alleen maar een geldig e-mailadres op.";
+$txt["en"]["favorieten"]["geengeldigmailadres"]="is not a valid email address.";
+
+$txt["nl"]["favorieten"]["emailszijnverzonden"]="Bedankt, je e-mail(s) zijn verzonden.";
+$txt["en"]["favorieten"]["emailszijnverzonden"]="Your e-mails have been sent. Thank you.";
+
+$txt["nl"]["favorieten"]["recaptcha_uitleg"]="Typ de volgende woorden over:";
+$txt["en"]["favorieten"]["recaptcha_uitleg"]="Please type the following words:";
+
+$txt["nl"]["favorieten"]["recaptchanietcorrect"]="De woorden zijn niet correct overgetypt.";
+$txt["en"]["favorieten"]["recaptchanietcorrect"]="The typed words aren't correct.";
+
+$txt["nl"]["favorieten"][""]="";
+$txt["en"]["favorieten"][""]="";
+
+$txt["nl"]["favorieten"][""]="";
+$txt["en"]["favorieten"][""]="";
+
+$txt["nl"]["favorieten"][""]="";
+$txt["en"]["favorieten"][""]="";
+
+$txt["nl"]["favorieten"][""]="";
+$txt["en"]["favorieten"][""]="";
+
+
+#land.html lees verder
+
+$txt["nl"]["land"]["leesverder"]="Lees verder";
+$txt["en"]["land"]["leesverder"]="Read more";
+$txt["nl"]["land"]["dichtklappen"]="Dichtklappen";
+$txt["en"]["land"]["dichtklappen"]="Show less";
+
+#
+# Accommodatie doormail functie
+#
 $txt["nl"]["favorieten"]["midcontentTextChalet"]="Ik heb een leuk chalet/appartement gevonden op Chalet.nl. Dit moet je zien!";
-$txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/appartments on Chalet.nl. You have to see this!";
+$txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/apartments on Chalet.nl. You have to see this!";
 
 $txt["nl"]["favorieten"]["LabelVan"]="Van: (E-mailadres)";
 $txt["en"]["favorieten"]["LabelVan"]="From: (E-mail)";
+
 $txt["nl"]["favorieten"]["LabelNaar"]="Naar: (Meerdere e-mailadressen scheiden met een spatie)";
 $txt["en"]["favorieten"]["LabelNaar"]="To: (use space as a separation for the e-mails)";
+
 $txt["nl"]["favorieten"]["LabelBericht"]="Bericht:";
 $txt["en"]["favorieten"]["LabelBericht"]="Message:";
+
 $txt["nl"]["favorieten"]["stuurkopie"]="Stuur een kopie naar mijzelf";
 $txt["en"]["favorieten"]["stuurkopie"]="Send me a copy";
 
@@ -1842,8 +1978,8 @@ $txt["en"]["weekendski"]["alinea1"]="Want to escape your regular environment, or
 $txt["nl"]["weekendski"]["alinea2"]="[[v_website]] biedt diverse mogelijkheden voor korte wintersportvakanties.  In principe is zaterdag de aankomstdag. Ook andere aankomstdagen zijn mogelijk. Neem hiervoor contact met ons op. De meeste mogelijkheden voor weekendski vind je in de maand januari en vanaf half maart.";
 $txt["en"]["weekendski"]["alinea2"]="[[v_website]] offers several possibilities for short winter holidays. The arrival will usually be on Saturday, but other days are possibilities too. You can contact us for details. You will find that you have the most possibilities for weekendski in the month January and from mid-March.";
 
-$txt["nl"]["weekendski"]["alinea3"]="Hieronder alvast enkele accommodaties. Binnenkort wordt deze pagina aangevuld met ons volledige weekendski aanbod. Voor meer informatie staan we je tot die tijd graag telefonisch te woord of je kunt je vragen en wensen per email aan ons doorgeven.";
-$txt["en"]["weekendski"]["alinea3"]="Below you will already find several accommodations. Soon this page will be completed with our complete range of weekendski possibilities. For more information you can always give us a call, or you can ask us your questions or tell us your requests via email.";
+$txt["nl"]["weekendski"]["alinea3"]="Als suggestie vind je hieronder enkele accommodaties waarbij een kort verblijf geboekt kan worden. Voor meer informatie en mogelijkheden staan we je graag telefonisch te woord of je kunt je vragen en wensen per email aan ons doorgeven.";
+$txt["en"]["weekendski"]["alinea3"]="As a suggestion, you can find here below several accommodations that can be booked for a short stay. For more information and possibilities you can always give us a call or send your request by email.";
 
 
 #
@@ -3026,7 +3162,7 @@ $txt["en"]["reisbureau"]["factuur"]="Invoice";
 
 $txt["nl"]["reisbureau"]["welkomstmail"]="Beste [[v_voornaam]],
 
-Bedankt voor de belangstelling in onze producten en diensten. Om je optimaal van dienst te kunnen zijn sturen wij je de inloggegevens van onze agentenwebsites. 
+Bedankt voor de belangstelling in onze producten en diensten. Om je optimaal van dienst te kunnen zijn sturen wij je de inloggegevens van onze agentenwebsites.
 
 Gebruikersnaam: [[v_email]]
 Wachtwoord: [[v_wachtwoord]]
@@ -3476,6 +3612,9 @@ $txt["en"]["bsys_selecteren"]["erzijngeenactueleboekingen"]="No current bookings
 
 $txt["nl"]["factuur"]["hierbijontvangjedegecorrigeerdebevestiging"]="Hierbij ontvang je de gecorrigeerde bevestiging van onderstaande boeking:";
 $txt["en"]["factuur"]["hierbijontvangjedegecorrigeerdebevestiging"]="Attached, you will find the amended confirmation of the following booking:";
+
+$txt["nl"]["factuur"]["btwnummer"]="BTW-nummer: ";
+$txt["en"]["factuur"]["btwnummer"]="VAT-number: ";
 
 $txt["nl"]["factuur"]["hierbijontvangjedebevestiging"]="Hierbij ontvang je de bevestiging voor onderstaande boeking:";
 $txt["en"]["factuur"]["hierbijontvangjedebevestiging"]="Please find the confirmation of your booking below:";
@@ -4201,7 +4340,7 @@ $txt["nl"]["enquete"]["vraag6_3"]="Ik ben al geabonneerd";
 $txt["en"]["enquete"]["vraag6_3"]="I am already subscribed";
 
 $txt["nl"]["enquete"]["vraag7"]="Vraag 7: Sinds december 2009 bieden wij vakantiehuizen in Europa aan via onze nieuwe website [[h_1]]Zomerhuisje.nl[[h_2]]. Wil je je abonneren op de nieuwsbrief van Zomerhuisje.nl en voortaan alle nieuwtjes en aanbiedingen ontvangen?";
-$txt["en"]["enquete"]["vraag7"]="Question 7: Since December 2009 we have villas in Europe via our new website [[h1_1]]Zomerhuisje.nl[[h_2]]. Do you want to subscrive to the newsletter of Zomerhuisje.nl and receive all new information and special offers?";
+$txt["en"]["enquete"]["vraag7"]="Question 7: Since December 2009 we have villas in Europe via our new website [[h_1]]Zomerhuisje.nl[[h_2]]. Do you want to subscrive to the newsletter of Zomerhuisje.nl and receive all new information and special offers?";
 
 $txt["nl"]["enquete"]["vraag7_1"]="Ja";
 $txt["en"]["enquete"]["vraag7_1"]="Yes";

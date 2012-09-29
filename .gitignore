@@ -8,6 +8,12 @@ cache/
 Thumbs.db
 .DS_Store*
 
+# afbeeldingen via CMS
+pic/cms/
+
+# afbeeldingen-cache
+pic/cms/_imgcache/
+
 # pdf's
 pdf/facturen
 pdf/facturen
@@ -26,4 +32,7 @@ pdf/voorbrief_V
 pdf/voorbrief_W
 pdf/voorbrief_Z
 pdf/vouchers
+
+# Netbeans-projectfiles
+nbproject/
 

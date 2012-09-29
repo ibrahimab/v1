@@ -4,7 +4,7 @@ if(!isset($_SERVER["PHP_AUTH_USER"])) {
 	header("WWW-Authenticate: Basic realm=\"You must Log In!\"");
 	header("HTTP/1.0 401 Unauthorized");
 	exit;
-} elseif($_SERVER["PHP_AUTH_USER"]=="wtmysql" and $_SERVER["PHP_AUTH_PW"]=="k333232fdj2383289shaskjl3kl33i0934jjh84" and ($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["REMOTE_ADDR"]=="87.250.137.107")) {
+} elseif($_SERVER["PHP_AUTH_USER"]=="wtmysql" and $_SERVER["PHP_AUTH_PW"]=="k333232fdj2383289shaskjl3kl33i0934jjh84" and ($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="87.250.137.107")) {
 	# okay!
 } else {
 	echo "Error!\npw: ".$_SERVER["PHP_AUTH_PW"]."\nREMOTE_ADDR:".$_SERVER["REMOTE_ADDR"]."\n";
@@ -17,8 +17,8 @@ ini_set('zlib.output_compression_level', '9');
 
 $host="localhost";
 $base="db_chalet";
-$login="chaletdb";
-$password="kskL2K2kaQ";
+$login="admin";
+$password="Ll2k9qjdjp";
 
 require("admin/class.phpmysqldump.php");
 

@@ -133,7 +133,7 @@ $(document).ready(function() {
 			},5000);
 			$(".hoofdpagina_blok_teller").click(function() {
 				clearInterval(intervalID);
-				hoofdpagina_carousel(parseInt($(this).html()));
+				hoofdpagina_carousel(parseInt($(this).data("value")));
 				hoofdpagina_sla_1_ronde_over=1;
 				intervalID = setInterval(function(){
 					hoofdpagina_carousel(0);
@@ -168,5 +168,23 @@ $(document).ready(function() {
 				$("#skigebied_omschrijving_openklappen").html("Dichtklappen &laquo;");
 			}
 		});
+	});
+	
+	// hover "lees meer" bij hoofdpagina_vraagonsadvies
+	$("#hoofdpagina_vraagonsadvies").mouseenter(function() {
+		$("#hoofdpagina_vraagonsadvies_leesmeer").css("color","#ffffff");
+	});
+
+	$("#hoofdpagina_vraagonsadvies").mouseleave(function() {
+		$("#hoofdpagina_vraagonsadvies_leesmeer").css("color","#661700");
+	});
+
+	// hover "bekijk het aanbod" bij hoofdpagina_tarievenalbekend
+	$("#hoofdpagina_tarievenalbekend").mouseenter(function() {
+		$("#hoofdpagina_tarievenalbekend_bekijk").css("color","#ffffff");
+	});
+
+	$("#hoofdpagina_tarievenalbekend").mouseleave(function() {
+		$("#hoofdpagina_tarievenalbekend_bekijk").css("color","#661700");
 	});
 });

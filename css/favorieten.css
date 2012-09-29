@@ -1,0 +1,78 @@
+
+@media print {
+	.favScreen {
+		display:block;
+	}
+	#options {
+		display:none;
+	}
+	#removeFromfavs {
+		display:none;
+	}
+}
+
+.LeesMeerChalet {
+
+	background-color:#003366;
+	display:inline-block;
+	border:1px solid #dcdcdc;
+	color:#ffffff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	cursor:pointer;
+}.LeesMeerChalet:hover {
+	border:1px solid #d40139;
+}.LeesMeerChalet:active {
+	position:relative;
+	top:1px;
+}
+.LessmeerZomerHuis {
+
+	background-color:#cbd328;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#5f227b;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	cursor:pointer;
+}.LessmeerZomerHuis:hover {
+	border:1px solid #5f227b;
+}.LessmeerZomerHuis:active {
+	position:relative;
+	top:1px;
+}
+.LessmeerZomerItalissima {
+	background-color:#ff9900;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	cursor:pointer;
+}.LessmeerZomerItalissima:hover {
+	border:1px solid #661700;
+}.LessmeerZomerItalissima:active {
+	position:relative;
+	top:1px;
+}
+
+#mailForm {
+	margin-bottom: 10px;
+}
+
+.mailForm_veldnaam {
+		margin-bottom: 2px;
+}
+
+.mailForm_veld {
+	margin-bottom: 5px;
+}

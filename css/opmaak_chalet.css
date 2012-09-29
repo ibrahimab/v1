@@ -56,6 +56,17 @@ h3 {
 	font-weight: bold;
 }
 
+.land_omschrijving_openklappen {
+	display: block;
+	text-align: right;
+	height: 20px;
+	margin-top: 10px;
+}
+
+#land_omschrijving_afgebrokendeel {
+	display: none;
+}
+
 form {
 	margin:0;
 }
@@ -270,7 +281,7 @@ form {
 
 #zoekenboek_overlay select {
 	width: 170px;
-	margin: 0;	
+	margin: 0;
 }
 
 #zoekenboek_overlay .tekstzoeken {
@@ -421,7 +432,7 @@ form {
 	background-color: #fb6703;
 	border: 1px solid #fb6703;
 	color: #ffffff;
-	height: 30px;	
+	height: 30px;
 }
 
 .redbutton:hover {
@@ -513,13 +524,14 @@ form {
 #laatstbekeken {
 	float: left;
 	margin-top: 30px;
-	background-color: #d5e1f9;
+	background-color: #eaf0fc;
 	width: 735px;
 }
 
 #laatstbekeken .kop {
-	color: #d40139;
+	color: #003366;
 	font-size: 1.2em;
+	font-weight: bold;
 	margin-top: 8px;
 	margin-bottom: 8px;
 }
@@ -602,6 +614,16 @@ form {
 /* TIJDELIJK!!!! */
 /* TIJDELIJK!!!! */
 
+#oudzoekblok {
+	background-color: #eaf0fc;
+	border: 1px solid #003366;
+	width: 668px;
+}
+
+#oudzoekblok #zoektabel {
+	background-color: #eaf0fc;
+}
+
 #alpedhuzes {
 	margin-top: 15px;
 	border: 1px solid #d5e1f9;
@@ -612,6 +634,82 @@ form {
 	border:1px solid #003366;
 }
 
+#footerWrap{
+	width:990px;
+	background-color:#FFFFFF;
+	font-size:11px;
+	color:#d40139;
+}
+
+.noIND{
+	width:100%;
+}
+.noIND td{
+	width:200px;
+	border:0px;
+	border-color:black;
+	border-style: solid;
+	text-align:center;
+}
+.IND{
+	width:100%;
+}
+.divSepIND{
+	float:left;
+	padding-left:4px;
+	height:200px;
+	width:167px;
+	background-color:#d5e1f9;
+	position:absolute;
+	margin-left:30px;
+}
+
+.divSepIND li{
+	background-image: url(../pic/li_img_chalet_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+
+
+.divContentIND li{
+	background-image: url(../pic/li_img_chalet_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+.wrap{
+	float:left;
+	position:relative;
+	left:223px;
+	width:650px;
+}
+
+.divSepIND a{
+	text-decoration:none;
+}
+
+
+.divSepIND a:hover{
+	text-decoration:underline;
+}
+
+.divContentIND{
+	float:left;
+	padding-left:20px;
+}
+
+.divContentIND a{
+	text-decoration:none;
+}
+.divContentIND a:hover{
+	text-decoration:underline;
+}
+.padnoIND{
+	padding-left:10px;
+}
 
 @media print {
 
@@ -624,7 +722,7 @@ form {
 		margin: 0px;
 		padding: 0px;
 	}
-	
+
 	#menubalk {
 		display: none;
 	}
@@ -641,12 +739,12 @@ form {
 	.onlyprint {
 		display: inline;
 	}
-	
+
 	#menubalk_print {
 		padding-top: 20px;
 		float: left;
 	}
-	
+
 	a {
 		text-decoration: none;
 	}

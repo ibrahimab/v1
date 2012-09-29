@@ -2,7 +2,7 @@
 
 $mustlogin=true;
 
-if($_GET["t"]==3) {
+if($_GET["t"]==3 or $_GET["t"]==11) {
 	$vars["types_in_vars"]=true;
 	$vars["acc_in_vars"]=true;
 }
@@ -132,6 +132,9 @@ if($_GET["t"]==5) {
 		exit;
 	}
 	$form->end_declaration();
+} elseif($_GET["t"]==11) {
+
+
 }
 
 $layout->display_all($cms->page_title);

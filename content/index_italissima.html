@@ -26,7 +26,7 @@ if(is_array($blokkenhoofdpagina)) {
 	echo "<div id=\"hoofdpagina_blok_tellers\">";
 	if($blokkenhoofdpagina_teller>1) {
 		for($i=1;$i<=$blokkenhoofdpagina_teller;$i++) {
-			echo "<div id=\"hoofdpagina_blok_teller_".$i."\" class=\"hoofdpagina_blok_teller".($i==1 ? " hoofdpagina_blok_teller_active" : "")."\">".$i."</div>";
+			echo "<div id=\"hoofdpagina_blok_teller_".$i."\" class=\"hoofdpagina_blok_teller".($i==1 ? " hoofdpagina_blok_teller_active" : "")."\" data-value=\"".$i."\">&bull;</div>";
 		}
 	}
 	echo "</div>"; # afsluiten hoofdpagina_blok_tellers
@@ -68,6 +68,14 @@ echo "<div style=\"clear: both;\"></div>\n";
 echo "</div>"; # afsluiten hoofdpagina_links
 
 echo "<div id=\"hoofdpagina_rechts\">";
+
+echo "<a href=\"".$vars["path"]."vraag-ons-advies.php\" id=\"hoofdpagina_vraagonsadvies\">";
+echo "<h2>Vraag ons advies</h2>";
+echo "<div id=\"hoofdpagina_vraagonsadvies_leesmeer\">Lees meer &raquo;</div>";
+echo "<div class=\"clear\"></div>";
+echo "</a>"; # afsluiten hoofdpagina_vraagonsadvies
+
+
 echo "<div id=\"hoofdpagina_blog\">";
 echo "<h2><a href=\"".$vars["path"]."blog.php\">Blog Italissima</a></h2>";
 $db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE 1=1 AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,2;");
