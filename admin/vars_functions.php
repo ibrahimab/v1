@@ -3119,8 +3119,12 @@ function blokkenhoofdpagina($checkdate="") {
 	if(!$checkdate) $checkdate=time();
 	$checkdate=mktime(0,0,0,date("m",$checkdate),date("d",$checkdate),date("Y",$checkdate));
 
+	if($vars["seizoentype"]==1) {
+		$andquery_website=" AND websites LIKE '%".$vars["website"]."%'";
+	}
+
 	$db=new DB_sql;
-	$db->query("SELECT blokhoofdpagina_id, titel".$vars["ttv"]." AS titel, omschrijving".$vars["ttv"]." AS omschrijving, link, UNIX_TIMESTAMP(begindatum) AS begindatum, UNIX_TIMESTAMP(einddatum) AS einddatum FROM blokhoofdpagina WHERE wzt='".$vars["seizoentype"]."'".($vars["websitetype"]==7 ? " AND italissima=1" : " AND italissima=0")." AND tonen=1 ORDER BY volgorde, titel".$vars["ttv"].";");
+	$db->query("SELECT blokhoofdpagina_id, titel".$vars["ttv"]." AS titel, omschrijving".$vars["ttv"]." AS omschrijving, link, UNIX_TIMESTAMP(begindatum) AS begindatum, UNIX_TIMESTAMP(einddatum) AS einddatum FROM blokhoofdpagina WHERE wzt='".$vars["seizoentype"]."'".($vars["websitetype"]==7 ? " AND italissima=1" : " AND italissima=0")." AND tonen=1".$andquery_website." ORDER BY volgorde, titel".$vars["ttv"].";");
 	while($db->next_record()) {
 		if(($vars["seizoentype"]==1 and file_exists("pic/cms/blokkenhoofdpagina/".$db->f("blokhoofdpagina_id").".jpg") and file_exists("pic/cms/blokkenhoofdpagina_tn/".$db->f("blokhoofdpagina_id").".jpg")) or ($vars["seizoentype"]==2 and file_exists("pic/cms/blokkenhoofdpagina/".$db->f("blokhoofdpagina_id").".jpg"))) {
 			if($db->f("titel")<>"-") {
