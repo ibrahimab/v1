@@ -3645,6 +3645,14 @@ function googleanalytics() {
 
 #	$test_analytics=true;
 
+	if($test_analytics)	{
+		if($vars["lokale_testserver"]) {
+			$vars["googleanalytics"]="UA-2078202-12";
+		} else {
+			$test_analytics=false;
+		}
+	}
+
 	# gegevens voor in opmaak.php
 	if($test_analytics or ($vars["googleanalytics"] and !$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and !$vars["lokale_testserver"] and !$_GET["wtfatalerror"])) {
 
@@ -3661,7 +3669,7 @@ function googleanalytics() {
 
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/".($test_analytics ? "u/ga_debug.js" : "ga.js")."';
 		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		  })();
 
