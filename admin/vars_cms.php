@@ -232,7 +232,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_diversen","","cms_diversen","Instellingen",array("t"=>"3"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Vouchertermen",array("t"=>"5"),true);
 
-	if(($login->has_priv(27) and $_SERVER["REMOTE_ADDR"]=="80.101.166.235") or $login->has_priv(28) or $login->has_priv(3)) {
+	if(($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28) or $login->has_priv(3)) {
 		$layout->menu_item("cms_financien","Financiën","",true);
 	}
 
