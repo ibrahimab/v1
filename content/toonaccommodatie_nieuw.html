@@ -1410,8 +1410,19 @@ if($db->next_record()) {
 	echo "<div id=\"toonaccommodatie_kleinelinks\">";
 
 	echo "<ul>";
-	if($vars["seizoentype"]==1 or $vars["seizoentype"]==2) {
-		if($vars["website"]=="C" or $vars["website"]=="I" or $vars["website"]=="Z") {
+	# Mailfunctie accommodatie
+	# open de volgende URL: $vars["path"]."popup.php?id=accommodatiemail&accid=".$accid
+	if($vars["lokale_testserver"]) {
+		?>
+		<script language="Javascript">
+			function open_smallwindow(url) {
+				mywin = window.open(url,"small",'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes,resizable=0,width=800px,height=810px,top=0,left=135');
+			}
+		</script><?php
+		echo "<div id=\"mailfunctie\"><a href= \"javascript:open_smallwindow('".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."')\"><img src=\"".$vars["basehref"]."pic/button_mail_small.png\" border=\"0\"></a></div>";
+	}
+	if($vars["website"]=="C" or $vars["website"]=="Z" or  $vars["website"]=="I") {
+
 		# Facebook
 		echo "<div id=\"likebutton\" style=\"height:20px;margin-bottom:10px;margin-left:41px;\"><script src=\"https://connect.facebook.net/nl_NL/all.js#xfbml=1\"></script><fb:like href=\"".htmlentities($vars["canonical"])."\" layout=\"button_count\" width=\"120\"></fb:like>";
 		if($vars["googleanalytics_actief"]) {
@@ -1419,20 +1430,12 @@ if($db->next_record()) {
 			echo "<script type=\"text/javascript\">\nFB.Event.subscribe('edge.create', function(targetUrl) {\n_gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);\n});\nFB.Event.subscribe('edge.remove', function(targetUrl) {\n_gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);\n});FB.Event.subscribe('message.send', function(targetUrl) {\n_gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);\n});\n</script>\n";
 		}
 		echo "</div>\n";
-		}
+
 		# div met AddThis en Google+
 		echo "<div id=\"adthis_plusone\">";
 
-		# Mailfunctie accommodatie
-		# open de volgende URL: $vars["path"]."popup.php?id=accommodatiemail&accid=".$accid
-			?>
-			<script language="Javascript">
-			function open_smallwindow(url) {
-				mywin = window.open(url,"small",'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes,resizable=0,width=800px,height=810px,top=0,left=135');
-			}
-			</script><?php
-			echo "<div id=\"mailfunctie\"><a href= \"javascript:open_smallwindow('".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."')\"><img src=\"".$vars["basehref"]."pic/button_mail_small.png\" border=\"0\"></a></div>";
-		if($vars["website"]=="C" or $vars["website"]=="I" or $vars["website"]=="Z") {
+		
+		if($vars["website"]!="E") {
 			# AddThis
 			echo "<!-- AddThis Button BEGIN -->\n";
 			echo "<div style=\"float:left;\" class=\"addthis_toolbox addthis_default_style \">\n";
