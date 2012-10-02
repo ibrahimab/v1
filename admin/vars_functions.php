@@ -3643,8 +3643,10 @@ function inkoopprijs_opslaan($boekingid) {
 function googleanalytics() {
 	global $vars,$voorkant_cms;
 
+#	$test_analytics=true;
+
 	# gegevens voor in opmaak.php
-	if($vars["googleanalytics"] and !$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and !$vars["lokale_testserver"] and !$_GET["wtfatalerror"]) {
+	if($test_analytics or ($vars["googleanalytics"] and !$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and !$vars["lokale_testserver"] and !$_GET["wtfatalerror"])) {
 
 		if($_COOKIE["abt"]) {
 			$extra.="_gaq.push(['_setCustomVar', 1, 'AB-testing', '".$_COOKIE["abt"]."', 1]);\n";
