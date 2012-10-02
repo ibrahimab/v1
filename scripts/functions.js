@@ -930,7 +930,7 @@ function favorieten_opslaan_verwijderen(typeid, action) {
 			if(action=="insert") {
 				// plaats en verwijderbuttons uit/aanzetten
 				$("#favadd").css("display","none");
-				$("#favremove").css("display","inline");
+				$("#favremove").css("display","block");
 				if(data.aantal==1) {
 					// popup tonen
 					if(chalet_getCookie("favorietenpopup")!="1"||lokale_testserver) {
@@ -944,8 +944,8 @@ function favorieten_opslaan_verwijderen(typeid, action) {
 				var google_analytics_event="favoriet toevoegen";
 			} else if(action=="delete") {
 				// plaats en verwijderbuttons aan/uitzetten
-				$("#favadd").css("display","inline");
 				$("#favremove").css("display","none");
+				$("#favadd").css("display","block");
 
 				if($("#fav_table_"+typeid).length!=0) {
 					// favorietenpagina: fadeOut van het accommodatieblok

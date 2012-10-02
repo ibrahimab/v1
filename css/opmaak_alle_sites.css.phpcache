@@ -121,6 +121,33 @@ LI {
 	font-size: 1.0em;
 }
 
+.button_accpagina {
+	width: 168px;
+	background-color: #d5e1f9;
+	border: 1px solid #d5e1f9;
+	color: #003366;
+	cursor: pointer;
+	text-align: center;
+	padding-top:6px;
+	height: 22px;
+	margin-top: 1px;
+	font-size: 1.1em;
+}
+
+.button_accpagina:hover {
+	border: 1px solid #003366;
+}
+
+.button_accpagina_zomerwinter {
+	padding-top: 0px;
+	padding-bottom: 2px;
+	height: 28px;
+}
+
+#toonaccommodatie_boekbalk_bovenkant {
+	min-height: 216px;
+}
+
 hr {
 	color: <?php echo $hr; ?>;
 	background-color: <?php echo $hr; ?>;
@@ -520,13 +547,36 @@ td.selecteerbaarbedrag:hover{
 	margin-right: 12px;
 }
 
-#adthis_plusone {
-	margin-left: 31px;
+#terugnaarzoekresultaten {
+	margin-bottom: 5px;
 }
 
-#plusone {
+#socialmedia {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+#socialmedia_center {
+	margin-left: 65px;
+
+}
+
+#socialmedia_addthis {
 	float: left;
-	margin-left: -2px;
+	margin-top: 2px;
+}
+
+#socialmedia_googleplus {
+	float: left;
+	margin-top: 2px;
+	margin-left: 1px;
+	margin-right: 2px;
+}
+
+#socialmedia_facebook {
+	float: left;
+	width: 82px;
+	overflow-x: hidden;
 }
 
 .boxshadow {

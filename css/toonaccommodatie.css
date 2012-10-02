@@ -78,6 +78,7 @@ h2 {
 	margin-left: 0;
 	padding-left: 0;
 	list-style: none;
+	margin-top: 10px;
 }
 
 #toonaccommodatie_boekbalk li {
@@ -88,7 +89,6 @@ h2 {
 }
 
 #toonaccommodatie_kleinelinks {
-	padding-top: 10px;
 	text-align: center;
 }
 
@@ -182,7 +182,7 @@ h2 {
 	border-bottom: 1px solid #000000;
 	margin-top: 18px;
 	margin-bottom: 18px;
-	padding: 10px;	
+	padding: 10px;
 }
 
 .reviewblok_datum {
@@ -203,7 +203,7 @@ h2 {
 }
 
 #mailfunctie {
-	
+
 }
 
 @media print {
@@ -211,32 +211,32 @@ h2 {
 		float: left;
 		width: 100%;
 	}
-	
+
 	#toonaccommodatie_kopteksten {
 		width: 400px;
 	}
-	
+
 	#toonaccommodatie_kenmerken {
-		width: 400px;	
+		width: 400px;
 	}
 
 	#toonaccommodatie_kenmerken_2 {
 		margin-left: 0px;
 	}
-	
+
 	.ui-tabs .ui-tabs-panel {
 		width:100%;
 	}
-	
+
 	.toonacctabel {
 		width: 100%;
 	}
-	
+
 	.optietabelclass {
-		font-size: 0.7em;	
+		font-size: 0.7em;
 	}
-	
+
 	.tarieventabel {
-		width:100%;	
+		width:100%;
 	}
 }

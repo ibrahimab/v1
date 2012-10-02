@@ -411,22 +411,6 @@ form {
 	border: 1px solid #d40139;
 }
 
-.button_zomer {
-	width: 168px;
-	font-size: 0.85em;
-	background-color: #d5e1f9;
-	border: 1px solid #d5e1f9;
-	color: #003366;
-	cursor: pointer;
-	text-align: center;
-	padding-top: 1px;
-	height: 25px;
-	margin-top: 10px;
-}
-
-.button_zomer:hover {
-	border: 1px solid #5f227b;
-}
 
 .redbutton {
 	background-color: #fb6703;

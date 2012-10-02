@@ -48,7 +48,7 @@ while($db->next_record()) {
 
 	# gewone aanbiedingen ophalen
 	$aanbieding[$db->f("seizoen_id")]=aanbiedinginfo(0,$db->f("seizoen_id"));
-	
+
 	if($_GET["aanbiedingen"]) {
 		# Aleen aanbiedingen tonen
 		while(list($key,$value)=@each($aanbieding[$db->f("seizoen_id")]["typeid_sort"])) {
@@ -101,7 +101,7 @@ while($db->next_record()) {
 			# Aanbiedingen verwerken
 			$alleprijzen[$db2->f("week")]=verwerk_aanbieding($alleprijzen[$db2->f("week")],$aanbieding[$db2->f("seizoen_id")]["typeid_sort"][$db->f("type_id")],$db2->f("week"));
 			if($alleprijzen[$db2->f("week")]==0) unset($alleprijzen[$db2->f("week")]);
-			
+
 			# Maximale korting bepalen
 			if($db2->f("kortingactief") and $db2->f("aanbiedingskleur_korting") and $db2->f("toonexactekorting")) {
 				if($db2->f("aanbieding_acc_percentage")>0) {
@@ -119,13 +119,13 @@ while($db->next_record()) {
 
 	if($prijs) {
 		echo "<product id=\"".$db->f("type_id")."\">\n";
-	
+
 		$aantalpersonen=$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? "persoon" : "personen");
 		$accnaam=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".$aantalpersonen;
-		
+
 		echo "<name>".xml_text($accnaam)."</name>\n";
 		echo "<price>".$prijs."</price>\n";
-	
+
 		unset($description);
 		if($db->f("omschrijving") or $db->f("tomschrijving")) {
 			$description=$db->f("omschrijving");
@@ -135,10 +135,10 @@ while($db->next_record()) {
 			$description.=$db->f("tomschrijving");
 			echo "<description>".xml_text($description)."</description>\n";
 		}
-		
+
 		$url=$vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
 		echo "<productURL>".xml_text($url)."</productURL>\n";
-		
+
 		$imgurl="";
 		if(file_exists("../pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
 			$imgurl=$vars["basehref"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg";
@@ -187,7 +187,7 @@ while($db->next_record()) {
 			}
 			echo "<field name=\"stars\" value=\"".xml_text($kwaliteit,false)."\" />\n";
 		}
-		
+
 		if($db->f("gps_lat") and $db->f("gps_long")) {
 			echo "<field name=\"gps_latitude\" value=\"".xml_text($db->f("gps_lat"),false)."\" />\n";
 			echo "<field name=\"gps_longitude\" value=\"".xml_text($db->f("gps_long"),false)."\" />\n";
@@ -220,14 +220,18 @@ while($db->next_record()) {
 				echo "<field name=\"".$value."\" value=\"".xml_text(toonafstand($db->f($key),$db->f($key."extra"),txt("meter","toonaccommodatie")),false)."\" />\n";
 			}
 		}
-		
+
 		# Aanvullende afbeeldingen
 		$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")),"../");
 		if(is_array($foto["pic"])) {
 			$fototeller=0;
 			while(list($key,$value)=each($foto["pic"])) {
 				$fototeller++;
-				echo "<field name=\"extra_image_".$fototeller."\" value=\"".xml_text($vars["basehref"]."pic/cms/".$value,false)."\" />\n";
+
+				# Op Chalet.be maximaal 10 foto's (op verzoek van TradeTracker)
+				if($fototeller<=10 or $vars["website"]<>"B") {
+					echo "<field name=\"extra_image_".$fototeller."\" value=\"".xml_text($vars["basehref"]."pic/cms/".$value,false)."\" />\n";
+				}
 			}
 		}
 		if(is_array($foto["picbreed"])) {
@@ -237,7 +241,7 @@ while($db->next_record()) {
 				echo "<field name=\"extra_image_wide_".$fototeller."\" value=\"".xml_text($vars["basehref"]."pic/cms/".$value,false)."\" />\n";
 			}
 		}
-	
+
 		echo "</additional>\n";
 		echo "<categories>\n";
 		$categorie=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")]);
