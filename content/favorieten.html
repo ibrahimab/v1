@@ -1,5 +1,11 @@
 <script type="text/javascript">
-
+function printAndTrack(){
+	var google_analytics_event="favoriet uitprinten";
+	if (typeof _gaq != "undefined") {
+		_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, "Favorieten pagina"]);
+	}
+	return print();
+}
 
 var RecaptchaOptions = {
 	theme : 'clean'
@@ -66,7 +72,10 @@ function controlEnSend() {
 }
 
 function ajaxMailFunction() {
-
+	var google_analytics_event="favoriet doormailen";
+	if (typeof _gaq != "undefined") {
+		_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, "Favorieten pagina"]);
+	}
 	$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
 
 	$.getJSON(absolute_path+"rpc_json.php", {
@@ -103,7 +112,7 @@ if($db->num_rows()) {
 
 	echo "<div style=\"min-height:550px;\">";
 
-	echo "<div id=\"options\" style=\"float:left;margin-bottom:10px;\"><a id=\"showForm\" style=\"text-decoration:none;\" href=\"#\"><img src=\"".$vars["path"]."pic/button_mail_small.png\"/ style=\"vertical-align:middle;margin-top:-3px;\" width=\"16\" height=\"16\" border=\"0\"> ". html("versturenPermail","favorieten")."</a> | <a style=\"text-decoration:none;\" href=\"javascript:print();\"><img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/printer.gif\" width=\"20\" height=\"18\"/> ". html("inhoudprinten","favorieten")."</a></div>";
+	echo "<div id=\"options\" style=\"float:left;margin-bottom:10px;\"><a id=\"showForm\" style=\"text-decoration:none;\" href=\"#\"><img src=\"".$vars["path"]."pic/button_mail_small.png\"/ style=\"vertical-align:middle;margin-top:-3px;\" width=\"16\" height=\"16\" border=\"0\"> ". html("versturenPermail","favorieten")."</a> | <a style=\"text-decoration:none;\" onclick=\"printAndTrack();\" href=\"#\"><img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/printer.gif\" width=\"20\" height=\"18\"/> ". html("inhoudprinten","favorieten")."</a></div>";
 	echo "<div style=\"clear:both;\"></div>";
 	echo "<div id=\"mailForm\" style=\"display:none;\" class=\"noprint\">";
 	echo "<form action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
