@@ -451,8 +451,8 @@ if ( $_GET["t"]==1 ) {
 		$return["banken"]=$bankenArr;
 	}elseif($_GET["action"]=="doTransaction"){
 #Verzoek tot het uitvoeren van een transactie.
-		$signature=sha1("12345uniqueentrance".$_GET["bedrag"]."25374805605a3f9de17a1ac057e637aeaba1afedd2070d75ba");
-		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/TransactionRequest?shopid=&merchantid=2537480560&payment=&purchaseid=12345&amount='.$_GET["bedrag"].'&entrancecode=uniqueentrance&description=IdealAfbetaling&issuerid='.$_GET["bankID"].'&returnurl=http://192.168.1.32/chalet/checkout.php?success=true&cancelurl=http://192.168.1.32/chalet/checkout.php?canceled=true&callbackurl=http://192.168.1.32/chalet/checkout.php?callback=true&sha1='.$signature.'&testmode=true';
+		$signature=sha1($_GET["kenmerk"]."uniqueentrance".$_GET["bedrag"]."25374805605a3f9de17a1ac057e637aeaba1afedd2070d75ba");
+		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/TransactionRequest?shopid=&merchantid=2537480560&payment=&purchaseid='.$_GET["kenmerk"].'&amount='.$_GET["bedrag"].'&entrancecode=uniqueentrance&description=IdealAfbetaling&issuerid='.$_GET["bankID"].'&returnurl=http://192.168.1.32/chalet/checkout.php?success=true&cancelurl=http://192.168.1.32/chalet/checkout.php?canceled=true&callbackurl=http://192.168.1.32/chalet/checkout.php?callback=true&sha1='.$signature.'&testmode=true';
 		$handle = fopen($daurl, "r");
 		$xml="";
 		if ($handle) {   
