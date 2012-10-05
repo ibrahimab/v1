@@ -5,10 +5,13 @@
 #
 
 if($vars["websitetype"]==3) {
+	# Vormgeving: Zomerhuisje.nl, Zomerhuisje.eu
 	$popup_url="favorieten_popup_background_zomerhuisje";
 } elseif($vars["websitetype"]==7) {
+	# Vormgeving: Italissima
 	$popup_url="favorieten_popup_background_italissima";
 } else {
+	# Vormgeving: alle andere sites
 	$popup_url="favorieten_popup_background";
 }
 
@@ -18,6 +21,8 @@ if($vars["website"]=="I") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:255px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="Z") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:234px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+} elseif($vars["website"]=="N") {
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:165px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="T") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:262px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } else {
@@ -1420,11 +1425,21 @@ if($db->next_record()) {
 		echo "<div id=\"socialmedia_center\">";
 	}
 
+	# Doormailfunctie
+	if($vars["lokale_testserver"]) {
+		echo "<div id=\"socialmedia_doormail\">\n";
+		echo "<a href=\"#\" onclick=\"popwindow(800,810,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\"><img src=\"".$vars["path"]."pic/button_mail_small.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+		echo "</div>"; # afsluiten #socialmedia_doormail
+	}
+
 	# AddThis
 	echo "<!-- AddThis Button BEGIN -->\n";
 	echo "<div id=\"socialmedia_addthis\" class=\"addthis_toolbox addthis_default_style \">\n";
+	if(!$vars["lokale_testserver"]) {
+		echo "<a class=\"addthis_button_email\"></a>\n";
+	}
 	echo "<a class=\"addthis_button_print\"></a>\n";
-	echo "<a class=\"addthis_button_email\"></a>\n";
+
 	if($socialmedia) {
 		echo "<a class=\"addthis_button_twitter\"".($vars["canonical"] ? " addthis:url=\"".htmlentities($vars["canonical"])."\"" : "")."\"></a>\n";
 #		echo "<a class=\"addthis_button_facebook_like\"></a>\n";

@@ -216,15 +216,7 @@ if($db->num_rows()) {
 	#
 	# Nog geen favorieten
 	#
-
-	if($vars["websitetype"]==7) {
-		$favorieten_toevoegen_button="favorieten_toevoegen_italissima";
-	} elseif($vars["websitetype"]==3) {
-		$favorieten_toevoegen_button="favorieten_toevoegen_zomerhuisje";
-	} else {
-		$favorieten_toevoegen_button="favorieten_toevoegen";
-	}
-	echo html("geenfavorieten","favorieten",array("h_1"=>"<img style=\"vertical-align:middle;\" src=\"".$vars["path"]."pic/".$favorieten_toevoegen_button.".png\" width=\"13\" height=\"13\" border=\"0\"> <u>","h_2"=>"</u>"));
+	echo html("geenfavorieten","favorieten",array("h_1"=>"<nobr><u>","h_2"=>"</u></nobr>"));
 }
 
 ?>
