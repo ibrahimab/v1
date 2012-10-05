@@ -1399,17 +1399,6 @@ if($db->next_record()) {
 	}
 
 	echo "</form>";
-		# Mailfunctie accommodatie
-		# open de volgende URL: $vars["path"]."popup.php?id=accommodatiemail&accid=".$accid
-		if($vars["lokale_testserver"]) {
-			?>
-			<script language="Javascript">
-			function open_smallwindow(url) {
-				mywin = window.open(url,"small",'toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes,resizable=0,width=800px,height=810px,top=0,left=135');
-			}
-			</script><?php
-			echo "<div id=\"mailfunctie\"><a href= \"javascript:open_smallwindow('".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."')\"><img src=\"../../pic/mailIcoon.png\" border=\"0\"></a></div>";
-		}
 
 	echo "<div id=\"toonaccommodatie_kleinelinks\">";
 
@@ -1426,7 +1415,7 @@ if($db->next_record()) {
 	}
 
 	# Doormailfunctie
-	if($vars["lokale_testserver"]) {
+	if($vars["lokale_testserver"] or $_GET["testsysteem"]) {
 		echo "<div id=\"socialmedia_doormail\">\n";
 		echo "<a href=\"#\" onclick=\"popwindow(800,810,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\"><img src=\"".$vars["path"]."pic/button_mail_small.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
 		echo "</div>"; # afsluiten #socialmedia_doormail
@@ -1435,7 +1424,7 @@ if($db->next_record()) {
 	# AddThis
 	echo "<!-- AddThis Button BEGIN -->\n";
 	echo "<div id=\"socialmedia_addthis\" class=\"addthis_toolbox addthis_default_style \">\n";
-	if(!$vars["lokale_testserver"]) {
+	if(!$vars["lokale_testserver"] and !$_GET["testsysteem"]) {
 		echo "<a class=\"addthis_button_email\"></a>\n";
 	}
 	echo "<a class=\"addthis_button_print\"></a>\n";
