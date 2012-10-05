@@ -1528,14 +1528,11 @@ $txt["en"]["land"]["dichtklappen"]="Show less";
 #
 # Accommodatie doormail functie
 #
-$txt["nl"]["favorieten"]["midcontentTextChalet"]="Ik heb een leuk chalet/appartement gevonden op Chalet.nl. Dit moet je zien!";
-$txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/apartments on Chalet.eu. You have to see this!";
+$txt["nl"]["favorieten"]["midcontentTextWinter"]="Ik heb een leuk chalet/appartement gevonden op [[v_websitenaam]]. Dit moet je zien!";
+$txt["en"]["favorieten"]["midcontentTextWinter"]="I have found some interesting chalets/apartments on [[v_websitenaam]]. You have to see this!";
 
-$txt["nl"]["favorieten"]["midcontentTextChaletTour"]="Ik heb een leuk chalet/appartement gevonden op Chalettour.nl. Dit moet je zien!";
-#$txt["en"]["favorieten"]["midcontentTextChaletTour"]="I have found some interesting chalets/apartments on Chalet.nl. You have to see this!";
-
-$txt["nl"]["favorieten"]["midcontentTextChaletBe"]="Ik heb een leuk chalet/appartement gevonden op Chalet.be. Dit moet je zien!";
-#$txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/apartments on Chalet.nl. You have to see this!";
+$txt["nl_b"]["favorieten"]["midcontentTextZomer"]="Ik heb een leuk vakantiehuis gevonden op [[v_websitenaam]]. Dit moet je zien!";
+$txt["nl"]["favorieten"]["midcontentTextZomer"]="Ik heb een leuk vakantiehuis gevonden op [[v_websitenaam]]. Dit moet je zien!";
 
 $txt["nl"]["favorieten"]["LabelVan"]="Van: (E-mailadres)";
 $txt["en"]["favorieten"]["LabelVan"]="From: (E-mail)";
