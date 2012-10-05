@@ -268,52 +268,30 @@ form {
 	border: 1px solid #6699cc;
 }
 
-.button_zomer {
-	width: 168px;
-	font-size: 0.85em;
-	background-color: #666600;
-	border: 1px solid #666600;
-	color: #ffffff;
-	cursor: pointer;
-	text-align: center;
-	padding-top: 1px;
-	height: 25px;
-	margin-top: 10px;
-}
-
-.button_zomer:hover {
+.button_accpagina {
+	background-color: #6699cc;
 	border: 1px solid #6699cc;
-	color: #6699cc;
-}
-
-.button_winter {
-	width: 168px;
-	font-size: 0.85em;
-	background-color: #666600;
-	border: 1px solid #666600;
 	color: #ffffff;
-	cursor: pointer;
-	text-align: center;
-	padding-top: 1px;
-	height: 25px;
-	margin-top: 10px;
 }
 
-.button_winter:hover {
-	border: 1px solid #6699cc;
-	color: #6699cc;
+.button_accpagina:hover {
+	border: 1px solid #666600;
 }
 
 .redbutton {
 	background-color: #fb6703;
 	border: 1px solid #fb6703;
 	color: #ffffff;
-	height: 30px;	
+	height: 30px;
 }
 
 .redbutton:hover {
 	border: 1px solid #666600;
 	color: #666600;
+}
+
+#toonaccommodatie_boekbalk_bovenkant {
+	min-height: 201px;
 }
 
 .redtext {
@@ -421,7 +399,7 @@ form {
 
 #zoekresultaten_sorteer {
 	margin-top: 10px;
-	margin-right: 40px;	
+	margin-right: 40px;
 }
 
 #zoekresultaten_sorteer a {
@@ -527,7 +505,7 @@ form {
 		margin: 0px;
 		padding: 0px;
 	}
-	
+
 	#menubalk {
 		display: none;
 	}
@@ -544,12 +522,12 @@ form {
 	.onlyprint {
 		display: inline;
 	}
-	
+
 	#menubalk_print {
 		padding-top: 20px;
 		float: left;
 	}
-	
+
 	a {
 		text-decoration: none;
 	}

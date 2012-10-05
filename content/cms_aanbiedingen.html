@@ -3,7 +3,7 @@
 if($_GET["t"]==4) {
 	# Inactieve kortingen (geen aanbiedingen!) tonen
 	echo "<p>Bij de volgende actieve kortingen is de einddatum verstreken:</p>";
-	
+
 	$db->query("SELECT v.begincode, v.accommodatie_id, v.type_id, v.naam, v.tnaam, v.plaats, v.optimaalaantalpersonen, v.maxaantalpersonen, v.leverancier_id, v.leverancier, k.korting_id, k.gekoppeld_code, k.seizoen_id, k.naam AS kortingnaam, UNIX_TIMESTAMP(k.tot) AS tot FROM korting k, view_accommodatie v WHERE v.wzt='".addslashes($_GET["wzt"])."' AND v.atonen=1 AND v.ttonen=1 AND k.type_id=v.type_id AND k.actief=1 AND k.tot<NOW() ORDER BY leverancier, plaats, naam, tnaam, optimaalaantalpersonen, maxaantalpersonen;");
 	if($db->num_rows()) {
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
@@ -34,9 +34,9 @@ if($_GET["show"]==14) {
 	$db->query("SELECT onlinenaam, omschrijving FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
 	if($db->next_record() and $db->f("onlinenaam")) {
 		if($_GET["wzt"]==2) {
-			$link="http://www.zomerhuisje.nl/zoek-en-boek.php?abid=".$_GET["14k0"];	
+			$link="http://www.zomerhuisje.nl/zoek-en-boek.php?abid=".$_GET["14k0"];
 		} else {
-			$link="http://www.chalet.nl/zoek-en-boek.php?abid=".$_GET["14k0"];	
+			$link="http://www.chalet.nl/zoek-en-boek.php?abid=".$_GET["14k0"];
 		}
 	}
 	if($link) {
@@ -52,8 +52,8 @@ if($_GET["show"]==14) {
 		$ab["wzt"]=$db->f("wzt");
 #		$ab["seizoen"]=$db->f("seizoen");
 	}
-	
-	echo "<p><hr><h2>Accommodaties, types en leveranciers toevoegen</h2><table cellspacing=\"0\" class=\"tbl\">";
+
+	echo "<p><hr><h2>Accommodaties en types toevoegen</h2><table cellspacing=\"0\" class=\"tbl\">";
 	echo "<form name=\"toevoegen\" action=\"".$_SERVER["REQUEST_URI"]."\" method=\"post\">";
 	echo "<input type=\"hidden\" name=\"toevoegen_filled\" value=\"1\">";
 	echo "<tr><th>Soort</th><th>Naam</th></tr>";
@@ -78,7 +78,7 @@ if($_GET["show"]==14) {
 		echo "<select name=\"types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
 		echo "<option value=\"0\"></option>";
 		while($db->next_record()) {
-#			$vars["top10_types"][$db->f("type_id")]=substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ";		
+#			$vars["top10_types"][$db->f("type_id")]=substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ";
 			echo "<option value=\"".$db->f("type_id")."\">".htmlentities(substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ")."</option>";
 		}
 		echo "</select>";
@@ -128,7 +128,7 @@ if($_GET["show"]==14) {
 		echo "nog geen landen aanwezig";
 	}
 	echo "</td></tr>";
-	
+
 	echo "</form>";
 
 	# CSV uploaden
@@ -153,7 +153,7 @@ if($_GET["show"]==14) {
 		}
 	}
 	if(!$inquery) $inquery="0";
-	
+
 	$db->query("SELECT UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind FROM seizoen s WHERE s.seizoen_id IN (".$inquery.");");
 	while($db->next_record()) {
 		# Aankomstdatum-array vullen
@@ -180,17 +180,17 @@ if($_GET["show"]==14) {
 	#	echo "<tr><th>".htmlentities($ab["seizoen"])."</th></tr>";
 		echo "<tr><td align=\"center\"><input type=\"submit\" value=\" AANKOMSTDATA OPSLAAN \" id=\"opslaan1\" onclick=\"document.aankomstdata.opslaan1.disabled=1;document.aankomstdata.submit();\"></td></tr>";
 		echo "<tr><td><input type=\"checkbox\" name=\"allemaal\" onclick=\"checkUncheckAll(this)\" id=\"allemaal\"><label for=\"allemaal\">Alle aankomstdata aan/uit</label></td></tr>";
-		while(list($key,$value)=@each($abdata)) {	
+		while(list($key,$value)=@each($abdata)) {
 			echo "<tr><td><input type=\"checkbox\" name=\"aankomstdatum[".$key."]\" value=\"1\"".($vars["aanbiedingen_aankomstdata"][$key] ? " checked" : "")." id=\"ad".$key."\"><label for=\"ad".$key."\">Weekend ".date("j",$key)." ".datum("MAAND JJJJ",$key)."</label></td></tr>";
 		}
-		
+
 		echo "</td></tr>";
 		echo "<tr><td align=\"center\"><input type=\"submit\" value=\" AANKOMSTDATA OPSLAAN \" id=\"opslaan2\" onclick=\"document.aankomstdata.opslaan2.disabled=1;document.aankomstdata.submit();\"></td></tr>";
 		echo "</form>";
 	}
 
 	echo "</table>";
-	
+
 	$cms->display_log(14);
 }
 

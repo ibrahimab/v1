@@ -354,33 +354,30 @@ form {
 	border: 1px solid #5f227b;
 }
 
-.button_winter {
-	width: 168px;
-	font-size: 0.85em;
+.button_accpagina {
 	background-color: #cbd328;
 	border: 1px solid #cbd328;
 	color: #ffffff;
-	cursor: pointer;
-	text-align: center;
-	padding-top: 1px;
-	height: 25px;
-	margin-top: 10px;
 }
 
-.button_winter:hover {
-	border: 1px solid #d40139;
+.button_accpagina:hover {
+	border: 1px solid #5f227b;
 }
 
 .redbutton {
 	background-color: #fb6703;
 	border: 1px solid #fb6703;
 	color: #ffffff;
-	height: 30px;	
+	height: 30px;
 }
 
 .redbutton:hover {
 	border: 1px solid #5f227b;
 	color: #5f227b;
+}
+
+#toonaccommodatie_boekbalk_bovenkant {
+	min-height: 211px;
 }
 
 .redtext {
@@ -746,7 +743,7 @@ form {
 		margin: 0px;
 		padding: 0px;
 	}
-	
+
 	#menubalk {
 		display: none;
 	}
@@ -764,12 +761,12 @@ form {
 	.onlyprint {
 		display: inline;
 	}
-	
+
 	#menubalk_print {
 		padding-top: 20px;
 		float: left;
 	}
-	
+
 	a {
 		text-decoration: none;
 	}

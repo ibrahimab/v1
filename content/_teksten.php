@@ -1442,12 +1442,6 @@ $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 $txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
 $txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved here. This enables you to comapare, share and print them.";
 
-$txt["nl"]["favorieten"]["Uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
-$txt["en"]["favorieten"]["Uitmijnfavorietenhalen"]="Erase from my favourites";
-
-$txt["nl"]["favorieten"]["plaatsinfavorieten"]="Plaats in mijn favorieten";
-$txt["en"]["favorieten"]["plaatsinfavorieten"]="Add to my favourites";
-
 $txt["nl"]["favorieten"]["geenfavorieten"]="Je hebt momenteel geen chalets en/of appartementen aan je favorieten toegevoegd. Ga naar de pagina van een chalet of appartement en klik op [[h_1]]Plaats in mijn favorieten[[h_2]] om een favoriet toe te voegen.";
 $txt["en"]["favorieten"]["geenfavorieten"]="Your list of favourites is empty. To add items to your list, go to the accommodation page and click on [[h_1]]Add to my favourites[[h_2]].";
 
@@ -1467,7 +1461,7 @@ $txt["nl_z"]["favorieten"]["doormailtekst"]="Dit moet je zien! Ik heb een aantal
 $txt["en_z"]["favorieten"]["doormailtekst"]="-";
 
 $txt["nl"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete chalets die je hebt doorgestuurd op";
-$txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have send on ";
+$txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have sent on";
 
 $txt["nl_z"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete vakantiehuizen die je hebt doorgestuurd op";
 $txt["en_z"]["favorieten"]["kopie"]="-";
@@ -1500,13 +1494,16 @@ $txt["nl"]["favorieten"]["geengeldigmailadres"]="is geen geldig e-mailadres. Gee
 $txt["en"]["favorieten"]["geengeldigmailadres"]="is not a valid email address.";
 
 $txt["nl"]["favorieten"]["emailszijnverzonden"]="Bedankt, je e-mail(s) zijn verzonden.";
-$txt["en"]["favorieten"]["emailszijnverzonden"]="Your e-mails have been sent. Thank you.";
+$txt["en"]["favorieten"]["emailszijnverzonden"]="Your emails have been sent. Thank you.";
 
 $txt["nl"]["favorieten"]["recaptcha_uitleg"]="Typ de volgende woorden over:";
 $txt["en"]["favorieten"]["recaptcha_uitleg"]="Please type the following words:";
 
 $txt["nl"]["favorieten"]["recaptchanietcorrect"]="De woorden zijn niet correct overgetypt.";
 $txt["en"]["favorieten"]["recaptchanietcorrect"]="The typed words aren't correct.";
+
+$txt["nl"]["favorieten"]["uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
+$txt["en"]["favorieten"]["uitmijnfavorietenhalen"]="Remove from my favourites";
 
 $txt["nl"]["favorieten"][""]="";
 $txt["en"]["favorieten"][""]="";
@@ -1531,8 +1528,11 @@ $txt["en"]["land"]["dichtklappen"]="Show less";
 #
 # Accommodatie doormail functie
 #
-$txt["nl"]["favorieten"]["midcontentTextChalet"]="Ik heb een leuk chalet/appartement gevonden op Chalet.nl. Dit moet je zien!";
-$txt["en"]["favorieten"]["midcontentTextChalet"]="I have found some interesting chalets/apartments on Chalet.nl. You have to see this!";
+$txt["nl"]["favorieten"]["midcontentTextWinter"]="Ik heb een leuk chalet/appartement gevonden op [[v_websitenaam]]. Dit moet je zien!";
+$txt["en"]["favorieten"]["midcontentTextWinter"]="I have found some interesting chalets/apartments on [[v_websitenaam]]. You have to see this!";
+
+$txt["nl_b"]["favorieten"]["midcontentTextZomer"]="Ik heb een leuk vakantiehuis gevonden op [[v_websitenaam]]. Dit moet je zien!";
+$txt["nl"]["favorieten"]["midcontentTextZomer"]="Ik heb een leuk vakantiehuis gevonden op [[v_websitenaam]]. Dit moet je zien!";
 
 $txt["nl"]["favorieten"]["LabelVan"]="Van: (E-mailadres)";
 $txt["en"]["favorieten"]["LabelVan"]="From: (E-mail)";
@@ -1823,23 +1823,29 @@ $txt["en"]["toonaccommodatie"]["accommodatieopanderesite"]="View this accommodat
 $txt["nl_z"]["toonaccommodatie"]["accommodatieopanderesite"]="Bekijk deze accommodatie in ons winterprogramma";
 $txt["en_z"]["toonaccommodatie"]["accommodatieopanderesite"]="View this accommodation in our winter programme";
 
-$txt["nl"]["toonaccommodatie"]["accommodatieopanderesite_2"]="Zomerversie van\ndeze accommodatie";
-$txt["en"]["toonaccommodatie"]["accommodatieopanderesite_2"]="Summer version of\nthis accommodation";
+$txt["nl"]["toonaccommodatie"]["accommodatieopanderesite_2"]="Deze accommodatie\n[[h_1]]in de zomer[[h_2]]";
+$txt["en"]["toonaccommodatie"]["accommodatieopanderesite_2"]="This accommodation\n[[h_1]]in the summer[[h_2]]";
 
-$txt["nl_z"]["toonaccommodatie"]["accommodatieopanderesite_2"]="Winterversie van\ndeze accommodatie";
-$txt["en_z"]["toonaccommodatie"]["accommodatieopanderesite_2"]="Winter version of\nthis accommodation";
+$txt["nl_z"]["toonaccommodatie"]["accommodatieopanderesite_2"]="Deze accommodatie\n[[h_1]]in de winter[[h_2]]";
+$txt["en_z"]["toonaccommodatie"]["accommodatieopanderesite_2"]="This accommodation\n[[h_1]]in the winter[[h_2]]";
 
 $txt["nl"]["toonaccommodatie"]["accommodatieopanderesite_vallandry"]="Winterversie van\ndeze accommodatie";
 $txt["en"]["toonaccommodatie"]["accommodatieopanderesite_vallandry"]="Winter version of\nthis accommodation";
 
+$txt["nl"]["toonaccommodatie"]["uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
+$txt["en"]["toonaccommodatie"]["uitmijnfavorietenhalen"]="Remove from my favourites";
+
+$txt["nl"]["toonaccommodatie"]["plaatsinfavorieten"]="Plaats in [[h_1]]mijn favorieten[[h_2]]";
+$txt["en"]["toonaccommodatie"]["plaatsinfavorieten"]="Add to [[h_1]]my favourites[[h_2]]";
+
 $txt["nl"]["toonaccommodatie"]["geentarieven_accvol"]="Helaas zijn er voor deze accommodatie momenteel geen weken meer beschikbaar. Neem [[l1]]contact[[/l1]] met ons op zodat wij voor je na kunnen gaan of er nog een alternatief is.";
 $txt["en"]["toonaccommodatie"]["geentarieven_accvol"]="Unfortunately there are no weeks available for this accommodation anymore. Please [[l1]]contact[[/l1]] us, so we can find a good alternative for you.";
 
-$txt["nl"]["toonaccommodatie"]["optieaanvragen"]="Optie aanvragen";
-$txt["en"]["toonaccommodatie"]["optieaanvragen"]="Option request";
+$txt["nl"]["toonaccommodatie"]["optieaanvragen"]="[[h_1]]Optie[[h_2]] aanvragen";
+$txt["en"]["toonaccommodatie"]["optieaanvragen"]="[[h_1]]Option[[h_2]] request";
 
-$txt["nl"]["toonaccommodatie"]["prijsberekenen"]="Prijs berekenen";
-$txt["en"]["toonaccommodatie"]["prijsberekenen"]="Calculate price";
+$txt["nl"]["toonaccommodatie"]["prijsberekenen"]="[[h_1]]Prijs[[h_2]] berekenen";
+$txt["en"]["toonaccommodatie"]["prijsberekenen"]="Calculate [[h_1]]price[[h_2]]";
 
 $txt["nl"]["toonaccommodatie"]["ookbeschikbaar"]="Ook beschikbaar";
 $txt["en"]["toonaccommodatie"]["ookbeschikbaar"]="Also available";

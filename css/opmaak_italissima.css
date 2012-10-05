@@ -430,6 +430,16 @@ form {
 	border: 1px solid #ff9900;
 }
 
+.button_accpagina {
+	background-color: #ffd38f;
+	border: 1px solid #ffd38f;
+	color: #661700;
+}
+
+.button_accpagina:hover {
+	border: 1px solid #ff9900;
+}
+
 .redbutton {
 	background-color: #0295c8;
 	border: 1px solid #0295c8;
@@ -440,6 +450,10 @@ form {
 .redbutton:hover {
 	border: 1px solid #ff9900;
 	color: #ffd38f;
+}
+
+#toonaccommodatie_boekbalk_bovenkant {
+	min-height: 208px;
 }
 
 .redtext {

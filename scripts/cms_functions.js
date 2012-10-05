@@ -130,13 +130,13 @@ function togglesubmenu(name,aantalitems) {
 	if($('#'+name).css("display")=='block') {
 		// close
 		$('#'+name).slideUp('slow',function(){
-	
+
 		});
 		$.getJSON(url+'cmslayout_json=1&cmslayout_closemenu='+name);
 	} else {
 		OBJ1=document.getElementById('menu');
 		OBJ2=document.getElementById('meet_hoogte_menu');
-		
+
 		// open
 		$('#'+name).slideDown('normal',function(){
 			var hoogte1=OBJ1.offsetHeight;
@@ -186,7 +186,7 @@ $(document).ready(function() {
 		});
 		return false;
 	});
-	
+
 	$('.vertalingafvinken').attr("title","wijziging afvinken");
 	$(".vertalingafvinken").click(function () {
 		reldata = $(this).attr('rel').split(',');
@@ -204,7 +204,7 @@ $(document).ready(function() {
 		);
 		return false;
 	});
-	
+
 	$(".vertalingbewerken").click(function () {
 		$('#'+$(this).attr('rel')).slideDown("fast",function() {
 			setHgt2();
@@ -216,7 +216,7 @@ $(document).ready(function() {
 	// bij wijzigen 'Accommodatieprijs gewijzigd' vragen of 'Verzekerd bedrag Schade Logies Verblijven' ook gewijzigd moet worden
 	$('input[name="input[verkoop_gewijzigd]"]').change(function() {
 		if($('input[name="input[accprijs]"]').length==0) {
-		
+
 		} else {
 			var is_confirmed = confirm("Accommodatieprijs is gewijzigd.\n\n'Verzekerd bedrag Schade Logies Verblijven' ook wijzigen in "+$('input[name="input[verkoop_gewijzigd]"]').val()+"?");
 			if(is_confirmed) {
@@ -224,13 +224,13 @@ $(document).ready(function() {
 			}
 		}
 	});
-	
+
 	// bij invoeren 'Reserveringsnummer leverancier' of 'Factuurnummer leverancier' (bij boeking 'Inkoop- en leveranciersgegevens'): bestelstatus wijzigen naar 'bevestigd' en besteldatum invullen
 	$(".leverancierscode_keydown").keydown(function() {
-	
+
 		// besteldatum invullen
 		besteldatum_invullen();
-		
+
 		// bestelstatus wijzigen in 'bevestigd'
 		if($("select[name='input[bestelstatus]']").val()!=3) {
 			$("select[name='input[bestelstatus]']").val("3");
@@ -244,14 +244,14 @@ $(document).ready(function() {
 			},300);
 		}
 	});
-	
+
 	// bij wijzigen bestelstatus (bij boeking 'Inkoop- en leveranciersgegevens'): automatisch besteldatum invullen
 	$(".bestelstatus_besteldatum").change(function() {
 		if($(this).val()==2 || $(this).val()==3) {
 			besteldatum_invullen();
 		}
 	});
-	
+
 	// Inkoopgegevens accommodatie: alles doorrekenen
 	$(".inkoopgegevens").change(function() {
 		// zorgen dat het zojuist ingevulde veld een afgeronde float wordt
@@ -262,7 +262,7 @@ $(document).ready(function() {
 			aangepast=aangepast.replace(".",",");
 			$(this).val(aangepast);
 		} else {
-			$(this).val("");		
+			$(this).val("");
 		}
 		inkoopgegevens_berekenen(false);
 	});
@@ -277,16 +277,16 @@ $(document).ready(function() {
 			aangepast=aangepast.replace(".",",");
 			$(this).val(aangepast);
 		} else {
-			$(this).val("");		
+			$(this).val("");
 		}
-		
+
 		garantie_inkoopgegevens_berekenen();
 	});
-	
+
 	// submit-button: controle uitvoeren
 	$(".inkoopgegevens_submit").click(function() {
 		var melding=false;
-		for (i in inkoopgegevens_verschil_met_actueel) { 
+		for (i in inkoopgegevens_verschil_met_actueel) {
 			if(inkoopgegevens_verschil_met_actueel[i]==true) {
 				melding=true;
 			}
@@ -306,23 +306,23 @@ $(document).ready(function() {
 			return false;
 		}
 	});
-	
+
 	// bij inkoopgegevens: onload inkoopgegevens_berekenen
 	if($(".inkoopgegevens_submit").length>0) {
 		inkoopgegevens_berekenen(true);
 	}
-	
+
 	// bij garantiegegevens: onload inkoopgegevens_berekenen
 	if($(".uitkomst_garantie_inkoopmincommissie").length>0) {
 		garantie_inkoopgegevens_berekenen();
 	}
-	
+
 	// bij 'Algemene gegevens' van een boeking in CMS: vragen of bestelstatus moet worden gewist bij het wijzigen van de accommodatie en/of aankomstdatum
 	if($("input[name='input[bestelstatus_wissen]']").length>0) {
 		$("select[name='input[typeid]'],select[name='input[aankomstdatum]']").change(function() {
 			$("#bestelstatus_wissen_tr").css("display","");
 			if($("input[name='input[bestelstatus_wissen]']").is(':checked')) {
-			
+
 			} else {
 				var is_confirmed = confirm('Deze boeking is al besteld. Besteldatum wissen en bestelstatus op \'nog niet besteld\' zetten?');
 				if(is_confirmed) {
@@ -331,7 +331,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
+
 	// handmatige optie: verbergen voor de klant (verkoopprijs op 0,00 zetten)
 	if($("input[name='input[verberg_voor_klant]']").length>0) {
 		$("input[name='input[verberg_voor_klant]']").change(function() {
@@ -345,24 +345,24 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
+
 	// overzicht uitgaande openstaande betalingen
 	if($("input[name='inkoopbetalingen_filled']").length>0) {
-	
+
 		// alle submitbuttons disablen na formsubmit
 		$("form").submit(function(){
 			$("input[type=submit]").attr("disabled","disabled");
 		});
-		
+
 		// nieuwe betalingen
 		$(".nieuwebetaling_checkbox").change(function() {
 			var lev_id=$(this.form).children("input[name='leverancier_id']").val();
 			if($(".nieuwebetaling_checkbox_"+lev_id+":checked").length==0) {
-			
+
 				// goedkeur-vinkjes aanzetten
 				$(".nieuwegoedkeuring_checkbox").removeAttr("disabled");
 				$(".nieuwegoedkeuring_checkbox_alles").removeAttr("disabled");
-				
+
 				$("#betaalbutton_lev_"+lev_id).attr("disabled","disabled");
 				$("#betaaltotaal_"+lev_id).html("");
 			} else {
@@ -371,10 +371,10 @@ $(document).ready(function() {
 				$(".nieuwegoedkeuring_checkbox").attr("disabled","disabled");
 				$(".nieuwegoedkeuring_checkbox_alles").removeAttr("checked");
 				$(".nieuwegoedkeuring_checkbox_alles").attr("disabled","disabled");
-				
-				
+
+
 				$("#betaalbutton_lev_"+lev_id).removeAttr("disabled");
-				
+
 				var totaal=0;
 				$.each($(".nieuwebetaling_checkbox_"+lev_id+":checked"),function(key,value) {
 					totaal=totaal+parseFloat($(value).val());
@@ -406,7 +406,7 @@ $(document).ready(function() {
 				$(".nieuwebetaling_checkbox_alles").attr("disabled","disabled");
 
 				$("#goedkeurbutton_lev_"+lev_id).removeAttr("disabled");
-				
+
 				var totaal=0;
 				$.each($(".nieuwegoedkeuring_checkbox_"+lev_id+":checked"),function(key,value) {
 					totaal=totaal+parseFloat($(value).val());
@@ -440,7 +440,7 @@ $(document).ready(function() {
 			}
 		});
 	}
-	
+
 	if($(".financiele_table").length>0) {
 		// breedte van de pagina aanpassen
 //		var width=$("#financiele_table_id").width()+300;
@@ -458,8 +458,8 @@ $(document).ready(function() {
 		});
 		$("#fixedtable_header_div").css("display","block");
 	}
-	
-	
+
+
 	// jQuery UI Datepicker
 	$.datepicker.regional['nl'] = {
 		closeText: 'Sluiten',
@@ -481,7 +481,7 @@ $(document).ready(function() {
 		yearSuffix: ''};
 	$.datepicker.setDefaults($.datepicker.regional['nl']);
 	$(".jqueryui_datepicker").datepicker();
-	
+
 	// CMS via verkeerde site (niet chalet.nl) melden
 	if(cms_via_verkeerde_site==1) {
 		alert("Je gebruikt het CMS op dit moment via "+window.location.hostname+".\n\nGebruik het CMS altijd via www.chalet.nl/cms.php");
@@ -526,21 +526,21 @@ function inkoopgegevens_verschil(fieldname,hoger_is_beter) {
 			actueel_value='0,00';
 		}
 		actueel_value=parseFloat(actueel_value.replace(",","."));
-		
+
 		field_value=document.forms['frm'].elements['input['+fieldname+']'].value;
 		if(field_value.length==0) {
 			field_value='0,00';
 		}
 		field_value=parseFloat(field_value.replace(",","."));
-	
+
 		if(field_value==actueel_value) {
 			inkoopgegevens_verschil_met_actueel[fieldname]=false;
-			$("#"+fieldname+"_actueel").removeClass("inkoopgegevens_actueel_neutraal inkoopgegevens_actueel_positief inkoopgegevens_actueel_negatief").addClass("inkoopgegevens_actueel_neutraal");		
+			$("#"+fieldname+"_actueel").removeClass("inkoopgegevens_actueel_neutraal inkoopgegevens_actueel_positief inkoopgegevens_actueel_negatief").addClass("inkoopgegevens_actueel_neutraal");
 		} else {
 			inkoopgegevens_verschil_met_actueel[fieldname]=true;
 			if(actueel_value>field_value) {
 				if(hoger_is_beter) {
-					$("#"+fieldname+"_actueel").removeClass("inkoopgegevens_actueel_neutraal inkoopgegevens_actueel_positief inkoopgegevens_actueel_negatief").addClass("inkoopgegevens_actueel_positief");						
+					$("#"+fieldname+"_actueel").removeClass("inkoopgegevens_actueel_neutraal inkoopgegevens_actueel_positief inkoopgegevens_actueel_negatief").addClass("inkoopgegevens_actueel_positief");
 				} else {
 					$("#"+fieldname+"_actueel").removeClass("inkoopgegevens_actueel_neutraal inkoopgegevens_actueel_positief inkoopgegevens_actueel_negatief").addClass("inkoopgegevens_actueel_negatief");
 				}
@@ -566,7 +566,7 @@ function inkoopgegevens_berekenen(onload) {
 	//
 	// berekeningen uitvoeren inkoopgegevens
 	//
-	
+
 	// form-values opvragen
 	var inkoopbruto=get_float_input('inkoopbruto');
 	var inkoopcommissie=get_float_input('inkoopcommissie');
@@ -579,7 +579,7 @@ function inkoopgegevens_berekenen(onload) {
 	var betalingsverschil=get_float_input('betalingsverschil');
 	var betalingssaldo=0;
 
-	
+
 
 	// inkoopmincommissie berekenen
 	inkoopmincommissie=bedrag_min_korting(inkoopbruto,inkoopcommissie);
@@ -595,7 +595,7 @@ function inkoopgegevens_berekenen(onload) {
 	// totaalfactuurbedrag berekenen
 	var totaalfactuurbedrag=inkoopnetto;
 	totaalfactuurbedrag=totaalfactuurbedrag+extraopties_totaal;
-	
+
 	// uitkomsten in velden plaatsen
 	put_float_input("uitkomst_inkoopmincommissie",inkoopmincommissie);
 	put_float_input("uitkomst_inkoopnetto",inkoopnetto);
@@ -604,7 +604,7 @@ function inkoopgegevens_berekenen(onload) {
 	totaalfactuurbedrag=parseFloat(totaalfactuurbedrag.toFixed(2));
 	document.forms['frm'].elements['input[totaalfactuurbedrag]'].value=totaalfactuurbedrag;
 //	alert(totaalfactuurbedrag);
-	
+
 	// kijken of er een verschil is met de tarieventabel
 	//inkoopgegevens_verschil
 	inkoopgegevens_verschil('inkoopbruto',false);
@@ -614,7 +614,7 @@ function inkoopgegevens_berekenen(onload) {
 	inkoopgegevens_verschil('inkoopkorting_percentage',true);
 	inkoopgegevens_verschil('inkoopkorting_euro',true);
 
-	
+
 	// betalingssaldo bepalen
 	betalingssaldo=totaalfactuurbedrag-totaal_volgens_ontvangen_factuur+betalingsverschil;
 	betalingssaldo=parseFloat(betalingssaldo.toFixed(2));
@@ -650,7 +650,7 @@ function inkoopgegevens_berekenen(onload) {
 			}
 		}
 	}
-	
+
 	// tijdelijk: totaalfactuurbedrag opslaan
 	if($(".totaalfactuurbedrag_autosave").length>0) {
 		document.frm.submit();
@@ -662,7 +662,7 @@ function garantie_inkoopgegevens_berekenen() {
 	// berekeningen uitvoeren garantie-inkoop
 	//
 
-	
+
 	// form-values opvragen
 	var inkoopbruto=get_float_input('bruto');
 	var inkoopcommissie=get_float_input('korting_percentage');
@@ -670,7 +670,7 @@ function garantie_inkoopgegevens_berekenen() {
 	var inkoopkorting_percentage=get_float_input('inkoopkorting_percentage');
 	var inkoopkorting_euro=get_float_input('inkoopkorting_euro');
 
-	
+
 	// inkoopmincommissie berekenen
 	inkoopmincommissie=bedrag_min_korting(inkoopbruto,inkoopcommissie);
 
@@ -733,7 +733,7 @@ function isFloat(val) {
 
 function besteldatum_invullen() {
 	if($("[name='input[besteldatum][day]']").val()&&$("[name='input[besteldatum][month]']").val()&&$("[name='input[besteldatum][year]']").val()) {
-	
+
 	} else {
 		var d = new Date();
 		var curr_day = d.getDate();
@@ -743,7 +743,7 @@ function besteldatum_invullen() {
 		$("[name='input[besteldatum][day]']").val(curr_day);
 		$("[name='input[besteldatum][month]']").val(curr_month);
 		$("[name='input[besteldatum][year]']").val(curr_year);
-		
+
 		var besteldatum_td=$(".besteldatum_td");
 		besteldatum_td.css("background-color","yellow");
 		setTimeout(function() {
@@ -765,7 +765,7 @@ function slidetoggle(name) {
 			document.getElementById('plusmin_'+name).src=document.getElementById('plusmin_'+name).src.replace('minicon','plusicon');
 		}
 	}
-	
+
 	// openklappen/dichtklappen
 	$('#'+name).slideToggle('fast',function(){
 		setHgt2();
@@ -906,7 +906,7 @@ function fieldcopy(field1,field2) {
 }
 
 function garanties_seizoen_naar_datum(dit,seizoenids,begindatums,einddatums) {
-	
+
 	seizoenids_array=seizoenids.split(',');
 	begindatums_array=begindatums.split(',');
 	einddatums_array=einddatums.split(',');
@@ -920,6 +920,27 @@ function garanties_seizoen_naar_datum(dit,seizoenids,begindatums,einddatums) {
 			document.frm.elements['input[tot][year]'].value=parseInt(einddatums_array[i].substring(0,4));
 			document.frm.elements['input[tot][month]'].value=parseInt(einddatums_array[i].substring(4,6));
 			document.frm.elements['input[tot][day]'].value=parseInt(einddatums_array[i].substring(6,8));
+		}
+	}
+}
+
+function seizoen_naar_datum(dit,seizoenids,begindatums,einddatums,veldnaam_begindatum,veldnaam_einddatum) {
+
+	seizoenids_array=seizoenids.split(',');
+	begindatums_array=begindatums.split(',');
+	einddatums_array=einddatums.split(',');
+
+//alert(dit.value);
+
+	for(i=0; i<seizoenids_array.length;i++) {
+		if(dit.value==seizoenids_array[i]) {
+			document.frm.elements['input['+veldnaam_begindatum+'][year]'].value=parseInt(begindatums_array[i].substring(0,4));
+			document.frm.elements['input['+veldnaam_begindatum+'][month]'].value=parseInt(begindatums_array[i].substring(4,6));
+			document.frm.elements['input['+veldnaam_begindatum+'][day]'].value=parseInt(begindatums_array[i].substring(6,8));
+
+			document.frm.elements['input['+veldnaam_einddatum+'][year]'].value=parseInt(einddatums_array[i].substring(0,4));
+			document.frm.elements['input['+veldnaam_einddatum+'][month]'].value=parseInt(einddatums_array[i].substring(4,6));
+			document.frm.elements['input['+veldnaam_einddatum+'][day]'].value=parseInt(einddatums_array[i].substring(6,8));
 		}
 	}
 }
@@ -950,7 +971,7 @@ function betaling_goedkeuren(theLink, msg, bedrag) {
 }
 
 function wt_number_format (number, decimals, dec_point, thousands_sep) {
-    // Formats a number with grouped thousands  
+    // Formats a number with grouped thousands
     // Strip all characters but numerical ones.
     number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
     var n = !isFinite(+number) ? 0 : +number,

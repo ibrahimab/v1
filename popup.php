@@ -60,7 +60,7 @@ if($_GET["bkid"]) {
 	$db->query("SELECT b.naam, b.omschrijving".$vars["ttv"]." AS omschrijving FROM bijkomendekosten b WHERE b.bijkomendekosten_id='".addslashes($_GET["bkid"])."';");
 	if($db->next_record()) {
 		$omschrijving=nl2br(wt_htmlentities($db->f("omschrijving"),true,true))."<br>";
-	}	
+	}
 }
 
 $meertalig_array=array("annuleringsverzekering","schadeverzekering");
@@ -92,6 +92,7 @@ if(ereg("(.*)\-query-(.*)",$_GET["id"],$regs)) {
 }
 
 echo "<HTML><HEAD>";
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">\n";
 echo "<META NAME=\"robots\" CONTENT=\"noindex,follow\">";
 # JQuery
@@ -266,7 +267,7 @@ LI {
 if($_GET["id"]=="tarieventabel") {
 
 	if(file_exists("css/".$id)) {
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/".$id."_chalet.css?cache=".@filemtime("css/".$id."_chalet.css")."\" />\n";	
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/".$id."_chalet.css?cache=".@filemtime("css/".$id."_chalet.css")."\" />\n";
 	}
 
 	if($vars["seizoentype"]==2) {
@@ -277,11 +278,11 @@ if($_GET["id"]=="tarieventabel") {
 ?>
 </HEAD>
 <BODY bgcolor="<?php echo $bodybgcolor; ?>"><TABLE border="0" style="background-color:<?php echo $table; ?>;border: solid 2px <?php echo $table; ?>" width="100%" height="100%" cellspacing="0" cellpadding="5">
-<?php 
+<?php
 
 echo "<TR><TD height=\"30\"><TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><TR><TD><FONT color=\"".$thfontcolor."\"><B>".htmlentities($title[$_GET["id"]])."&nbsp;</B></FONT></TD><TD width=\"20\">";
 if($noprint[$_GET["id"]]) {
-	echo "&nbsp;"; 
+	echo "&nbsp;";
 } else {
 	echo "<a href=\"javascript:window.print();\"><IMG SRC=\"pic/printer.gif\" border=\"0\" alt=\"".html("paginaafdrukken","popup")."\" width=\"20\" height=\"18\"></a>";
 }

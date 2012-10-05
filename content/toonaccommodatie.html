@@ -42,7 +42,7 @@ if($toonper==3 or $vars["wederverkoop"]) {
 		$seizoen_begin[$db2->f("seizoen_id")]=$db2->f("begin");
 		$seizoen_eind[$db2->f("seizoen_id")]=$db2->f("eind");
 	}
-	
+
 	# Skipasgegevens uit database halen
 	$db->query("SELECT s.website_omschrijving".$vars["ttv"]." AS website_omschrijving FROM skipas s, accommodatie a WHERE a.skipas_id=s.skipas_id AND a.accommodatie_id='".addslashes($accinfo["accommodatie_id"])."';");
 	if($db->next_record()) {
@@ -82,7 +82,7 @@ if(!$db->next_record()) {
 #	if($_SERVER["REMOTE_ADDR"]=="82.173.186.80" and $_GET["back"]) {
 #		echo "<p><a href=\"".$_GET["back"]."\">Terug</a>";
 #	}
-	
+
 	if($_GET["back"]) {
 		echo "<p><A HREF=\"";
 		echo "http://".$_SERVER["HTTP_HOST"].htmlentities($_GET["back"]);
@@ -196,7 +196,7 @@ if(!$db->next_record()) {
 			echo "<TR class=\"noprint\"><TD><IMG SRC=\"".$path."pic/leeg.gif\" alt=\"\" height=\"10\" width=\"1\"></TD></TR>";
 #			echo "<TR class=\"noprint\"><TD align=\"center\"><INPUT TYPE=\"button\" style=\"width:400px\" onclick=\"document.aanvraag.o.value=0;document.aanvraag.action='".$path.txt("menu_beschikbaarheid").".php';this.form.submit();\" VALUE=\"  ".html("beschikbaarheidcontroleren","toonaccommodatie")."  \"></TD></TR>";
 #			echo "<TR class=\"noprint\"><TD><IMG SRC=\"".$path."pic/leeg.gif\" alt=\"\" height=\"10\" width=\"1\"></TD></TR>";
-			echo "<TR class=\"noprint\"><TD align=\"center\"><INPUT TYPE=\"button\" style=\"width:400px;background-color:#ebebeb;color:#000000;\" onclick=\"document.aanvraag.o.value=1;document.aanvraag.action='".$path.txt("menu_beschikbaarheid").".php';this.form.submit();\" VALUE=\"  ".html("optieaanvragen","toonaccommodatie")."  \"></TD></TR>";
+			echo "<TR class=\"noprint\"><TD align=\"center\"><INPUT TYPE=\"button\" style=\"width:400px;background-color:#ebebeb;color:#000000;\" onclick=\"document.aanvraag.o.value=1;document.aanvraag.action='".$path.txt("menu_beschikbaarheid").".php';this.form.submit();\" VALUE=\"  ".html("optieaanvragen","toonaccommodatie",array("h_1"=>"","h_2"=>""))."  \"></TD></TR>";
 		}
 		echo "<TR class=\"noprint\"><TD><IMG SRC=\"".$path."pic/leeg.gif\" alt=\"\" height=\"8\" width=\"1\"></TD></TR>";
 		if($_GET["back"]) {
@@ -251,7 +251,7 @@ if(!$db->next_record()) {
 		echo "<TR><TD nowrap colspan=\"2\"><TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 		echo "<TR><TH colspan=\"2\">Interne gegevens (alleen zichtbaar voor Chalet.nl)</TH></TR>";
 		echo "<TR><TD valign=\"top\" width=\"175\" nowrap>Accommodatie-code</TD><TD>".htmlentities($db->f("begincode").$db->f("type_id"))."</TD></TR>";
-		
+
 		echo "<TR><TD valign=\"top\" width=\"175\" nowrap>Leverancier</TD><TD>".htmlentities($db->f("leverancier"))."</TD></TR>";
 		if($db->f("lopmerkingen_intern")) {
 			echo "<TR><TD valign=\"top\" width=\"175\" nowrap>Opmerkingen</TD><TD>".nl2br(htmlentities($db->f("lopmerkingen_intern")))."</TD></TR>";
@@ -368,7 +368,7 @@ if(!$db->next_record()) {
 				if($skipas_website_omschrijving) echo "<p>";
 				echo toon_tekst_acc_en_type($db->f("inclusief"),$db->f("tinclusief"));
 			}
-			echo "</TD></TR>";	
+			echo "</TD></TR>";
 		}
 	}
 	if($db->f("exclusief") or $db->f("texclusief")) echo "<TR><TD valign=\"top\" width=\"175\" nowrap>".html("exclusief","toonaccommodatie")."</TD><TD>".toon_tekst_acc_en_type($db->f("exclusief"),$db->f("texclusief"))."</TD></TR>";
@@ -473,13 +473,13 @@ if(!$db->next_record()) {
 							}
 						}
 						$optiesoort_tabel_html.="</TABLE></TD></TR>";
-						
+
 						if($optiesoort_beschikbaar) {
 							$optie_tabel_html.=$optiesoort_tabel_html;
 						}
 					}
 				}
-				
+
 				if($optie_tabel_html and $optietarieventonen[$seizoenid]) {
 					echo "<TR><TD colspan=\"2\"><IMG SRC=\"".$path."pic/leeg.gif\" width=\"1\" height=\"5\" alt=\"\"></TD></TR>";
 					echo "<TR><TD nowrap colspan=\"2\"><TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
@@ -504,15 +504,15 @@ if(!$db->next_record()) {
 							$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 						}
 						$optie_pulldown_html.="</select>";
-						
+
 						if($optie_pulldown_teller) echo $optie_pulldown_html;
 					}
-				
+
 					echo "</TH></TR>";
 					echo "</form>";
-					
+
 					echo $optie_tabel_html;
-					
+
 					echo "</TABLE></TD></TR>";
 				}
 			}
@@ -534,7 +534,7 @@ if(!$db->next_record()) {
 			}
 		}
 	}
-	
+
 	# Bijkomende kosten gekoppeld aan skipassen
 	if($accinfo["skipasid"]) {
 		$db2->query("SELECT bijkomendekosten_id FROM skipas WHERE skipas_id='".addslashes($accinfo["skipasid"])."';");
@@ -544,7 +544,7 @@ if(!$db->next_record()) {
 			}
 		}
 	}
-	
+
 	if($bijkomendekosten_inquery) {
 		$db2->query("SELECT b.bijkomendekosten_id, b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.perboekingpersoon FROM bijkomendekosten b WHERE b.bijkomendekosten_id IN (".$bijkomendekosten_inquery.") ORDER BY b.naam".$vars["ttv"].";");
 		if($db2->num_rows()) {
@@ -570,7 +570,7 @@ if(!$db->next_record()) {
 						echo "</TH></TR>";
 						$bijkomendekosten_header_getoond=true;
 					}
-				
+
 					echo "<tr><td>";
 					echo "<table class=\"optietabel\" cellspacing=\"0\" border=\"0\" width=\"645\">";
 					echo "<tr>";
@@ -618,7 +618,7 @@ if(!$db->next_record()) {
 	echo "<TR><TD colspan=\"2\"><IMG SRC=\"".$path."pic/leeg.gif\" width=\"1\" height=\"5\" alt=\"\"></TD></TR>";
 	echo "<TR><TD nowrap colspan=\"2\"><TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 	echo "<TR><TH colspan=\"2\">".html("ligging","toonaccommodatie")."</TH></TR>";
-	
+
 	$pdf_plattegrond="pdf/plaats_plattegrond/".$accinfo["plaats_id"].".pdf";
 
 	echo "<TR><TD width=\"175\" nowrap>".html("plaats","toonaccommodatie")."</TD><TD><A HREF=\"".$path.txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/?backtypeid=".$db->f("type_id").($url[1] ? "&backqs=".urlencode(substr($url[1],1)) : "")."\">".htmlentities($db->f("plaats"))."</A>".(file_exists($pdf_plattegrond) ? " - <a href=\"".$path.htmlentities($pdf_plattegrond)."\" target=\"_blank\">".html("pdfplattegrond","toonaccommodatie")."</a>" : "")."</TD></TR>";
@@ -639,7 +639,7 @@ if(!$db->next_record()) {
 		if($db->f("afstandzwembad")) echo "<TR><TD width=\"175\" nowrap>".html("afstandzwembad","toonaccommodatie")."</TD><TD>".htmlentities(toonafstand($db->f("afstandzwembad"),$db->f("afstandzwembadextra"),html("meter","toonaccommodatie")))."</TD></TR>";
 		if($db->f("afstandzwemwater")) echo "<TR><TD width=\"175\" nowrap>".html("afstandzwemwater","toonaccommodatie")."</TD><TD>".htmlentities(toonafstand($db->f("afstandzwemwater"),$db->f("afstandzwemwaterextra"),html("meter","toonaccommodatie")))."</TD></TR>";
 		if($db->f("afstandgolfbaan")) echo "<TR><TD width=\"175\" nowrap>".html("afstandgolfbaan","toonaccommodatie")."</TD><TD>".htmlentities(toonafstand($db->f("afstandgolfbaan"),$db->f("afstandgolfbaanextra"),html("meter","toonaccommodatie")))."</TD></TR>";
-	
+
 	}
 	echo "</TABLE></TD></TR>";
 

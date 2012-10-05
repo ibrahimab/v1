@@ -26,22 +26,22 @@ function wt_popwindowXY(wWidth,wHeight,url,align) {
 
 function wt_post_to_url(path, params, method) {
 	method = method || "post"; // Set method to post by default, if not specified.
-	
+
 	// The rest of this code assumes you are not using a library.
 	// It can be made less wordy if you use one.
 	var form = document.createElement("form");
 	form.setAttribute("method", method);
 	form.setAttribute("action", path);
-	
+
 	for(var key in params) {
 		var hiddenField = document.createElement("input");
 		hiddenField.setAttribute("type", "hidden");
 		hiddenField.setAttribute("name", key);
 		hiddenField.setAttribute("value", params[key]);
-		
+
 		form.appendChild(hiddenField);
 	}
-	
+
 	document.body.appendChild(form);
 	form.submit();
 }
@@ -55,4 +55,22 @@ function wt_equalHeight(group) {
 		}
 	});
 	$(group).height(tallest);
+}
+
+function wt_check_all_checkboxes_tablelist(iam,number) {
+    var node_list = document.getElementsByTagName('input');
+
+	var regexptest=new RegExp("delete_checkbox\\["+number+"\\]\\[");
+
+    for (var i = 0; i < node_list.length; i++) {
+        var node = node_list[i];
+
+        if (node.getAttribute('type') == 'checkbox' && regexptest.test(node.getAttribute('name'))) {
+			if (iam.checked == 1) {
+				node.checked = 1;
+			} else {
+				node.checked = 0;
+			}
+        }
+    }
 }

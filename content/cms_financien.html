@@ -13,7 +13,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	while($db->next_record()) {
 		$voldaan_array[$db->f("boeking_id")]=round($db->f("bedrag"),2);
 	}
-	
+
 #	echo wt_dump($voldaan_array);
 #	exit;
 
@@ -29,7 +29,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	echo "<b>".htmlentities("Bestand \"".$_FILES["xmlbetalingen"]["name"]."\" (".$_FILES["xmlbetalingen"]["type"].")")." ontvangen</b><p>";
 
 	unset($betaling);
-	
+
 	#
 	# XML-import betalingen
 	#
@@ -41,7 +41,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 					#
 					# FinEntryLine
 					#
-					
+
 					if(is_array($value0["FinEntryLine"])) {
 						while(list($key,$value)=each($value0["FinEntryLine"])) {
 							unset($boekingsnummer);
@@ -65,17 +65,17 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 									$betaling[$betalingteller]["banktransactieid"]=$value["Payment"]["BankTransactionID"];
 									$banktransactieid_gehad[$value["Payment"]["BankTransactionID"]]=true;
 									$betaling[$betalingteller]["importtext"]=$value["Debtor"]["Name"]."\n".$value["Description"];
-									
+
 									$betaling[$betalingteller]["soortbestand"]="xml";
 								}
 							}
 						}
 					}
-	
+
 					#
 					# BankStatementLine
 					#
-					
+
 					if(is_array($value0["BankStatement"]) and is_array($value0["BankStatement"]["BankStatementLine"])) {
 						while(list($key,$value)=each($value0["BankStatement"]["BankStatementLine"])) {
 							unset($boekingsnummer);
@@ -102,18 +102,18 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 										$betaling[$betalingteller]["banktransactieid"]=$value["@attributes"]["ID"];
 									}
 									$betaling[$betalingteller]["importtext"]=$value["Debtor"]["Name"]."\n".$value["Description"];
-		
+
 									$banktransactieid_gehad[$value["@attributes"]["ID"]]=true;
-									
+
 									# nieuwsysteem=true (import via BankStatementLine)
 									$betaling[$betalingteller]["nieuwsysteem"]=true;
-									
+
 									$betaling[$betalingteller]["soortbestand"]="xml";
 								}
 							}
 						}
 					}
-	
+
 					#
 					# BankStatementLine - speciale gevallen
 					#
@@ -143,19 +143,19 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 										$betaling[$betalingteller]["banktransactieid"]=$value["@attributes"]["ID"];
 									}
 									$betaling[$betalingteller]["importtext"]=$value["Debtor"]["Name"]."\n".$value["Description"];
-					
+
 									$banktransactieid_gehad[$value["@attributes"]["ID"]]=true;
-									
+
 									# nieuwsysteem=true (import via BankStatementLine)
 									$betaling[$betalingteller]["nieuwsysteem"]=true;
-	
+
 									$betaling[$betalingteller]["soortbestand"]="xml";
-	
+
 								}
 							}
 						}
 					}
-				}	
+				}
 			} else {
 				echo "Het ontvangen XML-bestand is niet correct (foutcode 1). ";
 				$filesize=ceil(@filesize($_FILES["xmlbetalingen"]["tmp_name"])/1024);
@@ -174,13 +174,13 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		#
 		# CSV-import
 		#
-		
+
 		unset($regels);
 		$regels=file($_FILES["xmlbetalingen"]["tmp_name"]);
 		if(is_array($regels)) {
 			while(list($key,$value)=each($regels)) {
 				$csv=wt_csvrevert($value,";");
-				
+
 				if(trim($csv[8])=="1300" and trim($csv[9])>0 and (preg_match("/^[0-9]{6}$/",trim($csv[11])) or preg_match("/^[0-9]{8}$/",trim($csv[11])))) {
 					$betalingteller++;
 					if(preg_match("/^([0-9]{2})([0-9]{2})([0-9]{4})$/",trim($csv[7]),$regs)) {
@@ -195,18 +195,18 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 					}
 					$betaling[$betalingteller]["banktransactieid"]=trim($csv[9])."-".$bedrag."-".trim($csv[7])."-".trim($csv[11])."-".trim($csv[31])."-".trim($csv[6]);
 					$betaling[$betalingteller]["importtext"]=trim($csv[6]);
-					
+
 					$betaling[$betalingteller]["soortbestand"]="csv";
 				}
 			}
 		} else {
 			echo "Het CSV-bestand is leeg.";
 		}
-	}	
-	
+	}
+
 	#
 	# Vastgestelde betalingen (zowel CSV als XML) verwerken
-	# 	
+	#
 	if(is_array($betaling)) {
 
 		echo "<div style=\"position:fixed;top:0px;left:189px;display:none;\" id=\"fixedtable_header_div\">";
@@ -215,16 +215,16 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "</table></div>";
 
 		echo "De volgende betalingen zijn ge&iuml;mporteerd:<p>";
-		
+
 		echo "<div style=\"margin-bottom:10px;\"><span style=\"background-color:#ffa9a9;\">Rood</span> = aanbetaling wijkt af van het ge&iuml;mporteerde bedrag</div>";
-		
+
 #		echo "<span style=\"background-color:yellow;\">geel</span> = import via nieuw systeem (even in de gaten houden)<p>";
 		echo "<form method=\"post\" name=\"frm\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\">";
 		echo "<input type=\"hidden\" name=\"ontvangstbevestigingmailen\" value=\"1\">";
 		$table.="<table class=\"tbl\" cellspacing=\"0\" cellpadding=\"0\">";
 		$table.="<tr id=\"fixedtable_header\"><th>&nbsp;</th><th>Reserveringsnummer&nbsp;</th><th>Datum</th><th>Ontvangen</th><th>Openstaand</th><th nowrap>P.direct</th><th>Melding</th><th>&nbsp;</th><!-- _WT_WIS --><th title=\"Stuur ontvangstbevestiging\">Ontv.bev.</th><th title=\"Vraag om aanbetaling\">Aanbet.</th><!-- _WT_WIS --></tr>";
 		echo $table;
-	
+
 		while(list($key,$value)=each($betaling)) {
 			unset($velden,$foutmelding,$foutmeldingteller,$regel,$aanbetaling2);
 
@@ -246,23 +246,23 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$velden["mailblokkeren_ontvangenbetaling"]=$db->f("mailblokkeren_ontvangenbetaling");
 				$velden["goedgekeurde_betaling"]=$db->f("goedgekeurde_betaling");
 				$velden["totale_reissom"]=$db->f("totale_reissom");
-				
+
 				# uit database overnemen
 				$value["boekingsnummer"]=$db->f("boekingsnummer");
-				
+
 				# Openstaand bedrag + aanbetaling bepalen
 				unset($regeltonen,$totaal,$voldaan,$openstaand,$telaat,$telaat_type,$tevoldoen);
 				$totaal=round($db->f("totale_reissom"),2);
-			
+
 				$voldaan=$voldaan_array[$db->f("boeking_id")]+$velden["bedrag"];
-				
+
 				$voldaan=round($voldaan,2);
 				$openstaand=$totaal-$voldaan;
 				$openstaand=round($openstaand,2);
-		
+
 				$aantaldagen_na_boeken=round((time()-$db->f("bevestigdatum"))/86400);
 				$aantaldagen_voor_aankomst=round(($db->f("aankomstdatum_exact")-time())/86400);
-		
+
 				# Bepalen of er te laat betaald is
 				if($openstaand>0) {
 					# Aanbetaling 1
@@ -280,7 +280,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 						$telaat_type_naam="aanbetaling1";
 						$tevoldoen=$aanbetaling1-$voldaan;
 					}
-			
+
 					# Aanbetaling 2
 					if($db->f("aanbetaling2_datum") and $voldaan<($aanbetaling1+$db->f("aanbetaling2")) and time()>$db->f("aanbetaling2_datum")) {
 						$telaat=true;
@@ -289,7 +289,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 						$aanbetaling2=$db->f("aanbetaling2");
 						$tevoldoen=$aanbetaling1+$db->f("aanbetaling2")-$voldaan;
 					}
-					
+
 					# Eindbetaling
 					if($aantaldagen_voor_aankomst<$db->f("totale_reissom_dagenvooraankomst")) {
 						$telaat=true;
@@ -298,14 +298,14 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 						$tevoldoen=$openstaand;
 					}
 				}
-		
+
 				$totaal=number_format($totaal,2,",",".");
 				if($tevoldoen<>0) {
 					$toonperdirect=$tevoldoen;
 				} else {
 					$toonperdirect=0;
 				}
-		
+
 				if($openstaand<>0) {
 					$toonopenstaand=$openstaand;
 				} else {
@@ -317,7 +317,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if(ereg("([0-9]{4})-([0-9]{2})-([0-9]{2})",$value["datum"],$regs)) {
 				if(checkdate($regs[2],$regs[3],$regs[1])) {
 					$velden["datum"]=mktime(0,0,0,$regs[2],$regs[3],$regs[1]);
-					
+
 					if($value["soortbestand"]=="csv") {
 						# CSV
 						if(date("Ymd",$velden["datum"])<20120111) {
@@ -332,7 +332,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							$foutmelding[]="tijdelijke blokkade van 09-01-2012";
 						}
 					}
-					
+
 				} else {
 					$foutmelding[]="onjuiste datum in xml-bestand: ".$value["datum"];
 				}
@@ -365,13 +365,13 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$foutmelding[]="geen banktransactieid aanwezig in import-bestand";
 			}
 			$regel.="<tr><td align=\"right\" valign=\"top\">".$teller."</td><td valign=\"top\">".htmlentities($value["boekingsnummer"])."&nbsp;</td><td valign=\"top\">".($velden["datum"]>0 ? date("d-m-Y",$velden["datum"]) : "&nbsp;")."</td><td valign=\"top\">&euro;&nbsp;".number_format($velden["bedrag"],2,",",".")."</td>";
-			
+
 			# kolom openstaand
 			$regel.="<td>".($toonopenstaand<>0 ? number_format($toonopenstaand,2,",",".") : "&nbsp;")."</td>";
-			
+
 			# kolom per direct
 			$regel.="<td>".($toonperdirect<>0 ? number_format($toonperdirect,2,",",".") : "&nbsp;")."</td>";
-			
+
 			if(is_array($foutmelding)) {
 				$regel.="<td valign=\"top\" colspan=\"2\"><span class=\"error\"><b>";
 				while(list($key2,$value2)=each($foutmelding)) {
@@ -382,7 +382,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$regel.="</b></span></td><!-- _WT_WIS --><td>&nbsp;</td><td>&nbsp;</td><!-- _WT_WIS -->";
 			} else {
 				$regel.="<td valign=\"top\"><a href=\"".ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">OK</a></td>";
-				
+
 				# kijken of er een overbetaling van toepassing is
 				$openstaand=round($velden["totale_reissom"]-$velden["bedrag"],2);
 				$db2->query("SELECT SUM(bedrag) AS totaal FROM boeking_betaling WHERE boeking_id='".addslashes($velden["boekingid"])."';");
@@ -419,7 +419,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 				# Import-actie loggen bij boeking
 				$velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- import betaling ".date("d-m-Y",$velden["datum"]).": € ".number_format($velden["bedrag"],2,",",".");
-				
+
 				# Log opslaan
 				$db->query("UPDATE boeking SET log='".addslashes($velden["log"])."', goedgekeurde_betaling=0 WHERE boeking_id='".addslashes($velden["boekingid"])."';");
 
@@ -438,7 +438,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "<div style=\"font-weight:bold;color:red;\">Betalingen importeren niet gelukt. Wellicht is de structuur van het Exact-bestand onjuist of gewijzigd.</div>";
 		trigger_error("Betalingen extraheren uit Exact-importbestand is mislukt. Structuur van exportbestand onjuist?",E_USER_NOTICE);
 	}
-	
+
 	if($maillog) {
 
 		$mail=new wt_mail;
@@ -454,7 +454,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 #		$mail->bcc="jeroen@webtastic.nl";
 		$mail->html="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style type=\"text/css\"><!--\na:visited:hover,a:hover {\ncolor:#878481;\n}\n.tbl {\nwidth: 100%;\nborder: solid #282E82 1px;}\n.tbl th {\nbackground-color: #282E82;\ntext-align: left;\ncolor: #ffffff;\nborder: solid #282E82 1px;\nfont-size: 10pt;\n}\n.tbl td {\nfont-size: 10pt;\nborder: solid #282E82 1px;\npadding: 3px;\n}\n.tbl th a:visited {\ncolor: #ffffff;\n}\n.tbl th a:link {\ncolor: #ffffff;\n}\n.tbl th a:active {\ncolor: #ffffff;\n}\n.tbl th a:hover {\ncolor: #D40139;\n}\n.tbl .tbl_icon {\nwidth: 20px;\n}\n.tbl .leftcell {\nwidth: 10px;\n}\n.tbl .rightcell {\n}\n.error {\ncolor: red;\n}\n--></style>\n</head>\n<body style=\"background-color: #F3F3F3;font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 10pt;\">\n";
-		
+
 		if($mail_only_errors) {
 			$mail->html.="<B>De volgende betalingen zijn niet goed gegaan:</B><p>".$table.$maillog."</table>";
 		} else {
@@ -464,7 +464,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 		# Checkboxen wissen in mailtje
 		$mail->html=ereg_replace("<\!-- _WT_WIS -->[^\n]+<\!-- _WT_WIS -->","",$mail->html);
-		
+
 		$mail->send();
 		echo "<p><b>Logbestand gemaild aan <i>".htmlentities($mail->to)."</i>.</b>";
 	}
@@ -478,7 +478,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$velden["boekingid"]=$split[0];
 				$velden["bedrag"]=$split[1];
 				$velden["datum"]=$split[2];
-				
+
 				if($velden["boekingid"]>0 and $velden["bedrag"]>0 and $velden["datum"]>0) {
 
 					# Kijken of er om een openstaande aanbetaling moet worden gevraagd
@@ -493,12 +493,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							$db->query("UPDATE boeking SET ".$updateveld."='".addslashes($velden["bedrag"])."' WHERE boeking_id='".addslashes($velden["boekingid"])."';");
 						}
 					}
-					
+
 					# Mail sturen
 
 					# Mailtekst bepalen
 					$mailtekst_ontvangenbetaling=mailtekst_ontvangenbetaling($velden["boekingid"],$velden["bedrag"],$velden["datum"]);
-		
+
 					# Mail versturen aan klant (ontvangstbevestiging betaling)
 					$mail=new wt_mail;
 					if($login->vars["email"]) {
@@ -522,7 +522,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 						$mail->to=$mailtekst_ontvangenbetaling["to"];
 						$mail->send();
 					}
-					
+
 					echo "<li><a href=\"cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">".$mailtekst_ontvangenbetaling["boekingsnummer"]."</a>: ".htmlentities($mail->to);
 					if($updateveld=="aanbetaling1_gewijzigd") {
 						echo "&nbsp;&nbsp;<b>(aanbetaling1 is gewijzigd in &euro;&nbsp;".number_format($velden["bedrag"],2,',','.').")</b>";
@@ -531,7 +531,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 						echo "&nbsp;&nbsp;<b>(aanbetaling2 is gewijzigd in &euro;&nbsp;".number_format($velden["bedrag"],2,',','.').")</b>";
 					}
 					echo "</li>\n";
-					
+
 					# Verstuurd mailtje loggen
 					$db->query("SELECT log FROM boeking WHERE boeking_id='".addslashes($velden["boekingid"])."';");
 					if($db->next_record()) {
@@ -543,7 +543,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							$velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- bij ontvangstbevestiging: aanbetaling2 gewijzigd in € ".number_format($velden["bedrag"],2,',','.');
 						}
 						$velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- ontvangstbevestiging betaling gemaild aan ".$mailtekst_ontvangenbetaling["to_log"];
-			
+
 						# Log opslaan
 						$db->query("UPDATE boeking SET log='".addslashes($velden["log"])."' WHERE boeking_id='".addslashes($velden["boekingid"])."';");
 					}
@@ -553,8 +553,8 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	} else {
 		echo "Geen ontvangstbevestigingen verzonden.";
 	}
-	
-} elseif($_GET["marges"] and (($login->has_priv(27) and $_SERVER["REMOTE_ADDR"]=="80.101.166.235") or $login->has_priv(28) or $vars["mustlogin_cms_cron_false"])) {
+
+} elseif($_GET["marges"] and (($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28) or $vars["mustlogin_cms_cron_false"])) {
 
 #	echo "<style>\n#wrapper {\nwidth: 2000px;\n}#content {\nwidth:1800px;\n}\n</style>";
 
@@ -570,7 +570,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	if($form->okay) {
 		# Kolom-gegevens opslaan bij user
 		$db->query("UPDATE user SET fintotaaloverzicht_kolommen='".$form->input["kolommen"]."' WHERE user_id='".addslashes($login->user_id)."';");
-		
+
 		$kolommen_array=preg_split("/,/",$form->input["kolommen"]);
 		while(list($key,$value)=each($kolommen_array)) {
 			if($form->input["losseboekingen"] or !preg_match("/^boeking_/",$value)) {
@@ -599,10 +599,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	function toonaantal($aantal) {
 		return number_format($aantal,0,",",".");
 	}
-	
+
 	# $andquery bepalen
 	unset($andquery);
-	
+
 	# soort boekingen (direct of reisbureau)
 	if($form->input["soortboekingen"]=="1") {
 		# alleen directe boekingen
@@ -610,11 +610,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	} elseif($form->input["soortboekingen"]=="2") {
 		# alleen reisbureau-boekingen
 		$andquery.=" AND b.reisbureau_user_id>0";
-		
+
 		# geen ongebruikte garanties
 		$andquery_gar.=" AND g.boeking_id>0";
 	}
-	
+
 	# leverancier
 	if($form->input["leverancier_id"]) {
 		$andquery.=" AND b.leverancier_id='".addslashes($form->input["leverancier_id"])."'";
@@ -626,14 +626,14 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$andquery_hoofdquery.=" AND p.land_id='".addslashes($form->input["land_id"])."'";
 		$andquery_gar_hoofdquery.=" AND p.land_id='".addslashes($form->input["land_id"])."'";
 	}
-	
+
 	# regio
 	if($form->input["skigebied_id"]) {
 		$andquery_hoofdquery.=" AND s.skigebied_id='".addslashes($form->input["skigebied_id"])."'";
 		$andquery_gar_hoofdquery.=" AND s.skigebied_id='".addslashes($form->input["skigebied_id"])."'";
 	}
-	
-	
+
+
 	# websites
 	if($form->input["websites"]) {
 		$form->input["websites"]="'".preg_replace("/,/","','",$form->input["websites"])."'";
@@ -655,20 +655,20 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			$andquery_gar_hoofdquery.=" AND p.plaats_id IN (".substr($plaats_inquery,1).")";
 		}
 	}
-	
+
 	if($form->input["seizoenen"]) {
 		$seizoen_id=$form->input["seizoenen"];
 	} else {
 		$seizoen_id=substr($vars["temp_seizoenen_active"],1);
 	}
-	
+
 	if(!$seizoen_id) $seizoen_id="0";
-	
+
 	# Namen seizoen
 	$db->query("SELECT seizoen_id, naam, type, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen WHERE seizoen_id IN (".$seizoen_id.") ORDER BY type, begin, eind;");
 	while($db->next_record()) {
 		$seizoen["naam"][$db->f("seizoen_id")]=$db->f("naam");
-		
+
 		# datum aan seizoen koppelen
 		$week=$db->f("begin");
 		while($week<=$db->f("eind")) {
@@ -676,7 +676,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 		}
 	}
-	
+
 	# alle betalingen laden (boekingen)
 	$db->query("SELECT b.seizoen_id, b.boeking_id, bb.bedrag, bb.bedrag_goedgekeurd FROM boeking b, boeking_betaling_lev bb WHERE bb.boeking_id=b.boeking_id AND b.seizoen_id IN (".$seizoen_id.")".$andquery.";");
 	while($db->next_record()) {
@@ -688,7 +688,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	while($db->next_record()) {
 		$losseboeking_betaling["gar_".$db->f("garantie_id")]+=$db->f("bedrag_goedgekeurd");
 	}
-	
+
 	$optie_cat=array(2=>"bijkomende_kosten_verblijf",3=>"skipassen",4=>"huurmateriaal",5=>"skilessen",6=>"catering",7=>"vervoer",8=>"verzekeringen",9=>"kortingen",20=>"overig");
 
 	# inkoop opties laden (boekingen)
@@ -727,7 +727,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		} else {
 			if($form->input["onverkochtegaranties"] or !$_GET["frm_filled"]) {
 				$seizoenid=$datum_seizoen[$db->f("wzt")][$db->f("aankomstdatum")];
-				
+
 				if($seizoen["naam"][$seizoenid]) {
 					if($db->f("aankomstdatum_exact")<time()) {
 						# verlopen garantie
@@ -738,7 +738,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 						$totalen["omzet_gar"]["inkoopbruto"][$seizoenid]+=$db->f("bruto");
 						$totalen["omzet_gar"]["totaalfactuurbedrag"][$seizoenid]+=$db->f("netto");
 						$totalen["omzet_gar"]["totale_reissom"][$seizoenid]+=0;
-						
+
 
 						$totalen["omzet_gar"]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling["gar_".$db->f("garantie_id")];
 
@@ -754,10 +754,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 						$totalen["voorraad"]["inkoopbruto"][$seizoenid]+=$db->f("bruto");
 						$totalen["voorraad"]["totaalfactuurbedrag"][$seizoenid]+=$db->f("netto");
 						$totalen["voorraad"]["totale_reissom"][$seizoenid]+=0;
-	
+
 						$totalen["voorraad"]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling["gar_".$db->f("garantie_id")];
 					}
-					
+
 					# Totalen per leverancier
 					$inquery_lev[$seizoenid].=",".$db->f("leverancier_id");
 					$totalen_lev[$db->f("leverancier_id")]["aantalpersonen"][$seizoenid]+=0;
@@ -769,7 +769,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 					$totalen_lev[$db->f("leverancier_id")]["totale_reissom_inkoop"][$seizoenid]+=$db->f("netto");
 					$totalen_lev[$db->f("leverancier_id")]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling[$db->f("boeking_id")];
 					$totalen_lev[$db->f("leverancier_id")]["voorraad"]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling["gar_".$db->f("garantie_id")];
-					
+
 					# marge bepalen
 					if($form->input["losseboekingen"] or $_GET["csv"]) {
 						unset($losseboeking);
@@ -863,14 +863,14 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("naam"))."</td>";
 						}
 						$losseregel.="</tr>";
-	
+
 						$fin["losseboekingen"][$seizoenid][]=$losseregel;
 					}
 				}
 			}
 		}
 	}
-	
+
 	# Gewone boekingen
 	$db->query("SELECT SUBSTR(b.boekingsnummer,2) AS sortboekingsnummer, b.seizoen_id, b.boeking_id, b.boekingsnummer, b.leverancier_id, b.type_id, b.aantalpersonen, b.aankomstdatum, b.totale_reissom, b.totale_reissom_inkoop, b.inkoopbruto, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, a.bestelnaam AS abestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, p.naam AS plaats, l.naam AS leverancier, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, skigebied s, leverancier l WHERE p.skigebied_id=s.skigebied_id AND b.leverancier_id=l.leverancier_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.totale_reissom_inkoop IS NOT NULL AND b.seizoen_id IN (".$seizoen_id.") AND CHAR_LENGTH(b.boekingsnummer)>0 AND b.type_id=t.type_id".$andquery.$andquery_hoofdquery." ORDER BY 1;");
 	while($db->next_record()) {
@@ -879,7 +879,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		} else {
 			$use_key="omzet_ov";
 		}
-	
+
 		$totalen[$use_key]["aantalpersonen"][$db->f("seizoen_id")]+=$db->f("aantalpersonen");
 		$totalen[$use_key]["aantalpersonen_max"][$db->f("seizoen_id")]+=$db->f("maxaantalpersonen");
 		$totalen[$use_key]["aantalacc"][$db->f("seizoen_id")]++;
@@ -894,7 +894,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			$totalen[$use_key]["opties_".$value][$db->f("seizoen_id")]+=$losseboeking_optieinkoop[$db->f("boeking_id")][$value];
 			$totalen_lev[$db->f("leverancier_id")]["opties_".$value][$db->f("seizoen_id")]+=$losseboeking_optieinkoop[$db->f("boeking_id")][$value];
 		}
-		
+
 		# Totalen per leverancier
 		$inquery_lev[$db->f("seizoen_id")].=",".$db->f("leverancier_id");
 		$totalen_lev[$db->f("leverancier_id")]["aantalpersonen"][$db->f("seizoen_id")]+=$db->f("aantalpersonen");
@@ -905,10 +905,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$totalen_lev[$db->f("leverancier_id")]["totale_reissom"][$db->f("seizoen_id")]+=$db->f("totale_reissom");
 		$totalen_lev[$db->f("leverancier_id")]["totale_reissom_inkoop"][$db->f("seizoen_id")]+=$db->f("totale_reissom_inkoop");
 		$totalen_lev[$db->f("leverancier_id")]["betaald_bedrag_goedgekeurd"][$db->f("seizoen_id")]+=$losseboeking_betaling[$db->f("boeking_id")];
-		
-		
+
+
 		if($form->input["losseboekingen"] or $_GET["csv"]) {
-		
+
 			# marge bepalen
 			unset($losseboeking);
 			$losseboeking["marge_euro"]=$db->f("totale_reissom")-$db->f("totale_reissom_inkoop");
@@ -1013,11 +1013,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["boeking_klantnaam"]) {
 				$losseregel.="<td style=\"text-align:left;\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td>";
 			}
-			
+
 			$losseregel.="</tr>";
 
 			$fin["losseboekingen"][$db->f("seizoen_id")][]=$losseregel;
-			
+
 		}
 	}
 
@@ -1033,7 +1033,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$totalen["totaal"]["totale_reissom"][$key]=$totalen["omzet_gar"]["totale_reissom"][$key]+$totalen["omzet_ov"]["totale_reissom"][$key]+$totalen["voorraad"]["totale_reissom"][$key];
 		$totalen["totaal"]["totale_reissom_inkoop"][$key]=$totalen["omzet_gar"]["totale_reissom_inkoop"][$key]+$totalen["omzet_ov"]["totale_reissom_inkoop"][$key]+$totalen["voorraad"]["totale_reissom_inkoop"][$key];
 		$totalen["totaal"]["betaald_bedrag_goedgekeurd"][$key]=$totalen["omzet_gar"]["betaald_bedrag_goedgekeurd"][$key]+$totalen["omzet_ov"]["betaald_bedrag_goedgekeurd"][$key]+$totalen["voorraad"]["betaald_bedrag_goedgekeurd"][$key];
-		
+
 		# opties
 		reset($optie_cat);
 		while(list($key2,$value2)=each($optie_cat)) {
@@ -1041,7 +1041,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 	}
 #	echo wt_dump($totalen["totaal"]);
-	
+
 	# fixed table-header
 	if($form->input["losseboekingen"]) {
 		echo "<div style=\"position:fixed;top:-5px;left:189px;display:none;\" id=\"fixedtable_header_div\">";
@@ -1060,13 +1060,13 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "<tr><td colspan=\"".$colspan."\" style=\"text-align:left;\">";
 		if($seizoenteller>1) echo "<br><br>";
 		echo "<i>Seizoen: ".htmlentities($value)."</i></td></tr>";
-		
-		
+
+
 		# t.b.v. CSV-export
 		if($_GET["csv"]) {
 			ob_start();
 		}
-		
+
 		echo "<tr".($seizoenteller==1 ? " id=\"fixedtable_header\"" : "")."><th>Omschrijving</th>";
 		if($kolom["aantal_ingekocht"]) {
 			echo "<th title=\"Aantal ingekochte accommodaties\">St.</th>";
@@ -1147,20 +1147,20 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_klantnaam"])."\">B: Klantnaam</th>";
 		}
 		echo "</tr>";
-		
+
 
 		# t.b.v. CSV-export
 		if($_GET["csv"]) {
 			$csv_header=ob_get_clean();
 		}
-		
+
 		$doorloop_array=array("voorraad"=>"voorraad","omzet_gar"=>"omzet garanties","omzet_ov"=>"omzet overig","totaal"=>"totaal");
 
 		# t.b.v. CSV-export
 		if($_GET["csv"]) {
 			ob_start();
 		}
-		
+
 		while(list($key2,$value2)=each($doorloop_array)) {
 			# marge bepalen
 			$totalen[$key2]["marge_euro"][$key]=$totalen[$key2]["totale_reissom"][$key]-$totalen[$key2]["totale_reissom_inkoop"][$key];
@@ -1171,7 +1171,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			} else {
 				$totalen[$key2]["marge_percentage"][$key]=0;
 			}
-			
+
 			echo "<tr style=\"color:#ffffff;background-color:grey;\"><td><b>".htmlentities($value2)."</b></td>";
 			if($kolom["aantal_ingekocht"]) {
 				echo "<td>".toonaantal($totalen[$key2]["aantalacc"][$key])."</td>";
@@ -1257,7 +1257,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		# Totalen per leverancier
 		if($form->input["totaalperleverancier"] and is_array($totalen_lev) and $inquery_lev[$key]) {
 			echo "<tr><td colspan=\"".$colspan."\" style=\"text-align:left;\">&nbsp;</td></tr>";
-		
+
 			$db->query("SELECT leverancier_id, naam FROM leverancier WHERE leverancier_id IN (".substr($inquery_lev[$key],1).") ORDER BY naam;");
 			while($db->next_record()) {
 
@@ -1270,7 +1270,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				} else {
 					$totalen_lev[$db->f("leverancier_id")]["marge_percentage"][$key]=0;
 				}
-			
+
 				echo "<tr style=\"color:#ffffff;background-color:grey;\"><td style=\"text-align:left;\">".wt_he($db->f("naam"))."</td>";
 				if($kolom["aantal_ingekocht"]) {
 					echo "<td>".toonaantal($totalen_lev[$db->f("leverancier_id")]["aantalacc"][$key])."</td>";
@@ -1354,19 +1354,19 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			}
 			echo "<tr><td colspan=\"".$colspan."\" style=\"text-align:left;\">&nbsp;</td></tr>";
 		}
-		
+
 		# t.b.v. CSV-export
 		if($_GET["csv"]) {
 			$csv_totalen=ob_get_clean();
 		}
-		
+
 		if($fin["losseboekingen"][$key]) {
-		
+
 			# t.b.v. CSV-export
 			if($_GET["csv"]) {
 				ob_start();
 			}
-		
+
 			while(list($key3,$value3)=each($fin["losseboekingen"][$key])) {
 				echo $value3."\n";
 			}
@@ -1388,7 +1388,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							while(list($key2,$value2)=each($cells)) {
 								$value2=trim(strip_tags($value2));
 								if(preg_match("/[a-zA-Z]/",$value2)) {
-									$output_array[$csvlines_teller].=";".wt_csvconvert($value2,";",true);								
+									$output_array[$csvlines_teller].=";".wt_csvconvert($value2,";",true);
 								} else {
 									$value2=str_replace(".","",$value2);
 									$output_array[$csvlines_teller].=";".wt_csvconvert($value2,";",false);
@@ -1422,7 +1422,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			$csvoutput[$seizoenkey].=convert_to_csv($csv_boekingen,"</td>");
 		}
 	}
-	
+
 	echo "</table>";
 
 	if($_GET["csv"]) {
@@ -1433,7 +1433,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 #		echo wt_dump($csvoutput);
 	}
-	
+
 } else {
 	#
 	# Overzicht met keuzes
@@ -1443,18 +1443,18 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	if($login->has_priv(5)) {
 		echo "<li><a href=\"cms_financien_betalingen.php?uitgaand=1\">Overzicht uitgaande betalingen</a> (leveranciers)</li>";
 	}
-	if(($login->has_priv(27) and $_SERVER["REMOTE_ADDR"]=="80.101.166.235") or $login->has_priv(28)) {
+	if(($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28)) {
 		echo "<li><a href=\"cms_financien.php?marges=1\">Totaaloverzicht financi&euml;n</a></li>";
 	}
 	echo "</ul>";
-	
+
 	if($login->has_priv(3)) {
 		echo "<b>CSV-export:</b><ul>";
 		echo "<li><a href=\"cron/export_debiteuren.php\" target=\"_blank\">Debiteuren exporteren</a></li>";
 		echo "<li><a href=\"cron/export_facturen.php?nodate=1\" target=\"_blank\" onclick=\"return confirmClick(this,'Elke boeking wordt slechts eenmalig geëxporteerd. Doorgaan?');\">Nieuwe verkoopboekingen exporteren</a></li>";
 		echo "<li><a href=\"cron/export_facturen.php\" target=\"_blank\">Verkoopboekingen exporteren</a> (periode opgeven)</li>";
 		echo "</ul>";
-		
+
 		echo "<b>Import:</b><ul>";
 		echo "<li>Betalingen importeren via CSV: ";
 		echo "<form method=\"post\" name=\"frm\" action=\"".$_SERVER["REQUEST_URI"]."\" enctype=\"multipart/form-data\">";
@@ -1464,7 +1464,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "</form>";
 		echo "</ul>";
 	}
-	
+
 }
 
 if($dit_is_helemaal_niet_nodig) {
@@ -1482,13 +1482,13 @@ if($dit_is_helemaal_niet_nodig) {
 		echo "<tr><td>Boekjaar ".$key."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&euro;&nbsp;</td><td align=\"right\">".number_format($value,2,',','.')."</td></tr>";
 	}
 	echo "</table>&nbsp;<hr>&nbsp;<p>";
-	
+
 	$db->query("SELECT boeking_id, UNIX_TIMESTAMP(factuurdatum) AS factuurdatum FROM boeking WHERE goedgekeurd=1;");
 	while($db->next_record()) {
 		$temp_gegevens=boekinginfo($db->f("boeking_id"));
 		$gegevens["stap1"]["boekingid"]=$temp_gegevens["stap1"]["boekingid"];
 		$gegevens["stap1"]["factuurdatum"]=$temp_gegevens["stap1"]["factuurdatum"];
-		
+
 		if($temp_gegevens["stap4"][2]) {
 			$gegevens["stap4"]=$temp_gegevens["stap4"][2];
 			$gegevens["stap4"]["actieve_status"]=2;
@@ -1502,19 +1502,19 @@ if($dit_is_helemaal_niet_nodig) {
 		$boeking2[$db->f("boeking_id")]+=$gegevens["fin"]["totale_reissom"];
 		$boekjaar2[$db->f("boeking_id")]=boekjaar($db->f("factuurdatum"));
 	}
-	
+
 	ksort($totaal2);
 	echo "Boekingen<table>";
 	while(list($key,$value)=each($totaal2)) {
 		echo "<tr><td>Boekjaar ".$key."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&euro;&nbsp;</td><td align=\"right\">".number_format($value,2,',','.')."</td></tr>";
 	}
 	echo "</table>";
-	
+
 	echo "<hr>Boekjaar<p>";
 	while(list($key,$value)=each($boekjaar1)) {
 		if($value<>$boekjaar2[$key]) echo "Boeking ".$key." - factuur:".$boekjaar2[$key]." - boeking:".$value."<br>";
 	}
-	
+
 	echo "<hr>Boeking1<p>";
 	while(list($key,$value)=each($boeking1)) {
 		if(intval($value*100)<>intval($boeking2[$key]*100)) echo "Boeking ".$key." - factuur:".$boeking2[$key]." - boeking:".$value."<br>";
@@ -1523,6 +1523,6 @@ if($dit_is_helemaal_niet_nodig) {
 	while(list($key,$value)=each($boeking2)) {
 		if(intval($value*100)<>intval($boeking1[$key]*100)) echo "Boeking ".$key." - factuur:".$boeking1[$key]." - boeking:".$value."<br>";
 	}
-}	
+}
 
 ?>

@@ -1,5 +1,11 @@
 <script type="text/javascript">
-
+function printAndTrack(){
+	var google_analytics_event="favoriet uitprinten";
+	if (typeof _gaq != "undefined") {
+		_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, "Favorieten pagina"]);
+	}
+	return print();
+}
 
 var RecaptchaOptions = {
 	theme : 'clean'
@@ -66,7 +72,10 @@ function controlEnSend() {
 }
 
 function ajaxMailFunction() {
-
+	var google_analytics_event="favoriet doormailen";
+	if (typeof _gaq != "undefined") {
+		_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, "Favorieten pagina"]);
+	}
 	$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
 
 	$.getJSON(absolute_path+"rpc_json.php", {
@@ -103,7 +112,7 @@ if($db->num_rows()) {
 
 	echo "<div style=\"min-height:550px;\">";
 
-	echo "<div id=\"options\" style=\"float:left;margin-bottom:10px;\"><a id=\"showForm\" style=\"text-decoration:none;\" href=\"#\"><img src=\"".$vars["path"]."pic/button_mail_small.png\"/ style=\"vertical-align:middle;margin-top:-3px;\" width=\"16\" height=\"16\" border=\"0\"> ". html("versturenPermail","favorieten")."</a> | <a style=\"text-decoration:none;\" href=\"javascript:print();\"><img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/printer.gif\" width=\"20\" height=\"18\"/> ". html("inhoudprinten","favorieten")."</a></div>";
+	echo "<div id=\"options\" style=\"float:left;margin-bottom:10px;\"><a id=\"showForm\" style=\"text-decoration:none;\" href=\"#\"><img src=\"".$vars["path"]."pic/button_mail_small.png\"/ style=\"vertical-align:middle;margin-top:-3px;\" width=\"16\" height=\"16\" border=\"0\"> ". html("versturenPermail","favorieten")."</a> | <a style=\"text-decoration:none;\" onclick=\"printAndTrack();\" href=\"#\"><img style=\"vertical-align:middle;\" border=\"0\" src=\"".$vars["path"]."pic/printer.gif\" width=\"20\" height=\"18\"/> ". html("inhoudprinten","favorieten")."</a></div>";
 	echo "<div style=\"clear:both;\"></div>";
 	echo "<div id=\"mailForm\" style=\"display:none;\" class=\"noprint\">";
 	echo "<form action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
@@ -193,7 +202,7 @@ if($db->num_rows()) {
 
 		echo "<div id=\"removeFromfavs\" style=\"padding-left:5px;padding-top:1px;padding-bottom:3px;z-index:10;\">";
 		echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=\"".$vars["path"]."pic/icon_notokay.png\"> ";
-		echo "<a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen(".$db->f("type_id").", 'delete');\">".html("Uitmijnfavorietenhalen","favorieten")."</a>";
+		echo "<a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen(".$db->f("type_id").", 'delete');\">".html("uitmijnfavorietenhalen","favorieten")."</a>";
 		echo "</div>"; # afsluiten #removeFromfavs
 
 		echo "</div>"; # afsluiten .zoekresultaat_block
@@ -207,15 +216,7 @@ if($db->num_rows()) {
 	#
 	# Nog geen favorieten
 	#
-
-	if($vars["websitetype"]==7) {
-		$favorieten_toevoegen_button="favorieten_toevoegen_italissima";
-	} elseif($vars["websitetype"]==3) {
-		$favorieten_toevoegen_button="favorieten_toevoegen_zomerhuisje";
-	} else {
-		$favorieten_toevoegen_button="favorieten_toevoegen";
-	}
-	echo html("geenfavorieten","favorieten",array("h_1"=>"<img style=\"vertical-align:middle;\" src=\"".$vars["path"]."pic/".$favorieten_toevoegen_button.".png\" width=\"13\" height=\"13\" border=\"0\"> <u>","h_2"=>"</u>"));
+	echo html("geenfavorieten","favorieten",array("h_1"=>"<nobr><u>","h_2"=>"</u></nobr>"));
 }
 
 ?>
