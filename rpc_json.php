@@ -424,7 +424,7 @@ if ( $_GET["t"]==1 ) {
 	}
 	
 }elseif($_GET["t"]==8){
-#	Ideal betalingssysteem
+#	Ideal betalingssysteem Sisow
 #het ophalen van een lijst met alle aangesloten banken.
 	if($_GET["action"]=="getBanks"){
 		//header('Content-type: application/xml');
@@ -466,6 +466,137 @@ if ( $_GET["t"]==1 ) {
 		$return["transaction"]["trxid"]=(string)$xmle->transaction->trxid;
 		$return["transaction"]["issuerurl"]=(string)$xmle->transaction->issuerurl;
 		//print_r($xmle);
+	}elseif($_GET["action"]=="getstatus"){
+#het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
+		$signature=sha1($_GET["trxid"]."25374805605a3f9de17a1ac057e637aeaba1afedd2070d75ba");
+		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/StatusRequest?trxid='.$_GET["trxid"].'&shopid=&merchantid=2537480560&sha1='.$signature;
+		$handle = fopen($daurl, "r");
+		$xml="";
+		if ($handle) {   
+			while (!feof($handle)) {        
+				$buffer = fgets($handle, 4096); 
+				$xml.= $buffer;       
+			}    
+			fclose($handle);
+		}
+		$xmle=simplexml_load_string($xml);
+		$return["transaction"]["trxid"]=(string)$xmle->transaction->trxid;
+		$return["transaction"]["status"]=(string)$xmle->transaction->status;
+		$return["transaction"]["amount"]=(string)$xmle->transaction->amount;
+		$return["transaction"]["purchaseid"]=(string)$xmle->transaction->purchaseid;
+		$return["transaction"]["description"]=(string)$xmle->transaction->description;
+		$return["transaction"]["timestamp"]=(string)$xmle->transaction->timestamp;
+		$return["transaction"]["consumername"]=(string)$xmle->transaction->consumername;
+		$return["transaction"]["consumeraccount"]=(string)$xmle->transaction->consumeraccount;
+		$return["transaction"]["consumercity"]=(string)$xmle->transaction->consumercity;
+		//print_r($xmle);
+	}
+}elseif($_GET["t"]==9){
+#	Ideal betalingssysteem docdata payements
+	if($_GET["action"]=="doTransaction"){
+#Verzoek tot het uitvoeren van een transactie.
+//$boekingObject=array();
+//$_GET['klantachterNaam']="Moukimou";
+//$_GET['klantvoorNaam']="Miguel";
+//$_GET['klantgeboorteD']="1986-05-23";
+//$_GET['klantfoon']="0301235485456";
+//$boekingObject["voorletters"]="EM";
+//$_GET['klantEmail']="miguel@hotmail.com";
+//$_GET['klantgender']="M";
+//$_GET['klantstraat']="otterstraat";
+//$_GET['klanthuisnummer']="2";
+//$_GET['klantpostcode']="3513CM";
+//$_GET['klantplaats']="Utrecht";
+//$_GET['klantID']=1234578;
+//$_GET['bedrag']=3021;
+//$boekingObject["Termijn"]=920;
+//$_GET['kenmerk']="C12105049";
+//$boekingObject["plaats"]="test plaats";
+//$boekingObject["Accommodatie"]="Chalet Almhaus Peter(8-10 pers.)";
+//$boekingObject["Deelnemers"]="8 personen";
+//$boekingObject["Verblijfsperiode"]="16 februari 2013 - 23 februari 2013";
+//$boekingObject["product"][0]="1x Accommodatie";
+//$boekingObject["product"]["prijs"][0]=2810;
+//$boekingObject["product"][1]="1x Energie en eindschoonmaakkosten (excl. keukenhoek) verplicht te voldoen";
+//$boekingObject["product"]["prijs"][1]=191;
+//$_GET['klantproduct']= "1x Accommodatie";
+//$boekingObject["Reserveringskosten"]=true;
+	$url = "http://test.tripledeal.com/ps/services/paymentservice/0_4?wsdl";
+	
+	$client = new SoapClient( $url );
+	
+	//var_dump($client->__getFunctions());
+	//print_r($_POST);
+	
+	$parameters['version'] = "0.4";
+	
+	//	merchant
+	$parameters['merchant']['name'] = "chalet_nl";
+	$parameters['merchant']['password'] = "7rU5ehew";
+		
+	$parameters['paymentPreferences']['profile'] = 'standard';
+	$parameters['paymentPreferences']['numberOfDaysToPay'] = '14';
+	
+	// 	order
+	$parameters['merchantOrderReference'] = $_GET['kenmerk'];		
+	$parameters['totalGrossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR','rate' => '0');	
+	$parameters['totalNetAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR','rate' => '0');
+	
+	
+	$parameters['totalVatAmount'] = array('_' => '0','currency' => 'EUR','rate' => '0');	
+		
+	//	shopper
+	$parameters['shopper']['id'] = $_GET['klantID'];
+	$parameters['shopper']['name']['first'] = $_GET['klantvoorNaam'];
+	$parameters['shopper']['name']['last'] = $_GET['klantachterNaam'];
+	$parameters['shopper']['email'] = $_GET['klantEmail'];
+	$parameters['shopper']['language']['code'] = 'nl';
+	$parameters['shopper']['gender'] = $_GET['klantgender'];
+	$parameters['shopper']['dateOfBirth'] = $_GET['klantgeboorteD'];
+	$parameters['shopper']['phoneNumber'] = $_GET['klantfoon'];
+	$parameters['shopper']['mobilePhoneNumber'] = $_GET['klantfoon'];
+
+	$parameters['billTo']['name']['first'] = $_GET['klantvoorNaam'];
+	$parameters['billTo']['name']['last'] = $_GET['klantachterNaam'];
+	$parameters['billTo']['name']['initials'] = $_GET['klantvoorletters'];
+	$parameters['billTo']['address']['street'] = $_GET['klantstraat'];
+	$parameters['billTo']['address']['houseNumber'] = $_GET['klanthuisnummer'];
+	$parameters['billTo']['address']['postalCode'] = $_GET['klantpostcode'];
+	$parameters['billTo']['address']['city'] = $_GET['klantplaats'];
+	$parameters['billTo']['address']['country']['code'] = 'NL';	
+	
+	$parameters['shipTo']['name']['first'] = $_GET['klantvoorNaam'];
+	$parameters['shipTo']['name']['last'] = $_GET['klantachterNaam'];
+	$parameters['shipTo']['address']['street'] = $_GET['klantstraat'];
+	$parameters['shipTo']['address']['houseNumber'] = $_GET['klanthuisnummer'];
+	$parameters['shipTo']['address']['postalCode'] = $_GET['klantpostcode'];
+	$parameters['shipTo']['address']['city'] = $_GET['klantplaats'];
+	$parameters['shipTo']['address']['country']['code'] = 'NL';
+	
+	//	lineitem
+	$parameters['item'][0]['number'] = '12345';
+	$parameters['item'][0]['name'] = $_GET['klantproduct'];
+	$parameters['item'][0]['code'] = '123';
+	$parameters['item'][0]['quantity'] = array('_' => '1','unitOfMeasure' => 'PCS');
+	
+	$parameters['item'][0]['description'] = $_GET['klantproduct'];
+	$parameters['item'][0]['netAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');		
+	$parameters['item'][0]['grossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');		
+	$parameters['item'][0]['vat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));	
+	$parameters['item'][0]['totalNetAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');	
+	$parameters['item'][0]['totalGrossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');
+	$parameters['item'][0]['totalVat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));	
+		
+	//	dorequest
+	$response = $client->createPaymentOrder( $parameters );
+	
+	if( isset( $response->paymentOrderSuccess->key ) ) {
+		$return["OrderStatus"]="OK";
+		$return["Orderkey"]=$response->paymentOrderSuccess->key;
+	} else {
+		$return["OrderStatus"]=$response->paymentOrderError;
+		
+	}
 	}elseif($_GET["action"]=="getstatus"){
 #het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
 		$signature=sha1($_GET["trxid"]."25374805605a3f9de17a1ac057e637aeaba1afedd2070d75ba");
