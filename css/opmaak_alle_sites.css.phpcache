@@ -558,7 +558,11 @@ td.selecteerbaarbedrag:hover{
 
 #socialmedia_center {
 	margin-left: 65px;
+}
 
+#socialmedia_doormail {
+	float: left;
+	margin-top: 2px;
 }
 
 #socialmedia_addthis {

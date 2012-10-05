@@ -63,7 +63,7 @@
 	font-family:verdana;
 }
 .LeesMeerChalet {
-	
+
 	background-color:#003366;
 	display:inline-block;
 	border:1px solid #dcdcdc;
@@ -101,7 +101,7 @@
 #mailTable{
 	width:681px;
 	font-family:Verdana;
-	font-size:12px;	
+	font-size:12px;
 }
 
 #mailTable td{
@@ -118,10 +118,10 @@
 var RecaptchaOptions = {
 	theme : 'clean'
 };
-function validateEmail(email) {  
+function validateEmail(email) {
 	var pattern = /^[_a-zA-Z0-9-]+((\.[_a-zA-Z0-9-]+)*|(\+[_a-zA-Z0-9-]+)*)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/;
-	return email.match(pattern);     
-}  
+	return email.match(pattern);
+}
 
 function controlEnSend(){
 	// ReCAPTCHA testen via rpc_json
@@ -174,7 +174,7 @@ function controlEnSend(){
 				if(errors==0){
 					if(recaptcha_ok===true) {
 						var bericht = document.getElementById("presentbericht").innerHTML;
-						bericht=bericht.replace(/\n\r?/g, '<br/>'); 	
+						bericht=bericht.replace(/\n\r?/g, '<br/>');
 						document.getElementById("bericht2").value = bericht;
 						document.getElementById("verzenden").disabled=true;
 						document.forms["mailAcc"].submit();
@@ -277,7 +277,7 @@ $accinfo=accinfo($_GET["accid"]);
 //echo "<p>Meer informatie over deze accommodatie: ".wt_dump($accinfo)."</p>";
 
 if(isset($_POST['verzenderAdres'])){
-	$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
+	$impath=$vars["basehref"].$accinfo["hoofdfoto"];
 	$url="url";
 	if($_POST['jaNee']=="on"){
 		$mail=new wt_mail;
@@ -299,7 +299,7 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="<a href=".$vars["basehref"]."><img src=".wt_he($vars['mail_topfoto'])." border=\"0\"></a></td></tr>";
 		$bericht=$_GET["bericht"];
 		$bericht=trim($_POST['bericht']);
-		$bericht=utf8_decode($bericht);
+#		$bericht=utf8_decode($bericht);
 		$bericht=wt_he($bericht);
 		$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."\">".wt_he($vars["websitenaam"])."</a>",$bericht);
 		$mail->html.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";font-size:14px;\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
@@ -327,9 +327,9 @@ if(isset($_POST['verzenderAdres'])){
 		else{
 			$mail->html.= "<td colspan=\"2\" height=\"10\"></td></tr>";
 		}
-		
+
 		$mail->html.= "</td></tr>";
-			
+
 		$mail->html.="<tr><td valign=\"top\" width=\"476\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family:verdana;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
 		if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
 			$rev=wt_he($accinfo["optimaalaantalpersonen"]);
@@ -408,9 +408,9 @@ if(isset($_POST['verzenderAdres'])){
 		else{
 			$mail->html.= "<td colspan=\"2\" height=\"10\"></td></tr>";
 		}
-		
+
 		$mail->html.= "</td></tr>";
-			
+
 		$mail->html.="<tr><td valign=\"top\" width=\"476\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family:verdana;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
 		if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
 			$rev=wt_he($accinfo["optimaalaantalpersonen"]);
@@ -477,17 +477,17 @@ if(isset($_POST['verzenderAdres'])){
 						<?php
 							#
 							echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"681\" style=\"font-family:verdana;font-size:12px;\">";
-			echo "<tr><td colspan=\"5\" align=\"left\">";	
+			echo "<tr><td colspan=\"5\" align=\"left\">";
 			echo "<div class=\"zoekresultaat_block boxshadow\">";
 			#
-			
+
 			echo "<div class=\"zoekresultaat\">";
 			echo "<div style=\"background-color:".$vars["balkkleur"].";\" class=\"zoekresultaat_top\">";
 			echo "<div style=\"color:".$vars["textColor"].";font-size: 15px;font-weight: bold; font-family:verdana;padding:5px;\">";
 			echo wt_he($accinfo["accnaam"]);
 			echo "</div>";
 			echo "</div>";
-			$impath=$vars["basehref"].$accinfo["hoofdfoto"]; 
+			$impath=$vars["basehref"].$accinfo["hoofdfoto"];
 			$url="url";
 			echo"<table cellspacing=\"3\" style=\"font-family:verdana;width:681px;\" text-align=\"left\" border=\"0\" >";
 			echo"<tr><td width=\"205\" valign=\"top\" rowspan=\"8\"><img src=\"".$impath."\" width=\"205\" height=\"150\" border=\"0\"/></td>";
@@ -503,9 +503,9 @@ if(isset($_POST['verzenderAdres'])){
 			else{
 				echo "<td colspan=\"2\" height=\"10\"></td></tr>";
 			}
-		
+
 			echo "</td></tr>";
-			
+
 			echo"<tr><td valign=\"top\" width=\"476\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family:verdana;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
 			if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
 				$rev=wt_he($accinfo["optimaalaantalpersonen"]);
@@ -530,15 +530,15 @@ if(isset($_POST['verzenderAdres'])){
 			}
 			echo "</tr>";
 			echo"</table>";
-		
-			#	
+
+			#
 			echo "</div>";
 			echo "</td></tr>";
 			echo "</table>";
 
 						?>
 				</div>
-				<input type="hidden" name="bericht2" id="bericht2"></input>	
+				<input type="hidden" name="bericht2" id="bericht2"></input>
 				<div id="Verzender"></div></td>
 		</tr>
 		<tr> <?php

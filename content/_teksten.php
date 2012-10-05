@@ -1461,7 +1461,7 @@ $txt["nl_z"]["favorieten"]["doormailtekst"]="Dit moet je zien! Ik heb een aantal
 $txt["en_z"]["favorieten"]["doormailtekst"]="-";
 
 $txt["nl"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete chalets die je hebt doorgestuurd op";
-$txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have send on ";
+$txt["en"]["favorieten"]["kopie"]="This mail is a copy of the list of favourite chalets which you have sent on";
 
 $txt["nl_z"]["favorieten"]["kopie"]="Deze mail is een kopie van de lijst met favoriete vakantiehuizen die je hebt doorgestuurd op";
 $txt["en_z"]["favorieten"]["kopie"]="-";
@@ -1494,7 +1494,7 @@ $txt["nl"]["favorieten"]["geengeldigmailadres"]="is geen geldig e-mailadres. Gee
 $txt["en"]["favorieten"]["geengeldigmailadres"]="is not a valid email address.";
 
 $txt["nl"]["favorieten"]["emailszijnverzonden"]="Bedankt, je e-mail(s) zijn verzonden.";
-$txt["en"]["favorieten"]["emailszijnverzonden"]="Your e-mails have been sent. Thank you.";
+$txt["en"]["favorieten"]["emailszijnverzonden"]="Your emails have been sent. Thank you.";
 
 $txt["nl"]["favorieten"]["recaptcha_uitleg"]="Typ de volgende woorden over:";
 $txt["en"]["favorieten"]["recaptcha_uitleg"]="Please type the following words:";
@@ -1503,7 +1503,7 @@ $txt["nl"]["favorieten"]["recaptchanietcorrect"]="De woorden zijn niet correct o
 $txt["en"]["favorieten"]["recaptchanietcorrect"]="The typed words aren't correct.";
 
 $txt["nl"]["favorieten"]["uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
-$txt["en"]["favorieten"]["uitmijnfavorietenhalen"]="Erase from my favourites";
+$txt["en"]["favorieten"]["uitmijnfavorietenhalen"]="Remove from my favourites";
 
 $txt["nl"]["favorieten"][""]="";
 $txt["en"]["favorieten"][""]="";
@@ -1836,7 +1836,7 @@ $txt["nl"]["toonaccommodatie"]["accommodatieopanderesite_vallandry"]="Wintervers
 $txt["en"]["toonaccommodatie"]["accommodatieopanderesite_vallandry"]="Winter version of\nthis accommodation";
 
 $txt["nl"]["toonaccommodatie"]["uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
-$txt["en"]["toonaccommodatie"]["uitmijnfavorietenhalen"]="Erase from my favourites";
+$txt["en"]["toonaccommodatie"]["uitmijnfavorietenhalen"]="Remove from my favourites";
 
 $txt["nl"]["toonaccommodatie"]["plaatsinfavorieten"]="Plaats in [[h_1]]mijn favorieten[[h_2]]";
 $txt["en"]["toonaccommodatie"]["plaatsinfavorieten"]="Add to [[h_1]]my favourites[[h_2]]";
