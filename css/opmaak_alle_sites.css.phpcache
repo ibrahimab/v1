@@ -565,6 +565,12 @@ td.selecteerbaarbedrag:hover{
 	margin-top: 2px;
 }
 
+#socialmedia_doormail:hover {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	opacity: .6;
+}
+
 #socialmedia_addthis {
 	float: left;
 	margin-top: 2px;

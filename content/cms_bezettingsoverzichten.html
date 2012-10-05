@@ -1,0 +1,96 @@
+<?php
+
+$cms->display_cms();
+
+if($_GET["show"]==49 and $_GET["49k0"]) {
+
+	echo "<p><hr><h2>Types toevoegen</h2><table cellspacing=\"0\" class=\"tbl\">";
+	echo "<form name=\"toevoegen\" action=\"".$_SERVER["REQUEST_URI"]."\" method=\"post\">";
+	echo "<input type=\"hidden\" name=\"toevoegen_filled\" value=\"1\">";
+	echo "<tr><th>Soort</th><th>Naam</th></tr>";
+
+	echo "<tr><td>Accommodaties (types worden los toegevoegd)</td><td>";
+	$db->query("SELECT a.accommodatie_id, a.internenaam AS naam, a.wzt, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.tonen=1 AND a.archief=0 ORDER BY a.wzt, p.naam, a.naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"accommodatie_types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("accommodatie_id")."\">".wt_he(($db->f("wzt")==1 ? "winter" : "zomer")." - ".$db->f("plaats")." - ".$db->f("naam"))."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen accommodaties aanwezig";
+	}
+	echo "</td></tr>";
+
+	echo "<tr><td>Types</td><td>";
+	$db->query("SELECT a.naam AS accommodatie, a.accommodatie_id, a.wzt, t.type_id, t.naam AS type, t.code, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, l.naam AS land, l.begincode FROM type t, accommodatie a, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id".($vars["inquery_type"] ? " AND t.type_id NOT IN (".$vars["inquery_type"].")" : "")." AND a.tonen=1 AND a.archief=0 AND t.tonen=1 ORDER BY a.wzt, p.naam, a.naam, t.type_id, t.naam, t.maxaantalpersonen;");
+	if($db->num_rows()) {
+		echo "<select name=\"types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+#			$vars["top10_types"][$db->f("type_id")]=substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ";
+			echo "<option value=\"".$db->f("type_id")."\">".htmlentities(($db->f("wzt")==1 ? "winter" : "zomer")." - ".substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ")."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen types aanwezig";
+	}
+	echo "</td></tr>";
+
+	echo "<tr><td>Alle types van een leverancier (types worden los toegevoegd)</td><td>";
+	$db->query("SELECT DISTINCT lev.leverancier_id, lev.naam FROM leverancier lev, accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND t.leverancier_id=lev.leverancier_id AND lev.beheerder=0 AND a.tonen=1 AND t.tonen=1 AND a.archief=0 ORDER BY lev.naam, l.naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"leverancier_types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen leveranciers aanwezig";
+	}
+	echo "</td></tr>";
+
+	echo "<tr><td>Alle types van een plaats (types worden los toegevoegd)</td><td>";
+	$db->query("SELECT plaats_id, naam, wzt FROM plaats WHERE 1=1 ORDER BY wzt, naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"plaats_types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("plaats_id")."\">".wt_he(($db->f("wzt")==1 ? "winter" : "zomer")." - ".$db->f("naam"))."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen plaatsen aanwezig";
+	}
+	echo "</td></tr>";
+
+	echo "<tr><td>Alle types van een regio (types worden los toegevoegd)</td><td>";
+	$db->query("SELECT skigebied_id, naam, wzt FROM skigebied WHERE 1=1 ORDER BY wzt, naam;");
+	if($db->num_rows()) {
+		echo "<select name=\"skigebied_types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
+		echo "<option value=\"0\"></option>";
+		while($db->next_record()) {
+			echo "<option value=\"".$db->f("skigebied_id")."\">".wt_he(($db->f("wzt")==1 ? "winter" : "zomer")." - ".$db->f("naam"))."</option>";
+		}
+		echo "</select>";
+	} else {
+		echo "nog geen regio's aanwezig";
+	}
+	echo "</td></tr>";
+
+	echo "</form>";
+
+	echo "</table>";
+
+
+	echo "<p>&nbsp;<hr>&nbsp;";
+	echo "<h2>Leveranciers die toegang hebben tot dit overzicht</h2>";
+	$cms->display_list(51);
+
+
+}
+
+
+?>

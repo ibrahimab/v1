@@ -297,6 +297,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken zomeracc.",array("t"=>"7"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken beoordelingen",array("t"=>"11"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Nieuwsbrief-leden",array("t"=>"10"),true);
+	$layout->submenu_item("cms_overzichten","","cms_bezettingsoverzichten","Bezetting",array("t"=>"12"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Overig",array("t"=>"9"),true);
 
 	$layout->menu_item("cms_plaatsen","Plaatsen","",true,false,array("slide"=>true));
@@ -784,6 +785,27 @@ if($mustlogin) {
 	$cms->settings[48]["file"]="cms_accommodatie_reviews.php";
 	$cms->settings[48]["log"]["active"]=true;
 	$cms->db[48]["maintable"]="accommodatie_review";
+
+	# 49 = bezettingsoverzicht
+	$cms->settings[49]["types"]="bezettingsoverzichten";
+	$cms->settings[49]["type_single"]="bezettingsoverzicht";
+	$cms->settings[49]["file"]="cms_bezettingsoverzichten.php";
+	$cms->settings[49]["log"]["active"]=true;
+	$cms->db[49]["maintable"]="bezettingsoverzicht";
+
+	# 50 = bezettingsoverzicht_type
+	$cms->settings[50]["types"]="types";
+	$cms->settings[50]["type_single"]="type";
+	$cms->settings[50]["file"]="cms_bezettingsoverzichten.php";
+	$cms->settings[50]["log"]["active"]=true;
+	$cms->db[50]["maintable"]="bezettingsoverzicht_type";
+
+	# 51 = bezettingsoverzicht_leverancier
+	$cms->settings[51]["types"]="leveranciers die toegang hebben tot dit overzicht";
+	$cms->settings[51]["type_single"]="leverancier die toegang heeft tot dit overzicht";
+	$cms->settings[51]["file"]="cms_bezettingsoverzichten.php";
+	$cms->settings[51]["log"]["active"]=true;
+	$cms->db[51]["maintable"]="bezettingsoverzicht_leverancier";
 
 	# Aankomstdata vullen (voor CMS)
 	$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");

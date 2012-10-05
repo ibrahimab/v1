@@ -33,7 +33,7 @@ class tablelist {
 	} else {
 		echo "Er zijn geen gebruikers aanwezig in het systeem.";
 	}
-	
+
 	*/
 
 	function tablelist() {
@@ -47,17 +47,17 @@ class tablelist {
 		$this->settings["th_id"]="";
 		$this->settings["td_class"]="";
 		$this->settings["aname_top"]="";
-		
+
 		$this->index_array=array("1"=>"0-9","a"=>"A","b"=>"B","c"=>"C","d"=>"D","e"=>"E","f"=>"F","g"=>"G","h"=>"H","i"=>"I","j"=>"J","k"=>"K","l"=>"L","m"=>"M","n"=>"N","o"=>"O","p"=>"P","q"=>"Q","r"=>"R","s"=>"S","t"=>"T","u"=>"U","v"=>"V","w"=>"W","x"=>"X","y"=>"Y","z"=>"Z");
 		return true;
 	}
-	
+
 	function convert_firstchar($text) {
 		return(strtr($text,
 		"AÀÁÂÃÄÅaàáâãäåBbCÇcçDdEÈÉÊËeèéêëFfGgHhIÌÍÎÏiìíîïJjKkLlMmNÑnñOÒÓÔÕÖØoòóôõöøPpQqRrSsšTtUÙÚÛÜùúûüVvWwXxYyÿZz0123456789",
 		"aaaaaaaaaaaaaabbccccddeeeeeeeeeeffgghhiiiiiiiiiijjkkllmmnnnnooooooooooooooppqqrrsssttuuuuuuuuuvvwwxxyyyzz1111111111"));
 	}
-	
+
 	function newfield($type,$id,$title,$content,$sortcontent,$options,$layout) {
 		if(!$this->main_field) $this->main_field=$id;
 		if(!$this->set_sort[$this->set_sort_counter+1]) {
@@ -72,7 +72,7 @@ class tablelist {
 		if($options) $this->fields["options"][$id]=$options;
 		if($layout) $this->fields["layout"][$id]=$layout;
 	}
-	
+
 	function field_delete($url,$confirm,$alttext,$img="",$imgwidth=20,$imgheight=20) {
 		if(!$img) $img=$this->settings["path"]."pic/class.cms_delete.gif";
 #		$this->delete="<td class=\"tbl_icon\" onmouseover=\"row[ROWCOUNTER].className='row_delete';\" id=\"td[ROWCOUNTER]\" onmouseout=\"row_".$this->settings["systemid"]."[ROWCOUNTER].className='row[ROW_1_OR_2]';\"><a href=\"".$url."\" onclick=\"row[ROWCOUNTER].className='row_edit';return confirmLink(this,'".addslashes($confirm)."')\"><img src=\"".$img."\" alt=\"".wt_he($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
@@ -82,7 +82,7 @@ class tablelist {
 	function field_delete_checkbox() {
 		$this->delete_checkbox="<td class=\"tbl_icon\" onmouseover=\"ToggleClass('row_".$this->settings["systemid"]."_[ROWCOUNTER]','row[ROW_1_OR_2]');\" onmouseout=\"ToggleClass('row_".$this->settings["systemid"]."_[ROWCOUNTER]','row[ROW_1_OR_2]');\" onclick=\"if(document.forms['frm_delete_checkbox_".$this->settings["systemid"]."'].elements['delete_checkbox[".$this->settings["systemid"]."][[ONLY_ID]]'].checked==true) ToggleClass('row_".$this->settings["systemid"]."_[ROWCOUNTER]','row[ROW_1_OR_2]'); else ToggleClass('row_".$this->settings["systemid"]."_[ROWCOUNTER]','row[ROW_1_OR_2]');\"><input type=\"checkbox\" name=\"delete_checkbox[".$this->settings["systemid"]."][[ONLY_ID]]\" value=\"1\" id=\"delete_checkbox[".$this->settings["systemid"]."][[ONLY_ID]]\"></td>";
 	}
-	
+
 	function field_edit($url,$alttext,$img="",$imgwidth=20,$imgheight=20) {
 		if(!$img) $img=$this->settings["path"]."pic/class.cms_edit.gif";
 		$this->edit="<td class=\"tbl_icon\" onmouseover=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row_edit';\" onmouseout=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row[ROW_1_OR_2]';\"><a href=\"".$url."\"><img src=\"".$img."\" alt=\"".wt_he($alttext)."\" title=\"".wt_he($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
@@ -97,19 +97,19 @@ class tablelist {
 		if(!$img) $img=$this->settings["path"]."pic/class.cms_print.gif";
 		$this->print="<td class=\"tbl_icon\" onmouseover=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row_print';\" onmouseout=\"document.getElementById('row_".$this->settings["systemid"]."_[ROWCOUNTER]').className='row[ROW_1_OR_2]';\"><a href=\"".$url."\"><img src=\"".$img."\" alt=\"".wt_he($alttext)."\" title=\"".wt_he($alttext)."\" width=\"".$imgwidth."\" height=\"".$imgheight."\" border=\"0\"></a></td>";
 	}
-	
+
 	function field_text($id,$title,$content="",$options="",$layout="") {
-		$this->newfield("text",$id,$title,$content,$sortcontent,$options,$layout);	
+		$this->newfield("text",$id,$title,$content,$sortcontent,$options,$layout);
 	}
 
 	function field_currency($id,$title,$content="",$options="",$layout="") {
-		$this->newfield("currency",$id,$title,$content,$sortcontent,$options,$layout);	
+		$this->newfield("currency",$id,$title,$content,$sortcontent,$options,$layout);
 	}
-	
+
 	function add_url_id($key,$url_id) {
 		$this->fields["url_id"][$key]=$url_id;
 	}
-	
+
 	function add_record($id,$key,$value,$sortvalue="",$datetime=false,$options="") {
 		if(!$sortvalue) $sortvalue=$value;
 		$sortvalue=strtolower($sortvalue);
@@ -123,12 +123,12 @@ class tablelist {
 		$this->fields["content"][$id][$key]=$value;
 		$this->fields["sortcontent"][$id][$key]=$sortvalue;
 	}
-	
+
 	function sort($id) {
 		$temp["set_sort"]=$this->set_sort;
 	}
-	
-	
+
+
 	function replace_id_record($text,$id,$javascript=false,$rowcounter=0,$row_1_or_2=0) {
 		$return=$text;
 		if($this->fields["url_id"][$id]) {
@@ -154,7 +154,7 @@ class tablelist {
 	function aantalresultaten_pagina($aantal,$paginas=false) {
 		# toon aantal resultaten en pagina's
 		if(!$this->settings["max_results_per_page"] or $aantal<=$this->settings["max_results_per_page"]) return;
-		
+
 		if($this->settings["max_results_per_page"] and $aantal>$this->settings["max_results_per_page"]) {
 			$van=($this->page-1)*$this->settings["max_results_per_page"]+1;
 			$tot=$this->page*$this->settings["max_results_per_page"];
@@ -173,7 +173,7 @@ class tablelist {
 			} else {
 				$querystring="?".$this->settings["systemid"]."page=";
 			}
-			
+
 #			$return.="<p>";
 			$maxpage=ceil($aantal/$this->settings["max_results_per_page"]);
 			if($maxpage>10) {
@@ -212,7 +212,7 @@ class tablelist {
 		if($return) return $return;
 
 	}
-	
+
 	function table($cssclass="tl_table",$counter="",$style="") {
 
 		if($_GET[$counter."page"]) {
@@ -222,7 +222,7 @@ class tablelist {
 		}
 
 		# Sorteren
-		
+
 		# Sorteren op basis van $_GET en $tl->sort=array.... regelen
 		$temp["set_sort"]=$this->set_sort;
 		unset($this->set_sort);
@@ -235,20 +235,20 @@ class tablelist {
 			}
 		}
 		$temp["set_sort_counter"]=count($this->set_sort);
-		
+
 		# Haal de volgorde uit $tl->sort
 		@reset($this->sort);
 		while(list($key,$value)=@each($this->sort)) {
 			$temp["set_sort_counter"]++;
 			if(!@in_array($value,$this->set_sort)) $this->set_sort[$temp["set_sort_counter"]]=$value;
 		}
-		
+
 		# Haal de sort uit volgorde kolommen
 		while(list($key,$value)=each($temp["set_sort"])) {
 			$temp["set_sort_counter"]++;
 			if(!@in_array($value,$this->set_sort)) $this->set_sort[$temp["set_sort_counter"]]=$value;
 		}
-		
+
 		ksort($this->set_sort);
 		while(list($key,$value)=@each($this->fields["sortcontent"][$this->set_sort[1]])) {
 			reset($this->set_sort);
@@ -268,10 +268,10 @@ class tablelist {
 		if(is_array($this->sort_array)) {
 
 			$return.=$this->aantalresultaten_pagina(count($this->sort_array),$this->settings["resultpages_top"]);
-	
+
 			$return.="<table border=\"0\" cellspacing=\"0\" class=\"".$cssclass."\"".($style ? " style=\"".$style."\"" : "")."><tr>";
 			if($this->delete) $return.="<th>&nbsp;</th>";
-			if($this->delete_checkbox) $return.="<th>&nbsp;</th>";
+			if($this->delete_checkbox) $return.="<th style=\"text-align:center;\"><input type=\"checkbox\" onclick=\"wt_check_all_checkboxes_tablelist(this,'".$this->settings["systemid"]."');\"></th>";
 			if($this->print) $return.="<th>&nbsp;</th>";
 			if($this->edit) $return.="<th>&nbsp;</th>";
 			if($this->show) $return.="<th>&nbsp;</th>";
@@ -279,7 +279,7 @@ class tablelist {
 				$return.="<th nowrap".($this->settings["th_id"] ? " id=\"".$this->settings["th_id"].$key."\"" : "").">";
 #				$return.="<a href=\"".$_SERVER["PHP_SELF"]."?";
 				$return.="<a href=\"".wt_he(ereg_replace("\?.*","",$_SERVER["REQUEST_URI"]))."?";
-				
+
 				reset($_GET);
 				unset($temp["get_sort"]);
 				while(list($key2,$value2)=each($_GET)) {
@@ -333,7 +333,7 @@ class tablelist {
 						continue;
 					}
 				}
-				
+
 				if($row_color==1) {
 					$row_color=0;
 #					$return.="<tr class=\"row2\" id=\"row".$rowcounter."\">";
@@ -354,7 +354,7 @@ class tablelist {
 					}
 				}
 				if($this->delete_checkbox) $return.=$this->replace_id_record($this->delete_checkbox,$key,false,$rowcounter,($row_color==1 ? "1" : "2"));
-				
+
 				reset($this->fields["type"]);
 				while(list($key2,$value2)=each($this->fields["type"])) {
 					if($this->settings["show_index"] and $this->fields["options"][$key2]["index_field"]) {
@@ -395,7 +395,7 @@ class tablelist {
 							if($this->fields["options"][$key2][$key]["html"]) {
 								$return.=$this->fields["content"][$key2][$key];
 							} else {
-								$return.=wt_he($this->fields["content"][$key2][$key]);							
+								$return.=wt_he($this->fields["content"][$key2][$key]);
 							}
 						} else {
 							$return.="&nbsp;";
@@ -408,7 +408,7 @@ class tablelist {
 			$return.="</table>";
 
 			$return.="<p>".$this->aantalresultaten_pagina(count($this->sort_array),true);
-			
+
 			if($this->settings["show_index"] and $this->show_index and $rowcounter>=50) {
 				while(list($key,$value)=each($this->index_array)) {
 					if($aname_geplaatst[$key]) {
@@ -424,7 +424,7 @@ class tablelist {
 		}
 		return $return;
 	}
-		
+
 	function end_declaration() {
 		return true;
 	}
