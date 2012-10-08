@@ -199,10 +199,10 @@ if($db->num_rows()) {
 		echo "</table>";
 
 		echo "</div>"; # afsluiten .zoekresultaat
-
+		$teken=substr(wt_he($db->f("land")),0,1);
 		echo "<div id=\"removeFromfavs\" style=\"padding-left:5px;padding-top:1px;padding-bottom:3px;z-index:10;\">";
 		echo "<img style=\"vertical-align:middle\" border=\"0\" width=\"13\" height=\"13\" src=\"".$vars["path"]."pic/icon_notokay.png\"> ";
-		echo "<a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen(".$db->f("type_id").", 'delete');\">".html("uitmijnfavorietenhalen","favorieten")."</a>";
+		echo "<a href=\"#\" onclick=\"return favorieten_opslaan_verwijderen('".$teken."','".$db->f("type_id")."', 'delete');\">".html("uitmijnfavorietenhalen","favorieten")."</a>";
 		echo "</div>"; # afsluiten #removeFromfavs
 
 		echo "</div>"; # afsluiten .zoekresultaat_block

@@ -918,7 +918,7 @@ function weektarieven_openklappen() {
 
 
 
-function favorieten_opslaan_verwijderen(typeid, action) {
+function favorieten_opslaan_verwijderen(teken, typeid, action) {
 	// functie om favorieten op te slaan en te verwijderen
 	$.getJSON(absolute_path+"rpc_json.php", {
 	"t": 4,
@@ -961,7 +961,7 @@ function favorieten_opslaan_verwijderen(typeid, action) {
 				var google_analytics_event="favoriet verwijderen";
 			}
 			if (typeof _gaq != "undefined") {
-				_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, typeid]);
+				_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, teken+typeid]);
 			}
 		}
 	});
