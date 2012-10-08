@@ -144,7 +144,7 @@ function validateEmail(email) {
 function controlEnSend(){
 	// ReCAPTCHA testen via rpc_json
 	var recaptcha_ok=false;
-	$.getJSON("<?php echo $vars["basehref"]; ?>rpc_json.php", {
+	$.getJSON("<?php echo $vars['basehref']; ?>rpc_json.php", {
 		"t": 6,
 		"recaptcha_response_field": $('#recaptcha_response_field').val(),
 		"recaptcha_challenge_field": $('#recaptcha_challenge_field').val(),
@@ -316,7 +316,7 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="<a href=".$vars["basehref"]."><img src=".wt_he($vars['mail_topfoto'])." border=\"0\"></a></td></tr>";
 		$bericht=$_POST["bericht"];
 		$bericht=trim($_POST['bericht']);
-		$bericht=utf8_decode($bericht);
+		$bericht=$bericht;
 		$bericht=wt_he($bericht);
 		$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."\">".wt_he($vars["websitenaam"])."</a>",$bericht);
 		$mail->html.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";font-size:14px;\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
@@ -336,17 +336,15 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
 		if($accinfo["kwaliteit"]){
-			echo "<td colspan=\"2\">";
+			$mail->html.="<td colspan=\"2\">";
 			for($i=0; $i<$accinfo["kwaliteit"];$i++){
-				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster.gif\">";
+				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster.gif\"/>";
 			}
+			$mail->html.= "</td></tr>";
 		}
 		else{
 			$mail->html.= "<td colspan=\"2\" height=\"10\"></td></tr>";
-		}
-		
-		$mail->html.= "</td></tr>";
-			
+		}	
 		$mail->html.="<tr><td valign=\"top\" width=\"476\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
 		if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
 			$rev=wt_he($accinfo["optimaalaantalpersonen"]);
@@ -397,7 +395,7 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="<a href=".$vars["basehref"]."><img src=".wt_he($vars['mail_topfoto'])." border=\"0\"></a></td></tr>";
 		$bericht=$_POST["bericht"];
 		$bericht=trim($_POST['bericht']);
-		$bericht=utf8_decode($bericht);
+		$bericht=$bericht;
 		$bericht=wt_he($bericht);
 		$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."\">".wt_he($vars["websitenaam"])."</a>",$bericht);
 		$mail->html.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";font-size:14px;\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
@@ -417,17 +415,15 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
 		if($accinfo["kwaliteit"]){
-			echo "<td colspan=\"2\">";
+			$mail->html.="<td colspan=\"2\">";
 			for($i=0; $i<$accinfo["kwaliteit"];$i++){
-				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster.gif\">";
+				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster.gif\"/>";
 			}
+			$mail->html.= "</td></tr>";
 		}
 		else{
 			$mail->html.= "<td colspan=\"2\" height=\"10\"></td></tr>";
-		}
-		
-		$mail->html.= "</td></tr>";
-			
+		}	
 		$mail->html.="<tr><td valign=\"top\" width=\"476\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
 		if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
 			$rev=wt_he($accinfo["optimaalaantalpersonen"]);
@@ -485,7 +481,7 @@ if(isset($_POST['verzenderAdres'])){
 			<td><?php echo html("LabelBericht","favorieten"); ?></td>
 		</tr>
 		<tr>
-			<td><textarea name="bericht" id="bericht" cols="50" rows=7 /><?php echo $vars['mail_form_mid_div_content'];?></textarea></td>
+			<td><textarea style="font-family: Verdana, Arial, Helvetica, sans-serif;" name="bericht" id="bericht" cols="50" rows=7 /><?php echo $vars['mail_form_mid_div_content'];?></textarea></td>
 		</tr>
 		<tr>
 			<td>
