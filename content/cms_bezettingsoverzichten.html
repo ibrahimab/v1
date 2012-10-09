@@ -1,5 +1,10 @@
 <?php
 
+
+if($_GET["show"]==49 and $_GET["49k0"]) {
+	echo "<div style=\"padding:10px;margin-bottom:10px;background-color:yellow;border:1px solid #666666;\"><a href=\"#\" onclick=\"popwindowXY(1250,800,'".$vars["path"]."cms_bezettingsoverzichten.php?popup=1&".$_SERVER["QUERY_STRING"]."');return false;\">Bekijk het overzicht op basis van onderstaande gegevens &raquo;</a></div>";
+}
+
 $cms->display_cms();
 
 if($_GET["show"]==49 and $_GET["49k0"]) {
@@ -89,8 +94,7 @@ if($_GET["show"]==49 and $_GET["49k0"]) {
 	echo "<h2>Leveranciers die toegang hebben tot dit overzicht</h2>";
 	$cms->display_list(51);
 
-
+	echo "<hr>";
 }
-
 
 ?>

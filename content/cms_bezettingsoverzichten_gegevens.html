@@ -1,0 +1,236 @@
+<?php
+
+//
+// Bezettingsoverzicht zoals samengesteld via het CMS omzetten naar tabel met alle betreffende gegevens
+//
+
+// bezettingsgegevens uit database halen
+unset($inquery_type_id);
+$db->query("SELECT t.type_id, t.zomerwinterkoppeling_accommodatie_id, a.wzt FROM type t,accommodatie a, bezettingsoverzicht_type b WHERE t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id AND b.bezettingsoverzicht_id='".addslashes($_GET["49k0"])."';");
+while($db->next_record()) {
+	$inquery_type_id.=",".$db->f("type_id");
+	$koppeling[$db->f("type_id")]=$db->f("type_id");
+	if($db->f("zomerwinterkoppeling_accommodatie_id") and $db->f("wzt")==2) {
+		$inquery_type_id.=",".$db->f("zomerwinterkoppeling_accommodatie_id");
+		$koppeling[$db->f("type_id")]=$db->f("zomerwinterkoppeling_accommodatie_id");
+	}
+}
+
+#echo wt_dump($koppeling);
+#exit;
+
+if($inquery_type_id) {
+
+	$inquery_type_id=substr($inquery_type_id,1);
+
+	# Voorraad uit database halen
+	$db->query("SELECT t.type_id, ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") ORDER BY a.wzt DESC, ta.week;");
+	while($db->next_record()) {
+
+		$typeid=$koppeling[$db->f("type_id")];
+
+		unset($tempclass,$temptext);
+		if(!$db->f("beschikbaar") and $db->f("opmerking_bezeteigenaar")) {
+			$tempclass="boeking_eigenaar";
+			$temptext=txt("boekingviaeigenaar","lev_login").": ".$db->f("opmerking_bezeteigenaar");
+		} elseif(!$db->f("beschikbaar") and $db->f("opmerking_boekingderden") and ($login_lev->vars["inlog_toon_derden"] or $mustlogin)) {
+			$tempclass="boeking_viaderden";
+			$temptext=txt("boekingviaderden","lev_login").": ".$db->f("opmerking_boekingderden");
+		} elseif(!$db->f("beschikbaar") and $db->f("opmerking_nietbeschikbaarverhuur")) {
+			$tempclass="voorraad_nietbeschikbaarvoorverhuur";
+			$temptext=txt("nietbeschikbaarvoorverhuur","lev_login").": ".$db->f("opmerking_nietbeschikbaarverhuur");
+		} elseif($db->f("voorraad_optie_klant")) {
+			$tempclass="staatinoptievoorklant";
+			$temptext=txt("staatinoptievoorklant","lev_login");
+		} elseif($db->f("voorraad_allotment")) {
+			$tempclass="voorraad_allotment";
+			$temptext=txt("directbeschikbaar","lev_login");
+		} elseif($db->f("voorraad_request")) {
+			$tempclass="voorraad_request";
+			$temptext=txt("navragenbijeigenaar","lev_login");
+		}
+		if($vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))] or $accinfo["aankomst_plusmin"]) {
+			$dag=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+$vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))]+$accinfo["aankomst_plusmin"],date("Y",$db->f("week")));
+		} else {
+			$dag=$db->f("week");
+		}
+		$eind=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+7,date("Y",$db->f("week")));
+		if($vertrekdag[$db->f("seizoen_id")][date("dm",$eind)] or $accinfo["vertrek_plusmin"]) {
+			$eind=mktime(0,0,0,date("m",$eind),date("d",$eind)+$vertrekdag[$db->f("seizoen_id")][date("dm",$eind)]+$accinfo["vertrek_plusmin"],date("Y",$eind));
+		} else {
+			$eind=$eind;
+		}
+		while($dag<=$eind) {
+			if($db->f("beschikbaar")) {
+				if($tempclass) {
+					if(!$colorclass[$typeid][$dag] or $colorclass[$typeid][$dag]=="voorraad_request") {
+						$colorclass[$typeid][$dag]=$tempclass;
+						$text[$typeid][$dag]=$temptext;
+					}
+				}
+			} elseif($tempclass=="boeking_eigenaar" or $tempclass=="boeking_viaderden" or $tempclass=="voorraad_nietbeschikbaarvoorverhuur" or $tempclass=="staatinoptievoorklant") {
+				$colorclass[$typeid][$dag]=$tempclass;
+				$text[$typeid][$dag]=$temptext;
+			}
+			$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+1,date("Y",$dag));
+		}
+	}
+
+	# Boekingen
+	$db->query("SELECT b.type_id, b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id IN (".addslashes($inquery_type_id).") OR b.verzameltype_gekozentype_id IN (".addslashes($inquery_type_id).")) AND b.seizoen_id>=17 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'';");
+	while($db->next_record()) {
+
+		$typeid=$koppeling[$db->f("type_id")];
+
+		$dag=$db->f("aankomstdatum_exact");
+		while($dag<=$db->f("vertrekdatum_exact")) {
+			if($db->f("besteldatum")>0 or $db->f("vertrekdatum_exact")<time()) {
+				$colorclass[$typeid][$dag]="boeking_chalet";
+				$text[$typeid][$dag]=txt("boekingviachalet","lev_login",array("v_websitenaam"=>$vars["websitenaam"])).": ".wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
+			} else {
+				$colorclass[$typeid][$dag]="staatinoptievoorklant";
+				$text[$typeid][$dag]=txt("staatinoptievoorklant","lev_login");
+			}
+			$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+1,date("Y",$dag));
+		}
+	}
+
+
+
+	#echo wt_dump($colorclass);
+
+	#echo wt_dump($vars["alletypes"]);
+	#exit;
+
+	if($_GET["popup"]) {
+		// gegevens in een tabel tonen
+
+		echo "<DOCTYPE html>\n<html><head>";
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/lev_login.css?c=".filemtime("css/lev_login.css")."\" />";
+
+		echo "<style>"; ?>
+		html {
+			font-family: Verdana, Helvetica, Arial, sans-serif;
+			font-size: 0.8em;
+			background-color: #ebebeb;
+		}
+
+		#calendar_legenda {
+			float: left;
+			margin: 0;
+			margin-left: 30px;
+			margin-bottom: 10px;
+		}
+
+		.clear {
+			clear: both;
+		}
+
+		.bezettingsoverzicht {
+			border-color: #eeeeee;
+		    border-style: solid;
+			border-width: 0 0 1px 1px;
+		    border-spacing: 0;
+		    border-collapse: collapse;
+		    background-color: #ffffff;
+		}
+
+		.bezettingsoverzicht td {
+			border-color: #eeeeee;
+		    border-style: solid;
+		    margin: 0;
+		    border-width: 1px 1px 0 0;
+		    width: 3px;
+			overflow-x: hidden;
+			font-size: 0.8em;
+		}
+
+		.bezettingsoverzicht_maand_cel {
+			white-space:nowrap;
+			overflow-x: hidden;
+		}
+
+		.bezettingsoverzicht td:hover {
+			-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+			filter: alpha(opacity=60);
+			opacity: .6;
+		}
+
+		<?php
+		echo "</style></head><body>";
+
+		$db->query("SELECT naam, UNIX_TIMESTAMP(begindatum) AS begindatum, UNIX_TIMESTAMP(einddatum) AS einddatum FROM bezettingsoverzicht WHERE bezettingsoverzicht_id='".addslashes($_GET["49k0"])."';");
+		if($db->next_record()) {
+			echo "<div style=\"float:left;\"><b>Bezettingsoverzicht ".wt_he($db->f("naam"))."</b></div>";
+
+			echo "<div id=\"calendar_legenda\">";
+			echo "<div><span class=\"legenda voorraad_allotment\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("directbeschikbaar","lev_login")."</div>";
+			echo "<div><span class=\"legenda voorraad_request\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("navragenbijeigenaar","lev_login")."</div>";
+			echo "<div><span class=\"legenda staatinoptievoorklant\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("staatinoptievoorklant","lev_login")."</div>";
+			echo "<div><span class=\"legenda boeking_chalet\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("boekingviachalet","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
+			if($login_lev->vars["inlog_toon_derden"] or $mustlogin) {
+				echo "<div><span class=\"legenda boeking_viaderden\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("boekingviaderden","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
+			}
+			echo "<div><span class=\"legenda boeking_eigenaar\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("boekingviaeigenaar","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
+			echo "<div><span class=\"legenda voorraad_nietbeschikbaarvoorverhuur\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("nietbeschikbaarvoorverhuur","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
+			echo "<div><span class=\"legenda voorraad_nognietinplanning\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("nognietinplanning","lev_login")."</div>";
+			echo "</div>"; # afsluiten #calendar_legenda
+
+			echo "<div class=\"clear\"></div>";
+			echo "<table class=\"bezettingsoverzicht\" cellspacing=\"0\" cellpadding=\"0\">";
+
+			// maanden tonen
+			echo "<tr><td>&nbsp;</td>";
+			$dag=$db->f("begindatum");
+			while($dag<=$db->f("einddatum")) {
+				if(mktime(0,0,0,date("m",$dag)+1,date("d",$dag),date("Y",$dag))<=$db->f("einddatum")) {
+					$aantal_dagen_tot_volgende_maand=round((mktime(0,0,0,date("m",$dag)+1,1,date("Y",$dag))-$dag)/86400);
+				} else {
+					$aantal_dagen_tot_volgende_maand=round(($db->f("einddatum")-$dag)/86400)+1;
+				}
+				echo "<td class=\"bezettingsoverzicht_maand_cel\" colspan=\"".$aantal_dagen_tot_volgende_maand."\" title=\"".DATUM("MAAND JJJJ",$dag)."\" style=\"width:".($aantal_dagen_tot_volgende_maand*5)."px;\"><div style=\"width:".($aantal_dagen_tot_volgende_maand*5)."px;overflow-x:hidden;\">".DATUM("MAAND JJJJ",$dag)."</div></td>";
+				$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+$aantal_dagen_tot_volgende_maand,date("Y",$dag));
+			}
+			echo "</tr>";
+
+			// zaterdagen tonen
+			echo "<tr><td>&nbsp;</td>";
+			$dag=$db->f("begindatum");
+			while($dag<=$db->f("einddatum")) {
+				if(mktime(0,0,0,date("m",$dag),date("d",$dag)+7,date("Y",$dag))<=$db->f("einddatum")) {
+					if(strftime("%w",$dag)==6) {
+						$aantal_dagen_tot_volgende_zaterdag=7;
+					} else {
+						$aantal_dagen_tot_volgende_zaterdag=round((komendezaterdag($dag)-$dag)/86400);
+					}
+				} else {
+					$aantal_dagen_tot_volgende_zaterdag=round(($db->f("einddatum")-komendezaterdag($dag))/86400)+1;
+				}
+				echo "<td class=\"bezettingsoverzicht_maand_cel\" colspan=\"".$aantal_dagen_tot_volgende_zaterdag."\" title=\"".DATUM("DAG D MAAND JJJJ",$dag)."\" style=\"width:".($aantal_dagen_tot_volgende_zaterdag*5)."px;\"><div style=\"width:".($aantal_dagen_tot_volgende_zaterdag*5)."px;overflow-x:hidden;\">".date("d",$dag)."</div></td>";
+				$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+$aantal_dagen_tot_volgende_zaterdag,date("Y",$dag));
+			}
+			echo "</tr>";
+
+
+			$db2->query("SELECT v.type_id, v.naam, v.tnaam, v.optimaalaantalpersonen, v.maxaantalpersonen FROM view_accommodatie v, bezettingsoverzicht_type b WHERE b.type_id=v.type_id AND b.bezettingsoverzicht_id='".addslashes($_GET["49k0"])."';");
+			while($db2->next_record()) {
+				if($koppeling[$db2->f("type_id")]==$db2->f("type_id")) {
+			#		echo "<tr><td nowrap>".wt_he($vars["alletypes"][$db2->f("type_id")])."</td>";
+					$accnaam=$db2->f("naam").($db2->f("tnaam") ? " ".$db2->f("tnaam") : "")." (".$db2->f("optimaalaantalpersonen").($db2->f("optimaalaantalpersonen")<>$db2->f("maxaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ".txt("pers").")";
+					echo "<tr><td style=\"white-space:nowrap;\" nowrap title=\"".$db2->f("type_id")."\">".wt_he($accnaam)."&nbsp;&nbsp;</td>";
+					$dag=$db->f("begindatum");
+					while($dag<=$db->f("einddatum")) {
+						echo "<td class=\"".$colorclass[$db2->f("type_id")][$dag]."\" title=\"".date("d/m/Y",$dag).": ".wt_he(($text[$db2->f("type_id")][$dag] ? $text[$db2->f("type_id")][$dag] : txt("nognietinplanning","lev_login")))."\"></td>";
+						$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+1,date("Y",$dag));
+					}
+					echo "</tr>\n";
+				}
+			}
+			echo "</table>";
+		}
+
+		echo "</body></html>";
+	}
+}
+
+?>
