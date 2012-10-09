@@ -144,7 +144,12 @@ function validateEmail(email) {
 function controlEnSend(){
 	// ReCAPTCHA testen via rpc_json
 	var recaptcha_ok=false;
-	$.getJSON("<?php echo $vars['basehref']; ?>rpc_json.php", {
+	<?php if($vars["lokale_testserver"] or $_GET["testsysteem"]) {
+			echo "$.getJSON(\"/chalet/rpc_json.php\", {";
+		} else{ 
+			echo "$.getJSON(\"../rpc_json.php\",{";
+		}
+	?>
 		"t": 6,
 		"recaptcha_response_field": $('#recaptcha_response_field').val(),
 		"recaptcha_challenge_field": $('#recaptcha_challenge_field').val(),
