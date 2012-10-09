@@ -1309,7 +1309,6 @@ if($db->next_record()) {
 		#
 		# Favorietenbuttons
 		#
-		$teken=substr(wt_he($db->f("land")),0,1);
 		$db0->query("SELECT type_id FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."' AND type_id='".addslashes($typeid)."';");
 		if($db0->num_rows()) {
 			$favorieten_plaatsbutton=false;
@@ -1317,11 +1316,11 @@ if($db->next_record()) {
 			$favorieten_plaatsbutton=true;
 		}
 
-		echo "<div id=\"favadd\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "" : "display:none;")."\" onclick=\"return favorieten_opslaan_verwijderen('".$teken."','".$typeid."','insert');\">";
+		echo "<div id=\"favadd\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "" : "display:none;")."\" onclick=\"return favorieten_opslaan_verwijderen('".$db->f("begincode")."','".$typeid."','insert');\">";
 		echo html("plaatsinfavorieten","toonaccommodatie",array("h_1"=>"<b>","h_2"=>"</b>"));
 		echo "</div>";
 
-		echo "<div id=\"favremove\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "display:none;" : "")."\" onclick=\"return favorieten_opslaan_verwijderen('".$teken."','".$typeid."','delete');\">";
+		echo "<div id=\"favremove\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "display:none;" : "")."\" onclick=\"return favorieten_opslaan_verwijderen('".$db->f("begincode")."','".$typeid."','delete');\">";
 		echo html("uitmijnfavorietenhalen","toonaccommodatie",array("h_1"=>"<b>","h_2"=>"</b>"));
 		echo "</div>";
 	}
