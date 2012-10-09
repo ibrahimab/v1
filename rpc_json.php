@@ -496,39 +496,42 @@ if ( $_GET["t"]==1 ) {
 	if($_GET["action"]=="doTransaction"){
 #Verzoek tot het uitvoeren van een transactie.
 //$boekingObject=array();
-//$_GET['klantachterNaam']="Moukimou";
-//$_GET['klantvoorNaam']="Miguel";
-//$_GET['klantgeboorteD']="1986-05-23";
-//$_GET['klantfoon']="0301235485456";
-//$boekingObject["voorletters"]="EM";
-//$_GET['klantEmail']="miguel@hotmail.com";
-//$_GET['klantgender']="M";
-//$_GET['klantstraat']="otterstraat";
-//$_GET['klanthuisnummer']="2";
-//$_GET['klantpostcode']="3513CM";
-//$_GET['klantplaats']="Utrecht";
-//$_GET['klantID']=1234578;
-//$_GET['bedrag']=3021;
-//$boekingObject["Termijn"]=920;
-//$_GET['kenmerk']="C12105049";
-//$boekingObject["plaats"]="test plaats";
-//$boekingObject["Accommodatie"]="Chalet Almhaus Peter(8-10 pers.)";
-//$boekingObject["Deelnemers"]="8 personen";
-//$boekingObject["Verblijfsperiode"]="16 februari 2013 - 23 februari 2013";
-//$boekingObject["product"][0]="1x Accommodatie";
-//$boekingObject["product"]["prijs"][0]=2810;
-//$boekingObject["product"][1]="1x Energie en eindschoonmaakkosten (excl. keukenhoek) verplicht te voldoen";
-//$boekingObject["product"]["prijs"][1]=191;
-//$_GET['klantproduct']= "1x Accommodatie";
-//$boekingObject["Reserveringskosten"]=true;
-	$url = "http://test.tripledeal.com/ps/services/paymentservice/0_4?wsdl";
+$_GET['klantachterNaam']="Moukimou";
+$_GET['klantvoorNaam']="Miguel";
+$_GET['klantgeboorteD']="1986-05-23";
+$_GET['klantfoon']="0301235485456";
+$boekingObject["voorletters"]="EM";
+$_GET['klantEmail']="miguel@hotmail.com";
+$_GET['klantgender']="M";
+$_GET['klantstraat']="otterstraat";
+$_GET['klanthuisnummer']="2";
+$_GET['klantpostcode']="3513CM";
+$_GET['klantplaats']="Utrecht";
+$_GET['klantID']=1234578;
+$_GET['bedrag']=3021;
+$boekingObject["Termijn"]=920;
+
+$_GET['kenmerk']="C121050495668";
+
+$boekingObject["plaats"]="test plaats";
+$boekingObject["Accommodatie"]="Chalet Almhaus Peter(8-10 pers.)";
+$boekingObject["Deelnemers"]="8 personen";
+$boekingObject["Verblijfsperiode"]="16 februari 2013 - 23 februari 2013";
+$boekingObject["product"][0]="1x Accommodatie";
+$boekingObject["product"]["prijs"][0]=2810;
+$boekingObject["product"][1]="1x Energie en eindschoonmaakkosten (excl. keukenhoek) verplicht te voldoen";
+$boekingObject["product"]["prijs"][1]=191;
+$_GET['klantproduct']= "1x Accommodatie";
+$boekingObject["Reserveringskosten"]=true;
+	//$url = "http://test.tripledeal.com/ps/services/paymentservice/0_4?wsdl";
+	$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
 	
-	$client = new SoapClient( $url );
-	
+	$client = new SoapClient( $url,array('trace'=>1));
+	echo $client->__getLastResponse();
 	//var_dump($client->__getFunctions());
 	//print_r($_POST);
 	
-	$parameters['version'] = "0.4";
+	$parameters['version'] = "0.9";
 	
 	//	merchant
 	$parameters['merchant']['name'] = "chalet_nl";
@@ -588,13 +591,15 @@ if ( $_GET["t"]==1 ) {
 	$parameters['item'][0]['totalVat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));	
 		
 	//	dorequest
-	$response = $client->createPaymentOrder( $parameters );
-	
-	if( isset( $response->paymentOrderSuccess->key ) ) {
+	$response = $client->create( $parameters );
+	//echo $client->__getLastRequest();
+	//var_dump($response);
+	if( isset( $response->createSuccess->key ) ) {
 		$return["OrderStatus"]="OK";
-		$return["Orderkey"]=$response->paymentOrderSuccess->key;
+		$return["Orderkey"]=$response->createSuccess->key;
+		header('Location: https://test.docdatapayments.com/ps/com.tripledeal.paymentservice.servlets.PaymentService?command=show_payment_cluster&merchant_name=chalet_nl&client_language=nl&payment_cluster_key='.$response->createSuccess->key);
 	} else {
-		$return["OrderStatus"]=$response->paymentOrderError;
+		$return["OrderStatus"]=$response->createError;
 		
 	}
 	}elseif($_GET["action"]=="getstatus"){
