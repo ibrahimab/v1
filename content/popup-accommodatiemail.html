@@ -364,7 +364,7 @@ if(isset($_POST['verzenderAdres'])){
 		else{
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamers")."</td>";
 		}
-		$teken=substr(wt_he($accinfo["land"]),0,1);
+		$teken=$accinfo["begincode"];
 		$mail->html.= "<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"".$vars["basehref"]."accommodatie/".$teken.$_GET["accid"]."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
 		if(wt_he($accinfo["badkamers"])==1){
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamer")."</td>";
@@ -443,7 +443,7 @@ if(isset($_POST['verzenderAdres'])){
 		else{
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamers")."</td>";
 		}
-		$teken=substr(wt_he($accinfo["land"]),0,1);
+		$teken=$accinfo["begincode"];
 		$mail->html.= "<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"".$vars["basehref"]."accommodatie/".$teken.$_GET["accid"]."\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
 		if(wt_he($accinfo["badkamers"])==1){
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamer")."</td>";
@@ -538,7 +538,7 @@ if(isset($_POST['verzenderAdres'])){
 			else{
 				echo"<td style=\"font-family:verdana;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamers")."</td>";
 			}
-			$teken=substr(wt_he($accinfo["land"]),0,1);
+			$teken=$accinfo["begincode"];
 			echo "<td style=\"font-family:verdana;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"#\">".html("buttonLeesmeer","favorieten")."</a></td></tr><tr>";
 			if(wt_he($accinfo["badkamers"])==1){
 				echo"<td style=\"font-family:verdana;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamer")."</td>";
