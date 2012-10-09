@@ -1831,7 +1831,8 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			}
 		}
 
-		if($vars["flexibel_toegestaan"] and is_array($flex_alt)) {
+		// functie uitgezet op 09-10-2012; getoonde gegevens waren niet correct
+		if($vars["flexibel_toegestaan"] and is_array($flex_alt) and $NU_EVEN_NIET) {
 			$flex_alt_html.="<div class=\"flexalternatieven boxshadow\">";
 			$flex_alt_html.="<i>".html("bekijkeventueelook","zoek-en-boek").":</i><br><br>";
 
