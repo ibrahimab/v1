@@ -1687,15 +1687,25 @@ function wt_decrypt($secret,$text) {
 	return $crypt->decrypt($text);
 }
 
+// 1:        |----------|
+// 2: |----------|
+// 2:           |-----|
+// 2:      |---------------|
+// 2:              |----------|
+
 function wt_datumoverlap($begin1,$eind1,$begin2,$eind2) {
 	$return=false;
+	// 2 begint eerder en eindigt later dan 1
 	if($begin2<=$begin1 and $begin2<=$eind1 and $eind2>=$eind1 and $eind2>=$begin1) {
 		$return=true;
-	} elseif($begin2<$begin1 and $begin2<=$eind1 and $eind2<=$eind1 and $eind2>=$begin1) {
+	// 2 begint eerder (of gelijk) dan 1 begint en eindigt eerder (of gelijk) dan 1	eindigt
+	} elseif($begin2<=$begin1 and $begin2<=$eind1 and $eind2<=$eind1 and $eind2>=$begin1) {
 		$return=true;
-	} elseif($begin2>$begin1 and $begin2<=$eind1 and $eind2<=$eind1 and $eind2>=$begin1) {
+	// 2 begint later en eindigt eerder dan 1
+	} elseif($begin2>=$begin1 and $begin2<=$eind1 and $eind2<=$eind1 and $eind2>=$begin1) {
 		$return=true;
-	} elseif($begin2>=$begin1 and $begin2<=$eind1 and $eind2>=$eind1 and $eind2>=$begin1) {
+	// 2 begint later (of gelijk) dan 1 begint en eindigt later (of gelijk) dan 1
+		} elseif($begin2>=$begin1 and $begin2<=$eind1 and $eind2>=$eind1 and $eind2>=$begin1) {
 		$return=true;
 	}
 	return $return;
