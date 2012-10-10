@@ -1316,11 +1316,11 @@ if($db->next_record()) {
 			$favorieten_plaatsbutton=true;
 		}
 
-		echo "<div id=\"favadd\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "" : "display:none;")."\" onclick=\"return favorieten_opslaan_verwijderen('".$typeid."','insert');\">";
+		echo "<div id=\"favadd\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "" : "display:none;")."\" onclick=\"return favorieten_opslaan_verwijderen('".$db->f("begincode")."','".$typeid."','insert');\">";
 		echo html("plaatsinfavorieten","toonaccommodatie",array("h_1"=>"<b>","h_2"=>"</b>"));
 		echo "</div>";
 
-		echo "<div id=\"favremove\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "display:none;" : "")."\" onclick=\"return favorieten_opslaan_verwijderen('".$typeid."','delete');\">";
+		echo "<div id=\"favremove\" class=\"button_accpagina\" style=\"".($favorieten_plaatsbutton ? "display:none;" : "")."\" onclick=\"return favorieten_opslaan_verwijderen('".$db->f("begincode")."','".$typeid."','delete');\">";
 		echo html("uitmijnfavorietenhalen","toonaccommodatie",array("h_1"=>"<b>","h_2"=>"</b>"));
 		echo "</div>";
 	}

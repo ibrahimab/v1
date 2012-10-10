@@ -45,7 +45,7 @@
 
 .daycell {
 	width: 22px;
-	cursor: default;	
+	cursor: default;
 }
 
 .daycell:hover {
@@ -93,7 +93,7 @@
 }
 
 .boeking_eigenaar {
-	background-color: #e5e0ec;
+	background-color: #c3a5ed;
 	color: #000000;
 }
 
@@ -110,6 +110,10 @@
 .voorraad_nietbeschikbaarvoorverhuur {
 	background-color: #ff2439;
 	color: #ffffff;
+}
+
+.voorraad_nognietinplanning {
+	background-color: #ffffff;
 }
 
 .staatinoptievoorklant {

@@ -508,9 +508,11 @@ if ( $_GET["t"]==1 ) {
 //$_GET['klantpostcode']="3513CM";
 //$_GET['klantplaats']="Utrecht";
 //$_GET['klantID']=1234578;
-//$_GET['bedrag']=3021;
+//$_GET['bedrag']=302100;
 //$boekingObject["Termijn"]=920;
-//$_GET['kenmerk']="C12105049";
+
+//$_GET['kenmerk']="C121050495778";
+
 //$boekingObject["plaats"]="test plaats";
 //$boekingObject["Accommodatie"]="Chalet Almhaus Peter(8-10 pers.)";
 //$boekingObject["Deelnemers"]="8 personen";
@@ -521,14 +523,15 @@ if ( $_GET["t"]==1 ) {
 //$boekingObject["product"]["prijs"][1]=191;
 //$_GET['klantproduct']= "1x Accommodatie";
 //$boekingObject["Reserveringskosten"]=true;
-	$url = "http://test.tripledeal.com/ps/services/paymentservice/0_4?wsdl";
+	//$url = "http://test.tripledeal.com/ps/services/paymentservice/0_4?wsdl";
+	$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
 	
-	$client = new SoapClient( $url );
-	
+	$client = new SoapClient( $url,array('trace'=>1));
+	//echo $client->__getLastResponse();
 	//var_dump($client->__getFunctions());
 	//print_r($_POST);
 	
-	$parameters['version'] = "0.4";
+	$parameters['version'] = "0.9";
 	
 	//	merchant
 	$parameters['merchant']['name'] = "chalet_nl";
@@ -588,39 +591,52 @@ if ( $_GET["t"]==1 ) {
 	$parameters['item'][0]['totalVat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));	
 		
 	//	dorequest
-	$response = $client->createPaymentOrder( $parameters );
-	
-	if( isset( $response->paymentOrderSuccess->key ) ) {
+	$response = $client->create( $parameters );
+	//echo $client->__getLastRequest();
+	//var_dump($response);
+	if( isset( $response->createSuccess->key ) ) {
 		$return["OrderStatus"]="OK";
-		$return["Orderkey"]=$response->paymentOrderSuccess->key;
+		$_SESSION["key"]=$response->createSuccess->key;
+		$return["Orderkey"]=$response->createSuccess->key;
 	} else {
-		$return["OrderStatus"]=$response->paymentOrderError;
+		$return["OrderStatus"]=$response->createError;
 		
 	}
 	}elseif($_GET["action"]=="getstatus"){
 #het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
-		$signature=sha1($_GET["trxid"]."25374805605a3f9de17a1ac057e637aeaba1afedd2070d75ba");
-		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/StatusRequest?trxid='.$_GET["trxid"].'&shopid=&merchantid=2537480560&sha1='.$signature;
-		$handle = fopen($daurl, "r");
-		$xml="";
-		if ($handle) {   
-			while (!feof($handle)) {        
-				$buffer = fgets($handle, 4096); 
-				$xml.= $buffer;       
-			}    
-			fclose($handle);
-		}
-		$xmle=simplexml_load_string($xml);
-		$return["transaction"]["trxid"]=(string)$xmle->transaction->trxid;
-		$return["transaction"]["status"]=(string)$xmle->transaction->status;
-		$return["transaction"]["amount"]=(string)$xmle->transaction->amount;
-		$return["transaction"]["purchaseid"]=(string)$xmle->transaction->purchaseid;
-		$return["transaction"]["description"]=(string)$xmle->transaction->description;
-		$return["transaction"]["timestamp"]=(string)$xmle->transaction->timestamp;
-		$return["transaction"]["consumername"]=(string)$xmle->transaction->consumername;
-		$return["transaction"]["consumeraccount"]=(string)$xmle->transaction->consumeraccount;
-		$return["transaction"]["consumercity"]=(string)$xmle->transaction->consumercity;
-		//print_r($xmle);
+		//$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
+		//$client = new SoapClient( $url,array('trace'=>1));
+		
+		//$parameters['version'] = "0.9";
+	
+		//	merchant
+		//$parameters['merchant']['name'] = "chalet_nl";
+		//$parameters['merchant']['password'] = "7rU5ehew";
+		//$url="https://test.docdatapayments.com/ps/menu?command=status_payment_cluster&merchant_name=chalet_nl&merchant_password=7rU5ehew&
+//payment_cluster_key=57E04C4D2EC9DFCB88DC48F4CC2A354D&report_type=xml_std";
+
+	$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
+	
+	$client = new SoapClient($url);
+	//echo $client->__getLastResponse();
+	//var_dump($client->__getFunctions());
+	//print_r($_POST);
+	
+	$parameters['version'] = "0.9";
+	
+	//	merchant
+	$parameters['merchant']['name'] = "chalet_nl";
+	$parameters['merchant']['password'] = "7rU5ehew";
+	//cluster
+	$parameters['paymentOrderKey']=$_SESSION["key"];
+	$response = $client->status( $parameters );
+	if( isset( $response->statusSuccess->success ) ) {
+		$return["paymentStatus"]="OK";
+		$return["statusCode"]=$response->statusSuccess->success->code;
+	} else {
+		$return["OrderStatus"]=$response->statusError;
+	}	
+	//echo var_dump($response);
 	}
 }
 $return["ok"]=true;
