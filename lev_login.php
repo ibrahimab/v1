@@ -12,7 +12,7 @@ include("admin/vars.php");
 $robot_noindex=true;
 
 if($login_lev->logged_in) {
-	
+
 	# Taal bepalen
 	if($login_lev->vars["inlog_taal"]) {
 		$org_taal=$vars["taal"];
@@ -40,21 +40,36 @@ if($login_lev->logged_in) {
 	}
 }
 
-if($login_lev->logged_in and $_GET["t"]==1) {
+
+if($_GET["bezoverzicht"] and $_GET["bezid"]) {
+	// bezettingsoverzicht
+
+	// kijken of ingelogde persoon toegang heeft tot deze lijst (+ externe naam opvragen uit db)
+	$db->query("SELECT b.externenaam".$vars["ttv_lev_login"]." AS externenaam, b.bezettingsoverzicht_id FROM bezettingsoverzicht b, bezettingsoverzicht_leverancier bl WHERE bl.bezettingsoverzicht_id=b.bezettingsoverzicht_id AND b.bezettingsoverzicht_id='".addslashes($_GET["bezid"])."' AND bl.leverancier_id='".addslashes($login_lev->user_id)."' AND b.externenaam".$vars["ttv_lev_login"]."<>'';");
+	if($db->next_record()) {
+		$_GET["49k0"]=$db->f("bezettingsoverzicht_id");
+		$vars["bezettingsoverzicht_leverancier"]=true;
+		$vars["bezettingsoverzicht_externenaam"]=$db->f("externenaam");
+
+		// pagina met overzicht includen
+		include("content/cms_bezettingsoverzichten_gegevens.html");
+		exit;
+	}
+} elseif($login_lev->logged_in and $_GET["t"]==1) {
 
 
 	# frm = formname (mag ook wat anders zijn)
-	$form=new form2("frm"); 
+	$form=new form2("frm");
 	$form->settings["language"]=$login_lev->vars["inlog_taal"];
 	$form->settings["fullname"]="lev_login_instellingen";
 	$form->settings["layout"]["css"]=false;
 	$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 	$form->settings["message"]["submitbutton"]["en"]="SAVE";
 	#$form->settings["target"]="_blank";
-	
+
 	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 	$form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
-	
+
 	#_field: (obl),id,title,db,prevalue,options,layout
 	$db->query("SELECT adresregels, contactpersoon_contract, email_contract, telefoonnummer_contract, noodnummer FROM leverancier WHERE leverancier_id='".addslashes(addslashes($login_lev->user_id))."';");
 	if($db->next_record()) {
@@ -66,21 +81,21 @@ if($login_lev->logged_in and $_GET["t"]==1) {
 		$form->field_htmlcol("",txt("emailadres","lev_login"),array("html"=>wt_he($db->f("email_contract"))));
 		$form->field_htmlcol("",txt("telefoonnummer","lev_login"),array("html"=>wt_he($db->f("telefoonnummer_contract"))));
 		$form->field_htmlcol("",txt("noodnummer","lev_login"),array("html"=>wt_he($db->f("noodnummer"))));
-		
+
 		$form->field_htmlrow("","<br><i>".html("wijzigingendoorgeven","lev_login",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">".$vars["email"]."</a>"))."</i><br>&nbsp;");
-		
+
 	}
 	$form->field_password(0,"password",txt("nieuwwachtwoord","lev_login"),"","",array("new_password"=>true,"strong_password"=>true));
 	$form->field_password(0,"password2",txt("herhaalwachtwoord","lev_login"));
-	
+
 	$form->check_input();
-	
+
 	if($form->filled) {
 		if($form->input["password"] and $form->input["password"]<>$form->input["password2"]) {
 			$form->error("password2",txt("nietgelijk","lev_login"));
 		}
 	}
-	
+
 	if($form->okay) {
 		if($form->input["password"]) {
 			$password_hash=wt_complex_password_hash($form->input["password"],$vars["salt"]);

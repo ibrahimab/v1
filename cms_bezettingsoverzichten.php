@@ -58,6 +58,8 @@ if($_GET["popup"]) {
 	#
 	# Database db_field($counter,$type,$id,$field="",$options="")
 	$cms->db_field(49,"text","naam");
+	$cms->db_field(49,"text","externenaam");
+	$cms->db_field(49,"text","externenaam_en");
 	$cms->db_field(49,"select","seizoen_id","",array("othertable"=>"9","otherkeyfield"=>"seizoen_id","otherfield"=>"naam","otherwhere"=>"seizoen_id>=19"));
 	$cms->db_field(49,"date","begindatum");
 	$cms->db_field(49,"date","einddatum");
@@ -106,7 +108,7 @@ if($_GET["popup"]) {
 		# javascript garanties_seizoen_naar_datum
 		$javascript_seizoenids.=",".$db->f("seizoen_id");
 		$javascript_begindatums.=",".date("Ymd",$db->f("begin"));
-		$javascript_einddatums.=",".date("Ymd",$db->f("eind"));
+		$javascript_einddatums.=",".date("Ymd",mktime(0,0,0,date("m",$db->f("eind")),date("d",$db->f("eind"))-1,date("Y",$db->f("eind")))); // zorgen dat de einddatum een vrijdag is
 	}
 	$javascript_seizoenids=substr($javascript_seizoenids,1);
 	$javascript_begindatums=substr($javascript_begindatums,1);
@@ -119,15 +121,18 @@ if($_GET["popup"]) {
 
 	# Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 	#$cms->edit_field(49,1,"naam","Naam");
-	$cms->edit_field(49,1,"naam","Naam");
+	$cms->edit_field(49,1,"naam","Naam (intern)");
+	$cms->edit_field(49,0,"externenaam","Naam (voor leverancier)");
+	$cms->edit_field(49,0,"externenaam_en","Naam (voor Engelstalige leverancier)");
 	$cms->edit_field(49,1,"seizoen_id","Seizoen","","",array("onchange"=>"seizoen_naar_datum(this,'".$javascript_seizoenids."','".$javascript_begindatums."','".$javascript_einddatums."','begindatum','einddatum');"));
-	$cms->edit_field(49,1,"begindatum","Begindatum");
-	$cms->edit_field(49,1,"einddatum","Einddatum");
+	$cms->edit_field(49,1,"begindatum","Van","","",array("calendar"=>true));
+	$cms->edit_field(49,1,"einddatum","Tot en met","","",array("calendar"=>true));
 
 	# Controle op ingevoerde formuliergegevens
 	$cms->set_edit_form_init(49);
 	if($cms_form[49]->filled) {
-
+		if($cms_form[49]->input["externenaam"] and ! $cms_form[49]->input["externenaam_en"]) $cms_form[49]->error("externenaam_en","vul beide talen in");
+		if($cms_form[49]->input["externenaam_en"] and ! $cms_form[49]->input["externenaam"]) $cms_form[49]->error("externenaam","vul beide talen in");
 	}
 
 	# functie na opslaan form

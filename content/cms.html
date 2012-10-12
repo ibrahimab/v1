@@ -555,7 +555,7 @@ if(!$login->logged_in) {
 	#
 	# Testsite kiezen (op lokale server)
 	#
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	if($vars["lokale_testserver"]) {
 		$testsite_array=array("chaletnl"=>"Chalet.nl C","chaleteu"=>"Chalet.eu E","wsa"=>"WSA.nl W","chalettour"=>"Chalettour.nl T","chaletbe"=>"Chalet.be B","vallandrynl"=>"ChaletsinVallandry.nl V","vallandrycom"=>"ChaletsinVallandry.com Q","zomerhuisjenl"=>"Zomerhuisje.nl Z","zomerhuisjeeu"=>"Zomerhuisje.eu N");
 		echo "<hr>Testsite: ";
 		while(list($key,$value)=each($testsite_array)) {
@@ -586,7 +586,7 @@ if(!$login->logged_in) {
 
 	}
 
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and !$_GET["meldingen"]) {
+	if(($vars["lokale_testserver"] or $login->user_id==1) and !$_GET["meldingen"]) {
 		echo "<hr><p><b>Meldingen zijn uitgeschakeld.</b></p>";
 		echo "<a href=\"cms.php?meldingen=1\">meldingen tonen &gt;</a>";
 	} else {

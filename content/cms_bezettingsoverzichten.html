@@ -2,7 +2,7 @@
 
 
 if($_GET["show"]==49 and $_GET["49k0"]) {
-	echo "<div style=\"padding:10px;margin-bottom:10px;background-color:yellow;border:1px solid #666666;\"><a href=\"#\" onclick=\"popwindowXY(1250,800,'".$vars["path"]."cms_bezettingsoverzichten.php?popup=1&".$_SERVER["QUERY_STRING"]."');return false;\">Bekijk het overzicht op basis van onderstaande gegevens &raquo;</a></div>";
+	echo "<div class=\"opvalblok\"><a href=\"#\" onclick=\"popwindowXY(1250,800,'".$vars["path"]."cms_bezettingsoverzichten.php?popup=1&".$_SERVER["QUERY_STRING"]."');return false;\">Bekijk het overzicht op basis van onderstaande gegevens &raquo;</a></div>";
 }
 
 $cms->display_cms();
@@ -92,6 +92,10 @@ if($_GET["show"]==49 and $_GET["49k0"]) {
 
 	echo "<p>&nbsp;<hr>&nbsp;";
 	echo "<h2>Leveranciers die toegang hebben tot dit overzicht</h2>";
+	$db->query("SELECT externenaam FROM bezettingsoverzicht WHERE externenaam<>'' AND bezettingsoverzicht_id='".addslashes($_GET["46k0"])."';");
+	if(!$db->num_rows()) {
+		echo "<div class=\"opvalblok\">Let op: dit overzicht heeft nog geen externe naam. Alleen overzichten met een externe naam zijn zichtbaar voor leveranciers.</div>";
+	}
 	$cms->display_list(51);
 
 	echo "<hr>";

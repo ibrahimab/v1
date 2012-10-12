@@ -122,6 +122,13 @@ if($login_lev->logged_in) {
 		}
 		echo "<li><a href=\"".$vars["path"]."cms_overzichten_print.php?roominglist=1\" target=\"_blank\">".html("roominglist","lev_login")."</a></li>";
 		echo "<li><a href=\"".$vars["path"]."lev_login.php?t=1\">".html("mijngegevens","lev_login")."</a></li>";
+
+		// bezettingsoverzichten
+		$db->query("SELECT b.externenaam".$vars["ttv_lev_login"]." AS externenaam, b.bezettingsoverzicht_id FROM bezettingsoverzicht b, bezettingsoverzicht_leverancier bl WHERE bl.bezettingsoverzicht_id=b.bezettingsoverzicht_id AND bl.leverancier_id='".addslashes($login_lev->user_id)."' AND b.externenaam".$vars["ttv_lev_login"]."<>'' ORDER BY 1;");
+		while($db->next_record()) {
+			echo "<li><a href=\"#\" onclick=\"popwindow(1250,800,'".$vars["path"]."lev_login.php?popup=1&bezoverzicht=1&bezid=".$db->f("bezettingsoverzicht_id")."');return false;\">".html("bezettingsoverzicht","lev_login").": ".wt_he($db->f("externenaam"))."</a></li>";
+		}
+
 		echo "</ul>";
 
 		if($login_lev->vars["inlog_afspraken"]) {

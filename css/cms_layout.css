@@ -524,6 +524,7 @@ li {
 	background-color: #FFFBBA;
 	padding: 10px;
 	border: 1px solid #ebebeb;
+	margin-bottom: 10px;
 }
 
 .niet_invullen {
@@ -741,7 +742,7 @@ a.opm:hover .balloon_small {
 		margin: 0px;
 		padding: 0px;
 	}
-	
+
 	#menu {
 		display: none;
 	}
@@ -767,7 +768,7 @@ a.opm:hover .balloon_small {
 		width: 100%;
 		border: solid #282E82 1px;
 	}
-	
+
 	.noprint {
 		display: none;
 		height: 0px;
