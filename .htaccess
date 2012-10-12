@@ -53,22 +53,27 @@ RewriteCond %{HTTP_HOST} chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www[23]?\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^srv01\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.nl [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.wintersportaccommodaties\.nl [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.wintersportaccommodaties.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalet\.eu [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chalet.eu/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalettour\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalettour\.nl [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chalettour.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalet\.be [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalet\.be [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chalet.be/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} wintersportaccommodations\.eu [NC]
@@ -76,22 +81,27 @@ RewriteRule ^(.*)$ http://www.chalet.eu/ [L,R=301]
 
 RewriteCond %{HTTP_HOST} zomerhuisje\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.nl [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} zomerhuisje\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.eu [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.zomerhuisje.eu/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chaletsinvallandry\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.chaletsinvallandry\.nl [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chaletsinvallandry.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chaletsinvallandry\.com [NC]
 RewriteCond %{HTTP_HOST} !^www\.chaletsinvallandry\.com [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chaletsinvallandry.com/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} italissima\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.italissima\.nl [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
 
 #
@@ -363,19 +373,19 @@ php_value memory_limit 128M
 	# Turn on Expires and set default to 0
 	ExpiresActive On
 	ExpiresDefault A0
-	 
+
 	# Set up caching on for 180 days
 	<FilesMatch "\.(css|gif|jpg|jpeg|png|swf|ico|js)$">
 	ExpiresDefault A15552000
 	Header append Cache-Control "public"
 	</FilesMatch>
-	
+
 	<FilesMatch "\.phpcache$">
 	ExpiresActive On
 	ExpiresDefault A15552000
 	Header append Cache-Control "public"
 	</FilesMatch>
-	
+
 	# Force no caching for dynamic files
 	<FilesMatch "\.(php|cgi|pl|htm|html)$">
 	ExpiresActive Off
