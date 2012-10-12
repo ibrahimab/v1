@@ -92,6 +92,7 @@ RewriteRule ^(.*)$ http://www.chaletsinvallandry.com/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} italissima\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.italissima\.nl [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
 
 #
@@ -363,19 +364,19 @@ php_value memory_limit 128M
 	# Turn on Expires and set default to 0
 	ExpiresActive On
 	ExpiresDefault A0
-	 
+
 	# Set up caching on for 180 days
 	<FilesMatch "\.(css|gif|jpg|jpeg|png|swf|ico|js)$">
 	ExpiresDefault A15552000
 	Header append Cache-Control "public"
 	</FilesMatch>
-	
+
 	<FilesMatch "\.phpcache$">
 	ExpiresActive On
 	ExpiresDefault A15552000
 	Header append Cache-Control "public"
 	</FilesMatch>
-	
+
 	# Force no caching for dynamic files
 	<FilesMatch "\.(php|cgi|pl|htm|html)$">
 	ExpiresActive Off
