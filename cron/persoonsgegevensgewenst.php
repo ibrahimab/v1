@@ -15,7 +15,7 @@ if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 } else {
 	$unixdir="/home/sites/chalet.nl/html/";
-#	mail("systeembeheer@webtastic.nl","Chalet-cron persoonsgegevens","Cron is gestart om ".date("r"));
+#	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron persoonsgegevens","Cron is gestart om ".date("r"));
 }
 $cron=true;
 include($unixdir."admin/vars.php");
@@ -39,7 +39,7 @@ while($db->next_record()) {
 		$mail->fromname=$mailtekst_persoonsgegevens["fromname"];
 		$mail->from=$mailtekst_persoonsgegevens["from"];
 		$mail->to=$mailtekst_persoonsgegevens["to"];
-		
+
 		$mail->subject=$mailtekst_persoonsgegevens["subject"];
 		$mail->plaintext=$mailtekst_persoonsgegevens["body"];
 
@@ -49,10 +49,10 @@ while($db->next_record()) {
 		if($mail->to) {
 			$mail->send();
 		}
-		
+
 		# Opslaan in database
 		$db2->query("UPDATE boeking SET mailverstuurd_persoonsgegevens=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-		
+
 		# Loggen
 		chalet_log("persoonsgegevensgewenst-mailtje verstuurd aan ".$mail->to,false,true);
 
@@ -72,7 +72,7 @@ while($db->next_record()) {
 	$gegevens=get_boekinginfo($db->f("boeking_id"));
 
 	$gewenst=persoonsgegevensgewenst($gegevens);
-	
+
 	if($gewenst) {
 		$mailtekst_persoonsgegevens=mailtekst_persoonsgegevens($gegevens["stap1"]["boekingid"],$gewenst,true);
 
@@ -85,14 +85,14 @@ while($db->next_record()) {
 		$mail->plaintext=$mailtekst_persoonsgegevens["body"];
 		echo "<hr><a href=\"".$vars["path"]."cms_boekingen.php?show=21&bt=2&archief=0&21k0=".$gegevens["stap1"]["boekingid"]."\" target=\"_blank\">Boeking ".$gegevens["stap1"]["boekingsnummer"]."</a> - ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])."<p>";
 		echo "<b>".$mailtekst_persoonsgegevens["subject"]."</b><p>".wordwrap($mailtekst_persoonsgegevens["body"]);
-		
+
 		if($mail->to) {
 			$mail->send();
 		}
 
 		# Opslaan in database
 		$db2->query("UPDATE boeking SET mailverstuurd_persoonsgegevens_reminder=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-		
+
 		# Loggen
 		chalet_log("persoonsgegevensgewenst-mailtje-reminder verstuurd aan ".$mail->to,false,true);
 
@@ -121,7 +121,7 @@ while($db->next_record()) {
 	$mail->fromname=$mailtekst["fromname"];
 	$mail->from=$mailtekst["from"];
 	$mail->to=$mailtekst["to"];
-	
+
 	$mail->subject=$mailtekst["subject"];
 	$mail->plaintext=$mailtekst["body"];
 
@@ -131,10 +131,10 @@ while($db->next_record()) {
 	if($mail->to and $mail->plaintext) {
 		$mail->send();
 	}
-	
+
 	# Opslaan in database
 	$db2->query("UPDATE boeking SET mailverstuurd_verzendmethode_reisdocumenten=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-	
+
 	# Loggen
 	chalet_log("'verzendmethode reisdocumenten'-mailtje verstuurd aan ".$mail->to,false,true);
 

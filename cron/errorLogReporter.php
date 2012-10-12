@@ -132,7 +132,7 @@ $intervals[23]=-8;
 $intervals[24]=-7;
 $intervals[25]=-6;
 $intervals[26]=-5;
-$intervals[27]=-4; 
+$intervals[27]=-4;
 $intervals[28]=-3;
 $intervals[29]=-2;
 $intervals[30]=-1;
@@ -185,17 +185,17 @@ if($handle) {
 		$mail=new wt_mail;
 		$mail->fromname="Chalet.nl";
 		$mail->from="info@chalet.nl";
-		$mail->toname="Miguel Moukimou";
-		$mail->to="miguel@chalet.nl";
+		$mail->toname="Chalet.nl Mailbackup";
+		$mail->to="chaletmailbackup+errorlog@gmail.com";
 #		$mail->bcc="jeroen@webtastic.nl";
 		$mail->subject.="httpd errorlog report";
 		$mail->plaintext=$logs; # deze leeg laten bij een opmaak-mailtje
 		$mail->send();
 		echo "mail met log berichten succesvol verzonden";
-	}
-	else{
-		echo "Er zijn geen nieuwe meldingen binnen gekomen.";	
+	} else {
+		echo "Er zijn geen nieuwe meldingen binnen gekomen.";
 	}
 	fclose($handle);
 }
+
 ?>

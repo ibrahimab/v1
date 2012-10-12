@@ -21,7 +21,7 @@ if($_SERVER["HTTP_HOST"]) {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
 	$unixdir="/home/sites/chalet.nl/html/";
-#	mail("systeembeheer@webtastic.nl","Chalet-cron elkuur","Cron is gestart om ".date("r"));
+#	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
 }
 $cron=true;
 $geen_tracker_cookie=true;

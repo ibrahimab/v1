@@ -15,7 +15,7 @@ if(!$login->logged_in) {
 		}
 	}
 	if(!$_GET["logout"] and !$_GET["reloaded"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-		wt_mail("systeembeheer@webtastic.nl","Chalet inlogform opgevraagd",$vars["basehref"]."\n".$_SERVER["REQUEST_URI"]."\n\n_COOKIE\n".wt_dump($_COOKIE,false)."\n\n_SERVER\n".wt_dump($_SERVER,false));
+		wt_mail("chaletmailbackup+systemlog@gmail.com","Chalet inlogform opgevraagd",$vars["basehref"]."\n".$_SERVER["REQUEST_URI"]."\n\n_COOKIE\n".wt_dump($_COOKIE,false)."\n\n_SERVER\n".wt_dump($_SERVER,false));
 	}
 } else {
 

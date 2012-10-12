@@ -21,7 +21,7 @@ if($_SERVER["HTTP_HOST"]) {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
 	$unixdir="/home/sites/chalet.nl/html/";
-#	mail("systeembeheer@webtastic.nl","Chalet-cron elkuur","Cron is gestart om ".date("r"));
+#	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
 }
 $cron=true;
 $geen_tracker_cookie=true;
@@ -166,7 +166,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		$mail->from="system@chalet.nl";
 		$mail->toname="Chalet.nl";
 		$mail->to="info@chalet.nl";
-		$mail->bcc="systeembeheer@webtastic.nl";
+		$mail->bcc="chaletmailbackup+systemlog@gmail.com";
 		$mail->subject="Geen XML-import";
 
 		$mail->plaintext="";

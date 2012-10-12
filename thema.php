@@ -18,9 +18,9 @@ if($vars["seizoentype"]==1) {
 } elseif($vars["website"]=="Z") {
 	# zomer
 #	if($_GET["filled"]) {
-#		wt_mail("systeembeheer@webtastic.nl","Themapagina - zoekformulier",$_SERVER["REQUEST_URI"]."\n\n".$_SERVER["REMOTE_ADDR"]);
+#		wt_mail("chaletmailbackup+systemlog@gmail.com","Themapagina - zoekformulier",$_SERVER["REQUEST_URI"]."\n\n".$_SERVER["REMOTE_ADDR"]);
 #	} else {
-#		wt_mail("systeembeheer@webtastic.nl","Themapagina",$_SERVER["REQUEST_URI"]."\n\n".$_SERVER["REMOTE_ADDR"]);
+#		wt_mail("chaletmailbackup+systemlog@gmail.com","Themapagina",$_SERVER["REQUEST_URI"]."\n\n".$_SERVER["REMOTE_ADDR"]);
 #	}
 }
 
@@ -70,7 +70,7 @@ if($db->next_record()) {
 			$themalandinfo["uitgebreid"]=$db->f("uitgebreid");
 			$themalandinfo["padhoofdafbeelding"]="themas_hoofdpagina";
 		}
-		
+
 		# Foto's bepalen
 		$dir="pic/cms/themas/";
 		$d=dir($dir);

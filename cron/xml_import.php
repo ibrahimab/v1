@@ -1937,8 +1937,8 @@ if($mailtxt or $tarievenbijgewerkt) {
 			$mail->html.="<b><i>Bij de volgende accommodatie(s) zijn nieuwe tarieven bekend (moeten nog worden goedgekeurd):</i></b><br>".$sendmailtxt2."<p>";
 		}
 
-		# Ook naar WT mailen
-		$mail->bcc="systeembeheer@webtastic.nl";
+		# Ook naar systemlog mailen
+		$mail->bcc="chaletmailbackup+systemlog@gmail.com";
 
 		$mail->send();
 

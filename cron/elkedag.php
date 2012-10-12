@@ -20,7 +20,7 @@ if($_SERVER["HTTP_HOST"]) {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
 	$unixdir="/home/sites/chalet.nl/html/";
-#	mail("systeembeheer@webtastic.nl","Chalet-cron elkuur","Cron is gestart om ".date("r"));
+#	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
 }
 $cron=true;
 $geen_tracker_cookie=true;
@@ -49,13 +49,13 @@ $db->query("SELECT b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.aan
 if($db->num_rows()) {
 	echo "De volgende zomerboekingen hebben een opties-bijboeken-mailtje ontvangen:\n\n";
 	while($db->next_record()) {
-	
+
 		# Tekst bepalen
 		$mailtekst_opties=mailtekst_opties($db->f("boeking_id"));
-		
+
 		if(!$mailtekst_opties["mailverstuurd_opties"]) {
 
-			# Mail versturen			
+			# Mail versturen
 			$mail=new wt_mail;
 			$mail->fromname=$mailtekst_opties["fromname"];
 			$mail->from=$mailtekst_opties["from"];
@@ -68,10 +68,10 @@ if($db->num_rows()) {
 
 			# Loggen
 			chalet_log("opties-bijboeken-mailtje verstuurd aan ".$mail->to,false,true);
-			
+
 			# Database opslaan
 			$db2->query("UPDATE boeking SET mailverstuurd_opties=NOW() WHERE boeking_id='".addslashes($db->f("boeking_id"))."';");
-		
+
 			echo "- ".$db->f("boekingsnummer")." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."\n";
 			flush();
 		}

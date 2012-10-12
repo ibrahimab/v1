@@ -15,7 +15,7 @@ if(($_GET["goedkeuren"] or $_GET["afkeuren"]) and $_GET["confirmed"]) {
 		}
 		$db->query("UPDATE boeking SET gewijzigd='', factuur_versturen='".($gegevens["stap1"]["factuur_tewijzigen"] ? 1 : 0)."', factuur_tewijzigen=0 WHERE boeking_id='".addslashes($_GET["21k0"])."';");
 		$db->query("UPDATE boeking_persoon SET annverz_voorheen=NULL WHERE boeking_id='".addslashes($_GET["21k0"])."';");
-		
+
 		chalet_log("onderdelen goedgekeurd",true,true);
 	} elseif($_GET["afkeuren"]) {
 		$db->query("DELETE FROM boeking_optie WHERE status=2 AND boeking_id='".addslashes($_GET["21k0"])."';");
@@ -31,7 +31,7 @@ if(($_GET["goedkeuren"] or $_GET["afkeuren"]) and $_GET["confirmed"]) {
 				$db->query("UPDATE boeking SET schadeverzekering=1 WHERE boeking_id='".addslashes($_GET["21k0"])."';");
 			}
 		}
-		
+
 		if(ereg("AANTAL_PERSONEN_VAN_([0-9]+)",$gegevens["stap1"]["gewijzigd"],$regs)) {
 			if($accinfo["toonper"]<>3 and !$gegevens["stap1"]["wederverkoop"]) {
 				$db->query("SELECT verkoop FROM boeking_tarief WHERE aantalpersonen='".addslashes($gegevens["stap1"]["aantalpersonen"])."' AND boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."'");
@@ -116,7 +116,7 @@ if($_GET["21k0"]) {
 		}
 	}
 	$accinfo=accinfo($vars["typeid"]);
-	
+
 	#
 	# Aankomstdata laden
 	#
@@ -277,7 +277,7 @@ if($cms->set_delete_init(21)) {
 	$db->query("DELETE FROM boeking_persoon WHERE boeking_id='".addslashes($_GET["21k0"])."';");
 	$db->query("DELETE FROM extra_optie WHERE boeking_id='".addslashes($_GET["21k0"])."';");
 	$db->query("DELETE FROM boeking_tarief WHERE boeking_id='".addslashes($_GET["21k0"])."';");
-	mail("systeembeheer@webtastic.nl","Chalet-boeking gewist",$login->username." heeft via de delete-knop boeking ".$_GET["21k0"]." gewist.");
+	mail("chaletmailbackup+systemlog@gmail.com","Chalet-boeking gewist",$login->username." heeft via de delete-knop boeking ".$_GET["21k0"]." gewist.");
 }
 
 # End declaration

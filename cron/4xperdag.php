@@ -21,7 +21,7 @@ if($_SERVER["HTTP_HOST"]) {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
 	$unixdir="/home/sites/chalet.nl/html/";
-#	mail("systeembeheer@webtastic.nl","Chalet-cron elkuur","Cron is gestart om ".date("r"));
+#	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
 }
 $cron=true;
 $geen_tracker_cookie=true;
@@ -46,7 +46,7 @@ while($db->next_record()) {
 $db->query("UPDATE optie_accommodatie SET wis_na_bijwerken=1 WHERE wederverkoop_skipas_id IS NOT NULL;");
 $db->query("SELECT skipas_id, naam, website_omschrijving, website_omschrijving_en, wederverkoop_naam, wederverkoop_naam_en, naam_voucher, naam_voucher_en, omschrijving_voucher, begindag, einddag FROM skipas ORDER BY skipas_id;");
 while($db->next_record()) {
-	
+
 	# Optie-groepen
 	$setquery="naam='".addslashes($db->f("naam"))."', skipas_id='".$db->f("skipas_id")."', wederverkoop_skipas_id='".$db->f("skipas_id")."', naam_voucher='".addslashes($db->f("naam_voucher"))."', naam_voucher_en='".addslashes($db->f("naam_voucher_en"))."', optie_soort_id=41";
 	$db2->query("SELECT optie_groep_id FROM optie_groep WHERE wederverkoop_skipas_id='".$db->f("skipas_id")."';");
@@ -57,7 +57,7 @@ while($db->next_record()) {
 		$db3->query("INSERT INTO optie_groep SET ".$setquery.";");
 		$optie_groep_id=$db3->insert_id();
 	}
-	
+
 	# Optie-onderdelen
 	if($db->f("wederverkoop_naam")) {
 		$naam_nl=$db->f("wederverkoop_naam");
@@ -78,11 +78,11 @@ while($db->next_record()) {
 		$db3->query("INSERT INTO optie_onderdeel SET ".$setquery.";");
 		$optie_onderdeel_id=$db3->insert_id();
 	}
-	
+
 	# Optie-tarieven (skipastarieven)
 	$db2->query("SELECT skipas_id, seizoen_id, week, bruto, netto_ink, korting, verkoopkorting, prijs, omzetbonus, netto, wederverkoop_commissie_agent FROM skipas_tarief WHERE seizoen_id IN (".$actieve_seizoenen.") AND skipas_id='".$db->f("skipas_id")."';");
 	while($db2->next_record()) {
-	
+
 		# inkoopprijs bepalen
 		if($db2->f("korting")<>0) {
 			$inkoop=$db2->f("bruto")*(1-($db2->f("korting")/100));
@@ -90,7 +90,7 @@ while($db->next_record()) {
 			$inkoop=$db2->f("netto_ink");
 		}
 		$setquery="seizoen_id='".addslashes($db2->f("seizoen_id"))."', week='".addslashes($db2->f("week"))."', beschikbaar=1, verkoop='".addslashes($db2->f("bruto"))."', inkoop='".addslashes($inkoop)."', korting='".addslashes($db2->f("korting"))."', omzetbonus='".addslashes($db2->f("omzetbonus"))."', wederverkoop_commissie_agent='".addslashes($db2->f("wederverkoop_commissie_agent"))."', wederverkoop_skipas_id='".$db->f("skipas_id")."', optie_onderdeel_id='".$optie_onderdeel_id."'";
-	
+
 		$db3->query("SELECT optie_onderdeel_id FROM optie_tarief WHERE wederverkoop_skipas_id='".$db->f("skipas_id")."' AND optie_onderdeel_id='".$optie_onderdeel_id."' AND seizoen_id='".addslashes($db2->f("seizoen_id"))."' AND week='".addslashes($db2->f("week"))."';");
 		if($db3->next_record()) {
 			$db4->query("UPDATE optie_tarief SET ".$setquery." WHERE wederverkoop_skipas_id='".$db->f("skipas_id")."' AND optie_onderdeel_id='".$optie_onderdeel_id."' AND seizoen_id='".addslashes($db2->f("seizoen_id"))."' AND week='".addslashes($db2->f("week"))."';");
@@ -98,12 +98,12 @@ while($db->next_record()) {
 			$db4->query("INSERT INTO optie_tarief SET ".$setquery.";");
 		}
 	}
-	
+
 	# Optie-accommodatie
 	$db2->query("SELECT accommodatie_id FROM accommodatie WHERE skipas_id='".$db->f("skipas_id")."';");
 	while($db2->next_record()) {
 		$setquery="wis_na_bijwerken=0, accommodatie_id='".addslashes($db2->f("accommodatie_id"))."', optie_soort_id=41, optie_groep_id='".$optie_groep_id."', wederverkoop_skipas_id='".$db->f("skipas_id")."'";
-	
+
 		$db3->query("SELECT accommodatie_id FROM optie_accommodatie WHERE wederverkoop_skipas_id='".$db->f("skipas_id")."' AND accommodatie_id='".addslashes($db2->f("accommodatie_id"))."' AND optie_soort_id=41 AND optie_groep_id='".$optie_groep_id."'");
 		if($db3->next_record()) {
 			$db4->query("UPDATE optie_accommodatie SET ".$setquery." WHERE wederverkoop_skipas_id='".$db->f("skipas_id")."' AND accommodatie_id='".addslashes($db2->f("accommodatie_id"))."' AND optie_soort_id=41 AND optie_groep_id='".$optie_groep_id."'");

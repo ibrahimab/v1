@@ -9,7 +9,7 @@ if($_GET["testsite"]) {
 		file_put_contents("/home/webtastic/html/chalet/tmp/testsite.txt",$_GET["testsite"]);
 	}
 	if($_GET["gotourl"]) {
-		header("Location: /chalet/".$_GET["gotourl"]);	
+		header("Location: /chalet/".$_GET["gotourl"]);
 	} else {
 		header("Location: /chalet/");
 	}
@@ -19,7 +19,7 @@ if($_GET["testsite"]) {
 if($_GET["logout"]==1) {
 	setcookie("flc","_l_",time()+3600,"/");
 	$_COOKIE["flc"]="_l_";
-	mail("systeembeheer@webtastic.nl","Chalet.nl uitgelogd (http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].")",date("r")."\nUitgelogd: userid ".$_COOKIE["loginuser"]["chalet"]);
+	mail("chaletmailbackup+systemlog@gmail.com","Chalet.nl uitgelogd (http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"].")",date("r")."\nUitgelogd: userid ".$_COOKIE["loginuser"]["chalet"]);
 }
 
 if($_GET["delflc"]==1) {
@@ -89,7 +89,7 @@ if($_GET["cmssearch"]) {
 			header("Location: cms_boekingen.php?show=21&21k0=".$db->f("boeking_id"));
 			exit;
 		}
-		
+
 		# niet gevonden: dan zoeken in garanties
 		$db->query("SELECT garantie_id FROM garantie WHERE reserveringsnummer_extern='".addslashes(strtoupper($regs[1]))."';");
 		if($db->next_record()) {
