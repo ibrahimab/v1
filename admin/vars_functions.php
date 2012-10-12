@@ -3126,7 +3126,8 @@ function blokkenhoofdpagina($checkdate="") {
 	$db=new DB_sql;
 	$db->query("SELECT blokhoofdpagina_id, titel".$vars["ttv"]." AS titel, omschrijving".$vars["ttv"]." AS omschrijving, link, UNIX_TIMESTAMP(begindatum) AS begindatum, UNIX_TIMESTAMP(einddatum) AS einddatum FROM blokhoofdpagina WHERE wzt='".$vars["seizoentype"]."'".($vars["websitetype"]==7 ? " AND italissima=1" : " AND italissima=0")." AND tonen=1".$andquery_website." ORDER BY volgorde, titel".$vars["ttv"].";");
 	while($db->next_record()) {
-		if(($vars["seizoentype"]==1 and file_exists("pic/cms/blokkenhoofdpagina/".$db->f("blokhoofdpagina_id").".jpg") and file_exists("pic/cms/blokkenhoofdpagina_tn/".$db->f("blokhoofdpagina_id").".jpg")) or ($vars["seizoentype"]==2 and file_exists("pic/cms/blokkenhoofdpagina/".$db->f("blokhoofdpagina_id").".jpg"))) {
+		if(file_exists("pic/cms/blokkenhoofdpagina/".$db->f("blokhoofdpagina_id").".jpg")) {
+
 			if($db->f("titel")<>"-") {
 				$binnendatum=true;
 

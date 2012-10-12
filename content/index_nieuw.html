@@ -39,7 +39,7 @@ if($last_acc_html) {
 	echo $last_acc_html;
 } else {
 	echo "<div id=\"laatstbekeken\" style=\"background-color:#ffffff;\">";
-	echo "<div id=\"blauwelijn_onderaan\" style=\"margin-top:10px;margin-bottom:8px;\"></div>\n";	
+	echo "<div id=\"blauwelijn_onderaan\" style=\"margin-top:10px;margin-bottom:8px;\"></div>\n";
 	echo "<img src=\"".$vars["path"]."pic/chalet_hoofdpagina/laatste_acc_vervanging.jpg\" width=\"500\" height=\"130\">";
 	echo "</div>"; # afsluiten laatstbekeken
 }
@@ -73,7 +73,7 @@ while($db->next_record()) {
 	if($db->f("titelhoofdpagina") and $url and $themateller<6) {
 #		echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" height=\"68\" border=\"0\"></a><br>";
 #		echo "<div style=\"padding-bottom:11px;\"><a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("titelhoofdpagina"))." &gt;&gt;</a></div>";
-		
+
 		echo "<div class=\"button\"><a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("titelhoofdpagina"))."</a></div>";
 		$themateller++;
 	}
@@ -90,13 +90,13 @@ echo "</div>\n"; # afsluiten hoofdpagina_themas_blok
 
 if($vars["website"]=="C") {
 
-	echo "<div style=\"clear: both;\"></div>\n";	
+	echo "<div style=\"clear: both;\"></div>\n";
 
 	echo "<div class=\"bloklinks_blauwelijn\"></div>";
-	
+
 	# Twitterblok includen
 	include("cache/twitterChaletNL.html");
-	
+
 	echo "<div id=\"hoofdpagina_sociallinks\">";
 	echo "<div style=\"float:right;\">";
 	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
@@ -126,7 +126,7 @@ if($vars["website"]=="C") {
 	<div style="display:inline;">
 	<img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/1070777463/?label=Kg7oCI-_wgIQ94jL_gM&amp;guid=ON&amp;script=0"/>
 	</div>
-	</noscript>';	
+	</noscript>';
 
 }
 
