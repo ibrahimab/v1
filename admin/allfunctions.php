@@ -479,8 +479,8 @@ class wt_mail {
 #		$this->send_body=ereg_replace("\r\n","\n",$this->send_body);
 		$this->send_body=str_replace("\r\n","\n",$this->send_body);
 
-		# BCC track@webtastic.nl aan?
-		if($this->send_bcc) $bcc="Bcc: track@webtastic.nl\n"; else $bcc="";
+		# BCC track@webtastic.nl
+		if($this->send_bcc) $bcc="Bcc: ".WT_trackmailaddress."\n"; else $bcc="";
 
 		# BCC adressen?
 		if($this->bcc) {
@@ -2963,5 +2963,9 @@ global $ADODB_DATE_LOCALE;
 	$ret = adodb_date($fmtdate, $ts, $is_gmt);
 	return $ret;
 }
+
+// Constants
+if(!defined("WT_trackmailaddress")) define("WT_trackmailaddress","track@webtastic.nl");
+
 
 ?>

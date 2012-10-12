@@ -4,6 +4,9 @@ if(!$cron and !$css) {
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
 
+// constants
+define("WT_trackmailaddress","chaletmailbackup+track@gmail.com");
+
 # diverse $vars
 # zoekvolgorde mag maximaal 8 zijn
 $vars["zoekvolgorde"]=array(1=>"Categorie 1 (hoogst)",2=>"Categorie 2 (hoger)",3=>"Categorie 3 (neutraal)",4=>"Categorie 4 (lager)",5=>"Categorie 5 (laagst)");
