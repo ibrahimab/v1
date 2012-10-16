@@ -116,6 +116,11 @@ h2 {
 	margin-left: 10px;
 }
 
+#toonaccommodatie_kenmerken_2 img {
+	margin-top: -2px;
+	margin-bottom: -3px;
+}
+
 #toonaccommodatie_ookbeschikbaar {
 	margin-top: 8px;
 	margin-left: 200px;

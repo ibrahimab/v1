@@ -13,7 +13,7 @@ $vars["zoekvolgorde"]=array(1=>"Categorie 1 (hoogst)",2=>"Categorie 2 (hoger)",3
 $vars["wt_htmlentities_cp1252"]=true;
 $vars["wt_mail_https_bcc"]=true;
 $vars["salt"]="Ml3k39jj302kdpqQM";
-
+$vars["wt_mysql_lost_nolog"]=true;
 
 
 # ID, URL-array en Basehref bepalen

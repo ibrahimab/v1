@@ -94,17 +94,10 @@ if(ereg("(.*)\-query-(.*)",$_GET["id"],$regs)) {
 echo "<HTML><HEAD>";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">\n";
-echo "<META NAME=\"robots\" CONTENT=\"noindex,follow\">";
+echo "<meta name=\"robots\" CONTENT=\"noindex,follow\">";
 # JQuery
 echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-echo "<TITLE>".htmlentities($title[$_GET["id"]])."</TITLE>";
-echo "<link REL=\"SHORTCUT ICON\" href=\"".$path;
-if($vars["websitetype"]==2) {
-	echo "favicon_wsa.ico";
-} else {
-	echo "favicon.ico";
-}
-echo "\">";
+echo "<title>".htmlentities($title[$_GET["id"]])."</title>";
 ?>
 <style type="text/css">
 

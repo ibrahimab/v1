@@ -8,6 +8,7 @@ Disallow: /fb/
 Disallow: /thumbnail.php
 Disallow: /foto.php
 Disallow: /boeken.php
+Disallow: /beoordelingen.php
 Disallow: /beschikbaarheid.php
 Disallow: /available.php
 Disallow: /verzendmethode.php

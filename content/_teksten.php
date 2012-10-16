@@ -1871,21 +1871,23 @@ $txt["en"]["toonaccommodatie"]["nietmeerbeschikbaarvoordezeaankomstdatum"]="not 
 $txt["nl"]["toonaccommodatie"]["extraopties"]="Extra opties";
 $txt["en"]["toonaccommodatie"]["extraopties"]="Extra options";
 
+$txt["nl"]["toonaccommodatie"]["beoordeling"]="Beoordeling";
+$txt["en"]["toonaccommodatie"]["beoordeling"]="Rating";
 
 # tabs
 $txt["nl"]["toonaccommodatie"]["tab_overzicht"]="overzicht";
 $txt["en"]["toonaccommodatie"]["tab_overzicht"]="overview";
 
 $txt["nl"]["toonaccommodatie"]["tab_indeling"]="indeling";
-$txt["en"]["toonaccommodatie"]["tab_indeling"]="lay-out";
+$txt["en"]["toonaccommodatie"]["tab_indeling"]="layout";
 
 $txt["nl"]["toonaccommodatie"]["tab_incl"]="inclusief/exclusief";
 $txt["en"]["toonaccommodatie"]["tab_incl"]="including/excluding";
 
 $txt["nl"]["toonaccommodatie"]["tab_fotos"]="foto's";
-$txt["en"]["toonaccommodatie"]["tab_fotos"]="photo's";
+$txt["en"]["toonaccommodatie"]["tab_fotos"]="photos";
 $txt["nl"]["toonaccommodatie"]["tab_fotos_filmpjes"]="foto's & filmpjes";
-$txt["en"]["toonaccommodatie"]["tab_fotos_filmpjes"]="photo's & films";
+$txt["en"]["toonaccommodatie"]["tab_fotos_filmpjes"]="photos & video";
 
 $txt["nl"]["toonaccommodatie"]["tab_ligging"]="ligging";
 $txt["en"]["toonaccommodatie"]["tab_ligging"]="location";
@@ -1894,10 +1896,35 @@ $txt["nl"]["toonaccommodatie"]["tab_opties"]="extra opties";
 $txt["en"]["toonaccommodatie"]["tab_opties"]="extra options";
 
 $txt["nl"]["toonaccommodatie"]["tab_tarieven"]="prijs & beschikbaarheid";
-$txt["en"]["toonaccommodatie"]["tab_tarieven"]="prices";
+$txt["en"]["toonaccommodatie"]["tab_tarieven"]="prices & availability";
 
 $txt["nl"]["toonaccommodatie"]["meerfotos"]="meer foto's";
-$txt["en"]["toonaccommodatie"]["meerfotos"]="more photo's";
+$txt["en"]["toonaccommodatie"]["meerfotos"]="more photos";
+
+
+#
+# Beoordelingen van een accommodatie (bijv. http://www.chalet.nl/beoordelingen.php?typeid=240)
+#
+$txt["nl"]["beoordelingen"]["gemiddeldtotaaloordeel"]="Gemiddeld totaaloordeel";
+$txt["en"]["beoordelingen"]["gemiddeldtotaaloordeel"]="Average overall rating";
+
+$txt["nl"]["beoordelingen"]["beoordelingen"]="beoordelingen";
+$txt["en"]["beoordelingen"]["beoordelingen"]="ratings";
+
+$txt["nl"]["beoordelingen"]["beoordeling"]="beoordeling";
+$txt["en"]["beoordelingen"]["beoordeling"]="rating";
+
+$txt["nl"]["beoordelingen"]["totaaloordeel"]="totaaloordeel";
+$txt["en"]["beoordelingen"]["totaaloordeel"]="overall rating";
+
+$txt["nl"]["beoordelingen"]["aankomst"]="aankomst";
+$txt["en"]["beoordelingen"]["aankomst"]="arrival";
+
+$txt["nl"]["beoordelingen"]["ingevulddoor"]="ingevuld door";
+$txt["en"]["beoordelingen"]["ingevulddoor"]="completed by";
+
+$txt["nl"]["beoordelingen"]["toelichting"]="toelichting";
+$txt["en"]["beoordelingen"]["ingevulddoor"]="explanation";
 
 #
 # Calc.php (totaalbedrag vakantie berekenen zonder te boeken)
@@ -2187,7 +2214,7 @@ $txt["nl"]["toonskigebied"]["tab_pistes"]="pistes, liften, skipassen";
 $txt["en"]["toonskigebied"]["tab_pistes"]="pistes, lifts, ski-lift passes";
 
 $txt["nl"]["toonskigebied"]["tab_fotos"]="foto's";
-$txt["en"]["toonskigebied"]["tab_fotos"]="photo's";
+$txt["en"]["toonskigebied"]["tab_fotos"]="photos";
 
 $txt["nl"]["toonskigebied"]["tab_plandespistes"]="kaart skigebied";
 $txt["en"]["toonskigebied"]["tab_plandespistes"]="plan des pistes";
@@ -2205,7 +2232,7 @@ $txt["nl"]["toonskigebied"]["tab_ligging"]="ligging";
 $txt["en"]["toonskigebied"]["tab_ligging"]="location";
 
 $txt["nl"]["toonskigebied"]["meerfotos"]="meer foto's";
-$txt["en"]["toonskigebied"]["meerfotos"]="more photo's";
+$txt["en"]["toonskigebied"]["meerfotos"]="more photos";
 
 $txt["nl"]["toonskigebied"]["bekijkonzeaccommodaties"]="Bekijk onze chalets en appartementen in [[v_skigebied]]";
 $txt["en"]["toonskigebied"]["bekijkonzeaccommodaties"]="Have a look at our chalets and apartments in [[v_skigebied]]";
@@ -2464,7 +2491,7 @@ $txt["nl"]["toonplaats"]["tab_links"]="links";
 $txt["en"]["toonplaats"]["tab_links"]="links";
 
 $txt["nl"]["toonplaats"]["tab_fotos"]="foto's";
-$txt["en"]["toonplaats"]["tab_fotos"]="photo's";
+$txt["en"]["toonplaats"]["tab_fotos"]="photos";
 
 $txt["nl"]["toonplaats"]["tab_accommodaties"]="accommodaties";
 $txt["en"]["toonplaats"]["tab_accommodaties"]="accommodations";
@@ -2473,7 +2500,7 @@ $txt["nl_z"]["toonplaats"]["tab_accommodaties"]="vakantiehuizen";
 $txt["en_z"]["toonplaats"]["tab_accommodaties"]="holiday homes";
 
 $txt["nl"]["toonplaats"]["meerfotos"]="meer foto's";
-$txt["en"]["toonplaats"]["meerfotos"]="more photo's";
+$txt["en"]["toonplaats"]["meerfotos"]="more photos";
 
 $txt["nl"]["toonplaats"]["geenfotos"]="Er zijn helaas geen foto's beschikbaar.";
 $txt["en"]["toonplaats"]["geenfotos"]="Unfortunately there are no photos' available.";

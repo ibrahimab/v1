@@ -25,6 +25,7 @@
 <span style="background-color:#e0d1cc;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#e0d1cc<br>
 <span style="background-color:#ffd38f;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ffd38f<br>
 <span style="background-color:#0295c8;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#0295c8 (boekbutton)<br>
+<span style="background-color:#ebebeb;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ebebeb (achtergrondkleur blog-reacties)<br>
 
 <br><b>ChaletsinVallandry.nl / ChaletsinVallandry.com</b><br>
 <span style="background-color:#666600;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#666600<br>

@@ -592,6 +592,29 @@ $(document).ready(function() {
 				'cyclic'	:	true,
 				'overlayOpacity' :	0.8
 			});
+
+
+			// beoordeling-popup via fancybox
+			$("#beoordeling_link").fancybox({
+				'type'			: 'inline',
+				'width'			: 830,
+				'height'		: 540,
+				'autoDimensions': false,
+				'autoScale'		: false,
+				'transitionIn'	:	'elastic',
+				'transitionOut'	:	'elastic',
+				'speedIn'		: 300,
+				'speedOut'		: 300,
+				'padding' :		0,
+				'margin' :		0,
+				'overlayShow'	:	true,
+				'hideOnContentClick' :	true,
+				'overlayColor' :	'#454545',
+				'onComplete'	:	function() {
+
+				},
+				'overlayOpacity' :	0.8
+			});
 		}
 
 		// functies voor zoekformulier

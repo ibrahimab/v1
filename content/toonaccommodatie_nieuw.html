@@ -220,6 +220,13 @@ if($db->next_record()) {
 		}
 		echo "</li>";
 	}
+	// beoordeling tonen
+	if(($vars["lokale_testserver"] or $_GET["testsysteem"]==1) and $vars["seizoentype"]==1) {
+		$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND beoordeeld=1;");
+		if($db2->next_record()) {
+			echo "<li><a href=\"".$vars["path"]."beoordelingen.php?typeid=".$typeid."\" rel=\"nofollow\" id=\"beoordeling_link\">".html("beoordeling","toonaccommodatie").": ".number_format($db2->f("totaaloordeel"),1,",",".")."</a></li>";
+		}
+	}
 	echo "</ul>";
 	echo "</div>";
 	echo "<div style=\"clear: both;\"></div>\n";
