@@ -903,6 +903,13 @@ $(document).ready(function() {
 			chalet_createCookie("cookiemelding_gelezen","1",3650);
 			return false;
 		});
+
+
+		// uitgebreid zoeken in zoek-en-boek-blok: formulier verzenden
+		$("#uitgebreidzoeken").click(function () {
+			$("form[name=zoeken]").submit();
+			return false;
+		});
 	}
 });
 

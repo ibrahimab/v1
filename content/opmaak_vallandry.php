@@ -296,7 +296,7 @@ if($vars["verberg_linkerkolom"]) {
 
 		echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
 
-		echo "<div style=\"margin-top:10px;margin-bottom:0px;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php\">".html("uitgebreidzoeken","index")."</a></div>";
+		echo "<div style=\"margin-top:10px;margin-bottom:0px;\"><a href=\"#\" id=\"uitgebreidzoeken\">".html("uitgebreidzoeken","index")."</a></div>";
 		echo "</form>";
 
 		if($vars["website"]=="V") {

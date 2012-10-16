@@ -677,7 +677,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
 	echo "</div>";
 
-	echo "<div style=\"margin-top:7px;margin-bottom:0px;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php".($id=="aanbiedingen_zomerhuisje" ? "?aab=1&faab=1&filled=1" : "")."\">".html("uitgebreidzoeken","index")."</a></div>";
+	echo "<div style=\"margin-top:7px;margin-bottom:0px;\"><a href=\"#\" id=\"uitgebreidzoeken\">".html("uitgebreidzoeken","index")."</a></div>";
 	echo "</form>";
 
 	echo "</div>";

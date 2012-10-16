@@ -737,7 +737,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 
 	echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
 
-	echo "<div style=\"margin-top:4px;margin-bottom:4px;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php\">".html("uitgebreidzoeken","index")."</a></div>";
+	echo "<div style=\"margin-top:4px;margin-bottom:4px;\"><a href=\"#\" id=\"uitgebreidzoeken\">".html("uitgebreidzoeken","index")."</a></div>";
 	echo "</form>";
 	echo "</div>";
 	echo "</div>\n";
