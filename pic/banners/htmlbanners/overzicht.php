@@ -50,7 +50,7 @@ $keuzes[4][5][2]="Chalet.be htmlbanner land-datum 120x600";
 $keuzes[4][6][2]="Chalet.be htmlbanner land-datum 300x250";
 
 $netwerken[1]="TradeTracker";
-$netwerken[2]="Cleafs";
+$netwerken[2]="Sneeuwhoogte.nl";
 $netwerken[3]="Snowplaza";
 
 for($i=1;$i<=3;$i++) {

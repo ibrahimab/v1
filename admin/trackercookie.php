@@ -41,7 +41,7 @@ if((!$_COOKIE["tch"] or $vars["bezoek_altijd_opslaan"]) and !$mustlogin) {
 	# sch = "solid chalet" (=gewoon cookie)
 	# chad = chalet ad (code voor advertentie)
 	# wt_mm = Mailingmanager
-	
+
 	if($_GET["wt_mm"]) $_GET["chad"]=11;
 
 	if(!$_GET["chad"] and (ereg("^http://googleads\.",$_SERVER["HTTP_REFERER"]) or $_GET["gclid"])) {
@@ -65,7 +65,7 @@ if((!$_COOKIE["tch"] or $vars["bezoek_altijd_opslaan"]) and !$mustlogin) {
 	if(ereg("www\.chalet\.nl/cms_",$_SERVER["HTTP_REFERER"])) {
 		$vancms=true;
 	}
-	
+
 	if($_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html" and $_SERVER["HTTP_REFERER"]) {
 		if(strpos("_".$_SERVER["HTTP_REFERER"],$_SERVER["HTTP_HOST"])) {
 			$intern=true;
@@ -83,7 +83,7 @@ if((!$_COOKIE["tch"] or $vars["bezoek_altijd_opslaan"]) and !$mustlogin) {
 			}
 			setcookie("sch",$code,time()+(86400*365*10),"/");
 		} else {
-		
+
 #			$db->query("SELECT bezoeker_id FROM bezoek WHERE ip='".addslashes($_SERVER["REMOTE_ADDR"])."' AND browser='".addslashes($_SERVER["HTTP_USER_AGENT"])."' AND UNIX_TIMESTAMP(datumtijd)>'".(time()-600)."';");
 #			if($db->next_record()) {
 #				$intern=true;
@@ -116,7 +116,7 @@ if(!$_COOKIE["abt"]) {
 	#
 	# A/B-testing-cookie bepalen: $_COOKIE["abt"] (waarde van 0-9)
 	#
-	
+
 	# Waarde van 0-9 bepalen t.b.v. A/B-testing
 	$code_abt=substr(preg_replace("/[a-z]/","",$_COOKIE["tch"]),0,1);
 

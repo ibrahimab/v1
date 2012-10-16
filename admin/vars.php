@@ -112,7 +112,7 @@ $vars["jquery_fancybox"]=true;
 #
 # Tracker / advertenties
 #
-$vars["ads"]=array(1=>"Google AdWords algemeen",2=>"Google AdWords Oostenrijk",3=>"Google AdWords Frankrijk",4=>"Google AdWords Zwitserland",5=>"Google AdWords Snowboard",6=>"Google AdWords Aanbiedingen",7=>"Google AdWords Les Arcs",8=>"Google AdWords Banner 468x60",9=>"Tourploeg-banner",10=>"Tourploeg-maillink",11=>"Mailingmanager",12=>"Snowplaza",20=>"TradeTracker",30=>"Cleafs",31=>"Zoover",32=>"Vakantiereiswijzer");
+$vars["ads"]=array(1=>"Google AdWords algemeen",2=>"Google AdWords Oostenrijk",3=>"Google AdWords Frankrijk",4=>"Google AdWords Zwitserland",5=>"Google AdWords Snowboard",6=>"Google AdWords Aanbiedingen",7=>"Google AdWords Les Arcs",8=>"Google AdWords Banner 468x60",9=>"Tourploeg-banner",10=>"Tourploeg-maillink",11=>"Mailingmanager",12=>"Snowplaza",20=>"TradeTracker",30=>"Cleafs",31=>"Zoover",32=>"Vakantiereiswijzer",33=>"Sneeuwhoogte.nl");
 $vars["ads_controle"]=array(9=>"TDF",12=>"KWX",31=>"KSQ",32=>"PWL"); # voeg toe aan URL (bijvoorbeeld): ?chad=KWX12
 $vars["ads_referermail"]=array(9=>"jeroen@webtastic.nl",12=>"j.fokke@snowplaza.nl");
 if(!$cron and !$cronmap and !$css and !$geen_tracker_cookie and !$_GET["nocache"]) {

@@ -9,7 +9,7 @@ if(!$_GET["n"]) $_GET["n"]=1;
 
 
 $netwerken[1]="TradeTracker";
-$netwerken[2]="Cleafs";
+$netwerken[2]="Sneeuwhoogte.nl";
 $netwerken[3]="Snowplaza";
 
 if($_GET["n"]==1) {
@@ -17,7 +17,7 @@ if($_GET["n"]==1) {
 	$extra_qs="network=tradetracker&";
 } elseif($_GET["n"]==2) {
 	# Cleafs
-	$extra_qs="network=cleafs&";
+	$extra_qs="network=sneeuwhoogte&";
 } elseif($_GET["n"]==3) {
 	# Snowplaza
 	$extra_qs="chad=KWX12&";
@@ -36,7 +36,7 @@ if($_GET["wzt"]==2) {
 } elseif($_GET["wzt"]==3) {
 	$site="italissima";
 	$siteurl="http://www.italissima.nl/";
-	
+
 	$db->query("SELECT DISTINCT skigebied_id, skigebied FROM view_accommodatie WHERE websites LIKE '%I%' AND atonen=1 AND ttonen=1 ORDER BY skigebied;");
 	while($db->next_record()) {
 		$regio[$db->f("skigebied_id")]=$db->f("skigebied");
@@ -61,7 +61,7 @@ function zomer_land($width="130px") {
 	if($_GET["themadatum"]==2) {
 		echo "<option value=\"0\" selected>Kies land</option>\n";
 	} else {
-		echo "<option value=\"0\" selected>Zoek op land</option>\n";	
+		echo "<option value=\"0\" selected>Zoek op land</option>\n";
 	}
 	echo "<option value=\"1\">Frankrijk</option>\n";
 	echo "<option value=\"2\">Oostenrijk</option>\n";
@@ -77,7 +77,7 @@ function italissima_regio($width="130px") {
 	if($_GET["themadatum"]==2) {
 		echo "<option value=\"0\" selected>Regio</option>\n";
 	} else {
-		echo "<option value=\"0\" selected>Regio</option>\n";	
+		echo "<option value=\"0\" selected>Regio</option>\n";
 	}
 	reset($regio);
 	while(list($key,$value)=each($regio)) {
@@ -143,7 +143,7 @@ function winter_land($width="155px") {
 	if($_GET["themadatum"]==2) {
 		echo "<option value=\"0\" selected>Kies land</option>\n";
 	} else {
-		echo "<option value=\"0\" selected>Zoek op land</option>\n";	
+		echo "<option value=\"0\" selected>Zoek op land</option>\n";
 	}
 	echo "<option value=\"1\">Frankrijk</option>\n";
 	echo "<option value=\"2\">Oostenrijk</option>\n";
@@ -180,7 +180,7 @@ if($_GET["themadatum"]==2) {
 	echo "<script type=\"text/javascript\" src=\"".$siteurl."pic/banners/htmlbanners/datums.php\" ></script>\n";
 }
 if($_GET["n"]==2) {
-	echo "<script type=\"text/javascript\" src=\"http://www.cleafs.nl/js/htmlbanner.js\" ></script>\n";
+	#echo "<script type=\"text/javascript\" src=\"http://www.cleafs.nl/js/htmlbanner.js\" ></script>\n";
 }
 
 echo "<script type=\"text/javascript\">\n";
@@ -194,7 +194,10 @@ if($_GET["themadatum"]==1) {
 
 $utm="utm_source=".$netwerken[$_GET["n"]]."&utm_medium=banner&utm_campaign=htmlbanner";
 
-if($_GET["n"]==3) {
+if($_GET["n"]==2) {
+	# Andere utm Sneeuwhoogte.nl
+	$utm="chad=33&utm_source=sneeuwhoogte.nl&utm_medium=sneeuwhoogte.nl&utm_campaign=sneeuwhoogte.nl-htmlbanner";
+} elseif($_GET["n"]==3) {
 	# Andere utm Snowplaza
 	$utm="utm_source=Snowplaza&utm_medium=Snowplaza_htmlbanners&utm_campaign=Snowplaza_htmlbanners";
 	if($_GET["t"]==1) {
@@ -309,7 +312,7 @@ function formsubmit(type) {
 			url='http://www.chalet.nl/?<?php echo $extra_qs.$utm; ?>';
 		<?php } ?>
 		}
-	}	
+	}
 	if(ie==='undefined') {
 		window.open(url,"_blank");
 		document.frm.l.value=0;
@@ -391,7 +394,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:22px;left:360px;\">\n";
 	zomer_land();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:50px;left:360px;\">\n";
 	zomer_thema();
 	echo "</div>\n";
@@ -406,7 +409,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:7px;left:150px;\">\n";
 	zomer_land();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:32px;left:150px;\">\n";
 	zomer_thema();
 	echo "</div>\n";
@@ -420,7 +423,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:193px;left:12px;\">\n";
 	zomer_land();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:219px;left:12px;\">\n";
 	zomer_thema();
 	echo "</div>\n";
@@ -430,13 +433,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 } elseif($_GET["t"]==4 and $_GET["wzt"]==2) {
 	# zomerhuisje 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
-	
+
 	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_234x60.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:5px;left:92px;\">\n";
 	zomer_land("100px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:33px;left:92px;\">\n";
 	zomer_thema("100px");
 	echo "</div>\n";
@@ -446,13 +449,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 } elseif($_GET["t"]==5 and $_GET["wzt"]==2) {
 	# zomerhuisje 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
-	
+
 	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_120x600.jpg');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:235px;left:3px;\">\n";
 	zomer_land("110px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:279px;left:3px;\">\n";
 	zomer_thema("110px");
 	echo "</div>\n";
@@ -466,7 +469,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:22px;left:320px;\">\n";
 	italissima_regio();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:50px;left:320px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
@@ -480,7 +483,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:7px;left:230px;\">\n";
 	italissima_regio();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:32px;left:230px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
@@ -494,7 +497,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:133px;left:12px;\">\n";
 	italissima_regio();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:169px;left:12px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
@@ -508,13 +511,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 } elseif($_GET["t"]==4 and $_GET["wzt"]==3) {
 	# italissima 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
-	
+
 	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_234x60.png');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:5px;left:92px;\">\n";
 	italissima_regio("100px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:33px;left:92px;\">\n";
 	italissima_datum("100px");
 	echo "</div>\n";
@@ -524,13 +527,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 } elseif($_GET["t"]==5 and $_GET["wzt"]==3) {
 	# italissima 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
-	
+
 	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_120x600.png');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:275px;left:3px;\">\n";
 	italissima_regio("110px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:310px;left:3px;\">\n";
 	italissima_datum("110px");
 	echo "</div>\n";
@@ -550,7 +553,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:22px;left:295px;\">\n";
 	winter_land();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:50px;left:295px;\">\n";
 	winter_thema();
 	echo "</div>\n";
@@ -565,7 +568,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:7px;left:95px;\">\n";
 	winter_land();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:32px;left:95px;\">\n";
 	winter_thema();
 	echo "</div>\n";
@@ -579,7 +582,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:113px;left:20px;\">\n";
 	winter_land("120px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:144px;left:20px;\">\n";
 	winter_thema("120px");
 	echo "</div>\n";
@@ -589,13 +592,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 } elseif($_GET["t"]==4 and $_GET["wzt"]==1) {
 	# chalet 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
-	
+
 	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_234x60.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:5px;left:80px;\">\n";
 	winter_land("100px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:33px;left:80px;\">\n";
 	winter_thema("100px");
 	echo "</div>\n";
@@ -605,13 +608,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 } elseif($_GET["t"]==5 and $_GET["wzt"]==1) {
 	# chalet 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
-	
+
 	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_120x600.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:235px;left:3px;\">\n";
 	winter_land("110px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:279px;left:3px;\">\n";
 	winter_thema("110px");
 	echo "</div>\n";
@@ -625,7 +628,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:113px;left:40px;\">\n";
 	winter_land("120px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:144px;left:40px;\">\n";
 	winter_thema("120px");
 	echo "</div>\n";
@@ -639,7 +642,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:22px;left:295px;\">\n";
 	winter_land();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:50px;left:295px;\">\n";
 	winter_thema();
 	echo "</div>\n";
@@ -654,7 +657,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:7px;left:95px;\">\n";
 	winter_land();
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:32px;left:95px;\">\n";
 	winter_thema();
 	echo "</div>\n";
@@ -668,7 +671,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:113px;left:20px;\">\n";
 	winter_land("120px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:144px;left:20px;\">\n";
 	winter_thema("120px");
 	echo "</div>\n";
@@ -678,13 +681,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 } elseif($_GET["t"]==4 and $_GET["wzt"]==4) {
 	# chalet.be 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
-	
+
 	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.chalet.be/pic/banners/htmlbanners/chaletbe_htmlbanner_234x60.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.be/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:5px;left:80px;\">\n";
 	winter_land("100px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:33px;left:80px;\">\n";
 	winter_thema("100px");
 	echo "</div>\n";
@@ -694,13 +697,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 }elseif($_GET["t"]==5 and $_GET["wzt"]==4) {
 	# chalet.be 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
-	
+
 	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.chalet.be/pic/banners/htmlbanners/chaletbe_htmlbanner_120x600.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.be/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:235px;left:3px;\">\n";
 	winter_land("110px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:279px;left:3px;\">\n";
 	winter_thema("110px");
 	echo "</div>\n";
@@ -714,7 +717,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:113px;left:40px;\">\n";
 	winter_land("120px");
 	echo "</div>";
-	
+
 	echo "<div style=\"position:absolute;top:144px;left:40px;\">\n";
 	winter_thema("120px");
 	echo "</div>\n";
