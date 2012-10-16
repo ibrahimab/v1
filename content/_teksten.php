@@ -1914,14 +1914,17 @@ $txt["en"]["beoordelingen"]["beoordelingen"]="ratings";
 $txt["nl"]["beoordelingen"]["beoordeling"]="beoordeling";
 $txt["en"]["beoordelingen"]["beoordeling"]="rating";
 
-$txt["nl"]["beoordelingen"]["totaaloordeel"]="totaaloordeel";
-$txt["en"]["beoordelingen"]["totaaloordeel"]="overall rating";
+$txt["nl"]["beoordelingen"]["totaaloordeel"]="Totaaloordeel";
+$txt["en"]["beoordelingen"]["totaaloordeel"]="Overall rating";
 
 $txt["nl"]["beoordelingen"]["aankomst"]="aankomst";
 $txt["en"]["beoordelingen"]["aankomst"]="arrival";
 
 $txt["nl"]["beoordelingen"]["ingevulddoor"]="ingevuld door";
 $txt["en"]["beoordelingen"]["ingevulddoor"]="completed by";
+
+$txt["nl"]["beoordelingen"]["anoniem"]="anoniem";
+$txt["en"]["beoordelingen"]["anoniem"]="anonymous";
 
 $txt["nl"]["beoordelingen"]["toelichting"]="toelichting";
 $txt["en"]["beoordelingen"]["ingevulddoor"]="explanation";

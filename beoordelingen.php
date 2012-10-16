@@ -76,7 +76,6 @@ if($db->next_record()) {
 	.beoordeling_enquete_cijfers {
 		float: left;
 		width: 370px;
-		margin-right: 10px;
 	}
 
 	.beoordeling_enquete_toelichting {
@@ -159,8 +158,11 @@ if($db->next_record()) {
 			echo " - ";
 			echo html("aankomst","beoordelingen").": ".DATUM("MAAND JJJJ",$value["aankomstdatum_exact"],$vars["taal"]);
 
+			echo " - ".html("ingevulddoor","beoordelingen").": ";
 			if($value["websitetekst_naam"]) {
-				echo " - ".html("ingevulddoor","beoordelingen").": ".wt_he($value["websitetekst_naam"]);
+				echo wt_he($value["websitetekst_naam"]);
+			} else {
+				echo "<i>".html("anoniem","beoordelingen")."</i>";
 			}
 			echo "</div>"; // afsluiten .beoordeling_enquete_bovenbalk
 
