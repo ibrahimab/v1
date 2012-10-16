@@ -940,6 +940,9 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 # geheugen vrijmaken
 unset($csv);
 
+# Even opnieuw verbinding maken met de database
+$db->query("SELECT 1;");
+
 # Afwijkende vertrekdagtypes laden
 $db->query("SELECT acs.accommodatie_id, v.vertrekdagtype_id, v.seizoen_id, v.afwijking FROM vertrekdagtype v, accommodatie_seizoen acs WHERE v.seizoen_id=acs.seizoen_id AND v.vertrekdagtype_id=acs.vertrekdagtype_id AND v.soort=1;");
 while($db->next_record()) {
