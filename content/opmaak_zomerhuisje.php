@@ -110,8 +110,8 @@ if(file_exists("scripts/functions_".$id.".js")) {
 }
 # Fancybox
 if($vars["jquery_fancybox"]) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.1.pack.js\"></script>\n";
-	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.1.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js\"></script>\n";
+	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
 }
 
 # meta name robots
