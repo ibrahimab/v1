@@ -257,8 +257,8 @@ if($testsysteem) {
 #	$xml_urls[16][4]=$tmpdir."export_chalet_nl_prices_de_s.xml";
 #	$xml_urls[17][1]=$temp_filename[17];
 #	$xml_urls[18][1]=$tmpdir."agence.xml";
-#	$xml_urls[19][1]=$tmpdir."oxy.xml";
-	$xml_urls[20][1]=$tmpdir."locative.xml";
+	$xml_urls[19][1]="/tmp/oxy.xml";
+#	$xml_urls[20][1]="/tmp/locative.xml";
 }
 
 
@@ -409,7 +409,7 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
-			} elseif($key==7 or $key==10 or $key==12 or $key==18 or $key==19) {
+			} elseif($key==7 or $key==10 or $key==12 or $key==18 or $key==19 or $key==20) {
 				#
 				# Leverancier CIS / Bellecôte Chalets (VVE) + CIS Immobilier + Deux Alpes Voyages + Agence des Belleville + Oxygène Immobilier + Centrale Locative de l'Immobilière des Hauts Forts
 				#
@@ -1195,7 +1195,7 @@ while($db->next_record()) {
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
-		} elseif($db->f("xml_type")==7 or $db->f("xml_type")==10 or $db->f("xml_type")==12 or $db->f("xml_type")==18 or $db->f("xml_type")==19) {
+		} elseif($db->f("xml_type")==7 or $db->f("xml_type")==10 or $db->f("xml_type")==12 or $db->f("xml_type")==18 or $db->f("xml_type")==19 or $db->f("xml_type")==20) {
 			#
 			# Leverancier CIS / Bellecôte Chalets (VVE) + CIS Immobilier + Deux Alpes Voyages + Agence des Belleville + Oxygène Immobilier + Centrale Locative de l'Immobilière des Hauts Forts
 			#
