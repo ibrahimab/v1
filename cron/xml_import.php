@@ -798,7 +798,7 @@ while(list($key,$value)=@each($xml_urls)) {
 #				exit;
 			}
 		} else {
-			trigger_error("_notice: URL ".$value2." onbereikbaar",E_USER_NOTICE);
+			trigger_error("_notice: URL ".$value2." onbereikbaar of geen valide XML",E_USER_NOTICE);
 		}
 	}
 }
