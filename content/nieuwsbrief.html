@@ -8,18 +8,20 @@ if($_GET["ok"]==1) {
 	#	$extra="&mmprevalue_mail=".urlencode($_POST["mail"])."&mmhideintro=1";
 		echo "<div style=\"border:1px solid #d40139;padding:5px;width:600px;margin-top:20px;margin-bottom:10px;\">Vul hieronder je voor- en achternaam in om de inschrijving af te ronden.</div>";
 	} else {
+		echo "<div style=\"width:612px;\">";
 		if($vars["seizoentype"]==1) {
-			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en Zomerhuisje.nl en ontvang regelmatig een overzicht van onze aanbiedingen en andere belangrijke zaken rond je vakantie.</p>";
+			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en Zomerhuisje.nl en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
 		} else {
-			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en Chalet.nl en ontvang regelmatig een overzicht van onze aanbiedingen en andere belangrijke zaken rond je vakantie.</p>";
+			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en Chalet.nl en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
 		}
+		echo "</div>";
 	}
-	
+
 	echo "<div style=\"width:600px;padding:5px;border:1px solid ".$bordercolor.";margin-bottom:20px;\">";
-	
-	
+
+
 	if($vars["seizoentype"]==1) {
-	
+
 		#
 		# winterversie inschrijfformulier
 		#
@@ -37,7 +39,7 @@ if($_GET["ok"]==1) {
 		try {
 			var errorMessage = 'Het formulier kon niet worden verzonden om de volgende redenenen(en):\n\n';
 			var errorFound = false;
-		
+
 			 setHiddenBorder('field1038TD');
 			if (myForm.field1038 != null) {
 				if (myForm.field1038.value == '') {
@@ -69,13 +71,13 @@ if($_GET["ok"]==1) {
 				}
 				 else { setHiddenBorder('field1036TD'); }
 			}
-		
-			
+
+
 			if (errorFound) {
 				alert(errorMessage);
 				return false;
 			}
-			
+
 			return true;
 		} catch (err) {
 			return false;
@@ -103,16 +105,16 @@ if($_GET["ok"]==1) {
 			<td class="mpFormField" id="field1036TD"><input type="text" name="field1036" value="">
 		</td>
 		</tr>
-		
+
 		<tr><td class="submitCellSpacer">&nbsp;</td><td class="submitCell"><input type="submit" value="Aanmelden"></td></tr></table>
 		<input type="hidden" name="serviceInstanceId" id="serviceInstanceId" value="31302289">
 		<input type="hidden" name="okLink" id="okLink" value="<?php echo htmlentities($vars["basehref"]."nieuwsbrief.php?ok=1"); ?>">
 		<input type="hidden" name="redir" id="redir" value="formAdmin">
 		<input type="hidden" name="formEncId" id="formEncId" value="MwJLgCnDPkS9LWs">
-		
+
 		</form>
 		<?php
-	
+
 	} else {
 		#
 		# zomerversie inschrijfformulier
@@ -131,7 +133,7 @@ if($_GET["ok"]==1) {
 		try {
 			var errorMessage = 'Het formulier kon niet worden verzonden om de volgende redenenen(en):\n\n';
 			var errorFound = false;
-		
+
 			 setHiddenBorder('field10751TD');
 			if (myForm.field10751 != null) {
 				if (myForm.field10751.value == '') {
@@ -163,13 +165,13 @@ if($_GET["ok"]==1) {
 				}
 				 else { setHiddenBorder('field10781TD'); }
 			}
-		
-			
+
+
 			if (errorFound) {
 				alert(errorMessage);
 				return false;
 			}
-			
+
 			return true;
 		} catch (err) {
 			return false;
@@ -197,20 +199,20 @@ if($_GET["ok"]==1) {
 			<td class="mpFormField" id="field10781TD"><input type="text" name="field10781" value="">
 		</td>
 		</tr>
-		
+
 		<tr><td class="submitCellSpacer">&nbsp;</td><td class="submitCell"><input type="submit" value="Aanmelden"></td></tr></table>
 		<input type="hidden" name="serviceInstanceId" id="serviceInstanceId" value="31302289">
 		<input type="hidden" name="okLink" id="okLink" value="<?php echo htmlentities($vars["basehref"]."nieuwsbrief.php?ok=1"); ?>">
 		<input type="hidden" name="redir" id="redir" value="formAdmin">
 		<input type="hidden" name="formEncId" id="formEncId" value="J4XyB4nwd7v3yi8">
-		
+
 		</form>
 		<?php
 
 	}
 	echo "</div>";
-	
-	# eerder verstuurde nieuwsbrieven tonen (te bewerken via http://www.chalet.nl/cms_overzichten_overig.php?t=10)	
+
+	# eerder verstuurde nieuwsbrieven tonen (te bewerken via http://www.chalet.nl/cms_overzichten_overig.php?t=10)
 	$db->query("SELECT ".($vars["seizoentype"]==1 ? "winternieuwsbrieven" : "zomernieuwsbrieven")." AS nieuwsbrief FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
 	if($db->next_record()) {
 		$nieuwsbrieven_array=preg_split("/\n/",$db->f("nieuwsbrief"));
