@@ -1871,8 +1871,11 @@ $txt["en"]["toonaccommodatie"]["nietmeerbeschikbaarvoordezeaankomstdatum"]="not 
 $txt["nl"]["toonaccommodatie"]["extraopties"]="Extra opties";
 $txt["en"]["toonaccommodatie"]["extraopties"]="Extra options";
 
-$txt["nl"]["toonaccommodatie"]["beoordeling"]="Beoordeling";
-$txt["en"]["toonaccommodatie"]["beoordeling"]="Rating";
+$txt["nl"]["toonaccommodatie"]["klantbeoordeling"]="klantbeoordeling";
+$txt["en"]["toonaccommodatie"]["klantbeoordeling"]="customer rating";
+
+$txt["nl"]["toonaccommodatie"]["klantbeoordelingen"]="klantbeoordelingen";
+$txt["en"]["toonaccommodatie"]["klantbeoordelingen"]="customer ratings";
 
 # tabs
 $txt["nl"]["toonaccommodatie"]["tab_overzicht"]="overzicht";
@@ -1908,11 +1911,11 @@ $txt["en"]["toonaccommodatie"]["meerfotos"]="more photos";
 $txt["nl"]["beoordelingen"]["gemiddeldtotaaloordeel"]="Gemiddeld totaaloordeel";
 $txt["en"]["beoordelingen"]["gemiddeldtotaaloordeel"]="Average overall rating";
 
-$txt["nl"]["beoordelingen"]["beoordelingen"]="beoordelingen";
-$txt["en"]["beoordelingen"]["beoordelingen"]="ratings";
+$txt["nl"]["beoordelingen"]["beoordelingen"]="klantbeoordelingen";
+$txt["en"]["beoordelingen"]["beoordelingen"]="customer ratings";
 
-$txt["nl"]["beoordelingen"]["beoordeling"]="beoordeling";
-$txt["en"]["beoordelingen"]["beoordeling"]="rating";
+$txt["nl"]["beoordelingen"]["beoordeling"]="klantbeoordeling";
+$txt["en"]["beoordelingen"]["beoordeling"]="customer rating";
 
 $txt["nl"]["beoordelingen"]["totaaloordeel"]="Totaaloordeel";
 $txt["en"]["beoordelingen"]["totaaloordeel"]="Overall rating";

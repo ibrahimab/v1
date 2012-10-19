@@ -121,6 +121,19 @@ h2 {
 	margin-bottom: -3px;
 }
 
+#toonaccommodatie_kenmerken_2_beoordeling {
+	font-size: 1.3em;
+	font-weight: bold;
+	float: left;
+	line-height: 1.0em;
+	margin-top: 1px;
+}
+
+#toonaccommodatie_kenmerken_2_beoordelinglink {
+	float: left;
+	margin-left: 0.5em;
+}
+
 #toonaccommodatie_ookbeschikbaar {
 	margin-top: 8px;
 	margin-left: 200px;

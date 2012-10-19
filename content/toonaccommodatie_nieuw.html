@@ -222,9 +222,9 @@ if($db->next_record()) {
 	}
 	// beoordeling tonen
 	if(($vars["lokale_testserver"] or $_GET["testsysteem"]==1) and $vars["seizoentype"]==1) {
-		$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND beoordeeld=1;");
+		$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND beoordeeld=1 GROUP BY type_id;");
 		if($db2->next_record()) {
-			echo "<li><a href=\"".$vars["path"]."beoordelingen.php?typeid=".$typeid."\" rel=\"nofollow\" id=\"beoordeling_link\">".html("beoordeling","toonaccommodatie").": ".number_format($db2->f("totaaloordeel"),1,",",".")."</a></li>";
+			echo "<li><div id=\"toonaccommodatie_kenmerken_2_beoordeling\">".number_format($db2->f("totaaloordeel"),1,",",".")."</div><div id=\"toonaccommodatie_kenmerken_2_beoordelinglink\">(<a href=\"".$vars["path"]."beoordelingen.php?typeid=".$typeid."\" rel=\"nofollow\" id=\"beoordeling_link\">".$db2->f("aantal")." ".($db2->f("aantal")==1 ? html("klantbeoordeling","toonaccommodatie") : html("klantbeoordelingen","toonaccommodatie"))."</a>)</div><div class=\"clear\"></div></li>";
 		}
 	}
 	echo "</ul>";
