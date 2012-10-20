@@ -4187,8 +4187,8 @@ $txta["en_z"]["anderesite"]="winter programme";
 #
 # "Pagina niet gevonden" (http://www.chalet.nl/404.php)
 #
-$txt["nl"]["404"]["inleiding"]="De website van [[v_websitenaam]] is vernieuwd. Hierdoor zijn enkele accommodaties naar een andere pagina verhuisd. Gebruik ons [[l1]]zoekformulier[[/l1]] om de door jou gewenste accommodatie te vinden.";
-$txt["en"]["404"]["inleiding"]="Page not fout. Please use our [[l1]]search form[[/l1]] to find a accommodation.";
+$txt["nl"]["404"]["inleiding"]="Deze pagina kan helaas niet worden gevonden.\n\nGebruik ons [[l1]]zoekformulier[[/l1]] om de door jou gewenste accommodatie te vinden.";
+$txt["en"]["404"]["inleiding"]="Page not found. Please use our [[l1]]search form[[/l1]] to find a accommodation.";
 
 #$txt["nl"]["404"]["test"]="Dit is even een test";
 #$txt["en"]["404"]["test"]="";
