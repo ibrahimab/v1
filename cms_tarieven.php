@@ -11,13 +11,18 @@
 
 if(!$skipastarieven_verwerken) {
 	$mustlogin=true;
-	
+
 	include("admin/vars.php");
-	
+
 	if($_SERVER["REMOTE_ADDR"]<>"31.223.173.113" and $_SERVER["REMOTE_ADDR"]<>"172.16.1.10") {
 #		echo "De tarievenmodule is tijdelijk niet beschikbaar (21 juni 2012, 10:00 uur)";
 #		exit;
 	}
+}
+
+
+if(ini_get("max_input_vars")<50000 and !$cron) {
+	trigger_error("te lage ini-get-waarde max_input_vars: ".ini_get("max_input_vars"),E_USER_NOTICE);
 }
 
 unset($wederverkoop_opgeslagen,$oudtarief,$oudtarief_bekend);
@@ -26,14 +31,14 @@ if($_POST["filled"]) {
 
 	# Datumtijd vaststellen
 	$datetime=time();
-	
+
 	# In welke var staat de brutoprijs?
 	if($_POST["toonper"]==1) {
 		$naam_var_bruto="bruto";
 	} else {
 		$naam_var_bruto="c_bruto";
 	}
-	
+
 	# Gegevens opslaan in database
 	reset($vars["tarief_velden"]);
 	while(list($key,$value)=each($vars["tarief_velden"])) {
@@ -49,6 +54,13 @@ if($_POST["filled"]) {
 				$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
 			}
 
+			# kijken of de bruto-velden wel gevuld zijn
+			if($value=="bruto" or $value=="c_bruto") {
+				if($value2<>"" and $value2<>0) {
+					$ingevulde_waarde_opgeslagen=true;
+				}
+			}
+
 			# Gegevens opslaan in tarief_archief
 			if($naam_var_bruto==$value) {
 				if($_POST["huidigbruto"][$key2]<>$_POST[$naam_var_bruto][$key2]) {
@@ -57,7 +69,7 @@ if($_POST["filled"]) {
 			}
 		}
 	}
-	
+
 	# Gegevens m.b.t. kortingen die bewaard moeten blijven opvragen en aan savequery toevoegen
 	if($_POST["filled_via_echt_form"]) {
 		$db->query("SELECT week, korting_toon_abpagina, kortingactief, aanbiedingskleur_korting FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
@@ -83,12 +95,27 @@ if($_POST["filled"]) {
 		}
 	}
 
-	# Eerst gegevens wissen
-	$db->query("DELETE FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
-	
-	# Dan opslaan
-	while(list($key,$value)=@each($savequery)) {
-		$db->query("INSERT INTO tarief SET type_id='".addslashes($_GET["tid"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".$key."', opgeslagen=NOW()".$value.";");
+	if(!$skipastarieven_verwerken and !$ingevulde_waarde_opgeslagen) {
+		trigger_error("geen tarieven om op te slaan. POST-count: ".@count($_POST),E_USER_NOTICE);
+		echo "<p>Bij de zojuist ontvangen gegevens is het veld 'bruto' helemaal leeg. De aanpassingen zijn daarom niet correct opgeslagen. Neem contact op met Jeroen en meld hem deze kwestie. Foutcode: 11</p>";
+		exit;
+	}
+
+
+	if(is_array($savequery)) {
+		# Eerst gegevens wissen
+		$db->query("DELETE FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
+
+		# Dan opslaan
+		while(list($key,$value)=each($savequery)) {
+			$db->query("INSERT INTO tarief SET type_id='".addslashes($_GET["tid"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".$key."', opgeslagen=NOW()".$value.";");
+		}
+	} else {
+			trigger_error("variabele 'savequery' leeg bij opslaan tarieven",E_USER_NOTICE);
+			if(!$skipastarieven_verwerken and $_POST["filled_via_echt_form"]) {
+				echo "<p>Er is iets fout gegaan bij het opslaan van de zojuist ingevoerde gegevens. Deze zijn niet correct opgeslagen. Neem contact op met Jeroen en meld hem deze kwestie. Foutcode: 22</p>";
+				exit;
+			}
 	}
 
 
@@ -115,7 +142,7 @@ if($_POST["filled"]) {
 	} else {
 		$db->query("INSERT INTO type_seizoen SET type_id='".addslashes($_GET["tid"])."', seizoen_id='".addslashes($_GET["sid"])."', optie='".addslashes($_POST["optie"])."', hoogseizoencontrole='".($_POST["hoogseizoencontrole"] ? "1" : "0")."', melding_geen_tarieven_verbergen='".($_POST["melding_geen_tarieven_tonen"] ? "0" : "1")."', tarievenopgeslagen=NOW(), log='".addslashes($log)."'".$vroegboekdatum_query.";");
 	}
-	
+
 	# Beschikbaarheid-archief opslaan
 	while(list($key,$value)=@each($_POST["beschikbaar_voorheen"])) {
 		unset($wijzig_beschikbaar,$wijzig_garantie,$wijzig_allotment,$wijzig_vervallen_allotment,$wijzig_optie_leverancier,$wijzig_xml,$wijzig_request,$wijzig_optie_klant);
@@ -139,7 +166,7 @@ if($_POST["filled"]) {
 		if(intval($_POST["voorraad_optie_leverancier"][$key])<>intval($_POST["voorraad_optie_leverancier_voorheen"][$key])) $wijzig_optie_leverancier=intval($_POST["voorraad_optie_leverancier"][$key])-intval($_POST["voorraad_optie_leverancier_voorheen"][$key]);
 		if(intval($_POST["voorraad_request"][$key])<>intval($_POST["voorraad_request_voorheen"][$key])) $wijzig_request=intval($_POST["voorraad_request"][$key])-intval($_POST["voorraad_request_voorheen"][$key]);
 		if(intval($_POST["voorraad_optie_klant"][$key])<>intval($_POST["voorraad_optie_klant_voorheen"][$key])) $wijzig_optie_klant=intval($_POST["voorraad_optie_klant"][$key])-intval($_POST["voorraad_optie_klant_voorheen"][$key]);
-		
+
 		if($wijzig_beschikbaar and !$temp_beschikbaar) {
 			#
 			# Opmerkingen m.b.t. eigenarenlogin opslaan
@@ -202,7 +229,7 @@ if($_POST["filled"]) {
 
 	# Eerst gegevens wissen
 	$db->query("DELETE FROM tarief_personen WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
-	
+
 	# Dan opslaan
 	if(is_array($savequery)) {
 		while(list($key,$value)=each($savequery)) {
@@ -265,13 +292,13 @@ if($_POST["filled"]) {
 				$inkoopkorting_euro=$_POST["inkoopkorting_euro"][$key];
 				$leverancierid=$_POST["leverancierid"];
 				$aankomstdatum_exact=$_POST["aankomstdatum_exact"][$key];
-				
+
 				unset($setquery);
 				if($korting_percentage<>0) $setquery.=", korting_percentage='".addslashes($korting_percentage)."'";
 				if($korting_euro<>0) $setquery.=", korting_euro='".addslashes($korting_euro)."'";
 				if($inkoopkorting_percentage<>0) $setquery.=", inkoopkorting_percentage='".addslashes($inkoopkorting_percentage)."'";
 				if($inkoopkorting_euro<>0) $setquery.=", inkoopkorting_euro='".addslashes($inkoopkorting_euro)."'";
-				
+
 				$db->query("INSERT INTO garantie SET type_id='".addslashes($_GET["tid"])."', aankomstdatum='".addslashes($key)."', aankomstdatum_exact='".addslashes($aankomstdatum_exact)."', vertrekdatum_exact='".addslashes($accinfo["vertrekdatum"])."', naam='Stock Chalet.nl', bruto='".addslashes($bruto)."', netto='".addslashes($netto)."'".$setquery.", leverancier_id='".addslashes($leverancierid)."';");
 			}
 		}
@@ -279,21 +306,21 @@ if($_POST["filled"]) {
 
 	# Verzameltype berekenen
 	verzameltype_berekenen($_GET["sid"],$_GET["tid"]);
-	
+
 	if($vars["bezoeker_is_jeroen"]) {
 		# test
-#		$db->query("UPDATE tarief SET wederverkoop_verkoopprijs=640 WHERE week=1331938800 AND type_id=5784;");	
+#		$db->query("UPDATE tarief SET wederverkoop_verkoopprijs=640 WHERE week=1331938800 AND type_id=5784;");
 #		exit;
 	}
-	
+
 	$db->query("SELECT DISTINCT ta.type_id, ta.seizoen_id FROM tarief ta, type t, accommodatie a WHERE t.tonen=1 AND a.tonen=1 AND t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND ta.c_bruto>0 AND ta.c_verkoop_site>0 AND ta.wederverkoop_verkoopprijs>0 AND (ta.wederverkoop_verkoopprijs<(ta.c_verkoop_site-10)) AND t.type_id='".addslashes($_GET["tid"])."';");
 	if($db->num_rows()) {
 		wt_mail("jeroen@webtastic.nl","Onjuiste wederverkoop-tarieven Chalet.nl","Er zijn onjuiste wederverkoop-tarieven (via cms_tarieven.php) aangetroffen op Chalet.nl.\n\nOpen de volgende pagina en wacht tot alles is verwerkt:\n\nhttp://www.chalet.nl/cms_tarieven_autosubmit.php?check=1&t=99&confirmed=1\n\n".$_SERVER["REQUEST_URI"]);
-		
+
 		# Later: herstel-functie ontwikkelen (tarieven opnieuw doorrekenen)
-		
+
 	}
-	
+
 
 	if($_GET["from"]) {
 		header("Location: ".$_GET["from"]);
@@ -311,7 +338,7 @@ if($_POST["filled"]) {
 		$seizoen["begin"]=$db->f("begin");
 		$seizoen["eind"]=$db->f("eind");
 	}
-	
+
 	# Accommodatiegegevens laden
 	$db->query("SELECT a.accommodatie_id, a.wzt, a.naam AS anaam, a.toonper, t.leverancier_id, a.skipas_id, a.aankomst_plusmin, a.vertrek_plusmin, t.websites, t.naam AS tnaam, t.leverancierscode, t.onderverdeeld_in_nummers, t.code, p.naam AS plaats, t.optimaalaantalpersonen, t.maxaantalpersonen, t.aangepaste_min_tonen, l.begincode, lev.naam AS leverancier, lev.opmerkingen_intern, lev.aflopen_allotment, lev.zwitersefranken , a.aantekeningen, t.aantekeningen AS taantekeningen, t.verzameltype FROM accommodatie a, type t, plaats p, land l, leverancier lev WHERE t.leverancier_id=lev.leverancier_id AND l.land_id=p.land_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id=t.accommodatie_id AND t.type_id='".addslashes($_GET["tid"])."';");
 	if($db->next_record()) {
@@ -377,12 +404,12 @@ if($_POST["filled"]) {
 		}
 	}
 
-	if(!$skipastarieven_verwerken) {	
+	if(!$skipastarieven_verwerken) {
 		# Eerdere boekingen
 		$db->query("SELECT aankomstdatum, aankomstdatum_exact, vertrekdatum_exact FROM boeking WHERE goedgekeurd=1 AND geannuleerd=0 AND (type_id='".addslashes($_GET["tid"])."' OR verzameltype_gekozentype_id='".addslashes($_GET["tid"])."') AND seizoen_id='".addslashes($_GET["sid"])."';");
 		while($db->next_record()) {
 			$aantal_geboekt[$db->f("aankomstdatum")]++;
-			
+
 			# Kijken of de boeking langer dan 1 week is (en dan ook de volgende week/weken ophogen met 1)
 			$aantalwekengeboekt=round(($db->f("vertrekdatum_exact")-$db->f("aankomstdatum_exact"))/86400)/7;
 			if($aantalwekengeboekt>1) {
@@ -392,19 +419,19 @@ if($_POST["filled"]) {
 				}
 			}
 		}
-	
+
 		# XML-tarieven
 		$db->query("SELECT week, bruto FROM xml_tarievenimport WHERE type_id='".addslashes($_GET["tid"])."';");
 		while($db->next_record()) {
 			$xml_tarieven[$db->f("week")]=$db->f("bruto");
 		}
-		
+
 		# Voornamen Chalet-medewerkers (voor tonen archief)
 		$db->query("SELECT user_id, voornaam FROM user;");
 		while($db->next_record()) {
 			$werknemers[$db->f("user_id")]=$db->f("voornaam");
 		}
-	
+
 		# Archief-tarieven
 		$db->query("SELECT week, UNIX_TIMESTAMP(datumtijd) AS datumtijd, bruto, user_id, autoxml FROM tarief_archief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."' ORDER BY datumtijd DESC;");
 		while($db->next_record()) {
@@ -418,7 +445,7 @@ if($_POST["filled"]) {
 		$db->query("SELECT week, UNIX_TIMESTAMP(datumtijd) AS datumtijd, beschikbaar, garantie, allotment, vervallen_allotment, optie_leverancier, xml, request, optie_klant, totaal, user_id, via, opmerkingen, request_uri FROM beschikbaar_archief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."' ORDER BY datumtijd DESC;");
 		while($db->next_record()) {
 			$archief_beschikbaarheid[$db->f("week")].=date("d-m-Y",$db->f("datumtijd"))." ";
-			
+
 			# via:
 			# 0 = onbekend
 			# 1 = cms_tarieven
@@ -431,7 +458,7 @@ if($_POST["filled"]) {
 			# 8 = automatisch vervallen allotments
 			# 9 = gekoppelde boeking bij een garantie aangepast
 			#10 = incorrect garantie-aantal hersteld
-			
+
 			if($werknemers[$db->f("user_id")] and $db->f("via")<>2) {
 				$archief_beschikbaarheid[$db->f("week")].=$werknemers[$db->f("user_id")];
 			} elseif($db->f("via")==3 or $db->f("via")==2) {
@@ -469,7 +496,7 @@ if($_POST["filled"]) {
 				# pas vanaf 25-02-2011 totaal tonen (want daarvoor werd dat nog niet opgeslagen in de database)
 				$archief_beschikbaarheid[$db->f("week")].=" - totaal: ".$db->f("totaal");
 			}
-			
+
 			if($db->f("beschikbaar")==1) {
 				$archief_beschikbaarheid[$db->f("week")].=" - beschikbaar";
 			} elseif($db->f("beschikbaar")==2) {
@@ -486,11 +513,11 @@ if($_POST["filled"]) {
 			} elseif($db->f("via")==10) {
 				$archief_beschikbaarheid[$db->f("week")].=" (incorrect garantie-aantal hersteld)";
 			}
-			
+
 			if($db->f("opmerkingen")) {
 				$archief_beschikbaarheid[$db->f("week")].=" - ".$db->f("opmerkingen");
 			}
-			
+
 			$archief_beschikbaarheid[$db->f("week")].="\n";
 			if(!$archief_beschikbaarheid_laatstewijziging[$db->f("week")]) {
 				$archief_beschikbaarheid_laatstewijziging[$db->f("week")]=$db->f("datumtijd");
@@ -517,7 +544,7 @@ if($_POST["filled"]) {
 				} else {
 					if($db->f($value)<>0) $seizoen["weken"][$db->f("week")][$value]=$db->f($value);
 				}
-				
+
 				# Voorraad
 				$seizoen["weken"][$db->f("week")]["voorraad_totaal"]=$db->f("voorraad_garantie")+$db->f("voorraad_allotment")+$db->f("voorraad_vervallen_allotment")+$db->f("voorraad_optie_leverancier")+$db->f("voorraad_xml")+$db->f("voorraad_request")-$db->f("voorraad_optie_klant");
 				if($acc["aflopen_allotment"]<>"" or $aflopen_allotment[$db->f("week")]<>"" or $db->f("aflopen_allotment")<>"") {
@@ -543,15 +570,15 @@ if($_POST["filled"]) {
 			if($db->f("wederverkoop_opslag_euro")<>0 or $db->f("wederverkoop_opslag_percentage")<>0 or $db->f("wederverkoop_commissie_agent")<>0) {
 				$wederverkoop_opgeslagen=true;
 			}
-			
+
 			# Overschrijven met XML-tarief?
-			
+
 			# Indien geboekt: autoimportxmltarief uitzetten
 			if($aantal_geboekt[$db->f("week")]>0) $seizoen["weken"][$db->f("week")]["autoimportxmltarief"]=0;
 
 			# Indien optie: autoimportxmltarief uitzetten
 			if($seizoen["weken"][$db->f("week")]["voorraad_optie_klant"]>0) $seizoen["weken"][$db->f("week")]["autoimportxmltarief"]=0;
-			
+
 			if($xml_tarieven[$db->f("week")]>0 and ($seizoen["weken"][$db->f("week")]["autoimportxmltarief"] or $_GET["xmlgoedkeuren"])) {
 				if($acc["toonper"]==1) {
 					# Arrangement (A)
@@ -572,7 +599,7 @@ if($_POST["filled"]) {
 		while(list($key,$value)=each($vars["tarief_datum_velden"])) {
 			$datum_velden.=", UNIX_TIMESTAMP(".$value.") AS ".$value;
 		}
-		
+
 		# Optie en vroegboekkorting-datums uit tabel type_seizoen
 		$db->query("SELECT optie".$datum_velden.", melding_geen_tarieven_verbergen, log, hoogseizoencontrole, hoogseizoen_onjuiste_tarieven FROM type_seizoen WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
 		if($db->next_record()) {
@@ -590,12 +617,12 @@ if($_POST["filled"]) {
 					$tarieventabel_opmerkingen.="<b>Let op! De hoogseizoen-tarieven zijn te laag!</b>";
 				}
 			}
-			
+
 			reset($vars["tarief_datum_velden"]);
 			while(list($key,$value)=each($vars["tarief_datum_velden"])) {
 				if($db->f($value)) {
 					$seizoen[$value]=date("d-m-Y",$db->f($value));
-					
+
 					# Indien datum verstreken: vroegboekkorting_percentage wissen
 					if($db->f($value)<mktime(0,0,0,date("m"),date("d"),date("Y"))) {
 						$doorloop_array=$seizoen["weken"];
@@ -629,13 +656,13 @@ if($_POST["filled"]) {
 				if($db->f("wederverkoop_commissie_agent")>0) $seizoen["weken"][$db->f("week")]["wederverkoop_commissie_agent"]=$db->f("wederverkoop_commissie_agent");
 			}
 		}
-		
+
 		# Tarieven doorrekenen
 		$doorloop_array=$seizoen["weken"];
 		while(list($key,$value)=@each($doorloop_array)) {
 			$seizoen["weken"][$key]=bereken($acc["toonper"],$seizoen,$key,$acc,$skipas);
 		}
-		
+
 		# Marge gemiddeld berekenen
 		unset($marge_gemiddeld,$marge_gemiddeld_teller);
 		@reset($seizoen["weken"]);
@@ -648,7 +675,7 @@ if($_POST["filled"]) {
 		if($marge_gemiddeld_teller) {
 			$seizoen["marge_gemiddeld"]=ereg_replace(",",".",sprintf("%01.2f",($marge_gemiddeld/$marge_gemiddeld_teller)));
 		}
-		
+
 		if(!$skipastarieven_verwerken) {
 			# Sjabloon leverancier
 			$db->query("SELECT week FROM calculatiesjabloon_week WHERE leverancier_id='".addslashes($acc["leverancier_id"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
@@ -659,11 +686,11 @@ if($_POST["filled"]) {
 	} else {
 		#
 		# Nog geen tarieven bekend
-		#	
+		#
 		$seizoen["leeg"]=true;
 
 		$hoogseizoencontrole=true;
-		
+
 		# Sjabloon leverancier
 		$db->query("SELECT week, korting_percentage, toeslag, korting_euro, vroegboekkorting_percentage, vroegboekkorting_euro, opslag_accommodatie, opslag_skipas, korting_arrangement_bed_percentage, toeslag_arrangement_euro, korting_arrangement_euro, toeslag_bed_euro, korting_bed_euro, vroegboekkorting_arrangement_percentage, vroegboekkorting_arrangement_euro, vroegboekkorting_bed_percentage, vroegboekkorting_bed_euro, opslag, c_korting_percentage, c_toeslag, c_korting_euro, c_vroegboekkorting_percentage, c_vroegboekkorting_euro, c_opslag_accommodatie, wederverkoop_opslag_euro, wederverkoop_opslag_percentage, wederverkoop_commissie_agent FROM calculatiesjabloon_week WHERE leverancier_id='".addslashes($acc["leverancier_id"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
 		if($db->num_rows()) {
@@ -679,7 +706,7 @@ if($_POST["filled"]) {
 				}
 			}
 		}
-		
+
 		# Vroegboekkorting-datums uit tabel calculatiesjabloon
 		reset($vars["tarief_datum_velden"]);
 		unset($datum_velden);
@@ -692,7 +719,7 @@ if($_POST["filled"]) {
 			while(list($key,$value)=each($vars["tarief_datum_velden"])) {
 				if($db->f($value)) {
 					$seizoen[$value]=date("d-m-Y",$db->f($value));
-					
+
 					# Indien datum verstreken: vroegboekkorting_percentage wissen
 					if($db->f($value)<mktime(0,0,0,date("m"),date("d"),date("Y"))) {
 						$doorloop_array=$seizoen["weken"];
@@ -704,7 +731,7 @@ if($_POST["filled"]) {
 				}
 			}
 		}
-		
+
 		# XML-importtarieven bekend?
 		if(is_array($xml_tarieven)) {
 			$week=$seizoen["begin"];
@@ -720,12 +747,12 @@ if($_POST["filled"]) {
 						$xmlimport[$week]=true;
 					}
 				}
-	
+
 				if($xmlimport[$week]) {
 					# Tarieven doorrekenen
 					$seizoen["weken"][$week]=bereken($acc["toonper"],$seizoen,$week,$acc,$skipas);
 				}
-				
+
 				$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 			}
 			if($xmlimport) {
@@ -736,11 +763,11 @@ if($_POST["filled"]) {
 			}
 		}
 
-		# Afloopdatum allotment		
+		# Afloopdatum allotment
 		$week=$seizoen["begin"];
 		while($week<=$seizoen["eind"]) {
 			if($aflopen_allotment[$week]) {
-			
+
 				if($aflopen_allotment[$week]) {
 					$temp_aflopen_allotment=$aflopen_allotment[$week];
 				} else {

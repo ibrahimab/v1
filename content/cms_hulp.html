@@ -1,5 +1,30 @@
 <?php
 
+// # tijdelijk!! (19-10-2012)
+// # Kijken welke accommodaties geen tarieven hebben
+// $db->query("SELECT DISTINCT MAX(bruto) AS bruto, type_id FROM tarief WHERE seizoen_id=20 AND type_id IN (SELECT DISTINCT type_id FROM view_accommodatie WHERE toonper=1) GROUP BY type_id ORDER BY 1;");
+// if($db->num_rows()) {
+// 	echo "Arrangementen met lege bruto-prijzen:<ul>";
+// 	while($db->next_record()) {
+// 		if($db->f("bruto")==0) {
+// 			echo "<li><a href=\"cms_tarieven.php?sid=20&tid=".$db->f("type_id")."\" target=\"_blank\">".$db->f("type_id")."</a></li>";
+// 		}
+// 	}
+// 	echo "</ul>";
+// }
+
+// $db->query("SELECT DISTINCT MAX(c_bruto) AS bruto, type_id FROM tarief WHERE seizoen_id=20 AND type_id IN (SELECT DISTINCT type_id FROM view_accommodatie WHERE toonper=3) GROUP BY type_id ORDER BY 1;");
+// if($db->num_rows()) {
+// 	echo "Accommodaties met lege bruto-prijzen:<ul>";
+// 	while($db->next_record()) {
+// 		if($db->f("bruto")==0) {
+// 			echo "<li><a href=\"cms_tarieven.php?sid=20&tid=".$db->f("type_id")."\" target=\"_blank\">".$db->f("type_id")."</a></li>";
+// 		}
+// 	}
+// 	echo "</ul>";
+// }
+// echo "<hr>";
+
 echo "Op deze pagina is ruimte voor hulp bij gebruik van het CMS.<p><p>";
 echo "<hr>";
 
