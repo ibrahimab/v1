@@ -31,9 +31,15 @@ $username=array();
 $username[0]='Zomerhuisje';
 $username[1]='Italissima';
 $username[2]='ChaletNL';
+$username[3]='SuperSkiNL';
 $format='xml';
-foreach($username as $userAccount){
-	$tweet=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$userAccount}.{$format}");
+foreach($username as $userAccount) {
+	if($userAccount=='SuperSkiNL') {
+		$get_user_account='ChaletNL';
+	} else {
+		$get_user_account=$userAccount;
+	}
+	$tweet=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$get_user_account}.{$format}");
 	if($tweet->status[0]->text!="") {
 		$bericht="";
 		$berichtNext="";
@@ -55,6 +61,11 @@ foreach($username as $userAccount){
 			} elseif($userAccount=='Italissima') {
 				$backColor="#e0d1cc";
 				$kopColor="#D40139";
+				$naam="Italissima";
+			} elseif($userAccount=='SuperSkiNL') {
+				$naam="SuperSki";
+				$backColor="";
+				$kopColor="#003366";
 			}
 			if(substr($bericht1[$a],0,4)=="http") {
 				$bericht.="<BR><a style=\"text-decoration:underline;\" href=";
@@ -88,20 +99,29 @@ foreach($username as $userAccount){
 				$berichtNextNext.=" ".wt_he($bericht3[$a]);
 			}
 		}
-		if($userAccount!='Italissima') {
-			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_twitter_blok\" cellspacing=\"2\" style=\"background-color:".$backColor."; padding:5px;\">";
-			$content.="<td style=\"color:".$kopColor.";font-size:14px;\"><div style=\"cursor:pointer;\" onclick=\"document.location.href='https://twitter.com/intent/user?screen_name=$userAccount';\">".$naam." op twitter</div></td></tr><tr><td></td><td></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht."<br><br></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNext."<br><br></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNextNext."<br><br></td></tr>";
-			$content.="</table></div>";
-		} else {
-			$content="<table cellspacing=\"0\" style=\"background-color:#e0d1cc; font-family: Verdana, Arial, Helvetica, sans-serif; padding-left:25px;padding-top:5px; padding-bottom:5px; padding-right:25px; width:580px;\">
-					<tr><td style=\"color:#661700; font-size:1.2em;padding-bottom:10px;\" colspan=\"2\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/intent/user?screen_name=Italissima\" target=\"_blank\">Italissima op twitter</a></td></tr>
+		if($userAccount=='Italissima') {
+			// horizontaal tweets tonen
+			$content="<table cellspacing=\"0\" style=\"background-color:#e0d1cc;padding-left:25px;padding-top:5px; padding-bottom:5px; padding-right:25px; width:580px;\">
+					<tr><td style=\"color:#661700; font-size:1.2em;padding-bottom:10px;\" colspan=\"2\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/Italissima\" target=\"_blank\">Italissima op Twitter</a></td></tr>
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht."<hr></td></tr>
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$berichtNext."<hr></td></tr>
 					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$berichtNextNext."</td></tr>
 					</table>";
+ 		} elseif($userAccount=='SuperSkiNL') {
+			$content="<table cellspacing=\"0\" style=\"padding-left:15px;padding-top:5px; padding-bottom:5px; padding-right:15px; width:100%;\">
+					<tr><td style=\"color:#661700; font-size:1.2em;padding-bottom:10px;\" colspan=\"2\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/SuperSkiNL\" target=\"_blank\">SuperSki op Twitter</a></td></tr>
+					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht."<hr></td></tr>
+					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$berichtNext."<hr></td></tr>
+					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$berichtNextNext."</td></tr>
+					</table>";
+		} else {
+			// verticaal tweets tonen
+			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_twitter_blok\" cellspacing=\"2\" style=\"".($backColor ? "background-color:".$backColor.";" : "")."padding:5px;\">";
+			$content.="<td style=\"color:".$kopColor.";font-size:14px;\"><div style=\"cursor:pointer;\" onclick=\"document.location.href='https://twitter.com/$userAccount';\">".$naam." op Twitter</div></td></tr><tr><td></td><td></td></tr>";
+			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht."<br><br></td></tr>";
+			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNext."<br><br></td></tr>";
+			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$berichtNextNext."<br><br></td></tr>";
+			$content.="</table></div>";
 		}
 		$toWrite=$unixdir."cache/twitter".$userAccount.".html";
 		$handle=fopen($toWrite,'w') or die('Cannot open file:  '.$toWrite);

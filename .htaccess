@@ -4,6 +4,9 @@ php_value memory_limit 64M
 
 AddDefaultCharset ISO-8859-1
 
+# AddType voor PIE.htc
+AddType text/x-component .htc
+
 ErrorDocument 404 /404.php
 
 #
@@ -38,6 +41,9 @@ RewriteRule ^favicon.ico$ favicon_wsa.ico
 RewriteCond %{HTTP_HOST} italissima [NC]
 RewriteRule ^favicon.ico$ favicon_italissima.ico
 
+# superski
+RewriteCond %{HTTP_HOST} superski [NC]
+RewriteRule ^favicon.ico$ favicon_superski.ico
 
 # http://ss.postvak.net/chalet/chalet/ doorsturen naar ss.postvak.net/chalet/
 RewriteCond %{HTTP_HOST} ^ss\.postvak\.net [NC]
@@ -104,6 +110,11 @@ RewriteCond %{HTTP_HOST} !^www\.italissima\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
 
+RewriteCond %{HTTP_HOST} superski\.nl [NC]
+RewriteCond %{HTTP_HOST} !^www\.superski\.nl [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
+RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
+
 #
 # Spelfout-domeinnamen doorsturen naar de juiste domeinnaam
 #
@@ -117,14 +128,14 @@ RewriteRule (.*) /$1?%1%2 [R=301,L]
 
 
 #
-# TIJDELIJK: www.italissima.nl doorsturen naar Zomerhuisje
+# TIJDELIJK: www.superski.nl doorsturen naar Wintersportaccommodaties
 #
-#RewriteCond %{HTTP_HOST} ^www\.italissima\.nl [NC]
-#RewriteCond %{REMOTE_ADDR} !^82\.173\.186\.80 [NC]
-#RewriteCond %{REMOTE_ADDR} !^80\.101\.166\.235 [NC]
-#RewriteCond %{REMOTE_ADDR} !^94\.210\.181\.62 [NC]
-#RewriteCond %{REMOTE_ADDR} !^82\.171\.230\.221 [NC]
-#RewriteRule ^(.*)$ http://www.zomerhuisje.nl/land/Italie/ [L,R=301]
+RewriteCond %{HTTP_HOST} ^www\.superski\.nl [NC]
+RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113 [NC]
+RewriteCond %{REMOTE_ADDR} !^80\.101\.166\.235 [NC]
+RewriteCond %{REMOTE_ADDR} !^213\.125\.164\.74 [NC]
+RewriteCond %{REMOTE_ADDR} !^82\.93\.130\.238 [NC]
+RewriteRule ^(.*)$ http://www.wintersportaccommodaties.nl/ [L,R=301]
 
 RewriteRule groepsreizen\.php$ /accommodaties.php [R=301,L]
 

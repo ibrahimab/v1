@@ -3141,7 +3141,7 @@ function blokkenhoofdpagina($checkdate="") {
 
 				if($binnendatum) {
 					$teller++;
-					if(($vars["seizoentype"]==1 and $teller<=4) or ($vars["seizoentype"]==2 and $teller<=9)) {
+					if(($vars["seizoentype"]==1 and $teller<=9) or ($vars["seizoentype"]==2 and $teller<=9)) {
 						$return[$teller]["id"]=$db->f("blokhoofdpagina_id");
 						$return[$teller]["titel"]=$db->f("titel");
 						$return[$teller]["omschrijving"]=$db->f("omschrijving");

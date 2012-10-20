@@ -991,7 +991,7 @@ td.selecteerbaarbedrag:hover{
 .zoekresultaat_aanbieding img {
 	border: 0;
 	display: block;
-	margin-top: -10px;
+	margin-top: -9px;
 	margin-left: auto;
 	margin-right: auto;
 }

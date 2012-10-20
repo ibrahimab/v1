@@ -93,7 +93,7 @@ if(ereg("(.*)\-query-(.*)",$_GET["id"],$regs)) {
 
 echo "<HTML><HEAD>";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
-echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\">\n";
+echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n";
 echo "<meta name=\"robots\" CONTENT=\"noindex,follow\">";
 # JQuery
 echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";

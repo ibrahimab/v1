@@ -1,0 +1,68 @@
+<?php
+
+echo "<div id=\"hoofdpagina_middenkolom\">";
+echo "<div id=\"hoofdpagina_blok\">";
+
+$blokkenhoofdpagina=blokkenhoofdpagina();
+
+if(is_array($blokkenhoofdpagina)) {
+	while(list($key,$value)=each($blokkenhoofdpagina)) {
+		if($blokkenhoofdpagina_teller>=16) {
+			break;
+		}
+		$blokkenhoofdpagina_teller++;
+		echo "<a href=\"".htmlentities($value["link"])."\" class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "").">";
+		$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
+		echo "<div><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\"/></div>";
+		echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";
+		echo "<div class=\"hoofdpagina_blok_omschrijving\">".wt_he($value["omschrijving"])."</div>";
+		echo "<div class=\"hoofdpagina_blok_superskideal\"><img src=\"".$vars["path"]."pic/superski_hoofdpagina/logo_superskideal.png\" border=\"0\"/></div>";
+		echo "</a>";
+	}
+	echo "<div id=\"hoofdpagina_blok_tellers\">";
+	if($blokkenhoofdpagina_teller>1) {
+		for($i=1;$i<=$blokkenhoofdpagina_teller;$i++) {
+			echo "<div id=\"hoofdpagina_blok_teller_".$i."\" class=\"hoofdpagina_blok_teller".($i==1 ? " hoofdpagina_blok_teller_active" : "")."\" data-value=\"".$i."\">&bull;</div>";
+		}
+	}
+	echo "</div>"; # afsluiten hoofdpagina_blok_tellers
+}
+
+echo "</div>"; # afsluiten hoofdpagina_blok
+
+
+echo "<div style=\"clear: both;\"></div>\n";
+
+if($last_acc_html) {
+	echo $last_acc_html;
+} else {
+	echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" id=\"laatstbekeken\" class=\"laatste_acc_vervanging\" style=\"margin:0;padding:0;margin-top:10px;background-color:#ffffff;width: 500px;\">";
+	echo "</a>"; # afsluiten laatstbekeken
+}
+
+echo "<div style=\"clear: both;\"></div>\n";
+
+# Twitterblok includen
+echo "<div id=\"hoofdpagina_twitter_blok\" >";
+include("cache/twitterSuperSkiNL.html");
+echo "</div>";
+
+echo "</div>"; # afsluiten hoofdpagina_middenkolom
+
+echo "<div id=\"hoofdpagina_rechterkolom\">";
+echo "<a href=\"".$vars["path"].txt("menu_aanbiedingen").".php\" id=\"hoofdpagina_banner_rechts\"></a>";
+
+echo "<div id=\"directnaar\" class=\"noprint\">";
+echo "<div id=\"directnaar_kop\"><span class=\"bloklinks_kop\">".html("directnaar","index")."</span></div>";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("frankrijk","index"))."/\">".html("frankrijk","index")."</a><br />";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("oostenrijk","index"))."/\">".html("oostenrijk","index")."</a><br />";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("zwitserland","index"))."/\">".html("zwitserland","index")."</a><br />";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("italie","index"))."/\">".html("italie","index")."</a><br />";
+echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("duitsland","index"))."/\">".html("duitsland","index")."</a><br />";
+echo "</div>\n";
+
+echo "</div>"; # afsluiten hoofdpagina_rechterkolom
+
+echo "<div style=\"clear: both;\"></div>\n";
+
+?>

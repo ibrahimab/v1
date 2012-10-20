@@ -19,8 +19,6 @@ if(!$_GET["nocache"]) {
 	if($_GET["d"]) $_GET["d"]=intval($_GET["d"]);
 	include("admin/vars.php");
 
-
-
 	# breadcrumb bepalen
 	if($_GET["d"]) {
 		$breadcrumbs[txt("menu_aanbiedingen").".php"]=txt("title_aanbiedingen");

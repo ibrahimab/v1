@@ -52,7 +52,7 @@ if($_GET["justonevar"]) {
 }
 
 ?><HTML><HEAD>
-<meta http-equiv="X-UA-Compatible" content="IE=8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <TITLE><?php echo $text["title"]; ?></TITLE>
 <SCRIPT Language="JavaScript">
 	function getdate(day,month,year) {<?php
@@ -77,7 +77,7 @@ if($_GET["justonevar"]) {
 <STYLE type="text/css">
 <!--
 	A:hover {
-		color : #CC3333; 
+		color : #CC3333;
 	}
 
 	TD {

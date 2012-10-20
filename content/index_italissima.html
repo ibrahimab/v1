@@ -90,7 +90,7 @@ while($db->next_record()) {
 	echo "<div class=\"hoofdpagina_blog_titel\"><a href=\"".htmlentities($url)."\">".wt_he($db->f("homepage_titel"))."</a></div>";
 	echo "<div class=\"hoofdpagina_blog_inleiding\">".wt_he($db->f("homepage_inleiding"))."</div>";
 	echo "<div class=\"hoofdpagina_blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></div>";
-	
+
 	echo "</div>"; # afsluiten class hoofdpagina_blog_item
 	$blogitem_gehad=true;
 }
@@ -100,7 +100,7 @@ echo "</div>"; # afsluiten hoofdpagina_blog
 echo "<div id=\"hoofdpagina_sociallinks\">";
 echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
 echo "<a href=\"https://www.facebook.com/pages/Italissimanl/272671556122756\" title=\"Volg Italissima via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-echo "<a href=\"https://twitter.com/@Italissima\" title=\"Volg Italissima via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
+echo "<a href=\"https://twitter.com/Italissima\" title=\"Volg Italissima via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
 echo "<a href=\"https://plus.google.com/118061823772005667855/\" title=\"Volg Italissima via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>\n";
 echo '<!-- Google Code for Bezoekers homepage Remarketing List -->
 <script type="text/javascript">

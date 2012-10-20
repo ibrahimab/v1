@@ -1930,7 +1930,7 @@ $txt["nl"]["beoordelingen"]["anoniem"]="anoniem";
 $txt["en"]["beoordelingen"]["anoniem"]="anonymous";
 
 $txt["nl"]["beoordelingen"]["toelichting"]="toelichting";
-$txt["en"]["beoordelingen"]["ingevulddoor"]="explanation";
+$txt["en"]["beoordelingen"]["toelichting"]="notes";
 
 #
 # Calc.php (totaalbedrag vakantie berekenen zonder te boeken)

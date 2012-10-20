@@ -38,6 +38,12 @@
 <span style="background-color:#e8ebf1;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#e8ebf1<br>
 <span style="background-color:#00cc00;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#00cc00<br>
 
+<br><b>SuperSki</b><br>
+<span style="background-color:#003366;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#003366<br>
+<span style="background-color:#660066;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#660066<br>
+<span style="background-color:#e6007e;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#e6007e<br>
+<span style="background-color:#7c93ac;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#7c93ac<br>
+
 <br><b>Alle sites</b><br>
 <span style="background-color:#ffa73f;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ffa73f&nbsp;&nbsp;(aanbiedingen - oud!)<br>
 <span style="background-color:#fb6703;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#fb6703&nbsp;&nbsp;(boekbutton)<br>

@@ -461,26 +461,30 @@ $(document).ready(function() {
 
 
 	// jQuery UI Datepicker
-	$.datepicker.regional['nl'] = {
-		closeText: 'Sluiten',
-		prevText: 'vorige',
-		nextText: 'volgende',
-		currentText: 'Vandaag',
-		monthNames: ['januari', 'februari', 'maart', 'april', 'mei', 'juni',
-		'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-		monthNamesShort: ['jan', 'feb', 'maa', 'apr', 'mei', 'jun',
-		'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
-		dayNames: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-		dayNamesShort: ['zon', 'maa', 'din', 'woe', 'don', 'vri', 'zat'],
-		dayNamesMin: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
-		weekHeader: 'Wk',
-		dateFormat: 'dd-mm-yy',
-		firstDay: 1,
-		isRTL: false,
-		showMonthAfterYear: false,
-		yearSuffix: ''};
-	$.datepicker.setDefaults($.datepicker.regional['nl']);
-	$(".jqueryui_datepicker").datepicker();
+	if($().datepicker) {
+
+		$.datepicker.regional['nl'] = {
+			closeText: 'Sluiten',
+			prevText: 'vorige',
+			nextText: 'volgende',
+			currentText: 'Vandaag',
+			monthNames: ['januari', 'februari', 'maart', 'april', 'mei', 'juni',
+			'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+			monthNamesShort: ['jan', 'feb', 'maa', 'apr', 'mei', 'jun',
+			'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+			dayNames: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+			dayNamesShort: ['zon', 'maa', 'din', 'woe', 'don', 'vri', 'zat'],
+			dayNamesMin: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+			weekHeader: 'Wk',
+			dateFormat: 'dd-mm-yy',
+			firstDay: 1,
+			isRTL: false,
+			showMonthAfterYear: false,
+			yearSuffix: ''};
+		$.datepicker.setDefaults($.datepicker.regional['nl']);
+		$(".jqueryui_datepicker").datepicker();
+	}
+
 
 	// CMS via verkeerde site (niet chalet.nl) melden
 	if(cms_via_verkeerde_site==1) {

@@ -1,0 +1,238 @@
+
+#hoofdpagina_middenkolom {
+	float: left;
+	width: 500px;
+	margin-top: -20px;
+	margin-left: 10px;
+}
+
+#hoofdpagina_rechterkolom {
+	float: right;
+	width: 184px;
+	margin-right: 10px;
+	margin-top: -20px;
+}
+
+#hoofdpagina_waarom {
+	display: block;
+	margin-bottom: 15px;
+	padding-bottom: 5px;
+	width: 173px;
+	border: 1px solid #660066;
+	background-color: #ffffff;
+	padding-left: 9px;
+	color: #000000;
+	cursor: pointer;
+	text-decoration: none;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+	behavior: url(/PIE.htc);
+	position: relative;
+}
+
+#hoofdpagina_waarom:hover {
+	border: 1px solid #e6007e;
+	background-color: #ebebeb;
+}
+
+#hoofdpagina_waarom .kop {
+	color: #003366;
+	font-size: 1.2em;
+	padding-left: 2px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#hoofdpagina_waarom ul {
+	margin: 0;
+	padding-left: 0px;
+	list-style-type: none;
+}
+
+#hoofdpagina_waarom li {
+	background: url(../pic/waarom_vinkje_superski.png) no-repeat 0 0px;
+	padding-left: 13px;
+	font-size: 0.9em;
+	line-height: 1.1em;
+}
+
+#hoofdpagina_sociallinks {
+	margin-top: 20px;
+	margin-left: 3px;
+	color: #003366;
+	text-align: left;
+}
+
+#hoofdpagina_sociallinks div {
+	float: left;
+	margin-right: 5px;
+}
+
+#hoofdpagina_sociallinks img {
+	vertical-align: text-top;
+	float: left;
+}
+
+#hoofdpagina_sociallinks .twitter {
+	margin-left: 9px;
+	margin-right: 9px;
+}
+
+#hoofdpagina_blok {
+	position: relative;
+	float: left;
+	width: 500px;
+	height: 350px;
+	background-color: #e6007e;
+	margin-bottom: 15px;
+}
+
+.hoofdpagina_blok_content {
+	position: absolute;
+	width: 500px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+#hoofdpagina_blok:hover {
+	outline: 1px solid #003366;
+}
+
+.hoofdpagina_blok_titel {
+	font-size: 1.3em;
+	font-weight: normal;
+	color: #ffffff;
+	height: 22px;
+	overflow: hidden;
+	padding-left:5px;
+	margin-top: 3px;
+}
+
+.hoofdpagina_blok_omschrijving {
+	color: #000000;
+	height: 33px;
+	overflow: hidden;
+	margin-left:5px;
+}
+
+#hoofdpagina_blok_tellers {
+	margin-top: 5px;
+	margin-right: 8px;
+	top:92%;
+	position:absolute;
+	right:0;
+}
+
+.hoofdpagina_blok_teller {
+	float: left;
+	text-align: right;
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 26px;
+	margin-top: -9px;
+	margin-left: 5px;
+}
+
+.hoofdpagina_blok_teller:hover {
+	color: #003366;
+}
+
+.hoofdpagina_blok_teller_active {
+	color: #003366;
+}
+
+.hoofdpagina_blok_superskideal {
+	margin-top: -100px;
+	margin-left: 350px;
+	position: relative;
+}
+
+.laatste_acc_vervanging {
+	display: block;
+	background: url(../pic/superski_hoofdpagina/laatste_acc_vervanging.jpg) no-repeat 0 0px;
+	width: 500px;
+	height: 205px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border: 1px solid #660066;
+    border-radius: 10px;
+	behavior: url(/PIE.htc);
+	position: relative;
+}
+
+.laatste_acc_vervanging:hover {
+	-moz-box-shadow: 2px 2px 2px #888;
+	-webkit-box-shadow: 2px 2px 2px #888;
+	box-shadow: 2px 2px 2px #888;
+}
+
+#hoofdpagina_banner_weekendski {
+	display: block;
+	background: url(../pic/superski_hoofdpagina/banner_weekendski.jpg) no-repeat 0 0px;
+	width: 182px;
+	height: 240px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border: 1px solid #e6007e;
+    border-radius: 10px;
+	behavior: url(/PIE.htc);
+	position: relative;
+	margin-top: 70px;
+}
+
+#hoofdpagina_banner_weekendski:hover {
+	-moz-box-shadow: 2px 2px 2px #888;
+	-webkit-box-shadow: 2px 2px 2px #888;
+	box-shadow: 2px 2px 2px #888;
+}
+
+#hoofdpagina_banner_rechts {
+	display: block;
+	background: url(../pic/superski_hoofdpagina/banner_rechts.jpg) no-repeat 0 0px;
+	width: 182px;
+	height: 590px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border: 1px solid #e6007e;
+    border-radius: 10px;
+	behavior: url(/PIE.htc);
+	position: relative;
+}
+
+#hoofdpagina_banner_rechts:hover {
+	-moz-box-shadow: 2px 2px 2px #888;
+	-webkit-box-shadow: 2px 2px 2px #888;
+	box-shadow: 2px 2px 2px #888;
+}
+
+#laatstbekeken {
+	width: 478px;
+	padding: 10px;
+	margin-top: 10px;
+}
+
+.laatstbekeken_divider {
+	float: left;
+	width: 14px;
+}
+
+#hoofdpagina_twitter_blok {
+
+}
+
+#hoofdpagina_twitter_blok table {
+	margin-top: 25px;
+	background-color: #ffffff;
+	width: 500px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border: 1px solid #e6007e;
+    border-radius: 10px;
+	behavior: url(/PIE.htc);
+	position: relative;
+}
+
+#hoofdpagina_twitter_blok hr {
+	height: 1px;
+}

@@ -40,7 +40,6 @@ $cms->db_field(37,"yesno","tonen");
 unset($vars["websites_wzt"][1]["D"]);
 unset($vars["websites_wzt"][1]["Q"]);
 unset($vars["websites_wzt"][1]["V"]);
-unset($vars["websites_wzt"][1]["W"]);
 
 $cms->db_field(37,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(37,"text","link");

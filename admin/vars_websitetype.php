@@ -24,7 +24,7 @@ if($vars["lokale_testserver"]) {
 			$vars["testsite"]=@file_get_contents("/home/webtastic/html/chalet/tmp/testsite.txt");
 		}
 	}
-	
+
 	# Testsite bepalen voor Miguel
 	if($_SERVER["WINDIR"]<>"") {
 		$vars["cms_basehref"]="http://test.chalet.nl/chalet/";
@@ -84,9 +84,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-	$vars["mail_topfoto"]="http://www.wintersportaccommodaties.nl/pic/logo_wintersportaccommodaties.gif";
-	$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op wintersportaccommodaties.nl. Dit moet je zien!<br /><br />Groeten,<br />";
-	$vars["mail_form_aLink_style"]="color:#002682; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="chaleteu")) {
 	# Winter Chalet.eu Engelstalig
 	$vars["websitetype"]=1;
@@ -186,9 +183,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-	//$vars["mail_topfoto"]="http://www.zomerhuisje.nl/pic/topfoto/zomerhuisje_leaderboard_1.jpg";
-	//$vars["mail_form_mid_div_content"]="Ik heb een leuk vakantiehuis gevonden op zomerhuisje.eu. Dit moet je zien!<br /><br />Groeten,<br />";
-	//$vars["mail_form_aLink_style"]="color:#5f227b; font-family:Verdana, Geneva, sans-serif; text-decoration:none;";
+
 	# Tijdelijk
 	$vars["nieuwevormgeving"]=true;
 
@@ -255,11 +250,30 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 
 	# Tijdelijk
 	$vars["nieuwevormgeving"]=true;
+
+} elseif($_SERVER["HTTP_HOST"]=="www.superski.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="superski")) {
+	# SuperSki
+	$vars["websitetype"]=8;
+	$vars["websitenaam"]="SuperSki";
+	$vars["langewebsitenaam"]="SuperSki";
+	$vars["seizoentype"]=1;
+	$vars["website"]="W";
+	$vars["taal"]="nl";
+	$vars["websiteland"]="nl";
+	$vars["basehref"]="http://www.superski.nl/";
+	$vars["email"]="info@superski.nl";
+	$basehref="http://www.superski.nl/";
+	$path="/";
+	$vars["googleanalytics"]="UA-2078202-13";
+	$vars["facebook_pageid"]="290304584402858";
+	$vars["twitter_user"]="SuperSkiNL";
+	$vars["annverzekering_mogelijk"]=1;
+	$vars["reisverzekering_mogelijk"]=1;
+
+	$vars["nieuwevormgeving"]=true;
+
 } else {
 	# Onbekend welke site er wordt opgevraagd
-	if(!$css) {
-#		wt_mail("jeroen@webtastic.nl","Onbekende HTTP_HOST bij Chalet",$_SERVER["HTTP_HOST"]."\n".$_SERVER["REQUEST_URI"]);
-	}
 	if(ereg("chalet\.nl",$_SERVER["HTTP_HOST"])) {
 		header("Location: http://www.chalet.nl/");
 	} elseif(ereg("chalet\.eu",$_SERVER["HTTP_HOST"])) {
@@ -292,7 +306,7 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$bodybgcolor="#0D3E88";
 	$thfontcolor="#ffffff";
 	$thfontsize="0.8em";
-	
+
 	# Nieuwe vormgeving
 	if($vars["nieuwevormgeving"]) {
 		$bordercolor="#d5e1f9";
@@ -309,7 +323,7 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 		$inactivetabfontcolor="#003366";
 		$css_aanbiedingkleur="#d40139";
 	}
-	
+
 } elseif($vars["websitetype"]==2) {
 	# Wintersportaccommodaties.nl
 	$bordercolor="#BAC5D6";
@@ -320,7 +334,7 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$font="Arial, Helvetica, sans-serif;";
 	$thfontcolor="#ffffff";
 	$thfontsize="0.8em";
-	$css_aanbiedingkleur="#d40139";	
+	$css_aanbiedingkleur="#d40139";
 } elseif($vars["websitetype"]==6) {
 	# Chalets in Vallandry
 	$bordercolor="#6699cc";
@@ -351,6 +365,21 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$inactivetabcolor="#ffd38f";
 	$inactivetabfontcolor="#661700";
 	$css_aanbiedingkleur="#661700";
+} elseif($vars["websitetype"]==8) {
+	# SuperSki
+	$bordercolor="#003366";
+	$rood="#e6007e";
+	$hover="#e6007e";
+	$hr="#003366";
+	$table="#003366";
+	$font="Verdana, Arial, Helvetica, sans-serif;";
+	$bodybgcolor="#ffffff";
+	$thfontcolor="#ffffff";
+	$thfontsize="0.9em";
+	$activetabcolor="#e6007e";
+	$inactivetabcolor="#003366";
+	$inactivetabfontcolor="#ffffff";
+	$css_aanbiedingkleur="#e6007e";
 } else {
 	# Chalet.nl Zomer / Chalet.eu Summer / Zomerhuisje
 	$bordercolor="#FF6600";
@@ -378,7 +407,7 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 		$inactivetabcolor="#cbd328";
 		$inactivetabfontcolor="#ffffff";
 		$css_aanbiedingkleur="#636f07";
-		
+
 		# paars: #5f227b
 		# groen: #cbd328
 	}
@@ -408,7 +437,7 @@ if($vars["lokale_testserver"]) {
 
 #
 # Websites-info-array
-#	
+#
 $vars["websiteinfo"]["websitenaam"]["W"]="Wintersportaccommodaties.nl";
 $vars["websiteinfo"]["langewebsitenaam"]["W"]="Chalet.nl B.V. / Wintersportaccommodaties.nl";
 $vars["websiteinfo"]["email"]["W"]="info@wintersportaccommodaties.nl";
@@ -536,7 +565,7 @@ $vars["websites_inactief"]=array("S"=>true,"O"=>true);
 #$vars["websitetype_namen"]=array(1=>"Chalet.nl / Chalet.eu winter",2=>"Wintersportaccommodaties.nl",3=>"Chalet.nl / Chalet.eu zomer",4=>"Chalettour.nl winter",5=>"Chalettour.nl zomer");
 #$vars["wederverkoop_sites"]=array("T","O","Z");
 
-$vars["websites_wzt"][1]=array("C"=>"Chalet.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","D"=>"Chalet (Duitstalig)","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)");
+$vars["websites_wzt"][1]=array("C"=>"Chalet.nl","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","D"=>"Chalet (Duitstalig)","W"=>"Wintersportaccommodaties.nl/SuperSki","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)");
 $vars["websites_wzt"][2]=array("Z"=>"Zomerhuisje.nl","N"=>"Zomerhuisje.eu (gericht op België)","S"=>"Chalet.eu Engelstalig Zomer (niet meer actief)","O"=>"Chalettour.nl Zomer (niet meer actief)","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima");
 
 $vars["websites_wzt_actief"][1]=array("C"=>"Chalet.nl","W"=>"Wintersportaccommodaties.nl","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","D"=>"Chalet Duitstalig","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)");

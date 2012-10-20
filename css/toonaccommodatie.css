@@ -127,11 +127,21 @@ h2 {
 	float: left;
 	line-height: 1.0em;
 	margin-top: 1px;
+	color: #747474;
 }
 
 #toonaccommodatie_kenmerken_2_beoordelinglink {
 	float: left;
+	color: #747474;
 	margin-left: 0.5em;
+}
+
+#toonaccommodatie_kenmerken_2_beoordelinglink a {
+	color: #747474;
+}
+
+#toonaccommodatie_kenmerken_2_beoordelinglink a:hover {
+	color: #d40139;
 }
 
 #toonaccommodatie_ookbeschikbaar {

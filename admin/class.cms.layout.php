@@ -24,9 +24,9 @@ class cms_layout {
 
 		$this->settings["message"][""]["nl"]="";
 		$this->settings["message"][""]["en"]="";
-	
+
 		$this->settings["render_as_ie7"]=false;
-		
+
 		$bestandsnaam=split('/',$_SERVER["PHP_SELF"]);
 		list($this->pageid)=split('[/.]',$bestandsnaam[count($bestandsnaam)-1]);
 		return true;
@@ -60,7 +60,7 @@ class cms_layout {
 		$this->menu_item[$this->key_name]["login"]=$login;
 		$this->menu_item[$this->key_name]["clickable"]=$clickable;
 		$this->menu_item[$this->key_name]["options"]=$options;
-		$this->menu_title[$page]=$title;		
+		$this->menu_title[$page]=$title;
 	}
 
 	function submenu_item($parentpage,$parentquerystring,$page,$title,$querystring,$login,$clickable=true,$options="") {
@@ -69,7 +69,7 @@ class cms_layout {
 		if($this->menu_item[$this->key_name_parent]["page"]) {
 			$this->menu_item[$this->key_name_parent]["number_of_submenu_items"]++;
 			$this->menu_item[$this->key_name]["submenu_item_counter"]=$this->menu_item[$this->key_name_parent]["number_of_submenu_items"];
-			
+
 			$this->menu_item[$this->key_name]["page"]=$page;
 			$this->menu_item[$this->key_name]["querystring"]=$querystring;
 			$this->menu_item[$this->key_name]["title"]=$title;
@@ -84,7 +84,7 @@ class cms_layout {
 			trigger_error("WT-Error: Unknown parent '".$this->key_name_parent."' called",E_USER_ERROR);
 		}
 	}
-	
+
 	function convert_url($page,$querystring_array) {
 		$return=$page;
 		@ksort($querystring_array);
@@ -93,7 +93,7 @@ class cms_layout {
 		}
 		return $return;
 	}
-	
+
 	function display_all($current_title="") {
 		global $cms,$db,$db2,$db3,$db4,$form,$login,$vars,$cms_form,$gegevens,$mustlogin,$_GLOBAL,$txt,$txta;
 		if($current_title) {
@@ -126,10 +126,10 @@ class cms_layout {
 			if($this->settings["chromeframe"]) {
 				echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7,chrome=1\" >\n";
 			} else {
-				echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" >\n";			
+				echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=EmulateIE7\" >\n";
 			}
 		} elseif($this->settings["chromeframe"]) {
-			echo "<meta http-equiv=\"X-UA-Compatible\" content=\"chrome=1\" />\n";
+			echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />\n";
 		}
 		echo "<meta name=\"robots\" content=\"noindex,nofollow\" />\n";
 		echo "<link href=\"".($this->settings["css_folder"] ? $this->settings["css_folder"] : "")."cms_layout.css".($this->settings["css_cacheversion"] ? "?cache=".$this->settings["css_cacheversion"] : "")."\" rel=\"stylesheet\" type=\"text/css\" />\n";
@@ -138,11 +138,11 @@ class cms_layout {
 				echo "<link href=\"".$value."\" rel=\"stylesheet\" type=\"text/css\" />\n";
 			}
 		}
-		
+
 		if(file_exists($this->settings["favicon"])) {
 			echo "<link REL=\"shortcut icon\" href=\"".$this->settings["favicon"]."\" />";
 		}
-		
+
 
 		# Speciaal voor alle niet-IE6 browsers
 		if(!eregi("MSIE",$_SERVER["HTTP_USER_AGENT"]) or ereg("MSIE [789]",$_SERVER["HTTP_USER_AGENT"])) echo "<link href=\"".($this->settings["css_folder"] ? $this->settings["css_folder"] : "")."opmaak_moz.css\" rel=\"stylesheet\" type=\"text/css\" />\n";
@@ -151,7 +151,7 @@ class cms_layout {
 		if($this->settings["jquery_google_api"]) {
 			echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js\"></script>\n";
 		}
-		
+
 		# jQueryUI via Google
 		if($this->settings["jqueryui_google_api"]) {
 			if($this->settings["jqueryui_google_api_theme"]) {
@@ -159,12 +159,12 @@ class cms_layout {
 			}
 			echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js\"></script>\n";
 		}
-		
+
 		# Google Chromeframe
 		if($this->settings["chromeframe"]) {
 			echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js\"></script>\n";
 		}
-		
+
 		# allfunctions.js
 		if(file_exists("scripts/allfunctions.js")) {
 			echo "<script type=\"text/javascript\" src=\"scripts/allfunctions.js?cache=".filemtime("scripts/allfunctions.js")."\"></script>\n";
@@ -176,12 +176,12 @@ class cms_layout {
 			}
 		}
 		echo "<script type=\"text/javascript\" src=\"".($this->settings["scripts_folder"] ? $this->settings["scripts_folder"] : "")."cms_functions.js?t=1".($this->settings["javascript_cacheversion"] ? "&cache=".$this->settings["javascript_cacheversion"] : "")."\"></script>\n";
-		
-		
+
+
 		if($this->settings["extra_header_code"]) {
 			echo $this->settings["extra_header_code"];
 		}
-		
+
 		echo "</head>\n";
 		if($_SESSION["wt_popupmsg"]) {
 			if($this->bodyonload and substr($this->bodyonload,-1)<>";") {
@@ -242,7 +242,7 @@ class cms_layout {
 				} else {
 					$currentpage=false;
 				}
-				
+
 				if(!$this->menu_item[$key]["clickable"]) {
 					if($this->menu_item[$key]["child"] and $this->menu_item[$key]["options"]["slide"]) {
 						echo "<a href=\"javascript:togglesubmenu('submenudiv_".ereg_replace("-","_",$key)."',".$this->menu_item[$key]["number_of_submenu_items"].");\">";
@@ -275,7 +275,7 @@ class cms_layout {
 					}
 					echo ">";
 				}
-				
+
 				@reset($this->menu_item[$key]["querystring"]);
 				unset($item_querystring_counter);
 				while(list($key2,$value2)=@each($this->menu_item[$key]["querystring"])) {
@@ -299,12 +299,12 @@ class cms_layout {
 							}
 							if($item_querystring_counter==count($this->menu_item[$key]["child_qs"][$key2])) $this->menu_item[$key]["correct_qs_child"]=true;
 						}
-					} 
+					}
 				}
 
-				if($currentpage 
+				if($currentpage
 				or $this->menu_item[$key]["child"][$this->convert_url($this->pageid,$_GET)]
-				or 	($this->menu_item[$key]["page"]==$this->pageid 
+				or 	($this->menu_item[$key]["page"]==$this->pageid
 					and 	(!$this->menu_item[$key]["querystring"]
 						or (
 							$this->menu_item[$key]["querystring"]
@@ -354,7 +354,7 @@ class cms_layout {
 			echo wt_he($this->settings["system_name"]);
 		}
 		echo "</h1>";
-		
+
 		if(!$this->menu_item[$this->pageid]["login"] or $login->logged_in) {
 			if(file_exists("content/".$this->pageid.".html")) {
 				# Pagina tonen
@@ -393,7 +393,7 @@ class cms_layout {
 			echo json_encode(array("OK"=>1));
 			exit;
 		}
-	
+
 		return true;
 	}
 }

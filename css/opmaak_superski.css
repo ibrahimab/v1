@@ -1,0 +1,1048 @@
+
+html {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 0.8em;
+	overflow-y: scroll;
+}
+
+body {
+	margin:0;
+	padding:0;
+	background-color: #f3f3f3;
+}
+
+a {
+	color: #003366;
+}
+
+a:hover {
+	color: #660066;
+}
+
+a:active, a:focus {
+	outline: 0;
+}
+
+h1 {
+	padding: 0;
+	margin: 0;
+	color: #660066;
+	font-size: 1.5em;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+
+h2 {
+	padding: 0;
+	margin: 0;
+	color: #003366;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+h3 {
+	padding: 0;
+	margin: 0;
+	color: #003366;
+	font-size: 1.0em;
+	font-weight: bold;
+}
+
+#toonaccommodatie_kopteksten h1 {
+	padding: 0;
+	margin: 0;
+	color: #660066;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+form {
+	margin:0;
+}
+
+#wrapper {
+	width: 970px;
+	background-color: #ffffff;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#top {
+
+}
+
+#submenu_table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#submenu {
+	color: #999999;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	font-size: 0.85em;
+}
+
+#submenu a {
+	color: #999999;
+	font-weight: normal;
+}
+
+#submenu a:hover {
+	color: #660066;
+}
+
+#topfoto {
+	display: block;
+	width: 970px;
+	height: 179px;
+}
+
+#logo {
+	float: left;
+	margin-left: 16px;
+	margin-top: 19px;
+	background:url("../pic/logo_superski.png") top left no-repeat;
+	width: 300px;
+	height: 152px;
+	text-decoration: none;
+}
+
+#logo:hover {
+	background-position: 0px -163px;
+}
+
+#balkbovencontent {
+	height: 20px;
+	margin-right: 3px;
+}
+
+#superdeals {
+	width: 168px;
+	height: 40px;
+	text-align: center;
+	float: right;
+	background-color: #660066;
+	color: #ffffff;
+	text-decoration: none;
+	padding: 5px;
+	padding-top: 10px;
+	margin-top: 20px;
+	margin-right: 20px;
+	-webkit-border-radius: 11px;
+	-moz-border-radius: 11px;
+	border-radius: 11px;
+	behavior: url(/PIE.htc);
+	position: relative;
+}
+
+#superdeals h1 {
+	color: #ffffff;
+	font-size: 1.1em;
+	font-weight: bold;
+	display: inline;
+}
+
+#superdeals:hover {
+	-moz-box-shadow: 2px 2px 2px #888;
+	-webkit-box-shadow: 2px 2px 2px #888;
+	box-shadow: 2px 2px 2px #888;
+}
+
+#sgr_logo {
+	float: right;
+	margin-right: 20px;
+	margin-top: -40px;
+	background:url("../pic/sgr_superski.png") top left no-repeat;
+	width: 25px;
+	height: 22px;
+	text-decoration: none;
+}
+
+#telefoonblok {
+	position: absolute;
+	top: 239px;
+	margin-left: 15px;
+	width: 180px;
+	padding: 2px;
+	background-color: #660066;
+	color: #003366;
+	-webkit-border-radius: 11px;
+	-moz-border-radius: 11px;
+	border-radius: 11px;
+	behavior: url(/PIE.htc);
+}
+
+#telefoonblok:hover {
+	-moz-box-shadow: 2px 2px 2px #888;
+	-webkit-box-shadow: 2px 2px 2px #888;
+	box-shadow: 2px 2px 2px #888;
+}
+
+.telefoonblokhover {
+	cursor: pointer;
+}
+
+#telefoonblok_nummer {
+	padding-top: 2px;
+	font-size: 1.2em;
+	color: #ffffff;
+}
+
+#telefoonblok_nummer img {
+	margin-left: 9px;
+	margin-right: 10px;
+}
+
+#telefoonblok_open {
+	padding-top: 2px;
+	padding-bottom: 1px;
+	font-size: 0.7em;
+	text-align: center;
+	color: #ffffff;
+}
+
+#bekekenbewaard {
+	margin-left: 30px;
+	font-size: 0.8em;
+	text-align: left;
+	float: left;
+}
+
+#meldingen {
+	font-size: 0.85em;
+	float: right;
+}
+
+#meldingen a {
+	color: #003366;
+	font-weight: normal;
+}
+
+#meldingen a:hover {
+	color: #660066;
+}
+
+#menubalk {
+
+}
+
+#hoofdmenu {
+	font-size: 1.1em;
+	font-weight: normal;
+	height: 20px;
+	background-color: #003366;
+	color: #ffffff;
+	text-align: center;
+}
+
+#hoofdmenu a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+#hoofdmenu a:hover {
+	color: #e6007e;
+}
+
+.hoofdmenu_actief {
+	color: #7c93ac;
+}
+
+.hoofdmenuspacer {
+	color: #ffffff;
+}
+
+#kleinelogos {
+	float: right;
+	margin-top: 7px;
+	margin-right: 5px;
+}
+
+#content {
+
+}
+
+#contentvolledig {
+	margin-left: 30px;
+	margin-right: 5px;
+	padding-bottom: 3px;
+}
+
+#bloklinks_blok {
+	float: left;
+	width: 180px;
+	z-index: 0;
+	margin-top: 40px;
+	margin-right: 10px;
+	margin-left: 15px;
+}
+
+#bloklinks {
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.zoekenboek_tekst {
+	font-style: italic;
+}
+
+.bloklinks_kop {
+	color: #003366;
+	font-size: 1.4em;
+	font-weight: normal;
+}
+
+.laatstbekeken_favorieten {
+	border: 1px solid #003366;
+	background-color: #ffffff;
+	text-align: center;
+	margin-bottom: 10px;
+	width: 168px;
+}
+
+.laatstbekeken_favorieten a {
+	display: block;
+	text-decoration: none;
+}
+
+#zoekenboek_overlay {
+	position: absolute;
+	top: 298px;
+	margin-left: 21px;
+	width: 170px;
+	height: 225px;
+	z-index: 2;
+	background-color: #ffffff;
+}
+
+#zoekenboek_leeg {
+	width: 170px;
+	height: 225px;
+}
+
+#zoekenboek_overlay select {
+	width: 170px;
+	margin: 0;
+}
+
+#zoekenboek_overlay .tekstzoeken {
+	width: 165px;
+}
+
+#zoekenboek_overlay input {
+	margin: 0;
+}
+
+#zoekenboek_overlay .zoekenboek_invulveld {
+	margin-bottom: 11px;
+}
+
+#zoekenboek_aanbiedingen {
+	width: 196px;
+	border: 2px solid #660066;
+	background-color: #e0d1cc;
+	margin-left: -15px;
+	margin-top: 4px;
+}
+
+#zoekenboek_aanbiedingen_kop {
+	color: #ffffff;
+	background-color: #660066;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 3px;
+}
+
+.bloklinksrechts_kop {
+	color: #003366;
+	font-size: 1.4em;
+	font-weight: normal;
+}
+
+.zoekenboek_kop {
+	margin-bottom: 8px;
+}
+
+#breadcrumbbalk {
+	height: 20px;
+	margin-right: 5px;
+}
+
+#breadcrumb_wrapper {
+	width: 970px;
+	background-color: #ffffff;
+	margin-left: 0;
+	margin-right: auto;
+}
+
+#breadcrumb_overlay {
+	position: absolute;
+	top: 238px;
+	margin-left: 227px;
+	width: 735px;
+	height: 20px;
+	z-index: 2;
+	font-size: 0.8em;
+}
+
+#directnaar {
+	margin-top: 20px;
+	margin-left: 20px;
+	text-align: left;
+	padding-bottom: 5px;
+}
+
+#directnaar_kop {
+	padding-bottom: 3px;
+}
+
+#directnaar a {
+
+}
+
+#directnaar ul {
+	padding-left: 1px;
+}
+
+#contactgegevens {
+	font-size: 0.85em;
+	text-align: right;
+	margin-bottom: 3px;
+}
+
+#koptekst_rechts {
+	float: left;
+}
+
+#contentrechts {
+	float: right;
+	width: 740px;
+	padding-right: 5px;
+	margin-left: 10px;
+}
+
+.overlay_foto {
+	position:relative;
+	cursor: pointer;
+	color: #ffffff;
+}
+
+.overlay_foto:hover {
+	color: #003366;
+}
+
+#blokaccommodatie {
+	padding: 10px;
+	min-height: 120px;
+	padding-left: 10px;
+}
+
+#blokaccommodatie_overlay {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	height: 33px;
+	width: 176px;
+	text-align: center;
+	padding: 2px;
+	padding-top: 4px;
+	background: url('../pic/fotoslider/transparent-bg.png');
+	font-size: 0.9em;
+	font-weight: normal;
+}
+
+#blokaccommodatie .overlay_foto:hover {
+	color: #660066;
+}
+
+#cookie_bottombar a {
+	color: #660066;
+}
+
+#cookie_bottombar_close {
+	color: #660066;
+}
+
+.button {
+	width: 168px;
+	font-size: 0.9em;
+	background-color: #660066;
+	border: 1px solid #660066;
+	color: #003366;
+	cursor: pointer;
+	text-align: center;
+	padding-top:6px;
+	height: 20px;
+	margin-top: 10px;
+}
+
+.button:hover {
+	border: 1px solid #660066;
+}
+
+.button_accpagina {
+	background-color: #660066;
+	border: 1px solid #660066;
+	color: #003366;
+}
+
+.button_accpagina:hover {
+	border: 1px solid #660066;
+}
+
+.redbutton {
+	background-color: #0295c8;
+	border: 1px solid #0295c8;
+	color: #ffffff;
+	height: 30px;
+}
+
+.redbutton:hover {
+	border: 1px solid #660066;
+	color: #660066;
+}
+
+#toonaccommodatie_boekbalk_bovenkant {
+	min-height: 208px;
+}
+
+.redtext {
+	color: #660066;
+
+}
+
+.onlyprint {
+	display: none;
+	height: 0px;
+}
+
+.tarieventabel {
+	font-size: 0.8em;
+}
+
+.tarieventabel th {
+	color: #003366;
+	font-size: 1.3em;
+}
+
+.tarieventabel td {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.9em;
+	padding: 2px;
+}
+
+.tarieventabel .afwijkingenaankomstdatum {
+	font-size: 1.1em;
+}
+
+.tarieventabel .onderste_regel {
+	font-size: 1.2em;
+}
+
+.tarieventabel .onderste_regel a {
+	color: #003366;
+}
+
+.tarieventabel .onderste_regel a:hover {
+	color: #660066;
+}
+
+.img-swap {
+	border: 0px;
+}
+
+.sunnycar_banner {
+	border:1px solid #660066;
+	margin-top:0px;
+	cursor:pointer;
+	margin-right:5px;
+}
+
+.sunnycar_banner:hover {
+	border:1px solid #5f227b;
+}
+
+#landkaartklikbaar {
+	margin-top: 20px;
+	margin-left: 0px;
+}
+
+#landkaartklikbaar h2 {
+	margin-left: 0px;
+	margin-bottom: 10px;
+}
+
+#landkaartklikbaar_kaart {
+	float: left;
+	margin-left:0px;
+}
+
+#landkaartklikbaar_namen {
+	margin-left: 40px;
+	margin-top: 50px;
+	float: left;
+	text-align: left;
+}
+
+#landkaartklikbaar_namen .landnaam {
+	margin-bottom: 10px;
+}
+
+#landkaartklikbaar_info {
+	margin-left: 0px;
+	margin-bottom: -5px;
+	height: 30px;
+	font-size: 1.2em;
+}
+
+.nomaphref {
+	cursor: default;
+}
+
+
+#tabs {
+	margin-top: 20px;
+}
+
+.flexalternatieven {
+	border: 1px solid #660066;
+	margin-top:10px;
+	margin-bottom:10px;
+	padding:5px;
+	width:678px;
+	background-color: #660066;
+}
+
+.flexalternatieven a:hover {
+	color: #ffffff;
+}
+
+#terugnaarboven {
+	text-align: right;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 0.85em;
+}
+
+#colofon_wrapper {
+	width: 970px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 20px;
+	background-color: #ffffff;
+}
+
+#colofon {
+	background-color: #003366;
+	height: 17px;
+	text-align: center;
+	padding-top: 3px;
+	color: #ffffff;
+	font-size: 0.85em;
+}
+
+#colofon a {
+	color: #ffffff;
+	text-decoration: none;
+}
+
+#colofon a:hover {
+	color: #e6007e;
+}
+
+#ondercolofon {
+	font-size: 0.8em;
+	margin-top: 3px;
+	margin-bottom: 6px;
+	width: 970px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+#ondercolofon_nieuw {
+	font-size: 0.8em;
+	margin-top: 3px;
+	margin-bottom: 6px;
+	width: 72%;
+}
+#ondercolofon_nieuw a {
+	text-decoration:none;
+}
+#ondercolofon_nieuw a:hover {
+	color: #660066;
+}
+
+#ondercolofon a {
+	color: #999999;
+}
+
+#ondercolofon a:hover {
+	color: #660066;
+}
+
+#laatstbekeken {
+	float: left;
+	margin-top: 30px;
+	background-color: #ffffff;
+	width: 740px;
+	border:1px solid #e6007e;
+	-webkit-border-radius: 11px;
+	-moz-border-radius: 11px;
+	border-radius: 11px;
+	behavior: url(/PIE.htc);
+	position: relative;
+}
+
+#laatstbekeken .kop {
+	color: #e6007e;
+	font-size: 1.2em;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+#laatstbekeken_acc_wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 690px;
+}
+
+.laatstbekeken_acc {
+	float: left;
+	width: 150px;
+	text-align: left;
+	cursor: pointer;
+	font-size: 0.8em;
+	color: #003366;
+}
+
+.laatstbekeken_acc img {
+	width: 150px;
+}
+
+.laatstbekeken_img_div {
+	min-height: 115px;
+}
+
+.laatstbekeken_tekst {
+
+}
+
+.laatstbekeken_tekst_hover {
+	color: #660066;
+}
+
+.laatstbekeken_divider {
+	float: left;
+	width: 30px;
+}
+
+#laatstbekeken_volledigelijst {
+	text-align: right;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+#blogverwijzing {
+	margin-top: 20px;
+}
+
+#blogverwijzing hr {
+	color: #660066;
+	background-color: #660066;
+	height: 2px;
+	border: 0px;
+}
+
+#blogverwijzing h1 {
+	font-size: 1.0em;
+	font-weight: bold;
+}
+
+#bekijkflexibel {
+	background-color: #ffa73f;
+	margin-top: 10px;
+	border: 1px solid #003366;
+}
+
+.aanbiedingtabel {
+	border: 1px solid #003366;
+}
+
+.aanbiedingtabel th {
+	border: 0px;
+	padding: 6px;
+}
+
+.aanbiedingtabel td {
+	border: 0px;
+	padding: 6px;
+}
+
+.gekleurdetekst {
+	color: #660066;
+}
+
+#zoekblok {
+	border: 2px solid #660066;
+}
+
+#geenresultaten {
+	border: 2px solid #5f227b;
+}
+
+.zoekresultaten_paginas a {
+	background-color: #660066;
+	border: 1px solid #660066;
+	color: #ffffff;
+}
+
+.zoekresultaten_paginas_active {
+	background-color: #e6007e;
+	border: 1px solid #660066;
+	color: #ffffff;
+}
+
+.zoekresultaten_paginas a:hover {
+	background-color: #e6007e;
+	color: #ffffff;
+}
+
+.zoekresultaten_aantalgevonden {
+	background-color: #660066;
+	color: #ffffff;
+}
+
+#zoekresultaten_sorteer {
+	margin-top: 10px;
+}
+
+#zoekresultaten_sorteer a {
+	color: #003366;
+}
+
+#zoekresultaten_sorteer .active {
+	color: #003366;
+}
+
+#zoekresultaten_sorteer a:hover {
+	color: #660066;
+}
+
+#zoekresultaten_sorteer #zoekresultaten_sorteer_tekst {
+	background-color: #ffffff;
+	color: #000000;
+}
+
+.zoekresultaten_opmerking_tussen_resultaten {
+	background-color: #660066;
+	color: #003366;
+}
+
+.zoekresultaat {
+	border: 1px solid #660066;
+}
+
+.zoekresultaat:hover {
+	border: 1px solid #e6007e;
+}
+
+#hulp_zoekresultaat_hover {
+	color: #e6007e;
+}
+
+.zoekresultaat_type {
+	border-left: 1px solid #660066;
+	border-right: 1px solid #660066;
+	border-bottom: 1px solid #660066;
+}
+
+.zoekresultaat_type_een_resultaat {
+	border-top: 1px solid #660066;
+}
+
+.zoekresultaat_titel {
+	color: #ffffff;
+}
+
+.zoekresultaat_locatie {
+	color: #003366;
+}
+
+.zoekresultaat_top {
+	background-color: #660066;
+}
+
+.zoekresultaat_omschrijving {
+	color: #003366;
+}
+
+.zoekresultaat_prijs_vanaf {
+	color: #003366;
+}
+
+.zoekresultaat_prijs_periode {
+	color: #003366;
+}
+
+.zoekresultaat_prijs_bedrag {
+	color: #003366;
+}
+
+.zoekresultaat_prijs_per {
+	color: #003366;
+}
+
+.zoekresultaat_aanbieding {
+	color: #003366;
+}
+
+.zoekresultaat_type_aanbieding {
+	color: #003366;
+}
+
+.zoekresultaat_type_prijs_aanbieding {
+	color: #003366;
+}
+
+.zoekresultaat_prijs_bedrag_aanbieding {
+	color: #003366;
+}
+
+.zoektabel_zoek_alleen_aanbiedingen {
+	background-color: #e6007e;
+}
+
+#footerWrap{
+	width:100%;
+	background-color:#FFFFFF;
+	font-size:11px;
+	color:#003366;
+}
+
+#footerWrap table{
+	border-top-color:#003366;
+}
+
+.noIND {
+	width:100%;
+}
+
+.noIND td {
+	width:200px;
+	border:0px;
+	border-color:black;
+	border-style: solid;
+	text-align:center;
+	top:0px;
+}
+
+.IND {
+	width:100%;
+}
+
+.divSepIND {
+	float:left;
+	padding-left: 20px;
+	height: 200px;
+	width: 169px;
+	background-color:#7c93ac;
+}
+
+.divSepIND li {
+	background-image: url(../pic/li_img_superski_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+
+.divSepIND a {
+	text-decoration:none;
+}
+
+
+.divSepIND a:hover {
+	text-decoration:underline;
+}
+
+.wrap{
+	float:left;
+	position:relative;
+	left:25px;
+	width:650px;
+	border:0px;
+	border-color:black;
+	border-style: solid;
+}
+
+.divContentIND li{
+	background-image: url(../pic/li_img_superski_footer.png);
+	background-position: 0px 3px;
+  	background-repeat: no-repeat;
+  	padding-left: 10px;
+  	list-style: none;
+}
+
+.divContentIND{
+	float:left;
+	padding-left:15px;
+}
+
+.divContentIND a{
+	text-decoration:none;
+}
+.divContentIND a:hover{
+	text-decoration:underline;
+}
+
+.padnoIND{
+	padding-left:10px;
+}
+
+@media print {
+
+	body {
+		background-color: white;
+	}
+
+	#wrapper {
+		width: 100%;
+		margin: 0px;
+		padding: 0px;
+	}
+
+	#contentrechts {
+
+	}
+
+	#menubalk {
+		display: none;
+	}
+
+	#submenu {
+		display: none;
+	}
+
+	.noprint {
+		display: none;
+		height: 0px;
+	}
+
+	.onlyprint {
+		display: inline;
+	}
+
+	#menubalk_print {
+		position: absolute;
+		top: 10px;
+		right: 0px;
+		text-align: right;
+	}
+
+	a {
+		text-decoration: none;
+	}
+}
