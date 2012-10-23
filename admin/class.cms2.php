@@ -35,7 +35,7 @@
 # wherequery
 # tabel met meerdere primary keys
 # date bij show_rightcell (bij end_decleration)
-# bij list: 
+# bij list:
 #	- markeren voor wissen (met checkbox)
 #
 # bij edit:
@@ -49,7 +49,7 @@
 # list_field:
 # ===========
 # options:
-#	- selection 
+#	- selection
 #
 #
 #
@@ -57,7 +57,7 @@
 # flqs = former list query string
 # flf = former list file
 # fsqs = former show query string
-# 
+#
 #
 
 class cms2 {
@@ -67,7 +67,7 @@ class cms2 {
 		if($_GET["bc"]==-1) {
 			unset($_SESSION["CMS2"]["back"],$_GET["bc"]);
 		}
-		
+
 		# Messages
 		$this->settings["message"]["nognietaanweziginsysteem"]["nl"]="er zijn nog geen _VALveldnaam_ aanwezig in het systeem";
 		$this->settings["message"]["nognietaanweziginsysteem"]["en"]="no _VALveldnaam_ in the system yet";
@@ -95,7 +95,7 @@ class cms2 {
 
 		$this->settings["message"]["erzijngeenveldnaamgekoppeld"]["nl"]="Er zijn geen _VALveldnaam_ gekoppeld.";
 		$this->settings["message"]["erzijngeenveldnaamgekoppeld"]["en"]="There are no _VALveldnaam_ linked.";
-		
+
 		$this->settings["message"]["erzijngeenveldnaamaanwezig"]["nl"]="Er zijn geen _VALveldnaam_ aanwezig.";
 		$this->settings["message"]["erzijngeenveldnaamaanwezig"]["en"]="There are no _VALveldnaam_.";
 
@@ -134,7 +134,7 @@ class cms2 {
 
 		$this->settings["message"]["niethetzelfde"]["nl"]="niet hetzelfde";
 		$this->settings["message"]["niethetzelfde"]["en"]="not equal";
-		
+
 		$this->settings["message"]["veldnaamtoevoegennietmogelijk"]["nl"]="_VALveldnaam_ toevoegen niet mogelijk:";
 		$this->settings["message"]["veldnaamtoevoegennietmogelijk"]["en"]="not possible to add _VALveldnaam_:";
 
@@ -190,7 +190,7 @@ class cms2 {
 		if(!isset($this->settings[$counter]["log"]["active"])) $this->settings[$counter]["log"]["active"]=false;
 
 		if(!isset($this->settings[$counter]["download_uploaded_files"])) $this->settings[$counter]["download_uploaded_files"]=true;
-		
+
 		$this->init[$counter]=true;
 		return true;
 	}
@@ -217,7 +217,7 @@ class cms2 {
 
 	function db_field($counter,$type,$id,$field="",$options="") {
 		if(!$this->init[$counter]) $this->init($counter);
-		
+
 		$this->db[$counter]["type"][$id]=$type;
 		if($field) {
 			$this->db[$counter]["field"][$id]=$field;
@@ -274,7 +274,7 @@ class cms2 {
 			$this->add_error_temp[$counter][$id]=$this->message("verplichtveldnognietbeschikbaar",true,array("veldnaam"=>"[field_".$id."]"));
 		}
 	}
-	
+
 	function list_field($counter,$id,$title="",$options="",$layout="") {
 		if($title) {
 			$this->list[$counter]["title"][$id]=$title;
@@ -284,7 +284,7 @@ class cms2 {
 		if($options) $this->list[$counter]["options"][$id]=$options;
 		if($layout) $this->list[$counter]["layout"][$id]=$layout;
 	}
-	
+
 	function edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="") {
 		if($id=="htmlcol") {
 			$this->htmlcol_edit_counter[$counter]++;
@@ -295,10 +295,10 @@ class cms2 {
 		}
 
 		$this->edit[$counter]["obl"][$id]=$obl;
-		
+
 		# add-error wissen indien dit veld niet verplicht is
 #		if($this->add_error[$counter][$id] and !$obl) unset($this->add_error[$counter][$id]);
-		
+
 		if($title) {
 			$this->edit[$counter]["title"][$id]=$title;
 		} else {
@@ -363,7 +363,7 @@ class cms2 {
 		if(substr($select,0,2)==", ") {
 			$select=substr($select,2);
 		}
-		
+
 		if($type=="DELETE") {
 			$return="DELETE FROM ".$from.($where ? " WHERE ".$where : "").";";
 		} elseif($select and $from) {
@@ -403,7 +403,7 @@ class cms2 {
 			if($where) $where.=" AND ".$value."='".addslashes($_GET[$counter."k".$key])."'"; else $where=$value."='".addslashes($_GET[$counter."k".$key])."'";;
 		}
 		$return["where"]=$where;
-		
+
 		return $return;
 	}
 
@@ -454,10 +454,10 @@ class cms2 {
 								}
 							}
 						}
-								
+
 						# Connectwidth_table-record(s) deleten/wissen
 						# NOG BOUWEN!!
-						
+
 						$query=$this->get_query($counter,"DELETE");
 						$db->query($query);
 					}
@@ -468,7 +468,7 @@ class cms2 {
 		} elseif($counter and $_POST["delete_checkbox_filled"][$counter]==1 and !$this->delete_error[$counter] and $this->settings[$counter]["list"]["delete_checkbox"]) {
 			# Wissen na aanklikken checkboxes
 			if(!$this->set_delete_init[$counter]) {
-			
+
 				if(is_array($_POST["delete_checkbox"][$counter])) {
 					$db=new DB_sql;
 					$primkey=$this->get_primarykey($this->db[$counter]["maintable"],$counter);
@@ -509,7 +509,7 @@ class cms2 {
 			exit;
 		}
 	}
-	
+
 	function delete_error($counter,$error) {
 		if(!$this->delete_error_init) {
 			$this->delete_error_init=true;
@@ -523,7 +523,7 @@ class cms2 {
 		}
 		$this->delete_error[$counter][]=$error;
 	}
-	
+
 	function inquery($query) {
 		if($query) {
 			$db=new DB_sql;
@@ -534,7 +534,7 @@ class cms2 {
 			return $return;
 		}
 	}
-	
+
 	function set_list($counter) {
 		if($_POST["addlink"][$counter]) {
 			# Toevoegen van record d.m.v. pulldown
@@ -547,7 +547,7 @@ class cms2 {
 			exit;
 		}
 	}
-	
+
 	function php_self($counter) {
 		if($this->settings[$counter]["file"]) {
 			$return=$this->settings[$counter]["file"];
@@ -565,7 +565,7 @@ class cms2 {
 		}
 		return $return;
 	}
-	
+
 	function display_list($counter) {
 		$this->back_link($counter);
 		$db=new DB_sql;
@@ -576,13 +576,18 @@ class cms2 {
 			$tl=new tablelist;
 			$tl->settings["arrowcolor"]="white";
 			$tl->settings["systemid"]=$counter;
-			
+
 			# maximaal aantal resultaten per pagina instellen?
 			if($this->settings[$counter]["list"]["max_results_per_page"]) {
 				$tl->settings["max_results_per_page"]=$this->settings[$counter]["list"]["max_results_per_page"];
 			}
 			if(isset($this->settings[$counter]["list"]["resultpages_top"])) {
 				$tl->settings["resultpages_top"]=$this->settings[$counter]["list"]["resultpages_top"];
+			}
+
+			# euro-teken tonen in tablelist?
+			if($this->settings[$counter]["list"]["currencyfields_hide_euro_sign"]) {
+				$tl->settings["currencyfields_hide_euro_sign"]=true;
 			}
 
 			# Sorteren van de list
@@ -618,12 +623,14 @@ class cms2 {
 			while(list($key,$value)=@each($this->list[$counter]["title"])) {
 				if($this->list[$counter]["options"][$key]["index_field"]) {
 					$tl->field_text($key,$value,"",array("index_field"=>true));
+				} elseif($this->list[$counter]["options"][$key]["force_field_type"]=="currency" or $this->db[$counter]["type"][$key]=="currency") {
+					$tl->field_currency($key,$value);
 				} else {
 					$tl->field_text($key,$value);
 				}
 			}
 			while($db->next_record()) {
-				# Volledige primary key naar tablelist sturen				
+				# Volledige primary key naar tablelist sturen
 				unset($endkey,$url_id);
 				$keycounter=0;
 				while(!$endkey) {
@@ -703,7 +710,7 @@ class cms2 {
 			if(is_array($this->delete_error[$counter])) {
 				echo "<font class=\"wtform_error\">";
 				if($this->delete_error_firstline) {
-					echo $this->delete_error_firstline; 
+					echo $this->delete_error_firstline;
 				} else {
 					echo $this->message("foutbijhetwissenvan")." ";
 					$temp_recordnaam=wt_he($tl->fields["content"][($this->settings[$counter]["list"]["mainfield"] ? $this->settings[$counter]["list"]["mainfield"] : $this->show_mainfield[$counter])][$this->delete_key]);
@@ -775,7 +782,7 @@ class cms2 {
 			if(is_array($this->settings[$counter]["prevalue"])) {
 				reset($this->settings[$counter]["prevalue"]);
 				while(list($key,$value)=each($this->settings[$counter]["prevalue"])) {
-					echo "&pv_".$key."=".urlencode($value);				
+					echo "&pv_".$key."=".urlencode($value);
 				}
 			}
 			echo "\">".wt_he(ucfirst($this->message("veldnaamtoevoegen",false,array("veldnaam"=>$this->settings[$counter]["type_single"]))))."</a>";
@@ -796,7 +803,7 @@ class cms2 {
 		$return=ereg_replace("\?$","",$return);
 		return $return;
 	}
-	
+
 	function set_edit_form_init($counter) {
 		global $cms_form;
 		if($_GET["add"]==$counter) $add=true;
@@ -805,7 +812,7 @@ class cms2 {
 			$this->set_edit_form_init[$counter]=true;
 			$db=new DB_sql;
 			$primarykey=$this->get_primarykey($this->db[$counter]["maintable"],$counter);
-	
+
 			$cms_form[$counter]=new form2;
 			$cms_form[$counter]->settings["fullname"]="cms_".$counter;
 			$cms_form[$counter]->settings["db"]["table"]=$this->db[$counter]["maintable"];
@@ -813,7 +820,7 @@ class cms2 {
 			$cms_form[$counter]->settings["show_save_message"]=$this->settings["show_save_message"];
 			$cms_form[$counter]->settings["show_upload_message"]=$this->settings["show_upload_message"];
 			$cms_form[$counter]->settings["download_uploaded_files"]=$this->settings[$counter]["download_uploaded_files"];
-			
+
 			if($add) {
 				$cms_form[$counter]->settings["message"]["submitbutton"][$this->settings["language"]]=$this->message("toevoegen",false);
 			} else {
@@ -830,7 +837,7 @@ class cms2 {
 			}
 			while(list($key,$value)=each($this->edit[$counter]["title"])) {
 				$this->db[$counter]["type"][$key];
-	
+
 				# DB-gegevens
 				unset($formdb,$prevalue,$options,$layout);
 				if(!$this->db[$counter]["options"][$key]["notdb"]) {
@@ -842,7 +849,7 @@ class cms2 {
 				if($this->db[$counter]["options"][$key]["multiselection"] and !$options["multiselection"]) $options["multiselection"]=$this->db[$counter]["options"][$key]["multiselection"];
 				if($this->db[$counter]["options"][$key]["multiselectionfields"]) $options["multiselectionfields"]=$this->db[$counter]["options"][$key]["multiselectionfields"];
 				if($this->db[$counter]["options"][$key]["encode"] and !$formdb["encode"]) $formdb["encode"]=$this->db[$counter]["options"][$key]["encode"];
-				
+
 				$layout=$this->edit[$counter]["layout"][$key];
 				if($this->edit[$counter]["options"][$key]["noedit"]) {
 					# options=noedit
@@ -855,9 +862,9 @@ class cms2 {
 				} elseif($this->db[$counter]["type"][$key]=="currency") {
 					$cms_form[$counter]->field_currency($this->edit[$counter]["obl"][$key],$key,$this->edit[$counter]["title"][$key],$formdb,$prevalue,$options,$layout);
 				} elseif($this->db[$counter]["type"][$key]=="date") {
-					$cms_form[$counter]->field_date($this->edit[$counter]["obl"][$key],$key,$this->edit[$counter]["title"][$key],$formdb,$prevalue,$options,$layout);	
+					$cms_form[$counter]->field_date($this->edit[$counter]["obl"][$key],$key,$this->edit[$counter]["title"][$key],$formdb,$prevalue,$options,$layout);
 				} elseif($this->db[$counter]["type"][$key]=="datetime") {
-					$cms_form[$counter]->field_datetime($this->edit[$counter]["obl"][$key],$key,$this->edit[$counter]["title"][$key],$formdb,$prevalue,$options,$layout);	
+					$cms_form[$counter]->field_datetime($this->edit[$counter]["obl"][$key],$key,$this->edit[$counter]["title"][$key],$formdb,$prevalue,$options,$layout);
 				} elseif($this->db[$counter]["type"][$key]=="email") {
 					$cms_form[$counter]->field_email($this->edit[$counter]["obl"][$key],$key,$this->edit[$counter]["title"][$key],$formdb,$prevalue,$options,$layout);
 				} elseif($this->db[$counter]["type"][$key]=="float") {
@@ -912,7 +919,7 @@ class cms2 {
 				}
 			}
 			$cms_form[$counter]->check_input();
-			
+
 			# Invoer controleren
 			@reset($this->edit[$counter]["title"]);
 			while(list($key,$value)=@each($this->edit[$counter]["title"])) {
@@ -928,9 +935,9 @@ class cms2 {
 			}
 		}
 	}
-	
+
 	function set_edit($counter,$add=false) {
-	
+
 		if($_GET["add"]) {
 			# Kijken of add_error_temp nodig is (alleen indien $obl) (zo ja: add_error vullen)
 			while(list($key,$value)=@each($this->add_error_temp[$counter])) {
@@ -948,23 +955,23 @@ class cms2 {
 				return false;
 			}
 		}
-	
+
 		global $cms_form;
 #		if($_GET[$counter."mt"]==$this->db[$counter]["maintable"]) {
 		if(($_GET["edit"]==$counter or $_GET["add"]==$counter) and is_array($this->edit[$counter]["title"])) {
-			$this->set_edit_form_init($counter);			
+			$this->set_edit_form_init($counter);
 			if($cms_form[$counter]->okay) {
-				
+
 				# Gegevens opslaan in de database
 				$cms_form[$counter]->save_db();
-				
+
 				# Gegevens loggen
 				if($this->settings[$counter]["log"]["active"]) {
 					global $login;
 					$db=new DB_sql;
 					while(list($key,$value)=each($cms_form[$counter]->checked_input)) {
 						unset($cmslog_previous,$cmslog_now,$cmslog_recordname,$cmslog_compare_previous,$cmslog_compare_now,$cmslog_compare_previous_array,$cmslog_compare_now_array,$cmslog_temp);
-						
+
 						if($cms_form[$counter]->fields["type"][$key]=="checkbox") {
 							$cmslog_compare_previous_array=split(",",$cms_form[$counter]->fields["previous"][$key]["selection"]);
 							@asort($cmslog_compare_previous_array);
@@ -1018,7 +1025,7 @@ class cms2 {
 						} elseif($cms_form[$counter]->fields["type"][$key]=="htmlcol") {
 
 						} elseif($cms_form[$counter]->fields["type"][$key]=="htmlrow") {
-						
+
 						} elseif($cms_form[$counter]->fields["type"][$key]=="multiradio") {
 							while(list($key2,$value2)=@each($cms_form[$counter]->fields["previous"][$key]["multiselection"])) {
 								$cmslog_temp=@split(",",$value2);
@@ -1033,7 +1040,7 @@ class cms2 {
 									$cmslog_compare_now_array[$value3]=$key2;
 								}
 							}
-							
+
 							@reset($cms_form[$counter]->fields["options"][$key]["selection"]);
 							while(list($key2,$value2)=@each($cms_form[$counter]->fields["options"][$key]["selection"])) {
 								if($cmslog_compare_now_array[$key2]<>$cmslog_compare_previous_array[$key2]) {
@@ -1118,7 +1125,7 @@ class cms2 {
 							if($this->show_mainfield[$counter]) {
 								$cmslog_recordname=$cms_form[$counter]->checked_input[$this->show_mainfield[$counter]];
 							}
-							
+
 							if(!$this->db[$counter]["options"][$key]["dontlog"]) {
 								unset($recordid);
 								if($_GET[$counter."k0"]) {
@@ -1137,7 +1144,7 @@ class cms2 {
 									} else {
 										$field_name=$cms_form[$counter]->fields["title"][$key];
 									}
-									
+
 									$db->query("INSERT INTO cmslog SET user_id='".addslashes($login->user_id)."', cms_id='".addslashes($counter)."', cms_name='".addslashes($this->settings[$counter]["type_single"])."', record_id='".($recordid ? addslashes($recordid) : "")."', record_name='".addslashes($cmslog_recordname)."', table_name='".addslashes($this->db[$counter]["maintable"])."', field='".addslashes($key)."', field_name='".addslashes($field_name)."', field_type='".addslashes($cms_form[$counter]->fields["type"][$key])."', previous='".addslashes($cmslog_previous)."', now='".addslashes($cmslog_now)."', url='".addslashes($_SERVER["REQUEST_URI"])."', savedate=NOW();");
 #									echo $db->lastquery."<br>";
 								} else {
@@ -1147,7 +1154,7 @@ class cms2 {
 						}
 					}
 				}
-				
+
 				if($this->settings[$counter]["show"]["goto_new_record"] and $cms_form[$counter]->db_insert_id) {
 					# Ga naar net aangemaakte record
 					$cms_form[$counter]->settings["goto"]=$this->php_self($counter)."bc=".$_GET["bc"]."&show=".$counter."&".$counter."k0=".$cms_form[$counter]->db_insert_id.($this->stripped_query_string ? "&".$this->stripped_query_string : "");
@@ -1215,14 +1222,14 @@ class cms2 {
 #			$this->set_show_error[$counter][]=$this->message("record_niet_gevonden");
 		}
 		if($db->next_record()) {
-			
+
 			# Mainfield opvragen
 			if($this->show_mainfield[$counter]) $this->show_rightcell[$this->show_mainfield[$counter]]=$db->f($this->db[$counter]["field"][$this->show_mainfield[$counter]]);
-			
+
 			while(list($key,$value)=@each($this->show[$counter]["title"])) {
 				$this->show_leftcell[$key]=$value;
 				$recordname=$this->db[$counter]["field"][$key];
-				
+
 				if($key=="wt_naam") {
 					# wt_naam
 					$this->show_rightcell[$key]=wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")));
@@ -1304,7 +1311,7 @@ class cms2 {
 				} elseif($this->db[$counter]["type"][$key]=="yesno") {
 					$this->show_rightcell[$key]=($db->f($recordname) ? $this->message("ja") : $this->message("nee"));
 				} elseif(ereg("^htmlcol_",$key)) {
-				
+
 				} elseif(ereg("^htmlrow_",$key)) {
 
 				} elseif(!$this->db[$counter]["type"][$key]) {
@@ -1387,7 +1394,7 @@ class cms2 {
 		if(!$contains_bc) {
 			if($qs) $qs.="&bc=".$_GET["bc"]; else $qs="bc=".$_GET["bc"];
 		}
-#echo wt_he($qs);		
+#echo wt_he($qs);
 		if($custom) {
 			# Huidige gegevens opslaan
 			$_SESSION["CMS2"]["back"][$_GET["bc"]]["file"]=$_SERVER["PHP_SELF"];
@@ -1473,13 +1480,13 @@ class cms2 {
 			}
 			echo "</ul></font><p>";
 		} else {
-	
+
 			# Naam (mainfield) van het show-record bepalen (geldt voor alle $counters)
 			if($this->show_mainfield[$counter] and $this->show_rightcell[$this->show_mainfield[$counter]]) {
 				$this->show_mainfield_value=strip_tags(html_entity_decode($this->show_rightcell[$this->show_mainfield[$counter]]));
 			}
 			$this->back_link($counter);
-	
+
 			#
 			# edit/print/delete-iconen
 			#
@@ -1504,12 +1511,12 @@ class cms2 {
 			if($this->show_header[$counter]) {
 				echo "<h2>".wt_he($this->show_header[$counter])."</h2>";
 			}
-			
+
 			if($this->show_name[$counter] and $this->show_mainfield[$counter]) {
 				echo "<h2>".wt_he(ucfirst($this->show_name[$counter]))." ".$this->show_rightcell[$this->show_mainfield[$counter]]."</h2>";
 			}
 			echo "<p><table class=\"wt_cms_show\" cellspacing=\"0\" cellpadding=\"7\">";
-			
+
 			while(list($key,$value)=@each($this->show_leftcell)) {
 				echo "<tr>";
 				if(ereg("^htmlcol_",$key)) {
@@ -1524,7 +1531,7 @@ class cms2 {
 				echo "</tr>";
 			}
 			echo "</table>";
-			
+
 			@reset($this->settings[$counter]["connect"]);
 			while(list($key,$value)=@each($this->settings[$counter]["connect"])) {
 				if(!$this->settings[$value]["list"]["hide"]) {
@@ -1575,10 +1582,10 @@ class cms2 {
 		}
 		echo "</table>";
 	}
-	
+
 	function display_cms($width="") {
 		# Volledig CMS: opvragen, wijzigen, wissen en toevoegen van gegevens
-		
+
 		# De counter op de eerst beschikbare zetten
 		reset($this->db);
 		while(list($key,$value)=each($this->db)) {
@@ -1589,7 +1596,7 @@ class cms2 {
 				$this->display_edit($key);
 			} elseif($_GET["delete"]==$key and $_GET["confirmed"] and !$this->delete_error[$key]) {
 				# niks doen (alles is al via set_delete geregeld)
-				
+
 			} elseif($_GET["edit"]==$key) {
 				$this->display_edit($key);
 			} elseif($_GET["show"]==$key) {
@@ -1600,7 +1607,7 @@ class cms2 {
 			} else {
 				$this->display_list($key);
 			}
-			
+
 		} else {
 			trigger_error("WT-Error: fullcms called before end_declaration",E_USER_ERROR);
 		}
@@ -1626,7 +1633,7 @@ class cms2 {
 				}
 			}
 		}
-		
+
 		# Doorloop alle $counters (op basis van $this->db[]["field"])
 		reset($this->db);
 		while(list($key,$value)=each($this->db)) {

@@ -47,6 +47,7 @@ class tablelist {
 		$this->settings["th_id"]="";
 		$this->settings["td_class"]="";
 		$this->settings["aname_top"]="";
+		$this->settings["currencyfields_hide_euro_sign"]=false;
 
 		$this->index_array=array("1"=>"0-9","a"=>"A","b"=>"B","c"=>"C","d"=>"D","e"=>"E","f"=>"F","g"=>"G","h"=>"H","i"=>"I","j"=>"J","k"=>"K","l"=>"L","m"=>"M","n"=>"N","o"=>"O","p"=>"P","q"=>"Q","r"=>"R","s"=>"S","t"=>"T","u"=>"U","v"=>"V","w"=>"W","x"=>"X","y"=>"Y","z"=>"Z");
 		return true;
@@ -384,7 +385,10 @@ class tablelist {
 						$return.="<td".($tdclass ? " class=\"".$tdclass."\"" : "")." style=\"text-align:right\">".$aname_in_td;
 						if(ereg("^[0-9\.,]+$",$this->fields["content"][$key2][$key])) {
 							$this->fields["content"][$key2][$key]=ereg_replace(",",".",$this->fields["content"][$key2][$key]);
-							$return.="&euro;&nbsp;".number_format($this->fields["content"][$key2][$key],2,",",".");
+							if(!$this->settings["currencyfields_hide_euro_sign"]) {
+								$return.="&euro;&nbsp;";
+							}
+							$return.=number_format($this->fields["content"][$key2][$key],2,",",".");
 						} else {
 							$return.=$this->fields["content"][$key2][$key];
 						}

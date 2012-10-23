@@ -26,7 +26,7 @@ if($_GET["34k0"]) {
 #		$reserveringsnummer_2=get_reserveringsnummer_2($db->f("leverancier_id"),$acc["aankomstdatum_unixtime"][$db->f("aankomstdatum")]);
 #		$reserveringsnummer_extern=$db->f("reserveringsnummer_extern");
 	}
-	
+
 	$db->query("SELECT leverancier_id, naam, bevestigmethode, opmerkingen_facturen, aanbetaling_dagen, eindbetaling_dagen_factuur FROM leverancier WHERE leverancier_id='".addslashes($leverancierid)."';");
 	if($db->next_record()) {
 		$temp["leverancier_id"]=$db->f("leverancier_id");
@@ -49,7 +49,6 @@ while($db->next_record()) {
 		$verkoopprijs[$db->f("garantie_id")]="onbekend";
 	}
 }
-
 #echo $reserveringsnummer_2;
 #echo wt_dump($acc);
 
@@ -115,6 +114,7 @@ $cms->db_field(34,"select","garantie_id","",array("selection"=>$verkoopprijs));
 # List
 #
 # Te tonen icons/links bij list
+$cms->settings[34]["list"]["currencyfields_hide_euro_sign"]=true;
 $cms->settings[34]["list"]["show_icon"]=false;
 if($login->has_priv("9")) {
 	$cms->settings[34]["list"]["edit_icon"]=true;
@@ -141,7 +141,7 @@ if($_GET["status"]==2) {
 $cms->list_field(34,"naam","Naam");
 $cms->list_field(34,"netto","Netto");
 $cms->list_field(34,"bruto","Bruto");
-$cms->list_field(34,"garantie_id","Verkoop");
+$cms->list_field(34,"garantie_id","Verkoop",array("force_field_type"=>"currency"));
 
 # Controle op delete-opdracht
 if($_GET["delete"]==34 and $_GET["34k0"]) {
@@ -155,7 +155,7 @@ if($_GET["delete"]==34 and $_GET["34k0"]) {
 			trigger_error("garantie kan niet worden gewist",E_USER_NOTICE);
 		}
 	}
-	
+
 	# Controleren of de garantie al is betaald aan de leverancier. Zo ja: wissen niet mogelijk
 	$db->query("SELECT garantie_id FROM boeking_betaling_lev WHERE garantie_id='".addslashes($_GET["34k0"])."';");
 	if($db->next_record()) {
@@ -256,19 +256,19 @@ function form_before_goto($form) {
 		$typeid=$db->f("type_id");
 		$aankomstdatum=$db->f("aankomstdatum");
 	}
-	
+
 	if(!$boekingid and $form->input["boeking_id"]) {
 		# garantie: -1
 		voorraad_bijwerken($typeid,$aankomstdatum,true,-1,0,0,0,0,0,0,false,9);
-		
+
 		# inkoopbetalingen koppelen aan boeking
 		$db2->query("UPDATE boeking_betaling_lev SET boeking_id='".addslashes($form->input["boeking_id"])."' WHERE garantie_id='".addslashes($_GET["34k0"])."';");
-		
+
 	}
 	if($boekingid and !$form->input["boeking_id"]) {
 		# garantie: +1
 		voorraad_bijwerken($typeid,$aankomstdatum,true,1,0,0,0,0,0,0,false,9);
-		
+
 		# inkoopbetalingen loskoppelen van boeking
 		$db2->query("UPDATE boeking_betaling_lev SET boeking_id='0' WHERE garantie_id='".addslashes($_GET["34k0"])."';");
 
