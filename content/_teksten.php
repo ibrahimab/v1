@@ -434,11 +434,14 @@ $txt["en"]["popup"]["paginaafdrukken"]="Print page";
 #
 # Pop-up kwaliteit (http://www.chalet.nl/popup.php?id=kwaliteit)
 #
+$txt["nl"]["popup_kwaliteit"]["titel"]="Klassering [[v_websitenaam]]";
+$txt["en"]["popup_kwaliteit"]["titel"]="Classification [[v_websitenaam]]";
+
 $txt["nl"]["popup_kwaliteit"]["inleiding1"]="Onze accommodaties worden ingedeeld in verschillende kwaliteitscategorieën. Het vermelde aantal sterren is een indicatie van de kwaliteit van de accommodatie.";
 $txt["en"]["popup_kwaliteit"]["inleiding1"]="Our accommodations are divided into different categories. The number of stars indicates the quality of the accommodation.";
 
-$txt["nl"]["popup_kwaliteit"]["inleiding2"]="Toekenning van het aantal sterren gebeurt op basis van onder andere de volgende punten: inrichting, uiterlijk, aantal vierkante meters per persoon, ligging, staat van onderhoud, enz. Het aantal toegekende sterren ligt tussen 1 en 4.";
-$txt["en"]["popup_kwaliteit"]["inleiding2"]="Stars are awarded on the basis of the following points: interior, appearance, number of square metres a person, location, state of repair, etc. The number of stars awarded ranges from 1 to 4.";
+$txt["nl"]["popup_kwaliteit"]["inleiding2"]="Toekenning van het aantal sterren gebeurt op basis van onder andere de volgende punten: inrichting, uiterlijk, aantal vierkante meters, ligging, staat van onderhoud, enz. Het aantal toegekende sterren ligt tussen 1 en 5.";
+$txt["en"]["popup_kwaliteit"]["inleiding2"]="Stars are awarded on the basis of the following points: interior, appearance, number of square metres, location, state of repair, etc. The number of stars awarded ranges from 1 to 5.";
 
 
 #
@@ -1871,11 +1874,15 @@ $txt["en"]["toonaccommodatie"]["nietmeerbeschikbaarvoordezeaankomstdatum"]="not 
 $txt["nl"]["toonaccommodatie"]["extraopties"]="Extra opties";
 $txt["en"]["toonaccommodatie"]["extraopties"]="Extra options";
 
-$txt["nl"]["toonaccommodatie"]["klantbeoordeling"]="klantbeoordeling";
-$txt["en"]["toonaccommodatie"]["klantbeoordeling"]="customer rating";
+$txt["nl"]["toonaccommodatie"]["klantbeoordeling"]="beoordeling";
+$txt["en"]["toonaccommodatie"]["klantbeoordeling"]="rating";
 
-$txt["nl"]["toonaccommodatie"]["klantbeoordelingen"]="klantbeoordelingen";
-$txt["en"]["toonaccommodatie"]["klantbeoordelingen"]="customer ratings";
+$txt["nl"]["toonaccommodatie"]["klantbeoordelingen"]="beoordelingen";
+$txt["en"]["toonaccommodatie"]["klantbeoordelingen"]="ratings";
+
+$txt["nl"]["toonaccommodatie"]["klassering"]="klassering";
+$txt["en"]["toonaccommodatie"]["klassering"]="classification";
+
 
 # tabs
 $txt["nl"]["toonaccommodatie"]["tab_overzicht"]="overzicht";

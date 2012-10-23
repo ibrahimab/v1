@@ -348,7 +348,7 @@ if ( $_GET["t"]==1 ) {
 					$kwaliteit=$db->f("akwaliteit");
 				}
 				for($i=0; $i<$kwaliteit;$i++) {
-					$mail_content.="<img src=\"".$vars["basehref"]."pic/ster.gif\">";
+					$mail_content.="<img src=\"".$vars["basehref"]."pic/ster_".$vars["websitetype"].".png\">";
 				}
 			} else {
 				$mail_content.="&nbsp;";
@@ -422,7 +422,7 @@ if ( $_GET["t"]==1 ) {
 			$mail->send();
 		}
 	}
-	
+
 }elseif($_GET["t"]==8){
 #	Ideal betalingssysteem Sisow
 #het ophalen van een lijst met alle aangesloten banken.
@@ -432,11 +432,11 @@ if ( $_GET["t"]==1 ) {
 		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/DirectoryRequest?test=true';
 		$handle = fopen($daurl, "r");
 		$xml="";
-		if ($handle) {   
-			while (!feof($handle)) {        
-				$buffer = fgets($handle, 4096); 
-				$xml.= $buffer;       
-			}    
+		if ($handle) {
+			while (!feof($handle)) {
+				$buffer = fgets($handle, 4096);
+				$xml.= $buffer;
+			}
 			fclose($handle);
 		}
 		$xmle=simplexml_load_string($xml);
@@ -455,11 +455,11 @@ if ( $_GET["t"]==1 ) {
 		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/TransactionRequest?shopid=&merchantid=2537480560&payment=&purchaseid='.$_GET["kenmerk"].'&amount='.$_GET["bedrag"].'&entrancecode=uniqueentrance&description=IdealAfbetaling&issuerid='.$_GET["bankID"].'&returnurl=http://192.168.1.32/chalet/checkout.php?success=true&cancelurl=http://192.168.1.32/chalet/checkout.php?canceled=true&callbackurl=http://192.168.1.32/chalet/checkout.php?callback=true&sha1='.$signature.'&testmode=true';
 		$handle = fopen($daurl, "r");
 		$xml="";
-		if ($handle) {   
-			while (!feof($handle)) {        
-				$buffer = fgets($handle, 4096); 
-				$xml.= $buffer;       
-			}    
+		if ($handle) {
+			while (!feof($handle)) {
+				$buffer = fgets($handle, 4096);
+				$xml.= $buffer;
+			}
 			fclose($handle);
 		}
 		$xmle=simplexml_load_string($xml);
@@ -472,11 +472,11 @@ if ( $_GET["t"]==1 ) {
 		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/StatusRequest?trxid='.$_GET["trxid"].'&shopid=&merchantid=2537480560&sha1='.$signature;
 		$handle = fopen($daurl, "r");
 		$xml="";
-		if ($handle) {   
-			while (!feof($handle)) {        
-				$buffer = fgets($handle, 4096); 
-				$xml.= $buffer;       
-			}    
+		if ($handle) {
+			while (!feof($handle)) {
+				$buffer = fgets($handle, 4096);
+				$xml.= $buffer;
+			}
 			fclose($handle);
 		}
 		$xmle=simplexml_load_string($xml);
@@ -525,29 +525,29 @@ if ( $_GET["t"]==1 ) {
 //$boekingObject["Reserveringskosten"]=true;
 	//$url = "http://test.tripledeal.com/ps/services/paymentservice/0_4?wsdl";
 	$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
-	
+
 	$client = new SoapClient( $url,array('trace'=>1));
 	//echo $client->__getLastResponse();
 	//var_dump($client->__getFunctions());
 	//print_r($_POST);
-	
+
 	$parameters['version'] = "0.9";
-	
+
 	//	merchant
 	$parameters['merchant']['name'] = "chalet_nl";
 	$parameters['merchant']['password'] = "7rU5ehew";
-		
+
 	$parameters['paymentPreferences']['profile'] = 'standard';
 	$parameters['paymentPreferences']['numberOfDaysToPay'] = '14';
-	
+
 	// 	order
-	$parameters['merchantOrderReference'] = $_GET['kenmerk'];		
-	$parameters['totalGrossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR','rate' => '0');	
+	$parameters['merchantOrderReference'] = $_GET['kenmerk'];
+	$parameters['totalGrossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR','rate' => '0');
 	$parameters['totalNetAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR','rate' => '0');
-	
-	
-	$parameters['totalVatAmount'] = array('_' => '0','currency' => 'EUR','rate' => '0');	
-		
+
+
+	$parameters['totalVatAmount'] = array('_' => '0','currency' => 'EUR','rate' => '0');
+
 	//	shopper
 	$parameters['shopper']['id'] = $_GET['klantID'];
 	$parameters['shopper']['name']['first'] = $_GET['klantvoorNaam'];
@@ -566,8 +566,8 @@ if ( $_GET["t"]==1 ) {
 	$parameters['billTo']['address']['houseNumber'] = $_GET['klanthuisnummer'];
 	$parameters['billTo']['address']['postalCode'] = $_GET['klantpostcode'];
 	$parameters['billTo']['address']['city'] = $_GET['klantplaats'];
-	$parameters['billTo']['address']['country']['code'] = 'NL';	
-	
+	$parameters['billTo']['address']['country']['code'] = 'NL';
+
 	$parameters['shipTo']['name']['first'] = $_GET['klantvoorNaam'];
 	$parameters['shipTo']['name']['last'] = $_GET['klantachterNaam'];
 	$parameters['shipTo']['address']['street'] = $_GET['klantstraat'];
@@ -575,21 +575,21 @@ if ( $_GET["t"]==1 ) {
 	$parameters['shipTo']['address']['postalCode'] = $_GET['klantpostcode'];
 	$parameters['shipTo']['address']['city'] = $_GET['klantplaats'];
 	$parameters['shipTo']['address']['country']['code'] = 'NL';
-	
+
 	//	lineitem
 	$parameters['item'][0]['number'] = '12345';
 	$parameters['item'][0]['name'] = $_GET['klantproduct'];
 	$parameters['item'][0]['code'] = '123';
 	$parameters['item'][0]['quantity'] = array('_' => '1','unitOfMeasure' => 'PCS');
-	
+
 	$parameters['item'][0]['description'] = $_GET['klantproduct'];
-	$parameters['item'][0]['netAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');		
-	$parameters['item'][0]['grossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');		
-	$parameters['item'][0]['vat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));	
-	$parameters['item'][0]['totalNetAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');	
+	$parameters['item'][0]['netAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');
+	$parameters['item'][0]['grossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');
+	$parameters['item'][0]['vat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));
+	$parameters['item'][0]['totalNetAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');
 	$parameters['item'][0]['totalGrossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');
-	$parameters['item'][0]['totalVat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));	
-		
+	$parameters['item'][0]['totalVat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));
+
 	//	dorequest
 	$response = $client->create( $parameters );
 	//echo $client->__getLastRequest();
@@ -600,15 +600,15 @@ if ( $_GET["t"]==1 ) {
 		$return["Orderkey"]=$response->createSuccess->key;
 	} else {
 		$return["OrderStatus"]=$response->createError;
-		
+
 	}
 	}elseif($_GET["action"]=="getstatus"){
 #het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
 		//$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
 		//$client = new SoapClient( $url,array('trace'=>1));
-		
+
 		//$parameters['version'] = "0.9";
-	
+
 		//	merchant
 		//$parameters['merchant']['name'] = "chalet_nl";
 		//$parameters['merchant']['password'] = "7rU5ehew";
@@ -616,14 +616,14 @@ if ( $_GET["t"]==1 ) {
 //payment_cluster_key=57E04C4D2EC9DFCB88DC48F4CC2A354D&report_type=xml_std";
 
 	$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
-	
+
 	$client = new SoapClient($url);
 	//echo $client->__getLastResponse();
 	//var_dump($client->__getFunctions());
 	//print_r($_POST);
-	
+
 	$parameters['version'] = "0.9";
-	
+
 	//	merchant
 	$parameters['merchant']['name'] = "chalet_nl";
 	$parameters['merchant']['password'] = "7rU5ehew";
@@ -635,7 +635,7 @@ if ( $_GET["t"]==1 ) {
 		$return["statusCode"]=$response->statusSuccess->success->code;
 	} else {
 		$return["OrderStatus"]=$response->statusError;
-	}	
+	}
 	//echo var_dump($response);
 	}
 }

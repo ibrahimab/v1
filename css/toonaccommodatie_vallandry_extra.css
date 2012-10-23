@@ -49,3 +49,34 @@
 #toonaccommodatie_aanbieding {
 	color: #666600;
 }
+
+#toonaccommodatie_kenmerken_2_beoordeling {
+	color: #ffffff;
+    background-color: #666600;
+}
+
+#toonaccommodatie_kenmerken_2_beoordelinglink a:hover {
+	color: #6699cc;
+}
+
+#beoordeling_gemiddeldtotaaloordeel_cijfer {
+	color: #ffffff;
+    background-color: #666600;
+}
+
+.beoordeling_enquete {
+	background-color: #b2cce5;
+	border: 1px solid #666600;
+}
+
+.beoordeling_enquete_bovenbalk {
+	background-color: #b2cce5;
+}
+
+.beoordeling_enquete_toelichting {
+	border: 1px solid #666600;
+}
+
+.beoordeling_enquete_table {
+	border: 1px solid #666600;
+}

@@ -2715,12 +2715,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 							$results[$results_teller].="<div class=\"zoekresultaat_content_sterren\">";
 							if($newresultsminmax[$value]["minkwaliteit"]) {
 								for($i=1;$i<=$newresultsminmax[$value]["minkwaliteit"];$i++) {
-									$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster.gif\">";
+									$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\">";
 								}
 								if($newresultsminmax[$value]["maxkwaliteit"]>$newresultsminmax[$value]["minkwaliteit"]) {
 									$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster-scheidingsteken.gif\">";
 									for($i=1;$i<=$newresultsminmax[$value]["maxkwaliteit"];$i++) {
-										$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster.gif\">";
+										$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\">";
 									}
 								}
 							}

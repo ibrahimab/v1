@@ -208,23 +208,40 @@ if($db->next_record()) {
 	if($db->f("oppervlakte")) {
 		echo "<li>".$db->f("oppervlakte")." m&#178;".($db->f("oppervlakteextra") ? " - ".htmlentities($db->f("oppervlakteextra")) : "")."</li>";
 	}
+
 	if($db->f("akwaliteit") or $db->f("kwaliteit")) {
 		if($db->f("kwaliteit")) {
 			$kwaliteit=$db->f("kwaliteit");
 		} else {
 			$kwaliteit=$db->f("akwaliteit");
 		}
-		echo "<li>";
+		echo "<li><a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=kwaliteit\" class=\"popup_fancybox\" rel=\"nofollow\" id=\"toonaccommodatie_kenmerken_klassering\">";
+		echo "<div style=\"float:left;margin-right:4px;\">".html("klassering","toonaccommodatie").":</div>";
 		for($i=1;$i<=$kwaliteit;$i++) {
-			echo "<img src=\"".$vars["path"]."pic/ster.gif?cache=1\" width=\"19\" height=\"17\">";
+			echo "<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\" width=\"17\" height=\"16\" border=\"0\">";
 		}
+		for($i=$kwaliteit;$i<5;$i++) {
+			echo "<img src=\"".$vars["path"]."pic/ster_leeg_".$vars["websitetype"].".png\" width=\"17\" height=\"16\" border=\"0\">";
+		}
+
+		echo "<img src=\"".$vars["path"]."pic/class.form_info_icon.gif\" id=\"toonaccommodatie_kenmerken_klassering_info\" width=\"13\" height=\"13\" border=\"0\" style=\"margin-top:1px;margin-bottom:-1px;\">";
+
+		echo "<div class=\"clear\"></div>";
+		echo "</a>"; # afsluiten toonaccommodatie_kenmerken_klassering
 		echo "</li>";
 	}
+
 	// beoordeling tonen
-	if(($vars["lokale_testserver"] or $_GET["testsysteem"]==1) and $vars["seizoentype"]==1) {
+	if($vars["taal"]=="nl" and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6 or $vars["websitetype"]==8)) {
 		$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND beoordeeld=1 GROUP BY type_id;");
 		if($db2->next_record()) {
-			echo "<li><div id=\"toonaccommodatie_kenmerken_2_beoordeling\">".number_format($db2->f("totaaloordeel"),1,",",".")."</div><div id=\"toonaccommodatie_kenmerken_2_beoordelinglink\">(<a href=\"".$vars["path"]."beoordelingen.php?typeid=".$typeid."\" rel=\"nofollow\" id=\"beoordeling_link\">".$db2->f("aantal")." ".($db2->f("aantal")==1 ? html("klantbeoordeling","toonaccommodatie") : html("klantbeoordelingen","toonaccommodatie"))."</a>)</div><div class=\"clear\"></div></li>";
+			echo "<li><div style=\"float:left;\">waardering: </div><div id=\"toonaccommodatie_kenmerken_2_beoordeling\">";
+			if($db2->f("totaaloordeel")==10) {
+				echo "10";
+			} else {
+				echo number_format($db2->f("totaaloordeel"),1,",",".");
+			}
+			echo "</div><div id=\"toonaccommodatie_kenmerken_2_beoordelinglink\">(<a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=beoordelingen&typeid=".$typeid."\" rel=\"nofollow\" id=\"beoordeling_link\">".$db2->f("aantal")." ".($db2->f("aantal")==1 ? html("klantbeoordeling","toonaccommodatie") : html("klantbeoordelingen","toonaccommodatie"))."</a>)</div><div class=\"clear\"></div></li>";
 		}
 	}
 	echo "</ul>";

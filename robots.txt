@@ -8,13 +8,13 @@ Disallow: /fb/
 Disallow: /thumbnail.php
 Disallow: /foto.php
 Disallow: /boeken.php
-Disallow: /beoordelingen.php
 Disallow: /beschikbaarheid.php
 Disallow: /available.php
 Disallow: /verzendmethode.php
 Disallow: /calendar.php
 Disallow: /calc.php
 Disallow: /popup.php
+Disallow: /popup_fancybox.php
 Disallow: /print.php
 Disallow: /*/*/?back*
 Disallow: /zoek-en-boek.php*filled=1*fap=*

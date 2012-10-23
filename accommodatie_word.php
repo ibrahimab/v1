@@ -4,12 +4,12 @@ include("admin/vars.php");
 
 if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 
-	
+
 	$db->query("SELECT begincode, type_id FROM view_accommodatie WHERE type_id='".addslashes($_GET["accid"])."';");
 	if($db->next_record()) {
-		
+
 		$vars["accommodatie_word"]=true;
-		
+
 		# Word-bestand creëren
 		include("admin/class.msoffice.php");
 		$ms=new ms_office;
@@ -30,13 +30,13 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 		padding: 0;
 		margin-top: 1em;
 	}
-	
+
 	#wrapper {
 		width: 100%;
 		margin: 0px;
 		padding: 0px;
 	}
-	
+
 	#menubalk {
 		display: none;
 	}
@@ -53,12 +53,12 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 	.onlyprint {
 		display: inline;
 	}
-	
+
 	#menubalk_print {
 		padding-top: 20px;
 		float: left;
 	}
-	
+
 	a {
 		text-decoration: none;
 	}
@@ -66,49 +66,49 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 		float: left;
 		width: 100%;
 	}
-	
+
 	#toonaccommodatie_kopteksten {
 		width: 400px;
 	}
-	
+
 	#toonaccommodatie_kenmerken {
-		width: 400px;	
+		width: 400px;
 	}
 
 	#toonaccommodatie_kenmerken_2 {
 		margin-left: 0px;
 	}
-	
+
 	.ui-tabs .ui-tabs-panel {
 		width:100%;
 	}
-	
+
 	.toonacctabel {
 		width: 100%;
 	}
-	
+
 	td {
 		font-family: Arial, Helvetica, sans-serif;
 		font-size: 10pt;
 	}
-	
+
 	th {
 		text-align: left;
 	}
-	
+
 	.optietabelclass {
 		width: 100%;
 	}
-	
+
 	.optietabelclass td {
 		font-size: 8pt;
 	}
-	
+
 	.tarieventabel {
-		display: none;	
+		display: none;
 	}";
 
-#		$ms->html.="hallo";		
+#		$ms->html.="hallo";
 
 		$typeid=$db->f("type_id");
 		ob_start();
@@ -116,14 +116,14 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 		$content=ob_get_contents();
 		ob_end_clean();
 
-		
+
 #		$content=str_replace("<a href=\"#tabs_fotos\">",$ms->page_break(),$content);
-		
+
 		# tabs_indeling
 		if(preg_match("/<div id=\"tabs_indeling\">(.*)<!-- afsluiten_tabs_indeling -->/s",$content,$regs)) {
 			$tabs_indeling=$regs[1];
 		}
-		
+
 		# tabs_fotos
 #		if(preg_match("/<div id=\"tabs_fotos\">(.*)<!-- afsluiten_tabs_fotos -->/s",$content,$regs)) {
 		if($foto_table) {
@@ -181,15 +181,15 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 				}
 			}
 		}
-		
+
 		# Koptekst
 		$ms->html.="<h3>".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " - ".$db->f("tnaam") : ""))."</h3>";
-		
+
 		$ms->html.="<br><b><i>".htmlentities($db->f("land"))." - ".htmlentities($db->f("skigebied"))." - ".htmlentities($db->f("plaats"))."</i></b><br><br>";
-		
+
 		# Kenmerken
 		$ms->html.="<table><tr><td><img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127\" alt=\"".htmlentities($db->f("naam"))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\"></td><td><ul>";
-		
+
 		# aantal personen
 		$ms->html.=$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ";
 		if($db->f("maxaantalpersonen")==1) {
@@ -198,7 +198,7 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 			$ms->html.=html("personen");
 		}
 		$ms->html.="<br>";
-		
+
 		# Aantal slaapkamers
 		if($db->f("slaapkamers")) {
 			$ms->html.=$db->f("slaapkamers")." ";
@@ -212,7 +212,7 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 			}
 			$ms->html.="<br>";
 		}
-	
+
 		# Aantal badkamers
 		if($db->f("badkamers")) {
 			$ms->html.=$db->f("badkamers")." ";
@@ -229,7 +229,7 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 		if($db->f("oppervlakte")) {
 			$ms->html.=$db->f("oppervlakte")." m&#178;".($db->f("oppervlakteextra") ? " - ".htmlentities($db->f("oppervlakteextra")) : "")."<br>";
 		}
-		
+
 		if($db->f("akwaliteit") or $db->f("kwaliteit")) {
 			if($db->f("kwaliteit")) {
 				$kwaliteit=$db->f("kwaliteit");
@@ -237,7 +237,7 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 				$kwaliteit=$db->f("akwaliteit");
 			}
 			for($i=1;$i<=$kwaliteit;$i++) {
-				$ms->html.="<img src=\"".$vars["path"]."pic/ster.gif?cache=1\" width=\"19\" height=\"17\">";
+				$ms->html.="<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\" width=\"17\" height=\"16\">";
 			}
 			$ms->html.="<br>";
 		}
@@ -263,7 +263,7 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 			$ms->html=preg_replace("/src=\"\/thumbnail\.php/","src=\"".$vars["basehref"]."thumbnail.php",$ms->html);
 		}
 
-		# "a href" weghalen 
+		# "a href" weghalen
 		$ms->html=preg_replace("/<a href=[^>]+>/i","",$ms->html);
 		$ms->html=preg_replace("/<\/a>/i","",$ms->html);
 

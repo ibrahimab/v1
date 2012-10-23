@@ -3718,12 +3718,12 @@ function acc_zoekresultaat($data,$newresultsminmax,$newresults_multiple,$aanbied
 				if($newresultsminmax["minkwaliteit"]) {
 					$return.="<div>";
 					for($i=1;$i<=$newresultsminmax["minkwaliteit"];$i++) {
-						$return.="<img src=\"".$vars["path"]."pic/ster.gif\">";
+						$return.="<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\">";
 					}
 					if($newresultsminmax["maxkwaliteit"]>$newresultsminmax["minkwaliteit"]) {
 						$return.="<img src=\"".$vars["path"]."pic/ster-scheidingsteken.gif\">";
 						for($i=1;$i<=$newresultsminmax["maxkwaliteit"];$i++) {
-							$return.="<img src=\"".$vars["path"]."pic/ster.gif\">";
+							$return.="<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\">";
 						}
 					}
 					$return.="</div>";

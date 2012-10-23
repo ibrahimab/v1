@@ -347,7 +347,7 @@ if(isset($_POST['verzenderAdres'])){
 		if($accinfo["kwaliteit"]){
 			$mail->html.="<td colspan=\"2\">";
 			for($i=0; $i<$accinfo["kwaliteit"];$i++){
-				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster.gif\"/>";
+				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster_".$vars["websitetype"].".png\"/>";
 			}
 			$mail->html.= "</td></tr>";
 		}
@@ -427,7 +427,7 @@ if(isset($_POST['verzenderAdres'])){
 		if($accinfo["kwaliteit"]){
 			$mail->html.="<td colspan=\"2\">";
 			for($i=0; $i<$accinfo["kwaliteit"];$i++){
-				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster.gif\"/>";
+				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster_".$vars["websitetype"].".png\"/>";
 			}
 			$mail->html.= "</td></tr>";
 		}
@@ -522,7 +522,7 @@ if(isset($_POST['verzenderAdres'])){
 			if($accinfo["kwaliteit"]){
 				echo "<td colspan=\"2\">";
 				for($i=0; $i<$accinfo["kwaliteit"];$i++){
-					echo "<img src=\"".$vars["basehref"]."pic/ster.gif\">";
+					echo "<img src=\"".$vars["basehref"]."pic/ster_".$vars["websitetype"].".png\">";
 				}
 			}
 			else{

@@ -163,6 +163,12 @@ h3 {
 	border: solid <?php echo $rood; ?> 1px;
 }
 
+.hover_opacity {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	opacity: .6;
+}
+
 .tarieventabel {
 	font-size: 0.97em;
 	border: solid <?php echo $table; ?> 1px;
@@ -1197,8 +1203,8 @@ td.selecteerbaarbedrag:hover{
 	float: right;
 	display: block;
 	padding-left: 20px;
-	background-image:url('../pic/close_icon.png');
-	background-repeat:no-repeat;
+	background-image: url('../pic/close_icon.png');
+	background-repeat: no-repeat;
 	background-position: 0px 2px;
 	cursor: pointer;
 	text-decoration: underline;
@@ -1209,6 +1215,10 @@ td.selecteerbaarbedrag:hover{
 	color: #ffffff;
 }
 
+#fancybox_popup_wrapper {
+	padding: 10px;
+}
+
 #popUpDiv {
 	position:absolute;
 	width:300px;
@@ -1217,10 +1227,13 @@ td.selecteerbaarbedrag:hover{
 }
 
 
+/*
+
 //
 // jQuery Chosen
 //
 
+*/
 /* @group Base */
 .chzn-container {
   font-size: 13px;

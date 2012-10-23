@@ -121,19 +121,50 @@ h2 {
 	margin-bottom: -3px;
 }
 
+#toonaccommodatie_kenmerken_klassering {
+	display: block;
+	color: #747474;
+	width: 205px;
+	text-decoration: none;
+}
+
+#toonaccommodatie_kenmerken_klassering img {
+	float: left;
+	display: block;
+}
+
+#toonaccommodatie_kenmerken_klassering_info {
+	margin-left: 15px;
+}
+
 #toonaccommodatie_kenmerken_2_beoordeling {
 	font-size: 1.3em;
 	font-weight: bold;
 	float: left;
-	line-height: 1.0em;
-	margin-top: 1px;
-	color: #747474;
+	line-height: 2.2em;
+	width: 31px;
+	height: 36px;
+
+    margin-top: -7px;
+    margin-left: 2px;
+    margin-bottom: -9px;
+    padding-left: 5px;
+
+	color: #003366;
+    background-color: #d5e1f9;
+
+	-webkit-border-radius: 18px;
+    -moz-border-radius: 18px;
+    border-radius: 18px;
+	behavior: url(/PIE.htc);
+	position: relative;
 }
 
 #toonaccommodatie_kenmerken_2_beoordelinglink {
 	float: left;
 	color: #747474;
 	margin-left: 0.5em;
+	margin-right: -10px;
 }
 
 #toonaccommodatie_kenmerken_2_beoordelinglink a {
@@ -232,6 +263,126 @@ h2 {
 
 #mailfunctie {
 
+}
+
+/* */
+/*beoordelingen-popup*/
+/* */
+
+#beoordeling_wrapper {
+	width: 774px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#beoordeling_header {
+	margin-bottom: 20px;
+}
+
+beoordeling_header_left {
+	float: left;
+}
+
+beoordeling_header_right {
+	float: right;
+}
+
+#beoordeling_header img {
+	float: left;
+	margin-right: 10px;
+	display: block;
+}
+
+#beoordeling_gemiddeldtotaaloordeel_regel {
+	margin-top: 15px;
+}
+
+#beoordeling_gemiddeldtotaaloordeel {
+	font-size: 1.1em;
+	margin-top: 10px;
+	font-weight: bold;
+	float: left;
+}
+
+#beoordeling_gemiddeldtotaaloordeel_cijfer {
+	font-size: 1.3em;
+	font-weight: bold;
+	float: left;
+	line-height: 2.1em;
+	width: 32px;
+	height: 36px;
+
+    margin-left: 2px;
+    margin-bottom: -8px;
+    padding-left: 4px;
+
+	color: #003366;
+    background-color: #d5e1f9;
+
+	-webkit-border-radius: 18px;
+    -moz-border-radius: 18px;
+    border-radius: 18px;
+	behavior: url(/PIE.htc);
+	position: relative;
+}
+
+#beoordeling_aantalbeoordelingen {
+	font-weight: normal;
+	float: left;
+	margin-left: 5px;
+	margin-top: 10px;
+}
+
+.beoordeling_enquete {
+	margin-bottom: 20px;
+	background-color: #d5e1f9;
+	border: 1px solid #003366;
+	padding: 10px;
+}
+
+.beoordeling_enquete_bovenbalk {
+	background-color: #d5e1f9;
+	margin-bottom: 5px;
+}
+
+.beoordeling_enquete_cijfers {
+	float: left;
+	width: 370px;
+}
+
+.beoordeling_enquete_toelichting {
+	float: right;
+	width: 370px;
+	border: 1px solid #003366;
+	background-color: #ffffff;
+	min-height: 116px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-o-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.beoordeling_enquete_toelichting_wrapper {
+	padding: 7px;
+}
+
+.beoordeling_enquete_table {
+	border: 1px solid #003366;
+	width: 100%;
+}
+
+.beoordeling_enquete_table .regel1 {
+	background-color: #ffffff;
+}
+
+.beoordeling_enquete_table .regel2 {
+	background-color: #ebebeb;
+}
+
+.beoordeling_enquete_table td {
+	padding-left: 3px;
+	padding-right: 3px;
+	line-height: 1.5em;
 }
 
 @media print {

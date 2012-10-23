@@ -593,12 +593,33 @@ $(document).ready(function() {
 				'overlayOpacity' :	0.8
 			});
 
-
 			// beoordeling-popup via fancybox
 			$("#beoordeling_link").fancybox({
 				'type'			: 'inline',
 				'width'			: 830,
 				'height'		: 540,
+				'autoDimensions': false,
+				'autoScale'		: false,
+				'transitionIn'	:	'elastic',
+				'transitionOut'	:	'elastic',
+				'speedIn'		: 300,
+				'speedOut'		: 300,
+				'padding' :		0,
+				'margin' :		0,
+				'overlayShow'	:	true,
+				'hideOnContentClick' :	true,
+				'overlayColor' :	'#454545',
+				'onComplete'	:	function() {
+
+				},
+				'overlayOpacity' :	0.8
+			});
+
+			// beoordeling-popup via fancybox
+			$(".popup_fancybox").fancybox({
+				'type'			: 'inline',
+				'width'			: 430,
+				'height'		: 240,
 				'autoDimensions': false,
 				'autoScale'		: false,
 				'transitionIn'	:	'elastic',
@@ -910,6 +931,16 @@ $(document).ready(function() {
 			$("form[name=zoeken]").submit();
 			return false;
 		});
+
+		// hover bij klassering-regel accommodatiespagina: opacity op info-icon
+		$("#toonaccommodatie_kenmerken_klassering").mouseover(function() {
+			$("#toonaccommodatie_kenmerken_klassering_info").addClass("hover_opacity");
+		});
+
+		$("#toonaccommodatie_kenmerken_klassering").mouseout(function() {
+			$("#toonaccommodatie_kenmerken_klassering_info").removeClass("hover_opacity");
+		});
+
 	}
 });
 
