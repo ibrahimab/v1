@@ -3,7 +3,7 @@
 #
 #
 # XML-export voor diverse partners (uit databasetabel "reisbureau")
-# 
+#
 #
 #
 
@@ -40,7 +40,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 		}
 		$db->query("UPDATE reisbureau SET xmlfeed_log='".addslashes($new_xmlfeed_log)."' WHERE reisbureau_id='".addslashes($reisbureau["reisbureau_id"])."';");
 	}
-	
+
 	$wzt=0;
 	if($vars["websitetype"]=="6") {
 		if($reisbureau["xmlfeed_winter"] and $reisbureau["xmlfeed_zomer"]) {
@@ -55,10 +55,10 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 			$wzt="1";
 		} elseif($vars["seizoentype"]==2 and $reisbureau["xmlfeed_zomer"]) {
 			$wzt="2";
-		}	
+		}
 	}
-	
-	# land	
+
+	# land
 	$db->query("SELECT land_id FROM reisbureau_xml_land WHERE wzt IN (".$wzt.") AND reisbureau_id='".addslashes($reisbureau["reisbureau_id"])."';");
 	while($db->next_record()) {
 		$inquery["land"].=",".$db->f("land_id");
@@ -78,7 +78,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 	while($db->next_record()) {
 		$inquery["type"].=",".$db->f("type_id");
 	}
-	
+
 	# Alle type_id's ophalen op basis van alle $inquery's
 	if(is_array($inquery)) {
 		while(list($key,$value)=each($inquery)) {
@@ -104,7 +104,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 		echo "?xml version=\"1.0\" encoding=\"utf-8\"?";
 		echo ">\n";
 	}
-	
+
 	if($_GET["feedtype"]=="accommodations") {
 		#
 		# accommodations
@@ -122,7 +122,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 			if($vars["websitetype"]=="6") {
 				# ChaletsInVallandry: season
 				echo "		<season>".xml_text(($db->f("wzt")==1 ? "winter" : "summer"))."</season>\n";
-			}	
+			}
 			echo "		<description>".xml_text($db->f("omschrijving"))."</description>\n";
 			echo "		<including>".xml_text($db->f("inclusief"))."</including>\n";
 			echo "		<excluding>".xml_text($db->f("exclusief"))."</excluding>\n";
@@ -151,7 +151,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 				echo "		<".$value.">".($db->f($key) ? xml_text($db->f($key)) : "")."</".$value.">\n";
 				echo "		<".$value."_extra>".xml_text($db->f($key."extra"))."</".$value."_extra>\n";
 			}
-			
+
 			# Foto's
 			echo "		<photos>\n";
 
@@ -172,12 +172,12 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 				}
 			}
 			echo "		</photos>\n";
-			
+
 			echo "	</accommodation>\n";
 		}
-	
+
 		echo "</accommodations>\n";
-	
+
 	} elseif($_GET["feedtype"]=="accommodation-units") {
 		#
 		# accommodation-units
@@ -193,7 +193,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 			if($vars["websitetype"]=="6") {
 				# ChaletsInVallandry: season
 				echo "		<season>".xml_text(($db->f("wzt")==1 ? "winter" : "summer"))."</season>\n";
-			}	
+			}
 			echo "		<capacity>".xml_text($db->f("optimaalaantalpersonen"))."</capacity>\n";
 			echo "		<max_capacity>".xml_text($db->f("maxaantalpersonen"))."</max_capacity>\n";
 			echo "		<quality>".($db->f("kwaliteit") ? xml_text($db->f("kwaliteit")) : "")."</quality>\n";
@@ -216,7 +216,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 			if(file_exists("../pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
 				echo "			<main>".xml_text($vars["basehref"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg")."</main>\n";
 			}
-			
+
 			# extra foto's
 			$foto=imagearray(array("types","types_breed"),array($db->f("type_id"),$db->f("type_id")),"../");
 
@@ -231,7 +231,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 				}
 			}
 			echo "		</photos>\n";
-			
+
 		}
 		echo "</accommodation_units>\n";
 	} elseif($_GET["feedtype"]=="availability-and-prices") {
@@ -239,11 +239,11 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 		# availability-and-prices
 		#
 		echo "<availability_and_prices>\n";
-		
+
 		$availability_keuzes[1]="directly";
 		$availability_keuzes[2]="request";
 		$availability_keuzes[3]="unavailable";
-		
+
 		# Afwijkende vertrekdagen?
 		if($alletypes) {
 			$typeid_inquery_vertrekdag=$alletypes;
@@ -258,7 +258,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 			if(($db->f("toonper")==3 and $db->f("c_bruto")>0) or ($db->f("toonper")==1 and $db->f("bruto")>0)) {
 				echo "	<accommodation_unit>\n";
 				echo "		<unit_id>".xml_text($db->f("begincode").$db->f("type_id"))."</unit_id>\n";
-				
+
 				# Exacte aankomstdatum
 				$week=$db->f("week");
 				if($vertrekdag[$db->f("type_id")][$db->f("seizoen_id")][date("dm",$week)] or $db->f("aankomst_plusmin")) {
@@ -280,7 +280,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 				$aantalnachten_afwijking=$aantalnachten_afwijking+$db->f("aankomst_plusmin")-$db->f("vertrek_plusmin");
 				$nachten=7-$aantalnachten_afwijking;
 				echo "		<nights>".xml_text($nachten)."</nights>\n";
-			
+
 
 				# Beschikbaarheid
 				$availability=3; # standaard: niet beschikbaar
@@ -289,7 +289,8 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 					if($db->f("voorraad_garantie")+$db->f("voorraad_allotment")+$db->f("voorraad_vervallen_allotment")+$db->f("voorraad_optie_leverancier")+$db->f("voorraad_xml")-$db->f("voorraad_optie_klant")>=1) {
 						$availability=1;
 					} elseif($db->f("voorraad_request")>=1 or $db->f("voorraad_optie_klant")>=1) {
-						$availability=2;
+						# 'request' uitgezet op verzoek van Barteld (23-10-2012)
+#						$availability=2;
 					}
 				}
 				if($availability<>3) {
@@ -304,7 +305,7 @@ if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 					}
 				}
 				echo "		<availability>".xml_text($availability_keuzes[$availability])."</availability>\n";
-				
+
 				echo "	</accommodation_unit>\n";
 			}
 		}
