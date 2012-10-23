@@ -95,7 +95,7 @@ form {
 #topfoto {
 	display: block;
 	width: 970px;
-	height: 179px;
+	height: 180px;
 }
 
 #logo {
@@ -896,11 +896,11 @@ form {
 }
 
 .zoekresultaat_aanbieding {
-	color: #003366;
+	color: #e6007e;
 }
 
 .zoekresultaat_type_aanbieding {
-	color: #003366;
+	color: #e6007e;
 }
 
 .zoekresultaat_type_prijs_aanbieding {
