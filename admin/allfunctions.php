@@ -1495,7 +1495,7 @@ function wt_create_id($table,$field,$length=8) {
 		}
 		$db0->query("SELECT ".$field." FROM ".$table." WHERE ".$field."='".$id."';");
 		if(!$db0->num_rows()) $okay=true;
-		if($teller>50) {
+		if($teller>500) {
 			$id="";
 			$okay=true;
 		}

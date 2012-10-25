@@ -1,6 +1,6 @@
 <?php
 
-$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel FROM boeking_enquete be, view_accommodatie v WHERE be.type_id='".intval($_GET["typeid"])."' AND be.beoordeeld=1 AND v.type_id=be.type_id AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 GROUP BY be.type_id;");
+$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel FROM boeking_enquete be, view_accommodatie v WHERE be.vraag1_7>0 AND be.type_id='".intval($_GET["typeid"])."' AND be.beoordeeld=1 AND v.type_id=be.type_id AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 GROUP BY be.type_id;");
 
 if($db->next_record()) {
 	$totaaloordeel=$db->f("totaaloordeel");
@@ -8,7 +8,7 @@ if($db->next_record()) {
 	$accinfo=accinfo($_GET["typeid"]);
 
 
-	$db->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7 FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.type_id='".intval($_GET["typeid"])."' AND be.beoordeeld=1 ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
+	$db->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7 FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
 	while($db->next_record()) {
 		$beoordeling_aantalbeoordelingen=$db->num_rows();
 		$enquete[$db->f("boeking_id")]["aankomstdatum_exact"]=$db->f("aankomstdatum_exact");

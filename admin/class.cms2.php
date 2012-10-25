@@ -1526,7 +1526,7 @@ class cms2 {
 				} elseif($this->show[$counter]["layout"][$key]["colspan2"]) {
 					echo "<td colspan=\"2\"".($this->show[$counter]["layout"][$key]["align"] ? " align=\"".$this->show[$counter]["layout"][$key]["align"]."\"" : "").">".($this->show_rightcell[$key] ? $this->show_rightcell[$key] : "&nbsp;")."</td>";
 				} else {
-					echo "<td>".$value."</td><td>".($this->db[$counter]["type"][$key]=="currency" ? "&euro; " : "").($this->show_rightcell[$key] ? $this->show_rightcell[$key] : "&nbsp;").($this->show[$counter]["layout"][$key]["extratext"] ? $this->show[$counter]["layout"][$key]["extratext"] : "")."</td>";
+					echo "<td>".$value."</td><td>".($this->show[$counter]["layout"][$key]["pre_html"] ? $this->show[$counter]["layout"][$key]["pre_html"] : "").($this->db[$counter]["type"][$key]=="currency" ? "&euro; " : "").($this->show_rightcell[$key] ? $this->show_rightcell[$key] : "&nbsp;").($this->show[$counter]["layout"][$key]["extratext"] ? $this->show[$counter]["layout"][$key]["extratext"] : "")."</td>";
 				}
 				echo "</tr>";
 			}
