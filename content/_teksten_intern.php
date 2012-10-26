@@ -312,7 +312,7 @@ $txta["en_i"]["sitetitel"]="-";
 #
 # meta-description
 #
-$txta["nl"]["description"]="Wintersportspecialist: Chalets en appartementen voor 2 tot 44 personen, desgewenst inclusief catering, skipassen, materiaalhuur en skilessen.";
+$txta["nl"]["description"]="Wintersportspecialist: Chalets en appartementen voor 2 tot 50 personen, desgewenst inclusief catering, skipassen, materiaalhuur en skilessen.";
 $txta["en"]["description"]="Wintersports - Chalets - Accommodations";
 
 $txta["nl_z"]["description"]="Vakantiehuizen voor levensgenieters. Karakteristieke landhuizen, luxe villa's en vakantieparken in Frankrijk, Italië, Spanje, Oostenrijk en Zwitserland.";

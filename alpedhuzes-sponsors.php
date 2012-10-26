@@ -35,7 +35,7 @@ echo "<div style=\"text-align:center;font-size:1.2em;margin-bottom:20px;\"><h1>B
 
 <h1>Chalet.nl</h1>
 <a href="http://www.chalet.nl/" target="_blank"><img src="pic/tijdelijk/ad6_ch.gif" width="110" border="0"></a><br>
-<p><i>Bedrijfsomschrijving:</i><br>Wintersportspecialist: chalets en appartementen voor 2 tot 44 personen onder &eacute;&eacute;n dak</p>
+<p><i>Bedrijfsomschrijving:</i><br>Wintersportspecialist: chalets en appartementen voor 2 tot 50 personen onder &eacute;&eacute;n dak</p>
 <p><i>Reactie:</i><br>Zet hem op collega's en partners/vrienden van Chalet.nl!</p>
 
 <hr>
@@ -153,4 +153,4 @@ echo "<div style=\"text-align:center;font-size:1.2em;margin-bottom:20px;\"><h1>B
 <hr>
 
 </body>
-</html> 
+</html>

@@ -101,6 +101,8 @@ if($mustlogin) {
 	$login->settings["save_user_agent"]=true;
 	$login->settings["salt"]=$vars["salt"];
 
+#	$login->settings["loginblocktime"]=600; # 10 minuten geblokkeerd
+
 	if($vars["website"]=="C" or $vars["website"]=="Z") {
 		if(!$vars["lokale_testserver"] and $_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74" and $_SERVER["REMOTE_ADDR"]<>"82.173.186.80") {
 			# Buiten kantoor

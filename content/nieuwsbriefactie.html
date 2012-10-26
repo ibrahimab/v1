@@ -15,10 +15,10 @@ if($_GET["ok"]) {
 	echo "<p>Binnen enkele minuten ontvang je een e-mail ter bevestiging.</p>";
 } else {
 
-	echo "<p>Als wintersportspecialist helpen we je graag bij het vinden van een passende wintersportvakantie in Frankrijk, Oostenrijk, Zwitserland of Itali&euml;. Bij Chalet.nl vind je ruim 1750 chalets en appartementen voor 2 tot 44 personen onder &eacute;&eacute;n dak. Via onze nieuwsbrief blijf je op de hoogte van onze beste aanbiedingen en ander nieuws.</p>";
-	
+	echo "<p>Als wintersportspecialist helpen we je graag bij het vinden van een passende wintersportvakantie in Frankrijk, Oostenrijk, Zwitserland of Itali&euml;. Bij Chalet.nl vind je ruim 1750 chalets en appartementen voor 2 tot 50 personen onder &eacute;&eacute;n dak. Via onze nieuwsbrief blijf je op de hoogte van onze beste aanbiedingen en ander nieuws.</p>";
+
 	echo "<p style=\"font-weight:bold;\">Schrijf je hieronder in voor onze nieuwsbrief en maak kans op een wintersportverblijf voor <nobr>10 personen</nobr> in het Zillertal in Oostenrijk!</p>";
-	
+
 	echo "<i>Actievoorwaarden</i><ul>";
 	echo "<li>Geldig voor de nieuwsbrief aanmeldingen via deze actiesite in de periode van 20 oktober t/m <nobr>20 december 2011</nobr>.</li>";
 #	echo "<li>De winnaar wordt bepaald door middel van loting en wordt op vrijdag 23 december 2011 via onze nieuwsbrief bekend gemaakt. Daarnaast ontvangt de winnaar zelf vooraf direct bericht van ons.</li>";
@@ -27,9 +27,9 @@ if($_GET["ok"]) {
 	echo "<li>Het verblijf kan plaatsvinden, afhankelijk van de beschikbaarheid, in een week naar keuze in de gehele maand januari of vanaf 17 maart 2012. Overige verblijfsperiodes in overleg.</li>";
 	echo "<li>De prijs is niet inwisselbaar voor contanten</li>";
 	echo "</ul>";
-	
+
 	echo "<div style=\"margin-top:15px;margin-bottom:10px;\"><i>Inschrijfformulier</i></div>";
-	
+
 	?><script type='text/javascript' src='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/calendar.js'></script>
 	<script type='text/javascript' src='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/lang/calendar-nl.js'></script>
 	<script type='text/javascript' src='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/calendar-setup.js'></script>
@@ -43,7 +43,7 @@ if($_GET["ok"]) {
 	try {
 		var errorMessage = 'Het formulier kon niet worden verzonden om de volgende redenenen(en):\n\n';
 		var errorFound = false;
-	
+
 		 setHiddenBorder('field1046TD');
 		if (myForm.field1046 != null) {
 			if (myForm.field1046.value == '') {
@@ -75,13 +75,13 @@ if($_GET["ok"]) {
 			}
 			 else { setHiddenBorder('field1049TD'); }
 		}
-	
-		
+
+
 		if (errorFound) {
 			alert(errorMessage);
 			return false;
 		}
-		
+
 		return true;
 	} catch (err) {
 		return false;
@@ -109,13 +109,13 @@ if($_GET["ok"]) {
 		<td class="mpFormField" id="field1049TD"><input type="text" name="field1049" value="">
 	</td>
 	</tr>
-	
+
 	<tr><td class="submitCellSpacer">&nbsp;</td><td class="submitCell"><input type="submit" value="Inschrijven"></td></tr></table>
 	<input type="hidden" name="serviceInstanceId" id="serviceInstanceId" value="31302289">
 	<input type="hidden" name="okLink" id="okLink" value="www.chalet.nl/nieuwsbriefactie?ok=1">
 	<input type="hidden" name="redir" id="redir" value="formAdmin">
 	<input type="hidden" name="formEncId" id="formEncId" value="EYsQV9sD7SHrAQ8">
-	
+
 	</form><?php
-	
+
 	} ?>
