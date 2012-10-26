@@ -245,11 +245,7 @@ $txta["en"]["menutitle_zoek-en-boek"]="search and book";
 $txta["nl"]["menutitle_skigebieden"]="skigebieden";
 $txta["en"]["menutitle_skigebieden"]="ski regions";
 
-if($vars["websitetype"]==8) {
-	$txta["nl"]["menutitle_aanbiedingen"]="superskideals";
-} else {
-	$txta["nl"]["menutitle_aanbiedingen"]="aanbiedingen";
-}
+$txta["nl"]["menutitle_aanbiedingen"]="aanbiedingen";
 $txta["en"]["menutitle_aanbiedingen"]="special offers";
 
 $txta["nl"]["menutitle_vraag-ons-advies"]="vraag ons advies";

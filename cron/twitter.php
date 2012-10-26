@@ -34,11 +34,11 @@ $username[2]='ChaletNL';
 $username[3]='SuperSkiNL';
 $format='xml';
 foreach($username as $userAccount) {
-	if($userAccount=='SuperSkiNL') {
-		$get_user_account='ChaletNL';
-	} else {
+#	if($userAccount=='SuperSkiNL') {
+#		$get_user_account='ChaletNL';
+#	} else {
 		$get_user_account=$userAccount;
-	}
+#	}
 	$tweet=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$get_user_account}.{$format}");
 	if($tweet->status[0]->text!="") {
 		$bericht="";

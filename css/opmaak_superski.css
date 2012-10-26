@@ -119,14 +119,15 @@ form {
 
 #superdeals {
 	width: 168px;
-	height: 40px;
+	height: 48px;
+	font-size: 1.1em;
 	text-align: center;
 	float: right;
 	background-color: #660066;
 	color: #ffffff;
 	text-decoration: none;
 	padding: 5px;
-	padding-top: 10px;
+	padding-top: 12px;
 	margin-top: 20px;
 	margin-right: 20px;
 	-webkit-border-radius: 11px;
@@ -237,7 +238,7 @@ form {
 }
 
 #hoofdmenu a {
-	color: #ffffff;
+	color: #a1bddb;
 	text-decoration: none;
 }
 
@@ -246,7 +247,7 @@ form {
 }
 
 .hoofdmenu_actief {
-	color: #7c93ac;
+	color: #ffffff;
 }
 
 .hoofdmenuspacer {
@@ -948,7 +949,7 @@ form {
 	padding-left: 20px;
 	height: 200px;
 	width: 169px;
-	background-color:#7c93ac;
+	background-color:#a1bddb;
 }
 
 .divSepIND li {

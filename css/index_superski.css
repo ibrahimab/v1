@@ -33,7 +33,6 @@
 
 #hoofdpagina_waarom:hover {
 	border: 1px solid #e6007e;
-	background-color: #ebebeb;
 }
 
 #hoofdpagina_waarom .kop {
@@ -235,4 +234,6 @@
 
 #hoofdpagina_twitter_blok hr {
 	height: 1px;
+	color: #ffffff;
+	background-color: #ffffff;
 }

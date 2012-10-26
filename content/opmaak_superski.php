@@ -159,7 +159,7 @@ echo "</div>\n"; # afsluiten submenu
 
 echo "<div id=\"topfoto\" class=\"noprint\" style=\"background-image:url('".$vars["path"].($vars["superski_topfoto"] ? $vars["superski_topfoto"] : "pic/topfoto_superski_1.jpg")."');\">";
 echo "<a href=\"".$vars["path"]."\" id=\"logo\">&nbsp;</a>";
-echo "<a href=\"".$vars["path"]."aanbiedingen.php\" id=\"superdeals\"><h1>superdeals</h1> voor wintersportvakanties</a>";
+echo "<a href=\"".$vars["path"]."zoek-en-boek.php\" id=\"superdeals\"><h1>superdeals</h1> voor wintersportvakanties</a>";
 echo "<div style=\"clear: both;\"></div>\n";
 echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" id=\"sgr_logo\">&nbsp;</a>";
 
