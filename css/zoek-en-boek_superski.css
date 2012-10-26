@@ -36,12 +36,13 @@
 }
 
 #contentrechts {
-	margin-left: 45px;
+	margin-left: 40px;
 	width: 700px;
+	float: left;
 }
 
 #breadcrumb_overlay {
-	margin-left: 241px;
+	margin-left: 246px;
 }
 
 #zoekresultatentable {
@@ -57,8 +58,8 @@
 }
 
 #zoektabel hr {
-	color: #ffd38f;
-	background-color: #ffd38f;
+	color: #a1bddb;
+	background-color: #a1bddb;
 	height: 1px;
 	border: 0px;
 }
@@ -74,7 +75,7 @@
 }
 
 .actieveselectie {
-	color: #661700;
+	color: #660066;
 	font-weight: bold;
 	padding-left: 10px;
 }

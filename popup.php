@@ -279,7 +279,7 @@ if($noprint[$_GET["id"]]) {
 } else {
 	echo "<a href=\"javascript:window.print();\"><IMG SRC=\"pic/printer.gif\" border=\"0\" alt=\"".html("paginaafdrukken","popup")."\" width=\"20\" height=\"18\"></a>";
 }
-echo "</TD><TD width=\"75\" align=\"right\"><FONT SIZE=\"1\"><A HREF=\"javascript:self.close();\" class=\"venstersluiten\">".ereg_replace(" ","&nbsp;",html("venstersluiten"))."</A></FONT></TD></TR></TABLE></TD></TR>";
+echo "</TD><TD width=\"75\" align=\"right\"><FONT SIZE=\"1\">&nbsp;<A HREF=\"javascript:self.close();\" class=\"venstersluiten\">".ereg_replace(" ","&nbsp;",html("venstersluiten"))."</A></FONT></TD></TR></TABLE></TD></TR>";
 echo "<TR><TD bgcolor=\"#FFFFFF\" valign=\"top\" align=\"left\" class=\"content\">";
 #echo "&nbsp;<BR><B>".htmlentities($title[$_GET["id"]])."</B><P>";
 

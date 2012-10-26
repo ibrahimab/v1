@@ -10,25 +10,28 @@ if($vars["websitetype"]==3) {
 } elseif($vars["websitetype"]==7) {
 	# Vormgeving: Italissima
 	$popup_url="favorieten_popup_background_italissima";
+} elseif($vars["websitetype"]==8) {
+	# Vormgeving: SuperSki
+	$popup_url="favorieten_popup_background_superski";
 } else {
 	# Vormgeving: alle andere sites
 	$popup_url="favorieten_popup_background";
 }
 
 if($vars["website"]=="I") {
-	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:332px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:332px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="E") {
-	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:255px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:255px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="Z") {
-	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:234px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:234px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="N") {
-	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:165px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:165px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="T") {
-	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:262px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:262px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } else {
-	echo "<div style=\"position:absolute;top:11px;\"><div id=\"popUpDiv\" style=\"margin-left:220px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:220px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 }
-echo "<div style=\"padding-top:55px;padding-left:10px;padding-right:10px;width:270px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<div style=\"margin-top:10px;\"><input type=\"button\" value=\"OK\" onClick=\"$('#popUpDiv').css('display','none');\"></div></div>";
+echo "<div style=\"padding-top:55px;padding-left:10px;padding-right:10px;width:270px;\">".html("jefavorietenwordenopgeslagen","favorieten")."<div style=\"margin-top:10px;\"><input type=\"button\" value=\"OK\" onClick=\"$('#favorieten_popup').css('display','none');\"></div></div>";
 echo "</div>";
 echo "</div>";
 
@@ -109,10 +112,12 @@ if($db->next_record()) {
 	if(($vars["seizoentype"]==1 or $vars["seizoentype"]==2) and $vars["websitetype"]<>6) {
 		# telefoonblok
 		if($vars["website"]<>"T" and (!$vars["verberg_linkerkolom"] or $id=="toonaccommodatie")) {
-			echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "")." style=\"margin-left:0px;\">";
+			echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "")." style=\"\">";
 			echo "<div id=\"telefoonblok_nummer\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_";
 			if($vars["websitetype"]==7) {
 				echo "italissima";
+			} elseif($vars["websitetype"]==8) {
+				echo "superski";
 			} elseif($vars["seizoentype"]==2) {
 				echo "zomer";
 			} else {
@@ -1432,14 +1437,14 @@ if($db->next_record()) {
 	echo "<div id=\"socialmedia\">";
 
 
-	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I") {
+	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="W") {
 		$socialmedia=true;
 	} else {
 		echo "<div id=\"socialmedia_center\">";
 	}
 
 	# Doormailfunctie
-	if($vars["lokale_testserver"] or $_GET["testsysteem"]) {
+	if($vars["lokale_testserverNU_EVEN_NIET"] or $_GET["testsysteem"]) {
 		echo "<div id=\"socialmedia_doormail\">\n";
 		echo "<a href=\"#\" onclick=\"popwindow(800,810,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\"><img src=\"".$vars["path"]."pic/button_mail_small.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
 		echo "</div>"; # afsluiten #socialmedia_doormail
@@ -1448,13 +1453,13 @@ if($db->next_record()) {
 	# AddThis
 	echo "<!-- AddThis Button BEGIN -->\n";
 	echo "<div id=\"socialmedia_addthis\" class=\"addthis_toolbox addthis_default_style \">\n";
-	if(!$vars["lokale_testserver"] and !$_GET["testsysteem"]) {
+	if(!$vars["lokale_testserverNU_EVEN_NIET"] and !$_GET["testsysteem"]) {
 		echo "<a class=\"addthis_button_email\"></a>\n";
 	}
 	echo "<a class=\"addthis_button_print\"></a>\n";
 
 	if($socialmedia) {
-		echo "<a class=\"addthis_button_twitter\"".($vars["canonical"] ? " addthis:url=\"".htmlentities($vars["canonical"])."\"" : "")."\"></a>\n";
+		echo "<a class=\"addthis_button_twitter\"".($vars["canonical"] ? " addthis:url=\"".htmlentities($vars["canonical"])."\"" : "")."></a>\n";
 #		echo "<a class=\"addthis_button_facebook_like\"></a>\n";
 #		echo "<a class=\"addthis_button_compact\"></a>\n";
 #		echo "<a class=\"addthis_button_compact\"></a>\n";
@@ -1596,7 +1601,7 @@ if($db->next_record()) {
 		$db2->seek();
 	}
 	if($alletypestonen) {
-		echo "<div style=\"margin-top:10px;border: 1px solid #".($vars["websitetype"]==7 ? "ff9900" : "003366").";text-align:left;padding-left:3px;\">";
+		echo "<div id=\"toonaccommodatie_boekbalk_alletypes\">";
 		echo "<div style=\"margin-left:12px;width:145px;padding-top:8px;\"><i>";
 		echo nl2br(html("alletypes","toonaccommodatie"));
 		echo ":</i></div>";

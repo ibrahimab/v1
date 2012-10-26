@@ -58,6 +58,10 @@
 	border: 1px solid #ff9900;
 }
 
+#toonaccommodatie_boekbalk_alletypes {
+	border: 1px solid #ff9900;
+}
+
 #breadcrumb_wrapper {
 	margin-left: 10px;
 }
@@ -73,7 +77,6 @@
 }
 
 #telefoonblok {
-	margin-left: 15px;
 	width: 166px;
 	padding: 2px;
 }

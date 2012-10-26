@@ -1219,7 +1219,7 @@ td.selecteerbaarbedrag:hover{
 	padding: 10px;
 }
 
-#popUpDiv {
+#favorieten_popup {
 	position:absolute;
 	width:300px;
 	height:300px;

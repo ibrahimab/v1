@@ -287,6 +287,7 @@ googlemaps_icon[4] = 'chalet.png';
 googlemaps_icon[6] = 'vallandry.png';
 googlemaps_icon[7] = 'italissima.png';
 googlemaps_icon[71] = 'italissima_plaats.png';
+googlemaps_icon[8] = 'superski.png';
 googlemaps_icon_ander[1] = 'chaletander.png';
 googlemaps_icon_ander[2] = 'chaletander.png';
 googlemaps_icon_ander[3] = 'zomerhuisjeander.png';
@@ -294,6 +295,7 @@ googlemaps_icon_ander[4] = 'chaletander.png';
 googlemaps_icon_ander[6] = 'vallandryander.png';
 googlemaps_icon_ander[7] = 'italissimaander.png';
 googlemaps_icon_ander[71] = 'italissima_plaatsander.png';
+googlemaps_icon_ander[8] = 'superskiander.png';
 var googlemaps_marker = [];
 var googlemaps_marker_2 = [];
 var googlemaps_infowindow;
@@ -345,6 +347,13 @@ function initialize_googlemaps() {
 			// Italissima: plaatsen op de kaart zetten
 			googlemaps_show_villages();
 		}
+
+		// positie goedzetten
+		if(googlemaps_init) {
+			google.maps.event.trigger(map, 'resize');
+			map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
+		}
+
 	}
 }
 
@@ -373,7 +382,7 @@ function googlemaps_createmarker(value,main) {
 		if(googlemaps_infowindow) googlemaps_infowindow.close();
 		if(googlemaps_skigebiedid>0) {
 			var tmpcontent=	'<div class="googlemaps_infowindow">'+
-				        '<b>'+value['naamhtml']+'&nbsp;&nbsp;&nbsp;</b><br>'+
+					'<b>'+value['naamhtml']+'&nbsp;&nbsp;&nbsp;</b><br>'+
 					''+value['aantalacc']+'<br>'+
 					value['skigebied']+
 					'</div>';
@@ -381,14 +390,14 @@ function googlemaps_createmarker(value,main) {
 			if(main) {
 				var tmpcontent=	'<div class="googlemaps_infowindow">'+
 						'<img src="'+value['afbeelding']+'">'+
-					        '<b>'+value['naamhtml']+'&nbsp;&nbsp;&nbsp;</b><br>'+
+						'<b>'+value['naamhtml']+'&nbsp;&nbsp;&nbsp;</b><br>'+
 						''+value['plaatsland']+'<br>'+
 						value['aantalpersonen']+
 						'</div>';
 			} else {
 				var tmpcontent=	'<div class="googlemaps_infowindow">'+
 						'<img src="'+value['afbeelding']+'">'+
-					        '<b><a href="'+value['url']+'">'+value['naamhtml']+'</a>&nbsp;&nbsp;&nbsp;</b><br>'+
+						'<b><a href="'+value['url']+'">'+value['naamhtml']+'</a>&nbsp;&nbsp;&nbsp;</b><br>'+
 						''+value['plaatsland']+'<br>'+
 						value['aantalpersonen']+
 						'</div>';
@@ -481,6 +490,8 @@ $(document).ready(function() {
 //					alert(window.location.pathname+ui.tab.innerHTML);
 				});
 			}
+
+
 
 			// fotoslide hoofdpagina
 		//	$("#featured").tabs({fx:{opacity: "toggle"}}).tabs("rotate", 5000, true);
@@ -993,7 +1004,7 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 				if(data.aantal==1) {
 					// popup tonen
 					if(chalet_getCookie("favorietenpopup")!="1"||lokale_testserver) {
-						$("#popUpDiv").css("display","inline");
+						$("#favorieten_popup").css("display","inline");
 						chalet_createCookie("favorietenpopup","1",3650);
 					}
 				} else {

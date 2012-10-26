@@ -159,7 +159,7 @@ echo "</div>\n"; # afsluiten submenu
 
 echo "<div id=\"topfoto\" class=\"noprint\" style=\"background-image:url('".$vars["path"].($vars["superski_topfoto"] ? $vars["superski_topfoto"] : "pic/topfoto_superski_1.jpg")."');\">";
 echo "<a href=\"".$vars["path"]."\" id=\"logo\">&nbsp;</a>";
-echo "<a href=\"".$vars["path"]."zoek-en-boek.php\" id=\"superdeals\"><h1>superdeals</h1> voor wintersportvakanties</a>";
+echo "<a href=\"".$vars["path"]."zoek-en-boek.php\" id=\"superdeals\"><h1>superdeals</h1>voor skivakanties</a>";
 echo "<div style=\"clear: both;\"></div>\n";
 echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" id=\"sgr_logo\">&nbsp;</a>";
 
@@ -179,6 +179,11 @@ echo "<div id=\"menubalk\" class=\"noprint\">";
 
 echo "<div id=\"hoofdmenu\" class=\"noprint\">";
 while(list($key,$value)=each($menu)) {
+	if($vars["active_menu_item"]) {
+		$checkid=$vars["active_menu_item"];
+	} else {
+		$checkid=$id;
+	}
 	if($menuteller) {
 		echo "<span class=\"hoofdmenuspacer\">|</span>";
 	}
@@ -188,11 +193,11 @@ while(list($key,$value)=each($menu)) {
 		echo txt("menu_".$key).".php";
 	}
 	echo "\">&nbsp;&nbsp;";
-	if($key==$id or ($id=="accommodaties" and $key=="zoek-en-boek")) {
+	if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
 		echo "<span class=\"hoofdmenu_actief\">";
 	}
 	echo htmlentities($value);
-	if($key==$id or ($id=="accommodaties" and $key=="zoek-en-boek")) {
+	if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
 		echo "</span>";
 	}
 	echo "&nbsp;&nbsp;</a>";
@@ -259,7 +264,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<li>Scherpe prijzen</li>";
 		echo "<li>Bijzondere acties</li>";
 		echo "<li>Veelzijdig aanbod</li>";
-		echo "<li>14 jaar wintersportspecialist</li>";
+		echo "<li>14 jaar winterspecialist</li>";
 		echo "<li>Lid SGR-Garantiefonds</li>";
 		echo "</ul></div>"; # afsluiten naamloze div
 		echo "</a>\n"; # afsluiten hoofdpagina_waarom
@@ -345,7 +350,7 @@ if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcru
 	echo "</div>"; # afsluiten breadcrumb_wrapper
 }
 echo "<div id=\"colofon_wrapper\" class=\"noprint\">";
-echo "<div id=\"colofon\" class=\"noprint\">SuperSki is een handelsnaam van Chalet.nl B.V. - <a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</a> - ".html("telefoonnummer_colofon"). "</div>";
+echo "<div id=\"colofon\" class=\"noprint\">SuperSki - <a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</a> - ".html("telefoonnummer_colofon"). "</div>";
 
 
 

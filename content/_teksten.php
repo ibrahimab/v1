@@ -689,8 +689,8 @@ $txt["en"]["index"]["laatstbekekenaccommodaties_volledigelijst"]="Full list";
 $txt["nl"]["index"]["waarom"]="Waarom [[v_websitenaam]]?";
 $txt["en"]["index"]["waarom"]="Why [[v_websitenaam]]?";
 
-$txt["nl"]["index"]["waarom1"]="12 jaar winterspecialist";
-$txt["en"]["index"]["waarom1"]="12 years winterspecialist";
+$txt["nl"]["index"]["waarom1"]="14 jaar winterspecialist";
+$txt["en"]["index"]["waarom1"]="14 years winterspecialist";
 
 $txt["nl"]["index"]["waarom2"]="Veel grote chalets";
 $txt["en"]["index"]["waarom2"]="Many large chalets";
