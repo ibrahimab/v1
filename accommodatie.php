@@ -32,7 +32,7 @@ if($url[0]) {
 #		header("Location: ".$_SERVER["REQUEST_URI"]."/",true,301);
 #		exit;
 #	}
-	
+
 	if(eregi("^([A-Z]{1,2})([0-9]+)",$url[0],$regs)) {
 		$begincode=$regs[1];
 		$typeid=$regs[2];
@@ -65,14 +65,18 @@ if($url[0]) {
 			if($vars["websitetype"]==7) {
 				# topfoto bepalen
 				$file="pic/cms/skigebieden_topfoto/".$db->f("skigebied_id").".jpg";
-		
+
 				if(file_exists($file)) {
 					$vars["italissima_topfoto"]=$file;
 				}
 			}
+
+			# Canonical voor Italissima/Zomerhuisje
 			if(preg_match("/I/",$db->f("websites"))) {
 				$vars["canonical_italissima"]=true;
 			}
+
+
 		}
 
 		if($vars["websitetype"]==6) {
@@ -83,7 +87,7 @@ if($url[0]) {
 #			$vars["canonical"]=$vars["basehref"].txt("canonical_accommodatiepagina")."/".strtolower($url[0])."/".wt_convert2url_seo(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
 			$vars["canonical"]=seo_acc_url($url[0],$db->f("soortaccommodatie"),$db->f("naam"),$db->f("tnaam"));
 		}
-		
+
 		if($vars["taal"]=="en") {
 			$meta_description=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." for ".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " to ".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? "person" : "persons")." in ".$db->f("plaats").", ".$db->f("skigebied").", ".$db->f("land");
 		} else {
@@ -122,6 +126,11 @@ if($acc_aanwezig) {
 		$db->query("UPDATE bezoeker SET last_acc='".addslashes($newcookie)."', gewijzigd=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."';");
 	}
 } else {
+	#
+	# Accommodatie niet gevonden
+	#
+
+	# Kijken of er een doorsturen_naar_type_id van toepassing is
 	$db->query("SELECT t.doorsturen_naar_type_id FROM type t, accommodatie a WHERE t.doorsturen_naar_type_id IS NOT NULL AND t.doorsturen_naar_type_id<>'' AND t.type_id='".addslashes($typeid)."' AND t.websites LIKE '%".$vars["website"]."%' AND t.accommodatie_id=a.accommodatie_id;");
 	if($db->next_record()) {
 		header("Location: ".$path.txt("menu_accommodatie")."/".$db->f("doorsturen_naar_type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : ""));
@@ -130,7 +139,17 @@ if($acc_aanwezig) {
 #	header("HTTP/1.0 404 Not Found");
 	$robot_noindex=true;
 	unset($vars["canonical"]);
+
+	if($vars["website"]=="Z") {
+		#
+		# Tijdelijk: bij Zomerhuisje alle niet gevonden accommodaties doorsturen naar de homepage (vanwege koerswijziging: alleen berg-accommodaties)
+		# 26-10-2012
+		#
+		header("Location: ".$vars["path"],true,301);
+		exit;
+	}
 }
+
 
 include "content/opmaak.php";
 
