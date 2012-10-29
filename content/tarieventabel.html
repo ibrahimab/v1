@@ -386,7 +386,7 @@ if($db2->next_record()) {
 				echo "<span class=\"tarieventabel_arrow\" onmouseover=\"scrollleft_actief=1;scrollleft(".$seizoenteller.");return false;\" onmouseout=\"scrollleft_actief=0;\">";
 				echo "<img src=\"".$vars["path"]."pic/pijllinks_".($vars["websitetype"]==7 ? "italissima" : "zomer").".gif\"></span>";
 				echo "</td><td>";
-				echo "<div style=\"width:".($tarievenpopup ? "800px" : "640px").";overflow-x:auto;overflow-y:hidden;".(ereg("MSIE",$_SERVER["HTTP_USER_AGENT"]) ? "padding-bottom:18px;" : "")."\" id=\"tarieventabel_div[".$seizoenteller."]\" class=\"tarieventabel_div\">";
+				echo "<div style=\"width:".($tarievenpopup ? "800px" : "640px").";overflow-x:auto;overflow-y:hidden;".(preg_match("/MSIE [67]/",$_SERVER["HTTP_USER_AGENT"]) ? "padding-bottom:18px;" : "")."\" id=\"tarieventabel_div[".$seizoenteller."]\" class=\"tarieventabel_div\">";
 			} else {
 				echo "<div style=\"background-color:".$bordercolor.";width:660px;overflow-x:auto;padding-bottom:15px;\">";
 			}

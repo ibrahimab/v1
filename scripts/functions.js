@@ -798,8 +798,10 @@ $(document).ready(function() {
 			if($("#weektarieven").length!=0) {
 
 			} else {
-				// workaround bug in IE9 (tarieventabel 'groeit' bij onmouseover op de tarieven)
-				$(".tarieventabel_div").css("height",$(".tarieventabel_div").height());
+				$('.tarieventabel_div').each(function() {
+					// workaround bug in IE9 (tarieventabel 'groeit' bij onmouseover op de tarieven)
+					$(this).css("height",$(this).height());
+				});
 			}
 		}
 
