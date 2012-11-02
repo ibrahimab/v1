@@ -110,6 +110,20 @@ if($inquery_type_id) {
 		}
 	}
 
+	# Garanties (voor interne overzichten)
+	if($mustlogin) {
+		$db->query("SELECT g.type_id, g.aankomstdatum_exact, g.vertrekdatum_exact, g.reserveringsnummer_extern FROM garantie g WHERE g.type_id IN (".addslashes($inquery_type_id).") AND g.boeking_id=0 AND g.aankomstdatum_exact>'".time()."';");
+		while($db->next_record()) {
+			$typeid=$koppeling[$db->f("type_id")];
+			$dag=$db->f("aankomstdatum_exact");
+			while($dag<$db->f("vertrekdatum_exact")) {
+				$colorclass[$typeid][$dag]="garantie";
+				$text[$typeid][$dag]="Garantie ".$db->f("reserveringsnummer_extern");
+				$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+1,date("Y",$dag));
+			}
+		}
+	}
+
 	if($_GET["popup"]) {
 		$db->query("SELECT naam, UNIX_TIMESTAMP(begindatum) AS begindatum, UNIX_TIMESTAMP(einddatum) AS einddatum FROM bezettingsoverzicht WHERE bezettingsoverzicht_id='".addslashes($_GET["49k0"])."';");
 		if($db->next_record()) {
@@ -215,6 +229,9 @@ if($inquery_type_id) {
 			echo "<div><span class=\"legenda boeking_eigenaar\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("boekingviaeigenaar","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
 			echo "<div><span class=\"legenda voorraad_nietbeschikbaarvoorverhuur\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("nietbeschikbaarvoorverhuur","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
 			echo "<div><span class=\"legenda voorraad_nognietinplanning\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("nognietinplanning","lev_login")."</div>";
+			if($mustlogin) {
+				echo "<div><span class=\"legenda garantie\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;Garantie</div>";
+			}
 			echo "</div>"; # afsluiten #calendar_legenda
 
 			echo "<div class=\"clear\"></div>";
