@@ -3085,7 +3085,7 @@ if($vars["verfijnen_aanbieden"]) {
 			# Keuzeopsomming
 			#
 			function keuzeopsomming($combinatiesmogelijk,$name,$verfijndname,$getname,$fields) {
-				global $lhtml,$verfijnd,$urlself;
+				global $lhtml,$verfijnd,$urlself,$vars;
 				while(list($key,$value)=each($fields)) {
 					if($combinatiesmogelijk) {
 						$getnumber=$value;
@@ -3100,7 +3100,7 @@ if($vars["verfijnen_aanbieden"]) {
 							$qs=wt_stripget($_GET,array("page",$getname.$getnumber));
 							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
 						} elseif($verfijnd[$verfijndname][$value]>0) {
-							$keuzes.="<div class=\"keuzeopsomming\"><a href=\"".wt_he($_SERVER["REQUEST_URI"]).($_SERVER["QUERY_STRING"] ? "&" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&fzt=&").$getname.$getnumber."=".$getvalue."#vf\">".html($key,"zoek-en-boek")."</a> (".$verfijnd[$verfijndname][$value].")</div>";
+							$keuzes.="<div class=\"keuzeopsomming\"><a href=\"".wt_he($_SERVER["REQUEST_URI"]).($_SERVER["QUERY_STRING"] ? "&" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&fzt=&").$getname.$getnumber."=".$getvalue.($vars["aanbiedingenpagina_voor_de_eerste_keer_geopend"] ? "&faab=1" : "")."#vf\">".html($key,"zoek-en-boek")."</a> (".$verfijnd[$verfijndname][$value].")</div>";
 						} else {
 							$keuzes.="<div class=\"keuzeopsomming_leeg\">".html($key,"zoek-en-boek")."</a> (0)</div>";
 						}

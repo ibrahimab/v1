@@ -135,6 +135,7 @@ RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113 [NC]
 RewriteCond %{REMOTE_ADDR} !^80\.101\.166\.235 [NC]
 RewriteCond %{REMOTE_ADDR} !^213\.125\.164\.74 [NC]
 RewriteCond %{REMOTE_ADDR} !^82\.93\.130\.238 [NC]
+RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238 [NC]
 RewriteRule ^(.*)$ http://www.wintersportaccommodaties.nl/ [L,R=301]
 
 RewriteRule groepsreizen\.php$ /accommodaties.php [R=301,L]

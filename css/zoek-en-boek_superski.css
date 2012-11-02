@@ -2,7 +2,7 @@
 #verfijn {
 	padding-top: 5px;
 	text-align: left;
-	border: 2px solid #003366;
+	border: 1px solid #003366;
 	background-color: #ffffff;
 	width: 200px;
 	margin-left: -6px;
@@ -15,7 +15,7 @@
 }
 
 .keuzes a:hover {
-	color: #660066;
+	color: #e6007e;
 }
 
 #verfijntopheader {
@@ -47,10 +47,6 @@
 
 #zoekresultatentable {
 	width: 700px;
-}
-
-.div_met_border {
-	border: 2px solid #e6007e;
 }
 
 #zoektabel {

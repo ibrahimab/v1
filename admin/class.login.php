@@ -28,7 +28,7 @@ class Login {
 	}
 
 	function init() {
-	
+
 		if(!$this->init) {
 			# Vaste waarden
 			if(!isset($this->settings["name"])) $this->settings["name"]="login";
@@ -52,7 +52,7 @@ class Login {
 			if(!isset($this->settings["loginblocktime"])) $this->settings["loginblocktime"]=3600;
 
 			if(!isset($this->settings["uniqueid_ip_validtime"])) $this->settings["uniqueid_ip_validtime"]=86400*365; # login is 1 jaar geldig
-		
+
 			if(!isset($this->settings["loginform_nobr"])) $this->settings["loginform_nobr"]=false;
 			if(!isset($this->settings["settings"]["rememberpassword"])) $this->settings["settings"]["rememberpassword"]=true;
 			if(!isset($this->settings["settings"]["no_autocomplete"])) $this->settings["settings"]["no_autocomplete"]=false;
@@ -129,12 +129,12 @@ class Login {
 
 			if(!isset($this->settings["font"]["size"])) $this->settings["font"]["size"]="2";
 			if(!isset($this->settings["cookie"]["timeinminutes"])) $this->settings["cookie"]["timeinminutes"]="525600";
-			
+
 			# Indien rememberpassword=false: altijd cookies wissen
 			if(!$this->settings["settings"]["rememberpassword"] and ($_COOKIE["loginuser"][$this->settings["name"]] or $_COOKIE["loginsessionid"][$this->settings["name"]])) {
 				$this->delete_all_cookies();
 			}
-			
+
 			# cookie-settings
 			if($this->settings["mustlogin_via_https"] and $_SERVER["HTTPS"]=="on") {
 				if(!isset($this->settings["cookies"]["secure"])) $this->settings["cookies"]["secure"]=true;
@@ -154,10 +154,10 @@ class Login {
 			# session starten
 			session_start();
 			session_register("LOGIN");
-	
+
 			# Zet een cookie om te kijken of cookies aan staan
 			setcookie("checklong","on",time()+315360000,"/");
-	
+
 			$this->init=true;
 		}
 	}
@@ -181,7 +181,7 @@ class Login {
 			echo " te klikken. Zonder gebruik van de functie &quot;Voortaan automatisch inloggen&quot; volstaat het afsluiten van de browser om uit te loggen.";
 		}
 	}
-	
+
 	function logout($logoutall=false) {
 		$this->logged_in=false;
 		$this->delete_all_cookies();
@@ -273,7 +273,7 @@ class Login {
 			if($_POST["loginfilled"]) {
 				echo " VALUE=\"".wt_he($_POST["username"][$this->settings["name"]])."\"";
 			} elseif($_GET["username"]) {
-				echo " VALUE=\"".wt_he($_GET["username"])."\""; 
+				echo " VALUE=\"".wt_he($_GET["username"])."\"";
 			}
 			echo " style=\"width: 100%;";
 			if($this->settings["font"]["face"]) echo " font-family:".$this->settings["font"]["face"];
@@ -316,7 +316,7 @@ class Login {
 	}
 
 	function passwordform() {
-	
+
 	}
 
 	function sendnewpassword($userid,$subject,$body,$fromname,$frommail) {
@@ -340,7 +340,7 @@ class Login {
 			mail($mailaddress,$subject,$body,"From: ".$fromname." <".$frommail.">");
 		}
 	}
-	
+
 	# Functie om lastlogin en logincount in de database op te slaan
 	function setlastlogin($erasewronglogin=false) {
 		$db=new DB_sql;
@@ -357,7 +357,7 @@ class Login {
 			$db->query("UPDATE ".$this->settings["db"]["tablename"]." SET lastlogin='".time()."', logincount=logincount+1, lasthosts='".addslashes($newhosts)."'".$setquery." WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($_SESSION["LOGIN"][$this->settings["name"]][$this->settings["db"]["fielduserid"]])."';");
 		}
 	}
-	
+
 	function wronglogin($userid) {
 		$db=new DB_sql;
 		$db->query("SELECT ".$this->settings["db"]["fielduserid"].", wrongtime, wronghost, wrongcount FROM ".$this->settings["db"]["tablename"]." WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($userid)."';");
@@ -379,9 +379,9 @@ class Login {
 		# Alle cookies wissen
 		$this->delete_all_cookies();
 	}
-	
+
 	function delete_all_cookies() {
-		# Cookie wissen 
+		# Cookie wissen
 		if(floatval(phpversion())>5.2) {
 			setcookie("loginuser[".$this->settings["name"]."]","",time()-864000,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
 			setcookie("loginsessionid[".$this->settings["name"]."]","",time()-864000,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
@@ -442,7 +442,7 @@ class Login {
 			return false;
 		}
 	}
-	
+
 	function uniqueid_ip_save($uniqueid_ip_all,$userid) {
 		$db=new DB_sql;
 
@@ -463,7 +463,7 @@ class Login {
 		$uniqueid=md5(uniqid(rand()));
 		$uniqueid_ip_new.="\n".time()."_".$_SERVER["REMOTE_ADDR"]."_".$uniqueid;
 		$db->query("UPDATE ".$this->settings["db"]["tablename"]." SET uniqueid_ip='".addslashes(trim($uniqueid_ip_new))."', uniqueid='' WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($userid)."';");
-		
+
 		return $uniqueid;
 	}
 
@@ -479,7 +479,7 @@ class Login {
 		$priv=split(",",$this->priv);
 		if(in_array($type,$priv)) return true; else return false;
 	}
-	
+
 	function end_declaration() {
 		$db=new DB_sql;
 		$this->init();
@@ -492,19 +492,19 @@ class Login {
 				exit;
 			}
 		}
-		
+
 		# Oude passwords omzetten
-		if($this->settings["convert_old_passwords"] and $this->settings["salt"] and ($_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
+		if($this->settings["convert_old_passwords"] and $this->settings["salt"] and ($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
 			$db0=new DB_sql;
-			
-#			$db->query("ALTER TABLE ".$this->settings["db"]["tablename"]." CHANGE password password CHAR(41) NOT NULL DEFAULT '';");
+
+			$db->query("ALTER TABLE ".$this->settings["db"]["tablename"]." CHANGE password password CHAR(41) NOT NULL DEFAULT '';");
 			$db->query("SHOW COLUMNS FROM ".$this->settings["db"]["tablename"].";");
 			while($db->next_record()) {
 				if($db->f("Field")=="password" and trim($db->f("Type"))=="char(41)") {
 					$change_okay=true;
 				}
 			}
-			
+
 			if($change_okay) {
 				echo "OK";
 				$db->query("SELECT ".$this->settings["db"]["fielduserid"]." AS user_id, password FROM ".$this->settings["db"]["tablename"]." WHERE SUBSTR(password,1,1)<>'_' AND CHAR_LENGTH(password)=32 ORDER BY ".$this->settings["db"]["fielduserid"].";");
@@ -517,7 +517,7 @@ class Login {
 			}
 			exit;
 		}
-		
+
 		# Logout
 		if($_GET["logout"]==$this->settings["logout_number"] or $_GET["logoutall"]==$this->settings["logout_number"]) {
 			$this->logout($_GET["logoutall"]);
@@ -551,7 +551,7 @@ class Login {
 							$wrongcount=$db->f("wrongcount")+1;
 							if($wrongcount>$this->settings["loginpogingen"] and $db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {
 								$this->errormessage=ereg_replace("blocktime=","blocktime=".($db->f("wrongtime")+$this->settings["loginblocktime"]),$this->settings["message"]["wronglogintemp"]);
-								
+
 								# mailtje sturen
 								$foutloginmail="Account ".$_POST["username"][$this->settings["name"]]." tijdelijk geblokeerd (tot ".date("d-m-Y, H:i",($db->f("wrongtime")+$this->settings["loginblocktime"]))." uur)\n";
 								if($this->settings["mailpassword_attempt"]) $foutloginmail.="WW-poging: ===".$_POST["password"][$this->settings["name"]]."===";
@@ -572,12 +572,12 @@ class Login {
 								# Inloggen gelukt - login/password opslaan in cookie
 								$this->logged_in=true;
 								$time=time()+($this->settings["cookie"]["timeinminutes"]*60);
-								
+
 								$temp_userid=$db->f($this->settings["db"]["fielduserid"]);
-								
+
 								if(isset($db->Record["uniqueid_ip"])) {
 									# nieuw uniqueid-systeem (met IP-adres-controle)
-									
+
 									# kijken of de uniqueid geldig is
 									$uniqueid=$this->uniqueid_ip_check($db->Record["uniqueid_ip"]);
 									if(!$uniqueid) {
@@ -607,11 +607,11 @@ class Login {
 							} else {
 								# Inloggen gelukt - login niet onthouden
 								$this->logged_in=true;
-								
+
 								if($this->settings["extra_unsafe_cookie"]) {
 									setcookie($this->settings["extra_unsafe_cookie"]."[".$this->settings["name"]."]",md5($_SERVER["REMOTE_ADDR"]."_".$this->settings["name"]."_QjJEJ938ja2"),$time,"/");
 								}
-								
+
 							}
 						}
 					} else {
@@ -632,7 +632,7 @@ class Login {
 					} else {
 						if(isset($db->Record["uniqueid_ip"])) {
 							# nieuw uniqueid-systeem (met IP-adres-controle)
-							
+
 							# kijken of de uniqueid geldig is
 							$uniqueid=$this->uniqueid_ip_check($db->Record["uniqueid_ip"]);
 						} else {
@@ -655,9 +655,9 @@ class Login {
 							if($_COOKIE["loginsessionid"][$this->settings["name"]]) {
 								$this->wronglogin($db->f("user_id"));
 								$wrongcount=$db->f("wrongcount")+1;
-								
+
 #								wt_mail("jeroen@webtastic.nl","Loginclass ".$this->settings["name"]." - ".$db->f($this->settings["db"]["fieldusername"]),"loginsessionid-cookie: ===".$_COOKIE["loginsessionid"][$this->settings["name"]]."===\nuniqueid-database: ===".$uniqueid."===\n\n".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-		
+
 								if($wrongcount>$this->settings["loginpogingen"] and $db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {
 									# Mailtje sturen
 	#								$foutloginmail="Account ".$db->f($this->settings["db"]["fieldusername"])." tijdelijk geblokeerd (tot ".date("d-m-Y, H:i",($db->f("wrongtime")+$this->settings["loginblocktime"]))." uur)\nsession\n";
@@ -670,7 +670,7 @@ class Login {
 					}
 				}
 			}
-	
+
 			if($this->logged_in) {
 				# Waarden uit DB halen, opslaan in $_SESSION["LOGIN"] en pagina reloaden (indien het formulier net is ingevuld)
 				$_SESSION["LOGIN"][$this->settings["name"]]["logged_in"]=true;
@@ -679,11 +679,11 @@ class Login {
 					$_SESSION["LOGIN"][$this->settings["name"]][$name]=$db->f($name);
 				}
 				$this->setlastlogin(1);
-				
+
 				# Mailtje sturen na login?
 				if($this->settings["mail_after_login"]) {
 					if($_SESSION["LOGIN"][$this->settings["name"]][$this->settings["db"]["fieldusername"]]=="webtastic" or ereg("@webtastic",$this->settings["mail_after_login"])) {
-						
+
 					} else {
 						if($this->settings["mailtext_after_login"]) {
 							while(ereg("\[\[([a-z]+)\]\]",$this->settings["mailtext_after_login"],$regs)) {
@@ -717,7 +717,7 @@ class Login {
 				# lin-cookie wissen
 				setcookie("lin[".$this->settings["name"]."]","",time()-864000,"/");
 				unset($_COOKIE["lin"][$this->settings["name"]]);
-				
+
 				# extra_unsafe_cookie wissen
 				if($this->settings["extra_unsafe_cookie"]) {
 					setcookie($this->settings["extra_unsafe_cookie"]."[".$this->settings["name"]."]","",time()-864000,"/");

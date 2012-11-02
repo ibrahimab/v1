@@ -8,15 +8,15 @@ $vars["canonical"]=$vars["path"]."contact.php";
 session_start();
 
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="Contactformulier ".$vars["websites"][$vars["website"]];
 $form->settings["layout"]["css"]=false;
 $form->settings["message"]["submitbutton"][$vars["taal"]]=strtoupper(txt("verzenden","contact"));
 $form->settings["language"]=$vars["taal"];
-  
+
 # Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 $form->settings["layout"]["goto_aname"]=true;
-  
+
 #_field: (obl),id,title,db,prevalue,options,layout
 
 if($_GET["accid"]) {
@@ -52,7 +52,7 @@ $form->field_text(0,"mobielwerk",txt("mobielwerk","contact"),"",array("text"=>$t
 $form->field_email(1,"email",txt("email","contact"),"",array("text"=>$temp_naw["email"]));
 $form->field_textarea(0,"opmerkingen",txt("opmerkingen","contact"));
 $form->field_yesno("teruggebeld",txt("teruggebeld","contact"));
-if($vars["taal"]=="nl" and (!$vars["wederverkoop"] or $vars["website"]=="Z")) {
+if($vars["taal"]=="nl" and (!$vars["wederverkoop"] or $vars["website"]=="Z") and $vars["website"]<>"W") {
 	$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
 	$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
 }
@@ -70,7 +70,7 @@ if($form->filled) {
 	if(strpos(" ".$form->input["land"],"http://")) $form->error("land",txt("linkniettoegestaan","contact"));
 	if(strpos(" ".$form->input["telefoonnummer"],"http://")) $form->error("telefoonnummer",txt("linkniettoegestaan","contact"));
 	if(strpos(" ".$form->input["mobielwerk"],"http://")) $form->error("mobielwerk",txt("linkniettoegestaan","contact"));
-	
+
 	# opmerkingenveld filteren op <a href, [url=, [link=
 	$filter_array=array("<a href=","[url=","[link=");
 	while(list($key,$value)=each($filter_array)) {
@@ -97,14 +97,14 @@ if($form->okay) {
 	$referer=getreferer($_COOKIE["sch"]);
 	if($referer["opsomming"]) $form->outputtable_tr="<tr><td colspan=\"2\"><table><tr><td><b>Referentielink</b><br>".$referer["opsomming"]."</td></tr></table></td></tr>";
 	if(ereg("@webtastic\.nl",$form->input["email"])) {
-		$to="chalet_test@webtastic.nl";	
+		$to="chalet_test@webtastic.nl";
 	} else {
 		$to="info@chalet.nl";
 	}
 
 	$form->mail($to,"","Ingevuld contactformulier","",$mailtop,$mailbottom,"info@chalet.nl","Website ".$vars["websites"][$vars["website"]]);
 	nawcookie($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"],$form->input["adres"],$form->input["postcode"],$form->input["woonplaats"],$form->input["land"],$form->input["telefoonnummer"],$form->input["mobielwerk"],$form->input["email"],"not",$form->input["nieuwsbrief"]);
-	
+
 	# Inschrijven nieuwsbrief
 	if($form->input["nieuwsbrief"]) {
 #		$mm_waardes=array("voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"]);

@@ -896,7 +896,7 @@ $(document).ready(function() {
 			$( "input[name=fzt]" ).autocomplete({
 				source: function( request, response ) {
 					$.ajax({
-						url: "rpc_json.php",
+						url: absolute_path+"rpc_json.php",
 						dataType: "json",
 						data: {
 							t: 3,

@@ -202,6 +202,9 @@ if ( $_GET["t"]==1 ) {
 	if ( !$return["aantal"] ) $return["aantal"]=0;
 	$return["ok"]=true;
 } elseif ( $_GET["t"]==5 ) {
+	//
+	// onbekende code van Miguel
+	//
 	if ( $_GET["action"]=="maakAan" ) {
 		$typesArr=explode( ",", $_GET["types"] );
 		$db->query( "INSERT INTO groep(groepnaam) VALUES('".addslashes( $_GET["naam"] )."');" );
@@ -259,26 +262,39 @@ if ( $_GET["t"]==1 ) {
 		}
 
 		if ( $vars["websitetype"]==1 or $vars["websitetype"]==4 ) {
+			# Chalet-vormgeving
 			$vars["balkkleur"]="#d5e1f9";
 			$vars["backcolor"]="#d5e1f9";
 			$vars["textColor"]="#003366";
+			$vars["textColor_bericht"]="#003366";
 			$vars["korte_omschrijving_kleur"]="#003366";
 			//straks kijken moet een css knop worden
 			$leesmeerKnopMail="text-decoration:none;background-color:#003366;display:inline-block;color:#ffffff;font-family:arial;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;";
-		} elseif ( $vars["websitetype"]==3 or $vars["websitetype"]==7 ) {
-			if ( $vars["websitetype"]==3 ) {
-				$vars["balkkleur"]="#cfbcd8";
-				$vars["backcolor"]="#eaeda9";
-				$vars["textColor"]="#5f227b";
-				$vars["korte_omschrijving_kleur"]="#5f227b";
-				$leesmeerKnopMail="background-color:#cbd328;display:inline-block;color:#5f227b;font-family:arial;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;text-decoration:none;";
-			} elseif ( $vars["websitetype"]==7 ) {
-				$vars["balkkleur"]="#ffd38f";
-				$vars["backcolor"]="#FFFFFF";
-				$vars["textColor"]="#661700";
-				$vars["korte_omschrijving_kleur"]="#661700";
-				$leesmeerKnopMail="background-color:#ff9900;display:inline-block;color:#ffffff;font-family:verdana;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;text-decoration:none;";
-			}
+		} elseif ( $vars["websitetype"]==3 ) {
+			# Zomerhuisje
+			$vars["balkkleur"]="#cfbcd8";
+			$vars["backcolor"]="#eaeda9";
+			$vars["textColor"]="#5f227b";
+			$vars["textColor_bericht"]="#5f227b";
+			$vars["korte_omschrijving_kleur"]="#5f227b";
+			$leesmeerKnopMail="background-color:#cbd328;display:inline-block;color:#5f227b;font-family:arial;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;text-decoration:none;";
+		} elseif ( $vars["websitetype"]==7 ) {
+			# Italissima
+			$vars["balkkleur"]="#ffd38f";
+			$vars["backcolor"]="#ffffff";
+			$vars["textColor"]="#661700";
+			$vars["textColor_bericht"]="#661700";
+			$vars["korte_omschrijving_kleur"]="#661700";
+			$leesmeerKnopMail="background-color:#ff9900;display:inline-block;color:#ffffff;font-family:verdana;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;text-decoration:none;";
+		} elseif ( $vars["websitetype"]==8 ) {
+			# SuperSki
+			$vars["balkkleur"]="#003366";
+			$vars["backcolor"]="#ffffff";
+			$vars["textColor"]="#ffffff";
+			$vars["textColor_bericht"]="#660066";
+			$vars["korte_omschrijving_kleur"]="#660066";
+			$vars["linkkleur"]="#003366";
+			$leesmeerKnopMail="background-color:#e6007e;display:inline-block;color:#ffffff;font-family:verdana;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;text-decoration:none;";
 		}
 
 		unset($mail_content);
@@ -299,6 +315,8 @@ if ( $_GET["t"]==1 ) {
 			$mail_topfoto="favorietenmail_logo_chalettour";
 		} elseif($vars["website"]=="B") {
 			$mail_topfoto="favorietenmail_logo_chaletbe";
+		} elseif($vars["website"]=="W") {
+			$mail_topfoto="favorietenmail_logo_superski";
 		} else {
 			$mail_topfoto="favorietenmail_logo_chalet";
 		}
@@ -308,9 +326,12 @@ if ( $_GET["t"]==1 ) {
 		$bericht=trim($_GET["bericht"]);
 		$bericht=utf8_decode($bericht);
 		$bericht=wt_he($bericht);
-		$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."\">".wt_he($vars["websitenaam"])."</a>",$bericht);
 
-		$mail_content.="<tr><td style=\"text-align:center; color:".$vars["textColor"].";font-size:14px;\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
+		# sitenaam klikbaar maken
+		$link_naar_site="<a href=\"".$vars["basehref"]."\" style=\"".($vars["linkkleur"] ? "color:".$vars["linkkleur"].";" : "")."\">".wt_he($vars["websitenaam"])."</a>";
+		$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/",$link_naar_site,$bericht);
+
+		$mail_content.="<tr><td style=\"text-align:center; color:".$vars["textColor_bericht"].";font-size:14px;\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
 		$mail_content.="</td></tr>";
 		$mail_content.="</table>";
 

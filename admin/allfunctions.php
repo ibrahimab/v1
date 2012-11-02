@@ -479,18 +479,18 @@ class wt_mail {
 #		$this->send_body=ereg_replace("\r\n","\n",$this->send_body);
 		$this->send_body=str_replace("\r\n","\n",$this->send_body);
 
-		# BCC track@webtastic.nl
+		if(preg_match("/@webtastic\.nl/",$this->to)) {
+			# geen BCC-trackmail bij interne mail
+			$this->send_bcc=false;
+		}
+
+		# BCC-trackmail
 		if($this->send_bcc) $bcc="Bcc: ".WT_trackmailaddress."\n"; else $bcc="";
 
 		# BCC adressen?
 		if($this->bcc) {
 			$bcc.="Bcc: ".$this->bcc."\n";
 		}
-
-		# Zet return-path aan (in geval van eigen server)
-#		if(!$this->returnpath and $_SERVER["SERVER_ADDR"]=="81.4.84.11") {
-#			$this->returnpath="mailsystem@webtastic.nl";
-#		}
 
 		# Mail verzenden
 		if($this->send_mail) {
@@ -504,7 +504,7 @@ class wt_mail {
 					$this->to=$GLOBALS["vars"]["lokale_testserver_mailadres"];
 				} elseif($_SERVER["HTTP_HOST"]=="bl.postvak.net" or $_SERVER["HOSTNAME"]=="bl.postvak.net" or ($_SERVER["SERVER_ADDR"]=="172.16.6.1" and $_SERVER["REMOTE_ADDR"]=="172.16.6.40")) {
 					$this->to="testform_bl@webtastic.nl";
-				} elseif($_SERVER["HTTP_HOST"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="ss.postvak.net" or $_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
+				} elseif($_SERVER["HTTP_HOST"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="ss.postvak.net") {
 					$this->to="testform_ss@webtastic.nl";
 				} else {
 					$this->to="testform@webtastic.nl";

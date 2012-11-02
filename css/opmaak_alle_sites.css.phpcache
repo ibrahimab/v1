@@ -595,6 +595,11 @@ td.selecteerbaarbedrag:hover{
 	overflow-x: hidden;
 }
 
+#weekendski_opmerking {
+	padding: 6px;
+	border:1px solid #d40139;
+}
+
 .boxshadow {
 	-moz-box-shadow: 5px 5px 5px #888;
 	-webkit-box-shadow: 5px 5px 5px #888;

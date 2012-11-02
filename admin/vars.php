@@ -482,7 +482,6 @@ if($vars["nieuwevormgeving"]) {
 		$submenu["inloggen"]=txt("submenutitle_inloggen");
 		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 		$submenu["favorieten"]=txt("submenutitle_favorieten");
-		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
 		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 
 	} else {

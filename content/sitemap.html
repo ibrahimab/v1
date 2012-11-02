@@ -1,5 +1,10 @@
 <?php
 
+if($vars["websitetype"]==8) {
+	# minder witruimte onder titel
+	echo "<div style=\"margin-top:-10px;\">";
+}
+
 if($vars["websitetype"]==7) {
 	# Italissima
 	# Bestemmingen: regio's
@@ -50,5 +55,10 @@ echo "<li><a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php\">".ht
 echo "<li><a href=\"".$vars["path"].txt("menu_verzekeringen").".php\">".html("title_verzekeringen")."</a></li>";
 echo "</ul>";
 echo "</p>";
+
+if($vars["websitetype"]==8) {
+	# minder witruimte onder titel
+	echo "</div>";
+}
 
 ?>

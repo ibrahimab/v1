@@ -7,6 +7,7 @@ if(!$_GET["nocache"]) {
 	$vars["active_menu_item"]="aanbiedingen";
 	$_GET["aab"]=1;
 	if(!$_GET["filled"]) {
+		$vars["aanbiedingenpagina_voor_de_eerste_keer_geopend"]=true;
 		$_GET["faab"]=1;
 	}
 	if($_GET["d"]) {

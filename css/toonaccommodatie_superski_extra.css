@@ -30,7 +30,7 @@ h1 {
 
 #toonaccommodatie_kenmerken_2_beoordeling {
 	color: #ffffff;
-    background-color: #e6007e;
+    background-color: #660066;
 }
 
 #toonaccommodatie_kenmerken_2_beoordelinglink a {
@@ -38,7 +38,7 @@ h1 {
 }
 
 #toonaccommodatie_kenmerken_2_beoordelinglink a:hover {
-	color: #660066;
+	color: #e6007e;
 }
 
 #toonaccommodatie_boekbalk {

@@ -159,7 +159,7 @@ echo "</div>\n"; # afsluiten submenu
 
 echo "<div id=\"topfoto\" class=\"noprint\" style=\"background-image:url('".$vars["path"].($vars["superski_topfoto"] ? $vars["superski_topfoto"] : "pic/topfoto_superski_1.jpg")."');\">";
 echo "<a href=\"".$vars["path"]."\" id=\"logo\">&nbsp;</a>";
-echo "<a href=\"".$vars["path"]."zoek-en-boek.php\" id=\"superdeals\"><h1>superdeals</h1>voor skivakanties</a>";
+echo "<div id=\"superdeals\"><h1>superdeals</h1>voor skivakanties</div>";
 echo "<div style=\"clear: both;\"></div>\n";
 echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" id=\"sgr_logo\">&nbsp;</a>";
 
@@ -214,7 +214,6 @@ echo "</div>\n"; # afsluiten top
 
 # Balk boven content
 echo "<div id=\"balkbovencontent\" class=\"noprint\">";
-#echo "<div id=\"sgr_logo\"><a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/sgr_klein.gif\" width=\"25\" height=\"23\" border=\"0\" alt=\"Stichting Garantiefonds Reisgelden\"></a></div>";
 
 echo "<div id=\"meldingen\">";
 if($helemaalboven) echo $helemaalboven;
