@@ -442,7 +442,11 @@ $vars["websiteinfo"]["websitenaam"]["W"]="Wintersportaccommodaties.nl";
 $vars["websiteinfo"]["langewebsitenaam"]["W"]="Chalet.nl B.V. / Wintersportaccommodaties.nl";
 $vars["websiteinfo"]["email"]["W"]="info@wintersportaccommodaties.nl";
 $vars["websiteinfo"]["basehref"]["W"]="http://www.wintersportaccommodaties.nl/";
-$vars["websiteinfo"]["websitetype"]["W"]=2;
+if($vars["lokale_testserver"]) {
+	$vars["websiteinfo"]["websitetype"]["W"]=8;
+} else {
+	$vars["websiteinfo"]["websitetype"]["W"]=2;
+}
 $vars["websiteinfo"]["verzekering_mogelijk"]["W"]=1;
 $vars["websiteinfo"]["websiteland"]["W"]="nl";
 $vars["websiteinfo"]["taal"]["W"]="nl";

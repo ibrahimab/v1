@@ -28,7 +28,7 @@ if ( $vars["websitetype"]==1 or $vars["websitetype"]==4 ) {
 	$vars["balkkleur"]="#a1bddb";
 	$vars["backcolor"]="#ffffff";
 	$vars["textColor"]="#003366";
-	$vars["korte_omschrijving_kleur"]="#003366";
+	$vars["korte_omschrijving_kleur"]="#660066";
 	$leesmeerKnopMail="background-color:#e6007e;display:inline-block;color:#ffffff;font-family:verdana;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;text-decoration:none;";
 }
 

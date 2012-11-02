@@ -126,6 +126,7 @@ class Login {
 			if(!isset($this->settings["width"])) $this->settings["width"]="350";
 			if(!isset($this->settings["tablecolor"])) $this->settings["tablecolor"]="#878481";
 			if(!isset($this->settings["font"]["face"])) $this->settings["font"]["face"]="Verdana, Arial, Helvetica, sans-serif";
+			if(!isset($this->settings["tableborderwidth"])) $this->settings["tableborderwidth"]=2;
 
 			if(!isset($this->settings["font"]["size"])) $this->settings["font"]["size"]="2";
 			if(!isset($this->settings["cookie"]["timeinminutes"])) $this->settings["cookie"]["timeinminutes"]="525600";
@@ -254,7 +255,7 @@ class Login {
 
 	function loginform() {
 		if(!$this->logged_in) {
-			echo "<TABLE BORDER=\"0\" width=\"".$this->settings["width"]."\" align=\"".$this->settings["settings"]["alignloginscreen"]."\" bgcolor=\"".$this->settings["tablecolor"]."\" cellspacing=\"1\" class=\"wtlogin_table\">";
+			echo "<TABLE BORDER=\"0\" width=\"".$this->settings["width"]."\" align=\"".$this->settings["settings"]["alignloginscreen"]."\" bgcolor=\"".$this->settings["tablecolor"]."\" cellspacing=\"".intval($this->settings["tableborderwidth"]-1)."\" class=\"wtlogin_table\">";
 			echo "<FORM METHOD=\"post\" name=\"loginform\" action=\"".$this->currenturl()."\"".($this->settings["settings"]["no_autocomplete"] ? " autocomplete=\"off\"" : "").">";
 			echo "<TR><TD align=\"center\"><B>";
 			if($this->settings["font"]["face"]) echo "<FONT COLOR=white FACE=\"".$this->settings["font"]["face"]."\" SIZE=\"".($this->settings["font"]["size"]+1)."\">";

@@ -936,6 +936,10 @@ if($boeking_wijzigen) {
 	$login->settings["adminmail"]="info@chalet.nl";
 	$login->settings["mail_wt"]=false;
 	$login->settings["db"]["tablename"]="boekinguser";
+	if($vars["websitetype"]==8) {
+		# dunnere border bij SuperSki
+		$login->settings["tableborderwidth"]=1;
+	}
 	if($vars["wederverkoop"]) {
 		if($login_rb->logged_in) {
 			$login->settings["mustlogin"]=false;
@@ -1047,6 +1051,7 @@ if($boeking_wijzigen) {
 		$login->settings["sysop"]="<a href=\"http://www.webtastic.nl/6.html\">WebTastic</a>";
 		$login->settings["save_user_agent"]=true;
 		$login->settings["salt"]=$vars["salt"];
+		$login->settings["loginblocktime"]=600; # 10 minuten geblokkeerd
 
 		$login->end_declaration();
 

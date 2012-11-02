@@ -15,7 +15,7 @@ if($gegevens["stap1"]["boekingid"]) {
 	} elseif($temp_gegevens["stap2"][1]) {
 		$gegevens["stap2"]=$temp_gegevens["stap2"][1];
 	}
-	
+
 	# Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
 	@reset($temp_gegevens["stap3"][2]);
 	while(list($key,$value)=@each($temp_gegevens["stap3"][2])) {
@@ -30,7 +30,7 @@ if($gegevens["stap1"]["boekingid"]) {
 	while(list($key,$value)=@each($temp_gegevens["stap3"][1])) {
 		if(is_array($value) and !is_array($gegevens["stap3"][$key])) $gegevens["stap3"][$key]=$value;
 	}
-	
+
 	$gegevens["stap4"]=$temp_gegevens["stap4"][1];
 	$gegevens["stap4"]["actieve_status"]=1;
 	$gegevens["fin"]=$temp_gegevens["fin"][1];
@@ -121,73 +121,73 @@ if($form->okay) {
 				$setquery.=", factuurdatum=FROM_UNIXTIME('".addslashes($form->input["datum_nieuwefactuur"]["unixtime"])."')";
 			}
 		}
-		
+
 		# Vraag om ondertekening door de klant
 		if($form->input["ondertekenen"]) {
 			if(!$gegevens["stap1"]["vraag_ondertekening"]) chalet_log("\"vraag om ondertekening door de klant\" opnieuw aangezet",true,true);
 			$setquery.=", vraag_ondertekening=1";
 		} else {
 			if($form->input["factuur_ondertekendatum"]["unixtime"]>0) {
-			
+
 			} else {
 				if($gegevens["stap1"]["vraag_ondertekening"]) chalet_log("\"vraag om ondertekening door de klant\" uitgezet",true,true);
 				$setquery.=", vraag_ondertekening=0";
 			}
 		}
-		
+
 		$setquery.=", factuur_bedrag_wijkt_af=0, aanbetaling1='".addslashes($gegevens["fin"]["aanbetaling_ongewijzigd"])."', totale_reissom='".addslashes($gegevens["fin"]["totale_reissom"])."', mailblokkeren_opties='".addslashes($form->input["mailblokkeren_opties"])."', mailblokkeren_persoonsgegevens='".addslashes($form->input["mailblokkeren_persoonsgegevens"])."', aanmaning_mailblokkeren='".addslashes($form->input["aanmaning_mailblokkeren"])."', mailblokkeren_ontvangenbetaling='".addslashes($form->input["mailblokkeren_ontvangenbetaling"])."', mailblokkeren_klanten_vorig_seizoen='".addslashes($form->input["mailblokkeren_klanten_vorig_seizoen"])."', mailblokkeren_enquete='".addslashes($form->input["mailblokkeren_enquete"])."', pdfplattegrond_nietnodig='".addslashes($form->input["pdfplattegrond_nietnodig"])."'";
-		
+
 		# inkoop bepalen en opslaan in totale_reissom_inkoop
 #		$reissom_tabel=reissom_tabel($gegevens,$gegevens["stap1"]["accinfo"],"",true);
 #		$setquery.=", totale_reissom_inkoop='".addslashes($reissom_tabel["bedragen"]["inkoop"])."'";
-		
+
 		# inkoopgegevens bepalen en opslaan
 		inkoopgegevens_berekenen_en_opslaan($gegevens);
-		
+
 		if($form->input["mailverstuurd_opties_wissen"]) {
 			$setquery.=", mailverstuurd_opties=NULL";
-			chalet_log("verzendmoment optiesbijboeken-mailtje gewist",true,true);			
+			chalet_log("verzendmoment optiesbijboeken-mailtje gewist",true,true);
 		}
 		if($form->input["opmerkingen_intern"]<>$gegevens["stap1"]["opmerkingen_intern"]) {
 			# Opslaan wanneer opmerkingen zijn gewijzigd
 			$setquery.=", opmerkingen_intern_gewijzigd=NOW()";
 		}
 		$db->query("UPDATE boeking SET opmerkingen_intern='".addslashes($form->input["opmerkingen_intern"])."'".$setquery." WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-		
+
 		# Wijzigingen mailinstellingen loggen
 		if($form->input["mailblokkeren_opties"] and !$gegevens["stap1"]["mailblokkeren_opties"]) {
-			chalet_log("Aangezet: Stuur deze klant geen mail met uitnodiging tot inloggen en opties bijboeken",true,true);			
+			chalet_log("Aangezet: Stuur deze klant geen mail met uitnodiging tot inloggen en opties bijboeken",true,true);
 		}
 		if(!$form->input["mailblokkeren_opties"] and $gegevens["stap1"]["mailblokkeren_opties"]) {
-			chalet_log("Uitgezet: Stuur deze klant geen mail met uitnodiging tot inloggen en opties bijboeken",true,true);			
+			chalet_log("Uitgezet: Stuur deze klant geen mail met uitnodiging tot inloggen en opties bijboeken",true,true);
 		}
 
 		if($form->input["mailblokkeren_persoonsgegevens"] and !$gegevens["stap1"]["mailblokkeren_persoonsgegevens"]) {
-			chalet_log("Aangezet: Stuur deze klant geen mail met verzoek tot invullen persoonsgegevens",true,true);			
+			chalet_log("Aangezet: Stuur deze klant geen mail met verzoek tot invullen persoonsgegevens",true,true);
 		}
 		if(!$form->input["mailblokkeren_persoonsgegevens"] and $gegevens["stap1"]["mailblokkeren_persoonsgegevens"]) {
-			chalet_log("Uitgezet: Stuur deze klant geen mail met verzoek tot invullen persoonsgegevens",true,true);			
+			chalet_log("Uitgezet: Stuur deze klant geen mail met verzoek tot invullen persoonsgegevens",true,true);
 		}
 
 		if($form->input["mailblokkeren_ontvangenbetaling"] and !$gegevens["stap1"]["mailblokkeren_ontvangenbetaling"]) {
-			chalet_log("Aangezet: Stuur deze klant geen ontvangstbevestigingen van betalingen",true,true);			
+			chalet_log("Aangezet: Stuur deze klant geen ontvangstbevestigingen van betalingen",true,true);
 		}
 		if(!$form->input["mailblokkeren_ontvangenbetaling"] and $gegevens["stap1"]["mailblokkeren_ontvangenbetaling"]) {
-			chalet_log("Uitgezet: Stuur deze klant geen ontvangstbevestigingen van betalingen",true,true);			
+			chalet_log("Uitgezet: Stuur deze klant geen ontvangstbevestigingen van betalingen",true,true);
 		}
 
 		if($form->input["aanmaning_mailblokkeren"] and !$gegevens["stap1"]["aanmaning_mailblokkeren"]) {
-			chalet_log("Aangezet: Stuur deze klant geen aanmaningen",true,true);			
+			chalet_log("Aangezet: Stuur deze klant geen aanmaningen",true,true);
 		}
 		if(!$form->input["aanmaning_mailblokkeren"] and $gegevens["stap1"]["aanmaning_mailblokkeren"]) {
-			chalet_log("Uitgezet: Stuur deze klant geen aanmaningen",true,true);			
+			chalet_log("Uitgezet: Stuur deze klant geen aanmaningen",true,true);
 		}
 
 		if($form->input["mailblokkeren_klanten_vorig_seizoen"] and !$gegevens["stap1"]["mailblokkeren_klanten_vorig_seizoen"]) {
-			chalet_log("Aangezet: Stuur deze klant geen mailtje met uitnodiging m.b.t. volgend seizoen",true,true);			
+			chalet_log("Aangezet: Stuur deze klant geen mailtje met uitnodiging m.b.t. volgend seizoen",true,true);
 		}
 		if(!$form->input["mailblokkeren_klanten_vorig_seizoen"] and $gegevens["stap1"]["mailblokkeren_klanten_vorig_seizoen"]) {
-			chalet_log("Uitgezet: Stuur deze klant geen mailtje met uitnodiging m.b.t. volgend seizoen",true,true);			
+			chalet_log("Uitgezet: Stuur deze klant geen mailtje met uitnodiging m.b.t. volgend seizoen",true,true);
 		}
 
 		if($form->input["mailblokkeren_enquete"] and !$gegevens["stap1"]["mailblokkeren_enquete"]) {
@@ -204,9 +204,9 @@ if($form->okay) {
 			chalet_log("Uitgezet: Plattegrond-PDF is niet nodig bij de reisdocumenten",true,true);
 		}
 	}
-	
+
 	if($form->input["factuuraanmaken"] or $_POST["alleen_tonen"]) {
-	
+
 		# Tekstvak 1
 		if($form->input["factuur_ondertekendatum"]["unixtime"]) {
 			$gegevens["stap1"]["factuur_tekstvak1"]=txt("hierbijontvangjedegecorrigeerdebevestiging","factuur");
@@ -216,7 +216,7 @@ if($form->okay) {
 
 		# Tekstvak 2 en 3
 		$datum_weken_voorvertrek=date("d/m/Y",mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-$gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"])));
-		
+
 		unset($aanbetaling_aantalweken,$aanbetaling_aantaldagen);
 		if($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]%7==0 and $gegevens["stap1"]["totale_reissom_dagenvooraankomst"]<>7) {
 			$aanbetaling_aantalweken=round($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]/7);
@@ -237,7 +237,7 @@ if($form->okay) {
 			} else {
 				$gegevens["stap1"]["factuur_tekstvak3"]=txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
 			}
-			
+
 			# Aanbetaling 2
 			if($gegevens["stap1"]["aanbetaling2"] and $gegevens["stap1"]["aanbetaling2_datum"]) {
 				if($gegevens["stap1"]["aanbetaling2_datum"]>time()) {
@@ -274,7 +274,7 @@ if($form->okay) {
 		if($restbetalen<0) {
 			$gegevens["stap1"]["factuur_tekstvak3"]=txt("terugteontvangen","factuur");
 		}
-		
+
 		if($gegevens["stap1"]["factuurdatum"]) {
 			if($gegevens["stap1"]["dagen_voor_vertrek"]>10) {
 				$gegevens["stap1"]["factuur_tekstvak4"]=txt("bedanktgecorboeking10dagen","factuur");
@@ -287,15 +287,15 @@ if($form->okay) {
 		if(!$_POST["alleen_tonen"] and $form->input["factuuraanmaken"]) {
 			$db->query("UPDATE boeking SET factuur_versturen=0, factuur_tewijzigen=0, factuurdatum=FROM_UNIXTIME('".addslashes($form->input["datum_nieuwefactuur"]["unixtime"])."') WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		}
-		
+
 		require("admin/fpdf.php");
-		
+
 		class PDF extends FPDF {
-			
+
 			function _getfontpath() {
 				return "pdf/fonts/";
 			}
-			
+
 			function Header() {
 				# Logo linksboven
 				if($this->gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
@@ -321,6 +321,9 @@ if($form->okay) {
 					$this->Image('pic/factuur_logo_chalettour.png',10,8,50);
 				} elseif($this->gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
 					$this->Image('pic/factuur_logo_italissima.png',10,8,50);
+				} elseif($this->gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
+					# SuperSki
+					$this->Image('pic/factuur_logo_superski.png',10,10,70);
 				} else {
 					# Chalet Winter
 					if($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="be") {
@@ -338,7 +341,7 @@ if($form->okay) {
 				$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nLindenhof 5\n3442 GT Woerden\n\nTel.: 0348 434649\nFax: 0348 690752\nKvK nr. 30209634\n\nBankrek. 84.93.06.671\nBTW NL-8169.23.462.B.01\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden",0,"R");
 				$this->Ln(20);
 			}
-			
+
 			function Footer() {
 				$this->SetY(-20);
 				$this->SetFont('Arial','I',8);
@@ -346,7 +349,7 @@ if($form->okay) {
 				$this->Cell(0,10,txt("pagina","factuur")." ".$this->PageNo()."/{nb}  -  ".txt("reserveringsnummer_afgekort","factuur")." ".$this->gegevens["stap1"]["boekingsnummer"],0,0,'C');
 			}
 		}
-		
+
 		$pdf=new PDF();
 		$pdf->gegevens=$gegevens;
 		$pdf->AliasNbPages();
@@ -362,7 +365,7 @@ if($form->okay) {
 				$pdf->Ln();
 				$pdf->Cell(0,4,html("btwnummer","factuur").$gegevens["stap1"]["reisbureau_btwnummer"],0,1);
 			}
-			
+
 		} else {
 			# NAW hoofdboeker
 			$pdf->Cell(0,4,wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]),0,1);
@@ -396,7 +399,7 @@ if($form->okay) {
 			$pdf->Cell(50,4,wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]),0,0,'L',0);
 			$pdf->Ln();
 		}
-		
+
 		$pdf->Cell(35,4,txt("plaats","factuur"),0,0,'L',0);
 		$pdf->Cell(5,4,":",0,0,'L',0);
 		$pdf->Cell(50,4,$accinfo["plaats"],0,0,'L',0);
@@ -404,7 +407,7 @@ if($form->okay) {
 		$pdf->Cell(35,4,txt("accommodatie","factuur"),0,0,'L',0);
 		$pdf->Cell(5,4,":",0,0,'L',0);
 		$pdf->MultiCell(150,4,ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"],0,'L',0);
-		
+
 		$pdf->Cell(35,4,txt("deelnemers","factuur"),0,0,'L',0);
 		$pdf->Cell(5,4,":",0,0,'L',0);
 		$pdf->Cell(50,4,$gegevens["stap1"]["aantalpersonen"]." ".($gegevens["stap1"]["aantalpersonen"]==1 ? txt("persoon") : txt("personen")),0,0,'L',0);
@@ -458,7 +461,7 @@ if($form->okay) {
 		} else {
 			factuur_opties($gegevens["stap1"]["aantalpersonen"],txt("accommodatieplusskipasnaam","factuur",array("v_skipasnaam"=>$accinfo["skipas_naam"],"v_skipasaantaldagen"=>$accinfo["skipas_aantaldagen"])),$gegevens["fin"]["accommodatie_totaalprijs"]);
 		}
-	
+
 		# Algemene opties
 		@reset($gegevens["stap4"]["algemene_optie"]["soort"]);
 		while(list($key,$value)=@each($gegevens["stap4"]["algemene_optie"]["soort"])) {
@@ -470,7 +473,7 @@ if($form->okay) {
 		while(list($key,$value)=@each($gegevens["stap4"]["optie_onderdeelid_teller"])) {
 			$bedrag=$gegevens["stap4"]["optie_onderdeelid_verkoop_key_verkoop"][$key];
 			$key=$gegevens["stap4"]["optie_onderdeelid_verkoop_key"][$key];
-		
+
 			if($gegevens["stap4"]["optie_onderdeelid_reisverzekering"][$key]) {
 				$reisverzekeringen["aantal"][$key.$bedrag]=$value;
 				$reisverzekeringen["bedrag"][$key.$bedrag]=$bedrag;
@@ -483,11 +486,11 @@ if($form->okay) {
 			# Subtotaal
 			factuur_opties("","","","optellen");
 			factuur_opties("",txt("subtotaal","factuur"),$gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]+$gegevens["stap4"]["optie_bedrag_buiten_annuleringsverzekering"],"plaintext");
-	
+
 			$pdf->Cell(190,4,"");
 			$pdf->Ln();
 		}
-	
+
 		# Reisverzekering
 		if($gegevens["stap4"]["reisverzekering"]) {
 			while(list($key2,$value2)=@each($reisverzekeringen["naam"])) {
@@ -499,10 +502,10 @@ if($form->okay) {
 				factuur_opties(1,txt("poliskostenreisverzekering","factuur"),$gegevens["fin"]["reisverzekering_poliskosten"]);
 			}
 		}
-		
+
 		# Tarief annuleringsverzekering
 		if($gegevens["stap1"]["annverz_aantalpersonen"]) {
-		
+
 			ksort($gegevens["stap4"]["annuleringsverzekering_soorten"]);
 			while(list($key,$value)=each($gegevens["stap4"]["annuleringsverzekering_soorten"])) {
 				# Percentage annuleringsverzekering
@@ -513,20 +516,20 @@ if($form->okay) {
 				}
 				factuur_opties(1,$vars["annverz_soorten_kort"][$key]." (".ereg_replace("\.",",",$gegevens["stap1"]["annuleringsverzekering_percentage_".$key])."% ".txt("over","factuur")." € ".number_format($toon_annuleringsverzekering_bedragen,2,',','.').")",$gegevens["fin"]["annuleringsverzekering_variabel_".$key]);
 			}
-			
+
 			if($gegevens["fin"]["annuleringsverzekering_poliskosten"]<>0) {
 				# Poliskosten annuleringsverzekering
 				factuur_opties(1,txt("poliskostenannuleringsverzekering","factuur"),$gegevens["fin"]["annuleringsverzekering_poliskosten"]);
 			}
 		}
-		
-		
+
+
 		# Schadeverzekering
 		if($gegevens["stap1"]["schadeverzekering"]) {
 #			factuur_opties(1,txt("schadeverzekering","factuur"),$gegevens["fin"]["schadeverzekering_variabel"]);
 			factuur_opties(1,txt("schadeverzekering","factuur")." (".ereg_replace("\.",",",$gegevens["stap1"]["schadeverzekering_percentage"])."% ".txt("over","factuur")." € ".number_format($gegevens["stap1"]["accprijs"],2,',','.').")",$gegevens["fin"]["schadeverzekering_variabel"]);
 		}
-		
+
 		if($gegevens["fin"]["verzekeringen_poliskosten"]<>0) {
 			# Poliskosten alle verzekeringen samen
 			factuur_opties(1,txt("poliskostenverzekeringen","factuur"),$gegevens["fin"]["verzekeringen_poliskosten"]);
@@ -550,7 +553,7 @@ if($form->okay) {
 			if($gegevens["fin"]["commissie_accommodatie"]>0) {
 				factuur_opties("",txt("commissie_accommodatie","factuur")." (".round($gegevens["stap1"]["commissie"],0)."%)",0-$gegevens["fin"]["commissie_accommodatie"],"plaintext",0,true);
 			}
-			
+
 			if(@count($gegevens["stap4"]["opties_commissie_precentages"])==1) {
 				reset($gegevens["stap4"]["opties_commissie_precentages"]);
 				list($temp_key,$temp_value)=each($gegevens["stap4"]["opties_commissie_precentages"]);
@@ -558,7 +561,7 @@ if($form->okay) {
 			} else {
 				$perc=txt("commissie_diverse_percentages","factuur");
 			}
-			
+
 			if($gegevens["fin"]["commissie_opties"]>0) {
 				factuur_opties("",txt("commissie_opties","factuur")." (".$perc.")",0-$gegevens["fin"]["commissie_opties"],"plaintext",0,true);
 			}
@@ -570,7 +573,7 @@ if($form->okay) {
 				$pdf->AddPage();
 			}
 		}
-		
+
 		$pdf->Ln();
 		$pdf->Cell(190,4,"");
 		$pdf->Ln();
@@ -583,12 +586,12 @@ if($form->okay) {
 			$pdf->Ln(1);
 		}
 
-		# Aanbetaling 2		
+		# Aanbetaling 2
 		if($aanbetaling2_factuurtekst and $gegevens["stap1"]["aanbetaling2"]<>0) {
 			factuur_opties("",$aanbetaling2_factuurtekst,$gegevens["stap1"]["aanbetaling2"],"plaintext");
 			$pdf->Ln(1);
 		}
-	
+
 		if($restbetalen<>0) factuur_opties("",$gegevens["stap1"]["factuur_tekstvak3"],abs($restbetalen),"plaintext");
 		$pdf->Ln(1);
 		$pdf->Cell(190,4,txt("vermeldresnummer","factuur",array("v_resnummer"=>$gegevens["stap1"]["boekingsnummer"])));
@@ -631,21 +634,21 @@ if($form->okay) {
 
 		$pdf->SetFont('Arial','I',7);
 		$pdf->MultiCell(190,4,txt("opdezeovereenkomstalgvoorwaarden","factuur"));
-		
+
 		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
 			# SGR-tekst
 			$pdf->Ln();
 
 			$img_y=$pdf->GetY();
-			
+
 			$pdf->Image('pic/factuur_sgr.png',11,$img_y+2,7);
 			$pdf->Cell(10,4,"",0,0,'L',0);
-	
+
 			$pdf->MultiCell(179,4,txt("sgr","factuur"));
 		}
 
 		$pdf->Ln();
-		
+
 		if($_POST["alleen_tonen"]) {
 			$pdf->Output();
 			exit;
@@ -657,7 +660,7 @@ if($form->okay) {
 				$tempfile_teller++;
 				$tempfile="tmp/".txt("pdf_factuur")."_".ereg_replace(" / ","_",$gegevens["stap1"]["boekingsnummer"])."_".$tempfile_teller.".pdf";
 			}
-	
+
 			$pdf->Output($tempfile);
 
 			# Factuur opslaan voor factuur-archief
@@ -666,7 +669,7 @@ if($form->okay) {
 				$archieffile_teller++;
 				$archieffile="pdf/facturen/factuur_".$gegevens["stap1"]["boekingid"]."_".$archieffile_teller.".pdf";
 			}
-			
+
 			$archieffile_db=ereg_replace("pdf/facturen/","",$archieffile);
 
 			if($gegevens["stap1"]["factuurdatum"]) {
@@ -714,13 +717,13 @@ if($form->okay) {
 				$db->query("INSERT INTO factuurregel SET factuur_id='".addslashes($factuurid)."', regelnummer='0', bedrag='".addslashes($gegevens["fin"]["totale_reissom"])."', omschrijving='".addslashes("hele boekstuk")."', grootboektype=0;");
 				$db->query("INSERT INTO factuurregel SET factuur_id='".addslashes($factuurid)."', regelnummer='1', bedrag='".addslashes($gegevens["fin"]["totale_reissom"])."', omschrijving='".addslashes("totaal")."', grootboektype=1;");
 				$db->query("INSERT INTO factuurregel SET factuur_id='".addslashes($factuurid)."', regelnummer='2', bedrag='0', omschrijving='".addslashes("btw")."', grootboektype=2;");
-				
+
 			}
-			
+
 			$pdf->Output($archieffile);
-			
+
 			chmod($archieffile,0666);
-			
+
 			# Mail versturen aan klant
 			$mail=new wt_mail;
 			$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
@@ -735,13 +738,13 @@ if($form->okay) {
 				$mail->plaintext.=txt("wederverkoop_reserveringsnummer","factuur").": ".$gegevens["stap1"]["boekingsnummer"]."\n";
 				$mail->plaintext.=txt("wederverkoop_hoofdboeker","factuur").": ".wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"])."\n\n\n";
 			}
-			
+
 			if($form->input["factuur_ondertekendatum"]["unixtime"]>0) {
 				$mail->plaintext.=txt("beste","factuur")." ".($gegevens["stap1"]["reisbureau_user_id"] ? $gegevens["stap1"]["reisbureau_uservoornaam"] : ucfirst($gegevens["stap2"]["voornaam"])).",\n\n".txt("attachmentgecorbevest","factuur")."\n\n";
 			} else {
 				$mail->plaintext.=txt("beste","factuur")." ".($gegevens["stap1"]["reisbureau_user_id"] ? $gegevens["stap1"]["reisbureau_uservoornaam"] : ucfirst($gegevens["stap2"]["voornaam"])).",\n\n".txt("bedanktvoorjeboeking","factuur")." ".txt("attachmentbevest","factuur")."\n\n";
 			}
-			
+
 			if($form->input["ondertekenen"]) {
 				$mail->plaintext.=txt("tercontroleopfouten","factuur")." ";
 			}
@@ -758,14 +761,14 @@ if($form->okay) {
 			}
 
 			$mail->attachment($tempfile);
-			
+
 			if(!$gegevens["stap1"]["factuurdatum"]) {
 				if(file_exists("pdf/".txt("pdf_algemene_voorwaarden").".pdf")) $mail->attachment("pdf/".txt("pdf_algemene_voorwaarden").".pdf");
 				if($gegevens["stap1"]["website_specifiek"]["verzekering_mogelijk"] or $gegevens["stap1"]["annverz_aantalpersonen"]) {
 					if(file_exists("pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf")) $mail->attachment("pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf");
 				}
 			}
-			
+
 			if($form->input["factuurmailen"] and $gegevens["stap1"]["reisbureau_bevestiging_email_1"]) {
 				# reisbureau
 				if($gegevens["stap1"]["reisbureau_bevestiging_email_2"]) {
@@ -794,7 +797,7 @@ if($form->okay) {
 				}
 				$mail->send();
 			}
-			
+
 			unlink($tempfile);
 		}
 	}

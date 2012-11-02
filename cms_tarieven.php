@@ -96,7 +96,7 @@ if($_POST["filled"]) {
 	}
 
 	if(!$skipastarieven_verwerken and !$ingevulde_waarde_opgeslagen) {
-		trigger_error("geen tarieven om op te slaan. POST-count: ".@count($_POST),E_USER_NOTICE);
+		trigger_error("_notice: geen tarieven om op te slaan. POST-count: ".@count($_POST),E_USER_NOTICE);
 		echo "<p>Bij de zojuist ontvangen gegevens is het veld 'bruto' helemaal leeg. De aanpassingen zijn daarom niet correct opgeslagen. Neem contact op met Jeroen en meld hem deze kwestie. Foutcode: 11</p>";
 		exit;
 	}

@@ -29,7 +29,7 @@ if($_GET["t"]==1) {
 			echo "</table>";
 		}
 	}
-	
+
 } elseif($_GET["t"]==2) {
 	#
 	# Overzicht ontbrekende handtekeningen
@@ -75,9 +75,9 @@ if($_GET["t"]==1) {
 			padding: 29px 4px 4px 4px;
 		}
 	</style>
-	<![endif]--> 
+	<![endif]-->
 	<?php
-	
+
 	# Eerste en laatste factuur bepalen
 	$db->query("SELECT boeking_id, UNIX_TIMESTAMP(datum) AS datum FROM factuur ORDER BY datum;");
 	while($db->next_record()) {
@@ -86,13 +86,13 @@ if($_GET["t"]==1) {
 		}
 		$laatstefactuur[$db->f("boeking_id")]=$db->f("datum");
 	}
-	
+
 	# Betaalde bedragen (voldaan) bepalen
 	$db->query("SELECT boeking_id, sum(bedrag) AS bedrag FROM boeking_betaling GROUP BY boeking_id;");
 	while($db->next_record()) {
 		$voldaan_array[$db->f("boeking_id")]=round($db->f("bedrag"),2);
 	}
-	
+
 	$db->query("SELECT DISTINCT SUBSTR(b.boekingsnummer,2) AS bn_zonder_letter, b.boeking_id, b.boekingsnummer, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.aankomstdatum_exact, b.totale_reissom, b.aanbetaling1_dagennaboeken, b.aanbetaling1 , b.aanbetaling1_gewijzigd, UNIX_TIMESTAMP(b.aanbetaling2_datum) AS aanbetaling2_datum, b.aanbetaling2, b.totale_reissom_dagenvooraankomst, b.aanmaning_tekst, b.aanmaning_mailblokkeren, UNIX_TIMESTAMP(b.aanmaning_verstuurdatum) AS aanmaning_verstuurdatum, b.aanmaning_aantal, b.opmerkingen_intern, UNIX_TIMESTAMP(b.opmerkingen_intern_gewijzigd) AS opmerkingen_intern_gewijzigd, b.reisbureau_user_id, p.voornaam, p.tussenvoegsel, p.achternaam FROM boeking b, boeking_persoon p, factuur f WHERE f.boeking_id=b.boeking_id AND p.boeking_id=b.boeking_id AND p.persoonnummer=1 AND b.geannuleerd=0 AND b.boekingsnummer<>'' AND b.factuur_ondertekendatum IS NULL AND b.vraag_ondertekening=1 ORDER BY 1;");
 	if($db->num_rows()) {
 		echo "<div id=\"tablediv\">";
@@ -101,7 +101,7 @@ if($_GET["t"]==1) {
 		echo "<tr><th>Res.nr.</th><th style=\"width:250px;\">Hoofdboeker</th><th title=\"Datum laatste wijziging opmerkingen\">Opm</th><th>Aankomst</th><th nowrap title=\"Eerste factuur\">Eerste factuur</th><th nowrap title=\"Laatste factuur\">Laatste factuur</th><th>Voldaan&nbsp;&nbsp;&nbsp;&nbsp;</th></tr>\n";
 		echo "</thead>";
 		echo "<tbody>";
-	
+
 		unset($reisbureau_inquery);
 		while($db->next_record()) {
 			if($db->f("reisbureau_user_id")) {
@@ -114,18 +114,18 @@ if($_GET["t"]==1) {
 				$reisbureau_namen[$db2->f("user_id")]=$db2->f("naam");
 			}
 		}
-		
+
 		$db->seek();
 		while($db->next_record()) {
 			unset($regeltonen,$totaal,$voldaan,$openstaand,$telaat,$telaat_type,$tevoldoen);
 			$totaal=round($db->f("totale_reissom"),2);
-		
+
 			$voldaan=$voldaan_array[$db->f("boeking_id")];
-			
+
 			$voldaan=round($voldaan,2);
 			$openstaand=$totaal-$voldaan;
 			$openstaand=round($openstaand,2);
-	
+
 			echo "<tr><td nowrap><a href=\"cms_boekingen.php?show=21&archief=0&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a></td><td style=\"width:250px;\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")));
 			if($db->f("reisbureau_user_id")) {
 				echo " (via ".$reisbureau_namen[$db->f("reisbureau_user_id")].")";
@@ -150,21 +150,21 @@ if($_GET["t"]==1) {
 	if($_GET["cmstaal"]) {
 		$vars["cmstaal"]=$_GET["cmstaal"];
 	}
-	
-	
+
+
 	if($vars["cmstaal"]) {
-	
+
 		if($vars["cmstaal"]=="en") {
 			$vars["cmstaal_website"]="E";
 		} elseif($vars["cmstaal"]=="de") {
 			$vars["cmstaal_website"]="D";
 		}
-		
+
 		if($_GET["initieel_vertalen"]) {
 			# Overzicht nog niet vertaalde types en accommodaties
-			
-			
-			
+
+
+
 			# Welke velden moeten worden vertaald bij de accommodaties?
 			$ignore_fields=array("pdfupload","vertrekinfo_seizoengoedgekeurd","pdfupload_user","pdfupload_datum");
 			$db->query("SHOW COLUMNS FROM accommodatie;");
@@ -183,8 +183,8 @@ if($_GET["t"]==1) {
 				}
 				echo "</ul>";
 			}
-			
-			
+
+
 			# Welke velden moeten worden vertaald bij de types?
 			unset($orquery);
 			$ignore_fields=array("pdfupload","vertrekinfo_seizoengoedgekeurd","pdfupload_user","pdfupload_datum");
@@ -204,12 +204,12 @@ if($_GET["t"]==1) {
 				}
 				echo "</ul>";
 			}
-			
+
 		} else {
 			if($vars["cmstaal"]=="de") {
 				echo "<p class=\"opvalblok\"><a href=\"".$_SERVER["REQUEST_URI"]."&initieel_vertalen=1\">Bekijk de niet eerder ".strtoupper($vars["cmstaal"])."-vertaalde accommodaties en types &raquo;</a></p>";
 			}
-	
+
 			echo "Klik op <img src=\"".$vars["path"]."pic/icon_okay.png\" width=\"20\" height=\"20\" border=\"0\"> na het controleren/vertalen van alle velden van een record.<br><br>";
 			$db->query("SELECT DISTINCT table_name, cms_id FROM cmslog WHERE vertaald_".$vars["cmstaal"]."=0 AND specialtype NOT IN (2,3) ORDER BY table_name;");
 			while($db->next_record()) {
@@ -221,56 +221,56 @@ if($_GET["t"]==1) {
 					}
 				}
 			}
-			
+
 			#
 			# Bepalen welke records uitsluitend gebruikt moeten worden (bijv. vanwege zomer-accommodaties, archief, tonen=0)
 			#
-		
+
 			# aanbiedingen
 			$db->query("SELECT aanbieding_id FROM aanbieding WHERE wzt=1;");
 			while($db->next_record()) {
 				$alleen_inquery["aanbieding"].=",".$db->f("aanbieding_id");
 			}
-			
+
 			# accommodaties
 			$db->query("SELECT a.accommodatie_id FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.wzt=1 AND a.archief=0 AND a.websites LIKE '%".$vars["cmstaal_website"]."%' AND a.tonen=1 ORDER BY p.naam, a.naam;");
 			while($db->next_record()) {
 				$alleen_inquery["accommodatie"].=",".$db->f("accommodatie_id");
 			}
-		
+
 			# types
 			$db->query("SELECT t.type_id FROM type t, accommodatie a, plaats p WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.tonen=1 AND t.websites LIKE '%".$vars["cmstaal_website"]."%' AND a.accommodatie_id IN (".substr($alleen_inquery["accommodatie"],1).") ORDER BY p.naam, a.naam, t.naam, t.optimaalaantalpersonen;");
 			while($db->next_record()) {
 				$alleen_inquery["type"].=",".$db->f("type_id");
 			}
-			
+
 			# skigebieden
 			$db->query("SELECT skigebied_id, naam FROM skigebied WHERE wzt=1 ORDER BY naam;");
 			while($db->next_record()) {
 				$alleen_inquery["skigebied"].=",".$db->f("skigebied_id");
 			}
-		
+
 			# plaatsen
 			$db->query("SELECT plaats_id, naam FROM plaats WHERE wzt=1 ORDER BY naam;");
 			while($db->next_record()) {
 				$alleen_inquery["plaats"].=",".$db->f("plaats_id");
 			}
-		
+
 			# thema's
 			$db->query("SELECT thema_id FROM thema WHERE wzt=1;");
 			while($db->next_record()) {
 				$alleen_inquery["thema"].=",".$db->f("thema_id");
 			}
-			
+
 			while(list($key,$value)=@each($onvertaald)) {
 				if($value["inquery"]) {
 					$db->query("SELECT cmslog_id, table_name, cms_id, cms_name, record_id, record_name, hide, field, field_name, previous, now, url FROM cmslog WHERE table_name='".addslashes($key)."' AND vertaald_".$vars["cmstaal"]."=0 AND field IN (".substr($value["inquery"],1).")".($alleen_inquery[$key] ? " AND record_id IN (".substr($alleen_inquery[$key],1).") ORDER BY FIELD(record_id,".substr($alleen_inquery[$key],1)."), hide" : " ORDER BY record_id, hide").";");
 					if($db->num_rows()) {
 						echo "\n<br><h2>".htmlentities(ucfirst($cms_name[$key]))."</h2>\n";
-					
+
 						unset($record_gehad,$table_geopend);
 						while($db->next_record()) {
-						
+
 							if($key=="accommodatie") {
 								$naam=$vars["alleacc"][$db->f("record_id")];
 							} elseif($key=="type") {
@@ -316,7 +316,7 @@ if($_GET["t"]==1) {
 							}
 						}
 						if($record_gehad) {
-						
+
 							if($table_geopend) {
 								echo "</table>";
 							}
@@ -349,7 +349,7 @@ if($_GET["t"]==1) {
 	} else {
 		$sort="b.aankomstdatum_exact, 1";
 	}
-	
+
 	if($_GET["verzendmethode"]==1) {
 		$verzendmethode_andquery=" AND verzendmethode_reisdocumenten=1";
 	} elseif($_GET["verzendmethode"]==2) {
@@ -357,7 +357,7 @@ if($_GET["t"]==1) {
 	} elseif($_GET["verzendmethode"]==3) {
 		$verzendmethode_andquery=" AND verzendmethode_reisdocumenten=0";
 	}
-	
+
 	# aantallen bepalen
 	$vouchers_verzonden=array(2,3,9,10,11,12);
 	$db->query("SELECT SUBSTRING(b.boekingsnummer,2) AS factuur, b.verzendmethode_reisdocumenten, b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.seizoen_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.voucherstatus, b.taal, b.totale_reissom, b.goedgekeurde_betaling, b.verzendmethode_reisdocumenten, a.naam, a.accommodatie_id, a.vertrekinfo_seizoengoedgekeurd, a.vertrekinfo_seizoengoedgekeurd_en, a.wzt, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode, lev.naam AS leverancier FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s, leverancier lev WHERE b.leverancier_id=lev.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.aankomstdatum_exact>='".$vars["temp_begin"]."' AND b.aankomstdatum_exact<='".$vars["temp_eind"]."' AND b.goedgekeurd=1 AND b.geannuleerd=0".";");
@@ -366,7 +366,7 @@ if($_GET["t"]==1) {
 			$aantallen["alles"]["weg"]++;
 			$aantallen[$db->f("verzendmethode_reisdocumenten")]["weg"]++;
 		} else {
-			$aantallen["alles"]["nog"]++;		
+			$aantallen["alles"]["nog"]++;
 			$aantallen[$db->f("verzendmethode_reisdocumenten")]["nog"]++;
 		}
 	}
@@ -378,9 +378,9 @@ if($_GET["t"]==1) {
 		echo "<span style=\"background-color:#fdff86;display:inline-block;width:50px;\">Geel</span> = nog geen vertrekinfo aan de accommodatie gekoppeld<br>";
 		echo "<span style=\"background-color:#e587f6;display:inline-block;width:50px;\">Paars</span> = vertrekinfo is niet goedgekeurd voor het betreffende seizoen<br>";
 		echo "<span style=\"background-color:#a6ffb3;display:inline-block;width:50px;\">Groen</span> = vertrekinfo is in orde<br>";
-		
+
 		echo "<br>";
-		
+
 		echo "Sorteervolgorde: ";
 		if($_GET["sort"]=="factuur") {
 			echo "<a href=\"".htmlentities(wt_stripurl(array("sort")))."\">datum/factuurnummer</a>";
@@ -456,7 +456,7 @@ if($_GET["t"]==1) {
 		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm2\">";
 		echo "<tr><th>Aankomst</th><th>Boeking</th><th>Accommodatie</th><th nowrap>Voucherstatus</th><th>Openstaand</th><th title=\"Verzendmethode\">V</th></tr>";
 		while($db->next_record()) {
-		
+
 			# Openstaand bedrag bepalen
 			$nog_te_betalen=round($db->f("totale_reissom"),2);
 			$db2->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum FROM boeking_betaling WHERE boeking_id='".addslashes($db->f("boeking_id"))."';");
@@ -472,7 +472,7 @@ if($_GET["t"]==1) {
 			# achtergrondkleur bepalen
 			$file="pdf/route_".$db->f("taal")."/".$db->f("accommodatie_id").".pdf";
 			if(file_exists($file)) {
-			
+
 				if($db->f("taal")=="nl") {
 					$vertrekinfo_seizoengoedgekeurd=$db->f("vertrekinfo_seizoengoedgekeurd");
 				} else {
@@ -523,7 +523,7 @@ if($_GET["t"]==1) {
 	} else {
 		$wzt=2;
 	}
-	
+
 	# Actuele seizoenen bepalen
 	unset($inquery,$regexp);
 	$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind, type FROM seizoen WHERE type='".addslashes($wzt)."' AND UNIX_TIMESTAMP(eind)>'".(time()-(86400*60))."' ORDER BY type, begin, eind;");
@@ -535,12 +535,12 @@ if($_GET["t"]==1) {
 	}
 	if($inquery) $inquery=substr($inquery,1); else $inquery="0";
 	if($regexp) $regexp=substr($regexp,4); else $regexp="1=1";
-	
+
 	$db->query("SELECT DISTINCT a.accommodatie_id, a.naam, a.wzt, a.teksten_seizoengoedgekeurd, p.naam AS plaats FROM accommodatie a, type t, tarief ta, plaats p WHERE t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND a.plaats_id=p.plaats_id AND a.archief=0 AND a.tonen=1 AND t.tonen=1 AND ta.seizoen_id IN (".$inquery.") AND (".$regexp.") ORDER BY p.naam, a.naam;");
 	if($db->num_rows()) {
 		echo "<p>Bij de volgende accommodaties zijn tarieven bekend, maar moeten de teksten nog worden nagekeken:</p><table cellspacing=\"0\" class=\"tbl\" style=\"width:650px;\"><tr><th>Accommodatie</th><th nowrap>Goedgekeurd t/m</th></tr>";
 		while($db->next_record()) {
-			
+
 			# Goedgekeurd t/m bepalen
 			unset($seizoengoedgekeurd_eind,$seizoengoedgekeurd);
 			$seizoengoedgekeurd_array=split(",",$db->f("teksten_seizoengoedgekeurd"));
@@ -558,13 +558,13 @@ if($_GET["t"]==1) {
 		echo "</table>";
 	}
 #	echo $db->lastquery;
-	
-	
+
+
 } elseif($_GET["t"]==10) {
 	#
 	# Nieuwsbrief-leden
 	#
-	
+
 	echo "<br><hr><br><h2>Gewone nieuwsbrief</h2>";
 	$db->query("SELECT COUNT(nieuwsbrieflid_id) AS aantal FROM nieuwsbrieflid WHERE export IS NULL;");
 	if($db->next_record()) {
@@ -604,10 +604,10 @@ if($_GET["t"]==1) {
 		if($login->user_id==4 or $login->user_id==6) {
 			$_GET["enquetestatus"]=2;
 		} else {
-			$_GET["enquetestatus"]=0;		
+			$_GET["enquetestatus"]=0;
 		}
 	}
-	
+
 	echo "<div class=\"opvalblok\"><form method=\"get\" action=\"cms_overzichten_overig.php?t=11\">Status:&nbsp;&nbsp;&nbsp;<select name=\"enquetestatus\" onchange=\"this;submit();\">";
 	while(list($key,$value)=each($vars["enquetestatus"])) {
 		echo "<option value=\"".$key."\"".($key==$_GET["enquetestatus"] ? " selected" : "").">".wt_he($value)."</option>";
@@ -617,7 +617,7 @@ if($_GET["t"]==1) {
 		if($key<>"enquetestatus") echo "<input type=\"hidden\" name=\"".wt_he($key)."\" value=\"".wt_he($value)."\">";
 	}
 	echo "</form></div>";
-	
+
 	unset($algehad);
 	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.aankomstdatum_exact, UNIX_TIMESTAMP(e.invulmoment) AS invulmoment, b.type_id, v.plaats, v.naam, v.wzt FROM boeking b, boeking_enquete e, view_accommodatie v WHERE v.type_id=b.type_id AND e.boeking_id=b.boeking_id AND e.beoordeeld='".addslashes($_GET["enquetestatus"])."' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 ORDER BY v.wzt, v.plaats, b.aankomstdatum_exact, e.invulmoment;");
 	if($db->num_rows()) {
@@ -639,7 +639,20 @@ if($_GET["t"]==1) {
 	#
 	# Overige overzichten
 	#
-	
+
+	#
+	# TIJDELIJK: emailadressen actuele Wintersportaccommodaties.nl-boekingen
+	#
+	$db->query("SELECT b.boekingsnummer, bp.email FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND wederverkoop=0 AND website='W' AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND aankomstdatum_exact>'".time()."' ORDER BY bp.email;");
+	while($db->next_record()) {
+		$temp_mailadressen.=", ".$db->f("email");
+	}
+	if($temp_mailadressen) {
+		echo "<h2>Tijdelijk overzicht: e-mailadressen actuele Wintersportaccommodaties.nl-boekingen</h2>";
+		echo "<textarea style=\"width:700px;height:200px;\" class=\"autoselect_on_focus\">".substr($temp_mailadressen,2)."</textarea>";
+		echo "<br>&nbsp;<hr><br>";
+	}
+
 	# Overzicht aantal aangeboden bedden per seizoen
 	echo "<h2>Aantal aangeboden bedden per seizoen</h2>";
 	echo "<ul>";
@@ -654,7 +667,7 @@ if($_GET["t"]==1) {
 	}
 	echo "</ul>";
 	echo "</li>";
-	
+
 
 	# Overzicht zomeraccommodaties zonder winter-koppeling
 	$db->query("SELECT a.accommodatie_id, a.naam, t.type_id, t.naam AS type, p.naam AS plaats, l.naam AS leverancier FROM accommodatie a, type t, plaats p, leverancier l WHERE t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.geenzomerwinterkoppeling=0 AND (zomerwinterkoppeling_accommodatie_id IS NULL OR zomerwinterkoppeling_accommodatie_id=0) AND a.wzt=2 AND a.tonen=1 AND t.tonen=1 AND a.archief=0 ORDER BY l.naam, p.naam, a.naam, t.naam;");

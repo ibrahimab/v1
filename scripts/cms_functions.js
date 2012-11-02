@@ -459,7 +459,6 @@ $(document).ready(function() {
 		$("#fixedtable_header_div").css("display","block");
 	}
 
-
 	// jQuery UI Datepicker
 	if($().datepicker) {
 
@@ -485,11 +484,29 @@ $(document).ready(function() {
 		$(".jqueryui_datepicker").datepicker();
 	}
 
-
 	// CMS via verkeerde site (niet chalet.nl) melden
 	if(cms_via_verkeerde_site==1) {
 		alert("Je gebruikt het CMS op dit moment via "+window.location.hostname+".\n\nGebruik het CMS altijd via www.chalet.nl/cms.php");
 	}
+
+
+	// alle tekst in een textarea selecteren na focus
+	$('textarea.autoselect_on_focus').focus(function() {
+		var $this = $(this);
+
+		$this.select();
+
+		window.setTimeout(function() {
+			$this.select();
+		}, 1);
+
+		// Work around WebKit's little problem
+		$this.mouseup(function() {
+			// Prevent further mouseup intervention
+			$this.unbind("mouseup");
+			return false;
+		});
+	});
 });
 
 

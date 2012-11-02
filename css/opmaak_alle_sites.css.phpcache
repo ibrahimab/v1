@@ -93,16 +93,16 @@ a.webtastic {
 	font-weight: bold;
 }
 
-A.cmssort {
+a.cmssort {
 	color: #FFFFFF;
 }
 
-UL {
+ul {
 	margin-top: 3px;
 	margin-bottom: 0px;
 }
 
-LI {
+li {
 	padding-bottom: 5px;
 }
 
@@ -1229,6 +1229,14 @@ td.selecteerbaarbedrag:hover{
 	width:300px;
 	height:300px;
 	z-index: 9002;
+}
+
+
+
+/* per pagina */
+
+#body_sitemap ul {
+	margin-top: -8px;
 }
 
 

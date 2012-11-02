@@ -238,7 +238,7 @@ form {
 }
 
 #hoofdmenu a:hover {
-	color: #e6007e;
+	color: #ee54a8;
 }
 
 .hoofdmenu_actief {
@@ -742,7 +742,7 @@ form {
 }
 
 .laatstbekeken_tekst_hover {
-	color: #660066;
+	color: #e6007e;
 }
 
 .laatstbekeken_divider {
@@ -944,7 +944,9 @@ form {
 }
 
 
-
+.wtform_table {
+	border-width: 1px;
+}
 
 
 

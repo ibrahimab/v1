@@ -30,7 +30,7 @@ if($gegevens["stap1"]["boekingid"]) {
 	} elseif($temp_gegevens["stap2"][1]) {
 		$gegevens["stap2"]=$temp_gegevens["stap2"][1];
 	}
-	
+
 	# Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
 	@reset($temp_gegevens["stap3"][2]);
 	while(list($key,$value)=@each($temp_gegevens["stap3"][2])) {
@@ -45,7 +45,7 @@ if($gegevens["stap1"]["boekingid"]) {
 	while(list($key,$value)=@each($temp_gegevens["stap3"][1])) {
 		if(is_array($value) and !is_array($gegevens["stap3"][$key])) $gegevens["stap3"][$key]=$value;
 	}
-	
+
 	$gegevens["stap4"]=$temp_gegevens["stap4"][1];
 	$gegevens["stap4"]["actieve_status"]=1;
 	$gegevens["fin"]=$temp_gegevens["fin"][1];
@@ -148,7 +148,7 @@ if($db->next_record()) {
 	$voucher[$voucherteller]["begindag"]=$db->f("begindag");
 	$voucher[$voucherteller]["einddag"]=$db->f("einddag");
 	$voucher[$voucherteller]["logo"]="pic/cms/voucherlogo_skipas/".$db->f("skipas_id").".jpg";
-	
+
 	# Deelnemers bepalen
 	for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 		if(!$afwijkende_skipas[$i]) {
@@ -218,7 +218,7 @@ while($db->next_record()) {
 	$voucher[$voucherteller]["begindag"]=$db->f("begindag");
 	$voucher[$voucherteller]["einddag"]=$db->f("einddag");
 	if($db->f("skipas_id")) {
-		$voucher[$voucherteller]["skipas"]=true;	
+		$voucher[$voucherteller]["skipas"]=true;
 		if(!file_exists($voucher[$voucherteller]["logo"])) {
 			$voucher[$voucherteller]["logo"]="pic/cms/voucherlogo_skipas/".$db->f("skipas_id").".jpg";
 		}
@@ -418,11 +418,11 @@ if($form->filled) {
 }
 
 if($form->okay) {
-	
+
 	require("admin/fpdf.php");
-	
+
 	class PDF extends FPDF {
-		
+
 		function _getfontpath() {
 			return "pdf/fonts/";
 		}
@@ -475,24 +475,25 @@ if($form->okay) {
 					$pdf->AddPage();
 					$y=0;
 				}
-		
+
 				$pdf->SetY(6+$y);
-				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
-					# Zomerhuisje - positie "VOUCHER" helemaal links
+#				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==7 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
+					# Zomerhuisje/Italissima/SuperSki - positie "VOUCHER" helemaal links
 					$pdf->SetX(10);
 					$pdf->SetFont('Arial','',20);
 					$pdf->Cell(0,4,($thuisblijvers ? "" : "VOUCHER"),0,1);
-				} else {
-					$pdf->SetX(80);
-					$pdf->SetFont('Arial','',20);
-					$pdf->Cell(0,4,($thuisblijvers ? "" : "       VOUCHER"),0,1);
-				}
+#				} else {
+#					$pdf->SetX(80);
+#					$pdf->SetFont('Arial','',20);
+#					$pdf->Cell(0,4,($thuisblijvers ? "" : "       VOUCHER"),0,1);
+#				}
 				$pdf->SetFont('Arial','',8);
-				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==4 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==5 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==6 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
-				
-				} else {
-					$pdf->Image("pic/factuur_logo_wsa.png",10,3+$y,70);
-				}
+#				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==4 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==5 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==6 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==7 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
+#					# Geen extra logo
+#				} else {
+#					# Extra logo WSA
+#					$pdf->Image("pic/factuur_logo_wsa.png",10,3+$y,70);
+#				}
 
 
 				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==4 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==5) {
@@ -507,8 +508,11 @@ if($form->okay) {
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
 					# Italissima-logo
 					$pdf->Image("pic/factuur_logo_italissima.png",150,5+$y,56);
+				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
+					# SuperSki-logo
+					$pdf->Image("pic/factuur_logo_superski.png",150,5+$y,56);
 				} else {
-					# Overige sites
+					# Chalet.nl-logo
 					$pdf->Image("pic/factuur_logo.png",169.5,1+$y,32);
 				}
 
@@ -516,14 +520,14 @@ if($form->okay) {
 #				$pdf->MultiCell(0,3,"".$pdf->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nLindenhof 5\n3442 GT Woerden\n\nTel.: +31 348 43 46 49\nFax: +31 348 69 07 52\n\nE-mail: info@chalet.nl",0,"R");
 #				$pdf->Ln(20);
 				$pdf->SetFont('Arial','',10);
-		
+
 				$pdf->SetY(22+$y);
-		
+
 				$pdf->Cell(35,4,txt("refplushoofdboeker","voucher"),0,0,'L',0);
 				$pdf->Cell(5,4,"  :",0,0,'L',0);
 				$pdf->Cell(50,4,$gegevens["stap1"]["boekingsnummer"]." - ".wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]),0,0,'L',0);
 				$pdf->Ln();
-				
+
 				$pdf->Cell(35,4,$vars["voucher_bestemming"][$accinfo["begincode"]],0,0,'L',0);
 				$pdf->Cell(5,4,"  :",0,0,'L',0);
 				$pdf->Cell(50,4,$accinfo["plaats"],0,0,'L',0);
@@ -533,7 +537,7 @@ if($form->okay) {
 				if($accinfo["bestelnaam"]) {
 					$pdf->MultiCell(150,4,ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"]." (our name: ".$accinfo["bestelnaam"].")",0,'L',0);
 				} else {
-					$pdf->MultiCell(150,4,ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"],0,'L',0);				
+					$pdf->MultiCell(150,4,ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"],0,'L',0);
 				}
 
 				if($i==1 and !$thuisblijvers) {
@@ -547,19 +551,19 @@ if($form->okay) {
 #				if(!$form->input["einddatum".$i]) {
 #					$pdf->Ln();
 #				}
-		
+
 				$pdf->Cell(35,4,($vars["landcodes"][$accinfo["begincode"]]<>$gegevens["stap1"]["taal"] ? txt("aanvang","voucher")." / " : "").$vars["voucher_eerstedag"][$accinfo["begincode"]],0,0,'L',0);
 				$pdf->Cell(5,4,"  :",0,0,'L',0);
 				$pdf->Cell(50,4,$form->input["aanvangsdatum".$i],0,0,'L',0);
 				$pdf->Ln();
-		
+
 				if($form->input["einddatum".$i]) {
 					$pdf->Cell(35,4,($vars["landcodes"][$accinfo["begincode"]]<>$gegevens["stap1"]["taal"] ? txt("laatstedag","voucher")." / " : "").$vars["voucher_laatstedag"][$accinfo["begincode"]],0,0,'L',0);
 					$pdf->Cell(5,4,"  :",0,0,'L',0);
 					$pdf->Cell(50,4,$form->input["einddatum".$i],0,0,'L',0);
 					$pdf->Ln();
 				}
-	
+
 				if($i==1) {
 					$pdf->Ln();
 					$pdf->Cell(35,4,txt("receptiesleutel","voucher"),0,0,'L',0);
@@ -571,7 +575,7 @@ if($form->okay) {
 					$pdf->Cell(5,4,"  :",0,0,'L',0);
 					$pdf->MultiCell(0,4,$accinfo["telefoonnummer"],0,'L',0);
 					$pdf->Ln();
-		
+
 					if(!$thuisblijvers) {
 						$pdf->Cell(35,4,$vars["voucher_deelnemers"][$accinfo["begincode"]],0,0,'L',0);
 						$pdf->Cell(5,4,"  :",0,0,'L',0);
@@ -604,7 +608,7 @@ if($form->okay) {
 
 					$pdf->Cell(35,4,$vars["voucher_deelnemers"][$accinfo["begincode"]],0,0,'L',0);
 					$pdf->Cell(5,4,"  :",0,0,'L',0);
-	
+
 					$posy=$pdf->GetY();
 					$pdf->MultiCell(0,4,"".$deelnemerskolom[$j],0,"L");
 					$posy2=$pdf->GetY();
@@ -614,9 +618,9 @@ if($form->okay) {
 						$pdf->MultiCell(0,4,"".$deelnemerskolom[$j+1],0,"L");
 						$pdf->SetY($posy2);
 					}
-	
+
 					$pdf->Ln();
-				
+
 					if($form->input["aanvullend_voucher".$i]) {
 						$pdf->SetFont('Arial','B',10);
 						$pdf->Cell(35,4,txt("letop","voucher"),0,0,'L',0);
@@ -628,7 +632,7 @@ if($form->okay) {
 				}
 
 				$ondersteregel=123;
-				
+
 				$pdf->SetY($ondersteregel+$y);
 
 				if(file_exists($voucher[$i]["logo"]) and !$thuisblijvers) {
@@ -650,7 +654,7 @@ if($form->okay) {
 					$pdf->Cell(50,4,($thuisblijvers ? txt("informatievoorthuisblijvers","voucher") : $form->input["naam_voucher".$i]),0,0,'L',0);
 				}
 				$pdf->Ln(5);
-	
+
 				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
 					# Zomerhuisje - onderaan andere URL tonen
 					$pdf->Cell(35,4,"",0,0,'L',0);
@@ -665,11 +669,18 @@ if($form->okay) {
 					$pdf->Ln(0);
 					$pdf->SetFont('Arial','B',10);
 					$pdf->Cell(0,4,"www.italissima.nl",0,0,'C',0);
-				} else {				
+				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
+					# SuperSki - onderaan andere URL tonen
+					$pdf->Cell(35,4,"",0,0,'L',0);
+#					$pdf->Cell(0,4,"",0,0,'L',0);
+					$pdf->Ln(0);
+					$pdf->SetFont('Arial','B',10);
+					$pdf->Cell(0,4,"www.superski.nl",0,0,'C',0);
+				} else {
 					$pdf->Cell(35,4,"",0,0,'L',0);
 					$pdf->Cell(5,4,"",0,0,'L',0);
 					$pdf->SetFont('Arial','B',10);
-					$pdf->Cell(0,4,"www.chalet.nl  - www.wintersportaccommodaties.nl  -  www.chalet.eu",0,0,'L',0);
+					$pdf->Cell(0,4,"www.chalet.nl  -  www.chalet.eu",0,0,'L',0);
 				}
 				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
 					# Zomerhuisje mailadres
@@ -681,12 +692,17 @@ if($form->okay) {
 					$pdf->SetFont('Arial','B',6);
 					$pdf->Ln(4);
 					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@italissima.nl",0,0,'C',0);
+				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
+					# SuperSki-mailadres
+					$pdf->SetFont('Arial','B',6);
+					$pdf->Ln(4);
+					$pdf->Cell(0,4,"SuperSki - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@superski.nl",0,0,'C',0);
 				} else {
 					$pdf->SetFont('Arial','B',7);
 					$pdf->Ln(4);
-					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@chalet.nl",0,0,'C',0);				
+					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@chalet.nl",0,0,'C',0);
 				}
-		
+
 				$pdf->Ln();
 			}
 		}
@@ -694,8 +710,8 @@ if($form->okay) {
 			$thuisblijvers=false;
 			$i=2;
 		}
-	}		
-	
+	}
+
 	if($_POST["alleen_tonen"]) {
 		$pdf->Output();
 		exit;
@@ -719,33 +735,33 @@ if($form->okay) {
 
 		$pdf->Output($archieffile);
 		chmod($archieffile,0666);
-		
+
 
 		if($form->input["vouchersmailen"]) {
-		
+
 			# Mail met vouchers versturen aan klant (html-mail!)
 			$mail=new wt_mail;
 			$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
 			$mail->from=$gegevens["stap1"]["website_specifiek"]["email"];
 			$mail->to=$gegevens["stap2"]["email"];
 			$mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] Voucher".($voucherteller>2 ? "s" : "");
-		
+
 			# Indien geboekt door reisbureau: andere kop boven mailtje
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
 				$mail->html=txt("mailtje_wederverkoop","voucher",array("v_reserveringsnummer"=>$gegevens["stap1"]["boekingsnummer"],"v_hoofdboeker"=>wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"])))."<br><br><br>";
 			}
-	
+
 			$mail->html_top="<table width=600><tr><td>";
 			$mail->html.=nl2br(txt("mailtje","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"v_langewebsitenaam"=>$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"],"h_1"=>"<table cellspacing=0 cellpadding=0 style=\"border:1px solid #000000;padding:5px;background-color:#ffffb1;\"><tr><td>","h_2"=>"</td></tr></table>","h_3"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
 			$mail->html_bottom="</td></tr>";
-	
+
 			$mail->attachment($tempfile);
-			
+
 			if(file_exists($pdffile_voorbrief)) {
 				$mail->attachment($pdffile_voorbrief,"","",txt("attachmentnaam_voorbrief_pdf","voucher"));
 				$algemene_informatie=true;
 			}
-	
+
 			if(file_exists($pdffile_route)) {
 				if($gegevens["stap1"]["reisbureau_user_id"]) {
 					# route alleen bij wederverkoop in voucher-mailtje (in andere gevallen in het mailtje "algemene informatie")
@@ -753,7 +769,7 @@ if($form->okay) {
 				}
 				$algemene_informatie=true;
 			}
-	
+
 			if(file_exists($pdffile_plattegrond)) {
 				if($gegevens["stap1"]["reisbureau_user_id"]) {
 					# plattegrond alleen bij wederverkoop in voucher-mailtje (in andere gevallen in het mailtje "algemene informatie")
@@ -764,14 +780,14 @@ if($form->okay) {
 
 			if($algemene_informatie and !$gegevens["stap1"]["reisbureau_user_id"]) {
 				$mail->subject.=" ".txt("mailtje_onderwerp_1van2","voucher");
-			}			
+			}
 			$mail->send();
 			if($algemene_informatie and !$gegevens["stap1"]["reisbureau_user_id"]) {
 				# Mail met vertrekinformatie mailen (niet als het een wederverkoop-boeking betreft)
-				
+
 				# even wachten (zodat mailtje 2 later aankomt dan mailtje 1)
 				sleep(2);
-				
+
 				unset($mail);
 				$mail=new wt_mail;
 				$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
@@ -784,26 +800,26 @@ if($form->okay) {
 				$mail->html_top="<table width=600><tr><td>";
 				$mail->html.=nl2br(txt("mailtje_zonder_voucher","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"h_1"=>"","h_2"=>"","h_3"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
 				$mail->html_bottom="</td></tr>";
-		
+
 				if(file_exists($pdffile_voorbrief)) {
 					$mail->attachment($pdffile_voorbrief,"","",txt("attachmentnaam_voorbrief_pdf","voucher"));
 				}
-		
+
 				if(file_exists($pdffile_route)) {
 					$mail->attachment($pdffile_route,"","",txt("attachmentnaam_route_pdf","voucher"));
 				}
-		
+
 				if(file_exists($pdffile_plattegrond)) {
 					$mail->attachment($pdffile_plattegrond,"","",txt("attachmentnaam_plattegrond_pdf","voucher"));
 				}
 				$mail->send();
-			}			
+			}
 			chalet_log("vouchers aangemaakt en gemaild aan ".$gegevens["stap2"]["email"],true,true);
 		} else {
 			chalet_log("vouchers aangemaakt",true,true);
 		}
 		unlink($tempfile);
-		
+
 		# voucherstatus wegschrijven
 		if($form->input["na_aanmaken"]<>"") {
 			$db->query("UPDATE boeking SET voucherstatus='".addslashes($form->input["na_aanmaken"])."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
