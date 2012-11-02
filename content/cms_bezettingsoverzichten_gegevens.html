@@ -110,15 +110,27 @@ if($inquery_type_id) {
 		}
 	}
 
-	# Garanties (voor interne overzichten)
+	# Garanties (alleen bij interne overzichten)
 	if($mustlogin) {
 		$db->query("SELECT g.type_id, g.aankomstdatum_exact, g.vertrekdatum_exact, g.reserveringsnummer_extern FROM garantie g WHERE g.type_id IN (".addslashes($inquery_type_id).") AND g.boeking_id=0 AND g.aankomstdatum_exact>'".time()."';");
 		while($db->next_record()) {
 			$typeid=$koppeling[$db->f("type_id")];
 			$dag=$db->f("aankomstdatum_exact");
 			while($dag<$db->f("vertrekdatum_exact")) {
-				$colorclass[$typeid][$dag]="garantie";
-				$text[$typeid][$dag]="Garantie ".$db->f("reserveringsnummer_extern");
+				if($colorclass[$typeid][$dag]) {
+					unset($vrij_veld_gevonden,$while_teller);
+					while(!$vrij_veld_gevonden) {
+						$while_teller++;
+						if(!$colorclass[$typeid."_".$while_teller][$dag]) {
+							$vrij_veld_gevonden=true;
+							$colorclass[$typeid."_".$while_teller][$dag]="garantie";
+							$text[$typeid."_".$while_teller][$dag]="Garantie ".$db->f("reserveringsnummer_extern");
+						}
+					}
+				} else {
+					$colorclass[$typeid][$dag]="garantie";
+					$text[$typeid][$dag]="Garantie ".$db->f("reserveringsnummer_extern");
+				}
 				$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+1,date("Y",$dag));
 			}
 		}
@@ -211,6 +223,13 @@ if($inquery_type_id) {
 				opacity: .6;
 			}
 
+			.veld_teller {
+				background-color: #878481;
+				color: #ffffff;
+				padding-left: 2px;
+				padding-right: 2px;
+			}
+
 			<?php
 			echo "</style></head><body>";
 
@@ -276,7 +295,11 @@ if($inquery_type_id) {
 					$accnaam=$db2->f("naam").($db2->f("tnaam") ? " ".$db2->f("tnaam") : "")." (".$db2->f("optimaalaantalpersonen").($db2->f("optimaalaantalpersonen")<>$db2->f("maxaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ".txt("pers").")";
 
 					$dag=$db->f("begindatum");
-					echo "<tr><td class=\"".(date("w",$dag)==6 ? "bezettingsoverzicht_eindeweek" : "")."\" style=\"white-space:nowrap;\" nowrap title=\"".$db2->f("type_id")."\">".wt_he($accnaam)."&nbsp;&nbsp;</td>";
+					echo "<tr><td class=\"".(date("w",$dag)==6 ? "bezettingsoverzicht_eindeweek" : "")."\" style=\"white-space:nowrap;\" nowrap title=\"".$db2->f("type_id")."\">".wt_he($accnaam)."&nbsp;&nbsp;";
+					if($colorclass[$db2->f("type_id")."_1"]) {
+						echo "<span class=\"veld_teller\">1</span>&nbsp;&nbsp;";
+					}
+					echo "</td>";
 					while($dag<=$db->f("einddatum")) {
 						unset($active_class);
 						$active_class.=" dag";
@@ -290,6 +313,40 @@ if($inquery_type_id) {
 						$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+1,date("Y",$dag));
 					}
 					echo "</tr>\n";
+
+
+					if($colorclass[$db2->f("type_id")."_1"]) {
+						$volgend_veld_beschikbaar=true;
+						$veld_teller=1;
+					} else {
+						$volgend_veld_beschikbaar=false;
+					}
+					while($volgend_veld_beschikbaar) {
+
+						$dag=$db->f("begindatum");
+						echo "<tr><td class=\"".(date("w",$dag)==6 ? "bezettingsoverzicht_eindeweek" : "")."\" style=\"white-space:nowrap;\" nowrap title=\"".$db2->f("type_id")."\">".wt_he($accnaam)."&nbsp;&nbsp;<span class=\"veld_teller\">".intval($veld_teller+1)."</span>&nbsp;&nbsp;</td>";
+						while($dag<=$db->f("einddatum")) {
+							unset($active_class);
+							$active_class.=" dag";
+							if($colorclass[$db2->f("type_id")."_".$veld_teller][$dag]) {
+								$active_class.=" ".$colorclass[$db2->f("type_id")."_".$veld_teller][$dag];
+							}
+							if(date("w",$dag)==5) {
+								$active_class.=" bezettingsoverzicht_eindeweek";
+							}
+							echo "<td class=\"".trim($active_class)."\" title=\"".DATUM("DG DD/MM/JJJJ",$dag,$vars["taal"]).": ".wt_he(($text[$db2->f("type_id")."_".$veld_teller][$dag] ? $text[$db2->f("type_id")."_".$veld_teller][$dag] : txt("nognietinplanning","lev_login")))."\"></td>";
+							$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+1,date("Y",$dag));
+						}
+						echo "</tr>\n";
+
+
+						$veld_teller++;
+						if(!$colorclass[$db2->f("type_id")."_".$veld_teller]) {
+							$volgend_veld_beschikbaar=false;
+						}
+
+					}
+
 				}
 			}
 			echo "</table>";
