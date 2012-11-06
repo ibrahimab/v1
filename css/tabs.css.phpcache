@@ -90,8 +90,8 @@ header("Content-type: text/css; charset=windows-1252");
 		top: -10000px;
 	}
 
-	/* ruimte tussen tabs: 1 pixel */
+	/* ruimte tussen tabs: 2 pixels */
 	#tabs ul li {
-		margin-right: 1px;
+		margin-right: 2px;
 	}
 }
