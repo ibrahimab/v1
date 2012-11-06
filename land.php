@@ -3,6 +3,7 @@
 include("admin/vars.php");
 
 if($vars["websitetype"]==7) {
+	# geen landenpagina bij Italissima (want: alleen Italië)
 	header("Location: ".$vars["path"]."bestemmingen.php",true,301);
 	exit;
 }
@@ -34,7 +35,7 @@ while($db->next_record()) {
 		if(ereg("\?",$_SERVER["REQUEST_URI"])) {
 			$vars["canonical"]=ereg_replace("\?.*","",$_SERVER["REQUEST_URI"]);
 		}
-		
+
 		# meta-tag description
 		if($vars["seizoentype"]==2) {
 			if($db->f("zomerdescriptiontag")) {
@@ -55,9 +56,9 @@ while($db->next_record()) {
 			$themalandinfo["toelichting"]=$db->f("zomeromschrijving");
 			$themalandinfo["naam"]=$db->f("naam");
 			$themalandinfo["padhoofdafbeelding"]="zomerlanden";
-			
+
 			$vars["extracss"][]="thema_zomerhuisje.css";
-			
+
 			# Foto's bepalen
 			$dir="pic/cms/zomerlanden_top/";
 			$d=dir($dir);
@@ -68,7 +69,6 @@ while($db->next_record()) {
 			}
 			@asort($vars["topfoto"]);
 		}
-
 		break;
 	}
 }
@@ -91,6 +91,13 @@ if($landinfo["naam"] and !$meta_description) {
 		$meta_description="Overzicht van onze accommodaties in ".$landinfo["naam"];
 	}
 }
+
+if($vars["websitetype"]==3 and $themalandinfo["naam"]=="Spanje") {
+	# Zomerhuisje: geen landenpagina Spanje meer (geen accommodaties in Spanje)
+	header("Location: ".$vars["path"]."bestemmingen.php",true,301);
+	exit;
+}
+
 
 include "content/opmaak.php";
 
