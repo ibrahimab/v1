@@ -2,13 +2,13 @@
 
 #
 #
-# Verschil onlyinoutput / noedit : 
+# Verschil onlyinoutput / noedit :
 # noedit wordt opgeslagen in database
 # maar wordt 'ie ook goed getoond in een mailtje als 't een noedit met "selection" is?
 #
 # onlyinoutput: onduidelijk!
 #
-# 
+#
 #
 # Controle op "Content-Type" en "MIME-Version: 1.0" nog bouwen!!
 #
@@ -24,7 +24,7 @@
 # - rare tekens wegfilteren (vreemde ' en "-tekens)
 # - bij output_cell vullen: htmlentities toepassen
 # - goede htmlentities vinden
-# - 
+# -
 # - functie display_output_field afronden  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 # - display_output_field voorzien van htmlentities
 # - bij functie check_input $this->outputtable_cell dmv functie display_output_field vullen <<<<<<<<<<
@@ -43,20 +43,20 @@
 #
 #
 # Werkend voorbeeld
-# 
+#
 #
 #
 
 
 /*
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="Naam";
 $form->settings["layout"]["css"]=false;
 $form->settings["db"]["table"]="lid";
 $form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 #$form->settings["target"]="_blank";
- 
+
 # Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 $form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
 
@@ -96,7 +96,7 @@ if($form->okay) {
 	$form->mail("jeroen@webtastic.nl","","Ingevuld formulier");
 
 	# Gegevens opslaan in de database
-	$form->save_db(); 
+	$form->save_db();
 }
 $form->end_declaration();
 
@@ -231,7 +231,7 @@ class form2 {
 
 	function form2($name="frm") {
 		global $vars;
-	
+
 		$this->settings["formname"]=$name;
 
 		$this->settings["language"]="nl";
@@ -250,12 +250,12 @@ class form2 {
 		$this->settings["show_upload_message"]=false;
 		$this->settings["bcc_mail_https"]=false;
 		$this->settings["download_uploaded_files"]=true;
-		
+
 		# Messages
 		$this->settings["message"]["verplichtveld"]["nl"]="Verplicht veld";
 		$this->settings["message"]["verplichtveld"]["en"]="Compulsory field";
 		$this->settings["message"]["verplichtveld"]["de"]="Pflichtangaben";
-		
+
 		$this->settings["message"]["submitbutton"]["nl"]="OK";
 		$this->settings["message"]["submitbutton"]["en"]="OK";
 		$this->settings["message"]["submitbutton"]["de"]="OK";
@@ -308,7 +308,7 @@ class form2 {
 
 		$this->settings["message"]["zie_attachment"]["nl"]="zie attachment";
 		$this->settings["message"]["zie_attachment"]["en"]="see attachment";
-		
+
 		# Error messages
 		$this->settings["message"]["error_foutform"]["nl"]="U heeft niet alle velden correct ingevuld";
 		$this->settings["message"]["error_foutform"]["en"]="Not all fields are filled out correctly";
@@ -403,7 +403,7 @@ class form2 {
 
 		$this->settings["message"]["error_password_spaces"]["nl"]="spaties zijn niet toegestaan";
 		$this->settings["message"]["error_password_spaces"]["en"]="spaces are not allowed";
-		
+
 		if($_POST["pg"]) {
 			if($_POST[$this->settings["formname"]."_filled"]==1) $this->filled=true;
 			$this->value=$_POST["input"];
@@ -438,7 +438,7 @@ class form2 {
 		}
 		return $return;
 	}
-	
+
 	function newfield($type,$checktype,$obl,$id,$title,$db,$prevalue,$options,$layout) {
 		global $vars;
 
@@ -475,7 +475,7 @@ class form2 {
 			if($this->db[$table]["selectquery"]) $this->db[$table]["selectquery"].=", ".$db["field"]; else $this->db[$table]["selectquery"]=$db["field"];
 		}
 	}
-	
+
 	#
 	#
 	# Field-functies (alfabetisch)
@@ -518,7 +518,7 @@ class form2 {
 		}
 		$this->newfield("htmlcol","htmlcol",$obl,$id,$title,$db,$prevalue,$options,$layout);
 	}
-	
+
 	function field_htmlrow($id,$html,$options="",$layout="") {
 		if(!$id) {
 			$this->htmlrow_counter++;
@@ -534,7 +534,7 @@ class form2 {
 	function field_multiradio($obl,$id,$title,$db="",$prevalue="",$options="",$layout="") {
 		$this->newfield("multiradio","multiradio",$obl,$id,$title,$db,$prevalue,$options,$layout);
 	}
-	
+
 	function field_noedit($id,$title,$db="",$prevalue="",$options="",$layout="") {
 		$this->newfield("noedit","noedit",$obl,$id,$title,$db,$prevalue,$options,$layout);
 	}
@@ -554,7 +554,7 @@ class form2 {
 	function field_select($obl,$id,$title,$db="",$prevalue="",$options="",$layout="") {
 		$this->newfield("select","select",$obl,$id,$title,$db,$prevalue,$options,$layout);
 	}
-	
+
 	function field_text($obl,$id,$title,$db="",$prevalue="",$options="",$layout="") {
 		$this->newfield("text","text",$obl,$id,$title,$db,$prevalue,$options,$layout);
 	}
@@ -583,48 +583,48 @@ class form2 {
 
 	function display_css() {
 		global $vars;
-	
+
 		ob_start();
 		?>
-		<style type="text/css"><!-- 
+		<style type="text/css"><!--
 		.wtform_table {
 			width: 100%;
 			font-family:  Verdana, Helvetica, Arial, sans-serif;
 			background-color: #FFFFFF;
 			border: 2px solid #878481;
 		}
-		
+
 		.wtform_input {
 			font-family:  Verdana, Helvetica, Arial, sans-serif;
 			font-size: 1.0em;
 			width: 100%;
 			border: 2px solid #878481;
 		}
-		
+
 		.wtform_input_narrow {
 			font-family:  Verdana, Helvetica, Arial, sans-serif;
 			font-size: 1.0em;
 			border: 2px solid #878481;
 		}
-		
+
 		.wtform_error {
 			color: red;
 		}
-		
+
 		.wtform_cell_left {
 			width: 150px;
 			padding: 6px;
 		}
-		
+
 		.wtform_cell_right {
 			width: 350px;
 			padding: 6px;
 		}
-		
+
 		.wtform_cell_colspan {
 			padding: 6px;
 		}
-		
+
 		.wtform_img_tbl {
 			border: solid #878481 2px;
 		}
@@ -638,10 +638,10 @@ class form2 {
 		$return=ob_get_clean();
 		return $return;
 	}
-	
+
 	function display_openform() {
 		global $vars;
-	
+
 		$return.="<form class=\"wtform\" method=\"".$this->settings["type"]."\" action=\"";
 		if($_SERVER["REQUEST_URI"]) {
 			if($_SERVER["QUERY_STRING"]) {
@@ -661,7 +661,7 @@ class form2 {
 					if(!is_array($value)) {
 						$hidden.="<input type=\"hidden\" name=\"".$key."\" value=\"".wt_he($value)."\">\n";
 					}
-				}				
+				}
 			} else {
 				$return.="?";
 				reset($_GET);
@@ -695,9 +695,9 @@ class form2 {
 		global $vars;
 
 		# Toon foutmeldingen
-		
+
 		# Eerst foutmeldingen van de veldnamen tonen en vervolgens extra foutmeldingen
-		
+
 		if(is_array($this->error)) {
 			$return="<font class=\"wtform_error\">".$this->message("error_foutform").":<ul style=\"padding-left:1.0em;margin-top:0px;margin-bottom:0px;margin-left:5px;\">";
 			if($this->settings["layout"]["stars"] and in_array("obl",$this->error)) {
@@ -736,7 +736,7 @@ class form2 {
 			return false;
 		}
 	}
-	
+
 	function display_title($id) {
 		global $vars;
 		if($this->error[$id]) $return.="<font class=\"wtform_error\">";
@@ -760,7 +760,7 @@ class form2 {
 			return false;
 		}
 	}
-	
+
 	function display_input($id,$infobox="") {
 		global $vars;
 		if($this->fields["type"][$id]=="checkbox") {
@@ -826,7 +826,7 @@ class form2 {
 			}
 		} elseif($this->fields["type"][$id]=="datetime") {
 			# Datetime-field
-			
+
 			# Prevalue
 			if(!$this->filled and $this->fields["prevalue"][$id]) {
 				if($this->fields["prevalue"][$id]["time"]<>"") {
@@ -852,7 +852,7 @@ class form2 {
 					$this->value[$id]["minute"]=$this->fields["prevalue"][$id]["minute"];
 				}
 			}
-			
+
 			if(!$this->fields["options"][$id]["startyear"]) $this->fields["options"][$id]["startyear"]=adodb_date("Y");
 			if(!$this->fields["options"][$id]["endyear"]) $this->fields["options"][$id]["endyear"]=adodb_date("Y")+4;
 
@@ -868,7 +868,7 @@ class form2 {
 			} elseif($this->fields["layout"][$id]["onchange"]) {
 				$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 			}
-				
+
 			$return.="><option></option>";
 			for($i=1;$i<=31;$i++) {
 				$return.="<option value=\"".$i."\"";
@@ -876,7 +876,7 @@ class form2 {
 				$return.=">".$i."&nbsp;</option>\n";
 			}
 			$return.="</select>&nbsp;";
-			
+
 			# Maand
 			$return.="<select name=\"input[".$id."][month]\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\"";
 			if($this->fields["options"][$id]["month_onfocus"]) $return.=" onfocus=\"".$this->fields["options"][$id]["month_onfocus"]."\"";
@@ -885,7 +885,7 @@ class form2 {
 			} elseif($this->fields["layout"][$id]["onchange"]) {
 				$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 			}
-			
+
 			$return.="><option></option>";
 			for($i=1;$i<=12;$i++) {
 				$return.="<option value=\"".$i."\"";
@@ -893,7 +893,7 @@ class form2 {
 				$return.=">".strftime("%B",mktime(0,0,0,$i,1,2004))."&nbsp;</option>\n";
 			}
 			$return.="</select>&nbsp;";
-			
+
 			# Jaar
 			if(!$this->fields["options"][$id]["hide_year"]) {
 				# Alleen tonen als hide_year false is
@@ -924,7 +924,7 @@ class form2 {
 				}
 				$return.="</select>";
 			}
-			
+
 			if($this->fields["checktype"][$id]=="datetime") {
 				# Tijd
 				$return.="&nbsp;-&nbsp;";
@@ -956,7 +956,7 @@ class form2 {
 					$return.="<input type=\"text\" size=\"2\" maxlength=\"2\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\" name=\"input[".$id."][hour]\"".($this->value[$id]["hour"]<>"" ? " value=\"".$this->value[$id]["hour"]."\"" : "");
 					if($this->fields["options"][$id]["hour_onblur"]) $return.=" onblur=\"".$this->fields["options"][$id]["hour_onblur"]."\"";
 					if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
-					
+
 					$return.=">:";
 					$return.="<input type=\"text\" size=\"2\" maxlength=\"2\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\" name=\"input[".$id."][minute]\"".($this->value[$id]["minute"]<>"" ? " value=\"".$this->value[$id]["minute"]."\"" : "");
 					if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
@@ -964,7 +964,7 @@ class form2 {
 				}
 				$return.=$this->message("u").".";
 			}
-			
+
 		} elseif($this->fields["type"][$id]=="htmlcol") {
 			# Htmlcol
 			if($this->fields["prevalue"][$id]["text"]) {
@@ -994,7 +994,7 @@ class form2 {
 						}
 					}
 				}
-			
+
 #				# Prevalue bepalen
 #				if($this->fields["prevalue"][$id]["multiselection"]) {
 #					$this->value[$id]=$this->fields["prevalue"][$id]["multiselection"];
@@ -1115,7 +1115,7 @@ class form2 {
 				}
 				$return.="<label for=\"radio".$id.$key."\">";
 				if($this->fields["layout"][$id]["one_per_line"]) {
-				
+
 				} else {
 					$return.="&nbsp;";
 				}
@@ -1144,7 +1144,7 @@ class form2 {
 				if($this->fields["prevalue"][$id]["selection"]) {
 					$this->value[$id]=$this->fields["prevalue"][$id]["selection"];
 				} elseif($this->fields["options"][$id]["allow_0"] and $this->fields["prevalue"][$id]["selection"]=="0") {
-					$this->value[$id]=$this->fields["prevalue"][$id]["selection"];				
+					$this->value[$id]=$this->fields["prevalue"][$id]["selection"];
 				} elseif($_GET["pv_".$id]) {
 					$this->value[$id]=$_GET["pv_".$id];
 				}
@@ -1221,11 +1221,11 @@ class form2 {
 					$this->value[$id]=$_GET["pv_".$id];
 				}
 			}
-			
+
 			if(!$this->fields["layout"][$id]["rows"]) $this->fields["layout"][$id]["rows"]=5;
 			if(!$this->fields["layout"][$id]["cols"]) $this->fields["layout"][$id]["cols"]=40;
 #			if($this->fields["options"][$id]["year_onfocus"]) $return.=" onfocus=\"".$this->fields["options"][$id]["year_onfocus"]."\"";
-			
+
 			$return.="<textarea class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input wtform_textarea")."\" name=\"input[".$id."]\" rows=\"".$this->fields["layout"][$id]["rows"]."\" cols=\"".$this->fields["layout"][$id]["cols"]."\"".($this->fields["layout"][$id]["style"] ? " style=\"".$this->fields["layout"][$id]["style"]."\"" : "").($this->fields["options"][$id]["onfocus"] ? " onfocus=\"".$this->fields["options"][$id]["onfocus"]."\"" : "").">";
 			if($this->value[$id]) {
 				if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
@@ -1255,7 +1255,7 @@ class form2 {
 					}
 				}
 			} else {
-				unset($temp["filename"]);		
+				unset($temp["filename"]);
 				if($this->fields["options"][$id]["multiple"]) {
 					$d=dir($this->fields["options"][$id]["move_file_to"]);
 					while($entry=$d->read()) {
@@ -1310,7 +1310,11 @@ class form2 {
 				}
 				for($i=1;$i<=$temp["aantal_uploadbuttons"];$i++) {
 					if($temp["aantal_uploadbuttons"]>1) $return.=$i.".&nbsp;";
-					$return.="<input type=\"file\" name=\"input[".$id."][".$i."]\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\">";
+					$return.="<input type=\"file\" name=\"input[".$id."][".$i."]\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\"";
+					if($this->fields["options"][$id]["must_be_filetype"]=="jpg") {
+						$return.=" accept=\"image/jpeg\"";
+					}
+					$return.=">";
 
 					# Indien afbeelding: evt. opmerkingen weergeven
 					if(($this->fields["options"][$id]["img_ratio_width"] and $this->fields["options"][$id]["img_ratio_height"]) or ($this->fields["options"][$id]["img_width"] and $this->fields["options"][$id]["img_height"]) or $this->fields["options"][$id]["showfiletype"]) {
@@ -1369,9 +1373,9 @@ class form2 {
 
 	function display_submitbutton() {
 		global $vars;
-	
+
 		if($this->disable_form) {
-		
+
 		} else {
 			$this->counter["submitbutton"]++;
 			if($this->settings["submitbutton"]["button_element"]) {
@@ -1389,26 +1393,26 @@ class form2 {
 
 	function display_annuleerbutton() {
 		global $vars;
-	
+
 		if($this->disable_form) {
-		
+
 		} else {
 			$this->counter["annuleerbutton"]++;
 			$return.="<input type=\"button\" value=\" ".$this->message("annuleerbutton")." \" id=\"annuleer".$this->counter["annuleerbutton"].$this->settings["formname"]."\" onclick=\"document.".$this->settings["formname"].".annuleer".$this->counter["annuleerbutton"].$this->settings["formname"].".disabled=1;document.location.href='".$this->settings["annuleerbutton_url"]."';\" class=\"wtform_submitbutton\">";
 		}
 		return $return;
 	}
-	
+
 	function display_closeform() {
 		global $vars;
-	
+
 		$return.="</form>";
 		return $return;
 	}
 
 	function display_all() {
 		global $vars;
-	
+
 		if(!$this->okay or $this->settings["type"]=="get" or $this->settings["alwaysshowform"]) {
 			if(!is_array($this->fields["type"])) {
 				trigger_error("WT-Error: this form has no fields",E_USER_NOTICE);
@@ -1422,7 +1426,7 @@ class form2 {
 			if($this->settings["html_after_open_table"]) echo $this->settings["html_after_open_table"];
 			if($this->settings["htmlheader"]) echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\">".$this->settings["htmlheader"]."</td></tr>\n";
 			echo $this->display_openform();
-			
+
 			# Extra submitbutton bovenaan formulier?
 			if($this->settings["layout"]["top_submit_button"]) {
 				echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\" align=\"center\">".$this->display_submitbutton();
@@ -1431,7 +1435,7 @@ class form2 {
 				}
 				echo "</td></tr>";
 			}
-			
+
 			if($_GET["wttest"]) echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\"><strong>Testversie</strong></td></tr>\n";
 			if($this->error) echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\">".$this->display_error()."</td></tr>\n";
 			@reset($this->fields["type"]);
@@ -1440,7 +1444,7 @@ class form2 {
 					$this->show_at_other_field[$this->fields["options"][$key]["show_at_other_field"]]=$this->display_input($key);
 				} else {
 					$tr="<tr".($this->fields["layout"][$key]["tr_id"] ? " id=\"".$this->fields["layout"][$key]["tr_id"]."\"" : "").($this->fields["layout"][$key]["tr_class"] ? " class=\"".$this->fields["layout"][$key]["tr_class"]."\"" : "").($this->fields["layout"][$key]["tr_style"] ? " style=\"".$this->fields["layout"][$key]["tr_style"]."\"" : "").">";
-					
+
 					unset($infobox);
 					if($this->fields["layout"][$key]["info"] or $this->fields["layout"][$key]["info_html"]) {
 						$infobox.="&nbsp;&nbsp;<a href=\"#\" onclick=\"return false;\" class=\"opm\"><span class=\"balloon_small\">";
@@ -1451,11 +1455,11 @@ class form2 {
 						}
 						$infobox.="</span><img src=\"".$this->settings["path"]."pic/class.form_info_icon.gif\" width=\"13\" height=\"13\" border=\"0\" style=\"margin-bottom:-1px;\">";
 					}
-					
+
 					if($value=="yesno") {
 						echo $tr."<td class=\"wtform_cell_colspan\" colspan=\"2\">".$this->display_input($key,$infobox)."</td></tr>\n";
 					} elseif($value=="onlyinoutput") {
-					
+
 					} elseif($value=="htmlrow") {
 						echo $tr."<td class=\"wtform_cell_colspan\" colspan=\"2\">".$this->fields["title"][$key]."</td></tr>\n";
 					} else {
@@ -1483,14 +1487,14 @@ class form2 {
 		}
 #		echo wt_dump($this->show_at_other_field);
 	}
-	
+
 	#
 	# Overige functies
 	#
-	
+
 	function error($id,$message,$overrule=false,$extra=false,$other_fieldname="") {
 		global $vars;
-	
+
 		# id = id van het form-field
 		# bericht (evt. incl. html)
 		# overrule = overschrijf reeds eerder aangemaakte error-message
@@ -1516,7 +1520,7 @@ class form2 {
 
 	function save_db() {
 		global $vars;
-	
+
 		# Gegevens opslaan in database
 		global $db0;
 		reset($this->db);
@@ -1656,10 +1660,10 @@ class form2 {
 			}
 		}
 	}
-	
+
 	function get_db() {
 		global $vars;
-	
+
 		if(is_array($this->fields["db"]) and !$this->get_db) {
 			global $db0;
 			reset($this->db);
@@ -1673,14 +1677,14 @@ class form2 {
 						if(ereg("char\(([0-9]+)\)",$db0->f("Type"),$regs)) {
 							$maxlength=$regs[1];
 						}
-	
+
 						# adddatetime en editdatetime?
 						if($db0->f("Field")=="adddatetime" and $db0->f("Type")=="datetime") $this->db[$key]["adddatetime"]=true;
 						if($db0->f("Field")=="adddatetime" and preg_match("/bigint/",$db0->f("Type"))) $this->db[$key]["adddatetime_bigint"]=true;
 
 						if($db0->f("Field")=="editdatetime" and $db0->f("Type")=="datetime") $this->db[$key]["editdatetime"]=true;
 						if($db0->f("Field")=="editdatetime" and preg_match("/bigint/",$db0->f("Type"))) $this->db[$key]["editdatetime_bigint"]=true;
-				
+
 						$id=array_search($db0->f("Field"),$this->db[$key]["fields"]);
 						if($id) {
 #							echo $id." ".$db0->f("Type");
@@ -1735,9 +1739,9 @@ class form2 {
 									if(!$this->filled) $this->fields["prevalue"][$key2]["time"]=$db0->f($value2);
 									$this->fields["previous"][$key2]["time"]=$db0->f($value2);
 								} elseif($this->fields["type"][$key2]=="htmlcol") {
-								
+
 								} elseif($this->fields["type"][$key2]=="htmlrow") {
-								
+
 								} elseif($this->fields["type"][$key2]=="multiradio") {
 									if(is_array($this->fields["options"][$key2]["multiselectionfields"])) {
 										reset($this->fields["options"][$key2]["multiselectionfields"]);
@@ -1760,9 +1764,9 @@ class form2 {
 										$this->fields["previous"][$key2]["text"]=$db0->f($value2);
 									}
 								} elseif($this->fields["type"][$key2]=="onlyinoutput") {
-								
+
 								} elseif($this->fields["type"][$key2]=="password") {
-	
+
 								} elseif($this->fields["type"][$key2]=="radio") {
 									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$db0->f($value2);
 									$this->fields["previous"][$key2]["selection"]=$db0->f($value2);
@@ -1776,7 +1780,7 @@ class form2 {
 									if(!$this->filled) $this->fields["prevalue"][$key2]["text"]=$db0->f($value2);
 									$this->fields["previous"][$key2]["text"]=$db0->f($value2);
 								} elseif($this->fields["type"][$key2]=="upload") {
-								
+
 								} elseif($this->fields["type"][$key2]=="yesno") {
 									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$db0->f($value2);
 									$this->fields["previous"][$key2]["selection"]=$db0->f($value2);
@@ -1793,10 +1797,10 @@ class form2 {
 			$this->get_db=true;
 		}
 	}
-	
+
 	function display_output_field($id,$layout="") {
 		global $vars;
-	
+
 		if($this->fields["checktype"][$id]=="currency") {
 			if($this->input[$id]) $value=$this->input[$id]; else $value=$this->fields["prevalue"][$id]["text"];
 		} elseif($this->fields["checktype"][$id]=="date") {
@@ -1830,7 +1834,7 @@ class form2 {
 			if($this->input[$id]) $value=$this->input[$id]; else $value=$this->fields["prevalue"][$id]["text"];
 			$return=$value;
 		} elseif($this->fields["checktype"][$id]=="upload") {
-		
+
 		} elseif($this->fields["checktype"][$id]=="url") {
 			if($this->input[$id]) $value=$this->input[$id]; else $value=$this->fields["prevalue"][$id]["text"];
 		} elseif($this->fields["checktype"][$id]=="yesno") {
@@ -1841,8 +1845,8 @@ class form2 {
 		}
 		return $return;
 	}
-	
-	
+
+
 	function check_input() {
 		global $vars;
 
@@ -1870,13 +1874,13 @@ class form2 {
 				} elseif($value=="currency") {
 					if(ereg("^-?[0-9]+$",$this->value[$key])) $this->value[$key].=",00";
 					if(ereg("^-?[0-9]+,[0-9]$",$this->value[$key])) $this->value[$key].="0";
-					
+
 					# Punten ook toestaan (omzetten in komma)
 					$this->value[$key]=ereg_replace("\.",",",$this->value[$key]);
 
 					# Om te kunnen gebruiken als float: komma naar punt omzetten
 					$this->input[$key]=ereg_replace(",",".",$this->value[$key]);
-					
+
 					if($this->value[$key]=="-0,00") $this->value[$key]="0,00";
 					$this->outputtable_cell[$key]=$this->value[$key];
 					if($this->value[$key] and !eregi("^".($this->fields["options"][$key]["negative"] ? "-?" : "")."[0-9]+$",$this->value[$key]) and !eregi("^".($this->fields["options"][$key]["negative"] ? "-?" : "")."[0-9]+,[0-9]{1,2}$",$this->value[$key])) $this->error[$key]=$this->message("error_currency");
@@ -1987,7 +1991,7 @@ class form2 {
 							}
 						}
 						if($this->value[$key][$key2]) {
-							if($this->input[$key][$this->value[$key][$key2]]) $this->input[$key][$this->value[$key][$key2]].=",".$key2; else $this->input[$key][$this->value[$key][$key2]]=$key2;								
+							if($this->input[$key][$this->value[$key][$key2]]) $this->input[$key][$this->value[$key][$key2]].=",".$key2; else $this->input[$key][$this->value[$key][$key2]]=$key2;
 						}
 					}
 #					echo $this->error[$key];
@@ -2009,7 +2013,7 @@ class form2 {
 				} elseif($value=="password") {
 					$this->input[$key]=$this->value[$key];
 #					$this->outputtable_cell[$key]=$this->value[$key];
-					
+
 					# Is het een nieuw wachtwoord (of de invoer van een bestaand wachtwoord)?
 					if($this->fields["options"][$key]["new_password"]) {
 						if($this->fields["options"][$key]["strong_password"]) {
@@ -2038,7 +2042,7 @@ class form2 {
 					if($this->fields["options"][$key]["allow_0"]) {
 						if($this->fields["obl"][$key] and !$this->value[$key] and $this->value[$key]<>"0") $this->error[$key]="obl";
 					} else {
-						if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";					
+						if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
 					}
 				} elseif($value=="text") {
 					$this->input[$key]=$this->value[$key];
@@ -2058,11 +2062,11 @@ class form2 {
 								if(file_exists("tmp/")) {
 									if(is_writable("tmp/")) {
 										# Kijken of upload voldoet aan size
-										
+
 										# Kijken of upload voldoet aan afmetingen
 										if($this->fields["options"][$key]["img_width"] or $this->fields["options"][$key]["img_height"] or $this->fields["options"][$key]["img_maxwidth"] or $this->fields["options"][$key]["img_maxheight"] or ($this->fields["options"][$key]["img_ratio_width"] and $this->fields["options"][$key]["img_ratio_height"])) {
 											$temp["img"]["getimagesize"]=@getimagesize($_FILES["input"]["tmp_name"][$key][$key2]);
-											
+
 											# Width checken
 											if($this->fields["options"][$key]["img_width"] and $temp["img"]["getimagesize"][0]<>$this->fields["options"][$key]["img_width"]) {
 												if($this->fields["options"][$key]["autoresize"]) {
@@ -2078,7 +2082,7 @@ class form2 {
 													}
 												}
 											}
-											
+
 											# Height checken
 											if($this->fields["options"][$key]["img_height"] and $temp["img"]["getimagesize"][1]<>$this->fields["options"][$key]["img_height"]) {
 												if($this->fields["options"][$key]["autoresize"]) {
@@ -2094,7 +2098,7 @@ class form2 {
 													}
 												}
 											}
-											
+
 											# Maxwidth checken
 											if($this->fields["options"][$key]["img_maxwidth"] and $temp["img"]["getimagesize"][0]>$this->fields["options"][$key]["img_maxwidth"]) {
 												if($this->fields["options"][$key]["autoresize"]) {
@@ -2148,7 +2152,7 @@ class form2 {
 												}
 											}
 										}
-		
+
 										# Kijk of upload voldoet aan filetype
 										$temp["extension"]=strtolower(ereg_replace("^.*\.([a-z0-9A-Z]{1,8})$","\\1",$_FILES["input"]["name"][$key][$key2]));
 										$temp["filetype_array"]=split(",",$this->fields["options"][$key]["must_be_filetype"]);
@@ -2172,7 +2176,7 @@ class form2 {
 											$this->upload[$key][$key2]["name"]=$_FILES["input"]["name"][$key][$key2];
 											$this->file_uploaded[$key]=true;
 											move_uploaded_file($_FILES["input"]["tmp_name"][$key][$key2],"tmp/".$this->upload[$key][$key2]["tmp_name"]);
-											
+
 											if($resize_image) {
 												if($this->fields["options"][$key]["must_be_filetype"]=="jpg" or $this->fields["options"][$key]["must_be_filetype"]=="gif" or $this->fields["options"][$key]["must_be_filetype"]=="png") {
 													if($this->fields["options"][$key]["autoresize_cut"]) {
@@ -2213,7 +2217,7 @@ class form2 {
 								}
 							}
 						}
-						
+
 						if(!$temp["file_ontvangen"][$key] and $this->fields["obl"][$key]) {
 							$temp["filename"]=$this->fields["options"][$key]["move_file_to"].$this->fields["options"][$key]["rename_file_to"].".".$this->fields["options"][$key]["must_be_filetype"];
 							if(!file_exists($temp["filename"])) {
@@ -2226,7 +2230,7 @@ class form2 {
 						}
 					}
 					if($this->file_uploaded[$key]) {
-						$this->outputtable_cell[$key]=$this->message("zie_attachment");					
+						$this->outputtable_cell[$key]=$this->message("zie_attachment");
 					}
 				} elseif($value=="url") {
 					if($this->value[$key]=="http://") $this->value[$key]="";
@@ -2271,10 +2275,10 @@ class form2 {
 
 		# _show_at_other_field_ eruit filteren
 		$return=preg_replace("/_show_at_other_field_/","",$return);
-		
+
 		return $return;
 	}
-	
+
 	function mail($to,$toname,$subject,$fullbody="",$topbody="",$bottombody="",$from="formmail@webtastic.nl",$fromname="WebTastic FormMail",$special_settings="") {
 		global $vars;
 
@@ -2305,7 +2309,7 @@ class form2 {
 		$mail->html.="</td></tr></table></body></html>";
 
 		# Uploads als attachments toevoegen
-		while(list($key,$value)=@each($this->upload)) {	
+		while(list($key,$value)=@each($this->upload)) {
 			if($this->fields["options"][$key]["multiple"] and $this->fields["options"][$key]["number_of_uploadbuttons"]) {
 				$temp["aantal_uploadbuttons"]=$this->fields["options"][$key]["number_of_uploadbuttons"];
 			} else {
@@ -2317,16 +2321,16 @@ class form2 {
 				}
 			}
 		}
-		
+
 		# Andere reply-to?
 		if($special_settings["replyto"]) {
 			$mail->replyto=$special_settings["replyto"];
 		}
-		
+
 		# Mail verzenden
 		$mail->send();
 	}
-	
+
 	function mail_css() {
 		global $vars;
 
@@ -2335,14 +2339,14 @@ class form2 {
 		} else {
 			ob_start();
 			?>
-			<style type="text/css"><!-- 
+			<style type="text/css"><!--
 
 			body {
 				background-color: #EBEBEB;
 				font-family: Verdana, Helvetica, Arial, sans-serif;
 				font-size: 12px;
 			}
-			
+
 			a:link,a:active,a:visited {
 				color:#0000FF;
 			}
@@ -2355,14 +2359,14 @@ class form2 {
 				font-family: Verdana, Helvetica, Arial, sans-serif;
 				font-size: 12px;
 			}
-			
+
 			.wtform_table {
 				width: 600;
 				background-color: #FFFFFF;
 				border: 2px solid #878481;
 				border-collapse: collapse;
 			}
-			
+
 			.wtform_cell_left {
 				width: 150px;
 				border: 2px solid #878481;
@@ -2370,13 +2374,13 @@ class form2 {
 				font-weight: bold;
 				padding: 4px;
 			}
-			
+
 			.wtform_cell_right {
 				width: 450px;
 				border: 2px solid #878481;
 				padding: 4px;
 			}
-			
+
 			.wtform_cell_colspan {
 				padding: 4px;
 			}
@@ -2387,7 +2391,7 @@ class form2 {
 		}
 		return $return;
 	}
-		
+
 	function end_declaration() {
 		global $vars;
 
@@ -2396,7 +2400,7 @@ class form2 {
 		} elseif(!$this->check_input) {
 			trigger_error("WT-Error: Missing check_input function",E_USER_ERROR);
 		} else {
-			
+
 			# Eventueel: afbeeldingen wissen
 			@reset($_POST["imagedelete"]);
 			while(list($key,$value)=@each($_POST["imagedelete"])) {
@@ -2420,7 +2424,7 @@ class form2 {
 					}
 				}
 			}
-			
+
 			# Eventueel: form_after_imagedelte-functie runnen
 			if(function_exists(form_after_imagedelete)) {
 				form_after_imagedelete($this);
@@ -2488,23 +2492,23 @@ class form2 {
 									$temp["max_filenumber"]++;
 									$temp["filename"].="-".$temp["max_filenumber"];
 								}
-								
+
 								$temp["newfilename"]=$this->fields["options"][$key]["move_file_to"].$temp["filename"].($temp["extension"] ? ".".$temp["extension"] : "");
 								copy("tmp/".$value2["tmp_name"],$temp["newfilename"]);
 								@chmod($temp["newfilename"],0666);
 								if(file_exists($temp["newfilename"])) {
 									$this->upload_okay[$key]=true;
 									$this->upload_filename[$temp["newfilename"]]=true;
-									
+
 									if($this->settings["show_upload_message"]) {
 										$_SESSION["wt_popupmsg"]="bestand(en) correct ontvangen";
 									}
 								}
 							}
-							
+
 							# tmp-bestand wissen
 							unlink("tmp/".$value2["tmp_name"]);
-							
+
 							# Oude tmp-bestanden wissen
 							$d=dir("tmp/");
 							while($entry=$d->read()) {
@@ -2523,9 +2527,9 @@ class form2 {
 
 				# Ga (na correct invullen) naar $this->settings["goto"] of naar PHP_SELF met ?fo=1
 				if($this->settings["type"]=="get" and !$this->settings["goto"]) {
-				
+
 				} elseif($this->settings["go_nowhere"]) {
-					
+
 				} else {
 					if($_SERVER["REQUEST_URI"]) {
 						if($_SERVER["QUERY_STRING"]) {
