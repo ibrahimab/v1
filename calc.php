@@ -63,7 +63,7 @@ if($gegevens["stap1"]["flexibel"]) {
 }
 
 if($vars["wederverkoop"] and $login_rb->logged_in) {
-	
+
 	if($_GET["bewaren"]==1) {
 		if($_SESSION["calc"][$_GET["tid"]]["boekingid"]) {
 			$db->query("UPDATE boeking SET calc_bewaren=1 WHERE boeking_id='".addslashes($_SESSION["calc"][$_GET["tid"]]["boekingid"])."';");
@@ -71,7 +71,7 @@ if($vars["wederverkoop"] and $login_rb->logged_in) {
 		header("Location: ".ereg_replace("bewaren=1","bewaren=0",$_SERVER["REQUEST_URI"]));
 		exit;
 	}
-	
+
 	if($_GET["wissen"]==1) {
 		if($_SESSION["calc"][$_GET["tid"]]["boekingid"]) {
 			$db->query("UPDATE boeking SET calc_bewaren=0 WHERE boeking_id='".addslashes($_SESSION["calc"][$_GET["tid"]]["boekingid"])."';");
@@ -125,7 +125,7 @@ if($_GET["stap"]==1) {
 
 	if($accinfo["flexibel"]) {
 		# flexibel
-		
+
 		# aankomstdatum
 		if($_GET["flad"]) {
 			$temp_aankomstdatum_exact=$_GET["flad"];
@@ -133,7 +133,7 @@ if($_GET["stap"]==1) {
 			$temp_aankomstdatum_exact=$_GET["d"];
 		}
 		$form->field_date(1,"aankomstdatum_flex",txt("aankomstdatum","beschikbaarheid"),"",array("time"=>$temp_aankomstdatum_exact),array("startyear"=>date("Y"),"endyear"=>date("Y")+1),array("calendar"=>true));
-	
+
 		# verblijfsduur
 		unset($vars["verblijfsduur"]);
 		$vars["verblijfsduur"]["1"]="1 ".txt("week","vars");
@@ -161,8 +161,8 @@ if($_GET["stap"]==1) {
 		while($db->next_record()) {
 			$datum_optietarieven[$db->f("week")]++;
 		}
-		
-		
+
+
 		@reset($accinfo["aankomstdatum_beschikbaar"]);
 		unset($temp_aankomstdata);
 		while(list($key,$value)=@each($accinfo["aankomstdatum_beschikbaar"])) {
@@ -178,27 +178,27 @@ if($_GET["stap"]==1) {
 	}
 
 	$form->check_input();
-	
+
 	if($form->filled) {
 		if($accinfo["flexibel"]) {
 			# flexibel - controle op tarief/beschikbaarheid
 			$flextarief=bereken_flex_tarief($_GET["tid"],$form->input["aankomstdatum_flex"]["unixtime"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]));
 			if($flextarief["tarief"]>0) {
-			
+
 			} else {
 				$form->error("aankomstdatum_flex",txt("gekozenperiodenietbeschikbaar","boeken"));
 				$form->error("verblijfsduur",txt("gekozenperiodenietbeschikbaar","boeken"));
 			}
 		}
 	}
-	
+
 	if($form->okay) {
 		if($_GET["stap"]==1) {
 			if(!$_SESSION["calc"][$_GET["tid"]]["boekingid"]) {
 				if($accinfo["flexibel"]) {
 					$form->input["aankomstdatum"]=dichtstbijzijnde_zaterdag($form->input["aankomstdatum_flex"]["unixtime"]);
 				}
-			
+
 				$db->query("SELECT seizoen_id FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND week='".addslashes($form->input["aankomstdatum"])."';");
 				if($db->next_record()) {
 					$seizoenid=$db->f("seizoen_id");
@@ -207,15 +207,15 @@ if($_GET["stap"]==1) {
 				if($vars["wederverkoop"] and $login_rb->logged_in) {
 					$extrasetquery=", reisbureau_user_id='".addslashes($login_rb->user_id)."'";
 				}
-				
+
 				if($accinfo["flexibel"]) {
 					$extrasetquery.=", aankomstdatum_exact='".addslashes($form->input["aankomstdatum_flex"]["unixtime"])."', vertrekdatum_exact='".addslashes(flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]))."'";
-					
+
 					# Kijken of dit een flexibele boeking is
 					if(flex_is_dit_flexibel($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"])) {
 						$extrasetquery.=", flexibel=1, verblijfsduur='".addslashes($form->input["verblijfsduur"])."'";
 					}
-					
+
 					if($flextarief["tarief"]>0) {
 						$extrasetquery.=", accprijs='".addslashes($flextarief["tarief"])."'";
 					}
@@ -250,7 +250,7 @@ if($_GET["stap"]==1) {
 					$optie_soort[$db->f("optie_soort_id")]["annuleringsverzekering"]=$db->f("annuleringsverzekering");
 					$optie_soort[$db->f("optie_soort_id")]["reisverzekering"]=$db->f("reisverzekering");
 				}
-				
+
 				$db2->query("SELECT o.naam".$gegevens["stap1"]["website_specifiek"]["ttv"]." AS naam, o.optie_onderdeel_id, o.min_leeftijd, o.max_leeftijd, o.min_deelnemers, o.actief, g.optie_groep_id, g.omschrijving".$gegevens["stap1"]["website_specifiek"]["ttv"]." AS omschrijving, t.verkoop, t.wederverkoop_commissie_agent FROM optie_onderdeel o, optie_groep g, optie_tarief t, optie_soort s, optie_accommodatie a, seizoen sz WHERE o.naam".$gegevens["stap1"]["website_specifiek"]["ttv"]."<>'' AND o.te_selecteren=1 AND o.te_selecteren_door_klant=1 AND o.actief=1 AND sz.seizoen_id='".addslashes($gegevens["stap1"]["seizoenid"])."' AND a.accommodatie_id='".addslashes($accinfo["accommodatieid"])."' AND a.optie_soort_id=s.optie_soort_id AND a.optie_groep_id=g.optie_groep_id AND t.optie_onderdeel_id=o.optie_onderdeel_id AND t.seizoen_id=sz.seizoen_id AND t.week='".addslashes($gegevens["stap1"]["aankomstdatum"])."' AND t.beschikbaar=1 AND g.optie_soort_id='".$db->f("optie_soort_id")."' AND g.optie_soort_id=s.optie_soort_id AND g.optie_groep_id=o.optie_groep_id ORDER BY o.volgorde, o.naam;");
 
 				while($db2->next_record()) {
@@ -258,7 +258,7 @@ if($_GET["stap"]==1) {
 						$optie_soort["leeftijdsgebonden"][$db->f("optie_soort_id")]=true;
 					}
 					$optie_onderdeel[$db->f("optie_soort_id")][$db2->f("optie_onderdeel_id")]["naam"]=$db2->f("naam");
-					
+
 					$optie_onderdeel[$db->f("optie_soort_id")][$db2->f("optie_onderdeel_id")]["verkoop"]=$db2->f("verkoop");
 					$optie_onderdeel[$db->f("optie_soort_id")][$db2->f("optie_onderdeel_id")]["commissie"]=$db2->f("wederverkoop_commissie_agent");
 					$optie_onderdeel[$db->f("optie_soort_id")][$db2->f("optie_onderdeel_id")]["min_leeftijd"]=$db2->f("min_leeftijd");
@@ -306,7 +306,7 @@ if($_GET["stap"]==1) {
 
 	# Controle op ingevulde aantallen
 	if($_POST["filled"]) {
-	
+
 		if($vars["wederverkoop"] and $login_rb->logged_in) {
 			if($_POST["referentie"]) {
 				$_SESSION["calc"][$_GET["tid"]]["referentie"]=$_POST["referentie"];
@@ -315,7 +315,7 @@ if($_GET["stap"]==1) {
 				$_SESSION["calc"][$_GET["tid"]]["opmerkingen"]=$_POST["opmerkingen"];
 			}
 		}
-	
+
 		reset($_POST);
 		while(list($key,$value)=@each($_POST["input"])) {
 			while(list($key2,$value2)=each($value)) {
@@ -335,7 +335,7 @@ if($_GET["stap"]==1) {
 
 			# Schadeverzekering opslaan
 			$db->query("UPDATE boeking SET schadeverzekering='".addslashes($_POST["schadeverzekering"])."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-						
+
 			# Algemene opties opslaan
 			@reset($_POST["inputalg"]);
 			while(list($key,$value)=@each($_POST["inputalg"])) {
@@ -354,7 +354,7 @@ if($_GET["stap"]==1) {
 							$persoonnummer=$persoonnummer+1;
 							if($key=="ann") {
 								$db->query("INSERT INTO boeking_persoon SET boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', persoonnummer='".$persoonnummer."', status=2, annverz='".$key2."';");
-							
+
 								# Verzekerd bedrag bepalen en opslaan
 								$temp_gegevens2=get_boekinginfo($gegevens["stap1"]["boekingid"]);
 								$db->query("UPDATE boeking_persoon SET annverz_verzekerdbedrag='".addslashes($temp_gegevens2["stap4"][$i]["annverz_verzekerdbedrag_actueel"])."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."' AND persoonnummer='".addslashes($persoonnummer)."';");
@@ -365,12 +365,12 @@ if($_GET["stap"]==1) {
 					}
 				}
 			}
-	
+
 			$gegevens=get_boekinginfo($gegevens["stap1"]["boekingid"]);
-	
+
 			# Bijkomende kosten bepalen
 			bereken_bijkomendekosten($gegevens["stap1"]["boekingid"]);
-			
+
 			# Doorsturen naar overzichtspagina
 			header("Location: ".ereg_replace("stap=[0-9]","stap=3",$_SERVER["REQUEST_URI"]));
 			exit;
@@ -378,9 +378,9 @@ if($_GET["stap"]==1) {
 	}
 
 } elseif($_GET["stap"]==3) {
-	
+
 	unset($overzicht);
-	$overzicht.="<table cellspacing=\"0\" cellpadding=\"4\" style=\"width: 700px;background-color: #FFFFFF;border: 2px solid ".$table.";\">";
+	$overzicht.="<table cellspacing=\"0\" cellpadding=\"4\" style=\"width: 700px;background-color: #FFFFFF;border: 1px solid ".$table.";\">";
 	$overzicht.="<tr><td>".html("accommodatie","boeken")."</td><td><a href=\"".$accinfo["url"]."\" target=\"_blank\">".htmlentities(ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</a></td></tr>";
 	$overzicht.="<tr><td>".html("plaats","boeken")."</td><td>".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
 	$overzicht.="<tr><td>".html("aantalpersonen","boeken")."</td><td>".htmlentities($gegevens["stap1"]["aantalpersonen"])."</td></tr>";
@@ -389,9 +389,9 @@ if($_GET["stap"]==1) {
 	} else {
 		$overzicht.="<tr><td>".html("verblijfsperiode","boeken")."</td><td>".htmlentities($accinfo["aankomstdatum"][$gegevens["stap1"]["aankomstdatum"]]." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum"],$vars["taal"]))."</td></tr>";
 	}
-	$overzicht.="<tr><td colspan=\"2\"><hr style=\"color: ".$hr.";background-color:".$hr.";height: 2px;border: 0px;\"><b>".txt("samenstellingreissom","boeken")."</b><p><table cellspacing=\"0\" width=\"100%\">";
+	$overzicht.="<tr><td colspan=\"2\"><hr style=\"color: ".$hr.";background-color:".$hr.";height: 1px;border: 0px;\"><b>".txt("samenstellingreissom","boeken")."</b><p><table cellspacing=\"0\" width=\"100%\">";
 	$overzicht.="_WT_REISSOM_TABEL_";
-	
+
 	if($vars["wederverkoop"] and $login_rb->logged_in) {
 		$reissomtabel_met_javascript=reissom_tabel($gegevens,$accinfo,array("tonen_verbergen"=>true));
 		$reissomtabel_zonder_javascript=reissom_tabel($gegevens,$accinfo);
@@ -408,13 +408,13 @@ if($_GET["stap"]==1) {
 	} else {
 		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".htmlentities($_GET["tid"])."&d=".$gegevens["stap1"]["aankomstdatum"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
 	}
-	
+
 	if(($_POST["mail"] and $_POST["filled"] and wt_validmail($_POST["mail"])) or ($vars["wederverkoop"] and $login_rb->logged_in)) {
 		if(!$_SESSION["calc"][$_GET["tid"]]["mail_naar_chalet_verstuurd"]) {
 			#
 			# Mail naar Chalet
 			#
-	
+
 			# Mail aan Chalet.nl
 			$mail=new wt_mail;
 			$mail->from=$vars["email"];
@@ -423,7 +423,7 @@ if($_GET["stap"]==1) {
 			$mail->subject=txt("mail_subject","calc",array("v_website"=>$vars["websitenaam"]));
 			$mail->to="info@chalet.nl";
 			$mail->fromname="Website ".$vars["websites"][$vars["website"]];
-			
+
 			if($vars["wederverkoop"] and $login_rb->logged_in) {
 				$db->query("SELECT r.naam FROM reisbureau r, reisbureau_user ru WHERE ru.reisbureau_id=r.reisbureau_id AND ru.user_id='".addslashes($login_rb->user_id)."';");
 				if($db->next_record()) {
@@ -433,36 +433,36 @@ if($_GET["stap"]==1) {
 				}
 				$mail->html=$rbnaam." heeft via de site de volgende prijsberekening uitgevoerd:<p>";
 				if($_SESSION["calc"][$_GET["tid"]]["referentie"] or $_SESSION["calc"][$_GET["tid"]]["opmerkingen"]) {
-					$mail->html.="<table cellspacing=\"0\" cellpadding=\"4\" style=\"width: 700px;background-color: #FFFFFF;border: 2px solid ".$table.";\">";
+					$mail->html.="<table cellspacing=\"0\" cellpadding=\"4\" style=\"width: 700px;background-color: #FFFFFF;border: 1px solid ".$table.";\">";
 					if($_SESSION["calc"][$_GET["tid"]]["referentie"]) $mail->html.="<tr><td valign=\"top\" style=\"width:165px;\">Referentie</td><td valign=\"top\">".htmlentities($_SESSION["calc"][$_GET["tid"]]["referentie"])."</td></tr>";
 					if($_SESSION["calc"][$_GET["tid"]]["opmerkingen"]) $mail->html.="<tr><td valign=\"top\" style=\"width:165px;\" nowrap>Vragen of opmerkingen</td><td valign=\"top\">".nl2br(htmlentities($_SESSION["calc"][$_GET["tid"]]["opmerkingen"]))."</td></tr>";
 					$mail->html.="</table><p>";
 				}
 				$mail->html.=ereg_replace("_WT_REISSOM_TABEL_",$reissomtabel_zonder_javascript,$overzicht);
-			} else {	
+			} else {
 				$mail->html="<a href=\"mailto:".htmlentities($_POST["mail"])."\">".htmlentities($_POST["mail"])."</a> heeft via de site het volgende totaalbedrag laten berekenen:<p>".ereg_replace("_WT_REISSOM_TABEL_",$reissomtabel_zonder_javascript,$overzicht);
 			}
 			$mail->send();
-			
+
 			$_SESSION["calc"][$_GET["tid"]]["mail_naar_chalet_verstuurd"]=true;
 		}
 	}
-	
+
 	if($_POST["mail"] and $_POST["filled"]) {
 		#
 		# Mail naar klant
 		#
 		if(wt_validmail($_POST["mail"])) {
-		
+
 			$mail=new wt_mail;
 			$mail->from=$vars["email"];
 			$mail->fromname=$vars["websitenaam"];
 			$mail->to=$_POST["mail"];
 			$mail->subject=txt("mail_subject","calc",array("v_website"=>$vars["websitenaam"]));
 			$mail->html="<br><div style=\"width:700px;\">".nl2br(html("mail_inleiding","calc",array("v_websitenaam"=>$vars["websitenaam"])))."</div><p>".ereg_replace("_WT_REISSOM_TABEL_",$reissomtabel_zonder_javascript,$overzicht);
-		
+
 			$mail->send();
-			
+
 			$melding="<i>".html("verstuurd","calc",array("v_email"=>$_POST["mail"]))."</i>";
 		} else {
 			$error=html("ongeldig","calc");

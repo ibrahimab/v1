@@ -445,6 +445,28 @@ td.selecteerbaarbedrag:hover{
 	padding: 3px;
 }
 
+
+/* 1px border */
+.tbl {
+	border-width: 0 0 1px 1px;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border-style: solid;
+}
+
+.tbl th, .tbl td {
+	margin: 0;
+	border-width: 1px 1px 0 0;
+	border-style: solid;
+}
+
+.tbl td table td {
+	border-width: 0px;
+}
+
+
+
+
 .tbl th a:visited {
 	color: <?php echo $thfontcolor; ?>;
 }
@@ -1232,6 +1254,23 @@ td.selecteerbaarbedrag:hover{
 }
 
 
+
+.toonacctabel {
+	border-width: 0 0 1px 1px;
+	border-spacing: 0;
+	border-collapse: collapse;
+	border-style: solid;
+}
+
+.toonacctabel th, .toonacctabel td {
+	margin: 0;
+	border-width: 1px 1px 0 0;
+	border-style: solid;
+}
+
+.toonacctabel td table td {
+	border-width: 0px;
+}
 
 /* per pagina */
 

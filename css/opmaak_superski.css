@@ -660,7 +660,7 @@ form {
 }
 
 #colofon a:hover {
-	color: #e6007e;
+	color: #ee54a8;
 }
 
 #ondercolofon {
@@ -1053,10 +1053,6 @@ form {
 	-webkit-border-radius: 11px;
 	-moz-border-radius: 11px;
 	border-radius: 11px;
-
-	-webkit-border-top-left-radius: 0px;
-	-moz-border-radius-topleft: 0px;
-	border-top-left-radius: 0px;
 }
 
 /* Corner radius */
@@ -1068,6 +1064,11 @@ form {
 /* Overlays */
 .ui-widget-overlay { background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat; opacity: .5;filter:Alpha(Opacity=50); }
 .ui-widget-shadow { margin: -5px 0 0 -5px; padding: 5px; background: #000000 url(images/ui-bg_flat_10_000000_40x100.png) 50% 50% repeat-x; opacity: .2;filter:Alpha(Opacity=20); -moz-border-radius: 11px; -khtml-border-radius: 11px; -webkit-border-radius: 11px; border-radius: 11px; }
+
+
+/* tabs stukje naar rechts schuiven (vanwege rounded corner eronder) */
+.ui-tabs .ui-tabs-nav { margin-left: 10px !important; }
+
 
 
 @media print {

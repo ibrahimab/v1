@@ -19,11 +19,11 @@ if($_GET["stap"]==1) {
 } elseif($_GET["stap"]==2) {
 
 	if((is_array($optie_soort["naam_enkelvoud"]) and is_array($optie_onderdeel)) or is_array($optie_keuzes)) {
-		echo html("inleiding","calc")."<p>";
+		echo "<p>".html("inleiding","calc")."</p>";
 	}
 	echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
-	
-	echo "<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;border:2px solid ".$bordercolor.";padding:3px;\">";
+
+	echo "<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;border:1px solid ".$bordercolor.";padding:3px;\">";
 	echo "<tr><td style=\"padding-bottom:4px;\"><b>".html("accommodatie","boeken")."</b>&nbsp;</td><td style=\"padding-bottom:4px;\">".htmlentities($accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</td></tr>";
 	echo "<tr><td><b>".html("plaats","boeken")."</b>&nbsp;</td><td>".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
 	if($vars["wederverkoop"] and $login_rb->logged_in) {
@@ -37,7 +37,7 @@ if($_GET["stap"]==1) {
 	echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".strtoupper(html("berekenen","calc"))." \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"></td></tr>";
 	echo "<tr><td colspan=\"2\" align=\"center\">".html("voegnogoptiestoe","calc")."</td></tr>";
 
-	echo "</table><hr>";
+	echo "</table><br><hr><br>";
 
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 
@@ -71,7 +71,7 @@ if($_GET["stap"]==1) {
 			}
 		}
 	}
-	echo "</table><hr>";
+	echo "</table><br><hr><br>";
 
 	if(is_array($optie_soort["naam_enkelvoud"]) and is_array($optie_onderdeel)) {
 		echo "<table cellspacing=\"0\" class=\"tbl\">";
@@ -110,23 +110,23 @@ if($_GET["stap"]==1) {
 } elseif($_GET["stap"]==3) {
 
 	# Totaalbedrag tonen
-	
+
 	echo $overzicht;
-	
+
 	echo "<p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\" name=\"frm\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 
 	if($vars["wederverkoop"] and $login_rb->logged_in) {
 		echo "<a href=\"#\" onclick=\"document.frm.submit();return false;\">".html("mailditoverzicht_wederverkoop","calc")." &gt;</a>&nbsp;(".htmlentities($login_rb->vars["email"]).")";
 		echo "<input type=\"hidden\" name=\"mail\" value=\"".htmlentities($login_rb->vars["email"])."\"><p>";
-		
+
 		if($gegevens["stap1"]["calc_bewaren"]) {
 			echo "<b>".html("calcisopgeslagen_wederverkoop","calc")."</b> - ";
 			echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&wissen=1\">".html("calcwis_wederverkoop","calc")." &gt;</a><p>";
 		} else {
 			echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&bewaren=1\">".html("calcopslaan_wederverkoop","calc")." &gt;</a><p>";
 		}
-		
+
 	} else {
 		echo html("mailditoverzicht","calc").":&nbsp;&nbsp;&nbsp;";
 		$temp_naw=getnaw();
