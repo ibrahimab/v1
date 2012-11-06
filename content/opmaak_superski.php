@@ -71,6 +71,9 @@ if(preg_match("/MSIE 7/",$_SERVER["HTTP_USER_AGENT"])) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie7.css?cache=".@filemtime("css/ie7.css")."\" />\n";
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie7_superski.css?cache=".@filemtime("css/ie7_superski.css")."\" />\n";
 }
+if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie8_superski.css?cache=".@filemtime("css/ie8_superski.css")."\" />\n";
+}
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_superski.ico\" />\n";
 

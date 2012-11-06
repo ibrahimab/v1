@@ -799,9 +799,9 @@ td.selecteerbaarbedrag:hover{
 	min-width: 20px;
 	text-align: center;
 	text-decoration: none;
-	-moz-border-radius:3px;
-	-webkit-border-radius:3px;
-	border-radius: 3px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .zoekresultaten_paginas_active {
@@ -816,9 +816,9 @@ td.selecteerbaarbedrag:hover{
 	min-width: 20px;
 	text-align: center;
 	text-decoration: none;
-	-moz-border-radius:3px;
-	-webkit-border-radius:3px;
-	border-radius: 3px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .zoekresultaten_paginas_disabled {
@@ -970,12 +970,12 @@ td.selecteerbaarbedrag:hover{
 .zoekresultaat_top {
 	background-color: #d5e1f9;
 	padding: 5px;
-	border-top-left-radius: 5px;
-	-moz-border-top-left-radius: 5px;
-	-webkit-border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	-moz-border-top-right-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
+	border-top-left-radius: 3px;
+	-moz-border-top-left-radius: 3px;
+	-webkit-border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	-moz-border-top-right-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
 }
 
 .zoekresultaat_content {

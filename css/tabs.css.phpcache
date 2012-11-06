@@ -57,9 +57,9 @@ header("Content-type: text/css; charset=windows-1252");
 
 	/* Interaction states
 	----------------------------------*/
-	.ui-state-default, .ui-widget-content .ui-state-default { border: 1px solid #ffffff; background-color: <?php echo $inactivetabcolor; ?>; color: #ffffff; outline: none; }
+	.ui-state-default, .ui-widget-content .ui-state-default { border: 1px solid <?php echo $inactivetabcolor; ?>; background-color: <?php echo $inactivetabcolor; ?>; color: #ffffff; outline: none; }
 	.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: <?php echo $inactivetabfontcolor; ?>; text-decoration: none; outline: none; }
-	.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus { border: 1px solid #ffffff; background: <?php echo $activetabcolor; ?>; color: #ffffff; outline: none; }
+	.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus { border: 1px solid <?php echo $activetabcolor; ?>; background: <?php echo $activetabcolor; ?>; color: #ffffff; outline: none; }
 	.ui-state-hover a, .ui-state-hover a:hover { color: #ffffff; text-decoration: none; outline: none; }
 	.ui-state-active, .ui-widget-content .ui-state-active { border: 1px solid <?php echo $activetabcolor; ?>; background: <?php echo $activetabcolor; ?>; color: #ffffff; outline: none; }
 	.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #ffffff; outline: none; text-decoration: none; }
@@ -78,6 +78,7 @@ header("Content-type: text/css; charset=windows-1252");
 	.ui-tabs .ui-tabs-nav li.ui-tabs-selected { padding-bottom: 1px; border-bottom-width: 0; }
 	.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a { cursor: text; }
 	.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+
 	.ui-tabsOUD .ui-tabs-panelOUD { padding: 1em 1.4em; display: block; border-width: 0; border: 1px solid <?php echo $activetabcolor; ?>; }
 	.ui-tabsOUD .ui-tabs-panelOUD { padding: 1em 1.4em; display: inline-block; width:697px; border-width: 0; border: 1px solid <?php echo $activetabcolor; ?>; }
 
@@ -89,4 +90,8 @@ header("Content-type: text/css; charset=windows-1252");
 		top: -10000px;
 	}
 
+	/* ruimte tussen tabs: 1 pixel */
+	#tabs ul li {
+		margin-right: 1px;
+	}
 }
