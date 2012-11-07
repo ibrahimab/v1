@@ -31,14 +31,14 @@ if($db->num_rows()) {
 				}
 				$tabellen.="<P><TABLE border=\"0\" class=\"toonacctabel\" style=\"width:100%\" cellspacing=\"0\">";
 				$tabellen.="<tr><th>".html("naam","skigebieden")."</th><th nowrap>".html("pistes","skigebieden")."</th><th>".html("hoogte","skigebieden")."</th><th>".html("accommodaties","skigebieden")."</th></tr>";
-	
+
 				$alle_landen[$db->f("land_id")]=$db->f("land");
 			}
 			$tabellen.="<tr><td valign=\"top\" width=\"340\" nowrap><a href=\"".txt("menu_skigebied")."/".wt_convert2url($db->f("naam"))."/\">".htmlentities($db->f("naam"))."</a></td>";
-			
+
 			$tabellen.="<td nowrap align=\"right\">".($db->f("kilometerpiste") ? $db->f("kilometerpiste")." km" : "&nbsp;")."</td>";
 			$tabellen.="<td nowrap align=\"right\">".$db->f("minhoogte")." m - ".$db->f("maxhoogte")." m</td>";
-			
+
 			$tabellen.="<td nowrap align=\"right\">";
 			if($aantal_acc) {
 				$tabellen.="<a href=\"".txt("menu_zoek-en-boek").".php?filled=1&fsg=".$db->f("land_id")."-".$db->f("skigebied_id")."\">";
@@ -68,8 +68,6 @@ while(list($key,$value)=@each($alle_landen)) {
 }
 echo "<p>".html("viaonderstaandoverzicht","skigebieden",array("h_landen"=>$landen))." ";
 echo html("steltuspecifiekeeisen","skigebieden");
-echo "<p>";
-echo html("heeftualeenreisgeboekt","skigebieden");
 
 #
 # Tabs

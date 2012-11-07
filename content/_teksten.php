@@ -2542,9 +2542,6 @@ $txt["en"]["skigebieden"]["steltuspecifiekeeisen"]="If you want a skiing area to
 $txt["nl_z"]["skigebieden"]["steltuspecifiekeeisen"]="Stel je specifieke eisen aan een regio, zoek dan eerst een regio die bij je past en kijk welke mogelijkheden wij in deze gebieden hebben.";
 $txt["en_z"]["skigebieden"]["steltuspecifiekeeisen"]="If you want a region to meet specific requirements, look first for a region that suits your requirements and then look for what we can offer in these areas.";
 
-$txt["nl"]["skigebieden"]["heeftualeenreisgeboekt"]="Heb je al een reis geboekt? Kijk dan voor vertrek nog eens op deze pagina naar bijvoorbeeld de actuele weersinformatie zodat je goed voorbereid op vakantie kunt gaan.";
-$txt["en"]["skigebieden"]["heeftualeenreisgeboekt"]="Have you already booked a holiday? Look before you leave at the weather information on this page so that you can leave fully prepared.";
-
 $txt["nl"]["skigebieden"]["naam"]="Naam";
 $txt["en"]["skigebieden"]["naam"]="Naam";
 
