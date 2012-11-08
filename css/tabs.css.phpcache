@@ -94,4 +94,9 @@ header("Content-type: text/css; charset=windows-1252");
 	#tabs ul li {
 		margin-right: 2px;
 	}
+
+	/* hoogte van de tabs */
+	#tabs ul li a {
+		height: 20px;
+	}
 }

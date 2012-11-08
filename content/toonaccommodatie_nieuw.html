@@ -255,6 +255,7 @@ if($db->next_record()) {
 	echo "</div>";
 	echo "</div>";
 	echo "<div style=\"clear: both;height:2px;\"></div>\n";
+
 	# Foto's
 	$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
 	#
