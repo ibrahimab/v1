@@ -185,6 +185,11 @@ form {
 	color: #ffffff;
 }
 
+/* klikbaar telefoonnummer in iOS */
+#telefoonblok_nummer a {
+	color: #ffffff;
+}
+
 #telefoonblok_nummer img {
 	margin-left: 9px;
 	margin-right: 10px;
