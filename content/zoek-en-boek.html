@@ -454,7 +454,10 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 # hulpmiddeltje om hover-kleur door te geven aan jQuery
 echo "<div id=\"hulp_zoekresultaat_hover\"></div>";
 
-
+# Sortering SuperSki: altijd op prijs
+if($vars["websitetype"]==8) {
+	$_GET["sort"]=2;
+}
 
 if($_GET["testsysteem2"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	#
@@ -538,8 +541,8 @@ if($_GET["testsysteem2"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") 
 		# testsysteem
 		echo "<input type=\"hidden\" name=\"testsysteem\" value=\"1\">\n";
 	}
-	if($_GET["sort"]) {
-		# gekozen sortering meegesturen met het formulier
+	if($_GET["sort"] and $vars["websitetype"]<>8) {
+		# gekozen sortering meesturen met het formulier
 		echo "<input type=\"hidden\" name=\"sort\" value=\"".wt_he($_GET["sort"])."\">\n";
 	}
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
@@ -980,8 +983,8 @@ if($_GET["testsysteem2"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") 
 		# testsysteem
 		echo "<input type=\"hidden\" name=\"testsysteem\" value=\"1\">\n";
 	}
-	if($_GET["sort"]) {
-		# gekozen sortering meegesturen met het formulier
+	if($_GET["sort"] and $vars["websitetype"]<>8) {
+		# gekozen sortering meesturen met het formulier
 		echo "<input type=\"hidden\" name=\"sort\" value=\"".wt_he($_GET["sort"])."\">\n";
 	}
 
@@ -2421,7 +2424,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			unset($urltoevoeging);
 
 			$zoekresultatenteller++;
-#echo $sorteer."<p>";
+
 			# Toonper opslaan
 			$toonper[$sorteer]=$db->f("toonper");
 
@@ -2953,7 +2956,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		echo "</td></tr>";
 
 		echo "<tr>";
-		if($tarieven_tonen) {
+
+		# Sorteren alleen aanbiedingen als er tarieven worden getoond, en niet bij SuperSki
+		if($tarieven_tonen and $vars["websitetype"]<>8) {
 			echo "<td colspan=\"5\" align=\"right\" valign=\"bottom\" style=\"padding-right:10px;\">";
 			echo "<div id=\"zoekresultaten_sorteer\">";
 			$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
