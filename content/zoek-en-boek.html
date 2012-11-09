@@ -1595,7 +1595,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		}
 
 		# kortingen
-		$db->query("SELECT DISTINCT ta.type_id FROM seizoen s, tarief ta WHERE ta.kortingactief=1 AND ta.seizoen_id=s.seizoen_id AND s.tonen".($voorkant_cms ? ">=" : "=")."3 AND s.type='".addslashes($vars["seizoentype"])."' AND s.eind>='".date("Y-m-d")."';");
+		$db->query("SELECT DISTINCT ta.type_id FROM seizoen s, tarief ta WHERE ta.aanbiedingskleur_korting=1 AND ta.kortingactief=1 AND ta.seizoen_id=s.seizoen_id AND s.tonen".($voorkant_cms ? ">=" : "=")."3 AND s.type='".addslashes($vars["seizoentype"])."' AND s.eind>='".date("Y-m-d")."';");
 		while($db->next_record()) {
 			$geen_datum_alleen_aanbiedingen_inquery.=",".$db->f("type_id");
 		}
