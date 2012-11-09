@@ -38,8 +38,10 @@ if($_SERVER["HTTP_HOST"]) {
 	$unzip="/usr/bin/unzip";
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$tmpdir="/home/webtastic/html/chalet/tmp/";
+		$test_tmpdir="/tmp/";
 	} elseif($_SERVER["WINDIR"]<>"") {
 		$tmpdir=$_SERVER["DOCUMENT_ROOT"]."/chalet/tmp/";
+		$test_tmpdir=$_SERVER["DOCUMENT_ROOT"]."/chalet/tmp/";
 	} else {
 		$tmpdir="/tmp/";
 	}
@@ -232,32 +234,32 @@ $xml_urls[20][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=ext
 if($testsysteem) {
 	unset($xml_urls);
 	unset($soap_urls);
-#	$xml_urls[2][]=$tmpdir."alpenchalets.xml";
-#	$xml_urls[3][]=$tmpdir."skifrance.xml";
-#	$xml_urls[4][]=$tmpdir."results.xml";
-#	$csv_urls[5]=$tmpdir."dispo.csv";
-#	$xml_urls[6][1]=$tmpdir."Vakanzen.xml";
-#	$xml_urls[6][2]=$tmpdir."Preise.xml";
-#	$xml_urls[7][1]=$tmpdir."bel.xml";
-#	$xml_urls[7][2]=$tmpdir."belt.xml";
-#	$xml_urls[8][1]=$tmpdir."availability.xml.1";
-#	$xml_urls[8][2]=$tmpdir."unitrates.xml";
-#	$xml_urls[8][3]=$tmpdir."unit.xml";
-#	$xml_urls[9][2]=$tmpdir."nl";
-#	$xml_urls[10][1]=$tmpdir."1.xml";
-#	$xml_urls[11][1]=$tmpdir."PAC_CHALET_NL.xml"; # Odalys
-#	$xml_urls[11][2]=$tmpdir."PAC_CHALET_NL.xml"; # Odalys
-#	$xml_urls[12][1]=$tmpdir."deuxalpes.xml";
+#	$xml_urls[2][]=$test_tmpdir."alpenchalets.xml";
+#	$xml_urls[3][]=$test_tmpdir."skifrance.xml";
+#	$xml_urls[4][]=$test_tmpdir."results.xml";
+#	$csv_urls[5]=$test_tmpdir."dispo.csv";
+#	$xml_urls[6][1]=$test_tmpdir."Vakanzen.xml";
+#	$xml_urls[6][2]=$test_tmpdir."Preise.xml";
+#	$xml_urls[7][1]=$test_tmpdir."bel.xml";
+#	$xml_urls[7][2]=$test_tmpdir."belt.xml";
+#	$xml_urls[8][1]=$test_tmpdir."availability.xml.1";
+#	$xml_urls[8][2]=$test_tmpdir."unitrates.xml";
+#	$xml_urls[8][3]=$test_tmpdir."unit.xml";
+#	$xml_urls[9][2]=$test_tmpdir."nl";
+#	$xml_urls[10][1]=$test_tmpdir."1.xml";
+#	$xml_urls[11][1]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
+#	$xml_urls[11][2]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
+#	$xml_urls[12][1]=$test_tmpdir."deuxalpes.xml";
 #	$soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
-#	$xml_urls[14][1]=$tmpdir."deuxalpes.xml";
+#	$xml_urls[14][1]=$test_tmpdir."deuxalpes.xml";
 #	$soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
-#	$xml_urls[16][1]=$tmpdir."export_chalet_nl_occupancy_de_w.xml";
-#	$xml_urls[16][2]=$tmpdir."export_chalet_nl_prices_de_w.xml";
-#	$xml_urls[16][3]=$tmpdir."export_chalet_nl_occupancy_de_s.xml";
-#	$xml_urls[16][4]=$tmpdir."export_chalet_nl_prices_de_s.xml";
+	$xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
+	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
+#	$xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
+#	$xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 #	$xml_urls[17][1]=$temp_filename[17];
-#	$xml_urls[18][1]=$tmpdir."agence.xml";
-	$xml_urls[19][1]="/tmp/oxy.xml";
+#	$xml_urls[18][1]=$test_tmpdir."agence.xml";
+#	$xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
 #	$xml_urls[20][1]="/tmp/locative.xml";
 }
 
