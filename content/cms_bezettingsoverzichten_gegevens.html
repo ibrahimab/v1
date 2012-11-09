@@ -100,12 +100,29 @@ if($inquery_type_id) {
 		$dag=$db->f("aankomstdatum_exact");
 		while($dag<$db->f("vertrekdatum_exact")) {
 			if($db->f("besteldatum")>0 or $db->f("vertrekdatum_exact")<time()) {
-				$colorclass[$typeid][$dag]="boeking_chalet";
-				$text[$typeid][$dag]=txt("boekingviachalet","lev_login",array("v_websitenaam"=>$vars["websitenaam"])).": ".wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
+				$temp_colorclass="boeking_chalet";
+				$temp_text=txt("boekingviachalet","lev_login",array("v_websitenaam"=>$vars["websitenaam"])).": ".wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
 			} else {
-				$colorclass[$typeid][$dag]="staatinoptievoorklant";
-				$text[$typeid][$dag]=txt("staatinoptievoorklant","lev_login");
+				$temp_colorclass="staatinoptievoorklant";
+				$temp_text=txt("staatinoptievoorklant","lev_login");
 			}
+
+			# Kijken of die regel al gebruikt wordt (alleen spreiden over meerdere regels bij intern gebruik (=$mustlogin))
+			if($mustlogin and $colorclass[$typeid][$dag]) {
+				unset($vrij_veld_gevonden,$while_teller);
+				while(!$vrij_veld_gevonden) {
+					$while_teller++;
+					if(!$colorclass[$typeid."_".$while_teller][$dag]) {
+						$vrij_veld_gevonden=true;
+						$colorclass[$typeid."_".$while_teller][$dag]=$temp_colorclass;
+						$text[$typeid."_".$while_teller][$dag]=$temp_text;
+					}
+				}
+			} else {
+				$colorclass[$typeid][$dag]=$temp_colorclass;
+				$text[$typeid][$dag]=$temp_text;
+			}
+
 			$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+1,date("Y",$dag));
 		}
 	}
@@ -146,6 +163,16 @@ if($inquery_type_id) {
 			} else {
 				// title binnen het CMS
 				$temp_title="Bezettingsoverzicht ".$db->f("naam");
+			}
+
+			// zorgen dat alleen gegevens binnen de gekozen data worden meegenomen
+			$walk_colorclass=$colorclass;
+			while(list($key,$value)=each($walk_colorclass)) {
+				while(list($key2,$value2)=each($value)) {
+					if($key2<$db->f("begindatum") or $key2>$db->f("einddatum")) {
+						unset($colorclass[$key][$key2]);
+					}
+				}
 			}
 
 			// gegevens in een tabel tonen
