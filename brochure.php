@@ -7,10 +7,9 @@ $vars["jquery_fancybox"]=true;
 include("admin/vars.php");
 
 # Wintersport Magazine uitgeschakeld op verzoek van Bjorn (07-08-2012)
-if($vars["website"]=="C") {
-	header("Location: ".$vars["path"]);
-	exit;
-}
+# Zomermagazine uitgeschakeld op verzoek van Bjorn (09-11-2012),
+header("Location: ".$vars["path"],true,301);
+exit;
 
 
 # Afbeeldingen resizen
@@ -34,12 +33,12 @@ if(is_array($files)) {
 }
 
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="Magazine-aanvraag";
 $form->settings["layout"]["css"]=false;
 $form->settings["message"]["submitbutton"]["nl"]="MAGAZINE AANVRAGEN";
 #$form->settings["target"]="_blank";
- 
+
 # Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 $form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
 

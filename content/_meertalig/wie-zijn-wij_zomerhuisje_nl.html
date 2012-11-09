@@ -9,15 +9,6 @@ echo "Reserveringen kunnen direct via de website of telefonisch gemaakt worden. 
 echo "<h2>Hoge servicekwaliteit</h2>";
 echo "De kwaliteit van de service staat hoog in het vaandel bij Chalet.nl B.V.. Indien je de wensen aan ons doorgeeft, kunnen wij een aantal passende accommodaties op maat voor je uitzoeken. Is accommodatie al volgeboekt? Dan bieden wij de mogelijke alternatieven. Heb je vervolgens nog wijzigingen of extra informatie nodig dan verzorgen wij dit kosteloos, tot tenminste 6 weken voor vertrek.<p>";
 
-if($vars["website"]=="Z") {
-	echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
-	echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/zomerhuisjemagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
-	echo "<h2>Zomerhuisje Magazine</h2>";
-	echo "Naast onze uitgebreide website hebben wij een inspiratie-magazine samengesteld met daarin niet alleen een impressie van ons aanbod maar ook een aantal reistips, recepten en interviews.<br><a href=\"".$vars["path"]."brochure.php\">Bekijk dit Zomerhuisje Magazine online</a> of <a href=\"".$vars["path"]."brochure.php#wtform_frm\">laat het thuisbezorgen</a>.";
-	echo "</td></tr></table>";
-	echo "<p>";
-}
-
 echo "<h2>Werken bij Zomerhuisje/Chalet.nl</h2>";
 echo "Interesse in een functie binnen ons bedrijf of op zoek naar een stageplaats? Stuur je cv en motivatiebrief naar <a href=\"mailto:jetske@chalet.nl\">jetske@chalet.nl</a> of neem contact op met Jetske Stols, tel: 0348-434649.<p>";
 if($vars["actuele_vacature"]) echo "<a href=\"".$vars["path"]."vacatures.php\">Bekijk onze actuele vacature: ".wt_he($vars["actuele_vacature"])." &raquo;</a><br><br>";

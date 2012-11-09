@@ -98,18 +98,19 @@ if($_GET["fo"]=="frm") {
 #			echo "</td></tr></table>";
 #			echo "</div><p>";
 #		}
-		if($vars["website"]=="Z") {
-			echo "&nbsp;<br><div style=\"border:1px solid #5f227b;padding:5px;\">";
-			echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
-			echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/zomerhuisjemagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
-			echo "<b>Zomerhuisje Magazine</b><br>";
-			echo "Naast onze uitgebreide website hebben wij een inspiratie-magazine samengesteld met daarin niet alleen een impressie van ons aanbod maar ook een aantal reistips, recepten en interviews.<br><a href=\"".$vars["path"]."brochure.php\">Bekijk dit Zomerhuisje Magazine online</a> of <a href=\"".$vars["path"]."brochure.php#wtform_frm\">laat het thuisbezorgen</a>.";
-			echo "</td></tr></table>";
-			echo "</div><p>";
-		}
+# Zomermagazine uitgeschakeld op verzoek van Bjorn (09-11-2012),
+		// if($vars["website"]=="Z") {
+		// 	echo "&nbsp;<br><div style=\"border:1px solid #5f227b;padding:5px;\">";
+		// 	echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr>";
+		// 	echo "<td valign=\"top\"><a href=\"".$vars["path"]."brochure.php\"><img src=\"".$vars["path"]."pic/zomerhuisjemagazine.jpg\" border=\"0\"></a></td><td>&nbsp;&nbsp;</td><td valign=\"top\">";
+		// 	echo "<b>Zomerhuisje Magazine</b><br>";
+		// 	echo "Naast onze uitgebreide website hebben wij een inspiratie-magazine samengesteld met daarin niet alleen een impressie van ons aanbod maar ook een aantal reistips, recepten en interviews.<br><a href=\"".$vars["path"]."brochure.php\">Bekijk dit Zomerhuisje Magazine online</a> of <a href=\"".$vars["path"]."brochure.php#wtform_frm\">laat het thuisbezorgen</a>.";
+		// 	echo "</td></tr></table>";
+		// 	echo "</div><p>";
+		// }
 
 	}
-	echo "&nbsp;<p><b>".html("contactformulier","contact")."</b><br>";
+	echo "<p><b>".html("contactformulier","contact")."</b><br>";
 	$form->display_all();
 
 	if($vars["website"]=="T") {

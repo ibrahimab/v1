@@ -454,7 +454,13 @@ if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcru
 	echo "</div>"; # afsluiten breadcrumb_wrapper
 }
 echo "<div id=\"colofon_wrapper\" class=\"noprint\">";
-echo "<div id=\"colofon\" class=\"noprint\">".htmlentities($vars["websiteinfo"]["langewebsitenaam"][$vars["website"]])." - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon")."</div>";
+echo "<div id=\"colofon\" class=\"noprint\">";
+if($vars["website"]=="C") {
+	echo wt_he($vars["websiteinfo"]["langewebsitenaam"][$vars["website"]]);
+} else {
+	echo wt_he($vars["websiteinfo"]["websitenaam"][$vars["website"]]);
+}
+echo " - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon")."</div>";
 
 if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 	if($id!="index") {
