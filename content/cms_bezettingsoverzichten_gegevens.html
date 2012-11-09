@@ -316,11 +316,14 @@ if($inquery_type_id) {
 				$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+$aantal_dagen_tot_volgende_zaterdag,date("Y",$dag));
 			}
 			echo "</tr>";
-			$db2->query("SELECT v.type_id, v.naam, v.tnaam, v.optimaalaantalpersonen, v.maxaantalpersonen FROM view_accommodatie v, bezettingsoverzicht_type b WHERE b.type_id=v.type_id AND b.bezettingsoverzicht_id='".addslashes($_GET["49k0"])."';");
+			$db2->query("SELECT v.type_id, v.naam, v.tnaam, v.optimaalaantalpersonen, v.maxaantalpersonen, v.begincode FROM view_accommodatie v, bezettingsoverzicht_type b WHERE b.type_id=v.type_id AND b.bezettingsoverzicht_id='".addslashes($_GET["49k0"])."';");
 			while($db2->next_record()) {
 				if($koppeling[$db2->f("type_id")]==$db2->f("type_id")) {
 			#		echo "<tr><td nowrap>".wt_he($vars["alletypes"][$db2->f("type_id")])."</td>";
 					$accnaam=$db2->f("naam").($db2->f("tnaam") ? " ".$db2->f("tnaam") : "")." (".$db2->f("optimaalaantalpersonen").($db2->f("optimaalaantalpersonen")<>$db2->f("maxaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ".txt("pers").")";
+					if($vars["lokale_testserver"]) {
+						$accnaam.=" ".$db2->f("begincode").$db2->f("type_id");
+					}
 
 					$dag=$db->f("begindatum");
 					echo "<tr><td class=\"".(date("w",$dag)==6 ? "bezettingsoverzicht_eindeweek" : "")."\" style=\"white-space:nowrap;\" nowrap title=\"".$db2->f("type_id")."\">".wt_he($accnaam)."&nbsp;&nbsp;";
