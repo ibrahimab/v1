@@ -18,7 +18,7 @@ if($_GET["1k0"]) {
 	}
 } else {
 	# Actuele boekingen voor in totaaloverzicht uit database halen
-	$db->query("SELECT t.accommodatie_id, COUNT(b.boeking_id) AS aantal FROM boeking b, type t WHERE b.type_id=t.type_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.aankomstdatum_exact>'".(time()-86400*8)."' GROUP BY t.accommodatie_id;");
+	$db->query("SELECT t.accommodatie_id, COUNT(b.boeking_id) AS aantal FROM boeking b, type t, seizoen s WHERE b.seizoen_id=s.seizoen_id AND b.type_id=t.type_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND s.tonen>1 GROUP BY t.accommodatie_id;");
 	while($db->next_record()) {
 		$aantal_actuele_boekingen[$db->f("accommodatie_id")]=$db->f("aantal");
 	}

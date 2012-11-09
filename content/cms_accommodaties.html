@@ -4,7 +4,7 @@ if($_GET["show"]==1) {
 	# Link naar alle boekingen van deze accommodatie
 	echo "<p><a href=\"cms_boekingen.php?boekingsearch=_".$_GET["1k0"]."\">Bekijk alle boekingen van deze accommodatie</a> ";
 
-	$db->query("SELECT b.website, COUNT(b.boeking_id) AS aantal FROM boeking b, type t WHERE b.type_id=t.type_id AND t.accommodatie_id='".addslashes($_GET["1k0"])."' AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.aankomstdatum_exact>'".(time()-86400*8)."' GROUP BY b.website ORDER BY b.website;");
+	$db->query("SELECT b.website, COUNT(b.boeking_id) AS aantal FROM boeking b, type t, seizoen s WHERE b.seizoen_id=s.seizoen_id AND b.type_id=t.type_id AND t.accommodatie_id='".addslashes($_GET["1k0"])."' AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND s.tonen>1 GROUP BY b.website ORDER BY b.website;");
 	while($db->next_record()) {
 		$site_opsomming.=", ".$vars["websiteinfo"]["websitenaam"][$db->f("website")].": ".$db->f("aantal")."";
 		$totaal_aantal_boekingen+=$db->f("aantal");
