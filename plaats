@@ -56,10 +56,10 @@ while($db->next_record()) {
 if($plaatsid) {
 	if($voorkant_cms) {
 		# Ook bij geen accommodaties: gegevens ophalen
-		$db->query("SELECT p.naam, s.naam AS skigebied, l.naam".$vars["ttv"]." AS land, s.skigebied_id FROM plaats p, skigebied s, land l WHERE p.plaats_id='".addslashes($plaatsid)."' AND p.land_id=l.land_id AND s.skigebied_id=p.skigebied_id AND p.wzt='".addslashes($vars["seizoentype"])."';");
+		$db->query("SELECT p.naam, s.naam AS skigebied, l.naam".$vars["ttv"]." AS land, l.land_id, s.skigebied_id FROM plaats p, skigebied s, land l WHERE p.plaats_id='".addslashes($plaatsid)."' AND p.land_id=l.land_id AND s.skigebied_id=p.skigebied_id AND p.wzt='".addslashes($vars["seizoentype"])."';");
 	} else {
 		# Alleen bij accommodaties: gegevens ophalen
-		$db->query("SELECT p.naam, s.naam AS skigebied, l.naam".$vars["ttv"]." AS land, s.skigebied_id FROM plaats p, skigebied s, land l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.plaats_id='".addslashes($plaatsid)."' AND p.land_id=l.land_id AND s.skigebied_id=p.skigebied_id AND p.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1 AND a.archief=0;");
+		$db->query("SELECT p.naam, s.naam AS skigebied, l.naam".$vars["ttv"]." AS land, l.land_id, s.skigebied_id FROM plaats p, skigebied s, land l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.plaats_id='".addslashes($plaatsid)."' AND p.land_id=l.land_id AND s.skigebied_id=p.skigebied_id AND p.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1 AND a.archief=0;");
 	}
 
 	if($db->next_record()) {
@@ -67,7 +67,7 @@ if($plaatsid) {
 			if($vars["seizoentype"]==1) {
 				$header["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam");
 				$title["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
-				
+
 				$breadcrumbs[txt("menu_skigebieden").".php"]=ucfirst(txt("menu_skigebieden"));
 				$breadcrumbs[txt("menu_land")."/".wt_convert2url($db->f("land"))."/"]=$db->f("land");
 				$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"]=$db->f("skigebied");
@@ -79,7 +79,7 @@ if($plaatsid) {
 				$breadcrumbs["bestemmingen.php"]="Bestemmingen";
 				$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"]=$db->f("skigebied");
 				$breadcrumbs["last"]=$db->f("naam");
-			
+
 			} else {
 				$header["toonplaats"]=$db->f("naam");
 				$title["toonplaats"]=$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
@@ -101,12 +101,17 @@ if($plaatsid) {
 			if($vars["websitetype"]==7) {
 				# topfoto bepalen
 				$file="pic/cms/skigebieden_topfoto/".$db->f("skigebied_id").".jpg";
-		
+
 				if(file_exists($file)) {
 					$vars["italissima_topfoto"]=$file;
 				}
 			}
 			$skigebiedid=$db->f("skigebied_id");
+
+			# Canonical voor Italissima/Zomerhuisje
+			if($db->f("land_id")==5) {
+				$vars["canonical_italissima"]=true;
+			}
 
 			$toplinks="<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/\">".htmlentities($db->f("land"))."</a> - <a href=\"".$vars["path"].txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/#beschrijving\">".htmlentities($db->f("skigebied"))."</a> - ".htmlentities($db->f("naam"));
 		} else {

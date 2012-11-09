@@ -75,8 +75,6 @@ if($url[0]) {
 			if(preg_match("/I/",$db->f("websites"))) {
 				$vars["canonical_italissima"]=true;
 			}
-
-
 		}
 
 		if($vars["websitetype"]==6) {

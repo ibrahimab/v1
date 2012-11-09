@@ -63,8 +63,8 @@ if(preg_match("/MSIE 7/",$_SERVER["HTTP_USER_AGENT"])) {
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_zomerhuisje.ico\" />\n";
 
 if($vars["canonical"]) {
-	if($vars["canonical_italissima"] and preg_match("/\/vakantiehuizen\/(i[0-9]+)\//",$vars["canonical"],$regs)) {
-#		$canonical="http://www.italissima.nl/accommodatie/".$regs[1]."/";
+#	if($vars["canonical_italissima"] and (preg_match("/\/vakantiehuizen\/(i[0-9]+)\//",$vars["canonical"]) or preg_match("/\/regio\//",$vars["canonical"]))) {
+	if($vars["canonical_italissima"]) {
 		$canonical=preg_replace("/www\.zomerhuisje\./","www.italissima.",$vars["canonical"]);
 	} else {
 		$canonical=$vars["canonical"];

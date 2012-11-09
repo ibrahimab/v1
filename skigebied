@@ -40,25 +40,25 @@ while($db->next_record()) {
 	} elseif(wt_convert2url($url[0])==wt_convert2url($db->f("naam"))) {
 		$skigebiedid=$db->f("skigebied_id");
 		$skigebiednaam=$db->f("naam");
-		
+
 		# meta-tag description
 		if($db->f("descriptiontag")) {
 			$meta_description=$db->f("descriptiontag");
 		}
-		
+
 		if($vars["websitetype"]==7) {
 			# topfoto bepalen
 			$file="pic/cms/skigebieden_topfoto/".$db->f("skigebied_id").".jpg";
-	
+
 			if(file_exists($file)) {
 				$vars["italissima_topfoto"]=$file;
 			}
 		}
-		
+
 		break;
 	} elseif(strtolower(wt_convert2url($url[0]))==strtolower(wt_convert2url($db->f("naam")))) {
-		header("HTTP/1.1 301 Moved Permanently", TRUE, 301);
-		header("Location: ".$path.txt("menu_skigebied")."/".wt_convert2url($db->f("naam"))."/");
+#		header("HTTP/1.1 301 Moved Permanently", TRUE, 301);
+		header("Location: ".$path.txt("menu_skigebied")."/".wt_convert2url($db->f("naam"))."/",true,301);
 		exit;
 	}
 }
@@ -70,7 +70,7 @@ if($skigebiedid) {
 		$db->query("SELECT naam FROM skigebied WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."';");
 	} else {
 		# Alleen bij accommodaties: gegevens ophalen
-		$db->query("SELECT skigebied AS naam, land FROM view_accommodatie WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."' AND atonen=1 AND ttonen=1 AND archief=0;");
+		$db->query("SELECT skigebied AS naam, land, land_id FROM view_accommodatie WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."' AND atonen=1 AND ttonen=1 AND archief=0;");
 	}
 	if($db->next_record()) {
 		if($vars["nieuwevormgeving"]) {
@@ -91,6 +91,11 @@ if($skigebiedid) {
 			}
 		} else {
 			$title["toonskigebied"]=txt("title_toonskigebied")." \"".$db->f("naam")."\"";
+		}
+
+		# Canonical voor Italissima/Zomerhuisje
+		if($db->f("land_id")==5 and $db->f("naam")<>"Merengebied / Lombardije") {
+			$vars["canonical_italissima"]=true;
 		}
 	} else {
 		$db->query("SELECT DISTINCT l.naam".$vars["ttv"]." AS land FROM plaats p, land l WHERE l.land_id=p.land_id AND p.skigebied_id=".$skigebiedid.";");

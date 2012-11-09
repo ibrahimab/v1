@@ -108,7 +108,8 @@ if($inquery_type_id) {
 			}
 
 			# Kijken of die regel al gebruikt wordt (alleen spreiden over meerdere regels bij intern gebruik (=$mustlogin))
-			if($mustlogin and $colorclass[$typeid][$dag]) {
+			# 		geen extra regel indien: colorclass=boekingviaeigenaar
+			if($mustlogin and $colorclass[$typeid][$dag] and $colorclass[$typeid][$dag]<>"boeking_eigenaarNU_EVEN_NIET") {
 				unset($vrij_veld_gevonden,$while_teller);
 				while(!$vrij_veld_gevonden) {
 					$while_teller++;
