@@ -181,8 +181,8 @@ if($_GET["bt"]==1) {
 		}
 	} elseif(ereg("^_[0-9]+$",$_GET["boekingsearch"])) {
 		unset($type_inquery,$boekingen_inquery);
-		$_GET["boekingsearch"]=substr($_GET["boekingsearch"],1);
-		$db->query("SELECT type_id FROM type WHERE accommodatie_id='".addslashes($_GET["boekingsearch"])."';");
+#		$_GET["boekingsearch"]=substr($_GET["boekingsearch"],1);
+		$db->query("SELECT type_id FROM type WHERE accommodatie_id='".addslashes(substr($_GET["boekingsearch"],1))."';");
 		while($db->next_record()) {
 			if($type_inquery) $type_inquery.=",".$db->f("type_id"); else $type_inquery=$db->f("type_id");
 		}

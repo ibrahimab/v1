@@ -16,6 +16,12 @@ if($_GET["1k0"]) {
 	if($db->next_record()) {
 		$accommodatie_heeft_boekingen=true;
 	}
+} else {
+	# Actuele boekingen voor in totaaloverzicht uit database halen
+	$db->query("SELECT t.accommodatie_id, COUNT(b.boeking_id) AS aantal FROM boeking b, type t WHERE b.type_id=t.type_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.aankomstdatum_exact>'".(time()-86400*8)."' GROUP BY t.accommodatie_id;");
+	while($db->next_record()) {
+		$aantal_actuele_boekingen[$db->f("accommodatie_id")]=$db->f("aantal");
+	}
 }
 
 if($_GET["xmlvoorraadreset"]) {
@@ -139,7 +145,7 @@ if($_GET["edit"]<>1 and $_GET["show"]<>1 and !$_GET["1where"]) {
 		$cms->db[1]["where"].=" AND archief=0";
 	}
 	if($_GET["controleren"]) {
-		$cms->settings[1]["list"]["add_link"]=false;	
+		$cms->settings[1]["list"]["add_link"]=false;
 	}
 }
 
@@ -148,6 +154,7 @@ $cms->settings[1]["edit"]["top_submit_button"]=true;
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(1,"noedit","accommodatie_id");
+$cms->db_field(1,"select","aantal_actuele_boekingen","accommodatie_id",array("selection"=>$aantal_actuele_boekingen));
 $cms->db_field(1,"text","naam");
 $cms->db_field(1,"text","internenaam");
 $cms->db_field(1,"text","bestelnaam");
@@ -285,6 +292,7 @@ if(!$_GET["archief"]) {
 }
 
 $cms->list_field(1,"websites","Sites");
+$cms->list_field(1,"aantal_actuele_boekingen","Boekingen");
 
 
 # Sommige velden zijn niet verplicht bij inactieve accommodaties
@@ -343,7 +351,7 @@ $cms->edit_field(1,1,"soortaccommodatie","Soort accommodatie");
 if($accommodatie_heeft_boekingen) {
 	if($login->userlevel>=10) {
 		$cms->edit_field(1,0,"htmlrow","<hr><b>LET OP:</b> <i>Alleen WebTastic - Er zijn <a href=\"cms_boekingen.php?boekingsearch=_".htmlentities($_GET["1k0"])."\" target=\"_blank\">boekingen aan deze accommodatie gekoppeld</a>. - wijzigen alleen mogelijk door WebTastic. Boekingen worden gewist.</i>");
-		$cms->edit_field(1,1,"toonper","Noteer tarieven per","",array("noedit"=>false));	
+		$cms->edit_field(1,1,"toonper","Noteer tarieven per","",array("noedit"=>false));
 		$cms->edit_field(1,0,"htmlrow","<hr>");
 	} else {
 		$cms->edit_field(1,0,"htmlrow","<hr><i>Er zijn <a href=\"cms_boekingen.php?boekingsearch=_".htmlentities($_GET["1k0"])."\" target=\"_blank\">boekingen aan deze accommodatie gekoppeld</a>. Wijzigen van onderstaand veld is alleen mogelijk door WebTastic. Boekingen moeten in dat geval worden gewist.</i>");
@@ -458,7 +466,7 @@ if($_GET["wzt"]==1) {
 	} else {
 		$cms->edit_field(1,0,"afstandpisteextra","Toevoeging afstand piste");
 	}
-	
+
 	$cms->edit_field(1,0,"afstandskilift","Afstand tot skilift (in meters)");
 	if($vars["cmstaal"]) {
 		$cms->edit_field(1,0,"afstandskiliftextra","Toevoeging afstand skilift NL","",array("noedit"=>true));
@@ -466,9 +474,9 @@ if($_GET["wzt"]==1) {
 	} else {
 		$cms->edit_field(1,0,"afstandskiliftextra","Toevoeging afstand skilift");
 	}
-	
+
 	$cms->edit_field(1,0,"afstandloipe","Afstand tot loipe (in meters)");
-	
+
 	if($vars["cmstaal"]) {
 		$cms->edit_field(1,0,"afstandloipeextra","Toevoeging afstand loipe NL","",array("noedit"=>true));
 		$cms->edit_field(1,0,"afstandloipeextra_".$vars["cmstaal"],"Toevoeging afstand loipe ".strtoupper($vars["cmstaal"]));
@@ -549,7 +557,7 @@ if($cms_form[1]->filled) {
 			$cms_form[1]->error("tonen","tonen moet inactief zijn bij een gearchiveerde accommodatie");
 		}
 	}
-	
+
 	# Controle of juiste taal wel actief is
 	if(!$vars["cmstaal"]) {
 		while(list($key,$value)=each($_POST["input"])) {
@@ -558,21 +566,21 @@ if($cms_form[1]->filled) {
 			}
 		}
 	}
-	
+
 	# Controle op tarievenoptie B (toonper 2)
 	if($cms_form[1]->input["toonper"]<>$oud_toonper and $cms_form[1]->input["toonper"]==2) {
-		$cms_form[1]->error("toonper","tarievenoptie B is niet meer in gebruik");		
+		$cms_form[1]->error("toonper","tarievenoptie B is niet meer in gebruik");
 	}
-	
+
 	# Controle op wijzigen toonper
 	if($accommodatie_heeft_boekingen and $_POST["input"]["toonper"] and $_POST["input"]["toonper"]<>$oud_toonper) {
 		if($login->userlevel>=10) {
-		
+
 		} else {
 			$cms_form[1]->error("toonper","wijzigen kan niet; er zijn boekingen aan deze accommodatie gekoppeld");
 		}
 	}
-	
+
 	# Controle op gps_lat
 	if($cms_form[1]->input["gps_lat"]<>"") {
 		if(preg_match("/^-?[0-9]+\.[0-9]+$/",$cms_form[1]->input["gps_lat"])) {
@@ -601,7 +609,7 @@ if($cms_form[1]->filled) {
 	if($cms_form[1]->input["videoEmbedCode"] and !preg_match("/^http:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[1]->input["videoEmbedCode"])) {
 		$cms_form[1]->error("videoEmbedCode","onjuist formaat. Voorbeeld: http://player.vimeo.com/video/44377043");
 	}
-	
+
 
 	# Bij wijzigen van "toonper" alle tarieven wissen
 	if($cms_form[1]->input["toonper"]<>$oud_toonper and $oud_toonper and $cms_form[1]->input["toonper"] and (!$accommodatie_heeft_boekingen or $login->userlevel>=10) and !$cms_form[1]->error and $_GET["1k0"] and $_GET["edit"]==1) {
@@ -609,13 +617,13 @@ if($cms_form[1]->filled) {
 		while($db->next_record()) {
 			# tabel tarief wissen
 			$db2->query("DELETE FROM tarief WHERE type_id='".$db->f("type_id")."';");
-		
+
 			# tabel tarief_personen
 			$db2->query("DELETE FROM tarief_personen WHERE type_id='".$db->f("type_id")."';");
 
 			# kortingen wissen
 			$db2->query("DELETE FROM korting WHERE type_id='".$db->f("type_id")."';");
-			
+
 			# boekingen wissen
 			$db2->query("DELETE FROM boeking WHERE type_id='".$db->f("type_id")."';");
 		}
@@ -628,7 +636,7 @@ function form_before_goto($form) {
 	$db=new DB_sql;
 	$db2=new DB_sql;
 	global $login,$vars;
-	
+
 	# datum pdf-upload vastleggen
 	if($form->settings["fullname"]=="cms_1") {
 		if($form->upload_okay["route"]) {
@@ -643,8 +651,8 @@ function form_before_goto($form) {
 			}
 		}
 	}
-	
-	if($_GET["1k0"]) {	
+
+	if($_GET["1k0"]) {
 
 		# wijziging in websites: op alle onderliggende types doorvoeren
 
@@ -665,23 +673,23 @@ function form_before_goto($form) {
 				if($nieuw_goedevolgorde) $nieuw_goedevolgorde.=",".$key; else $nieuw_goedevolgorde=$key;
 			}
 		}
-	
+
 		if($oud_goedevolgorde<>$nieuw_goedevolgorde) {
 			$db->query("UPDATE type SET websites='".addslashes($nieuw_goedevolgorde)."' WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
 		}
 	}
-	
+
 	# afbeeldingen verplaatsen en omzetten
 	if(is_array($form->upload_filename)) {
 		while(list($key,$value)=each($form->upload_filename)) {
-	
+
 			if(preg_match("/pic\/cms\/accommodaties\//",$key)) {
 				# hoofdfoto
 
 				# thumbnail aanmaken
 				wt_create_thumbnail("pic/cms/accommodaties/".basename($key),"pic/cms/accommodaties_tn/".basename($key),60,45);
 				chmod("pic/cms/accommodaties_tn/".basename($key),0666);
-				
+
 				# afbeelding naar juiste maat omzetten
 				wt_create_thumbnail("pic/cms/accommodaties/".basename($key),"pic/cms/accommodaties/".basename($key),240,180);
 				chmod("pic/cms/accommodaties/".basename($key),0666);
@@ -697,7 +705,7 @@ function form_after_imagedelete($form) {
 			if(preg_match("/pic\/cms\/accommodaties\//",$key)) {
 				# hoofdfoto: thumbnail wissen
 				unlink("pic/cms/accommodaties_tn/".basename($key));
-			}			
+			}
 		}
 	}
 }

@@ -6,9 +6,6 @@ if($_GET["show"]==21) {
 	$_GET["bid"]=$_GET["21k0"];
 	include("content/bsys.html");
 
-#echo betalingsinfo($gegevens,0);
-#exit;
-
 	if(!$_GET["menu"]) {
 		$log=split("\n",$vars["log"]);
 		if(is_array($log)) {
@@ -39,7 +36,7 @@ if($_GET["show"]==21) {
 	}
 } else {
 	if($_GET["boekingsearch"]) {
-		if(ereg("^([0-9]+)$",$_GET["boekingsearch"],$regs)) {
+		if(ereg("^_?([0-9]+)$",$_GET["boekingsearch"],$regs)) {
 			$db->query("SELECT naam FROM accommodatie WHERE accommodatie_id='".addslashes($regs[1])."';");
 			if($db->next_record()) {
 				echo "<i>Boekingen van accommodatie ".htmlentities($db->f("naam")).".</i><p>";
