@@ -52,7 +52,7 @@ $form->field_text(0,"mobielwerk",txt("mobielwerk","contact"),"",array("text"=>$t
 $form->field_email(1,"email",txt("email","contact"),"",array("text"=>$temp_naw["email"]));
 $form->field_textarea(0,"opmerkingen",txt("opmerkingen","contact"));
 $form->field_yesno("teruggebeld",txt("teruggebeld","contact"));
-if($vars["taal"]=="nl" and (!$vars["wederverkoop"] or $vars["website"]=="Z") and $vars["website"]<>"W") {
+if($vars["taal"]=="nl" and !$vars["wederverkoop"] and $vars["website"]<>"W") {
 	$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
 	$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
 }

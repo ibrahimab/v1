@@ -430,9 +430,6 @@ if($vars["websitetype"]==7) {
 	} else {
 		$submenu["inloggen"]=txt("submenutitle_inloggen");
 	}
-
-	$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
-
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");

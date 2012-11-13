@@ -1247,6 +1247,9 @@ $txt["en"]["aanbiedingen"]["diverseaankomstdata"]="various arrival dates";
 $txt["nl"]["aanbiedingen"]["geenaanbiedingen"]="Momenteel zijn er geen aanbiedingen voor de gekozen datum. Wel kun je je nu inschrijven op onze [[l1]]nieuwsbrief[[/l1]] om via e-mail op de hoogte te worden gehouden van onze laatste aanbiedingen.";
 $txt["en"]["aanbiedingen"]["geenaanbiedingen"]="There are currently no special offers.";
 
+$txt["nl_z"]["aanbiedingen"]["geenaanbiedingen"]="Momenteel zijn er geen aanbiedingen voor de gekozen datum.";
+$txt["en_z"]["aanbiedingen"]["geenaanbiedingen"]="There are currently no special offers.";
+
 $txt["nl_t"]["aanbiedingen"]["geenaanbiedingen"]="Momenteel zijn er geen aanbiedingen voor de gekozen datum.";
 $txt["en_t"]["aanbiedingen"]["geenaanbiedingen"]="There are currently no special offers.";
 
@@ -1397,10 +1400,10 @@ $txt["en"]["contact"]["opmerkingen"]="Questions or comments";
 $txt["nl"]["contact"]["teruggebeld"]="Ik wil graag teruggebeld worden";
 $txt["en"]["contact"]["teruggebeld"]="Please call me back";
 
-$txt["nl"]["contact"]["nieuwsbriefvraag"]="Ik wil graag lid worden van de [[v_websitenaam]]- en Zomerhuisje.nl-nieuwsbrief";
+$txt["nl"]["contact"]["nieuwsbriefvraag"]="Ik wil graag lid worden van de [[v_websitenaam]]-nieuwsbrief";
 $txt["en"]["contact"]["nieuwsbriefvraag"]="-";
 
-$txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik wil graag lid worden van de [[v_websitenaam]]- en Chalet.nl-nieuwsbrief";
+$txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik wil graag lid worden van de [[v_websitenaam]]-nieuwsbrief";
 $txt["en_z"]["contact"]["nieuwsbriefvraag"]="-";
 
 $txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
@@ -2663,10 +2666,10 @@ $txt["en"]["beschikbaarheid"]["wensenindienbezet"]="Your wishes if occupied";
 $txt["nl"]["beschikbaarheid"]["vragenopmerkingen"]="Vragen of opmerkingen";
 $txt["en"]["beschikbaarheid"]["vragenopmerkingen"]="Questions or comments";
 
-$txt["nl"]["beschikbaarheid"]["ikwilgraaglidworden"]="Ik wil graag lid worden van de [[v_websitenaam]]- en Zomerhuisje.nl-nieuwsbrief";
+$txt["nl"]["beschikbaarheid"]["ikwilgraaglidworden"]="Ik wil graag lid worden van de [[v_websitenaam]]-nieuwsbrief";
 $txt["en"]["beschikbaarheid"]["ikwilgraaglidworden"]="-";
 
-$txt["nl_z"]["beschikbaarheid"]["ikwilgraaglidworden"]="Ik wil graag lid worden van de [[v_websitenaam]]- en Chalet.nl-nieuwsbrief";
+$txt["nl_z"]["beschikbaarheid"]["ikwilgraaglidworden"]="Ik wil graag lid worden van de [[v_websitenaam]]-nieuwsbrief";
 $txt["en_z"]["beschikbaarheid"]["ikwilgraaglidworden"]="-";
 
 $txt["nl"]["beschikbaarheid"]["beschikbaarheidcontroleren_optie"]="Optie aanvragen";
@@ -2973,10 +2976,10 @@ $txt["en"]["boeken"]["optie_niet_bewerken"]="This option is processed manually. 
 $txt["nl"]["boeken"]["referentiekeuze"]="Ik ken [[v_websitenaam]] via";
 $txt["en"]["boeken"]["referentiekeuze"]="I know [[v_websitenaam]] from";
 
-$txt["nl"]["boeken"]["ikwilgraaglidworden"]="Ik wil graag lid worden van de [[v_websitenaam]]- en Zomerhuisje.nl-nieuwsbrief";
+$txt["nl"]["boeken"]["ikwilgraaglidworden"]="Ik wil graag lid worden van de [[v_websitenaam]]-nieuwsbrief";
 $txt["en"]["boeken"]["ikwilgraaglidworden"]="-";
 
-$txt["nl_z"]["boeken"]["ikwilgraaglidworden"]="Ik wil graag lid worden van de [[v_websitenaam]]- en Chalet.nl-nieuwsbrief";
+$txt["nl_z"]["boeken"]["ikwilgraaglidworden"]="Ik wil graag lid worden van de [[v_websitenaam]]-nieuwsbrief";
 $txt["en_z"]["boeken"]["ikwilgraaglidworden"]="-";
 
 $txt["nl"]["boeken"]["jaikwildezeboekingplaatsen"]="Ja, ik wil deze boeking plaatsen en ga akkoord met de [[h_1]][[l1]]algemene voorwaarden[[/l1]][[h_2]] van [[v_websitenaam]]. Bij gebleken beschikbaarheid komt deze accommodatie definitief op mijn naam te staan.";

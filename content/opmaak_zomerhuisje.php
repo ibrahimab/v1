@@ -162,10 +162,6 @@ echo "</div>";
 
 echo "<div id=\"submenu\">";
 while(list($key,$value)=each($submenu)) {
-	if($value=="newsletter") {
-		# Geen nieuwsbrief voor Engelstalige site
-		continue;
-	}
 	if($value<>"-") {
 		if($key=="chaletwinter") {
 			echo "<span id=\"submenu_zomerhuisje\">";
@@ -588,25 +584,6 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<li>Lid SGR-Garantiefonds</li>";
 		echo "</ul></div>";
 		echo "</div>\n";
-
-		if($vars["website"]=="Z") {
-			# Nieuwsbrief
-			echo "<div style=\"width:185px; height:165px; background-color:#CFBCD8;\">";
-			echo "<div id=\"hoofdpagina_nieuwsbrief\">";
-			echo "<div class=\"kop\">Nieuwsbrief</div>";
-			echo "<div>Ontvang aanbiedingen, nieuws en reistips.</div>";
-			if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
-				$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
-			} else {
-				$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
-			}
-			echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
-			echo "<div style=\"margin-top:5px;\"><input type=\"text\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
-			echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
-			echo "</form>";
-			echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
-			echo "</div>";
-		}
 	}
 
 	echo "</div>\n";

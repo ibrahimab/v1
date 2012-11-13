@@ -1276,7 +1276,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		if(!$gegevens["stap1"]["reisbureau_user_id"]) {
 			$form->field_checkbox(0,"referentiekeuze",txt("referentiekeuze","boeken",array("v_websitenaam"=>$vars["websitenaam"])),"","",array("selection"=>$vars["referentiekeuze"]),array("one_per_line"=>true));
 		}
-		if($vars["taal"]=="nl" and !$gegevens["stap1"]["reisbureau_user_id"] and $vars["websitetype"]<>7 and $vars["websitetype"]<>8) {
+		if($vars["taal"]=="nl" and !$gegevens["stap1"]["reisbureau_user_id"] and $vars["websitetype"]<>3 and $vars["websitetype"]<>7 and $vars["websitetype"]<>8) {
 			if($vars["seizoentype"]==1 and $vars["wederverkoop"]) {
 				# Bij winter-wederverkoop: geen nieuwsbrief aanbieden
 			} else {

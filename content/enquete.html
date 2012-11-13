@@ -13,7 +13,7 @@ if($onjuisteurl) {
 		$db->query("DELETE FROM boeking_enquete WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 	}
 #	echo wt_dump($gegevens["stap1"]);
-	
+
 	$db->query("SELECT boeking_id FROM boeking_enquete WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 	if($db->next_record()) {
 		echo nl2br(html("alingevuld","enquete"))."<p>";
@@ -26,13 +26,13 @@ if($onjuisteurl) {
 		echo "<hr>&nbsp;<br>";
 		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 		echo "<input type=\"hidden\" name=\"enqfilled\" value=\"1\">";
-		
+
 		# Vraag 1: Wat is je mening over de accommodatie waar je bent geweest?
 		echo "<b><i>".html("vraag1","enquete")."</i></b><p>";
-		
+
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
 		echo "<tr><td colspan=\"2\">(<i>".html("geefeencijfer","enquete")."</i>)</td><td align=\"center\">1</td><td align=\"center\">2</td><td align=\"center\">3</td><td align=\"center\">4</td><td align=\"center\">5</td><td align=\"center\">6</td><td align=\"center\">7</td><td align=\"center\">8</td><td align=\"center\">9</td><td align=\"center\">10</td><td align=\"center\">".html("nvt","enquete")."</td></tr>";
-	
+
 		for($i=1;$i<=6;$i++) {
 			echo "<tr><td>1.".$i."</td><td>".html("vraag1_".$i,"enquete")."</td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"1\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"2\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"3\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"4\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"5\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"6\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"7\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"8\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"9\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_".$i."\" value=\"10\"></td><td align=\"center\">".($i==5 ? "<input type=\"radio\" name=\"vraag1_".$i."\" value=\"11\">" : "&nbsp;")."</td></tr>";
 		}
@@ -48,15 +48,15 @@ if($onjuisteurl) {
 		echo "<tr><td>(<i>".html("geefeencijfer","enquete")."</i>)</td><td align=\"center\">1</td><td align=\"center\">2</td><td align=\"center\">3</td><td align=\"center\">4</td><td align=\"center\">5</td><td align=\"center\">6</td><td align=\"center\">7</td><td align=\"center\">8</td><td align=\"center\">9</td><td align=\"center\">10</td></tr>";
 		echo "<tr><td>".html("vraag1_7","enquete")."</td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"1\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"2\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"3\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"4\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"5\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"6\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"7\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"8\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"9\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag1_7\" value=\"10\"></td></tr>";
 		echo "</table><p>";
-		
+
 		# Zou je je totaaloordeel kunnen toelichten?
 		echo html("totaaloordeeltoelichten","enquete")."<br><textarea name=\"websitetekst\" class=\"wtform_textarea\" style=\"width:600px;height:60px;\"></textarea>";
 		echo "<p>";
-		
+
 		# Indien we je totaaloordeel opnemen op de website: welke naam kunnen we daarbij vermelden? (leeglaten voor anonieme bijdrage)
 		echo html("totaaloordeeltoelichten_naam","enquete")."<br><input type=\"text\" name=\"websitetekst_naam\" style=\"width:600px;\">";
 		echo "<hr>&nbsp;<br>";
-	
+
 		# Vraag 3: Waarom heb je gekozen voor deze accommodatie? (meerdere antwoorden mogelijk)
 		echo "<b><i>".html("vraag2","enquete")."</i></b><p>";
 		for($i=1;$i<=7;$i++) {
@@ -68,22 +68,22 @@ if($onjuisteurl) {
 			echo "<br>";
 		}
 		echo "<hr>&nbsp;<br>";
-		
-	
+
+
 		# Vraag 4: Wat is je mening over Chalet.nl?
 		echo "<b><i>".html("vraag3","enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</i></b><p>";
-		
+
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
 		echo "<tr><td colspan=\"2\">(<i>".html("geefeencijfer","enquete")."</i>)</td><td align=\"center\">1</td><td align=\"center\">2</td><td align=\"center\">3</td><td align=\"center\">4</td><td align=\"center\">5</td><td align=\"center\">6</td><td align=\"center\">7</td><td align=\"center\">8</td><td align=\"center\">9</td><td align=\"center\">10</td><td align=\"center\">".html("nvt","enquete")."</td></tr>";
-	
+
 		for($i=1;$i<=9;$i++) {
 			echo "<tr><td valign=\"top\">4.".$i."</td><td>".html("vraag3_".$i,"enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"1\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"2\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"3\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"4\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"5\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"6\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"7\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"8\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"9\"></td><td align=\"center\"><input type=\"radio\" name=\"vraag3_".$i."\" value=\"10\"></td><td align=\"center\">".($i==3||$i==4||$i==6 ? "<input type=\"radio\" name=\"vraag3_".$i."\" value=\"11\">" : "&nbsp;")."</td></tr>";
 		}
 		echo "</table><p>";
 		echo html("toelichtingbij","enquete").":<br><textarea name=\"toelichting3\" class=\"wtform_textarea\" style=\"width:600px;height:60px;\"></textarea>";
-		
+
 		echo "<hr>&nbsp;<br>";
-	
+
 		# Vraag 5: Wil je per mail door ons benaderd worden over de mogelijkheden voor volgend seizoen?
 		echo "<b><i>".html("vraag4","enquete")."</i></b><p>";
 		for($i=1;$i<=3;$i++) {
@@ -92,7 +92,7 @@ if($onjuisteurl) {
 			echo "<br>";
 		}
 		echo "<hr>&nbsp;<br>";
-	
+
 		# (vervallen) Vraag x: Zijn er meer accommodaties en/of bestemmingen waarvan je informatie wenst te ontvangen?
 #		echo "<b><i>".html("vraag5","enquete")."</i></b><p>";
 #		for($i=1;$i<=2;$i++) {
@@ -104,8 +104,8 @@ if($onjuisteurl) {
 #			echo "<br>";
 #		}
 #		echo "<hr>&nbsp;<br>";
-	
-		if($vars["taal"]=="nl") {
+
+		if($vars["taal"]=="nl" and $vars["website"]=="C") {
 			# Vraag 6: Wil je op de hoogte gehouden worden van nieuws en aanbiedingen van Chalet.nl en je abonneren op onze nieuwsbrief?
 			echo "<b><i>".html("vraag6","enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</i></b><p>";
 			for($i=1;$i<=3;$i++) {
@@ -115,10 +115,10 @@ if($onjuisteurl) {
 			}
 			echo "<hr>&nbsp;<br>";
 		}
-	
+
 #		echo "<b>".html("overigetoelichting","enquete").":</b><br><textarea name=\"overigetoelichting\" class=\"wtform_textarea\" style=\"width:600px;height:60px;\"></textarea>";
 #		echo "<hr>&nbsp;<br>";
-	
+
 		echo "<input type=\"submit\" value=\" ".html("versturen","enquete")."\" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\">";
 		echo "</form>";
 	}

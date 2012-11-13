@@ -126,7 +126,7 @@ if($werknemer_optieaanvraag) {
 } else {
 	$form->field_textarea(0,"wensenbezet",txt("wensenindienbezet","beschikbaarheid"),"","","",array("newline"=>false));
 	$form->field_textarea(0,"vraag",txt("vragenopmerkingen","beschikbaarheid"),"","","",array("newline"=>false));
-	if($vars["taal"]=="nl" and (!$vars["wederverkoop"] or $vars["website"]=="Z") and $vars["websitetype"]<>8) {
+	if($vars["taal"]=="nl" and !$vars["wederverkoop"] and $vars["websitetype"]<>8) {
 		$form->field_yesno("nieuwsbrief",txt("ikwilgraaglidworden","beschikbaarheid",array("v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>0));
 	}
 }
