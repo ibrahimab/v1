@@ -695,7 +695,7 @@ $vars["talen"]=array("nl"=>"Nederlands","en"=>"English","de"=>"Deutsch");
 $vars["begineinddagen"]=array(-10=>"-10 dagen",-9=>"-9 dagen",-8=>"-8 dagen",-7=>"-7 dagen",-6=>"-6 dagen",-5=>"-5 dagen",-4=>"-4 dagen",-3=>"-3 dagen",-2=>"-2 dagen",-1=>"-1 dag",0=>"geen aanpassing",1=>"+1 dag",2=>"+2 dagen",3=>"+3 dagen",4=>"+4 dagen",5=>"+5 dagen",6=>"+6 dagen",7=>"+7 dagen",8=>"+8 dagen",9=>"+9 dagen",10=>"+10 dagen");
 $vars["geenvoorkeur"]="-- ".txt("geenvoorkeur","vars")." --";
 $vars["kwaliteit"]=array(1=>"*",2=>"* *",3=>"* * *",4=>"* * * *",5=>"* * * * *");
-$vars["soortaccommodatie"]=array(1=>txt("chalet","vars"),2=>txt("appartement","vars"),3=>txt("hotel","vars"),4=>txt("chaletappartement","vars"),6=>txt("vakantiewoning","vars"),7=>txt("villa","vars"),8=>txt("kasteel","vars"),9=>txt("vakantiepark","vars"),10=>txt("agriturismo","vars"),11=>txt("domein","vars"));
+$vars["soortaccommodatie"]=array(1=>txt("chalet","vars"),2=>txt("appartement","vars"),3=>txt("hotel","vars"),4=>txt("chaletappartement","vars"),6=>txt("vakantiewoning","vars"),7=>txt("villa","vars"),8=>txt("kasteel","vars"),9=>txt("vakantiepark","vars"),10=>txt("agriturismo","vars"),11=>txt("domein","vars"),12=>txt("pension","vars"));
 $vars["toonper"]=array(1=>"A : Prijs Arrangement (accommodatie + skipas)",2=>"B : Prijs Arrangement (pakket + toeslag onbezet bed)",3=>"C : Prijs Accommodatie");
 $vars["toonper_beperktekeuze"]=array(1=>"A : Prijs Arrangement (accommodatie + skipas)",3=>"C : Prijs Accommodatie");
 $vars["seizoentype_namen"]=array(1=>"winter",2=>"zomer");
