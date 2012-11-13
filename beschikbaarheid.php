@@ -35,7 +35,7 @@ if($_GET["o"]) {
 	$form->settings["fullname"]="Beschikbaarheidaanvraag";
 	$obl=1;
 }
- 
+
 # _field: (obl),id,title,db,prevalue,options,layout
 
 $accinfo=accinfo($_GET["tid"]);
@@ -47,7 +47,7 @@ $form->field_noedit("accplaats",txt("plaats","beschikbaarheid"),"",array("text"=
 $form->field_select(1,"aantalpersonen",txt("aantalpersonen","beschikbaarheid"),"",array("selection"=>$_GET["ap"]),array("selection"=>$accinfo["aantalpersonen_array"]));
 if($accinfo["flexibel"]) {
 	# flexibel
-	
+
 	# aankomstdatum
 	if($_GET["flad"]) {
 		$temp_aankomstdatum_exact=$_GET["flad"];
@@ -126,7 +126,7 @@ if($werknemer_optieaanvraag) {
 } else {
 	$form->field_textarea(0,"wensenbezet",txt("wensenindienbezet","beschikbaarheid"),"","","",array("newline"=>false));
 	$form->field_textarea(0,"vraag",txt("vragenopmerkingen","beschikbaarheid"),"","","",array("newline"=>false));
-	if($vars["taal"]=="nl" and (!$vars["wederverkoop"] or $vars["website"]=="Z")) {
+	if($vars["taal"]=="nl" and (!$vars["wederverkoop"] or $vars["website"]=="Z") and $vars["websitetype"]<>8) {
 		$form->field_yesno("nieuwsbrief",txt("ikwilgraaglidworden","beschikbaarheid",array("v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>0));
 	}
 }
@@ -138,7 +138,7 @@ if($form->filled) {
 		# flexibel - controle op tarief/beschikbaarheid
 		$flextarief=bereken_flex_tarief($_GET["tid"],$form->input["aankomstdatum_flex"]["unixtime"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]));
 		if($flextarief["tarief"]>0) {
-		
+
 		} else {
 			$form->error("aankomstdatum_flex",txt("gekozenperiodenietbeschikbaar","beschikbaarheid"));
 			$form->error("verblijfsduur",txt("gekozenperiodenietbeschikbaar","beschikbaarheid"));
@@ -151,9 +151,9 @@ if($form->okay) {
 	if($wederverkoop_aanvraag) {
 		$form->input["email"]=$login_rb->vars["email"];
 	}
-	
+
 	if($_GET["o"] or $form->input["optie"]) {
-	
+
 		# Einddatum_klant bepalen
 		if($werknemer_optieaanvraag and $form->input["einddatum_klant"]["unixtime"]) {
 			$einddatum_klant=$form->input["einddatum_klant"]["unixtime"];
@@ -165,7 +165,7 @@ if($form->okay) {
 			}
 #			$einddatum_klant=mktime(0,0,0,date("m"),date("d")+$geldigheidoptie,date("Y"));
 		}
-		
+
 		# Status, ingevuldvia en userid bepalen
 		if($werknemer_optieaanvraag) {
 			# Interne aanvraag
@@ -182,7 +182,7 @@ if($form->okay) {
 			}
 			$userid="";
 		}
-		
+
 		# Optieaanvraag opslaan
 		$setquery="website='".addslashes($vars["website"])."', type_id='".addslashes($accinfo["type_id"])."', aantalpersonen='".addslashes($form->input["aantalpersonen"])."'";
 		if($accinfo["flexibel"]) {
@@ -196,7 +196,7 @@ if($form->okay) {
 			 $setquery.=", einddatum_klant=FROM_UNIXTIME('".addslashes($einddatum_klant)."')";
 		}
 		$db->query("INSERT INTO optieaanvraag SET ".$setquery.";");
-		
+
 		if($werknemer_optieaanvraag and $db->insert_id()) {
 			header("Location: http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_optieaanvragen.php?show=35&status=2&35k0=".$db->insert_id());
 			exit;
@@ -204,24 +204,24 @@ if($form->okay) {
 	}
 
 	if($werknemer_optieaanvraag) {
-	
+
 	} else {
 
 		#
 		# Optieformulier of beschikbaarheidsformulier
 		#
-		
+
 		# Cookie plaatsen
 		if(!$wederverkoop_aanvraag) {
 			nawcookie($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"],$form->input["adres"],$form->input["postcode"],$form->input["plaats"],$form->input["land"],$form->input["telefoonnummer"],$form->input["mobielwerk"],$form->input["email"],"not",$form->input["nieuwsbrief"]);
 		}
-		
+
 		# Inschrijven nieuwsbrief
 		if($form->input["nieuwsbrief"]) {
 			$nieuwsbrief_waardes=array("email"=>$form->input["email"],"voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"]);
 			nieuwsbrief_inschrijven($vars["seizoentype"],$nieuwsbrief_waardes);
 		}
-	
+
 		# "Inclusief optie"-invoer verwerken
 		unset($inclusief_optie_html);
 		reset($form->input);
@@ -243,7 +243,7 @@ if($form->okay) {
 			$aankomstdatum=$accinfo["aankomstdatum_dmj"][$form->input["aankomstdatum"]];
 		}
 
-	
+
 		# Mail aan info@chalet.nl
 		$mail=new wt_mail;
 		if($_GET["o"] or $form->input["optie"]) {
@@ -257,18 +257,18 @@ if($form->okay) {
 		if($wederverkoop_aanvraag) $mail->subject.=" (via ".$vars["chalettour_naam"].")";
 		$mail->from="info@chalet.nl";
 		$mail->fromname="Website ".$vars["websites"][$vars["website"]];
-		
+
 		if(ereg("@webtastic\.nl",$form->input["email"])) {
-			$mail->to="chalet_test@webtastic.nl";	
+			$mail->to="chalet_test@webtastic.nl";
 		} else {
 			$mail->to="info@chalet.nl";
 		}
-		
+
 		$omschrijving=$verblijfsduur;
 
 		$omschrijving.=" ".$accinfo["plaats"]." / ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam"]." (max. ".$accinfo["maxaantalpersonen"]." ".txt("personen").") ".txt("met")." ".$form->input["aantalpersonen"]." ".txt("personen");
 		$omschrijving.=$omschrijving_inclusief;
-	
+
 		$subject=txt(($_GET["o"]||$form->input["optie"] ? "optieaanvraag" : "beschikbaarheidaanvraag"),"beschikbaarheid");
 		if(eregi("^belgie$",$form->input["land"])) $form->input["land"]="België";
 		$subject.=" ".$omschrijving;
@@ -283,7 +283,7 @@ if($form->okay) {
 			$body.="%0D%0A";
 			$body.=wt_naam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".ucfirst($form->input["plaats"])."%0D%0A".$form->input["telefoonnummer"]."%0D%0A%0D%0A".$omschrijving."%0D%0A".txt("vooromschrijving","beschikbaarheid").": ".$accinfo["url"]."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["wensenbezet"]))."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["vraag"]));
 		} else {
-			$body=wt_naam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".$form->input["adres"]."%0D%0A".$form->input["postcode"]." ".ucfirst($form->input["plaats"])."%0D%0A".($form->input["land"]<>"Nederland" ? ucfirst($form->input["land"])."%0D%0A" : "").$form->input["telefoonnummer"]."%0D%0A".$form->input["mobielwerk"]."%0D%0A%0D%0A".$omschrijving."%0D%0A".txt("vooromschrijving","beschikbaarheid").": ".$accinfo["url"]."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["wensenbezet"]))."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["vraag"]));		
+			$body=wt_naam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".$form->input["adres"]."%0D%0A".$form->input["postcode"]." ".ucfirst($form->input["plaats"])."%0D%0A".($form->input["land"]<>"Nederland" ? ucfirst($form->input["land"])."%0D%0A" : "").$form->input["telefoonnummer"]."%0D%0A".$form->input["mobielwerk"]."%0D%0A%0D%0A".$omschrijving."%0D%0A".txt("vooromschrijving","beschikbaarheid").": ".$accinfo["url"]."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["wensenbezet"]))."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["vraag"]));
 		}
 		$subject=ereg_replace("&"," ",$subject);
 		$subject=ereg_replace("   "," ",$subject);
@@ -292,21 +292,21 @@ if($form->okay) {
 		$html="<html><head>".$form->mail_css()."</head>\n<body>\n";
 		$html.="<div style=\"width:660px\">";
 		$html.="Reageren op dit verzoek: <A HREF=\"mailto:".$form->input["email"].ereg_replace(" ","%20","?subject=".$subject."&body=".$body)."\">mail sturen</A><p>";
-	
+
 		if($vars["rebook"]) {
 			$html.="<b>Optie-aanvraag n.a.v. mail-uitnodiging (boeking vorig seizoen)</b><br>";
 			if($accinfo["optiedagen_klanten_vorig_seizoen"]>3) {
 				$html.="<b>Let op: langere optie-geldigheid! (".$accinfo["optiedagen_klanten_vorig_seizoen"]." dagen)</b><p>";
 			}
 		}
-	
+
 		$html.="<table class=\"wtform_table\" cellspacing=\"0\">";
 		$html.="<tr><td class=\"wtform_cell_left\">Formulier</td><td class=\"wtform_cell_right\">".($_GET["o"] ? "Optie-aanvraag" : "Beschikbaarheid controleren")."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Ingevuld op</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ")." ".date("H:i")."u.</td></tr>";
-	
+
 		if($vars["rebook"] and $vars["oud_boekingsnummer"]) {
 			$html.="<tr><td class=\"wtform_cell_left\">Boekingsnummer vorig seizoen"."</td><td class=\"wtform_cell_right\"><a href=\"http://www.chalet.nl/cms_boekingen.php?show=21&21k0=".$vars["oud_boekingid"]."\">".$vars["oud_boekingsnummer"]."</a></td></tr>";
-	
+
 			# Opslaan bij oude boeking
 			$db2->query("UPDATE boeking SET status_klanten_vorig_seizoen=4 WHERE status_klanten_vorig_seizoen<4 AND boeking_id='".addslashes($vars["oud_boekingid"])."';");
 		}
@@ -324,7 +324,7 @@ if($form->okay) {
 			$html.="<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".htmlentities($accinfo["aankomstdatum"][$form->input["aankomstdatum"]])."</td></tr>";
 		}
 		$html.=$inclusief_optie_html;
-	
+
 		$html.="<tr><td class=\"wtform_cell_left\">Voornaam</td><td class=\"wtform_cell_right\">".htmlentities($form->input["voornaam"])."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Tussenvoegsel</td><td class=\"wtform_cell_right\">".htmlentities($form->input["tussenvoegsel"])."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Achternaam</td><td class=\"wtform_cell_right\">".htmlentities($form->input["achternaam"])."</td></tr>";
@@ -342,27 +342,27 @@ if($form->okay) {
 		}
 		if($form->input["wensenbezet"]) $html.="<tr><td class=\"wtform_cell_left\">Wensen indien bezet</td><td class=\"wtform_cell_right\">".nl2br(htmlentities($form->input["wensenbezet"]))."</td></tr>";
 		if($form->input["vraag"]) $html.="<tr><td class=\"wtform_cell_left\">Vragen en opmerkingen</td><td class=\"wtform_cell_right\">".nl2br(htmlentities($form->input["vraag"]))."</td></tr>";
-		
+
 		$referer=getreferer($_COOKIE["sch"]);
 		if($referer["opsomming"]) $html.="<tr><td class=\"wtform_cell_left\">Referentielink</td><td class=\"wtform_cell_right\">".$referer["opsomming"]."</td></tr>";
-	
-		
+
+
 		$html.="</table>";
 		$html.="</div></body></html>";
-	
+
 		$mail->html=$html;
 		$mail->send();
 		unset($html);
-		
+
 		# Mail aan klant
 		$mail=new wt_mail;
 		$mail->subject=txt(($_GET["o"]||$form->input["optie"] ? "optieaanvraag" : "beschikbaarheidaanvraag"),"beschikbaarheid")." ".$vars["websitenaam"];
 		$mail->from=$vars["email"];
 		$mail->fromname=$vars["websitenaam"];
 	#	$mail->returnpath=$vars["email"];
-	
+
 		$naam=wt_naam($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"]);
-	
+
 		$html="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style type=\"text/css\"><!--\na:visited:hover,a:hover {\ncolor:".$hover.";\n}\n--></style>\n</head>\n<body style=\"background-color: #F3F3F3;font-family: ".$font.";font-size: 0.8em;\">\n";
 		$html.="<div style=\"width:660px\">".html("beste","beschikbaarheid")." ".htmlentities($naam).",<P>".html("ingoedeordeontvangen".($_GET["o"] ? "_optie" : ""),"beschikbaarheid")."<br><br>";
 		$html.="<table style=\"background-color: #FFFFFF;width: 660px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\" cellspacing=\"0\" cellpadding=\"3\">";
@@ -375,14 +375,14 @@ if($form->okay) {
 		} else {
 			$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($accinfo["aankomstdatum"][$form->input["aankomstdatum"]])."</td></tr>";
 		}
-		
+
 		reset($form->input);
 		while(list($key,$value)=each($form->input)) {
 			if(ereg("^inclusief_optie_[0-9]+$",$key)) {
 				if($value==1) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".htmlentities($form->fields["title"][$key])."</td><td style=\"border:solid ".$table." 1px\">".html("ja")."</td></tr>";
 			}
 		}
-	
+
 		if($form->input["optie"] or $_GET["o"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("optievan3dagen","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".html("ja")."</td></tr>";
 		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("naam","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($naam)."</td></tr>";
 		if($form->input["adres"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("adres","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($form->input["adres"])."</td></tr>";
@@ -394,7 +394,7 @@ if($form->okay) {
 		if($form->input["wensenbezet"]) $html.="<tr><td valign=\"top\" style=\"font-weight: bold;border:solid ".$table." 1px\">".html("wensenindienbezet","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(htmlentities($form->input["wensenbezet"]))."</td></tr>";
 		if($form->input["vraag"]) $html.="<tr><td valign=\"top\" style=\"font-weight: bold;border:solid ".$table." 1px\">".html("vragenopmerkingen","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(htmlentities($form->input["vraag"]))."</td></tr>";
 		$html.="</table>";
-		
+
 		$html.="<br><br>".html("vooreengrootdeel","beschikbaarheid")."<p>".html("uontvangtzospoedigmogelijk","beschikbaarheid")." ";
 		if($form->input["optie"] or $_GET["o"]) $html.=html("hierinvermeldenwijook","beschikbaarheid");
 		$html.="<P>".html("bezoekonzewebsite","beschikbaarheid",array("v_websitenaam"=>$vars["websitenaam"],"l1"=>"http_werkwijze"));
@@ -402,7 +402,7 @@ if($form->okay) {
 		if($vars["websiteland"]<>"nl") $html.=html("nederland","contact")."<br>";
 		$html.=html("telefoonnummer_chalet","contact")."<br>".html("fax_chalet","contact")."<br>".html("email","contact").": <A HREF=\"mailto:".$vars["email"]."\">".$vars["email"]."</A><P>";
 		$html.="</div></body></html>";
-	
+
 		$mail->to=$form->input["email"];
 
 		$mail->html=$html;
