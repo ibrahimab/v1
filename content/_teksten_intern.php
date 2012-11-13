@@ -291,6 +291,9 @@ $txta["en_z"]["subtitel"]="Summer Holidays - Chalets - Accommodations - Holiday 
 $txta["nl_i"]["subtitel"]="Agriturismi en overige vakantiehuizen in Italië";
 $txta["en_i"]["subtitel"]="-";
 
+$txta["nl_w"]["subtitel"]="Wintersport - Superdeals voor skivakanties";
+$txta["en_w"]["subtitel"]="-";
+
 $txta["nl"]["sitetitel"]="-";
 $txta["en"]["sitetitel"]="-";
 
@@ -316,6 +319,9 @@ $txta["en_z"]["description"]="-";
 
 $txta["nl_i"]["description"]="Agriturismi en andere vakantiehuizen in Italë -  Zo'n 1.000 karakteristieke vakantiehuizen, vakantievilla's  en agriturismi verdeeld over heel Italië.";
 $txta["en_i"]["description"]="-";
+
+$txta["nl_w"]["description"]="SuperSki biedt je interessante deals voor een wintersportvakantie in Frankrijk, Oostenrijk, Zwitserland, Duitsland en Italië.";
+$txta["en_w"]["description"]="-";
 
 # Pagina-titels
 $txta["nl"]["title_index"]="Hoofdpagina";

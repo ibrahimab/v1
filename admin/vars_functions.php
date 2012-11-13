@@ -21,6 +21,9 @@ function txt($id,$page="",$settings="",$html=false) {
 		if($websitetype==5 and isset($txt[$taal."_z_t"][$page][$id])) {
 			# Chalettour zomer (niet in gebruik)
 			$return=$txt[$taal."_z_t"][$page][$id];
+		} elseif($websitetype==8 and isset($txt[$taal."_w"][$page][$id])) {
+			# SuperSki
+			$return=$txt[$taal."_w"][$page][$id];
 		} elseif($websitetype==7 and isset($txt[$taal."_i"][$page][$id])) {
 			# Italissima
 			$return=$txt[$taal."_i"][$page][$id];
@@ -46,6 +49,9 @@ function txt($id,$page="",$settings="",$html=false) {
 		if($websitetype==5 and isset($txta[$taal."_z_t"][$id])) {
 			# Chalettour zomer (niet in gebruik)
 			$return=$txta[$taal."_z_t"][$id];
+		} elseif($websitetype==8 and isset($txta[$taal."_w"][$id])) {
+			# SuperSki
+			$return=$txta[$taal."_w"][$id];
 		} elseif($websitetype==7 and isset($txta[$taal."_i"][$id])) {
 			# Italissima
 			$return=$txta[$taal."_i"][$id];
