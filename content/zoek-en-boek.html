@@ -21,6 +21,8 @@ if(($vars["website"]=="Z" and $landgebied[0]=="5") or $vars["website"]=="I") {
 	}
 }
 
+# Gebleven bij teller [42] (eerst beschikbare: 43)
+
 if($vars["seizoentype"]==1) {
 	#
 	# Verfijnd zoeken definiëren: winter
@@ -57,6 +59,24 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[2]["addwhere"][2][]="s.kilometerpiste>=100";
 	$keuzeopsomming[2]["addwhere"][3][]="s.kilometerpiste>=200";
 	$keuzeopsomming[2]["addwhere"][4][]="s.kilometerpiste>=400";
+
+	if($vars["websitetype"]==8) {
+		# Soort accommodatie (alleen bij SuperSki)
+		$keuzeopsomming[5]["combinatiesmogelijk"]=1;
+		$keuzeopsomming[5]["name"]="soortaccommodatie";
+		$keuzeopsomming[5]["verfijndname"]="soortaccommodatie";
+		$keuzeopsomming[5]["getname"]="vf_kenm";
+		$keuzeopsomming[5]["fields"]=array(
+			"chalet"=>39,
+			"chaletappartement"=>40,
+			"appartement"=>41,
+			"hotel"=>42
+		);
+		$keuzeopsomming[5]["addwhere"][39][]="a.soortaccommodatie=1";
+		$keuzeopsomming[5]["addwhere"][40][]="a.soortaccommodatie=4";
+		$keuzeopsomming[5]["addwhere"][41][]="a.soortaccommodatie=2";
+		$keuzeopsomming[5]["addwhere"][42][]="a.soortaccommodatie=3";
+	}
 
 	# Faciliteiten
 	$keuzeopsomming[3]["combinatiesmogelijk"]=1;
@@ -100,6 +120,7 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[4]["addwhere"][5][]="t.badkamers>=6";
 	$keuzeopsomming[4]["addwhere"][6][]="t.badkamers>=8";
 	$keuzeopsomming[4]["addwhere"][7][]="t.badkamers>=10";
+
 } else {
 	#
 	# Verfijnd zoeken definiëren: zomer
@@ -2017,6 +2038,26 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				# Verfijnd zoeken: openhaardhoutkachel
 				if(check_kenmerken($db->f("tkenmerken"),10) or check_kenmerken($db->f("akenmerken"),12)) {
 					$verfijnd["kenmerken"][7]++;
+				}
+
+				#
+				# Verfijn zoeken: soortaccommodatie
+				#
+				if($db->f("soortaccommodatie")==1) {
+					# chalet
+					$verfijnd["soortaccommodatie"][39]++;
+				}
+				if($db->f("soortaccommodatie")==2) {
+					# appartement
+					$verfijnd["soortaccommodatie"][41]++;
+				}
+				if($db->f("soortaccommodatie")==3) {
+					# hotel
+					$verfijnd["soortaccommodatie"][42]++;
+				}
+				if($db->f("soortaccommodatie")==4) {
+					# chaletappartement
+					$verfijnd["soortaccommodatie"][40]++;
 				}
 			} else {
 
