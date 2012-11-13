@@ -30,8 +30,8 @@ if($_GET["wzt"]==3) {
 	$cms->db[37]["set"]="wzt='2', italissima=1";
 } else {
 	# Winter + Zomerhuisje
-	$cms->db[37]["where"]="wzt='".addslashes($_GET["wzt"])."'";
-	$cms->db[37]["set"]="wzt='".addslashes($_GET["wzt"])."'";
+	$cms->db[37]["where"]="wzt='".addslashes($_GET["wzt"])."' AND italissima=0";
+	$cms->db[37]["set"]="wzt='".addslashes($_GET["wzt"])."', italissima=0";
 }
 
 # Database db_field($counter,$type,$id,$field="",$options="")

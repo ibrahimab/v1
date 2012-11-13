@@ -1051,6 +1051,12 @@ form {
 }
 
 
+/* wie zijn wij */
+#body_wie-zijn-wij b {
+	color: #660066;
+}
+
+
 /* Aanpassingen jQueryUI tabs */
 
 .ui-tabs .ui-tabs-panel {

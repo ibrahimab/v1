@@ -91,12 +91,13 @@ if(ereg("(.*)\-query-(.*)",$_GET["id"],$regs)) {
 	$querystring=$regs[2];
 }
 
-echo "<HTML><HEAD>";
+echo "<html><head>";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n";
-echo "<meta name=\"robots\" CONTENT=\"noindex,follow\">";
+echo "<meta name=\"robots\" content=\"noindex,follow\">";
 # JQuery
 echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
 echo "<title>".htmlentities($title[$_GET["id"]])."</title>";
 ?>
 <style type="text/css">

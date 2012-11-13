@@ -5,14 +5,20 @@ echo "<td><img src=\"".$vars["path"]."pic/weekendski2.jpg\" width=\"170\" height
 echo "<td><img src=\"".$vars["path"]."pic/weekendski3.jpg\" width=\"170\" height=\"128\" style=\"margin-right: 19px;\"></td>";
 echo "<td><img src=\"pic/weekendski4.jpg\" width=\"170\" height=\"128\" style=\"\"></td></tr></table>";
 
+if($vars["website"]=="W") {
+	# Speciale tekst voor alleen SuperSki
+	echo "<p>SuperSki biedt diverse mogelijkheden voor korte wintersportvakanties.</p>";
+	echo "<p>Buiten de gebruikelijke aankomst- en vertrekdag (zaterdag)  hebben wij de mogelijkheid om een verblijf te boeken met aankomst op woensdag of donderdag voor een verblijf van 3 of 4 nachten. De meeste mogelijkheden voor een kort verblijf vind je in de maand januari en vanaf half maart.</p>";
+	echo "<p>Voor meer informatie en mogelijkheden staan we je graag telefonisch te woord of je kunt je vragen en wensen per email aan ons doorgeven.</p>";
+} else {
+	echo html("alinea1","weekendski")."<p>";
+	echo html("alinea2","weekendski",array("v_website"=>$vars["websitenaam"]))."<p>";
 
-echo html("alinea1","weekendski")."<p>";
-echo html("alinea2","weekendski",array("v_website"=>$vars["websitenaam"]))."<p>";
-
-# TIJDELIJK
-echo "<div id=\"weekendski_opmerking\">";
-echo html("alinea3","weekendski");
-echo "</div>";
+	# TIJDELIJK
+	echo "<div id=\"weekendski_opmerking\">";
+	echo html("alinea3","weekendski");
+	echo "</div>";
+}
 
 # Zoekform embedden
 $vars["zoekform_weekendski"]=true;

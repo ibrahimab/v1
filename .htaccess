@@ -52,6 +52,7 @@ RewriteRule ^chalet/(.*)$ /chalet/$1 [R=301,L]
 # /index.php doorsturen naar /
 RewriteRule ^index\.php$ / [R=301,L]
 
+
 #
 # zonder www doorsturen naar met www
 #
@@ -65,7 +66,7 @@ RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
 RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.wintersportaccommodaties\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.wintersportaccommodaties.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalet\.eu [NC]
@@ -126,17 +127,23 @@ RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
 RewriteCond %{QUERY_STRING} ^(.*)fb_xd_fragment=?[A-Za-z0-9]*&?(.*)$
 RewriteRule (.*) /$1?%1%2 [R=301,L]
 
+#
+# WSA doorsturen naar SuperSki met 301-header
+#
+RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
+RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
+
 
 #
 # TIJDELIJK: www.superski.nl doorsturen naar Wintersportaccommodaties
 #
-RewriteCond %{HTTP_HOST} ^www\.superski\.nl [NC]
-RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113 [NC]
-RewriteCond %{REMOTE_ADDR} !^80\.101\.166\.235 [NC]
-RewriteCond %{REMOTE_ADDR} !^213\.125\.164\.74 [NC]
-RewriteCond %{REMOTE_ADDR} !^82\.93\.130\.238 [NC]
-RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238 [NC]
-RewriteRule ^(.*)$ http://www.wintersportaccommodaties.nl/ [L,R=301]
+#RewriteCond %{HTTP_HOST} ^www\.superski\.nl [NC]
+#RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113 [NC]
+#RewriteCond %{REMOTE_ADDR} !^80\.101\.166\.235 [NC]
+#RewriteCond %{REMOTE_ADDR} !^213\.125\.164\.74 [NC]
+#RewriteCond %{REMOTE_ADDR} !^82\.93\.130\.238 [NC]
+#RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238 [NC]
+#RewriteRule ^(.*)$ http://www.wintersportaccommodaties.nl/ [L,R=301]
 
 RewriteRule groepsreizen\.php$ /accommodaties.php [R=301,L]
 

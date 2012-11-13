@@ -28,6 +28,8 @@ if($vars["website"]=="I") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:165px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="T") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:262px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+} elseif($vars["website"]=="W") {
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:308px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } else {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:220px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 }
@@ -639,8 +641,8 @@ if($db->next_record()) {
 		}
 		echo "var googlemaps_accid=".$db->f("accommodatie_id").";var googlemaps_typeid=".$db->f("type_id").";\nvar googlemaps_selected_icon=".$vars["websitetype"].";\nvar googlemaps_lat=".$gps_lat.";\nvar googlemaps_long=".$gps_long.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("land")))."';\nvar zoomlevel=".($vars["seizoentype"]==2 ? "9" : "11").";\n</script>\n";
 		echo "<div id=\"map_canvas\"></div>";
-		if($voorkant_cms or $_GET["test"]==1 or $vars["websitetype"]==7) {
-#		if($voorkant_cms or $_GET["test"]==1 or $vars["website"]=="Z" or $vars["website"]=="N") {
+		if($vars["websitetype"]<>6) {
+			# op alle sites behalve Chalets in Vallandry de button "Bekijk al onze accommodaties in dit gebied" tonen
 			echo "<div id=\"googlemaps_deleteother\" class=\"button noprint\" onclick=\"googlemaps_deletemarkers();\">".html("andereaccommodatieswissen","toonaccommodatie")."</div>";
 			echo "<div id=\"googlemaps_other\" class=\"button noprint\" onclick=\"googlemaps_show_other_acc();\">".html("bekijkalonzeaccommodatiesinditgebied","toonaccommodatie")."</div>";
 
