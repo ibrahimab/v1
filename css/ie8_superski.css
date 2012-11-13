@@ -1,3 +1,7 @@
 
 /* tabs in IE niet rechts schuiven (geen rounded corners) */
 .ui-tabs .ui-tabs-nav { margin-left: 0px !important; }
+
+#hoofdpagina_twitter_blok {
+	margin-top: 20px;
+}
