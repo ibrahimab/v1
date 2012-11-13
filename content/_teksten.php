@@ -83,6 +83,12 @@ $txt["en"]["vars"]["vakantiepark"]="holiday park";
 $txt["nl"]["vars"]["domein"]="domein";
 $txt["en"]["vars"]["domein"]="domain";
 
+$txt["nl"]["vars"]["pension"]="pension";
+$txt["en"]["vars"]["pension"]="pension";
+
+$txt["nl"]["vars"]["pensions"]="pensions";
+$txt["en"]["vars"]["pensions"]="pensions";
+
 #$txt["nl"]["vars"]["groepsreis"]="groepsreis";
 #$txt["en"]["vars"]["groepsreis"]="group";
 
@@ -1034,6 +1040,18 @@ $txt["en"]["zoek-en-boek"]["geschakeldewoning"]="attached house";
 
 $txt["nl"]["zoek-en-boek"]["agriturismo"]="agriturismo";
 $txt["en"]["zoek-en-boek"]["agriturismo"]="agriturismo";
+
+$txt["nl"]["zoek-en-boek"]["chalet"]="chalet";
+$txt["en"]["zoek-en-boek"]["chalet"]="chalet";
+
+$txt["nl"]["zoek-en-boek"]["chaletappartement"]="chalet-appartement";
+$txt["en"]["zoek-en-boek"]["chaletappartement"]="chalet-apartment";
+
+$txt["nl"]["zoek-en-boek"]["appartement"]="appartement";
+$txt["en"]["zoek-en-boek"]["appartement"]="apartment";
+
+$txt["nl"]["zoek-en-boek"]["hotel"]="hotel";
+$txt["en"]["zoek-en-boek"]["hotel"]="hotel";
 
 $txt["nl"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Faciliteiten accommodatie";
 $txt["en"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Facilities accommodation";
