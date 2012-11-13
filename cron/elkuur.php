@@ -425,6 +425,8 @@ if(date("H")==4 or date("H")==18 or $argv[1]=="xmlopnieuw") {
 		$feed=file_get_contents($value);
 		$filename=$unixdir."cache/feed_".$key.".xml";
 		file_put_contents($filename,$feed);
+
+		unset($filename,$feed);
 	}
 }
 
