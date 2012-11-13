@@ -270,33 +270,21 @@ if($vars["wederverkoop"]) {
 		if($login_rb->logged_in) {
 			$vars["chalettour_logged_in"]=true;
 			$db->query("SELECT naam, beschikbaarheid_inzien, commissie_inzien, aanpassing_commissie, telefoonnummer FROM reisbureau WHERE reisbureau_id='".addslashes($login_rb->vars["reisbureau_id"])."' AND actief=1 AND websites LIKE '%".$vars["website"]."%';");
-#			$db->query("SELECT naam, beschikbaarheid_inzien, commissie_inzien FROM reisbureau WHERE reisbureau_id='".addslashes($login_rb->vars["reisbureau_id"])."' AND actief=1;");
 			if($db->next_record()) {
-				if($vars["nieuwevormgeving"]) {
-#					$helemaalboven=htmlentities($db->f("naam"))."&nbsp;&nbsp;<a href=\"".$vars["path"]."reisagent.php?logout=45\">".htmlentities(wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"]))." uitloggen</a>";
-					$helemaalboven=htmlentities($db->f("naam"))."&nbsp;&nbsp;<a href=\"".$vars["path"]."reisagent.php?logout=45\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"])))."</a>";
-#					$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php\">".html("overzichtboekingen")."</a>";
-					if($id=="reisagent") {
-						$helemaalboven.="&nbsp;&nbsp;".html("hoofdmenu_reisagent");
-					} else {
-						$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent.php\">".html("hoofdmenu_reisagent")."</a>";
-					}
-#					$helemaalboven=htmlentities($db->f("naam"))."&nbsp;&nbsp;<a href=\"".$vars["path"]."reisagent.php?logout=45\">".htmlentities($login_rb->vars["voornaam"])." uitloggen</a>&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php\">".html("overzichtboekingen")."</a>";
-
-#					Overzicht actuele boekingen
-#					$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php?calculations=1\">".html("overzichtprijsberekeningen")."</a>";
-#					$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent_overzicht.php?mijngeg=1\">".html("mijngegevens_reisagent")."</a>";
+				$helemaalboven=htmlentities($db->f("naam"))."&nbsp;&nbsp;<a href=\"".$vars["path"]."reisagent.php?logout=45\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"])))."</a>";
+				if($id=="reisagent") {
+					$helemaalboven.="&nbsp;&nbsp;".html("hoofdmenu_reisagent");
 				} else {
-#					$helemaalboven="&nbsp;&nbsp;<span style=\"color:#ffffff;font-size:1.3em;font-weight:bold;\">".htmlentities($db->f("naam"))."&nbsp;</span><br>&nbsp;&nbsp;<span class=\"helemaal_boven\" style=\"font-size:0.8em;\"><a href=\"".$vars["path"]."reisagent.php?logout=45\">".htmlentities(wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"]))." uitloggen</a></i></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><span style=\"color:#ffffff;font-size:1.3em;font-weight:bold;\">&nbsp;</span><br><span class=\"helemaal_boven\" style=\"font-size:0.8em;\">".($id<>"reisbureau_overzicht" ? "<a href=\"".$path."reisagent_overzicht.php\">".html("overzichtboekingen")."</a>" : "")."</span>";
-					$helemaalboven="&nbsp;&nbsp;<span style=\"color:#ffffff;font-size:1.3em;font-weight:bold;\">".htmlentities($db->f("naam"))."&nbsp;</span><br>&nbsp;&nbsp;<span class=\"helemaal_boven\" style=\"font-size:0.8em;\"><a href=\"".$vars["path"]."reisagent.php?logout=45\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"])))."</a></i></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><span style=\"color:#ffffff;font-size:1.3em;font-weight:bold;\">&nbsp;</span><br><span class=\"helemaal_boven\" style=\"font-size:0.8em;\">".($id<>"reisbureau_overzicht" ? "<a href=\"".$path."reisagent_overzicht.php\">".html("overzichtboekingen")."</a>" : "")."</span>";
+					$helemaalboven.="&nbsp;&nbsp;<a href=\"".$path."reisagent.php\">".html("hoofdmenu_reisagent")."</a>";
 				}
+
 				$vars["chalettour_naam"]=$db->f("naam");
 				$vars["chalettour_reisagentnaam"]=wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"]);
 				$vars["chalettour_telefoonnummer"]=$db->f("telefoonnummer");
 
 				$vars["wederverkoop_beschikbaarheid_inzien"]=$db->f("beschikbaarheid_inzien");
 
-# Tijdelijk uitgezet (op verzoek van Bert). - 23 juni 2010 - weer aangezet in september
+# Tijdelijk uitgezet (op verzoek van Bert). - 23 juni 2010 - weer aangezet in september 2010
 #$vars["wederverkoop_beschikbaarheid_inzien"]=false;
 
 				$vars["wederverkoop_commissie_inzien"]=$db->f("commissie_inzien");
@@ -402,129 +390,115 @@ if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["l
 }
 
 
-if($vars["nieuwevormgeving"]) {
 
-	unset($menu);
-	if($vars["websitetype"]==7) {
-		#
-		# Italissima
-		#
-		$menu["index"]=txt("menutitle_index");
-		$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
-		$menu["bestemmingen"]=txt("menutitle_bestemmingen");
-		$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
-		$menu["blog"]=txt("menutitle_blog");
-		$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
-		$menu["contact"]=txt("menutitle_contact");
 
-		$submenu["inloggen"]=txt("submenutitle_inloggen");
-		$submenu["reisagent"]=txt("submenutitle_reisagent");
-		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		$submenu["favorieten"]=txt("submenutitle_favorieten");
-		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-	} elseif($vars["seizoentype"]==2) {
-		#
-		# Zomerhuisje
-		#
-		$menu["index"]=txt("menutitle_index");
-		$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
-		$menu["bestemmingen"]=txt("menutitle_bestemmingen");
-		$menu["themas"]=txt("menutitle_themas");
-		$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
-		$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
-		$menu["contact"]=txt("menutitle_contact");
+unset($menu);
+if($vars["websitetype"]==7) {
+	#
+	# Italissima
+	#
+	$menu["index"]=txt("menutitle_index");
+	$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
+	$menu["bestemmingen"]=txt("menutitle_bestemmingen");
+	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
+	$menu["blog"]=txt("menutitle_blog");
+	$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
+	$menu["contact"]=txt("menutitle_contact");
 
-		if($vars["wederverkoop"]) {
-			if(!$vars["chalettour_logged_in"]) {
-				$submenu["inloggen"]=txt("submenutitle_inloggen");
-				$submenu["reisagent"]=txt("submenutitle_reisagent");
-			}
-		} else {
+	$submenu["inloggen"]=txt("submenutitle_inloggen");
+	$submenu["reisagent"]=txt("submenutitle_reisagent");
+	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+	$submenu["favorieten"]=txt("submenutitle_favorieten");
+	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+} elseif($vars["seizoentype"]==2) {
+	#
+	# Zomerhuisje
+	#
+	$menu["index"]=txt("menutitle_index");
+	$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
+	$menu["bestemmingen"]=txt("menutitle_bestemmingen");
+	$menu["themas"]=txt("menutitle_themas");
+	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
+	$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
+	$menu["contact"]=txt("menutitle_contact");
+
+	if($vars["wederverkoop"]) {
+		if(!$vars["chalettour_logged_in"]) {
 			$submenu["inloggen"]=txt("submenutitle_inloggen");
+			$submenu["reisagent"]=txt("submenutitle_reisagent");
 		}
-
-		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
-
-		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		$submenu["favorieten"]=txt("submenutitle_favorieten");
-		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
-		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		$submenu["chaletwinter"]=txt("submenutitle_chaletwinter");
-	} elseif($vars["websitetype"]==6) {
-		#
-		# Chalets in Vallandry
-		#
-		$menu["index"]=txt("menutitle_index");
-		$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
-		$menu["chalets"]=txt("menutitle_chalets");
-		$menu["omgeving"]=txt("menutitle_omgeving");
-		$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
-		$menu["kort-verblijf"]=txt("menutitle_kort-verblijf");
-		$menu["contact"]=txt("menutitle_contact");
-
-		$submenu["inloggen"]=txt("submenutitle_inloggen");
-		$submenu["reisagent"]=txt("submenutitle_reisagenten");
-		$submenu["huiseigenaren"]=txt("submenutitle_huiseigenaren");
-		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
-		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-	} elseif($vars["websitetype"]==8) {
-		#
-		# SuperSki
-		#
-		$menu["index"]=txt("menutitle_index");
-		$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
-		$menu["skigebieden"]=txt("menutitle_skigebieden");
-		$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
-		$menu["weekendski"]=txt("menutitle_weekendski");
-		$menu["contact"]=txt("menutitle_contact");
-
-		$submenu["inloggen"]=txt("submenutitle_inloggen");
-		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		$submenu["favorieten"]=txt("submenutitle_favorieten");
-		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-
 	} else {
-		#
-		# Winter
-		#
-		$menu["index"]=txt("menutitle_index");
-		$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
-		$menu["skigebieden"]=txt("menutitle_skigebieden");
-		$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
-		$menu["weekendski"]=txt("menutitle_weekendski");
-		$menu["contact"]=txt("menutitle_contact");
-
-		if($vars["wederverkoop"]) {
-			if(!$vars["chalettour_logged_in"]) {
-				$submenu["inloggen"]=txt("submenutitle_inloggen");
-				$submenu["reisagent"]=txt("submenutitle_reisagent");
-			}
-		} else {
-			$submenu["inloggen"]=txt("submenutitle_inloggen");
-		}
-
-		if(!$vars["wederverkoop"]) {
-			$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
-		}
-		$submenu["favorieten"]=txt("submenutitle_favorieten");
-		$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
-		$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-		$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
+		$submenu["inloggen"]=txt("submenutitle_inloggen");
 	}
-} else {
 
-	$bold1="<b>";
-	$bold2="</b>";
+	$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
+
+	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+	$submenu["favorieten"]=txt("submenutitle_favorieten");
+	$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+	$submenu["chaletwinter"]=txt("submenutitle_chaletwinter");
+} elseif($vars["websitetype"]==6) {
+	#
+	# Chalets in Vallandry
+	#
+	$menu["index"]=txt("menutitle_index");
+	$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
+	$menu["chalets"]=txt("menutitle_chalets");
+	$menu["omgeving"]=txt("menutitle_omgeving");
+	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
+	$menu["kort-verblijf"]=txt("menutitle_kort-verblijf");
+	$menu["contact"]=txt("menutitle_contact");
+
+	$submenu["inloggen"]=txt("submenutitle_inloggen");
+	$submenu["reisagent"]=txt("submenutitle_reisagenten");
+	$submenu["huiseigenaren"]=txt("submenutitle_huiseigenaren");
+	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+	$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+} elseif($vars["websitetype"]==8) {
+	#
+	# SuperSki
+	#
+	$menu["index"]=txt("menutitle_index");
+	$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
+	$menu["skigebieden"]=txt("menutitle_skigebieden");
+	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
+	$menu["weekendski"]=txt("menutitle_weekendski");
+	$menu["contact"]=txt("menutitle_contact");
+
+	$submenu["inloggen"]=txt("submenutitle_inloggen");
+	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+	$submenu["favorieten"]=txt("submenutitle_favorieten");
+	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+
+} else {
+	#
+	# Winter
+	#
+	$menu["index"]=txt("menutitle_index");
+	$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
+	$menu["skigebieden"]=txt("menutitle_skigebieden");
+	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
+	$menu["weekendski"]=txt("menutitle_weekendski");
+	$menu["contact"]=txt("menutitle_contact");
+
+	if($vars["wederverkoop"]) {
+		if(!$vars["chalettour_logged_in"]) {
+			$submenu["inloggen"]=txt("submenutitle_inloggen");
+			$submenu["reisagent"]=txt("submenutitle_reisagent");
+		}
+	} else {
+		$submenu["inloggen"]=txt("submenutitle_inloggen");
+	}
 
 	if(!$vars["wederverkoop"]) {
 		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 	}
-	$submenu["skigebieden"]=txt("submenutitle_skigebieden");
-	$submenu["algemenevoorwaarden"]=txt("submenutitle_algemenevoorwaarden");
+	$submenu["favorieten"]=txt("submenutitle_favorieten");
+	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-	$submenu["werkwijze"]=txt("submenutitle_werkwijze");
-	$submenu["inloggen"]=txt("submenutitle_inloggen");
+	$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
 }
 
 $submenu_url_zonder_punt_php=array("sitemap");
@@ -535,11 +509,7 @@ $submenu_url_zonder_punt_php=array("sitemap");
 
 $title["index"]=txt("title_index");
 $title["skigebieden"]=txt("title_skigebieden");
-if($vars["nieuwevormgeving"]) {
-	$title["accommodaties"]=txt("title_zoekenboek");
-} else {
-	$title["accommodaties"]=txt("title_accommodaties");
-}
+$title["accommodaties"]=txt("title_zoekenboek");
 $title["algemenevoorwaarden"]=txt("title_algemenevoorwaarden");
 $title["werkwijze"]=txt("title_werkwijze");
 $title["materiaalhuur"]=txt("title_materiaalhuur");
@@ -1062,15 +1032,7 @@ if($boeking_wijzigen) {
 		$login->end_declaration();
 
 		if(!$helemaalboven and !$_GET["cmsuit"]) {
-			if($vars["nieuwevormgeving"]) {
-				$helemaalboven="Intern ingelogd: ".htmlentities($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://www.chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
-			} else {
-				$helemaalboven="&nbsp;&nbsp;<span style=\"color:#ffffff;font-size:1.3em;font-weight:bold;\">Intern ingelogd: ".htmlentities($login->vars["voornaam"])."&nbsp;</span><br>&nbsp;&nbsp;<span class=\"helemaal_boven\" style=\"font-size:0.8em;\"><a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $path : "http://www.chalet.nl/")."cms.php\" target=\"_blank\">naar CMS</a>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<a href=\"".$path."cms.php?logout=1\">uitloggen</a>";
-				if($login->userlevel>=10) {
-					$helemaalboven.="&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<a href=\"".$path."accommodatie/O313/\">Accommodatie A</a>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<a href=\"".$path."accommodatie/F453/\">Accommodatie C</a>";
-				}
-				$helemaalboven.="</span>";
-			}
+			$helemaalboven="Intern ingelogd: ".htmlentities($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://www.chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
 		}
 
 		if($vars["chalettour_logged_in"] and $login->logged_in and !$css) {

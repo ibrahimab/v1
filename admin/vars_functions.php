@@ -2744,11 +2744,7 @@ function terugnaaracc() {
 		$db->query("SELECT a.soortaccommodatie, a.naam, t.naam AS tnaam, t.type_id, l.begincode FROM accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND t.type_id='".addslashes($_GET["backtypeid"])."';");
 		if($db->next_record()) {
 			$accnaam=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "");
-			if($vars["nieuwevormgeving"]) {
-				echo "<div style=\"padding-bottom:15px;font-size:0.8em;\"><a href=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/".($_GET["backqs"] ? "?".$_GET["backqs"] : "")."\">&lt; &lt; ".html("terugnaaracc","vars",array("v_accommodatienaam"=>$accnaam))."</a></div>";
-			} else {
-				echo "&nbsp;<a href=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/".($_GET["backqs"] ? "?".$_GET["backqs"] : "")."\">&lt; &lt; ".html("terugnaaracc","vars",array("v_accommodatienaam"=>$accnaam))."</a><br>&nbsp;";
-			}
+			echo "<div style=\"padding-bottom:15px;font-size:0.8em;\"><a href=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/".($_GET["backqs"] ? "?".$_GET["backqs"] : "")."\">&lt; &lt; ".html("terugnaaracc","vars",array("v_accommodatienaam"=>$accnaam))."</a></div>";
 		}
 	}
 }

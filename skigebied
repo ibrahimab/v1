@@ -73,24 +73,20 @@ if($skigebiedid) {
 		$db->query("SELECT skigebied AS naam, land, land_id FROM view_accommodatie WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."' AND atonen=1 AND ttonen=1 AND archief=0;");
 	}
 	if($db->next_record()) {
-		if($vars["nieuwevormgeving"]) {
-			if($vars["seizoentype"]==1) {
-				$title["toonskigebied"]=txt("title_toonskigebied")." ".$db->f("naam");
-				if(!$meta_description) {
-					$meta_description=txt("title_toonskigebied")." ".$db->f("naam")." in ".$db->f("land");
-				}
-			} else {
-				$title["toonskigebied"]="Vakantiehuizen ".$db->f("naam");
-				if(!$meta_description) {
-					if($vars["taal"]=="en") {
-						$meta_description="Overview of our accommodations ".$db->f("naam").", ".$db->f("land");
-					} else {
-						$meta_description="Overzicht van ons aanbod in ".$db->f("naam").", ".$db->f("land");
-					}
-				}
+		if($vars["seizoentype"]==1) {
+			$title["toonskigebied"]=txt("title_toonskigebied")." ".$db->f("naam");
+			if(!$meta_description) {
+				$meta_description=txt("title_toonskigebied")." ".$db->f("naam")." in ".$db->f("land");
 			}
 		} else {
-			$title["toonskigebied"]=txt("title_toonskigebied")." \"".$db->f("naam")."\"";
+			$title["toonskigebied"]="Vakantiehuizen ".$db->f("naam");
+			if(!$meta_description) {
+				if($vars["taal"]=="en") {
+					$meta_description="Overview of our accommodations ".$db->f("naam").", ".$db->f("land");
+				} else {
+					$meta_description="Overzicht van ons aanbod in ".$db->f("naam").", ".$db->f("land");
+				}
+			}
 		}
 
 		# Canonical voor Italissima/Zomerhuisje
@@ -137,11 +133,6 @@ if(file_exists($dir)) {
 }
 
 $pic2="skigebieden_landkaarten/".$skigebiedid.".gif";
-if(file_exists("pic/cms/".$pic1) and file_exists("pic/cms/".$pic2)) {
-	if(!$vars["nieuwevormgeving"]) {
-		$laat_titel_weg=true;
-	}
-}
 
 include("content/opmaak.php");
 

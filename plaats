@@ -63,60 +63,57 @@ if($plaatsid) {
 	}
 
 	if($db->next_record()) {
-		if($vars["nieuwevormgeving"]) {
-			if($vars["seizoentype"]==1) {
-				$header["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam");
-				$title["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
+		if($vars["seizoentype"]==1) {
+			$header["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam");
+			$title["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
 
-				$breadcrumbs[txt("menu_skigebieden").".php"]=ucfirst(txt("menu_skigebieden"));
-				$breadcrumbs[txt("menu_land")."/".wt_convert2url($db->f("land"))."/"]=$db->f("land");
-				$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"]=$db->f("skigebied");
-				$breadcrumbs["last"]=$db->f("naam");
-			} elseif($vars["websitetype"]==7) {
-				$header["toonplaats"]=$db->f("naam");
-				$title["toonplaats"]=$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
-
-				$breadcrumbs["bestemmingen.php"]="Bestemmingen";
-				$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"]=$db->f("skigebied");
-				$breadcrumbs["last"]=$db->f("naam");
-
-			} else {
-				$header["toonplaats"]=$db->f("naam");
-				$title["toonplaats"]=$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
-
-				$breadcrumbs[txt("menu_bestemmingen").".php"]=ucfirst(txt("menu_bestemmingen"));
-				$breadcrumbs[txt("menu_land")."/".wt_convert2url($db->f("land"))."/"]=$db->f("land");
-				$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"]=$db->f("skigebied");
-				$breadcrumbs["last"]=$db->f("naam");
-
-			}
-			if(!$meta_description) {
-				if($vars["taal"]=="en") {
-					$meta_description="Overview of our accommodations in ".$db->f("naam").", ".$db->f("skigebied").", ".$db->f("land");
-				} else {
-					$meta_description="Overzicht van onze accommodaties in ".$db->f("naam").", ".$db->f("skigebied").", ".$db->f("land");
-				}
-			}
-
-			if($vars["websitetype"]==7) {
-				# topfoto bepalen
-				$file="pic/cms/skigebieden_topfoto/".$db->f("skigebied_id").".jpg";
-
-				if(file_exists($file)) {
-					$vars["italissima_topfoto"]=$file;
-				}
-			}
-			$skigebiedid=$db->f("skigebied_id");
-
-			# Canonical voor Italissima/Zomerhuisje
-			if($db->f("land_id")==5) {
-				$vars["canonical_italissima"]=true;
-			}
-
-			$toplinks="<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/\">".htmlentities($db->f("land"))."</a> - <a href=\"".$vars["path"].txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/#beschrijving\">".htmlentities($db->f("skigebied"))."</a> - ".htmlentities($db->f("naam"));
-		} else {
+			$breadcrumbs[txt("menu_skigebieden").".php"]=ucfirst(txt("menu_skigebieden"));
+			$breadcrumbs[txt("menu_land")."/".wt_convert2url($db->f("land"))."/"]=$db->f("land");
+			$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"]=$db->f("skigebied");
+			$breadcrumbs["last"]=$db->f("naam");
+		} elseif($vars["websitetype"]==7) {
+			$header["toonplaats"]=$db->f("naam");
 			$title["toonplaats"]=$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
+
+			$breadcrumbs["bestemmingen.php"]="Bestemmingen";
+			$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"]=$db->f("skigebied");
+			$breadcrumbs["last"]=$db->f("naam");
+
+		} else {
+			$header["toonplaats"]=$db->f("naam");
+			$title["toonplaats"]=$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
+
+			$breadcrumbs[txt("menu_bestemmingen").".php"]=ucfirst(txt("menu_bestemmingen"));
+			$breadcrumbs[txt("menu_land")."/".wt_convert2url($db->f("land"))."/"]=$db->f("land");
+			$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"]=$db->f("skigebied");
+			$breadcrumbs["last"]=$db->f("naam");
+
 		}
+		if(!$meta_description) {
+			if($vars["taal"]=="en") {
+				$meta_description="Overview of our accommodations in ".$db->f("naam").", ".$db->f("skigebied").", ".$db->f("land");
+			} else {
+				$meta_description="Overzicht van onze accommodaties in ".$db->f("naam").", ".$db->f("skigebied").", ".$db->f("land");
+			}
+		}
+
+		if($vars["websitetype"]==7) {
+			# topfoto bepalen
+			$file="pic/cms/skigebieden_topfoto/".$db->f("skigebied_id").".jpg";
+
+			if(file_exists($file)) {
+				$vars["italissima_topfoto"]=$file;
+			}
+		}
+		$skigebiedid=$db->f("skigebied_id");
+
+		# Canonical voor Italissima/Zomerhuisje
+		if($db->f("land_id")==5) {
+			$vars["canonical_italissima"]=true;
+		}
+
+		$toplinks="<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/\">".htmlentities($db->f("land"))."</a> - <a href=\"".$vars["path"].txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/#beschrijving\">".htmlentities($db->f("skigebied"))."</a> - ".htmlentities($db->f("naam"));
+
 	} else {
 		$db->query("SELECT s.naam FROM plaats p, skigebied s WHERE p.plaats_id='".addslashes($plaatsid)."' AND p.wzt='".addslashes($vars["seizoentype"])."' AND p.skigebied_id=s.skigebied_id;");
 		if($db->next_record()) {

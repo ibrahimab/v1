@@ -440,7 +440,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 	if($_GET["filled"]) {
 		echo "<div>&nbsp;</div>";
 		echo "<div>";
-	} elseif($vars["nieuwevormgeving"]) {
+	} else {
 		echo "<div style=\"padding-bottom:10px;".(!$uitgebreid ? "padding-top:10px;" : "")."\">";
 		if($vars["themainfo"]["uitgebreidzoeken_url"]) {
 			echo "<div class=\"button\" onclick=\"document.location.href='".$vars["path"].txt("menu_zoek-en-boek").".php?".wt_he($vars["themainfo"]["uitgebreidzoeken_url"])."#vf';\">";
@@ -466,9 +466,6 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 		} else {
 			echo "<div class=\"showlinkdiv\" style=\"display:none;\">";
 		}
-	} else {
-		echo "<div>&nbsp;</div>";
-		echo "<div class=\"showlinkdiv\" style=\"display:none;\">";
 	}
 }
 
@@ -1316,28 +1313,22 @@ if($vars["website"]=="Z" and $id=="zoek-en-boek" and (!$_GET["filled"] or $_SERV
 if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "<p><a name=\"res\"></a>";
 	if(!$vars["zoekform_thema"] and !$vars["zoekform_weekendski"] and !$vars["zoekform_vallandrychalets"] and !$vars["zoekform_italissima_nieuwe_tarieven"]) {
-		if($vars["nieuwevormgeving"]) {
-			if($_GET["abid"]) {
-				$db0->query("SELECT onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["abid"])."';");
-				if($db0->next_record() and $db0->f("onlinenaam")) {
-					echo "<div style=\"border:2px solid #fb6703;padding:7px;width:646px;\">";
-					echo "<h2>".wt_he($db0->f("onlinenaam"))."</h2>";
-					$h2_getoond=true;
-					if($db0->f("omschrijving")) {
-						echo "<p>".nl2br(wt_htmlentities($db0->f("omschrijving")))."</p>";
-					}
-					echo "</div>";
+		if($_GET["abid"]) {
+			$db0->query("SELECT onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["abid"])."';");
+			if($db0->next_record() and $db0->f("onlinenaam")) {
+				echo "<div style=\"border:2px solid #fb6703;padding:7px;width:646px;\">";
+				echo "<h2>".wt_he($db0->f("onlinenaam"))."</h2>";
+				$h2_getoond=true;
+				if($db0->f("omschrijving")) {
+					echo "<p>".nl2br(wt_htmlentities($db0->f("omschrijving")))."</p>";
 				}
+				echo "</div>";
 			}
-			if(!$h2_getoond and $zoekresultaten_title) {
+		}
+		if(!$h2_getoond and $zoekresultaten_title) {
 #				echo "<h2>".html("zoekresultaten","accommodaties");
 #				if($zoekresultaten_title) echo " - ".wt_he($zoekresultaten_title);
 #				echo "</h2>";
-			}
-		} else {
-			echo "<font CLASS=\"titel\">".html("zoekresultaten","accommodaties");
-			if($zoekresultaten_title) echo " - ".wt_he($zoekresultaten_title);
-			echo "</font><br />";
 		}
 	}
 

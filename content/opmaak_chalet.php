@@ -6,7 +6,9 @@ if($language_content) {
 		$include="content/_meertalig/".$id."_".$vars["taal"].".html";
 	}
 } else {
-	if(file_exists("content/".$id."_nieuw.html")) {
+	if(file_exists("content/".$id."_chalet.html")) {
+		$include="content/".$id."_chalet.html";
+	} elseif(file_exists("content/".$id."_nieuw.html")) {
 		$include="content/".$id."_nieuw.html";
 	} elseif(file_exists("content/".$id.".html")) {
 		$include="content/".$id.".html";

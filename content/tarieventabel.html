@@ -381,15 +381,11 @@ if($db2->next_record()) {
 
 		# Scrollbar tonen?
 		if($vars["seizoentype"]==2) {
-			if($vars["nieuwevormgeving"]) {
-				echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"tarieventabel_rondom\"><tr><td id=\"tarieventabel_links[".$seizoenteller."]\">";
-				echo "<span class=\"tarieventabel_arrow\" onmouseover=\"scrollleft_actief=1;scrollleft(".$seizoenteller.");return false;\" onmouseout=\"scrollleft_actief=0;\">";
-				echo "<img src=\"".$vars["path"]."pic/pijllinks_".($vars["websitetype"]==7 ? "italissima" : "zomer").".gif\"></span>";
-				echo "</td><td>";
-				echo "<div style=\"width:".($tarievenpopup ? "800px" : "640px").";overflow-x:auto;overflow-y:hidden;".(preg_match("/MSIE [67]/",$_SERVER["HTTP_USER_AGENT"]) ? "padding-bottom:18px;" : "")."\" id=\"tarieventabel_div[".$seizoenteller."]\" class=\"tarieventabel_div\">";
-			} else {
-				echo "<div style=\"background-color:".$bordercolor.";width:660px;overflow-x:auto;padding-bottom:15px;\">";
-			}
+			echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"tarieventabel_rondom\"><tr><td id=\"tarieventabel_links[".$seizoenteller."]\">";
+			echo "<span class=\"tarieventabel_arrow\" onmouseover=\"scrollleft_actief=1;scrollleft(".$seizoenteller.");return false;\" onmouseout=\"scrollleft_actief=0;\">";
+			echo "<img src=\"".$vars["path"]."pic/pijllinks_".($vars["websitetype"]==7 ? "italissima" : "zomer").".gif\"></span>";
+			echo "</td><td>";
+			echo "<div style=\"width:".($tarievenpopup ? "800px" : "640px").";overflow-x:auto;overflow-y:hidden;".(preg_match("/MSIE [67]/",$_SERVER["HTTP_USER_AGENT"]) ? "padding-bottom:18px;" : "")."\" id=\"tarieventabel_div[".$seizoenteller."]\" class=\"tarieventabel_div\">";
 		}
 
 		echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"tarieventabel\" id=\"tarieventabel_table[".$seizoenteller."]\">";

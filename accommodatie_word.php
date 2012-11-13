@@ -108,16 +108,12 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 		display: none;
 	}";
 
-#		$ms->html.="hallo";
-
 		$typeid=$db->f("type_id");
 		ob_start();
-		include("content/toonaccommodatie_nieuw.html");
+		include("content/toonaccommodatie.html");
 		$content=ob_get_contents();
 		ob_end_clean();
 
-
-#		$content=str_replace("<a href=\"#tabs_fotos\">",$ms->page_break(),$content);
 
 		# tabs_indeling
 		if(preg_match("/<div id=\"tabs_indeling\">(.*)<!-- afsluiten_tabs_indeling -->/s",$content,$regs)) {
@@ -125,15 +121,12 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 		}
 
 		# tabs_fotos
-#		if(preg_match("/<div id=\"tabs_fotos\">(.*)<!-- afsluiten_tabs_fotos -->/s",$content,$regs)) {
 		if($foto_table) {
 			$tabs_fotos.="<h3>".html("fotos","vars")."</h3>";
 			$tabs_fotos.="<table cellspacing=\"0\" cellpadding=\"2\">";
 			$tabs_fotos.=$foto_table;
 			$tabs_fotos.="</table>";
 			$tabs_fotos.="<i>".html("fotosindicatief","imagetable")."</i>";
-
-#			$tabs_fotos=str_replace("foto_doorklik.png","leeg.gif",$tabs_fotos);
 		}
 
 		# tabs_omgeving
@@ -148,10 +141,6 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 			$tabs_opties=str_replace("<TABLE width=\"660\" border=\"0\" class=\"toonacctabel optietabelclass\" cellspacing=\"0\">","<TABLE width=\"100%\" border=\"0\" class=\"toonacctabel optietabelclass\" cellspacing=\"0\">",$tabs_opties);
 			$tabs_opties=str_replace("<TD width=\"350\">","<TD width=\"290\">",$tabs_opties);
 			$tabs_opties=str_replace("width=\"460\"","width=\"400\"",$tabs_opties);
-
-
-#			$tabs_opties=preg_replace("/width=\"[0-9]+\"/"," ",$tabs_opties);
-
 		}
 
 

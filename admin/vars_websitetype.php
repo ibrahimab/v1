@@ -161,10 +161,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-
-	# Tijdelijk
-	$vars["nieuwevormgeving"]=true;
-
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="zomerhuisjeeu")) {
 	# Zomerhuisje.eu
 	$vars["websitetype"]=3;
@@ -183,10 +179,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-
-	# Tijdelijk
-	$vars["nieuwevormgeving"]=true;
-
 } elseif($_SERVER["HTTP_HOST"]=="www.chaletsinvallandry.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="vallandrynl")) {
 	# Chaletsinvallandry.nl
 	$vars["websitetype"]=6;
@@ -206,7 +198,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-	$vars["nieuwevormgeving"]=true;
 } elseif($_SERVER["HTTP_HOST"]=="www.chaletsinvallandry.com" or ($vars["lokale_testserver"] and $vars["testsite"]=="vallandrycom")) {
 	# Chaletsinvallandry.com
 	$vars["websitetype"]=6;
@@ -226,7 +217,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-	$vars["nieuwevormgeving"]=true;
 } elseif($_SERVER["HTTP_HOST"]=="www.italissima.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="italissima")) {
 	# Italissima
 	$vars["websitetype"]=7;
@@ -247,10 +237,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-
-	# Tijdelijk
-	$vars["nieuwevormgeving"]=true;
-
 } elseif($_SERVER["HTTP_HOST"]=="www.superski.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="superski")) {
 	# SuperSki
 	$vars["websitetype"]=8;
@@ -269,9 +255,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["twitter_user"]="SuperSkiNL";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-
-	$vars["nieuwevormgeving"]=true;
-
 } else {
 	# Onbekend welke site er wordt opgevraagd
 	if(ereg("chalet\.nl",$_SERVER["HTTP_HOST"])) {
@@ -286,10 +269,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	exit;
 }
 
-if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
-	$vars["nieuwevormgeving"]=true;
-}
-
 #
 # Opmaak bepalen
 #
@@ -297,32 +276,19 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 
 if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	# Chalet.nl / Chalet.eu winter
-	$bordercolor="#0D3E88";
+	$bordercolor="#d5e1f9";
 	$rood="#D3033A";
-	$hover="#0D3E88";
+	$hover="#d40139";
 	$hr="#D5E1F9";
-	$table="#0D3E88";
-	$font="Tahoma, Helvetica, sans-serif;";
-	$bodybgcolor="#0D3E88";
-	$thfontcolor="#ffffff";
-	$thfontsize="0.8em";
-
-	# Nieuwe vormgeving
-	if($vars["nieuwevormgeving"]) {
-		$bordercolor="#d5e1f9";
-		$rood="#D3033A";
-		$hover="#d40139";
-		$hr="#D5E1F9";
-		$table="#d5e1f9";
-		$font="Verdana, Arial, Helvetica, sans-serif;";
-		$bodybgcolor="#d5e1f9";
-		$thfontcolor="#003366";
-		$thfontsize="0.9em";
-		$activetabcolor="#003366";
-		$inactivetabcolor="#d5e1f9";
-		$inactivetabfontcolor="#003366";
-		$css_aanbiedingkleur="#d40139";
-	}
+	$table="#d5e1f9";
+	$font="Verdana, Arial, Helvetica, sans-serif;";
+	$bodybgcolor="#d5e1f9";
+	$thfontcolor="#003366";
+	$thfontsize="0.9em";
+	$activetabcolor="#003366";
+	$inactivetabcolor="#d5e1f9";
+	$inactivetabfontcolor="#003366";
+	$css_aanbiedingkleur="#d40139";
 
 } elseif($vars["websitetype"]==2) {
 	# Wintersportaccommodaties.nl
@@ -381,36 +347,20 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$inactivetabfontcolor="#ffffff";
 	$css_aanbiedingkleur="#e6007e";
 } else {
-	# Chalet.nl Zomer / Chalet.eu Summer / Zomerhuisje
-	$bordercolor="#FF6600";
-	$rood="#FF6600";
-	$hover="#FFCC00";
-	$hr="#FF6600";
-	$table="#FF6600";
-	$font="Tahoma, Helvetica, sans-serif;";
-	$bodybgcolor="#95DDEC";
+	# Chalet.nl Zomer / Chalet.eu Summer / Zomerhuisje: NIET MEER IN GEBRUIK
+	$bordercolor="#5f227b";
+	$rood="#5f227b";
+	$hover="#cbd328";
+	$hr="#eff2be";
+	$table="#5f227b";
+	$font="Verdana, Arial, Helvetica, sans-serif;";
+	$bodybgcolor="#eff2be";
 	$thfontcolor="#ffffff";
-	$thfontsize="0.8em";
-
-	# Nieuwe vormgeving
-	if($vars["nieuwevormgeving"]) {
-		$bordercolor="#5f227b";
-		$rood="#5f227b";
-		$hover="#cbd328";
-		$hr="#eff2be";
-		$table="#5f227b";
-		$font="Verdana, Arial, Helvetica, sans-serif;";
-		$bodybgcolor="#eff2be";
-		$thfontcolor="#ffffff";
-		$thfontsize="0.9em";
-		$activetabcolor="#5f227b";
-		$inactivetabcolor="#cbd328";
-		$inactivetabfontcolor="#ffffff";
-		$css_aanbiedingkleur="#636f07";
-
-		# paars: #5f227b
-		# groen: #cbd328
-	}
+	$thfontsize="0.9em";
+	$activetabcolor="#5f227b";
+	$inactivetabcolor="#cbd328";
+	$inactivetabfontcolor="#ffffff";
+	$css_aanbiedingkleur="#636f07";
 }
 
 
