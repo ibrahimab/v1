@@ -44,9 +44,12 @@ if($_GET["wzt"]==2) {
 	if($_GET["t"]==3 or $_GET["t"]==5) {
 		$aantalpersonen=true;
 	}
-} elseif($_GET["wzt"]==4){
+} elseif($_GET["wzt"]==4) {
 		$site="chalet";
 		$siteurl="http://www.chalet.be/";
+} elseif($_GET["wzt"]==5) {
+		$site="superski";
+		$siteurl="http://www.superski.nl/";
 } else {
 	$site="chalet";
 	$siteurl="https://www.chalet.nl/";
@@ -722,6 +725,95 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	winter_thema("120px");
 	echo "</div>\n";
 	echo "<div style=\"position:absolute;top:128px;left:170px;\"><input type=\"image\" src=\"http://www.chalet.be/pic/banners/htmlbanners/chalet_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
+} elseif($_GET["t"]==1 and $_GET["wzt"]==5) {
+	# superski 728x90
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_728x90.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:22px;left:495px;\">\n";
+	winter_land("130px");
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:50px;left:495px;\">\n";
+	winter_thema("130px");
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:35px;left:635px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
+
+} elseif($_GET["t"]==2 and $_GET["wzt"]==5) {
+	# superski 468x60
+	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_468x60.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:7px;left:230px;\">\n";
+	winter_land("130px");
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:32px;left:230px;\">\n";
+	winter_thema("130px");
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:19px;left:373px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
+} elseif($_GET["t"]==3 and $_GET["wzt"]==5) {
+	# superski 250x250
+	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_250x250.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:193px;left:20px;\">\n";
+	winter_land("120px");
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:220px;left:20px;\">\n";
+	winter_thema("120px");
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:208px;left:150px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
+} elseif($_GET["t"]==4 and $_GET["wzt"]==5) {
+	# superski 234x60
+	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
+
+	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_234x60.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:6px;left:95px;\">\n";
+	winter_land("100px");
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:30px;left:95px;\">\n";
+	winter_thema("100px");
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:7px;left:198px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
+} elseif($_GET["t"]==5 and $_GET["wzt"]==5) {
+	# superski 120x600
+	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
+
+	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_120x600.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:460px;left:3px;\">\n"; #235
+	winter_land("110px");
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:494px;left:3px;\">\n";
+	winter_thema("110px");
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:535px;left:16px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
+} elseif($_GET["t"]==6 and $_GET["wzt"]==5) {
+	# superski 300x250
+	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_300x250.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:188px;left:40px;\">\n";
+	winter_land("120px");
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:219px;left:40px;\">\n";
+	winter_thema("120px");
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:203px;left:170px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 }
