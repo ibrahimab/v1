@@ -249,6 +249,8 @@ function formsubmit(type) {
 			url='http://www.italissima.nl/zoek-en-boek.php?filled=1&fzt=&fsg=5-'+document.frm.l.value+'&fap=0&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==4) { ?>
 			url='http://www.chalet.be/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap=0&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
+		<?php } elseif($_GET["wzt"]==5) { ?>
+			url='http://www.superski.nl/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap=0&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php }else { ?>
 			url='http://www.chalet.nl/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap=0&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } ?>
@@ -270,6 +272,11 @@ function formsubmit(type) {
 			if(document.frm.l.value==2) url='http://www.chalet.be/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.l.value==3) url='http://www.chalet.be/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.l.value==5) url='http://www.chalet.be/land/Italie/?<?php echo $extra_qs.$utm; ?>';
+		<?php } elseif($_GET["wzt"]==5){ ?>
+			if(document.frm.l.value==1) url='http://www.superski.nl/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==2) url='http://www.superski.nl/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==3) url='http://www.superski.nl/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==5) url='http://www.superski.nl/land/Italie/?<?php echo $extra_qs.$utm; ?>';
 		<?php } else { ?>
 			if(document.frm.l.value==1) url='http://www.chalet.nl/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.l.value==2) url='http://www.chalet.nl/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
@@ -295,6 +302,14 @@ function formsubmit(type) {
 			if(document.frm.t.value==5) url='http://www.chalet.be/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.t.value==6) url='http://www.chalet.be/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.t.value==7) url='http://www.chalet.be/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
+		<?php } elseif($_GET["wzt"]==5) { ?>
+			if(document.frm.t.value==1) url='http://www.superski.nl/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==2) url='http://www.superski.nl/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==3) url='http://www.superski.nl/thema/catering/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==4) url='http://www.superski.nl/thema/kids/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==5) url='http://www.superski.nl/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==6) url='http://www.superski.nl/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==7) url='http://www.superski.nl/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
 		<?php }else { ?>
 			if(document.frm.t.value==1) url='http://www.chalet.nl/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.t.value==2) url='http://www.chalet.nl/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
