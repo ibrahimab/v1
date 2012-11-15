@@ -106,29 +106,29 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 
 function LocalErrorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 switch ($errno) {
-    case E_USER_ERROR:
-        echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
-        echo "  Fatal error on line $errline in file $errfile";
-        echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
-        echo "Aborting...<br />\n";
-        exit(1);
-        break;
+	case E_USER_ERROR:
+		echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
+		echo "  Fatal error on line $errline in file $errfile";
+		echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+		echo "Aborting...<br />\n";
+		exit(1);
+		break;
 
-    case E_USER_WARNING:
-        echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
-        break;
+	case E_USER_WARNING:
+		echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
+		break;
 
-    case E_USER_NOTICE:
-        echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
-        break;
+	case E_USER_NOTICE:
+		echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+		break;
 
-    default:
-        echo "Unknown error type: [$errno] $errstr<br />\n";
-        break;
-    }
+	default:
+		echo "Unknown error type: [$errno] $errstr<br />\n";
+		break;
+	}
 
-    /* Don't execute PHP internal error handler */
-    return true;
+	/* Don't execute PHP internal error handler */
+	return true;
 }
 
 function wt_404($redirect=false) {
@@ -602,9 +602,9 @@ function XXstartElement($parser, $name, $attrs) {
    $element = array();
    $element['name'] = $name;
    foreach ($attrs as $key => $value) {
-        //echo $key."=".$value;
-        $element[$key]=$value;
-    }
+		//echo $key."=".$value;
+		$element[$key]=$value;
+	}
 
    $last = &$stack[count($stack)-1];
    $last[count($last)-1] = &$element;
@@ -1408,8 +1408,8 @@ function wt_debugtimer($pointer="") {
 }
 
 function wt_microtime_float() {
-    list($usec, $sec) = explode(" ", microtime());
-    return ((float)$usec + (float)$sec);
+	list($usec, $sec) = explode(" ", microtime());
+	return ((float)$usec + (float)$sec);
 }
 
 function wt_naam($voornaam='',$tussenvoegsel='',$achternaam,$achternaameerst=false,$voorletters=false) {
@@ -1554,55 +1554,55 @@ function wt_baseurl() {
 
 function maketime ($hour = false, $minute = false, $second = false, $month = false, $date = false, $year = false){
 
-       // This function can undo the Win32 error to calculate datas before 1-1-1970 (by TOTH = igtoth@netsite.com.br)
-       // For centuries, the Egyptians used a (12 * 30 + 5)-day calendar
-       // The Greek began using leap-years in around 400 BC
-       // Ceasar adjusted the Roman calendar to start with Januari rather than March
-       // All knowledge was passed on by the Arabians, who showed an error in leaping
-       // In 1232 Sacrobosco (Eng.) calculated the error at 1 day per 288 years
-       //    In 1582, Pope Gregory XIII removed 10 days (Oct 15-24) to partially undo the
-       // error, and he instituted the 400-year-exception in the 100-year-exception,
-       // (notice 400 rather than 288 years) to undo the rest of the error
-       // From about 2044, spring will again coincide with the tropic of Cancer
-       // Around 4100, the calendar will need some adjusting again
+	   // This function can undo the Win32 error to calculate datas before 1-1-1970 (by TOTH = igtoth@netsite.com.br)
+	   // For centuries, the Egyptians used a (12 * 30 + 5)-day calendar
+	   // The Greek began using leap-years in around 400 BC
+	   // Ceasar adjusted the Roman calendar to start with Januari rather than March
+	   // All knowledge was passed on by the Arabians, who showed an error in leaping
+	   // In 1232 Sacrobosco (Eng.) calculated the error at 1 day per 288 years
+	   //    In 1582, Pope Gregory XIII removed 10 days (Oct 15-24) to partially undo the
+	   // error, and he instituted the 400-year-exception in the 100-year-exception,
+	   // (notice 400 rather than 288 years) to undo the rest of the error
+	   // From about 2044, spring will again coincide with the tropic of Cancer
+	   // Around 4100, the calendar will need some adjusting again
 
-       if ($hour === false)  $hour  = Date ("G");
-       if ($minute === false) $minute = Date ("i");
-       if ($second === false) $second = Date ("s");
-       if ($month === false)  $month  = Date ("n");
-       if ($date === false)  $date  = Date ("j");
-       if ($year === false)  $year  = Date ("Y");
+	   if ($hour === false)  $hour  = Date ("G");
+	   if ($minute === false) $minute = Date ("i");
+	   if ($second === false) $second = Date ("s");
+	   if ($month === false)  $month  = Date ("n");
+	   if ($date === false)  $date  = Date ("j");
+	   if ($year === false)  $year  = Date ("Y");
 
-       if ($year >= 1970) return mktime ($hour, $minute, $second, $month, $date, $year);
+	   if ($year >= 1970) return mktime ($hour, $minute, $second, $month, $date, $year);
 
-       //    date before 1-1-1970 (Win32 Fix)
-       $m_days = Array (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-       if ($year % 4 == 0 && ($year % 100 > 0 || $year % 400 == 0))
-       {
-           $m_days[1] = 29; // non leap-years can be: 1700, 1800, 1900, 2100, etc.
-       }
+	   //    date before 1-1-1970 (Win32 Fix)
+	   $m_days = Array (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+	   if ($year % 4 == 0 && ($year % 100 > 0 || $year % 400 == 0))
+	   {
+		   $m_days[1] = 29; // non leap-years can be: 1700, 1800, 1900, 2100, etc.
+	   }
 
-       //    go backward (-), based on $year
-       $d_year = 1970 - $year;
-       $days = 0 - $d_year * 365;
-       $days -= floor ($d_year / 4);          // compensate for leap-years
-       $days += floor (($d_year - 70) / 100);  // compensate for non-leap-years
-       $days -= floor (($d_year - 370) / 400); // compensate again for giant leap-years
+	   //    go backward (-), based on $year
+	   $d_year = 1970 - $year;
+	   $days = 0 - $d_year * 365;
+	   $days -= floor ($d_year / 4);          // compensate for leap-years
+	   $days += floor (($d_year - 70) / 100);  // compensate for non-leap-years
+	   $days -= floor (($d_year - 370) / 400); // compensate again for giant leap-years
 
-       //    go forward (+), based on $month and $date
-       for ($i = 1; $i < $month; $i++)
-       {
-           $days += $m_days [$i - 1];
-       }
-       $days += $date - 1;
+	   //    go forward (+), based on $month and $date
+	   for ($i = 1; $i < $month; $i++)
+	   {
+		   $days += $m_days [$i - 1];
+	   }
+	   $days += $date - 1;
 
-       //    go forward (+) based on $hour, $minute and $second
-       $stamp = $days * 86400;
-       $stamp += $hour * 3600;
-       $stamp += $minute * 60;
-       $stamp += $second;
+	   //    go forward (+) based on $hour, $minute and $second
+	   $stamp = $days * 86400;
+	   $stamp += $hour * 3600;
+	   $stamp += $minute * 60;
+	   $stamp += $second;
 
-       return $stamp;
+	   return $stamp;
 }
 
 function wt_csvconvert($string,$delimiter=",",$isstring=false) {
@@ -1729,57 +1729,95 @@ if (!function_exists("imap_8bit")) {
 	  $aLines=explode(chr(13).chr(10),$sText);
 
 	  for ($i=0;$i<count($aLines);$i++) {
-	    $sLine =& $aLines[$i];
-	    if (strlen($sLine)===0) continue; // do nothing, if empty
+		$sLine =& $aLines[$i];
+		if (strlen($sLine)===0) continue; // do nothing, if empty
 
-	    $sRegExp = '/[^\x09\x20\x21-\x3C\x3E-\x7E]/e';
+		$sRegExp = '/[^\x09\x20\x21-\x3C\x3E-\x7E]/e';
 
-	    // imap_8bit encodes x09 everywhere, not only at lineends,
-	    // for EBCDIC safeness encode !"#$@[\]^`{|}~,
-	    // for complete safeness encode every character :)
-	    if ($bEmulate_imap_8bit)
-	      $sRegExp = '/[^\x20\x21-\x3C\x3E-\x7E]/e';
+		// imap_8bit encodes x09 everywhere, not only at lineends,
+		// for EBCDIC safeness encode !"#$@[\]^`{|}~,
+		// for complete safeness encode every character :)
+		if ($bEmulate_imap_8bit)
+		  $sRegExp = '/[^\x20\x21-\x3C\x3E-\x7E]/e';
 
-	    $sReplmt = 'sprintf( "=%02X", ord ( "$0" ) ) ;';
-	    $sLine = preg_replace( $sRegExp, $sReplmt, $sLine );
+		$sReplmt = 'sprintf( "=%02X", ord ( "$0" ) ) ;';
+		$sLine = preg_replace( $sRegExp, $sReplmt, $sLine );
 
-	    // encode x09,x20 at lineends
-	    {
-	      $iLength = strlen($sLine);
-	      $iLastChar = ord($sLine{$iLength-1});
+		// encode x09,x20 at lineends
+		{
+		  $iLength = strlen($sLine);
+		  $iLastChar = ord($sLine{$iLength-1});
 
-	      //              !!!!!!!!
-	      // imap_8_bit does not encode x20 at the very end of a text,
-	      // here is, where I don't agree with imap_8_bit,
-	      // please correct me, if I'm wrong,
-	      // or comment next line for RFC2045 conformance, if you like
-	      if (!($bEmulate_imap_8bit && ($i==count($aLines)-1)))
+		  //              !!!!!!!!
+		  // imap_8_bit does not encode x20 at the very end of a text,
+		  // here is, where I don't agree with imap_8_bit,
+		  // please correct me, if I'm wrong,
+		  // or comment next line for RFC2045 conformance, if you like
+		  if (!($bEmulate_imap_8bit && ($i==count($aLines)-1)))
 
-	      if (($iLastChar==0x09)||($iLastChar==0x20)) {
-	        $sLine{$iLength-1}='=';
-	        $sLine .= ($iLastChar==0x09)?'09':'20';
-	      }
-	    }    // imap_8bit encodes x20 before chr(13), too
-	    // although IMHO not requested by RFC2045, why not do it safer :)
-	    // and why not encode any x20 around chr(10) or chr(13)
-	    if ($bEmulate_imap_8bit) {
-	      $sLine=str_replace(' =0D','=20=0D',$sLine);
-	      //$sLine=str_replace(' =0A','=20=0A',$sLine);
-	      //$sLine=str_replace('=0D ','=0D=20',$sLine);
-	      //$sLine=str_replace('=0A ','=0A=20',$sLine);
-	    }
+		  if (($iLastChar==0x09)||($iLastChar==0x20)) {
+			$sLine{$iLength-1}='=';
+			$sLine .= ($iLastChar==0x09)?'09':'20';
+		  }
+		}    // imap_8bit encodes x20 before chr(13), too
+		// although IMHO not requested by RFC2045, why not do it safer :)
+		// and why not encode any x20 around chr(10) or chr(13)
+		if ($bEmulate_imap_8bit) {
+		  $sLine=str_replace(' =0D','=20=0D',$sLine);
+		  //$sLine=str_replace(' =0A','=20=0A',$sLine);
+		  //$sLine=str_replace('=0D ','=0D=20',$sLine);
+		  //$sLine=str_replace('=0A ','=0A=20',$sLine);
+		}
 
-	    // finally split into softlines no longer than 76 chars,
-	    // for even more safeness one could encode x09,x20
-	    // at the very first character of the line
-	    // and after soft linebreaks, as well,
-	    // but this wouldn't be caught by such an easy RegExp
-	    preg_match_all( '/.{1,73}([^=]{0,2})?/', $sLine, $aMatch );
-	    $sLine = implode( '=' . chr(13).chr(10), $aMatch[0] ); // add soft crlf's
+		// finally split into softlines no longer than 76 chars,
+		// for even more safeness one could encode x09,x20
+		// at the very first character of the line
+		// and after soft linebreaks, as well,
+		// but this wouldn't be caught by such an easy RegExp
+		preg_match_all( '/.{1,73}([^=]{0,2})?/', $sLine, $aMatch );
+		$sLine = implode( '=' . chr(13).chr(10), $aMatch[0] ); // add soft crlf's
 	  }
 
 	  // join lines into text
 	  return implode(chr(13).chr(10),$aLines);
+	}
+}
+
+class wt_pid {
+
+	protected $filename;
+	public $already_running = false;
+
+	function __construct($directory) {
+
+		$this->filename = $directory . '/' . basename($_SERVER['PHP_SELF']) . '.pid';
+
+		if(is_writable($this->filename) || is_writable($directory)) {
+
+			if(file_exists($this->filename)) {
+				$pid = (int)trim(file_get_contents($this->filename));
+				if(posix_kill($pid, 0)) {
+					$this->already_running = true;
+				}
+			}
+
+		}
+		else {
+			die("Cannot write to pid file '$this->filename'. Program execution halted.\n");
+		}
+
+		if(!$this->already_running) {
+			$pid = getmypid();
+			file_put_contents($this->filename, $pid);
+		}
+
+	}
+
+	public function __destruct() {
+
+		if(!$this->already_running && file_exists($this->filename) && is_writeable($this->filename)) {
+			unlink($this->filename);
+		}
 	}
 }
 
@@ -2164,17 +2202,17 @@ Thursday, October 4, 1582 (Julian) was followed immediately by Friday, October 1
 		$greg_correction = 0;
 
 	if($month > 2)
-	    $month -= 2;
+		$month -= 2;
 	else {
-	    $month += 10;
-	    $year--;
+		$month += 10;
+		$year--;
 	}
 
 	$day =  floor((13 * $month - 1) / 5) +
-	        $day + ($year % 100) +
-	        floor(($year % 100) / 4) +
-	        floor(($year / 100) / 4) - 2 *
-	        floor($year / 100) + 77 + $greg_correction;
+			$day + ($year % 100) +
+			floor(($year % 100) / 4) +
+			floor(($year / 100) / 4) - 2 *
+			floor($year / 100) + 77 + $greg_correction;
 
 	return $day - 7 * floor($day / 7);
 }
@@ -2209,7 +2247,7 @@ function adodb_is_leap_year($year)
 
 /**
 	Fix 2-digit years. Works for any century.
- 	Assumes that if 2-digit is more than 30 years in future, then previous century.
+	Assumes that if 2-digit is more than 30 years in future, then previous century.
 */
 function adodb_year_digit_check($y)
 {

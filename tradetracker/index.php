@@ -84,6 +84,63 @@ if($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl") {
 
 	// Redirect to TradeTracker
 	header("Location: {$trackBackURL}", true, 301);
+
+} elseif($_SERVER["HTTP_HOST"]=="www.superski.nl") {
+
+	#
+	# Superski.nl
+	#
+
+	//! Tradetracker Landingpage
+
+	//===================================================================================================
+	//											Configuration											/
+	//===================================================================================================
+	// Set domain name and secret key
+	$domainName = "superski.nl";	//the domain name on which the landingpage runs, without www.
+	$secretKey = "";		//the secret-key is provided by TradeTracker
+	//===================================================================================================
+
+	// V1 support
+	if($_GET["campaignID"]) {
+		//set parameters
+		$campaignID = $_GET["campaignID"];
+		$materialID = $_GET["materialID"];
+		$affiliateID = $_GET["affiliateID"];
+		$redirectURL = $_GET["redirectURL"];
+		$reference = "";
+	} else {
+		// Set parameters
+		list($campaignID, $materialID, $affiliateID, $reference) = explode('_', $_GET["tt"]);
+		$redirectURL = $_GET["r"];
+	}
+
+	// Calculate MD5 checksum
+	$checkSum = md5("CHK_{$campaignID}::{$materialID}::{$affiliateID}::{$reference}::{$secretKey}");
+
+	// Set session/cookie arguments
+	$cookieName = "TT2_{$campaignID}";
+	$cookieValue = "{$materialID}::{$affiliateID}::{$reference}::{$checkSum}";
+
+	# Cookie niet plaatsen bij werknemers Chalet
+	if(!$_COOKIE["flc"]) {
+		// Create tracking cookie
+		@setcookie($cookieName, $cookieValue, (time() + 3456000), "/", ".{$domainName}");
+	}
+
+	// Create tracking session
+	session_start();
+
+
+	// Set session data
+	$_SESSION[$cookieName] = $cookieValue;
+
+	// Set track-back URL
+	$trackBackURL = "http://tc.tradetracker.nl/v2/{$campaignID}/{$materialID}/{$affiliateID}/" . urlencode($reference) . "?r=" . urlencode($redirectURL);
+
+	// Redirect to TradeTracker
+	header("Location: {$trackBackURL}", true, 301);
+
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl") {
 	#
 	# Zomerhuisje.nl

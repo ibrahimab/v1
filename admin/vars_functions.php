@@ -3360,14 +3360,14 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 
 	if($vars["website"]=="W") {
 		#
-		# TradeTracker
+		# TradeTracker SuperSki
 		#
-		$tradetracker_campaignID="693"; // The campaign ID is provided by TradeTracker
-		$tradetracker_productID="791"; // The product ID is provided by TradeTracker
+		$tradetracker_campaignID="9318"; // The campaign ID is provided by TradeTracker
+		$tradetracker_productID="14114"; // The product ID is provided by TradeTracker
 		$tradetracker_bedrag="";
 	} elseif($vars["website"]=="Z") {
 		#
-		# TradeTracker
+		# TradeTracker Zomerhuisje.nl
 		#
 		$tradetracker_campaignID="958"; // The campaign ID is provided by TradeTracker
 		$tradetracker_productID="1151"; // The product ID is provided by TradeTracker
@@ -3389,7 +3389,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 	} elseif($vars["website"]=="C") {
 
 		#
-		# TradeTracker
+		# TradeTracker Chalet.nl
 		#
 		$tradetracker_campaignID="202";
 		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
@@ -3407,7 +3407,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 	} elseif($vars["website"]=="B") {
 
 		#
-		# TradeTracker
+		# TradeTracker Chalet.be
 		#
 		$tradetracker_campaignID="8901";
 		$tradetracker_productID="13471";
@@ -3416,7 +3416,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 	} elseif($vars["website"]=="I") {
 
 		#
-		# TradeTracker
+		# TradeTracker Italissima
 		#
 		$tradetracker_campaignID="7038";
 		$tradetracker_productID="10696";

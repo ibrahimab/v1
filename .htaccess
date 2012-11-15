@@ -231,9 +231,13 @@ RewriteRule ^aanbiedingen/$ aanbiedingen_zomerhuisje.php?%{QUERY_STRING}
 RewriteRule ^aanbiedingen/([A-Za-z0-9-]*)$ /aanbiedingen/$1/
 RewriteRule ^aanbiedingen/([A-Za-z0-9-]*)/$ aanbiedingen_zomerhuisje.php?land=$1&%{QUERY_STRING}
 
-# TradeTracker
+# TradeTracker Italissima
 RewriteCond %{HTTP_HOST} italissima\.nl [NC]
 RewriteRule ^italie/$ /tradetracker/ [L]
+
+# TradeTracker SuperSki
+RewriteCond %{HTTP_HOST} superski\.nl [NC]
+RewriteRule ^superski/$ /tradetracker/ [L]
 
 # Accommodatiepagina's
 RewriteRule wintersport/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
