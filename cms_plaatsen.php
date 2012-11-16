@@ -113,7 +113,11 @@ $cms->db_field(4,"yesno","pdfplattegrond_nietnodig");
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_field(4,"naam","Naam");
-$cms->list_field(4,"skigebied_id","Skigebied");
+if($_GET["wzt"]==2) {
+	$cms->list_field(4,"skigebied_id","Regio");
+} else {
+	$cms->list_field(4,"skigebied_id","Skigebied");
+}
 $cms->list_field(4,"land_id","Land");
 $cms->list_field(4,"aantalacc","Aantal acc");
 $cms->list_field(4,"aantalpers","Capaciteit");
