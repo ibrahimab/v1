@@ -1,5 +1,5 @@
 <?php
-	
+
 echo "<p style=\"width:720px;\">";
 echo html("inleiding","themas",array("l1"=>"contact","v_websitenaam"=>$vars["websitenaam"]));
 echo "</p>";
@@ -9,9 +9,9 @@ if($db->num_rows()) {
 
 	# Teller om aantal blokken per regel bij te houden
 	$teller=1;
-	
+
 	while($db->next_record()) {
-	
+
 		# URL en wel/niet openen in nieuw venster (target=_blank) bepalen
 		unset($url,$blank);
 		if($db->f("externeurl")) {
@@ -26,28 +26,29 @@ if($db->num_rows()) {
 			# Interne URL
 			$url=$vars["path"].txt("menu_thema")."/".$db->f("url")."/";
 		}
-		
+
 		# Controleren of het thema een naam heeft (kan bij de Engelse vertaling wel eens vergeten worden)
 		if($db->f("naam")) {
 			$naam=$db->f("naam");
-			
+
 			# Te lange naam "Te gast op de boerderij" veranderen in "Op de boerderij"
 			if($naam=="Te gast op de boerderij") $naam="Op de boerderij";
-			
+
 			echo "<a href=\"".wt_he($url)."\" class=\"themas_blok\"".$blank.">";
-			echo "<div class=\"themas_blok_top\"><div style=\"position: relative;\">".wt_he($naam)."</div></div><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg?c=2\" width=\"170\" height=\"128\" alt=\"".wt_he($naam)."\">";
+			$tempfile="pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg";
+			echo "<div class=\"themas_blok_top\"><div style=\"position: relative;\">".wt_he($naam)."</div></div><img src=\"".$vars["path"].$tempfile."?c=".@filemtime($tempfile)."\" width=\"170\" height=\"128\" alt=\"".wt_he($naam)."\">";
 			echo "</a>";
 
 			if($teller%4==0) {
 				# Na 4 blokken: nieuwe regel
 				echo "<br class=\"clearboth\">";
 			}
-			
+
 			# Teller ophogen
 			$teller++;
 		}
 	}
-	
+
 	# Na alle blokken: een clear
 	echo "<br class=\"clearboth\">";
 }

@@ -1188,6 +1188,42 @@ td.selecteerbaarbedrag:hover{
 	background-color: #CCFFFF;
 }
 
+.zoekresultaat_andere_site_superski {
+	padding-left: 22px;
+	margin-right: -22px;
+	background-image: url('../pic/icon_alle_sites_superski.gif');
+	background-repeat: no-repeat;
+	background-position: 2px 3px;
+	color: #e6007e;
+	width: 555px;
+}
+
+.zoekresultaat_andere_site_chalet {
+	padding-left: 22px;
+	margin-right: -22px;
+	background-image: url('../pic/icon_alle_sites_chalet.gif');
+	background-repeat: no-repeat;
+	background-position: 2px 3px;
+	color: #d40139;
+	width: 555px;
+}
+
+.zoekresultaat_andere_site_superski_alle_resultaten .zoekresultaat_top {
+	background-color: #660066;
+}
+
+.zoekresultaat_andere_site_superski_alle_resultaten .zoekresultaat_titel {
+	color: #ffffff;
+}
+
+.zoekresultaat_andere_site_chalet_alle_resultaten .zoekresultaat_top {
+	background-color: #d5e1f9;
+}
+
+.zoekresultaat_andere_site_chalet_alle_resultaten .zoekresultaat_titel {
+	color: #003366;
+}
+
 #cookie_bottombar {
 	position: fixed;
 	bottom: 0px;

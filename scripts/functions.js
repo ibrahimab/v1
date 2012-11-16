@@ -882,6 +882,38 @@ $(document).ready(function() {
 
 		}
 
+		// zoeken binnen andere site: kijken of alle resultaten extern zijn (van Chalet.nl naar SuperSki)
+		if($(".zoekresultaat_andere_site_superski").length!==0) {
+			$(".zoekresultaat_andere_site_superski").each(function() {
+				var alle_resultaten_zijn_extern=true;
+				$(this).parent().parent().find(".zoekresultaat_type_titel").each(function() {
+					if(!$(this).hasClass("zoekresultaat_andere_site_superski")) {
+						alle_resultaten_zijn_extern=false;
+					}
+				});
+				if(alle_resultaten_zijn_extern) {
+					$(this).parent().parent().addClass("zoekresultaat_andere_site_superski_alle_resultaten");
+				}
+			});
+			$(".zoekresultaat_andere_site_superski_alle_resultaten").parent().parent().find(".zoekresultaat_titel").append(' - via SuperSki.nl');
+		}
+
+		// zoeken binnen andere site: kijken of alle resultaten extern zijn (van Chalet.nl naar SuperSki)
+		if($(".zoekresultaat_andere_site_chalet").length!==0) {
+			$(".zoekresultaat_andere_site_chalet").each(function() {
+				var alle_resultaten_zijn_extern=true;
+				$(this).parent().parent().find(".zoekresultaat_type_titel").each(function() {
+					if(!$(this).hasClass("zoekresultaat_andere_site_chalet")) {
+						alle_resultaten_zijn_extern=false;
+					}
+				});
+				if(alle_resultaten_zijn_extern) {
+					$(this).parent().parent().addClass("zoekresultaat_andere_site_chalet_alle_resultaten");
+				}
+			});
+			$(".zoekresultaat_andere_site_chalet_alle_resultaten").parent().parent().find(".zoekresultaat_titel").append(' - via Chalet.nl');
+		}
+
 		// zoekresultaten: ie8-bug m.b.t. hover en border
 		$(".zoekresultaat_type").hover(
 			function() {

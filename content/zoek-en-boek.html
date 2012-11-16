@@ -10,6 +10,17 @@
 # Zoekformulier
 #
 
+
+# voor CMS-gebruikers: zowel Chalet.nl als SuperSki doorzoeken
+if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and $_GET["allesites"]) {
+	$vars["where_websites_query"]="(websites LIKE '%C%' OR websites LIKE '%W%')";
+	$vars["where_websites_query_t"]="(t.websites LIKE '%C%' OR t.websites LIKE '%W%')";
+} else {
+	$vars["where_websites_query"]="websites LIKE '%".$vars["website"]."%'";
+	$vars["where_websites_query_t"]="t.websites LIKE '%".$vars["website"]."%'";
+}
+
+
 if(($vars["website"]=="Z" and $landgebied[0]=="5") or $vars["website"]=="I") {
 	$vars["flexibel_toegestaan"]=true;
 	$_GET["sp"]=1;
@@ -349,7 +360,7 @@ if($vars["seizoentype"]==1) {
 	$landen_sort[7]="06";
 	$landen_sort[6]="07";
 }
-$db->query("SELECT DISTINCT s.skigebied_id, s.naam, l.naam".$vars["ttv"]." AS land, l.naam AS landnl, l.land_id, s.kortenaam1, s.kortenaam2, s.kortenaam3, s.kortenaam4, s.koppeling_1_1, s.koppeling_1_2, s.koppeling_1_3, s.koppeling_1_4, s.koppeling_1_5, s.koppeling_2_1, s.koppeling_2_2, s.koppeling_2_3, s.koppeling_2_4, s.koppeling_2_5, s.koppeling_3_1, s.koppeling_3_2, s.koppeling_3_3, s.koppeling_3_4, s.koppeling_3_5, s.koppeling_4_1, s.koppeling_4_2, s.koppeling_4_3, s.koppeling_4_4, s.koppeling_4_5, s.koppeling_5_1, s.koppeling_5_2, s.koppeling_5_3, s.koppeling_5_4, s.koppeling_5_5 FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id".($themalandinfo["soort"]=="land" ? " AND l.land_id='".addslashes($themalandinfo["id"])."'" : "")." ORDER BY l.naam".$vars["ttv"].", s.naam;");
+$db->query("SELECT DISTINCT s.skigebied_id, s.naam, l.naam".$vars["ttv"]." AS land, l.naam AS landnl, l.land_id, s.kortenaam1, s.kortenaam2, s.kortenaam3, s.kortenaam4, s.koppeling_1_1, s.koppeling_1_2, s.koppeling_1_3, s.koppeling_1_4, s.koppeling_1_5, s.koppeling_2_1, s.koppeling_2_2, s.koppeling_2_3, s.koppeling_2_4, s.koppeling_2_5, s.koppeling_3_1, s.koppeling_3_2, s.koppeling_3_3, s.koppeling_3_4, s.koppeling_3_5, s.koppeling_4_1, s.koppeling_4_2, s.koppeling_4_3, s.koppeling_4_4, s.koppeling_4_5, s.koppeling_5_1, s.koppeling_5_2, s.koppeling_5_3, s.koppeling_5_4, s.koppeling_5_5 FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND ".$vars["where_websites_query_t"]." AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id".($themalandinfo["soort"]=="land" ? " AND l.land_id='".addslashes($themalandinfo["id"])."'" : "")." ORDER BY l.naam".$vars["ttv"].", s.naam;");
 while($db->next_record()) {
 	$landen[$db->f("land")]=true;
 
@@ -762,7 +773,7 @@ if($_GET["testsysteem2"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") 
 		echo "<option value=\"0\"".(!$_GET["fpl"] ? " selected" : "")."></option>";
 
 		unset($optgroup_open);
-		$db->query("SELECT DISTINCT plaats_id, plaats, skigebied, land FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY land, skigebied, plaats;");
+		$db->query("SELECT DISTINCT plaats_id, plaats, skigebied, land FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND ".$vars["where_websites_query"]." ORDER BY land, skigebied, plaats;");
 		while($db->next_record()) {
 			if(!$landskigebied_gehad[$db->f("land")."_".$db->f("skigebied")]) {
 				if($optgroup_open) echo "</optgroup>\n";
@@ -857,7 +868,7 @@ if($_GET["testsysteem2"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") 
 		echo "<select name=\"lev\" data-placeholder=\"-- ".html("geenvoorkeur","vars")." --\" data-no_results_text=\"".html("geenresultatenmet","zoek-en-boek")."\">";
 		echo "<option value=\"0\"".(!$_GET["lev"] ? " selected" : "")."></option>";
 
-		$db->query("SELECT DISTINCT l.leverancier_id, l.naam FROM leverancier l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.wzt='".$vars["seizoentype"]."' AND t.websites LIKE '%".$vars["website"]."%' ORDER BY naam;");
+		$db->query("SELECT DISTINCT l.leverancier_id, l.naam FROM leverancier l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.wzt='".$vars["seizoentype"]."' AND ".$vars["where_websites_query_t"]." ORDER BY naam;");
 		while($db->next_record()) {
 			echo "<option value=\"".$db->f("leverancier_id")."\"";
 			if($_GET["filled"] and $_GET["lev"]==$db->f("leverancier_id")) {
@@ -1216,7 +1227,7 @@ if($_GET["testsysteem2"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") 
 		echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
 		echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr><tr><td valign=bottom class=\"intern\">Leverancier</td></tr></table></td><td valign=top align=left width=65%><select name=\"lev\" class=\"formstyle100 onchangesubmit\">";
 		echo "<option value=\"0\">-- geen voorkeur --</option>\n";
-		$db->query("SELECT DISTINCT l.leverancier_id, l.naam FROM leverancier l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.wzt='".$vars["seizoentype"]."' AND t.websites LIKE '%".$vars["website"]."%' ORDER BY naam;");
+		$db->query("SELECT DISTINCT l.leverancier_id, l.naam FROM leverancier l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.wzt='".$vars["seizoentype"]."' AND ".$vars["where_websites_query_t"]." ORDER BY naam;");
 		while($db->next_record()) {
 			echo "<option value=\"".$db->f("leverancier_id")."\"";
 			if($_GET["filled"] and $_GET["lev"]==$db->f("leverancier_id")) {
@@ -1225,6 +1236,21 @@ if($_GET["testsysteem2"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") 
 			echo ">".wt_he($db->f("naam"))."</option>\n";
 		}
 		echo "</select></td></tr><tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
+
+
+		if($vars["website"]=="C" or $vars["website"]=="W") {
+			# Zoeken binnen andere site (Chalet.nl <==> SuperSki)
+			echo "<tr><td valign=top align=left>&nbsp;</td><td class=\"intern\">";
+			echo "<input type=\"checkbox\" name=\"allesites\" value=\"1\"".($_GET["allesites"] ? " checked" : "")." id=\"allesites\" class=\"onchangesubmit\" style=\"vertical-align:middle;position:relative;bottom:1px;\">";
+			echo "<label for=\"allesites\">&nbsp;Doorzoek ook ";
+			if($vars["website"]=="C") {
+				echo "SuperSki";
+			} else {
+				echo "Chalet.nl";
+			}
+			echo "</label></td></tr>";
+			echo "<tr><td valign=top align=left>&nbsp;</td></tr>";
+		}
 	}
 
 	#
@@ -1622,7 +1648,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 
 	$wherequery_zondertarieven=$wherequery;
 
-	$op_te_vragen_velden="a.wzt, t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, a.afstandpiste, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.naam".$vars["ttv"]." AS tnaam, a.zoekvolgorde AS azoekvolgorde, t.zoekvolgorde AS tzoekvolgorde, t.apart_tonen_in_zoekresultaten, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, p.kenmerken AS pkenmerken, p.afstandtotutrecht, s.kenmerken AS skenmerken, s.skigebied_id, s.naam AS skigebied, s.kilometerpiste, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats";
+	$op_te_vragen_velden="a.wzt, t.type_id, t.websites, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, a.afstandpiste, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.naam".$vars["ttv"]." AS tnaam, a.zoekvolgorde AS azoekvolgorde, t.zoekvolgorde AS tzoekvolgorde, t.apart_tonen_in_zoekresultaten, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, p.kenmerken AS pkenmerken, p.afstandtotutrecht, s.kenmerken AS skenmerken, s.skigebied_id, s.naam AS skigebied, s.kilometerpiste, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats";
 	if($_GET["fad"]>0 and !$_GET["altflexberekenen"]) {
 
 		# Kijken of korting van toepassing is (om "aanbieding" bij zoekresultaat te kunnen tonen)
@@ -1659,7 +1685,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				$verblijfsduur_meerdere_weken_array[$unixtime]=true;
 			}
 			# bij verblijfsduur van meerdere weken: totaalprijs berekenen
-			$db->query("SELECT DISTINCT t.type_id, tr.week, tr.wederverkoop_verkoopprijs, sz.seizoen_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND tr.week IN (".substr($weekinquery,1).")".$wherequery.";");
+			$db->query("SELECT DISTINCT t.type_id, tr.week, tr.wederverkoop_verkoopprijs, sz.seizoen_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND tr.week IN (".substr($weekinquery,1).")".$wherequery.";");
 			while($db->next_record()) {
 				$tarief_meerdere_weken[$db->f("type_id")][$db->f("week")]=$db->f("wederverkoop_verkoopprijs");
 			}
@@ -1693,16 +1719,16 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 
 			# toonper = 1 en 2
 			if($verblijfsduurquery) {
-#				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tp.prijs AS prijs_per_persoon FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.week='".addslashes($_GET["fad"])."' AND tp.prijs>0 AND tp.personen='".addslashes($_GET["fap"])."' AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$verblijfsduurquery.$wherequery.";";
+#				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tp.prijs AS prijs_per_persoon FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.week='".addslashes($_GET["fad"])."' AND tp.prijs>0 AND tp.personen='".addslashes($_GET["fap"])."' AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$verblijfsduurquery.$wherequery.";";
 			} else {
-				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tp.prijs AS prijs_per_persoon FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.week='".addslashes($_GET["fad"])."' AND tp.prijs>0 AND tp.personen='".addslashes($_GET["fap"])."' AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
+				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tp.prijs AS prijs_per_persoon FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.week='".addslashes($_GET["fad"])."' AND tp.prijs>0 AND tp.personen='".addslashes($_GET["fap"])."' AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
 			}
 
 			# toonper = 3
 			if($verblijfsduurquery) {
-#				$query[2]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tr.c_verkoop_site FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$verblijfsduurquery.$wherequery.";";
+#				$query[2]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tr.c_verkoop_site FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$verblijfsduurquery.$wherequery.";";
 			} else {
-				$query[2]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tr.c_verkoop_site FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
+				$query[2]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tr.c_verkoop_site FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
 			}
 
 			#
@@ -1715,9 +1741,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		} else {
 			# aantal personen niet ingevuld
 			if($verblijfsduurquery) {
-#				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$verblijfsduurquery.$wherequery.";";
+#				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$verblijfsduurquery.$wherequery.";";
 			} else {
-				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
+				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
 			}
 		}
 	} elseif($flex_aankomstdatum and $vars["flexibel_toegestaan"]) {
@@ -1748,11 +1774,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		}
 
 		# Accommodaties doorzoeken op basis van inquery
-		$query[1]="SELECT DISTINCT ".$op_te_vragen_velden." FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE t.type_id IN (".$inquery.") AND lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
+		$query[1]="SELECT DISTINCT ".$op_te_vragen_velden." FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE t.type_id IN (".$inquery.") AND lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
 
 	} else {
 		# Alle accommodaties doorzoeken
-		$query[1]="SELECT DISTINCT ".$op_te_vragen_velden." FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
+		$query[1]="SELECT DISTINCT ".$op_te_vragen_velden." FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
 	}
 
 	if(!$tarieven_opgezocht) {
@@ -1764,7 +1790,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			$vanaf_prijzen_tonen=true;
 
 			# toonper = 1 en 2 (arrangement)
-#			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM accommodatie a, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND t.accommodatie_id=a.accommodatie_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fap"] ? " AND tp.personen='".addslashes($_GET["fap"])."'" : "").($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
+#			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM accommodatie a, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND t.accommodatie_id=a.accommodatie_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fap"] ? " AND tp.personen='".addslashes($_GET["fap"])."'" : "").($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
 			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM tarief tr, tarief_personen tp, seizoen sz WHERE tr.seizoen_id=sz.seizoen_id AND tp.type_id=tr.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0".($_GET["fap"] ? " AND tp.personen='".addslashes($_GET["fap"])."'" : "").($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
 #			echo $db->lq;
 			while($db->next_record()) {
@@ -1772,7 +1798,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			}
 
 			# toonper = 3 (accommodatie)
-			$db->query("SELECT tr.type_id, MIN(tr.c_verkoop_site) AS c_verkoop_site FROM accommodatie a, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tr.type_id;");
+			$db->query("SELECT tr.type_id, MIN(tr.c_verkoop_site) AS c_verkoop_site FROM accommodatie a, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tr.type_id;");
 			while($db->next_record()) {
 				$vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
 			}
@@ -1837,7 +1863,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		}
 
 		# Aantal resultaten uit database halen
-		$db->query("SELECT DISTINCT type_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery_zondertarieven.";");
+		$db->query("SELECT DISTINCT type_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery_zondertarieven.";");
 		while($db->next_record()) {
 			for($i=1;$i<=6;$i++) {
 				if($alt_types[$i][$db->f("type_id")]) {
@@ -1865,8 +1891,8 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 						}
 					}
 
-					$db->query("SELECT DISTINCT t.type_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($doorloop_array_van[$i])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";");
-#					$query[1]="SELECT DISTINCT t.type_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
+					$db->query("SELECT DISTINCT t.type_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($doorloop_array_van[$i])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";");
+#					$query[1]="SELECT DISTINCT t.type_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, seizoen sz WHERE lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
 
 					$alt_aantalresultaten[$i]=$db->num_rows();
 
@@ -2486,6 +2512,15 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				} else {
 					$trcolor="#FFFFFF";
 				}
+
+				if(!preg_match("/".$vars["website"]."/",$db->f("websites"))) {
+					# Accommodatie van andere website (Chalet.nl <==> SuperSki) andere kleur geven
+					if($vars["website"]=="W") {
+						$trclass.=" zoekresultaat_andere_site_chalet";
+					} else {
+						$trclass.=" zoekresultaat_andere_site_superski";
+					}
+				}
 			}
 			unset($trclass_vallandry);
 			if($vars["websitetype"]==6 and $id=="zoek-en-boek" and (!$trcolor or $trcolor=="#FFFFFF" or !$voorkant_cms)) {
@@ -2559,7 +2594,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			}
 
 			if($trclass) {
-				$newresults[$accid][$acc_sorteer]["type_id_trclass"]=$trclass;
+				$newresults[$accid][$acc_sorteer]["type_id_trclass"]=trim($trclass);
 			}
 
 			# min en max aantallen bepalen
@@ -2726,7 +2761,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				$aantalresultaten_zonder_gekoppeld_skigebied++;
 			}
 
-
 			$results_teller++;
 			$results[$results_teller].="<tr><td colspan=\"5\"><a name=\"cnt".$results_teller."\"></a>";
 
@@ -2737,8 +2771,23 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 #					$sorteerscore_skigebied[$results_teller]=intval($koppeling[$value2["skigebied_id"]]);
 				}
 
+				# link naar andere site (Chalet.nl <==> SuperSki)
+				if(preg_match("/zoekresultaat_andere_site/",$value2["type_id_trclass"])) {
+					if($vars["website"]=="C") {
+						$url_prefix="http://www.superski.nl";
+					} else {
+						$url_prefix="http://www.chalet.nl";
+					}
+				} else {
+					$url_prefix="";
+				}
+
 				# querystring bepalen (voor "back"-functie)
-				$querystring="?back=".urlencode($_SERVER["REQUEST_URI"])."&cnt=".$results_teller."&cnt2=RESULTAATTELLER";
+				if($url_prefix) {
+					$querystring="?back=".urlencode("http".($_SERVER["HTTPS"] ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."&cnt=".$results_teller."&cnt2=RESULTAATTELLER";
+				} else {
+					$querystring="?back=".urlencode($_SERVER["REQUEST_URI"])."&cnt=".$results_teller."&cnt2=RESULTAATTELLER";
+				}
 				if($_GET["fap"]) $querystring.="&ap=".$_GET["fap"];
 				if($_GET["fad"]) $querystring.="&d=".$_GET["fad"];
 				if($_GET["fdu"]) $querystring.="&fdu=".$_GET["fdu"];
@@ -2755,7 +2804,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 					$aanbieding_acc=false;
 				}
 
-				$results[$results_teller].="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".$value2["begincode"].$value2["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat\">";
+
+				# resultaat (gehele accommodatie)
+				$results[$results_teller].="<a href=\"".wt_he($url_prefix.$vars["path"].txt("menu_accommodatie")."/".$value2["begincode"].$value2["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat\">";
 					$results[$results_teller].="<div class=\"zoekresultaat_top\">";
 						$results[$results_teller].="<div class=\"zoekresultaat_titel\">".wt_he(ucfirst($vars["soortaccommodatie"][$value2["soortaccommodatie"]])." ".$value2["naam"].(!$newresults_multiple&&$value2["tnaam"] ? " ".$value2["tnaam"] : ""))."</div>";
 					$results[$results_teller].="</div>";
@@ -2846,6 +2897,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 					$results[$results_teller].="</a>";
 				}
 
+				# resultaten type-regels
 				reset($newresults[$value]);
 				while(list($key2,$value2)=each($newresults[$value])) {
 					if($gekozen_skigebied) {
@@ -2856,9 +2908,20 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 						$toon_aantalresultaten_verschillende_types++;
 					}
 
-#						$results[$results_teller].="<div>".wt_he($value2["naam"])."</div>";
+					# link naar andere site (Chalet.nl <==> SuperSki)
+					if(preg_match("/zoekresultaat_andere_site/",$value2["type_id_trclass"])) {
+						if($vars["website"]=="C") {
+							$url_prefix="http://www.superski.nl";
+						} else {
+							$url_prefix="http://www.chalet.nl";
+						}
+					} else {
+						$url_prefix="";
+					}
+
+#					$results[$results_teller].="<div>".wt_he($value2["naam"])."</div>";
 					if($newresults_multiple) {
-						$results[$results_teller].="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".$value2["begincode"].$value2["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat_type\">";
+						$results[$results_teller].="<a href=\"".wt_he($url_prefix.$vars["path"].txt("menu_accommodatie")."/".$value2["begincode"].$value2["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat_type\">";
 					} else {
 						$results[$results_teller].="<div class=\"zoekresultaat_type_een_resultaat\">";
 					}

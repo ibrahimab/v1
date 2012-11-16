@@ -4737,7 +4737,7 @@ $txt["en"]["vraagonsadvies"]["forminleiding"]="-";
 $txt["nl"]["vraagonsadvies"]["bestemming"]="Bestemming";
 $txt["en"]["vraagonsadvies"]["bestemming"]="-";
 
-$txt["nl"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Zuid-Frankrijk, omgeving Nice, Toscane, Atlantische kust, westkant Gardameer";
+$txt["nl"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Dolomieten, Tirol, Sölden, Franse Alpen";
 $txt["en"]["vraagonsadvies"]["bestemming_uitleg"]="-";
 
 $txt["nl_i"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Sicilië, omgeving Siena, Toscane, westkant Gardameer, aan de kust";

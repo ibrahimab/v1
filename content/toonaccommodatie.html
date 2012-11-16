@@ -1271,7 +1271,11 @@ if($db->next_record()) {
 	if($_GET["back"]) {
 		echo "<div id=\"terugnaarzoekresultaten\" class=\"noprint\">";
 		echo "<a href=\"";
-		echo "http://".$_SERVER["HTTP_HOST"].htmlentities($_GET["back"]);
+		if(preg_match("/^http/",$_GET["back"])) {
+			echo wt_he($_GET["back"]);
+		} else {
+			echo "http://".$_SERVER["HTTP_HOST"].wt_he($_GET["back"]);
+		}
 		if($_GET["cnt"]) {
 			echo "#cnt".$_GET["cnt"];
 		}
