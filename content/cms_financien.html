@@ -633,12 +633,17 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$andquery_gar_hoofdquery.=" AND s.skigebied_id='".addslashes($form->input["skigebied_id"])."'";
 	}
 
-
 	# websites
 	if($form->input["websites"]) {
 		$form->input["websites"]="'".preg_replace("/,/","','",$form->input["websites"])."'";
 		$andquery.=" AND b.website IN (".$form->input["websites"].")";
 	}
+
+	# alleen verkochte garanties
+	if($form->input["alleenverkochtegaranties"]) {
+		$andquery.=" AND b.boeking_id IN (SELECT boeking_id FROM garantie)";
+	}
+
 
 	# plaats
 	if($form->input["plaats"]) {
@@ -725,146 +730,148 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		if($db->f("boeking_id")) {
 			$fin["garantieboeking"][$db->f("boeking_id")]=true;
 		} else {
-			if($form->input["onverkochtegaranties"] or !$_GET["frm_filled"]) {
-				$seizoenid=$datum_seizoen[$db->f("wzt")][$db->f("aankomstdatum")];
+			if(!$form->input["alleenverkochtegaranties"]) {
+				if($form->input["onverkochtegaranties"] or !$_GET["frm_filled"]) {
+					$seizoenid=$datum_seizoen[$db->f("wzt")][$db->f("aankomstdatum")];
 
-				if($seizoen["naam"][$seizoenid]) {
-					if($db->f("aankomstdatum_exact")<time()) {
-						# verlopen garantie
-
-						$totalen["omzet_gar"]["aantalpersonen"][$seizoenid]+=0;
-						$totalen["omzet_gar"]["aantalpersonen_max"][$seizoenid]+=$db->f("maxaantalpersonen");
-						$totalen["omzet_gar"]["aantalacc"][$seizoenid]++;
-						$totalen["omzet_gar"]["inkoopbruto"][$seizoenid]+=$db->f("bruto");
-						$totalen["omzet_gar"]["totaalfactuurbedrag"][$seizoenid]+=$db->f("netto");
-						$totalen["omzet_gar"]["totale_reissom"][$seizoenid]+=0;
-
-
-						$totalen["omzet_gar"]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling["gar_".$db->f("garantie_id")];
-
-
-						# totale_reissom_inkoop telt alleen mee bij verlopen garanties
-						$totalen["omzet_gar"]["totale_reissom_inkoop"][$seizoenid]+=$db->f("netto");
-
-					} else {
-						# nog geldige garantie
-						$totalen["voorraad"]["aantalpersonen"][$seizoenid]+=0;
-						$totalen["voorraad"]["aantalpersonen_max"][$seizoenid]+=$db->f("maxaantalpersonen");
-						$totalen["voorraad"]["aantalacc"][$seizoenid]++;
-						$totalen["voorraad"]["inkoopbruto"][$seizoenid]+=$db->f("bruto");
-						$totalen["voorraad"]["totaalfactuurbedrag"][$seizoenid]+=$db->f("netto");
-						$totalen["voorraad"]["totale_reissom"][$seizoenid]+=0;
-
-						$totalen["voorraad"]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling["gar_".$db->f("garantie_id")];
-					}
-
-					# Totalen per leverancier
-					$inquery_lev[$seizoenid].=",".$db->f("leverancier_id");
-					$totalen_lev[$db->f("leverancier_id")]["aantalpersonen"][$seizoenid]+=0;
-					$totalen_lev[$db->f("leverancier_id")]["aantalpersonen_max"][$seizoenid]+=$db->f("maxaantalpersonen");
-					$totalen_lev[$db->f("leverancier_id")]["aantalacc"][$seizoenid]++;
-					$totalen_lev[$db->f("leverancier_id")]["inkoopbruto"][$seizoenid]+=$db->f("bruto");
-					$totalen_lev[$db->f("leverancier_id")]["totaalfactuurbedrag"][$seizoenid]+=$db->f("netto");
-					$totalen_lev[$db->f("leverancier_id")]["totale_reissom"][$seizoenid]+=0;
-					$totalen_lev[$db->f("leverancier_id")]["totale_reissom_inkoop"][$seizoenid]+=$db->f("netto");
-					$totalen_lev[$db->f("leverancier_id")]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling[$db->f("boeking_id")];
-					$totalen_lev[$db->f("leverancier_id")]["voorraad"]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling["gar_".$db->f("garantie_id")];
-
-					# marge bepalen
-					if($form->input["losseboekingen"] or $_GET["csv"]) {
-						unset($losseboeking);
+					if($seizoen["naam"][$seizoenid]) {
 						if($db->f("aankomstdatum_exact")<time()) {
 							# verlopen garantie
-							$losseboeking["inkooptot"]=$db->f("netto");
-							$losseboeking["marge_euro"]=0-$db->f("netto");
-							$losseboeking["marge_percentage"]=-100;
-						}
-						unset($losseregel);
-						$losseregel.="<tr><td><a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">garantie ".htmlentities($db->f("reserveringsnummer_extern"))."</a></td>";
-						if($kolom["aantal_ingekocht"]) {
-							$losseregel.="<td>1</td>";
-						}
-						if($kolom["capaciteit"]) {
-							$losseregel.="<td>".toonaantal($db->f("maxaantalpersonen"))."</td>";
-						}
-						if($kolom["bruto_acc"]) {
-							$losseregel.="<td>".wt_cur($db->f("bruto"))."</td>";
-						}
-						if($kolom["deelnemers"]) {
-							$losseregel.="<td>0</td>";
-						}
-						if($kolom["omzet"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["inkoopwaarde_acc"]) {
-							$losseregel.="<td>".wt_cur($db->f("netto"))."</td>";
-						}
-						if($kolom["opties_bijkomende_kosten_verblijf"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["opties_skipassen"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["opties_huurmateriaal"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["opties_skilessen"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["opties_catering"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["opties_vervoer"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["opties_verzekeringen"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["opties_kortingen"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["opties_overig"]) {
-							$losseregel.="<td>".wt_cur(0)."</td>";
-						}
-						if($kolom["inkooptotaal"]) {
-							$losseregel.="<td>".wt_cur($losseboeking["inkooptot"])."</td>";
-						}
-						if($kolom["marge_euro"]) {
-							$losseregel.="<td>".wt_cur($losseboeking["marge_euro"])."</td>";
-						}
-						if($kolom["marge_percentage"]) {
-							$losseregel.="<td>".wt_cur($losseboeking["marge_percentage"])."</td>";
-						}
-						if($kolom["betaald"]) {
-							$losseregel.="<td>".wt_cur($losseboeking_betaling["gar_".$db->f("garantie_id")])."</td>";
-						}
-						if($kolom["boeking_leverancier"]) {
-							$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("leverancier"))."</td>";
-						}
-						if($kolom["boeking_plaats"]) {
-							$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("plaats"))."</td>";
-						}
-						if($kolom["boeking_accommodatie"]) {
-							$accnaam=$db->f("abestelnaam")." ".($db->f("tbestelnaam") ? $db->f("tbestelnaam")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)";
-							$losseregel.="<td style=\"text-align:left;\">".htmlentities($accnaam)."</td>";
-						}
-						if($kolom["boeking_nachten"]) {
-							$aantalnachten=round(($db->f("vertrekdatum_exact")-$db->f("aankomstdatum_exact"))/86400);
-							$losseregel.="<td>".htmlentities($aantalnachten)."</td>";
-						}
-						if($kolom["boeking_aankomstdatum"]) {
-							$losseregel.="<td>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
-						}
-						if($kolom["boeking_resnr"]) {
-	#						$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("reserveringsnummer_extern"))."</td>";
-							$losseregel.="<td style=\"text-align:left;\">".($db->f("factuurnummer") ? htmlentities($db->f("factuurnummer")) : ($db->f("inkoopdatum")>0 ? "OK ".date("d-m-Y",$db->f("inkoopdatum")) : "&nbsp;"))."</td>";
-						}
-						if($kolom["boeking_klantnaam"]) {
-							$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("naam"))."</td>";
-						}
-						$losseregel.="</tr>";
 
-						$fin["losseboekingen"][$seizoenid][]=$losseregel;
+							$totalen["omzet_gar"]["aantalpersonen"][$seizoenid]+=0;
+							$totalen["omzet_gar"]["aantalpersonen_max"][$seizoenid]+=$db->f("maxaantalpersonen");
+							$totalen["omzet_gar"]["aantalacc"][$seizoenid]++;
+							$totalen["omzet_gar"]["inkoopbruto"][$seizoenid]+=$db->f("bruto");
+							$totalen["omzet_gar"]["totaalfactuurbedrag"][$seizoenid]+=$db->f("netto");
+							$totalen["omzet_gar"]["totale_reissom"][$seizoenid]+=0;
+
+
+							$totalen["omzet_gar"]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling["gar_".$db->f("garantie_id")];
+
+
+							# totale_reissom_inkoop telt alleen mee bij verlopen garanties
+							$totalen["omzet_gar"]["totale_reissom_inkoop"][$seizoenid]+=$db->f("netto");
+
+						} else {
+							# nog geldige garantie
+							$totalen["voorraad"]["aantalpersonen"][$seizoenid]+=0;
+							$totalen["voorraad"]["aantalpersonen_max"][$seizoenid]+=$db->f("maxaantalpersonen");
+							$totalen["voorraad"]["aantalacc"][$seizoenid]++;
+							$totalen["voorraad"]["inkoopbruto"][$seizoenid]+=$db->f("bruto");
+							$totalen["voorraad"]["totaalfactuurbedrag"][$seizoenid]+=$db->f("netto");
+							$totalen["voorraad"]["totale_reissom"][$seizoenid]+=0;
+
+							$totalen["voorraad"]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling["gar_".$db->f("garantie_id")];
+						}
+
+						# Totalen per leverancier
+						$inquery_lev[$seizoenid].=",".$db->f("leverancier_id");
+						$totalen_lev[$db->f("leverancier_id")]["aantalpersonen"][$seizoenid]+=0;
+						$totalen_lev[$db->f("leverancier_id")]["aantalpersonen_max"][$seizoenid]+=$db->f("maxaantalpersonen");
+						$totalen_lev[$db->f("leverancier_id")]["aantalacc"][$seizoenid]++;
+						$totalen_lev[$db->f("leverancier_id")]["inkoopbruto"][$seizoenid]+=$db->f("bruto");
+						$totalen_lev[$db->f("leverancier_id")]["totaalfactuurbedrag"][$seizoenid]+=$db->f("netto");
+						$totalen_lev[$db->f("leverancier_id")]["totale_reissom"][$seizoenid]+=0;
+						$totalen_lev[$db->f("leverancier_id")]["totale_reissom_inkoop"][$seizoenid]+=$db->f("netto");
+						$totalen_lev[$db->f("leverancier_id")]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling[$db->f("boeking_id")];
+						$totalen_lev[$db->f("leverancier_id")]["voorraad"]["betaald_bedrag_goedgekeurd"][$seizoenid]+=$losseboeking_betaling["gar_".$db->f("garantie_id")];
+
+						# marge bepalen
+						if($form->input["losseboekingen"] or $_GET["csv"]) {
+							unset($losseboeking);
+							if($db->f("aankomstdatum_exact")<time()) {
+								# verlopen garantie
+								$losseboeking["inkooptot"]=$db->f("netto");
+								$losseboeking["marge_euro"]=0-$db->f("netto");
+								$losseboeking["marge_percentage"]=-100;
+							}
+							unset($losseregel);
+							$losseregel.="<tr><td><a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">garantie ".htmlentities($db->f("reserveringsnummer_extern"))."</a></td>";
+							if($kolom["aantal_ingekocht"]) {
+								$losseregel.="<td>1</td>";
+							}
+							if($kolom["capaciteit"]) {
+								$losseregel.="<td>".toonaantal($db->f("maxaantalpersonen"))."</td>";
+							}
+							if($kolom["bruto_acc"]) {
+								$losseregel.="<td>".wt_cur($db->f("bruto"))."</td>";
+							}
+							if($kolom["deelnemers"]) {
+								$losseregel.="<td>0</td>";
+							}
+							if($kolom["omzet"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["inkoopwaarde_acc"]) {
+								$losseregel.="<td>".wt_cur($db->f("netto"))."</td>";
+							}
+							if($kolom["opties_bijkomende_kosten_verblijf"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["opties_skipassen"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["opties_huurmateriaal"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["opties_skilessen"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["opties_catering"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["opties_vervoer"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["opties_verzekeringen"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["opties_kortingen"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["opties_overig"]) {
+								$losseregel.="<td>".wt_cur(0)."</td>";
+							}
+							if($kolom["inkooptotaal"]) {
+								$losseregel.="<td>".wt_cur($losseboeking["inkooptot"])."</td>";
+							}
+							if($kolom["marge_euro"]) {
+								$losseregel.="<td>".wt_cur($losseboeking["marge_euro"])."</td>";
+							}
+							if($kolom["marge_percentage"]) {
+								$losseregel.="<td>".wt_cur($losseboeking["marge_percentage"])."</td>";
+							}
+							if($kolom["betaald"]) {
+								$losseregel.="<td>".wt_cur($losseboeking_betaling["gar_".$db->f("garantie_id")])."</td>";
+							}
+							if($kolom["boeking_leverancier"]) {
+								$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("leverancier"))."</td>";
+							}
+							if($kolom["boeking_plaats"]) {
+								$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("plaats"))."</td>";
+							}
+							if($kolom["boeking_accommodatie"]) {
+								$accnaam=$db->f("abestelnaam")." ".($db->f("tbestelnaam") ? $db->f("tbestelnaam")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)";
+								$losseregel.="<td style=\"text-align:left;\">".htmlentities($accnaam)."</td>";
+							}
+							if($kolom["boeking_nachten"]) {
+								$aantalnachten=round(($db->f("vertrekdatum_exact")-$db->f("aankomstdatum_exact"))/86400);
+								$losseregel.="<td>".htmlentities($aantalnachten)."</td>";
+							}
+							if($kolom["boeking_aankomstdatum"]) {
+								$losseregel.="<td>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
+							}
+							if($kolom["boeking_resnr"]) {
+		#						$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("reserveringsnummer_extern"))."</td>";
+								$losseregel.="<td style=\"text-align:left;\">".($db->f("factuurnummer") ? htmlentities($db->f("factuurnummer")) : ($db->f("inkoopdatum")>0 ? "OK ".date("d-m-Y",$db->f("inkoopdatum")) : "&nbsp;"))."</td>";
+							}
+							if($kolom["boeking_klantnaam"]) {
+								$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("naam"))."</td>";
+							}
+							$losseregel.="</tr>";
+
+							$fin["losseboekingen"][$seizoenid][]=$losseregel;
+						}
 					}
 				}
 			}

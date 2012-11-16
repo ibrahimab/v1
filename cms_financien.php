@@ -65,7 +65,7 @@ if($_GET["marges"]) {
 	while($db->next_record()) {
 		$leveranciers[$db->f("leverancier_id")]=$db->f("naam");
 	}
-	
+
 	# seizoenen laden
 	$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind FROM seizoen WHERE seizoen_id>=17 ORDER BY begin, eind;");
 	while($db->next_record()) {
@@ -87,7 +87,7 @@ if($_GET["marges"]) {
 	$db->query("SELECT wzt, skigebied_id, naam FROM skigebied WHERE 1=1 ORDER BY wzt, naam;");
 	while($db->next_record()) {
 		$vars["temp_regios"][$db->f("skigebied_id")]=$db->f("naam");
-		
+
 		if($db->f("wzt")==1 and !$regio_winter_gehad) {
 			$vars["temp_optgroup"][$db->f("skigebied_id")]="Winter";
 			$regio_winter_gehad=true;
@@ -96,23 +96,23 @@ if($_GET["marges"]) {
 			$vars["temp_optgroup"][$db->f("skigebied_id")]="Zomer";
 			$regio_zomer_gehad=true;
 		}
-		
-		
+
+
 	}
-	
+
 	# frm = formname (mag ook wat anders zijn)
-	$form=new form2("frm"); 
+	$form=new form2("frm");
 	$form->settings["fullname"]="Periode";
 	$form->settings["layout"]["css"]=true;
 	$form->settings["type"]="get";
-	
+
 	$form->settings["message"]["submitbutton"]["nl"]="OK";
-	
+
 	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 	$form->settings["layout"]["goto_aname"]=true;
-	  
+
 	#_field: (obl),id,title,db,prevalue,options,layout
-	
+
 #	$gisteren=mktime(0,0,0,date("m"),date("d")-1,date("Y"));
 #	$begin_boekjaar=mktime(0,0,0,7,1,boekjaar($gisteren));
 #	$begin_vorigemaand=mktime(0,0,0,date("m")-1,1,date("Y"));
@@ -124,8 +124,9 @@ if($_GET["marges"]) {
 	$form->field_yesno("losseboekingen","Toon alle boekingen/garanties apart");
 	$form->field_yesno("onverkochtegaranties","Inclusief onverkochte garanties","",array("selection"=>true));
 	$form->field_yesno("totaalperleverancier","Toon totalen per leverancier");
+	$form->field_yesno("alleenverkochtegaranties","Neem alleen verkochte garanties mee in het overzicht");
 	$form->field_checkbox(1,"soortboekingen","Soort boekingen","",array("selection"=>"1,2"),array("selection"=>array(1=>"directe boekingen en ongebruikte garanties",2=>"boekingen via reisbureaus")),array("one_per_line"=>true));
-	
+
 	$form->field_htmlrow("","<hr>");
 	$form->field_select(0,"leverancier_id","Leverancier","","",array("selection"=>$leveranciers,"no_empty_first_selection"=>true));
 	$form->field_select(0,"land_id","Land","","",array("selection"=>$vars["temp_landen"],"no_empty_first_selection"=>true));
@@ -135,7 +136,7 @@ if($_GET["marges"]) {
 	$form->field_checkbox(1,"seizoenen","Te tonen seizoenen","",array("selection"=>substr($vars["temp_seizoenen_active"],1)),array("selection"=>$vars["temp_seizoenen"]),array("one_per_line"=>true));
 	$form->field_checkbox(1,"kolommen","Te tonen kolommen","",array("selection"=>substr($vars["totaaloverzicht_kolommen_active"],1)),array("selection"=>$vars["totaaloverzicht_kolommen"]),array("one_per_line"=>true));
 	$form->field_htmlcol("","",array("html"=>"<a href=\"".$_SERVER["REQUEST_URI"]."&wiszoek=1\">zoekformulier wissen</a>"));
-	
+
 	$form->check_input();
 
 	$form->end_declaration();
