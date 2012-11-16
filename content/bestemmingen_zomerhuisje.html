@@ -15,7 +15,9 @@ echo "<div style=\"float:left;margin-left:100px;margin-top:-30px;\">";
 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="400" height="335" id="Kaart Europa" align="middle">
 <param name="allowScriptAccess" value="sameDomain" />
 <param name="allowFullScreen" value="false" />
-<param name="movie" value="<?php echo $vars["path"] ; ?>flash/kaarteuropa_20120215.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" />	<embed src="<?php echo $vars["path"] ; ?>flash/kaarteuropa_20120215.swf" quality="high" bgcolor="#ffffff" width="400" height="335" name="Kaart Europa" align="middle" allowScriptAccess="sameDomain" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" />
+<param name="wmode" value="opaque">
+
+<param name="movie" value="<?php echo $vars["path"] ; ?>flash/kaarteuropa_20120215.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" />	<embed src="<?php echo $vars["path"] ; ?>flash/kaarteuropa_20120215.swf" quality="high" bgcolor="#ffffff" width="400" height="335" name="Kaart Europa" align="middle" allowScriptAccess="sameDomain" wmode="opaque" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" />
 </object>
 <?php
 echo "</div>";

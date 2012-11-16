@@ -626,7 +626,7 @@ $(document).ready(function() {
 				'overlayOpacity' :	0.8
 			});
 
-			// beoordeling-popup via fancybox
+			// popup_fancybox via fancybox
 			$(".popup_fancybox").fancybox({
 				'type'			: 'inline',
 				'width'			: 430,
@@ -647,6 +647,36 @@ $(document).ready(function() {
 				},
 				'overlayOpacity' :	0.8
 			});
+
+
+			// fancybox-popup bij Zomerhuisje (melding over koerswijziging)
+			if($("#zomerhuisje_popup").length!==0) {
+				$("#zomerhuisje_popup").fancybox({
+					'type'			: 'inline',
+					'width'			: 670,
+					'height'		: 420,
+					'autoDimensions': false,
+					'autoScale'		: false,
+					'transitionIn'	:	'elastic',
+					'transitionOut'	:	'elastic',
+					'speedIn'		: 300,
+					'speedOut'		: 300,
+					'padding' :		0,
+					'margin' :		0,
+					'overlayShow'	:	true,
+					'hideOnContentClick' :	false,
+					'overlayColor' :	'#454545',
+					'onComplete'	:	function() {
+
+					},
+					'overlayOpacity' :	0.8
+				});
+
+				$.fancybox.init();
+
+				// popup direct tonen bij openen pagina
+				$("#zomerhuisje_popup").click();
+			}
 		}
 
 		// functies voor zoekformulier
@@ -698,7 +728,7 @@ $(document).ready(function() {
 			this.each(function(){
 				$('<img/>')[0].src = this;
 			});
-		}
+		};
 
 		// Declare the array variable
 		var imgSwap = [];
@@ -738,7 +768,7 @@ $(document).ready(function() {
 				shadowOpacity: 0.8,
 				shadowPosition: 'outside',
 				shadowFrom: false
-			}
+			};
 
 			$(".map").maphilight();
 
