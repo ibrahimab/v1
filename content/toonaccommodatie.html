@@ -413,7 +413,7 @@ if($db->next_record()) {
 			}
 		}
 		# Afbeelding "bekijk ligging" plaatsen
-		if($vars["websitetype"]<>7 and (($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>""))) {
+		if(($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
 			echo "<td valign=\"top\">";
 			echo "<a href=\"#tabs_ligging\" class=\"gototabs_ligging\"><img src=\"".$vars["path"]."pic/bekijkligging-".strtolower($vars["website"]).".png\" border=\"0\" width=\"150\" height=\"100\" title=\"Google Maps\"></a>";
 			echo "</td></tr>";
