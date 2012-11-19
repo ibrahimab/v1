@@ -3331,7 +3331,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 
 	global $vars,$voorkant_cms,$gegevens;
 
-	if($vars["chalettour_logged_in"] or $voorkant_cms or $gegevens["stap1"]["kortingscode_id"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	if($vars["chalettour_logged_in"] or $voorkant_cms or $gegevens["stap1"]["kortingscode_id"]) {
 		# affiliate blokkeren indien:
 		#	- boeking door reisbureau
 		#	- boeking door chalet-medewerker
@@ -3362,9 +3362,20 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		#
 		# TradeTracker SuperSki
 		#
-		$tradetracker_campaignID="9318"; // The campaign ID is provided by TradeTracker
-		$tradetracker_productID="14114"; // The product ID is provided by TradeTracker
+
+		# campaignID
+		$tradetracker_campaignID="9318";
+
+		# productID
+		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+			$tradetracker_productID="14181";
+		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14180";
+		} else {
+			$tradetracker_productID="14114";
+		}
 		$tradetracker_bedrag="";
+
 	} elseif($vars["website"]=="Z") {
 		#
 		# TradeTracker Zomerhuisje.nl
@@ -3376,34 +3387,24 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		} else {
 			$tradetracker_bedrag=$data["bedrag"];
 		}
-
-		#
-		# Cleafs
-		#
-		$cleafs_code="88HCLzHs";
-		if($sale) {
-			$cleafs_bedrag=number_format($data["bedrag"],2,"","");
-		} else {
-			$cleafs_bedrag=$data["bedrag"];
-		}
 	} elseif($vars["website"]=="C") {
 
 		#
 		# TradeTracker Chalet.nl
 		#
+
+		# campaignID
 		$tradetracker_campaignID="202";
+
+		# productID
 		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
 			$tradetracker_productID="11786";
+		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14239";
 		} else {
 			$tradetracker_productID="204";
 		}
 		$tradetracker_bedrag="";
-
-		#
-		# Cleafs
-		#
-		$cleafs_code="Grr8823K";
-		$cleafs_bedrag=0;
 	} elseif($vars["website"]=="B") {
 
 		#
@@ -3424,23 +3425,6 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 			$tradetracker_bedrag=number_format($data["bedrag"],2,".","");
 		} else {
 			$tradetracker_bedrag=$data["bedrag"];
-		}
-
-		#
-		# Cleafs
-		#
-#		$cleafs_code="Grr8823K";
-#		$cleafs_bedrag=0;
-	}
-
-	if($toon_cleafs and $cleafs_code) {
-		#
-		# Cleafs
-		#
-		if($sale) {
-			echo "<img src=\"https://chalet.cleafs.com/sale/".$cleafs_code."/".htmlentities(urlencode($data["ordernummer"]))."/".$cleafs_bedrag."\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />\n";
-		} else {
-			echo "<script type=\"text/javascript\" src=\"https://www.cleafs.com/tracker/track.js\"></script>\n<script type=\"text/javascript\">\n<!--\n_cl_md = \"".$cleafs_code."\";\n_clecml(\"".htmlentities($data["ordernummer"])."\");\n_cltracker();\n//-->\n</script>\n";
 		}
 	}
 
@@ -3480,7 +3464,11 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		$additional = urlencode($additional);
 
 		// Send the complete report to TradeTracker
-		echo "<img src=\"https://t".($sale ? "s" : "l").".tradetracker.nl/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&conversionType=".($sale ? "sales" : "lead")."&orderID=".$orderID.($sale ? "&orderAmount=".$orderAmount : "")."&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />\n";
+		if($vars["lokale_testserver"]) {
+			echo "<img src=\"ss.postvak.net/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&conversionType=".($sale ? "sales" : "lead")."&orderID=".$orderID.($sale ? "&orderAmount=".$orderAmount : "")."&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />\n";
+		} else {
+			echo "<img src=\"https://t".($sale ? "s" : "l").".tradetracker.nl/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&conversionType=".($sale ? "sales" : "lead")."&orderID=".$orderID.($sale ? "&orderAmount=".$orderAmount : "")."&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />\n";
+		}
 	}
 }
 
