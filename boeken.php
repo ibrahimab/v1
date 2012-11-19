@@ -1623,7 +1623,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						$db->query("SELECT type_id FROM tarief_personen WHERE prijs>0 AND type_id='".addslashes($gegevens["stap1"]["typeid"])."' AND week='".addslashes($temp_aankomstdatum)."' AND personen='".addslashes($temp_aantalpersonen)."';");
 						if(!$db->next_record()) {
 							trigger_error("geen tarieven in het systeem voor ".$temp_aantalpersonen." ".($temp_aantalpersonen==1 ? "persoon" : "personen")." op deze datum");
-							$form->error("aankomstdatum",txt("geentarieveninhetsysteem","boeken"));
+							$form->error("aantalpersonen",txt("geentarieveninhetsysteem","boeken"));
 						}
 					}
 				}
