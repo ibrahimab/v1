@@ -103,7 +103,7 @@ if($_GET["wzt"]==1) {
 	$cms->edit_field(37,1,"omschrijving","Omschrijving");
 } else {
 	$cms->edit_field(37,1,"titel","Titel");
-#	$cms->edit_field(37,1,"titel_en","Titel (Engels)");
+	$cms->edit_field(37,1,"omschrijving","Omschrijving");
 }
 
 if($_GET["wzt"]==1) {
@@ -118,12 +118,14 @@ $cms->edit_field(37,0,"begindatum","Begindatum","","",array("calendar"=>true));
 $cms->edit_field(37,0,"einddatum","Einddatum","","",array("calendar"=>true));
 $cms->edit_field(37,0,"htmlrow","<hr><b>Afbeeldingen</b>");
 if($_GET["wzt"]==1) {
+	# Winter
 	$cms->edit_field(37,1,"picgroot","Afbeelding","",array("img_width"=>"500","img_height"=>"278"));
-#	$cms->edit_field(37,1,"picklein","Kleine afbeelding","",array("img_width"=>"75","img_height"=>"56"));
 } elseif($_GET["wzt"]==3) {
+	# Italissima
 	$cms->edit_field(37,1,"picgroot","Afbeelding","",array("img_width"=>"360","img_height"=>"270"));
 } else {
-	$cms->edit_field(37,1,"picgroot","Afbeelding","",array("img_width"=>"362","img_height"=>"300"));
+	# Zomerhuisje
+	$cms->edit_field(37,1,"picgroot","Afbeelding","",array("img_width"=>"550","img_height"=>"305"));
 }
 
 # Controle op ingevoerde formuliergegevens

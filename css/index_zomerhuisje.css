@@ -1,12 +1,4 @@
 
-#hoofdpagina_fotoslide {
-	float: left;
-	width: 500px;
-	height: 320px;
-	background-color: #eff2be;
-	margin-bottom: 10px;	
-}
-
 #hoofdpagina_midden {
 	float: left;
 	width: 550px;
@@ -26,7 +18,7 @@
 	padding-bottom: 10px;
 	width: 169px;
 	background-color: #cfbcd8;
-	border: 1px solid #cfbcd8;	
+	border: 1px solid #cfbcd8;
 	padding-left: 14px;
 	color: #5f227b;
 	cursor: pointer;
@@ -80,7 +72,7 @@
 	width: 550px;
 	float: left;
 	margin-bottom: 10px;
-	margin-top: 30px;
+	margin-top: 0px;
 }
 
 #laatstbekeken_acc_wrapper {
@@ -95,188 +87,167 @@
 	padding-left: 1px;
 }
 
-#hoofdpagina_nieuwsbrief {
-	float: right;
-	width: 160px;
-	background-color: #cfbcd8;
-	padding-left: 5px;
-	padding-right: 5px;
-	color: #5f227b;
-	margin-top: 10px;
-	margin-bottom: 10px;
+#hoofdpagina_blok {
+	position: relative;
+	float: left;
+	width: 550px;
+	height: 380px;
+	background-color: #cbd328;
+	margin-bottom: 20px;
 }
 
-#hoofdpagina_nieuwsbrief .kop {
+.hoofdpagina_blok_content {
+	position: absolute;
+	width: 550px;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+#hoofdpagina_blok:hover {
+	outline: 1px solid #5f227b;
+}
+
+.hoofdpagina_blok_titel {
+	font-size: 1.3em;
+	font-weight: normal;
+	color: #ffffff;
+	height: 22px;
+	overflow: hidden;
+	padding-left:5px;
+	margin-top: 3px;
+}
+
+.hoofdpagina_blok_omschrijving {
 	color: #5f227b;
-	font-size: 1.2em;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	height: 33px;
+	overflow: hidden;
+	margin-left:5px;
+}
+
+#hoofdpagina_blok_tellers {
+	margin-top: 5px;
+	margin-right: 8px;
+	top: 92.5%;
+	position:absolute;
+	right:0;
+}
+
+.hoofdpagina_blok_teller {
+	float: left;
+	text-align: right;
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 26px;
+	margin-top: -9px;
+	margin-left: 5px;
+}
+
+.hoofdpagina_blok_teller:hover {
+	color: #5f227b;
+}
+
+.hoofdpagina_blok_teller_active {
+	color: #5f227b;
+}
+
+#hoofdpagina_bekijkbestemmingen {
+	text-decoration: none;
+	background-color: #cbd328;
+	display: block;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid #cbd328;
+	margin-bottom: 20px;
+}
+
+#hoofdpagina_bekijkbestemmingen h3 {
+	margin: 0;
+	color: #ffffff;
+	font-size: 1.3em;
+	font-weight: normal;
+	margin-bottom: 5px;
+}
+
+#hoofdpagina_bekijkbestemmingen h4 {
+	margin: 0;
+	color: #5f227b;
+	font-size: 1.6em;
+	font-weight: normal;
+	margin-top: 5px;
+}
+
+#hoofdpagina_bekijkbestemmingen:hover {
+	border: 1px solid #5f227b;
+	color: #5f227b;
+}
+
+#hoofdpagina_bekijkbestemmingen:hover h4 {
+	color: #ffffff;
+}
+
+#hoofdpagina_italissima {
+	text-decoration: none;
+	background-color: #ffffff;
+	display: block;
+	padding: 5px;
+	text-align: center;
+	border: 1px solid #ff9900;
+	margin-bottom: 20px;
+	background: url(../pic/zomerhuisje_hoofdpagina/italissima_link.jpg?c=1) no-repeat 0 0px;
+	height: 230px;
+	color: #ffffff;
+}
+
+#hoofdpagina_italissima h3 {
+	margin: 0;
+	font-weight: normal;
+	color: #ffffff;
+}
+
+#hoofdpagina_italissima h4 {
+	margin: 0;
+	margin-top: 0px;
+	font-weight: normal;
+	color: #ffffff;
+	font-size: 1.4em;
+}
+
+#hoofdpagina_italissima:hover {
+	border: 1px solid #661700;
+}
+
+#hoofdpagina_alpedhuzes {
+	text-decoration: none;
+	background-color: #ffffff;
+	display: block;
+	text-align: center;
+	margin-bottom: 20px;
+	background: url(../pic/zomerhuisje_hoofdpagina/alpedhuzes.jpg) no-repeat 0 42px;
+	height: 157px;
+	color: #ffffff;
+}
+
+#hoofdpagina_alpedhuzes h3 {
+	display: block;
+	background-color: #5f227b;
+	color: #ffffff;
+	padding: 5px;
+}
+
+#hoofdpagina_alpedhuzes:hover {
+	outline: 1px solid #5f227b;
 }
 
 #hoofdpagina_sociallinks {
 	width: 170px;
 	background-color: #ffffff;
 	color: #5f227b;
-	text-align: right;
+	text-align: left;
 }
 
 #hoofdpagina_sociallinks img {
-	margin-left: 7px;
+	margin-right: 7px;
 	vertical-align: text-top;
-}
-
-/* Fotoslide */
-
-#featured {
-	position:relative;
-	background:#eff2be;
-	border: 10px solid #eff2be;
-	border-top: 20px solid #eff2be;
-	border-bottom: 17px solid #eff2be;
-	width: 530px;
-	height:305px;
-}
-
-#featured ul.ui-tabs-nav {
-	position:absolute;
-	top:0;
-	left:364px;
-	list-style:none;
-	padding:0; margin:0;
-	width:150px;
-	height: 300px;
-}
-
-#featured ul.ui-tabs-nav li {
-	padding:0; margin:0;
-	padding-left:19px;
-	vertical-align: top;
-	margin-top: 0px;
-	width: 150px;
-	height: 31px;
-}
-
-#featured ul.ui-tabs-nav li span {
-
-}
-
-#featured .ui-tabs-panel {
-	width:362px;
-	height:300px;
-	background:#eff2be;
-	position:relative;
-        overflow:hidden;
-        padding: 0;
-}
-
-#featured .ui-tabs-hide {
-	display:none;
-}
-
-#featured li.ui-tabs-nav-item a { /*On Hover Style*/
-	display:block;
-	height:14px;
-	background:#cbd328;
-	outline:none;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	padding-left: 6px;
-	color: #ffffff;
-	text-decoration: none;
-	font-weight: bold;
-	font-size: 11px;
-}
-
-#featured li.ui-tabs-nav-item a:hover {
-	background:#5f227b;
-}
-
-#featured li.ui-tabs-selected { /*Selected tab style*/
-	background:url('../pic/selected-item-zomer.gif') top left no-repeat;
-}
-
-#featured ul.ui-tabs-nav li.ui-tabs-selected a {
-	background: #5f227b;
-}
-
-#featured ul.ui-tabs-nav li img {
-	float:left; margin:2px 5px;
-	background:#eff2be;
-	padding:0px;
-	border:0px solid #eff2be;
-}
-
-#featured .ui-tabs-panel .info {
-	position:absolute;
-	bottom:0px; left:0;
-	height:70px;
-	width: 370px;
-	background: url('../pic/fotoslider/transparent-bg-white.png');
-}
-
-#featured .info h2 {
-	font-size:15px;
-	color:#ffffff; padding:5px; margin:0;
-	overflow:hidden;
-	white-space:nowrap;
-}
-
-#featured .info p {
-	margin:0 5px;
-	font-size:11px;
-	line-height:13px;
-	color: #ffffff;
-	overflow:hidden;
-	height: 26px;
-}
-
-#featured .infointern h2 {
-	overflow:auto;
-	white-space:normal;
-}
-
-#featured .infointern p {
-	overflow:auto;
-	height: auto;
-}
-
-#featured .info a {
-	text-decoration: underline;
-	color:#ffffff;
-}
-
-#featured .info a:hover {
-	color:#5f227b;
-}
-
-.hoofdpagina_fotoslide_meer {
-	text-align: right;
-}
-
-#featured .ui-tabs-panel:hover {
-	cursor: pointer;
-}
-
-#meerinspiratie {
-	position:absolute;
-	right:-3px;
-	top:280px;
-	background-color: #cbd328;
-	color: #ffffff;
-	cursor: pointer;
-	width: 142px;
-	padding-left: 6px;
-	text-decoration: none;
-	font-weight: bold;
-	font-size: 11px;
-	height:12px;
-	padding-top: 2px;
-	padding-bottom: 4px;
-	border: 1px solid #5f227b;
-}
-
-#meerinspiratie:hover {
-	background-color: #5f227b;
 }
 
 h1 {
@@ -292,11 +263,11 @@ h2 {
 	font-weight: normal;
 	font-size: 1.8em;
 	text-transform: uppercase;
-	text-align: center;
 	width: 550px;
-	margin-bottom: 22px;
 	height: 30px;
+	margin-bottom: 22px;
 	margin-top: -12px;
+	margin-left: 10px;
 }
 
 /* TIJDELIJK!!!! */

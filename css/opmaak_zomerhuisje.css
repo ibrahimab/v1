@@ -72,7 +72,7 @@ form {
 }
 
 #topfoto {
-	height:160px;
+	height: 190px;
 	position:relative;
 }
 
@@ -130,7 +130,7 @@ form {
 
 #breadcrumb_overlay {
 	position:absolute;
-	top: 217px;
+	top: 247px;
 	margin-left: 212px;
 	width: 735px;
 	height: 20px;
@@ -298,6 +298,7 @@ form {
 	margin-left: auto;
 	padding-left: 3px;
 	background-color: #ffffff;
+	margin-top: 30px;
 }
 
 #cookie_bottombar a {
@@ -718,6 +719,72 @@ form {
 	color: #636f07;
 }
 
+
+/* Per pagina */
+
+
+.bestemmingen_regio {
+	display: block;
+	width: 170px;
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	color: #ffffff;
+	text-decoration: none;
+	text-align: center;
+	cursor: pointer;
+}
+
+.bestemmingen_regio_kop {
+	background-color: #cbd328;
+	line-height: 1.4em;
+	padding: 5px;
+	font-size: 1.2em;
+}
+
+.bestemmingen_regio_kop h1 {
+	color: #ffffff;
+	margin: 0;
+	font-size: 1.0em;
+	font-weight: bold;
+}
+
+.bestemmingen_regio_kop_land_1 {
+	background-color: #cdc101;
+}
+
+.bestemmingen_regio_kop_land_2 {
+	background-color: #ded75a;
+}
+
+.bestemmingen_regio_kop_land_3 {
+	background-color: #636f07;
+}
+
+.bestemmingen_regio_kop_land_4 {
+	background-color: #a1a96a;
+}
+
+.bestemmingen_regio_kop_land_5 {
+	background-color: #8a9345;
+}
+
+.bestemmingen_regio_foto {
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	width: 170px;
+	height: 140px;
+}
+
+.bestemmingen_regio:hover {
+	outline: 1px solid #5f227b;
+	color: #5f227b;
+}
+
+.bestemmingen_regio:hover h1 {
+	color: #5f227b;
+}
+
 /* TIJDELIJK!!!! */
 /* TIJDELIJK!!!! */
 /* TIJDELIJK!!!! */
@@ -731,6 +798,10 @@ form {
 	cursor: pointer;
 	border:1px solid #5f227b;
 }
+
+
+
+
 
 @media print {
 

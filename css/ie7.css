@@ -26,3 +26,9 @@
 	background: #ffffff;
 	filter: '';
 }
+
+
+/*homepage Zomerhuisje*/
+#hoofdpagina_bekijkbestemmingen h4 {
+	display: none;
+}

@@ -50,8 +50,8 @@ function hoofdpagina_carousel(teller) {
 }
 
 $(document).ready(function() {
-	// hoofdpagina-carousel starten
 
+	// hoofdpagina-carousel starten
 	if($("#hoofdpagina_blok").length>0) {
 		var temp_teller=parseInt(get_cookie("hoofdpagina_blok_teller"));
 		if(temp_teller>0 && $("#blok_"+temp_teller).length>0) {
@@ -71,12 +71,15 @@ $(document).ready(function() {
 			});
 		}
 
+		// hoofdlink niet actief bij klikken op wissel-puntje
 		$(".hoofdpagina_blok_content a").click(function(e) {
 			e.preventDefault();
 		});
 
+		// hele blok klikbaar maken
 		$(".hoofdpagina_blok_content").click(function() {
 			document.location.href=$(this).find("a").attr("href");
 		});
 	}
+
 });

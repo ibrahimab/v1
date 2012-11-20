@@ -42,13 +42,21 @@ while($db->next_record()) {
 }
 asort($vars["skigebieden"]);
 
-# is dit een Italiaanse regio?
 if($_GET["5k0"]) {
+	# is dit een Italiaanse regio?
 	$db->query("SELECT skigebied_id FROM skigebied WHERE skigebied_id='".addslashes($_GET["5k0"])."' AND websites LIKE '%I%';");
 	if($db->next_record()) {
 		$italissima=true;
 	}
+
+	# is dit een Zomerhuisje-regio?
+	$db->query("SELECT skigebied_id FROM skigebied WHERE skigebied_id='".addslashes($_GET["5k0"])."' AND websites LIKE '%Z%';");
+	if($db->next_record()) {
+		$zomerhuisje=true;
+	}
 }
+
+
 
 $cms->settings[5]["list"]["show_icon"]=true;
 $cms->settings[5]["list"]["edit_icon"]=true;
@@ -120,6 +128,13 @@ if($italissima) {
 	$cms->db_field(5,"integer","googlemaps_zoomlevel");
 }
 
+if($zomerhuisje) {
+	$cms->db_field(5,"picture","bestemmingen_zomerhuisje","",array("savelocation"=>"pic/cms/bestemmingen_zomerhuisje/","filetype"=>"jpg"));
+}
+
+
+
+
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_field(5,"naam","Naam");
 $cms->list_field(5,"websites","Sites");
@@ -158,7 +173,7 @@ if($_GET["wzt"]==1) {
 	$cms->edit_field(5,0,"maxhoogte","Maximumhoogte (in meters)");
 	$cms->edit_field(5,0,"skiwaardering","Waardering skiën");
 	$cms->edit_field(5,0,"snowboardwaardering","Waardering snowboarden");
-	$cms->edit_field(5,0,"htmlrow","<hr><b>Liften, pistes, loipes</b>");	
+	$cms->edit_field(5,0,"htmlrow","<hr><b>Liften, pistes, loipes</b>");
 	$cms->edit_field(5,0,"aantalliften","Aantal liften");
 	$cms->edit_field(5,0,"aantalstoeltjesliften","Aantal stoeltjesliften");
 	$cms->edit_field(5,0,"aantalsleepliften","Aantal sleepliften");
@@ -174,7 +189,7 @@ if($_GET["wzt"]==1) {
 	$cms->edit_field(5,0,"kmzwartepistes","Aantal kilometer zwarte pistes");
 	$cms->edit_field(5,0,"aantalloipes","Aantal loipes");
 	$cms->edit_field(5,0,"kmloipes","Aantal kilometer loipes");
-	$cms->edit_field(5,0,"htmlrow","<hr><b>Links</b>");	
+	$cms->edit_field(5,0,"htmlrow","<hr><b>Links</b>");
 	$cms->edit_field(5,0,"weerbericht","Weerbericht URL");
 	$cms->edit_field(5,0,"webcam","Webcam URL");
 	$cms->edit_field(5,0,"kaart","Plan de piste URL");
@@ -188,11 +203,12 @@ if($_GET["wzt"]==1) {
 		$cms->edit_field(5,0,"omschrijvingskipasbasis","Omschrijving basis-skipas");
 		$cms->edit_field(5,0,"omschrijvingskipasuitgebreid","Omschrijving uitgebreide skipas");
 	}
-}	
+}
 $cms->edit_field(5,0,"htmlrow","<hr><b>Afbeeldingen/landkaart</b>");
 $cms->edit_field(5,0,"afbeelding","Afbeelding(en)","",array("autoresize"=>true,"img_minwidth"=>"200","img_minheight"=>"150","img_maxwidth"=>"600","img_maxheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>8));
 $cms->edit_field(5,0,"pistekaart","Pistekaart skigebied","",array("img_minheight"=>"150","img_maxwidth"=>"4000","img_maxheight"=>"2200","showfiletype"=>true));
 $cms->edit_field(5,0,"landkaart","Landkaart","",array("img_minheight"=>"150","img_maxwidth"=>"600","img_maxheight"=>"600","showfiletype"=>true));
+
 $cms->edit_field(5,0,"htmlrow","<hr><b>Gekoppelde regio's</b>");
 $cms->edit_field(5,0,"htmlrow","De gekoppelde regio's worden gebruikt bij het zoekformulier. Als een zoekopdracht weinig resultaten oplevert, wordt er ook gezocht in de gekoppelde regio's. Eerst wordt klasse 1 doorzocht. Zijn er dan nog onvoldoende resultaten, dan volgt klasse 2, enzovoort.");
 for($i=1;$i<=5;$i++) {
@@ -219,8 +235,13 @@ if($italissima) {
 
 	$cms->edit_field(5,0,"afbeelding_italissima","Hoofdafbeelding","",array("autoresize"=>true,"img_width"=>"250","img_height"=>"188","img_ratio_width"=>"4","img_ratio_height"=>"3"));
 	$cms->edit_field(5,0,"topafbeelding_italissima","Topafbeelding (helemaal bovenaan)","",array("autoresize"=>false,"img_width"=>"760","img_height"=>"160"));
-
 }
+
+if($zomerhuisje) {
+	$cms->edit_field(5,0,"htmlrow","<hr><b>Zomerhuisje-specifieke gegevens</b>");
+	$cms->edit_field(5,0,"bestemmingen_zomerhuisje","Bestemmingenpagina Zomerhuisje","",array("autoresize"=>false,"img_width"=>"170","img_height"=>"140"));
+}
+
 
 # Show show_field($counter,$id,$title="",$options="",$layout=""))
 if($_GET["wzt"]==1) {

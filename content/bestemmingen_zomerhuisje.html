@@ -1,27 +1,28 @@
 <?php
 
-echo "<div style=\"float:left;margin-top:50px;\">";
-echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("frankrijk","index"))."/\">".html("frankrijk","index")."</a><br />";
-echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("italie","index"))."/\">".html("italie","index")."</a><br />";
-#echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("spanje","index"))."/\">".html("spanje","index")."</a><br />";
-echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("oostenrijk","index"))."/\">".html("oostenrijk","index")."</a><br />";
-#echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("tsjechie","index"))."/\">".html("tsjechie","index")."</a><br />";
-echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("zwitserland","index"))."/\">".html("zwitserland","index")."</a><br />";
-echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("duitsland","index"))."/\">".html("duitsland","index")."</a><br />";
-echo "</div>";
-echo "<div style=\"float:left;margin-left:100px;margin-top:-30px;\">";
-#echo "<img src=\"".$vars["path"]."pic/maps/europe_map.gif\">";
-?>
-<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,0,0" width="400" height="335" id="Kaart Europa" align="middle">
-<param name="allowScriptAccess" value="sameDomain" />
-<param name="allowFullScreen" value="false" />
-<param name="wmode" value="opaque">
 
-<param name="movie" value="<?php echo $vars["path"] ; ?>flash/kaarteuropa_20120215.swf" /><param name="quality" value="high" /><param name="bgcolor" value="#ffffff" />	<embed src="<?php echo $vars["path"] ; ?>flash/kaarteuropa_20120215.swf" quality="high" bgcolor="#ffffff" width="400" height="335" name="Kaart Europa" align="middle" allowScriptAccess="sameDomain" wmode="opaque" allowFullScreen="false" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" />
-</object>
-<?php
-echo "</div>";
-echo "<div style=\"clear: both;\"></div>\n";
+$db->query("SELECT DISTINCT skigebied_id, skigebied, land_id, land FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(land_id,'1,2,3,5,4'), skigebied;");
+while($db->next_record()) {
+	$file="pic/cms/bestemmingen_zomerhuisje/".$db->f("skigebied_id").".jpg";
+	if(file_exists($file)) {
+		$teller++;
+		echo "<a href=\"".wt_he($vars["path"].txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/")."#beschrijving\" class=\"bestemmingen_regio\">";
+		echo "<div class=\"bestemmingen_regio_kop bestemmingen_regio_kop_land_".$db->f("land_id")."\">";
+		echo "<h1>".wt_he($db->f("land"))."</h1>";
+		if($db->f("skigebied")=="Merengebied / Lombardije") {
+			echo "Lombardije";
+		} else {
+			echo wt_he($db->f("skigebied"));
+		}
+		echo "</div>"; # afsluiten .bestemmingen_regio_kop
+		echo "<div class=\"bestemmingen_regio_foto\" style=\"background-image: url(".$vars["path"].$file.");\"></div>";
+		echo "</a>";
+#		echo "ja: ".$db->f("skigebied_id")."<br>";
 
+		if($teller%4) {
+#			echo "<div style=\"clear: both;\"></div>\n";
+		}
+	}
+}
 
 ?>

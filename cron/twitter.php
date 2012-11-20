@@ -28,7 +28,7 @@ ini_set('display_startup_errors', 'Off');
 error_reporting(0);
 include($unixdir."admin/vars.php");
 $username=array();
-$username[0]='Zomerhuisje';
+#$username[0]='Zomerhuisje';
 $username[1]='Italissima';
 $username[2]='ChaletNL';
 $username[3]='SuperSkiNL';

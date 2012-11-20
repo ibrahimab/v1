@@ -76,13 +76,7 @@ if($vars["canonical"]) {
 
 # jQuery
 echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-
-if($id=="index") {
-	# Voor de sliders op de hoofdpagina is een oudere jquery-ui nodig
-	echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js\" ></script>\n";
-} else {
-	echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
-}
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
 
 if($vars["jquery_maphilight"]) {
 	# Google Maps API
@@ -144,17 +138,6 @@ echo "<div id=\"wrapper\">";
 
 echo "<div id=\"top\">";
 
-#echo "<div id=\"logo\">";
-#if($id<>"index") echo "<a href=\"".$vars["path"]."\">";
-#echo "<img src=\"".$vars["path"]."pic/logo_chalet";
-#if($vars["websitetype"]==1 and $vars["taal"]=="nl" and $vars["websiteland"]=="nl") echo "_10jr";
-#if($vars["taal"]<>"nl") echo "_eu";
-#if($vars["websiteland"]=="be") echo "_be";
-#if($vars["websitetype"]==4 or $vars["websitetype"]==5) echo "_tour";
-#echo ".gif\" width=\"169\" height=\"151\" border=\"0\" alt=\"".htmlentities($vars["websitenaam"])."\">";
-#if($id<>"index") echo "</a>";
-#echo "</div>\n";
-
 echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
 echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
 echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</b>";
@@ -192,36 +175,34 @@ while(list($key,$value)=each($submenu)) {
 }
 echo "</div>\n";
 
-if(@count($vars["topfoto"])<4) {
+#if(@count($vars["topfoto"])<2) {
+# Altijd deze topfoto's tonen (tijdelijk: later komen er pagina-specifieke topfoto's - 20-11-2012)
 	unset($vars["topfoto"]);
-	$vars["topfoto"][1]="pic/topfoto/topfoto1.jpg";
-	$vars["topfoto"][2]="pic/topfoto/topfoto2.jpg";
-	$vars["topfoto"][3]="pic/topfoto/topfoto3.jpg";
-	$vars["topfoto"][4]="pic/topfoto/topfoto4.jpg";
-}
+	$vars["topfoto"][1]="pic/topfoto/topfoto-zomerhuisje-1.jpg";
+	$vars["topfoto"][2]="pic/topfoto/topfoto-zomerhuisje-2.jpg";
+#}
 
 echo "<div id=\"topfoto\">";
 while(list($key,$value)=each($vars["topfoto"])) {
 	$topfototeller++;
-	echo "<img src=\"".$vars["path"].$value."?c=".filemtime($value)."\" width=\"194\" height=\"120\" alt=\"\" class=\"noprint\">";
-	if($topfototeller==2) {
-		echo "<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"194\" height=\"120\" alt=\"\" class=\"noprint\">";
+	echo "<img src=\"".$vars["path"].$value."?c=".filemtime($value)."\" width=\"388\" height=\"140\" alt=\"\" class=\"noprint\">";
+	if($topfototeller==1) {
+		echo "<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"194\" height=\"140\" alt=\"\" class=\"noprint\">";
 	}
-	if($topfototeller==4) {
+	if($topfototeller==2) {
 		break;
 	}
 }
 echo "<div style=\"position:absolute;top:0px;left:0px;\">";
-echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."\" width=\"970\" height=\"154\" alt=\"".htmlentities($vars["websitenaam"])."\" border=\"0\">";
+echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."\" width=\"970\" height=\"179\" alt=\"".htmlentities($vars["websitenaam"])."\" border=\"0\">";
 echo "</div>";
 
 # Link naar hoofdpagina
-echo "<div style=\"position:absolute;top:0px;left:388px;width:194px;height:156px;\">";
-if($id<>"index") echo "<a href=\"".$vars["path"]."\"><img src=\"".$vars["path"]."pic/leeg.gif\" width=\"194\" height=\"155\" alt=\"\" border=\"0\" class=\"noprint\"></a>";
-echo "</div>";
-
+if($id<>"index") {
+	echo "<a href=\"".$vars["path"]."\" style=\"display:block;position:absolute;top:0px;left:371px;width:227px;height:180px;\" class=\"noprint\"></a>";
+}
 if($vars["websiteland"]=="nl") {
-	echo "<div style=\"position:absolute;bottom:4px;right:4px;\" class=\"noprint\">";
+	echo "<div style=\"position:absolute;bottom:8px;right:4px;\" class=\"noprint\">";
 	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" border=\"0\" width=\"35\" height=\"33\" style=\"margin-top:4px;\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
 	echo "</div>";
 }
@@ -600,13 +581,8 @@ if($vars["verberg_linkerkolom"]) {
 
 	# Content includen
 	if($id=="index") {
-#		echo "<h1>Vakantiehuizen voor levensgenieters &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1>";
-
-		echo "<h2>Vakantiehuizen voor levensgenieters</h2>";
-
+		echo "<h2>Vakantie in de bergen</h2>";
 		include($include);
-
-#		echo "<p>hallo</p>";
 	} else {
 
 		if($id=="zoek-en-boek") {
@@ -625,7 +601,6 @@ if($vars["verberg_linkerkolom"]) {
 			echo $last_acc_html;
 		}
 
-#		echo "<br>&nbsp;";
 		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
 
@@ -635,13 +610,7 @@ if($vars["verberg_linkerkolom"]) {
 
 echo "<div id=\"colofon\" class=\"noprint\">".html("handelsnaam_zomerhuisje")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a>&nbsp;&nbsp;-&nbsp;&nbsp;tel:&nbsp;".html("telefoonnummer_alleen")."</div>\n";
 
-# Girzzly-links
-#if($id=="index") {
-#	echo "<div id=\"grizzly\">";
-#	echo "<a href=\"http://www.zomerhuisje.nl/vakantie/vakantievilla-zuid-frankrijk.php\">Vakantievilla Zuid Frankrijk</a> - <a href=\"http://www.zomerhuisje.nl/vakantie/vakantiehuis-alpen.php\">Vakantiehuis Alpen</a> - <a href=\"http://www.zomerhuisje.nl/vakantie/index.php\">Vakantiehuis Toscane</a>";
 echo "<div id=\"submenu\" style=\"text-align:center;\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
-#	echo "</div>";
-#}
 
 echo "</div>\n"; # "content" afsluiten
 
