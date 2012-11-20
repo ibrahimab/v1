@@ -687,7 +687,7 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 }
 
 // fancybox-popup bij Zomerhuisje (melding over koerswijziging)
-if($vars["lokale_testserver"] or $_GET["testsysteem"]) {
+if($_GET["testsysteem"]) {
 	echo "<a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=zomerhuisje-koerswijziging\" id=\"zomerhuisje_popup\" style=\"display:none;\" rel=\"nofollow\">&nbsp;</a>";
 }
 

@@ -3374,14 +3374,27 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		} else {
 			$tradetracker_productID="14114";
 		}
+
+		# bedrag
 		$tradetracker_bedrag="";
 
 	} elseif($vars["website"]=="Z") {
 		#
 		# TradeTracker Zomerhuisje.nl
 		#
-		$tradetracker_campaignID="958"; // The campaign ID is provided by TradeTracker
-		$tradetracker_productID="1151"; // The product ID is provided by TradeTracker
+		# campaignID
+		$tradetracker_campaignID="958";
+
+		# productID
+		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+			$tradetracker_productID="14253";
+		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14252";
+		} else {
+			$tradetracker_productID="1151";
+		}
+
+		# bedrag
 		if($sale) {
 			$tradetracker_bedrag=number_format($data["bedrag"],2,".","");
 		} else {
@@ -3404,14 +3417,21 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		} else {
 			$tradetracker_productID="204";
 		}
+
+		# bedrag
 		$tradetracker_bedrag="";
 	} elseif($vars["website"]=="B") {
 
 		#
 		# TradeTracker Chalet.be
 		#
+		# campaignID
 		$tradetracker_campaignID="8901";
+
+		# productID
 		$tradetracker_productID="13471";
+
+		# bedrag
 		$tradetracker_bedrag="";
 
 	} elseif($vars["website"]=="I") {
@@ -3419,8 +3439,19 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		#
 		# TradeTracker Italissima
 		#
+		# campaignID
 		$tradetracker_campaignID="7038";
-		$tradetracker_productID="10696";
+
+		# productID
+		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+			$tradetracker_productID="14251";
+		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14250";
+		} else {
+			$tradetracker_productID="10696";
+		}
+
+		# bedrag
 		if($sale) {
 			$tradetracker_bedrag=number_format($data["bedrag"],2,".","");
 		} else {
