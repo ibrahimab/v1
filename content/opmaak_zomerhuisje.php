@@ -572,15 +572,14 @@ if($vars["verberg_linkerkolom"]) {
 	}
 
 	if($id=="index") {
-		# Opsomming "Waarom Chalet.nl?"
+		# Opsomming "Waarom Zomerhuisje?"
 		echo "<div id=\"hoofdpagina_waarom\" onclick=\"document.location.href='".txt("menu_wie-zijn-wij").".php';\">";
 		echo "<div class=\"kop\">".html("waarom","index",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
 		echo "<div><ul>";
-		echo "<li>Persoonlijke service</li>";
-		echo "<li>Thema-inspiratie</li>";
-		echo "<li>Kwaliteit</li>";
-		echo "<li>Prijsbewust</li>";
+		echo "<li>Bergvakantie-specialist</li>";
 		echo "<li>12 jaar ervaring</li>";
+		echo "<li>Uniek aanbod</li>";
+		echo "<li>Persoonlijke service</li>";
 		echo "<li>Lid SGR-Garantiefonds</li>";
 		echo "</ul></div>";
 		echo "</div>\n";
