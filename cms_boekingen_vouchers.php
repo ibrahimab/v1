@@ -512,8 +512,16 @@ if($form->okay) {
 					# SuperSki-logo
 					$pdf->Image("pic/factuur_logo_superski.png",150,5+$y,56);
 				} else {
-					# Chalet.nl-logo
-					$pdf->Image("pic/factuur_logo.png",169.5,1+$y,32);
+					if($gegevens["stap1"]["website"]=="B") {
+						# Chalet.be-logo
+						$pdf->Image("pic/factuur_logo_be.png",169.5,1+$y,32);
+					} elseif($gegevens["stap1"]["website"]=="E") {
+						# Chalet.be-logo
+						$pdf->Image("pic/factuur_logo_eu.png",169.5,1+$y,32);
+					} else {
+						# Chalet.nl-logo
+						$pdf->Image("pic/factuur_logo.png",169.5,1+$y,32);
+					}
 				}
 
 #				$pdf->Ln(19);
