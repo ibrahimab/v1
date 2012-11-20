@@ -12,7 +12,7 @@
 
 
 # voor CMS-gebruikers: zowel Chalet.nl als SuperSki doorzoeken
-if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and $_GET["allesites"]) {
+if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and ($_GET["allesites"] or !$_GET["filled"])) {
 	$vars["where_websites_query"]="(websites LIKE '%C%' OR websites LIKE '%W%')";
 	$vars["where_websites_query_t"]="(t.websites LIKE '%C%' OR t.websites LIKE '%W%')";
 } else {
@@ -1241,7 +1241,7 @@ if($_GET["testsysteem2"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") 
 		if($vars["website"]=="C" or $vars["website"]=="W") {
 			# Zoeken binnen andere site (Chalet.nl <==> SuperSki)
 			echo "<tr><td valign=top align=left>&nbsp;</td><td class=\"intern\">";
-			echo "<input type=\"checkbox\" name=\"allesites\" value=\"1\"".($_GET["allesites"] ? " checked" : "")." id=\"allesites\" class=\"onchangesubmit\" style=\"vertical-align:middle;position:relative;bottom:1px;\">";
+			echo "<input type=\"checkbox\" name=\"allesites\" value=\"1\"".($_GET["allesites"]||!$_GET["filled"] ? " checked" : "")." id=\"allesites\" class=\"onchangesubmit\" style=\"vertical-align:middle;position:relative;bottom:1px;\">";
 			echo "<label for=\"allesites\">&nbsp;Doorzoek ook ";
 			if($vars["website"]=="C") {
 				echo "SuperSki";
