@@ -17,6 +17,7 @@ Disallow: /popup.php
 Disallow: /popup_fancybox.php
 Disallow: /print.php
 Disallow: /*/*/?back*
+Disallow: /*?backtypeid=*
 Disallow: /zoek-en-boek.php*filled=1*fap=*
 Disallow: /zoek-en-boek.php*&vf_*
 Disallow: /zoek-en-boek.php*filled=1*fzt=*

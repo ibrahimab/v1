@@ -107,9 +107,21 @@ if($inquery_type_id) {
 				$temp_text=txt("staatinoptievoorklant","lev_login");
 			}
 
+
+			// echo "<div><span class=\"legenda voorraad_allotment\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("directbeschikbaar","lev_login")."</div>";
+			// echo "<div><span class=\"legenda voorraad_request\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("navragenbijeigenaar","lev_login")."</div>";
+			// echo "<div><span class=\"legenda staatinoptievoorklant\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("staatinoptievoorklant","lev_login")."</div>";
+			// echo "<div><span class=\"legenda boeking_chalet\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("boekingviachalet","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
+			// if($login_lev->vars["inlog_toon_derden"] or $mustlogin) {
+			// 	echo "<div><span class=\"legenda boeking_viaderden\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("boekingviaderden","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
+			// }
+			// echo "<div><span class=\"legenda boeking_eigenaar\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("boekingviaeigenaar","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
+			// echo "<div><span class=\"legenda voorraad_nietbeschikbaarvoorverhuur\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("nietbeschikbaarvoorverhuur","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
+			// echo "<div><span class=\"legenda voorraad_nognietinplanning\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("nognietinplanning","lev_login")."</div>";
+
 			# Kijken of die regel al gebruikt wordt (alleen spreiden over meerdere regels bij intern gebruik (=$mustlogin))
 			# 		geen extra regel indien: colorclass=boekingviaeigenaar
-			if($mustlogin and $colorclass[$typeid][$dag] and $colorclass[$typeid][$dag]<>"boeking_eigenaar") {
+			if($mustlogin and $colorclass[$typeid][$dag] and $colorclass[$typeid][$dag]<>"boeking_eigenaar" and $colorclass[$typeid][$dag]<>"voorraad_request" and $colorclass[$typeid][$dag]<>"voorraad_nietbeschikbaarvoorverhuur" and $colorclass[$typeid][$dag]<>"boeking_viaderden") {
 				unset($vrij_veld_gevonden,$while_teller);
 				while(!$vrij_veld_gevonden) {
 					$while_teller++;

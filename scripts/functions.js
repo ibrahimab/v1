@@ -649,7 +649,7 @@ $(document).ready(function() {
 			});
 
 
-			// fancybox-popup bij Zomerhuisje (melding over koerswijziging)
+			// tijdelijk: fancybox-popup bij Zomerhuisje (melding over koerswijziging)
 			if($("#zomerhuisje_popup").length!==0) {
 				$("#zomerhuisje_popup").fancybox({
 					'type'			: 'inline',
@@ -676,10 +676,12 @@ $(document).ready(function() {
 
 				// popup direct tonen bij openen pagina
 				$("#zomerhuisje_popup").click();
-
-				// cookie zh_kw (Zomerhuisje-koerswijziging) plaatsen zodat popup maar 1x wordt getoond
-				chalet_createCookie("zh_kw","1",3650);
 			}
+		}
+
+		if($("#submenu_zomerhuisje").length!==0) {
+			// tijdelijk: cookie zh_kw (Zomerhuisje-koerswijziging) plaatsen zodat popup maar 1x wordt getoond
+			chalet_createCookie("zh_kw","1",3650);
 		}
 
 		// functies voor zoekformulier

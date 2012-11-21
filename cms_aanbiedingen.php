@@ -54,7 +54,7 @@ if($_POST["toevoegen_filled"]) {
 			$db2->query("INSERT INTO aanbieding_type SET type_id='".addslashes($db->f("type_id"))."', aanbieding_id='".addslashes($_GET["14k0"])."';");
 		}
 	}
-	
+
 	if($_POST["landen"]) {
 #		$db->query("SELECT DISTINCT lev.leverancier_id FROM leverancier lev, accommodatie a, type t, plaats p, land l WHERE a.wzt='".addslashes($_GET["wzt"])."' AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND t.leverancier_id=lev.leverancier_id AND lev.beheerder=0 AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND l.land_id='".addslashes($_POST["landen"])."';");
 		$db->query("SELECT DISTINCT t.type_id FROM leverancier lev, accommodatie a, type t, plaats p, land l WHERE a.wzt='".addslashes($_GET["wzt"])."' AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND t.leverancier_id=lev.leverancier_id AND lev.beheerder=0 AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND l.land_id='".addslashes($_POST["landen"])."';");
@@ -230,7 +230,7 @@ if($_GET["wzt"]==2) {
 	$cms->edit_field(14,$opval_obl,"opval_regel3","Regel 3","","",array("info"=>"Vul hier de korting in die de klant krijgt (vb -30% bij 2 weeks verblijf)"));
 #	$cms->edit_field(14,$opval_obl,"opval_begindatum","Opvallend tonen vanaf","","",array("calendar"=>true));
 #	$cms->edit_field(14,0,"opval_einddatum","Opvallend tonen tot en met","","",array("calendar"=>true));
-	$cms->edit_field(14,$opval_obl,"opval_land","Tonen bij de landen","","",array("one_per_line"=>true));
+	$cms->edit_field(14,$opval_obl,"opval_land","Toon alleen bij het volgende land","","",array("one_per_line"=>true));
 	$cms->edit_field(14,$opval_obl,"opval_volgorde","Volgorde");
 	$cms->edit_field(14,$opval_obl,"opval_afbeelding","Afbeelding","",array("autoresize"=>true,"img_width"=>"200","img_height"=>"133","img_ratio_width"=>"3","img_ratio_height"=>"2"));
 	$cms->edit_field(14,0,"htmlrow","<br><i>Link: geef een URL op. Bij leeglaten: link gaat naar overzicht van de aanbieding.</i>");
@@ -263,7 +263,7 @@ if($cms_form[14]->filled) {
 	} else {
 		if(!$cms_form[14]->input["bedrag"]) $cms_form[14]->error("bedrag","verplicht bij dit soort bedrag");
 	}
-	
+
 	if($cms_form[14]->input["bedrag_soort"]==3) {
 		$db->query("SELECT a.accommodatie_id FROM accommodatie a, aanbieding_accommodatie aa WHERE aa.aanbieding_id='".addslashes($_GET["14k0"])."' AND aa.accommodatie_id=a.accommodatie_id AND a.toonper<>3;");
 		if($db->next_record()) {
@@ -275,7 +275,7 @@ if($cms_form[14]->filled) {
 		}
 		if($verkeerde_optie_gekoppeld) $cms_form[14]->error("bedrag_soort","er zijn nog optie A/B-accommodaties aan deze aanbieding gekoppeld");
 	}
-	
+
 	if($cms_form[14]->input["opval_linknaar"]) {
 		if(ereg("http",$cms_form[14]->input["opval_linknaar"])) {
 			$cms_form[14]->error("opval_linknaar","laat 'http' weg");
@@ -291,7 +291,7 @@ function form_before_goto($form) {
 	$db=new DB_sql;
 	$db2=new DB_sql;
 	global $login,$vars;
-	
+
 	if($_GET["wzt"]==2) {
 		$volgorde=0;
 		$db->query("SELECT aanbieding_id FROM aanbieding WHERE wzt='".addslashes($_GET["wzt"])."' AND opval_volgorde>0 ORDER BY opval_volgorde;");
@@ -299,7 +299,7 @@ function form_before_goto($form) {
 			$volgorde=$volgorde+10;
 			$db2->query("UPDATE aanbieding SET opval_volgorde='".$volgorde."' WHERE aanbieding_id='".$db->f("aanbieding_id")."';");
 		}
-	
+
 		$volgorde=0;
 		$db->query("SELECT aanbieding_id, volgorde1_abpagina FROM aanbieding WHERE tonen=1 AND wzt='".addslashes($_GET["wzt"])."' ORDER BY volgorde1_abpagina;");
 		while($db->next_record()) {
@@ -333,9 +333,9 @@ if($_GET["delete"]==14 and $_GET["14k0"]) {
 #
 if($cms->set_delete_init(14)) {
 	$db->query("DELETE FROM aanbieding_aankomstdatum WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
-	$db->query("DELETE FROM aanbieding_accommodatie WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");	
-	$db->query("DELETE FROM aanbieding_leverancier WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");	
-	$db->query("DELETE FROM aanbieding_type WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");	
+	$db->query("DELETE FROM aanbieding_accommodatie WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
+	$db->query("DELETE FROM aanbieding_leverancier WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
+	$db->query("DELETE FROM aanbieding_type WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
 }
 
 #
