@@ -1,9 +1,5 @@
 <?php
 
-#if($login->userlevel>=10) {
-#	phpinfo();
-#}
-
 $mail_only_errors=false;
 
 if($_FILES["xmlbetalingen"]["tmp_name"]) {
@@ -13,9 +9,6 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	while($db->next_record()) {
 		$voldaan_array[$db->f("boeking_id")]=round($db->f("bedrag"),2);
 	}
-
-#	echo wt_dump($voldaan_array);
-#	exit;
 
 
 	#
@@ -724,6 +717,41 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 	}
 
+	if($form->input["testsysteem"]) {
+
+		# gewone (niet-handmatige) opties laden waarbij hoort_bij_accommodatieinkoop aan staat
+		$db->query("SELECT b.boeking_id, ot.inkoop, ot.korting FROM boeking_optie bo, optie_tarief ot, boeking b WHERE b.aankomstdatum=ot.week AND bo.boeking_id=b.boeking_id AND ot.optie_onderdeel_id=bo.optie_onderdeel_id AND bo.hoort_bij_accommodatieinkoop=1 AND b.seizoen_id IN (".$seizoen_id.")".$andquery.";");
+		while($db->next_record()) {
+
+			$inkoop=$db->f("inkoop");
+			if($db->f("korting")) {
+				$inkoop=$inkoop*((100-$db->f("korting"))/100);
+			}
+			$inkoop=round($inkoop,2);
+			$losseboeking_optieinkoop[$db->f("boeking_id")]["bijkomende_kosten_verblijf"]+=$inkoop;
+		}
+
+		# extra (handmatige) opties laden waarbij hoort_bij_accommodatieinkoop aan staat
+		$db->query("SELECT b.boeking_id, e.extra_optie_id, e.persoonnummer, e.deelnemers, e.naam, e.inkoop, e.korting FROM extra_optie e, boeking b WHERE e.boeking_id=b.boeking_id AND e.hoort_bij_accommodatieinkoop=1 AND b.seizoen_id IN (".$seizoen_id.")".$andquery.";");
+		while($db->next_record()) {
+			$aantal_deelnemers=0;
+			if($db->f("persoonnummer")=="alg") {
+				$aantal_deelnemers=1;
+			} elseif($db->f("persoonnummer")=="pers") {
+				$aantal_deelnemers=intval(@count(@preg_split("/,/",$db->f("deelnemers"))));
+			}
+			if($aantal_deelnemers>0) {
+				$inkoop=$db->f("inkoop");
+				if($db->f("korting")) {
+					$inkoop=$inkoop*((100-$db->f("korting"))/100);
+				}
+				$inkoop=round($inkoop,2);
+				$losseboeking_optieinkoop[$db->f("boeking_id")]["bijkomende_kosten_verblijf"]+=$inkoop*$aantal_deelnemers;
+			}
+		}
+	}
+
+
 	# Garanties
 	$db->query("SELECT g.garantie_id, g.boeking_id, g.netto, g.bruto, g.naam, g.leverancier_id, g.aankomstdatum, g.aankomstdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, g.aankomstdatum_exact, g.vertrekdatum_exact, a.wzt, a.bestelnaam AS abestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, p.naam AS plaats, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, skigebied s, leverancier l WHERE p.skigebied_id=s.skigebied_id AND g.leverancier_id=l.leverancier_id AND a.plaats_id=p.plaats_id AND t.accommodatie_id=a.accommodatie_id AND g.type_id=t.type_id AND CHAR_LENGTH(g.reserveringsnummer_extern)>0".$andquery_gar.$andquery_gar_hoofdquery." ORDER BY g.reserveringsnummer_extern;");
 	while($db->next_record()) {
@@ -1047,7 +1075,6 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			$totalen["totaal"]["opties_".$value2][$key]=$totalen["omzet_gar"]["opties_".$value2][$key]+$totalen["omzet_ov"]["opties_".$value2][$key];
 		}
 	}
-#	echo wt_dump($totalen["totaal"]);
 
 	# fixed table-header
 	if($form->input["losseboekingen"]) {

@@ -42,8 +42,8 @@ if($seizoen["naam"]) {
 	}
 	unset($teller);
 	echo "</form>";
-	
-	# Het daadwerkelijke formulier	
+
+	# Het daadwerkelijke formulier
 	echo "<form id=\"tarieven\" method=\"post\" action=\"cms_calculatiesjablonen.php?".$_SERVER["QUERY_STRING"]."\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 #	echo "<input type=\"hidden\" name=\"max\" value=\"\">";
@@ -150,7 +150,7 @@ if($seizoen["naam"]) {
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
 		$regelteller++;
-		echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" id=\"wederverkoop_commissie_agent[".$week."]\" onchange=\"replace_comma(this)\" name=\"wederverkoop_commissie_agent[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".($bestaand_sjabloon ? htmlentities($sjabloon["weken"][$week]["wederverkoop_commissie_agent"]) : "10.00")."\"></td>";
+		echo "<td align=\"right\" nowrap>%<input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" id=\"wederverkoop_commissie_agent[".$week."]\" onchange=\"replace_comma(this)\" name=\"wederverkoop_commissie_agent[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"6\" value=\"".($bestaand_sjabloon ? htmlentities($sjabloon["weken"][$week]["wederverkoop_commissie_agent"]) : "8.00")."\"></td>";
 		$bruto_totaal+=$seizoen["weken"][$week]["bruto"];
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 	}
@@ -160,7 +160,7 @@ if($seizoen["naam"]) {
 	# Lege regel
 	lege_regel();
 
-	
+
 	# Titel - Optie A + datums
 	echo "<tr>";
 	echo "<th>Optie A (=arrangement met skipas)</th>";
@@ -218,7 +218,7 @@ if($seizoen["naam"]) {
 	}
 	echo "<td nowrap>".htmlentities($titel)."</td>";
 	echo "</tr>";
-	
+
 	# Lege regel
 	lege_regel();
 
@@ -533,7 +533,7 @@ if($seizoen["naam"]) {
 	}
 	echo "<td nowrap>".htmlentities($titel)."</td>";
 	echo "</tr>";
-	
+
 	# Lege regel
 	lege_regel();
 
