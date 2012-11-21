@@ -285,7 +285,7 @@ $txta["en"]["subtitel"]="Wintersports - Chalets - Accommodations";
 #$txta["nl_z"]["subtitel"]="Zomervakantie - Chalets, vakantiewoningen en andere accommodaties";
 #$txta["en_z"]["subtitel"]="Summer Holidays - Chalets - Accommodations - Holiday Homes";
 
-$txta["nl_z"]["subtitel"]="Vakantie in zomer, voorjaar en najaar – Vakantiehuizen en luxe appartementen in Europa";
+$txta["nl_z"]["subtitel"]="Vakantie in zomer, voorjaar en najaar - Vakantiehuizen en luxe appartementen in Europa";
 $txta["en_z"]["subtitel"]="Summer Holidays - Chalets - Accommodations - Holiday Homes";
 
 $txta["nl_i"]["subtitel"]="Agriturismi en overige vakantiehuizen in Italië";
@@ -297,7 +297,7 @@ $txta["en_w"]["subtitel"]="-";
 $txta["nl"]["sitetitel"]="-";
 $txta["en"]["sitetitel"]="-";
 
-$txta["nl_z"]["sitetitel"]="Vakantiehuizen voor levensgenieters";
+$txta["nl_z"]["sitetitel"]="vakantiehuizen - Vakantie in de bergen";
 $txta["en_z"]["sitetitel"]="-";
 
 $txta["nl_v"]["sitetitel"]="Puur genieten in Vallandry";
@@ -314,7 +314,7 @@ $txta["en_i"]["sitetitel"]="-";
 $txta["nl"]["description"]="Wintersportspecialist: Chalets en appartementen voor 2 tot 50 personen, desgewenst inclusief catering, skipassen, materiaalhuur en skilessen.";
 $txta["en"]["description"]="Wintersports - Chalets - Accommodations";
 
-$txta["nl_z"]["description"]="Vakantiehuizen voor levensgenieters. Karakteristieke landhuizen, luxe villa's en vakantieparken in Frankrijk, Italië, Spanje, Oostenrijk en Zwitserland.";
+$txta["nl_z"]["description"]="Vakantie in de bergen. Vakantiehuizen in de bergen van Oostenrijk, Frankrijk, Zwitserland, Italië en Duitsland. Uniek aanbod en lid van SGR.";
 $txta["en_z"]["description"]="-";
 
 $txta["nl_i"]["description"]="Agriturismi en andere vakantiehuizen in Italë -  Zo'n 1.000 karakteristieke vakantiehuizen, vakantievilla's  en agriturismi verdeeld over heel Italië.";

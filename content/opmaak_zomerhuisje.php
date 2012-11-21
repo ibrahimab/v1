@@ -11,7 +11,7 @@ if($grizzly_title) {
 	echo $grizzly_title;
 } else {
 	if($id=="index") {
-		echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("sitetitel"));
+		echo htmlentities($vars["websitenaam"])." ".htmlentities(txt("sitetitel"));
 		$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("sitetitel");
 	} else {
 		if($title[$id] and $id) {

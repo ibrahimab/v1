@@ -190,6 +190,9 @@ RewriteRule ^chalet/chalet-des-neiges\.htm$ /accommodatie/F116/ [R=301,L]
 RewriteRule ^chalet$ /land/Frankrijk/ [R=301,L]
 RewriteRule ^chalet/.*$ / [R=301,L]
 
+RewriteCond %{HTTP_HOST} zomerhuisje [NC]
+RewriteRule ^vakantie/.*$ / [R=301,L]
+
 
 # Nieuwe Grizzly-links verwerken (zodat grizzly.php ertussen wordt gezet)
 RewriteRule ^vakantie/([A-Za-z0-9-]*)\.php$ grizzly.php?grizzlyfile=$1&%{QUERY_STRING}
