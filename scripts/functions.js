@@ -676,6 +676,9 @@ $(document).ready(function() {
 
 				// popup direct tonen bij openen pagina
 				$("#zomerhuisje_popup").click();
+
+				// cookie zh_kw (Zomerhuisje-koerswijziging) plaatsen zodat popup maar 1x wordt getoond
+				chalet_createCookie("zh_kw","1",3650);
 			}
 		}
 

@@ -78,7 +78,9 @@ if((!$_COOKIE["tch"] or $vars["bezoek_altijd_opslaan"]) and !$mustlogin) {
 		if($_COOKIE["sch"] and strlen($_COOKIE["sch"])==32) {
 			$code=$_COOKIE["sch"];
 			$db->query("SELECT bezoeker_id FROM bezoeker WHERE bezoeker_id='".addslashes($code)."';");
-			if(!$db->num_rows()) {
+			if($db->num_rows()) {
+				$vars["trackercookie_terugkerende_bezoeker"]=true;
+			} else {
 				$db->query("INSERT INTO bezoeker SET bezoeker_id='".addslashes($code)."', site='".addslashes($_SERVER["HTTP_HOST"])."', gewijzigd=NOW();");
 			}
 			setcookie("sch",$code,time()+(86400*365*10),"/");

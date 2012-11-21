@@ -194,7 +194,7 @@ while(list($key,$value)=each($vars["topfoto"])) {
 	}
 }
 echo "<div style=\"position:absolute;top:0px;left:0px;\">";
-echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."\" width=\"970\" height=\"179\" alt=\"".htmlentities($vars["websitenaam"])."\" border=\"0\">";
+echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."?c=1\" width=\"970\" height=\"179\" alt=\"".htmlentities($vars["websitenaam"])."\" border=\"0\">";
 echo "</div>";
 
 # Link naar hoofdpagina
@@ -656,7 +656,8 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 }
 
 // fancybox-popup bij Zomerhuisje (melding over koerswijziging)
-if($_GET["testsysteem"]) {
+if($vars["trackercookie_terugkerende_bezoeker"] and !$_COOKIE["zh_kw"]) {
+	# zh_kw = Zomerhuisje-koerswijziging
 	echo "<a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=zomerhuisje-koerswijziging\" id=\"zomerhuisje_popup\" style=\"display:none;\" rel=\"nofollow\">&nbsp;</a>";
 }
 

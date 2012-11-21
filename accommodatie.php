@@ -1,8 +1,5 @@
 <?php
 
-#phpinfo();
-#exit;
-
 $vars["jquery_fancybox"]=true;
 $vars["verberg_linkerkolom"]=true;
 $vars["page_with_tabs"]=true;
@@ -138,13 +135,26 @@ if($acc_aanwezig) {
 	$robot_noindex=true;
 	unset($vars["canonical"]);
 
-	if($vars["website"]=="Z") {
-		#
-		# Tijdelijk: bij Zomerhuisje alle niet gevonden accommodaties doorsturen naar de homepage (vanwege koerswijziging: alleen berg-accommodaties)
-		# 26-10-2012
-		#
-		header("Location: ".$vars["path"],true,301);
-		exit;
+	if($vars["website"]=="Z" or $vars["website"]=="N") {
+		# Alle Italiaanse accommodaties die niet worden gevonden doorsturen naar Italissima
+		if(strtolower($begincode)=="i") {
+
+			$db->query("SELECT type_id FROM view_accommodatie WHERE type_id='".addslashes($typeid)."' AND atonen=1 AND ttonen=1 AND websites LIKE '%I%';");
+			if($db->next_record()) {
+				header("Location: http://www.italissima.nl".$_SERVER["REQUEST_URI"],true,301);
+				exit;
+			} else {
+				header("Location: ".$vars["path"],true,301);
+				exit;
+			}
+		} else {
+			#
+			# Tijdelijk: bij Zomerhuisje alle niet gevonden accommodaties doorsturen naar de homepage (vanwege koerswijziging: alleen berg-accommodaties)
+			# 26-10-2012
+			#
+			header("Location: ".$vars["path"],true,301);
+			exit;
+		}
 	}
 }
 

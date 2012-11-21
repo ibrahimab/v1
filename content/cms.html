@@ -25,6 +25,21 @@ if(!$login->logged_in) {
 
 #		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+
+		# Italiaanse accommodaties Zomerhuisje uitzetten
+// 		$db->query("SELECT type_id, websites, skigebied FROM view_accommodatie WHERE (websites LIKE '%Z%' OR websites LIKE '%N%') AND websites LIKE '%I%' AND land_id=5 AND archief=0 AND skigebied_id NOT IN (135,142,168) ORDER BY skigebied;");
+// 		while($db->next_record()) {
+// 			$websites=$db->f("websites");
+// 			$websites=preg_replace("/[ZN]/","",$websites);
+// 			$websites=preg_replace("/^,{1,}/","",$websites);
+// 			$websites=preg_replace("/,{1,}$/","",$websites);
+// #			$websites=preg_replace("/^,/","",$websites);
+// 			echo $db->f("skigebied")." - ".$db->f("type_id")." - ".$db->f("websites")." - ".$websites."<br>";
+
+// 			$db2->query("UPDATE type SET websites='".$websites."' WHERE type_id='".$db->f("type_id")."';");
+// 			echo $db2->lq."<br>";
+// 		}
+
 #		gekoppelde_acc_opslaan_voor_zoekfunctie();
 
 		# Italissima-facturen op "nog niet geexporteerd" zetten
