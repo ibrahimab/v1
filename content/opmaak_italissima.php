@@ -18,7 +18,7 @@ if($language_content) {
 }
 if(!$include) {
 	if($_SERVER["HTTP_REFERER"]) {
-		trigger_error("geen include-bestand bekend",E_USER_NOTICE);
+		trigger_error("_notice: geen include-bestand bekend",E_USER_NOTICE);
 	}
 	header("Location: ".$vars["path"],true,301);
 	exit;
