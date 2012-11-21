@@ -3429,7 +3429,13 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		$tradetracker_campaignID="8901";
 
 		# productID
-		$tradetracker_productID="13471";
+		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+			$tradetracker_productID="13611";
+		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14272";
+		} else {
+			$tradetracker_productID="13471";
+		}
 
 		# bedrag
 		$tradetracker_bedrag="";
