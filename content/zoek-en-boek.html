@@ -2207,11 +2207,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 					$verfijnd["kenmerken"][22]++;
 				}
 
-				# Verfijnd zoeken: thema levensgenieters
-#				if(check_kenmerken($db->f("akenmerken"),17) or check_kenmerken($db->f("pkenmerken"),8) or check_kenmerken($db->f("skenmerken"),5)) {
-#					$verfijnd["kenmerken"][23]++;
-#				}
-
 				# Verfijnd zoeken: thema vleugje welness
 				if(check_kenmerken($db->f("tkenmerken"),9) or check_kenmerken($db->f("akenmerken"),9) or check_kenmerken($db->f("pkenmerken"),4) or check_kenmerken($db->f("skenmerken"),3)) {
 					$verfijnd["kenmerken"][24]++;

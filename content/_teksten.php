@@ -1086,9 +1086,6 @@ $txt["en"]["zoek-en-boek"]["goedvoorkids"]="good for kids";
 $txt["nl"]["zoek-en-boek"]["bijzonder"]="bijzonder";
 $txt["en"]["zoek-en-boek"]["bijzonder"]="special";
 
-$txt["nl"]["zoek-en-boek"]["levensgenieters"]="levensgenieters";
-$txt["en"]["zoek-en-boek"]["levensgenieters"]="taking it slow";
-
 $txt["nl"]["zoek-en-boek"]["vleugjewelness"]="vleugje wellness";
 $txt["en"]["zoek-en-boek"]["vleugjewelness"]="touch of wellness";
 
