@@ -1349,6 +1349,12 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					if($db->num_rows()) {
 						$form->error("reserveringsnummer_2","bestaat al bij een garantie");
 					}
+
+				}
+
+				# Controleren of gekozen garantie wel een volgnummer heeft
+				if($form->input["voorraad_afboeken"] and preg_match("/garantie: onbekend volgnummer/",$form->fields["options"]["voorraad_afboeken"]["selection"][$form->input["voorraad_afboeken"]])) {
+					$form->error("voorraad_afboeken","garanties zonder volgnummer kunnen niet worden gebruikt. Voorzie de garantie van een leveranciers-volgnummer en herlaad deze pagina");
 				}
 
 				# Nieuwe methode boekingsnummer
