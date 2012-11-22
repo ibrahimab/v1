@@ -421,7 +421,7 @@ class Login {
 		if($this->settings["adminmail"]) wt_mail($this->settings["adminmail"],$subject,$body,$from,$fromname);
 		if(!ereg("@webtastic\.nl$",$this->settings["adminmail"]) and $this->settings["mail_wt"]) {
 #			mail("jeroen@webtastic.nl",$subject,$body,$from);
-			wt_mail("jeroen@webtastic.nl",$subject,$body,$from,$fromname);
+			wt_mail("systeembeheer@webtastic.nl",$subject,$body,$from,$fromname);
 		}
 	}
 

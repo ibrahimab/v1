@@ -129,7 +129,7 @@ if($seizoen["naam"]) {
 	echo "<p><input type=\"checkbox\" name=\"melding_geen_tarieven_tonen\" value=\"1\"".($melding_geen_tarieven_verbergen ? "" : " checked")." id=\"melding_geen_tarieven_tonen\" style=\"vertical-align:middle;position:relative;bottom:1px;\"><label for=\"melding_geen_tarieven_tonen\">&nbsp;Toon een melding op de CMS-hoofdpagina indien er onvoldoende tarieven zijn ingevoerd</label></p>";
 	echo "<p><input type=\"checkbox\" name=\"hoogseizoencontrole\" value=\"1\"".($hoogseizoencontrole ? " checked" : "")." id=\"hoogseizoencontrole\" style=\"vertical-align:middle;position:relative;bottom:1px;\"><label for=\"hoogseizoencontrole\">&nbsp;Toon een melding op de CMS-hoofdpagina indien de hoogseizoen-tarieven onjuist zijn</label></p>";
 	if($acc["verzameltype"]) {
-		echo "<b>Verzameltype: alleen lezen</b>&nbsp;&nbsp;";
+		echo "<b style=\"background-color:yellow;\">Verzameltype: alleen lezen</b>&nbsp;&nbsp;";
 	}
 
 	if(!$_GET["autosave"]) {

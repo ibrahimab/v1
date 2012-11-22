@@ -7,23 +7,23 @@
 	padding-top: 5px;
 	text-align: left;
 	border: 2px solid #5f227b;
-	background-color: #cfbcd8;
+	background-color: #ffffff;
 	width: 235px;
 }
 
 .keuzes {
 	font-size: 0.8em;
-	line-height: 150%;
+	line-height: 200%;
 	padding-top: 0px;
 }
 
 .keuzes a:hover {
-	color: #ffffff;
+	color: #cbd328;
 }
 
 #verfijntopheader {
 	text-align: left;
-	color: #ffffff;
+	color: #5f227b;
 	font-weight: bold;
 	padding-left: 10px;
 }
@@ -83,7 +83,7 @@
 
 .keuzeopsomming_leeg {
 	padding-left: 10px;
-	color: #878481;	
+	color: #878481;
 }
 
 #laatstbekeken {

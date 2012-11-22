@@ -729,6 +729,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			}
 			$inkoop=round($inkoop,2);
 			$losseboeking_optieinkoop[$db->f("boeking_id")]["bijkomende_kosten_verblijf"]+=$inkoop;
+
+			# later bedrag aftrekken van "inkoop acc"
+			$losseboeking_optieinkoop_aftrekken_van_inkoop_acc[$db->f("boeking_id")]+=$inkoop;
+
 		}
 
 		# extra (handmatige) opties laden waarbij hoort_bij_accommodatieinkoop aan staat
@@ -747,6 +751,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				}
 				$inkoop=round($inkoop,2);
 				$losseboeking_optieinkoop[$db->f("boeking_id")]["bijkomende_kosten_verblijf"]+=$inkoop*$aantal_deelnemers;
+
+				# later bedrag aftrekken van "inkoop acc"
+				$losseboeking_optieinkoop_aftrekken_van_inkoop_acc[$db->f("boeking_id")]+=$inkoop*$aantal_deelnemers;
+
 			}
 		}
 	}
@@ -919,7 +927,14 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$totalen[$use_key]["aantalpersonen_max"][$db->f("seizoen_id")]+=$db->f("maxaantalpersonen");
 		$totalen[$use_key]["aantalacc"][$db->f("seizoen_id")]++;
 		$totalen[$use_key]["inkoopbruto"][$db->f("seizoen_id")]+=$db->f("inkoopbruto");
+
 		$totalen[$use_key]["totaalfactuurbedrag"][$db->f("seizoen_id")]+=$db->f("totaalfactuurbedrag");
+
+		# "bijkomende kosten" aftrekken van "inkoop acc"
+		if($losseboeking_optieinkoop_aftrekken_van_inkoop_acc[$db->f("boeking_id")]) {
+			$totalen[$use_key]["totaalfactuurbedrag"][$db->f("seizoen_id")]-=$losseboeking_optieinkoop_aftrekken_van_inkoop_acc[$db->f("boeking_id")];
+		}
+
 		$totalen[$use_key]["totale_reissom"][$db->f("seizoen_id")]+=$db->f("totale_reissom");
 		$totalen[$use_key]["totale_reissom_inkoop"][$db->f("seizoen_id")]+=$db->f("totale_reissom_inkoop");
 		$totalen[$use_key]["betaald_bedrag_goedgekeurd"][$db->f("seizoen_id")]+=$losseboeking_betaling[$db->f("boeking_id")];
@@ -937,6 +952,13 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$totalen_lev[$db->f("leverancier_id")]["aantalacc"][$db->f("seizoen_id")]++;
 		$totalen_lev[$db->f("leverancier_id")]["inkoopbruto"][$db->f("seizoen_id")]+=$db->f("inkoopbruto");
 		$totalen_lev[$db->f("leverancier_id")]["totaalfactuurbedrag"][$db->f("seizoen_id")]+=$db->f("totaalfactuurbedrag");
+
+
+		# "bijkomende kosten" aftrekken van "inkoop acc"
+		if($losseboeking_optieinkoop_aftrekken_van_inkoop_acc[$db->f("boeking_id")]) {
+			$totalen_lev[$db->f("leverancier_id")]["totaalfactuurbedrag"][$db->f("seizoen_id")]-=$losseboeking_optieinkoop_aftrekken_van_inkoop_acc[$db->f("boeking_id")];
+		}
+
 		$totalen_lev[$db->f("leverancier_id")]["totale_reissom"][$db->f("seizoen_id")]+=$db->f("totale_reissom");
 		$totalen_lev[$db->f("leverancier_id")]["totale_reissom_inkoop"][$db->f("seizoen_id")]+=$db->f("totale_reissom_inkoop");
 		$totalen_lev[$db->f("leverancier_id")]["betaald_bedrag_goedgekeurd"][$db->f("seizoen_id")]+=$losseboeking_betaling[$db->f("boeking_id")];
@@ -984,7 +1006,14 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$losseregel.="<td>".wt_cur($db->f("totale_reissom"))."</td>";
 			}
 			if($kolom["inkoopwaarde_acc"]) {
-				$losseregel.="<td>".wt_cur($db->f("totaalfactuurbedrag"))."</td>";
+
+				$totaalfactuurbedrag=$db->f("totaalfactuurbedrag");
+
+				# "bijkomende kosten" aftrekken van "inkoop acc"
+				if($losseboeking_optieinkoop_aftrekken_van_inkoop_acc[$db->f("boeking_id")]) {
+					$totaalfactuurbedrag-=$losseboeking_optieinkoop_aftrekken_van_inkoop_acc[$db->f("boeking_id")];
+				}
+				$losseregel.="<td>".wt_cur($totaalfactuurbedrag)."</td>";
 			}
 			if($kolom["opties_bijkomende_kosten_verblijf"]) {
 				$losseregel.="<td>".wt_cur($losseboeking_optieinkoop[$db->f("boeking_id")]["bijkomende_kosten_verblijf"])."</td>";
