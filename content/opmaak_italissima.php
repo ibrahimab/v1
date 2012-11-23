@@ -279,16 +279,25 @@ if($vars["verberg_linkerkolom"]) {
 	}
 
 	if(!$vars["verberg_directnaar"]) {
-		echo "<div id=\"directnaar\" class=\"noprint\">";
-#		echo "<div id=\"directnaar_kop\"><span class=\"bloklinks_kop\">".html("directnaar","index")."</span></div>";
 
-#		echo "Accommodatietip";
-#		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("frankrijk","index"))."/\">".html("frankrijk","index")."</a><br />";
-#		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("oostenrijk","index"))."/\">".html("oostenrijk","index")."</a><br />";
-#		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("zwitserland","index"))."/\">".html("zwitserland","index")."</a><br />";
-#		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url(txt("italie","index"))."/\">".html("italie","index")."</a><br />";
-#		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".txt("menu_land")."/".wt_convert2url(txt("frankrijk","index"))."/\">".html("overigelanden","index")."</a><br />";
-		echo "</div>\n"; # afsluiten directnaar
+		if($id=="index") {
+			# Inschrijven nieuwsbrief
+			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
+			echo "<div class=\"kop\">Nieuwsbrief</div>";
+			echo "<div>Ontvang aanbiedingen, nieuws en reistips.</div>";
+			if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
+				$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
+			} else {
+				$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
+			}
+			echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
+			echo "<div style=\"margin-top:5px;\"><input type=\"email\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
+			echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
+			echo "</form>";
+			echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
+
+			echo "<div style=\"clear:both;\"></div>";
+		}
 
 		#
 		# Blok links met accommodatie
@@ -361,22 +370,6 @@ if($vars["verberg_linkerkolom"]) {
 	}
 
 	if($id=="index") {
-
-		echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
-		echo "<div class=\"kop\">Nieuwsbrief</div>";
-		echo "<div>Ontvang aanbiedingen, nieuws en reistips.</div>";
-		if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
-			$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
-		} else {
-			$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
-		}
-		echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
-		echo "<div style=\"margin-top:5px;\"><input type=\"email\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
-		echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
-		echo "</form>";
-		echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
-
-		echo "<div style=\"clear:both;\"></div>";
 
 		# Tarieven al bekend: link naar zomer2013.php
 		// echo "<a href=\"".$vars["path"]."zomer2013.php\" id=\"hoofdpagina_tarievenalbekend\">";

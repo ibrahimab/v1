@@ -832,7 +832,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_text(1,"postcode",txt("postcode","boeken"),"",array("text"=>$gegevens["stap2"]["postcode"]),array("maxlength"=>10));
 		}
 		$form->field_text(1,"plaats",txt("woonplaats","boeken"),"",array("text"=>$gegevens["stap2"]["plaats"]));
-		$form->field_text(1,"land",txt("land","boeken"),"",array("text"=>($gegevens["stap2"]["land"] ? $gegevens["stap2"]["land"] : ($vars["taal"]=="nl" ? "Nederland" : ""))));
+
+		if($vars["websiteland"]=="be") {
+			$default_land="België";
+		} elseif($vars["websiteland"]=="nl") {
+			$default_land="Nederland";
+		}
+		$form->field_text(1,"land",txt("land","boeken"),"",array("text"=>($gegevens["stap2"]["land"] ? $gegevens["stap2"]["land"] : $default_land)));
 
 		if($gegevens["stap1"]["reisbureau_user_id"]) {
 			$form->field_text(0,"telefoonnummer",txt("telefoonnummer","boeken")."<br><span class=\"kleinfont\">(".txt("telefoonnummer_toelichtingwederverkoop","boeken").")</span>","",array("text"=>$gegevens["stap2"]["telefoonnummer"]),"",array("title_html"=>true));
