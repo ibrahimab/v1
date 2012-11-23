@@ -126,8 +126,16 @@ if($werknemer_optieaanvraag) {
 } else {
 	$form->field_textarea(0,"wensenbezet",txt("wensenindienbezet","beschikbaarheid"),"","","",array("newline"=>false));
 	$form->field_textarea(0,"vraag",txt("vragenopmerkingen","beschikbaarheid"),"","","",array("newline"=>false));
-	if($vars["taal"]=="nl" and !$vars["wederverkoop"] and $vars["websitetype"]<>8) {
-		$form->field_yesno("nieuwsbrief",txt("ikwilgraaglidworden","beschikbaarheid",array("v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>0));
+
+	if($vars["website"]=="C" or $vars["website"]=="I") {
+		if($vars["website"]=="I") {
+			# Italissima-nieuwsbrief
+			$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
+			$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
+		} else {
+			# Chalet.nl-nieuwsbrief
+			$form->field_radio(0,"nieuwsbrief","<div style=\"height:7px;\"></div>Wil je lid worden van de ".$vars["websitenaam"]."-nieuwsbrief?","",array("selection"=>3),array("selection"=>array(1=>"ja, per direct",2=>"ja, tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen",3=>"nee, ik wil niet lid worden")),array("one_per_line"=>true,"newline"=>true,"tr_class"=>"nieuwsbrief_per_wanneer","title_html"=>true));
+		}
 	}
 }
 
@@ -217,8 +225,8 @@ if($form->okay) {
 		}
 
 		# Inschrijven nieuwsbrief
-		if($form->input["nieuwsbrief"]) {
-			$nieuwsbrief_waardes=array("email"=>$form->input["email"],"voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"]);
+		if($form->input["nieuwsbrief"] and $form->input["nieuwsbrief"]<>"3") {
+			$nieuwsbrief_waardes=array("email"=>$form->input["email"],"voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"],"per_wanneer"=>$form->input["nieuwsbrief"]);
 			nieuwsbrief_inschrijven($vars["seizoentype"],$nieuwsbrief_waardes);
 		}
 

@@ -3549,6 +3549,12 @@ function nieuwsbrief_inschrijven($wzt,$nieuwsbrief_waardes) {
 		$data['redir']="formAdmin2";
 		$data['viewMode']="STATICINTEGRATION";
 	}
+
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+		echo wt_dump($data);
+		exit;
+	}
+
 	$result=nieuwsbrief_inschrijven_bij_blinker("http://m16.mailplus.nl/genericservice/code/servlet/Redirect",$data);
 }
 

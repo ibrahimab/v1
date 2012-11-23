@@ -49,14 +49,14 @@ $form->field_text(0,"mobielwerk",txt("mobielwerk","contact"),"",array("text"=>$t
 $form->field_email(1,"email",txt("email","contact"),"",array("text"=>$temp_naw["email"]));
 $form->field_textarea(0,"opmerkingen",txt("opmerkingen","contact"));
 $form->field_yesno("teruggebeld",txt("teruggebeld","contact"));
-if($vars["taal"]=="nl" and ($vars["website"]=="C" or $vars["website"]=="I")) {
-	$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
-	$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
-
-	if($vars["website"]=="C") {
-		$form->field_htmlrow("",'<div id="nieuwsbrief_per_wanneer_row"><table cellspacing="0" cellpadding="4" border="0"><tr><td colspan="2">Ik wil graag de Chalet.nl-nieuwsbrief ontvangen:</td></tr>
-					<tr><td valign="top"><input type="radio" name="per_wanneer" value="1" id="per_wanneer1"'.($_POST["per_wanneer"]==1||!$_POST["per_wanneer"] ? " checked" : "").'></td><td><label for="per_wanneer1">per direct</label></td></tr>
-					<tr><td valign="top"><input type="radio" name="per_wanneer" value="2" id="per_wanneer2"'.($_POST["per_wanneer"]==2 ? " checked" : "").'></td><td><label for="per_wanneer2">tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen</label></td></tr></table></div>');
+if($vars["website"]=="C" or $vars["website"]=="I") {
+	if($vars["website"]=="I") {
+		# Italissima-nieuwsbrief
+		$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
+		$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
+	} else {
+		# Chalet.nl-nieuwsbrief
+		$form->field_radio(0,"nieuwsbrief","<div style=\"height:7px;\"></div>Wil je lid worden van de ".$vars["websitenaam"]."-nieuwsbrief?","",array("selection"=>3),array("selection"=>array(1=>"ja, per direct",2=>"ja, tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen",3=>"nee, ik wil niet lid worden")),array("one_per_line"=>true,"newline"=>true,"tr_class"=>"nieuwsbrief_per_wanneer","title_html"=>true));
 	}
 }
 
@@ -109,10 +109,8 @@ if($form->okay) {
 	nawcookie($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"],$form->input["adres"],$form->input["postcode"],$form->input["woonplaats"],$form->input["land"],$form->input["telefoonnummer"],$form->input["mobielwerk"],$form->input["email"],"not",$form->input["nieuwsbrief"]);
 
 	# Inschrijven nieuwsbrief
-	if($form->input["nieuwsbrief"]) {
-#		$mm_waardes=array("voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"]);
-#		mm_newmember($form->input["email"],$vars["mailingmanagerid"],$mm_waardes);
-		$nieuwsbrief_waardes=array("email"=>$form->input["email"],"voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"],"per_wanneer"=>$_POST["per_wanneer"]);
+	if($form->input["nieuwsbrief"] and $form->input["nieuwsbrief"]<>"3") {
+		$nieuwsbrief_waardes=array("email"=>$form->input["email"],"voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"],"per_wanneer"=>$form->input["nieuwsbrief"]);
 		nieuwsbrief_inschrijven($vars["seizoentype"],$nieuwsbrief_waardes);
 	}
 }

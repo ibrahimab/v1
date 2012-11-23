@@ -1282,17 +1282,28 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		if(!$gegevens["stap1"]["reisbureau_user_id"]) {
 			$form->field_checkbox(0,"referentiekeuze",txt("referentiekeuze","boeken",array("v_websitenaam"=>$vars["websitenaam"])),"","",array("selection"=>$vars["referentiekeuze"]),array("one_per_line"=>true));
 		}
-		if($vars["taal"]=="nl" and !$gegevens["stap1"]["reisbureau_user_id"] and $vars["websitetype"]<>3 and $vars["websitetype"]<>7 and $vars["websitetype"]<>8) {
-			if($vars["seizoentype"]==1 and $vars["wederverkoop"]) {
-				# Bij winter-wederverkoop: geen nieuwsbrief aanbieden
+
+		if($vars["website"]=="C" or $vars["website"]=="I") {
+			if($vars["website"]=="I") {
+				# Italissima-nieuwsbrief
+				$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
+				$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
 			} else {
-				$form->field_yesno("nieuwsbrief",txt("ikwilgraaglidworden","boeken",array("v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>($temp_naw["nieuwsbrief"]||$voorkant_cms ? 0 : 1)));
+				# Chalet.nl-nieuwsbrief
+				$form->field_radio(0,"nieuwsbrief","<div style=\"height:7px;\"></div>Wil je lid worden van de ".$vars["websitenaam"]."-nieuwsbrief?","",array("selection"=>3),array("selection"=>array(1=>"ja, per direct",2=>"ja, tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen",3=>"nee, ik wil niet lid worden")),array("one_per_line"=>true,"newline"=>true,"tr_class"=>"nieuwsbrief_per_wanneer","title_html"=>true));
 			}
 		}
+
+		// if($vars["taal"]=="nl" and !$gegevens["stap1"]["reisbureau_user_id"] and $vars["websitetype"]<>3 and $vars["websitetype"]<>7 and $vars["websitetype"]<>8) {
+		// 	if($vars["seizoentype"]==1 and $vars["wederverkoop"]) {
+		// 		# Bij winter-wederverkoop: geen nieuwsbrief aanbieden
+		// 	} else {
+		// 		$form->field_yesno("nieuwsbrief",txt("ikwilgraaglidworden","boeken",array("v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>($temp_naw["nieuwsbrief"]||$voorkant_cms ? 0 : 1)));
+		// 	}
+		// }
+
 		$form->field_yesno("akkoord",html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"javascript:popwindow(600,0,'popup.php?id=algemenevoorwaarden');","v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
-#		if($voorkant_cms) {
-#			$form->field_yesno("verstuur_geen_mail","<span class=\"intern\">Stuur de bevestigingsmail naar ".htmlentities($login->vars["email"])." en verstuur geen interne mail</span>","",array("selection"=>true),"",array("title_html"=>true,"tr_style"=>"display:none;"));
-#		}
+
 	} elseif($_GET["stap"]==6) {
 		# Gegevens wissen
 		unset($_SESSION["boeking"]);
@@ -2605,14 +2616,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			}
 
 			# Inschrijven nieuwsbrief
-			if($form->input["nieuwsbrief"]) {
-#				$mm_waardes=
-#				mm_newmember($gegevens["stap2"]["email"],$vars["mailingmanagerid"],$mm_waardes);
-
-				$nieuwsbrief_waardes=array("email"=>$gegevens["stap2"]["email"],"voornaam"=>$gegevens["stap2"]["voornaam"],"tussenvoegsel"=>$gegevens["stap2"]["tussenvoegsel"],"achternaam"=>$gegevens["stap2"]["achternaam"]);
+			if($form->input["nieuwsbrief"] and $form->input["nieuwsbrief"]<>"3") {
+				$nieuwsbrief_waardes=array("email"=>$gegevens["stap2"]["email"],"voornaam"=>$gegevens["stap2"]["voornaam"],"tussenvoegsel"=>$gegevens["stap2"]["tussenvoegsel"],"achternaam"=>$gegevens["stap2"]["achternaam"],"per_wanneer"=>$form->input["nieuwsbrief"]);
 				nieuwsbrief_inschrijven($vars["seizoentype"],$nieuwsbrief_waardes);
-
 			}
+
 			setcookie("naw[nieuwsbrief]",($form->input["nieuwsbrief"] ? "ja" : "nee"),time()+12960000);
 
 

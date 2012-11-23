@@ -1326,12 +1326,9 @@ td.selecteerbaarbedrag:hover{
 	margin-bottom:10px;
 }
 
-/*nieuwsbrief 'per wanneer' verbergen (tonen via openklappen)*/
-#nieuwsbrief_per_wanneer_row {
-	display: none;
+.nieuwsbrief_per_wanneer input[type=radio] {
+	margin-bottom: 7px;
 }
-
-
 
 /*
 
