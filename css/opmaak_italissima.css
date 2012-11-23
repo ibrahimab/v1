@@ -413,6 +413,23 @@ form {
 	color: #ffd38f;
 }
 
+#hoofdpagina_nieuwsbrief {
+	float: right;
+	width: 190px;
+	background-color: #ffd38f;
+	padding-left: 5px;
+	padding-right: 5px;
+	color: #661700;
+	margin-top: 15px;
+}
+
+#hoofdpagina_nieuwsbrief .kop {
+	color: #661700;
+	font-size: 1.2em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
 .button {
 	width: 168px;
 	font-size: 0.9em;
@@ -942,6 +959,14 @@ form {
 
 .padnoIND{
 	padding-left:10px;
+}
+
+/*per pagina*/
+
+
+/*nieuwsbrief*/
+#nieuwsbrief_vulin {
+	border:1px solid #ffd38f;
 }
 
 @media print {

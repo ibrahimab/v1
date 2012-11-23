@@ -1310,9 +1310,27 @@ td.selecteerbaarbedrag:hover{
 
 /* per pagina */
 
+
+/*sitemap*/
 #body_sitemap ul {
 	margin-top: -8px;
 }
+
+
+/*nieuwsbrief*/
+#nieuwsbrief_vulin {
+	border:1px solid #d40139;
+	padding:5px;
+	width:600px;
+	margin-top:20px;
+	margin-bottom:10px;
+}
+
+/*nieuwsbrief 'per wanneer' verbergen (tonen via openklappen)*/
+#nieuwsbrief_per_wanneer_row {
+	display: none;
+}
+
 
 
 /*

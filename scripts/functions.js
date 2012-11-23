@@ -1021,6 +1021,19 @@ $(document).ready(function() {
 			$("#toonaccommodatie_kenmerken_klassering_info").removeClass("hover_opacity");
 		});
 
+		// nieuwsbrief 'per wanneer' tonen via openklappen
+		if($("#nieuwsbrief_per_wanneer_row").length!==0) {
+
+			// keuze tonen indien vinkje 'nieuwsbrief' aan staat
+			if($("#yesnonieuwsbrief").is(":checked")) {
+				$("#nieuwsbrief_per_wanneer_row").css("display","block");
+			}
+
+			// toggle bij wijzigen vinkje
+			$("#yesnonieuwsbrief").change(function() {
+				$("#nieuwsbrief_per_wanneer_row").slideToggle("slow");
+			});
+		}
 	}
 });
 

@@ -3524,7 +3524,65 @@ function nieuwsbrief_inschrijven($wzt,$nieuwsbrief_waardes) {
 #		$db->query("INSERT INTO nieuwsbrieflid SET email='".addslashes($nieuwsbrief_waardes["email"])."', wzt='".addslashes($wzt)."', voornaam='".addslashes($nieuwsbrief_waardes["voornaam"])."', tussenvoegsel='".addslashes($nieuwsbrief_waardes["tussenvoegsel"])."', achternaam='".addslashes($nieuwsbrief_waardes["achternaam"])."', bezoeker_id='".addslashes($_COOKIE["tch"])."', adddatetime=NOW(), editdatetime=NOW();");
 		$db->query("INSERT INTO nieuwsbrieflid SET email='".addslashes($nieuwsbrief_waardes["email"])."', voornaam='".addslashes($nieuwsbrief_waardes["voornaam"])."', tussenvoegsel='".addslashes($nieuwsbrief_waardes["tussenvoegsel"])."', achternaam='".addslashes($nieuwsbrief_waardes["achternaam"])."', bezoeker_id='".addslashes($_COOKIE["tch"])."', adddatetime=NOW(), editdatetime=NOW();");
 	}
+
+	if($vars["seizoentype"]==1) {
+		# Chalet.nl-nieuwsbrief
+		if($nieuwsbrief_waardes["per_wanneer"]==2) {
+			$data['field10934'] = "ja";
+		}
+		$data['field1040'] = utf8_encode($nieuwsbrief_waardes["voornaam"]);
+		$data['field1041'] = utf8_encode($nieuwsbrief_waardes["tussenvoegsel"]);
+		$data['field1036'] = utf8_encode($nieuwsbrief_waardes["achternaam"]);
+		$data['field1038'] = utf8_encode($nieuwsbrief_waardes["email"]);
+		$data['userId']="31300179";
+		$data['formEncId']="MwJLgCnDPkS9LWs";
+		$data['redir']="formAdmin2";
+		$data['viewMode']="STATICINTEGRATION";
+	} else {
+		# Italissima-nieuwsbrief
+		$data['field10761'] = utf8_encode($nieuwsbrief_waardes["voornaam"]);
+		$data['field10771'] = utf8_encode($nieuwsbrief_waardes["tussenvoegsel"]);
+		$data['field10781'] = utf8_encode($nieuwsbrief_waardes["achternaam"]);
+		$data['field10751'] = utf8_encode($nieuwsbrief_waardes["email"]);
+		$data['userId']="31300179";
+		$data['formEncId']="J4XyB4nwd7v3yi8";
+		$data['redir']="formAdmin2";
+		$data['viewMode']="STATICINTEGRATION";
+	}
+	$result=nieuwsbrief_inschrijven_bij_blinker("http://m16.mailplus.nl/genericservice/code/servlet/Redirect",$data);
 }
+
+function nieuwsbrief_inschrijven_bij_blinker($URL,$data, $referrer="") {
+	$URL_Info=parse_url($URL);
+
+	$referrer=$_SERVER["SCRIPT_URI"];
+
+	// making string from $data
+	foreach($data as $key=>$value)
+	  $values[]="$key=".urlencode($value);
+	$data_string=implode("&",$values);
+
+	// building POST-request:
+	$request.="POST ".$URL_Info["path"]." HTTP/1.1\n";
+	$request.="Host: ".$URL_Info["host"]."\n";
+	$request.="Referer: $referer\n";
+	$request.="Content-type: application/x-www-form-urlencoded\n";
+	$request.="Content-length: ".strlen($data_string)."\n";
+	$request.="Connection: close\n";
+	$request.="\n";
+	$request.=$data_string."\n";
+
+	$fp = fsockopen($URL_Info["host"],80, $errno, $errstr);
+
+	fputs($fp, $request);
+	while(!feof($fp)) {
+		$result .= fgets($fp, 128);
+	}
+	fclose($fp);
+
+	return $result;
+}
+
 
 function inkoopprijs_bepalen($typeid,$aankomstdatum) {
 	global $vars;

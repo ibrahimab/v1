@@ -171,10 +171,6 @@ echo "<div id=\"submenu\">";
 echo "<table cellspacing=0 cellpadding=0><tr><td>";
 while(list($key,$value)=each($submenu)) {
 	$submenuteller++;
-	if($value=="newsletter") {
-		# Geen nieuwsbrief voor Engelstalige site
-		continue;
-	}
 	if($value<>"-") {
 		if($key=="zomerhuisje") {
 			if($vars["website"]=="C" or $vars["website"]=="T") {
@@ -372,7 +368,7 @@ if($vars["verberg_linkerkolom"]) {
 				$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
 			}
 			echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
-			echo "<div style=\"margin-top:5px;\"><input type=\"text\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
+			echo "<div style=\"margin-top:5px;\"><input type=\"email\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
 			echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
 			echo "</form>";
 			echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief

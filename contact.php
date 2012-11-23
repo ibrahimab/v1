@@ -14,9 +14,6 @@ $form->settings["layout"]["css"]=false;
 $form->settings["message"]["submitbutton"][$vars["taal"]]=strtoupper(txt("verzenden","contact"));
 $form->settings["language"]=$vars["taal"];
 
-# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-$form->settings["layout"]["goto_aname"]=true;
-
 #_field: (obl),id,title,db,prevalue,options,layout
 
 if($_GET["accid"]) {
@@ -52,9 +49,15 @@ $form->field_text(0,"mobielwerk",txt("mobielwerk","contact"),"",array("text"=>$t
 $form->field_email(1,"email",txt("email","contact"),"",array("text"=>$temp_naw["email"]));
 $form->field_textarea(0,"opmerkingen",txt("opmerkingen","contact"));
 $form->field_yesno("teruggebeld",txt("teruggebeld","contact"));
-if($vars["taal"]=="nl" and !$vars["wederverkoop"] and $vars["website"]<>"W") {
+if($vars["taal"]=="nl" and ($vars["website"]=="C" or $vars["website"]=="I")) {
 	$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
 	$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
+
+	if($vars["website"]=="C") {
+		$form->field_htmlrow("",'<div id="nieuwsbrief_per_wanneer_row"><table cellspacing="0" cellpadding="4" border="0"><tr><td colspan="2">Ik wil graag de Chalet.nl-nieuwsbrief ontvangen:</td></tr>
+					<tr><td valign="top"><input type="radio" name="per_wanneer" value="1" id="per_wanneer1"'.($_POST["per_wanneer"]==1||!$_POST["per_wanneer"] ? " checked" : "").'></td><td><label for="per_wanneer1">per direct</label></td></tr>
+					<tr><td valign="top"><input type="radio" name="per_wanneer" value="2" id="per_wanneer2"'.($_POST["per_wanneer"]==2 ? " checked" : "").'></td><td><label for="per_wanneer2">tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen</label></td></tr></table></div>');
+	}
 }
 
 $form->check_input();
@@ -89,11 +92,11 @@ if($form->okay) {
 	# "Reageren op"-link bovenaan mail aan Chalet plaatsen
 	$body=vtanaam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".$form->input["adres"]."%0D%0A".$form->input["postcode"]." ".ucfirst($form->input["woonplaats"])."%0D%0A".($form->input["land"]<>"Nederland" ? ucfirst($form->input["land"])."%0D%0A" : "").$form->input["telefoonnummer"]."%0D%0A".$form->input["mobielwerk"]."%0D%0A%0D%0A".$accomschrijving.ereg_replace("\n","%0D%0A",$form->input["opmerkingen"]);
 	$subject=ereg_replace("&","%26",txt("reactieopuwvraag","contact"));
-#$body=urlencode($body);
+
 	$body=ereg_replace("&","%26",$body);
 	$body=ereg_replace("\"","%22",$body);
 	$body=ereg_replace("'","%27",$body);
-	$mailtop="Reageren op deze mail: <A HREF=\"mailto:".$form->input["email"].ereg_replace(" ","%20","?subject=".$subject."&body=".$body)."\">mail sturen</A>";
+	$mailtop="Reageren op deze mail: <a href=\"mailto:".$form->input["email"].ereg_replace(" ","%20","?subject=".$subject."&body=".$body)."\">mail sturen</A>";
 	$referer=getreferer($_COOKIE["sch"]);
 	if($referer["opsomming"]) $form->outputtable_tr="<tr><td colspan=\"2\"><table><tr><td><b>Referentielink</b><br>".$referer["opsomming"]."</td></tr></table></td></tr>";
 	if(ereg("@webtastic\.nl",$form->input["email"])) {
@@ -109,7 +112,7 @@ if($form->okay) {
 	if($form->input["nieuwsbrief"]) {
 #		$mm_waardes=array("voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"]);
 #		mm_newmember($form->input["email"],$vars["mailingmanagerid"],$mm_waardes);
-		$nieuwsbrief_waardes=array("email"=>$form->input["email"],"voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"]);
+		$nieuwsbrief_waardes=array("email"=>$form->input["email"],"voornaam"=>$form->input["voornaam"],"tussenvoegsel"=>$form->input["tussenvoegsel"],"achternaam"=>$form->input["achternaam"],"per_wanneer"=>$_POST["per_wanneer"]);
 		nieuwsbrief_inschrijven($vars["seizoentype"],$nieuwsbrief_waardes);
 	}
 }

@@ -1,18 +1,18 @@
 <?php
 
 if($_GET["ok"]==1) {
-	echo "<p>Bedankt voor je inschrijving voor de nieuwsbrief van Chalet.nl en Zomerhuisje.nl!</p>";
+	echo "<p>Bedankt voor je inschrijving voor de nieuwsbrief van ".wt_he($vars["websitenaam"])."!</p>";
 	echo "<p>Binnen enkele minuten ontvang je een e-mail ter bevestiging.</p>";
 } else {
 	if($_POST["mail"] and $_POST["mail"]<>"e-mailadres") {
 	#	$extra="&mmprevalue_mail=".urlencode($_POST["mail"])."&mmhideintro=1";
-		echo "<div style=\"border:1px solid #d40139;padding:5px;width:600px;margin-top:20px;margin-bottom:10px;\">Vul hieronder je voor- en achternaam in om de inschrijving af te ronden.</div>";
+		echo "<div id=\"nieuwsbrief_vulin\">Vul hieronder je voor- en achternaam in om de inschrijving af te ronden.</div>";
 	} else {
 		echo "<div style=\"width:612px;\">";
 		if($vars["seizoentype"]==1) {
-			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en Zomerhuisje.nl en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
+			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
 		} else {
-			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en Chalet.nl en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
+			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
 		}
 		echo "</div>";
 	}
@@ -34,56 +34,55 @@ if($_GET["ok"]==1) {
 		<script type='text/javascript'>function setRedBorder(id){ var elem = document.getElementById(id); if (elem && elem.style) { elem.style.border = '1px solid red';} } </script>
 		<script type='text/javascript'>function setHiddenBorder(id){ var elem = document.getElementById(id); if (elem && elem.style) { elem.style.border = '';} } </script>
 		<form method="post" action="https://m16.mailplus.nl/genericservice/code/servlet/Redirect" enctype="application/x-www-form-urlencoded" name="form1004" id="form1004" onsubmit="return checkFormform1004(this);">
-		<script type="text/javascript">
-		function checkFormform1004(myForm) {
-		try {
-			var errorMessage = 'Het formulier kon niet worden verzonden om de volgende redenenen(en):\n\n';
-			var errorFound = false;
+<script type="text/javascript">
+function checkFormform1004(myForm) {
+try {
+	var errorMessage = 'Het formulier kon niet worden verzonden om de volgende reden(en):\n\n';
+	var errorFound = false;
 
-			 setHiddenBorder('field1038TD');
-			if (myForm.field1038 != null) {
-				if (myForm.field1038.value == '') {
-					errorMessage = errorMessage + '- Geen waarde ingevuld voor E-mailadres.\n';
-					errorFound = true;
-					setRedBorder('field1038TD');
-				} else {
-					emailAddress = myForm.field1038.value;
-					if (emailAddress.search(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i) == -1) {
-						errorMessage = errorMessage + '- Geen geldig e-mail adres ingevuld voor E-mailadres.\n';
-						setRedBorder('field1038TD');
-						errorFound = true;
-					}
-				}
+	 setHiddenBorder('field1038TD');
+	if (myForm.field1038 != null) {
+		if (myForm.field1038.value == '') {
+			errorMessage = errorMessage + '- Geen waarde ingevuld voor E-mailadres.\n';
+			errorFound = true;
+			setRedBorder('field1038TD');
+		} else {
+			emailAddress = myForm.field1038.value;
+			if (emailAddress.search(/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&''*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i) == -1) {
+				errorMessage = errorMessage + '- Geen geldig e-mail adres ingevuld voor E-mailadres.\n';
+				setRedBorder('field1038TD');
+				errorFound = true;
 			}
-			if (myForm.field1040 != null) {
-				if (myForm.field1040.value == '') {
-					errorMessage = errorMessage + '- Geen waarde ingevuld voor Voornaam.\n';
-						setRedBorder('field1040TD');
-					errorFound = true;
-				}
-				 else { setHiddenBorder('field1040TD'); }
-			}
-			if (myForm.field1036 != null) {
-				if (myForm.field1036.value == '') {
-					errorMessage = errorMessage + '- Geen waarde ingevuld voor Achternaam.\n';
-						setRedBorder('field1036TD');
-					errorFound = true;
-				}
-				 else { setHiddenBorder('field1036TD'); }
-			}
-
-
-			if (errorFound) {
-				alert(errorMessage);
-				return false;
-			}
-
-			return true;
-		} catch (err) {
-			return false;
 		}
+	}
+	if (myForm.field1040 != null) {
+		if (myForm.field1040.value == '') {
+			errorMessage = errorMessage + '- Geen waarde ingevuld voor Voornaam.\n';
+				setRedBorder('field1040TD');
+			errorFound = true;
 		}
-		</script>
+		 else { setHiddenBorder('field1040TD'); }
+	}
+	if (myForm.field1036 != null) {
+		if (myForm.field1036.value == '') {
+			errorMessage = errorMessage + '- Geen waarde ingevuld voor Achternaam.\n';
+				setRedBorder('field1036TD');
+			errorFound = true;
+		}
+		 else { setHiddenBorder('field1036TD'); }
+	}
+
+	if (errorFound) {
+		alert(errorMessage);
+		return false;
+	}
+
+	return true;
+} catch (err) {
+	return false;
+}
+}
+</script>
 		<table class="mpFormTable" border="0" cellpadding="5" cellspacing="0">
 		<tr class="mpFormRow">
 			<td class="mpFormLabel">E-mailadres *</td>
@@ -103,6 +102,14 @@ if($_GET["ok"]==1) {
 		<tr class="mpFormRow">
 			<td class="mpFormLabel">Achternaam *</td>
 			<td class="mpFormField" id="field1036TD"><input type="text" name="field1036" value="">
+		</td>
+		</tr>
+
+		<tr class="mpFormRow">
+			<td class="mpFormLabel">&nbsp;</td>
+			<td><table cellspacing="0" cellpadding="4" border="0"><tr><td colspan="2">Ik wil graag de Chalet.nl-nieuwsbrief ontvangen:</td></tr>
+				<tr><td valign="top"><input type="radio" name="field10934" value="" id="per_wanneer1" checked></td><td><label for="per_wanneer1">per direct</label></td></tr>
+				<tr><td valign="top"><input type="radio" name="field10934" value="ja" id="per_wanneer2"></td><td><label for="per_wanneer2">tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen</label></td></tr></table>
 		</td>
 		</tr>
 
@@ -222,7 +229,7 @@ if($_GET["ok"]==1) {
 			}
 		}
 		if(is_array($nieuwsbrieven)) {
-			echo "<div style=\"margin-bottom:10px;\"><b>Onlangs verstuurde nieuwsbrieven:</b></div>";
+			echo "<h3 style=\"margin-bottom:8px;\">Onlangs verstuurde nieuwsbrieven:</h3>";
 			echo "<ul>";
 			while(list($key,$value)=each($nieuwsbrieven)) {
 				echo "<li><a href=\"http://chaletnl.m16.mailplus.nl/archief/mailing-".wt_he($key).".html\" target=\"_blank\">".wt_he($value)."</a></li>";

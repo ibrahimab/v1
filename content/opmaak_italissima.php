@@ -362,13 +362,29 @@ if($vars["verberg_linkerkolom"]) {
 
 	if($id=="index") {
 
+		echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
+		echo "<div class=\"kop\">Nieuwsbrief</div>";
+		echo "<div>Ontvang aanbiedingen, nieuws en reistips.</div>";
+		if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
+			$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
+		} else {
+			$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
+		}
+		echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
+		echo "<div style=\"margin-top:5px;\"><input type=\"email\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
+		echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
+		echo "</form>";
+		echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
+
+		echo "<div style=\"clear:both;\"></div>";
+
 		# Tarieven al bekend: link naar zomer2013.php
-		echo "<a href=\"".$vars["path"]."zomer2013.php\" id=\"hoofdpagina_tarievenalbekend\">";
-		echo "<h2>Zomer 2013</h2>";
-		echo "<img src=\"".$vars["path"]."pic/italissima_hoofdpagina/tarievenalbekend.jpg?c=1\" width=\"180\" height=\"120\" border=\"0\">";
-		echo "<div id=\"hoofdpagina_tarievenalbekend_bekijk\">Bekijk het aanbod &raquo;</div>";
-		echo "<div class=\"clear\"></div>";
-		echo "</a>\n"; # afsluiten hoofdpagina_waarom
+		// echo "<a href=\"".$vars["path"]."zomer2013.php\" id=\"hoofdpagina_tarievenalbekend\">";
+		// echo "<h2>Zomer 2013</h2>";
+		// echo "<img src=\"".$vars["path"]."pic/italissima_hoofdpagina/tarievenalbekend.jpg?c=1\" width=\"180\" height=\"120\" border=\"0\">";
+		// echo "<div id=\"hoofdpagina_tarievenalbekend_bekijk\">Bekijk het aanbod &raquo;</div>";
+		// echo "<div class=\"clear\"></div>";
+		// echo "</a>\n"; # afsluiten hoofdpagina_waarom
 
 		# Opsomming "Waarom Italissima?"
 		echo "<a href=\"".$vars["path"].txt("menu_wie-zijn-wij").".php\" id=\"hoofdpagina_waarom\">";

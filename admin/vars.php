@@ -406,10 +406,14 @@ if($vars["websitetype"]==7) {
 	$menu["contact"]=txt("menutitle_contact");
 
 	$submenu["inloggen"]=txt("submenutitle_inloggen");
+	if($vars["website"]=="I") {
+		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
+	}
 	$submenu["reisagent"]=txt("submenutitle_reisagent");
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+
 } elseif($vars["seizoentype"]==2) {
 	#
 	# Zomerhuisje
@@ -489,7 +493,7 @@ if($vars["websitetype"]==7) {
 		$submenu["inloggen"]=txt("submenutitle_inloggen");
 	}
 
-	if(!$vars["wederverkoop"]) {
+	if($vars["website"]=="C") {
 		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 	}
 	$submenu["favorieten"]=txt("submenutitle_favorieten");

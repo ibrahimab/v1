@@ -10,7 +10,7 @@ if($_GET["t"]==3 or $_GET["t"]==11) {
 include("admin/vars.php");
 
 if($_POST["winterkoppeling"]) {
-	
+
 	if(is_array($_POST["geenkoppeling"])) {
 		while(list($key,$value)=each($_POST["geenkoppeling"])) {
 			if($value) {
@@ -26,18 +26,18 @@ if($_GET["t"]==5) {
 	#
 	# Overzicht vouchers
 	#
-	
+
 	# frm = formname (mag ook wat anders zijn)
-	$form=new form2("frm"); 
+	$form=new form2("frm");
 	$form->settings["fullname"]="Periode";
 	$form->settings["layout"]["css"]=true;
 	$form->settings["type"]="get";
-	
+
 	$form->settings["message"]["submitbutton"]["nl"]="OK";
-	
+
 	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 	$form->settings["layout"]["goto_aname"]=true;
-	  
+
 	#_field: (obl),id,title,db,prevalue,options,layout
 
 #$vars["zaterdag_over_6_weken"]=mktime(0,0,0,date("m"),date("d")+(6-date("w"))+(6*7),date("Y"));
@@ -45,15 +45,15 @@ if($_GET["t"]==5) {
 	# begin = zaterdag een week geleden
 	$vars["temp_begin"]=mktime(0,0,0,date("m"),date("d")+(6-date("w"))-14,date("Y"));
 	$vars["temp_eind"]=mktime(0,0,0,date("m"),date("d")+(6-date("w"))+28,date("Y"));
-	
+
 	$form->field_htmlrow("","<i>Aankomstdatum</i>");
 	$form->field_date(1,"van","Van","",array("time"=>$vars["temp_begin"]),array("startyear"=>2010,"endyear"=>date("Y")+1),array("calendar"=>true));
 	$form->field_date(1,"tot","Tot en met","",array("time"=>$vars["temp_eind"]),array("startyear"=>2010,"endyear"=>date("Y")+1),array("calendar"=>true));
-	
+
 	$form->check_input();
-	
+
 	if($form->input["van"]["unixtime"]>$form->input["tot"]["unixtime"]) $form->error("tot","moet later zijn dan de eerste");
-	
+
 	$form->end_declaration();
 } elseif($_GET["t"]==10 and $_GET["dl"] and $_GET["confirmed"]==1) {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
@@ -101,30 +101,30 @@ if($_GET["t"]==5) {
 } elseif($_GET["t"]==10) {
 
 	# frm = formname (mag ook wat anders zijn)
-	$form=new form2("frm"); 
+	$form=new form2("frm");
 	$form->settings["fullname"]="diverseinstellingen";
 	$form->settings["layout"]["css"]=false;
 	$form->settings["db"]["table"]="diverse_instellingen";
 	$form->settings["db"]["where"]="diverse_instellingen_id=1";
 	$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 	#$form->settings["target"]="_blank";
-	 
+
 	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-	$form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen	
-	
+	$form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
+
 	#_field: (obl),id,title,db,prevalue,options,layout
-	
+
 	$form->field_htmlrow("","<b>Links naar nieuwsbrieven</b><br><br>per regel: <i>nieuwsbrief-nummer [spatie] Tekst</i><br><br><i>http://chaletnl.m16.mailplus.nl/archief/mailing-31311490.html</i> wordt: <i>31311490 28 november 2011 – De sneeuw komt eraan!</i>");
 	#$form->field_text(1,"test","test",array("field"=>"test")); # (opslaan in databaseveld "test")
-	$form->field_textarea(1,"winternieuwsbrieven","Winternieuwsbrieven",array("field"=>"winternieuwsbrieven"));
-	$form->field_textarea(1,"zomernieuwsbrieven","Zomernieuwsbrieven",array("field"=>"zomernieuwsbrieven"));
-	
+	$form->field_textarea(0,"winternieuwsbrieven","Chalet.nl-nieuwsbrieven",array("field"=>"winternieuwsbrieven"));
+	$form->field_textarea(0,"zomernieuwsbrieven","Italissima-nieuwsbrieven",array("field"=>"zomernieuwsbrieven"));
+
 	$form->check_input();
-	
+
 	if($form->filled) {
 
 	}
-	
+
 	if($form->okay) {
 		$form->save_db();
 		$_SESSION["wt_popupmsg"]="gegevens zijn correct opgeslagen";
