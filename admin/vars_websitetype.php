@@ -251,7 +251,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$basehref="http://www.superski.nl/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-13";
-	$vars["facebook_pageid"]="290304584402858"; # 300078123425504 290286354404681
+	$vars["facebook_pageid"]="290286354404681";
 	$vars["twitter_user"]="SuperSkiNL";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;

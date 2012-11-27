@@ -105,7 +105,7 @@ if($onjuisteurl) {
 #		}
 #		echo "<hr>&nbsp;<br>";
 
-		if($vars["taal"]=="nl" and $vars["website"]=="C") {
+		if($vars["website"]=="C" or $vars["website"]=="I") {
 			# Vraag 6: Wil je op de hoogte gehouden worden van nieuws en aanbiedingen van Chalet.nl en je abonneren op onze nieuwsbrief?
 			echo "<b><i>".html("vraag6","enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</i></b><p>";
 			for($i=1;$i<=3;$i++) {
