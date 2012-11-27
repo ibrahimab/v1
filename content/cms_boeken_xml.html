@@ -144,7 +144,7 @@ if($gegevens["stap1"]["leverancierscode"]) {
 						}
 
 						if($xml->LINE->err) {
-							echo "<b>Foutmelding bij leverancierscode ".$value.":</b> <span class=\"error\">".htmlentities(utf8_decode($xml->LINE->err))."</span><br>";
+							echo "<b>Foutmelding bij accommodatie ".$value.":</b> <span class=\"error\">".htmlentities(utf8_decode($xml->LINE->err))."</span><br>";
 						} else {
 							$reserveringsnummer=trim(utf8_decode($xml->LINE->resa_no));
 							echo "<br><b>Accommodatie ".wt_he($value)." is besteld. Ontvangen reserveringsnummer: <i>".wt_he($reserveringsnummer)."</i></b><br><br>Dit reserveringsnummer is opgeslagen in het CMS en de bestelstatus is gewijzigd in &quot;bevestigd&quot;.<br><br>";

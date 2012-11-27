@@ -234,6 +234,10 @@ if($mustlogin) {
 	$layout->submenu_item("cms_diversen","","cms_diversen","Instellingen",array("t"=>"3"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Vouchertermen",array("t"=>"5"),true);
 
+	if($login->has_priv("29")) {
+		$layout->menu_item("cms_evenementen","Evenementen","",true);
+	}
+
 	if(($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28) or $login->has_priv(3)) {
 		$layout->menu_item("cms_financien","Financiën","",true);
 	}
@@ -809,6 +813,21 @@ if($mustlogin) {
 	$cms->settings[51]["log"]["active"]=true;
 	$cms->db[51]["maintable"]="bezettingsoverzicht_leverancier";
 
+	# 52 = evenement
+	$cms->settings[52]["types"]="evenementen";
+	$cms->settings[52]["type_single"]="evenement";
+	$cms->settings[52]["file"]="cms_evenementen.php";
+	$cms->settings[52]["log"]["active"]=true;
+	$cms->db[52]["maintable"]="evenement";
+
+	# 53 = evenement_plaats
+	$cms->settings[53]["types"]="gekoppelde plaatsen";
+	$cms->settings[53]["type_single"]="gekoppelde plaats";
+	$cms->settings[53]["file"]="cms_evenementen.php";
+	$cms->settings[53]["log"]["active"]=true;
+	$cms->db[53]["maintable"]="evenement_plaats";
+
+
 	# Aankomstdata vullen (voor CMS)
 	$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");
 	if($db->num_rows()) {
@@ -918,6 +937,7 @@ $vars["priv"]=array(
 	26=>"WebTastic-acties: prioriteit wijzigen",
 	27=>"Totaaloverzicht financiën kunnen opvragen (alleen binnen kantoor)",
 	28=>"Totaaloverzicht financiën kunnen opvragen (buiten kantoor)",
+	29=>"Evenementen beheren",
 ); # LET OP! Bij doortellen rekening houden met $vars["cms_hoofdpagina_soorten"]
 
 while(list($key,$value)=each($vars["cms_hoofdpagina_soorten"])) {
