@@ -82,13 +82,10 @@ if($gegevens["stap1"]["leverancierscode"]) {
 				}
 
 
-			} elseif($xml_type==18) {
+			} elseif($xml_type==7 or $xml_type==10 or $xml_type==12 or $xml_type==18 or $xml_type==19 or $xml_type==20) {
 				#
-				# Arkiane: Agence des Belleville, ...
+				# Alle Arkiane-sites
 				#
-
-				# CIS
-				#http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=87&qry=ins_opti@top_id='CHALE',@lot_ref='',@begin='',@end='',@price='',@civi='M',@name='',@firstname='',@addr1='',@addr2='',@addr3='',@postcode='',@city='',@country='',@tel='',@fax='',@email='',@comments='',@lang=''
 
 				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 					$comment="THIS IS A TEST!!! NOT A REAL BOOKING";
@@ -99,23 +96,34 @@ if($gegevens["stap1"]["leverancierscode"]) {
 					$comment="";
 				}
 
-				$xml_url="http://www.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&top=58&qry=ins_opti@top_id='CHALE',@lot_ref='".urlencode($value)."',@begin='".urlencode(date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"]))."',@end='".urlencode(date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]))."',@price='',@civi='M',@name='".urlencode(($gegevens["stap2"]["tussenvoegsel"] ? $gegevens["stap2"]["tussenvoegsel"]." " : "").$gegevens["stap2"]["achternaam"])."',@firstname='".urlencode($gegevens["stap2"]["voornaam"])."',@addr1='".urlencode("Lindenhof 5")."',@addr2='',@addr3='',@postcode='".urlencode("3442 GT")."',@city='".urlencode("Woerden")."',@country='".urlencode("The Netherlands")."',@tel='".urlencode("+31348434649")."',@fax='".urlencode("+31348690752")."',@email='".urlencode("info@chalet.nl")."',@comments='".urlencode($comment)."',@lang=''";
+				# CIS nog niet actief (op verzoek van Barteld; 27-11-2012)
 
-				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+				# CIS / Bellecôte Chalets (VVE)
+#				$arkiane_url[7]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=ins_opti@top_id='CHALE'";
+
+				# CIS Immobilier
+#				$arkiane_url[10]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=87&qry=ins_opti@top_id='CHALE'";
+
+				# Deux Alpes Voyages
+				$arkiane_url[12]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=122&top=3037&qry=ins_opti@top_id='CHALE'";
+
+				# Agence des Belleville
+				$arkiane_url[18]="http://www.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&top=58&qry=ins_opti@top_id='CHALE'";
+
+				# Oxygène Immobilier
+				$arkiane_url[19]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=ins_opti@top_id='CHANL'";
+
+				# Centrale Locative de l'Immobilière des Hauts Forts
+				$arkiane_url[20]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=ins_opti@top_id='CHALE'";
+
+
+				$xml_url=$arkiane_url[$xml_type].",@lot_ref='".urlencode($value)."',@begin='".urlencode(date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"]))."',@end='".urlencode(date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]))."',@price='',@civi='M',@name='".urlencode(($gegevens["stap2"]["tussenvoegsel"] ? $gegevens["stap2"]["tussenvoegsel"]." " : "").$gegevens["stap2"]["achternaam"])."',@firstname='".urlencode($gegevens["stap2"]["voornaam"])."',@addr1='".urlencode("Lindenhof 5")."',@addr2='',@addr3='',@postcode='".urlencode("3442 GT")."',@city='".urlencode("Woerden")."',@country='".urlencode("The Netherlands")."',@tel='".urlencode("+31348434649")."',@fax='".urlencode("+31348690752")."',@email='".urlencode("info@chalet.nl")."',@comments='".urlencode($comment)."',@lang=''";
+
+				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 					echo wt_he($xml_url)."<hr>";
 				} else {
 					$xml=simplexml_load_file($xml_url);
 					if(is_object($xml)) {
-
-						if($xml->LINE->err) {
-							echo "<b>Foutmelding bij leverancierscode ".$value.":</b> <span class=\"error\">".htmlentities(utf8_decode($xml->LINE->err))."</span><br>";
-						} else {
-							$reserveringsnummer=trim(utf8_decode($xml->LINE->opti_dossier));
-							echo "<br><b>Accommodatie ".wt_he($value)." is besteld. Ontvangen reserveringsnummer: <i>".wt_he($reserveringsnummer)."</i></b><br><br>Dit reserveringsnummer is opgeslagen in het CMS en de bestelstatus is gewijzigd in &quot;bevestigd&quot;.<br><br>";
-							$db->query("UPDATE boeking SET leverancierscode='".addslashes($reserveringsnummer)."', bestelstatus=3, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-							chalet_log("bestelling via xml verzonden (ontvangen reserveringsnummer: ".$reserveringsnummer.")",false,true);
-							chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestigd'",false,true);
-						}
 
 						if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 							echo "<pre>";
@@ -135,7 +143,16 @@ if($gegevens["stap1"]["leverancierscode"]) {
 							echo "</pre>";
 						}
 
-						break;
+						if($xml->LINE->err) {
+							echo "<b>Foutmelding bij leverancierscode ".$value.":</b> <span class=\"error\">".htmlentities(utf8_decode($xml->LINE->err))."</span><br>";
+						} else {
+							$reserveringsnummer=trim(utf8_decode($xml->LINE->resa_no));
+							echo "<br><b>Accommodatie ".wt_he($value)." is besteld. Ontvangen reserveringsnummer: <i>".wt_he($reserveringsnummer)."</i></b><br><br>Dit reserveringsnummer is opgeslagen in het CMS en de bestelstatus is gewijzigd in &quot;bevestigd&quot;.<br><br>";
+							$db->query("UPDATE boeking SET leverancierscode='".addslashes($reserveringsnummer)."', bestelstatus=3, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+							chalet_log("bestelling via xml verzonden (ontvangen reserveringsnummer: ".$reserveringsnummer.")",false,true);
+							chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestigd'",false,true);
+							break;
+						}
 					} else {
 						echo "<b>Foutmelding bij accommodatie ".$value." (graag alle tekst kopi&euml;ren en doorgeven aan Jeroen):</b><pre>";
 						print_r($xml);

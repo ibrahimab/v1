@@ -3277,7 +3277,7 @@ function facebook_opengraph($info="") {
 		}
 	}
 	if($afbeelding) {
-		$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"])."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127\" />\n";
+		$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127")."\" />\n";
 	} else {
 		# logo als afbeelding
 		if($vars["website"]=="Z") {
@@ -3303,7 +3303,7 @@ function facebook_opengraph($info="") {
 			$logo_afbeelding="logo_italissima.gif";
 		}
 		if($logo_afbeelding) {
-			$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"])."pic/".$logo_afbeelding."\" />\n";
+			$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."pic/".$logo_afbeelding)."\" />\n";
 		}
 	}
 

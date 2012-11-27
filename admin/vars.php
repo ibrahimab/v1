@@ -184,7 +184,8 @@ if($vars["bezoeker_is_jeroen"] or $vars["testsite"]) {
 }
 
 # Leveranciers waarbij het mogelijk is nieuwe accommodaties te importeren (levcode+naam)
-$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",144=>"Maisons Vacances Ann Giraud");
+#$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",144=>"Maisons Vacances Ann Giraud"); # Maisons Vacances uitgezet op verzoek van Barteld (27-11-2012)
+$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas");
 
 
 if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==4 or $vars["websitetype"]==5 or $vars["websitetype"]==6 or $vars["websitetype"]==7 or $vars["websitetype"]==8) {
