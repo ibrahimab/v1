@@ -134,7 +134,7 @@ if($werknemer_optieaanvraag) {
 			$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
 		} else {
 			# Chalet.nl-nieuwsbrief
-			$form->field_radio(0,"nieuwsbrief","<div style=\"height:7px;\"></div>Wil je lid worden van de ".$vars["websitenaam"]."-nieuwsbrief?","",array("selection"=>3),array("selection"=>array(1=>"ja, per direct",2=>"ja, tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen",3=>"nee, ik wil niet lid worden")),array("one_per_line"=>true,"newline"=>true,"tr_class"=>"nieuwsbrief_per_wanneer","title_html"=>true));
+			$form->field_radio(0,"nieuwsbrief","<div style=\"height:7px;\"></div>Wil je de ".$vars["websitenaam"]."-nieuwsbrief ontvangen?","",array("selection"=>3),array("selection"=>array(1=>"Ja, per direct",2=>"Ja, tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen",3=>"Nee, ik wil geen nieuwsbrief ontvangen")),array("one_per_line"=>true,"newline"=>true,"tr_class"=>"nieuwsbrief_per_wanneer","title_html"=>true));
 		}
 	}
 }
