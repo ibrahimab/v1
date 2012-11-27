@@ -32,7 +32,14 @@ if($_GET["campaign"]=="zooverbe") {
 #echo "<accommodations xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"http://www.cleafs.com/tracker/productsfeed.xsd\">\n";
 echo "<accommodations>\n";
 
-$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, t.naam AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, t.kwaliteit AS tkwaliteit, t.omschrijving AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, s.skigebied_id, s.naam AS skigebied, l.naam AS land, l.begincode, p.naam AS plaats FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0 ORDER BY t.optimaalaantalpersonen".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" ? " LIMIT 0,30" : "").";");
+unset($andquery);
+
+# Bij SuperSki: accommodaties die al op Chalet.nl staan niet in de feed opnemen
+if($vars["website"]=="W") {
+	$andquery.=" AND t.websites NOT LIKE '%C%'";
+}
+
+$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, t.naam AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, t.kwaliteit AS tkwaliteit, t.omschrijving AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, s.skigebied_id, s.naam AS skigebied, l.naam AS land, l.begincode, p.naam AS plaats FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".$andquery." ORDER BY t.optimaalaantalpersonen".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" ? " LIMIT 0,30" : "").";");
 while($db->next_record()) {
 	if(!$accommodatie_getoond[$db->f("accommodatie_id")] and !$accommodatienaam_plaats_getoond[$db->f("naam")."_".$db->f("plaats")]) {
 
@@ -160,6 +167,7 @@ echo "</accommodations>\n";
 function wt_utf8encode($text) {
 	$return=$text;
 	$return=ereg_replace(chr(145),"'",$return); # ‘ omzetten naar '
+	$return=ereg_replace(chr(146),"'",$return); # ’ omzetten naar '
 	$return=ereg_replace(chr(147),"\"",$return); # “ omzetten naar "
 	$return=ereg_replace(chr(148),"\"",$return); # ” omzetten naar "
 	$return=utf8_encode($return);
