@@ -1,5 +1,7 @@
 <?php
 
+$geen_tracker_cookie=true;
+
 $unixdir="../../../";
 include("../../../admin/vars.php");
 

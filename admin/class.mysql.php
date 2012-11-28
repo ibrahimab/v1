@@ -148,11 +148,16 @@ class DB_Sql {
 		if ( mysql_errno()==2006 ) {
 			// lost mysql connection / MySQL server has gone away
 			if ( $GLOBALS["wt_error_handler"] ) {
-				$this->halt( "lost mysql connection" );
+#				$this->halt( "lost mysql connection" );
 			}
 			$this->Link_ID=0;
 			$this->connect();
 			$this->Query_ID = @mysql_query( $Query_String, $this->Link_ID );
+			if ( mysql_errno()==2006 ) {
+				if ( $GLOBALS["wt_error_handler"] ) {
+					$this->halt( "lost mysql connection" );
+				}
+			}
 		}
 		$this->Row   = 0;
 		$this->Errno = mysql_errno();
@@ -421,39 +426,39 @@ class DB_Sql {
 			if ( $GLOBALS["wt_error_handler"] ) {
 				if ( $this->Errno==2006 and ( $GLOBALS["wt_mysql_lost_nolog"] or $GLOBALS["vars"]["wt_mysql_lost_nolog"] )) {
 
+				} else {
+					$msg=$msg.( $this->Error ? " / ".$this->Error." (".$this->Errno.")" : "" );
+					if ( $filename ) {
+						trigger_error( "_WT_FILENAME_".$filename."_WT_FILENAME__WT_LINENUMBER_".$linenumber."_WT_LINENUMBER_".$msg, E_USER_NOTICE );
 					} else {
-						$msg=$msg.( $this->Error ? " / ".$this->Error." (".$this->Errno.")" : "" );
-						if ( $filename ) {
-							trigger_error( "_WT_FILENAME_".$filename."_WT_FILENAME__WT_LINENUMBER_".$linenumber."_WT_LINENUMBER_".$msg, E_USER_NOTICE );
-						} else {
-							trigger_error( $msg, E_USER_NOTICE );
-						}
+						trigger_error( $msg, E_USER_NOTICE );
 					}
 				}
 			}
 		}
-
-		function haltmsg( $msg, $errortype='E_USER_WARNING' ) {
-			$included_files=get_included_files();
-			// if($_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") $errormsg.=$_SERVER["REMOTE_ADDR"]." - ";
-			$errormsg.=$msg."<BR>";
-			$errormsg.=$this->Error." (".$this->Errno.")<br>\n";
-			$errormsg.="<b>Filename: </b>".$included_files[count( $included_files )-1]."<p>";
-			trigger_error( $errormsg, $errortype );
-		}
-
-		function table_names() {
-			$this->query( "SHOW TABLES" );
-			$i=0;
-			while ( $info=mysql_fetch_row( $this->Query_ID ) ) {
-				$return[$i]["table_name"]= $info[0];
-				$return[$i]["tablespace_name"]=$this->Database;
-				$return[$i]["database"]=$this->Database;
-				$i++;
-			}
-			return $return;
-		}
 	}
+
+	function haltmsg( $msg, $errortype='E_USER_WARNING' ) {
+		$included_files=get_included_files();
+		// if($_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") $errormsg.=$_SERVER["REMOTE_ADDR"]." - ";
+		$errormsg.=$msg."<BR>";
+		$errormsg.=$this->Error." (".$this->Errno.")<br>\n";
+		$errormsg.="<b>Filename: </b>".$included_files[count( $included_files )-1]."<p>";
+		trigger_error( $errormsg, $errortype );
+	}
+
+	function table_names() {
+		$this->query( "SHOW TABLES" );
+		$i=0;
+		while ( $info=mysql_fetch_row( $this->Query_ID ) ) {
+			$return[$i]["table_name"]= $info[0];
+			$return[$i]["tablespace_name"]=$this->Database;
+			$return[$i]["database"]=$this->Database;
+			$i++;
+		}
+		return $return;
+	}
+}
 
 $db=new DB_sql;
 $db0=new DB_sql;
