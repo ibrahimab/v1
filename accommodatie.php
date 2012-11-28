@@ -67,11 +67,6 @@ if($url[0]) {
 					$vars["italissima_topfoto"]=$file;
 				}
 			}
-
-			# Canonical voor Italissima/Zomerhuisje
-			if(preg_match("/I/",$db->f("websites"))) {
-				$vars["canonical_italissima"]=true;
-			}
 		}
 
 		if($vars["websitetype"]==6) {

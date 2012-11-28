@@ -214,6 +214,8 @@ if($db->next_record()) {
 	echo "<ul>";
 	if($db->f("oppervlakte")) {
 		echo "<li>".$db->f("oppervlakte")." m&#178;".($db->f("oppervlakteextra") ? " - ".htmlentities($db->f("oppervlakteextra")) : "")."</li>";
+	} else {
+		echo "<div style=\"height:2px;\"></div>";
 	}
 
 	if($db->f("akwaliteit") or $db->f("kwaliteit")) {

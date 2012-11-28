@@ -26,6 +26,12 @@ if(!$login->logged_in) {
 #		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 
+# Types zonder oppervlakte
+$db->query("SELECT v.begincode, v.type_id FROM view_accommodatie v, type t WHERE v.type_id=t.type_id AND atonen=1 AND t.tonen=1 AND v.archief=0 AND t.oppervlakte=0 AND v.wzt=2 ORDER BY v.begincode, v.type_id;");
+while($db->next_record()) {
+	echo $db->f("begincode").$db->f("type_id").", ";
+}
+
 		# Italiaanse accommodaties Zomerhuisje uitzetten
 // 		$db->query("SELECT type_id, websites, skigebied FROM view_accommodatie WHERE (websites LIKE '%Z%' OR websites LIKE '%N%') AND websites LIKE '%I%' AND land_id=5 AND archief=0 AND skigebied_id NOT IN (135,142,168) ORDER BY skigebied;");
 // 		while($db->next_record()) {
