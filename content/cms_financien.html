@@ -1508,6 +1508,25 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	}
 	if(($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28)) {
 		echo "<li><a href=\"cms_financien.php?marges=1\">Totaaloverzicht financi&euml;n</a></li>";
+		$d=dir("csv/");
+		while (false !== ($entry = $d->read())) {
+			if(preg_match("/\.csv$/",$entry)) {
+					$omschrijving=$entry;
+					$omschrijving=preg_replace("/[_]{1,}/"," ",$omschrijving);
+					$omschrijving=preg_replace("/^(.*)---(.*)\.csv$/","\\2 - \\1",$omschrijving);
+					$csv_files[$entry]=$omschrijving;
+				}
+		}
+		$d->close();
+		if(is_array($csv_files)) {
+			echo "<form method=\"get\" action=\"cms_financien.php\" id=\"csv_frm\" class=\"no_submit_disable\">";
+			echo "<li>Archief totaaloverzicht financi&euml;n:&nbsp;&nbsp;<select name=\"csv_financien_download\"><option></option>";
+			arsort($csv_files);
+			while(list($key,$value)=each($csv_files)) {
+				echo "<option value=\"".wt_he($key)."\">".wt_he($value)."</option>\n";
+			}
+			echo "</select>&nbsp;&nbsp;<input type=\"submit\" value=\"downloaden\"></li></form>";
+		}
 	}
 	echo "</ul>";
 

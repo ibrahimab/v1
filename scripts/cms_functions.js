@@ -161,9 +161,11 @@ $(document).ready(function() {
 	$('#aflopend_optie_klant').slideUp('normal');
 	$('#aflopend_optie_leverancier').slideUp('normal');
 
-	$("form").submit(function(){
-		// On submit disable its submit button
-		$("input[type=submit]",this).attr("disabled","disabled");
+	$("form").submit(function() {
+		if(!$(this).hasClass("no_submit_disable")) {
+			// On submit disable its submit button
+			$("input[type=submit]",this).attr("disabled","disabled");
+		}
 	});
 
 	// show/hide toggle

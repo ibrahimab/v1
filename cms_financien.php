@@ -12,6 +12,29 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
+
+if($_GET["csv_financien_download"] and (($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28))) {
+	# Downloaden CSV-archief totaaloverzicht financiën
+
+	$file="csv/".basename($_GET["csv_financien_download"]);
+
+	if(file_exists($file)) {
+	    header('Content-Description: File Transfer');
+	    header('Content-Type: application/octet-stream');
+	    header('Content-Disposition: attachment; filename='.basename($file));
+	    header('Content-Transfer-Encoding: binary');
+	    header('Expires: 0');
+	    header('Cache-Control: must-revalidate');
+	    header('Pragma: public');
+	    header('Content-Length: ' . filesize($file));
+	    ob_clean();
+	    flush();
+	    readfile($file);
+	}
+	exit;
+}
+
+
 if($_GET["marges"]) {
 
 	if($_GET["wiszoek"]) {
