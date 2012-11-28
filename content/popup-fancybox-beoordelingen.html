@@ -44,7 +44,13 @@ if($db->next_record()) {
 
 	echo "<div id=\"beoordeling_gemiddeldtotaaloordeel\">";
 	echo html("gemiddeldtotaaloordeel","beoordelingen").":</div>";
-	echo "<div id=\"beoordeling_gemiddeldtotaaloordeel_cijfer\">".number_format($totaaloordeel,1,",",".")."</div>";
+	echo "<div id=\"beoordeling_gemiddeldtotaaloordeel_cijfer\">";
+	if($totaaloordeel==10) {
+		echo "10";
+	} else {
+		echo number_format($totaaloordeel,1,",",".");
+	}
+	echo "</div>";
 	echo "<div id=\"beoordeling_aantalbeoordelingen\">(".intval($beoordeling_aantalbeoordelingen)." ".($beoordeling_aantalbeoordelingen==1 ? html("beoordeling","beoordelingen") : html("beoordelingen","beoordelingen")).")</div>";
 
 	echo "</div>"; // afsluiten #beoordeling_gemiddeldtotaaloordeel_regel
