@@ -44,7 +44,7 @@ if($gegevens["stap1"]["boekingid"]) {
 	} elseif($temp_gegevens["stap2"][1]) {
 		$gegevens["stap2"]=$temp_gegevens["stap2"][1];
 	}
-	
+
 	# Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
 	@reset($temp_gegevens["stap3"][2]);
 	while(list($key,$value)=@each($temp_gegevens["stap3"][2])) {
@@ -59,7 +59,7 @@ if($gegevens["stap1"]["boekingid"]) {
 	while(list($key,$value)=@each($temp_gegevens["stap3"][1])) {
 		if(is_array($value) and !is_array($gegevens["stap3"][$key])) $gegevens["stap3"][$key]=$value;
 	}
-	
+
 	# Controle op status Geselecteerde opties (2 heeft voorkeur boven 1)
 #	if($temp_gegevens["stap4"][2]) {
 #		$gegevens["stap4"]=$temp_gegevens["stap4"][2];
@@ -78,7 +78,7 @@ if($gegevens["stap1"]["boekingid"]) {
 		$temp["leverancier_aanbetaling_dagen"]=$db->f("aanbetaling_dagen");
 		$temp["leverancier_eindbetaling_dagen_factuur"]=$db->f("eindbetaling_dagen_factuur");
 	}
-	
+
 	$db->query("SELECT garantie_id FROM garantie WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 	if($db->next_record()) {
 		$temp["garantie"]=" <span style=\"color:green;\">(via garantie)</span>";
@@ -86,7 +86,7 @@ if($gegevens["stap1"]["boekingid"]) {
 }
 
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="Naam";
 $form->settings["layout"]["css"]=false;
 $form->settings["db"]["table"]="boeking";
@@ -96,9 +96,6 @@ $form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 $form->settings["submitbutton"]["class"]="wtform_submitbutton inkoopgegevens_submit";
 $form->settings["submitbutton"]["no_action"]="true";
 
-
-# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-$form->settings["layout"]["goto_aname"]=true;
 
 #_field: (obl),id,title,db,prevalue,options,layout
 
@@ -123,7 +120,7 @@ if($temp["leverancier_bevestigmethode"]) {
 
 if($temp["leverancier_bevestigmethode"]==1) {
 	# bevestigmethode: stuurt direct een factuurnummer
-	
+
 	# indien oude gegevens in het systeem staan (bij wijzigen van bevestigmethode gedurende een seizoen):
 	if($gegevens["stap1"]["leverancierscode"] and $gegevens["stap1"]["leverancierscode"]<>$gegevens["stap1"]["factuurnummer_leverancier"]) {
 		$form->field_text(0,"leverancierscode","Reserveringsnummer (voorheen)",array("field"=>"leverancierscode"),"",array("info"=>"Alleen van toepassing omdat de bevestigmethode is gewijzigd."),array("info"=>"Alleen van toepassing omdat de bevestigmethode van deze leverancier is gewijzigd.","input_class"=>"wtform_input leverancierscode_keydown"));
@@ -151,7 +148,7 @@ if(!$gegevens["stap1"]["besteldatum"] or $gegevens["stap1"]["besteldatum"]>(time
 		$inkoop_actueel=inkoopprijs_bepalen($gegevens["stap1"]["verzameltype_gekozentype_id"],$gegevens["stap1"]["aankomstdatum"]);
 	} else {
 		# inkoopprijs
-		$inkoop_actueel=inkoopprijs_bepalen($gegevens["stap1"]["typeid"],$gegevens["stap1"]["aankomstdatum"]);	
+		$inkoop_actueel=inkoopprijs_bepalen($gegevens["stap1"]["typeid"],$gegevens["stap1"]["aankomstdatum"]);
 	}
 }
 
@@ -212,7 +209,7 @@ while(list($key,$value)=@each($gegevens["stap4"]["optie_hoort_bij_accommodatiein
 
 if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gegevens["stap4"]["persoonsoptie_fin"]["hoort_bij_accommodatieinkoop"] or $gegevens["stap4"]["algemene_optie"]["hoort_niet_bij_accommodatieinkoop"] or $gegevens["stap4"]["persoonsoptie_fin"]["hoort_niet_bij_accommodatieinkoop"]) {
 	$form->field_htmlcol("","Netto-accommodatie €",array("html"=>wt_cur($gegevens["stap1"]["inkoopnetto"],false)),"",array("tr_class"=>"inkoopgegevens_opvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_inkoopnetto"));
-	
+
 	# extra opties: algemeen: actief
 	while(list($key,$value)=@each($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"])) {
 		if($titel_bijkomend_getoond) {
@@ -238,7 +235,7 @@ if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gege
 		$bedrag=$gegevens["stap4"]["algemene_optie"]["inkoop"][$key]*(1-$gegevens["stap4"]["algemene_optie"]["korting"][$key]/100);
 		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">1 x ".htmlentities($gegevens["stap4"]["algemene_optie"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"1\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"),"",array("tr_class"=>"bijkomend_doorstrepen"));
 	}
-	
+
 	# extra opties: per persoon: actief
 	while(list($key,$value)=@each($gegevens["stap4"]["persoonsoptie_fin"]["hoort_bij_accommodatieinkoop"])) {
 		if($titel_bijkomend_getoond) {
@@ -252,7 +249,7 @@ if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gege
 		$temp_extraopties_totaal+=$bedrag;
 		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">".$gegevens["stap4"]["persoonsoptie_fin"]["aantal"][$key]." x ".htmlentities($gegevens["stap4"]["persoonsoptie_fin"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"0\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"));
 	}
-	
+
 	# extra opties: per persoon: inactief
 	while(list($key,$value)=@each($gegevens["stap4"]["persoonsoptie_fin"]["hoort_niet_bij_accommodatieinkoop"])) {
 		if($titel_bijkomend_getoond) {
@@ -345,10 +342,10 @@ if($form->okay) {
 			trigger_error("lege optiecategorie bij boeking ".$gegevens["stap1"]["boekingsnummer"],E_USER_NOTICE);
 		}
 	}
-	
+
 	# wijzigingen loggen
 	if($temp["leverancier_bevestigmethode"]==1) {
-	
+
 	} elseif($temp["leverancier_bevestigmethode"]==2) {
 		if($form->input["leverancierscode"]<>$gegevens["stap1"]["leverancierscode"]) chalet_log("bevestiging leverancier (".$form->input["leverancierscode"].")",true,true);
 	} elseif($temp["leverancier_bevestigmethode"]==3) {
@@ -371,7 +368,7 @@ if($form->okay) {
 	}
 	if($form->input["factuurnummer_leverancier"]<>$gegevens["stap1"]["factuurnummer_leverancier"]) chalet_log("factuurnummer leverancier (".$form->input["factuurnummer_leverancier"].")",true,true);
 	if($form->input["factuur_opmerkingen"]<>$gegevens["stap1"]["factuur_opmerkingen"]) chalet_log("opmerkingen factuur",true,true);
-	
+
 	# tijdelijk
 	if($form->input["eenmaliggecontroleerd"]) chalet_log("inkoopbedragen zijn gecontroleerd en correct bevonden",true,true);
 

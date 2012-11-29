@@ -17,17 +17,14 @@ if($_GET["internelijst"]) {
 	#
 	echo "<h2>Interne lijsten skipassen en opties</h2>";
 	# frm = formname (mag ook wat anders zijn)
-	$form=new form2("frm"); 
+	$form=new form2("frm");
 	$form->settings["fullname"]="Naam";
 	$form->settings["layout"]["css"]=false;
 	$form->settings["db"]["table"]="lid";
 	$form->settings["message"]["submitbutton"]["nl"]="OK";
 	$form->settings["type"]="get";
 	#$form->settings["target"]="_blank";
-	  
-	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-	$form->settings["layout"]["goto_aname"]=true;
-	  
+
 	#_field: (obl),id,title,db,prevalue,options,layout
 	$zaterdag=mktime(0,0,0,date("m"),date("d")-(date("w")+1),date("Y"));
 	$aantalwekenterug=10;
@@ -35,13 +32,13 @@ if($_GET["internelijst"]) {
 	$form->field_date(1,"begindatum","Begindatum","",array("time"=>$begindatum),array("startyear"=>date("Y")-2,"endyear"=>date("Y")+2),array("calendar"=>true));
 	$form->field_date(1,"einddatum","Einddatum","",array("time"=>$zaterdag),array("startyear"=>date("Y")-2,"endyear"=>date("Y")+2),array("calendar"=>true));
 	$form->check_input();
-	
+
 	if($form->filled) {
 		if(date("w",$form->input["begindatum"]["unixtime"])<>6) $form->error("begindatum","moet een zaterdag zijn");
 		if(date("w",$form->input["einddatum"]["unixtime"])<>6) $form->error("einddatum","moet een zaterdag zijn");
 		if($form->input["einddatum"]["unixtime"]<$form->input["begindatum"]["unixtime"]) $form->error("einddatum","moet later zijn dan begindatum");
 	}
-	
+
 	$form->end_declaration();
 	$form->display_all();
 	if($form->okay) {
@@ -49,7 +46,7 @@ if($_GET["internelijst"]) {
 
 		# Skipasbestellijsten
 		unset($inquery);
-	
+
 		# Gewone skipassen (bij accommodaties)
 		$db->query("SELECT DISTINCT s.skipas_id FROM skipas s, boeking b, accommodatie a, type t WHERE b.wederverkoop=0 AND b.aankomstdatum>='".addslashes($form->input["begindatum"]["unixtime"])."' AND b.aankomstdatum<='".addslashes($form->input["einddatum"]["unixtime"])."' AND a.skipas_id=s.skipas_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
 		while($db->next_record()) {
@@ -61,13 +58,13 @@ if($_GET["internelijst"]) {
 		while($db->next_record()) {
 			if($inquery) $inquery.=",".$db->f("skipas_id"); else $inquery=$db->f("skipas_id");
 		}
-		
+
 		# Handmatige opties
 		$db->query("SELECT DISTINCT e.skipas_id FROM extra_optie e, boeking b WHERE e.boeking_id=b.boeking_id AND e.voucher=1 AND b.aankomstdatum>='".addslashes($form->input["begindatum"]["unixtime"])."' AND b.aankomstdatum<='".addslashes($form->input["einddatum"]["unixtime"])."' AND e.skipas_id>0;");
 		while($db->next_record()) {
 			if($inquery) $inquery.=",".$db->f("skipas_id"); else $inquery=$db->f("skipas_id");
 		}
-		if($inquery) {	
+		if($inquery) {
 			$db->query("SELECT DISTINCT naam, skipas_id FROM skipas WHERE skipas_id IN (".$inquery.") ORDER BY naam;");
 			if($db->num_rows()) {
 				echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"tbl\" style=\"margin-left:40px;width:560px;\">";
@@ -80,22 +77,22 @@ if($_GET["internelijst"]) {
 				echo "</table>";
 			}
 		}
-		
+
 		# Optiebestellijsten
 		unset($inquery);
-		
+
 		# Gewone opties
 		$db->query("SELECT DISTINCT ol.optieleverancier_id FROM optieleverancier ol, optie_accommodatie oa, optie_groep og, boeking b, type t, accommodatie a, plaats p, leverancier l, optie_onderdeel oo, boeking_optie bo WHERE og.optieleverancier_id=ol.optieleverancier_id AND bo.boeking_id=b.boeking_id AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oa.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND b.aankomstdatum>='".addslashes($form->input["begindatum"]["unixtime"])."' AND b.aankomstdatum<='".addslashes($form->input["einddatum"]["unixtime"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.goedgekeurd=1 AND b.geannuleerd=0;");
 		while($db->next_record()) {
 			if($inquery) $inquery.=",".$db->f("optieleverancier_id"); else $inquery=$db->f("optieleverancier_id");
 		}
-	
+
 		# Handmatige opties
 		$db->query("SELECT DISTINCT e.optieleverancier_id FROM extra_optie e, boeking b WHERE e.deelnemers<>'' AND (e.voucher=1 OR e.verberg_voor_klant=1) AND e.optieleverancier_id>0 AND e.boeking_id=b.boeking_id AND b.aankomstdatum>='".addslashes($form->input["begindatum"]["unixtime"])."' AND b.aankomstdatum<='".addslashes($form->input["einddatum"]["unixtime"])."' AND b.goedgekeurd=1 AND b.geannuleerd=0;");
 		while($db->next_record()) {
 			if($inquery) $inquery.=",".$db->f("optieleverancier_id"); else $inquery=$db->f("optieleverancier_id");
 		}
-		
+
 		if($inquery) {
 			$db->query("SELECT DISTINCT naam, optieleverancier_id FROM optieleverancier WHERE optieleverancier_id IN (".$inquery.") ORDER BY naam;");
 			if($db->num_rows()) {
@@ -118,12 +115,12 @@ if($_GET["internelijst"]) {
 
 #
 # NOG NIET IN GEBRUIK
-#	
+#
 	# Maand/jaar-selectie tonen
 	echo "<form method=\"get\" action=\"cms_overzichten_print.php\" name=\"overzicht_form\">";
 	echo "<input type=\"hidden\" name=\"verz\" value=\"".htmlentities($_GET["verz"])."\">";
 	$db->query("SELECT ddd FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.annverz>0 ORDER BY aankomstdatum;");
-	
+
 	echo "</form>";
 
 } elseif($_GET["mailadressen"]) {
@@ -139,22 +136,22 @@ if($_GET["internelijst"]) {
 			}
 		}
 		echo "<p><b>Let op: mailadressen van wederverkoop-boekingen zijn niet aanwezig in dit overzicht.</b>";
-		
+
 	} else {
 		echo "geen boekingen voor deze aankomstdatum";
 	}
-	
+
 } else {
 	echo "<br>&nbsp;<br>";
 	echo "<form method=\"get\" action=\"cms_overzichten.php\" name=\"overzicht_form\">";
 	#echo "<li><a href=\"cms_overzichten_print.php?t=1&lid=".$_GET["8k0"]."\" target=\"_blank\">Roominglist totaal</a></li>";
-	
+
 	# Gewone boekingen
 	$db->query("SELECT DISTINCT b.aankomstdatum FROM boeking b, accommodatie a, type t WHERE b.aankomstdatum>=".mktime(0,0,0,date("m"),date("d")-($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html"||$login->userlevel>=10 ? 40 : 8),date("Y"))." AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id ORDER BY aankomstdatum;");
 	while($db->next_record()) {
 		$keuze_aankomstdatums[$db->f("aankomstdatum")]=true;
 	}
-	
+
 	# Garanties
 	$db->query("SELECT DISTINCT g.aankomstdatum FROM garantie g WHERE g.aankomstdatum>=".mktime(0,0,0,date("m"),date("d")-8,date("Y"))." AND g.boeking_id=0;");
 	while($db->next_record()) {
@@ -181,9 +178,9 @@ if($_GET["internelijst"]) {
 			echo "<li><a href=\"cms_overzichten.php?mailadressen=1&date=".$_GET["date"]."\">Alle e-mailadressen van klanten</a></li>";
 			echo "<li><a href=\"cms_etiketten.php?t=7&date=".$_GET["date"]."\">Etiketten met adressen</a></li>";
 		}
-			
+
 		# Roominglist op datum
-		
+
 		# Gewone boekingen
 		$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
 		while($db->next_record()) {
@@ -205,7 +202,7 @@ if($_GET["internelijst"]) {
 			$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
 			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=2&lid=".$db->f("leverancier_id")."&date=".$_GET["date"]."\">".htmlentities($db->f("naam"))."</a></li>";
 		}
-		
+
 		if(is_array($roominglistlijst)) {
 			ksort($roominglistlijst);
 			echo "<li>Aankomstlijst op datum:<ul>";
@@ -213,12 +210,12 @@ if($_GET["internelijst"]) {
 				echo $value;
 			}
 			echo "</ul></li>";
-		}		
+		}
 		echo "</ul>";
-		
+
 		# Skipasbestellijsten
 		unset($inquery);
-	
+
 		# Gewone skipassen (bij accommodaties)
 		$db->query("SELECT DISTINCT s.skipas_id FROM skipas s, boeking b, accommodatie a, type t WHERE b.wederverkoop=0 AND b.aankomstdatum='".addslashes($_GET["date"])."' AND a.skipas_id=s.skipas_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
 		while($db->next_record()) {
@@ -231,13 +228,13 @@ if($_GET["internelijst"]) {
 		while($db->next_record()) {
 			if($inquery) $inquery.=",".$db->f("skipas_id"); else $inquery=$db->f("skipas_id");
 		}
-						
+
 		# Handmatige opties
 		$db->query("SELECT DISTINCT e.skipas_id FROM extra_optie e, boeking b WHERE e.boeking_id=b.boeking_id AND e.voucher=1 AND b.aankomstdatum='".addslashes($_GET["date"])."' AND e.skipas_id>0;");
 		while($db->next_record()) {
 			if($inquery) $inquery.=",".$db->f("skipas_id"); else $inquery=$db->f("skipas_id");
 		}
-		if($inquery) {	
+		if($inquery) {
 			$db->query("SELECT DISTINCT naam, skipas_id FROM skipas WHERE skipas_id IN (".$inquery.") ORDER BY naam;");
 			if($db->num_rows()) {
 				echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"tbl\" style=\"margin-left:40px;width:560px;\">";
@@ -248,17 +245,17 @@ if($_GET["internelijst"]) {
 				echo "</table>";
 			}
 		}
-		
+
 		# Optiebestellijsten
 		unset($inquery);
-		
+
 		# Gewone opties
 		$db->query("SELECT DISTINCT ol.optieleverancier_id FROM optieleverancier ol, optie_accommodatie oa, optie_groep og, boeking b, type t, accommodatie a, plaats p, leverancier l, optie_onderdeel oo, boeking_optie bo WHERE og.optieleverancier_id=ol.optieleverancier_id AND bo.boeking_id=b.boeking_id AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oa.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.goedgekeurd=1 AND b.geannuleerd=0;");
 #		$db->query("SELECT DISTINCT ol.optieleverancier_id FROM optieleverancier ol, optie_accommodatie oa, optie_groep og, boeking b, type t, accommodatie a, plaats p, leverancier l, optie_onderdeel oo, boeking_optie bo WHERE og.optieleverancier_id=ol.optieleverancier_id AND bo.boeking_id=b.boeking_id AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oa.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND og.skipas_id=0 AND a.plaats_id=p.plaats_id AND b.goedgekeurd=1 AND b.geannuleerd=0;");
 		while($db->next_record()) {
 			if($inquery) $inquery.=",".$db->f("optieleverancier_id"); else $inquery=$db->f("optieleverancier_id");
 		}
-	
+
 		# Handmatige opties
 		$db->query("SELECT DISTINCT e.optieleverancier_id FROM extra_optie e, boeking b WHERE e.deelnemers<>'' AND (e.voucher=1 OR e.verberg_voor_klant=1) AND e.optieleverancier_id>0 AND e.boeking_id=b.boeking_id AND b.aankomstdatum='".addslashes($_GET["date"])."' AND b.goedgekeurd=1 AND b.geannuleerd=0;");
 		while($db->next_record()) {
@@ -278,13 +275,13 @@ if($_GET["internelijst"]) {
 		}
 	}
 	echo "<hr><h2>Overzichten zonder aankomstdatum</h2><ul>";
-	
+
 	# Openstaande betalingen
 #	echo "<li><a href=\"cms_openstaandebetalingen.php\">Openstaande betalingen</a></li>";
-	
+
 	# Interne skipassen en optielijsten
 	echo "<li><a href=\"cms_overzichten.php?internelijst=1\">Interne lijsten skipassen en opties - zelf periode kiezen</a></li>";
-	
+
 	# Verzekeringenlijst
 #	echo "<li><a href=\"cms_overzichten.php?verz=1\">Overzicht annuleringsverzekering</a></li>";
 #	echo "<li><a href=\"cms_overzichten.php?verz=2\">Overzicht reisverzekering</a></li>";
@@ -292,10 +289,10 @@ if($_GET["internelijst"]) {
 	echo "<li><a href=\"cms_overzichten_print.php?t=10\">Overzicht annuleringsverzekering</a>&nbsp;<img src=\"pic/icon_csv.gif\" width=\"17\" height=\"17\" style=\"margin-bottom:-3px;\" alt=\"\"></li>";
 	echo "<li><a href=\"cms_overzichten_print.php?t=11\">Overzicht reisverzekering</a>&nbsp;<img src=\"pic/icon_csv.gif\" width=\"17\" height=\"17\" style=\"margin-bottom:-3px;\" alt=\"\"></li>";
 	echo "<li><a href=\"cms_overzichten_print.php?t=12\">Overzicht schadeverzekering</a>&nbsp;<img src=\"pic/icon_csv.gif\" width=\"17\" height=\"17\" style=\"margin-bottom:-3px;\" alt=\"\"></li>";
-	
+
 	# Roominglist totaal
 	unset($roominglistlijst);
-	
+
 	# Gewone boekingen
 	#$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.leverancier_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id ORDER BY l.naam;");
 	$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.leverancier_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND b.aankomstdatum_exact>'".time()."';");
@@ -303,7 +300,7 @@ if($_GET["internelijst"]) {
 		$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
 		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</a></li>";
 	}
-	
+
 	# Gewone boekingen (via beheerder)
 #	$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND (a.beheerder_id=l.leverancier_id OR t.beheerder_id=l.leverancier_id) AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
 #	$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE (a.beheerder_id=l.leverancier_id OR t.beheerder_id=l.leverancier_id) AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND b.aankomstdatum_exact>'".time()."';");
@@ -312,14 +309,14 @@ if($_GET["internelijst"]) {
 		$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
 		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</a></li>";
 	}
-	
+
 	# Garanties
 	$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM garantie g, accommodatie a, type t, leverancier l WHERE g.leverancier_id=l.leverancier_id AND g.boeking_id=0 AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND g.aankomstdatum_exact>'".time()."';");
 	while($db->next_record()) {
 		$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
 		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</a></li>";
 	}
-	
+
 	if(is_array($roominglistlijst)) {
 		ksort($roominglistlijst);
 		echo "<li>Roominglist totaal:<ul>";
@@ -330,7 +327,7 @@ if($_GET["internelijst"]) {
 	}
 	#echo "<li><a href=\"cms_overzichten_print.php?t=1&lid=".$_GET["8k0"]."\" target=\"_blank\">Roominglist totaal</a></li>";
 	echo "</ul>";
-	
+
 #	echo "<hr><b>Overige overzichten</b><ul>";
 #	echo "</ul>";
 

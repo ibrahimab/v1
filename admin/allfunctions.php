@@ -914,6 +914,15 @@ function wt_create_thumbnail($file,$newfile,$width,$height,$cut=false,$type="jpg
 	# aspectratio bepalen
 	$imgsize=getimagesize($file);
 
+	$mime_content_type=@mime_content_type($file);
+	if($mime_content_type=="image/gif") {
+		$source_type="gif";
+	} elseif($mime_content_type=="image/png") {
+		$source_type="png";
+	} else {
+		$source_type=$type;
+	}
+
 	$aspectratio=$imgsize[0]/$imgsize[1];
 
 	# Nieuwe afmetingen bepalen
@@ -949,9 +958,9 @@ function wt_create_thumbnail($file,$newfile,$width,$height,$cut=false,$type="jpg
 	# Afbeeldingen resizen
 	if($tempwidth==$imgsize[0] and $tempheight==$imgsize[1]) {
 		# Afbeelding resizen is niet nodig
-		if($type=="png") {
+		if($source_type=="png") {
 			$img=imagecreatefrompng($file);
-		} elseif($type=="gif") {
+		} elseif($source_type=="gif") {
 			$img=imagecreatefromgif($file);
 		} else {
 			$img=imagecreatefromjpeg($file);
@@ -959,9 +968,9 @@ function wt_create_thumbnail($file,$newfile,$width,$height,$cut=false,$type="jpg
 	} else {
 		# Afbeelding resizen naar nieuwe afmetingen (met originele verhouding)
 		$img=imagecreatetruecolor($tempwidth,$tempheight);
-		if($type=="png") {
+		if($source_type=="png") {
 			$org_img=imagecreatefrompng($file);
-		} elseif($type=="gif") {
+		} elseif($source_type=="gif") {
 			$org_img=imagecreatefromgif($file);
 		} else {
 			$org_img=imagecreatefromjpeg($file);

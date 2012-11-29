@@ -13,16 +13,13 @@ if(!$login->has_priv("22")) {
 }
 
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="Periode";
 $form->settings["layout"]["css"]=true;
 $form->settings["type"]="get";
 
 $form->settings["message"]["submitbutton"]["nl"]="OK";
 
-# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-$form->settings["layout"]["goto_aname"]=true;
-  
 #_field: (obl),id,title,db,prevalue,options,layout
 
 $begin=mktime(0,0,0,12,1,2006);

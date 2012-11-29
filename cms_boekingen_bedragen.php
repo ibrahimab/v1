@@ -14,7 +14,7 @@ if($gegevens["stap1"]["boekingid"]) {
 	} elseif($temp_gegevens["stap2"][1]) {
 		$gegevens["stap2"]=$temp_gegevens["stap2"][1];
 	}
-	
+
 	# Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
 	@reset($temp_gegevens["stap3"][2]);
 	while(list($key,$value)=@each($temp_gegevens["stap3"][2])) {
@@ -29,7 +29,7 @@ if($gegevens["stap1"]["boekingid"]) {
 	while(list($key,$value)=@each($temp_gegevens["stap3"][1])) {
 		if(is_array($value) and !is_array($gegevens["stap3"][$key])) $gegevens["stap3"][$key]=$value;
 	}
-	
+
 	# Controle op status Geselecteerde opties (2 heeft voorkeur boven 1)
 #	if($temp_gegevens["stap4"][2]) {
 #		$gegevens["stap4"]=$temp_gegevens["stap4"][2];
@@ -41,16 +41,13 @@ if($gegevens["stap1"]["boekingid"]) {
 }
 
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="Naam";
 $form->settings["layout"]["css"]=false;
 $form->settings["db"]["table"]="boeking";
 $form->settings["db"]["where"]="boeking_id='".addslashes($_GET["bid"])."'";
 $form->settings["goto"]=$_GET["burl"];
 $form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
-
-# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-$form->settings["layout"]["goto_aname"]=true;
 
 #_field: (obl),id,title,db,prevalue,options,layout
 
@@ -145,7 +142,7 @@ for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 	}
 	#$form->field_currency(0,"annuleringsverzekering_verzekerdbedrag","Verzekerd bedrag",array("field"=>"annuleringsverzekering_verzekerdbedrag"));
 
-	
+
 	$form->field_htmlrow("","<hr>");
 }
 
@@ -212,20 +209,20 @@ if($form->okay) {
 			if($value<>$gegevens["stap4"]["verkoop_optie_onderdeelid"][$regs[2]]) {
 #echo $regs[2];
 #echo $gegevens["stap4"]["algemene_optie"]["naam_op_onderdeel_id"][$regs[2]];
-#exit;			
+#exit;
 				if($gegevens["stap4"]["algemene_optie"]["naam_op_onderdeel_id"][$regs[2]]) {
 					chalet_log("optie-tarief ".$gegevens["stap4"]["algemene_optie"]["naam_op_onderdeel_id"][$regs[2]]." (€ ".@number_format($value,2,',','.').")",true,true);
 				} else {
-					chalet_log("optie-tarief ".$gegevens["stap4"]["optie_onderdeelid_naam"][$regs[2]]." (€ ".@number_format($value,2,',','.').")",true,true);				
+					chalet_log("optie-tarief ".$gegevens["stap4"]["optie_onderdeelid_naam"][$regs[2]]." (€ ".@number_format($value,2,',','.').")",true,true);
 				}
 			}
 		} elseif(ereg("^commissie_optie_([0-9]+)_([0-9]+)$",$key,$regs)) {
 			$value=ereg_replace(",",".",$value);
 			$db->query("UPDATE boeking_optie SET commissie='".addslashes($value)."' WHERE persoonnummer='".addslashes($regs[1])."' AND boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."' AND optie_onderdeel_id='".addslashes($regs[2])."';");
 			if($gegevens["stap4"]["optie_onderdeelid_commissie_persoonnummer"][$regs[2]][$regs[1]]=="0.00") $gegevens["stap4"]["optie_onderdeelid_commissie_persoonnummer"][$regs[2]][$regs[1]]="";
-			
+
 #			$return["stap4"][$db->f("status")]["optie_onderdeelid_commissie_persoonnummer"][$db->f("optie_onderdeel_id")][$db->f("persoonnummer")]
-			
+
 			if($value<>$gegevens["stap4"]["optie_onderdeelid_commissie_persoonnummer"][$regs[2]][$regs[1]]) {
 				chalet_log("optie-commissie ".$gegevens["stap4"]["optie_onderdeelid_naam"][$regs[2]]." (".number_format($value,2,',','.')."%)",true,true);
 			}
@@ -286,7 +283,7 @@ if($form->okay) {
 	if($gegevens["stap1"]["reisverzekering_poliskosten"] and $form->input["reisverzekering_poliskosten"]<>$gegevens["stap1"]["reisverzekering_poliskosten"]) chalet_log("reisverzekering poliskosten (".ereg_replace("\.",",",$form->input["reisverzekering_poliskosten"]).")",true,true);
 	if($form->input["verzekeringen_poliskosten"]<>$gegevens["stap1"]["verzekeringen_poliskosten"]) chalet_log("verzekeringen poliskosten (".ereg_replace("\.",",",$form->input["verzekeringen_poliskosten"]).")",true,true);
 	if($form->input["reserveringskosten"]<>$gegevens["stap1"]["reserveringskosten"]) chalet_log("reserveringskosten (".ereg_replace("\.",",",$form->input["reserveringskosten"]).")",true,true);
- 
+
 	if($form->input["schadeverzekering_percentage"]<>$gegevens["stap1"]["schadeverzekering_percentage"]) chalet_log("percentage schade logies verblijven (".ereg_replace("\.",",",$form->input["schadeverzekering_percentage"]).")",true,true);
 	if($form->input["accprijs"]<>$gegevens["stap1"]["accprijs"]) chalet_log("verzekerd bedrag schade logies verblijven (".ereg_replace("\.",",",$form->input["accprijs"]).")",true,true);
 

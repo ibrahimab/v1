@@ -589,6 +589,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 	}
 
+	# Lege cel i.v.m. kolom "aankomst"
+	if($form->input["losseboekingen"] or $_GET["csv"]) {
+		$colspan++;
+	}
+
 	function toonaantal($aantal) {
 		return number_format($aantal,0,",",".");
 	}
@@ -823,6 +828,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							}
 							unset($losseregel);
 							$losseregel.="<tr><td><a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">garantie ".htmlentities($db->f("reserveringsnummer_extern"))."</a></td>";
+
+							# Aankomstdatum
+							if($form->input["losseboekingen"] or $_GET["csv"]) {
+								$losseregel.="<td>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
+							}
+
 							if($kolom["aantal_ingekocht"]) {
 								$losseregel.="<td>1</td>";
 							}
@@ -990,6 +1001,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			unset($losseregel);
 			$losseregel.="<tr".($bgcolor ? " style=\"background-color:".$bgcolor.";\"" : "")."><td><a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities($db->f("boekingsnummer"))."</a></td>";
 
+			# Aankomstdatum
+			if($form->input["losseboekingen"] or $_GET["csv"]) {
+				$losseregel.="<td>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
+			}
+
 			if($kolom["aantal_ingekocht"]) {
 				$losseregel.="<td>1</td>";
 			}
@@ -1131,6 +1147,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 
 		echo "<tr".($seizoenteller==1 ? " id=\"fixedtable_header\"" : "")."><th>Omschrijving</th>";
+
+		if($form->input["losseboekingen"] or $_GET["csv"]) {
+			echo "<th>Aankomst</th>";
+		}
+
 		if($kolom["aantal_ingekocht"]) {
 			echo "<th title=\"Aantal ingekochte accommodaties\">St.</th>";
 		}
@@ -1236,6 +1257,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			}
 
 			echo "<tr style=\"color:#ffffff;background-color:grey;\"><td><b>".htmlentities($value2)."</b></td>";
+
+			if($form->input["losseboekingen"] or $_GET["csv"]) {
+				# Lege cel i.v.m. kolom "aankomst"
+				echo "<td>&nbsp;</td>";
+			}
+
 			if($kolom["aantal_ingekocht"]) {
 				echo "<td>".toonaantal($totalen[$key2]["aantalacc"][$key])."</td>";
 			}
@@ -1442,6 +1469,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 		if(!function_exists("convert_to_csv")) {
 			function convert_to_csv($html,$split="</td>") {
+				$html=str_replace("&nbsp;"," ",$html);
 				$lines=explode("</tr>",$html);
 				if(is_array($lines)) {
 					while(list($key,$value)=each($lines)) {

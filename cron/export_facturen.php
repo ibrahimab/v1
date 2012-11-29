@@ -10,16 +10,13 @@ include($unixdir."admin/vars.php");
 $exporteermoment=time();
 
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="Periode";
 $form->settings["layout"]["css"]=true;
 $form->settings["type"]="get";
 
 $form->settings["message"]["submitbutton"]["nl"]="CSV-BESTAND DOWNLOADEN";
 
-# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-$form->settings["layout"]["goto_aname"]=true;
-  
 #_field: (obl),id,title,db,prevalue,options,layout
 
 $gisteren=mktime(0,0,0,date("m"),date("d")-1,date("Y"));
@@ -46,7 +43,7 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 	$db->query("SELECT b.boeking_id, b.debiteurnummer, b.boekingsnummer, b.landcode, b.aankomstdatum_exact, b.reisbureau_user_id, p.voornaam, p.tussenvoegsel, p.achternaam, f.factuur_id, UNIX_TIMESTAMP(f.datum) AS factuurdatum, fr.regelnummer, fr.bedrag, fr.grootboektype FROM boeking b, boeking_persoon p, factuur f, factuurregel fr WHERE f.boeking_id=b.boeking_id AND fr.factuur_id=f.factuur_id AND p.persoonnummer=1 AND p.boeking_id=b.boeking_id AND debiteurnummer>0 AND ".$tempwhere." ORDER BY f.factuur_id, fr.regelnummer;");
 #	echo $db->lastquery;
 	while($db->next_record()) {
-	
+
 		if(date("m",$db->f("factuurdatum"))>=7) {
 			$periode=date("m",$db->f("factuurdatum"))-6;
 		} else {
@@ -58,7 +55,7 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 		} else {
 			$debiteurnummer="130".$db->f("debiteurnummer");
 		}
-		
+
 
 		if($db->f("regelnummer")==0) {
 			$boekstuknummer=$db->f("factuur_id");
@@ -76,9 +73,9 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 			} else {
 				$factuurnummer=substr($db->f("boekingsnummer"),1,8);
 			}
-			
+
 			$betaalref="";
-			
+
 			# Grootboekrekening bepalen
 			$website=ereg_replace("^([A-Z]).*$","\\1",$db->f("boekingsnummer"));
 			if($boekjaar<boekjaar($db->f("aankomstdatum_exact"))) {
@@ -101,7 +98,7 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 			} elseif($db->f("grootboektype")==2) {
 				$grootboek="1513";
 			}
-			
+
 			# BTW-code en -bedrag
 			$btwcode=$vars["landcodes_boekhouding_btwcode"][$db->f("landcode")];
 			$btwbedrag=0;
@@ -115,7 +112,7 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 	}
 }
 $form->end_declaration();
-	
+
 # Content
 if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
@@ -139,9 +136,9 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 	echo "<div style=\"width:800px;padding:10px;background-color:#ffffff;\">";
 	echo "<h3>CSV-Export verkoopboekingen</h3>";
 	echo "Door het invullen van een begin- en einddatum worden de verkoopboekingen ge&euml;xporeerd naar CSV.<p>";
-	
+
 	$form->display_all();
-	
+
 	echo "</div></body></html>";
 }
 

@@ -35,9 +35,6 @@ if($_GET["t"]==5) {
 
 	$form->settings["message"]["submitbutton"]["nl"]="OK";
 
-	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-	$form->settings["layout"]["goto_aname"]=true;
-
 	#_field: (obl),id,title,db,prevalue,options,layout
 
 #$vars["zaterdag_over_6_weken"]=mktime(0,0,0,date("m"),date("d")+(6-date("w"))+(6*7),date("Y"));

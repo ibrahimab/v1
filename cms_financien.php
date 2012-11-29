@@ -131,8 +131,6 @@ if($_GET["marges"]) {
 
 	$form->settings["message"]["submitbutton"]["nl"]="OK";
 
-	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-	$form->settings["layout"]["goto_aname"]=true;
 
 	#_field: (obl),id,title,db,prevalue,options,layout
 
