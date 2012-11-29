@@ -1563,7 +1563,49 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "<li><a href=\"cron/export_debiteuren.php\" target=\"_blank\">Debiteuren exporteren</a></li>";
 		echo "<li><a href=\"cron/export_facturen.php?nodate=1\" target=\"_blank\" onclick=\"return confirmClick(this,'Elke boeking wordt slechts eenmalig geëxporteerd. Doorgaan?');\">Nieuwe verkoopboekingen exporteren</a></li>";
 		echo "<li><a href=\"cron/export_facturen.php\" target=\"_blank\">Verkoopboekingen exporteren</a> (periode opgeven)</li>";
+		echo "<li><a href=\"#\" id=\"toon_overzicht_grootboekrekeningen\">Toon grootboekrekeningnummers</a></li>";
 		echo "</ul>";
+
+		echo "<div id=\"overzicht_grootboekrekeningen\">";
+		echo "<b>Overzicht grootboekrekeningnummers</b><br/><br/>";
+
+		echo "<table>";
+		echo "<tr><td>Vorig boekjaar</td><td>:&nbsp;</td><td>alle boekingen v&oacute;&oacute;r 1 juli ".boekjaar(time())."</td></tr>";
+		echo "<tr><td>Huidig boekjaar</td><td>:&nbsp;</td><td>1 juli ".boekjaar(time())." t/m 30 juni ".(boekjaar(time())+1)."</td></tr>";
+		echo "<tr><td>Volgend boekjaar</td><td>:&nbsp;</td><td>alle boekingen na 30 juni ".(boekjaar(time())+1)."</td></tr>";
+		echo "</table><br/>";
+
+		echo "<table cellspacing=\"0\" cellpadding=\"4\" class=\"tbl\">";
+
+		echo "<tr><td colspan=\"2\">&nbsp;</td><td colspan=\"3\">&nbsp;</td><td colspan=\"3\"><i>wederverkoop</i></td></tr>";
+		echo "<tr><th colspan=\"2\" style=\"text-align:right;\">boekjaar:&nbsp;&nbsp;</th><th>vorig</th><th>huidig</th><th>volgend</th><th>vorig</th><th>huidig</th><th>volgend</th></tr>";
+		while(list($key,$value)=each($vars["grootboekrekeningnummers"])) {
+			if(!$vars["websites_inactief"][$key]) {
+				echo "<tr>";
+				echo "<td>".$key."</td>";
+				echo "<td>".$vars["websites"][$key]."</td>";
+				echo "<td>".$value[-1]."</td>";
+				echo "<td>".$value[0]."</td>";
+				echo "<td>".$value[1]."</td>";
+				if($vars["grootboekrekeningnummers_wederverkoop"][$key]) {
+					echo "<td>".$vars["grootboekrekeningnummers_wederverkoop"][$key][-1]."</td>";
+					echo "<td>".$vars["grootboekrekeningnummers_wederverkoop"][$key][0]."</td>";
+					echo "<td>".$vars["grootboekrekeningnummers_wederverkoop"][$key][1]."</td>";
+				} else {
+					echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+				}
+				echo "</tr>";
+			}
+
+		}
+		echo "</table>";
+
+
+		echo "<br/><br/>";
+
+		echo "</div>";
+
+
 
 		echo "<b>Import:</b><ul>";
 		echo "<li>Betalingen importeren via CSV: ";
@@ -1573,6 +1615,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "<input type=\"submit\" value=\" Betalingen importeren \" id=\"sbmt\" onclick=\"document.frm.sbmt.disabled=1;document.frm.submit();\">";
 		echo "</form>";
 		echo "</ul>";
+
+		# ruimte creeeren voor openklappen grootboekrekeningen
+		echo "<div style=\"height:500px;\"></div>";
+
 	}
 
 }

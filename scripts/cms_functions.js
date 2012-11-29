@@ -509,6 +509,13 @@ $(document).ready(function() {
 			return false;
 		});
 	});
+
+
+	// toon overzicht grootboekrekeningen op https://www.chalet.nl/cms_financien.php
+	$("#toon_overzicht_grootboekrekeningen").click(function() {
+		$("#overzicht_grootboekrekeningen").slideToggle();
+		return false;
+	});
 });
 
 

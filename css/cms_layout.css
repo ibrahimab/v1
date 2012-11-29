@@ -731,6 +731,11 @@ a.opm:hover .balloon_small {
 	background-color: #00b0f0;
 }
 
+#overzicht_grootboekrekeningen {
+	display: none;
+	margin-left: 40px;
+}
+
 @media print {
 
 	body {
