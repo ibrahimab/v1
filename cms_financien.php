@@ -146,7 +146,7 @@ if($_GET["marges"]) {
 	$form->field_yesno("onverkochtegaranties","Inclusief onverkochte garanties","",array("selection"=>true));
 	$form->field_yesno("totaalperleverancier","Toon totalen per leverancier");
 	$form->field_yesno("alleenverkochtegaranties","Neem alleen verkochte garanties mee in het overzicht");
-	$form->field_yesno("testsysteem","Toon de testversie van het overzicht");
+#	$form->field_yesno("testsysteem","Toon de testversie van het overzicht");
 	$form->field_checkbox(1,"soortboekingen","Soort boekingen","",array("selection"=>"1,2"),array("selection"=>array(1=>"directe boekingen en ongebruikte garanties",2=>"boekingen via reisbureaus")),array("one_per_line"=>true));
 
 	$form->field_htmlrow("","<hr>");
