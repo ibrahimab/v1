@@ -752,7 +752,8 @@ if($form->okay) {
 			$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
 			$mail->from=$gegevens["stap1"]["website_specifiek"]["email"];
 			$mail->to=$gegevens["stap2"]["email"];
-			$mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] Voucher".($voucherteller>2 ? "s" : "");
+
+			$mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] ".txt("mailtje_onderwerp","voucher");
 
 			# Indien geboekt door reisbureau: andere kop boven mailtje
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
@@ -760,68 +761,57 @@ if($form->okay) {
 			}
 
 			$mail->html_top="<table width=600><tr><td>";
-			$mail->html.=nl2br(txt("mailtje","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"v_langewebsitenaam"=>$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"],"h_1"=>"<table cellspacing=0 cellpadding=0 style=\"border:1px solid #000000;padding:5px;background-color:#ffffb1;\"><tr><td>","h_2"=>"</td></tr></table>","h_3"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
+			$mail->html.=nl2br(txt("mailtje","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"v_langewebsitenaam"=>$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"],"v_vakantiesoort"=>txt("vakantiesoort","voucher"),"h_1"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
 			$mail->html_bottom="</td></tr>";
 
 			$mail->attachment($tempfile);
 
 			if(file_exists($pdffile_voorbrief)) {
 				$mail->attachment($pdffile_voorbrief,"","",txt("attachmentnaam_voorbrief_pdf","voucher"));
-				$algemene_informatie=true;
 			}
 
 			if(file_exists($pdffile_route)) {
-				if($gegevens["stap1"]["reisbureau_user_id"]) {
-					# route alleen bij wederverkoop in voucher-mailtje (in andere gevallen in het mailtje "algemene informatie")
-					$mail->attachment($pdffile_route,"","",txt("attachmentnaam_route_pdf","voucher"));
-				}
-				$algemene_informatie=true;
+				$mail->attachment($pdffile_route,"","",txt("attachmentnaam_route_pdf","voucher"));
 			}
 
 			if(file_exists($pdffile_plattegrond)) {
-				if($gegevens["stap1"]["reisbureau_user_id"]) {
-					# plattegrond alleen bij wederverkoop in voucher-mailtje (in andere gevallen in het mailtje "algemene informatie")
-					$mail->attachment($pdffile_plattegrond,"","",txt("attachmentnaam_plattegrond_pdf","voucher"));
-				}
-				$algemene_informatie=true;
-			}
-
-			if($algemene_informatie and !$gegevens["stap1"]["reisbureau_user_id"]) {
-				$mail->subject.=" ".txt("mailtje_onderwerp_1van2","voucher");
+				$mail->attachment($pdffile_plattegrond,"","",txt("attachmentnaam_plattegrond_pdf","voucher"));
 			}
 			$mail->send();
-			if($algemene_informatie and !$gegevens["stap1"]["reisbureau_user_id"]) {
-				# Mail met vertrekinformatie mailen (niet als het een wederverkoop-boeking betreft)
 
-				# even wachten (zodat mailtje 2 later aankomt dan mailtje 1)
-				sleep(2);
+			// if($algemene_informatie and !$gegevens["stap1"]["reisbureau_user_id"]) {
+			// 	# Mail met vertrekinformatie mailen (niet als het een wederverkoop-boeking betreft)
 
-				unset($mail);
-				$mail=new wt_mail;
-				$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
-				$mail->from=$gegevens["stap1"]["website_specifiek"]["email"];
-				$mail->to=$gegevens["stap2"]["email"];
-				$mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] ".txt("mailtje_zonder_voucher_onderwerp","voucher");
-				$mail->subject.=" ".txt("mailtje_onderwerp_2van2","voucher");
+			// 	# even wachten (zodat mailtje 2 later aankomt dan mailtje 1)
+			// 	sleep(2);
+
+			// 	unset($mail);
+			// 	$mail=new wt_mail;
+			// 	$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
+			// 	$mail->from=$gegevens["stap1"]["website_specifiek"]["email"];
+			// 	$mail->to=$gegevens["stap2"]["email"];
+			// 	$mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] ".txt("mailtje_zonder_voucher_onderwerp","voucher");
+			// 	$mail->subject.=" ".txt("mailtje_onderwerp_2van2","voucher");
 
 
-				$mail->html_top="<table width=600><tr><td>";
-				$mail->html.=nl2br(txt("mailtje_zonder_voucher","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"h_1"=>"","h_2"=>"","h_3"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
-				$mail->html_bottom="</td></tr>";
+			// 	$mail->html_top="<table width=600><tr><td>";
+			// 	$mail->html.=nl2br(txt("mailtje_zonder_voucher","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"h_1"=>"","h_2"=>"","h_3"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
+			// 	$mail->html_bottom="</td></tr>";
 
-				if(file_exists($pdffile_voorbrief)) {
-					$mail->attachment($pdffile_voorbrief,"","",txt("attachmentnaam_voorbrief_pdf","voucher"));
-				}
+			// 	if(file_exists($pdffile_voorbrief)) {
+			// 		$mail->attachment($pdffile_voorbrief,"","",txt("attachmentnaam_voorbrief_pdf","voucher"));
+			// 	}
 
-				if(file_exists($pdffile_route)) {
-					$mail->attachment($pdffile_route,"","",txt("attachmentnaam_route_pdf","voucher"));
-				}
+			// 	if(file_exists($pdffile_route)) {
+			// 		$mail->attachment($pdffile_route,"","",txt("attachmentnaam_route_pdf","voucher"));
+			// 	}
 
-				if(file_exists($pdffile_plattegrond)) {
-					$mail->attachment($pdffile_plattegrond,"","",txt("attachmentnaam_plattegrond_pdf","voucher"));
-				}
-				$mail->send();
-			}
+			// 	if(file_exists($pdffile_plattegrond)) {
+			// 		$mail->attachment($pdffile_plattegrond,"","",txt("attachmentnaam_plattegrond_pdf","voucher"));
+			// 	}
+			// 	$mail->send();
+			// }
+
 			chalet_log("vouchers aangemaakt en gemaild aan ".$gegevens["stap2"]["email"],true,true);
 		} else {
 			chalet_log("vouchers aangemaakt",true,true);

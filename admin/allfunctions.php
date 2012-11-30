@@ -914,14 +914,16 @@ function wt_create_thumbnail($file,$newfile,$width,$height,$cut=false,$type="jpg
 	# aspectratio bepalen
 	$imgsize=getimagesize($file);
 
-	$mime_content_type=@mime_content_type($file);
-	if($mime_content_type=="image/gif") {
-		$source_type="gif";
-	} elseif($mime_content_type=="image/png") {
-		$source_type="png";
-	} else {
-		$source_type=$type;
-	}
+	// $mime_content_type=@mime_content_type($file);
+	// if($mime_content_type=="image/gif") {
+	// 	$source_type="gif";
+	// } elseif($mime_content_type=="image/png") {
+	// 	$source_type="png";
+	// } else {
+	// 	$source_type=$type;
+	// }
+
+	$source_type=$type;
 
 	$aspectratio=$imgsize[0]/$imgsize[1];
 
