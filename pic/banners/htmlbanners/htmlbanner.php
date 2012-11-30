@@ -101,7 +101,6 @@ function italissima_datum($width="130px") {
 		echo "<option value=\"4\">Met zwembad</option>\n";
 		echo "<option value=\"5\">Op boerderij</option>\n";
 		echo "<option value=\"6\">Groepen</option>\n";
-		echo "<option value=\"7\">Huisje voor 2</option>\n";
 		echo "<option value=\"8\">Met kids</option>\n";
 		echo "<option value=\"9\">In de bergen</option>\n";
 		echo "</select>\n";
@@ -132,9 +131,8 @@ function zomer_thema($width="130px") {
 		echo "<option value=\"4\">Met zwembad</option>\n";
 		echo "<option value=\"5\">Op boerderij</option>\n";
 		echo "<option value=\"6\">Groepen</option>\n";
-		echo "<option value=\"7\">Huisje voor 2</option>\n";
+		echo "<option value=\"7\">Vakantieparken</option>\n";
 		echo "<option value=\"8\">Met kids</option>\n";
-		echo "<option value=\"9\">In de bergen</option>\n";
 		echo "</select>\n";
 	} else {
 		echo "<select name=\"t\" id=\"vertrekdatum\" style=\"width:".$width.";\" onchange=\"formsubmit('t');\">\n";
@@ -293,9 +291,8 @@ function formsubmit(type) {
 			if(document.frm.t.value==4) url='http://www.zomerhuisje.nl/thema/zwembad/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.t.value==5) url='http://www.zomerhuisje.nl/thema/tegastopdeboerderij/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.t.value==6) url='http://www.zomerhuisje.nl/thema/met-zn-allen/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==7) url='http://www.zomerhuisje.nl/thema/huisje-voor-2/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==7) url='http://www.zomerhuisje.nl/thema/vakantieparken/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.t.value==8) url='http://www.zomerhuisje.nl/thema/kids/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==9) url='http://www.zomerhuisje.nl/thema/bergen/?<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==4) { ?>
 			if(document.frm.t.value==1) url='http://www.chalet.be/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.t.value==2) url='http://www.chalet.be/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
@@ -409,52 +406,52 @@ echo "</head>\n";
 echo "<body style=\"margin:0;\" onload=\"init();\">\n";
 if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	# zomerhuisje 728x90
-	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_728x90.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_728x90.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:22px;left:360px;\">\n";
+	echo "<div style=\"position:absolute;top:22px;left:165px;\">\n";
 	zomer_land();
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:50px;left:360px;\">\n";
+	echo "<div style=\"position:absolute;top:50px;left:165px;\">\n";
 	zomer_thema();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:35px;left:495px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:35px;left:315px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 
 } elseif($_GET["t"]==2 and $_GET["wzt"]==2) {
 	# zomerhuisje 468x60
-	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_468x60.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_468x60.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:7px;left:150px;\">\n";
-	zomer_land();
+	echo "<div style=\"position:absolute;top:7px;left:87px;\">\n";
+	zomer_land("113px");
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:32px;left:150px;\">\n";
-	zomer_thema();
+	echo "<div style=\"position:absolute;top:32px;left:87px;\">\n";
+	zomer_thema("113px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:19px;left:283px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:19px;left:203px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==3 and $_GET["wzt"]==2) {
 	# zomerhuisje 250x250
-	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_250x250.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_250x250.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:193px;left:12px;\">\n";
+	echo "<div style=\"position:absolute;top:118px;left:12px;\">\n";
 	zomer_land();
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:219px;left:12px;\">\n";
+	echo "<div style=\"position:absolute;top:143px;left:12px;\">\n";
 	zomer_thema();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:206px;left:153px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:130px;left:153px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==4 and $_GET["wzt"]==2) {
 	# zomerhuisje 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_234x60.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_234x60.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:5px;left:92px;\">\n";
 	zomer_land("100px");
@@ -470,16 +467,16 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	# zomerhuisje 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_120x600.jpg');\">\n";
+	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_120x600.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:235px;left:3px;\">\n";
+	echo "<div style=\"position:absolute;top:110px;left:3px;\">\n";
 	zomer_land("110px");
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:279px;left:3px;\">\n";
+	echo "<div style=\"position:absolute;top:139px;left:3px;\">\n";
 	zomer_thema("110px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:340px;left:16px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:170px;left:16px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==1 and $_GET["wzt"]==3) {
