@@ -18,10 +18,6 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	# Actielijst-systeem
 	#
 
-	
-	if($login->userlevel<10 and $_GET["add"]==39) {
-		unset($vars["actielijst_status"][1],$vars["actielijst_status"][5],$vars["actielijst_status"][6]);
-	}
 
 	#
 	# Database-declaratie
@@ -44,7 +40,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 #	$cms->db_field(39,"textarea","zie_ook");
 	$cms->db_field(39,"textarea","opmerkingen");
 	$cms->db_field(39,"textarea","interne_notities");
-	
+
 	if(!$login->has_priv(10) and $login->userlevel<10) {
 		# Where-statement
 		$cms->db[39]["where"]="betrokkenen REGEXP '[[:<:]]".addslashes($login->user_id)."[[:>:]]'";
@@ -56,10 +52,10 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			$cms->db[39]["where"]="alleenwebtastic=0";
 		}
 	}
-	
+
 	# Set-statement
 	$cms->db[39]["set"]="invoermoment=NOW(), ingevoerd_door='".addslashes($login->user_id)."'";
-	
+
 	#
 	# List
 	#
@@ -68,29 +64,29 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$cms->settings[39]["list"]["edit_icon"]=true;
 	$cms->settings[39]["list"]["delete_icon"]=true;
 	$cms->settings[39]["list"]["add_link"]=true;
-	
+
 	# List list_field($counter,$id,$title="",$options="",$layout="")
 	$cms->list_sort[39]=array("prioriteit","naam");
 	$cms->list_field(39,"naam","Naam");
 	$cms->list_field(39,"prioriteit","Prioriteit");
-	
+
 	# Controle op delete-opdracht
 	if($_GET["delete"]==39 and $_GET["39k0"]) {
 
 	}
-	
+
 	# Bij wissen record: DELETEn van andere tabellen
 	if($cms->set_delete_init(39)) {
 
 	}
-	
-	
+
+
 	#
 	# Edit
 	#
 	# Nieuw record meteen openen na toevoegen
 	$cms->settings[39]["show"]["goto_new_record"]=false;
-	
+
 	# Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 	$obl_personen=1;
 	if($login->userlevel>=10) {
@@ -98,7 +94,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$obl_personen=0;
 	}
 	$cms->edit_field(39,1,"naam","Naam actie");
-	if($login->userlevel>=10 or $_GET["add"]==39) {
+	if($login->userlevel>=10 or $_GET["add"]==39 or $login->has_priv(26)) {
 		$cms->edit_field(39,1,"status","Status");
 	} else {
 		$cms->edit_field(39,1,"status","Status","",array("noedit"=>true));
@@ -125,7 +121,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	if($login->userlevel>=10) {
 		$cms->edit_field(39,0,"interne_notities","Interne notities (alleen WebTastic)","","",array("rows"=>25));
 	}
-	
+
 	if($login->userlevel>=10 and $_GET["add"]==39) {
 		$cms->edit_field(39,0,"htmlrow","<input type=\"checkbox\" name=\"actiemailen\" value=\"1\" id=\"actiemailen\"><label for=\"actiemailen\">&nbsp;Stuur een mail aan de verantwoordelijke na toevoegen van deze actie.</label>");
 	}
@@ -134,7 +130,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	if($_GET["edit"]==39) {
 		$cms->settings[39]["edit"]["top_submit_button"]=true;
 	}
-	
+
 	# Controle op ingevoerde formuliergegevens
 	$cms->set_edit_form_init(39);
 	if($cms_form[39]->filled) {
@@ -159,11 +155,11 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		if($_GET["edit"]==39 and $login->userlevel<10) {
 #			wt_mail("jeroen@webtastic.nl","Actie gewijzigd door Chalet.nl","Bij de Chalet.nl-actielijst is een actie gewijzigd door ".$vars["allewerknemers"][$login->user_id].".\n\nZie: http://www.chalet.nl/cms_diversen.php?edit=39&t=1&39k0=".$_GET["39k0"]);
 		}
-		
+
 		if($_GET["add"]==39 and $form->db_insert_id and $login->userlevel>=10 and $_POST["actiemailen"]==1) {
 			wt_mail($vars["allewerknemers_mail"][$form->input["user_id"]],"Nieuwe actie ingevoerd door WebTastic","Aan de WebTastic-actielijst is een nieuwe actie toegevoegd door Jeroen.\n\nZie: http://www.chalet.nl/cms_diversen.php?edit=39&t=1&39k0=".$form->db_insert_id,"jeroen@webtastic.nl","WebTastic");
 		}
-		
+
 		$prio=0;
 		$db->query("SELECT actie_id, prioriteit FROM actie WHERE status IN (1,2,7) AND prioriteit>0 ORDER BY prioriteit, einddatum;");
 		while($db->next_record()) {
@@ -172,14 +168,14 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		}
 		$db->query("UPDATE actie SET prioriteit=NULL WHERE (status NOT IN (1,2,7) OR prioriteit=0);");
 	}
-	
+
 	#
 	# Show
 	#
-	
-	
+
+
 	# Show show_field($counter,$id,$title="",$options="",$layout=""))
-	
+
 	# End declaration
 	$cms->end_declaration();
 
@@ -193,25 +189,25 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	while($db->next_record()) {
 		$vars["seizoenen"][$db->f("type")][$db->f("seizoen_id")]=$db->f("naam");
 	}
-	
+
 	# frm = formname (mag ook wat anders zijn)
-	$form=new form2("frm"); 
+	$form=new form2("frm");
 	$form->settings["fullname"]="diverseinstellingen";
 	$form->settings["layout"]["css"]=false;
 	$form->settings["db"]["table"]="diverse_instellingen";
 	$form->settings["db"]["where"]="diverse_instellingen_id=1";
 	$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 	#$form->settings["target"]="_blank";
-	 
+
 	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 	if($_GET["back"]) {
 		$form->settings["goto"]=$_GET["back"];
 	} else {
-		$form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen	
+		$form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
 	}
-	
+
 	#_field: (obl),id,title,db,prevalue,options,layout
-	
+
 	$form->field_htmlrow("","<b>Zoekformulier</b>");
 	#$form->field_text(1,"test","test",array("field"=>"test")); # (opslaan in databaseveld "test")
 	$form->field_yesno("zoekformulier_weinig_tarieven_1","Toon bij de winter de tekst: \"omdat een groot deel van de accommodaties nog niet geprijsd is kan het verstandig zijn om zonder aankomstdatum te zoeken\"",array("field"=>"zoekformulier_weinig_tarieven_1"));
@@ -233,12 +229,12 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$form->field_textarea(0,"woorden_autocomplete_winter","Woordenlijst winter (NL)",array("field"=>"woorden_autocomplete_winter"));
 	$form->field_textarea(0,"woorden_autocomplete_winter_en","Woordenlijst winter (EN)",array("field"=>"woorden_autocomplete_winter_en"));
 	$form->field_textarea(0,"woorden_autocomplete_zomer","Woordenlijst zomer (NL)",array("field"=>"woorden_autocomplete_zomer"));
-	
+
 	#$form->field_htmlrow("","<hr><b>Nieuwe vormgeving</b>");
 	#$form->field_yesno("nieuwevormgeving","Toon op deze computer \"".$login->username."\" Chalet.nl/winter in de nieuwe vormgeving","",array("selection"=>$_COOKIE["nieuwevormgeving_fixed"]));
-	
+
 	$form->check_input();
-	
+
 	if($form->filled) {
 		if($form->input["winter_vorig_seizoen_id"] and $form->input["winter_vorig_seizoen_id"]==$form->input["winter_huidig_seizoen_id"]) {
 			$form->error("winter_huidig_seizoen_id","zelfde als vorig winterseizoen");
@@ -247,10 +243,10 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			$form->error("zomer_huidig_seizoen_id","zelfde als vorig zomerseizoen");
 		}
 	}
-	
+
 	if($form->okay) {
 		$form->save_db();
-		
+
 		# Woordenlijst
 		$db->query("SELECT woorden_autocomplete_winter, woorden_autocomplete_winter_en, woorden_autocomplete_zomer FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
 		if($db->next_record()) {
@@ -277,7 +273,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				}
 			}
 		}
-	
+
 	#	if($form->input["nieuwevormgeving"]) {
 	#		setcookie("nieuwevormgeving_fixed",1,mktime(3,0,0,date("m"),date("d"),date("Y")+1),"/");
 	#	} else {

@@ -22,7 +22,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		if($_GET["t"]==1) {
 			echo "<div onclick=\"document.location.href='".$vars["path"]."cms_diversen.php?add=39&bc=".intval($_GET["bc"]+1)."&t=1'\" style=\"text-align:center;width:200px;cursor:pointer;padding:5px;border:1px solid #000000;background-color:#fefd87;\">Nieuwe actie toevoegen</div><br><br>";
 		}
-		
+
 		unset($where,$order1,$order2);
 		# Overzicht tonen
 		if($_GET["t"]==1) {
@@ -40,7 +40,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		if(!$login->has_priv(10) and $login->userlevel<10) {
 			$where.=" AND (betrokkenen REGEXP '[[:<:]]".addslashes($login->user_id)."[[:>:]]' OR status=1)";
 		}
-		
+
 		$db->query("SELECT u.voornaam, u.user_id, a.actie_id, a.naam, a.status, a.omschrijving, a.alleenwebtastic, a.prioriteit, a.prioriteit IS NULL AS prioriteitisnull, a.betrokkenen, a.soort, UNIX_TIMESTAMP(a.einddatum) AS einddatum, a.einddatum IS NULL AS einddatumisnull, a.geschattetijd, a.geschattetijd_min, a.geschattetijd_max, a.zie_ook, a.opmerkingen, a.interne_notities FROM actie a, user u WHERE a.user_id=u.user_id ".$where." ORDER BY FIELD(a.status,".$order1.")".$order2.";");
 #		echo $db->lastquery;
 		while($db->next_record()) {
@@ -65,7 +65,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			echo "<div id=\"row_".$db->f("status")."_".$db->f("actie_id")."\" style=\"background-color:".($extracolor ? $extracolor : $bgcolor).";padding-top:6px;\">";
 			echo "<div style=\"float:left;width:20px;padding-top:3px;padding-left:2px;\"><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" border=\"0\"></div>";
 			echo "<div class=\"openklappen\" rel=\"row3_".$db->f("status").$db->f("actie_id")."\" style=\"width:760px;float:left;\"><a href=\"#\" onclick=\"return false;\">".htmlentities($db->f("naam"))."</a></div>";
-			if($login->userlevel>=10) {
+			if($login->userlevel>=10 or $login->has_priv(26)) {
 				echo "<div style=\"float:right;width:30px;margin-bottom:4px;margin-top:-3px;\"><a href=\"cms_diversen.php?bc=".intval($_GET["bc"]+1)."&delete=39&t=".htmlentities($_GET["t"])."&39k0=".$db->f("actie_id")."\" onclick=\"return confirmLink('row_".$db->f("status")."_".$db->f("actie_id")."',this,'Actie  wissen?')\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
 			}
 			echo "<div style=\"float:right;width:30px;margin-bottom:4px;margin-top:-3px;\"><a href=\"".$vars["path"]."cms_diversen.php?bc=".intval($_GET["bc"]+1)."&t=".htmlentities($_GET["t"])."&edit=39&39k0=".$db->f("actie_id")."\"><img src=\"".$vars["path"]."pic/class.cms_edit.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
@@ -83,7 +83,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				if($db->f("geschattetijd_min")) {
 					echo "<span style=\"font-size:0.8em;\">".$db->f("geschattetijd_min").($db->f("geschattetijd_max") ? "-".$db->f("geschattetijd_max") : "")." uur</span>";
 				} else {
-#					echo "<br><span style=\"font-size:0.8em;\">&nbsp;</span>";				
+#					echo "<br><span style=\"font-size:0.8em;\">&nbsp;</span>";
 				}
 				echo "</div>";
 			}
@@ -133,7 +133,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			if($db->f("interne_notities") and $login->userlevel>=10) {
 				echo "<tr><td valign=\"top\">Interne notities</td><td valign=\"top\">".nl2br(wt_htmlentities($db->f("interne_notities"),true))."</td></tr>";
 			}
-			
+
 			echo "</table>";
 			echo "</div></div>\n\n";
 		}
@@ -144,7 +144,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	# Diverse instellingen
 	#
 	echo "<style type=\"text/css\"><!--\n.wtform_table {\nwidth: 600px;\n}\n--></style>";
-	
+
 	if($_GET["fo"]=="frm") {
 		echo "De wijzigingen zijn opgeslagen.<p><a href=\"cms_diversen.php?t=3\">Bewerk instellingen opnieuw</a>";
 	} else {
