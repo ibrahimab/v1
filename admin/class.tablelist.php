@@ -112,7 +112,18 @@ class tablelist {
 	}
 
 	function add_record($id,$key,$value,$sortvalue="",$datetime=false,$options="") {
-		if(!$sortvalue) $sortvalue=$value;
+		if(!$sortvalue) {
+			if(is_array($this->fields["options"][$id]["sort_substring"])) {
+				# gebruik een substring als sort-value
+				if($this->fields["options"][$id]["sort_substring"][1]<>"") {
+					$sortvalue=substr($value,$this->fields["options"][$id]["sort_substring"][0],$this->fields["options"][$id]["sort_substring"][1]);
+				} else {
+					$sortvalue=substr($value,$this->fields["options"][$id]["sort_substring"][0]);
+				}
+			} else {
+				$sortvalue=$value;
+			}
+		}
 		$sortvalue=strtolower($sortvalue);
 		if($datetime) {
 			$sortvalue=substr("00000".adodb_date("Y",$sortvalue),-5).adodb_date("mdHis",$sortvalue);

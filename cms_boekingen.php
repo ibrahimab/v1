@@ -239,7 +239,7 @@ $cms->list_sort_desc[21]=true;
 if($_GET["bt"]==1) {
 	$cms->list_field(21,"boeking_id","Nr");
 } elseif($_GET["bt"]==2 or $_GET["bt"]==4) {
-	$cms->list_field(21,"boekingsnummer","Nr");
+	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
 } elseif($_GET["bt"]==5) {
 	$cms->list_sort[21]=array("aankomstdatum_exact");
 	$cms->list_sort_desc[21]=false;

@@ -621,12 +621,21 @@ class cms2 {
 			if($this->settings[$counter]["list"]["delete_checkbox"]) $tl->field_delete_checkbox();
 
 			while(list($key,$value)=@each($this->list[$counter]["title"])) {
+				unset($list_options);
 				if($this->list[$counter]["options"][$key]["index_field"]) {
-					$tl->field_text($key,$value,"",array("index_field"=>true));
+					$list_options["index_field"]=true;
+				}
+				if($this->list[$counter]["options"][$key]["sort_substring"]) {
+					# gebruik een substring als sort-value
+					$list_options["sort_substring"]=$this->list[$counter]["options"][$key]["sort_substring"];
+				}
+
+				if($this->list[$counter]["options"][$key]["index_field"]) {
+					$tl->field_text($key,$value,"",$list_options);
 				} elseif($this->list[$counter]["options"][$key]["force_field_type"]=="currency" or $this->db[$counter]["type"][$key]=="currency") {
-					$tl->field_currency($key,$value);
+					$tl->field_currency($key,$value,"",$list_options);
 				} else {
-					$tl->field_text($key,$value);
+					$tl->field_text($key,$value,"",$list_options);
 				}
 			}
 			while($db->next_record()) {
