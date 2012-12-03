@@ -2865,6 +2865,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				} else {
 					chalet_log(ereg_replace("_"," ",$voorraad_veldnaam)." 1 afboeken");
 				}
+			} elseif($form->input["voorraad_afboeken"]=="niet_bijwerken") {
+				chalet_log("voorraad afboeken: voorraad niet bijwerken");
 			}
 		} elseif($_GET["stap"]==2) {
 			if($gegevens["stap2"]["voornaam"]<>$form->input["voornaam"] or $gegevens["stap2"]["tussenvoegsel"]<>$form->input["tussenvoegsel"] or $gegevens["stap2"]["achternaam"]<>$form->input["achternaam"] or $gegevens["stap2"]["adres"]<>$form->input["adres"] or $gegevens["stap2"]["postcode"]<>$form->input["postcode"] or $gegevens["stap2"]["plaats"]<>$form->input["plaats"] or $gegevens["stap2"]["land"]<>$form->input["land"] or $gegevens["stap2"]["telefoonnummer"]<>$form->input["telefoonnummer"] or $gegevens["stap2"]["mobielwerk"]<>$form->input["mobielwerk"]) {
