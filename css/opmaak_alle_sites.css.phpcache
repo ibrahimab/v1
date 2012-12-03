@@ -10,6 +10,10 @@ header("Content-type: text/css; charset=UTF-8");
 
 ?>
 
+body {
+    -webkit-text-size-adjust: 100%;
+}
+
 .boekbutton_tekst {
 	font-size: 1.3em;
 	font-weight: normal;
