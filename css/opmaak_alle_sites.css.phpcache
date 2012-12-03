@@ -1082,6 +1082,8 @@ td.selecteerbaarbedrag:hover{
 .zoekresultaat_prijs_per {
 	margin-top: 5px;
 	color: #003366;
+	margin-left: -5px;
+	margin-right: -5px;
 }
 
 .zoekresultaat_type {
