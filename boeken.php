@@ -1375,7 +1375,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				}
 
 				# Nieuwe methode boekingsnummer
-				if($form->input["reserveringsnummer"]) {
+				if($form->input["reserveringsnummer"] and $form->input["goedgekeurd"]) {
 					$db->query("SELECT boeking_id FROM boeking WHERE SUBSTRING(boekingsnummer,2,8)='".addslashes(substr($form->input["reserveringsnummer"],1))."' AND boeking_id<>'".addslashes($gegevens["stap1"]["boekingid"])."';");
 					if($db->num_rows()) {
 						$form->error("reserveringsnummer","bestaat al");
