@@ -20,14 +20,14 @@ $return["data"]=true;
 
 echo "function init2() {\n";
 
-$db->query("SELECT UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen WHERE type='".$vars["seizoentype"]."' AND eind>NOW() ORDER BY begin LIMIT 0,1;");
-if($db->next_record()) {
+$db->query("SELECT UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen WHERE type='".$vars["seizoentype"]."' AND eind>NOW() AND tonen=3 ORDER BY begin;");
+while($db->next_record()) {
 	$timeteller=$db->f("begin");
 	while($timeteller<=$db->f("eind")) {
 		if($timeteller>=time()+21600) {
 			echo "$('#vertrekdatum').append($(\"<option></option>\").attr(\"value\",".$timeteller.").text(\"".DATUM("D MND JJJJ",$timeteller)."\"));\n";
 		}
-		$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));		
+		$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
 	}
 }
 
