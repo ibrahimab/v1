@@ -3523,14 +3523,13 @@ function nieuwsbrief_inschrijven($wzt,$nieuwsbrief_waardes) {
 	global $vars;
 	$db=new DB_sql;
 
-#	$db->query("SELECT nieuwsbrieflid_id FROM nieuwsbrieflid WHERE email='".addslashes($nieuwsbrief_waardes["email"])."' AND wzt='".addslashes($wzt)."';");
-	$db->query("SELECT nieuwsbrieflid_id FROM nieuwsbrieflid WHERE email='".addslashes($nieuwsbrief_waardes["email"])."';");
-	if($db->next_record()) {
-		$db->query("UPDATE nieuwsbrieflid SET bezoeker_id='".addslashes($_COOKIE["tch"])."', editdatetime=NOW() WHERE nieuwsbrieflid_id='".addslashes($db->f("nieuwsbrieflid_id"))."'");
-	} else {
-#		$db->query("INSERT INTO nieuwsbrieflid SET email='".addslashes($nieuwsbrief_waardes["email"])."', wzt='".addslashes($wzt)."', voornaam='".addslashes($nieuwsbrief_waardes["voornaam"])."', tussenvoegsel='".addslashes($nieuwsbrief_waardes["tussenvoegsel"])."', achternaam='".addslashes($nieuwsbrief_waardes["achternaam"])."', bezoeker_id='".addslashes($_COOKIE["tch"])."', adddatetime=NOW(), editdatetime=NOW();");
-		$db->query("INSERT INTO nieuwsbrieflid SET email='".addslashes($nieuwsbrief_waardes["email"])."', voornaam='".addslashes($nieuwsbrief_waardes["voornaam"])."', tussenvoegsel='".addslashes($nieuwsbrief_waardes["tussenvoegsel"])."', achternaam='".addslashes($nieuwsbrief_waardes["achternaam"])."', bezoeker_id='".addslashes($_COOKIE["tch"])."', adddatetime=NOW(), editdatetime=NOW();");
-	}
+	# Opslaan in database niet meer nodig (inschrijven loopt nu rechtstreeks via Blinker - 04-12-2012)
+	// $db->query("SELECT nieuwsbrieflid_id FROM nieuwsbrieflid WHERE email='".addslashes($nieuwsbrief_waardes["email"])."';");
+	// if($db->next_record()) {
+	// 	$db->query("UPDATE nieuwsbrieflid SET bezoeker_id='".addslashes($_COOKIE["tch"])."', editdatetime=NOW() WHERE nieuwsbrieflid_id='".addslashes($db->f("nieuwsbrieflid_id"))."'");
+	// } else {
+	// 	$db->query("INSERT INTO nieuwsbrieflid SET email='".addslashes($nieuwsbrief_waardes["email"])."', voornaam='".addslashes($nieuwsbrief_waardes["voornaam"])."', tussenvoegsel='".addslashes($nieuwsbrief_waardes["tussenvoegsel"])."', achternaam='".addslashes($nieuwsbrief_waardes["achternaam"])."', bezoeker_id='".addslashes($_COOKIE["tch"])."', adddatetime=NOW(), editdatetime=NOW();");
+	// }
 
 	if($vars["seizoentype"]==1) {
 		# Chalet.nl-nieuwsbrief

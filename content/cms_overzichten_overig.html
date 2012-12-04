@@ -565,18 +565,18 @@ if($_GET["t"]==1) {
 	# Nieuwsbrief-leden
 	#
 
-	echo "<br><hr><br><h2>Gewone nieuwsbrief</h2>";
-	$db->query("SELECT COUNT(nieuwsbrieflid_id) AS aantal FROM nieuwsbrieflid WHERE export IS NULL;");
-	if($db->next_record()) {
-		$aantal=intval($db->f("aantal"));
-	} else {
-		$aantal=0;
-	}
-	echo "Via onderstaande link kun je de nieuwe nieuwsbrief-leden downloaden die zich hebben ingeschreven via een boeking, optie-aanvraag, contactformulier of ingevulde enqu&ecirc;te.</p>";
-	echo "<div style=\"margin-top:15px;margin-bottom:15px;border:1px solid #000000;background-color:#fffca2;padding:5px;width:500px;\">Aantal nieuwe inschrijvingen sinds laatste export: ".$aantal."</div>";
-	if($aantal>0) {
-		echo "<p><a href=\"".$vars["path"]."cms_overzichten_overig.php?t=10&dl=1\" onclick=\"return confirmClick(this,'nieuwe leden gewone nieuwsbrief downloaden?');\">nieuwe leden downloaden als CSV &raquo;</a></p>";
-	}
+	// echo "<br><hr><br><h2>Gewone nieuwsbrief</h2>";
+	// $db->query("SELECT COUNT(nieuwsbrieflid_id) AS aantal FROM nieuwsbrieflid WHERE export IS NULL;");
+	// if($db->next_record()) {
+	// 	$aantal=intval($db->f("aantal"));
+	// } else {
+	// 	$aantal=0;
+	// }
+	// echo "Via onderstaande link kun je de nieuwe nieuwsbrief-leden downloaden die zich hebben ingeschreven via een boeking, optie-aanvraag, contactformulier of ingevulde enqu&ecirc;te.</p>";
+	// echo "<div style=\"margin-top:15px;margin-bottom:15px;border:1px solid #000000;background-color:#fffca2;padding:5px;width:500px;\">Aantal nieuwe inschrijvingen sinds laatste export: ".$aantal."</div>";
+	// if($aantal>0) {
+	// 	echo "<p><a href=\"".$vars["path"]."cms_overzichten_overig.php?t=10&dl=1\" onclick=\"return confirmClick(this,'nieuwe leden gewone nieuwsbrief downloaden?');\">nieuwe leden downloaden als CSV &raquo;</a></p>";
+	// }
 
 
 	echo "<br><hr><br><h2>Reisagenten-nieuwsbrief</h2>";
