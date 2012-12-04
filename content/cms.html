@@ -23,8 +23,41 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
-#		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+
+		// # Plaatsen Italissima.be aanzetten
+		// $db->query("SELECT naam, plaats_id, websites FROM plaats WHERE websites LIKE '%I%' AND websites NOT LIKE '%K%';");
+		// while($db->next_record()) {
+		// 	$websites=$db->f("websites");
+		// 	$websites=preg_replace("/I/","I,K",$websites);
+		// 	echo $db->f("naam")." - ".$db->f("plaats_id")." - ".$db->f("websites")." - ".$websites."<br>";
+
+		// 	$db2->query("UPDATE plaats SET websites='".$websites."' WHERE plaats_id='".$db->f("plaats_id")."';");
+		// 	echo $db2->lq."<br>";
+		// }
+
+		// # Regio's Italissima.be aanzetten
+		// $db->query("SELECT naam, skigebied_id, websites FROM skigebied WHERE websites LIKE '%I%' AND websites NOT LIKE '%K%';");
+		// while($db->next_record()) {
+		// 	$websites=$db->f("websites");
+		// 	$websites=preg_replace("/I/","I,K",$websites);
+		// 	echo $db->f("naam")." - ".$db->f("skigebied_id")." - ".$db->f("websites")." - ".$websites."<br>";
+
+		// 	$db2->query("UPDATE skigebied SET websites='".$websites."' WHERE skigebied_id='".$db->f("skigebied_id")."';");
+		// 	echo $db2->lq."<br>";
+		// }
+
+		// # Accommodaties Italissima.be aanzetten
+		// $db->query("SELECT type_id, websites, skigebied FROM view_accommodatie WHERE websites LIKE '%I%' AND websites NOT LIKE '%K%' AND archief=0;");
+		// while($db->next_record()) {
+		// 	$websites=$db->f("websites");
+		// 	$websites=preg_replace("/I/","I,K",$websites);
+		// 	echo $db->f("skigebied")." - ".$db->f("type_id")." - ".$db->f("websites")." - ".$websites."<br>";
+
+		// 	$db2->query("UPDATE type SET websites='".$websites."' WHERE type_id='".$db->f("type_id")."';");
+		// 	echo $db2->lq."<br>";
+		// }
 
 		// # Types zonder oppervlakte
 		// $db->query("SELECT v.begincode, v.type_id FROM view_accommodatie v, type t WHERE v.type_id=t.type_id AND atonen=1 AND t.tonen=1 AND v.archief=0 AND t.oppervlakte=0 AND v.wzt=2 ORDER BY v.begincode, v.type_id;");

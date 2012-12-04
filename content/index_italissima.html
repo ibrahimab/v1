@@ -58,12 +58,15 @@ if($last_acc_html) {
 	echo "</div>"; # afsluiten laatstbekeken
 }
 
+echo "<div style=\"clear: both;\"></div>\n";
+
 # Twitterblok includen
-echo "<div style=\"clear: both;\"></div>\n";
-echo "<div id=\"hoofdpagina_twitter_blok\" >";
-include("cache/twitterItalissima.html");
-echo "</div>";
-echo "<div style=\"clear: both;\"></div>\n";
+if($vars["website"]=="I") {
+	echo "<div id=\"hoofdpagina_twitter_blok\" >";
+	include("cache/twitterItalissima.html");
+	echo "</div>"; # afsluiten #hoofdpagina_twitter_blok
+	echo "<div style=\"clear: both;\"></div>\n";
+}
 
 echo "</div>"; # afsluiten hoofdpagina_links
 
@@ -97,30 +100,15 @@ while($db->next_record()) {
 #hoofdpagina_blog_titel
 echo "</div>"; # afsluiten hoofdpagina_blog
 
-echo "<div id=\"hoofdpagina_sociallinks\">";
-echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-echo "<a href=\"https://www.facebook.com/pages/Italissimanl/272671556122756\" title=\"Volg Italissima via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-echo "<a href=\"https://twitter.com/Italissima\" title=\"Volg Italissima via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
-echo "<a href=\"https://plus.google.com/118061823772005667855/\" title=\"Volg Italissima via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>\n";
-echo '<!-- Google Code for Bezoekers homepage Remarketing List -->
-<script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 1070777463;
-var google_conversion_language = "en";
-var google_conversion_format = "3";
-var google_conversion_color = "ffffff";
-var google_conversion_label = "Kg7oCI-_wgIQ94jL_gM";
-var google_conversion_value = 0;
-/* ]]> */
-</script>
-<script type="text/javascript" src="https://www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="https://www.googleadservices.com/pagead/conversion/1070777463/?label=Kg7oCI-_wgIQ94jL_gM&amp;guid=ON&amp;script=0"/>
-</div>
-</noscript>';
-echo "</div>"; # afsluiten hoofdpagina_sociallinks
+if($vars["website"]=="I") {
+	# Links naar social media ("Volg ons")
+	echo "<div id=\"hoofdpagina_sociallinks\">";
+	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+	echo "<a href=\"https://www.facebook.com/pages/Italissimanl/272671556122756\" title=\"Volg Italissima via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+	echo "<a href=\"https://twitter.com/Italissima\" title=\"Volg Italissima via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
+	echo "<a href=\"https://plus.google.com/118061823772005667855/\" title=\"Volg Italissima via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>\n";
+	echo "</div>"; # afsluiten hoofdpagina_sociallinks
+}
 
 echo "</div>"; # afsluiten hoofdpagina_rechts
 

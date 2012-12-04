@@ -163,7 +163,7 @@ echo "</div>\n"; # afsluiten submenu
 
 echo "<div id=\"topfoto\" class=\"noprint\" style=\"background-image:url('".$vars["path"].($vars["superski_topfoto"] ? $vars["superski_topfoto"] : "pic/topfoto_superski_1.jpg")."');\">";
 echo "<a href=\"".$vars["path"]."\" id=\"logo\">&nbsp;</a>";
-echo "<div id=\"superdeals\"><h1>superdeals</h1>voor skivakanties</div>";
+echo "<div id=\"superdeals\" class=\"noprint\"><h1>superdeals</h1>voor skivakanties</div>";
 echo "<div style=\"clear: both;\"></div>\n";
 echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" id=\"sgr_logo\">&nbsp;</a>";
 
@@ -175,9 +175,13 @@ echo "<div style=\"clear: both;\"></div>\n";
 
 # alleen voor print
 echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
+echo "<div id=\"menubalk_print_logo\"><img src=\"".$vars["path"]."pic/factuur_logo_superski.png\"></div>";
+echo "<div id=\"menubalk_print_info\">";
 echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
 echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</p></b>";
-echo "</div>"; # afsluiten menubalk_print
+echo "</div>"; # afsluiten #menubalk_print_info
+echo "<div style=\"clear: both;\"></div>\n";
+echo "</div>"; # afsluiten #menubalk_print
 
 echo "<div id=\"menubalk\" class=\"noprint\">";
 
@@ -211,7 +215,7 @@ echo "</div>\n"; # afsluiten hoofdmenu
 echo "</div>"; # afsluiten menubalk
 
 
-echo "<div style=\"clear: both;\"></div>\n";
+echo "<div style=\"clear: both;\" class=\"noprint\"></div>\n";
 
 echo "</div>\n"; # afsluiten top
 

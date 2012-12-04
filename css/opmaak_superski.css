@@ -1081,7 +1081,6 @@ form {
 .ui-tabs .ui-tabs-nav { margin-left: 11px !important; }
 
 
-
 @media print {
 
 	body {
@@ -1118,11 +1117,29 @@ form {
 	#menubalk_print {
 		position: absolute;
 		top: 10px;
-		right: 0px;
-		text-align: right;
+		left: 0px;
+		text-align: left;
+	}
+
+	#menubalk_print_logo {
+		float: left;
+		margin-right: 20px;
+	}
+
+	#menubalk_print_logo img {
+		width: 200px;
+	}
+
+	#menubalk_print_info {
+		float: left;
 	}
 
 	a {
 		text-decoration: none;
 	}
+
+	.ui-tabs .ui-tabs-panel {
+		border: 0;
+	}
+
 }

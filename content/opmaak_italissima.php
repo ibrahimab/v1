@@ -230,7 +230,13 @@ echo "</div>\n"; # afsluiten top
 
 # Balk boven content
 echo "<div id=\"balkbovencontent\" class=\"noprint\">";
-echo "<div id=\"sgr_logo\"><a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/sgr_klein.gif\" width=\"25\" height=\"23\" border=\"0\" alt=\"Stichting Garantiefonds Reisgelden\"></a></div>";
+echo "<div id=\"sgr_logo\">";
+if($vars["website"]=="I") {
+	# SGR-logo
+	echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/sgr_klein.gif\" width=\"25\" height=\"23\" border=\"0\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
+}
+echo "</div>";
+
 
 # Bekeken en bewaarde accommodaties
 if($last_acc and $id<>"saved") {
@@ -280,7 +286,7 @@ if($vars["verberg_linkerkolom"]) {
 
 	if(!$vars["verberg_directnaar"]) {
 
-		if($id=="index") {
+		if($id=="index" and $vars["website"]=="I") {
 			# Inschrijven nieuwsbrief
 			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
 			echo "<div class=\"kop\">Nieuwsbrief</div>";
@@ -388,7 +394,10 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<li>Kwaliteit</li>";
 		echo "<li>Prijsbewust</li>";
 		echo "<li>12 jaar ervaring</li>";
-		echo "<li>Lid SGR-Garantiefonds</li>";
+		if($vars["website"]=="I") {
+			# SGR
+			echo "<li>Lid SGR-Garantiefonds</li>";
+		}
 		echo "</ul></div>"; # afsluiten naamloze div
 		echo "</a>\n"; # afsluiten hoofdpagina_waarom
 	}

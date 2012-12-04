@@ -3122,6 +3122,10 @@ function blokkenhoofdpagina($checkdate="") {
 	$checkdate=mktime(0,0,0,date("m",$checkdate),date("d",$checkdate),date("Y",$checkdate));
 
 	if($vars["seizoentype"]==1) {
+		# Wintersites
+		$andquery_website=" AND websites LIKE '%".$vars["website"]."%'";
+	} elseif($vars["websitetype"]==7) {
+		# Italissima
 		$andquery_website=" AND websites LIKE '%".$vars["website"]."%'";
 	}
 
@@ -3299,6 +3303,9 @@ function facebook_opengraph($info="") {
 			# Chalet.nl
 			$logo_afbeelding="logo_chalet.gif";
 		} elseif($vars["website"]=="I") {
+			# Italissima
+			$logo_afbeelding="logo_italissima.gif";
+		} elseif($vars["website"]=="K") {
 			# Italissima
 			$logo_afbeelding="logo_italissima.gif";
 		}

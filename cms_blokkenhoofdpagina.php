@@ -37,11 +37,21 @@ if($_GET["wzt"]==3) {
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(37,"yesno","tonen");
 
-unset($vars["websites_wzt"][1]["D"]);
-unset($vars["websites_wzt"][1]["Q"]);
-unset($vars["websites_wzt"][1]["V"]);
+if($_GET["wzt"]==1) {
+	unset($vars["websites_wzt"][1]["D"]);
+	unset($vars["websites_wzt"][1]["Q"]);
+	unset($vars["websites_wzt"][1]["V"]);
+	$cms->db_field(37,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
+} elseif($_GET["wzt"]==3) {
+	unset($vars["websites_wzt"][2]["Z"]);
+	unset($vars["websites_wzt"][2]["N"]);
+	unset($vars["websites_wzt"][2]["V"]);
+	unset($vars["websites_wzt"][2]["S"]);
+	unset($vars["websites_wzt"][2]["O"]);
+	unset($vars["websites_wzt"][2]["Q"]);
+	$cms->db_field(37,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][2]));
+}
 
-$cms->db_field(37,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(37,"text","link");
 $cms->db_field(37,"text","titel");
 $cms->db_field(37,"text","titel_en");
@@ -66,7 +76,7 @@ $cms->settings[37]["list"]["add_link"]=true;
 $cms->list_sort[37]=array("volgorde","begindatum","titel");
 $cms->list_field(37,"titel","Koptekst");
 $cms->list_field(37,"tonen","Tonen");
-if($_GET["wzt"]==1) {
+if($_GET["wzt"]==1 or $_GET["wzt"]==3) {
 	$cms->list_field(37,"websites","Websites");
 }
 $cms->list_field(37,"volgorde","Volgorde");
@@ -99,6 +109,7 @@ if($_GET["wzt"]==1) {
 	$cms->edit_field(37,1,"omschrijving","Omschrijving");
 	$cms->edit_field(37,0,"omschrijving_en","Omschrijving (Engels)");
 } elseif($_GET["wzt"]==3) {
+	$cms->edit_field(37,0,"websites","Websites",array("selection"=>"I,K"),"",array("one_per_line"=>true));
 	$cms->edit_field(37,1,"titel","Titel");
 	$cms->edit_field(37,1,"omschrijving","Omschrijving");
 } else {

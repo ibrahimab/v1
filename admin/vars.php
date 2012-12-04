@@ -409,8 +409,8 @@ if($vars["websitetype"]==7) {
 	$submenu["inloggen"]=txt("submenutitle_inloggen");
 	if($vars["website"]=="I") {
 		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
+		$submenu["reisagent"]=txt("submenutitle_reisagent");
 	}
-	$submenu["reisagent"]=txt("submenutitle_reisagent");
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
@@ -866,26 +866,27 @@ $vars["landcodes_boekhouding_btwcode"]=array(1=>"15",2=>"15",3=>"15",4=>"15",5=>
 #
 
 # Actieve sites
-$vars["grootboekrekeningnummers"]["C"]=			array(-1=>"1911",0=>"8100",1=>"1931");
-$vars["grootboekrekeningnummers"]["W"]=			array(-1=>"1911",0=>"8200",1=>"1932");
-$vars["grootboekrekeningnummers"]["E"]=			array(-1=>"1911",0=>"8300",1=>"1933");
+$vars["grootboekrekeningnummers"]["C"]=					array(-1=>"1911",0=>"8100",1=>"1931");
+$vars["grootboekrekeningnummers"]["W"]=					array(-1=>"1911",0=>"8200",1=>"1932");
+$vars["grootboekrekeningnummers"]["E"]=					array(-1=>"1911",0=>"8300",1=>"1933");
 $vars["grootboekrekeningnummers_wederverkoop"]["E"]=	array(-1=>"1911",0=>"8310",1=>"1953");
-$vars["grootboekrekeningnummers"]["T"]=			array(-1=>"1911",0=>"8400",1=>"1934");
+$vars["grootboekrekeningnummers"]["T"]=					array(-1=>"1911",0=>"8400",1=>"1934");
 $vars["grootboekrekeningnummers_wederverkoop"]["T"]=	array(-1=>"1911",0=>"8410",1=>"1942");
-$vars["grootboekrekeningnummers"]["Z"]=			array(-1=>"1911",0=>"8600",1=>"1936");
+$vars["grootboekrekeningnummers"]["Z"]=					array(-1=>"1911",0=>"8600",1=>"1936");
 $vars["grootboekrekeningnummers_wederverkoop"]["Z"]=	array(-1=>"1911",0=>"8610",1=>"1943");
-$vars["grootboekrekeningnummers"]["V"]=			array(-1=>"1911",0=>"8700",1=>"1937");
+$vars["grootboekrekeningnummers"]["V"]=					array(-1=>"1911",0=>"8700",1=>"1937");
 $vars["grootboekrekeningnummers_wederverkoop"]["V"]=	array(-1=>"1911",0=>"8710",1=>"1951");
-$vars["grootboekrekeningnummers"]["Q"]=			array(-1=>"1911",0=>"8800",1=>"1938");
+$vars["grootboekrekeningnummers"]["Q"]=					array(-1=>"1911",0=>"8800",1=>"1938");
 $vars["grootboekrekeningnummers_wederverkoop"]["Q"]=	array(-1=>"1911",0=>"8810",1=>"1952");
-$vars["grootboekrekeningnummers"]["I"]=			array(-1=>"1911",0=>"8600",1=>"1936");
+$vars["grootboekrekeningnummers"]["I"]=					array(-1=>"1911",0=>"8600",1=>"1936");
 $vars["grootboekrekeningnummers_wederverkoop"]["I"]=	array(-1=>"1911",0=>"8610",1=>"1943");
-$vars["grootboekrekeningnummers"]["B"]=			array(-1=>"1911",0=>"8850",1=>"1939");
-$vars["grootboekrekeningnummers"]["N"]=			array(-1=>"1911",0=>"8860",1=>"1941");
+$vars["grootboekrekeningnummers"]["K"]=					array(-1=>"1911",0=>"8600",1=>"1936");
+$vars["grootboekrekeningnummers"]["B"]=					array(-1=>"1911",0=>"8850",1=>"1939");
+$vars["grootboekrekeningnummers"]["N"]=					array(-1=>"1911",0=>"8860",1=>"1941");
 
 # Inactieve sites
-$vars["grootboekrekeningnummers"]["S"]=			array(-1=>"1917",0=>"8700",1=>"1937");
-$vars["grootboekrekeningnummers"]["O"]=			array(-1=>"1918",0=>"8800",1=>"1938");
+$vars["grootboekrekeningnummers"]["S"]=					array(-1=>"1917",0=>"8700",1=>"1937");
+$vars["grootboekrekeningnummers"]["O"]=					array(-1=>"1918",0=>"8800",1=>"1938");
 
 $vars["annverz_soorten"]=array(1=>txt("annverz_standaard","boeken"),2=>txt("annverz_garantie","boeken"),3=>txt("annverz_standaard_waarneming","boeken"),4=>txt("annverz_garantie_waarneming","boeken"));
 $vars["annverz_soorten_kort"]=array(1=>txt("annverz_standaard_kort","boeken"),2=>txt("annverz_garantie_kort","boeken"),3=>txt("annverz_standaard_waarneming_kort","boeken"),4=>txt("annverz_garantie_waarneming_kort","boeken"));

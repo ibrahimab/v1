@@ -307,6 +307,8 @@ if ( $_GET["t"]==1 ) {
 
 		if($vars["website"]=="I") {
 			$mail_topfoto="favorietenmail_logo_italissima";
+		} elseif($vars["website"]=="K") {
+			$mail_topfoto="favorietenmail_logo_italissima";
 		} elseif($vars["website"]=="E") {
 			$mail_topfoto="favorietenmail_logo_chaleteu";
 		} elseif($vars["website"]=="Z") {

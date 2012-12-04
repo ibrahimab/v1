@@ -21,7 +21,7 @@ if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and ($_GET
 }
 
 
-if(($vars["website"]=="Z" and $landgebied[0]=="5") or $vars["website"]=="I") {
+if(($vars["website"]=="Z" and $landgebied[0]=="5") or $vars["websitetype"]==7) {
 	$vars["flexibel_toegestaan"]=true;
 	$_GET["sp"]=1;
 
