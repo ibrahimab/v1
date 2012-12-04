@@ -138,17 +138,21 @@ RewriteRule (.*) /$1?%1%2 [R=301,L]
 RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
 RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
 
+# zomerhuisje.eu doorsturen naar zomerhuisje.nl (.eu is niet meer actief - 04-12-2012)
+RewriteCond %{HTTP_HOST} zomerhuisje\.eu [NC]
+RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
+
 
 #
 # TIJDELIJK: www.italissima.be doorsturen naar italissima.nl
 #
-RewriteCond %{HTTP_HOST} ^www\.italissima\.be [NC]
-RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113 [NC]
-RewriteCond %{REMOTE_ADDR} !^80\.101\.166\.235 [NC]
-RewriteCond %{REMOTE_ADDR} !^213\.125\.164\.74 [NC]
-RewriteCond %{REMOTE_ADDR} !^82\.93\.130\.238 [NC]
-RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238 [NC]
-RewriteRule ^(.*)$ http://www.italissima.nl/ [L,R=301]
+#RewriteCond %{HTTP_HOST} ^www\.italissima\.be [NC]
+#RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113 [NC]
+#RewriteCond %{REMOTE_ADDR} !^80\.101\.166\.235 [NC]
+#RewriteCond %{REMOTE_ADDR} !^213\.125\.164\.74 [NC]
+#RewriteCond %{REMOTE_ADDR} !^82\.93\.130\.238 [NC]
+#RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238 [NC]
+#RewriteRule ^(.*)$ http://www.italissima.nl/ [L,R=301]
 
 RewriteRule groepsreizen\.php$ /accommodaties.php [R=301,L]
 
