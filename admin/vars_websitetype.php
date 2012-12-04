@@ -527,7 +527,7 @@ $vars["websiteinfo"]["email"]["K"]="info@italissima.be";
 $vars["websiteinfo"]["basehref"]["K"]="http://www.italissima.be/";
 $vars["websiteinfo"]["websitetype"]["K"]=7;
 $vars["websiteinfo"]["verzekering_mogelijk"]["K"]=1;
-$vars["websiteinfo"]["wederverkoop"]["K"]=true;
+$vars["websiteinfo"]["wederverkoop"]["K"]=false;
 $vars["websiteinfo"]["websiteland"]["K"]="be";
 $vars["websiteinfo"]["taal"]["K"]="nl";
 
