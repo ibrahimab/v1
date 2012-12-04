@@ -333,6 +333,12 @@ if($mustlogin) {
 	$layout->menu_item("cms_top10s","Top 10 aanbiedingen","",true);
 	$layout->menu_item("cms_vertrekdagtypes","Vertrekdagtypes","",true);
 
+	if($login->has_priv("30")) {
+		$layout->menu_item("cms_vertrekinfo_sjablonen","Vertrekinformatie","",true,false,array("slide"=>true));
+		$layout->submenu_item("cms_vertrekinfo_sjablonen","","cms_vertrekinfo_sjablonen","Sjablonen winter",array("wzt"=>"1"),true);
+		$layout->submenu_item("cms_vertrekinfo_sjablonen","","cms_vertrekinfo_sjablonen","Sjablonen zomer",array("wzt"=>"2"),true);
+	}
+
 	if($login->has_priv("8")) {
 		$layout->menu_item("cms_zoekstatistieken","Zoekstatistieken","",true,false,array("slide"=>true));
 		$layout->submenu_item("cms_zoekstatistieken","","cms_zoekstatistieken","Winter",array("wzt"=>"1"),true);
@@ -827,6 +833,12 @@ if($mustlogin) {
 	$cms->settings[53]["log"]["active"]=true;
 	$cms->db[53]["maintable"]="evenement_plaats";
 
+	# 54 = vertrekinfo_sjabloon
+	$cms->settings[54]["types"]="vertrekinfo-sjablonen";
+	$cms->settings[54]["type_single"]="vertrekinfo-sjabloon";
+	$cms->settings[54]["file"]="cms_vertrekinfo_sjablonen.php";
+	$cms->settings[54]["log"]["active"]=true;
+	$cms->db[54]["maintable"]="vertrekinfo_sjabloon";
 
 	# Aankomstdata vullen (voor CMS)
 	$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");
@@ -938,6 +950,7 @@ $vars["priv"]=array(
 	27=>"Totaaloverzicht financiën kunnen opvragen (alleen binnen kantoor)",
 	28=>"Totaaloverzicht financiën kunnen opvragen (buiten kantoor)",
 	29=>"Evenementen beheren",
+	30=>"Vertrekinfo-sjablonen beheren",
 ); # LET OP! Bij doortellen rekening houden met $vars["cms_hoofdpagina_soorten"]
 
 while(list($key,$value)=each($vars["cms_hoofdpagina_soorten"])) {

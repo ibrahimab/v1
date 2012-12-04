@@ -880,11 +880,11 @@ $vars["grootboekrekeningnummers"]["Q"]=					array(-1=>"1911",0=>"8800",1=>"1938"
 $vars["grootboekrekeningnummers_wederverkoop"]["Q"]=	array(-1=>"1911",0=>"8810",1=>"1952");
 $vars["grootboekrekeningnummers"]["I"]=					array(-1=>"1911",0=>"8600",1=>"1936");
 $vars["grootboekrekeningnummers_wederverkoop"]["I"]=	array(-1=>"1911",0=>"8610",1=>"1943");
-$vars["grootboekrekeningnummers"]["K"]=					array(-1=>"1911",0=>"8600",1=>"1936");
+$vars["grootboekrekeningnummers"]["K"]=					array(-1=>"1911",0=>"8860",1=>"1941");
 $vars["grootboekrekeningnummers"]["B"]=					array(-1=>"1911",0=>"8850",1=>"1939");
-$vars["grootboekrekeningnummers"]["N"]=					array(-1=>"1911",0=>"8860",1=>"1941");
 
 # Inactieve sites
+$vars["grootboekrekeningnummers"]["N"]=					array(-1=>"1911",0=>"8860",1=>"1941");
 $vars["grootboekrekeningnummers"]["S"]=					array(-1=>"1917",0=>"8700",1=>"1937");
 $vars["grootboekrekeningnummers"]["O"]=					array(-1=>"1918",0=>"8800",1=>"1938");
 
