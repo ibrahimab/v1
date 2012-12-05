@@ -247,7 +247,7 @@ if($_GET["bt"]==1) {
 	$cms->list_field(21,"invuldatum","Ingevuld",array("date_format"=>"DD-MM-JJJJ"));
 }
 $cms->list_field(21,"type_id","Accommodatie");
-$cms->list_field(21,"aankomstdatum_exact","Aankomst",array("date_format"=>"DD-MM-JJJJ"));
+$cms->list_field(21,"aankomstdatum_exact","Aankomst",array("date_format"=>"DD-MM-JJ"));
 $cms->list_field(21,"boekingsgegevens","Hoofdboeker");
 $cms->list_field(21,"acc_of_arrangement","Ac/Ar/Co");
 if($_GET["archief"]==1) {
