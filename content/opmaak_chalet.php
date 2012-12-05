@@ -84,17 +84,8 @@ if($vars["canonical"]) {
 }
 # JQuery
 echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-if($id=="index") {
-	# Voor de sliders op de hoofdpagina is een oudere jquery-ui nodig
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-		echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js\" ></script>\n";
-	} else {
-#		echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery-ui-1.5.3.min.js\" ></script>\n";
-		echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.5.3/jquery-ui.min.js\" ></script>\n";
-	}
-} else {
-	echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
-}
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
+
 if($vars["googlemaps"]) {
 	# Google Maps API
 	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&sensor=false\" type=\"text/javascript\"></script>\n";
@@ -112,6 +103,11 @@ if(file_exists("scripts/functions_".$id.".js")) {
 if($vars["jquery_fancybox"]) {
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js\"></script>\n";
 	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
+}
+
+if($vars["page_with_tabs"]) {
+	# jQuery Address: t.b.v. correcte verwerking hashes in URL
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.address-1.5.min.js\"></script>\n";
 }
 
 # live.js (live testen van CSS)

@@ -33,7 +33,7 @@ hr {
 	margin-top: 15px;
 }
 
-.skigebied_opvalblok {			
+.skigebied_opvalblok {
 	background-color: <?php echo $vars["themakleurcode_licht"][$kleurcode]; ?>;
 }
 
@@ -86,10 +86,10 @@ hr {
 
 			<?php
 			echo "--></style>\n";
-			
+
 	} elseif($vars["websitetype"]<>6) {
 		echo terugnaaracc();
-	
+
 		echo "<div>";
 		$db2->query("SELECT DISTINCT l.land_id, l.naam".$vars["ttv"]." AS land FROM plaats p, skigebied s, land l WHERE p.land_id=l.land_id AND s.skigebied_id=p.skigebied_id AND p.wzt='".addslashes($vars["seizoentype"])."' AND s.skigebied_id='".$db->f("skigebied_id")."' ORDER BY l.naam".$vars["ttv"].";");
 		if($db2->num_rows()) {
@@ -147,7 +147,7 @@ hr {
 				$blog_html.="</div>"; # afsluiten blogverwijzing
 			}
 		}
-		
+
 		if($db->f("omschrijving_afbreken_na")>0) {
 			$omschrijving=$db->f("omschrijving");
 			$omschrijving=preg_replace("/\r\n/","\n",$omschrijving);
@@ -175,7 +175,7 @@ hr {
 			echo htmlentities_uitgebreid($db->f("omschrijving"));
 			echo $blog_html;
 		}
-	
+
 #		echo "<hr><p style=\"font-weight:bold;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=5-".$db->f("skigebied_id")."\">".html("bekijkonzeaccommodaties","toonskigebied",array("v_skigebied"=>$db->f("naam")))." &raquo;</a></p>";
 
 		echo "</div>"; # afsluiten toonskigebied_italissima_infoblok
@@ -186,36 +186,36 @@ hr {
 	echo "<ul class=\"noprint\">";
 
 	if($vars["websitetype"]==7) {
-		echo "<li><a href=\"#tab_ligging\">".html("tab_ligging","toonskigebied")."</a></li>";
+		echo "<li><a href=\"#ligging\">".html("tab_ligging","toonskigebied")."</a></li>";
 	}
-	
+
 	if($vars["websitetype"]<>6) {
-		echo "<li><a href=\"#tab_plaatsen\">".html("tab_plaatsen","toonskigebied")."</a></li>";
+		echo "<li><a href=\"#plaatsen\">".html("tab_plaatsen","toonskigebied")."</a></li>";
 	}
 	if($vars["websitetype"]<>7) {
-		echo "<li><a href=\"#tabs_beschrijving\">".html("tab_beschrijving","toonskigebied")."</a></li>";
+		echo "<li><a href=\"#beschrijving\">".html("tab_beschrijving","toonskigebied")."</a></li>";
 	}
 
 	if($vars["seizoentype"]==1) {
-		echo "<li><a href=\"#tab_pistes\">".html("tab_pistes","toonskigebied")."</a></li>";
+		echo "<li><a href=\"#pistes\">".html("tab_pistes","toonskigebied")."</a></li>";
 		if(file_exists("pic/cms/skigebieden_pistekaarten/".$db->f("skigebied_id").".jpg")) {
-			echo "<li><a href=\"#tab_plandespistes\">".html("tab_plandespistes","toonskigebied")."</a></li>";
+			echo "<li><a href=\"#plandespistes\">".html("tab_plandespistes","toonskigebied")."</a></li>";
 			$tab_plandespistes=true;
 		}
 	}
-	echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos","toonskigebied")."</a></li>";
+	echo "<li><a href=\"#fotos\">".html("tab_fotos","toonskigebied")."</a></li>";
 
 	if($vars["seizoentype"]==1 and ($db->f("webcam") or $db->f("weerbericht") or $db->f("kaart"))) {
-		echo "<li><a href=\"#tab_links\">".html("tab_links","toonskigebied")."</a></li>";
+		echo "<li><a href=\"#links\">".html("tab_links","toonskigebied")."</a></li>";
 		$tab_links=true;
 	}
 	echo "</ul>";
 
 	if($vars["websitetype"]==7) {
-		echo "<div id=\"tab_ligging\">";
+		echo "<div id=\"ligging\">";
 
 		echo "<p style=\"font-weight:bold;margin-bottom:25px;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=5-".$db->f("skigebied_id")."\">Toon lijst met alle vakantiehuizen in ".wt_he($db->f("naam"))." &raquo;</a></p>";
-		
+
 		echo "<h3>Ligging van alle plaatsen in ".wt_he($db->f("naam")).":</h3>";
 
 		# Google Maps
@@ -223,10 +223,10 @@ hr {
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 			echo "var googlemaps_base='/chalet/';\n";
 		}
-		
+
 		# GPS-coordinaten van het midden van de regio bepalen
 		$db0->query("SELECT gps_lat, gps_long FROM plaats WHERE gps_lat IS NOT NULL AND gps_long IS NOT NULL AND skigebied_id='".$db->f("skigebied_id")."';");
-		
+
 		while($db0->next_record()) {
 			$gps_lat=floatval($db0->f("gps_lat"));
 			$gps_long=floatval($db0->f("gps_long"));
@@ -235,10 +235,10 @@ hr {
 			if($gps_long>$gps_long_max or !isset($gps_long_max)) $gps_long_max=$gps_long;
 			if($gps_long<$gps_long_min or !isset($gps_long_min)) $gps_long_min=$gps_long;
 		}
-			
+
 		$gps_lat_midden=($gps_lat_min+$gps_lat_max)/2;
 		$gps_long_midden=($gps_long_min+$gps_long_max)/2;
-			
+
 		$db0->query("SELECT MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE accommodatie_id='".$db->f("accommodatie_id")."' AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id;");
 		if($db0->next_record()) {
 			echo "var googlemaps_aantalpersonen='".$db0->f("optimaalaantalpersonen").($db0->f("maxaantalpersonen")>$db0->f("optimaalaantalpersonen") ? " - ".$db0->f("maxaantalpersonen") : "")." ".html("personen")."';\n";
@@ -246,10 +246,10 @@ hr {
 		if(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
 			echo "var googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
 		}
-		
+
 		echo "var googlemaps_skigebiedid=".$db->f("skigebied_id").";\nvar googlemaps_selected_icon=71;\nvar googlemaps_lat=".$gps_lat_midden.";\nvar googlemaps_long=".$gps_long_midden.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("land")))."';\nvar zoomlevel=".($db->f("googlemaps_zoomlevel")>0 ? $db->f("googlemaps_zoomlevel") : "8")."\n</script>\n";
 		echo "<div id=\"map_canvas\"></div>";
-		
+
 		if(!preg_match("/MSIE [67]/",$_SERVER["HTTP_USER_AGENT"])) {
 			# Bij MSIE 6 en 7: alleen plaatsen uit de actieve regio tonen (vanwege de Javascript-traagheid van die browsers)
 			echo "<table style=\"height:90px;margin-top:-10px;margin-bottom:20px;\" border=0><tr><td><img src=\"".$vars["path"]."pic/googlemapsicons/italissima_plaats.png\" style=\"margin-bottom:-15px;\"> = plaats in ".wt_he($db->f("naam"))."</td></tr>";
@@ -260,10 +260,10 @@ hr {
 	}
 
 	if($vars["websitetype"]<>6) {
-		echo "<div id=\"tab_plaatsen\">";
+		echo "<div id=\"plaatsen\">";
 		$db2->query("SELECT DISTINCT p.naam, p.plaats_id, l.naam".$vars["ttv"]." AS land FROM plaats p, land l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND l.land_id=p.land_id AND p.skigebied_id=".$skigebiedid." AND p.websites LIKE '%".$vars["website"]."%' ORDER BY naam;");
 		if($db2->num_rows()) {
-		
+
 			if($vars["websitetype"]==7) {
 				echo "<h3 style=\"margin-bottom: 8px;\">Overzicht van alle plaatsen in ".wt_he($db->f("naam")).":</h3>";
 			}
@@ -281,7 +281,7 @@ hr {
 					echo "<tr><td valign=\"top\" nowrap><a href=\"".$vars["path"].txt("menu_plaats")."/".wt_convert2url($db2->f("naam"))."/\">".htmlentities($db2->f("naam"))." - ".htmlentities($db2->f("land"))."</a></td>";
 					echo "<td><a href=\"".$vars["path"].txt("menu_plaats")."/".wt_convert2url($db2->f("naam"))."/\">".$aantal_acc." ";
 					if($vars["seizoentype"]==2) {
-						echo ($aantal_acc==1 ? html("vakantiehuis") : html("vakantiehuizen"));					
+						echo ($aantal_acc==1 ? html("vakantiehuis") : html("vakantiehuizen"));
 					} else {
 						echo ($aantal_acc==1 ? html("accommodatie") : html("accommodaties"));
 					}
@@ -295,7 +295,7 @@ hr {
 		echo "</div>"; # afsluiten tab_ligging
 	}
 
-	echo "<div id=\"tabs_beschrijving\">";
+	echo "<div id=\"beschrijving\">";
 
 	# Foto's
 	$foto=imagearray(array("skigebieden"),array($db->f("skigebied_id")));
@@ -331,7 +331,7 @@ hr {
 				}
 			}
 			if($fototeller>3 or $foto["picbreed"]) {
-				echo "<a href=\"#tabs_fotos\" class=\"noprint\" id=\"meerfotos\">".html("meerfotos","toonskigebied")." &gt;</a>";
+				echo "<a href=\"#fotos\" class=\"noprint\">".html("meerfotos","toonskigebied")." &gt;</a>";
 			}
 		}
 		echo "</div>";
@@ -340,7 +340,7 @@ hr {
 	echo "<p>";
 	echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landid."-".$db->f("skigebied_id")."\">".html("bekijkonzeaccommodaties","toonskigebied",array("v_skigebied"=>$db->f("naam")))." &gt;</a>";
 	echo "</p>";
-	
+
 	echo "<div>".htmlentities_uitgebreid($db->f("omschrijving"))."</div>";
 	if($db->f("altnaam_zichtbaar")) echo "<p><div>".html("alternatievespelling","toonskigebied").": ".htmlentities($db->f("altnaam_zichtbaar"))."</div>";
 
@@ -348,7 +348,7 @@ hr {
 
 
 	if($vars["seizoentype"]==1) {
-		echo "<div id=\"tab_pistes\">";
+		echo "<div id=\"pistes\">";
 		echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 		if($db->f("aantalliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalliften","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalliften"))."</TD></TR>";
 		if($db->f("aantalstoeltjesliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalstoeltjesliften","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalstoeltjesliften"))."</TD></TR>";
@@ -369,9 +369,9 @@ hr {
 		if($db->f("omschrijvingskipasuitgebreid")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("omschrijvingskipasuitgebreid","toonskigebied")."</TD><TD>".nl2br(htmlentities($db->f("omschrijvingskipasuitgebreid")))."</TD></TR>";
 		echo "</TABLE>";
 		echo "</div>";
-	
+
 		if($tab_plandespistes) {
-			echo "<div id=\"tab_plandespistes\">";
+			echo "<div id=\"plandespistes\">";
 			$imgsize=getimagesize("pic/cms/skigebieden_pistekaarten/".$db->f("skigebied_id").".jpg");
 			$width=660;
 			$height=round($width*$imgsize[1]/$imgsize[0]);
@@ -388,15 +388,15 @@ hr {
 		}
 	}
 
-	echo "<div id=\"tabs_fotos\">";
+	echo "<div id=\"fotos\">";
 	if(is_array($foto["pic"]) or is_array($foto["picbreed"])) {
 		@reset($foto["pic"]);
 		@reset($foto["picbreed"]);
 		unset($counter);
-		
+
 		# aantal kolommen fototabel bepalen
 		if($vars["websitetype"]==7) {
-			$kolombreedte=2;		
+			$kolombreedte=2;
 		} else {
 			$kolombreedte=3;
 		}
@@ -407,7 +407,7 @@ hr {
 			while(list($key,$value)=@each($foto["pic"])) {
 				if($trcounter==$kolombreedte) {
 					$foto_table.="</tr><tr>";
-					unset($trcounter);		
+					unset($trcounter);
 				}
 				$trcounter++;
 				$counter++;
@@ -455,7 +455,7 @@ hr {
 	echo "</div>";
 
 	if($tab_links) {
-		echo "<div id=\"tab_links\">";
+		echo "<div id=\"links\">";
 		echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 		if($db->f("webcam")) echo "<TR><TD valign=\"top\" nowrap><a href=\"".$db->f("webcam")."\" target=\"_blank\">".html("webcam","toonskigebied")."</a></TD></TR>";
 		if($db->f("weerbericht")) echo "<TR><TD valign=\"top\" nowrap><a href=\"".$db->f("weerbericht")."\" target=\"_blank\">".html("weerbericht","toonskigebied")."</a></TD></TR>";
@@ -473,7 +473,7 @@ hr {
 
 		# blok rechts bepalen
 		if($db->f("accommodatiecodes")) {
-		
+
 			$acc=preg_split("/,/",$db->f("accommodatiecodes"));
 			unset($inquery);
 			while(list($key,$value)=each($acc)) {
@@ -481,12 +481,12 @@ hr {
 					$inquery.=",".$regs[1];
 				}
 			}
-			
+
 			if($inquery) {
 				$db2->query("SELECT accommodatie_id, type_id, naam, skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
 				while($db2->next_record()) {
 					$accurl=$vars["path"]."accommodatie/".$db2->f("begincode").$db2->f("type_id")."/";
-				
+
 					$file="pic/cms/types_specifiek/".$db2->f("type_id").".jpg";
 					if(!file_exists($file)) {
 						$file="pic/cms/accommodaties/".$db2->f("accommodatie_id").".jpg";
@@ -502,7 +502,7 @@ hr {
 						echo "<div class=\"skigebied_opval_regel1\">".wt_he($db2->f("plaats"))."</div>";
 #						echo "<div class=\"skigebied_opval_regel2\">".wt_he($db2->f("plaats"))."</div>";
 						echo "<div class=\"overlay_foto\">";
-					
+
 						echo "<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\">";
 						echo "<div class=\"skigebied_opval_regel3\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$db2->f("naam"))."</div>";
 						echo "</div>";
@@ -515,6 +515,6 @@ hr {
 		echo "</div>"; # afsluiten toonskigebied_splits_rechts
 		echo "<div style=\"clear: both;\"></div>\n";
 	}
-}	
+}
 
 ?>

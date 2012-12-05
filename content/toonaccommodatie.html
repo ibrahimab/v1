@@ -161,7 +161,7 @@ if($db->next_record()) {
 	echo "</div>";
 	echo "<div id=\"toonaccommodatie_kopteksten\">";
 	if($aanbieding_actief) {
-		echo "<a href=\"#prijsinformatie\" onclick=\"\$('#tabs').tabs().tabs('select','#tabs_tarieven');\" id=\"toonaccommodatie_aanbieding\" title=\"".html("bekijkdeaanbieding","toonaccommodatie")."\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding_klein","toonaccommodatie")."</a>";
+		echo "<a href=\"#prijsinformatie\" id=\"toonaccommodatie_aanbieding\" title=\"".html("bekijkdeaanbieding","toonaccommodatie")."\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding_klein","toonaccommodatie")."</a>";
 	}
 	if($accinfo["bestelnaam"] and $voorkant_cms) echo "<i>(".htmlentities($accinfo["bestelnaam"]).")</i><br>";
 	echo "<h1>".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</h1>";
@@ -269,27 +269,24 @@ if($db->next_record()) {
 	$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
 	#
 	# Tabs
-	#html("tab_fotos","toonaccommodatie")
 	echo "<div id=\"tabs\">";
 	echo "<ul class=\"noprint\">";
-	echo "<li><a href=\"#tabs_overzicht\">".html("tab_overzicht","toonaccommodatie")."</a></li>";
-	echo "<li><a href=\"#tabs_indeling\">".html("tab_indeling","toonaccommodatie")."</a></li>";
-#	echo "<li><a href=\"#tabs_incl\">".html("tab_incl","toonaccommodatie")."</a></li>";
+	echo "<li><a href=\"#overzicht\">".html("tab_overzicht","toonaccommodatie")."</a></li>";
+	echo "<li><a href=\"#indeling\">".html("tab_indeling","toonaccommodatie")."</a></li>";
 	if($db->f("video")=="1") {
-		echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos_filmpjes","toonaccommodatie")."</a></li>";
+		echo "<li><a href=\"#fotos\">".html("tab_fotos_filmpjes","toonaccommodatie")."</a></li>";
 	}
 	else{
-		echo "<li><a href=\"#tabs_fotos\">".html("tab_fotos","toonaccommodatie")."</a></li>";
+		echo "<li><a href=\"#fotos\">".html("tab_fotos","toonaccommodatie")."</a></li>";
 	}
-	echo "<li><a href=\"#tabs_ligging\">".html("tab_ligging","toonaccommodatie")."</a></li>";
-	echo "<li><a href=\"#tabs_opties\">".html("tab_opties","toonaccommodatie")."</a></li>";
-#	echo "<li".($aanbieding_actief ? " class=\"aanbiedingtab\"" : "")."><a href=\"#tabs_tarieven\">".html("tab_tarieven","toonaccommodatie")."</a></li>";
-	echo "<li><a href=\"#tabs_tarieven\">".html("tab_tarieven","toonaccommodatie")."</a></li>";
+	echo "<li><a href=\"#ligging\">".html("tab_ligging","toonaccommodatie")."</a></li>";
+	echo "<li><a href=\"#extraopties\">".html("tab_opties","toonaccommodatie")."</a></li>";
+	echo "<li><a href=\"#prijsinformatie\">".html("tab_tarieven","toonaccommodatie")."</a></li>";
 	echo "</ul>";
 	echo "<script type=\"text/javascript\">sessionStorage.click=0;function openpopupvideo(){windowhandle=window.open(\"\", \"newwin\", \"height=300, width=530, menubar=no, status=no, toolbar=no, scrollbars=no, resizable=no\" );windowhandle.document.write('<title>".$vars["websitenaam"]." - Media</title>');if (sessionStorage.click<2){
 		windowhandle.document.write('<iframe src=\"".$db->f("videoEmbedCode")."\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');windowhandle.focus();}var timer = setInterval(function() {if(windowhandle.closed){clearInterval(timer);sessionStorage.click=0;}}, 500);return false;}</script>";
 	# Tab "overzicht"
-	echo "<div id=\"tabs_overzicht\">";
+	echo "<div id=\"overzicht\">";
 	# Interne gegevens tonen
 	if($voorkant_cms) {
 		unset($temp_intern);
@@ -422,14 +419,14 @@ if($db->next_record()) {
 		# Afbeelding "bekijk ligging" plaatsen
 		if(($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
 			echo "<td valign=\"top\">";
-			echo "<a href=\"#tabs_ligging\" class=\"gototabs_ligging\"><img src=\"".$vars["path"]."pic/bekijkligging-".strtolower($vars["website"]).".png\" border=\"0\" width=\"150\" height=\"100\" title=\"Google Maps\"></a>";
+			echo "<a href=\"#ligging\"><img src=\"".$vars["path"]."pic/bekijkligging-".strtolower($vars["website"]).".png\" border=\"0\" width=\"150\" height=\"100\" title=\"Google Maps\"></a>";
 			echo "</td></tr>";
 		} else {
 			echo "<td>&nbsp;</td></tr>";
 		}
 		echo "<tr><td valign=\"bottom\">";
 		if($fototeller>3 or $foto["picbreed"]) {
-			echo "<a href=\"#tabs_fotos\" class=\"noprint\" id=\"meerfotos\">".html("meerfotos","toonaccommodatie")." &gt;</a>";
+			echo "<a href=\"#fotos\" class=\"noprint\">".html("meerfotos","toonaccommodatie")." &gt;</a>";
 		} else {
 			echo "&nbsp;";
 		}
@@ -479,7 +476,7 @@ if($db->next_record()) {
 	}
 	echo "</div>";
 	# Tab "indeling"
-	echo "<div id=\"tabs_indeling\">";
+	echo "<div id=\"indeling\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("indeling","toonaccommodatie")."</h3></div>";
 	# Interne gegevens tonen
 #	if($voorkant_cms and $db->f("taantekeningen")) {
@@ -493,7 +490,7 @@ if($db->next_record()) {
 	}
 	echo "</div><!-- afsluiten_tabs_indeling -->";
 	# Tab "foto's"
-	echo "<div id=\"tabs_fotos\">";
+	echo "<div id=\"fotos\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("fotos","vars")."</h3></div>";
 	if($db->f("url_virtuele_rondgang")) {
 		echo "<div style=\"padding-bottom:5px;\">";
@@ -594,7 +591,7 @@ if($db->next_record()) {
 		echo "<i>".html("geenfotos","toonaccommodatie")."</i>";
 	}
 	echo "</div><!-- afsluiten_tabs_fotos -->";
-	echo "<div id=\"tabs_ligging\">";
+	echo "<div id=\"ligging\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("ligging","toonaccommodatie")."</h3></div>";
 	echo "<table width=\"660\" border=\"0\" cellspacing=\"0\" cellpadding=\"5\">";
 	$pdf_plattegrond="pdf/plaats_plattegrond/".$accinfo["plaats_id"].".pdf";
@@ -660,7 +657,7 @@ if($db->next_record()) {
 	}
 	echo "</div><!-- afsluiten_tabs_ligging -->";
 	# Tab "Extra opties"
-	echo "<div id=\"tabs_opties\">";
+	echo "<div id=\"extraopties\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br></div>";
 	@reset($seizoen_tarieven);
 	while(list($key,$value)=@each($seizoen_tarieven)) {
@@ -739,7 +736,7 @@ if($db->next_record()) {
 				}
 				if($optie_tabel_html and $optietarieventonen[$seizoenid]) {
 					echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel optietabelclass\" cellspacing=\"0\">";
-					echo "<form name=\"optietabel".$seizoenid."\" method=\"get\" action=\"".$_SERVER["PHP_SELF"]."#selecttab_opties\">";
+					echo "<form name=\"optietabel".$seizoenid."\" method=\"get\" action=\"".$_SERVER["PHP_SELF"]."#extraopties\">";
 					echo "<input type=\"hidden\" name=\"otsid\" value=\"".$seizoenid."\">";
 					echo "<input type=\"hidden\" name=\"selecttab\" value=\"opties\">\n";
 
@@ -800,7 +797,7 @@ if($db->next_record()) {
 	echo "</div><!-- afsluiten_tabs_opties -->";
 
 	# Tab "prijsinformatie"
-	echo "<div id=\"tabs_tarieven\">";
+	echo "<div id=\"prijsinformatie\">";
 	echo "<div style=\"margin-left:-7px;margin-right:-7px;\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br></div>";
 
@@ -818,7 +815,7 @@ if($db->next_record()) {
 		}
 		echo "<tr><td>";
 
-		echo "<form method=\"get\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."#selecttab_tarieven\" name=\"zoeken\" id=\"zoeken\">";
+		echo "<form method=\"get\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."#prijsinformatie\" name=\"zoeken\" id=\"zoeken\">";
 		echo "<input type=\"hidden\" name=\"selecttab\" value=\"tarieven\">\n";
 
 		reset($_GET);
@@ -1224,7 +1221,7 @@ if($db->next_record()) {
 		if($bijkomendekosten_table) {
 			echo "<p>";
 			if($optie_pulldown_teller and $bijkomendekosten_afhankelijkvandatum) {
-				echo "<form name=\"bijkomendekostentabel2".$seizoenid."\" method=\"get\" action=\"".$_SERVER["PHP_SELF"]."#selecttab_tarieven\" style=\"padding:0px;\">";
+				echo "<form name=\"bijkomendekostentabel2".$seizoenid."\" method=\"get\" action=\"".$_SERVER["PHP_SELF"]."#prijsinformatie\" style=\"padding:0px;\">";
 				echo $bijkomendekosten_header2;
 				echo "<input type=\"hidden\" name=\"selecttab\" value=\"tarieven\">\n";
 
@@ -1666,10 +1663,10 @@ if($db->next_record()) {
 			} else {
 				if($voorkant_cms and $login->user_id==22) {
 					# Speciale link voor Brenda i.v.m. mogelijk caching-probleem
-					$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"]."&" : "?")."cache=".time()."#selecttab_indeling";
+					$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"]."&" : "?")."cache=".time()."#indeling";
 				} else {
 					# Gewone link
-					$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."#selecttab_indeling";
+					$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."#indeling";
 				}
 				$anderetypes.="<a href=\"".htmlentities($linkandertype)."\">";
 			}

@@ -112,6 +112,11 @@ if($vars["jquery_fancybox"]) {
 	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
 }
 
+if($vars["page_with_tabs"]) {
+	# jQuery Address: t.b.v. correcte verwerking hashes in URL
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.address-1.5.min.js\"></script>\n";
+}
+
 # meta name robots
 if(!$vars["canonical"] and ($_GET["back"] or $_GET["backtypeid"] or $_GET["filled"] or $_GET["page"] or $_GET["PHPSESSID"] or $id=="boeken")) {
 	$robot_noindex=true;

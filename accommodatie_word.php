@@ -116,7 +116,7 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 
 
 		# tabs_indeling
-		if(preg_match("/<div id=\"tabs_indeling\">(.*)<!-- afsluiten_tabs_indeling -->/s",$content,$regs)) {
+		if(preg_match("/<div id=\"indeling\">(.*)<!-- afsluiten_tabs_indeling -->/s",$content,$regs)) {
 			$tabs_indeling=$regs[1];
 		}
 
@@ -130,12 +130,12 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 		}
 
 		# tabs_omgeving
-		if(preg_match("/<div id=\"tabs_omgeving\">(.*)<!-- afsluiten_tabs_omgeving -->/s",$content,$regs)) {
+		if(preg_match("/<div id=\"omgeving\">(.*)<!-- afsluiten_tabs_omgeving -->/s",$content,$regs)) {
 			$tabs_omgeving=$regs[1];
 		}
 
 		# tabs_opties
-		if(preg_match("/<div id=\"tabs_opties\">(.*)<!-- afsluiten_tabs_opties -->/s",$content,$regs)) {
+		if(preg_match("/<div id=\"extraopties\">(.*)<!-- afsluiten_tabs_opties -->/s",$content,$regs)) {
 			$tabs_opties=$regs[1];
 
 			$tabs_opties=str_replace("<TABLE width=\"660\" border=\"0\" class=\"toonacctabel optietabelclass\" cellspacing=\"0\">","<TABLE width=\"100%\" border=\"0\" class=\"toonacctabel optietabelclass\" cellspacing=\"0\">",$tabs_opties);

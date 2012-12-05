@@ -145,73 +145,73 @@ function accommodatiepagina_flexibel_onchange() {
 }
 
 function wt_mktime () {
-    // http://kevin.vanzonneveld.net
-    // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +   improved by: baris ozdil
-    // +      input by: gabriel paderni
-    // +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +   improved by: FGFEmperor
-    // +      input by: Yannoo
-    // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +      input by: jakes
-    // +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
-    // +   bugfixed by: Marc Palau
-    // +   improved by: Brett Zamir (http://brett-zamir.me)
-    // +      input by: 3D-GRAF
-    // +   bugfixed by: Brett Zamir (http://brett-zamir.me)
-    // +      input by: Chris
-    // +    revised by: Theriault
-    // %        note 1: The return values of the following examples are
-    // %        note 1: received only if your system's timezone is UTC.
-    // *     example 1: mktime(14, 10, 2, 2, 1, 2008);
-    // *     returns 1: 1201875002
-    // *     example 2: mktime(0, 0, 0, 0, 1, 2008);
-    // *     returns 2: 1196467200
-    // *     example 3: make = mktime();
-    // *     example 3: td = new Date();
-    // *     example 3: real = Math.floor(td.getTime() / 1000);
-    // *     example 3: diff = (real - make);
-    // *     results 3: diff < 5
-    // *     example 4: mktime(0, 0, 0, 13, 1, 1997)
-    // *     returns 4: 883612800
-    // *     example 5: mktime(0, 0, 0, 1, 1, 1998)
-    // *     returns 5: 883612800
-    // *     example 6: mktime(0, 0, 0, 1, 1, 98)
-    // *     returns 6: 883612800
-    // *     example 7: mktime(23, 59, 59, 13, 0, 2010)
-    // *     returns 7: 1293839999
-    // *     example 8: mktime(0, 0, -1, 1, 1, 1970)
-    // *     returns 8: -1
-    var d = new Date(),
-        r = arguments,
-        i = 0,
-        e = ['Hours', 'Minutes', 'Seconds', 'Month', 'Date', 'FullYear'];
+	// http://kevin.vanzonneveld.net
+	// +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// +   improved by: baris ozdil
+	// +      input by: gabriel paderni
+	// +   improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// +   improved by: FGFEmperor
+	// +      input by: Yannoo
+	// +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// +      input by: jakes
+	// +   bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// +   bugfixed by: Marc Palau
+	// +   improved by: Brett Zamir (http://brett-zamir.me)
+	// +      input by: 3D-GRAF
+	// +   bugfixed by: Brett Zamir (http://brett-zamir.me)
+	// +      input by: Chris
+	// +    revised by: Theriault
+	// %        note 1: The return values of the following examples are
+	// %        note 1: received only if your system's timezone is UTC.
+	// *     example 1: mktime(14, 10, 2, 2, 1, 2008);
+	// *     returns 1: 1201875002
+	// *     example 2: mktime(0, 0, 0, 0, 1, 2008);
+	// *     returns 2: 1196467200
+	// *     example 3: make = mktime();
+	// *     example 3: td = new Date();
+	// *     example 3: real = Math.floor(td.getTime() / 1000);
+	// *     example 3: diff = (real - make);
+	// *     results 3: diff < 5
+	// *     example 4: mktime(0, 0, 0, 13, 1, 1997)
+	// *     returns 4: 883612800
+	// *     example 5: mktime(0, 0, 0, 1, 1, 1998)
+	// *     returns 5: 883612800
+	// *     example 6: mktime(0, 0, 0, 1, 1, 98)
+	// *     returns 6: 883612800
+	// *     example 7: mktime(23, 59, 59, 13, 0, 2010)
+	// *     returns 7: 1293839999
+	// *     example 8: mktime(0, 0, -1, 1, 1, 1970)
+	// *     returns 8: -1
+	var d = new Date(),
+		r = arguments,
+		i = 0,
+		e = ['Hours', 'Minutes', 'Seconds', 'Month', 'Date', 'FullYear'];
 
-    for (i = 0; i < e.length; i++) {
-        if (typeof r[i] === 'undefined') {
-            r[i] = d['get' + e[i]]();
-            r[i] += (i === 3); // +1 to fix JS months.
-        } else {
-            r[i] = parseInt(r[i], 10);
-            if (isNaN(r[i])) {
-                return false;
-            }
-        }
-    }
+	for (i = 0; i < e.length; i++) {
+		if (typeof r[i] === 'undefined') {
+			r[i] = d['get' + e[i]]();
+			r[i] += (i === 3); // +1 to fix JS months.
+		} else {
+			r[i] = parseInt(r[i], 10);
+			if (isNaN(r[i])) {
+				return false;
+			}
+		}
+	}
 
-    // Map years 0-69 to 2000-2069 and years 70-100 to 1970-2000.
-    r[5] += (r[5] >= 0 ? (r[5] <= 69 ? 2e3 : (r[5] <= 100 ? 1900 : 0)) : 0);
+	// Map years 0-69 to 2000-2069 and years 70-100 to 1970-2000.
+	r[5] += (r[5] >= 0 ? (r[5] <= 69 ? 2e3 : (r[5] <= 100 ? 1900 : 0)) : 0);
 
-    // Set year, month (-1 to fix JS months), and date.
-    // !This must come before the call to setHours!
-    d.setFullYear(r[5], r[3] - 1, r[4]);
+	// Set year, month (-1 to fix JS months), and date.
+	// !This must come before the call to setHours!
+	d.setFullYear(r[5], r[3] - 1, r[4]);
 
-    // Set hours, minutes, and seconds.
-    d.setHours(r[0], r[1], r[2]);
+	// Set hours, minutes, and seconds.
+	d.setHours(r[0], r[1], r[2]);
 
-    // Divide milliseconds by 1000 to return seconds and drop decimal.
-    // Add 1 second if negative or it'll be off from PHP by 1 second.
-    return (d.getTime() / 1e3 >> 0) - (d.getTime() < 0);
+	// Divide milliseconds by 1000 to return seconds and drop decimal.
+	// Add 1 second if negative or it'll be off from PHP by 1 second.
+	return (d.getTime() / 1e3 >> 0) - (d.getTime() < 0);
 }
 
 function testgegevens() {
@@ -230,37 +230,6 @@ function testgegevens() {
 	document.forms['frm'].elements['input[postcode]'].value='1111 AA';
 }
 
-function check_hash() {
-	if($().tabs) {
-
-		var $tabs = $('#tabs').tabs();
-
-		// accommodatiepagina
-		if(location.hash=="#overzicht") {
-			$tabs.tabs('select','#tabs_overzicht');
-		}
-		if(location.hash=="#indeling") {
-			$tabs.tabs('select','#tabs_indeling');
-		}
-		if(location.hash=="#fotos") {
-			$tabs.tabs('select','#tabs_fotos');
-		}
-		if(location.hash=="#ligging") {
-			$tabs.tabs('select','#tabs_ligging');
-		}
-		if(location.hash=="#extraopties") {
-			$tabs.tabs('select','#tabs_opties');
-		}
-		if(location.hash=="#prijsinformatie") {
-			$tabs.tabs('select','#tabs_tarieven');
-		}
-
-		// regiopagina / plaatspagina
-		if(location.hash=="#beschrijving") {
-			$tabs.tabs('select','#tabs_beschrijving');
-		}
-	}
-}
 
 //
 // Google Maps
@@ -477,88 +446,43 @@ var landkaartklikbaar_info_hoverkleur="#636f07";
 
 $(document).ready(function() {
 
-	if(gebruik_jquery==true) {
+	if(gebruik_jquery===true) {
 			// jquery
 
 		if($().tabs) {
 
-			// Google Analytics bij switchen tussen tabs
-
-			if($("#tabs").length != 0) {
-				$("#tabs").bind("tabsselect",function(event,ui) {
-//					_gaq.push(['_trackPageview', window.location.pathname + '/tab-' + ui.tab.innerHTML]);
-//					alert(window.location.pathname+ui.tab.innerHTML);
-				});
-			}
-
-
-
-			// fotoslide hoofdpagina
-		//	$("#featured").tabs({fx:{opacity: "toggle"}}).tabs("rotate", 5000, true);
-			$("#featured > ul").tabs({event: 'mouseover',fx:{opacity: "toggle"}}).tabs("rotate", 5000, true);
-
 			// tabs
 			var $tabs = $('#tabs').tabs();
-
-		//	$(".tabclick").click(function () {
-		//		window.location.hash = $(this).attr("href");
-		//	});
-
-			$('#meerfotos').click(function() {
-				$tabs.tabs('select','#tabs_fotos');
-				return false;
-			});
-
-			$('.gototabs_tarieven').click(function() {
-				$tabs.tabs('select','#tabs_tarieven');
-				return false;
-			});
-
-			$('.gototabs_ligging').click(function() {
-				$tabs.tabs('select','#tabs_ligging');
-				return false;
-			});
 		}
 
-		var myFile = document.location.toString();
-		if (myFile.match('#')) {
-			var myAnchor = myFile.split('#')[1];
-			var selecttab = myAnchor.split('_')[0];
-			if(selecttab=='selecttab') {
-				var selecttab_value = myAnchor.split('_')[1];
-				$tabs.tabs('select','#tabs_'+selecttab_value);
-			}
-		} else if (myFile.match('selecttab=([a-z0-9]+)')) {
-			a = myFile.match('selecttab=([a-z0-9]+)');
-			if(a[1]) {
-				$tabs.tabs('select','#tabs_'+a[1]);
-			}
-		} else if (myFile.match('otsid=') && myFile.match('&optie_datum=')) {
-			$tabs.tabs('select','#tabs_opties');
+		if($().address) {
+			// juiste verwerking hashes bij de tabs
+
+			// For forward and back
+			$.address.change(function(event) {
+
+				// Google Analytics bij switchen tussen tabs
+				if (typeof _gaq != "undefined") {
+//					_gaq.push(['_trackPageview', window.location.pathname + '/tab-' + window.location.hash.substr(1)]);
+				}
+
+				// tab switchen
+				$("#tabs").tabs( "select",window.location.hash);
+			});
+
+			// when the tab is selected update the url with the hash
+			$("#tabs").bind("tabsselect", function(event, ui) {
+//				alert($(ui.tab).attr("id"));
+				window.location.hash = ui.tab.hash;
+			});
+
+			// prevent scrolling when loading page
+			setTimeout(function() {
+				if (location.hash) {
+					window.scrollTo(0, 0);
+				}
+			},1);
 		}
-
-		check_hash();
-
-	//	$("#tabs a").click(function () {
-	//		if(this.hash=="#tabs_overzicht") {
-	//			window.location.hash = "#overzicht";
-	//		}
-	//		if(this.hash=="#tabs_indeling") {
-	//			window.location.hash = "#indeling";
-	//		}
-	//		if(this.hash=="#tabs_fotos") {
-	//			window.location.hash = "#fotos";
-	//		}
-	//		if(this.hash=="#tabs_ligging") {
-	//			window.location.hash = "#ligging";
-	//		}
-	//		if(this.hash=="#tabs_opties") {
-	//			window.location.hash = "#extraopties";
-	//		}
-	//		if(this.hash=="#tabs_tarieven") {
-	//			window.location.hash = "#prijsinformatie";
-	//		}
-	//	});
 
 		// show/hide toggle
 		$(".showhidelink").click(function () {

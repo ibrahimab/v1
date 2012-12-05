@@ -72,7 +72,8 @@ if($db->num_rows()) {
 				$tabteller++;
 				if($landgehad) $tabellen.="</TABLE></div>";
 				$landgehad[$db->f("land_id")]=true;
-				$tabellen.="<div id=\"tabs_".$tabteller."\"><P>";
+#				$tabellen.="<div id=\"tabs_".$tabteller."\"><P>";
+				$tabellen.="<div><p>";
 				if($vars["seizoentype"]==2) {
 					$tabellen.="<TABLE border=\"0\" class=\"toonacctabel\" style=\"width:550px;\" cellspacing=\"0\">";
 				} else {

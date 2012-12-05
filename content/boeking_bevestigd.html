@@ -53,7 +53,11 @@ if($vars["taal"]=="nl") {
 		# Autohuur: Ter plaatse een auto huren? Profiteer dan hier van het aanbod van Sunny Cars. Al 12 jaar op rij gekozen tot beste autoverhuurder.
 		# Ter plaatse een auto huren? Profiteer dan hier van het aanbod van Sunny Cars. Al 12 jaar op rij gekozen tot beste autoverhuurder door de Nederlandse Reisbureaus.
 
-		echo "<table class=\"sunnycar_banner\" style=\"margin-top:20px;\" onclick=\"popwindowXY(824,630,'http://www.sunnycars.nl/booking/entry?ak=743147',true);recordOutboundPopup('Externe popup','Sunny Cars');\" cellspacing=\"0\" cellpadding=\"3\"><tr><td><img src=\"".$vars["path"]."pic/sunnycars_foto.jpg\"></td><td><b><i>Ter plaatse een auto huren?</i></b><br><br>Boek dan direct bij <b>Sunny Cars</b>. Al 12 jaar op rij gekozen tot beste autoverhuurder door de Nederlandse Reisbureaus.</td><td><img src=\"".$vars["path"]."pic/sunnycars_logo.gif\"></td></tr></table>";
+		echo "<table class=\"sunnycar_banner\" style=\"margin-top:20px;\" onclick=\"popwindowXY(824,630,'http://www.sunnycars.nl/booking/entry?ak=743147',true);recordOutboundPopup('Externe popup','Sunny Cars');\" cellspacing=\"0\" cellpadding=\"3\"><tr><td><img src=\"".$vars["path"]."pic/sunnycars_foto.jpg\"></td><td><b><i>Ter plaatse een auto huren?</i></b><br><br>Boek dan direct bij <b>Sunny Cars</b>.";
+		if($vars["websiteland"]=="nl") {
+			echo " Al 12 jaar op rij gekozen tot beste autoverhuurder door de Nederlandse Reisbureaus.";
+		}
+		echo "</td><td><img src=\"".$vars["path"]."pic/sunnycars_logo.gif\"></td></tr></table>";
 	}
 }
 
