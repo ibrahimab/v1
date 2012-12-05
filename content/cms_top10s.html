@@ -60,12 +60,12 @@ if($_GET["show"]==18) {
 						}
 					}
 
-					if(ereg("C",$db->f("websites"))) {
-						$vars["top10_types_beschikbaar_websites"][1][$db->f("type_id")]=true;
-					}
-#					if(ereg("W",$db->f("websites"))) {
-#						$vars["top10_types_beschikbaar_websites"][2][$db->f("type_id")]=true;
+#					if(ereg("C",$db->f("websites"))) {
+#						$vars["top10_types_beschikbaar_websites"][1][$db->f("type_id")]=true;
 #					}
+					if(ereg("W",$db->f("websites"))) {
+						$vars["top10_types_beschikbaar_websites"][2][$db->f("type_id")]=true;
+					}
 #					if(ereg("Z",$db->f("websites"))) {
 #						$vars["top10_types_beschikbaar_websites"][3][$db->f("type_id")]=true;
 #					}
