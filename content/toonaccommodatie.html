@@ -269,7 +269,7 @@ if($db->next_record()) {
 	$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
 	#
 	# Tabs
-	echo "<div id=\"tabs\">";
+	echo "<div id=\"tabs\" style=\"visibility:hidden;\">";
 	echo "<ul class=\"noprint\">";
 	echo "<li><a href=\"#overzicht\">".html("tab_overzicht","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#indeling\">".html("tab_indeling","toonaccommodatie")."</a></li>";
@@ -1671,7 +1671,7 @@ if($db->next_record()) {
 					# Gewone link
 					$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."#indeling";
 				}
-				$anderetypes.="<a href=\"".htmlentities($linkandertype)."\">";
+				$anderetypes.="<a href=\"".htmlentities($linkandertype)."\" class=\"linkandertype\">";
 			}
 			$anderetypes.=$db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ";
 			if($db2->f("maxaantalpersonen")==1) {

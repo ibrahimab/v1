@@ -456,6 +456,8 @@ $(document).ready(function() {
 			// tabs
 			var $tabs = $('#tabs').tabs();
 
+			$("#tabs").css("visibility","visible");
+
 			if($().address) {
 				//
 				// juiste verwerking hashes bij de tabs
@@ -471,12 +473,13 @@ $(document).ready(function() {
 
 					// tab switchen
 					$("#tabs").tabs("select",window.location.hash);
-				});
 
-				$("#tabsNU_EVEN_NIET").bind("tabsselect", function(event, ui) {
-					var currentscrollpos = $(window).scrollTop();
-					window.location.hash = ui.tab.hash;
-					window.scrollTo(0,currentscrollpos);
+					// links naar andere types van deze accommodatie aanpassen
+					if(window.location.hash) {
+						$(".linkandertype").each(function() {
+							$(this).attr("href",$(this).attr("href").replace(/#.*/,window.location.hash));
+						});
+					}
 				});
 
 				// klikken op tab: hash veranderen
@@ -497,6 +500,7 @@ $(document).ready(function() {
 					$("#tabs").tabs("select","#prijsinformatie");
 				} else {
 					// zorgen dat pagina niet naar beneden scrollt na eerste keer oproepen
+					window.scrollTo(0, 0);
 					setTimeout(function() {
 						if (location.hash) {
 							window.scrollTo(0, 0);
@@ -510,10 +514,12 @@ $(document).ready(function() {
 					a = myFile.match('selecttab=([a-z0-9]+)');
 					if(a[1]) {
 						$tabs.tabs('select','#'+a[1]);
+						window.location.hash = $(this).attr("href");
 						window.scrollTo(0,$("#tabs").scrollTop());
 					}
 				} else if (myFile.match('otsid=') && myFile.match('&optie_datum=')) {
 					$tabs.tabs('select','#extraopties');
+					window.location.hash = '#extraopties';
 				}
 			}
 		}
