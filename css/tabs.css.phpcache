@@ -57,9 +57,15 @@ header("Content-type: text/css; charset=windows-1252");
 
 	/* Interaction states
 	----------------------------------*/
-	.ui-state-default, .ui-widget-content .ui-state-default { border: 1px solid <?php echo $inactivetabcolor; ?>; background-color: <?php echo $inactivetabcolor; ?>; color: #ffffff; outline: none; }
+	.ui-state-default, .ui-widget-content .ui-state-default { border: 1px solid <?php echo $inactivetabcolor; ?>; background-color: <?php echo $inactivetabcolor; ?>; color: #ffffff; outline: none;
+		transition-duration: 200ms;
+		-webkit-transition-duration: 200ms;
+	}
 	.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: <?php echo $inactivetabfontcolor; ?>; text-decoration: none; outline: none; }
-	.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus { border: 1px solid <?php echo $activetabcolor; ?>; background: <?php echo $activetabcolor; ?>; color: #ffffff; outline: none; }
+	.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus { border: 1px solid <?php echo $activetabcolor; ?>; background: <?php echo $activetabcolor; ?>; color: #ffffff; outline: none;
+		transition-duration: 200ms;
+		-webkit-transition-duration: 200ms;
+	 }
 	.ui-state-hover a, .ui-state-hover a:hover { color: #ffffff; text-decoration: none; outline: none; }
 	.ui-state-active, .ui-widget-content .ui-state-active { border: 1px solid <?php echo $activetabcolor; ?>; background: <?php echo $activetabcolor; ?>; color: #ffffff; outline: none; }
 	.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #ffffff; outline: none; text-decoration: none; }

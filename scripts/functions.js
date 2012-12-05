@@ -447,41 +447,75 @@ var landkaartklikbaar_info_hoverkleur="#636f07";
 $(document).ready(function() {
 
 	if(gebruik_jquery===true) {
-			// jquery
+		//
+		// jquery
+		//
 
 		if($().tabs) {
 
 			// tabs
 			var $tabs = $('#tabs').tabs();
-		}
 
-		if($().address) {
-			// juiste verwerking hashes bij de tabs
+			if($().address) {
+				//
+				// juiste verwerking hashes bij de tabs
+				//
 
-			// For forward and back
-			$.address.change(function(event) {
+				// na wijzigen hash: juiste tab tonen
+				$.address.change(function(event) {
 
-				// Google Analytics bij switchen tussen tabs
-				if (typeof _gaq != "undefined") {
-//					_gaq.push(['_trackPageview', window.location.pathname + '/tab-' + window.location.hash.substr(1)]);
+					// Google Analytics bij switchen tussen tabs
+					if (typeof _gaq != "undefined") {
+	//					_gaq.push(['_trackPageview', window.location.pathname + '/tab-' + window.location.hash.substr(1)]);
+					}
+
+					// tab switchen
+					$("#tabs").tabs("select",window.location.hash);
+				});
+
+				$("#tabsNU_EVEN_NIET").bind("tabsselect", function(event, ui) {
+					var currentscrollpos = $(window).scrollTop();
+					window.location.hash = ui.tab.hash;
+					window.scrollTo(0,currentscrollpos);
+				});
+
+				// klikken op tab: hash veranderen
+				$("#tabs > ul li a").click(function(event) {
+					var currentscrollpos = $(window).scrollTop();
+					window.location.hash = $(this).attr("href");
+					window.scrollTo(0,currentscrollpos);
+				});
+
+				if(window.location.hash=="#extraopties_optietabel") {
+					// zorgen dat na selecteren datum bij tab 'extra opties' de scroll ter hoogte van de tabel is
+					window.scrollTo(0,"#extraopties_optietabel");
+					$("#tabs").tabs("select","#extraopties");
+					window.scrollTo(0,"#extraopties_optietabel");
+				} else if(window.location.hash=="#prijsinformatie_flextarieven") {
+					// zorgen dat na selecteren flex-datum bij tab 'prijsinformatie' de scroll ter hoogte van de tabel is
+					window.scrollTo(0,"#prijsinformatie_flextarieven");
+					$("#tabs").tabs("select","#prijsinformatie");
+				} else {
+					// zorgen dat pagina niet naar beneden scrollt na eerste keer oproepen
+					setTimeout(function() {
+						if (location.hash) {
+							window.scrollTo(0, 0);
+						}
+					},1);
 				}
 
-				// tab switchen
-				$("#tabs").tabs( "select",window.location.hash);
-			});
-
-			// when the tab is selected update the url with the hash
-			$("#tabs").bind("tabsselect", function(event, ui) {
-//				alert($(ui.tab).attr("id"));
-				window.location.hash = ui.tab.hash;
-			});
-
-			// prevent scrolling when loading page
-			setTimeout(function() {
-				if (location.hash) {
-					window.scrollTo(0, 0);
+				// trucje voor IE om te zorgen dat formulieren met een #hash als action toch de juiste tab openen
+				var myFile = document.location.toString();
+				if (myFile.match('selecttab=([a-z0-9]+)')) {
+					a = myFile.match('selecttab=([a-z0-9]+)');
+					if(a[1]) {
+						$tabs.tabs('select','#'+a[1]);
+						window.scrollTo(0,$("#tabs").scrollTop());
+					}
+				} else if (myFile.match('otsid=') && myFile.match('&optie_datum=')) {
+					$tabs.tabs('select','#extraopties');
 				}
-			},1);
+			}
 		}
 
 		// show/hide toggle
