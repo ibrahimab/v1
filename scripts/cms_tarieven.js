@@ -13,7 +13,7 @@ function disableEnterKey(dit,week,e) {
 
 	if(key == 13) {
 		if(week=='sjabloon') {
-		
+
 		} else {
 			bereken(dit,week);
 		}
@@ -56,7 +56,7 @@ function kopieer(dit,naam,nummer,integer) {
 			if(nummer>0) {
 				document.forms['tarieven'].elements[naam+'['+week+']['+nummer+']'].value=dit.value;
 			} else {
-				document.forms['tarieven'].elements[naam+'['+week+']'].value=dit.value;			
+				document.forms['tarieven'].elements[naam+'['+week+']'].value=dit.value;
 			}
 			if(nummer=='sjabloon') {
 
@@ -77,8 +77,8 @@ function kopieer(dit,naam,nummer,integer) {
 		}
 		dit.value='';
 		if(nummer=='sjabloon' || nummer=='skipas' || nummer=='nummer_voorraad') {
-		
-		} else {		
+
+		} else {
 			if(naam=='bruto') optellen('bruto');
 			if(naam=='arrangementsprijs') optellen('arrangementsprijs');
 			if(naam=='verkoop') optellen('verkoop');
@@ -100,7 +100,7 @@ function kopieer_checkbox(dit,naam) {
 
 function bereken_skipas(dit,week) {
 	if(dit=='kopieer') {
-	
+
 	} else {
 		dit.value=dit.value.replace(',','.');
 		if(dit.value) {
@@ -132,11 +132,11 @@ function bereken_skipas(dit,week) {
 		if(document.forms['tarieven'].elements['skipas_bruto['+week+']'].value>0 && skipas_netto>document.forms['tarieven'].elements['skipas_bruto['+week+']'].value) {
 			skipas_netto=parseFloat(document.forms['tarieven'].elements['skipas_bruto['+week+']'].value);
 		}
-	
+
 		if(skipas_netto>0) {
 			document.forms['tarieven'].elements['skipas_netto['+week+']'].value=skipas_netto.toFixed(2);
 		} else {
-			document.forms['tarieven'].elements['skipas_netto['+week+']'].value='';		
+			document.forms['tarieven'].elements['skipas_netto['+week+']'].value='';
 		}
 	} else {
 		document.forms['tarieven'].elements['skipas_netto['+week+']'].value='';
@@ -145,7 +145,7 @@ function bereken_skipas(dit,week) {
 
 function bereken_voorraad(dit,week) {
 	if(dit=='kopieer') {
-	
+
 	} else {
 		dit.value=dit.value.replace(',','');
 		dit.value=dit.value.replace('.','');
@@ -158,14 +158,14 @@ function bereken_voorraad(dit,week) {
 	if(document.forms['tarieven'].elements['voorraad_optie_leverancier['+week+']'].value>0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_optie_leverancier['+week+']'].value);
 	if(document.forms['tarieven'].elements['voorraad_xml['+week+']'].value>0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_xml['+week+']'].value);
 	if(document.forms['tarieven'].elements['voorraad_request['+week+']'].value>0 || document.forms['tarieven'].elements['voorraad_request['+week+']'].value<0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_request['+week+']'].value);
-	
+
 	if(document.forms['tarieven'].elements['voorraad_bijwerken['+week+']'].checked==true) {
 		if(totaal>0) {
 			document.forms['tarieven'].elements['beschikbaar['+week+']'].checked=true;
 		} else {
 			document.forms['tarieven'].elements['beschikbaar['+week+']'].checked=false;
 		}
-	}	
+	}
 	if(document.forms['tarieven'].elements['voorraad_optie_klant['+week+']'].value>0) totaal=totaal-parseInt(document.forms['tarieven'].elements['voorraad_optie_klant['+week+']'].value);
 
 	document.forms['tarieven'].elements['voorraad_totaal['+week+']'].value=totaal;
@@ -173,7 +173,7 @@ function bereken_voorraad(dit,week) {
 
 function bereken_nummer_voorraad(dit,week) {
 	if(dit=='kopieer') {
-	
+
 	} else {
 		dit.value=dit.value.replace(',','');
 		dit.value=dit.value.replace('.','');
@@ -186,7 +186,7 @@ function bereken_nummer_voorraad(dit,week) {
 	if(document.forms['tarieven'].elements['voorraad_optie_leverancier['+week+']'].value>0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_optie_leverancier['+week+']'].value);
 //	if(document.forms['tarieven'].elements['voorraad_xml['+week+']'].value>0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_xml['+week+']'].value);
 	if(document.forms['tarieven'].elements['voorraad_request['+week+']'].value>0 || document.forms['tarieven'].elements['voorraad_request['+week+']'].value<0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_request['+week+']'].value);
-	
+
 //	if(document.forms['tarieven'].elements['voorraad_optie_klant['+week+']'].value>0) totaal=totaal-parseInt(document.forms['tarieven'].elements['voorraad_optie_klant['+week+']'].value);
 
 	document.forms['tarieven'].elements['voorraad_totaal['+week+']'].value=totaal;
@@ -225,9 +225,9 @@ function bereken(dit,week) {
 	var flexibel=document.forms['tarieven'].elements['flexibel'].value;
 	var verkoop_accommodatie=0;
 	var netto_na_inkoopkorting=0;
-	
+
 	if(dit=='kopieer') {
-	
+
 	} else {
 		dit.value=dit.value.replace(',','.');
 		if(dit.value) {
@@ -237,7 +237,7 @@ function bereken(dit,week) {
 		}
 	}
 
-	
+
 	if(toonper==1) {
 		if(document.forms['tarieven'].elements['skipas_bruto['+week+']'].value>0) {
 
@@ -250,7 +250,7 @@ function bereken(dit,week) {
 			if(inkoop_min_korting>0) {
 				document.forms['tarieven'].elements['inkoop_min_korting['+week+']'].value=inkoop_min_korting.toFixed(2);
 			} else {
-				document.forms['tarieven'].elements['inkoop_min_korting['+week+']'].value='';		
+				document.forms['tarieven'].elements['inkoop_min_korting['+week+']'].value='';
 			}
 		} else {
 			var inkoop_min_korting=parseFloat(document.forms['tarieven'].elements['bruto['+week+']'].value);
@@ -263,28 +263,28 @@ function bereken(dit,week) {
 		if(document.forms['tarieven'].elements['inkoop_min_korting['+week+']'].value>0) var netto=parseFloat(document.forms['tarieven'].elements['inkoop_min_korting['+week+']'].value);
 		if(document.forms['tarieven'].elements['toeslag['+week+']'].value>0) netto+=parseFloat(document.forms['tarieven'].elements['toeslag['+week+']'].value);
 		if(document.forms['tarieven'].elements['korting_euro['+week+']'].value>0) netto-=parseFloat(document.forms['tarieven'].elements['korting_euro['+week+']'].value);
-	
+
 		if(document.forms['tarieven'].elements['vroegboekkorting_percentage['+week+']'].value>0) {
 			netto-=inkoop_min_korting*(parseFloat(document.forms['tarieven'].elements['vroegboekkorting_percentage['+week+']'].value)/100);
 		}
-		
+
 		if(document.forms['tarieven'].elements['vroegboekkorting_euro['+week+']'].value>0) netto-=parseFloat(document.forms['tarieven'].elements['vroegboekkorting_euro['+week+']'].value);
-		
+
 		if(netto>0) {
 			document.forms['tarieven'].elements['netto['+week+']'].value=netto.toFixed(2);
 		} else {
 			document.forms['tarieven'].elements['netto['+week+']'].value='';
 		}
-	
+
 		if(document.forms['tarieven'].elements['bruto['+week+']'].value>0) {
 			var bruto=parseFloat(document.forms['tarieven'].elements['bruto['+week+']'].value);
 		} else {
 			var bruto=0;
 		}
-		
+
 		if(document.forms['tarieven'].elements['skipas_bruto['+week+']'].value>0) {
 			skipas_bruto=parseFloat(document.forms['tarieven'].elements['skipas_bruto['+week+']'].value);
-			
+
 			// korting op skipas van toepassing? -percentage-
 			if(document.forms['tarieven'].elements['aanbieding_skipas_percentage['+week+']'].value) {
 				skipas_bruto=skipas_bruto*(1-(parseFloat(document.forms['tarieven'].elements['aanbieding_skipas_percentage['+week+']'].value)/100));
@@ -297,31 +297,31 @@ function bereken(dit,week) {
 		} else {
 			skipas_bruto=0;
 		}
-	
+
 		if(bruto>0) {
 
 			// inkoopkorting percentage verwerken
 			if(document.forms['tarieven'].elements['inkoopkorting_percentage['+week+']'].value) {
 				netto_na_inkoopkorting=parseFloat(document.forms['tarieven'].elements['netto['+week+']'].value);
 				netto_na_inkoopkorting=netto_na_inkoopkorting*(1-(parseFloat(document.forms['tarieven'].elements['inkoopkorting_percentage['+week+']'].value)/100));
-				
+
 				if(netto_na_inkoopkorting) {
 					document.forms['tarieven'].elements['netto['+week+']'].value=parseFloat(netto_na_inkoopkorting).toFixed(2);
 					netto=netto_na_inkoopkorting;
 				}
 			}
-			
+
 			// inkoopkorting euro verwerken
 			if(document.forms['tarieven'].elements['inkoopkorting_euro['+week+']'].value) {
 				netto_na_inkoopkorting=parseFloat(document.forms['tarieven'].elements['netto['+week+']'].value);
 				netto_na_inkoopkorting=netto_na_inkoopkorting-parseFloat(document.forms['tarieven'].elements['inkoopkorting_euro['+week+']'].value);
-				
+
 				if(netto_na_inkoopkorting) {
 					document.forms['tarieven'].elements['netto['+week+']'].value=parseFloat(netto_na_inkoopkorting).toFixed(2);
 					netto=netto_na_inkoopkorting;
 				}
 			}
-		
+
 			if(document.forms['tarieven'].elements['wederverkoop'].value==1) {
 
 				// wederverkoop
@@ -330,7 +330,7 @@ function bereken(dit,week) {
 				var wederverkoop_resterende_marge=0;
 				var wederverkoop_marge=0;
 				if(document.forms['tarieven'].elements['bruto['+week+']'].value>0) wederverkoop_verkoopprijs=parseFloat(document.forms['tarieven'].elements['bruto['+week+']'].value);
-				
+
 				// aanbieding_acc_percentage verwerken bij wederverkoop
 				if(document.forms['tarieven'].elements['aanbieding_acc_percentage['+week+']'].value) {
 					wederverkoop_verkoopprijs=wederverkoop_verkoopprijs*(1-(parseFloat(document.forms['tarieven'].elements['aanbieding_acc_percentage['+week+']'].value)/100));
@@ -339,9 +339,9 @@ function bereken(dit,week) {
 				if(document.forms['tarieven'].elements['aanbieding_acc_euro['+week+']'].value) {
 					wederverkoop_verkoopprijs=wederverkoop_verkoopprijs-parseFloat(document.forms['tarieven'].elements['aanbieding_acc_euro['+week+']'].value);
 				}
-			
+
 				if(document.forms['tarieven'].elements['opslag_accommodatie['+week+']'].value>0) wederverkoop_verkoopprijs+=(parseFloat(document.forms['tarieven'].elements['opslag_accommodatie['+week+']'].value)/100)*wederverkoop_verkoopprijs;
-				
+
 				if(document.forms['tarieven'].elements['wederverkoop_opslag_percentage['+week+']'].value>0) {
 					wederverkoop_verkoopprijs=wederverkoop_verkoopprijs+bruto*(parseFloat(document.forms['tarieven'].elements['wederverkoop_opslag_percentage['+week+']'].value)/100);
 				}
@@ -361,25 +361,25 @@ function bereken(dit,week) {
 				} else {
 					opmerkingen_text[week]='';
 				}
-				
+
 				if(wederverkoop_verkoopprijs>0) {
 					document.forms['tarieven'].elements['wederverkoop_verkoopprijs['+week+']'].value=wederverkoop_verkoopprijs.toFixed(2);
 				} else {
 					document.forms['tarieven'].elements['wederverkoop_verkoopprijs['+week+']'].value='';
 				}
-	
+
 				if(wederverkoop_nettoprijs_agent>0) {
 					document.forms['tarieven'].elements['wederverkoop_nettoprijs_agent['+week+']'].value=wederverkoop_nettoprijs_agent.toFixed(2);
 				} else {
 					document.forms['tarieven'].elements['wederverkoop_nettoprijs_agent['+week+']'].value='';
 				}
-	
+
 				if(wederverkoop_resterende_marge>0) {
 					document.forms['tarieven'].elements['wederverkoop_resterende_marge['+week+']'].value=wederverkoop_resterende_marge.toFixed(2);
 				} else {
 					document.forms['tarieven'].elements['wederverkoop_resterende_marge['+week+']'].value='';
 				}
-	
+
 				if(wederverkoop_marge) {
 					if(wederverkoop_marge<10) {
 						document.forms['tarieven'].elements['wederverkoop_marge['+week+']'].style.color='red';
@@ -404,13 +404,13 @@ function bereken(dit,week) {
 				}
 				verkoop_accommodatie=parseFloat(verkoop_accommodatie).toFixed(2);
 			}
-		
+
 			if(verkoop_accommodatie) {
 				document.forms['tarieven'].elements['verkoop_accommodatie['+week+']'].value=verkoop_accommodatie;
 			} else {
 				document.forms['tarieven'].elements['verkoop_accommodatie['+week+']'].value='';
 			}
-		
+
 			for (i=min_tonen;i<=max;i++) {
 				var verkoop=0;
 				var verkoop_afgerond=0;
@@ -449,13 +449,13 @@ function bereken(dit,week) {
 							}
 						}
 						if(verkoop_afgerond==0) verkoop_afgerond=5;
-						
+
 						if(document.forms['tarieven'].elements['verkoop_afwijking['+week+']['+i+']'].value) {
 							verkoop_site=verkoop_afgerond+parseFloat(document.forms['tarieven'].elements['verkoop_afwijking['+week+']['+i+']'].value);
 						} else {
 							verkoop_site=verkoop_afgerond;
 						}
-										
+
 						if(verkoop_site>0) {
 							marge_percentage=(verkoop_site-inkoop)/verkoop_site*100;
 						} else {
@@ -501,7 +501,7 @@ function bereken(dit,week) {
 			}
 			document.forms['tarieven'].elements['afwijking_alle['+week+']'].value='';
 		}
-	
+
 		if(document.forms['tarieven'].elements['verkoop_site['+week+']['+max+']'].value>0) {
 			if(skipas_bruto>0) {
 				var verkoop_min_skipas=parseFloat(document.forms['tarieven'].elements['verkoop_site['+week+']['+max+']'].value)-skipas_bruto;
@@ -521,17 +521,17 @@ function bereken(dit,week) {
 			document.forms['tarieven'].elements['marge_accommodatie['+week+']['+max+']'].value='';
 		}
 		if(dit=='kopieer') {
-	
+
 		} else {
 			marge_gemiddelde('bruto');
 		}
-		
+
 	} else if(toonper==2) {
 		var inkoop_arrangementsprijs=0;
 		var inkoop_onbezet_bed=0;
 		var netto_inkoop_arrangementsprijs=0;
 		var netto_inkoop_onbezet_bed=0;
-		
+
 		if(document.forms['tarieven'].elements['arrangementsprijs['+week+']'].value>0) {
 			inkoop_arrangementsprijs=parseFloat(document.forms['tarieven'].elements['arrangementsprijs['+week+']'].value);
 			if(document.forms['tarieven'].elements['korting_arrangement_bed_percentage['+week+']'].value>0) {
@@ -593,7 +593,7 @@ function bereken(dit,week) {
 		} else {
 			document.forms['tarieven'].elements['netto_inkoop_onbezet_bed['+week+']'].value='';
 		}
-		
+
 		for (i=min_tonen;i<=max;i++) {
 			var verkoop=0;
 			var inkoop=0;
@@ -611,7 +611,7 @@ function bereken(dit,week) {
 				if(document.forms['tarieven'].elements['opslag['+week+']'].value) {
 					verkoop/=(1-(document.forms['tarieven'].elements['opslag['+week+']'].value/100));
 				}
-				
+
 				marge_percentage_afronding=(verkoop-inkoop)/verkoop*100;
 				if(marge_percentage_afronding>12.5) {
 					verkoop_afgerond=Math.floor(verkoop/5)*5;
@@ -619,7 +619,7 @@ function bereken(dit,week) {
 					verkoop_afgerond=Math.ceil(verkoop/5)*5;
 				}
 				if(verkoop_afgerond==0) verkoop_afgerond=5;
-				
+
 				if(document.forms['tarieven'].elements['verkoop_afwijking['+week+']['+i+']'].value) {
 					verkoop_site=verkoop_afgerond+parseFloat(document.forms['tarieven'].elements['verkoop_afwijking['+week+']['+i+']'].value);
 				} else {
@@ -631,7 +631,7 @@ function bereken(dit,week) {
 					marge_percentage=(verkoop_site-inkoop)/verkoop_site*100;
 				}
 			}
-			
+
 			if(verkoop>0) {
 				document.forms['tarieven'].elements['verkoop['+week+']['+i+']'].value=verkoop.toFixed(2);
 			} else {
@@ -679,7 +679,7 @@ function bereken(dit,week) {
 		}
 		document.forms['tarieven'].elements['afwijking_alle['+week+']'].value='';
 		if(dit=='kopieer') {
-	
+
 		} else {
 			marge_gemiddelde('arrangementsprijs');
 		}
@@ -694,7 +694,7 @@ function bereken(dit,week) {
 		var c_marge_euro=0;
 		var c_marge_gemiddeld_teller=0;
 		var c_marge_gemiddeld=0;
-		
+
 		if(document.forms['tarieven'].elements['c_bruto['+week+']'].value) {
 			var c_bruto=parseFloat(document.forms['tarieven'].elements['c_bruto['+week+']'].value);
 		} else {
@@ -706,7 +706,7 @@ function bereken(dit,week) {
 			var c_inkoop_min_korting=c_bruto;
 		}
 		c_netto=c_inkoop_min_korting;
-		
+
 		if(document.forms['tarieven'].elements['c_toeslag['+week+']'].value>0) c_netto+=parseFloat(document.forms['tarieven'].elements['c_toeslag['+week+']'].value);
 		if(document.forms['tarieven'].elements['c_korting_euro['+week+']'].value>0) c_netto-=parseFloat(document.forms['tarieven'].elements['c_korting_euro['+week+']'].value);
 
@@ -715,8 +715,10 @@ function bereken(dit,week) {
 
 		// c_verkoop bepalen (op basis van c_bruto, c_opslag_accommodatie en aanbiedingen/kortingen)
 		c_verkoop=c_bruto;
-		if(c_netto>0 && document.forms['tarieven'].elements['c_opslag_accommodatie['+week+']'].value>0) {
-			c_verkoop+=(parseFloat(document.forms['tarieven'].elements['c_opslag_accommodatie['+week+']'].value)/100)*c_netto;
+		if(c_netto>0) {
+			if(document.forms['tarieven'].elements['c_opslag_accommodatie['+week+']'].value>0) {
+				c_verkoop+=(parseFloat(document.forms['tarieven'].elements['c_opslag_accommodatie['+week+']'].value)/100)*c_netto;
+			}
 
 			// korting op accommodatie van toepassing? -percentage-
 			if(document.forms['tarieven'].elements['aanbieding_acc_percentage['+week+']'].value) {
@@ -724,6 +726,7 @@ function bereken(dit,week) {
 			}
 			// korting op accommodatie van toepassing? -euro-
 			if(document.forms['tarieven'].elements['aanbieding_acc_euro['+week+']'].value) {
+
 				c_verkoop=c_verkoop-parseFloat(document.forms['tarieven'].elements['aanbieding_acc_euro['+week+']'].value);
 			}
 		}
@@ -732,18 +735,18 @@ function bereken(dit,week) {
 		if(document.forms['tarieven'].elements['inkoopkorting_percentage['+week+']'].value) {
 			netto_na_inkoopkorting=c_netto;
 			netto_na_inkoopkorting=netto_na_inkoopkorting*(1-(parseFloat(document.forms['tarieven'].elements['inkoopkorting_percentage['+week+']'].value)/100));
-			
+
 			if(netto_na_inkoopkorting) {
 				document.forms['tarieven'].elements['c_netto['+week+']'].value=parseFloat(netto_na_inkoopkorting).toFixed(2);
 				c_netto=netto_na_inkoopkorting;
 			}
 		}
-		
+
 		// inkoopkorting euro verwerken
 		if(document.forms['tarieven'].elements['inkoopkorting_euro['+week+']'].value) {
 			netto_na_inkoopkorting=c_netto;
 			netto_na_inkoopkorting=netto_na_inkoopkorting-parseFloat(document.forms['tarieven'].elements['inkoopkorting_euro['+week+']'].value);
-			
+
 			if(netto_na_inkoopkorting) {
 				document.forms['tarieven'].elements['c_netto['+week+']'].value=parseFloat(netto_na_inkoopkorting).toFixed(2);
 				c_netto=netto_na_inkoopkorting;
@@ -804,7 +807,7 @@ function bereken(dit,week) {
 				wederverkoop_verkoopprijs=Math.floor(wederverkoop_verkoopprijs/5)*5;
 			}
 			if(document.forms['tarieven'].elements['wederverkoop_opslag_euro['+week+']'].value) wederverkoop_verkoopprijs+=parseFloat(document.forms['tarieven'].elements['wederverkoop_opslag_euro['+week+']'].value);
-			
+
 			wederverkoop_nettoprijs_agent=wederverkoop_verkoopprijs;
 			if(document.forms['tarieven'].elements['wederverkoop_commissie_agent['+week+']'].value>0) {
 				wederverkoop_nettoprijs_agent=wederverkoop_nettoprijs_agent-wederverkoop_nettoprijs_agent*(parseFloat(document.forms['tarieven'].elements['wederverkoop_commissie_agent['+week+']'].value)/100);
@@ -818,25 +821,25 @@ function bereken(dit,week) {
 					opmerkingen_text[week]='';
 				}
 			}
-			
+
 			if(wederverkoop_verkoopprijs>0) {
 				document.forms['tarieven'].elements['wederverkoop_verkoopprijs['+week+']'].value=wederverkoop_verkoopprijs.toFixed(2);
 			} else {
 				document.forms['tarieven'].elements['wederverkoop_verkoopprijs['+week+']'].value='';
 			}
-	
+
 			if(wederverkoop_nettoprijs_agent>0) {
 				document.forms['tarieven'].elements['wederverkoop_nettoprijs_agent['+week+']'].value=wederverkoop_nettoprijs_agent.toFixed(2);
 			} else {
 				document.forms['tarieven'].elements['wederverkoop_nettoprijs_agent['+week+']'].value='';
 			}
-	
+
 			if(wederverkoop_resterende_marge>0) {
 				document.forms['tarieven'].elements['wederverkoop_resterende_marge['+week+']'].value=wederverkoop_resterende_marge.toFixed(2);
 			} else {
 				document.forms['tarieven'].elements['wederverkoop_resterende_marge['+week+']'].value='';
 			}
-	
+
 			if(wederverkoop_marge) {
 				if(wederverkoop_marge<10) {
 					document.forms['tarieven'].elements['wederverkoop_marge['+week+']'].style.color='red';
@@ -848,11 +851,11 @@ function bereken(dit,week) {
 				document.forms['tarieven'].elements['wederverkoop_marge['+week+']'].value='';
 			}
 		}
-		
+
 		if(c_inkoop_min_korting>0) {
 			document.forms['tarieven'].elements['c_inkoop_min_korting['+week+']'].value=c_inkoop_min_korting.toFixed(2);
 		} else {
-			document.forms['tarieven'].elements['c_inkoop_min_korting['+week+']'].value='';		
+			document.forms['tarieven'].elements['c_inkoop_min_korting['+week+']'].value='';
 		}
 		if(c_netto>0) {
 			document.forms['tarieven'].elements['c_netto['+week+']'].value=c_netto.toFixed(2);
@@ -918,11 +921,11 @@ function bereken(dit,week) {
 			document.forms['tarieven'].elements['c_marge_gemiddeld'].value='';
 		}
 	} else if(toonper==4) {
-	
+
 	}
 
 	if(dit=='kopieer') {
-	
+
 	} else {
 		toon_opmerkingen();
 	}
@@ -931,7 +934,7 @@ function bereken(dit,week) {
 function bereken_opties(dit,week) {
 
 	if(dit=='kopieer') {
-	
+
 	} else {
 		dit.value=dit.value.replace(',','.');
 		if(dit.value) {
@@ -962,7 +965,7 @@ function bereken_opties(dit,week) {
 	} else {
 		document.forms['tarieven'].elements['netto_ink['+week+']'].readOnly=false;
 	}
-	
+
 	if(document.forms['tarieven'].elements['verkoop['+week+']'].value) {
 		var verkoop=parseFloat(document.forms['tarieven'].elements['verkoop['+week+']'].value);
 	} else {
@@ -991,13 +994,13 @@ function bereken_opties(dit,week) {
 	} else {
 		subtotaal=inkoop_netto;
 	}
-	
+
 	if(document.forms['tarieven'].elements['omzetbonus['+week+']'].value>0) {
 		var inkoop_netto=subtotaal*(1-parseFloat(document.forms['tarieven'].elements['omzetbonus['+week+']'].value)/100);
 	} else {
 		var inkoop_netto=subtotaal;
 	}
-	
+
 	if(verkoop) {
 		marge_euro=verkoop-inkoop_netto;
 		marge_percentage=(verkoop-inkoop_netto)/verkoop*100;
@@ -1015,7 +1018,7 @@ function bereken_opties(dit,week) {
 			document.forms['tarieven'].elements['subtotaal['+week+']'].value='';
 		}
 	}
-	
+
 	if(marge_euro) {
 		if(marge_euro>0) {
 			document.forms['tarieven'].elements['marge_euro['+week+']'].style.color='';
@@ -1048,17 +1051,17 @@ function bereken_opties(dit,week) {
 		var wederverkoop_nettoprijs_agent=0;
 		var wederverkoop_resterende_marge=0;
 		var wederverkoop_marge=0;
-	
+
 		wederverkoop_nettoprijs_agent=wederverkoop_verkoopprijs-wederverkoop_verkoopprijs*(parseFloat(wederverkoop_commissie_agent)/100);
 		wederverkoop_resterende_marge=wederverkoop_nettoprijs_agent-inkoop_netto;
 		if(wederverkoop_nettoprijs_agent>0) {
 			wederverkoop_marge=wederverkoop_resterende_marge/wederverkoop_nettoprijs_agent*100;
 		}
-	
+
 		document.forms['tarieven'].elements['wederverkoop_nettoprijs_agent['+week+']'].value=wederverkoop_nettoprijs_agent.toFixed(2);
 		document.forms['tarieven'].elements['wederverkoop_resterende_marge['+week+']'].value=wederverkoop_resterende_marge.toFixed(2);
 		document.forms['tarieven'].elements['wederverkoop_marge['+week+']'].value=wederverkoop_marge.toFixed(2);
-	
+
 		if(wederverkoop_resterende_marge<=0) {
 			document.forms['tarieven'].elements['wederverkoop_commissie_agent['+week+']'].style.color='red';
 			document.forms['tarieven'].elements['wederverkoop_resterende_marge['+week+']'].style.color='red';
@@ -1115,7 +1118,7 @@ function marge_gemiddelde(naam) {
 				}
 			}
 		}
-		
+
 		if(marge_gemiddeld && marge_gemiddeld_teller>0) {
 			marge_gemiddeld=parseFloat(marge_gemiddeld)/marge_gemiddeld_teller;
 			if(marge_gemiddeld>0) {
@@ -1135,8 +1138,8 @@ function optellen(naam) {
 	for(var i=0;i<document.forms['weken'].elements.length;i++) {
 		week=document.forms['weken'].elements[i].value;
 		if(document.forms['tarieven'].elements[naam+'['+week+']'].value>0) totaal+=parseFloat(document.forms['tarieven'].elements[naam+'['+week+']'].value);
-	}		
-	
+	}
+
 	if(totaal>0) {
 		document.forms['tarieven'].elements[naam+'_totaal'].value=parseFloat(totaal).toFixed(2);
 	} else {
