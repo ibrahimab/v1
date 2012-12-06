@@ -1,4 +1,7 @@
 
+// Hides the tabs during initialization
+document.write('<style type="text/css"> #tabs { visibility: hidden; } </style>');
+
 function MM_findObj(n, d) { //v3.0
 var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
 d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
@@ -443,6 +446,7 @@ var showhidelink_text='';
 var txtzoeken='';
 var gebruik_jquery=true;
 var landkaartklikbaar_info_hoverkleur="#636f07";
+var eerste_tab_getoond=false;
 
 $(document).ready(function() {
 
@@ -452,27 +456,90 @@ $(document).ready(function() {
 		//
 
 		if($().tabs) {
-
+			//
 			// tabs
-			var $tabs = $('#tabs').tabs();
+			//
 
-			$("#tabs").css("visibility","visible");
+			// http://stackoverflow.com/questions/243794/jquery-ui-tabs-causing-screen-to-jump
+
+			var $tabs = $('#tabs').tabs({
+				fx: { opacity: 'toggle', duration:'fast'},
+				select: function(event, ui) {
+					$(this).css('height', $(this).height());
+					$(this).css('overflow', 'hidden');
+				},
+				show: function(event, ui) {
+					$(this).css('height', 'auto');
+					$(this).css('overflow', 'visible');
+
+					// zorgen dat IE bij rechtstreeks openen van een hash-pagina naar boven scrollt
+					if(eerste_tab_getoond===false) {
+						window.scrollTo(0, 0);
+						setTimeout(function() {
+							if (location.hash) {
+								window.scrollTo(0, 0);
+							}
+						},1);
+						setTimeout(function() {
+							if (location.hash) {
+								window.scrollTo(0, 0);
+							}
+						},100);
+						setTimeout(function() {
+							if (location.hash) {
+								window.scrollTo(0, 0);
+							}
+						},250);
+						setTimeout(function() {
+							if (location.hash) {
+								window.scrollTo(0, 0);
+							}
+						},500);
+					}
+					eerste_tab_getoond=true;
+				}
+			});
 
 			if($().address) {
 				//
 				// juiste verwerking hashes bij de tabs
 				//
 
+				// lege function zodat address-plugin niet zelf Google Analytics gebruikt
+				$.address.tracker(function(){
+
+				});
+
 				// na wijzigen hash: juiste tab tonen
 				$.address.change(function(event) {
 
 					// Google Analytics bij switchen tussen tabs
 					if (typeof _gaq != "undefined") {
-	//					_gaq.push(['_trackPageview', window.location.pathname + '/tab-' + window.location.hash.substr(1)]);
+						var canonical_link;
+						try {
+							canonical_link = $('link[rel=canonical]').attr('href').split(location.hostname)[1] || window.location.pathname;
+						} catch(e) {
+							canonical_link = window.location.pathname;
+						}
+						if(window.location.hash.length>1) {
+							canonical_link=canonical_link+ '/tab-' + window.location.hash.substr(1);
+						}
+						_gaq.push(['_trackPageview', canonical_link]);
 					}
 
+
 					// tab switchen
+
+					// div met deze id verwijderen, dan hash aanpassen, dan div weer terugzetten (voorkomt scrollen tijdens klikken)
+					var hash = window.location.hash.replace( /^#/, '' );
+					var node = $( '#' + hash );
+					if ( node.length ) {
+						node.attr( 'id', '' );
+					}
 					$("#tabs").tabs("select",window.location.hash);
+					if ( node.length ) {
+						node.attr( 'id', hash );
+					}
 
 					// links naar andere types van deze accommodatie aanpassen
 					if(window.location.hash) {
@@ -484,44 +551,48 @@ $(document).ready(function() {
 
 				// klikken op tab: hash veranderen
 				$("#tabs > ul li a").click(function(event) {
-					var currentscrollpos = $(window).scrollTop();
+//					var currentscrollpos = $(window).scrollTop();
+//					window.scrollTo(0,currentscrollpos);
+
+					// div met deze id verwijderen, dan hash aanpassen, dan div weer terugzetten (voorkomt scrollen tijdens klikken)
+					hash = $(this).attr("href").replace( /^#/, '' );
+					var node = $( '#' + hash );
+					if ( node.length ) {
+						node.attr( 'id', '' );
+					}
 					window.location.hash = $(this).attr("href");
-					window.scrollTo(0,currentscrollpos);
+					if ( node.length ) {
+						node.attr( 'id', hash );
+					}
 				});
 
-				if(window.location.hash=="#extraopties_optietabel") {
-					// zorgen dat na selecteren datum bij tab 'extra opties' de scroll ter hoogte van de tabel is
-					window.scrollTo(0,"#extraopties_optietabel");
-					$("#tabs").tabs("select","#extraopties");
-					window.scrollTo(0,"#extraopties_optietabel");
-				} else if(window.location.hash=="#prijsinformatie_flextarieven") {
-					// zorgen dat na selecteren flex-datum bij tab 'prijsinformatie' de scroll ter hoogte van de tabel is
-					window.scrollTo(0,"#prijsinformatie_flextarieven");
-					$("#tabs").tabs("select","#prijsinformatie");
-				} else {
-					// zorgen dat pagina niet naar beneden scrollt na eerste keer oproepen
-					window.scrollTo(0, 0);
-					setTimeout(function() {
-						if (location.hash) {
-							window.scrollTo(0, 0);
-						}
-					},1);
-				}
+				// zorgen dat pagina niet naar beneden scrollt na eerste keer oproepen
+				window.scrollTo(0, 0);
+				setTimeout(function() {
+					if (location.hash) {
+						window.scrollTo(0, 0);
+					}
+				},1);
 
-				// trucje voor IE om te zorgen dat formulieren met een #hash als action toch de juiste tab openen
+				// zorgen dat na verzenden formulieren de juiste tab wordt geopend
 				var myFile = document.location.toString();
 				if (myFile.match('selecttab=([a-z0-9]+)')) {
 					a = myFile.match('selecttab=([a-z0-9]+)');
 					if(a[1]) {
 						$tabs.tabs('select','#'+a[1]);
-						window.location.hash = $(this).attr("href");
-						window.scrollTo(0,$("#tabs").scrollTop());
+
+						// naar beneden scrollen
+						window.scrollTo(0,$("#scroll_to_tabs").position().top);
 					}
 				} else if (myFile.match('otsid=') && myFile.match('&optie_datum=')) {
 					$tabs.tabs('select','#extraopties');
 					window.location.hash = '#extraopties';
 				}
 			}
+
+			// tabs pas tonen als alles klaar is
+			$("#tabs").css("visibility","visible");
+
 		}
 
 		// show/hide toggle
@@ -1063,11 +1134,11 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 				$("#favremove").css("display","none");
 				$("#favadd").css("display","block");
 
-				if($("#fav_table_"+typeid).length!=0) {
+				if($("#fav_table_"+typeid).length!==0) {
 					// favorietenpagina: fadeOut van het accommodatieblok
 					$("#fav_table_"+typeid).fadeTo("slow",0,function() {
 						$("#fav_table_"+typeid).slideUp("normal", function() {
-							if(data.aantal==0) {
+							if(data.aantal===0) {
 								// indien pagina hierna leeg is: herladen (zodat melding getoond kan worden)
 								location.reload();
 							}

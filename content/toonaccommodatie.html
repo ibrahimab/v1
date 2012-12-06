@@ -265,11 +265,15 @@ if($db->next_record()) {
 	echo "</div>";
 	echo "<div style=\"clear: both;height:2px;\"></div>\n";
 
+	# a name om naartoe te scrollen (net boven de tabs)
+	echo "<div id=\"scroll_to_tabs\"></div>";
+
+
 	# Foto's
 	$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
-	#
+
 	# Tabs
-	echo "<div id=\"tabs\" style=\"visibility:hidden;\">";
+	echo "<div id=\"tabs\">";
 	echo "<ul class=\"noprint\">";
 	echo "<li><a href=\"#overzicht\">".html("tab_overzicht","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#indeling\">".html("tab_indeling","toonaccommodatie")."</a></li>";
@@ -735,9 +739,9 @@ if($db->next_record()) {
 					}
 				}
 				if($optie_tabel_html and $optietarieventonen[$seizoenid]) {
-					echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel optietabelclass\" cellspacing=\"0\">";
-					echo "<a name=\"extraopties_optietabel\"></a>";
-					echo "<form name=\"optietabel".$seizoenid."\" method=\"get\" action=\"".$_SERVER["REQUEST_URI"]."#extraopties_optietabel\">";
+					echo "<table width=\"660\" border=\"0\" class=\"toonacctabel optietabelclass\" cellspacing=\"0\">";
+#					echo "<a name=\"extraopties_optietabel\"></a>";
+					echo "<form name=\"optietabel".$seizoenid."\" method=\"get\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
 					echo "<input type=\"hidden\" name=\"otsid\" value=\"".$seizoenid."\">";
 					echo "<input type=\"hidden\" name=\"selecttab\" value=\"extraopties\">\n";
 
@@ -809,7 +813,7 @@ if($db->next_record()) {
 
 		$flex_einddatum=mktime(0,0,0,date("m",$_GET["flad"]),date("d",$_GET["flad"])+$flextarief["aantalnachten"],date("Y",$_GET["flad"]));
 
-		echo "<a name=\"prijsinformatie_flextarieven\"></a>";
+#		echo "<a name=\"prijsinformatie_flextarieven\"></a>";
 		echo "<table width=\"660\" class=\"toonacctabel\" cellspacing=\"0\" style=\"width:690px;\">";
 		if($flextarief["aantalnachten"]) {
 			echo "<tr><th>Prijs bij aankomst op ".DATUM("DAG D MAAND JJJJ",$_GET["flad"])." en verblijf van ".htmlentities($flextarief["aantalnachten_text"])."</th></tr>";
@@ -818,7 +822,7 @@ if($db->next_record()) {
 		}
 		echo "<tr><td>";
 
-		echo "<form method=\"get\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."#prijsinformatie_flextarieven\" name=\"zoeken\" id=\"zoeken\">";
+		echo "<form method=\"get\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"zoeken\" id=\"zoeken\">";
 		echo "<input type=\"hidden\" name=\"selecttab\" value=\"prijsinformatie\">\n";
 
 		reset($_GET);
