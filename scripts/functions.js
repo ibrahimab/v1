@@ -527,19 +527,8 @@ $(document).ready(function() {
 						_gaq.push(['_trackPageview', canonical_link]);
 					}
 
-
 					// tab switchen
-
-					// div met deze id verwijderen, dan hash aanpassen, dan div weer terugzetten (voorkomt scrollen tijdens klikken)
-					var hash = window.location.hash.replace( /^#/, '' );
-					var node = $( '#' + hash );
-					if ( node.length ) {
-						node.attr( 'id', '' );
-					}
 					$("#tabs").tabs("select",window.location.hash);
-					if ( node.length ) {
-						node.attr( 'id', hash );
-					}
 
 					// links naar andere types van deze accommodatie aanpassen
 					if(window.location.hash) {
@@ -551,8 +540,6 @@ $(document).ready(function() {
 
 				// klikken op tab: hash veranderen
 				$("#tabs > ul li a").click(function(event) {
-//					var currentscrollpos = $(window).scrollTop();
-//					window.scrollTo(0,currentscrollpos);
 
 					// div met deze id verwijderen, dan hash aanpassen, dan div weer terugzetten (voorkomt scrollen tijdens klikken)
 					hash = $(this).attr("href").replace( /^#/, '' );
