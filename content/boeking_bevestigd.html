@@ -2,6 +2,8 @@
 
 echo "<strong>".html("boekingsaanvraagisverzonden","boeking_bevestigd")."</strong><p>".html("uontvangtbinnenenkeleminutenmail","boeking_bevestigd")."<p>".html("mochtunogvragenhebben","boeking_bevestigd",array("l1"=>"contact"))."</p>";
 
+echo "<p><a href=\"".wt_he($share_url)."\">&laquo;&nbsp;".html("terugnaaraccommodatie","boeking_bevestigd")."</a></p>";
+
 if($vars["taal"]=="nl") {
 
 	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I") {
@@ -40,9 +42,14 @@ if($vars["taal"]=="nl") {
 			echo "<script type=\"text/javascript\">\ntwttr.events.bind('tweet', function(event) {\nif (event) {\nvar targetUrl;\nif (event.target && event.target.nodeName == 'IFRAME') {\ntargetUrl = extractParamFromUri(event.target.src, 'url');\n}\n_gaq.push(['_trackSocial', 'twitter', 'tweet', targetUrl]);\n}\n});\n</script>\n";
 #			echo "<script type=\"text/javascript\">\ntwttr.events.bind('follow', function(event) {\nif (event) {\nvar targetUrl;\nif (event.target && event.target.nodeName == 'IFRAME') {\ntargetUrl = extractParamFromUri(event.target.src, 'url');\n}\n_gaq.push(['_trackSocial', 'twitter', 'follow', targetUrl]);\n}\n});\n</script>\n";
 		}
+		# Facebook
 		echo "<tr><td style=\"padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding-top:9px;width:320px;\"><a href=\"".htmlentities("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($facebooktekst))."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\"></a></td></tr>";
+#		echo "<tr><td style=\"padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding-top:9px;width:320px;\"><a href=\"".wt_he("https://www.facebook.com/sharer.php?s=100&p[title]=".wt_he($vars["websitenaam"])."&p[summary]=".urlencode(wt_he($facebooktekst))."&p[url]=".urlencode($share_url)."")."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\"></a></td></tr>";
+
 		echo "</table></p>";
 	}
+
+# http://www.facebook.com/sharer.php?s=100&amp;p[title]=".wt_he($vars["sitenaam"])."&amp;p[summary]=".urlencode(wt_he($socialtext))."&amp;p[url]=".urlencode($vars["officialwebsite"])."&amp;&amp;p[images][0]=".urlencode($vars["basehref_sites"]."logo_for_facebook_share.jpg")
 
 	if($vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="K") {
 		#

@@ -905,7 +905,7 @@ $vars["factuurnummer_prefix"]=array(2006=>"67",2007=>"78",2008=>"89",2009=>"90",
 # Aanbetaling-dagen
 $vars["aanbetaling1_dagennaboeken"]=10;
 $vars["totale_reissom_dagenvooraankomst"]=42;
-$vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js";
+$vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js";
 $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js";
 
 if($boeking_wijzigen) {

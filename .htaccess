@@ -1,6 +1,7 @@
 AddType application/x-httpd-php .php .php3 .php4 .phtml .phpcache
 php_flag magic_quotes_gpc off
 php_value memory_limit 64M
+php_value error_reporting 5111
 
 AddDefaultCharset ISO-8859-1
 
@@ -431,4 +432,16 @@ php_value memory_limit 256M
 	Header set Cache-Control "private, no-cache, no-store, proxy-revalidate, no-transform"
 	Header set Pragma "no-cache"
 	</FilesMatch>
+</IfModule>
+
+<IfModule pagespeed_module>
+	#
+	# mod_pagespeed
+	#
+	# http://www.the-art-of-web.com/system/mod-pagespeed-settings/
+	#
+	ModPagespeed on
+	ModPagespeedEnableFilters move_css_to_head
+	ModPagespeedEnableFiltersrewrite_css,rewrite_javascript
+	ModPagespeedEnableFilters outline_css,outline_javascript
 </IfModule>

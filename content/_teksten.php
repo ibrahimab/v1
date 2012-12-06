@@ -3130,6 +3130,9 @@ $txt["en"]["boeking_bevestigd"]["uontvangtbinnenenkeleminutenmail"]="You will re
 $txt["nl"]["boeking_bevestigd"]["mochtunogvragenhebben"]="Als je nog vragen hebt, dan kun je altijd [[l1]]contact[[/l1]] met ons opnemen.";
 $txt["en"]["boeking_bevestigd"]["mochtunogvragenhebben"]="If you have any questions, please [[l1]]contact[[/l1]] us.";
 
+$txt["nl"]["boeking_bevestigd"]["terugnaaraccommodatie"]="Terug naar de accommodatie";
+$txt["en"]["boeking_bevestigd"]["terugnaaraccommodatie"]="Back to the accommodation";
+
 #
 # Inlogpagina "Mijn boeking" (http://www.chalet.nl/inloggen.php)
 #
