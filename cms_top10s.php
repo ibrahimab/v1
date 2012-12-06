@@ -6,8 +6,8 @@ include("admin/vars.php");
 
 if($_GET["18k1"] and !$_GET["week"]) {
 	# Records die missen alsnog INSERTen
-	
-	
+
+
 }
 
 # Gewijzigde blokgegevens opslaan
@@ -58,7 +58,7 @@ if($_GET["deletetype"] and $_GET["site"]) {
 
 # Kopieer gegevens naar andere website
 if($_GET["kopieer"] and $_GET["from"]) {
-	
+
 	# Eerst oude wissen
 	$db->query("DELETE FROM top10_week_type WHERE site='".addslashes($_GET["kopieer"])."' AND seizoen_id='".addslashes($_GET["18k1"])."' AND week='".addslashes($_GET["week"])."';");
 
@@ -77,7 +77,7 @@ if($_POST["copydate_fromsite"]) {
 	if($_GET["18k1"] and $_GET["week"]) {
 		# Eerst oude wissen
 		$db->query("DELETE FROM top10_week_type WHERE site='".addslashes($_POST["copydate_fromsite"])."' AND seizoen_id='".addslashes($_GET["18k1"])."' AND week='".addslashes($_POST["copy_date"])."';");
-	
+
 		$db->query("SELECT type_id, volgorde FROM top10_week_type WHERE site='".addslashes($_POST["copydate_fromsite"])."' AND seizoen_id='".addslashes($_GET["18k1"])."' AND week='".addslashes($_GET["week"])."';");
 		while($db->next_record()) {
 			$db2->query("INSERT INTO top10_week_type SET volgorde='".$db->f("volgorde")."', site='".addslashes($_POST["copydate_fromsite"])."', seizoen_id='".addslashes($_GET["18k1"])."', week='".addslashes($_POST["copy_date"])."', type_id='".addslashes($db->f("type_id"))."';");
@@ -101,12 +101,12 @@ if($_GET["show"]<>18 and $_GET["edit"]<>18) {
 		$inquery.=",".$db->f("seizoen_id");
 	}
 	if($inquery) {
-		$cms->db[18]["where"]="site='1' AND seizoen_id IN (".substr($inquery,1).")";
+		$cms->db[18]["where"]="site='2' AND seizoen_id IN (".substr($inquery,1).")";
 	} else {
-		$cms->db[18]["where"]="site='1'";
+		$cms->db[18]["where"]="site='2'";
 	}
 }
-$cms->db[18]["set"]="site='1'";
+$cms->db[18]["set"]="site='2'";
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 
@@ -141,7 +141,7 @@ if($cms_form[18]->okay) {
 		while(list($key,$value)=each($vars["websitetype_namen"])) {
 			if($db->f("type")==$vars["websites_wzt_siteid"][$key]) {
 				$db2->query("INSERT INTO top10 SET site='".$key."', seizoen_id='".$db->f("seizoen_id")."';");
-	
+
 				# Alle aankomstdatums vullen
 				$timeteller=$db->f("begin");
 				while($timeteller<=$db->f("eind")) {

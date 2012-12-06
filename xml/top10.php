@@ -26,9 +26,10 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 echo "<trips>\n";
 
 
-$top10website=1;
+$top10website=2;
 $db->query("SELECT s.seizoen_id, t.type_id, tw.week, tw.blokvolgorde, tw.bloknaam, ac.naam, ac.soortaccommodatie, ac.toonper, ac.accommodatie_id, ac.omschrijving, ac.aankomst_plusmin, ac.vertrek_plusmin, t.omschrijving AS tomschrijving, t.naam".$vars["ttv"]." AS tnaam, t.slaapkamers, t.badkamers, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, sg.naam AS skigebied, l.naam".$vars["ttv"]." AS land, l.begincode, s.seizoen_id FROM accommodatie ac, type t, plaats p, land l, skigebied sg, seizoen s, tarief tr, top10_week tw, top10_week_type twt WHERE (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tr.beschikbaar=1 AND tr.type_id=t.type_id AND tr.seizoen_id=tw.seizoen_id AND tr.seizoen_id=twt.seizoen_id AND tr.week=tw.week AND tr.week=twt.week AND ac.plaats_id=p.plaats_id AND t.websites LIKE '%".$vars["website"]."%' AND p.land_id=l.land_id AND p.skigebied_id=sg.skigebied_id AND t.accommodatie_id=ac.accommodatie_id AND s.type=".$vars["seizoentype"]." AND tw.site=".$top10website." AND twt.site=tw.site AND s.tonen>=2 AND s.seizoen_id=tw.seizoen_id AND s.seizoen_id=twt.seizoen_id AND t.type_id=twt.type_id AND ac.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND tw.week>'".time()."' AND tw.blokvolgorde>0 ORDER BY tw.blokvolgorde, twt.volgorde, ac.naam;");
 
+#echo $db->num_rows();
 if($db->num_rows()) {
 
 	while($db->next_record()) {
