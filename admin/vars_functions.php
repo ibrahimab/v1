@@ -3739,9 +3739,9 @@ function inkoopprijs_opslaan($boekingid) {
 }
 
 function googleanalytics() {
-	global $vars,$voorkant_cms;
+	global $vars,$voorkant_cms,$id;
 
-#	$test_analytics=true;
+	$test_analytics=true;
 
 	if($test_analytics)	{
 		if($vars["lokale_testserver"]) {
@@ -3760,6 +3760,7 @@ function googleanalytics() {
 
 		$return="<script type=\"text/javascript\">
 
+		var page_with_tabs=false;
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', '".$vars["googleanalytics"]."']);
 		".$vars["googleanalytics_extra"].$extra."
@@ -3770,11 +3771,15 @@ function googleanalytics() {
 		} catch(e) {
 			canonical_link = undefined;
 		}
-		if($().tabs && $('#tabs').length!==0) {
+		// bij zoek-en-boek: toch de complete URL
+		".($id=="zoek-en-boek" ? "\ncanonical_link = undefined;\n" : "").($vars["page_with_tabs"] ? "page_with_tabs=true;\n" : "")."
+
+		if(page_with_tabs) {
 			// tabs: niks doen (wordt via tabfunctie geregeld)
 		} else {
 			_gaq.push(['_trackPageview', canonical_link]);
 		}
+
 
 		(function() {
 			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;

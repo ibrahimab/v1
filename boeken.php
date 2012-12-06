@@ -2035,22 +2035,32 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 							if($inkoop["inkoopcommissie"]<>0) {
 								$setquery.=", inkoopcommissie='".addslashes($inkoop["inkoopcommissie"])."'";
 								$log_inkoopprijzen.=", commissie (".number_format($inkoop["inkoopcommissie"],2,",",".")."%)";
+							} else {
+								$setquery.=", inkoopcommissie=NULL";
 							}
 							if($inkoop["inkooptoeslag"]<>0) {
 								$setquery.=", inkooptoeslag='".addslashes($inkoop["inkooptoeslag"])."'";
 								$log_inkoopprijzen.=", toeslag (€ ".number_format($inkoop["inkooptoeslag"],2,",",".").")";
+							} else {
+								$setquery.=", inkooptoeslag=NULL";
 							}
 							if($inkoop["inkoopkorting"]<>0) {
 								$setquery.=", inkoopkorting='".addslashes($inkoop["inkoopkorting"])."'";
 								$log_inkoopprijzen.=", korting (€ ".number_format($inkoop["inkoopkorting"],2,",",".").")";
+							} else {
+								$setquery.=", inkoopkorting=NULL";
 							}
 							if($inkoop["inkoopkorting_percentage"]<>0) {
 								$setquery.=", inkoopkorting_percentage='".addslashes($inkoop["inkoopkorting_percentage"])."'";
 								$log_inkoopprijzen.=", korting (".number_format($inkoop["inkoopkorting_percentage"],2,",",".")."%)";
+							} else {
+								$setquery.=", inkoopkorting_percentage=NULL";
 							}
 							if($inkoop["inkoopkorting_euro"]<>0) {
 								$setquery.=", inkoopkorting_euro='".addslashes($inkoop["inkoopkorting_euro"])."'";
 								$log_inkoopprijzen.=", korting (€ ".number_format($inkoop["inkoopkorting_euro"],2,",",".").")";
+							} else {
+								$setquery.=", inkoopkorting_euro=NULL";
 							}
 							$log_inkoopprijzen.=" overgenomen van tarieventabel";
 						}
