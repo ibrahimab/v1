@@ -3760,16 +3760,27 @@ function googleanalytics() {
 
 		$return="<script type=\"text/javascript\">
 
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', '".$vars["googleanalytics"]."']);
-		  ".$vars["googleanalytics_extra"].$extra."
-		  _gaq.push(['_trackPageview']);
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', '".$vars["googleanalytics"]."']);
+		".$vars["googleanalytics_extra"].$extra."
 
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/".($test_analytics ? "u/ga_debug.js" : "ga.js")."';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
+		var canonical_link;
+		try {
+			canonical_link = $('link[rel=canonical]').attr('href').split(location.hostname)[1] || undefined;
+		} catch(e) {
+			canonical_link = undefined;
+		}
+		if($().tabs && $('#tabs').length!==0) {
+			// tabs: niks doen (wordt via tabfunctie geregeld)
+		} else {
+			_gaq.push(['_trackPageview', canonical_link]);
+		}
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/".($test_analytics ? "u/ga_debug.js" : "ga.js")."';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
 
 		</script>\n";
 		$vars["googleanalytics_actief"]=true;
