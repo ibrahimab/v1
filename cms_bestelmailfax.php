@@ -34,7 +34,7 @@ if($_GET["lid"]) {
 	$invullen["aantalnachten"]=$gegevens["stap1"]["aantalnachten"];
 	$invullen["seizoenid"]=$gegevens["stap1"]["seizoenid"];
 	$invullen["website"]=$gegevens["stap1"]["website"];
-	
+
 	# Kijken of het om een verzameltype gaat
 	if($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
 		$invullen["accinfo"]=accinfo($gegevens["stap1"]["verzameltype_gekozentype_id"],$gegevens["stap1"]["aankomstdatum"],$gegevens["stap1"]["aantalpersonen"]);
@@ -54,7 +54,7 @@ if($db->next_record()) {
 }
 
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="Bestelmailfax";
 $form->settings["layout"]["css"]=false;
 if($_GET["t"]==1) {
@@ -68,9 +68,9 @@ if($_GET["t"]==1) {
 #_field: (obl),id,title,db,prevalue,options,layout
 if($gegevens["stap1"]["verzameltype"]) {
 	if($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
-		$form->field_htmlrow("","<span class=\"error\">verzameltype-boeking - het gekozen onderliggende type zal worden besteld</span>");	
+		$form->field_htmlrow("","<span class=\"error\">verzameltype-boeking - het gekozen onderliggende type zal worden besteld</span>");
 	} else {
-		$form->field_htmlrow("","<span class=\"error\">verzameltype-boeking - let op: er is nog geen onderliggend type geselecteerd</span>");	
+		$form->field_htmlrow("","<span class=\"error\">verzameltype-boeking - let op: er is nog geen onderliggend type geselecteerd</span>");
 	}
 }
 
@@ -137,7 +137,7 @@ if($db->next_record()) {
 			$commission=$db->f("c_korting_percentage");
 			$commission=ereg_replace("\.00$","",$commission)."%";
 		}
-		
+
 		if($db->f("c_vroegboekkorting_percentage")>0 and (!$db->f("c_vroegboekkorting_percentage_datum") or $db->f("c_vroegboekkorting_percentage_datum")>=time())) {
 			$vroegboekkorting=$db->f("c_vroegboekkorting_percentage")."%";
 			$vroegboekkorting=ereg_replace("\.00","",$vroegboekkorting);
@@ -204,7 +204,6 @@ if($form->okay) {
 		$html.=htmlentities($vars["bestelmailfax_graagpermailoffaxbevestigen"][$bmftaal])."<p>";
 		$html.=htmlentities($vars["bestelmailfax_metvriendelijkegroet"][$bmftaal]).",<br><br>";
 		$html.=htmlentities($form->input["ondertekennaam"])."<p>";
-#		$html.=($vars["temp_leverancier"]["bestelfax_logo"] ? "Wintersportaccommodaties.nl" : $vars["websiteinfo"]["langewebsitenaam"][$invullen["website"]]);
 		if($gegevens["stap1"]["accinfo"]["wzt"]==2) {
 			$temp_websitenaam="Chalet.nl / Zomerhuisje.nl";
 		} else {
@@ -213,7 +212,6 @@ if($form->okay) {
 		$html.=$temp_websitenaam."<br>Lindenhof 5<br>3442 GT Woerden<br>KvK: 30209634<br>Tel: +31 (0)348 - 43 46 49<br>Fax: +31 (0)348 - 69 07 52<br>E-mail: <a href=\"mailto:info@chalet.nl\">info@chalet.nl</a><p>";
 		$html.="</body></html>";
 		$mail=new wt_mail;
-#		$mail->fromname=($vars["temp_leverancier"]["bestelfax_logo"] ? "Wintersportaccommodaties.nl" : "Chalet.nl");
 		$mail->fromname=$temp_websitenaam;
 		if($form->input["afzendmailadres"]==1) {
 			$mail->from=$login->vars["email"];
@@ -222,11 +220,11 @@ if($form->okay) {
 		}
 		$mail->subject=$temp_websitenaam." ".$vars["bestelmailfax_klant"][$bmftaal]." ".$form->input["clientsname"]." ".$form->input["dateofarrival"]." ".$form->input["resort"]." / ".$form->input["accommodation"].($form->input["type"] ? " ".$form->input["type"] : "");
 		$mail->html=$html;
-		
+
 		# mailtje naar leverancier sturen
 		$mail->to=$vars["temp_leverancier"]["email"];
 		$mail->send();
-		
+
 		# mailtje ook naar chalet sturen
 		if($form->input["afzendmailadres"]==1) {
 			$mail->to=$login->vars["email"];
@@ -234,28 +232,28 @@ if($form->okay) {
 			$mail->to="info@chalet.nl";
 		}
 		$mail->send();
-		
+
 		if($_GET["oaid"]) {
 			# Status optieaanvraag veranderen in "geboekt"
 			$db->query("UPDATE optieaanvraag SET status=8 WHERE optieaanvraag_id='".addslashes($_GET["oaid"])."';");
 		} else {
-			
-			# bestelstatus op 'bevestiging afwachten' zetten en besteldatum op vandaag zetten		
+
+			# bestelstatus op 'bevestiging afwachten' zetten en besteldatum op vandaag zetten
 			$db->query("UPDATE boeking SET bestelstatus=2, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-		
+
 			# Loggen bij boeking
 			chalet_log("bestelmail ".$vars["bestelmailfax_soort"]["N"][$form->input["soort"]]." verzonden naar ".$vars["temp_leverancier"]["email"],false,true);
 			chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestiging afwachten'",false,true);
 		}
 	} else {
-	
+
 		if($gegevens["stap1"]["accinfo"]["wzt"]==2) {
 			$vars["temp_websitenaam"]="Chalet.nl / Zomerhuisje.nl";
 		} else {
 			$vars["temp_websitenaam"]="Chalet.nl";
 		}
-	
-		# bestelstatus op 'bevestiging afwachten' zetten en besteldatum op vandaag zetten		
+
+		# bestelstatus op 'bevestiging afwachten' zetten en besteldatum op vandaag zetten
 		$db->query("UPDATE boeking SET bestelstatus=2, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 
 		# Loggen bij boeking
@@ -263,13 +261,13 @@ if($form->okay) {
 		chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestiging afwachten'",false,true);
 
 		require("admin/fpdf.php");
-		
+
 		class PDF extends FPDF {
-			
+
 			function _getfontpath() {
 				return "pdf/fonts/";
 			}
-			
+
 			function Header() {
 				if($this->gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
 					$this->Image('pic/factuur_logo_vakantiewoningen.png',10,8,50);
@@ -286,18 +284,18 @@ if($form->okay) {
 				$this->MultiCell(0,4,"".$this->vars["temp_websitenaam"]."\nLindenhof 5\n3442 GT Woerden\n\nTel.: +31 348 434649\nFax: +31 348 690752\nKvK nr. 30209634\n\nBankrek. 84.93.06.671\nBTW NL-8169.23.462.B.01\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden",0,"R");
 				$this->Ln(20);
 			}
-			
+
 			function Footer() {
 				$this->SetY(-20);
 				$this->SetFont('Arial','I',8);
 				$this->Cell(0,10,$this->PageNo().'/{nb}',0,0,'C');
 			}
 		}
-		
+
 		$pdf=new PDF();
 		$pdf->gegevens=$gegevens;
 		$pdf->vars=$vars;
-		
+
 		$pdf->AliasNbPages();
 		$pdf->AddPage();
 		$pdf->SetY(60);

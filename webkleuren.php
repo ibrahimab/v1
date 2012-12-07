@@ -32,20 +32,12 @@
 <span style="background-color:#6699cc;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#6699cc<br>
 <span style="background-color:#b2cce5;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#b2cce5<br>
 
-<br><b>Wintersportaccommodaties.nl</b><br>
-<span style="background-color:#cc0033;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#cc0033<br>
-<span style="background-color:#bac5d6;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#bac5d6<br>
-<span style="background-color:#e8ebf1;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#e8ebf1<br>
-<span style="background-color:#00cc00;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#00cc00<br>
-
 <br><b>SuperSki</b><br>
 <span style="background-color:#003366;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#003366<br>
 <span style="background-color:#660066;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#660066<br>
 <span style="background-color:#e6007e;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#e6007e<br>
 <span style="background-color:#ee54a8;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ee54a8 (hover-kleur hoofdmenu)<br>
 <span style="background-color:#a1bddb;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#a1bddb<br>
-
-
 
 <br><b>Alle sites</b><br>
 <span style="background-color:#ffa73f;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ffa73f&nbsp;&nbsp;(aanbiedingen - oud!)<br>

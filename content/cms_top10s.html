@@ -167,7 +167,6 @@ if($_GET["show"]==18) {
 							echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frmcopydate\">";
 							echo "<input type=\"hidden\" name=\"copydate_fromsite\" value=\"1\">";
 							echo "<p><b>Kopi&euml;ren</b><ul>";
-#							echo "<li><a href=\"".$_SERVER["REQUEST_URI"]."&kopieer=2&from=1\">Kopieer bovenstaande Top 10 naar Wintersportaccommodaties.nl &gt; &gt;</a> (Top 10 Wintersportaccommodaties.nl wordt overschreven)</li>";
 #							echo "<li><a href=\"".$_SERVER["REQUEST_URI"]."&kopieer=4&from=1\">Kopieer bovenstaande Top 10 naar Chalettour.nl &gt; &gt;</a> (Top 10 Chalettour.nl wordt overschreven)</li>";
 							echo "<li>Kopieer bovenstaande Top 10 naar &nbsp;&nbsp;&nbsp;";
 							echo "<select name=\"copy_date\" onchange=\"confirmSubmit(document.frmcopydate,'Let op: de geselecteerde Top 10 wordt volledig overschreven. Doorgaan?');\">";

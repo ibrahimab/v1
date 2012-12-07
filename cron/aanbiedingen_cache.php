@@ -17,7 +17,7 @@ if($_SERVER["HTTP_HOST"]) {
 	$unzip="/usr/bin/unzip";
 	$tmpdir="/tmp/";
 } else {
-	if($_SERVER["_"]=="/usr/bin/php") {
+	if($_SERVER["PWD"]=="/var/www/chalet.nl") {
 		$unixdir="/var/www/chalet.nl/html/";
 		$tmpdir="/var/www/chalet.nl/html/tmp/";
 		$unzip="/usr/bin/unzip";

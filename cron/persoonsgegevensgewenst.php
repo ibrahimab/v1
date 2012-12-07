@@ -14,7 +14,7 @@ set_time_limit(0);
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 } else {
-	if($_SERVER["_"]=="/usr/bin/php") {
+	if($_SERVER["PWD"]=="/var/www/chalet.nl") {
 		$unixdir="/var/www/chalet.nl/html/";
 	} else {
 		$unixdir="/home/sites/chalet.nl/html/";

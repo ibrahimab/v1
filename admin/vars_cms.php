@@ -104,7 +104,7 @@ if($mustlogin) {
 	$login->settings["loginblocktime"]=600; # 10 minuten geblokkeerd
 
 	if($vars["website"]=="C" or $vars["website"]=="Z") {
-		if(!$vars["lokale_testserver"] and $_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74" and $_SERVER["REMOTE_ADDR"]<>"82.173.186.80") {
+		if(!$vars["lokale_testserver"] and $_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74") {
 			# Buiten kantoor
 			$login->settings["mustlogin_via_https"]=true;
 		}
@@ -113,7 +113,7 @@ if($mustlogin) {
 	if(!in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
 		$login->settings["settings"]["rememberpassword"]=false;
 		$login->settings["settings"]["no_autocomplete"]=true;
-		if($_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html" and $_SERVER["REMOTE_ADDR"]<>"82.173.186.80") {
+		if($_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html" and $_SERVER["REMOTE_ADDR"]<>"31.223.173.113") {
 			$login->settings["mail_after_login"]="bert@chalet.nl";
 			$host=gethostbyaddr($_SERVER["REMOTE_ADDR"]);
 			$login->settings["mailtext_after_login"]="Zojuist heeft [[voornaam]] vanaf een andere locatie ingelogd in het Chalet.nl-CMS.\n\n".$host.($_SERVER["REMOTE_ADDR"]<>$host ? " (".$_SERVER["REMOTE_ADDR"].")" : "");
@@ -123,7 +123,6 @@ if($mustlogin) {
 	$login->end_declaration();
 
 	# Titels (die afwijken van $menu)
-#	$title["cms"]="Content Management System ".$vars["websitenaam"]." - Siteversie 2.8.5 (3.0 in ontwikkeling)";
 	$title["cms"]="Content Management System ".$vars["websitenaam"];
 
 	# Layout CMS

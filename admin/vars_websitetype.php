@@ -65,23 +65,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["mailingmanagerid"]="cmkdlo9d";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-
-} elseif($_SERVER["HTTP_HOST"]=="www.wintersportaccommodaties.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="wsa")) {
-	# Wintersportaccommodaties
-	$vars["websitetype"]=2;
-	$vars["websitenaam"]="Wintersportaccommodaties.nl";
-	$vars["langewebsitenaam"]="Wintersportaccommodaties.nl";
-	$vars["seizoentype"]=1;
-	$vars["website"]="W";
-	$vars["taal"]="nl";
-	$vars["websiteland"]="nl";
-	$vars["basehref"]="http://www.wintersportaccommodaties.nl/";
-	$vars["email"]="info@wintersportaccommodaties.nl";
-	$path="/";
-	$vars["googleanalytics"]="UA-2078202-8";
-	$vars["mailingmanagerid"]="cmkdlo9d";
-	$vars["annverzekering_mogelijk"]=1;
-	$vars["reisverzekering_mogelijk"]=1;
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="chaleteu")) {
 	# Winter Chalet.eu Engelstalig
 	$vars["websitetype"]=1;
@@ -267,8 +250,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 		header("Location: http://www.chalet.nl/");
 	} elseif(ereg("chalet\.eu",$_SERVER["HTTP_HOST"])) {
 		header("Location: http://www.chalet.eu/");
-	} elseif(ereg("wintersportaccommodaties\.nl",$_SERVER["HTTP_HOST"])) {
-		header("Location: http://www.wintersportaccommodaties.nl/");
 	} else {
 		header("Location: http://www.chalet.nl/");
 	}
@@ -294,18 +275,6 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$activetabcolor="#003366";
 	$inactivetabcolor="#d5e1f9";
 	$inactivetabfontcolor="#003366";
-	$css_aanbiedingkleur="#d40139";
-
-} elseif($vars["websitetype"]==2) {
-	# Wintersportaccommodaties.nl
-	$bordercolor="#BAC5D6";
-	$rood="#CC0033";
-	$hover="#00cc00";
-	$hr="#BAC5D6";
-	$table="#BAC5D6";
-	$font="Arial, Helvetica, sans-serif;";
-	$thfontcolor="#ffffff";
-	$thfontsize="0.8em";
 	$css_aanbiedingkleur="#d40139";
 } elseif($vars["websitetype"]==6) {
 	# Chalets in Vallandry
@@ -393,14 +362,6 @@ if($vars["lokale_testserver"]) {
 #
 # Websites-info-array
 #
-// $vars["websiteinfo"]["websitenaam"]["W"]="Wintersportaccommodaties.nl";
-// $vars["websiteinfo"]["langewebsitenaam"]["W"]="Chalet.nl B.V. / Wintersportaccommodaties.nl";
-// $vars["websiteinfo"]["email"]["W"]="info@wintersportaccommodaties.nl";
-// $vars["websiteinfo"]["basehref"]["W"]="http://www.wintersportaccommodaties.nl/";
-// $vars["websiteinfo"]["websitetype"]["W"]=2;
-// $vars["websiteinfo"]["verzekering_mogelijk"]["W"]=1;
-// $vars["websiteinfo"]["websiteland"]["W"]="nl";
-// $vars["websiteinfo"]["taal"]["W"]="nl";
 
 $vars["websiteinfo"]["websitenaam"]["W"]="SuperSki";
 $vars["websiteinfo"]["langewebsitenaam"]["W"]="SuperSki";

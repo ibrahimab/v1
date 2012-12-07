@@ -20,7 +20,7 @@ if($_SERVER["HTTP_HOST"]) {
 } elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/elkeminuut.php") {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
-	if($_SERVER["_"]=="/usr/bin/php") {
+	if($_SERVER["PWD"]=="/var/www/chalet.nl") {
 		$unixdir="/var/www/chalet.nl/html/";
 	} else {
 		$unixdir="/home/sites/chalet.nl/html/";
@@ -34,10 +34,14 @@ include($unixdir."admin/vars.php");
 
 
 
-if($_SERVER["_"]=="/usr/bin/php") {
-	mail("jeroen@webtastic.nl","Chalet-cron elkuur - nieuw","Cron is gestart om ".date("r"));
-	exit;
-}
+#if($_SERVER["PWD"]=="/var/www/chalet.nl") {
+#	$db->query("SELECT naam FROM accommodatie LIMIT 0,1");
+#	if($db->next_record()) {
+#		$naam=$db->f("naam");
+#	}
+#	wt_mail("jeroen@webtastic.nl","Chalet-cron elkuur2 - nieuw","Cron is gestart om ".date("r")."\n".$naam);
+#	exit;
+#}
 
 #
 # Controle op onjuiste wederverkoop-tarieven (elke 15 minuten)

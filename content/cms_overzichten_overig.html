@@ -640,19 +640,6 @@ if($_GET["t"]==1) {
 	# Overige overzichten
 	#
 
-	#
-	# TIJDELIJK: emailadressen actuele Wintersportaccommodaties.nl-boekingen
-	#
-	$db->query("SELECT b.boekingsnummer, bp.email FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND wederverkoop=0 AND website='W' AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1 AND aankomstdatum_exact>'".time()."' ORDER BY bp.email;");
-	while($db->next_record()) {
-		$temp_mailadressen.=", ".$db->f("email");
-	}
-	if($temp_mailadressen) {
-		echo "<h2>Tijdelijk overzicht: e-mailadressen actuele Wintersportaccommodaties.nl-boekingen</h2>";
-		echo "<textarea style=\"width:700px;height:200px;\" class=\"autoselect_on_focus\">".substr($temp_mailadressen,2)."</textarea>";
-		echo "<br>&nbsp;<hr><br>";
-	}
-
 	# Overzicht aantal aangeboden bedden per seizoen
 	echo "<h2>Aantal aangeboden bedden per seizoen</h2>";
 	echo "<ul>";
