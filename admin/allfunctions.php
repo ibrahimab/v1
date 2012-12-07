@@ -1213,6 +1213,13 @@ if(!function_exists("checkbox2db")) {
 function wt_htmlentities($text,$clicklinks=false,$li=false) {
 	$text=wt_he($text);
 	$text=ereg_replace("&euro; ","&euro;&nbsp;",$text);
+
+	# Zorgen dat regel met beginspaties correct inspringt
+	$text=preg_replace("/\n     /","&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",$text);
+	$text=preg_replace("/\n    /","&nbsp;&nbsp;&nbsp;&nbsp;",$text);
+	$text=preg_replace("/\n   /","&nbsp;&nbsp;&nbsp;",$text);
+	$text=preg_replace("/\n  /","&nbsp;&nbsp;",$text);
+
 	if($clicklinks) {
 		if($li) {
 			$text=ereg_replace("^- ","<li>",$text);

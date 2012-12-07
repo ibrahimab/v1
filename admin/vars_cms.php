@@ -2058,5 +2058,56 @@ function verzameltype_berekenen($seizoenid,$typeid) {
 	}
 }
 
+function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen) {
+
+	# Bekijk welke vertrekinfo is gewijzigd sinds de laatste keer (en wat die wijzigingen zijn)
+
+	global $vars;
+	$db=new DB_sql;
+	$db2=new DB_sql;
+	$db3=new DB_sql;
+
+	while(list($key,$value)=each($fields_array)) {
+		$inquery.=",'".$value."'";
+	}
+
+	# Huidige info ophalen (+vertrekinfo_goedgekeurd_datetime)
+	$db->query("SELECT UNIX_TIMESTAMP(vertrekinfo_goedgekeurd_datetime) AS vertrekinfo_goedgekeurd_datetime ".preg_replace("/'/","`",$inquery)." FROM ".$table." WHERE ".$table."_id='".addslashes($record_id)."' AND vertrekinfo_goedgekeurd_seizoen NOT REGEXP '[[:<:]]".$laatste_seizoen."[[:>:]]';");
+#echo $db->lq;
+	if($db->next_record()) {
+		$vertrekinfo_goedgekeurd_datetime=$db->f("vertrekinfo_goedgekeurd_datetime");
+		reset($fields_array);
+		while(list($key,$value)=each($fields_array)) {
+			if($value=="vertrekinfo_incheck_sjabloon_id") {
+				$db2->query("SELECT naam FROM vertrekinfo_sjabloon WHERE vertrekinfo_sjabloon_id='".$db->f($value)."';");
+				if($db2->next_record()) {
+					$now[$value]=$db2->f("naam");
+				}
+			} elseif(is_array($vars[$value])) {
+				$now[$value]=$vars[$value][$db->f($value)];
+			} else {
+				$now[$value]=$db->f($value);
+			}
+		}
+	}
+
+	# Oude info ophalen
+	if($vertrekinfo_goedgekeurd_datetime>0) {
+		$db->query("SELECT field, now AS previous FROM cmslog WHERE field IN (".substr($inquery,1).") AND table_name='".addslashes($table)."' AND record_id='".addslashes($record_id)."' AND savedate>FROM_UNIXTIME(".$vertrekinfo_goedgekeurd_datetime.") GROUP BY field ORDER BY savedate;");
+#echo $db->lq;
+		while($db->next_record()) {
+			if($now[$db->f("field")]<>$db->f("previous")) {
+#				$return[$db->f("field")]=$db->f("previous")."==".$now[$db->f("field")];
+				$return[$db->f("field")]=$db->f("previous");
+			}
+		}
+	}
+
+	if($return) {
+		return $return;
+	} else {
+		return false;
+	}
+}
 
 ?>

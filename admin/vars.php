@@ -738,6 +738,14 @@ $vars["voucherstatus_nawijzigingen"]=array(6=>"aanvullende vouchers nog niet gec
 #$vars["voucher_"]=array("D"=>"","E"=>"","F"=>"","I"=>"","N"=>"","O"=>"","Z"=>"");
 #$vars["voucher_"]=array("D"=>"","E"=>"","F"=>"","I"=>"","N"=>"","O"=>"","Z"=>"");
 
+
+# Vertrekinfo
+$vars["vertrekinfo_soortbeheer"]=array(1=>"receptie",2=>"agentschap",3=>"eigenaar",4=>"contactpersoon");
+$vars["vertrekinfo_soortbeheer_sjabloontekst"]=array(1=>"de receptie",2=>"het agentschap",3=>"de eigenaar",4=>"de contactpersoon");
+$vars["vertrekinfo_soortadres"]=array(1=>"adres accommodatie",2=>"sleuteladres");
+
+
+
 # Welke taal in welk land?
 $vars["landcodes"]=array("D"=>"de","E"=>"en","F"=>"fr","I"=>"","N"=>"nl","O"=>"de","Z"=>"de","CZ"=>"de");
 

@@ -44,6 +44,7 @@ $cms->edit_field(54,0,"htmlcol","Beschikbare variabelen",array("html"=>"<table s
                  <tr><td>[uiterlijke_inchecktijd]</td><td>uiterlijke inchecktijd</td><td>19:00</td></tr>
                  <tr><td>[uitchecktijd]</td><td>tijdstip van uitchecken</td><td>09:00</td></tr>
                  <tr><td>[telefoonnummer]</td><td>telefoonnummer</td><td>0039 0437 72 38 05</td></tr>
+                 <tr><td>[type_beheer]</td><td>type beheer</td><td>de receptie</td></tr>
 
                  </table>"));
 $cms->edit_field(54,1,"tekst","","","",array("rows"=>20));

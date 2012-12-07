@@ -426,7 +426,7 @@ li {
 .wtform_input_narrow {
 	font-family: Verdana, Helvetica, Arial, sans-serif;
 	font-size: 1.0em;
-	border: 2px solid #282E82;
+	border: 1px solid #282E82;
 }
 
 .wtform_error {
@@ -592,6 +592,21 @@ li {
 .noactive:active {
 	outline:0;
 }
+
+/* ----------------------- */
+/*   vertrekinfo-systeem   */
+/* ----------------------- */
+
+.vertrekinfo_prevalue {
+	width: 100%;
+	color: #878481;
+}
+
+.vertrekinfo_tracking_voorheen {
+	margin-bottom: 25px;
+	color: blue;
+}
+
 
 /* ----------------------- */
 /*   opmerkingen-balloon   */
