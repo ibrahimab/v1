@@ -4,7 +4,7 @@
 #
 # Dit script wordt op elke minuut gerund op de server srv01.chalet.nl met het account chalet01.
 #
-# /usr/local/bin/php --php-ini /home/sites/chalet.nl/php_cli.ini /home/sites/chalet.nl/html/cron/elkeminuut.php test
+# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkeminuut.php test
 #
 
 
@@ -20,7 +20,11 @@ if($_SERVER["HTTP_HOST"]) {
 } elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/elkeminuut.php") {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
-	$unixdir="/home/sites/chalet.nl/html/";
+	if($_SERVER["_"]=="/usr/bin/php") {
+		$unixdir="/var/www/chalet.nl/html/";
+	} else {
+		$unixdir="/home/sites/chalet.nl/html/";
+	}
 #	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
 }
 $cron=true;
@@ -28,6 +32,12 @@ $geen_tracker_cookie=true;
 $boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
 
+
+
+if($_SERVER["_"]=="/usr/bin/php") {
+	mail("jeroen@webtastic.nl","Chalet-cron elkuur - nieuw","Cron is gestart om ".date("r"));
+	exit;
+}
 
 #
 # Controle op onjuiste wederverkoop-tarieven (elke 15 minuten)

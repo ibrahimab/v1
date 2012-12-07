@@ -7,7 +7,7 @@
 #
 # Wordt elke 5 minuten aangemaakt via een cronjob.
 #
-# zelf runnen: /usr/local/bin/php --php-ini /home/sites/chalet.nl/php_cli.ini /home/sites/chalet.nl/html/cron/twitter.php
+# zelf runnen: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/twitter.php
 #
 #
 
@@ -16,8 +16,13 @@ if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 	$tmpdir="/tmp/";
 } else {
-	$unixdir="/home/sites/chalet.nl/html/";
-	$tmpdir="/home/sites/chalet.nl/html/tmp/";
+	if($_SERVER["_"]=="/usr/bin/php") {
+		$unixdir="/var/www/chalet.nl/html/";
+		$tmpdir="/var/www/chalet.nl/html/tmp/";
+	} else {
+		$unixdir="/home/sites/chalet.nl/html/";
+		$tmpdir="/home/sites/chalet.nl/html/tmp/";
+	}
 }
 
 $cron=true;

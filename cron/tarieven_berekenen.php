@@ -17,7 +17,11 @@ if(!$unixdir) {
 		set_time_limit(0);
 		$unixdir="/home/webtastic/html/chalet/";
 	} else {
-		$unixdir="/home/sites/chalet.nl/html/";
+		if($_SERVER["_"]=="/usr/bin/php") {
+			$unixdir="/var/www/chalet.nl/html/";
+		} else {
+			$unixdir="/home/sites/chalet.nl/html/";
+		}
 	}
 }
 if(!$vars) {

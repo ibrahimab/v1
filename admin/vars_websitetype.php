@@ -58,7 +58,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="";
 	$vars["basehref"]="http://www.chalet.nl/";
 	$vars["email"]="info@chalet.nl";
-	$basehref="http://www.chalet.nl/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-1";
 	$vars["facebook_pageid"]="156825034385110";
@@ -78,7 +77,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["websiteland"]="nl";
 	$vars["basehref"]="http://www.wintersportaccommodaties.nl/";
 	$vars["email"]="info@wintersportaccommodaties.nl";
-	$basehref="http://www.wintersportaccommodaties.nl/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-8";
 	$vars["mailingmanagerid"]="cmkdlo9d";
@@ -96,7 +94,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="_en";
 	$vars["basehref"]="http://www.chalet.eu/";
 	$vars["email"]="info@chalet.eu";
-	$basehref="http://www.chalet.eu/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-6";
 	$vars["mailingmanagerid"]="cmkdlo9d";
@@ -115,7 +112,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="";
 	$vars["basehref"]="http://www.chalettour.nl/";
 	$vars["email"]="info@chalettour.nl";
-	$basehref="http://www.chalettour.nl/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-7";
 	$vars["mailingmanagerid"]="re16dsas";
@@ -134,7 +130,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="";
 	$vars["basehref"]="http://www.chalet.be/";
 	$vars["email"]="info@chalet.be";
-	$basehref="http://www.chalet.be/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-3";
 	$vars["mailingmanagerid"]="cmkdlo9d";
@@ -152,7 +147,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="";
 	$vars["basehref"]="http://www.zomerhuisje.nl/";
 	$vars["email"]="info@zomerhuisje.nl";
-	$basehref="http://www.zomerhuisje.nl/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-2";
 	$vars["facebook_pageid"]="168449903215909";
@@ -173,7 +167,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="";
 	$vars["basehref"]="http://www.zomerhuisje.eu/";
 	$vars["email"]="info@zomerhuisje.eu";
-	$basehref="http://www.zomerhuisje.eu/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-5";
 	$vars["mailingmanagerid"]="cmkdlo9d";
@@ -191,7 +184,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="";
 	$vars["basehref"]="http://www.chaletsinvallandry.nl/";
 	$vars["email"]="info@chaletsinvallandry.nl";
-	$basehref="http://www.chaletsinvallandry.nl/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-10";
 #	$vars["mailingmanagerid"]="cmkdlo9d";
@@ -210,7 +202,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="_en";
 	$vars["basehref"]="http://www.chaletsinvallandry.com/";
 	$vars["email"]="info@chaletsinvallandry.com";
-	$basehref="http://www.chaletsinvallandry.com/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-9";
 #	$vars["mailingmanagerid"]="cmkdlo9d";
@@ -229,7 +220,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="";
 	$vars["basehref"]="http://www.italissima.nl/";
 	$vars["email"]="info@italissima.nl";
-	$basehref="http://www.italissima.nl/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-11";
 	$vars["facebook_pageid"]="272671556122756";
@@ -249,7 +239,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["ttv"]="";
 	$vars["basehref"]="http://www.italissima.be/";
 	$vars["email"]="info@italissima.be";
-	$basehref="http://www.italissima.be/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-14";
 	$vars["annverzekering_mogelijk"]=1;
@@ -266,7 +255,6 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["websiteland"]="nl";
 	$vars["basehref"]="http://www.superski.nl/";
 	$vars["email"]="info@superski.nl";
-	$basehref="http://www.superski.nl/";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-13";
 	$vars["facebook_pageid"]="290286354404681";
@@ -398,7 +386,6 @@ if($_GET["cmscss"]) {
 $vars["cmspath"]="http://www.chalet.nl/";
 if($vars["lokale_testserver"]) {
 	$vars["basehref"]="http://".$_SERVER["HTTP_HOST"]."/chalet".$path;
-	$basehref="http://".$_SERVER["HTTP_HOST"]."/chalet".$path;
 	$path="/chalet".$path;
 	$vars["cmspath"]=$path;
 }

@@ -1,6 +1,6 @@
 <?php
 
-# /usr/local/bin/php --php-ini /home/sites/chalet.nl/php_cli.ini /home/sites/chalet.nl/html/cron/aanbiedingen_cache.php
+# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/aanbiedingen_cache.php
 
 #
 # Script wordt elk uur om 15 minuten over het hele uur gerund
@@ -17,9 +17,15 @@ if($_SERVER["HTTP_HOST"]) {
 	$unzip="/usr/bin/unzip";
 	$tmpdir="/tmp/";
 } else {
-	$unixdir="/home/sites/chalet.nl/html/";
-	$unzip="/usr/local/bin/unzip";
-	$tmpdir="/home/sites/chalet.nl/html/tmp/";
+	if($_SERVER["_"]=="/usr/bin/php") {
+		$unixdir="/var/www/chalet.nl/html/";
+		$tmpdir="/var/www/chalet.nl/html/tmp/";
+		$unzip="/usr/bin/unzip";
+	} else {
+		$unixdir="/home/sites/chalet.nl/html/";
+		$tmpdir="/home/sites/chalet.nl/html/tmp/";
+		$unzip="/usr/local/bin/unzip";
+	}
 }
 $cron=true;
 $geen_tracker_cookie=true;

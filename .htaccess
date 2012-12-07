@@ -441,7 +441,13 @@ php_value memory_limit 256M
 	# http://www.the-art-of-web.com/system/mod-pagespeed-settings/
 	#
 	ModPagespeed on
+
+	AddOutputFilterByType MOD_PAGESPEED_OUTPUT_FILTER text/html
+	AddOutputFilterByType MOD_PAGESPEED_OUTPUT_FILTER text/css
+	AddOutputFilterByType MOD_PAGESPEED_OUTPUT_FILTER application/x-javascript
+
 	ModPagespeedEnableFilters move_css_to_head
-	ModPagespeedEnableFiltersrewrite_css,rewrite_javascript
+	ModPagespeedEnableFilters rewrite_css,rewrite_javascript
 	ModPagespeedEnableFilters outline_css,outline_javascript
+
 </IfModule>

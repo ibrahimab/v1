@@ -4,7 +4,7 @@
 #
 # Dit script wordt op elk heel uur gerund op de server srv01.chalet.nl met het account chalet01.
 #
-# /usr/local/bin/php --php-ini /home/sites/chalet.nl/php_cli.ini /home/sites/chalet.nl/html/cron/elkuur.php test
+# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php test
 #
 
 
@@ -20,7 +20,11 @@ if($_SERVER["HTTP_HOST"]) {
 } elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/elkuur.php") {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
-	$unixdir="/home/sites/chalet.nl/html/";
+	if($_SERVER["_"]=="/usr/bin/php") {
+		$unixdir="/var/www/chalet.nl/html/";
+	} else {
+		$unixdir="/home/sites/chalet.nl/html/";
+	}
 #	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
 }
 $cron=true;
@@ -400,7 +404,7 @@ if(date("H")==3) {
 # Cache Tradetracker
 #
 #
-# handmatig starten: /usr/local/bin/php --php-ini /home/sites/chalet.nl/php_cli.ini /home/sites/chalet.nl/html/cron/elkuur.php xmlopnieuw
+# handmatig starten: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php xmlopnieuw
 #
 if(date("H")==4 or date("H")==18 or $argv[1]=="xmlopnieuw") {
 	if($argv[1]=="xmlopnieuw") {

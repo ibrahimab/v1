@@ -33,9 +33,9 @@ function popwindow(xsize,ysize,url,align) {
 	if(align=='center') {
 		wLeft = (screen.width-wWidth)/2;
 		wTop = (screen.height-wHeight)/2;
-		var Scherm = window.open(<?php echo "'".$basehref."'+"; ?>url, '_blank', 'scrollbars=yes,width='+wWidth+',height='+wHeight+',left='+wLeft+',top='+wTop);
+		var Scherm = window.open(<?php echo "'".$vars["basehref"]."'+"; ?>url, '_blank', 'scrollbars=yes,width='+wWidth+',height='+wHeight+',left='+wLeft+',top='+wTop);
 	} else {
-		var Scherm = window.open(<?php echo "'".$basehref."'+"; ?>url, '_blank', 'scrollbars=yes,width='+wWidth+',height='+wHeight);
+		var Scherm = window.open(<?php echo "'".$vars["basehref"]."'+"; ?>url, '_blank', 'scrollbars=yes,width='+wWidth+',height='+wHeight);
 	}
 	Scherm.focus();
 }
@@ -99,7 +99,7 @@ LI {
 	.onlyprint {
 		display: inline;
 	}
-	
+
 	A {
 		text-decoration: none;
 	}

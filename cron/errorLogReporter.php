@@ -11,7 +11,11 @@ if($_SERVER["HTTP_HOST"]) {
 } elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/errorLogReporter.php") {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
-	$unixdir="/home/sites/chalet.nl/html/";
+	if($_SERVER["_"]=="/usr/bin/php") {
+		$unixdir="/var/www/chalet.nl/html/";
+	} else {
+		$unixdir="/home/sites/chalet.nl/html/";
+	}
 }
 $cron=true;
 $geen_tracker_cookie=true;

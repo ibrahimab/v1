@@ -6,7 +6,7 @@
 #
 # Wordt elke dag om 12:15 uur, 14:15 uur en 16:15 uur gerund via cron
 #
-# /usr/local/bin/php /home/sites/chalet.nl/html/cron/persoonsgegevensgewenst.php
+# /usr/bin/php /var/www/chalet.nl/html/cron/persoonsgegevensgewenst.php
 #
 
 
@@ -14,7 +14,11 @@ set_time_limit(0);
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 } else {
-	$unixdir="/home/sites/chalet.nl/html/";
+	if($_SERVER["_"]=="/usr/bin/php") {
+		$unixdir="/var/www/chalet.nl/html/";
+	} else {
+		$unixdir="/home/sites/chalet.nl/html/";
+	}
 #	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron persoonsgegevens","Cron is gestart om ".date("r"));
 }
 $cron=true;
