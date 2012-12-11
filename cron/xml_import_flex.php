@@ -10,10 +10,12 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$PID=`ps aux|grep xml_import.php`;
 	$PID=split("\n",$PID);
 	while(list($key,$value)=each($PID)) {
-	        if(ereg("php.*xml_import\.php",$value)) $pidteller++;
+	        if(preg_match("/php.*xml_import_flex\.php/",$value) and !preg_match("/\/bin\/sh/",$value)) {
+	        	$pidteller++;
+ 			}
 	}
 	if($pidteller>1) {
-	        echo "xml_import.php draait al\n";
+#	        echo "xml_import.php draait al\n";
 	        exit;
 	}
 	sleep(1);

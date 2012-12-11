@@ -32,8 +32,8 @@ echo "<pre>";
 
 while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 	unset($url,$opsomming,$filename);
-	if($key=="Z" or $key=="N") {
-		# zomerhuisje.nl en zomerhuisje.eu - aanbiedingen per land ophalen
+	if($key=="Z") {
+		# zomerhuisje.nl - aanbiedingen per land ophalen
 
 		# Alle landen doorlopen
 		$db->query("SELECT land_id, naam FROM land WHERE zomertonen=1 ORDER BY naam;");
