@@ -3,6 +3,7 @@
 include("admin/allfunctions.php");
 
 $openfile="pic/cms/".$_GET["file"];
+$openfile=str_replace("%2F","/",$openfile);
 $openfile=ereg_replace("\.\.","",$openfile);
 
 
@@ -49,12 +50,12 @@ function ImageCreateFromBMP($filename) {
      if ($BMP['bits_per_pixel'] == 24)
         $COLOR = unpack("V",substr($IMG,$P,3).$VIDE);
      elseif ($BMP['bits_per_pixel'] == 16)
-     { 
+     {
         $COLOR = unpack("n",substr($IMG,$P,2));
         $COLOR[1] = $PALETTE[$COLOR[1]+1];
      }
      elseif ($BMP['bits_per_pixel'] == 8)
-     { 
+     {
         $COLOR = unpack("n",$VIDE.substr($IMG,$P,1));
         $COLOR[1] = $PALETTE[$COLOR[1]+1];
      }
@@ -97,28 +98,28 @@ if($_GET["lk"]) {
 	# Landkaart
 	if($origImg = @ImageCreateFromGIF($openfile)) {
 		$height_verhouding=ImageSX($origImg)/ImageSY($origImg);
-		
+
 		$newHeight = 100;
 		$newWidth = $height_verhouding*$newHeight;
-		
+
 		/* create a blank, new image of the given new height and width */
 		$newImg = ImageCreateTrueColor($newWidth,$newHeight);
-		
+
 		/* copy the resized image. Use the ImageSX() and ImageSY functions to get the x and y sizes of the orginal image. */
 		ImageCopyResampled($newImg,$origImg,0,0,0,0,$newWidth,$newHeight,ImageSX($origImg),ImageSY($origImg));
-		
+
 		/* create final image and free up the memory */
-		
+
 		if($_GET["test"]) {
 			echo $homedir."thumbnails/".$_GET["u"]."-".$_GET["file"];
 		} else {
-			header("Content-type: image/gif"); 
+			header("Content-type: image/gif");
 		}
-		
+
 		ImageGIF($newImg,'',60);
-		
+
 		#if($_GET["writefile"]) ImageJPEG($newImg,$writefile);
-		ImageDestroy($newImg); 
+		ImageDestroy($newImg);
 	} else {
 	#	ImageJPEG($newImg,$tmppic);
 		header('Content-Type: image/gif');
@@ -128,9 +129,9 @@ if($_GET["lk"]) {
 	}
 } else {
 	# Foto
-	
+
 	unset($savefile);
-	
+
 	$resize=true;
 	if($_GET["calcsize"]) {
 		$maxwidth=600;
@@ -163,7 +164,7 @@ if($_GET["lk"]) {
 	if($_GET["w"] and $_GET["h"]) {
 		$cachefile="pic/cms/_imgcache/".intval($_GET["w"])."x".intval($_GET["h"])."-".preg_replace("/\//","-",$_GET["file"]);
 	} else {
-		$cachefile="pic/cms/_imgcache/".$newWidth."x".$newHeight."-".preg_replace("/\//","-",$_GET["file"]);	
+		$cachefile="pic/cms/_imgcache/".$newWidth."x".$newHeight."-".preg_replace("/\//","-",$_GET["file"]);
 	}
 	if(file_exists($cachefile) and filemtime($cachefile)==@filemtime($openfile)) {
 		if($_GET["cache"]) {
@@ -191,22 +192,22 @@ if($_GET["lk"]) {
 		} else {
 			$newWidth = 200;
 			$newHeight = 150;
-			
+
 			# thumbnail opslaan?
 			if(preg_match("/accommodaties_aanvullend\/(.*.jpg)/",$_GET["file"],$regs)) {
 				$savefile="pic/cms/accommodaties_aanvullend_tn/".$regs[1];
 			}
 		}
-	
+
 		if($_GET["test"]) {
 			echo $homedir."thumbnails/".$_GET["u"]."-".$_GET["file"];
 		} else {
-			header("Content-type: image/jpeg"); 
+			header("Content-type: image/jpeg");
 		}
 
 		wt_create_thumbnail($openfile,$savefile,$newWidth,$newHeight);
 		@imagedestroy($origImg);
-		
+
 		if($savefile) {
 			$time=@filemtime($openfile);
 			if($time) {
@@ -214,7 +215,7 @@ if($_GET["lk"]) {
 			}
 			if($_GET["cache"]) {
 				$savefile.="?cache=".$_GET["cache"];
-				header("Location: ".$openfile,true,301);				
+				header("Location: ".$openfile,true,301);
 			} else {
 				header("Location: ".$savefile);
 			}
