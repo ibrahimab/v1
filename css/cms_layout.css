@@ -598,8 +598,13 @@ li {
 /* ----------------------- */
 
 .vertrekinfo_prevalue {
-	width: 100%;
+	width: 674px;
 	color: #878481;
+	padding: 3px;
+	padding-right: 3px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 .vertrekinfo_tracking_voorheen {

@@ -2072,8 +2072,7 @@ function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen) 
 	}
 
 	# Huidige info ophalen (+vertrekinfo_goedgekeurd_datetime)
-	$db->query("SELECT UNIX_TIMESTAMP(vertrekinfo_goedgekeurd_datetime) AS vertrekinfo_goedgekeurd_datetime ".preg_replace("/'/","`",$inquery)." FROM ".$table." WHERE ".$table."_id='".addslashes($record_id)."' AND vertrekinfo_goedgekeurd_seizoen NOT REGEXP '[[:<:]]".$laatste_seizoen."[[:>:]]';");
-#echo $db->lq;
+	$db->query("SELECT UNIX_TIMESTAMP(vertrekinfo_goedgekeurd_datetime) AS vertrekinfo_goedgekeurd_datetime ".preg_replace("/'/","`",$inquery)." FROM ".$table." WHERE ".$table."_id='".addslashes($record_id)."' AND (vertrekinfo_goedgekeurd_seizoen NOT REGEXP '[[:<:]]".$laatste_seizoen."[[:>:]]' OR vertrekinfo_goedgekeurd_seizoen IS NULL);");
 	if($db->next_record()) {
 		$vertrekinfo_goedgekeurd_datetime=$db->f("vertrekinfo_goedgekeurd_datetime");
 		reset($fields_array);
@@ -2094,10 +2093,8 @@ function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen) 
 	# Oude info ophalen
 	if($vertrekinfo_goedgekeurd_datetime>0) {
 		$db->query("SELECT field, now AS previous FROM cmslog WHERE field IN (".substr($inquery,1).") AND table_name='".addslashes($table)."' AND record_id='".addslashes($record_id)."' AND savedate>FROM_UNIXTIME(".$vertrekinfo_goedgekeurd_datetime.") GROUP BY field ORDER BY savedate;");
-#echo $db->lq;
 		while($db->next_record()) {
 			if($now[$db->f("field")]<>$db->f("previous")) {
-#				$return[$db->f("field")]=$db->f("previous")."==".$now[$db->f("field")];
 				$return[$db->f("field")]=$db->f("previous");
 			}
 		}

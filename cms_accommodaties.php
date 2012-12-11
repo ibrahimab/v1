@@ -120,7 +120,7 @@ if($_GET["1k0"]) {
 	}
 
 	# Vertrekinfo-tracking
-	$vertrekinfo_tracking=vertrekinfo_tracking("accommodatie",array("inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres"),$_GET["1k0"],$laatste_seizoen);
+	$vertrekinfo_tracking=vertrekinfo_tracking("accommodatie",array("inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_gps_lat", "vertrekinfo_gps_long"),$_GET["1k0"],$laatste_seizoen);
 }
 
 $cms->settings[1]["list"]["show_icon"]=true;
@@ -292,6 +292,8 @@ $cms->db_field(1,"textarea","vertrekinfo_route");
 $cms->db_field(1,"textarea","vertrekinfo_route");
 $cms->db_field(1,"select","vertrekinfo_soortadres","",array("selection"=>$vars["vertrekinfo_soortadres"]));
 $cms->db_field(1,"textarea","vertrekinfo_adres");
+$cms->db_field(1,"text","vertrekinfo_gps_lat");
+$cms->db_field(1,"text","vertrekinfo_gps_long");
 
 
 # Video
@@ -582,7 +584,13 @@ if($vertrekinfo_tracking["vertrekinfo_telefoonnummer"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_telefoonnummer"]))."</div>"));
 }
 $cms->edit_field(1,0,"vertrekinfo_inchecktijd","Inchecktijd","","",array("info"=>"Bijvoorbeeld: '17:00'"));
+if($vertrekinfo_tracking["vertrekinfo_inchecktijd"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_inchecktijd"]))."</div>"));
+}
 $cms->edit_field(1,0,"vertrekinfo_uiterlijkeinchecktijd","Uiterlijke inchecktijd","","",array("info"=>"Bijvoorbeeld: '19:00'"));
+if($vertrekinfo_tracking["vertrekinfo_uiterlijkeinchecktijd"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_uiterlijkeinchecktijd"]))."</div>"));
+}
 $cms->edit_field(1,0,"vertrekinfo_uitchecktijd","Uitchecktijd","","",array("info"=>"Bijvoorbeeld: '09:00'"));
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Inclusief'</i>");
 $cms->edit_field(1,0,"htmlcol","Inclusief-tekst website",array("html"=>"<div id=\"vertrekinfo_inclusief_website\" class=\"vertrekinfo_prevalue\"></div>"));
@@ -590,6 +598,9 @@ if($vertrekinfo_tracking["inclusief"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["inclusief"]))."</div>"));
 }
 $cms->edit_field(1,0,"vertrekinfo_inclusief","Afwijkende inclusief-tekst","","",array("info"=>"Indien de tekst niet afwijkt van de website-tekst, dan hier niks invullen."));
+if($vertrekinfo_tracking["vertrekinfo_inclusief"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_inclusief"]))."</div>"));
+}
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Exclusief'</i>");
 $cms->edit_field(1,0,"htmlcol","Exclusief-tekst website",array("html"=>"<div id=\"vertrekinfo_exclusief_website\" class=\"vertrekinfo_prevalue\"></div>"));
 if($vertrekinfo_tracking["exclusief"]) {
@@ -598,10 +609,32 @@ if($vertrekinfo_tracking["exclusief"]) {
 $cms->edit_field(1,0,"vertrekinfo_exclusief","Afwijkende exclusief-tekst","","",array("info"=>"Indien de tekst niet afwijkt van de website-tekst, dan hier niks invullen."));
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Routebeschrijving naar de receptie of accommodatie' (wordt toegevoegd aan de routebeschrijving naar de betreffende plaats)</i>");
 $cms->edit_field(1,0,"vertrekinfo_route","Routebeschrijving");
+if($vertrekinfo_tracking["vertrekinfo_route"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_route"]))."</div>"));
+}
 #$cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'GPS-co&ouml;rdinaten'</i>");
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Adres'</i>");
 $cms->edit_field(1,0,"vertrekinfo_soortadres","Type adres");
+if($vertrekinfo_tracking["vertrekinfo_soortadres"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_soortadres"]))."</div>"));
+}
 $cms->edit_field(1,0,"vertrekinfo_adres","Adres");
+if($vertrekinfo_tracking["vertrekinfo_adres"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_adres"]))."</div>"));
+}
+$cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'GPS-co&ouml;rdinaten'</i>");
+$cms->edit_field(1,0,"htmlcol","GPS latitude accommodatie",array("html"=>"<div id=\"vertrekinfo_gps_lat_website\" class=\"vertrekinfo_prevalue\"></div>"));
+if($vertrekinfo_tracking["vertrekinfo_gps_lat"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_gps_lat"]))."</div>"));
+}
+$cms->edit_field(1,0,"vertrekinfo_gps_lat","GPS latitude","","",array("info"=>"Alleen invullen indien deze afwijkt van de website-waarde. Vul de breedtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 52.086508"));
+$cms->edit_field(1,0,"htmlcol","GPS longitude accommodatie",array("html"=>"<div id=\"vertrekinfo_gps_long_website\" class=\"vertrekinfo_prevalue\"></div>"));
+if($vertrekinfo_tracking["vertrekinfo_gps_long"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_gps_long"]))."</div>"));
+}
+$cms->edit_field(1,0,"vertrekinfo_gps_long","GPS longitude","","",array("info"=>"Alleen invullen indien deze afwijkt van de website-waarde. Vul de lengtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 4.886513"));
+
+
 
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
 $cms->edit_field(1,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
@@ -667,6 +700,30 @@ if($cms_form[1]->filled) {
 	}
 	if($cms_form[1]->input["gps_long"]<>"" and !$cms_form[1]->input["gps_lat"]) $cms_form[1]->error("gps_lat","vul zowel latitude als longitude in");
 	if($cms_form[1]->input["gps_lat"]<>"" and !$cms_form[1]->input["gps_long"]) $cms_form[1]->error("gps_long","vul zowel latitude als longitude in");
+
+	# Controle op vertrekinfo_gps_lat
+	if($cms_form[1]->input["vertrekinfo_gps_lat"]<>"") {
+		if(preg_match("/^-?[0-9]+\.[0-9]+$/",$cms_form[1]->input["vertrekinfo_gps_lat"])) {
+			if(floatval($cms_form[1]->input["vertrekinfo_gps_lat"])<33.797408767572485 or floatval($cms_form[1]->input["vertrekinfo_gps_lat"])>71.01695975726373) {
+				$cms_form[1]->error("vertrekinfo_gps_lat","opgegeven waarde ligt buiten Europa");
+			}
+		} else {
+			$cms_form[1]->error("vertrekinfo_gps_lat","gebruik alleen cijfers, &eacute;&eacute;n punt en eventueel een minteken");
+		}
+	}
+
+	# Controle op vertrekinfo_gps_long
+	if($cms_form[1]->input["vertrekinfo_gps_long"]<>"") {
+		if(preg_match("/^-?[0-9]+\.[0-9]+$/",$cms_form[1]->input["vertrekinfo_gps_long"])) {
+			if(floatval($cms_form[1]->input["vertrekinfo_gps_long"])<-9.393310546875 or floatval($cms_form[1]->input["vertrekinfo_gps_long"])>27.7734375) {
+				$cms_form[1]->error("vertrekinfo_gps_long","opgegeven waarde ligt buiten Europa");
+			}
+		} else {
+			$cms_form[1]->error("vertrekinfo_gps_long","gebruik alleen cijfers, &eacute;&eacute;n punt en eventueel een minteken");
+		}
+	}
+	if($cms_form[1]->input["vertrekinfo_gps_long"]<>"" and !$cms_form[1]->input["vertrekinfo_gps_lat"]) $cms_form[1]->error("vertrekinfo_gps_lat","vul zowel latitude als longitude in");
+	if($cms_form[1]->input["vertrekinfo_gps_lat"]<>"" and !$cms_form[1]->input["vertrekinfo_gps_long"]) $cms_form[1]->error("gps_long","vul zowel latitude als longitude in");
 
 	# Controle op Vimeo-link
 	if($cms_form[1]->input["videoEmbedCode"] and !preg_match("/^http:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[1]->input["videoEmbedCode"])) {

@@ -72,6 +72,8 @@ if((!$_COOKIE["tch"] or $vars["bezoek_altijd_opslaan"]) and !$mustlogin) {
 		}
 	}
 	if(eregi("IlseBot",$_SERVER["HTTP_USER_AGENT"]) or eregi("Googlebot",$_SERVER["HTTP_USER_AGENT"]) or eregi("Yahoo.*Slurp",$_SERVER["HTTP_USER_AGENT"]) or eregi("msnbot",$_SERVER["HTTP_USER_AGENT"])) {
+
+		# Vagabondo, Yandex, Bing??
 		$intern=true;
 	}
 	if(!$intern) {

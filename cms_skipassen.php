@@ -11,7 +11,7 @@ if(!$_GET["10k0"]) {
 	while($db->next_record()) {
 		$sz_controle[$db->f("seizoen_id")]=$db->f("naam");
 	}
-	
+
 	while(list($key,$value)=@each($sz_controle)) {
 		$db->query("SELECT DISTINCT skipas_id FROM skipas_tarief WHERE seizoen_id='".$key."';");
 		while($db->next_record()) {
@@ -19,6 +19,20 @@ if(!$_GET["10k0"]) {
 		}
 	}
 }
+
+if($_GET["10k0"]) {
+	# Seizoenen laden t.b.v. vertrekinfo_seizoengoedgekeurd
+	$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind, type FROM seizoen WHERE type='1' AND UNIX_TIMESTAMP(eind)>'".(time()-(86400*60))."' ORDER BY type, begin, eind;");
+	while($db->next_record()) {
+		$vars["seizoengoedgekeurd"][$db->f("seizoen_id")]=$db->f("naam");
+		$laatste_seizoen=$db->f("seizoen_id");
+	}
+
+	# Vertrekinfo-tracking
+	$vertrekinfo_tracking=vertrekinfo_tracking("skipas",array("vertrekinfo_skipas"),$_GET["10k0"],$laatste_seizoen);
+}
+
+#echo wt_dump($vertrekinfo_tracking);
 
 $cms->settings[10]["list"]["show_icon"]=true;
 $cms->settings[10]["list"]["edit_icon"]=true;
@@ -56,6 +70,12 @@ if($sz_controle) {
 		$cms->db_field(10,"select","optietarieven_controleren_in_cms_".$key,"skipas_id",array("selection"=>$sz_controle_array[$key]));
 	}
 }
+
+# Nieuw vertrekinfo-systeem
+$cms->db_field(10,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
+$cms->db_field(10,"text","vertrekinfo_goedgekeurd_datetime");
+$cms->db_field(10,"textarea","vertrekinfo_skipas");
+
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_field(10,"naam","Naam");
@@ -113,6 +133,15 @@ $cms->edit_field(10,0,"teksteind_voucher","Extra tekst laatste dag");
 $cms->edit_field(10,0,"begindag","Datumaanpassing begin");
 $cms->edit_field(10,0,"einddag","Datumaanpassing eind");
 $cms->edit_field(10,0,"voucherlogo","Voucherlogo","",array("img_width"=>"600","img_height"=>"600"));
+$cms->edit_field(10,0,"htmlrow","<hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(10,0,"htmlrow","<br><i>Alinea 'Skipas'</i>");
+$cms->edit_field(10,0,"vertrekinfo_skipas","Tekst");
+if($vertrekinfo_tracking["vertrekinfo_skipas"]) {
+	$cms->edit_field(10,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_skipas"]))."</div>"));
+}
+$cms->edit_field(10,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
+$cms->edit_field(10,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+$cms->edit_field(10,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(10);
@@ -146,11 +175,11 @@ if($_GET["delete"]==10 and $_GET["10k0"]) {
 #	#
 #	$db=new DB_sql;
 #	$nieuw_percentage=$form->checked_input["wederverkoop_commissie_agent"];
-#	
+#
 #	if($_GET["10k0"] and $nieuw_percentage and $nieuw_percentage<>$form->fields["previous"]["wederverkoop_commissie_agent"]["text"]) {
 #		# Wederverkoop-percentage skipasuitbreidingen wijzigen
 #		$db->query("UPDATE optie_tarief SET wederverkoop_commissie_agent='".addslashes($nieuw_percentage)."' WHERE week>'".(time())."' AND optie_onderdeel_id IN (SELECT DISTINCT optie_onderdeel_id FROM view_optie WHERE skipas_id='".addslashes($_GET["10k0"])."');");
-#		
+#
 #		# Wederverkoop-percentage wederverkoop-skipassen wijzigen
 #		$db->query("UPDATE optie_tarief SET wederverkoop_commissie_agent='".addslashes($nieuw_percentage)."' WHERE week>'".(time())."' AND wederverkoop_skipas_id='".addslashes($_GET["10k0"])."';");
 #	}

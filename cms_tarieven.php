@@ -20,6 +20,10 @@ if(!$skipastarieven_verwerken) {
 	}
 }
 
+// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
+// 	echo ini_get("max_input_vars");
+// 	exit;
+// }
 
 if(ini_get("max_input_vars")<50000 and !$cron) {
 	trigger_error("te lage ini-get-waarde max_input_vars: ".ini_get("max_input_vars"),E_USER_NOTICE);
