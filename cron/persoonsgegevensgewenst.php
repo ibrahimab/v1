@@ -14,11 +14,7 @@ set_time_limit(0);
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 } else {
-	if($_SERVER["PWD"]=="/var/www/chalet.nl") {
-		$unixdir="/var/www/chalet.nl/html/";
-	} else {
-		$unixdir="/home/sites/chalet.nl/html/";
-	}
+	$unixdir="/var/www/chalet.nl/html/";
 #	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron persoonsgegevens","Cron is gestart om ".date("r"));
 }
 $cron=true;

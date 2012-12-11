@@ -20,11 +20,7 @@ if($_SERVER["HTTP_HOST"]) {
 } elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/elkeminuut.php") {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
-	if($_SERVER["PWD"]=="/var/www/chalet.nl") {
-		$unixdir="/var/www/chalet.nl/html/";
-	} else {
-		$unixdir="/home/sites/chalet.nl/html/";
-	}
+	$unixdir="/var/www/chalet.nl/html/";
 #	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
 }
 $cron=true;
@@ -32,22 +28,9 @@ $geen_tracker_cookie=true;
 $boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
 
-
-
-#if($_SERVER["PWD"]=="/var/www/chalet.nl") {
-#	$db->query("SELECT naam FROM accommodatie LIMIT 0,1");
-#	if($db->next_record()) {
-#		$naam=$db->f("naam");
-#	}
-#	wt_mail("jeroen@webtastic.nl","Chalet-cron elkuur2 - nieuw","Cron is gestart om ".date("r")."\n".$naam);
-#	exit;
-#}
-
 #
 # Controle op onjuiste wederverkoop-tarieven (elke 15 minuten)
 #
-
-
 if($temptest or (date("i")==15 or date("i")==30 or date("i")==45 or date("i")==00)) {
 	$db->query("SELECT DISTINCT ta.type_id, ta.seizoen_id FROM tarief ta, type t, accommodatie a WHERE t.tonen=1 AND a.tonen=1 AND t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND ta.c_bruto>0 AND ta.c_verkoop_site>0 AND ta.wederverkoop_verkoopprijs>0 AND (ta.wederverkoop_verkoopprijs<(ta.c_verkoop_site-10));");
 	if($db->num_rows()) {

@@ -19,11 +19,7 @@ if($_SERVER["HTTP_HOST"]) {
 } elseif($_SERVER["SCRIPT_NAME"]=="/home/webtastic/html/chalet/cron/elkedag.php") {
 	$unixdir="/home/webtastic/html/chalet/";
 } else {
-	if($_SERVER["PWD"]=="/var/www/chalet.nl") {
-		$unixdir="/var/www/chalet.nl/html/";
-	} else {
-		$unixdir="/home/sites/chalet.nl/html/";
-	}
+	$unixdir="/var/www/chalet.nl/html/";
 #	mail("chaletmailbackup+systemlog@gmail.com","Chalet-cron elkuur","Cron is gestart om ".date("r"));
 }
 $cron=true;

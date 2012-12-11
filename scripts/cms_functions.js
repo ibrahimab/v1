@@ -528,14 +528,7 @@ $(document).ready(function() {
 			if($(this).is(":checked")) {
 				// goedgekeurd: vertrekinfo_goedgekeurd_datetime vullen met huidige datum/tijd
 				var currentTime = new Date();
-				// $("select[name='input[vertrekinfo_goedgekeurd_datetime][day]']").val(currentTime.getDate());
-				// $("select[name='input[vertrekinfo_goedgekeurd_datetime][month]']").val(currentTime.getMonth()+1);
-				// $("select[name='input[vertrekinfo_goedgekeurd_datetime][year]']").val(currentTime.getFullYear());
-				// $("select[name='input[vertrekinfo_goedgekeurd_datetime][hour]']").val(('0'+currentTime.getHours()).slice(-2));
-				// $("select[name='input[vertrekinfo_goedgekeurd_datetime][minute]']").val(('0'+currentTime.getMinutes()).slice(-2));
-
 				$("[name='input[vertrekinfo_goedgekeurd_datetime]']").val(currentTime.getFullYear()+"-"+("0"+(currentTime.getMonth()+1)).slice(-2)+"-"+("0"+currentTime.getDate()).slice(-2)+" "+('0'+currentTime.getHours()).slice(-2)+":"+('0'+currentTime.getMinutes()).slice(-2)+":"+('0'+currentTime.getSeconds()).slice(-2));
-
 			}
 		});
 

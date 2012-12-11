@@ -16,13 +16,8 @@ if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 	$tmpdir="/tmp/";
 } else {
-	if($_SERVER["PWD"]=="/var/www/chalet.nl") {
-		$unixdir="/var/www/chalet.nl/html/";
-		$tmpdir="/var/www/chalet.nl/html/tmp/";
-	} else {
-		$unixdir="/home/sites/chalet.nl/html/";
-		$tmpdir="/home/sites/chalet.nl/html/tmp/";
-	}
+	$unixdir="/var/www/chalet.nl/html/";
+	$tmpdir="/var/www/chalet.nl/html/tmp/";
 }
 
 $cron=true;

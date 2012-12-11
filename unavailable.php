@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta name="robots" CONTENT="noindex, follow" />
 <style>
 
 	html {

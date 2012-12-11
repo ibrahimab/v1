@@ -17,11 +17,7 @@ if(!$unixdir) {
 		set_time_limit(0);
 		$unixdir="/home/webtastic/html/chalet/";
 	} else {
-		if($_SERVER["PWD"]=="/var/www/chalet.nl") {
-			$unixdir="/var/www/chalet.nl/html/";
-		} else {
-			$unixdir="/home/sites/chalet.nl/html/";
-		}
+		$unixdir="/var/www/chalet.nl/html/";
 	}
 }
 if(!$vars) {

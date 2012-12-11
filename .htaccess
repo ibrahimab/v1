@@ -124,6 +124,9 @@ RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
 RewriteCond %{HTTP_HOST} italisima\.nl [NC]
 RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
 
+RewriteCond %{HTTP_HOST} itallisima\.nl [NC]
+RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
+
 
 # Facebook-fout (fb_xd_fragment) redirecten
 RewriteCond %{QUERY_STRING} ^(.*)fb_xd_fragment=?[A-Za-z0-9]*&?(.*)$

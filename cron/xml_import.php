@@ -46,15 +46,9 @@ if($_SERVER["HTTP_HOST"]) {
 		$tmpdir="/tmp/";
 	}
 } else {
-	if($_SERVER["PWD"]=="/var/www/chalet.nl") {
-		$unixdir="/var/www/chalet.nl/html/";
-		$tmpdir="/var/www/chalet.nl/html/tmp/";
-		$unzip="/usr/bin/unzip";
-	} else {
-		$unixdir="/home/sites/chalet.nl/html/";
-		$tmpdir="/home/sites/chalet.nl/html/tmp/";
-		$unzip="/usr/local/bin/unzip";
-	}
+	$unixdir="/var/www/chalet.nl/html/";
+	$tmpdir="/var/www/chalet.nl/html/tmp/";
+	$unzip="/usr/bin/unzip";
 }
 $cron=true;
 include($unixdir."admin/vars.php");

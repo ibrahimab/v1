@@ -39,7 +39,7 @@ if(ereg("^[A-Za-z]([0-9]+)$",trim($_GET["fzt"]),$regs)) {
 
 # Zoekopdracht_id aanmaken (en plaatsen in $_GET["z"])
 if($_GET["filled"] and !$vars["zoekform_aanbiedingen"]) {
-	if(!$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
+	if(!$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and !preg_match("/Googlebot/",$_SERVER["HTTP_USER_AGENT"])) {
 		if($_GET["z"]) {
 			$zoekopdrachtid=intval($_GET["z"]);
 		} else {
@@ -50,7 +50,7 @@ if($_GET["filled"] and !$vars["zoekform_aanbiedingen"]) {
 			}
 		}
 	}
-	
+
 #	if($_GET["z"]) {
 #		$vars["canonical"]=ereg_replace("&z=[0-9]+","",$_SERVER["REQUEST_URI"]);
 #	}
@@ -66,12 +66,12 @@ if($_GET["fsg"]>0) {
 		if($vars["websitetype"]==7) {
 			# topfoto bepalen
 			$file="pic/cms/skigebieden_topfoto/".$landgebied[1].".jpg";
-	
+
 			if(file_exists($file)) {
 				$vars["italissima_topfoto"]=$file;
 			}
 		}
-		
+
 	}
 
 	$db->query("SELECT naam".$vars["ttv"]." AS naam FROM land WHERE land_id='".addslashes($landgebied[0])."';");
