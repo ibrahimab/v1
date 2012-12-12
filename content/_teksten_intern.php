@@ -703,10 +703,16 @@ $txta["en"]["telefoonnummer_alleen"]="+31 348 43 46 49";
 $txta["nl_b"]["telefoonnummer_alleen"]="+31 348 43 46 49";
 $txta["en_b"]["telefoonnummer_alleen"]="-";
 
-$txta["nl"]["telefoonnummer_telefoonblok"]="0348 - 43 46 49";
-$txta["en"]["telefoonnummer_telefoonblok"]="+31 348 434649";
+// $txta["nl"]["telefoonnummer_telefoonblok"]="0348 - 43 46 49";
+// $txta["en"]["telefoonnummer_telefoonblok"]="+31 348 434649";
 
-$txta["nl_b"]["telefoonnummer_telefoonblok"]="+31348434649";
+// $txta["nl_b"]["telefoonnummer_telefoonblok"]="+31348434649";
+// $txta["en_b"]["telefoonnummer_telefoonblok"]="-";
+
+$txta["nl"]["telefoonnummer_telefoonblok"]="050 - 711 5210";
+$txta["en"]["telefoonnummer_telefoonblok"]="+31 50 711 5210";
+
+$txta["nl_b"]["telefoonnummer_telefoonblok"]="+31 50 711 5210";
 $txta["en_b"]["telefoonnummer_telefoonblok"]="-";
 
 $txta["nl"]["openingstijden_telefoonblok"]="ma-vr 9-17:30 / za 10-17:30";

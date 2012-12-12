@@ -1804,3 +1804,10 @@ td.selecteerbaarbedrag:hover{
 @media only screen and (device-width:768px) {
 
 }
+
+
+
+/*tijdelijk*/
+#telefoonblok_NU_EVEN_NIET {
+	visibility:hidden;
+}
