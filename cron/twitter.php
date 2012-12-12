@@ -107,11 +107,11 @@ foreach($username as $userAccount) {
 								# interne URL
 							} else {
 								# externe URL
-								$html.=" target=\"_blank\"";
+								$html.=" target=\"_blank\" rel=\"nofollow\"";
 							}
 						} else {
 							$html.=wt_he($bericht_array[$a]);
-							$html.=" target=\"_blank\"";
+							$html.=" target=\"_blank\" rel=\"nofollow\"";
 						}
 						$html.=">";
 						if($display_url[$bericht_array[$a]]) {

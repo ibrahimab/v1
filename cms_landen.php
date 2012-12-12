@@ -8,6 +8,21 @@ if(!$_GET["wzt"]) {
 	$_GET["wzt"]=1;
 }
 
+# Seizoenen laden t.b.v. vertrekinfo_seizoengoedgekeurd
+$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind, type FROM seizoen WHERE type='".addslashes($_GET["wzt"])."' AND UNIX_TIMESTAMP(eind)>'".(time()-(86400*60))."' ORDER BY type, begin, eind;");
+while($db->next_record()) {
+	$vars["seizoengoedgekeurd"][$db->f("seizoen_id")]=$db->f("naam");
+	$laatste_seizoen=$db->f("seizoen_id");
+}
+
+# Vertrekinfo-tracking
+if($_GET["wzt"]==2) {
+	$vertrekinfo_tracking=vertrekinfo_tracking("land",array("zomervertrekinfo_landroute"),$_GET["6k0"],$laatste_seizoen);
+} else {
+	$vertrekinfo_tracking=vertrekinfo_tracking("land",array("vertrekinfo_landroute"),$_GET["6k0"],$laatste_seizoen);
+}
+
+
 $cms->settings[6]["list"]["show_icon"]=false;
 $cms->settings[6]["list"]["edit_icon"]=true;
 $cms->settings[6]["list"]["delete_icon"]=true;
@@ -43,7 +58,17 @@ $cms->db_field(6,"text","accommodatiecodes");
 $cms->db_field(6,"picture","afbeelding","",array("savelocation"=>"pic/cms/landen/","filetype"=>"jpg","multiple"=>true));
 $cms->db_field(6,"picture","zomerafbeelding","",array("savelocation"=>"pic/cms/zomerlanden/","filetype"=>"jpg"));
 $cms->db_field(6,"picture","zomerafbeelding_top","",array("savelocation"=>"pic/cms/zomerlanden_top/","filetype"=>"jpg","multiple"=>true));
-
+if($_GET["wzt"]==2) {
+	# Zomer-vertrekinfo
+	$cms->db_field(6,"checkbox","vertrekinfo_goedgekeurd_seizoen","zomervertrekinfo_goedgekeurd_seizoen",array("selection"=>$vars["seizoengoedgekeurd"]));
+	$cms->db_field(6,"text","vertrekinfo_goedgekeurd_datetime","zomervertrekinfo_goedgekeurd_datetime");
+	$cms->db_field(6,"textarea","vertrekinfo_landroute","zomervertrekinfo_landroute");
+} else {
+	# Winter-vertrekinfo
+	$cms->db_field(6,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
+	$cms->db_field(6,"text","vertrekinfo_goedgekeurd_datetime");
+	$cms->db_field(6,"textarea","vertrekinfo_landroute");
+}
 
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
@@ -108,7 +133,7 @@ if($_GET["wzt"]==1) {
 		$cms->edit_field(6,1,"zomeromschrijving","Toelichting");
 	}
 	$cms->edit_field(6,0,"zomeromschrijving_openklap","Aanvullende toelichting (zichtbaar na openklappen)");
-	
+
 	# Kleurcodes verwerken
 	while(list($key,$value)=each($vars["themakleurcode"])) {
 		$kleurcodehtml.="<span style=\"background-color:".$value.";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;<span style=\"background-color:".$vars["themakleurcode_licht"][$key].";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;".htmlentities($vars["themakleurencombinatie"][$key])."<p>\n";
@@ -122,6 +147,23 @@ if($_GET["wzt"]==1) {
 	$cms->edit_field(6,1,"zomerafbeelding","Afbeelding","",array("img_width"=>"240","img_height"=>"180"));
 	$cms->edit_field(6,0,"zomerafbeelding_top","Afbeeldingen bovenaan (4 stuks)","",array("img_width"=>"194","img_height"=>"120","number_of_uploadbuttons"=>4));
 }
+
+$cms->edit_field(6,0,"htmlrow","<hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(6,0,"htmlrow","<br><i>Alinea 'Enkele aanwijzingen' (hoort bij routebeschrijving)</i>");
+$cms->edit_field(6,0,"vertrekinfo_landroute","Tekst");
+if($_GET["wzt"]==2) {
+	# Zomer
+	if($vertrekinfo_tracking["zomervertrekinfo_landroute"]) {
+		$cms->edit_field(6,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["zomervertrekinfo_landroute"]))."</div>"));
+	}
+} else {
+	if($vertrekinfo_tracking["vertrekinfo_landroute"]) {
+		$cms->edit_field(6,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_landroute"]))."</div>"));
+	}
+}
+$cms->edit_field(6,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
+$cms->edit_field(6,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+$cms->edit_field(6,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(6);

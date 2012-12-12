@@ -532,7 +532,7 @@ $(document).ready(function() {
 		});
 
 		// alle te tracken velden vooraf onthouden
-		var vertrekinfo_te_tracken = ["inclusief", "exclusief" ,"gps_lat", "gps_long" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_gps_lat", "vertrekinfo_gps_long", "vertrekinfo_skipas"];
+		var vertrekinfo_te_tracken = ["inclusief", "exclusief" ,"gps_lat", "gps_long" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_gps_lat", "vertrekinfo_gps_long", "vertrekinfo_skipas", "vertrekinfo_landroute", "vertrekinfo_plaatsroute"];
 		var vertrekinfo_te_tracken_prevalue = [];
 
 		$.each(vertrekinfo_te_tracken, function(key, value) {

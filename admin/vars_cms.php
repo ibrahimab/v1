@@ -2058,7 +2058,7 @@ function verzameltype_berekenen($seizoenid,$typeid) {
 	}
 }
 
-function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen) {
+function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen,$pre_table_text="") {
 
 	# Bekijk welke vertrekinfo is gewijzigd sinds de laatste keer (en wat die wijzigingen zijn)
 
@@ -2072,7 +2072,7 @@ function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen) 
 	}
 
 	# Huidige info ophalen (+vertrekinfo_goedgekeurd_datetime)
-	$db->query("SELECT UNIX_TIMESTAMP(vertrekinfo_goedgekeurd_datetime) AS vertrekinfo_goedgekeurd_datetime ".preg_replace("/'/","`",$inquery)." FROM ".$table." WHERE ".$table."_id='".addslashes($record_id)."' AND (vertrekinfo_goedgekeurd_seizoen NOT REGEXP '[[:<:]]".$laatste_seizoen."[[:>:]]' OR vertrekinfo_goedgekeurd_seizoen IS NULL);");
+	$db->query("SELECT UNIX_TIMESTAMP(".$pre_table_text."vertrekinfo_goedgekeurd_datetime) AS vertrekinfo_goedgekeurd_datetime ".preg_replace("/'/","`",$inquery)." FROM ".$table." WHERE ".$table."_id='".addslashes($record_id)."' AND ".$pre_table_text."vertrekinfo_goedgekeurd_seizoen NOT REGEXP '[[:<:]]".$laatste_seizoen."[[:>:]]';");
 	if($db->next_record()) {
 		$vertrekinfo_goedgekeurd_datetime=$db->f("vertrekinfo_goedgekeurd_datetime");
 		reset($fields_array);

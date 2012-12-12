@@ -15,6 +15,18 @@ if(!$_GET["wzt"]) {
 	}
 }
 
+if($_GET["4k0"]) {
+	# Seizoenen laden t.b.v. vertrekinfo_seizoengoedgekeurd
+	$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind, type FROM seizoen WHERE type='".addslashes($_GET["wzt"])."' AND UNIX_TIMESTAMP(eind)>'".(time()-(86400*60))."' ORDER BY type, begin, eind;");
+	while($db->next_record()) {
+		$vars["seizoengoedgekeurd"][$db->f("seizoen_id")]=$db->f("naam");
+		$laatste_seizoen=$db->f("seizoen_id");
+	}
+
+	# Vertrekinfo-tracking
+	$vertrekinfo_tracking=vertrekinfo_tracking("plaats",array("vertrekinfo_plaatsroute"),$_GET["4k0"],$laatste_seizoen);
+}
+
 # Toegevoegde accommodaties opslaan
 if($_POST["leverancierscode_filled"]) {
 	$db->query("DELETE FROM plaats_optieleverancier WHERE plaats_id='".addslashes($_GET["4k0"])."';");
@@ -107,6 +119,11 @@ $cms->db_field(4,"picture","afbeelding_breed","",array("savelocation"=>"pic/cms/
 $cms->db_field(4,"picture","landkaart","",array("savelocation"=>"pic/cms/plaatsen_landkaarten/","filetype"=>"gif"));
 $cms->db_field(4,"upload","pdfplattegrond","",array("savelocation"=>"pdf/plaats_plattegrond/","filetype"=>"pdf"));
 $cms->db_field(4,"yesno","pdfplattegrond_nietnodig");
+
+# Nieuw vertrekinfo-systeem
+$cms->db_field(4,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
+$cms->db_field(4,"text","vertrekinfo_goedgekeurd_datetime");
+$cms->db_field(4,"textarea","vertrekinfo_plaatsroute");
 
 
 
@@ -225,6 +242,16 @@ $cms->edit_field(4,0,"afbeelding_breed","Brede afbeelding(en)","",array("autores
 $cms->edit_field(4,0,"landkaart","Landkaart","",array("img_minheight"=>"150","img_maxwidth"=>"600","img_maxheight"=>"600","showfiletype"=>true));
 $cms->edit_field(4,0,"pdfplattegrond","Plattegrond-PDF","",array("showfiletype"=>true));
 $cms->edit_field(4,0,"pdfplattegrond_nietnodig","Plattegrond-PDF is niet nodig bij de reisdocumenten");
+
+$cms->edit_field(4,0,"htmlrow","<hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(4,0,"htmlrow","<br><i>Alinea 'Route naar [plaatsnaam]'</i>");
+$cms->edit_field(4,0,"vertrekinfo_plaatsroute","Tekst","","",array("info"=>"Routebeschrijving naar de betreffende plaats, met alleen het laatste gedeelte van de route (aangezien niet duidelijk is wat het vertrekpunt van de betreffende klant is; dat kan zelfs België zijn)."));
+if($vertrekinfo_tracking["vertrekinfo_plaatsroute"]) {
+	$cms->edit_field(4,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_plaatsroute"]))."</div>"));
+}
+$cms->edit_field(4,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
+$cms->edit_field(4,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+$cms->edit_field(4,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
 
 
 # Show

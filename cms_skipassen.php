@@ -32,8 +32,6 @@ if($_GET["10k0"]) {
 	$vertrekinfo_tracking=vertrekinfo_tracking("skipas",array("vertrekinfo_skipas"),$_GET["10k0"],$laatste_seizoen);
 }
 
-#echo wt_dump($vertrekinfo_tracking);
-
 $cms->settings[10]["list"]["show_icon"]=true;
 $cms->settings[10]["list"]["edit_icon"]=true;
 $cms->settings[10]["list"]["delete_icon"]=true;
