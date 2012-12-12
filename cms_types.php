@@ -53,19 +53,19 @@ if($_GET["2k0"]) {
 			}
 		} else {
 			$db2->query("SELECT type_id FROM korting WHERE korting_id='".addslashes($_GET["delkid"])."';");
-#			echo $db2->lastquery."<br>";			
+#			echo $db2->lastquery."<br>";
 			if($db2->next_record()) {
 				$typeid_berekenen_inquery=$db2->f("type_id");
 			}
 			$db3->query("DELETE FROM korting_tarief WHERE korting_id='".addslashes($_GET["delkid"])."';");
-#			echo $db3->lastquery."<br>";			
+#			echo $db3->lastquery."<br>";
 			$db3->query("DELETE FROM korting WHERE korting_id='".addslashes($_GET["delkid"])."';");
-#			echo $db3->lastquery."<br>";			
+#			echo $db3->lastquery."<br>";
 		}
-		
+
 		# Tarieven doorrekenen na wissen kortingen
 		if($typeid_berekenen_inquery) {
-#			echo $typeid_berekenen_inquery;		
+#			echo $typeid_berekenen_inquery;
 			include("cron/tarieven_berekenen.php");
 		}
 		header("Location: cms_types.php?".wt_stripget($_GET,array("delkid","confirmed")));
@@ -74,7 +74,7 @@ if($_GET["2k0"]) {
 
 	$vars["temp_error_geen_tarieven"]=true; # bij geen tarieven: geen error tonen
 	$vars["accinfo"]=accinfo($_GET["2k0"]);
-	
+
 	# Verzameltype-parents laden
 	if($vars["accinfo"]["toonper"]==1) {
 #		$extrawhere=" AND maxaantalpersonen='".$vars["accinfo"]["maxaantalpersonen"]."'";
@@ -104,6 +104,11 @@ if($vars["cmstaal"]) $cms->db_field(2,"text","korteomschrijving_".$vars["cmstaal
 $cms->db_field(2,"text","altnaam");
 $cms->db_field(2,"text","altnaam_zichtbaar");
 $cms->db_field(2,"integer","voorraad");
+
+# inactieve sites uitzetten
+while(list($key,$value)=each($vars["websites_inactief"])) {
+	unset($vars["websites_wzt"][$_GET["wzt"]][$key]);
+}
 $cms->db_field(2,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(2,"select","leverancier_id","",array("othertable"=>"3","otherkeyfield"=>"leverancier_id","otherfield"=>"naam","otherwhere"=>"beheerder=0"));
 $cms->db_field(2,"select","leverancier_sub_id","",array("othertable"=>"42","otherkeyfield"=>"leverancier_sub_id","otherfield"=>"naam"));
@@ -391,7 +396,7 @@ function form_before_goto($form) {
 					$db2->query("UPDATE accommodatie SET leverancier_id='".addslashes($nieuw_lev)."' WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
 				}
 			}
-			
+
 			# alle websites (type) opslaan in accommodatie
 			$db->query("SELECT websites FROM type WHERE accommodatie_id='".addslashes($_GET["1k0"])."';");
 			while($db->next_record()) {
@@ -415,14 +420,14 @@ function form_before_goto($form) {
 	# afbeeldingen verplaatsen en omzetten
 	if(is_array($form->upload_filename)) {
 		while(list($key,$value)=each($form->upload_filename)) {
-	
+
 			if(preg_match("/pic\/cms\/types_specifiek\//",$key)) {
 				# hoofdfoto
 
 				# thumbnail aanmaken
 				wt_create_thumbnail("pic/cms/types_specifiek/".basename($key),"pic/cms/types_specifiek_tn/".basename($key),60,45);
 				chmod("pic/cms/types_specifiek_tn/".basename($key),0666);
-				
+
 				# afbeelding naar juiste maat omzetten
 				wt_create_thumbnail("pic/cms/types_specifiek/".basename($key),"pic/cms/types_specifiek/".basename($key),240,180);
 				chmod("pic/cms/types_specifiek/".basename($key),0666);
@@ -438,7 +443,7 @@ function form_after_imagedelete($form) {
 			if(preg_match("/pic\/cms\/types_specifiek\//",$key)) {
 				# hoofdfoto: thumbnail wissen
 				unlink("pic/cms/types_specifiek_tn/".basename($key));
-			}			
+			}
 		}
 	}
 }
@@ -449,7 +454,7 @@ if($cms_form[2]->filled) {
 	if($cms_form[2]->input["leverancierscode"] and !ereg("^[0-9,]+$",$cms_form[2]->input["leverancierscode"])) {
 #		$cms_form[2]->error("leverancierscode","gebruik alleen cijfers (meerdere codes scheiden door komma's)");
 	}
-	
+
 	if($cms_form[2]->input["leverancierscode_negeertarief"]) {
 		if($cms_form[2]->input["leverancierscode"]) {
 			$leverancierscode=split(",",$cms_form[2]->input["leverancierscode"]);
@@ -485,7 +490,7 @@ if($cms_form[2]->filled) {
 	}
 	if($cms_form[2]->input["doorsturen_naar_type_id"] and !ereg("^[A-Z][0-9]+$",$cms_form[2]->input["doorsturen_naar_type_id"])) {
 		$cms_form[2]->error("doorsturen_naar_type_id","geen juiste accommodatie-code");
-	}	
+	}
 
 	# Controle op verzameltype
 	if($cms_form[2]->input["verzameltype"]) {
@@ -496,15 +501,15 @@ if($cms_form[2]->filled) {
 		 	$cms_form[2]->error("verzameltype_parent","dit type is zelf al een verzameltype");
 		}
 	}
-	
-	# Controle op subleverancier	
+
+	# Controle op subleverancier
 	if($cms_form[2]->input["leverancier_sub_id"] and $cms_form[2]->input["leverancier_id"]) {
 		$db->query("SELECT leverancier_sub_id FROM leverancier_sub WHERE leverancier_sub_id='".addslashes($cms_form[2]->input["leverancier_sub_id"])."' AND leverancier_id='".addslashes($cms_form[2]->input["leverancier_id"])."';");
 		if(!$db->num_rows()) {
-		 	$cms_form[2]->error("leverancier_sub_id","valt niet onder de gekozen leverancier");		
+		 	$cms_form[2]->error("leverancier_sub_id","valt niet onder de gekozen leverancier");
 		}
 	}
-	
+
 	# Controle op gps_lat
 	if($cms_form[2]->input["gps_lat"]<>"") {
 		if(preg_match("/^-?[0-9]+\.[0-9]+$/",$cms_form[2]->input["gps_lat"])) {
@@ -528,7 +533,7 @@ if($cms_form[2]->filled) {
 	}
 	if($cms_form[2]->input["gps_long"]<>"" and !$cms_form[2]->input["gps_lat"]) $cms_form[2]->error("gps_lat","vul zowel latitude als longitude in");
 	if($cms_form[2]->input["gps_lat"]<>"" and !$cms_form[2]->input["gps_long"]) $cms_form[2]->error("gps_long","vul zowel latitude als longitude in");
-	
+
 }
 
 if($_GET["wzt"]==2 and $_GET["edit"]==2 and $cms_form[2]->okay) {

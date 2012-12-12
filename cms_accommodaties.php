@@ -175,6 +175,11 @@ $cms->db_field(1,"yesno","archief");
 $cms->db_field(1,"yesno","tonenzoekformulier");
 $cms->db_field(1,"text","leverancierscode");
 $cms->db_field(1,"url","url_leverancier");
+
+# inactieve sites uitzetten
+while(list($key,$value)=each($vars["websites_inactief"])) {
+	unset($vars["websites_wzt"][$_GET["wzt"]][$key]);
+}
 $cms->db_field(1,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(1,"yesno","weekendski");
 $cms->db_field(1,"select","leverancier_id","",array("othertable"=>"3","otherkeyfield"=>"leverancier_id","otherfield"=>"naam","otherwhere"=>"beheerder=0"));
@@ -338,7 +343,7 @@ $cms->edit_field(1,0,"tonen","Tonen op de website",array("selection"=>true));
 $cms->edit_field(1,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
 $cms->edit_field(1,0,"weekendski","Weekendski");
 if($_GET["edit"]==1) {
-	$cms->edit_field(1,0,"htmlrow","<hr><i><span style=\"color:red;\"><b>Let op!</b> Bij wijzigen &quot;websites&quot; worden alle onderliggende types aangepast.</span><br>Om dat te voorkomen kun je &quot;websites&quot; aanpassen op type-niveau.</i>");
+	$cms->edit_field(1,0,"htmlrow","<hr><i><span style=\"color:red;\"><b>Let op!</b> Bij wijzigen &quot;websites&quot; worden alle onderliggende types aangepast.</span><br>Om dat te voorkomen kun je &quot;websites&quot; aanpassen op type-niveau.</i><br/><br/>Een ingevulde waarde hier wil zeggen dat bij minstens &eacute;&eacute;n onderliggend type deze website aangevinkt staat. Het wil niet zeggen dat bij &agrave;lle onderliggende types de website aangevinkt staat.");
 }
 $cms->edit_field(1,0,"websites","Websites",array("selection"=>($_GET["wzt"]==1 ? "B,C,T,W" : "N,O,Z")),"",array("one_per_line"=>true));
 if($_GET["edit"]==1) {

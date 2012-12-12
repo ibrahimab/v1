@@ -48,16 +48,54 @@ if(!$login->logged_in) {
 		// 	echo $db2->lq."<br>";
 		// }
 
-		// # Accommodaties Italissima.be aanzetten
-		// $db->query("SELECT type_id, websites, skigebied FROM view_accommodatie WHERE websites LIKE '%I%' AND websites NOT LIKE '%K%' AND archief=0;");
+		// # Websites types wijzigen
+		// $db->query("SELECT type_id, websites, skigebied FROM view_accommodatie WHERE archief=0;");
 		// while($db->next_record()) {
 		// 	$websites=$db->f("websites");
-		// 	$websites=preg_replace("/I/","I,K",$websites);
-		// 	echo $db->f("skigebied")." - ".$db->f("type_id")." - ".$db->f("websites")." - ".$websites."<br>";
 
-		// 	$db2->query("UPDATE type SET websites='".$websites."' WHERE type_id='".$db->f("type_id")."';");
-		// 	echo $db2->lq."<br>";
+		// 	$websites=preg_replace("/[KNOS]/","",$websites);
+		// 	if(preg_match("/I/",$websites)) {
+		// 		$websites=preg_replace("/I/","I,K",$websites);
+		// 	}
+		// 	$websites=preg_replace("/,{2,}/",",",$websites);
+		// 	$websites=preg_replace("/^,{1,}/","",$websites);
+		// 	$websites=preg_replace("/,{1,}$/","",$websites);
+
+ 	// 		$websites=trim($websites);
+
+		// 	if($websites<>$db->f("websites")) {
+		// 		echo $db->f("skigebied")." - ".$db->f("type_id")." - ".$db->f("websites")." - ".$websites."<br>";
+		// 		$db2->query("UPDATE type SET websites='".$websites."' WHERE type_id='".$db->f("type_id")."';");
+		// 		echo $db2->lq."<br><br>";
+		// 	}
 		// }
+
+		// # Websites accommodaties wijzigen
+		// $db->query("SELECT wzt, accommodatie_id, websites FROM accommodatie WHERE 1=1;");
+		// while($db->next_record()) {
+
+		// 	unset($allewebsites_acc,$allewebsites,$allewebsites_array);
+		// 	# alle websites (type) opslaan in accommodatie
+		// 	$db2->query("SELECT websites FROM type WHERE accommodatie_id='".addslashes($db->f("accommodatie_id"))."';");
+		// 	while($db2->next_record()) {
+		// 		$allewebsites.=",".$db2->f("websites");
+		// 	}
+		// 	$allewebsites_array=split(",",$allewebsites);
+		// 	reset($vars["websites_wzt"][$db->f("wzt")]);
+		// 	while(list($key,$value)=each($vars["websites_wzt"][$db->f("wzt")])) {
+		// 		if(in_array($key,$allewebsites_array)) {
+		// 			if($allewebsites_acc) $allewebsites_acc.=",".$key; else $allewebsites_acc=$key;
+		// 		}
+		// 	}
+		// 	if($allewebsites_acc and $allewebsites_acc<>$db->f("websites")) {
+		// 		echo $db->f("accommodatie_id")." - ".$db->f("websites")." - ".$allewebsites_acc."<br>";
+		// 		$db2->query("UPDATE accommodatie SET websites='".$allewebsites_acc."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+		// 		echo $db2->lq."<br><br>";
+		// 	}
+		// }
+
+
+
 
 		// # Types zonder oppervlakte
 		// $db->query("SELECT v.begincode, v.type_id FROM view_accommodatie v, type t WHERE v.type_id=t.type_id AND atonen=1 AND t.tonen=1 AND v.archief=0 AND t.oppervlakte=0 AND v.wzt=2 ORDER BY v.begincode, v.type_id;");
