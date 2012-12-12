@@ -167,6 +167,9 @@ form {
 	-moz-border-radius: 11px;
 	border-radius: 11px;
 	behavior: url(/PIE.htc);
+
+visibility:hidden;
+
 }
 
 #telefoonblok:hover {

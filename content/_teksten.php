@@ -164,6 +164,9 @@ $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
 $txt["nl"]["vars"]["cookiemelding"]="Om deze website beter te laten functioneren wordt er gebruik gemaakt van cookies. Lees ons [[h_1]]privacy-statement[[h_2]] voor meer informatie.";
 $txt["en"]["vars"]["cookiemelding"]="-";
 
+$txt["nl"]["vars"]["opvalmelding"]="Vanwege een inbraakpoging zijn wij momenteel telefonisch helaas NIET bereikbaar.\nJe kunt ons wel per mail bereiken via [[h_1]][[v_email]][[h_2]]. Indien je je telefoonnummer vermeldt dan kunnen we je eventueel terugbellen.";
+$txt["en"]["vars"]["opvalmelding"]="Due to an attempt to break-in to our office we are NOT reachable by phone.\nIt is possible to reach us by email: [[h_1]][[v_email]][[h_2]]. If you send us your telephone number it is possible that we call you back.";
+
 $txt["nl"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
 $txt["en"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
 

@@ -1027,6 +1027,12 @@ $(document).ready(function() {
 			return false;
 		});
 
+		// sluiten opval-bar
+		$("#opval_bottombar_close").click(function () {
+			$("#opval_bottombar").css("display","none");
+			chalet_createCookie("opvalmelding_gelezen","1",2);
+			return false;
+		});
 
 		// uitgebreid zoeken in zoek-en-boek-blok: formulier verzenden
 		$("#uitgebreidzoeken").click(function () {

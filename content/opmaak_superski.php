@@ -568,6 +568,11 @@ if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["c
 	echo "<div id=\"cookie_bottombar\" class=\"noprint\"><div id=\"cookie_bottombar_wrapper\">Deze website maakt gebruik van cookies. Lees ons <a href=\"".$vars["path"]."privacy-statement.php?testsysteem=1\">privacy statement</a> voor meer informatie.<div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
 }
 
+# Balk met opvallende melding
+if($vars["opvalmelding_tonen"] and (!$_COOKIE["opvalmelding_gelezen"] or $vars["lokale_testserver"])) {
+	echo "<div id=\"opval_bottombar\" class=\"noprint\"><div id=\"opval_bottombar_wrapper\"><div id=\"opval_bottombar_text\">".nl2br(html("opvalmelding","vars",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">","h_2"=>"</a>","v_email"=>$vars["email"])))."</div><div id=\"opval_bottombar_close\">&nbsp;</div></div></div>";
+}
+
 echo "</body>";
 echo "</html>";
 

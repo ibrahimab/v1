@@ -126,7 +126,6 @@ $vars["ads_referermail"]=array(9=>"jeroen@webtastic.nl",12=>"j.fokke@snowplaza.n
 if(!$cron and !$cronmap and !$css and !$geen_tracker_cookie and !$_GET["nocache"] and !preg_match("/Googlebot/",$_SERVER["HTTP_USER_AGENT"])) {
 	include($unixdir."admin/trackercookie.php");
 }
-$vars["cookiemelding_tonen"]=false;
 
 #
 # Plaats- en accommodatie-pagina zonder afsluitende "/" reloaden
@@ -160,6 +159,12 @@ if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
 # Websitetype en seizoentype bepalen
 #
 require($unixdir."admin/vars_websitetype.php");
+
+# Cookiebalk tonen?
+$vars["cookiemelding_tonen"]=false;
+
+# Opvalmelding tonen
+$vars["opvalmelding_tonen"]=true;
 
 #
 # Land-instellingen

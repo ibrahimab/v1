@@ -1284,6 +1284,62 @@ td.selecteerbaarbedrag:hover{
 	color: #ffffff;
 }
 
+#opval_bottombar {
+	position: fixed;
+	bottom: 0px;
+	left: 0px;
+	z-index: 9999;
+	background-color: yellow;
+	border-top: 1px solid #222222;
+	color: #000000;
+	border-bottom: none;
+	margin: 0px auto;
+	-moz-opacity: .90;
+	filter: alpha(opacity=90);
+	opacity: .90;
+	left: 0;
+	right: 0;
+	text-align: center;
+	padding: 7px;
+}
+
+#opval_bottombar a {
+	color: blue;
+}
+
+#opval_bottombar a:hover {
+	color: #000000;
+}
+
+#opval_bottombar_wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 965px;
+	text-align: left;
+}
+
+#opval_bottombar_text {
+	float: left;
+	text-align: center;
+}
+
+#opval_bottombar_close {
+	float: right;
+	display: block;
+	padding-left: 20px;
+	background-image: url('../pic/close_icon.png');
+	background-repeat: no-repeat;
+	background-position: 0px 2px;
+	cursor: pointer;
+	text-decoration: underline;
+	color: #d5e1f9;
+}
+
+#opval_bottombar_close:hover {
+	color: #ffffff;
+}
+
+
 #fancybox_popup_wrapper {
 	padding: 10px;
 }

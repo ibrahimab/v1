@@ -20,6 +20,10 @@ if($_GET["fo"]=="frm") {
 		echo html("inleiding_chalettour","contact");
 	} else {
 		echo html("inleiding","contact",array("h_1"=>"<nobr>","h_2"=>"</nobr>"));
+
+if($vars["website"]=="C") $vars["email"]="info@chalet.be";
+echo "<div style=\"background-color:yellow;padding:10px;border:1px solid #000000;margin-top:10px;\">".nl2br(html("opvalmelding","vars",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">","h_2"=>"</a>","v_email"=>$vars["email"])))."</div>";
+
 		echo "<br><br>";
 		//echo "<br><br><B>".html("adresgegevens","contact")."</B>";
 		echo "<table width=\"70%\" border=\"0\">";
