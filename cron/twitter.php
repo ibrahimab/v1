@@ -36,7 +36,14 @@ $format='xml';
 foreach($username as $userAccount) {
 
 	echo $userAccount."\n";
-	$xml=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$userAccount}.{$format}");
+	$xml=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$userAccount}.{$format}?include_entities=true");
+
+	if($userAccount=="ChaletNL") {
+#		echo "<pre>";
+#		print_r($xml);
+#		exit;
+	}
+
 	if($xml->status[0]->text!="") {
 		unset($bericht);
 		if($userAccount=='Zomerhuisje') {
@@ -44,19 +51,23 @@ foreach($username as $userAccount) {
 			$backColor="#cfbcd8";
 			$naam="Zomerhuisje.nl";
 			$kopColor="#5F227B";
+			$main_url="http://www.zomerhuisje.nl/";
 		} elseif($userAccount=='ChaletNL') {
 			$imgSrc="http://www.chalet.nl/pic/logo_chalet.gif";
 			$backColor="#eaf0fc";
 			$naam="Chalet.nl";
 			$kopColor="#d40139";
+			$main_url="http://www.chalet.nl/";
 		} elseif($userAccount=='Italissima') {
 			$backColor="#e0d1cc";
 			$kopColor="#D40139";
 			$naam="Italissima";
+			$main_url="http://www.italissima.nl/";
 		} elseif($userAccount=='SuperSkiNL') {
 			$naam="SuperSki";
 			$backColor="";
 			$kopColor="#003366";
+			$main_url="http://www.superski.nl/";
 		}
 
 		$teller=0;
@@ -64,15 +75,50 @@ foreach($username as $userAccount) {
 		foreach($xml->status as $status) {
 			unset($html);
 			$tweet_inhoud=iconv("UTF-8","cp1252",$status->text);
+
+			# t.co-url's omzetten naar mooie url's
+			unset($display_url,$expanded_url);
+			if(is_object($status->entities->urls)) {
+				foreach($status->entities->urls->url as $urls) {
+					$display_url[iconv("UTF-8","cp1252",$urls->url)]=iconv("UTF-8","cp1252",$urls->display_url);
+					$expanded_url[iconv("UTF-8","cp1252",$urls->url)]=iconv("UTF-8","cp1252",$urls->expanded_url);
+				}
+			}
+
+			# pic.twitter-t.co-url's omzetten naar mooie url's
+			if(is_object($status->entities->media)) {
+				foreach($status->entities->media->creative as $urls) {
+					$display_url[iconv("UTF-8","cp1252",$urls->url)]=iconv("UTF-8","cp1252",$urls->display_url);
+					$expanded_url[iconv("UTF-8","cp1252",$urls->url)]=iconv("UTF-8","cp1252",$urls->expanded_url);
+				}
+			}
+
+#echo wt_dump($display_url);
+
 			if(!preg_match("/@/",$tweet_inhoud)) {
 				$bericht_array=explode(" ",$tweet_inhoud);
 
 				for($a=0; $a<count($bericht_array);$a++) {
 					if(substr($bericht_array[$a],0,4)=="http"){
-						$html.="<br /><a style=\"text-decoration:underline;\" href=";
-						$html.=wt_he($bericht_array[$a]);
-						$html.=" target=\"_blank\">";
-						$html.=wt_he($bericht_array[$a]);
+						$html.=" <a style=\"text-decoration:underline;\" href=";
+						if($expanded_url[$bericht_array[$a]]) {
+							$html.=wt_he($expanded_url[$bericht_array[$a]]);
+							if(substr($expanded_url[$bericht_array[$a]],0,strlen($main_url))==$main_url) {
+								# interne URL
+							} else {
+								# externe URL
+								$html.=" target=\"_blank\"";
+							}
+						} else {
+							$html.=wt_he($bericht_array[$a]);
+							$html.=" target=\"_blank\"";
+						}
+						$html.=">";
+						if($display_url[$bericht_array[$a]]) {
+							$html.=wt_he($display_url[$bericht_array[$a]]);
+						} else {
+							$html.=wt_he($bericht_array[$a]);
+						}
 						$html.="</a>";
 					} else {
 						$html.=" ".wt_he($bericht_array[$a]);
@@ -104,7 +150,7 @@ foreach($username as $userAccount) {
 		} else {
 			// verticaal tweets tonen
 			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_twitter_blok\" cellspacing=\"2\" style=\"".($backColor ? "background-color:".$backColor.";" : "")."padding:5px;\">";
-			$content.="<td style=\"color:".$kopColor.";font-size:14px;\"><div style=\"cursor:pointer;\" onclick=\"document.location.href='https://twitter.com/$userAccount';\">".$naam." op Twitter</div></td></tr><tr><td></td><td></td></tr>";
+			$content.="<td style=\"color:".$kopColor.";font-size:14px;\"><div style=\"cursor:pointer;\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/".$userAccount."\" target=\"_blank\">".$naam." op Twitter</a></div></td></tr><tr><td></td><td></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht[1]."<br><br></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht[2]."<br><br></td></tr>";
 			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht[3]."<br><br></td></tr>";

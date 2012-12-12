@@ -762,7 +762,6 @@ if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["c
 
 # Balk met opvallende melding
 if($vars["opvalmelding_tonen"] and (!$_COOKIE["opvalmelding_gelezen"] or $vars["lokale_testserver"])) {
-	if($vars["website"]=="C") $vars["email"]="info@chalet.be";
 	echo "<div id=\"opval_bottombar\" class=\"noprint\"><div id=\"opval_bottombar_wrapper\"><div id=\"opval_bottombar_text\">".nl2br(html("opvalmelding","vars",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">","h_2"=>"</a>","v_email"=>$vars["email"])))."</div><div id=\"opval_bottombar_close\">&nbsp;</div></div></div>";
 }
 
