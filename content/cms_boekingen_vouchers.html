@@ -42,7 +42,7 @@ if(is_array($vars["temp_voucherfiles"]) and count($vars["temp_voucherfiles"])>=2
 if($vars["temp_openstaand_minus_goedgekeurd"]) {
 	$meldingen.="<div class=\"opmerkingbox\" style=\"background-color:#ffa9a9;\"><b>Let op:</b> betaling is nog niet volledig voldaan!</div>";
 } else {
-	$meldingen.="<div class=\"opmerkingbox\" style=\"background-color:#a6ffb3;\">Betaling is voldaan.</div>";	
+	$meldingen.="<div class=\"opmerkingbox\" style=\"background-color:#a6ffb3;\">Betaling is voldaan.</div>";
 }
 if(!$vars["temp_pdffiles_aanwezig"]) {
 	$meldingen.="<div class=\"opmerkingbox\" style=\"background-color:#fdff86;\"><b>Let op:</b> mailen van de vouchers naar de klant niet mogelijk - niet alle PDF's zijn beschikbaar</div>";
@@ -65,5 +65,10 @@ echo "<p><a href=\"#\" onclick=\"document.frm.target='_blank';document.frm.eleme
 $form->display_all();
 
 echo $meldingen;
+
+
+#echo "<hr><b>Test: vertrekinfo bij deze boeking:</b><br/><br/>";
+#echo "<p>".nl2br(wt_he(vertrekinfo_boeking($gegevens)))."</p>";
+
 
 ?>

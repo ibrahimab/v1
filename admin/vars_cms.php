@@ -2107,4 +2107,29 @@ function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen,$
 	}
 }
 
+function vertrekinfo_boeking($gegevens) {
+	global $vars;
+	$db=new DB_sql;
+	$db2=new DB_sql;
+	$db3=new DB_sql;
+
+# Testboeking: C12105342
+
+#	echo wt_dump($gegevens);
+
+	# Gegevens uit tabel accommodatie halen
+#	$db->query("SELECT WHERE accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."';")
+
+#	$db->query("SELECT v.naam, v.tekst FROM vertrekinfo_sjabloon v WHERE ;");
+#echo $db->lq;
+#	if($db->next_record()) {
+#		$return=$db->f("tekst");
+#	}
+#	$db->query("SELECT ")
+
+
+
+#	return $return;
+}
+
 ?>

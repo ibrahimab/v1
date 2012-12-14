@@ -648,7 +648,7 @@ if(!$login->logged_in) {
 	#
 	# Testsite kiezen (op lokale server)
 	#
-	if($vars["lokale_testserver"]) {
+	if($vars["lokale_testserver1"]) {
 		$testsite_array=array("chaletnl"=>"Chalet.nl C","chaleteu"=>"Chalet.eu E","wsa"=>"WSA.nl W","chalettour"=>"Chalettour.nl T","chaletbe"=>"Chalet.be B","vallandrynl"=>"ChaletsinVallandry.nl V","vallandrycom"=>"ChaletsinVallandry.com Q","zomerhuisjenl"=>"Zomerhuisje.nl Z","zomerhuisjeeu"=>"Zomerhuisje.eu N");
 		echo "<hr>Testsite: ";
 		while(list($key,$value)=each($testsite_array)) {
