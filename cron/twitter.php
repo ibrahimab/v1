@@ -115,7 +115,7 @@ foreach($username as $userAccount) {
 						}
 						$html.=">";
 						if($display_url[$bericht_array[$a]]) {
-							$html.=wt_he($display_url[$bericht_array[$a]]);
+							$html.=preg_replace("/\//","/&shy;",wt_he($display_url[$bericht_array[$a]]));
 						} else {
 							$html.=wt_he($bericht_array[$a]);
 						}
