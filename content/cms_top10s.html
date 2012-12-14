@@ -213,7 +213,11 @@ if($_GET["show"]==18) {
 			}
 		}
 	} else {
-		$db->query("SELECT week, blokvolgorde, bloknaam FROM top10_week WHERE seizoen_id='".addslashes($_GET["18k1"])."' AND site=2;");
+
+		# site=2 (=SuperSki)
+		$temp_site=2;
+
+		$db->query("SELECT week, blokvolgorde, bloknaam FROM top10_week WHERE seizoen_id='".addslashes($_GET["18k1"])."' AND site=".$temp_site.";");
 		while($db->next_record()) {
 			$blokvolgorde[$db->f("week")]=$db->f("blokvolgorde");
 			$bloknaam[$db->f("week")]=$db->f("bloknaam");
@@ -227,7 +231,7 @@ if($_GET["show"]==18) {
 		echo "<p>Klik op een aankomstdatum of bewerk de blok-gegevens:</p>";
 		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\">";
 		echo "<input type=\"hidden\" name=\"blokgegevens_filled\" value=\"1\">";
-		echo "<input type=\"hidden\" name=\"site\" value=\"1\">";
+		echo "<input type=\"hidden\" name=\"site\" value=\"".$temp_site."\">";
 		echo "<table class=\"tbl\" cellspacing=\"0\" style=\"width:550px;\">";
 		echo "<tr><th>Aankomstdatum</th><th>Blok-volgorde</th><th>Naam blok</th></tr>";
 		# Alle weken tonen
