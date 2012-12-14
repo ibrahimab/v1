@@ -237,6 +237,7 @@ RewriteRule ^agriturismo-toscane$ agriturismo-toscane.php?%{QUERY_STRING}
 RewriteRule ^vakantiehuizen-gardameer$ vakantiehuizen-gardameer.php?%{QUERY_STRING}
 RewriteRule ^vakantiehuizen-bloemenriviera$ vakantiehuizen-bloemenriviera.php?%{QUERY_STRING}
 RewriteRule ^vakantie-in-italie$ vakantie-in-italie.php?%{QUERY_STRING}
+RewriteRule ^facebook-actie$ facebook-actie.php?%{QUERY_STRING}
 
 RewriteRule ^aanbiedingen$ /aanbiedingen/ [L,R=301]
 RewriteRule ^aanbiedingen/$ aanbiedingen_zomerhuisje.php?%{QUERY_STRING}
