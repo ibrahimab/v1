@@ -115,7 +115,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["googleanalytics"]="UA-2078202-3";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-	$vars["nieuwsbrief_aanbieden"]=true;
+#	$vars["nieuwsbrief_aanbieden"]=true;
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="zomerhuisjenl")) {
 	# Zomerhuisje.nl
 	$vars["websitetype"]=3;
@@ -222,7 +222,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=false;
-	$vars["nieuwsbrief_aanbieden"]=true;
+#	$vars["nieuwsbrief_aanbieden"]=true;
 } elseif($_SERVER["HTTP_HOST"]=="www.superski.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="superski")) {
 	# SuperSki
 	$vars["websitetype"]=8;

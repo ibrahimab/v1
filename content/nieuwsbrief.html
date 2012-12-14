@@ -27,6 +27,7 @@ if($_GET["ok"]==1) {
 		$blinker_fields["achternaam"]="field1036";
 		$blinker_fields["per_wanneer"]="field10934";
 		$blinker_fields["formEncId"]="MwJLgCnDPkS9LWs";
+		$blinker_fields["formname"]="form1004";
 	} elseif($vars["website"]=="B") {
 		# Chalet.be
 		$blinker_fields["email"]="field10946";
@@ -35,6 +36,7 @@ if($_GET["ok"]==1) {
 		$blinker_fields["achternaam"]="field10949";
 		$blinker_fields["per_wanneer"]="field10950";
 		$blinker_fields["formEncId"]="mfR7fLLhFtS3ppW";
+		$blinker_fields["formname"]="form10157";
 	} elseif($vars["website"]=="I") {
 		# Italissima.nl
 		$blinker_fields["email"]="field10751";
@@ -42,6 +44,7 @@ if($_GET["ok"]==1) {
 		$blinker_fields["tussenvoegsel"]="field10771";
 		$blinker_fields["achternaam"]="field10781";
 		$blinker_fields["formEncId"]="J4XyB4nwd7v3yi8";
+		$blinker_fields["formname"]="form10081";
 	} elseif($vars["website"]=="K") {
 		# Italissima.be
 		$blinker_fields["email"]="field10952";
@@ -49,6 +52,7 @@ if($_GET["ok"]==1) {
 		$blinker_fields["tussenvoegsel"]="field10954";
 		$blinker_fields["achternaam"]="field10955";
 		$blinker_fields["formEncId"]="HN6Txi7YfZvamjD";
+		$blinker_fields["formname"]="form10158";
 	}
 
 	?>
@@ -59,9 +63,9 @@ if($_GET["ok"]==1) {
 		<link rel='stylesheet' type='text/css' media='all' href='https://m16.mailplus.nl/genericservice/code/servlet/js-lib/calendar/calendar-win2k-cold-1.css' title='win2k-cold-1' />
 		<script type='text/javascript'>function setRedBorder(id){ var elem = document.getElementById(id); if (elem && elem.style) { elem.style.border = '1px solid red';} } </script>
 		<script type='text/javascript'>function setHiddenBorder(id){ var elem = document.getElementById(id); if (elem && elem.style) { elem.style.border = '';} } </script>
-		<form method="post" action="https://m16.mailplus.nl/genericservice/code/servlet/Redirect" enctype="application/x-www-form-urlencoded" name="form1004" id="form1004" onsubmit="return checkFormform1004(this);">
+		<form method="post" action="https://m16.mailplus.nl/genericservice/code/servlet/Redirect" enctype="application/x-www-form-urlencoded" name="<?php echo $blinker_fields["formname"]; ?>" id="<?php echo $blinker_fields["formname"]; ?>" onsubmit="return checkForm<?php echo $blinker_fields["formname"]; ?>(this);">
 <script type="text/javascript">
-function checkFormform1004(myForm) {
+function checkForm<?php echo $blinker_fields["formname"]; ?>(myForm) {
 try {
 	var errorMessage = 'Het formulier kon niet worden verzonden om de volgende reden(en):\n\n';
 	var errorFound = false;
