@@ -155,8 +155,8 @@ if($db->next_record()) {
 		echo "<hr>&nbsp;<br>";
 	}
 
-	if($gegevens["stap1"]["taal"]=="nl" and !$vars["lev_login_enquete"]) {
-		# Vraag 6: nieuwsbrief (alleen voor Nederlanders en antwoord verbergen voor leveranciers)
+	if($vars["websiteinfo"]["nieuwsbrief_aanbieden"][$gegevens["stap1"]["website"]] and !$vars["lev_login_enquete"]) {
+		# Vraag 6: nieuwsbrief (verbergen voor leveranciers)
 		echo "<b><i>".html("vraag6","enquete",array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]))."</i></b><p>";
 		for($i=1;$i<=3;$i++) {
 			echo "<div style=\"height:20px;width:560px;".($db->f("vraag6")==$i ? "border: 1px #282e82 solid;background-color:#ebebeb;" : "border: 1px #ffffff solid;")."\">";

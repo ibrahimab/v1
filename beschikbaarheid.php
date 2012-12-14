@@ -127,14 +127,14 @@ if($werknemer_optieaanvraag) {
 	$form->field_textarea(0,"wensenbezet",txt("wensenindienbezet","beschikbaarheid"),"","","",array("newline"=>false));
 	$form->field_textarea(0,"vraag",txt("vragenopmerkingen","beschikbaarheid"),"","","",array("newline"=>false));
 
-	if($vars["website"]=="C" or $vars["website"]=="I") {
-		if($vars["website"]=="I") {
-			# Italissima-nieuwsbrief
+	if($vars["nieuwsbrief_aanbieden"]) {
+		if($vars["website"]=="C" or $vars["website"]=="B") {
+			# Chalet.nl/.be-nieuwsbrief
+			$form->field_radio(0,"nieuwsbrief","<div style=\"height:7px;\"></div>Wil je de ".$vars["websitenaam"]."-nieuwsbrief ontvangen?","",array("selection"=>3),array("selection"=>array(1=>"Ja, per direct",2=>"Ja, tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen",3=>"Nee, ik wil geen nieuwsbrief ontvangen")),array("one_per_line"=>true,"newline"=>true,"tr_class"=>"nieuwsbrief_per_wanneer","title_html"=>true));
+		} else {
+			# Italissima.nl/.be-nieuwsbrief
 			$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
 			$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
-		} else {
-			# Chalet.nl-nieuwsbrief
-			$form->field_radio(0,"nieuwsbrief","<div style=\"height:7px;\"></div>Wil je de ".$vars["websitenaam"]."-nieuwsbrief ontvangen?","",array("selection"=>3),array("selection"=>array(1=>"Ja, per direct",2=>"Ja, tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen",3=>"Nee, ik wil geen nieuwsbrief ontvangen")),array("one_per_line"=>true,"newline"=>true,"tr_class"=>"nieuwsbrief_per_wanneer","title_html"=>true));
 		}
 	}
 }

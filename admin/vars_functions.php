@@ -3531,27 +3531,50 @@ function nieuwsbrief_inschrijven($wzt,$nieuwsbrief_waardes) {
 	// 	$db->query("INSERT INTO nieuwsbrieflid SET email='".addslashes($nieuwsbrief_waardes["email"])."', voornaam='".addslashes($nieuwsbrief_waardes["voornaam"])."', tussenvoegsel='".addslashes($nieuwsbrief_waardes["tussenvoegsel"])."', achternaam='".addslashes($nieuwsbrief_waardes["achternaam"])."', bezoeker_id='".addslashes($_COOKIE["tch"])."', adddatetime=NOW(), editdatetime=NOW();");
 	// }
 
-	if($vars["seizoentype"]==1) {
+	if($vars["website"]=="C") {
 		# Chalet.nl-nieuwsbrief
 		if($nieuwsbrief_waardes["per_wanneer"]==2) {
 			$data['field10934'] = "ja";
 		}
+		$data['field1038'] = utf8_encode($nieuwsbrief_waardes["email"]);
 		$data['field1040'] = utf8_encode($nieuwsbrief_waardes["voornaam"]);
 		$data['field1041'] = utf8_encode($nieuwsbrief_waardes["tussenvoegsel"]);
 		$data['field1036'] = utf8_encode($nieuwsbrief_waardes["achternaam"]);
-		$data['field1038'] = utf8_encode($nieuwsbrief_waardes["email"]);
 		$data['userId']="31300179";
 		$data['formEncId']="MwJLgCnDPkS9LWs";
 		$data['redir']="formAdmin2";
 		$data['viewMode']="STATICINTEGRATION";
-	} else {
-		# Italissima-nieuwsbrief
+	} elseif($vars["website"]=="B") {
+		# Chalet.be-nieuwsbrief
+		if($nieuwsbrief_waardes["per_wanneer"]==2) {
+			$data['field10950'] = "ja";
+		}
+		$data['field10946'] = utf8_encode($nieuwsbrief_waardes["email"]);
+		$data['field10947'] = utf8_encode($nieuwsbrief_waardes["voornaam"]);
+		$data['field10948'] = utf8_encode($nieuwsbrief_waardes["tussenvoegsel"]);
+		$data['field10949'] = utf8_encode($nieuwsbrief_waardes["achternaam"]);
+		$data['userId']="31300179";
+		$data['formEncId']="mfR7fLLhFtS3ppW";
+		$data['redir']="formAdmin2";
+		$data['viewMode']="STATICINTEGRATION";
+	} elseif($vars["website"]=="I") {
+		# Italissima.nl-nieuwsbrief
+		$data['field10751'] = utf8_encode($nieuwsbrief_waardes["email"]);
 		$data['field10761'] = utf8_encode($nieuwsbrief_waardes["voornaam"]);
 		$data['field10771'] = utf8_encode($nieuwsbrief_waardes["tussenvoegsel"]);
 		$data['field10781'] = utf8_encode($nieuwsbrief_waardes["achternaam"]);
-		$data['field10751'] = utf8_encode($nieuwsbrief_waardes["email"]);
 		$data['userId']="31300179";
 		$data['formEncId']="J4XyB4nwd7v3yi8";
+		$data['redir']="formAdmin2";
+		$data['viewMode']="STATICINTEGRATION";
+	} elseif($vars["website"]=="K") {
+		# Italissima.be-nieuwsbrief
+		$data['field10952'] = utf8_encode($nieuwsbrief_waardes["email"]);
+		$data['field10953'] = utf8_encode($nieuwsbrief_waardes["voornaam"]);
+		$data['field10954'] = utf8_encode($nieuwsbrief_waardes["tussenvoegsel"]);
+		$data['field10955'] = utf8_encode($nieuwsbrief_waardes["achternaam"]);
+		$data['userId']="31300179";
+		$data['formEncId']="HN6Txi7YfZvamjD";
 		$data['redir']="formAdmin2";
 		$data['viewMode']="STATICINTEGRATION";
 	}

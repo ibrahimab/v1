@@ -420,8 +420,10 @@ if($vars["websitetype"]==7) {
 	$menu["contact"]=txt("menutitle_contact");
 
 	$submenu["inloggen"]=txt("submenutitle_inloggen");
-	if($vars["website"]=="I") {
+	if($vars["nieuwsbrief_aanbieden"]) {
 		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
+	}
+	if($vars["website"]=="I") {
 		$submenu["reisagent"]=txt("submenutitle_reisagent");
 	}
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
@@ -507,7 +509,7 @@ if($vars["websitetype"]==7) {
 		$submenu["inloggen"]=txt("submenutitle_inloggen");
 	}
 
-	if($vars["website"]=="C") {
+	if($vars["nieuwsbrief_aanbieden"]) {
 		$submenu["nieuwsbrief"]=txt("submenutitle_nieuwsbrief");
 	}
 	$submenu["favorieten"]=txt("submenutitle_favorieten");

@@ -2,7 +2,7 @@
 
 include("admin/vars.php");
 
-if($vars["website"]!="C" and $vars["website"]!="I") {
+if(!$vars["nieuwsbrief_aanbieden"]) {
 	header("Location: ".$vars["path"],true,301);
 	exit;
 } else {

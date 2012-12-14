@@ -291,7 +291,7 @@ if($vars["verberg_linkerkolom"]) {
 
 	if(!$vars["verberg_directnaar"]) {
 
-		if($id=="index" and $vars["website"]=="I") {
+		if($id=="index" and $vars["nieuwsbrief_aanbieden"]) {
 			# Inschrijven nieuwsbrief
 			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
 			echo "<div class=\"kop\">Nieuwsbrief</div>";

@@ -44,7 +44,7 @@ if($vars["website"]<>"W" and $vars["website"]<>"V" and $vars["website"]<>"Q" and
 echo "<p>";
 echo "<b>".html("algemeen","sitemap").":</b><ul>";
 echo "<li><a href=\"".$vars["path"].txt("menu_contact").".php\">".html("title_contact")."</a></li>";
-if($submenu["nieuwsbrief"]) echo "<li><a href=\"".$vars["path"].txt("menu_nieuwsbrief").".php\">".html("title_nieuwsbrief")."</a></li>";
+if($vars["nieuwsbrief_aanbieden"]) echo "<li><a href=\"".$vars["path"].txt("menu_nieuwsbrief").".php\">".html("title_nieuwsbrief")."</a></li>";
 if($submenu["wie-zijn-wij"]) echo "<li><a href=\"".$vars["path"].txt("menu_wie-zijn-wij").".php\">".html("title_wiezijnwij")."</a></li>";
 echo "<li><a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php\">".html("title_algemenevoorwaarden")."</a></li>";
 echo "<li><a href=\"".$vars["path"].txt("menu_verzekeringen").".php\">".html("title_verzekeringen")."</a></li>";

@@ -354,7 +354,7 @@ if($vars["verberg_linkerkolom"]) {
 			echo "</div>\n";
 		}
 		# Nieuwsbrief
-		if($vars["website"]=="C") {
+		if($vars["nieuwsbrief_aanbieden"]) {
 			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
 			echo "<div class=\"kop\">Nieuwsbrief</div>";
 			echo "<div>Ontvang aanbiedingen, nieuws en reistips.</div>";
