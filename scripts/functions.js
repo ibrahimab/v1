@@ -447,6 +447,7 @@ var txtzoeken='';
 var gebruik_jquery=true;
 var landkaartklikbaar_info_hoverkleur="#636f07";
 var eerste_tab_getoond=false;
+var google_analytics_tab_verstuurd=false;
 
 $(document).ready(function() {
 
@@ -521,10 +522,13 @@ $(document).ready(function() {
 						} catch(e) {
 							canonical_link = window.location.pathname;
 						}
-						if(window.location.hash.length>1) {
+						if(window.location.hash.length>1 && $("#body_toonaccommodatie").length!==0) {
 							canonical_link=canonical_link+ '/tab-' + window.location.hash.substr(1);
 						}
-						_gaq.push(['_trackPageview', canonical_link]);
+						if($("#body_toonaccommodatie").length!==0 || google_analytics_tab_verstuurd===false) {
+							_gaq.push(['_trackPageview', canonical_link]);
+							google_analytics_tab_verstuurd=true;
+						}
 					}
 
 					// tab switchen
