@@ -164,7 +164,7 @@ require($unixdir."admin/vars_websitetype.php");
 $vars["cookiemelding_tonen"]=false;
 
 # Opvalmelding tonen
-$vars["opvalmelding_tonen"]=true;
+$vars["opvalmelding_tonen"]=false;
 
 #
 # Land-instellingen

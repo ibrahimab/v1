@@ -14,22 +14,23 @@ if($_GET["show"]==4) {
 		}
 		echo "</p>";
 	}
-	$db->query("SELECT optieleverancier_id, leverancierscode FROM plaats_optieleverancier WHERE plaats_id='".addslashes($_GET["4k0"])."';");
+	$db->query("SELECT optieleverancier_id, leverancierscode, vertrekinfo_optiegroep_variabele FROM plaats_optieleverancier WHERE plaats_id='".addslashes($_GET["4k0"])."';");
 	while($db->next_record()) {
 		$leverancierscode[$db->f("optieleverancier_id")]=$db->f("leverancierscode");
+		$vertrekinfo_optiegroep_variabele[$db->f("optieleverancier_id")]=$db->f("vertrekinfo_optiegroep_variabele");
 	}
 	$db->query("SELECT optieleverancier_id, naam FROM optieleverancier ORDER BY naam;");
 	if($db->num_rows()) {
-		echo "<br><hr><h2>Codes voor bestellijsten</h2><table cellspacing=\"0\" class=\"tbl\"><form method=\"post\" action=\"cms_plaatsen.php?".$_SERVER["REQUEST_URI"]."\">";
+		echo "<br><hr><h2>Codes voor bestellijsten + variabelen voor vertrekinfo</h2><table cellspacing=\"0\" class=\"tbl\"><form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
 		echo "<input type=\"hidden\" name=\"leverancierscode_filled\" value=\"1\">";
-		echo "<tr><th>Optieleverancier</th><th>Code</th></tr>";
+		echo "<tr><th>Optieleverancier</th><th>Code</th><th>Vertrekinfo-variabele</th></tr>";
 		while($db->next_record()) {
-			echo "<tr><td>".htmlentities($db->f("naam"))."</td><td><input type=\"text\" name=\"lev[".$db->f("optieleverancier_id")."]\" value=\"".htmlentities($leverancierscode[$db->f("optieleverancier_id")])."\"></td></tr>";
+			echo "<tr><td>".htmlentities($db->f("naam"))."</td><td><input type=\"text\" name=\"lev[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($leverancierscode[$db->f("optieleverancier_id")])."\"></td><td><input type=\"text\" style=\"width:400px;\" name=\"vertrekinfo_var[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($vertrekinfo_optiegroep_variabele[$db->f("optieleverancier_id")])."\"></td></tr>";
 		}
-		echo "<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" value=\" BESTELCODES OPSLAAN \"></td></tr>";
+		echo "<tr><td align=\"center\" colspan=\"3\"><input type=\"submit\" value=\" GEGEVENS OPSLAAN \"></td></tr>";
 		echo "</form></table>";
 	}
-	
+
 	$cms->display_log(4);
 }
 

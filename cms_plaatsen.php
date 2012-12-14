@@ -31,9 +31,10 @@ if($_GET["4k0"]) {
 if($_POST["leverancierscode_filled"]) {
 	$db->query("DELETE FROM plaats_optieleverancier WHERE plaats_id='".addslashes($_GET["4k0"])."';");
 	while(list($key,$value)=@each($_POST["lev"])) {
-		$db->query("INSERT INTO plaats_optieleverancier SET leverancierscode='".addslashes($value)."', optieleverancier_id='".addslashes($key)."', plaats_id='".addslashes($_GET["4k0"])."';");
+		$db->query("INSERT INTO plaats_optieleverancier SET leverancierscode='".addslashes($value)."', vertrekinfo_optiegroep_variabele='".addslashes($_POST["vertrekinfo_var"][$key])."', optieleverancier_id='".addslashes($key)."', plaats_id='".addslashes($_GET["4k0"])."';");
 	}
-	header("Location: cms_plaatsen.php?".$_SERVER["QUERY_STRING"]);
+	$_SESSION["wt_popupmsg"]="gegevens zijn opgeslagen";
+	header("Location: ".$_SERVER["REQUEST_URI"]);
 	exit;
 }
 

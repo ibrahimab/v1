@@ -18,13 +18,24 @@ if($_GET["12k0"]) {
 	while($db->next_record()) {
 		$sz_controle[$db->f("seizoen_id")]=$db->f("naam");
 	}
-	
+
 	while(list($key,$value)=@each($sz_controle)) {
 		$db->query("SELECT DISTINCT oo.optie_onderdeel_id FROM optie_onderdeel oo, optie_tarief ot WHERE ot.optie_onderdeel_id=oo.optie_onderdeel_id AND oo.optie_groep_id='".addslashes($_GET["12k0"])."' AND ot.seizoen_id='".$key."';");
 		while($db->next_record()) {
 			$sz_controle_array[$key][$db->f("optie_onderdeel_id")]="ingevuld";
 		}
 	}
+
+
+	# Seizoenen laden t.b.v. vertrekinfo_seizoengoedgekeurd
+	$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind, type FROM seizoen WHERE type='1' AND UNIX_TIMESTAMP(eind)>'".(time()-(86400*60))."' ORDER BY type, begin, eind;");
+	while($db->next_record()) {
+		$vars["seizoengoedgekeurd"][$db->f("seizoen_id")]=$db->f("naam");
+		$laatste_seizoen=$db->f("seizoen_id");
+	}
+
+	# Vertrekinfo-tracking
+	$vertrekinfo_tracking=vertrekinfo_tracking("optie_groep",array("vertrekinfo_optiegroep"),$_GET["12k0"],$laatste_seizoen);
 }
 
 if($_POST["kopieer"] and $_POST["from"] and $_POST["to"] and $_POST["from"]<>$_POST["to"]) {
@@ -49,7 +60,7 @@ if($_POST["kopieer"] and $_POST["from"] and $_POST["to"] and $_POST["from"]<>$_P
 				$weken_to[$weken_from[$teller]]=$timeteller;
 				$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
 			}
-			
+
 			# Alle optieonderdelen een-voor-een doorlopen
 			$db->query("SELECT DISTINCT ot.optie_onderdeel_id FROM optie_onderdeel oo, optie_tarief ot WHERE ot.seizoen_id='".addslashes($_POST["from"])."' AND ot.optie_onderdeel_id=oo.optie_onderdeel_id AND oo.optie_groep_id='".addslashes($_GET["12k0"])."' ORDER BY ot.week;");
 			while($db->next_record()) {
@@ -62,7 +73,7 @@ if($_POST["kopieer"] and $_POST["from"] and $_POST["to"] and $_POST["from"]<>$_P
 					$tarieven[$weken_to[$db2->f("week")]]["inkoop"]=$db2->f("inkoop");
 					$tarieven[$weken_to[$db2->f("week")]]["korting"]=$db2->f("korting");
 					$tarieven[$weken_to[$db2->f("week")]]["omzetbonus"]=$db2->f("omzetbonus");
-					
+
 					if($eersterecord) {
 						unset($eersterecord);
 						$vergelijk["verkoop"]=$db2->f("verkoop");
@@ -117,7 +128,7 @@ if($_POST["kopieergroep"] and $_POST["naam"] and $_POST["leverancier"] and $_GET
 	while($db->next_record()) {
 		if($actiefseizoen) $actiefseizoen.=",".$db->f("seizoen_id"); else $actiefseizoen=$db->f("seizoen_id");
 	}
-	
+
 	# tabel optie_groep
 	$db->query("SELECT optie_soort_id, naam_voucher, naam_voucher_de, naam_voucher_en, naam_voucher_fr, duur, omschrijving, omschrijving_de, omschrijving_en, omschrijving_fr, aanvullend_voucher, aanvullend_voucher_de, aanvullend_voucher_en, aanvullend_voucher_fr, tooneinddatum_voucher, contactpersoon, telefoonnummer, faxnummer, noodnummer FROM optie_groep WHERE optie_groep_id='".addslashes($_GET["12k0"])."';");
 	if($db->next_record()) {
@@ -135,7 +146,7 @@ if($_POST["kopieergroep"] and $_POST["naam"] and $_POST["leverancier"] and $_GET
 		if(file_exists("pic/cms/voucherlogo_optie/".$optie_groep_id.".jpg")) {
 			copy("pic/cms/voucherlogo_optie/".$optie_groep_id.".jpg","pic/cms/voucherlogo_optie/".$newoptie_groep_id.".jpg");
 		}
-		
+
 		# tabel optie_onderdeel
 		$db->query("SELECT optie_onderdeel_id, naam, naam_de, naam_en, naam_fr, voucher, omschrijving_voucher, tekstbegin_voucher, teksteind_voucher, begindag, geboortedatum_voucher, einddag, volgorde, toelichting, min_leeftijd, max_leeftijd, min_deelnemers, leverancierscode, te_selecteren FROM optie_onderdeel WHERE optie_groep_id=".$optie_groep_id.";");
 		while($db->next_record()) {
@@ -148,7 +159,7 @@ if($_POST["kopieergroep"] and $_POST["naam"] and $_POST["leverancier"] and $_GET
 			}
 			$db2->query("INSERT INTO optie_onderdeel SET optie_groep_id='".addslashes($newoptie_groep_id)."'".$setquery.";");
 			$newoptie_onderdeel_id=$db2->insert_id();
-			
+
 			# tabel optie_tarief
 			$db2->query("SELECT seizoen_id, week, beschikbaar, verkoop, inkoop, korting, omzetbonus FROM optie_tarief WHERE optie_onderdeel_id='".$optie_onderdeel_id."'".($actiefseizoen ? " AND seizoen_id IN (".$actiefseizoen.")" : "").";");
 			while($db2->next_record()) {
@@ -182,6 +193,11 @@ $cms->db_field(12,"textarea","aanvullend_voucher");
 if($vars["cmstaal"]) $cms->db_field(12,"textarea","aanvullend_voucher_".$vars["cmstaal"]);
 $cms->db_field(12,"yesno","tooneinddatum_voucher");
 $cms->db_field(12,"picture","voucherlogo","",array("savelocation"=>"pic/cms/voucherlogo_optie/","filetype"=>"jpg"));
+
+# Vertrekinfo-systeem
+$cms->db_field(12,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
+$cms->db_field(12,"text","vertrekinfo_goedgekeurd_datetime");
+$cms->db_field(12,"textarea","vertrekinfo_optiegroep");
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_field(12,"naam","Naam");
@@ -235,9 +251,22 @@ if($temp["voucher"]) {
 	} else {
 		$cms->edit_field(12,0,"aanvullend_voucher","Let-op-tekst op de voucher");
 	}
-	$cms->edit_field(12,0,"tooneinddatum_voucher","Toon een einddatum",array("selection"=>true));	
+	$cms->edit_field(12,0,"tooneinddatum_voucher","Toon een einddatum",array("selection"=>true));
 	$cms->edit_field(12,0,"voucherlogo","Voucherlogo","",array("img_width"=>"600","img_height"=>"600"));
 }
+$cms->edit_field(12,0,"htmlrow","<hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(12,0,"htmlrow","<br><i>Alinea 'naam optie-soort'</i>");
+$cms->edit_field(12,0,"htmlcol","Beschikbare variabelen",array("html"=>"<table style=\"margin-top:15px;margin-bottom:15px;width:675px;\" class=\"tbl\" cellspacing=\"0\"><tr style=\"font-weight:bold;\"><th>variabele</th><th>omschrijving</th><th>voorbeeldwaarde</th></tr>
+                 <tr><td>[optieleverancier-plaats]</td><td>per plaats/optieleverancier specifieke waarde</td><td>Alpe d'Huez - <a href=\"".$vars["path"]."cms_plaatsen.php?show=4&wzt=1&4k0=44\" target=\"_blank\">invulvoorbeeld</a></tr>
+                 </table>"));
+
+$cms->edit_field(12,0,"vertrekinfo_optiegroep","Tekst");
+if($vertrekinfo_tracking["vertrekinfo_optiegroep"]) {
+	$cms->edit_field(12,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_optiegroep"]))."</div>"));
+}
+$cms->edit_field(12,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
+$cms->edit_field(12,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+$cms->edit_field(12,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(12);
