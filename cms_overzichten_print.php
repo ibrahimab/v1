@@ -635,10 +635,20 @@ exit;
 			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_eerstedag"][$db->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
 			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_type"][$db->f("begincode")])."</td><td>".$db2->f("aantalpersonen")."x ".($db2->f("omschrijving_voucher") ? htmlentities($db2->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".htmlentities($db2->f("naam")))."</td></tr>";
 
-			$db3->query("SELECT inkoop, korting FROM optie_tarief WHERE optie_onderdeel_id='".$db2->f("optie_onderdeel_id")."' AND seizoen_id='".$db->f("seizoen_id")."' AND week='".addslashes($_GET["date"])."';");
+			$db3->query("SELECT inkoop, korting, netto_ink FROM optie_tarief WHERE optie_onderdeel_id='".$db2->f("optie_onderdeel_id")."' AND seizoen_id='".$db->f("seizoen_id")."' AND week='".addslashes($_GET["date"])."';");
 			if($db3->next_record()) {
-				$price2="EURO&nbsp;".number_format($db3->f("inkoop"),2,',','.');
-				if($db3->f("korting")>0) $price2.=" -/- ".number_format($db3->f("korting"),2,',','.')."%";
+
+				if($db3->f("netto_ink")>0) {
+					# Indien "Netto inkoop (zelf invoeren)" is ingevuld in het optietarieven-CMS: alleen dit bedrag gebruiken (geen korting van toepassing)
+					$inkoop=$db3->f("netto_ink");
+					$korting=0;
+				} else {
+					$inkoop=$db3->f("inkoop");
+					$korting=$db3->f("korting");
+				}
+
+				$price2="EURO&nbsp;".number_format($inkoop,2,',','.');
+				if($korting>0) $price2.=" -/- ".number_format($korting,2,',','.')."%";
 			} else {
 				$price2="[NIET INGEVOERD]";
 			}
@@ -1042,7 +1052,7 @@ exit;
 		}
 
 		# Afwijkende skipassen
-		$db2->query("SELECT oo.optie_onderdeel_id, oo.naam, oo.omschrijving_voucher, oo.begindag, oo.begindag, oo.einddag, COUNT(*) AS aantalpersonen, ot.verkoop, ot.inkoop, ot.korting FROM boeking_optie bo, optie_groep og, optie_onderdeel oo, optie_tarief ot WHERE ot.optie_onderdeel_id=oo.optie_onderdeel_id AND ot.week='".$db->f("aankomstdatum")."' AND oo.voucher=1 AND og.skipas_id='".addslashes($_GET["spid"])."' AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oo.optie_groep_id=og.optie_groep_id AND bo.boeking_id='".$db->f("boeking_id")."' GROUP BY bo.optie_onderdeel_id;");
+		$db2->query("SELECT oo.optie_onderdeel_id, oo.naam, oo.omschrijving_voucher, oo.begindag, oo.begindag, oo.einddag, COUNT(*) AS aantalpersonen, ot.verkoop, ot.inkoop, ot.korting, ot.netto_ink FROM boeking_optie bo, optie_groep og, optie_onderdeel oo, optie_tarief ot WHERE ot.optie_onderdeel_id=oo.optie_onderdeel_id AND ot.week='".$db->f("aankomstdatum")."' AND oo.voucher=1 AND og.skipas_id='".addslashes($_GET["spid"])."' AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oo.optie_groep_id=og.optie_groep_id AND bo.boeking_id='".$db->f("boeking_id")."' GROUP BY bo.optie_onderdeel_id;");
 		while($db2->next_record()) {
 
 			$naam=wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
@@ -1053,16 +1063,25 @@ exit;
 			if(ereg($delimiter,$resort)) $resort="'".$resort."'";
 			if(ereg($delimiter,$pack)) $pack="'".$pack."'";
 
-			if($db2->f("korting")<>0) {
-				$netto=$db2->f("inkoop")*(1-$db2->f("korting")/100);
+			if($db2->f("netto_ink")>0) {
+				# Indien "Netto inkoop (zelf invoeren)" is ingevuld in het optietarieven-CMS: alleen dit bedrag gebruiken (geen korting van toepassing)
+				$bruto=$db2->f("netto_ink");
+				$netto=$db2->f("netto_ink");
+				$korting=0;
 			} else {
-				$netto=$db2->f("inkoop");
+				$bruto=$db2->f("inkoop");
+				if($db2->f("korting")<>0) {
+					$netto=$db2->f("inkoop")*(1-$db2->f("korting")/100);
+				} else {
+					$netto=$db2->f("inkoop");
+				}
+				$korting=$db->f("korting");
 			}
 
 			# Duur bepalen
 			$duur=intval($duurreis-$db2->f("begindag")+$db2->f("einddag"));
 
-			echo $db->f("boekingsnummer").$delimiter.$naam.$delimiter.date("d-m-Y",$db->f("aankomstdatum_exact")).$delimiter.$resort.$delimiter.$pack.$delimiter.$db2->f("aantalpersonen").$delimiter.$duur.$delimiter.number_format($db2->f("inkoop"),2,",","").$delimiter.number_format($db2->f("korting"),2,",","").$delimiter.number_format($netto,2,",","")."\n";
+			echo $db->f("boekingsnummer").$delimiter.$naam.$delimiter.date("d-m-Y",$db->f("aankomstdatum_exact")).$delimiter.$resort.$delimiter.$pack.$delimiter.$db2->f("aantalpersonen").$delimiter.$duur.$delimiter.number_format($bruto,2,",","").$delimiter.number_format($korting,2,",","").$delimiter.number_format($netto,2,",","")."\n";
 		}
 
 		# Skipassen bij handmatige opties

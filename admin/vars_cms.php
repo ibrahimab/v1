@@ -2108,6 +2108,10 @@ function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen,$
 }
 
 function vertrekinfo_boeking($gegevens) {
+
+
+	# Testboeking: C12105342
+
 	global $vars;
 	$db=new DB_sql;
 	$db2=new DB_sql;
@@ -2171,6 +2175,9 @@ function vertrekinfo_boeking($gegevens) {
 
 	# Skipasgegevens
 	if($gegevens["stap1"]["accinfo"]["skipasid"]) {
+
+# NOG DOEN: skipassen bij losse accommodaties bepalen
+
 		$db->query("SELECT vertrekinfo_goedgekeurd_seizoen, vertrekinfo_goedgekeurd_datetime, vertrekinfo_skipas FROM skipas WHERE skipas_id='".intval($gegevens["stap1"]["accinfo"]["skipasid"])."';");
 		if($db->next_record()) {
 			if($db->f("vertrekinfo_skipas")) $skipassen=$db->f("vertrekinfo_skipas");
@@ -2215,14 +2222,6 @@ function vertrekinfo_boeking($gegevens) {
 	if($db->next_record()) {
 		$route_plaats=$db->f("vertrekinfo_plaatsroute");
 	}
-
-
-#	echo wt_dump($opties);
-
-
-# Testboeking: C12105342
-
-#	echo wt_dump($gegevens);
 
 	# Start vertrekinformatie
 	$return.="<h1>".html("vertrekinformatie","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</h1>";
