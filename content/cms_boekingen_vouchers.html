@@ -67,8 +67,7 @@ $form->display_all();
 echo $meldingen;
 
 
-#echo "<hr><b>Test: vertrekinfo bij deze boeking:</b><br/><br/>";
-#echo "<p>".nl2br(wt_he(vertrekinfo_boeking($gegevens)))."</p>";
-
+echo "<a name=\"vertrekinfo\"></a><hr><b>Test: vertrekinfo bij deze boeking:</b><br/><br/>";
+echo "<div style=\"width:700px;margin-left:auto;margin-right:auto;border:1px solid #888888;padding:20px;\">".vertrekinfo_boeking($gegevens)."</div>";
 
 ?>

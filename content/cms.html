@@ -23,8 +23,24 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
-#		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+
+		// # Italiaanse accommodaties Zomerhuisje uitzetten
+		// $db->query("SELECT type_id, websites, skigebied FROM view_accommodatie WHERE (websites LIKE '%Z%' OR websites LIKE '%N%') AND websites LIKE '%I%' AND land_id=5 AND archief=0 AND skigebied_id NOT IN (135,142,168) ORDER BY skigebied;");
+		// while($db->next_record()) {
+		// 	$websites=$db->f("websites");
+		// 	$websites=preg_replace("/[ZN]/","",$websites);
+		// 	$websites=preg_replace("/^,{1,}/","",$websites);
+		// 	$websites=preg_replace("/,{1,}$/","",$websites);
+		// 	$websites=preg_replace("/,{2,}/",",",$websites);
+		// 	$websites=preg_replace("/^,{1,}/","",$websites);
+		// 	$websites=preg_replace("/,{1,}$/","",$websites);
+		// 	echo $db->f("skigebied")." - ".$db->f("type_id")." - ".$db->f("websites")." - ".$websites."<br>";
+
+		// 	$db2->query("UPDATE type SET websites='".$websites."' WHERE type_id='".$db->f("type_id")."';");
+		// 	echo $db2->lq."<br>";
+		// }
 
 		// # Plaatsen Italissima.be aanzetten
 		// $db->query("SELECT naam, plaats_id, websites FROM plaats WHERE websites LIKE '%I%' AND websites NOT LIKE '%K%';");
@@ -70,7 +86,9 @@ if(!$login->logged_in) {
 		// 	}
 		// }
 
-		// # Websites accommodaties wijzigen
+
+
+		// # Websites accommodaties correct bijwerken
 		// $db->query("SELECT wzt, accommodatie_id, websites FROM accommodatie WHERE 1=1;");
 		// while($db->next_record()) {
 
@@ -103,19 +121,6 @@ if(!$login->logged_in) {
 		// 	echo $db->f("begincode").$db->f("type_id").", ";
 		// }
 
-		# Italiaanse accommodaties Zomerhuisje uitzetten
-// 		$db->query("SELECT type_id, websites, skigebied FROM view_accommodatie WHERE (websites LIKE '%Z%' OR websites LIKE '%N%') AND websites LIKE '%I%' AND land_id=5 AND archief=0 AND skigebied_id NOT IN (135,142,168) ORDER BY skigebied;");
-// 		while($db->next_record()) {
-// 			$websites=$db->f("websites");
-// 			$websites=preg_replace("/[ZN]/","",$websites);
-// 			$websites=preg_replace("/^,{1,}/","",$websites);
-// 			$websites=preg_replace("/,{1,}$/","",$websites);
-// #			$websites=preg_replace("/^,/","",$websites);
-// 			echo $db->f("skigebied")." - ".$db->f("type_id")." - ".$db->f("websites")." - ".$websites."<br>";
-
-// 			$db2->query("UPDATE type SET websites='".$websites."' WHERE type_id='".$db->f("type_id")."';");
-// 			echo $db2->lq."<br>";
-// 		}
 
 #		gekoppelde_acc_opslaan_voor_zoekfunctie();
 
@@ -615,7 +620,7 @@ if(!$login->logged_in) {
 		echo "<div class=\"opmerkingbox\" style=\"padding-top:30px;padding-bottom:30px;margin-bottom:10px;\"><b>Let op!</b> Je gebruikt het CMS nu niet via Chalet.nl! Ga voor een correcte werking van het CMS naar <a href=\"http://www.chalet.nl/cms.php\">http://www.chalet.nl/cms.php</a>. Gebruik dit CMS uitsluitend om eenmalig in te loggen.</div>";
 	}
 
-	if(!preg_match("/Chrome/",$_SERVER["HTTP_USER_AGENT"]) and !preg_match("/chromeframe/",$_SERVER["HTTP_USER_AGENT"]) and !$vars["lokale_testserver"]) {
+	if(!preg_match("/Chrome/",$_SERVER["HTTP_USER_AGENT"]) and !preg_match("/chromeframe/",$_SERVER["HTTP_USER_AGENT"]) and !$vars["lokale_testserver"] and $login->user_id<>1) {
 		echo "<div class=\"opmerkingbox\" style=\"padding-top:10px;padding-bottom:10px;\"><div style=\"float:left;\"><b>Let op!</b> Je gebruikt het CMS nu niet met de browser Google Chrome.<br><br>Het CMS gaat gebruik maken van functies die alleen in Google Chrome beschikbaar zijn.<br>Voor een gagarandeerde juiste werking: sluit deze browser en open het CMS in Google Chrome.";
 		if($_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74") {
 			if(preg_match("/MSIE/",$_SERVER["HTTP_USER_AGENT"])) {

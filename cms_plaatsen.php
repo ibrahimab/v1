@@ -72,6 +72,11 @@ $cms->db[4]["set"]="wzt='".addslashes($_GET["wzt"])."'";
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(4,"text","naam");
+
+# inactieve sites uitzetten
+while(list($key,$value)=each($vars["websites_inactief"])) {
+	unset($vars["websites_wzt"][$_GET["wzt"]][$key]);
+}
 $cms->db_field(4,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(4,"text","altnaam");
 $cms->db_field(4,"text","altnaam_zichtbaar");
@@ -322,7 +327,7 @@ function form_before_goto($form) {
 if($_GET["delete"]==4 and $_GET["4k0"]) {
 	$db->query("SELECT accommodatie_id FROM accommodatie WHERE plaats_id='".addslashes($_GET["4k0"])."';");
 	if($db->next_record()) {
-		$cms->delete_error(4,"Er zijn nog <a href=\"cms_accommodaties.php?1where=".urlencode("plaats_id=".$_GET["4k0"])."\">accommodaties</a> gekoppeld");
+		$cms->delete_error(4,"Er zijn nog <a href=\"cms_accommodaties.php?wzt=".intval($_GET["wzt"])."&1where=".urlencode("plaats_id=".$_GET["4k0"])."\">accommodaties</a> gekoppeld");
 	}
 }
 

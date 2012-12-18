@@ -67,6 +67,11 @@ $cms->db[5]["set"]="wzt='".addslashes($_GET["wzt"])."'";
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(5,"text","naam");
+
+# inactieve sites uitzetten
+while(list($key,$value)=each($vars["websites_inactief"])) {
+	unset($vars["websites_wzt"][$_GET["wzt"]][$key]);
+}
 $cms->db_field(5,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(5,"text","altnaam");
 $cms->db_field(5,"text","altnaam_zichtbaar");
@@ -274,7 +279,7 @@ if($cms_form[5]->filled) {
 if($_GET["delete"]==5 and $_GET["5k0"]) {
 	$db->query("SELECT skigebied_id FROM plaats WHERE skigebied_id='".addslashes($_GET["5k0"])."';");
 	if($db->next_record()) {
-		$cms->delete_error(5,"Er zijn nog <a href=\"cms_plaatsen.php?4where=".urlencode("skigebied_id=".$_GET["5k0"])."\">plaatsen</a> gekoppeld");
+		$cms->delete_error(5,"Er zijn nog <a href=\"cms_plaatsen.php?wzt=".intval($_GET["wzt"])."&4where=".urlencode("skigebied_id=".$_GET["5k0"])."\">plaatsen</a> gekoppeld");
 	}
 }
 
