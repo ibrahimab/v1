@@ -63,6 +63,16 @@ if($plaatsid) {
 	}
 
 	if($db->next_record()) {
+
+
+		# TIJDELIJK: Zomerhuisje: regio's die niet op bestemmingenpagina staan: 301-forward naar bestemmingenpagina
+		if($vars["website"]=="Z") {
+			if(!file_exists("pic/cms/bestemmingen_zomerhuisje/".intval($db->f("skigebied_id")).".jpg")) {
+				header("Location: ".$vars["path"]."bestemmingen.php",true,301);
+				exit;
+			}
+		}
+
 		if($vars["seizoentype"]==1) {
 			$header["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam");
 			$title["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");

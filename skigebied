@@ -70,9 +70,19 @@ if($skigebiedid) {
 		$db->query("SELECT naam FROM skigebied WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."';");
 	} else {
 		# Alleen bij accommodaties: gegevens ophalen
-		$db->query("SELECT skigebied AS naam, land, land_id FROM view_accommodatie WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."' AND atonen=1 AND ttonen=1 AND archief=0;");
+		$db->query("SELECT skigebied AS naam, land, land_id FROM view_accommodatie WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."' AND atonen=1 AND ttonen=1 AND archief=0 AND websites LIKE '%".$vars["website"]."%';");
 	}
 	if($db->next_record()) {
+
+
+		# TIJDELIJK: Zomerhuisje: regio's die niet op bestemmingenpagina staan: 301-forward naar bestemmingenpagina
+		if($vars["website"]=="Z") {
+			if(!file_exists("pic/cms/bestemmingen_zomerhuisje/".intval($skigebiedid).".jpg")) {
+				header("Location: ".$vars["path"]."bestemmingen.php",true,301);
+				exit;
+			}
+		}
+
 		if($vars["seizoentype"]==1) {
 			$title["toonskigebied"]=txt("title_toonskigebied")." ".$db->f("naam");
 			if(!$meta_description) {
