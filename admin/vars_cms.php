@@ -2107,7 +2107,7 @@ function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen,$
 	}
 }
 
-function vertrekinfo_boeking($gegevens) {
+function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 
 
 	# Testboeking: C12105342
@@ -2119,176 +2119,278 @@ function vertrekinfo_boeking($gegevens) {
 
 	# Gegevens per niveau ophalen
 
-	# Gekozen onderliggend type
+	# Niveau: Leverancier
 
-	# Type
-
-	# Accommodatie
-	$db->query("SELECT vertrekinfo_incheck_sjabloon_id, vertrekinfo_soortbeheer, vertrekinfo_telefoonnummer, vertrekinfo_inchecktijd, vertrekinfo_uiterlijkeinchecktijd, vertrekinfo_uitchecktijd, inclusief, vertrekinfo_inclusief, exclusief, vertrekinfo_exclusief, vertrekinfo_route, vertrekinfo_soortadres, vertrekinfo_adres, gps_lat, vertrekinfo_gps_lat, gps_long, vertrekinfo_gps_long FROM accommodatie WHERE accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."';");
+	# Niveau: Accommodatie
+	unset($seizoencontrole);
+	$db->query("SELECT accommodatie_id, vertrekinfo_goedgekeurd_seizoen, vertrekinfo_incheck_sjabloon_id, vertrekinfo_soortbeheer, vertrekinfo_telefoonnummer, vertrekinfo_inchecktijd, vertrekinfo_uiterlijkeinchecktijd, vertrekinfo_uitchecktijd, inclusief, vertrekinfo_inclusief, exclusief, vertrekinfo_exclusief, vertrekinfo_route, vertrekinfo_soortadres, vertrekinfo_adres, gps_lat, vertrekinfo_gps_lat, gps_long, vertrekinfo_gps_long FROM accommodatie WHERE accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."';");
 	if($db->next_record()) {
-		if($db->f("vertrekinfo_incheck_sjabloon_id")) $vertrekinfo_incheck_sjabloon_id=$db->f("vertrekinfo_incheck_sjabloon_id");
-		if($db->f("vertrekinfo_soortbeheer")) $variabelen["type_beheer"]=$vars["vertrekinfo_soortbeheer_sjabloontekst"][$db->f("vertrekinfo_soortbeheer")];
-		if($db->f("vertrekinfo_telefoonnummer")) $variabelen["telefoonnummer"]=$db->f("vertrekinfo_telefoonnummer");
-		if($db->f("vertrekinfo_inchecktijd")) $variabelen["inchecktijd"]=$db->f("vertrekinfo_inchecktijd");
-		if($db->f("vertrekinfo_uiterlijkeinchecktijd")) $variabelen["uiterlijke_inchecktijd"]=$db->f("vertrekinfo_uiterlijkeinchecktijd");
-		if($db->f("vertrekinfo_uitchecktijd")) $variabelen["uitchecktijd"]=$db->f("vertrekinfo_uitchecktijd");
-
-		if($db->f("vertrekinfo_route")) $route_beheer=$db->f("vertrekinfo_route");
+		if($db->f("vertrekinfo_incheck_sjabloon_id")) {
+			$vertrekinfo_incheck_sjabloon_id=$db->f("vertrekinfo_incheck_sjabloon_id");
+			$seizoencontrole=true;
+		}
+		if($db->f("vertrekinfo_soortbeheer")) {
+			$variabelen["type_beheer"]=$vars["vertrekinfo_soortbeheer_sjabloontekst"][$db->f("vertrekinfo_soortbeheer")];
+			$seizoencontrole=true;
+		}
+		if($db->f("vertrekinfo_telefoonnummer")) {
+			$variabelen["telefoonnummer"]=$db->f("vertrekinfo_telefoonnummer");
+			$seizoencontrole=true;
+		}
+		if($db->f("vertrekinfo_inchecktijd")) {
+			$variabelen["inchecktijd"]=$db->f("vertrekinfo_inchecktijd");
+			$seizoencontrole=true;
+		}
+		if($db->f("vertrekinfo_uiterlijkeinchecktijd")) {
+			$variabelen["uiterlijke_inchecktijd"]=$db->f("vertrekinfo_uiterlijkeinchecktijd");
+			$seizoencontrole=true;
+		}
+		if($db->f("vertrekinfo_uitchecktijd")) {
+			$variabelen["uitchecktijd"]=$db->f("vertrekinfo_uitchecktijd");
+			$seizoencontrole=true;
+		}
+		if($db->f("vertrekinfo_route")) {
+			$route_beheer=$db->f("vertrekinfo_route");
+			$seizoencontrole=true;
+		}
 
 		if($db->f("vertrekinfo_adres")) {
 			$vertrekinfo_soortadres=$db->f("vertrekinfo_soortadres");
 			$vertrekinfo_adres=$db->f("vertrekinfo_adres");
+			$seizoencontrole=true;
 		}
 
 
 		# Inclusief
 		if($db->f("vertrekinfo_inclusief")) {
 				$inclusief=$db->f("vertrekinfo_inclusief");
+				$seizoencontrole=true;
 		} elseif($db->f("inclusief")) {
 				$inclusief=$db->f("inclusief");
+				$seizoencontrole=true;
 		}
 
 		# Exclusief
 		if($db->f("vertrekinfo_exclusief")) {
 				$exclusief=$db->f("vertrekinfo_exclusief");
+				$seizoencontrole=true;
 		} elseif($db->f("inclusief")) {
 				$exclusief=$db->f("exclusief");
+				$seizoencontrole=true;
 		}
 
 		# GPS-coördinaten
 		if($db->f("vertrekinfo_gps_lat")) {
 				$gps_lat=$db->f("vertrekinfo_gps_lat");
+				$seizoencontrole=true;
 		} elseif($db->f("inclusief")) {
 				$gps_lat=$db->f("gps_lat");
+				$seizoencontrole=true;
 		}
 		if($db->f("vertrekinfo_gps_long")) {
 				$gps_long=$db->f("vertrekinfo_gps_long");
+				$seizoencontrole=true;
 		} elseif($db->f("inclusief")) {
 				$gps_long=$db->f("gps_long");
+				$seizoencontrole=true;
+		}
+
+		if($seizoencontrole) {
+			if(!preg_match("/\b(".$gegevens["stap1"]["seizoenid"].")\b/",$db->f("vertrekinfo_goedgekeurd_seizoen"))) {
+				$error[]="de accommodatie-teksten zijn nog niet <a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&archief=0&1k0=".$db->f("accommodatie_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
+			}
 		}
 
 	}
 
-	# Leverancier
+	# Niveau: Type
 
+	# Niveau: Gekozen onderliggend type
 
+	# Skipas_id bepalen
+	$skipas_id=$gegevens["stap1"]["accinfo"]["skipasid"];
 
-	# Skipasgegevens
-	if($gegevens["stap1"]["accinfo"]["skipasid"]) {
-
-# NOG DOEN: skipassen bij losse accommodaties bepalen
-
-		$db->query("SELECT vertrekinfo_goedgekeurd_seizoen, vertrekinfo_goedgekeurd_datetime, vertrekinfo_skipas FROM skipas WHERE skipas_id='".intval($gegevens["stap1"]["accinfo"]["skipasid"])."';");
-		if($db->next_record()) {
-			if($db->f("vertrekinfo_skipas")) $skipassen=$db->f("vertrekinfo_skipas");
-		}
-	}
-
-
-	# Andere opties
-	$db->query("SELECT og.vertrekinfo_goedgekeurd_seizoen, og.vertrekinfo_goedgekeurd_datetime, og.vertrekinfo_optiegroep, og.optieleverancier_id, os.optie_soort_id, os.naam, os.optiecategorie FROM optie_groep og, optie_soort os, optie_accommodatie oa WHERE oa.accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."' AND oa.optie_groep_id=og.optie_groep_id AND oa.optie_soort_id=os.optie_soort_id AND og.vertrekinfo_optiegroep IS NOT NULL;");
+	# Opties
+	$db->query("SELECT og.vertrekinfo_goedgekeurd_seizoen, og.optie_groep_id, og.vertrekinfo_optiegroep, og.skipas_id, og.optieleverancier_id, os.optie_soort_id, os.naam, os.optiecategorie FROM optie_groep og, optie_soort os, optie_accommodatie oa WHERE oa.accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."' AND oa.optie_groep_id=og.optie_groep_id AND oa.optie_soort_id=os.optie_soort_id ORDER BY length(og.vertrekinfo_optiegroep) DESC;");
 	while($db->next_record()) {
-		if($optiecategorie_gehad[$db->f("optiecategorie")]) {
-			# Foutmelding: optiecategorie al gehad!
-		} else {
-			$opties[$db->f("optiecategorie")]["naam"]=txt("naam_optiecategorie".$db->f("optiecategorie"),"vertrekinfo");
-			$opties[$db->f("optiecategorie")]["tekst"]=trim($db->f("vertrekinfo_optiegroep"));
-			$optiecategorie_gehad[$db->f("optiecategorie")]=true;
-			$optieleverancier_id=$db->f("optieleverancier_id");
+		if(!$skipad_id and $db->f("skipas_id")) {
+			# Skipas koppelen
+			$skipad_id=$db->f("skipas_id");
+		}
 
-			# [optieleverancier-plaats] vervangen
-			if(preg_match("/\[optieleverancier-plaats\]/",$opties[$db->f("optiecategorie")]["tekst"])) {
-				$db2->query("SELECT vertrekinfo_optiegroep_variabele FROM plaats_optieleverancier WHERE optieleverancier_id='".intval($optieleverancier_id)."' AND plaats_id='".intval($gegevens["stap1"]["accinfo"]["plaats_id"])."' AND vertrekinfo_optiegroep_variabele IS NOT NULL AND vertrekinfo_optiegroep_variabele<>'';");
-				if($db2->next_record()) {
-					$opties[$db->f("optiecategorie")]["tekst"]=preg_replace("/\[optieleverancier-plaats\]/",$db2->f("vertrekinfo_optiegroep_variabele"),$opties[$db->f("optiecategorie")]["tekst"]);
-				} else {
-					# Foutmelding: optieleverancier-plaats is niet gevuld voor deze optieleverancier/plaats
+		if(strlen(trim($db->f("vertrekinfo_optiegroep")))<4) {
+			# Materiaalhuur (4) en Skilessen (5): melden indien geen tekst aanwezig is
+			if($db->f("optiecategorie")==4 or $db->f("optiecategorie")==5) {
+				if(!$nog_niet_ingevoerd_melding_optietekst[$db->f("optiecategorie")] and !$optiecategorie_gehad[$db->f("optiecategorie")]) {
+					# Geen tekst ingevoerd
+					$error[]=$db->f("optiecategorie")."de optie-tekst '".html("naam_optiecategorie".$db->f("optiecategorie"),"vertrekinfo")."' (".wt_he($db->f("naam")).") is nog niet <a href=\"".$vars["path"]."cms_optie_groepen.php?edit=12&11k0=".$db->f("optie_soort_id")."&12k0=".$db->f("optie_groep_id")."#vertrekinfo\" target=\"_blank\">ingevoerd</a>";
+					$nog_niet_ingevoerd_melding_optietekst[$db->f("optiecategorie")]=true;
+				}
+			}
+		} elseif($optiecategorie_gehad[$db->f("optiecategorie")]) {
+			# Foutmelding: optiecategorie al gehad!
+			$error[]="optiecategorie '".html("naam_optiecategorie".$db->f("optiecategorie"),"vertrekinfo")."' bevat meerdere teksten.";
+		} else {
+
+			# Kijken of teksten zijn goedgekeurd
+			if(!preg_match("/\b(".$gegevens["stap1"]["seizoenid"].")\b/",$db->f("vertrekinfo_goedgekeurd_seizoen"))) {
+				$error[]="de optie-tekst '".txt("naam_optiecategorie".$db->f("optiecategorie"),"vertrekinfo")."' is nog niet <a href=\"".$vars["path"]."cms_optie_groepen.php?edit=12&11k0=".$db->f("optie_soort_id")."&12k0=".$db->f("optie_groep_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
+			} else {
+				$opties[$db->f("optiecategorie")]["naam"]=txt("naam_optiecategorie".$db->f("optiecategorie"),"vertrekinfo");
+				$opties[$db->f("optiecategorie")]["tekst"]=trim($db->f("vertrekinfo_optiegroep"));
+				$optiecategorie_gehad[$db->f("optiecategorie")]=true;
+				$optieleverancier_id=$db->f("optieleverancier_id");
+
+				# [optieleverancier-plaats] vervangen
+				if(preg_match("/\[optieleverancier-plaats\]/",$opties[$db->f("optiecategorie")]["tekst"])) {
+					$db2->query("SELECT vertrekinfo_optiegroep_variabele FROM plaats_optieleverancier WHERE optieleverancier_id='".intval($optieleverancier_id)."' AND plaats_id='".intval($gegevens["stap1"]["accinfo"]["plaats_id"])."' AND vertrekinfo_optiegroep_variabele IS NOT NULL AND vertrekinfo_optiegroep_variabele<>'';");
+					if($db2->next_record()) {
+						$opties[$db->f("optiecategorie")]["tekst"]=preg_replace("/\[optieleverancier-plaats\]/",$db2->f("vertrekinfo_optiegroep_variabele"),$opties[$db->f("optiecategorie")]["tekst"]);
+					} else {
+						# Foutmelding: optieleverancier-plaats is niet gevuld voor deze optieleverancier/plaats
+						$error[]="vertrekinfo-variabele is niet gevuld voor deze <a href=\"".$vars["path"]."cms_plaatsen.php?show=4&4k0=".intval($gegevens["stap1"]["accinfo"]["plaats_id"])."&highlight_optieleverancier_id=".intval($optieleverancier_id)."\" target=\"_blank\">optieleverancier/plaats</a>";
+					}
 				}
 			}
 		}
 	}
 
+	# Skipasgegevens
+	unset($seizoencontrole);
+	if($skipad_id) {
+		$db->query("SELECT skipas_id, vertrekinfo_goedgekeurd_seizoen, vertrekinfo_skipas FROM skipas WHERE skipas_id='".intval($skipad_id)."' AND vertrekinfo_skipas IS NOT NULL;");
+		if($db->next_record()) {
+			if($db->f("vertrekinfo_skipas")) {
+				$skipassen=$db->f("vertrekinfo_skipas");
+				$seizoencontrole=true;
+			}
+
+			if($seizoencontrole) {
+				if(!preg_match("/\b(".$gegevens["stap1"]["seizoenid"].")\b/",$db->f("vertrekinfo_goedgekeurd_seizoen"))) {
+					$error[]="de skipas-tekst is nog niet <a href=\"".$vars["path"]."cms_skipassen.php?edit=10&10k0=".$db->f("skipas_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
+				}
+			}
+		} else {
+			$error[]="er is nog geen skipas-tekst <a href=\"".$vars["path"]."cms_skipassen.php?edit=10&10k0=".$skipad_id."#vertrekinfo\" target=\"_blank\">ingevoerd</a>";
+		}
+	}
+
+
 	# Routebeschrijving land
 	if($gegevens["stap1"]["accinfo"]["wzt"]==2) $pre_zomer="zomer";
 
-	$db->query("SELECT ".$pre_zomer."vertrekinfo_goedgekeurd_seizoen AS vertrekinfo_goedgekeurd_seizoen, ".$pre_zomer."vertrekinfo_landroute AS vertrekinfo_landroute FROM land WHERE begincode='".addslashes($gegevens["stap1"]["accinfo"]["begincode"])."';");
+	$db->query("SELECT land_id, ".$pre_zomer."vertrekinfo_goedgekeurd_seizoen AS vertrekinfo_goedgekeurd_seizoen, ".$pre_zomer."vertrekinfo_landroute AS vertrekinfo_landroute FROM land WHERE begincode='".addslashes($gegevens["stap1"]["accinfo"]["begincode"])."' AND ".$pre_zomer."vertrekinfo_landroute IS NOT NULL;");
 	if($db->next_record()) {
 		$route_land=$db->f("vertrekinfo_landroute");
+		if(!preg_match("/\b(".$gegevens["stap1"]["seizoenid"].")\b/",$db->f("vertrekinfo_goedgekeurd_seizoen"))) {
+			$error[]="de land-routebeschrijving is nog niet <a href=\"".$vars["path"]."cms_landen.php?edit=6&bc=84&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&6k0=".$db->f("land_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
+		}
+	} else {
+		$error[]="er is nog geen land-routebeschrijving voor ".wt_he($gegevens["stap1"]["accinfo"]["land"])." <a href=\"".$vars["path"]."cms_landen.php?wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."\" target=\"_blank\">ingevoerd</a>";
 	}
 
 
 	# Routebeschrijving plaats
-	$db->query("SELECT vertrekinfo_goedgekeurd_seizoen, vertrekinfo_plaatsroute FROM plaats WHERE plaats_id='".intval($gegevens["stap1"]["accinfo"]["plaats_id"])."';");
+	$db->query("SELECT vertrekinfo_goedgekeurd_seizoen, vertrekinfo_plaatsroute FROM plaats WHERE plaats_id='".intval($gegevens["stap1"]["accinfo"]["plaats_id"])."' AND vertrekinfo_plaatsroute IS NOT NULL;");
 	if($db->next_record()) {
 		$route_plaats=$db->f("vertrekinfo_plaatsroute");
+		if(!preg_match("/\b(".$gegevens["stap1"]["seizoenid"].")\b/",$db->f("vertrekinfo_goedgekeurd_seizoen"))) {
+			$error[]="de plaats-routebeschrijving is nog niet <a href=\"".$vars["path"]."cms_plaatsen.php?edit=4&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
+		}
+	} else {
+		$error[]="er is nog geen plaats-routebeschrijving <a href=\"".$vars["path"]."cms_plaatsen.php?edit=4&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."#vertrekinfo\" target=\"_blank\">ingevoerd</a>";
 	}
 
 	# Start vertrekinformatie
-	$return.="<h1>".html("vertrekinformatie","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</h1>";
+	$content.="<h1>".html("vertrekinformatie","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</h1>";
 
 	# Sjabloon inchecken
-	$db->query("SELECT naam, tekst FROM vertrekinfo_sjabloon WHERE vertrekinfo_sjabloon_id='".addslashes($vertrekinfo_incheck_sjabloon_id)."';");
-	if($db->next_record()) {
-		$inchecken=trim($db->f("tekst"));
-	}
-	# Variabelen sjabloon vullen
-	$te_doorlopen_variabelen=array("type_beheer","telefoonnummer","inchecktijd","uiterlijke_inchecktijd","uitchecktijd");
-	while(list($key,$value)=each($te_doorlopen_variabelen)) {
-		$inchecken=preg_replace("/\[".$value."\]/",$variabelen[$value],$inchecken);
+	if($vertrekinfo_incheck_sjabloon_id) {
+		$db->query("SELECT naam, tekst FROM vertrekinfo_sjabloon WHERE vertrekinfo_sjabloon_id='".addslashes($vertrekinfo_incheck_sjabloon_id)."';");
+		if($db->next_record()) {
+			$inchecken=trim($db->f("tekst"));
+		}
+		# Variabelen sjabloon vullen
+		$te_doorlopen_variabelen=array("type_beheer","telefoonnummer","inchecktijd","uiterlijke_inchecktijd","uitchecktijd");
+		while(list($key,$value)=each($te_doorlopen_variabelen)) {
+			if($variabelen[$value]) {
+				$inchecken=preg_replace("/\[".$value."\]/",$variabelen[$value],$inchecken);
+			} elseif(preg_match("/\[".$value."\]/",$inchecken)) {
+				$error[]="variabele [".$value."] kan nog niet worden <a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&archief=0&1k0=".$gegevens["stap1"]["accinfo"]["accommodatie_id"]."#vertrekinfo\" target=\"_blank\">gevuld bij deze accommodatie</a>";
+			}
+		}
+		$content.="<p><b>".html("inchecken","vertrekinfo").":</b><br/>".nl2br(wt_he($inchecken))."</p>";
+	} else {
+		$error[]="er is nog geen incheck-sjabloon <a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&archief=0&1k0=".$gegevens["stap1"]["accinfo"]["accommodatie_id"]."#vertrekinfo\" target=\"_blank\">gekozen bij deze accommodatie</a>";
 	}
 
-	$return.="<p><b>".html("inchecken","vertrekinfo").":</b><br/>".nl2br(wt_he($inchecken))."</p>";
-
-	$return.="<p>".html("devolgendezakeninclexcl","vertrekinfo").":</p>";
+	$content.="<p>".html("devolgendezakeninclexcl","vertrekinfo").":</p>";
 
 	if($inclusief) {
-		$return.="<p><b>".html("inclusief","vertrekinfo").":</b><br/>".nl2br(wt_he($inclusief))."</p>";
+		$content.="<p><b>".html("inclusief","vertrekinfo").":</b><br/>".nl2br(wt_he($inclusief))."</p>";
 	}
 
 	if($exclusief) {
-		$return.="<p><b>".html("exclusief","vertrekinfo").":</b><br/>".nl2br(wt_he($exclusief))."</p>";
+		$content.="<p><b>".html("exclusief","vertrekinfo").":</b><br/>".nl2br(wt_he($exclusief))."</p>";
 	}
 
 	if($skipassen) {
-		$return.="<p><b>".html("skipassen","vertrekinfo").":</b><br/>".nl2br(wt_he($skipassen))."</p>";
+		$content.="<p><b>".html("skipassen","vertrekinfo").":</b><br/>".nl2br(wt_he($skipassen))."</p>";
 	}
 
 	if(is_array($opties)) {
 		while(list($key,$value)=each($opties)) {
-			$return.="<p><b>".wt_he($value["naam"]).":</b><br/>".nl2br(wt_he($value["tekst"]))."</p>";
+			$content.="<p><b>".wt_he($value["naam"]).":</b><br/>".nl2br(wt_he($value["tekst"]))."</p>";
 		}
 	}
 
 	# Routebeschrijving
-	$return.="<br/><br/><h1>".html("routebeschrijvingnaar","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</h1>";
+	$content.="<br/><br/><h1>".html("routebeschrijvingnaar","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</h1>";
 
-	$return.="<p><b>".html("routebeschrijving_inleiding","vertrekinfo")."</b></p>";
+	$content.="<p><b>".html("routebeschrijving_inleiding","vertrekinfo")."</b></p>";
 
-	$return.="<p><b><u>".html("enkeleaanwijzingen","vertrekinfo").":</u></b><br/><br/>".nl2br(wt_he($route_land))."</p>";
+	$content.="<p><b><u>".html("enkeleaanwijzingen","vertrekinfo").":</u></b><br/><br/>".nl2br(wt_he($route_land))."</p>";
 
-	$return.="<p><b>".html("routenaarplaats","vertrekinfo",array("v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"])).":</b><br/>".nl2br(wt_he($route_plaats))."</p>";
+	$content.="<p><b>".html("routenaarplaats","vertrekinfo",array("v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"])).":</b><br/>".nl2br(wt_he($route_plaats))."</p>";
 
-	$return.="<p><b>".html("routenaarbeheer","vertrekinfo",array("v_beheer"=>$variabelen["type_beheer"],"v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"])).":</b><br/>".nl2br(wt_he($route_beheer))."</p>";
+	$content.="<p><b>".html("routenaarbeheer","vertrekinfo",array("v_beheer"=>$variabelen["type_beheer"],"v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"])).":</b><br/>".nl2br(wt_he($route_beheer))."</p>";
 
 	# GPS-coördinaten
 	if($gps_lat and $gps_long) {
-		$return.="<p><b>".html("gps_coordinaten","vertrekinfo",array("v_gpslat"=>$gps_lat,"v_gpslong"=>$gps_long))."</b><br/>".nl2br(html("gps_letop","vertrekinfo"))."</p>";
+		$content.="<p><b>".html("gps_coordinaten","vertrekinfo",array("v_gpslat"=>$gps_lat,"v_gpslong"=>$gps_long))."</b><br/>".nl2br(html("gps_letop","vertrekinfo"))."</p>";
 	}
 
-	# Adres
+	# Adres en telefoon
+
+	if(!$variabelen["telefoonnummer"]) {
+		$error[]="het beheer-telefoonnummer is nog niet <a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&archief=0&1k0=".$gegevens["stap1"]["accinfo"]["accommodatie_id"]."#vertrekinfo\" target=\"_blank\">gevuld bij deze accommodatie</a>";
+	}
 	if($vertrekinfo_soortadres) {
-		$return.="<p><b>";
+		$content.="<p><b>";
 		if($vertrekinfo_soortadres==1) {
 			# Adres accommodatie
-			$return.=html("adresaccommodatie","vertrekinfo");
+			$content.=html("adresaccommodatie","vertrekinfo");
 		} else {
 			# Sleuteladres
-			$return.=html("sleuteladres","vertrekinfo");
+			$content.=html("sleuteladres","vertrekinfo");
 		}
-		$return.=":</b><br/>".nl2br(wt_he($vertrekinfo_adres))."<br/>";
-		$return.=html("telefoonnummer","vertrekinfo",array("v_beheer"=>$variabelen["type_beheer"])).": ".wt_he($variabelen["telefoonnummer"]);
-		$return.="</p>";
+		$content.=":</b><br/>".nl2br(wt_he($vertrekinfo_adres))."<br/>";
+		if($variabelen["telefoonnummer"]) {
+			$content.=html("telefoonnummer","vertrekinfo",array("v_beheer"=>$variabelen["type_beheer"])).": ".wt_he($variabelen["telefoonnummer"]);
+		}
+		$content.="</p>";
+	} else {
+		$error[]="het adres is nog niet <a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&archief=0&1k0=".$gegevens["stap1"]["accinfo"]["accommodatie_id"]."#vertrekinfo\" target=\"_blank\">gevuld bij deze accommodatie</a>";
+	}
 
+	if(is_array($error)) {
+		$return["error"]="<p><b style=\"color:red;\">De vertrekinfo kon niet worden aangemaakt:</b><ul>";
+		while(list($key,$value)=each($error)) {
+			$return["error"].="<li>".$value."</li>";
+		}
+		$return["error"].="</ul></p>";
+	} elseif($content) {
+		$return["content"]=$content;
 	}
 
 	return $return;

@@ -131,7 +131,7 @@ $cms->edit_field(10,0,"teksteind_voucher","Extra tekst laatste dag");
 $cms->edit_field(10,0,"begindag","Datumaanpassing begin");
 $cms->edit_field(10,0,"einddag","Datumaanpassing eind");
 $cms->edit_field(10,0,"voucherlogo","Voucherlogo","",array("img_width"=>"600","img_height"=>"600"));
-$cms->edit_field(10,0,"htmlrow","<hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(10,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
 $cms->edit_field(10,0,"htmlrow","<br><i>Alinea 'Skipas'</i>");
 $cms->edit_field(10,0,"vertrekinfo_skipas","Tekst");
 if($vertrekinfo_tracking["vertrekinfo_skipas"]) {

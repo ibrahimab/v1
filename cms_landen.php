@@ -148,7 +148,7 @@ if($_GET["wzt"]==1) {
 	$cms->edit_field(6,0,"zomerafbeelding_top","Afbeeldingen bovenaan (4 stuks)","",array("img_width"=>"194","img_height"=>"120","number_of_uploadbuttons"=>4));
 }
 
-$cms->edit_field(6,0,"htmlrow","<hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(6,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
 $cms->edit_field(6,0,"htmlrow","<br><i>Alinea 'Enkele aanwijzingen' (hoort bij routebeschrijving)</i>");
 $cms->edit_field(6,0,"vertrekinfo_landroute","Tekst");
 if($_GET["wzt"]==2) {

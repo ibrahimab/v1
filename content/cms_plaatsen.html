@@ -25,7 +25,7 @@ if($_GET["show"]==4) {
 		echo "<input type=\"hidden\" name=\"leverancierscode_filled\" value=\"1\">";
 		echo "<tr><th>Optieleverancier</th><th>Code</th><th>Vertrekinfo-variabele</th></tr>";
 		while($db->next_record()) {
-			echo "<tr><td>".htmlentities($db->f("naam"))."</td><td><input type=\"text\" name=\"lev[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($leverancierscode[$db->f("optieleverancier_id")])."\"></td><td><input type=\"text\" style=\"width:400px;\" name=\"vertrekinfo_var[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($vertrekinfo_optiegroep_variabele[$db->f("optieleverancier_id")])."\"></td></tr>";
+			echo "<tr style=\"".($_GET["highlight_optieleverancier_id"]==$db->f("optieleverancier_id") ? "background-color:yellow;" : "")."\"><td>".htmlentities($db->f("naam"))."</td><td><input type=\"text\" name=\"lev[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($leverancierscode[$db->f("optieleverancier_id")])."\"></td><td><input type=\"text\" style=\"width:400px;\" name=\"vertrekinfo_var[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($vertrekinfo_optiegroep_variabele[$db->f("optieleverancier_id")])."\"></td></tr>";
 		}
 		echo "<tr><td align=\"center\" colspan=\"3\"><input type=\"submit\" value=\" GEGEVENS OPSLAAN \"></td></tr>";
 		echo "</form></table>";

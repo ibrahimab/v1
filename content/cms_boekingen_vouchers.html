@@ -13,6 +13,21 @@ if($_GET["burl"]) {
 }
 
 
+$vertrekinfo_boeking=vertrekinfo_boeking($gegevens);
+echo "<div style=\"border:1px solid #000000;width:578px;padding:10px;padding-top:3px;\">";
+echo "<center><b>Nieuw vertrekinfo-systeem (nog niet in gebruik)</b></center>";
+if($vertrekinfo_boeking["error"]) {
+	echo $vertrekinfo_boeking["error"];
+} else {
+	echo "<p>De vertrekinfo is correct samengesteld.</p>";
+	echo "<p><a href=\"#\" onclick=\"$('#vertrekinfo_voorbeeld').slideToggle();return false;\">Bekijk de vertrekinfo &raquo;</a></p>";
+}
+echo "</div>";
+
+if(!$vertrekinfo_boeking["error"]) {
+	echo "<div id=\"vertrekinfo_voorbeeld\" style=\"display:none;width:700px;margin-top:20px;border:1px solid #888888;padding:20px;\">".$vertrekinfo_boeking["content"]."</div>";
+}
+
 echo "<br>".$vars["temp_pdfprinttable"];
 
 echo "<iframe src=\"".$path."cms_iframesave.php?t=1&amp;voucherstatus=".$gegevens["stap1"]["voucherstatus"]."&amp;bid=".$gegevens["stap1"]["boekingid"]."\" style=\"width:900px;height:35px;\" frameborder=\"0\" scrolling=\"no\" marginwidth=\"0\" marginheight=\"0\"></iframe><br><br><br>";
@@ -66,8 +81,5 @@ $form->display_all();
 
 echo $meldingen;
 
-
-echo "<a name=\"vertrekinfo\"></a><hr><b>Test: vertrekinfo bij deze boeking:</b><br/><br/>";
-echo "<div style=\"width:700px;margin-left:auto;margin-right:auto;border:1px solid #888888;padding:20px;\">".vertrekinfo_boeking($gegevens)."</div>";
 
 ?>

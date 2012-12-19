@@ -563,17 +563,17 @@ $cms->edit_field(1,0,"htmlrow","<hr><b>Video</b>");
 $cms->edit_field(1,0,"videoEmbedCode","URL van Vimeo");
 $cms->edit_field(1,0,"video","Toon deze video op de accommodatiepagina");
 
-$cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><b>Goedkeuren bovenstaande teksten/gegevens</b>");
+$cms->edit_field(1,0,"htmlrow","<hr><b>Goedkeuren bovenstaande teksten/gegevens</b>");
 $cms->edit_field(1,0,"teksten_seizoengoedgekeurd","Teksten zijn goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 
-$cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><b>Vertrekinfo + route Nederlands</b>");
+$cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Nederlands</b>");
 $cms->edit_field(1,0,"route","Bestand","",array("showfiletype"=>true));
 $cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 $cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Engels</b>");
 $cms->edit_field(1,0,"route_en","Bestand (Engelstalig)","",array("showfiletype"=>true));
 $cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd_en","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 
-$cms->edit_field(1,0,"htmlrow","<hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
 
 $cms->edit_field(1,0,"htmlrow","<br><i>Alinea 'Inchecken'</i>");
 $cms->edit_field(1,0,"vertrekinfo_incheck_sjabloon_id","Sjabloon inchecken");
@@ -753,6 +753,12 @@ if($cms_form[1]->filled) {
 			$db2->query("DELETE FROM boeking WHERE type_id='".$db->f("type_id")."';");
 		}
 	}
+
+	# Controle op vertrekinfo_soortadres bij invullen vertrekinfo_adres
+	if($cms_form[1]->input["vertrekinfo_adres"] and !$cms_form[1]->input["vertrekinfo_soortadres"]) {
+		$cms_form[1]->error("vertrekinfo_soortadres","obl");
+	}
+
 #	$cms_form[1]->error("kwaliteit","testfout");
 }
 
