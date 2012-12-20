@@ -120,7 +120,7 @@ if($_GET["1k0"]) {
 	}
 
 	# Vertrekinfo-tracking
-	$vertrekinfo_tracking=vertrekinfo_tracking("accommodatie",array("inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_gps_lat", "vertrekinfo_gps_long"),$_GET["1k0"],$laatste_seizoen);
+	$vertrekinfo_tracking=vertrekinfo_tracking("accommodatie",array("inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_plaatsnaam_beheer", "vertrekinfo_gps_lat", "vertrekinfo_gps_long"),$_GET["1k0"],$laatste_seizoen);
 }
 
 $cms->settings[1]["list"]["show_icon"]=true;
@@ -297,6 +297,7 @@ $cms->db_field(1,"textarea","vertrekinfo_route");
 $cms->db_field(1,"textarea","vertrekinfo_route");
 $cms->db_field(1,"select","vertrekinfo_soortadres","",array("selection"=>$vars["vertrekinfo_soortadres"]));
 $cms->db_field(1,"textarea","vertrekinfo_adres");
+$cms->db_field(1,"text","vertrekinfo_plaatsnaam_beheer");
 $cms->db_field(1,"text","vertrekinfo_gps_lat");
 $cms->db_field(1,"text","vertrekinfo_gps_long");
 
@@ -626,6 +627,10 @@ if($vertrekinfo_tracking["vertrekinfo_soortadres"]) {
 $cms->edit_field(1,0,"vertrekinfo_adres","Adres");
 if($vertrekinfo_tracking["vertrekinfo_adres"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_adres"]))."</div>"));
+}
+$cms->edit_field(1,0,"vertrekinfo_plaatsnaam_beheer","Afwijkende plaatsnaam beheer","","",array("info"=>"Alleen invullen indien het beheer zich in een andere plaats dan de accommodatie bevindt."));
+if($vertrekinfo_tracking["vertrekinfo_plaatsnaam_beheer"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_plaatsnaam_beheer"]))."</div>"));
 }
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'GPS-co&ouml;rdinaten'</i>");
 $cms->edit_field(1,0,"htmlcol","GPS latitude accommodatie",array("html"=>"<div id=\"vertrekinfo_gps_lat_website\" class=\"vertrekinfo_prevalue\"></div>"));

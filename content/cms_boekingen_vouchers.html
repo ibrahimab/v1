@@ -20,12 +20,13 @@ if($vertrekinfo_boeking["error"]) {
 	echo $vertrekinfo_boeking["error"];
 } else {
 	echo "<p>De vertrekinfo is correct samengesteld.</p>";
-	echo "<p><a href=\"#\" onclick=\"$('#vertrekinfo_voorbeeld').slideToggle();return false;\">Bekijk de vertrekinfo &raquo;</a></p>";
+	echo "<p><a href=\"#\" onclick=\"$('#vertrekinfo_voorbeeld').slideToggle('normal',function(){setHgt2();});return false;\">Bekijk de vertrekinfo &raquo;</a></p>";
+	echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&printvertrekinfo=1&c=".time())."\" target=\"_blank\" onclick=\"location.reload(true);\">Print de vertrekinfo &raquo;</a></p>";
 }
 echo "</div>";
 
 if(!$vertrekinfo_boeking["error"]) {
-	echo "<div id=\"vertrekinfo_voorbeeld\" style=\"display:none;width:700px;margin-top:20px;border:1px solid #888888;padding:20px;\">".$vertrekinfo_boeking["content"]."</div>";
+	echo "<div id=\"vertrekinfo_voorbeeld\" style=\"display:none;width:700px;margin-top:20px;border:1px solid #888888;padding:20px;\">".preg_replace("/<!-- newpage -->/","<br/><br/><br/>",$vertrekinfo_boeking["content"])."</div>";
 }
 
 echo "<br>".$vars["temp_pdfprinttable"];

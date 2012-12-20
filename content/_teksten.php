@@ -4729,6 +4729,12 @@ $txt["en"]["vertrekinfo"]["inchecken"]="-";
 $txt["nl"]["vertrekinfo"]["devolgendezakeninclexcl"]="De volgende zaken zijn in- en exclusief bij deze accommodatie";
 $txt["en"]["vertrekinfo"]["devolgendezakeninclexcl"]="-";
 
+$txt["nl"]["vertrekinfo"]["devolgendezakenincl"]="De volgende zaken zijn inclusief bij deze accommodatie";
+$txt["en"]["vertrekinfo"]["devolgendezakenincl"]="-";
+
+$txt["nl"]["vertrekinfo"]["devolgendezakenexcl"]="De volgende zaken zijn exclusief bij deze accommodatie";
+$txt["en"]["vertrekinfo"]["devolgendezakenexcl"]="-";
+
 $txt["nl"]["vertrekinfo"]["inclusief"]="Inclusief";
 $txt["en"]["vertrekinfo"]["inclusief"]="-";
 
@@ -4757,6 +4763,9 @@ $txt["en"]["vertrekinfo"]["naam_optiecategorie8"]="-";
 
 $txt["nl"]["vertrekinfo"]["routebeschrijvingnaar"]="Routebeschrijving naar [[v_accommodatie]] in [[v_plaats]]";
 $txt["en"]["vertrekinfo"]["routebeschrijvingnaar"]="-";
+
+$txt["nl"]["vertrekinfo"]["routebeschrijvingnaarbeheer"]="Routebeschrijving naar [[v_beheer]] in [[v_plaatsnaambeheer]]";
+$txt["en"]["vertrekinfo"]["routebeschrijvingnaarbeheer"]="-";
 
 $txt["nl"]["vertrekinfo"]["routebeschrijving_inleiding"]="Zorg dat je altijd op de hoogte bent van de actuele regelgeving in de verschillende landen waar je doorheen rijdt!";
 $txt["en"]["vertrekinfo"]["routebeschrijving_inleiding"]="-";

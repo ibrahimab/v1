@@ -98,6 +98,22 @@ function voucher_form($voucher,$voucherteller) {
 	}
 }
 
+if($_GET["printvertrekinfo"]) {
+	# Vertrekinfo printen
+	$tmpfile=$vars["unixdir"]."tmp/vertrekinfo-".uniqid().".pfd";
+	$vertrekinfo_boeking=vertrekinfo_boeking($gegevens,$tmpfile);
+
+	if($vertrekinfo_boeking["error"]) {
+		echo $vertrekinfo_boeking["error"];
+	} else {
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Pragma: public");
+		header("Content-type: application/pdf");
+		readfile($tmpfile);
+		unlink($tmpfile);
+	}
+}
 
 #$gegevens["stap1"]["website_specifiek"]["ttv"]
 

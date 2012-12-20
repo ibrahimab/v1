@@ -2107,7 +2107,7 @@ function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen,$
 	}
 }
 
-function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
+function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 
 
 	# Testboeking: C12105342
@@ -2123,8 +2123,12 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 
 	# Niveau: Accommodatie
 	unset($seizoencontrole);
-	$db->query("SELECT accommodatie_id, vertrekinfo_goedgekeurd_seizoen, vertrekinfo_incheck_sjabloon_id, vertrekinfo_soortbeheer, vertrekinfo_telefoonnummer, vertrekinfo_inchecktijd, vertrekinfo_uiterlijkeinchecktijd, vertrekinfo_uitchecktijd, inclusief, vertrekinfo_inclusief, exclusief, vertrekinfo_exclusief, vertrekinfo_route, vertrekinfo_soortadres, vertrekinfo_adres, gps_lat, vertrekinfo_gps_lat, gps_long, vertrekinfo_gps_long FROM accommodatie WHERE accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."';");
+	$db->query("SELECT accommodatie_id, receptie, vertrekinfo_goedgekeurd_seizoen, vertrekinfo_incheck_sjabloon_id, vertrekinfo_soortbeheer, vertrekinfo_telefoonnummer, vertrekinfo_inchecktijd, vertrekinfo_uiterlijkeinchecktijd, vertrekinfo_uitchecktijd, inclusief, vertrekinfo_inclusief, exclusief, vertrekinfo_exclusief, vertrekinfo_route, vertrekinfo_soortadres, vertrekinfo_adres, vertrekinfo_plaatsnaam_beheer, gps_lat, vertrekinfo_gps_lat, gps_long, vertrekinfo_gps_long FROM accommodatie WHERE accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."';");
 	if($db->next_record()) {
+
+		# probeersel: nog uitwerken
+		$variabelen["receptie/sleutel"]=trim($db->f("receptie"));
+
 		if($db->f("vertrekinfo_incheck_sjabloon_id")) {
 			$vertrekinfo_incheck_sjabloon_id=$db->f("vertrekinfo_incheck_sjabloon_id");
 			$seizoencontrole=true;
@@ -2157,6 +2161,11 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 		if($db->f("vertrekinfo_adres")) {
 			$vertrekinfo_soortadres=$db->f("vertrekinfo_soortadres");
 			$vertrekinfo_adres=$db->f("vertrekinfo_adres");
+			$seizoencontrole=true;
+		}
+
+		if($db->f("vertrekinfo_plaatsnaam_beheer")) {
+			$vertrekinfo_plaatsnaam_beheer=$db->f("vertrekinfo_plaatsnaam_beheer");
 			$seizoencontrole=true;
 		}
 
@@ -2200,7 +2209,6 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 				$error[]="de accommodatie-teksten zijn nog niet <a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&archief=0&1k0=".$db->f("accommodatie_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
 			}
 		}
-
 	}
 
 	# Niveau: Type
@@ -2211,7 +2219,7 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 	$skipas_id=$gegevens["stap1"]["accinfo"]["skipasid"];
 
 	# Opties
-	$db->query("SELECT og.vertrekinfo_goedgekeurd_seizoen, og.optie_groep_id, og.vertrekinfo_optiegroep, og.skipas_id, og.optieleverancier_id, os.optie_soort_id, os.naam, os.optiecategorie FROM optie_groep og, optie_soort os, optie_accommodatie oa WHERE oa.accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."' AND oa.optie_groep_id=og.optie_groep_id AND oa.optie_soort_id=os.optie_soort_id ORDER BY length(og.vertrekinfo_optiegroep) DESC;");
+	$db->query("SELECT og.vertrekinfo_goedgekeurd_seizoen, og.optie_groep_id, og.vertrekinfo_optiegroep, og.skipas_id, og.optieleverancier_id, os.optie_soort_id, os.naam, os.optiecategorie FROM optie_groep og, optie_soort os, optie_accommodatie oa WHERE oa.accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."' AND oa.optie_groep_id=og.optie_groep_id AND oa.optie_soort_id=os.optie_soort_id ORDER BY FIND_IN_SET(optiecategorie,'4,5,1,2,3,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20'), length(og.vertrekinfo_optiegroep) DESC;");
 	while($db->next_record()) {
 		if(!$skipad_id and $db->f("skipas_id")) {
 			# Skipas koppelen
@@ -2281,7 +2289,7 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 
 	$db->query("SELECT land_id, ".$pre_zomer."vertrekinfo_goedgekeurd_seizoen AS vertrekinfo_goedgekeurd_seizoen, ".$pre_zomer."vertrekinfo_landroute AS vertrekinfo_landroute FROM land WHERE begincode='".addslashes($gegevens["stap1"]["accinfo"]["begincode"])."' AND ".$pre_zomer."vertrekinfo_landroute IS NOT NULL;");
 	if($db->next_record()) {
-		$route_land=$db->f("vertrekinfo_landroute");
+		$route_land=trim($db->f("vertrekinfo_landroute"));
 		if(!preg_match("/\b(".$gegevens["stap1"]["seizoenid"].")\b/",$db->f("vertrekinfo_goedgekeurd_seizoen"))) {
 			$error[]="de land-routebeschrijving is nog niet <a href=\"".$vars["path"]."cms_landen.php?edit=6&bc=84&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&6k0=".$db->f("land_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
 		}
@@ -2293,7 +2301,7 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 	# Routebeschrijving plaats
 	$db->query("SELECT vertrekinfo_goedgekeurd_seizoen, vertrekinfo_plaatsroute FROM plaats WHERE plaats_id='".intval($gegevens["stap1"]["accinfo"]["plaats_id"])."' AND vertrekinfo_plaatsroute IS NOT NULL;");
 	if($db->next_record()) {
-		$route_plaats=$db->f("vertrekinfo_plaatsroute");
+		$route_plaats=trim($db->f("vertrekinfo_plaatsroute"));
 		if(!preg_match("/\b(".$gegevens["stap1"]["seizoenid"].")\b/",$db->f("vertrekinfo_goedgekeurd_seizoen"))) {
 			$error[]="de plaats-routebeschrijving is nog niet <a href=\"".$vars["path"]."cms_plaatsen.php?edit=4&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
 		}
@@ -2301,7 +2309,65 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 		$error[]="er is nog geen plaats-routebeschrijving <a href=\"".$vars["path"]."cms_plaatsen.php?edit=4&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."#vertrekinfo\" target=\"_blank\">ingevoerd</a>";
 	}
 
-	# Start vertrekinformatie
+	#
+	# Start vertrekinformatie-html
+	#
+
+	# Logo linksboven
+	if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
+		# Zomerhuisje
+		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="be") {
+			# .be
+			$logo="factuur_logo_zomerhuisje.png";
+		} elseif($gegevens["stap1"]["website_specifiek"]["websiteland"]=="en") {
+			# .eu
+			$logo="factuur_logo_eu.png";
+		} else {
+			# .nl
+			$logo="factuur_logo_zomerhuisje.png";
+		}
+	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==6) {
+		# Vallandry
+		$logo="factuur_logo_vallandry.png";
+	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==4 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==5) {
+		# Chalettour
+		$logo="factuur_logo_chalettour.png";
+	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
+		$logo="factuur_logo_italissima.png";
+	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
+		# SuperSki
+		$logo="pic/factuur_logo_superski.png";
+	} else {
+		# Chalet Winter
+		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="be") {
+			# .be
+			$logo="factuur_logo_be.png";
+		} elseif($gegevens["stap1"]["website_specifiek"]["websiteland"]=="en") {
+			# .eu
+			$logo="factuur_logo_eu.png";
+		} else {
+			# .nl
+			$logo="factuur_logo.png";
+		}
+	}
+
+	$content.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"pic/".$logo."\" style=\"width:200px;\"></td>";
+	$content.="<td style=\"text-align:right;\">";
+	if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
+		# Adres voor Nederlanders
+		$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/><br/>Tel.: 0348 434649<br/>Fax: 0348 690752<br/>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"];
+	} else {
+		if($gegevens["stap1"]["taal"]=="en") {
+			# Adres voor Engelstalige buitenlanders
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/>The Netherlands<br/><br/>Tel.: +31 348 434649<br/>Fax: +31 348 690752<br/>Email: ".$gegevens["stap1"]["website_specifiek"]["email"];
+		} else {
+			# Adres voor Nederlandstalige buitenlanders
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/>Nederland<br/><br/>Tel.: +31 348 434649<br/>Fax: +31 348 690752<br/>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"];
+		}
+	}
+	$content.="<br/><br/>".substr(str_replace("http://","",$gegevens["stap1"]["website_specifiek"]["basehref"]),0,-1);
+	$content.="</td></tr></table>";
+
 	$content.="<h1>".html("vertrekinformatie","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</h1>";
 
 	# Sjabloon inchecken
@@ -2311,10 +2377,10 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 			$inchecken=trim($db->f("tekst"));
 		}
 		# Variabelen sjabloon vullen
-		$te_doorlopen_variabelen=array("type_beheer","telefoonnummer","inchecktijd","uiterlijke_inchecktijd","uitchecktijd");
+		$te_doorlopen_variabelen=array("type_beheer","telefoonnummer","inchecktijd","uiterlijke_inchecktijd","uitchecktijd","receptie/sleutel");
 		while(list($key,$value)=each($te_doorlopen_variabelen)) {
 			if($variabelen[$value]) {
-				$inchecken=preg_replace("/\[".$value."\]/",$variabelen[$value],$inchecken);
+				$inchecken=preg_replace("/\[".preg_replace("/\//","\/",$value)."\]/",$variabelen[$value],$inchecken);
 			} elseif(preg_match("/\[".$value."\]/",$inchecken)) {
 				$error[]="variabele [".$value."] kan nog niet worden <a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&archief=0&1k0=".$gegevens["stap1"]["accinfo"]["accommodatie_id"]."#vertrekinfo\" target=\"_blank\">gevuld bij deze accommodatie</a>";
 			}
@@ -2324,7 +2390,13 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 		$error[]="er is nog geen incheck-sjabloon <a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&archief=0&1k0=".$gegevens["stap1"]["accinfo"]["accommodatie_id"]."#vertrekinfo\" target=\"_blank\">gekozen bij deze accommodatie</a>";
 	}
 
-	$content.="<p>".html("devolgendezakeninclexcl","vertrekinfo").":</p>";
+	if($inclusief and $exclusief) {
+		$content.="<p>".html("devolgendezakeninclexcl","vertrekinfo").":</p>";
+	} elseif($inclusief) {
+		$content.="<p>".html("devolgendezakenincl","vertrekinfo").":</p>";
+	} elseif($exclusief) {
+		$content.="<p>".html("devolgendezakenexcl","vertrekinfo").":</p>";
+	}
 
 	if($inclusief) {
 		$content.="<p><b>".html("inclusief","vertrekinfo").":</b><br/>".nl2br(wt_he($inclusief))."</p>";
@@ -2345,11 +2417,19 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 	}
 
 	# Routebeschrijving
-	$content.="<br/><br/><h1>".html("routebeschrijvingnaar","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</h1>";
+	$content.="<!-- newpage --><h1>";
+
+	if($vertrekinfo_plaatsnaam_beheer) {
+		$content.=html("routebeschrijvingnaarbeheer","vertrekinfo",array("v_beheer"=>$variabelen["type_beheer"],"v_plaatsnaambeheer"=>$vertrekinfo_plaatsnaam_beheer));
+	} else {
+		$content.=html("routebeschrijvingnaar","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]));
+	}
+
+	$content.="</h1>";
 
 	$content.="<p><b>".html("routebeschrijving_inleiding","vertrekinfo")."</b></p>";
 
-	$content.="<p><b><u>".html("enkeleaanwijzingen","vertrekinfo").":</u></b><br/><br/>".nl2br(wt_he($route_land))."</p>";
+	$content.="<p><b><u>".html("enkeleaanwijzingen","vertrekinfo").":</u></b><br/>".nl2br(wt_he($route_land))."</p>";
 
 	$content.="<p><b>".html("routenaarplaats","vertrekinfo",array("v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"])).":</b><br/>".nl2br(wt_he($route_plaats))."</p>";
 
@@ -2391,6 +2471,90 @@ function vertrekinfo_boeking($gegevens,$save_pdf_path="") {
 		$return["error"].="</ul></p>";
 	} elseif($content) {
 		$return["content"]=$content;
+
+
+
+		#
+		# PDF aanmaken
+		#
+		if($save_pdffile) {
+
+			require_once("admin/tcpdf/config/lang/eng.php");
+			require_once("admin/tcpdf/tcpdf.php");
+
+			define ('PDF_PAGE_FORMAT', 'A4');
+			define ('PDF_PAGE_ORIENTATION', "P"); # Portraint orientation
+			define ("PDF_CREATOR", 'TCPDF');
+
+			if(!class_exists('MYPDF')) {
+				class MYPDF extends TCPDF {
+					//Page header
+					public function Header() {
+						$this->SetY(0);
+					}
+
+					// Page footer
+					public function Footer() {
+						// Position at 2.0 cm from bottom
+						$this->SetY(-20);
+						// Set font
+						$this->SetFont('helvetica', 'I', 8);
+						// Page number
+						$this->Cell(0, 10, 'Pagina '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, 0, 'C');
+					}
+				}
+			}
+			// create new PDF document
+			$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+			// set document information
+			$pdf->SetCreator(PDF_CREATOR);
+			$pdf->SetAuthor("");
+			#$pdf->SetTitle('');
+
+			// set default header data
+			$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
+
+			// set header and footer fonts
+			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+			$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+			// set default monospaced font
+			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+			//set margins
+			$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+			$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+			$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+			//set auto page breaks
+			$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+			//set image scale factor
+			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+			//set some language-dependent strings
+			$pdf->setLanguageArray($l);
+
+			$htmlcontent=utf8_encode($content);
+			$pages=preg_split("/<!-- newpage -->/",$htmlcontent);
+
+			if(is_array($pages)) {
+				while(list($key,$value)=each($pages)) {
+
+					// set font
+					$pdf->SetFont('helvetica', '', 9);
+
+					$pdf->SetMargins(PDF_MARGIN_LEFT, 15, PDF_MARGIN_RIGHT);
+
+					// add a page
+					$pdf->AddPage("P");
+
+					$pdf->writeHTML($value, true, 0, true, 0);
+				}
+			}
+			$pdf->Output($save_pdffile,"F");
+		}
 	}
 
 	return $return;
