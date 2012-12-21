@@ -2135,6 +2135,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		}
 		if($db->f("vertrekinfo_soortbeheer")) {
 			$variabelen["type_beheer"]=$vars["vertrekinfo_soortbeheer_sjabloontekst"][$db->f("vertrekinfo_soortbeheer")];
+			$variabelen["type_beheer_kort"]=$vars["vertrekinfo_soortbeheer"][$db->f("vertrekinfo_soortbeheer")];
 			$seizoencontrole=true;
 		}
 		if($db->f("vertrekinfo_telefoonnummer")) {
@@ -2190,18 +2191,18 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 
 		# GPS-coördinaten
 		if($db->f("vertrekinfo_gps_lat")) {
-				$gps_lat=$db->f("vertrekinfo_gps_lat");
-				$seizoencontrole=true;
-		} elseif($db->f("inclusief")) {
-				$gps_lat=$db->f("gps_lat");
+				$gps_lat_beheer=$db->f("vertrekinfo_gps_lat");
 				$seizoencontrole=true;
 		}
 		if($db->f("vertrekinfo_gps_long")) {
-				$gps_long=$db->f("vertrekinfo_gps_long");
+				$gps_long_beheer=$db->f("vertrekinfo_gps_long");
 				$seizoencontrole=true;
-		} elseif($db->f("inclusief")) {
+		}
+		if($db->f("gps_lat")) {
+				$gps_lat=$db->f("gps_lat");
+		}
+		if($db->f("gps_long")) {
 				$gps_long=$db->f("gps_long");
-				$seizoencontrole=true;
 		}
 
 		if($seizoencontrole) {
@@ -2351,7 +2352,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		}
 	}
 
-	$content.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"pic/".$logo."\" style=\"width:200px;\"></td>";
+	$content.="<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%\"><tr><td><img src=\"pic/".$logo."\" style=\"width:170px;\"><br/></td>";
 	$content.="<td style=\"text-align:right;\">";
 	if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
 		# Adres voor Nederlanders
@@ -2368,7 +2369,16 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	$content.="<br/><br/>".substr(str_replace("http://","",$gegevens["stap1"]["website_specifiek"]["basehref"]),0,-1);
 	$content.="</td></tr></table>";
 
-	$content.="<h1>".html("vertrekinformatie","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</h1>";
+	# Koptekst
+	$content.="<div style=\"font-size:1.5em;font-weight:bold;\">".html("vertrekinformatie","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</div>";
+
+#echo wt_dump($gegevens);
+
+	# Subtekst: naam seizoen
+	$db->query("SELECT naam".$gegevens["stap1"]["website_specifiek"]["ttv"]." AS naam FROM seizoen WHERE seizoen_id='".addslashes($gegevens["stap1"]["seizoenid"])."';");
+	if($db->next_record()) {
+		$content.="<b>".wt_he($db->f("naam"))."</b>";
+	}
 
 	# Sjabloon inchecken
 	if($vertrekinfo_incheck_sjabloon_id) {
@@ -2417,15 +2427,16 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	}
 
 	# Routebeschrijving
-	$content.="<!-- newpage --><h1>";
+	$content.="<!-- newpage -->";
 
+	# Koptekst routebeschrijving
+	$content.="<div style=\"font-size:1.5em;font-weight:bold;\">";
 	if($vertrekinfo_plaatsnaam_beheer) {
 		$content.=html("routebeschrijvingnaarbeheer","vertrekinfo",array("v_beheer"=>$variabelen["type_beheer"],"v_plaatsnaambeheer"=>$vertrekinfo_plaatsnaam_beheer));
 	} else {
 		$content.=html("routebeschrijvingnaar","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]));
 	}
-
-	$content.="</h1>";
+	$content.="</div>";
 
 	$content.="<p><b>".html("routebeschrijving_inleiding","vertrekinfo")."</b></p>";
 
@@ -2436,8 +2447,16 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	$content.="<p><b>".html("routenaarbeheer","vertrekinfo",array("v_beheer"=>$variabelen["type_beheer"],"v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"])).":</b><br/>".nl2br(wt_he($route_beheer))."</p>";
 
 	# GPS-coördinaten
-	if($gps_lat and $gps_long) {
-		$content.="<p><b>".html("gps_coordinaten","vertrekinfo",array("v_gpslat"=>$gps_lat,"v_gpslong"=>$gps_long))."</b><br/>".nl2br(html("gps_letop","vertrekinfo"))."</p>";
+	if(($gps_lat and $gps_long) or ($gps_lat_beheer and $gps_long_beheer)) {
+		if($gps_lat and $gps_lat_beheer) {
+			$content.="<p><b>".html("gps_coordinaten_beheer","vertrekinfo",array("v_beheer"=>$variabelen["type_beheer_kort"],"v_gpslat"=>$gps_lat_beheer,"v_gpslong"=>$gps_long_beheer))."</b><br/>";
+			$content.="<b>".html("gps_coordinaten_accommodatie","vertrekinfo",array("v_gpslat"=>$gps_lat,"v_gpslong"=>$gps_long))."</b><br/>";
+			$content.=nl2br(html("gps_letop","vertrekinfo"))."</p>";
+		} elseif($gps_lat) {
+			$content.="<p><b>".html("gps_coordinaten","vertrekinfo",array("v_gpslat"=>$gps_lat,"v_gpslong"=>$gps_long))."</b><br/>".nl2br(html("gps_letop","vertrekinfo"))."</p>";
+		} elseif($gps_lat_beheer) {
+			$content.="<p><b>".html("gps_coordinaten","vertrekinfo",array("v_gpslat"=>$gps_lat_beheer,"v_gpslong"=>$gps_long_beheer))."</b><br/>".nl2br(html("gps_letop","vertrekinfo"))."</p>";
+		}
 	}
 
 	# Adres en telefoon
@@ -2490,7 +2509,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 				class MYPDF extends TCPDF {
 					//Page header
 					public function Header() {
-						$this->SetY(0);
+
 					}
 
 					// Page footer
@@ -2500,7 +2519,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 						// Set font
 						$this->SetFont('helvetica', 'I', 8);
 						// Page number
-						$this->Cell(0, 10, 'Pagina '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, 0, 'C');
+						$this->Cell(0, 0, 'Pagina '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, 0, 'C');
 					}
 				}
 			}
@@ -2509,7 +2528,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 
 			// set document information
 			$pdf->SetCreator(PDF_CREATOR);
-			$pdf->SetAuthor("");
+			$pdf->SetAuthor($gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]);
 			#$pdf->SetTitle('');
 
 			// set default header data

@@ -4782,7 +4782,13 @@ $txt["en"]["vertrekinfo"]["routenaarbeheer"]="-";
 $txt["nl"]["vertrekinfo"]["gps_coordinaten"]="GPS-coördinaten: [[v_gpslat]], [[v_gpslong]]";
 $txt["en"]["vertrekinfo"]["gps_coordinaten"]="-";
 
-$txt["nl"]["vertrekinfo"]["gps_letop"]="Let op: opgegeven coördinaten zijn een indicatie en kunnen afwijken van het sleuteladres. Controleer ze altijd vooraf op juistheid!";
+$txt["nl"]["vertrekinfo"]["gps_coordinaten_beheer"]="GPS-coördinaten [[v_beheer]]: [[v_gpslat]], [[v_gpslong]]";
+$txt["en"]["vertrekinfo"]["gps_coordinaten_beheer"]="-";
+
+$txt["nl"]["vertrekinfo"]["gps_coordinaten_accommodatie"]="GPS-coördinaten accommodatie: [[v_gpslat]], [[v_gpslong]]";
+$txt["en"]["vertrekinfo"]["gps_coordinaten_accommodatie"]="-";
+
+$txt["nl"]["vertrekinfo"]["gps_letop"]="Let op: opgegeven coördinaten zijn een indicatie en kunnen afwijken van het adres. Kijk vooraf of de gegeven coördinaten kunnen worden ingevoerd in je GPS-systeem; niet ieder systeem gebruikt dezelfde notatie.";
 $txt["en"]["vertrekinfo"]["gps_letop"]="-";
 
 $txt["nl"]["vertrekinfo"]["adresaccommodatie"]="Adres accommodatie";

@@ -532,7 +532,7 @@ $(document).ready(function() {
 		});
 
 		// alle te tracken velden vooraf onthouden
-		var vertrekinfo_te_tracken = ["inclusief", "exclusief" ,"gps_lat", "gps_long" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_plaatsnaam_beheer", "vertrekinfo_gps_lat", "vertrekinfo_gps_long", "vertrekinfo_skipas", "vertrekinfo_landroute", "vertrekinfo_plaatsroute", "vertrekinfo_optiegroep"];
+		var vertrekinfo_te_tracken = ["inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_plaatsnaam_beheer", "vertrekinfo_gps_lat", "vertrekinfo_gps_long", "vertrekinfo_skipas", "vertrekinfo_landroute", "vertrekinfo_plaatsroute", "vertrekinfo_optiegroep"];
 		var vertrekinfo_te_tracken_prevalue = [];
 
 		$.each(vertrekinfo_te_tracken, function(key, value) {
@@ -573,29 +573,6 @@ $(document).ready(function() {
 				$("#vertrekinfo_exclusief_website").html($("textarea[name='input[exclusief]']").val().replace(/\n/g,"<br />"));
 			});
 		}
-
-		// gps_lat overnemen van ander ingevuld veld
-		if($("#vertrekinfo_gps_lat_website").length>0) {
-			// input[vertrekinfo_exclusief] bij openen pagina vullen met input[exclusief]
-			$("#vertrekinfo_gps_lat_website").html($("input[name='input[gps_lat]']").val().replace(/\n/g,"<br />"));
-
-			// input[vertrekinfo_exclusief] bij wijzigen input[exclusief]
-			$("input[name='input[gps_lat]']").keyup(function() {
-				$("#vertrekinfo_gps_lat_website").html($("input[name='input[gps_lat]']").val().replace(/\n/g,"<br />"));
-			});
-		}
-
-		// gps_long overnemen van ander ingevuld veld
-		if($("#vertrekinfo_gps_long_website").length>0) {
-			// input[vertrekinfo_exclusief] bij openen pagina vullen met input[exclusief]
-			$("#vertrekinfo_gps_long_website").html($("input[name='input[gps_long]']").val().replace(/\n/g,"<br />"));
-
-			// input[vertrekinfo_exclusief] bij wijzigen input[exclusief]
-			$("input[name='input[gps_long]']").keyup(function() {
-				$("#vertrekinfo_gps_long_website").html($("input[name='input[gps_long]']").val().replace(/\n/g,"<br />"));
-			});
-		}
-
 	}
 });
 

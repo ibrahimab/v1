@@ -618,7 +618,6 @@ $cms->edit_field(1,0,"vertrekinfo_route","Routebeschrijving");
 if($vertrekinfo_tracking["vertrekinfo_route"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_route"]))."</div>"));
 }
-#$cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'GPS-co&ouml;rdinaten'</i>");
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Adres'</i>");
 $cms->edit_field(1,0,"vertrekinfo_soortadres","Type adres");
 if($vertrekinfo_tracking["vertrekinfo_soortadres"]) {
@@ -633,16 +632,16 @@ if($vertrekinfo_tracking["vertrekinfo_plaatsnaam_beheer"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_plaatsnaam_beheer"]))."</div>"));
 }
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'GPS-co&ouml;rdinaten'</i>");
-$cms->edit_field(1,0,"htmlcol","GPS latitude accommodatie",array("html"=>"<div id=\"vertrekinfo_gps_lat_website\" class=\"vertrekinfo_prevalue\"></div>"));
+#$cms->edit_field(1,0,"htmlcol","GPS latitude accommodatie",array("html"=>"<div id=\"vertrekinfo_gps_lat_website\" class=\"vertrekinfo_prevalue\"></div>"));
 if($vertrekinfo_tracking["vertrekinfo_gps_lat"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_gps_lat"]))."</div>"));
 }
-$cms->edit_field(1,0,"vertrekinfo_gps_lat","GPS latitude","","",array("info"=>"Alleen invullen indien deze afwijkt van de website-waarde. Vul de breedtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 52.086508"));
-$cms->edit_field(1,0,"htmlcol","GPS longitude accommodatie",array("html"=>"<div id=\"vertrekinfo_gps_long_website\" class=\"vertrekinfo_prevalue\"></div>"));
+$cms->edit_field(1,0,"vertrekinfo_gps_lat","GPS latitude beheer","","",array("info"=>"Alleen invullen indien deze afwijkt van de accommodatie-GPS-coördinaten. Vul de breedtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 52.086508"));
+#$cms->edit_field(1,0,"htmlcol","GPS longitude accommodatie",array("html"=>"<div id=\"vertrekinfo_gps_long_website\" class=\"vertrekinfo_prevalue\"></div>"));
 if($vertrekinfo_tracking["vertrekinfo_gps_long"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_gps_long"]))."</div>"));
 }
-$cms->edit_field(1,0,"vertrekinfo_gps_long","GPS longitude","","",array("info"=>"Alleen invullen indien deze afwijkt van de website-waarde. Vul de lengtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 4.886513"));
+$cms->edit_field(1,0,"vertrekinfo_gps_long","GPS longitude beheer","","",array("info"=>"Alleen invullen indien deze afwijkt van de accommodatie-GPS-coördinaten. Vul de lengtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 4.886513"));
 
 
 

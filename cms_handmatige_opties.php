@@ -190,19 +190,26 @@ if($cms_form[23]->filled) {
 		}
 	}
 	if($cms_form[23]->input["verberg_voor_klant"] and $cms_form[23]->input["verkoop"]<>0) {
-		$cms_form[23]->error("verkoop","bij verbergen voor klant niet van toepassing");	
+		$cms_form[23]->error("verkoop","bij verbergen voor klant niet van toepassing");
 	}
 	if($cms_form[23]->input["verberg_voor_klant"] and $cms_form[23]->input["voucher"]) {
-		$cms_form[23]->error("voucher","bij verbergen voor klant is een voucher niet van toepassing");	
+		$cms_form[23]->error("voucher","bij verbergen voor klant is een voucher niet van toepassing");
 	}
 	if($cms_form[23]->input["verberg_voor_klant"] and $cms_form[23]->input["persoonsgegevensgewenst"]) {
-		$cms_form[23]->error("persoonsgegevensgewenst","bij verbergen voor klant zijn persoonsgegevens niet van toepassing");	
+		$cms_form[23]->error("persoonsgegevensgewenst","bij verbergen voor klant zijn persoonsgegevens niet van toepassing");
 	}
 #	if($cms_form[23]->input["verberg_voor_klant"] and $cms_form[23]->input["persoonnummer"]=="alg") {
 #		$cms_form[23]->error("persoonnummer","bij verbergen voor klant zijn algemene opties niet mogelijk");
 #	}
 	if($cms_form[23]->input["verberg_voor_klant"] and $cms_form[23]->input["skipas_id"]) {
 		$cms_form[23]->error("skipas_id","bij verbergen voor klant zijn skipassen niet mogelijk");
+	}
+
+	# Zorgen dat voucher-gegevens alleen ingevuld kunnen worden indien voucher-vinkje aan staat
+	if(!$cms_form[23]->input["voucher"]) {
+		if($cms_form[23]->input["naam_voucher"]) $cms_form[23]->error("naam_voucher","alleen invullen indien 'Komt op een voucher' aan staat");
+		if($cms_form[23]->input["omschrijving_voucher"]) $cms_form[23]->error("omschrijving_voucher","alleen invullen indien 'Komt op een voucher' aan staat");
+		if($cms_form[23]->input["aanvullend_voucher"]) $cms_form[23]->error("aanvullend_voucher","alleen invullen indien 'Komt op een voucher' aan staat");
 	}
 }
 
