@@ -2232,7 +2232,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 						$error[]="de type-teksten zijn nog niet <a href=\"".$vars["path"]."cms_types.php?edit=2&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
 					} elseif($querykey==4) {
 						# onderliggend type goedkeuren
-						$error[]="de type-teksten zijn nog niet <a href=\"".$vars["path"]."cms_types.php?edit=2&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
+						$error[]="de onderliggend gekozen type-teksten zijn nog niet <a href=\"".$vars["path"]."cms_types.php?edit=2&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
 					}
 				}
 			}
@@ -2339,6 +2339,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		$seizoennaam=$db->f("naam");
 	}
 
+#echo wt_dump($gegevens);
 
 	#
 	# Start vertrekinformatie-html
