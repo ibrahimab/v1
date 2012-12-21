@@ -3764,7 +3764,7 @@ function inkoopprijs_opslaan($boekingid) {
 function googleanalytics() {
 	global $vars,$voorkant_cms,$id;
 
-#	$test_analytics=true;
+	$test_analytics=true;
 
 	if($test_analytics)	{
 		if($vars["lokale_testserver"]) {

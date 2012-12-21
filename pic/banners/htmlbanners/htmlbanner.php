@@ -72,7 +72,7 @@ function zomer_land($width="130px") {
 	echo "<option value=\"2\">Oostenrijk</option>\n";
 	echo "<option value=\"3\">Zwitserland</option>\n";
 	echo "<option value=\"5\">Itali&euml;</option>\n";
-	echo "<option value=\"6\">Spanje</option>\n";
+	echo "<option value=\"6\">Duitsland</option>\n";
 	echo "</select>\n";
 }
 
@@ -261,7 +261,7 @@ function formsubmit(type) {
 			if(document.frm.l.value==2) url='http://www.zomerhuisje.nl/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.l.value==3) url='http://www.zomerhuisje.nl/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
 			if(document.frm.l.value==5) url='http://www.zomerhuisje.nl/land/Italie/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==6) url='http://www.zomerhuisje.nl/land/Spanje/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==6) url='http://www.zomerhuisje.nl/land/Duitsland/?<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==3) {
 			while(list($key,$value)=each($regio)) {
 				echo "if(document.frm.l.value==".$key.") url='http://www.italissima.nl/regio/".wt_convert2url($value)."/?".$extra_qs.$utm."';\n";

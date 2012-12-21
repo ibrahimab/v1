@@ -486,8 +486,8 @@ if($id!="index") {
 	echo "<div class=\"wrap\">";
 	echo "<div class=\"divContentIND\">";
 	echo "<br><b>Onze bestemmingen</b><br><br>";
-	echo "<li><a href=\"".$vars["path"]."agriturismo-italie\" rel=\"nofollow\">Agriturismi in Itali&euml;</a></li>";
-	echo"<li><a href=\"".$vars["path"]."agriturismo-toscane\" rel=\"nofollow\">Agriturismi in Toscane</a></li>";
+	echo "<li><a href=\"".$vars["path"]."agriturismo-italie\" rel=\"nofollow\">Agriturismo Itali&euml;</a></li>";
+	echo"<li><a href=\"".$vars["path"]."agriturismo-toscane\" rel=\"nofollow\">Agriturismo Toscane</a></li>";
 	echo "<li><a href=\"".$vars["path"]."regio/Campanie/\" rel=\"nofollow\">Vakantiehuizen in Campani&euml;</a></li>";
 	echo "<li><a href=\"".$vars["path"]."regio/Dolomieten/\" rel=\"nofollow\">Vakantiehuizen in Dolomieten</a></li>";
 	echo "<li><a href=\"".$vars["path"]."regio/Lazio/\" rel=\"nofollow\">Vakantiehuizen in Lazio</a></li>";
