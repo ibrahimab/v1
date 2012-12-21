@@ -2310,6 +2310,13 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		$error[]="er is nog geen plaats-routebeschrijving <a href=\"".$vars["path"]."cms_plaatsen.php?edit=4&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."#vertrekinfo\" target=\"_blank\">ingevoerd</a>";
 	}
 
+	# seizoennaam bepalen
+	$db->query("SELECT naam".$gegevens["stap1"]["website_specifiek"]["ttv"]." AS naam FROM seizoen WHERE seizoen_id='".addslashes($gegevens["stap1"]["seizoenid"])."';");
+	if($db->next_record()) {
+		$seizoennaam=$db->f("naam");
+	}
+
+
 	#
 	# Start vertrekinformatie-html
 	#
@@ -2352,33 +2359,24 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		}
 	}
 
-	$content.="<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%\"><tr><td><img src=\"pic/".$logo."\" style=\"width:170px;\"><br/></td>";
+	$content.="<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%\"><tr><td><img src=\"pic/".$logo."\" style=\"width:170px;\"><br/><br/></td>";
 	$content.="<td style=\"text-align:right;\">";
 	if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
 		# Adres voor Nederlanders
-		$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/><br/>Tel.: 0348 434649<br/>Fax: 0348 690752<br/>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"];
+		$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/><br/><b>Tel.: 0348 434649</b><br/><b>Fax: 0348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
 	} else {
 		if($gegevens["stap1"]["taal"]=="en") {
 			# Adres voor Engelstalige buitenlanders
-			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/>The Netherlands<br/><br/>Tel.: +31 348 434649<br/>Fax: +31 348 690752<br/>Email: ".$gegevens["stap1"]["website_specifiek"]["email"];
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/>The Netherlands<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>Email: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
 		} else {
 			# Adres voor Nederlandstalige buitenlanders
-			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/>Nederland<br/><br/>Tel.: +31 348 434649<br/>Fax: +31 348 690752<br/>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"];
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/>Nederland<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
 		}
 	}
-	$content.="<br/><br/>".substr(str_replace("http://","",$gegevens["stap1"]["website_specifiek"]["basehref"]),0,-1);
 	$content.="</td></tr></table>";
 
 	# Koptekst
-	$content.="<div style=\"font-size:1.5em;font-weight:bold;\">".html("vertrekinformatie","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</div>";
-
-#echo wt_dump($gegevens);
-
-	# Subtekst: naam seizoen
-	$db->query("SELECT naam".$gegevens["stap1"]["website_specifiek"]["ttv"]." AS naam FROM seizoen WHERE seizoen_id='".addslashes($gegevens["stap1"]["seizoenid"])."';");
-	if($db->next_record()) {
-		$content.="<b>".wt_he($db->f("naam"))."</b>";
-	}
+	$content.="<span style=\"font-size:1.5em;font-weight:bold;\">".html("vertrekinformatie","vertrekinfo",array("v_accommodatie"=>$gegevens["stap1"]["accinfo"]["accommodatie"],"v_plaats"=>$gegevens["stap1"]["accinfo"]["plaats"]))."</span>";
 
 	# Sjabloon inchecken
 	if($vertrekinfo_incheck_sjabloon_id) {
@@ -2520,11 +2518,18 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 						$this->SetFont('helvetica', 'I', 8);
 						// Page number
 						$this->Cell(0, 0, 'Pagina '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, 0, 'C');
+
+						// seizoennaam
+						$this->SetY(-20);
+						$this->Cell(0, 0, $this->seizoennaam, 0, 0, 'L');
+
 					}
 				}
 			}
 			// create new PDF document
 			$pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+			$pdf->seizoennaam=utf8_encode($seizoennaam);
 
 			// set document information
 			$pdf->SetCreator(PDF_CREATOR);

@@ -1,16 +1,48 @@
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <style>
+
+
+#facebook_like {
+	display: block;
+	border: 1px solid #e6007e;
+	width: 480px;
+	margin-left: auto;
+	margin-right: auto;
+	height: 50px;
+	padding-top: 30px;
+	font-size: 1.3em;
+	text-align: left;
+	margin-bottom: 20px;
+	padding-left: 80px;
+	background-color: #ffffff;
+	background-image:url('<?php echo $vars["path"]; ?>pic/tijdelijk/facebook-actie-cijfer-1.png');
+	background-repeat:no-repeat;
+	background-position: 0px 5px;
+}
 
 .facebook_actielink {
 	display: block;
 	border: 1px solid #e6007e;
-	width: 300px;
+	width: 480px;
 	margin-left: auto;
 	margin-right: auto;
-	height: 40px;
-	padding-top: 14px;
+	height: 50px;
+	padding-top: 30px;
 	font-size: 1.3em;
-	text-align: center;
+	text-align: left;
+	padding-left: 80px;
 	margin-bottom: 20px;
+	background-color: #ffffff;
+	background-image:url('<?php echo $vars["path"]; ?>pic/tijdelijk/facebook-actie-cijfer-2.png');
+	background-repeat:no-repeat;
+	background-position: 0px 5px;
 }
 
 .facebook_actielink:hover {
@@ -23,7 +55,13 @@
 
 <div style="text-align:center;margin-top: 20px;margin-bottom:20px;font-size:1.4em;">en win een wintersportvakantie in Oostenrijk voor 4 personen t.w.v. &euro;&nbsp;450,- !</div>
 
-<a href="https://www.facebook.com/photo.php?fbid=306126866153963&amp;set=a.299185013514815.52330.290286354404681&amp;type=1" target="_blank" class="facebook_actielink">Doe mee aan onze actie &raquo;</a>
+<div style="text-align:center;margin-top: 20px;margin-bottom:20px;font-size:1.1em;font-weight:bold;">Doorloop de volgende stappen om mee te doen:</span></div>
+
+<div id="facebook_like">Like ons op Facebook:
+<div style="margin-left:10px;width:250px;" class="fb-like" data-href="https://www.facebook.com/SuperSki.nl" data-send="false" data-layout="button_count" data-width="250" data-show-faces="false" data-font="arial"></div>
+</div>
+
+<a href="https://www.facebook.com/photo.php?fbid=306126866153963&amp;set=a.299185013514815.52330.290286354404681&amp;type=1" target="_blank" class="facebook_actielink">Deel het actiebericht met je vrienden op Facebook &raquo;</a>
 
 
 <div style="margin-top:20px;">De winnaar wordt in de eerste week van januari 2013 via Facebook en Twitter bekend gemaakt.</div>
