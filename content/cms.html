@@ -23,8 +23,10 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
-		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+#		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+		# Overzetten receptie naar vertrekinfo_soortbeheer_aanvulling
+#		$db->query("UPDATE accommodatie SET vertrekinfo_soortbeheer_aanvulling=receptie WHERE receptie<>'' AND receptie IS NOT NULL;");
 
 		// # Italiaanse accommodaties Zomerhuisje uitzetten
 		// $db->query("SELECT type_id, websites, skigebied FROM view_accommodatie WHERE (websites LIKE '%Z%' OR websites LIKE '%N%') AND websites LIKE '%I%' AND land_id=5 AND archief=0 AND skigebied_id NOT IN (135,142,168) ORDER BY skigebied;");

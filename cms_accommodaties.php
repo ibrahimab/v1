@@ -120,7 +120,7 @@ if($_GET["1k0"]) {
 	}
 
 	# Vertrekinfo-tracking
-	$vertrekinfo_tracking=vertrekinfo_tracking("accommodatie",array("inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_plaatsnaam_beheer", "vertrekinfo_gps_lat", "vertrekinfo_gps_long"),$_GET["1k0"],$laatste_seizoen);
+	$vertrekinfo_tracking=vertrekinfo_tracking("accommodatie",array("inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_soortbeheer_aanvulling", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_plaatsnaam_beheer", "vertrekinfo_gps_lat", "vertrekinfo_gps_long"),$_GET["1k0"],$laatste_seizoen);
 }
 
 $cms->settings[1]["list"]["show_icon"]=true;
@@ -287,6 +287,7 @@ $cms->db_field(1,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selectio
 $cms->db_field(1,"text","vertrekinfo_goedgekeurd_datetime");
 $cms->db_field(1,"select","vertrekinfo_incheck_sjabloon_id","",array("othertable"=>"54","otherkeyfield"=>"vertrekinfo_sjabloon_id","otherfield"=>"naam","otherwhere"=>"soort=1 AND wzt='".addslashes($_GET["wzt"])."'"));
 $cms->db_field(1,"select","vertrekinfo_soortbeheer","",array("selection"=>$vars["vertrekinfo_soortbeheer"]));
+$cms->db_field(1,"text","vertrekinfo_soortbeheer_aanvulling");
 $cms->db_field(1,"text","vertrekinfo_telefoonnummer");
 $cms->db_field(1,"text","vertrekinfo_inchecktijd");
 $cms->db_field(1,"text","vertrekinfo_uiterlijkeinchecktijd");
@@ -574,8 +575,8 @@ $cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Engels</b>");
 $cms->edit_field(1,0,"route_en","Bestand (Engelstalig)","",array("showfiletype"=>true));
 $cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd_en","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 
+# Nieuw vertrekinfo-systeem
 $cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
-
 $cms->edit_field(1,0,"htmlrow","<br><i>Alinea 'Inchecken'</i>");
 $cms->edit_field(1,0,"vertrekinfo_incheck_sjabloon_id","Sjabloon inchecken");
 if($vertrekinfo_tracking["vertrekinfo_incheck_sjabloon_id"]) {
@@ -584,6 +585,10 @@ if($vertrekinfo_tracking["vertrekinfo_incheck_sjabloon_id"]) {
 $cms->edit_field(1,0,"vertrekinfo_soortbeheer","Type beheer");
 if($vertrekinfo_tracking["vertrekinfo_soortbeheer"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_soortbeheer"]))."</div>"));
+}
+$cms->edit_field(1,0,"vertrekinfo_soortbeheer_aanvulling","Aanvulling bij type beheer","","",array("info"=>"Bijvoorbeeld de naam van een contactpersoon: 'Carine'"));
+if($vertrekinfo_tracking["vertrekinfo_soortbeheer_aanvulling"]) {
+	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_soortbeheer_aanvulling"]))."</div>"));
 }
 $cms->edit_field(1,0,"vertrekinfo_telefoonnummer","Telefoonnummer beheer","","",array("info"=>"Bijvoorbeeld: '0039 0437 72 38 05'"));
 if($vertrekinfo_tracking["vertrekinfo_telefoonnummer"]) {
@@ -632,18 +637,14 @@ if($vertrekinfo_tracking["vertrekinfo_plaatsnaam_beheer"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_plaatsnaam_beheer"]))."</div>"));
 }
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'GPS-co&ouml;rdinaten'</i>");
-#$cms->edit_field(1,0,"htmlcol","GPS latitude accommodatie",array("html"=>"<div id=\"vertrekinfo_gps_lat_website\" class=\"vertrekinfo_prevalue\"></div>"));
 if($vertrekinfo_tracking["vertrekinfo_gps_lat"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_gps_lat"]))."</div>"));
 }
 $cms->edit_field(1,0,"vertrekinfo_gps_lat","GPS latitude beheer","","",array("info"=>"Alleen invullen indien deze afwijkt van de accommodatie-GPS-coördinaten. Vul de breedtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 52.086508"));
-#$cms->edit_field(1,0,"htmlcol","GPS longitude accommodatie",array("html"=>"<div id=\"vertrekinfo_gps_long_website\" class=\"vertrekinfo_prevalue\"></div>"));
 if($vertrekinfo_tracking["vertrekinfo_gps_long"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_gps_long"]))."</div>"));
 }
 $cms->edit_field(1,0,"vertrekinfo_gps_long","GPS longitude beheer","","",array("info"=>"Alleen invullen indien deze afwijkt van de accommodatie-GPS-coördinaten. Vul de lengtegraad in. Gebruik alleen cijfers en een punt, bijvoorbeeld: 4.886513"));
-
-
 
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
 $cms->edit_field(1,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
@@ -739,6 +740,10 @@ if($cms_form[1]->filled) {
 		$cms_form[1]->error("videoEmbedCode","onjuist formaat. Voorbeeld: http://player.vimeo.com/video/44377043");
 	}
 
+	# Controle op vertrekinfo_soortadres bij invullen vertrekinfo_adres
+	if($cms_form[1]->input["vertrekinfo_adres"] and !$cms_form[1]->input["vertrekinfo_soortadres"]) {
+		$cms_form[1]->error("vertrekinfo_soortadres","obl");
+	}
 
 	# Bij wijzigen van "toonper" alle tarieven wissen
 	if($cms_form[1]->input["toonper"]<>$oud_toonper and $oud_toonper and $cms_form[1]->input["toonper"] and (!$accommodatie_heeft_boekingen or $login->userlevel>=10) and !$cms_form[1]->error and $_GET["1k0"] and $_GET["edit"]==1) {
@@ -756,11 +761,6 @@ if($cms_form[1]->filled) {
 			# boekingen wissen
 			$db2->query("DELETE FROM boeking WHERE type_id='".$db->f("type_id")."';");
 		}
-	}
-
-	# Controle op vertrekinfo_soortadres bij invullen vertrekinfo_adres
-	if($cms_form[1]->input["vertrekinfo_adres"] and !$cms_form[1]->input["vertrekinfo_soortadres"]) {
-		$cms_form[1]->error("vertrekinfo_soortadres","obl");
 	}
 
 #	$cms_form[1]->error("kwaliteit","testfout");
