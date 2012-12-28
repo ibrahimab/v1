@@ -17,24 +17,6 @@ $keuzes[1][4][2]="Chalet.nl htmlbanner land-datum 234x60";
 $keuzes[1][5][2]="Chalet.nl htmlbanner land-datum 120x600";
 $keuzes[1][6][2]="Chalet.nl htmlbanner land-datum 300x250";
 
-$keuzes[2][1][1]="Zomerhuisje.nl htmlbanner land-thema 728x90";
-$keuzes[2][2][1]="Zomerhuisje.nl htmlbanner land-thema 468x60";
-$keuzes[2][3][1]="Zomerhuisje.nl htmlbanner land-thema 250x250";
-$keuzes[2][4][1]="Zomerhuisje.nl htmlbanner land-thema 234x60";
-$keuzes[2][5][1]="Zomerhuisje.nl htmlbanner land-thema 120x600";
-
-$keuzes[2][1][2]="Zomerhuisje.nl htmlbanner land-datum 728x90";
-$keuzes[2][2][2]="Zomerhuisje.nl htmlbanner land-datum 468x60";
-$keuzes[2][3][2]="Zomerhuisje.nl htmlbanner land-datum 250x250";
-$keuzes[2][4][2]="Zomerhuisje.nl htmlbanner land-datum 234x60";
-$keuzes[2][5][2]="Zomerhuisje.nl htmlbanner land-datum 120x600";
-
-$keuzes[3][1][2]="Italissima htmlbanner regio-datum 728x90";
-$keuzes[3][2][2]="Italissima htmlbanner regio-datum 468x60";
-$keuzes[3][3][2]="Italissima htmlbanner regio-datum-personen 250x250";
-$keuzes[3][4][2]="Italissima htmlbanner regio-datum 234x60";
-$keuzes[3][5][2]="Italissima htmlbanner regio-datum-personen 120x600";
-
 $keuzes[4][1][1]="Chalet.be htmlbanner land-thema 728x90";
 $keuzes[4][2][1]="Chalet.be htmlbanner land-thema 468x60";
 $keuzes[4][3][1]="Chalet.be htmlbanner land-thema 250x250";
@@ -63,6 +45,29 @@ $keuzes[5][4][2]="SuperSki htmlbanner land-datum 234x60";
 $keuzes[5][5][2]="SuperSki htmlbanner land-datum 120x600";
 $keuzes[5][6][2]="SuperSki htmlbanner land-datum 300x250";
 
+$keuzes[2][1][1]="Zomerhuisje.nl htmlbanner land-thema 728x90";
+$keuzes[2][2][1]="Zomerhuisje.nl htmlbanner land-thema 468x60";
+$keuzes[2][3][1]="Zomerhuisje.nl htmlbanner land-thema 250x250";
+$keuzes[2][4][1]="Zomerhuisje.nl htmlbanner land-thema 234x60";
+$keuzes[2][5][1]="Zomerhuisje.nl htmlbanner land-thema 120x600";
+
+$keuzes[2][1][2]="Zomerhuisje.nl htmlbanner land-datum 728x90";
+$keuzes[2][2][2]="Zomerhuisje.nl htmlbanner land-datum 468x60";
+$keuzes[2][3][2]="Zomerhuisje.nl htmlbanner land-datum 250x250";
+$keuzes[2][4][2]="Zomerhuisje.nl htmlbanner land-datum 234x60";
+$keuzes[2][5][2]="Zomerhuisje.nl htmlbanner land-datum 120x600";
+
+$keuzes[3][1][2]="Italissima.nl htmlbanner regio-datum 728x90";
+$keuzes[3][2][2]="Italissima.nl htmlbanner regio-datum 468x60";
+$keuzes[3][3][2]="Italissima.nl htmlbanner regio-datum-personen 250x250";
+$keuzes[3][4][2]="Italissima.nl htmlbanner regio-datum 234x60";
+$keuzes[3][5][2]="Italissima.nl htmlbanner regio-datum-personen 120x600";
+
+$keuzes[6][1][2]="Italissima.be htmlbanner regio-datum 728x90";
+$keuzes[6][2][2]="Italissima.be htmlbanner regio-datum 468x60";
+$keuzes[6][3][2]="Italissima.be htmlbanner regio-datum-personen 250x250";
+$keuzes[6][4][2]="Italissima.be htmlbanner regio-datum 234x60";
+$keuzes[6][5][2]="Italissima.be htmlbanner regio-datum-personen 120x600";
 
 $netwerken[1]="TradeTracker";
 $netwerken[2]="Sneeuwhoogte.nl";

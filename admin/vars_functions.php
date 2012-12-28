@@ -3450,7 +3450,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 	} elseif($vars["website"]=="I") {
 
 		#
-		# TradeTracker Italissima
+		# TradeTracker Italissima.nl
 		#
 		# campaignID
 		$tradetracker_campaignID="7038";
@@ -3470,7 +3470,32 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		} else {
 			$tradetracker_bedrag=$data["bedrag"];
 		}
+	} elseif($vars["website"]=="K") {
+
+		#
+		# TradeTracker Italissima.be
+		#
+		# campaignID
+		$tradetracker_campaignID="9737";
+
+		# productID
+		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+			$tradetracker_productID="14727";
+		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14727";
+		} else {
+			$tradetracker_productID="14727";
+		}
+
+		# bedrag
+		if($sale) {
+			$tradetracker_bedrag=number_format($data["bedrag"],2,".","");
+		} else {
+			$tradetracker_bedrag=$data["bedrag"];
+		}
 	}
+
+
 
 	if($toon_tradetracker and $tradetracker_campaignID) {
 		#
