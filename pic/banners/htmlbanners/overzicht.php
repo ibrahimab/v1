@@ -73,17 +73,25 @@ $netwerken[1]="TradeTracker";
 $netwerken[2]="Sneeuwhoogte.nl";
 $netwerken[3]="Snowplaza";
 
+
+$netwerk_wzt_niet_tonen[1]=array("0");
+$netwerk_wzt_niet_tonen[2]=array("2","3","6");
+$netwerk_wzt_niet_tonen[3]=array("2","3","6");
+
 for($i=1;$i<=3;$i++) {
+
 	if($i>1) echo "<hr>";
 	echo "<h2>HTML-banners voor ".htmlentities($netwerken[$i])."</h2>Kies een banner:<ul>";
 	reset($keuzes);
 	while(list($key,$value)=each($keuzes)) {
-		while(list($key2,$value2)=each($value)) {
-			while(list($key3,$value3)=each($value2)) {
-				echo "<li><a href=\"htmlbanner.php?wzt=".$key."&t=".$key2."&themadatum=".$key3."&n=".$i."\" target=\"_blank\">".htmlentities($value3)."</a></li>";
-			}
+		if(!in_array($key,$netwerk_wzt_niet_tonen[$i])) {
+				while(list($key2,$value2)=each($value)) {
+					while(list($key3,$value3)=each($value2)) {
+						echo "<li><a href=\"htmlbanner.php?wzt=".$key."&t=".$key2."&themadatum=".$key3."&n=".$i."\" target=\"_blank\">".htmlentities($value3)."</a></li>";
+					}
+				}
+				echo "<br>";
 		}
-		echo "<br>";
 	}
 	echo "</ul>";
 }
