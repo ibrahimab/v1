@@ -1057,6 +1057,11 @@ if($boeking_wijzigen) {
 
 		$login->end_declaration();
 
+		# zorgen dat cookie ook gevuld is indien er van buiten kantoor is ingelogd ($login->settings["settings"]["rememberpassword"] staat dan uit)
+		if($login->user_id and !$_COOKIE["loginuser"]["chalet"]) {
+			$_COOKIE["loginuser"]["chalet"]=$login->user_id;
+		}
+
 		if(!$helemaalboven and !$_GET["cmsuit"]) {
 			$helemaalboven="Intern ingelogd: ".htmlentities($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://www.chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
 		}

@@ -122,6 +122,11 @@ if($mustlogin) {
 	}
 	$login->end_declaration();
 
+	# zorgen dat cookie ook gevuld is indien er van buiten kantoor is ingelogd ($login->settings["settings"]["rememberpassword"] staat dan uit)
+	if($login->user_id and !$_COOKIE["loginuser"]["chalet"]) {
+		$_COOKIE["loginuser"]["chalet"]=$login->user_id;
+	}
+
 	# Titels (die afwijken van $menu)
 	$title["cms"]="Content Management System ".$vars["websitenaam"];
 
