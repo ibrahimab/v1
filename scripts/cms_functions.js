@@ -517,37 +517,47 @@ $(document).ready(function() {
 		return false;
 	});
 
-	if($("input[name^='input[vertrekinfo_goedgekeurd_seizoen]']").length!==0) {
+	if($("input[name^='input[vertrekinfo_goedgekeurd_seizoen]']").length!==0 || $("input[name^='input[vertrekinfo_goedgekeurd_seizoen_de]']").length!==0 || $("input[name^='input[vertrekinfo_goedgekeurd_seizoen_en]']").length!==0 || $("input[name^='input[vertrekinfo_goedgekeurd_seizoen_fr]']").length!==0) {
 
 		//
 		// vertrekinfo accommodatieniveau
 		//
 
-		$("input[name^='input[vertrekinfo_goedgekeurd_seizoen]']").click(function(){
-			if($(this).is(":checked")) {
-				// goedgekeurd: vertrekinfo_goedgekeurd_datetime vullen met huidige datum/tijd
-				var currentTime = new Date();
-				$("[name='input[vertrekinfo_goedgekeurd_datetime]']").val(currentTime.getFullYear()+"-"+("0"+(currentTime.getMonth()+1)).slice(-2)+"-"+("0"+currentTime.getDate()).slice(-2)+" "+('0'+currentTime.getHours()).slice(-2)+":"+('0'+currentTime.getMinutes()).slice(-2)+":"+('0'+currentTime.getSeconds()).slice(-2));
-			}
-		});
-
 		// alle te tracken velden vooraf onthouden
 		var vertrekinfo_te_tracken = ["inclusief", "exclusief" ,"vertrekinfo_incheck_sjabloon_id", "vertrekinfo_soortbeheer", "vertrekinfo_soortbeheer_aanvulling", "vertrekinfo_telefoonnummer", "vertrekinfo_inchecktijd", "vertrekinfo_uiterlijkeinchecktijd", "vertrekinfo_uitchecktijd", "vertrekinfo_inclusief", "vertrekinfo_exclusief", "vertrekinfo_route", "vertrekinfo_soortadres", "vertrekinfo_adres", "vertrekinfo_plaatsnaam_beheer", "vertrekinfo_gps_lat", "vertrekinfo_gps_long", "vertrekinfo_skipas", "vertrekinfo_landroute", "vertrekinfo_plaatsroute", "vertrekinfo_optiegroep"];
 		var vertrekinfo_te_tracken_prevalue = [];
 
-		$.each(vertrekinfo_te_tracken, function(key, value) {
+		var vertrekinfo_te_tracken_talen = ["", "_de" ,"_en", "_fr"];
 
-			// prevalue opslaan
-			vertrekinfo_te_tracken_prevalue[value] = $("[name='input["+value+"]']").val();
+		$.each(vertrekinfo_te_tracken_talen, function(key2, value2) {
 
-			// bij wijzigen gegevens: goedgekeurd-vinkjes uitzetten
-			$("[name='input["+value+"]']").change(function() {
-				if(vertrekinfo_te_tracken_prevalue[value] != $("[name='input["+value+"]']").val()) {
-					if((value=="inclusief"||value=="exclusief") && $("[name='input[vertrekinfo_"+value+"]']").val().length>0) {
-						// overschrijfveld is gevuld: dan origineel veld niet tracken
-					} else {
-						$("input[name^='input[vertrekinfo_goedgekeurd_seizoen]']").attr("checked",false);
-					}
+			$("input[name^='input[vertrekinfo_goedgekeurd_seizoen"+value2+"]']").click(function() {
+				if($(this).is(":checked")) {
+					// goedgekeurd: vertrekinfo_goedgekeurd_datetime vullen met huidige datum/tijd
+					var currentTime = new Date();
+					$("[name='input[vertrekinfo_goedgekeurd_datetime"+value2+"]']").val(currentTime.getFullYear()+"-"+("0"+(currentTime.getMonth()+1)).slice(-2)+"-"+("0"+currentTime.getDate()).slice(-2)+" "+('0'+currentTime.getHours()).slice(-2)+":"+('0'+currentTime.getMinutes()).slice(-2)+":"+('0'+currentTime.getSeconds()).slice(-2));
+				}
+			});
+
+			$.each(vertrekinfo_te_tracken, function(key, value) {
+
+				value=value+value2;
+
+				if($("[name='input["+value+"]']").length!==0) {
+
+					// prevalue opslaan
+					vertrekinfo_te_tracken_prevalue[value] = $("[name='input["+value+"]']").val();
+
+					// bij wijzigen gegevens: goedgekeurd-vinkjes uitzetten
+					$("[name='input["+value+"]']").change(function() {
+						if(vertrekinfo_te_tracken_prevalue[value] != $("[name='input["+value+"]']").val()) {
+							if((value=="inclusief"||value=="exclusief") && $("[name='input[vertrekinfo_"+value+"]']").val().length>0) {
+								// overschrijfveld is gevuld: dan origineel veld niet tracken
+							} else {
+								$("input[name^='input[vertrekinfo_goedgekeurd_seizoen"+value2+"]']").attr("checked",false);
+							}
+						}
+					});
 				}
 			});
 		});
