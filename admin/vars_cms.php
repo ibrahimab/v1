@@ -2132,6 +2132,14 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		$taal_streepje=strtoupper(substr($gegevens["stap1"]["website_specifiek"]["ttv"],1))."-";
 	}
 
+	// onderliggend verzameltype: de accommodatie-gegevens die boven dat gekozen type liggen gebruiken
+	// if($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
+	// 	# onderliggend verzameltype
+	// 	$db->query("SELECT accommodatie_id FROM type WHERE type_id='".addslashes($gegevens["stap1"]["verzameltype_gekozentype_id"])."';");
+	// 	if($db->next_record()) {
+	// 		$gegevens["stap1"]["accinfo"]["accommodatie_id"]=$db->f("accommodatie_id");
+	// 	}
+	// }
 
 	# Gegevens per niveau ophalen
 

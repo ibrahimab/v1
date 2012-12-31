@@ -578,10 +578,10 @@ $cms->edit_field(1,0,"video","Toon deze video op de accommodatiepagina");
 $cms->edit_field(1,0,"htmlrow","<hr><b>Goedkeuren bovenstaande teksten/gegevens</b>");
 $cms->edit_field(1,0,"teksten_seizoengoedgekeurd","Teksten zijn goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 
-$cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Nederlands</b>");
+$cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Nederlands (NIET MEER IN GEBRUIK!)</b>");
 $cms->edit_field(1,0,"route","Bestand","",array("showfiletype"=>true));
 $cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
-$cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Engels</b>");
+$cms->edit_field(1,0,"htmlrow","<hr><b>Vertrekinfo + route Engels (NIET MEER IN GEBRUIK!)</b>");
 $cms->edit_field(1,0,"route_en","Bestand (Engelstalig)","",array("showfiletype"=>true));
 $cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd_en","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 

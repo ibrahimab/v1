@@ -4791,7 +4791,7 @@ $txt["nl"]["vertrekinfo"]["routebeschrijvingnaarbeheer"]="Routebeschrijving naar
 $txt["en"]["vertrekinfo"]["routebeschrijvingnaarbeheer"]="Route description to [[v_beheer]] in [[v_plaatsnaambeheer]]";
 
 $txt["nl"]["vertrekinfo"]["routebeschrijving_inleiding"]="Zorg dat je altijd op de hoogte bent van de actuele regelgeving in de verschillende landen waar je doorheen rijdt!";
-$txt["en"]["vertrekinfo"]["routebeschrijving_inleiding"]="";
+$txt["en"]["vertrekinfo"]["routebeschrijving_inleiding"]="Please make sure that you are always aware of the current regulations in the different countries you drive through!";
 
 $txt["nl"]["vertrekinfo"]["enkeleaanwijzingen"]="Enkele aanwijzingen";
 $txt["en"]["vertrekinfo"]["enkeleaanwijzingen"]="Some guidelines";
@@ -4812,7 +4812,7 @@ $txt["nl"]["vertrekinfo"]["gps_coordinaten_accommodatie"]="GPS-coördinaten accom
 $txt["en"]["vertrekinfo"]["gps_coordinaten_accommodatie"]="GPS Coordinates accommodation: [[v_gpslat]], [[v_gpslong]]";
 
 $txt["nl"]["vertrekinfo"]["gps_letop"]="Let op: opgegeven coördinaten zijn een indicatie en kunnen afwijken van het adres. Kijk vooraf of de gegeven coördinaten kunnen worden ingevoerd in je GPS-systeem; niet ieder systeem gebruikt dezelfde notatie.";
-$txt["en"]["vertrekinfo"]["gps_letop"]="";
+$txt["en"]["vertrekinfo"]["gps_letop"]="Please note: the specified coordinates are an approximation and may differ from the actual address. Please look beforehand if you can enter the coordinates in your SAT NAV system, because not every system uses the same notation.";
 
 $txt["nl"]["vertrekinfo"]["adresaccommodatie"]="Adres accommodatie";
 $txt["en"]["vertrekinfo"]["adresaccommodatie"]="Address accommodation";
