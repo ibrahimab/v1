@@ -28,7 +28,7 @@ $vars["vertrekinfo_sjablonen_soorten"]=array(1=>"incheck-tekst");
 $cms->db_field(54,"text","naam");
 $cms->db_field(54,"select","soort","",array("selection"=>$vars["vertrekinfo_sjablonen_soorten"]));
 $cms->db_field(54,"textarea","tekst");
-
+if($vars["cmstaal"]) $cms->db_field(54,"textarea","tekst_".$vars["cmstaal"]);
 
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
@@ -48,7 +48,12 @@ $cms->edit_field(54,0,"htmlcol","Beschikbare variabelen",array("html"=>"<table s
                  <tr><td>[beheer_aanvulling]</td><td>aanvulling bij type beheer</td><td>Carine</td></tr>
 
                  </table>"));
-$cms->edit_field(54,1,"tekst","","","",array("rows"=>20));
+if($vars["cmstaal"]) {
+	$cms->edit_field(54,1,"tekst","Tekst NL","",array("noedit"=>true),array("rows"=>20));
+	$cms->edit_field(54,1,"tekst_".$vars["cmstaal"],"Tekst ".strtoupper($vars["cmstaal"]),"","",array("rows"=>20));
+} else {
+	$cms->edit_field(54,1,"tekst","","","",array("rows"=>20));
+}
 
 
 # Show

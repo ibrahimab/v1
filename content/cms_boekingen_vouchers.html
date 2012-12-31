@@ -16,16 +16,12 @@ if($_GET["burl"]) {
 $vertrekinfo_boeking=vertrekinfo_boeking($gegevens);
 echo "<div style=\"border:1px solid #000000;width:578px;padding:10px;padding-top:3px;\">";
 echo "<center><b>Nieuw vertrekinfo-systeem (nog niet in gebruik)</b></center>";
-if($gegevens["stap1"]["taal"]=="en") {
-	echo "<b style=\"color:red;\">Het vertrekinfo-systeem is nog niet beschikbaar voor Engelse boekingen.</b>";
+if($vertrekinfo_boeking["error"]) {
+	echo $vertrekinfo_boeking["error"];
 } else {
-	if($vertrekinfo_boeking["error"]) {
-		echo $vertrekinfo_boeking["error"];
-	} else {
-		echo "<p>De vertrekinfo is correct samengesteld.</p>";
-		echo "<p><a href=\"#\" onclick=\"$('#vertrekinfo_voorbeeld').slideToggle('normal',function(){setHgt2();});return false;\">Bekijk de vertrekinfo &raquo;</a></p>";
-		echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&printvertrekinfo=1&c=".time())."\" target=\"_blank\" onclick=\"location.reload(true);\">Print de vertrekinfo &raquo;</a></p>";
-	}
+	echo "<p>De vertrekinfo is correct samengesteld.</p>";
+	echo "<p><a href=\"#\" onclick=\"$('#vertrekinfo_voorbeeld').slideToggle('normal',function(){setHgt2();});return false;\">Bekijk de vertrekinfo &raquo;</a></p>";
+	echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&printvertrekinfo=1&c=".time())."\" target=\"_blank\" onclick=\"location.reload(true);\">Print de vertrekinfo &raquo;</a></p>";
 }
 echo "</div>";
 

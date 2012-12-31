@@ -646,11 +646,8 @@ if($vars["cmstaal"]) {
 }
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Routebeschrijving naar de receptie of accommodatie' (wordt toegevoegd aan de routebeschrijving naar de betreffende plaats)</i>");
 if($vars["cmstaal"]) {
-	$cms->edit_field(1,0,"vertrekinfo_exclusief","Afwijkende exclusief-tekst NL","",array("noedit"=>true));
-#	$cms->edit_field(1,0,"vertrekinfo_exclusief_".$vars["cmstaal"],"Afwijkende exclusief-tekst ".strtoupper($vars["cmstaal"]),"","",array("info"=>"Indien de tekst niet afwijkt van de website-tekst, dan hier niks invullen."));
 	$cms->edit_field(1,0,"vertrekinfo_route","Routebeschrijving NL","",array("noedit"=>true));
 	$cms->edit_field(1,0,"vertrekinfo_route_".$vars["cmstaal"],"Routebeschrijving ".strtoupper($vars["cmstaal"]));
-
 	if($vertrekinfo_tracking["vertrekinfo_route_".$vars["cmstaal"]]) {
 		$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_route_".$vars["cmstaal"]]))."</div>"));
 	}

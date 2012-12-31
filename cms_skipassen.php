@@ -29,7 +29,11 @@ if($_GET["10k0"]) {
 	}
 
 	# Vertrekinfo-tracking
-	$vertrekinfo_tracking=vertrekinfo_tracking("skipas",array("vertrekinfo_skipas"),$_GET["10k0"],$laatste_seizoen);
+	$vertrekinfo_tracking_array=array("vertrekinfo_skipas");
+	if($vars["cmstaal"]) {
+		$vertrekinfo_tracking_array[]="vertrekinfo_skipas_".$vars["cmstaal"];
+	}
+	$vertrekinfo_tracking=vertrekinfo_tracking("skipas",$vertrekinfo_tracking_array,$_GET["10k0"],$laatste_seizoen);
 }
 
 $cms->settings[10]["list"]["show_icon"]=true;
@@ -71,8 +75,11 @@ if($sz_controle) {
 
 # Nieuw vertrekinfo-systeem
 $cms->db_field(10,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
+if($vars["cmstaal"]) $cms->db_field(10,"checkbox","vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"",array("selection"=>$vars["seizoengoedgekeurd"]));
 $cms->db_field(10,"text","vertrekinfo_goedgekeurd_datetime");
+if($vars["cmstaal"]) $cms->db_field(10,"text","vertrekinfo_goedgekeurd_datetime_".$vars["cmstaal"]);
 $cms->db_field(10,"textarea","vertrekinfo_skipas");
+if($vars["cmstaal"]) $cms->db_field(10,"textarea","vertrekinfo_skipas_".$vars["cmstaal"]);
 
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
@@ -133,13 +140,27 @@ $cms->edit_field(10,0,"einddag","Datumaanpassing eind");
 $cms->edit_field(10,0,"voucherlogo","Voucherlogo","",array("img_width"=>"600","img_height"=>"600"));
 $cms->edit_field(10,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
 $cms->edit_field(10,0,"htmlrow","<br><i>Alinea 'Skipas'</i>");
-$cms->edit_field(10,0,"vertrekinfo_skipas","Tekst");
-if($vertrekinfo_tracking["vertrekinfo_skipas"]) {
-	$cms->edit_field(10,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_skipas"]))."</div>"));
+if($vars["cmstaal"]) {
+	$cms->edit_field(10,0,"vertrekinfo_skipas","Tekst NL","",array("noedit"=>true));
+	$cms->edit_field(10,0,"vertrekinfo_skipas_".$vars["cmstaal"],"Tekst ".strtoupper($vars["cmstaal"]));
+	if($vertrekinfo_tracking["vertrekinfo_skipas_".$vars["cmstaal"]]) {
+		$cms->edit_field(10,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_skipas_".$vars["cmstaal"]]))."</div>"));
+	}
+} else {
+	$cms->edit_field(10,0,"vertrekinfo_skipas","Tekst");
+	if($vertrekinfo_tracking["vertrekinfo_skipas"]) {
+		$cms->edit_field(10,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_skipas"]))."</div>"));
+	}
 }
-$cms->edit_field(10,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
-$cms->edit_field(10,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
-$cms->edit_field(10,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
+if($vars["cmstaal"]) {
+	$cms->edit_field(10,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo ".strtoupper($vars["cmstaal"])."</b>");
+	$cms->edit_field(10,0,"vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"Vertrekinfo is goedgekeurd voor seizoen ".strtoupper($vars["cmstaal"]),"","",array("one_per_line"=>true));
+	$cms->edit_field(10,0,"vertrekinfo_goedgekeurd_datetime_".$vars["cmstaal"],"Laatste goedkeuring ".strtoupper($vars["cmstaal"]),"","",array("one_per_line"=>true));
+} else {
+	$cms->edit_field(10,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
+	$cms->edit_field(10,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+	$cms->edit_field(10,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
+}
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(10);

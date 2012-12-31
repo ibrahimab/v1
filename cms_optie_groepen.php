@@ -35,7 +35,11 @@ if($_GET["12k0"]) {
 	}
 
 	# Vertrekinfo-tracking
-	$vertrekinfo_tracking=vertrekinfo_tracking("optie_groep",array("vertrekinfo_optiegroep"),$_GET["12k0"],$laatste_seizoen);
+	$vertrekinfo_tracking_array=array("vertrekinfo_optiegroep");
+	if($vars["cmstaal"]) {
+		$vertrekinfo_tracking_array[]="vertrekinfo_optiegroep_".$vars["cmstaal"];
+	}
+	$vertrekinfo_tracking=vertrekinfo_tracking("optie_groep",$vertrekinfo_tracking_array,$_GET["12k0"],$laatste_seizoen);
 }
 
 if($_POST["kopieer"] and $_POST["from"] and $_POST["to"] and $_POST["from"]<>$_POST["to"]) {
@@ -196,8 +200,11 @@ $cms->db_field(12,"picture","voucherlogo","",array("savelocation"=>"pic/cms/vouc
 
 # Vertrekinfo-systeem
 $cms->db_field(12,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
+if($vars["cmstaal"]) $cms->db_field(12,"checkbox","vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"",array("selection"=>$vars["seizoengoedgekeurd"]));
 $cms->db_field(12,"text","vertrekinfo_goedgekeurd_datetime");
+if($vars["cmstaal"]) $cms->db_field(12,"text","vertrekinfo_goedgekeurd_datetime_".$vars["cmstaal"]);
 $cms->db_field(12,"textarea","vertrekinfo_optiegroep");
+if($vars["cmstaal"]) $cms->db_field(12,"textarea","vertrekinfo_optiegroep_".$vars["cmstaal"]);
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_field(12,"naam","Naam");
@@ -260,13 +267,27 @@ $cms->edit_field(12,0,"htmlcol","Beschikbare variabelen",array("html"=>"<table s
                  <tr><td>[optieleverancier-plaats]</td><td>per plaats/optieleverancier specifieke waarde</td><td>Alpe d'Huez - <a href=\"".$vars["path"]."cms_plaatsen.php?show=4&wzt=1&4k0=44\" target=\"_blank\">invulvoorbeeld</a></tr>
                  </table>"));
 
-$cms->edit_field(12,0,"vertrekinfo_optiegroep","Tekst");
-if($vertrekinfo_tracking["vertrekinfo_optiegroep"]) {
-	$cms->edit_field(12,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_optiegroep"]))."</div>"));
+if($vars["cmstaal"]) {
+	$cms->edit_field(12,0,"vertrekinfo_optiegroep","Tekst NL","",array("noedit"=>true));
+	$cms->edit_field(12,0,"vertrekinfo_optiegroep_".$vars["cmstaal"],"Tekst ".strtoupper($vars["cmstaal"]));
+	if($vertrekinfo_tracking["vertrekinfo_optiegroep_".$vars["cmstaal"]]) {
+		$cms->edit_field(12,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_optiegroep_".$vars["cmstaal"]]))."</div>"));
+	}
+} else {
+	$cms->edit_field(12,0,"vertrekinfo_optiegroep","Tekst");
+	if($vertrekinfo_tracking["vertrekinfo_optiegroep"]) {
+		$cms->edit_field(12,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_optiegroep"]))."</div>"));
+	}
 }
-$cms->edit_field(12,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
-$cms->edit_field(12,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
-$cms->edit_field(12,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
+if($vars["cmstaal"]) {
+	$cms->edit_field(12,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo ".strtoupper($vars["cmstaal"])."</b>");
+	$cms->edit_field(12,0,"vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"Vertrekinfo is goedgekeurd voor seizoen ".strtoupper($vars["cmstaal"]),"","",array("one_per_line"=>true));
+	$cms->edit_field(12,0,"vertrekinfo_goedgekeurd_datetime_".$vars["cmstaal"],"Laatste goedkeuring ".strtoupper($vars["cmstaal"]),"","",array("one_per_line"=>true));
+} else {
+	$cms->edit_field(12,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
+	$cms->edit_field(12,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+	$cms->edit_field(12,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
+}
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(12);

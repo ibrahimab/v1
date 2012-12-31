@@ -747,8 +747,8 @@ $vars["voucherstatus_nawijzigingen"]=array(6=>"aanvullende vouchers nog niet gec
 
 
 # Vertrekinfo
-$vars["vertrekinfo_soortbeheer"]=array(1=>"receptie",2=>"agentschap",3=>"eigenaar",4=>"contactpersoon");
-$vars["vertrekinfo_soortbeheer_sjabloontekst"]=array(1=>"de receptie",2=>"het agentschap",3=>"de eigenaar",4=>"de contactpersoon");
+$vars["vertrekinfo_soortbeheer"]=array(1=>txt("receptie","vertrekinfo"),2=>txt("agentschap","vertrekinfo"),3=>txt("eigenaar","vertrekinfo"),4=>txt("contactpersoon","vertrekinfo"));
+$vars["vertrekinfo_soortbeheer_sjabloontekst"]=array(1=>txt("dereceptie","vertrekinfo"),2=>txt("hetagentschap","vertrekinfo"),3=>txt("deeigenaar","vertrekinfo"),4=>txt("decontactpersoon","vertrekinfo"));
 $vars["vertrekinfo_soortadres"]=array(1=>"adres accommodatie",2=>"sleuteladres");
 
 

@@ -4717,88 +4717,111 @@ $txt["en"]["vraagonsadvies"]["telefoonnummer"]="-";
 
 
 
+//
+// vertrekinfo
+//
 
-// vertrekinfo - ENGELS MOET NOG AANGEZET WORDEN!
+$txt["nl"]["vertrekinfo"]["receptie"]="receptie";
+$txt["en"]["vertrekinfo"]["receptie"]="reception";
+
+$txt["nl"]["vertrekinfo"]["dereceptie"]="de receptie";
+$txt["en"]["vertrekinfo"]["dereceptie"]="the reception";
+
+$txt["nl"]["vertrekinfo"]["agentschap"]="agentschap";
+$txt["en"]["vertrekinfo"]["agentschap"]="agency";
+
+$txt["nl"]["vertrekinfo"]["hetagentschap"]="het agentschap";
+$txt["en"]["vertrekinfo"]["hetagentschap"]="the agency";
+
+$txt["nl"]["vertrekinfo"]["eigenaar"]="eigenaar";
+$txt["en"]["vertrekinfo"]["eigenaar"]="owner";
+
+$txt["nl"]["vertrekinfo"]["deeigenaar"]="de eigenaar";
+$txt["en"]["vertrekinfo"]["deeigenaar"]="the owner";
+
+$txt["nl"]["vertrekinfo"]["contactpersoon"]="contactpersoon";
+$txt["en"]["vertrekinfo"]["contactpersoon"]="contact person";
+
+$txt["nl"]["vertrekinfo"]["decontactpersoon"]="de contactpersoon";
+$txt["en"]["vertrekinfo"]["decontactpersoon"]="the contact person";
 
 $txt["nl"]["vertrekinfo"]["vertrekinformatie"]="Vertrekinformatie [[v_accommodatie]] / [[v_plaats]]";
-$txt["en"]["vertrekinfo"]["vertrekinformatie"]="-";
+$txt["en"]["vertrekinfo"]["vertrekinformatie"]="Travel Information  [[v_accommodatie]] / [[v_plaats]]";
 
 $txt["nl"]["vertrekinfo"]["inchecken"]="Inchecken";
-$txt["en"]["vertrekinfo"]["inchecken"]="-";
+$txt["en"]["vertrekinfo"]["inchecken"]="Check-in";
 
 $txt["nl"]["vertrekinfo"]["devolgendezakeninclexcl"]="De volgende zaken zijn in- en exclusief bij deze accommodatie";
-$txt["en"]["vertrekinfo"]["devolgendezakeninclexcl"]="-";
+$txt["en"]["vertrekinfo"]["devolgendezakeninclexcl"]="The following details are in- and exclusive";
 
 $txt["nl"]["vertrekinfo"]["devolgendezakenincl"]="De volgende zaken zijn inclusief bij deze accommodatie";
-$txt["en"]["vertrekinfo"]["devolgendezakenincl"]="-";
+$txt["en"]["vertrekinfo"]["devolgendezakenincl"]="The following details are inexclusive";
 
 $txt["nl"]["vertrekinfo"]["devolgendezakenexcl"]="De volgende zaken zijn exclusief bij deze accommodatie";
-$txt["en"]["vertrekinfo"]["devolgendezakenexcl"]="-";
+$txt["en"]["vertrekinfo"]["devolgendezakenexcl"]="The following details are exclusive";
 
 $txt["nl"]["vertrekinfo"]["inclusief"]="Inclusief";
-$txt["en"]["vertrekinfo"]["inclusief"]="-";
+$txt["en"]["vertrekinfo"]["inclusief"]="Including";
 
 $txt["nl"]["vertrekinfo"]["exclusief"]="Exclusief";
-$txt["en"]["vertrekinfo"]["exclusief"]="-";
+$txt["en"]["vertrekinfo"]["exclusief"]="Excluding";
 
 $txt["nl"]["vertrekinfo"]["skipassen"]="Skipassen";
-$txt["en"]["vertrekinfo"]["skipassen"]="-";
-
-#$vars["optiecategorie"]=array(1=>"n.v.t.",2=>"bijkomende kosten verblijf",3=>"skipassen",4=>"huurmateriaal",5=>"skilessen",6=>"catering/maaltijden",7=>"vervoer",8=>"verzekeringen",9=>"aanbiedingskortingen + klachtafhandeling",20=>"overig");
+$txt["en"]["vertrekinfo"]["skipassen"]="Ski-lift passes";
 
 $txt["nl"]["vertrekinfo"]["naam_optiecategorie4"]="Materiaalhuur";
-$txt["en"]["vertrekinfo"]["naam_optiecategorie4"]="-";
+$txt["en"]["vertrekinfo"]["naam_optiecategorie4"]="Rental equipment";
 
 $txt["nl"]["vertrekinfo"]["naam_optiecategorie5"]="Skilessen";
-$txt["en"]["vertrekinfo"]["naam_optiecategorie5"]="-";
+$txt["en"]["vertrekinfo"]["naam_optiecategorie5"]="Ski lessons";
 
 $txt["nl"]["vertrekinfo"]["naam_optiecategorie6"]="Catering/maaltijden";
-$txt["en"]["vertrekinfo"]["naam_optiecategorie6"]="-";
+$txt["en"]["vertrekinfo"]["naam_optiecategorie6"]="Catering Service";
 
 $txt["nl"]["vertrekinfo"]["naam_optiecategorie7"]="Vervoer";
-$txt["en"]["vertrekinfo"]["naam_optiecategorie7"]="-";
+$txt["en"]["vertrekinfo"]["naam_optiecategorie7"]="Transport";
 
 $txt["nl"]["vertrekinfo"]["naam_optiecategorie8"]="Verzekeringen";
-$txt["en"]["vertrekinfo"]["naam_optiecategorie8"]="-";
+$txt["en"]["vertrekinfo"]["naam_optiecategorie8"]="Insurances";
 
 $txt["nl"]["vertrekinfo"]["routebeschrijvingnaar"]="Routebeschrijving naar [[v_accommodatie]] in [[v_plaats]]";
-$txt["en"]["vertrekinfo"]["routebeschrijvingnaar"]="-";
+$txt["en"]["vertrekinfo"]["routebeschrijvingnaar"]="Route description to [[v_accommodatie]] in [[v_plaats]]";
 
 $txt["nl"]["vertrekinfo"]["routebeschrijvingnaarbeheer"]="Routebeschrijving naar [[v_beheer]] in [[v_plaatsnaambeheer]]";
-$txt["en"]["vertrekinfo"]["routebeschrijvingnaarbeheer"]="-";
+$txt["en"]["vertrekinfo"]["routebeschrijvingnaarbeheer"]="Route description to [[v_beheer]] in [[v_plaatsnaambeheer]]";
 
 $txt["nl"]["vertrekinfo"]["routebeschrijving_inleiding"]="Zorg dat je altijd op de hoogte bent van de actuele regelgeving in de verschillende landen waar je doorheen rijdt!";
-$txt["en"]["vertrekinfo"]["routebeschrijving_inleiding"]="-";
+$txt["en"]["vertrekinfo"]["routebeschrijving_inleiding"]="";
 
 $txt["nl"]["vertrekinfo"]["enkeleaanwijzingen"]="Enkele aanwijzingen";
-$txt["en"]["vertrekinfo"]["enkeleaanwijzingen"]="-";
+$txt["en"]["vertrekinfo"]["enkeleaanwijzingen"]="Some guidelines";
 
 $txt["nl"]["vertrekinfo"]["routenaarplaats"]="Route naar [[v_plaats]]";
-$txt["en"]["vertrekinfo"]["routenaarplaats"]="-";
+$txt["en"]["vertrekinfo"]["routenaarplaats"]="Route to [[v_plaats]]";
 
 $txt["nl"]["vertrekinfo"]["routenaarbeheer"]="Route naar [[v_beheer]] van [[v_accommodatie]]";
-$txt["en"]["vertrekinfo"]["routenaarbeheer"]="-";
+$txt["en"]["vertrekinfo"]["routenaarbeheer"]="Route to  [[v_beheer]] van [[v_accommodatie]]";
 
 $txt["nl"]["vertrekinfo"]["gps_coordinaten"]="GPS-coördinaten: [[v_gpslat]], [[v_gpslong]]";
-$txt["en"]["vertrekinfo"]["gps_coordinaten"]="-";
+$txt["en"]["vertrekinfo"]["gps_coordinaten"]="GPS Coordinates: [[v_gpslat]], [[v_gpslong]]";
 
 $txt["nl"]["vertrekinfo"]["gps_coordinaten_beheer"]="GPS-coördinaten [[v_beheer]]: [[v_gpslat]], [[v_gpslong]]";
-$txt["en"]["vertrekinfo"]["gps_coordinaten_beheer"]="-";
+$txt["en"]["vertrekinfo"]["gps_coordinaten_beheer"]="GPS Coordinates [[v_beheer]]: [[v_gpslat]], [[v_gpslong]]";
 
 $txt["nl"]["vertrekinfo"]["gps_coordinaten_accommodatie"]="GPS-coördinaten accommodatie: [[v_gpslat]], [[v_gpslong]]";
-$txt["en"]["vertrekinfo"]["gps_coordinaten_accommodatie"]="-";
+$txt["en"]["vertrekinfo"]["gps_coordinaten_accommodatie"]="GPS Coordinates accommodation: [[v_gpslat]], [[v_gpslong]]";
 
 $txt["nl"]["vertrekinfo"]["gps_letop"]="Let op: opgegeven coördinaten zijn een indicatie en kunnen afwijken van het adres. Kijk vooraf of de gegeven coördinaten kunnen worden ingevoerd in je GPS-systeem; niet ieder systeem gebruikt dezelfde notatie.";
-$txt["en"]["vertrekinfo"]["gps_letop"]="-";
+$txt["en"]["vertrekinfo"]["gps_letop"]="";
 
 $txt["nl"]["vertrekinfo"]["adresaccommodatie"]="Adres accommodatie";
-$txt["en"]["vertrekinfo"]["adresaccommodatie"]="-";
+$txt["en"]["vertrekinfo"]["adresaccommodatie"]="Address accommodation";
 
 $txt["nl"]["vertrekinfo"]["sleuteladres"]="Sleuteladres";
-$txt["en"]["vertrekinfo"]["sleuteladres"]="-";
+$txt["en"]["vertrekinfo"]["sleuteladres"]="Address to pick up your key";
 
 $txt["nl"]["vertrekinfo"]["telefoonnummer"]="Telefoonnummer van [[v_beheer]]";
-$txt["en"]["vertrekinfo"]["telefoonnummer"]="-";
+$txt["en"]["vertrekinfo"]["telefoonnummer"]="Telephone number of  [[v_beheer]]";
 
 
 ?>
