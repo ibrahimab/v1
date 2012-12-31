@@ -2202,7 +2202,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 			if($db->f("vertrekinfo_exclusief")) {
 					$exclusief=trim($db->f("vertrekinfo_exclusief"));
 					$seizoencontrole=true;
-			} elseif($db->f("inclusief")) {
+			} elseif($db->f("exclusief")) {
 					$exclusief=trim($db->f("exclusief"));
 					$seizoencontrole=true;
 			}
