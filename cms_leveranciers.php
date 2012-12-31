@@ -217,7 +217,7 @@ $cms->edit_field(8,0,"gegevensgecontroleerd","Alle bovenstaande gegevens zijn ge
 
 # Nieuw vertrekinfo-systeem
 if(!$_GET["beheerder"]) {
-	$cms->edit_field(8,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+	$cms->edit_field(8,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
 	$cms->edit_field(8,0,"htmlrow","<br><i>Alinea 'Inchecken'</i>");
 	$cms->edit_field(8,0,"vertrekinfo_incheck_sjabloon_id","Sjabloon inchecken");
 	if($vertrekinfo_tracking["vertrekinfo_incheck_sjabloon_id"]) {

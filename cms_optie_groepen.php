@@ -261,7 +261,7 @@ if($temp["voucher"]) {
 	$cms->edit_field(12,0,"tooneinddatum_voucher","Toon een einddatum",array("selection"=>true));
 	$cms->edit_field(12,0,"voucherlogo","Voucherlogo","",array("img_width"=>"600","img_height"=>"600"));
 }
-$cms->edit_field(12,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(12,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
 $cms->edit_field(12,0,"htmlrow","<br><i>Alinea 'naam optie-soort'</i>");
 $cms->edit_field(12,0,"htmlcol","Beschikbare variabelen",array("html"=>"<table style=\"margin-top:15px;margin-bottom:15px;width:675px;\" class=\"tbl\" cellspacing=\"0\"><tr style=\"font-weight:bold;\"><th>variabele</th><th>omschrijving</th><th>voorbeeldwaarde</th></tr>
                  <tr><td>[optieleverancier-plaats]</td><td>per plaats/optieleverancier specifieke waarde</td><td>Alpe d'Huez - <a href=\"".$vars["path"]."cms_plaatsen.php?show=4&wzt=1&4k0=44\" target=\"_blank\">invulvoorbeeld</a></tr>

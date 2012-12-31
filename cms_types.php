@@ -416,7 +416,7 @@ $cms->edit_field(2,0,"picaanvullend","Aanvullende afbeelding(en)","",array("auto
 $cms->edit_field(2,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("autoresize"=>true,"img_width"=>"400","img_height"=>"150","img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
 
 # Nieuw vertrekinfo-systeem
-$cms->edit_field(2,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(2,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
 $cms->edit_field(2,0,"htmlrow","<br><i>Alinea 'Inchecken'</i>");
 $cms->edit_field(2,0,"vertrekinfo_incheck_sjabloon_id","Sjabloon inchecken");
 if($vertrekinfo_tracking["vertrekinfo_incheck_sjabloon_id"]) {

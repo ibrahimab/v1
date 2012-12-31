@@ -101,10 +101,11 @@ function voucher_form($voucher,$voucherteller) {
 if($_GET["printvertrekinfo"]) {
 	# Vertrekinfo printen
 	$tmpfile=$vars["unixdir"]."tmp/vertrekinfo-".uniqid().".pfd";
-	$vertrekinfo_boeking=vertrekinfo_boeking($gegevens,$tmpfile);
+	$vars["vertrekinfo_boeking"]=vertrekinfo_boeking($gegevens,$tmpfile);
 
-	if($vertrekinfo_boeking["error"]) {
-		echo $vertrekinfo_boeking["error"];
+	if($vars["vertrekinfo_boeking"]["error"]) {
+		echo $vars["vertrekinfo_boeking"]["error"];
+		exit;
 	} else {
 		header("Expires: 0");
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -112,10 +113,9 @@ if($_GET["printvertrekinfo"]) {
 		header("Content-type: application/pdf");
 		readfile($tmpfile);
 		unlink($tmpfile);
+		exit;
 	}
 }
-
-#$gegevens["stap1"]["website_specifiek"]["ttv"]
 
 # Accommodatie
 $voucherteller=1;
@@ -329,45 +329,63 @@ $vars["temp_pdfprinttable"].="<tr><td>";
 $vars["temp_pdfprinttable"].="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"middle\"><img src=\"pic/pdflogo.gif\" width=\"18\" height=\"18\"></td><td valign=\"middle\">&nbsp;".$htmlrow."</td></tr></table>";
 $vars["temp_pdfprinttable"].="</td></tr>";
 
-# Vertrekinfo+route-pdf
-if($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
-	# onderliggend verzameltype
-	$db->query("SELECT accommodatie_id FROM type WHERE type_id='".addslashes($gegevens["stap1"]["verzameltype_gekozentype_id"])."';");
-	if($db->next_record()) {
-		$verzameltype_gekozenacc_id=$db->f("accommodatie_id");
-		$pdffile_route_gekozentypeid="pdf/route_".$gegevens["stap1"]["taal"]."/".$db->f("accommodatie_id").".pdf";
-		if(file_exists($pdffile_route_gekozentypeid)) {
-			$pdffile_route=$pdffile_route_gekozentypeid;
-			$pdffile_route_gekozentypeid_aanwezig=true;
+# Vertrekinfo
+if($_POST["input"]["vouchersmailen"]) {
+		# Vertrekinfo-pdf aanmaken
+		$pdffile_route=$vars["unixdir"]."tmp/vertrekinfo-".uniqid().".pfd";
+		$vars["vertrekinfo_boeking"]=vertrekinfo_boeking($gegevens,$pdffile_route);
+		if($vars["vertrekinfo_boeking"]["error"]) {
+			unset($pdffile_route);
+			echo $vars["vertrekinfo_boeking"]["error"];
+			exit;
 		}
-	}
-}
-if(!$pdffile_route) {
-	$pdffile_route="pdf/route_".$gegevens["stap1"]["taal"]."/".$gegevens["stap1"]["accinfo"]["accommodatieid"].".pdf";
-}
-if(file_exists($pdffile_route)) {
-	if($gegevens["stap1"]["taal"]=="nl") {
-		$check_array=split(",",$gegevens["stap1"]["accinfo"]["vertrekinfo_seizoengoedgekeurd"]);
-	} else {
-		$check_array=split(",",$gegevens["stap1"]["accinfo"]["vertrekinfo_seizoengoedgekeurd"."_".$gegevens["stap1"]["taal"]]);
-	}
-	if(@in_array($gegevens["stap1"]["seizoenid"],$check_array)) {
-		$htmlrow="<a href=\"".htmlentities($pdffile_route)."\" target=\"_blank\">Print de bijbehorende vertrekinfo+route &raquo;</a>";
-		if($pdffile_route_gekozentypeid_aanwezig) {
-			$htmlrow.="&nbsp;&nbsp;&nbsp;<span style=\"font-size:0.8em;\">(van onderliggend verzameltype)</span>";
-		} elseif($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
-			$htmlrow.="&nbsp;&nbsp;&nbsp;<span style=\"font-size:0.8em;\">(van bovenliggend verzameltype)</span>";
-		}
-		$vars["temp_vertrekinfo_goedgekeurd"]=true;
-	} else {
-#		$htmlrow="<div style=\"background-color:#e587f6;width:700px;\"><a href=\"".htmlentities($pdffile_route)."\" target=\"_blank\">Print de bijbehorende vertrekinfo+route &raquo;</a> <b>Let op:</b> </b></div>";
-		$htmlrow="<b>Let op! vertrekinfo+route-PDF is niet goedgekeurd voor het betreffende seizoen. Nu <a href=\"cms_accommodaties.php?edit=1&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&1k0=".($verzameltype_gekozenacc_id ? $verzameltype_gekozenacc_id : $gegevens["stap1"]["accinfo"]["accommodatieid"])."#vertrekinfo\" target=\"_blank\">goedkeuren</a>.</b>";
-		$vars["temp_vertrekinfo_goedgekeurd"]=false;
-	}
 } else {
-	$htmlrow="<b>Let op! vertrekinfo+route-PDF ontbreekt. Uploaden via <a href=\"cms_accommodaties.php?edit=1&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&1k0=".$gegevens["stap1"]["accinfo"]["accommodatieid"]."\" target=\"_blank\">accommodatie</a>.</b>";
-	unset($pdffile_route);
+	# Vertrekinfo alleen maar laden
+	$vars["vertrekinfo_boeking"]=vertrekinfo_boeking($gegevens);
 }
+if($vars["vertrekinfo_boeking"]["error"]) {
+	$htmlrow="<b>Let op! vertrekinfo+route-PDF ontbreekt. Zie voor foutmeldingen het blok hierboven.</b>";
+} else {
+	$htmlrow="<a href=\"".wt_he($_SERVER["REQUEST_URI"]."&printvertrekinfo=1&c=".time())."\" target=\"_blank\" onclick=\"location.reload(true);\">Print de vertrekinfo &raquo;</a>";
+}
+// if($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
+// 	# onderliggend verzameltype
+// 	$db->query("SELECT accommodatie_id FROM type WHERE type_id='".addslashes($gegevens["stap1"]["verzameltype_gekozentype_id"])."';");
+// 	if($db->next_record()) {
+// 		$verzameltype_gekozenacc_id=$db->f("accommodatie_id");
+// 		$pdffile_route_gekozentypeid="pdf/route_".$gegevens["stap1"]["taal"]."/".$db->f("accommodatie_id").".pdf";
+// 		if(file_exists($pdffile_route_gekozentypeid)) {
+// 			$pdffile_route=$pdffile_route_gekozentypeid;
+// 			$pdffile_route_gekozentypeid_aanwezig=true;
+// 		}
+// 	}
+// }
+// if(!$pdffile_route) {
+// 	$pdffile_route="pdf/route_".$gegevens["stap1"]["taal"]."/".$gegevens["stap1"]["accinfo"]["accommodatieid"].".pdf";
+// }
+// if(file_exists($pdffile_route)) {
+// 	if($gegevens["stap1"]["taal"]=="nl") {
+// 		$check_array=split(",",$gegevens["stap1"]["accinfo"]["vertrekinfo_seizoengoedgekeurd"]);
+// 	} else {
+// 		$check_array=split(",",$gegevens["stap1"]["accinfo"]["vertrekinfo_seizoengoedgekeurd"."_".$gegevens["stap1"]["taal"]]);
+// 	}
+// 	if(@in_array($gegevens["stap1"]["seizoenid"],$check_array)) {
+// 		$htmlrow="<a href=\"".htmlentities($pdffile_route)."\" target=\"_blank\">Print de bijbehorende vertrekinfo+route &raquo;</a>";
+// 		if($pdffile_route_gekozentypeid_aanwezig) {
+// 			$htmlrow.="&nbsp;&nbsp;&nbsp;<span style=\"font-size:0.8em;\">(van onderliggend verzameltype)</span>";
+// 		} elseif($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
+// 			$htmlrow.="&nbsp;&nbsp;&nbsp;<span style=\"font-size:0.8em;\">(van bovenliggend verzameltype)</span>";
+// 		}
+// 		$vars["temp_vertrekinfo_goedgekeurd"]=true;
+// 	} else {
+// #		$htmlrow="<div style=\"background-color:#e587f6;width:700px;\"><a href=\"".htmlentities($pdffile_route)."\" target=\"_blank\">Print de bijbehorende vertrekinfo+route &raquo;</a> <b>Let op:</b> </b></div>";
+// 		$htmlrow="<b>Let op! vertrekinfo+route-PDF is niet goedgekeurd voor het betreffende seizoen. Nu <a href=\"cms_accommodaties.php?edit=1&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&1k0=".($verzameltype_gekozenacc_id ? $verzameltype_gekozenacc_id : $gegevens["stap1"]["accinfo"]["accommodatieid"])."#vertrekinfo\" target=\"_blank\">goedkeuren</a>.</b>";
+// 		$vars["temp_vertrekinfo_goedgekeurd"]=false;
+// 	}
+// } else {
+// 	$htmlrow="<b>Let op! vertrekinfo+route-PDF ontbreekt. Uploaden via <a href=\"cms_accommodaties.php?edit=1&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&1k0=".$gegevens["stap1"]["accinfo"]["accommodatieid"]."\" target=\"_blank\">accommodatie</a>.</b>";
+// 	unset($pdffile_route);
+// }
 
 $vars["temp_pdfprinttable"].="<tr><td>";
 $vars["temp_pdfprinttable"].="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"middle\"><img src=\"pic/pdflogo.gif\" width=\"18\" height=\"18\"></td><td valign=\"middle\">&nbsp;".$htmlrow."</td></tr></table>";
@@ -393,7 +411,7 @@ $vars["temp_pdfprinttable"].="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td
 $vars["temp_pdfprinttable"].="</td></tr>";
 $vars["temp_pdfprinttable"].="</table><br><br>";
 
-if($pdffile_voorbrief and $pdffile_route and $pdffile_plattegrond) {
+if($pdffile_voorbrief and !$vars["vertrekinfo_boeking"]["error"] and $pdffile_plattegrond) {
 	$vars["temp_pdffiles_aanwezig"]=true;
 }
 
@@ -795,44 +813,15 @@ if($form->okay) {
 			}
 			$mail->send();
 
-			// if($algemene_informatie and !$gegevens["stap1"]["reisbureau_user_id"]) {
-			// 	# Mail met vertrekinformatie mailen (niet als het een wederverkoop-boeking betreft)
-
-			// 	# even wachten (zodat mailtje 2 later aankomt dan mailtje 1)
-			// 	sleep(2);
-
-			// 	unset($mail);
-			// 	$mail=new wt_mail;
-			// 	$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
-			// 	$mail->from=$gegevens["stap1"]["website_specifiek"]["email"];
-			// 	$mail->to=$gegevens["stap2"]["email"];
-			// 	$mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] ".txt("mailtje_zonder_voucher_onderwerp","voucher");
-			// 	$mail->subject.=" ".txt("mailtje_onderwerp_2van2","voucher");
-
-
-			// 	$mail->html_top="<table width=600><tr><td>";
-			// 	$mail->html.=nl2br(txt("mailtje_zonder_voucher","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"h_1"=>"","h_2"=>"","h_3"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
-			// 	$mail->html_bottom="</td></tr>";
-
-			// 	if(file_exists($pdffile_voorbrief)) {
-			// 		$mail->attachment($pdffile_voorbrief,"","",txt("attachmentnaam_voorbrief_pdf","voucher"));
-			// 	}
-
-			// 	if(file_exists($pdffile_route)) {
-			// 		$mail->attachment($pdffile_route,"","",txt("attachmentnaam_route_pdf","voucher"));
-			// 	}
-
-			// 	if(file_exists($pdffile_plattegrond)) {
-			// 		$mail->attachment($pdffile_plattegrond,"","",txt("attachmentnaam_plattegrond_pdf","voucher"));
-			// 	}
-			// 	$mail->send();
-			// }
-
 			chalet_log("vouchers aangemaakt en gemaild aan ".$gegevens["stap2"]["email"],true,true);
 		} else {
 			chalet_log("vouchers aangemaakt",true,true);
 		}
 		unlink($tempfile);
+
+		if(file_exists($pdffile_route)) {
+			unlink($pdffile_route);
+		}
 
 		# voucherstatus wegschrijven
 		if($form->input["na_aanmaken"]<>"") {

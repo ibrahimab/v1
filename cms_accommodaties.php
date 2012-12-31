@@ -586,7 +586,7 @@ $cms->edit_field(1,0,"route_en","Bestand (Engelstalig)","",array("showfiletype"=
 $cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd_en","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
 
 # Nieuw vertrekinfo-systeem
-$cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
 $cms->edit_field(1,0,"htmlrow","<br><i>Alinea 'Inchecken'</i>");
 $cms->edit_field(1,0,"vertrekinfo_incheck_sjabloon_id","Sjabloon inchecken");
 if($vertrekinfo_tracking["vertrekinfo_incheck_sjabloon_id"]) {

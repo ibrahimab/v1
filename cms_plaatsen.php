@@ -256,7 +256,7 @@ $cms->edit_field(4,0,"landkaart","Landkaart","",array("img_minheight"=>"150","im
 $cms->edit_field(4,0,"pdfplattegrond","Plattegrond-PDF","",array("showfiletype"=>true));
 $cms->edit_field(4,0,"pdfplattegrond_nietnodig","Plattegrond-PDF is niet nodig bij de reisdocumenten");
 
-$cms->edit_field(4,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Nieuw vertrekinfo-systeem (nog niet in gebruik, maar gegevens invoeren is al mogelijk)</b>");
+$cms->edit_field(4,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
 $cms->edit_field(4,0,"htmlrow","<br><i>Alinea 'Route naar [plaatsnaam]'</i>");
 if($vars["cmstaal"]) {
 	$cms->edit_field(4,0,"vertrekinfo_plaatsroute","Tekst NL","",array("noedit"=>true));
