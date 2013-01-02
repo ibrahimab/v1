@@ -2398,6 +2398,8 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		$seizoennaam=$db->f("naam");
 	}
 
+
+
 	#
 	# Start vertrekinformatie-html
 	#
@@ -2575,6 +2577,11 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		}
 	}
 
+	# Gegevens voor vouchers aan $return toevoegen
+	$return["vouchergegevens"]["beheer_aanvulling"]=$variabelen["beheer_aanvulling"];
+	$return["vouchergegevens"]["telefoonnummer"]=$variabelen["telefoonnummer"];
+
+
 	if(is_array($error)) {
 		$return["error"]="<p><b style=\"color:red;\">De vertrekinfo kon niet worden aangemaakt:</b><ul>";
 		while(list($key,$value)=each($error)) {
@@ -2583,6 +2590,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		$return["error"].="</ul></p>";
 	} elseif($content) {
 		$return["content"]=$content;
+
 
 
 

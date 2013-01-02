@@ -467,13 +467,15 @@ if($_GET["wzt"]==2) {
 	}
 }
 
-if($vars["cmstaal"]) {
-	$cms->edit_field(1,0,"receptie","Receptie/Sleutel NL","",array("noedit"=>true));
-	$cms->edit_field(1,0,"receptie_".$vars["cmstaal"],"Receptie/Sleutel ".strtoupper($vars["cmstaal"]));
-} else {
-	$cms->edit_field(1,0,"receptie","Receptie/Sleutel");
-}
-$cms->edit_field(1,0,"telefoonnummer","Telefoonnummer");
+# Velden "receptie" en "telefoonnummer" zijn niet meer nodig: komen voortaan uit de vertrekinfo-gegevens (02-01-2013)
+// if($vars["cmstaal"]) {
+// 	$cms->edit_field(1,0,"receptie","Receptie/Sleutel NL","",array("noedit"=>true));
+// 	$cms->edit_field(1,0,"receptie_".$vars["cmstaal"],"Receptie/Sleutel ".strtoupper($vars["cmstaal"]));
+// } else {
+// 	$cms->edit_field(1,0,"receptie","Receptie/Sleutel");
+// }
+// $cms->edit_field(1,0,"telefoonnummer","Telefoonnummer");
+
 if($vars["cmstaal"]) {
 	$cms->edit_field(1,0,"voucherinfo","Vouchertekst","",array("noedit"=>true));
 	$cms->edit_field(1,0,"voucherinfo_".$vars["cmstaal"],"Vouchertekst ".strtoupper($vars["cmstaal"]));

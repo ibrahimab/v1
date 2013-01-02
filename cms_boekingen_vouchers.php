@@ -19,8 +19,8 @@ if($gegevens["stap1"]["boekingid"]) {
 			$accinfo["code"]=$db->f("code");
 			$accinfo["soortaccommodatie"]=$vars["soortaccommodatie"][$db->f("soortaccommodatie")];
 			$accinfo["naam_ap"]=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".txt("pers").")";
-			if($db->f("receptie")) $accinfo["receptie"]=$db->f("receptie");
-			if($db->f("telefoonnummer")) $accinfo["telefoonnummer"]=$db->f("telefoonnummer");
+			// if($db->f("receptie")) $accinfo["receptie"]=$db->f("receptie");
+			// if($db->f("telefoonnummer")) $accinfo["telefoonnummer"]=$db->f("telefoonnummer");
 		}
 	}
 
@@ -343,6 +343,14 @@ if($_POST["input"]["vouchersmailen"]) {
 	# Vertrekinfo alleen maar laden
 	$vars["vertrekinfo_boeking"]=vertrekinfo_boeking($gegevens);
 }
+
+# Gegevens uit vertrekinfo doorgeven aan voucher
+if($vars["vertrekinfo_boeking"]["vouchergegevens"]["beheer_aanvulling"]) $accinfo["receptie"]=$vars["vertrekinfo_boeking"]["vouchergegevens"]["beheer_aanvulling"];
+if($vars["vertrekinfo_boeking"]["vouchergegevens"]["telefoonnummer"]) $accinfo["telefoonnummer"]=$vars["vertrekinfo_boeking"]["vouchergegevens"]["telefoonnummer"];
+
+#echo wt_dump($accinfo);
+#exit;
+
 if($vars["vertrekinfo_boeking"]["error"]) {
 	$htmlrow="<b>Let op! vertrekinfo-PDF ontbreekt. Zie voor foutmeldingen het blok hierboven.</b>";
 } else {
