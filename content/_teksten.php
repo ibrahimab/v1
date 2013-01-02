@@ -374,25 +374,26 @@ E-mail: [EMAIL]";
 
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_1_zonderthema"]=$txt["en"]["vars"]["mail_klanten_vorig_seizoen_1"];
 
+
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_2"]="Beste [NAAM],
 
-Als klant van [WEBSITE] willen wij je graag als eerste laten weten dat een deel van ons zomeraanbod nu al te reserveren is. Dit geldt ook voor de accommodatie die je het afgelopen seizoen bij ons geboekt hebt:
+Als klant van [WEBSITE] willen wij je graag als eerste laten weten dat een deel van ons aanbod nu al te reserveren is. Dit geldt ook voor de accommodatie die je het afgelopen seizoen bij ons geboekt hebt:
 
 [EERDERE_BOEKING]
 
 Voor omschrijving: [ACCOMMODATIELINK]
 
-Om je de kans te geven om het geheel rustig met je reisgenoten te overleggen, geven we je alleen nu een optie van [OPTIEDAGEN] dagen in plaats van de gebruikelijke 3-daagse optie.
+Wij kunnen je nu een optie van [OPTIEDAGEN] dagen aanbieden, in plaats van de gebruikelijke 3-daagse optie, om bovenstaande accommodatie voor volgende zomer opnieuw te reserveren. Uiteraard is het ook mogelijk om deze [OPTIEDAGEN]-daagse optie op een andere accommodatie te nemen.
 
-Vooral grote accommodaties en periodes als de zomervakantie zijn erg populair. Daarom raden we je aan om niet te lang te wachten met boeken.
+Ben je voor je volgende zomervakantie op zoek naar iets anders? Neem eens een kijkje op [BASEHREF] of mail ons je wensen en wij geven je geheel vrijblijvend en passend advies. Een handig hulpmiddel hiervoor is het 'vraag ons advies- formulier'. Bezoek daarvoor: [BASEHREF]vraag-ons-advies.php
 
 Heb je voor je volgende zomervakantie andere plannen of wil je iets compleet anders? Neem eens een kijkje op de website of mail ons je wensen en wij zoeken een passende bestemming / accommodatie voor je uit.
 
-Klik op de volgende link voor meer informatie (ook als je nog niet over je volgende vakantie aan het nadenken bent):
+Klik voor meer informatie en voor het activeren van je [OPTIEDAGEN]-daagse optie op de volgende link:
 
 [LINK]
 
-Wij wensen je alvast veel vakantievoorpret!
+Wij wensen je alvast veel vakantievoorpret toe!
 
 Met vriendelijke groet,
 [NAAM_MEDEWERKER]
@@ -434,6 +435,46 @@ Netherlands
 Telefoon: +31 (0)348 - 43 46 49
 Fax: +31 (0)348 - 69 07 52
 E-mail: [EMAIL]";
+
+
+$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_tijdelijk_zomerhuisje_italissima"]="*Zomerhuisje.nl wordt Italissima!*
+
+Beste [NAAM],
+
+Als klant van Zomerhuisje.nl willen wij je hierbij graag op de hoogte brengen van een aantal veranderingen:
+
+- Met onze website www.zomerhuisje.nl richten wij ons voortaan op één van onze specialismen: vakanties in de bergen.
+
+- De grote vraag naar vakantiehuizen in Italië heeft ons doen besluiten om een aparte website te ontwikkelen: www.italissima.nl. Niet alleen vind je hier nu een nog uitgebreider aanbod van huizen in Italië, ook bieden wij Italië-liefhebbers een stukje voorpret middels ons blog, onze nieuwsbrief en onze Facebook- en Twitter-accounts.
+
+Het grootste deel van onze vakantiehuizen in Italië is al te reserveren. Dit geldt ook voor de accommodatie die je het afgelopen seizoen bij ons geboekt hebt via Zomerhuisje.nl:
+
+[EERDERE_BOEKING]
+
+Voor omschrijving: [ACCOMMODATIELINK]
+
+Wij kunnen je nu een optie van [OPTIEDAGEN] dagen aanbieden, in plaats van de gebruikelijke 3-daagse optie, om bovenstaande accommodatie voor volgende zomer opnieuw te reserveren. Uiteraard is het ook mogelijk om deze [OPTIEDAGEN]-daagse optie op een andere accommodatie te nemen.
+
+Ben je voor je volgende zomervakantie op zoek naar iets anders? Neem eens een kijkje op [BASEHREF] of mail ons je wensen en wij geven je geheel vrijblijvend en passend advies. Een handig hulpmiddel hiervoor is het 'vraag ons advies- formulier'. Bezoek daarvoor: [BASEHREF]vraag-ons-advies.php
+
+Heb je voor je volgende zomervakantie andere plannen of wil je iets compleet anders? Neem eens een kijkje op de website of mail ons je wensen en wij zoeken een passende bestemming / accommodatie voor je uit.
+
+Klik voor meer informatie en voor het activeren van je [OPTIEDAGEN]-daagse optie op de volgende link:
+
+[LINK]
+
+Wij wensen je alvast veel vakantievoorpret toe!
+
+Met vriendelijke groet,
+[NAAM_MEDEWERKER]
+
+[WEBSITE]
+Lindenhof 5
+3442 GT Woerden
+Telefoon: 0348 - 43 46 49
+Fax: 0348 - 69 07 52
+E-mail: [EMAIL]";
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_tijdelijk_zomerhuisje_italissima"]="-";
 
 
 #

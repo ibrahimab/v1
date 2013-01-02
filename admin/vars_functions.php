@@ -3501,9 +3501,9 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 
 		# productID
 		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
-			$tradetracker_productID="14727";
+			$tradetracker_productID="14744";
 		} elseif($data["ordernummer"]=="contactaanvraag") {
-			$tradetracker_productID="14727";
+			$tradetracker_productID="14745";
 		} else {
 			$tradetracker_productID="14727";
 		}

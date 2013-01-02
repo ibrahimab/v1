@@ -1102,6 +1102,11 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 			if($gegevens["stap1"]["accinfo"]["wzt"]==1 and $gegevens["stap1"]["website"]=="W" or $gegevens["stap1"]["website"]=="Q" or $gegevens["stap1"]["website"]=="V") {
 				# tekst zonder link naar thema gebruiken
 				$return["body"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_1_zonderthema"];
+			} elseif($gegevens["stap1"]["website"]=="Z" and $gegevens["stap1"]["accinfo"]["begincode"]=="I") {
+				# Tijdelijke tekst voor Zomerhuisje (Italiaanse accommodaties)
+				$return["body"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_tijdelijk_zomerhuisje_italissima"];
+				$gegevens["stap1"]["website_specifiek"]["basehref"]="http://www.italissima.nl/";
+				$vars["websites_basehref"][$gegevens["stap1"]["website"]]="http://www.italissima.nl/";
 			} else {
 				$return["body"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_".$gegevens["stap1"]["accinfo"]["wzt"]];
 			}
@@ -1111,9 +1116,9 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 			$return["body"]=ereg_replace("\[OPTIEDAGEN\]",$gegevens["stap1"]["accinfo"]["optiedagen_klanten_vorig_seizoen"],$return["body"]);
 #			$return["body"]=ereg_replace("\[DATUM\]",DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal),$return["body"]);
 			$return["body"]=ereg_replace("\[EERDERE_BOEKING\]",DATUM("D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal)." - ".$gegevens["stap1"]["accinfo"]["plaats"]." / ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"],$return["body"]);
-			$return["body"]=ereg_replace("\[ACCOMMODATIELINK\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "http://ss.postvak.net/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]]).$gegevens["stap1"]["accinfo"]["url_zonderpad"],$return["body"]);
+			$return["body"]=ereg_replace("\[ACCOMMODATIELINK\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" ? "http://ss.postvak.net/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]]).$gegevens["stap1"]["accinfo"]["url_zonderpad"],$return["body"]);
 
-			$return["body"]=ereg_replace("\[LINK\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "http://ss.postvak.net/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]])."rebook.php?bid=".$boekingid."&c=".substr(sha1($boekingid."_WT_488439fk3"),0,8),$return["body"]);
+			$return["body"]=ereg_replace("\[LINK\]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" ? "http://ss.postvak.net/chalet/" : $vars["websites_basehref"][$gegevens["stap1"]["website"]])."rebook.php?bid=".$boekingid."&c=".substr(sha1($boekingid."_WT_488439fk3"),0,8),$return["body"]);
 			$return["body"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["body"]);
 #			$return["body"]=ereg_replace("\[NAAM_MEDEWERKER\]",wt_naam($login->vars["voornaam"],$login->vars["tussenvoegsel"],$login->vars["achternaam"]),$return["body"]);
 			$return["body"]=ereg_replace("\[NAAM_MEDEWERKER\]",$login->vars["voornaam"],$return["body"]);
