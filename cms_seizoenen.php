@@ -48,7 +48,7 @@ $cms->settings[9]["show"]["goto_new_record"]=false;
 if($_GET["show"]<>9 and $_GET["edit"]<>9 and $_GET["add"]<>9 and !$_GET["oud"]) {
 	$cms->db[9]["where"]="UNIX_TIMESTAMP(eind)>'".(time()-864000)."'";
 }
-		
+
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(9,"text","naam");
 if($vars["cmstaal"]) $cms->db_field(9,"text","naam_".$vars["cmstaal"]);
@@ -134,7 +134,7 @@ if($vars["cmstaal"]) {
 }
 $cms->edit_field(9,1,"type","Type");
 if($datum_niet_meer_wijzigen) {
-	
+
 } else {
 	$cms->edit_field(9,0,"htmlrow","<hr><div style=\"padding:5px;width:400px;border:1px solid red;background-color:yellow;\"><b>Let op: kies onderstaande datums heel zorgvuldig!</b><br>Na het invoeren van calculatiesjablonen en tarieven<br>is wijzigen niet meer mogelijk.</div>");
 	$cms->edit_field(9,1,"begin","Eerste aankomstdatum","","",array("calendar"=>true));
@@ -163,12 +163,12 @@ $cms->edit_field(9,1,"verzekeringen_poliskosten_korting","Korting");
 $cms->edit_field(9,1,"verzekeringen_poliskosten","Basis + assurantiebelasting");
 
 if($_GET["add"]==9 or $_GET["1k0"]<=18) {
-	# losse poliskosten reisverzekering en annuleringsverzekering niet meer van toepassing 
+	# losse poliskosten reisverzekering en annuleringsverzekering niet meer van toepassing
 	$cms->edit_field(9,0,"htmlrow","<hr><b>Poliskosten reisverzekering</b> (binnenkort niet meer van toepassing)");
 	$cms->edit_field(9,1,"reisverzekering_poliskosten_basis","Basis");
 	$cms->edit_field(9,1,"reisverzekering_poliskosten_korting","Korting");
 	$cms->edit_field(9,1,"reisverzekering_poliskosten","Basis + assurantiebelasting");
-	
+
 	$cms->edit_field(9,0,"htmlrow","<hr><b>Poliskosten annuleringsverzekering</b> (binnenkort niet meer van toepassing)");
 	$cms->edit_field(9,1,"annuleringsverzekering_poliskosten_basis","Basis");
 	$cms->edit_field(9,1,"annuleringsverzekering_poliskosten_korting","Korting");
@@ -176,28 +176,28 @@ if($_GET["add"]==9 or $_GET["1k0"]<=18) {
 }
 
 # annuleringsverzekering_percentage_1
-$cms->edit_field(9,0,"htmlrow","<hr><b>Variabele kosten % ".$vars["annverz_soorten"][1]."</b>");
+$cms->edit_field(9,0,"htmlrow","<hr><b>Variabele kosten % ".$vars["annverz_soorten"][1]."</b> <span style=\"font-size:0.7em;\">(1)</span>");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_1_basis","Basis");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_1_korting","Korting");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_1_berekend","Basis + assurantiebelasting","",array("decimals"=>5));
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_1","Afgerond voor klant");
 
 # annuleringsverzekering_percentage_2
-$cms->edit_field(9,0,"htmlrow","<hr><b>Variabele kosten % ".$vars["annverz_soorten"][2]."</b>");
+$cms->edit_field(9,0,"htmlrow","<hr><b>Variabele kosten % ".$vars["annverz_soorten"][2]."</b> <span style=\"font-size:0.7em;\">(2)</span>");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_2_basis","Basis");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_2_korting","Korting");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_2_berekend","Basis + assurantiebelasting","",array("decimals"=>5));
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_2","Afgerond voor klant");
 
 # annuleringsverzekering_percentage_3
-$cms->edit_field(9,0,"htmlrow","<hr><b>Variabele kosten % ".$vars["annverz_soorten"][3]."</b>");
+$cms->edit_field(9,0,"htmlrow","<hr><b>Variabele kosten % ".$vars["annverz_soorten"][3]."</b> <span style=\"font-size:0.7em;\">(3)</span>");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_3_basis","Basis");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_3_korting","Korting");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_3_berekend","Basis + assurantiebelasting","",array("decimals"=>5));
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_3","Afgerond voor klant");
 
 # annuleringsverzekering_percentage_4
-$cms->edit_field(9,0,"htmlrow","<hr><b>Variabele kosten % ".$vars["annverz_soorten"][4]."</b>");
+$cms->edit_field(9,0,"htmlrow","<hr><b>Variabele kosten % ".$vars["annverz_soorten"][4]."</b> <span style=\"font-size:0.7em;\">(4)</span>");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_4_basis","Basis");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_4_korting","Korting");
 $cms->edit_field(9,1,"annuleringsverzekering_percentage_4_berekend","Basis + assurantiebelasting","",array("decimals"=>5));

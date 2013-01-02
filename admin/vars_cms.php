@@ -2132,14 +2132,14 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		$taal_streepje=strtoupper(substr($gegevens["stap1"]["website_specifiek"]["ttv"],1))."-";
 	}
 
-	// onderliggend verzameltype: de accommodatie-gegevens die boven dat gekozen type liggen gebruiken
-	// if($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
-	// 	# onderliggend verzameltype
-	// 	$db->query("SELECT accommodatie_id FROM type WHERE type_id='".addslashes($gegevens["stap1"]["verzameltype_gekozentype_id"])."';");
-	// 	if($db->next_record()) {
-	// 		$gegevens["stap1"]["accinfo"]["accommodatie_id"]=$db->f("accommodatie_id");
-	// 	}
-	// }
+	# onderliggend verzameltype: de accommodatie-gegevens die boven dat gekozen type liggen gebruiken
+	if($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
+		# onderliggend verzameltype
+		$db->query("SELECT accommodatie_id FROM type WHERE type_id='".addslashes($gegevens["stap1"]["verzameltype_gekozentype_id"])."';");
+		if($db->next_record()) {
+			$gegevens["stap1"]["accinfo"]["accommodatie_id"]=$db->f("accommodatie_id");
+		}
+	}
 
 	# Gegevens per niveau ophalen
 
@@ -2153,7 +2153,9 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	$query[3]="SELECT type_id, accommodatie_id, vertrekinfo_goedgekeurd_seizoen".$ttv." AS vertrekinfo_goedgekeurd_seizoen, vertrekinfo_incheck_sjabloon_id, vertrekinfo_soortbeheer, vertrekinfo_soortbeheer_aanvulling, vertrekinfo_telefoonnummer, vertrekinfo_inchecktijd, vertrekinfo_uiterlijkeinchecktijd, vertrekinfo_uitchecktijd, inclusief".$ttv." AS inclusief, vertrekinfo_inclusief".$ttv." AS vertrekinfo_inclusief, exclusief".$ttv." AS exclusief, vertrekinfo_exclusief".$ttv." AS vertrekinfo_exclusief, vertrekinfo_route".$ttv." AS vertrekinfo_route, vertrekinfo_soortadres, vertrekinfo_adres, vertrekinfo_plaatsnaam_beheer, gps_lat, vertrekinfo_gps_lat, gps_long, vertrekinfo_gps_long FROM type WHERE type_id='".addslashes($gegevens["stap1"]["typeid"])."';";
 
 	# Niveau: Gekozen onderliggend type
-	$query[4]="SELECT type_id, accommodatie_id, vertrekinfo_goedgekeurd_seizoen".$ttv." AS vertrekinfo_goedgekeurd_seizoen, vertrekinfo_incheck_sjabloon_id, vertrekinfo_soortbeheer, vertrekinfo_soortbeheer_aanvulling, vertrekinfo_telefoonnummer, vertrekinfo_inchecktijd, vertrekinfo_uiterlijkeinchecktijd, vertrekinfo_uitchecktijd, inclusief".$ttv." AS inclusief, vertrekinfo_inclusief".$ttv." AS vertrekinfo_inclusief, exclusief".$ttv." AS exclusief, vertrekinfo_exclusief".$ttv." AS vertrekinfo_exclusief, vertrekinfo_route".$ttv." AS vertrekinfo_route, vertrekinfo_soortadres, vertrekinfo_adres, vertrekinfo_plaatsnaam_beheer, gps_lat, vertrekinfo_gps_lat, gps_long, vertrekinfo_gps_long FROM type WHERE type_id='".addslashes($gegevens["stap1"]["verzameltype_gekozentype_id"])."';";
+	if($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
+		$query[4]="SELECT type_id, accommodatie_id, vertrekinfo_goedgekeurd_seizoen".$ttv." AS vertrekinfo_goedgekeurd_seizoen, vertrekinfo_incheck_sjabloon_id, vertrekinfo_soortbeheer, vertrekinfo_soortbeheer_aanvulling, vertrekinfo_telefoonnummer, vertrekinfo_inchecktijd, vertrekinfo_uiterlijkeinchecktijd, vertrekinfo_uitchecktijd, inclusief".$ttv." AS inclusief, vertrekinfo_inclusief".$ttv." AS vertrekinfo_inclusief, exclusief".$ttv." AS exclusief, vertrekinfo_exclusief".$ttv." AS vertrekinfo_exclusief, vertrekinfo_route".$ttv." AS vertrekinfo_route, vertrekinfo_soortadres, vertrekinfo_adres, vertrekinfo_plaatsnaam_beheer, gps_lat, vertrekinfo_gps_lat, gps_long, vertrekinfo_gps_long FROM type WHERE type_id='".addslashes($gegevens["stap1"]["verzameltype_gekozentype_id"])."';";
+	}
 
 	while(list($querykey,$queryvalue)=each($query)) {
 
@@ -2390,8 +2392,6 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	if($db->next_record()) {
 		$seizoennaam=$db->f("naam");
 	}
-
-#echo wt_dump($gegevens);
 
 	#
 	# Start vertrekinformatie-html

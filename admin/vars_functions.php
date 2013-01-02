@@ -1600,7 +1600,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
 		$return.="<tr style=\"font-style:italic;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td valign=\"top\" style=\"padding-right:10px\" colspan=\"".(5+$extra_colspan)."\">".html("subtotaal","vars");
-		$return.="<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\"  align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]+$gegevens["stap4"]["optie_bedrag_buiten_annuleringsverzekering"],2,',','.')."</td>";
+		$return.="<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]+$gegevens["stap4"]["optie_bedrag_buiten_annuleringsverzekering"],2,',','.')."</td>";
 		$return.="<td valign=\"top\">&nbsp;</td>";
 		$return.="</tr>";
 		$kleurteller++;
@@ -1694,7 +1694,13 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 				$db->query("SELECT annuleringsverzekering_percentage_".$key."_korting AS korting, annuleringsverzekering_percentage_".$key."_basis AS basis, annuleringsverzekering_percentage_".$key."_berekend AS berekend FROM seizoen WHERE seizoen_id='".addslashes($gegevens["stap1"]["seizoenid"])."';");
 				if($db->next_record()) {
 
-					$percentage=$db->f("basis")*(1-$db->f("korting")/100)+($db->f("berekend")-$db->f("basis"));
+					if($gegevens["stap1"]["seizoenid"]==20 and date("Y",$gegevens["stap1"]["bevestigdatum"])<2013) {
+						# Tijdelijke oplossing voor midden in het seizoen ophogen van assurantiebelasting van 9.7% naar 21% (02-01-2013)
+						$temp_ann_verz_berekend=$db->f("basis")*1.097;
+					} else {
+						$temp_ann_verz_berekend=$db->f("berekend");
+					}
+					$percentage=$db->f("basis")*(1-$db->f("korting")/100)+($temp_ann_verz_berekend-$db->f("basis"));
 					$inkoopbedrag=round($toon_annuleringsverzekering_bedragen*($percentage/100),2);
 
 					$kleurteller_inkoop++;
@@ -1743,7 +1749,15 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		if($inkoop) {
 			$db->query("SELECT schadeverzekering_percentage_korting AS korting, schadeverzekering_percentage_basis AS basis, schadeverzekering_percentage_berekend AS berekend FROM seizoen WHERE seizoen_id='".addslashes($gegevens["stap1"]["seizoenid"])."';");
 			if($db->next_record()) {
-				$percentage=$db->f("basis")*(1-$db->f("korting")/100)+($db->f("berekend")-$db->f("basis"));
+
+				if($gegevens["stap1"]["seizoenid"]==20 and date("Y",$gegevens["stap1"]["bevestigdatum"])<2013) {
+					# Tijdelijke oplossing voor midden in het seizoen ophogen van assurantiebelasting van 9.7% naar 21% (02-01-2013)
+					$temp_schade_verz_berekend=$db->f("basis")*1.097;
+				} else {
+					$temp_schade_verz_berekend=$db->f("berekend");
+				}
+
+				$percentage=$db->f("basis")*(1-$db->f("korting")/100)+($temp_schade_verz_berekend-$db->f("basis"));
 				$inkoopbedrag=round($gegevens["stap1"]["accprijs"]*($percentage/100),2);
 
 				$kleurteller_inkoop++;
@@ -1783,7 +1797,14 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 
 			$db->query("SELECT assurantiebelasting, verzekeringen_poliskosten_basis FROM seizoen WHERE seizoen_id='".addslashes($gegevens["stap1"]["seizoenid"])."';");
 			if($db->next_record()) {
-				$inkoop_poliskosten=round($db->f("verzekeringen_poliskosten_basis")-($db->f("verzekeringen_poliskosten_basis")/(1+($db->f("assurantiebelasting")/100))),2);
+				if($gegevens["stap1"]["seizoenid"]==20 and date("Y",$gegevens["stap1"]["bevestigdatum"])<2013) {
+					# Tijdelijke oplossing voor midden in het seizoen ophogen van assurantiebelasting van 9.7% naar 21% (02-01-2013)
+					$temp_assurantiebelasting=9.7;
+				} else {
+					$temp_assurantiebelasting=$db->f("assurantiebelasting");
+				}
+
+				$inkoop_poliskosten=round($db->f("verzekeringen_poliskosten_basis")-($db->f("verzekeringen_poliskosten_basis")/(1+($temp_assurantiebelasting/100))),2);
 			}
 			$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td valign=\"top\" style=\"padding-right:10px\">".html("poliskostenverzekeringen","vars");
 			$return_inkoop.="</td><td>&nbsp;</td><td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format($inkoop_poliskosten,2,',','.')."</td>";
