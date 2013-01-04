@@ -4069,6 +4069,12 @@ $txt["en"]["voucher"]["attachmentnaam_route_pdf"]="info_and_route.pdf";
 $txt["nl"]["voucher"]["attachmentnaam_plattegrond_pdf"]="plattegrond.pdf";
 $txt["en"]["voucher"]["attachmentnaam_plattegrond_pdf"]="map.pdf";
 
+$txt["nl"]["voucher"]["attachmentnaam_accommodatie_pdf"]="aanvullende_informatie.pdf";
+$txt["en"]["voucher"]["attachmentnaam_accommodatie_pdf"]="extra_information.pdf";
+
+$txt["nl"]["voucher"]["attachmentnaam_boeking_pdf"]="aanvullende_informatie_boeking.pdf";
+$txt["en"]["voucher"]["attachmentnaam_boeking_pdf"]="extra_information_booking.pdf";
+
 
 #
 # Rebook (via mailuitnodiging dezelfde accommodatie opnieuw boeken)

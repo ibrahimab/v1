@@ -1,6 +1,7 @@
 <?php
 
 set_time_limit(0);
+clearstatcache();
 
 $mustlogin=true;
 $boeking_bepaalt_taal=true;
@@ -317,7 +318,6 @@ if(is_array($vars["temp_voucherfiles"])) {
 $vars["temp_pdfprinttable"].="</td></tr>";
 
 # Voorbrief-pdf
-#$pdffile_voorbrief="pdf/voorbrief_".$gegevens["stap1"]["taal"]."/".$gegevens["stap1"]["seizoenid"].".pdf";
 $pdffile_voorbrief="pdf/voorbrief_".$gegevens["stap1"]["website"]."/".$gegevens["stap1"]["seizoenid"].".pdf";
 if(file_exists($pdffile_voorbrief)) {
 	$htmlrow="<a href=\"".htmlentities($pdffile_voorbrief)."\" target=\"_blank\">Print de bijbehorende voorbrief &raquo;</a>";
@@ -348,8 +348,6 @@ if($_POST["input"]["vouchersmailen"]) {
 if($vars["vertrekinfo_boeking"]["vouchergegevens"]["beheer_aanvulling"]) $accinfo["receptie"]=$vars["vertrekinfo_boeking"]["vouchergegevens"]["beheer_aanvulling"];
 if($vars["vertrekinfo_boeking"]["vouchergegevens"]["telefoonnummer"]) $accinfo["telefoonnummer"]=$vars["vertrekinfo_boeking"]["vouchergegevens"]["telefoonnummer"];
 
-#echo wt_dump($accinfo);
-#exit;
 
 if($vars["vertrekinfo_boeking"]["error"]) {
 	$htmlrow="<b>Let op! vertrekinfo-PDF ontbreekt. Zie voor foutmeldingen het blok hierboven.</b>";
@@ -379,6 +377,38 @@ if(file_exists($pdffile_plattegrond)) {
 $vars["temp_pdfprinttable"].="<tr><td>";
 $vars["temp_pdfprinttable"].="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"middle\"><img src=\"pic/pdflogo.gif\" width=\"18\" height=\"18\"></td><td valign=\"middle\">&nbsp;".$htmlrow."</td></tr></table>";
 $vars["temp_pdfprinttable"].="</td></tr>";
+
+
+# pdf met aanvullende informatie (accommodatie)
+unset($htmlrow);
+if($gegevens["stap1"]["verzameltype_gekozentype_id"]) {
+	# onderliggend verzameltype
+	$db->query("SELECT accommodatie_id FROM type WHERE type_id='".addslashes($gegevens["stap1"]["verzameltype_gekozentype_id"])."';");
+	if($db->next_record()) {
+		$pdffile_accommodatie="pdf/accommodatie_aanvullende_informatie/".$db->f("accommodatie_id").".pdf";
+	}
+}
+if(!$pdffile_accommodatie or !file_exists($pdffile_accommodatie)) {
+	$pdffile_accommodatie="pdf/accommodatie_aanvullende_informatie/".$gegevens["stap1"]["accinfo"]["accommodatie_id"].".pdf";
+}
+if(file_exists($pdffile_accommodatie)) {
+	$htmlrow="<a href=\"".wt_he($pdffile_accommodatie)."\" target=\"_blank\">Print de bijbehorende aanvullende informatie (accommodatie) &raquo;</a>";
+	$vars["temp_pdfprinttable"].="<tr><td>";
+	$vars["temp_pdfprinttable"].="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"middle\"><img src=\"pic/pdflogo.gif\" width=\"18\" height=\"18\"></td><td valign=\"middle\">&nbsp;".$htmlrow."</td></tr></table>";
+	$vars["temp_pdfprinttable"].="</td></tr>";
+}
+
+# pdf met aanvullende informatie (boeking)
+unset($htmlrow);
+$pdffile_boeking="pdf/boeking_aanvullende_informatie/".$gegevens["stap1"]["boekingid"].".pdf";
+if(file_exists($pdffile_boeking)) {
+	$htmlrow="<a href=\"".wt_he($pdffile_boeking)."\" target=\"_blank\">Print de bijbehorende aanvullende informatie (uniek voor deze boeking) &raquo;</a>";
+	$vars["temp_pdfprinttable"].="<tr><td>";
+	$vars["temp_pdfprinttable"].="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"middle\"><img src=\"pic/pdflogo.gif\" width=\"18\" height=\"18\"></td><td valign=\"middle\">&nbsp;".$htmlrow."</td></tr></table>";
+	$vars["temp_pdfprinttable"].="</td></tr>";
+}
+
+# Afsluiten temp_pdfprinttable
 $vars["temp_pdfprinttable"].="</table><br><br>";
 
 if($pdffile_voorbrief and !$vars["vertrekinfo_boeking"]["error"] and $pdffile_plattegrond) {
@@ -401,6 +431,10 @@ if($vars["temp_pdffiles_aanwezig"]) {
 }
 #echo wt_dump($gegevens);
 
+$form->field_htmlrow("","<hr><b>PDF met voor deze boeking specifieke informatie</b>");
+$form->field_upload(0,"boeking_aanvullende_informatie","PDF","","",array("move_file_to"=>"pdf/boeking_aanvullende_informatie/","must_be_filetype"=>"pdf","showfiletype"=>true,"rename_file_to"=>$_GET["bid"]),"");
+
+
 while(list($key,$value)=@each($voucher)) {
 	if($key<>2) voucher_form($value,$key);
 	$vouchers_aanwezig=true;
@@ -421,6 +455,10 @@ $form->check_input();
 if($form->filled) {
 
 }
+
+$form->settings["go_nowhere"]=true;
+$form->end_declaration();
+
 
 if($form->okay) {
 
@@ -794,6 +832,15 @@ if($form->okay) {
 			if(file_exists($pdffile_plattegrond)) {
 				$mail->attachment($pdffile_plattegrond,"","",txt("attachmentnaam_plattegrond_pdf","voucher"));
 			}
+
+			if(file_exists($pdffile_accommodatie)) {
+				$mail->attachment($pdffile_accommodatie,"","",txt("attachmentnaam_accommodatie_pdf","voucher"));
+			}
+
+			if(file_exists($pdffile_boeking)) {
+				$mail->attachment($pdffile_boeking,"","",txt("attachmentnaam_boeking_pdf","voucher"));
+			}
+
 			$mail->send();
 
 			chalet_log("vouchers aangemaakt en gemaild aan ".$gegevens["stap2"]["email"],true,true);
@@ -814,8 +861,14 @@ if($form->okay) {
 			}
 		}
 	}
+	if($_GET["burl"]) {
+		header("Location: ".$_GET["burl"]);
+	} else {
+		header("Location: ".$_SERVER["REQUEST_URI"]);
+	}
+	exit;
 }
-$form->end_declaration();
+
 
 $layout->display_all($cms->page_title);
 

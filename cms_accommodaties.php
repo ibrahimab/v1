@@ -289,6 +289,8 @@ $cms->db_field(1,"upload","route_en","",array("savelocation"=>"pdf/route_en/","f
 $cms->db_field(1,"checkbox","vertrekinfo_seizoengoedgekeurd_en","",array("selection"=>$vars["seizoengoedgekeurd"]));
 
 # Nieuw vertrekinfo-systeem
+$cms->db_field(1,"upload","accommodatie_aanvullende_informatie","",array("savelocation"=>"pdf/accommodatie_aanvullende_informatie/","filetype"=>"pdf"));
+
 $cms->db_field(1,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
 if($vars["cmstaal"]) $cms->db_field(1,"checkbox","vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"",array("selection"=>$vars["seizoengoedgekeurd"]));
 $cms->db_field(1,"text","vertrekinfo_goedgekeurd_datetime");
@@ -589,6 +591,7 @@ $cms->edit_field(1,0,"vertrekinfo_seizoengoedgekeurd_en","Vertrekinfo is goedgek
 
 # Nieuw vertrekinfo-systeem
 $cms->edit_field(1,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
+$cms->edit_field(1,0,"accommodatie_aanvullende_informatie","PDF met voor deze accommodatie specifieke informatie","",array("showfiletype"=>true));
 $cms->edit_field(1,0,"htmlrow","<br><i>Alinea 'Inchecken'</i>");
 $cms->edit_field(1,0,"vertrekinfo_incheck_sjabloon_id","Sjabloon inchecken");
 if($vertrekinfo_tracking["vertrekinfo_incheck_sjabloon_id"]) {

@@ -116,11 +116,11 @@ if($_POST["boeking"] or $_POST["verwijderboeking"]) {
 		if($_GET["accid"]) {
 			echo "Accommodatie: <a href=\"cms_accommodaties.php?show=1&1k0=".htmlentities($_GET["accid"])."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a><p>";
 		} else {
-			echo "<div style=\"margin-top:10px;margin-bottom:10px;\"><span style=\"background-color:#ff9494;\">rode types</span> zijn niet meer op de website van de betreffende boeking aanwezig.</div>";
+			echo "<div style=\"margin-top:10px;margin-bottom:10px;\"><span style=\"background-color:#ffa9a9;\">rode types</span> zijn niet meer op de website van de betreffende boeking aanwezig.</div>";
 		}
 		if($_GET["status"]==2) {
 			if($_GET["showmailuitgezet"]) {
-				echo "<span style=\"background-color:#ffa9a9;\">Rood</span> = boeking waarbij mail m.b.t. volgend seizoen is uitgezet<p>";
+				echo "<span style=\"background-color:#ffa9a9;\">rode boekingen</span> = boeking waarbij mail m.b.t. volgend seizoen is uitgezet<p>";
 			} else {
 				echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&showmailuitgezet=1\">Bekijk boekingen waarbij mail m.b.t. volgend seizoen is uitgezet</a><p>";
 			}
@@ -149,7 +149,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"]) {
 						if($db->f("atonen") and $db->f("ttonen") and preg_match("/".$db->f("website")."/",$db->f("websites"))) {
 							$type_bgcolor="#ffffff;";
 						} else {
-							$type_bgcolor="#ff9494;";
+							$type_bgcolor="#ffa9a9;";
 						}
 						echo "<td style=\"background-color:".$type_bgcolor."\"><a href=\"cms_types.php?show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)")."</a></td>";
 					}
