@@ -867,11 +867,10 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			} elseif($boeking_wijzigen) {
 				$uiterlijke_datum=mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-intval($gegevens["stap1"]["wijzigen_dagen"]),date("Y",$gegevens["stap1"]["aankomstdatum_exact"]));
 				if(time()<$uiterlijke_datum) {
-					if($gegevens["stap1"]["reisbureau_user_id"]) {
-						# Reisbureau: 3 keuzes
-						$form->field_select(1,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$gegevens["stap1"]["verzendmethode_reisdocumenten"]),array("selection"=>$vars["verzendmethode_reisdocumenten_inclusief_nvt"],"empty_is_0"=>true));
+					if($gegevens["stap1"]["verzendmethode_reisdocumenten"]==3) {
+						# verzendmethode staat op "n.v.t.": wijzigen niet mogelijk
 					} else {
-						# Anders: 2 keuzes
+						# Wijzigen wel mogelijk (2 keuzes: post+mail)
 						$form->field_select(1,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$gegevens["stap1"]["verzendmethode_reisdocumenten"]),array("selection"=>$vars["verzendmethode_reisdocumenten"],"empty_is_0"=>true));
 					}
 				}
@@ -1290,8 +1289,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			# Intern: ook keuze "n.v.t" laten zien bij verzendmethode_reisdocumenten
 			$form->field_select(($voorkant_cms ? 0 : 1),"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$reisbureau_verzendmethode_reisdocumenten),array("selection"=>$vars["verzendmethode_reisdocumenten_inclusief_nvt"],"empty_is_0"=>true),array("add_html_after_field"=>"<br><div style=\"margin-top:5px;font-size:0.8em;\">".html("verzendmethode_reisdocumenten_aangepast","boeken")."</div>"));
 		} else {
-			if($gegevens["stap1"]["reisbureau_user_id"]) {
-				# reisbureaus hebben de mogelijkheid "n.v.t." te kiezen
+			if($reisbureau_verzendmethode_reisdocumenten==3) {
 				$form->field_select(1,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$reisbureau_verzendmethode_reisdocumenten),array("selection"=>$vars["verzendmethode_reisdocumenten_inclusief_nvt"],"empty_is_0"=>true),array("add_html_after_field"=>"<br><div style=\"margin-top:5px;font-size:0.8em;\">".html("verzendmethode_reisdocumenten_aangepast","boeken")."</div>"));
 			} else {
 				$form->field_select(1,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$reisbureau_verzendmethode_reisdocumenten),array("selection"=>$vars["verzendmethode_reisdocumenten"],"empty_is_0"=>true),array("add_html_after_field"=>"<br><div style=\"margin-top:5px;font-size:0.8em;\">".html("verzendmethode_reisdocumenten_aangepast","boeken")."</div>"));

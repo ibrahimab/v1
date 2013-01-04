@@ -24,11 +24,7 @@ if($_GET["bid"] and ($_GET["c"]==substr(sha1("ldlklKDKLk".$_GET["bid"]."JJJdkkk4
 	#_field: (obl),id,title,db,prevalue,options,layout
 	$form->field_htmlrow("","".html("inleiding1","verzendmethode")."<br><br>".html("inleiding2","verzendmethode")."");
 	$form->field_htmlrow("","&nbsp;");
-	if($gegevens["stap1"]["reisbureau_user_id"]) {
-		$form->field_select(1,"verzendmethode_reisdocumenten",txt("keuze","verzendmethode"),"",$gegevens["stap1"]["verzendmethode_reisdocumenten"],array("selection"=>$vars["verzendmethode_reisdocumenten_inclusief_nvt"]),array("title_style"=>"width:300px;"));
-	} else {
-		$form->field_select(1,"verzendmethode_reisdocumenten",txt("keuze","verzendmethode"),"",$gegevens["stap1"]["verzendmethode_reisdocumenten"],array("selection"=>$vars["verzendmethode_reisdocumenten"]),array("title_style"=>"width:300px;"));
-	}
+	$form->field_select(1,"verzendmethode_reisdocumenten",txt("keuze","verzendmethode"),"",$gegevens["stap1"]["verzendmethode_reisdocumenten"],array("selection"=>$vars["verzendmethode_reisdocumenten"]),array("title_style"=>"width:300px;"));
 	$form->field_htmlrow("","&nbsp;");
 
 	$form->check_input();
