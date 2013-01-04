@@ -667,6 +667,21 @@ if($_GET["t"]==1) {
 	# Overige overzichten
 	#
 
+	echo "&nbsp;";
+
+	# Overzicht alle skigebieden Chalet.nl inclusief link (t.b.v. Snowplaza - 04-01-2013)
+	echo "<h2>Overzicht skigebieden Chalet.nl t.b.v. Snowplaza</h2>";
+	echo "<table cellspacing=\"0\" class=\"tbl\">";
+	echo "<tr><th>Skigebied</th><th>Land</th><th>URL</th></tr>";
+	$db->query("SELECT DISTINCT skigebied, land FROM view_accommodatie WHERE websites LIKE '%C%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY land, skigebied;");
+	while($db->next_record()) {
+		$url="http://www.chalet.nl/skigebied/".wt_convert2url($db->f("skigebied"))."/";
+		echo "<tr><td>".wt_he($db->f("skigebied"))."</td><td>".$db->f("land")."</td><td><a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($url)."</a></td></tr>";
+	}
+	echo "</table>";
+
+	echo "<br/><hr><br/>";
+
 	# Overzicht aantal aangeboden bedden per seizoen
 	echo "<h2>Aantal aangeboden bedden per seizoen</h2>";
 	echo "<ul>";

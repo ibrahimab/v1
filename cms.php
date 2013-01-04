@@ -9,11 +9,14 @@ if($_GET["testsite"]) {
 		file_put_contents("/home/webtastic/html/chalet/tmp/testsite.txt",$_GET["testsite"]);
 	}
 	if($_GET["gotourl"]) {
-		header("Location: /chalet/".$_GET["gotourl"]);
+		if($_GET["gotourl"]<>"cms.php") {
+			header("Location: /chalet/".$_GET["gotourl"]);
+			exit;
+		}
 	} else {
 		header("Location: /chalet/");
+		exit;
 	}
-	exit;
 }
 
 if($_GET["logout"]==1) {
