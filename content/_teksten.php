@@ -161,7 +161,7 @@ $txt["en"]["vars"]["post"]="post";
 $txt["nl"]["vars"]["gaverdermetboeken"]="Ga verder met boeken";
 $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
 
-$txt["nl"]["vars"]["cookiemelding"]="Om u verder van dienst te kunnen zijn wordt er gebruik gemaakt van cookies. Lees ons [[h_1]]privacy-statement[[h_2]] voor meer informatie.";
+$txt["nl"]["vars"]["cookiemelding"]="Om u beter van dienst te kunnen zijn wordt er gebruik gemaakt van cookies. Lees ons [[h_1]]privacy-statement[[h_2]] voor meer informatie.";
 $txt["en"]["vars"]["cookiemelding"]="-";
 
 $txt["nl"]["vars"]["opvalmelding"]="Vanwege een inbraakpoging zijn wij momenteel tijdelijk bereikbaar op telefoonnummer 050 711 5210.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
