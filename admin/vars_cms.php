@@ -2427,7 +2427,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		$logo="factuur_logo_italissima.png";
 	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 		# SuperSki
-		$logo="pic/factuur_logo_superski.png";
+		$logo="factuur_logo_superski.png";
 	} else {
 		# Chalet Winter
 		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="be") {

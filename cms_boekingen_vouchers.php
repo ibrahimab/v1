@@ -407,6 +407,7 @@ while(list($key,$value)=@each($voucher)) {
 }
 
 $form->field_hidden("voucherteller",$voucherteller);
+$form->field_hidden("random_code_om_cache_te_voorkomen",time());
 $form->field_htmlrow("","<hr><b>Status wijzigen</b>");
 if($gegevens["stap1"]["voucherstatus"]>=5) {
 	$form->field_select(0,"na_aanmaken","Wijzig de status na aanmaken naar","",array("selection"=>7),array("selection"=>$vars["voucherstatus_nawijzigingen"]),array("onchange"=>"document.frm.elements['input[na_aanmaken1]'].value=document.frm.elements['input[na_aanmaken]'].value;"));
@@ -471,13 +472,20 @@ if($form->okay) {
 				$deelnemerskolom[1]=true;
 			}
 			for($j=1;$j<=count($deelnemerskolom);$j=$j+2) {
-				if($boven) {
-					unset($boven);
-					$y=153;
-				} else {
-					$boven=true;
+				if($form->input["vouchersmailen"]) {
+					# Bij mailen: elke voucher op een nieuwe pagina
 					$pdf->AddPage();
 					$y=0;
+				} else {
+					# Bij printen: meerdere vouchers per pagina
+					if($boven) {
+						unset($boven);
+						$y=153;
+					} else {
+						$boven=true;
+						$pdf->AddPage();
+						$y=0;
+					}
 				}
 
 				$pdf->SetY(6+$y);
@@ -502,29 +510,29 @@ if($form->okay) {
 
 				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==4 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==5) {
 					# Chalettour-logo
-					$pdf->Image("pic/factuur_logo_chalettour.png",169.5,1+$y,32);
+					$pdf->Image("pic/factuur_logo_chalettour.png",165,3+$y,32);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==6) {
 					# ChaletsInVallandry-logo
-					$pdf->Image("pic/factuur_logo_vallandry.png",150,5+$y,56);
+					$pdf->Image("pic/factuur_logo_vallandry.png",165,3+$y,32);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
 					# Zomerhuisje-logo
-					$pdf->Image("pic/factuur_logo_zomerhuisje.png",150,5+$y,56);
+					$pdf->Image("pic/factuur_logo_zomerhuisje.png",165,3+$y,32);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
 					# Italissima-logo
-					$pdf->Image("pic/factuur_logo_italissima.png",150,5+$y,56);
+					$pdf->Image("pic/factuur_logo_italissima.png",165,3+$y,32);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 					# SuperSki-logo
-					$pdf->Image("pic/factuur_logo_superski.png",150,5+$y,56);
+					$pdf->Image("pic/factuur_logo_superski.png",155,3+$y,45);
 				} else {
 					if($gegevens["stap1"]["website"]=="B") {
 						# Chalet.be-logo
-						$pdf->Image("pic/factuur_logo_be.png",169.5,1+$y,32);
+						$pdf->Image("pic/factuur_logo_be.png",165,3+$y,32);
 					} elseif($gegevens["stap1"]["website"]=="E") {
-						# Chalet.be-logo
-						$pdf->Image("pic/factuur_logo_eu.png",169.5,1+$y,32);
+						# Chalet.eu-logo
+						$pdf->Image("pic/factuur_logo_eu.png",165,3+$y,32);
 					} else {
 						# Chalet.nl-logo
-						$pdf->Image("pic/factuur_logo.png",169.5,1+$y,32);
+						$pdf->Image("pic/factuur_logo.png",165,3+$y,32);
 					}
 				}
 
@@ -667,52 +675,52 @@ if($form->okay) {
 				}
 				$pdf->Ln(5);
 
-				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
-					# Zomerhuisje - onderaan andere URL tonen
-					$pdf->Cell(35,4,"",0,0,'L',0);
-#					$pdf->Cell(0,4,"",0,0,'L',0);
-					$pdf->Ln(0);
-					$pdf->SetFont('Arial','B',10);
-					$pdf->Cell(0,4,"www.zomerhuisje.nl",0,0,'C',0);
-				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
-					# Italissima - onderaan andere URL tonen
-					$pdf->Cell(35,4,"",0,0,'L',0);
-#					$pdf->Cell(0,4,"",0,0,'L',0);
-					$pdf->Ln(0);
-					$pdf->SetFont('Arial','B',10);
-					$pdf->Cell(0,4,"www.italissima.nl",0,0,'C',0);
-				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
-					# SuperSki - onderaan andere URL tonen
-					$pdf->Cell(35,4,"",0,0,'L',0);
-#					$pdf->Cell(0,4,"",0,0,'L',0);
-					$pdf->Ln(0);
-					$pdf->SetFont('Arial','B',10);
-					$pdf->Cell(0,4,"www.superski.nl",0,0,'C',0);
-				} else {
-					$pdf->Cell(35,4,"",0,0,'L',0);
-					$pdf->Cell(5,4,"",0,0,'L',0);
-					$pdf->SetFont('Arial','B',10);
-					$pdf->Cell(0,4,"www.chalet.nl  -  www.chalet.eu",0,0,'L',0);
-				}
+// 				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
+// 					# Zomerhuisje - onderaan andere URL tonen
+// 					$pdf->Cell(35,4,"",0,0,'L',0);
+// #					$pdf->Cell(0,4,"",0,0,'L',0);
+// 					$pdf->Ln(0);
+// 					$pdf->SetFont('Arial','B',10);
+// 					$pdf->Cell(0,4,"www.zomerhuisje.nl",0,0,'C',0);
+// 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
+// 					# Italissima - onderaan andere URL tonen
+// 					$pdf->Cell(35,4,"",0,0,'L',0);
+// #					$pdf->Cell(0,4,"",0,0,'L',0);
+// 					$pdf->Ln(0);
+// 					$pdf->SetFont('Arial','B',10);
+// 					$pdf->Cell(0,4,"www.italissima.nl",0,0,'C',0);
+// 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
+// 					# SuperSki - onderaan andere URL tonen
+// 					$pdf->Cell(35,4,"",0,0,'L',0);
+// #					$pdf->Cell(0,4,"",0,0,'L',0);
+// 					$pdf->Ln(0);
+// 					$pdf->SetFont('Arial','B',10);
+// 					$pdf->Cell(0,4,"www.superski.nl",0,0,'C',0);
+// 				} else {
+// 					$pdf->Cell(35,4,"",0,0,'L',0);
+// 					$pdf->Cell(5,4,"",0,0,'L',0);
+// 					$pdf->SetFont('Arial','B',10);
+// 					$pdf->Cell(0,4,"www.chalet.nl  -  www.chalet.eu",0,0,'L',0);
+// 				}
 				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3) {
 					# Zomerhuisje mailadres
 					$pdf->SetFont('Arial','B',6);
 					$pdf->Ln(4);
-					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@zomerhuisje.nl",0,0,'C',0);
+					$pdf->Cell(0,4,"Zomerhuisje.nl/Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
 					# Italissima-mailadres
 					$pdf->SetFont('Arial','B',6);
 					$pdf->Ln(4);
-					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@italissima.nl",0,0,'C',0);
+					$pdf->Cell(0,4,"Italissima - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 					# SuperSki-mailadres
 					$pdf->SetFont('Arial','B',6);
 					$pdf->Ln(4);
-					$pdf->Cell(0,4,"SuperSki - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@superski.nl",0,0,'C',0);
+					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
 				} else {
 					$pdf->SetFont('Arial','B',7);
 					$pdf->Ln(4);
-					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: info@chalet.nl",0,0,'C',0);
+					$pdf->Cell(0,4,"Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
 				}
 
 				$pdf->Ln();
@@ -725,6 +733,11 @@ if($form->okay) {
 	}
 
 	if($_POST["alleen_tonen"]) {
+
+		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");   // any date in the past
+		header("Pragma: public");
+
 		$pdf->Output();
 		exit;
 	} else {
