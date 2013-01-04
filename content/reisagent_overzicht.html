@@ -22,11 +22,11 @@ if($_GET["mijngeg"]) {
 		$tl->settings["systemid"]=1;
 	#	$tl->sort_desc=true;
 		$tl->sort=array("aankomst","nummer");
-		
+
 		$tl->field_show("calc.php?calcid=[ID]",txt("boekingopenen","reisbureau_overzicht"));
 		$tl->field_text("aankomst",txt("aankomst","reisbureau_overzicht"));
 		$tl->field_text("accommodatie",txt("accommodatie","reisbureau_overzicht"));
-		
+
 		while($db->next_record()) {
 	#	echo $db->f("bevestigdatum")." ";
 			$tl->add_url_id($db->f("primkey"),$url_id);
@@ -35,7 +35,7 @@ if($_GET["mijngeg"]) {
 			$tl->add_record("accommodatie",$db->f("boeking_id"),$db->f("naam_accommodatie"));
 		}
 		echo $tl->table("tbl",1);
-		
+
 	} else {
 		echo html("geenprijsberekeningen","reisbureau_overzicht");
 	}
@@ -57,13 +57,13 @@ if($_GET["mijngeg"]) {
 	#
 	# Financieel overzicht
 	#
-	
+
 	# Betaalde bedragen (voldaan) bepalen
 	$db->query("SELECT boeking_id, sum(bedrag) AS bedrag FROM boeking_betaling GROUP BY boeking_id;");
 	while($db->next_record()) {
 		$voldaan_array[$db->f("boeking_id")]=round($db->f("bedrag"),2);
 	}
-	
+
 	if($login_rb->vars["inzicht_boekingen"]) {
 		$reisbureau_user_id_inquery="SELECT user_id FROM reisbureau_user WHERE reisbureau_id=(SELECT reisbureau_id FROM reisbureau_user WHERE user_id='".addslashes($login_rb->user_id)."')";
 	} else {
@@ -117,14 +117,14 @@ if($_GET["mijngeg"]) {
 		$tl->settings["systemid"]=1;
 	#	$tl->sort_desc=true;
 		$tl->sort=array("aankomst","nummer");
-		
+
 		$tl->field_show("bsys.php?bid=[ID]",txt("boekingopenen","reisbureau_overzicht"));
 		$tl->field_text("aankomst",txt("aankomst","reisbureau_overzicht"));
 		$tl->field_text("boekingsnummer",txt("nummer","reisbureau_overzicht"),"",array("index_field"=>true));
 		$tl->field_text("accommodatie",txt("accommodatie","reisbureau_overzicht"));
 		$tl->field_text("hoofdboeker",txt("hoofdboeker","reisbureau_overzicht"));
-	
-		
+
+
 		while($db->next_record()) {
 	#	echo $db->f("bevestigdatum")." ";
 			$tl->add_url_id($db->f("primkey"),$url_id);
@@ -135,11 +135,11 @@ if($_GET["mijngeg"]) {
 			$tl->add_record("accommodatie",$db->f("boeking_id"),$db->f("naam_accommodatie"));
 		}
 		echo $tl->table("tbl",1);
-		
+
 	} else {
-		echo html("geenboekingen","reisbureau_overzicht");
+		echo html("geenboekingen","reisbureau_overzicht",array("v_websitenaam"=>$vars["websitenaam"]));
 	}
-	
+
 	$db->query("SELECT websites FROM reisbureau WHERE reisbureau_id='".addslashes($login_rb->vars["reisbureau_id"])."';");
 	if($db->next_record()) {
 		if(ereg(",",$db->f("websites"))) {

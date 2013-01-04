@@ -71,7 +71,7 @@ if(isset($vars["temp_vertrekinfo_goedgekeurd"]) and !$vars["temp_vertrekinfo_goe
 
 echo $meldingen;
 
-echo "<div class=\"opmerkingbox\" style=\"background-color:#ffffff;\">Gekozen verzendmethode: ".($gegevens["stap1"]["verzendmethode_reisdocumenten"] ? $vars["verzendmethode_reisdocumenten"][$gegevens["stap1"]["verzendmethode_reisdocumenten"]] : "onbekend")."</div>";
+echo "<div class=\"opmerkingbox\" style=\"background-color:#ffffff;\">Gekozen verzendmethode: ".($gegevens["stap1"]["verzendmethode_reisdocumenten"] ? $vars["verzendmethode_reisdocumenten_inclusief_nvt"][$gegevens["stap1"]["verzendmethode_reisdocumenten"]] : "onbekend")."</div>";
 
 #echo "<div class=\"opmerkingbox\" style=\"background-color:yellow;\">Let op: de teksten van het voucher-mailsysteem zijn aangepast, maar nog niet definitief goedgekeurd. Ook zijn de Engelse teksten nog niet beschikaar.<br><br>Dit is alleen van toepassing als je de vouchers gaat mailen. Aanmaken van voucher kan dus sowieso.</div>";
 

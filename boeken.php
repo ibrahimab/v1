@@ -863,11 +863,17 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		if($boeking_wijzigen or $mustlogin) {
 			# verzendmethode reisdocumenten doorgeven
 			if($mustlogin) {
-				$form->field_select(0,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$gegevens["stap1"]["verzendmethode_reisdocumenten"]),array("selection"=>$vars["verzendmethode_reisdocumenten"],"empty_is_0"=>true));
+				$form->field_select(0,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$gegevens["stap1"]["verzendmethode_reisdocumenten"]),array("selection"=>$vars["verzendmethode_reisdocumenten_inclusief_nvt"],"empty_is_0"=>true));
 			} elseif($boeking_wijzigen) {
 				$uiterlijke_datum=mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-intval($gegevens["stap1"]["wijzigen_dagen"]),date("Y",$gegevens["stap1"]["aankomstdatum_exact"]));
 				if(time()<$uiterlijke_datum) {
-					$form->field_select(1,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$gegevens["stap1"]["verzendmethode_reisdocumenten"]),array("selection"=>$vars["verzendmethode_reisdocumenten"],"empty_is_0"=>true));
+					if($gegevens["stap1"]["reisbureau_user_id"]) {
+						# Reisbureau: 3 keuzes
+						$form->field_select(1,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$gegevens["stap1"]["verzendmethode_reisdocumenten"]),array("selection"=>$vars["verzendmethode_reisdocumenten_inclusief_nvt"],"empty_is_0"=>true));
+					} else {
+						# Anders: 2 keuzes
+						$form->field_select(1,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$gegevens["stap1"]["verzendmethode_reisdocumenten"]),array("selection"=>$vars["verzendmethode_reisdocumenten"],"empty_is_0"=>true));
+					}
 				}
 			}
 		}
@@ -1241,6 +1247,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		$form->field_textarea(0,"opmerkingen_opties",txt("evtvragenopmerkingenopties","boeken"));
 
 	} elseif($_GET["stap"]==5) {
+		#
+		# Stap 5: bevestigen boeking
+		#
 		if($gegevens["stap1"]["reisbureau_user_id"]) {
 			$form->field_noedit("reisbureau",txt("reisbureau","boeken"),"",array("text"=>$gegevens["stap1"]["reisbureau_naam"]." - ".$gegevens["stap1"]["reisbureau_usernaam"]));
 		}
@@ -1277,7 +1286,17 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		} else {
 			$reisbureau_verzendmethode_reisdocumenten=$gegevens["stap1"]["verzendmethode_reisdocumenten"];
 		}
-		$form->field_select(($voorkant_cms ? 0 : 1),"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$reisbureau_verzendmethode_reisdocumenten),array("selection"=>$vars["verzendmethode_reisdocumenten"],"empty_is_0"=>true),array("add_html_after_field"=>"<br><div style=\"margin-top:5px;font-size:0.8em;\">".html("verzendmethode_reisdocumenten_aangepast","boeken")."</div>"));
+		if($mustlogin or $voorkant_cms) {
+			# Intern: ook keuze "n.v.t" laten zien bij verzendmethode_reisdocumenten
+			$form->field_select(($voorkant_cms ? 0 : 1),"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$reisbureau_verzendmethode_reisdocumenten),array("selection"=>$vars["verzendmethode_reisdocumenten_inclusief_nvt"],"empty_is_0"=>true),array("add_html_after_field"=>"<br><div style=\"margin-top:5px;font-size:0.8em;\">".html("verzendmethode_reisdocumenten_aangepast","boeken")."</div>"));
+		} else {
+			if($gegevens["stap1"]["reisbureau_user_id"]) {
+				# reisbureaus hebben de mogelijkheid "n.v.t." te kiezen
+				$form->field_select(1,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$reisbureau_verzendmethode_reisdocumenten),array("selection"=>$vars["verzendmethode_reisdocumenten_inclusief_nvt"],"empty_is_0"=>true),array("add_html_after_field"=>"<br><div style=\"margin-top:5px;font-size:0.8em;\">".html("verzendmethode_reisdocumenten_aangepast","boeken")."</div>"));
+			} else {
+				$form->field_select(1,"verzendmethode_reisdocumenten",txt("verzendmethode_reisdocumenten","boeken"),"",array("selection"=>$reisbureau_verzendmethode_reisdocumenten),array("selection"=>$vars["verzendmethode_reisdocumenten"],"empty_is_0"=>true),array("add_html_after_field"=>"<br><div style=\"margin-top:5px;font-size:0.8em;\">".html("verzendmethode_reisdocumenten_aangepast","boeken")."</div>"));
+			}
+		}
 
 		if(!$gegevens["stap1"]["reisbureau_user_id"]) {
 			$form->field_checkbox(0,"referentiekeuze",txt("referentiekeuze","boeken",array("v_websitenaam"=>$vars["websitenaam"])),"","",array("selection"=>$vars["referentiekeuze"]),array("one_per_line"=>true));
@@ -2883,7 +2902,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				chalet_log("naw-gegevens hoofdboeker");
 			}
 			if(($boeking_wijzigen or $mustlogin) and $form->input["verzendmethode_reisdocumenten"] and $form->input["verzendmethode_reisdocumenten"]<>$gegevens["stap1"]["verzendmethode_reisdocumenten"]) {
-				chalet_log("verzendmethode reisdocumenten: ".$vars["verzendmethode_reisdocumenten"][$form->input["verzendmethode_reisdocumenten"]]);
+				chalet_log("verzendmethode reisdocumenten: ".$vars["verzendmethode_reisdocumenten_inclusief_nvt"][$form->input["verzendmethode_reisdocumenten"]]);
 			}
 			if($form->input["email"] and $gegevens["stap2"]["email"]<>$form->input["email"]) {
 				if($gegevens["stap2"]["email"]) {
@@ -2970,7 +2989,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				chalet_log("algemene opmerkingen");
 			}
 			if($form->input["verzendmethode_reisdocumenten"]) {
-				chalet_log("verzendmethode reisdocumenten: ".$vars["verzendmethode_reisdocumenten"][$form->input["verzendmethode_reisdocumenten"]]);
+				chalet_log("verzendmethode reisdocumenten: ".$vars["verzendmethode_reisdocumenten_inclusief_nvt"][$form->input["verzendmethode_reisdocumenten"]]);
 			}
 			chalet_log("boeking bevestigd (bevestiging gemaild aan ".$mail->to.")");
 

@@ -57,7 +57,7 @@ if($_GET["t"]==1) {
 	$cms->db[27]["where"]="actief=1";
 } elseif($_GET["t"]==2) {
 	# inactief
-	$cms->db[27]["where"]="actief=0";	
+	$cms->db[27]["where"]="actief=0";
 }
 
 # Database db_field($counter,$type,$id,$field="",$options="")
@@ -98,7 +98,7 @@ $cms->db_field(27,"yesno","xmlfeed_winter");
 $cms->db_field(27,"yesno","xmlfeed_zomer");
 $cms->db_field(27,"text","xmlfeed_toegangscode");
 $cms->db_field(27,"yesno","mailblokkeren_opties");
-$cms->db_field(27,"select","verzendmethode_reisdocumenten","",array("selection"=>$vars["verzendmethode_reisdocumenten"]));
+$cms->db_field(27,"select","verzendmethode_reisdocumenten","",array("selection"=>$vars["verzendmethode_reisdocumenten_inclusief_nvt"]));
 $cms->db_field(27,"picture","logo","",array("savelocation"=>"pic/cms/reisbureau_logo/","filetype"=>"jpg"));
 
 
@@ -185,11 +185,11 @@ if($cms_form[27]->filled) {
 	if($cms_form[27]->input["geenaanbetaling"] and $cms_form[27]->input["aanbetaling1_dagennaboeken"]) {
 		$cms_form[27]->error("aanbetaling1_dagennaboeken","invullen niet mogelijk bij \"geen aanbetalingen\"");
 	}
-	
+
 	if($cms_form[27]->input["aanbetaling1_dagennaboeken"]=="0") {
 		$cms_form[27]->error("aanbetaling1_dagennaboeken","0 is een onjuiste waarde");
 	}
-	
+
 	if($cms_form[27]->input["bevestiging_naar_reisbureau"] and ! $cms_form[27]->input["email_facturen"]) {
 		$cms_form[27]->error("email_facturen","verplicht bij \"Bevestigingen naar reisbureau sturen\"");
 	}

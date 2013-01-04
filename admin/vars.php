@@ -706,6 +706,7 @@ $vars["minpersonen_boeking"]=array("1"=>"1","2"=>"1","3"=>"1","4"=>"2","5"=>"2",
 $vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina's",4=>"tonen op de accommodatiepagina's en bij intern gebruik het zoekformulier",3=>"tonen op de accommodatiepagina's en het zoekformulier");
 $vars["geslacht"]=array(1=>txt("man","vars"),2=>txt("vrouw","vars"));
 $vars["verzendmethode_reisdocumenten"]=array(1=>txt("email","vars"),2=>txt("post","vars"));
+$vars["verzendmethode_reisdocumenten_inclusief_nvt"]=array(1=>txt("email","vars"),2=>txt("post","vars"),3=>txt("nvt","vars"));
 $vars["blogcategorie_italissima"]=array(1=>"eten & drinken",2=>"tradities & feestdagen",3=>"kunst & cultuur",4=>"mode & design",5=>"films",6=>"Overig",7=>"levenstijl");
 
 $vars["recaptcha_publickey"]="6LdyodYSAAAAAORWNxjHjtO7q76k38LP7eQpYzg9";
@@ -736,9 +737,9 @@ $vars["themakleurcode_licht"]=array(1=>"#e0f0ff",2=>"#b2c1d1",3=>"#eff2be",4=>"#
 
 
 #$vars["voucherstatus"]=array(0=>"nog niet geprint",1=>"geprint",2=>"verzonden per post",3=>"verzonden per mail");
-$vars["voucherstatus"]=array(0=>"nog niet gecontroleerd",4=>"gecontroleerd + aangemaakt",5=>"opnieuw controleren",1=>"geprint",2=>"verzonden per post",11=>"geprint+verzonden per post",3=>"verzonden per mail",6=>"aanvullende vouchers nog niet gecontroleerd",7=>"aanvullende vouchers gecontroleerd + aangemaakt",8=>"aanvullende vouchers geprint",9=>"aanvullende vouchers verzonden per post",12=>"aanvullende vouchers geprint+verzonden per post",10=>"aanvullende vouchers verzonden per mail");
-$vars["voucherstatus_zonderwijzigingen"]=array(0=>"nog niet gecontroleerd",4=>"gecontroleerd + aangemaakt",5=>"opnieuw controleren",1=>"geprint",2=>"verzonden per post",11=>"geprint+verzonden per post",3=>"verzonden per mail");
-$vars["voucherstatus_nawijzigingen"]=array(6=>"aanvullende vouchers nog niet gecontroleerd",7=>"aanvullende vouchers gecontroleerd + aangemaakt",8=>"aanvullende vouchers geprint",9=>"aanvullende vouchers verzonden per post",12=>"aanvullende vouchers geprint+verzonden per post",10=>"aanvullende vouchers verzonden per mail");
+$vars["voucherstatus"]=array(0=>"nog niet gecontroleerd",4=>"gecontroleerd + aangemaakt",5=>"opnieuw controleren",1=>"geprint",2=>"verzonden per post",11=>"geprint+verzonden per post",3=>"verzonden per mail",6=>"aanvullende vouchers nog niet gecontroleerd",7=>"aanvullende vouchers gecontroleerd + aangemaakt",8=>"aanvullende vouchers geprint",9=>"aanvullende vouchers verzonden per post",12=>"aanvullende vouchers geprint+verzonden per post",10=>"aanvullende vouchers verzonden per mail",13=>"OK; wordt niet verzonden");
+$vars["voucherstatus_zonderwijzigingen"]=array(0=>"nog niet gecontroleerd",4=>"gecontroleerd + aangemaakt",5=>"opnieuw controleren",1=>"geprint",2=>"verzonden per post",11=>"geprint+verzonden per post",3=>"verzonden per mail",13=>"OK; wordt niet verzonden");
+$vars["voucherstatus_nawijzigingen"]=array(6=>"aanvullende vouchers nog niet gecontroleerd",7=>"aanvullende vouchers gecontroleerd + aangemaakt",8=>"aanvullende vouchers geprint",9=>"aanvullende vouchers verzonden per post",12=>"aanvullende vouchers geprint+verzonden per post",10=>"aanvullende vouchers verzonden per mail",13=>"OK; wordt niet verzonden");
 #$vars["voucherstatus"]=array_merge($vars["voucherstatus_zonderwijzigingen"],$vars["voucherstatus_nawijzigingen"]);
 #echo wt_dump($vars["voucherstatus"]);
 

@@ -158,6 +158,9 @@ $txt["en"]["vars"]["email"]="email";
 $txt["nl"]["vars"]["post"]="post";
 $txt["en"]["vars"]["post"]="post";
 
+$txt["nl"]["vars"]["nvt"]="n.v.t. (geen reisdocumenten sturen)";
+$txt["en"]["vars"]["nvt"]="don't send travel documents";
+
 $txt["nl"]["vars"]["gaverdermetboeken"]="Ga verder met boeken";
 $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
 
