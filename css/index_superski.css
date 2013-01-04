@@ -186,7 +186,7 @@
 	box-shadow: 2px 2px 2px #888;
 }
 
-#hoofdpagina_banner_rechts_NU_EVEN_NIET {
+#hoofdpagina_banner_rechts {
 	display: block;
 	background: url(../pic/superski_hoofdpagina/banner_rechts.jpg) no-repeat 0 0px;
 	width: 182px;
@@ -199,15 +199,7 @@
 	position: relative;
 }
 
-#hoofdpagina_banner_rechts {
-	display: block;
-	background: url(../pic/superski_hoofdpagina/banner_rechts_facebook.jpg) no-repeat 0 0px;
-	width: 182px;
-	height: 560px;
-	position: relative;
-}
-
-#hoofdpagina_banner_rechts_NU_EVEN_NIET:hover {
+#hoofdpagina_banner_rechts:hover {
 	-moz-box-shadow: 2px 2px 2px #888;
 	-webkit-box-shadow: 2px 2px 2px #888;
 	box-shadow: 2px 2px 2px #888;
