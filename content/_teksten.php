@@ -4705,20 +4705,38 @@ $txt["en"]["vraagonsadvies"]["soortaccommodatie"]="-";
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_1"]="Vrijstaand huis";
 $txt["en"]["vraagonsadvies"]["soortaccommodatie_1"]="-";
 
+$txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_1"]="agriturismo of boerenbedrijf";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_1"]="-";
+
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_2"]="Vakantiepark";
 $txt["en"]["vraagonsadvies"]["soortaccommodatie_2"]="-";
+
+$txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_2"]="appartement in vakantiehuis";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_2"]="-";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_3"]="Appartementencomplex";
 $txt["en"]["vraagonsadvies"]["soortaccommodatie_3"]="-";
 
+$txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_3"]="vrijstaand vakantiehuis";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_3"]="-";
+
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_4"]="Agriturismo of boerenbedrijf";
 $txt["en"]["vraagonsadvies"]["soortaccommodatie_4"]="-";
+
+$txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_4"]="(kleinschalig) vakantiepark";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_4"]="-";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_5"]="Bijzondere accommodatie";
 $txt["en"]["vraagonsadvies"]["soortaccommodatie_5"]="-";
 
+$txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_5"]="luxe vakantiehuis";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_5"]="-";
+
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_6"]="Groepsaccommodatie";
 $txt["en"]["vraagonsadvies"]["soortaccommodatie_6"]="-";
+
+$txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_6"]="vakantiehuis voor groepen";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_6"]="-";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie"]="Budgetindicatie";
 $txt["en"]["vraagonsadvies"]["budgetindicatie"]="-";

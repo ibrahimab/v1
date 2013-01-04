@@ -2,7 +2,6 @@
 
 header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 
-
 # Bezoekers-statistieken opslaan
 #$mysqlsettings["name"]["remote"]="chalet";	# Databasenaam bij provider
 $mysqlsettings["name"]["local"]="dbtest_chalet";		# Optioneel: Databasenaam lokaal (alleen invullen indien anders dan database bij provider)
@@ -266,9 +265,6 @@ if($_SERVER["HTTP_HOST"]=="www.superski.nl") {
 		// Redirect to TradeTracker.
 		header('Location: ' . $trackBackURL, true, 301);
 	}
-
-
-
 } else {
 
 
