@@ -36,10 +36,16 @@ if($inquery_type_id) {
 	$inquery_type_id=substr($inquery_type_id,1);
 
 	# Voorraad uit database halen
-	$db->query("SELECT t.type_id, ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") ORDER BY a.wzt DESC, ta.week;");
+	$db->query("SELECT t.type_id, ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur, a.aankomst_plusmin, a.vertrek_plusmin FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") ORDER BY a.wzt DESC, ta.week;");
 	while($db->next_record()) {
 
 		$typeid=$koppeling[$db->f("type_id")];
+
+		# Vertrekdagaanpassing van toepassing?
+		if(!$vertrekdagaanpassing_opgehaald[$typeid]) {
+			include("content/vertrekdagaanpassing.html");
+			$vertrekdagaanpassing_opgehaald[$typeid]=true;
+		}
 
 		unset($tempclass,$temptext);
 		if(!$db->f("beschikbaar") and $db->f("opmerking_bezeteigenaar")) {
@@ -61,14 +67,14 @@ if($inquery_type_id) {
 			$tempclass="voorraad_request";
 			$temptext=txt("navragenbijeigenaar","lev_login");
 		}
-		if($vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))] or $accinfo["aankomst_plusmin"]) {
-			$dag=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+$vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))]+$accinfo["aankomst_plusmin"],date("Y",$db->f("week")));
+		if($vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))] or $db->f("aankomst_plusmin")) {
+			$dag=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+$vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))]+$db->f("aankomst_plusmin"),date("Y",$db->f("week")));
 		} else {
 			$dag=$db->f("week");
 		}
 		$eind=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+7,date("Y",$db->f("week")));
-		if($vertrekdag[$db->f("seizoen_id")][date("dm",$eind)] or $accinfo["vertrek_plusmin"]) {
-			$eind=mktime(0,0,0,date("m",$eind),date("d",$eind)+$vertrekdag[$db->f("seizoen_id")][date("dm",$eind)]+$accinfo["vertrek_plusmin"],date("Y",$eind));
+		if($vertrekdag[$db->f("seizoen_id")][date("dm",$eind)] or $db->f("vertrek_plusmin")) {
+			$eind=mktime(0,0,0,date("m",$eind),date("d",$eind)+$vertrekdag[$db->f("seizoen_id")][date("dm",$eind)]+$db->f("vertrek_plusmin"),date("Y",$eind));
 		} else {
 			$eind=$eind;
 		}
