@@ -466,7 +466,7 @@ $form->end_declaration();
 
 if($form->okay) {
 
-	require("admin/fpdf.php");
+	require_once("admin/fpdf.php");
 
 	class PDF extends FPDF {
 
@@ -823,26 +823,104 @@ if($form->okay) {
 			$mail->html.=nl2br(txt("mailtje","voucher",array("v_voornaam"=>trim($gegevens["stap2"]["voornaam"]),"v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"],"v_langewebsitenaam"=>$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"],"v_vakantiesoort"=>txt("vakantiesoort","voucher"),"h_1"=>"<a href=\"http://get.adobe.com/reader/\">http://get.adobe.com/reader/</a>")));
 			$mail->html_bottom="</td></tr>";
 
-			$mail->attachment($tempfile);
+# om te testen: allebei (TIJDELIJK!)
+$merge_pdfs=true;
+$losse_pdfs=true;
 
-			if(file_exists($pdffile_voorbrief)) {
-				$mail->attachment($pdffile_voorbrief,"","",txt("attachmentnaam_voorbrief_pdf","voucher"));
+			if($merge_pdfs) {
+
+				# alle pdf's samenvoegen
+				$tempfile_all_pdfs="tmp/reisdocumentatie_".preg_replace("/ \/ /","_",$gegevens["stap1"]["boekingsnummer"])."_".time().".pdf";
+
+				unset($array_pdfs);
+
+				# Voorbrief
+				if(file_exists($pdffile_voorbrief)) {
+					$array_pdfs[]=$pdffile_voorbrief;
+				}
+
+				# Vertrekinfo
+				if(file_exists($pdffile_route)) {
+					$array_pdfs[]=$pdffile_route;
+				}
+
+				# Plaats-plattegrond
+				if(file_exists($pdffile_plattegrond)) {
+					$array_pdfs[]=$pdffile_plattegrond;
+				}
+
+				# Accommodatie-specifieke PDF
+				if(file_exists($pdffile_accommodatie)) {
+					$array_pdfs[]=$pdffile_accommodatie;
+				}
+
+				# Boeking-specifieke PDF
+				if(file_exists($pdffile_boeking)) {
+					$array_pdfs[]=$pdffile_boeking;
+				}
+
+				# Vouchers
+				if(file_exists($tempfile)) {
+					$array_pdfs[]=$tempfile;
+				}
+
+// $array_pdfs[]="pdf/algemene_voorwaarden.pdf";
+// $array_pdfs[]="pdf/plattegrond-smaak-van-italie.pdf";
+
+				merge_pdfs($array_pdfs,$tempfile_all_pdfs);
+
+				if(is_array($array_pdfs) and file_exists($tempfile_all_pdfs)) {
+
+
+$mail_2=new wt_mail;
+$mail_2->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
+$mail_2->from=$gegevens["stap1"]["website_specifiek"]["email"];
+$mail_2->to="ylaise@chalet.nl";
+$mail_2->subject="TEST gecombineerde PDF's - [".$gegevens["stap1"]["boekingsnummer"]."] ".txt("mailtje_onderwerp","voucher");
+
+$mail_2->html_top="<table width=600><tr><td>";
+$mail_2->html=$mail->html;
+$mail_2->html_bottom="</td></tr>";
+
+$mail_2->attachment($tempfile_all_pdfs,"","",txt("attachmentnaam_reisdocumenten","voucher"));
+
+$mail_2->send();
+
+
+#					$mail->attachment($tempfile_all_pdfs,"","",txt("attachmentnaam_reisdocumenten","voucher"));
+
+				} else {
+					echo "Foutmelding: aanmaken gecombineerde PDF is niet goed gegaan. Mail is niet verstuurd.";
+					trigger_error("Foutmelding: aanmaken gecombineerde PDF is niet goed gegaan. Mail is niet verstuurd.",E_USER_NOTICE);
+					exit;
+				}
 			}
 
-			if(file_exists($pdffile_route)) {
-				$mail->attachment($pdffile_route,"","",txt("attachmentnaam_route_pdf","voucher"));
-			}
 
-			if(file_exists($pdffile_plattegrond)) {
-				$mail->attachment($pdffile_plattegrond,"","",txt("attachmentnaam_plattegrond_pdf","voucher"));
-			}
+			if($losse_pdfs) {
 
-			if(file_exists($pdffile_accommodatie)) {
-				$mail->attachment($pdffile_accommodatie,"","",txt("attachmentnaam_accommodatie_pdf","voucher"));
-			}
 
-			if(file_exists($pdffile_boeking)) {
-				$mail->attachment($pdffile_boeking,"","",txt("attachmentnaam_boeking_pdf","voucher"));
+				$mail->attachment($tempfile);
+
+				if(file_exists($pdffile_voorbrief)) {
+					$mail->attachment($pdffile_voorbrief,"","",txt("attachmentnaam_voorbrief_pdf","voucher"));
+				}
+
+				if(file_exists($pdffile_route)) {
+					$mail->attachment($pdffile_route,"","",txt("attachmentnaam_route_pdf","voucher"));
+				}
+
+				if(file_exists($pdffile_plattegrond)) {
+					$mail->attachment($pdffile_plattegrond,"","",txt("attachmentnaam_plattegrond_pdf","voucher"));
+				}
+
+				if(file_exists($pdffile_accommodatie)) {
+					$mail->attachment($pdffile_accommodatie,"","",txt("attachmentnaam_accommodatie_pdf","voucher"));
+				}
+
+				if(file_exists($pdffile_boeking)) {
+					$mail->attachment($pdffile_boeking,"","",txt("attachmentnaam_boeking_pdf","voucher"));
+				}
 			}
 
 			$mail->send();
@@ -853,8 +931,14 @@ if($form->okay) {
 		}
 		unlink($tempfile);
 
+		# Tijdelijk vertrekinfo-pdf wissen
 		if(file_exists($pdffile_route)) {
 			unlink($pdffile_route);
+		}
+
+		# Tijdelijke gecombineerde pdf wissen
+		if(file_exists($tempfile_all_pdfs)) {
+			unlink($tempfile_all_pdfs);
 		}
 
 		# voucherstatus wegschrijven

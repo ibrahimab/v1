@@ -2,6 +2,8 @@
 
 $robot_noindex=true;
 include("admin/vars.php");
-include "content/opmaak.php";
+if($vars["lokale_testserver"]) {
+	include "content/opmaak.php";
+}
 
 ?>

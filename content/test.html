@@ -1,14 +1,70 @@
 <?php
-//test comment 
- function custumSort($string1, $string2) 
-    { 
-        $search = array('Ä','Ö','Ü','ß'); 
-        $replace = array('A','O','U','s'); 
-        return strcmp( 
-           str_ireplace($search, $replace, $string1), 
-           str_ireplace($search, $replace, $string2) 
-           ); 
-    } 
+
+#require("admin/fpdf.php");
+
+function merge_pdfs($array_pdfs,$targetfile) {
+
+	global $vars;
+
+	require_once($vars["unixdir"]."admin/tcpdf/config/lang/eng.php");
+	require_once($vars["unixdir"]."admin/tcpdf/tcpdf.php");
+
+	require_once($vars["unixdir"]."admin/fpdi/fpdi.php");
+	require_once($vars["unixdir"]."admin/fpdi/fpdf_tpl.php");
+
+	class concat_pdf extends FPDI {
+	     var $files = array();
+	     function setFiles($files) {
+	          $this->files = $files;
+	     }
+	     function concat() {
+	          foreach($this->files AS $file) {
+	               $pagecount = $this->setSourceFile($file);
+	               for ($i = 1; $i <= $pagecount; $i++) {
+	                    $tplidx = $this->ImportPage($i);
+	                    $s = $this->getTemplatesize($tplidx);
+	                    $this->AddPage('P', array($s['w'], $s['h']));
+	                    $this->useTemplate($tplidx);
+	               }
+	          }
+	     }
+	}
+
+	$pdf = new concat_pdf();
+	$pdf->setFiles(array($array_pdfs));
+	$pdf->concat();
+	$pdf->Output($targetfile, "F");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//test comment
+ function custumSort($string1, $string2)
+    {
+        $search = array('Ä','Ö','Ü','ß');
+        $replace = array('A','O','U','s');
+        return strcmp(
+           str_ireplace($search, $replace, $string1),
+           str_ireplace($search, $replace, $string2)
+           );
+    }
 $skigebieden=array("Zillertal","Arlberg","Ötztal Sölden","Rauris");
 
 uasort($skigebieden, "custumSort");

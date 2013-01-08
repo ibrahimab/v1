@@ -2120,6 +2120,50 @@ function vertrekinfo_tracking($table,$fields_array,$record_id,$laatste_seizoen,$
 	}
 }
 
+
+function merge_pdfs($array_pdfs,$targetfile) {
+
+	#
+	# Functie om PDF's samen te voegen
+	#
+	# maakt gebruik van: FPDI PDF-Parser
+	# http://www.setasign.de/products/pdf-php-solutions/fpdi-pdf-parser/license/
+	#
+	# Licentie is door WebTastic aangeschaft (mag niet voor andere sites dan van Chalet.nl gebruikt worden)
+	#
+
+	global $vars;
+
+	require_once($vars["unixdir"]."admin/tcpdf/config/lang/eng.php");
+	require_once($vars["unixdir"]."admin/tcpdf/tcpdf.php");
+
+	require_once($vars["unixdir"]."admin/fpdi/fpdi.php");
+	require_once($vars["unixdir"]."admin/fpdi/fpdf_tpl.php");
+
+	class concat_pdf extends FPDI {
+	     var $files = array();
+	     function setFiles($files) {
+	          $this->files = $files;
+	     }
+	     function concat() {
+	          foreach($this->files AS $file) {
+	               $pagecount = $this->setSourceFile($file);
+	               for ($i = 1; $i <= $pagecount; $i++) {
+	                    $tplidx = $this->ImportPage($i);
+	                    $s = $this->getTemplatesize($tplidx);
+	                    $this->AddPage('P', array($s['w'], $s['h']));
+	                    $this->useTemplate($tplidx);
+	               }
+	          }
+	     }
+	}
+
+	$pdf = new concat_pdf();
+	$pdf->setFiles($array_pdfs);
+	$pdf->concat();
+	$pdf->Output($targetfile, "F");
+}
+
 function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 
 
@@ -2301,7 +2345,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	$skipas_id=$gegevens["stap1"]["accinfo"]["skipasid"];
 
 	# Opties
-	$db->query("SELECT og.vertrekinfo_goedgekeurd_seizoen".$ttv." AS vertrekinfo_goedgekeurd_seizoen, og.optie_groep_id, og.vertrekinfo_optiegroep".$ttv." AS vertrekinfo_optiegroep, og.skipas_id, og.optieleverancier_id, os.optie_soort_id, os.naam, os.optiecategorie FROM optie_groep og, optie_soort os, optie_accommodatie oa WHERE oa.accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."' AND oa.optie_groep_id=og.optie_groep_id AND oa.optie_soort_id=os.optie_soort_id ORDER BY FIND_IN_SET(optiecategorie,'4,5,1,2,3,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20'), length(og.vertrekinfo_optiegroep) DESC;");
+	$db->query("SELECT og.vertrekinfo_goedgekeurd_seizoen".$ttv." AS vertrekinfo_goedgekeurd_seizoen, og.optie_groep_id, og.vertrekinfo_optiegroep".$ttv." AS vertrekinfo_optiegroep, og.skipas_id, og.optieleverancier_id, os.optie_soort_id, os.naam, os.optiecategorie FROM optie_groep og, optie_soort os, optie_accommodatie oa WHERE oa.accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."' AND oa.optie_groep_id=og.optie_groep_id AND oa.optie_soort_id=os.optie_soort_id ORDER BY FIND_IN_SET(optiecategorie,'3,4,5,1,2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20'), length(og.vertrekinfo_optiegroep) DESC;");
 	while($db->next_record()) {
 		if(!$skipad_id and $db->f("skipas_id")) {
 			# Skipas koppelen

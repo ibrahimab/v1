@@ -4078,6 +4078,9 @@ $txt["en"]["voucher"]["attachmentnaam_accommodatie_pdf"]="extra_information.pdf"
 $txt["nl"]["voucher"]["attachmentnaam_boeking_pdf"]="aanvullende_informatie_boeking.pdf";
 $txt["en"]["voucher"]["attachmentnaam_boeking_pdf"]="extra_information_booking.pdf";
 
+$txt["nl"]["voucher"]["attachmentnaam_reisdocumenten"]="reisdocumenten.pdf";
+$txt["en"]["voucher"]["attachmentnaam_reisdocumenten"]="travel_documents.pdf";
+
 
 #
 # Rebook (via mailuitnodiging dezelfde accommodatie opnieuw boeken)
