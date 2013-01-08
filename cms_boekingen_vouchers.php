@@ -590,11 +590,19 @@ if($form->okay) {
 				$pdf->Cell(50,4,$gegevens["stap1"]["boekingsnummer"]." - ".wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]),0,0,'L',0);
 				$pdf->Ln();
 
-				$pdf->Cell(35,4,$vars["voucher_bestemming"][$accinfo["begincode"]],0,0,'L',0);
+				if($thuisblijvers) {
+					$pdf->Cell(35,4,txt("bestemming","voucher"),0,0,'L',0);
+				} else {
+					$pdf->Cell(35,4,$vars["voucher_bestemming"][$accinfo["begincode"]],0,0,'L',0);
+				}
 				$pdf->Cell(5,4,"  :",0,0,'L',0);
 				$pdf->Cell(50,4,$accinfo["plaats"],0,0,'L',0);
 				$pdf->Ln();
-				$pdf->Cell(35,4,$vars["voucher_accommodatie"][$accinfo["begincode"]],0,0,'L',0);
+				if($thuisblijvers) {
+					$pdf->Cell(35,4,txt("accommodatie","voucher"),0,0,'L',0);
+				} else {
+					$pdf->Cell(35,4,$vars["voucher_accommodatie"][$accinfo["begincode"]],0,0,'L',0);
+				}
 				$pdf->Cell(5,4,"  :",0,0,'L',0);
 				if($accinfo["bestelnaam"]) {
 					$pdf->MultiCell(150,4,ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"]." (our name: ".$accinfo["bestelnaam"].")",0,'L',0);
@@ -614,13 +622,21 @@ if($form->okay) {
 #					$pdf->Ln();
 #				}
 
-				$pdf->Cell(35,4,($vars["landcodes"][$accinfo["begincode"]]<>$gegevens["stap1"]["taal"] ? txt("aanvang","voucher")." / " : "").$vars["voucher_eerstedag"][$accinfo["begincode"]],0,0,'L',0);
+				if($thuisblijvers) {
+					$pdf->Cell(35,4,txt("aankomstdag","voucher"),0,0,'L',0);
+				} else {
+					$pdf->Cell(35,4,($vars["landcodes"][$accinfo["begincode"]]<>$gegevens["stap1"]["taal"] ? txt("aanvang","voucher")." / " : "").$vars["voucher_eerstedag"][$accinfo["begincode"]],0,0,'L',0);
+				}
 				$pdf->Cell(5,4,"  :",0,0,'L',0);
 				$pdf->Cell(50,4,$form->input["aanvangsdatum".$i],0,0,'L',0);
 				$pdf->Ln();
 
 				if($form->input["einddatum".$i]) {
-					$pdf->Cell(35,4,($vars["landcodes"][$accinfo["begincode"]]<>$gegevens["stap1"]["taal"] ? txt("laatstedag","voucher")." / " : "").$vars["voucher_laatstedag"][$accinfo["begincode"]],0,0,'L',0);
+					if($thuisblijvers) {
+						$pdf->Cell(35,4,txt("vertrekdag","voucher"),0,0,'L',0);
+					} else {
+						$pdf->Cell(35,4,($vars["landcodes"][$accinfo["begincode"]]<>$gegevens["stap1"]["taal"] ? txt("laatstedag","voucher")." / " : "").$vars["voucher_laatstedag"][$accinfo["begincode"]],0,0,'L',0);
+					}
 					$pdf->Cell(5,4,"  :",0,0,'L',0);
 					$pdf->Cell(50,4,$form->input["einddatum".$i],0,0,'L',0);
 					$pdf->Ln();
@@ -658,7 +674,9 @@ if($form->okay) {
 						}
 					}
 					$pdf->Ln();
-					$pdf->MultiCell(0,4,txt("alleenvoornoodgevallen","voucher")."\n".txt("ofbuitenkantooruren","voucher"),0,"L");
+					if(!$thuisblijvers) {
+						$pdf->MultiCell(0,4,txt("alleenvoornoodgevallen","voucher")."\n".txt("ofbuitenkantooruren","voucher"),0,"L");
+					}
 				} else {
 					$pdf->SetFont('Arial','B',10);
 					$pdf->Cell(35,4,txt("omschrijving","voucher"),0,0,'L',0);

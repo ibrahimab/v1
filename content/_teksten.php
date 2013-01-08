@@ -4009,7 +4009,14 @@ $txt["en"]["voucher"]["infoaccommodatie"]="Info accommodation";
 $txt["nl"]["voucher"]["extra"]="Extra";
 $txt["en"]["voucher"]["extra"]="Extra";
 
+$txt["nl"]["voucher"]["bestemming"]="Bestemming";
+$txt["en"]["voucher"]["bestemming"]="Destination";
 
+$txt["nl"]["voucher"]["aankomstdag"]="Aankomstdag";
+$txt["en"]["voucher"]["aankomstdag"]="Arrival date";
+
+$txt["nl"]["voucher"]["vertrekdag"]="Vertrekdag";
+$txt["en"]["voucher"]["vertrekdag"]="Departure date";
 
 #
 # Mailtje bij versturen voucher aan klant
