@@ -918,7 +918,6 @@ $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nit
 $vars["accommodatie_review_bron"]=array(1=>"door eigen klant ingevulde enquête",2=>"Posarelli");
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
 
-
 # Soorten hoofdpagina-meldingen / rollen
 $vars["cms_hoofdpagina_soorten"]=array(
 	11=>"boekingen",

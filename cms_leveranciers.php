@@ -67,6 +67,7 @@ $cms->db_field(8,"textarea","annuleringscondities");
 $cms->db_field(8,"yesno","hoogseizoencontrole");
 $cms->db_field(8,"yesno","roominglist_toontelefoonnummer");
 $cms->db_field(8,"yesno","roominglist_toonaantaldeelnemers");
+$cms->db_field(8,"select","roominglist_site_benaming","",array("selection"=>$vars["roominglist_site_benaming"]));
 $cms->db_field(8,"select","xml_type","",array("selection"=>$vars["xml_type"]));
 $cms->db_field(8,"select","bestelmailfax_taal","",array("selection"=>$vars["bestelmailfax_taal"]));
 $cms->db_field(8,"yesno","zwitersefranken");
@@ -156,12 +157,17 @@ $cms->edit_field(8,0,"noodnummer");
 $cms->edit_field(8,0,"adresregels","Naam + adresgegevens");
 if($_GET["beheerder"]) {
 	$cms->edit_field(8,1,"bestelmailfax_taal","Taal");
+	$cms->edit_field(8,0,"htmlrow","<hr><b><i>Aankomstlijst/roominglist</i></b>");
 	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op aankomstlijst",array("selection"=>false));
 	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op aankomstlijst",array("selection"=>true));
-} else {
+	$cms->edit_field(8,1,"roominglist_site_benaming","Site-benaming op aankomstlijst","","",array("info"=>"Welke sites moeten er boven de roominglist genoemd worden?"));
 	$cms->edit_field(8,0,"htmlrow","<hr>");
+} else {
+	$cms->edit_field(8,0,"htmlrow","<hr><b><i>Aankomstlijst/roominglist</i></b>");
 	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op aankomstlijst",array("selection"=>false));
 	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op aankomstlijst",array("selection"=>true));
+	$cms->edit_field(8,1,"roominglist_site_benaming","Site-benaming op aankomstlijst","","",array("info"=>"Welke sites moeten er boven de roominglist genoemd worden?"));
+	$cms->edit_field(8,0,"htmlrow","<hr>");
 	$cms->edit_field(8,0,"hoogseizoencontrole","Controle uitvoeren op hoogseizoen-tarieven",array("selection"=>true));
 	$cms->edit_field(8,1,"zwitersefranken","Deze leverancier gebruikt Zwitserse Franken");
 	$cms->edit_field(8,0,"xml_type","Type XML-importeerfunctie");
@@ -172,8 +178,8 @@ if($_GET["beheerder"]) {
 	$cms->edit_field(8,0,"voucherlogo","Voucherlogo","",array("img_width"=>"600","img_height"=>"600"));
 #	$cms->edit_field(8,0,"bestelfax_logo","Bij boekingen via WSA: toon WSA-logo i.p.v. Chalet.nl-logo op bestelfax");
 	$cms->edit_field(8,1,"bestelmailfax_taal","Taal bestelmail/fax");
-
 }
+
 $cms->edit_field(8,0,"opmerkingen_intern","Opmerkingen (intern)","",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
 if(!$_GET["beheerder"]) {
 	$cms->edit_field(8,0,"htmlrow","<hr><b><i>Betalingstermijn</i></b>");

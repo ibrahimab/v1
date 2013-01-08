@@ -796,6 +796,8 @@ $vars["bestelmailfax_klant"]=array("D"=>"Kunde","E"=>"client","N"=>"klant");
 #$vars["bestelmailfax_"]=array("D"=>"","E"=>"","N"=>"");
 
 $vars["flex_max_aantalnachten"]=28;
+$vars["roominglist_site_benaming"]=array(1=>"Chalet.nl",2=>"Chalet.nl / Zomerhuisje.nl",3=>"Italissima");
+
 
 #
 # Kenmerken Winter

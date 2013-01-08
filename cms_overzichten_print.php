@@ -67,7 +67,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 	# Leveranciersgegevens ophalen
 
-	$db->query("SELECT roominglist_toonaantaldeelnemers, roominglist_toontelefoonnummer FROM leverancier WHERE leverancier_id='".addslashes($_GET["lid"])."';");
+	$db->query("SELECT roominglist_toonaantaldeelnemers, roominglist_toontelefoonnummer, roominglist_site_benaming FROM leverancier WHERE leverancier_id='".addslashes($_GET["lid"])."';");
 	if($db->next_record()) {
 		if($db->f("roominglist_toonaantaldeelnemers")) {
 			if($_GET["t"]==2) {
@@ -80,6 +80,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$colspan++;
 			}
 		}
+		$roominglist_site_benaming=$db->f("roominglist_site_benaming");
 	}
 
 	# Gewone boekingen
@@ -204,7 +205,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$ms->html.="Roominglist ".date("d-m-Y");
 	}
 
-	$ms->html.=": Chalet.nl / Zomerhuisje.nl</h3>Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
+	$ms->html.=": ".wt_he($vars["roominglist_site_benaming"][$roominglist_site_benaming])."</h3>Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
 	$ms->html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></thead></table>";
 	$ms->html.="</td></tr>";
 	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th>";
