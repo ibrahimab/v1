@@ -83,9 +83,13 @@ exit;
 	padding:6px 24px;
 	text-decoration:none;
 	cursor:pointer;
-}.LeesMeerChalet:hover {
+}
+
+.LeesMeerChalet:hover {
 	border:1px solid #d40139;
-}.LeesMeerChalet:active {
+}
+
+.LeesMeerChalet:active {
 	position:relative;
 	top:1px;
 }
@@ -101,9 +105,13 @@ exit;
 	padding:6px 24px;
 	text-decoration:none;
 	cursor:pointer;
-}.LessmeerChaletsInvallandry:hover {
+}
+
+.LessmeerChaletsInvallandry:hover {
 	border:1px solid #661700;
-}.LessmeerChaletsInvallandry:active {
+}
+
+.LessmeerChaletsInvallandry:active {
 	position:relative;
 	top:1px;
 }
@@ -119,12 +127,17 @@ exit;
 	padding:6px 24px;
 	text-decoration:none;
 	cursor:pointer;
-}.LessmeerZomerItalissima:hover {
+}
+
+.LessmeerZomerItalissima:hover {
 	border:1px solid #661700;
-}.LessmeerZomerItalissima:active {
+}
+
+.LessmeerZomerItalissima:active {
 	position:relative;
 	top:1px;
 }
+
 #mailTable{
 	width:681px;
 	font-family:font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -222,17 +235,17 @@ function controlEnSend(){
 
 <?php
 
-if($vars["websitetype"]==1 or $vars["websitetype"]==4){
+if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$knopLeesmeer="LeesMeerChalet";
-	if($vars["website"]=="C"){
+	if($vars["website"]=="C") {
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_chalet.png";
-	} elseif($vars["website"]=="E"){
+	} elseif($vars["website"]=="E") {
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_chaleteu.png";
-	} elseif($vars["website"]=="B"){
+	} elseif($vars["website"]=="B") {
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_chaletbe.png";
-	} elseif($vars["website"]=="T"){
+	} elseif($vars["website"]=="T") {
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_chalettour.png";
-	} elseif($vars["website"]=="W"){
+	} elseif($vars["website"]=="W") {
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_superski.png";
 	}
 	$vars["mail_form_mid_div_content"]=str_replace("[[v_websitenaam]]",$vars["websitenaam"],html("doormailtekst","accommodatiemail"));
@@ -243,12 +256,11 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4){
 	$vars["korteOmschrijvinkleur"]="#003366";
 	$leesmeerKnopMail="text-decoration:none;background-color:#003366;display:inline-block;color:#ffffff;font-family: Verdana, Arial, Helvetica, sans-serif;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;";
 }
-elseif($vars["websitetype"]==3){
+elseif($vars["websitetype"]==3) {
 	$knopLeesmeer="LessmeerZomerHuis";
-	if($vars["websiteland"]=="nl"){
+	if($vars["websiteland"]=="nl") {
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_zomerhuisje.png";
-	}
-	else{
+	} else {
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_zomerhuisje_eu.png";
 	}
 	$vars["mail_form_mid_div_content"]=str_replace("[[v_websitenaam]]",$vars["websitenaam"],html("doormailtekst","accommodatiemail"));
@@ -266,8 +278,7 @@ elseif($vars["websitetype"]==3){
 	padding:6px 24px;
 	text-decoration:none;
 	cursor:pointer;text-decoration:none;";
-}
-elseif($vars["websitetype"]==7){
+} elseif($vars["websitetype"]==7) {
 	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_italissima.png";
 	$vars["mail_form_mid_div_content"]=str_replace("[[v_websitenaam]]",$vars["websitenaam"],html("doormailtekst","accommodatiemail"));
 	$vars["mail_form_aLink_style"]="color:#fe9900; font-family: Verdana, Arial, Helvetica, sans-serif; text-decoration:none;";
@@ -277,12 +288,10 @@ elseif($vars["websitetype"]==7){
 	$vars["balkkleur"]="#ffd38f";
 	$knopLeesmeer="LessmeerZomerItalissima";
 	$leesmeerKnopMail="background-color:#ff9900;display:inline-block;color:#ffffff;font-family: Verdana, Arial, Helvetica, sans-serif;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;text-decoration:none;";
-}
-elseif($vars["websitetype"]==6){
+} elseif($vars["websitetype"]==6) {
 	if($vars["websiteland"]=="nl"){
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_vallandry.png";
-	}
-	else{
+	} else {
 		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_vallandry_en.png";
 	}
 	$vars["mail_form_mid_div_content"]=str_replace("[[v_websitenaam]]",$vars["websitenaam"],html("doormailtekst","accommodatiemail"));
@@ -301,10 +310,10 @@ $accinfo=accinfo($_GET["accid"]);
 
 //echo "<p>Meer informatie over deze accommodatie: ".wt_dump($accinfo)."</p>";
 
-if(isset($_POST['verzenderAdres'])){
+if(isset($_POST['verzenderAdres'])) {
 	$impath=$vars["basehref"].$accinfo["hoofdfoto"];
 	$url="url";
-	if($_POST['jaNee']=="on"){
+	if($_POST['jaNee']=="on") {
 		$mail=new wt_mail;
 		$mail->fromname=$_POST["verzenderAdres"];
 		$mail->from=$_POST['verzenderAdres'];
@@ -343,36 +352,32 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="<td width=\"476\" colspan=\"2\" style=\"font-size:14px; font-family:verdana;\">".wt_he($accinfo["land"])."</td></tr><tr>";
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
-		if($accinfo["kwaliteit"]){
+		if($accinfo["kwaliteit"]) {
 			$mail->html.="<td colspan=\"2\">";
-			for($i=0; $i<$accinfo["kwaliteit"];$i++){
+			for($i=0; $i<$accinfo["kwaliteit"];$i++) {
 				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster_".$vars["websitetype"].".png\"/>";
 			}
 			$mail->html.= "</td></tr>";
-		}
-		else{
+		} else {
 			$mail->html.= "<td colspan=\"2\" height=\"10\"></td></tr>";
 		}
 		$mail->html.="<tr><td valign=\"top\" width=\"476\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
-		if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
+		if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])) {
 			$rev=wt_he($accinfo["optimaalaantalpersonen"]);
-		}
-		else{
+		} else {
 			$rev=wt_he($accinfo["optimaalaantalpersonen"])."-".wt_he($accinfo["maxaantalpersonen"]);
 		}
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\" colspan=\"2\">".$rev." ".html("personen")."</td></tr><tr>";
-		if(wt_he($accinfo["slaapkamers"])==1){
+		if(wt_he($accinfo["slaapkamers"])==1) {
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamer")."</td>";
-		}
-		else{
+		} else {
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamers")."</td>";
 		}
 		$teken=$accinfo["begincode"];
 		$mail->html.= "<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"".$vars["basehref"]."accommodatie/".$teken.$_GET["accid"]."\">".html("buttonLeesmeer","accommodatiemail")."</a></td></tr><tr>";
-		if(wt_he($accinfo["badkamers"])==1){
+		if(wt_he($accinfo["badkamers"])==1) {
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamer")."</td>";
-		}
-		else{
+		} else {
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamers")."</td>";
 		}
 		$mail->html.= "</tr>";
@@ -386,7 +391,7 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->send();
 	}
 	$emails = explode(" ", $_POST['EmailOntvanger']);
-	for($i = 0; $i<sizeof($emails); $i++){
+	for($i = 0; $i<sizeof($emails); $i++) {
 		$mail=new wt_mail;
 		$mail->fromname=$_POST["verzenderAdres"];
 		$mail->from=$_POST['verzenderAdres'];
@@ -423,36 +428,32 @@ if(isset($_POST['verzenderAdres'])){
 		$mail->html.="<td width=\"476\" colspan=\"2\" style=\"font-size:14px; font-family: Verdana, Arial, Helvetica, sans-serif;\">".wt_he($accinfo["land"])."</td></tr><tr>";
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" width=\"476\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
-		if($accinfo["kwaliteit"]){
+		if($accinfo["kwaliteit"]) {
 			$mail->html.="<td colspan=\"2\">";
 			for($i=0; $i<$accinfo["kwaliteit"];$i++){
 				$mail->html.= "<img src=\"".$vars["basehref"]."pic/ster_".$vars["websitetype"].".png\"/>";
 			}
 			$mail->html.= "</td></tr>";
-		}
-		else{
+		} else {
 			$mail->html.= "<td colspan=\"2\" height=\"10\"></td></tr>";
 		}
 		$mail->html.="<tr><td valign=\"top\" width=\"476\" colspan=\"2\" style=\"color:".$vars["korteOmschrijvinkleur"].";font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
-		if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])){
+		if(wt_he($accinfo["optimaalaantalpersonen"])==wt_he($accinfo["maxaantalpersonen"])) {
 			$rev=wt_he($accinfo["optimaalaantalpersonen"]);
-		}
-		else{
+		} else {
 			$rev=wt_he($accinfo["optimaalaantalpersonen"])."-".wt_he($accinfo["maxaantalpersonen"]);
 		}
 		$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\" colspan=\"2\">".$rev." ".html("personen")."</td></tr><tr>";
-		if(wt_he($accinfo["slaapkamers"])==1){
+		if(wt_he($accinfo["slaapkamers"])==1) {
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamer")."</td>";
-		}
-		else{
+		} else {
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamers")."</td>";
 		}
 		$teken=$accinfo["begincode"];
 		$mail->html.= "<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."\" href=\"".$vars["basehref"]."accommodatie/".$teken.$_GET["accid"]."\">".html("buttonLeesmeer","accommodatiemail")."</a></td></tr><tr>";
-		if(wt_he($accinfo["badkamers"])==1){
+		if(wt_he($accinfo["badkamers"])==1) {
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamer")."</td>";
-		}
-		else{
+		} else {
 			$mail->html.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamers")."</td>";
 		}
 		$mail->html.= "</tr>";
@@ -472,7 +473,7 @@ if(isset($_POST['verzenderAdres'])){
 }
 
 ?>
-<form action="<?php echo $_SERVER["REQUEST_URI"] ?>"  method="post" name="mailAcc">
+<form action="<?php echo wt_he($_SERVER["REQUEST_URI"]); ?>"  method="post" name="mailAcc">
 	<table id="mailTable" border="0">
 		<tr>
 			<td><?php echo html("LabelVan","accommodatiemail"); ?></td>

@@ -362,17 +362,21 @@ $vars["temp_pdfprinttable"].="</td></tr>";
 # Plattegrond-pdf
 unset($htmlrow);
 $pdffile_plattegrond="pdf/plaats_plattegrond/".$gegevens["stap1"]["accinfo"]["plaats_id"].".pdf";
-if(file_exists($pdffile_plattegrond)) {
+$db->query("SELECT pdfplattegrond_nietnodig FROM plaats WHERE plaats_id='".addslashes($gegevens["stap1"]["accinfo"]["plaats_id"])."';");
+if($db->next_record()) {
+	$plaats_pdfplattegrond_nietnodig=$db->f("pdfplattegrond_nietnodig");
+}
+if($plaats_pdfplattegrond_nietnodig) {
+	$htmlrow="Plattegrond-PDF is bij <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">deze plaats</a> niet nodig bij de reisdocumenten";
+	unset($pdffile_plattegrond);
+} elseif($gegevens["stap1"]["pdfplattegrond_nietnodig"]) {
+	$htmlrow="Plattegrond-PDF is bij <a href=\"cms_boekingen_facturen.php?bid=".$gegevens["stap1"]["boekingid"]."\">deze boeking</a> niet nodig bij de reisdocumenten";
+	unset($pdffile_plattegrond);
+} elseif(file_exists($pdffile_plattegrond)) {
 	$htmlrow="<a href=\"".htmlentities($pdffile_plattegrond)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
 } else {
-	$db->query("SELECT pdfplattegrond_nietnodig FROM plaats WHERE plaats_id='".addslashes($gegevens["stap1"]["accinfo"]["plaats_id"])."';");
-	if($gegevens["stap1"]["pdfplattegrond_nietnodig"] or ($db->next_record() and $db->f("pdfplattegrond_nietnodig")==1)) {
-		$pdffile_plattegrond="okay";
-		$htmlrow="Plattegrond-PDF is niet nodig bij de reisdocumenten";
-	} else {
-		$htmlrow="<b>Let op! plattegrond-PDF ontbreekt. Uploaden via <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">plaats</a>.</b>";
-		unset($pdffile_plattegrond);
-	}
+	$htmlrow="<b>Let op! plattegrond-PDF ontbreekt. Uploaden via <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">plaats</a>.</b>";
+	unset($pdffile_plattegrond);
 }
 $vars["temp_pdfprinttable"].="<tr><td>";
 $vars["temp_pdfprinttable"].="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"middle\"><img src=\"pic/pdflogo.gif\" width=\"18\" height=\"18\"></td><td valign=\"middle\">&nbsp;".$htmlrow."</td></tr></table>";
@@ -411,7 +415,7 @@ if(file_exists($pdffile_boeking)) {
 # Afsluiten temp_pdfprinttable
 $vars["temp_pdfprinttable"].="</table><br><br>";
 
-if($pdffile_voorbrief and !$vars["vertrekinfo_boeking"]["error"] and $pdffile_plattegrond) {
+if($pdffile_voorbrief and !$vars["vertrekinfo_boeking"]["error"] and ($pdffile_plattegrond or $plaats_pdfplattegrond_nietnodig or $gegevens["stap1"]["pdfplattegrond_nietnodig"])) {
 	$vars["temp_pdffiles_aanwezig"]=true;
 }
 

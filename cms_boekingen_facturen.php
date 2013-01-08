@@ -78,7 +78,7 @@ $form->field_yesno("mailblokkeren_ontvangenbetaling","Stuur deze klant geen ontv
 $form->field_yesno("aanmaning_mailblokkeren","Stuur deze klant geen aanmaningen","",array("selection"=>$gegevens["stap1"]["aanmaning_mailblokkeren"]));
 $form->field_yesno("mailblokkeren_klanten_vorig_seizoen","Stuur deze klant geen mailtje met uitnodiging m.b.t. volgend seizoen","",array("selection"=>$gegevens["stap1"]["mailblokkeren_klanten_vorig_seizoen"]));
 $form->field_yesno("mailblokkeren_enquete","Stuur deze klant geen mailtje met enquête-verzoek (na terugkomst)","",array("selection"=>$gegevens["stap1"]["mailblokkeren_enquete"]));
-$form->field_yesno("pdfplattegrond_nietnodig","Plattegrond-PDF is niet nodig bij de reisdocumenten","",array("selection"=>$gegevens["stap1"]["pdfplattegrond_nietnodig"]));
+$form->field_yesno("pdfplattegrond_nietnodig","Plattegrond-PDF niet meesturen bij de reisdocumenten","",array("selection"=>$gegevens["stap1"]["pdfplattegrond_nietnodig"]));
 $form->field_htmlrow("","<hr>");
 
 $form->field_textarea(0,"opmerkingen_intern","Opmerkingen (intern)","",array("text"=>$gegevens["stap1"]["opmerkingen_intern"]),array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));

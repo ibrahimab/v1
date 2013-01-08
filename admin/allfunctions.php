@@ -80,16 +80,18 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			$GLOBALS["errorcounterfunction"]["simplexml"]++;
 			if($GLOBALS["errorcounterfunction"]["simplexml"]>1) $nietopslaan=true;
 		}
-		// if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr)) {
-		// 	$GLOBALS["errorcounterfunction"]["sql"]++;
-		// 	if($GLOBALS["errorcounterfunction"]["sql"]>1) $nietopslaan=true;
-		// }
+		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr)) {
 
-		// # tijdelijk: MySQL-connectiefouten niet opslaan
-		// if(preg_match("/pconnect/",$errstr) or preg_match("/lost mysql connection/",$errstr)) {
-		// 	$GLOBALS["errorcounterfunction"]["sql"]++;
-		// 	$nietopslaan=true;
-		// }
+			$GLOBALS["errorcounterfunction"]["mysql"]++;
+
+			# MySQL-connectiefouten: max 1x per 15 minuten loggen
+			if(@filemtime($GLOBALS["vars"]["unixdir"]."tmp/mysql_connection_error.txt")<time()-900) {
+				@touch($GLOBALS["vars"]["unixdir"]."tmp/mysql_connection_error.txt");
+				if($GLOBALS["errorcounterfunction"]["mysql"]>1) $nietopslaan=true;
+			} else {
+				$nietopslaan=true;
+			}
+		}
 
 		if(!$nietopslaan) {
 			if(preg_match("/^_WT_FILENAME_(.*)_WT_FILENAME__WT_LINENUMBER_(.*)_WT_LINENUMBER_(.*)$/",$errstr,$regs)) {
