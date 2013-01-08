@@ -2375,6 +2375,10 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 				$optiecategorie_gehad[$db->f("optiecategorie")]=true;
 				$optieleverancier_id=$db->f("optieleverancier_id");
 
+				if($db->f("optiecategorie")==3) {
+					$skipas_optie_link="<a href=\"".$vars["path"]."cms_optie_groepen.php?edit=12&11k0=".$db->f("optie_soort_id")."&12k0=".$db->f("optie_groep_id")."#vertrekinfo\" target=\"_blank\">";
+				}
+
 				# [optieleverancier-plaats] vervangen
 				if(preg_match("/\[optieleverancier-plaats\]/",$opties[$db->f("optiecategorie")]["tekst"])) {
 					$db2->query("SELECT vertrekinfo_optiegroep_variabele FROM plaats_optieleverancier WHERE optieleverancier_id='".intval($optieleverancier_id)."' AND plaats_id='".intval($gegevens["stap1"]["accinfo"]["plaats_id"])."' AND vertrekinfo_optiegroep_variabele IS NOT NULL AND vertrekinfo_optiegroep_variabele<>'';");
@@ -2403,6 +2407,9 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 				if(!preg_match("/\b(".$gegevens["stap1"]["seizoenid"].")\b/",$db->f("vertrekinfo_goedgekeurd_seizoen"))) {
 					$error[]="de ".$taal_streepje."skipas-tekst is nog niet <a href=\"".$vars["path"]."cms_skipassen.php?edit=10&10k0=".$db->f("skipas_id")."#vertrekinfo\" target=\"_blank\">goedgekeurd</a> voor dit seizoen";
 				}
+			}
+			if($optiecategorie_gehad[3]) {
+				$error[]="de alinea 'Skipassen' is dubbel aanwezig: zowel op <a href=\"".$vars["path"]."cms_skipassen.php?edit=10&10k0=".$db->f("skipas_id")."#vertrekinfo\" target=\"_blank\">skipas-</a> als ".$skipas_optie_link."optieniveau</a>";
 			}
 		} else {
 			$error[]="er is nog geen ".$taal_streepje."skipas-tekst <a href=\"".$vars["path"]."cms_skipassen.php?edit=10&10k0=".$skipad_id."#vertrekinfo\" target=\"_blank\">ingevoerd</a>";
