@@ -4837,6 +4837,9 @@ $txt["en"]["vertrekinfo"]["exclusief"]="Excluding";
 $txt["nl"]["vertrekinfo"]["skipassen"]="Skipassen";
 $txt["en"]["vertrekinfo"]["skipassen"]="Ski-lift passes";
 
+$txt["nl"]["vertrekinfo"]["naam_optiecategorie3"]="Skipassen";
+$txt["en"]["vertrekinfo"]["naam_optiecategorie3"]="Ski-lift passes";
+
 $txt["nl"]["vertrekinfo"]["naam_optiecategorie4"]="Materiaalhuur";
 $txt["en"]["vertrekinfo"]["naam_optiecategorie4"]="Rental equipment";
 
