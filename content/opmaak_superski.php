@@ -374,7 +374,7 @@ if($id=="index") {
 	$rel_nofollow=true;
 }
 echo "<div class=\"divSepIND\">";
-echo "<br><b>SuperSki &copy; 2012</b><br><br>";
+echo "<br><b>&copy; SuperSki</b><br><br>";
 echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
 echo "</div>";
 echo "<div class=\"wrap\">";

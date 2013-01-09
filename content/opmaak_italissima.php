@@ -480,7 +480,7 @@ echo "<div id=\"colofon\" class=\"noprint\">Italissima is een handelsnaam van Ch
 if($id!="index") {
 	echo"<div id=\"footerWrap\">";
 	echo "<div class=\"divSepIND\">";
-	echo "<br><b>Italissima &copy; 2012</b><br><br>";
+	echo "<br><b>&copy; Italissima</b><br><br>";
 	echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
 	echo "</div>";
 	echo "<div class=\"wrap\">";
@@ -516,7 +516,7 @@ if($id!="index") {
 	//echo "<table border=\"0\" cellspacing=\"0\" class=\"IND\">";
 	//echo "<tr><td>
 	echo "<div class=\"divSepIND\">";
-	echo "<br><b>Italissima &copy; 2012</b><br><br>";
+	echo "<br><b>&copy; Italissima</b><br><br>";
 	echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
 	echo "</div>";
 	echo "<div class=\"wrap\">";

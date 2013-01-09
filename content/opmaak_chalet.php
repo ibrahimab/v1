@@ -461,7 +461,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo"<div id=\"footerWrap\">";
 		echo "<div class=\"disclaimerWrap\">";
 		echo "<div class=\"divSepIND\">";
-		echo "<br><b>".wt_he($vars["websitenaam"])." &copy; 2012</b><br><br>";
+		echo "<br><b>&copy; ".wt_he($vars["websitenaam"])."</b><br><br>";
 		echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
 		echo "</div>";
 		echo "</div>";
@@ -496,7 +496,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 	} elseif($id=="index") {
 		echo"<div id=\"footerWrap\">";
 		echo "<div class=\"divSepIND\">";
-		echo "<br><b>".wt_he($vars["websitenaam"])." &copy; 2012</b><br><br>";
+		echo "<br><b>&copy; ".wt_he($vars["websitenaam"])."</b><br><br>";
 		echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
 		echo "</div>";
 		echo "<div class=\"wrap\">";
@@ -534,7 +534,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo"<div id=\"footerWrap\">";
 		echo "<div class=\"disclaimerWrap\">";
 		echo "<div class=\"divSepIND\">";
-		echo "<br><b>".wt_he($vars["websitenaam"])." &copy; 2012</b><br><br>";
+		echo "<br><b>&copy; ".wt_he($vars["websitenaam"])."</b><br><br>";
 		echo "<li><a href=\"".$vars["path"]."conditions.php\" rel=\"nofollow\">Conditions</a></li><li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
 		echo "</div>";
 		echo "</div>";
@@ -569,7 +569,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 	} elseif($id=="index") {
 		echo"<div id=\"footerWrap\">";
 		echo "<div class=\"divSepIND\">";
-		echo "<br><b>".wt_he($vars["websitenaam"])." &copy; 2012</b><br><br>";
+		echo "<br><b>&copy; ".wt_he($vars["websitenaam"])."</b><br><br>";
 		echo "<li><a href=\"".$vars["path"]."conditions.php\">Conditions</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
 		echo "</div>";
 		echo "<div class=\"wrap\">";
