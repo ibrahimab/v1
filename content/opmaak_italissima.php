@@ -507,7 +507,7 @@ if($id!="index") {
 	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-gardameer\" rel=\"nofollow\">Vakantiehuizen Gardameer</a></li>";
 	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-bloemenriviera\" rel=\"nofollow\">Vakantiehuizen Bloemenrivi&egrave;ra</a></li>";
 	echo "<li><a href=\"".$vars["path"]."vakantie-in-italie\" rel=\"nofollow\">Vakantie in Itali&euml;</a></li>";
-	echo "<li><a href=\"http://www.chalet.nl/land/Italie/\" target=\"_blank\" rel=\"nofollow\">Wintersport in Itali&euml;</a></li>";
+	echo "<li><a href=\"http://www.chalet.".($vars["website"]=="K" ? "be" : "nl")."/land/Italie/\" target=\"_blank\" rel=\"nofollow\">Wintersport in Itali&euml;</a></li>";
 	echo "</div>";
 	echo "</div>";
 	echo "</div>";
@@ -543,7 +543,7 @@ if($id!="index") {
 	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-gardameer\">Vakantiehuizen Gardameer</a></li>";
 	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-bloemenriviera\">Vakantiehuizen Bloemenrivi&egrave;ra</a></li>";
 	echo "<li><a href=\"".$vars["path"]."vakantie-in-italie\">Vakantie in Itali&euml;</a></li>";
-	echo "<li><a href=\"http://www.chalet.nl/land/Italie/\" target=\"_blank\">Wintersport in Itali&euml;</a></li>";
+	echo "<li><a href=\"http://www.chalet.".($vars["website"]=="K" ? "be" : "nl")."/land/Italie/\" target=\"_blank\">Wintersport in Itali&euml;</a></li>";
 	echo "</div>";
 	echo "</div>";
 	//echo "</td></tr>";
