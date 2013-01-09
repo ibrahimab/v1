@@ -3997,6 +3997,9 @@ $txt["en"]["voucher"]["alleenvoornoodgevallen"]="Only in the event of incidents 
 $txt["nl"]["voucher"]["ofbuitenkantooruren"]="+31 (0)348 - 43 46 49 of buiten kantooruren op +31 (0)6 - 16 45 73 34.";
 $txt["en"]["voucher"]["ofbuitenkantooruren"]="+31 (0)348 - 43 46 49 or outside office hours on +31 (0)6 - 16 45 73 34.";
 
+$txt["nl"]["voucher"]["thuisblijvers_tekst"]="In noodgevallen, waarbij het niet mogelijk is contact te leggen met de receptie of met de reizigers zelf, kun je ons bereiken op +31 (0)348 - 43 46 49 of buiten kantooruren op +31 (0)6 - 16 45 73 34.";
+$txt["en"]["voucher"]["thuisblijvers_tekst"]="";
+
 $txt["nl"]["voucher"]["omschrijving"]="Omschrijving";
 $txt["en"]["voucher"]["omschrijving"]="Description";
 
