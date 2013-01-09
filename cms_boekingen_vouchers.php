@@ -674,7 +674,9 @@ if($form->okay) {
 						}
 					}
 					$pdf->Ln();
-					if(!$thuisblijvers) {
+					if($thuisblijvers) {
+						$pdf->MultiCell(0,4,txt("thuisblijvers_tekst","voucher"),0,"L");
+					} else {
 						$pdf->MultiCell(0,4,txt("alleenvoornoodgevallen","voucher")."\n".txt("ofbuitenkantooruren","voucher"),0,"L");
 					}
 				} else {
