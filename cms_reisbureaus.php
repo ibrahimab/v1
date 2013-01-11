@@ -80,6 +80,7 @@ $cms->db_field(27,"email","email_overeenkomst");
 $cms->db_field(27,"text","verantwoordelijke");
 $cms->db_field(27,"text","anvrnummer");
 $cms->db_field(27,"text","btwnummer");
+$cms->db_field(27,"yesno","btw_over_commissie");
 $cms->db_field(27,"text","kvknummer");
 $cms->db_field(27,"email","email_facturen");
 $cms->db_field(27,"email","email_marketing");
@@ -119,6 +120,7 @@ $cms->edit_field(27,0,"email_overeenkomst","E-mailadres t.b.v. samenwerkingsover
 $cms->edit_field(27,0,"anvrnummer","ANVR-nummer");
 $cms->edit_field(27,0,"kvknummer","KvK-nummer");
 $cms->edit_field(27,0,"btwnummer","BTW-nummer");
+$cms->edit_field(27,0,"btw_over_commissie","BTW over commissie rekenen");
 $cms->edit_field(27,0,"htmlrow","<hr><b>Bezoekadres</b>");
 $cms->edit_field(27,1,"adres","Adres");
 $cms->edit_field(27,1,"postcode","Postcode");

@@ -593,6 +593,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$temp_reisbureauuser[$db->f("user_id")]=$db->f("naam")." - ".wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
 				}
 				$form->field_select(1,"reisbureauuserid","Reisbureau/gebruiker","",array("selection"=>$gegevens["stap1"]["reisbureau_user_id"]),array("selection"=>$temp_reisbureauuser));
+				$form->field_yesno("btw_over_commissie","BTW over commissie rekenen","",array("selection"=>$gegevens["stap1"]["btw_over_commissie"]));
 
 			} else {
 				$naw_hoofdboeker=wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"])." (".($gegevens["stap2"]["geboortedatum"]=="" ? "geb.datum onbekend" : wt_adodb_date("d-m-Y",$gegevens["stap2"]["geboortedatum"])).")\n".$gegevens["stap2"]["adres"]."\n".$gegevens["stap2"]["postcode"]." ".$gegevens["stap2"]["plaats"]."\n".$gegevens["stap2"]["land"]."\nTel: ".$gegevens["stap2"]["telefoonnummer"]."\nE-mail: ".$gegevens["stap2"]["email"];
@@ -636,7 +637,6 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$form->field_select(0,"reisbureauuserid","Reisbureau/gebruiker","",array("selection"=>$gegevens["stap1"]["reisbureau_user_id"]),array("selection"=>$temp_reisbureauuser));
 				}
 			}
-
 		} else {
 			if($boeking_wijzigen) {
 				$form->field_htmlrow("","<b>".htmlentities(ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</b>");
@@ -1087,7 +1087,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$schadeverzekering_checkbox=false;
 			}
 		}
-		if($gegevens["stap1"]["reisbureau_user_id"]) {
+		if(!$gegevens["stap_voltooid"][4] and $gegevens["stap1"]["reisbureau_user_id"]) {
+			# Vinkje standaard uitzetten bij boeken door reisagent
 			unset($schadeverzekering_checkbox);
 		}
 		if($mustlogin or !$boeking_wijzigen or !$gegevens["stap1"]["schadeverzekering"] or $gegevens["stap1"]["wijzigen_toegestaan"]) {
@@ -1784,7 +1785,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					}
 
 #					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($gegevens["stap1"]["geannuleerd"] ? "1" : $form->input["geannuleerd"]))."'";
-					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($form->input["geannuleerd"] ? "1" : "0"))."'";
+					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($form->input["geannuleerd"] ? "1" : "0"))."', btw_over_commissie='".addslashes($form->input["btw_over_commissie"])."'";
 
 					# Eventueel beheerderid opslaan
 					if($form->input["beheerderid"]) {
@@ -2214,7 +2215,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						}
 
 						# Kijken of er reserveringskosten in rekening moeten worden gebracht
-						$db->query("SELECT r.reserveringskosten, r.aanbetaling1_dagennaboeken, r.totale_reissom_dagenvooraankomst, r.geenaanbetaling FROM reisbureau r, reisbureau_user u WHERE u.reisbureau_id=r.reisbureau_id AND u.user_id='".addslashes($reisbureauuserid)."';");
+						$db->query("SELECT r.reserveringskosten, r.aanbetaling1_dagennaboeken, r.totale_reissom_dagenvooraankomst, r.geenaanbetaling, r.btw_over_commissie FROM reisbureau r, reisbureau_user u WHERE u.reisbureau_id=r.reisbureau_id AND u.user_id='".addslashes($reisbureauuserid)."';");
 						if($db->next_record()) {
 							if(!$db->f("reserveringskosten")) $reserveringskosten=0;
 
@@ -2226,6 +2227,15 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 								# Geen aanbetaling bij dit reisbureau
 								$geenaanbetaling=true;
 							}
+
+							# Bepalen of dit reisbureau BTW over commissie betaalt
+							$setquery.=", btw_over_commissie='".addslashes($db->f("btw_over_commissie"))."'";
+						}
+
+						# BTW-percentage commissie opslaan
+						$db->query("SELECT percentage FROM btwpercentage_commissie WHERE vanaf<=NOW() ORDER BY vanaf DESC LIMIT 0,1;");
+						if($db->next_record()) {
+							$setquery.=", btw_over_commissie_percentage='".addslashes($db->f("percentage"))."'";
 						}
 					}
 				}
@@ -2876,6 +2886,16 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			if(isset($form->input["verzameltype_gekozentype_id"]) and $form->input["verzameltype_gekozentype_id"]<>$gegevens["stap1"]["verzameltype_gekozentype_id"]) chalet_log("gekozen onderliggend type (van ".($gegevens["stap1"]["verzameltype_gekozentype_id"] ? $verzameltype_gekozentype_keuzes[$gegevens["stap1"]["verzameltype_gekozentype_id"]] : "-leeg-")." naar ".($form->input["verzameltype_gekozentype_id"] ? $verzameltype_gekozentype_keuzes[$form->input["verzameltype_gekozentype_id"]] : "-leeg-").")",true,true);
 
 			if($form->input["reisbureauuserid"]<>$gegevens["stap1"]["reisbureau_user_id"]) chalet_log("reisbureau (".$temp_reisbureauuser[$form->input["reisbureauuserid"]].")",true,true);
+
+			if($form->input["reisbureauuserid"]) {
+				if(intval($gegevens["stap1"]["btw_over_commissie"])<>intval($form->input["btw_over_commissie"])) {
+					if($form->input["btw_over_commissie"]) {
+						chalet_log("aangezet: BTW over commissie rekenen");
+					} else {
+						chalet_log("uitgezet: BTW over commissie rekenen");
+					}
+				}
+			}
 
 			# Garantie-gegevens loggen
 			if($log_garantie) chalet_log($log_garantie_tekst);
