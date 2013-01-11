@@ -1239,6 +1239,12 @@ function boekinginfo($boekingid) {
 		$return["fin"][$i]["commissie_opties"]=round($return["fin"][$i]["commissie_opties"],2);
 		$return["fin"][$i]["commissie_totaal"]=$return["fin"][$i]["commissie_accommodatie"]+$return["fin"][$i]["commissie_opties"];
 
+		# BTW over commissie berekenen
+		if($return["stap1"]["btw_over_commissie"] and $return["stap1"]["btw_over_commissie_percentage"]>0) {
+			$return["fin"][$i]["commissie_btw"]=round($return["fin"][$i]["commissie_totaal"]*($return["stap1"]["btw_over_commissie_percentage"]/100),2);
+			$return["fin"][$i]["commissie_totaal"]=$return["fin"][$i]["commissie_totaal"]+$return["fin"][$i]["commissie_btw"];
+		}
+
 		# Totale reissom
 #		$return["fin"][$i]["totale_reissom"]=$return["fin"][$i]["accommodatie_totaalprijs"]+$return["fin"][$i]["opties_totaalprijs"]+$return["fin"][$i]["annuleringsverzekering_percentage"]+$return["fin"][$i]["annuleringsverzekering_poliskosten"]+$return["fin"][$i]["reisverzekering_poliskosten"]+$return["fin"][$i]["reserveringskosten"];
 		$return["fin"][$i]["totale_reissom"]=round($return["fin"][$i]["accommodatie_totaalprijs"]+$return["fin"][$i]["opties_totaalprijs"]+$return["fin"][$i]["annuleringsverzekering_variabel"]+$return["fin"][$i]["schadeverzekering_variabel"]+$return["fin"][$i]["annuleringsverzekering_poliskosten"]+$return["fin"][$i]["reisverzekering_poliskosten"]+$return["fin"][$i]["verzekeringen_poliskosten"]+$return["fin"][$i]["reserveringskosten"]-$return["fin"][$i]["commissie_totaal"],2);
@@ -1876,6 +1882,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		}
 
 		if($gegevens["fin"]["commissie_opties"]>0) {
+			# Commissie opties
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
 			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "").$temp_class."><td valign=\"top\" style=\"padding-right:10px\">".html("commissie_opties","vars");
@@ -1888,12 +1895,29 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 				$return.="</td>";
 				$return.="<td valign=\"top\" nowrap style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" style=\"padding-right:10px\">=</td>";
 			} else {
-				$return.="<td valign=\"top\" style=\"padding-right:10px\" colspan=\"".(4+$extra_colspan)."\" nowrap>";
+				$return.="<td valign=\"top\" style=\"padding-right:10px\" colspan=\"".(4+($extra_td ? -1 : 0)+$extra_colspan)."\" nowrap>";
 				$return.=html("commissie_diverse_percentages","vars");
 				$return.="</td>";
 			}
 			$return.="<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_opties"],2,',','.')."</td>";
 			$return.="<td valign=\"top\" nowrap>".reissom_tabel_korting_of_min_tekst($bedrag,$inkoop)."</td>";
+			$return.="</tr>";
+		}
+
+		if($gegevens["stap1"]["btw_over_commissie"]) {
+			# Commissie BTW
+			$kleurteller++;
+			if($kleurteller>1) unset($kleurteller);
+			$return.="<tr style=\"".(!$kleurteller ? "background-color:#ebebeb" : "")."\"".$temp_class."><td valign=\"top\" style=\"padding-right:10px\" colspan=\"".(0+$extra_colspan)."\">".html("commissie_btw","vars");
+			$return.="</td>".$extra_td;
+
+			$return.="<td valign=\"top\" style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">";
+			$return.=number_format($gegevens["stap1"]["btw_over_commissie_percentage"],0,',','.')."%";
+			$return.="</td>";
+			$return.="<td valign=\"top\" nowrap style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" style=\"padding-right:10px\">=</td>";
+
+			$return.="<td style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
+			$return.="<td valign=\"top\">&nbsp;</td>";
 			$return.="</tr>";
 		}
 

@@ -593,6 +593,9 @@ $txt["en"]["vars"]["commissie_accommodatie"]="Commission accommodation";
 $txt["nl"]["vars"]["commissie_opties"]="Commissie opties";
 $txt["en"]["vars"]["commissie_opties"]="Commission options";
 
+$txt["nl"]["vars"]["commissie_btw"]="BTW over commissie";
+$txt["en"]["vars"]["commissie_btw"]="VAT over commission";
+
 $txt["nl"]["vars"]["commissie_totaal"]="Commissie totaal";
 $txt["en"]["vars"]["commissie_totaal"]="Total commission";
 
@@ -3883,6 +3886,9 @@ $txt["en"]["factuur"]["commissie_accommodatie"]="Commission accommodation";
 
 $txt["nl"]["factuur"]["commissie_opties"]="Commissie opties";
 $txt["en"]["factuur"]["commissie_opties"]="Commission options";
+
+$txt["nl"]["factuur"]["commissie_btw"]="BTW over commissie";
+$txt["en"]["factuur"]["commissie_btw"]="VAT over commission";
 
 $txt["nl"]["factuur"]["commissie_diverse_percentages"]="diverse percentages";
 $txt["en"]["factuur"]["commissie_diverse_percentages"]="several percentages";

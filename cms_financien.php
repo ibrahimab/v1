@@ -72,6 +72,13 @@ if($_GET["marges"]) {
 		"boeking_klantnaam"=>"Details boeking: klantnaam",
 	);
 
+
+		# Staat nog niet aan: 3 kolommen m.b.t. commissie (11-01-2013)
+		// "commissie_geen_btw"=>"Commissie waarover geen BTW van toepassing is",
+		// "commissie_wel_btw"=>"Commissie waarover BTW van toepassing is",
+		// "commissie_berekende_btw"=>"Commissie berekende BTW",
+
+
 	if($login->vars["fintotaaloverzicht_kolommen"]) {
 		$vars["totaaloverzicht_kolommen_active"].=",".$login->vars["fintotaaloverzicht_kolommen"];
 	} else {

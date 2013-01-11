@@ -891,6 +891,15 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							if($kolom["betaald"]) {
 								$losseregel.="<td>".wt_cur($losseboeking_betaling["gar_".$db->f("garantie_id")])."</td>";
 							}
+							if($kolom["commissie_geen_btw"]) {
+								$losseregel.="<td>".wt_cur($losseboeking["commissie_geen_btw"])."</td>";
+							}
+							if($kolom["commissie_wel_btw"]) {
+								$losseregel.="<td>".wt_cur($losseboeking["commissie_wel_btw"])."</td>";
+							}
+							if($kolom["commissie_berekende_btw"]) {
+								$losseregel.="<td>".wt_cur($losseboeking["commissie_berekende_btw"])."</td>";
+							}
 							if($kolom["boeking_leverancier"]) {
 								$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("leverancier"))."</td>";
 							}
@@ -1070,6 +1079,15 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["betaald"]) {
 				$losseregel.="<td>".wt_cur($losseboeking_betaling[$db->f("boeking_id")])."</td>";
 			}
+			if($kolom["commissie_geen_btw"]) {
+				$losseregel.="<td>".wt_cur($losseboeking["commissie_geen_btw"])."</td>";
+			}
+			if($kolom["commissie_wel_btw"]) {
+				$losseregel.="<td>".wt_cur($losseboeking["commissie_wel_btw"])."</td>";
+			}
+			if($kolom["commissie_berekende_btw"]) {
+				$losseregel.="<td>".wt_cur($losseboeking["commissie_berekende_btw"])."</td>";
+			}
 			if($kolom["boeking_leverancier"]) {
 				$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("leverancier"))."</td>";
 			}
@@ -1209,6 +1227,15 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		if($kolom["betaald"]) {
 			echo "<th>Betaald</th>";
 		}
+		if($kolom["commissie_geen_btw"]) {
+			echo "<th title=\"Commissie waarover geen BTW van toepassing is\">Comm. geen BTW</th>";
+		}
+		if($kolom["commissie_wel_btw"]) {
+			echo "<th title=\"Commissie waarover BTW van toepassing is\">Comm. wel BTW</th>";
+		}
+		if($kolom["commissie_berekende_btw"]) {
+			echo "<th title=\"Commissie berekende BTW\">Comm. BTW ber.</th>";
+		}
 		if($kolom["boeking_leverancier"]) {
 			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_plaats"])."\">B: Leverancier</th>";
 		}
@@ -1320,6 +1347,15 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["betaald"]) {
 				echo "<td>".wt_cur($totalen[$key2]["betaald_bedrag_goedgekeurd"][$key])."</td>";
 			}
+			if($kolom["commissie_geen_btw"]) {
+				echo "<td>".wt_cur($totalen[$key2]["commissie_geen_btw"][$key])."</td>";
+			}
+			if($kolom["commissie_wel_btw"]) {
+				echo "<td>".wt_cur($totalen[$key2]["commissie_wel_btw"][$key])."</td>";
+			}
+			if($kolom["commissie_berekende_btw"]) {
+				echo "<td>".wt_cur($totalen[$key2]["commissie_berekende_btw"][$key])."</td>";
+			}
 			if($kolom["boeking_leverancier"]) {
 				echo "<td>&nbsp;</td>";
 			}
@@ -1418,6 +1454,15 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				}
 				if($kolom["betaald"]) {
 					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["betaald_bedrag_goedgekeurd"][$key])."</td>";
+				}
+				if($kolom["commissie_geen_btw"]) {
+					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["commissie_geen_btw"][$key])."</td>";
+				}
+				if($kolom["commissie_wel_btw"]) {
+					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["commissie_wel_btw"][$key])."</td>";
+				}
+				if($kolom["commissie_berekende_btw"]) {
+					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["commissie_berekende_btw"][$key])."</td>";
 				}
 				if($kolom["boeking_leverancier"]) {
 					echo "<td>&nbsp;</td>";

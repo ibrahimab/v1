@@ -110,6 +110,8 @@ $cms->list_field(27,"plaats","Plaats");
 $cms->list_field(27,"websites","Sites");
 #$cms->list_field(27,"actief","Actief");
 $cms->list_field(27,"goedgekeurd","Goedgekeurd");
+$cms->list_field(27,"btw_over_commissie","BTW");
+
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(27,1,"actief","Actief",array("selection"=>1));
