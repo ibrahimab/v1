@@ -2141,21 +2141,27 @@ function merge_pdfs($array_pdfs,$targetfile) {
 	require_once($vars["unixdir"]."admin/fpdi/fpdf_tpl.php");
 
 	class concat_pdf extends FPDI {
-	     var $files = array();
-	     function setFiles($files) {
-	          $this->files = $files;
-	     }
-	     function concat() {
-	          foreach($this->files AS $file) {
-	               $pagecount = $this->setSourceFile($file);
-	               for ($i = 1; $i <= $pagecount; $i++) {
-	                    $tplidx = $this->ImportPage($i);
-	                    $s = $this->getTemplatesize($tplidx);
-	                    $this->AddPage('P', array($s['w'], $s['h']));
-	                    $this->useTemplate($tplidx);
-	               }
-	          }
-	     }
+		 var $files = array();
+		 function setFiles($files) {
+			  $this->files = $files;
+		 }
+		 function concat() {
+			  foreach($this->files AS $file) {
+				   $pagecount = $this->setSourceFile($file);
+				   for ($i = 1; $i <= $pagecount; $i++) {
+						$tplidx = $this->ImportPage($i);
+						$s = $this->getTemplatesize($tplidx);
+						if($s['w']>$s['h']) {
+							# Landscape
+							$this->AddPage('L', array($s['w'], $s['h']));
+						} else {
+							# Portrait
+							$this->AddPage('P', array($s['w'], $s['h']));
+						}
+						$this->useTemplate($tplidx);
+				   }
+			  }
+		 }
 	}
 
 	$pdf = new concat_pdf();
