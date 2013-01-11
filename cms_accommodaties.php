@@ -125,6 +125,7 @@ if($_GET["1k0"]) {
 		$vertrekinfo_tracking_array[]="vertrekinfo_inclusief_".$vars["cmstaal"];
 		$vertrekinfo_tracking_array[]="vertrekinfo_exclusief_".$vars["cmstaal"];
 		$vertrekinfo_tracking_array[]="vertrekinfo_route_".$vars["cmstaal"];
+		$vertrekinfo_tracking_array[]="vertrekinfo_soortbeheer_aanvulling_".$vars["cmstaal"];
 	}
 	$vertrekinfo_tracking=vertrekinfo_tracking("accommodatie",$vertrekinfo_tracking_array,$_GET["1k0"],$laatste_seizoen);
 }
@@ -298,6 +299,7 @@ if($vars["cmstaal"]) $cms->db_field(1,"text","vertrekinfo_goedgekeurd_datetime_"
 $cms->db_field(1,"select","vertrekinfo_incheck_sjabloon_id","",array("othertable"=>"54","otherkeyfield"=>"vertrekinfo_sjabloon_id","otherfield"=>"naam","otherwhere"=>"soort=1 AND wzt='".addslashes($_GET["wzt"])."'"));
 $cms->db_field(1,"select","vertrekinfo_soortbeheer","",array("selection"=>$vars["vertrekinfo_soortbeheer"]));
 $cms->db_field(1,"text","vertrekinfo_soortbeheer_aanvulling");
+if($vars["cmstaal"]) $cms->db_field(1,"text","vertrekinfo_soortbeheer_aanvulling_".$vars["cmstaal"]);
 $cms->db_field(1,"text","vertrekinfo_telefoonnummer");
 $cms->db_field(1,"text","vertrekinfo_inchecktijd");
 $cms->db_field(1,"text","vertrekinfo_uiterlijkeinchecktijd");
@@ -601,9 +603,18 @@ $cms->edit_field(1,0,"vertrekinfo_soortbeheer","Type beheer");
 if($vertrekinfo_tracking["vertrekinfo_soortbeheer"]) {
 	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_soortbeheer"]))."</div>"));
 }
-$cms->edit_field(1,0,"vertrekinfo_soortbeheer_aanvulling","Aanvulling bij type beheer","","",array("info"=>"Bijvoorbeeld de naam van een contactpersoon: 'Carine'"));
-if($vertrekinfo_tracking["vertrekinfo_soortbeheer_aanvulling"]) {
-	$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_soortbeheer_aanvulling"]))."</div>"));
+
+if($vars["cmstaal"]) {
+	$cms->edit_field(1,0,"vertrekinfo_soortbeheer_aanvulling","Aanvulling bij type beheer NL","",array("noedit"=>true));
+	$cms->edit_field(1,0,"vertrekinfo_soortbeheer_aanvulling_".$vars["cmstaal"],"Aanvulling bij type beheer ".strtoupper($vars["cmstaal"]));
+	if($vertrekinfo_tracking["vertrekinfo_soortbeheer_aanvulling_".$vars["cmstaal"]]) {
+		$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_soortbeheer_aanvulling_".$vars["cmstaal"]]))."</div>"));
+	}
+} else {
+	$cms->edit_field(1,0,"vertrekinfo_soortbeheer_aanvulling","Aanvulling bij type beheer","","",array("info"=>"Bijvoorbeeld de naam van een contactpersoon: 'Carine'"));
+	if($vertrekinfo_tracking["vertrekinfo_soortbeheer_aanvulling"]) {
+		$cms->edit_field(1,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_soortbeheer_aanvulling"]))."</div>"));
+	}
 }
 $cms->edit_field(1,0,"vertrekinfo_telefoonnummer","Telefoonnummer beheer","","",array("info"=>"Bijvoorbeeld: '0039 0437 72 38 05'"));
 if($vertrekinfo_tracking["vertrekinfo_telefoonnummer"]) {
