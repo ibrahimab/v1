@@ -1611,23 +1611,39 @@ $txt["en"]["land"]["dichtklappen"]="Show less";
 #
 # Accommodatie doormail functie
 #
-$txt["nl"]["accommodatiemail"]["doormailtekst"]="Ik heb een leuk chalet/appartement gevonden op [[v_websitenaam]]. Dit moet je zien!";
-$txt["en"]["accommodatiemail"]["doormailtekst"]="I have found some interesting chalets/apartments on [[v_websitenaam]]. You have to see this!";
 
-$txt["nl_z"]["accommodatiemail"]["doormailtekst"]="Ik heb een leuk vakantiehuis gevonden op [[v_websitenaam]]. Dit moet je zien!";
+#'Dit moet je zien! Ik heb een leuk chalet gevonden op Chalet.nl' en bij zomer 'Dit moet je zien! Ik heb een leuk vakantiehuis gevonden op Italissima'.
+
+$txt["nl"]["accommodatiemail"]["doormailtekst"]="Dit moet je zien! Ik heb een leuk [[v_soortaccommodatie]] gevonden op [[v_websitenaam]].";
+$txt["en"]["accommodatiemail"]["doormailtekst"]=" You have to see this! I have found an interesting [[v_soortaccommodatie]] on [[v_websitenaam]].";
+
+$txt["nl_z"]["accommodatiemail"]["doormailtekst"]="Dit moet je zien! Ik heb een leuk vakantiehuis gevonden op [[v_websitenaam]].";
 $txt["en_z"]["accommodatiemail"]["doormailtekst"]="-";
 
-$txt["nl"]["accommodatiemail"]["LabelVan"]="Van: (E-mailadres)";
-$txt["en"]["accommodatiemail"]["LabelVan"]="From: (E-mail)";
+$txt["nl"]["accommodatiemail"]["labelvan"]="Van: (e-mailadres)";
+$txt["en"]["accommodatiemail"]["labelvan"]="From: (email)";
 
-$txt["nl"]["accommodatiemail"]["LabelNaar"]="Naar: (Meerdere e-mailadressen scheiden met een spatie)";
-$txt["en"]["accommodatiemail"]["LabelNaar"]="To: (use space as a separation for the e-mails)";
+$txt["nl"]["accommodatiemail"]["labelnaar"]="Naar: (meerdere e-mailadressen scheiden met een spatie)";
+$txt["en"]["accommodatiemail"]["labelnaar"]="To: (use space as a separation for the e-mails)";
 
-$txt["nl"]["accommodatiemail"]["LabelBericht"]="Bericht:";
-$txt["en"]["accommodatiemail"]["LabelBericht"]="Message:";
+$txt["nl"]["accommodatiemail"]["labelbericht"]="Bericht:";
+$txt["en"]["accommodatiemail"]["labelbericht"]="Message:";
 
 $txt["nl"]["accommodatiemail"]["stuurkopie"]="Stuur een kopie naar mijzelf";
 $txt["en"]["accommodatiemail"]["stuurkopie"]="Send me a copy";
+
+$txt["nl"]["accommodatiemail"]["buttonleesmeer"]="Lees meer";
+$txt["en"]["accommodatiemail"]["buttonleesmeer"]="Read more";
+
+$txt["nl"]["accommodatiemail"]["recaptcha_uitleg"]="Typ de volgende letters over:";
+$txt["en"]["accommodatiemail"]["recaptcha_uitleg"]="Please type the following letters:";
+
+$txt["nl"]["accommodatiemail"]["captcha_onjuist"]="Onjuiste invoer. [[h_1]]Toon me andere letters[[h_2]]";
+$txt["en"]["accommodatiemail"]["captcha_onjuist"]="Incorrect input. [[h_1]]Please show me different letters[[h_2]]";
+
+$txt["nl"]["accommodatiemail"]["versturen"]="mail versturen";
+$txt["en"]["accommodatiemail"]["versturen"]="send email";
+
 
 #
 # Accommodatiepagina (bijvoorbeeld http://www.chalet.nl/accommodatie/F265/)

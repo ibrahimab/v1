@@ -1066,6 +1066,31 @@ $(document).ready(function() {
 		// 		$("#nieuwsbrief_per_wanneer_row").slideToggle("slow");
 		// 	});
 		// }
+
+
+		// CAPTCHA: invoer controleren via rpc_json
+		$("input[name=captcha]").keyup(function() {
+			if($(this).val().length>=5) {
+				$.getJSON(absolute_path+"rpc_json.php", {"t": 10,"input":$(this).val()}, function(data) {
+					if(data.ok) {
+						if(data.captcha_okay) {
+							$("#captcha_onjuist").hide();
+							$("#captcha_juist").show();
+						} else {
+							$("#captcha_juist").hide();
+							$("#captcha_onjuist").show();
+						}
+					}
+				});
+			}
+		});
+
+		// CAPTCHA reloaden
+		$("#captcha_reload").click(function(event) {
+			d = new Date();
+			$("#captcha_img").attr("src",$("#captcha_img").attr("src")+d.getTime());
+			return false;
+		});
 	}
 });
 

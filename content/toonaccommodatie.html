@@ -1462,7 +1462,7 @@ if($db->next_record()) {
 	}
 
 	# Doormailfunctie
-	if($vars["lokale_testserverNU_EVEN_NIET"] or $_GET["testsysteem"]) {
+	if($vars["lokale_testserver"] or $_GET["testsysteem"]) {
 		echo "<div id=\"socialmedia_doormail\">\n";
 		echo "<a href=\"#\" onclick=\"popwindow(800,810,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\"><img src=\"".$vars["path"]."pic/button_mail_small.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
 		echo "</div>"; # afsluiten #socialmedia_doormail

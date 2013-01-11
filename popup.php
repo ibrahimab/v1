@@ -1,11 +1,13 @@
 <?php
 
+# session starten (nodig voor CAPTCHA van accommodatiemail)
+session_start();
+
 if(ereg("^cms_",$_GET["id"])) {
 	$mustlogin=true;
 }
 
 include("admin/vars.php");
-
 
 
 

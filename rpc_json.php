@@ -446,9 +446,11 @@ if ( $_GET["t"]==1 ) {
 		}
 	}
 
-}elseif($_GET["t"]==8){
-#	Ideal betalingssysteem Sisow
-#het ophalen van een lijst met alle aangesloten banken.
+} elseif($_GET["t"]==8) {
+
+	#	Ideal betalingssysteem Sisow
+
+	#het ophalen van een lijst met alle aangesloten banken.
 	if($_GET["action"]=="getBanks"){
 		//header('Content-type: application/xml');
 		$bankenArr=array();
@@ -472,8 +474,8 @@ if ( $_GET["t"]==1 ) {
 			$i++;
 		}
 		$return["banken"]=$bankenArr;
-	}elseif($_GET["action"]=="doTransaction"){
-#Verzoek tot het uitvoeren van een transactie.
+	} elseif($_GET["action"]=="doTransaction") {
+	#Verzoek tot het uitvoeren van een transactie.
 		$signature=sha1($_GET["kenmerk"]."uniqueentrance".$_GET["bedrag"]."25374805605a3f9de17a1ac057e637aeaba1afedd2070d75ba");
 		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/TransactionRequest?shopid=&merchantid=2537480560&payment=&purchaseid='.$_GET["kenmerk"].'&amount='.$_GET["bedrag"].'&entrancecode=uniqueentrance&description=IdealAfbetaling&issuerid='.$_GET["bankID"].'&returnurl=http://192.168.1.32/chalet/checkout.php?success=true&cancelurl=http://192.168.1.32/chalet/checkout.php?canceled=true&callbackurl=http://192.168.1.32/chalet/checkout.php?callback=true&sha1='.$signature.'&testmode=true';
 		$handle = fopen($daurl, "r");
@@ -489,8 +491,8 @@ if ( $_GET["t"]==1 ) {
 		$return["transaction"]["trxid"]=(string)$xmle->transaction->trxid;
 		$return["transaction"]["issuerurl"]=(string)$xmle->transaction->issuerurl;
 		//print_r($xmle);
-	}elseif($_GET["action"]=="getstatus"){
-#het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
+	} elseif($_GET["action"]=="getstatus") {
+	#het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
 		$signature=sha1($_GET["trxid"]."25374805605a3f9de17a1ac057e637aeaba1afedd2070d75ba");
 		$daurl = 'https://www.sisow.nl/Sisow/iDeal/RestHandler.ashx/StatusRequest?trxid='.$_GET["trxid"].'&shopid=&merchantid=2537480560&sha1='.$signature;
 		$handle = fopen($daurl, "r");
@@ -514,38 +516,38 @@ if ( $_GET["t"]==1 ) {
 		$return["transaction"]["consumercity"]=(string)$xmle->transaction->consumercity;
 		//print_r($xmle);
 	}
-}elseif($_GET["t"]==9){
-#	Ideal betalingssysteem docdata payements
+} elseif($_GET["t"]==9) {
+	#	Ideal betalingssysteem docdata payements
 	if($_GET["action"]=="doTransaction"){
-#Verzoek tot het uitvoeren van een transactie.
-//$boekingObject=array();
-//$_GET['klantachterNaam']="Moukimou";
-//$_GET['klantvoorNaam']="Miguel";
-//$_GET['klantgeboorteD']="1986-05-23";
-//$_GET['klantfoon']="0301235485456";
-//$boekingObject["voorletters"]="EM";
-//$_GET['klantEmail']="miguel@hotmail.com";
-//$_GET['klantgender']="M";
-//$_GET['klantstraat']="otterstraat";
-//$_GET['klanthuisnummer']="2";
-//$_GET['klantpostcode']="3513CM";
-//$_GET['klantplaats']="Utrecht";
-//$_GET['klantID']=1234578;
-//$_GET['bedrag']=302100;
-//$boekingObject["Termijn"]=920;
+	#Verzoek tot het uitvoeren van een transactie.
+	//$boekingObject=array();
+	//$_GET['klantachterNaam']="Moukimou";
+	//$_GET['klantvoorNaam']="Miguel";
+	//$_GET['klantgeboorteD']="1986-05-23";
+	//$_GET['klantfoon']="0301235485456";
+	//$boekingObject["voorletters"]="EM";
+	//$_GET['klantEmail']="miguel@hotmail.com";
+	//$_GET['klantgender']="M";
+	//$_GET['klantstraat']="otterstraat";
+	//$_GET['klanthuisnummer']="2";
+	//$_GET['klantpostcode']="3513CM";
+	//$_GET['klantplaats']="Utrecht";
+	//$_GET['klantID']=1234578;
+	//$_GET['bedrag']=302100;
+	//$boekingObject["Termijn"]=920;
 
-//$_GET['kenmerk']="C121050495778";
+	//$_GET['kenmerk']="C121050495778";
 
-//$boekingObject["plaats"]="test plaats";
-//$boekingObject["Accommodatie"]="Chalet Almhaus Peter(8-10 pers.)";
-//$boekingObject["Deelnemers"]="8 personen";
-//$boekingObject["Verblijfsperiode"]="16 februari 2013 - 23 februari 2013";
-//$boekingObject["product"][0]="1x Accommodatie";
-//$boekingObject["product"]["prijs"][0]=2810;
-//$boekingObject["product"][1]="1x Energie en eindschoonmaakkosten (excl. keukenhoek) verplicht te voldoen";
-//$boekingObject["product"]["prijs"][1]=191;
-//$_GET['klantproduct']= "1x Accommodatie";
-//$boekingObject["Reserveringskosten"]=true;
+	//$boekingObject["plaats"]="test plaats";
+	//$boekingObject["Accommodatie"]="Chalet Almhaus Peter(8-10 pers.)";
+	//$boekingObject["Deelnemers"]="8 personen";
+	//$boekingObject["Verblijfsperiode"]="16 februari 2013 - 23 februari 2013";
+	//$boekingObject["product"][0]="1x Accommodatie";
+	//$boekingObject["product"]["prijs"][0]=2810;
+	//$boekingObject["product"][1]="1x Energie en eindschoonmaakkosten (excl. keukenhoek) verplicht te voldoen";
+	//$boekingObject["product"]["prijs"][1]=191;
+	//$_GET['klantproduct']= "1x Accommodatie";
+	//$boekingObject["Reserveringskosten"]=true;
 	//$url = "http://test.tripledeal.com/ps/services/paymentservice/0_4?wsdl";
 	$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
 
@@ -626,40 +628,55 @@ if ( $_GET["t"]==1 ) {
 
 	}
 	}elseif($_GET["action"]=="getstatus"){
-#het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
-		//$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
-		//$client = new SoapClient( $url,array('trace'=>1));
+		#het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
+			//$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
+			//$client = new SoapClient( $url,array('trace'=>1));
 
-		//$parameters['version'] = "0.9";
+			//$parameters['version'] = "0.9";
+
+			//	merchant
+			//$parameters['merchant']['name'] = "chalet_nl";
+			//$parameters['merchant']['password'] = "7rU5ehew";
+			//$url="https://test.docdatapayments.com/ps/menu?command=status_payment_cluster&merchant_name=chalet_nl&merchant_password=7rU5ehew&
+		//payment_cluster_key=57E04C4D2EC9DFCB88DC48F4CC2A354D&report_type=xml_std";
+
+		$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
+
+		$client = new SoapClient($url);
+		//echo $client->__getLastResponse();
+		//var_dump($client->__getFunctions());
+		//print_r($_POST);
+
+		$parameters['version'] = "0.9";
 
 		//	merchant
-		//$parameters['merchant']['name'] = "chalet_nl";
-		//$parameters['merchant']['password'] = "7rU5ehew";
-		//$url="https://test.docdatapayments.com/ps/menu?command=status_payment_cluster&merchant_name=chalet_nl&merchant_password=7rU5ehew&
-//payment_cluster_key=57E04C4D2EC9DFCB88DC48F4CC2A354D&report_type=xml_std";
-
-	$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
-
-	$client = new SoapClient($url);
-	//echo $client->__getLastResponse();
-	//var_dump($client->__getFunctions());
-	//print_r($_POST);
-
-	$parameters['version'] = "0.9";
-
-	//	merchant
-	$parameters['merchant']['name'] = "chalet_nl";
-	$parameters['merchant']['password'] = "7rU5ehew";
-	//cluster
-	$parameters['paymentOrderKey']=$_SESSION["key"];
-	$response = $client->status( $parameters );
-	if( isset( $response->statusSuccess->success ) ) {
-		$return["paymentStatus"]="OK";
-		$return["statusCode"]=$response->statusSuccess->success->code;
-	} else {
-		$return["OrderStatus"]=$response->statusError;
+		$parameters['merchant']['name'] = "chalet_nl";
+		$parameters['merchant']['password'] = "7rU5ehew";
+		//cluster
+		$parameters['paymentOrderKey']=$_SESSION["key"];
+		$response = $client->status( $parameters );
+		if( isset( $response->statusSuccess->success ) ) {
+			$return["paymentStatus"]="OK";
+			$return["statusCode"]=$response->statusSuccess->success->code;
+		} else {
+			$return["OrderStatus"]=$response->statusError;
+		}
+		//echo var_dump($response);
 	}
-	//echo var_dump($response);
+} elseif($_GET["t"]==10) {
+	#
+	# CAPTCHA-systeem: input controleren
+	# Op basis van afbeelding pic/captcha_image.php
+	#
+	$_SESSION["captcha_okay"]=false;
+
+	if($_GET["input"]) {
+		$_GET["input"]=strtoupper($_GET["input"]);
+		if($_GET["input"]==$_SESSION["captcha_random_number"]) {
+			$_SESSION["captcha_okay"]=true;
+			$return["captcha_okay"]=true;
+		}
+		$return["input"]=$_SESSION["captcha_random_number"]."==".$_GET["input"];
 	}
 }
 $return["ok"]=true;

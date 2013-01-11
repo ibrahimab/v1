@@ -1370,6 +1370,19 @@ td.selecteerbaarbedrag:hover{
 	border-width: 0px;
 }
 
+#captcha_juist {
+	display: none;
+}
+
+#captcha_onjuist {
+	display: none;
+}
+
+.vinkje_goedgekeurd {
+	width: 15px;
+	height: 15px;
+}
+
 /* per pagina */
 
 
