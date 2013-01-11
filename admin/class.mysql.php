@@ -91,6 +91,10 @@ class DB_Sql {
 		if ( "" == $Password )
 			$Password = $this->Password;
 
+		if($this->Overwrite_Host) {
+			$Host     = $this->Overwrite_Host;
+		}
+
 		/* establish connection, select database */
 		if ( 0 == $this->Link_ID ) {
 
@@ -107,6 +111,10 @@ class DB_Sql {
 			if ( !@mysql_select_db( $Database, $this->Link_ID ) ) {
 				$this->halt( "cannot use database ".$this->Database );
 				return 0;
+			}
+
+			if( $GLOBALS["mysqlsettings"]["charset"] ) {
+				mysql_set_charset($GLOBALS["mysqlsettings"]["charset"],$this->Link_ID);
 			}
 		}
 
