@@ -50,12 +50,14 @@ $keuzes[2][2][1]="Zomerhuisje.nl htmlbanner land-thema 468x60";
 $keuzes[2][3][1]="Zomerhuisje.nl htmlbanner land-thema 250x250";
 $keuzes[2][4][1]="Zomerhuisje.nl htmlbanner land-thema 234x60";
 $keuzes[2][5][1]="Zomerhuisje.nl htmlbanner land-thema 120x600";
+$keuzes[2][6][1]="Zomerhuisje.nl htmlbanner land-thema 300x250";
 
 $keuzes[2][1][2]="Zomerhuisje.nl htmlbanner land-datum 728x90";
 $keuzes[2][2][2]="Zomerhuisje.nl htmlbanner land-datum 468x60";
 $keuzes[2][3][2]="Zomerhuisje.nl htmlbanner land-datum 250x250";
 $keuzes[2][4][2]="Zomerhuisje.nl htmlbanner land-datum 234x60";
 $keuzes[2][5][2]="Zomerhuisje.nl htmlbanner land-datum 120x600";
+$keuzes[2][6][2]="Zomerhuisje.nl htmlbanner land-datum 300x250";
 
 $keuzes[3][1][2]="Italissima.nl htmlbanner regio-datum 728x90";
 $keuzes[3][2][2]="Italissima.nl htmlbanner regio-datum 468x60";

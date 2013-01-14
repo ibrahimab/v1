@@ -80,7 +80,13 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			$GLOBALS["errorcounterfunction"]["simplexml"]++;
 			if($GLOBALS["errorcounterfunction"]["simplexml"]>1) $nietopslaan=true;
 		}
-		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr)) {
+
+		# MySQL-server te druk: touch tekstbestand
+		if(preg_match("/Too many connections/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr)) {
+			@touch($GLOBALS["vars"]["unixdir"]."tmp/mysql_too_busy.txt");
+		}
+
+		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr)) {
 
 			$GLOBALS["errorcounterfunction"]["mysql"]++;
 

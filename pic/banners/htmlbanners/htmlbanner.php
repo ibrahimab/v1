@@ -494,6 +494,22 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:170px;left:16px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
+} elseif($_GET["t"]==6 and $_GET["wzt"]==2) {
+	# zomerhuisje 300x250
+	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
+
+	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_300x250.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:118px;left:29px;\">\n";
+	zomer_land();
+	echo "</div>";
+
+	echo "<div style=\"position:absolute;top:141px;left:29px;\">\n";
+	zomer_thema();
+	echo "</div>\n";
+	echo "<div style=\"position:absolute;top:131px;left:180px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "</form>\n";
+	echo "</div>\n";
 } elseif($_GET["t"]==1 and $_GET["wzt"]==3) {
 	# italissima 728x90
 	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.png');\">\n";
@@ -654,7 +670,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==6 and $_GET["wzt"]==1) {
-	# chalet 250x250
+	# chalet 300x250
 	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('http://www.chalet.nl/pic/banners/htmlbanners/chalet_htmlbanner_300x250.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:113px;left:40px;\">\n";
@@ -726,7 +742,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:7px;left:193px;\"><input type=\"image\" src=\"http://www.chalet.be/pic/banners/htmlbanners/chalet_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
-}elseif($_GET["t"]==5 and $_GET["wzt"]==4) {
+} elseif($_GET["t"]==5 and $_GET["wzt"]==4) {
 	# chalet.be 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
@@ -742,7 +758,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:340px;left:16px;\"><input type=\"image\" src=\"http://www.chalet.be/pic/banners/htmlbanners/chalet_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
-}elseif($_GET["t"]==6 and $_GET["wzt"]==4) {
+} elseif($_GET["t"]==6 and $_GET["wzt"]==4) {
 	# chalet.be 300x250
 	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('http://www.chalet.be/pic/banners/htmlbanners/chaletbe_htmlbanner_300x250.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.be/\" target=\"_blank\">\n";
