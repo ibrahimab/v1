@@ -1247,9 +1247,9 @@ if($_COOKIE["sch"]) {
 	}
 }
 
-# Alle types in $vars zetten
+# Alle types in $vars zetten / vullen
 if($vars["types_in_vars"]) {
-	$db->query("SELECT DISTINCT a.".($mustlogin ? "interne" : "")."naam AS naam, a.archief, a.wzt, p.naam AS plaats, l.begincode, a.accommodatie_id, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, t.verzameltype FROM accommodatie a, type t, plaats p, land l, skigebied s WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id".$vars["types_in_vars_andquery"]." ORDER BY p.naam, a.naam, t.optimaalaantalpersonen, a.accommodatie_id, s.naam, p.naam;");
+	$db->query("SELECT DISTINCT a.".($mustlogin ? "interne" : "")."naam AS naam, a.archief, a.wzt, p.naam AS plaats, l.begincode, a.accommodatie_id, t.websites, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, t.verzameltype FROM accommodatie a, type t, plaats p, land l, skigebied s WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id".$vars["types_in_vars_andquery"]." ORDER BY p.naam, a.naam, t.optimaalaantalpersonen, a.accommodatie_id, s.naam, p.naam;");
 	while($db->next_record()) {
 		if($vars["types_in_vars_wzt_splitsen"]) {
 			$vars["alletypes"][$db->f("wzt")][$db->f("type_id")]=$db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers. - ".$db->f("begincode").$db->f("type_id").")".($db->f("verzameltype") ? " (V)" : "");
@@ -1260,9 +1260,21 @@ if($vars["types_in_vars"]) {
 			$vars["alletypes"][$db->f("type_id")]=$db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers. - ".$db->f("begincode").$db->f("type_id").")".($db->f("verzameltype") ? " (V)" : "");
 
 			if($db->f("wzt")==2) {
-				$externelink=$vars["websites_basehref"]["Z"];
+				if(preg_match("/I/",$db->f("websites")) and !preg_match("/Z/",$db->f("websites"))) {
+					# Link naar Italissima.nl
+					$externelink=$vars["websites_basehref"]["I"];
+				} else {
+					# Link naar Zomerhuisje.nl
+					$externelink=$vars["websites_basehref"]["Z"];
+				}
 			} else {
-				$externelink=$vars["websites_basehref"]["C"];
+				if(preg_match("/W/",$db->f("websites")) and !preg_match("/C/",$db->f("websites"))) {
+					# Link naar SuperSki.nl
+					$externelink=$vars["websites_basehref"]["W"];
+				} else {
+					# Link naar Chalet.nl
+					$externelink=$vars["websites_basehref"]["C"];
+				}
 			}
 			if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 				$externelink="http://".$_SERVER["HTTP_HOST"]."/chalet/";

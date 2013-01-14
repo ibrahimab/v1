@@ -2,7 +2,7 @@
 
 $mustlogin=true;
 
-if($_GET["t"]==3 or $_GET["t"]==11) {
+if($_GET["t"]==3 or $_GET["t"]==9 or $_GET["t"]==11) {
 	$vars["types_in_vars"]=true;
 	$vars["acc_in_vars"]=true;
 }

@@ -669,6 +669,26 @@ if($_GET["t"]==1) {
 
 	echo "&nbsp;";
 
+	# Overzicht types zonder beoordeling
+	$db->query("SELECT v.land, v.plaats, v.naam, v.begincode, v.type_id, v.wzt FROM view_accommodatie v WHERE v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.type_id NOT IN (SELECT DISTINCT b.type_id FROM boeking b, boeking_enquete be WHERE be.boeking_id=b.boeking_id AND be.vraag1_7>0) ORDER BY v.wzt, v.plaats, v.naam;");
+	if($db->num_rows()) {
+		unset($seizoengehad);
+		echo "Types waarvoor nog nooit een beoordeling is ingevuld (".$db->num_rows()."):";
+		echo "<ul>";
+		while($db->next_record()) {
+			if(!$seizoengehad[$db->f("wzt")]) {
+				echo "<p><i>".$vars["seizoentype_namen"][$db->f("wzt")].":</i></p>";
+				$seizoengehad[$db->f("wzt")]=true;
+			}
+			echo "<li>".$vars["alletypes_externelink"][$db->f("type_id")]."</li>";
+		}
+		echo "</ul>";
+
+		echo "<br/><hr><br/>";
+	}
+
+
+
 	# Overzicht alle skigebieden Chalet.nl inclusief link (t.b.v. Snowplaza - 04-01-2013)
 	echo "<h2>Overzicht skigebieden Chalet.nl t.b.v. Snowplaza</h2>";
 	echo "<table cellspacing=\"0\" class=\"tbl\">";
