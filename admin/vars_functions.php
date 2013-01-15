@@ -1919,6 +1919,20 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			$return.="<td style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
 			$return.="<td valign=\"top\">&nbsp;</td>";
 			$return.="</tr>";
+
+
+			# Inkoop (negatieve inkoop btw)
+			if($inkoop) {
+				$kleurteller_inkoop++;
+				if($kleurteller_inkoop>1) unset($kleurteller_inkoop);
+				$return_inkoop.="<tr style=\"".(!$kleurteller_inkoop ? "background-color:#ebebeb" : "")."\"><td valign=\"top\" style=\"padding-right:10px\" colspan=\"".(5+$extra_colspan)."\">".html("commissie_btw","vars");
+				$return_inkoop.="<td style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format(0-$gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
+				$return_inkoop.="<td valign=\"top\">&nbsp;</td>";
+				$return_inkoop.="</tr>";
+
+				$inkoop_totaal=$inkoop_totaal-$gegevens["fin"]["commissie_btw"];
+			}
+
 		}
 
 		# Commissie totaal
