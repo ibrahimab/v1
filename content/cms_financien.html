@@ -761,6 +761,31 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 	}
 
+	# commissie-btw over gewone opties berekenen
+	$db->query("SELECT b.boeking_id, bo.verkoop, bo.commissie FROM boeking_optie bo, boeking b WHERE bo.status=1 AND bo.boeking_id=b.boeking_id AND b.btw_over_commissie=1 AND b.seizoen_id IN (".$seizoen_id.")".$andquery.";");
+	while($db->next_record()) {
+		$commissie=round(($db->f("commissie")/100)*$db->f("verkoop"),2);
+		if($commissie<>0) {
+			$losseboeking_commissie[$db->f("boeking_id")]+=$commissie;
+		}
+	}
+	# commissie-btw over handmatige opties berekenen
+	$db->query("SELECT b.boeking_id, e.persoonnummer, e.deelnemers, e.verkoop, e.commissie FROM extra_optie e, boeking b WHERE e.boeking_id=b.boeking_id AND b.btw_over_commissie=1 AND b.seizoen_id IN (".$seizoen_id.")".$andquery.";");
+	while($db->next_record()) {
+		$aantal_deelnemers=0;
+		if($db->f("persoonnummer")=="alg") {
+			$aantal_deelnemers=1;
+		} elseif($db->f("persoonnummer")=="pers") {
+			$aantal_deelnemers=intval(@count(@preg_split("/,/",$db->f("deelnemers"))));
+		}
+		if($aantal_deelnemers>0) {
+			$commissie=round(($db->f("commissie")/100)*$db->f("verkoop"),2)*$aantal_deelnemers;
+			if($commissie<>0) {
+				$losseboeking_commissie[$db->f("boeking_id")]+=$commissie;
+			}
+		}
+	}
+
 	if($form->input["testsysteem"]) {
 
 	}
@@ -879,6 +904,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							if($kolom["opties_overig"]) {
 								$losseregel.="<td>".wt_cur(0)."</td>";
 							}
+							if($kolom["commissie_btw"]) {
+								$losseregel.="<td>".wt_cur($losseboeking["commissie_btw"])."</td>";
+							}
 							if($kolom["inkooptotaal"]) {
 								$losseregel.="<td>".wt_cur($losseboeking["inkooptot"])."</td>";
 							}
@@ -890,15 +918,6 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							}
 							if($kolom["betaald"]) {
 								$losseregel.="<td>".wt_cur($losseboeking_betaling["gar_".$db->f("garantie_id")])."</td>";
-							}
-							if($kolom["commissie_geen_btw"]) {
-								$losseregel.="<td>".wt_cur($losseboeking["commissie_geen_btw"])."</td>";
-							}
-							if($kolom["commissie_wel_btw"]) {
-								$losseregel.="<td>".wt_cur($losseboeking["commissie_wel_btw"])."</td>";
-							}
-							if($kolom["commissie_berekende_btw"]) {
-								$losseregel.="<td>".wt_cur($losseboeking["commissie_berekende_btw"])."</td>";
 							}
 							if($kolom["boeking_leverancier"]) {
 								$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("leverancier"))."</td>";
@@ -935,8 +954,25 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	}
 
 	# Gewone boekingen
-	$db->query("SELECT SUBSTR(b.boekingsnummer,2) AS sortboekingsnummer, b.seizoen_id, b.boeking_id, b.boekingsnummer, b.leverancier_id, b.type_id, b.aantalpersonen, b.aankomstdatum, b.totale_reissom, b.totale_reissom_inkoop, b.inkoopbruto, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, a.bestelnaam AS abestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, p.naam AS plaats, l.naam AS leverancier, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, skigebied s, leverancier l WHERE p.skigebied_id=s.skigebied_id AND b.leverancier_id=l.leverancier_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.totale_reissom_inkoop IS NOT NULL AND b.seizoen_id IN (".$seizoen_id.") AND CHAR_LENGTH(b.boekingsnummer)>0 AND b.type_id=t.type_id".$andquery.$andquery_hoofdquery." ORDER BY 1;");
+	$db->query("SELECT SUBSTR(b.boekingsnummer,2) AS sortboekingsnummer, b.seizoen_id, b.boeking_id, b.boekingsnummer, b.leverancier_id, b.type_id, b.aantalpersonen, b.aankomstdatum, b.totale_reissom, b.totale_reissom_inkoop, b.inkoopbruto, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.btw_over_commissie, b.btw_over_commissie_percentage, b.verkoop, b.commissie, a.bestelnaam AS abestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, p.naam AS plaats, l.naam AS leverancier, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, skigebied s, leverancier l WHERE p.skigebied_id=s.skigebied_id AND b.leverancier_id=l.leverancier_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.totale_reissom_inkoop IS NOT NULL AND b.seizoen_id IN (".$seizoen_id.") AND CHAR_LENGTH(b.boekingsnummer)>0 AND b.type_id=t.type_id".$andquery.$andquery_hoofdquery." ORDER BY 1;");
 	while($db->next_record()) {
+
+		# Commissie-btw berekenen
+		if($db->f("btw_over_commissie") and $db->f("btw_over_commissie_percentage")<>0) {
+
+			$commissie_totaal=0;
+			$commissie_totaal+=$db->f("verkoop")*($db->f("commissie")/100);
+
+			# commissie over opties
+			$commissie_totaal+=$losseboeking_commissie[$db->f("boeking_id")];
+
+			# btw berekenen
+			$commissie_btw+=$commissie_totaal*($db->f("btw_over_commissie_percentage")/100);
+		} else {
+			$commissie_btw=0;
+		}
+
+
 		if($fin["garantieboeking"][$db->f("boeking_id")]) {
 			$use_key="omzet_gar";
 		} else {
@@ -947,6 +983,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$totalen[$use_key]["aantalpersonen_max"][$db->f("seizoen_id")]+=$db->f("maxaantalpersonen");
 		$totalen[$use_key]["aantalacc"][$db->f("seizoen_id")]++;
 		$totalen[$use_key]["inkoopbruto"][$db->f("seizoen_id")]+=$db->f("inkoopbruto");
+		$totalen[$use_key]["commissie_btw"][$db->f("seizoen_id")]+=$commissie_btw;
 
 		$totalen[$use_key]["totaalfactuurbedrag"][$db->f("seizoen_id")]+=$db->f("totaalfactuurbedrag");
 
@@ -971,6 +1008,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$totalen_lev[$db->f("leverancier_id")]["aantalpersonen_max"][$db->f("seizoen_id")]+=$db->f("maxaantalpersonen");
 		$totalen_lev[$db->f("leverancier_id")]["aantalacc"][$db->f("seizoen_id")]++;
 		$totalen_lev[$db->f("leverancier_id")]["inkoopbruto"][$db->f("seizoen_id")]+=$db->f("inkoopbruto");
+		$totalen_lev[$db->f("leverancier_id")]["commissie_btw"][$db->f("seizoen_id")]+=$commissie_btw;
 		$totalen_lev[$db->f("leverancier_id")]["totaalfactuurbedrag"][$db->f("seizoen_id")]+=$db->f("totaalfactuurbedrag");
 
 
@@ -1067,6 +1105,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["opties_overig"]) {
 				$losseregel.="<td>".wt_cur($losseboeking_optieinkoop[$db->f("boeking_id")]["overig"])."</td>";
 			}
+			if($kolom["commissie_btw"]) {
+				$losseregel.="<td>".wt_cur($commissie_btw)."</td>";
+			}
 			if($kolom["inkooptotaal"]) {
 				$losseregel.="<td>".wt_cur($db->f("totale_reissom_inkoop"))."</td>";
 			}
@@ -1078,15 +1119,6 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			}
 			if($kolom["betaald"]) {
 				$losseregel.="<td>".wt_cur($losseboeking_betaling[$db->f("boeking_id")])."</td>";
-			}
-			if($kolom["commissie_geen_btw"]) {
-				$losseregel.="<td>".wt_cur($losseboeking["commissie_geen_btw"])."</td>";
-			}
-			if($kolom["commissie_wel_btw"]) {
-				$losseregel.="<td>".wt_cur($losseboeking["commissie_wel_btw"])."</td>";
-			}
-			if($kolom["commissie_berekende_btw"]) {
-				$losseregel.="<td>".wt_cur($losseboeking["commissie_berekende_btw"])."</td>";
 			}
 			if($kolom["boeking_leverancier"]) {
 				$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("leverancier"))."</td>";
@@ -1215,6 +1247,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		if($kolom["opties_overig"]) {
 			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_overig"])."\">Overig</th>";
 		}
+		if($kolom["commissie_btw"]) {
+			echo "<th title=\"BTW over commissie\">BTW</th>";
+		}
 		if($kolom["inkooptotaal"]) {
 			echo "<th title=\"Inkoop totaal\">Inkoop tot.</th>";
 		}
@@ -1226,15 +1261,6 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 		if($kolom["betaald"]) {
 			echo "<th>Betaald</th>";
-		}
-		if($kolom["commissie_geen_btw"]) {
-			echo "<th title=\"Commissie waarover geen BTW van toepassing is\">Comm. geen BTW</th>";
-		}
-		if($kolom["commissie_wel_btw"]) {
-			echo "<th title=\"Commissie waarover BTW van toepassing is\">Comm. wel BTW</th>";
-		}
-		if($kolom["commissie_berekende_btw"]) {
-			echo "<th title=\"Commissie berekende BTW\">Comm. BTW ber.</th>";
 		}
 		if($kolom["boeking_leverancier"]) {
 			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_plaats"])."\">B: Leverancier</th>";
@@ -1335,6 +1361,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["opties_overig"]) {
 				echo "<td>".wt_cur($totalen[$key2]["opties_overig"][$key])."</td>";
 			}
+			if($kolom["commissie_btw"]) {
+				echo "<td>".wt_cur($totalen[$key2]["commissie_btw"][$key])."</td>";
+			}
 			if($kolom["inkooptotaal"]) {
 				echo "<td>".wt_cur($totalen[$key2]["totale_reissom_inkoop"][$key])."</td>";
 			}
@@ -1346,15 +1375,6 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			}
 			if($kolom["betaald"]) {
 				echo "<td>".wt_cur($totalen[$key2]["betaald_bedrag_goedgekeurd"][$key])."</td>";
-			}
-			if($kolom["commissie_geen_btw"]) {
-				echo "<td>".wt_cur($totalen[$key2]["commissie_geen_btw"][$key])."</td>";
-			}
-			if($kolom["commissie_wel_btw"]) {
-				echo "<td>".wt_cur($totalen[$key2]["commissie_wel_btw"][$key])."</td>";
-			}
-			if($kolom["commissie_berekende_btw"]) {
-				echo "<td>".wt_cur($totalen[$key2]["commissie_berekende_btw"][$key])."</td>";
 			}
 			if($kolom["boeking_leverancier"]) {
 				echo "<td>&nbsp;</td>";
@@ -1443,6 +1463,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				if($kolom["opties_overig"]) {
 					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["opties_overig"][$key])."</td>";
 				}
+				if($kolom["commissie_btw"]) {
+					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["commissie_btw"][$key])."</td>";
+				}
 				if($kolom["inkooptotaal"]) {
 					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["totale_reissom_inkoop"][$key])."</td>";
 				}
@@ -1454,15 +1477,6 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				}
 				if($kolom["betaald"]) {
 					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["betaald_bedrag_goedgekeurd"][$key])."</td>";
-				}
-				if($kolom["commissie_geen_btw"]) {
-					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["commissie_geen_btw"][$key])."</td>";
-				}
-				if($kolom["commissie_wel_btw"]) {
-					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["commissie_wel_btw"][$key])."</td>";
-				}
-				if($kolom["commissie_berekende_btw"]) {
-					echo "<td>".wt_cur($totalen_lev[$db->f("leverancier_id")]["commissie_berekende_btw"][$key])."</td>";
 				}
 				if($kolom["boeking_leverancier"]) {
 					echo "<td>&nbsp;</td>";

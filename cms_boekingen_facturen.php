@@ -580,7 +580,7 @@ if($form->okay) {
 
 			# BTW over commissie
 			if($gegevens["fin"]["commissie_btw"]<>0) {
-				factuur_opties("",txt("commissie_btw","factuur")." (".number_format($gegevens["stap1"]["btw_over_commissie_percentage"],0)."%)",0-$gegevens["fin"]["commissie_btw"],"plaintext",0,true);
+				factuur_opties("",txt("commissie_btw","factuur",array("v_btwpercentage"=>number_format($gegevens["stap1"]["btw_over_commissie_percentage"],0),"v_commissiezonderbtw"=>number_format($gegevens["fin"]["commissie_accommodatie"]+$gegevens["fin"]["commissie_opties"],2,",","."))),0-$gegevens["fin"]["commissie_btw"],"plaintext",0,true);
 			}
 
 			factuur_opties("","","","optellen");

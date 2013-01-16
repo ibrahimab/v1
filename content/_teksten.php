@@ -3887,8 +3887,8 @@ $txt["en"]["factuur"]["commissie_accommodatie"]="Commission accommodation";
 $txt["nl"]["factuur"]["commissie_opties"]="Commissie opties";
 $txt["en"]["factuur"]["commissie_opties"]="Commission options";
 
-$txt["nl"]["factuur"]["commissie_btw"]="BTW over commissie";
-$txt["en"]["factuur"]["commissie_btw"]="VAT over commission";
+$txt["nl"]["factuur"]["commissie_btw"]="[[v_btwpercentage]]% BTW over € [[v_commissiezonderbtw]] commissie";
+$txt["en"]["factuur"]["commissie_btw"]="[[v_btwpercentage]]% VAT over € [[v_commissiezonderbtw]] commission";
 
 $txt["nl"]["factuur"]["commissie_diverse_percentages"]="diverse percentages";
 $txt["en"]["factuur"]["commissie_diverse_percentages"]="several percentages";

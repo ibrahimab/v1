@@ -86,6 +86,8 @@ if($login->logged_in) {
 						}
 					}
 					echo "</a><p>";
+				} elseif($mustlogin and $_GET["bid"]) {
+					echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".intval($_GET["bid"])."\">".html("terugnaardeoverzichtspagina","bsys")."</a>";
 				}
 			} else {
 				if($mustlogin) {

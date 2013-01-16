@@ -1908,27 +1908,32 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			# Commissie BTW
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
-			$return.="<tr style=\"".(!$kleurteller ? "background-color:#ebebeb" : "")."\"".$temp_class."><td valign=\"top\" style=\"padding-right:10px\" colspan=\"".(0+$extra_colspan)."\">".html("commissie_btw","vars");
-			$return.="</td>".$extra_td;
-
-			$return.="<td valign=\"top\" style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">";
-			$return.=number_format($gegevens["stap1"]["btw_over_commissie_percentage"],0,',','.')."%";
-			$return.="</td>";
-			$return.="<td valign=\"top\" nowrap style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" style=\"padding-right:10px\">=</td>";
-
-			$return.="<td style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td valign=\"top\" style=\"padding-right:10px\">".html("commissie_btw","vars");
+			$return.="</td>".$extra_td."<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_accommodatie"]+$gegevens["fin"]["commissie_opties"],2,',','.')."</td>";
+			$return.="<td valign=\"top\" style=\"padding-right:10px\" nowrap> x ".number_format($gegevens["stap1"]["btw_over_commissie_percentage"],0,',','.')."%</td><td style=\"padding-right:10px\">=</td>";
+			$return.="<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
 			$return.="<td valign=\"top\">&nbsp;</td>";
 			$return.="</tr>";
 
-
 			# Inkoop (negatieve inkoop btw)
 			if($inkoop) {
+
 				$kleurteller_inkoop++;
 				if($kleurteller_inkoop>1) unset($kleurteller_inkoop);
-				$return_inkoop.="<tr style=\"".(!$kleurteller_inkoop ? "background-color:#ebebeb" : "")."\"><td valign=\"top\" style=\"padding-right:10px\" colspan=\"".(5+$extra_colspan)."\">".html("commissie_btw","vars");
-				$return_inkoop.="<td style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format(0-$gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
+				$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td valign=\"top\" style=\"padding-right:10px\">".html("commissie_btw","vars");
+				$return_inkoop.="</td><td>&nbsp;</td><td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_accommodatie"]+$gegevens["fin"]["commissie_opties"],2,',','.')."</td>";
+				$return_inkoop.="<td valign=\"top\" style=\"padding-right:10px\" nowrap> x ".number_format($gegevens["stap1"]["btw_over_commissie_percentage"],0,',','.')."%</td><td style=\"padding-right:10px\">=</td>";
+				$return_inkoop.="<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format(0-$gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
 				$return_inkoop.="<td valign=\"top\">&nbsp;</td>";
 				$return_inkoop.="</tr>";
+
+
+				// $kleurteller_inkoop++;
+				// if($kleurteller_inkoop>1) unset($kleurteller_inkoop);
+				// $return_inkoop.="<tr style=\"".(!$kleurteller_inkoop ? "background-color:#ebebeb" : "")."\"><td valign=\"top\" style=\"padding-right:10px\" colspan=\"".(5+$extra_colspan)."\">".html("commissie_btw","vars");
+				// $return_inkoop.="<td style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format(0-$gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
+				// $return_inkoop.="<td valign=\"top\">&nbsp;</td>";
+				// $return_inkoop.="</tr>";
 
 				$inkoop_totaal=$inkoop_totaal-$gegevens["fin"]["commissie_btw"];
 			}
