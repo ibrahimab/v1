@@ -24,6 +24,10 @@ hr {
 	border: 0px;
 }
 
+.grey {
+	color: #777777;
+}
+
 .greyhr {
 	color: #cccccc;
 	background-color: #cccccc;

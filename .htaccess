@@ -341,7 +341,7 @@ php_value memory_limit 512M
 </Files>
 
 <Files cms_xmlnewimport.php>
-php_value memory_limit 256M
+php_value memory_limit 512M
 </Files>
 
 <Files elkuur.php>
