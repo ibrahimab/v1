@@ -8,6 +8,9 @@ cache/
 Thumbs.db
 .DS_Store*
 
+# phptidy
+.phptidy-cache
+
 # afbeeldingen via CMS
 pic/cms/
 

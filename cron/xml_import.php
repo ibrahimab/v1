@@ -254,10 +254,10 @@ if($testsysteem) {
 #	$xml_urls[11][2]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
 #	$xml_urls[12][1]=$test_tmpdir."deuxalpes.xml";
 #	$soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
-#	$xml_urls[14][1]=$test_tmpdir."deuxalpes.xml";
+	$xml_urls[14][1]=$test_tmpdir."deuxalpes.xml";
 #	$soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
-	$xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
-	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
+#	$xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
+#	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
 #	$xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
 #	$xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 #	$xml_urls[17][1]=$temp_filename[17];
@@ -698,11 +698,22 @@ while(list($key,$value)=@each($xml_urls)) {
 								# Doorlopen van begin tot eind
 								$week=$datum_begin;
 								while($week<$datum_eind) {
-									unset($tempprijs);
+									unset($tempprijs,$hoogste_prijs);
+
+									# Kijken wat de hoogste prijs is (er worden altijd 3 bedragen verzonden)
 									if(is_object($value5->price1->amount)) {
-										$tempprijs=floatval(trim($value5->price1->amount));
-#									} elseif(is_object($value5->price1->amount)) {
-#										$tempprijs=floatval(trim($value5->price1->amount));
+										$hoogste_prijs[1]=floatval(trim($value5->price1->amount));
+									}
+									if(is_object($value5->price2->amount)) {
+										$hoogste_prijs[2]=floatval(trim($value5->price2->amount));
+									}
+									if(is_object($value5->price3->amount)) {
+										$hoogste_prijs[3]=floatval(trim($value5->price3->amount));
+									}
+									if(is_array($hoogste_prijs)) {
+										$tempprijs=max($hoogste_prijs);
+									} else {
+										$tempprijs=0;
 									}
 									if($tempprijs) {
 										$xml_brutoprijs[$key][$use_key][$week]=$tempprijs*7;
