@@ -7,11 +7,6 @@ if($_GET["gar_id"]) {
 }
 include("admin/vars.php");
 
-if(!$login->has_priv("5")) {
-	header("Location: cms.php");
-	exit;
-}
-
 if($_GET["bid"]) {
 	$gegevens=get_boekinginfo($_GET["bid"]);
 } elseif($_GET["gar_id"]) {
@@ -20,9 +15,9 @@ if($_GET["bid"]) {
 
 		$vars["temp_garantieinfo"]["naam"]=$db->f("garantie");
 		$vars["temp_garantieinfo"]["accnaam"]=$vars["alletypes"][$db->f("type_id")];
-	
+
 #	echo wt_dump($vars["temp_garantieinfo"]);
-	
+
 		$gegevens["stap1"]["leverancierid"]=$db->f("leverancier_id");
 		$gegevens["stap1"]["inkoopbruto"]=$db->f("bruto");
 		$gegevens["stap1"]["inkoopcommissie"]=$db->f("korting_percentage");
@@ -35,11 +30,11 @@ if($_GET["bid"]) {
 		$gegevens["stap1"]["inkoopaanbetaling_gewijzigd"]=$db->f("inkoopaanbetaling_gewijzigd");
 		$gegevens["stap1"]["inkoopfactuurdatum"]=$db->f("inkoopfactuurdatum");
 		$gegevens["stap1"]["aankomstdatum_exact"]=$db->f("aankomstdatum_exact");
-	}		
+	}
 }
 
 
-if($_POST["opmfilled"]==1) {
+if($_POST["opmfilled"]==1 and $login->has_priv("5")) {
 	# Opmerking opslaan
 	$db->query("UPDATE boeking SET factuur_opmerkingen='".addslashes($_POST["opmerkingen"])."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 	cmslog_pagina_title("opmerkingen factuur");
@@ -49,10 +44,10 @@ if($_POST["opmfilled"]==1) {
 	exit;
 }
 
-if($_POST["inkoopaanbetaling_gewijzigd_filled"]) {
+if($_POST["inkoopaanbetaling_gewijzigd_filled"] and $login->has_priv("5")) {
 	if($_POST["inkoopaanbetaling_gewijzigd"]=="") {
 		if($_GET["gar_id"]) {
-			$db->query("UPDATE garantie SET inkoopaanbetaling_gewijzigd=NULL WHERE garantie_id='".addslashes($_GET["gar_id"])."';");		
+			$db->query("UPDATE garantie SET inkoopaanbetaling_gewijzigd=NULL WHERE garantie_id='".addslashes($_GET["gar_id"])."';");
 		} else {
 			$db->query("UPDATE boeking SET inkoopaanbetaling_gewijzigd=NULL WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 			chalet_log("inkoopaanbetaling: handmatig bedrag gewist",true,true);
@@ -83,7 +78,7 @@ while($db2->next_record()) {
 		$vars["temp_al_betaald"]+=$db2->f("bedrag_goedgekeurd");
 		if($db2->f("bedrag_goedgekeurd")<>$db2->f("bedrag")) {
 			$vars["temp_boeking_betaling_lev_verschil"][$db2->f("boeking_betaling_lev_id")]="<span style=\"color:red;font-weight:bold;\">verschil tussen onderweg en betaald: € ".number_format($db2->f("bedrag")-$db2->f("bedrag_goedgekeurd"),2,",",".")."</span>";
-		}	
+		}
 	} else {
 		$vars["temp_al_betaald"]+=$db2->f("bedrag");
 	}

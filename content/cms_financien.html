@@ -1592,6 +1592,8 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	echo "<li><a href=\"cms_financien_betalingen.php?openstaand=1\">Overzicht binnenkomende betalingen en aanmaningen</a> (klanten)</li>";
 	if($login->has_priv(5)) {
 		echo "<li><a href=\"cms_financien_betalingen.php?uitgaand=1\">Overzicht uitgaande betalingen</a> (leveranciers)</li>";
+	} else {
+		echo "<li><a href=\"cms_financien_betalingen.php?uitgaand=1\">Openstaande inkoopfacturen</a> (leveranciers)</li>";
 	}
 	if(($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28)) {
 		echo "<li><a href=\"cms_financien.php?marges=1\">Totaaloverzicht financi&euml;n</a></li>";

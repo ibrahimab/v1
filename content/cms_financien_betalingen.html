@@ -8,7 +8,14 @@ if($_GET["uitgaand"]==1) {
 #	echo "<style>\n#wrapper {\nwidth: 1400px;\n}#content {\nwidth:1200px;\n}\n</style>";
 
 	# leveranciers laden
-	$leveranciers_array[0]="-- Alle leveranciers --";
+	if($login->has_priv(5)) {
+		# Aleen bij juist privilege alle leveranciers kunnen opvragen
+		$leveranciers_array[0]="-- Alle leveranciers --";
+	} else {
+		# Anders: leverancier wordt bepaald door $_GET["pv_leverancier_id"]
+		$leveranciers_array[0]="-- Selecteer een leverancier --";
+		$leverancier_id=intval($_GET["pv_leverancier_id"]);
+	}
 	$db->query("SELECT leverancier_id, naam FROM leverancier WHERE beheerder=0 ORDER BY naam;");
 	while($db->next_record()) {
 		$leveranciers_array[$db->f("leverancier_id")]=$db->f("naam");
@@ -47,9 +54,14 @@ if($_GET["uitgaand"]==1) {
 		if($form->input["begindatum"]["unixtime"]) {
 			$begindatum=$form->input["begindatum"]["unixtime"];
 		}
-		if($form->input["leverancier_id"]) {
-			$andquery.=" AND l.leverancier_id='".addslashes($form->input["leverancier_id"])."'";
+		$leverancier_id=$form->input["leverancier_id"];
+	}
+	if($login->has_priv(5)) {
+		if($leverancier_id) {
+			$andquery.=" AND l.leverancier_id='".addslashes($leverancier_id)."'";
 		}
+	} else {
+		$andquery.=" AND l.leverancier_id='".addslashes($leverancier_id)."'";
 	}
 
 	if(!$form->error) {
@@ -88,8 +100,8 @@ if($_GET["uitgaand"]==1) {
 			}
 		}
 
-		$query["boekingen"]="SELECT b.boeking_id, b.boekingsnummer, b.factuurnummer_leverancier, b.leverancier_id, UNIX_TIMESTAMP(b.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.inkoopaanbetaling_gewijzigd, b.inkoopbruto, b.inkoopcommissie, l.naam AS leverancier FROM boeking b, leverancier l WHERE b.boekingsnummer<>'' AND b.leverancier_id=l.leverancier_id AND b.seizoen_id>=17".$andquery.";";
-		$query["garanties"]="SELECT g.garantie_id, UNIX_TIMESTAMP(g.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(g.inkoopdatum) AS bevestigdatum, g.aankomstdatum_exact, g.factuurnummer AS factuurnummer_leverancier, g.reserveringsnummer_extern AS boekingsnummer, g.netto AS totaalfactuurbedrag, g.bruto AS inkoopbruto, g.inkoopaanbetaling_gewijzigd, g.korting_percentage AS inkoopcommissie, l.leverancier_id, l.naam AS leverancier FROM garantie g, type t, leverancier l WHERE 1=1 AND g.aankomstdatum>1306879200 AND g.boeking_id=0 AND g.leverancier_id=l.leverancier_id AND g.type_id=t.type_id".$andquery.";";
+		$query["boekingen"]="SELECT b.boeking_id, b.boekingsnummer, b.factuurnummer_leverancier, b.leverancier_id, UNIX_TIMESTAMP(b.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.inkoopaanbetaling_gewijzigd, b.inkoopbruto, b.inkoopcommissie, l.naam AS leverancier, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, leverancier l WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.boekingsnummer<>'' AND b.leverancier_id=l.leverancier_id AND b.seizoen_id>=17".$andquery.";";
+		$query["garanties"]="SELECT g.garantie_id, UNIX_TIMESTAMP(g.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(g.inkoopdatum) AS bevestigdatum, g.aankomstdatum_exact, g.factuurnummer AS factuurnummer_leverancier, g.reserveringsnummer_extern AS boekingsnummer, g.netto AS totaalfactuurbedrag, g.bruto AS inkoopbruto, g.inkoopaanbetaling_gewijzigd, g.korting_percentage AS inkoopcommissie, g.naam AS garantienaam, l.leverancier_id, l.naam AS leverancier FROM garantie g, type t, leverancier l WHERE 1=1 AND g.aankomstdatum>1306879200 AND g.boeking_id=0 AND g.leverancier_id=l.leverancier_id AND g.type_id=t.type_id".$andquery.";";
 
 		while(list($key0,$value0)=each($query)) {
 			$db->query($value0);
@@ -99,8 +111,10 @@ if($_GET["uitgaand"]==1) {
 
 				if($key0=="garanties") {
 					$boeking_key="gar_".$db->f("garantie_id");
+					$naam_hoofdboeker="Naam garantie: ".$db->f("garantienaam");
 				} else {
 					$boeking_key=$db->f("boeking_id");
+					$naam_hoofdboeker="Hoofdboeker: ".wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
 				}
 
 				# Aanbetaling
@@ -217,11 +231,16 @@ if($_GET["uitgaand"]==1) {
 							}
 							$regel[$use_key]="<tr style=\"height:27px;background-color:".$bgcolor."\"><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td>".htmlentities($db->f("factuurnummer_leverancier"))."</td><td nowrap>";
 							if($key0=="garanties") {
-								$regel[$use_key].="<a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">garantie ".htmlentities($db->f("boekingsnummer"))."</a>";
+								$regel[$use_key].="<a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\" title=\"".wt_he($naam_hoofdboeker)."\">garantie ".htmlentities($db->f("boekingsnummer"))."</a>";
 							} else {
-								$regel[$use_key].="<a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities(substr($db->f("boekingsnummer"),1))."</a>";
+#								$regel[$use_key].="<a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities(substr($db->f("boekingsnummer"),1))."</a>";
+								$regel[$use_key].="<a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\" title=\"".wt_he($naam_hoofdboeker)."\">".htmlentities(substr($db->f("boekingsnummer"),1))."</a>";
 							}
-							$regel[$use_key].="</td><td align=\"right\">".number_format($bedrag_eindbetaling_openstaand,2,",",".")."</td><td>".($advies_nu<>0 ? date("d-m-Y",$advies_datum) : "&nbsp;")."</td><td align=\"right\" nowrap>".($advies_nu<>0 ? number_format($advies_nu,2,",",".") : "&nbsp;")."</td>";
+							$regel[$use_key].="</td><td align=\"right\"><a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">".number_format($bedrag_eindbetaling_openstaand,2,",",".")."</a></td>";
+							if($login->has_priv(5)) {
+								$regel[$use_key].="<td>".($advies_nu<>0 ? date("d-m-Y",$advies_datum) : "&nbsp;")."</td>";
+							}
+							$regel[$use_key].="<td align=\"right\" nowrap>".($advies_nu<>0 ? number_format($advies_nu,2,",",".") : "&nbsp;")."</td>";
 							if($melding) {
 								$regel[$use_key].="<td colspan=\"5\" style=\"background-color:yellow;font-style:italic;\">";
 								while(list($key,$value)=each($melding)) {
@@ -230,7 +249,7 @@ if($_GET["uitgaand"]==1) {
 								}
 								$regel[$use_key].="</td>";
 							} else {
-								$regel[$use_key].="<td>".($advies_nu ? "<input type=\"checkbox\" name=\"nieuwebetaling[".$boeking_key."]\" class=\"nieuwebetaling_checkbox nieuwebetaling_checkbox_".$db->f("leverancier_id")."\" value=\"".$advies_nu."\">" : "&nbsp;")."</td><td align=\"right\">".($betaling[$boeking_key]["onderweg"] ? number_format($betaling[$boeking_key]["onderweg"],2,",",".") : "&nbsp;")."</td><td>".($betaling[$boeking_key]["onderweg"]&&@count($boeking_betaling_lev[$boeking_key])==1 ? "<input type=\"checkbox\" name=\"nieuwegoedkeuring[".$betaling[$boeking_key]["boeking_betaling_lev_id"]."]\" class=\"nieuwegoedkeuring_checkbox nieuwegoedkeuring_checkbox_".$db->f("leverancier_id")."\" value=\"".$betaling[$boeking_key]["onderweg"]."\" class=\"nieuwegoedkeuring\">" : "&nbsp;")."</td><td align=\"right\">".($betaald ? number_format($betaald,2,",",".") : "&nbsp;")."</td><td align=\"right\">".($verschil ? number_format($verschil,2,",",".") : "&nbsp;")."</td></tr>";
+								$regel[$use_key].="<td>".($advies_nu&&$login->has_priv(5) ? "<input type=\"checkbox\" name=\"nieuwebetaling[".$boeking_key."]\" class=\"nieuwebetaling_checkbox nieuwebetaling_checkbox_".$db->f("leverancier_id")."\" value=\"".$advies_nu."\">" : "&nbsp;")."</td><td align=\"right\">".($betaling[$boeking_key]["onderweg"] ? number_format($betaling[$boeking_key]["onderweg"],2,",",".") : "&nbsp;")."</td><td>".($betaling[$boeking_key]["onderweg"]&&@count($boeking_betaling_lev[$boeking_key])==1&&$login->has_priv(5) ? "<input type=\"checkbox\" name=\"nieuwegoedkeuring[".$betaling[$boeking_key]["boeking_betaling_lev_id"]."]\" class=\"nieuwegoedkeuring_checkbox nieuwegoedkeuring_checkbox_".$db->f("leverancier_id")."\" value=\"".$betaling[$boeking_key]["onderweg"]."\" class=\"nieuwegoedkeuring\">" : "&nbsp;")."</td><td align=\"right\">".($betaald ? number_format($betaald,2,",",".") : "&nbsp;")."</td><td align=\"right\">".($verschil ? number_format($verschil,2,",",".") : "&nbsp;")."</td></tr>";
 							}
 						}
 					}
@@ -239,8 +258,15 @@ if($_GET["uitgaand"]==1) {
 		}
 
 		function totalen_leverancier($leverancierid,$totaal) {
-			$return.="<tr style=\"background-color:grey;color:#ffffff;\"><td><b>Totaal</b></td><td>&nbsp;</td><td>&nbsp;</td><td align=\"right\">".number_format($totaal["openstaand"][$leverancierid],2,",",".")."</td><td>&nbsp;</td><td align=\"right\">".number_format($totaal["advies_nu"][$leverancierid],2,",",".")."</td><td>".($totaal["advies_nu"][$leverancierid]<>0 ? "<input type=\"checkbox\" class=\"nieuwebetaling_checkbox_alles\">" : "&nbsp;")."</td><td align=\"right\">".number_format($totaal["onderweg"][$leverancierid],2,",",".")."</td><td>".($totaal["onderweg"][$leverancierid]<>0 ? "<input type=\"checkbox\" class=\"nieuwegoedkeuring_checkbox_alles\">" : "&nbsp;")."</td><td align=\"right\">".number_format($totaal["betaald"][$leverancierid],2,",",".")."</td><td align=\"right\">".number_format($totaal["verschil"][$leverancierid],2,",",".")."</td></tr>";
-			$return.="<tr style=\"background-color:grey;color:#ffffff;\"><td colspan=\"4\">&nbsp;</td><td colspan=\"3\" align=\"right\"><span id=\"betaaltotaal_".$leverancierid."\"></span>&nbsp;&nbsp;<input type=\"submit\" value=\" onderweg &rarr; \" class=\"submit_disable\" id=\"betaalbutton_lev_".$leverancierid."\" disabled></td><td colspan=\"3\" align=\"right\"><span id=\"goedkeurtotaal_".$leverancierid."\"></span>&nbsp;&nbsp;<input type=\"submit\" value=\" betaald &rarr; \" class=\"submit_disable\" id=\"goedkeurbutton_lev_".$leverancierid."\" disabled></td><td colspan=\"1\">&nbsp;</td></tr>";
+			global $login;
+			$return.="<tr style=\"background-color:grey;color:#ffffff;\"><td><b>Totaal</b></td><td>&nbsp;</td><td>&nbsp;</td><td align=\"right\">".number_format($totaal["openstaand"][$leverancierid],2,",",".")."</td>";
+			if($login->has_priv(5)) {
+				$return.="<td>&nbsp;</td>";
+			}
+			$return.="<td align=\"right\">".number_format($totaal["advies_nu"][$leverancierid],2,",",".")."</td><td>".($totaal["advies_nu"][$leverancierid]<>0&&$login->has_priv(5) ? "<input type=\"checkbox\" class=\"nieuwebetaling_checkbox_alles\">" : "&nbsp;")."</td><td align=\"right\">".number_format($totaal["onderweg"][$leverancierid],2,",",".")."</td><td>".($totaal["onderweg"][$leverancierid]<>0&&$login->has_priv(5) ? "<input type=\"checkbox\" class=\"nieuwegoedkeuring_checkbox_alles\">" : "&nbsp;")."</td><td align=\"right\">".number_format($totaal["betaald"][$leverancierid],2,",",".")."</td><td align=\"right\">".number_format($totaal["verschil"][$leverancierid],2,",",".")."</td></tr>";
+			if($login->has_priv(5)) {
+				$return.="<tr style=\"background-color:grey;color:#ffffff;\"><td colspan=\"4\">&nbsp;</td><td colspan=\"3\" align=\"right\"><span id=\"betaaltotaal_".$leverancierid."\"></span>&nbsp;&nbsp;<input type=\"submit\" value=\" onderweg &rarr; \" class=\"submit_disable\" id=\"betaalbutton_lev_".$leverancierid."\" disabled></td><td colspan=\"3\" align=\"right\"><span id=\"goedkeurtotaal_".$leverancierid."\"></span>&nbsp;&nbsp;<input type=\"submit\" value=\" betaald &rarr; \" class=\"submit_disable\" id=\"goedkeurbutton_lev_".$leverancierid."\" disabled></td><td colspan=\"1\">&nbsp;</td></tr>";
+			}
 
 			return $return;
 		}
@@ -256,7 +282,7 @@ if($_GET["uitgaand"]==1) {
 			echo "</div>";
 			echo "<table cellspacing=\"0\" class=\"tbl\">";
 
-			if(!$form->input["leverancier_id"]) {
+			if(!$leverancier_id) {
 				echo "<tr><th>aankomst</th><th>factuurnummer</th><th>reserveringsnr</th><th>openstaand</th><th>op datum</th><th>te betalen</th><th>&nbsp;</th><th>onderweg</th><th>&nbsp;</th><th>betaald</th><th>verschil</th></tr>";
 				echo "<tr style=\"background-color:grey;color:#ffffff;\"><td><b>Totaal</b></td><td>&nbsp;</td><td>&nbsp;</td><td align=\"right\">".number_format(@array_sum($totaal["openstaand"]),2,",",".")."</td><td>&nbsp;</td><td align=\"right\">".number_format(@array_sum($totaal["advies_nu"]),2,",",".")."</td><td>&nbsp;</td><td align=\"right\">".number_format(@array_sum($totaal["onderweg"]),2,",",".")."</td><td>&nbsp;</td><td align=\"right\">".number_format(@array_sum($totaal["betaald"]),2,",",".")."</td><td align=\"right\">".number_format(@array_sum($totaal["verschil"]),2,",",".")."</td></tr>";
 			}
@@ -276,7 +302,11 @@ if($_GET["uitgaand"]==1) {
 						echo "<tr><td colspan=\"13\"><a name=\"lev_".$regs[2]."\"></a><br><br><b>Leverancier: <a href=\"".$vars["path"]."cms_leveranciers.php?show=8&beheerder=0&8k0=".$regs[2]."\" target=\"_blank\">".htmlentities($regs[1])."</a></b>";
 						echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"lev_form_".$regs[2]."\"><input type=\"hidden\" name=\"inkoopbetalingen_filled\" value=\"1\"><input type=\"hidden\" name=\"leverancier_id\" value=\"".$regs[2]."\">";
 						echo "</tr>";
-						echo "<tr><th>aankomst</th><th>factuurnummer</th><th>reserveringsnr</th><th>openstaand</th><th>op datum</th><th>te betalen</th><th><span style=\"visibility:hidden;\"><input type=\"checkbox\"></span></th><th>onderweg</th><th><span style=\"visibility:hidden;\"><input type=\"checkbox\"></span></th><th>betaald</th><th>verschil</th></tr>";
+						echo "<tr><th>aankomst</th><th>factuurnummer</th><th>reserveringsnr</th><th>openstaand</th>";
+						if($login->has_priv(5)) {
+							echo "<th>op datum</th>";
+						}
+						echo "<th>te betalen</th><th><span style=\"visibility:hidden;\"><input type=\"checkbox\"></span></th><th>onderweg</th><th><span style=\"visibility:hidden;\"><input type=\"checkbox\"></span></th><th>betaald</th><th>verschil</th></tr>";
 						$al_gehad[$regs[2]]=true;
 						$laatste_leverancier=$regs[2];
 					}

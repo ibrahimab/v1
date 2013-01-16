@@ -938,7 +938,7 @@ $vars["priv"]=array(
 	1=>"Gebruikers beheren",
 	2=>"Verwijderen boeking",
 	3=>"Financiële gegevens beheren (export verkoopboekingen+debiteuren, xml-import betalingen)",
-	5=>"Inkomende betalingen bewerken + uitgaande betalingen inzien en beheren",
+	5=>"Inkomende betalingen bewerken + uitgaande betalingen beheren",
 	6=>"Opties wijzigen bij accommodaties met actieve boekingen",
 	7=>"Commissie per reisbureau aanpassen",
 	8=>"Zoekstatistieken inzien",
@@ -954,7 +954,7 @@ $vars["priv"]=array(
 	28=>"Totaaloverzicht financiën kunnen opvragen (buiten kantoor)",
 	29=>"Evenementen beheren",
 	30=>"Vertrekinfo-sjablonen beheren",
-); # LET OP! Bij doortellen rekening houden met $vars["cms_hoofdpagina_soorten"]
+); # LET OP! Bij doortellen rekening houden met $vars["cms_hoofdpagina_soorten"] (dus 11 t/m 20 niet gebruiken)
 
 while(list($key,$value)=each($vars["cms_hoofdpagina_soorten"])) {
 	if(!preg_match("/\(gereserveerd/",$value)) {

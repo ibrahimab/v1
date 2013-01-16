@@ -51,6 +51,9 @@ if($_GET["schoonmaakkosten"]) {
 		}
 
 		if(!$_GET["xmloverzicht"]) {
+			echo "<p><a href=\"".$vars["path"]."cms_financien_betalingen.php?uitgaand=1&pv_leverancier_id=".intval($_GET["8k0"])."\">Openstaande inkoopfacturen bekijken &raquo;</a></p>";
+			echo "<hr>";
+
 			echo "<p>Calculatie-sjablonen bewerken:<ul>";
 
 			# Calculatie-sjablonen

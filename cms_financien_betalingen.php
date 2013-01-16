@@ -5,7 +5,7 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
-if($_POST["inkoopbetalingen_filled"]) {
+if($_POST["inkoopbetalingen_filled"] and $login->has_priv(5)) {
 	# inkoopbetalingen aanmaken
 	while(list($key,$value)=@each($_POST["nieuwebetaling"])) {
 		if(preg_match("/^gar_([0-9]+)$/",$key,$regs)) {
@@ -16,8 +16,8 @@ if($_POST["inkoopbetalingen_filled"]) {
 			chalet_log("inkoopbetaling ".date("d-m-Y")." onderweg: € ".number_format($value,2,',','.'),true,true);
 		}
 	}
-	
-	# goedkeuring opslaan	
+
+	# goedkeuring opslaan
 	while(list($key,$value)=@each($_POST["nieuwegoedkeuring"])) {
 		$db->query("UPDATE boeking_betaling_lev SET bedrag_goedgekeurd='".addslashes($value)."', editdatetime=NOW() WHERE boeking_betaling_lev_id='".addslashes($key)."';");
 		$db->query("SELECT boeking_id FROM boeking_betaling_lev WHERE boeking_betaling_lev_id='".addslashes($key)."';");

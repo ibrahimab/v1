@@ -4,7 +4,7 @@ if($_GET["bid"]) {
 	echo boekingkoptekst($gegevens);
 } elseif($_GET["gar_id"]) {
 	echo "<h2>Garantie ".htmlentities($vars["temp_garantieinfo"]["accnaam"])." - ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])." - ".htmlentities($vars["temp_garantieinfo"]["naam"])."</h2>";
-	
+
 	echo "<p><a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".htmlentities($_GET["gar_id"])."\">Terug naar garantie</a></p>";
 }
 
@@ -13,9 +13,13 @@ if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegeven
 
 if($_GET["edit"]<>43 and $_GET["add"]<>43) {
 	echo "<hr>";
-	
+
 	if($_GET["bid"]) {
-		echo "<b>Opmerkingen factuur:</b><p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\"><input type=\"hidden\" name=\"opmfilled\" value=\"1\"><textarea name=\"opmerkingen\" cols=90 rows=4>".htmlentities($gegevens["stap1"]["factuur_opmerkingen"])."</textarea><br><input type=\"submit\" value=\" OPMERKINGEN OPSLAAN \"></form><hr>";
+		if($login->has_priv("5")) {
+			echo "<b>Opmerkingen factuur:</b><p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\"><input type=\"hidden\" name=\"opmfilled\" value=\"1\"><textarea name=\"opmerkingen\" cols=90 rows=4>".htmlentities($gegevens["stap1"]["factuur_opmerkingen"])."</textarea><br><input type=\"submit\" value=\" OPMERKINGEN OPSLAAN \"></form><hr>";
+		} elseif($gegevens["stap1"]["factuur_opmerkingen"]) {
+			echo "<b>Opmerkingen factuur:</b><p>".nl2br(wt_he($gegevens["stap1"]["factuur_opmerkingen"]))."</p><hr>";
+		}
 	}
 	echo "<b>Inkoopgegevens</b>";
 	echo "<br>&nbsp;<table border=\"0\" cellspacing=\"0\" cellpadding=\"6\">";
@@ -41,12 +45,12 @@ if($_GET["edit"]<>43 and $_GET["add"]<>43) {
 		}
 		$betalingssaldo=$gegevens["stap1"]["totaalfactuurbedrag"]-$gegevens["stap1"]["totaal_volgens_ontvangen_factuur"]+$gegevens["stap1"]["betalingsverschil"];
 		if($betalingssaldo<>0) {
-			echo "<tr style=\"color:".($betalingssaldo<0 ? "red" : "green").";font-style:italic;font-weight:bold;\"><td>Saldo factuurbedrag&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($betalingssaldo,2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";	
+			echo "<tr style=\"color:".($betalingssaldo<0 ? "red" : "green").";font-style:italic;font-weight:bold;\"><td>Saldo factuurbedrag&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($betalingssaldo,2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		}
 	}
 
 	echo "</table><hr>";
-	
+
 	# betalingsvoorwaarden leverancier ophalen
 	$db->query("SELECT naam, aanbetaling_dagen, aanbetaling_percentage, aanbetaling_euro, eindbetaling_dagen_aankomst, eindbetaling_dagen_factuur, aanbetaling_incl_toeslag FROM leverancier WHERE leverancier_id='".addslashes($gegevens["stap1"]["leverancierid"])."';");
 #	echo wt_dump($gegevens["stap1"]);
@@ -54,7 +58,7 @@ if($_GET["edit"]<>43 and $_GET["add"]<>43) {
 		echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"6\">";
 		echo "<tr><td><b>Factuurnummer leverancier</b></td><td align=\"right\">&nbsp;".($gegevens["stap1"]["factuurnummer_leverancier"] ? htmlentities($gegevens["stap1"]["factuurnummer_leverancier"]) : "<i>nog niet ingevoerd</i>")."</td></tr>";
 		echo "<tr><td><b>Ons factuurnummer</b></td><td align=\"right\">&nbsp;".($gegevens["stap1"]["boekingsnummer"] ? htmlentities($gegevens["stap1"]["boekingsnummer"]) : "<i>nog geen reserveringsnummer</i>")."</td></tr>";
-	
+
 		if($db->f("aanbetaling_percentage") or $db->f("aanbetaling_euro")) {
 			echo "<tr><td colspan=\"3\"><b>Aanbetaling</b> (";
 			if($db->f("aanbetaling_percentage")) {
@@ -112,7 +116,7 @@ if($_GET["edit"]<>43 and $_GET["add"]<>43) {
 			if($vars["temp_al_betaald"]<$gegevens["stap1"]["totaalfactuurbedrag"]) {
 				$bedrag_eindbetaling_openstaand=$gegevens["stap1"]["totaalfactuurbedrag"]-$vars["temp_al_betaald"];
 			} elseif($vars["temp_al_betaald"]>$gegevens["stap1"]["totaalfactuurbedrag"] and $vars["temp_al_betaald"]<>0) {
-				$bedrag_eindbetaling_openstaand=$gegevens["stap1"]["totaalfactuurbedrag"]-$vars["temp_al_betaald"];			
+				$bedrag_eindbetaling_openstaand=$gegevens["stap1"]["totaalfactuurbedrag"]-$vars["temp_al_betaald"];
 			}
 			echo "<tr style=\"".($bedrag_eindbetaling_openstaand>0&&$eindbetaling_unixtime<time() ? "color:red;" : "")."\"><td style=\"width:210px;\">Advies betaaldatum</td><td align=\"right\">".$datum1."</td><td>".$datum2."</td></tr>";
 			echo "<tr><td>Bedrag</td><td align=\"right\">&euro;&nbsp;&nbsp;".number_format($bedrag_eindbetaling,2,",",".")."</td><td>&nbsp;</td></tr>";
