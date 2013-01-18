@@ -694,6 +694,19 @@ if($_GET["t"]==1) {
 
 	echo "<br/><hr><br/>";
 
+	# Overzicht alle regio's van Zomerhuishe inclusief link (18-01-2013)
+	echo "<a name=\"plaatsenzomerhuisje\"></a><h2>Overzicht plaatsen Zomerhuisje</h2>";
+	echo "<table cellspacing=\"0\" class=\"tbl\">";
+	echo "<tr><th>Plaats</th><th>Regio</th><th>Land</th><th>URL</th></tr>";
+	$db->query("SELECT DISTINCT skigebied, plaats, land FROM view_accommodatie WHERE websites LIKE '%Z%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY land, skigebied;");
+	while($db->next_record()) {
+		$url="http://www.zomerhuisje.nl/plaats/".wt_convert2url($db->f("plaats"))."/";
+		echo "<tr><td>".wt_he($db->f("plaats"))."</td><td>".wt_he($db->f("skigebied"))."</td><td>".$db->f("land")."</td><td><a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($url)."</a></td></tr>";
+	}
+	echo "</table>";
+
+	echo "<br/><hr><br/>";
+
 	# Overzicht aantal aangeboden bedden per seizoen
 	echo "<h2>Aantal aangeboden bedden per seizoen</h2>";
 	echo "<ul>";
