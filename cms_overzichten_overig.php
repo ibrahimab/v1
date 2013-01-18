@@ -114,7 +114,9 @@ if($_GET["t"]==5) {
 	$form->field_htmlrow("","<b>Links naar nieuwsbrieven</b><br><br>per regel: <i>nieuwsbrief-nummer [spatie] Tekst</i><br><br><i>http://chaletnl.m16.mailplus.nl/archief/mailing-31311490.html</i> wordt: <i>31311490 28 november 2011 – De sneeuw komt eraan!</i>");
 	#$form->field_text(1,"test","test",array("field"=>"test")); # (opslaan in databaseveld "test")
 	$form->field_textarea(0,"winternieuwsbrieven","Chalet.nl-nieuwsbrieven",array("field"=>"winternieuwsbrieven"));
-	$form->field_textarea(0,"zomernieuwsbrieven","Italissima-nieuwsbrieven",array("field"=>"zomernieuwsbrieven"));
+	$form->field_textarea(0,"winternieuwsbrieven_be","Chalet.be-nieuwsbrieven",array("field"=>"winternieuwsbrieven_be"));
+	$form->field_textarea(0,"zomernieuwsbrieven","Italissima.nl-nieuwsbrieven",array("field"=>"zomernieuwsbrieven"));
+	$form->field_textarea(0,"zomernieuwsbrieven_be","Italissima.be-nieuwsbrieven",array("field"=>"zomernieuwsbrieven_be"));
 
 	$form->check_input();
 

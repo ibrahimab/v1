@@ -137,7 +137,7 @@ try {
 		<?php if($blinker_fields["per_wanneer"]) { ?>
 		<tr class="mpFormRow">
 			<td class="mpFormLabel">&nbsp;</td>
-			<td><table cellspacing="0" cellpadding="4" border="0"><tr><td colspan="2">Ik wil graag de Chalet.nl-nieuwsbrief ontvangen:</td></tr>
+			<td><table cellspacing="0" cellpadding="4" border="0"><tr><td colspan="2">Ik wil graag de <?php echo wt_he($vars["websitenaam"]); ?>-nieuwsbrief ontvangen:</td></tr>
 				<tr><td valign="top"><input type="radio" name="<?php echo $blinker_fields["per_wanneer"]; ?>" value="" id="per_wanneer1" checked></td><td><label for="per_wanneer1">per direct</label></td></tr>
 				<tr><td valign="top"><input type="radio" name="<?php echo $blinker_fields["per_wanneer"]; ?>" value="ja" id="per_wanneer2"></td><td><label for="per_wanneer2">tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen</label></td></tr></table>
 		</td>
@@ -156,7 +156,7 @@ try {
 	echo "</div>";
 
 	# eerder verstuurde nieuwsbrieven tonen (te bewerken via http://www.chalet.nl/cms_overzichten_overig.php?t=10)
-	$db->query("SELECT ".($vars["seizoentype"]==1 ? "winternieuwsbrieven" : "zomernieuwsbrieven")." AS nieuwsbrief FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+	$db->query("SELECT ".($vars["seizoentype"]==1 ? "winternieuwsbrieven" : "zomernieuwsbrieven").($vars["websiteland"]=="be" ? "_be" : "")." AS nieuwsbrief FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
 	if($db->next_record()) {
 		$nieuwsbrieven_array=preg_split("/\n/",$db->f("nieuwsbrief"));
 		while(list($key,$value)=@each($nieuwsbrieven_array)) {
