@@ -310,7 +310,7 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$hr="#003366";
 	$table="#003366";
 	$font="Verdana, Arial, Helvetica, sans-serif;";
-	$bodybgcolor="#ffffff";
+	$bodybgcolor="#ebebeb";
 	$thfontcolor="#ffffff";
 	$thfontsize="0.9em";
 	$activetabcolor="#e6007e";

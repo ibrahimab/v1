@@ -1617,6 +1617,9 @@ $txt["en"]["land"]["dichtklappen"]="Show less";
 
 #'Dit moet je zien! Ik heb een leuk chalet gevonden op Chalet.nl' en bij zomer 'Dit moet je zien! Ik heb een leuk vakantiehuis gevonden op Italissima'.
 
+$txt["nl"]["accommodatiemail"]["accommodatiedoormailen"]="Accommodatie doormailen";
+$txt["en"]["accommodatiemail"]["accommodatiedoormailen"]="Mail accommodation";
+
 $txt["nl"]["accommodatiemail"]["doormailtekst"]="Dit moet je zien! Ik heb een leuk [[v_soortaccommodatie]] gevonden op [[v_websitenaam]].";
 $txt["en"]["accommodatiemail"]["doormailtekst"]=" You have to see this! I have found an interesting [[v_soortaccommodatie]] on [[v_websitenaam]].";
 
@@ -1647,6 +1650,20 @@ $txt["en"]["accommodatiemail"]["captcha_onjuist"]="Incorrect input. [[h_1]]Pleas
 $txt["nl"]["accommodatiemail"]["versturen"]="mail versturen";
 $txt["en"]["accommodatiemail"]["versturen"]="send email";
 
+$txt["nl"]["accommodatiemail"]["verstuurdnaar"]="De accommodatie is verstuurd naar";
+$txt["en"]["accommodatiemail"]["verstuurdnaar"]="The accommodation has been sent to";
+
+$txt["nl"]["accommodatiemail"]["venstersluiten"]="Venster sluiten";
+$txt["en"]["accommodatiemail"]["venstersluiten"]="Close window";
+
+$txt["nl"]["accommodatiemail"]["onjuistmailadres"]="onjuist mailadres";
+$txt["en"]["accommodatiemail"]["onjuistmailadres"]="incorrect email address";
+
+$txt["nl"]["accommodatiemail"]["verplichtveld"]="verplicht veld";
+$txt["en"]["accommodatiemail"]["verplichtveld"]="compulsory field";
+
+$txt["nl"]["accommodatiemail"]["nietallevelden"]="niet alle velden zijn correct ingevuld";
+$txt["en"]["accommodatiemail"]["nietallevelden"]="not all fields are filled out correctly";
 
 #
 # Accommodatiepagina (bijvoorbeeld http://www.chalet.nl/accommodatie/F265/)

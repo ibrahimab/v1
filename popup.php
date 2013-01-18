@@ -80,7 +80,8 @@ $title["opties"]=txt("popuptitle_opties")." - ".$db->f("naam");
 $title["tarieventabel"]=ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam"];
 $title["zoektekst"]=txt("popuptitle_zoektekst");
 $title["annuleringsverzekering"]=txt("popuptitle_annuleringsverzekering");
-$title["stuurdoor"]=txt("popuptitle_stuurdoor");
+#$title["stuurdoor"]=txt("popuptitle_stuurdoor");
+$title["accommodatiemail"]=txt("popuptitle_stuurdoor");
 
 
 $noprint["tarieventabel"]=true;
@@ -276,7 +277,7 @@ if($_GET["id"]=="tarieventabel") {
 <BODY bgcolor="<?php echo $bodybgcolor; ?>"><TABLE border="0" style="background-color:<?php echo $table; ?>;border: solid 2px <?php echo $table; ?>" width="100%" height="100%" cellspacing="0" cellpadding="5">
 <?php
 
-echo "<TR><TD height=\"30\"><TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><TR><TD><FONT color=\"".$thfontcolor."\"><B>".htmlentities($title[$_GET["id"]])."&nbsp;</B></FONT></TD><TD width=\"20\">";
+echo "<TR><TD height=\"30\"><TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><TR><TD style=\"font-size:10pt;\"><FONT color=\"".$thfontcolor."\"><B>".htmlentities($title[$_GET["id"]])."&nbsp;</B></FONT></TD><TD width=\"20\">";
 if($noprint[$_GET["id"]]) {
 	echo "&nbsp;";
 } else {

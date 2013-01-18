@@ -1076,9 +1076,11 @@ $(document).ready(function() {
 						if(data.captcha_okay) {
 							$("#captcha_onjuist").hide();
 							$("#captcha_juist").show();
+							accommodatiemail_correct["captcha"]=true;
 						} else {
 							$("#captcha_juist").hide();
 							$("#captcha_onjuist").show();
+							accommodatiemail_correct["captcha"]=false;
 						}
 					}
 				});
@@ -1087,9 +1089,51 @@ $(document).ready(function() {
 
 		// CAPTCHA reloaden
 		$("#captcha_reload").click(function(event) {
+			$("input[name=captcha]").val("");
+			$("#captcha_onjuist").css("display","none");
 			d = new Date();
 			$("#captcha_img").attr("src",$("#captcha_img").attr("src")+d.getTime());
 			return false;
+		});
+
+
+		// controleren invoer formulier accommodatiemail
+
+		var accommodatiemail_correct=[];
+		$("#message_juist").show();
+		$("#accommodatiemail input, #accommodatiemail textarea").blur(function() {
+			var fieldname=$(this).attr("name");
+			if(fieldname!="captcha") {
+				$.getJSON(absolute_path+"rpc_json.php", {"t": 11,"name":$(this).attr("name"), "input":$(this).val()}, function(data) {
+					if(data.ok) {
+						if(data.field_okay) {
+							$("#"+fieldname+"_onjuist").hide();
+							$("#"+fieldname+"_juist").show();
+							accommodatiemail_correct[fieldname]=true;
+						} else {
+							$("#"+fieldname+"_juist").hide();
+							$("#"+fieldname+"_onjuist").html(data.foutmelding);
+							$("#"+fieldname+"_onjuist").show();
+							accommodatiemail_correct[fieldname]=false;
+						}
+					}
+				});
+			}
+		});
+
+		// verzendbutton: klopt alles?
+		$("#accommodatiemail_submit").click(function() {
+			if(accommodatiemail_correct["from"]===true && accommodatiemail_correct["to"]===true && accommodatiemail_correct["captcha"]===true) {
+				$("#submit_onjuist").hide();
+				return true;
+			} else {
+				$("#submit_onjuist").show();
+
+				setTimeout(function() {
+					$("#submit_onjuist").hide();
+				},3000);
+				return false;
+			}
 		});
 	}
 });

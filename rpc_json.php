@@ -678,7 +678,51 @@ if ( $_GET["t"]==1 ) {
 		}
 		$return["input"]=$_SESSION["captcha_random_number"]."==".$_GET["input"];
 	}
+} elseif($_GET["t"]==11) {
+	#
+	# Controleren invoer formulier accommodatiemail
+	#
+	if($_GET["name"]=="from") {
+		if(wt_validmail($_GET["input"])) {
+			$return["field_okay"]=true;
+		} elseif($_GET["input"]) {
+			$return["foutmelding"]=html("onjuistmailadres","accommodatiemail");
+		} else {
+			$return["foutmelding"]=html("verplichtveld","accommodatiemail");
+		}
+	} elseif($_GET["name"]=="to") {
+		$mailadressen=preg_split("/,/",trim($_GET["input"]));
+		if(is_array($mailadressen)) {
+			while(list($key,$value)=each($mailadressen)) {
+				if(!wt_validmail($value)) {
+					$return["foutmelding"].=", ".wt_he($value);
+				}
+			}
+			if($_GET["input"]) {
+				if($return["foutmelding"]) {
+					if(count($mailadressen)==1) {
+						$return["foutmelding"]=html("onjuistmailadres","accommodatiemail");
+					} else {
+						$return["foutmelding"]=html("onjuistmailadres","accommodatiemail").": ".substr($return["foutmelding"],1);
+					}
+				} else {
+					$return["field_okay"]=true;
+				}
+			} else {
+				$return["foutmelding"]=html("verplichtveld","accommodatiemail");
+			}
+		} else {
+			$return["foutmelding"]=html("verplichtveld","accommodatiemail");
+		}
+	} elseif($_GET["name"]=="message") {
+		if($_GET["input"]) {
+			$return["field_okay"]=true;
+		} else {
+			$return["foutmelding"]=html("verplichtveld","accommodatiemail");
+		}
+	}
 }
+
 $return["ok"]=true;
 echo json_encode( $return );
 
