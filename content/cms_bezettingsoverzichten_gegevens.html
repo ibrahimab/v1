@@ -33,6 +33,13 @@ if($inquery_type_id_zomerwinterkoppeling) {
 
 if($inquery_type_id) {
 
+	# Begindatum bepalen
+	$db->query("SELECT UNIX_TIMESTAMP(begindatum) AS begindatum FROM bezettingsoverzicht WHERE bezettingsoverzicht_id='".addslashes($_GET["49k0"])."';");
+	if($db->next_record()) {
+		$begindatum=$db->f("begindatum");
+	} else {
+		$begindatum=time();
+	}
 	$inquery_type_id=substr($inquery_type_id,1);
 
 	# Voorraad uit database halen
@@ -148,7 +155,7 @@ if($inquery_type_id) {
 
 	# Garanties (alleen bij interne overzichten)
 	if($mustlogin) {
-		$db->query("SELECT g.type_id, g.aankomstdatum_exact, g.vertrekdatum_exact, g.reserveringsnummer_extern FROM garantie g WHERE g.type_id IN (".addslashes($inquery_type_id).") AND g.boeking_id=0 AND g.aankomstdatum_exact>'".time()."';");
+		$db->query("SELECT g.type_id, g.aankomstdatum_exact, g.vertrekdatum_exact, g.reserveringsnummer_extern FROM garantie g WHERE g.type_id IN (".addslashes($inquery_type_id).") AND g.boeking_id=0 AND g.aankomstdatum_exact>='".$begindatum."';");
 		while($db->next_record()) {
 			$typeid=$koppeling[$db->f("type_id")];
 			$dag=$db->f("aankomstdatum_exact");
