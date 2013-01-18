@@ -3433,6 +3433,12 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		}
 	}
 
+	// TIJDELIJK! Nog geen TradeTracker-codes voor vraagonsadvies ontvangen (18-01-2013)
+	if($data["ordernummer"]=="vraagonsadvies") {
+		unset($toon_tradetracker,$toon_cleafs);
+	}
+
+
 	if($vars["website"]=="W") {
 		#
 		# TradeTracker SuperSki
@@ -3563,8 +3569,6 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		}
 	}
 
-
-
 	if($toon_tradetracker and $tradetracker_campaignID) {
 		#
 		# TradeTracker
@@ -3607,6 +3611,41 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 			echo "<img src=\"https://t".($sale ? "s" : "l").".tradetracker.nl/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&conversionType=".($sale ? "sales" : "lead")."&orderID=".$orderID.($sale ? "&orderAmount=".$orderAmount : "")."&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />\n";
 		}
 	}
+
+	// Google AdWords / Analytics code
+
+	if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+		# Optie-aanvraag
+		$google_conversion_label = "GsSQCP_TmwQQ94jL_gM";
+	} elseif($data["ordernummer"]=="contactaanvraag") {
+		# Contactaanvraag
+		$google_conversion_label = "3DAzCPfUmwQQ94jL_gM";
+	} elseif($data["ordernummer"]=="vraagonsadvies") {
+		$google_conversion_label = "Qj9RCO_VmwQQ94jL_gM";
+	} else {
+		# Boeking
+		$google_conversion_label = "RSUICI_SmwQQ94jL_gM";
+	}
+
+	echo '<!-- Google Code for Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 1070777463;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "'.$google_conversion_label.'";
+var google_conversion_value = 0;
+/* ]]> */
+</script>
+<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1070777463/?value=0&amp;label='.$google_conversion_label.'&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>';
+
 }
 
 function nieuwsbrief_inschrijven($wzt,$nieuwsbrief_waardes) {
