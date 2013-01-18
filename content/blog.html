@@ -21,29 +21,15 @@ if($_GET["b"]) {
 		echo "<div class=\"youtube\"><iframe width=\"539\" height=\"274\" src=\"http://www.youtube.com/embed/".$blog["youtube"]."?rel=0\" frameborder=\"0\" allowfullscreen></iframe></div>";
 	}
 
-	# Facebook
-	echo "<div id=\"blog_sociallinks\" class=\"noprint\">";		
-	# AddThis
-	echo "<div id=\"addthisbutton\" class=\"noprint\">";
-	echo "<!-- AddThis Button BEGIN -->\n";
-	echo "<div style=\"float:left;\" class=\"addthis_toolbox addthis_default_style \">\n";
-	echo "<a class=\"addthis_button_print\"></a>\n";
-	echo "<a class=\"addthis_button_email\"></a>\n";
-	echo "</div>\n";
-	echo "<script type=\"text/javascript\">var addthis_config = {\"data_track_clickback\":true,\"ui_language\":\"".$vars["taal"]."\",\"data_ga_property\":\"".$vars["googleanalytics"]."\",\"data_ga_social\":true};</script>\n";
-	echo "<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dcd35266d5e8054\"></script>\n";
-	echo "<!-- AddThis Button END -->\n";
-	echo "</div>"; # afsluiten addthisbutton
+	# Social media
+	echo "<div id=\"blog_sociallinks\" class=\"noprint\">";
 
-	echo "<div id=\"facebookbutton\" class=\"noprint\"><script src=\"http://connect.facebook.net/nl_NL/all.js#xfbml=1\"></script><fb:like href=\"".htmlentities($vars["basehref"]."blog.php?b=".intval($_GET["b"]))."\" layout=\"button_count\" width=\"170\"></fb:like></div>\n";
+	$share_url=$vars["basehref"]."blog.php?b=".intval($_GET["b"]);
 
-	# Twitter
-	echo "<div id=\"twitterbutton\"><a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-via=\"Italissima\" data-lang=\"en\" data-count=\"none\">Tweet</a></div>";
-	echo "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"//platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>";
+	echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze accommodatie met je Google+-circles\" class=\"googleplus_share_window\"><img src=\"".$vars["path"]."pic/icons/googleplus.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+	echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze accommodatie met je Twitter-volgers\" class=\"twitter_share_window\"><img src=\"".$vars["path"]."pic/icons/twitter.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+	echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze accommodatie met je Facebook-vrienden\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/icons/facebook.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
 
-	# Google+
-	echo "<div id=\"googleplusbutton\"><g:plusone size=\"medium\" annotation=\"none\"></g:plusone></div>";
-	echo "<script type=\"text/javascript\">\nwindow.___gcfg = {lang: 'nl'};\n(function() {\nvar po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;\npo.src = 'https://apis.google.com/js/plusone.js';\nvar s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);\n})();\n</script>";	
 	echo "</div>"; # afsluiten blog_sociallinks
 	echo "<div style=\"clear: both;\"></div>";
 	echo "<hr>";
@@ -65,7 +51,7 @@ if($_GET["b"]) {
 	$form->display_all();
 	echo "</div>"; # afsluiten blogitem_plaatsreactie_blok
 	echo "</div>"; # afsluiten blogitem_reactie
-	echo "</div>"; # afsluiten blog_content_links	
+	echo "</div>"; # afsluiten blog_content_links
 	#
 	# Gekoppelde accommodaties
 	#
@@ -77,7 +63,7 @@ if($_GET["b"]) {
 	#
 	# Blog-archief
 	#
-	
+
 	# aantal artikelen per categorie bepalen
 	$db->query("SELECT COUNT(blog_id) AS aantal, categorie FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW() GROUP BY categorie;");
 	while($db->next_record()) {
@@ -120,7 +106,7 @@ if($_GET["b"]) {
 		echo "<div class=\"blog_inleiding\">".nl2br(wt_he($db->f("inleiding")));
 		echo " <span class=\"blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></span>";
 		echo "</div>"; # afsluiten blog_inleiding
-		echo "<div style=\"clear: both;\"></div>";		
+		echo "<div style=\"clear: both;\"></div>";
 		echo "</div>"; # afsluiten class blog_item
 		$blogitem_gehad=true;
 	}
@@ -163,10 +149,10 @@ if($_GET["b"]) {
 		echo "<div class=\"blog_inleiding\">".nl2br(wt_he($db->f("inleiding")));
 		echo " <span class=\"blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></span>";
 		echo "</div>"; # afsluiten blog_inleiding
-		echo "<div style=\"clear: both;\"></div>";		
+		echo "<div style=\"clear: both;\"></div>";
 		echo "</div>"; # afsluiten class blog_item
 		$blogitem_gehad=true;
-	}    
+	}
 	echo "<div style=\"margin-top:20px;padding-top:20px;border-top:2px solid #ffd38f; width:500px;\"><a href=\"".$vars["path"]."blog.php?archief=1\">";
 	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 2,18446744073709551615");
 	while($db->next_record()){
@@ -175,7 +161,7 @@ if($_GET["b"]) {
 		echo "<div style=\"height:20px;\" class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
 	}
 	//if($_GET["cat"]) {
-		//echo "Bekijk de overige categorie&euml;n";	
+		//echo "Bekijk de overige categorie&euml;n";
 	//} //else {
 		//echo "Bekijk het blog-archief";
 	//}

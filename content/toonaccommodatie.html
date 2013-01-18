@@ -1455,70 +1455,21 @@ if($db->next_record()) {
 	echo "<div id=\"socialmedia\">";
 
 
-	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="W") {
-		$socialmedia=true;
-	} else {
-		echo "<div id=\"socialmedia_center\">";
-	}
+	# Printbutton
+	echo "<a href=\"#\" onclick=\"window.print();return false;\"><img src=\"".$vars["path"]."pic/icons/printer.png\" width=\"16\" height=\"16\" border=\"0\" title=\"".html("paginaafdrukken","toonaccommodatie")."\"></a>";
 
 	# Doormailfunctie
-	if($vars["lokale_testserver"] or $_GET["testsysteem"]) {
-		echo "<div id=\"socialmedia_doormail\">\n";
-		echo "<a href=\"#\" onclick=\"popwindow(800,740,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\"><img src=\"".$vars["path"]."pic/button_mail_small.png\" width=\"16\" height=\"16\" border=\"0\"></a>&nbsp;";
-		echo "</div>"; # afsluiten #socialmedia_doormail
-	} else {
+	echo "<a href=\"#\" onclick=\"popwindow(800,740,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\" title=\"".html("popuptitle_stuurdoor")."\"><img src=\"".$vars["path"]."pic/icons/mail.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
 
-		# AddThis
-		echo "<!-- AddThis Button BEGIN -->\n";
-		echo "<div id=\"socialmedia_addthis\" class=\"addthis_toolbox addthis_default_style \">\n";
-		if(!$vars["lokale_testserverNU_EVEN_NIET"] and !$_GET["testsysteem"]) {
-			echo "<a class=\"addthis_button_email\"></a>\n";
-		}
-		echo "<a class=\"addthis_button_print\"></a>\n";
+	# Social media-links
+	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="W") {
 
-		if($socialmedia) {
-			echo "<a class=\"addthis_button_twitter\"".($vars["canonical"] ? " addthis:url=\"".htmlentities($vars["canonical"])."\"" : "")."></a>\n";
-	#		echo "<a class=\"addthis_button_facebook_like\"></a>\n";
-	#		echo "<a class=\"addthis_button_compact\"></a>\n";
-	#		echo "<a class=\"addthis_button_compact\"></a>\n";
-	#		echo "<a class=\"addthis_counter addthis_bubble_style\"></a>\n";
-		}
-		echo "</div>\n";
-		echo "<script type=\"text/javascript\">var addthis_config = {\"data_track_clickback\":true,\"ui_language\":\"".$vars["taal"]."\",\"data_ga_property\":\"".$vars["googleanalytics"]."\",\"data_ga_social\":true};</script>\n";
-		echo "<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dcd35266d5e8054\"></script>\n";
-		echo "<!-- AddThis Button END -->\n";
+		$share_url=$vars["canonical"];
+		$share_text="Bekijk deze accommodatie bij ".$vars["websitenaam"];
+		echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze accommodatie met je Facebook-vrienden\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/icons/facebook.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+		echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze accommodatie met je Twitter-volgers\" class=\"twitter_share_window\"><img src=\"".$vars["path"]."pic/icons/twitter.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+		echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze accommodatie met je Google+-circles\" class=\"googleplus_share_window\"><img src=\"".$vars["path"]."pic/icons/googleplus.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
 	}
-
-	if($socialmedia) {
-
-		# Google+
-		echo "<div id=\"socialmedia_googleplus\">\n";
-		echo "<div id=\"plusone\">\n";
-		echo "<g:plusone size=\"small\" annotation=\"none\"></g:plusone>";
-		echo "<script type=\"text/javascript\">window.___gcfg = {\nlang: 'nl'\n};\n(function() {\nvar po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;\npo.src = 'https://apis.google.com/js/plusone.js';\nvar s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);\n})();\n</script>\n";
-		echo "</div>";
-		echo "</div>";
-
-		# Facebook
-			echo "<div id=\"fb-root\"></div><script>(function(d, s, id) {
-		var js, fjs = d.getElementsByTagName(s)[0];
-		if (d.getElementById(id)) return;
-		js = d.createElement(s); js.id = id;
-		js.src = \"//connect.facebook.net/en_US/all.js#xfbml=1\";
-		fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>";
-
-		echo "<div id=\"socialmedia_facebook\">\n";
-		echo "<div class=\"fb-like\" data-send=\"false\" data-layout=\"button_count\" data-width=\"225\" data-show-faces=\"false\"></div>";
-		if($vars["googleanalytics_actief"]) {
-			# Facebook tracken in Google Analytics
-			echo "<script type=\"text/javascript\">\nFB.Event.subscribe('edge.create', function(targetUrl) {\n_gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);\n});\nFB.Event.subscribe('edge.remove', function(targetUrl) {\n_gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);\n});FB.Event.subscribe('message.send', function(targetUrl) {\n_gaq.push(['_trackSocial', 'facebook', 'send', targetUrl]);\n});\n</script>\n";
-		}
-		echo "</div>\n";
-	} else {
-		echo "</div>"; # aflsuiten #socialmedia_center
-	}
-
 	echo "<div style=\"clear:both;\"></div>";
 
 	echo "</div>"; # afsluiten #socialmedia

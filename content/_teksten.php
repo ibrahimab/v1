@@ -1705,8 +1705,8 @@ $txt["en"]["toonaccommodatie"]["virtuele_rondgang_acc"]="Also view a virtual pre
 $txt["nl"]["toonaccommodatie"]["wordbestanddownloaden"]="Word-bestand downloaden";
 $txt["en"]["toonaccommodatie"]["wordbestanddownloaden"]="Download Word-file";
 
-$txt["nl"]["toonaccommodatie"]["paginaafdrukken"]="Pagina afdrukken";
-$txt["en"]["toonaccommodatie"]["paginaafdrukken"]="Print page";
+$txt["nl"]["toonaccommodatie"]["paginaafdrukken"]="Print deze accommodatie";
+$txt["en"]["toonaccommodatie"]["paginaafdrukken"]="Print this accommodation";
 
 $txt["nl"]["toonaccommodatie"]["meerinformtatieaanvragen"]="Meer informatie aanvragen";
 $txt["en"]["toonaccommodatie"]["meerinformtatieaanvragen"]="Request more information";

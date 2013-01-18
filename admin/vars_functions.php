@@ -3345,6 +3345,8 @@ function facebook_opengraph($info="") {
 		} elseif(file_exists("pic/cms/accommodaties/".$temp_accid.".jpg")) {
 			$afbeelding="accommodaties/".$temp_accid;
 		}
+	} elseif($id=="blog" and $_GET["b"]) {
+		$afbeelding="blog/".intval($_GET["b"]);
 	}
 	if($afbeelding) {
 		$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127")."\" />\n";

@@ -854,6 +854,22 @@ $(document).ready(function() {
 			return false;
 		});
 
+		// Twitter share-window
+		$(".twitter_share_window").click( function() {
+			popwindowXY(700,450,$(this).attr("href"),true);
+			var _gaq = _gaq || [];
+			_gaq.push(['_trackSocial', 'twitter', 'share', '']);
+			return false;
+		});
+
+		// Google+ share-window
+		$(".googleplus_share_window").click( function() {
+			popwindowXY(700,450,$(this).attr("href"),true);
+			var _gaq = _gaq || [];
+			_gaq.push(['_trackSocial', 'googleplus', 'share', '']);
+			return false;
+		});
+
 		// bug in tarieventabel bij IE9
 		if($(".tarieventabel_div").length!=0) {
 			if($("#weektarieven").length!=0) {

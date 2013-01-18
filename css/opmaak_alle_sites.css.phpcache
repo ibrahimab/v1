@@ -584,41 +584,23 @@ td.selecteerbaarbedrag:hover{
 }
 
 #socialmedia {
-	margin-top: 5px;
-	margin-bottom: 10px;
+	margin-top: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	display: inline-block;
 }
 
-#socialmedia_center {
-	margin-left: 65px;
-}
-
-#socialmedia_doormail {
+#socialmedia a {
+	display: block;
 	float: left;
-	margin-top: 2px;
+	margin-left: 4px;
+	margin-right: 4px;
 }
 
-#socialmedia_doormail:hover {
+#socialmedia a img:hover {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
 	filter: alpha(opacity=60);
 	opacity: .6;
-}
-
-#socialmedia_addthis {
-	float: left;
-	margin-top: 2px;
-}
-
-#socialmedia_googleplus {
-	float: left;
-	margin-top: 2px;
-	margin-left: 1px;
-	margin-right: 2px;
-}
-
-#socialmedia_facebook {
-	float: left;
-	width: 82px;
-	overflow-x: hidden;
 }
 
 #weekendski_opmerking {
