@@ -116,6 +116,12 @@ $txt["en"]["vars"]["referentie_7"]="other";
 $txt["nl"]["vars"]["referentie_8"]="de eigenaar van de accommodatie";
 $txt["en"]["vars"]["referentie_8"]="the owner of the accommodation";
 
+$txt["nl"]["vars"]["referentie_9"]="Facebook";
+$txt["en"]["vars"]["referentie_9"]="Facebook";
+
+$txt["nl"]["vars"]["referentie_10"]="Twitter";
+$txt["en"]["vars"]["referentie_10"]="Twitter";
+
 $txt["nl"]["vars"]["weekend"]="weekend";
 $txt["en"]["vars"]["weekend"]="Weekend";
 

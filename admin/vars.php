@@ -670,7 +670,7 @@ $title["cms_meldingen"]="Indeling CMS-hoofdpagina / Meldingen";
 # $vars - Variabelen declareren
 #$vars["actuele_vacature"]="webontwikkelaar";
 
-$vars["referentiekeuze"]=array(1=>txt("referentie_1","vars"),2=>txt("referentie_2","vars"),3=>txt("referentie_3","vars"),4=>txt("referentie_4","vars"),5=>txt("referentie_5","vars"),6=>txt("referentie_6","vars"),8=>txt("referentie_8","vars"),7=>txt("referentie_7","vars"));
+$vars["referentiekeuze"]=array(1=>txt("referentie_1","vars"),2=>txt("referentie_2","vars"),3=>txt("referentie_3","vars"),4=>txt("referentie_4","vars"),9=>txt("referentie_9","vars"),10=>txt("referentie_10","vars"),5=>txt("referentie_5","vars"),6=>txt("referentie_6","vars"),8=>txt("referentie_8","vars"),7=>txt("referentie_7","vars"));
 
 $vars["reserveringskosten"]=20;
 
