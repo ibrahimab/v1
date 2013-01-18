@@ -461,7 +461,7 @@ if($db->next_record()) {
 # Kijken bij welke boekingen factuurbedrag afwijkt van berekende totale reissom (en dan "factuur_bedrag_wijkt_af" aanpassen)
 #
 if(date("H")==4) {
-	$db->query("SELECT boeking_id, totale_reissom, boekingsnummer FROM boeking WHERE totale_reissom>0 AND boekingsnummer<>'' AND geannuleerd=0 AND aankomstdatum>'".time()."' ORDER BY aankomstdatum;");
+	$db->query("SELECT boeking_id, totale_reissom, boekingsnummer FROM boeking WHERE boekingsnummer<>'' AND geannuleerd=0 AND aankomstdatum>'".time()."' ORDER BY aankomstdatum;");
 	while($db->next_record()) {
 		$gegevens=get_boekinginfo($db->f("boeking_id"));
 		if($gegevens["stap1"]["totale_reissom"]>0 and $gegevens["fin"]["totale_reissom"]>0) {
@@ -475,6 +475,10 @@ if(date("H")==4) {
 				$db2->query("UPDATE boeking SET factuur_bedrag_wijkt_af='".$factuur_bedrag_wijkt_af."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 			}
 		}
+		#
+		# Kijken of er boekingen zijn waarbij de vertrekinfo niet kon worden samengesteld (bij een error wordt dat direct opgeslagen)
+		#
+		$vars["vertrekinfo_boeking"]=vertrekinfo_boeking($gegevens);
 	}
 }
 

@@ -2644,7 +2644,15 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 			$return["error"].="<li>".$value."</li>";
 		}
 		$return["error"].="</ul></p>";
+
+		# Opslaan dat vertrekinfo errors bevat
+		$db2->query("UPDATE boeking SET vertrekinfo_error=1 WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+
 	} elseif($content) {
+
+		# Opslaan dat vertrekinfo geen errors bevat
+		$db2->query("UPDATE boeking SET vertrekinfo_error=0 WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+
 		$return["content"]=$content;
 
 

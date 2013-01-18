@@ -373,13 +373,16 @@ if($_GET["t"]==1) {
 		}
 	}
 
-	$db->query("SELECT SUBSTRING(b.boekingsnummer,2) AS factuur, b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.seizoen_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.voucherstatus, b.taal, b.totale_reissom, b.goedgekeurde_betaling, b.verzendmethode_reisdocumenten, a.naam, a.accommodatie_id, a.vertrekinfo_seizoengoedgekeurd, a.vertrekinfo_seizoengoedgekeurd_en, a.wzt, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode, lev.naam AS leverancier FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s, leverancier lev WHERE b.leverancier_id=lev.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.aankomstdatum_exact>='".$vars["temp_begin"]."' AND b.aankomstdatum_exact<='".$vars["temp_eind"]."' AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.voucherstatus NOT IN (2,3,9,10,11,12)".$verzendmethode_andquery." ORDER BY ".$sort.";");
+	$db->query("SELECT SUBSTRING(b.boekingsnummer,2) AS factuur, b.boekingsnummer, b.mailblokkeren_opties, b.boeking_id, b.seizoen_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.voucherstatus, b.taal, b.totale_reissom, b.goedgekeurde_betaling, b.verzendmethode_reisdocumenten, b.vertrekinfo_error, a.naam, a.accommodatie_id, a.vertrekinfo_seizoengoedgekeurd, a.vertrekinfo_seizoengoedgekeurd_en, a.wzt, t.type_id, t.naam AS tnaam, p.naam AS plaats, l.begincode, lev.naam AS leverancier FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s, leverancier lev WHERE b.leverancier_id=lev.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.aankomstdatum_exact>='".$vars["temp_begin"]."' AND b.aankomstdatum_exact<='".$vars["temp_eind"]."' AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.voucherstatus NOT IN (2,3,9,10,11,12)".$verzendmethode_andquery." ORDER BY ".$sort.";");
 #	echo $db->lastquery;
 	if($db->num_rows() and !$form->error) {
 
-		echo "<span style=\"background-color:#fdff86;display:inline-block;width:50px;\">Geel</span> = nog geen vertrekinfo aan de accommodatie gekoppeld<br>";
-		echo "<span style=\"background-color:#e587f6;display:inline-block;width:50px;\">Paars</span> = vertrekinfo is niet goedgekeurd voor het betreffende seizoen<br>";
+#		echo "<span style=\"background-color:#fdff86;display:inline-block;width:50px;\">Geel</span> = nog geen vertrekinfo aan de accommodatie gekoppeld<br>";
+		echo "<div style=\"border:1px solid #cccccc;padding:10px;width:400px;\">";
+		echo "<b>Kleuren kolom &quot;Accommodatie&quot;</b>:<br/><br/>";
+		echo "<span style=\"background-color:#e587f6;display:inline-block;width:50px;\">Paars</span> = vertrekinfo is niet compleet of nog niet goedgekeurd<br>";
 		echo "<span style=\"background-color:#a6ffb3;display:inline-block;width:50px;\">Groen</span> = vertrekinfo is in orde<br>";
+		echo "</div>";
 
 		echo "<br>";
 
@@ -494,28 +497,36 @@ if($_GET["t"]==1) {
 			echo "<td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
 			echo "<td nowrap><a name=\"vnr".$voucherteller."\"></a><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities($db->f("boekingsnummer"))."</a></td>";
 			echo "<td style=\"";
-			# achtergrondkleur bepalen
-			$file="pdf/route_".$db->f("taal")."/".$db->f("accommodatie_id").".pdf";
-			if(file_exists($file)) {
 
-				if($db->f("taal")=="nl") {
-					$vertrekinfo_seizoengoedgekeurd=$db->f("vertrekinfo_seizoengoedgekeurd");
-				} else {
-					$vertrekinfo_seizoengoedgekeurd=$db->f("vertrekinfo_seizoengoedgekeurd_".$db->f("taal"));
-				}
-				$vertrekinfo_seizoengoedgekeurd=split(",",$vertrekinfo_seizoengoedgekeurd);
-				$seizoenokay=false;
-				if(is_array($vertrekinfo_seizoengoedgekeurd) and in_array($db->f("seizoen_id"),$vertrekinfo_seizoengoedgekeurd)) {
-					$seizoenokay=true;
-				}
-				if($seizoenokay) {
-					echo "background-color:#a6ffb3;";
-				} else {
-					echo "background-color:#e587f6;";
-				}
+			// # achtergrondkleur bepalen
+			// $file="pdf/route_".$db->f("taal")."/".$db->f("accommodatie_id").".pdf";
+			// if(file_exists($file)) {
+
+			// 	if($db->f("taal")=="nl") {
+			// 		$vertrekinfo_seizoengoedgekeurd=$db->f("vertrekinfo_seizoengoedgekeurd");
+			// 	} else {
+			// 		$vertrekinfo_seizoengoedgekeurd=$db->f("vertrekinfo_seizoengoedgekeurd_".$db->f("taal"));
+			// 	}
+			// 	$vertrekinfo_seizoengoedgekeurd=split(",",$vertrekinfo_seizoengoedgekeurd);
+			// 	$seizoenokay=false;
+			// 	if(is_array($vertrekinfo_seizoengoedgekeurd) and in_array($db->f("seizoen_id"),$vertrekinfo_seizoengoedgekeurd)) {
+			// 		$seizoenokay=true;
+			// 	}
+			// 	if($seizoenokay) {
+			// 		echo "background-color:#a6ffb3;";
+			// 	} else {
+			// 		echo "background-color:#e587f6;";
+			// 	}
+			// } else {
+			// 	echo "background-color:#fdff86;";
+			// }
+
+			if($db->f("vertrekinfo_error")) {
+				echo "background-color:#e587f6;";
 			} else {
-				echo "background-color:#fdff86;";
+				echo "background-color:#a6ffb3;";
 			}
+
 			echo "\">";
 			echo "<a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&1k0=".$db->f("accommodatie_id")."&burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]."#vnr".($voucherteller-1)))."#vertrekinfo\">".htmlentities($db->f("plaats")." - ".$db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a> (".htmlentities($db->f("leverancier")).")</td>";
 			echo "<td nowrap style=\"".($db->f("voucherstatus")==1||$db->f("voucherstatus")==4||$db->f("voucherstatus")==7||$db->f("voucherstatus")==8||$db->f("voucherstatus")==13 ? "background-color:#a6ffb3;" : "")."\"><a href=\"".$vars["path"]."cms_boekingen_vouchers.php?burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]."#vnr".($voucherteller-1)))."&bid=".$db->f("boeking_id")."\">".htmlentities($vars["voucherstatus"][$db->f("voucherstatus")])."</a></td>";
