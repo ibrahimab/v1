@@ -237,7 +237,6 @@ RewriteRule ^agriturismo-toscane$ agriturismo-toscane.php?%{QUERY_STRING}
 RewriteRule ^vakantiehuizen-gardameer$ vakantiehuizen-gardameer.php?%{QUERY_STRING}
 RewriteRule ^vakantiehuizen-bloemenriviera$ vakantiehuizen-bloemenriviera.php?%{QUERY_STRING}
 RewriteRule ^vakantie-in-italie$ vakantie-in-italie.php?%{QUERY_STRING}
-RewriteRule ^facebook-actie$ facebook-actie.php?%{QUERY_STRING}
 
 RewriteRule ^aanbiedingen$ /aanbiedingen/ [L,R=301]
 RewriteRule ^aanbiedingen/$ aanbiedingen_zomerhuisje.php?%{QUERY_STRING}
@@ -266,21 +265,17 @@ RewriteRule holiday-homes/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUER
 # Tijdelijke pagina's
 #
 
-# Agentenactie
-RewriteRule ^agentenactie/$ /agentenactie [R=301,L]
-RewriteRule ^agentenactie$ agentenactie.php?%{QUERY_STRING}
-
-# montegufoni
-RewriteRule ^montegufoni/$ /montegufoni [R=301,L]
-RewriteRule ^montegufoni$ montegufoni.php?%{QUERY_STRING}
-
-# twitter-actie
-RewriteRule ^twitteractie/$ /twitteractie [L,R=301]
-RewriteRule ^twitteractie$ twitteractie.php?%{QUERY_STRING}
-
 # nieuwsbrief-actie
-RewriteRule ^nieuwsbriefactie/$ /nieuwsbriefactie [L,R=301]
-RewriteRule ^nieuwsbriefactie$ nieuwsbriefactie.php?%{QUERY_STRING}
+#RewriteRule ^nieuwsbriefactie/$ /nieuwsbriefactie [L,R=301]
+#RewriteRule ^nieuwsbriefactie$ nieuwsbriefactie.php?%{QUERY_STRING}
+
+
+#
+# Oude pagina's die niet meer bestaan: redirect naar homepage
+#
+RewriteRule ^facebook-actie$ / [L,R=301]
+RewriteRule ^agentenactie$ / [L,R=301]
+RewriteRule ^nieuwsbriefactie$ / [L,R=301]
 
 
 #
