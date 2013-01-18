@@ -66,6 +66,7 @@ $form->field_text(1,"test","test",array("field"=>"test")); # (opslaan in databas
 $form->field_text(1,"naam","Naam");
 $form->field_htmlrow("","<b>Hier staat een stuk html-tekst over de hele regel</b>");
 $form->field_email(1,"email","E-mailadres");
+$form->field_url(1,"url","URL");
 $form->field_password(1,"password","Kies een wachtwoord","","",array("new_password"=>true,"strong_password"=>true));
 $form->field_password(1,"password2","Herhaal wachtwoord");
 $form->field_textarea(1,"vraag","Vraag","","","",array("newline"=>true));

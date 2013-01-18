@@ -15,8 +15,8 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	# (alleen nodig om te testen)
 	#
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-#		$db->query("DELETE FROM boeking_betaling;");
-#		$db->query("DELETE FROM boeking_betaling WHERE boeking_id=89835;");
+		$db->query("DELETE FROM boeking_betaling;");
+		$db->query("DELETE FROM boeking_betaling WHERE boeking_id=89835;");
 	}
 
 	echo "<b>".htmlentities("Bestand \"".$_FILES["xmlbetalingen"]["name"]."\" (".$_FILES["xmlbetalingen"]["type"].")")." ontvangen</b><p>";
@@ -494,13 +494,8 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 					# Mail versturen aan klant (ontvangstbevestiging betaling)
 					$mail=new wt_mail;
-					if($login->vars["email"]) {
-						$mail->from=$login->vars["email"];
-						$mail->fromname=$mailtekst_ontvangenbetaling["fromname"].": ".$login->vars["voornaam"];
-					} else {
-						$mail->from=$mailtekst_ontvangenbetaling["from"];
-						$mail->fromname=$mailtekst_ontvangenbetaling["fromname"];
-					}
+					$mail->from=$mailtekst_ontvangenbetaling["from"];
+					$mail->fromname=$mailtekst_ontvangenbetaling["fromname"];
 					$mail->subject=$mailtekst_ontvangenbetaling["subject"];
 					$mail->plaintext=$mailtekst_ontvangenbetaling["body"];
 
