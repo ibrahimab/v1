@@ -179,7 +179,7 @@ if($accinfo["slaapkamers"]==1) {
 	$accblok.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamers")."</td>";
 }
 
-$accblok.= "<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a href=\"".$vars["basehref"]."accommodatie/".$accinfo["begincode"].$_GET["accid"]."/\" style=\"".$vars["mail_css_leesmeer"]."text-decoration:none;display:inline-block;font-family: Verdana, Arial, Helvetica, sans-serif;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;\" target=\"_blank\">".html("buttonleesmeer","accommodatiemail")."</a></td></tr><tr>";
+$accblok.= "<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a href=\"".$vars["basehref"]."accommodatie/".$accinfo["begincode"].$_GET["accid"]."/?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\" style=\"".$vars["mail_css_leesmeer"]."text-decoration:none;display:inline-block;font-family: Verdana, Arial, Helvetica, sans-serif;font-size:15px;font-weight:bold;padding:6px 24px;text-decoration:none;cursor:pointer;\" target=\"_blank\">".html("buttonleesmeer","accommodatiemail")."</a></td></tr><tr>";
 if($accinfo["badkamers"]==1) {
 	$accblok.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamer")."</td>";
 } else {
@@ -219,10 +219,10 @@ if($_POST["filled"]) {
 			$mail->html.="<body style=\"font-family:font-family: Verdana, Arial, Helvetica, sans-serif;\">";
 
 			$mail->html.="<center><table style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:9pt;\" border=\"0\" width=\"681\"><tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;\">";
-			$mail->html.="<a href=".wt_he($vars["basehref"])."><img src=".wt_he($vars['mail_topfoto'])." border=\"0\"></a></td></tr>";
+			$mail->html.="<a href=\"".wt_he($vars["basehref"])."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\"><img src=".wt_he($vars['mail_topfoto'])." border=\"0\"></a></td></tr>";
 			$bericht=trim($_POST["message"]);
 			$bericht=wt_he($bericht);
-			$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."\">".wt_he($vars["websitenaam"])."</a>",$bericht);
+			$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\">".wt_he($vars["websitenaam"])."</a>",$bericht);
 			$mail->html.="<tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;text-align:center; color:".$vars["mail_css_tekstkleur"].";\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
 			$mail->html.="</td></tr>";
 			$mail->html.="<tr><td>";

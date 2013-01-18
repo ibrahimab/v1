@@ -323,14 +323,14 @@ if ( $_GET["t"]==1 ) {
 			$mail_topfoto="favorietenmail_logo_chalet";
 		}
 
-		$mail_content.="<a href=\"".$vars["basehref"]."\"><img src=\"".wt_he($vars["basehref"]."pic/topfoto/".$mail_topfoto.".png")."\" border=\"0\"></a></td></tr>";
+		$mail_content.="<a href=\"".$vars["basehref"]."?utm_source=Favorietenfunctie&utm_medium=Favorietenfunctie&utm_campaign=Favorietenfunctie\"><img src=\"".wt_he($vars["basehref"]."pic/topfoto/".$mail_topfoto.".png")."\" border=\"0\"></a></td></tr>";
 		$bericht=$_GET["bericht"];
 		$bericht=trim($_GET["bericht"]);
 		$bericht=utf8_decode($bericht);
 		$bericht=wt_he($bericht);
 
 		# sitenaam klikbaar maken
-		$link_naar_site="<a href=\"".$vars["basehref"]."\" style=\"".($vars["linkkleur"] ? "color:".$vars["linkkleur"].";" : "")."\">".wt_he($vars["websitenaam"])."</a>";
+		$link_naar_site="<a href=\"".$vars["basehref"]."?utm_source=Favorietenfunctie&utm_medium=Favorietenfunctie&utm_campaign=Favorietenfunctie\" style=\"".($vars["linkkleur"] ? "color:".$vars["linkkleur"].";" : "")."\">".wt_he($vars["websitenaam"])."</a>";
 		$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/",$link_naar_site,$bericht);
 
 		$mail_content.="<tr><td style=\"text-align:center; color:".$vars["textColor_bericht"].";font-size:14px;\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
@@ -394,7 +394,7 @@ if ( $_GET["t"]==1 ) {
 				$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
 			}
 			$mail_content.="<tr><td valign=\"top\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".$rev." ".html("personen")."</td></tr>";
-			$mail_content.="<tr><td valign=\"top\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("slaapkamers")." ".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."text-decoration:none;\" href=\"".wt_he($vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/")."\">".html("buttonLeesmeer","favorieten")."</a></td></tr>";
+			$mail_content.="<tr><td valign=\"top\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("slaapkamers")." ".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."text-decoration:none;\" href=\"".wt_he($vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/?utm_source=Favorietenfunctie&utm_medium=Favorietenfunctie&utm_campaign=Favorietenfunctie")."\">".html("buttonLeesmeer","favorieten")."</a></td></tr>";
 			$mail_content.="<tr><td style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("badkamers")." ".($db->f("badkamers")==1 ? html("badkamer") : html("badkamers"))."</td></tr>";
 			$mail_content.="</table>";
 			$mail_content.= "<br />";

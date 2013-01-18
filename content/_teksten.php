@@ -1627,7 +1627,7 @@ $txt["nl"]["accommodatiemail"]["accommodatiedoormailen"]="Accommodatie doormaile
 $txt["en"]["accommodatiemail"]["accommodatiedoormailen"]="Mail accommodation";
 
 $txt["nl"]["accommodatiemail"]["doormailtekst"]="Dit moet je zien! Ik heb een leuk [[v_soortaccommodatie]] gevonden op [[v_websitenaam]].";
-$txt["en"]["accommodatiemail"]["doormailtekst"]=" You have to see this! I have found an interesting [[v_soortaccommodatie]] on [[v_websitenaam]].";
+$txt["en"]["accommodatiemail"]["doormailtekst"]="You have to see this! I have found an interesting [[v_soortaccommodatie]] on [[v_websitenaam]].";
 
 $txt["nl_z"]["accommodatiemail"]["doormailtekst"]="Dit moet je zien! Ik heb een leuk vakantiehuis gevonden op [[v_websitenaam]].";
 $txt["en_z"]["accommodatiemail"]["doormailtekst"]="-";
