@@ -56,22 +56,28 @@ echo "<h3>Kijk voor onze huizen<br/>in heel Itali&euml; op</h3>";
 echo "<h4>Italissima.nl</h4>";
 echo "</a>"; # afsluiten #hoofdpagina_italissima
 
-echo "<a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=Alpe+d'Huez&fsg=0&fap=0&fas=0&fad=1370037600&fdu=0\" id=\"hoofdpagina_alpedhuzes\">";
+echo "<a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=Alpe+d'Huez&fsg=0&fap=0&fas=0&fad=1370037600&fdu=0&ad6=1\" id=\"hoofdpagina_alpedhuzes\">";
 echo "<h3>Verblijf tijdens<br/>de Alpe d'HuZes</h3>";
 echo "</a>"; # afsluiten #hoofdpagina_alpedhuzes
 
+# Tijdelijk: Alpe d'HuZes
+if($vars["website"]=="Z") {
+	# Alpe d'HuZes
+	echo "<div id=\"alpedhuzes\">";
+	echo "<a href=\"".$vars["path"]."alpe-d-huzes\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6/alpedhuzes_zomer.gif?c=1\" width=\"168\" height=\"83\" border=\"0\"></a>";
+	echo "</div>";
+}
 
 
-echo "<div id=\"hoofdpagina_sociallinks\">";
-echo "<div style=\"float:left;\">";
-echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-echo "<a href=\"https://www.facebook.com/Zomerhuisje.nl\" title=\"Volg Zomerhuisje.nl via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-echo "<a href=\"https://twitter.com/@Zomerhuisje\" title=\"Volg Zomerhuisje.nl via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-echo "<a href=\"https://plus.google.com/113644542072220125279?prsrc=3\" title=\"Volg Zomerhuisje.nl via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-echo "</div>\n";
-#echo "<div style=\"float:right;\"></div>";
-echo "<div style=\"clear: both;\"></div>\n";
-echo "</div>\n";  # afsluiten hoofdpagina_sociallinks
+// echo "<div id=\"hoofdpagina_sociallinks\">";
+// echo "<div style=\"float:left;\">";
+// echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+// echo "<a href=\"https://www.facebook.com/Zomerhuisje.nl\" title=\"Volg Zomerhuisje.nl via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+// echo "<a href=\"https://twitter.com/@Zomerhuisje\" title=\"Volg Zomerhuisje.nl via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+// echo "<a href=\"https://plus.google.com/113644542072220125279?prsrc=3\" title=\"Volg Zomerhuisje.nl via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+// echo "</div>\n";
+// echo "<div style=\"clear: both;\"></div>\n";
+// echo "</div>\n";  # afsluiten hoofdpagina_sociallinks
 
 
 #echo "</div>\n"; # afsluiten naamloze div

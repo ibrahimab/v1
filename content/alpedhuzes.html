@@ -17,48 +17,90 @@ echo "<style>.fotoblok img {
 h2 {
 	margin-bottom: 3px;
 }
-</style>";
 
-#echo "<div style=\"text-align:right;margin-bottom:20px;\"></div>";
-
-if($vars["seizoentype"]==2) {
-	echo "<div style=\"text-align:center;font-size:1.2em;margin-bottom:5px;\"><h1>Zomerhuisje.nl / Chalet.nl vakantiewoningen<br>fietste de Alpe d&apos;huZes</h1></div>";
-} else {
-	echo "<div style=\"text-align:center;font-size:1.2em;margin-bottom:5px;\"><h1>Chalet.nl vakantiewoningen fietste de Alpe d&apos;huZes</h1></div>";
+#hoofdsponsoren {
+	display: inline-block;
+	padding-top:10px;
+	padding-bottom:10px;
 }
 
-//echo "<div style=\"text-align:center;font-size:1.6em;margin-bottom:10px;\"><a href=\"#\" onclick=\"popwindow(990,800,'http://deelnemers.opgevenisgeenoptie.nl/teams/chalet-nl-vakantiewoningen/',true);return false;\">Sponsor ons team!</a></div>";
+#hoofdsponsoren a {
+	display: block;
+	float: left;
+	text-align: justify;
+}
 
-echo "<div style=\"text-align:center;margin-bottom:20px;\"><a href=\"#\" onclick=\"popwindow(990,800,'http://deelnemers.opgevenisgeenoptie.nl/teams/chalet-nl-vakantiewoningen/',true);return false;\"><img src=\"".$vars["path"]."pic/tijdelijk/alpedhuzes_banner.png\" width=\"610\" height=\"313\" border=\"0\"></a></div>";
+.agenda {
+	margin-top: 10px;
+	width: 650px;
+}
+
+.agenda td {
+	vertical-align:top;
+}
+
+.agenda i {
+	display: block;
+	width: 15px;
+	background-image:url('".$vars["path"]."pic/vinkje-blauw.gif');
+}
+
+</style>";
+
+if($vars["seizoentype"]==2) {
+	echo "<div style=\"text-align:center;font-size:1.2em;margin-bottom:5px;\"><h1>Zomerhuisje.nl / Chalet.nl vakantiewoningen<br>fietst Alpe d&apos;HuZes 2013</h1></div>";
+} else {
+	echo "<div style=\"text-align:center;font-size:1.2em;margin-bottom:5px;\"><h1>Chalet.nl vakantiewoningen fietst Alpe d&apos;HuZes 2013</h1></div>";
+}
+
+echo "<div style=\"text-align:center;margin-bottom:20px;\"><a href=\"#\" onclick=\"popwindow(990,800,'http://deelnemers.opgevenisgeenoptie.nl/teams/chalet-nl-vakantiewoningen/',true);return false;\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6/ad6-logo.png\" width=\"527\" height=\"330\" border=\"0\"></a></div>";
 
 echo "<div style=\"text-align:center;margin-bottom:20px;\"><table style=\"margin-left:auto;margin-right:auto;margin-top:5px;width:610px;border:1px solid #cccccc;\">
 
 <tr><td colspan=\"2\" align=\"center\" style=\"font-weight:bold;\">Onze hoofdsponsoren:</td></tr>
-<tr><td colspan=\"2\" align=\"center\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;\"><tr><td align=\"center\" width=\"33%\"><a href=\"http://www.chalet.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_ch.gif\" width=\"110\" title=\"Chalet.nl Wintersportspecialist: chalets en appartementen voor 2 tot 50 personen onder &eacute;&eacute;n dak\" border=\"0\"></a></td><td align=\"center\" width=\"33%\"><a href=\"http://www.fotobooms.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_fb.gif\" width=\"240\" title=\"FOTO BOOMS vof: opgericht in 1945 als fotostudio/fotospeciaalzaak. Tegenwoordig al vele jaren actief op het internet. Camera's, videocamera's, MP3, Navigatie, TV's, Blu-Ray en accessoires. Foto Booms is van vele markten thuis.\" border=\"0\"></a></td><td align=\"center\" width=\"33%\"><a href=\"http://www.zomerhuisje.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_zh.gif\" width=\"110\" title=\"Zomerhuisje.nl Vakantiehuizenspecialist: Karakteristieke landhuizen, vakantieparken en luxe villa&apos;s voor levensgenieters\" border=\"0\"></a></td></tr></table></tr>
+<tr><td colspan=\"2\" align=\"center\" style=\"text-align: center;\">
+<div id=\"hoofdsponsoren\">
 
 
-<tr><td colspan=\"2\" align=\"center\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;\"><tr><td align=\"center\" width=\"33%\"><a href=\"http://www.octopos.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_octopos.png?c=1\" width=\"100\" title=\"OctoPOS, het web-based, online Point of Sale systeem.\" border=\"0\"></a></td><td align=\"center\" width=\"33%\"><a href=\"http://www.xrc.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_xrc.png\" width=\"100\" title=\"XRC services verzorgt en ontzorgt IT- en Communicatie diensten voor uitsluitend de retailmarkt.\" border=\"0\"></a></td><td align=\"center\" width=\"33%\"><a href=\"http://www.storeconnect.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_store.png\" width=\"180\" title=\"Store Connect (inStore Connect) is uniek in de retailbranche. E&eacute;n totaalconcept voor alle IT &amp; Communicatie diensten in uw winkel. Store Connect (inStore Connect) biedt u diensten en oplossingen van een gecertificeerd, beveiligd VPN datanetwerk over DSL of Glasvezel tot diensten zoals bijvoorbeeld internet toegang, IP pinnen, IP telefonie, IP beveiliging, IP muziek en narrowcasting. \" border=\"0\"></a></td></tr></table></tr>
+<a href=\"http://www.chalet.nl/\" style=\"margin-right:40px;\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6/logo-chalet.gif\" width=\"130\" title=\"Chalet.nl Wintersportspecialist: chalets en appartementen voor 2 tot 50 personen onder &eacute;&eacute;n dak\" border=\"0\"></a>
+<a href=\"http://www.desyderetail.nl/\" style=\"margin-top:5px;margin-right:40px;\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6/logo-desyde-retail.jpg\" width=\"130\" title=\"Desyde Retail: de winkelautomatiseerder met oog voor detail\" border=\"0\"></a>
+<a href=\"http://www.degoedegooier.nl/\" style=\"margin-top:15px;\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6/logo-de-goede-gooier.png\" width=\"180\" title=\"Restaurant De Goede Gooier in Blaricum: diner, lunch, vergaderen, builoft, trouwen, wijnproeverij en meer...\" border=\"0\"></a>
 
-<tr><td colspan=\"2\" align=\"center\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;\"><tr><td align=\"center\" width=\"50%\"><a href=\"http://boltonbouw.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_bolton.png\" width=\"180\" title=\"Bolton Bouw uit Zegveld is een bouwonderneming die zich richt op projecten in woningbouw, commercieel vastgoed, onderwijs en zorg.\" border=\"0\"></a></td><td align=\"center\" width=\"50%\"><a href=\"http://rijver.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_rijver.gif\" width=\"150\" title=\"Rijver Development uit IJsselstein is een bedrijf wat gespecialiseerd is in het ontwikkelen van bedrijfsmatig vastgoed (waarbij maatwerk tot de mogelijkheden behoort) en advieswerkzaamheden met betrekking tot bedrijfshuisvesting.\" border=\"0\"></a></td></tr></table></tr>
+</div>
+<div style=\"clear:both;\"></div>
+</td></tr>";
 
-<tr><td colspan=\"2\" align=\"right\"><a href=\"#\" onclick=\"popwindow(800,600,'alpedhuzes-sponsors.php',true);return false;\">Meer over onze hoofd- en andere bedrijfssponsoren &raquo;</a></td></tr></table></div>";
+#echo "<tr><td colspan=\"2\" align=\"right\"><a href=\"#\" onclick=\"popwindow(800,600,'alpedhuzes-sponsors.php',true);return false;\">Meer over onze hoofd- en andere bedrijfssponsoren &raquo;</a></td></tr>";
 
-echo "<div style=\"margin-bottom:20px;\"><h2>Wat is Alpe d&apos;HuZes?</h2>Alpe d&apos;HuZes is een actie waarbij de deelnemers, alleen of in een team, geld bijeen fietsen of lopen om een bijdrage leveren aan de strijd tegen kanker. Op &eacute;&eacute;n dag wordt meerdere malen de legendarische Alpe d
+echo "</table></div>";
 
-&apos;Huez beklommen. Het evenement heeft plaatsgevonden op 6 en 7 juni 2012.</div>";
+echo "<div style=\"margin-bottom:20px;\"><h2>Wat is Alpe d&apos;HuZes?</h2>Alpe d&apos;HuZes is een sponsoractie waarbij de deelnemers, alleen of in een team, zich volledig belangeloos inzetten om geld bijeen fietsen of lopen om een bijdrage leveren aan de strijd tegen kanker. Op &eacute;&eacute;n dag wordt meerdere malen de legendarische Alpe d&apos;Huez beklommen. Alpe d&apos;HuZes 2013 vindt plaats op woensdag 5 en donderdag 6 juni 2013.</div>";
 
-echo "<div style=\"margin-bottom:20px;\"><h2>Waarom hebben wij meegedaan?</h2><b>E&eacute;n op de drie Nederlanders krijgt kanker.</b><br>Kanker is alom tegenwoordig.  Er tegen vechten lijkt zinloos. Iedereen maakt van dichtbij mee hoe levens  drastisch be&iuml;nvloed en verwoest worden. In de strijd tegen kanker ervaren zowel  pati&euml;nten als hun dierbaren een groot gevoel van onmacht. Alpe d&apos;HuZes is  opgericht met als doel de onmacht die door kanker ontstaat, om te zetten in  kracht.<br>Na een aantal jaren het evenement gesponsord te hebben, heeft het team van Chalet.nl, bestaande uit 5 personeelsleden, 3 partners/vrienden en een coach, voor het eerst meerdere malen de berg beklommen. We hadden allemaal onze eigen beweegredenen voor deelname maar een gemeenschappelijke doelstelling:<br><br><b>zoveel mogelijk geld bijeen fietsen of lopen om een bijdrage leveren aan de strijd tegen de gevolgen van kanker.</b><br><br><b>Anti-strijkstokbeleid</b><br>Alpe d&apos;HuZes hanteert een strikt antistrijkstok beleid. Kosten voor deelname, vervoer, verblijf, fietsen en overig materiaal worden bekostigd door de deelnemers zelf. Daardoor kunnen we garanderen dat 100% van het ingezamelde geld ook daadwerkelijk ten goede.</div>";
+echo "<div style=\"margin-bottom:20px;\"><h2>Waarom doen wij mee?</h2><b>E&eacute;n op de drie Nederlanders krijgt kanker.</b><br>Kanker is alom tegenwoordig. Er tegen vechten lijkt zinloos. Iedereen maakt van dichtbij mee hoe levens drastisch be&iuml;nvloed en verwoest worden. In de strijd tegen kanker ervaren zowel pati&euml;nten als hun dierbaren een groot gevoel van onmacht. Alpe d&apos;HuZes is opgericht met als doel de onmacht die door kanker ontstaat, om te zetten in kracht.<br/>Na een succesvolle deelname in 2012 met als resultaat 18 beklimmingen en bijna 31.000 euro gaat in 2013 een deels nieuw Chalet.nl-team de uitdaging aan. Met 8 fietsers gaan we proberen 40x omhoog te rijden en daarmee 40.000 euro in te zamelen. Dit kunnen we niet alleen, alle steun is welkom.
+</div>";
 
-echo "<div style=\"margin-bottom:20px;\"><h2>Het resultaat: 30.000 euro voor het goede doel!</h2>Alle teamleden hebben stuk voor stuk vele inspanningen verricht om zoveel mogelijk donaties in te zamelen. De sponsorgelden per beklimming moeten deels nog binnenkomen. Zodra dit binnen is, kunnen we met een goed gevoel maar liefst ca. 30.000 euro overdragen aan het goede doel. Nogmaals alle sponsoren enorm bedankt voor jullie inbreng!</div>";
+echo "<div style=\"margin-bottom:20px;\"><b>Anti-strijkstokbeleid</b><br/>Alpe d&apos;HuZes hanteert een strikt antistrijkstok beleid. Kosten voor deelname, vervoer, verblijf, fietsen en overig materiaal worden bekostigd door de deelnemers zelf. Daardoor kunnen we garanderen dat 100% van het ingezamelde geld ook daadwerkelijk ten goede van de actie komt. Ook heeft Alpe d&apos;HuZes een <a href=\"http://www.opgevenisgeenoptie.nl/anbi_status\" target=\"_blank\">ANBI status</a> wat het extra aantrekkelijk maakt te doneren.</div>";
 
-$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/bertduuren/bert-van-duuren/"]="Bert van Duuren";
-$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/selinasijtsma/selina-sijtsma/"]="Sélina Sijtsma";
-$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/brendastam/brenda-stam/"]="Brenda Stam";
+echo "<div style=\"margin-bottom:20px;\"><h2>Ons doel: 40.000 euro voor de strijd tegen kanker!</h2><br/>Om het voor bedrijven extra aantrekkelijk te maken om ons te steunen hebben we een viertal zakelijke sponsorpakketten ontwikkeld. <a href=\"".$vars["path"]."pic/tijdelijk/ad6/sponsorpakketten-zakelijk-alpe-dhuzes-2013-team-chalet nl.pdf\" target=\"_blank\">Meer informatie over onze sponsorpakketten &raquo;</a><br/><br/>Naast u te vragen ons te sponsoren organiseert het team een aantal sponsoractiviteiten, waarbij de locaties, inkoop en inzet worden gesponsord en alle opbrengsten rechtstreeks en volledig naar Alpe d&apos;HuZes gaan. De agenda voor deze activiteiten ziet er als volgt uit:
+
+<table cellspacing=\"5\" class=\"agenda\">
+<tr><td><i>&nbsp;</i></td><td style=\"white-space:nowrap;\">2 maart:</td><td>Diverse activiteiten + aansluitende stamppotmaaltijd,<br/>Par-Tee Centre / Golfpark Almkreek te Almkerk</td></tr>
+<tr><td><i>&nbsp;</i></td><td style=\"white-space:nowrap;\">11 maart:</td><td>Diner in restaurant De Goede Gooier te Blaricum</td></tr>
+<tr><td><i>&nbsp;</i></td><td style=\"white-space:nowrap;\">16 maart:</td><td>Buffet-diner met aansluitend 80&apos;s/90&apos;s feestavond bij De Boerinn te Kamerik</td></tr>
+<tr><td><i>&nbsp;</i></td><td style=\"white-space:nowrap;\">25 maart:</td><td>Diner in <a href=\"http://www.degoedegooier.nl/\" target=\"_blank\">De Goede Gooier</a> te Blaricum</td></tr>
+</table>
+</div>";
+
+echo "<div style=\"margin-bottom:20px;\">Voor een kankerpatient is opgeven geen optie, en dit motto is geadopteerd door Alpe d&apos;HuZes. Help mee om anderen goed, gelukkig en gezond te laten leven met kanker en steun onze actie!!!!</div>";
+
+$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/andelaj/ad-van-andel/"]="Ad van Andel";
 $deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/marcohollemans/marco-hollemans/"]="Marco Hollemans";
-$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/mariskavanschaik/mariska-van-schaik/"]="Mariska van Schaik";
-$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/lauravanmil/laura-van-miltenburg/"]="Laura van Miltenburg";
-$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/selmadekens/selma-dekens/"]="Selma Dekens";
-$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/landeweerd-casema-nl/harold-landeweerd/"]="Harold Landeweerd";
+$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/bertduuren/bert-van-duuren/"]="Bert van Duuren";
+$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/patrickverdoold/patrick-verdoold/"]="Patrick Verdoold";
+$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/gerardkoelink/gerard-koelink/"]="Gerard Koelink";
+$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/rogiersluyter/rogier-sluyter/"]="Rogier Sluyter";
+$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/marcelstek/marcel-van-stek/"]="Marcel van Stek";
+$deelnemers["http://deelnemers.opgevenisgeenoptie.nl/acties/woutervellema/wouter-vellema/"]="Wouter Vellema";
 
 
 echo "<div style=\"margin-bottom:20px;\"><h2><a href=\"http://deelnemers.opgevenisgeenoptie.nl/teams/chalet-nl-vakantiewoningen\" target=\"_blank\">Ons team: Chalet.nl vakantiewoningen</a></h2><br>";
@@ -72,7 +114,7 @@ while(list($key,$value)=each($deelnemers)) {
 	}
 	$foto=split("/",$key);
 	echo "<div class=\"fotoblok\" style=\"margin-bottom:20px;text-align:left;\">";
-	echo "<a href=\"#\" onclick=\"popwindow(990,800,'".$key."',true);return false;\"><img src=\"".$vars["path"]."pic/tijdelijk/fotos/".$foto[5].".jpg?c=1\" style=\"float:left;\"width=\"100\" height=\"100\" border=\"0\"></a>";
+	echo "<a href=\"#\" onclick=\"popwindow(990,800,'".$key."',true);return false;\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6/".$foto[5].".png?c=1\" style=\"float:left;\"width=\"100\" height=\"100\" border=\"0\"></a>";
 	echo "<a href=\"#\" onclick=\"popwindow(990,800,'".$key."',true);return false;\"><b>".htmlentities($value)."</b></a>";
 	echo "</div>";
 	echo "</div>";
@@ -80,37 +122,5 @@ while(list($key,$value)=each($deelnemers)) {
 echo "</div>";
 
 echo "<div style=\"clear:both;\"></div>";
-echo "<div style=\"margin-bottom:30px;\"><img src=\"".$vars["path"]."pic/tijdelijk/fotos/coach.jpg?c=1\" style=\"float:right;\"width=\"100\" height=\"100\" border=\"0\"><h2>Onze teamcoach</h2>Onze coach <b>Bob van &apos;t Hof</b> is Amateur B wielrenner sinds 2007 bij LRTV SWIFT uit Leiden. Zijn sterke punten: kan goed sturen, is een snelle koprijder en rijdt zijn concurrenten uit het wiel. Bob gaf ons advies, heeft ons begeleid bij het trainen ons gesteund op weg naar de top!</div>";
-
-
-
-//echo "<div style=\"margin-top:15px;margin-bottom:20px;\"><h2>Sponsoring</h2>Hieronder lees je alles over de mogelijkheden voor sponsoring. Alle persoonlijke sponsoren worden vermeld op onze team- of persoonlijke pagina. Voor bedrijven hebben wij een aantal sponsorpakketten samengesteld.<br><br><b>Persoonlijke sponsoring</b><br>Van alle deelnemers wordt verwacht dat zij tenminste &euro; 2.500,- aan sponsorgeld inzamelen. Het is mogelijk om ons team als geheel te sponsoren maar je kunt ook &eacute;&eacute;n of meerdere deelnemers persoonlijk sponsoren.<br>Doneren gaat direct via de <a href=\"#\" onclick=\"popwindow(990,800,'http://deelnemers.opgevenisgeenoptie.nl/teams/chalet-nl-vakantiewoningen/',true);return false;\">teampagina</a> of de <a href=\"#\" onclick=\"popwindow(990,800,'http://deelnemers.opgevenisgeenoptie.nl/teams/chalet-nl-vakantiewoningen/teamactions.aspx',true);return false;\">persoonlijke pagina's</a>. Je kunt op twee manieren doneren: eenmalig of via toezegging per beklimming. In het eerste geval betaal je meteen (met Ideal) en in het laatste geval betaal je na het evenement.<br><br><b>Sponsoring voor bedrijven</b><br>Voor bedrijven die ons sponsoren doen wij graag wat terug. Hieronder staat een overzicht van de sponsorpakketen en de exposure die we je kunnen bieden. Heb je zelf een idee, dan horen wij dat graag!<br><br><br><b>Sponsorpakket 1- Naar de Berg : &euro; 250,-</b><ul><li>Vermelding als donateur op de teampagina van Chalet.nl op <a href=\"#\" onclick=\"popwindow(990,800,'http://www.opgevenisgeenoptie.nl/',true);return false;\">www.opgevenisgeenoptie.nl</a></li><li>Logovermelding op de Alpe d'Huzes pagina op www.chalet.nl en www.zomerhuisje.nl (ca. 15.000 bezoekers per week)</li><li>Een link naar alle sponsoren wordt twee keer vermeld in de nieuwsbrief (17.000 adressen)</li></ul><br><b>Sponsorpakket 2 - De Berg op : &euro; 500,-</b><ul><li>Alle uitingen van sponsorpakket 1</li><div style=\"margin-left:-30px;\">+</div><li>Logovermelding op de trainingskleding van het team</li><li>Korte omschrijving van de bedrijfsactiviteiten op Alpe d'Huzes pagina op www.chalet.nl en www.zomerhuisje.nl</li></ul><br><b>Sponsorpakket 3 - Naar de Top : &euro; 1.000,- </b><ul><li>Alle uitingen van sponsorpakket 1 en 2</li><div style=\"margin-left:-30px;\">+</div><li>Logo op het offici&euml;le Alpe d'Huzes shirt dat door het team gedragen wordt op 6 juni</li><li>Banner/ spandoek langs de Alpe d'Huzes route</li></ul><br><b>Sponsorpakket 4 - Over de Top: ?</b><br>Wil je meer doneren? Dan stellen we graag in overleg een sponsorpakket op maat samen.<br><br><b>Communicatie &amp; Publicatie</b><br>Onze deelname wordt gecommuniceerd via onze websites Chalet.nl en Zomerhuisje.nl (ca. 15.000 bezoekers per week), via onze nieuwsbrieven (17.000 leden) en via onze Twitter en Facebook accounts.<br>Voor bedrijven die op de eigen website willen vermelden dat ze sponsor zijn van de Alpe d'HuZes, stelt de organisatie van de Alpe d'HuZes een aantal banners beschikbaar voor sponsoren. Deze kun je via de volgende link downloaden: <a href=\"#\" onclick=\"popwindow(990,800,'http://www.opgevenisgeenoptie.nl/sponsors/downloads.php',true);return false;\">http://www.opgevenisgeenoptie.nl/sponsors/downloads.php</a><br><br><b>Anti-strijkstokbeleid</b><br>Alpe d'HuZes hanteert een strikt antistrijkstok beleid. Kosten voor deelname, vervoer, verblijf, fietsen en overig materiaal worden bekostigd door de deelnemers zelf. Daardoor kunnen we garanderen dat 100% van het ingezamelde geld ook daadwerkelijk ten goede komt aan het onderzoek naar de bestrijding en preventie van kanker.<br><br><b>Fiscaal aftrekbaar</b><br>Alpe d'Huzes is een officieel erkend doel door de belastingdienst. Daarmee is jouw sponsoring fiscaal aftrekbaar, een extra voordeel.</div>";
-
-
-echo "<div style=\"text-align:center;margin-bottom:20px;\"><table style=\"margin-left:auto;margin-right:auto;margin-top:5px;width:610px;border:1px solid #cccccc;\"><tr><td colspan=\"2\" align=\"center\" style=\"font-weight:bold;\">Onze bedrijfssponsoren:</td></tr><tr><td><a href=\"http://www.biss-magazine.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_bis.gif\" width=\"240\" title=\"Biss Magazine: Magazine over ondernemers\" border=\"0\"></a></td><td><a href=\"http://www.europeesche.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_euro.gif\" width=\"240\" title=\"Europeesche Verzekeringen: Recreatiespecialist op verzekeringsgebied in Nederland. Vorig jaar gekozen tot de beste Reisverzekeraar\" border=\"0\"></a></td></tr><tr><td><a href=\"http://www.keesvanschaik.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_vs.gif\" width=\"240\" title=\"Elektrotechniek Kees van Schaik: Elektrotechnische installaties, beveiliging, telecommunicatie en netwerkinstallaties voor zowel bedrijven als particulieren.\" border=\"0\"></a></td><td><a href=\"http://www.webtastic.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_wt.gif\" width=\"240\" title=\"WebTastic Webontwikkeling ontwerpt, bouwt, implementeert en onderhoudt professionele websites en webapplicaties voor internet en intranet.\" border=\"0\"></a></td></tr>
-
-
-
-
-
-
-<tr><td colspan=\"2\"><table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;\"><tr><td align=\"center\" width=\"33%\"><a href=\"http://www.hof-relatiemarketing.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_hof.gif\" width=\"110\" title=\"Van 't Hof relatiemarketing: (sport)relatiemarketing concepten voor bedrijven. Deze zakelijke concepten staan voor; plezier, actie, netwerken en merkactivering.\" border=\"0\"></a></td>
-
-<td align=\"center\" width=\"33%\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_mh.gif\" width=\"160\" title=\"MH/Vitam: Ondersteuning van ICT organisaties bij hun commerci&euml;le processen door sales outsourcing, (interim) account en salesmanagement en business development.\" border=\"0\"></a></td>
-
-
-<td align=\"center\" width=\"33%\"><a href=\"http://www.iuristen.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_iuris.gif\" width=\"110\" title=\"IURIS: Juridische projectbegeleiding van Bouw-en infraprojecten. Gespecialiseerd in interactie tussen RO, bouwen, milieu &amp; natuur. Onderscheidend door de combinatie van rechten &amp; techniek.\" border=\"0\"></a></td></tr></table></td></tr>
-
-<tr><td colspan=\"3\" align=\"center\">
-
-<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;\"><tr><td align=\"center\" width=\"50%\">
-<a href=\"http://www.stoofit.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_stoof.png\" width=\"100\" title=\"Stoof &amp; Computers! zorgt voor minder files op de digitale snelweg en dat U niet struikelt over het draadloze netwerk.\" border=\"0\"></a>
-</td>
-<td align=\"center\" width=\"50%\">
-<a href=\"http://www.vanvredendaaladvies.nl/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/ad6_vanvredendaal.png\" width=\"240\" title=\"Van Vredendaal Advies is een jong, eigentijds en vakkundig assurantiekantoor dat graag het contact met zijn klanten zoekt. Adviseur Ernst van Vredendaal en relatiebeheerders binnendienst Jojanneke van Zelm en Joyce focussen zich op maatwerk in verzekeringen, hypotheken en financieringen.\" border=\"0\"></a>
-</td></tr>
-
-</table></td></tr>
-<tr><td colspan=\"2\" align=\"right\"><a href=\"#\" onclick=\"popwindow(800,600,'alpedhuzes-sponsors.php',true);return false;\">Meer informatie over onze bedrijfssponsoren &raquo;</a></td></tr></table></div>";
 
 ?>
