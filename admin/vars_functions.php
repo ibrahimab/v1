@@ -3918,6 +3918,7 @@ function googleanalytics() {
 		var page_with_tabs=false;
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', '".$vars["googleanalytics"]."']);
+		_gaq.push(['_gat._anonymizeIp']);
 		".$vars["googleanalytics_extra"].$extra."
 
 		var canonical_link;

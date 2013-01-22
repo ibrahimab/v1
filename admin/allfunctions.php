@@ -84,11 +84,13 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 		# MySQL-server te druk: touch tekstbestand
 		if(preg_match("/Too many connections/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr)) {
 			@touch($GLOBALS["vars"]["unixdir"]."tmp/mysql_too_busy.txt");
+			$mysql_connection_error=true;
 		}
 
 		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr)) {
 
 			$GLOBALS["errorcounterfunction"]["mysql"]++;
+			$mysql_connection_error=true;
 
 			# MySQL-connectiefouten: max 1x per 15 minuten loggen
 			if(@filemtime($GLOBALS["vars"]["unixdir"]."tmp/mysql_connection_error.txt")<time()-900) {
@@ -97,6 +99,10 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			} else {
 				$nietopslaan=true;
 			}
+		}
+
+		if($GLOBALS["vars"]["wt_error_handler_mysql_notice"] and $mysql_connection_error) {
+			$errstr="_notice: ".$errstr;
 		}
 
 		if(!$nietopslaan) {
@@ -1671,6 +1677,7 @@ function wt_csvrevert($string,$delimiter=",") {
 }
 
 function wt_csv_to_array($filename='', $delimiter=';') {
+	// zet csv om naar array: functie werkt niet goed?? (21-01-2013)
 	if(!file_exists($filename) || !is_readable($filename)) return FALSE;
 
 	$header = NULL;
