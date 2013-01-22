@@ -308,6 +308,11 @@ echo "</div>"; # afsluiten ab_landen
 # Opval-blok
 #
 echo "<div id=\"ab_rechterbalk\">";
+
+
+echo opvalblok();
+
+
 if(!$_GET["aid"]) {
 	$db->query("SELECT a.aanbieding_id, a.opval_regel1, a.opval_regel2, a.opval_regel3, a.opval_linknaar, l.naam AS land FROM aanbieding a, land l WHERE a.opval_land=l.land_id AND a.opval_tonen=1 AND a.accommodaties_beschikbaar=1 AND a.begindatum<='".date("Y-m-d")."' AND (a.einddatum>='".date("Y-m-d")."' OR a.einddatum IS NULL) AND a.archief=0 AND a.tonen=1".($land["id"] ? " AND a.opval_land='".addslashes($land["id"])."'" : "")." AND a.toon_abpagina REGEXP '[[:<:]]".$vars["websitetype"]."[[:>:]]' ORDER BY a.opval_volgorde, a.begindatum, a.einddatum, a.aanbieding_id".($land["id"] ? "" : " LIMIT 0,3").";");
 	while($db->next_record()) {
@@ -332,6 +337,8 @@ if(!$_GET["aid"]) {
 		echo "</div>"; # afsluiten class aanbieding_opvalblok
 	}
 }
+
+
 echo "</div>"; # afsluiten ab_rechterbalk
 echo "<div class=\"clear\"></div>";
 

@@ -4054,4 +4054,78 @@ function xml_text($text,$use_cdata=true) {
 	return $return;
 }
 
+#
+# Opval-blok
+#
+function opvalblok() {
+
+	global $vars,$id,$themalandinfo,$land;
+
+	$db=new DB_sql;
+
+
+	# limit (standaard: 1 resultaat tonen)
+	$limit="0,1";
+
+	# where bepalen
+	if($id=="index") {
+		$where="b.hoofdpagina=1";
+	} elseif($id=="thema") {
+		$where="b.thema_id='".intval($themalandinfo["id"])."'";
+	} elseif($id=="land") {
+		$where="b.land_id='".intval($themalandinfo["id"])."'";
+	} elseif($id=="themas") {
+		$where="b.themaoverzicht=1";
+	} elseif($id=="bestemmingen") {
+		$where="b.bestemmingen=1";
+	} elseif($id=="aanbiedingen_zomerhuisje") {
+		$where="b.aanbiedingenpagina=1";
+
+		if($land["id"]) {
+			# alleen blokken uit gekozen land tonen
+			$where.=" AND b.land_id='".intval($land["id"])."'";
+		}
+
+		# 10 resultaten tonen
+		$limit="0,10";
+	} else {
+		$where="1=1";
+	}
+
+
+
+	$checkdate=mktime(0,0,0,date("m"),date("d"),date("Y"));
+	$db->query("SELECT b.regel1, b.regel2, b.regel3, b.begindatum, b.einddatum, t.type_id, a.accommodatie_id, l.begincode FROM blokaccommodatie b, accommodatie a, type t, plaats p, land l WHERE b.websitetype=7 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND b.tonen=1 AND a.tonen=1 AND t.tonen=1 AND (b.begindatum IS NULL OR b.begindatum<=NOW()) AND (b.einddatum IS NULL OR b.einddatum>=NOW()) AND ".$where." ORDER BY RAND() LIMIT ".$limit.";");
+
+#echo $db->lq;
+	while($db->next_record()) {
+
+		unset($afbeelding);
+		if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
+			$afbeelding="pic/cms/types_specifiek/".$db->f("type_id").".jpg";
+		} elseif(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
+			$afbeelding="pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg";
+		} elseif($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+			$afbeelding="pic/cms/accommodaties/1097.jpg";
+		}
+
+		if(file_exists($afbeelding)) {
+			$opvalblok_teller++;
+
+			$url=$vars["path"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
+
+			$return.="<div class=\"opvalblok\" onclick=\"document.location.href='".wt_he($url)."'\">";
+			$return.="<div class=\"opvalblok_regel1\">".wt_he($db->f("regel1"))."</div>";
+			$return.="<div class=\"opvalblok_regel2\">".wt_he($db->f("regel2"))."</div>";
+			$return.="<div class=\"overlay_foto\">";
+			$return.="<img src=\"".wt_he($vars["path"].$afbeelding)."\">";
+			$return.="<div class=\"opvalblok_regel3\">".wt_he($db->f("regel3"))."</div>";
+			$return.="</div>";
+			$return.="</div>"; # afsluiten class opvalblok
+		}
+	}
+
+	return $return;
+}
+
 ?>

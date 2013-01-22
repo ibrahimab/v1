@@ -356,10 +356,17 @@ if($vars["verberg_linkerkolom"]) {
 			}
 		}
 
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $id<>"aanbiedingen_zomerhuisje") {
+	unset($blokaccommodatie);
+	$blokaccommodatie_nieuw=opvalblok();
+}
+
 		if($html_ipv_blokaccommodatie) {
 			echo "<div id=\"blokaccommodatie\"".($html_ipv_blokaccommodatie_bgcolor ? " style=\"background-color:".$html_ipv_blokaccommodatie_bgcolor."\"" : "").">";
 			echo $html_ipv_blokaccommodatie;
 			echo "</div>";
+		} elseif($blokaccommodatie_nieuw) {
+			echo $blokaccommodatie_nieuw;
 		} elseif($blokaccommodatie) {
 			$bgcolor="#ffd38f";
 			$random_blokaccommodatie=rand(1,$blokaccommodatie_teller);

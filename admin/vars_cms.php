@@ -217,12 +217,6 @@ if($mustlogin) {
 	$layout->submenu_item("cms_blokkenhoofdpagina","","cms_blokkenhoofdpagina","Zomerhuisje",array("wzt"=>"2"),true);
 	$layout->submenu_item("cms_blokkenhoofdpagina","","cms_blokkenhoofdpagina","Italissima",array("wzt"=>"3"),true);
 
-#	$layout->menu_item("cms_blokkenaccommodaties","Blokken links","",true);
-
-	$layout->menu_item("cms_blokkenaccommodaties","Blokken links","",true,false,array("slide"=>true));
-	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Zomerhuisje",array("wst"=>"3"),true);
-	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Italissima",array("wst"=>"7"),true);
-
 	$layout->menu_item("cms_boekingen","Boekingen",array("archief"=>"0"),true,false,array("slide"=>true));
 
 	$layout->submenu_item("cms_boekingen--archief__WTIS__0","","cms_boekingen","Aangevraagd",array("bt"=>"1","archief"=>"0"),true);
@@ -290,8 +284,11 @@ if($mustlogin) {
 
 	$layout->menu_item("cms_optie_soorten","Opties","",true);
 
-#	$layout->menu_item("cms_overzichten","Overzichten","",true);
+	$layout->menu_item("cms_blokkenaccommodaties","Opvalblokkken","",true,false,array("slide"=>true));
+	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Zomerhuisje",array("wst"=>"3"),true);
+	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Italissima",array("wst"=>"7"),true);
 
+	# Overzichten
 	$layout->menu_item("cms_overzichten","Overzichten","",true,false,array("slide"=>true));
 	if($login->has_priv("22")) {
 		$layout->submenu_item("cms_overzichten","","cms_overzichten_boekingen","Adressen bij boekingen",array("t"=>"5"),true);
@@ -309,6 +306,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Nieuwsbrief-leden",array("t"=>"10"),true);
 	$layout->submenu_item("cms_overzichten","","cms_bezettingsoverzichten","Bezetting",array("t"=>"12"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Overig",array("t"=>"9"),true);
+
 
 	$layout->menu_item("cms_plaatsen","Plaatsen","",true,false,array("slide"=>true));
 	$layout->submenu_item("cms_plaatsen","","cms_plaatsen","Winter",array("wzt"=>"1"),true);
@@ -726,8 +724,8 @@ if($mustlogin) {
 	$cms->db[37]["maintable"]="blokhoofdpagina";
 
 	# 38 = blokken met accommodaties (links op de pagina's)
-	$cms->settings[38]["types"]="blokken links";
-	$cms->settings[38]["type_single"]="blok links";
+	$cms->settings[38]["types"]="opvalblokken";
+	$cms->settings[38]["type_single"]="opvalblok";
 	$cms->settings[38]["file"]="cms_blokkenaccommodaties.php";
 	$cms->settings[38]["log"]["active"]=true;
 	$cms->db[38]["maintable"]="blokaccommodatie";

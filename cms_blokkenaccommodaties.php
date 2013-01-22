@@ -39,12 +39,14 @@ $cms->db_field(38,"checkbox","websites","",array("selection"=>$vars["websites_wz
 $cms->db_field(38,"text","internenaam");
 $cms->db_field(38,"text","regel1");
 $cms->db_field(38,"text","regel2");
+$cms->db_field(38,"text","regel3");
 $cms->db_field(38,"select","type_id","",array("selection"=>$vars["alletypes"][$_GET["wzt"]]));
 $cms->db_field(38,"date","begindatum");
 $cms->db_field(38,"date","einddatum");
 $cms->db_field(38,"yesno","hoofdpagina");
 $cms->db_field(38,"yesno","bestemmingen");
 $cms->db_field(38,"yesno","themaoverzicht");
+$cms->db_field(38,"yesno","aanbiedingenpagina");
 if($_GET["wst"]==7) {
 	$cms->db_field(38,"select","skigebied_id","",array("othertable"=>"5","otherkeyfield"=>"skigebied_id","otherfield"=>"naam","otherwhere"=>"skigebied_id IN (SELECT DISTINCT skigebied_id FROM view_accommodatie WHERE land_id=5)"));
 	$cms->db_field(38,"select","plaats_id","",array("othertable"=>"4","otherkeyfield"=>"plaats_id","otherfield"=>"naam","otherwhere"=>"land_id=5"));
@@ -66,10 +68,10 @@ $cms->settings[38]["list"]["add_link"]=true;
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_sort[38]=array("begindatum","einddatum","type_id","regel1","regel2","internenaam");
+$cms->list_field(38,"internenaam","Interne naam");
 $cms->list_field(38,"type_id","Accommodatie");
-$cms->list_field(38,"regel1","Regel 1");
-$cms->list_field(38,"regel2","Regel 2");
-$cms->list_field(38,"internenaam","Intern");
+#$cms->list_field(38,"regel1","Regel 1");
+#$cms->list_field(38,"regel2","Regel 2");
 $cms->list_field(38,"tonen","Tonen");
 $cms->list_field(38,"begindatum","Begindatum",array("date_format"=>"DAG D MAAND JJJJ"));
 $cms->list_field(38,"einddatum","Einddatum",array("date_format"=>"DAG D MAAND JJJJ"));
@@ -92,15 +94,20 @@ if($cms->set_delete_init(38)) {
 $cms->edit_field(38,0,"tonen","Tonen op de website",array("selection"=>true));
 #$cms->edit_field(38,0,"websites","Websites",array("selection"=>($_GET["wzt"]==1 ? "B,C,E,T,W" : "N,O,S,Z")),"",array("one_per_line"=>true));
 
-$cms->edit_field(38,1,"type_id","Accommodatie");
-$cms->edit_field(38,1,"regel1","Regel 1");
-$cms->edit_field(38,0,"regel2","Regel 2");
 $cms->edit_field(38,0,"internenaam","Interne omschrijving van dit blok");
-$cms->edit_field(38,0,"begindatum","Begindatum","","",array("calendar"=>true));
-$cms->edit_field(38,0,"einddatum","Einddatum","","",array("calendar"=>true));
+$cms->edit_field(38,0,"htmlrow","<hr>");
+
+$cms->edit_field(38,1,"type_id","Accommodatie");
+$cms->edit_field(38,1,"regel1","Regel 1","","",array("info"=>"Vul hier de regio in waar de accommodatie gelegen is."));
+$cms->edit_field(38,1,"regel2","Regel 2","","",array("info"=>"Vul hier een pakkende zin ('trigger') in."));
+$cms->edit_field(38,1,"regel3","Regel 3","","",array("info"=>"Vul hier de korting in die de klant krijgt (bijv. -15% op weekverblijf)"));
+$cms->edit_field(38,0,"htmlrow","<hr><i>Wanneer moet dit blok getoond worden? (velden zijn niet verplicht)</i>");
+$cms->edit_field(38,0,"begindatum","Toon vanaf","","",array("calendar"=>true));
+$cms->edit_field(38,0,"einddatum","Tot en met","","",array("calendar"=>true));
 $cms->edit_field(38,0,"htmlrow","<hr><b>Toon dit blok op de volgende pagina's</b>");
 $cms->edit_field(38,0,"hoofdpagina","Hoofdpagina");
 $cms->edit_field(38,0,"bestemmingen","Bestemmingen");
+$cms->edit_field(38,0,"aanbiedingenpagina","Aanbiedingenpagina");
 if($_GET["wst"]<>7) {
 	$cms->edit_field(38,0,"themaoverzicht","Thema-overzicht");
 	$cms->edit_field(38,0,"thema_id","Thema");
