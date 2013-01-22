@@ -247,14 +247,14 @@ if($testsysteem) {
 #	$xml_urls[7][2]=$test_tmpdir."belt.xml";
 #	$xml_urls[8][1]=$test_tmpdir."availability.xml.1";
 #	$xml_urls[8][2]=$test_tmpdir."unitrates.xml";
-#	$xml_urls[8][3]=$test_tmpdir."unit.xml";
+	$xml_urls[8][3]=$test_tmpdir."unit.xml";
 #	$xml_urls[9][2]=$test_tmpdir."nl";
 #	$xml_urls[10][1]=$test_tmpdir."1.xml";
 #	$xml_urls[11][1]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
 #	$xml_urls[11][2]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
 #	$xml_urls[12][1]=$test_tmpdir."deuxalpes.xml";
 #	$soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
-	$xml_urls[14][1]=$test_tmpdir."deuxalpes.xml";
+#	$xml_urls[14][1]=$test_tmpdir."deuxalpes.xml";
 #	$soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
 #	$xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
 #	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
@@ -1776,11 +1776,147 @@ while(list($key,$value)=@each($aantal_beschikbaar)) {
 	}
 }
 
+
+if(is_array($lastminute) and $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	#
+	# lastminutes vewerken (bestaat alleen voor Posarelli)
+	#
+
+
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	$db->query("DELETE FROM korting;");
+	$db->query("DELETE FROM korting_tarief;");
+	$db->query("DELETE FROM aanbieding;");
+	$db->query("DELETE FROM aanbieding_aankomstdatum;");
+}
+
+
+
+
+#	echo wt_dump($lastminute,false);
+#	exit;
+
+	$db->query("SELECT DISTINCT ta.seizoen_id, ta.type_id FROM tarief ta, type t WHERE ta.type_id=t.type_id AND t.leverancier_id IN (SELECT leverancier_id FROM leverancier WHERE zwitersefranken=1) AND ta.week>'".time()."';");
+#echo $db->lastquery."<br>";
+	while($db->next_record()) {
+
+	}
+
+	unset($seizoen_zwitersefranken_kortingspercentage,$seizoen_begin,$seizoen_eind,$week,$kortingid);
+
+	$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen;");
+	while($db->next_record()) {
+		$seizoen_eind[$db->f("seizoen_id")]=$db->f("eind");
+	}
+
+	# Zorgen dat gewiste kortingen straks ook worden doorgerekend
+	$db->query("SELECT DISTINCT type_id FROM korting WHERE xml_korting=1;");
+	while($db->next_record()) {
+		$typeid_berekenen_inquery.=",".$db->f("type_id");
+	}
+
+	# Kortingen die niet meer gelden straks kunnen wissen
+	$db->query("UPDATE korting SET delete_after_xml_korting=1 WHERE xml_korting=1;");
+
+	while(list($key,$value)=@each($lastminute)) {
+		while(list($key2,$value2)=each($value)) {
+			while(list($key3,$value3)=each($value2)) {
+				unset($aanbiedinginfo);
+				# $key3 = winter of zomer
+
+				unset($percentage,$before,$aanbieding_xmlcode);
+
+				$aanbieding_xmlcode=$key."_".$key3."_".$key2;
+
+				if(ereg("^([0-9]+)_([0-9]+)$",$key2,$regs)) {
+					$percentage=$regs[1];
+					$before=$regs[2];
+				}
+
+				# Aankomstdata bepalen
+				unset($korting_aankomstdata,$korting_seizoen_inquery);
+				$korting_seizoen_inquery=",0";
+				reset($seizoenen[$key3]);
+				while(list($key4,$value4)=each($seizoenen[$key3])) {
+					if($key4>time() and $key4<=mktime(0,0,0,date("m"),date("d")+$before,date("Y"))) {
+						$korting_aankomstdata[$value4][$key4]=true;
+						$korting_seizoen_inquery.=",".$value4;
+					}
+				}
+
+				$korting_internenaam="XML -/-".$percentage."% ".$before." dagen voor aankomst";
+
+				# Ieder type doorlopen
+				if($korting_aankomstdata) {
+
+					while(list($key4,$value4)=each($value3)) {
+						$typeteller++;
+
+						if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $typeteller>10) {
+#							continue;
+						}
+
+	echo "\n\n";
+	#					$db->query("INSERT INTO aanbieding_type SET aanbieding_id='".$aanbiedingid."', type_id='".$key4."', delete_after_xmlimport=0;");
+	#					echo $db->lastquery."<br>";
+
+						$typeid_berekenen_inquery.=",".$key4;
+
+						$db->query("SELECT DISTINCT seizoen_id FROM tarief WHERE type_id='".$key4."' AND seizoen_id IN (".substr($korting_seizoen_inquery,1).");");
+						while($db->next_record()) {
+
+
+							$db2->query("SELECT korting_id FROM korting WHERE xml_korting=1 AND type_id='".addslashes($key4)."' AND seizoen_id='".addslashes($db->f("seizoen_id"))."' AND naam='".addslashes($korting_internenaam)."';");
+							if($db2->next_record()) {
+								$kortingid=$db2->f("korting_id");
+								$db3->query("UPDATE korting SET delete_after_xml_korting=0, editdatetime=NOW() WHERE xml_korting=1 AND korting_id='".addslashes($db2->f("korting_id"))."';");
+							} else {
+								$db3->query("INSERT INTO korting SET actief=1, type_id='".addslashes($key4)."', volgorde='".intval(500-$percentage)."', seizoen_id='".addslashes($db->f("seizoen_id"))."', naam='".addslashes($korting_internenaam)."', onlinenaam='Lastminute-korting van ".$percentage."%', omschrijving='Voor reserveringen (van tenminste 7 nachten) die binnen ".$before." dagen voor aankomst gemaakt worden geldt een lastminute-korting van ".$percentage."%.', van=FROM_UNIXTIME(".mktime(0,0,0,date("m"),date("d")-1,date("Y"))."), tot=FROM_UNIXTIME(".$seizoen_eind[$db->f("seizoen_id")]."), toonexactekorting=1, aanbiedingskleur=1, toon_abpagina=1, xml_korting=1, adddatetime=NOW(), editdatetime=NOW();");
+								$kortingid=$db3->insert_id();
+							}
+
+	echo $db3->lq."\n";
+
+							if($kortingid) {
+								$db2->query("DELETE FROM korting_tarief WHERE korting_id='".addslashes($kortingid)."';");
+
+								reset($korting_aankomstdata[$db->f("seizoen_id")]);
+								while(list($key5,$value5)=each($korting_aankomstdata[$db->f("seizoen_id")])) {
+									$db2->query("INSERT INTO korting_tarief SET korting_id='".addslashes($kortingid)."', week='".$key5."', inkoopkorting_percentage='".$percentage."', aanbieding_acc_percentage='".$percentage."', opgeslagen=NOW();");
+	echo $db2->lq."\n";
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	# xml-kortingen die niet meer actief zijn wissen
+	$db->query("DELETE FROM korting_tarief WHERE korting_id IN (SELECT korting_id FROM korting WHERE delete_after_xml_korting=1 AND xml_korting=1);");
+	$db->query("DELETE FROM korting WHERE delete_after_xml_korting=1 AND xml_korting=1;");
+	$db->query("UPDATE korting SET delete_after_xml_korting=0;");
+
+
+	# Tarieven doorrekenen na wijzigen kortingen
+	if($typeid_berekenen_inquery) {
+		$typeid_berekenen_inquery=substr($typeid_berekenen_inquery,1);
+		include("tarieven_berekenen.php");
+	}
+}
+
 if(is_array($lastminute)) {
+
+
 
 	#
 	# lastminutes vewerken (werkt alleen (nog) bij Posarelli)
 	#
+
+#
+# OUD SYSTEEM: later verwijderen (22-01-2013)
+#
 
 	# toon_abpagina bepalen
 	while(list($key,$value)=each($vars["websitetype_namen_wzt"])) {

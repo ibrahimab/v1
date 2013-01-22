@@ -239,7 +239,13 @@ if($seizoen["naam"]) {
 		echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[gekoppeld_code]\" value=\"1\" style=\"vertical-align:middle;position:relative;bottom:1px;\"".($korting["gekoppeld_code"] ? " checked" : "").">&nbsp;Deze korting is geldig voor alle types van deze accommodatie</label></td></tr>";
 	}
 
-	echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"button\" value=\" OPSLAAN \" onclick=\"checkform();\" id=\"but1\">&nbsp;&nbsp;&nbsp;<input type=\"button\" value=\" ANNULEREN \" id=\"but2\" onclick=\"this.disabled=1;document.forms['tarieven'].but1.disabled=1;document.location='".htmlentities($_GET["from"])."'\"></td></tr>";
+	echo "<tr><td colspan=\"2\" align=\"center\">";
+	if($korting["xml_korting"]) {
+		echo "<div class=\"opvalblok\">Dit is een automatische XML-korting. Wijzigingen aanbrengen is niet mogelijk.</div>";
+	} else {
+		echo "<input type=\"button\" value=\" OPSLAAN \" onclick=\"checkform();\" id=\"but1\">&nbsp;&nbsp;&nbsp;";
+	}
+	echo "<input type=\"button\" value=\" ANNULEREN \" id=\"but2\" onclick=\"this.disabled=1;document.forms['tarieven'].but1.disabled=1;document.location='".htmlentities($_GET["from"])."'\"></td></tr>";
 
 	echo "</table>";
 

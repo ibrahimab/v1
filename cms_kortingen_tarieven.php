@@ -6,7 +6,7 @@
 
 if(!$skipastarieven_verwerken) {
 	$mustlogin=true;
-	
+
 	include("admin/vars.php");
 }
 
@@ -14,10 +14,10 @@ if($_POST["filled"]) {
 
 	# toonper bepalen
 	$toonper=$_POST["toonper"];
-	
+
 	# Datumtijd vaststellen
 	$datetime=time();
-	
+
 	# "korting" opslaan in database
 	$van=mktime(0,0,0,$_POST["input"]["van"]["month"],$_POST["input"]["van"]["day"],$_POST["input"]["van"]["year"]);
 	$tot=mktime(0,0,0,$_POST["input"]["tot"]["month"],$_POST["input"]["tot"]["day"],$_POST["input"]["tot"]["year"]);
@@ -42,11 +42,11 @@ if($_POST["filled"]) {
 	}
 	while(list($tid,$legevalue)=each($gekoppelde_types)) {
 		unset($kid,$savequery);
-		
+
 		if($inquery) $inquery.=",".$tid; else $inquery=$tid;
-		
+
 		$setquery="actief='".addslashes($_POST["input"]["actief"])."', naam='".addslashes($_POST["input"]["naam"])."', type_id='".addslashes($tid)."', gekoppeld_code='".addslashes($gekoppeld_code)."', seizoen_id='".addslashes($_GET["sid"])."', van=FROM_UNIXTIME('".$van."'), tot=FROM_UNIXTIME('".$tot."'), toonexactekorting='".addslashes($_POST["input"]["toonexactekorting"])."', toon_abpagina='".addslashes($_POST["input"]["toon_abpagina"])."', aanbiedingskleur='".addslashes($_POST["input"]["aanbiedingskleur"])."', onlinenaam".$vars["ttv"]."='".addslashes($_POST["input"]["onlinenaam"])."', omschrijving".$vars["ttv"]."='".addslashes($_POST["input"]["omschrijving"])."', volgorde='".addslashes($_POST["input"]["volgorde"])."', editdatetime=NOW()";
-	
+
 		if($_GET["kid"]) {
 			if($gekoppeld_code) {
 				$db->query("SELECT korting_id FROM korting WHERE type_id='".addslashes($tid)."' AND gekoppeld_code='".addslashes($gekoppeld_code)."';");
@@ -66,10 +66,10 @@ if($_POST["filled"]) {
 			$db->query("INSERT INTO korting SET ".$setquery.", adddatetime=NOW();");
 			$kid=$db->insert_id();
 		}
-		
+
 		# inkoopkorting_overnemen opslaan bij type
 		$db->query("UPDATE type SET inkoopkorting_overnemen='".addslashes($_POST["auto_overnemen"])."' WHERE type_id='".addslashes($tid)."';");
-	
+
 		# "korting_tarief" opslaan in database
 		reset($vars["korting_tarief_velden"]);
 		while(list($key,$value)=each($vars["korting_tarief_velden"])) {
@@ -82,11 +82,11 @@ if($_POST["filled"]) {
 				}
 			}
 		}
-	
+
 		if($kid) {
 			# Eerst gegevens wissen
 			$db->query("DELETE FROM korting_tarief WHERE korting_id='".addslashes($kid)."';");
-		
+
 			# Dan opslaan
 			while(list($key,$value)=@each($savequery)) {
 				# Opslaan in tabel korting_tarief
@@ -94,17 +94,17 @@ if($_POST["filled"]) {
 	#			echo $db->lastquery."<br>";
 			}
 		} else {
-			trigger_error("var kid is leeg bij opslaan korting",E_USER_NOTICE);		
+			trigger_error("var kid is leeg bij opslaan korting",E_USER_NOTICE);
 		}
 	}
-	
+
 	if($inquery) {
 		#
 		# Alle kortingen doorrekenen
 		#
 
 		unset($korting);
-			
+
 		# kortingen uit db halen
 		unset($korting);
 		$db->query("SELECT k.type_id, k.toonexactekorting, k.aanbiedingskleur, k.toon_abpagina, kt.week, kt.inkoopkorting_percentage, kt.aanbieding_acc_percentage, kt.aanbieding_skipas_percentage, kt.inkoopkorting_euro, kt.aanbieding_acc_euro, kt.aanbieding_skipas_euro FROM korting k, korting_tarief kt WHERE k.actief=1 AND kt.korting_id=k.korting_id AND UNIX_TIMESTAMP(k.van)<='".$vandaag."' AND UNIX_TIMESTAMP(k.tot)>='".$vandaag."' AND k.type_id IN (".$inquery.");");
@@ -125,7 +125,7 @@ if($_POST["filled"]) {
 			while(list($key2,$value2)=each($value)) {
 #				$db->query("UPDATE tarief SET kortingenverwerkt=1, kortingactief=1, inkoopkorting_percentage='".addslashes($value2["inkoopkorting_percentage"])."', aanbieding_acc_percentage='".addslashes($value2["aanbieding_acc_percentage"])."', aanbieding_skipas_percentage='".addslashes($value2["aanbieding_skipas_percentage"])."', inkoopkorting_euro='".addslashes($value2["inkoopkorting_euro"])."', aanbieding_acc_euro='".addslashes($value2["aanbieding_acc_euro"])."', aanbieding_skipas_euro='".addslashes($value2["aanbieding_skipas_euro"])."', toonexactekorting='".addslashes($value2["toonexactekorting"])."'  WHERE type_id='".addslashes($key)."' AND week='".addslashes($key2)."';");
 				$db->query("UPDATE tarief SET kortingenverwerkt=1, kortingactief=1, inkoopkorting_percentage='".addslashes($value2["inkoopkorting_percentage"])."', aanbieding_acc_percentage='".addslashes($value2["aanbieding_acc_percentage"])."', aanbieding_skipas_percentage='".addslashes($value2["aanbieding_skipas_percentage"])."', inkoopkorting_euro='".addslashes($value2["inkoopkorting_euro"])."', aanbieding_acc_euro='".addslashes($value2["aanbieding_acc_euro"])."', aanbieding_skipas_euro='".addslashes($value2["aanbieding_skipas_euro"])."', toonexactekorting='".addslashes($value2["toonexactekorting"])."', aanbiedingskleur_korting='".addslashes($value2["aanbiedingskleur"])."', korting_toon_abpagina='".addslashes($value2["toon_abpagina"])."' WHERE type_id='".addslashes($key)."' AND week='".addslashes($key2)."';");
-				
+
 #				echo $db->lastquery."<br>";
 			}
 		}
@@ -137,9 +137,9 @@ if($_POST["filled"]) {
 		unset($_POST);
 		reset($gekoppelde_types);
 		while(list($tid,$legevalue)=each($gekoppelde_types)) {
-		
+
 #			echo "Bereken ".$tid." (seizoen ".$_GET["sid"].")<br>";
-	
+
 			unset($seizoen,$acc,$skipas);
 			$_GET["tid"]=$tid;
 			include("cms_tarieven.php");
@@ -167,17 +167,17 @@ if($_POST["filled"]) {
 		# kortingactief en kortingenverwerkt uitzetten
 		$db->query("UPDATE tarief SET kortingactief=0 WHERE kortingenverwerkt=0 AND type_id IN (".$inquery.");");
 		$db->query("UPDATE tarief SET kortingenverwerkt=0 WHERE type_id IN (".$inquery.");");
-		
+
 
 		# verzameltype berekenen
 		reset($gekoppelde_types);
 		while(list($tid,$legevalue)=each($gekoppelde_types)) {
 			verzameltype_berekenen($_GET["sid"],$tid);
 		}
-	}	
+	}
 
 #exit;
-		
+
 	if($vars["bezoeker_is_jeroen"]) {
 #		exit;
 	}
@@ -201,7 +201,7 @@ if($_POST["filled"]) {
 		$seizoen["begin"]=$db->f("begin");
 		$seizoen["eind"]=$db->f("eind");
 	}
-	
+
 	# Accommodatiegegevens laden
 	$db->query("SELECT a.accommodatie_id, a.wzt, a.naam AS anaam, a.toonper, t.leverancier_id, t.inkoopkorting_overnemen, a.skipas_id, a.aankomst_plusmin, a.vertrek_plusmin, t.websites, t.naam AS tnaam, t.leverancierscode, t.code, p.naam AS plaats, t.optimaalaantalpersonen, t.maxaantalpersonen, t.aangepaste_min_tonen, l.begincode, lev.naam AS leverancier, lev.opmerkingen_intern, lev.aflopen_allotment, a.aantekeningen, t.aantekeningen AS taantekeningen, t.onderverdeeld_in_nummers, t.verzameltype FROM accommodatie a, type t, plaats p, land l, leverancier lev WHERE t.leverancier_id=lev.leverancier_id AND l.land_id=p.land_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id=t.accommodatie_id AND t.type_id='".addslashes($_GET["tid"])."';");
 	if($db->next_record()) {
@@ -241,9 +241,9 @@ if($_POST["filled"]) {
 			$acc["wederverkoop"]=true;
 		}
 	}
-	
+
 	if($_GET["kid"]) {
-		$db->query("SELECT actief, naam, gekoppeld_code, UNIX_TIMESTAMP(van) AS van, UNIX_TIMESTAMP(tot) AS tot, toonexactekorting, aanbiedingskleur, toon_abpagina, onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving, volgorde FROM korting WHERE korting_id='".addslashes($_GET["kid"])."';");
+		$db->query("SELECT actief, naam, gekoppeld_code, UNIX_TIMESTAMP(van) AS van, UNIX_TIMESTAMP(tot) AS tot, toonexactekorting, aanbiedingskleur, toon_abpagina, onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving, volgorde, xml_korting FROM korting WHERE korting_id='".addslashes($_GET["kid"])."';");
 		if($db->next_record()) {
 			$korting["actief"]=$db->f("actief");
 			$korting["naam"]=$db->f("naam");
@@ -256,6 +256,7 @@ if($_POST["filled"]) {
 			$korting["onlinenaam"]=$db->f("onlinenaam");
 			$korting["omschrijving"]=$db->f("omschrijving");
 			$korting["volgorde"]=$db->f("volgorde");
+			$korting["xml_korting"]=$db->f("xml_korting");
 		}
 	}
 
@@ -267,7 +268,7 @@ if($_POST["filled"]) {
 			while(list($key,$value)=each($vars["sjabloon_skipas"])) {
 				if($db->f($value)>0) $skipas["weken"][$db->f("week")][$value]=$db->f($value);
 			}
-			
+
 			if($skipas["weken"][$db->f("week")]["bruto"]>0) {
 				$skipas["weken"][$db->f("week")]["marge_op_verkoop"]=number_format(($skipas["weken"][$db->f("week")]["bruto"]-$skipas["weken"][$db->f("week")]["netto"])/$skipas["weken"][$db->f("week")]["bruto"]*100,2,".","");
 			}
@@ -302,7 +303,7 @@ if($_POST["filled"]) {
 					if($db->f($value)<>0) $seizoen["weken"][$db->f("week")][$value]=$db->f($value);
 				}
 
-/*				
+/*
 				# Voorraad
 				$seizoen["weken"][$db->f("week")]["voorraad_totaal"]=$db->f("voorraad_garantie")+$db->f("voorraad_allotment")+$db->f("voorraad_optie_leverancier")+$db->f("voorraad_xml")+$db->f("voorraad_request")-$db->f("voorraad_optie_klant");
 				if($acc["aflopen_allotment"]<>"" or $aflopen_allotment[$db->f("week")]<>"" or $db->f("aflopen_allotment")<>"") {
@@ -326,7 +327,7 @@ if($_POST["filled"]) {
 
 */
 			}
-			
+
 		}
 		reset($vars["tarief_datum_velden"]);
 		unset($datum_velden);
@@ -352,7 +353,7 @@ if($_POST["filled"]) {
 		}
 
 #		echo wt_dump($seizoen["weken"]);
-		
+
 	} else {
 		echo "Er zijn nog geen tarieven bekend. Kortingen invoeren kan pas na het invoeren van tarieven.";
 		exit;
