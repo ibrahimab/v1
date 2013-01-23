@@ -820,7 +820,7 @@ form {
 .opvalblok_regel1 {
 	padding-left: 5px;
 	padding-right: 5px;
-	font-size: 10pt;
+	font-size: 9pt;
 	font-weight: bold;
 	width: 170px;
 	white-space: nowrap;
@@ -831,7 +831,7 @@ form {
 	padding-left: 5px;
 	padding-right: 5px;
 	padding-bottom: 4px;
-	font-size: 9pt;
+	font-size: 8pt;
 	overflow: hidden;
 	width: 180px;
 	white-space: nowrap;
@@ -847,15 +847,13 @@ form {
 	padding-top: 7px;
 	padding-left: 5px;
 	padding-right: 5px;
-	font-size: 10pt;
+	font-size: 9pt;
 	font-weight: bold;
 	color: #ffffff;
 	background: url('../pic/fotoslider/transparent-bg.png');
 	white-space: nowrap;
 	overflow: hidden;
 }
-
-
 
 
 @media print {
