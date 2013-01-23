@@ -1778,11 +1778,7 @@ while(list($key,$value)=@each($aantal_beschikbaar)) {
 	}
 }
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	$lastminute_testen=true;
-}
-
-if(is_array($lastminute) and $lastminute_testen and ($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or date("H")==3)) {
+if(is_array($lastminute) and date("H")==17) {
 	#
 	# lastminutes vewerken (bestaat alleen voor Posarelli)
 	#
@@ -1866,7 +1862,7 @@ if(is_array($lastminute) and $lastminute_testen and ($_SERVER["DOCUMENT_ROOT"]==
 							if($db2->next_record()) {
 								# Bestaande korting
 								$kortingid=$db2->f("korting_id");
-								$db3->query("UPDATE korting SET delete_after_xml_korting=0, editdatetime=NOW() WHERE xml_korting=1 AND korting_id='".addslashes($db2->f("korting_id"))."';");
+								$db3->query("UPDATE korting SET actief=0, delete_after_xml_korting=0, editdatetime=NOW() WHERE xml_korting=1 AND korting_id='".addslashes($db2->f("korting_id"))."';");
 							} else {
 								# Nieuwe korting aanmaken
 								$db3->query("INSERT INTO korting SET actief=0, type_id='".addslashes($key4)."', volgorde='".intval(500-$percentage)."', seizoen_id='".addslashes($db->f("seizoen_id"))."', naam='".addslashes($korting_internenaam)."', onlinenaam='Lastminute-korting van ".$percentage."%', omschrijving='Voor reserveringen (van tenminste 7 nachten) die binnen ".$before." dagen voor aankomst gemaakt worden geldt een lastminute-korting van ".$percentage."%.', van=FROM_UNIXTIME(".mktime(0,0,0,date("m"),date("d")-1,date("Y"))."), tot=FROM_UNIXTIME(".$seizoen_eind[$db->f("seizoen_id")]."), toonexactekorting=1, aanbiedingskleur=1, toon_abpagina=1, xml_korting=1, adddatetime=NOW(), editdatetime=NOW();");
@@ -1898,6 +1894,8 @@ if(is_array($lastminute) and $lastminute_testen and ($_SERVER["DOCUMENT_ROOT"]==
 	$db->query("DELETE FROM korting WHERE delete_after_xml_korting=1 AND xml_korting=1;");
 	$db->query("UPDATE korting SET delete_after_xml_korting=0;");
 
+# NU_EVEN_NIET Tijdelijk: kortingen nog niet doorrekenen
+unset($typeid_berekenen_inquery);
 
 	# Tarieven doorrekenen na wijzigen kortingen
 	if($typeid_berekenen_inquery) {
@@ -1915,7 +1913,7 @@ if(is_array($lastminute)) {
 	#
 
 #
-# OUD SYSTEEM: later verwijderen (22-01-2013)
+# OUD SYSTEEM: later verwijderen (22-01-2013) NU_EVEN_NIET TIJDELIJK
 #
 
 	# toon_abpagina bepalen

@@ -139,7 +139,11 @@ if($seizoen["naam"]) {
 		if($db2->num_rows()) {
 			while($db2->next_record()) {
 				$kortingen_list.="<li><a href=\"cms_kortingen_tarieven.php?from=".wt_he(urlencode($_GET["from"]))."&sid=".$_GET["sid"]."&tid=".$_GET["tid"]."&kid=".$db2->f("korting_id")."\">".($db2->f("naam") ? wt_he($db2->f("naam"))." - " : "").date("d/m/Y",$db2->f("van"))." t/m ".date("d/m/Y",$db2->f("tot"))."</a>";
-				if($db2->f("actief") and $db2->f("van")<=$vandaag and $db2->f("tot")>=$vandaag) $kortingen_list.=" (momenteel actief)";
+				if($db2->f("actief") and $db2->f("van")<=$vandaag and $db2->f("tot")>=$vandaag) {
+					$kortingen_list.=" (momenteel actief)";
+				} else {
+					$kortingen_list.=" (momenteel <b>niet</b> actief)";
+				}
 				$kortingen_list.="</li>";
 			}
 		}
