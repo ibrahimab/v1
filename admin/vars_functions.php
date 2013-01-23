@@ -4082,7 +4082,7 @@ function opvalblok() {
 	} elseif($id=="aanbiedingen_zomerhuisje") {
 		$where="b.aanbiedingenpagina=1";
 
-		if($land["id"]) {
+		if($land["id"] and $vars["websitetype"]<>7) {
 			# alleen blokken uit gekozen land tonen
 			$where.=" AND b.land_id='".intval($land["id"])."'";
 		}

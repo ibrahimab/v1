@@ -118,6 +118,8 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 
 if($NU_EVEN_NIET and (!$argv[1] or $argv[1]=="17")) {
 
+// uitgezet: XML-koppeling werkt nog niet goed
+
 	# XML downloaden bij Alpin Rentals Kaprun
 	$tmp_insert = array(
 	'user' => 'chaletnl',

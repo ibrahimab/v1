@@ -130,10 +130,12 @@ if(!$cron and !$cronmap and !$css and !$geen_tracker_cookie and !$_GET["nocache"
 #
 # Plaats- en accommodatie-pagina zonder afsluitende "/" reloaden
 #
-if(($id=="plaats" or $id=="accommodatie" or $id=="skigebied" or $id=="NU_EVEN_NIET_land") and substr($_SERVER["PHP_SELF"],-1)<>"/") {
-	header("Location: ".$_SERVER["PHP_SELF"]."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : ""),true,301);
-	exit;
-}
+// uitgezet 23-01-2013 : gaf eindeloze redirect
+// if(($id=="plaats" or $id=="accommodatie" or $id=="skigebied" or $id=="land") and substr($_SERVER["PHP_SELF"],-1)<>"/") {
+// 	header("Location: ".$_SERVER["PHP_SELF"]."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : ""),true,301);
+// 	exit;
+// }
+
 
 if($boeking_bepaalt_taal and $_GET["bid"]) {
 	# Taal bepalen indien $boeking_bepaalt_taal
