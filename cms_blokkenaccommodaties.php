@@ -37,6 +37,7 @@ $cms->db[38]["set"]="websitetype='".addslashes($_GET["wst"])."'";
 $cms->db_field(38,"yesno","tonen");
 $cms->db_field(38,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 $cms->db_field(38,"text","internenaam");
+$cms->db_field(38,"integer","volgorde");
 $cms->db_field(38,"text","regel1");
 $cms->db_field(38,"text","regel2");
 $cms->db_field(38,"text","regel3");
@@ -67,12 +68,13 @@ $cms->settings[38]["list"]["delete_icon"]=true;
 $cms->settings[38]["list"]["add_link"]=true;
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
-$cms->list_sort[38]=array("begindatum","einddatum","type_id","regel1","regel2","internenaam");
+$cms->list_sort[38]=array("volgorde","begindatum","einddatum","type_id","regel1","regel2","internenaam");
 $cms->list_field(38,"internenaam","Interne naam");
 $cms->list_field(38,"type_id","Accommodatie");
 #$cms->list_field(38,"regel1","Regel 1");
 #$cms->list_field(38,"regel2","Regel 2");
 $cms->list_field(38,"tonen","Tonen");
+$cms->list_field(38,"volgorde","Volgorde");
 $cms->list_field(38,"begindatum","Begindatum",array("date_format"=>"DAG D MAAND JJJJ"));
 $cms->list_field(38,"einddatum","Einddatum",array("date_format"=>"DAG D MAAND JJJJ"));
 
@@ -104,6 +106,7 @@ $cms->edit_field(38,1,"regel3","Regel 3","","",array("info"=>"Vul hier de kortin
 $cms->edit_field(38,0,"htmlrow","<hr><i>Wanneer moet dit blok getoond worden? (velden zijn niet verplicht)</i>");
 $cms->edit_field(38,0,"begindatum","Toon vanaf","","",array("calendar"=>true));
 $cms->edit_field(38,0,"einddatum","Tot en met","","",array("calendar"=>true));
+$cms->edit_field(38,0,"volgorde","Volgorde","","",array("info"=>"Deze volgorde wordt alleen gebruikt bij de aanbiedingenpagina. Bij alle andere pagina's worden de blokken willekeurig getoond."));
 $cms->edit_field(38,0,"htmlrow","<hr><b>Toon dit blok op de volgende pagina's</b>");
 $cms->edit_field(38,0,"hoofdpagina","Hoofdpagina");
 $cms->edit_field(38,0,"bestemmingen","Bestemmingen");
@@ -121,6 +124,24 @@ $cms->set_edit_form_init(38);
 if($cms_form[38]->filled) {
 
 }
+
+
+
+# functie na opslaan form
+function form_before_goto($form) {
+	$db=new DB_sql;
+	$db2=new DB_sql;
+	global $login,$vars;
+
+	$volgorde=0;
+	$db->query("SELECT blokaccommodatie_id FROM blokaccommodatie WHERE websitetype='".addslashes($_GET["wst"])."' ORDER BY volgorde;");
+	while($db->next_record()) {
+		$volgorde=$volgorde+10;
+		$db2->query("UPDATE blokaccommodatie SET volgorde='".$volgorde."' WHERE blokaccommodatie_id='".$db->f("blokaccommodatie_id")."';");
+	}
+}
+
+
 # End declaration
 $cms->end_declaration();
 

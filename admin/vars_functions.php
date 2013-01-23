@@ -4060,13 +4060,14 @@ function xml_text($text,$use_cdata=true) {
 #
 function opvalblok() {
 
-	global $vars,$id,$themalandinfo,$land;
+	global $vars,$id,$themalandinfo,$land,$skigebiedid,$plaatsid;
 
 	$db=new DB_sql;
 
 
 	# limit (standaard: 1 resultaat tonen)
 	$limit="0,1";
+	$order_by="RAND()";
 
 	# where bepalen
 	if($id=="index") {
@@ -4079,6 +4080,10 @@ function opvalblok() {
 		$where="b.themaoverzicht=1";
 	} elseif($id=="bestemmingen") {
 		$where="b.bestemmingen=1";
+	} elseif($id=="toonskigebied") {
+		$where="b.skigebied_id='".intval($skigebiedid)."'";
+	} elseif($id=="toonplaats") {
+		$where="b.plaats_id='".intval($plaatsid)."'";
 	} elseif($id=="aanbiedingen_zomerhuisje") {
 		$where="b.aanbiedingenpagina=1";
 
@@ -4087,14 +4092,20 @@ function opvalblok() {
 			$where.=" AND b.land_id='".intval($land["id"])."'";
 		}
 
-		# 10 resultaten tonen
-		$limit="0,10";
+		if($vars["websitetype"]==3 and $land["id"]) {
+			# Zomerhuisje overzichtpagina: 3 resultaten tonen
+			$limit="0,10";
+		} else {
+			# de rest: 10 resultaten tonen
+			$limit="0,3";
+		}
+		$order_by="volgorde";
 	} else {
 		$where="1=1";
 	}
 
 	$checkdate=mktime(0,0,0,date("m"),date("d"),date("Y"));
-	$db->query("SELECT b.regel1, b.regel2, b.regel3, b.begindatum, b.einddatum, t.type_id, a.accommodatie_id, l.begincode FROM blokaccommodatie b, accommodatie a, type t, plaats p, land l WHERE b.websitetype='".intval($vars["websitetype"])."' AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND b.tonen=1 AND a.tonen=1 AND t.tonen=1 AND (b.begindatum IS NULL OR b.begindatum<=NOW()) AND (b.einddatum IS NULL OR b.einddatum>=NOW()) AND ".$where." ORDER BY RAND() LIMIT ".$limit.";");
+	$db->query("SELECT b.regel1, b.regel2, b.regel3, b.begindatum, b.einddatum, t.type_id, a.accommodatie_id, l.begincode FROM blokaccommodatie b, accommodatie a, type t, plaats p, land l WHERE b.websitetype='".intval($vars["websitetype"])."' AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND b.tonen=1 AND a.tonen=1 AND t.tonen=1 AND (b.begindatum IS NULL OR b.begindatum<=NOW()) AND (b.einddatum IS NULL OR b.einddatum>=NOW()) AND ".$where." ORDER BY ".$order_by." LIMIT ".$limit.";");
 
 	while($db->next_record()) {
 

@@ -491,7 +491,7 @@ if($form->okay) {
 
 		if($i==1 and !$form->input["accommodatievoucher_sturen"]) {
 			# accommodatievoucher overslaan
-#			continue;
+			continue;
 		}
 
 		if($i==2) {

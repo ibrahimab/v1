@@ -1869,7 +1869,7 @@ if(is_array($lastminute) and $lastminute_testen and ($_SERVER["DOCUMENT_ROOT"]==
 								$db3->query("UPDATE korting SET delete_after_xml_korting=0, editdatetime=NOW() WHERE xml_korting=1 AND korting_id='".addslashes($db2->f("korting_id"))."';");
 							} else {
 								# Nieuwe korting aanmaken
-								$db3->query("INSERT INTO korting SET actief=1, type_id='".addslashes($key4)."', volgorde='".intval(500-$percentage)."', seizoen_id='".addslashes($db->f("seizoen_id"))."', naam='".addslashes($korting_internenaam)."', onlinenaam='Lastminute-korting van ".$percentage."%', omschrijving='Voor reserveringen (van tenminste 7 nachten) die binnen ".$before." dagen voor aankomst gemaakt worden geldt een lastminute-korting van ".$percentage."%.', van=FROM_UNIXTIME(".mktime(0,0,0,date("m"),date("d")-1,date("Y"))."), tot=FROM_UNIXTIME(".$seizoen_eind[$db->f("seizoen_id")]."), toonexactekorting=1, aanbiedingskleur=1, toon_abpagina=1, xml_korting=1, adddatetime=NOW(), editdatetime=NOW();");
+								$db3->query("INSERT INTO korting SET actief=0, type_id='".addslashes($key4)."', volgorde='".intval(500-$percentage)."', seizoen_id='".addslashes($db->f("seizoen_id"))."', naam='".addslashes($korting_internenaam)."', onlinenaam='Lastminute-korting van ".$percentage."%', omschrijving='Voor reserveringen (van tenminste 7 nachten) die binnen ".$before." dagen voor aankomst gemaakt worden geldt een lastminute-korting van ".$percentage."%.', van=FROM_UNIXTIME(".mktime(0,0,0,date("m"),date("d")-1,date("Y"))."), tot=FROM_UNIXTIME(".$seizoen_eind[$db->f("seizoen_id")]."), toonexactekorting=1, aanbiedingskleur=1, toon_abpagina=1, xml_korting=1, adddatetime=NOW(), editdatetime=NOW();");
 								$kortingid=$db3->insert_id();
 							}
 

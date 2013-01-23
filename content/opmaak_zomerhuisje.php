@@ -473,87 +473,18 @@ if($vars["verberg_linkerkolom"]) {
 	}
 
 	#
-	# Blok links met accommodatie NU_EVEN_NIET : Mag weg!
+	# Blok links met accommodatie
 	#
-	unset($blokaccommodatie,$where);
-	# where bepalen
-	if($id=="index") {
-		$where="b.hoofdpagina=1";
-	} elseif($id=="thema") {
-		$where="b.thema_id='".$themalandinfo["id"]."'";
-	} elseif($id=="land") {
-		$where="b.land_id='".$themalandinfo["id"]."'";
-	} elseif($id=="themas") {
-		$where="b.themaoverzicht=1";
-	} elseif($id=="bestemmingen") {
-		$where="b.bestemmingen=1";
-	}
-	if($where) {
-		$checkdate=mktime(0,0,0,date("m"),date("d"),date("Y"));
-		$db->query("SELECT b.regel1, b.regel2, b.begindatum, b.einddatum, t.type_id, a.accommodatie_id, l.begincode FROM blokaccommodatie b, accommodatie a, type t, plaats p, land l WHERE b.websitetype=3 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND b.tonen=1 AND a.tonen=1 AND t.tonen=1 AND ".$where." ORDER BY b.begindatum, b.blokaccommodatie_id;");
-		while($db->next_record()) {
-			$binnendatum=true;
-			if($db->f("begindatum") and $db->f("begindatum")>$checkdate) {
-				$binnendatum=false;
-			}
-
-			if($db->f("einddatum") and $db->f("einddatum")<$checkdate) {
-				$binnendatum=false;
-			}
-			if($binnendatum) {
-				unset($blokaccommodatie_afbeeldingaanwezig);
-				if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
-					$blokaccommodatie_teller++;
-					$blokaccommodatie[$blokaccommodatie_teller]["afbeelding"]="pic/cms/types_specifiek/".$db->f("type_id").".jpg";
-					$blokaccommodatie_afbeeldingaanwezig=true;
-				} elseif(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-					$blokaccommodatie_teller++;
-					$blokaccommodatie[$blokaccommodatie_teller]["afbeelding"]="pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg";
-					$blokaccommodatie_afbeeldingaanwezig=true;
-				} elseif($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-					$blokaccommodatie_teller++;
-					$blokaccommodatie[$blokaccommodatie_teller]["afbeelding"]="pic/cms/accommodaties/1097.jpg";
-					$blokaccommodatie_afbeeldingaanwezig=true;
-				}
-				if($blokaccommodatie_afbeeldingaanwezig) {
-					$blokaccommodatie[$blokaccommodatie_teller]["regel1"]=$db->f("regel1");
-					$blokaccommodatie[$blokaccommodatie_teller]["regel2"]=$db->f("regel2");
-					$blokaccommodatie[$blokaccommodatie_teller]["url"]=$vars["path"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
-				}
-			}
-		}
-	}
-
-	if($id=="index" or $id=="thema" or $id=="land" or $id=="themas" or $id=="bestemmingen") {
-		unset($blokaccommodatie);
-		$blokaccommodatie_nieuw=opvalblok();
+	if($id=="index" or $id=="thema" or $id=="land" or $id=="themas" or $id=="bestemmingen" or $id=="toonskigebied" or $id=="toonplaats") {
+		$blokaccommodatie=opvalblok();
 	}
 
 	if($html_ipv_blokaccommodatie) {
 		echo "<div id=\"blokaccommodatie\"".($html_ipv_blokaccommodatie_bgcolor ? " style=\"background-color:".$html_ipv_blokaccommodatie_bgcolor."\"" : "").">";
 		echo $html_ipv_blokaccommodatie;
 		echo "</div>";
-	} elseif($blokaccommodatie_nieuw) {
-		echo $blokaccommodatie_nieuw;
 	} elseif($blokaccommodatie) {
-		if($themalandinfo["kleurcode"]) {
-			$bgcolor=$vars["themakleurcode"][$themalandinfo["kleurcode"]];
-		} else {
-			$bgcolor=$bordercolor;
-		}
-		$random_blokaccommodatie=rand(1,$blokaccommodatie_teller);
-		echo "<div id=\"blokaccommodatie\" style=\"background-color:".$bgcolor."\">";
-		echo "<div style=\"position:relative;".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "height:114px;" : "")."\" class=\"overlay_foto\" onclick=\"document.location.href='".htmlentities($blokaccommodatie[$random_blokaccommodatie]["url"])."'\">";
-		echo "<img src=\"".$vars["path"].htmlentities($blokaccommodatie[$random_blokaccommodatie]["afbeelding"])."\" width=\"160\" border=\"0\">";
-		echo "<div id=\"blokaccommodatie_overlay\">";
-		echo "<div>".htmlentities(trim($blokaccommodatie[$random_blokaccommodatie]["regel1"]))."</div>";
-		if($blokaccommodatie[$random_blokaccommodatie]["regel2"]) {
-			echo "<div style=\"padding-top: 3px;\">".htmlentities(trim($blokaccommodatie[$random_blokaccommodatie]["regel2"]))."</div>";
-		}
-		echo "</div>";
-		echo "</div>";
-
-		echo "</div>";
+		echo $blokaccommodatie;
 	} else {
 		echo "<div id=\"blokaccommodatie\">&nbsp;</div>";
 	}
