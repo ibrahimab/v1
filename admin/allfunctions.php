@@ -106,7 +106,7 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 		}
 
 		if(!$nietopslaan) {
-			if(preg_match("/^_WT_FILENAME_(.*)_WT_FILENAME__WT_LINENUMBER_(.*)_WT_LINENUMBER_(.*)$/",$errstr,$regs)) {
+			if(preg_match("/_WT_FILENAME_(.*)_WT_FILENAME__WT_LINENUMBER_(.*)_WT_LINENUMBER_(.*)$/",$errstr,$regs)) {
 				$errfile=$regs[1];
 				$errline=$regs[2];
 				$errstr=$regs[3];

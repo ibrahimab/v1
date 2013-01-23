@@ -4,7 +4,6 @@ if($mustlogin) {
 	echo boekingkoptekst($gegevens);
 }
 
-#if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
 
 if($_GET["burl"]) {
 	if(preg_match("/cms_overzichten_overig/",$_GET["burl"])) {
@@ -14,13 +13,15 @@ if($_GET["burl"]) {
 	} else {
 		echo "<a href=\"".htmlentities($_GET["burl"])."\">terug naar boekingsgegevens</a><p>";
 	}
+} elseif($_GET["bid"]) {
+	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
 }
 
 if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 	echo "<hr>";
 	if($_GET["overbetaling"]) {
 		$db->query("SELECT boeking_id, boekingsnummer, aankomstdatum_exact, totale_reissom FROM boeking WHERE debiteurnummer='".addslashes($gegevens["stap1"]["debiteurnummer"])."' AND boeking_id<>'".addslashes($_GET["bid"])."' ORDER BY aankomstdatum_exact, boekingsnummer;");
-		
+
 		echo "Overbetaling: &euro;&nbsp;".number_format(abs($vars["temp_openstaand"]),2,',','.')."<br><br>";
 		$nog_te_verdelen=abs($vars["temp_openstaand"]);
 		echo "<b>Overzicht gekoppelde boekingen met openstaande bedragen</b>";
@@ -28,7 +29,7 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 		echo "<br><br><table class=\"tbl\" cellspacing=\"0\">";
 		echo "<tr><th>Aankomstdatum</th><th>Boekingsnummer</th><th>Totale reisson</th><th>Openstaand bedrag</th><th>Bedrag overboeken</th></tr>";
 		while($db->next_record()) {
-			
+
 			$openstaand=round($db->f("totale_reissom"),2);
 			# openstaand berekenen
 			$db2->query("SELECT SUM(bedrag) AS totaal FROM boeking_betaling WHERE boeking_id='".addslashes($db->f("boeking_id"))."';");
@@ -56,8 +57,8 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 			echo "<br><i>Geen openstaande bedragen van deze debiteur gevonden.</i>";
 		}
 	} else {
-	
-	
+
+
 	#	if($gegevens["stap1"]["opmerkingen_intern"]) {
 			echo "<b>Interne opmerkingen:</b><p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\"><input type=\"hidden\" name=\"opmfilled\" value=\"1\"><textarea name=\"opmerkingen\" cols=70 rows=10 onfocus=\"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')\">".htmlentities($gegevens["stap1"]["opmerkingen_intern"])."</textarea><br><input type=\"submit\" value=\" OPMERKINGEN OPSLAAN \"></form><hr>";
 	#	}
@@ -79,8 +80,8 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 		}
 		echo "<tr><td colspan=\"3\"><hr></td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		echo "<tr><td>".($nog_te_betalen<0 ? "Teveel betaald" : "Nog te betalen")."&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format(abs($nog_te_betalen),2,',','.')."</td><td>&nbsp;</td>";
-		
-		
+
+
 		echo "<td>";
 		if($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_betaling"]>0) {
 			echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\" onclick=\"return betaling_goedkeuren(this,'De volgende betaling goedkeuren:','".number_format($nog_te_betalen,2,",","")."');\">betaling goedkeuren &raquo;</a>";
@@ -91,10 +92,10 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 				echo "&nbsp;";
 			}
 		}
-		
+
 		echo "</td>";
 		echo "</tr>";
-	
+
 		if($gegevens["stap1"]["goedgekeurde_betaling"]) {
 			echo "<tr><td colspan=\"3\">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 			echo "<tr style=\"color:#878481;\"><td>Waarvan goedgekeurd&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["goedgekeurde_betaling"],2,',','.')."</td><td>&nbsp;</td>";
@@ -105,9 +106,9 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 			if($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_betaling"]>0) {
 				echo "<tr style=\"color:#878481;\"><td>Nog niet goedgekeurd</td><td>&euro;</td><td align=\"right\">".number_format($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_betaling"],2,',','.')."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 			}
-			
+
 		}
-	
+
 		echo "</table>&nbsp;<p>";
 	}
 }

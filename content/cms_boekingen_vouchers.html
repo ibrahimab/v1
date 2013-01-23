@@ -10,6 +10,8 @@ if($_GET["burl"]) {
 	} else {
 		echo "<a href=\"".htmlentities($_GET["burl"])."\">terug naar boekingsgegevens</a><p>";
 	}
+} elseif($_GET["bid"]) {
+	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
 }
 
 // vertrekinfo
@@ -75,7 +77,7 @@ echo "<div class=\"opmerkingbox\" style=\"background-color:#ffffff;\">Gekozen ve
 
 #echo "<div class=\"opmerkingbox\" style=\"background-color:yellow;\">Let op: de teksten van het voucher-mailsysteem zijn aangepast, maar nog niet definitief goedgekeurd. Ook zijn de Engelse teksten nog niet beschikaar.<br><br>Dit is alleen van toepassing als je de vouchers gaat mailen. Aanmaken van voucher kan dus sowieso.</div>";
 
-echo "<p><a href=\"#\" onclick=\"document.frm.target='_blank';$('input[name=random_code_om_cache_te_voorkomen]').val($('input[name=random_code_om_cache_te_voorkomen]').val()+1);document.frm.elements['alleen_tonen'].value=1;document.frm.submit();document.frm.target='';document.frm.elements['alleen_tonen'].value=0;\">Bekijk de aan te maken vouchers &raquo;</a>&nbsp;&nbsp;(zonder ze op te slaan of te printen)</p>";
+echo "<p><a href=\"#\" onclick=\"$('form[name=frm]').attr('action',$('form[name=frm]').attr('action')+'&cache=1');document.frm.target='_blank';$('input[name=random_code_om_cache_te_voorkomen]').val($('input[name=random_code_om_cache_te_voorkomen]').val()+1);document.frm.elements['alleen_tonen'].value=1;document.frm.submit();document.frm.target='';document.frm.elements['alleen_tonen'].value=0;\">Bekijk de aan te maken vouchers &raquo;</a>&nbsp;&nbsp;(zonder ze op te slaan of te printen)</p>";
 
 $form->display_all();
 

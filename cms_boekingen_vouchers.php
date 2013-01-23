@@ -56,6 +56,10 @@ function voucher_form($voucher,$voucherteller) {
 	global $form,$gegevens,$accinfo,$skipas_dubbele_voucher;
 
 	$form->field_htmlrow("","<hr><b>Voucher ".htmlentities($voucher["soort_voucher"]));
+
+	if($voucher["soort_voucher_key"]=="acc") {
+		$form->field_yesno("accommodatievoucher_sturen","Accommodatievoucher meesturen","",array("selection"=>$gegevens["stap1"]["accommodatievoucher_sturen"]));
+	}
 	$form->field_text(1,"naam_voucher".$voucherteller,"Naam","",array("text"=>$voucher["naam_voucher"]));
 	if($voucher["begindag"]) {
 		$voucher["aanvangsdatum"]=mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])+$voucher["begindag"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"]));
@@ -120,6 +124,7 @@ if($_GET["printvertrekinfo"]) {
 
 # Accommodatie
 $voucherteller=1;
+$voucher[$voucherteller]["soort_voucher_key"]="acc";
 $voucher[$voucherteller]["soort_voucher"]="Accommodatie ".$accinfo["begincode"].$accinfo["type_id"]." ".$accinfo["accommodatie"]." ".$accinfo["cms_typenaam"].($accinfo["bestelnaam"] ? " (".$accinfo["bestelnaam"].")" : "");
 $voucher[$voucherteller]["naam_voucher"]="Voucher ".txt("accommodatie","voucher");
 #$voucher[$voucherteller]["aanvullend_voucher"]=$db->f("aanvullend_voucher");
@@ -277,9 +282,7 @@ $form->settings["goto"]=$_GET["burl"];
 $form->settings["message"]["submitbutton"]["nl"]="VOUCHERS AANMAKEN";
 $form->settings["layout"]["top_submit_button"]=true;
 
-#_field: (obl),id,title,db,prevalue,options,layout
-
-#$form->field_htmlrow("","");
+$form->settings["layout"]["goto_aname"]=false;
 
 
 # Voucher-bestanden in $vars["temp_voucherfiles"] zetten
@@ -303,8 +306,6 @@ $vars["temp_pdfprinttable"].="<tr><td>&nbsp;</td></tr>";
 $vars["temp_pdfprinttable"].="<tr><td>";
 if(is_array($vars["temp_voucherfiles"])) {
 	end($vars["temp_voucherfiles"]);
-#	echo key($vars["temp_voucherfiles"]);
-#	echo current($vars["temp_voucherfiles"]);
 	$vars["temp_pdfprinttable"].="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"middle\"><img src=\"pic/pdflogo.gif\" width=\"18\" height=\"18\"></td><td valign=\"middle\">&nbsp;";
 	if(ereg("MSIE",$_SERVER["HTTP_USER_AGENT"])) {
 		$vars["temp_pdfprinttable"].="<a href=\"cms_pdfdownload.php?pdffile=".urlencode("pdf/vouchers/".key($vars["temp_voucherfiles"]))."\" target=\"_blank\">";
@@ -419,6 +420,7 @@ if($pdffile_voorbrief and !$vars["vertrekinfo_boeking"]["error"] and ($pdffile_p
 	$vars["temp_pdffiles_aanwezig"]=true;
 }
 
+#_field: (obl),id,title,db,prevalue,options,layout
 $form->field_htmlrow("","<b>Status wijzigen</b>");
 if($gegevens["stap1"]["voucherstatus"]>=5) {
 	$form->field_select(0,"na_aanmaken1","Wijzig de status na aanmaken naar","",array("selection"=>7),array("selection"=>$vars["voucherstatus_nawijzigingen"]),array("onchange"=>"document.frm.elements['input[na_aanmaken]'].value=document.frm.elements['input[na_aanmaken1]'].value;"));
@@ -437,6 +439,10 @@ if($vars["temp_pdffiles_aanwezig"]) {
 
 $form->field_htmlrow("","<hr><b>PDF met voor deze boeking specifieke informatie</b>");
 $form->field_upload(0,"boeking_aanvullende_informatie","PDF","","",array("move_file_to"=>"pdf/boeking_aanvullende_informatie/","must_be_filetype"=>"pdf","showfiletype"=>true,"rename_file_to"=>$_GET["bid"]),"");
+
+
+
+
 
 
 while(list($key,$value)=@each($voucher)) {
@@ -466,6 +472,7 @@ $form->end_declaration();
 
 if($form->okay) {
 
+
 	require_once("admin/fpdf.php");
 
 	class PDF extends FPDF {
@@ -481,6 +488,12 @@ if($form->okay) {
 	$pdf->SetAutoPageBreak(false,0);
 
 	for($i=1;$i<=$_POST["voucherteller"];$i++) {
+
+		if($i==1 and !$form->input["accommodatievoucher_sturen"]) {
+			# accommodatievoucher overslaan
+#			continue;
+		}
+
 		if($i==2) {
 			$thuisblijvers=true;
 			$i=1;
@@ -531,24 +544,10 @@ if($form->okay) {
 				}
 
 				$pdf->SetY(6+$y);
-#				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==7 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
-					# Zomerhuisje/Italissima/SuperSki - positie "VOUCHER" helemaal links
-					$pdf->SetX(10);
-					$pdf->SetFont('Arial','',20);
-					$pdf->Cell(0,4,($thuisblijvers ? "" : "VOUCHER"),0,1);
-#				} else {
-#					$pdf->SetX(80);
-#					$pdf->SetFont('Arial','',20);
-#					$pdf->Cell(0,4,($thuisblijvers ? "" : "       VOUCHER"),0,1);
-#				}
+				$pdf->SetX(10);
+				$pdf->SetFont('Arial','',20);
+				$pdf->Cell(0,4,($thuisblijvers ? "" : "VOUCHER").($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? " cache ".date("H:i:s") : ""),0,1);
 				$pdf->SetFont('Arial','',8);
-#				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==3 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==4 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==5 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==6 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==7 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
-#					# Geen extra logo
-#				} else {
-#					# Extra logo WSA
-#					$pdf->Image("pic/factuur_logo_wsa.png",10,3+$y,70);
-#				}
-
 
 				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==4 or $gegevens["stap1"]["website_specifiek"]["websitetype"]==5) {
 					# Chalettour-logo
@@ -796,9 +795,11 @@ if($form->okay) {
 
 	if($_POST["alleen_tonen"]) {
 
-		header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-		header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");   // any date in the past
-		header("Pragma: public");
+		header("Expires: Mon, 26 Jul 1990 05:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
 
 		$pdf->Output();
 		exit;
@@ -942,9 +943,12 @@ if($form->okay) {
 
 		# voucherstatus wegschrijven
 		if($form->input["na_aanmaken"]<>"") {
-			$db->query("UPDATE boeking SET voucherstatus='".addslashes($form->input["na_aanmaken"])."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+			$db->query("UPDATE boeking SET voucherstatus='".addslashes($form->input["na_aanmaken"])."', accommodatievoucher_sturen='".addslashes($form->input["accommodatievoucher_sturen"])."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 			if($form->input["na_aanmaken"]<>$gegevens["stap1"]["voucherstatus"]) {
 				chalet_log("voucherstatus: ".$vars["voucherstatus"][$form->input["na_aanmaken"]],true,true);
+			}
+			if($form->input["accommodatievoucher_sturen"]<>$gegevens["stap1"]["accommodatievoucher_sturen"]) {
+				chalet_log("accommodatievoucher sturen: ".($form->input["accommodatievoucher_sturen"] ? "ja" : "nee"),true,true);
 			}
 		}
 	}

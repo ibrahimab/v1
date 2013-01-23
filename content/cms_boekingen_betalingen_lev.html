@@ -8,8 +8,11 @@ if($_GET["bid"]) {
 	echo "<p><a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".htmlentities($_GET["gar_id"])."\">Terug naar garantie</a></p>";
 }
 
-
-if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+if($_GET["burl"]) {
+	echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+} elseif($_GET["bid"]) {
+	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
+}
 
 if($_GET["edit"]<>43 and $_GET["add"]<>43) {
 	echo "<hr>";

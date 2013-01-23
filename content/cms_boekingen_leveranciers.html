@@ -4,7 +4,11 @@ if($mustlogin) {
 	echo boekingkoptekst($gegevens);
 }
 
-if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+if($_GET["burl"]) {
+	echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+} elseif($_GET["bid"]) {
+	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
+}
 
 $form->display_all();
 

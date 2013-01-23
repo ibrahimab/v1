@@ -17,7 +17,11 @@ if($db->next_record()) {
 }
 
 echo boekingkoptekst($gegevens);
-if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+if($_GET["burl"]) {
+	echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+} elseif($_GET["bid"]) {
+	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
+}
 
 if($gegevens["stap1"]["leverancierscode"]) {
 	echo "<span class=\"error\">Bestellen via XML niet mogelijk: er is al een <a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".htmlentities(urlencode($_GET["burl"]))."&bid=".htmlentities($_GET["bid"])."\">Reserveringsnummer leverancier</a> bij deze boeking bekend.</span>";

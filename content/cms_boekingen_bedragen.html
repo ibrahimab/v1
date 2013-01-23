@@ -4,7 +4,12 @@ if($mustlogin) {
 	echo boekingkoptekst($gegevens);
 }
 
-if($_GET["burl"]) echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+if($_GET["burl"]) {
+	echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
+} elseif($_GET["bid"]) {
+	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
+}
+
 #echo "<b>Boeking ".htmlentities($gegevens["stap1"]["boekingsnummer"])." - ".htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."<br>".htmlentities($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." - ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"])."<br>".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"])."</b><hr>";
 
 #echo "<strong>Let op! Het wijzigen van een optie-tarief wordt doorgevoerd voor alle personen die van de betreffende optie gebruik maken.</strong><p>";
