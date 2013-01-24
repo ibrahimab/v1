@@ -77,6 +77,10 @@ class DB_Sql {
 				$GLOBALS["mysqlsettings"]["password"]="sh47fm9G";
 			}
 
+			if($GLOBALS["mysqlsettings"]["not_pconnect"]) {
+				$this->not_pconnect=true;
+			}
+
 			if ( "" == $Database ) $this->Database = $GLOBALS["mysqlsettings"]["name"]["remote"];
 			if ( "" == $Host ) $this->Host = $GLOBALS["mysqlsettings"]["host"];
 			if ( "" == $User ) $this->User = $GLOBALS["mysqlsettings"]["user"];
@@ -101,7 +105,12 @@ class DB_Sql {
 			// if($_SERVER["HOSTNAME"]=="bl.postvak.net") {
 			//  $this->Link_ID=@mysql_connect($Host, $User, $Password,MYSQL_CLIENT_COMPRESS);
 			// } else {
-			$this->Link_ID=@mysql_pconnect( $Host, $User, $Password );
+
+			if($this->not_pconnect) {
+				$this->Link_ID=@mysql_connect( $Host, $User, $Password );
+			} else {
+				$this->Link_ID=@mysql_pconnect( $Host, $User, $Password );
+			}
 			// }
 			if ( !$this->Link_ID ) {
 				$this->halt( "pconnect($Host, $User, \$Password) failed: ".mysql_error() );

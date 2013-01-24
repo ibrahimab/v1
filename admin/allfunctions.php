@@ -82,12 +82,12 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 		}
 
 		# MySQL-server te druk: touch tekstbestand
-		if(preg_match("/Too many connections/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr)) {
+		if(preg_match("/Too many connections/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr) or preg_match("/locks exceeds the lock table size/",$errstr)) {
 			@touch($GLOBALS["vars"]["unixdir"]."tmp/mysql_too_busy.txt");
 			$mysql_connection_error=true;
 		}
 
-		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr)) {
+		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr) or preg_match("/locks exceeds the lock table size/",$errstr)) {
 
 			$GLOBALS["errorcounterfunction"]["mysql"]++;
 			$mysql_connection_error=true;
@@ -101,16 +101,19 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			}
 		}
 
-		if($GLOBALS["vars"]["wt_error_handler_mysql_notice"] and $mysql_connection_error) {
-			$errstr="_notice: ".$errstr;
-		}
-
 		if(!$nietopslaan) {
+			# gegevens uit _WT_FILENAME_ en _WT_LINENUMBER_ filteren
 			if(preg_match("/_WT_FILENAME_(.*)_WT_FILENAME__WT_LINENUMBER_(.*)_WT_LINENUMBER_(.*)$/",$errstr,$regs)) {
 				$errfile=$regs[1];
 				$errline=$regs[2];
 				$errstr=$regs[3];
 			}
+
+			# MySQL-foutmeldingen als "_notice" versturen
+			if($GLOBALS["vars"]["wt_error_handler_mysql_notice"] and $mysql_connection_error) {
+				$errstr="_notice: ".$errstr;
+			}
+
 			$url="http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 			$fp=@fopen("http://owp.webtastic.nl/error_log.php?l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script),"r");
 			$GLOBALS["errorcounter"]++;
@@ -524,7 +527,10 @@ class wt_mail {
 					$this->to="testform@webtastic.nl";
 				}
 				$this->send_to=trim($this->toname_aangepast)." <".trim($this->to).">";
-				if($this->mailcounter<5) mail($this->send_to,"Test: ".$this->send_subject,$this->send_body,$this->send_header);
+				if($GLOBALS["wt_mail_testmailcounter"]<5) {
+					mail($this->send_to,"Test: ".$this->send_subject,$this->send_body,$this->send_header);
+					$GLOBALS["wt_mail_testmailcounter"]++;
+				}
 			} else {
 				if($this->smtpmail) {
 					$smtp=new SMTPMAIL;

@@ -715,7 +715,7 @@ function bereken(dit,week) {
 
 		// c_verkoop bepalen (op basis van c_bruto, c_opslag_accommodatie en aanbiedingen/kortingen)
 		c_verkoop=c_bruto;
-		if(c_netto>0) {
+		if(c_bruto>0) {
 			if(document.forms['tarieven'].elements['c_opslag_accommodatie['+week+']'].value>0) {
 				c_verkoop+=(parseFloat(document.forms['tarieven'].elements['c_opslag_accommodatie['+week+']'].value)/100)*c_netto;
 			}
