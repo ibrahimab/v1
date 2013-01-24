@@ -1778,6 +1778,7 @@ while(list($key,$value)=@each($aantal_beschikbaar)) {
 	}
 }
 
+# NU_EVEN_NIET 17 moet 3 worden
 if(is_array($lastminute) and date("H")==17) {
 	#
 	# lastminutes vewerken (bestaat alleen voor Posarelli)

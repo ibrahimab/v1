@@ -1,14 +1,5 @@
 <?php
 
-# Bepalen wie voorrang krijgt: TradeTracker of Cleafs
-if(intval($_COOKIE["tradetracker"])>1230764400 and intval($_COOKIE["cleafs"])>1230764400) {
-	if(intval($_COOKIE["tradetracker"])>intval($_COOKIE["cleafs"])) {
-		$blokkeer_cleafs=true;
-	} else {
-		$blokkeer_tradetracker=true;
-	}
-}
-
 # Content
 if($_GET["fo"]=="frm") {
 	echo html("bedankt","contact");

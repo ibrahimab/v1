@@ -1,14 +1,5 @@
 <?php
 
-# Bepalen wie voorrang krijgt: TradeTracker of Cleafs
-if(intval($_COOKIE["tradetracker"])>1230764400 and intval($_COOKIE["cleafs"])>1230764400) {
-	if(intval($_COOKIE["tradetracker"])>intval($_COOKIE["cleafs"])) {
-		$blokkeer_cleafs=true;
-	} else {
-		$blokkeer_tradetracker=true;
-	}
-}
-
 if($_GET["fo"]=="frm") {
 	echo html("uwbeschikbaarheidaanvraagisverzonden".($_GET["o"] ? "_optie" : ""),"beschikbaarheid")."<p>".html("zsmcontroleren","beschikbaarheid")."<p>";
 	echo html("mochtunogvragenhebben","beschikbaarheid",array("l1"=>"contact?accid=".$_GET["tid"]));

@@ -3416,23 +3416,23 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		unset($toon_tradetracker,$toon_cleafs);
 	}
 
-	# Bepalen wie voorrang krijgt: TradeTracker of Cleafs
-	if($toon_tradetracker and $toon_cleafs) {
-		if($_COOKIE["cleafs"] and $_COOKIE["tradetracker"]) {
-			if(intval($_COOKIE["cleafs"])>intval($_COOKIE["tradetracker"])) {
-				unset($toon_tradetracker);
-			} else {
-				unset($toon_cleafs);
-			}
-		} else {
-			if($_COOKIE["cleafs"]) {
-				unset($toon_tradetracker);
-			}
-			if($_COOKIE["tradetracker"]) {
-				unset($toon_cleafs);
-			}
-		}
-	}
+	// # Bepalen wie voorrang krijgt: TradeTracker of Cleafs
+	// if($toon_tradetracker and $toon_cleafs) {
+	// 	if($_COOKIE["cleafs"] and $_COOKIE["tradetracker"]) {
+	// 		if(intval($_COOKIE["cleafs"])>intval($_COOKIE["tradetracker"])) {
+	// 			unset($toon_tradetracker);
+	// 		} else {
+	// 			unset($toon_cleafs);
+	// 		}
+	// 	} else {
+	// 		if($_COOKIE["cleafs"]) {
+	// 			unset($toon_tradetracker);
+	// 		}
+	// 		if($_COOKIE["tradetracker"]) {
+	// 			unset($toon_cleafs);
+	// 		}
+	// 	}
+	// }
 
 	// TIJDELIJK! Nog geen TradeTracker-codes voor vraagonsadvies ontvangen (18-01-2013)
 	if($data["ordernummer"]=="vraagonsadvies") {

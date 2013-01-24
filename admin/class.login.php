@@ -716,8 +716,10 @@ class Login {
 				#
 
 				# lin-cookie wissen
-				setcookie("lin[".$this->settings["name"]."]","",time()-864000,"/");
-				unset($_COOKIE["lin"][$this->settings["name"]]);
+				if($_COOKIE["lin"][$this->settings["name"]]) {
+					setcookie("lin[".$this->settings["name"]."]","",time()-864000,"/");
+					unset($_COOKIE["lin"][$this->settings["name"]]);
+				}
 
 				# extra_unsafe_cookie wissen
 				if($this->settings["extra_unsafe_cookie"]) {
