@@ -1963,8 +1963,11 @@ $txt["en"]["toonaccommodatie"]["uitmijnfavorietenhalen"]="Remove from my favouri
 $txt["nl"]["toonaccommodatie"]["plaatsinfavorieten"]="Plaats in [[h_1]]mijn favorieten[[h_2]]";
 $txt["en"]["toonaccommodatie"]["plaatsinfavorieten"]="Add to [[h_1]]my favourites[[h_2]]";
 
-$txt["nl"]["toonaccommodatie"]["geentarieven_accvol"]="Helaas zijn er voor deze accommodatie momenteel geen weken meer beschikbaar. Neem [[l1]]contact[[/l1]] met ons op zodat wij voor je na kunnen gaan of er nog een alternatief is.";
+$txt["nl"]["toonaccommodatie"]["geentarieven_accvol"]="Helaas is er voor [[v_accommodatienaam]] geen beschikbaarheid meer voor [[v_huidigseizoen]]. Zoek je een alternatief of wil je een boeking maken voor [[v_volgendseizoen]], neem dan [[l1]]contact[[/l1]] met ons op.";
 $txt["en"]["toonaccommodatie"]["geentarieven_accvol"]="Unfortunately there are no weeks available for this accommodation anymore. Please [[l1]]contact[[/l1]] us, so we can find a good alternative for you.";
+
+$txt["nl_z"]["toonaccommodatie"]["geentarieven_accvol"]="Helaas zijn er voor deze accommodatie momenteel geen weken meer beschikbaar. Neem [[l1]]contact[[/l1]] met ons op zodat wij voor je na kunnen gaan of er nog een alternatief is.";
+$txt["nl_z"]["toonaccommodatie"]["geentarieven_accvol"]="Unfortunately there are no weeks available for this accommodation anymore. Please [[l1]]contact[[/l1]] us, so we can find a good alternative for you.";
 
 $txt["nl"]["toonaccommodatie"]["optieaanvragen"]="[[h_1]]Optie[[h_2]] aanvragen";
 $txt["en"]["toonaccommodatie"]["optieaanvragen"]="[[h_1]]Option[[h_2]] request";

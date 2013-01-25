@@ -1247,7 +1247,15 @@ if($db->next_record()) {
 	}
 	if(!$echt_tarieven_getoond) {
 		if($tarieven_ingevoerd) {
-			echo "<p>".html("geentarieven_accvol","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</p>";
+			# Seizoennamen bepalen (vorig seizoen, dit seizoen)
+			$db2->query("SELECT DISTINCT s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' ORDER BY s.begin DESC LIMIT 0,2;");
+			while($db2->next_record()) {
+				if(!$volgend_seizoen) {
+					$volgend_seizoen=$db2->f("naam");
+				}
+				$huidig_seizoen=$db2->f("naam");
+			}
+			echo "<p>".html("geentarieven_accvol","toonaccommodatie",array("v_accommodatienaam"=>$accinfo["accnaam"],"v_huidigseizoen"=>$huidig_seizoen,"v_volgendseizoen"=>$volgend_seizoen,"l1"=>"contact?accid=".$typeid))."</p>";
 		} else {
 			echo "<p>".html("tarievennognietbekend","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</p>";
 		}
