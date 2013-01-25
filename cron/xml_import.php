@@ -258,10 +258,10 @@ if($testsysteem) {
 #	$soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
 #	$xml_urls[14][1]=$test_tmpdir."deuxalpes.xml";
 #	$soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
-#	$xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
-#	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
-#	$xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
-#	$xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
+	$xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
+	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
+	$xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
+	$xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 #	$xml_urls[17][1]=$temp_filename[17];
 #	$xml_urls[18][1]=$test_tmpdir."agence.xml";
 #	$xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
@@ -630,7 +630,9 @@ while(list($key,$value)=@each($xml_urls)) {
 				# Tarieven en beschikbaarheid
 
 
-				if($key2==1 or $key==3) {
+				if($key2==1 or $key2==3) {
+					unset($hulp_array[$key]);
+
 					# Beschikbaarheid (winter en zomer)
 					foreach($xml as $value3) {
 						foreach($value3->lodging as $value4) {
@@ -685,43 +687,45 @@ while(list($key,$value)=@each($xml_urls)) {
 							}
 						}
 					}
-				} elseif($key2==2 or $key==4) {
+				} elseif($key2==2 or $key2==4) {
 					# Tarieven (winter en zomer)
 					foreach($xml as $value3) {
 						foreach($value3->lodging as $value4) {
 
 							$use_key=trim($value3->code)."_".trim($hulp_array[$key][trim($value3->code)."_".trim($value4->no)]);
 
-							foreach($value4->prices->price as $value5) {
+							if(is_object($value4->prices->price)) {
+								foreach($value4->prices->price as $value5) {
 
-								$datum_begin=strtotime($value5->fromdate);
-								$datum_eind=strtotime($value5->todate);
+									$datum_begin=strtotime($value5->fromdate);
+									$datum_eind=strtotime($value5->todate);
 
-								# Doorlopen van begin tot eind
-								$week=$datum_begin;
-								while($week<$datum_eind) {
-									unset($tempprijs,$hoogste_prijs);
+									# Doorlopen van begin tot eind
+									$week=$datum_begin;
+									while($week<$datum_eind) {
+										unset($tempprijs,$hoogste_prijs);
 
-									# Kijken wat de hoogste prijs is (er worden altijd 3 bedragen verzonden)
-									if(is_object($value5->price1->amount)) {
-										$hoogste_prijs[1]=floatval(trim($value5->price1->amount));
+										# Kijken wat de hoogste prijs is (er worden altijd 3 bedragen verzonden)
+										if(is_object($value5->price1->amount)) {
+											$hoogste_prijs[1]=floatval(trim($value5->price1->amount));
+										}
+										if(is_object($value5->price2->amount)) {
+											$hoogste_prijs[2]=floatval(trim($value5->price2->amount));
+										}
+										if(is_object($value5->price3->amount)) {
+											$hoogste_prijs[3]=floatval(trim($value5->price3->amount));
+										}
+										if(is_array($hoogste_prijs)) {
+											$tempprijs=max($hoogste_prijs);
+										} else {
+											$tempprijs=0;
+										}
+										if($tempprijs) {
+											$xml_brutoprijs[$key][$use_key][$week]=$tempprijs*7;
+										}
+										$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+										$xml_laatsteimport_leverancier[$key]=true;
 									}
-									if(is_object($value5->price2->amount)) {
-										$hoogste_prijs[2]=floatval(trim($value5->price2->amount));
-									}
-									if(is_object($value5->price3->amount)) {
-										$hoogste_prijs[3]=floatval(trim($value5->price3->amount));
-									}
-									if(is_array($hoogste_prijs)) {
-										$tempprijs=max($hoogste_prijs);
-									} else {
-										$tempprijs=0;
-									}
-									if($tempprijs) {
-										$xml_brutoprijs[$key][$use_key][$week]=$tempprijs*7;
-									}
-									$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
-									$xml_laatsteimport_leverancier[$key]=true;
 								}
 							}
 						}
@@ -1778,20 +1782,10 @@ while(list($key,$value)=@each($aantal_beschikbaar)) {
 	}
 }
 
-# NU_EVEN_NIET 17 moet 3 worden
-if(is_array($lastminute) and date("H")==17) {
+if(is_array($lastminute) and (date("H")==3 or date("H")==4)) {
 	#
 	# lastminutes vewerken (bestaat alleen voor Posarelli)
 	#
-
-
-// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-// 	$db->query("DELETE FROM korting;");
-// 	$db->query("DELETE FROM korting_tarief;");
-// 	$db->query("DELETE FROM aanbieding;");
-// 	$db->query("DELETE FROM aanbieding_aankomstdatum;");
-// }
-
 
 	unset($seizoen_eind,$kortingid);
 
@@ -1838,8 +1832,10 @@ if(is_array($lastminute) and date("H")==17) {
 					}
 				}
 
-				# Interne naam korting
+				# Teksten korting
 				$korting_internenaam="XML -/-".$percentage."% ".$before." dagen voor aankomst";
+				$onlinenaam="Last minute korting van ".$percentage."%";
+				$omschrijving="Voor reserveringen (van tenminste 7 nachten) die binnen ".$before." dagen voor aankomst gemaakt worden geldt een last minute korting van ".$percentage."%.";
 
 				if($korting_aankomstdata) {
 
@@ -1863,10 +1859,10 @@ if(is_array($lastminute) and date("H")==17) {
 							if($db2->next_record()) {
 								# Bestaande korting
 								$kortingid=$db2->f("korting_id");
-								$db3->query("UPDATE korting SET actief=0, delete_after_xml_korting=0, editdatetime=NOW() WHERE xml_korting=1 AND korting_id='".addslashes($db2->f("korting_id"))."';");
+								$db3->query("UPDATE korting SET actief=1, onlinenaam='".addslashes($onlinenaam)."', omschrijving='".addslashes($omschrijving)."', delete_after_xml_korting=0, editdatetime=NOW() WHERE xml_korting=1 AND korting_id='".addslashes($db2->f("korting_id"))."';");
 							} else {
 								# Nieuwe korting aanmaken
-								$db3->query("INSERT INTO korting SET actief=0, type_id='".addslashes($key4)."', volgorde='".intval(500-$percentage)."', seizoen_id='".addslashes($db->f("seizoen_id"))."', naam='".addslashes($korting_internenaam)."', onlinenaam='Lastminute-korting van ".$percentage."%', omschrijving='Voor reserveringen (van tenminste 7 nachten) die binnen ".$before." dagen voor aankomst gemaakt worden geldt een lastminute-korting van ".$percentage."%.', van=FROM_UNIXTIME(".mktime(0,0,0,date("m"),date("d")-1,date("Y"))."), tot=FROM_UNIXTIME(".$seizoen_eind[$db->f("seizoen_id")]."), toonexactekorting=1, aanbiedingskleur=1, toon_abpagina=1, xml_korting=1, adddatetime=NOW(), editdatetime=NOW();");
+								$db3->query("INSERT INTO korting SET actief=1, type_id='".addslashes($key4)."', volgorde='".intval(500-$percentage)."', seizoen_id='".addslashes($db->f("seizoen_id"))."', naam='".addslashes($korting_internenaam)."', onlinenaam='".addslashes($onlinenaam)."', omschrijving='".addslashes($omschrijving)."', van=FROM_UNIXTIME(".mktime(0,0,0,date("m"),date("d")-1,date("Y"))."), tot=FROM_UNIXTIME(".$seizoen_eind[$db->f("seizoen_id")]."), toonexactekorting=1, aanbiedingskleur=1, toon_abpagina=1, xml_korting=1, adddatetime=NOW(), editdatetime=NOW();");
 								$kortingid=$db3->insert_id();
 							}
 
@@ -1895,97 +1891,10 @@ if(is_array($lastminute) and date("H")==17) {
 	$db->query("DELETE FROM korting WHERE delete_after_xml_korting=1 AND xml_korting=1;");
 	$db->query("UPDATE korting SET delete_after_xml_korting=0;");
 
-# NU_EVEN_NIET Tijdelijk: kortingen nog niet doorrekenen
-unset($typeid_berekenen_inquery);
-
 	# Tarieven doorrekenen na wijzigen kortingen
 	if($typeid_berekenen_inquery) {
 		$typeid_berekenen_inquery=substr($typeid_berekenen_inquery,1);
 		include("tarieven_berekenen.php");
-	}
-}
-
-if(is_array($lastminute)) {
-
-
-
-	#
-	# lastminutes vewerken (werkt alleen (nog) bij Posarelli)
-	#
-
-#
-# OUD SYSTEEM: later verwijderen (22-01-2013) NU_EVEN_NIET TIJDELIJK
-#
-
-	# toon_abpagina bepalen
-	while(list($key,$value)=each($vars["websitetype_namen_wzt"])) {
-		if($toon_abpagina[$value]) $toon_abpagina[$value].=",".$key; else $toon_abpagina[$value]=$key;
-	}
-	$toon_abpagina[2].=",6";
-
-	$db->query("UPDATE aanbieding SET delete_after_xmlimport=1 WHERE xml=1;");
-	while(list($key,$value)=@each($lastminute)) {
-		while(list($key2,$value2)=each($value)) {
-			while(list($key3,$value3)=each($value2)) {
-				unset($aanbiedinginfo);
-				# $key3 = winter of zomer
-
-				unset($percentage,$before,$aanbieding_xmlcode);
-
-				$aanbieding_xmlcode=$key."_".$key3."_".$key2;
-
-				if(ereg("^([0-9]+)_([0-9]+)$",$key2,$regs)) {
-					$percentage=$regs[1];
-					$before=$regs[2];
-				}
-				$aanbiedinginfo["soort"]=1;
-				$aanbiedinginfo["onlinenaam"]="Last minute korting van ".$percentage."%";
-				$aanbiedinginfo["omschrijving"]="Voor reserveringen (van tenminste 7 nachten) die binnen ".$before." dagen voor aankomst gemaakt worden geldt een last minute korting van ".$percentage."%.";
-				$aanbiedinginfo["volgorde2_abpagina"]=$before;
-
-				unset($aanbiedingid);
-				$db->query("SELECT aanbieding_id FROM aanbieding WHERE xml=1 AND xmlcode='".$aanbieding_xmlcode."';");
-				if($db->next_record()) {
-					$aanbiedingid=$db->f("aanbieding_id");
-					$db2->query("UPDATE aanbieding SET seizoen1_id='".$actieve_seizoen[$key3]."', delete_after_xmlimport=0, soort='".addslashes($aanbiedinginfo["soort"])."', onlinenaam='".addslashes($aanbiedinginfo["onlinenaam"])."', omschrijving='".addslashes($aanbiedinginfo["omschrijving"])."', volgorde2_abpagina='".addslashes($aanbiedinginfo["volgorde2_abpagina"])."' WHERE aanbieding_id='".$db->f("aanbieding_id")."';");
-				} else {
-					$db2->query("INSERT INTO aanbieding SET xmlcode='".$aanbieding_xmlcode."', wzt='".$key3."', soort='".addslashes($aanbiedinginfo["soort"])."', onlinenaam='".addslashes($aanbiedinginfo["onlinenaam"])."', omschrijving='".addslashes($aanbiedinginfo["omschrijving"])."', volgorde2_abpagina='".addslashes($aanbiedinginfo["volgorde2_abpagina"])."', seizoen1_id='".$actieve_seizoen[$key3]."', naam='XML -/-".$percentage."% ".$before." dagen voor aankomst - ".addslashes($namen_leveranciers[$key])."', bedrag_soort=2, toonkorting=1, bedrag='".addslashes($percentage)."', begindatum=NOW(), tonen=1, toon_abpagina='".$toon_abpagina[$key3]."', xml=1, delete_after_xmlimport=0, adddatetime=NOW(), editdatetime=NOW();");
-					if($db2->insert_id()) {
-						$aanbiedingid=$db2->insert_id();
-					}
-				}
-				if($aanbiedingid) {
-					$db->query("UPDATE aanbieding_aankomstdatum SET delete_after_xmlimport=1 WHERE aanbieding_id='".$aanbiedingid."';");
-					$db->query("UPDATE aanbieding_type SET delete_after_xmlimport=1 WHERE aanbieding_id='".$aanbiedingid."';");
-
-					# Accommodaties opslaan
-					while(list($key4,$value4)=each($value3)) {
-						$db->query("INSERT INTO aanbieding_type SET aanbieding_id='".$aanbiedingid."', type_id='".$key4."', delete_after_xmlimport=0;");
-	#					echo $db->lastquery."<br>";
-					}
-
-					# Aankomstdata opslaan
-					reset($seizoenen[$key3]);
-					while(list($key4,$value4)=each($seizoenen[$key3])) {
-	#					echo date("d-m-Y",$key4)."<br>";
-						if($key4>time() and $key4<=mktime(0,0,0,date("m"),date("d")+$before,date("Y"))) {
-							$db->query("INSERT INTO aanbieding_aankomstdatum SET aanbieding_id='".$aanbiedingid."', week='".$key4."', delete_after_xmlimport=0;");
-#							echo $db->lastquery."<br>";
-						}
-					}
-					$db->query("DELETE FROM aanbieding_aankomstdatum WHERE delete_after_xmlimport=1 AND aanbieding_id='".$aanbiedingid."';");
-					$db->query("DELETE FROM aanbieding_type WHERE delete_after_xmlimport=1 AND aanbieding_id='".$aanbiedingid."';");
-				}
-			}
-		}
-	}
-	# oude lastminutes wissen
-	$db->query("SELECT aanbieding_id FROM aanbieding WHERE delete_after_xmlimport=1 AND xml=1;");
-	while($db->next_record()) {
-		$db2->query("DELETE FROM aanbieding_aankomstdatum WHERE aanbieding_id='".$db->f("aanbieding_id")."';");
-		$db2->query("DELETE FROM aanbieding_type WHERE aanbieding_id='".$db->f("aanbieding_id")."';");
-		$db2->query("DELETE FROM aanbieding WHERE aanbieding_id='".$db->f("aanbieding_id")."';");
-#		echo $db2->lastquery."<br>";
 	}
 }
 
