@@ -99,7 +99,7 @@ if($vars["googlemaps"]) {
 }
 
 # Chosen
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.min.js\"></script>\n";
+#echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.min.js\"></script>\n";
 
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_superski.js?cache=".@filemtime("scripts/functions_superski.js")."\" ></script>\n";

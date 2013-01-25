@@ -871,8 +871,8 @@ $(document).ready(function() {
 		});
 
 		// bug in tarieventabel bij IE9
-		if($(".tarieventabel_div").length!=0) {
-			if($("#weektarieven").length!=0) {
+		if($(".tarieventabel_div").length!==0) {
+			if($("#weektarieven").length!==0) {
 
 			} else {
 				$('.tarieventabel_div').each(function() {
@@ -883,16 +883,7 @@ $(document).ready(function() {
 		}
 
 		// Opmaak zoekbox via jQuery Chosen
-		if($().chosen) {
-			$("#zoekblok select:not(.zoekblok_select_date)").chosen({allow_single_deselect:true,search_contains:true}).change(function() {
-				$("#zoeken").submit();
-			});
-
-			$("#zoekblok .zoekblok_select_date").chosen({disable_search_threshold:1000,allow_single_deselect:true,search_contains:true}).change(function() {
-				if($("select[name=fadf_d]").val() && $("select[name=fadf_m]").val() && $("select[name=fadf_y]").val()) {
-					$("#zoeken").submit();
-				}
-			});
+		if($("#zoekblok").length!==0) {
 
 			$("#zoekblok input[name=fzt]").focus(function() {
 				zoekblok_tekst=$("#zoekblok input[name=fzt]").val();
@@ -926,7 +917,6 @@ $(document).ready(function() {
 
 			});
 //			var value = ;
-
 		}
 
 		// zoeken binnen andere site: kijken of alle resultaten extern zijn (van Chalet.nl naar SuperSki)
