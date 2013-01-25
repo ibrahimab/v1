@@ -4092,12 +4092,12 @@ function opvalblok() {
 			$where.=" AND b.land_id='".intval($land["id"])."'";
 		}
 
-		if($vars["websitetype"]==3 and $land["id"]) {
+		if($vars["websitetype"]==3 and !$land["id"]) {
 			# Zomerhuisje overzichtpagina: 3 resultaten tonen
-			$limit="0,10";
+			$limit="0,3";
 		} else {
 			# de rest: 10 resultaten tonen
-			$limit="0,3";
+			$limit="0,10";
 		}
 		$order_by="volgorde";
 	} else {
