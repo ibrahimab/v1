@@ -3434,11 +3434,6 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 	// 	}
 	// }
 
-	// TIJDELIJK! Nog geen TradeTracker-codes voor vraagonsadvies ontvangen (18-01-2013)
-	if($data["ordernummer"]=="vraagonsadvies") {
-		unset($toon_tradetracker,$toon_cleafs);
-	}
-
 
 	if($vars["website"]=="W") {
 		#
@@ -3452,6 +3447,8 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
 			$tradetracker_productID="14181";
 		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14180";
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
 			$tradetracker_productID="14180";
 		} else {
 			$tradetracker_productID="14114";
@@ -3471,6 +3468,8 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
 			$tradetracker_productID="14253";
 		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14252";
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
 			$tradetracker_productID="14252";
 		} else {
 			$tradetracker_productID="1151";
@@ -3496,6 +3495,8 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 			$tradetracker_productID="11786";
 		} elseif($data["ordernummer"]=="contactaanvraag") {
 			$tradetracker_productID="14239";
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
+			$tradetracker_productID="14239";
 		} else {
 			$tradetracker_productID="204";
 		}
@@ -3514,6 +3515,8 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
 			$tradetracker_productID="13611";
 		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14272";
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
 			$tradetracker_productID="14272";
 		} else {
 			$tradetracker_productID="13471";
@@ -3534,6 +3537,8 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
 			$tradetracker_productID="14251";
 		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14250";
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
 			$tradetracker_productID="14250";
 		} else {
 			$tradetracker_productID="10696";
@@ -3557,6 +3562,8 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
 			$tradetracker_productID="14744";
 		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="14745";
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
 			$tradetracker_productID="14745";
 		} else {
 			$tradetracker_productID="14727";
@@ -3607,7 +3614,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 
 		// Send the complete report to TradeTracker
 		if($vars["lokale_testserver"]) {
-			echo "<img src=\"ss.postvak.net/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&conversionType=".($sale ? "sales" : "lead")."&orderID=".$orderID.($sale ? "&orderAmount=".$orderAmount : "")."&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />\n";
+			echo "<img src=\"ss.postvak.net/tradetrackertest/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&conversionType=".($sale ? "sales" : "lead")."&orderID=".$orderID.($sale ? "&orderAmount=".$orderAmount : "")."&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />\n";
 		} else {
 			echo "<img src=\"https://t".($sale ? "s" : "l").".tradetracker.nl/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&conversionType=".($sale ? "sales" : "lead")."&orderID=".$orderID.($sale ? "&orderAmount=".$orderAmount : "")."&email=$email&additional=$additional\" width=\"1\" height=\"1\" border=\"0\" alt=\"\" />\n";
 		}
