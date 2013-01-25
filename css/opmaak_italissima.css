@@ -965,16 +965,16 @@ form {
 
 
 .opvalblok {
-	background-color: #ffd38f;
+	background-color: #ff9900;
 	margin-bottom: 12px;
 	padding-top: 4px;
 	cursor: pointer;
-	color: #661700;
+	color: #ffffff;
 }
 
 .opvalblok:hover {
-	background-color: #ff9900;
-	color: #ffffff;
+	background-color: #ffd38f;
+	color: #661700;
 }
 
 .opvalblok img {

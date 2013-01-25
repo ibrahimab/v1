@@ -801,16 +801,16 @@ form {
 
 
 .opvalblok {
-	background-color: #efeaee;
 	margin-bottom: 12px;
 	padding-top: 4px;
 	cursor: pointer;
-	color: #5f227b;
+	background-color: #5f227b;
+	color: #ffffff;
 }
 
 .opvalblok:hover {
-	background-color: #5f227b;
-	color: #ffffff;
+	background-color: #efeaee;
+	color: #5f227b;
 }
 
 .opvalblok img {
