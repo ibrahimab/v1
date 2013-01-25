@@ -1707,7 +1707,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		} else {
 			$temp_seizoentype=$vars["seizoentype"];
 		}
-		if($_GET["fap"]) {
+		if($_GET["fap"] or ($vars["seizoentype"]==2 and $vars["websitetype"]<>6)) {
 			#
 			# Tarieven opzoeken
 			#
@@ -1717,11 +1717,16 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			# Kijken of korting van toepassing is (om "aanbieding" bij zoekresultaat te kunnen tonen)
 #			$op_te_vragen_velden.=", tr.toonexactekorting, tr.aanbieding_acc_percentage, tr.aanbieding_acc_euro";
 
-			# toonper = 1 en 2
-			if($verblijfsduurquery) {
-#				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tp.prijs AS prijs_per_persoon FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.week='".addslashes($_GET["fad"])."' AND tp.prijs>0 AND tp.personen='".addslashes($_GET["fap"])."' AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$verblijfsduurquery.$wherequery.";";
-			} else {
-				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tp.prijs AS prijs_per_persoon FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.week='".addslashes($_GET["fad"])."' AND tp.prijs>0 AND tp.personen='".addslashes($_GET["fap"])."' AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
+			if($vars["seizoentype"]==1 or $vars["websitetype"]==6) {
+
+				# alleen in de winter
+
+				# toonper = 1 en 2
+				if($verblijfsduurquery) {
+	#				$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tp.prijs AS prijs_per_persoon FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.week='".addslashes($_GET["fad"])."' AND tp.prijs>0 AND tp.personen='".addslashes($_GET["fap"])."' AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$verblijfsduurquery.$wherequery.";";
+				} else {
+					$query[1]="SELECT DISTINCT ".$op_te_vragen_velden.", sz.seizoen_id, tp.prijs AS prijs_per_persoon FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND lv.leverancier_id=t.leverancier_id AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND tr.week='".addslashes($_GET["fad"])."' AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.week='".addslashes($_GET["fad"])."' AND tp.prijs>0 AND tp.personen='".addslashes($_GET["fap"])."' AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
+				}
 			}
 
 			# toonper = 3
@@ -1781,18 +1786,16 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		$query[1]="SELECT DISTINCT ".$op_te_vragen_velden." FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".$wherequery.";";
 	}
 
-	if(!$tarieven_opgezocht) {
+	if(!$tarieven_opgezocht and !$flex_aankomstdatum) {
 		if($vars["seizoentype"]==1 and !$vars["wederverkoop"] and !$vars["zoekform_weekendski"]) {
 			#
-			# Vanaf-prijzen winter berekenen
+			# Vanaf-prijzen winter uit database halen
 			#
 
 			$vanaf_prijzen_tonen=true;
 
 			# toonper = 1 en 2 (arrangement)
-#			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM accommodatie a, type t, tarief tr, tarief_personen tp, seizoen sz WHERE (a.toonper=1 OR a.toonper=2) AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tp.type_id=t.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND t.accommodatie_id=a.accommodatie_id AND ".$vars["where_websites_query_t"]." AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1".($_GET["fap"] ? " AND tp.personen='".addslashes($_GET["fap"])."'" : "").($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
 			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM tarief tr, tarief_personen tp, seizoen sz WHERE tr.seizoen_id=sz.seizoen_id AND tp.type_id=tr.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND sz.tonen".($voorkant_cms||$vars["themainfo"]["tarievenbekend_seizoen_id"] ? ">=" : "=")."3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0".($_GET["fap"] ? " AND tp.personen='".addslashes($_GET["fap"])."'" : "").($_GET["fad"] ? " AND tr.week='".addslashes($_GET["fad"])."'" : "")." GROUP BY tp.type_id;");
-#			echo $db->lq;
 			while($db->next_record()) {
 				$vanafprijs_12[$db->f("type_id")]=$db->f("prijs_per_persoon");
 			}
@@ -1802,9 +1805,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			while($db->next_record()) {
 				$vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
 			}
-		} elseif($vars["seizoentype"]==2 and ($vars["lokale_testserver"] or $_GET["testsysteem"]==2)) {
+		} elseif($vars["seizoentype"]==2) {
 			#
-			# Vanaf-prijzen zomer berekenen
+			# Vanaf-prijzen zomer uit database halen
 			#
 
 			$vanaf_prijzen_tonen=true;
@@ -1814,7 +1817,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			while($db->next_record()) {
 				$vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
 			}
-
 		}
 	}
 
