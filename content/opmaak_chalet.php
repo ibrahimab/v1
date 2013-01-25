@@ -76,6 +76,9 @@ if(preg_match("/MSIE 7/",$_SERVER["HTTP_USER_AGENT"])) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie7.css?cache=".@filemtime("css/ie7.css")."\" />\n";
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie7_chalet.css?cache=".@filemtime("css/ie7_chalet.css")."\" />\n";
 }
+if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie8.css?cache=".@filemtime("css/ie8.css")."\" />\n";
+}
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon.ico\" />\n";
 if($vars["canonical"]) {
 	echo "<link rel=\"canonical\" href=\"".htmlentities($vars["canonical"])."\" />\n";

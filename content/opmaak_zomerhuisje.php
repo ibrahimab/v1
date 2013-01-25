@@ -55,9 +55,11 @@ if(is_array($vars["extracss"])) {
 if(preg_match("/MSIE 6/",$_SERVER["HTTP_USER_AGENT"])) {
 	echo "<!--[if lt IE 7]>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie6_zomerhuisje.css\" />\n<![endif]-->\n";
 }
-
 if(preg_match("/MSIE 7/",$_SERVER["HTTP_USER_AGENT"])) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie7.css?cache=".@filemtime("css/ie7.css")."\" />\n";
+}
+if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie8.css?cache=".@filemtime("css/ie8.css")."\" />\n";
 }
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_zomerhuisje.ico\" />\n";
