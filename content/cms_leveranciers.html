@@ -261,8 +261,8 @@ if($_GET["schoonmaakkosten"]) {
 				}
 			} elseif($_GET["8k0"]==124) {
 
-				# XML-codes Almliesl tonen
-				echo "<p>";
+				# XML-codes Almliesl tonen (winter)
+				echo "<p><h1>Winter</h1><br/>";
 				$xml1=simplexml_load_file("http://www.almliesl.com/export_chalet_nl_anagraphics_de_w.xml");
 				$xml2=simplexml_load_file("http://www.almliesl.com/export_chalet_nl_occupancy_de_w.xml");
 				foreach($xml2->object as $value3) {
@@ -270,9 +270,27 @@ if($_GET["schoonmaakkosten"]) {
 						$lodging[trim($value3->code)][trim($value4->no)]=trim($value4->id);
 					}
 				}
+				foreach($xml1->object as $value3) {
+					echo "Accommodatie <i>".wt_he(utf8_decode($value3->name))."</i>: XML-accommodatiecode: ".wt_he($value3->code)."<ul>";
+					foreach($value3->lodgings->lodging as $value4) {
+						echo "<li>Type: <i>".wt_he(utf8_decode($value4->title))."</i> ".$value4->personsmin."-".$value4->personsmax." pers ".$value4->size." m&#178;: XML-typecode: ".$lodging[trim($value3->code)][trim($value4->no)];
+						echo "<div style=\"background-color:#cccccc;margin-top:3px;margin-bottom:20px;\">".wt_he(utf8_decode($value4->longdescription))."</div>";
+						echo "</li>";
+					}
+					echo "</ul><hr>";
+				}
 
-#				echo wt_dump($lodging);
-#				exit;
+				unset($lodging);
+
+				# XML-codes Almliesl tonen (zomer)
+				echo "<br/>&nbsp;<br/><p><h1>Zomer</h1><br/>";
+				$xml1=simplexml_load_file("http://www.almliesl.com/export_chalet_nl_anagraphics_de_s.xml");
+				$xml2=simplexml_load_file("http://www.almliesl.com/export_chalet_nl_occupancy_de_s.xml");
+				foreach($xml2->object as $value3) {
+					foreach($value3->lodging as $value4) {
+						$lodging[trim($value3->code)][trim($value4->no)]=trim($value4->id);
+					}
+				}
 				foreach($xml1->object as $value3) {
 					echo "Accommodatie <i>".wt_he(utf8_decode($value3->name))."</i>: XML-accommodatiecode: ".wt_he($value3->code)."<ul>";
 					foreach($value3->lodgings->lodging as $value4) {
