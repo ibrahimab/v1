@@ -184,7 +184,7 @@ if($_GET["wzt"]==2) {
 	$cms->edit_field(14,0,"volgorde1_abpagina","Volgorde op aanbiedingenpagina");
 }
 $cms->edit_field(14,0,"htmlrow","<hr>");
-$cms->edit_field(14,1,"soort","Soort");
+$cms->edit_field(14,1,"soort","Soort",array("selection"=>1));
 
 $db->query("SELECT seizoen_id FROM seizoen WHERE UNIX_TIMESTAMP(eind)>=".time()." AND type='".addslashes($_GET["wzt"])."' ORDER BY begin LIMIT 0,1;");
 if($db->next_record()) {
@@ -208,7 +208,7 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(14,0,"omschrijving","Omschrijving");
 }
 
-$cms->edit_field(14,1,"bedrag_soort","Soort bedrag");
+$cms->edit_field(14,1,"bedrag_soort","Soort bedrag",array("selection"=>4));
 $cms->edit_field(14,0,"toon_als_aanbieding","Toon als aanbieding in de tarieventabel",array("selection"=>true));
 $cms->edit_field(14,1,"toonkorting","Toon kortingsbedrag/percentage",array("selection"=>true));
 $cms->edit_field(14,0,"bedrag","Bedrag");
@@ -241,6 +241,15 @@ if($_GET["wzt"]==2) {
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(14);
 if($cms_form[14]->filled) {
+
+	# Voortaan: alleen tekstaanbiedingen toestaan (29-01-2013)
+	if($cms_form[14]->input["soort"]<>1) {
+		$cms_form[14]->error("soort","tegenwoordig zijn alleen aanbiedingen met toelichting (zonder bedrag) mogelijk");
+	}
+	if($cms_form[14]->input["bedrag_soort"]<>4) {
+		$cms_form[14]->error("bedrag_soort","tegenwoordig zijn alleen aanbiedingen met toelichting (zonder bedrag) mogelijk");
+	}
+
 	# Geen omschrijving bij lastminute toegestaan
 	if($cms_form[14]->input["soort"]==2 and $cms_form[14]->input["omschrijving"]) {
 		$cms_form[14]->error("omschrijving","niet van toepassing bij 'Aanbieding zonder toelichting'");
