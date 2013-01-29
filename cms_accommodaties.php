@@ -319,7 +319,7 @@ $cms->db_field(1,"text","vertrekinfo_gps_long");
 
 # Video
 $cms->db_field(1,"yesno","video");
-$cms->db_field(1,"url","videoEmbedCode");
+$cms->db_field(1,"url","video_url");
 
 #
 #
@@ -578,7 +578,7 @@ $cms->edit_field(1,0,"picaanvullendonderaan","Aanvullende afbeelding(en) (komen 
 $cms->edit_field(1,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("autoresize"=>true,"img_width"=>"400","img_height"=>"150","img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
 
 $cms->edit_field(1,0,"htmlrow","<hr><b>Video</b>");
-$cms->edit_field(1,0,"videoEmbedCode","URL van Vimeo");
+$cms->edit_field(1,0,"video_url","URL van Vimeo");
 $cms->edit_field(1,0,"video","Toon deze video op de accommodatiepagina");
 
 $cms->edit_field(1,0,"htmlrow","<hr><b>Goedkeuren bovenstaande teksten/gegevens</b>");
@@ -790,11 +790,6 @@ if($cms_form[1]->filled) {
 	if($cms_form[1]->input["vertrekinfo_gps_long"]<>"" and !$cms_form[1]->input["vertrekinfo_gps_lat"]) $cms_form[1]->error("vertrekinfo_gps_lat","vul zowel latitude als longitude in");
 	if($cms_form[1]->input["vertrekinfo_gps_lat"]<>"" and !$cms_form[1]->input["vertrekinfo_gps_long"]) $cms_form[1]->error("gps_long","vul zowel latitude als longitude in");
 
-	# Controle op Vimeo-link
-	if($cms_form[1]->input["videoEmbedCode"] and !preg_match("/^http:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[1]->input["videoEmbedCode"])) {
-		$cms_form[1]->error("videoEmbedCode","onjuist formaat. Voorbeeld: http://player.vimeo.com/video/44377043");
-	}
-
 	# Controle op vertrekinfo_soortadres bij invullen vertrekinfo_adres
 	if($cms_form[1]->input["vertrekinfo_adres"] and !$cms_form[1]->input["vertrekinfo_soortadres"]) {
 		$cms_form[1]->error("vertrekinfo_soortadres","obl");
@@ -818,7 +813,16 @@ if($cms_form[1]->filled) {
 		}
 	}
 
-#	$cms_form[1]->error("kwaliteit","testfout");
+	# Controle op aanwezige video_url
+	if($cms_form[1]->input["video"] and !$cms_form[1]->input["video_url"]) {
+		$cms_form[1]->error("video_url","obl");
+	}
+
+	# Controle op Vimeo-link
+	if($cms_form[1]->input["video_url"] and !preg_match("/^http:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[1]->input["video_url"])) {
+		$cms_form[1]->error("video_url","onjuist formaat. Voorbeeld: http://player.vimeo.com/video/44377043");
+	}
+
 }
 
 # functie na opslaan form

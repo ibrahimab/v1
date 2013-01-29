@@ -233,6 +233,10 @@ $cms->db_field(2,"text","vertrekinfo_plaatsnaam_beheer");
 $cms->db_field(2,"text","vertrekinfo_gps_lat");
 $cms->db_field(2,"text","vertrekinfo_gps_long");
 
+# Video
+$cms->db_field(2,"yesno","video");
+$cms->db_field(2,"url","video_url");
+
 
 $cms->db[2]["set"]="accommodatie_id='".addslashes($_GET["1k0"])."'";
 
@@ -416,6 +420,11 @@ $cms->edit_field(2,1,"htmlrow","<hr>");
 $cms->edit_field(2,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));
 $cms->edit_field(2,0,"picaanvullend","Aanvullende afbeelding(en)","",array("autoresize"=>true,"img_width"=>"600","img_height"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>8));
 $cms->edit_field(2,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("autoresize"=>true,"img_width"=>"400","img_height"=>"150","img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
+
+$cms->edit_field(2,0,"htmlrow","<hr><b>Video</b>");
+$cms->edit_field(2,0,"video_url","URL van Vimeo");
+$cms->edit_field(2,0,"video","Toon deze video op de accommodatiepagina");
+
 
 # Nieuw vertrekinfo-systeem
 $cms->edit_field(2,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
@@ -719,6 +728,15 @@ if($cms_form[2]->filled) {
 		$cms_form[2]->error("vertrekinfo_soortadres","obl");
 	}
 
+	# Controle op aanwezige video_url
+	if($cms_form[2]->input["video"] and !$cms_form[2]->input["video_url"]) {
+		$cms_form[2]->error("video_url","obl");
+	}
+
+	# Controle op Vimeo-link
+	if($cms_form[2]->input["video_url"] and !preg_match("/^http:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[2]->input["video_url"])) {
+		$cms_form[2]->error("video_url","onjuist formaat. Voorbeeld: http://player.vimeo.com/video/44377043");
+	}
 
 }
 
