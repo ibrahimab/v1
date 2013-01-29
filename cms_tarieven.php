@@ -76,11 +76,11 @@ if($_POST["filled"]) {
 
 	# Gegevens m.b.t. kortingen die bewaard moeten blijven opvragen en aan savequery toevoegen
 	if($_POST["filled_via_echt_form"]) {
-		$db->query("SELECT week, korting_toon_abpagina, kortingactief, aanbiedingskleur_korting FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
+		$db->query("SELECT week, korting_toon_abpagina, korting_toon_als_aanbieding, kortingactief, aanbiedingskleur_korting FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
 		while($db->next_record()) {
 			if($savequery[$db->f("week")]) {
 				# alleen als savequery al bestaat
-				$savequery[$db->f("week")].=", korting_toon_abpagina='".addslashes($db->f("korting_toon_abpagina"))."', kortingactief='".addslashes($db->f("kortingactief"))."', aanbiedingskleur_korting='".addslashes($db->f("aanbiedingskleur_korting"))."'";
+				$savequery[$db->f("week")].=", korting_toon_abpagina='".addslashes($db->f("korting_toon_abpagina"))."', korting_toon_als_aanbieding='".addslashes($db->f("korting_toon_als_aanbieding"))."', kortingactief='".addslashes($db->f("kortingactief"))."', aanbiedingskleur_korting='".addslashes($db->f("aanbiedingskleur_korting"))."'";
 			}
 		}
 	}

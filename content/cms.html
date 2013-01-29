@@ -25,6 +25,8 @@ if(!$login->logged_in) {
 
 #		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+#		$db->query("UPDATE korting SET toon_als_aanbieding=1 WHERE korting_id IN (SELECT DISTINCT korting_id FROM korting_tarief WHERE (aanbieding_acc_percentage>0 OR aanbieding_skipas_percentage>0 OR aanbieding_acc_euro>0 OR aanbieding_skipas_euro>0)) AND aanbiedingskleur=1;");
+
 		# Overzetten receptie naar vertrekinfo_soortbeheer_aanvulling
 #		$db->query("UPDATE accommodatie SET vertrekinfo_soortbeheer_aanvulling=receptie WHERE receptie<>'' AND receptie IS NOT NULL;");
 

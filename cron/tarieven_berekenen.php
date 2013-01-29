@@ -30,7 +30,7 @@ $vandaag=mktime(0,0,0,date("m"),date("d"),date("Y"));
 
 # kortingen uit db halen
 unset($korting);
-$db->query("SELECT k.type_id, k.toonexactekorting, k.aanbiedingskleur, k.toon_abpagina, kt.week, kt.inkoopkorting_percentage, kt.aanbieding_acc_percentage, kt.aanbieding_skipas_percentage, kt.inkoopkorting_euro, kt.aanbieding_acc_euro, kt.aanbieding_skipas_euro FROM korting k, korting_tarief kt WHERE k.actief=1 AND kt.korting_id=k.korting_id AND UNIX_TIMESTAMP(k.van)<='".$vandaag."' AND UNIX_TIMESTAMP(k.tot)>='".$vandaag."'".($typeid_berekenen_inquery ? " AND k.type_id IN (".$typeid_berekenen_inquery.")" : "").";");
+$db->query("SELECT k.type_id, k.toonexactekorting, k.aanbiedingskleur, k.toon_abpagina, k.toon_als_aanbieding, kt.week, kt.inkoopkorting_percentage, kt.aanbieding_acc_percentage, kt.aanbieding_skipas_percentage, kt.inkoopkorting_euro, kt.aanbieding_acc_euro, kt.aanbieding_skipas_euro FROM korting k, korting_tarief kt WHERE k.actief=1 AND kt.korting_id=k.korting_id AND UNIX_TIMESTAMP(k.van)<='".$vandaag."' AND UNIX_TIMESTAMP(k.tot)>='".$vandaag."'".($typeid_berekenen_inquery ? " AND k.type_id IN (".$typeid_berekenen_inquery.")" : "").";");
 while($db->next_record()) {
 	$korting[$db->f("type_id")][$db->f("week")]["inkoopkorting_percentage"]+=$db->f("inkoopkorting_percentage");
 	$korting[$db->f("type_id")][$db->f("week")]["inkoopkorting_euro"]+=$db->f("inkoopkorting_euro");
@@ -41,17 +41,18 @@ while($db->next_record()) {
 	if($db->f("toonexactekorting")) $korting[$db->f("type_id")][$db->f("week")]["toonexactekorting"]=$db->f("toonexactekorting");
 	if($db->f("aanbiedingskleur")) $korting[$db->f("type_id")][$db->f("week")]["aanbiedingskleur"]=$db->f("aanbiedingskleur");
 	if($db->f("toon_abpagina")) $korting[$db->f("type_id")][$db->f("week")]["toon_abpagina"]=$db->f("toon_abpagina");
+	if($db->f("toon_als_aanbieding")) $korting[$db->f("type_id")][$db->f("week")]["toon_als_aanbieding"]=$db->f("toon_als_aanbieding");
 }
 
 # kortingen opslaan
 while(list($key,$value)=@each($korting)) {
 	while(list($key2,$value2)=each($value)) {
-		$db->query("UPDATE tarief SET kortingenverwerkt=1, kortingactief=1, inkoopkorting_percentage='".addslashes($value2["inkoopkorting_percentage"])."', aanbieding_acc_percentage='".addslashes($value2["aanbieding_acc_percentage"])."', aanbieding_skipas_percentage='".addslashes($value2["aanbieding_skipas_percentage"])."', inkoopkorting_euro='".addslashes($value2["inkoopkorting_euro"])."', aanbieding_acc_euro='".addslashes($value2["aanbieding_acc_euro"])."', aanbieding_skipas_euro='".addslashes($value2["aanbieding_skipas_euro"])."', toonexactekorting='".addslashes($value2["toonexactekorting"])."', aanbiedingskleur_korting='".addslashes($value2["aanbiedingskleur"])."', korting_toon_abpagina='".addslashes($value2["toon_abpagina"])."' WHERE type_id='".addslashes($key)."' AND week='".addslashes($key2)."';");
+		$db->query("UPDATE tarief SET kortingenverwerkt=1, kortingactief=1, inkoopkorting_percentage='".addslashes($value2["inkoopkorting_percentage"])."', aanbieding_acc_percentage='".addslashes($value2["aanbieding_acc_percentage"])."', aanbieding_skipas_percentage='".addslashes($value2["aanbieding_skipas_percentage"])."', inkoopkorting_euro='".addslashes($value2["inkoopkorting_euro"])."', aanbieding_acc_euro='".addslashes($value2["aanbieding_acc_euro"])."', aanbieding_skipas_euro='".addslashes($value2["aanbieding_skipas_euro"])."', toonexactekorting='".addslashes($value2["toonexactekorting"])."', aanbiedingskleur_korting='".addslashes($value2["aanbiedingskleur"])."', korting_toon_abpagina='".addslashes($value2["toon_abpagina"])."', korting_toon_als_aanbieding='".addslashes($value2["toon_als_aanbieding"])."' WHERE type_id='".addslashes($key)."' AND week='".addslashes($key2)."';");
 #		echo $db->lastquery."<br>\n";
 	}
 }
 
-$db->query("UPDATE tarief SET inkoopkorting_percentage=0, aanbieding_acc_percentage=0, aanbieding_skipas_percentage=0, inkoopkorting_euro=0, aanbieding_acc_euro=0, aanbieding_skipas_euro=0, toonexactekorting=0, aanbiedingskleur_korting=0, korting_toon_abpagina=0 WHERE kortingenverwerkt=0".($typeid_berekenen_inquery ? " AND type_id IN (".$typeid_berekenen_inquery.")" : "").";");
+$db->query("UPDATE tarief SET inkoopkorting_percentage=0, aanbieding_acc_percentage=0, aanbieding_skipas_percentage=0, inkoopkorting_euro=0, aanbieding_acc_euro=0, aanbieding_skipas_euro=0, toonexactekorting=0, aanbiedingskleur_korting=0, korting_toon_abpagina=0, korting_toon_als_aanbieding=0 WHERE kortingenverwerkt=0".($typeid_berekenen_inquery ? " AND type_id IN (".$typeid_berekenen_inquery.")" : "").";");
 
 # alle tarieven berekenen (indien week>nu of kortingactief=1)
 $skipastarieven_verwerken=true;

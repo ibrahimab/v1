@@ -492,9 +492,13 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	#
 	# Nieuw zoekformulier
 	#
-	echo "<div class=\"div_met_border boxshadow\" id=\"oudzoekblok\">";
+#	echo "<div class=\"div_met_border boxshadow\" id=\"oudzoekblok\">";
 
-	echo "<table border=\"0\" width=\"600\" bgcolor=\"#FFFFFF\" cellspacing=\"0\" cellpadding=\"0\" class=\"tabel_met_border\" id=\"zoektabel\">";
+	echo "<div id=\"zoekblok\">";
+
+#	echo "<table border=\"0\" width=\"600\" bgcolor=\"#FFFFFF\" cellspacing=\"0\" cellpadding=\"0\" class=\"tabel_met_border\" id=\"zoektabel\">";
+
+	# formulier-declaratie
 	echo "<form method=\"get\" action=\"";
 	if($vars["zoekform_thema"]) {
 		if($themalandinfo["soort"]=="land") {
@@ -513,10 +517,8 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	} else {
 		$urlself=txt("menu_zoek-en-boek").".php";
 	}
-
 	echo $urlself;
 	$urlself=ereg_replace("#form","",$urlself);
-
 	echo "\" name=\"zoeken\" id=\"zoeken\">";
 
 	if($_GET["abid"]) {
@@ -535,19 +537,28 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		# gekozen sortering meesturen met het formulier
 		echo "<input type=\"hidden\" name=\"sort\" value=\"".wt_he($_GET["sort"])."\">\n";
 	}
+	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 
-	echo "<tr><td width=100% colspan=4><input type=\"hidden\" name=\"filled\" value=\"1\"></td></tr>";
-	echo "<tr><td valign=top align=left>";
 
-	echo "<table border=\"0\" width=\"100%\" cellspacing=\"0\" cellpadding=\"0\">";
-	echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
-	echo "<tr><td valign=bottom>".html("zoekenmbvtekst","accommodaties")."</td></tr>";
-	echo "</table></td>";
-	echo "<td valign=top align=left width=65%><input type=\"text\" name=\"fzt\" value=\"".wt_he($_GET["fzt"])."\" class=\"formstyle100 txtzoeken\"></td></tr>";
-	echo "<tr><td colspan=\"2\" style=\"padding-top:4px;padding-bottom:4px;\"><span class=\"kleinfont\">(".html("opnaam","accommodaties").")</span></td></tr>";
-	echo "<tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
+	function zoekblok_tekst() {
+		# zoekformulier: zoeken op tekst
 
-	function showformfield_bestemming() {
+		echo "<div class=\"zoekblok_item\">";
+		echo "<div class=\"zoekblok_titel\">";
+		echo html("zoekenmbvtekst","accommodaties");
+		echo "</div>"; # afsluiten .zoekblok_titel
+
+		echo "<div class=\"zoekblok_field\">";
+		echo "<input type=\"text\" name=\"fzt\" value=\"".wt_he($_GET["fzt"])."\" class=\"\">";
+		echo "<span class=\"kleinfont\">(".html("opnaam","accommodaties").")</span>";
+		echo "</div>"; # afsluiten .zoekblok_field
+
+		echo "<div class=\"clear\"></div>";
+		echo "</div>"; # afsluiten .zoekblok_item
+	}
+
+	function zoekblok_bestemming() {
+		# zoekformulier: bestemming
 		global $vars,$landnaam,$themalandinfo,$save_query;
 		echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
 		echo "<tr><td><img src=\"".$vars["path"]."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
@@ -567,11 +578,6 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		}
 		if($optgroup_open) echo "</optgroup>\n";
 		echo "</select></td></tr><tr><td colspan=2><img src=\"".$vars["path"]."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
-	}
-
-	if($vars["seizoentype"]==2 and $vars["websitetype"]<>6) {
-		# Zomer: bestemming als 2e veld
-		showformfield_bestemming();
 	}
 
 	echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
@@ -691,11 +697,6 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			}
 			echo "<tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
 		}
-	}
-
-	if($vars["seizoentype"]==1 and $vars["websitetype"]<>6) {
-		# Winter: skigebied
-		showformfield_bestemming();
 	}
 
 	if($vars["seizoentype"]==2 and $vars["websitetype"]<>6) {
@@ -842,8 +843,65 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		}
 	}
 
-	echo "</form></table>";
-	echo "</div>"; # afsluiten .div_met_border
+	if($vars["websitetype"]==1) {
+		# Chalet
+		zoekblok_bestemming();
+		zoekblok_aankomstdatum();
+		zoekblok_aantalpersonen();
+		zoekblok_aantalslaapkamers();
+		zoekblok_tekst();
+	} elseif($vars["websitetype"]==3) {
+		# Zomerhuisje
+		zoekblok_bestemming();
+		zoekblok_aantalpersonen();
+		zoekblok_aankomstdatum();
+		zoekblok_verblijfsduur();
+		zoekblok_aantalslaapkamers();
+		zoekblok_tekst();
+	} elseif($vars["websitetype"]==4) {
+		# Chalettour
+		zoekblok_bestemming();
+		zoekblok_aankomstdatum();
+		zoekblok_aantalpersonen();
+		zoekblok_aantalslaapkamers();
+		zoekblok_tekst();
+	} elseif($vars["websitetype"]==6) {
+		# ChaletsinVallandry
+		zoekblok_aankomstdatum();
+		zoekblok_aantalpersonen();
+		zoekblok_aantalslaapkamers();
+		zoekblok_tekst();
+	} elseif($vars["websitetype"]==7) {
+		# Italissima
+		zoekblok_bestemming(array("zonder_plaatsen"=>true));
+		zoekblok_aantalpersonen();
+		zoekblok_aankomstdatum();
+		zoekblok_verblijfsduur();
+		zoekblok_aantalslaapkamers();
+		zoekblok_tekst();
+	} elseif($vars["websitetype"]==8) {
+		# SuperSki
+		zoekblok_bestemming();
+		zoekblok_aantalpersonen();
+		zoekblok_aankomstdatum();
+		zoekblok_aantalslaapkamers();
+		zoekblok_tekst();
+	}
+
+	if($vars["seizoentype"]==2 and $vars["websitetype"]<>6) {
+		# Zomer: bestemming als 2e veld
+
+	}
+
+	if($vars["seizoentype"]==1 and $vars["websitetype"]<>6) {
+		# Winter: skigebied
+		zoekblok_bestemming();
+	}
+
+
+	echo "</form>";
+	echo "</div>"; # afsluiten #zoekblok
+#	echo "</div>"; # afsluiten .div_met_border
 
 } else {
 
@@ -1513,11 +1571,10 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		}
 
 		# kortingen
-		$db->query("SELECT DISTINCT ta.type_id FROM seizoen s, tarief ta WHERE ta.aanbiedingskleur_korting=1 AND ta.kortingactief=1 AND ta.seizoen_id=s.seizoen_id AND s.tonen".($voorkant_cms ? ">=" : "=")."3 AND s.type='".addslashes($vars["seizoentype"])."' AND s.eind>='".date("Y-m-d")."';");
+		$db->query("SELECT DISTINCT ta.type_id FROM seizoen s, tarief ta WHERE ta.korting_toon_als_aanbieding=1 AND ta.kortingactief=1 AND ta.seizoen_id=s.seizoen_id AND s.tonen".($voorkant_cms ? ">=" : "=")."3 AND s.type='".addslashes($vars["seizoentype"])."' AND s.eind>='".date("Y-m-d")."';");
 		while($db->next_record()) {
 			$geen_datum_alleen_aanbiedingen_inquery.=",".$db->f("type_id");
 		}
-
 
 		if(!$geen_datum_alleen_aanbiedingen_inquery) $geen_datum_alleen_aanbiedingen_inquery=",0";
 		addwhere("t.type_id IN (".substr($geen_datum_alleen_aanbiedingen_inquery,1).")");
@@ -1529,7 +1586,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 	if($_GET["fad"]>0 and !$_GET["altflexberekenen"]) {
 
 		# Kijken of korting van toepassing is (om "aanbieding" bij zoekresultaat te kunnen tonen)
-		$op_te_vragen_velden.=", tr.aanbiedingskleur , tr.toonexactekorting, tr.aanbieding_acc_percentage, tr.aanbieding_acc_euro";
+		$op_te_vragen_velden.=", tr.aanbiedingskleur , tr.korting_toon_als_aanbieding, tr.toonexactekorting, tr.aanbieding_acc_percentage, tr.aanbieding_acc_euro";
 
 		if($voorkant_cms) {
 			$op_te_vragen_velden.=", tr.voorraad_garantie, tr.voorraad_allotment, tr.voorraad_optie_leverancier, tr.voorraad_xml, tr.voorraad_request, tr.voorraad_optie_klant, tr.voorraad_vervallen_allotment";
@@ -2252,15 +2309,16 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				}
 			}
 
-			if(!$soort_aanbieding and ($db->f("aanbiedingskleur") or ($db->f("toonexactekorting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0)))) {
+#			if(!$soort_aanbieding and ($db->f("aanbiedingskleur") or ($db->f("toonexactekorting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0)))) {
+			if(!$soort_aanbieding and $db->f("korting_toon_als_aanbieding")) {
 #				$soort_aanbieding=txt("aanbieding","accommodaties");
 
 				$soort_aanbieding["onbekend"]=true;
-				if($db->f("aanbieding_acc_percentage")>0) {
+				if($db->f("aanbieding_acc_percentage")>0 and $db->f("toonexactekorting")) {
 					$soort_aanbieding["percentage"][]=$db->f("aanbieding_acc_percentage");
 					unset($soort_aanbieding["onbekend"]);
 				}
-				if($db->f("aanbieding_acc_euro")>0) {
+				if($db->f("aanbieding_acc_euro")>0 and $db->f("toonexactekorting")) {
 					$soort_aanbieding["euro"][]=$db->f("aanbieding_acc_euro");
 					unset($soort_aanbieding["onbekend"]);
 				}

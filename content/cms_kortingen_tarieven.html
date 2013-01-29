@@ -208,16 +208,21 @@ if($seizoen["naam"]) {
 	echo "</select>";
 	echo "</td></tr>";
 
+	echo "<tr><td colspan=\"3\"><hr></td></tr>";
+
+	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[toon_als_aanbieding]\" value=\"1\" style=\"vertical-align:middle;position:relative;bottom:1px;\"".(!$_GET["kid"]||$korting["toon_als_aanbieding"] ? " checked" : "").">&nbsp;&nbsp;Toon het icoontje &quot;aanbieding&quot; bij de zoekresultaten</label></td></tr>";
+
 	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[aanbiedingskleur]\" value=\"1\" style=\"vertical-align:middle;\"".($korting["aanbiedingskleur"]||!$_GET["kid"] ? " checked" : "").">&nbsp;&nbsp;Toon de korting met een oranje kleur in de tarieventabel</label></td></tr>";
 	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[toonexactekorting]\" value=\"1\" style=\"vertical-align:middle;\"".($korting["toonexactekorting"]||!$_GET["kid"] ? " checked" : "").">&nbsp;&nbsp;Toon het exacte kortingsbedrag/percentage</label></td></tr>";
 
-
-
-
+	# Inkoopkorting automatisch overnemen
 	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"auto_overnemen\" value=\"1\" style=\"vertical-align:middle;\"".($_GET["kid"]&&!$acc["inkoopkorting_overnemen"] ? "" : " checked").">&nbsp;&nbsp;Inkoopkortingen automatisch overnemen</label></td></tr>";
 
 	# Tonen in overzicht op aanbiedingenpagina (deze keuze alleen bij Zomeraccommodaties tonen (winter kent geen aanbiedingen-selectiepagina meer))
-	echo "<tr style=\"".($acc["wzt"]==1 ? "display:none;" : "")."\"><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[toon_abpagina]\" value=\"1\" style=\"vertical-align:middle;position:relative;bottom:1px;\"".(!$_GET["kid"]||$korting["toon_abpagina"] ? " checked" : "").">&nbsp;&nbsp;Deze korting tonen op de aanbiedingenpagina</label></td></tr>";
+	if($acc["wzt"]==2) {
+		echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[toon_abpagina]\" value=\"1\" style=\"vertical-align:middle;position:relative;bottom:1px;\"".(!$_GET["kid"]||$korting["toon_abpagina"] ? " checked" : "").">&nbsp;&nbsp;Toon deze korting op de aanbiedingenpagina</label></td></tr>";
+	}
+
 #	echo "<tr><td nowrap valign=\"top\">Tonen in overzicht op aanbiedingenpagina</td><td valign=\"top\">";
 #	reset($vars["websitetype_namen"]);
 #	while(list($key,$value)=each($vars["websitetype_namen"])) {
@@ -236,7 +241,7 @@ if($seizoen["naam"]) {
 			echo "<tr><td colspan=\"2\"><i>Deze korting geldt alleen voor dit type</i></td></tr>";
 		}
 	} else {
-		echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[gekoppeld_code]\" value=\"1\" style=\"vertical-align:middle;position:relative;bottom:1px;\"".($korting["gekoppeld_code"] ? " checked" : "").">&nbsp;Deze korting is geldig voor alle types van deze accommodatie</label></td></tr>";
+		echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[gekoppeld_code]\" value=\"1\" style=\"vertical-align:middle;position:relative;bottom:1px;\"".($korting["gekoppeld_code"] ? " checked" : "").">&nbsp;&nbsp;Deze korting is geldig voor alle types van deze accommodatie</label></td></tr>";
 	}
 
 	echo "<tr><td colspan=\"2\" align=\"center\">";
