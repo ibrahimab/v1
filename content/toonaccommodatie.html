@@ -1082,41 +1082,57 @@ if($db->next_record()) {
 		} else {
 			echo "<p>";
 		}
+	} else {
+		if($tarieven_ingevoerd) {
+			# Seizoennamen bepalen (vorig seizoen, dit seizoen)
+			$db2->query("SELECT DISTINCT s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' ORDER BY s.begin DESC LIMIT 0,2;");
+			while($db2->next_record()) {
+				if(!$volgend_seizoen) {
+					$volgend_seizoen=$db2->f("naam");
+				}
+				$huidig_seizoen=$db2->f("naam");
+			}
+			echo "<p>".html("geentarieven_accvol","toonaccommodatie",array("v_accommodatienaam"=>$accinfo["accnaam"],"v_huidigseizoen"=>$huidig_seizoen,"v_volgendseizoen"=>$volgend_seizoen,"l1"=>"contact?accid=".$typeid))."</p>";
+		} else {
+			echo "<p>".html("tarievennognietbekend","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</p>";
+		}
+		echo "<br/>";
 	}
 
 	#
 	# Inclusief/exclusief (onder tarieventabel)
 	#
-	if($echt_tarieven_getoond) {
-		if($vars["wederverkoop"]) {
-			if($db->f("inclusief") or $db->f("tinclusief")) {
-				echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
-				echo "<tr><th>".html("inclusief","toonaccommodatie")."</th></tr>";
-				echo "<tr><td>".toon_tekst_acc_en_type($db->f("inclusief"),$db->f("tinclusief"))."</td></tr>";
-				echo "</table><p>";
-			}
-		} else {
-			if($db->f("inclusief") or $db->f("tinclusief") or $skipas_website_omschrijving) {
-				echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
-				echo "<tr><th>".html("inclusief","toonaccommodatie")."</th></tr>";
-				echo "<tr><td>";
-				if($skipas_website_omschrijving) echo toon_tekst_acc_en_type($skipas_website_omschrijving);
-				if($db->f("inclusief") or $db->f("tinclusief")) {
-					if($skipas_website_omschrijving) echo "<br><br>";
-					echo trim(toon_tekst_acc_en_type($db->f("inclusief"),$db->f("tinclusief")));
-				}
-				echo "</td></tr>";
-				echo "</table><p>";
-			}
-		}
-		if($db->f("exclusief") or $db->f("texclusief")) {
+	if($vars["wederverkoop"]) {
+		if($db->f("inclusief") or $db->f("tinclusief")) {
 			echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
-			echo "<tr><th>".html("exclusief","toonaccommodatie")."</th></tr>";
+			echo "<tr><th>".html("inclusief","toonaccommodatie")."</th></tr>";
+			echo "<tr><td>".toon_tekst_acc_en_type($db->f("inclusief"),$db->f("tinclusief"))."</td></tr>";
+			echo "</table><p>";
+		}
+	} else {
+		if($db->f("inclusief") or $db->f("tinclusief") or $skipas_website_omschrijving) {
+			echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
+			echo "<tr><th>".html("inclusief","toonaccommodatie")."</th></tr>";
 			echo "<tr><td>";
-			echo toon_tekst_acc_en_type($db->f("exclusief"),$db->f("texclusief"));
+			if($skipas_website_omschrijving) echo toon_tekst_acc_en_type($skipas_website_omschrijving);
+			if($db->f("inclusief") or $db->f("tinclusief")) {
+				if($skipas_website_omschrijving) echo "<br><br>";
+				echo trim(toon_tekst_acc_en_type($db->f("inclusief"),$db->f("tinclusief")));
+			}
 			echo "</td></tr>";
 			echo "</table><p>";
 		}
+	}
+	if($db->f("exclusief") or $db->f("texclusief")) {
+		echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
+		echo "<tr><th>".html("exclusief","toonaccommodatie")."</th></tr>";
+		echo "<tr><td>";
+		echo toon_tekst_acc_en_type($db->f("exclusief"),$db->f("texclusief"));
+		echo "</td></tr>";
+		echo "</table><p>";
+	}
+
+	if($echt_tarieven_getoond) {
 		#
 		# Bijkomende kosten (onder tarieventabel)
 		#
@@ -1243,21 +1259,6 @@ if($db->next_record()) {
 			echo "</th></tr>";
 
 			echo $bijkomendekosten_table;
-		}
-	}
-	if(!$echt_tarieven_getoond) {
-		if($tarieven_ingevoerd) {
-			# Seizoennamen bepalen (vorig seizoen, dit seizoen)
-			$db2->query("SELECT DISTINCT s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' ORDER BY s.begin DESC LIMIT 0,2;");
-			while($db2->next_record()) {
-				if(!$volgend_seizoen) {
-					$volgend_seizoen=$db2->f("naam");
-				}
-				$huidig_seizoen=$db2->f("naam");
-			}
-			echo "<p>".html("geentarieven_accvol","toonaccommodatie",array("v_accommodatienaam"=>$accinfo["accnaam"],"v_huidigseizoen"=>$huidig_seizoen,"v_volgendseizoen"=>$volgend_seizoen,"l1"=>"contact?accid=".$typeid))."</p>";
-		} else {
-			echo "<p>".html("tarievennognietbekend","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</p>";
 		}
 	}
 
