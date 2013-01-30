@@ -2309,18 +2309,18 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 				}
 			}
 
-#			if(!$soort_aanbieding and ($db->f("aanbiedingskleur") or ($db->f("toonexactekorting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0)))) {
-			if(!$soort_aanbieding and $db->f("korting_toon_als_aanbieding")) {
-#				$soort_aanbieding=txt("aanbieding","accommodaties");
+			if(!$soort_aanbieding) {
+				if($db->f("korting_toon_als_aanbieding") or $db->f("aanbiedingskleur")) {
 
-				$soort_aanbieding["onbekend"]=true;
-				if($db->f("aanbieding_acc_percentage")>0 and $db->f("toonexactekorting")) {
-					$soort_aanbieding["percentage"][]=$db->f("aanbieding_acc_percentage");
-					unset($soort_aanbieding["onbekend"]);
-				}
-				if($db->f("aanbieding_acc_euro")>0 and $db->f("toonexactekorting")) {
-					$soort_aanbieding["euro"][]=$db->f("aanbieding_acc_euro");
-					unset($soort_aanbieding["onbekend"]);
+					$soort_aanbieding["onbekend"]=true;
+					if($db->f("aanbieding_acc_percentage")>0 and $db->f("toonexactekorting")) {
+						$soort_aanbieding["percentage"][]=$db->f("aanbieding_acc_percentage");
+						unset($soort_aanbieding["onbekend"]);
+					}
+					if($db->f("aanbieding_acc_euro")>0 and $db->f("toonexactekorting")) {
+						$soort_aanbieding["euro"][]=$db->f("aanbieding_acc_euro");
+						unset($soort_aanbieding["onbekend"]);
+					}
 				}
 			}
 			unset($tarief_float);
