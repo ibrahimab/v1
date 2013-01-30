@@ -14,7 +14,7 @@ if($vars["websitetype"]==3) {
 	# Italissima.nl
 	include("content/opmaak_italissima.php");
 } elseif($vars["websitetype"]==8) {
-	# Italissima.nl
+	# SuperSki
 	include("content/opmaak_superski.php");
 } else {
 	# Chalet (.nl, .eu, .be), Chalettour.nl
