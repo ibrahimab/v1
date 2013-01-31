@@ -1190,11 +1190,17 @@ $txt["en"]["zoek-en-boek"]["tot600"]="till 600 km";
 $txt["nl"]["zoek-en-boek"]["tot1000"]="tot en met 1000 km";
 $txt["en"]["zoek-en-boek"]["tot1000"]="till 1000 km";
 
+$txt["nl"]["zoek-en-boek"]["tot1250"]="tot en met 1250 km";
+$txt["en"]["zoek-en-boek"]["tot1250"]="till 1250 km";
+
 $txt["nl"]["zoek-en-boek"]["6001000"]="600 - 1000 km";
 $txt["en"]["zoek-en-boek"]["6001000"]="600 - 1000 km";
 
 $txt["nl"]["zoek-en-boek"]["10001500"]="1000 - 1500 km";
 $txt["en"]["zoek-en-boek"]["10001500"]="1000 - 1500 km";
+
+$txt["nl"]["zoek-en-boek"]["12501500"]="1250 - 1500 km";
+$txt["en"]["zoek-en-boek"]["12501500"]="1250 - 1500 km";
 
 $txt["nl"]["zoek-en-boek"]["meerdan1500"]="meer dan 1500 km";
 $txt["en"]["zoek-en-boek"]["meerdan1500"]="more than 1500 km";

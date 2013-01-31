@@ -309,13 +309,13 @@ if($vars["seizoentype"]==1) {
 	if($vars["websitetype"]==7) {
 		# andere keuzes bij Italissima
 		$keuzeopsomming[7]["fields"]=array(
-			"tot1000"=>1,
-			"10001500"=>2,
+			"tot1250"=>1,
+			"12501500"=>2,
 			"meerdan1500"=>3
 		);
 		$keuzeopsomming[7]["addwhere"][1][]="p.afstandtotutrecht>0";
-		$keuzeopsomming[7]["addwhere"][1][]="p.afstandtotutrecht<=1000";
-		$keuzeopsomming[7]["addwhere"][2][]="p.afstandtotutrecht>1000";
+		$keuzeopsomming[7]["addwhere"][1][]="p.afstandtotutrecht<=1250";
+		$keuzeopsomming[7]["addwhere"][2][]="p.afstandtotutrecht>1250";
 		$keuzeopsomming[7]["addwhere"][2][]="p.afstandtotutrecht<=1500";
 		$keuzeopsomming[7]["addwhere"][3][]="p.afstandtotutrecht>1500";
 	} else {
@@ -2055,9 +2055,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			# Afstand vanaf Utrecht
 			if($vars["websitetype"]==7) {
 				# andere keuzes bij Italissima
-				if($db->f("afstandtotutrecht")>0 and $db->f("afstandtotutrecht")<=1000) {
+				if($db->f("afstandtotutrecht")>0 and $db->f("afstandtotutrecht")<=1250) {
 					$verfijnd["afstandvanafutrecht"][1]++;
-				} elseif($db->f("afstandtotutrecht")>1000 and $db->f("afstandtotutrecht")<=1500) {
+				} elseif($db->f("afstandtotutrecht")>1250 and $db->f("afstandtotutrecht")<=1500) {
 					$verfijnd["afstandvanafutrecht"][2]++;
 				} elseif($db->f("afstandtotutrecht")>1500) {
 					$verfijnd["afstandvanafutrecht"][3]++;
