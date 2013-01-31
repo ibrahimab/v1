@@ -638,6 +638,11 @@ td.selecteerbaarbedrag:hover{
 	margin-bottom: 15px;
 }
 
+.zoekblok_item_geen_titel {
+	margin-left: 196px;
+	width: 410px;
+}
+
 .zoekblok_titel {
 	margin-bottom: 3px;
 	float: left;
@@ -649,14 +654,22 @@ td.selecteerbaarbedrag:hover{
 .zoekblok_subtitel {
 	margin-top: 2px;
 	font-size: 0.7em;
-	margin-left: 200px;
+	margin-left: 196px;
 	margin-right: 60px;
+	position: relative;
+	float: left;
 }
 
 .zoekblok_field {
 	position: relative;
 	margin-left: 35px;
 	float: left;
+}
+
+#zoekblok input[type=checkbox] {
+	vertical-align:middle;
+	position:relative;
+	bottom:1px;
 }
 
 .zoekblok_item_verfijn {
@@ -683,12 +696,12 @@ td.selecteerbaarbedrag:hover{
 	margin-bottom: 10px;
 }
 
-#zoekblok select {
+.zoekblok_select {
 	width: 410px;
 }
 
 #zoekblok input[name='fzt'] {
-
+	width: 405px;
 }
 
 .zoekblok_calendar {
@@ -722,9 +735,7 @@ td.selecteerbaarbedrag:hover{
 }
 
 .zoekblok_item input[type=submit]:hover {
-	border: 1px solid #777777;
 	cursor: pointer;
-	color: #000000;
 }
 
 .zoektabel_zoek_alleen_aanbiedingen {
@@ -734,6 +745,10 @@ td.selecteerbaarbedrag:hover{
 	color: #ffffff;
 }
 
+.zoekbok_alleswissen {
+	display: inline;
+	margin-left: 30px;
+}
 
 
 
@@ -1349,6 +1364,27 @@ td.selecteerbaarbedrag:hover{
 
 .nieuwsbrief_per_wanneer input[type=radio] {
 	margin-bottom: 7px;
+}
+
+
+/*combobox*/
+.ui-combobox {
+	position: relative;
+	display: inline-block;
+}
+.ui-combobox-toggle {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	margin-left: -1px;
+	padding: 0;
+	/* support: IE7 */
+	*height: 1.7em;
+	*top: 0.1em;
+}
+.ui-combobox-input {
+	margin: 0;
+	padding: 0.3em;
 }
 
 // CSS specifiek voor tablets

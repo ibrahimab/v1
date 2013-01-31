@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 		ie8_teller=ie8_teller+1;
 		if(ie8_teller==1) {
-//			alert($(this).width());
+
 		}
 
 		if($(this).width()>300) {
@@ -25,7 +25,6 @@ $(document).ready(function() {
 			$(this).css("position","absolute");
 			$(this).css("margin-top","-10px");
 			$(this).css("z-index","100");
-//			$(this).css("display","none");
 
 			$(this).mousedown(function() {
 
@@ -34,10 +33,6 @@ $(document).ready(function() {
 				}
 
 				if($(this).css("width") != "auto") {
-
-					// $(this).css("z-index","100");
-					// $(this).css("position","absolute");
-					// $(this).css("margin-top","-5px");
 
 					var width = $(this).width();
 					$(this).data("origWidth", $(this).css("width")).css("width", "auto");

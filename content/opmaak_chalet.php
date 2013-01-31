@@ -117,11 +117,6 @@ if($vars["page_with_tabs"]) {
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.address-1.5.min.js\"></script>\n";
 }
 
-# live.js (live testen van CSS)
-#if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-#	echo "<script type=\"text/javascript\" src=\"http://ss.postvak.net/_intern/extra/live.js\"></script>\n";
-#}
-
 # meta name robots
 if(!$vars["canonical"] and ($_GET["back"] or $_GET["backtypeid"] or $_GET["filled"] or $_GET["page"] or $_GET["PHPSESSID"] or $id=="boeken")) {
 	$robot_noindex=true;
@@ -129,8 +124,6 @@ if(!$vars["canonical"] and ($_GET["back"] or $_GET["backtypeid"] or $_GET["fille
 if($robot_noindex or $robot_nofollow) {
 	echo "<meta name=\"robots\" content=\"".($robot_noindex ? "no" : "")."index,".($robot_nofollow ? "no" : "")."follow\" />\n";
 }
-#echo "<meta name=\"keywords\" content=\"\" />\n";
-#echo "<meta name=\"description\" content=\"".htmlentities($vars["websitenaam"])." - ".htmlentities(txt("subtitel"))."\" />";
 echo "<meta name=\"description\" content=\"".wt_he(($meta_description ? $meta_description : ($title[$id]&&$id&&$id<>"index" ? $title[$id] : txt("description"))))."\" />\n";
 
 # Facebook/Open Graph-gegevens in header opnemen

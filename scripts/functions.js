@@ -1,4 +1,129 @@
 
+
+(function( $ ) {
+	$.widget( "ui.combobox", {
+		_create: function() {
+			var input,
+				that = this,
+				wasOpen = false,
+				select = this.element.hide(),
+				selected = select.children( ":selected" ),
+				value = selected.val() ? selected.text() : "",
+				wrapper = this.wrapper = $( "<span>" )
+					.addClass( "ui-combobox" )
+					.insertAfter( select );
+
+			function removeIfInvalid( element ) {
+				var value = $( element ).val(),
+					matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( value ) + "$", "i" ),
+					valid = false;
+				select.children( "option" ).each(function() {
+					if ( $( this ).text().match( matcher ) ) {
+						this.selected = valid = true;
+						return false;
+					}
+				});
+
+				if ( !valid ) {
+					// remove invalid value, as it didn't match anything
+					$( element )
+						.val( "" )
+						.attr( "title", value + " didn't match any item" )
+						.tooltip( "open" );
+					select.val( "" );
+					setTimeout(function() {
+						input.tooltip( "close" ).attr( "title", "" );
+					}, 2500 );
+					input.data( "ui-autocomplete" ).term = "";
+				}
+			}
+
+			input = $( "<input>" )
+				.appendTo( wrapper )
+				.val( value )
+				.attr( "title", "" )
+				.addClass( "ui-state-default ui-combobox-input" )
+				.autocomplete({
+					delay: 0,
+					minLength: 0,
+					source: function( request, response ) {
+						var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+						response( select.children( "option" ).map(function() {
+							var text = $( this ).text();
+							if ( this.value && ( !request.term || matcher.test(text) ) )
+								return {
+									label: text.replace(
+										new RegExp(
+											"(?![^&;]+;)(?!<[^<>]*)(" +
+											$.ui.autocomplete.escapeRegex(request.term) +
+											")(?![^<>]*>)(?![^&;]+;)", "gi"
+										), "<strong>$1</strong>" ),
+									value: text,
+									option: this
+								};
+						}) );
+					},
+					select: function( event, ui ) {
+						ui.item.option.selected = true;
+						that._trigger( "selected", event, {
+							item: ui.item.option
+						});
+					},
+					change: function( event, ui ) {
+						if ( !ui.item ) {
+							removeIfInvalid( this );
+						}
+					}
+				})
+				.addClass( "ui-widget ui-widget-content ui-corner-left" );
+
+			input.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+				return $( "<li>" )
+					.append( "<a>" + item.label + "</a>" )
+					.appendTo( ul );
+			};
+
+			$( "<a>" )
+				.attr( "tabIndex", -1 )
+				.attr( "title", "Show All Items" )
+				.tooltip()
+				.appendTo( wrapper )
+				.button({
+					icons: {
+						primary: "ui-icon-triangle-1-s"
+					},
+					text: false
+				})
+				.removeClass( "ui-corner-all" )
+				.addClass( "ui-corner-right ui-combobox-toggle" )
+				.mousedown(function() {
+					wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+				})
+				.click(function() {
+					input.focus();
+
+					// close if already visible
+					if ( wasOpen ) {
+						return;
+					}
+
+					// pass empty string as value to search for, displaying all results
+					input.autocomplete( "search", "" );
+				});
+
+			input.tooltip({
+				tooltipClass: "ui-state-highlight"
+			});
+		},
+
+		_destroy: function() {
+			this.wrapper.remove();
+			this.element.show();
+		}
+	});
+})( jQuery );
+
+
 // Hides the tabs during initialization
 document.write('<style type="text/css"> #tabs { visibility: hidden; } </style>');
 
@@ -882,7 +1007,7 @@ $(document).ready(function() {
 			}
 		}
 
-		// Opmaak zoekbox via jQuery Chosen
+		// nieuw zoekformulier
 		if($("#zoekblok").length!==0) {
 
 			$("#zoekblok input[name=fzt]").focus(function() {
@@ -905,18 +1030,64 @@ $(document).ready(function() {
 				}
 			});
 
+			// combobox
+			$("#zoekblok_field_bestemming").combobox();
+
+//			$( "#zoekblok select[name=fsg]" ).combobox();
+
 			//
 			// Multiple-skidorp verwerken
 			//
-			$("#zoeken").submit( function() {
-				$("input[name=fpl]").val($("#fpl_multiple").val());
+			// $("#zoeken").submit( function() {
+			// $("input[name=fpl]").val($("#fpl_multiple").val());
+			// });
+
+
+			// $("#fpl_multiple").blur(function() {
+
+			// });
+
+
+			//
+			// autocomplete zoekformulier
+			//
+			$( "input[name=fzt1]" ).autocomplete({
+				source: function( request, response ) {
+					$.ajax({
+						url: absolute_path+"rpc_json.php",
+						dataType: "json",
+						data: {
+							t: 3,
+							q: request.term
+						},
+						success: function( data ) {
+							response( $.map( data.results, function( item ) {
+								if(item.name!=='') {
+									return {
+										label: item.name,
+										value: item.name
+									};
+								}
+							}));
+						}
+					});
+				},
+				minLength: 2,
+				select: function( event, ui ) {
+					// waarde in input-field plaatsen
+					$("input[name=fzt]").val(ui.item.value);
+
+					// form submitten
+					$("#zoeken").submit();
+				},
+				open: function() {
+					$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+				},
+				close: function() {
+					$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+				}
 			});
 
-
-			$("#fpl_multiple").blur(function() {
-
-			});
-//			var value = ;
 		}
 
 		// zoeken binnen andere site: kijken of alle resultaten extern zijn (van Chalet.nl naar SuperSki)
@@ -977,57 +1148,18 @@ $(document).ready(function() {
 		);
 
 		// bij zoekresultaten met aanbiedingen: breedte zoekresultaat_type_typenaam_aanbieding aanpassen aan de hand van breedte zoekresultaat_type_aanbieding
-		if($(".zoekresultaat_type_aanbieding").length!=0) {
+		if($(".zoekresultaat_type_aanbieding").length!==0) {
 
 			$(".zoekresultaat_type_aanbieding").each(function() {
-				if($(this).prev(".zoekresultaat_type_typenaam_aanbieding").html().length!=0) {
+				if($(this).prev(".zoekresultaat_type_typenaam_aanbieding").html().length!==0) {
 					var nieuwebreedte=230-10-$(this).outerWidth(true);
 					$(this).prev(".zoekresultaat_type_typenaam_aanbieding").css("width",nieuwebreedte);
 				}
 			});
 		}
 
-		//
-		// autocomplete zoekformulier
-		//
-		if($("#zoekblok").length!=0) {
+		if($("#zoekblok").length!==0) {
 
-			$( "input[name=fzt]" ).autocomplete({
-				source: function( request, response ) {
-					$.ajax({
-						url: absolute_path+"rpc_json.php",
-						dataType: "json",
-						data: {
-							t: 3,
-							q: request.term
-						},
-						success: function( data ) {
-							response( $.map( data.results, function( item ) {
-								if(item.name!='') {
-									return {
-										label: item.name,
-										value: item.name
-									}
-								}
-							}));
-						}
-					});
-				},
-				minLength: 2,
-				select: function( event, ui ) {
-					// waarde in input-field plaatsen
-					$("input[name=fzt]").val(ui.item.value);
-
-					// form submitten
-					$("#zoeken").submit();
-				},
-				open: function() {
-					$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-				},
-				close: function() {
-					$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-				}
-			});
 		}
 
 		// sluiten cookie-bar

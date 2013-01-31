@@ -521,6 +521,9 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	$urlself=ereg_replace("#form","",$urlself);
 	echo "\" name=\"zoeken\" id=\"zoeken\">";
 
+	#
+	# Hidden fields
+	#
 	if($_GET["abid"]) {
 		# abid = aanbiedingid = toon alleen accommodaties van een specifieke aanbieding
 		echo "<input type=\"hidden\" name=\"abid\" value=\"".wt_he($_GET["abid"])."\">\n";
@@ -539,36 +542,73 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	}
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 
+	# Hidden fields m.b.t. verfijnen zoekopdracht
+	if($vars["verfijnen_aanbieden"]) {
+		@reset($keuzeopsomming);
+		while(list($key,$value)=@each($keuzeopsomming)) {
+			if($value["combinatiesmogelijk"]) {
+				while(list($key2,$value2)=@each($value["fields"])) {
+					if($_GET[$value["getname"].$value2] or $_GET[$value["getname"].$value2]=="0") {
+						echo "<input type=\"hidden\" name=\"".$value["getname"].$value2."\" value=\"".wt_he($_GET[$value["getname"].$value2])."\">\n";
+					}
+				}
+			} else {
+				if($_GET[$value["getname"]."1"] or $_GET[$value["getname"]."1"]=="0") {
+					echo "<input type=\"hidden\" name=\"".$value["getname"]."1\" value=\"".wt_he($_GET[$value["getname"]."1"])."\">\n";
+				}
+			}
+		}
+	}
 
-	function zoekblok_tekst() {
+	function zoekblok_tekst($settings="") {
 		# zoekformulier: zoeken op tekst
 
 		echo "<div class=\"zoekblok_item\">";
+
 		echo "<div class=\"zoekblok_titel\">";
 		echo html("zoekenmbvtekst","accommodaties");
 		echo "</div>"; # afsluiten .zoekblok_titel
 
 		echo "<div class=\"zoekblok_field\">";
-		echo "<input type=\"text\" name=\"fzt\" value=\"".wt_he($_GET["fzt"])."\" class=\"\">";
-		echo "<span class=\"kleinfont\">(".html("opnaam","accommodaties").")</span>";
+		echo "<input type=\"text\" name=\"fzt\" value=\"".wt_he($_GET["fzt"])."\">";
 		echo "</div>"; # afsluiten .zoekblok_field
+
+		echo "<div class=\"zoekblok_subtitel\">";
+		echo "(".html("opnaam","accommodaties").")";
+		echo "</div>"; # afsluiten .zoekblok_subtitel
 
 		echo "<div class=\"clear\"></div>";
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	function zoekblok_bestemming() {
+	function zoekblok_bestemming($settings="") {
+		#
 		# zoekformulier: bestemming
+		#
 		global $vars,$landnaam,$themalandinfo,$save_query;
-		echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
-		echo "<tr><td><img src=\"".$vars["path"]."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
-		echo "<tr><td valign=bottom>".html("skigebied","accommodaties")."</td></tr></table></td><td valign=top align=left width=65%><select name=\"fsg\" class=\"formstyle100 onchangesubmit\">";
+
+		echo "<div class=\"zoekblok_item\">";
+
+		echo "<div class=\"zoekblok_titel\">";
+		echo html("bestemming","zoek-en-boek");
+		echo "</div>"; # afsluiten .zoekblok_titel
+
+		echo "<div class=\"zoekblok_field\">";
+
+#		echo wt_dump($vars["skigebied"]);
+#		exit;
+
+		echo "<select name=\"fsg\" class=\"zoekblok_select1 onchangesubmit\" id=\"zoekblok_field_bestemming\">";
+		unset($vars["skigebied"]["00AAAAA___".$vars["geenvoorkeur"]]);
 		while(list($key,$value)=each($vars["skigebied"])) {
+
+			echo "<option></option>";
 			if(ereg("^([0-9]+)-0$",$value,$regs) and $vars["websitetype"]<>7) {
-				if($optgroup_open) echo "</optgroup>\n";
-				echo "<optgroup label=\"".wt_he($landnaam[$regs[1]])."\">\n";
+	#			if($optgroup_open) echo "</optgroup>\n";
+	#			echo "<optgroup label=\"".wt_he($landnaam[$regs[1]])."\">\n";
 				$optgroup_open=true;
 			}
+
 			echo "<option value=\"".$value."\"";
 			if(($_GET["filled"] or $themalandinfo["soort"]=="land") and $_GET["fsg"]==$value) {
 				echo " selected";
@@ -576,131 +616,175 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			}
 			echo ">".wt_he(ereg_replace("^.*___","",$key))."</option>";
 		}
-		if($optgroup_open) echo "</optgroup>\n";
-		echo "</select></td></tr><tr><td colspan=2><img src=\"".$vars["path"]."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
+#		if($optgroup_open) echo "</optgroup>\n";
+		echo "</select>";
+		echo "</div>"; # afsluiten .zoekblok_field
+
+		echo "<div class=\"clear\"></div>";
+		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
-	echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
-	echo "<tr><td valign=bottom>";
-	echo html("aantalpersonen","accommodaties");
-	echo "</td></tr></table>";
-	echo "</td><td valign=top align=left width=65%><select name=\"fap\" class=\"formstyle100 onchangesubmit\">";
-	reset($vars["aantalpersonen"]);
-	while(list($key,$value)=each($vars["aantalpersonen"])) {
-		echo "<option value=\"".$key."\"";
-		if($_GET["filled"] and $_GET["fap"]==$key) {
-			echo " selected";
-			if($key) $save_query["aantal personen"]=$value;
-		}
-		echo ">".$value."</option>";
-	}
-
-	echo "</select></td></tr><tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
-
-	#
-	# Aantal slaapkamers
-	#
-	echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
-	echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
-	echo "<tr><td valign=bottom>";
-	echo html("aantalslaapkamers","accommodaties");
-	echo "</td></tr></table></td><td valign=top align=left width=65%><select name=\"fas\" class=\"formstyle100 onchangesubmit\">";
-
-	while(list($key,$value)=each($vars["aantalslaapkamers"])) {
-		echo "<option value=\"".$key."\"";
-		if($_GET["filled"] and $_GET["fas"]==$key) {
-			echo " selected";
-			if($key) $save_query["aantal slaapkamers"]=$value;
-		}
-		echo ">".$value."</option>";
-	}
-	echo "</select></td></tr><tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
-
-
-	#
-	#
-	# Form-field Aankomstdatum
-	#
-	# Alleen tonen indien het seizoen op "tonen op het zoekformulier" staat
-	#
-	if($vars["flexibel_toegestaan"]) {
+	function zoekblok_aantalpersonen($settings="") {
 		#
-		# Flexibel
+		# zoekformulier: aantal personen
 		#
-		echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
-		echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
-		echo "<tr><td valign=bottom>".html("aankomstdatum","accommodaties")."</td></tr></table></td><td valign=top align=left width=65%>";
+		global $vars;
 
-		# Kalender
-		echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=286,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
+		echo "<div class=\"zoekblok_item\">";
 
-		# dag
-		echo "<select name=\"fadf_d\" class=\"\">";
-		echo "<option value=\"\"".(!$_GET["fadf_d"] ? " selected" : "").">&nbsp;</option>";
-		for($i=1;$i<=31;$i++) {
-			echo "<option value=\"".$i."\"".($_GET["fadf_d"]==$i ? " selected" : "").">".$i."</option>";
+		echo "<div class=\"zoekblok_titel\">";
+		echo html("aantalpersonen","accommodaties");
+		echo "</div>"; # afsluiten .zoekblok_titel
+
+		echo "<div class=\"zoekblok_field\">";
+		echo "<select name=\"fap\" class=\"zoekblok_select onchangesubmit\">";
+		reset($vars["aantalpersonen"]);
+		while(list($key,$value)=each($vars["aantalpersonen"])) {
+			echo "<option value=\"".$key."\"";
+			if($_GET["filled"] and $_GET["fap"]==$key) {
+				echo " selected";
+				if($key) $save_query["aantal personen"]=$value;
+			}
+			echo ">".$value."</option>";
 		}
 		echo "</select>";
+		echo "</div>"; # afsluiten .zoekblok_field
 
-		echo "&nbsp;&nbsp;";
+		echo "<div class=\"clear\"></div>";
+		echo "</div>"; # afsluiten .zoekblok_item
+	}
 
-		# maand
-		echo "<select name=\"fadf_m\" class=\"\">";
-		echo "<option value=\"\"".(!$_GET["fadf_m"] ? " selected" : "").">&nbsp;</option>";
-		for($i=1;$i<=12;$i++) {
-			echo "<option value=\"".$i."\"".($_GET["fadf_m"]==$i ? " selected" : "").">".DATUM("MAAND",mktime(0,0,0,$i,1,2010),$vars["taal"])."</option>";
+	function zoekblok_aantalslaapkamers($settings="") {
+		#
+		# zoekformulier: aantal slaapkamers
+		#
+		global $vars;
+
+		echo "<div class=\"zoekblok_item\">";
+
+		echo "<div class=\"zoekblok_titel\">";
+		echo html("aantalslaapkamers","accommodaties");
+		echo "</div>"; # afsluiten .zoekblok_titel
+
+		echo "<div class=\"zoekblok_field\">";
+		echo "<select name=\"fas\" class=\"zoekblok_select onchangesubmit\">";
+
+		while(list($key,$value)=each($vars["aantalslaapkamers"])) {
+			echo "<option value=\"".$key."\"";
+			if($_GET["filled"] and $_GET["fas"]==$key) {
+				echo " selected";
+				if($key) $save_query["aantal slaapkamers"]=$value;
+			}
+			echo ">".$value."</option>";
 		}
 		echo "</select>";
+		echo "</div>"; # afsluiten .zoekblok_field
 
-		echo "&nbsp;&nbsp;";
+		echo "<div class=\"clear\"></div>";
+		echo "</div>"; # afsluiten .zoekblok_item
+	}
 
-		# jaar
-		echo "<select name=\"fadf_y\" class=\"\">";
-		echo "<option value=\"\"".(!$_GET["fadf_y"] ? " selected" : "").">&nbsp;</option>";
-		for($i=date("Y");$i<=date("Y")+1;$i++) {
-			echo "<option value=\"".$i."\"".($_GET["fadf_y"]==$i ? " selected" : "").">".$i."</option>";
+
+
+	function zoekblok_aankomstdatum($settings="") {
+		#
+		#
+		# zoekformulier: aankomstdatum
+		#
+		global $vars;
+		$db=new DB_sql;
+
+		echo "<div class=\"zoekblok_item\">";
+
+		echo "<div class=\"zoekblok_titel\">";
+		echo html("aankomstdatum","accommodaties");
+		echo "</div>"; # afsluiten .zoekblok_titel
+
+		echo "<div class=\"zoekblok_field\">";
+
+		if($vars["flexibel_toegestaan"]) {
+			#
+			# Flexibel
+			#
+			# Kalender
+			echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=286,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
+
+			# dag
+			echo "<select name=\"fadf_d\" class=\"\">";
+			echo "<option value=\"\"".(!$_GET["fadf_d"] ? " selected" : "").">&nbsp;</option>";
+			for($i=1;$i<=31;$i++) {
+				echo "<option value=\"".$i."\"".($_GET["fadf_d"]==$i ? " selected" : "").">".$i."</option>";
+			}
+			echo "</select>";
+
+			echo "&nbsp;&nbsp;";
+
+			# maand
+			echo "<select name=\"fadf_m\" class=\"\">";
+			echo "<option value=\"\"".(!$_GET["fadf_m"] ? " selected" : "").">&nbsp;</option>";
+			for($i=1;$i<=12;$i++) {
+				echo "<option value=\"".$i."\"".($_GET["fadf_m"]==$i ? " selected" : "").">".DATUM("MAAND",mktime(0,0,0,$i,1,2010),$vars["taal"])."</option>";
+			}
+			echo "</select>";
+
+			echo "&nbsp;&nbsp;";
+
+			# jaar
+			echo "<select name=\"fadf_y\" class=\"\">";
+			echo "<option value=\"\"".(!$_GET["fadf_y"] ? " selected" : "").">&nbsp;</option>";
+			for($i=date("Y");$i<=date("Y")+1;$i++) {
+				echo "<option value=\"".$i."\"".($_GET["fadf_y"]==$i ? " selected" : "").">".$i."</option>";
+			}
+			echo "</select>";
+		} else {
+			if(is_array($vars["aankomstdatum_weekend"])) {
+
+				echo "<select name=\"fad\" class=\"zoekblok_select onchangesubmit\">";
+
+				while(list($key,$value)=each($vars["aankomstdatum_weekend"])) {
+					# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
+					if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key) {
+						echo "<option value=\"".$key."\"";
+						if($_GET["filled"] and $_GET["fad"]==$key) {
+							echo " selected";
+							if($key) $save_query["aankomstdatum"]=$value;
+						}
+						echo ">".$value."</option>\n";
+					}
+				}
+				echo "</select>";
+			}
 		}
-		echo "</select>";
+		echo "</div>"; # afsluiten .zoekblok_field
 
-		echo "</td></tr>";
 		# Bepalen of opmerking "omdat een groot deel van de accommodaties nog niet geprijsd is ..." getoond moet worden
 		$db->query("SELECT zoekformulier_weinig_tarieven_".$vars["seizoentype"]." AS zoekformulier_weinig_tarieven FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
 		if($db->next_record() and $db->f("zoekformulier_weinig_tarieven")==1) {
-			echo "<tr><td colspan=\"2\" style=\"padding-top:4px;padding-bottom:4px;\" valign=\"top\"><span class=\"kleinfont\">(".html("aankomstdatum_opm","accommodaties").")</span></td></tr>";
+			echo "<div class=\"zoekblok_subtitel\">";
+			echo "(".html("aankomstdatum_opm","accommodaties").")";
+			echo "</div>"; # afsluiten .zoekblok_subtitel
 			$vars["zoekformulier_weinig_tarieven"]=true;
 		}
-		echo "<tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
-	} else {
-		if(is_array($vars["aankomstdatum_weekend"])) {
-			echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
-			echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
-			echo "<tr><td valign=bottom>".html("aankomstdatum","accommodaties")."</td></tr></table></td><td valign=top align=left width=65%><select name=\"fad\" class=\"formstyle100 onchangesubmit\">";
 
-			while(list($key,$value)=each($vars["aankomstdatum_weekend"])) {
-				# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
-				if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key) {
-					echo "<option value=\"".$key."\"";
-					if($_GET["filled"] and $_GET["fad"]==$key) {
-						echo " selected";
-						if($key) $save_query["aankomstdatum"]=$value;
-					}
-					echo ">".$value."</option>\n";
-				}
-			}
-			echo "</select></td></tr>";
-			# Bepalen of opmerking "omdat een groot deel van de accommodaties nog niet geprijsd is ..." getoond moet worden
-			$db->query("SELECT zoekformulier_weinig_tarieven_".$vars["seizoentype"]." AS zoekformulier_weinig_tarieven FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
-			if($db->next_record() and $db->f("zoekformulier_weinig_tarieven")==1) {
-				echo "<tr><td colspan=\"2\" style=\"padding-top:4px;padding-bottom:4px;\" valign=\"top\"><span class=\"kleinfont\">(".html("aankomstdatum_opm","accommodaties").")</span></td></tr>";
-				$vars["zoekformulier_weinig_tarieven"]=true;
-			}
-			echo "<tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
-		}
+		echo "<div class=\"clear\"></div>";
+		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	if($vars["seizoentype"]==2 and $vars["websitetype"]<>6) {
-		# Verblijfsduur
+	function zoekblok_verblijfsduur($settings="") {
+		#
+		# zoekformulier: verblijfsduur
+		#
+
+		global $vars;
+
+		echo "<div class=\"zoekblok_item\">";
+
+		echo "<div class=\"zoekblok_titel\">";
+		echo html("verblijfsduur","accommodaties");
+		echo "</div>"; # afsluiten .zoekblok_titel
+
+		echo "<div class=\"zoekblok_field\">";
+
 		unset($vars["verblijfsduur"]);
 		if(!$vars["flexibel_toegestaan"]) {
 			$vars["verblijfsduur"]["0"]=$vars["geenvoorkeur"];
@@ -715,9 +799,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 				$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
 			}
 		}
-		echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
-		echo "<tr><td><img src=\"".$vars["path"]."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
-		echo "<tr><td valign=bottom>".html("verblijfsduur","accommodaties")."</td></tr></table></td><td valign=top align=left width=65%><select name=\"fdu\" class=\"formstyle100 onchangesubmit\">";
+		echo "<select name=\"fdu\" class=\"zoekblok_select onchangesubmit\">";
 		reset($vars["verblijfsduur"]);
 		while(list($key,$value)=each($vars["verblijfsduur"])) {
 			if(preg_match("/n/",$key)) {
@@ -739,108 +821,152 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			}
 			echo ">".wt_he($value)."</option>";
 		}
-		echo "</optgroup></select></td></tr><tr><td colspan=2><img src=\"".$vars["path"]."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
+		echo "</optgroup></select>";
+		echo "</div>"; # afsluiten .zoekblok_field
+
+		echo "<div class=\"clear\"></div>";
+		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	if($voorkant_cms) {
-		# Zoeken op leverancier
-		echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
-		echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr><tr><td valign=bottom class=\"intern\">Leverancier</td></tr></table></td><td valign=top align=left width=65%><select name=\"lev\" class=\"formstyle100 onchangesubmit\">";
-		echo "<option value=\"0\">-- geen voorkeur --</option>\n";
-		$db->query("SELECT DISTINCT l.leverancier_id, l.naam FROM leverancier l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.wzt='".$vars["seizoentype"]."' AND ".$vars["where_websites_query_t"]." ORDER BY naam;");
-		while($db->next_record()) {
-			echo "<option value=\"".$db->f("leverancier_id")."\"";
-			if($_GET["filled"] and $_GET["lev"]==$db->f("leverancier_id")) {
-				echo " selected";
+	function zoekblok_intern($settings="") {
+		#
+		# zoekformulier: interne velden (leverancier + keuze Chalet/SuperSki)
+		#
+
+		global $vars,$voorkant_cms;
+
+		$db=new DB_sql;
+
+		if($voorkant_cms) {
+
+			# Zoeken op leverancier
+
+			echo "<div class=\"zoekblok_item\">";
+
+			echo "<div class=\"zoekblok_titel intern\">";
+			echo "Leverancier";
+			echo "</div>"; # afsluiten .zoekblok_titel
+
+			echo "<div class=\"zoekblok_field\">";
+
+			echo "<select name=\"lev\" class=\"zoekblok_select onchangesubmit\">";
+			echo "<option value=\"0\">-- geen voorkeur --</option>\n";
+			$db->query("SELECT DISTINCT l.leverancier_id, l.naam FROM leverancier l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.wzt='".$vars["seizoentype"]."' AND ".$vars["where_websites_query_t"]." ORDER BY naam;");
+			while($db->next_record()) {
+				echo "<option value=\"".$db->f("leverancier_id")."\"";
+				if($_GET["filled"] and $_GET["lev"]==$db->f("leverancier_id")) {
+					echo " selected";
+				}
+				echo ">".wt_he($db->f("naam"))."</option>\n";
 			}
-			echo ">".wt_he($db->f("naam"))."</option>\n";
-		}
-		echo "</select></td></tr><tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
+			echo "</select>";
+
+			echo "</div>"; # afsluiten .zoekblok_field
+
+			echo "<div class=\"clear\"></div>";
+			echo "</div>"; # afsluiten .zoekblok_item
 
 
-		if($vars["website"]=="C" or $vars["website"]=="W") {
-			# Zoeken binnen andere site (Chalet.nl <==> SuperSki)
-			echo "<tr><td valign=top align=left>&nbsp;</td><td class=\"intern\">";
-			echo "<input type=\"checkbox\" name=\"allesites\" value=\"1\"".($_GET["allesites"]||!$_GET["filled"] ? " checked" : "")." id=\"allesites\" class=\"onchangesubmit\" style=\"vertical-align:middle;position:relative;bottom:1px;\">";
-			echo "<label for=\"allesites\">&nbsp;Doorzoek ook ";
-			if($vars["website"]=="C") {
-				echo "SuperSki";
-			} else {
-				echo "Chalet.nl";
-			}
-			echo "</label></td></tr>";
-			echo "<tr><td valign=top align=left>&nbsp;</td></tr>";
-		}
-	}
+			if($vars["website"]=="C" or $vars["website"]=="W") {
+				# Zoeken binnen andere site (Chalet.nl <==> SuperSki)
 
-	#
-	# Verfijn: tonen in zoektabel - keuzeopsomming
-	#
-	@reset($keuzeopsomming);
-	while(list($key,$value)=@each($keuzeopsomming)) {
-		unset($getvalue,$getnumber);
-		while(list($key2,$value2)=each($value["fields"])) {
-			if($value["combinatiesmogelijk"]) {
-				$getnumber=$value2;
-				$getvalue=1;
-			} else {
-				$getnumber=1;
-				$getvalue=$value2;
-			}
-			if($_GET[$value["getname"].$getnumber]==$getvalue) {
-				$toonactief_verfijn[$key][$getnumber]=$key2;
-			}
-		}
-		if($toonactief_verfijn[$key]) {
-			if(!$verfijn_hr_getoond) {
-				echo "<tr><td colspan=\"2\" valign=\"top\"><hr></td></tr>";
-				$verfijn_hr_getoond=true;
-			}
+				echo "<div class=\"zoekblok_item zoekblok_item_geen_titel intern\">";
 
-			echo "<tr><td valign=top align=left><table border=0 width=100% cellspacing=0 cellpadding=0>";
-			echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr><tr><td valign=top>".html($value["name"],"zoek-en-boek")."</td></tr></table></td><td valign=top align=left width=65%>";
-			echo "<table border=0 width=100% cellspacing=0 cellpadding=0>";
-			echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
-			while(list($key2,$value2)=each($toonactief_verfijn[$key])) {
-				$qs=wt_stripget($_GET,array("page",$value["getname"].$key2));
-				echo "<tr><td valign=top>".html($value2,"zoek-en-boek")." - <a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></td></tr>";
+				echo "<input type=\"checkbox\" name=\"allesites\" value=\"1\"".($_GET["allesites"]||!$_GET["filled"] ? " checked" : "")." id=\"allesites\" class=\"onchangesubmit\" style=\"vertical-align:middle;position:relative;bottom:1px;\">";
+				echo "<label for=\"allesites\">&nbsp;Doorzoek ook ";
+				if($vars["website"]=="C") {
+					echo "SuperSki";
+				} else {
+					echo "Chalet.nl";
+				}
+				echo "</label>";
+
+				echo "<div class=\"clear\"></div>";
+				echo "</div>"; # afsluiten .zoekblok_item
+
 			}
-			echo "</table>";
-			echo "</td></tr><tr><td colspan=2><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"10\" alt=\"\"></td></tr>";
 		}
 	}
 
-	if($verfijn_hr_getoond) {
-		echo "<tr><td colspan=\"2\" valign=\"top\"><hr></td></tr>";
-	}
+	function zoekblok_verfijnd_gekozen($settings="") {
+		#
+		# zoekformulier: opsomming verfijnde zoekopdracht
+		#
 
-	if($_GET["aab"]) {
-		# keuze "zoek alleen naar aanbiedingen" tonen
-		echo "<tr><td>&nbsp;</td><td><div class=\"zoektabel_zoek_alleen_aanbiedingen\"><input type=\"checkbox\" name=\"faab\" value=\"1\" id=\"faab\"".(!$_GET["filled"]||$_GET["faab"] ? " checked" : "")." style=\"vertical-align:middle;position:relative;bottom:1px;\"><label for=\"faab\">&nbsp;".html("zoekalleenaanbiedingen","zoek-en-boek")."</label></div></td></tr>";
-		echo "<tr><td colspan=\"2\">&nbsp;</td></tr>";
-	}
+		global $vars,$keuzeopsomming;
 
-	echo "<tr><td colspan=2 align=center><input type=\"submit\" value=\" ".strtoupper(html("zoeken","accommodaties"))." \" id=\"submit1zoeken\" class=\"submitbutton\">";
-	if($vars["verfijnen_aanbieden"]) {
-		echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php".($_GET["aab"] ? "?filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
-	}
-	echo "</td></tr>";
-
-	if($vars["verfijnen_aanbieden"]) {
 		@reset($keuzeopsomming);
 		while(list($key,$value)=@each($keuzeopsomming)) {
-			if($value["combinatiesmogelijk"]) {
-				while(list($key2,$value2)=@each($value["fields"])) {
-					if($_GET[$value["getname"].$value2] or $_GET[$value["getname"].$value2]=="0") {
-						echo "<input type=\"hidden\" name=\"".$value["getname"].$value2."\" value=\"".wt_he($_GET[$value["getname"].$value2])."\">\n";
-					}
+			unset($getvalue,$getnumber);
+			while(list($key2,$value2)=each($value["fields"])) {
+				if($value["combinatiesmogelijk"]) {
+					$getnumber=$value2;
+					$getvalue=1;
+				} else {
+					$getnumber=1;
+					$getvalue=$value2;
 				}
-			} else {
-				if($_GET[$value["getname"]."1"] or $_GET[$value["getname"]."1"]=="0") {
-					echo "<input type=\"hidden\" name=\"".$value["getname"]."1\" value=\"".wt_he($_GET[$value["getname"]."1"])."\">\n";
+				if($_GET[$value["getname"].$getnumber]==$getvalue) {
+					$toonactief_verfijn[$key][$getnumber]=$key2;
 				}
 			}
+			if($toonactief_verfijn[$key]) {
+				if(!$verfijn_hr_getoond) {
+					echo "<hr class=\"zoekblok_hr_boven\">";
+					$verfijn_hr_getoond=true;
+				}
+				echo "<div class=\"zoekblok_item_verfijn\">";
+				echo "<div class=\"zoekblok_titel\">";
+				echo html($value["name"],"zoek-en-boek");
+				echo "</div>"; # afsluiten .zoekblok_titel
+
+				echo "<div class=\"zoekblok_verfijn_actief\">";
+				while(list($key2,$value2)=each($toonactief_verfijn[$key])) {
+				$qs=wt_stripget($_GET,array("page",$value["getname"].$key2));
+				echo "<div>".html($value2,"zoek-en-boek")." - <a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."#vf\">".html("wis","zoek-en-boek")."</a></div>";
+				}
+				echo "</div>"; # afsluiten .zoekblok_field
+
+				echo "<div class=\"clear\"></div>";
+				echo "</div>"; # afsluiten .zoekblok_item
+			}
 		}
+
+		if($verfijn_hr_getoond) {
+			echo "<hr class=\"zoekblok_hr_boven\">";
+		}
+	}
+
+	function zoekblok_alleen_aanbiedingen($settings="") {
+		if($_GET["aab"]) {
+			# keuze "zoek alleen naar aanbiedingen" tonen
+			echo "<div class=\"zoekblok_item zoekblok_item_geen_titel\">";
+
+			echo "<div class=\"zoektabel_zoek_alleen_aanbiedingen\"><input type=\"checkbox\" name=\"faab\" value=\"1\" id=\"faab\"".(!$_GET["filled"]||$_GET["faab"] ? " checked" : "")." class=\"onchangesubmit\"><label for=\"faab\">&nbsp;".html("zoekalleenaanbiedingen","zoek-en-boek")."</label></div>";
+
+			echo "<div class=\"clear\"></div>";
+			echo "</div>"; # afsluiten .zoekblok_item
+
+		}
+	}
+
+	function zoekblok_submit($settings="") {
+		#
+		# zoekformulier: submit
+		#
+
+		global $vars;
+		echo "<div class=\"zoekblok_item zoekblok_item_geen_titel\">";
+		echo "<input type=\"submit\" value=\" ".strtoupper(html("zoeken","accommodaties"))." \" id=\"submit1zoeken\" class=\"submitbutton\">";
+		if($vars["verfijnen_aanbieden"]) {
+			# "alles wissen"-link
+			echo "<div class=\"zoekbok_alleswissen\">";
+
+			echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php".($_GET["aab"] ? "?filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
+
+			echo "</div>"; # afsluiten .zoekbok_alleswissen
+		}
+		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
 	if($vars["websitetype"]==1) {
@@ -850,6 +976,10 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		zoekblok_aantalpersonen();
 		zoekblok_aantalslaapkamers();
 		zoekblok_tekst();
+		zoekblok_intern();
+		zoekblok_verfijnd_gekozen();
+		zoekblok_alleen_aanbiedingen();
+		zoekblok_submit();
 	} elseif($vars["websitetype"]==3) {
 		# Zomerhuisje
 		zoekblok_bestemming();
@@ -858,6 +988,10 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		zoekblok_verblijfsduur();
 		zoekblok_aantalslaapkamers();
 		zoekblok_tekst();
+		zoekblok_intern();
+		zoekblok_verfijnd_gekozen();
+		zoekblok_alleen_aanbiedingen();
+		zoekblok_submit();
 	} elseif($vars["websitetype"]==4) {
 		# Chalettour
 		zoekblok_bestemming();
@@ -865,12 +999,20 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		zoekblok_aantalpersonen();
 		zoekblok_aantalslaapkamers();
 		zoekblok_tekst();
+		zoekblok_intern();
+		zoekblok_verfijnd_gekozen();
+		zoekblok_alleen_aanbiedingen();
+		zoekblok_submit();
 	} elseif($vars["websitetype"]==6) {
 		# ChaletsinVallandry
 		zoekblok_aankomstdatum();
 		zoekblok_aantalpersonen();
 		zoekblok_aantalslaapkamers();
 		zoekblok_tekst();
+		zoekblok_intern();
+		zoekblok_verfijnd_gekozen();
+		zoekblok_alleen_aanbiedingen();
+		zoekblok_submit();
 	} elseif($vars["websitetype"]==7) {
 		# Italissima
 		zoekblok_bestemming(array("zonder_plaatsen"=>true));
@@ -879,6 +1021,10 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		zoekblok_verblijfsduur();
 		zoekblok_aantalslaapkamers();
 		zoekblok_tekst();
+		zoekblok_intern();
+		zoekblok_verfijnd_gekozen();
+		zoekblok_alleen_aanbiedingen();
+		zoekblok_submit();
 	} elseif($vars["websitetype"]==8) {
 		# SuperSki
 		zoekblok_bestemming();
@@ -886,18 +1032,11 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 		zoekblok_aankomstdatum();
 		zoekblok_aantalslaapkamers();
 		zoekblok_tekst();
+		zoekblok_intern();
+		zoekblok_verfijnd_gekozen();
+		zoekblok_alleen_aanbiedingen();
+		zoekblok_submit();
 	}
-
-	if($vars["seizoentype"]==2 and $vars["websitetype"]<>6) {
-		# Zomer: bestemming als 2e veld
-
-	}
-
-	if($vars["seizoentype"]==1 and $vars["websitetype"]<>6) {
-		# Winter: skigebied
-		zoekblok_bestemming();
-	}
-
 
 	echo "</form>";
 	echo "</div>"; # afsluiten #zoekblok

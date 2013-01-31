@@ -962,8 +962,8 @@ $txt["en"]["accommodaties"]["onderstaandeanderskigebied"]="The accommodations li
 $txt["nl_z"]["accommodaties"]["onderstaandeanderskigebied"]="Onderstaande accommodaties bevinden zich in een andere, maar vergelijkbare regio";
 $txt["en_z"]["accommodaties"]["onderstaandeanderskigebied"]="The accommodations listed below are in a different, but similar region";
 
-
-
+$txt["nl"]["zoek-en-boek"]["bestemming"]="Bestemming";
+$txt["en"]["zoek-en-boek"]["bestemming"]="Destination";
 
 $txt["nl"]["zoek-en-boek"]["geenresultatenmet"]="Geen resultaten met";
 $txt["en"]["zoek-en-boek"]["geenresultatenmet"]="No results match";
