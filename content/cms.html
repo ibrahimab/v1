@@ -626,7 +626,7 @@ if(!$login->logged_in) {
 
 	if(!preg_match("/Chrome/",$_SERVER["HTTP_USER_AGENT"]) and !preg_match("/chromeframe/",$_SERVER["HTTP_USER_AGENT"]) and !$vars["lokale_testserver"] and $login->user_id<>1) {
 		echo "<div class=\"opmerkingbox\" style=\"padding-top:10px;padding-bottom:10px;\"><div style=\"float:left;\"><b>Let op!</b> Je gebruikt het CMS nu niet met de browser Google Chrome.<br><br>Het CMS gaat gebruik maken van functies die alleen in Google Chrome beschikbaar zijn.<br>Voor een gagarandeerde juiste werking: sluit deze browser en open het CMS in Google Chrome.";
-		if($_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74") {
+		if(!in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
 			if(preg_match("/MSIE/",$_SERVER["HTTP_USER_AGENT"])) {
 				echo "<p>&nbsp;&nbsp;&nbsp;<a href=\"javascript:CFInstall.check({mode: 'popup',url:'http://www.google.com/chromeframe/eula.html'});\"><b>Google Chrome activeren binnen Internet Explorer &raquo;</b></a></p>";
 			} else {

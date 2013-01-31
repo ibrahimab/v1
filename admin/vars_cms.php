@@ -104,7 +104,7 @@ if($mustlogin) {
 	$login->settings["loginblocktime"]=600; # 10 minuten geblokkeerd
 
 	if($vars["website"]=="C" or $vars["website"]=="Z") {
-		if(!$vars["lokale_testserver"] and $_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74") {
+		if(!$vars["lokale_testserver"] and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
 			# Buiten kantoor
 			$login->settings["mustlogin_via_https"]=true;
 		}
@@ -236,7 +236,7 @@ if($mustlogin) {
 		$layout->menu_item("cms_evenementen","Evenementen","",true);
 	}
 
-	if(($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28) or $login->has_priv(3)) {
+	if(($login->has_priv(27) and in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) or $login->has_priv(28) or $login->has_priv(3)) {
 		$layout->menu_item("cms_financien","Financiën","",true);
 	}
 

@@ -38,9 +38,19 @@ while($db->next_record()) {
 
 		if(preg_match("/\[([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})\]/",$a[0],$regs)) {
 			if($regs[1]=="80.101.166.235") {
-				$ipadres[$db->f("user_id")]="Kantoor (ADSL)";
+				$ipadres[$db->f("user_id")]="Oude kantoor (ADSL)";
 			} elseif($regs[1]=="213.125.164.74") {
-				$ipadres[$db->f("user_id")]="Kantoor (Ziggo)";
+				$ipadres[$db->f("user_id")]="Oude kantoor (Ziggo)";
+			} elseif($regs[1]=="213.125.152.154") {
+				$ipadres[$db->f("user_id")]="Kantoor (Ziggo 1)";
+			} elseif($regs[1]=="213.125.152.155") {
+				$ipadres[$db->f("user_id")]="Kantoor (Ziggo 2)";
+			} elseif($regs[1]=="213.125.152.156") {
+				$ipadres[$db->f("user_id")]="Kantoor (Ziggo 3)";
+			} elseif($regs[1]=="213.125.152.157") {
+				$ipadres[$db->f("user_id")]="Kantoor (Ziggo 4)";
+			} elseif($regs[1]=="213.125.152.158") {
+				$ipadres[$db->f("user_id")]="Kantoor (Ziggo 5)";
 			} elseif($regs[1]=="82.93.130.238") {
 				$ipadres[$db->f("user_id")]="Bert thuis";
 			} elseif($regs[1]=="VERBERGEN_83.215.210.75") {

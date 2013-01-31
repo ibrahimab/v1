@@ -542,7 +542,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "Geen ontvangstbevestigingen verzonden.";
 	}
 
-} elseif($_GET["marges"] and (($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28) or $vars["mustlogin_cms_cron_false"])) {
+} elseif($_GET["marges"] and (($login->has_priv(27) and in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) or $login->has_priv(28) or $vars["mustlogin_cms_cron_false"])) {
 
 #	echo "<style>\n#wrapper {\nwidth: 2000px;\n}#content {\nwidth:1800px;\n}\n</style>";
 
@@ -1590,7 +1590,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	} else {
 		echo "<li><a href=\"cms_financien_betalingen.php?uitgaand=1\">Openstaande inkoopfacturen</a> (leveranciers)</li>";
 	}
-	if(($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28)) {
+	if(($login->has_priv(27) and in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) or $login->has_priv(28)) {
 		echo "<li><a href=\"cms_financien.php?marges=1\">Totaaloverzicht financi&euml;n</a></li>";
 		$d=dir("csv/");
 		while (false !== ($entry = $d->read())) {

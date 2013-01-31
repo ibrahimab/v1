@@ -13,7 +13,7 @@ $mustlogin=true;
 include("admin/vars.php");
 
 
-if($_GET["csv_financien_download"] and (($login->has_priv(27) and ($_SERVER["REMOTE_ADDR"]=="213.125.164.74" or $_SERVER["REMOTE_ADDR"]=="80.101.166.235")) or $login->has_priv(28))) {
+if($_GET["csv_financien_download"] and (($login->has_priv(27) and in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) or $login->has_priv(28))) {
 	# Downloaden CSV-archief totaaloverzicht financiën
 
 	$file="csv/".basename($_GET["csv_financien_download"]);

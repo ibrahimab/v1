@@ -67,36 +67,14 @@ require($unixdir."admin/vars_functions.php");
 # MySQL
 #
 
-if($_SERVER["HTTP_HOST"]=="www2.chalet.nl") {
-	# www2 afschermen voor andere gebruikers
-	if($_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74" and $_SERVER["REMOTE_ADDR"]<>"31.223.173.113" and $_SERVER["REMOTE_ADDR"]<>"172.16.1.10") {
-		header("Location: http://www.chalet.nl/");
-		exit;
-	}
-}
-
-# www3
-if($_SERVER["HTTP_HOST"]=="www3.chalet.nl") {
-	$mysqlsettings["name"]["remote"]="online_chaletbackup";	# Databasenaam back-upsysteem
-	$mysqlsettings["user"]="dbmysql";		# Username bij provider
-	$mysqlsettings["password"]="sh47fm9G";		# Password bij provider
-
-	$robot_noindex=true;
-	#
-	# www2 en www3 afschermen voor andere gebruikers
-	if($_SERVER["REMOTE_ADDR"]<>"80.101.166.235" and $_SERVER["REMOTE_ADDR"]<>"213.125.164.74" and $_SERVER["REMOTE_ADDR"]<>"172.16.1.10") {
-		header("Location: http://www.chalet.nl/");
-		exit;
-	}
+if($_SERVER["WINDIR"]) {
+	$mysqlsettings["name"]["remote"]="dbtest_chalet";	# Databasenaam bij provider
 } else {
-	if($_SERVER["WINDIR"]) {
-		$mysqlsettings["name"]["remote"]="dbtest_chalet";	# Databasenaam bij provider
-	} else {
-		$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider
-	}
-	$mysqlsettings["user"]="chaletdb";		# Username bij provider
-	$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
+	$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider
 }
+$mysqlsettings["user"]="chaletdb";		# Username bij provider
+$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
+
 $mysqlsettings["name"]["local"]="dbtest_chalet";		# Optioneel: Databasenaam lokaal (alleen invullen indien anders dan database bij provider)
 $mysqlsettings["localhost"]="ss.postvak.net";# Hostname voor lokaal gebruik
 if($_SERVER["WINDIR"]) {
@@ -367,21 +345,24 @@ if($vars["leverancier_mustlogin"]) {
 	}
 }
 
-# 80.101.166.235 = kantoor verbinding 1 (ADSL)
-# 213.125.164.74 = kantoor verbinding 2 (Ziggo)
-# 82.93.130.238  = Bert thuis
-# 82.173.186.80  = WebTastic
-# 82.173.186.80  = WebTastic 2
-# 172.16.1.10    = t.b.v. testserver
-# 172.16.1.35    = t.b.v. testserver (laptop)
-# 127.0.0.1	 = t.b.v. testserver (Miguel)
-$vars["vertrouwde_ips"]=array("80.101.166.235","213.125.164.74","82.93.130.238","82.173.186.80","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
+# 213.125.152.154 = kantoor Ziggo 1
+# 213.125.152.155 = kantoor Ziggo 2
+# 213.125.152.156 = kantoor Ziggo 3
+# 213.125.152.157 = kantoor Ziggo 4
+# 213.125.152.158 = kantoor Ziggo 5
+# 82.93.130.238   = Bert thuis
+# 31.223.173.113  = WebTastic 1
+# 37.34.56.191    = WebTastic 2
+# 172.16.1.10     = t.b.v. testserver
+# 172.16.1.35     = t.b.v. testserver (laptop)
+# 127.0.0.1	      = t.b.v. testserver (Miguel)
+$vars["vertrouwde_ips"]=array("213.125.152.154","213.125.152.155","213.125.152.156","213.125.152.157","213.125.152.158","82.93.130.238","31.223.173.113","172.16.1.10","172.16.1.35","127.0.0.1");
 
 # Geldigheidsduur intern FLC-cookie verlengen
 if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
 
 	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
-		if($_SERVER["REMOTE_ADDR"]=="80.101.166.235" or $_SERVER["REMOTE_ADDR"]=="213.125.164.74") {
+		if(in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
 			# binnen kantoor
 		} else {
 			# buiten kantoor
@@ -934,7 +915,7 @@ $vars["factuurnummer_prefix"]=array(2006=>"67",2007=>"78",2008=>"89",2009=>"90",
 $vars["aanbetaling1_dagennaboeken"]=10;
 $vars["totale_reissom_dagenvooraankomst"]=42;
 $vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js";
-$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js";
+$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
 
 if($boeking_wijzigen) {
 	# Login-class klanten
