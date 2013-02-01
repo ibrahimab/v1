@@ -652,12 +652,13 @@ td.selecteerbaarbedrag:hover{
 }
 
 .zoekblok_subtitel {
-	margin-top: 2px;
+	margin-top: 4px;
 	font-size: 0.7em;
 	margin-left: 196px;
 	margin-right: 60px;
 	position: relative;
 	float: left;
+	color: #777777;
 }
 
 .zoekblok_field {
@@ -700,8 +701,42 @@ td.selecteerbaarbedrag:hover{
 	width: 410px;
 }
 
+/*zorgen dat tekst in chosen-field verticaal gecentreerd is*/
+a.chzn-single span {
+	margin-top: -2px;
+}
+
 #zoekblok input[name='fzt'] {
-	width: 405px;
+	width: 400px;
+	background-color: #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );
+	background: #fff url('../pic/chosen-sprite.png') no-repeat 100% -20px;
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -moz-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -o-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -ms-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	-webkit-border-radius: 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+	-moz-background-clip : padding;
+	-webkit-background-clip: padding-box;
+	background-clip : padding-box;
+	border: 1px solid #aaaaaa;
+	-webkit-box-shadow: 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	overflow: hidden;
+	white-space: nowrap;
+	height: 23px;
+	line-height: 24px;
+	padding: 0 0 0 8px;
+	color: #444444;
+	text-decoration: none;
+}
+
+.chzn-container-single .chzn-default {
+	padding-bottom: 12px;
 }
 
 .zoekblok_calendar {
@@ -731,11 +766,32 @@ td.selecteerbaarbedrag:hover{
 }
 
 .zoekblok_item input[type=submit] {
-
+	width: 135px;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
+	background-image: -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background-image: -moz-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background-image: -o-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background-image: -ms-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background-image: linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	-webkit-border-radius: 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+	-moz-background-clip : padding;
+	-webkit-background-clip: padding-box;
+	background-clip : padding-box;
+	border: 1px solid #aaaaaa;
+	-webkit-box-shadow: 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	height: 23px;
+	color: #444444;
+	text-decoration: none;
 }
 
 .zoekblok_item input[type=submit]:hover {
+	border: 1px solid #777777;
 	cursor: pointer;
+	color: #000000;
 }
 
 .zoektabel_zoek_alleen_aanbiedingen {
@@ -1263,6 +1319,20 @@ td.selecteerbaarbedrag:hover{
 	text-align: center;
 	padding: 7px;
 }
+
+#ajaxloader_page {
+	position: fixed;
+	bottom: 0px;
+	z-index: 9999;
+	width: 48px;
+	top: 40%;
+	left: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	background: url('../pic/ajax-loader-large.gif') no-repeat 100% 0px;
+	display: none;
+}
+
 
 #opval_bottombar a {
 	color: blue;

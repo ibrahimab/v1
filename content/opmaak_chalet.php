@@ -94,6 +94,12 @@ if($vars["googlemaps"]) {
 	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&sensor=false\" type=\"text/javascript\"></script>\n";
 }
 
+# jQuery Chosen
+if($vars["jquery_chosen"]) {
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.min.js\"></script>\n";
+	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."css/chosen.css\" type=\"text/css\" />\n";
+}
+
 # Javascript-functions
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_chalet.js?cache=".@filemtime("scripts/functions_chalet.js")."\" ></script>\n";
@@ -754,6 +760,9 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 	echo $interneinfo;
 	echo "</div>"; # interneinfo_rechts
 }
+
+# Ajaxloader in het midden van de pagina
+echo "<div id=\"ajaxloader_page\"></div>";
 
 # Balk met cookie-melding cookiebalk
 if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {

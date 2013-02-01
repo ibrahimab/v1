@@ -965,8 +965,14 @@ $txt["en_z"]["accommodaties"]["onderstaandeanderskigebied"]="The accommodations 
 $txt["nl"]["zoek-en-boek"]["bestemming"]="Bestemming";
 $txt["en"]["zoek-en-boek"]["bestemming"]="Destination";
 
+$txt["nl"]["zoek-en-boek"]["tekstzoeken"]="op naam, accommodatiecode of andere tekst";
+$txt["en"]["zoek-en-boek"]["tekstzoeken"]="by name, accommodation code or other text";
+
 $txt["nl"]["zoek-en-boek"]["geenresultatenmet"]="Geen resultaten met";
 $txt["en"]["zoek-en-boek"]["geenresultatenmet"]="No results match";
+
+$txt["nl"]["zoek-en-boek"]["kiesoftypbestemming"]="kies of typ een bestemming";
+$txt["en"]["zoek-en-boek"]["kiesoftypbestemming"]="select or type a destination";
 
 $txt["nl"]["zoek-en-boek"]["zoekalleenaanbiedingen"]="zoek alleen naar aanbiedingen";
 $txt["en"]["zoek-en-boek"]["zoekalleenaanbiedingen"]="only search for special offers";

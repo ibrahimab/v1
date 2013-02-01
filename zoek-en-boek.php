@@ -24,6 +24,7 @@ if($vars["websitetype"]<>6) {
 
 # jQuery UI theme laden (t.b.v. autocomplete)
 $vars["page_with_jqueryui"]=true;
+$vars["jquery_chosen"]=true;
 
 if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
 	$_GET["fzt"]="";
