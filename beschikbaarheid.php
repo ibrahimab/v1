@@ -406,7 +406,7 @@ if($form->okay) {
 		$html.="<br><br>".html("vooreengrootdeel","beschikbaarheid")."<p>".html("uontvangtzospoedigmogelijk","beschikbaarheid")." ";
 		if($form->input["optie"] or $_GET["o"]) $html.=html("hierinvermeldenwijook","beschikbaarheid");
 		$html.="<P>".html("bezoekonzewebsite","beschikbaarheid",array("v_websitenaam"=>$vars["websitenaam"],"l1"=>"http_werkwijze"));
-		$html.="<P>".html("metvriendelijkegroet","beschikbaarheid").",<BR>".html("medewerkerssitenaam","beschikbaarheid",array("v_websitenaam"=>$vars["websitenaam"]))."<P>".$vars["langewebsitenaam"]."<br>Lindenhof 5<br>3442 GT Woerden<br>";
+		$html.="<P>".html("metvriendelijkegroet","beschikbaarheid").",<BR>".html("medewerkerssitenaam","beschikbaarheid",array("v_websitenaam"=>$vars["websitenaam"]))."<P>".$vars["langewebsitenaam"]."<br>Wipmolenlaan 3<br>3447 GJ Woerden<br>";
 		if($vars["websiteland"]<>"nl") $html.=html("nederland","contact")."<br>";
 		$html.=html("telefoonnummer_chalet","contact")."<br>".html("fax_chalet","contact")."<br>".html("email","contact").": <A HREF=\"mailto:".$vars["email"]."\">".$vars["email"]."</A><P>";
 		$html.="</div></body></html>";

@@ -124,6 +124,7 @@
 })( jQuery );
 
 
+
 // Hides the tabs during initialization
 document.write('<style type="text/css"> #tabs { visibility: hidden; } </style>');
 

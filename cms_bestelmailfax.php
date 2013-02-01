@@ -209,7 +209,7 @@ if($form->okay) {
 		} else {
 			$temp_websitenaam="Chalet.nl";
 		}
-		$html.=$temp_websitenaam."<br>Lindenhof 5<br>3442 GT Woerden<br>KvK: 30209634<br>Tel: +31 (0)348 - 43 46 49<br>Fax: +31 (0)348 - 69 07 52<br>E-mail: <a href=\"mailto:info@chalet.nl\">info@chalet.nl</a><p>";
+		$html.=$temp_websitenaam."<br>Wipmolenlaan 3<br>3447 GJ Woerden<br>KvK: 30209634<br>Tel: +31 (0)348 - 43 46 49<br>Fax: +31 (0)348 - 69 07 52<br>E-mail: <a href=\"mailto:info@chalet.nl\">info@chalet.nl</a><p>";
 		$html.="</body></html>";
 		$mail=new wt_mail;
 		$mail->fromname=$temp_websitenaam;
@@ -281,7 +281,7 @@ if($form->okay) {
 					$this->Image('pic/factuur_logo.png',10,8,50);
 				}
 				$this->SetFont('Arial','',10);
-				$this->MultiCell(0,4,"".$this->vars["temp_websitenaam"]."\nLindenhof 5\n3442 GT Woerden\n\nTel.: +31 348 434649\nFax: +31 348 690752\nKvK nr. 30209634\n\nBankrek. 84.93.06.671\nBTW NL-8169.23.462.B.01\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden",0,"R");
+				$this->MultiCell(0,4,"".$this->vars["temp_websitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\n\nTel.: +31 348 434649\nFax: +31 348 690752\nKvK nr. 30209634\n\nBankrek. 84.93.06.671\nBTW NL-8169.23.462.B.01\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden",0,"R");
 				$this->Ln(20);
 			}
 

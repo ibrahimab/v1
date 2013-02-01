@@ -2500,14 +2500,14 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	$content.="<td style=\"text-align:right;\">";
 	if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
 		# Adres voor Nederlanders
-		$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/><br/><b>Tel.: 0348 434649</b><br/><b>Fax: 0348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+		$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0348 434649</b><br/><b>Fax: 0348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
 	} else {
 		if($gegevens["stap1"]["taal"]=="en") {
 			# Adres voor Engelstalige buitenlanders
-			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/>The Netherlands<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>Email: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/>The Netherlands<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>Email: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
 		} else {
 			# Adres voor Nederlandstalige buitenlanders
-			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Lindenhof 5<br/>3442 GT Woerden<br/>Nederland<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/>Nederland<br/><br/><b>Tel.: +31 348 434649</b><br/><b>Fax: +31 348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
 		}
 	}
 	$content.="</td></tr></table>";

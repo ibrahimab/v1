@@ -667,13 +667,13 @@ $txta["en"]["venstersluiten"]="Close";
 $txta["nl"]["ontwikkelddoor"]="ontwikkeld door";
 $txta["en"]["ontwikkelddoor"]="developed by";
 
-$txta["nl"]["handelsnaam"]="Chalet.nl is een handelsnaam van Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden";
-$txta["en"]["handelsnaam"]="Chalet.eu is a trademark of Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands";
+$txta["nl"]["handelsnaam"]="Chalet.nl is een handelsnaam van Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden";
+$txta["en"]["handelsnaam"]="Chalet.eu is a trademark of Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands";
 
-$txta["nl_t"]["handelsnaam"]="Chalettour.nl is een handelsnaam van Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden";
+$txta["nl_t"]["handelsnaam"]="Chalettour.nl is een handelsnaam van Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden";
 $txta["en_t"]["handelsnaam"]="-";
 
-$txta["nl_b"]["handelsnaam"]="Chalet.be is een handelsnaam van Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - Nederland";
+$txta["nl_b"]["handelsnaam"]="Chalet.be is een handelsnaam van Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - Nederland";
 $txta["en_b"]["handelsnaam"]="-";
 
 $txta["nl"]["handelsnaam_zomerhuisje"]="Zomerhuisje.nl is een handelsnaam van Chalet.nl B.V.";

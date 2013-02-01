@@ -205,7 +205,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$ms->html.="Roominglist ".date("d-m-Y");
 	}
 
-	$ms->html.=": ".wt_he($vars["roominglist_site_benaming"][$roominglist_site_benaming])."</h3>Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands - Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
+	$ms->html.=": ".wt_he($vars["roominglist_site_benaming"][$roominglist_site_benaming])."</h3>Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
 	$ms->html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></thead></table>";
 	$ms->html.="</td></tr>";
 	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th>";
@@ -511,7 +511,7 @@ exit;
 	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><td>";
 	$ms->html.="<table width=100% border=0><tr><td><h3>";
 #	$ms->html.="Orderlist ".htmlentities($skipas["naam"])." - ".date("d-m-Y",$_GET["date"]);
-	$ms->html.="Chalet.nl</h3>Chalet.nl B.V. - Lindenhof 5 - 3442 GT Woerden - The Netherlands<br>Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
+	$ms->html.="Chalet.nl</h3>Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands<br>Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
 	$ms->html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></table>";
 	$ms->html.="</td></tr></thead>";
 #	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th><th>Arrival</th><th>Departure</th><th>Resort</th><th>Accommodation</th><th>Type</th><th>Cap.</th><th>Reserv.<br>Nr.</th><th>Extra<br>Options</th></tr></thead>";

@@ -2851,7 +2851,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$html.="<p>".$inlogtext;
 			}
 			$html.="<br>&nbsp;<br>".$tabellen.html("nageblekenbeschikbaarheidsturenwiju","boeken")."<p>";
-			$html.="<P>".html("metvriendelijkegroet","boeken")."<br>".html("medewerkerssitenaam","boeken",array("v_websitenaam"=>$vars["websitenaam"]))."<P>".$vars["langewebsitenaam"]."<br>Lindenhof 5<br>3442 GT Woerden<br>".($vars["websiteland"]<>"nl" ? html("nederland","contact")."<br>" : "").html("telefoonnummer_chalet","contact")."<br>".html("fax_chalet","contact")."<br>".html("email_kort","contact").": <a href=\"mailto:".$vars["email"]."\">".$vars["email"]."</a><br>&nbsp;";
+			$html.="<P>".html("metvriendelijkegroet","boeken")."<br>".html("medewerkerssitenaam","boeken",array("v_websitenaam"=>$vars["websitenaam"]))."<P>".$vars["langewebsitenaam"]."<br>Wipmolenlaan 3<br>3447 GJ Woerden<br>".($vars["websiteland"]<>"nl" ? html("nederland","contact")."<br>" : "").html("telefoonnummer_chalet","contact")."<br>".html("fax_chalet","contact")."<br>".html("email_kort","contact").": <a href=\"mailto:".$vars["email"]."\">".$vars["email"]."</a><br>&nbsp;";
 
 			$html.="</div></body></html>";
 

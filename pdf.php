@@ -32,8 +32,8 @@ pdf_place_image($pdf,$image1,35,695,0.23);
 
 // print text
 pdf_show_xy_right($pdf,"Chalet.nl B.V.",545,810);
-pdf_show_xy_right($pdf,"Lindenhof 5",545,797);
-pdf_show_xy_right($pdf,"3442 GT Woerden",545,784);
+pdf_show_xy_right($pdf,"Wipmolenlaan 3",545,797);
+pdf_show_xy_right($pdf,"3447 GJ Woerden",545,784);
 
 pdf_show_xy_right($pdf,"Tel.: 0348 434649",545,760);
 pdf_show_xy_right($pdf,"Fax: 0348 690752",545,747);

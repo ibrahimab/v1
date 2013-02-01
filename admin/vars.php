@@ -829,9 +829,9 @@ $vars["optiemail_leverancier_niet_subject"]=array(
 	"N"=>"Annulering optie [AANKOMSTDATUM] [ACCOMMODATIE]"
 );
 $vars["optiemail_leverancier_niet_body"]=array(
-	"D"=>"DUITS ONTBREEKT NOG - Dear [CONTACTPERSOON_LEVERANCIER],\n\nUnfortuantely, we have to cancel the option mentioned below:\n\nAccommodation: [ACCOMMODATIE]\nName guest: [NAAMKLANT]\nArrival date: [AANKOMSTDATUM]\nDuration: [AANTAL_NACHTEN] nachten\n\nKind regards,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nLindenhof 5\n3442 GT WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]",
-	"E"=>"Dear [CONTACTPERSOON_LEVERANCIER],\n\nUnfortuantely, we have to cancel the option mentioned below:\n\nAccommodation: [ACCOMMODATIE]\nName guest: [NAAMKLANT]\nArrival date: [AANKOMSTDATUM]\nDuration: [AANTAL_NACHTEN] nachten\n\nKind regards,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nLindenhof 5\n3442 GT WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]",
-	"N"=>"Beste [CONTACTPERSOON_LEVERANCIER],\n\nHelaas mag de onderstaande optie komen te vervallen:\n\nAccommodatie: [ACCOMMODATIE]\nNaam klant: [NAAMKLANT]\nAankomstdatum: [AANKOMSTDATUM]\nDuur: [AANTAL_NACHTEN] nachten\n\nMet vriendelijke groet,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nLindenhof 5\n3442 GT WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]"
+	"D"=>"DUITS ONTBREEKT NOG - Dear [CONTACTPERSOON_LEVERANCIER],\n\nUnfortuantely, we have to cancel the option mentioned below:\n\nAccommodation: [ACCOMMODATIE]\nName guest: [NAAMKLANT]\nArrival date: [AANKOMSTDATUM]\nDuration: [AANTAL_NACHTEN] nachten\n\nKind regards,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]",
+	"E"=>"Dear [CONTACTPERSOON_LEVERANCIER],\n\nUnfortuantely, we have to cancel the option mentioned below:\n\nAccommodation: [ACCOMMODATIE]\nName guest: [NAAMKLANT]\nArrival date: [AANKOMSTDATUM]\nDuration: [AANTAL_NACHTEN] nachten\n\nKind regards,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]",
+	"N"=>"Beste [CONTACTPERSOON_LEVERANCIER],\n\nHelaas mag de onderstaande optie komen te vervallen:\n\nAccommodatie: [ACCOMMODATIE]\nNaam klant: [NAAMKLANT]\nAankomstdatum: [AANKOMSTDATUM]\nDuur: [AANTAL_NACHTEN] nachten\n\nMet vriendelijke groet,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]"
 );
 
 $vars["optiemail_leverancier_doorgeven_subject"]=array(
@@ -841,9 +841,9 @@ $vars["optiemail_leverancier_doorgeven_subject"]=array(
 );
 
 $vars["optiemail_leverancier_doorgeven_body"]=array(
-	"D"=>"DUITS ONTBREEKT NOG - Dear [CONTACTPERSOON_LEVERANCIER],\n\nCan we please have an option on the accommodation noted below:\n\nAccommodation: [ACCOMMODATIE]\nName guest: [NAAMKLANT]\nArrival date: [AANKOMSTDATUM]\nDuration: [AANTAL_NACHTEN] nachten\n\nCan you please let me know if we can have this option and until when we can have this?\n\nThanks in advance for your early reply.\n\nKind regards,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nLindenhof 5\n3442 GT WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]",
-	"E"=>"Dear [CONTACTPERSOON_LEVERANCIER],\n\nCan we please have an option on the accommodation noted below:\n\nAccommodation: [ACCOMMODATIE]\nName guest: [NAAMKLANT]\nArrival date: [AANKOMSTDATUM]\nDuration: [AANTAL_NACHTEN] nachten\n\nCan you please let me know if we can have this option and until when we can have this?\n\nThanks in advance for your early reply.\n\nKind regards,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nLindenhof 5\n3442 GT WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]",
-	"N"=>"Beste [CONTACTPERSOON_LEVERANCIER],\n\nZou je ons een optie kunnen geven op onderstaande accommodatie:\n\nAccommodatie: [ACCOMMODATIE]\nNaam klant: [NAAMKLANT]\nAankomstdatum: [AANKOMSTDATUM]\nDuur: [AANTAL_NACHTEN] nachten\n\nZou je me deze optie kunnen bevestigen en vertellen tot wanneer deze genoteerd staat?\n\nAlvast bedankt voor je spoedige reactie.\n\nMet vriendelijke groet,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nLindenhof 5\n3442 GT WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]"
+	"D"=>"DUITS ONTBREEKT NOG - Dear [CONTACTPERSOON_LEVERANCIER],\n\nCan we please have an option on the accommodation noted below:\n\nAccommodation: [ACCOMMODATIE]\nName guest: [NAAMKLANT]\nArrival date: [AANKOMSTDATUM]\nDuration: [AANTAL_NACHTEN] nachten\n\nCan you please let me know if we can have this option and until when we can have this?\n\nThanks in advance for your early reply.\n\nKind regards,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]",
+	"E"=>"Dear [CONTACTPERSOON_LEVERANCIER],\n\nCan we please have an option on the accommodation noted below:\n\nAccommodation: [ACCOMMODATIE]\nName guest: [NAAMKLANT]\nArrival date: [AANKOMSTDATUM]\nDuration: [AANTAL_NACHTEN] nachten\n\nCan you please let me know if we can have this option and until when we can have this?\n\nThanks in advance for your early reply.\n\nKind regards,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]",
+	"N"=>"Beste [CONTACTPERSOON_LEVERANCIER],\n\nZou je ons een optie kunnen geven op onderstaande accommodatie:\n\nAccommodatie: [ACCOMMODATIE]\nNaam klant: [NAAMKLANT]\nAankomstdatum: [AANKOMSTDATUM]\nDuur: [AANTAL_NACHTEN] nachten\n\nZou je me deze optie kunnen bevestigen en vertellen tot wanneer deze genoteerd staat?\n\nAlvast bedankt voor je spoedige reactie.\n\nMet vriendelijke groet,\n[NAAM_MEDEWERKER]\n\nChalet.nl\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]"
 );
 
 
@@ -915,7 +915,14 @@ $vars["factuurnummer_prefix"]=array(2006=>"67",2007=>"78",2008=>"89",2009=>"90",
 $vars["aanbetaling1_dagennaboeken"]=10;
 $vars["totale_reissom_dagenvooraankomst"]=42;
 $vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js";
-$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
+
+if($id=="zoek-en-boek") {
+	$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js";
+} else {
+	# oude jquery ui-versie nodig voor zomer-tarieventabel in IE9
+	$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
+}
+
 
 if($boeking_wijzigen) {
 	# Login-class klanten
@@ -1025,7 +1032,7 @@ if($boeking_wijzigen) {
 		$login->settings["logout_number"]=1;
 		$login->settings["adminmail"]=$vars["email"];
 		$login->settings["db"]["tablename"]="user";
-		if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1 and !$css) {
+		if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1 and !$css and $_SERVER["REMOTE_ADDR"]<>"31.223.173.113" and !$vars["lokale_testserver"]) {
 			$login->settings["mustlogin"]=true;
 		} else {
 			$login->settings["mustlogin"]=false;

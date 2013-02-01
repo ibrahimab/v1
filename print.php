@@ -112,5 +112,5 @@ LI {
 
 @include "content/".$_GET["id"].".html";
 
-?></TD></TR><TR><TD align="center"><B><?php echo htmlentities($vars["websitenaam"]); ?> - Lindenhof 5 - 3442 GT Woerden - <?php if($vars["websiteland"]<>"nl") echo html("nederland","contact")." - "; echo txt("telefoonnummer"); ?></B></TD></TR></TABLE></BODY>
+?></TD></TR><TR><TD align="center"><B><?php echo htmlentities($vars["websitenaam"]); ?> - Wipmolenlaan 3 - 3447 GJ Woerden - <?php if($vars["websiteland"]<>"nl") echo html("nederland","contact")." - "; echo txt("telefoonnummer"); ?></B></TD></TR></TABLE></BODY>
 </HTML>

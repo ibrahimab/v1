@@ -311,8 +311,8 @@ Met vriendelijke groet,
 [NAAM_MEDEWERKER]
 
 [WEBSITE]
-Lindenhof 5
-3442 GT Woerden
+Wipmolenlaan 3
+3447 GJ Woerden
 Telefoon: 0348 - 43 46 49
 Fax: 0348 - 69 07 52
 E-mail: [EMAIL]";
@@ -342,8 +342,8 @@ Met vriendelijke groet,
 [NAAM_MEDEWERKER]
 
 [WEBSITE]
-Lindenhof 5
-3442 GT Woerden
+Wipmolenlaan 3
+3447 GJ Woerden
 Telefoon: 0348 - 43 46 49
 Fax: 0348 - 69 07 52
 E-mail: [EMAIL]";
@@ -374,8 +374,8 @@ Kind regards,
 [NAAM_MEDEWERKER]
 
 [WEBSITE]
-Lindenhof 5
-3442 GT Woerden
+Wipmolenlaan 3
+3447 GJ Woerden
 Netherlands
 Telefoon: +31 (0)348 - 43 46 49
 Fax: +31 (0)348 - 69 07 52
@@ -408,8 +408,8 @@ Met vriendelijke groet,
 [NAAM_MEDEWERKER]
 
 [WEBSITE]
-Lindenhof 5
-3442 GT Woerden
+Wipmolenlaan 3
+3447 GJ Woerden
 Telefoon: 0348 - 43 46 49
 Fax: 0348 - 69 07 52
 E-mail: [EMAIL]";
@@ -438,8 +438,8 @@ Kind regards,
 [NAAM_MEDEWERKER]
 
 [WEBSITE]
-Lindenhof 5
-3442 GT Woerden
+Wipmolenlaan 3
+3447 GJ Woerden
 Netherlands
 Telefoon: +31 (0)348 - 43 46 49
 Fax: +31 (0)348 - 69 07 52
@@ -478,8 +478,8 @@ Met vriendelijke groet,
 [NAAM_MEDEWERKER]
 
 [WEBSITE]
-Lindenhof 5
-3442 GT Woerden
+Wipmolenlaan 3
+3447 GJ Woerden
 Telefoon: 0348 - 43 46 49
 Fax: 0348 - 69 07 52
 E-mail: [EMAIL]";
@@ -1513,7 +1513,7 @@ $txt["en_b"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
 $txt["nl"]["contact"]["telefonischeBereikbaarheid"]="Telefonische bereikbaarheid ";
 $txt["en"]["contact"]["telefonischeBereikbaarheid"]="Reach us by telephone (local time)";
 
-$txt["nl"]["contact"]["onderschrift_chalettour"]="Chalettour is een handelsnaam van Chalet.nl B.V., Lindenhof 5, 3442 GT Woerden, tel: 0348-434649, [[h_1]]info@chalettour.nl[[h_2]]";
+$txt["nl"]["contact"]["onderschrift_chalettour"]="Chalettour is een handelsnaam van Chalet.nl B.V., Wipmolenlaan 3, 3447 GJ Woerden, tel: 0348-434649, [[h_1]]info@chalettour.nl[[h_2]]";
 $txt["en"]["contact"]["onderschrift_chalettour"]="-";
 
 $txt["nl"]["contact"]["contactformulier"]="Contactformulier";
@@ -4247,14 +4247,14 @@ $txt["en"]["betalingen"]["mailbody"]="Dear [[v_naam]],";
 $txt["nl"]["optieaanvraag"]["mail_goed_subject"]="Optiebevestiging [AANKOMSTDATUM] [ACCOMMODATIE]";
 $txt["en"]["optieaanvraag"]["mail_goed_subject"]="Confirmation option [AANKOMSTDATUM] [ACCOMMODATIE]";
 
-$txt["nl"]["optieaanvraag"]["mail_goed_body"]="Beste [VOORNAAMKLANT],\n\nHartelijk dank voor je interesse in onze accommodaties! Naar aanleiding van je optieaanvraag kan ik je vertellen dat de door jou aangevraagde accommodatie voor de aangegeven week nog beschikbaar is en dat wij deze voor je in optie hebben gezet. Graag horen wij uiterlijk [LOOPT_AF] 's middags 15.00 uur of wij deze optie om mogen zetten in een definitieve boeking of dat je voorkeur uitgaat naar een andere accommodatie.\n\n[AANKOMSTDATUM] [ACCOMMODATIE] met [AANTALPERSONEN] personen\n\nVoor omschrijving: [ACCOMMODATIE_URL]\nBezetting [AANTALPERSONEN] personen : EURO [BEDRAG]\n\nBovenstaande prijzen zijn exclusief EURO 20,00 reserveringskosten. Op de pagina kun je verder nalezen welke zaken incl. en excl. zijn.\n\nGraag horen wij of wij deze optie om mogen zetten in een definitieve boeking.\n\n[NAAM_MEDEWERKER]\n\nAl onze aanbiedingen vallen onder onze Algemene reis- en verkoopvoorwaarden en zijn onder voorbehoud van prijswijzigingen en beschikbaarheid.\n\n[WEBSITE]\nLindenhof 5\n3442 GT WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
-$txt["en"]["optieaanvraag"]["mail_goed_body"]="Dear [VOORNAAMKLANT],\n\nThank you for your interest in our accommodations! Regarding your option request, the accommodation you requested for the specified week is still available and we can confirm the option to you. Please let us know on [LOOPT_AF] before 3:00 p.m. if we can turn this option in to a definitive booking, or if you prefer a different accommodation.\n\n[AANKOMSTDATUM] [ACCOMMODATIE] with [AANTALPERSONEN] persons\n\nDescription: [ACCOMMODATIE_URL]\nOccupancy [AANTALPERSONEN] persons : EURO [BEDRAG]\n\nAbove prices are excluding a EURO 20,00 booking fee. On the page of the accommodation you can see what other things are included or excluded with the price.\n\nPlease let us know if we can turn this option in to a definitive booking.\n\n[NAAM_MEDEWERKER]\n\nAll our offers are subject to our terms and conditions and are subject to price changes and availability.\n\n[WEBSITE]\nLindenhof 5\n3442 GT WOERDEN\nNetherlands\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
+$txt["nl"]["optieaanvraag"]["mail_goed_body"]="Beste [VOORNAAMKLANT],\n\nHartelijk dank voor je interesse in onze accommodaties! Naar aanleiding van je optieaanvraag kan ik je vertellen dat de door jou aangevraagde accommodatie voor de aangegeven week nog beschikbaar is en dat wij deze voor je in optie hebben gezet. Graag horen wij uiterlijk [LOOPT_AF] 's middags 15.00 uur of wij deze optie om mogen zetten in een definitieve boeking of dat je voorkeur uitgaat naar een andere accommodatie.\n\n[AANKOMSTDATUM] [ACCOMMODATIE] met [AANTALPERSONEN] personen\n\nVoor omschrijving: [ACCOMMODATIE_URL]\nBezetting [AANTALPERSONEN] personen : EURO [BEDRAG]\n\nBovenstaande prijzen zijn exclusief EURO 20,00 reserveringskosten. Op de pagina kun je verder nalezen welke zaken incl. en excl. zijn.\n\nGraag horen wij of wij deze optie om mogen zetten in een definitieve boeking.\n\n[NAAM_MEDEWERKER]\n\nAl onze aanbiedingen vallen onder onze Algemene reis- en verkoopvoorwaarden en zijn onder voorbehoud van prijswijzigingen en beschikbaarheid.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
+$txt["en"]["optieaanvraag"]["mail_goed_body"]="Dear [VOORNAAMKLANT],\n\nThank you for your interest in our accommodations! Regarding your option request, the accommodation you requested for the specified week is still available and we can confirm the option to you. Please let us know on [LOOPT_AF] before 3:00 p.m. if we can turn this option in to a definitive booking, or if you prefer a different accommodation.\n\n[AANKOMSTDATUM] [ACCOMMODATIE] with [AANTALPERSONEN] persons\n\nDescription: [ACCOMMODATIE_URL]\nOccupancy [AANTALPERSONEN] persons : EURO [BEDRAG]\n\nAbove prices are excluding a EURO 20,00 booking fee. On the page of the accommodation you can see what other things are included or excluded with the price.\n\nPlease let us know if we can turn this option in to a definitive booking.\n\n[NAAM_MEDEWERKER]\n\nAll our offers are subject to our terms and conditions and are subject to price changes and availability.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nNetherlands\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
 
 $txt["nl"]["optieaanvraag"]["mail_af_subject"]="Optie-aanvraag [AANKOMSTDATUM] [ACCOMMODATIE]";
 $txt["en"]["optieaanvraag"]["mail_af_subject"]="Option request [AANKOMSTDATUM] [ACCOMMODATIE]";
 
-$txt["nl"]["optieaanvraag"]["mail_af_body"]="Beste [VOORNAAMKLANT],\n\nHartelijk dank voor je interesse in onze accommodaties! Naar aanleiding van je beschikbaarheidaanvraag moet ik je helaas vertellen dat de door jou aangevraagde accommodatie voor de aangegeven week niet meer beschikbaar is. Onderstaand bied ik je enkele direct beschikbare alternatieven aan:\n\n\n\n\nBovenstaande prijzen zijn exclusief EURO 20,00 reserveringskosten. Op de pagina kun je verder nalezen welke zaken incl. en excl. zijn.\n\nGraag horen wij of wij bovenstaande aanbieding om mogen zetten in een reservering.\n\n[NAAM_MEDEWERKER]\n\nAl onze aanbiedingen vallen onder onze Algemene reis- en verkoopvoorwaarden en zijn onder voorbehoud van prijswijzigingen en beschikbaarheid.\n\n[WEBSITE]\nLindenhof 5\n3442 GT WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
-$txt["en"]["optieaanvraag"]["mail_af_body"]="Dear [VOORNAAMKLANT],\n\nThank you for your interest in our accommodations! Regarding your availability request, the accommodation you requested is sadly no longer available for the specified week. Below you will find some alternatives that are directly available:\n\n\n\n\nAbove prices are excluding a EURO 20,00 booking fee. On the page of the accommodation you can see what other things are included or excluded in the price.\n\nPlease let us know if we can turn our offer in to a definitive reservation.\n\n[NAAM_MEDEWERKER]\n\nAll our offers are subject to our terms and conditions and are are subject to price changes and availability.\n\n[WEBSITE]\nLindenhof 5\n3442 GT WOERDEN\nNetherlands\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
+$txt["nl"]["optieaanvraag"]["mail_af_body"]="Beste [VOORNAAMKLANT],\n\nHartelijk dank voor je interesse in onze accommodaties! Naar aanleiding van je beschikbaarheidaanvraag moet ik je helaas vertellen dat de door jou aangevraagde accommodatie voor de aangegeven week niet meer beschikbaar is. Onderstaand bied ik je enkele direct beschikbare alternatieven aan:\n\n\n\n\nBovenstaande prijzen zijn exclusief EURO 20,00 reserveringskosten. Op de pagina kun je verder nalezen welke zaken incl. en excl. zijn.\n\nGraag horen wij of wij bovenstaande aanbieding om mogen zetten in een reservering.\n\n[NAAM_MEDEWERKER]\n\nAl onze aanbiedingen vallen onder onze Algemene reis- en verkoopvoorwaarden en zijn onder voorbehoud van prijswijzigingen en beschikbaarheid.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
+$txt["en"]["optieaanvraag"]["mail_af_body"]="Dear [VOORNAAMKLANT],\n\nThank you for your interest in our accommodations! Regarding your availability request, the accommodation you requested is sadly no longer available for the specified week. Below you will find some alternatives that are directly available:\n\n\n\n\nAbove prices are excluding a EURO 20,00 booking fee. On the page of the accommodation you can see what other things are included or excluded in the price.\n\nPlease let us know if we can turn our offer in to a definitive reservation.\n\n[NAAM_MEDEWERKER]\n\nAll our offers are subject to our terms and conditions and are are subject to price changes and availability.\n\n[WEBSITE]\nWipmolenlaan 3\n3447 GJ WOERDEN\nNetherlands\nKvK: 30209634\nTel: +31 (0)348 - 43 46 49\nFax: +31 (0)348 - 69 07 52\nEmail: [EMAIL_MEDEWERKER]";
 
 # Enquête-systeem
 
