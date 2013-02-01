@@ -642,13 +642,22 @@ $(document).ready(function() {
 
 					// Google Analytics bij switchen tussen tabs
 					if (typeof _gaq != "undefined") {
+
 						var canonical_link;
-						try {
-							canonical_link = $('link[rel=canonical]').attr('href').split(location.hostname)[1] || window.location.pathname;
-						} catch(e) {
-							canonical_link = window.location.pathname;
+						if($("#body_toonaccommodatie").length!==0) {
+							try {
+								canonical_link = $('link[rel=canonical]').attr('href').split(location.hostname)[1] || window.location.pathname;
+							} catch(e) {
+								canonical_link = window.location.pathname;
+							}
+						} else {
+							try {
+								canonical_link = $('link[rel=canonical]').attr('href').split(location.hostname)[1] || undefined;
+							} catch(e) {
+								canonical_link = undefined;
+							}
 						}
-						if(window.location.hash.length>1 && $("#body_toonaccommodatie").length!==0) {
+						if(window.location.hash.length>1) {
 							canonical_link=canonical_link+ '/tab-' + window.location.hash.substr(1);
 						}
 						if($("#body_toonaccommodatie").length!==0 || google_analytics_tab_verstuurd===false) {
