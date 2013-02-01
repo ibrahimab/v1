@@ -624,10 +624,10 @@ td.selecteerbaarbedrag:hover{
 /*                       */
 
 #zoekblok {
-	border: 2px solid <?php echo $bordercolor; ?>;
-	background-color: #FFFFFF;
-	padding: 10px;
-	width: 666px;
+	border: 1px solid #003366;
+	background-color: #eaf0fc;
+	padding: 5px;
+	width: 680px;
 }
 
 #zoekblok_wrapper {
@@ -635,7 +635,7 @@ td.selecteerbaarbedrag:hover{
 }
 
 .zoekblok_item {
-	margin-bottom: 15px;
+	margin-bottom: 10px;
 }
 
 .zoekblok_item_geen_titel {
@@ -652,7 +652,7 @@ td.selecteerbaarbedrag:hover{
 }
 
 .zoekblok_subtitel {
-	margin-top: 4px;
+	margin-top: 3px;
 	font-size: 0.7em;
 	margin-left: 196px;
 	margin-right: 60px;
@@ -701,8 +701,12 @@ td.selecteerbaarbedrag:hover{
 	width: 410px;
 }
 
+.chzn-container-single .chzn-default span {
+	color: #666666;
+}
+
 /*zorgen dat tekst in chosen-field verticaal gecentreerd is*/
-a.chzn-single span {
+.chzn-container-single .chzn-single span {
 	margin-top: -2px;
 }
 
