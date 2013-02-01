@@ -273,6 +273,11 @@ RewriteRule holiday-homes/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUER
 RewriteRule ^alpe-d-huzes/$ /alpe-d-huzes [L,R=301]
 RewriteRule ^alpe-d-huzes$ alpedhuzes.php?%{QUERY_STRING}
 
+# reiskookboek Italissima
+RewriteRule ^reiskookboek/$ /reiskookboek [L,R=301]
+RewriteRule ^reiskookboek$ actie-kookboek.php?%{QUERY_STRING}
+
+
 
 #
 # Oude pagina's die niet meer bestaan: redirect naar homepage
