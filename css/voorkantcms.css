@@ -3,6 +3,10 @@
 	margin-left: 0;
 }
 
+#ajaxloader_page {
+	left: 500px;
+}
+
 #breadcrumb_wrapper {
 	margin-left: 0;
 }

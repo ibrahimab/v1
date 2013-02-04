@@ -440,6 +440,14 @@ function recordOutboundPopup(category, action) {
 	} catch(err) {}
 }
 
+function show_ajaxloader() {
+	// TIJDELIJK: deze "if" is alleen nodig zolang het zoekformulier in de testfase is
+	if($("#zoekblok").length!==0) {
+		$("#ajaxloader_page").show();
+	}
+	return true;
+}
+
 var tonen_of_niet;
 var form_gewijzigd;
 var selectbox_actief=0;
@@ -722,6 +730,7 @@ $(document).ready(function() {
 
 		// functies voor zoekformulier
 		$(".onchangesubmit").change(function() {
+			show_ajaxloader();
 			this.form.submit();
 		});
 
@@ -936,14 +945,22 @@ $(document).ready(function() {
 
 			// });
 
+			// ajaxloader tonen bij formsubmit
+			$("#zoeken").submit( function() {
+				show_ajaxloader();
+			});
+
 			// scroll-y-positie opslaan (vanuit formulier)
-			$(document).on("click","#zoeken", function(){
+			$(document).on("click","#zoeken", function() {
 				$("input[name=scrolly]").val($(window).scrollTop());
 				return true;
 			});
 
 			// scroll-y-positie opslaan (vanuit links)
-			$("div#verfijn a, div#zoekblok a, div#zoekresultaten_sorteer a").click(function(){
+			$("div#verfijn a, div#zoekblok a, div#zoekresultaten_sorteer a").click(function() {
+
+				show_ajaxloader();
+
 				var nieuwe_url=$(this).attr("href");
 				nieuwe_url = nieuwe_url.replace(/#[a-z0-9]+/,"");
 				nieuwe_url=updateURLParameter(nieuwe_url,"scrolly",$(window).scrollTop());
@@ -952,11 +969,27 @@ $(document).ready(function() {
 			});
 
 			// scroll-y-positie opslaan (vanuit zoekresultaat-klik)
-			$("a.zoekresultaat").click(function(){
+			$("a.zoekresultaat").click(function() {
+
+				show_ajaxloader();
+
 				var nieuwe_url=$(this).attr("href");
+
+				// cnt-querystrings weghalen (zijn niet meer nodig)
 				nieuwe_url = nieuwe_url.replace(/\&cnt+=[0-9]+/,"");
 				nieuwe_url = nieuwe_url.replace(/\&cnt[0-9]+=[0-9]+/,"");
-				nieuwe_url = nieuwe_url.replace(/scrolly%3D[0-9]+/,"scrolly%3D"+$(window).scrollTop());
+
+				if(/scrolly%3D/.test(nieuwe_url)) {
+					nieuwe_url = nieuwe_url.replace(/scrolly%3D[0-9]+/,"scrolly%3D"+$(window).scrollTop());
+				} else {
+					if(/%3F/.test(nieuwe_url)) {
+						// back-url bevat al een vraagteken
+						nieuwe_url = nieuwe_url+"%26scrolly%3D"+$(window).scrollTop();
+					} else {
+						// back-url bevat nog geen vraagteken
+						nieuwe_url = nieuwe_url+"%3Fscrolly%3D"+$(window).scrollTop();
+					}
+				}
 				$(this).attr("href",nieuwe_url);
 				return true;
 			});

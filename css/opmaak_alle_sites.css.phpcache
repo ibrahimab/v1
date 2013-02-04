@@ -1337,7 +1337,6 @@ td.selecteerbaarbedrag:hover{
 	display: none;
 }
 
-
 #opval_bottombar a {
 	color: blue;
 }
