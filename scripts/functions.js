@@ -2,6 +2,28 @@
 // Hides the tabs during initialization
 document.write('<style type="text/css"> #tabs { visibility: hidden; } </style>');
 
+
+// querystring aan URL toevoegen
+function updateURLParameter(url, param, paramVal){
+	var newAdditionalURL = "";
+	var tempArray = url.split("?");
+	var baseURL = tempArray[0];
+	var additionalURL = tempArray[1];
+	var temp = "";
+	if (additionalURL) {
+		tempArray = additionalURL.split("&");
+		for (i=0; i<tempArray.length; i++){
+			if(tempArray[i].split('=')[0] != param){
+				newAdditionalURL += temp + tempArray[i];
+				temp = "&";
+			}
+		}
+	}
+
+	var rows_txt = temp + "" + param + "=" + paramVal;
+	return baseURL + "?" + newAdditionalURL + rows_txt;
+}
+
 // popup in opgegeven width en height
 function popwindow(xsize,ysize,url,align) {
 	var wWidth, wHeight, wLeft, wTop;
@@ -815,7 +837,7 @@ $(document).ready(function() {
 		}
 
 		// afbreken reviews
-		if($(".reviewblok_afbreken").length!=0) {
+		if($(".reviewblok_afbreken").length!==0) {
 			$('.reviewblok_afbreken').each(function() {
 				if($(this).find(".reviewblok_afbreken_content").height()>85) {
 					$(this).next(".reviewblok_afbreken_openklap").css("display","block");
@@ -914,6 +936,35 @@ $(document).ready(function() {
 
 			// });
 
+			// scroll-y-positie opslaan (vanuit formulier)
+			$(document).on("click","#zoeken", function(){
+				$("input[name=scrolly]").val($(window).scrollTop());
+				return true;
+			});
+
+			// scroll-y-positie opslaan (vanuit links)
+			$("div#verfijn a, div#zoekblok a, div#zoekresultaten_sorteer a").click(function(){
+				var nieuwe_url=$(this).attr("href");
+				nieuwe_url = nieuwe_url.replace(/#[a-z0-9]+/,"");
+				nieuwe_url=updateURLParameter(nieuwe_url,"scrolly",$(window).scrollTop());
+				$(this).attr("href",nieuwe_url);
+				return true;
+			});
+
+			// scroll-y-positie opslaan (vanuit zoekresultaat-klik)
+			$("a.zoekresultaat").click(function(){
+				var nieuwe_url=$(this).attr("href");
+				nieuwe_url = nieuwe_url.replace(/\&cnt+=[0-9]+/,"");
+				nieuwe_url = nieuwe_url.replace(/\&cnt[0-9]+=[0-9]+/,"");
+				nieuwe_url = nieuwe_url.replace(/scrolly%3D[0-9]+/,"scrolly%3D"+$(window).scrollTop());
+				$(this).attr("href",nieuwe_url);
+				return true;
+			});
+
+			// naar de juiste positie scrollen
+			if($("input[name=scrolly]").val()>0) {
+				window.scrollTo(0,$("input[name=scrolly]").val());
+			}
 
 			//
 			// autocomplete zoekformulier

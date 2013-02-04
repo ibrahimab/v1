@@ -488,7 +488,7 @@ if($vars["websitetype"]==8) {
 	$_GET["sort"]=2;
 }
 
-if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	#
 	# Nieuw zoekformulier
 	#
@@ -540,6 +540,10 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		# gekozen sortering meesturen met het formulier
 		echo "<input type=\"hidden\" name=\"sort\" value=\"".wt_he($_GET["sort"])."\">\n";
 	}
+
+	# Scrollpositie kunnen onthouden
+	echo "<input type=\"hidden\" name=\"scrolly\" value=\"".intval($_GET["scrolly"])."\" />\n";
+
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 
 	# Hidden fields m.b.t. verfijnen zoekopdracht
