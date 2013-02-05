@@ -926,8 +926,6 @@ $(document).ready(function() {
 
 
 			// jQuery Chosen
-//			$("#zoekblok_field_bestemming").chosen();
-
 
 			$(".zoekblok_select").not("#zoekblok_field_bestemming, select[name=lev]").chosen({disable_search: true,allow_single_deselect: true});
 			$("#zoekblok_field_bestemming").chosen();
@@ -957,7 +955,7 @@ $(document).ready(function() {
 			});
 
 			// scroll-y-positie opslaan (vanuit links)
-			$("div#verfijn a, div#zoekblok a, div#zoekresultaten_sorteer a").click(function() {
+			$("div#verfijn a, div.zoekblok_item_verfijn a, div.zoekblok_alleswissen a, div#zoekresultaten_sorteer a").click(function() {
 
 				show_ajaxloader();
 

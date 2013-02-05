@@ -627,7 +627,14 @@ td.selecteerbaarbedrag:hover{
 	border: 1px solid #003366;
 	background-color: #eaf0fc;
 	padding: 5px;
+	padding-top: 10px;
+	padding-bottom: 0px;
 	width: 680px;
+}
+
+.form_element_wrapper {
+	height: 0px;
+	overflow: hidden;
 }
 
 #zoekblok_wrapper {
@@ -790,6 +797,9 @@ td.selecteerbaarbedrag:hover{
 	height: 23px;
 	color: #444444;
 	text-decoration: none;
+	font-size: 13px;
+	line-height: 13px;
+	padding-bottom: 2px;
 }
 
 .zoekblok_item input[type=submit]:hover {
@@ -805,7 +815,7 @@ td.selecteerbaarbedrag:hover{
 	color: #ffffff;
 }
 
-.zoekbok_alleswissen {
+.zoekblok_alleswissen {
 	display: inline;
 	margin-left: 30px;
 }

@@ -492,13 +492,12 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	#
 	# Nieuw zoekformulier
 	#
-#	echo "<div class=\"div_met_border boxshadow\" id=\"oudzoekblok\">";
 
 	echo "<div id=\"zoekblok\" class=\"boxshadow\">";
 
-#	echo "<table border=\"0\" width=\"600\" bgcolor=\"#FFFFFF\" cellspacing=\"0\" cellpadding=\"0\" class=\"tabel_met_border\" id=\"zoektabel\">";
 
 	# formulier-declaratie
+	echo "<div class=\"form_element_wrapper\">";
 	echo "<form method=\"get\" action=\"";
 	if($vars["zoekform_thema"]) {
 		if($themalandinfo["soort"]=="land") {
@@ -520,6 +519,8 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	echo $urlself;
 	$urlself=ereg_replace("#form","",$urlself);
 	echo "\" name=\"zoeken\" id=\"zoeken\">";
+	echo "</div>"; # afsluiten .form_element_wrapper
+
 
 	#
 	# Hidden fields
@@ -977,11 +978,11 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		echo "<input type=\"submit\" value=\" ".strtoupper(html("zoeken","accommodaties"))." \" id=\"submit1zoeken\" class=\"submitbutton\">";
 		if($vars["verfijnen_aanbieden"]) {
 			# "alles wissen"-link
-			echo "<div class=\"zoekbok_alleswissen\">";
+			echo "<div class=\"zoekblok_alleswissen\">";
 
 			echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php".($_GET["aab"] ? "?filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
 
-			echo "</div>"; # afsluiten .zoekbok_alleswissen
+			echo "</div>"; # afsluiten .zoekblok_alleswissen
 		}
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
@@ -1057,7 +1058,6 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 	echo "</form>";
 	echo "</div>"; # afsluiten #zoekblok
-#	echo "</div>"; # afsluiten .div_met_border
 
 } else {
 
