@@ -842,6 +842,10 @@ Copyright (c) 2011 by Harvest
 
     Chosen.prototype.winnow_results = function() {
       var found, option, part, parts, regex, regexAnchor, result, result_id, results, searchText, startpos, text, zregex, _i, _j, _len, _len1, _ref, search_without_special_chars, without_special_chars;
+
+      // toegevoegd
+      var showed_results = [];
+
       this.no_results_clear();
       results = 0;
 
@@ -886,6 +890,16 @@ Copyright (c) 2011 by Harvest
                 }
               }
             }
+
+            // toegevoegd: voorkomen dat dezelfde resultaten meerdere keren getoond worden
+            // if(found) {
+            //   if(showed_results[option.html]) {
+            //     found=false;
+            //   } else {
+            //     showed_results[option.html]=true;
+            //   }
+            // }
+
             if (found) {
               if (searchText.length) {
                 startpos = option.html.search(zregex);

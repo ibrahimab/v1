@@ -712,14 +712,13 @@ td.selecteerbaarbedrag:hover{
 	font-weight: bold;
 }
 
-.option_regio1 {
-	color: blue;
-	margin-left: 1em !important;
+.option_regio {
+	padding-left: 0.5em !important;
+	color: #003366;
 }
 
-.option_plaats1 {
-	color: orange;
-	margin-left: 2em !important;
+.option_plaats {
+	padding-left: 2em !important;
 }
 
 .chzn-container-single .chzn-default span {

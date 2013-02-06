@@ -601,6 +601,16 @@ if($nieuw_zoekformulier) {
 		#
 		global $vars,$landnaam,$themalandinfo,$save_query;
 
+		$db=new DB_sql;
+
+		if(!$settings["zonder_plaatsen"]) {
+			# plaatsen uit database halen
+			$db->query("SELECT DISTINCT skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND archief=0 AND wzt='".$vars["seizoentype"]."' ORDER BY skigebied_id, plaats;");
+			while($db->next_record()) {
+				$plaatsen[$db->f("skigebied_id")][$db->f("plaats_id")]=$db->f("plaats");
+			}
+		}
+
 		echo "<div class=\"zoekblok_item zoekblok_bestemming\">";
 
 		echo "<div class=\"zoekblok_titel\">";
@@ -623,7 +633,7 @@ if($nieuw_zoekformulier) {
 			// 	$optgroup_open=true;
 			// }
 
-			if(preg_match("/^([0-9]+)-0$/",$value,$regs)) {
+			if(preg_match("/^([0-9]+)-([0-9]+)/",$value,$regs) and $regs[2]=="0") {
 				$optionclass="option_land";
 			} else {
 				$optionclass="option_regio";
@@ -636,6 +646,22 @@ if($nieuw_zoekformulier) {
 				if($value) $save_query["regio"]=$vars["skigebied_nl"][$value];
 			}
 			echo ">".wt_he(ereg_replace("^.*___","",$key))."</option>";
+
+
+			if($regs[2]>0) {
+				# Plaatsen tonen
+				if(is_array($plaatsen[$regs[2]])) {
+					reset($plaatsen[$regs[2]]);
+					while(list($key2,$value2)=each($plaatsen[$regs[2]])) {
+						echo "<option class=\"option_plaats\" value=\"pl".$key2."\"";
+						if($_GET["filled"] and $_GET["fsg"]=="pl".$key2) {
+							echo " selected";
+						}
+						echo ">".wt_he($value2)."</option>";
+					}
+				}
+			}
+
 		}
 #		if($optgroup_open) echo "</optgroup>\n";
 		echo "</select>";
