@@ -10,6 +10,10 @@
 # Zoekformulier
 #
 
+if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	$nieuw_zoekformulier=true;
+}
+
 
 # voor CMS-gebruikers: zowel Chalet.nl als SuperSki doorzoeken
 if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and ($_GET["allesites"] or !$_GET["filled"])) {
@@ -371,8 +375,12 @@ while($db->next_record()) {
 	}
 
 	if(!$landgehad[$db->f("land_id")]) {
-		$vars["skigebied"][$sorteer."AAAAA___-- ".txt("alleskigebiedenin","accommodaties")." ".$db->f("land")]=$db->f("land_id")."-0";
-		$vars["skigebied_nl"][$db->f("land_id")."-0"]="heel ".$db->f("landnl");
+		if($nieuw_zoekformulier) {
+			$vars["skigebied"][$sorteer."AAAAA___".$db->f("land")]=$db->f("land_id")."-0";
+		} else {
+			$vars["skigebied"][$sorteer."AAAAA___-- ".txt("alleskigebiedenin","accommodaties")." ".$db->f("land")]=$db->f("land_id")."-0";
+			$vars["skigebied_nl"][$db->f("land_id")."-0"]="heel ".$db->f("landnl");
+		}
 
 		$landnaam[$db->f("land_id")]=$db->f("land");
 		$landgehad[$db->f("land_id")]=true;
@@ -488,7 +496,8 @@ if($vars["websitetype"]==8) {
 	$_GET["sort"]=2;
 }
 
-if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if($nieuw_zoekformulier) {
+
 	#
 	# Nieuw zoekformulier
 	#
@@ -568,7 +577,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	function zoekblok_tekst($settings="") {
 		# zoekformulier: zoeken op tekst
 
-		echo "<div class=\"zoekblok_item\">";
+		echo "<div class=\"zoekblok_item zoekblok_tekst\">";
 
 		echo "<div class=\"zoekblok_titel\">";
 		echo html("zoekenmbvtekst","accommodaties");
@@ -592,7 +601,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		#
 		global $vars,$landnaam,$themalandinfo,$save_query;
 
-		echo "<div class=\"zoekblok_item\">";
+		echo "<div class=\"zoekblok_item zoekblok_bestemming\">";
 
 		echo "<div class=\"zoekblok_titel\">";
 		echo html("bestemming","zoek-en-boek");
@@ -608,20 +617,27 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		unset($vars["skigebied"]["00AAAAA___".$vars["geenvoorkeur"]]);
 		while(list($key,$value)=each($vars["skigebied"])) {
 
-			if(ereg("^([0-9]+)-0$",$value,$regs) and $vars["websitetype"]<>7) {
-				if($optgroup_open) echo "</optgroup>\n";
-				echo "<optgroup label=\"".wt_he($landnaam[$regs[1]])."\">\n";
-				$optgroup_open=true;
+			// if(ereg("^([0-9]+)-0$",$value,$regs) and $vars["websitetype"]<>7) {
+			// 	if($optgroup_open) echo "</optgroup>\n";
+			// 	echo "<optgroup label=\"".wt_he($landnaam[$regs[1]])."\">\n";
+			// 	$optgroup_open=true;
+			// }
+
+			if(preg_match("/^([0-9]+)-0$/",$value,$regs)) {
+				$optionclass="option_land";
+			} else {
+				$optionclass="option_regio";
 			}
 
-			echo "<option value=\"".$value."\"";
+
+			echo "<option class=\"".$optionclass."\" value=\"".$value."\"";
 			if(($_GET["filled"] or $themalandinfo["soort"]=="land") and $_GET["fsg"]==$value) {
 				echo " selected";
 				if($value) $save_query["regio"]=$vars["skigebied_nl"][$value];
 			}
 			echo ">".wt_he(ereg_replace("^.*___","",$key))."</option>";
 		}
-		if($optgroup_open) echo "</optgroup>\n";
+#		if($optgroup_open) echo "</optgroup>\n";
 		echo "</select>";
 		echo "</div>"; # afsluiten .zoekblok_field
 
@@ -639,7 +655,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		#
 		global $vars;
 
-		echo "<div class=\"zoekblok_item\">";
+		echo "<div class=\"zoekblok_item zoekblok_aantalpersonen\">";
 
 		echo "<div class=\"zoekblok_titel\">";
 		echo html("aantalpersonen","accommodaties");
@@ -673,7 +689,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		#
 		global $vars;
 
-		echo "<div class=\"zoekblok_item\">";
+		echo "<div class=\"zoekblok_item zoekblok_aantalslaapkamers\">";
 
 		echo "<div class=\"zoekblok_titel\">";
 		echo html("aantalslaapkamers","accommodaties");
@@ -710,7 +726,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		global $vars;
 		$db=new DB_sql;
 
-		echo "<div class=\"zoekblok_item\">";
+		echo "<div class=\"zoekblok_item zoekblok_aankomstdatum\">";
 
 		echo "<div class=\"zoekblok_titel\">";
 		echo html("aankomstdatum","accommodaties");
@@ -795,7 +811,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 		global $vars;
 
-		echo "<div class=\"zoekblok_item\">";
+		echo "<div class=\"zoekblok_item zoekblok_verblijfsduur\">";
 
 		echo "<div class=\"zoekblok_titel\">";
 		echo html("verblijfsduur","accommodaties");
@@ -859,7 +875,7 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 			# Zoeken op leverancier
 
-			echo "<div class=\"zoekblok_item\">";
+			echo "<div class=\"zoekblok_item zoekblok_leverancier\">";
 
 			echo "<div class=\"zoekblok_titel intern\">";
 			echo "Leverancier";

@@ -665,7 +665,7 @@ td.selecteerbaarbedrag:hover{
 	margin-right: 60px;
 	position: relative;
 	float: left;
-	color: #777777;
+	color: #333333;
 }
 
 .zoekblok_field {
@@ -705,11 +705,25 @@ td.selecteerbaarbedrag:hover{
 }
 
 .zoekblok_select {
-	width: 410px;
+	width: 455px;
+}
+
+.option_land {
+	font-weight: bold;
+}
+
+.option_regio1 {
+	color: blue;
+	margin-left: 1em !important;
+}
+
+.option_plaats1 {
+	color: orange;
+	margin-left: 2em !important;
 }
 
 .chzn-container-single .chzn-default span {
-	color: #666666;
+	color: #000000;
 }
 
 /*zorgen dat tekst in chosen-field verticaal gecentreerd is*/
@@ -718,7 +732,7 @@ td.selecteerbaarbedrag:hover{
 }
 
 #zoekblok input[name='fzt'] {
-	width: 400px;
+	width: 445px;
 	background-color: #ffffff;
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );
 	background: #fff url('../pic/chosen-sprite.png') no-repeat 100% -20px;
@@ -744,10 +758,6 @@ td.selecteerbaarbedrag:hover{
 	padding: 0 0 0 8px;
 	color: #444444;
 	text-decoration: none;
-}
-
-.chzn-container-single .chzn-default {
-	padding-bottom: 12px;
 }
 
 .zoekblok_calendar {
@@ -821,7 +831,9 @@ td.selecteerbaarbedrag:hover{
 }
 
 
-
+/**/
+/*zoekresultaten*/
+/**/
 .zoekresultaten_paginas a {
 	display: block;
 	float: left;

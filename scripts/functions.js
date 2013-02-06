@@ -1,6 +1,6 @@
 
-// Hides the tabs during initialization
-document.write('<style type="text/css"> #tabs { visibility: hidden; } </style>');
+// Hides the tabs + zoekblok during initialization
+document.write('<style type="text/css">	#tabs { visibility: hidden; } #zoekblok { visibility: hidden; } </style>');
 
 
 // querystring aan URL toevoegen
@@ -924,12 +924,21 @@ $(document).ready(function() {
 				}
 			});
 
-
+			//
 			// jQuery Chosen
+			//
 
-			$(".zoekblok_select").not("#zoekblok_field_bestemming, select[name=lev]").chosen({disable_search: true,allow_single_deselect: true});
+			// Chosen: bestemming
 			$("#zoekblok_field_bestemming").chosen();
+
+			// Chosen: leverancier (incl. deselect-functie)
 			$("select[name=lev]").chosen({allow_single_deselect: true});
+
+			// Chosen: diverse selects (zonder tekstzoeken)
+			$(".zoekblok_aankomstdatum select, .zoekblok_aantalpersonen select, .zoekblok_aantalslaapkamers select, .zoekblok_verblijfsduur select").chosen({disable_search: true,allow_single_deselect: true});
+			$(".zoekblok_aankomstdatum .chzn-search, .zoekblok_aantalpersonen .chzn-search, .zoekblok_aantalslaapkamers .chzn-search, .zoekblok_verblijfsduur .chzn-search").hide();
+
+
 
 			//
 			// Multiple-skidorp verwerken
@@ -949,7 +958,7 @@ $(document).ready(function() {
 			});
 
 			// scroll-y-positie opslaan (vanuit formulier)
-			$(document).on("click","#zoeken", function() {
+			$(document).on("click","#zoekblok", function() {
 				$("input[name=scrolly]").val($(window).scrollTop());
 				return true;
 			});
@@ -1307,3 +1316,18 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 	});
 	return false;
 }
+
+
+
+// zaken die pas na het laden van alles uitgevoerd moeten worden:
+$(document).ready(function() {
+
+	if(gebruik_jquery===true) {
+
+		// zoekblok pas tonen als alles klaar is
+		$("#zoekblok").css("visibility","visible");
+
+	}
+});
+
+

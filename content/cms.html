@@ -5,15 +5,15 @@
 #
 
 if(!$login->logged_in) {
-	if($_COOKIE["levli"]) {
-		echo "<p>Inloggen in het CMS kan niet als er al is ingelogd als leverancier/eigenaar.</p><a href=\"".$vars["path"]."lev_login.php?logout=145\">&gt; &gt; &gt; uitloggen als leverancier/eigenaar &gt; &gt; &gt;</a>";
-	} else {
+#	if($_COOKIE["levli"]) {
+#		echo "<p>Inloggen in het CMS kan niet als er al is ingelogd als leverancier/eigenaar.</p><a href=\"".$vars["path"]."lev_login.php?logout=145\">&gt; &gt; &gt; uitloggen als leverancier/eigenaar &gt; &gt; &gt;</a>";
+#	} else {
 		echo "Dit systeem is alleen toegankelijk voor bevoegden.<p>";
 		$login->loginform();
 		if($_COOKIE["flc"]) {
 			echo "<p><a href=\"cms.php?delflc=1\">Ik wil de voorkant van de site bekijken zonder te zijn ingelogd</a>.";
 		}
-	}
+#	}
 	if(!$_GET["logout"] and !$_GET["reloaded"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
 		wt_mail("chaletmailbackup+systemlog@gmail.com","Chalet inlogform opgevraagd",$vars["basehref"]."\n".$_SERVER["REQUEST_URI"]."\n\n_COOKIE\n".wt_dump($_COOKIE,false)."\n\n_SERVER\n".wt_dump($_SERVER,false));
 	}
