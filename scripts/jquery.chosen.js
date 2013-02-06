@@ -892,13 +892,15 @@ Copyright (c) 2011 by Harvest
             }
 
             // toegevoegd: voorkomen dat dezelfde resultaten meerdere keren getoond worden
-            // if(found) {
-            //   if(showed_results[option.html]) {
-            //     found=false;
-            //   } else {
-            //     showed_results[option.html]=true;
-            //   }
-            // }
+            if(found) {
+              if(showed_results[option.value]) {
+                found=false;
+              } else {
+                showed_results[option.value]=true;
+              }
+            }
+
+//console.log(option.getAttribute("selected"));
 
             if (found) {
               if (searchText.length) {

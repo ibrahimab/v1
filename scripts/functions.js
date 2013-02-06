@@ -929,7 +929,7 @@ $(document).ready(function() {
 			//
 
 			// Chosen: bestemming
-			$("#zoekblok_field_bestemming").chosen();
+			$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true});
 
 			// Chosen: leverancier (incl. deselect-functie)
 			$("select[name=lev]").chosen({allow_single_deselect: true});
