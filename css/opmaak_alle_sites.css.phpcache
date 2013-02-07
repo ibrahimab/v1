@@ -710,15 +710,27 @@ td.selecteerbaarbedrag:hover{
 
 .option_land {
 	font-weight: bold;
+	background-color: #d5e1f9;
 }
 
 .option_regio {
-	padding-left: 0.5em !important;
+	padding-left: 0.8em !important;
 	color: #003366;
+	font-weight: bold;
 }
 
 .option_plaats {
 	padding-left: 2em !important;
+	max-height: 15px;
+}
+
+.chzn-container .chzn-results li {
+  line-height: 10px;
+}
+
+/*hoogte complete pulldown bestemming*/
+.zoekblok_bestemming .chzn-container .chzn-results {
+  max-height: 400px;
 }
 
 .chzn-container-single .chzn-default span {

@@ -24,7 +24,7 @@ if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and ($_GET
 	$vars["where_websites_query_t"]="t.websites LIKE '%".$vars["website"]."%'";
 }
 
-
+# Kijken of flexibel zoeken is toegestaan
 if(($vars["website"]=="Z" and $landgebied[0]=="5") or $vars["websitetype"]==7) {
 	$vars["flexibel_toegestaan"]=true;
 	$_GET["sp"]=1;
@@ -36,12 +36,14 @@ if(($vars["website"]=="Z" and $landgebied[0]=="5") or $vars["websitetype"]==7) {
 	}
 }
 
-# Gebleven bij teller [42] (eerst beschikbare: 43)
-
+#
+# Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [42] (eerst beschikbare: 43)
+#
 if($vars["seizoentype"]==1) {
 	#
 	# Verfijnd zoeken definiëren: winter
 	#
+
 
 	# Afstand tot de piste
 	$keuzeopsomming[1]["combinatiesmogelijk"]=0;
@@ -386,17 +388,24 @@ while($db->next_record()) {
 		$landgehad[$db->f("land_id")]=true;
 	}
 	if($db->f("kortenaam1")) {
+
+#echo $db->f("naam").": ".$db->f("kortenaam1")."<br>";
 		$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam1")]=$db->f("land_id")."-".$db->f("skigebied_id")."-1";
 		$vars["skigebied_nl"][$db->f("land_id")."-".$db->f("skigebied_id")."-1"]=$db->f("naam");
 		if($db->f("kortenaam2")) {
+#echo $db->f("naam").": ".$db->f("kortenaam2")."<br>";
 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam2")]=$db->f("land_id")."-".$db->f("skigebied_id")."-2";
 			$vars["skigebied_nl"][$db->f("land_id")."-".$db->f("skigebied_id")."-2"]=$db->f("naam");
 		}
 		if($db->f("kortenaam3")) {
+#echo $db->f("naam").": ".$db->f("kortenaam3")."<br>";
+
 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam3")]=$db->f("land_id")."-".$db->f("skigebied_id")."-3";
 			$vars["skigebied_nl"][$db->f("land_id")."-".$db->f("skigebied_id")."-3"]=$db->f("naam");
 		}
 		if($db->f("kortenaam4")) {
+#echo $db->f("naam").": ".$db->f("kortenaam4")."<br>";
+
 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam4")]=$db->f("land_id")."-".$db->f("skigebied_id")."-4";
 			$vars["skigebied_nl"][$db->f("land_id")."-".$db->f("skigebied_id")."-4"]=$db->f("naam");
 		}
@@ -605,7 +614,7 @@ if($nieuw_zoekformulier) {
 
 		if(!$settings["zonder_plaatsen"]) {
 			# plaatsen uit database halen
-			$db->query("SELECT DISTINCT skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND archief=0 AND wzt='".$vars["seizoentype"]."' ORDER BY skigebied_id, plaats;");
+			$db->query("SELECT DISTINCT skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE ".$vars["where_websites_query"]." AND atonen=1 AND ttonen=1 AND archief=0 AND wzt='".$vars["seizoentype"]."' ORDER BY skigebied_id, plaats;");
 			while($db->next_record()) {
 				$plaatsen[$db->f("skigebied_id")][$db->f("plaats_id")]=$db->f("plaats");
 			}
@@ -1491,8 +1500,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		}
 	}
 
-	# Skigebied
-	if($_GET["fsg"]>0) {
+	# Plaats of Skigebied
+	if(preg_match("/^pl([0-9]+)$/",$_GET["fsg"],$regs)) {
+		if($regs[1]>0) {
+			addwhere("p.plaats_id IN (".intval($regs[1]).")");
+		}
+	} elseif($_GET["fsg"]>0) {
 		$landgebied=explode("-",$_GET["fsg"]);
 		if($skigebied_inquery) {
 			addwhere("p.skigebied_id IN (".addslashes($skigebied_inquery).")");
