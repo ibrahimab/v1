@@ -1060,7 +1060,7 @@ if($nieuw_zoekformulier) {
 			# "alles wissen"-link
 			echo "<div class=\"zoekblok_alleswissen\">";
 
-			echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php".($_GET["aab"] ? "?filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
+			echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php?testsysteem=1".($_GET["aab"] ? "&filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
 
 			echo "</div>"; # afsluiten .zoekblok_alleswissen
 		}
