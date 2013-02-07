@@ -448,6 +448,15 @@ function show_ajaxloader() {
 	return true;
 }
 
+function zoekblok_submit() {
+	if($("input[name=fzt]").val()==$("input[name=fzt]").data("placeholder")) {
+		$("input[name=fzt]").val("");
+	}
+	show_ajaxloader();
+	$("#zoeken").submit();
+//	this.form.submit();
+}
+
 var tonen_of_niet;
 var form_gewijzigd;
 var selectbox_actief=0;
@@ -728,10 +737,9 @@ $(document).ready(function() {
 			chalet_createCookie("zh_kw","1",3650);
 		}
 
-		// functies voor zoekformulier
+		// automatisch submitten zoekformulier
 		$(".onchangesubmit").change(function() {
-			show_ajaxloader();
-			this.form.submit();
+			zoekblok_submit();
 		});
 
 		$(".txtzoeken").change(function() {
@@ -905,20 +913,22 @@ $(document).ready(function() {
 		if($("#zoekblok").length!==0) {
 
 			$("#zoekblok input[name=fzt]").focus(function() {
-				zoekblok_tekst=$("#zoekblok input[name=fzt]").val();
+				if($("#zoekblok input[name=fzt]").val()!=$("#zoekblok input[name=fzt]").data("placeholder")) {
+					zoekblok_tekst=$("#zoekblok input[name=fzt]").val();
+				}
 			});
 
 			// na blur op tekstzoeken: form submit
 			$("#zoekblok input[name=fzt]").blur(function() {
 				if(zoekblok_tekst!=$("#zoekblok input[name=fzt]").val()) {
-					$("#zoeken").submit();
+					zoekblok_submit();
 				}
 			});
 
 			$("#zoekblok input[name=fzt]").keypress(function(e) {
 				var code = (e.keyCode ? e.keyCode : e.which);
 				if(code==13) {
-					$("#zoeken").submit();
+					zoekblok_submit();
 				} else {
 					return true;
 				}
@@ -939,6 +949,68 @@ $(document).ready(function() {
 			$(".zoekblok_aankomstdatum .chzn-search, .zoekblok_aantalpersonen .chzn-search, .zoekblok_aantalslaapkamers .chzn-search, .zoekblok_verblijfsduur .chzn-search").hide();
 
 
+			// Multiple-bestemming verwerken
+			$(".zoekblok_select").change(function() {
+				show_ajaxloader();
+				var nieuwe_waarde="";
+				var al_gehad = [];
+				if($("input[name=fsg]").val().length>0) {
+					nieuwe_waarde+=","+$("input[name=fsg]").val();
+					al_gehad = $("input[name=fsg]").val().split(",");
+				}
+				if($("select[name=fsg_invoer]").val().length>0) {
+					var in_array=$.inArray($("select[name=fsg_invoer]").val(),al_gehad);
+					if(in_array>-1) {
+
+					} else {
+						nieuwe_waarde+=","+$("select[name=fsg_invoer]").val();
+					}
+				}
+				if(nieuwe_waarde) {
+					nieuwe_waarde=nieuwe_waarde.substr(1);
+				}
+				$("input[name=fsg]").val(nieuwe_waarde);
+				zoekblok_submit();
+			});
+
+			// Multiple-bestemming wissen
+			$(".zoekblok_bestemming_actief_item a").click(function(){
+				var nieuwe_waarde="";
+				var te_wissen_waarde=$(this).attr("rel");
+				var actief = $("input[name=fsg]").val().split(",");
+				$.each(actief, function(key, value) {
+					if(te_wissen_waarde!=value) {
+						nieuwe_waarde+=","+value;
+					}
+				});
+
+				if(nieuwe_waarde) {
+					nieuwe_waarde=nieuwe_waarde.substr(1);
+				}
+				$("input[name=fsg]").val(nieuwe_waarde);
+				zoekblok_submit();
+				return false;
+			});
+
+
+			// placeholder fzt italics weergeven
+			$("input[name=fzt]").focus(function(){
+				if($("input[name=fzt]").val()==$("input[name=fzt]").data("placeholder")) {
+					$("input[name=fzt]").val("");
+					$("input[name=fzt]").css("font-style","normal");
+				}
+			});
+			$("input[name=fzt]").blur(function(){
+				if($("input[name=fzt]").val()==="") {
+					$("input[name=fzt]").css("font-style","italic");
+					$("input[name=fzt]").val($("input[name=fzt]").data("placeholder"));
+				}
+			});
+			if($("input[name=fzt]").val()==="") {
+				$("input[name=fzt]").css("font-style","italic");
+				$("input[name=fzt]").val($("input[name=fzt]").data("placeholder"));
+			}
+
 
 			//
 			// Multiple-skidorp verwerken
@@ -954,7 +1026,7 @@ $(document).ready(function() {
 
 			// ajaxloader tonen bij formsubmit
 			$("#zoeken").submit( function() {
-				show_ajaxloader();
+
 			});
 
 			// scroll-y-positie opslaan (vanuit formulier)
@@ -1036,7 +1108,7 @@ $(document).ready(function() {
 					$("input[name=fzt]").val(ui.item.value);
 
 					// form submitten
-					$("#zoeken").submit();
+					zoekblok_submit();
 				},
 				open: function() {
 					$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
@@ -1114,10 +1186,6 @@ $(document).ready(function() {
 					$(this).prev(".zoekresultaat_type_typenaam_aanbieding").css("width",nieuwebreedte);
 				}
 			});
-		}
-
-		if($("#zoekblok").length!==0) {
-
 		}
 
 		// sluiten cookie-bar

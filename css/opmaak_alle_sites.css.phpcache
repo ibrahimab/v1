@@ -668,6 +668,56 @@ td.selecteerbaarbedrag:hover{
 	color: #333333;
 }
 
+.zoekblok_bestemming_actief {
+	margin-left: 190px;
+	margin-top: 4px;
+	width: 410px;
+}
+
+.zoekblok_bestemming_actief_item {
+
+	display: block;
+	float: left;
+
+	-webkit-border-radius: 3px;
+	-moz-border-radius   : 3px;
+	border-radius        : 3px;
+	-moz-background-clip   : padding;
+	-webkit-background-clip: padding-box;
+	background-clip        : padding-box;
+	background-color: #e4e4e4;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f4f4', endColorstr='#eeeeee', GradientType=0 );
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, color-stop(20%, #ffffff), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
+	background-image: -webkit-linear-gradient(top, #ffffff 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+	background-image: -moz-linear-gradient(top, #ffffff 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+	background-image: -o-linear-gradient(top, #ffffff 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+	background-image: linear-gradient(#ffffff 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+	-webkit-box-shadow: 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
+	-moz-box-shadow   : 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
+	box-shadow        : 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
+	color: #333;
+	border: 1px solid #aaaaaa;
+	line-height: 13px;
+	padding: 3px 20px 3px 5px;
+	margin: 3px 0 3px 5px;
+	cursor: default;
+	position: relative;
+}
+
+.zoekblok_bestemming_actief_item a {
+	position: absolute;
+	top: 6px;
+	right: 3px;
+	display: block;
+	background: url("../pic/chosen-sprite.png") no-repeat scroll right top transparent;
+	width: 12px;
+	height: 11px;
+}
+
+.zoekblok_bestemming_actief_item a:hover {
+	background-position: right -11px;
+}
+
 .zoekblok_field {
 	position: relative;
 	margin-left: 35px;
@@ -710,7 +760,7 @@ td.selecteerbaarbedrag:hover{
 
 .option_land {
 	font-weight: bold;
-	background-color: #d5e1f9;
+	color: #d40139;
 }
 
 .option_regio {
@@ -733,8 +783,15 @@ td.selecteerbaarbedrag:hover{
   max-height: 400px;
 }
 
+/*placeholder-tekst*/
 .chzn-container-single .chzn-default span {
 	color: #000000;
+}
+
+/*placeholder meerdere bestemmingen italics weergeven*/
+.zoekblok_field_extrabestemming .chzn-container-single .chzn-default span {
+	font-style: italic;
+	color: #333333;
 }
 
 /*zorgen dat tekst in chosen-field verticaal gecentreerd is*/

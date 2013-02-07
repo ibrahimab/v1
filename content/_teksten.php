@@ -965,7 +965,7 @@ $txt["en_z"]["accommodaties"]["onderstaandeanderskigebied"]="The accommodations 
 $txt["nl"]["zoek-en-boek"]["bestemming"]="Bestemming";
 $txt["en"]["zoek-en-boek"]["bestemming"]="Destination";
 
-$txt["nl"]["zoek-en-boek"]["tekstzoeken"]="op naam, accommodatiecode of andere tekst";
+$txt["nl"]["zoek-en-boek"]["tekstzoeken"]="zoek op naam, accommodatiecode of andere tekst";
 $txt["en"]["zoek-en-boek"]["tekstzoeken"]="by name, accommodation code or other text";
 
 $txt["nl"]["zoek-en-boek"]["geenresultatenmet"]="Geen resultaten met";
@@ -973,6 +973,9 @@ $txt["en"]["zoek-en-boek"]["geenresultatenmet"]="No results match";
 
 $txt["nl"]["zoek-en-boek"]["kiesoftypbestemming"]="kies of typ een bestemming";
 $txt["en"]["zoek-en-boek"]["kiesoftypbestemming"]="select or type a destination";
+
+$txt["nl"]["zoek-en-boek"]["extrabestemming"]="voeg naar wens nog een bestemming toe";
+$txt["en"]["zoek-en-boek"]["extrabestemming"]="add an extra destination";
 
 $txt["nl"]["zoek-en-boek"]["zoekalleenaanbiedingen"]="zoek alleen naar aanbiedingen";
 $txt["en"]["zoek-en-boek"]["zoekalleenaanbiedingen"]="only search for special offers";
@@ -1979,7 +1982,7 @@ $txt["nl"]["toonaccommodatie"]["geentarieven_accvol"]="Helaas is er voor [[v_acc
 $txt["en"]["toonaccommodatie"]["geentarieven_accvol"]="Unfortunately, there is no availability anymore for [[v_accommodatienaam]] for [[v_huidigseizoen]]. Are you looking for an alternative or would you like to make a booking for [[v_volgendseizoen]], please [[l1]]contact us[[/l1]].";
 
 $txt["nl_z"]["toonaccommodatie"]["geentarieven_accvol"]="Helaas zijn er voor deze accommodatie momenteel geen weken meer beschikbaar. Neem [[l1]]contact[[/l1]] met ons op zodat wij voor je na kunnen gaan of er nog een alternatief is.";
-$txt["nl_z"]["toonaccommodatie"]["geentarieven_accvol"]="Unfortunately there are no weeks available for this accommodation anymore. Please [[l1]]contact[[/l1]] us, so we can find a good alternative for you.";
+$txt["en_z"]["toonaccommodatie"]["geentarieven_accvol"]="Unfortunately there are no weeks available for this accommodation anymore. Please [[l1]]contact[[/l1]] us, so we can find a good alternative for you.";
 
 $txt["nl"]["toonaccommodatie"]["optieaanvragen"]="[[h_1]]Optie[[h_2]] aanvragen";
 $txt["en"]["toonaccommodatie"]["optieaanvragen"]="[[h_1]]Option[[h_2]] request";
