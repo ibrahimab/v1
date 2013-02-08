@@ -57,22 +57,28 @@ if($_GET["filled"] and !$vars["zoekform_aanbiedingen"]) {
 #	}
 }
 
-if($_GET["fsg"]>0) {
-	$landgebied=explode("-",$_GET["fsg"]);
-	if($landgebied[1]>0) {
-		$db->query("SELECT naam FROM skigebied WHERE skigebied_id='".addslashes($landgebied[1])."';");
+if($_GET["fsg"] and !preg_match("/,/",$_GET["fsg"])) {
+	if(preg_match("/^pl([0-9]+)$/",$_GET["fsg"],$regs)) {
+		$db->query("SELECT naam FROM plaats WHERE plaats_id='".intval($regs[1])."';");
 		if($db->next_record()) {
-			$zoekresultaten_title.=$db->f("naam");
+			$zoekresultaten_title=$db->f("naam");
 		}
-		if($vars["websitetype"]==7) {
-			# topfoto bepalen
-			$file="pic/cms/skigebieden_topfoto/".$landgebied[1].".jpg";
+	} else {
+		$landgebied=explode("-",$_GET["fsg"]);
+		if($landgebied[1]>0) {
+			$db->query("SELECT naam FROM skigebied WHERE skigebied_id='".addslashes($landgebied[1])."';");
+			if($db->next_record()) {
+				$zoekresultaten_title.=$db->f("naam");
+			}
+			if($vars["websitetype"]==7) {
+				# topfoto Italissima bepalen
+				$file="pic/cms/skigebieden_topfoto/".$landgebied[1].".jpg";
 
-			if(file_exists($file)) {
-				$vars["italissima_topfoto"]=$file;
+				if(file_exists($file)) {
+					$vars["italissima_topfoto"]=$file;
+				}
 			}
 		}
-
 	}
 
 	$db->query("SELECT naam".$vars["ttv"]." AS naam FROM land WHERE land_id='".addslashes($landgebied[0])."';");
@@ -103,9 +109,9 @@ if($vars["zoekform_aanbiedingen"]) {
 	}
 }
 
-if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
+#if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$laat_titel_weg=true;
-}
+#}
 
 include "content/opmaak.php";
 

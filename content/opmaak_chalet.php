@@ -101,12 +101,8 @@ if($vars["googlemaps"]) {
 
 # jQuery Chosen javascript
 if($vars["jquery_chosen"]) {
-#	if($vars["lokale_testserver"]) {
-		echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."\"></script>\n";
-		echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."\"></script>\n";
-#	} else {
-#		echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.min.js\"></script>\n";
-#	}
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."\"></script>\n";
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."\"></script>\n";
 }
 
 # Javascript-functions

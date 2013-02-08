@@ -804,6 +804,16 @@ form {
 
 #zoekblok {
 	border: 2px solid #660066;
+	background-color: #ffffff;
+}
+
+.option_land {
+	background-color: #003366;
+	color: #ffffff;
+}
+
+.option_regio {
+	color: #660066;
 }
 
 #geenresultaten {

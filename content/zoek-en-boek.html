@@ -10,8 +10,13 @@
 # Zoekformulier
 #
 
-if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$nieuw_zoekformulier=true;
+}
+
+if($_GET["fzt"]==txt("tekstzoeken","zoek-en-boek")) {
+	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
+	unset($_GET["fzt"]);
 }
 
 
@@ -446,14 +451,16 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 		echo "<p>".html("inleidingaanbiedingen","zoek-en-boek",array("l1"=>"aanbiedingen","l2"=>"top10","v_websitenaam"=>$vars["websitenaam"]))."</p>";
 	}
 } else {
-	if($vars["websitetype"]==7) echo "<div style=\"height:10px;\"></div>";
-	if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
-		echo "<a name=\"form\"></a>";
-	} else {
-		echo html("inleiding","accommodaties",array("l1"=>"aanbiedingen","l2"=>"top10","v_websitenaam"=>$vars["websitenaam"]));
-		echo "<br />";
-		echo "<a name=\"form\"></a>";
-		echo "<br />";
+	if(!$nieuw_zoekformulier) {
+		if($vars["websitetype"]==7) echo "<div style=\"height:10px;\"></div>";
+		if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
+			echo "<a name=\"form\"></a>";
+		} else {
+			echo html("inleiding","accommodaties",array("l1"=>"aanbiedingen","l2"=>"top10","v_websitenaam"=>$vars["websitenaam"]));
+			echo "<br />";
+			echo "<a name=\"form\"></a>";
+			echo "<br />";
+		}
 	}
 }
 
@@ -703,7 +710,7 @@ if($nieuw_zoekformulier) {
 				} else {
 					echo wt_he($bestemmingen_actief[$value]);
 				}
-				echo "<a rel=\"".wt_he($value)."\" href=\"#\"></a>";
+				echo "<a href=\"#\" rel=\"".wt_he($value)."\" title=\"".html("wisdezebestemming","zoek-en-boek")."\"></a>";
 				echo "</div>";
 			}
 			echo "<div class=\"clear\"></div>";
@@ -1558,8 +1565,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 		}
 		if($multiple_or) {
 			addwhere("(".substr($multiple_or,4).")");
-
-			echo $multiple_or;
 		}
 	} else {
 		if(preg_match("/^pl([0-9]+)$/",$_GET["fsg"],$regs)) {

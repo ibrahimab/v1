@@ -671,7 +671,7 @@ td.selecteerbaarbedrag:hover{
 .zoekblok_bestemming_actief {
 	margin-left: 190px;
 	margin-top: 4px;
-	width: 410px;
+	width: 470px;
 }
 
 .zoekblok_bestemming_actief_item {
@@ -695,13 +695,14 @@ td.selecteerbaarbedrag:hover{
 	-webkit-box-shadow: 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
 	-moz-box-shadow   : 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
 	box-shadow        : 0 0 2px #ffffff inset, 0 1px 0 rgba(0,0,0,0.05);
-	color: #333;
 	border: 1px solid #aaaaaa;
 	line-height: 13px;
 	padding: 3px 20px 3px 5px;
 	margin: 3px 0 3px 5px;
 	cursor: default;
 	position: relative;
+	color: #000000;
+
 }
 
 .zoekblok_bestemming_actief_item a {
@@ -761,6 +762,7 @@ td.selecteerbaarbedrag:hover{
 .option_land {
 	font-weight: bold;
 	color: #d40139;
+	background-color: #d5e1f9;
 }
 
 .option_regio {
@@ -791,12 +793,13 @@ td.selecteerbaarbedrag:hover{
 /*placeholder meerdere bestemmingen italics weergeven*/
 .zoekblok_field_extrabestemming .chzn-container-single .chzn-default span {
 	font-style: italic;
-	color: #333333;
+	color: #444444;
 }
 
 /*zorgen dat tekst in chosen-field verticaal gecentreerd is*/
 .chzn-container-single .chzn-single span {
 	margin-top: -2px;
+	color: #000000;
 }
 
 #zoekblok input[name='fzt'] {
@@ -824,8 +827,13 @@ td.selecteerbaarbedrag:hover{
 	height: 23px;
 	line-height: 24px;
 	padding: 0 0 0 8px;
-	color: #444444;
 	text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.zoekblok_tekst_placeholder {
+	color: #444444;
+	font-style: italic;
 }
 
 .zoekblok_calendar {
@@ -1306,23 +1314,21 @@ td.selecteerbaarbedrag:hover{
 }
 
 .zoekresultaat_andere_site_superski {
-	padding-left: 22px;
-	margin-right: -22px;
+	margin-left: -18px;
+	padding-left: 21px;
 	background-image: url('../pic/icon_alle_sites_superski.gif');
 	background-repeat: no-repeat;
 	background-position: 2px 3px;
 	color: #e6007e;
-	width: 555px;
 }
 
 .zoekresultaat_andere_site_chalet {
-	padding-left: 22px;
-	margin-right: -22px;
+	margin-left: -18px;
+	padding-left: 21px;
 	background-image: url('../pic/icon_alle_sites_chalet.gif');
 	background-repeat: no-repeat;
 	background-position: 2px 3px;
 	color: #d40139;
-	width: 555px;
 }
 
 .zoekresultaat_andere_site_superski_alle_resultaten .zoekresultaat_top {

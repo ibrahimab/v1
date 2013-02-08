@@ -997,17 +997,17 @@ $(document).ready(function() {
 			$("input[name=fzt]").focus(function(){
 				if($("input[name=fzt]").val()==$("input[name=fzt]").data("placeholder")) {
 					$("input[name=fzt]").val("");
-					$("input[name=fzt]").css("font-style","normal");
+					$("input[name=fzt]").removeClass("zoekblok_tekst_placeholder");
 				}
 			});
 			$("input[name=fzt]").blur(function(){
 				if($("input[name=fzt]").val()==="") {
-					$("input[name=fzt]").css("font-style","italic");
+				$("input[name=fzt]").addClass("zoekblok_tekst_placeholder");
 					$("input[name=fzt]").val($("input[name=fzt]").data("placeholder"));
 				}
 			});
-			if($("input[name=fzt]").val()==="") {
-				$("input[name=fzt]").css("font-style","italic");
+			if($("input[name=fzt]").val()===""||$("input[name=fzt]").val()==$("input[name=fzt]").data("placeholder")) {
+				$("input[name=fzt]").addClass("zoekblok_tekst_placeholder");
 				$("input[name=fzt]").val($("input[name=fzt]").data("placeholder"));
 			}
 

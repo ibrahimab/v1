@@ -966,7 +966,10 @@ $txt["nl"]["zoek-en-boek"]["bestemming"]="Bestemming";
 $txt["en"]["zoek-en-boek"]["bestemming"]="Destination";
 
 $txt["nl"]["zoek-en-boek"]["tekstzoeken"]="zoek op naam, accommodatiecode of andere tekst";
-$txt["en"]["zoek-en-boek"]["tekstzoeken"]="by name, accommodation code or other text";
+$txt["en"]["zoek-en-boek"]["tekstzoeken"]="search by name, accommodation code or other text";
+
+$txt["nl"]["zoek-en-boek"]["wisdezebestemming"]="verwijder deze bestemming";
+$txt["en"]["zoek-en-boek"]["wisdezebestemming"]="delete this destination";
 
 $txt["nl"]["zoek-en-boek"]["geenresultatenmet"]="Geen resultaten met";
 $txt["en"]["zoek-en-boek"]["geenresultatenmet"]="No results match";
