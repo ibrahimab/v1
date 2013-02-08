@@ -69,7 +69,13 @@ if($_GET["justonevar"]) {
 			echo "accommodatiepagina_flexibel(window.opener.document);\n";
 		}
 	?>
-		window.opener.document.zoeken.submit();
+
+		var bestaat_zoekblok = window.opener.document.getElementById("zoekblok");
+		if(bestaat_zoekblok) {
+			window.opener.zoekblok_submit();
+		} else {
+			window.opener.document.zoeken.submit();
+		}
 		window.close();
 	}
 </SCRIPT>

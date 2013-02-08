@@ -143,13 +143,23 @@ if ( $_GET["t"]==1 ) {
 	$search->settings["only_whole_words"]=false;
 	$search->wordsplit( $_GET["q"] );
 
-	$andquery1=$search->regexpquery( array( "naam" ) );
+	if($vars["websitetype"]==6) {
+		# Vallandry: ook typenaam doorzoeken
+		$andquery1=$search->regexpquery( array( "naam", "tnaam" ) );
+	} else {
+		$andquery1=$search->regexpquery( array( "naam") );
+	}
 #	$andquery2=$search->regexpquery( array( "plaats", "plaats_altnaam" ) );
 #	$andquery3=$search->regexpquery( array( "skigebied", "skigebied_altnaam" ) );
 	$andquery4=$search->regexpquery( array( "woord" ) );
 
 	if ( $andquery1 ) {
-		$query[1]="SELECT naam AS result FROM view_accommodatie WHERE (".$andquery1.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
+		if($vars["websitetype"]==6) {
+			# Vallandry: ook typenaam doorzoeken
+			$query[1]="SELECT naam AS result, tnaam AS result2 FROM view_accommodatie WHERE (".$andquery1.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
+		} else {
+			$query[1]="SELECT naam AS result FROM view_accommodatie WHERE (".$andquery1.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
+		}
 #		$query[2]="SELECT plaats AS result FROM view_accommodatie WHERE (".$andquery2.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
 #		$query[3]="SELECT skigebied AS result FROM view_accommodatie WHERE (".$andquery3.") AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%';";
 		$query[4]="SELECT woord AS result FROM woord_autocomplete WHERE wzt='".$vars["seizoentype"]."' AND taal='".$vars["taal"]."' AND (".$andquery4.");";
@@ -157,7 +167,11 @@ if ( $_GET["t"]==1 ) {
 		while ( list( $key, $value )=each( $query ) ) {
 			$db->query( $value );
 			while ( $db->next_record() ) {
-				if ( $db->f( "result" ) ) $results[$db->f( "result" )]=true;
+				if($db->f("result2")) {
+					$results[$db->f( "result" )." ".$db->f( "result2" )]=true;
+				} elseif ( $db->f( "result" ) ) {
+					$results[$db->f( "result" )]=true;
+				}
 			}
 		}
 	}

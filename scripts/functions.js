@@ -1,6 +1,6 @@
 
 // Hides the tabs + zoekblok during initialization
-document.write('<style type="text/css">	#tabs { visibility: hidden; } #zoekblok { visibility: hidden; } </style>');
+document.write('<style type="text/css">	#tabs { visibility: hidden; } #body_zoek-en-boek #zoekblok { visibility: hidden; } </style>');
 
 
 // querystring aan URL toevoegen
@@ -454,7 +454,6 @@ function zoekblok_submit() {
 	}
 	show_ajaxloader();
 	$("#zoeken").submit();
-//	this.form.submit();
 }
 
 var tonen_of_niet;
@@ -994,21 +993,21 @@ $(document).ready(function() {
 
 
 			// placeholder fzt italics weergeven
-			$("input[name=fzt]").focus(function(){
-				if($("input[name=fzt]").val()==$("input[name=fzt]").data("placeholder")) {
-					$("input[name=fzt]").val("");
-					$("input[name=fzt]").removeClass("zoekblok_tekst_placeholder");
+			$("#zoekblok input[name=fzt]").focus(function(){
+				if($("#zoekblok input[name=fzt]").val()==$("#zoekblok input[name=fzt]").data("placeholder")) {
+					$("#zoekblok input[name=fzt]").val("");
+					$("#zoekblok input[name=fzt]").removeClass("zoekblok_tekst_placeholder");
 				}
 			});
-			$("input[name=fzt]").blur(function(){
-				if($("input[name=fzt]").val()==="") {
-				$("input[name=fzt]").addClass("zoekblok_tekst_placeholder");
-					$("input[name=fzt]").val($("input[name=fzt]").data("placeholder"));
+			$("#zoekblok input[name=fzt]").blur(function(){
+				if($("#zoekblok input[name=fzt]").val()==="") {
+				$("#zoekblok input[name=fzt]").addClass("zoekblok_tekst_placeholder");
+					$("#zoekblok input[name=fzt]").val($("#zoekblok input[name=fzt]").data("placeholder"));
 				}
 			});
-			if($("input[name=fzt]").val()===""||$("input[name=fzt]").val()==$("input[name=fzt]").data("placeholder")) {
-				$("input[name=fzt]").addClass("zoekblok_tekst_placeholder");
-				$("input[name=fzt]").val($("input[name=fzt]").data("placeholder"));
+			if($("#zoekblok input[name=fzt]").val()===""||$("#zoekblok input[name=fzt]").val()==$("#zoekblok input[name=fzt]").data("placeholder")) {
+				$("#zoekblok input[name=fzt]").addClass("zoekblok_tekst_placeholder");
+				$("#zoekblok input[name=fzt]").val($("#zoekblok input[name=fzt]").data("placeholder"));
 			}
 
 
@@ -1026,7 +1025,10 @@ $(document).ready(function() {
 
 			// ajaxloader tonen bij formsubmit
 			$("#zoeken").submit( function() {
-
+				if($("input[name=fzt]").val()==$("input[name=fzt]").data("placeholder")) {
+					$("input[name=fzt]").val("");
+				}
+				show_ajaxloader();
 			});
 
 			// scroll-y-positie opslaan (vanuit formulier)

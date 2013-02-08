@@ -3,6 +3,10 @@
 	margin-left: 0;
 }
 
+#ajaxloader_page {
+	left: 500px;
+}
+
 #interneinfo_rechts {
 	position: absolute;
 	top: 0;

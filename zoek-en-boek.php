@@ -24,6 +24,8 @@ if($vars["websitetype"]<>6) {
 
 # jQuery UI theme laden (t.b.v. autocomplete)
 $vars["page_with_jqueryui"]=true;
+
+# jQuery Chosen laden
 $vars["jquery_chosen"]=true;
 
 if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
@@ -109,9 +111,9 @@ if($vars["zoekform_aanbiedingen"]) {
 	}
 }
 
-#if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
+if($vars["websitetype"]<>6) {
 	$laat_titel_weg=true;
-#}
+}
 
 include "content/opmaak.php";
 

@@ -647,7 +647,7 @@ td.selecteerbaarbedrag:hover{
 
 .zoekblok_item_geen_titel {
 	margin-left: 196px;
-	width: 410px;
+	width: 454px;
 }
 
 .zoekblok_titel {
@@ -760,7 +760,8 @@ td.selecteerbaarbedrag:hover{
 }
 
 .option_land {
-	font-weight: bold;
+	font-weight: normal;
+	font-size: 1.1em;
 	color: #d40139;
 	background-color: #d5e1f9;
 }
@@ -858,8 +859,6 @@ td.selecteerbaarbedrag:hover{
 	border: 1px solid #5f227b;
 	background-color: #fb6703;
 	color: #ffffff;
-	margin-left: 195px;
-	margin-right: 60px;
 }
 
 .zoekblok_item input[type=submit] {

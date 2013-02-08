@@ -1,11 +1,5 @@
 <?php
 
-#echo $_GET["fzt"];
-#echo wt_he($_GET["fzt"]);
-#exit;
-
-#$vars["verfijnen_aanbieden"]=true;
-
 #
 # Zoekformulier
 #
@@ -30,7 +24,8 @@ if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and ($_GET
 }
 
 # Kijken of flexibel zoeken is toegestaan
-if(($vars["website"]=="Z" and $landgebied[0]=="5") or $vars["websitetype"]==7) {
+#if(($vars["website"]=="Z" and $landgebied[0]=="5") or $vars["websitetype"]==7) {
+if($vars["websitetype"]==7) {
 	$vars["flexibel_toegestaan"]=true;
 	$_GET["sp"]=1;
 
@@ -464,6 +459,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 	}
 }
 
+# Verwerking m.b.t. tonen zoekformulier op andere pagina dan zoek-en-boek.php
 if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	if($_GET["filled"]) {
 		echo "<div>&nbsp;</div>";
@@ -489,7 +485,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 		echo "<div style=\"clear:both;\"></div>";
 
 		echo "</div>";
-		if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
+		if($vars["themainfo"]["tarievenbekend_seizoen_id"] or $_GET["filled"]) {
 			echo "<div class=\"showlinkdiv\">";
 		} else {
 			echo "<div class=\"showlinkdiv\" style=\"display:none;\">";
@@ -810,7 +806,7 @@ if($nieuw_zoekformulier) {
 			# Flexibel
 			#
 			# Kalender
-			echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=286,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
+			echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=286,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" class=\"zoekblok_aankomstdatum_calendar\">";
 
 			# dag
 			echo "<select name=\"fadf_d\" class=\"\">";
@@ -891,9 +887,6 @@ if($nieuw_zoekformulier) {
 		echo "<div class=\"zoekblok_field\">";
 
 		unset($vars["verblijfsduur"]);
-		if(!$vars["flexibel_toegestaan"]) {
-			$vars["verblijfsduur"]["0"]=$vars["geenvoorkeur"];
-		}
 		$vars["verblijfsduur"]["1"]="1 ".txt("week","vars");
 		$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
 		$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
@@ -904,7 +897,11 @@ if($nieuw_zoekformulier) {
 				$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
 			}
 		}
-		echo "<select name=\"fdu\" class=\"zoekblok_select onchangesubmit\">";
+		echo "<select name=\"fdu\" class=\"zoekblok_select onchangesubmit\" data-placeholder=\"- ".html("geenvoorkeur","vars")." -\">";
+		// if(!$vars["flexibel_toegestaan"]) {
+		// 	echo "<option value=\"0\"".(!$_GET["fdu"] ? " selected" : "")."></option>";
+		// }
+
 		reset($vars["verblijfsduur"]);
 		while(list($key,$value)=each($vars["verblijfsduur"])) {
 			if(preg_match("/n/",$key)) {
@@ -1047,7 +1044,7 @@ if($nieuw_zoekformulier) {
 			# keuze "zoek alleen naar aanbiedingen" tonen
 			echo "<div class=\"zoekblok_item zoekblok_item_geen_titel\">";
 
-			echo "<div class=\"zoektabel_zoek_alleen_aanbiedingen\"><input type=\"checkbox\" name=\"faab\" value=\"1\" id=\"faab\"".(!$_GET["filled"]||$_GET["faab"] ? " checked" : "")." class=\"onchangesubmit\"><label for=\"faab\">&nbsp;".html("zoekalleenaanbiedingen","zoek-en-boek")."</label></div>";
+			echo "<div class=\"zoekblok_zoek_alleen_aanbiedingen\"><input type=\"checkbox\" name=\"faab\" value=\"1\" id=\"faab\"".(!$_GET["filled"]||$_GET["faab"] ? " checked" : "")." class=\"onchangesubmit\"><label for=\"faab\">&nbsp;".html("zoekalleenaanbiedingen","zoek-en-boek")."</label></div>";
 
 			echo "<div class=\"clear\"></div>";
 			echo "</div>"; # afsluiten .zoekblok_item
@@ -1063,14 +1060,12 @@ if($nieuw_zoekformulier) {
 		global $vars;
 		echo "<div class=\"zoekblok_item zoekblok_item_geen_titel\">";
 		echo "<input type=\"submit\" value=\" ".strtoupper(html("zoeken","accommodaties"))." \" id=\"submit1zoeken\" class=\"submitbutton\">";
-		if($vars["verfijnen_aanbieden"]) {
-			# "alles wissen"-link
-			echo "<div class=\"zoekblok_alleswissen\">";
 
-			echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php?testsysteem=1".($_GET["aab"] ? "&filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
+		# "alles wissen"-link
+		echo "<div class=\"zoekblok_alleswissen\">";
+		echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php?testsysteem=1".($_GET["aab"] ? "&filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
+		echo "</div>"; # afsluiten .zoekblok_alleswissen
 
-			echo "</div>"; # afsluiten .zoekblok_alleswissen
-		}
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
@@ -1514,7 +1509,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 #	echo "<div style=\"margin-top:30px;margin-bottom:20px;width:672px;border:2px solid #5f227b;padding:7px;background-color:#fb6703;\" class=\"whitehover boxshadow\">Onze huizen worden standaard aangeboden van zaterdag tot zaterdag. Ook een afwijkende verblijfsduur in Itali&euml; is <a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fsg=5-0\">online te boeken</a>. Voor de overige landen is dit op aanvraag. Neem hiervoor <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op.</div>";
 #}
 
-if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
+if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 and $id=="zoek-en-boek") or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "<p><a name=\"res\"></a>";
 	if(!$vars["zoekform_thema"] and !$vars["zoekform_weekendski"] and !$vars["zoekform_vallandrychalets"] and !$vars["zoekform_italissima_nieuwe_tarieven"]) {
 		if($_GET["abid"]) {
@@ -2017,9 +2012,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or $vars["zoekform_thema"] or
 			while($db->next_record()) {
 				$vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
 			}
-		} elseif($vars["seizoentype"]==2) {
+		} elseif($vars["seizoentype"]==2 and !$_GET["fdu"] or $_GET["fdu"]==1) {
 			#
-			# Vanaf-prijzen zomer uit database halen
+			# Vanaf-prijzen zomer uit database halen (alleen bij geen verblijfsduur, of verblijfsduur van 1 week)
 			#
 
 			$vanaf_prijzen_tonen=true;

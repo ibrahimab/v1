@@ -10,6 +10,12 @@ if($vars["website"]=="W" or $vars["websitetype"]==7) {
 	exit;
 }
 
+# jQuery UI theme laden (t.b.v. autocomplete)
+$vars["page_with_jqueryui"]=true;
+
+# jQuery Chosen laden
+$vars["jquery_chosen"]=true;
+
 #$vars["verberg_zoekenboeklinks"]=true;
 
 if($vars["seizoentype"]==1) {

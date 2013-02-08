@@ -601,6 +601,21 @@ form {
 	border: 2px solid #5f227b;
 }
 
+#zoekblok {
+	border: 2px solid #5f227b;
+	background-color: #ffffff;
+	width: 676px;
+}
+
+.option_land {
+	background-color: #5f227b;
+	color: #ffffff;
+}
+
+.option_regio {
+	color: #5f227b;
+}
+
 .zoekresultaten_paginas a {
 	background-color: #cfbcd8;
 	border: 1px solid #5f227b;

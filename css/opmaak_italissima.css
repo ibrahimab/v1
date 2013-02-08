@@ -747,6 +747,26 @@ form {
 
 #zoekblok {
 	border: 2px solid #ff9900;
+	background-color: #ffffff;
+	width: 676px;
+}
+
+.zoekblok_aankomstdatum_calendar {
+	cursor: pointer;
+	margin-bottom: 5px;
+	margin-right: 10px;
+}
+
+.zoekblok_aankomstdatum select[name=fadf_d] {
+	width: 4em;
+}
+
+.zoekblok_aankomstdatum select[name=fadf_m] {
+	width: 10em;
+}
+
+.zoekblok_aankomstdatum select[name=fadf_y] {
+	width: 7em;
 }
 
 #geenresultaten {

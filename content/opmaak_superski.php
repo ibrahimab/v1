@@ -581,6 +581,9 @@ if($vars["zoekenboek_overlay_doorschuiven"]) {
 	echo "<style type=\"text/css\"><!--\n#zoekenboek_overlay {\ntop:".(264+$vars["zoekenboek_overlay_doorschuiven"])."px;\n}\n--></style>\n";
 }
 
+# Ajaxloader in het midden van de pagina
+echo "<div id=\"ajaxloader_page\"></div>";
+
 # Balk met cookie-melding cookiebalk
 if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {
 	echo "<p>&nbsp;</p>";

@@ -375,6 +375,11 @@ form {
 	border: 2px solid #6699cc;
 }
 
+#zoekblok {
+	border: 1px solid #666600;
+	background-color: #b2cce5;
+}
+
 .zoekresultaten_paginas a {
 	background-color: #b2cce5;
 	border: 1px solid #6699cc;
