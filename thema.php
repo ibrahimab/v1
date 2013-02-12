@@ -16,18 +16,21 @@ $vars["page_with_jqueryui"]=true;
 # jQuery Chosen laden
 $vars["jquery_chosen"]=true;
 
-#$vars["verberg_zoekenboeklinks"]=true;
+# Zoeken op accommodatiecode: redirect naar die accommodatie
+if(ereg("^[A-Za-z]([0-9]+)$",trim($_GET["fzt"]),$regs)) {
+	$db->query("SELECT type_id, begincode FROM view_accommodatie WHERE type_id='".addslashes($regs[1])."' AND websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND wzt='".$vars["seizoentype"]."'");
+	if($db->next_record()) {
+		header("Location: ".$path."accommodatie/".$db->f("begincode").$db->f("type_id")."/");
+		exit;
+	}
+}
 
 if($vars["seizoentype"]==1) {
 	# winter
 
 } elseif($vars["website"]=="Z") {
 	# zomer
-#	if($_GET["filled"]) {
-#		wt_mail("chaletmailbackup+systemlog@gmail.com","Themapagina - zoekformulier",$_SERVER["REQUEST_URI"]."\n\n".$_SERVER["REMOTE_ADDR"]);
-#	} else {
-#		wt_mail("chaletmailbackup+systemlog@gmail.com","Themapagina",$_SERVER["REQUEST_URI"]."\n\n".$_SERVER["REMOTE_ADDR"]);
-#	}
+
 }
 
 if(substr($_SERVER["REQUEST_URI"],-1)<>"/" and !eregi("\?",$_SERVER["REQUEST_URI"]) and !eregi("#",$_SERVER["REQUEST_URI"])) {
