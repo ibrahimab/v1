@@ -616,6 +616,14 @@ form {
 	color: #5f227b;
 }
 
+.chzn-container-active .chzn-single {
+	border-color: #636f07;
+}
+
+#zoekblok input[name='fzt']:focus {
+	border-color: #636f07;
+}
+
 .zoekresultaten_paginas a {
 	background-color: #cfbcd8;
 	border: 1px solid #5f227b;

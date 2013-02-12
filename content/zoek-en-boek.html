@@ -902,9 +902,7 @@ if($nieuw_zoekformulier) {
 			}
 		}
 		echo "<select name=\"fdu\" class=\"zoekblok_select onchangesubmit\" data-placeholder=\"- ".html("geenvoorkeur","vars")." -\">";
-		// if(!$vars["flexibel_toegestaan"]) {
-		// 	echo "<option value=\"0\"".(!$_GET["fdu"] ? " selected" : "")."></option>";
-		// }
+		echo "<option value=\"0\"".(!$_GET["fdu"] ? " selected" : "")."></option>";
 
 		reset($vars["verblijfsduur"]);
 		while(list($key,$value)=each($vars["verblijfsduur"])) {

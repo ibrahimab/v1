@@ -761,6 +761,14 @@ form {
 	color: #000000;
 }
 
+.chzn-container-active .chzn-single {
+	border-color: #ff9900;
+}
+
+#zoekblok input[name='fzt']:focus {
+	border-color: #ff9900;
+}
+
 .zoekblok_aankomstdatum_calendar {
 	cursor: pointer;
 	margin-bottom: 5px;

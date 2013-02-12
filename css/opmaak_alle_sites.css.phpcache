@@ -760,10 +760,9 @@ td.selecteerbaarbedrag:hover{
 }
 
 .option_land {
-	font-weight: normal;
-	font-size: 1.1em;
-	color: #d40139;
-	background-color: #d5e1f9;
+	font-weight: bold;
+	color: #ffffff;
+	background-color: #003366;
 }
 
 .option_regio {
@@ -780,6 +779,16 @@ td.selecteerbaarbedrag:hover{
 .chzn-container .chzn-results li {
   line-height: 10px;
 }
+
+/*geselecteerde keuze*/
+.chzn-container .chzn-results .highlightedNU_EVEN_NIET {
+  filter: "";
+  background-image: none;
+
+  background-color: #003366;
+  color: #ffffff;
+}
+
 
 /*hoogte complete pulldown bestemming*/
 .zoekblok_bestemming .chzn-container .chzn-results {
@@ -830,6 +839,17 @@ td.selecteerbaarbedrag:hover{
 	padding: 0 0 0 8px;
 	text-decoration: none;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.chzn-container-active .chzn-single {
+	border-color: #003366;
+}
+
+#zoekblok input[name='fzt']:focus {
+  -webkit-box-shadow: 0 0 5px rgba(0,0,0,.3);
+  -moz-box-shadow   : 0 0 5px rgba(0,0,0,.3);
+  box-shadow        : 0 0 5px rgba(0,0,0,.3);
+  border: 1px solid #003366;
 }
 
 .zoekblok_tekst_placeholder {
