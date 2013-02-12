@@ -641,6 +641,10 @@ if($nieuw_zoekformulier) {
 		unset($vars["skigebied"]["00AAAAA___".$vars["geenvoorkeur"]]);
 		while(list($key,$value)=each($vars["skigebied"])) {
 
+			if($vars["websitetype"]==7 and $value=="5-0") {
+				# geen land bij Italissima vermelden (want: alles ligt in Italië)
+				continue;
+			}
 
 			// if(ereg("^([0-9]+)-0$",$value,$regs) and $vars["websitetype"]<>7) {
 			// 	if($optgroup_open) echo "</optgroup>\n";

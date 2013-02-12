@@ -751,6 +751,16 @@ form {
 	width: 676px;
 }
 
+.option_land {
+	background-color: #ff9900;
+	color: #661700;
+}
+
+.option_regio {
+	font-weight: normal;
+	color: #000000;
+}
+
 .zoekblok_aankomstdatum_calendar {
 	cursor: pointer;
 	margin-bottom: 5px;
