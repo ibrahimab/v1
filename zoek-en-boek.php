@@ -28,10 +28,6 @@ $vars["page_with_jqueryui"]=true;
 # jQuery Chosen laden
 $vars["jquery_chosen"]=true;
 
-if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
-	$_GET["fzt"]="";
-}
-
 if(ereg("^[A-Za-z]([0-9]+)$",trim($_GET["fzt"]),$regs)) {
 	$db->query("SELECT t.type_id, l.begincode FROM type t, accommodatie a, plaats p, land l WHERE t.type_id='".addslashes($regs[1])."' AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id;");
 	if($db->next_record()) {

@@ -761,7 +761,7 @@ form {
 	color: #000000;
 }
 
-.chzn-container-active .chzn-single {
+.chzn-container-active .chzn-single, .chzn-container-single .chzn-drop {
 	border-color: #ff9900;
 }
 

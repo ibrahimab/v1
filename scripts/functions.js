@@ -452,10 +452,16 @@ function recordOutboundPopup(category, action) {
 }
 
 function show_ajaxloader() {
-	// TIJDELIJK: deze "if" is alleen nodig zolang het zoekformulier in de testfase is
+	// ajaxloader tonen (bij zoekformulier)
 	if($("#zoekblok").length!==0) {
 		$("#ajaxloader_page").show();
+
+		// na 2 seconden weer verbergen
+		setTimeout(function() {
+			$("#ajaxloader_page").hide();
+		},2000);
 	}
+
 	return true;
 }
 

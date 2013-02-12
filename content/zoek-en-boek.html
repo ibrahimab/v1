@@ -10,9 +10,16 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 $nieuw_zoekformulier=true;
 
+# tekstzoeken: zoekopdracht "opschonen"
 if($_GET["fzt"]==txt("tekstzoeken","zoek-en-boek")) {
 	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
 	unset($_GET["fzt"]);
+}
+if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
+	$_GET["fzt"]="";
+}
+if(strlen($_GET["fzt"])>0) {
+	$_GET["fzt"]=trim($_GET["fzt"]);
 }
 
 
@@ -422,6 +429,7 @@ while($db->next_record()) {
 	}
 }
 
+# Sorteren skigebieden
 setlocale(LC_COLLATE,"nl_NL.ISO8859-1");
 ksort($vars["skigebied"],SORT_LOCALE_STRING);
 setlocale(LC_COLLATE,"C");
@@ -463,7 +471,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 
 # Verwerking m.b.t. tonen zoekformulier op andere pagina dan zoek-en-boek.php
 if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
-	if($_GET["filled"]) {
+	if($_GET["filled"] or strlen($_GET["scrolly"])>0) {
 		echo "<div>&nbsp;</div>";
 		echo "<div>";
 	} else {
@@ -610,13 +618,20 @@ if($nieuw_zoekformulier) {
 
 		$db=new DB_sql;
 
-		if(!$settings["zonder_plaatsen"]) {
-			# plaatsen uit database halen
-			$db->query("SELECT DISTINCT skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE ".$vars["where_websites_query"]." AND atonen=1 AND ttonen=1 AND archief=0 AND wzt='".$vars["seizoentype"]."' ORDER BY skigebied_id, plaats;");
-			while($db->next_record()) {
+		# plaatsen uit database halen
+		if($settings["zonder_plaatsen"]) {
+			$selectquery="land_id, skigebied_id";
+		} else {
+			$selectquery="land_id, skigebied_id, plaats_id, plaats";
+		}
+		$db->query("SELECT DISTINCT ".$selectquery." FROM view_accommodatie WHERE ".$vars["where_websites_query"]." AND weekendski='".intval($vars["zoekform_weekendski"])."' AND atonen=1 AND ttonen=1 AND archief=0 AND wzt='".$vars["seizoentype"]."' ORDER BY skigebied_id, plaats;");
+		while($db->next_record()) {
+			if(!$settings["zonder_plaatsen"]) {
 				$plaatsen[$db->f("skigebied_id")][$db->f("plaats_id")]=$db->f("plaats");
 				$bestemmingen_actief["pl".$db->f("plaats_id")]=$db->f("plaats");
 			}
+			$skigebied_bevat_accommodaties[$db->f("skigebied_id")]=true;
+			$land_bevat_accommodaties[$db->f("land_id")]=true;
 		}
 
 		echo "<div class=\"zoekblok_item zoekblok_bestemming\">";
@@ -656,8 +671,18 @@ if($nieuw_zoekformulier) {
 
 			if(preg_match("/^([0-9]+)-([0-9]+)/",$value,$regs) and $regs[2]=="0") {
 				$optionclass="option_land";
+
+				// land zonder accommodaties: niet tonen
+				if($regs[1] and !$land_bevat_accommodaties[$regs[1]]) {
+					continue;
+				}
 			} else {
 				$optionclass="option_regio";
+
+				// skigebied zonder accommodaties: niet tonen
+				if($regs[2] and !$skigebied_bevat_accommodaties[$regs[2]]) {
+					continue;
+				}
 			}
 
 
@@ -706,14 +731,16 @@ if($nieuw_zoekformulier) {
 			echo "<div class=\"zoekblok_bestemming_actief\">";
 			$doorloop_array_fsg=preg_split("/,/",$_GET["fsg"]);
 			while(list($key,$value)=each($doorloop_array_fsg)) {
-				echo "<div class=\"zoekblok_bestemming_actief_item\">";
-				if(preg_match("/^pl/",$value)) {
-					echo wt_he($bestemmingen_actief[$value]);
-				} else {
-					echo wt_he($bestemmingen_actief[$value]);
+				if($value and $bestemmingen_actief[$value]) {
+					echo "<div class=\"zoekblok_bestemming_actief_item\">";
+					if(preg_match("/^pl/",$value)) {
+						echo wt_he($bestemmingen_actief[$value]);
+					} else {
+						echo wt_he($bestemmingen_actief[$value]);
+					}
+					echo "<a href=\"#\" rel=\"".wt_he($value)."\" title=\"".html("wisdezebestemming","zoek-en-boek")."\"></a>";
+					echo "</div>";
 				}
-				echo "<a href=\"#\" rel=\"".wt_he($value)."\" title=\"".html("wisdezebestemming","zoek-en-boek")."\"></a>";
-				echo "</div>";
 			}
 			echo "<div class=\"clear\"></div>";
 			echo "</div>"; # afsluiten .zoekblok_item_geen_titel
@@ -1061,13 +1088,17 @@ if($nieuw_zoekformulier) {
 		# zoekformulier: submit
 		#
 
-		global $vars;
+		global $vars,$urlself;
+
 		echo "<div class=\"zoekblok_item zoekblok_item_geen_titel\">";
 		echo "<input type=\"submit\" value=\" ".strtoupper(html("zoeken","accommodaties"))." \" id=\"submit1zoeken\" class=\"submitbutton\">";
 
 		# "alles wissen"-link
 		echo "<div class=\"zoekblok_alleswissen\">";
-		echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php".($_GET["aab"] ? "?filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
+#		echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php".($_GET["aab"] ? "?filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
+		echo "<a href=\"".wt_he($urlself.($_GET["aab"] ? "?filled=1&aab=1&faab=1" : ""))."\">".html("alleswissen","zoek-en-boek")."</a>";
+
+
 		echo "</div>"; # afsluiten .zoekblok_alleswissen
 
 		echo "</div>"; # afsluiten .zoekblok_item
@@ -1544,7 +1575,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 			if(preg_match("/^pl([0-9]+)$/",$value,$regs)) {
 				# plaats
 				$multiple_plaats.=",".$regs[1];
-			} else {
+			} elseif($value) {
 				# skigebied
 				$landgebied=explode("-",$value);
 				$multiple_skigebied.=",".$landgebied[1];

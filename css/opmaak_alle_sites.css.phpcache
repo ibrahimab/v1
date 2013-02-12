@@ -841,7 +841,6 @@ td.selecteerbaarbedrag:hover{
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
-
 #zoekblok input[name='fzt']:focus {
 	outline: none;
 	background: #fff;
@@ -856,7 +855,6 @@ td.selecteerbaarbedrag:hover{
 	box-shadow        : 0 0 5px rgba(0,0,0,.3);
 	border: 1px solid #003366;
 }
-
 
 .zoekblok_select_mobile {
 	width: 455px;
@@ -900,8 +898,12 @@ td.selecteerbaarbedrag:hover{
 	background: -ms-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
 }
 
-.chzn-container-active .chzn-single {
+.chzn-container-active .chzn-single, .chzn-container-single .chzn-drop {
 	border-color: #003366;
+}
+
+.chzn-container-single .chzn-drop {
+	border-top-color: #ffffff;
 }
 
 .zoekblok_tekst_placeholder {
@@ -1093,7 +1095,7 @@ td.selecteerbaarbedrag:hover{
 	margin-bottom: 20px;
 	border: 2px solid grey;
 	padding: 15px;
-	width: 632px;
+	width: 658px;
 }
 
 .zoekresultaat_block {
