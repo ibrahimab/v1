@@ -621,7 +621,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<div id=\"zoekenboek_overlay\" class=\"noprint\">";
 	echo "<div class=\"bloklinks_kop\" style=\"margin-bottom:5px;\">".html("zoekenboek","index")."</div>";
 
-	echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\">";
+	echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 
 #	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";

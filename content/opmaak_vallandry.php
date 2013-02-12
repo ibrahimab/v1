@@ -259,7 +259,7 @@ if($vars["verberg_linkerkolom"]) {
 
 		echo "<div class=\"zoekenboek_kop\" style=\"margin-bottom:15px;\"><span class=\"bloklinksrechts_kop\">".html("zoekenboek","index")."</span></div>";
 
-		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\">";
+		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\">";
 		echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 
 		echo "<div class=\"zoekenboek_invulveld\">";

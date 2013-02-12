@@ -8,6 +8,8 @@ if($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$nieuw_zoekformulier=true;
 }
 
+$nieuw_zoekformulier=true;
+
 if($_GET["fzt"]==txt("tekstzoeken","zoek-en-boek")) {
 	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
 	unset($_GET["fzt"]);
@@ -1065,7 +1067,7 @@ if($nieuw_zoekformulier) {
 
 		# "alles wissen"-link
 		echo "<div class=\"zoekblok_alleswissen\">";
-		echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php?testsysteem=1".($_GET["aab"] ? "&filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
+		echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php".($_GET["aab"] ? "?filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
 		echo "</div>"; # afsluiten .zoekblok_alleswissen
 
 		echo "</div>"; # afsluiten .zoekblok_item

@@ -2,6 +2,17 @@
 // Hides the tabs + zoekblok during initialization
 document.write('<style type="text/css">	#tabs { visibility: hidden; } #body_zoek-en-boek #zoekblok { visibility: hidden; } </style>');
 
+// detecteer een mobiel apparaat (tablet of smartphone)
+function detect_mobile() {
+    return (
+        //Detect iPhone
+        (navigator.userAgent.match(/iPhone/i) !== null) ||
+        //Detect iPod
+        (navigator.userAgent.match(/iPad/i) !== null) ||
+        //Detect Android
+        (navigator.userAgent.match(/Android/i) !== null)
+    );
+}
 
 // querystring aan URL toevoegen
 function updateURLParameter(url, param, paramVal){
@@ -937,16 +948,42 @@ $(document).ready(function() {
 			// jQuery Chosen
 			//
 
-			// Chosen: bestemming
-			$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true});
+			if(detect_mobile()) {
+				//
+				// Chosen voor mobiele apparaten
+				//
 
-			// Chosen: leverancier (incl. deselect-functie)
-			$("select[name=lev]").chosen({allow_single_deselect: true});
+				// Chosen: bestemming
+				$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true});
 
-			// Chosen: diverse selects (zonder tekstzoeken)
-			$(".zoekblok_aankomstdatum select, .zoekblok_aantalpersonen select, .zoekblok_aantalslaapkamers select, .zoekblok_verblijfsduur select").chosen({disable_search: true,allow_single_deselect: true});
-			$(".zoekblok_aankomstdatum .chzn-search, .zoekblok_aantalpersonen .chzn-search, .zoekblok_aantalslaapkamers .chzn-search, .zoekblok_verblijfsduur .chzn-search").hide();
+				// Chosen-vormgeving toepassen op selectvelden
+				$("#zoekblok select").addClass("zoekblok_select_mobile");
 
+				$("#zoekblok select").find("option:first").html($("#zoekblok .zoekblok_aankomstdatum select").data("placeholder"));
+
+
+				// pijltje naar beneden: verbergen bij Android (want: staat er al via de "select")
+				if(navigator.userAgent.match(/Android/i) !== null) {
+					$(".zoekblok_select_mobile").addClass("zoekblok_select_mobile_android");
+				} else {
+
+					// placeholder-tekst bij "bestemming" iets verkleinen
+					$(".chzn-container-single .chzn-single span").css("font-size","0.85em");
+
+				}
+
+			} else {
+
+				// Chosen: bestemming
+				$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true});
+
+				// Chosen: leverancier (incl. deselect-functie)
+				$("select[name=lev]").chosen({allow_single_deselect: true});
+
+				// Chosen: diverse selects (zonder tekstzoeken)
+				$(".zoekblok_aankomstdatum select, .zoekblok_aantalpersonen select, .zoekblok_aantalslaapkamers select, .zoekblok_verblijfsduur select").chosen({disable_search: true,allow_single_deselect: true});
+				$(".zoekblok_aankomstdatum .chzn-search, .zoekblok_aantalpersonen .chzn-search, .zoekblok_aantalslaapkamers .chzn-search, .zoekblok_verblijfsduur .chzn-search").hide();
+			}
 
 			// Multiple-bestemming verwerken
 			$(".zoekblok_select").change(function() {
@@ -1206,7 +1243,7 @@ $(document).ready(function() {
 
 		// uitgebreid zoeken in zoek-en-boek-blok: formulier verzenden
 		$("#uitgebreidzoeken").click(function () {
-			$("form[name=zoeken]").submit();
+			$("#form_zoekenboeklinks").submit();
 			return false;
 		});
 

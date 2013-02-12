@@ -435,7 +435,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo html("zoekenboek","index");
 	echo "</span></div>";
 
-	echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\">";
+	echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 	if(is_array($vars["zoekenboeklinks_hidden_form_fields"])) {
 		while(list($key,$value)=each($vars["zoekenboeklinks_hidden_form_fields"])) {
