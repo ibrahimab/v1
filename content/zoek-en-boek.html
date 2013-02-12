@@ -816,8 +816,6 @@ if($nieuw_zoekformulier) {
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-
-
 	function zoekblok_aankomstdatum($settings="") {
 		#
 		#
@@ -1831,6 +1829,10 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 	if($vars["flexibel_toegestaan"] and $_GET["fadf_d"] and $_GET["fadf_m"] and $_GET["fadf_y"]) {
 		$flex_aankomstdatum=mktime(0,0,0,$_GET["fadf_m"],$_GET["fadf_d"],$_GET["fadf_y"]);
+
+		// bij geen verblijfsduur: uitgaan van verblijfsduur van 1 week
+		if(!$_GET["fdu"]) $_GET["fdu"]=1;
+
 		if(preg_match("/([0-9]+)n/",$_GET["fdu"],$regs)) {
 			$aantalnachten=$regs[1];
 		} else {

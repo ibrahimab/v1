@@ -451,25 +451,28 @@ function recordOutboundPopup(category, action) {
 	} catch(err) {}
 }
 
-function show_ajaxloader() {
+function show_ajaxloader(only_show_2_seconds) {
 	// ajaxloader tonen (bij zoekformulier)
 	if($("#zoekblok").length!==0) {
 		$("#ajaxloader_page").show();
 
-		// na 2 seconden weer verbergen
-		setTimeout(function() {
-			$("#ajaxloader_page").hide();
-		},2000);
+		if(only_show_2_seconds) {
+			// na 2 seconden weer verbergen indien only_show_2_seconds=true
+			setTimeout(function() {
+				$("#ajaxloader_page").hide();
+			},2000);
+		}
 	}
 
 	return true;
 }
 
 function zoekblok_submit() {
+	// zoekformulier submitten (en vooraf ajaxloader tonen)
 	if($("input[name=fzt]").val()==$("input[name=fzt]").data("placeholder")) {
 		$("input[name=fzt]").val("");
 	}
-	show_ajaxloader();
+	show_ajaxloader(false);
 	$("#zoeken").submit();
 }
 
@@ -758,29 +761,18 @@ $(document).ready(function() {
 			zoekblok_submit();
 		});
 
-		$(".txtzoeken").change(function() {
-			txtzoeken=this.value;
-		});
-		$(".keuzeopsomming a").click(function () {
-			if(txtzoeken) {
-				key = 'fzt';
-				value = escape(txtzoeken).replace(/\+/g,'%2B').replace(/%20/g, '+').replace(/\*/g, '%2A').replace(/\//g, '%2F').replace(/@/g, '%40');
-				var kvp = this.href.split('&');
-				var i=kvp.length; var x; while(i--) {
-					x = kvp[i].split('=');
-					if (x[0]==key) {
-						x[1] = value;
-						kvp[i] = x.join('=');
-						break;
-					}
-				}
-				if(i<0) {kvp[kvp.length] = [key,value].join('=');}
-				nieuwelink = kvp.join('&');
-				this.href=nieuwelink;
-			}
-			return true;
-		});
 
+		// automatisch submitten na wijzigen aankomstdatum (dag/maand/jaar)
+		if($("div.zoekblok_aankomstdatum select[name=fadf_d]").length!==0) {
+			$("div.zoekblok_aankomstdatum select").change(function() {
+				if($("select[name=fadf_d]").val()>0 && $("select[name=fadf_m]").val()>0 && $("select[name=fadf_y]").val()>0) {
+					zoekblok_submit();
+				}
+				if($("select[name=fadf_d]").val()==="" && $("select[name=fadf_m]").val()==="" && $("select[name=fadf_y]").val()==="") {
+					zoekblok_submit();
+				}
+			});
+		}
 
 		$(".laatstbekeken_acc").hover(
 			function() {
@@ -979,6 +971,9 @@ $(document).ready(function() {
 				}
 
 			} else {
+				//
+				// Chosen voor desktop-bezoekers
+				//
 
 				// Chosen: bestemming
 				$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true});
@@ -993,7 +988,7 @@ $(document).ready(function() {
 
 			// Multiple-bestemming verwerken
 			$(".zoekblok_select").change(function() {
-				show_ajaxloader();
+				show_ajaxloader(false);
 				var nieuwe_waarde="";
 				var al_gehad = [];
 				if($("input[name=fsg]").val().length>0) {
@@ -1053,25 +1048,12 @@ $(document).ready(function() {
 				$("#zoekblok input[name=fzt]").val($("#zoekblok input[name=fzt]").data("placeholder"));
 			}
 
-
-			//
-			// Multiple-skidorp verwerken
-			//
-			// $("#zoeken").submit( function() {
-			// $("input[name=fpl]").val($("#fpl_multiple").val());
-			// });
-
-
-			// $("#fpl_multiple").blur(function() {
-
-			// });
-
 			// ajaxloader tonen bij formsubmit
 			$("#zoeken").submit( function() {
 				if($("input[name=fzt]").val()==$("input[name=fzt]").data("placeholder")) {
 					$("input[name=fzt]").val("");
 				}
-				show_ajaxloader();
+				show_ajaxloader(false);
 			});
 
 			// scroll-y-positie opslaan (vanuit formulier)
@@ -1083,7 +1065,7 @@ $(document).ready(function() {
 			// scroll-y-positie opslaan (vanuit links)
 			$("div#verfijn a, div.zoekblok_item_verfijn a, div.zoekblok_alleswissen a, div#zoekresultaten_sorteer a").click(function() {
 
-				show_ajaxloader();
+				show_ajaxloader(true);
 
 				var nieuwe_url=$(this).attr("href");
 				nieuwe_url = nieuwe_url.replace(/#[a-z0-9]+/,"");
@@ -1095,7 +1077,7 @@ $(document).ready(function() {
 			// scroll-y-positie opslaan (vanuit zoekresultaat-klik)
 			$("a.zoekresultaat").click(function() {
 
-				show_ajaxloader();
+				show_ajaxloader(true);
 
 				var nieuwe_url=$(this).attr("href");
 
@@ -1162,7 +1144,6 @@ $(document).ready(function() {
 					$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 				}
 			});
-
 		}
 
 		// zoeken binnen andere site: kijken of alle resultaten extern zijn (van Chalet.nl naar SuperSki)
