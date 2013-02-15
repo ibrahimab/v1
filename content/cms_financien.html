@@ -626,6 +626,34 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$andquery_gar_hoofdquery.=" AND s.skigebied_id='".addslashes($form->input["skigebied_id"])."'";
 	}
 
+	# periode van (aankomstdatum)
+	if($form->input["begin"]["unixtime"]>0) {
+		$andquery_hoofdquery.=" AND b.aankomstdatum_exact>='".addslashes($form->input["begin"]["unixtime"])."'";
+		$andquery_gar_hoofdquery.=" AND g.aankomstdatum_exact>='".addslashes($form->input["begin"]["unixtime"])."'";
+	}
+
+	# periode tot en met (aankomstdatum)
+	if($form->input["eind"]["unixtime"]>0) {
+		$andquery_hoofdquery.=" AND b.aankomstdatum_exact<'".mktime(0,0,0,date("m",$form->input["eind"]["unixtime"]),date("d",$form->input["eind"]["unixtime"])+1,date("Y",$form->input["eind"]["unixtime"]))."'";
+		$andquery_gar_hoofdquery.=" AND g.aankomstdatum_exact<'".mktime(0,0,0,date("m",$form->input["eind"]["unixtime"]),date("d",$form->input["eind"]["unixtime"])+1,date("Y",$form->input["eind"]["unixtime"]))."'";
+	}
+
+	# periode van (boekingsdatum)
+	if($form->input["boekingbegin"]["unixtime"]>0) {
+		$andquery_hoofdquery.=" AND UNIX_TIMESTAMP(b.bevestigdatum)>='".addslashes($form->input["boekingbegin"]["unixtime"])."'";
+
+		# geen garanties
+		$andquery_gar_hoofdquery.=" AND 1=2";
+	}
+
+	# periode tot (boekingsdatum)
+	if($form->input["boekingeind"]["unixtime"]>0) {
+		$andquery_hoofdquery.=" AND UNIX_TIMESTAMP(b.bevestigdatum)<'".mktime(0,0,0,date("m",$form->input["boekingeind"]["unixtime"]),date("d",$form->input["boekingeind"]["unixtime"])+1,date("Y",$form->input["boekingeind"]["unixtime"]))."'";
+
+		# geen garanties
+		$andquery_gar_hoofdquery.=" AND 1=2";
+	}
+
 	# websites
 	if($form->input["websites"]) {
 		$form->input["websites"]="'".preg_replace("/,/","','",$form->input["websites"])."'";
@@ -637,6 +665,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$andquery.=" AND b.boeking_id IN (SELECT boeking_id FROM garantie)";
 	}
 
+#echo $andquery_hoofdquery;
 
 	# plaats
 	if($form->input["plaats"]) {

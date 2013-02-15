@@ -163,9 +163,23 @@ if($_GET["marges"]) {
 	$form->field_select(0,"skigebied_id","Skigebied/regio","","",array("selection"=>$vars["temp_regios"],"optgroup"=>$vars["temp_optgroup"],"no_empty_first_selection"=>true));
 	$form->field_text(0,"plaats","Plaats","","","",array("info"=>"Voer de gewenste plaats(en) in. Er wordt gezocht op delen van de naam, dus zoeken naar 'Les Menuires' toont ook 'Lavassaix (bij Les Menuires)' als resultaat. Meerdere plaatsen kun je scheiden door een komma."));
 	$form->field_checkbox(0,"websites","Websites","","",array("selection"=>$vars["websites_actief"]),array("one_per_line"=>true));
+
+
+	$form->field_htmlrow("","<hr><b>Aankomstdatum</b>");
+	$form->field_date(0,"begin","Van","","",array("startyear"=>2006,"endyear"=>date("Y")+2),array("calendar"=>true));
+	$form->field_date(0,"eind","Tot en met","","",array("startyear"=>2006,"endyear"=>date("Y")+2),array("calendar"=>true));
+
+	$form->field_htmlrow("","<br/><b>Boekingsdatum</b> (garanties worden niet gespecificeerd)");
+
+	$form->field_date(0,"boekingbegin","Van","","",array("startyear"=>2006,"endyear"=>date("Y")+2),array("calendar"=>true));
+	$form->field_date(0,"boekingeind","Tot en met","","",array("startyear"=>2006,"endyear"=>date("Y")+2),array("calendar"=>true));
+
+	$form->field_htmlrow("","<hr>");
+
 	$form->field_checkbox(1,"seizoenen","Te tonen seizoenen","",array("selection"=>substr($vars["temp_seizoenen_active"],1)),array("selection"=>$vars["temp_seizoenen"]),array("one_per_line"=>true));
 	$form->field_checkbox(1,"kolommen","Te tonen kolommen","",array("selection"=>substr($vars["totaaloverzicht_kolommen_active"],1)),array("selection"=>$vars["totaaloverzicht_kolommen"]),array("one_per_line"=>true));
 	$form->field_htmlcol("","",array("html"=>"<a href=\"".$_SERVER["REQUEST_URI"]."&wiszoek=1\">zoekformulier wissen</a>"));
+
 
 	$form->check_input();
 
