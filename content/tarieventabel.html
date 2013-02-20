@@ -652,8 +652,10 @@ if($db2->next_record()) {
 			while(list($key,$value)=each($dag)) {
 				echo "<td class=\"getal\" style=\"background-color:#";
 				if($voorkant_cms or $key>time()) {
+					# daadwerkelijke beschikbaarheid tonen
 					echo $vars["wederverkoop_kleuren"][$voorraad["wederverkoop_kleur"][$key]];
 				} else {
+					# zwart tonen
 					echo $vars["wederverkoop_kleuren"][3];
 				}
 				echo ";\">&nbsp;</td>\n";

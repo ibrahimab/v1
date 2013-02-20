@@ -817,6 +817,10 @@ form {
 	color: #660066;
 }
 
+.option_actief {
+	color: #777777;
+}
+
 #geenresultaten {
 	border: 1px solid #5f227b;
 	width: 656px;

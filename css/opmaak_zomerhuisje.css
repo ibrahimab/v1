@@ -617,6 +617,10 @@ form {
 	color: #5f227b;
 }
 
+.option_actief {
+	color: #777777;
+}
+
 .chzn-container-active .chzn-single, .chzn-container-single .chzn-drop {
 	border-color: #636f07;
 }
