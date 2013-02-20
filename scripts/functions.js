@@ -946,13 +946,21 @@ $(document).ready(function() {
 			// jQuery Chosen
 			//
 
+			// al gekozen bestemmingen: grijs kleuren in pulldown
+			$("div.zoekblok_bestemming_actief_item").each(function() {
+//				alert($(this).data("bestemming_actief_value"));
+//				alert($("option[value="+$(this).data("bestemming_actief_value")+"]").val());
+				$("select[name=fsg_invoer] > option[value="+$(this).data("bestemming_actief_value")+"]").addClass("option_actief");
+			});
+
+
 			if(detect_mobile()) {
 				//
 				// Chosen voor mobiele apparaten
 				//
 
 				// Chosen: bestemming
-				$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true,autofocus_search_field: false});
+				$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, allow_single_deselect: true, autofocus_search_field: false});
 
 				// Chosen-vormgeving toepassen op selectvelden
 				$("#zoekblok select").addClass("zoekblok_select_mobile");
@@ -976,7 +984,7 @@ $(document).ready(function() {
 				//
 
 				// Chosen: bestemming
-				$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true,autofocus_search_field: true});
+				$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, allow_single_deselect: true, autofocus_search_field: true});
 
 				// Chosen: leverancier (incl. deselect-functie)
 				$("select[name=lev]").chosen({allow_single_deselect: true});
@@ -1028,7 +1036,6 @@ $(document).ready(function() {
 				zoekblok_submit();
 				return false;
 			});
-
 
 			// placeholder fzt italics weergeven
 			$("#zoekblok input[name=fzt]").focus(function(){

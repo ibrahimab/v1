@@ -732,7 +732,7 @@ if($nieuw_zoekformulier) {
 			$doorloop_array_fsg=preg_split("/,/",$_GET["fsg"]);
 			while(list($key,$value)=each($doorloop_array_fsg)) {
 				if($value and $bestemmingen_actief[$value]) {
-					echo "<div class=\"zoekblok_bestemming_actief_item\">";
+					echo "<div class=\"zoekblok_bestemming_actief_item\" data-bestemming_actief_value=\"".wt_he($value)."\">";
 					if(preg_match("/^pl/",$value)) {
 						echo wt_he($bestemmingen_actief[$value]);
 					} else {

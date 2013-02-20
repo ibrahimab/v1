@@ -776,6 +776,10 @@ td.selecteerbaarbedrag:hover{
 	max-height: 15px;
 }
 
+.option_actief {
+	color: #777777;
+}
+
 .chzn-container .chzn-results li {
   line-height: 10px;
 }

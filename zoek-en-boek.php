@@ -37,6 +37,13 @@ if(ereg("^[A-Za-z]([0-9]+)$",trim($_GET["fzt"]),$regs)) {
 	}
 }
 
+# Zoeken op reserveringsnummer: redirect naar "Mijn boeking"
+if(preg_match("/^[A-Za-z][0-9]{8}$/",trim($_GET["fzt"]),$regs)) {
+	header("Location: ".$vars["path"].txt("menu_inloggen").".php");
+	exit;
+}
+
+
 # Zoekopdracht_id aanmaken (en plaatsen in $_GET["z"])
 if($_GET["filled"] and !$vars["zoekform_aanbiedingen"]) {
 	if(!$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and !preg_match("/Googlebot/",$_SERVER["HTTP_USER_AGENT"])) {
