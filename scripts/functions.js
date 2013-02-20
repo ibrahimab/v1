@@ -952,7 +952,7 @@ $(document).ready(function() {
 				//
 
 				// Chosen: bestemming
-				$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true});
+				$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true,autofocus_search_field: false});
 
 				// Chosen-vormgeving toepassen op selectvelden
 				$("#zoekblok select").addClass("zoekblok_select_mobile");
@@ -976,7 +976,7 @@ $(document).ready(function() {
 				//
 
 				// Chosen: bestemming
-				$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true});
+				$("#zoekblok_field_bestemming").chosen({allow_single_deselect: true,autofocus_search_field: true});
 
 				// Chosen: leverancier (incl. deselect-functie)
 				$("select[name=lev]").chosen({allow_single_deselect: true});

@@ -132,6 +132,10 @@ Copyright (c) 2011 by Harvest
       this.result_single_selected = null;
       this.allow_single_deselect = (this.options.allow_single_deselect != null) && (this.form_field.options[0] != null) && this.form_field.options[0].text === "" ? this.options.allow_single_deselect : false;
       this.disable_search_threshold = this.options.disable_search_threshold || 0;
+
+      // toegevoegd:
+      this.autofocus_search_field = this.options.autofocus_search_field || false;
+
       this.disable_search = this.options.disable_search || false;
       this.enable_split_word_search = this.options.enable_split_word_search != null ? this.options.enable_split_word_search : true;
       this.search_contains = this.options.search_contains || false;
@@ -378,7 +382,12 @@ Copyright (c) 2011 by Harvest
         "width": dd_width + "px",
         "top": dd_top + "px"
       });
-      this.search_field = this.container.find('input').first();
+
+       this.search_field = this.container.find('input').first();
+
+// toegevoegd:
+this.search_field.attr("placeholder",$(".zoekblok_bestemming").data("search-plaxeholder"));
+
       this.search_results = this.container.find('ul.chzn-results').first();
       this.search_field_scale();
       this.search_no_results = this.container.find('li.no-results').first();
@@ -523,9 +532,17 @@ Copyright (c) 2011 by Harvest
 
     Chosen.prototype.activate_field = function() {
       this.container.addClass("chzn-container-active");
-      this.active_field = true;
+      // toegevoegd:
+      if(this.autofocus_search_field) {
+        this.active_field = true;
+      }
       this.search_field.val(this.search_field.val());
-      return this.search_field.focus();
+      // toegevoegd:
+      if(this.autofocus_search_field) {
+        return this.search_field.focus();
+      } else {
+        return true;
+      }
     };
 
     Chosen.prototype.test_active_click = function(evt) {
@@ -633,7 +650,10 @@ Copyright (c) 2011 by Harvest
         "left": 0
       });
       this.results_showing = true;
-      this.search_field.focus();
+      // toegevoegd:
+      if(this.autofocus_search_field) {
+         this.search_field.focus();
+      }
       this.search_field.val(this.search_field.val());
       return this.winnow_results();
     };
@@ -677,7 +697,12 @@ Copyright (c) 2011 by Harvest
       if (target.length) {
         this.result_highlight = target;
         this.result_select(evt);
-        return this.search_field.focus();
+        // toegevoegd:
+        if(this.autofocus_search_field) {
+         return this.search_field.focus();
+        } else {
+          return true;
+        }
       }
     };
 
