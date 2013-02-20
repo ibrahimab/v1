@@ -1159,9 +1159,10 @@ while($db->next_record()) {
 						# Doorlopen van begin tot eind
 						$week=$datum_begin;
 						while($week<$datum_eind) {
-							if(trim($value3->attributes()->bookable_divided)=="true") {
+							# controle op "bookable_divided" uigezet op verzoek van Barteld zodat tarieven rond kerst ook binnenkomen (20-02-2013)
+#							if(trim($value3->attributes()->bookable_divided)=="true") {
 								$xml_brutoprijs[$db->f("xml_type")][$value][$week]=$tarief_season[trim($value3->attributes()->id)];
-							}
+#							}
 							$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 						}
 
