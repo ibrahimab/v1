@@ -1244,7 +1244,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			}
 		}
 		$form->field_htmlrow("","<hr>");
-		$form->field_textarea(0,"opmerkingen_opties",txt("evtvragenopmerkingenopties","boeken"));
+		if($boeking_wijzigen) {
+			$form->field_textarea(0,"opmerkingen_opties",txt("evtvragenopmerkingenopties","boeken"));
+		} else {
+			$form->field_textarea(0,"opmerkingen_opties",txt("evtvragenopmerkingenopties","boeken"),"",array("text"=>$gegevens["stap1"]["opmerkingen_opties"]));
+		}
 
 	} elseif($_GET["stap"]==5) {
 		#
@@ -2476,11 +2480,17 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				}
 			}
 
+
 			if($form->input["opmerkingen_opties"]) {
-				if($gegevens["stap1"]["opmerkingen_opties"]) {
-					$gegevens["stap1"]["opmerkingen_opties"].="\n\nAanvulling ".date("d-m-Y, H:i")."u.\n";
+				if($boeking_wijzigen) {
+					if($gegevens["stap1"]["opmerkingen_opties"]) {
+						$gegevens["stap1"]["opmerkingen_opties"].="\n\n";
+					}
+					$gegevens["stap1"]["opmerkingen_opties"].="Aanvulling ".date("d-m-Y, H:i")." uur:\n";
+					$gegevens["stap1"]["opmerkingen_opties"].=$form->input["opmerkingen_opties"];
+				} else {
+					$gegevens["stap1"]["opmerkingen_opties"]=$form->input["opmerkingen_opties"];
 				}
-				$gegevens["stap1"]["opmerkingen_opties"].=$form->input["opmerkingen_opties"];
 			}
 			$gegevens["stap1"]["gewijzigd"]=trim($gegevens["stap1"]["gewijzigd"]);
 			if($mustlogin) {
