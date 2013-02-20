@@ -373,10 +373,11 @@ exit;
 	}
 
 	# gegevens uit tabel optieleverancier halen
-	$db->query("SELECT naam, bestellijst_1_regel_per_persoon FROM optieleverancier WHERE optieleverancier_id='".addslashes($_GET["olid"])."';");
+	$db->query("SELECT naam, plaatscode_van_toepassing, bestellijst_1_regel_per_persoon FROM optieleverancier WHERE optieleverancier_id='".addslashes($_GET["olid"])."';");
 	if($db->next_record()) {
 		$optieleverancier=ereg_replace("[^A-Za-z0-9]","_",strtolower($db->f("naam")));
 		$optieleverancier=ereg_replace("_{2,}","_",$optieleverancier);
+		$plaatscode_van_toepassing=$db->f("plaatscode_van_toepassing");
 		$bestellijst_1_regel_per_persoon=$db->f("bestellijst_1_regel_per_persoon");
 	}
 
@@ -436,8 +437,10 @@ exit;
 		if($_GET["t"]==5) {
 			if($plaatscode[$db->f("plaats_id")]) {
 				$plaats=$plaatscode[$db->f("plaats_id")];
-			} else {
+			} elseif($plaatscode_van_toepassing) {
 				$plaats=$db->f("plaats").": NOG GEEN PLAATSCODE";
+			} else {
+				$plaats=$db->f("plaats");
 			}
 			$levcode=$db->f("leverancierscode");
 			if(!$levcode) $levcode="NOG GEEN BESTELCODE: ".$db->f("optieonderdeel");
@@ -470,8 +473,10 @@ exit;
 		if($_GET["t"]==5) {
 			if($plaatscode[$db->f("plaats_id")]) {
 				$plaats=$plaatscode[$db->f("plaats_id")];
-			} else {
+			} elseif($plaatscode_van_toepassing) {
 				$plaats=$db->f("plaats").": NOG GEEN PLAATSCODE";
+			} else {
+				$plaats=$db->f("plaats");
 			}
 			$levcode=$db->f("leverancierscode");
 			if(!$levcode) $levcode="NOG GEEN BESTELCODE: ".$db->f("optieonderdeel");
