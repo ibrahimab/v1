@@ -11,6 +11,8 @@ $cms->settings[24]["list"]["delete_icon"]=true;
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(24,"integer","optieleverancier_id");
 $cms->db_field(24,"text","naam");
+$cms->db_field(24,"yesno","bestellijst_1_regel_per_persoon");
+
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_field(24,"naam","Naam");
@@ -19,6 +21,8 @@ $cms->list_field(24,"optieleverancier_id","Intern volgnummer");
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(24,1,"optieleverancier_id","Intern volgnummer","",array("noedit"=>true));
 $cms->edit_field(24,1,"naam");
+$cms->edit_field(24,1,"bestellijst_1_regel_per_persoon","In bestellijst-CSV: 1 regel per deelnemer");
+
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(24);

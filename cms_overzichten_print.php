@@ -372,14 +372,17 @@ exit;
 		cmslog_pagina_title("Overzichten - Interne lijst opties");
 	}
 
+	# gegevens uit tabel optieleverancier halen
+	$db->query("SELECT naam, bestellijst_1_regel_per_persoon FROM optieleverancier WHERE optieleverancier_id='".addslashes($_GET["olid"])."';");
+	if($db->next_record()) {
+		$optieleverancier=ereg_replace("[^A-Za-z0-9]","_",strtolower($db->f("naam")));
+		$optieleverancier=ereg_replace("_{2,}","_",$optieleverancier);
+		$bestellijst_1_regel_per_persoon=$db->f("bestellijst_1_regel_per_persoon");
+	}
+
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		echo "<pre>";
 	} else {
-		$db->query("SELECT naam FROM optieleverancier WHERE optieleverancier_id='".addslashes($_GET["olid"])."';");
-		if($db->next_record()) {
-			$optieleverancier=ereg_replace("[^A-Za-z0-9]","_",strtolower($db->f("naam")));
-			$optieleverancier=ereg_replace("_{2,}","_",$optieleverancier);
-		}
 		if($_GET["t"]==5) {
 			$filename="orderlist_".$optieleverancier."_".date("d_m_Y",$_GET["date"]).".csv";
 		} else {
@@ -417,7 +420,13 @@ exit;
 	# Gewone opties
 	if($_GET["t"]==5) {
 		# Bestellijst
-		$db->query("SELECT bp.voornaam, bp.tussenvoegsel, bp.achternaam, b.boekingsnummer, b.aankomstdatum_exact, oo.leverancierscode, oo.omschrijving_voucher, oo.naam AS optieonderdeel, og.duur, COUNT(*) AS aantal, p.naam AS plaats, p.plaats_id FROM optieleverancier ol, optie_accommodatie oa, optie_groep og, boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l, optie_onderdeel oo, boeking_optie bo WHERE ol.optieleverancier_id='".addslashes($_GET["olid"])."' AND og.optieleverancier_id=ol.optieleverancier_id AND bo.boeking_id=b.boeking_id AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oa.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND ".$periode." AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 GROUP BY b.boeking_id, oo.optie_onderdeel_id ORDER BY b.boekingsnummer;");
+		if($bestellijst_1_regel_per_persoon) {
+			# 1 regel per geboekt persoon tonen
+			$db->query("SELECT 1 AS aantal, bp.voornaam, bp.tussenvoegsel, bp.achternaam, b.boekingsnummer, b.aankomstdatum_exact, oo.leverancierscode, oo.omschrijving_voucher, oo.naam AS optieonderdeel, og.duur, p.naam AS plaats, p.plaats_id FROM optieleverancier ol, optie_accommodatie oa, optie_groep og, boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l, optie_onderdeel oo, boeking_optie bo WHERE ol.optieleverancier_id='".addslashes($_GET["olid"])."' AND og.optieleverancier_id=ol.optieleverancier_id AND bo.boeking_id=b.boeking_id AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oa.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND ".$periode." AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND bp.persoonnummer=bo.persoonnummer ORDER BY b.boekingsnummer, bp.achternaam, bp.voornaam, bp.tussenvoegsel, bp.persoonnummer;");
+		} else {
+			# personen samenvatten op 1 regel per boeking/optiesoort
+			$db->query("SELECT bp.voornaam, bp.tussenvoegsel, bp.achternaam, b.boekingsnummer, b.aankomstdatum_exact, oo.leverancierscode, oo.omschrijving_voucher, oo.naam AS optieonderdeel, og.duur, COUNT(*) AS aantal, p.naam AS plaats, p.plaats_id FROM optieleverancier ol, optie_accommodatie oa, optie_groep og, boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l, optie_onderdeel oo, boeking_optie bo WHERE ol.optieleverancier_id='".addslashes($_GET["olid"])."' AND og.optieleverancier_id=ol.optieleverancier_id AND bo.boeking_id=b.boeking_id AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oa.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND ".$periode." AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 GROUP BY b.boeking_id, oo.optie_onderdeel_id ORDER BY b.boekingsnummer;");
+		}
 	} else {
 		# Interne lijst
 		$db->query("SELECT bp.voornaam, bp.tussenvoegsel, bp.achternaam, b.boekingsnummer, b.aankomstdatum_exact, oo.leverancierscode, oo.omschrijving_voucher, oo.naam AS optieonderdeel, og.duur, COUNT(*) AS aantal, p.naam AS plaats, p.plaats_id, ot.verkoop, ot.inkoop, ot.korting FROM optie_tarief ot, optieleverancier ol, optie_accommodatie oa, optie_groep og, boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l, optie_onderdeel oo, boeking_optie bo WHERE ot.optie_onderdeel_id=oo.optie_onderdeel_id AND ot.seizoen_id=b.seizoen_id AND ot.week=b.aankomstdatum AND ol.optieleverancier_id='".addslashes($_GET["olid"])."' AND og.optieleverancier_id=ol.optieleverancier_id AND bo.boeking_id=b.boeking_id AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oa.optie_groep_id=og.optie_groep_id AND oo.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND ".$periode." AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 GROUP BY b.boeking_id, oo.optie_onderdeel_id ORDER BY b.boekingsnummer;");
@@ -454,7 +463,8 @@ exit;
 	}
 
 	# Handmatige opties
-	$db->query("SELECT DISTINCT bp.voornaam, bp.tussenvoegsel, bp.achternaam, b.boekingsnummer, b.aankomstdatum_exact, e.leverancierscode, e.verberg_voor_klant, e.omschrijving_voucher, e.naam AS optieonderdeel, e.begindag, e.einddag, e.deelnemers, e.verkoop, e.inkoop, e.korting, p.naam AS plaats, p.plaats_id FROM optieleverancier ol, extra_optie e, boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE (e.voucher=1 OR e.verberg_voor_klant=1) AND e.deelnemers<>'' AND e.optieleverancier_id='".addslashes($_GET["olid"])."' AND e.boeking_id=b.boeking_id AND ".$periode." AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY b.boekingsnummer;");
+	$db->query("SELECT DISTINCT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, b.boekingsnummer, b.aankomstdatum_exact, e.leverancierscode, e.verberg_voor_klant, e.omschrijving_voucher, e.naam AS optieonderdeel, e.begindag, e.einddag, e.deelnemers, e.verkoop, e.inkoop, e.korting, p.naam AS plaats, p.plaats_id FROM optieleverancier ol, extra_optie e, boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE (e.voucher=1 OR e.verberg_voor_klant=1) AND e.deelnemers<>'' AND e.optieleverancier_id='".addslashes($_GET["olid"])."' AND e.boeking_id=b.boeking_id AND ".$periode." AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY b.boekingsnummer;");
+
 	while($db->next_record()) {
 		$naam=wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
 		if($_GET["t"]==5) {
@@ -485,13 +495,19 @@ exit;
 		if(ereg($delimiter,$levcode)) $levcode="'".$levcode."'";
 		if($_GET["t"]==5) {
 			# Bestellijst
-			echo "TO".$delimiter.$db->f("boekingsnummer").$delimiter.$naam.$delimiter.date("d-m-Y",$db->f("aankomstdatum_exact")).$delimiter.$plaats.$delimiter.$levcode.$delimiter.$aantal.$delimiter.$duur."\n";
+			if($bestellijst_1_regel_per_persoon) {
+				$db2->query("SELECT bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking_persoon bp WHERE bp.persoonnummer IN (".$db->f("deelnemers").") AND boeking_id='".$db->f("boeking_id")."' ORDER BY achternaam, voornaam, tussenvoegsel, persoonnummer;");
+				while($db2->next_record()) {
+					echo "TO".$delimiter.$db->f("boekingsnummer").$delimiter.wt_csvconvert(wt_naam($db2->f("voornaam"),$db2->f("tussenvoegsel"),$db2->f("achternaam"))).$delimiter.date("d-m-Y",$db->f("aankomstdatum_exact")).$delimiter.$plaats.$delimiter.$levcode.$delimiter."1".$delimiter.$duur."\n";
+				}
+			} else {
+				echo "TO".$delimiter.$db->f("boekingsnummer").$delimiter.wt_csvconvert($naam).$delimiter.date("d-m-Y",$db->f("aankomstdatum_exact")).$delimiter.$plaats.$delimiter.$levcode.$delimiter.$aantal.$delimiter.$duur."\n";
+			}
 		} else {
 			# Interne lijst
 			echo $db->f("boekingsnummer").$delimiter.$naam.$delimiter.date("d-m-Y",$db->f("aankomstdatum_exact")).$delimiter.$plaats.$delimiter.$levcode.$delimiter.$aantal.$delimiter.$duur.$delimiter.number_format($db->f("inkoop"),2,",","").$delimiter.number_format($db->f("korting"),2,",","").$delimiter.number_format($netto,2,",","")."\n";
 		}
 	}
-#	exit;
 } elseif($_GET["t"]==6) {
 
 	cmslog_pagina_title("Overzichten - Skipas-bestellijst");
