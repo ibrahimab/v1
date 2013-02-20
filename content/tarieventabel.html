@@ -650,7 +650,13 @@ if($db2->next_record()) {
 			echo "<tr><td width=\"10%\">".html("wederverkoop_beschikbaarheid","tarieventabel")."</td>";
 			reset($dag);
 			while(list($key,$value)=each($dag)) {
-				echo "<td class=\"getal\" style=\"background-color:#".$vars["wederverkoop_kleuren"][$voorraad["wederverkoop_kleur"][$key]].";\">&nbsp;</td>\n";
+				echo "<td class=\"getal\" style=\"background-color:#";
+				if($voorkant_cms or $key>time()) {
+					echo $vars["wederverkoop_kleuren"][$voorraad["wederverkoop_kleur"][$key]];
+				} else {
+					echo $vars["wederverkoop_kleuren"][3];
+				}
+				echo ";\">&nbsp;</td>\n";
 			}
 			echo "</tr>";
 		}
