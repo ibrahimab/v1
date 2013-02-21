@@ -173,10 +173,10 @@ $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
 $txt["nl"]["vars"]["cookiemelding"]="Om u beter van dienst te kunnen zijn wordt er gebruik gemaakt van cookies. Lees ons [[h_1]]privacy-statement[[h_2]] voor meer informatie.";
 $txt["en"]["vars"]["cookiemelding"]="-";
 
-$txt["nl"]["vars"]["opvalmelding"]="Vanwege een inbraakpoging zijn wij momenteel tijdelijk bereikbaar op telefoonnummer 050 711 5210.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
-$txt["en"]["vars"]["opvalmelding"]="Due to an attempt to break in to our office we are temporarily reachable on telephone number +31 50 711 5210.\nYou can also reach us by email on [[h_1]][[v_email]][[h_2]].";
+$txt["nl"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: 088 - 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
+$txt["en"]["vars"]["opvalmelding"]="We are temporarily reachable on telephone number +31 88 66 44 200.\nYou can also reach us by email on [[h_1]][[v_email]][[h_2]].";
 
-$txt["nl_b"]["vars"]["opvalmelding"]="Vanwege een inbraakpoging zijn wij momenteel tijdelijk bereikbaar op telefoonnummer +31 50 711 5210.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
+$txt["nl_b"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: +31 88 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
 $txt["en_b"]["vars"]["opvalmelding"]="";
 
 $txt["nl"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
@@ -1399,7 +1399,7 @@ $txt["en"]["contact"]["tijd"]="From 9 am to 5:30 pm";
 $txt["nl"]["contact"]["tijdsat"]="Van 10:00 tot 17:30";
 $txt["en"]["contact"]["tijdsat"]="From 10 am to 5:30 pm";
 
-$txt["nl"]["contact"]["telefoonNummerGetal"]="0348 - 43 46 49";
+$txt["nl"]["contact"]["telefoonNummerGetal"]="088 - 66 44 200";
 $txt["en"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 
 $txt["nl"]["contact"]["faxNummerGetal"]="0348 - 69 07 52";
@@ -1510,7 +1510,7 @@ $txt["en"]["contact"]["telefoonnummer"]="Telephone number";
 $txt["nl"]["contact"]["fax"]="Fax";
 $txt["en"]["contact"]["fax"]="Fax";
 
-$txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0348 - 43 46 49";
+$txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon: 088 - 66 44 200";
 $txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
 
 $txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon: +31 348 43 46 49";

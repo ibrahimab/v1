@@ -141,10 +141,10 @@ if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
 require($unixdir."admin/vars_websitetype.php");
 
 # Cookiebalk tonen?
-$vars["cookiemelding_tonen"]=true;
+$vars["cookiemelding_tonen"]=false;
 
 # Opvalmelding tonen
-$vars["opvalmelding_tonen"]=false;
+$vars["opvalmelding_tonen"]=true;
 
 #
 # Land-instellingen

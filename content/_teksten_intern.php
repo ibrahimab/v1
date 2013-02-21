@@ -685,28 +685,28 @@ $txta["en_b"]["handelsnaam_zomerhuisje"]="-";
 $txta["nl"]["chaletsinvallandry"]="Chalets in Vallandry";
 $txta["en"]["chaletsinvallandry"]="Chalets in Vallandry";
 
-$txta["nl"]["telefoonnummer"]="Tel. 0348 - 43 46 49";
-$txta["en"]["telefoonnummer"]="Phone +31 348 43 46 49";
+$txta["nl"]["telefoonnummer"]="Tel. 088 - 66 44 200";
+$txta["en"]["telefoonnummer"]="Phone +31 88 66 44 200";
 
-$txta["nl_b"]["telefoonnummer"]="Tel. +31 348 43 46 49";
+$txta["nl_b"]["telefoonnummer"]="Tel. +31 88 66 44 200";
 $txta["en_b"]["telefoonnummer"]="-";
 
-$txta["nl"]["telefoonnummer_colofon"]="tel: 0348 - 43 46 49";
-$txta["en"]["telefoonnummer_colofon"]="phone: +31 348 43 46 49";
+$txta["nl"]["telefoonnummer_colofon"]="tel: 088 - 66 44 200";
+$txta["en"]["telefoonnummer_colofon"]="phone: +31 88 66 44 200";
 
-$txta["nl_b"]["telefoonnummer_colofon"]="tel: +31 348 43 46 49";
+$txta["nl_b"]["telefoonnummer_colofon"]="tel: +31 88 66 44 200";
 $txta["en_b"]["telefoonnummer_colofon"]="-";
 
-$txta["nl"]["telefoonnummer_alleen"]="0348 - 43 46 49";
-$txta["en"]["telefoonnummer_alleen"]="+31 348 43 46 49";
+$txta["nl"]["telefoonnummer_alleen"]="088 - 66 44 200";
+$txta["en"]["telefoonnummer_alleen"]="+31 88 66 44 200";
 
-$txta["nl_b"]["telefoonnummer_alleen"]="+31 348 43 46 49";
+$txta["nl_b"]["telefoonnummer_alleen"]="+31 88 66 44 200";
 $txta["en_b"]["telefoonnummer_alleen"]="-";
 
-$txta["nl"]["telefoonnummer_telefoonblok"]="0348 - 43 46 49";
-$txta["en"]["telefoonnummer_telefoonblok"]="+31 348 434649";
+$txta["nl"]["telefoonnummer_telefoonblok"]="088 - 66 44 200";
+$txta["en"]["telefoonnummer_telefoonblok"]="+31 88 6644200";
 
-$txta["nl_b"]["telefoonnummer_telefoonblok"]="+31348434649";
+$txta["nl_b"]["telefoonnummer_telefoonblok"]="+31886644200";
 $txta["en_b"]["telefoonnummer_telefoonblok"]="-";
 
 $txta["nl"]["openingstijden_telefoonblok"]="ma-vr 9-17:30 / za 10-17:30";

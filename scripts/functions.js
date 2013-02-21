@@ -1231,7 +1231,7 @@ $(document).ready(function() {
 		// sluiten opval-bar
 		$("#opval_bottombar_close").click(function () {
 			$("#opval_bottombar").css("display","none");
-			chalet_createCookie("opvalmelding_gelezen","1",2);
+			chalet_createCookie("opvalmelding_gelezen","1",4);
 			return false;
 		});
 
