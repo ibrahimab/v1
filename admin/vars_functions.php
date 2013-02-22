@@ -4199,10 +4199,11 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 		$body=preg_replace("/\[ul\](.*)\[\/ul\]/s","<ul>\\1</ul>",$body);
 
 		# [li] list-item
-		$body=preg_replace("/\[li\](.*)\[\/li\]/","<li>\\1</li>",$body);
+		$body=preg_replace("/\[li\](.*)\[\/li\]/","<li style=\"margin-bottom:1.0em;\">\\1</li>",$body);
+
+		$body=str_replace("</li><br />\n<li>","</li><li>",$body);
+		$body=str_replace("</li><br />\n<li ","</li><li ",$body);
 	}
-
-
 
 	$mail=new wt_mail;
 	$mail->from=$vars["websiteinfo"]["email"][$website];
@@ -4220,7 +4221,7 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 
 	$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-	$mail->html_top="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style><!--\na:hover { color:#888888; }\n--></style>\n</head><body bgcolor=\"#ffffff\" style=\"background-color:#ffffff;margin:0;padding:0;\"><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" bgcolor=\"#ffffff\" style=\"background-color:#ffffff;width:100%;\"><tr><td align=\"center\" width=\"100%\" style=\"background-color:#ffffff;width:100%;\"><br><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"681\" style=\"background-color:#ffffff;\"><tr><td><a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website])."\"><img src=\"".wt_he($vars["websiteinfo"]["basehref"][$website]).$topfoto."\" ".$topfoto_size[3]." border=\"0\"></a><br/>&nbsp;</td></tr><tr><td style=\"font-family: Verdana, Helvetica, Arial, sans-serif;line-height: 14pt;font-size: 10pt;padding-top:10px;\">\n";
+	$mail->html_top="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style><!--\na:hover { color:#888888; }\n--></style>\n</head><body bgcolor=\"#ffffff\" style=\"background-color:#ffffff;margin:0;padding:0;\"><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" bgcolor=\"#ffffff\" style=\"background-color:#ffffff;width:100%;\"><tr><td align=\"center\" width=\"100%\" style=\"background-color:#ffffff;width:100%;\"><br><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"681\" style=\"background-color:#ffffff;\"><tr><td><a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website])."\"><img src=\"".wt_he($vars["websiteinfo"]["basehref"][$website]).$topfoto."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\"></a><br/>&nbsp;</td></tr><tr><td style=\"font-family: Verdana, Helvetica, Arial, sans-serif;line-height: 14pt;font-size: 10pt;padding-top:10px;\">\n";
 
 	$mail->html_bottom="<br/>&nbsp;</td></tr></table></td></tr></table></body></html>\n";
 

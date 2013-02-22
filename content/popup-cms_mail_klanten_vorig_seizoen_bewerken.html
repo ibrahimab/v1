@@ -10,9 +10,18 @@ echo "<input type=\"submit\" value=\" TEKST OPSLAAN \" id=\"submit1frm\" onclick
 echo "</form>";
 
 
-$mailtekst["to"]="jeroen@webtastic.nl";
-if($mailtekst["body"]) {
-	verstuur_opmaakmail($mailtekst["website"],$mailtekst["to"],$mailtekst["toname"],$mailtekst["subject"],$mailtekst["body"],array("convert_to_html"=>true));
+if($_GET["testmail"]) {
+
+	$mailtekst["to"]=$login->vars["email"];
+#	$mailtekst["to"]="jeroen@webtastic.nl";
+#	$mailtekst["to"]="mmtest@postvak.net";
+	#$mailtekst["to"]="jeroen_boschman@hotmail.com";
+	if($mailtekst["body"]) {
+		verstuur_opmaakmail($mailtekst["website"],$mailtekst["to"],$mailtekst["toname"],$mailtekst["subject"],$mailtekst["body"],array("convert_to_html"=>true));
+		echo "<p><b>Testmail verstuurd aan: <i>".wt_he($login->vars["email"])."</i></b></p>";
+	}
+} else {
+	echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&testmail=1")."\">Stuur een testmailtje aan <i>".wt_he($login->vars["email"])."</i> &raquo;</a> (sla eventuele wijzigingen wel eerst op)</p>";
 }
 
 ?>
