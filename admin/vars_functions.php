@@ -4145,7 +4145,7 @@ function opvalblok() {
 }
 
 
-function opmaakmail($website,$to,$toname,$subject,$body,$settings) {
+function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 	#
 	# Functie om opgemaakte mail (met header-afbeelding) te verzenden
@@ -4212,6 +4212,12 @@ function opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	if($toname) {
 		$mail->toname=$toname;
 	}
+
+	# bcc versturen?
+	if($settings["bcc"]) {
+		$mail->bcc=$settings["bcc"];
+	}
+
 
 	$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
 	$mail->html_top="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style><!--\na:hover { color:#888888; }\n--></style>\n</head><body bgcolor=\"#ffffff\" style=\"background-color:#ffffff;margin:0;padding:0;\"><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" bgcolor=\"#ffffff\" style=\"background-color:#ffffff;width:100%;\"><tr><td align=\"center\" width=\"100%\" style=\"background-color:#ffffff;width:100%;\"><br><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"681\" style=\"background-color:#ffffff;\"><tr><td><a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website])."\"><img src=\"".wt_he($vars["websiteinfo"]["basehref"][$website]).$topfoto."\" ".$topfoto_size[3]." border=\"0\"></a><br/>&nbsp;</td></tr><tr><td style=\"font-family: Verdana, Helvetica, Arial, sans-serif;line-height: 14pt;font-size: 10pt;padding-top:10px;\">\n";

@@ -173,7 +173,7 @@ $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
 $txt["nl"]["vars"]["cookiemelding"]="Om u beter van dienst te kunnen zijn wordt er gebruik gemaakt van cookies. Lees ons [[h_1]]privacy-statement[[h_2]] voor meer informatie.";
 $txt["en"]["vars"]["cookiemelding"]="-";
 
-$txt["nl"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: 0348 - 43 46 49.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
+$txt["nl"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: 088 - 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
 $txt["en"]["vars"]["opvalmelding"]="We are temporarily reachable on telephone number +31 88 66 44 200.\nYou can also reach us by email on [[h_1]][[v_email]][[h_2]].";
 
 $txt["nl_b"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: +31 88 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
@@ -289,201 +289,94 @@ $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="Book your winter hol
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="Boek nu je vakantie voor [SEIZOEN]!";
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="Book your [SEIZOEN] holiday now!";
 
-$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_1_zonderthema"]="Beste [NAAM],
-
-Als klant van [WEBSITE] willen wij je graag als eerste laten weten dat een deel van ons wintersportaanbod voor volgend seizoen nu al te reserveren is. Dit geldt ook voor de accommodatie die je het afgelopen winterseizoen bij ons geboekt hebt:
-
-[EERDERE_BOEKING]
-
-Om je de kans te geven om het geheel rustig met je reisgenoten te overleggen, geven we je alleen nu een optie van [OPTIEDAGEN] dagen in plaats van de gebruikelijke 3-daagse optie.
-
-Vooral grote accommodaties en periodes als de kerst- en de voorjaarsvakantie zijn erg populair. Daarom raden we je aan om niet te lang te wachten met boeken.
-
-Heb je voor je volgende wintersportvakantie andere plannen of wil je iets compleet anders? Neem eens een kijkje op de website of mail ons je wensen en wij zoeken een passende bestemming / accommodatie voor je uit.
-
-Klik op de volgende link voor meer informatie (ook als je nog niet over je volgende wintersport aan het nadenken bent):
-
-[LINK]
-
-Wij wensen je alvast veel vakantievoorpret!
-
-Met vriendelijke groet,
-[NAAM_MEDEWERKER]
-
-[WEBSITE]
-Wipmolenlaan 3
-3447 GJ Woerden
-Telefoon: 0348 - 43 46 49
-Fax: 0348 - 69 07 52
-E-mail: [EMAIL]";
-
-
 
 #
-# tijdelijke tekst over seizoen 2012/2013 voor Chalet.nl
+# Tekst voor klanten die hebben aangegeven "Ja, mail me over deze accommodatie"
 #
+
+# winter NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_1"]="Beste [NAAM],
 
-Deze winter ben je via [WEBSITE] op wintersport geweest en graag willen we je laten weten dat inmiddels een deel van ons aanbod nu al voor winter 2012/2013 is te reserveren. Dit geldt ook voor de accommodatie die jij deze winter bij ons geboekt hebt:
+Deze winter ben je via [WEBSITE] op wintersport geweest en ben je in de volgende accommodatie verbleven: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link].
 
-[EERDERE_BOEKING]
+Wij willen je daarom als eerste laten weten dat dit [SOORTACCOMMODATIE], evenals een aantal andere accommodaties, nu al te boeken is voor het volgende winterseizoen.
 
-Klik op de volgende link voor meer informatie (ook als je nog niet over je volgende wintersport aan het nadenken bent):
+Elk jaar constateren we weer dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.
 
-[LINK]
+[b]Klantvoordeel[/b]
+We geven je nu een optie van [OPTIEDAGEN] dagen in plaats van de gebruikelijke 3-daagse optie, om je de kans te geven rustig met je reisgenoten te overleggen. Via een van de twee onderstaande links kun je gebruik maken van dit voordeel:
+[ul][li][link=[LINK_ACC]]Een vrijblijvende optie van [OPTIEDAGEN] dagen nemen op [ACCOMMODATIENAAM][/link][/li]
+[li][link=[LINK_ALGEMEEN]]Een andere accommodatie zoeken uit ons actuele aanbod voor winter 2013/2014 en te profiteren van de extra lange optie[/link][/li][/ul]
+Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
 
-Wij merken elk jaar dat vooral de grote chalets erg populair zijn en hierdoor vaak snel volgeboekt worden. Ook zijn de vakantieperiodes zoals de kerst- en de voorjaarsvakantie erg populair en momenteel al veel gevraagd. Om zoveel mogelijk keus te hebben, raden we je daarom aan, niet te lang te wachten met oriënteren.
+Alvast veel vakantie-voorpret toegewenst!
 
-Heb je voor je volgende wintersportvakantie andere plannen of wil je iets compleet anders? Bezoek [BASEHREF]thema/2012-2013/ en dan zie je direct welke accommodaties nu al te boeken zijn voor winter 2012/2013. Natuurlijk is het ook mogelijk om ons je wensen te mailen, wij zoeken graag een passende bestemming / accommodatie voor je uit.
+Het team van [WEBSITE]";
 
-Wij wensen je alvast veel vakantie-voorpret!
+# winter EN
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_1"]="";
 
-Met vriendelijke groet,
-[NAAM_MEDEWERKER]
-
-[WEBSITE]
-Wipmolenlaan 3
-3447 GJ Woerden
-Telefoon: 0348 - 43 46 49
-Fax: 0348 - 69 07 52
-E-mail: [EMAIL]";
-
-
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_1"]="Dear [NAAM],
-
-Since you are a client of [WEBSITE] we would like to inform you in advance that we are already accepting reservations for a part of our programme for the new winter season. This holds also true for the accommodation you booked last winter season:
-
-[EERDERE_BOEKING]
-
-Description: [ACCOMMODATIELINK]
-
-Since we want to give you a chance to think it over with your travelling-companions, we will only now offer you an option of [OPTIEDAGEN] days instead of the regular 3-day option.
-
-Especially the bigger accommodations and the weeks of Christmas and New Year and the school holidays in February are very popular.
-This is why we recommend you to book quickly for these weeks, as accommodations for these weeks will quickly be booked.
-
-Or do you have other plans for your holiday? Maybe you want something entirely different? Please don't be hesitant to take a look at our website or to send us an e-mail with your preferences, so we can provide you a fitting accommodation
-
-Please click the following link for more information (even if you're not even thinking about your next winter holiday yet):
-
-[LINK]
-
-We wish you happy holidays!
-
-Kind regards,
-[NAAM_MEDEWERKER]
-
-[WEBSITE]
-Wipmolenlaan 3
-3447 GJ Woerden
-Netherlands
-Telefoon: +31 (0)348 - 43 46 49
-Fax: +31 (0)348 - 69 07 52
-E-mail: [EMAIL]";
-
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_1_zonderthema"]=$txt["en"]["vars"]["mail_klanten_vorig_seizoen_1"];
-
-
+#zomer NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_2"]="Beste [NAAM],
 
-Als klant van [WEBSITE] willen wij je graag als eerste laten weten dat een deel van ons aanbod nu al te reserveren is. Dit geldt ook voor de accommodatie die je het afgelopen seizoen bij ons geboekt hebt:
+Via [WEBSITE] ben je op vakantie geweest en ben je in de volgende accommodatie verbleven: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link].
 
-[EERDERE_BOEKING]
+Wij willen je daarom als eerste laten weten dat dit [SOORTACCOMMODATIE], evenals een aantal andere accommodaties, nu al te boeken is voor het volgende seizoen.
 
-Voor omschrijving: [ACCOMMODATIELINK]
+[b]Klantvoordeel[/b]
+We geven je nu een optie van [OPTIEDAGEN] dagen in plaats van de gebruikelijke 3-daagse optie, om je de kans te geven rustig met je reisgenoten te overleggen. Via een van de twee onderstaande links kun je gebruik maken van dit voordeel:
+[ul][li][link=[LINK_ACC]]Een vrijblijvende optie van [OPTIEDAGEN] dagen nemen op [ACCOMMODATIENAAM][/link][/li]
+[li][link=[LINK_ALGEMEEN]]Een andere accommodatie zoeken uit ons actuele aanbod voor komende zomer en te profiteren van de extra lange optie[/link][/li][/ul]
+Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
 
-Wij kunnen je nu een optie van [OPTIEDAGEN] dagen aanbieden, in plaats van de gebruikelijke 3-daagse optie, om bovenstaande accommodatie voor volgende zomer opnieuw te reserveren. Uiteraard is het ook mogelijk om deze [OPTIEDAGEN]-daagse optie op een andere accommodatie te nemen.
+Alvast veel vakantie-voorpret toegewenst!
 
-Ben je voor je volgende zomervakantie op zoek naar iets anders? Neem eens een kijkje op [BASEHREF] of mail ons je wensen en wij geven je geheel vrijblijvend en passend advies. Een handig hulpmiddel hiervoor is het 'vraag ons advies- formulier'. Bezoek daarvoor: [BASEHREF]vraag-ons-advies.php
+Het team van [WEBSITE]";
+# zomer EN
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_2"]="-";
 
-Heb je voor je volgende zomervakantie andere plannen of wil je iets compleet anders? Neem eens een kijkje op de website of mail ons je wensen en wij zoeken een passende bestemming / accommodatie voor je uit.
+#
+# Tekst voor klanten die hebben aangegeven "Ja, mail me over andere accommodaties/bestemmingen"
+#
 
-Klik voor meer informatie en voor het activeren van je [OPTIEDAGEN]-daagse optie op de volgende link:
+# winter NL
+$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Beste [NAAM],
 
-[LINK]
+Deze winter ben je via [WEBSITE] op wintersport geweest. Je hebt aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2013/2014. Daarom willen we je graag als eerste laten weten dat een groot deel hiervan nu al te reserveren is.
 
-Wij wensen je alvast veel vakantievoorpret toe!
+[b]Klantvoordeel[/b]
+Elk jaar constateren we weer dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.
 
-Met vriendelijke groet,
-[NAAM_MEDEWERKER]
+Om je de kans te geven rustig met je reisgenoten te overleggen, geven we je als klant nu een [b]extra lange optie[/b] in plaats van de gebruikelijke 3-daagse optie. De lengte van de optie is afhankelijk van de accommodatie en de verblijfsperiode. Via onderstaande link kun je gebruik maken van dit voordeel:
 
-[WEBSITE]
-Wipmolenlaan 3
-3447 GJ Woerden
-Telefoon: 0348 - 43 46 49
-Fax: 0348 - 69 07 52
-E-mail: [EMAIL]";
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_2"]="Dear [NAAM],
+[link=[LINK_ALGEMEEN]]Een accommodatie zoeken voor winter 2013/2014 en profiteren van de extra lange optie[/link]
 
-Since you are a client of [WEBSITE] we would like to inform you in advance that we are already accepting reservations for a part of our programme for the new summer season. This holds also true for the accommodation you booked last season:
+Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
 
-[EERDERE_BOEKING]
+Alvast veel vakantie-voorpret toegewenst!
 
-Description: [ACCOMMODATIELINK]
+Het team van [WEBSITE]";
 
-Since we want to give you a chance to think it over with your travelling-companions, we will only now offer you an option of [OPTIEDAGEN] days instead of the regular 3-day option.
+# winter EN
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="";
 
-Especially the bigger accommodations and the weeks during the school summer holiday are very popular.
-This is why we recommend you to book quickly for these weeks, as accommodations for these weeks will quickly be booked.
+# zomer NL
+$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="Beste [NAAM],
 
-Or do you have other plans for your holiday? Maybe you want something entirely different? Please don't be hesitant to take a look at our website or to send us an e-mail with your preferences, so we can provide you a fitting accommodation
+Via [WEBSITE] ben je op vakantie geweest. Je hebt aangegeven geïnformeerd te willen worden over ons aanbod voor het volgende seizoen. Daarom willen we je graag als eerste laten weten dat een groot deel hiervan nu al te reserveren is.
 
-Please click the following link for more information (even if you're not even thinking about your next holiday yet):
+[b]Klantvoordeel[/b]
+Om je de kans te geven rustig met je reisgenoten te overleggen, geven we je als klant nu een [b]extra lange optie[/b] in plaats van de gebruikelijke 3-daagse optie. De lengte van de optie is afhankelijk van de accommodatie en de verblijfsperiode. Via onderstaande link kun je gebruik maken van dit voordeel:
 
-[LINK]
+[link=[LINK_ALGEMEEN]]Een accommodatie zoeken voor volgend seizoen en profiteren van de extra lange optie[/link]
 
-We wish you happy holidays!
+Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
 
-Kind regards,
-[NAAM_MEDEWERKER]
+Alvast veel vakantie-voorpret toegewenst!
 
-[WEBSITE]
-Wipmolenlaan 3
-3447 GJ Woerden
-Netherlands
-Telefoon: +31 (0)348 - 43 46 49
-Fax: +31 (0)348 - 69 07 52
-E-mail: [EMAIL]";
-
-
-$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_tijdelijk_zomerhuisje_italissima"]="*Zomerhuisje.nl wordt Italissima!*
-
-Beste [NAAM],
-
-Als klant van Zomerhuisje.nl willen wij je hierbij graag op de hoogte brengen van een aantal veranderingen:
-
-- Met onze website www.zomerhuisje.nl richten wij ons voortaan op één van onze specialismen: vakanties in de bergen.
-
-- De grote vraag naar vakantiehuizen in Italië heeft ons doen besluiten om een aparte website te ontwikkelen: www.italissima.nl. Niet alleen vind je hier nu een nog uitgebreider aanbod van huizen in Italië, ook bieden wij Italië-liefhebbers een stukje voorpret middels ons blog, onze nieuwsbrief en onze Facebook- en Twitter-accounts.
-
-Het grootste deel van onze vakantiehuizen in Italië is al te reserveren. Dit geldt ook voor de accommodatie die je het afgelopen seizoen bij ons geboekt hebt via Zomerhuisje.nl:
-
-[EERDERE_BOEKING]
-
-Voor omschrijving: [ACCOMMODATIELINK]
-
-Wij kunnen je nu een optie van [OPTIEDAGEN] dagen aanbieden, in plaats van de gebruikelijke 3-daagse optie, om bovenstaande accommodatie voor volgende zomer opnieuw te reserveren. Uiteraard is het ook mogelijk om deze [OPTIEDAGEN]-daagse optie op een andere accommodatie te nemen.
-
-Ben je voor je volgende zomervakantie op zoek naar iets anders? Neem eens een kijkje op [BASEHREF] of mail ons je wensen en wij geven je geheel vrijblijvend en passend advies. Een handig hulpmiddel hiervoor is het 'vraag ons advies- formulier'. Bezoek daarvoor: [BASEHREF]vraag-ons-advies.php
-
-Heb je voor je volgende zomervakantie andere plannen of wil je iets compleet anders? Neem eens een kijkje op de website of mail ons je wensen en wij zoeken een passende bestemming / accommodatie voor je uit.
-
-Klik voor meer informatie en voor het activeren van je [OPTIEDAGEN]-daagse optie op de volgende link:
-
-[LINK]
-
-Wij wensen je alvast veel vakantievoorpret toe!
-
-Met vriendelijke groet,
-[NAAM_MEDEWERKER]
-
-[WEBSITE]
-Wipmolenlaan 3
-3447 GJ Woerden
-Telefoon: 0348 - 43 46 49
-Fax: 0348 - 69 07 52
-E-mail: [EMAIL]";
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_tijdelijk_zomerhuisje_italissima"]="-";
+Het team van [WEBSITE]";
+# zomer EN
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="-";
 
 
 #

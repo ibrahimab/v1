@@ -9,4 +9,10 @@ echo "<textarea name=\"mailtekst\" cols=\"76\" rows=\"20\">".htmlentities($mailt
 echo "<input type=\"submit\" value=\" TEKST OPSLAAN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\">";
 echo "</form>";
 
+
+$mailtekst["to"]="jeroen@webtastic.nl";
+if($mailtekst["body"]) {
+	verstuur_opmaakmail($mailtekst["website"],$mailtekst["to"],$mailtekst["toname"],$mailtekst["subject"],$mailtekst["body"],array("convert_to_html"=>true));
+}
+
 ?>
