@@ -4144,4 +4144,83 @@ function opvalblok() {
 	return $return;
 }
 
+
+function opmaakmail($website,$to,$toname,$subject,$body,$settings) {
+
+	#
+	# Functie om opgemaakte mail (met header-afbeelding) te verzenden
+	#
+
+	global $vars;
+
+	if($website=="I") {
+		$topfoto="favorietenmail_logo_italissima";
+	} elseif($website=="K") {
+		$topfoto="favorietenmail_logo_italissima";
+	} elseif($website=="E") {
+		$topfoto="favorietenmail_logo_chaleteu";
+	} elseif($website=="Z") {
+		$topfoto="favorietenmail_logo_zomerhuisje";
+	} elseif($website=="T") {
+		$topfoto="favorietenmail_logo_chalettour";
+	} elseif($website=="B") {
+		$topfoto="favorietenmail_logo_chaletbe";
+	} elseif($website=="W") {
+		$topfoto="favorietenmail_logo_superski";
+	} elseif($website=="V") {
+		$topfoto="favorietenmail_logo_vallandry";
+	} elseif($website=="Q") {
+		$topfoto="favorietenmail_logo_vallandry_en";
+	} else {
+		$topfoto="favorietenmail_logo_chalet";
+	}
+	$topfoto="pic/topfoto/".$topfoto.".png";
+
+	if(file_exists($vars["unixtime"].$topfoto)) {
+		$topfoto_size=getimagesize($vars["unixtime"].$topfoto);
+	}
+
+	if($settings["convert_to_html"]) {
+
+		$body=wt_he($body);
+
+		$body=nl2br($body);
+
+		# [link=http://url/]tekst[/link] omzetten
+		$body=preg_replace("/\[link=(https?[^]]+)\](.*)\[\/link\]/","<a href=\"\\1\">\\2</a>",$body);
+
+		# [b] bold
+		$body=preg_replace("/\[b\](.*)\[\/b\]/","<b>\\1</b>",$body);
+
+		# [i] italics
+		$body=preg_replace("/\[i\](.*)\[\/i\]/","<i>\\1</i>",$body);
+
+		# [ul] u-list
+		$body=preg_replace("/\[ul\](.*)\[\/ul\]/s","<ul>\\1</ul>",$body);
+
+		# [li] list-item
+		$body=preg_replace("/\[li\](.*)\[\/li\]/","<li>\\1</li>",$body);
+	}
+
+
+
+	$mail=new wt_mail;
+	$mail->from=$vars["websiteinfo"]["email"][$website];
+	$mail->fromname=$vars["websiteinfo"]["websitenaam"][$website];
+	$mail->subject=$subject;
+	$mail->to=$to;
+	if($toname) {
+		$mail->toname=$toname;
+	}
+
+	$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
+	$mail->html_top="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style><!--\na:hover { color:#888888; }\n--></style>\n</head><body bgcolor=\"#ffffff\" style=\"background-color:#ffffff;margin:0;padding:0;\"><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" bgcolor=\"#ffffff\" style=\"background-color:#ffffff;width:100%;\"><tr><td align=\"center\" width=\"100%\" style=\"background-color:#ffffff;width:100%;\"><br><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"681\" style=\"background-color:#ffffff;\"><tr><td><a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website])."\"><img src=\"".wt_he($vars["websiteinfo"]["basehref"][$website]).$topfoto."\" ".$topfoto_size[3]." border=\"0\"></a><br/>&nbsp;</td></tr><tr><td style=\"font-family: Verdana, Helvetica, Arial, sans-serif;line-height: 14pt;font-size: 10pt;padding-top:10px;\">\n";
+
+	$mail->html_bottom="<br/>&nbsp;</td></tr></table></td></tr></table></body></html>\n";
+
+	$mail->html=$body;
+	$mail->send();
+
+}
+
 ?>
