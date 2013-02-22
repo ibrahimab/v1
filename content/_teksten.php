@@ -4052,59 +4052,6 @@ $txt["en"]["voucher"]["attachmentnaam_reisdocumenten"]="travel_documents.pdf";
 
 
 #
-# Rebook (via mailuitnodiging dezelfde accommodatie opnieuw boeken)
-#
-
-$txt["nl"]["rebook"]["inleiding1"]="Als klant van [[v_website]] willen wij je graag als eerste laten weten dat een deel van ons wintersportaanbod nu al te reserveren is. Dit geldt ook voor de accommodatie die je het afgelopen winterseizoen bij ons geboekt hebt:";
-$txt["en"]["rebook"]["inleiding1"]="Since you are a client of [[v_website]] we would like to inform you in advance that we are already accepting reservations for a part of our programme for the new winter season. This holds also true for the accommodation you booked last season:";
-
-$txt["nl_z"]["rebook"]["inleiding1"]="Als klant van [[v_website]] willen wij je graag als eerste laten weten dat een deel van ons zomeraanbod nu al te reserveren is. Dit geldt ook voor de accommodatie die je het afgelopen seizoen bij ons geboekt hebt:";
-$txt["en_z"]["rebook"]["inleiding1"]="Since you are a client of [[v_website]] we would like to inform you in advance that we are already accepting reservations for a part of our programme for the new summer season. This holds also true for the accommodation you booked last season:";
-
-$txt["nl"]["rebook"]["inleiding2"]="Om je de kans te geven om het geheel rustig met je reisgenoten te overleggen, geven we je alleen nu een optie van [[v_optiedagen]] dagen in plaats van de gebruikelijke 3-daagse optie. Vooral grote accommodaties en periodes als de kerst- en de voorjaarsvakantie zijn erg populair. Daarom raden we je aan om niet te lang te wachten met boeken.";
-$txt["en"]["rebook"]["inleiding2"]="Since we want to give you a chance to think it over with your travelling-companions, we will only now offer you an option of [[v_optiedagen]] days instead of the regular 3-day option. Especially the bigger accommodations and the week that includes Christmas, New Year and the school holidays in February are very popular. This is why we recommend you to book quickly for these weeks, as accommodations for these weeks will quickly be booked.";
-
-$txt["nl_z"]["rebook"]["inleiding2"]="Om je de kans te geven om het geheel rustig met je reisgenoten te overleggen, geven we je alleen nu een optie van [[v_optiedagen]] dagen in plaats van de gebruikelijke 3-daagse optie. Vooral grote accommodaties en periodes als de zomervakantie zijn erg populair. Daarom raden we je aan om niet te lang te wachten met boeken.";
-$txt["en_z"]["rebook"]["inleiding2"]="Since we want to give you a chance to think it over with your travelling-companions, we will only now offer you an option of [[v_optiedagen]] days instead of the regular 3-day option. Especially the bigger accommodations and the weeks that includes school holidays are very popular. This is why we recommend you to book quickly for these weeks, as accommodations for these weeks will quickly be booked.";
-
-$txt["nl"]["rebook"]["maakeenkeuze"]="Maak een keuze uit de volgende 3 mogelijkheden:";
-$txt["en"]["rebook"]["maakeenkeuze"]="Please pick one of the following three choices:";
-
-$txt["nl"]["rebook"]["keuze1"]="Een vrijblijvende optie van [[v_optiedagen]] dagen nemen op [[v_accommodatie]]";
-$txt["en"]["rebook"]["keuze1"]="Take a non-committal option of [[v_optiedagen]] days on [[v_accommodatie]]";
-
-$txt["nl"]["rebook"]["keuze2"]="Een andere accommodatie zoeken met de mogelijkheid nu een extra lange optie te nemen";
-$txt["en"]["rebook"]["keuze2"]="Search for another accommodation with the possibility of an extended option";
-
-$txt["nl"]["rebook"]["keuze3"]="Andere vragen/wensen doorgeven via onderstaand formulier:";
-$txt["en"]["rebook"]["keuze3"]="Please let us know if you have any other questions/wishes via the following form:";
-
-$txt["nl"]["rebook"]["wanneerjenogniet"]="Wanneer je nog niet toe bent aan het plannen van je volgende wintersportvakantie, maar hierover later wel opnieuw door ons benaderd wilt worden, geef dan hieronder de periode aan waarin je wilt dat we contact met je opnemen.";
-$txt["en"]["rebook"]["wanneerjenogniet"]="If you're not ready yet to plan your next winter sports holiday, but you do want us to contact you later on, please let us know with the form below when you want us to contact you.";
-
-$txt["nl_z"]["rebook"]["wanneerjenogniet"]="Wanneer je nog niet toe bent aan het plannen van je volgende zomervakantie, maar hierover later wel opnieuw door ons benaderd wilt worden, geef dan hieronder de periode aan waarin je wilt dat we contact met je opnemen.";
-$txt["en_z"]["rebook"]["wanneerjenogniet"]="If you're not ready yet to plan your next summer holiday, but you do want us to contact you later on, please let us know with the form below when you want us to contact you.";
-
-$txt["nl"]["rebook"]["contactmoment"]="Gewenst contactmoment";
-$txt["en"]["rebook"]["contactmoment"]="Preferred moment of contact";
-
-$txt["nl"]["rebook"]["overigevragen"]="Overige vragen of opmerkingen";
-$txt["en"]["rebook"]["overigevragen"]="Other questions or remarks";
-
-$txt["nl"]["rebook"]["email"]="E-mailadres";
-$txt["en"]["rebook"]["email"]="E-mailadress";
-
-$txt["nl"]["rebook"]["bedankt1"]="Bedankt voor het invullen van ons vragenformulier m.b.t. je volgende wintersportvakantie. Wij zullen je gegevens zo snel mogelijk en met de grootst mogelijke aandacht verwerken.";
-$txt["en"]["rebook"]["bedankt1"]="Thank you for filling out the form about your next winter sports holiday! We will handle your information with the greatest care.";
-
-$txt["nl_z"]["rebook"]["bedankt1"]="Bedankt voor het invullen van ons vragenformulier m.b.t. je volgende vakantie. Wij zullen je gegevens zo snel mogelijk en met de grootst mogelijke aandacht verwerken.";
-$txt["en_z"]["rebook"]["bedankt1"]="Thank you for filling out the form about your next holiday! We will handle your information with the greatest care.";
-
-$txt["nl"]["rebook"]["bedankt2"]="Bekijk nu ons actuele aanbod van accommodaties";
-$txt["en"]["rebook"]["bedankt2"]="Examine our current programme of accommodations now";
-
-
-#
 # Andere site (van winter naar zomer en andersom)
 #
 $txta["nl"]["anderesite"]="zomerprogramma";

@@ -4199,7 +4199,7 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 		$body=preg_replace("/\[ul\](.*)\[\/ul\]/s","<ul>\\1</ul>",$body);
 
 		# [li] list-item
-		$body=preg_replace("/\[li\](.*)\[\/li\]/","<li style=\"margin-bottom:1.0em;\">\\1</li>",$body);
+		$body=preg_replace("/\[li\](.*)\[\/li\]/","<li style=\"margin-bottom:1.5em;\">\\1</li>",$body);
 
 		$body=str_replace("</li><br />\n<li>","</li><li>",$body);
 		$body=str_replace("</li><br />\n<li ","</li><li ",$body);

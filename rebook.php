@@ -2,6 +2,11 @@
 
 include("admin/vars.php");
 
+#
+# Systeem voor plaatsen cookie na klikken op link "mail n.a.v. boeking vorig seizoen"
+#
+# Dit cookie geeft de bezoeker (deze sessie) de mogelijkheid een langere optie af te sluiten
+#
 if($_GET["bid"] and $_GET["c"]==substr(sha1($_GET["bid"]."_WT_488439fk3"),0,8)) {
 
 	$gegevens=get_boekinginfo($_GET["bid"]);
@@ -27,44 +32,6 @@ if($_GET["bid"] and $_GET["c"]==substr(sha1($_GET["bid"]."_WT_488439fk3"),0,8)) 
 	header("Location: ".$goto);
 	exit;
 
-
-
-	#
-	# NIET MEER IN GEBRUIK (22-02-2013)
-	#
-
-	# Formulier
-	$form=new form2("frm");
-	$form->settings["fullname"]="Mailing bestaande klanten vorig seizoen";
-	$form->settings["layout"]["css"]=false;
-#	$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
-	$form->settings["language"]=$vars["taal"];
-	#$form->settings["target"]="_blank";
-
-	# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
-	$form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
-
-	#_field: (obl),id,title,db,prevalue,options,layout
-
-	$form->field_onlyinoutput("oud_boekingsnummer","Boekingsnummer vorig seizoen","",array("text"=>"<a href=\"http://www.chalet.nl/cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"]."\">".$gegevens["stap1"]["boekingsnummer"]."</a>"));
-	$form->field_htmlrow("",html("wanneerjenogniet","rebook"));
-	$form->field_text(0,"contactmoment",txt("contactmoment","rebook"));
-	$form->field_textarea(0,"opmerkingen",txt("overigevragen","rebook"),"","","",array("newline"=>true));
-	$form->field_email(1,"email",txt("email","rebook"),"",array("text"=>$gegevens["stap2"]["email"]));
-
-	$form->check_input();
-
-	if($form->filled) {
-
-	}
-
-	if($form->okay) {
-		$form->mail("info@chalet.nl","","Ingevuld formulier n.a.v. mailing bestaande klanten vorig seizoen");
-		chalet_log("formulier ingevuld n.a.v. mailing bestaande klanten vorig seizoen",true,true);
-	}
-	$form->end_declaration();
-
-	include "content/opmaak.php";
 } else {
 	header("Location: /");
 	exit;
