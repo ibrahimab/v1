@@ -79,9 +79,16 @@ if($url[0]) {
 		if($vars["websitetype"]==6) {
 			# canonical voor ChaletsinVallandry
 			$vars["canonical"]=$vars["basehref"].txt("menu_accommodatie")."/".$url[0]."/";
+		} elseif($vars["website"]=="Z" and preg_match("/I/",$db->f("websites"))) {
+			# Italiaanse accommodaties op Zomerhuisje: canonical naar www.italissima.nl
+			$vars["canonical"]=seo_acc_url($url[0],$db->f("soortaccommodatie"),$db->f("naam"),$db->f("tnaam"));
+			$vars["canonical"]=str_replace("www.zomerhuisje.nl","www.italissima.nl",$vars["canonical"]);
+		} elseif($vars["website"]=="W" and preg_match("/C/",$db->f("websites"))) {
+			# Accommodaties op SuperSki die ook op Chalet.nl beschikbaar zijn: canonical naar www.chalet.nl
+			$vars["canonical"]=seo_acc_url($url[0],$db->f("soortaccommodatie"),$db->f("naam"),$db->f("tnaam"));
+			$vars["canonical"]=str_replace("www.superski.nl","www.chalet.nl",$vars["canonical"]);
 		} else {
 			# canonical met accommodatienaam is URL bepalen
-#			$vars["canonical"]=$vars["basehref"].txt("canonical_accommodatiepagina")."/".strtolower($url[0])."/".wt_convert2url_seo(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
 			$vars["canonical"]=seo_acc_url($url[0],$db->f("soortaccommodatie"),$db->f("naam"),$db->f("tnaam"));
 		}
 
