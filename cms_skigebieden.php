@@ -138,6 +138,10 @@ if($zomerhuisje) {
 }
 
 
+# Video
+$cms->db_field(5,"yesno","video");
+$cms->db_field(5,"url","video_url");
+
 
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
@@ -214,6 +218,11 @@ $cms->edit_field(5,0,"afbeelding","Afbeelding(en)","",array("autoresize"=>true,"
 $cms->edit_field(5,0,"pistekaart","Pistekaart skigebied","",array("img_minheight"=>"150","img_maxwidth"=>"4000","img_maxheight"=>"2200","showfiletype"=>true));
 $cms->edit_field(5,0,"landkaart","Landkaart","",array("img_minheight"=>"150","img_maxwidth"=>"600","img_maxheight"=>"600","showfiletype"=>true));
 
+
+$cms->edit_field(5,0,"htmlrow","<hr><b>Video</b>");
+$cms->edit_field(5,0,"video_url","URL van Vimeo");
+$cms->edit_field(5,0,"video","Toon deze video op de regiopagina (NOG NIET IN GEBRUIK)");
+
 $cms->edit_field(5,0,"htmlrow","<hr><b>Gekoppelde regio's</b>");
 $cms->edit_field(5,0,"htmlrow","De gekoppelde regio's worden gebruikt bij het zoekformulier. Als een zoekopdracht weinig resultaten oplevert, wordt er ook gezocht in de gekoppelde regio's. Eerst wordt klasse 1 doorzocht. Zijn er dan nog onvoldoende resultaten, dan volgt klasse 2, enzovoort.");
 for($i=1;$i<=5;$i++) {
@@ -273,6 +282,17 @@ if($cms_form[5]->filled) {
 	if($cms_form[5]->input["googlemaps_zoomlevel"] and $cms_form[5]->input["googlemaps_zoomlevel"]>15) {
 		$cms_form[5]->error("googlemaps_zoomlevel","Kies een waarde van 0 t/m 15");
 	}
+
+	# Controle op aanwezige video_url
+	if($cms_form[5]->input["video"] and !$cms_form[5]->input["video_url"]) {
+		$cms_form[5]->error("video_url","obl");
+	}
+
+	# Controle op Vimeo-link
+	if($cms_form[5]->input["video_url"] and !preg_match("/^http:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[5]->input["video_url"])) {
+		$cms_form[5]->error("video_url","onjuist formaat. Voorbeeld: http://player.vimeo.com/video/44377043");
+	}
+
 }
 
 # Controle op delete-opdracht
