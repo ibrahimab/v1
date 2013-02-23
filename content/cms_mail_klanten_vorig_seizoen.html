@@ -131,6 +131,15 @@ if($_POST["boeking"] or $_POST["verwijderboeking"]) {
 		$andere_accommodaties_inquery.=",".$db->f("boeking_id");
 	}
 
+	# Boekingen zonder enquete: ook "mail me over andere accommodaties/bestemmingen" toepassen
+	$db->query("SELECT boeking_id FROM boeking WHERE seizoen_id IN (".$vorigeseizoen.") AND boeking_id NOT IN (SELECT boeking_id FROM boeking_enquete);");
+	while($db->next_record()) {
+		$andere_accommodaties[$db->f("boeking_id")]=true;
+		$andere_accommodaties_inquery.=",".$db->f("boeking_id");
+	}
+
+
+
 	if($_GET["andere_accommodaties"]==2) {
 		# klanten die over andere accommodaties geinformeerd willen worden
 		$wherequery.=" AND b.boeking_id IN (".substr($andere_accommodaties_inquery,1).")";
