@@ -31,6 +31,7 @@ include($unixdir."admin/vars.php");
 #echo date("d-m-Y H:i")."u.<pre>\n\nChalet.nl elk uur\n\n\n";
 #flush();
 
+#wt_mail("jeroen@webtastic.nl","elk uur","mail elk uur");
 
 #
 # Automatische kortingen (vanwege Zwitserse Franken CHF) doorrekenen
@@ -519,5 +520,8 @@ if(date("H")==5) {
 		echo $db->f("Name")."<br>";
 	}
 }
+
+#wt_mail("jeroen@webtastic.nl","elk uur afgerond","mail elk uur");
+
 
 ?>
