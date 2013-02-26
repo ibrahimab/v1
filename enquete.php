@@ -155,6 +155,52 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 #				$mailhtml.="<tr><td valign=\"top\">".html("overigetoelichting","enquete")."</td><td>&nbsp;</td><td>".nl2br(htmlentities($_POST["overigetoelichting"]))."</td></tr>";
 			}
 
+			# Mail met kortingscode sturen
+			if($vars["taal"]=="nlNU_EVEN_NIET") {
+
+				$db->query("SELECT boeking_id FROM boeking_enquete WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+				if(!$db->next_record()) {
+
+					# Kortingscode uit database halen
+					$db2->query("SELECT enquete_kortingscode_id, code FROM enquete_kortingscode WHERE verzonden IS NULL ORDER BY enquete_kortingscode_id LIMIT 0,1");
+					if($db2->next_record()) {
+						$kortingscode=$db2->f("code");
+
+						# Opslaan dat deze kortingscode verzonden is
+						$db3->query("UPDATE enquete_kortingscode SET verzonden=NOW() WHERE enquete_kortingscode_id='".$db2->f("enquete_kortingscode_id")."';");
+					}
+
+					# Kijken of er nog genoeg kortingscodes beschikbaar zijn
+					$db2->query("SELECT COUNT(enquete_kortingscode_id) AS aantal FROM enquete_kortingscode WHERE verzonden IS NULL;");
+					if($db2->next_record()) {
+						$enquete_kortingscode_aantal=$db2->f("aantal");
+					}
+					if($enquete_kortingscode_aantal<50) {
+						# Zo niet: Bjorn mailen
+						wt_mail("bjorn@chalet.nl","Nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes","Er zijn nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes beschikbaar.\n\nVoeg z.s.m. nieuwe codes toe via http://www.chalet.nl/cms_diversen.php?t=3\n\n");
+					}
+
+					$mailbody="Als dank voor het invullen van de enquête van ".$vars["websitenaam"]." ontvang je hierbij je kortingscode. Met deze kortingscode kun je op [link=http://www.fotofabriek.nl/chalet-fotoboeken-actie/]fotofabriek.nl[/link] met 55% korting een A4-fotoboek bestellen!
+
+Je kortingscode is: [b]".trim($kortingscode)."[/b]
+
+Bekijk de [link=http://www.fotofabriek.nl/chalet-fotoboeken-actie/]speciale actiepagina[/link] voor verdere details en de voorwaarden.
+
+Wij wensen je hiermee heel veel plezier en hopen je binnenkort opnieuw van dienst te mogen zijn.
+
+
+Met vriendelijke groet,
+
+[ondertekening]";
+
+					if($kortingscode) {
+						# Mail versturen (met opmaak)
+						verstuur_opmaakmail($gegevens["stap1"]["website"],$gegevens["stap2"]["email"],wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]),"kortingscode fotofabriek.nl",$mailbody,array("convert_to_html"=>true));
+					}
+				}
+			}
+
+
 			$db->query("INSERT INTO boeking_enquete SET boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', type_id='".addslashes($gegevens["stap1"]["typeid"])."', aankomstdatum_exact=FROM_UNIXTIME('".addslashes($gegevens["stap1"]["aankomstdatum_exact"])."'), vertrekdatum_exact=FROM_UNIXTIME('".addslashes($gegevens["stap1"]["vertrekdatum_exact"])."'), invulmoment=NOW()".$setquery.";");
 
 			$mail=new wt_mail;
@@ -175,7 +221,6 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 			$mail->send();
 
 			chalet_log("enquête ingevuld",true,true);
-
 
 			header("Location: ".$_SERVER["REQUEST_URI"]."&enqfilled=1");
 			exit;

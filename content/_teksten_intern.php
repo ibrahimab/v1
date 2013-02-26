@@ -685,10 +685,10 @@ $txta["en_b"]["handelsnaam_zomerhuisje"]="-";
 $txta["nl"]["chaletsinvallandry"]="Chalets in Vallandry";
 $txta["en"]["chaletsinvallandry"]="Chalets in Vallandry";
 
-$txta["nl"]["telefoonnummer"]="Tel. 0348 - 43 46 49";
-$txta["en"]["telefoonnummer"]="Phone +31 348 43 46 49";
+$txta["nl"]["telefoonnummer"]="Tel: 0348 - 43 46 49";
+$txta["en"]["telefoonnummer"]="Phone: +31 348 43 46 49";
 
-$txta["nl_b"]["telefoonnummer"]="Tel. +31 348 43 46 49";
+$txta["nl_b"]["telefoonnummer"]="Tel: +31 348 43 46 49";
 $txta["en_b"]["telefoonnummer"]="-";
 
 $txta["nl"]["telefoonnummer_colofon"]="tel: 0348 - 43 46 49";

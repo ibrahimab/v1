@@ -5,8 +5,15 @@ echo "<h1>".html("title_enquete")."</h1>";
 if($onjuisteurl) {
 	echo html("onjuisteurl","enquete");
 } elseif($_GET["enqfilled"]) {
-	echo html("bedankt","enquete");
-	echo "<p><a href=\"".$vars["path"]."\">".html("naarhoofdpagina","enquete")."</a>";
+	echo "<p>".html("bedankt","enquete")."</p>";
+
+	if($vars["taal"]=="nlNU_EVEN_NIET") {
+		echo "<p>".html("bedankt_fotofabriek","enquete",array("h_1"=>"<a href=\"http://www.fotofabriek.nl/chalet-fotoboeken-actie/\" target=\"_blank\">","h_2"=>"</a>"))."</p>";
+
+		echo "<p><a href=\"http://www.fotofabriek.nl/chalet-fotoboeken-actie/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/logo_fotofabriek.png\" width=\"300\" border=\"0\"></a></p>";
+	}
+	echo "<p><a href=\"".$vars["path"]."\">".html("naarhoofdpagina","enquete")."</a></p>";
+
 } else {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		# enquete wissen t.b.v. lokaal testen

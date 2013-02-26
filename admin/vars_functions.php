@@ -4205,6 +4205,18 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 		$body=str_replace("</li><br />\n<li ","</li><li ",$body);
 	}
 
+	if(preg_match("/\[ondertekening\]/",$body)) {
+
+		$temp_taal=$vars["taal"];
+
+		$vars["taal"]=$vars["websiteinfo"]["taal"][$website];
+		$ondertekening=html("hetteamvan","vars",array("v_websitenaam"=>$vars["websiteinfo"]["websitenaam"][$website],"h_1"=>"<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website])."\">","h_2"=>"</a>"))."<br/>".html("telefoonnummer");
+		$body=preg_replace("/\[ondertekening\]/",$ondertekening,$body);
+
+		$vars["taal"]=$temp_taal;
+
+	}
+
 	$mail=new wt_mail;
 	$mail->from=$vars["websiteinfo"]["email"][$website];
 	$mail->fromname=$vars["websiteinfo"]["websitenaam"][$website];

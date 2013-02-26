@@ -36,7 +36,7 @@ include($unixdir."admin/vars.php");
 #
 # Automatische kortingen (vanwege Zwitserse Franken CHF) doorrekenen
 #
-if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
 	$db->query("SELECT seizoen_id, zwitersefranken_kortingspercentage, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen;");
 	while($db->next_record()) {
 		$seizoen_zwitersefranken_kortingspercentage[$db->f("seizoen_id")]=$db->f("zwitersefranken_kortingspercentage");
@@ -82,7 +82,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]
 #
 # Alle kortingen/aanbiedingen doorrekenen
 #
-if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
 	include($unixdir."cron/tarieven_berekenen.php");
 }
 
@@ -92,6 +92,48 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]
 if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test4") {
 	$a=file_get_contents("https://www.chalet.nl/cms_financien.php?marges=1&csv=1");
 	unset($a);
+}
+
+#
+# Uitnodigingen voor de enquete versturen (niet aan wederverkoop-boekingen)
+#
+if((date("H")>12 and date("H")<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+	unset($teller);
+	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.vertrekdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.vertrekdatum_exact<'".(time()-172800)."' AND b.vertrekdatum_exact>'".(time()-1209600)."' AND b.mailblokkeren_enquete=0 AND b.mailverstuurd_enquete IS NULL AND reisbureau_user_id IS NULL ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		while($db->next_record()) {
+			$teller++;
+			if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $teller>1) {
+				continue;
+			}
+			$gegevens=get_boekinginfo($db->f("boeking_id"));
+
+
+			$mailbody=txt("mail_body","enquete");
+
+			$link=$gegevens["stap1"]["website_specifiek"]["basehref"]."enquete.php?bid=".$gegevens["stap1"]["boekingid"]."&ch=".substr(sha1($gegevens["stap1"]["boekingid"]."kkSLlejkd"),0,8);
+			$mailbody=ereg_replace("\[LINK_ENQUETE\]",$link,$mailbody);
+#			$mailbody=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$mailbody);
+			$mailbody=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$mailbody);
+			$mailbody=ereg_replace("\[LINK_FOTOFABRIEK\]","http://www.fotofabriek.nl/chalet-fotoboeken-actie/",$mailbody);
+
+			$subject=txt("mail_subject","enquete");
+
+			if(!preg_match("/MISSING/",$subject)) {
+
+				$settings=array("convert_to_html"=>true);
+
+				# Mail versturen (met opmaak)
+				verstuur_opmaakmail($gegevens["stap1"]["website"],$gegevens["stap2"]["email"],wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]),$subject,$mailbody,$settings);
+
+				echo "enquete-uitnodiging verstuurd aan ".$gegevens["stap2"]["email"]." ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])." - ".date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]).": ".$gegevens["stap1"]["boekingid"]."\n\n";
+				flush();
+
+				$db2->query("UPDATE boeking SET mailverstuurd_enquete=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+				chalet_log("enquête-verzoek verstuurd aan ".$mail->to,false,true);
+			}
+		}
+	}
 }
 
 #
@@ -139,7 +181,7 @@ while(list($key,$value)=each($hoogseizoen)) {
 	}
 }
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test") {
 	exit;
 }
 
@@ -185,7 +227,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 #
 # Controleren op wijzigingen in XML-imports
 #
-if((date("H")==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if((date("H")==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test") {
 		echo "via cms_xmlnewimport.html controleren op XML-imports<br>";
 	}
@@ -197,48 +239,6 @@ if((date("H")==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtasti
 	}
 }
 
-#
-# Uitnodigingen voor de enquete versturen (niet aan wederverkoop-boekingen)
-#
-if((date("H")>12 and date("H")<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
-	unset($teller);
-	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.vertrekdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.vertrekdatum_exact<'".(time()-172800)."' AND b.vertrekdatum_exact>'".(time()-1209600)."' AND b.mailblokkeren_enquete=0 AND b.mailverstuurd_enquete IS NULL AND reisbureau_user_id IS NULL ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
-	if($db->num_rows()) {
-		while($db->next_record()) {
-			$teller++;
-			if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $teller>1) {
-				continue;
-			}
-			$gegevens=get_boekinginfo($db->f("boeking_id"));
-
-			# mail sturen
-			$mail=new wt_mail;
-			$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
-			$mail->from=$gegevens["stap1"]["website_specifiek"]["email"];
-			$mail->to=$gegevens["stap2"]["email"];
-
-#$mail->to="jeroen@webtastic.nl";
-
-			$mail->subject=txt("mail_subject","enquete");
-			$mail->plaintext=txt("mail_body","enquete");
-
-			$link=$gegevens["stap1"]["website_specifiek"]["basehref"]."enquete.php?bid=".$gegevens["stap1"]["boekingid"]."&ch=".substr(sha1($gegevens["stap1"]["boekingid"]."kkSLlejkd"),0,8);
-			$mail->plaintext=ereg_replace("\[LINK\]",$link,$mail->plaintext);
-			$mail->plaintext=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$mail->plaintext);
-			$mail->plaintext=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$mail->plaintext);
-
-			if(!ereg("MISSING",$mail->subject)) {
-				$mail->send();
-
-				echo "enquete-uitnodiging verstuurd aan ".$gegevens["stap2"]["email"]." ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])." - ".date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]).": ".$gegevens["stap1"]["boekingid"]."\n\n";
-				flush();
-
-				$db2->query("UPDATE boeking SET mailverstuurd_enquete=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-				chalet_log("enquête-verzoek verstuurd aan ".$mail->to,false,true);
-			}
-		}
-	}
-}
 
 #
 # Volgorde van blokken hoofdpagina resetten (zodat deze weer 10, 20, 30, etc... wordt)

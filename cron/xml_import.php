@@ -1,6 +1,6 @@
 <?php
 
-# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 20...)
+# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 21...)
 
 #
 # Script wordt elke minuut gerund, maar alleen volledig afgelopen om: 5 minuten over 0,3,9,12,15,18,21 uur
@@ -356,10 +356,6 @@ while(list($key,$value)=@each($xml_urls)) {
 				}
 			}
 		}
-
-#print_r($xml);
-#echo "\n\n\n\n";
-#exit;
 
 		if(is_object($xml)) {
 

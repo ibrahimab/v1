@@ -289,6 +289,9 @@ $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="Book your winter hol
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="Boek nu je vakantie voor [SEIZOEN]!";
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="Book your [SEIZOEN] holiday now!";
 
+$txt["nl"]["vars"]["hetteamvan"]="Het team van [[h_1]][[v_websitenaam]][[h_2]]";
+$txt["en"]["vars"]["hetteamvan"]="The [[h_1]][[v_websitenaam]][[h_2]] team";
+
 
 #
 # Tekst voor klanten die hebben aangegeven "Ja, mail me over deze accommodatie"
@@ -311,7 +314,7 @@ Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/
 
 Alvast veel vakantie-voorpret toegewenst!
 
-Het team van [WEBSITE]";
+[ondertekening]";
 
 # winter EN
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_1"]="Dear [NAAM],
@@ -330,7 +333,7 @@ Of course it is also possible to send us your wishes [link=[LINK_CONTACT]]by e-m
 
 We wish you a lot of fun with your search!
 
-The [WEBSITE] team";
+[ondertekening]";
 
 #zomer NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_2"]="Beste [NAAM],
@@ -347,7 +350,7 @@ Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/
 
 Alvast veel vakantie-voorpret toegewenst!
 
-Het team van [WEBSITE]";
+[ondertekening]";
 # zomer EN
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_2"]="-";
 
@@ -371,7 +374,7 @@ Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/
 
 Alvast veel vakantie-voorpret toegewenst!
 
-Het team van [WEBSITE]";
+[ondertekening]";
 
 # winter EN
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Dear [NAAM],
@@ -389,7 +392,7 @@ Of course it is also possible to send us your wishes [link=[LINK_CONTACT]]by e-m
 
 We wish you a lot of fun with your search!
 
-The [WEBSITE] team";
+[ondertekening]";
 
 # zomer NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="Beste [NAAM],
@@ -405,7 +408,7 @@ Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/
 
 Alvast veel vakantie-voorpret toegewenst!
 
-Het team van [WEBSITE]";
+[ondertekening]";
 # zomer EN
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="-";
 
@@ -4144,8 +4147,32 @@ $txt["en"]["optieaanvraag"]["mail_af_body"]="Dear [VOORNAAMKLANT],\n\nThank you 
 $txt["nl"]["enquete"]["mail_subject"]="Welkom thuis!";
 $txt["en"]["enquete"]["mail_subject"]="Welcome home!";
 
-$txt["nl"]["enquete"]["mail_body"]="Beste [NAAM],\n\nWe hopen dat je een fijne vakantie hebt gehad. Graag zouden wij willen weten wat jullie ervaring is geweest, zodat we je in de toekomst mogelijk nog beter van dienst kunnen zijn.\n\nWe zouden je daarom willen vragen een paar minuten te besteden aan onze enquête. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.\n\nKlik op de volgende link om naar de enquête te gaan:\n\n[LINK]\n\nAlvast bedankt voor je medewerking!\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["en"]["enquete"]["mail_body"]="Dear [NAAM],\n\nWe hope you've had a good holiday. We would like to hear about your experience, so that we can offer an even better service in the future.\n\nThat's why would like to ask you to devote a few minutes on our survey. The information will be just for internal usage and won't be given to third parties.\n\nClick on the following link to go to the survey:\n\n[LINK]\n\nThanks in advance for your help!\n\nKind regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+#$txt["nl"]["enquete"]["mail_body"]="Beste [NAAM],\n\nWe hopen dat je een fijne vakantie hebt gehad. Graag zouden wij willen weten wat jullie ervaring is geweest, zodat we je in de toekomst mogelijk nog beter van dienst kunnen zijn.\n\nWe zouden je daarom willen vragen een paar minuten te besteden aan onze enquête. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.\n\nKlik op de volgende link om naar de enquête te gaan:\n\n[LINK]\n\nAlvast bedankt voor je medewerking!\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+#$txt["en"]["enquete"]["mail_body"]="Dear [NAAM],\n\nWe hope you've had a good holiday. We would like to hear about your experience, so that we can offer an even better service in the future.\n\nThat's why would like to ask you to devote a few minutes on our survey. The information will be just for internal usage and won't be given to third parties.\n\nClick on the following link to go to the survey:\n\n[LINK]\n\nThanks in advance for your help!\n\nKind regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+
+$txt["nl"]["enquete"]["mail_body"]="Beste [NAAM],
+
+Welkom thuis! We hopen dat je een fijne vakantie hebt gehad.
+
+Middels een korte enquête zouden wij graag willen weten wat jullie ervaring is geweest. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.
+
+[b]Voordelig fotoboek[/b]
+Als dank ontvang je na het invullen van de enquête een kortingscode waarmee je op [link=[LINK_FOTOFABRIEK]]fotofabriek.nl[/link] met 55% korting een A4-fotoboek kunt bestellen!
+
+[b]Volgend seizoen[/b]
+Mocht je van ons informatie willen ontvangen over het volgende seizoen, of specifiek over de accommodatie waar je zojuist geweest bent, dan kun je dit bovendien ook in deze enquête aangeven.
+
+[link=[LINK_ENQUETE]]Vul hier de enquête in »[/link]
+
+
+Alvast bedankt voor je medewerking!
+
+Met vriendelijke groet,
+
+[ondertekening]";
+
+$txt["en"]["enquete"]["mail_body"]="Dear [NAAM],\n\nWe hope you've had a good holiday. We would like to hear about your experience, so that we can offer an even better service in the future.\n\nThat's why would like to ask you to devote a few minutes on our survey. The information will be just for internal usage and won't be given to third parties.\n\n[link=[LINK_ENQUETE]]Go to the survey »[/link]\n\nThanks in advance for your help!\n\nKind regards,\n\n[ondertekening]";
+
 
 $txt["nl"]["enquete"]["onjuisteurl"]="Je boeking kan helaas niet worden teruggevonden. Heb je de juiste URL uit het mailtje overgenomen? Onze excuses voor het ongemak.";
 $txt["en"]["enquete"]["onjuisteurl"]="We sadly can't find your booking. Did you copy the correct URL from the e-mail? We apologize for the inconvenience.";
@@ -4317,6 +4344,9 @@ $txt["en"]["enquete"]["versturen"]="Send survey";
 
 $txt["nl"]["enquete"]["bedankt"]="Hartelijk dank voor je medewerking. We hopen je binnenkort opnieuw van dienst te mogen zijn.";
 $txt["en"]["enquete"]["bedankt"]="Thank you for your help! We hope we can be of service again in the future.";
+
+$txt["nl"]["enquete"]["bedankt_fotofabriek"]="De kortingscode waarmee je op [[h_1]]fotofabriek.nl[[h_2]] met 55% korting een A4-fotoboek kunt bestellen zal per mail aan je worden toegezonden.";
+$txt["en"]["enquete"]["bedankt_fotofabriek"]="-";
 
 $txt["nl"]["enquete"]["naarhoofdpagina"]="Naar onze hoofdpagina";
 $txt["en"]["enquete"]["naarhoofdpagina"]="To our homepage";

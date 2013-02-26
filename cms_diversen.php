@@ -230,6 +230,16 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$form->field_textarea(0,"woorden_autocomplete_winter_en","Woordenlijst winter (EN)",array("field"=>"woorden_autocomplete_winter_en"));
 	$form->field_textarea(0,"woorden_autocomplete_zomer","Woordenlijst zomer (NL)",array("field"=>"woorden_autocomplete_zomer"));
 
+
+	# aantal beschikbare kortingscodes bepalen
+	$db->query("SELECT COUNT(enquete_kortingscode_id) AS aantal FROM enquete_kortingscode WHERE verzonden IS NULL;");
+	if($db->next_record()) {
+		$enquete_kortingscode_aantal=$db->f("aantal");
+	}
+
+	$form->field_htmlrow("","<hr><b>Kortingscodes fotofabriek.nl toevoegen</b><br/><br/><i>Een klant ontvangt een code na het invullen van de enquête.</i><br/><br/><b>Aantal nog beschikbare codes: ".intval($enquete_kortingscode_aantal)."</b>");
+	$form->field_textarea(0,"enquete_kortingscode","Nieuwe codes (1 per regel)");
+
 	#$form->field_htmlrow("","<hr><b>Nieuwe vormgeving</b>");
 	#$form->field_yesno("nieuwevormgeving","Toon op deze computer \"".$login->username."\" Chalet.nl/winter in de nieuwe vormgeving","",array("selection"=>$_COOKIE["nieuwevormgeving_fixed"]));
 
@@ -247,7 +257,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	if($form->okay) {
 		$form->save_db();
 
-		# Woordenlijst
+		# Woordenlijst autocomplete
 		$db->query("SELECT woorden_autocomplete_winter, woorden_autocomplete_winter_en, woorden_autocomplete_zomer FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
 		if($db->next_record()) {
 			$woorden_autocomplete[1]=preg_split("/\n/",$db->f("woorden_autocomplete_winter"));
@@ -273,6 +283,18 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				}
 			}
 		}
+
+		# Nieuwe kortingscodes opslaan in database
+		if($form->input["enquete_kortingscode"]) {
+			$enquete_kortingscode=explode("\n",$form->input["enquete_kortingscode"]);
+			while(list($key,$value)=each($enquete_kortingscode)) {
+				$value=trim($value);
+				if(strlen($value)>0) {
+					$db->query("INSERT INTO enquete_kortingscode SET code='".addslashes($value)."', adddatetime=NOW(), editdatetime=NOW();");
+				}
+			}
+		}
+
 
 	#	if($form->input["nieuwevormgeving"]) {
 	#		setcookie("nieuwevormgeving_fixed",1,mktime(3,0,0,date("m"),date("d"),date("Y")+1),"/");

@@ -1066,7 +1066,7 @@ class cms2 {
 						} elseif($cms_form[$counter]->fields["type"][$key]=="onlyinoutput") {
 
 						} elseif($cms_form[$counter]->fields["type"][$key]=="password") {
-							if(!strpos($key,"_repeat")) {
+							if(!strpos($key,"_repeat") and strlen($cms_form[$counter]->input[$key])>0) {
 								$cmslog_previous="";
 								$cmslog_now="******";
 							}
