@@ -232,6 +232,11 @@ $xml_urls[19][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=extr
 $xml_urls[20][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=extr_plng@top_id='CHALE'";
 #$xml_urls[20][2]="Centrale Locative de l'Immobilière des Hauts Forts" (tarieven werken met losse XML's per accommodatie)
 
+# Ville in Italia
+$xml_urls[21][1]="https://secure.villeinitalia.com/protAgency/AvailableFile.jsp"; # beschikbaarheid
+$xml_urls[21][2]="https://secure.villeinitalia.com/protAgency/DbXmlFile.jsp"; # prijzen
+$http_login[21]="italissima:italissima2144";
+
 
 #
 # Voor testsysteem
@@ -249,7 +254,7 @@ if($testsysteem) {
 #	$xml_urls[7][2]=$test_tmpdir."belt.xml";
 #	$xml_urls[8][1]=$test_tmpdir."availability.xml.1";
 #	$xml_urls[8][2]=$test_tmpdir."unitrates.xml";
-	$xml_urls[8][3]=$test_tmpdir."unit.xml";
+#	$xml_urls[8][3]=$test_tmpdir."unit.xml";
 #	$xml_urls[9][2]=$test_tmpdir."nl";
 #	$xml_urls[10][1]=$test_tmpdir."1.xml";
 #	$xml_urls[11][1]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
@@ -258,14 +263,17 @@ if($testsysteem) {
 #	$soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
 #	$xml_urls[14][1]=$test_tmpdir."deuxalpes.xml";
 #	$soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
-	$xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
-	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
-	$xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
-	$xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
+#	$xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
+#	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
+#	$xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
+#	$xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 #	$xml_urls[17][1]=$temp_filename[17];
 #	$xml_urls[18][1]=$test_tmpdir."agence.xml";
 #	$xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
 #	$xml_urls[20][1]="/tmp/locative.xml";
+	$xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
+	$xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
+	unset($http_login[21]);
 }
 
 
@@ -319,20 +327,44 @@ if(intval($argv[1])>0) {
 while(list($key,$value)=@each($xml_urls)) {
 	unset($xml);
 	while(list($key2,$value2)=each($value)) {
-
-		if($xml=@simplexml_load_file($value2)) {
-
+		if($http_login[$key]) {
+			# gebruik CURL (vanwege http-login)
+			unset($ch);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $value2);
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_USERPWD, $http_login[$key]);
+			curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+			$output = curl_exec($ch);
+			$info = curl_getinfo($ch);
+			curl_close($ch);
+			if($output) {
+				$xml=simplexml_load_string($output);
+			}
 		} else {
-			unset($xml);
-			sleep(30);
+			# gebruik simplexml_load_file
 			if($xml=@simplexml_load_file($value2)) {
 
 			} else {
 				unset($xml);
+				if(!$testsysteem) sleep(30);
+				if($xml=@simplexml_load_file($value2)) {
+
+				} else {
+					unset($xml);
+				}
 			}
 		}
 
+#print_r($xml);
+#echo "\n\n\n\n";
+#exit;
+
 		if(is_object($xml)) {
+
+
+
 			$correct_gedownload[$key]=true;
 			if($key==2 or $key==3) {
 				#
@@ -732,8 +764,10 @@ while(list($key,$value)=@each($xml_urls)) {
 					}
 				}
 			} elseif($key==17) {
-				# Miguel
-				# Leverancier Alpin Rentals Kaprun hier verder uitbouwen. Lees de ccommodatie code volgens de leverencier uit. de
+				#
+				# Ontwikkeld door Miguel: niet bekend of dit werkt
+				#
+				# Leverancier Alpin Rentals Kaprun hier verder uitbouwen. Lees de accommodatie code volgens de leverencier uit. de
 
 				//echo "Bij Miguel";
 				$accommodaties=array();
@@ -818,6 +852,61 @@ while(list($key,$value)=@each($xml_urls)) {
 				//var_dump($xml_brutoprijs);
 #				echo wt_dump_with_unixtime($xml_beschikbaar);
 #				exit;
+			} elseif($key==21) {
+				#
+				# Leverancier Ville in Italia
+				#
+				if($key2==1) {
+					# Beschikbaarheid
+
+					foreach($xml->property as $property) {
+
+						$use_key=trim($property->object->objectCode);
+						echo $use_key."\n";
+
+						foreach($property->object->freePeriod as $freePeriod) {
+
+#var_dump($freePeriod->start);
+
+							$datum_begin=strtotime(trim($freePeriod->start));
+							$datum_eind=strtotime(trim($freePeriod->end));
+
+#echo "Begin:".$datum_begin."\n";
+
+							# Doorlopen van begin tot eind
+							$week=$datum_begin;
+							while($week<$datum_eind) {
+								$xml_beschikbaar[$key][trim($use_key)][$week]=1;
+								$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+								$xml_laatsteimport_leverancier[$key]=true;
+							}
+						}
+					}
+
+				} elseif($key2==2) {
+					# Tarieven
+					foreach($xml->Group as $group) {
+						foreach($group->Resources->Resource as $resource) {
+							$use_key=trim($resource->attributes()->code);
+							foreach($resource->Prices->Price as $price) {
+								// var_dump($price);
+								$datum_begin=intval($price->attributes()->from);
+								$datum_eind=intval($price->attributes()->to);
+
+								# Doorlopen van begin tot eind
+								$week=$datum_begin;
+								while($week<$datum_eind) {
+									$tarief=floatval($price->Weekly);
+									if($tarief>0) {
+										$xml_brutoprijs[$key][$use_key][$week]=$tarief;
+										$xml_laatsteimport_leverancier[$key]=true;
+									}
+									$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+								}
+							}
+						}
+					}
+				}
 			}
 		} else {
 			trigger_error("_notice: URL ".$value2." onbereikbaar of geen valide XML",E_USER_NOTICE);
@@ -1009,7 +1098,7 @@ if($testsysteem) {
 
 	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.leverancier_id IN (".$test_leverancierids.") ORDER BY t.leverancier_id;");
 
-	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.type_id=5175 ORDER BY t.leverancier_id;");
+#	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.type_id=5175 ORDER BY t.leverancier_id;");
 
 #	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.leverancier_id IN (30) ORDER BY t.leverancier_id;");
 
@@ -1417,6 +1506,9 @@ while($db->next_record()) {
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
+
+			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
+
 		} elseif($db->f("xml_type")==16) {
 			#
 			# Leverancier Almliesl
@@ -1430,6 +1522,9 @@ while($db->next_record()) {
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
+
+			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
+
 		} elseif($db->f("xml_type")==17) {
 			#
 			# Leverancier Alpin Rentals Kaprun
@@ -1444,9 +1539,23 @@ while($db->next_record()) {
 				}
 			}
 
-
 			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
 
+		} elseif($db->f("xml_type")==21) {
+			#
+			# Leverancier Ville in Italia
+			#
+
+			# Beschikbaarheid
+			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
+				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
+				while(list($key2,$value2)=each($xml_beschikbaar[$db->f("xml_type")][$value])) {
+					$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]+=$value2;
+					$xml_laatsteimport[$db->f("type_id")]=true;
+				}
+			}
+
+			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
 
 		}
 
@@ -1458,9 +1567,9 @@ while($db->next_record()) {
 			#
 			# week-tarieven
 			#
-			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17" or $db->f("xml_type")=="18" or $db->f("xml_type")=="19" or $db->f("xml_type")=="20") {
+			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17" or $db->f("xml_type")=="18" or $db->f("xml_type")=="19" or $db->f("xml_type")=="20" or $db->f("xml_type")=="21") {
 				#
-				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale Locative de l'Immobilière des Hauts Forts (20)
+				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale Locative de l'Immobilière des Hauts Forts (20), Ville in Italia (21)
 				#
 				if(is_array($xml_brutoprijs[$db->f("xml_type")][$value])) {
 					reset($xml_brutoprijs[$db->f("xml_type")][$value]);

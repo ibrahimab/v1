@@ -1582,7 +1582,12 @@ class form2 {
 						# indien de selectie-array niet beschikbaar is, ook niet opslaan
 						$dont_save_value=true;
 					} else {
-						$savevalue="'".addslashes($this->input[$key2])."'";
+						if($this->input[$key2]=="" and $this->fields["db"][$key2]["null"]) {
+							# Indien waarde leeg en het een NULL-field betreft
+							$savevalue="NULL";
+						} else {
+							$savevalue="'".addslashes($this->input[$key2])."'";
+						}
 					}
 				} else {
 					if($this->input[$key2]=="" and $this->fields["db"][$key2]["null"]) {
@@ -1631,6 +1636,10 @@ class form2 {
 					if($setquery) $setquery.=", editdatetime='".time()."'"; else $setquery="editdatetime='".time()."'";
 				}
 				$query="UPDATE ".$key." SET ".$setquery." WHERE ".$value["where"].";";
+
+#echo $query;
+#exit;
+
 				$db0->query($query);
 				if($db0->Errno) {
 #					$_SESSION["wt_popupmsg"]="LET OP: gegevens zijn <b>niet</b> correct gewijzigd";

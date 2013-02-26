@@ -177,7 +177,7 @@ $txt["nl"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een 
 $txt["en"]["vars"]["opvalmelding"]="We are temporarily reachable on telephone number +31 88 66 44 200.\nYou can also reach us by email on [[h_1]][[v_email]][[h_2]].";
 
 $txt["nl_b"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: +31 88 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
-$txt["en_b"]["vars"]["opvalmelding"]="";
+$txt["en_b"]["vars"]["opvalmelding"]="-";
 
 $txt["nl"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
 $txt["en"]["vars"]["mailopties_wzt1_vakantie"]="Wintersport";
@@ -297,14 +297,14 @@ $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="Book your [SEIZOEN] 
 # winter NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_1"]="Beste [NAAM],
 
-Deze winter ben je via [WEBSITE] op wintersport geweest en ben je in de volgende accommodatie verbleven: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link].
+Deze winter ben je via [WEBSITE] op wintersport geweest en ben je in de volgende accommodatie verbleven: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
 
 Wij willen je daarom als eerste laten weten dat dit [SOORTACCOMMODATIE], evenals een aantal andere accommodaties, nu al te boeken is voor het volgende winterseizoen.
 
 Elk jaar constateren we weer dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.
 
 [b]Klantvoordeel[/b]
-We geven je nu een optie van [OPTIEDAGEN] dagen in plaats van de gebruikelijke 3-daagse optie, om je de kans te geven rustig met je reisgenoten te overleggen. Via een van de twee onderstaande links kun je gebruik maken van dit voordeel:
+We geven je nu een [b]optie van [OPTIEDAGEN] dagen[/b] in plaats van de gebruikelijke 3-daagse optie, om je de kans te geven rustig met je reisgenoten te overleggen. Via een van de twee onderstaande links kun je gebruik maken van dit voordeel:
 [ul][li][link=[LINK_ACC]]Een vrijblijvende optie van [OPTIEDAGEN] dagen nemen op [ACCOMMODATIENAAM][/link][/li]
 [li][link=[LINK_ALGEMEEN]]Een andere accommodatie zoeken uit ons actuele aanbod voor winter 2013/2014 en te profiteren van de extra lange optie[/link][/li][/ul]
 Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
@@ -314,17 +314,33 @@ Alvast veel vakantie-voorpret toegewenst!
 Het team van [WEBSITE]";
 
 # winter EN
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_1"]="";
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_1"]="Dear [NAAM],
+
+This past winter you went on a winter holiday via [WEBSITE] and you were staying in this accommodation: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link]
+
+That's why we want you to be the first to know that this [SOORTACCOMMODATIE], and other accommodations, can already be be booked for the next winter season.
+
+Every year we notice that the big accommodations are very popular and are booked early. This is especially true for the Christmas and spring holidays, which are already in high demand. So we recommend you don't wait too long to start your search.
+
+[b]Your advantage[/b]
+We can now give you an [b]option of [OPTIEDAGEN] days[/b] instead of the normal 3-day option, to give you the chance to discuss with fellow travelers. Through one of the two links below you can make use of this advantage:
+[ul][li][link=[LINK_ACC]]A noncommital option of [OPTIEDAGEN] days on [ACCOMMODATIENAAM][/link][/li]
+[li][link=[LINK_ALGEMEEN]]Search for another already available accommodation for the 2013/2014 winter season and take advantage of the same extra long option[/link][/li][/ul]
+Of course it is also possible to send us your wishes [link=[LINK_CONTACT]]by e-mail[/link]. We will gladly give you proper advice to help you find a fitting accommodation.
+
+We wish you a lot of fun with your search!
+
+The [WEBSITE] team";
 
 #zomer NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_2"]="Beste [NAAM],
 
 Via [WEBSITE] ben je op vakantie geweest en ben je in de volgende accommodatie verbleven: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link].
 
-Wij willen je daarom als eerste laten weten dat dit [SOORTACCOMMODATIE], evenals een aantal andere accommodaties, nu al te boeken is voor het volgende seizoen.
+Wij willen je daarom als eerste laten weten dat deze accommodatie, evenals een aantal andere accommodaties, nu al te boeken is voor het volgende seizoen.
 
 [b]Klantvoordeel[/b]
-We geven je nu een optie van [OPTIEDAGEN] dagen in plaats van de gebruikelijke 3-daagse optie, om je de kans te geven rustig met je reisgenoten te overleggen. Via een van de twee onderstaande links kun je gebruik maken van dit voordeel:
+We geven je nu een [b]optie van [OPTIEDAGEN] dagen[/b] in plaats van de gebruikelijke 3-daagse optie, om je de kans te geven rustig met je reisgenoten te overleggen. Via een van de twee onderstaande links kun je gebruik maken van dit voordeel:
 [ul][li][link=[LINK_ACC]]Een vrijblijvende optie van [OPTIEDAGEN] dagen nemen op [ACCOMMODATIENAAM][/link][/li]
 [li][link=[LINK_ALGEMEEN]]Een andere accommodatie zoeken uit ons actuele aanbod voor komende zomer en te profiteren van de extra lange optie[/link][/li][/ul]
 Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
@@ -358,7 +374,22 @@ Alvast veel vakantie-voorpret toegewenst!
 Het team van [WEBSITE]";
 
 # winter EN
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="";
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Dear [NAAM],
+
+This past winter you went on a winter holiday via [WEBSITE]. You let us know that you wanted to be informed about our winter accommodations for the 2013/2014 winter season. That's why we want you to be among the first to know that a big part of our accommodations can now be booked.
+
+[b]Your advantage[/b]
+Every year we notice that the big accommodations are very popular and are booked early. This is especially true for the Christmas and spring holidays, which are already in high demand. So we recommend you don't wait too long to start your search.
+
+We can now give you an [b]extra long option[/b] instead of the normal 3-day option, to give you the chance to discuss with fellow travelers. The length of the option depends on the accommodation and the period of stay. Through the link below you can make use of this advantage:
+
+[link=[LINK_ALGEMEEN]]Search for an accommodation for the winter 2013/2014 winter season and take advantage of the extra long option[/link]
+
+Of course it is also possible to send us your wishes [link=[LINK_CONTACT]]by e-mail[/link]. We will gladly give you proper advice to help you find a fitting accommodation.
+
+We wish you a lot of fun with your search!
+
+The [WEBSITE] team";
 
 # zomer NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="Beste [NAAM],
@@ -708,7 +739,7 @@ $txt["en"]["index"]["slider2_kop"]="Chalets at the piste, Vallandry";
 
 
 $txt["nl"]["index"]["slider2_toelichting"]="Comfortabele chalets aan de piste, familiedorp Vallandry. Toegang tot één van de grootste skigebieden van Europa.";
-$txt["en"]["index"]["slider2_toelichting"]="Comfortable chalets at the piste, ‘family village’ Vallandry. Access to one of the largest skiing areas of Europe.";
+$txt["en"]["index"]["slider2_toelichting"]="Comfortable chalets at the piste, ‘family village' Vallandry. Access to one of the largest skiing areas of Europe.";
 
 # Derde blok
 $vars["linkhoofdpagina"]["slider3"]=$vars["path"].txt("menu_accommodaties").".php?filled=1&fzt=Dame+Blanche&fap=0&fas=0&fad=0&fsg=1-10&z=137007";
@@ -3957,7 +3988,7 @@ $txt["nl"]["voucher"]["ofbuitenkantooruren"]="+31 (0)348 - 43 46 49 of buiten ka
 $txt["en"]["voucher"]["ofbuitenkantooruren"]="+31 (0)348 - 43 46 49 or outside office hours on +31 (0)6 - 16 45 73 34.";
 
 $txt["nl"]["voucher"]["thuisblijvers_tekst"]="In noodgevallen, waarbij het niet mogelijk is contact te leggen met de receptie of met de reizigers zelf, kun je ons bereiken op +31 (0)348 - 43 46 49 of buiten kantooruren op +31 (0)6 - 16 45 73 34.";
-$txt["en"]["voucher"]["thuisblijvers_tekst"]="";
+$txt["en"]["voucher"]["thuisblijvers_tekst"]="In case of emergency, where it is not possible to reach the reception or the travelers themselves, you can reach us at +31 (0)348 - 43 46 49 or after office hours on +31 (0)6 - 16 45 73 34.";
 
 $txt["nl"]["voucher"]["omschrijving"]="Omschrijving";
 $txt["en"]["voucher"]["omschrijving"]="Description";

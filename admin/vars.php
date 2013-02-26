@@ -855,7 +855,7 @@ $vars["aanbieding_soort"]=array(1=>txt("gewoneaanbieding","vars"),2=>txt("lastmi
 $vars["aanbieding_soort_cms"]=array(1=>"Aanbieding met toelichting voor bezoeker",2=>"Aanbieding zonder toelichting (= gewoon korting)");
 $vars["bedrag_soort"]=array(1=>"Korting in euro's",2=>"Kortingspercentage",3=>"Exact bedrag",4=>"Geen bedrag (handmatige verwerking)");
 
-$vars["xml_type"]=array(1=>"Huetten (1)",2=>"Alpenchalets Ski France (2)",3=>"France Reisen Ski France (3)",4=>"CGH (4)",5=>"Pierre & Vacances (5)",6=>"Frosch (6)",7=>"CIS / Bellecôte Chalets (VVE) (7)",8=>"Posarelli Villas (8)",9=>"Maisons Vacances Ann Giraud (9)",10=>"CIS Immobilier (10)",11=>"Odalys Résidences (11)",12=>"Deux Alpes Voyages (12)",13=>"Eurogroup (13)",14=>"Marche Holiday (14)",15=>"Des Neiges (15)",16=>"Almliesl (16)",17=>"Alpin Rentals Kaprun (17)",18=>"Agence des Belleville (18)",19=>"Oxygène Immobilier (19)",20=>"Centrale Locative de l'Immobilière des Hauts Forts (20)");
+$vars["xml_type"]=array(1=>"Huetten (1)",2=>"Alpenchalets Ski France (2)",3=>"France Reisen Ski France (3)",4=>"CGH (4)",5=>"Pierre & Vacances (5)",6=>"Frosch (6)",7=>"CIS / Bellecôte Chalets (VVE) (7)",8=>"Posarelli Villas (8)",9=>"Maisons Vacances Ann Giraud (9)",10=>"CIS Immobilier (10)",11=>"Odalys Résidences (11)",12=>"Deux Alpes Voyages (12)",13=>"Eurogroup (13)",14=>"Marche Holiday (14)",15=>"Des Neiges (15)",16=>"Almliesl (16)",17=>"Alpin Rentals Kaprun (17)",18=>"Agence des Belleville (18)",19=>"Oxygène Immobilier (19)",20=>"Centrale Locative de l'Immobilière des Hauts Forts (20)",21=>"Ville in Italia (21)");
 asort($vars["xml_type"]);
 
 # vars reisbureaus
