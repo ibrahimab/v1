@@ -7,7 +7,7 @@ if($onjuisteurl) {
 } elseif($_GET["enqfilled"]) {
 	echo "<p>".html("bedankt","enquete")."</p>";
 
-	if($vars["taal"]=="nlNU_EVEN_NIET") {
+	if($vars["taal"]=="nl") {
 		echo "<p>".html("bedankt_fotofabriek","enquete",array("h_1"=>"<a href=\"http://www.fotofabriek.nl/chalet-fotoboeken-actie/\" target=\"_blank\">","h_2"=>"</a>"))."</p>";
 
 		echo "<p><a href=\"http://www.fotofabriek.nl/chalet-fotoboeken-actie/\" target=\"_blank\"><img src=\"".$vars["path"]."pic/logo_fotofabriek.png\" width=\"300\" border=\"0\"></a></p>";

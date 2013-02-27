@@ -785,12 +785,8 @@ td.selecteerbaarbedrag:hover{
 }
 
 /*geselecteerde keuze*/
-.chzn-container .chzn-results .highlightedNU_EVEN_NIET {
-  filter: "";
-  background-image: none;
+.chzn-container .chzn-results .highlighted {
 
-  background-color: #003366;
-  color: #ffffff;
 }
 
 
