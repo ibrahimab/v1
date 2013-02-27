@@ -181,7 +181,8 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["boekingen"]["gewijzigd"]) {
 	#
 	# Zijn er aangepaste boekingen waarbij nog geen factuur is aangemaakt?
 	#
-	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND geannuleerd=0 AND stap_voltooid=5 AND factuurdatum>0 AND factuur_versturen=1 AND aankomstdatum>'".(time()-2592000)."' ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+#	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND geannuleerd=0 AND stap_voltooid=5 AND factuurdatum>0 AND factuur_versturen=1 AND aankomstdatum>'".(time()-2592000)."' ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND stap_voltooid=5 AND factuurdatum>0 AND factuur_versturen=1 AND aankomstdatum>'".(time()-2592000)."' ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
 	if($db->num_rows()) {
 		echo "\n<hr>Bij de volgende boeking".($db->num_rows()>1 ? "en" : "")." moet de gecorrigeerde factuur nog aangemaakt worden:<ul>";
 		while($db->next_record()) {

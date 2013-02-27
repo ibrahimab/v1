@@ -2021,7 +2021,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						}
 					}
 
+					#
 					# Boeking annuleren
+					#
 					if($form->input["geannuleerd"] and !$gegevens["stap1"]["geannuleerd"]) {
 						#
 						# Creditfactuur
@@ -2045,6 +2047,10 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 								$creditfactuur_omschrijving="credit: ".$db->f("omschrijving");
 							}
 						}
+
+						# Opslaan dat er een gecorrigeerde factuur moet worden aangemaakt
+						$db->query("UPDATE boeking SET factuur_versturen=1 WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+
 					}
 					if($tariefswijziging_inkoop and !$log_inkoopprijzen) {
 						# Inkoopgegevens opnieuw opslaan
