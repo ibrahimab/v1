@@ -173,6 +173,12 @@ h3 {
 	opacity: .6;
 }
 
+.img_hover_opacity:hover {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	filter: alpha(opacity=70);
+	opacity: .7;
+}
+
 .tarieventabel {
 	font-size: 0.97em;
 	border: solid <?php echo $table; ?> 1px;

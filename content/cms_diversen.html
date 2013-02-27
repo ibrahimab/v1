@@ -164,6 +164,34 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	}
 	echo "</ol>";
 	echo "Bij het toevoegen van een nieuwe vouchertaal kun je de vertalingen van deze termen aan Jeroen mailen.";
+} elseif($_GET["t"]==6) {
+
+	#
+	# Diverse statistieken
+	#
+
+	# respons-percentage enquêtes
+	$db->query("SELECT boeking_id FROM boeking_enquete;");
+	while($db->next_record()) {
+		$boeking_enquete[$db->f("boeking_id")]=true;
+	}
+	$db->query("SELECT boeking_id, UNIX_TIMESTAMP(mailverstuurd_enquete) AS mailverstuurd_enquete FROM boeking WHERE mailverstuurd_enquete IS NOT NULL AND UNIX_TIMESTAMP(mailverstuurd_enquete)>'".mktime(0,0,0,date("m"),date("d"),date("Y")-7)."' ORDER BY mailverstuurd_enquete DESC;");
+	while($db->next_record()) {
+		$use_key=date("W_Y",$db->f("mailverstuurd_enquete"));
+		$enquete_verstuurd[$use_key]++;
+		if($boeking_enquete[$db->f("boeking_id")]) {
+			$enquete_ingevuld[$use_key]++;
+		}
+		$show_key[$use_key]="week ".intval(date("W",$db->f("mailverstuurd_enquete")))." - ".strftime("%B",$db->f("mailverstuurd_enquete"))." ".date("Y",$db->f("mailverstuurd_enquete"));
+	}
+	if(is_array($enquete_verstuurd)) {
+		echo "<h2>Responspercentage enqu&ecirc;tes</h2>";
+		echo "<table class=\"tbl\" cellspacing=\"0\" style=\"width:700px;\"><tr><th>Datum</th><th>Aantal uitnodigingen verstuurd</th><th>Aantal reacties</th><th>Percentage</th></tr>";
+		while(list($key,$value)=each($enquete_verstuurd)) {
+			echo "<tr><td>".wt_he($show_key[$key])."</td><td>".intval($value)."</td><td>".intval($enquete_ingevuld[$key])."</td><td align=\"right\">".number_format((intval($enquete_ingevuld[$key])/intval($value))*100,2,",",".")."%</td></tr>";
+		}
+		echo "</table>";
+	}
 }
 
 ?>

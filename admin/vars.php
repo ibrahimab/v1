@@ -635,6 +635,7 @@ if($_GET["t"]==2) {
 	$title["cms_overzichten_overig"]="Overzicht vouchers";
 } elseif($_GET["t"]==6) {
 	$title["cms_overzichten_overig"]="Overzicht na te kijken winteraccommodaties";
+	$title["cms_diversen"]="Diverse statistieken";
 } elseif($_GET["t"]==7) {
 	$title["cms_overzichten_overig"]="Overzicht na te kijken zomeraccommodaties";
 } elseif($_GET["t"]==10) {

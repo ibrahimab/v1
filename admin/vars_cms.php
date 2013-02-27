@@ -230,6 +230,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_diversen","","cms_diversen","Actielijst archief",array("t"=>"2"),true);
 	$layout->submenu_item("cms_diversen","","cms_blog","Blog Italissima","",true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Instellingen",array("t"=>"3"),true);
+	$layout->submenu_item("cms_diversen","","cms_diversen","Statistieken",array("t"=>"6"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Vouchertermen",array("t"=>"5"),true);
 
 	if($login->has_priv("29")) {
