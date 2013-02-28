@@ -175,18 +175,28 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	while($db->next_record()) {
 		$boeking_enquete[$db->f("boeking_id")]=true;
 	}
-	$db->query("SELECT boeking_id, UNIX_TIMESTAMP(mailverstuurd_enquete) AS mailverstuurd_enquete FROM boeking WHERE mailverstuurd_enquete IS NOT NULL AND UNIX_TIMESTAMP(mailverstuurd_enquete)>'".mktime(0,0,0,date("m"),date("d"),date("Y")-7)."' ORDER BY mailverstuurd_enquete DESC;");
+	$db->query("SELECT boeking_id, UNIX_TIMESTAMP(mailverstuurd_enquete) AS mailverstuurd_enquete, aankomstdatum FROM boeking WHERE mailverstuurd_enquete IS NOT NULL AND UNIX_TIMESTAMP(mailverstuurd_enquete)>'".mktime(0,0,0,date("m"),date("d"),date("Y")-7)."' ORDER BY aankomstdatum DESC;");
 	while($db->next_record()) {
-		$use_key=date("W_Y",$db->f("mailverstuurd_enquete"));
+		if($_GET["aankomstdatum"]) {
+			$use_key=date("W_Y",$db->f("aankomstdatum"));
+			$show_key[$use_key]=DATUM("D MAAND JJJJ",$db->f("aankomstdatum"));
+		} else {
+			$use_key=date("W_Y",$db->f("mailverstuurd_enquete"));
+			$show_key[$use_key]="week ".intval(date("W",$db->f("mailverstuurd_enquete")))." - ".DATUM("D MAAND JJJJ",$db->f("mailverstuurd_enquete"));
+		}
+#		echo $use_key."<br>";
 		$enquete_verstuurd[$use_key]++;
 		if($boeking_enquete[$db->f("boeking_id")]) {
 			$enquete_ingevuld[$use_key]++;
 		}
-		$show_key[$use_key]="week ".intval(date("W",$db->f("mailverstuurd_enquete")))." - ".strftime("%B",$db->f("mailverstuurd_enquete"))." ".date("Y",$db->f("mailverstuurd_enquete"));
 	}
 	if(is_array($enquete_verstuurd)) {
 		echo "<h2>Responspercentage enqu&ecirc;tes</h2>";
-		echo "<table class=\"tbl\" cellspacing=\"0\" style=\"width:700px;\"><tr><th>Datum</th><th>Aantal uitnodigingen verstuurd</th><th>Aantal reacties</th><th>Percentage</th></tr>";
+		echo "<p><form method=\"get\" action=\"".$vars["path"]."cms_diversen.php\" id=\"aankomstdatum_keuze\">";
+		echo "<input type=\"hidden\" name=\"t\" value=\"".intval($_GET["t"])."\">";
+		echo "<select name=\"aankomstdatum\" onchange=\"$('#aankomstdatum_keuze').submit();\"><option value=\"0\">Toon de statistieken op basis van verzenddatum</option><option value=\"1\"".($_GET["aankomstdatum"] ? " selected" : "").">Toon de statistieken op basis van aankomstdatum</option></select>";
+		echo "</form></p>";
+		echo "<table class=\"tbl\" cellspacing=\"0\" style=\"width:700px;\"><tr><th>".($_GET["aankomstdatum"] ? "Aankomstdatum" : "Verzenddatum")."</th><th>Aantal uitnodigingen verstuurd</th><th>Aantal reacties</th><th>Percentage</th></tr>";
 		while(list($key,$value)=each($enquete_verstuurd)) {
 			echo "<tr><td>".wt_he($show_key[$key])."</td><td>".intval($value)."</td><td>".intval($enquete_ingevuld[$key])."</td><td align=\"right\">".number_format((intval($enquete_ingevuld[$key])/intval($value))*100,2,",",".")."%</td></tr>";
 		}
