@@ -4,14 +4,14 @@ document.write('<style type="text/css">	#tabs { visibility: hidden; } #body_zoek
 
 // detecteer een mobiel apparaat (tablet of smartphone)
 function detect_mobile() {
-    return (
-        //Detect iPhone
-        (navigator.userAgent.match(/iPhone/i) !== null) ||
-        //Detect iPod
-        (navigator.userAgent.match(/iPad/i) !== null) ||
-        //Detect Android
-        (navigator.userAgent.match(/Android/i) !== null)
-    );
+	return (
+		//Detect iPhone
+		(navigator.userAgent.match(/iPhone/i) !== null) ||
+		//Detect iPod
+		(navigator.userAgent.match(/iPad/i) !== null) ||
+		//Detect Android
+		(navigator.userAgent.match(/Android/i) !== null)
+	);
 }
 
 // querystring aan URL toevoegen
@@ -720,6 +720,28 @@ $(document).ready(function() {
 				'overlayOpacity' :	0.8
 			});
 
+			// vimeo_fancybox via fancybox
+			$(".vimeo_fancybox").fancybox({
+				'type'			:   'iframe',
+				'transitionIn'	:	'elastic',
+				'transitionOut'	:	'elastic',
+				'width'			: 900,
+				'height'		: 510,
+				'speedIn'		: 300,
+				'speedOut'		: 300,
+				'padding' :		0,
+				'margin' :		0,
+				'autoScale' :		false,
+				'overlayShow'	:	true,
+				'hideOnContentClick' :	true,
+				'overlayColor' :	'#454545',
+				'onComplete'	:	function() {
+
+				},
+				'cyclic'	:	true,
+				'overlayOpacity' :	0.8
+
+			});
 
 			// tijdelijk: fancybox-popup bij Zomerhuisje (melding over koerswijziging)
 			if($("#zomerhuisje_popup").length!==0) {

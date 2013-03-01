@@ -221,7 +221,7 @@ $cms->edit_field(5,0,"landkaart","Landkaart","",array("img_minheight"=>"150","im
 
 $cms->edit_field(5,0,"htmlrow","<hr><b>Video</b>");
 $cms->edit_field(5,0,"video_url","URL van Vimeo");
-$cms->edit_field(5,0,"video","Toon deze video op de regiopagina (NOG NIET IN GEBRUIK)");
+$cms->edit_field(5,0,"video","Toon deze video op de regiopagina");
 
 $cms->edit_field(5,0,"htmlrow","<hr><b>Gekoppelde regio's</b>");
 $cms->edit_field(5,0,"htmlrow","De gekoppelde regio's worden gebruikt bij het zoekformulier. Als een zoekopdracht weinig resultaten oplevert, wordt er ook gezocht in de gekoppelde regio's. Eerst wordt klasse 1 doorzocht. Zijn er dan nog onvoldoende resultaten, dan volgt klasse 2, enzovoort.");

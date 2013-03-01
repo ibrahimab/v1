@@ -1,10 +1,19 @@
 <?php
 
-$db->query("SELECT skigebied_id, naam, omschrijving".$vars["ttv"]." AS omschrijving, omschrijving_afbreken_na, minhoogte, maxhoogte, altnaam_zichtbaar, skiwaardering, snowboardwaardering, aantalliften, aantalstoeltjesliften, aantalsleepliften, aantalcabineliften, kilometerpiste, aantalgroenepistes, kmgroenepistes, aantalblauwepistes, kmblauwepistes, aantalrodepistes, kmrodepistes, aantalzwartepistes, kmzwartepistes, aantalloipes, kmloipes, omschrijvingskipasbasis".$vars["ttv"]." AS omschrijvingskipasbasis, omschrijvingskipasuitgebreid".$vars["ttv"]." AS omschrijvingskipasuitgebreid, webcam, weerbericht, kaart, kleurcode, accommodatiecodes, googlemaps_zoomlevel FROM skigebied WHERE skigebied_id=".addslashes($skigebiedid)." AND wzt='".addslashes($vars["seizoentype"])."';");
+$db->query("SELECT skigebied_id, naam, omschrijving".$vars["ttv"]." AS omschrijving, omschrijving_afbreken_na, minhoogte, maxhoogte, altnaam_zichtbaar, skiwaardering, snowboardwaardering, aantalliften, aantalstoeltjesliften, aantalsleepliften, aantalcabineliften, kilometerpiste, aantalgroenepistes, kmgroenepistes, aantalblauwepistes, kmblauwepistes, aantalrodepistes, kmrodepistes, aantalzwartepistes, kmzwartepistes, aantalloipes, kmloipes, omschrijvingskipasbasis".$vars["ttv"]." AS omschrijvingskipasbasis, omschrijvingskipasuitgebreid".$vars["ttv"]." AS omschrijvingskipasuitgebreid, webcam, weerbericht, kaart, kleurcode, accommodatiecodes, googlemaps_zoomlevel, video, video_url FROM skigebied WHERE skigebied_id=".addslashes($skigebiedid)." AND wzt='".addslashes($vars["seizoentype"])."';");
 if(!$db->next_record()) {
 	echo html("skigebiednietgevonden","toonskigebied")."<p>";
 	echo html("kieseenanderskigebied","toonskigebied",array("l1"=>"skigebieden"));
 } else {
+
+	# Video
+	if($db->f("video") and $db->f("video_url")) {
+		$video_url=$db->f("video_url");
+		if(preg_match("/vimeo\.com/",$video_url) and !preg_match("/\?/",$video_url)) {
+			$video_url.="?autoplay=1";
+		}
+	}
+
 	if($vars["websitetype"]==7) {
 			$breadcrumbs["bestemmingen.php"]="Bestemmingen";
 			if($landnaam) $breadcrumbs[txt("menu_land")."/".wt_convert2url($landnaam)."/"]=$landnaam;
@@ -203,7 +212,14 @@ hr {
 			$tab_plandespistes=true;
 		}
 	}
-	echo "<li><a href=\"#fotos\">".html("tab_fotos","toonskigebied")."</a></li>";
+
+	if($video_url) {
+		# tab met tekst "foto's en video's"
+		echo "<li><a href=\"#fotos\">".html("tab_fotos_videos","toonskigebied")."</a></li>";
+	} else {
+		# tab met tekst "foto's"
+		echo "<li><a href=\"#fotos\">".html("tab_fotos","toonskigebied")."</a></li>";
+	}
 
 	if($vars["seizoentype"]==1 and ($db->f("webcam") or $db->f("weerbericht") or $db->f("kaart"))) {
 		echo "<li><a href=\"#links\">".html("tab_links","toonskigebied")."</a></li>";
@@ -295,9 +311,12 @@ hr {
 		echo "</div>"; # afsluiten tab_ligging
 	}
 
+	#
+	# Tab "Beschrijving"
+	#
 	echo "<div id=\"beschrijving\">";
 
-	# Foto's
+	# Foto's ophalen
 	$foto=imagearray(array("skigebieden"),array($db->f("skigebied_id")));
 
 	if(is_array($foto["pic"]) or file_exists("pic/cms/".$pic2)) {
@@ -321,6 +340,12 @@ hr {
 			}
 			echo "&nbsp;&nbsp;";
 			$fototeller=1;
+		}
+		if($video_url) {
+			$fototeller++;
+			echo "<a href=\"".wt_he($video_url)."\" class=\"vimeo_fancybox\">";
+			echo "<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" border=\"0\">&nbsp;";
+			echo "</a>";
 		}
 		if(is_array($foto["pic"])) {
 			while(list($key,$value)=each($foto["pic"])) {
@@ -388,6 +413,9 @@ hr {
 		}
 	}
 
+	#
+	# Tab "Foto's"
+	#
 	echo "<div id=\"fotos\">";
 	if(is_array($foto["pic"]) or is_array($foto["picbreed"])) {
 		@reset($foto["pic"]);
@@ -402,8 +430,17 @@ hr {
 		}
 
 		$foto_table="";
-		if(is_array($foto["pic"])) {
+		if($video_url) {
 			$foto_table.="<tr>";
+			$foto_table.="<td align=\"center\"><div class=\"foto_doorklik\">";
+			$foto_table.="<a href=\"".wt_he($video_url)."\" class=\"vimeo_fancybox\">";
+			$foto_table.="<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" border=\"0\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\">";
+			$foto_table.="</a><br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div></div></td>";
+			$trcounter++;
+		} else {
+			$foto_table.="<tr>";
+		}
+		if(is_array($foto["pic"])) {
 			while(list($key,$value)=@each($foto["pic"])) {
 				if($trcounter==$kolombreedte) {
 					$foto_table.="</tr><tr>";

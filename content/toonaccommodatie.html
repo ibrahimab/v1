@@ -268,6 +268,20 @@ if($db->next_record()) {
 	# a name om naartoe te scrollen (net boven de tabs)
 	echo "<div id=\"scroll_to_tabs\"></div>";
 
+	# Video
+	if($db->f("avideo") or $db->f("tvideo")) {
+		if($db->f("tvideo") and $db->f("tvideo_url")) {
+			$video_url=$db->f("tvideo_url");
+		} elseif($db->f("avideo") and $db->f("avideo_url")) {
+			$video_url=$db->f("avideo_url");
+		}
+		if($video_url) {
+			if(preg_match("/vimeo\.com/",$video_url) and !preg_match("/\?/",$video_url)) {
+				$video_url.="?autoplay=1";
+			}
+		}
+	}
+
 
 	# Foto's
 	$foto=imagearray(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
@@ -277,26 +291,15 @@ if($db->next_record()) {
 	echo "<ul class=\"noprint\">";
 	echo "<li><a href=\"#overzicht\">".html("tab_overzicht","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#indeling\">".html("tab_indeling","toonaccommodatie")."</a></li>";
-	if($db->f("avideo") or $db->f("tvideo")) {
-		echo "<li><a href=\"#fotos\">".html("tab_fotos_filmpjes","toonaccommodatie")."</a></li>";
-	}
-	else{
+	if($video_url) {
+		echo "<li><a href=\"#fotos\">".html("tab_fotos_videos","toonaccommodatie")."</a></li>";
+	} else {
 		echo "<li><a href=\"#fotos\">".html("tab_fotos","toonaccommodatie")."</a></li>";
 	}
 	echo "<li><a href=\"#ligging\">".html("tab_ligging","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#extraopties\">".html("tab_opties","toonaccommodatie")."</a></li>";
 	echo "<li><a href=\"#prijsinformatie\">".html("tab_tarieven","toonaccommodatie")."</a></li>";
 	echo "</ul>";
-	if($db->f("avideo") or $db->f("tvideo")) {
-		if($db->f("tvideo") and $db->f("tvideo_url")) {
-			$video_url=$db->f("tvideo_url");
-		} elseif($db->f("avideo") and $db->f("avideo_url")) {
-			$video_url=$db->f("avideo_url");
-		}
-		if($video_url) {
-			echo "<script type=\"text/javascript\">sessionStorage.click=0;function openpopupvideo(){windowhandle=window.open(\"\", \"newwin\", \"height=300, width=530, menubar=no, status=no, toolbar=no, scrollbars=no, resizable=no\" );windowhandle.document.write('<title>".$vars["websitenaam"]." - Media</title>');if (sessionStorage.click<2){\nwindowhandle.document.write('<iframe src=\"".$video_url."\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');windowhandle.focus();}var timer = setInterval(function() {if(windowhandle.closed){clearInterval(timer);sessionStorage.click=0;}}, 500);return false;}</script>";
-		}
-	}
 	# Tab "overzicht"
 	echo "<div id=\"overzicht\">";
 	# Interne gegevens tonen
@@ -415,9 +418,10 @@ if($db->next_record()) {
 	if(is_array($foto["pic"])) {
 		echo "<div id=\"toonaccommodatie_overzicht_fotos\" class=\"noprint\">";
 		echo "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr>";
-		if($db->f("tvideo") or $db->f("avideo")) {
+		if($video_url) {
 			$fototeller++;
-			echo "<td rowspan=\"2\"><a onclick=\"sessionStorage.click++;return openpopupvideo();\" href=\"#\">";
+			echo "<td rowspan=\"2\">";
+			echo "<a href=\"".wt_he($video_url)."\" class=\"vimeo_fancybox\">";
 			echo "<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" border=\"0\">";
 			echo "</a></td>";
 		}
@@ -487,7 +491,10 @@ if($db->next_record()) {
 		}
 	}
 	echo "</div>";
+
+	#
 	# Tab "indeling"
+	#
 	echo "<div id=\"indeling\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("indeling","toonaccommodatie")."</h3></div>";
 	# Interne gegevens tonen
@@ -501,7 +508,10 @@ if($db->next_record()) {
 		echo toon_tekst_acc_en_type($db->f("indeling"),$db->f("tindeling"));
 	}
 	echo "</div><!-- afsluiten_tabs_indeling -->";
+
+	#
 	# Tab "foto's"
+	#
 	echo "<div id=\"fotos\">";
 	echo "<div class=\"onlyprint\"><br>&nbsp;<br><h3>".html("fotos","vars")."</h3></div>";
 	if($db->f("url_virtuele_rondgang")) {
@@ -513,9 +523,10 @@ if($db->next_record()) {
 	}
 #	imagetable(array("accommodaties_aanvullend","types","accommodaties_aanvullend_onderaan","accommodaties_aanvullend_breed","types_breed"),array($db->f("accommodatie_id"),$db->f("type_id"),$db->f("accommodatie_id"),$db->f("accommodatie_id"),$db->f("type_id")));
 	$foto_table="";
-	if($db->f("tvideo") or $db->f("avideo")) {
+	if($video_url) {
 		$foto_table.="<tr>";
-		$foto_table.="<td align=\"center\"><div class=\"foto_doorklik\"><a onclick=\"sessionStorage.click++; return openpopupvideo();\" href=\"#\">";
+		$foto_table.="<td align=\"center\"><div class=\"foto_doorklik\">";
+		$foto_table.="<a href=\"".wt_he($video_url)."\" class=\"vimeo_fancybox\">";
 		$foto_table.="<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" border=\"0\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\">";
 		$foto_table.="</a><br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div></div></td>";
 		$trcounter++;

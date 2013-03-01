@@ -562,8 +562,8 @@ $txt["en"]["imagetable"]["klikopdefoto"]="Click on the photo to enlarge";
 $txt["nl"]["imagetable"]["klikvoorvergroting"]="Klik voor vergroting";
 $txt["en"]["imagetable"]["klikvoorvergroting"]="Click to enlarge";
 
-$txt["nl"]["imagetable"]["fotosindicatief"]="Foto's en plattegronden zijn indicatief en verlenen geen rechten";
-$txt["en"]["imagetable"]["fotosindicatief"]="Photos and maps are indicative and no rights can be derived from them";
+$txt["nl"]["imagetable"]["fotosindicatief"]="Foto's, video's en plattegronden zijn indicatief en verlenen geen rechten";
+$txt["en"]["imagetable"]["fotosindicatief"]="Photos, videos and maps are indicative and no rights can be derived from them";
 
 
 #
@@ -1954,8 +1954,9 @@ $txt["en"]["toonaccommodatie"]["tab_incl"]="including/excluding";
 
 $txt["nl"]["toonaccommodatie"]["tab_fotos"]="foto's";
 $txt["en"]["toonaccommodatie"]["tab_fotos"]="photos";
-$txt["nl"]["toonaccommodatie"]["tab_fotos_filmpjes"]="foto's & filmpjes";
-$txt["en"]["toonaccommodatie"]["tab_fotos_filmpjes"]="photos & video";
+
+$txt["nl"]["toonaccommodatie"]["tab_fotos_videos"]="foto's & video's";
+$txt["en"]["toonaccommodatie"]["tab_fotos_videos"]="photos & videos";
 
 $txt["nl"]["toonaccommodatie"]["tab_ligging"]="ligging";
 $txt["en"]["toonaccommodatie"]["tab_ligging"]="location";
@@ -2286,6 +2287,9 @@ $txt["en"]["toonskigebied"]["tab_pistes"]="pistes, lifts, ski-lift passes";
 
 $txt["nl"]["toonskigebied"]["tab_fotos"]="foto's";
 $txt["en"]["toonskigebied"]["tab_fotos"]="photos";
+
+$txt["nl"]["toonskigebied"]["tab_fotos_videos"]="foto's & video's";
+$txt["en"]["toonskigebied"]["tab_fotos_videos"]="photos & videos";
 
 $txt["nl"]["toonskigebied"]["tab_plandespistes"]="kaart skigebied";
 $txt["en"]["toonskigebied"]["tab_plandespistes"]="plan des pistes";
