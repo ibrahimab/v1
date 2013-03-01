@@ -65,6 +65,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["nieuwsbrief_aanbieden"]=true;
+#	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="chaleteu")) {
 	# Winter Chalet.eu Engelstalig
 	$vars["websitetype"]=1;
@@ -116,6 +117,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["nieuwsbrief_aanbieden"]=true;
+#	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="zomerhuisjenl")) {
 	# Zomerhuisje.nl
 	$vars["websitetype"]=3;

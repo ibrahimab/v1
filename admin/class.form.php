@@ -1718,7 +1718,8 @@ class form2 {
 						while(list($key2,$value2)=each($this->db[$key]["fields"])) {
 							if($value2) {
 								if($this->fields["db"][$key2]["not_unixtime"]) {
-									$selectquery.=", UNIX_TIMESTAMP(".$value2.") AS ".$value2;
+#									$selectquery.=", UNIX_TIMESTAMP(".$value2.") AS ".$value2;
+									$selectquery.=", ".$value2;
 								} elseif($this->fields["db"][$key2]["encode"]) {
 									$selectquery.=", DECODE(".$value2.",'".md5($this->fields["db"][$key2]["encode"])."') AS ".$value2;
 								} else {
@@ -1742,12 +1743,20 @@ class form2 {
 						if($db0->num_rows()==1) {
 							$db0->next_record();
 							while(list($key2,$value2)=each($value["fields"])) {
+
+								# non-unixtime-waarde omzetten naar unixtime
+								if($this->fields["db"][$key2]["not_unixtime"]) {
+									$database_value=strtotime($db0->f($value2));
+								} else {
+									$database_value=$db0->f($value2);
+								}
+
 								if($this->fields["type"][$key2]=="checkbox") {
-									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$db0->f($value2);
-									$this->fields["previous"][$key2]["selection"]=$db0->f($value2);
+									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$database_value;
+									$this->fields["previous"][$key2]["selection"]=$database_value;
 								} elseif($this->fields["type"][$key2]=="datetime") {
-									if(!$this->filled) $this->fields["prevalue"][$key2]["time"]=$db0->f($value2);
-									$this->fields["previous"][$key2]["time"]=$db0->f($value2);
+									if(!$this->filled) $this->fields["prevalue"][$key2]["time"]=$database_value;
+									$this->fields["previous"][$key2]["time"]=$database_value;
 								} elseif($this->fields["type"][$key2]=="htmlcol") {
 
 								} elseif($this->fields["type"][$key2]=="htmlrow") {
@@ -1764,36 +1773,36 @@ class form2 {
 #									exit;
 								} elseif($this->fields["type"][$key2]=="noedit") {
 									if($this->fields["options"][$key2]["selection"]) {
-										$this->fields["prevalue"][$key2]["selection"]=$db0->f($value2);
-										$this->fields["previous"][$key2]["selection"]=$db0->f($value2);
+										$this->fields["prevalue"][$key2]["selection"]=$database_value;
+										$this->fields["previous"][$key2]["selection"]=$database_value;
 # De volgende regel staat er i.v.m. mogelijke compatibiliteitsproblemen: alle sites nalopen met "noedit"-fields en kijken of er een prevalue wordt opgevraagd met "text" (moet "selection" worden als het een "selection"-prevalue is) (opmerking geplaatst in 2009)
-										$this->fields["prevalue"][$key2]["text"]=$db0->f($value2);
-										$this->fields["previous"][$key2]["text"]=$db0->f($value2);
+										$this->fields["prevalue"][$key2]["text"]=$database_value;
+										$this->fields["previous"][$key2]["text"]=$database_value;
 									} else {
-										$this->fields["prevalue"][$key2]["text"]=$db0->f($value2);
-										$this->fields["previous"][$key2]["text"]=$db0->f($value2);
+										$this->fields["prevalue"][$key2]["text"]=$database_value;
+										$this->fields["previous"][$key2]["text"]=$database_value;
 									}
 								} elseif($this->fields["type"][$key2]=="onlyinoutput") {
 
 								} elseif($this->fields["type"][$key2]=="password") {
 
 								} elseif($this->fields["type"][$key2]=="radio") {
-									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$db0->f($value2);
-									$this->fields["previous"][$key2]["selection"]=$db0->f($value2);
+									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$database_value;
+									$this->fields["previous"][$key2]["selection"]=$database_value;
 								} elseif($this->fields["type"][$key2]=="select") {
-									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$db0->f($value2);
-									$this->fields["previous"][$key2]["selection"]=$db0->f($value2);
+									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$database_value;
+									$this->fields["previous"][$key2]["selection"]=$database_value;
 								} elseif($this->fields["type"][$key2]=="text") {
-									if(!$this->filled) $this->fields["prevalue"][$key2]["text"]=$db0->f($value2);
-									$this->fields["previous"][$key2]["text"]=$db0->f($value2);
+									if(!$this->filled) $this->fields["prevalue"][$key2]["text"]=$database_value;
+									$this->fields["previous"][$key2]["text"]=$database_value;
 								} elseif($this->fields["type"][$key2]=="textarea") {
-									if(!$this->filled) $this->fields["prevalue"][$key2]["text"]=$db0->f($value2);
-									$this->fields["previous"][$key2]["text"]=$db0->f($value2);
+									if(!$this->filled) $this->fields["prevalue"][$key2]["text"]=$database_value;
+									$this->fields["previous"][$key2]["text"]=$database_value;
 								} elseif($this->fields["type"][$key2]=="upload") {
 
 								} elseif($this->fields["type"][$key2]=="yesno") {
-									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$db0->f($value2);
-									$this->fields["previous"][$key2]["selection"]=$db0->f($value2);
+									if(!$this->filled) $this->fields["prevalue"][$key2]["selection"]=$database_value;
+									$this->fields["previous"][$key2]["selection"]=$database_value;
 								} else {
 									trigger_error("WT-Error: Unknown type '".$this->fields["type"][$key2]."' in function get_db",E_USER_ERROR);
 								}
