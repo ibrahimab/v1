@@ -1744,9 +1744,14 @@ class form2 {
 							$db0->next_record();
 							while(list($key2,$value2)=each($value["fields"])) {
 
-								# non-unixtime-waarde omzetten naar unixtime
+								unset($database_value);
 								if($this->fields["db"][$key2]["not_unixtime"]) {
-									$database_value=strtotime($db0->f($value2));
+									if(substr($db0->f($value2),0,5)=="0000-") {
+										# datum-veld is leeg
+									} else {
+										# non-unixtime-waarde omzetten naar unixtime
+										$database_value=strtotime($db0->f($value2));
+									}
 								} else {
 									$database_value=$db0->f($value2);
 								}

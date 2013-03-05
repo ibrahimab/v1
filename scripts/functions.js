@@ -480,7 +480,6 @@ var tonen_of_niet;
 var form_gewijzigd;
 var selectbox_actief=0;
 var showhidelink_text='';
-var txtzoeken='';
 var gebruik_jquery=true;
 var landkaartklikbaar_info_hoverkleur="#636f07";
 var eerste_tab_getoond=false;
@@ -1097,22 +1096,22 @@ $(document).ready(function() {
 				show_ajaxloader(true);
 
 				var nieuwe_url=$(this).attr("href");
-				nieuwe_url = nieuwe_url.replace(/#[a-z0-9]+/,"");
+//				nieuwe_url = nieuwe_url.replace(/#[a-z0-9]+/,"");
 				nieuwe_url=updateURLParameter(nieuwe_url,"scrolly",$(window).scrollTop());
 				$(this).attr("href",nieuwe_url);
 				return true;
 			});
 
 			// scroll-y-positie opslaan (vanuit zoekresultaat-klik)
-			$("a.zoekresultaat").click(function() {
+			$("a.zoekresultaat, a.zoekresultaat_type").click(function() {
 
 				show_ajaxloader(true);
 
 				var nieuwe_url=$(this).attr("href");
 
 				// cnt-querystrings weghalen (zijn niet meer nodig)
-				nieuwe_url = nieuwe_url.replace(/\&cnt+=[0-9]+/,"");
-				nieuwe_url = nieuwe_url.replace(/\&cnt[0-9]+=[0-9]+/,"");
+				// nieuwe_url = nieuwe_url.replace(/\&cnt+=[0-9]+/,"");
+				// nieuwe_url = nieuwe_url.replace(/\&cnt[0-9]+=[0-9]+/,"");
 
 				if(/scrolly%3D/.test(nieuwe_url)) {
 					nieuwe_url = nieuwe_url.replace(/scrolly%3D[0-9]+/,"scrolly%3D"+$(window).scrollTop());
@@ -1125,6 +1124,7 @@ $(document).ready(function() {
 						nieuwe_url = nieuwe_url+"%3Fscrolly%3D"+$(window).scrollTop();
 					}
 				}
+
 				$(this).attr("href",nieuwe_url);
 				return true;
 			});
