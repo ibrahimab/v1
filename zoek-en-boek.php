@@ -10,6 +10,50 @@ if($vars["zoekform_aanbiedingen"] and $vars["seizoentype"]==2) {
 }
 
 
+if($_COOKIE["tch"]) {
+	#
+	# Zoekopdracht bewaren
+	#
+	$te_bewaren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fzt","fdu","lev","allesites");
+#	$te_bewaren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fdu","lev","allesites");
+
+	if($_GET) {
+		# Zoekopdracht opslaan
+		if(!$_GET["saved"]) {
+			while(list($key,$value)=each($te_bewaren_velden)) {
+				if($_GET[$value]) {
+					$json_save[$value]=utf8_encode($_GET[$value]);
+				}
+			}
+			$db->query("UPDATE bezoeker SET last_zoekopdracht='".addslashes(json_encode($json_save))."', last_zoekopdracht_datetime=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["tch"])."';");
+		}
+	} else {
+		# Eerdere zoekopdracht uit database halen
+		$db->query("SELECT last_zoekopdracht, UNIX_TIMESTAMP(last_zoekopdracht_datetime) AS last_zoekopdracht_datetime FROM bezoeker WHERE bezoeker_id='".addslashes($_COOKIE["tch"])."';");
+		if($db->next_record()) {
+			if($db->f("last_zoekopdracht_datetime")>mktime(0,0,0,date("m"),date("d")-60,date("Y"))) {
+				$json_load=json_decode($db->f("last_zoekopdracht"),true);
+				if(is_array($json_load)) {
+					$querystring="?filled=1&saved=1";
+					while(list($key,$value)=each($te_bewaren_velden)) {
+						if($json_load[$value]) {
+							$querystring.="&".$value."=".urlencode(utf8_decode($json_load[$value]));
+						}
+					}
+				}
+				if($querystring) {
+					$herlaad_url=$_SERVER["REQUEST_URI"];
+					$herlaad_url=preg_replace("/\?.*/","",$herlaad_url);
+					$herlaad_url.=$querystring;
+
+					header("Location: ".$herlaad_url);
+					exit;
+				}
+			}
+		}
+	}
+}
+
 #$robot_noindex=true;
 #$robot_nofollow=true;
 #$vars["verberg_linkerkolom"]=true;
@@ -45,23 +89,19 @@ if(preg_match("/^[A-Za-z][0-9]{8}$/",trim($_GET["fzt"]),$regs)) {
 
 
 # Zoekopdracht_id aanmaken (en plaatsen in $_GET["z"])
-if($_GET["filled"] and !$vars["zoekform_aanbiedingen"]) {
-	if(!$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and !preg_match("/Googlebot/",$_SERVER["HTTP_USER_AGENT"])) {
-		if($_GET["z"]) {
-			$zoekopdrachtid=intval($_GET["z"]);
-		} else {
-			$db->query("INSERT INTO zoekstatistiek SET wzt='".$vars["seizoentype"]."', website='".$vars["website"]."', url='".addslashes("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."', datumtijd=NOW();");
-			if($db->insert_id()) {
-				header("Location: ".$_SERVER["REQUEST_URI"]."&z=".$db->insert_id());
-				exit;
-			}
-		}
-	}
-
-#	if($_GET["z"]) {
-#		$vars["canonical"]=ereg_replace("&z=[0-9]+","",$_SERVER["REQUEST_URI"]);
-#	}
-}
+// if($_GET["filled"] and !$vars["zoekform_aanbiedingen"]) {
+// 	if(!$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and !preg_match("/Googlebot/",$_SERVER["HTTP_USER_AGENT"])) {
+// 		if($_GET["z"]) {
+// 			$zoekopdrachtid=intval($_GET["z"]);
+// 		} else {
+// 			$db->query("INSERT INTO zoekstatistiek SET wzt='".$vars["seizoentype"]."', website='".$vars["website"]."', url='".addslashes("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."', datumtijd=NOW();");
+// 			if($db->insert_id()) {
+// 				header("Location: ".$_SERVER["REQUEST_URI"]."&z=".$db->insert_id());
+// 				exit;
+// 			}
+// 		}
+// 	}
+// }
 
 if($_GET["fsg"] and !preg_match("/,/",$_GET["fsg"])) {
 	if(preg_match("/^pl([0-9]+)$/",$_GET["fsg"],$regs)) {

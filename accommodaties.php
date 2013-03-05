@@ -2,6 +2,8 @@
 
 include("admin/vars.php");
 
+trigger_error("accommodaties.php opgevraagd",E_USER_NOTICE);
+
 if(ereg("/accommodaties\.php",$_SERVER["REQUEST_URI"])) {
 	$goto=ereg_replace("/accommodaties\.php","/zoek-en-boek.php",$_SERVER["REQUEST_URI"]);
 	header("Location: ".$goto,true,301);
@@ -13,6 +15,9 @@ if(ereg("/accommodations\.php",$_SERVER["REQUEST_URI"])) {
 	header("Location: ".$goto,true,301);
 	exit;
 }
+
+header("Location: ".$vars["path"]."zoek-en-boek.php",true,301);
+exit;
 
 if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
 	$_GET["fzt"]="";

@@ -154,7 +154,7 @@ RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
 #RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238 [NC]
 #RewriteRule ^(.*)$ http://www.italissima.nl/ [L,R=301]
 
-RewriteRule groepsreizen\.php$ /accommodaties.php [R=301,L]
+RewriteRule groepsreizen\.php$ /zoek-en-boek.php [R=301,L]
 
 RewriteRule ^thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
 RewriteRule ^wintersport/thema/([A-Za-z0-9-]*)/?$ thema.php?thema=$1&%{QUERY_STRING}
@@ -182,9 +182,9 @@ RewriteRule wintersport/?$ / [R=301,L]
 #
 # Oude grizzly-links doorsturen
 #
-RewriteRule ^chalet/zomervakantie-oostenrijk\.htm$ http://www.zomerhuisje.nl/accommodaties.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=2-0 [R=301,L]
-RewriteRule ^chalet/zomervakantie-frankrijk\.htm$ http://www.zomerhuisje.nl/accommodaties.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=1-0 [R=301,L]
-RewriteRule ^chalet/zomervakantie-zwitserland\.htm$ http://www.zomerhuisje.nl/accommodaties.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=3-0 [R=301,L]
+RewriteRule ^chalet/zomervakantie-oostenrijk\.htm$ http://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=2-0 [R=301,L]
+RewriteRule ^chalet/zomervakantie-frankrijk\.htm$ http://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=1-0 [R=301,L]
+RewriteRule ^chalet/zomervakantie-zwitserland\.htm$ http://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=3-0 [R=301,L]
 RewriteRule ^chalet/wintersport-les-menuires\.htm$ /plaats/Les_Menuires/ [R=301,L]
 RewriteRule ^chalet/val-cenis\.htm$ /plaats/Val_Cenis/ [R=301,L]
 RewriteRule ^chalet/la-rosiere\.htm$ /plaats/La_Rosiere/ [R=301,L]

@@ -32,6 +32,14 @@ if(!$_GET["chad"] and $_GET["network"]=="tradetracker") {
 	$vars["bezoek_altijd_opslaan"]=true;
 }
 
+# Lokaal: tch wissen bij eerste pagina-opvraging (om te zorgen dat er een in de database aanwezige cookie ontstaat)
+if($vars["lokale_testserver"]) {
+	if(!$_COOKIE["trackercookie"]) {
+		unset($_COOKIE["tch"]);
+		setcookie("trackercookie",1);
+	}
+}
+
 #
 # Bezoekers-statistieken opslaan
 #
