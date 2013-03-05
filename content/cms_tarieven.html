@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow" />
 <link href="css/cms_layout.css" rel="stylesheet" type="text/css" />
 <link REL="shortcut icon" href="favicon.ico" />
-<script type="text/javascript" language="JavaScript1.2" src="scripts/jquery.js"></script>
+<script src="<?php echo wt_he($vars["jquery_url"]); ?>"></script>
 <script type="text/javascript" language="JavaScript1.2" src="scripts/cms_tarieven.js?cache=<?php echo @filemtime("scripts/cms_tarieven.js"); ?>"></script>
 <script type="text/javascript" language="JavaScript1.2" src="scripts/cms_functions.js?cache=<?php echo @filemtime("scripts/cms_functions.js"); ?>"></script>
 </head>
@@ -764,7 +764,7 @@ if($seizoen["naam"]) {
 			$bruto_totaal+=$seizoen["weken"][$week]["bruto"];
 			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 		}
-		echo "<td nowrap>".wt_he($titel)." (totaal ".$valuta."<input tabindex=\"".($regelteller+$kolomteller+1)."\" type=\"text\" size=\"8\" readonly disabled name=\"bruto_totaal\" value=\"".($bruto_totaal>0 ? wt_he($bruto_totaal) : "")."\">)</td>";
+		echo "<td nowrap>".wt_he($titel)." (totaal ".$valuta."<input tabindex=\"".($regelteller+$kolomteller+1)."\" type=\"text\" size=\"8\" readonly disabled name=\"bruto_totaal\" value=\"".($bruto_totaal>0 ? wt_he($bruto_totaal) : "")."\">) <input type=\"checkbox\" name=\"wis_bruto\" value=\"1\" id=\"wis_buto\" style=\"vertical-align:middle;position:relative;bottom:1px;\"><label for=\"wis_buto\">wis alle bruto-prijzen</label></td>";
 		echo "</tr>";
 
 		# Kortingspercentage
@@ -1788,7 +1788,7 @@ if($seizoen["naam"]) {
 			$bruto_totaal+=$seizoen["weken"][$week]["bruto"];
 			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 		}
-		echo "<td nowrap>".wt_he($titel)." (totaal ".$valuta."<input tabindex=\"".($regelteller+$kolomteller+1)."\" type=\"text\" size=\"8\" readonly disabled name=\"c_bruto_totaal\" value=\"".($bruto_totaal>0 ? wt_he($bruto_totaal) : "")."\">)</td>";
+		echo "<td nowrap>".wt_he($titel)." (totaal ".$valuta."<input tabindex=\"".($regelteller+$kolomteller+1)."\" type=\"text\" size=\"8\" readonly disabled name=\"c_bruto_totaal\" value=\"".($bruto_totaal>0 ? wt_he($bruto_totaal) : "")."\">)<input type=\"checkbox\" name=\"wis_bruto\" value=\"1\" id=\"wis_buto\" style=\"vertical-align:middle;position:relative;bottom:1px;\"><label for=\"wis_buto\">wis alle bruto-prijzen</label></td>";
 		echo "</tr>";
 
 		# Kortingspercentage

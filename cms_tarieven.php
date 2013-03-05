@@ -99,9 +99,9 @@ if($_POST["filled"]) {
 		}
 	}
 
-	if(!$skipastarieven_verwerken and !$ingevulde_waarde_opgeslagen) {
+	if(!$skipastarieven_verwerken and !$ingevulde_waarde_opgeslagen and !$_POST["wis_bruto"]) {
 #		trigger_error("_notice: geen tarieven om op te slaan. POST-count: ".@count($_POST),E_USER_NOTICE);
-		echo "<p>Bij de zojuist ontvangen gegevens is het veld 'bruto' helemaal leeg. De aanpassingen zijn daarom niet correct opgeslagen. Neem contact op met Jeroen en meld hem deze kwestie. Foutcode: 11</p>";
+		echo "<p>Bij de zojuist ontvangen gegevens is het veld 'bruto' helemaal leeg. De aanpassingen zijn daarom niet correct opgeslagen. Wil je alle bruto-prijzen wissen? Gebruik het vinkje 'wis alle bruto-prijzen' (helemaal rechts op de bruto-regel). Meldingscode: 11</p>";
 		exit;
 	}
 
@@ -117,7 +117,7 @@ if($_POST["filled"]) {
 	} else {
 			trigger_error("variabele 'savequery' leeg bij opslaan tarieven",E_USER_NOTICE);
 			if(!$skipastarieven_verwerken and $_POST["filled_via_echt_form"]) {
-				echo "<p>Er is iets fout gegaan bij het opslaan van de zojuist ingevoerde gegevens. Deze zijn niet correct opgeslagen. Neem contact op met Jeroen en meld hem deze kwestie. Foutcode: 22</p>";
+				echo "<p>Er is iets fout gegaan bij het opslaan van de zojuist ingevoerde gegevens. Deze zijn niet correct opgeslagen. Neem contact op met Jeroen en meld hem deze kwestie. Meldingscode: 22</p>";
 				exit;
 			}
 	}

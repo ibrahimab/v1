@@ -1177,4 +1177,16 @@ $(document).ready(function(){
 			$('#but3').attr("disabled", true);
 		}
 	}
+
+	$("input[name=wis_bruto]").change(function() {
+		// alle bruto-tarieven wissen via checkbox
+		if($(this).is(':checked')) {
+			for(var i=0;i<document.forms['weken'].elements.length;i++) {
+				week=document.forms['weken'].elements[i].value;
+				$("input[name='bruto["+week+"]']").val("");
+				$("input[name='c_bruto["+week+"]']").val("");
+				bereken('kopieer',week);
+			}
+		}
+	});
 });
