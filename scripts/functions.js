@@ -1008,7 +1008,7 @@ $(document).ready(function() {
 				$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, allow_single_deselect: true, autofocus_search_field: true});
 
 				// Chosen: leverancier (incl. deselect-functie)
-				$("select[name=lev]").chosen({allow_single_deselect: true});
+				$("select[name=lev]").chosen({allow_single_deselect: true, autofocus_search_field: true});
 
 				// Chosen: diverse selects (zonder tekstzoeken)
 				$(".zoekblok_aankomstdatum select, .zoekblok_aantalpersonen select, .zoekblok_aantalslaapkamers select, .zoekblok_verblijfsduur select").chosen({disable_search: true,allow_single_deselect: true});

@@ -1027,7 +1027,7 @@ function zoekblok_alleen_aanbiedingen($settings="") {
 		# keuze "zoek alleen naar aanbiedingen" tonen
 		echo "<div class=\"zoekblok_item zoekblok_item_geen_titel\">";
 
-		echo "<div class=\"zoekblok_zoek_alleen_aanbiedingen\"><input type=\"checkbox\" name=\"faab\" value=\"1\" id=\"faab\"".(!$_GET["filled"]||$_GET["faab"] ? " checked" : "")." class=\"onchangesubmit\"><label for=\"faab\">&nbsp;".html("zoekalleenaanbiedingen","zoek-en-boek")."</label></div>";
+		echo "<div class=\"zoekblok_zoek_alleen_aanbiedingen\"><input type=\"checkbox\" name=\"faab\" value=\"1\" id=\"faab\"".(!$_GET["filled"]||$_GET["faab"]||$_GET["saved"] ? " checked" : "")." class=\"onchangesubmit\"><label for=\"faab\">&nbsp;".html("zoekalleenaanbiedingen","zoek-en-boek")."</label></div>";
 
 		echo "<div class=\"clear\"></div>";
 		echo "</div>"; # afsluiten .zoekblok_item
@@ -1046,12 +1046,11 @@ function zoekblok_submit($settings="") {
 	echo "<input type=\"submit\" value=\" ".strtoupper(html("zoeken","accommodaties"))." \" id=\"submit1zoeken\" class=\"submitbutton\">";
 
 	# "alles wissen"-link
-	echo "<div class=\"zoekblok_alleswissen\">";
-#		echo "<a href=\"".$vars["path"].($vars["zoekform_aanbiedingen"] ? html("menu_aanbiedingen") : html("menu_zoek-en-boek")).".php".($_GET["aab"] ? "?filled=1&aab=1&faab=1" : "")."\">".html("alleswissen","zoek-en-boek")."</a>";
-	echo "<a href=\"".wt_he($urlself.($_GET["aab"] ? "?filled=1&aab=1&faab=1" : ""))."\">".html("alleswissen","zoek-en-boek")."</a>";
-
-
-	echo "</div>"; # afsluiten .zoekblok_alleswissen
+	if(strpos($_SERVER["REQUEST_URI"],"filled=1")) {
+		echo "<div class=\"zoekblok_alleswissen\">";
+		echo "<a href=\"".wt_he($urlself.(strpos($_SERVER["REQUEST_URI"],"&aab=1") ? "?filled=1&aab=1&faab=1" : ""))."\"><i class=\"icon-remove-sign\"></i>".html("alleswissen","zoek-en-boek")."</a>";
+		echo "</div>"; # afsluiten .zoekblok_alleswissen
+	}
 
 	echo "</div>"; # afsluiten .zoekblok_item
 }

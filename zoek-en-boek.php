@@ -9,15 +9,14 @@ if($vars["zoekform_aanbiedingen"] and $vars["seizoentype"]==2) {
 	exit;
 }
 
-
-if($_COOKIE["tch"]) {
+if($_COOKIE["tch"] and ($vars["zoekform_aanbiedingen"] or strpos($_SERVER["REQUEST_URI"],txt("menu_zoek-en-boek")))) {
 	#
 	# Zoekopdracht bewaren
 	#
 	$te_bewaren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fzt","fdu","lev","allesites");
 #	$te_bewaren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fdu","lev","allesites");
 
-	if($_GET) {
+	if(preg_match("/\?/",$_SERVER["REQUEST_URI"])) {
 		# Zoekopdracht opslaan
 		if(!$_GET["saved"]) {
 			while(list($key,$value)=each($te_bewaren_velden)) {
@@ -26,6 +25,10 @@ if($_COOKIE["tch"]) {
 				}
 			}
 			$db->query("UPDATE bezoeker SET last_zoekopdracht='".addslashes(json_encode($json_save))."', last_zoekopdracht_datetime=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["tch"])."';");
+			// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
+			// 	echo $db->lq;
+			// 	exit;
+			// }
 		}
 	} else {
 		# Eerdere zoekopdracht uit database halen

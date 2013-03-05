@@ -656,6 +656,11 @@ td.selecteerbaarbedrag:hover{
 	width: 454px;
 }
 
+#zoekblok .icon-remove-sign {
+	text-decoration: none;
+	margin-right: 3px;
+}
+
 .zoekblok_titel {
 	margin-bottom: 3px;
 	float: left;

@@ -2,7 +2,7 @@
 
 include("admin/vars.php");
 
-trigger_error("accommodaties.php opgevraagd",E_USER_NOTICE);
+#trigger_error("accommodaties.php opgevraagd",E_USER_NOTICE);
 
 if(ereg("/accommodaties\.php",$_SERVER["REQUEST_URI"])) {
 	$goto=ereg_replace("/accommodaties\.php","/zoek-en-boek.php",$_SERVER["REQUEST_URI"]);

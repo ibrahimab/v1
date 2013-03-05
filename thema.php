@@ -2,6 +2,8 @@
 
 
 $laat_titel_weg=true;
+$vars["verberg_zoekenboeklinks"]=true;
+
 include("admin/vars.php");
 
 # Bij WSA en Italissima zijn geen thema's beschikbaar

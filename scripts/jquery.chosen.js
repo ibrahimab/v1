@@ -386,7 +386,9 @@ Copyright (c) 2011 by Harvest
        this.search_field = this.container.find('input').first();
 
 // toegevoegd:
-this.search_field.attr("placeholder",$(".zoekblok_bestemming").data("search-plaxeholder"));
+if(this.container_id=="zoekblok_field_bestemming_chzn") {
+    this.search_field.attr("placeholder",$(".zoekblok_bestemming").data("search-plaxeholder"));
+}
 
       this.search_results = this.container.find('ul.chzn-results').first();
       this.search_field_scale();
