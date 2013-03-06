@@ -42,7 +42,7 @@ if(preg_match("/^[A-Za-z][0-9]{8}$/",trim($_GET["fzt"]),$regs)) {
 	exit;
 }
 
-if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or strpos($_SERVER["REQUEST_URI"],txt("menu_zoek-en-boek")))) {
+if($_COOKIE["tch"] and !$voorkant_cmsNU_EVEN_NIET and ($vars["zoekform_aanbiedingen"] or strpos($_SERVER["REQUEST_URI"],txt("menu_zoek-en-boek")))) {
 	#
 	# Zoekopdracht bewaren
 	#
