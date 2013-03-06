@@ -9,6 +9,39 @@ if($vars["zoekform_aanbiedingen"] and $vars["seizoentype"]==2) {
 	exit;
 }
 
+#$robot_noindex=true;
+#$robot_nofollow=true;
+#$vars["verberg_linkerkolom"]=true;
+
+$breadcrumbs["last"]=txt("title_zoekenboek");
+
+$vars["verberg_zoekenboeklinks"]=true;
+$vars["verberg_directnaar"]=true;
+if($vars["websitetype"]<>6) {
+	$vars["verfijnen_aanbieden"]=true;
+}
+
+# jQuery UI theme laden (t.b.v. autocomplete)
+$vars["page_with_jqueryui"]=true;
+
+# jQuery Chosen laden
+$vars["jquery_chosen"]=true;
+
+# Zoeken op accommodatiecode: redirect naar die accommodatie
+if(ereg("^[A-Za-z]([0-9]+)$",trim($_GET["fzt"]),$regs) and !$_GET["saved"]) {
+	$db->query("SELECT type_id, begincode FROM view_accommodatie WHERE type_id='".addslashes($regs[1])."' AND websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND wzt='".$vars["seizoentype"]."'");
+	if($db->next_record()) {
+		header("Location: ".$path."accommodatie/".$db->f("begincode").$db->f("type_id")."/");
+		exit;
+	}
+}
+
+# Zoeken op reserveringsnummer: redirect naar "Mijn boeking"
+if(preg_match("/^[A-Za-z][0-9]{8}$/",trim($_GET["fzt"]),$regs)) {
+	header("Location: ".$vars["path"].txt("menu_inloggen").".php");
+	exit;
+}
+
 if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or strpos($_SERVER["REQUEST_URI"],txt("menu_zoek-en-boek")))) {
 	#
 	# Zoekopdracht bewaren
@@ -56,40 +89,6 @@ if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or str
 		}
 	}
 }
-
-#$robot_noindex=true;
-#$robot_nofollow=true;
-#$vars["verberg_linkerkolom"]=true;
-
-$breadcrumbs["last"]=txt("title_zoekenboek");
-
-$vars["verberg_zoekenboeklinks"]=true;
-$vars["verberg_directnaar"]=true;
-if($vars["websitetype"]<>6) {
-	$vars["verfijnen_aanbieden"]=true;
-}
-
-# jQuery UI theme laden (t.b.v. autocomplete)
-$vars["page_with_jqueryui"]=true;
-
-# jQuery Chosen laden
-$vars["jquery_chosen"]=true;
-
-# Zoeken op accommodatiecode: redirect naar die accommodatie
-if(ereg("^[A-Za-z]([0-9]+)$",trim($_GET["fzt"]),$regs)) {
-	$db->query("SELECT type_id, begincode FROM view_accommodatie WHERE type_id='".addslashes($regs[1])."' AND websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND wzt='".$vars["seizoentype"]."'");
-	if($db->next_record()) {
-		header("Location: ".$path."accommodatie/".$db->f("begincode").$db->f("type_id")."/");
-		exit;
-	}
-}
-
-# Zoeken op reserveringsnummer: redirect naar "Mijn boeking"
-if(preg_match("/^[A-Za-z][0-9]{8}$/",trim($_GET["fzt"]),$regs)) {
-	header("Location: ".$vars["path"].txt("menu_inloggen").".php");
-	exit;
-}
-
 
 # Zoekopdracht_id aanmaken (en plaatsen in $_GET["z"])
 // if($_GET["filled"] and !$vars["zoekform_aanbiedingen"]) {
