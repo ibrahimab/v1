@@ -9,7 +9,7 @@ if($vars["zoekform_aanbiedingen"] and $vars["seizoentype"]==2) {
 	exit;
 }
 
-if($_COOKIE["tch"] and ($vars["zoekform_aanbiedingen"] or strpos($_SERVER["REQUEST_URI"],txt("menu_zoek-en-boek")))) {
+if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or strpos($_SERVER["REQUEST_URI"],txt("menu_zoek-en-boek")))) {
 	#
 	# Zoekopdracht bewaren
 	#
