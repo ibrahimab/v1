@@ -42,6 +42,19 @@ if(preg_match("/^[A-Za-z][0-9]{8}$/",trim($_GET["fzt"]),$regs)) {
 	exit;
 }
 
+# tekstzoeken: zoekopdracht "opschonen"
+if($_GET["fzt"]==txt("tekstzoeken","zoek-en-boek")) {
+	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
+	unset($_GET["fzt"]);
+}
+if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
+	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
+	$_GET["fzt"]="";
+}
+if(strlen($_GET["fzt"])>0) {
+	$_GET["fzt"]=trim($_GET["fzt"]);
+}
+
 if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or strpos($_SERVER["REQUEST_URI"],txt("menu_zoek-en-boek")))) {
 	#
 	# Zoekopdracht bewaren
@@ -56,7 +69,14 @@ if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or str
 					$json_save[$value]=utf8_encode($_GET[$value]);
 				}
 			}
-			$db->query("UPDATE bezoeker SET last_zoekopdracht='".addslashes(json_encode($json_save))."', last_zoekopdracht_datetime=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["tch"])."';");
+			if($json_save) {
+				$last_zoekopdracht=trim(json_encode($json_save));
+				if($last_zoekopdracht=="null") {
+					trigger_error("_notice: zoekopdracht='null'",E_USER_NOTICE);
+				} else {
+					$db->query("UPDATE bezoeker SET last_zoekopdracht='".addslashes($last_zoekopdracht)."', last_zoekopdracht_datetime=NOW(), gewijzigd=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["tch"])."';");
+				}
+			}
 		}
 	} else {
 		# Eerdere zoekopdracht uit database halen

@@ -4,12 +4,13 @@
 # Zoekformulier
 #
 
-# tekstzoeken: zoekopdracht "opschonen"
+# tekstzoeken: zoekopdracht "opschonen" (voor zoekopdrachten die binnenkomen via andere pagina dan zoek-en-boek.php - want in zoek-en-boek.php wordt dit opschonen ook al gedaan)
 if($_GET["fzt"]==txt("tekstzoeken","zoek-en-boek")) {
 	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
 	unset($_GET["fzt"]);
 }
 if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
+	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
 	$_GET["fzt"]="";
 }
 if(strlen($_GET["fzt"])>0) {
