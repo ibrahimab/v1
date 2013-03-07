@@ -1765,6 +1765,31 @@ function wt_mssqldate($string) {
 	}
 }
 
+function wt_convert_database_to_utf8() {
+	$db=new DB_sql;
+	$db2=new DB_sql;
+	$db3=new DB_sql;
+
+	$db->query("SHOW TABLES;");
+	while($db->next_record()) {
+
+		$table=$db->f("Tables_in_".$db->Database);
+		$query="ALTER TABLE `".$table."` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;";
+		echo $query."<br>";
+#		$db2->query($query);
+
+		$db2->query("SHOW FULL COLUMNS FROM `".$table."`;");
+		while($db2->next_record()) {
+			if($db2->f("Collation")=="latin1_swedish_ci") {
+				$query="ALTER TABLE `".$table."` MODIFY `".$db2->f("Field")."` ".$db2->f("Type")." CHARACTER SET utf8 COLLATE utf8_general_ci ".($db2->f("Null")=="YES" ? "NULL" : "NOT NULL")." DEFAULT ".($db2->f("Default")=="NULL" ? "NULL" : "'".addslashes($db2->f("Default"))."'").";";
+				echo $query."<br>";
+				$db3->query($query);
+			}
+		}
+	}
+}
+
+
 if (!function_exists("imap_8bit")) {
 	function imap_8bit($sText,$bEmulate_imap_8bit=true) {
 	  // split text into lines

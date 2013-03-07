@@ -481,6 +481,79 @@ class Login {
 		if(in_array($type,$priv)) return true; else return false;
 	}
 
+	function create_user($username,$password="") {
+		//
+		// Nieuwe user aanmaken en opslaan in de database
+		//
+		$db=new DB_sql;
+
+		if($password) {
+			$password_hash=wt_complex_password_hash($password,$this->settings["salt"]);
+		}
+		$db->query("INSERT INTO ".$this->settings["db"]["tablename"]." SET ".$this->settings["db"]["fieldusername"]."='".addslashes($username)."'".($password ? ", password='".addslashes($password_hash)."'" : "").";");
+		if($db->insert_id()) {
+			return $db->insert_id();
+		} else {
+			return false;
+		}
+	}
+
+	function log_user_in($userid) {
+
+		//
+		// user inloggen op basis van userid (wachtwoord niet nodig)
+		//
+		$db=new DB_sql;
+
+		$this->logged_in=true;
+
+		$db->query("SELECT uniqueid_ip FROM ".$this->settings["db"]["tablename"]." WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($userid)."';");
+		if($db->next_record()) {
+			$uniqueid_ip=$db->f("uniqueid_ip");
+		}
+
+		# kijken of de uniqueid geldig is
+		$uniqueid=$this->uniqueid_ip_check($uniqueid_ip);
+		if(!$uniqueid) {
+			# niet geldig / onbekend: nieuwe aanmaken
+			$uniqueid=$this->uniqueid_ip_save($uniqueid_ip,$userid);
+		}
+
+		# cookies plaatsen
+		$time=time()+($this->settings["cookie"]["timeinminutes"]*60);
+		if(floatval(phpversion())>5.2) {
+			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
+			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
+		} else {
+			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/","",$this->settings["cookies"]["secure"]);
+			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"]);
+		}
+		setcookie("lin[".$this->settings["name"]."]","dl0j82",$time,"/"); # willekeurige waardie die (ook zonder https) aangeeft dat iemand is ingelogd
+		if($this->settings["extra_unsafe_cookie"]) {
+			setcookie($this->settings["extra_unsafe_cookie"]."[".$this->settings["name"]."]",md5($_SERVER["REMOTE_ADDR"]."_".$this->settings["name"]."_QjJEJ938ja2"),$time,"/");
+		}
+
+		# Gebruikers-gegevens uit database halen
+		$db->query("SELECT * FROM ".$this->settings["db"]["tablename"]." WHERE ".($this->settings["db"]["where"] ? $this->settings["db"]["where"]." AND " : "").$this->settings["db"]["fielduserid"]."='".addslashes($userid)."';");
+
+		if($db->num_rows()==1 and $db->next_record()) {
+			$_SESSION["LOGIN"][$this->settings["name"]]["logged_in"]=true;
+
+			$fieldnames=$db->metadata($this->settings["db"]["tablename"],true);
+			while(list($name,$value)=each($fieldnames["meta"])) {
+				$_SESSION["LOGIN"][$this->settings["name"]][$name]=$db->f($name);
+			}
+			$this->userlevel=$_SESSION["LOGIN"][$this->settings["name"]][$this->settings["db"]["fielduserlevel"]];
+			$this->user_id=$_SESSION["LOGIN"][$this->settings["name"]][$this->settings["db"]["fielduserid"]];
+			$this->username=$_SESSION["LOGIN"][$this->settings["name"]][$this->settings["db"]["fieldusername"]];
+			$this->priv=$_SESSION["LOGIN"][$this->settings["name"]]["priv"];
+			$this->vars=$_SESSION["LOGIN"][$this->settings["name"]];
+		}
+		$this->setlastlogin(1);
+
+		return true;
+	}
+
 	function end_declaration() {
 		$db=new DB_sql;
 		$this->init();
