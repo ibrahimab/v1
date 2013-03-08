@@ -39,6 +39,26 @@ if($vars["websitetype"]==7) {
 	}
 }
 
+# Bepalen of dit een nieuwe zoekopdracht is, of dat de zoekopdracht in deze sessie al eens eerder is uitgevoerd
+$te_controleren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fzt","fdu");
+$nieuwe_zoekopdracht=1;
+if(is_array($_GET)) {
+	reset($_GET);
+	while(list($key,$value)=each($_GET)) {
+		if(in_array($key,$te_controleren_velden) or substr($key,0,3)=="vf_") {
+			if(strlen($value)>0) {
+				$check_get.="&".$key."=".urlencode($value);
+			}
+		}
+	}
+	if($check_get) {
+		if($_SESSION["zoekopdrachten"][$check_get]) {
+			$nieuwe_zoekopdracht=0;
+		}
+		$_SESSION["zoekopdrachten"][$check_get]=true;
+	}
+}
+
 #
 # Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [42] (eerst beschikbare: 43)
 #
@@ -687,7 +707,7 @@ function zoekblok_bestemming($settings="") {
 		$doorloop_array_fsg=preg_split("/,/",$_GET["fsg"]);
 		while(list($key,$value)=each($doorloop_array_fsg)) {
 			if($value and $bestemmingen_actief[$value]) {
-				echo "<div class=\"zoekblok_bestemming_actief_item\" data-bestemming_actief_value=\"".wt_he($value)."\">";
+				echo "<div class=\"zoekblok_bestemming_actief_item\" data-bestemming_actief_value=\"".wt_he($value)."\" data-bestemming_actief_name=\"".wt_he($bestemmingen_actief[$value])."\">";
 				if(preg_match("/^pl/",$value)) {
 					echo wt_he($bestemmingen_actief[$value]);
 				} else {
@@ -1002,14 +1022,14 @@ function zoekblok_verfijnd_gekozen($settings="") {
 				$verfijn_hr_getoond=true;
 			}
 			echo "<div class=\"zoekblok_item_verfijn\">";
-			echo "<div class=\"zoekblok_titel\">";
+			echo "<div class=\"zoekblok_titel zoekblok_verfijn_actief_categorie\" data-verfijn-categorie=\"".html($value["name"],"zoek-en-boek")."\">";
 			echo html($value["name"],"zoek-en-boek");
 			echo "</div>"; # afsluiten .zoekblok_titel
 
 			echo "<div class=\"zoekblok_verfijn_actief\">";
 			while(list($key2,$value2)=each($toonactief_verfijn[$key])) {
 				$qs=wt_stripget($_GET,array("page",$value["getname"].$key2));
-				echo "<div>".html($value2,"zoek-en-boek")." - <a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\">".html("wis","zoek-en-boek")."</a></div>";
+				echo "<div class=\"zoekblok_verfijn_actief_item\" data-verfijn-item=\"".html($value2,"zoek-en-boek")."\">".html($value2,"zoek-en-boek")." - <a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\">".html("wis","zoek-en-boek")."</a></div>";
 			}
 			echo "</div>"; # afsluiten .zoekblok_field
 
@@ -1136,6 +1156,11 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 #if($vars["website"]=="Z" and $id=="zoek-en-boek" and (!$_GET["filled"] or $_SERVER["HTTP_REFERER"]=="http://www.zomerhuisje.nl/" or $_SERVER["HTTP_REFERER"]=="http://www.zomerhuisje.eu/" or $_SERVER["HTTP_REFERER"]=="http://ss.postvak.net/chalet/")) {
 #	echo "<div style=\"margin-top:30px;margin-bottom:20px;width:672px;border:2px solid #5f227b;padding:7px;background-color:#fb6703;\" class=\"whitehover boxshadow\">Onze huizen worden standaard aangeboden van zaterdag tot zaterdag. Ook een afwijkende verblijfsduur in Itali&euml; is <a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fsg=5-0\">online te boeken</a>. Voor de overige landen is dit op aanvraag. Neem hiervoor <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op.</div>";
 #}
+
+
+
+if(!$_GET["page"]) $_GET["page"]=1;
+echo "<div class=\"datadiv\" data-paginanummer=\"".intval($_GET["page"])."\" data-nieuwezoekopdracht=\"".intval($nieuwe_zoekopdracht)."\"></div>";
 
 if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 and $id=="zoek-en-boek") or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "<p>";
@@ -2776,7 +2801,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 		$vars["resultsperpage"]=50;
 
-		if(!$_GET["page"]) $_GET["page"]=1;
 		$startresult=(($_GET["page"]-1)*$vars["resultsperpage"])+1;
 		if(count($results)>($startresult+$vars["resultsperpage"]-1)) $endresult=$startresult+$vars["resultsperpage"]-1; else $endresult=count($results);
 
@@ -2806,12 +2830,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 #				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten/$totaal_tarievenbekend_seizoen_id)*100);
 				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
 				if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
-				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
+				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
 				if($_GET["save_tarievenbekend"]) {
 					file_put_contents($unixdir."tmp/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
 				}
 			} else {
-				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
+				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
 			}
 		} else {
 			if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and @filemtime($unixdir."tmp/tarievenbekend_".$vars["website"].".txt")>(time()-86400) and !$_GET["filled"]) {
@@ -2824,7 +2848,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					echo html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$a[0],"v_percentage"=>$a[1]."%"))."<br><br>";
 				}
 			}
-			echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
+			echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
 			echo "</td></tr><tr><td colspan=\"5\">";
 		}
 
@@ -3017,7 +3041,9 @@ if($vars["verfijnen_aanbieden"]) {
 							$qs=wt_stripget($_GET,array("page",$getname.$getnumber));
 							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\">".html("wis","zoek-en-boek")."</a></div>";
 						} elseif($verfijnd[$verfijndname][$value]>0) {
-							$keuzes.="<div class=\"keuzeopsomming\"><a href=\"".wt_he($_SERVER["REQUEST_URI"]).($_SERVER["QUERY_STRING"] ? "&" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&fzt=&").$getname.$getnumber."=".$getvalue.($vars["aanbiedingenpagina_voor_de_eerste_keer_geopend"] ? "&faab=1" : "")."\">".html($key,"zoek-en-boek")."</a> (".$verfijnd[$verfijndname][$value].")</div>";
+							$request_uri=$_SERVER["REQUEST_URI"];
+							$request_uri=preg_replace("/page=[0-9]+&/","",$request_uri);
+							$keuzes.="<div class=\"keuzeopsomming\"><a href=\"".wt_he($request_uri).(preg_match("/\?/",$request_uri) ? "&" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&fzt=&").$getname.$getnumber."=".$getvalue.($vars["aanbiedingenpagina_voor_de_eerste_keer_geopend"] ? "&faab=1" : "")."\">".html($key,"zoek-en-boek")."</a> (".$verfijnd[$verfijndname][$value].")</div>";
 						} else {
 							$keuzes.="<div class=\"keuzeopsomming_leeg\">".html($key,"zoek-en-boek")."</a> (0)</div>";
 						}

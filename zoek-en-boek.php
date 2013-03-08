@@ -2,6 +2,7 @@
 
 include("admin/vars.php");
 
+if(!session_id()) session_start();
 
 if($vars["zoekform_aanbiedingen"] and $vars["seizoentype"]==2) {
 	# Zomer: doorsturen naar zomer-aanbiedingensysteem

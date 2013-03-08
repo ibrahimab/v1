@@ -938,7 +938,7 @@ $(document).ready(function() {
 			}
 		}
 
-		// nieuw zoekformulier
+		// zoekformulier
 		if($("#zoekblok").length!==0) {
 
 			$("#zoekblok input[name=fzt]").focus(function() {
@@ -1440,7 +1440,11 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 	return false;
 }
 
-
+function zoekopdracht_naar_analytics_sturen(omschrijving,zoekopdracht) {
+	if (typeof _gaq != "undefined") {
+		_gaq.push(['_trackEvent', 'zoekfunctie', omschrijving, zoekopdracht]);
+	}
+}
 
 // zaken die pas na het laden van alles uitgevoerd moeten worden:
 $(document).ready(function() {
@@ -1450,6 +1454,137 @@ $(document).ready(function() {
 		// zoekblok pas tonen als alles klaar is
 		$("#zoekblok").css("visibility","visible");
 
+
+		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek") {
+
+			//
+			// zoekopdracht naar Google Analytics sturen
+			//
+
+			var analytics_complete_zoekopdracht='';
+			var analytics_bestemming='';
+			var analytics_aankomstdatum='';
+			var analytics_verblijfsduur='';
+			var analytics_aantalpersonen='';
+			var analytics_aantalslaapkamers='';
+			var analytics_tekstzoeken='';
+			var analytics_verfijnen='';
+			var analytics_verfijnen_item='';
+			var analytics_url='';
+
+			// bestemming
+			if($("div.zoekblok_bestemming_actief_item").length!==0) {
+
+				$("div.zoekblok_bestemming_actief_item").each(function() {
+					if($(this).data("bestemming_actief_name").length!==0) {
+						if(analytics_bestemming) {
+							analytics_bestemming=analytics_bestemming+", ";
+						}
+						analytics_bestemming=analytics_bestemming+$(this).data("bestemming_actief_name");
+					}
+				});
+
+				if(analytics_bestemming) {
+					zoekopdracht_naar_analytics_sturen("bestemming",analytics_bestemming);
+					analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Bestemming: "+analytics_bestemming;
+				}
+			}
+
+			// aankomstdatum: select
+			if($("select[name=fad]").length!==0 && $("select[name=fad]").val()>0) {
+				analytics_aankomstdatum=$("select[name=fad] option:selected").text();
+
+				zoekopdracht_naar_analytics_sturen("aankomstdatum",analytics_aankomstdatum);
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Aankomstdatum: "+analytics_aankomstdatum;
+			}
+
+			// aankomstdatum: d/m/y
+			if($("select[name=fadf_d]").length!==0 && $("select[name=fadf_d]").val()>0 && $("select[name=fadf_m]").val()>0 && $("select[name=fadf_y]").val()>0) {
+				analytics_aankomstdatum=$("select[name=fadf_d] option:selected").text()+" "+$("select[name=fadf_m] option:selected").text()+" "+$("select[name=fadf_y] option:selected").text();
+
+				zoekopdracht_naar_analytics_sturen("aankomstdatum",analytics_aankomstdatum);
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Aankomstdatum: "+analytics_aankomstdatum;
+			}
+
+			// verblijfsduur
+			if($("select[name=fdu]").length!==0) {
+				analytics_verblijfsduur=$("select[name=fdu] option:selected").text();
+
+				if(analytics_verblijfsduur) {
+					zoekopdracht_naar_analytics_sturen("verblijfsduur",analytics_verblijfsduur);
+					analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Verblijfsduur: "+analytics_verblijfsduur;
+				}
+			}
+
+			// aantal personen
+			if($("select[name=fap]").length!==0 && $("select[name=fap]").val()>0) {
+				analytics_aantalpersonen=$("select[name=fap] option:selected").text();
+
+				zoekopdracht_naar_analytics_sturen("aantal personen",analytics_aantalpersonen);
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Aantal personen: "+analytics_aantalpersonen;
+			}
+
+			// aantal slaapkamer
+			if($("select[name=fas]").length!==0 && $("select[name=fas]").val()>0) {
+				analytics_aantalslaapkamers=$("select[name=fas] option:selected").text();
+
+				zoekopdracht_naar_analytics_sturen("aantal personen",analytics_aantalslaapkamers);
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Aantal slaapkamers: "+analytics_aantalslaapkamers;
+			}
+
+			// tekstzoeken
+			if($("input[name=fzt]").length!==0 && $("input[name=fzt]").val()!=="" && $("input[name=fzt]").val()!==$("input[name=fzt]").data("placeholder")) {
+				analytics_tekstzoeken=$("input[name=fzt]").val();
+
+//				zoekopdracht_naar_analytics_sturen("aantal personen",analytics_tekstzoeken);
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Tekstzoeken: "+analytics_tekstzoeken;
+			}
+
+			// verfijnen: categorie
+			if($("div.zoekblok_verfijn_actief_categorie").length!==0) {
+				$("div.zoekblok_verfijn_actief_categorie").each(function() {
+					zoekopdracht_naar_analytics_sturen('verfijn-categorie',$(this).data("verfijn-categorie"));
+				});
+			}
+
+			// verfijnen: items
+			if($("div.zoekblok_verfijn_actief_item").length!==0) {
+				$("div.zoekblok_verfijn_actief_item").each(function() {
+
+					analytics_verfijnen_item=$(this).parent().parent().find("div.zoekblok_verfijn_actief_categorie").data("verfijn-categorie")+": "+$(this).data("verfijn-item");
+					if(analytics_verfijnen) {
+						analytics_verfijnen=analytics_verfijnen+", ";
+					}
+					analytics_verfijnen=analytics_verfijnen+analytics_verfijnen_item;
+					zoekopdracht_naar_analytics_sturen('verfijnen',analytics_verfijnen_item);
+				});
+				if(analytics_verfijnen) {
+					analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - "+analytics_verfijnen;
+				}
+			}
+
+			// complete zoekopdracht: ' - ' weghalen
+			if(analytics_complete_zoekopdracht) {
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht.substr(3);
+
+				// complete zoekopdracht naar Analytics sturen
+				zoekopdracht_naar_analytics_sturen("zoekopdracht",analytics_complete_zoekopdracht);
+
+// alert(analytics_complete_zoekopdracht);
+
+			} else {
+				analytics_complete_zoekopdracht="overal 'geen voorkeur'";
+			}
+
+			// geen zoekresultaten
+			if($("div#geenresultaten").length!==0) {
+				zoekopdracht_naar_analytics_sturen("zoekopdracht zonder resultaten",analytics_complete_zoekopdracht);
+
+				analytics_url=document.location.href;
+				analytics_url=analytics_url.replace(/scrolly=[0-9]+&/,"");
+				zoekopdracht_naar_analytics_sturen("zoekopdracht zonder resultaten - URL",analytics_url);
+			}
+		}
 	}
 });
 
