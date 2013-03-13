@@ -11,7 +11,7 @@ if(!$_GET["nocache"]) {
 		$_GET["faab"]=1;
 	}
 	if($_GET["d"]) {
-		$_GET["fad"]=$_GET["d"];
+#		$_GET["fad"]=$_GET["d"];
 	}
 	$_GET["filled"]=1;
 	include("zoek-en-boek.php");

@@ -12,7 +12,7 @@ if(!$_GET["nocache"]) {
 	} else {
 		$cachefile="cache/aanbiedingen_".$vars["website"].".html";
 	}
-	
+
 	if(file_exists($cachefile)) {
 		if(filemtime($cachefile)<(time()-86400)) {
 			unset($cachefile);
@@ -43,7 +43,7 @@ if($cachefile) {
 	echo "<!-- WTbegin -->\n";
 
 	if($_GET["d"]) {
-	
+
 		#
 		# Aanbiedingen uit database halen
 		#
@@ -53,11 +53,11 @@ if($cachefile) {
 		} else {
 			$temp_seizoentype=$vars["seizoentype"];
 		}
-		
+
 		$db->query("SELECT seizoen_id FROM seizoen WHERE tonen>=2 AND type IN (".addslashes($temp_seizoentype).") AND eind>='".date("Y-m-d")."' ORDER BY begin;");
 		while($db->next_record()) {
 			unset($aanbieding);
-			
+
 			# gewone aanbiedingen ophalen
 			$aanbieding=aanbiedinginfo(0,$db->f("seizoen_id"),$_GET["d"]);
 
@@ -84,7 +84,7 @@ if($cachefile) {
 
 				$aanbieding["aanbiedingid_sort"]["0_".$korting_teller]["tonen"]=true;
 			}
-			
+
 			while(list($key,$value)=@each($aanbieding["aanbiedingid_sort"])) {
 				if(preg_match("/\b".$vars["websitetype"]."\b/i",$value["toon_abpagina"]) and $value["tonen"]) {
 					if($value["onlinenaam"]) {
@@ -123,7 +123,7 @@ if($cachefile) {
 										$results[$abnaam]["lijst"][$sorteer].=htmlentities($accinfo["aantalpersonen"]);
 									}
 									$results[$abnaam]["lijst"][$sorteer].="&nbsp;&nbsp;";
-		
+
 									# Nieuwe ab-weergave
 									if($value["toonkorting"]) {
 										$results[$abnaam]["lijst"][$sorteer].="<br><span class=\"nukorting\">".txt("nu","aanbiedingen")." ";
@@ -143,17 +143,17 @@ if($cachefile) {
 									}
 									$results[$abnaam]["lijst"][$sorteer].="</NOBR></TD>";
 									$results[$abnaam]["lijst"][$sorteer].="<TD nowrap align=\"right\"><span class=\"tariefblok\">".html("aankomst","aanbiedingen")."&nbsp;";
-									
+
 									if($accinfo["exacte_aankomstdatum"][$key3]) {
 										$results[$abnaam]["lijst"][$sorteer].=date("d-m-Y",$accinfo["exacte_aankomstdatum"][$key3]);
 									} else {
 										$results[$abnaam]["lijst"][$sorteer].=date("d-m-Y",$key3);
 									}
 									$results[$abnaam]["lijst"][$sorteer].="<br>";
-									
-									
+
+
 									$abaankomstdata[$key3]=true;
-									
+
 									if($accinfo["toonper"]==3 or $vars["wederverkoop"]) {
 										if($vars["wederverkoop"]) {
 											$db2->query("SELECT wederverkoop_verkoopprijs AS c_verkoop_site FROM tarief WHERE beschikbaar=1 AND blokkeren_wederverkoop=0 AND type_id='".addslashes($key2)."' AND seizoen_id='".$db->f("seizoen_id")."' AND week='".addslashes($key3)."';");
@@ -174,10 +174,10 @@ if($cachefile) {
 										}
 										$results[$abnaam]["lijst"][$sorteer].="<b>".html("vanaf")."</b>&nbsp;";
 									}
-									
+
 									if($tarief>0) {
 										$tarief=verwerk_aanbieding($tarief,$aanbieding["typeid_sort"][$key2],$key3);
-										
+
 										$results[$abnaam]["lijst"][$sorteer].="<NOWRAP><b>&euro;&nbsp;".number_format($tarief,0,",",".")."</b></span><br>&nbsp;&nbsp;";
 										if($accinfo["toonper"]==3 or $vars["wederverkoop"]) {
 											$results[$abnaam]["lijst"][$sorteer].=html("per")."&nbsp;".html("accommodatie")."</TD>";
@@ -186,11 +186,11 @@ if($cachefile) {
 										}
 										$results[$abnaam]["lijst"][$sorteer].="</TR>";
 										$results[$abnaam]["lijst"][$sorteer].=balk();
-										
+
 										$ab_tonen[$key."-".$key2]["tarief"][]=$tarief;
 										$ab_tonen[$key."-".$key2]["teller"]++;
 										$results[$abnaam]["key"][$sorteer]=$key."-".$key2;
-										
+
 									} else {
 										unset($results[$abnaam]["lijst"][$sorteer]);
 									}
@@ -201,21 +201,21 @@ if($cachefile) {
 					if(@count($results)>0) {
 						$html_content.="<TABLE>";
 						$html_content.=balk();
-		
+
 						$html_content.="</TABLE>";
 					}
 				}
 			}
 		}
-		
+
 		if(is_array($results) and $aanbiedingenteller) {
-		
+
 			echo html("hierondervindtu","aanbiedingen")."<p>";
-			
+
 			echo html("andereselecteren","aanbiedingen",array("l1"=>"aanbiedingen"))."<p>";
-	
+
 			ksort($results);
-	
+
 			reset($results);
 			while(list($key,$value)=each($results)) {
 				if(is_array($value["lijst"]) and @count($value["lijst"])>0) {
@@ -230,7 +230,7 @@ if($cachefile) {
 						# Kijken of overige aanbiedingen "lastminutes" genoemd kunnen worden
 						if($onderdeel_teller) echo "<br>";
 						if($_GET["d"]<(time()+(86400*21))) {
-							echo "<h3>".html("lastminuteaanbiedingen","aanbiedingen")."</h3>";						
+							echo "<h3>".html("lastminuteaanbiedingen","aanbiedingen")."</h3>";
 						} elseif($onderdeel_teller) {
 							echo "<h3>".html("overigeaanbiedingen","aanbiedingen")."</h3>";
 						}
@@ -253,16 +253,16 @@ if($cachefile) {
 				}
 			}
 			echo "<p>".html("andereselecteren","aanbiedingen",array("l1"=>"aanbiedingen"));
-	
+
 		} else {
 			echo html("geenaanbiedingen","aanbiedingen",array("l1"=>"nieuwsbrief"))."</td></tr>";
 		}
-		
+
 	} else {
 		#
 		# Overzicht van datums
 		#
-		
+
 		# gewone aanbiedingen
 		$db->query("SELECT MAX(aa.week) AS laatsteweek FROM aanbieding a, aanbieding_aankomstdatum aa WHERE aa.aanbieding_id=a.aanbieding_id AND a.wzt IN (".($vars["websitetype"]==6 ? "1,2" : $vars["seizoentype"]).");");
 		if($db->next_record()) {
@@ -282,7 +282,7 @@ if($cachefile) {
 		while($db2->next_record()) {
 			$aanbieding_datum[$db2->f("week")]=true;
 		}
-		
+
 		if(is_array($aanbieding_datum)) {
 			ksort($aanbieding_datum);
 			echo html("vooronderstaandeweekenden_allemaal","aanbiedingen");
