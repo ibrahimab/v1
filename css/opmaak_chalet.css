@@ -269,14 +269,14 @@ form {
 	top:264px;
 	margin-left:30px;
 	width:170px;
-	height:205px;
+	height:225px;
 	z-index:2;
 	background-color:#ffffff;
 }
 
 #zoekenboek_leeg {
 	width:170px;
-	height:205px;
+	height:225px;
 }
 
 #zoekenboek_overlay select {
@@ -285,7 +285,7 @@ form {
 }
 
 #zoekenboek_overlay .tekstzoeken {
-	width: 165px;
+	width: 160px;
 }
 
 #zoekenboek_overlay input {
@@ -628,6 +628,7 @@ form {
 .noIND{
 	width:100%;
 }
+
 .noIND td{
 	width:200px;
 	border:0px;
@@ -635,9 +636,11 @@ form {
 	border-style: solid;
 	text-align:center;
 }
+
 .IND{
 	width:100%;
 }
+
 .divSepIND{
 	float:left;
 	padding-left:4px;

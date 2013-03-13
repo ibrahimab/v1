@@ -974,14 +974,13 @@ $(document).ready(function() {
 				$("select[name=fsg_invoer] > option[value="+$(this).data("bestemming_actief_value")+"]").addClass("option_actief");
 			});
 
-
 			if(detect_mobile()) {
 				//
 				// Chosen voor mobiele apparaten
 				//
 
 				// Chosen: bestemming
-				$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, allow_single_deselect: true, autofocus_search_field: false});
+				$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, search_contains:true, allow_single_deselect: true, autofocus_search_field: false});
 
 				// Chosen-vormgeving toepassen op selectvelden
 				$("#zoekblok select").addClass("zoekblok_select_mobile");
@@ -1005,10 +1004,10 @@ $(document).ready(function() {
 				//
 
 				// Chosen: bestemming
-				$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, allow_single_deselect: true, autofocus_search_field: true});
+				$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, search_contains:true, allow_single_deselect: true, autofocus_search_field: true});
 
 				// Chosen: leverancier (incl. deselect-functie)
-				$("select[name=lev]").chosen({allow_single_deselect: true, autofocus_search_field: true});
+				$("select[name=lev]").chosen({allow_single_deselect: true, search_contains:true, autofocus_search_field: true});
 
 				// Chosen: diverse selects (zonder tekstzoeken)
 				$(".zoekblok_aankomstdatum select, .zoekblok_aantalpersonen select, .zoekblok_aantalslaapkamers select, .zoekblok_verblijfsduur select").chosen({disable_search: true,allow_single_deselect: true});
@@ -1354,6 +1353,67 @@ $(document).ready(function() {
 				return false;
 			}
 		});
+
+		// zoek-en-boek links: link selecteer bestemming
+		$(".zoekenboek_invulveld_bestemming").click(function(){
+			$("input[name=selb]").val("1");
+			$("#form_zoekenboeklinks").submit();
+			return false;
+		});
+
+		if($().chosen) {
+			if(detect_mobile()) {
+
+			} else {
+				$(".zoekenboek_invulveld select").chosen({disable_search: true,allow_single_deselect: false});
+			}
+		}
+
+		// bij focus tekstzoeken: vergrootglas weghalen
+		$( ".tekstzoeken" ).focus(function(){
+			$(this).addClass("tekstzoeken_leeg");
+		})
+
+		//
+		// autocomplete zoekformulier
+		//
+		$( ".tekstzoeken" ).autocomplete({
+			source: function( request, response ) {
+				$.ajax({
+					url: absolute_path+"rpc_json.php",
+					dataType: "json",
+					data: {
+						t: 3,
+						q: request.term
+					},
+					success: function( data ) {
+						response( $.map( data.results, function( item ) {
+							if(item.name!=='') {
+								return {
+									label: item.name,
+									value: item.name
+								};
+							}
+						}));
+					}
+				});
+			},
+			minLength: 2,
+			select: function( event, ui ) {
+				// waarde in input-field plaatsen
+				$("input[name=fzt]").val(ui.item.value);
+
+				// form submitten
+				// zoekblok_submit();
+			},
+			open: function() {
+				$(this).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+				$(this).autocomplete('widget').css('z-index', 100);
+			},
+			close: function() {
+				$(this).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+			}
+		});
 	}
 });
 
@@ -1454,8 +1514,13 @@ $(document).ready(function() {
 		// zoekblok pas tonen als alles klaar is
 		$("#zoekblok").css("visibility","visible");
 
+		// indien _GET["selb"]==1 : bestemming-pulldown openklappen
+		if(location.href.indexOf("&selb=1") > -1) {
+			$('#zoekblok_field_bestemming').trigger('liszt:open');
+		// alert('ja');
+		}
 
-		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek") {
+		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek" && $("div.zoekblok_zoek_alleen_aanbiedingen").length==0) {
 
 			//
 			// zoekopdracht naar Google Analytics sturen
@@ -1524,11 +1589,11 @@ $(document).ready(function() {
 				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Aantal personen: "+analytics_aantalpersonen;
 			}
 
-			// aantal slaapkamer
+			// aantal slaapkamers
 			if($("select[name=fas]").length!==0 && $("select[name=fas]").val()>0) {
 				analytics_aantalslaapkamers=$("select[name=fas] option:selected").text();
 
-				zoekopdracht_naar_analytics_sturen("aantal personen",analytics_aantalslaapkamers);
+				zoekopdracht_naar_analytics_sturen("aantal slaapkamers",analytics_aantalslaapkamers);
 				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Aantal slaapkamers: "+analytics_aantalslaapkamers;
 			}
 
@@ -1536,7 +1601,6 @@ $(document).ready(function() {
 			if($("input[name=fzt]").length!==0 && $("input[name=fzt]").val()!=="" && $("input[name=fzt]").val()!==$("input[name=fzt]").data("placeholder")) {
 				analytics_tekstzoeken=$("input[name=fzt]").val();
 
-//				zoekopdracht_naar_analytics_sturen("aantal personen",analytics_tekstzoeken);
 				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Tekstzoeken: "+analytics_tekstzoeken;
 			}
 
@@ -1568,7 +1632,7 @@ $(document).ready(function() {
 				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht.substr(3);
 
 				// complete zoekopdracht naar Analytics sturen
-				zoekopdracht_naar_analytics_sturen("zoekopdracht",analytics_complete_zoekopdracht);
+				zoekopdracht_naar_analytics_sturen("complete zoekopdracht",analytics_complete_zoekopdracht);
 
 // alert(analytics_complete_zoekopdracht);
 

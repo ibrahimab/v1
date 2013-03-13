@@ -52,6 +52,10 @@ if($_GET["fzt"]=="-- ".html("trefwoord","index")." --") {
 	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
 	$_GET["fzt"]="";
 }
+if($_GET["fzt"]==html("zoekoptekst","index")) {
+	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
+	$_GET["fzt"]="";
+}
 if(strlen($_GET["fzt"])>0) {
 	$_GET["fzt"]=trim($_GET["fzt"]);
 }

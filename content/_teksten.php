@@ -600,8 +600,17 @@ $txt["en_z"]["index"]["rechtsonder"]="Start planning your winter holidays now an
 
 # Hoofdpagina (en blok links) - nieuwe vormgeving
 
+$txt["nl"]["index"]["snelzoeken"]="Snel zoeken";
+$txt["en"]["index"]["snelzoeken"]="Fast search";
+
+$txt["nl"]["index"]["zoekoptekst"]="zoek op tekst";
+$txt["en"]["index"]["zoekoptekst"]="text search";
+
 $txt["nl"]["index"]["trefwoord"]="trefwoord";
 $txt["en"]["index"]["trefwoord"]="keyword";
+
+$txt["nl"]["index"]["selecteerbestemming"]="selecteer bestemming";
+$txt["en"]["index"]["selecteerbestemming"]="select a destination";
 
 $txt["nl"]["index"]["geenvoorkeur"]="geen voorkeur";
 $txt["en"]["index"]["geenvoorkeur"]="no preference";

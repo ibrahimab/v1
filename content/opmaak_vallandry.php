@@ -24,15 +24,15 @@ if($vars["page_with_tabs"]) {
 # Font Awesome-css
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/font-awesome.min.css\" />\n";
 
-if($vars["page_with_jqueryui"]) {
+#if($vars["page_with_jqueryui"]) {
 	# jQuery UI theme laden
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css?cache=".@filemtime("css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css")."\" />\n";
-}
+#}
 
 # jQuery Chosen css
-if($vars["jquery_chosen"]) {
+#if($vars["jquery_chosen"]) {
 	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."css/chosen.css\" type=\"text/css\" />\n";
-}
+#}
 
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_websites_en_cms.css.phpcache?cache=".@filemtime("css/opmaak_websites_en_cms.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_alle_sites.css.phpcache?cache=".@filemtime("css/opmaak_alle_sites.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
@@ -88,10 +88,10 @@ if($vars["googlemaps"]) {
 }
 
 # jQuery Chosen javascript
-if($vars["jquery_chosen"]) {
+#if($vars["jquery_chosen"]) {
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."\"></script>\n";
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."\"></script>\n";
-}
+#}
 
 # Javascript-functions
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
@@ -264,37 +264,16 @@ if($vars["verberg_linkerkolom"]) {
 
 		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\">";
 		echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
-
-		echo "<div class=\"zoekenboek_invulveld\">";
-		echo "<input type=\"text\" name=\"fzt\" class=\"tekstzoeken\" value=\"-- ".html("trefwoord","index")." --\" onfocus=\"if(this.value=='-- ".html("trefwoord","index")." --') this.value='';\" onblur=\"if(this.value=='') this.value='-- ".html("trefwoord","index")." --';\">";
-		echo "</div>";
-
-		# aantalpersonen-array vullen
-		$vars["aantalpersonen"]["-"]="-- ".txt("aantalpersonen","index")." --";
-		$vars["aantalpersonen"][0]=txt("geenvoorkeur","index");
-		for($i=1;$i<=40;$i++) {
-			$vars["aantalpersonen"][$i]=$i;
-		}
-
-	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
-		echo "<div class=\"zoekenboek_invulveld\">";
-		echo "<select name=\"fap\" class=\"selectbox\">";
-		while(list($key,$value)=each($vars["aantalpersonen"])) {
-			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
-			if($key==="-") echo " selected";
-			echo ">".htmlentities($value)."</option>";
-		}
-		echo "</select>";
-		echo "</div>";
-	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aankomstdatum","index")."</div>";
+		echo "<input type=\"hidden\" name=\"referer\" value=\"1\">"; # t.b.v. statistieken
 
 		# Aankomstdatum vullen
-		$vars["aankomstdatum_weekend_afkorting"]["-"]="-- ".txt("aankomstdatum","index")." --";
+		// $vars["aankomstdatum_weekend_afkorting"]["-"]="-- ".txt("aankomstdatum","index")." --";
 		$vars["aankomstdatum_weekend_afkorting"][0]=txt("geenvoorkeur","index");
 		ksort($vars["aankomstdatum_weekend_afkorting"],SORT_STRING);
 
 		echo "<div class=\"zoekenboek_invulveld\">";
-		echo "<select name=\"fad\" class=\"selectbox\">";
+		echo "<select name=\"fad\" class=\"selectbox\" data-placeholder=\"".html("aankomstdatum","index")."\">";
+		echo "<option value=\"\"></option>";
 		while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
 			# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
 			if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
@@ -305,6 +284,26 @@ if($vars["verberg_linkerkolom"]) {
 		}
 		echo "</select>";
 		echo "</div>";
+
+		# aantalpersonen-array vullen
+		// $vars["aantalpersonen"]["-"]="-- ".txt("aantalpersonen","index")." --";
+		$vars["aantalpersonen"][0]=txt("geenvoorkeur","index");
+		for($i=1;$i<=40;$i++) {
+			$vars["aantalpersonen"][$i]=$i;
+		}
+
+	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
+		echo "<div class=\"zoekenboek_invulveld\">";
+		echo "<select name=\"fap\" class=\"selectbox\" data-placeholder=\"".html("aantalpersonen","index")."\">";
+		echo "<option value=\"\"></option>";
+		while(list($key,$value)=each($vars["aantalpersonen"])) {
+			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
+			if($key==="-") echo " selected";
+			echo ">".htmlentities($value)."</option>";
+		}
+		echo "</select>";
+		echo "</div>";
+	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aankomstdatum","index")."</div>";
 
 		# Verblijfsduur
 #		$vars["verblijfsduur"]["-"]="-- ".txt("verblijfsduur","index")." --";
@@ -324,7 +323,15 @@ if($vars["verberg_linkerkolom"]) {
 #		echo "</select>";
 #		echo "</div>";
 
+		echo "<div class=\"zoekenboek_invulveld\">";
+		echo "<input type=\"text\" name=\"fzt\" class=\"tekstzoeken\" value=\"".html("zoekoptekst","index")."\" onfocus=\"if(this.value=='".html("zoekoptekst","index")."') this.value='';\" onblur=\"if(this.value=='') this.value='".html("zoekoptekst","index")."';\">";
+		echo "</div>";
+
+		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
+		echo "</div>";
+
+#		echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
 
 		echo "<div style=\"margin-top:10px;margin-bottom:0px;\"><a href=\"#\" id=\"uitgebreidzoeken\">".html("uitgebreidzoeken","index")."</a></div>";
 		echo "</form>";

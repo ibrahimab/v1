@@ -658,7 +658,7 @@ td.selecteerbaarbedrag:hover{
 
 #zoekblok .icon-remove-sign {
 	text-decoration: none;
-	margin-right: 3px;
+	margin-right: 5px;
 }
 
 .zoekblok_titel {
@@ -946,7 +946,7 @@ td.selecteerbaarbedrag:hover{
 	color: #ffffff;
 }
 
-.zoekblok_item input[type=submit] {
+.zoekblok_item input[type=submit], #zoekenboek_overlay input[type=submit], #zoekenboek input[type=submit] {
 	width: 135px;
 	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
 	background-image: -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
@@ -972,7 +972,7 @@ td.selecteerbaarbedrag:hover{
 	padding-bottom: 2px;
 }
 
-.zoekblok_item input[type=submit]:hover {
+.zoekblok_item input[type=submit]:hover, #zoekenboek_overlay input[type=submit]:hover {
 	border: 1px solid #777777;
 	cursor: pointer;
 	color: #000000;
@@ -994,6 +994,7 @@ td.selecteerbaarbedrag:hover{
 /**/
 /*zoekresultaten*/
 /**/
+
 .zoekresultaten_paginas a {
 	display: block;
 	float: left;
@@ -1431,6 +1432,10 @@ td.selecteerbaarbedrag:hover{
 	color: #003366;
 }
 
+#zoekenboek ul.chzn-results {
+	font-size: 0.8em;
+}
+
 #cookie_bottombar {
 	position: fixed;
 	bottom: 0px;
@@ -1565,7 +1570,79 @@ td.selecteerbaarbedrag:hover{
 	z-index: 9002;
 }
 
+/*zoek-en-boek linkerkant*/
 
+.zoekenboek_invulveld_bestemming {
+	display: block;
+	width: 160px;
+	padding: 3px;
+	text-decoration: none;
+	background-color: #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );
+	background: #fff;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
+	background: -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: -moz-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: -o-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: -ms-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	-webkit-border-radius: 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+	-moz-background-clip : padding;
+	-webkit-background-clip: padding-box;
+	background-clip : padding-box;
+	border: 1px solid #aaaaaa;
+	-webkit-box-shadow: 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	overflow: hidden;
+	white-space: nowrap;
+	height: 23px;
+	line-height: 24px;
+	padding: 0 0 0 8px;
+	text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000000;
+	background-color: red;
+}
+
+.zoekenboek_invulveld_bestemming:hover {
+	border-color: #003366;
+	color: #000000;
+	background: #d5e1f9;
+}
+
+.tekstzoeken {
+	background-color: #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );
+	background: #fff url('../pic/chosen-sprite.png') no-repeat 100% -20px;
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -moz-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -o-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: url('../pic/chosen-sprite.png') no-repeat 100% -20px, -ms-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	-webkit-border-radius: 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+	-moz-background-clip : padding;
+	-webkit-background-clip: padding-box;
+	background-clip : padding-box;
+	border: 1px solid #aaaaaa;
+	-webkit-box-shadow: 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	overflow: hidden;
+	white-space: nowrap;
+	height: 23px;
+	line-height: 24px;
+	padding: 0 0 0 8px;
+	text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.tekstzoeken_leeg {
+	background-position: 100% -70px;
+}
 
 .toonacctabel {
 	border-width: 0 0 1px 1px;

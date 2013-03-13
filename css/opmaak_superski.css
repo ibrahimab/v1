@@ -321,14 +321,14 @@ form {
 	top: 298px;
 	margin-left: 21px;
 	width: 170px;
-	height: 225px;
+	height: 235px;
 	z-index: 2;
 	background-color: #ffffff;
 }
 
 #zoekenboek_leeg {
 	width: 170px;
-	height: 225px;
+	height: 235px;
 }
 
 #zoekenboek_overlay select {
@@ -337,7 +337,7 @@ form {
 }
 
 #zoekenboek_overlay .tekstzoeken {
-	width: 165px;
+	width: 160px;
 }
 
 #zoekenboek_overlay input {
@@ -346,6 +346,12 @@ form {
 
 #zoekenboek_overlay .zoekenboek_invulveld {
 	margin-bottom: 11px;
+}
+
+.zoekenboek_invulveld_bestemming:hover {
+	border-color: #ee54a8;
+	color: #000000;
+	background: #d5e1f9;
 }
 
 #zoekenboek_aanbiedingen {

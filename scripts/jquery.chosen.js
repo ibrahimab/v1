@@ -905,6 +905,7 @@ if(this.container_id=="zoekblok_field_bestemming_chzn") {
             if (regex.test(without_special_chars)) {
               found = true;
               results += 1;
+
             } else if (this.enable_split_word_search && (without_special_chars.indexOf(" ") >= 0 || without_special_chars.indexOf("[") === 0)) {
               parts = without_special_chars.replace(/\[|\]/g, "").split(" ");
               if (parts.length) {

@@ -233,7 +233,13 @@ form {
 }
 
 #zoekenboek .tekstzoeken {
-	width: 165px;
+	width: 160px;
+}
+
+.zoekenboek_invulveld_bestemming:hover {
+	border-color: #5f227b;
+	color: #000000;
+	background: #cfbcd8;
 }
 
 #zoekenboek select {
