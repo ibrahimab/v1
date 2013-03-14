@@ -900,6 +900,38 @@ td.selecteerbaarbedrag:hover{
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
+.zoekblok_select_mobile_smal {
+	background-color: #ffffff;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );
+
+	background: #fff url('../pic/chosen-sprite.png') no-repeat 128% 2px;
+	background: url('../pic/chosen-sprite.png') no-repeat 128% 2px, -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
+	background: url('../pic/chosen-sprite.png') no-repeat 128% 2px, -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: url('../pic/chosen-sprite.png') no-repeat 128% 2px, -moz-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: url('../pic/chosen-sprite.png') no-repeat 128% 2px, -o-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+	background: url('../pic/chosen-sprite.png') no-repeat 128% 2px, -ms-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius : 5px;
+	border-radius : 5px;
+
+	-moz-background-clip : padding;
+	-webkit-background-clip: padding-box;
+	background-clip : padding-box;
+
+	border: 1px solid #aaaaaa;
+	-webkit-box-shadow: 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	-moz-box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	box-shadow : 0 0 3px #ffffff inset, 0 1px 1px rgba(0,0,0,0.1);
+	overflow: hidden;
+	white-space: nowrap;
+	height: 23px;
+	line-height: 23px;
+	padding: 0 0 0 8px;
+	text-decoration: none;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
 .zoekblok_select_mobile_android {
 	background: #fff;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
@@ -972,7 +1004,7 @@ td.selecteerbaarbedrag:hover{
 	padding-bottom: 2px;
 }
 
-.zoekblok_item input[type=submit]:hover, #zoekenboek_overlay input[type=submit]:hover {
+.zoekblok_item input[type=submit]:hover, #zoekenboek_overlay input[type=submit]:hover, #zoekenboek input[type=submit]:hover {
 	border: 1px solid #777777;
 	cursor: pointer;
 	color: #000000;
@@ -1432,10 +1464,6 @@ td.selecteerbaarbedrag:hover{
 	color: #003366;
 }
 
-#zoekenboek ul.chzn-results {
-	font-size: 0.8em;
-}
-
 #cookie_bottombar {
 	position: fixed;
 	bottom: 0px;
@@ -1513,13 +1541,16 @@ td.selecteerbaarbedrag:hover{
 	position: fixed;
 	bottom: 0px;
 	z-index: 9999;
-	width: 48px;
+	width: 68px;
+	height: 68px;
 	top: 40%;
 	left: 50%;
 	margin-left: auto;
 	margin-right: auto;
-	background: url('../pic/ajax-loader-large.gif') no-repeat 100% 0px;
+	background: #ffffff url('../pic/ajax-loader-large2.gif') no-repeat center center;
 	display: none;
+	border-radius: 10px;
+	border: 1px solid #cccccc;
 }
 
 #opval_bottombar a {
@@ -1642,6 +1673,10 @@ td.selecteerbaarbedrag:hover{
 
 .tekstzoeken_leeg {
 	background-position: 100% -70px;
+}
+
+#zoekenboek ul.chzn-results, #zoekenboek_overlay ul.chzn-results {
+	font-size: 0.8em;
 }
 
 .toonacctabel {

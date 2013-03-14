@@ -260,11 +260,11 @@ if($vars["verberg_linkerkolom"]) {
 	} else {
 		echo "<div id=\"zoekenboek\">";
 
-		echo "<div class=\"zoekenboek_kop\" style=\"margin-bottom:15px;\"><span class=\"bloklinksrechts_kop\">".html("zoekenboek","index")."</span></div>";
+		echo "<div class=\"zoekenboek_kop\" style=\"margin-bottom:15px;\"><span class=\"bloklinksrechts_kop\">".html("snelzoeken","index")."</span></div>";
 
 		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\">";
 		echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
-		echo "<input type=\"hidden\" name=\"referer\" value=\"1\">"; # t.b.v. statistieken
+		echo "<input type=\"hidden\" name=\"referer\" value=\"2\">"; # t.b.v. statistieken
 
 		# Aankomstdatum vullen
 		// $vars["aankomstdatum_weekend_afkorting"]["-"]="-- ".txt("aankomstdatum","index")." --";

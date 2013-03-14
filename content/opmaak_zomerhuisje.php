@@ -360,7 +360,7 @@ if($vars["verberg_linkerkolom"]) {
 			echo "<input type=\"hidden\" name=\"aab\" value=\"1\">";
 			echo "<input type=\"hidden\" name=\"faab\" value=\"1\">";
 		}
-		echo "<input type=\"hidden\" name=\"referer\" value=\"1\">"; # t.b.v. statistieken
+		echo "<input type=\"hidden\" name=\"referer\" value=\"2\">"; # t.b.v. statistieken
 		echo "<input type=\"hidden\" name=\"selb\" value=\"0\">"; # doorgeven of mensen klikken op "selecteer bestemming"
 
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";

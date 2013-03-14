@@ -10,6 +10,14 @@ if($vars["zoekform_aanbiedingen"] and $vars["seizoentype"]==2) {
 	exit;
 }
 
+# referer naar zoek-en-boek bepalen
+if($_GET["referer"]) {
+	$referer_zoekenboek=intval($_GET["referer"]);
+} elseif(!$_GET) {
+	# geen referer: begonnen op de pagina zelf
+	$referer_zoekenboek=1;
+}
+
 #$robot_noindex=true;
 #$robot_nofollow=true;
 #$vars["verberg_linkerkolom"]=true;

@@ -626,7 +626,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 
 	echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
-	echo "<input type=\"hidden\" name=\"referer\" value=\"1\">"; # t.b.v. statistieken
+	echo "<input type=\"hidden\" name=\"referer\" value=\"2\">"; # t.b.v. statistieken
 	echo "<input type=\"hidden\" name=\"selb\" value=\"0\">"; # doorgeven of mensen klikken op "selecteer bestemming"
 
 #	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";

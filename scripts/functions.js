@@ -452,18 +452,15 @@ function recordOutboundPopup(category, action) {
 }
 
 function show_ajaxloader(only_show_2_seconds) {
-	// ajaxloader tonen (bij zoekformulier)
-	if($("#zoekblok").length!==0) {
-		$("#ajaxloader_page").show();
+	// ajaxloader tonen
+	$("#ajaxloader_page").show();
 
-		if(only_show_2_seconds) {
-			// na 2 seconden weer verbergen indien only_show_2_seconds=true
-			setTimeout(function() {
-				$("#ajaxloader_page").hide();
-			},2000);
-		}
+	if(only_show_2_seconds) {
+		// na 2 seconden weer verbergen indien only_show_2_seconds=true
+		setTimeout(function() {
+			$("#ajaxloader_page").hide();
+		},2000);
 	}
-
 	return true;
 }
 
@@ -983,10 +980,12 @@ $(document).ready(function() {
 				$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, search_contains:true, allow_single_deselect: true, autofocus_search_field: false});
 
 				// Chosen-vormgeving toepassen op selectvelden
-				$("#zoekblok select").addClass("zoekblok_select_mobile");
+				$("#zoekblok select").not(".flexibel_datum").addClass("zoekblok_select_mobile");
 
-				$("#zoekblok select").find("option:first").html($("#zoekblok .zoekblok_aankomstdatum select").data("placeholder"));
+				// kalender ietsje verplaatsen
+				$(".zoekblok_aankomstdatum_calendar").css("margin-bottom","-3px");
 
+				$("#zoekblok select").not(".flexibel_datum").find("option:first").html($("#zoekblok .zoekblok_aantalpersonen select").data("placeholder"));
 
 				// pijltje naar beneden: verbergen bij Android (want: staat er al via de "select")
 				if(navigator.userAgent.match(/Android/i) !== null) {
@@ -1362,8 +1361,15 @@ $(document).ready(function() {
 		});
 
 		if($().chosen) {
+			// zoek-en-boek homepage
+			$("#form_zoekenboeklinks").submit(function(){
+				show_ajaxloader(true);
+			});
 			if(detect_mobile()) {
-
+				$(".zoekenboek_invulveld select").addClass("zoekblok_select_mobile_smal");
+				$(".zoekenboek_invulveld select").each(function(){
+					$(this).find("option:first").html($(this).data("placeholder"));
+				});
 			} else {
 				$(".zoekenboek_invulveld select").chosen({disable_search: true,allow_single_deselect: false});
 			}
@@ -1634,8 +1640,6 @@ $(document).ready(function() {
 				// complete zoekopdracht naar Analytics sturen
 				zoekopdracht_naar_analytics_sturen("complete zoekopdracht",analytics_complete_zoekopdracht);
 
-// alert(analytics_complete_zoekopdracht);
-
 			} else {
 				analytics_complete_zoekopdracht="overal 'geen voorkeur'";
 			}
@@ -1647,6 +1651,13 @@ $(document).ready(function() {
 				analytics_url=document.location.href;
 				analytics_url=analytics_url.replace(/scrolly=[0-9]+&/,"");
 				zoekopdracht_naar_analytics_sturen("zoekopdracht zonder resultaten - URL",analytics_url);
+			}
+
+			// referer
+			if($("div.datadiv").data("referer_zoekenboek")=="1") {
+				zoekopdracht_naar_analytics_sturen("eerst gebruikte zoekformulier","zoek-en-boek-pagina");
+			} else if($("div.datadiv").data("referer_zoekenboek")=="2") {
+				zoekopdracht_naar_analytics_sturen("eerst gebruikte zoekformulier","zoek-en-boek-blokje links");
 			}
 		}
 	}

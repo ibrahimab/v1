@@ -819,7 +819,7 @@ function zoekblok_aankomstdatum($settings="") {
 		echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=286,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" class=\"zoekblok_aankomstdatum_calendar\">";
 
 		# dag
-		echo "<select name=\"fadf_d\" class=\"\">";
+		echo "<select name=\"fadf_d\" class=\"flexibel_datum\">";
 		echo "<option value=\"\"".(!$_GET["fadf_d"] ? " selected" : "").">&nbsp;</option>";
 		for($i=1;$i<=31;$i++) {
 			echo "<option value=\"".$i."\"".($_GET["fadf_d"]==$i ? " selected" : "").">".$i."</option>";
@@ -829,7 +829,7 @@ function zoekblok_aankomstdatum($settings="") {
 		echo "&nbsp;&nbsp;";
 
 		# maand
-		echo "<select name=\"fadf_m\" class=\"\">";
+		echo "<select name=\"fadf_m\" class=\"flexibel_datum\">";
 		echo "<option value=\"\"".(!$_GET["fadf_m"] ? " selected" : "").">&nbsp;</option>";
 		for($i=1;$i<=12;$i++) {
 			echo "<option value=\"".$i."\"".($_GET["fadf_m"]==$i ? " selected" : "").">".DATUM("MAAND",mktime(0,0,0,$i,1,2010),$vars["taal"])."</option>";
@@ -839,7 +839,7 @@ function zoekblok_aankomstdatum($settings="") {
 		echo "&nbsp;&nbsp;";
 
 		# jaar
-		echo "<select name=\"fadf_y\" class=\"\">";
+		echo "<select name=\"fadf_y\" class=\"flexibel_datum\">";
 		echo "<option value=\"\"".(!$_GET["fadf_y"] ? " selected" : "").">&nbsp;</option>";
 		for($i=date("Y");$i<=date("Y")+1;$i++) {
 			echo "<option value=\"".$i."\"".($_GET["fadf_y"]==$i ? " selected" : "").">".$i."</option>";
@@ -1164,7 +1164,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 
 
 if(!$_GET["page"]) $_GET["page"]=1;
-echo "<div class=\"datadiv\" data-paginanummer=\"".intval($_GET["page"])."\" data-nieuwezoekopdracht=\"".intval($nieuwe_zoekopdracht)."\"></div>";
+echo "<div class=\"datadiv\" data-paginanummer=\"".intval($_GET["page"])."\" data-nieuwezoekopdracht=\"".intval($nieuwe_zoekopdracht)."\" data-referer_zoekenboek=\"".intval($referer_zoekenboek)."\"></div>";
 
 if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 and $id=="zoek-en-boek") or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 	echo "<p>";

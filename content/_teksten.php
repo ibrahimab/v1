@@ -603,8 +603,8 @@ $txt["en_z"]["index"]["rechtsonder"]="Start planning your winter holidays now an
 $txt["nl"]["index"]["snelzoeken"]="Snel zoeken";
 $txt["en"]["index"]["snelzoeken"]="Fast search";
 
-$txt["nl"]["index"]["zoekoptekst"]="zoek op tekst";
-$txt["en"]["index"]["zoekoptekst"]="text search";
+$txt["nl"]["index"]["zoekoptekst"]="zoek op tekst...";
+$txt["en"]["index"]["zoekoptekst"]="text search...";
 
 $txt["nl"]["index"]["trefwoord"]="trefwoord";
 $txt["en"]["index"]["trefwoord"]="keyword";
