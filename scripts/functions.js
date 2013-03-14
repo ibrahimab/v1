@@ -1525,9 +1525,8 @@ $(document).ready(function() {
 		$("#zoekblok").css("visibility","visible");
 
 		// indien _GET["selb"]==1 : bestemming-pulldown openklappen
-		if(location.href.indexOf("&selb=1") > -1) {
+		if(location.href.indexOf("&selb=1") > -1 && $("div.datadiv").data("referer_zoekenboek")!="0") {
 			$('#zoekblok_field_bestemming').trigger('liszt:open');
-		// alert('ja');
 		}
 
 		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek" && $("div.zoekblok_zoek_alleen_aanbiedingen").length==0) {

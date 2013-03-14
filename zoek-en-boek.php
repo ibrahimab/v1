@@ -11,7 +11,7 @@ if($vars["zoekform_aanbiedingen"] and $vars["seizoentype"]==2) {
 }
 
 # referer naar zoek-en-boek bepalen
-if($_GET["referer"]) {
+if($_GET["referer"] and !preg_match("/scrolly/",$_SERVER["REQUEST_URI"]) and !preg_match("/vf_/",$_SERVER["REQUEST_URI"])) {
 	$referer_zoekenboek=intval($_GET["referer"]);
 } elseif(!$_GET) {
 	# geen referer: begonnen op de pagina zelf
