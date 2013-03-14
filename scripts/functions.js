@@ -1257,6 +1257,10 @@ $(document).ready(function() {
 
 		// uitgebreid zoeken in zoek-en-boek-blok: formulier verzenden
 		$("#uitgebreidzoeken").click(function () {
+
+			// bij klikken op "uitgebreid zoeken": referer=3
+			$("input[name=referer]").val("3");
+
 			$("#form_zoekenboeklinks").submit();
 			return false;
 		});
@@ -1655,9 +1659,11 @@ $(document).ready(function() {
 
 			// referer
 			if($("div.datadiv").data("referer_zoekenboek")=="1") {
-				zoekopdracht_naar_analytics_sturen("eerst gebruikte zoekformulier","zoek-en-boek-pagina");
+				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","zoek-en-boek-pagina");
 			} else if($("div.datadiv").data("referer_zoekenboek")=="2") {
-				zoekopdracht_naar_analytics_sturen("eerst gebruikte zoekformulier","zoek-en-boek-blokje links");
+				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","snel zoeken");
+			} else if($("div.datadiv").data("referer_zoekenboek")=="3") {
+				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","klik op 'uitgebreid zoeken' bij snel zoeken");
 			}
 		}
 	}
