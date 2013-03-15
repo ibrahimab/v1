@@ -96,7 +96,7 @@ foreach($username as $userAccount) {
 			if(is_array($status["entities"]["urls"])) {
 				foreach($status["entities"]["urls"] as $urls) {
 					$display_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["display_url"]);
-					$expanded_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["display_url"]);
+					$expanded_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["expanded_url"]);
 				}
 			}
 
@@ -104,7 +104,7 @@ foreach($username as $userAccount) {
 			if(is_array($status["entities"]["media"])) {
 				foreach($status["entities"]["media"] as $urls) {
 					$display_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["display_url"]);
-					$expanded_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["display_url"]);
+					$expanded_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["expanded_url"]);
 				}
 			}
 
