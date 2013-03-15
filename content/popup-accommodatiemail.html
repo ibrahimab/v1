@@ -207,34 +207,26 @@ if($_POST["filled"]) {
 
 			$_SESSION["captcha_okay"]=false;
 
-			$mail=new wt_mail;
-			$mail->fromname=$_POST["from"];
-			$mail->from=$_POST["from"];
-			$mail->subject=$accinfo["accnaam"];
-			$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-			$mail->html_top="";
-			$mail->html.="<html>";
-			$mail->html.="<head>";
-			$mail->html.="</head>";
-			$mail->html.="<body style=\"font-family:font-family: Verdana, Arial, Helvetica, sans-serif;\">";
+			unset($mail_html);
 
-			$mail->html.="<center><table style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:9pt;\" border=\"0\" width=\"681\"><tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;\">";
-			$mail->html.="<a href=\"".wt_he($vars["basehref"])."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\"><img src=".wt_he($vars['mail_topfoto'])." border=\"0\"></a></td></tr>";
+			$mail_html.="<center><table style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:9pt;\" border=\"0\" width=\"681\">";
+#			<tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;\">";
+#			$mail_html.="<a href=\"".wt_he($vars["basehref"])."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\"><img src=".wt_he($vars['mail_topfoto'])." border=\"0\"></a></td></tr>";
 			$bericht=trim($_POST["message"]);
 			$bericht=wt_he($bericht);
 			$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\">".wt_he($vars["websitenaam"])."</a>",$bericht);
-			$mail->html.="<tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;text-align:center; color:".$vars["mail_css_tekstkleur"].";\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
-			$mail->html.="</td></tr>";
-			$mail->html.="<tr><td>";
-			$mail->html.=$accblok;
-			$mail->html.="</td></tr>";
-			$mail->html.="<tr><td>&nbsp;</td></tr>";
+			$mail_html.="<tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;text-align:center; color:".$vars["mail_css_tekstkleur"].";\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
+			$mail_html.="</td></tr>";
+			$mail_html.="<tr><td>";
+			$mail_html.=$accblok;
+			$mail_html.="</td></tr>";
+			$mail_html.="<tr><td>&nbsp;</td></tr>";
 
-			$mail->html.="</table></center>";
+			$mail_html.="</table></center>";
 
-			$mail->html.="</body>";
-			$mail->html.="</html>";
-			$mail->html_bottom="";
+			$settings["add_to_basehref"]="?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie";
+			$settings["fromname"]=$_POST["from"];
+			$settings["from"]=$_POST["from"];
 
 			$mailadressen=preg_split("/,/",trim($_POST["to"]));
 
@@ -244,11 +236,7 @@ if($_POST["filled"]) {
 
 					if(wt_validmail($value)) {
 
-						$mail->toname="";
-						$mail->to=$value;
-						$mail->send();
-
-#						echo $mail->html;
+						verstuur_opmaakmail("",$value,"",$accinfo["accnaam"],$mail_html,$settings);
 
 						echo "<li>".wt_he($value)."</li>";
 					}
@@ -276,7 +264,7 @@ if($_POST["filled"]) {
 
 	echo "<p>".$accblok."</p>";
 
-	echo "<p class=\"captcha\"><label>".html("recaptcha_uitleg","accommodatiemail")."</label><img src=\"".$vars["path"]."pic/captcha_image.php?c=1\" id=\"captcha_img\"><input type=\"text\" name=\"captcha\" maxlength=\"5\">&nbsp;&nbsp;&nbsp;<span id=\"captcha_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"captcha_onjuist\">".html("captcha_onjuist","accommodatiemail",array("h_1"=>"<a href=\"#\" id=\"captcha_reload\">","h_2"=>"</a>"))."</span></p>";
+	echo "<p class=\"captcha\"><label>".html("recaptcha_uitleg","accommodatiemail")."</label><img src=\"".$vars["path"]."pic/captcha_image.php?c=1\" id=\"captcha_img\"><input type=\"text\" name=\"captcha\" maxlength=\"5\" autocomplete=\"off\">&nbsp;&nbsp;&nbsp;<span id=\"captcha_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"captcha_onjuist\">".html("captcha_onjuist","accommodatiemail",array("h_1"=>"<a href=\"#\" id=\"captcha_reload\">","h_2"=>"</a>"))."</span></p>";
 
 	echo "<p><input type=\"submit\" value=\"".html("versturen","accommodatiemail")."\" id=\"accommodatiemail_submit\">&nbsp;&nbsp;<span id=\"submit_onjuist\">".html("nietallevelden","accommodatiemail")."</span></p>";
 

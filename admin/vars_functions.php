@@ -4153,28 +4153,30 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 	global $vars;
 
+	if(!$website) $website=$vars["website"];
+
 	if($website=="I") {
-		$topfoto="favorietenmail_logo_italissima";
+		$topfoto=$website;
 	} elseif($website=="K") {
-		$topfoto="favorietenmail_logo_italissima";
+		$topfoto=$website;
 	} elseif($website=="E") {
-		$topfoto="favorietenmail_logo_chaleteu";
+		$topfoto=$website;
 	} elseif($website=="Z") {
-		$topfoto="favorietenmail_logo_zomerhuisje";
+		$topfoto=$website;
 	} elseif($website=="T") {
-		$topfoto="favorietenmail_logo_chalettour";
+		$topfoto=$website;
 	} elseif($website=="B") {
-		$topfoto="favorietenmail_logo_chaletbe";
+		$topfoto=$website;
 	} elseif($website=="W") {
-		$topfoto="favorietenmail_logo_superski";
+		$topfoto=$website;
 	} elseif($website=="V") {
-		$topfoto="favorietenmail_logo_vallandry";
+		$topfoto=$website;
 	} elseif($website=="Q") {
-		$topfoto="favorietenmail_logo_vallandry_en";
+		$topfoto=$website;
 	} else {
-		$topfoto="favorietenmail_logo_chalet";
+		$topfoto="C";
 	}
-	$topfoto="pic/topfoto/".$topfoto.".png";
+	$topfoto="pic/mailheader/".$topfoto.".jpg";
 
 	if(file_exists($vars["unixtime"].$topfoto)) {
 		$topfoto_size=getimagesize($vars["unixtime"].$topfoto);
@@ -4210,7 +4212,7 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 		$temp_taal=$vars["taal"];
 
 		$vars["taal"]=$vars["websiteinfo"]["taal"][$website];
-		$ondertekening=html("hetteamvan","vars",array("v_websitenaam"=>$vars["websiteinfo"]["websitenaam"][$website],"h_1"=>"<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website])."\">","h_2"=>"</a>"))."<br/>".html("telefoonnummer");
+		$ondertekening=html("hetteamvan","vars",array("v_websitenaam"=>$vars["websiteinfo"]["websitenaam"][$website],"h_1"=>"<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website].$settings["add_to_basehref"])."\">","h_2"=>"</a>"))."<br/>".html("telefoonnummer");
 		$body=preg_replace("/\[ondertekening\]/",$ondertekening,$body);
 
 		$vars["taal"]=$temp_taal;
@@ -4218,10 +4220,32 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	}
 
 	$mail=new wt_mail;
-	$mail->from=$vars["websiteinfo"]["email"][$website];
-	$mail->fromname=$vars["websiteinfo"]["websitenaam"][$website];
+
+	# attachment toevoegen
+	$cid=$mail->attachment($topfoto,"image/jpeg",true);
+
+
+	# from
+	if($settings["from"]) {
+		$mail->from=$settings["from"];
+	} else {
+		$mail->from=$vars["websiteinfo"]["email"][$website];
+	}
+
+	# fromname
+	if($settings["fromname"]) {
+		$mail->fromname=$settings["fromname"];
+	} else {
+		$mail->fromname=$vars["websiteinfo"]["websitenaam"][$website];
+	}
+
+	# subject
 	$mail->subject=$subject;
+
+	# to
 	$mail->to=$to;
+
+	# toname
 	if($toname) {
 		$mail->toname=$toname;
 	}
@@ -4231,9 +4255,17 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 		$mail->bcc=$settings["bcc"];
 	}
 
-
 	$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-	$mail->html_top="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style><!--\na:hover { color:#888888; }\n--></style>\n</head><body bgcolor=\"#ffffff\" style=\"background-color:#ffffff;margin:0;padding:0;\"><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" bgcolor=\"#ffffff\" style=\"background-color:#ffffff;width:100%;\"><tr><td align=\"center\" width=\"100%\" style=\"background-color:#ffffff;width:100%;\"><br><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"681\" style=\"background-color:#ffffff;\"><tr><td><a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website])."\"><img src=\"".wt_he($vars["websiteinfo"]["basehref"][$website]).$topfoto."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\"></a><br/>&nbsp;</td></tr><tr><td style=\"font-family: Verdana, Helvetica, Arial, sans-serif;line-height: 14pt;font-size: 10pt;padding-top:10px;\">\n";
+	$mail->html_top="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style><!--\na:hover { color:#888888; }\n--></style>\n</head><body bgcolor=\"#ffffff\" style=\"background-color:#ffffff;margin:0;padding:0;\"><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" bgcolor=\"#ffffff\" style=\"background-color:#ffffff;width:100%;\"><tr><td align=\"center\" width=\"100%\" style=\"background-color:#ffffff;width:100%;\"><br><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"681\" style=\"background-color:#ffffff;\"><tr><td><a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website].$settings["add_to_basehref"])."\">";
+
+	# topfoto
+	if($cid) {
+		$mail->html_top.="<img src=\"cid:".$cid."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\">";
+	} else {
+		$mail->html_top.="<img src=\"".wt_he($vars["websiteinfo"]["basehref"][$website]).$topfoto."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\">";
+	}
+
+	$mail->html_top.="</a><br/>&nbsp;</td></tr><tr><td style=\"font-family: Verdana, Helvetica, Arial, sans-serif;line-height: 14pt;font-size: 10pt;padding-top:10px;\">\n";
 
 	$mail->html_bottom="<br/>&nbsp;</td></tr></table></td></tr></table></body></html>\n";
 
