@@ -64,7 +64,7 @@ if(is_array($_GET)) {
 }
 
 #
-# Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [42] (eerst beschikbare: 43)
+# Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [43] (eerst beschikbare: 44)
 #
 if($vars["seizoentype"]==1) {
 	#
@@ -133,7 +133,8 @@ if($vars["seizoentype"]==1) {
 		"sauna"=>4,
 		"privesauna"=>5,
 		"huisdierentoegestaan"=>6,
-		"openhaardhoutkachel"=>7
+		"openhaardhoutkachel"=>7,
+		"goedvoorkids"=>43
 	);
 	$keuzeopsomming[3]["addwhere"][1][]="(t.kenmerken REGEXP '[[:<:]]6[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
 	$keuzeopsomming[3]["addwhere"][2][]="(t.kenmerken REGEXP '[[:<:]]1[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]1[[:>:]]')";
@@ -142,6 +143,7 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[3]["addwhere"][5][]="(t.kenmerken REGEXP '[[:<:]]3[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]3[[:>:]]')";
 	$keuzeopsomming[3]["addwhere"][6][]="(t.kenmerken REGEXP '[[:<:]]11[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
 	$keuzeopsomming[3]["addwhere"][7][]="(t.kenmerken REGEXP '[[:<:]]10[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]12[[:>:]]')";
+	$keuzeopsomming[3]["addwhere"][43][]="(t.kenmerken REGEXP '[[:<:]]5[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]5[[:>:]]')";
 
 	# Aantal badkamers
 	$keuzeopsomming[4]["combinatiesmogelijk"]=0;
@@ -1919,6 +1921,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				# Verfijnd zoeken: openhaardhoutkachel
 				if(check_kenmerken($db->f("tkenmerken"),10) or check_kenmerken($db->f("akenmerken"),12)) {
 					$verfijnd["kenmerken"][7]++;
+				}
+
+				# Verfijnd zoeken: goedvoorkids
+				if(check_kenmerken($db->f("tkenmerken"),5) or check_kenmerken($db->f("akenmerken"),5)) {
+					$verfijnd["kenmerken"][43]++;
 				}
 
 				#
