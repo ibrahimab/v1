@@ -7,7 +7,7 @@ $vars["verberg_zoekenboeklinks"]=true;
 include("admin/vars.php");
 
 # Bij WSA en Italissima zijn geen thema's beschikbaar
-if($vars["website"]=="W" or $vars["websitetype"]==7) {
+if(($vars["website"]=="W" or $vars["websitetype"]==7) and $_GET["thema"]<>"2013-2014") {
 	header("Location: ".$vars["path"]);
 	exit;
 }
