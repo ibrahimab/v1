@@ -30,10 +30,10 @@ if($vars["page_with_tabs"]) {
 # Font Awesome-css
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/font-awesome.min.css\" />\n";
 
-#if($vars["page_with_jqueryui"]) {
+if(!$vars["page_with_tabs"]) {
 	# jQuery UI theme laden
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css?cache=".@filemtime("css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css")."\" />\n";
-#}
+}
 
 # jQuery Chosen css
 #if($vars["jquery_chosen"]) {
