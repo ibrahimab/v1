@@ -3,6 +3,7 @@
 $boeking_wijzigen=true;
 $robot_noindex=true;
 $vars["verberg_lastacc"]=true;
+$vars["verberg_zoekenboeklinks"]=true;
 
 include("admin/vars.php");
 
