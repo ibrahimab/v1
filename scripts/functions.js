@@ -1360,6 +1360,10 @@ $(document).ready(function() {
 		// zoek-en-boek links: link selecteer bestemming
 		$(".zoekenboek_invulveld_bestemming").click(function(){
 			$("input[name=selb]").val("1");
+
+			// bij klikken op "selecteer bestemming": referer=4
+			$("input[name=referer]").val("4");
+
 			$("#form_zoekenboeklinks").submit();
 			return false;
 		});
@@ -1663,6 +1667,8 @@ $(document).ready(function() {
 				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","snel zoeken");
 			} else if($("div.datadiv").data("referer_zoekenboek")=="3") {
 				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","klik op 'uitgebreid zoeken' bij snel zoeken");
+			} else if($("div.datadiv").data("referer_zoekenboek")=="4") {
+				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","klik op 'selecteer bestemming' bij snel zoeken");
 			}
 		}
 	}
