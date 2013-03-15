@@ -23,28 +23,38 @@ if($_SERVER["HTTP_HOST"]) {
 $cron=true;
 $geen_tracker_cookie=true;
 
-ini_set('display_errors', 'Off');
-ini_set('display_startup_errors', 'Off');
-error_reporting(0);
+if($_SERVER["DOCUMENT_ROOT"]!="/home/webtastic/html") {
+	ini_set('display_errors', 'Off');
+	ini_set('display_startup_errors', 'Off');
+	error_reporting(0);
+}
 include($unixdir."admin/vars.php");
 $username=array();
 #$username[0]='Zomerhuisje';
 $username[1]='Italissima';
 $username[2]='ChaletNL';
 $username[3]='SuperSkiNL';
-$format='xml';
 foreach($username as $userAccount) {
 
 	echo $userAccount."\n";
-	$xml=simplexml_load_file("http://api.twitter.com/1/statuses/user_timeline/{$userAccount}.{$format}?include_entities=true");
 
-	if($userAccount=="ChaletNL") {
-#		echo "<pre>";
-#		print_r($xml);
-#		exit;
-	}
+	$url="https://api.twitter.com/1.1/statuses/user_timeline.json";
 
-	if($xml->status[0]->text!="") {
+	$oauth_consumer_key="QIK0DHtEfkvdzyzGodfvQ";
+	$oauth_consumer_secret="lmosQrPKEp8ohjYtdB8ABZyVstGuF2uJNo5Gp133s";
+	$oauth_access_token="132939299-3sC8Zjr68teoEI5GAuos2991MZ4pcrmyKbdqqffc";
+	$oauth_access_token_secret="XPPUCnfBJKKdS4lqf9k16NhWSUicq6uotjkCuDtPRQM";
+
+	$json_content=wt_get_tiwtter_url($url,array("screen_name"=>$userAccount,"include_entities"=>"true","exclude_replies"=>"true","include_rts"=>"false"),$oauth_consumer_key,$oauth_consumer_secret,$oauth_access_token,$oauth_access_token_secret);
+
+	$json=json_decode($json_content["output"],true);
+
+
+#	echo "Content:".wt_dump($xml_content);
+#	exit;
+
+
+	if(is_array($json)) {
 		unset($bericht);
 		if($userAccount=='Zomerhuisje') {
 			$imgSrc="https://si0.twimg.com/profile_images/1388402637/ZOMERHUISJE_NL_vierkant.jpg";
@@ -72,24 +82,29 @@ foreach($username as $userAccount) {
 
 		$teller=0;
 		$teller_html=0;
-		foreach($xml->status as $status) {
+
+		while(list($key,$status)=each($json)) {
 			unset($html);
-			$tweet_inhoud=iconv("UTF-8","cp1252",$status->text);
+			$tweet_inhoud=iconv("UTF-8","cp1252",$status["text"]);
+
+#echo $status->entities;
+
+#echo wt_dump($status["entities"]["urls"]);
 
 			# t.co-url's omzetten naar mooie url's
 			unset($display_url,$expanded_url);
-			if(is_object($status->entities->urls)) {
-				foreach($status->entities->urls->url as $urls) {
-					$display_url[iconv("UTF-8","cp1252",$urls->url)]=iconv("UTF-8","cp1252",$urls->display_url);
-					$expanded_url[iconv("UTF-8","cp1252",$urls->url)]=iconv("UTF-8","cp1252",$urls->expanded_url);
+			if(is_array($status["entities"]["urls"])) {
+				foreach($status["entities"]["urls"] as $urls) {
+					$display_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["display_url"]);
+					$expanded_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["display_url"]);
 				}
 			}
 
 			# pic.twitter-t.co-url's omzetten naar mooie url's
-			if(is_object($status->entities->media)) {
-				foreach($status->entities->media->creative as $urls) {
-					$display_url[iconv("UTF-8","cp1252",$urls->url)]=iconv("UTF-8","cp1252",$urls->display_url);
-					$expanded_url[iconv("UTF-8","cp1252",$urls->url)]=iconv("UTF-8","cp1252",$urls->expanded_url);
+			if(is_array($status["entities"]["media"])) {
+				foreach($status["entities"]["media"] as $urls) {
+					$display_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["display_url"]);
+					$expanded_url[iconv("UTF-8","cp1252",$urls["url"])]=iconv("UTF-8","cp1252",$urls["display_url"]);
 				}
 			}
 

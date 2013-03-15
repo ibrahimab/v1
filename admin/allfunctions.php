@@ -1790,6 +1790,77 @@ function wt_convert_database_to_utf8() {
 }
 
 
+
+function buildAuthorizationHeader($oauth) {
+    $r = 'Authorization: OAuth ';
+    $values = array();
+    foreach($oauth as $key=>$value)
+        $values[] = "$key=\"" . rawurlencode($value) . "\"";
+    $r .= implode(', ', $values);
+    return $r;
+}
+
+function wt_get_tiwtter_url($url,$query_string_array,$oauth_consumer_key,$oauth_consumer_secret,$oauth_access_token,$oauth_access_token_secret) {
+
+	if(is_array($query_string_array)) {
+		ksort($query_string_array);
+		while(list($key,$value)=each($query_string_array)) {
+			$oauth[$key]=$value;
+			$query_string.="&".$key."=".urlencode($value);
+		}
+	}
+
+	$oauth["oauth_consumer_key"]=$oauth_consumer_key;
+	$oauth["oauth_nonce"]=time();
+	$oauth["oauth_signature_method"]='HMAC-SHA1';
+	$oauth["oauth_token"]=$oauth_access_token;
+	$oauth["oauth_timestamp"]=time();
+	$oauth["oauth_version"]="1.0";
+
+    $r = array();
+    ksort($oauth);
+    foreach($oauth as $key=>$value){
+        $r[] = "$key=" . rawurlencode($value);
+    }
+    $base_info="GET&" . rawurlencode($url) . '&' . rawurlencode(implode('&', $r));
+
+
+
+	$composite_key = rawurlencode($oauth_consumer_secret) . '&' . rawurlencode($oauth_access_token_secret);
+	$oauth_signature = base64_encode(hash_hmac('sha1', $base_info, $composite_key, true));
+	$oauth['oauth_signature'] = $oauth_signature;
+
+	if($query_string) {
+		$url.="?".substr($query_string,1);
+	}
+
+	// Make Requests
+    $r = 'Authorization: OAuth ';
+    $values = array();
+    foreach($oauth as $key=>$value)
+        $values[] = "$key=\"" . rawurlencode($value) . "\"";
+    $r .= implode(', ', $values);
+	$header = array($r, 'Expect:');
+
+	$options = array( CURLOPT_HTTPHEADER => $header,
+	                  CURLOPT_HEADER => false,
+	                  CURLOPT_URL => $url ,
+	                  CURLOPT_RETURNTRANSFER => true,
+	                  CURLOPT_SSL_VERIFYPEER => false);
+
+
+	$feed = curl_init();
+	curl_setopt_array($feed, $options);
+
+	$return["output"] = curl_exec($feed);
+	$return["info"] = curl_getinfo($feed);
+
+	curl_close($feed);
+
+	return $return;
+
+}
+
 if (!function_exists("imap_8bit")) {
 	function imap_8bit($sText,$bEmulate_imap_8bit=true) {
 	  // split text into lines
