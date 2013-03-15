@@ -901,6 +901,9 @@ $txt["en_z"]["accommodaties"]["onderstaandeanderskigebied"]="The accommodations 
 $txt["nl"]["zoek-en-boek"]["bestemming"]="Bestemming";
 $txt["en"]["zoek-en-boek"]["bestemming"]="Destination";
 
+$txt["nl"]["zoek-en-boek"]["heel"]="heel";
+$txt["en"]["zoek-en-boek"]["heel"]="entire";
+
 $txt["nl"]["zoek-en-boek"]["tekstzoeken"]="zoek op naam, accommodatiecode of andere tekst";
 $txt["en"]["zoek-en-boek"]["tekstzoeken"]="search by name, accommodation code or other text";
 

@@ -621,9 +621,6 @@ function zoekblok_bestemming($settings="") {
 
 	echo "<div class=\"zoekblok_field".($_GET["fsg"] ? " zoekblok_field_extrabestemming" : "")."\">";
 
-#		echo wt_dump($vars["skigebied"]);
-#		exit;
-
 	echo "<input type=\"hidden\" name=\"fsg\" value=\"".wt_he($_GET["fsg"])."\">";
 
 	if($_GET["fsg"]) {
@@ -641,12 +638,6 @@ function zoekblok_bestemming($settings="") {
 			# geen land bij Italissima vermelden (want: alles ligt in Italië)
 			continue;
 		}
-
-		// if(ereg("^([0-9]+)-0$",$value,$regs) and $vars["websitetype"]<>7) {
-		// 	if($optgroup_open) echo "</optgroup>\n";
-		// 	echo "<optgroup label=\"".wt_he($landnaam[$regs[1]])."\">\n";
-		// 	$optgroup_open=true;
-		// }
 
 		if(preg_match("/^([0-9]+)-([0-9]+)/",$value,$regs) and $regs[2]=="0") {
 			$optionclass="option_land";
@@ -666,10 +657,6 @@ function zoekblok_bestemming($settings="") {
 
 
 		echo "<option class=\"".$optionclass."\" value=\"".$value."\"";
-		// if(($_GET["filled"] or $themalandinfo["soort"]=="land") and $_GET["fsg"]==$value) {
-		// 	echo " selected";
-		// 	if($value) $save_query["regio"]=$vars["skigebied_nl"][$value];
-		// }
 		echo ">".wt_he(preg_replace("/^.*___/","",$key))."</option>";
 
 		$bestemmingen_actief[$value]=preg_replace("/^.*___/","",$key);
@@ -689,19 +676,8 @@ function zoekblok_bestemming($settings="") {
 		}
 
 	}
-#		if($optgroup_open) echo "</optgroup>\n";
 	echo "</select>";
 	echo "</div>"; # afsluiten .zoekblok_field
-
-	// echo "<div class=\"zoekblok_subtitel\">";
-	// echo "(";
-	// if($_GET["fsg"]) {
-	// 	echo html("extrabestemming","zoek-en-boek");
-	// } else {
-	// 	echo html("kiesoftypbestemming","zoek-en-boek");
-	// }
-	// echo ")";
-	// echo "</div>"; # afsluiten .zoekblok_subtitel
 
 	echo "<div class=\"clear\"></div>";
 
@@ -713,8 +689,13 @@ function zoekblok_bestemming($settings="") {
 			if($value and $bestemmingen_actief[$value]) {
 				echo "<div class=\"zoekblok_bestemming_actief_item\" data-bestemming_actief_value=\"".wt_he($value)."\" data-bestemming_actief_name=\"".wt_he($bestemmingen_actief[$value])."\">";
 				if(preg_match("/^pl/",$value)) {
+					# plaats
 					echo wt_he($bestemmingen_actief[$value]);
+				} elseif(preg_match("/^[0-9]+-0$/",$value)) {
+					# land
+					echo txt("heel","zoek-en-boek")." ".wt_he($bestemmingen_actief[$value]);
 				} else {
+					# regio/skigebied
 					echo wt_he($bestemmingen_actief[$value]);
 				}
 				echo "<a href=\"#\" rel=\"".wt_he($value)."\" title=\"".html("wisdezebestemming","zoek-en-boek")."\"></a>";
