@@ -22,6 +22,12 @@ if($_GET["referer"] and !preg_match("/scrolly/",$_SERVER["REQUEST_URI"]) and !pr
 #$robot_nofollow=true;
 #$vars["verberg_linkerkolom"]=true;
 
+# Google Maps
+if(($vars["websitetype"]==3 or $vars["websitetype"]==7) and ($vars["lokale_testserver"] or $_GET["testsysteem"])) {
+	$vars["googlemaps"]=true;
+}
+
+
 $breadcrumbs["last"]=txt("title_zoekenboek");
 
 $vars["verberg_zoekenboeklinks"]=true;

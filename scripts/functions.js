@@ -305,11 +305,10 @@ function initialize_googlemaps() {
 			overviewMapControl: true,
 			streetViewControl: true,
 			mapTypeControl: true,
-			panControl: true,
 			zoomControl: true,
 			scrollwheel: false,
 			center: new google.maps.LatLng(googlemaps_lat,googlemaps_long)
-		}
+		};
 		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
 		google.maps.event.addListener(map, 'bounds_changed', function(event) {
@@ -1428,6 +1427,43 @@ $(document).ready(function() {
 				$(this).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 			}
 		});
+
+
+		// zoek op kaart
+		$(".zoekresultaten_zoeken_op_kaart").click(function(){
+			google.maps.event.trigger(map, 'resize');
+			map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
+			$(".zoekresultaten_zoeken_op_kaart_map").slideToggle("slow",function() {
+				if($(this).is(":visible")) {
+					$(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-down");
+					$(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-up");
+					$("#zoekresultaten_zoeken_op_kaart_map_canvas").show();
+					google.maps.event.trigger(map, 'resize');
+					map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
+				} else {
+					$(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-up");
+					$(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-down");
+					$("#zoekresultaten_zoeken_op_kaart_map_canvas").hide();
+				}
+			});
+		});
+
+		if($(".zoekresultaten_zoeken_op_kaart_map").length!==0) {
+			$("#zoekresultaten_zoeken_op_kaart_map_canvas").hide();
+			var myOptions = {
+				zoom: zoomlevel,
+				mapTypeId: google.maps.MapTypeId.ROADMAP,
+				scaleControl: true,
+				panControl: true,
+				overviewMapControl: true,
+				streetViewControl: true,
+				mapTypeControl: true,
+				zoomControl: true,
+				scrollwheel: false,
+				center: new google.maps.LatLng(googlemaps_lat,googlemaps_long)
+			};
+			map = new google.maps.Map(document.getElementById("zoekresultaten_zoeken_op_kaart_map_canvas"), myOptions);
+		}
 	}
 });
 

@@ -371,14 +371,14 @@ form {
 	border: 1px solid #5f227b;
 }
 
-.redbutton {
+.boekbutton {
 	background-color: #fb6703;
 	border: 1px solid #fb6703;
 	color: #ffffff;
 	height: 30px;
 }
 
-.redbutton:hover {
+.boekbutton:hover {
 	border: 1px solid #5f227b;
 	color: #5f227b;
 }
@@ -655,6 +655,10 @@ form {
 .zoekresultaten_aantalgevonden {
 	background-color: #cfbcd8;
 	color: #5f227b;
+}
+
+.zoekresultaten_zoeken_op_kaart_map {
+	border-color: #cfbcd8;
 }
 
 #zoekresultaten_sorteer {

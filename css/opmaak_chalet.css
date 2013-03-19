@@ -412,14 +412,14 @@ form {
 }
 
 
-.redbutton {
+.boekbutton {
 	background-color: #fb6703;
 	border: 1px solid #fb6703;
 	color: #ffffff;
 	height: 30px;
 }
 
-.redbutton:hover {
+.boekbutton:hover {
 	border: 1px solid #003366;
 	color: #003366;
 }

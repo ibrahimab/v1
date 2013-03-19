@@ -514,14 +514,14 @@ form {
 	color: #a1bddb;
 }
 
-.redbutton {
+.boekbutton {
 	background-color: #fb6703;
 	border: 1px solid #fb6703;
 	color: #ffffff;
 	height: 30px;
 }
 
-.redbutton:hover {
+.boekbutton:hover {
 	border: 1px solid #660066;
 	color: #003366;
 }
@@ -856,6 +856,10 @@ form {
 .zoekresultaten_aantalgevonden {
 	background-color: #003366;
 	color: #ffffff;
+}
+
+.zoekresultaten_zoeken_op_kaart_map {
+	border-color: #003366;
 }
 
 #zoekresultaten_sorteer {

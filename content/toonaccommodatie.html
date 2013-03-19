@@ -1348,7 +1348,7 @@ if($db->next_record()) {
 
 	# Button "Accommodatie boeken"
 	if($echt_tarieven_getoond) {
-		echo "<div class=\"button_accpagina redbutton".($ga_verder ? "" : " boekbutton")."\" onclick=\"document.aanvraag.action='".$path.txt("menu_boeken").".php';document.aanvraag.submit();\">";
+		echo "<div class=\"button_accpagina boekbutton".($ga_verder ? " boekbutton_ga_verder" : "")."\" onclick=\"document.aanvraag.action='".$path.txt("menu_boeken").".php';document.aanvraag.submit();\">";
 		if(ereg("^[0-9]+$",$_COOKIE["CHALET"]["boeking"]["boekingid"])) {
 			$db2->query("SELECT type_id FROM boeking WHERE boeking_id='".addslashes($_COOKIE["CHALET"]["boeking"]["boekingid"])."' AND bevestigdatum IS NULL;");
 			if($db2->next_record()) {

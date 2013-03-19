@@ -1204,6 +1204,9 @@ $txt["en"]["zoek-en-boek"]["openhaardhoutkachel"]="fire place/wood stove";
 $txt["nl"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] of meer";
 $txt["en"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] or more";
 
+# zoek-en-boek: zoeken op kaart
+$txt["nl"]["zoek-en-boek"]["bekijkopkaart"]="Bekijk alle resultaten op een kaart";
+$txt["en"]["zoek-en-boek"]["bekijkopkaart"]="";
 
 # zoek-en-boek m.b.t. flexibel
 $txt["nl"]["zoek-en-boek"]["bekijkookzaterdagzaterdag"]="Bekijk ook de mogelijkheden bij een verblijf van zaterdag tot zaterdag.";

@@ -1499,7 +1499,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 	$wherequery_zondertarieven=$wherequery;
 
-	$op_te_vragen_velden="a.wzt, t.type_id, t.websites, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, a.afstandpiste, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.naam".$vars["ttv"]." AS tnaam, a.zoekvolgorde AS azoekvolgorde, t.zoekvolgorde AS tzoekvolgorde, t.apart_tonen_in_zoekresultaten, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, p.kenmerken AS pkenmerken, p.afstandtotutrecht, s.kenmerken AS skenmerken, s.skigebied_id, s.naam AS skigebied, s.kilometerpiste, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats";
+	$op_te_vragen_velden="a.wzt, t.type_id, t.websites, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, a.afstandpiste, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.naam".$vars["ttv"]." AS tnaam, a.zoekvolgorde AS azoekvolgorde, t.zoekvolgorde AS tzoekvolgorde, t.apart_tonen_in_zoekresultaten, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, p.kenmerken AS pkenmerken, p.afstandtotutrecht, s.kenmerken AS skenmerken, s.skigebied_id, s.naam AS skigebied, s.kilometerpiste, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats";
 	if($_GET["fad"]>0 and !$_GET["altflexberekenen"]) {
 
 		# Kijken of korting van toepassing is (om "aanbieding" bij zoekresultaat te kunnen tonen)
@@ -2136,6 +2136,29 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				# Verfijnd zoeken: thema boerderij
 				if(check_kenmerken($db->f("akenmerken"),37)) {
 					$verfijnd["kenmerken"][35]++;
+				}
+			}
+
+			# Zoeken op kaart: GPS-gegevens bepalen
+			if(($vars["websitetype"]==3 or $vars["websitetype"]==7) and ($vars["lokale_testserver"] or $_GET["testsysteem"])) {
+				if(($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
+					if(($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
+						$gps_lat=$db->f("tgps_lat");
+						$gps_long=$db->f("tgps_long");
+					} else {
+						$gps_lat=$db->f("gps_lat");
+						$gps_long=$db->f("gps_long");
+					}
+					echo "<div class=\"data_zoeken_op_kaart\" data-gps_lat=\"".wt_he($gps_lat)."\" data-gps_long=\"".wt_he($gps_long)."\" data-typecode=\"".$db->f("begincode").$db->f("type_id")."\"></div>";
+
+					$gps_lat=floatval($gps_lat);
+					$gps_long=floatval($gps_long);
+					if($gps_lat>$gps_lat_max or !isset($gps_lat_max)) $gps_lat_max=$gps_lat;
+					if($gps_lat<$gps_lat_min or !isset($gps_lat_min)) $gps_lat_min=$gps_lat;
+					if($gps_long>$gps_long_max or !isset($gps_long_max)) $gps_long_max=$gps_long;
+					if($gps_long<$gps_long_min or !isset($gps_long_min)) $gps_long_min=$gps_long;
+
+					$zoeken_op_kaart=true;
 				}
 			}
 
@@ -2844,11 +2867,28 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 			echo "</td></tr><tr><td colspan=\"5\">";
 		}
 
+		# Flexibel: alternatieven tonen
 		if($vars["flexibel_toegestaan"] and $flex_alt_html) echo $flex_alt_html;
+
+		if($zoeken_op_kaart) {
+
+			$gps_lat_midden=($gps_lat_min+$gps_lat_max)/2;
+			$gps_long_midden=($gps_long_min+$gps_long_max)/2;
+			echo "<script>\n";
+			echo "var googlemaps_lat=".$gps_lat_midden.";\nvar googlemaps_long=".$gps_long_midden.";\nvar zoomlevel=8;\n";
+			echo "</script>\n";
+
+			echo "<div class=\"zoekresultaten_zoeken_op_kaart zoekresultaten_aantalgevonden boxshadow\">".html("bekijkopkaart","zoek-en-boek")."&nbsp;&nbsp;<i class=\"icon-arrow-down\"></i></div>";
+			echo "<div class=\"zoekresultaten_zoeken_op_kaart_map boxshadow\">";
+			echo "<div id=\"zoekresultaten_zoeken_op_kaart_map_canvas\"></div>";
+			echo "</div>";
+		}
 
 		echo "</td></tr>";
 
 		echo "<tr>";
+
+
 
 		# Sorteren alleen aanbiedingen als er tarieven worden getoond, en niet bij SuperSki
 		if($tarieven_tonen and $vars["websitetype"]<>8) {

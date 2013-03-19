@@ -14,6 +14,10 @@ body {
     -webkit-text-size-adjust: 100%;
 }
 
+.boekbutton1 {
+	margin-bottom: 15px;
+}
+
 .boekbutton_tekst {
 	font-size: 1.3em;
 	font-weight: normal;
@@ -22,6 +26,10 @@ body {
 	background-position: 20px 1px;
 	margin-top: 3px;
 	margin-left: 15px;
+}
+
+.data_zoeken_op_kaart {
+	display: none;
 }
 
 .koptitel {
@@ -1083,6 +1091,28 @@ td.selecteerbaarbedrag:hover{
 	margin-top: 10px;
 	margin-bottom: 10px;
 	color: #003366;
+}
+
+.zoekresultaten_zoeken_op_kaart {
+	cursor: pointer;
+}
+
+.zoekresultaten_zoeken_op_kaart:hover {
+	-moz-opacity: .70;
+	filter: alpha(opacity=70);
+	opacity: .70;
+}
+
+.zoekresultaten_zoeken_op_kaart_map {
+	display: none;
+	width: 690px;
+	height: 400px;
+	border: 1px solid #d5e1f9;
+}
+
+#zoekresultaten_zoeken_op_kaart_map_canvas {
+	width: 690px;
+	height: 400px;
 }
 
 #zoekresultaten_sorteer {
