@@ -138,6 +138,9 @@ if($vars["cmstaal"]) $cms->db_field(4,"text","vertrekinfo_goedgekeurd_datetime_"
 $cms->db_field(4,"textarea","vertrekinfo_plaatsroute");
 if($vars["cmstaal"]) $cms->db_field(4,"textarea","vertrekinfo_plaatsroute_".$vars["cmstaal"]);
 
+# Video
+$cms->db_field(4,"yesno","video");
+$cms->db_field(4,"url","video_url");
 
 
 
@@ -256,6 +259,10 @@ $cms->edit_field(4,0,"landkaart","Landkaart","",array("img_minheight"=>"150","im
 $cms->edit_field(4,0,"pdfplattegrond","Plattegrond-PDF","",array("showfiletype"=>true));
 $cms->edit_field(4,0,"pdfplattegrond_nietnodig","Plattegrond-PDF is niet nodig bij de reisdocumenten");
 
+$cms->edit_field(4,0,"htmlrow","<hr><b>Video</b>");
+$cms->edit_field(4,0,"video_url","URL van Vimeo");
+$cms->edit_field(4,0,"video","Toon deze video op de regiopagina");
+
 $cms->edit_field(4,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
 $cms->edit_field(4,0,"htmlrow","<br><i>Alinea 'Route naar [plaatsnaam]'</i>");
 if($vars["cmstaal"]) {
@@ -320,6 +327,17 @@ if($cms_form[4]->filled) {
 			$cms_form[4]->error("gps_long","gebruik alleen cijfers, &eacute;&eacute;n punt en eventueel een minteken");
 		}
 	}
+
+	# Controle op aanwezige video_url
+	if($cms_form[4]->input["video"] and !$cms_form[4]->input["video_url"]) {
+		$cms_form[4]->error("video_url","obl");
+	}
+
+	# Controle op Vimeo-link
+	if($cms_form[4]->input["video_url"] and !preg_match("/^http:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[4]->input["video_url"])) {
+		$cms_form[4]->error("video_url","onjuist formaat. Voorbeeld: http://player.vimeo.com/video/44377043");
+	}
+
 }
 
 # Na opslaan form de volgende actie uitvoeren
