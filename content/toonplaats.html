@@ -1,9 +1,17 @@
 <?php
 
-$db->query("SELECT p.plaats_id, p.naam, p.omschrijving".$vars["ttv"]." AS omschrijving, p.altnaam_zichtbaar, p.wandelen".$vars["ttv"]." AS wandelen, p.wandelen".$vars["ttv"]." AS wandelen, p.fietsen".$vars["ttv"]." AS fietsen, p.sportief".$vars["ttv"]." AS sportief, p.bezienswaardigheden".$vars["ttv"]." AS bezienswaardigheden, p.cultuur".$vars["ttv"]." AS cultuur, p.hoogte, p.luchthaven, p.afstandtotluchthaven, p.treinstation, p.afstandtottreinstation, p.vervoeromschrijving".$vars["ttv"]." AS vervoeromschrijving, p.afstandtotutrecht, p.toeristenbureau, p.weerbericht, p.webcam, p.kaart, p.plattegrond, p.foto_onderschrift, s.webcam AS swebcam, s.weerbericht AS sweerbericht, s.kaart AS skaart, s.naam AS skigebied, s.skigebied_id, l.land_id, l.naam AS land, l.land_id FROM plaats p, skigebied s, land l WHERE p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND plaats_id=".$plaatsid." AND p.wzt='".addslashes($vars["seizoentype"])."';");
+$db->query("SELECT p.plaats_id, p.naam, p.omschrijving".$vars["ttv"]." AS omschrijving, p.altnaam_zichtbaar, p.wandelen".$vars["ttv"]." AS wandelen, p.wandelen".$vars["ttv"]." AS wandelen, p.fietsen".$vars["ttv"]." AS fietsen, p.sportief".$vars["ttv"]." AS sportief, p.bezienswaardigheden".$vars["ttv"]." AS bezienswaardigheden, p.cultuur".$vars["ttv"]." AS cultuur, p.hoogte, p.luchthaven, p.afstandtotluchthaven, p.treinstation, p.afstandtottreinstation, p.vervoeromschrijving".$vars["ttv"]." AS vervoeromschrijving, p.afstandtotutrecht, p.toeristenbureau, p.weerbericht, p.webcam, p.kaart, p.plattegrond, p.foto_onderschrift, p.video, p.video_url, s.webcam AS swebcam, s.weerbericht AS sweerbericht, s.kaart AS skaart, s.naam AS skigebied, s.skigebied_id, l.land_id, l.naam AS land, l.land_id FROM plaats p, skigebied s, land l WHERE p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND plaats_id=".$plaatsid." AND p.wzt='".addslashes($vars["seizoentype"])."';");
 if(!$db->next_record()) {
 	echo "Plaats niet gevonden. Onze excuses voor het ongemak.";
 } else {
+
+	# Video
+	if($db->f("video") and $db->f("video_url")) {
+		$video_url=$db->f("video_url");
+		if(preg_match("/vimeo\.com/",$video_url) and !preg_match("/\?/",$video_url)) {
+			$video_url.="?autoplay=1";
+		}
+	}
 
 	echo terugnaaracc();
 
@@ -68,7 +76,15 @@ if(!$db->next_record()) {
 		echo "<li><a href=\"#omgeving\" class=\"tabclick\">".html("tab_omgeving","toonplaats")."</a></li>";
 		$tab_omgeving=true;
 	}
-	echo "<li><a href=\"#fotos\" class=\"tabclick\">".html("tab_fotos","toonplaats")."</a></li>";
+
+	if($video_url) {
+		# tab met tekst "foto's en video's"
+		echo "<li><a href=\"#fotos\">".html("tab_fotos_videos","toonplaats")."</a></li>";
+	} else {
+		# tab met tekst "foto's"
+		echo "<li><a href=\"#fotos\">".html("tab_fotos","toonplaats")."</a></li>";
+	}
+
 	if($toeristenbureau or $weerbericht or $webcam or $kaart or $plattegrond) {
 		echo "<li><a href=\"#links\" class=\"tabclick\">".html("tab_links","toonplaats")."</a></li>";
 		$tab_links=true;
@@ -117,6 +133,12 @@ if(!$db->next_record()) {
 
 	if(is_array($foto["pic"])) {
 		echo "<div style=\"margin-bottom:15px;\">";
+		if($video_url) {
+			$fototeller++;
+			echo "<a href=\"".wt_he($video_url)."\" class=\"vimeo_fancybox\">";
+			echo "<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" border=\"0\">&nbsp;";
+			echo "</a>";
+		}
 		while(list($key,$value)=each($foto["pic"])) {
 			$fototeller++;
 			if($fototeller<=3) {
@@ -230,7 +252,16 @@ if(!$db->next_record()) {
 
 		$foto_table="";
 		if(is_array($foto["pic"])) {
-			$foto_table.="<TR>";
+			if($video_url) {
+				$foto_table.="<tr>";
+				$foto_table.="<td align=\"center\"><div class=\"foto_doorklik\">";
+				$foto_table.="<a href=\"".wt_he($video_url)."\" class=\"vimeo_fancybox\">";
+				$foto_table.="<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" border=\"0\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\">";
+				$foto_table.="</a><br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div></div></td>";
+				$trcounter++;
+			} else {
+				$foto_table.="<tr>";
+			}
 			while(list($key,$value)=@each($foto["pic"])) {
 				if($trcounter==3) {
 					$foto_table.="</TR><TR>";

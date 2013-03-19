@@ -2580,6 +2580,9 @@ $txt["en"]["toonplaats"]["tab_links"]="links";
 $txt["nl"]["toonplaats"]["tab_fotos"]="foto's";
 $txt["en"]["toonplaats"]["tab_fotos"]="photos";
 
+$txt["nl"]["toonplaats"]["tab_fotos_videos"]="foto's & video's";
+$txt["en"]["toonplaats"]["tab_fotos_videos"]="photos & videos";
+
 $txt["nl"]["toonplaats"]["tab_accommodaties"]="accommodaties";
 $txt["en"]["toonplaats"]["tab_accommodaties"]="accommodations";
 

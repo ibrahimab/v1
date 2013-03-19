@@ -261,7 +261,7 @@ $cms->edit_field(4,0,"pdfplattegrond_nietnodig","Plattegrond-PDF is niet nodig b
 
 $cms->edit_field(4,0,"htmlrow","<hr><b>Video</b>");
 $cms->edit_field(4,0,"video_url","URL van Vimeo");
-$cms->edit_field(4,0,"video","Toon deze video op de regiopagina");
+$cms->edit_field(4,0,"video","Toon deze video op de plaatspagina");
 
 $cms->edit_field(4,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekinfo-systeem</b>");
 $cms->edit_field(4,0,"htmlrow","<br><i>Alinea 'Route naar [plaatsnaam]'</i>");
