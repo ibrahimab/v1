@@ -1789,17 +1789,6 @@ function wt_convert_database_to_utf8() {
 	}
 }
 
-
-
-function buildAuthorizationHeader($oauth) {
-    $r = 'Authorization: OAuth ';
-    $values = array();
-    foreach($oauth as $key=>$value)
-        $values[] = "$key=\"" . rawurlencode($value) . "\"";
-    $r .= implode(', ', $values);
-    return $r;
-}
-
 function wt_get_tiwtter_url($url,$query_string_array,$oauth_consumer_key,$oauth_consumer_secret,$oauth_access_token,$oauth_access_token_secret) {
 
 	if(is_array($query_string_array)) {

