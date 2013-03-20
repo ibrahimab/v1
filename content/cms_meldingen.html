@@ -1043,7 +1043,7 @@ if($cmshoofdpagina_rol[14]) {
 	# rol 14 = Accommodatiegegevens
 
 	# Geen GPS-gegevens accommodaties
-	$db->query("SELECT a.accommodatie_id, a.internenaam, a.wzt, p.naam AS plaats, l.naam AS leverancier, l.leverancier_id FROM accommodatie a, plaats p, leverancier l WHERE a.leverancier_id=l.leverancier_id AND a.plaats_id=p.plaats_id AND a.archief=0 AND a.tonen=1 AND (a.gps_lat='' OR a.gps_long='' OR a.gps_lat IS NULL OR a.gps_long IS NULL) ORDER BY l.naam, p.naam, a.internenaam;");
+	$db->query("SELECT DISTINCT a.accommodatie_id, a.internenaam, a.wzt, p.naam AS plaats, l.naam AS leverancier, l.leverancier_id FROM accommodatie a, type t, plaats p, leverancier l WHERE t.accommodatie_id=a.accommodatie_id AND a.leverancier_id=l.leverancier_id AND a.plaats_id=p.plaats_id AND a.archief=0 AND a.tonen=1 AND t.tonen=1 AND (a.gps_lat='' OR a.gps_long='' OR a.gps_lat IS NULL OR a.gps_long IS NULL) ORDER BY l.naam, p.naam, a.internenaam;");
 	if($db->num_rows()) {
 		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_gpsonjuist\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('gpsonjuist');return false;\"><b>Bij de volgende accommodaties zijn nog geen GPS-gegevens ingevoerd</a> (".$db->num_rows().")</b>";
 		echo "<div id=\"gpsonjuist\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
