@@ -4151,7 +4151,8 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	# Functie om opgemaakte mail (met header-afbeelding) te verzenden
 	#
 
-	global $vars;
+	global $vars,$unixdir;
+
 
 	if(!$website) $website=$vars["website"];
 
@@ -4222,7 +4223,7 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	$mail=new wt_mail;
 
 	# attachment toevoegen
-	$cid=$mail->attachment($topfoto,"image/jpeg",true);
+	$cid=$mail->attachment($unixdir.$topfoto,"image/jpeg",true);
 
 
 	# from
