@@ -1095,6 +1095,11 @@ td.selecteerbaarbedrag:hover{
 
 .zoekresultaten_zoeken_op_kaart {
 	cursor: pointer;
+	background-image: url('../pic/icon_zoeken_op_kaart.png?c=4');
+	background-repeat: no-repeat;
+	background-position: 5px 3px;
+	padding-left: 35px;
+	width: 650px;
 }
 
 .zoekresultaten_zoeken_op_kaart:hover {

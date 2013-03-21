@@ -376,9 +376,7 @@ function googlemaps_createmarker(value,main,use_animation) {
 			tmpcontent=	'<div class="googlemaps_infowindow googlemaps_infowindow_zoekenboek">'+
 					'<img src="'+value['afbeelding']+'">'+
 					'<b><a href="'+value['url']+'" onclick="return gmaps_click(this);">'+value['naamhtml']+'</a>&nbsp;&nbsp;&nbsp;</b><br>'+
-					''+value['plaatsland']+'<br>'+
-					value['aantalpersonen']+
-					'</div>';
+					''+value['plaatsland']+'<br>'+value['aantalpersonen']+'<br>'+value['tarief']+'</div>';
 		} else if(googlemaps_skigebiedid>0) {
 			// regio
 			tmpcontent=	'<div class="googlemaps_infowindow">'+
@@ -1496,13 +1494,12 @@ $(document).ready(function() {
 			});
 		});
 
+		// zoeken op kaart
 		if($(".zoekresultaten_zoeken_op_kaart_map").length!==0) {
 			$("#zoekresultaten_zoeken_op_kaart_map_canvas").hide();
 
-// http://stackoverflow.com/questions/6048975/google-maps-v3-how-to-calculate-the-zoom-level-for-a-given-bounds
-
 			var bound=new google.maps.LatLngBounds(new google.maps.LatLng(googlemaps_lat_min,googlemaps_long_min),new google.maps.LatLng(googlemaps_lat_max,googlemaps_long_max));
-			var zoomlevel=com.local.gmaps3.CoordinateUtils.getMinimumZoomLevelContainingBounds(bound,670,380);
+			var zoomlevel=ZoomlevelBepalen.getMinimumZoomLevelContainingBounds(bound,670,380);
 
 			if(zoomlevel>10) zoomlevel=10;
 
@@ -1520,18 +1517,17 @@ $(document).ready(function() {
 			};
 			map = new google.maps.Map(document.getElementById("zoekresultaten_zoeken_op_kaart_map_canvas"), myOptions);
 
-//			new google.maps.LatLng(googlemaps_lat,googlemaps_long);
-
 			// markers op basis van zoekresultaten plaatsen
 			$("div.data_zoeken_op_kaart").each(function() {
 				var value = [];
 				value[1]=$(this).data("gps_lat");
 				value[2]=$(this).data("gps_long");
-				value['naamhtml']=$(this).data("naamhtml");
-				value['plaatsland']=$(this).data("plaatsland");
-				value['aantalpersonen']=$(this).data("aantalpersonen");
-				value['afbeelding']=$(this).data("afbeelding");
-				value['url']=$(this).data("url");
+				value["naamhtml"]=$(this).data("naamhtml");
+				value["plaatsland"]=$(this).data("plaatsland");
+				value["aantalpersonen"]=$(this).data("aantalpersonen");
+				value["afbeelding"]=$(this).data("afbeelding");
+				value["tarief"]=$(this).data("tarief");
+				value["url"]=$(this).data("url");
 
 				googlemaps_createmarker(value,true,false);
 			});
@@ -1548,11 +1544,7 @@ $(document).ready(function() {
 	}
 });
 
-var com = com || {};
-com.local = com.local || {};
-com.local.gmaps3 = com.local.gmaps3 || {};
-
-com.local.gmaps3.CoordinateUtils = new function() {
+var ZoomlevelBepalen = new function() {
 
    var OFFSET = 268435456;
    var RADIUS = OFFSET / Math.PI;
@@ -1566,8 +1558,6 @@ com.local.gmaps3.CoordinateUtils = new function() {
     * @return {number} the minimum zoom level that entirely contains the given Lat/Lon rectangle boundary
     */
    this.getMinimumZoomLevelContainingBounds = function ( boundary, mapWidth, mapHeight ) {
-
-//   	boundary=new google.maps.LatLngBounds(googlemaps_lat,googlemaps_long);
 
       var zoomIndependentSouthWestPoint = latLonToZoomLevelIndependentPoint( boundary.getSouthWest() );
       var zoomIndependentNorthEastPoint = latLonToZoomLevelIndependentPoint( boundary.getNorthEast() );
@@ -1612,7 +1602,9 @@ com.local.gmaps3.CoordinateUtils = new function() {
 
 function gmaps_click(e) {
 	// klikken op accommodatie bij zoeken op kaart
-	var back_url=updateURLParameter(location.href,"scrolly",$(window).scrollTop());
+	var back_url=location.href;
+	back_url=updateURLParameter(back_url,"scrolly",$(window).scrollTop());
+	back_url=updateURLParameter(back_url,"map",1);
 	var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
 	$(e).attr("href",nieuwe_url);
 

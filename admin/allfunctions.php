@@ -51,6 +51,11 @@ if(get_magic_quotes_gpc() and !$magicquotesremoved) {
 	@reset($_GET);
 }
 
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	# Zorgen dat errors lokaal getoond worden
+	error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+}
+
 # Error handling
 if($vars["wt_disable_error_handler"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/extern-html" or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"]))) {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $_SERVER["HTTP_HOST"]=="ss.postvak.net") {
