@@ -2300,7 +2300,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 							$zoeken_op_kaart_data[$use_key]["accommodatie_id"]=$db->f("accommodatie_id");
 
-							if(floatval($tarief_float)<$zoeken_op_kaart_data[$use_key]["tarief"]) {
+							if($tarief_float>0 and floatval($tarief_float)<$zoeken_op_kaart_data[$use_key]["tarief"]) {
 								# tarief: goedkoopste tonen
 								$zoeken_op_kaart_data[$use_key]["tarief"]=floatval($tarief_float);
 								$zoeken_op_kaart_data[$use_key]["vanaf"]=true;
@@ -2323,7 +2323,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$zoeken_op_kaart_data[$use_key]["naamhtml"]=trim(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")." ".$db->f("tnaam"));
 						$zoeken_op_kaart_data[$use_key]["afbeelding"]=$temp_afbeelding;
 						$zoeken_op_kaart_data[$use_key]["url"]=$vars["path"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
-						$zoeken_op_kaart_data[$use_key]["tarief"]=floatval($tarief_float);
+						if($tarief_float>0) {
+							$zoeken_op_kaart_data[$use_key]["tarief"]=floatval($tarief_float);
+						}
 						$zoeken_op_kaart_data[$use_key]["accommodatie_id"]=$db->f("accommodatie_id");
 						$zoeken_op_kaart_data[$use_key]["naamaccommodatie"]=$db->f("naam");
 						if($vanaf_prijzen_tonen) {
@@ -3114,10 +3116,12 @@ if($vars["zoeken_op_kaart"] and is_array($zoeken_op_kaart_data)) {
 	while(list($key,$value)=each($zoeken_op_kaart_data)) {
 
 		unset($zoeken_op_kaart_tarief);
-		if($value["vanaf"]) {
-			$zoeken_op_kaart_tarief.=html("vanaf")." ";
+		if(floatval($value["tarief"])>0) {
+			if($value["vanaf"]) {
+				$zoeken_op_kaart_tarief.=html("vanaf")." ";
+			}
+			$zoeken_op_kaart_tarief.="&euro;&nbsp;".number_format($value["tarief"],0,",",".");
 		}
-		$zoeken_op_kaart_tarief.="&euro;&nbsp;".number_format($value["tarief"],0,",",".");
 
 		echo "<div class=\"data_zoeken_op_kaart\" data-gps_lat=\"".wt_he($value["gps_lat"])."\" data-gps_long=\"".wt_he($value["gps_long"])."\" data-plaatsland=\"".wt_he($value["plaatsland"])."\" data-aantalpersonen=\"".$value["optimaalaantalpersonen"].($value["maxaantalpersonen"]>$value["optimaalaantalpersonen"] ? " - ".$value["maxaantalpersonen"] : "")." ".($value["maxaantalpersonen"]==1 ? html("persoon") : html("personen"))."\" data-naamhtml=\"".wt_he($value["naamhtml"])."\" data-afbeelding=\"".wt_he($value["afbeelding"])."\" data-url=\"".wt_he($value["url"])."\" data-tarief=\"".wt_he($zoeken_op_kaart_tarief)."\"></div>";
 	}
