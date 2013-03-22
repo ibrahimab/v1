@@ -297,7 +297,24 @@ if(location.href.indexOf("/chalet/")>1) {
 function initialize_googlemaps() {
 	//http://code.google.com/intl/nl/apis/maps/documentation/javascript/reference.html
 	if(gps_coordinaten_bekend==1) {
-//		geocoder = new google.maps.Geocoder();
+
+// alert(location.href.replace(location.hash,"")+"=="+chalet_getCookie("map_regio_url"));
+
+		if(googlemaps_skigebiedid>0 && location.href.replace(location.hash,"")==chalet_getCookie("map_regio_url")) {
+			// zoom/center terugzetten bij regio-pagina
+			if(chalet_getCookie("map_regio_zoom")) {
+				zoomlevel=parseInt(chalet_getCookie("map_regio_zoom"),10);
+			}
+
+			if(chalet_getCookie("map_regio_center")) {
+				var latlong_object=JSON.parse(chalet_getCookie("map_regio_center"));
+				if(latlong_object.hb && latlong_object.ib) {
+					googlemaps_lat=latlong_object.hb;
+					googlemaps_long=latlong_object.ib;
+				}
+			}
+		}
+
 		var myOptions = {
 			zoom: zoomlevel,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -375,7 +392,7 @@ function googlemaps_createmarker(value,main,use_animation) {
 			// Bekijk alle resultaten op een kaart
 			tmpcontent=	'<div class="googlemaps_infowindow googlemaps_infowindow_zoekenboek">'+
 					'<img src="'+value['afbeelding']+'">'+
-					'<b><a href="'+value['url']+'" onclick="return gmaps_click(this);">'+value['naamhtml']+'</a>&nbsp;&nbsp;&nbsp;</b><br>'+
+					'<b><a href="'+value['url']+'" onclick="return map_zoek_en_boek_click(this);">'+value['naamhtml']+'</a>&nbsp;&nbsp;&nbsp;</b><br>'+
 					''+value['plaatsland']+'<br>'+value['aantalpersonen']+'<br>'+value['tarief']+'</div>';
 		} else if(googlemaps_skigebiedid>0) {
 			// regio
@@ -1513,16 +1530,32 @@ $(document).ready(function() {
 
 			var bound=new google.maps.LatLngBounds(new google.maps.LatLng(googlemaps_lat_min,googlemaps_long_min),new google.maps.LatLng(googlemaps_lat_max,googlemaps_long_max));
 			var zoomlevel=ZoomlevelBepalen.getMinimumZoomLevelContainingBounds(bound,670,380);
-			var center = new google.maps.LatLng(googlemaps_lat,googlemaps_long);
 
 			if(zoomlevel>10) zoomlevel=10;
 
-			// if(chalet_getCookie("maps_zoom")) {
-			// 	zoomlevel=chalet_getCookie("maps_zoom");
-			// }
+			if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible") && location.href==chalet_getCookie("map_zoek_en_boek_url")) {
+				// kaart is gebruikt: gebruik eerder gekozen zoom + center
+				if(chalet_getCookie("map_zoek_en_boek_zoom")) {
+					zoomlevel=parseInt(chalet_getCookie("map_zoek_en_boek_zoom"),10);
+				}
 
-			// chalet_createCookie("maps_zoom",map.getZoom());
-			// chalet_createCookie("maps_center",map.getCenter());
+				if(chalet_getCookie("map_zoek_en_boek_center")) {
+					var latlong_object=JSON.parse(chalet_getCookie("map_zoek_en_boek_center"));
+					if(latlong_object.hb && latlong_object.ib) {
+						googlemaps_lat=latlong_object.hb;
+						googlemaps_long=latlong_object.ib;
+					}
+				}
+			}
+
+			// cookies maar 1x gebruiken: wis cookies
+			chalet_createCookie("map_zoek_en_boek_zoom","");
+			chalet_createCookie("map_zoek_en_boek_center","");
+			chalet_createCookie("map_zoek_en_boek_url","");
+
+
+
+			var center = new google.maps.LatLng(googlemaps_lat,googlemaps_long);
 
 			var myOptions = {
 				zoom: zoomlevel,
@@ -1571,57 +1604,57 @@ var ZoomlevelBepalen = new function() {
    var RADIUS = OFFSET / Math.PI;
 
    /**
-    * Gets the minimum zoom level that entirely contains the Lat/Lon bounding rectangle given.
-    *
-    * @param {google.maps.LatLngBounds} boundary the Lat/Lon bounding rectangle to be contained
-    * @param {number} mapWidth the width of the map in pixels
-    * @param {number} mapHeight the height of the map in pixels
-    * @return {number} the minimum zoom level that entirely contains the given Lat/Lon rectangle boundary
-    */
+	* Gets the minimum zoom level that entirely contains the Lat/Lon bounding rectangle given.
+	*
+	* @param {google.maps.LatLngBounds} boundary the Lat/Lon bounding rectangle to be contained
+	* @param {number} mapWidth the width of the map in pixels
+	* @param {number} mapHeight the height of the map in pixels
+	* @return {number} the minimum zoom level that entirely contains the given Lat/Lon rectangle boundary
+	*/
    this.getMinimumZoomLevelContainingBounds = function ( boundary, mapWidth, mapHeight ) {
 
-      var zoomIndependentSouthWestPoint = latLonToZoomLevelIndependentPoint( boundary.getSouthWest() );
-      var zoomIndependentNorthEastPoint = latLonToZoomLevelIndependentPoint( boundary.getNorthEast() );
-      var zoomIndependentNorthWestPoint = { x: zoomIndependentSouthWestPoint.x, y: zoomIndependentNorthEastPoint.y };
-      var zoomIndependentSouthEastPoint = { x: zoomIndependentNorthEastPoint.x, y: zoomIndependentSouthWestPoint.y };
-      var zoomLevelDependentSouthEast, zoomLevelDependentNorthWest, zoomLevelWidth, zoomLevelHeight;
-      for( var zoom = 21; zoom >= 0; --zoom ) {
-         zoomLevelDependentSouthEast = zoomLevelIndependentPointToMapCanvasPoint( zoomIndependentSouthEastPoint, zoom );
-         zoomLevelDependentNorthWest = zoomLevelIndependentPointToMapCanvasPoint( zoomIndependentNorthWestPoint, zoom );
-         zoomLevelWidth = zoomLevelDependentSouthEast.x - zoomLevelDependentNorthWest.x;
-         zoomLevelHeight = zoomLevelDependentSouthEast.y - zoomLevelDependentNorthWest.y;
-         if( zoomLevelWidth <= mapWidth && zoomLevelHeight <= mapHeight )
-            return zoom;
-      }
-      return 0;
+	  var zoomIndependentSouthWestPoint = latLonToZoomLevelIndependentPoint( boundary.getSouthWest() );
+	  var zoomIndependentNorthEastPoint = latLonToZoomLevelIndependentPoint( boundary.getNorthEast() );
+	  var zoomIndependentNorthWestPoint = { x: zoomIndependentSouthWestPoint.x, y: zoomIndependentNorthEastPoint.y };
+	  var zoomIndependentSouthEastPoint = { x: zoomIndependentNorthEastPoint.x, y: zoomIndependentSouthWestPoint.y };
+	  var zoomLevelDependentSouthEast, zoomLevelDependentNorthWest, zoomLevelWidth, zoomLevelHeight;
+	  for( var zoom = 21; zoom >= 0; --zoom ) {
+		 zoomLevelDependentSouthEast = zoomLevelIndependentPointToMapCanvasPoint( zoomIndependentSouthEastPoint, zoom );
+		 zoomLevelDependentNorthWest = zoomLevelIndependentPointToMapCanvasPoint( zoomIndependentNorthWestPoint, zoom );
+		 zoomLevelWidth = zoomLevelDependentSouthEast.x - zoomLevelDependentNorthWest.x;
+		 zoomLevelHeight = zoomLevelDependentSouthEast.y - zoomLevelDependentNorthWest.y;
+		 if( zoomLevelWidth <= mapWidth && zoomLevelHeight <= mapHeight )
+			return zoom;
+	  }
+	  return 0;
    };
 
    function latLonToZoomLevelIndependentPoint ( latLon ) {
-      return { x: lonToX( latLon.lng() ), y: latToY( latLon.lat() ) };
+	  return { x: lonToX( latLon.lng() ), y: latToY( latLon.lat() ) };
    }
 
    function zoomLevelIndependentPointToMapCanvasPoint ( point, zoomLevel ) {
-      return {
-         x: zoomLevelIndependentCoordinateToMapCanvasCoordinate( point.x, zoomLevel ),
-         y: zoomLevelIndependentCoordinateToMapCanvasCoordinate( point.y, zoomLevel )
-      };
+	  return {
+		 x: zoomLevelIndependentCoordinateToMapCanvasCoordinate( point.x, zoomLevel ),
+		 y: zoomLevelIndependentCoordinateToMapCanvasCoordinate( point.y, zoomLevel )
+	  };
    }
 
    function zoomLevelIndependentCoordinateToMapCanvasCoordinate ( coordinate, zoomLevel ) {
-      return coordinate >> ( 21 - zoomLevel );
+	  return coordinate >> ( 21 - zoomLevel );
    }
 
    function latToY ( lat ) {
-      return OFFSET - RADIUS * Math.log( ( 1 + Math.sin( lat * Math.PI / 180 ) ) / ( 1 - Math.sin( lat * Math.PI / 180 ) ) ) / 2;
+	  return OFFSET - RADIUS * Math.log( ( 1 + Math.sin( lat * Math.PI / 180 ) ) / ( 1 - Math.sin( lat * Math.PI / 180 ) ) ) / 2;
    }
 
    function lonToX ( lon ) {
-      return OFFSET + RADIUS * lon * Math.PI / 180;
+	  return OFFSET + RADIUS * lon * Math.PI / 180;
    }
 
 };
 
-function gmaps_click(e) {
+function map_zoek_en_boek_click(e) {
 	// klikken op accommodatie bij zoeken op kaart
 	show_ajaxloader(true);
 
@@ -1632,8 +1665,10 @@ function gmaps_click(e) {
 	$(e).attr("href",nieuwe_url);
 
 	// huidige Google Maps-zoom en -center opslaan
-	chalet_createCookie("maps_zoom",map.getZoom());
-	chalet_createCookie("maps_center",map.getCenter());
+	chalet_createCookie("map_zoek_en_boek_zoom",map.getZoom());
+	chalet_createCookie("map_zoek_en_boek_center",JSON.stringify(map.getCenter()));
+	chalet_createCookie("map_zoek_en_boek_url",back_url);
+
 
 	// klik doorgeven aan Analytics
 	zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via kaart");
@@ -1645,6 +1680,19 @@ function gmaps_click(e) {
 
 	return false;
 }
+
+function map_regio_click(e) {
+	// klikken op plaats bij regio-Google Maps (Italissima)
+
+	// huidige Google Maps-zoom en -center opslaan
+	chalet_createCookie("map_regio_zoom",map.getZoom());
+	chalet_createCookie("map_regio_center",JSON.stringify(map.getCenter()));
+
+	chalet_createCookie("map_regio_url",location.href.replace(location.hash,""));
+
+	return true;
+}
+
 
 function chalet_createCookie(name,value,days) {
 	// functie om eenvoudig cookies te plaatsen
