@@ -448,79 +448,60 @@ if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcru
 }
 echo "<div id=\"colofon_wrapper\" class=\"noprint\">";
 echo "<div id=\"colofon\" class=\"noprint\">Italissima is een handelsnaam van Chalet.nl B.V. - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon"). "</div>";
-if($id!="index") {
-	echo"<div id=\"footerWrap\">";
-	echo "<div class=\"divSepIND\">";
-	echo "<br><b>&copy; Italissima</b><br><br>";
-	echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
-	echo "</div>";
-	echo "<div class=\"wrap\">";
-	echo "<div class=\"divContentIND\">";
-	echo "<br><b>Onze bestemmingen</b><br><br>";
-	echo "<li><a href=\"".$vars["path"]."agriturismo-italie\" rel=\"nofollow\">Agriturismo Itali&euml;</a></li>";
-	echo"<li><a href=\"".$vars["path"]."agriturismo-toscane\" rel=\"nofollow\">Agriturismo Toscane</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Campanie/\" rel=\"nofollow\">Vakantiehuizen in Campani&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Dolomieten/\" rel=\"nofollow\">Vakantiehuizen in Dolomieten</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Lazio/\" rel=\"nofollow\">Vakantiehuizen in Lazio</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Le_Marche/\" rel=\"nofollow\">Vakantiehuizen in Le Marche</a></li>";
-	echo "</div>";
-	echo "<div class=\"divContentIND\">";
-	echo "<BR><BR><br><li><a href=\"".$vars["path"]."regio/Ligurie/\" rel=\"nofollow\">Vakantiehuizen in Liguri&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Merengebied_Lombardije/\" rel=\"nofollow\">Vakantiehuizen in Merengebied</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Piemonte/\" rel=\"nofollow\">Vakantiehuizen in Piemonte</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Sardinie/\" rel=\"nofollow\">Vakantiehuizen in Sardini&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Sicilie/\" rel=\"nofollow\">Vakantiehuizen in Sicili&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Toscane/\" rel=\"nofollow\">Vakantiehuizen in Toscane</a></li>";
-	echo "</div>";
-	echo "<div class=\"divContentIND\">";
-	echo "<BR><BR><br><li><a href=\"".$vars["path"]."regio/Umbrie/\" rel=\"nofollow\">Vakantiehuizen in Umbri&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Veneto/\" rel=\"nofollow\">Vakantiehuizen in Veneto</a></li>";
-	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-gardameer\" rel=\"nofollow\">Vakantiehuizen Gardameer</a></li>";
-	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-bloemenriviera\" rel=\"nofollow\">Vakantiehuizen Bloemenrivi&egrave;ra</a></li>";
-	echo "<li><a href=\"".$vars["path"]."vakantie-in-italie\" rel=\"nofollow\">Vakantie in Itali&euml;</a></li>";
-	echo "<li><a href=\"http://www.chalet.".($vars["website"]=="K" ? "be" : "nl")."/land/Italie/\" target=\"_blank\" rel=\"nofollow\">Wintersport in Itali&euml;</a></li>";
-	echo "</div>";
-	echo "</div>";
-	echo "</div>";
-} elseif($id=="index") {
-	echo"<div id=\"footerWrap\">";
-	//echo "<table border=\"0\" cellspacing=\"0\" class=\"IND\">";
-	//echo "<tr><td>
-	echo "<div class=\"divSepIND\">";
-	echo "<br><b>&copy; Italissima</b><br><br>";
-	echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
-	echo "</div>";
-	echo "<div class=\"wrap\">";
-	echo "<div class=\"divContentIND\">";
-	echo "<br><b>Onze bestemmingen</b><br><br>";
-	echo "<li><a href=\"".$vars["path"]."agriturismo-italie\">Agriturismi in Itali&euml;</a></li>";
-	echo"<li><a href=\"".$vars["path"]."agriturismo-toscane\">Agriturismi in Toscane</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Campanie/\">Vakantiehuizen in Campani&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Dolomieten/\">Vakantiehuizen in Dolomieten</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Lazio/\">Vakantiehuizen in Lazio</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Le_Marche/\">Vakantiehuizen in Le Marche</a></li>";
-	echo "</div>";
-	echo "<div class=\"divContentIND\">";
-	echo "<BR><BR><br><li><a href=\"".$vars["path"]."regio/Ligurie/\">Vakantiehuizen in Liguri&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Merengebied_Lombardije/\">Vakantiehuizen in Merengebied</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Piemonte/\">Vakantiehuizen in Piemonte</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Sardinie/\">Vakantiehuizen in Sardini&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Sicilie/\">Vakantiehuizen in Sicili&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Toscane/\">Vakantiehuizen in Toscane</a></li>";
-	echo "</div>";
-	echo "<div class=\"divContentIND\">";
-	echo "<BR><BR><br><li><a href=\"".$vars["path"]."regio/Umbrie/\">Vakantiehuizen in Umbri&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."regio/Veneto/\">Vakantiehuizen in Veneto</a></li>";
-	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-gardameer\">Vakantiehuizen Gardameer</a></li>";
-	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-bloemenriviera\">Vakantiehuizen Bloemenrivi&egrave;ra</a></li>";
-	echo "<li><a href=\"".$vars["path"]."vakantie-in-italie\">Vakantie in Itali&euml;</a></li>";
-	echo "<li><a href=\"http://www.chalet.".($vars["website"]=="K" ? "be" : "nl")."/land/Italie/\" target=\"_blank\">Wintersport in Itali&euml;</a></li>";
-	echo "</div>";
-	echo "</div>";
-	//echo "</td></tr>";
-	//echo "</table>";
-	echo "</div>";
+
+# Footer met links
+echo"<div id=\"footer_met_links\">";
+
+echo "<div class=\"footer_met_links_blok footer_met_links_blok_linkerkant\">";
+echo "<br><b>&copy; Italissima</b><br><br>";
+if($id<>"index") $rel_no_follow=" rel=\"nofollow\"";
+echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\"".$rel_no_follow.">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\"".$rel_no_follow.">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\"".$rel_no_follow.">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\"".$rel_no_follow.">Sitemap</a></li>";
+echo "</div>"; # afsluiten .footer_met_links_blok
+
+#echo "<div class=\"wrap\">";
+echo "<div class=\"footer_met_links_blok\">";
+echo "<br><b>Onze bestemmingen</b><br><br>";
+
+$footer_opsomming["agriturismo-italie"]="Agriturismi in Italië";
+$footer_opsomming["agriturismo-toscane"]="Agriturismi in Toscane";
+$footer_opsomming["regio/Basilicata/"]="Vakantiehuizen in Basilicata";
+$footer_opsomming["regio/Campanie/"]="Vakantiehuizen in Campanië";
+$footer_opsomming["regio/Dolomieten/"]="Vakantiehuizen in Dolomieten";
+$footer_opsomming["regio/Emilia_Romagna/"]="Vakantiehuizen in Emilia Romagna";
+$footer_opsomming["regio/Lazio/"]="Vakantiehuizen in Lazio";
+$footer_opsomming["regio/Le_Marche/"]="Vakantiehuizen in Le Marche";
+$footer_opsomming["regio/Ligurie/"]="Vakantiehuizen in Ligurië";
+$footer_opsomming["regio/Merengebied_Lombardije/"]="Vakantiehuizen in Merengebied";
+$footer_opsomming["regio/Piemonte/"]="Vakantiehuizen in Piemonte";
+$footer_opsomming["regio/Puglia/"]="Vakantiehuizen in Puglia";
+$footer_opsomming["regio/Sardinie/"]="Vakantiehuizen in Sardinië";
+$footer_opsomming["regio/Sicilie/"]="Vakantiehuizen in Sicilië";
+$footer_opsomming["regio/Toscane/"]="Vakantiehuizen in Toscane";
+$footer_opsomming["regio/Umbrie/"]="Vakantiehuizen in Umbrië";
+$footer_opsomming["regio/Veneto/"]="Vakantiehuizen in Veneto";
+$footer_opsomming["vakantiehuizen-gardameer"]="Vakantiehuizen Gardameer";
+$footer_opsomming["vakantiehuizen-bloemenriviera"]="Vakantiehuizen Bloemenrivièra";
+$footer_opsomming["vakantie-in-italie"]="Vakantie in Italië";
+$footer_opsomming["http://www.chalet.".($vars["website"]=="K" ? "be" : "nl")."/land/Italie/"]="Wintersport in Italië";
+while(list($key,$value)=each($footer_opsomming)) {
+	$footer_teller++;
+	if(preg_match("/http/",$key)) {
+		$url=wt_he($vars["path"].$key);
+	} else {
+		$url=wt_he($key)."\" target=\"_blank";
+	}
+	echo "<li><a href=\"".$key."\"".($id<>"index" ? " rel=\"nofollow\"" : "").">".wt_he($value)."</a></li>";
+	if($footer_teller%7==0) {
+		echo "</div>";
+		echo "<div class=\"footer_met_links_blok\">";
+		echo "<br/><br/><br/>";
+	}
 }
+echo "</div>"; # afsluiten .footer_met_links_blok
+echo "<div class=\"clear\"></div>";
+#echo "</div>"; # afsluiten .wrap
+echo "</div>"; # afsluiten #footer_met_links
+
 
 echo "</div>"; # afsluiten colofon_wrapper
 
@@ -718,7 +699,6 @@ echo "<div id=\"ajaxloader_page\"></div>";
 
 # Balk met cookie-melding cookiebalk
 if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {
-	echo "<p>&nbsp;</p>";
 	echo "<div class=\"clear\"></div>";
 	echo "<div id=\"cookie_bottombar\" class=\"noprint\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
 }

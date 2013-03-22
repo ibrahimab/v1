@@ -997,19 +997,6 @@ form {
 	border-top-color:#003366;
 }
 
-.noIND {
-	width:100%;
-}
-
-.noIND td {
-	width:200px;
-	border:0px;
-	border-color:black;
-	border-style: solid;
-	text-align:center;
-	top:0px;
-}
-
 .IND {
 	width:100%;
 }
@@ -1070,11 +1057,6 @@ form {
 .divContentIND a:hover {
 	text-decoration:underline;
 }
-
-.padnoIND {
-	padding-left:10px;
-}
-
 
 /* wie zijn wij */
 #body_wie-zijn-wij b {

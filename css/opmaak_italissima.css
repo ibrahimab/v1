@@ -924,40 +924,20 @@ form {
 	color: #661700;
 }
 
-#footerWrap{
-	width:100%;
-	background-color:#FFFFFF;
-	font-size:11px;
-	color:#661700;
+#footer_met_links {
+	width: 100%;
+	font-size: 11px;
+	color: #661700;
+	background-color: #f3f3f3;
 }
 
-#footerWrap table{
-	border-top-color:#661700;
+.footer_met_links_blok {
+	float: left;
+	padding-left: 35px;
+	padding-bottom: 20px;
 }
 
-.noIND{
-	width:100%;
-}
-.noIND td{
-	width:200px;
-	border:0px;
-	border-color:black;
-	border-style: solid;
-	text-align:center;
-	top:0px;
-}
-.IND{
-	width:100%;
-}
-.divSepIND{
-	float:left;
-	padding-left:10px;
-	height:200px;;
-	width:198px;
-	background-color:#e0d1cc;
-}
-
-.divSepIND li{
+.footer_met_links_blok li {
 	background-image: url(../pic/li_img_italissima_footer.png);
 	background-position: 0px 3px;
   	background-repeat: no-repeat;
@@ -965,57 +945,19 @@ form {
   	list-style: none;
 }
 
-.divSepIND a{
+.footer_met_links_blok_linkerkant {
+	padding-left: 25px;
+	height: 200px;
+	width: 198px;
+	background-color: #e0d1cc;
+}
+
+.footer_met_links_blok a {
 	text-decoration:none;
 }
-
-
-.divSepIND a:hover{
+.footer_met_links_blok a:hover{
 	text-decoration:underline;
 }
-.divSepIND{
-	float:left;
-	padding-left:20px;
-	height:200px;;
-	width:190px;
-	background-color:#e0d1cc;
-}
-
-.wrap{
-	float:left;
-	position:relative;
-	left:25px;
-	width:650px;
-	border:0px;
-	border-color:black;
-	border-style: solid;
-}
-
-.divContentIND li{
-	background-image: url(../pic/li_img_italissima_footer.png);
-	background-position: 0px 3px;
-  	background-repeat: no-repeat;
-  	padding-left: 10px;
-  	list-style: none;
-}
-
-.divContentIND{
-	float:left;
-	padding-left:15px;
-}
-
-.divContentIND a{
-	text-decoration:none;
-}
-.divContentIND a:hover{
-	text-decoration:underline;
-}
-
-.padnoIND{
-	padding-left:10px;
-}
-
-
 
 .opvalblok {
 	background-color: #ff9900;
