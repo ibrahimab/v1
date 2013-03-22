@@ -91,7 +91,6 @@ if($_POST["filled"]) {
 			while(list($key,$value)=@each($savequery)) {
 				# Opslaan in tabel korting_tarief
 				$db->query("INSERT INTO korting_tarief SET korting_id='".addslashes($kid)."', week='".$key."', opgeslagen=NOW()".$value.";");
-	#			echo $db->lastquery."<br>";
 			}
 		} else {
 			trigger_error("var kid is leeg bij opslaan korting",E_USER_NOTICE);
@@ -177,7 +176,21 @@ if($_POST["filled"]) {
 		}
 	}
 
-#exit;
+	# Volgorde van kortingen: zorgen voor stappen van 10
+	$volgorde=0;
+	$db->query("SELECT korting_id, gekoppeld_code FROM korting WHERE actief=1 AND xml_korting=0 AND volgorde IS NOT NULL AND volgorde>0 ORDER BY volgorde, adddatetime;");
+	while($db->next_record()) {
+		if($db->f("gekoppeld_code")>0) {
+			if(!$gekoppeld_code_gehad[$db->f("gekoppeld_code")]) {
+				$volgorde+=10;
+				$db2->query("UPDATE korting SET volgorde='".intval($volgorde)."' WHERE gekoppeld_code='".$db->f("gekoppeld_code")."';");
+				$gekoppeld_code_gehad[$db->f("gekoppeld_code")]=true;
+			}
+		} else {
+			$volgorde+=10;
+			$db2->query("UPDATE korting SET volgorde='".intval($volgorde)."' WHERE korting_id='".$db->f("korting_id")."';");
+		}
+	}
 
 	if($vars["bezoeker_is_jeroen"]) {
 #		exit;
