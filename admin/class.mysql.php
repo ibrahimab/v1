@@ -189,7 +189,7 @@ class DB_Sql {
 
 		if($this->log_slow_queries) {
 			$query_time=time()-$this->log_slow_queries_start;
-			if($query_time>=2) {
+			if($query_time>=3) {
 				file_put_contents($this->log_slow_queries,date("r")." - ".$query_time." seconds - ".$Query_String."\n",FILE_APPEND);
 			}
 		}
