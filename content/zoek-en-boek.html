@@ -722,13 +722,18 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 		$flex_aankomstdatum=mktime(0,0,0,$_GET["fadf_m"],$_GET["fadf_d"],$_GET["fadf_y"]);
 
 		// bij geen verblijfsduur: uitgaan van verblijfsduur van 1 week
-		if(!$_GET["fdu"]) $_GET["fdu"]=1;
+		if($_GET["fdu"]) {
+			$gekozen["fdu"]=$_GET["fdu"];
+		} else {
+			$gekozen["fdu"]=1;
+		}
 
-		if(preg_match("/([0-9]+)n/",$_GET["fdu"],$regs)) {
+		if(preg_match("/([0-9]+)n/",$gekozen["fdu"],$regs)) {
 			$aantalnachten=$regs[1];
 		} else {
-			$aantalnachten=$_GET["fdu"]*7;
+			$aantalnachten=$gekozen["fdu"]*7;
 		}
+
 		# aankomstdatum in het verleden: geen resultaten tonen
 		if($flex_aankomstdatum and $flex_aankomstdatum<time()) $flex_aankomstdatum=mktime(0,0,0,1,1,1999);
 
@@ -745,7 +750,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 		# Aankomstdatum een zaterdag en verblijfsduur in weken: dan omzetten naar ouderwetse systeem
 		if(date("w",$flex_aankomstdatum)==6 and fmod($aantalnachten,7)==0) {
 			$_GET["fad"]=$flex_aankomstdatum;
-			$_GET["fdu"]=floor($aantalnachten/7);
+			$gekozen["fdu"]=floor($aantalnachten/7);
 			unset($flex_aankomstdatum);
 		}
 	}
@@ -809,11 +814,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 			}
 		}
 
-		if($_GET["fdu"]>1) {
+		if($gekozen["fdu"]>1) {
 			# Verblijfsduur van meerdere weken: beschikbare accommodaties opvragen
 			$verblijfsduur_meerdere_weken=true;
 			unset($weekinquery);
-			for($i=0;$i<$_GET["fdu"];$i++) {
+			for($i=0;$i<$gekozen["fdu"];$i++) {
 				$unixtime=mktime(0,0,0,date("m",$_GET["fad"]),date("d",$_GET["fad"])+(7*$i),date("Y",$_GET["fad"]));
 				addwhere("t.type_id IN (SELECT DISTINCT type_id FROM tarief WHERE beschikbaar=1 AND week='".$unixtime."' AND (bruto>0 OR c_bruto>0 OR arrangementsprijs>0))");
 				$weekinquery.=",".$unixtime;
@@ -936,7 +941,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 			while($db->next_record()) {
 				$vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
 			}
-		} elseif($vars["seizoentype"]==2 and !$_GET["fdu"] or $_GET["fdu"]==1) {
+		} elseif($vars["seizoentype"]==2 and (!$gekozen["fdu"] or $gekozen["fdu"]==1)) {
 			#
 			# Vanaf-prijzen zomer uit database halen (alleen bij geen verblijfsduur, of verblijfsduur van 1 week)
 			#
@@ -2018,14 +2023,14 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 							if($value2["tarief"]) {
 								unset($zoekresultaat_prijs_periode);
 								$zoekresultaat_prijs_periode.="<div class=\"zoekresultaat_prijs_periode\">";
-								if(preg_match("/^([0-9]+)n$/",$_GET["fdu"],$regs)) {
+								if(preg_match("/^([0-9]+)n$/",$gekozen["fdu"],$regs)) {
 									if($regs[1]==1) {
 										$zoekresultaat_prijs_periode.="1 ".html("nacht","vars");
 									} else {
 										$zoekresultaat_prijs_periode.=intval($regs[1])." ".html("nachten","vars");
 									}
-								} elseif($_GET["fdu"]>1) {
-									$zoekresultaat_prijs_periode.=$_GET["fdu"]." ".html("weken","vars");
+								} elseif($gekozen["fdu"]>1) {
+									$zoekresultaat_prijs_periode.=$gekozen["fdu"]." ".html("weken","vars");
 								} else {
 									$zoekresultaat_prijs_periode.="1 ".html("week","vars");
 								}
@@ -2842,23 +2847,28 @@ if($vars["websitetype"]==1) {
 }
 
 if($vars["zoeken_op_kaart"]) {
+	#
 	# "Aantal gevonden resultaten" tonen
+	#
 	if($aantalresultaten_zonder_gekoppeld_skigebied<count($results)) {
 		$toon_aantalresultaten=$aantalresultaten_zonder_gekoppeld_skigebied;
 	} else {
 		$toon_aantalresultaten=count($results);
 	}
+	echo "<div class=\"zoekresultaten_aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">";
+	echo html("gevondenaccommodaties".($toon_aantalresultaten_verschillende_types==1 ? "_1" : ""),"zoek-en-boek",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"h_1"=>"<strong>","h_2"=>"</strong>"));
+	echo "</div>";
+
+
 	if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 		if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and !$_GET["filled"]) {
-#				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten/$totaal_tarievenbekend_seizoen_id)*100);
+			# Toon thema "tarieven nieuwe seizoen al bekend"
 			$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
 			if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
 			echo "<div class=\"zoekresultaten_aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
 			if($_GET["save_tarievenbekend"]) {
 				file_put_contents($unixdir."tmp/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
 			}
-		} else {
-			echo "<div class=\"zoekresultaten_aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
 		}
 	} else {
 		if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and @filemtime($unixdir."tmp/tarievenbekend_".$vars["website"].".txt")>(time()-86400) and !$_GET["filled"]) {
@@ -2871,7 +2881,6 @@ if($vars["zoeken_op_kaart"]) {
 				echo html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$a[0],"v_percentage"=>$a[1]."%"))."<br><br>";
 			}
 		}
-		echo "<div class=\"zoekresultaten_aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
 	}
 }
 

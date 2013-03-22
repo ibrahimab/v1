@@ -1167,7 +1167,20 @@ $(document).ready(function() {
 				}
 
 				$(this).attr("href",nieuwe_url);
-				return true;
+
+				// klik doorgeven aan Analytics
+				if($(this).attr('class')=="zoekresultaat") {
+					zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via accommodatie-blok");
+				} else if($(this).attr('class')=="zoekresultaat_type") {
+					zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via type-regel onder accommodatie-blok");
+				}
+
+				setTimeout(function() {
+					// heel even wachten zodat Analytics kan laden
+					document.location.href = nieuwe_url;
+				},100);
+
+				return false;
 			});
 
 			// naar de juiste positie scrollen
@@ -1500,8 +1513,16 @@ $(document).ready(function() {
 
 			var bound=new google.maps.LatLngBounds(new google.maps.LatLng(googlemaps_lat_min,googlemaps_long_min),new google.maps.LatLng(googlemaps_lat_max,googlemaps_long_max));
 			var zoomlevel=ZoomlevelBepalen.getMinimumZoomLevelContainingBounds(bound,670,380);
+			var center = new google.maps.LatLng(googlemaps_lat,googlemaps_long);
 
 			if(zoomlevel>10) zoomlevel=10;
+
+			// if(chalet_getCookie("maps_zoom")) {
+			// 	zoomlevel=chalet_getCookie("maps_zoom");
+			// }
+
+			// chalet_createCookie("maps_zoom",map.getZoom());
+			// chalet_createCookie("maps_center",map.getCenter());
 
 			var myOptions = {
 				zoom: zoomlevel,
@@ -1513,7 +1534,7 @@ $(document).ready(function() {
 				mapTypeControl: true,
 				zoomControl: true,
 				scrollwheel: false,
-				center: new google.maps.LatLng(googlemaps_lat,googlemaps_long)
+				center: center
 			};
 			map = new google.maps.Map(document.getElementById("zoekresultaten_zoeken_op_kaart_map_canvas"), myOptions);
 
@@ -1602,14 +1623,27 @@ var ZoomlevelBepalen = new function() {
 
 function gmaps_click(e) {
 	// klikken op accommodatie bij zoeken op kaart
+	show_ajaxloader(true);
+
 	var back_url=location.href;
 	back_url=updateURLParameter(back_url,"scrolly",$(window).scrollTop());
 	back_url=updateURLParameter(back_url,"map",1);
 	var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
 	$(e).attr("href",nieuwe_url);
 
-//	alert($(e).attr("href"));
-	return true;
+	// huidige Google Maps-zoom en -center opslaan
+	chalet_createCookie("maps_zoom",map.getZoom());
+	chalet_createCookie("maps_center",map.getCenter());
+
+	// klik doorgeven aan Analytics
+	zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via kaart");
+
+	setTimeout(function() {
+		// heel even wachten zodat Analytics kan laden
+		document.location.href = nieuwe_url;
+	},100);
+
+	return false;
 }
 
 function chalet_createCookie(name,value,days) {

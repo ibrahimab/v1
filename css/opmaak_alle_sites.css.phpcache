@@ -1097,6 +1097,7 @@ td.selecteerbaarbedrag:hover{
 	width: 470px;
 	background-color: #ffffff;
 	margin-left: 195px;
+	font-size: 1.2em;
 }
 
 .zoekresultaten_zoeken_op_kaart {

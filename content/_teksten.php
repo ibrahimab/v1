@@ -1204,6 +1204,19 @@ $txt["en"]["zoek-en-boek"]["openhaardhoutkachel"]="fire place/wood stove";
 $txt["nl"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] of meer";
 $txt["en"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] or more";
 
+$txt["nl"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] gevonden accommodaties";
+$txt["en"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] accommodations found";
+
+$txt["nl"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] gevonden accommodatie";
+$txt["en"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] accommodation found";
+
+$txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] gevonden vakantiehuizen";
+$txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] holiday homes found";
+
+$txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] gevonden vakantiehuis";
+$txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] holiday home found";
+
+
 # zoek-en-boek: zoeken op kaart
 $txt["nl"]["zoek-en-boek"]["bekijkopkaart"]="Bekijk alle resultaten op een kaart";
 $txt["en"]["zoek-en-boek"]["bekijkopkaart"]="View all results on a map";
