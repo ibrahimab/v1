@@ -29,21 +29,22 @@ if($_GET["t"]==4) {
 
 if($_GET["show"]==14) {
 
-	unset($link);
-	echo "<p><hr><h2>Aanbieding tonen bij zoekformulier</h2>";
-	$db->query("SELECT onlinenaam, omschrijving FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
-	if($db->next_record() and $db->f("onlinenaam")) {
-		if($_GET["wzt"]==2) {
-			$link="http://www.zomerhuisje.nl/zoek-en-boek.php?abid=".$_GET["14k0"];
-		} else {
-			$link="http://www.chalet.nl/zoek-en-boek.php?abid=".$_GET["14k0"];
-		}
-	}
-	if($link) {
-		echo "Link: <a href=\"".htmlentities($link)."\" target=\"_blank\">".htmlentities($link)."</a><br>";
-	} else {
-		echo "<i>Aanbieding tonen bij zoekformulier is alleen mogelijk als deze een naam heeft.</i><br>";
-	}
+	// unset($link);
+	// echo "<p><hr><h2>Aanbieding tonen bij zoekformulier</h2>";
+	// $db->query("SELECT onlinenaam, omschrijving FROM aanbieding WHERE aanbieding_id='".addslashes($_GET["14k0"])."';");
+	// if($db->next_record() and $db->f("onlinenaam")) {
+	// 	if($_GET["wzt"]==2) {
+	// 		$link="http://www.zomerhuisje.nl/zoek-en-boek.php?abid=".$_GET["14k0"];
+	// 	} else {
+	// 		$link="http://www.chalet.nl/zoek-en-boek.php?abid=".$_GET["14k0"];
+	// 	}
+	// }
+	// if($link) {
+	// 	echo "Link: <a href=\"".htmlentities($link)."\" target=\"_blank\">".htmlentities($link)."</a><br>";
+	// } else {
+	// 	echo "<i>Aanbieding tonen bij zoekformulier is alleen mogelijk als deze een naam heeft.</i><br>";
+	// }
+
 
 #	$db->query("SELECT a.bedrag_soort, s.naam AS seizoen FROM aanbieding a, seizoen s WHERE s.seizoen_id=a.seizoen_id AND a.aanbieding_id='".addslashes($_GET["14k0"])."';");
 	$db->query("SELECT a.bedrag_soort, a.wzt FROM aanbieding a WHERE a.aanbieding_id='".addslashes($_GET["14k0"])."';");

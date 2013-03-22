@@ -657,6 +657,11 @@ form {
 	color: #5f227b;
 }
 
+.zoekresultaten_zoeken_op_kaart {
+	background-color: #5f227b;
+	color: #ffffff;
+}
+
 .zoekresultaten_zoeken_op_kaart_map {
 	border-color: #cfbcd8;
 }

@@ -1093,6 +1093,12 @@ td.selecteerbaarbedrag:hover{
 	color: #003366;
 }
 
+#zoekblok .zoekresultaten_aantalgevonden {
+	width: 470px;
+	background-color: #ffffff;
+	margin-left: 195px;
+}
+
 .zoekresultaten_zoeken_op_kaart {
 	cursor: pointer;
 	background-image: url('../pic/icon_zoeken_op_kaart.png?c=4');
@@ -1100,6 +1106,7 @@ td.selecteerbaarbedrag:hover{
 	background-position: 5px 3px;
 	padding-left: 35px;
 	width: 650px;
+	margin-top: 20px;
 }
 
 .zoekresultaten_zoeken_op_kaart:hover {

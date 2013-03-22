@@ -824,6 +824,10 @@ form {
 	color: #661700;
 }
 
+.zoekresultaten_zoeken_op_kaart {
+	background-color: #ff9900;
+}
+
 .zoekresultaten_zoeken_op_kaart_map {
 	border-color: #ffd38f;
 }
