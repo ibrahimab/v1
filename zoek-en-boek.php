@@ -22,8 +22,8 @@ if($_GET["referer"] and !preg_match("/scrolly/",$_SERVER["REQUEST_URI"]) and !pr
 #$robot_nofollow=true;
 #$vars["verberg_linkerkolom"]=true;
 
-# Google Maps
-if(($vars["websitetype"]==3 or $vars["websitetype"]==7) and ($vars["lokale_testserver"] or $_GET["testsysteem"])) {
+# Google Maps: zoeken op kaart
+if($vars["websitetype"]==3 or $vars["websitetype"]==7) {
 	$vars["googlemaps"]=true;
 	$vars["zoeken_op_kaart"]=true;
 }
@@ -89,12 +89,17 @@ if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or str
 					$json_save[$value]=utf8_encode($_GET[$value]);
 				}
 			}
-			if($json_save) {
-				$last_zoekopdracht=trim(json_encode($json_save));
-				if($last_zoekopdracht=="null") {
-					trigger_error("_notice: zoekopdracht='null'",E_USER_NOTICE);
-				} else {
-					$db->query("UPDATE bezoeker SET last_zoekopdracht='".addslashes($last_zoekopdracht)."', last_zoekopdracht_datetime=NOW(), gewijzigd=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["tch"])."';");
+			if(isset($_GET["scrolly"]) and count($_GET)==1) {
+				# Er is geklikt op "alles wissen": eerdere zoekopdracht uit database verwijderen
+				$db->query("UPDATE bezoeker SET last_zoekopdracht=NULL, last_zoekopdracht_datetime=NULL, gewijzigd=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["tch"])."';");
+			} else {
+				if($json_save) {
+					$last_zoekopdracht=trim(json_encode($json_save));
+					if($last_zoekopdracht=="null") {
+						trigger_error("_notice: zoekopdracht='null'",E_USER_NOTICE);
+					} else {
+						$db->query("UPDATE bezoeker SET last_zoekopdracht='".addslashes($last_zoekopdracht)."', last_zoekopdracht_datetime=NOW(), gewijzigd=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["tch"])."';");
+					}
 				}
 			}
 		}

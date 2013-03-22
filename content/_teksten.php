@@ -1204,16 +1204,16 @@ $txt["en"]["zoek-en-boek"]["openhaardhoutkachel"]="fire place/wood stove";
 $txt["nl"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] of meer";
 $txt["en"]["zoek-en-boek"]["aantalpersonenofmeer"]="[[v_aantalpersonen]] or more";
 
-$txt["nl"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] gevonden accommodaties";
+$txt["nl"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] accommodaties gevonden";
 $txt["en"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] accommodations found";
 
-$txt["nl"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] gevonden accommodatie";
+$txt["nl"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] accommodatie gevonden";
 $txt["en"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] accommodation found";
 
-$txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] gevonden vakantiehuizen";
+$txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] vakantiehuizen gevonden";
 $txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]] holiday homes found";
 
-$txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] gevonden vakantiehuis";
+$txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] vakantiehuis gevonden";
 $txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] holiday home found";
 
 
