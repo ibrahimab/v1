@@ -1,6 +1,6 @@
 
 // Hides the tabs + zoekblok during initialization
-document.write('<style type="text/css">	#tabs { visibility: hidden; } #body_zoek-en-boek #zoekblok { visibility: hidden; } </style>');
+document.write('<style type="text/css">	#tabs { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>');
 
 // detecteer een mobiel apparaat (tablet of smartphone)
 function detect_mobile() {
@@ -971,6 +971,19 @@ $(document).ready(function() {
 		// zoekformulier
 		if($("#zoekblok").length!==0) {
 
+			$("#verfijn .alle_selecties_wissen").hover(
+				function () {
+					$(".keuzeopsomming").addClass("keuzeopsomming_tijdelijk_leeg");
+					console.log('in');
+				},
+				function () {
+					$(".keuzeopsomming").removeClass("keuzeopsomming_tijdelijk_leeg");
+					console.log('uit');
+				}
+			);
+
+
+			// bij focus op tekstzoeken:
 			$("#zoekblok input[name=fzt]").focus(function() {
 				if($("#zoekblok input[name=fzt]").val()!=$("#zoekblok input[name=fzt]").data("placeholder")) {
 					zoekblok_tekst=$("#zoekblok input[name=fzt]").val();
@@ -1005,6 +1018,12 @@ $(document).ready(function() {
 			});
 
 			if(detect_mobile()) {
+
+
+				// extra ruimte bij verfijnblok voor touch-devices
+				$("#verfijn .keuzeopsomming").addClass("keuzeopsomming_touchdevices");
+
+
 				//
 				// Chosen voor mobiele apparaten
 				//
@@ -1031,6 +1050,7 @@ $(document).ready(function() {
 				}
 
 			} else {
+
 				//
 				// Chosen voor desktop-bezoekers
 				//
@@ -1790,14 +1810,15 @@ $(document).ready(function() {
 	if(gebruik_jquery===true) {
 
 		// zoekblok pas tonen als alles klaar is
-		$("#zoekblok").css("visibility","visible");
+		$("#zoekblok, #verfijn").css("visibility","visible");
 
 		// indien _GET["selb"]==1 : bestemming-pulldown openklappen
 		if(location.href.indexOf("&selb=1") > -1 && $("div.datadiv").data("referer_zoekenboek")!="0") {
 			$('#zoekblok_field_bestemming').trigger('liszt:open');
 		}
 
-		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek" && $("div.zoekblok_zoek_alleen_aanbiedingen").length==0) {
+//		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek" && $("div.zoekblok_zoek_alleen_aanbiedingen").length==0) {
+		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek") {
 
 			//
 			// zoekopdracht naar Google Analytics sturen
@@ -1813,6 +1834,16 @@ $(document).ready(function() {
 			var analytics_verfijnen='';
 			var analytics_verfijnen_item='';
 			var analytics_url='';
+
+			// Zoek alleen naar aanbiedingen
+			if($("input[name=faab]").length!==0) {
+				if($("input[name=faab]").is(":checked")) {
+					analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Zoek alleen naar aanbiedingen";
+					zoekopdracht_naar_analytics_sturen("zoek alleen naar aanbiedingen","ja");
+				} else {
+					zoekopdracht_naar_analytics_sturen("zoek alleen naar aanbiedingen","nee");
+				}
+			}
 
 			// bestemming
 			if($("div.zoekblok_bestemming_actief_item").length!==0) {

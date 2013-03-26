@@ -534,17 +534,113 @@ td.selecteerbaarbedrag:hover{
 	color: <?php echo $rood; ?>;
 }
 
+
+/*verfijnblok*/
 #verfijn {
+	background-color: #eaf0fc;
+	border: 1px solid #003366;
+	text-align: left;
+}
+
+#verfijn .keuzes_kopjes {
+	margin-top: 15px;
+	margin-bottom: 5px;
+	font-size: 12.2833px;
+	padding-bottom: 2px;
+
+	font-weight: bold;
+	color: #ffffff;
+	background-color: #003366;
+	text-align: left;
+	padding-left: 10px;
+}
+
+#verfijn .keuzes {
 
 }
 
-.verfijnheader {
-	color: <?php echo $rood; ?>;
+#verfijn .keuzeopsomming {
+	background-image: url('../pic/checkbox_no.png');
+	background-repeat: no-repeat;
+	background-position: left 0px;
+	padding-left: 18px;
+	margin-left: 3px;
+	margin-bottom: 8px;
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
 }
 
-#verfijntopheader {
-	color: <?php echo $rood; ?>;
+#verfijn .keuzeopsomming:hover {
+	background-image: url('../pic/checkbox_yes.png');
+	color: #000000;
 }
+
+
+#verfijn .keuzeopsomming_touchdevices {
+	background-position: left 4px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+#verfijn .keuzeopsomming_actief {
+	background-image: url('../pic/checkbox_yes.png');
+	font-weight: bold;
+}
+
+#verfijn .keuzeopsomming_actief:hover {
+	background-image: url('../pic/checkbox_no.png');
+}
+
+#verfijn .keuzeopsomming_leeg {
+	cursor: default;
+	color: #777777;
+}
+
+#verfijn .keuzeopsomming_leeg:hover {
+	background-image: url('../pic/checkbox_no.png');
+	color: #777777;
+}
+
+#verfijn .keuzeopsomming_tijdelijk_leeg {
+	background-image: url('../pic/checkbox_no.png');
+}
+
+#verfijn .keuzeopsomming_geen_combinatie {
+	color: #777777;
+}
+
+#verfijn .aantal {
+	color: #777777;
+	font-size: 0.9em;
+	font-weight: normal;
+}
+
+#verfijn #verfijntopheader {
+	font-weight: normal;
+	color: #003366;
+	margin-top: 6px;
+	margin-bottom: -4px;
+	text-align: center;
+}
+
+#verfijn .alle_selecties_wissen {
+	display: block;
+	font-size: 1.0em;
+	text-align: center;
+	border-top: 1px solid #003366;
+	text-decoration: underline;
+	margin-bottom: -10px;
+	margin-top: 10px;
+	padding-top: 4px;
+}
+
+#verfijn .alle_selecties_wissen:hover {
+	cursor: pointer;
+	color: #000000 !important;
+}
+
+
 
 .opvallendeopmerking {
 	font-style: italic;

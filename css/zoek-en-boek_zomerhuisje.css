@@ -1,37 +1,25 @@
 
-#linkerbalk_overlay {
-	top: 273px;
-}
-
+/*verfijnblok*/
 #verfijn {
-	padding-top: 5px;
-	text-align: left;
 	border: 2px solid #5f227b;
 	background-color: #ffffff;
 	width: 235px;
 }
 
-.keuzes {
-	font-size: 0.8em;
-	line-height: 200%;
-	padding-top: 0px;
+#verfijn .keuzes_kopjes {
+	background-color: #5f227b;
 }
 
-.keuzes a:hover {
-	color: #cbd328;
-}
-
-#verfijntopheader {
-	text-align: left;
+#verfijn #verfijntopheader {
 	color: #5f227b;
-	font-weight: bold;
-	padding-left: 10px;
 }
 
-.verfijnheader {
-	text-align: left;
-	margin-top: 10px;
-	margin-bottom: 3px;
+#verfijn .alle_selecties_wissen {
+	border-top-color: #5f227b;
+}
+
+#linkerbalk_overlay {
+	top: 273px;
 }
 
 #bloklinks {
@@ -55,35 +43,6 @@
 	background-color: #5f227b;
 	height: 1px;
 	border: 0px;
-}
-
-.keuzes_kopjes {
-	font-weight: bold;
-	margin-top: 10px;
-	color: #ffffff;
-	background-color: #5f227b;
-	text-align: left;
-	padding-left: 10px;
-	font-size: 1.1em;
-}
-
-.actieveselectie {
-	color: #5f227b;
-	font-weight: bold;
-	padding-left: 10px;
-}
-
-.actieveselectie a {
-	font-weight: normal;
-}
-
-.keuzeopsomming {
-	padding-left: 10px;
-}
-
-.keuzeopsomming_leeg {
-	padding-left: 10px;
-	color: #878481;
 }
 
 #laatstbekeken {

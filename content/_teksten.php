@@ -928,6 +928,9 @@ $txt["en"]["zoek-en-boek"]["alleswissen"]="delete all";
 $txt["nl"]["zoek-en-boek"]["verfijnzoekopdracht"]="Verfijn je zoekopdracht";
 $txt["en"]["zoek-en-boek"]["verfijnzoekopdracht"]="Refine your search";
 
+$txt["nl"]["zoek-en-boek"]["alleselectieswissen"]="alle selecties wissen";
+$txt["en"]["zoek-en-boek"]["alleselectieswissen"]="delete all selections";
+
 $txt["nl"]["zoek-en-boek"]["wis"]="wis";
 $txt["en"]["zoek-en-boek"]["wis"]="delete";
 

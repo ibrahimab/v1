@@ -1,35 +1,24 @@
 
+/*verfijnblok*/
 #verfijn {
-	padding-top: 5px;
-	text-align: left;
 	border: 2px solid #ff9900;
 	background-color: #e0d1cc;
 	width: 235px;
 	margin-left: -23px;
 }
 
-.keuzes {
-	font-size: 0.8em;
-	line-height: 150%;
-	padding-top: 0px;
+#verfijn .keuzes_kopjes {
+	background-color: #ff9900;
 }
 
-.keuzes a:hover {
-	color: #ffffff;
-}
-
-#verfijntopheader {
-	text-align: left;
+#verfijn #verfijntopheader {
 	color: #661700;
-	font-weight: bold;
-	padding-left: 10px;
 }
 
-.verfijnheader {
-	text-align: left;
-	margin-top: 10px;
-	margin-bottom: 3px;
+#verfijn .alle_selecties_wissen {
+	border-top-color: #ff9900;
 }
+
 
 #bloklinks {
 	width: 240px;
@@ -61,35 +50,6 @@
 	background-color: #ffd38f;
 	height: 1px;
 	border: 0px;
-}
-
-.keuzes_kopjes {
-	font-weight: bold;
-	margin-top: 10px;
-	color: #661700;
-	background-color: #ff9900;
-	text-align: left;
-	padding-left: 10px;
-	font-size: 1.1em;
-}
-
-.actieveselectie {
-	color: #661700;
-	font-weight: bold;
-	padding-left: 10px;
-}
-
-.actieveselectie a {
-	font-weight: normal;
-}
-
-.keuzeopsomming {
-	padding-left: 10px;
-}
-
-.keuzeopsomming_leeg {
-	padding-left: 10px;
-	color: #777777;	
 }
 
 #laatstbekeken {

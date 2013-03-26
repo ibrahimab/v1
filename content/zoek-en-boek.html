@@ -44,7 +44,7 @@ if($vars["websitetype"]==7) {
 }
 
 # Bepalen of dit een nieuwe zoekopdracht is, of dat de zoekopdracht in deze sessie al eens eerder is uitgevoerd
-$te_controleren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fzt","fdu");
+$te_controleren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fzt","fdu","faab");
 $nieuwe_zoekopdracht=1;
 if(is_array($_GET)) {
 	reset($_GET);
@@ -3174,21 +3174,21 @@ if($vars["verfijnen_aanbieden"]) {
 					if($combinatiesmogelijk or !$_GET[$getname.$getnumber]) {
 						if($_GET[$getname.$getnumber]==$getvalue) {
 							$qs=wt_stripget($_GET,array("page",$getname.$getnumber));
-							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\">".html("wis","zoek-en-boek")."</a></div>";
+							$keuzes.="<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\" class=\"keuzeopsomming keuzeopsomming_actief\" rel=\"nofollow\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(".$verfijnd[$verfijndname][$value].")</span></a>";
 						} elseif($verfijnd[$verfijndname][$value]>0) {
 							$request_uri=$_SERVER["REQUEST_URI"];
 							$request_uri=preg_replace("/page=[0-9]+&/","",$request_uri);
-							$keuzes.="<div class=\"keuzeopsomming\"><a href=\"".wt_he($request_uri).(preg_match("/\?/",$request_uri) ? "&" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&fzt=&").$getname.$getnumber."=".$getvalue.($vars["aanbiedingenpagina_voor_de_eerste_keer_geopend"] ? "&faab=1" : "")."\">".html($key,"zoek-en-boek")."</a> (".$verfijnd[$verfijndname][$value].")</div>";
+							$keuzes.="<a href=\"".wt_he($request_uri).(preg_match("/\?/",$request_uri) ? "&" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&fzt=&").$getname.$getnumber."=".$getvalue.($vars["aanbiedingenpagina_voor_de_eerste_keer_geopend"] ? "&faab=1" : "")."\" class=\"keuzeopsomming\" rel=\"nofollow\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(".$verfijnd[$verfijndname][$value].")</span></a>";
 						} else {
-							$keuzes.="<div class=\"keuzeopsomming_leeg\">".html($key,"zoek-en-boek")."</a> (0)</div>";
+							$keuzes.="<div class=\"keuzeopsomming keuzeopsomming_leeg\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(0)</span></div>";
 						}
 					} else {
 						if($_GET[$getname.$getnumber]==$getvalue) {
-#							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".wt_he($urlself."?".wt_stripget($_GET,array("page",$getname.$getnumber)))."\">".html("wis","zoek-en-boek")."</a></div>";
 							$qs=wt_stripget($_GET,array("page",$getname.$getnumber));
-							$keuzes.="<div class=\"actieveselectie\">".html($key,"zoek-en-boek")."&nbsp;&nbsp;<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\">".html("wis","zoek-en-boek")."</a></div>";
+							$keuzes.="<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\" class=\"keuzeopsomming keuzeopsomming_actief\" rel=\"nofollow\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(".$verfijnd[$verfijndname][$value].")</span></a>";
 						} else {
-							$keuzes.="<div class=\"keuzeopsomming_leeg\">".html($key,"zoek-en-boek")."</a></div>";
+							$url=preg_replace("/".$getname.$getnumber."=[0-9]+/",$getname.$getnumber."=".$getvalue,$_SERVER["REQUEST_URI"]);
+							$keuzes.="<a href=\"".wt_he($url)."\" class=\"keuzeopsomming keuzeopsomming_geen_combinatie\" rel=\"nofollow\">".html($key,"zoek-en-boek")."</a>";
 						}
 					}
 				}
@@ -3202,7 +3202,28 @@ if($vars["verfijnen_aanbieden"]) {
 			while(list($key2,$value2)=each($keuzeopsomming)) {
 				keuzeopsomming($value2["combinatiesmogelijk"],$value2["name"],$value2["verfijndname"],$value2["getname"],$value2["fields"]);
 			}
+
 			$lhtml.="</div>";
+
+			#
+			# alle selecties wissen-link
+			#
+			# qs bepalen
+			unset($qs);
+			if(is_array($_GET)) {
+				reset($_GET);
+				while(list($key,$value)=each($_GET)) {
+					if($value and !preg_match("/^vf_/",$key) and $key<>"page" and $key<>"sort" and $key<>"scrolly" and $key<>"map" and $key<>"sp") {
+						$qs.="&".$key."=".urlencode($value);
+					}
+				}
+				if($qs) {
+					$qs=substr($qs,1);
+				}
+				if($qs=="filled=1") unset($qs);
+			}
+			$lhtml.="<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\" class=\"alle_selecties_wissen\">".html("alleselectieswissen","zoek-en-boek")."</a>";
+
 		}
 		$lhtml.="<div style=\"\">&nbsp;</div>";
 		$lhtml.="<div class=\"bloklinks_blauwelijn\"></div>";
@@ -3210,11 +3231,11 @@ if($vars["verfijnen_aanbieden"]) {
 
 		# zoover-awards 2013
 		if($vars["website"]=="C") {
-			$lhtml.="<div style=\"margin-top:20px;\"><a href=\"http://onderzoek.q-and-a.nl/zoover?&C1=25&Qpunch=343\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/zoover-awards2013-smal.png\" border=\"0\" class=\"img_hover_opacity\"></a></div>";
+			$lhtml.="<div style=\"margin-top:20px;margin-left:-6px;\"><a href=\"http://onderzoek.q-and-a.nl/zoover?&C1=25&Qpunch=343\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/zoover-awards2013-smal.png\" border=\"0\" class=\"img_hover_opacity\"></a></div>";
 		}
 		# zoover-awards 2013
 		if($vars["website"]=="Z") {
-			$lhtml.="<div style=\"margin-top:20px;margin-left: 33px;\"><a href=\"http://onderzoek.q-and-a.nl/zoover?&C1=19&Qpunch=265\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/zoover-awards2013-zomerhuisje-smal.png\" border=\"0\" class=\"img_hover_opacity\"></a></div>";
+			$lhtml.="<div style=\"margin-top:20px;margin-left:33px;\"><a href=\"http://onderzoek.q-and-a.nl/zoover?&C1=19&Qpunch=265\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/zoover-awards2013-zomerhuisje-smal.png\" border=\"0\" class=\"img_hover_opacity\"></a></div>";
 		}
 
 	} else {
