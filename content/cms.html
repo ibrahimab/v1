@@ -25,6 +25,36 @@ if(!$login->logged_in) {
 
 #		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+		// #
+		// # FUNCTIE BEWAREN!! Kan later nogmaals nodig zijn
+		// #
+		// # Nieuwe kenmerken als onbekend aanmerken bij winteraccommodaties
+		// #
+		// $nieuwe_kenmerken="22";
+		// $db->query("SELECT accommodatie_id, kenmerken_nee FROM accommodatie WHERE wzt=1;");
+		// while($db->next_record()) {
+		// 	if(!preg_match("/".$nieuwe_kenmerken."/",$db->f("kenmerken_nee"))) {
+		// 		if($db->f("kenmerken_nee")) {
+		// 			$db2->query("UPDATE accommodatie SET kenmerken_nee='".$db->f("kenmerken_nee").",".$nieuwe_kenmerken."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+		// 		} else {
+		// 			$db2->query("UPDATE accommodatie SET kenmerken_nee='".$nieuwe_kenmerken."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+		// 		}
+		// 		echo $db2->lq."<br>";
+		// 	}
+		// }
+		// $nieuwe_kenmerken="21";
+		// $db->query("SELECT t.type_id, t.kenmerken_nee FROM type t, accommodatie a WHERE a.wzt=1 AND t.accommodatie_id=a.accommodatie_id;");
+		// while($db->next_record()) {
+		// 	if(!preg_match("/".$nieuwe_kenmerken."/",$db->f("kenmerken_nee"))) {
+		// 		if($db->f("kenmerken_nee")) {
+		// 			$db2->query("UPDATE type SET kenmerken_nee='".$db->f("kenmerken_nee").",".$nieuwe_kenmerken."' WHERE type_id='".$db->f("type_id")."';");
+		// 		} else {
+		// 			$db2->query("UPDATE type SET kenmerken_nee='".$nieuwe_kenmerken."' WHERE type_id='".$db->f("type_id")."';");
+		// 		}
+		// 		echo $db2->lq."<br>";
+		// 	}
+		// }
+
 #		$db->query("UPDATE korting SET toon_als_aanbieding=1 WHERE korting_id IN (SELECT DISTINCT korting_id FROM korting_tarief WHERE (aanbieding_acc_percentage>0 OR aanbieding_skipas_percentage>0 OR aanbieding_acc_euro>0 OR aanbieding_skipas_euro>0)) AND aanbiedingskleur=1;");
 
 		# Overzetten receptie naar vertrekinfo_soortbeheer_aanvulling
