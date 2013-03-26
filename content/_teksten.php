@@ -1093,6 +1093,18 @@ $txt["en"]["zoek-en-boek"]["huisdierenniettoegestaan"]="pets not allowed";
 $txt["nl"]["zoek-en-boek"]["themas"]="Thema's";
 $txt["en"]["zoek-en-boek"]["themas"]="Themes";
 
+$txt["nl"]["zoek-en-boek"]["charmantechalets"]="charmante chalets";
+$txt["en"]["zoek-en-boek"]["charmantechalets"]="charming chalets";
+
+$txt["nl"]["zoek-en-boek"]["charmanteskidorpen"]="charmante skidorpen";
+$txt["en"]["zoek-en-boek"]["charmanteskidorpen"]="charming ski villages";
+
+$txt["nl"]["zoek-en-boek"]["10voorapresski"]="10 voor après-ski";
+$txt["en"]["zoek-en-boek"]["10voorapresski"]="grading A for après-ski";
+
+$txt["nl"]["zoek-en-boek"]["superskistations"]="super ski-stations";
+$txt["en"]["zoek-en-boek"]["superskistations"]="super ski stations";
+
 $txt["nl"]["zoek-en-boek"]["goedvoorkids"]="goed voor kids";
 $txt["en"]["zoek-en-boek"]["goedvoorkids"]="good for kids";
 

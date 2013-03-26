@@ -64,7 +64,7 @@ if(is_array($_GET)) {
 }
 
 #
-# Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [43] (eerst beschikbare: 44)
+# Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [48] (eerst beschikbare: 49)
 #
 if($vars["seizoentype"]==1) {
 	#
@@ -144,6 +144,26 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[3]["addwhere"][6][]="(t.kenmerken REGEXP '[[:<:]]11[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
 	$keuzeopsomming[3]["addwhere"][7][]="(t.kenmerken REGEXP '[[:<:]]10[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]12[[:>:]]')";
 	$keuzeopsomming[3]["addwhere"][43][]="(t.kenmerken REGEXP '[[:<:]]5[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]5[[:>:]]')";
+
+	# Thema's (winter)
+	if($_GET["testsysteem"]) {
+		$keuzeopsomming[5]["combinatiesmogelijk"]=1;
+		$keuzeopsomming[5]["name"]="themas";
+		$keuzeopsomming[5]["verfijndname"]="kenmerken";
+		$keuzeopsomming[5]["getname"]="vf_kenm";
+		$keuzeopsomming[5]["fields"]=array(
+			"charmantechalets"=>44,
+			"charmanteskidorpen"=>45,
+			"10voorapresski"=>46,
+			"voorgroepen"=>47,
+			"superskistations"=>48
+		);
+		$keuzeopsomming[5]["addwhere"][44][]="(t.kenmerken REGEXP '[[:<:]]21[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]22[[:>:]]')";
+		$keuzeopsomming[5]["addwhere"][45][]="(p.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
+		$keuzeopsomming[5]["addwhere"][46][]="(p.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
+		$keuzeopsomming[5]["addwhere"][47][]="(t.kenmerken REGEXP '[[:<:]]6[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
+		$keuzeopsomming[5]["addwhere"][48][]="(p.kenmerken REGEXP '[[:<:]]14[[:>:]]')";
+	}
 
 	# Aantal badkamers
 	$keuzeopsomming[4]["combinatiesmogelijk"]=0;
@@ -1231,6 +1251,30 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				if($db->f("soortaccommodatie")==4) {
 					# chaletappartement
 					$verfijnd["soortaccommodatie"][40]++;
+				}
+
+				#
+				# Verfijn zoeken: thema's (winter)
+				#
+				if(check_kenmerken($db->f("tkenmerken"),21) or check_kenmerken($db->f("akenmerken"),22)) {
+					# charmante chalets
+					$verfijnd["kenmerken"][44]++;
+				}
+				if(check_kenmerken($db->f("pkenmerken"),13)) {
+					# charmante skidorpen
+					$verfijnd["kenmerken"][45]++;
+				}
+				if(check_kenmerken($db->f("pkenmerken"),6)) {
+					# 10 voor apres ski
+					$verfijnd["kenmerken"][46]++;
+				}
+				if(check_kenmerken($db->f("tkenmerken"),6) or check_kenmerken($db->f("akenmerken"),6)) {
+					# voor groepen
+					$verfijnd["kenmerken"][47]++;
+				}
+				if(check_kenmerken($db->f("pkenmerken"),14)) {
+					# super ski-stations
+					$verfijnd["kenmerken"][48]++;
 				}
 			} else {
 
@@ -2635,6 +2679,13 @@ function zoekblok_verblijfsduur($settings="") {
 	echo "</div>"; # afsluiten .zoekblok_item
 }
 
+function zoekblok_prijsklasse($settings="") {
+	#
+	# zoekformulier: prijsklasse (via slider)
+	#
+
+}
+
 function zoekblok_intern($settings="") {
 	#
 	# zoekformulier: interne velden (leverancier + keuze Chalet/SuperSki)
@@ -2770,7 +2821,7 @@ function zoekblok_submit($settings="") {
 	# "alles wissen"-link
 	if(strpos($_SERVER["REQUEST_URI"],"filled=1")) {
 		echo "<div class=\"zoekblok_alleswissen\">";
-		echo "<a href=\"".wt_he($urlself.(strpos($_SERVER["REQUEST_URI"],"&aab=1") ? "?filled=1&aab=1&faab=1" : ""))."\"><i class=\"icon-remove-sign\"></i>".html("alleswissen","zoek-en-boek")."</a>";
+		echo "<a href=\"".wt_he($urlself.(strpos($_SERVER["REQUEST_URI"],"&aab=1") ? "?filled=1&aab=1&faab=1" : "")).($_GET["testsysteem"] ? "?testsysteem=1" : "")."\"><i class=\"icon-remove-sign\"></i>".html("alleswissen","zoek-en-boek")."</a>";
 		echo "</div>"; # afsluiten .zoekblok_alleswissen
 	}
 
@@ -2795,6 +2846,9 @@ if($vars["websitetype"]==1) {
 	zoekblok_aankomstdatum();
 	zoekblok_verblijfsduur();
 	zoekblok_aantalslaapkamers();
+	if($_GET["testsysteem"]) {
+		zoekblok_prijsklasse();
+	}
 	zoekblok_tekst();
 	zoekblok_intern();
 	zoekblok_verfijnd_gekozen();
@@ -2828,6 +2882,9 @@ if($vars["websitetype"]==1) {
 	zoekblok_aankomstdatum();
 	zoekblok_verblijfsduur();
 	zoekblok_aantalslaapkamers();
+	if($_GET["testsysteem"]) {
+		zoekblok_prijsklasse();
+	}
 	zoekblok_tekst();
 	zoekblok_intern();
 	zoekblok_verfijnd_gekozen();
