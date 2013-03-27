@@ -553,6 +553,9 @@ td.selecteerbaarbedrag:hover{
 	background-color: #003366;
 	text-align: left;
 	padding-left: 10px;
+
+	padding-top: 2px;
+	padding-bottom: 3px;
 }
 
 #verfijn .keuzes {
@@ -572,10 +575,9 @@ td.selecteerbaarbedrag:hover{
 }
 
 #verfijn .keuzeopsomming:hover {
-	background-image: url('../pic/checkbox_yes.png');
+	background-image: url('../pic/checkbox_yes_hover.png');
 	color: #000000;
 }
-
 
 #verfijn .keuzeopsomming_touchdevices {
 	background-position: left 4px;
@@ -584,7 +586,7 @@ td.selecteerbaarbedrag:hover{
 }
 
 #verfijn .keuzeopsomming_actief {
-	background-image: url('../pic/checkbox_yes.png');
+	background-image: url('../pic/checkbox_yes.png?c=1');
 	font-weight: bold;
 }
 

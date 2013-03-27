@@ -752,9 +752,9 @@ form {
 }
 
 #zoekblok {
-	border: 2px solid #ff9900;
-	background-color: #ffffff;
-	width: 676px;
+	border: 1px solid #ff9900;
+	background-color: #ebe3e0;
+	width: 678px;
 }
 
 .option_land {
@@ -822,6 +822,10 @@ form {
 .zoekresultaten_aantalgevonden {
 	background-color: #ffd38f;
 	color: #661700;
+}
+
+#zoekblok .zoekresultaten_aantalgevonden {
+	background-color: #ebe3e0;
 }
 
 .zoekresultaten_zoeken_op_kaart {

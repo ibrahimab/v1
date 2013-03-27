@@ -23,6 +23,7 @@
 <span style="background-color:#ff9900;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ff9900<br>
 <span style="background-color:#661700;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#661700<br>
 <span style="background-color:#e0d1cc;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#e0d1cc<br>
+<span style="background-color:#e0d1cc;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ebe3e0 (achtergrondkleur zoek- + verfijnblok)<br>
 <span style="background-color:#ffd38f;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ffd38f<br>
 <span style="background-color:#0295c8;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#0295c8 (boekbutton)<br>
 <span style="background-color:#ebebeb;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ebebeb (achtergrondkleur blog-reacties)<br>
