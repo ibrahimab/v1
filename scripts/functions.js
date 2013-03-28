@@ -1799,8 +1799,20 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 }
 
 function zoekopdracht_naar_analytics_sturen(omschrijving,zoekopdracht) {
+	// stuur de zoekopdracht naar Google Analytics
 	if (typeof _gaq != "undefined") {
 		_gaq.push(['_trackEvent', 'zoekfunctie', omschrijving, zoekopdracht]);
+	}
+}
+
+function zoekopdracht_naar_analytics_sturen_inclusief_aantal_zoekresultaten(omschrijving,zoekopdracht) {
+	// stuur de zoekopdracht naar Google Analytics (en neem aantal zoekresultaten op als extra Value)
+
+	// aantal zoekresultaten uit data-element halen
+	var aantal=parseInt($("div.zoekresultaten_aantalgevonden").data("aantalgevonden"),10);
+
+	if (typeof _gaq != "undefined") {
+		_gaq.push(['_trackEvent', 'zoekfunctie', omschrijving, zoekopdracht, aantal]);
 	}
 }
 
@@ -1834,11 +1846,20 @@ $(document).ready(function() {
 			var analytics_verfijnen='';
 			var analytics_verfijnen_item='';
 			var analytics_url='';
+			var analytics_niet_verzenden_indien_alleen='';
+
+
+			// extra zoekopdracht (bijv. tarieven volgend seizoen)
+			if($("div.datadiv").data("analytics_zoekopdracht")) {
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - "+$("div.datadiv").data("analytics_zoekopdracht");
+				analytics_niet_verzenden_indien_alleen=$("div.datadiv").data("analytics_zoekopdracht");
+			}
 
 			// Zoek alleen naar aanbiedingen
 			if($("input[name=faab]").length!==0) {
 				if($("input[name=faab]").is(":checked")) {
 					analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Zoek alleen naar aanbiedingen";
+					analytics_niet_verzenden_indien_alleen="Zoek alleen naar aanbiedingen";
 					zoekopdracht_naar_analytics_sturen("zoek alleen naar aanbiedingen","ja");
 				} else {
 					zoekopdracht_naar_analytics_sturen("zoek alleen naar aanbiedingen","nee");
@@ -1940,7 +1961,11 @@ $(document).ready(function() {
 				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht.substr(3);
 
 				// complete zoekopdracht naar Analytics sturen
-				zoekopdracht_naar_analytics_sturen("complete zoekopdracht",analytics_complete_zoekopdracht);
+				if(analytics_complete_zoekopdracht==analytics_niet_verzenden_indien_alleen) {
+					// complete zoekopdracht niet verzenden: bestaat alleen uit een niet door gebruiker ingevoerd veld
+				} else {
+					zoekopdracht_naar_analytics_sturen_inclusief_aantal_zoekresultaten("complete zoekopdracht",analytics_complete_zoekopdracht);
+				}
 
 			} else {
 				analytics_complete_zoekopdracht="overal 'geen voorkeur'";
@@ -1964,6 +1989,8 @@ $(document).ready(function() {
 				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","klik op 'uitgebreid zoeken' bij snel zoeken");
 			} else if($("div.datadiv").data("referer_zoekenboek")=="4") {
 				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","klik op 'selecteer bestemming' bij snel zoeken");
+			} else if($("div.datadiv").data("referer_zoekenboek")=="5") {
+				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","klik op 'uitgebreid zoeken' bij een thema");
 			}
 		}
 	}

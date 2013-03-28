@@ -1,6 +1,6 @@
 <?php
 
-include("admin/vars.php");
+include_once("admin/vars.php");
 
 if(!session_id()) session_start();
 
@@ -28,8 +28,11 @@ if($vars["websitetype"]==3 or $vars["websitetype"]==7) {
 	$vars["zoeken_op_kaart"]=true;
 }
 
-
-$breadcrumbs["last"]=txt("title_zoekenboek");
+if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
+	$breadcrumbs["last"]=$vars["themainfo"]["naam"];
+} else {
+	$breadcrumbs["last"]=txt("title_zoekenboek");
+}
 
 $vars["verberg_zoekenboeklinks"]=true;
 $vars["verberg_directnaar"]=true;

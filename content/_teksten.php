@@ -1207,6 +1207,9 @@ $txt["en"]["zoek-en-boek"]["faciliteiten"]="Facilities";
 $txt["nl"]["zoek-en-boek"]["voorgroepen"]="voor groepen";
 $txt["en"]["zoek-en-boek"]["voorgroepen"]="for groups";
 
+$txt["nl"]["zoek-en-boek"]["grotegroepen"]="grote groepen";
+$txt["en"]["zoek-en-boek"]["grotegroepen"]="large groups";
+
 $txt["nl"]["zoek-en-boek"]["catering"]="catering mogelijk";
 $txt["en"]["zoek-en-boek"]["catering"]="catering possible";
 

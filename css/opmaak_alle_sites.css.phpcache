@@ -133,6 +133,15 @@ li {
 	font-size: 1.0em;
 }
 
+a.button {
+	display: block;
+	text-decoration: none;
+}
+
+a.button:hover {
+	color: inherit;
+}
+
 .button_accpagina {
 	width: 168px;
 	background-color: #d5e1f9;

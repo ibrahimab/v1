@@ -213,11 +213,11 @@ if($cms_form[36]->filled) {
 		}
 	}
 	if($cms_form[36]->input["uitgebreidzoeken_url"]) {
-		if(!preg_match("/^vf_kenm[0-9]+=[0-9]+$/",$cms_form[36]->input["uitgebreidzoeken_url"])) {
+		if(!preg_match("/^vf_[a-z]+[0-9]+=[0-9]+$/",$cms_form[36]->input["uitgebreidzoeken_url"])) {
 			$cms_form[36]->error("uitgebreidzoeken_url","gebruik deze vorm: vf_kenm00=00");
 		}
 	}
-	
+
 	if($cms_form[36]->input["url"]) {
 		if(!ereg("^[a-z0-9-]+$",$cms_form[36]->input["url"])) {
 			$cms_form[36]->error("url","gebruik alleen kleine letters, cijfers en '-'");
@@ -256,7 +256,7 @@ function form_before_goto($form) {
 	global $login,$vars;
 	$db=new DB_sql;
 	$db2=new DB_sql;
-	
+
 	if($_GET["wzt"]==1) {
 		$positiehoofdpagina=0;
 		$db->query("SELECT thema_id, positiehoofdpagina FROM thema WHERE wzt=1 ORDER BY positiehoofdpagina;");
@@ -265,7 +265,7 @@ function form_before_goto($form) {
 				$positiehoofdpagina=$positiehoofdpagina+10;
 				$db2->query("UPDATE thema SET positiehoofdpagina='".$positiehoofdpagina."' WHERE thema_id='".$db->f("thema_id")."';");
 			} else {
-				$db2->query("UPDATE thema SET positiehoofdpagina=NULL WHERE thema_id='".$db->f("thema_id")."';");			
+				$db2->query("UPDATE thema SET positiehoofdpagina=NULL WHERE thema_id='".$db->f("thema_id")."';");
 			}
 #			echo $db2->lastquery."<br>";
 		}

@@ -153,7 +153,7 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[5]["fields"]=array(
 		"charmanteskidorpen"=>44,
 		"10voorapresski"=>45,
-		"voorgroepen"=>46,
+		"grotegroepen"=>46,
 		"superskistations"=>47
 	);
 	$keuzeopsomming[5]["addwhere"][44][]="(p.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
@@ -464,10 +464,8 @@ $vars["aantalpersonen"][$i]=txt("aantalpersonenofmeer","zoek-en-boek",array("v_a
 
 
 
-
-
 if(!$_GET["page"]) $_GET["page"]=1;
-echo "<div class=\"datadiv\" data-paginanummer=\"".intval($_GET["page"])."\" data-nieuwezoekopdracht=\"".intval($nieuwe_zoekopdracht)."\" data-referer_zoekenboek=\"".intval($referer_zoekenboek)."\"></div>";
+echo "<div class=\"datadiv\" data-paginanummer=\"".intval($_GET["page"])."\" data-nieuwezoekopdracht=\"".intval($nieuwe_zoekopdracht)."\" data-referer_zoekenboek=\"".intval($referer_zoekenboek)."\" data-analytics_zoekopdracht=\"".wt_he($analytics_zoekopdracht)."\"></div>";
 
 if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 and $id=="zoek-en-boek") or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 
@@ -2202,15 +2200,28 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 
 # Verwerking m.b.t. tonen zoekformulier op andere pagina dan zoek-en-boek.php
 if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
+
+	if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $vars["themainfo"]["toelichting"]) {
+		# Inleidende tekst bij tarieven volgend seizoen tonen
+		echo "<h1>".htmlentities($vars["themainfo"]["naam"])."</h1>\n";
+		echo htmlentities_uitgebreid(trim($vars["themainfo"]["toelichting"]));
+	}
+
 	if($_GET["filled"] or strlen($_GET["scrolly"])>0 or $vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 		echo "<div>&nbsp;</div>";
 		echo "<div>";
 	} else {
 		echo "<div style=\"padding-bottom:10px;".(!$uitgebreid ? "padding-top:10px;" : "")."\">";
 		if($vars["themainfo"]["uitgebreidzoeken_url"]) {
-			echo "<div class=\"button\" onclick=\"document.location.href='".$vars["path"].txt("menu_zoek-en-boek").".php?".wt_he($vars["themainfo"]["uitgebreidzoeken_url"])."';\">";
+
+#			echo "<div class=\"button\" onclick=\"document.location.href='".$vars["path"].txt("menu_zoek-en-boek").".php?".wt_he($vars["themainfo"]["uitgebreidzoeken_url"])."';\">";
+#			echo html("uitgebreidzoeken","thema");
+#			echo "</div>";
+
+			echo "<a href=\"".wt_he($vars["path"].txt("menu_zoek-en-boek").".php?".$vars["themainfo"]["uitgebreidzoeken_url"])."&referer=5\" class=\"button\" style=\"float:left;\" rel=\"nofollow\">";
 			echo html("uitgebreidzoeken","thema");
-			echo "</div>";
+			echo "</a>";
+
 		} else {
 			echo "<div class=\"showlink\" style=\"float:left;\">";
 			if(!$vars["themainfo"]["tarievenbekend_seizoen_id"]) {
@@ -2251,9 +2262,9 @@ echo "<div class=\"form_element_wrapper\">";
 echo "<form method=\"get\" action=\"";
 if($vars["zoekform_thema"]) {
 	if($themalandinfo["soort"]=="land") {
-		$urlself=$vars["path"].txt("menu_land")."/".wt_he($_GET["land"])."/#form";
+		$urlself=$vars["path"].txt("menu_land")."/".wt_he($_GET["land"])."/";
 	} else {
-		$urlself=$vars["path"].txt("menu_thema")."/".wt_he($_GET["thema"])."/#form";
+		$urlself=$vars["path"].txt("menu_thema")."/".wt_he($_GET["thema"])."/";
 	}
 } elseif($vars["zoekform_weekendski"]) {
 	$urlself=$vars["path"].txt("menu_weekendski").".php";
@@ -2267,7 +2278,7 @@ if($vars["zoekform_thema"]) {
 	$urlself=txt("menu_zoek-en-boek").".php";
 }
 echo $urlself;
-$urlself=ereg_replace("#form","",$urlself);
+#$urlself=ereg_replace("#form","",$urlself);
 echo "\" name=\"zoeken\" id=\"zoeken\">";
 echo "</div>"; # afsluiten .form_element_wrapper
 
@@ -3022,10 +3033,11 @@ if($resultaten_tonen) {
 
 		echo "<tr>";
 
-
-
-		# Sorteren alleen aanbiedingen als er tarieven worden getoond, en niet bij SuperSki
-		if($tarieven_tonen and $vars["websitetype"]<>8) {
+		# Sorteren alleen aanbiedingen:
+		#- als er tarieven worden getoond
+		# - niet bij SuperSki
+		# - niet op thema-pagina
+		if($tarieven_tonen and $vars["websitetype"]<>8 and !$vars["themainfo"]["uitgebreidzoeken_url"]) {
 			echo "<td colspan=\"5\" align=\"right\" valign=\"bottom\" style=\"padding-right:10px;\">";
 			echo "<div id=\"zoekresultaten_sorteer\">";
 			$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
@@ -3222,7 +3234,7 @@ if($vars["verfijnen_aanbieden"]) {
 					$_SERVER["REQUEST_URI"]=ereg_replace("\?$","",$_SERVER["REQUEST_URI"]);
 					if($combinatiesmogelijk or !$_GET[$getname.$getnumber]) {
 						if($_GET[$getname.$getnumber]==$getvalue) {
-							$qs=wt_stripget($_GET,array("page",$getname.$getnumber));
+							$qs=wt_stripget($_GET,array("page","referer","selb",$getname.$getnumber));
 							$keuzes.="<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\" class=\"keuzeopsomming keuzeopsomming_actief\" rel=\"nofollow\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(".$verfijnd[$verfijndname][$value].")</span></a>";
 						} elseif($verfijnd[$verfijndname][$value]>0) {
 							$request_uri=$_SERVER["REQUEST_URI"];
@@ -3233,7 +3245,7 @@ if($vars["verfijnen_aanbieden"]) {
 						}
 					} else {
 						if($_GET[$getname.$getnumber]==$getvalue) {
-							$qs=wt_stripget($_GET,array("page",$getname.$getnumber));
+							$qs=wt_stripget($_GET,array("page","referer","selb",$getname.$getnumber));
 							$keuzes.="<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\" class=\"keuzeopsomming keuzeopsomming_actief\" rel=\"nofollow\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(".$verfijnd[$verfijndname][$value].")</span></a>";
 						} else {
 							$url=preg_replace("/".$getname.$getnumber."=[0-9]+/",$getname.$getnumber."=".$getvalue,$_SERVER["REQUEST_URI"]);
@@ -3262,7 +3274,7 @@ if($vars["verfijnen_aanbieden"]) {
 			if(is_array($_GET)) {
 				reset($_GET);
 				while(list($key,$value)=each($_GET)) {
-					if($value and !preg_match("/^vf_/",$key) and $key<>"page" and $key<>"sort" and $key<>"scrolly" and $key<>"map" and $key<>"sp") {
+					if($value and !preg_match("/^vf_/",$key) and $key<>"page" and $key<>"sort" and $key<>"scrolly" and $key<>"map" and $key<>"sp" and $key<>"referer") {
 						$qs.="&".$key."=".urlencode($value);
 					}
 				}
@@ -3272,7 +3284,6 @@ if($vars["verfijnen_aanbieden"]) {
 				if($qs=="filled=1") unset($qs);
 			}
 			$lhtml.="<a href=\"".wt_he($urlself.($qs ? "?".$qs : ""))."\" class=\"alle_selecties_wissen\">".html("alleselectieswissen","zoek-en-boek")."</a>";
-
 		}
 		$lhtml.="<div style=\"\">&nbsp;</div>";
 		$lhtml.="<div class=\"bloklinks_blauwelijn\"></div>";

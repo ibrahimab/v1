@@ -7,7 +7,7 @@ $vars["verberg_zoekenboeklinks"]=true;
 include("admin/vars.php");
 
 # Bij WSA en Italissima zijn geen thema's beschikbaar
-if(($vars["website"]=="W" or $vars["websitetype"]==7) and $_GET["thema"]<>"2013-2014") {
+if(($vars["website"]=="W" or $vars["websitetype"]==7) and $_GET["thema"]<>"2013-2014" and $_GET["thema"]<>"2014-2015") {
 	header("Location: ".$vars["path"]);
 	exit;
 }
@@ -27,20 +27,12 @@ if(ereg("^[A-Za-z]([0-9]+)$",trim($_GET["fzt"]),$regs)) {
 	}
 }
 
-if($vars["seizoentype"]==1) {
-	# winter
-
-} elseif($vars["website"]=="Z") {
-	# zomer
-
-}
-
 if(substr($_SERVER["REQUEST_URI"],-1)<>"/" and !eregi("\?",$_SERVER["REQUEST_URI"]) and !eregi("#",$_SERVER["REQUEST_URI"])) {
 	header("Location: ".$_SERVER["REQUEST_URI"]."/",true,301);
 	exit;
 }
 
-$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, titletag".$vars["ttv"]." AS titletag, descriptiontag".$vars["ttv"]." AS descriptiontag, url".$vars["ttv"]." AS url, typekenmerk, accommodatiekenmerk, plaatskenmerk, skigebiedkenmerk, zoekterm, tarievenbekend_seizoen_id, uitgebreidzoeken_url FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND url".$vars["ttv"]."='".addslashes($_GET["thema"])."' AND actief=1;");
+$db->query("SELECT thema_id, naam".$vars["ttv"]." AS naam, titletag".$vars["ttv"]." AS titletag, descriptiontag".$vars["ttv"]." AS descriptiontag, url".$vars["ttv"]." AS url, typekenmerk, accommodatiekenmerk, plaatskenmerk, skigebiedkenmerk, zoekterm, tarievenbekend_seizoen_id, uitgebreidzoeken_url, toelichting".$vars["ttv"]." AS toelichting, titelhoofdpagina".$vars["ttv"]." AS titelhoofdpagina FROM thema WHERE wzt='".addslashes($vars["seizoentype"])."' AND url".$vars["ttv"]."='".addslashes($_GET["thema"])."' AND actief=1;");
 if($db->next_record()) {
 	if($db->f("titletag")) {
 		$title["thema"]=$db->f("titletag");
@@ -57,6 +49,8 @@ if($db->next_record()) {
 	$vars["themainfo"]["zoekterm"]=$db->f("zoekterm");
 	$vars["themainfo"]["tarievenbekend_seizoen_id"]=$db->f("tarievenbekend_seizoen_id");
 	$vars["themainfo"]["uitgebreidzoeken_url"]=$db->f("uitgebreidzoeken_url");
+	$vars["themainfo"]["toelichting"]=$db->f("toelichting");
+	$vars["themainfo"]["titelhoofdpagina"]=$db->f("titelhoofdpagina");
 
 	# breadcrumbs
 	$breadcrumbs[txt("menu_themas").".php"]=txt("title_themas");
@@ -116,6 +110,12 @@ if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 		}
 		@ksort($vars["aankomstdatum_weekend"]);
 	}
+
+	$analytics_zoekopdracht=$vars["themainfo"]["titelhoofdpagina"];
+	$vars["zoekform_thema"]=true;
+	$id="zoek-en-boek";
+	include("zoek-en-boek.php");
+	exit;
 }
 
 include "content/opmaak.php";
