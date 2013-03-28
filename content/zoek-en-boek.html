@@ -25,6 +25,7 @@ if(strlen($_GET["fzt"])>0) {
 if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and ($_GET["allesites"] or !$_GET["filled"])) {
 	$vars["where_websites_query"]="(websites LIKE '%C%' OR websites LIKE '%W%')";
 	$vars["where_websites_query_t"]="(t.websites LIKE '%C%' OR t.websites LIKE '%W%')";
+	$_GET["allesites"]=1;
 } else {
 	$vars["where_websites_query"]="websites LIKE '%".$vars["website"]."%'";
 	$vars["where_websites_query_t"]="t.websites LIKE '%".$vars["website"]."%'";
@@ -2218,7 +2219,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 #			echo html("uitgebreidzoeken","thema");
 #			echo "</div>";
 
-			echo "<a href=\"".wt_he($vars["path"].txt("menu_zoek-en-boek").".php?".$vars["themainfo"]["uitgebreidzoeken_url"])."&referer=5\" class=\"button\" style=\"float:left;\" rel=\"nofollow\">";
+			echo "<a href=\"".wt_he($vars["path"].txt("menu_zoek-en-boek").".php?filled=1&".$vars["themainfo"]["uitgebreidzoeken_url"])."&referer=5".($_GET["allesites"] ? "&allesites=1" : "")."\" class=\"button\" style=\"float:left;\" rel=\"nofollow\">";
 			echo html("uitgebreidzoeken","thema");
 			echo "</a>";
 

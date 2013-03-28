@@ -52,6 +52,14 @@ if($db->next_record()) {
 	$vars["themainfo"]["toelichting"]=$db->f("toelichting");
 	$vars["themainfo"]["titelhoofdpagina"]=$db->f("titelhoofdpagina");
 
+	# thema-kenmerk: via URL in plaats van "Gekoppelde kenmerken"
+	if($vars["themainfo"]["uitgebreidzoeken_url"] and !$vars["themainfo"]["typekenmerk"] and !$vars["themainfo"]["accommodatiekenmerk"] and !$vars["themainfo"]["plaatskenmerk"] and !$vars["themainfo"]["skigebiedkenmerk"] and !$vars["themainfo"]["zoekterm"] and !$vars["themainfo"]["tarievenbekend_seizoen_id"]) {
+		if(preg_match("/^(vf_[a-z0-9]+)=(.*)$/",$vars["themainfo"]["uitgebreidzoeken_url"],$regs)) {
+			$_GET[$regs[1]]=$regs[2];
+			$vars["themainfo"]["kenmerken_via_url"]=true;
+		}
+	}
+
 	# breadcrumbs
 	$breadcrumbs[txt("menu_themas").".php"]=txt("title_themas");
 	$breadcrumbs["last"]=$db->f("naam");
