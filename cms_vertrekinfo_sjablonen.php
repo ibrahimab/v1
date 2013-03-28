@@ -4,23 +4,23 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
-if(!$_GET["wzt"]) {
-	if($_GET["54k0"]) {
-		$db->query("SELECT wzt FROM vertrekinfo_sjabloon WHERE vertrekinfo_sjabloon_id='".addslashes($_GET["54k0"])."';");
-		if($db->next_record()) {
-			$_GET["wzt"]=$db->f("wzt");
-		}
-	} else {
-		$_GET["wzt"]=1;
-	}
-}
+// if(!$_GET["wzt"]) {
+// 	if($_GET["54k0"]) {
+// 		$db->query("SELECT wzt FROM vertrekinfo_sjabloon WHERE vertrekinfo_sjabloon_id='".addslashes($_GET["54k0"])."';");
+// 		if($db->next_record()) {
+// 			$_GET["wzt"]=$db->f("wzt");
+// 		}
+// 	} else {
+// 		$_GET["wzt"]=1;
+// 	}
+// }
 
 $cms->settings[54]["list"]["show_icon"]=false;
 $cms->settings[54]["list"]["edit_icon"]=true;
 $cms->settings[54]["list"]["delete_icon"]=true;
 
-$cms->db[54]["where"]="wzt='".addslashes($_GET["wzt"])."'";
-$cms->db[54]["set"]="wzt='".addslashes($_GET["wzt"])."'";
+#$cms->db[54]["where"]="wzt='".addslashes($_GET["wzt"])."'";
+#$cms->db[54]["set"]="wzt='".addslashes($_GET["wzt"])."'";
 
 $vars["vertrekinfo_sjablonen_soorten"]=array(1=>"incheck-tekst");
 

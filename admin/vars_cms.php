@@ -337,9 +337,9 @@ if($mustlogin) {
 	$layout->menu_item("cms_vertrekdagtypes","Vertrekdagtypes","",true);
 
 	if($login->has_priv("30")) {
-		$layout->menu_item("cms_vertrekinfo_sjablonen","Vertrekinformatie","",true,false,array("slide"=>true));
-		$layout->submenu_item("cms_vertrekinfo_sjablonen","","cms_vertrekinfo_sjablonen","Sjablonen winter",array("wzt"=>"1"),true);
-		$layout->submenu_item("cms_vertrekinfo_sjablonen","","cms_vertrekinfo_sjablonen","Sjablonen zomer",array("wzt"=>"2"),true);
+		$layout->menu_item("cms_vertrekinfo_sjablonen","Vertrekinformatie","",true);
+#		$layout->submenu_item("cms_vertrekinfo_sjablonen","","cms_vertrekinfo_sjablonen","Sjablonen winter",array("wzt"=>"1"),true);
+#		$layout->submenu_item("cms_vertrekinfo_sjablonen","","cms_vertrekinfo_sjablonen","Sjablonen zomer",array("wzt"=>"2"),true);
 	}
 
 	if($login->has_priv("8")) {

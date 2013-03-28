@@ -296,7 +296,7 @@ $cms->db_field(1,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selectio
 if($vars["cmstaal"]) $cms->db_field(1,"checkbox","vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"",array("selection"=>$vars["seizoengoedgekeurd"]));
 $cms->db_field(1,"text","vertrekinfo_goedgekeurd_datetime");
 if($vars["cmstaal"]) $cms->db_field(1,"text","vertrekinfo_goedgekeurd_datetime_".$vars["cmstaal"]);
-$cms->db_field(1,"select","vertrekinfo_incheck_sjabloon_id","",array("othertable"=>"54","otherkeyfield"=>"vertrekinfo_sjabloon_id","otherfield"=>"naam","otherwhere"=>"soort=1 AND wzt='".addslashes($_GET["wzt"])."'"));
+$cms->db_field(1,"select","vertrekinfo_incheck_sjabloon_id","",array("othertable"=>"54","otherkeyfield"=>"vertrekinfo_sjabloon_id","otherfield"=>"naam","otherwhere"=>"soort=1"));
 $cms->db_field(1,"select","vertrekinfo_soortbeheer","",array("selection"=>$vars["vertrekinfo_soortbeheer"]));
 $cms->db_field(1,"text","vertrekinfo_soortbeheer_aanvulling");
 if($vars["cmstaal"]) $cms->db_field(1,"text","vertrekinfo_soortbeheer_aanvulling_".$vars["cmstaal"]);
