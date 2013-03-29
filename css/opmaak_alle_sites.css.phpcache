@@ -786,7 +786,7 @@ td.selecteerbaarbedrag:hover{
 
 .zoekblok_subtitel {
 	margin-top: 3px;
-	font-size: 0.7em;
+	font-size: 0.8em;
 	margin-left: 196px;
 	margin-right: 60px;
 	position: relative;

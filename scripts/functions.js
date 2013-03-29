@@ -1809,7 +1809,7 @@ function zoekopdracht_naar_analytics_sturen_inclusief_aantal_zoekresultaten(omsc
 	// stuur de zoekopdracht naar Google Analytics (en neem aantal zoekresultaten op als extra Value)
 
 	// aantal zoekresultaten uit data-element halen
-	var aantal=parseInt($("div.zoekresultaten_aantalgevonden").data("aantalgevonden"),10);
+	var aantal=parseInt($("div#aantalgevonden").data("aantalgevonden"),10);
 
 	if (typeof _gaq != "undefined") {
 		_gaq.push(['_trackEvent', 'zoekfunctie', omschrijving, zoekopdracht, aantal]);
