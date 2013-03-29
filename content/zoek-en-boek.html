@@ -641,7 +641,7 @@ $vars["aantalpersonen"][$i]=txt("aantalpersonenofmeer","zoek-en-boek",array("v_a
 
 
 if(!$_GET["page"]) $_GET["page"]=1;
-echo "<div class=\"datadiv\" data-paginanummer=\"".intval($_GET["page"])."\" data-nieuwezoekopdracht=\"".intval($nieuwe_zoekopdracht)."\" data-referer_zoekenboek=\"".intval($referer_zoekenboek)."\" data-analytics_zoekopdracht=\"".wt_he($analytics_zoekopdracht)."\"></div>";
+echo "<div class=\"datadiv\" data-websitetype=\"".intval($vars["websitetype"])."\" data-paginanummer=\"".intval($_GET["page"])."\" data-nieuwezoekopdracht=\"".intval($nieuwe_zoekopdracht)."\" data-referer_zoekenboek=\"".intval($referer_zoekenboek)."\" data-analytics_zoekopdracht=\"".wt_he($analytics_zoekopdracht)."\"></div>";
 
 if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 and $id=="zoek-en-boek") or $vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 

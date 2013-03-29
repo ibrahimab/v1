@@ -1056,7 +1056,12 @@ $(document).ready(function() {
 				//
 
 				// Chosen: bestemming
-				$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, search_contains:true, allow_single_deselect: true, autofocus_search_field: true});
+				if($("div.datadiv").data("websitetype")=="7") {
+					// Italissima: zoeken via typen niet mogelijk
+					$("#zoekblok_field_bestemming").chosen({disable_search:20, allow_single_deselect: true});
+				} else {
+					$("#zoekblok_field_bestemming").chosen({disable_search_threshold:20, search_contains:true, allow_single_deselect: true, autofocus_search_field: true});
+				}
 
 				// Chosen: leverancier (incl. deselect-functie)
 				$("select[name=lev]").chosen({allow_single_deselect: true, search_contains:true, autofocus_search_field: true});
@@ -1168,9 +1173,13 @@ $(document).ready(function() {
 			});
 
 			// scroll-y-positie opslaan (vanuit zoekresultaat-klik)
-			$("a.zoekresultaat, a.zoekresultaat_type").click(function() {
+			$("a.zoekresultaat, a.zoekresultaat_type").click(function(event) {
 
-				show_ajaxloader(true);
+				if(event.ctrlKey||event.which==2) {
+					// link openen in nieuw venster: geen ajaxloader tonen
+				} else {
+					show_ajaxloader(true);
+				}
 
 				var nieuwe_url=$(this).attr("href");
 
@@ -1212,12 +1221,18 @@ $(document).ready(function() {
 					zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via type-regel onder accommodatie-blok");
 				}
 
-				setTimeout(function() {
-					// heel even wachten zodat Analytics kan laden
-					document.location.href = nieuwe_url;
-				},100);
+				if(event.ctrlKey||event.which==2) {
+					// link is geklikt via CTRL-click: laat de link z'n gang gaan
+					return true;
+				} else {
+					// anders: even wachten om Analytics te kunnen sturen
+					setTimeout(function() {
+						// heel even wachten zodat Analytics kan laden
+						document.location.href = nieuwe_url;
+					},100);
 
-				return false;
+					return false;
+				}
 			});
 
 			// naar de juiste positie scrollen
