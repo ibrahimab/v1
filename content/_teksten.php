@@ -1024,8 +1024,17 @@ $txt["en"]["zoek-en-boek"]["centrumloopafstand"]="-";
 $txt["nl"]["zoek-en-boek"]["faciliteitenterplaatse"]="Faciliteiten ter plaatse";
 $txt["en"]["zoek-en-boek"]["faciliteitenterplaatse"]="Facilities on site";
 
+$txt["nl_i"]["zoek-en-boek"]["faciliteitenterplaatse"]="Faciliteiten";
+$txt["en_i"]["zoek-en-boek"]["faciliteitenterplaatse"]="";
+
 $txt["nl"]["zoek-en-boek"]["zwembad"]="zwembad";
 $txt["en"]["zoek-en-boek"]["zwembad"]="swimming pool";
+
+$txt["nl_i"]["zoek-en-boek"]["zwembad"]="gemeenschappelijk zwembad";
+$txt["en_i"]["zoek-en-boek"]["zwembad"]="-";
+
+$txt["nl"]["zoek-en-boek"]["tuinterras"]="gemeenschappelijke tuin/terras";
+$txt["en"]["zoek-en-boek"]["tuinterras"]="-";
 
 $txt["nl"]["zoek-en-boek"]["tennisbaan"]="tennisbaan";
 $txt["en"]["zoek-en-boek"]["tennisbaan"]="tennis court";
@@ -1042,14 +1051,29 @@ $txt["en"]["zoek-en-boek"]["restaurant"]="restaurant";
 $txt["nl"]["zoek-en-boek"]["soortaccommodatie"]="Soort accommodatie";
 $txt["en"]["zoek-en-boek"]["soortaccommodatie"]="Type of accommodation";
 
+$txt["nl_i"]["zoek-en-boek"]["soortaccommodatie"]="Soort vakantiehuis";
+$txt["en_i"]["zoek-en-boek"]["soortaccommodatie"]="Type of holiday home";
+
 $txt["nl"]["zoek-en-boek"]["vrijstaandhuis"]="vrijstaand huis";
 $txt["en"]["zoek-en-boek"]["vrijstaandhuis"]="detached house";
+
+$txt["nl_i"]["zoek-en-boek"]["vrijstaandhuis"]="vrijstaand vakantiehuis";
+$txt["en_i"]["zoek-en-boek"]["vrijstaandhuis"]="-";
 
 $txt["nl"]["zoek-en-boek"]["vrijstaandhuismetmeerdere"]="vrijstaand met meerdere huizen";
 $txt["en"]["zoek-en-boek"]["vrijstaandhuismetmeerdere"]="detached with several houses";
 
+$txt["nl_i"]["zoek-en-boek"]["vrijstaandhuismetmeerdere"]="vrijstaand huis bij meerdere vakantiehuizen";
+$txt["en_i"]["zoek-en-boek"]["vrijstaandhuismetmeerdere"]="-";
+
 $txt["nl"]["zoek-en-boek"]["geschakeldewoning"]="geschakelde woning";
 $txt["en"]["zoek-en-boek"]["geschakeldewoning"]="attached house";
+
+$txt["nl_i"]["zoek-en-boek"]["geschakeldewoning"]="appartement in vakantiehuis";
+$txt["en_i"]["zoek-en-boek"]["geschakeldewoning"]="-";
+
+$txt["nl"]["zoek-en-boek"]["kleinschaligvakantiepark"]="(kleinschalig) vakantiepark";
+$txt["en"]["zoek-en-boek"]["kleinschaligvakantiepark"]="-";
 
 $txt["nl"]["zoek-en-boek"]["agriturismo"]="agriturismo";
 $txt["en"]["zoek-en-boek"]["agriturismo"]="agriturismo";
@@ -1069,8 +1093,17 @@ $txt["en"]["zoek-en-boek"]["hotel"]="hotel";
 $txt["nl"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Faciliteiten accommodatie";
 $txt["en"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Facilities accommodation";
 
+$txt["nl_i"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Faciliteiten vakantiehuis";
+$txt["en_i"]["zoek-en-boek"]["faciliteitenaccommodatie"]="Facilities holiday home";
+
 $txt["nl"]["zoek-en-boek"]["priveterras"]="privé-terras";
 $txt["en"]["zoek-en-boek"]["priveterras"]="private terrace";
+
+$txt["nl_i"]["zoek-en-boek"]["priveterras"]="privé-tuin/terras";
+$txt["en_i"]["zoek-en-boek"]["priveterras"]="-";
+
+$txt["nl"]["zoek-en-boek"]["internetwifi"]="internet / Wi-Fi";
+$txt["en"]["zoek-en-boek"]["internetwifi"]="internet / Wi-Fi";
 
 $txt["nl"]["zoek-en-boek"]["balkon"]="balkon";
 $txt["en"]["zoek-en-boek"]["balkon"]="balcony";
@@ -1108,11 +1141,14 @@ $txt["en"]["zoek-en-boek"]["superskistations"]="super ski stations";
 $txt["nl"]["zoek-en-boek"]["goedvoorkids"]="goed voor kids";
 $txt["en"]["zoek-en-boek"]["goedvoorkids"]="good for kids";
 
+$txt["nl_i"]["zoek-en-boek"]["goedvoorkids"]="kindvriendelijk";
+$txt["en_i"]["zoek-en-boek"]["goedvoorkids"]="";
+
 $txt["nl"]["zoek-en-boek"]["bijzonder"]="bijzonder";
 $txt["en"]["zoek-en-boek"]["bijzonder"]="special";
 
-$txt["nl"]["zoek-en-boek"]["vleugjewelness"]="vleugje wellness";
-$txt["en"]["zoek-en-boek"]["vleugjewelness"]="touch of wellness";
+$txt["nl"]["zoek-en-boek"]["vleugjewellness"]="vleugje wellness";
+$txt["en"]["zoek-en-boek"]["vleugjewellness"]="touch of wellness";
 
 $txt["nl"]["zoek-en-boek"]["topselectie"]="topselectie";
 $txt["en"]["zoek-en-boek"]["topselectie"]="top selection";
@@ -1120,8 +1156,8 @@ $txt["en"]["zoek-en-boek"]["topselectie"]="top selection";
 $txt["nl"]["zoek-en-boek"]["voordeligweg"]="voordelig weg";
 $txt["en"]["zoek-en-boek"]["voordeligweg"]="inexpensive trips";
 
-$txt["nl"]["zoek-en-boek"]["huisjevoor2"]="huisje voor 2";
-$txt["en"]["zoek-en-boek"]["huisjevoor2"]="house for 2";
+$txt["nl"]["zoek-en-boek"]["huisjevoor2"]="huisje voor twee";
+$txt["en"]["zoek-en-boek"]["huisjevoor2"]="house for two";
 
 $txt["nl"]["zoek-en-boek"]["metznallen"]="met z'n allen";
 $txt["en"]["zoek-en-boek"]["metznallen"]="with everyone";

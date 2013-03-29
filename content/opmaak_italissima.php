@@ -398,7 +398,7 @@ if($vars["verberg_linkerkolom"]) {
 	} else {
 		if($id=="zoek-en-boek") {
 			# zorgen voor hoge content i.v.m. "verfijn"-blok
-			echo "<div style=\"min-height:790px;\">";
+			echo "<div style=\"min-height:990px;\">";
 		} else {
 			echo "<div style=\"min-height:290px;\">";
 		}
