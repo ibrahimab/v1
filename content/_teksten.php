@@ -2204,7 +2204,7 @@ $txt["en"]["thema"]["meerinformatie"]="more information";
 $txt["nl"]["thema"]["aantalaccommodaties"]="Aantal accommodaties";
 $txt["en"]["thema"]["aantalaccommodaties"]="Number of accommodations";
 
-$txt["nl"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale winteraanbod)";
+$txt["nl"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties voor 2013/2014 met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
 $txt["en"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
 $txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";

@@ -3119,15 +3119,15 @@ if($vars["zoeken_op_kaart"]) {
 			if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
 			echo "<div class=\"zoekresultaten_aantalgevonden\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
 			if($_GET["save_tarievenbekend"]) {
-				file_put_contents($unixdir."tmp/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
+				file_put_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
 			}
 		}
 	} else {
-		if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and @filemtime($unixdir."tmp/tarievenbekend_".$vars["website"].".txt")>(time()-86400) and !$_GET["filled"]) {
+		if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and @filemtime($unixdir."cache/tarievenbekend_".$vars["website"].".txt")>(time()-86400) and !$_GET["filled"]) {
 			#
 			# melding "Aantal accommodaties met tarieven: xxx (= xx% van ons totale winteraanbod)" tonen
 			#
-			$a=split("-",file_get_contents($unixdir."tmp/tarievenbekend_".$vars["website"].".txt"));
+			$a=split("-",file_get_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt"));
 			if($a[0]>=1) {
 				if($a[1]<1) $a[1]=1;
 				echo "<div class=\"zoekresultaten_aantalgevonden\">";
@@ -3168,23 +3168,24 @@ if($resultaten_tonen) {
 				$toon_aantalresultaten=count($results);
 			}
 			if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
+
 				if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and !$_GET["filled"]) {
 	#				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten/$totaal_tarievenbekend_seizoen_id)*100);
 					$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
 					if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
 					echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
 					if($_GET["save_tarievenbekend"]) {
-						file_put_contents($unixdir."tmp/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
+						file_put_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
 					}
 				} else {
 					echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
 				}
 			} else {
-				if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and @filemtime($unixdir."tmp/tarievenbekend_".$vars["website"].".txt")>(time()-86400) and !$_GET["filled"]) {
+				if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and (@filemtime($unixdir."cache/tarievenbekend_".$vars["website"].".txt")>(time()-86400) or $vars["lokale_testserver"]) and !$_GET["filled"]) {
 					#
 					# melding "Aantal accommodaties met tarieven: xxx (= xx% van ons totale winteraanbod)" tonen
 					#
-					$a=split("-",file_get_contents($unixdir."tmp/tarievenbekend_".$vars["website"].".txt"));
+					$a=split("-",file_get_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt"));
 					if($a[0]>=1) {
 						if($a[1]<1) $a[1]=1;
 						echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" style=\"margin-bottom:25px;\">";
