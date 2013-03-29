@@ -2879,6 +2879,27 @@ function zoekblok_prijsklasse($settings="") {
 	# zoekformulier: prijsklasse (via slider)
 	#
 
+	echo "<div class=\"zoekblok_item zoekblok_prijsklasse\">";
+
+	echo "<div class=\"zoekblok_titel\">";
+	echo html("prijsklasse","zoek-en-boek");
+	echo "</div>"; # afsluiten .zoekblok_titel
+
+	echo "<div class=\"zoekblok_field\">";
+
+	echo "<div class=\"noUiSlider\"></div>";
+
+	echo "van&nbsp;&euro;&nbsp;<input type=\"text\" name=\"pk_van\" id=\"pk_van\" value=\"".($_GET["pk_van"] ? intval($_GET["pk_van"]) : "0")."\">";
+	echo "&nbsp;&nbsp;&nbsp;";
+	echo "tot&nbsp;&euro;&nbsp;<input type=\"text\" name=\"pk_tot\" id=\"pk_tot\" value=\"".($_GET["pk_tot"] ? intval($_GET["pk_tot"]) : "5000")."\">";
+
+	echo "&nbsp;&nbsp;per accommodatie";
+
+	echo "</div>"; # afsluiten .zoekblok_field
+
+	echo "<div class=\"clear\"></div>";
+
+	echo "</div>"; # afsluiten .zoekblok_item
 }
 
 function zoekblok_intern($settings="") {

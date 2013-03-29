@@ -1071,6 +1071,38 @@ $(document).ready(function() {
 				$(".zoekblok_aankomstdatum .chzn-search, .zoekblok_aantalpersonen .chzn-search, .zoekblok_aantalslaapkamers .chzn-search, .zoekblok_verblijfsduur .chzn-search").hide();
 			}
 
+
+			if($().noUiSlider) {
+
+				var slider_active=false;
+				var slider_timer;
+				// prijsklasse (via noUiSlide)
+				$(".noUiSlider").noUiSlider({
+					range: [0, 5000]
+					,start: [$("#pk_van").val(), $("#pk_tot").val()]
+					,handles: 2
+					,step: 100
+					,serialization: {
+						to: [$("#pk_van"),$("#pk_tot")]
+						,resolution: 1
+					},
+					slide: function() {
+						slider_active=true;
+						clearTimeout(slider_timer);
+						slider_timer=setTimeout(function(){
+							if(slider_active) {
+								slider_active=false;
+								zoekblok_submit();
+							} else {
+								slider_active=false;
+							}
+						},700);
+
+					}
+				});
+			}
+
+
 			// Multiple-bestemming verwerken
 			$(".zoekblok_select").change(function() {
 				show_ajaxloader(false);

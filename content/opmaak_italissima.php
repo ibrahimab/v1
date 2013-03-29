@@ -125,7 +125,13 @@ if($vars["googlemaps"]) {
 #if($vars["jquery_chosen"]) {
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."\"></script>\n";
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."\"></script>\n";
+
 #}
+
+if($id=="zoek-en-boek") {
+	# jQuery noUiSlider
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.nouislider.min.js\"></script>\n";
+}
 
 # Javascript-functions
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";

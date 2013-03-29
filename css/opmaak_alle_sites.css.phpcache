@@ -885,6 +885,16 @@ td.selecteerbaarbedrag:hover{
 	width: 455px;
 }
 
+.zoekblok_prijsklasse .noUiSlider {
+	margin-top: 8px;
+	margin-bottom: 10px;
+	margin-left: 5px;
+}
+
+.zoekblok_prijsklasse input {
+	width: 50px;
+}
+
 .option_land {
 	font-weight: bold;
 	color: #ffffff;
