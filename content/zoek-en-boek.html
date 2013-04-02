@@ -2752,7 +2752,9 @@ function zoekblok_aankomstdatum($settings="") {
 		# Flexibel
 		#
 		# Kalender
+		echo "<div style=\"float:left;margin-top:5px;\">";
 		echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=286,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" class=\"zoekblok_aankomstdatum_calendar\">";
+		echo "</div>";
 
 		# dag
 		echo "<select name=\"fadf_d\" class=\"flexibel_datum\">";
@@ -3062,8 +3064,8 @@ if($vars["websitetype"]==1) {
 	zoekblok_aankomstdatum();
 	zoekblok_verblijfsduur();
 	zoekblok_aantalslaapkamers();
-	if($_GET["testsysteem"]) {
-		zoekblok_prijsklasse();
+	if($_GET["testsysteem"] or $vars["lokale_testserver"]) {
+		// zoekblok_prijsklasse();
 	}
 	zoekblok_tekst();
 	zoekblok_intern();
@@ -3098,7 +3100,7 @@ if($vars["websitetype"]==1) {
 	zoekblok_aankomstdatum();
 	zoekblok_verblijfsduur();
 	zoekblok_aantalslaapkamers();
-	if($_GET["testsysteem"]) {
+	if($_GET["testsysteem"] or $vars["lokale_testserver"]) {
 		zoekblok_prijsklasse();
 	}
 	zoekblok_tekst();

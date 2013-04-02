@@ -781,12 +781,11 @@ form {
 
 .zoekblok_aankomstdatum_calendar {
 	cursor: pointer;
-	margin-bottom: 5px;
 	margin-right: 10px;
 }
 
 .zoekblok_aankomstdatum select[name=fadf_d] {
-	width: 4em;
+	width: 5em;
 }
 
 .zoekblok_aankomstdatum select[name=fadf_m] {

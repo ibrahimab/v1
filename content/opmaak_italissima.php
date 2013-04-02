@@ -128,7 +128,7 @@ if($vars["googlemaps"]) {
 
 #}
 
-if($id=="zoek-en-boek") {
+if($id=="zoek-en-boek" and ($_GET["testsysteem"] or $vars["lokale_testserver"])) {
 	# jQuery noUiSlider
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.nouislider.min.js\"></script>\n";
 }
