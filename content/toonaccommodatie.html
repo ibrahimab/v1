@@ -169,7 +169,7 @@ if($db->next_record()) {
 	if($vars["websitetype"]==6) {
 		echo "<div id=\"toonaccommodatie_vallandry_spacer\">&nbsp;</div>";
 	} else {
-		echo "<div class=\"invisible_link\"><a href=\"".$path.txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/\">".htmlentities($db->f("plaats"))."</a> - <a href=\"".$path.txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/\">".htmlentities($db->f("skigebied"))."</a></div>";
+		echo "<div class=\"invisible_link\"><a href=\"".$path.txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/#beschrijving\">".htmlentities($db->f("plaats"))."</a> - <a href=\"".$path.txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/#beschrijving\">".htmlentities($db->f("skigebied"))."</a></div>";
 	}
 	echo "<div id=\"toonaccommodatie_kenmerken\">";
 	echo "<div id=\"toonaccommodatie_kenmerken_1\">";

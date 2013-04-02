@@ -104,8 +104,8 @@ if($url[0]) {
 		} else {
 			$breadcrumbs[txt("menu_land")."/".wt_convert2url($db->f("land"))."/"]=$db->f("land");
 		}
-		$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"]=$db->f("skigebied");
-		$breadcrumbs[txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/"]=$db->f("plaats");
+		$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"."#beschrijving"]=$db->f("skigebied");
+		$breadcrumbs[txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/"."#beschrijving"]=$db->f("plaats");
 		$breadcrumbs["last"]=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam");
 	}
 } else {
