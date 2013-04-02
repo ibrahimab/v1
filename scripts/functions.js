@@ -1852,11 +1852,8 @@ function zoekopdracht_naar_analytics_sturen(omschrijving,zoekopdracht) {
 	}
 }
 
-function zoekopdracht_naar_analytics_sturen_inclusief_aantal_zoekresultaten(omschrijving,zoekopdracht) {
-	// stuur de zoekopdracht naar Google Analytics (en neem aantal zoekresultaten op als extra Value)
-
-	// aantal zoekresultaten uit data-element halen
-	var aantal=parseInt($("div#aantalgevonden").data("aantalgevonden"),10);
+function zoekopdracht_naar_analytics_sturen_inclusief_aantal(omschrijving,zoekopdracht,aantal) {
+	// stuur de zoekopdracht naar Google Analytics (en neem een aantal op als extra Value)
 
 	if (typeof _gaq != "undefined") {
 		_gaq.push(['_trackEvent', 'zoekfunctie', omschrijving, zoekopdracht, aantal]);
@@ -1916,18 +1913,57 @@ $(document).ready(function() {
 			// bestemming
 			if($("div.zoekblok_bestemming_actief_item").length!==0) {
 
+				var analytics_bestemming_teller_land=0;
+				var analytics_bestemming_teller_regio=0;
+				var analytics_bestemming_teller_plaats=0;
+				var analytics_bestemming_teller_tekst="";
+
 				$("div.zoekblok_bestemming_actief_item").each(function() {
 					if($(this).data("bestemming_actief_name").length!==0) {
 						if(analytics_bestemming) {
 							analytics_bestemming=analytics_bestemming+", ";
 						}
 						analytics_bestemming=analytics_bestemming+$(this).data("bestemming_actief_name");
+
+						if($(this).data("bestemming_actief_value").match(/^[0-9]-0$/)) {
+							// land
+							analytics_bestemming_teller_land++;
+						} else if($(this).data("bestemming_actief_value").match(/^[0-9]-[[0-9]+$/)) {
+							// regio
+							analytics_bestemming_teller_regio++;
+						} else if($(this).data("bestemming_actief_value").match(/^pl/)) {
+							// plaats
+							analytics_bestemming_teller_plaats++;
+						}
+
 					}
 				});
 
 				if(analytics_bestemming) {
 					zoekopdracht_naar_analytics_sturen("bestemming",analytics_bestemming);
 					analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Bestemming: "+analytics_bestemming;
+				}
+
+				if(analytics_bestemming_teller_land>0 || analytics_bestemming_teller_regio>0 || analytics_bestemming_teller_plaats>0) {
+
+					if(analytics_bestemming_teller_land>0) {
+						zoekopdracht_naar_analytics_sturen_inclusief_aantal("soort bestemming","land",analytics_bestemming_teller_land);
+						analytics_bestemming_teller_tekst=analytics_bestemming_teller_tekst+" - landen: "+analytics_bestemming_teller_land;
+					}
+					if(analytics_bestemming_teller_regio>0) {
+						zoekopdracht_naar_analytics_sturen_inclusief_aantal("soort bestemming","regio",analytics_bestemming_teller_regio);
+						analytics_bestemming_teller_tekst=analytics_bestemming_teller_tekst+" - regio's: "+analytics_bestemming_teller_regio;
+					}
+					if(analytics_bestemming_teller_plaats>0) {
+						zoekopdracht_naar_analytics_sturen_inclusief_aantal("soort bestemming","plaats",analytics_bestemming_teller_plaats);
+						analytics_bestemming_teller_tekst=analytics_bestemming_teller_tekst+" - plaatsen: "+analytics_bestemming_teller_plaats;
+					}
+
+					// complete zoekopdracht: ' - ' weghalen
+					if(analytics_bestemming_teller_tekst) {
+						analytics_bestemming_teller_tekst=analytics_bestemming_teller_tekst.substr(3);
+						zoekopdracht_naar_analytics_sturen('soort bestemming - compleet',analytics_bestemming_teller_tekst);
+					}
 				}
 			}
 
@@ -2011,7 +2047,8 @@ $(document).ready(function() {
 				if(analytics_complete_zoekopdracht==analytics_niet_verzenden_indien_alleen) {
 					// complete zoekopdracht niet verzenden: bestaat alleen uit een niet door gebruiker ingevoerd veld
 				} else {
-					zoekopdracht_naar_analytics_sturen_inclusief_aantal_zoekresultaten("complete zoekopdracht",analytics_complete_zoekopdracht);
+					// aantal zoekresultaten uit data-element halen
+					zoekopdracht_naar_analytics_sturen_inclusief_aantal("complete zoekopdracht",analytics_complete_zoekopdracht,parseInt($("div#aantalgevonden").data("aantalgevonden"),10));
 				}
 
 			} else {
