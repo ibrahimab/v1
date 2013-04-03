@@ -701,7 +701,16 @@ td.selecteerbaarbedrag:hover{
 }
 
 #terugnaarzoekresultaten {
-	margin-bottom: 5px;
+	display: block;
+	margin-bottom: 15px;
+}
+
+#terugnaarzoekresultaten {
+	text-decoration: none;
+}
+
+#terugnaarzoekresultaten:hover {
+	color: inherit;
 }
 
 #socialmedia {
