@@ -3339,7 +3339,13 @@ if($resultaten_tonen) {
 			echo html("pagina","accommodaties");
 			echo "</div>";
 
-			$zoekurl="<a href=\"".$urlself."?".ereg_replace("&page=[0-9]{1,}","",$_SERVER["QUERY_STRING"])."&page=";
+			$temp_qs=$_SERVER["QUERY_STRING"];
+			$temp_qs=ereg_replace("&page=[0-9]{1,}","",$temp_qs);
+			$temp_qs=ereg_replace("&scrolly=[0-9]{1,}","",$temp_qs);
+			$temp_qs=ereg_replace("?scrolly=[0-9]{1,}&","?",$temp_qs);
+			$temp_qs=ereg_replace("?scrolly=[0-9]{1,}$","",$temp_qs);
+
+			$zoekurl="<a href=\"".$urlself."?".$temp_qs."&page=";
 
 			echo "<div class=\"zoekresultaten_paginas_nummers\">";
 
