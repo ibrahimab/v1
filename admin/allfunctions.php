@@ -1376,10 +1376,18 @@ function wt_dump($array,$html=true) {
 
 function wt_mail($to,$subject,$body,$from="",$fromname="",$returnpath="") {
 	if(!$fromname) {
-		$fromname="WebTastic wt_mail";
+		if(defined("wt_mail_fromname")) {
+			$fromname=wt_mail_fromname;
+		} else {
+			$fromname="WebTastic wt_mail";
+		}
 	}
 	if(!$from) {
-		$from="wt_mail@webtastic.nl";
+		if(defined("wt_mail_from")) {
+			$from=wt_mail_from;
+		} else {
+			$from="wt_mail@webtastic.nl";
+		}
 	}
 	$mail=new wt_mail;
 	$mail->fromname=$fromname;
@@ -1794,8 +1802,10 @@ function wt_convert_database_to_utf8() {
 	}
 }
 
-function wt_get_tiwtter_url($url,$query_string_array,$oauth_consumer_key,$oauth_consumer_secret,$oauth_access_token,$oauth_access_token_secret) {
-
+function wt_get_twitter_url($url,$query_string_array,$oauth_consumer_key,$oauth_consumer_secret,$oauth_access_token,$oauth_access_token_secret) {
+	//
+	// twitter-api (1.1) raadplegen
+	//
 	if(is_array($query_string_array)) {
 		ksort($query_string_array);
 		while(list($key,$value)=each($query_string_array)) {
