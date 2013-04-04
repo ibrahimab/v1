@@ -460,7 +460,7 @@ form {
 	color: #661700;
 }
 
-.button_accpagina:hover {
+.button_accpagina:hover, #terugnaarzoekresultaten:hover {
 	border: 1px solid #ff9900;
 }
 

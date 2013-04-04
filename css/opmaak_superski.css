@@ -509,7 +509,7 @@ form {
 	margin-bottom: 10px;
 }
 
-.button_accpagina:hover {
+.button_accpagina:hover, #terugnaarzoekresultaten:hover {
 	border: 1px solid #003366;
 	color: #a1bddb;
 }

@@ -274,8 +274,9 @@ form {
 	color: #ffffff;
 }
 
-.button_accpagina:hover {
+.button_accpagina:hover, #terugnaarzoekresultaten:hover {
 	border: 1px solid #666600;
+	color: #ffffff;
 }
 
 .boekbutton {
