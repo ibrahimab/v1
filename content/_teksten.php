@@ -434,7 +434,7 @@ $txt["en"]["popup_kwaliteit"]["inleiding2"]="Stars are awarded on the basis of t
 
 
 #
-# Pop-up kwaliteit (http://www.chalet.nl/popup.php?id=stuurdoor)
+# Pop-up kwaliteit (http://www.chalet.nl/popup.php?id=stuurdoor)  NIET MEER IN GEBRUIK
 #
 $txt["nl"]["popup_stuurdoor"]["inleiding"]="Door hieronder één of meerdere mailadressen van vrienden in te voeren, ontvangen zij een link naar [[v_accnaam]].";
 $txt["en"]["popup_stuurdoor"]["inleiding"]="By filling in one or more email addresses from friends, they will receive a weblink to [[v_accnaam]].";
@@ -4204,7 +4204,10 @@ $txt["nl"]["betalingen"]["mailbody"]="Beste [[v_naam]],
 
 Datum: [[v_datum]]
 Bedrag: [[v_bedrag]]";
-$txt["en"]["betalingen"]["mailbody"]="";
+$txt["en"]["betalingen"]["mailbody"]="Dear [[v_naam]],
+
+Date: [[v_datum]]
+Amount: [[v_bedrag]]";
 
 $txt["nl"]["betalingen"]["metvriendelijkegroet"]="Met vriendelijke groet,";
 $txt["en"]["betalingen"]["metvriendelijkegroet"]="Yours sincerely,";
@@ -4215,7 +4218,6 @@ Tel: +31 (0)348 - 43 46 49";
 $txt["en"]["betalingen"]["medewerkerswebsitenaam"]="Staff [[v_websitenaam]]
 
 Phone: +31 (0)348 - 43 46 49";
-$txt["en"]["betalingen"]["mailbody"]="Dear [[v_naam]],";
 
 
 

@@ -19,11 +19,11 @@ if($vars["websitetype"]==3) {
 }
 
 if($vars["website"]=="I") {
-	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:332px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:372px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="K") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:314px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="E") {
-	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:255px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:265px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="Z") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:202px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="N") {
@@ -1308,7 +1308,6 @@ if($db->next_record()) {
 	}
 
 	if($_GET["back"]) {
-		echo "<div id=\"terugnaarzoekresultaten\" class=\"noprint\">";
 		echo "<a href=\"";
 		if(preg_match("/^http/",$_GET["back"])) {
 			echo wt_he($_GET["back"]);
@@ -1318,7 +1317,7 @@ if($db->next_record()) {
 		if($_GET["cnt"]) {
 			echo "#cnt".$_GET["cnt"];
 		}
-		echo "\">&lt; ";
+		echo "\" id=\"terugnaarzoekresultaten\" class=\"button_accpagina noprint\">&laquo; ";
 		if(ereg(txt("menu_top10")."\.php",$_GET["back"])) {
 			echo html("terugnaartop10","toonaccommodatie");
 		} elseif(ereg(txt("menu_aanbiedingen")."\.php",$_GET["back"]) or preg_match("/\/".txt("menu_aanbiedingen")."\//",$_GET["back"])) {
@@ -1327,7 +1326,6 @@ if($db->next_record()) {
 			echo html("terugnaarzoekresultaten","toonaccommodatie");
 		}
 		echo "</a>";
-		echo "</div>";
 	}
 
 	echo "<form method=\"get\" name=\"aanvraag\" action=\"".$path.txt("menu_beschikbaarheid").".php\">";

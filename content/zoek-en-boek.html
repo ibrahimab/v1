@@ -3150,7 +3150,7 @@ if($vars["zoeken_op_kaart"]) {
 			#
 			# melding "Aantal accommodaties met tarieven: xxx (= xx% van ons totale winteraanbod)" tonen
 			#
-			$a=split("-",file_get_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt"));
+			$a=split("-",@file_get_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt"));
 			if($a[0]>=1) {
 				if($a[1]<1) $a[1]=1;
 				echo "<div class=\"zoekresultaten_aantalgevonden\">";
@@ -3208,7 +3208,7 @@ if($resultaten_tonen) {
 					#
 					# melding "Aantal accommodaties met tarieven: xxx (= xx% van ons totale winteraanbod)" tonen
 					#
-					$a=split("-",file_get_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt"));
+					$a=split("-",@file_get_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt"));
 					if($a[0]>=1) {
 						if($a[1]<1) $a[1]=1;
 						echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" style=\"margin-bottom:25px;\">";
@@ -3342,8 +3342,8 @@ if($resultaten_tonen) {
 			$temp_qs=$_SERVER["QUERY_STRING"];
 			$temp_qs=ereg_replace("&page=[0-9]{1,}","",$temp_qs);
 			$temp_qs=ereg_replace("&scrolly=[0-9]{1,}","",$temp_qs);
-			$temp_qs=ereg_replace("?scrolly=[0-9]{1,}&","?",$temp_qs);
-			$temp_qs=ereg_replace("?scrolly=[0-9]{1,}$","",$temp_qs);
+			$temp_qs=ereg_replace("\?scrolly=[0-9]{1,}&","?",$temp_qs);
+			$temp_qs=ereg_replace("\?scrolly=[0-9]{1,}$","",$temp_qs);
 
 			$zoekurl="<a href=\"".$urlself."?".$temp_qs."&page=";
 
