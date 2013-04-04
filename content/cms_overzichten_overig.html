@@ -675,10 +675,44 @@ if($_GET["t"]==1) {
 } else {
 
 	#
-	# Overige overzichten
+	# Overige overzichten (==9)
 	#
 
 	echo "&nbsp;";
+
+	# Accommodaties van > 10 personen die niet in thema "grote groepen" vallen
+	$db->query("SELECT type_id, accommodatie_id FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE t.websites LIKE '%C%' AND t.maxaantalpersonen>=10 AND (t.kenmerken NOT REGEXP '[[:<:]]6[[:>:]]' AND a.kenmerken NOT REGEXP '[[:<:]]6[[:>:]]') AND a.wzt=1 AND a.archief=0 AND t.tonen=1 AND a.tonen=1;");
+	if($db->num_rows()) {
+		echo "<b>Chalet.nl-accommodaties van 10 personen of meer die niet in het thema &quot;grote groepen&quot; vallen:</b></p>";
+ 		while($db->next_record()) {
+ 			$results[$vars["alletypes"][$db->f("type_id")]]="<li><a href=\"".$vars["path"]."cms_types.php?show=2&wzt=1&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
+		}
+		ksort($results);
+
+		echo "<ol>";
+		while(list($key,$value)=each($results)) {
+			echo $value;
+		}
+		echo "</ol>";
+	}
+
+	# Accommodaties van < 10 personen die niet in thema "grote groepen" vallen
+	unset($results);
+	$db->query("SELECT type_id, accommodatie_id FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE t.websites LIKE '%C%' AND t.maxaantalpersonen<10 AND (t.kenmerken REGEXP '[[:<:]]6[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]6[[:>:]]') AND a.wzt=1 AND a.archief=0 AND t.tonen=1 AND a.tonen=1;");
+	if($db->num_rows()) {
+		echo "<b>Chalet.nl-accommodaties van minder dan 10 personen die in het thema &quot;grote groepen&quot; vallen:</b></p>";
+ 		while($db->next_record()) {
+ 			$results[$vars["alletypes"][$db->f("type_id")]]="<li><a href=\"".$vars["path"]."cms_types.php?show=2&wzt=1&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
+		}
+		ksort($results);
+
+		echo "<ol>";
+		while(list($key,$value)=each($results)) {
+			echo $value;
+		}
+		echo "</ol>";
+	}
+
 
 
 	# Overzicht alle skigebieden Chalet.nl inclusief link (t.b.v. Snowplaza - 04-01-2013)
@@ -773,9 +807,6 @@ if($_GET["t"]==1) {
 		}
 		echo "</ul>";
 	}
-
-
-
 }
 
 ?>
