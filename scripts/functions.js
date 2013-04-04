@@ -1268,7 +1268,7 @@ $(document).ready(function() {
 			});
 
 			// naar de juiste positie scrollen
-			if($("input[name=scrolly]").val()>0) {
+			if($("input[name=scrolly]").val()>0 && $("div.datadiv").data("paginanummer")=="1") {
 				window.scrollTo(0,$("input[name=scrolly]").val());
 			}
 
@@ -1811,8 +1811,12 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 				if(data.aantal==1) {
 					// popup tonen
 					if(chalet_getCookie("favorietenpopup")!="1"||lokale_testserver) {
-						$("#favorieten_popup").css("display","inline");
 						chalet_createCookie("favorietenpopup","1",3650);
+
+						// scroll to top (to see the favorites-popup)
+						$("html, body").animate({ scrollTop: 0 }, 600,'swing',function(){
+							$("#favorieten_popup").css("display","inline");
+						});
 					}
 				} else {
 //					$("#favorietenaantal").parent("a").css("background-color","yellow");
