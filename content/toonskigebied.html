@@ -350,9 +350,13 @@ hr {
 		if(is_array($foto["pic"])) {
 			while(list($key,$value)=each($foto["pic"])) {
 				$fototeller++;
+				$fototeller_popup++;
 				if($fototeller<=3) {
 #					echo "<img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($value)."&w=170&h=127\" width=\"170\" height=\"127\">&nbsp;";
-					echo "<img src=\"".imageurl($value,170,127)."\" width=\"170\" height=\"127\">&nbsp;";
+					echo "<a href=\"#\" class=\"fotopopup_tab_overzicht\" data-teller=\"".$fototeller_popup."\">";
+					echo "<img src=\"".imageurl($value,170,127)."\" width=\"170\" height=\"127\" border=\"0\">";
+					echo "</a>";
+					echo "&nbsp;";
 				}
 			}
 			if($fototeller>3 or $foto["picbreed"]) {
@@ -452,7 +456,7 @@ hr {
 				$size=getimagesize("pic/cms/".$value);
 				if($size[0]>300) {
 #					$foto_table.="<div class=\"foto_doorklik\"><a href=\"javascript:fotopopup(".($size[0]+0).",".($size[1]+0).",'".$path."foto.php?f=".urlencode("pic/cms/".$value)."',true)\">";
-					$foto_table.="<div class=\"foto_doorklik\"><a href=\"".htmlentities($vars["path"]."thumbnail.php?calcsize=1&file=".urlencode($value))."\" class=\"fotopopup\" rel=\"group1\">";
+					$foto_table.="<div class=\"foto_doorklik\"><a href=\"".htmlentities($vars["path"]."thumbnail.php?calcsize=1&file=".urlencode($value))."\" class=\"fotopopup\" data-teller=\"".$counter."\" rel=\"group1\">";
 #					$foto_table.="<img src=\"".$path."thumbnail.php?file=".urlencode($value)."\" title=\"".html("klikopdefoto","imagetable")."\" width=\"200\" height=\"150\" border=\"0\">";
 					$foto_table.="<img src=\"".imageurl($value)."\" title=\"".html("klikopdefoto","imagetable")."\" width=\"200\" height=\"150\" border=\"0\">";
 					$foto_table.="<br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div>";
