@@ -1762,338 +1762,367 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				$tarief=number_format($tarief,0,",",".");
 			}
 
-			# Zoekvolgorde-categorie (1=hoogst, 5=laagst)
-			$zoekvolgorde=$db->f("lzoekvolgorde");
-			if($db->f("azoekvolgorde")<>3) $zoekvolgorde=$db->f("azoekvolgorde");
-			if($db->f("tzoekvolgorde")<>3) $zoekvolgorde=$db->f("tzoekvolgorde");
+			$accommodatie_opnemen_in_resultaten=true;
 
-#			if($_GET["fad"]>0 and ($_GET["fap"]>0 or $vars["seizoentype"]==2)) {
+			# Prijsklasse: accommodaties lager dan van-prijs uitsluiten
+			if($_GET["fpk_van"]) {
+				if(!$tarief_float) {
+					$accommodatie_opnemen_in_resultaten=false;
+				}
+				if($tarief_float<$_GET["fpk_van"]) {
+					$accommodatie_opnemen_in_resultaten=false;
+				}
+			}
 
-			# Zoeken op kaart: GPS-gegevens bepalen + $zoeken_op_kaart_data vullen
-			if($vars["zoeken_op_kaart"]) {
-				if(($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
-					if(($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
-						$gps_lat=$db->f("tgps_lat");
-						$gps_long=$db->f("tgps_long");
-					} else {
-						$gps_lat=$db->f("gps_lat");
-						$gps_long=$db->f("gps_long");
-					}
+			# Prijsklasse: accommodaties hoger dan tot-prijs uitsluiten
+			if($_GET["fpk_tot"] and !$_GET["fpk_enmeer"]) {
+				if(!$tarief_float) {
+					$accommodatie_opnemen_in_resultaten=false;
+				}
+				if($tarief_float>$_GET["fpk_tot"]) {
+					$accommodatie_opnemen_in_resultaten=false;
+				}
+			}
 
-					# afbeelding bepalen
-					if ( file_exists( "pic/cms/types_specifiek/".$db->f( "type_id" ).".jpg" ) ) {
-						$temp_afbeelding=imageurl( "types_specifiek/".$db->f( "type_id" ).".jpg", 170, 127 );
-					} elseif ( file_exists( "pic/cms/accommodaties/".$db->f( "accommodatie_id" ).".jpg" ) ) {
-						$temp_afbeelding=imageurl( "accommodaties/".$db->f( "accommodatie_id" ).".jpg", 170, 127 );
-					}
+			if($accommodatie_opnemen_in_resultaten) {
 
-					# kijken of er al een accommodatie op deze GPS-coordinaten aanwezig is
-					$use_key=$gps_lat."_".$gps_long;
-					if($zoeken_op_kaart_data[$use_key]) {
-						# Alleen overschrijven indien het om dezelfde accommodatie_id gaat
-						if($zoeken_op_kaart_data[$use_key]["accommodatie_id"]==$db->f("accommodatie_id") or $zoeken_op_kaart_data[$use_key]["naamaccommodatie"]==$db->f("naam")) {
+				# min en max-bedragen bepalen
+				if($tarief_float<$prijsklasse_min_beschikbaar or !$prijsklasse_min_beschikbaar) $prijsklasse_min_beschikbaar=$tarief_float;
+				if($tarief_float>$prijsklasse_max_beschikbaar) $prijsklasse_max_beschikbaar=$tarief_float;
 
-							# naam: alleen accommodatienaam (zonder typenaam)
-							$zoeken_op_kaart_data[$use_key]["naamhtml"]=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam");
+				# Zoekvolgorde-categorie (1=hoogst, 5=laagst)
+				$zoekvolgorde=$db->f("lzoekvolgorde");
+				if($db->f("azoekvolgorde")<>3) $zoekvolgorde=$db->f("azoekvolgorde");
+				if($db->f("tzoekvolgorde")<>3) $zoekvolgorde=$db->f("tzoekvolgorde");
 
-							# aantal personen min/max bepalen
-							if($db->f("optimaalaantalpersonen")<$zoeken_op_kaart_data[$use_key]["optimaalaantalpersonen"]) {
-								$zoeken_op_kaart_data[$use_key]["optimaalaantalpersonen"]=$db->f("optimaalaantalpersonen");
-							}
-							if($db->f("maxaantalpersonen")>$zoeken_op_kaart_data[$use_key]["maxaantalpersonen"]) {
-								$zoeken_op_kaart_data[$use_key]["maxaantalpersonen"]=$db->f("maxaantalpersonen");
-							}
+	#			if($_GET["fad"]>0 and ($_GET["fap"]>0 or $vars["seizoentype"]==2)) {
 
-							$zoeken_op_kaart_data[$use_key]["accommodatie_id"]=$db->f("accommodatie_id");
+				# Zoeken op kaart: GPS-gegevens bepalen + $zoeken_op_kaart_data vullen
+				if($vars["zoeken_op_kaart"]) {
+					if(($db->f("gps_lat")<>"" and $db->f("gps_long")<>"") or ($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
+						if(($db->f("tgps_lat")<>"" and $db->f("tgps_long")<>"")) {
+							$gps_lat=$db->f("tgps_lat");
+							$gps_long=$db->f("tgps_long");
+						} else {
+							$gps_lat=$db->f("gps_lat");
+							$gps_long=$db->f("gps_long");
+						}
 
-							if($tarief_float>0 and floatval($tarief_float)<$zoeken_op_kaart_data[$use_key]["tarief"]) {
-								# tarief: goedkoopste tonen
-								$zoeken_op_kaart_data[$use_key]["tarief"]=floatval($tarief_float);
-								$zoeken_op_kaart_data[$use_key]["vanaf"]=true;
-								$zoeken_op_kaart_data[$use_key]["url"]=$vars["path"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
-								$zoeken_op_kaart_data[$use_key]["afbeelding"]=$temp_afbeelding;
-							} elseif(floatval($tarief_float)>$zoeken_op_kaart_data[$use_key]["tarief"]) {
-								# bij meerdere tarieven: vanaf tonen
-								$zoeken_op_kaart_data[$use_key]["vanaf"]=true;
+						# afbeelding bepalen
+						if ( file_exists( "pic/cms/types_specifiek/".$db->f( "type_id" ).".jpg" ) ) {
+							$temp_afbeelding=imageurl( "types_specifiek/".$db->f( "type_id" ).".jpg", 170, 127 );
+						} elseif ( file_exists( "pic/cms/accommodaties/".$db->f( "accommodatie_id" ).".jpg" ) ) {
+							$temp_afbeelding=imageurl( "accommodaties/".$db->f( "accommodatie_id" ).".jpg", 170, 127 );
+						}
+
+						# kijken of er al een accommodatie op deze GPS-coordinaten aanwezig is
+						$use_key=$gps_lat."_".$gps_long;
+						if($zoeken_op_kaart_data[$use_key]) {
+							# Alleen overschrijven indien het om dezelfde accommodatie_id gaat
+							if($zoeken_op_kaart_data[$use_key]["accommodatie_id"]==$db->f("accommodatie_id") or $zoeken_op_kaart_data[$use_key]["naamaccommodatie"]==$db->f("naam")) {
+
+								# naam: alleen accommodatienaam (zonder typenaam)
+								$zoeken_op_kaart_data[$use_key]["naamhtml"]=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam");
+
+								# aantal personen min/max bepalen
+								if($db->f("optimaalaantalpersonen")<$zoeken_op_kaart_data[$use_key]["optimaalaantalpersonen"]) {
+									$zoeken_op_kaart_data[$use_key]["optimaalaantalpersonen"]=$db->f("optimaalaantalpersonen");
+								}
+								if($db->f("maxaantalpersonen")>$zoeken_op_kaart_data[$use_key]["maxaantalpersonen"]) {
+									$zoeken_op_kaart_data[$use_key]["maxaantalpersonen"]=$db->f("maxaantalpersonen");
+								}
+
+								$zoeken_op_kaart_data[$use_key]["accommodatie_id"]=$db->f("accommodatie_id");
+
+								if($tarief_float>0 and floatval($tarief_float)<$zoeken_op_kaart_data[$use_key]["tarief"]) {
+									# tarief: goedkoopste tonen
+									$zoeken_op_kaart_data[$use_key]["tarief"]=floatval($tarief_float);
+									$zoeken_op_kaart_data[$use_key]["vanaf"]=true;
+									$zoeken_op_kaart_data[$use_key]["url"]=$vars["path"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
+									$zoeken_op_kaart_data[$use_key]["afbeelding"]=$temp_afbeelding;
+								} elseif(floatval($tarief_float)>$zoeken_op_kaart_data[$use_key]["tarief"]) {
+									# bij meerdere tarieven: vanaf tonen
+									$zoeken_op_kaart_data[$use_key]["vanaf"]=true;
+								}
+							} else {
+								// trigger_error("FOUT accommodatie: I".$db->f("type_id")." overschrijft ".$zoeken_op_kaart_data[$use_key]["url"],E_USER_NOTICE);
+								// echo "<br><br>";
 							}
 						} else {
-							// trigger_error("FOUT accommodatie: I".$db->f("type_id")." overschrijft ".$zoeken_op_kaart_data[$use_key]["url"],E_USER_NOTICE);
-							// echo "<br><br>";
+							$zoeken_op_kaart_data[$use_key]["gps_lat"]=$gps_lat;
+							$zoeken_op_kaart_data[$use_key]["gps_long"]=$gps_long;
+							$zoeken_op_kaart_data[$use_key]["optimaalaantalpersonen"]=$db->f("optimaalaantalpersonen");
+							$zoeken_op_kaart_data[$use_key]["maxaantalpersonen"]=$db->f("maxaantalpersonen");
+							$zoeken_op_kaart_data[$use_key]["plaatsland"]=$db->f("plaats").", ".$db->f("land");
+							$zoeken_op_kaart_data[$use_key]["naamhtml"]=trim(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")." ".$db->f("tnaam"));
+							$zoeken_op_kaart_data[$use_key]["afbeelding"]=$temp_afbeelding;
+							$zoeken_op_kaart_data[$use_key]["url"]=$vars["path"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
+							if($tarief_float>0) {
+								$zoeken_op_kaart_data[$use_key]["tarief"]=floatval($tarief_float);
+							}
+							$zoeken_op_kaart_data[$use_key]["accommodatie_id"]=$db->f("accommodatie_id");
+							$zoeken_op_kaart_data[$use_key]["naamaccommodatie"]=$db->f("naam");
+							if($vanaf_prijzen_tonen) {
+								$zoeken_op_kaart_data[$use_key]["vanaf"]=true;
+							}
 						}
-					} else {
-						$zoeken_op_kaart_data[$use_key]["gps_lat"]=$gps_lat;
-						$zoeken_op_kaart_data[$use_key]["gps_long"]=$gps_long;
-						$zoeken_op_kaart_data[$use_key]["optimaalaantalpersonen"]=$db->f("optimaalaantalpersonen");
-						$zoeken_op_kaart_data[$use_key]["maxaantalpersonen"]=$db->f("maxaantalpersonen");
-						$zoeken_op_kaart_data[$use_key]["plaatsland"]=$db->f("plaats").", ".$db->f("land");
-						$zoeken_op_kaart_data[$use_key]["naamhtml"]=trim(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")." ".$db->f("tnaam"));
-						$zoeken_op_kaart_data[$use_key]["afbeelding"]=$temp_afbeelding;
-						$zoeken_op_kaart_data[$use_key]["url"]=$vars["path"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
-						if($tarief_float>0) {
-							$zoeken_op_kaart_data[$use_key]["tarief"]=floatval($tarief_float);
-						}
-						$zoeken_op_kaart_data[$use_key]["accommodatie_id"]=$db->f("accommodatie_id");
-						$zoeken_op_kaart_data[$use_key]["naamaccommodatie"]=$db->f("naam");
-						if($vanaf_prijzen_tonen) {
-							$zoeken_op_kaart_data[$use_key]["vanaf"]=true;
-						}
+
+						$gps_lat=floatval($gps_lat);
+						$gps_long=floatval($gps_long);
+						if($gps_lat>$gps_lat_max or !isset($gps_lat_max)) $gps_lat_max=$gps_lat;
+						if($gps_lat<$gps_lat_min or !isset($gps_lat_min)) $gps_lat_min=$gps_lat;
+						if($gps_long>$gps_long_max or !isset($gps_long_max)) $gps_long_max=$gps_long;
+						if($gps_long<$gps_long_min or !isset($gps_long_min)) $gps_long_min=$gps_long;
+
+						$zoeken_op_kaart=true;
 					}
-
-					$gps_lat=floatval($gps_lat);
-					$gps_long=floatval($gps_long);
-					if($gps_lat>$gps_lat_max or !isset($gps_lat_max)) $gps_lat_max=$gps_lat;
-					if($gps_lat<$gps_lat_min or !isset($gps_lat_min)) $gps_lat_min=$gps_lat;
-					if($gps_long>$gps_long_max or !isset($gps_long_max)) $gps_long_max=$gps_long;
-					if($gps_long<$gps_long_min or !isset($gps_long_min)) $gps_long_min=$gps_long;
-
-					$zoeken_op_kaart=true;
 				}
-			}
 
 
-			#
-			# Sorteersysteem
-			#
-			unset($sorteer);
+				#
+				# Sorteersysteem
+				#
+				unset($sorteer);
 
-			# accommodaties zonder tarief: onderaan
-			if($vanaf_prijzen_tonen) {
-				if($tarief_float>0) {
-					$sorteer.="1";
-				} else {
-					$sorteer.="9";
-				}
-			}
-
-			# Sorteren op gekoppelde skigebieden
-			if($koppeling[$db->f("skigebied_id")]) {
-				$sorteer.=$koppeling[$db->f("skigebied_id")];
-			}
-
-			if($_GET["sort"]==1 or !$_GET["sort"]) {
-				# standaard-sortering
-
-				# Sorteren in geval van tekst-zoeken
-				if($_GET["fzt"]) {
-					if(strpos(" ".strtolower(wt_stripaccents($db->f("naam")." ".$db->f("tnaam"))),strtolower(wt_stripaccents($_GET["fzt"])))) {
-						# zoektekst komt in naam accommodatie/type voor
+				# accommodaties zonder tarief: onderaan
+				if($vanaf_prijzen_tonen) {
+					if($tarief_float>0) {
 						$sorteer.="1";
 					} else {
 						$sorteer.="9";
 					}
 				}
 
-				# Nieuwe zoekmarge
-				# Komt het aantal personen goed overeen met waar de bezoeker om vraagt?
-				if($_GET["fap"]) {
+				# Sorteren op gekoppelde skigebieden
+				if($koppeling[$db->f("skigebied_id")]) {
+					$sorteer.=$koppeling[$db->f("skigebied_id")];
+				}
 
-					if($_GET["fap"]>20) {
-						$min_zoekmarge=$_GET["fap"];
-						$max_zoekmarge=50;
-					} else {
-						$min_zoekmarge=$_GET["fap"];
-						$max_zoekmarge=$vars["optimaalmaxpersonen"][$_GET["fap"]];
+				if($_GET["sort"]==1 or !$_GET["sort"]) {
+					# standaard-sortering
+
+					# Sorteren in geval van tekst-zoeken
+					if($_GET["fzt"]) {
+						if(strpos(" ".strtolower(wt_stripaccents($db->f("naam")." ".$db->f("tnaam"))),strtolower(wt_stripaccents($_GET["fzt"])))) {
+							# zoektekst komt in naam accommodatie/type voor
+							$sorteer.="1";
+						} else {
+							$sorteer.="9";
+						}
 					}
 
-					if($db->f("optimaalaantalpersonen")>=$min_zoekmarge and $db->f("maxaantalpersonen")<=$max_zoekmarge) {
-						$sorteer.="22-";
-					} else {
-						$sorteer.="88-";
+					# Nieuwe zoekmarge
+					# Komt het aantal personen goed overeen met waar de bezoeker om vraagt?
+					if($_GET["fap"]) {
+
+						if($_GET["fap"]>20) {
+							$min_zoekmarge=$_GET["fap"];
+							$max_zoekmarge=50;
+						} else {
+							$min_zoekmarge=$_GET["fap"];
+							$max_zoekmarge=$vars["optimaalmaxpersonen"][$_GET["fap"]];
+						}
+
+						if($db->f("optimaalaantalpersonen")>=$min_zoekmarge and $db->f("maxaantalpersonen")<=$max_zoekmarge) {
+							$sorteer.="22-";
+						} else {
+							$sorteer.="88-";
+						}
 					}
+					if($prijsperaccommodatie) {
+						# zorgen dat "per accommodatie" onderaan komt (zodat arrangementen bovenaan komen)
+						$sorteer.="ZZZ";
+					} else {
+						$sorteer.="AAA";
+					}
+					$sorteer.=$zoekvolgorde."-";
+				} elseif($_GET["sort"]==2) {
+					# prijs oplopend
+					$sorteer.=substr("0000000".number_format($tarief_float,2,"",""),-7)."-";
+				} elseif($_GET["sort"]==3) {
+					# prijs aflopend
+					$sorteer.=1000000-$tarief_float;
 				}
-				if($prijsperaccommodatie) {
-					# zorgen dat "per accommodatie" onderaan komt (zodat arrangementen bovenaan komen)
-					$sorteer.="ZZZ";
-				} else {
-					$sorteer.="AAA";
-				}
+				# ook nog altijd relevantie toevoegen
 				$sorteer.=$zoekvolgorde."-";
-			} elseif($_GET["sort"]==2) {
-				# prijs oplopend
-				$sorteer.=substr("0000000".number_format($tarief_float,2,"",""),-7)."-";
-			} elseif($_GET["sort"]==3) {
-				# prijs aflopend
-				$sorteer.=1000000-$tarief_float;
-			}
-			# ook nog altijd relevantie toevoegen
-			$sorteer.=$zoekvolgorde."-";
 
-			# Ook nog sorteren op skigebied, plaats, naam accommodatie, maxaantal personen, type_id
-			$sorteer.=$db->f("skigebied")."-".$db->f("plaats")."-".$db->f("naam")."-".sprintf("%03d",$db->f("maxaantalpersonen"))."-".$db->f("type_id");
+				# Ook nog sorteren op skigebied, plaats, naam accommodatie, maxaantal personen, type_id
+				$sorteer.=$db->f("skigebied")."-".$db->f("plaats")."-".$db->f("naam")."-".sprintf("%03d",$db->f("maxaantalpersonen"))."-".$db->f("type_id");
 
 
-			# Sorteren op skigebied, plaats, naam accommodatie, maxaantal personen, type_id
-			$sorteer.=$db->f("skigebied")."-".$db->f("plaats")."-".$db->f("naam")."-".sprintf("%03d",$db->f("maxaantalpersonen"))."-".$db->f("type_id");
+				# Sorteren op skigebied, plaats, naam accommodatie, maxaantal personen, type_id
+				$sorteer.=$db->f("skigebied")."-".$db->f("plaats")."-".$db->f("naam")."-".sprintf("%03d",$db->f("maxaantalpersonen"))."-".$db->f("type_id");
 
-			# Sorteerscore gekoppelde skigebieden
-			if($koppeling[$db->f("skigebied_id")]) {
-				$sorteerscore_skigebied[$sorteer]=intval($koppeling[$db->f("skigebied_id")]);
-			}
+				# Sorteerscore gekoppelde skigebieden
+				if($koppeling[$db->f("skigebied_id")]) {
+					$sorteerscore_skigebied[$sorteer]=intval($koppeling[$db->f("skigebied_id")]);
+				}
 
-			if($gekozen_skigebied) {
-				if($db->f("skigebied_id")==$gekozen_skigebied) {
+				if($gekozen_skigebied) {
+					if($db->f("skigebied_id")==$gekozen_skigebied) {
+						$aantalresultaten_zonder_gekoppeld_skigebied++;
+					}
+				} else {
 					$aantalresultaten_zonder_gekoppeld_skigebied++;
 				}
-			} else {
-				$aantalresultaten_zonder_gekoppeld_skigebied++;
-			}
 
-			unset($urltoevoeging);
+				unset($urltoevoeging);
 
-			$zoekresultatenteller++;
+				$zoekresultatenteller++;
 
-			# Toonper opslaan
-			$toonper[$sorteer]=$db->f("toonper");
+				# Toonper opslaan
+				$toonper[$sorteer]=$db->f("toonper");
 
-			unset($trclass);
-			if($voorkant_cms) {
-				if($db->f("voorraad_garantie")) {
-					$trcolor="#00FF00";
-					$trclass="zoekresultaat_voorraad_garantie";
-				} elseif($db->f("voorraad_allotment")) {
-					$trcolor="#CCFFCC";
-					$trclass="zoekresultaat_voorraad_allotment";
-				} elseif($db->f("voorraad_optie_leverancier")) {
-					$trcolor="#CCFFCC";
-					$trclass="zoekresultaat_voorraad_optie_leverancier";
-				} elseif($db->f("voorraad_xml")) {
-					$trcolor="#FF99CC";
-					$trclass="zoekresultaat_voorraad_xml";
-				} elseif($db->f("voorraad_vervallen_allotment")) {
-					$trcolor="#F88912";
-					$trclass="zoekresultaat_voorraad_vervallen_allotment";
-				} elseif($db->f("voorraad_request")) {
-					$trcolor="#FFCC99";
-					$trclass="zoekresultaat_voorraad_request";
-				} elseif($db->f("voorraad_optie_klant")) {
-					$trcolor="#CCFFFF";
-					$trclass="zoekresultaat_voorraad_optie_klant";
-				} else {
-					$trcolor="#FFFFFF";
-				}
-
-				if(!preg_match("/".$vars["website"]."/",$db->f("websites"))) {
-					# Accommodatie van andere website (Chalet.nl <==> SuperSki) andere kleur geven
-					if($vars["website"]=="W") {
-						$trclass.=" zoekresultaat_andere_site_chalet";
+				unset($trclass);
+				if($voorkant_cms) {
+					if($db->f("voorraad_garantie")) {
+						$trcolor="#00FF00";
+						$trclass="zoekresultaat_voorraad_garantie";
+					} elseif($db->f("voorraad_allotment")) {
+						$trcolor="#CCFFCC";
+						$trclass="zoekresultaat_voorraad_allotment";
+					} elseif($db->f("voorraad_optie_leverancier")) {
+						$trcolor="#CCFFCC";
+						$trclass="zoekresultaat_voorraad_optie_leverancier";
+					} elseif($db->f("voorraad_xml")) {
+						$trcolor="#FF99CC";
+						$trclass="zoekresultaat_voorraad_xml";
+					} elseif($db->f("voorraad_vervallen_allotment")) {
+						$trcolor="#F88912";
+						$trclass="zoekresultaat_voorraad_vervallen_allotment";
+					} elseif($db->f("voorraad_request")) {
+						$trcolor="#FFCC99";
+						$trclass="zoekresultaat_voorraad_request";
+					} elseif($db->f("voorraad_optie_klant")) {
+						$trcolor="#CCFFFF";
+						$trclass="zoekresultaat_voorraad_optie_klant";
 					} else {
-						$trclass.=" zoekresultaat_andere_site_superski";
+						$trcolor="#FFFFFF";
+					}
+
+					if(!preg_match("/".$vars["website"]."/",$db->f("websites"))) {
+						# Accommodatie van andere website (Chalet.nl <==> SuperSki) andere kleur geven
+						if($vars["website"]=="W") {
+							$trclass.=" zoekresultaat_andere_site_chalet";
+						} else {
+							$trclass.=" zoekresultaat_andere_site_superski";
+						}
 					}
 				}
-			}
-			unset($trclass_vallandry);
-			if($vars["websitetype"]==6 and $id=="zoek-en-boek" and (!$trcolor or $trcolor=="#FFFFFF" or !$voorkant_cms)) {
-				# Achtergrondkleur Chaletsinvallandry
-				if($db->f("wzt")==1) {
-					# winterkleur
-					$trclass_vallandry="zoekresultaat_winter";
-				} elseif($db->f("wzt")==2) {
-					# zomerkleur
-					$trclass_vallandry="zoekresultaat_zomer";
-				}
-				$trcolor="";
-			}
-
-			#
-			# Daadwerkelijke zoekresultaten-html samenstellen
-			#
-
-			# bij aanbiedingenzoekopdracht: resultaat overslaan indien geen aanbieding
-			if($_GET["faab"] and !$soort_aanbieding and ($_GET["fad"]>0 or $flex_aankomstdatum)) {
-				continue;
-			}
-
-			if($db->f("apart_tonen_in_zoekresultaten")) {
-				$accid=$db->f("accommodatie_id")."_".$db->f("type_id");
-			} else {
-				$accid=$db->f("accommodatie_id");
-			}
-			$newresults_acc[$sorteer]=$accid;
-
-
-			# sorteren types binnen de accommodatie bepalen
-			unset($acc_sorteer);
-			if($tarief_float>0) {
-				$tarief_sorteer=$tarief_float;
-				$acc_sorteer.="1";
-			} else {
-				$tarief_sorteer="99999999";
-				$acc_sorteer.="9";
-			}
-#			$acc_sorteer=substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".$db->f("type_id");
-
-			$acc_sorteer.=substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".$db->f("type_id");
-
-			$newresults[$accid][$acc_sorteer]["type_id"]=$db->f("type_id");
-			$newresults[$accid][$acc_sorteer]["accommodatie_id"]=$db->f("accommodatie_id");
-			$newresults[$accid][$acc_sorteer]["begincode"]=$db->f("begincode");
-			$newresults[$accid][$acc_sorteer]["naam"]=$db->f("naam");
-			$newresults[$accid][$acc_sorteer]["tnaam"]=$db->f("tnaam");
-			$newresults[$accid][$acc_sorteer]["soortaccommodatie"]=$db->f("soortaccommodatie");
-			$newresults[$accid][$acc_sorteer]["slaapkamers"]=$db->f("slaapkamers");
-			$newresults[$accid][$acc_sorteer]["badkamers"]=$db->f("badkamers");
-			$newresults[$accid][$acc_sorteer]["optimaalaantalpersonen"]=$db->f("optimaalaantalpersonen");
-			$newresults[$accid][$acc_sorteer]["maxaantalpersonen"]=$db->f("maxaantalpersonen");
-			$newresults[$accid][$acc_sorteer]["plaats"]=$db->f("plaats");
-			$newresults[$accid][$acc_sorteer]["skigebied"]=$db->f("skigebied");
-			$newresults[$accid][$acc_sorteer]["land"]=$db->f("land");
-			$newresults[$accid][$acc_sorteer]["korteomschrijving"]=$db->f("korteomschrijving");
-			$newresults[$accid][$acc_sorteer]["tkorteomschrijving"]=$db->f("tkorteomschrijving");
-			$newresults[$accid][$acc_sorteer]["toonper"]=$db->f("toonper");
-			$newresults[$accid][$acc_sorteer]["skigebied_id"]=$db->f("skigebied_id");
-			$newresults[$accid][$acc_sorteer]["tarief"]=$tarief_float;
-
-			if($tarief) {
-				$tarieven_tonen=true;
-			}
-			# aanbieding van toepassing?
-			if($soort_aanbieding or ($_GET["aab"] and $_GET["faab"])) {
-				$newresults[$accid][$acc_sorteer]["aanbieding"]=true;
-				$newresults[$accid][$acc_sorteer]["type_id_aanbieding"]=true;
-			}
-
-			if($trclass) {
-				$newresults[$accid][$acc_sorteer]["type_id_trclass"]=trim($trclass);
-			}
-
-			# min en max aantallen bepalen
-#			if(!$newresultsminmax[$accid]["minpersonen"] or $newresultsminmax[$accid]["minpersonen"]>$db->f("optimaalaantalpersonen")) $newresultsminmax[$accid]["minpersonen"]=$db->f("optimaalaantalpersonen");
-#			if($newresultsminmax[$accid]["maxpersonen"]<$db->f("maxaantalpersonen")) $newresultsminmax[$accid]["maxpersonen"]=$db->f("maxaantalpersonen");
-
-#			if(!$newresultsminmax[$accid]["minslaapkamers"] or $newresultsminmax[$accid]["minslaapkamers"]>$db->f("slaapkamers")) $newresultsminmax[$accid]["minslaapkamers"]=$db->f("slaapkamers");
-#			if($newresultsminmax[$accid]["maxslaapkamers"]<$db->f("slaapkamers")) $newresultsminmax[$accid]["maxslaapkamers"]=$db->f("slaapkamers");
-
-#			if(!$newresultsminmax[$accid]["minbadkamers"] or $newresultsminmax[$accid]["minbadkamers"]>$db->f("badkamers")) $newresultsminmax[$accid]["minbadkamers"]=$db->f("badkamers");
-#			if($newresultsminmax[$accid]["maxbadkamers"]<$db->f("badkamers")) $newresultsminmax[$accid]["maxbadkamers"]=$db->f("badkamers");
-
-			if($tarief_float>0) {
-				if(!$newresultsminmax[$accid]["mintarief"] or $newresultsminmax[$accid]["mintarief"]>$tarief_float) $newresultsminmax[$accid]["mintarief"]=$tarief_float;
-				if($newresultsminmax[$accid]["maxtarief"]<$tarief_float) $newresultsminmax[$accid]["maxtarief"]=$tarief_float;
-			}
-
-			if($db->f("tkwaliteit")) {
-				$kwaliteit=$db->f("tkwaliteit");
-			} else {
-				$kwaliteit=$db->f("akwaliteit");
-			}
-
-			if(!$newresultsminmax[$accid]["minkwaliteit"] or $newresultsminmax[$accid]["minkwaliteit"]>$kwaliteit) $newresultsminmax[$accid]["minkwaliteit"]=$kwaliteit;
-			if($newresultsminmax[$accid]["maxkwaliteit"]<$kwaliteit) $newresultsminmax[$accid]["maxkwaliteit"]=$kwaliteit;
-
-			if($newresults[$accid][$acc_sorteer]["aanbieding"]) {
-				# binnen deze accommodatie is een aanbieding actief
-				$newresultsminmax[$accid]["aanbieding"]=true;
-
-				if(is_array($soort_aanbieding["percentage"]) and count($soort_aanbieding["percentage"])==1 and !$soort_aanbieding["euro"]) {
-					# aanbiedingspercentage per type bepalen
-					if($newresults[$accid][$acc_sorteer]["aanbieding_percentage"]<$soort_aanbieding["percentage"]) {
-						$newresults[$accid][$acc_sorteer]["aanbieding_percentage"]=array_shift($soort_aanbieding["percentage"]);
+				unset($trclass_vallandry);
+				if($vars["websitetype"]==6 and $id=="zoek-en-boek" and (!$trcolor or $trcolor=="#FFFFFF" or !$voorkant_cms)) {
+					# Achtergrondkleur Chaletsinvallandry
+					if($db->f("wzt")==1) {
+						# winterkleur
+						$trclass_vallandry="zoekresultaat_winter";
+					} elseif($db->f("wzt")==2) {
+						# zomerkleur
+						$trclass_vallandry="zoekresultaat_zomer";
 					}
+					$trcolor="";
 				}
-				if(is_array($soort_aanbieding["euro"]) and count($soort_aanbieding["euro"])==1 and !$soort_aanbieding["percentage"]) {
-					# aanbiedingsbedrag per type bepalen
-					if($newresults[$accid][$acc_sorteer]["aanbieding_euro"]<$soort_aanbieding["euro"]) {
-						$newresults[$accid][$acc_sorteer]["aanbieding_euro"]=array_shift($soort_aanbieding["euro"]);
+
+				#
+				# Daadwerkelijke zoekresultaten-html samenstellen
+				#
+
+				# bij aanbiedingenzoekopdracht: resultaat overslaan indien geen aanbieding
+				if($_GET["faab"] and !$soort_aanbieding and ($_GET["fad"]>0 or $flex_aankomstdatum)) {
+					continue;
+				}
+
+				if($db->f("apart_tonen_in_zoekresultaten")) {
+					$accid=$db->f("accommodatie_id")."_".$db->f("type_id");
+				} else {
+					$accid=$db->f("accommodatie_id");
+				}
+				$newresults_acc[$sorteer]=$accid;
+
+
+				# sorteren types binnen de accommodatie bepalen
+				unset($acc_sorteer);
+				if($tarief_float>0) {
+					$tarief_sorteer=$tarief_float;
+					$acc_sorteer.="1";
+				} else {
+					$tarief_sorteer="99999999";
+					$acc_sorteer.="9";
+				}
+	#			$acc_sorteer=substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".$db->f("type_id");
+
+				$acc_sorteer.=substr("0000".$db->f("optimaalaantalpersonen"),-4)."_".substr("0000".$db->f("maxaantalpersonen"),-4)."_".substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".$db->f("type_id");
+
+				$newresults[$accid][$acc_sorteer]["type_id"]=$db->f("type_id");
+				$newresults[$accid][$acc_sorteer]["accommodatie_id"]=$db->f("accommodatie_id");
+				$newresults[$accid][$acc_sorteer]["begincode"]=$db->f("begincode");
+				$newresults[$accid][$acc_sorteer]["naam"]=$db->f("naam");
+				$newresults[$accid][$acc_sorteer]["tnaam"]=$db->f("tnaam");
+				$newresults[$accid][$acc_sorteer]["soortaccommodatie"]=$db->f("soortaccommodatie");
+				$newresults[$accid][$acc_sorteer]["slaapkamers"]=$db->f("slaapkamers");
+				$newresults[$accid][$acc_sorteer]["badkamers"]=$db->f("badkamers");
+				$newresults[$accid][$acc_sorteer]["optimaalaantalpersonen"]=$db->f("optimaalaantalpersonen");
+				$newresults[$accid][$acc_sorteer]["maxaantalpersonen"]=$db->f("maxaantalpersonen");
+				$newresults[$accid][$acc_sorteer]["plaats"]=$db->f("plaats");
+				$newresults[$accid][$acc_sorteer]["skigebied"]=$db->f("skigebied");
+				$newresults[$accid][$acc_sorteer]["land"]=$db->f("land");
+				$newresults[$accid][$acc_sorteer]["korteomschrijving"]=$db->f("korteomschrijving");
+				$newresults[$accid][$acc_sorteer]["tkorteomschrijving"]=$db->f("tkorteomschrijving");
+				$newresults[$accid][$acc_sorteer]["toonper"]=$db->f("toonper");
+				$newresults[$accid][$acc_sorteer]["skigebied_id"]=$db->f("skigebied_id");
+				$newresults[$accid][$acc_sorteer]["tarief"]=$tarief_float;
+
+				if($tarief) {
+					$tarieven_tonen=true;
+				}
+				# aanbieding van toepassing?
+				if($soort_aanbieding or ($_GET["aab"] and $_GET["faab"])) {
+					$newresults[$accid][$acc_sorteer]["aanbieding"]=true;
+					$newresults[$accid][$acc_sorteer]["type_id_aanbieding"]=true;
+				}
+
+				if($trclass) {
+					$newresults[$accid][$acc_sorteer]["type_id_trclass"]=trim($trclass);
+				}
+
+				# min en max aantallen bepalen
+	#			if(!$newresultsminmax[$accid]["minpersonen"] or $newresultsminmax[$accid]["minpersonen"]>$db->f("optimaalaantalpersonen")) $newresultsminmax[$accid]["minpersonen"]=$db->f("optimaalaantalpersonen");
+	#			if($newresultsminmax[$accid]["maxpersonen"]<$db->f("maxaantalpersonen")) $newresultsminmax[$accid]["maxpersonen"]=$db->f("maxaantalpersonen");
+
+	#			if(!$newresultsminmax[$accid]["minslaapkamers"] or $newresultsminmax[$accid]["minslaapkamers"]>$db->f("slaapkamers")) $newresultsminmax[$accid]["minslaapkamers"]=$db->f("slaapkamers");
+	#			if($newresultsminmax[$accid]["maxslaapkamers"]<$db->f("slaapkamers")) $newresultsminmax[$accid]["maxslaapkamers"]=$db->f("slaapkamers");
+
+	#			if(!$newresultsminmax[$accid]["minbadkamers"] or $newresultsminmax[$accid]["minbadkamers"]>$db->f("badkamers")) $newresultsminmax[$accid]["minbadkamers"]=$db->f("badkamers");
+	#			if($newresultsminmax[$accid]["maxbadkamers"]<$db->f("badkamers")) $newresultsminmax[$accid]["maxbadkamers"]=$db->f("badkamers");
+
+				if($tarief_float>0) {
+					if(!$newresultsminmax[$accid]["mintarief"] or $newresultsminmax[$accid]["mintarief"]>$tarief_float) $newresultsminmax[$accid]["mintarief"]=$tarief_float;
+					if($newresultsminmax[$accid]["maxtarief"]<$tarief_float) $newresultsminmax[$accid]["maxtarief"]=$tarief_float;
+				}
+
+				if($db->f("tkwaliteit")) {
+					$kwaliteit=$db->f("tkwaliteit");
+				} else {
+					$kwaliteit=$db->f("akwaliteit");
+				}
+
+				if(!$newresultsminmax[$accid]["minkwaliteit"] or $newresultsminmax[$accid]["minkwaliteit"]>$kwaliteit) $newresultsminmax[$accid]["minkwaliteit"]=$kwaliteit;
+				if($newresultsminmax[$accid]["maxkwaliteit"]<$kwaliteit) $newresultsminmax[$accid]["maxkwaliteit"]=$kwaliteit;
+
+				if($newresults[$accid][$acc_sorteer]["aanbieding"]) {
+					# binnen deze accommodatie is een aanbieding actief
+					$newresultsminmax[$accid]["aanbieding"]=true;
+
+					if(is_array($soort_aanbieding["percentage"]) and count($soort_aanbieding["percentage"])==1 and !$soort_aanbieding["euro"]) {
+						# aanbiedingspercentage per type bepalen
+						if($newresults[$accid][$acc_sorteer]["aanbieding_percentage"]<$soort_aanbieding["percentage"]) {
+							$newresults[$accid][$acc_sorteer]["aanbieding_percentage"]=array_shift($soort_aanbieding["percentage"]);
+						}
+					}
+					if(is_array($soort_aanbieding["euro"]) and count($soort_aanbieding["euro"])==1 and !$soort_aanbieding["percentage"]) {
+						# aanbiedingsbedrag per type bepalen
+						if($newresults[$accid][$acc_sorteer]["aanbieding_euro"]<$soort_aanbieding["euro"]) {
+							$newresults[$accid][$acc_sorteer]["aanbieding_euro"]=array_shift($soort_aanbieding["euro"]);
+						}
 					}
 				}
 			}
@@ -2881,7 +2910,34 @@ function zoekblok_prijsklasse($settings="") {
 	# zoekformulier: prijsklasse (via slider)
 	#
 
-	echo "<div class=\"zoekblok_item zoekblok_prijsklasse\">";
+	global $prijsklasse_min_beschikbaar,$prijsklasse_max_beschikbaar;
+
+	if($_GET["fpk"]==1) {
+		# Andere zoekopdracht is uitgevoerd: min en max bepalen aan de hand van zoekresultaten
+		$prijsklasse_min=$prijsklasse_min_beschikbaar;
+		$prijsklasse_max_show=$prijsklasse_max_beschikbaar;
+	} elseif($_GET["fpk"]==2) {
+		# Prijsklasse-slider is gebruikt: min en max overnemen van wat het was
+		$prijsklasse_min=$_GET["fpk_min"];
+		$prijsklasse_max_show=$_GET["fpk_max"];
+	} else {
+		# Prijsklasse is niet eerder gebruikt: eerste min en max bepalen
+		$prijsklasse_min=0;
+		$prijsklasse_max_show=5000;
+	}
+
+	# Prijsklasse is niet eerder gebruikt: eerste min en max bepalen
+	$prijsklasse_min=0;
+	$prijsklasse_max_show=5000;
+
+	if($prijsklasse_max_show>5000) $prijsklasse_max_show=5000;
+
+	$prijsklasse_max=intval($prijsklasse_max_show+50);
+
+	$prijsklasse_min=intval($prijsklasse_min);
+	$prijsklasse_max=intval($prijsklasse_max);
+
+	echo "<div class=\"zoekblok_item zoekblok_prijsklasse\" data-min=\"".$prijsklasse_min."\" data-max=\"".$prijsklasse_max."\" data-max_show=\"".$prijsklasse_max_show."\">";
 
 	echo "<div class=\"zoekblok_titel\">";
 	echo html("prijsklasse","zoek-en-boek");
@@ -2889,13 +2945,24 @@ function zoekblok_prijsklasse($settings="") {
 
 	echo "<div class=\"zoekblok_field\">";
 
-	echo "<div class=\"noUiSlider\"></div>";
+	echo "<div class=\"zoekblok_prijsklasse_min\">&euro;&nbsp;".$prijsklasse_min."</div><div class=\"noUiSlider\"></div><div class=\"zoekblok_prijsklasse_max\">&euro;&nbsp;".$prijsklasse_max_show."</div>";
+	echo "<div class=\"clear\"></div>";
 
-	echo "van&nbsp;&euro;&nbsp;<input type=\"text\" name=\"pk_van\" id=\"pk_van\" value=\"".($_GET["pk_van"] ? intval($_GET["pk_van"]) : "0")."\">";
+	echo "<input type=\"hidden\" name=\"fpk\" value=\"1\">";
+	echo "<input type=\"hidden\" name=\"fpk_enmeer\" value=\"0\">";
+	echo "<input type=\"hidden\" name=\"fpk_min\" value=\"".$prijsklasse_min."\">";
+	echo "<input type=\"hidden\" name=\"fpk_max\" value=\"".$prijsklasse_max."\">";
+
+	echo "<input type=\"hidden\" id=\"fpk_van_hidden\" value=\"".($_GET["fpk_van"] ? intval($_GET["fpk_van"]) : $prijsklasse_min)."\">";
+	echo "<input type=\"hidden\" id=\"fpk_tot_hidden\" value=\"".($_GET["fpk_tot"] ? intval($_GET["fpk_tot"]) : $prijsklasse_max_show)."\">";
+
+	echo "van&nbsp;&euro;&nbsp;<input type=\"text\" name=\"fpk_van\" id=\"fpk_van\" value=\"".($_GET["fpk_van"] ? intval($_GET["fpk_van"]) : "")."\">";
 	echo "&nbsp;&nbsp;&nbsp;";
-	echo "tot&nbsp;&euro;&nbsp;<input type=\"text\" name=\"pk_tot\" id=\"pk_tot\" value=\"".($_GET["pk_tot"] ? intval($_GET["pk_tot"]) : "5000")."\">";
+	echo "tot&nbsp;&euro;&nbsp;<input type=\"text\" name=\"fpk_tot\" id=\"fpk_tot\" value=\"".($_GET["fpk_tot"] ? intval($_GET["fpk_tot"]) : "")."\">";
 
-	echo "&nbsp;&nbsp;per accommodatie";
+	echo "<span id=\"zoekblok_prijsklasse_enmeer\" style=\"".($_GET["fpk_tot"]==$prijsklasse_max ? "" : "display:none;")."\">&nbsp;en meer</span>";
+
+	echo "&nbsp;&nbsp;(per accommodatie)";
 
 	echo "</div>"; # afsluiten .zoekblok_field
 

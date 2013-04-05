@@ -904,6 +904,19 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	margin-top: 8px;
 	margin-bottom: 10px;
 	margin-left: 5px;
+	float: left;
+}
+
+.zoekblok_prijsklasse_min {
+	float: left;
+	margin-right: 15px;
+	margin-top: 4px;
+}
+
+.zoekblok_prijsklasse_max {
+	float: left;
+	margin-left: 15px;
+	margin-top: 4px;
 }
 
 .zoekblok_prijsklasse input {
