@@ -429,7 +429,11 @@ if($db->next_record()) {
 			$fototeller++;
 			if($fototeller<=3) {
 #				echo "<img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($value)."&w=170&h=127\" width=\"170\" height=\"127\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".txt("foto","vars")." ".$fototeller)."\">&nbsp;";
-				echo "<td rowspan=\"2\"><img src=\"".imageurl($value,170,127)."\" width=\"170\" height=\"127\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".txt("foto","vars")." ".$fototeller)."\"></td>";
+				echo "<td rowspan=\"2\">";
+				echo "<a href=\"#\" class=\"fotopopup_tab_overzicht\" data-teller=\"".$fototeller."\">";
+				echo "<img src=\"".imageurl($value,170,127)."\" width=\"170\" height=\"127\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".txt("foto","vars")." ".$fototeller)."\" border=\"0\">";
+				echo "</a>";
+				echo "</td>";
 			}
 		}
 		# Afbeelding "bekijk ligging" plaatsen
@@ -560,7 +564,7 @@ if($db->next_record()) {
 					} else {
 						$grotefoto=$path."pic/cms/".$value."?cache=";
 					}
-					$foto_table.="<div class=\"foto_doorklik\"><a href=\"".htmlentities($grotefoto).filemtime("pic/cms/".$value)."\" class=\"fotopopup\" rel=\"group1\">";
+					$foto_table.="<div class=\"foto_doorklik\"><a href=\"".htmlentities($grotefoto).filemtime("pic/cms/".$value)."\" class=\"fotopopup\" data-teller=\"".$counter."\" rel=\"group1\">";
 					$foto_table.="<img src=\"";
 					if($thumbnail) {
 						$foto_table.=$path.$thumbnail."?cache=".@filemtime("pic/cms/".$value);

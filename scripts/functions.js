@@ -800,6 +800,13 @@ $(document).ready(function() {
 				// popup direct tonen bij openen pagina
 				$("#zomerhuisje_popup").click();
 			}
+
+
+			// klikken op foto's op overzicht-tab: fancybox openen
+			$(".fotopopup_tab_overzicht").click(function(){
+				$(".fotopopup[data-teller="+$(this).data("teller")+"]").trigger("click");
+				return false;
+			});
 		}
 
 		if($("#submenu_zomerhuisje").length!==0) {
