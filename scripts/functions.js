@@ -1019,8 +1019,6 @@ $(document).ready(function() {
 
 			// al gekozen bestemmingen: grijs kleuren in pulldown
 			$("div.zoekblok_bestemming_actief_item").each(function() {
-//				alert($(this).data("bestemming_actief_value"));
-//				alert($("option[value="+$(this).data("bestemming_actief_value")+"]").val());
 				$("select[name=fsg_invoer] > option[value="+$(this).data("bestemming_actief_value")+"]").addClass("option_actief");
 			});
 

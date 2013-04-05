@@ -1846,6 +1846,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
 
+.tekstzoeken_geen_chosen_layout {
+	width: 165px;
+}
+
 .tekstzoeken_leeg {
 	background-position: 100% -70px;
 }
