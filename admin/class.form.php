@@ -1010,8 +1010,10 @@ class form2 {
 			$return.="<table cellspacing=\"0\" cellpadding=\"4\" class=\"wtform_multiradio_tbl\"><tr><td>&nbsp;</td>";
 			reset($this->fields["options"][$id]["multiselection"]);
 			while(list($key,$value)=each($this->fields["options"][$id]["multiselection"])) {
-				$return.="<td align=\"center\">";
+				$return.="<td align=\"center\"><label for=\"wtform_multiradio_check_all_".wt_he($id."_".$value)."\">";
 				$return.=wt_he($value);
+				$return.="<input type=\"radio\" name=\"1\" id=\"wtform_multiradio_check_all_".wt_he($id."_".$value)."\" class=\"wtform_multiradio_check_all\" data-id=\"".wt_he($id)."\" data-value=\"".wt_he($key)."\">";
+				$return.="</label>";
 				$return.="</td>";
 			}
 			$return.="</tr>";
@@ -1023,7 +1025,7 @@ class form2 {
 				reset($this->fields["options"][$id]["multiselection"]);
 				while(list($key2,$value2)=each($this->fields["options"][$id]["multiselection"])) {
 					$return.="<td align=\"center\" valign=\"top\">";
-					$return.="<input type=\"radio\" id=\"multiradio".$id."_".$key."_".$key2."\" name=\"input[".$id."][".$key."]\" ".($this->value[$id][$key]==$key2 ? "checked " : "")."value=\"".wt_he($key2)."\"";
+					$return.="<input type=\"radio\" class=\"wtform_multiradio_fields_".$id."\" id=\"multiradio".$id."_".$key."_".$key2."\" name=\"input[".$id."][".$key."]\" ".($this->value[$id][$key]==$key2 ? "checked " : "")."value=\"".wt_he($key2)."\"";
 					if($this->fields["layout"][$id]["onchange"]) {
 						$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 					}
