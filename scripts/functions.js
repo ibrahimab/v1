@@ -1077,51 +1077,99 @@ $(document).ready(function() {
 			}
 
 
-			// klikken op slider: niets doen
-			$(".noUiSlider").mousedown(function(){
-				slider_mouseactive=true;
-			});
-
-			// slider loslaten: verzenden
-			$(".noUiSlider").mouseup(function(){
-				slider_mouseactive=false;
-
-				clearTimeout(slider_timer);
-				$("input[name=scrolly]").val($(window).scrollTop());
-				$("input[name=fpk]").val("2");
-				zoekblok_submit();
-			});
-
-
-			// $('body').bind( "touchstart", function(e){
-			//         $('div#extras').fadeTo('fast', 1);
-			// });
-
-			// $('body').bind( "touchend", function(e){
-			//         $('div#extras').delay(2000).fadeTo(1500, 0);
-			// });
-
 			if($().noUiSlider) {
+				//
+				// Prijsklasse-slider
+				//
 
 				var slider_active=false;
 				var slider_mouseactive=false;
 				var slider_timer;
-				// prijsklasse (via noUiSlide)
+
+				$(document).on("mousedown", function(event) {
+					// console.log('down');
+					slider_mouseactive = true;
+				});
+				$(document).on("mouseup", function(event) {
+					slider_mouseactive = false;
+
+					if(slider_active) {
+						clearTimeout(slider_timer);
+						$("input[name=scrolly]").val($(window).scrollTop());
+						// $("input[name=fpk]").val("2");
+						zoekblok_submit();
+					}
+				});
+
+				// kijk of ingevoerde velden kloppen
+				$("input[name=fpk_van],input[name=fpk_tot]").change(function(){
+					clearTimeout(slider_timer);
+					$("input[name=scrolly]").val($(window).scrollTop());
+					// $("input[name=fpk]").val("2");
+
+					if($(this).attr("name")=="fpk_van") {
+						if($("input[name=fpk_tot]").val()==="") {
+							$("#zoekblok_prijsklasse_enmeer").show();
+							$("input[name=fpk_enmeer]").val("1");
+							$("input[name=fpk_tot]").val($(".zoekblok_prijsklasse").data("max"));
+						}
+					}
+					if($(this).attr("name")=="fpk_tot") {
+						if(parseInt($("input[name=fpk_tot]").val(),10)>parseInt($(".zoekblok_prijsklasse").data("max"),10)) {
+							$("input[name=fpk_tot]").val($(".zoekblok_prijsklasse").data("max"));
+							$("input[name=fpk_enmeer]").val("1");
+							$("#zoekblok_prijsklasse_enmeer").show();
+						} else {
+							$("input[name=fpk_enmeer]").val("0");
+							$("#zoekblok_prijsklasse_enmeer").hide();
+						}
+						if($("input[name=fpk_van]").val()==="") {
+							$("input[name=fpk_van]").val($(".zoekblok_prijsklasse").data("min"));
+						}
+					}
+
+					zoekblok_submit();
+				});
+
+				// allow only numeric input
+				$("input[name=fpk_van],input[name=fpk_tot]").keydown(function(event) {
+
+
+					// console.log(event.keyCode);
+
+					// Allow: backspace, delete, tab, escape, and enter
+					if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || event.keyCode == 116 ||
+						// Allow: Ctrl+A
+						(event.keyCode == 65 && event.ctrlKey === true) ||
+						// Allow: home, end, left, right
+						(event.keyCode >= 35 && event.keyCode <= 39)) {
+						// let it happen, don't do anything
+						return;
+					}
+					else {
+						// Ensure that it is a number and stop the keypress
+						if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+							event.preventDefault();
+						}
+					}
+				});
+
+				var slider_max_en_meer=$(".zoekblok_prijsklasse").data("max")+$(".zoekblok_prijsklasse").data("stappen");
 				$(".noUiSlider").noUiSlider({
-					range: [$(".zoekblok_prijsklasse").data("min"), $(".zoekblok_prijsklasse").data("max")],
+					range: [$(".zoekblok_prijsklasse").data("min"), slider_max_en_meer],
 					start: [$("#fpk_van_hidden").val(), $("#fpk_tot_hidden").val()],
 					handles: 2,
-					step: 50,
+					step: $(".zoekblok_prijsklasse").data("stappen"),
 					serialization: {
 						to: [$("#fpk_van_hidden"),$("#fpk_tot_hidden")],
 						resolution: 1
 					},
 					slide: function() {
-						if($("#fpk_tot_hidden").val()==$(".zoekblok_prijsklasse").data("max")) {
+						if($("#fpk_tot_hidden").val()==slider_max_en_meer) {
 							$("#zoekblok_prijsklasse_enmeer").show();
 
 							$("#fpk_van").val($("#fpk_van_hidden").val());
-							$("#fpk_tot").val($(".zoekblok_prijsklasse").data("max_show"));
+							$("#fpk_tot").val($(".zoekblok_prijsklasse").data("max"));
 							$("input[name=fpk_enmeer]").val("1");
 
 						} else {
@@ -1144,8 +1192,6 @@ $(document).ready(function() {
 								$("input[name=scrolly]").val($(window).scrollTop());
 								$("input[name=fpk]").val("2");
 								zoekblok_submit();
-							} else {
-								slider_active=false;
 							}
 						},700);
 					}
