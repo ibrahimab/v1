@@ -129,7 +129,7 @@ if($vars["jquery_chosen"]) {
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."\"></script>\n";
 }
 
-if($id=="zoek-en-boek" and ($_GET["testsysteem"] or $vars["lokale_testserver"])) {
+if($id=="zoek-en-boek") {
 	# jQuery noUiSlider
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.nouislider.min.js\"></script>\n";
 }
