@@ -21,6 +21,12 @@ if(!$include) {
 	header("Location: ".$vars["path"],true,301);
 	exit;
 }
+
+# SPDY-header sturen (prefetchen diverse CSS-bestanden)
+#header('X-Associated-Content: "'.$vars["path"].'css/opmaak_alle_sites.css.phpcache?cache='.@filemtime("css/opmaak_alle_sites.css.phpcache").'&type='.$vars["websitetype"].'", "'.$vars["path"].'css/tabs.css.phpcache?cache='.@filemtime("css/tabs.css.phpcache").'&type='.$vars["websitetype"].'"');
+
+
+
 echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
   \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
 echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n      xmlns:og=\"http://ogp.me/ns#\"\n      xmlns:fb=\"https://www.facebook.com/2008/fbml\">\n";
@@ -44,7 +50,7 @@ if($grizzly_title) {
 }
 echo "</title>";
 if($vars["page_with_tabs"]) {
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."?type=".$vars["websitetype"]."\" />\n";
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
 }
 
 # Font Awesome-css
@@ -778,7 +784,7 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 }
 
 # Ajaxloader in het midden van de pagina
-echo "<div id=\"ajaxloader_page\"></div>";
+echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\"></div>";
 
 # Balk met cookie-melding cookiebalk
 if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {

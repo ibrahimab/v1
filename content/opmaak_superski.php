@@ -45,7 +45,7 @@ if($id=="index") {
 echo "</title>";
 
 if($vars["page_with_tabs"]) {
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."?type=".$vars["websitetype"]."\" />\n";
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
 }
 
 # Font Awesome-css
@@ -596,7 +596,7 @@ if($vars["zoekenboek_overlay_doorschuiven"]) {
 }
 
 # Ajaxloader in het midden van de pagina
-echo "<div id=\"ajaxloader_page\"></div>";
+echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\"></div>";
 
 # Balk met cookie-melding cookiebalk
 if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserver"])) {
