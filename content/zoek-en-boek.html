@@ -713,10 +713,10 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 		addwhere("t.maxaantalpersonen>=".addslashes($min));
 		addwhere("t.maxaantalpersonen<=".addslashes($max));
 
-		// if($vars["website"]<>"Z") {
-		// 	# Maximaal 1 slaapkamer per persoon (niet bij Zomerhuisje)
-		// 	addwhere("t.slaapkamers<=".intval($_GET["fap"]));
-		// }
+		if($vars["website"]<>"Z") {
+			# Maximaal 1 slaapkamer per persoon (niet bij Zomerhuisje)
+			addwhere("t.slaapkamers<=".intval($_GET["fap"]));
+		}
 	}
 
 	# Aantal slaapkamers
