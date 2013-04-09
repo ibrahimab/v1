@@ -981,11 +981,9 @@ $(document).ready(function() {
 			$("#verfijn .alle_selecties_wissen").hover(
 				function () {
 					$(".keuzeopsomming").addClass("keuzeopsomming_tijdelijk_leeg");
-					console.log('in');
 				},
 				function () {
 					$(".keuzeopsomming").removeClass("keuzeopsomming_tijdelijk_leeg");
-					console.log('uit');
 				}
 			);
 
@@ -1086,11 +1084,13 @@ $(document).ready(function() {
 				var slider_mouseactive=false;
 				var slider_timer;
 
-				$(document).on("mousedown", function(event) {
-					// console.log('down');
+				// klikken met muis (of touch starten): form niet automatisch submitten
+				$(document).bind("touchstart mousedown", function(event) {
 					slider_mouseactive = true;
 				});
-				$(document).on("mouseup", function(event) {
+
+				// muis loslaten (of touch loslaten): form automatisch submitten
+				$(document).bind("touchend mouseup", function(event) {
 					slider_mouseactive = false;
 
 					if(slider_active) {
@@ -1133,10 +1133,6 @@ $(document).ready(function() {
 
 				// allow only numeric input
 				$("input[name=fpk_van],input[name=fpk_tot]").keydown(function(event) {
-
-
-					// console.log(event.keyCode);
-
 					// Allow: backspace, delete, tab, escape, and enter
 					if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || event.keyCode == 116 ||
 						// Allow: Ctrl+A
@@ -1165,22 +1161,27 @@ $(document).ready(function() {
 						resolution: 1
 					},
 					slide: function() {
+						// if($("#fpk_tot").val()==="") {
+						// 	$("input[name=fpk_enmeer]").val("1");
+						// }
 						if($("#fpk_tot_hidden").val()==slider_max_en_meer) {
-							$("#zoekblok_prijsklasse_enmeer").show();
-
 							$("#fpk_van").val($("#fpk_van_hidden").val());
 							$("#fpk_tot").val($(".zoekblok_prijsklasse").data("max"));
 							$("input[name=fpk_enmeer]").val("1");
-
 						} else {
-							$("#zoekblok_prijsklasse_enmeer").hide();
-
 							$("#fpk_van").val($("#fpk_van_hidden").val());
 							$("#fpk_tot").val($("#fpk_tot_hidden").val());
-
 							$("input[name=fpk_enmeer]").val("0");
-
 						}
+
+						// wel/niet tonen "en meer"
+						if($("input[name=fpk_enmeer]").val()=="1") {
+							$("#zoekblok_prijsklasse_enmeer").show();
+						} else {
+							$("#zoekblok_prijsklasse_enmeer").hide();
+						}
+
+
 						if($("#fpk_tot").val()>$(".zoekblok_prijsklasse").data("max_show")) {
 							$("#fpk_tot").val($(".zoekblok_prijsklasse").data("max_show"));
 						}
@@ -1611,6 +1612,12 @@ $(document).ready(function() {
 			});
 			if(detect_mobile()) {
 				$(".zoekenboek_invulveld select").addClass("zoekblok_select_mobile_smal");
+
+				// pijltje naar beneden: verbergen bij Android (want: staat er al via de "select")
+				if(navigator.userAgent.match(/Android/i) !== null) {
+					$(".zoekblok_select_mobile_smal").addClass("zoekblok_select_mobile_android");
+				}
+
 				$(".zoekenboek_invulveld select").each(function(){
 					$(this).find("option:first").html($(this).data("placeholder"));
 				});
@@ -1986,6 +1993,7 @@ $(document).ready(function() {
 			var analytics_verblijfsduur='';
 			var analytics_aantalpersonen='';
 			var analytics_aantalslaapkamers='';
+			var analytics_prijsklasse='';
 			var analytics_tekstzoeken='';
 			var analytics_verfijnen='';
 			var analytics_verfijnen_item='';
@@ -2107,6 +2115,22 @@ $(document).ready(function() {
 
 				zoekopdracht_naar_analytics_sturen("aantal slaapkamers",analytics_aantalslaapkamers);
 				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Aantal slaapkamers: "+analytics_aantalslaapkamers;
+			}
+
+			// prijsklasse
+			if($("input[name=fpk_van]").val().length!==0 && $("input[name=fpk_tot]").val().length!==0) {
+				analytics_prijsklasse=$("input[name=fpk_van]").val()+" tot "+$("input[name=fpk_tot]").val();
+				if($("input[name=fpk_enmeer]").val()=="1") {
+					analytics_prijsklasse=analytics_prijsklasse+" en meer";
+				} else {
+					zoekopdracht_naar_analytics_sturen_inclusief_aantal("prijsklasse - losse ingevulde waarden","Prijsklasse tot",parseInt($("input[name=fpk_tot]").val(),10));
+				}
+				if(parseInt($("input[name=fpk_van]").val(),10)>0) {
+					zoekopdracht_naar_analytics_sturen_inclusief_aantal("prijsklasse - losse ingevulde waarden","Prijsklasse van",parseInt($("input[name=fpk_van]").val(),10));
+				}
+
+				zoekopdracht_naar_analytics_sturen("prijsklasse",analytics_prijsklasse);
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Prijsklasse: "+analytics_prijsklasse;
 			}
 
 			// tekstzoeken

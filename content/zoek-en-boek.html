@@ -45,7 +45,7 @@ if($vars["websitetype"]==7) {
 }
 
 # Bepalen of dit een nieuwe zoekopdracht is, of dat de zoekopdracht in deze sessie al eens eerder is uitgevoerd
-$te_controleren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fzt","fdu","faab");
+$te_controleren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fzt","fdu","faab","fpk_van","fpk_tot","fpk_enmeer");
 $nieuwe_zoekopdracht=1;
 if(is_array($_GET)) {
 	reset($_GET);
@@ -713,9 +713,10 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 		addwhere("t.maxaantalpersonen>=".addslashes($min));
 		addwhere("t.maxaantalpersonen<=".addslashes($max));
 
-		# Maximaal 1 slaapkamer per persoon
-#		addwhere("t.slaapkamers<=".intval($_GET["fap"]));
-
+		// if($vars["website"]<>"Z") {
+		// 	# Maximaal 1 slaapkamer per persoon (niet bij Zomerhuisje)
+		// 	addwhere("t.slaapkamers<=".intval($_GET["fap"]));
+		// }
 	}
 
 	# Aantal slaapkamers
@@ -1794,15 +1795,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 
 				# min en max-bedragen bepalen
-				if($tarief_float<$prijsklasse_min_beschikbaar or !$prijsklasse_min_beschikbaar) $prijsklasse_min_beschikbaar=$tarief_float;
 				if($tarief_float>$prijsklasse_max_beschikbaar) $prijsklasse_max_beschikbaar=$tarief_float;
 
 				# Zoekvolgorde-categorie (1=hoogst, 5=laagst)
 				$zoekvolgorde=$db->f("lzoekvolgorde");
 				if($db->f("azoekvolgorde")<>3) $zoekvolgorde=$db->f("azoekvolgorde");
 				if($db->f("tzoekvolgorde")<>3) $zoekvolgorde=$db->f("tzoekvolgorde");
-
-	#			if($_GET["fad"]>0 and ($_GET["fap"]>0 or $vars["seizoentype"]==2)) {
 
 				# Zoeken op kaart: GPS-gegevens bepalen + $zoeken_op_kaart_data vullen
 				if($vars["zoeken_op_kaart"]) {
@@ -2902,7 +2900,7 @@ function zoekblok_prijsklasse($settings="") {
 	# zoekformulier: prijsklasse (via slider)
 	#
 
-	global $prijsklasse_min_beschikbaar,$prijsklasse_max_beschikbaar;
+	global $prijsklasse_max_beschikbaar;
 
 	$prijsklasse_min=0;
 
@@ -2911,9 +2909,7 @@ function zoekblok_prijsklasse($settings="") {
 	} else {
 		# Andere zoekopdracht is uitgevoerd: min en max bepalen aan de hand van zoekresultaten
 
-		if($prijsklasse_max_beschikbaar<=100) {
-			$prijsklasse_max=100;
-		} elseif($prijsklasse_max_beschikbaar<=500) {
+		if($prijsklasse_max_beschikbaar<=500) {
 			$prijsklasse_max=500;
 		} elseif($prijsklasse_max_beschikbaar<=1000) {
 			$prijsklasse_max=1000;
@@ -2924,9 +2920,7 @@ function zoekblok_prijsklasse($settings="") {
 		}
 	}
 
-	if($prijsklasse_max==100) {
-		$prijsklasse_stappen=5;
-	} elseif($prijsklasse_max==500) {
+	if($prijsklasse_max==500) {
 		$prijsklasse_stappen=10;
 	} elseif($prijsklasse_max==1000) {
 		$prijsklasse_stappen=10;
@@ -2949,17 +2943,18 @@ function zoekblok_prijsklasse($settings="") {
 
 	echo "<div class=\"zoekblok_field\">";
 
-	echo "<div class=\"zoekblok_prijsklasse_min\">&euro;&nbsp;".$prijsklasse_min."</div><div class=\"noUiSlider\"></div><div class=\"zoekblok_prijsklasse_max\">&euro;&nbsp;".$prijsklasse_max."</div>";
+	echo "<div class=\"zoekblok_prijsklasse_min\">&euro;&nbsp;".$prijsklasse_min."</div>";
+	echo "<div class=\"noUiSlider\"></div><div class=\"zoekblok_prijsklasse_max\">&euro;&nbsp;".$prijsklasse_max."</div>";
 	echo "<div class=\"clear\"></div>";
 
-	echo "<input type=\"hidden\" name=\"fpk_enmeer\" value=\"0\">";
+	echo "<input type=\"hidden\" name=\"fpk_enmeer\" value=\"".intval($_GET["fpk_enmeer"])."\">";
 	echo "<input type=\"hidden\" name=\"fpk_max\" value=\"".intval($prijsklasse_max)."\">";
 
-	echo "van&nbsp;&euro;&nbsp;<input type=\"text\" name=\"fpk_van\" id=\"fpk_van\" value=\"".($_GET["fpk_van"]||$_GET["fpk_van"]=="0" ? intval($_GET["fpk_van"]) : "")."\">";
-	echo "&nbsp;&nbsp;&nbsp;";
-	echo "tot&nbsp;&euro;&nbsp;<input type=\"text\" name=\"fpk_tot\" id=\"fpk_tot\" value=\"".($_GET["fpk_tot"] ? intval($_GET["fpk_tot"]) : "")."\">";
+	echo "van&nbsp;&nbsp;&euro;&nbsp;<input type=\"text\" name=\"fpk_van\" id=\"fpk_van\" value=\"".($_GET["fpk_van"]||$_GET["fpk_van"]=="0" ? intval($_GET["fpk_van"]) : "")."\">";
+	echo "&nbsp;&nbsp;";
+	echo "tot&nbsp;&nbsp;&euro;&nbsp;<input type=\"text\" name=\"fpk_tot\" id=\"fpk_tot\" value=\"".($_GET["fpk_tot"] ? intval($_GET["fpk_tot"]) : "")."\">";
 
-	echo "<span id=\"zoekblok_prijsklasse_enmeer\" style=\"".($_GET["fpk_enmeer"] ? "" : "display:none;")."\">&nbsp;en meer</span>";
+	echo "<span id=\"zoekblok_prijsklasse_enmeer\" style=\"".($_GET["fpk_enmeer"]||!$_GET["fpk_tot"] ? "" : "display:none;")."\">&nbsp;en meer</span>";
 
 
 	if($_GET["fpk_enmeer"]) {
@@ -2970,9 +2965,9 @@ function zoekblok_prijsklasse($settings="") {
 		}
 	}
 	echo "<input type=\"hidden\" id=\"fpk_van_hidden\" value=\"".($_GET["fpk_van"] ? intval($_GET["fpk_van"]) : $prijsklasse_min)."\">";
-	echo "<input type=\"hidden\" id=\"fpk_tot_hidden\" value=\"".($_GET["fpk_tot"] ? intval($_GET["fpk_tot"]) : $prijsklasse_max)."\">";
+	echo "<input type=\"hidden\" id=\"fpk_tot_hidden\" value=\"".($_GET["fpk_tot"] ? intval($_GET["fpk_tot"]) : $prijsklasse_max+$prijsklasse_stappen)."\">";
 
-	echo "&nbsp;&nbsp;(per accommodatie)";
+	echo "&nbsp;&nbsp;(per vakantiehuis)";
 
 	echo "</div>"; # afsluiten .zoekblok_field
 
