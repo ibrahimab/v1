@@ -133,21 +133,6 @@ if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or str
 	}
 }
 
-# Zoekopdracht_id aanmaken (en plaatsen in $_GET["z"])
-// if($_GET["filled"] and !$vars["zoekform_aanbiedingen"]) {
-// 	if(!$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and !preg_match("/Googlebot/",$_SERVER["HTTP_USER_AGENT"])) {
-// 		if($_GET["z"]) {
-// 			$zoekopdrachtid=intval($_GET["z"]);
-// 		} else {
-// 			$db->query("INSERT INTO zoekstatistiek SET wzt='".$vars["seizoentype"]."', website='".$vars["website"]."', url='".addslashes("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."', datumtijd=NOW();");
-// 			if($db->insert_id()) {
-// 				header("Location: ".$_SERVER["REQUEST_URI"]."&z=".$db->insert_id());
-// 				exit;
-// 			}
-// 		}
-// 	}
-// }
-
 if($_GET["fsg"] and !preg_match("/,/",$_GET["fsg"])) {
 	if(preg_match("/^pl([0-9]+)$/",$_GET["fsg"],$regs)) {
 		$db->query("SELECT naam FROM plaats WHERE plaats_id='".intval($regs[1])."';");

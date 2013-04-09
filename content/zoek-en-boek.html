@@ -1884,6 +1884,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				#
 				unset($sorteer);
 
+				# Sorteren op gekoppelde skigebieden
+				if($koppeling[$db->f("skigebied_id")]) {
+					$sorteer.=$koppeling[$db->f("skigebied_id")];
+				}
+
 				# accommodaties zonder tarief: onderaan
 				if($vanaf_prijzen_tonen) {
 					if($tarief_float>0) {
@@ -1891,11 +1896,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					} else {
 						$sorteer.="9";
 					}
-				}
-
-				# Sorteren op gekoppelde skigebieden
-				if($koppeling[$db->f("skigebied_id")]) {
-					$sorteer.=$koppeling[$db->f("skigebied_id")];
 				}
 
 				if($_GET["sort"]==1 or !$_GET["sort"]) {
@@ -2139,6 +2139,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 		unset($aantalresultaten_zonder_gekoppeld_skigebied);
 
 
+# NU_EVEN_NIET
 		# Resultaten laten afvallen bij gekoppelde skigebieden (maximaal 10 skigebieden koppelen)
 		if($skigebied_inquery) {
 			$tempresults=$newresults_acc;
@@ -2395,20 +2396,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 			$results_ander_skigebied[$results_teller]=$sorteerscore_skigebied[$key];
 		}
 	}
-
-	# Zoekopdracht opslaan in database
-	// if($_GET["z"]) {
-	// 	if($save_query) {
-	// 		while(list($key,$value)=each($save_query)) {
-	// 			if($save_query_text) {
-	// 				$save_query_text.=" - ".$key.": ".$value;
-	// 			} else {
-	// 				$save_query_text=$key.": ".$value;
-	// 			}
-	// 		}
-	// 	}
-	// 	$db->query("UPDATE zoekstatistiek SET compleet=1, zoekopdracht='".addslashes($save_query_text)."', tekstzoekopdracht='".addslashes($zoektekst_opslaan)."', aantalresultaten='".intval(@count($results))."' WHERE zoekstatistiek_id='".addslashes($_GET["z"])."';");
-	// }
 }
 
 

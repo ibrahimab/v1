@@ -31,21 +31,6 @@ if(ereg("^[A-Za-z]([0-9]+)$",trim($_GET["fzt"]),$regs)) {
 	}
 }
 
-# Zoekopdracht_id aanmaken (en plaatsen in $_GET["z"])
-if($_GET["filled"]) {
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or (!$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]))) {
-		if($_GET["z"]) {
-			$zoekopdrachtid=intval($_GET["z"]);
-		} else {
-			$db->query("INSERT INTO zoekstatistiek SET wzt='".$vars["seizoentype"]."', website='".$vars["website"]."', url='".addslashes("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."', datumtijd=NOW();");
-			if($db->insert_id()) {
-				header("Location: ".$_SERVER["REQUEST_URI"]."&z=".$db->insert_id());
-				exit;
-			}
-		}
-	}
-}
-
 if($_GET["fsg"]>0) {
 	$landgebied=explode("-",$_GET["fsg"]);
 	if($landgebied[1]>0) {
