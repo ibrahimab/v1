@@ -7,6 +7,7 @@
 #
 
 session_start();
+
 $string = '';
 
 for ($i = 0; $i < 5; $i++) {
@@ -15,12 +16,33 @@ for ($i = 0; $i < 5; $i++) {
 
 $string=strtoupper($string);
 
+// B vervangen door E (B is soms slecht leesbaar)
+$string=preg_replace("/B/","E",$string);
+
+
+function imagettftextSp($image, $size, $angle, $x, $y, $color, $font, $text, $spacing = 0) {
+	if ($spacing == 0)
+	{
+		imagettftext($image, $size, $angle, $x, $y, $color, $font, $text);
+	}
+	else
+	{
+		$temp_x = $x;
+		for ($i = 0; $i < strlen($text); $i++)
+		{
+			$bbox = imagettftext($image, $size, $angle, $temp_x, $y, $color, $font, $text[$i]);
+			$temp_x += $spacing + ($bbox[2] - $bbox[0]);
+		}
+	}
+}
+
+
 $_SESSION["captcha_okay"] = false;
 $_SESSION["captcha_random_number"] = $string;
 
 $dir = '../fonts/';
 
-$image = imagecreatetruecolor(165, 50);
+$image = imagecreatetruecolor(195, 50);
 
 // random number 1 or 2
 $num = rand(1,2);
@@ -47,7 +69,7 @@ else
 $white = imagecolorallocate($image, 255, 255, 255); // background color white
 imagefilledrectangle($image,0,0,399,99,$white);
 
-imagettftext ($image, 30, 0, 10, 40, $color, $dir.$font, $_SESSION["captcha_random_number"]);
+imagettftextSp ($image, 30, 0, 10, 40, $color, $dir.$font, $_SESSION["captcha_random_number"],1);
 
 header("Content-type: image/png");
 imagepng($image);

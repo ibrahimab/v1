@@ -13,18 +13,21 @@ var RecaptchaOptions = {
 
 function controlEnSend() {
 
-	// ReCAPTCHA testen via rpc_json
 	var recaptcha_ok=false;
-	$.getJSON(absolute_path+"rpc_json.php", {
-		"t": 6,
-		"recaptcha_response_field": $('#recaptcha_response_field').val(),
-		"recaptcha_challenge_field": $('#recaptcha_challenge_field').val(),
-	}, function(data) {
-		if(data.ok) {
 
-			if(data.recaptcha_ok) {
-				var recaptcha_ok=true;
+	$.getJSON(absolute_path+"rpc_json.php", {"t": 10,"input":$("input[name=captcha]").val()}, function(data) {
+		if(data.ok) {
+			if(data.captcha_okay) {
+				$("#captcha_onjuist").hide();
+				$("#captcha_juist").show();
+				recaptcha_ok=true;
+			} else {
+				$("#captcha_juist").hide();
+				$("#captcha_onjuist").show();
 			}
+		}
+
+		if(recaptcha_ok===true) {
 
 			// errorLabel leegmaken
 			document.getElementById("errorLabel").innerHTML="";
@@ -55,16 +58,9 @@ function controlEnSend() {
 					}
 				}
 				if(errors==0) {
-					if(recaptcha_ok===true) {
-						document.getElementById("verzenden").disabled=true;
-						document.getElementById("Annuleren").disabled=true;
-						ajaxMailFunction();
-					} else {
-						document.getElementById("errorLabel").style.backgroundColor = 'red';
-						document.getElementById("errorLabel").style.color = 'white';
-						document.getElementById("errorLabel").innerHTML = "<?php echo html("recaptchanietcorrect","favorieten"); ?>";
-						Recaptcha.reload();
-					}
+					document.getElementById("verzenden").disabled=true;
+					document.getElementById("Annuleren").disabled=true;
+					ajaxMailFunction();
 				}
 			}
 		}
@@ -123,10 +119,7 @@ if($db->num_rows()) {
 	echo "<div class=\"mailForm_veldnaam\">".html("LabelBericht","favorieten")."</div>";
 	echo "<div class=\"mailForm_veld\"><textarea style=\"font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px;\" name=\"presentatiebericht\" rows=\"5\" cols=\"50\" id=\"presentatiebericht\" />".html("doormailtekst","favorieten",array("v_websitenaam"=>$vars["websitenaam"]))."</textarea></div>";
 
-	# ReCAPTCHA
-	require_once($vars["unixdir"]."admin/recaptchalib.php");
-	echo "<div class=\"mailForm_veldnaam\">".html("recaptcha_uitleg","favorieten")."</div>";
-	echo "<div class=\"mailForm_veld\">".recaptcha_get_html($vars["recaptcha_publickey"],"",true)."</div>";
+	echo "<p class=\"captcha\"><label>".html("recaptcha_uitleg","accommodatiemail")."</label><img src=\"".$vars["path"]."pic/captcha_image.php?c=1\" id=\"captcha_img\"><input type=\"text\" name=\"captcha\" maxlength=\"5\" autocomplete=\"off\">&nbsp;&nbsp;&nbsp;<span id=\"captcha_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"captcha_onjuist\">".html("captcha_onjuist","accommodatiemail",array("h_1"=>"<a href=\"#\" id=\"captcha_reload\">","h_2"=>"</a>"))."</span></p>";
 
 	echo "<div class=\"mailForm_veld\"><input type=\"checkbox\" name=\"jaNee\" value=\"1\" id=\"jaNee\"/><label for=\"jaNee\"> ".html("stuurkopie","favorieten")."</label></div>";
 

@@ -241,33 +241,19 @@ if ( $_GET["t"]==1 ) {
 	}
 } elseif ( $_GET["t"]==6 ) {
 	//
-	// Ingevoerde ReCAPTCHA controleren
+	// NIET IN GEBRUIK
 	//
-	if($vars["lokale_testserver"]) {
-		$server_remote_addr=file_get_contents("http://www.webtastic.nl/ipadres/direct.php");
-	} else {
-		$server_remote_addr=$_SERVER["REMOTE_ADDR"];
 
-	}
-	require_once($vars["unixdir"]."admin/recaptchalib.php");
-	$resp = recaptcha_check_answer ($vars["recaptcha_privatekey"],
-                                $server_remote_addr,
-                                $_GET["recaptcha_challenge_field"],
-                                $_GET["recaptcha_response_field"]);
-	if ($resp->is_valid or $vars["lokale_testserver"]) {
-		$return["recaptcha_ok"]=true;
-		$_SESSION["recaptcha_ok"]=true;
-	}
-	$return["ok"]=true;
+
 } elseif ($_GET["t"]==7 ) {
 	//
 	// favorieten mailen
 	//
 
-	if ($_SESSION["recaptcha_ok"]) {
+	if ($_SESSION["captcha_okay"]) {
 
 		# ReCAPTCHA maximaal 1x geldig
-		unset($_SESSION["recaptcha_ok"]);
+		unset($_SESSION["captcha_okay"]);
 
 		$db->query("SELECT DISTINCT b.type_id FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
 		$klantfavs=array();

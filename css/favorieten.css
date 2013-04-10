@@ -76,3 +76,39 @@
 .mailForm_veld {
 	margin-bottom: 5px;
 }
+
+
+
+/*capctha*/
+
+.captcha label {
+	margin-top: 25px;
+	margin-bottom: 0px;
+}
+
+#captcha_img {
+	display: block;
+	margin-bottom: 5px;
+}
+
+#captcha_juist {
+	display: none;
+}
+
+#captcha_onjuist {
+	display: none;
+	color: red;
+}
+
+#captcha_onjuist a {
+	color: #555555;
+}
+
+#captcha_onjuist a:hover {
+	color: #000000;
+}
+
+input[name=captcha] {
+	width: 150px;
+	text-transform:uppercase;
+}
