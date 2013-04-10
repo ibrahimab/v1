@@ -939,6 +939,24 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	background-position: 100% -11px;
 }
 
+#wis_zoekblok_tekst {
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	z-index: 999;
+	width: 10px;
+	height: 10px;
+	margin-left: -20px;
+	background-image: url('../pic/chosen-sprite.png');
+	background-repeat: no-repeat;
+	background-position: 100% 0px;
+	display: none;
+}
+
+#wis_zoekblok_tekst:hover {
+	background-position: 100% -11px;
+}
+
 .option_land {
 	font-weight: bold;
 	color: #ffffff;
@@ -993,7 +1011,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 }
 
 #zoekblok input[name='fzt'] {
-	width: 445px;
+	width: 415px;
 	background-color: #ffffff;
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee', GradientType=0 );
 	background: #fff url('../pic/chosen-sprite.png') no-repeat 100% -20px;
@@ -1019,9 +1037,19 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	padding: 0 0 0 8px;
 	text-decoration: none;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
+	padding-right: 30px;
+}
+
+/*toon geen delete-icon in IE10*/
+#zoekblok input[name='fzt']::-ms-clear {
+	display: none;
 }
 
 #zoekblok input[name='fzt']:focus {
+	border: 1px solid #003366;
+}
+
+#zoekblok input[name='fzt'].geen_vergrootglas {
 	outline: none;
 	background: #fff;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
@@ -1033,7 +1061,6 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	-webkit-box-shadow: 0 0 5px rgba(0,0,0,.3);
 	-moz-box-shadow   : 0 0 5px rgba(0,0,0,.3);
 	box-shadow        : 0 0 5px rgba(0,0,0,.3);
-	border: 1px solid #003366;
 }
 
 .zoekblok_select_mobile {

@@ -1243,7 +1243,7 @@ $(document).ready(function() {
 				return false;
 			});
 
-			// aankomstdatum (d/m/Y) wissen
+			// aankomstdatum (d/m/Y) wissen via wis-icoontje
 			$("#wis_aankomstdatum_flex").click(function(){
 
 				$(this).hide();
@@ -1253,6 +1253,17 @@ $(document).ready(function() {
 				$("select[name=fadf_y]").val("");
 
 				$(".flexibel_datum").trigger("liszt:updated");
+				zoekblok_submit();
+
+				return false;
+			});
+
+			// fzt wissen via wis-icoontje
+			$("#wis_zoekblok_tekst").click(function(){
+
+				$(this).hide();
+
+				$("input[name=fzt]").val("");
 				zoekblok_submit();
 
 				return false;

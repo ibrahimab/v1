@@ -2552,7 +2552,12 @@ function zoekblok_tekst($settings="") {
 	echo "</div>"; # afsluiten .zoekblok_titel
 
 	echo "<div class=\"zoekblok_field\">";
-	echo "<input type=\"text\" name=\"fzt\" value=\"".wt_he($_GET["fzt"])."\" data-placeholder=\"".html("tekstzoeken","zoek-en-boek")."\">";
+	echo "<input type=\"text\" name=\"fzt\" value=\"".wt_he($_GET["fzt"])."\" data-placeholder=\"".html("tekstzoeken","zoek-en-boek")."\" class=\"".($_GET["fzt"] ? "geen_vergrootglas" : "")."\">";
+
+	# wis-icoontje tonen
+	echo "<a href=\"#\" id=\"wis_zoekblok_tekst\" style=\"".($_GET["fzt"] ? "display:block;" : "")."\"></a>";
+
+
 	echo "</div>"; # afsluiten .zoekblok_field
 
 	// echo "<div class=\"zoekblok_subtitel\">";
@@ -2802,7 +2807,6 @@ function zoekblok_aankomstdatum($settings="") {
 			echo "<option value=\"".$i."\"".($_GET["fadf_y"]==$i ? " selected" : "").">".$i."</option>";
 		}
 		echo "</select>";
-
 
 		if($_GET["fadf_d"] or $_GET["fadf_m"] or $_GET["fadf_y"]) {
 			# wis-icoontje tonen
