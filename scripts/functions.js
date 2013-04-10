@@ -1243,6 +1243,21 @@ $(document).ready(function() {
 				return false;
 			});
 
+			// aankomstdatum (d/m/Y) wissen
+			$("#wis_aankomstdatum_flex").click(function(){
+
+				$(this).hide();
+
+				$("select[name=fadf_d]").val("");
+				$("select[name=fadf_m]").val("");
+				$("select[name=fadf_y]").val("");
+
+				$(".flexibel_datum").trigger("liszt:updated");
+				zoekblok_submit();
+
+				return false;
+			});
+
 			// placeholder fzt italics weergeven
 			$("#zoekblok input[name=fzt]").focus(function(){
 				if($("#zoekblok input[name=fzt]").val()==$("#zoekblok input[name=fzt]").data("placeholder")) {

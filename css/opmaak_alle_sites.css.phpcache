@@ -923,6 +923,22 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	width: 50px;
 }
 
+#wis_aankomstdatum_flex {
+	width: 10px;
+	height: 10px;
+	margin-left: 10px;
+	margin-top: 9px;
+	background-image: url('../pic/chosen-sprite.png');
+	background-repeat: no-repeat;
+	background-position: 100% 0px;
+	display: block;
+	float: right;
+}
+
+#wis_aankomstdatum_flex:hover {
+	background-position: 100% -11px;
+}
+
 .option_land {
 	font-weight: bold;
 	color: #ffffff;

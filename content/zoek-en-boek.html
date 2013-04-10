@@ -2802,6 +2802,12 @@ function zoekblok_aankomstdatum($settings="") {
 			echo "<option value=\"".$i."\"".($_GET["fadf_y"]==$i ? " selected" : "").">".$i."</option>";
 		}
 		echo "</select>";
+
+
+		if($_GET["fadf_d"] or $_GET["fadf_m"] or $_GET["fadf_y"]) {
+			# wis-icoontje tonen
+			echo "<a href=\"#\" id=\"wis_aankomstdatum_flex\"></a>";
+		}
 	} else {
 		if(is_array($vars["aankomstdatum_weekend"])) {
 
