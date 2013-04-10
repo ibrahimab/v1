@@ -766,6 +766,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	padding-top: 10px;
 	padding-bottom: 0px;
 	width: 680px;
+	margin-bottom: 20px;
 }
 
 .form_element_wrapper {
@@ -1276,16 +1277,17 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	padding: 5px;
 	background-color: #d5e1f9;
 	width: 680px;
-	margin-top: 10px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	color: #003366;
 }
 
-#zoekblok .zoekresultaten_aantalgevonden {
+#zoekblok .aantalgevonden {
 	width: 470px;
-	background-color: #ffffff;
 	margin-left: 195px;
 	font-size: 1.2em;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	color: #003366;
 }
 
 .zoekresultaten_zoeken_op_kaart {
@@ -1295,7 +1297,6 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	background-position: 5px 3px;
 	padding-left: 35px;
 	width: 650px;
-	margin-top: 20px;
 }
 
 .zoekresultaten_zoeken_op_kaart:hover {

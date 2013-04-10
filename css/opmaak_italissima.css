@@ -823,8 +823,8 @@ form {
 	color: #661700;
 }
 
-#zoekblok .zoekresultaten_aantalgevonden {
-	background-color: #ebe3e0;
+#zoekblok .aantalgevonden {
+	color: #661700;
 }
 
 .zoekresultaten_zoeken_op_kaart {

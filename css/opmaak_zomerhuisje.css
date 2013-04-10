@@ -658,6 +658,10 @@ form {
 	color: #5f227b;
 }
 
+#zoekblok .aantalgevonden {
+	color: #5f227b;
+}
+
 .zoekresultaten_zoeken_op_kaart {
 	background-color: #5f227b;
 	color: #ffffff;

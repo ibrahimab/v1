@@ -403,6 +403,10 @@ form {
 	color: #666600;
 }
 
+#zoekblok .aantalgevonden {
+	color: #666600;
+}
+
 .zoekresultaten_zoeken_op_kaart_map {
 	border-color: #b2cce5;
 }

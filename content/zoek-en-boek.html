@@ -2422,7 +2422,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 		echo "<div>&nbsp;</div>";
 		echo "<div>";
 	} else {
-		echo "<div style=\"padding-bottom:10px;".(!$uitgebreid ? "padding-top:10px;" : "")."\">";
+		echo "<div style=\"padding-bottom:20px;".(!$uitgebreid ? "padding-top:10px;" : "")."\">";
 		if($vars["themainfo"]["uitgebreidzoeken_url"]) {
 
 #			echo "<div class=\"button\" onclick=\"document.location.href='".$vars["path"].txt("menu_zoek-en-boek").".php?".wt_he($vars["themainfo"]["uitgebreidzoeken_url"])."';\">";
@@ -3199,45 +3199,17 @@ if($vars["websitetype"]==1) {
 	zoekblok_submit();
 }
 
-if($vars["zoeken_op_kaart"]) {
-	#
-	# "Aantal gevonden resultaten" tonen
-	#
-	if($aantalresultaten_zonder_gekoppeld_skigebied<count($results)) {
-		$toon_aantalresultaten=$aantalresultaten_zonder_gekoppeld_skigebied;
-	} else {
-		$toon_aantalresultaten=count($results);
-	}
-	echo "<div class=\"zoekresultaten_aantalgevonden\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">";
-	echo html("gevondenaccommodaties".($toon_aantalresultaten_verschillende_types==1 ? "_1" : ""),"zoek-en-boek",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"h_1"=>"<strong>","h_2"=>"</strong>"));
-	echo "</div>";
-
-
-	if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
-		if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and !$_GET["filled"]) {
-			# Toon thema "tarieven nieuwe seizoen al bekend"
-			$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
-			if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
-			echo "<div class=\"zoekresultaten_aantalgevonden\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
-			if($_GET["save_tarievenbekend"]) {
-				file_put_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
-			}
-		}
-	} else {
-		if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and @filemtime($unixdir."cache/tarievenbekend_".$vars["website"].".txt")>(time()-86400) and !$_GET["filled"]) {
-			#
-			# melding "Aantal accommodaties met tarieven: xxx (= xx% van ons totale winteraanbod)" tonen
-			#
-			$a=split("-",@file_get_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt"));
-			if($a[0]>=1) {
-				if($a[1]<1) $a[1]=1;
-				echo "<div class=\"zoekresultaten_aantalgevonden\">";
-				echo html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$a[0],"v_percentage"=>$a[1]."%"));
-				echo "</div>";
-			}
-		}
-	}
+#
+# "Aantal gevonden resultaten" tonen
+#
+if($aantalresultaten_zonder_gekoppeld_skigebied<count($results)) {
+	$toon_aantalresultaten=$aantalresultaten_zonder_gekoppeld_skigebied;
+} else {
+	$toon_aantalresultaten=count($results);
 }
+echo "<div class=\"aantalgevonden\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">";
+echo html("gevondenaccommodaties".($toon_aantalresultaten_verschillende_types==1 ? "_1" : ""),"zoek-en-boek",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"h_1"=>"<strong>","h_2"=>"</strong>"));
+echo "</div>";
 
 
 echo "</form>";
@@ -3260,41 +3232,36 @@ if($resultaten_tonen) {
 		$startresult=(($_GET["page"]-1)*$vars["resultsperpage"])+1;
 		if(count($results)>($startresult+$vars["resultsperpage"]-1)) $endresult=$startresult+$vars["resultsperpage"]-1; else $endresult=count($results);
 
-		if(!$vars["zoeken_op_kaart"]) {
-			# "Aantal gevonden resultaten" tonen
-			echo "<div style=\"height:13px;\"></div>";
-			if($aantalresultaten_zonder_gekoppeld_skigebied<count($results)) {
-				$toon_aantalresultaten=$aantalresultaten_zonder_gekoppeld_skigebied;
-			} else {
-				$toon_aantalresultaten=count($results);
-			}
-			if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
-
-				if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and !$_GET["filled"]) {
-	#				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten/$totaal_tarievenbekend_seizoen_id)*100);
-					$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
-					if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
-					echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
-					if($_GET["save_tarievenbekend"]) {
-						file_put_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
-					}
-				} else {
-					echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
+#		echo "<div style=\"height:13px;\"></div>";
+		if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
+			#
+			# Thema-pagina's (of pagina 'tarieven nieuw seizoen'): aantal accommodaties tonen
+			#
+			if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and !$_GET["filled"]) {
+				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
+				if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
+				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
+				if($_GET["save_tarievenbekend"]) {
+					file_put_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
 				}
 			} else {
-				if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and (@filemtime($unixdir."cache/tarievenbekend_".$vars["website"].".txt")>(time()-86400) or $vars["lokale_testserver"]) and !$_GET["filled"]) {
-					#
-					# melding "Aantal accommodaties met tarieven: xxx (= xx% van ons totale winteraanbod)" tonen
-					#
-					$a=split("-",@file_get_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt"));
-					if($a[0]>=1) {
-						if($a[1]<1) $a[1]=1;
-						echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" style=\"margin-bottom:25px;\">";
-						echo html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$a[0],"v_percentage"=>$a[1]."%"));
-						echo "</div>";
-					}
-				}
 				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
+			}
+		} else {
+			#
+			# Balk met tekst "Aantal accommodaties voor [nieuw seizoen] met tarieven: X (= X% van ons totale aanbod)"
+			#
+			if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and (@filemtime($unixdir."cache/tarievenbekend_".$vars["website"].".txt")>(time()-86400) or $vars["lokale_testserver"]) and !$_GET["filled"]) {
+				#
+				# melding "Aantal accommodaties met tarieven: xxx (= xx% van ons totale winteraanbod)" tonen
+				#
+				$a=split("-",@file_get_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt"));
+				if($a[0]>=1) {
+					if($a[1]<1) $a[1]=1;
+					echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" style=\"margin-bottom:25px;\">";
+					echo html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>$a[0],"v_percentage"=>$a[1]."%"));
+					echo "</div>";
+				}
 			}
 		}
 
