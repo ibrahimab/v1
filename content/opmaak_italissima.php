@@ -169,6 +169,12 @@ echo "<meta name=\"description\" content=\"".wt_he(($meta_description ? $meta_de
 # Facebook/Open Graph-gegevens in header opnemen
 echo facebook_opengraph();
 
+# admin voor facebook (Bjorn: 100001459420163, Jeroen WebTastic: 100002390923231)
+#echo "<meta property=\"fb:admins\" content=\"100001459420163,100002390923231\"/>\n";
+
+# Facebook app_id (om reisblog-comments te kunnen moderaten)
+echo "<meta property=\"fb:app_id\" content=\"317521581710031\"/>\n";
+
 # Google+
 echo "<link href=\"https://plus.google.com/118061823772005667855\" rel=\"publisher\" />\n";
 
@@ -242,6 +248,8 @@ while(list($key,$value)=each($menu)) {
 	echo "<a href=\"".$vars["path"];
 	if($key=="aanbiedingen") {
 		echo txt("menu_".$key)."/";
+	} elseif($key=="reisblog") {
+		echo "reisblog";
 	} elseif($key<>"index") {
 		echo txt("menu_".$key).".php";
 	}

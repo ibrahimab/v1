@@ -277,6 +277,9 @@ RewriteRule ^alpe-d-huzes$ alpedhuzes.php?%{QUERY_STRING}
 RewriteRule ^reiskookboek/$ /reiskookboek [L,R=301]
 RewriteRule ^reiskookboek$ actie-kookboek.php?%{QUERY_STRING}
 
+# nieuwsbrief-actie
+RewriteRule ^reisblog/$ /reisblog [L,R=301]
+RewriteRule ^reisblog$ reisblog.php?%{QUERY_STRING}
 
 
 #

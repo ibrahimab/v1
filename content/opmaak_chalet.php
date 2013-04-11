@@ -628,7 +628,7 @@ echo "</div>";
 if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<div id=\"zoekenboek_overlay\" class=\"noprint\">";
 
-$abtest_snelzoeken=false;
+#$abtest_snelzoeken=false;
 
 	if($abtest_snelzoeken) {
 		# A/B-test: button

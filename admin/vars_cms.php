@@ -229,6 +229,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_diversen","","cms_diversen","Actielijst WebTastic",array("t"=>"1"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Actielijst archief",array("t"=>"2"),true);
 	$layout->submenu_item("cms_diversen","","cms_blog","Blog Italissima","",true);
+	$layout->submenu_item("cms_diversen","","cms_reisblog","Reisblog Italissima","",true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Instellingen",array("t"=>"3"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Statistieken",array("t"=>"6"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Vouchertermen",array("t"=>"5"),true);
@@ -840,6 +841,14 @@ if($mustlogin) {
 	$cms->settings[54]["file"]="cms_vertrekinfo_sjablonen.php";
 	$cms->settings[54]["log"]["active"]=true;
 	$cms->db[54]["maintable"]="vertrekinfo_sjabloon";
+
+	# 55 = reisblog (tijdelijke actie Italissima)
+	$cms->settings[55]["types"]="blog-items";
+	$cms->settings[55]["type_single"]="blog-item";
+	$cms->settings[55]["file"]="cms_reisblog.php";
+	$cms->settings[55]["log"]["active"]=true;
+	$cms->db[55]["maintable"]="reisblog";
+
 
 	# Aankomstdata vullen (voor CMS)
 	$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");

@@ -772,6 +772,22 @@ $(document).ready(function() {
 
 			});
 
+			$(".fotopopup_border").fancybox({
+				'transitionIn'	:	'elastic',
+				'transitionOut'	:	'elastic',
+				'speedIn'		: 300,
+				'speedOut'		: 300,
+				'autoScale' :		true,
+				'overlayShow'	:	true,
+				'hideOnContentClick' :	true,
+				'overlayColor' :	'#454545',
+				'onComplete'	:	function() {
+
+				},
+				'cyclic'	:	true,
+				'overlayOpacity' :	0.8
+			});
+
 			// tijdelijk: fancybox-popup bij Zomerhuisje (melding over koerswijziging)
 			if($("#zomerhuisje_popup").length!==0) {
 				$("#zomerhuisje_popup").fancybox({

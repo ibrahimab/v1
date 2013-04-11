@@ -403,6 +403,9 @@ if($vars["websitetype"]==7) {
 	$menu["bestemmingen"]=txt("menutitle_bestemmingen");
 	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
 	$menu["blog"]=txt("menutitle_blog");
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+		$menu["reisblog"]="reisblog: beleef Toscane";
+	}
 	$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 	$menu["contact"]=txt("menutitle_contact");
 

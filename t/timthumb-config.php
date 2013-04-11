@@ -1,0 +1,9 @@
+<?php
+
+
+define('FILE_CACHE_TIME_BETWEEN_CLEANS',864000);
+define('FILE_CACHE_MAX_FILE_AGE',864000);
+define('ALLOW_EXTERNAL',false);
+
+
+?>

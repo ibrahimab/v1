@@ -1,0 +1,123 @@
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/nl_NL/all.js#xfbml=1&appId=317521581710031";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<?php
+
+echo "<div id=\"blog_content_links\">";
+
+if($_GET["b"]) {
+	#
+	# Geselecteerd blogitem tonen
+	#
+
+	echo "<div class=\"blogitem_datum\">".DATUM("DAG D MAAND JJJJ",$blog["plaatsingsdatum"])."</div>";
+
+	echo "<div class=\"blogitem_inleiding\">".nl2br(wt_he($blog["inleiding"]))."</div>";
+
+	// $file="pic/cms/blog/".$blog["blog_id"].".jpg";
+	// if(file_exists($file)) {
+	// 	echo "<img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($blog["titel"])."\" style=\"float:right;\">";
+	// }
+
+	if($blog["inhoud_html"]) {
+		$inhoud=$blog["inhoud_html"];
+	} else {
+		$inhoud=htmlentities_uitgebreid($blog["inhoud"]);
+
+
+		$inhoud=str_replace("----------","<hr>",$inhoud);
+
+		# Afbeeldingen
+		while(preg_match("/\[(rechts|links|centreer)_afbeelding_([0-9]+)\]/",$inhoud,$regs)) {
+			$file="pic/cms/reisblog/".intval($_GET["b"])."-".$regs[2].".jpg";
+			if(file_exists($file)) {
+				if($regs[1]=="links") {
+					$align="left";
+					$img="<img src=\"".$vars["path"]."pic/cms/reisblog/".intval($_GET["b"])."-".$regs[2].".jpg\" align=\"left\" class=\"blog_img_".$regs[1]."\">";
+				} elseif($regs[1]=="rechts") {
+					$img="<img src=\"".$vars["path"]."pic/cms/reisblog/".intval($_GET["b"])."-".$regs[2].".jpg\" align=\"right\" class=\"blog_img_".$regs[1]."\">";
+				} elseif($regs[1]=="centreer") {
+					$size=getimagesize($file);
+					$img="<img src=\"".$vars["path"]."pic/cms/reisblog/".intval($_GET["b"])."-".$regs[2].".jpg\" style=\"display:block;width:".$size[0]."px;margin-left:auto;margin-right:auto;\" class=\"blog_img_".$regs[1]."\">";
+				}
+			} else {
+				$img="<p>AFBEELDING ONTBREEKT</p>";
+			}
+			$inhoud=str_replace($regs[0],$img,$inhoud);
+		}
+	}
+	if(preg_match("/\[facebook_like\]/",$inhoud)) {
+		$inhoud=str_replace("[facebook_like]",$facebook_like,$inhoud);
+	} else {
+		$inhoud.=$facebook_like;
+	}
+
+	echo "<div class=\"blogitem_inhoud\">".$inhoud;
+	echo "<div class=\"clear\"></div>";
+	echo "</div>";
+
+
+	# YouTube embedden
+	if($blog["youtube"]) {
+		echo "<div class=\"youtube\"><iframe width=\"539\" height=\"274\" src=\"http://www.youtube.com/embed/".$blog["youtube"]."?rel=0\" frameborder=\"0\" allowfullscreen></iframe></div>";
+	}
+
+	# Social media
+	echo "<div id=\"blog_sociallinks\" class=\"noprint\">";
+
+	$share_url=$vars["basehref"]."reisblog?b=".intval($_GET["b"]);
+
+	echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze post met je Google+-circles\" class=\"googleplus_share_window\"><img src=\"".$vars["path"]."pic/icons/googleplus.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+	echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze post met je Twitter-volgers\" class=\"twitter_share_window\"><img src=\"".$vars["path"]."pic/icons/twitter.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+	echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze post met je Facebook-vrienden\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/icons/facebook.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+
+	echo "</div>"; # afsluiten blog_sociallinks
+	echo "<div style=\"clear: both;\"></div>";
+#	echo "<hr>";
+
+	# Facebook Comments
+	echo "<h2 style=\"margin-bottom:10px;\">Reageer op dit blog-artikel</h2>";
+	echo "<div class=\"fb-comments\" data-href=\"http://www.italissima.nl/reisblog?b=".intval($_GET["b"])."\" data-width=\"550\" data-num-posts=\"10\" data-order-by=\"time\"></div>";
+
+} else {
+	#
+	# Overzicht van alle blogitems tonen
+	#
+	$db->query("SELECT reisblog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM reisblog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, reisblog_id DESC;");
+	while($db->next_record()) {
+		echo "<div class=\"blog_item\" style=\"width:500px\">";
+		if($blogitem_gehad) echo "<hr>";
+		$url=$vars["path"]."reisblog?b=".$db->f("reisblog_id");
+		echo "<div class=\"blog_titel\"><h1><a href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></h1></div>";
+		echo "<div class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
+		$file="pic/cms/reisblog_tn/".$db->f("reisblog_id").".jpg";
+		if(file_exists($file)) {
+			echo "<a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
+		}
+		echo "<div class=\"blog_inleiding\">".nl2br(wt_he($db->f("inleiding")));
+		echo " <span class=\"blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></span>";
+		echo "</div>"; # afsluiten blog_inleiding
+		echo "<div style=\"clear: both;\"></div>";
+		echo "</div>"; # afsluiten class blog_item
+		$blogitem_gehad=true;
+	}
+}
+
+echo "</div>"; # afsluiten blog_content_links
+
+
+
+#
+# Rechterkolom
+#
+echo "<div id=\"blog_content_rechts\">";
+echo $blog["blok_rechts"];
+echo "</div>"; # afsluiten blog_content_rechts
+echo "<div style=\"clear: both;\"></div>";
+
+?>

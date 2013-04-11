@@ -147,6 +147,9 @@ $txta["en"]["menu_kort-verblijf"]="short-stay";
 $txta["nl"]["menu_blog"]="blog";
 $txta["en"]["menu_blog"]="-";
 
+$txta["nl"]["menu_reisblog"]="reisblog";
+$txta["en"]["menu_reisblog"]="-";
+
 
 #$txta["nl"]["menu_"]="";
 #$txta["en"]["menu_"]="";
