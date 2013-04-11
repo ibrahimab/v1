@@ -998,7 +998,9 @@ $(document).ready(function() {
 			// na blur op tekstzoeken: form submit
 			$("#zoekblok input[name=fzt]").blur(function() {
 				if(zoekblok_tekst!=$("#zoekblok input[name=fzt]").val()) {
-					zoekblok_submit();
+					setTimeout(function(){
+						zoekblok_submit();
+					},300);
 				}
 			});
 
@@ -1268,6 +1270,17 @@ $(document).ready(function() {
 
 				return false;
 			});
+
+			$("input[name=fzt]").keyup(function() {
+				if($(this).val().length>=1) {
+					$(this).addClass("geen_vergrootglas");
+					$("#wis_zoekblok_tekst").show();
+				} else {
+					$(this).removeClass("geen_vergrootglas");
+				$("#wis_zoekblok_tekst").hide();
+				}
+			});
+
 
 			// placeholder fzt italics weergeven
 			$("#zoekblok input[name=fzt]").focus(function(){

@@ -1047,11 +1047,11 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 }
 
 #zoekblok input[name='fzt']:focus {
+	outline: none;
 	border: 1px solid #003366;
 }
 
 #zoekblok input[name='fzt'].geen_vergrootglas {
-	outline: none;
 	background: #fff;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(20%, #ffffff), color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee), color-stop(100%, #f4f4f4));
 	background: -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%);
