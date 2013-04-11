@@ -1648,6 +1648,16 @@ $(document).ready(function() {
 			// zoek-en-boek homepage
 			$("#form_zoekenboeklinks").submit(function(){
 				show_ajaxloader(true);
+				if($(this).data("ab_ref")=="2") {
+					event_naar_analytics_sturen("A/B-tests","snelzoeken","formulier");
+					setTimeout(function(){
+						$("#form_zoekenboeklinks").unbind().submit();
+						$("#form_zoekenboeklinks").submit();
+					},100);
+					return false;
+				} else {
+					return true;
+				}
 			});
 			if(detect_mobile()) {
 				$(".zoekenboek_invulveld select").addClass("zoekblok_select_mobile_smal");
@@ -1804,6 +1814,20 @@ $(document).ready(function() {
 			alert($(this).text());
 			return false;
 		});
+
+
+		// A/B-test snelzoeken: button
+		$("a.abtest_zoekenboekbutton").click(function(){
+			event_naar_analytics_sturen("A/B-tests","snelzoeken","button");
+			var tempurl=$(this).attr("href");
+			setTimeout(function(){
+				document.location.href=tempurl;
+			},100);
+			return false;
+		});
+
+		// A/B-test snelzoeken: formulier
+
 	}
 });
 
@@ -2006,6 +2030,13 @@ function zoekopdracht_naar_analytics_sturen_inclusief_aantal(omschrijving,zoekop
 	}
 }
 
+function event_naar_analytics_sturen(categorie,omschrijving,waarde) {
+	// stuur de zoekopdracht naar Google Analytics
+	if (typeof _gaq != "undefined") {
+		_gaq.push(['_trackEvent', categorie, omschrijving, waarde]);
+	}
+}
+
 // zaken die pas na het laden van alles uitgevoerd moeten worden:
 $(document).ready(function() {
 
@@ -2018,6 +2049,7 @@ $(document).ready(function() {
 		if(location.href.indexOf("&selb=1") > -1 && $("div.datadiv").data("referer_zoekenboek")!="0") {
 			$('#zoekblok_field_bestemming').trigger('liszt:open');
 		}
+
 
 //		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek" && $("div.zoekblok_zoek_alleen_aanbiedingen").length==0) {
 		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek") {
@@ -2157,19 +2189,21 @@ $(document).ready(function() {
 			}
 
 			// prijsklasse
-			if($("input[name=fpk_van]").val().length!==0 && $("input[name=fpk_tot]").val().length!==0) {
-				analytics_prijsklasse=$("input[name=fpk_van]").val()+" tot "+$("input[name=fpk_tot]").val();
-				if($("input[name=fpk_enmeer]").val()=="1") {
-					analytics_prijsklasse=analytics_prijsklasse+" en meer";
-				} else {
-					zoekopdracht_naar_analytics_sturen_inclusief_aantal("prijsklasse - losse ingevulde waarden","Prijsklasse tot",parseInt($("input[name=fpk_tot]").val(),10));
-				}
-				if(parseInt($("input[name=fpk_van]").val(),10)>0) {
-					zoekopdracht_naar_analytics_sturen_inclusief_aantal("prijsklasse - losse ingevulde waarden","Prijsklasse van",parseInt($("input[name=fpk_van]").val(),10));
-				}
+			if($("input[name=fpk_van]").length!==0) {
+				if($("input[name=fpk_van]").val().length!==0 && $("input[name=fpk_tot]").val().length!==0) {
+					analytics_prijsklasse=$("input[name=fpk_van]").val()+" tot "+$("input[name=fpk_tot]").val();
+					if($("input[name=fpk_enmeer]").val()=="1") {
+						analytics_prijsklasse=analytics_prijsklasse+" en meer";
+					} else {
+						zoekopdracht_naar_analytics_sturen_inclusief_aantal("prijsklasse - losse ingevulde waarden","Prijsklasse tot",parseInt($("input[name=fpk_tot]").val(),10));
+					}
+					if(parseInt($("input[name=fpk_van]").val(),10)>0) {
+						zoekopdracht_naar_analytics_sturen_inclusief_aantal("prijsklasse - losse ingevulde waarden","Prijsklasse van",parseInt($("input[name=fpk_van]").val(),10));
+					}
 
-				zoekopdracht_naar_analytics_sturen("prijsklasse",analytics_prijsklasse);
-				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Prijsklasse: "+analytics_prijsklasse;
+					zoekopdracht_naar_analytics_sturen("prijsklasse",analytics_prijsklasse);
+					analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Prijsklasse: "+analytics_prijsklasse;
+				}
 			}
 
 			// tekstzoeken

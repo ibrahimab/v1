@@ -22,6 +22,13 @@ if(!$include) {
 	exit;
 }
 
+# A/B-test snelzoeken
+#if(($_COOKIE["abt"]==1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $vars["website"]=="C") {
+if(($_GET["testsysteem"]==1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $vars["website"]=="C") {
+	$abtest_snelzoeken=true;
+}
+
+
 # SPDY-header sturen (prefetchen diverse CSS-bestanden)
 #header('X-Associated-Content: "'.$vars["path"].'css/opmaak_alle_sites.css.phpcache?cache='.@filemtime("css/opmaak_alle_sites.css.phpcache").'&type='.$vars["websitetype"].'", "'.$vars["path"].'css/tabs.css.phpcache?cache='.@filemtime("css/tabs.css.phpcache").'&type='.$vars["websitetype"].'"');
 
@@ -335,14 +342,6 @@ if($vars["verberg_linkerkolom"]) {
 	echo "<div id=\"bloklinks_blok\" class=\"noprint\">";
 
 	echo "<div id=\"bloklinks\">";
-	if($last_accNOT and $id<>"saved" and $id<>"boeken") {
-		echo "<div id=\"laatstbekeken_favorieten_blok\">";
-		echo "<div class=\"laatstbekeken_favorieten\">";
-		echo "<a href=\"".$vars["path"]."saved.php\">".html("laatstbekeken","index")."</a>";
-		echo "</div>"; # afsluiten laatstbekeken_favorieten
-		echo "</div>"; # afsluiten laatstbekeken_favorieten_blok
-		$vars["zoekenboek_overlay_doorschuiven"]+=30;
-	}
 	echo "<div class=\"bloklinks_blauwelijn\"></div>\n";
 
 	if(!$vars["verberg_zoekenboeklinks"]) {
@@ -629,20 +628,24 @@ echo "</div>";
 if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<div id=\"zoekenboek_overlay\" class=\"noprint\">";
 
-	// if($_COOKIE["abt"]==1) {
-	// 	$abtest_snelzoeken=true;
-	// }
+$abtest_snelzoeken=false;
 
 	if($abtest_snelzoeken) {
 		# A/B-test: button
-		echo "Zoek en boek";
+
+		echo "<div id=\"abtest_zoekenboek\">";
+		echo "<div style=\"\">Doorzoek onze<br/>2.043 accommodaties:</div>";
+		echo "<a href=\"".$vars["path"]."zoek-en-boek.php\" class=\"abtest_zoekenboekbutton\">Zoek en boek</a>";
+
+		echo "</div>";
 
 	} else {
 		# A/B-test: formulier
 
 		echo "<div class=\"bloklinks_kop\" style=\"margin-bottom:10px;\">".html("snelzoeken","index")."</div>";
 
-		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\">";
+		# data-ab_ref = t.b.v. A/B-test (mag later weg - 11-04-2013)
+		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\"".($_COOKIE["abt"]==2||$_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? " data-ab_ref=\"2\"" : "").">";
 		echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 		echo "<input type=\"hidden\" name=\"referer\" value=\"2\">"; # t.b.v. statistieken
 		echo "<input type=\"hidden\" name=\"selb\" value=\"0\">"; # doorgeven of mensen klikken op "selecteer bestemming"
@@ -815,9 +818,54 @@ if($vars["opvalmelding_tonen"] and (!$_COOKIE["opvalmelding_gelezen"] or $vars["
 }
 
 # Zorgen dat zoekenboek_overlay naar beneden schuift i.v.m. "laatst bekeken"-button
-if($vars["zoekenboek_overlay_doorschuiven"]) {
+if($vars["zoekenboek_overlay_doorschuiven"]<>0) {
 	echo "<style type=\"text/css\"><!--\n#zoekenboek_overlay {\ntop:".(264+$vars["zoekenboek_overlay_doorschuiven"])."px;\n}\n--></style>\n";
 }
+
+
+if($abtest_snelzoeken) {
+	echo "<style type=\"text/css\"><!--\n
+	#zoekenboek_overlay {
+		height: 70px;
+	}
+
+	#zoekenboek_leeg {
+		margin-bottom: -140px;
+	}
+
+	#abtest_zoekenboek {
+		text-align:center;
+		margin-top: 7px;
+	}
+
+	.abtest_zoekenboekbutton {
+		display: block;
+		margin-top: 5px;
+		background-color: #fb6703;
+		text-decoration: none;
+		color: #ffffff;
+		font-size: 1.1em;
+		padding: 5px;
+		border: 1px solid #fb6703;
+
+		font-weight: normal;
+		background-image:url('".$vars["path"]."/pic/boekbutton_arrow.png');
+		background-repeat:no-repeat;
+		background-position: 20px 6px;
+		padding-left: 25px;
+
+	}
+
+	.abtest_zoekenboekbutton:hover {
+		text-decoration: none;
+		color: #003366;
+		border-color: #003366;
+	}
+
+	--></style>\n";
+}
+
+
 echo "</body>";
 echo "</html>";
 

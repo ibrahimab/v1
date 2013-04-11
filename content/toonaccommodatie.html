@@ -131,22 +131,14 @@ if($db->next_record()) {
 			echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 			echo "</div>"; # afsluiten telefoonblok
 		}
-		if($last_accNOT) {
-			echo "<div id=\"laatstbekeken_favorieten_blok\" style=\"margin-top: 40px;\">";
-			echo "<div class=\"laatstbekeken_favorieten\">";
-			echo "<a href=\"".$vars["path"]."saved.php\">".html("laatstbekeken","index")."</a>";
-			echo "</div>"; # afsluiten laatstbekeken_favorieten
-			echo "</div>"; # afsluiten laatstbekeken_favorieten_blok
+		if($vars["websitetype"]==3) {
+			# Zomerhuisje
+		} elseif($vars["websitetype"]==7) {
+			# Italissima
+			echo "<div style=\"margin-top: 30px;\"></div>";
 		} else {
-			if($vars["websitetype"]==3) {
-				# Zomerhuisje
-			} elseif($vars["websitetype"]==7) {
-				# Italissima
-				echo "<div style=\"margin-top: 30px;\"></div>";
-			} else {
-				# de rest
-				echo "<div style=\"margin-top: 40px;\"></div>";
-			}
+			# de rest
+			echo "<div style=\"margin-top: 40px;\"></div>";
 		}
 	}
 	echo "<div style=\"clear: both;\"></div>\n";
