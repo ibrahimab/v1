@@ -634,7 +634,8 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 		# A/B-test: button
 
 		echo "<div id=\"abtest_zoekenboek\">";
-		echo "<div style=\"\">Doorzoek onze<br/>2.043 accommodaties:</div>";
+		$temp_aantal=file_get_contents($vars["unixdir"]."cache/aantal_accommodaties_".$vars["website"].".txt");
+		echo "<div style=\"\">Doorzoek onze<br/>".number_format($temp_aantal,0,",",".")." accommodaties:</div>";
 		echo "<a href=\"".$vars["path"]."zoek-en-boek.php\" class=\"abtest_zoekenboekbutton\">Zoek en boek</a>";
 
 		echo "</div>";
@@ -840,7 +841,7 @@ if($abtest_snelzoeken) {
 
 	.abtest_zoekenboekbutton {
 		display: block;
-		margin-top: 5px;
+		margin-top: 7px;
 		background-color: #fb6703;
 		text-decoration: none;
 		color: #ffffff;
@@ -849,7 +850,7 @@ if($abtest_snelzoeken) {
 		border: 1px solid #fb6703;
 
 		font-weight: normal;
-		background-image:url('".$vars["path"]."/pic/boekbutton_arrow.png');
+		background-image:url('".$vars["path"]."pic/boekbutton_arrow.png');
 		background-repeat:no-repeat;
 		background-position: 20px 6px;
 		padding-left: 25px;

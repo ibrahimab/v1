@@ -124,18 +124,18 @@ if((!$_COOKIE["tch"] or $vars["bezoek_altijd_opslaan"]) and !$mustlogin) {
 	$_COOKIE["tch"]=$code;
 }
 
-// if(!$_COOKIE["abt"]) {
-// 	#
-// 	# A/B-testing-cookie bepalen: $_COOKIE["abt"] (waarde van 0-9)
-// 	#
+if(!$_COOKIE["abt"]) {
+	#
+	# A/B-testing-cookie bepalen: $_COOKIE["abt"] (waarde van 0-9)
+	#
 
-// 	# Waarde van 0-9 bepalen t.b.v. A/B-testing
-// 	$code_abt=substr(preg_replace("/[a-z]/","",$_COOKIE["tch"]),0,1);
+	# Waarde van 0-9 bepalen t.b.v. A/B-testing
+	$code_abt=substr(preg_replace("/[a-z]/","",$_COOKIE["tch"]),0,1);
 
-// 	if(!$code_abt) $code_abt=rand(0,9);
-// 	setcookie("abt",$code_abt,time()+(86400*365*10),"/");
-// 	$_COOKIE["abt"]=$code_abt;
-// }
+	if(!$code_abt) $code_abt=rand(0,9);
+	setcookie("abt",$code_abt,time()+(86400*365*10),"/");
+	$_COOKIE["abt"]=$code_abt;
+}
 
 # Pagina reloaden (maar dan zonder chad=)
 if($_GET["chad"] and ereg("^[A-Z0-9]+$",$_GET["chad"]) and ereg("chad=[A-Z0-9]+",$_SERVER["REQUEST_URI"])) {

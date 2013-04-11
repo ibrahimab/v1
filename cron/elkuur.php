@@ -459,6 +459,11 @@ if($db->next_record()) {
 	if($db->f("url_en")) $a=file_get_contents("http://www.chalet.eu/theme/".$db->f("url_en")."/?save_tarievenbekend=1");
 }
 
+# Opslaan hoeveel accommodaties er zijn
+$a=file_get_contents("http://www.chalet.nl/zoek-en-boek.php?save_aantalaccommodaties=1");
+
+
+
 #
 # Kijken bij welke boekingen factuurbedrag afwijkt van berekende totale reissom (en dan "factuur_bedrag_wijkt_af" aanpassen)
 #

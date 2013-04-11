@@ -3265,6 +3265,11 @@ if($resultaten_tonen) {
 			}
 		}
 
+		if($_GET["save_aantalaccommodaties"] and $toon_aantalresultaten_verschillende_types>0) {
+			# Opslaan hoeveel accommodaties er zijn
+			file_put_contents($unixdir."cache/aantal_accommodaties_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types);
+		}
+
 		echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"740\" id=\"zoekresultatentable\">";
 
 		if($vars["flexibel_toegestaan"]) {

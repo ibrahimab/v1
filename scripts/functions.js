@@ -1665,7 +1665,7 @@ $(document).ready(function() {
 			$("#form_zoekenboeklinks").submit(function(){
 				show_ajaxloader(true);
 				if($(this).data("ab_ref")=="2") {
-					event_naar_analytics_sturen("A/B-tests","snelzoeken","formulier");
+					// event_naar_analytics_sturen("A/B-tests","snelzoeken","formulier");
 					setTimeout(function(){
 						$("#form_zoekenboeklinks").unbind().submit();
 						$("#form_zoekenboeklinks").submit();
@@ -1834,7 +1834,7 @@ $(document).ready(function() {
 
 		// A/B-test snelzoeken: button
 		$("a.abtest_zoekenboekbutton").click(function(){
-			event_naar_analytics_sturen("A/B-tests","snelzoeken","button");
+			// event_naar_analytics_sturen("A/B-tests","snelzoeken","button");
 			var tempurl=$(this).attr("href");
 			setTimeout(function(){
 				document.location.href=tempurl;
