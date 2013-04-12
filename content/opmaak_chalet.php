@@ -23,8 +23,7 @@ if(!$include) {
 }
 
 # A/B-test snelzoeken
-#if(($_COOKIE["abt"]==1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $vars["website"]=="C") {
-if(($_GET["testsysteem"]==1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $vars["website"]=="C") {
+if(($_COOKIE["abt"]==1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $vars["website"]=="C") {
 	$abtest_snelzoeken=true;
 }
 
