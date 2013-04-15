@@ -1831,6 +1831,9 @@ $(document).ready(function() {
 			return false;
 		});
 
+		//
+		// TIJDELIJKE FUNCTIES
+		//
 
 		// A/B-test snelzoeken: button
 		$("a.abtest_zoekenboekbutton").click(function(){
@@ -1842,8 +1845,12 @@ $(document).ready(function() {
 			return false;
 		});
 
-		// A/B-test snelzoeken: formulier
-
+		// meer foto's reisblog Italissima
+		$("a#blog_foto_aanvullend_meer_link").click(function(){
+			$(this).hide();
+			$("#blog_foto_aanvullend_meer").slideToggle();
+			return false;
+		});
 	}
 });
 

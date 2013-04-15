@@ -16,8 +16,9 @@ $vars["italissima_topfoto"]="pic/tijdelijk/reisblog/topfoto_reisblog.jpg";
 # Opsomming rechts
 $blog["blok_rechts"].="<div class=\"blog_titels_rechts\">";
 $db->query("SELECT reisblog_id, titel_rechts FROM reisblog WHERE actief=1 AND plaatsingsdatum<NOW() ORDER BY titel_rechts_volgorde;");
+$blog["blok_rechts"].="<ul>";
 while($db->next_record()) {
-	$blog["blok_rechts"].="<div>";
+	$blog["blok_rechts"].="<li>";
 	if($_GET["b"]==$db->f("reisblog_id")) {
 		$blog["blok_rechts"].="<b>";
 	} else {
@@ -29,11 +30,12 @@ while($db->next_record()) {
 	} else {
 		$blog["blok_rechts"].="</a>";
 	}
-	$blog["blok_rechts"].="</div>";
+	$blog["blok_rechts"].="</li>";
 }
+$blog["blok_rechts"].="</ul>";
 $blog["blok_rechts"].="</div>"; # afsluiten blog_titels_rechts
 
-$facebook_like="<div id=\"facebook_like\">Volg de complete reis via Facebook:<div style=\"margin-left:10px;width:150px;\" class=\"fb-like\" data-href=\"https://www.facebook.com/Italissima.nl\" data-send=\"false\" data-layout=\"button_count\" data-width=\"250\" data-show-faces=\"false\" data-font=\"arial\"></div></div>";
+$facebook_like="<div class=\"clear\"></div><div id=\"facebook_like\">Like en stem mee via <a href=\"https://www.facebook.com/Italissima.nl\" target=\"_blank\">Facebook</a>:<div style=\"margin-left:10px;width:150px;\" class=\"fb-like\" data-href=\"https://www.facebook.com/Italissima.nl\" data-send=\"false\" data-layout=\"button_count\" data-width=\"250\" data-show-faces=\"false\" data-font=\"arial\"></div></div>";
 
 if($_GET["b"]) {
 	$db->query("SELECT reisblog_id, titel, inleiding, inhoud, inhoud_html, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM reisblog WHERE 1=1 AND reisblog_id='".intval($_GET["b"])."' AND actief=1 AND plaatsingsdatum<NOW();");
@@ -46,7 +48,7 @@ if($_GET["b"]) {
 		$blog["plaatsingsdatum"]=$db->f("plaatsingsdatum");
 		$blog["accommodatiecodes"]=$db->f("accommodatiecodes");
 
-		if(preg_match("/(http:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9]+)[^[:blank:]]+)/",$blog["inhoud"],$regs)) {
+		if(preg_match("/(https?:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9]+)[^[:blank:]]+)/",$blog["inhoud"],$regs)) {
 			$blog["youtube"]=$regs[2];
 			$blog["inhoud"]=str_replace($regs[1],"",$blog["inhoud"]);
 		}
@@ -63,15 +65,6 @@ if($_GET["b"]) {
 			ksort($afbeeldingen);
 		}
 
-		# Foto's rechts
-		$d = dir($vars["unixdir"]."pic/cms/reisblog_rechts");
-		while (false !== ($entry = $d->read())) {
-			if(preg_match("/^".intval($_GET["b"])."-([0-9]+)\.jpg$/",$entry)) {
-				$blog["blok_rechts"].="<a href=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/reisblog_rechts/".$entry)."&w=800")."\" class=\"fotopopup_border\" rel=\"group1\"><img src=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/reisblog_rechts/".$entry)."&w=200")."\" width=\"198\"></a>";
-			}
-		}
-		$d->close();
-
 		$title["reisblog"]=$blog["titel"];
 		$breadcrumbs["reisblog"]="Reisblog: Beleef Toscane";
 		$breadcrumbs["last"]=$blog["titel"];
@@ -84,7 +77,8 @@ if($_GET["b"]) {
 	$breadcrumbs["last"]="Reisblog: Beleef Toscane";
 }
 
-
+# Banner rechts
+$blog["blok_rechts"].="<a href=\"https://www.facebook.com/Italissima.nl\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/reisblog/facebookbanner.jpg\" width=\"200\" height=\"350\" border=\"0\"></a>";
 
 
 include "content/opmaak.php";
