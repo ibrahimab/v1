@@ -1847,8 +1847,20 @@ $(document).ready(function() {
 
 		// meer foto's reisblog Italissima
 		$("a#blog_foto_aanvullend_meer_link").click(function(){
-			$(this).hide();
-			$("#blog_foto_aanvullend_meer").slideToggle();
+
+			$("#blog_foto_aanvullend_minder_link").show();
+			$("#blog_foto_aanvullend_meer_link").hide();
+
+			$("#blog_foto_aanvullend_meer").slideDown("slow");
+			return false;
+		});
+
+		// minder foto's reisblog Italissima
+		$("a#blog_foto_aanvullend_minder_link").click(function(){
+			$("#blog_foto_aanvullend_meer").slideUp("slow",function(){
+				$("#blog_foto_aanvullend_minder_link").hide();
+				$("#blog_foto_aanvullend_meer_link").show();
+			});
 			return false;
 		});
 	}

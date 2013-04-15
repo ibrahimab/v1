@@ -45,7 +45,7 @@ if($login->userlevel>=10) {
 
 $cms->edit_field(55,0,"htmlrow","<hr><b>Afbeeldingen</b>");
 
-$cms->edit_field(55,0,"afbeelding_tn","Thumbnail (verhouding 1,5 : 1)","",array("autoresize"=>true,"autoresize_cut"=>true,"img_width"=>"148","img_maxheight"=>"99"));
+$cms->edit_field(55,1,"afbeelding_tn","Thumbnail (verhouding 1,5 : 1)","",array("autoresize"=>true,"autoresize_cut"=>true,"img_width"=>"148","img_maxheight"=>"99"));
 $cms->edit_field(55,0,"afbeelding","Afbeeldingen voor in artikel","",array("autoresize"=>false,"number_of_uploadbuttons"=>6));
 $cms->edit_field(55,0,"afbeelding_rechts","Afbeeldingen rechts","",array("autoresize"=>false,"number_of_uploadbuttons"=>6));
 
