@@ -107,20 +107,20 @@ if($vars["seizoentype"]==1) {
 
 	if($vars["websitetype"]==8) {
 		# Soort accommodatie (alleen bij SuperSki)
-		$keuzeopsomming[5]["combinatiesmogelijk"]=1;
-		$keuzeopsomming[5]["name"]="soortaccommodatie";
-		$keuzeopsomming[5]["verfijndname"]="soortaccommodatie";
-		$keuzeopsomming[5]["getname"]="vf_kenm";
-		$keuzeopsomming[5]["fields"]=array(
+		$keuzeopsomming[6]["combinatiesmogelijk"]=1;
+		$keuzeopsomming[6]["name"]="soortaccommodatie";
+		$keuzeopsomming[6]["verfijndname"]="soortaccommodatie";
+		$keuzeopsomming[6]["getname"]="vf_kenm";
+		$keuzeopsomming[6]["fields"]=array(
 			"chalet"=>39,
 			"chaletappartement"=>40,
 			"appartement"=>41,
 			"hotel"=>42
 		);
-		$keuzeopsomming[5]["addwhere"][39][]="a.soortaccommodatie=1";
-		$keuzeopsomming[5]["addwhere"][40][]="a.soortaccommodatie=4";
-		$keuzeopsomming[5]["addwhere"][41][]="a.soortaccommodatie=2";
-		$keuzeopsomming[5]["addwhere"][42][]="a.soortaccommodatie=3";
+		$keuzeopsomming[6]["addwhere"][39][]="a.soortaccommodatie=1";
+		$keuzeopsomming[6]["addwhere"][40][]="a.soortaccommodatie=4";
+		$keuzeopsomming[6]["addwhere"][41][]="a.soortaccommodatie=2";
+		$keuzeopsomming[6]["addwhere"][42][]="a.soortaccommodatie=3";
 	}
 
 	# Faciliteiten
