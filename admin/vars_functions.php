@@ -3340,48 +3340,56 @@ function facebook_opengraph($info="") {
 	if($vars["facebook_pageid"]) {
 		$return.="<meta property=\"fb:page_id\" content=\"".wt_he($vars["facebook_pageid"])."\" />\n";
 	}
-	if($id=="toonaccommodatie") {
-		if(file_exists("pic/cms/types_specifiek/".$typeid.".jpg")) {
-			$afbeelding="types_specifiek/".$typeid;
-		} elseif(file_exists("pic/cms/accommodaties/".$temp_accid.".jpg")) {
-			$afbeelding="accommodaties/".$temp_accid;
+	if($vars["facebook_opengraph_image"]) {
+		if(is_array($vars["facebook_opengraph_image"])) {
+			while(list($key,$value)=each($vars["facebook_opengraph_image"])) {
+				$return.="<meta property=\"og:image\" content=\"".wt_he($value)."\" />\n";
+			}
+		} else {
+			$return.="<meta property=\"og:image\" content=\"".wt_he($vars["facebook_opengraph_image"])."\" />\n";
 		}
-	} elseif($id=="blog" and $_GET["b"]) {
-		$afbeelding="blog/".intval($_GET["b"]);
-	} elseif($id=="reisblog" and $_GET["b"]) {
-		$afbeelding="reisblog_tn/".intval($_GET["b"]);
-	}
-	if($afbeelding) {
-		$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."pic/cms/".$afbeelding.".jpg")."\" />\n";
 	} else {
-		# logo als afbeelding
-		if($vars["website"]=="Z") {
-			# Zomerhuisje
-			$logo_afbeelding="logo_zomerhuisje.gif";
-		} elseif($vars["website"]=="N") {
-			# Zomerhuisje.eu
-			$logo_afbeelding="logo_zomerhuisje_eu.gif";
-		} elseif($vars["website"]=="B") {
-			# Chalet.be
-			$logo_afbeelding="logo_chalet_be.gif";
-		} elseif($vars["website"]=="T") {
-			# Chalettour.nl
-			$logo_afbeelding="logo_chalet_tour.gif";
-		} elseif($vars["website"]=="E") {
-			# Chalet.eu
-			$logo_afbeelding="logo_chalet_eu.gif";
-		} elseif($vars["website"]=="C") {
-			# Chalet.nl
-			$logo_afbeelding="logo_chalet.gif";
-		} elseif($vars["website"]=="I") {
-			# Italissima
-			$logo_afbeelding="logo_italissima.gif";
-		} elseif($vars["website"]=="K") {
-			# Italissima
-			$logo_afbeelding="logo_italissima.gif";
+		if($id=="toonaccommodatie") {
+			if(file_exists("pic/cms/types_specifiek/".$typeid.".jpg")) {
+				$afbeelding="types_specifiek/".$typeid;
+			} elseif(file_exists("pic/cms/accommodaties/".$temp_accid.".jpg")) {
+				$afbeelding="accommodaties/".$temp_accid;
+			}
+		} elseif($id=="blog" and $_GET["b"]) {
+			$afbeelding="blog/".intval($_GET["b"]);
 		}
-		if($logo_afbeelding) {
-			$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."pic/".$logo_afbeelding)."\" />\n";
+		if($afbeelding) {
+			$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."pic/cms/".$afbeelding.".jpg")."\" />\n";
+		} else {
+			# logo als afbeelding
+			if($vars["website"]=="Z") {
+				# Zomerhuisje
+				$logo_afbeelding="logo_zomerhuisje.gif";
+			} elseif($vars["website"]=="N") {
+				# Zomerhuisje.eu
+				$logo_afbeelding="logo_zomerhuisje_eu.gif";
+			} elseif($vars["website"]=="B") {
+				# Chalet.be
+				$logo_afbeelding="logo_chalet_be.gif";
+			} elseif($vars["website"]=="T") {
+				# Chalettour.nl
+				$logo_afbeelding="logo_chalet_tour.gif";
+			} elseif($vars["website"]=="E") {
+				# Chalet.eu
+				$logo_afbeelding="logo_chalet_eu.gif";
+			} elseif($vars["website"]=="C") {
+				# Chalet.nl
+				$logo_afbeelding="logo_chalet.gif";
+			} elseif($vars["website"]=="I") {
+				# Italissima
+				$logo_afbeelding="logo_italissima.gif";
+			} elseif($vars["website"]=="K") {
+				# Italissima
+				$logo_afbeelding="logo_italissima.gif";
+			}
+			if($logo_afbeelding) {
+				$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."pic/".$logo_afbeelding)."\" />\n";
+			}
 		}
 	}
 

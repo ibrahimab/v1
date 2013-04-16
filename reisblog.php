@@ -11,7 +11,7 @@ if($vars["websitetype"]<>7) {
 
 $vars["italissima_topfoto"]="pic/tijdelijk/reisblog/topfoto_reisblog.jpg";
 
-#$meta_description="Op dit blog vind je artikelen die te maken hebben met Italië en het aanbod van Italissima, aanbieder van agriturismi en andere vakantiehuizen in Italië.";
+$meta_description="Beleef de reis van Chantal en Gijs door Toscane! Wat Chantal en Gijs gaan doen dat bepalen onze Facebook-fans. Stem mee en maak kans op een weekverblijf in Toscane.";
 
 # Opsomming rechts
 $blog["blok_rechts"].="<div class=\"blog_titels_rechts\">";
@@ -58,6 +58,7 @@ if($_GET["b"]) {
 		while (false !== ($entry = $d->read())) {
 			if(preg_match("/^".intval($_GET["b"])."-([0-9]+)\.jpg$/",$entry,$regs)) {
 				$afbeeldingen[intval($regs[1])]=$entry;
+				$vars["facebook_opengraph_image"][]=$vars["basehref"]."pic/cms/reisblog/".$entry;
 			}
 		}
 		$d->close();
@@ -65,16 +66,31 @@ if($_GET["b"]) {
 			ksort($afbeeldingen);
 		}
 
+		# facebook opengraph aanvullende foto's
+		$d = dir($vars["unixdir"]."pic/cms/reisblog_rechts");
+		while (false !== ($entry = $d->read())) {
+			if(preg_match("/^".intval($_GET["b"])."-([0-9]+)\.jpg$/",$entry)) {
+				$vars["facebook_opengraph_image"][]=$vars["basehref"]."pic/cms/reisblog_rechts/".$entry;
+			}
+		}
+
+		if(is_array($vars["facebook_opengraph_image"])) {
+			asort($vars["facebook_opengraph_image"]);
+		}
+
+
 		$title["reisblog"]=$blog["titel"];
 		$breadcrumbs["reisblog"]="Reisblog: Beleef Toscane";
 		$breadcrumbs["last"]=$blog["titel"];
 	} else {
-		header("Location: ".$vars["path"]."blog.php");
+		header("Location: ".$vars["path"]."reisblog");
 		exit;
 	}
+
 } else {
 	$title["reisblog"]="Reisblog: Beleef Toscane";
 	$breadcrumbs["last"]="Reisblog: Beleef Toscane";
+	$vars["facebook_opengraph_image"]=$vars["basehref"]."pic/tijdelijk/reisblog/reisblog_opengraph.jpg";
 }
 
 # Banner rechts
