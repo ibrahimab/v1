@@ -1642,13 +1642,7 @@ if($db->next_record()) {
 			if($accinfo["type_id"]==$db2->f("type_id")) {
 				$anderetypes.="<b>";
 			} else {
-				if($voorkant_cms and $login->user_id==22) {
-					# Speciale link voor Brenda i.v.m. mogelijk caching-probleem
-					$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"]."&" : "?")."cache=".time()."#indeling";
-				} else {
-					# Gewone link
-					$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."#indeling";
-				}
+				$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."#indeling";
 				$anderetypes.="<a href=\"".htmlentities($linkandertype)."\" class=\"linkandertype\">";
 			}
 			$anderetypes.=$db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ";

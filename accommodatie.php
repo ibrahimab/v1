@@ -25,7 +25,7 @@ if($_GET["accid"]) {
 	# $_GET["accid"] hierna wissen
 	unset($_GET["accid"]);
 	if($_SERVER["QUERY_STRING"]) {
-		$_SERVER["QUERY_STRING"]=preg_replace("/accid=[a-z][0-9]{1,}&?/","",$_SERVER["QUERY_STRING"]);
+		$_SERVER["QUERY_STRING"]=preg_replace("/accid=[a-zA-Z][0-9]{1,}&?/","",$_SERVER["QUERY_STRING"]);
 	}
 }
 
