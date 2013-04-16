@@ -271,9 +271,11 @@ if($testsysteem) {
 #	$xml_urls[18][1]=$test_tmpdir."agence.xml";
 #	$xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
 #	$xml_urls[20][1]="/tmp/locative.xml";
-	$xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
-	$xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
+#	$xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
+#	$xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
 	unset($http_login[21]);
+
+	$test_xmlids=14;
 }
 
 
@@ -301,6 +303,8 @@ if($testsysteem) {
 		}
 	}
 }
+
+$test_leverancierids=229;
 
 #
 # Indien argv[1] opgegeven: alle andere $xml_urls en $soap_urls wissen
@@ -1471,7 +1475,7 @@ while($db->next_record()) {
 			# Alle seizoenen doorlopen
 			reset($beginseizoen[$db->f("wzt")]);
 			while(list($key3,$value3)=each($beginseizoen[$db->f("wzt")])) {
-				$res=marche_RPC_get_house_calendar("chaletmh","chalet11",$value,date("Y-m-d",$value3),54);
+				$res=marche_RPC_get_house_availability("chaletmh","chalet11",$value,date("Y-m-d",$value3),54);
 #echo wt_dump($res,false);
 				while(list($key4,$value4)=@each($res)) {
 					$week=strtotime($value4["week"]);

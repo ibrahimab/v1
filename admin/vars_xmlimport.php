@@ -43,6 +43,10 @@ function marche_RPC_get_house_calendar( $RPC_login, $RPC_pass, $idhouse, $da_dat
 	return $l;
 };
 
+function marche_RPC_get_house_availability( $RPC_login, $RPC_pass, $idhouse, $da_data, $numweeks ) { $l=marche_get_info( "get_house_availability", array( "RPC_login", "RPC_pass", "idhouse", "da_data", "numweeks" ), array( $RPC_login, $RPC_pass, $idhouse, $da_data, $numweeks ) );
+	return $l;
+};
+
 function marche_get_info( $function, $pars, $vals ) {
 	global $marche_server, $marche_script;
 	if ( $pars[0]=="RPC_login" ) { $challenge=@file_get_contents( "http://".$marche_server.$marche_script."?challenge=1" );
