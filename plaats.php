@@ -54,6 +54,9 @@ while($db->next_record()) {
 			$meta_description=$db->f("descriptiontag");
 		}
 		break;
+	} elseif(strtolower(wt_convert2url_seo($url[0]))==strtolower(wt_convert2url_seo($db->f("naam")))) {
+		header("Location: ".$vars["path"].txt("menu_plaats")."/".wt_convert2url_seo($db->f("naam"))."/",true,301);
+		exit;
 	}
 }
 
