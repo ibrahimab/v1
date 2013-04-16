@@ -1,6 +1,0 @@
-<?php
-
-$otherid="toonplaats";
-include("plaats");
-
-?>

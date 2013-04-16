@@ -17,9 +17,9 @@ if($db->num_rows()){
 		$xmloutput.=xml_text($db->f("land"));
 		$xmloutput.="</landNaam>\n";
 		$xmloutput.="<landUrl>";
-		$xmloutput.=$vars["basehref"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/";
+		$xmloutput.=$vars["basehref"].txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/";
 		$xmloutput.="</landUrl>\n";
-		$xmloutput.="</land>\n"; 
+		$xmloutput.="</land>\n";
 	}
 	$xmloutput.="</landen>\n";
 	$db->query("SELECT DISTINCT skigebied, skigebied_id FROM view_accommodatie WHERE atonen = '1' AND ttonen= '1' AND websites LIKE '%".$vars["website"]."%' AND wzt='".addslashes($vars["seizoentype"])."'");
@@ -34,7 +34,7 @@ if($db->num_rows()){
 			$xmloutput.=xml_text($db->f("skigebied"));
 			$xmloutput.="</skigebiedNaam>\n";
 			$xmloutput.="<skigebiedUrl>";
-			$xmloutput.=$vars["basehref"].txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/";
+			$xmloutput.=$vars["basehref"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/";
 			$xmloutput.="</skigebiedUrl>\n";
 			$xmloutput.="</skigebied>\n";
 		}
@@ -51,7 +51,7 @@ if($db->num_rows()){
 				$xmloutput.=xml_text($db->f("plaats"));
 				$xmloutput.="</plaatsNaam>\n";
 				$xmloutput.="<plaatsUrl>";
-				$xmloutput.=$vars["basehref"].txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/";
+				$xmloutput.=$vars["basehref"].txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/";
 				$xmloutput.="</plaatsUrl>\n";
 				$xmloutput.="</plaats>\n";
 			}
@@ -60,6 +60,6 @@ if($db->num_rows()){
 	}
 	$xmloutput.="</LocatieInfos>\n";
 	print($xmloutput);
-	
+
 }
 ?>

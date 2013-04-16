@@ -143,9 +143,9 @@ while($db->next_record()) {
 #			echo "</additional>\n";
 
 		echo "<accodeeplink><![CDATA[".wt_utf8encode($url)."]]></accodeeplink>\n";
-		echo "<placedeeplink><![CDATA[".wt_utf8encode($vars["basehref"].txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/".$campaigncode)."]]></placedeeplink>\n";
-		echo "<regiondeeplink><![CDATA[".wt_utf8encode($vars["basehref"].txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/".$campaigncode)."]]></regiondeeplink>\n";
-		echo "<countrydeeplink><![CDATA[".wt_utf8encode($vars["basehref"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/".$campaigncode)."]]></countrydeeplink>\n";
+		echo "<placedeeplink><![CDATA[".wt_utf8encode($vars["basehref"].txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/".$campaigncode)."]]></placedeeplink>\n";
+		echo "<regiondeeplink><![CDATA[".wt_utf8encode($vars["basehref"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/".$campaigncode)."]]></regiondeeplink>\n";
+		echo "<countrydeeplink><![CDATA[".wt_utf8encode($vars["basehref"].txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/".$campaigncode)."]]></countrydeeplink>\n";
 		echo "<id>".$db->f("type_id")."</id>\n";
 		$gps_lat=trim($db->f("gps_lat"));
 		$gps_long=trim($db->f("gps_long"));

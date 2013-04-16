@@ -13,7 +13,7 @@ $laat_titel_weg=true;
 $plaatsid=0;
 $db->query("SELECT land_id, naam".$vars["ttv"]." AS naam, titel".$vars["ttv"]." AS titel, descriptiontag".$vars["ttv"]." AS descriptiontag, zomerdescriptiontag".$vars["ttv"]." AS zomerdescriptiontag, omschrijving".$vars["ttv"]." AS omschrijving, omschrijving_openklap".$vars["ttv"]." AS omschrijving_openklap, zomeromschrijving_openklap, praktischeinfo".$vars["ttv"]." AS praktischeinfo, accommodatiecodes, kleurcode, zomeromschrijving".$vars["ttv"]." AS zomeromschrijving FROM land;");
 while($db->next_record()) {
-	if(wt_convert2url($db->f("naam"))==wt_convert2url($_GET["land"])) {
+	if(wt_convert2url_seo($db->f("naam"))==wt_convert2url_seo($_GET["land"])) {
 		$landinfo["id"]=$db->f("land_id");
 		$landinfo["naam"]=$db->f("naam");
 		$landinfo["titel"]=$db->f("titel");

@@ -25,16 +25,16 @@ if($db->num_rows()) {
 				$tabteller++;
 				if($landgehad) $tabellen.="</TABLE></div>";
 				$landgehad[$db->f("land_id")]=true;
-				$tabellen.="<div id=\"".wt_convert2url($db->f("land"))."\">";
+				$tabellen.="<div id=\"".wt_convert2url_seo($db->f("land"))."\">";
 				if($db->f("omschrijving")) {
-					$tabellen.="<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/\">".html("meerinformatieoverland","skigebieden",array("v_land"=>$db->f("land")))." &gt;</a><p>";
+					$tabellen.="<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/\">".html("meerinformatieoverland","skigebieden",array("v_land"=>$db->f("land")))." &gt;</a><p>";
 				}
 				$tabellen.="<P><TABLE border=\"0\" class=\"toonacctabel\" style=\"width:100%\" cellspacing=\"0\">";
 				$tabellen.="<tr><th>".html("naam","skigebieden")."</th><th nowrap>".html("pistes","skigebieden")."</th><th>".html("hoogte","skigebieden")."</th><th>".html("accommodaties","skigebieden")."</th></tr>";
 
 				$alle_landen[$db->f("land_id")]=$db->f("land");
 			}
-			$tabellen.="<tr><td valign=\"top\" width=\"340\" nowrap><a href=\"".txt("menu_skigebied")."/".wt_convert2url($db->f("naam"))."/\">".htmlentities($db->f("naam"))."</a></td>";
+			$tabellen.="<tr><td valign=\"top\" width=\"340\" nowrap><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("naam"))."/\">".htmlentities($db->f("naam"))."</a></td>";
 
 			$tabellen.="<td nowrap align=\"right\">".($db->f("kilometerpiste") ? $db->f("kilometerpiste")." km" : "&nbsp;")."</td>";
 			$tabellen.="<td nowrap align=\"right\">".$db->f("minhoogte")." m - ".$db->f("maxhoogte")." m</td>";
@@ -56,7 +56,7 @@ if($db->num_rows()) {
 unset($landen);
 while(list($key,$value)=@each($alle_landen)) {
 	$landenteller++;
-#	$landen.="<a href=\"#".wt_convert2url($value)."\">".htmlentities($value)."</a>";
+#	$landen.="<a href=\"#".wt_convert2url_seo($value)."\">".htmlentities($value)."</a>";
 	$landen.=htmlentities($value);
 	if(count($alle_landen)==$landenteller) {
 
@@ -78,7 +78,7 @@ unset($tabteller);
 reset($alle_landen);
 while(list($key,$value)=@each($alle_landen)) {
 	$tabteller++;
-	echo "<li><a href=\"#".wt_convert2url($value)."\">".htmlentities($value)."</a></li>";
+	echo "<li><a href=\"#".wt_convert2url_seo($value)."\">".htmlentities($value)."</a></li>";
 }
 
 echo "</ul>";

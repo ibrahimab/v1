@@ -721,7 +721,7 @@ if($_GET["t"]==1) {
 	echo "<tr><th>Skigebied</th><th>Land</th><th>URL</th></tr>";
 	$db->query("SELECT DISTINCT skigebied, land FROM view_accommodatie WHERE websites LIKE '%C%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY land, skigebied;");
 	while($db->next_record()) {
-		$url="http://www.chalet.nl/skigebied/".wt_convert2url($db->f("skigebied"))."/";
+		$url="http://www.chalet.nl/wintersport/skigebied/".wt_convert2url_seo($db->f("skigebied"))."/";
 		echo "<tr><td>".wt_he($db->f("skigebied"))."</td><td>".$db->f("land")."</td><td><a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($url)."</a></td></tr>";
 	}
 	echo "</table>";
@@ -734,7 +734,7 @@ if($_GET["t"]==1) {
 	echo "<tr><th>Plaats</th><th>Regio</th><th>Land</th><th>URL</th></tr>";
 	$db->query("SELECT DISTINCT skigebied, plaats, land FROM view_accommodatie WHERE websites LIKE '%Z%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY land, skigebied;");
 	while($db->next_record()) {
-		$url="http://www.zomerhuisje.nl/plaats/".wt_convert2url($db->f("plaats"))."/";
+		$url="http://www.zomerhuisje.nl/plaats/".wt_convert2url_seo($db->f("plaats"))."/";
 		echo "<tr><td>".wt_he($db->f("plaats"))."</td><td>".wt_he($db->f("skigebied"))."</td><td>".$db->f("land")."</td><td><a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($url)."</a></td></tr>";
 	}
 	echo "</table>";

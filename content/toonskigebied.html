@@ -16,7 +16,7 @@ if(!$db->next_record()) {
 
 	if($vars["websitetype"]==7) {
 			$breadcrumbs["bestemmingen.php"]="Bestemmingen";
-			if($landnaam) $breadcrumbs[txt("menu_land")."/".wt_convert2url($landnaam)."/"]=$landnaam;
+			if($landnaam) $breadcrumbs[txt("menu_land")."/".wt_convert2url_seo($landnaam)."/"]=$landnaam;
 			$breadcrumbs["last"]=$db->f("naam");
 
 			# kleurcode Italissima bepalen
@@ -107,7 +107,7 @@ hr {
 					echo " / ";
 				}
 				$landenteller++;
-				echo "<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db2->f("land"))."/\">".htmlentities($db2->f("land"))."</a>";
+				echo "<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db2->f("land"))."/\">".htmlentities($db2->f("land"))."</a>";
 				$landid=$db2->f("land_id");
 				$landnaam=$db2->f("land");
 			}
@@ -118,7 +118,7 @@ hr {
 			} else {
 				$breadcrumbs[txt("menu_skigebieden").".php"]=ucfirst(txt("menu_skigebieden"));
 			}
-			if($landnaam) $breadcrumbs[txt("menu_land")."/".wt_convert2url($landnaam)."/"]=$landnaam;
+			if($landnaam) $breadcrumbs[txt("menu_land")."/".wt_convert2url_seo($landnaam)."/"]=$landnaam;
 			$breadcrumbs["last"]=$db->f("naam");
 		}
 		echo "</div>";
@@ -294,8 +294,8 @@ hr {
 					$aantal_acc=0;
 				}
 				if($aantal_acc) {
-					echo "<tr><td valign=\"top\" nowrap><a href=\"".$vars["path"].txt("menu_plaats")."/".wt_convert2url($db2->f("naam"))."/\">".htmlentities($db2->f("naam"))." - ".htmlentities($db2->f("land"))."</a></td>";
-					echo "<td><a href=\"".$vars["path"].txt("menu_plaats")."/".wt_convert2url($db2->f("naam"))."/\">".$aantal_acc." ";
+					echo "<tr><td valign=\"top\" nowrap><a href=\"".$vars["path"].txt("menu_plaats")."/".wt_convert2url_seo($db2->f("naam"))."/\">".htmlentities($db2->f("naam"))." - ".htmlentities($db2->f("land"))."</a></td>";
+					echo "<td><a href=\"".$vars["path"].txt("menu_plaats")."/".wt_convert2url_seo($db2->f("naam"))."/\">".$aantal_acc." ";
 					if($vars["seizoentype"]==2) {
 						echo ($aantal_acc==1 ? html("vakantiehuis") : html("vakantiehuizen"));
 					} else {

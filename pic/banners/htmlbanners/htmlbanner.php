@@ -279,7 +279,7 @@ function formsubmit(type) {
 			if(document.frm.l.value==6) url='http://www.zomerhuisje.nl/land/Duitsland/?<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==3) {
 			while(list($key,$value)=each($regio)) {
-				echo "if(document.frm.l.value==".$key.") url='http://www.italissima.nl/regio/".wt_convert2url($value)."/?".$extra_qs.$utm."';\n";
+				echo "if(document.frm.l.value==".$key.") url='http://www.italissima.nl/vakantiehuizen/regio/".wt_convert2url_seo($value)."/?".$extra_qs.$utm."';\n";
 			}
 		?>
 		<?php } elseif($_GET["wzt"]==4) { ?>

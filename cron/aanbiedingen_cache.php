@@ -38,7 +38,7 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 		# Alle landen doorlopen
 		$db->query("SELECT land_id, naam FROM land WHERE zomertonen=1 ORDER BY naam;");
 		while($db->next_record()) {
-			$url=$value.$txta[$vars["websiteinfo"]["taal"][$key]]["menu_aanbiedingen"]."/".wt_convert2url($db->f("naam"))."/?nocache=1";
+			$url=$value.$txta[$vars["websiteinfo"]["taal"][$key]]["menu_aanbiedingen"]."/".wt_convert2url_seo($db->f("naam"))."/?nocache=1";
 			echo "\n-----------------------------------\n".$url."\n\n";
 			$opsomming=@file_get_contents($url);
 			if(preg_match("/<!-- WTbegin -->(.*)<!-- WTend -->/s",$opsomming,$regs)) {

@@ -15,7 +15,7 @@
 
 function ab_landenblok($land) {
 	global $vars;
-	echo "<div class=\"ab_landenkeuze\" onclick=\"document.location.href='".$vars["path"]."aanbiedingen/".wt_convert2url(txt($land,"index"))."/'\">";
+	echo "<div class=\"ab_landenkeuze\" onclick=\"document.location.href='".$vars["path"]."aanbiedingen/".wt_convert2url_seo(txt($land,"index"))."/'\">";
 	echo "<div class=\"ab_landenkeuze_top\">";
 	echo "<div style=\"position: relative\">".html($land,"index")."</div>";
 	echo "</div>";
@@ -72,7 +72,7 @@ if($land["id"]) {
 		echo "<!-- WTbegin -->\n";
 
 		if($_GET["aid"]) {
-			echo "<div style=\"margin-top:-13px;margin-bottom:10px;\"><a href=\"".$vars["path"]."aanbiedingen/".wt_convert2url($land["naam"])."/\">Bekijk onze andere aanbiedingen in ".htmlentities($land["naam"])." &gt;</a></div>";
+			echo "<div style=\"margin-top:-13px;margin-bottom:10px;\"><a href=\"".$vars["path"]."aanbiedingen/".wt_convert2url_seo($land["naam"])."/\">Bekijk onze andere aanbiedingen in ".htmlentities($land["naam"])." &gt;</a></div>";
 		} else {
 			if($vars["websitetype"]<>7) {
 				# link "andere landen" niet tonen bij Italissima

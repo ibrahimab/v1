@@ -102,10 +102,10 @@ if($url[0]) {
 		if($vars["websitetype"]==7) {
 			$breadcrumbs["bestemmingen.php"]="Bestemmingen";
 		} else {
-			$breadcrumbs[txt("menu_land")."/".wt_convert2url($db->f("land"))."/"]=$db->f("land");
+			$breadcrumbs[txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/"]=$db->f("land");
 		}
-		$breadcrumbs[txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/"."#beschrijving"]=$db->f("skigebied");
-		$breadcrumbs[txt("menu_plaats")."/".wt_convert2url($db->f("plaats"))."/"."#beschrijving"]=$db->f("plaats");
+		$breadcrumbs[txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/"."#beschrijving"]=$db->f("skigebied");
+		$breadcrumbs[txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/"."#beschrijving"]=$db->f("plaats");
 		$breadcrumbs["last"]=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam");
 	}
 } else {

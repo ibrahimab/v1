@@ -177,9 +177,9 @@ function accinfo($typeid,$aankomstdatum=0,$aantalpersonen=0,$options="") {
 		}
 		$return["url"]=$vars["basehref"].txt("menu_accommodatie")."/".$return["begincode"].$return["type_id"]."/";
 		$return["url_seo"]=seo_acc_url($return["begincode"].$return["type_id"],$db->f("soortaccommodatie"),$db->f("accommodatie"),$db->f("type"));
-		$return["plaats_url"]=$vars["basehref"].txt("menu_plaats")."/".wt_convert2url($return["plaats"])."/";
+		$return["plaats_url"]=$vars["basehref"].txt("menu_plaats")."/".wt_convert2url_seo($return["plaats"])."/";
 		$return["url_zonderpad"]=txt("menu_accommodatie")."/".$return["begincode"].$return["type_id"]."/";
-		$return["plaats_url_zonderpad"]=txt("menu_plaats")."/".wt_convert2url($return["plaats"])."/";
+		$return["plaats_url_zonderpad"]=txt("menu_plaats")."/".wt_convert2url_seo($return["plaats"])."/";
 		$return["skigebied"]=$db->f("skigebied");
 		$return["cms_typenaam"]=$return["type"];
 		$return["accommodatieid"]=$db->f("accommodatie_id");

@@ -255,11 +255,39 @@ RewriteRule ^vakantie/$ /tradetracker/ [L]
 RewriteCond %{HTTP_HOST} superski\.nl [NC]
 RewriteRule ^superski/$ /tradetracker/ [L]
 
-# Accommodatiepagina's
+# Foute spellingen accommodatie
+RewriteRule ^acomodatie/(.*)$ /accommodatie/$1  [L,R=301]
+RewriteRule ^accomodatie/(.*)$ /accommodatie/$1  [L,R=301]
+RewriteRule ^acommodatie/(.*)$ /accommodatie/$1  [L,R=301]
+RewriteRule ^acomodation/(.*)$ /accommodation/$1  [L,R=301]
+RewriteRule ^acommodation/(.*)$ /accommodation/$1  [L,R=301]
+RewriteRule ^accomodation/(.*)$ /accommodation/$1  [L,R=301]
+
+# Accommodatiepagina's (SEO)
 RewriteRule wintersport/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
 RewriteRule winter-sports/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
 RewriteRule vakantiehuizen/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
 RewriteRule holiday-homes/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
+
+# Accommodatiepagina's (gewoon)
+RewriteRule ^accommodatie/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
+RewriteRule ^accommodation/([A-Za-z][0-9]+)/?.*$ accommodatie.php?accid=$1&%{QUERY_STRING}
+
+# Regio-pagina's winter
+RewriteRule ^wintersport/skigebied/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
+RewriteRule ^winter-sports/region/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
+RewriteRule ^skigebied/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
+RewriteRule ^region/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
+
+# Regio-pagina's zomer
+RewriteRule ^vakantiehuizen/regio/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
+RewriteRule ^holiday-homes/region/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
+RewriteRule ^regio/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
+
+# Plaats-pagina's
+RewriteRule ^plaats/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
+RewriteRule ^resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
+
 
 #
 # Tijdelijke pagina's
@@ -298,34 +326,6 @@ RewriteRule ^nieuwsbriefactie$ / [L,R=301]
 php_value memory_limit 128M
 php_value max_input_vars 50000
 </FilesMatch>
-
-<Files accommodatie>
-ForceType application/x-httpd-php
-</Files>
-
-<Files accommodation>
-ForceType application/x-httpd-php
-</Files>
-
-<Files skigebied>
-ForceType application/x-httpd-php
-</Files>
-
-<Files regio>
-ForceType application/x-httpd-php
-</Files>
-
-<Files region>
-ForceType application/x-httpd-php
-</Files>
-
-<Files plaats>
-ForceType application/x-httpd-php
-</Files>
-
-<Files resort>
-ForceType application/x-httpd-php
-</Files>
 
 <Files boeken.php>
 php_value memory_limit 256M

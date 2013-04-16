@@ -127,7 +127,7 @@ if ( $_GET["t"]==1 ) {
 			} else {
 				$return["plaats"][$db->f( "plaats_id" )]["binnengebied"]=0;
 			}
-			$return["plaats"][$db->f( "plaats_id" )]["aantalacc"]="<a href=\"".$vars["path"]."plaats/".wt_convert2url( $db->f( "naam" ) )."/\" onclick=\"return map_regio_click(this);\">".$db->f( "aantal" )." ".( $db->f( "aantal" )==1 ? "vakantiehuis" : "vakantiehuizen" )."</a>";
+			$return["plaats"][$db->f( "plaats_id" )]["aantalacc"]="<a href=\"".$vars["path"]."plaats/".wt_convert2url_seo( $db->f( "naam" ) )."/\" onclick=\"return map_regio_click(this);\">".$db->f( "aantal" )." ".( $db->f( "aantal" )==1 ? "vakantiehuis" : "vakantiehuizen" )."</a>";
 			$return["plaats"][$db->f( "plaats_id" )]["skigebied"]=wt_he( $db->f( "skigebied" ) );
 			$return["aantal"]++;
 		}

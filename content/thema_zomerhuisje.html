@@ -32,14 +32,14 @@ if($themalandinfo) {
 			}
 		}
 	}
-	
+
 	$themakleurcode_actief=$themalandinfo["kleurcode"];
 
 	echo "<div id=\"themablok\" style=\"background-color:".$vars["themakleurcode_licht"][$themalandinfo["kleurcode"]]."\">";
 	if(file_exists("pic/cms/".$themalandinfo["padhoofdafbeelding"]."/".$themalandinfo["id"].".jpg")) {
 		echo "<div id=\"themafotos\">";
 		echo "<div style=\"padding-bottom:10px;\"><img src=\"".$vars["path"]."pic/cms/".$themalandinfo["padhoofdafbeelding"]."/".$themalandinfo["id"].".jpg\" width=\"240\" height=\"180\"></div>";
-		
+
 		if($accthema[2] and $accthema[3]) {
 			echo "<div style=\"padding-bottom:7px;\">".html("accommodaties","thema").":</div>";
 			echo "<div style=\"float:left;\">";
@@ -69,10 +69,10 @@ if($themalandinfo) {
 	} else {
 		echo "<h1>".htmlentities($themalandinfo["naam"])."</h1>";
 	}
-	
+
 #	echo "<h1>".htmlentities($themalandinfo["naam"])."</h1>";
 	echo htmlentities_uitgebreid(trim($themalandinfo["toelichting"]));
-	
+
 	echo "</div>";
 
 	echo "<div style=\"clear: both;\"></div>\n";
@@ -94,7 +94,7 @@ if($themalandinfo) {
 
 	echo "</div>";
 	echo "<div id=\"themablokrechts\">";
-	
+
 	if($accthema[1]) {
 		echo "<div id=\"accommodatietip\" style=\"background-color:".$vars["themakleurcode"][$themalandinfo["kleurcode"]]."\">";
 		echo "<div style=\"padding-bottom:5px;\">".html("accommodatietip","thema").":</div>";
@@ -118,15 +118,15 @@ if($themalandinfo) {
 		if($db2->num_rows()) {
 			echo "<div style=\"margin-top:10px;margin-bottom:7px;font-size:1.1em;\">".html("anderelanden","thema").":</div>";
 			while($db2->next_record()) {
-				echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db2->f("naam"))."/\">".htmlentities($db2->f("naam"))."</a><br />";
+				echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db2->f("naam"))."/\">".htmlentities($db2->f("naam"))."</a><br />";
 			}
 		}
 	}
-	
+
 	echo "</div>";
 
 	echo "<div style=\"clear: both;\"></div>\n";
-		
+
 	if($themalandinfo["uitgebreid"]) {
 		echo "<div style=\"padding-top:10px;text-align:right;\"><a href=\"#\" class=\"showhidelink\">".html("meerinformatie","thema")." &gt;</a></div>";
 		echo "<div id=\"\" class=\"showhide\" style=\"display:none;\">";
@@ -139,21 +139,21 @@ if($themalandinfo) {
 	$vars["zoekform_thema"]=true;
 
 	echo "<a name=\"acc\"></a>";
-	
+
 	if($themalandinfo["soort"]=="land") {
-	
+
 		echo "<br>";
 		# Op verzoek van Sélina worden er op de landpagina geen zoekresultaten meer getoond, maar een overzicht van de regio's
 		include("content/land.html");
-		
-		
+
+
 #		if(!$_GET["fsg"]) {
 #			$_GET["fsg"]=$themalandinfo["id"]."-0";
 #		}
 #		include("content/zoek-en-boek.html");
 
 #		echo "nieuw";
-		
+
 	} else {
 		# Totaal aantal accommodaties opvragen: kan getoond worden bij "tarievenbekend_seizoen_id"
 		if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
@@ -162,7 +162,7 @@ if($themalandinfo) {
 				$totaal_tarievenbekend_seizoen_id=$db->f("aantal");
 			}
 		}
-	
+
 		if($vars["themainfo"]["typekenmerk"] or $vars["themainfo"]["accommodatiekenmerk"] or $vars["themainfo"]["plaatskenmerk"] or $vars["themainfo"]["skigebiedkenmerk"] or $vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 			include("content/zoek-en-boek.html");
 		}

@@ -7,7 +7,7 @@ if($vars["websitetype"]==7) {
 	echo "<b>".html("bestemmingen","sitemap").":</b><ul>";
 	$db->query("SELECT DISTINCT v.skigebied FROM view_accommodatie v WHERE v.wzt='".addslashes($vars["seizoentype"])."' AND v.websites LIKE '%".addslashes($vars["website"])."%' AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 ORDER BY 1;");
 	while($db->next_record()) {
-		echo "<li><a href=\"".$vars["path"].txt("menu_skigebied")."/".wt_convert2url($db->f("skigebied"))."/\">".html("chaletsin","sitemap")." ".htmlentities($db->f("skigebied"))."</a></li>";
+		echo "<li><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/\">".html("chaletsin","sitemap")." ".htmlentities($db->f("skigebied"))."</a></li>";
 	}
 	echo "<li><a href=\"".$vars["path"]."agriturismo-italie\">Agriturismo Itali&euml;</a></li>";
 	echo "<li><a href=\"".$vars["path"]."agriturismo-toscane\">Agriturismo Toscane</a></li>";
@@ -22,7 +22,7 @@ if($vars["websitetype"]==7) {
 	echo "<b>".html("bestemmingen","sitemap").":</b><ul>";
 	$db->query("SELECT DISTINCT l.naam".$vars["ttv"]." AS land FROM view_accommodatie v, land l WHERE l.land_id=v.land_id AND v.wzt='".addslashes($vars["seizoentype"])."' AND v.websites LIKE '%".addslashes($vars["website"])."%' AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 ORDER BY 1;");
 	while($db->next_record()) {
-		echo "<li><a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url($db->f("land"))."/\">".html("chaletsin","sitemap")." ".htmlentities($db->f("land"))."</a></li>";
+		echo "<li><a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/\">".html("chaletsin","sitemap")." ".htmlentities($db->f("land"))."</a></li>";
 	}
 	echo "</ul>";
 	echo "</p>";

@@ -95,7 +95,7 @@ if($db->next_record()) {
 		@asort($vars["topfoto"]);
 	}
 } else {
-	header("Location: ".$vars["path"].txt("menu_themas").".php".wt_convert2url($url[0]));
+	header("Location: ".$vars["path"].txt("menu_themas").".php");
 	exit;
 }
 
