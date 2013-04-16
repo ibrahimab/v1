@@ -1831,6 +1831,18 @@ $(document).ready(function() {
 			return false;
 		});
 
+
+		// scroll to top
+		var scroll_to_top_text="Naar boven";
+
+		try {
+			$.scrollUp({
+				scrollText: scroll_to_top_text
+			});
+		} catch(err) {
+
+		}
+
 		//
 		// TIJDELIJKE FUNCTIES
 		//
@@ -2311,5 +2323,3 @@ $(document).ready(function() {
 		}
 	}
 });
-
-
