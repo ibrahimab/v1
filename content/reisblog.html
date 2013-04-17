@@ -10,7 +10,20 @@
 
 echo "<div id=\"blog_content_links\">";
 
-if($_GET["b"]) {
+if($_GET["voorwaarden"]) {
+	echo "<h2>Voorwaarden actie &quot;Beleef Toscane&quot;</h2>";
+	echo "<p>Onder de deelnemers van de Social Media actie &lsquo;Beleef Toscane&rsquo; verloten wij een weekverblijf voor 4 personen in Toscane. Bekijk hieronder de voorwaarden:</p><br/>";
+	echo "<ul>";
+	echo "<li>Onder &lsquo;deelnemers&rsquo; wordt verstaan: nieuwe en bestaande Facebook-fans van Italissima die de actie &lsquo;Beleef Toscane&rsquo; liken en delen.</li>";
+	echo "<li>De winnaar krijgt een verblijf aangeboden van zaterdag tot zaterdag in &eacute;&eacute;n van onze vakantiehuizen in Itali&euml;.</li>";
+	echo "<li>Afhankelijk van de beschikbaarheid wordt door een medewerker van Italissima een vakantiehuis gekozen.</li>";
+	echo "<li>Dit vakantiehuis zal geschikt zijn voor 4 personen en de verblijfsduur is &eacute;&eacute;n week.</li>";
+	echo "<li>Het verblijf dient plaats te vinden in de periode van 7 september t/m<br>1 november 2013.</li>";
+	echo "<li>In overleg, en afhankelijk van de beschikbaarheid, kan het vakantiehuis in een andere periode geboekt worden. Afhankelijk van de reisperiode kan hiervoor een bijbetaling gevraagd worden.</li>";
+	echo "<li>De prijs heeft een waarde van ca. &euro;&nbsp;425,- en is niet overdraagbaar en niet inwisselbaar voor contanten of voor een reeds gemaakte boeking.</li>";
+	echo "<li>De winnaar wordt in de eerste week van mei via Facebook en Twitter bekend gemaakt.</li>";
+	echo "</ul>";
+} elseif($_GET["b"]) {
 	#
 	# Geselecteerd blogitem tonen
 	#

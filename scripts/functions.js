@@ -1837,7 +1837,9 @@ $(document).ready(function() {
 
 		try {
 			$.scrollUp({
-				scrollText: scroll_to_top_text
+				scrollText: scroll_to_top_text,
+				animation: 'slide'
+
 			});
 		} catch(err) {
 

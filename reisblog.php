@@ -89,8 +89,14 @@ if($_GET["b"]) {
 
 } else {
 	$title["reisblog"]="Reisblog: Beleef Toscane";
-	$breadcrumbs["last"]="Reisblog: Beleef Toscane";
-	$vars["facebook_opengraph_image"]=$vars["basehref"]."pic/tijdelijk/reisblog/reisblog_opengraph.jpg";
+	if($_GET["voorwaarden"]) {
+		$breadcrumbs["reisblog"]="Reisblog: Beleef Toscane";
+		$breadcrumbs["last"]="Voorwaarden";
+		$vars["facebook_opengraph_image"]=$vars["basehref"]."pic/tijdelijk/reisblog/reisblog_opengraph.jpg";
+	} else {
+		$breadcrumbs["last"]="Reisblog: Beleef Toscane";
+		$vars["facebook_opengraph_image"]=$vars["basehref"]."pic/tijdelijk/reisblog/reisblog_opengraph.jpg";
+	}
 }
 
 # Banner rechts
