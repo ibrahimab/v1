@@ -13,7 +13,9 @@ class accommodatielijst {
 	public $sorteer_accommodaties;
 
 	function __construct () {
-		$this->sorteer_accommodaties=false;
+		$this->settings["sorteer_accommodaties"] = false;
+		$this->settings["groepeer_per_accommodatie"] = true;
+		$this->settings["vanaf_prijzen_tonen"] = false;
 	}
 
 	public function type_toevoegen($input) {
@@ -27,15 +29,20 @@ class accommodatielijst {
 			$type_sorteer.="9";
 		}
 
-		# wel/niet apart tonen in zoekresultaten
-		if($input["apart_tonen_in_zoekresultaten"]) {
-			$accid=$input["accommodatie_id"]."_".$input["type_id"];
+		if($this->settings["groepeer_per_accommodatie"]) {
+			if($input["apart_tonen_in_zoekresultaten"]) {
+				# dit type apart tonen
+				$accid=$input["accommodatie_id"]."_".$input["type_id"];
+			} else {
+				$accid=$input["accommodatie_id"];
+			}
 		} else {
-			$accid=$input["accommodatie_id"];
+			// alle types apart toen
+			$accid=$input["accommodatie_id"]."_".$input["type_id"];
 		}
 
 		// accommodaties sorteren?
-		if($this->sorteer_accommodaties) {
+		if($this->settings["sorteer_accommodaties"]) {
 			$this->acc_sorteer[$input["sorteer_accommodatie"]]=$accid;
 		} else {
 			$this->sorteer_teller++;
@@ -108,6 +115,10 @@ class accommodatielijst {
 	}
 
 	public function lijst() {
+
+		if($this->settings["vanaf_prijzen_tonen"]) {
+			$this->vanaf_prijzen_uit_database_halen();
+		}
 
 		# hulpmiddeltje om hover-kleur door te geven aan jQuery
 		$return.="<div id=\"hulp_zoekresultaat_hover\"></div>";
@@ -317,6 +328,10 @@ class accommodatielijst {
 			$return.="</a>";
 		}
 		return $return;
+	}
+
+	private function vanaf_prijzen_uit_database_halen() {
+		$db = new DB_sql;
 	}
 }
 
