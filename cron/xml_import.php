@@ -300,6 +300,7 @@ if($testsysteem) {
 			$test_leverancierids.=",".$db->f("leverancier_id");
 		}
 	}
+	// $test_leverancierids="229";
 }
 
 
@@ -1472,9 +1473,15 @@ while($db->next_record()) {
 			# Alle seizoenen doorlopen
 			reset($beginseizoen[$db->f("wzt")]);
 			while(list($key3,$value3)=each($beginseizoen[$db->f("wzt")])) {
+				echo "value:".$value." - date: ".date("Y-m-d",$value3);
 				$res=marche_RPC_get_house_calendar("chaletmh","chalet11",$value,date("Y-m-d",$value3),54);
 				// $res=marche_RPC_get_house_availability("chaletmh","chalet11",$value,date("Y-m-d",$value3),54);
-#echo wt_dump($res,false);
+
+// if(is_array($res)) {
+// 	echo wt_dump($res,false);
+// 	exit;
+// }
+
 				while(list($key4,$value4)=@each($res)) {
 					$week=strtotime($value4["week"]);
 					if($week>time()) {

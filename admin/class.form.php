@@ -2493,6 +2493,7 @@ class form2 {
 			if(!is_array($this->error) and !$_GET["fo"] and $this->filled) {
 				# Eventuele uploads verplaatsen
 				if(is_array($this->upload)) {
+					reset($this->upload);
 					while(list($key,$value)=each($this->upload)) {
 						while(list($key2,$value2)=each($value)) {
 							unset($temp);
