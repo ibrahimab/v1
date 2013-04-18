@@ -94,6 +94,18 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 }
 
 
+// autoloaden van classes
+function __autoload($classname) {
+	global $vars;
+	if (file_exists($vars["unixdir"]."admin/siteclass.".$classname . ".php")) {
+		require_once $vars["unixdir"]."admin/siteclass.".$classname . ".php";
+		return true;
+	} else {
+		trigger_error("class ".$classname." kan niet worden geladen",E_USER_NOTICE);
+		return false;
+	}
+}
+
 #
 # jquery/fancybox
 #
@@ -403,9 +415,7 @@ if($vars["websitetype"]==7) {
 	$menu["bestemmingen"]=txt("menutitle_bestemmingen");
 	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
 	$menu["blog"]=txt("menutitle_blog");
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-		$menu["reisblog"]="reisblog: beleef Toscane";
-	}
+	$menu["reisblog"]="reisblog: beleef Toscane";
 	$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 	$menu["contact"]=txt("menutitle_contact");
 
