@@ -95,31 +95,32 @@ if(!$db->next_record()) {
 	if($vars["websitetype"]<>6) {
 		echo "<div id=\"accommodaties\">";
 		if($db2->num_rows()) {
-			echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\" width=\"700\">";
-			echo balk();
+
+			// echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"4\" width=\"700\">";
+			// echo balk();
 
 			$accommodatielijst = new accommodatielijst;
 
 			while($db2->next_record()) {
-				echo "<TR><TD width=\"1%\">";
-				if(file_exists("pic/cms/types_specifiek_tn/".$db2->f("type_id").".jpg")) {
-					$pic="pic/cms/types_specifiek_tn/".$db2->f("type_id").".jpg";
-				} else {
-					$pic="pic/cms/accommodaties_tn/".$db2->f("accommodatie_id").".jpg";
-				}
-				$naam=$db2->f("naam").($db2->f("type") ? " ".$db2->f("type") : "");
-#				$url=$vars["basehref"].txt("canonical_accommodatiepagina")."/".strtolower($db2->f("begincode")).$db2->f("type_id")."/".wt_convert2url_seo(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$db2->f("naam").($db2->f("type") ? " ".$db2->f("type") : ""));
-				$url=seo_acc_url($db2->f("begincode").$db2->f("type_id"),$db2->f("soortaccommodatie"),$db2->f("naam"),$db2->f("type"));
+// 				echo "<TR><TD width=\"1%\">";
+// 				if(file_exists("pic/cms/types_specifiek_tn/".$db2->f("type_id").".jpg")) {
+// 					$pic="pic/cms/types_specifiek_tn/".$db2->f("type_id").".jpg";
+// 				} else {
+// 					$pic="pic/cms/accommodaties_tn/".$db2->f("accommodatie_id").".jpg";
+// 				}
+// 				$naam=$db2->f("naam").($db2->f("type") ? " ".$db2->f("type") : "");
+// #				$url=$vars["basehref"].txt("canonical_accommodatiepagina")."/".strtolower($db2->f("begincode")).$db2->f("type_id")."/".wt_convert2url_seo(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$db2->f("naam").($db2->f("type") ? " ".$db2->f("type") : ""));
+// 				$url=seo_acc_url($db2->f("begincode").$db2->f("type_id"),$db2->f("soortaccommodatie"),$db2->f("naam"),$db2->f("type"));
 
-				if(file_exists($pic)) {
-					echo "<a href=\"".htmlentities($url)."\"><img src=\"".$path.$pic."\" alt=\"".wt_he($naam)."\" border=\"0\"></A>";
-				} else {
-					echo "<img src=\"".$path."pic/cms/accommodaties_tn/0.jpg\" alt=\"Geen afbeelding beschikbaar\" border=\"0\">";
-				}
-				echo "</TD><TD><a href=\"".htmlentities($url)."\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$naam)."</A>";
-				echo "<BR>".wt_he($db2->f("plaats")." - ".$db2->f("skigebied")." - ".$db2->f("land"));
-				echo "</TD><TD align=\"right\"><NOBR>".($db2->f("soortaccommodatie")<>5 ? $db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ".html("personen") : "")."</NOBR></TD><TD>".($db2->f("slaapkamers") ? $db2->f("slaapkamers")."&nbsp;".($db2->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."<BR>" : "").($db2->f("badkamers") ? $db2->f("badkamers")."&nbsp;".($db2->f("badkamers")==1 ? html("badkamer") : html("badkamers")) : "")."</TD></TR>";
-				echo balk();
+// 				if(file_exists($pic)) {
+// 					echo "<a href=\"".htmlentities($url)."\"><img src=\"".$path.$pic."\" alt=\"".wt_he($naam)."\" border=\"0\"></A>";
+// 				} else {
+// 					echo "<img src=\"".$path."pic/cms/accommodaties_tn/0.jpg\" alt=\"Geen afbeelding beschikbaar\" border=\"0\">";
+// 				}
+// 				echo "</TD><TD><a href=\"".htmlentities($url)."\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$naam)."</A>";
+// 				echo "<BR>".wt_he($db2->f("plaats")." - ".$db2->f("skigebied")." - ".$db2->f("land"));
+// 				echo "</TD><TD align=\"right\"><NOBR>".($db2->f("soortaccommodatie")<>5 ? $db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ".html("personen") : "")."</NOBR></TD><TD>".($db2->f("slaapkamers") ? $db2->f("slaapkamers")."&nbsp;".($db2->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."<BR>" : "").($db2->f("badkamers") ? $db2->f("badkamers")."&nbsp;".($db2->f("badkamers")==1 ? html("badkamer") : html("badkamers")) : "")."</TD></TR>";
+// 				echo balk();
 
 
 				$accommodatielijst->type_toevoegen(array(
@@ -145,11 +146,11 @@ if(!$db->next_record()) {
 				));
 			}
 
-#			echo $accommodatielijst->lijst();
+			echo $accommodatielijst->lijst();
 
-			echo "<tr><td colspan=\"4\"><br><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$db->f("land_id")."-".$db->f("skigebied_id")."\">".html("bekijkalleaccommodaties","toonplaats",array("v_skigebied"=>$db->f("skigebied")))." &gt;</a></td></tr>";
+			// echo "<tr><td colspan=\"4\"><br><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$db->f("land_id")."-".$db->f("skigebied_id")."\">".html("bekijkalleaccommodaties","toonplaats",array("v_skigebied"=>$db->f("skigebied")))." &gt;</a></td></tr>";
 
-			echo "</table>";
+			// echo "</table>";
 		} else {
 			echo html("momenteelgeenaccommodaties","toonplaats",array("v_plaatsnaam"=>$db->f("naam")));
 			echo "<p>".html("welandereaccommodaties","toonplaats",array("l1"=>"accommodaties?filled=1&fsg=".$db->f("land_id")."-0","v_land"=>$db->f("land")));

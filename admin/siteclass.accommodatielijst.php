@@ -109,6 +109,9 @@ class accommodatielijst {
 
 	public function lijst() {
 
+		# hulpmiddeltje om hover-kleur door te geven aan jQuery
+		$return.="<div id=\"hulp_zoekresultaat_hover\"></div>";
+
 		ksort($this->acc_sorteer);
 
 		while(list($key,$value)=each($this->acc_sorteer)) {
@@ -124,24 +127,29 @@ class accommodatielijst {
 
 	public function accommodatie($acc_id) {
 
-		unset($input["multiple_types"]);
+		// bevat deze accommodaties meerdere types?
 		if(count($this->input[$acc_id])>1) {
-			$input["multiple_types"]=true;
+			$multiple_types=true;
 		}
 
-		ksort($this->input[$acc_id]);
-
 		$return.="<div class=\"zoekresultaat_block boxshadow\">";
-		$return.=$this->accommodatie_deel(current($this->input[$acc_id]));
-		$return.=$this->types_deel(current($this->input[$acc_id]));
+
+		$return.=$this->accommodatie_deel($this->input[$acc_id],$multiple_types);
+		$return.=$this->types_deel($this->input[$acc_id],$multiple_types);
+
 		$return.="</div>";
 
 		return $return;
 	}
 
-	private function accommodatie_deel($input) {
+	private function accommodatie_deel($alle_types,$multiple_types) {
 
 		global $vars;
+
+
+		# gebruik de gegevens van het eerste type
+		ksort($alle_types);
+		$input=current($alle_types);
 
 		# Sorteerscore gekoppelde skigebieden
 		if($koppeling[$input["skigebied_id"]]) {
@@ -160,12 +168,12 @@ class accommodatielijst {
 		# resultaat (gehele accommodatie)
 		$return.="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".$input["begincode"].$input["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat\">";
 			$return.="<div class=\"zoekresultaat_top\">";
-				$return.="<div class=\"zoekresultaat_titel\">".wt_he(ucfirst($vars["soortaccommodatie"][$input["soortaccommodatie"]])." ".$input["naam"].(!$input["multiple_types"]&&$input["tnaam"] ? " ".$input["tnaam"] : ""))."</div>";
+				$return.="<div class=\"zoekresultaat_titel\">".wt_he(ucfirst($vars["soortaccommodatie"][$input["soortaccommodatie"]])." ".$input["naam"].(!$multiple_types&&$input["tnaam"] ? " ".$input["tnaam"] : ""))."</div>";
 			$return.="</div>";
 			$return.="<div>";
 				# afbeelding bepalen
 				$img="accommodaties/0.jpg";
-				if($input["multiple_types"]) {
+				if($multiple_types) {
 					if(file_exists("pic/cms/accommodaties/".$input["accommodatie_id"].".jpg")) {
 						$img="accommodaties/".$input["accommodatie_id"].".jpg";
 					} elseif(file_exists("pic/cms/types_specifiek/".$input["type_id"].".jpg")) {
@@ -200,7 +208,7 @@ class accommodatielijst {
 					}
 					$return.="</div>";
 
-					$return.="<div class=\"zoekresultaat_omschrijving"."\">".wt_he((!$input["multiple_types"]&&$input["tkorteomschrijving"] ? $input["tkorteomschrijving"] : $input["korteomschrijving"]))."</div>";
+					$return.="<div class=\"zoekresultaat_omschrijving"."\">".wt_he((!$multiple_types&&$input["tkorteomschrijving"] ? $input["tkorteomschrijving"] : $input["korteomschrijving"]))."</div>";
 
 				if($newresultsminmax[$value]["aanbieding"]) {
 					$return.="<div class=\"zoekresultaat_aanbieding\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding","accommodaties")."</div>";
@@ -225,7 +233,7 @@ class accommodatielijst {
 						}
 						$zoekresultaat_prijs_periode.="</div>";
 
-						if(($input["multiple_types"] and $newresultsminmax[$value]["maxtarief"]>$newresultsminmax[$value]["mintarief"]) or $vanaf_prijzen_tonen) {
+						if(($multiple_types and $newresultsminmax[$value]["maxtarief"]>$newresultsminmax[$value]["mintarief"]) or $vanaf_prijzen_tonen) {
 							$return.=$zoekresultaat_prijs_periode;
 							$return.="<div class=\"zoekresultaat_prijs_vanaf\">".html("vanaf")."</div>";
 						} else {
@@ -245,77 +253,70 @@ class accommodatielijst {
 				$return.="<div class=\"clear\"></div>";
 			$return.="</div>";
 
-		if($input["multiple_types"]) {
+		if($multiple_types) {
 			$return.="</a>";
 		}
 
 		return $return;
 	}
 
-	private function types_deel($input) {
+	private function types_deel($alle_types,$multiple_types) {
 
-		echo wt_dump($input);
+		global $vars;
 
 		# resultaten type-regels
-		reset($input);
-		while(list($key2,$value2)=each($input)) {
-			if($gekozen_skigebied) {
-				if($input["skigebied_id"]==$gekozen_skigebied) {
-					$toon_aantalresultaten_verschillende_types++;
-				} else {
-					$toon_aantalresultaten_anderskigebied++;
-				}
-			} else {
-				$toon_aantalresultaten_verschillende_types++;
-			}
+		reset($alle_types);
+		while(list($key2,$value2)=each($alle_types)) {
+			$input=$value2;
 
-			if($input["multiple_types"]) {
-				$results[$results_teller].="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".$input["begincode"].$input["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat_type\">";
+			if($multiple_types) {
+				$return.="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".$input["begincode"].$input["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat_type\">";
 			} else {
-				$results[$results_teller].="<div class=\"zoekresultaat_type_een_resultaat\">";
+				$return.="<div class=\"zoekresultaat_type_een_resultaat\">";
 			}
-			$results[$results_teller].="<div class=\"zoekresultaat_type_titel".($input["type_id_trclass"] ? " ".$input["type_id_trclass"] : "")."\">";
-				$results[$results_teller].="<div class=\"zoekresultaat_type_personen\">".$input["optimaalaantalpersonen"].($input["maxaantalpersonen"]>$input["optimaalaantalpersonen"] ? " - ".$input["maxaantalpersonen"] : "")." ".($input["maxaantalpersonen"]==1 ? html("persoon") : html("personen"))."</div>";
-				$results[$results_teller].="<div class=\"zoekresultaat_type_slaapkamers\">".$input["slaapkamers"]." ".($input["slaapkamers"]==1 ? html("slaapkamer") : html("slaapkamers"))."</div>";
-				$results[$results_teller].="<div class=\"zoekresultaat_type_badkamers\">".$input["badkamers"]." ".($input["badkamers"]==1 ? html("badkamer") : html("badkamers"))."</div>";
-				$results[$results_teller].="<div class=\"zoekresultaat_type_typenaam".($input["type_id_aanbieding"] ? " zoekresultaat_type_typenaam_aanbieding" : "")."\">".wt_he(($input["tnaam"] ? $input["tnaam"] : ""))."</div>";
+			$return.="<div class=\"zoekresultaat_type_titel".($input["type_id_trclass"] ? " ".$input["type_id_trclass"] : "")."\">";
+				$return.="<div class=\"zoekresultaat_type_personen\">".$input["optimaalaantalpersonen"].($input["maxaantalpersonen"]>$input["optimaalaantalpersonen"] ? " - ".$input["maxaantalpersonen"] : "")." ".($input["maxaantalpersonen"]==1 ? html("persoon") : html("personen"))."</div>";
+				$return.="<div class=\"zoekresultaat_type_slaapkamers\">".$input["slaapkamers"]." ".($input["slaapkamers"]==1 ? html("slaapkamer") : html("slaapkamers"))."</div>";
+				$return.="<div class=\"zoekresultaat_type_badkamers\">".$input["badkamers"]." ".($input["badkamers"]==1 ? html("badkamer") : html("badkamers"))."</div>";
+				$return.="<div class=\"zoekresultaat_type_typenaam".($input["type_id_aanbieding"] ? " zoekresultaat_type_typenaam_aanbieding" : "")."\">".wt_he(($input["tnaam"] ? $input["tnaam"] : ""))."</div>";
 
 				if($input["type_id_aanbieding"]) {
-#							$results[$results_teller].="<div class=\"zoekresultaat_type_aanbieding\"><img src=\"".$vars["path"]."pic/aanbieding_klein_".$vars["websitetype"].".png\"></div>";
-					$results[$results_teller].="<div class=\"zoekresultaat_type_aanbieding\">";
+#							$return.="<div class=\"zoekresultaat_type_aanbieding\"><img src=\"".$vars["path"]."pic/aanbieding_klein_".$vars["websitetype"].".png\"></div>";
+					$return.="<div class=\"zoekresultaat_type_aanbieding\">";
 					if($input["tarief"]) {
 						if(floatval($input["aanbieding_percentage"])>0 and !$input["aanbieding_euro"]) {
-							$results[$results_teller].=floor($input["aanbieding_percentage"])."% ".html("korting","vars");
+							$return.=floor($input["aanbieding_percentage"])."% ".html("korting","vars");
 						} elseif(floatval($input["aanbieding_euro"])>0 and !$input["aanbieding_percentage"]) {
-							$results[$results_teller].="&euro;&nbsp;".number_format(floor($input["aanbieding_euro"]),0,",",".")." ".html("korting","vars");
+							$return.="&euro;&nbsp;".number_format(floor($input["aanbieding_euro"]),0,",",".")." ".html("korting","vars");
 						} else {
-							$results[$results_teller].=html("aanbieding","accommodaties");
+							$return.=html("aanbieding","accommodaties");
 						}
 					}
-					$results[$results_teller].="</div>";
+					$return.="</div>";
 #							$this->input[$accid][$type_sorteer]["aanbieding_percentage"]
 				}
 
-			$results[$results_teller].="</div>";
-			$results[$results_teller].="<div class=\"zoekresultaat_type_prijs".($input["type_id_aanbieding"] ? " zoekresultaat_type_prijs_aanbieding" : "")."\">";
+			$return.="</div>";
+			$return.="<div class=\"zoekresultaat_type_prijs".($input["type_id_aanbieding"] ? " zoekresultaat_type_prijs_aanbieding" : "")."\">";
 			if($input["tarief"]) {
-				$results[$results_teller].="&euro;&nbsp;".number_format($input["tarief"],0,",",".");
+				$return.="&euro;&nbsp;".number_format($input["tarief"],0,",",".");
 				if($input["toonper"]==3 or $vars["wederverkoop"]) {
 
 				} else {
-					$results[$results_teller].=" ".html("pp");
+					$return.=" ".html("pp");
 				}
 			} else {
-				$results[$results_teller].="&nbsp;";
+				$return.="&nbsp;";
 			}
-			$results[$results_teller].="</div>";
-			if(!$input["multiple_types"]) {
-				$results[$results_teller].="</div>"; # afsluiten .zoekresultaat_type_een_resultaat
+			$return.="</div>";
+			if(!$multiple_types) {
+				$return.="</div>"; # afsluiten .zoekresultaat_type_een_resultaat
 			}
 
-			$results[$results_teller].="<div class=\"clear\"></div>";
-			$results[$results_teller].="</a>";
+			$return.="<div class=\"clear\"></div>";
+			$return.="</a>";
 		}
+		return $return;
 	}
 }
 
