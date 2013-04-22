@@ -90,6 +90,7 @@ if($_GET["voorwaarden"]) {
 	}
 	$d->close();
 	if(is_array($foto_aanvullend)) {
+		ksort($foto_aanvullend);
 		echo "<div class=\"blog_foto_aanvullend\">";
 		echo "<h2>Foto's</h2>";
 		echo "<div style=\"float:left;margin-left:10px;margin-top:3px;color:#666666;\">(klik voor een vergroting)</div>";
