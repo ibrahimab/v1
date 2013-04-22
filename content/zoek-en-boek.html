@@ -972,7 +972,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 		}
 
 		# kortingen
-		$db->query("SELECT DISTINCT ta.type_id FROM seizoen s, tarief ta WHERE ta.korting_toon_als_aanbieding=1 AND ta.kortingactief=1 AND ta.seizoen_id=s.seizoen_id AND s.tonen".($voorkant_cms ? ">=" : "=")."3 AND s.type='".addslashes($vars["seizoentype"])."' AND s.eind>='".date("Y-m-d")."';");
+		$db->query("SELECT DISTINCT ta.type_id FROM seizoen s, tarief ta WHERE ta.korting_toon_als_aanbieding=1 AND ta.kortingactief=1 AND ta.seizoen_id=s.seizoen_id AND s.tonen".($voorkant_cms ? ">=" : "=")."3 AND s.type='".addslashes($vars["seizoentype"])."' AND s.eind>='".date("Y-m-d")."' AND ta.week>'".time()."';");
 		while($db->next_record()) {
 			$geen_datum_alleen_aanbiedingen_inquery.=",".$db->f("type_id");
 		}
@@ -2035,6 +2035,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				if($_GET["faab"] and !$soort_aanbieding and ($_GET["fad"]>0 or $flex_aankomstdatum)) {
 					continue;
 				}
+
 
 				if($db->f("apart_tonen_in_zoekresultaten")) {
 					$accid=$db->f("accommodatie_id")."_".$db->f("type_id");
