@@ -100,6 +100,7 @@ if(!$db->next_record()) {
 			// echo balk();
 
 			$accommodatielijst = new accommodatielijst;
+			$accommodatielijst->settings["vanaf_prijzen_tonen"] = true;
 
 			while($db2->next_record()) {
 // 				echo "<TR><TD width=\"1%\">";

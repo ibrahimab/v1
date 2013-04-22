@@ -80,6 +80,7 @@ $mysqlsettings["user"]="chaletdb";		# Username bij provider
 $mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
 
 $mysqlsettings["name"]["local"]="dbtest_chalet";		# Optioneel: Databasenaam lokaal (alleen invullen indien anders dan database bij provider)
+// $mysqlsettings["name"]["local"]="online_chaletbackup";	# Databasenaam bij provider
 $mysqlsettings["localhost"]="ss.postvak.net";# Hostname voor lokaal gebruik
 if($_SERVER["WINDIR"]) {
 	$mysqlsettings["host"]="srv01.chalet.nl";# Hostname bij provider

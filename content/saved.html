@@ -12,6 +12,7 @@ if($last_acc) {
 
 		$accommodatielijst = new accommodatielijst;
 		$accommodatielijst->settings["groepeer_per_accommodatie"] = false;
+		$accommodatielijst->settings["vanaf_prijzen_tonen"] = true;
 
 		while($db->next_record()) {
 			// $results[$db->f("type_id")].="<TR><TD width=\"1%\">";
