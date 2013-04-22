@@ -48,8 +48,8 @@ if($_GET["b"]) {
 		$blog["plaatsingsdatum"]=$db->f("plaatsingsdatum");
 		$blog["accommodatiecodes"]=$db->f("accommodatiecodes");
 
-		if(preg_match("/(https?:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9]+)[^[:blank:]]+)/",$blog["inhoud"],$regs)) {
-			$blog["youtube"]=$regs[2];
+		if(preg_match("/(https?:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9]+))/",$blog["inhoud"],$regs)) {
+			$blog["youtube"]=trim($regs[2]);
 			$blog["inhoud"]=str_replace($regs[1],"",$blog["inhoud"]);
 		}
 
