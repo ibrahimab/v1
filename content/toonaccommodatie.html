@@ -82,6 +82,15 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 	$seizoenid=$key_s;
 	$seizoenteller++;
 	$aanbieding[$seizoenid]=aanbiedinginfo($typeid,$seizoenid);
+	if(is_array($aanbieding[$seizoenid])) {
+		foreach ($aanbieding[$seizoenid] as $tempkey => $tempvalue) {
+			if(is_array($tempvalue)) {
+				// er is een tekstaanbieding: aanbieding is dus actief
+				$aanbieding_actief=true;
+			}
+		}
+	}
+
 	$vandaag=mktime(0,0,0,date("m"),date("d"),date("Y"));
 	$db->query("SELECT korting_id, onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving, UNIX_TIMESTAMP(tot) AS tot FROM korting WHERE actief=1 AND onlinenaam".$vars["ttv"]."<>'' AND omschrijving".$vars["ttv"]."<>'' AND type_id='".addslashes($typeid)."' AND seizoen_id='".addslashes($seizoenid)."' AND UNIX_TIMESTAMP(van)<='".$vandaag."' AND UNIX_TIMESTAMP(tot)>='".$vandaag."';");
 	while($db->next_record()) {
@@ -93,8 +102,6 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 		while($db2->next_record()) {
 			$aanbieding[$seizoenid]["aanbiedingid_sort"]["korting_".$db->f("korting_id")]["weken"][$db2->f("week")]=true;
 		}
-		# aanzetten indien tekst-aanbieding!
-		#$aanbieding_actief=true;
 	}
 	ob_start();
 	include("content/tarieventabel.html");
@@ -1016,7 +1023,7 @@ if($db->next_record()) {
 					unset($flexmelding);
 				}
 
-				if($value2["omschrijving"]) {
+				if($value2["omschrijving"] and $aanbieding_actief) {
 					# aanbiedingblok (alleen tonen indien er een omschrijving is ingevuld)
 					echo "<table width=\"660\" class=\"aanbiedingtabel\" cellspacing=\"0\">";
 					echo "<tr><th colspan=\"2\">";

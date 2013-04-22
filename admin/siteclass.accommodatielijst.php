@@ -10,10 +10,9 @@ class accommodatielijst {
 	private $type_id_inquery;
 	private $vanafprijs_12;
 	private $vanafprijs_3;
-	// private $type_key;
-	// private $type_sorteer;
 	private $types_alle_inhoud;
 	private $min_max_per_accommodatie;
+	private $aanbieding;
 
 	public $sorteer_accommodaties;
 
@@ -81,12 +80,6 @@ class accommodatielijst {
 
 		$type_sorteer.=substr("0000".$input["optimaalaantalpersonen"],-4)."_".substr("0000".$input["maxaantalpersonen"],-4)."_".substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".$input["type_id"];
 
-		// echo $input["type_id"].": ".$type_sorteer." - ".$input["tarief_float"]."<br>";
-
-		// // key en sorteer opslaan per type (voor gebruik in andere functies)
-		// $this->type_key[$input["type_id"]]=$accid;
-		// $this->type_sorteer[$input["type_id"]]=$type_sorteer;
-
 		$this->input[$accid][$type_sorteer]["type_id"]=$input["type_id"];
 		$this->input[$accid][$type_sorteer]["accommodatie_id"]=$input["accommodatie_id"];
 		$this->input[$accid][$type_sorteer]["begincode"]=$input["begincode"];
@@ -107,7 +100,7 @@ class accommodatielijst {
 		$this->input[$accid][$type_sorteer]["tarief"]=$input["tarief_float"];
 
 		# aanbieding van toepassing?
-		if($soort_aanbieding or ($_GET["aab"] and $_GET["faab"])) {
+		if($this->aanbieding[$input["type_id"]]) {
 			$this->input[$accid][$type_sorteer]["aanbieding"]=true;
 			$this->input[$accid][$type_sorteer]["type_id_aanbieding"]=true;
 		}
@@ -134,18 +127,18 @@ class accommodatielijst {
 			# binnen deze accommodatie is een aanbieding actief
 			$this->min_max_per_accommodatie[$accid]["aanbieding"]=true;
 
-			if(is_array($soort_aanbieding["percentage"]) and count($soort_aanbieding["percentage"])==1 and !$soort_aanbieding["euro"]) {
-				# aanbiedingspercentage per type bepalen
-				if($this->input[$accid][$type_sorteer]["aanbieding_percentage"]<$soort_aanbieding["percentage"]) {
-					$this->input[$accid][$type_sorteer]["aanbieding_percentage"]=array_shift($soort_aanbieding["percentage"]);
-				}
-			}
-			if(is_array($soort_aanbieding["euro"]) and count($soort_aanbieding["euro"])==1 and !$soort_aanbieding["percentage"]) {
-				# aanbiedingsbedrag per type bepalen
-				if($this->input[$accid][$type_sorteer]["aanbieding_euro"]<$soort_aanbieding["euro"]) {
-					$this->input[$accid][$type_sorteer]["aanbieding_euro"]=array_shift($soort_aanbieding["euro"]);
-				}
-			}
+			// if(is_array($soort_aanbieding["percentage"]) and count($soort_aanbieding["percentage"])==1 and !$soort_aanbieding["euro"]) {
+			// 	# aanbiedingspercentage per type bepalen
+			// 	if($this->input[$accid][$type_sorteer]["aanbieding_percentage"]<$soort_aanbieding["percentage"]) {
+			// 		$this->input[$accid][$type_sorteer]["aanbieding_percentage"]=array_shift($soort_aanbieding["percentage"]);
+			// 	}
+			// }
+			// if(is_array($soort_aanbieding["euro"]) and count($soort_aanbieding["euro"])==1 and !$soort_aanbieding["percentage"]) {
+			// 	# aanbiedingsbedrag per type bepalen
+			// 	if($this->input[$accid][$type_sorteer]["aanbieding_euro"]<$soort_aanbieding["euro"]) {
+			// 		$this->input[$accid][$type_sorteer]["aanbieding_euro"]=array_shift($soort_aanbieding["euro"]);
+			// 	}
+			// }
 		}
 
 	}
@@ -257,7 +250,7 @@ class accommodatielijst {
 
 					$return.="<div class=\"zoekresultaat_omschrijving"."\">".wt_he((!$multiple_types&&$input["tkorteomschrijving"] ? $input["tkorteomschrijving"] : $input["korteomschrijving"]))."</div>";
 
-				if($this->min_max_per_accommodatie[$acc_id]["aanbieding"]) {
+				if($this->min_max_per_accommodatie[$acc_id]["aanbieding"] or $this->aanbieding_ooit[$input["type_id"]]) {
 					$return.="<div class=\"zoekresultaat_aanbieding\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding","accommodaties")."</div>";
 				}
 
@@ -369,20 +362,63 @@ class accommodatielijst {
 	}
 
 	private function vanaf_prijzen_uit_database_halen() {
+
+		global $vars;
+
 		$db = new DB_sql;
+
 		if($this->type_id_inquery) {
 			# toonper = 1 en 2 (arrangement)
-			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM tarief tr, tarief_personen tp, seizoen sz WHERE tr.seizoen_id=sz.seizoen_id AND tp.type_id=tr.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND tr.week>".time()." AND sz.tonen=3 AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND tp.type_id IN (".substr($this->type_id_inquery,1).") GROUP BY tp.type_id;");
+#			$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon, tr.korting_toon_als_aanbieding, tr.kortingactief FROM tarief tr, tarief_personen tp, seizoen sz WHERE tr.seizoen_id=sz.seizoen_id AND tp.type_id=tr.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND tr.week>".time()." AND sz.tonen=3 AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND tp.type_id IN (".substr($this->type_id_inquery,1).") GROUP BY tp.type_id;");
+			$db->query("SELECT tp.type_id, tp.prijs AS prijs_per_persoon, tr.korting_toon_als_aanbieding, tr.kortingactief FROM tarief tr, tarief_personen tp, seizoen sz WHERE tr.seizoen_id=sz.seizoen_id AND tp.type_id=tr.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND tr.week>".time()." AND sz.tonen=3 AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 AND tp.type_id IN (".substr($this->type_id_inquery,1).") AND tp.prijs>0 ORDER BY tp.prijs;");
 			while($db->next_record()) {
-				$this->vanafprijs_12[$db->f("type_id")]=$db->f("prijs_per_persoon");
+				if(!$this->vanafprijs_12[$db->f("type_id")]) {
+					$this->vanafprijs_12[$db->f("type_id")]=$db->f("prijs_per_persoon");
+
+					if($db->f("korting_toon_als_aanbieding")==1 and $db->f("kortingactief")==1) {
+						$this->aanbieding[$db->f("type_id")]=true;
+					}
+				}
+				if($db->f("korting_toon_als_aanbieding")==1 and $db->f("kortingactief")==1) {
+					$this->aanbieding_ooit[$db->f("type_id")]=true;
+				}
 			}
 
 			# toonper = 3 (accommodatie)
-			$db->query("SELECT tr.type_id, MIN(tr.c_verkoop_site) AS c_verkoop_site FROM accommodatie a, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tr.week>".time()." AND sz.tonen=3 AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND t.type_id IN (".substr($this->type_id_inquery,1).") GROUP BY tr.type_id;");
+#			$db->query("SELECT tr.type_id, MIN(tr.c_verkoop_site) AS c_verkoop_site, tr.korting_toon_als_aanbieding, tr.kortingactief FROM accommodatie a, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tr.week>".time()." AND sz.tonen=3 AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND t.type_id IN (".substr($this->type_id_inquery,1).") GROUP BY tr.type_id;");
+			$db->query("SELECT tr.type_id, tr.c_verkoop_site, tr.korting_toon_als_aanbieding, tr.kortingactief FROM accommodatie a, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tr.week>".time()." AND sz.tonen=3 AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND t.type_id IN (".substr($this->type_id_inquery,1).") AND tr.c_verkoop_site>0 ORDER BY tr.c_verkoop_site;");
+			// echo $db->lq;
 			while($db->next_record()) {
-				$this->vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
+				if(!$this->vanafprijs_3[$db->f("type_id")]) {
+					$this->vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
+
+					if($db->f("korting_toon_als_aanbieding")==1 and $db->f("kortingactief")==1) {
+						$this->aanbieding[$db->f("type_id")]=true;
+					}
+				}
+				if($db->f("korting_toon_als_aanbieding")==1 and $db->f("kortingactief")==1) {
+					$this->aanbieding_ooit[$db->f("type_id")]=true;
+				}
 			}
 		}
+
+		# aanbiedingen
+		$db->query("SELECT seizoen_id FROM seizoen WHERE 1=2 AND tonen=3 AND type='".intval($vars["seizoentype"])."' AND eind>='".date("Y-m-d")."' ORDER BY begin;");
+		while($db->next_record()) {
+			# gewone aanbiedingen
+			unset($temp_aanbieding);
+			$temp_aanbieding=aanbiedinginfo(0,$db->f("seizoen_id"));
+
+			while(list($key,$value)=@each($temp_aanbieding["typeid_sort"])) {
+				$this->aanbieding_ooit[$key]=true;
+			}
+		}
+
+		// # kortingen
+		// $db->query("SELECT DISTINCT ta.type_id FROM seizoen s, tarief ta WHERE ta.korting_toon_als_aanbieding=1 AND ta.kortingactief=1 AND ta.seizoen_id=s.seizoen_id AND s.tonen=3 AND s.type='".intval($vars["seizoentype"])."' AND s.eind>='".date("Y-m-d")."' AND ta.week>'".time()."';");
+		// while($db->next_record()) {
+		// 	$this->aanbieding[$db->f("type_id")]=true;
+		// }
 	}
 }
 
