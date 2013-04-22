@@ -13,6 +13,8 @@ class accommodatielijst {
 	private $types_alle_inhoud;
 	private $min_max_per_accommodatie;
 	private $aanbieding;
+	private $aanbieding_ooit;
+	private $aanbieding_ooit_per_accommodatie;
 
 	public $sorteer_accommodaties;
 
@@ -61,57 +63,62 @@ class accommodatielijst {
 		if($this->settings["groepeer_per_accommodatie"]) {
 			if($input["apart_tonen_in_zoekresultaten"]) {
 				# dit type apart tonen
-				$accid=$input["accommodatie_id"]."_".$input["type_id"];
+				$acc_id=$input["accommodatie_id"]."_".$input["type_id"];
 			} else {
-				$accid=$input["accommodatie_id"];
+				$acc_id=$input["accommodatie_id"];
 			}
 		} else {
 			// alle types apart toen
-			$accid=$input["accommodatie_id"]."_".$input["type_id"];
+			$acc_id=$input["accommodatie_id"]."_".$input["type_id"];
 		}
 
 		// accommodaties sorteren?
 		if($this->settings["sorteer_accommodaties"]) {
-			$this->acc_sorteer[$input["sorteer_accommodatie"]]=$accid;
+			$this->acc_sorteer[$input["sorteer_accommodatie"]]=$acc_id;
 		} else {
 			$this->sorteer_teller++;
-			$this->acc_sorteer[$this->sorteer_teller]=$accid;
+			$this->acc_sorteer[$this->sorteer_teller]=$acc_id;
 		}
 
 		$type_sorteer.=substr("0000".$input["optimaalaantalpersonen"],-4)."_".substr("0000".$input["maxaantalpersonen"],-4)."_".substr("0000000000".number_format($tarief_sorteer,2,"",""),-10)."_".$input["type_id"];
 
-		$this->input[$accid][$type_sorteer]["type_id"]=$input["type_id"];
-		$this->input[$accid][$type_sorteer]["accommodatie_id"]=$input["accommodatie_id"];
-		$this->input[$accid][$type_sorteer]["begincode"]=$input["begincode"];
-		$this->input[$accid][$type_sorteer]["naam"]=$input["naam"];
-		$this->input[$accid][$type_sorteer]["tnaam"]=$input["tnaam"];
-		$this->input[$accid][$type_sorteer]["soortaccommodatie"]=$input["soortaccommodatie"];
-		$this->input[$accid][$type_sorteer]["slaapkamers"]=$input["slaapkamers"];
-		$this->input[$accid][$type_sorteer]["badkamers"]=$input["badkamers"];
-		$this->input[$accid][$type_sorteer]["optimaalaantalpersonen"]=$input["optimaalaantalpersonen"];
-		$this->input[$accid][$type_sorteer]["maxaantalpersonen"]=$input["maxaantalpersonen"];
-		$this->input[$accid][$type_sorteer]["plaats"]=$input["plaats"];
-		$this->input[$accid][$type_sorteer]["skigebied"]=$input["skigebied"];
-		$this->input[$accid][$type_sorteer]["land"]=$input["land"];
-		$this->input[$accid][$type_sorteer]["korteomschrijving"]=$input["korteomschrijving"];
-		$this->input[$accid][$type_sorteer]["tkorteomschrijving"]=$input["tkorteomschrijving"];
-		$this->input[$accid][$type_sorteer]["toonper"]=$input["toonper"];
-		$this->input[$accid][$type_sorteer]["skigebied_id"]=$input["skigebied_id"];
-		$this->input[$accid][$type_sorteer]["tarief"]=$input["tarief_float"];
+		$this->input[$acc_id][$type_sorteer]["type_id"]=$input["type_id"];
+		$this->input[$acc_id][$type_sorteer]["accommodatie_id"]=$input["accommodatie_id"];
+		$this->input[$acc_id][$type_sorteer]["begincode"]=$input["begincode"];
+		$this->input[$acc_id][$type_sorteer]["naam"]=$input["naam"];
+		$this->input[$acc_id][$type_sorteer]["tnaam"]=$input["tnaam"];
+		$this->input[$acc_id][$type_sorteer]["soortaccommodatie"]=$input["soortaccommodatie"];
+		$this->input[$acc_id][$type_sorteer]["slaapkamers"]=$input["slaapkamers"];
+		$this->input[$acc_id][$type_sorteer]["badkamers"]=$input["badkamers"];
+		$this->input[$acc_id][$type_sorteer]["optimaalaantalpersonen"]=$input["optimaalaantalpersonen"];
+		$this->input[$acc_id][$type_sorteer]["maxaantalpersonen"]=$input["maxaantalpersonen"];
+		$this->input[$acc_id][$type_sorteer]["plaats"]=$input["plaats"];
+		$this->input[$acc_id][$type_sorteer]["skigebied"]=$input["skigebied"];
+		$this->input[$acc_id][$type_sorteer]["land"]=$input["land"];
+		$this->input[$acc_id][$type_sorteer]["korteomschrijving"]=$input["korteomschrijving"];
+		$this->input[$acc_id][$type_sorteer]["tkorteomschrijving"]=$input["tkorteomschrijving"];
+		$this->input[$acc_id][$type_sorteer]["toonper"]=$input["toonper"];
+		$this->input[$acc_id][$type_sorteer]["skigebied_id"]=$input["skigebied_id"];
+		$this->input[$acc_id][$type_sorteer]["tarief"]=$input["tarief_float"];
 
 		# aanbieding van toepassing?
 		if($this->aanbieding[$input["type_id"]]) {
-			$this->input[$accid][$type_sorteer]["aanbieding"]=true;
-			$this->input[$accid][$type_sorteer]["type_id_aanbieding"]=true;
+			$this->input[$acc_id][$type_sorteer]["aanbieding"]=true;
+			$this->input[$acc_id][$type_sorteer]["type_id_aanbieding"]=true;
 		}
 
 		// if($trclass) {
-		// 	$this->input[$accid][$type_sorteer]["type_id_trclass"]=trim($trclass);
+		// 	$this->input[$acc_id][$type_sorteer]["type_id_trclass"]=trim($trclass);
 		// }
 
 		if($input["tarief_float"]>0) {
-			if(!$this->min_max_per_accommodatie[$accid]["mintarief"] or $this->min_max_per_accommodatie[$accid]["mintarief"]>$input["tarief_float"]) $this->min_max_per_accommodatie[$accid]["mintarief"]=$input["tarief_float"];
-			if($this->min_max_per_accommodatie[$accid]["maxtarief"]<$input["tarief_float"]) $this->min_max_per_accommodatie[$accid]["maxtarief"]=$input["tarief_float"];
+			if(!$this->min_max_per_accommodatie[$acc_id]["mintarief"] or $this->min_max_per_accommodatie[$acc_id]["mintarief"]>$input["tarief_float"]) $this->min_max_per_accommodatie[$acc_id]["mintarief"]=$input["tarief_float"];
+			if($this->min_max_per_accommodatie[$acc_id]["maxtarief"]<$input["tarief_float"]) $this->min_max_per_accommodatie[$acc_id]["maxtarief"]=$input["tarief_float"];
+		}
+
+		// kijken of er ergens binnen deze accommodatie een aanbieding van toepassing is
+		if($this->aanbieding_ooit[$input["type_id"]]) {
+			$this->aanbieding_ooit_per_accommodatie[$acc_id]=true;
 		}
 
 		if($input["tkwaliteit"]) {
@@ -120,23 +127,23 @@ class accommodatielijst {
 			$kwaliteit=$input["akwaliteit"];
 		}
 
-		if(!$this->min_max_per_accommodatie[$accid]["minkwaliteit"] or $this->min_max_per_accommodatie[$accid]["minkwaliteit"]>$kwaliteit) $this->min_max_per_accommodatie[$accid]["minkwaliteit"]=$kwaliteit;
-		if($this->min_max_per_accommodatie[$accid]["maxkwaliteit"]<$kwaliteit) $this->min_max_per_accommodatie[$accid]["maxkwaliteit"]=$kwaliteit;
+		if(!$this->min_max_per_accommodatie[$acc_id]["minkwaliteit"] or $this->min_max_per_accommodatie[$acc_id]["minkwaliteit"]>$kwaliteit) $this->min_max_per_accommodatie[$acc_id]["minkwaliteit"]=$kwaliteit;
+		if($this->min_max_per_accommodatie[$acc_id]["maxkwaliteit"]<$kwaliteit) $this->min_max_per_accommodatie[$acc_id]["maxkwaliteit"]=$kwaliteit;
 
-		if($this->input[$accid][$type_sorteer]["aanbieding"]) {
+		if($this->input[$acc_id][$type_sorteer]["aanbieding"]) {
 			# binnen deze accommodatie is een aanbieding actief
-			$this->min_max_per_accommodatie[$accid]["aanbieding"]=true;
+			$this->min_max_per_accommodatie[$acc_id]["aanbieding"]=true;
 
 			// if(is_array($soort_aanbieding["percentage"]) and count($soort_aanbieding["percentage"])==1 and !$soort_aanbieding["euro"]) {
 			// 	# aanbiedingspercentage per type bepalen
-			// 	if($this->input[$accid][$type_sorteer]["aanbieding_percentage"]<$soort_aanbieding["percentage"]) {
-			// 		$this->input[$accid][$type_sorteer]["aanbieding_percentage"]=array_shift($soort_aanbieding["percentage"]);
+			// 	if($this->input[$acc_id][$type_sorteer]["aanbieding_percentage"]<$soort_aanbieding["percentage"]) {
+			// 		$this->input[$acc_id][$type_sorteer]["aanbieding_percentage"]=array_shift($soort_aanbieding["percentage"]);
 			// 	}
 			// }
 			// if(is_array($soort_aanbieding["euro"]) and count($soort_aanbieding["euro"])==1 and !$soort_aanbieding["percentage"]) {
 			// 	# aanbiedingsbedrag per type bepalen
-			// 	if($this->input[$accid][$type_sorteer]["aanbieding_euro"]<$soort_aanbieding["euro"]) {
-			// 		$this->input[$accid][$type_sorteer]["aanbieding_euro"]=array_shift($soort_aanbieding["euro"]);
+			// 	if($this->input[$acc_id][$type_sorteer]["aanbieding_euro"]<$soort_aanbieding["euro"]) {
+			// 		$this->input[$acc_id][$type_sorteer]["aanbieding_euro"]=array_shift($soort_aanbieding["euro"]);
 			// 	}
 			// }
 		}
@@ -167,6 +174,7 @@ class accommodatielijst {
 			$this->acc_sorteer_gehad[$value]=true;
 			$return.=$this->accommodatie($value);
 		}
+
 		return $return;
 	}
 
@@ -250,7 +258,7 @@ class accommodatielijst {
 
 					$return.="<div class=\"zoekresultaat_omschrijving"."\">".wt_he((!$multiple_types&&$input["tkorteomschrijving"] ? $input["tkorteomschrijving"] : $input["korteomschrijving"]))."</div>";
 
-				if($this->min_max_per_accommodatie[$acc_id]["aanbieding"] or $this->aanbieding_ooit[$input["type_id"]]) {
+				if($this->min_max_per_accommodatie[$acc_id]["aanbieding"] or $this->aanbieding_ooit_per_accommodatie[$acc_id]) {
 					$return.="<div class=\"zoekresultaat_aanbieding\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding","accommodaties")."</div>";
 				}
 
@@ -397,7 +405,11 @@ class accommodatielijst {
 					}
 				}
 				if($db->f("korting_toon_als_aanbieding")==1 and $db->f("kortingactief")==1) {
-					$this->aanbieding_ooit[$db->f("type_id")]=true;
+					if($this->settings["groepeer_per_accommodatie"]) {
+						$this->aanbieding[$db->f("type_id")]=true;
+					} else {
+						$this->aanbieding_ooit[$db->f("type_id")]=true;
+					}
 				}
 			}
 		}
@@ -410,7 +422,11 @@ class accommodatielijst {
 			$temp_aanbieding=aanbiedinginfo(0,$db->f("seizoen_id"));
 
 			while(list($key,$value)=@each($temp_aanbieding["typeid_sort"])) {
-				$this->aanbieding_ooit[$key]=true;
+				if($this->settings["groepeer_per_accommodatie"]) {
+					$this->aanbieding[$key]=true;
+				} else {
+					$this->aanbieding_ooit[$key]=true;
+				}
 			}
 		}
 
