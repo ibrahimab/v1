@@ -45,7 +45,7 @@ foreach($username as $userAccount) {
 	$oauth_access_token="132939299-3sC8Zjr68teoEI5GAuos2991MZ4pcrmyKbdqqffc";
 	$oauth_access_token_secret="XPPUCnfBJKKdS4lqf9k16NhWSUicq6uotjkCuDtPRQM";
 
-	$json_content=wt_get_tiwtter_url($url,array("screen_name"=>$userAccount,"include_entities"=>"true","exclude_replies"=>"true","include_rts"=>"false"),$oauth_consumer_key,$oauth_consumer_secret,$oauth_access_token,$oauth_access_token_secret);
+	$json_content=wt_get_twitter_url($url,array("screen_name"=>$userAccount,"include_entities"=>"true","exclude_replies"=>"true","include_rts"=>"false"),$oauth_consumer_key,$oauth_consumer_secret,$oauth_access_token,$oauth_access_token_secret);
 
 	$json=json_decode($json_content["output"],true);
 
