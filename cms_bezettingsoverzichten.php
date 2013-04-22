@@ -125,8 +125,8 @@ if($_GET["popup"]) {
 	$cms->edit_field(49,0,"externenaam","Naam (voor leverancier)");
 	$cms->edit_field(49,0,"externenaam_en","Naam (voor Engelstalige leverancier)");
 	$cms->edit_field(49,1,"seizoen_id","Seizoen","","",array("onchange"=>"seizoen_naar_datum(this,'".$javascript_seizoenids."','".$javascript_begindatums."','".$javascript_einddatums."','begindatum','einddatum');"));
-	$cms->edit_field(49,1,"begindatum","Van","","",array("calendar"=>true));
-	$cms->edit_field(49,1,"einddatum","Tot en met","","",array("calendar"=>true));
+	$cms->edit_field(49,1,"begindatum","Van","",array("startyear"=>2012),array("calendar"=>true));
+	$cms->edit_field(49,1,"einddatum","Tot en met","",array("startyear"=>2012),array("calendar"=>true));
 
 	# Controle op ingevoerde formuliergegevens
 	$cms->set_edit_form_init(49);
