@@ -23,7 +23,7 @@ if(!$include) {
 }
 
 # A/B-test snelzoeken
-if(($_COOKIE["abt"]==1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $vars["website"]=="C") {
+if(($_COOKIE["abt"]==1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $vars["website"]=="C" and !$voorkant_cms) {
 	$abtest_snelzoeken=true;
 }
 
@@ -630,8 +630,6 @@ echo "</div>";
 if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<div id=\"zoekenboek_overlay\" class=\"noprint\">";
 
-#$abtest_snelzoeken=false;
-
 	if($abtest_snelzoeken) {
 		# A/B-test: button
 
@@ -648,7 +646,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 		echo "<div class=\"bloklinks_kop\" style=\"margin-bottom:10px;\">".html("snelzoeken","index")."</div>";
 
 		# data-ab_ref = t.b.v. A/B-test (mag later weg - 11-04-2013)
-		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\"".($_COOKIE["abt"]==2||$_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? " data-ab_ref=\"2\"" : "").">";
+		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\"".($_COOKIE["abt"]==2&&!$voorkant_cms ? " data-ab_ref=\"2\"" : "").">";
 		echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 		echo "<input type=\"hidden\" name=\"referer\" value=\"2\">"; # t.b.v. statistieken
 		echo "<input type=\"hidden\" name=\"selb\" value=\"0\">"; # doorgeven of mensen klikken op "selecteer bestemming"
