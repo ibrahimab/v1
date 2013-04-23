@@ -104,11 +104,11 @@ if($_GET["show"]==29) {
 	}
 
 	echo "<hr><h2>Bevestigde boekingen waarbij deze code is gebruikt</h2>";
-	$db->query("SELECT boeking_id, boekingsnummer FROM boeking WHERE goedgekeurd=1 AND boekingsnummer<>'' AND kortingscode_id='".intval($_GET["29k0"])."' ORDER BY boekingsnummer;");
+	$db->query("SELECT boeking_id, boekingsnummer, UNIX_TIMESTAMP(bevestigdatum) AS bevestigdatum FROM boeking WHERE goedgekeurd=1 AND boekingsnummer<>'' AND kortingscode_id='".intval($_GET["29k0"])."' ORDER BY bevestigdatum, boekingsnummer;");
 	if($db->num_rows()) {
 		echo "<ul>";
 		while($db->next_record()) {
-			echo "<li><a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a></li>";
+			echo "<li><a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a> - ".date("d-m-Y",$db->f("bevestigdatum"))."</li>";
 		}
 		echo "</ul>";
 	} else {
