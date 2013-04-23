@@ -31,6 +31,13 @@ if($_POST["status_filled"]) {
 	exit;
 }
 
+
+# Aantal boekingen per code bepalen
+$db->query("SELECT COUNT(boeking_id) AS aantal, kortingscode_id FROM boeking WHERE goedgekeurd=1 AND boekingsnummer<>'' AND kortingscode_id IS NOT NULL GROUP BY kortingscode_id;");
+while($db->next_record()) {
+	$aantal_boekingen[$db->f("kortingscode_id")]=$db->f("aantal");
+}
+
 $cms->settings[29]["list"]["show_icon"]=true;
 $cms->settings[29]["list"]["edit_icon"]=true;
 $cms->settings[29]["list"]["delete_icon"]=true;
@@ -53,6 +60,7 @@ if($_GET["t"]==1) {
 #$cms->db[29]["set"]="wzt='".addslashes($_GET["wzt"])."'";
 
 # Database db_field($counter,$type,$id,$field="",$options="")
+$cms->db_field(29,"select","aantal_boekingen","kortingscode_id",array("selection"=>$aantal_boekingen));
 $cms->db_field(29,"checkbox","websites","",array("selection"=>$vars["websites"]));
 $cms->db_field(29,"text","omschrijving");
 $cms->db_field(29,"text","code");
@@ -69,6 +77,7 @@ $cms->list_sort[29]=array("omschrijving","einddatum");
 $cms->list_field(29,"omschrijving","Omschrijving");
 $cms->list_field(29,"code","Code");
 $cms->list_field(29,"einddatum","",array("date_format"=>"DD-MM-JJJJ"));
+$cms->list_field(29,"aantal_boekingen","Boekingen");
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(29,1,"archief","Archief");
@@ -92,7 +101,7 @@ if($cms_form[29]->filled) {
 	if($cms_form[29]->input["korting_euro"] and $cms_form[29]->input["korting_percentage"]) {
 		$cms_form[29]->error("korting_percentage","kies voor euro's of percentage (niet allebei)");
 	}
-	
+
 	if($cms_form[29]->input["korting_euro"] and $cms_form[29]->input["korting_maximaal"]) {
 		$cms_form[29]->error("korting_maximaal","alleen te gebruiken bij kortingspercentage");
 	}
@@ -100,7 +109,7 @@ if($cms_form[29]->filled) {
 	if(!$cms_form[29]->input["korting_euro"] and !$cms_form[29]->input["korting_percentage"] and !$cms_form[29]->input["actietekst"]) {
 		$cms_form[29]->error("korting_euro","voor een korting in");
 	}
-	
+
 	if($cms_form[29]->input["korting_percentage"]>100) {
 		$cms_form[29]->error("korting_percentage","maximaal 100%");
 	}
@@ -108,7 +117,7 @@ if($cms_form[29]->filled) {
 	if($cms_form[29]->input["actietekst"] and ($cms_form[29]->input["korting_euro"] or $cms_form[29]->input["korting_percentage"] or $cms_form[29]->input["korting_maximaal"])) {
 #		$cms_form[29]->error("actietekst","kies voor korting of andere actie (niet allebei)");
 	}
-	
+
 	if($cms_form[29]->input["code"] and $cms_form[29]->input["code"]<>"AUTOMATISCH") {
 		if(ereg("^[A-Z0-9]+$",$cms_form[29]->input["code"])) {
 			if($_GET["29k0"]) {
