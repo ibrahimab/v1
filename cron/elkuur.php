@@ -454,6 +454,7 @@ $db->query("SELECT url, url_en FROM thema WHERE actief=1 AND wzt=1 AND tarievenb
 if($db->next_record()) {
 #	echo $db->f("url")."\n<br>";
 	if($db->f("url")) $a=file_get_contents("http://www.chalet.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
+	if($db->f("url")) $a=file_get_contents("http://www.chalet.be/thema/".$db->f("url")."/?save_tarievenbekend=1");
 	if($db->f("url")) $a=file_get_contents("http://www.chalettour.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
 	if($db->f("url")) $a=file_get_contents("http://www.superski.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
 	if($db->f("url_en")) $a=file_get_contents("http://www.chalet.eu/theme/".$db->f("url_en")."/?save_tarievenbekend=1");
