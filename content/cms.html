@@ -23,7 +23,7 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
-#		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 		// #
 		// # FUNCTIE BEWAREN!! Kan later nogmaals nodig zijn
@@ -57,6 +57,37 @@ if(!$login->logged_in) {
 		// 		echo $db2->lq."<br>";
 		// 	}
 		// }
+
+
+
+		// // Dubbele GPS-coordinaten opzoeken
+		// $db->query("SELECT begincode, accommodatie_id, naam, plaats, type_id, gps_lat, gps_long, tgps_lat, tgps_long FROM view_accommodatie WHERE wzt=2 AND archief=0 AND atonen=1 AND ttonen=1;");
+		// while($db->next_record()) {
+		// 	unset($gps_lat,$gps_long);
+		// 	if($db->f("tgps_lat") and $db->f("tgps_lat")) {
+		// 		$gps_lat=$db->f("tgps_lat");
+		// 		$gps_long=$db->f("tgps_long");
+		// 	} elseif($db->f("gps_lat") and $db->f("gps_lat")) {
+		// 		$gps_lat=$db->f("gps_lat");
+		// 		$gps_long=$db->f("gps_long");
+		// 	}
+		// 	if($gps_lat and $gps_long) {
+		// 		if(!$gps_algehad[$db->f("naam")."_".$db->f("plaats")]) {
+		// 			$gps_algehad[$db->f("naam")."_".$db->f("plaats")]=true;
+		// 			$gps_aantal[$gps_lat."_".$gps_long]++;
+		// 			$gps_types[$gps_lat."_".$gps_long].=", ".$db->f("begincode").$db->f("type_id");
+		// 		}
+		// 	}
+		// }
+		// if($gps_aantal) {
+		// 	foreach ($gps_aantal as $key => $value) {
+		// 		if($value>1) {
+		// 			echo " - ".substr($gps_types[$key],2)."<br>";
+		// 		}
+		// 	}
+		// }
+
+
 
 #		$db->query("UPDATE korting SET toon_als_aanbieding=1 WHERE korting_id IN (SELECT DISTINCT korting_id FROM korting_tarief WHERE (aanbieding_acc_percentage>0 OR aanbieding_skipas_percentage>0 OR aanbieding_acc_euro>0 OR aanbieding_skipas_euro>0)) AND aanbiedingskleur=1;");
 
@@ -653,7 +684,7 @@ if(!$login->logged_in) {
 #		}
 	}
 
-	if($vars["website"]<>"C") {
+	if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]!="/home/webtastic/html") {
 		echo "<div class=\"opmerkingbox\" style=\"padding-top:30px;padding-bottom:30px;margin-bottom:10px;\"><b>Let op!</b> Je gebruikt het CMS nu niet via Chalet.nl! Ga voor een correcte werking van het CMS naar <a href=\"http://www.chalet.nl/cms.php\">http://www.chalet.nl/cms.php</a>. Gebruik dit CMS uitsluitend om eenmalig in te loggen.</div>";
 	}
 
