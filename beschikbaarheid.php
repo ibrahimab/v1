@@ -299,7 +299,7 @@ if($form->okay) {
 		$body=ereg_replace("   "," ",$body);
 		$html="<html><head>".$form->mail_css()."</head>\n<body>\n";
 		$html.="<div style=\"width:660px\">";
-		$html.="Reageren op dit verzoek: <A HREF=\"mailto:".$form->input["email"].ereg_replace(" ","%20","?subject=".$subject."&body=".$body)."\">mail sturen</A><p>";
+		$html.="Reageren op dit verzoek: <a href=\"mailto:".$form->input["email"].ereg_replace(" ","%20","?subject=".$subject."&body=".$body)."\">mail sturen</a><p>";
 
 		if($vars["rebook"]) {
 			$html.="<b>Optie-aanvraag n.a.v. mail-uitnodiging (boeking vorig seizoen)</b><br>";

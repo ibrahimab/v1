@@ -4857,6 +4857,9 @@ $txt["en"]["vraagonsadvies"]["ditmailadreszalniet"]="-";
 $txt["nl"]["vraagonsadvies"]["telefoonnummer"]="Telefoonnummer (indien gewenst)";
 $txt["en"]["vraagonsadvies"]["telefoonnummer"]="-";
 
+$txt["nl"]["vraagonsadvies"]["mail_subject"]="Advies [[v_websitenaam]]";
+$txt["en"]["vraagonsadvies"]["mail_subject"]="-";
+
 
 
 //

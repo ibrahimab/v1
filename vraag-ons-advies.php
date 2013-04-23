@@ -8,12 +8,12 @@ if($vars["websitetype"]<>3 and $vars["websitetype"]<>7) {
 }
 
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="Naam";
 $form->settings["layout"]["css"]=false;
 $form->settings["message"]["submitbutton"]["nl"]="VERZENDEN";
 #$form->settings["target"]="_blank";
- 
+
 # Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 $form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
 
@@ -55,7 +55,7 @@ $form->field_checkbox(0,"soortaccommodatie",txt("soortaccommodatie","vraagonsadv
 $form->field_select(0,"budgetindicatie",txt("budgetindicatie","vraagonsadvies"),"","",array("selection"=>$vars["budgetindicatie_keuzes"]));
 $form->field_textarea(0,"toelichting",txt("toelichting","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:2px;margin-bottom:3px;font-size:0.8em;width:480px;\">".html("toelichting_uitleg","vraagonsadvies")."</div>"));
 $form->field_text(0,"naam",txt("naam","vraagonsadvies"));
-$form->field_email(1,"emailadres",txt("emailadres","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:4px;font-size:0.8em;width:480px;\">".html("ditmailadreszalniet","vraagonsadvies")."</div>"));
+$form->field_email(1,"email",txt("emailadres","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:4px;font-size:0.8em;width:480px;\">".html("ditmailadreszalniet","vraagonsadvies")."</div>"));
 $form->field_text(0,"telefoonnummer",txt("telefoonnummer","vraagonsadvies"));
 
 $form->check_input();
@@ -68,7 +68,69 @@ if($form->filled) {
 
 if($form->okay) {
 	# Gegevens mailen
-	$form->mail($vars["email"],"","Vraag ons advies","","","",$vars["email"],"",array("replyto"=>$form->input["emailadres"]));
+
+	$body="";
+
+	if($form->input["naam"]) {
+		$body.=$form->input["naam"]."\n";
+	}
+	if($form->input["telefoonnummer"]) {
+		$body.=$form->input["telefoonnummer"]."\n";
+	}
+	$body.=$form->input["email"]."\n\n";
+
+	if($form->input["bestemming"]) {
+		$body.=txt("bestemming","vraagonsadvies").": ".$form->input["bestemming"]."\n";
+	}
+	if($form->input["verblijfsduur"]) {
+		$body.=txt("verblijfsduur","vraagonsadvies").": ".$vars["verblijfsduur"][$form->input["verblijfsduur"]]."\n";
+	}
+	if($form->input["verblijf_tussen_van"]["unixtime"]>0 and $form->input["verblijf_tussen_tot"]["unixtime"]>0) {
+		$body.=txt("verblijf_tussen_van","vraagonsadvies").": ".date("d-m-Y",$form->input["verblijf_tussen_van"]["unixtime"])." ".txt("verblijf_tussen_tot","vraagonsadvies")." ".date("d-m-Y",$form->input["verblijf_tussen_tot"]["unixtime"])."\n";
+	}
+	if($form->input["aantalvolwassenen"]) {
+		$body.=txt("aantalvolwassenen","vraagonsadvies").": ".$vars["aantalvolwassenen"][$form->input["aantalvolwassenen"]]."\n";
+	}
+	if($form->input["aantalkinderen"]) {
+		$body.=txt("aantalkinderen","vraagonsadvies").": ".$vars["aantalkinderen"][$form->input["aantalkinderen"]]."\n";
+	}
+	if($form->input["aantalslaapkamers"]) {
+		$body.=txt("aantalslaapkamers","vraagonsadvies").": ".$vars["aantalslaapkamers"][$form->input["aantalslaapkamers"]]."\n";
+	}
+	if($form->input["soortaccommodatie"]) {
+		foreach (preg_split("/,/",$form->input["soortaccommodatie"]) as $value) {
+			$soortaccommodatie.=", ".$vars["soortaccommodatie_keuzes"][trim($value)];
+		}
+		if($soortaccommodatie) {
+			$body.=txt("soortaccommodatie","vraagonsadvies").": ".substr($soortaccommodatie,2)."\n";
+		}
+	}
+	if($form->input["budgetindicatie"]) {
+		$body.=txt("budgetindicatie","vraagonsadvies").": ".$vars["budgetindicatie_keuzes"][$form->input["budgetindicatie"]]."\n";
+	}
+	if($form->input["toelichting"]) {
+		$body.=txt("toelichting","vraagonsadvies").": ".$form->input["toelichting"]."\n";
+	}
+
+	$body=preg_replace("/ /","%20",$body);
+	$body=preg_replace("/\n/","%0D%0A",$body);
+
+	$body=preg_replace("/&/","%26",$body);
+	$body=preg_replace("/\"/","%22",$body);
+	$body=preg_replace("/'/","%27",$body);
+
+	$subject=txt("mail_subject","vraagonsadvies",array("v_websitenaam"=>$vars["websitenaam"]));
+	$subject=preg_replace("/ /","%20",$subject);
+
+	$topbody="<p>Reageren op dit verzoek: <a href=\"mailto:".$form->input["email"]."?subject=".$subject."&body=".$body."\">mail sturen</a></p>";
+
+
+
+	$form->mail($vars["email"],"","Vraag ons advies","",$topbody,"",$vars["email"],"",array("replyto"=>$form->input["emailadres"]));
+
+
+	exit;
+
 }
 $form->end_declaration();
 
