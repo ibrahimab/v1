@@ -110,7 +110,7 @@ function __autoload($classname) {
 			$linenumber=$debug[0]["line"];
 		}
 
-		trigger_error("_WT_FILENAME_".$filename."_WT_FILENAME__WT_LINENUMBER_".$linenumber."_WT_LINENUMBER_class ".$classname." kan niet worden geladen (bestand ".$filename.", regel ".$linenumber.")",E_USER_NOTICE);
+		trigger_error("_WT_FILENAME_".$filename."_WT_FILENAME__WT_LINENUMBER_".$linenumber."_WT_LINENUMBER_class ".$classname." kan niet worden geladen",E_USER_NOTICE);
 		return false;
 	}
 }

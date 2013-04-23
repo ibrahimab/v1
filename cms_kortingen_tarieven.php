@@ -45,7 +45,7 @@ if($_POST["filled"]) {
 
 		if($inquery) $inquery.=",".$tid; else $inquery=$tid;
 
-		$setquery="actief='".addslashes($_POST["input"]["actief"])."', naam='".addslashes($_POST["input"]["naam"])."', type_id='".addslashes($tid)."', gekoppeld_code='".addslashes($gekoppeld_code)."', seizoen_id='".addslashes($_GET["sid"])."', van=FROM_UNIXTIME('".$van."'), tot=FROM_UNIXTIME('".$tot."'), toonexactekorting='".addslashes($_POST["input"]["toonexactekorting"])."', toon_abpagina='".addslashes($_POST["input"]["toon_abpagina"])."', toon_als_aanbieding='".addslashes($_POST["input"]["toon_als_aanbieding"])."', aanbiedingskleur='".addslashes($_POST["input"]["aanbiedingskleur"])."', onlinenaam".$vars["ttv"]."='".addslashes($_POST["input"]["onlinenaam"])."', omschrijving".$vars["ttv"]."='".addslashes($_POST["input"]["omschrijving"])."', volgorde='".addslashes($_POST["input"]["volgorde"])."', editdatetime=NOW()";
+		$setquery="actief='".addslashes($_POST["input"]["actief"])."', naam='".addslashes($_POST["input"]["naam"])."', interne_opmerkingen='".addslashes($_POST["input"]["interne_opmerkingen"])."', type_id='".addslashes($tid)."', gekoppeld_code='".addslashes($gekoppeld_code)."', seizoen_id='".addslashes($_GET["sid"])."', van=FROM_UNIXTIME('".$van."'), tot=FROM_UNIXTIME('".$tot."'), toonexactekorting='".addslashes($_POST["input"]["toonexactekorting"])."', toon_abpagina='".addslashes($_POST["input"]["toon_abpagina"])."', toon_als_aanbieding='".addslashes($_POST["input"]["toon_als_aanbieding"])."', aanbiedingskleur='".addslashes($_POST["input"]["aanbiedingskleur"])."', onlinenaam".$vars["ttv"]."='".addslashes($_POST["input"]["onlinenaam"])."', omschrijving".$vars["ttv"]."='".addslashes($_POST["input"]["omschrijving"])."', volgorde='".addslashes($_POST["input"]["volgorde"])."', editdatetime=NOW()";
 
 		if($_GET["kid"]) {
 			if($gekoppeld_code) {
@@ -257,10 +257,11 @@ if($_POST["filled"]) {
 	}
 
 	if($_GET["kid"]) {
-		$db->query("SELECT actief, naam, gekoppeld_code, UNIX_TIMESTAMP(van) AS van, UNIX_TIMESTAMP(tot) AS tot, toonexactekorting, aanbiedingskleur, toon_abpagina, toon_als_aanbieding, onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving, volgorde, xml_korting FROM korting WHERE korting_id='".addslashes($_GET["kid"])."';");
+		$db->query("SELECT actief, naam, interne_opmerkingen, gekoppeld_code, UNIX_TIMESTAMP(van) AS van, UNIX_TIMESTAMP(tot) AS tot, toonexactekorting, aanbiedingskleur, toon_abpagina, toon_als_aanbieding, onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving, volgorde, xml_korting FROM korting WHERE korting_id='".addslashes($_GET["kid"])."';");
 		if($db->next_record()) {
 			$korting["actief"]=$db->f("actief");
 			$korting["naam"]=$db->f("naam");
+			$korting["interne_opmerkingen"]=$db->f("interne_opmerkingen");
 			$korting["van"]=$db->f("van");
 			$korting["tot"]=$db->f("tot");
 			$korting["gekoppeld_code"]=$db->f("gekoppeld_code");

@@ -143,6 +143,7 @@ if($seizoen["naam"]) {
 	echo "<table cellspacing=\"0\" cellpadding=\"3\" class=\"tbl_cms_korting\">";
 	echo "<tr><td colspan=\"2\"><label><input type=\"checkbox\" name=\"input[actief]\" value=\"1\" style=\"vertical-align:middle;\"".($_GET["kid"]&&!$korting["actief"] ? "" : " checked").">&nbsp;&nbsp;Actief</label></td></tr>";
 	echo "<tr><td nowrap>Interne naam <span style=\"font-size:0.8em;\">(optioneel)</span></td><td><input type=\"text\" name=\"input[naam]\" value=\"".htmlentities($korting["naam"])."\" class=\"wtform_input\" style=\"width:400px;\"></td></tr>";
+	echo "<tr><td nowrap valign=\"top\">Interne opmerkingen <span style=\"font-size:0.8em;\">(optioneel)</span></td><td><textarea name=\"input[interne_opmerkingen]\" class=\"wtform_input\" style=\"width:400px;height:100px;\">".wt_he($korting["interne_opmerkingen"])."</textarea></td></tr>";
 
 	echo "<tr><td colspan=\"3\"><hr></td></tr>";
 	echo "<tr><td nowrap>Naam voor bezoekers <span style=\"font-size:0.8em;\">(optioneel)</span></td><td><input type=\"text\" name=\"input[onlinenaam]\" value=\"".htmlentities($korting["onlinenaam"])."\" maxlength=\"50\" class=\"wtform_input\" style=\"width:400px;\"></td></tr>";

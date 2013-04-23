@@ -21,4 +21,6 @@ if($vars["lokale_testserver"]) {
 	include "content/opmaak.php";
 }
 
+// $a = new PPPa;
+
 ?>
