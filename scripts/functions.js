@@ -819,10 +819,24 @@ $(document).ready(function() {
 
 
 			// klikken op foto's op overzicht-tab: fancybox openen
-			$(".fotopopup_tab_overzicht").click(function(){
+			$(".fotopopup_tab_overzicht").click(function() {
 				$(".fotopopup[data-teller="+$(this).data("teller")+"]").trigger("click");
 				return false;
 			});
+
+			// foto's op overzicht-tab zonder corresponderende popup: "a href" verwijderen
+			if($(".fotopopup_tab_overzicht").length!==0) {
+				$(".fotopopup_tab_overzicht").each(function(){
+					var fotopopup_tab_overzicht=this;
+					if($(".fotopopup[data-teller="+$(this).data("teller")+"]").length===0) {
+						$(fotopopup_tab_overzicht).removeClass("fotopopup_tab_overzicht");
+						// $(fotopopup_tab_overzicht).remove();
+						$(fotopopup_tab_overzicht).replaceWith(function(){
+							return $("<span>" + $(this).html() + "</span>");
+						});
+					}
+				});
+			}
 		}
 
 		if($("#submenu_zomerhuisje").length!==0) {
