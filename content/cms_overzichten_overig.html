@@ -678,11 +678,43 @@ if($_GET["t"]==1) {
 	# Overige overzichten (==9)
 	#
 
+	echo "<ul>";
+	echo "<li><a href=\"#beddenperseizoen\">Aantal aangeboden bedden per seizoen</a></li>";
+	echo "<li><a href=\"#grotegroepen\">Chalet.nl-accommodaties van 10 personen of meer die niet in het thema &quot;grote groepen&quot; vallen</a></li>";
+	echo "<li><a href=\"#grotegroepenminder\">Chalet.nl-accommodaties van minder dan 10 personen die in het thema &quot;grote groepen&quot; vallen</a></li>";
+	echo "<li><a href=\"#skigebiedensnowplaza\">Skigebieden Chalet.nl t.b.v. Snowplaza</a></li>";
+	echo "<li><a href=\"#plaatsenzomerhuisje\">Plaatsen Zomerhuisje</a></li>";
+	echo "<li><a href=\"#zomerzonderwinterkoppeling\">Zomeraccommodaties zonder winter-koppeling</a></li>";
+	echo "<li><a href=\"#geenbeoordelingen\">Winteraccommodaties zonder beoordeling</a></li>";
+	echo "<li><a href=\"#geenbeoordelingenzomer\">Zomeraccommodaties zonder beoordeling</a></li>";
+	echo "</ul>";
+	echo "<hr>";
+
+
+	# Overzicht aantal aangeboden bedden per seizoen
+	echo "<a name=\"beddenperseizoen\"></a>";
+	echo "<h2>Aantal aangeboden bedden per seizoen</h2>";
+	echo "<ul>";
+	unset($seizoengehad);
+	$db->query("SELECT seizoen_id, naam, type FROM seizoen ORDER BY type, begin;");
+	while($db->next_record()) {
+		if(!$seizoengehad[$db->f("type")]) {
+			echo "<p><i>".$vars["seizoentype_namen"][$db->f("type")].":</i></p>";
+			$seizoengehad[$db->f("type")]=true;
+		}
+		echo "<li><a href=\"cms_overzichten_overig.php?t=1&sid=".$db->f("seizoen_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+	}
+	echo "</ul>";
+	echo "</li>";
+
+
 	echo "&nbsp;";
 
 	# Accommodaties van > 10 personen die niet in thema "grote groepen" vallen
 	$db->query("SELECT type_id, accommodatie_id FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE t.websites LIKE '%C%' AND t.maxaantalpersonen>=10 AND (t.kenmerken NOT REGEXP '[[:<:]]6[[:>:]]' AND a.kenmerken NOT REGEXP '[[:<:]]6[[:>:]]') AND a.wzt=1 AND a.archief=0 AND t.tonen=1 AND a.tonen=1;");
 	if($db->num_rows()) {
+		echo "<a name=\"grotegroepen\"></a>";
+		echo "<a name=\"grotegroepen\"></a>";
 		echo "<b>Chalet.nl-accommodaties van 10 personen of meer die niet in het thema &quot;grote groepen&quot; vallen:</b></p>";
  		while($db->next_record()) {
  			$results[$vars["alletypes"][$db->f("type_id")]]="<li><a href=\"".$vars["path"]."cms_types.php?show=2&wzt=1&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
@@ -700,6 +732,7 @@ if($_GET["t"]==1) {
 	unset($results);
 	$db->query("SELECT type_id, accommodatie_id FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE t.websites LIKE '%C%' AND t.maxaantalpersonen<10 AND (t.kenmerken REGEXP '[[:<:]]6[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]6[[:>:]]') AND a.wzt=1 AND a.archief=0 AND t.tonen=1 AND a.tonen=1;");
 	if($db->num_rows()) {
+		echo "<a name=\"grotegroepenminder\"></a>";
 		echo "<b>Chalet.nl-accommodaties van minder dan 10 personen die in het thema &quot;grote groepen&quot; vallen:</b></p>";
  		while($db->next_record()) {
  			$results[$vars["alletypes"][$db->f("type_id")]]="<li><a href=\"".$vars["path"]."cms_types.php?show=2&wzt=1&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
@@ -716,7 +749,7 @@ if($_GET["t"]==1) {
 
 
 	# Overzicht alle skigebieden Chalet.nl inclusief link (t.b.v. Snowplaza - 04-01-2013)
-	echo "<h2>Overzicht skigebieden Chalet.nl t.b.v. Snowplaza</h2>";
+	echo "<a name=\"skigebiedensnowplaza\"></a><h2>Overzicht skigebieden Chalet.nl t.b.v. Snowplaza</h2>";
 	echo "<table cellspacing=\"0\" class=\"tbl\">";
 	echo "<tr><th>Skigebied</th><th>Land</th><th>URL</th></tr>";
 	$db->query("SELECT DISTINCT skigebied, land FROM view_accommodatie WHERE websites LIKE '%C%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY land, skigebied;");
@@ -728,7 +761,7 @@ if($_GET["t"]==1) {
 
 	echo "<br/><hr><br/>";
 
-	# Overzicht alle regio's van Zomerhuishe inclusief link (18-01-2013)
+	# Overzicht alle regio's van Zomerhuisje inclusief link (18-01-2013)
 	echo "<a name=\"plaatsenzomerhuisje\"></a><h2>Overzicht plaatsen Zomerhuisje</h2>";
 	echo "<table cellspacing=\"0\" class=\"tbl\">";
 	echo "<tr><th>Plaats</th><th>Regio</th><th>Land</th><th>URL</th></tr>";
@@ -741,26 +774,11 @@ if($_GET["t"]==1) {
 
 	echo "<br/><hr><br/>";
 
-	# Overzicht aantal aangeboden bedden per seizoen
-	echo "<h2>Aantal aangeboden bedden per seizoen</h2>";
-	echo "<ul>";
-	unset($seizoengehad);
-	$db->query("SELECT seizoen_id, naam, type FROM seizoen ORDER BY type, begin;");
-	while($db->next_record()) {
-		if(!$seizoengehad[$db->f("type")]) {
-			echo "<p><i>".$vars["seizoentype_namen"][$db->f("type")].":</i></p>";
-			$seizoengehad[$db->f("type")]=true;
-		}
-		echo "<li><a href=\"cms_overzichten_overig.php?t=1&sid=".$db->f("seizoen_id")."\">".htmlentities($db->f("naam"))."</a></li>";
-	}
-	echo "</ul>";
-	echo "</li>";
-
-
 	# Overzicht zomeraccommodaties zonder winter-koppeling
 	$db->query("SELECT a.accommodatie_id, a.naam, t.type_id, t.naam AS type, p.naam AS plaats, l.naam AS leverancier FROM accommodatie a, type t, plaats p, leverancier l WHERE t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.geenzomerwinterkoppeling=0 AND (zomerwinterkoppeling_accommodatie_id IS NULL OR zomerwinterkoppeling_accommodatie_id=0) AND a.wzt=2 AND a.tonen=1 AND t.tonen=1 AND a.archief=0 ORDER BY l.naam, p.naam, a.naam, t.naam;");
 	if($db->num_rows()) {
 		echo "<hr>";
+		echo "<a name=\"zomerzonderwinterkoppeling\"></a>";
 		echo "<h2>Zomeraccommodaties zonder winter-koppeling (aantal: ".$db->num_rows().")</h2>";
 		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm3\">";
 		echo "<input type=\"hidden\" name=\"winterkoppeling\" value=\"1\">";
@@ -800,6 +818,7 @@ if($_GET["t"]==1) {
 	$db->query("SELECT v.land, v.plaats, v.naam, v.begincode, v.type_id FROM view_accommodatie v WHERE v.wzt=2 AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.type_id NOT IN (".substr($inquery,1).") ORDER BY v.wzt, v.plaats, v.naam;");
 	if($db->num_rows()) {
 		unset($seizoengehad);
+		echo "<a name=\"geenbeoordelingenzomer\"></a>";
 		echo "<h3>Zomertypes waarvoor nog nooit een beoordeling is ingevuld (".$db->num_rows()." van ".$totaalaantal[2]."):</h3>";
 		echo "<ul>";
 		while($db->next_record()) {
