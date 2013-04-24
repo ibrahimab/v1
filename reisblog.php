@@ -69,7 +69,7 @@ if($_GET["b"]) {
 		# facebook opengraph aanvullende foto's
 		$d = dir($vars["unixdir"]."pic/cms/reisblog_rechts");
 		while (false !== ($entry = $d->read())) {
-			if(preg_match("/^".intval($_GET["b"])."-([0-9]+)\.jpg$/",$entry)) {
+			if(preg_match("/^".intval($_GET["b"])."-([0-9]+)\.jpg$/",$entry,$regs)) {
 				$vars["facebook_opengraph_image"][]=$vars["basehref"]."pic/cms/reisblog_rechts/".$entry;
 			}
 		}

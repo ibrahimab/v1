@@ -84,8 +84,8 @@ if($_GET["voorwaarden"]) {
 	# Aanvullende foto's
 	$d = dir($vars["unixdir"]."pic/cms/reisblog_rechts");
 	while (false !== ($entry = $d->read())) {
-		if(preg_match("/^".intval($_GET["b"])."-([0-9]+)\.jpg$/",$entry)) {
-			$foto_aanvullend[$entry]=true;
+		if(preg_match("/^".intval($_GET["b"])."-([0-9]+)\.jpg$/",$entry,$regs)) {
+			$foto_aanvullend[intval($regs[1])]=$entry;
 		}
 	}
 	$d->close();
@@ -111,7 +111,7 @@ if($_GET["voorwaarden"]) {
 				$blog_foto_aanvullend_meer=false;
 				$kolomteller=1;
 			}
-			echo "<a href=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/reisblog_rechts/".$key)."&w=800")."\" class=\"fotopopup_border".($kolomteller==2 ? " blog_foto_aanvullend_midden" : "")."\" rel=\"group1\"><img src=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/reisblog_rechts/".$key)."&w=180")."\" width=\"180\"></a>";
+			echo "<a href=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/reisblog_rechts/".$value)."&w=800")."\" class=\"fotopopup_border".($kolomteller==2 ? " blog_foto_aanvullend_midden" : "")."\" rel=\"group1\"><img src=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/reisblog_rechts/".$value)."&w=180")."\" width=\"180\"></a>";
 		}
 		if($fototeller>=4) {
 			echo "</div>"; # afsluiten #blog_foto_aanvullend_meer
