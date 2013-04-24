@@ -71,7 +71,8 @@ class DB_Sql {
 					$GLOBALS["mysqlsettings"]["host"]="127.0.0.1";
 				}
 				if ( ( $_SERVER["HTTP_HOST"]=="vpn.postvak.net" or $_SERVER["HTTP_HOST"]=="vpnonline.postvak.net" ) ) {
-					$GLOBALS["mysqlsettings"]["host"]="127.0.0.1:13306";
+#					$GLOBALS["mysqlsettings"]["host"]="127.0.0.1:13306";
+					$GLOBALS["mysqlsettings"]["host"]="127.0.0.1";
 				}
 				$GLOBALS["mysqlsettings"]["user"]="dbmysql";
 				$GLOBALS["mysqlsettings"]["password"]="sh47fm9G";
