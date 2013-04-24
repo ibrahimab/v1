@@ -3232,12 +3232,17 @@ if($resultaten_tonen) {
 		$startresult=(($_GET["page"]-1)*$vars["resultsperpage"])+1;
 		if(count($results)>($startresult+$vars["resultsperpage"]-1)) $endresult=$startresult+$vars["resultsperpage"]-1; else $endresult=count($results);
 
+		// bepalen of de balk "Aantal accommodaties voor 2013/2014 met tarieven" getoond moet worden: alleen tonen als het formulier leeg is
+		if(!$_GET["filled"] or (!$_GET["fsg"] and !$_GET["fad"] and !$_GET["fap"] and !$_GET["fdu"] and !$_GET["fzt"] and !$_GET["scrolly"] and $_GET["scrolly"]<>"0" and $_GET["referer"])) {
+			$toon_aantalaccommodatiesmettarieven=true;
+		}
+
 #		echo "<div style=\"height:13px;\"></div>";
 		if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_vallandrychalets"] or $vars["zoekform_italissima_nieuwe_tarieven"]) {
 			#
 			# Thema-pagina's (of pagina 'tarieven nieuw seizoen'): aantal accommodaties tonen
 			#
-			if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and !$_GET["filled"]) {
+			if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $totaal_tarievenbekend_seizoen_id and $toon_aantalaccommodatiesmettarieven) {
 				$totaal_tarievenbekend_percentage=round(($toon_aantalresultaten_verschillende_types/$totaal_tarievenbekend_seizoen_id)*100);
 				if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
 				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
@@ -3251,7 +3256,7 @@ if($resultaten_tonen) {
 			#
 			# Balk met tekst "Aantal accommodaties voor [nieuw seizoen] met tarieven: X (= X% van ons totale aanbod)"
 			#
-			if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and (@filemtime($unixdir."cache/tarievenbekend_".$vars["website"].".txt")>(time()-86400) or $vars["lokale_testserver"]) and !$_GET["filled"]) {
+			if($vars["zoekformulier_weinig_tarieven"] and $vars["seizoentype"]==1 and (@filemtime($unixdir."cache/tarievenbekend_".$vars["website"].".txt")>(time()-86400) or $vars["lokale_testserver"]) and $toon_aantalaccommodatiesmettarieven) {
 				#
 				# melding "Aantal accommodaties met tarieven: xxx (= xx% van ons totale winteraanbod)" tonen
 				#
