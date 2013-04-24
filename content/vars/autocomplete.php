@@ -80,7 +80,7 @@ if($vars["taal"]=="nl") {
 
 		$autocomplete["golfbaan of max. 20 km"][] = "vf_kenm2=1";
 
-
+		$autocomplete["agriturismo"][] = "vf_kenm38=1";
 
 
 
