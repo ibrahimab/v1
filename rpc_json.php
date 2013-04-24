@@ -147,6 +147,7 @@ if ( $_GET["t"]==1 ) {
 		# Vallandry: ook typenaam doorzoeken
 		$andquery1=$search->regexpquery( array( "naam", "tnaam" ) );
 	} else {
+		# andere sites: alleen accommodatienaam doorzoeken
 		$andquery1=$search->regexpquery( array( "naam") );
 	}
 #	$andquery2=$search->regexpquery( array( "plaats", "plaats_altnaam" ) );
@@ -176,9 +177,35 @@ if ( $_GET["t"]==1 ) {
 		}
 	}
 
-	if ( is_array( $woorden_autocomplete ) ) {
-		while ( list( $key, $value )=each( $woorden_autocomplete ) ) {
+	#
+	# Tekst-verfijningen
+	#
+	function verfijning_tekst_opschonen($text,$search_query=false) {
+		# haal accenten, streepjes, punten weg uit zoekopdracht t.b.v. een betere match
 
+		$text=wt_stripaccents($text);
+		$text=preg_replace("/[-\.\/]/","",$text);
+		$text=trim($text);
+		$text=strtolower($text);
+
+		# algemene woorden weglaten
+		$ignore_words=array("met","bij","de");
+		while(list($key,$value)=each($ignore_words)) {
+			$text=trim(preg_replace("/\b".$value."\b/","",$text));
+		}
+		$text=trim($text);
+
+		return $text;
+	}
+	include($vars["unixdir"]."content/vars/autocomplete.php");
+	$_GET["q"]=verfijning_tekst_opschonen($_GET["q"],true);
+	if(strlen($_GET["q"])>0) {
+		if ( is_array( $autocomplete ) ) {
+			while ( list( $key, $value )=each( $autocomplete ) ) {
+				if(strpos("-".verfijning_tekst_opschonen($key),$_GET["q"])!==false) {
+					$results[$key]=true;
+				}
+			}
 		}
 	}
 

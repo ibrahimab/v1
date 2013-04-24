@@ -17,9 +17,26 @@ if($_GET["fzt"]==html("zoekoptekst","index")) {
 	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
 	$_GET["fzt"]="";
 }
+
+
+# Tekstzoeken: termen omzetten naar verfijningen
+include($vars["unixdir"]."content/vars/autocomplete.php");
+if ( is_array( $autocomplete ) ) {
+	while ( list( $key, $value )=each( $autocomplete ) ) {
+		if(strpos("-".$_GET["fzt"],$key)!==false) {
+			$_GET["fzt"]=str_replace($key,"",$_GET["fzt"]);
+			while(list($key2,$value2)=each($value)) {
+				$split=explode("=",$value2);
+				$_GET[$split[0]]=$split[1];
+			}
+		}
+	}
+}
+
 if(strlen($_GET["fzt"])>0) {
 	$_GET["fzt"]=trim($_GET["fzt"]);
 }
+
 
 # voor CMS-gebruikers: zowel Chalet.nl als SuperSki doorzoeken
 if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and ($_GET["allesites"] or !$_GET["filled"])) {

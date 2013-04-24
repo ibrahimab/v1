@@ -1439,7 +1439,7 @@ $(document).ready(function() {
 			}
 
 			//
-			// autocomplete zoekformulier
+			// autocomplete zoekformulier zoek-en-boek
 			//
 			$( "input[name=fzt]" ).autocomplete({
 				source: function( request, response ) {
@@ -1663,7 +1663,7 @@ $(document).ready(function() {
 			}
 		});
 
-		// zoek-en-boek links: link selecteer bestemming
+		// snelzoeken zoek-en-boek links: link selecteer bestemming
 		$(".zoekenboek_invulveld_bestemming").click(function(){
 			$("input[name=selb]").val("1");
 
@@ -1711,9 +1711,9 @@ $(document).ready(function() {
 		})
 
 		//
-		// autocomplete zoekformulier
+		// autocomplete snelzoeken
 		//
-		$( ".tekstzoeken" ).autocomplete({
+		$( ".tekstzoeken, .tekstzoeken_geen_chosen_layout" ).autocomplete({
 			source: function( request, response ) {
 				$.ajax({
 					url: absolute_path+"rpc_json.php",
