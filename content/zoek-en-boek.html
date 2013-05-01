@@ -23,7 +23,7 @@ if($_GET["fzt"]==html("zoekoptekst","index")) {
 include($vars["unixdir"]."content/vars/autocomplete.php");
 if ( is_array( $autocomplete ) ) {
 	while ( list( $key, $value )=each( $autocomplete ) ) {
-		if(strpos("-".$_GET["fzt"],$key)!==false) {
+		if($_GET["fzt"]==$key) {
 			$_GET["fzt"]=str_replace($key,"",$_GET["fzt"]);
 			while(list($key2,$value2)=each($value)) {
 				$split=explode("=",$value2);

@@ -183,13 +183,19 @@ if ( $_GET["t"]==1 ) {
 	function verfijning_tekst_opschonen($text,$search_query=false) {
 		# haal accenten, streepjes, punten weg uit zoekopdracht t.b.v. een betere match
 
+		global $vars;
+
 		$text=wt_stripaccents($text);
 		$text=preg_replace("/[-\.\/]/","",$text);
 		$text=trim($text);
 		$text=strtolower($text);
 
 		# algemene woorden weglaten
-		$ignore_words=array("met","bij","de");
+		if($vars["taal"]=="en") {
+			$ignore_words=array("on","at","the","with");
+		} else {
+			$ignore_words=array("met","bij","de");
+		}
 		while(list($key,$value)=each($ignore_words)) {
 			$text=trim(preg_replace("/\b".$value."\b/","",$text));
 		}
