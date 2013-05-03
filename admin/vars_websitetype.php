@@ -76,7 +76,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["taal"]="en";
 	$vars["websiteland"]="en";
 	$vars["ttv"]="_en";
-	$vars["basehref"]="http://www.chalet.eu/";
+	$vars["basehref"]="https://www.chalet.eu/";
 	$vars["email"]="info@chalet.eu";
 	$path="/";
 	$vars["googleanalytics"]="UA-2078202-6";
@@ -247,7 +247,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	if(ereg("chalet\.nl",$_SERVER["HTTP_HOST"])) {
 		header("Location: http://www.chalet.nl/");
 	} elseif(ereg("chalet\.eu",$_SERVER["HTTP_HOST"])) {
-		header("Location: http://www.chalet.eu/");
+		header("Location: https://www.chalet.eu/");
 	} else {
 		header("Location: http://www.chalet.nl/");
 	}

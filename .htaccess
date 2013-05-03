@@ -50,6 +50,15 @@ RewriteRule ^chalet/(.*)$ /chalet/$1 [R=301,L]
 RewriteRule ^index\.php$ / [R=301,L]
 
 
+
+#
+# niet-https doorsturen naar https
+#
+RewriteCond %{HTTP_HOST} chalet\.eu [NC]
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=301]
+
+
 #
 # zonder www doorsturen naar met www
 #
@@ -68,7 +77,7 @@ RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalet\.eu [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.chalet.eu/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalettour\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalettour\.nl [NC]
