@@ -57,7 +57,7 @@ if($db->num_rows()) {
 	while($db->next_record()) {
 
 		# aantal accommodaties opvragen
-		$db2->query("SELECT count(t.type_id) AS aantal FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE a.weekendski=0 AND t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.skigebied_id='".$db->f("skigebied_id")."' AND l.land_id='".$db->f("land_id")."' GROUP BY l.land_id, s.skigebied_id;");
+		$db2->query("SELECT COUNT(t.type_id) AS aantal FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE a.weekendski=0 AND t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.skigebied_id='".$db->f("skigebied_id")."' AND l.land_id='".$db->f("land_id")."' GROUP BY l.land_id, s.skigebied_id;");
 #		echo $db2->lastquery."<hr>";
 		if($db2->next_record()) {
 			$aantal_acc=$db2->f("aantal");

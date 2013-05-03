@@ -1312,10 +1312,14 @@ if($db->next_record()) {
 
 	if($_GET["back"]) {
 		echo "<a href=\"";
-		if(preg_match("/^http/",$_GET["back"])) {
+		if(preg_match("/^https?/",$_GET["back"])) {
 			echo wt_he($_GET["back"]);
 		} else {
-			echo "http://".$_SERVER["HTTP_HOST"].wt_he($_GET["back"]);
+			if($_SERVER["HTTPS"]=="on") {
+				echo "https://".$_SERVER["HTTP_HOST"].wt_he($_GET["back"]);
+			} else {
+				echo "http://".$_SERVER["HTTP_HOST"].wt_he($_GET["back"]);
+			}
 		}
 		if($_GET["cnt"]) {
 			echo "#cnt".$_GET["cnt"];
