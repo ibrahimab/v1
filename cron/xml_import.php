@@ -860,7 +860,7 @@ while(list($key,$value)=@each($xml_urls)) {
 					foreach($xml->property as $property) {
 
 						$use_key=trim($property->object->objectCode);
-						echo $use_key."\n";
+						// echo $use_key."\n";
 
 						foreach($property->object->freePeriod as $freePeriod) {
 

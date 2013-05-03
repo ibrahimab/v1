@@ -1,0 +1,200 @@
+<style>
+
+.foto_import {
+	float: left;
+	margin-left: 10px;
+	margin-bottom: 10px;
+	padding: 5px;
+	border: 1px solid #cccccc;
+}
+
+.foto_import select {
+
+}
+
+.foto_import img {
+	display: block;
+	width: 300px;
+	margin-bottom: 5px;
+}
+
+.foto_width_height {
+
+}
+
+</style>
+
+<script>
+$(document).ready(function() {
+	$(".foto_import img").load(function() {
+
+		var img = $(this); // Get my img elem
+		var pic_real_width, pic_real_height;
+		$("<img/>") // Make in memory copy of image to avoid css issues
+			.attr("src", $(img).attr("src"))
+			.load(function() {
+				pic_real_width = this.width;   // Note: $(this).width() will not
+				pic_real_height = this.height; // work for in memory images.
+				$("span[data-fotoid="+img.data("fotoid")+"]").html(pic_real_width+" x "+pic_real_height+" pixels");
+		});
+	});
+});
+</script>
+
+<?php
+
+
+if($_GET["lev"]==362) {
+
+	if($_POST["imageimport"]) {
+		// echo wt_dump($_POST);
+		echo "De volgende foto's zijn ge&iuml;mporteerd:<ul>";
+		foreach ($_POST["foto"] as $key => $value) {
+			asort($value);
+			$teller=intval($_POST["bestaande_foto_teller"][$key]);
+			foreach ($value as $key2 => $value2) {
+				if($value2>0) {
+					$teller++;
+					echo "<li>".$key2."</li>";
+
+					$foto_data=file_get_contents($key2);
+					file_put_contents($vars["unixdir"]."pic/cms/accommodaties_aanvullend/".$key."-".$teller.".jpg",$foto_data);
+				}
+			}
+		}
+		echo "</ul>";
+
+		echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"])."\">Terug naar foto-overzicht</a></p>";
+	} else {
+
+		#
+		# Foto-import Ville in Italia
+		#
+
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+
+			$response_acc_codes=file_get_contents("/tmp/ville_in_italia_avail.xml");
+			$resultStatus_acc_codes["http_code"]=200;
+
+			$response=file_get_contents("/tmp/ville_in_italia_pic.xml");
+			$resultStatus["http_code"]=200;
+
+		} else {
+
+			$curl = curl_init("https://secure.villeinitalia.com/protAgency/AvailableFile.jsp");
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_USERPWD, "italissima:italissima2144");
+			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+
+			$response_acc_codes = curl_exec($curl);
+			$resultStatus_acc_codes = curl_getinfo($curl);
+
+			unset($curl);
+
+
+			$curl = curl_init("https://secure.villeinitalia.com/protAgency/PhotoPaths.jsp");
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_USERPWD, "italissima:italissima2144");
+			curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+
+			$response = curl_exec($curl);
+			$resultStatus = curl_getinfo($curl);
+		}
+
+		if($resultStatus["http_code"] == 200 and $resultStatus_acc_codes["http_code"] == 200) {
+
+			$xml = simplexml_load_string($response_acc_codes);
+
+			foreach($xml->property as $property) {
+				$acccode=trim($property->propertyName->attributes()->id);
+				$typecode=trim($property->object->objectCode);
+				$inquery_typecode.=",'".addslashes($typecode)."'";
+				$koppeling_acc_type[$typecode]=$acccode;
+			}
+
+			$xml = simplexml_load_string($response);
+			foreach($xml->property as $property) {
+				// echo $property->attributes()->id;
+				foreach($property->photo as $photo) {
+					// echo $photo->photoPath."<br>";
+					$photo_acc[trim($property->attributes()->id)][]=trim($photo->photoPath);
+				}
+			}
+
+			// alle accommodaties tonen
+			if($inquery_typecode) {
+
+				echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
+				echo "<input type=\"hidden\" name=\"imageimport\" value=\"1\">";
+				$db->query("SELECT accommodatie_id, tleverancierscode, naam, plaats, skigebied FROM view_accommodatie WHERE leverancier_id='".intval($_GET["lev"])."' AND tleverancierscode IN (".substr($inquery_typecode,1).") GROUP BY accommodatie_id ORDER BY skigebied, plaats, naam;");
+				while($db->next_record()) {
+					echo "<p><b>".wt_he($db->f("skigebied").", ".$db->f("plaats")." - ".$db->f("naam"))."</b></p>";
+
+					unset($bestaande_foto,$bestaande_foto_teller);
+					$d = dir($vars["unixdir"]."pic/cms/accommodaties_aanvullend/");
+					while (false !== ($entry = $d->read())) {
+						if(preg_match("/^".$db->f("accommodatie_id")."-([0-9]+)\.jpg$/",$entry,$regs)) {
+							$bestaande_foto[intval($regs[1])]=$entry;
+						}
+					}
+					$d->close();
+
+					if(is_array($bestaande_foto)) {
+						ksort($bestaande_foto);
+						echo "<div style=\"background-color:#ebebeb;\">";
+						echo "<p><b><i>&nbsp;Al aanwezige foto's</i></b></p>";
+						foreach ($bestaande_foto as $key => $value) {
+							echo "<div class=\"foto_import\"><img src=\"".wt_he($vars["unixdir"]."pic/cms/accommodaties_aanvullend/".$value)."\" title=\"".wt_he("pic/cms/accommodaties_aanvullend/".$value)."\" data-fotoid=\"".preg_replace("/\.jpg/","",$value)."\">";
+							echo "<span class=\"foto_width_height\" data-fotoid=\"".preg_replace("/\.jpg/","",$value)."\">&nbsp;</span>";
+							echo "</div>";
+							$bestaande_foto_teller++;
+						}
+						echo "<div style=\"clear:both;\"></div>";
+						echo "</div>";
+					}
+
+
+					if(is_array($photo_acc[$koppeling_acc_type[$db->f("tleverancierscode")]])) {
+
+						echo "<p><b><i>Nieuwe foto's</i></b></p>";
+
+						echo "<div class=\"nieuwe_fotos\">";
+
+						echo "<input type=\"hidden\" name=\"bestaande_foto_teller[".$db->f("accommodatie_id")."]\" value=\"".intval($bestaande_foto_teller)."\">";
+
+						foreach ($photo_acc[$koppeling_acc_type[$db->f("tleverancierscode")]] as $key => $value) {
+							echo "<div class=\"foto_import\"><img src=\"".wt_he($value)."\" data-fotoid=\"".$db->f("accommodatie_id")."-".intval(1+$key+$bestaande_foto_teller)."\">";
+							echo "<select name=\"foto[".$db->f("accommodatie_id")."][".wt_he($value)."]\">";
+							echo "<option value=\"\">niet importeren</option>";
+							for($i=1+$bestaande_foto_teller;$i<=count($photo_acc[$koppeling_acc_type[$db->f("tleverancierscode")]])+$bestaande_foto_teller;$i++) {
+								echo "<option value=\"".$i."\">volgorde ".$i."</option>";
+							}
+							echo "</select>";
+
+							echo "&nbsp;<span class=\"foto_width_height\" data-fotoid=\"".$db->f("accommodatie_id")."-".intval(1+$key+$bestaande_foto_teller)."\"></span>";
+
+							echo "</div>";
+						}
+						echo "<div style=\"clear:both;\"></div>";
+						echo "</div>"; # afsluiten .nieuwe_fotos
+
+					}
+					echo "<hr>";
+
+					// break;
+
+				}
+				echo "<p><input type=\"submit\" value=\" Foto's importeren \"></p>";
+				echo "</form>";
+			}
+		} else {
+			echo "Call Failed <pre>".print_r($resultStatus_acc_codes)."<hr>".print_r($resultStatus);
+		}
+	}
+
+}
+?>

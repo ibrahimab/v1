@@ -90,6 +90,12 @@ if($_GET["schoonmaakkosten"]) {
 
 				echo "</ul><hr>";
 			}
+			# Afbeeldingen importeren
+			if($_GET["8k0"]==362) {
+				echo "<b>XML-import foto's</b><ul>";
+				echo "<li><a href=\"cms_xml_imageimport.php?lev=".intval($_GET["8k0"])."\">Overzicht van te importeren foto's</i></li>";
+				echo "</ul><hr>";
+			}
 
 			# Roominglists
 			echo "<form method=\"get\" action=\"cms_overzichten_print.php\">";
