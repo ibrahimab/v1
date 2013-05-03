@@ -154,7 +154,7 @@ if($plaatsid) {
 	header("HTTP/1.0 404 Not Found");
 	unset($vars["canonical"]);
 	$robot_noindex=true;
-	trigger_error("_notice: plaats niet beschikbaar",E_USER_NOTICE);
+	// trigger_error("_notice: plaats niet beschikbaar",E_USER_NOTICE);
 }
 
 # Foto en landkaart

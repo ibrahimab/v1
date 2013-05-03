@@ -102,15 +102,17 @@ function __autoload($classname) {
 		require_once $vars["unixdir"]."admin/siteclass.".$classname . ".php";
 		return true;
 	} else {
+		if($classname!="MYPDF") {
 
-		$debug=@debug_backtrace();
+			$debug=@debug_backtrace();
 
-		if ( is_array( $debug ) ) {
-			$filename=$debug[0]["file"];
-			$linenumber=$debug[0]["line"];
+			if ( is_array( $debug ) ) {
+				$filename=$debug[0]["file"];
+				$linenumber=$debug[0]["line"];
+			}
+			trigger_error("_WT_FILENAME_".$filename."_WT_FILENAME__WT_LINENUMBER_".$linenumber."_WT_LINENUMBER_class ".$classname." kan niet worden geladen",E_USER_NOTICE);
+
 		}
-
-		trigger_error("_WT_FILENAME_".$filename."_WT_FILENAME__WT_LINENUMBER_".$linenumber."_WT_LINENUMBER_class ".$classname." kan niet worden geladen",E_USER_NOTICE);
 		return false;
 	}
 }

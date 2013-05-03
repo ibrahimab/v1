@@ -143,12 +143,12 @@ if($_POST["filled"]) {
 			unset($seizoen,$acc,$skipas);
 			$_GET["tid"]=$tid;
 			include("cms_tarieven.php");
-			reset($seizoen["weken"]);
+			@reset($seizoen["weken"]);
 			if($toonper==1) {
 				# bij arrangementen: tarief_personen wissen
 				$db4->query("DELETE FROM tarief_personen WHERE type_id='".$tid."' AND seizoen_id='".addslashes($_GET["sid"])."';");
 			}
-			while(list($key,$value)=each($seizoen["weken"])) {
+			while(list($key,$value)=@each($seizoen["weken"])) {
 				if($toonper==1) {
 					# toonper=1 (arrangementen): tarief per persoon opslaan
 					while(list($key2,$value2)=@each($value["verkoop_site"])) {

@@ -242,7 +242,13 @@ class wt_mail {
 		global $vars;
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"]))) $this->test=true;
 		$this->send_mail=true;
-		if($_SERVER["HTTPS"]<>"on" or $vars["wt_mail_https_bcc"]) $this->send_bcc=true;
+		if($_SERVER["HTTPS"]<>"on" or $vars["wt_mail_https_bcc"]) {
+			if(WT_mail_no_send_bcc===true) {
+
+			} else {
+				$this->send_bcc=true;
+			}
+		}
 		$this->bgcolor="#FFFFFF";
 		$this->fontface="Verdana, Arial, Helvetica, sans-serif";
 		$this->fontsize="12px";
