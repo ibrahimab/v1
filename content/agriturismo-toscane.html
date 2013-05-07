@@ -7,7 +7,7 @@ echo "<h2 style=\"margin-bottom:10px;\">".wt_he("Agriturismo Toscane")."</h2>";
 
 echo "<img src=\"".$vars["path"]."pic/agriturismo_toscane.jpg\" width=\"250\" style=\"float:left;margin-bottom:10px;margin-right:10px;\">";
 echo "<p>".wt_he("Toscane wordt gezien als één van de mooiste gebieden van Italië. Dit komt door het rijke cultuurhistorische erfgoed én de schitterende natuur met de glooiende heuvels en de zo kenmerkende cipressen. Onze agriturismi in Toscane zijn een ideale uitvalsbasis om bekende plaatsen als Florence, Siena, Pisa, Lucca en San Gimignano te verkennen. Vergeet hierbij ook absoluut de Chianti wijnstreek niet! Dus wil je wegblijven van het massa-toerisme, maar toch op rij-afstand zijn van de culturele en historische trekpleisters van Toscane, dan is een verblijf op een agriturismo ideaal!")."</p>";
-echo "<p>".wt_he("agriturismi vind je in principe door heel Italië maar vooral de regio Toscane staat er bekend om. Hier hebben wij dan ook een uitgebreid aanbod. Onze agriturismi zijn over de hele regio Toscane verdeeld. Vrijwel al onze agriturismi beschikken over een zwembad en je kunt in veel gevallen de ter plekke verbouwde producten, meestal wijn en olijfolie, van de agriturismo proeven en/of kopen.")."</p>";
+echo "<p>".wt_he("Agriturismi vind je in principe door heel Italië maar vooral de regio Toscane staat er bekend om. Hier hebben wij dan ook een uitgebreid aanbod. Onze agriturismi zijn over de hele regio Toscane verdeeld. Vrijwel iedere agritursimo beschikt over een zwembad en je kunt in veel gevallen de ter plekke verbouwde producten, meestal wijn en olijfolie, van de agriturismo proeven en/of kopen.")."</p>";
 echo "<div style=\"clear: both;\"></div>\n";
 echo "</div>";
 
@@ -35,7 +35,7 @@ if($inquery) {
 	$db2->query("SELECT accommodatie_id, type_id, naam, skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
 	while($db2->next_record()) {
 		$accurl=$vars["path"]."accommodatie/".$db2->f("begincode").$db2->f("type_id")."/";
-	
+
 		$file="pic/cms/types_specifiek/".$db2->f("type_id").".jpg";
 		if(!file_exists($file)) {
 			$file="pic/cms/accommodaties/".$db2->f("accommodatie_id").".jpg";
@@ -51,7 +51,7 @@ if($inquery) {
 			echo "<div class=\"skigebied_opval_regel1\">".wt_he($db2->f("plaats"))."</div>";
 #						echo "<div class=\"skigebied_opval_regel2\">".wt_he($db2->f("plaats"))."</div>";
 			echo "<div class=\"overlay_foto\">";
-		
+
 			echo "<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\">";
 			echo "<div class=\"skigebied_opval_regel3\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$db2->f("naam"))."</div>";
 			echo "</div>";

@@ -11,7 +11,7 @@ echo "<div style=\"clear: both;\"></div>\n";
 echo "</div>";
 
 echo "<h2>".wt_he("Onze agriturismi in Italië")."</h2>";
-echo "<p>".wt_he("Italissima beschikt over een gevarieerd aanbod van vakantiehuizen op agriturismi door heel Italië. Let hierbij ook op de uitstekende prijs/kwaliteitsverhouding van een agriturismo! Vrijwel al onze agriturismi beschikken over een zwembad en je kunt in veel gevallen de ter plekke verbouwde producten, meestal wijn en olijfolie, van de agriturismo proeven en/of kopen.")."</p>";
+echo "<p>".wt_he("Italissima beschikt over een gevarieerd aanbod van vakantiehuizen op agriturismi door heel Italië. Let hierbij ook op de uitstekende prijs/kwaliteitsverhouding van een agriturismo! Vrijwel iedere agritursimo beschikt over een zwembad en je kunt in veel gevallen de ter plekke verbouwde producten, meestal wijn en olijfolie, van de agriturismo proeven en/of kopen.")."</p>";
 
 
 echo "<h3>".wt_he("Kortom: wat maakt een agriturismo in Italië zo bijzonder?")."</h3>";
@@ -33,7 +33,7 @@ if($inquery) {
 	$db2->query("SELECT accommodatie_id, type_id, naam, skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
 	while($db2->next_record()) {
 		$accurl=$vars["path"]."accommodatie/".$db2->f("begincode").$db2->f("type_id")."/";
-	
+
 		$file="pic/cms/types_specifiek/".$db2->f("type_id").".jpg";
 		if(!file_exists($file)) {
 			$file="pic/cms/accommodaties/".$db2->f("accommodatie_id").".jpg";
@@ -49,7 +49,7 @@ if($inquery) {
 			echo "<div class=\"skigebied_opval_regel1\">".wt_he($db2->f("skigebied"))."</div>";
 #						echo "<div class=\"skigebied_opval_regel2\">".wt_he($db2->f("plaats"))."</div>";
 			echo "<div class=\"overlay_foto\">";
-		
+
 			echo "<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\">";
 			echo "<div class=\"skigebied_opval_regel3\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$db2->f("naam"))."</div>";
 			echo "</div>";

@@ -477,8 +477,8 @@ echo "</div>"; # afsluiten .footer_met_links_blok
 echo "<div class=\"footer_met_links_blok\">";
 echo "<br><b>Onze bestemmingen</b><br><br>";
 
-$footer_opsomming["agriturismo-italie"]="Agriturismi in Italië";
-$footer_opsomming["agriturismo-toscane"]="Agriturismi in Toscane";
+$footer_opsomming["agriturismo-italie"]="Agriturismi Italië";
+$footer_opsomming["agriturismo-toscane"]="Agriturismi Toscane";
 $footer_opsomming["regio/Basilicata/"]="Vakantiehuizen in Basilicata";
 $footer_opsomming["regio/Campanie/"]="Vakantiehuizen in Campanië";
 $footer_opsomming["regio/Dolomieten/"]="Vakantiehuizen in Dolomieten";
