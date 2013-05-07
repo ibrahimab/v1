@@ -77,6 +77,7 @@ if($form->okay) {
 	if($form->input["telefoonnummer"]) {
 		$body.=$form->input["telefoonnummer"]."\n";
 	}
+	$body.="\n";
 
 	if($form->input["bestemming"]) {
 		$body.=txt("bestemming","vraagonsadvies").": ".$form->input["bestemming"]."\n";
@@ -107,28 +108,34 @@ if($form->okay) {
 	if($form->input["budgetindicatie"]) {
 		$body.=txt("budgetindicatie","vraagonsadvies").": ".$vars["budgetindicatie_keuzes"][$form->input["budgetindicatie"]]."\n";
 	}
+
+	$body_kort=$body;
+
+
 	if($form->input["toelichting"]) {
 		$body.=txt("toelichting","vraagonsadvies").": ".$form->input["toelichting"]."\n";
 	}
 
 	$body=preg_replace("/ /","%20",$body);
 	$body=preg_replace("/\n/","%0D%0A",$body);
-
 	$body=preg_replace("/&/","%26",$body);
 	$body=preg_replace("/\"/","%22",$body);
 	$body=preg_replace("/'/","%27",$body);
+
+	$body_kort=preg_replace("/ /","%20",$body_kort);
+	$body_kort=preg_replace("/\n/","%0D%0A",$body_kort);
+	$body_kort=preg_replace("/&/","%26",$body_kort);
+	$body_kort=preg_replace("/\"/","%22",$body_kort);
+	$body_kort=preg_replace("/'/","%27",$body_kort);
 
 	$subject=txt("mail_subject","vraagonsadvies",array("v_websitenaam"=>$vars["websitenaam"]));
 	$subject=preg_replace("/ /","%20",$subject);
 
 	$topbody="<p>Reageren op dit verzoek: <a href=\"mailto:".$form->input["email"]."?subject=".$subject."&body=".$body."\">mail sturen</a></p>";
-
+	$topbody.="<p>Reageren (korte versie): <a href=\"mailto:".$form->input["email"]."?subject=".$subject."&body=".$body_kort."\">mail sturen</a></p>";
 
 
 	$form->mail($vars["email"],"","Vraag ons advies","",$topbody,"",$vars["email"],"",array("replyto"=>$form->input["emailadres"]));
-
-
-	exit;
 
 }
 $form->end_declaration();

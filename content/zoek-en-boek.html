@@ -1911,22 +1911,29 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					$sorteer.=$koppeling[$db->f("skigebied_id")];
 				}
 
-				# accommodaties zonder tarief: onderaan
-				if($vanaf_prijzen_tonen) {
-					if($tarief_float>0) {
-						$sorteer.="1";
-					} else {
-						$sorteer.="9";
-					}
-				}
-
 				if($_GET["sort"]==1 or !$_GET["sort"]) {
 					# standaard-sortering
 
 					# Sorteren in geval van tekst-zoeken
 					if($_GET["fzt"]) {
-						if(strpos(" ".strtolower(wt_stripaccents($db->f("naam")." ".$db->f("tnaam"))),strtolower(wt_stripaccents($_GET["fzt"])))) {
+						$temp_naam_acc=trim(strtolower(wt_stripaccents($db->f("naam")." ".$db->f("tnaam"))));
+						if($temp_naam_acc==strtolower(wt_stripaccents($_GET["fzt"]))) {
+							# zoektekst is exacte de naam van accommodatie/type
+							$sorteer.="1";
+						} elseif(substr($temp_naam_acc,0,strlen($_GET["fzt"]))==strtolower(wt_stripaccents($_GET["fzt"]))) {
+							# zoektekst begint met de naam van accommodatie/type
+							$sorteer.="2";
+						} elseif(strpos(" ".$temp_naam_acc,strtolower(wt_stripaccents($_GET["fzt"])))) {
 							# zoektekst komt in naam accommodatie/type voor
+							$sorteer.="3";
+						} else {
+							$sorteer.="9";
+						}
+					}
+
+					# accommodaties zonder tarief: onderaan
+					if($vanaf_prijzen_tonen) {
+						if($tarief_float>0) {
 							$sorteer.="1";
 						} else {
 							$sorteer.="9";
@@ -1960,9 +1967,29 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					$sorteer.=$zoekvolgorde."-";
 				} elseif($_GET["sort"]==2) {
 					# prijs oplopend
+
+					# accommodaties zonder tarief: onderaan
+					if($vanaf_prijzen_tonen) {
+						if($tarief_float>0) {
+							$sorteer.="1";
+						} else {
+							$sorteer.="9";
+						}
+					}
+
 					$sorteer.=substr("0000000".number_format($tarief_float,2,"",""),-7)."-";
 				} elseif($_GET["sort"]==3) {
 					# prijs aflopend
+
+					# accommodaties zonder tarief: onderaan
+					if($vanaf_prijzen_tonen) {
+						if($tarief_float>0) {
+							$sorteer.="1";
+						} else {
+							$sorteer.="9";
+						}
+					}
+
 					$sorteer.=1000000-$tarief_float;
 				}
 				# ook nog altijd relevantie toevoegen
