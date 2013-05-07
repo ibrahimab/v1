@@ -82,7 +82,7 @@ if(is_array($_GET)) {
 }
 
 #
-# Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [47] (eerst beschikbare: 48)
+# Verfijnd zoeken: gebleven bij $keuzeopsomming-teller [58] (eerst beschikbare: 59)
 #
 if($vars["seizoentype"]==1) {
 	#
@@ -216,18 +216,26 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[3]["name"]="soortaccommodatie";
 		$keuzeopsomming[3]["verfijndname"]="kenmerken";
 		$keuzeopsomming[3]["getname"]="vf_kenm";
+
 		$keuzeopsomming[3]["fields"]=array(
-			"agriturismo"=>38,
-			"vrijstaandhuis"=>12,
-			"vrijstaandhuismetmeerdere"=>13,
-			"geschakeldewoning"=>14,
-			"kleinschaligvakantiepark"=>48,
+			"appartement"=>51,
+			"vakantiehuis"=>52,
+			"villa"=>53,
+			"kasteel"=>54,
+			"vakantiepark"=>55,
+			"agriturismo"=>56,
+			"domein"=>57,
+			"vrijstaand"=>58,
 		);
-		$keuzeopsomming[3]["addwhere"][12][]="(t.kenmerken REGEXP '[[:<:]]2[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]22[[:>:]]')";
-		$keuzeopsomming[3]["addwhere"][13][]="(t.kenmerken REGEXP '[[:<:]]15[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]27[[:>:]]')";
-		$keuzeopsomming[3]["addwhere"][14][]="(t.kenmerken REGEXP '[[:<:]]14[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]23[[:>:]]')";
-		$keuzeopsomming[3]["addwhere"][38][]="(a.kenmerken REGEXP '[[:<:]]41[[:>:]]')";
-		$keuzeopsomming[3]["addwhere"][48][]="(a.kenmerken REGEXP '[[:<:]]24[[:>:]]')";
+
+		$keuzeopsomming[3]["addwhere"][51][]="a.soortaccommodatie=2";
+		$keuzeopsomming[3]["addwhere"][52][]="a.soortaccommodatie=6";
+		$keuzeopsomming[3]["addwhere"][53][]="a.soortaccommodatie=7";
+		$keuzeopsomming[3]["addwhere"][54][]="a.soortaccommodatie=8";
+		$keuzeopsomming[3]["addwhere"][55][]="a.soortaccommodatie=9";
+		$keuzeopsomming[3]["addwhere"][56][]="a.soortaccommodatie=10";
+		$keuzeopsomming[3]["addwhere"][57][]="a.soortaccommodatie=11";
+		$keuzeopsomming[3]["addwhere"][58][]="(t.kenmerken REGEXP '[[:<:]]2[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]22[[:>:]]' OR t.kenmerken REGEXP '[[:<:]]15[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]27[[:>:]]')";
 
 		# Faciliteiten ter plaatse
 		$keuzeopsomming[2]["combinatiesmogelijk"]=1;
@@ -1705,6 +1713,46 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					# Verfijnd zoeken: kleinschaligvakantiepark
 					if(check_kenmerken($db->f("akenmerken"),24)) {
 						$verfijnd["kenmerken"][48]++;
+					}
+
+					# Verfijnd zoeken: appartement (veld soortaccommodatie)
+					if($db->f("soortaccommodatie")==2) {
+						$verfijnd["kenmerken"][51]++;
+					}
+
+					# Verfijnd zoeken: vakantiehuis (veld soortaccommodatie)
+					if($db->f("soortaccommodatie")==6) {
+						$verfijnd["kenmerken"][52]++;
+					}
+
+					# Verfijnd zoeken: villa (veld soortaccommodatie)
+					if($db->f("soortaccommodatie")==7) {
+						$verfijnd["kenmerken"][53]++;
+					}
+
+					# Verfijnd zoeken: kasteel (veld soortaccommodatie)
+					if($db->f("soortaccommodatie")==8) {
+						$verfijnd["kenmerken"][54]++;
+					}
+
+					# Verfijnd zoeken: vakantiepark (veld soortaccommodatie)
+					if($db->f("soortaccommodatie")==9) {
+						$verfijnd["kenmerken"][55]++;
+					}
+
+					# Verfijnd zoeken: agriturismo (veld soortaccommodatie)
+					if($db->f("soortaccommodatie")==10) {
+						$verfijnd["kenmerken"][56]++;
+					}
+
+					# Verfijnd zoeken: domein (veld soortaccommodatie)
+					if($db->f("soortaccommodatie")==11) {
+						$verfijnd["kenmerken"][57]++;
+					}
+
+					# Verfijnd zoeken: vrijstaand
+					if(check_kenmerken($db->f("tkenmerken"),2) or check_kenmerken($db->f("tkenmerken"),15) or check_kenmerken($db->f("akenmerken"),22) or check_kenmerken($db->f("akenmerken"),27)) {
+						$verfijnd["kenmerken"][58]++;
 					}
 
 					# Verfijnd zoeken: privé-terras

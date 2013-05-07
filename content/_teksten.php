@@ -1081,6 +1081,24 @@ $txt["en"]["zoek-en-boek"]["kleinschaligvakantiepark"]="-";
 $txt["nl"]["zoek-en-boek"]["agriturismo"]="agriturismo";
 $txt["en"]["zoek-en-boek"]["agriturismo"]="agriturismo";
 
+$txt["nl"]["zoek-en-boek"]["vakantiehuis"]="vakantiehuis";
+$txt["en"]["zoek-en-boek"]["vakantiehuis"]="holiday accommodation";
+
+$txt["nl"]["zoek-en-boek"]["villa"]="villa";
+$txt["en"]["zoek-en-boek"]["villa"]="villa";
+
+$txt["nl"]["zoek-en-boek"]["kasteel"]="kasteel";
+$txt["en"]["zoek-en-boek"]["kasteel"]="castle";
+
+$txt["nl"]["zoek-en-boek"]["vakantiepark"]="vakantiepark";
+$txt["en"]["zoek-en-boek"]["vakantiepark"]="holiday park";
+
+$txt["nl"]["zoek-en-boek"]["domein"]="domein";
+$txt["en"]["zoek-en-boek"]["domein"]="domain";
+
+$txt["nl"]["zoek-en-boek"]["vrijstaand"]="vrijstaand";
+$txt["en"]["zoek-en-boek"]["vrijstaand"]="detached";
+
 $txt["nl"]["zoek-en-boek"]["chalet"]="chalet";
 $txt["en"]["zoek-en-boek"]["chalet"]="chalet";
 
