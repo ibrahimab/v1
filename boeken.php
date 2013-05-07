@@ -1,15 +1,5 @@
 <?php
 
-#
-# TIJDELIJK (30-9-2011)
-# (nadat alles goed blijkt te werken: $oude_systeem_heractiveren verwijderen uit boeken.php)
-$oude_systeem_heractiveren=false;
-#$oude_systeem_heractiveren=true;
-
-# Alleen cijfers accepteren in $_GET["bfbid"]
-#if(ereg("[^0-9]",$_GET["bfbid"])) {
-#	$_GET["bfbid"]=ereg_replace("[^0-9]","",$_GET["bfbid"]);
-#}
 
 $init_loginclass_voor_chaletmedewerkers=true;
 
@@ -311,7 +301,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				# Boekingsnummer vaststellen /bepalen
 				#
 
-				if(date("YmdH")<"2011093015" or $oude_systeem_heractiveren) {
+				if(date("YmdH")<"2011093015") {
 
 					# OUDE METHODE
 
@@ -1557,6 +1547,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$flextarief=bereken_flex_tarief($gegevens["stap1"]["typeid"],$form->input["aankomstdatum_flex"]["unixtime"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]));
 #					echo date("r",$form->input["aankomstdatum_flex"]["unixtime"])." ".$form->input["verblijfsduur"]." ".date("r",flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]));
 					if($flextarief["tarief"]>0) {
+
+						if($form->input["aankomstdatum_flex"]["unixtime"]<time()) {
+							# Datum ligt in het verleden
+							$form->error("aankomstdatum_flex",txt("gekozenperiodenietbeschikbaar","boeken"));
+						}
 
 					} else {
 						$form->error("aankomstdatum_flex",txt("gekozenperiodenietbeschikbaar","boeken"));
