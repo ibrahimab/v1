@@ -77,7 +77,6 @@ if($form->okay) {
 	if($form->input["telefoonnummer"]) {
 		$body.=$form->input["telefoonnummer"]."\n";
 	}
-	$body.=$form->input["email"]."\n\n";
 
 	if($form->input["bestemming"]) {
 		$body.=txt("bestemming","vraagonsadvies").": ".$form->input["bestemming"]."\n";
