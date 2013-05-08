@@ -1021,6 +1021,10 @@ form {
 	overflow: hidden;
 }
 
+.keuzeopsomming_veldnaam_vrijstaand {
+	border-top: 1px solid #ff9900;
+	padding-top: 5px;
+}
 
 /*per pagina*/
 

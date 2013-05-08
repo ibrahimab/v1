@@ -218,13 +218,13 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[3]["getname"]="vf_kenm";
 
 		$keuzeopsomming[3]["fields"]=array(
-			"appartement"=>51,
-			"vakantiehuis"=>52,
-			"villa"=>53,
-			"kasteel"=>54,
-			"vakantiepark"=>55,
 			"agriturismo"=>56,
+			"appartement"=>51,
 			"domein"=>57,
+			"kasteel"=>54,
+			"vakantiehuis"=>52,
+			"vakantiepark"=>55,
+			"villa"=>53,
 			"vrijstaand"=>58,
 		);
 
@@ -3605,6 +3605,7 @@ if($vars["verfijnen_aanbieden"]) {
 						$getvalue=$value;
 					}
 					$_SERVER["REQUEST_URI"]=ereg_replace("\?$","",$_SERVER["REQUEST_URI"]);
+					$keuzes.="<div class=\"keuzeopsomming_veldnaam_".$key."\">";
 					if($combinatiesmogelijk or !$_GET[$getname.$getnumber]) {
 						if($_GET[$getname.$getnumber]==$getvalue) {
 							$qs=wt_stripget($_GET,array("page","referer","selb",$getname.$getnumber));
@@ -3625,6 +3626,7 @@ if($vars["verfijnen_aanbieden"]) {
 							$keuzes.="<a href=\"".wt_he($url)."\" class=\"keuzeopsomming keuzeopsomming_geen_combinatie\" rel=\"nofollow\">".html($key,"zoek-en-boek")."</a>";
 						}
 					}
+					$keuzes.="</div>";
 				}
 				if($keuzes) {
 					$lhtml.="<div class=\"keuzes_kopjes\">".html($name,"zoek-en-boek")."</div>";

@@ -1054,8 +1054,8 @@ $txt["en"]["zoek-en-boek"]["restaurant"]="restaurant";
 $txt["nl"]["zoek-en-boek"]["soortaccommodatie"]="Soort accommodatie";
 $txt["en"]["zoek-en-boek"]["soortaccommodatie"]="Type of accommodation";
 
-$txt["nl_i"]["zoek-en-boek"]["soortaccommodatie"]="Soort vakantiehuis";
-$txt["en_i"]["zoek-en-boek"]["soortaccommodatie"]="Type of holiday home";
+// $txt["nl_i"]["zoek-en-boek"]["soortaccommodatie"]="Soort vakantiehuis";
+// $txt["en_i"]["zoek-en-boek"]["soortaccommodatie"]="Type of holiday home";
 
 $txt["nl"]["zoek-en-boek"]["vrijstaandhuis"]="vrijstaand huis";
 $txt["en"]["zoek-en-boek"]["vrijstaandhuis"]="detached house";
