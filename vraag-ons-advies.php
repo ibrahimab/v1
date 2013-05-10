@@ -2,7 +2,7 @@
 
 include("admin/vars.php");
 
-if($vars["websitetype"]<>3 and $vars["websitetype"]<>7) {
+if($vars["websitetype"]<>3 and $vars["websitetype"]<>7 and $vars["website"]<>"C") {
 	header("Location: ".$vars["path"]);
 	exit;
 }
@@ -18,15 +18,29 @@ $form->settings["message"]["submitbutton"]["nl"]="VERZENDEN";
 $form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
 
 #_field: (obl),id,title,db,prevalue,options,layout
-
-$vars["budgetindicatie_keuzes"]=array(1=>txt("budgetindicatie_1","vraagonsadvies"),2=>txt("budgetindicatie_2","vraagonsadvies"),3=>txt("budgetindicatie_3","vraagonsadvies"),4=>txt("budgetindicatie_4","vraagonsadvies"),5=>txt("budgetindicatie_5","vraagonsadvies"),6=>txt("budgetindicatie_6","vraagonsadvies"),7=>txt("budgetindicatie_7","vraagonsadvies"));
-$vars["verblijfsduur"]["1"]="1 ".txt("week","vars");
-$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
-$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
-$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
-$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
-for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
-	$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
+if($vars["seizoentype"]==2) {
+	#
+	# Zomer
+	#
+	$vars["budgetindicatie_keuzes"]=array(1=>txt("budgetindicatie_1","vraagonsadvies"),2=>txt("budgetindicatie_2","vraagonsadvies"),3=>txt("budgetindicatie_3","vraagonsadvies"),4=>txt("budgetindicatie_4","vraagonsadvies"),5=>txt("budgetindicatie_5","vraagonsadvies"),6=>txt("budgetindicatie_6","vraagonsadvies"),7=>txt("budgetindicatie_7","vraagonsadvies"));
+	$vars["verblijfsduur"]["1"]="1 ".txt("week","vars");
+	$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
+	$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
+	$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
+	$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
+	for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
+		$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
+	}
+} else {
+	#
+	# Winter
+	#
+	$vars["budgetindicatie_keuzes"][1]=txt("budgetindicatie_1","vraagonsadvies");
+	for($i=3;$i<=10;$i++) {
+		$vars["budgetindicatie_keuzes"][$i]=txt("budgetindicatie_perpersoon","vraagonsadvies",array("v_bedrag"=>number_format($i*100,0,",",".")));
+	}
+	$vars["verblijfsduur"]["1"]="1 ".txt("week","vars");
+	$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
 }
 
 unset($vars["aantalslaapkamers"][0]);
@@ -43,7 +57,11 @@ $vars["soortaccommodatie_keuzes"]=array(1=>txt("soortaccommodatie_1","vraagonsad
 
 $form->field_htmlrow("","<div style=\"width:650px;margin-bottom:15px;\"><b><i>".html("forminleiding","vraagonsadvies")."</i></b></div>");
 $form->field_text(0,"bestemming",txt("bestemming","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:4px;font-size:0.8em;\">".html("bestemming_uitleg","vraagonsadvies")."</div>"));
-$form->field_select(0,"verblijfsduur",txt("verblijfsduur","vraagonsadvies"),"","",array("selection"=>$vars["verblijfsduur"],"optgroup"=>array("1"=>"Aantal weken","1n"=>"Aantal nachten")));
+if($vars["seizoentype"]==2) {
+	$form->field_select(0,"verblijfsduur",txt("verblijfsduur","vraagonsadvies"),"","",array("selection"=>$vars["verblijfsduur"],"optgroup"=>array("1"=>"Aantal weken","1n"=>"Aantal nachten")));
+} else {
+	$form->field_select(0,"verblijfsduur",txt("verblijfsduur","vraagonsadvies"),"","",array("selection"=>$vars["verblijfsduur"]));
+}
 #$form->field_htmlcol("","&nbsp;",array("html"=>"<i>".html("verblijf_tussen_uitleg","vraagonsadvies")."</i></b></div>"),"",array("title_html"=>true));
 $form->field_htmlrow("","<div style=\"width:650px;\"><i>".html("verblijf_tussen_uitleg","vraagonsadvies")."</i></div>");
 $form->field_date(0,"verblijf_tussen_van",txt("verblijf_tussen_van","vraagonsadvies"),"","",array("startyear"=>date("Y"),"endyear"=>date("Y")+1),array("calendar"=>true));
@@ -51,12 +69,20 @@ $form->field_date(0,"verblijf_tussen_tot",txt("verblijf_tussen_tot","vraagonsadv
 $form->field_select(0,"aantalvolwassenen",txt("aantalvolwassenen","vraagonsadvies"),"","",array("selection"=>$vars["aantalvolwassenen"]));
 $form->field_select(0,"aantalkinderen",txt("aantalkinderen","vraagonsadvies"),"","",array("selection"=>$vars["aantalkinderen"]),array("add_html_after_title"=>"<div style=\"margin-top:4px;font-size:0.8em;\">(".html("totenmet12","vraagonsadvies").")</div>"));
 $form->field_select(0,"aantalslaapkamers",txt("aantalslaapkamers","vraagonsadvies"),"","",array("selection"=>$vars["aantalslaapkamers"]));
-$form->field_checkbox(0,"soortaccommodatie",txt("soortaccommodatie","vraagonsadvies"),"","",array("selection"=>$vars["soortaccommodatie_keuzes"]),array("one_per_line"=>true));
-$form->field_select(0,"budgetindicatie",txt("budgetindicatie","vraagonsadvies"),"","",array("selection"=>$vars["budgetindicatie_keuzes"]));
+if($vars["seizoentype"]==2) {
+	$form->field_checkbox(0,"soortaccommodatie",txt("soortaccommodatie","vraagonsadvies"),"","",array("selection"=>$vars["soortaccommodatie_keuzes"]),array("one_per_line"=>true));
+}
+
+#(incl. skipas)
+if($vars["seizoentype"]==2) {
+	$form->field_select(0,"budgetindicatie",txt("budgetindicatie","vraagonsadvies"),"","",array("selection"=>$vars["budgetindicatie_keuzes"]));
+} else {
+	$form->field_select(0,"budgetindicatie",txt("budgetindicatie","vraagonsadvies"),"","",array("selection"=>$vars["budgetindicatie_keuzes"]),array("add_html_after_title"=>"<div style=\"margin-top:4px;font-size:0.8em;\">(".html("inclusiefskipas","vraagonsadvies").")</div>"));
+}
 $form->field_textarea(0,"toelichting",txt("toelichting","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:2px;margin-bottom:3px;font-size:0.8em;width:480px;\">".html("toelichting_uitleg","vraagonsadvies")."</div>"));
 $form->field_text(0,"naam",txt("naam","vraagonsadvies"));
 $form->field_email(1,"email",txt("emailadres","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:4px;font-size:0.8em;width:480px;\">".html("ditmailadreszalniet","vraagonsadvies")."</div>"));
-$form->field_text(0,"telefoonnummer",txt("telefoonnummer","vraagonsadvies"));
+$form->field_text(0,"telefoonnummer",txt("telefoonnummer","vraagonsadvies"),"","","",array("add_html_after_title"=>"<div style=\"margin-top:4px;font-size:0.8em;\">(".html("indiengewenst","vraagonsadvies").")</div>"));
 
 $form->check_input();
 

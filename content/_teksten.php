@@ -4761,7 +4761,7 @@ $txt["en"]["vraagonsadvies"]["forminleiding"]="-";
 $txt["nl"]["vraagonsadvies"]["bestemming"]="Bestemming";
 $txt["en"]["vraagonsadvies"]["bestemming"]="-";
 
-$txt["nl"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Dolomieten, Tirol, Sölden, Franse Alpen";
+$txt["nl"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Val Thorens, Zillertal, omgeving Alpe d'Huez, Dolomieten";
 $txt["en"]["vraagonsadvies"]["bestemming_uitleg"]="-";
 
 $txt["nl_i"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Sicilië, omgeving Siena, Toscane, westkant Gardameer, aan de kust";
@@ -4836,8 +4836,14 @@ $txt["en_i"]["vraagonsadvies"]["soortaccommodatie_6"]="-";
 $txt["nl"]["vraagonsadvies"]["budgetindicatie"]="Budgetindicatie";
 $txt["en"]["vraagonsadvies"]["budgetindicatie"]="-";
 
+$txt["nl"]["vraagonsadvies"]["inclusiefskipas"]="inclusief skipas";
+$txt["en"]["vraagonsadvies"]["inclusiefskipas"]="+ ski lift pass";
+
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_1"]="geen";
 $txt["en"]["vraagonsadvies"]["budgetindicatie_1"]="-";
+
+$txt["nl"]["vraagonsadvies"]["budgetindicatie_perpersoon"]="tot € [[v_bedrag]] per persoon";
+$txt["en"]["vraagonsadvies"]["budgetindicatie_perpersoon"]="max. € [[v_bedrag]] per person";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_2"]="maximaal € 750";
 $txt["en"]["vraagonsadvies"]["budgetindicatie_2"]="-";
@@ -4872,8 +4878,11 @@ $txt["en"]["vraagonsadvies"]["emailadres"]="-";
 $txt["nl"]["vraagonsadvies"]["ditmailadreszalniet"]="Dit mailadres zal niet gebruikt worden voor commerciële doeleinden maar enkel voor het versturen van ons reisadvies.";
 $txt["en"]["vraagonsadvies"]["ditmailadreszalniet"]="-";
 
-$txt["nl"]["vraagonsadvies"]["telefoonnummer"]="Telefoonnummer (indien gewenst)";
+$txt["nl"]["vraagonsadvies"]["telefoonnummer"]="Telefoonnummer";
 $txt["en"]["vraagonsadvies"]["telefoonnummer"]="-";
+
+$txt["nl"]["vraagonsadvies"]["indiengewenst"]="indien gewenst";
+$txt["en"]["vraagonsadvies"]["indiengewenst"]="";
 
 $txt["nl"]["vraagonsadvies"]["mail_subject"]="Advies [[v_websitenaam]]";
 $txt["en"]["vraagonsadvies"]["mail_subject"]="-";
