@@ -265,7 +265,8 @@ while(list($key,$value)=each($menu)) {
 	if($key<>"index") {
 		echo txt("menu_".$key).".php";
 	}
-	echo "\">&nbsp;&nbsp;";
+	echo "\">";
+#	echo "&nbsp;&nbsp;";
 	if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
 		echo "<span class=\"hoofdmenu_actief\">";
 	}
@@ -273,12 +274,13 @@ while(list($key,$value)=each($menu)) {
 	if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
 		echo "</span>";
 	}
-	echo "&nbsp;&nbsp;</a>";
+#	echo "&nbsp;&nbsp;";
+	echo "</a>";
 }
 echo "</div>\n";
 echo "<div id=\"kleinelogos\">";
 if($vars["websiteland"]=="nl") {
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.gif\" border=\"0\" width=\"30\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\"></a>&nbsp;&nbsp;";
+	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" border=\"0\" width=\"30\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
 }
 echo "</div>\n";
 echo "</div>\n";

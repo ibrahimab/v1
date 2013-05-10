@@ -862,11 +862,16 @@ $txt["en"]["accommodaties"]["helaasgeenresultaten"]="Sorry, your search has retu
 #$txt["nl"]["accommodaties"]["zoekopdrachtenwordengemeld"]="De zoekopdrachten die geen resultaten opleveren worden gemeld aan ons. Wij houden bij de uitbreiding van ons assortiment rekening met deze resultaten. Wellicht levert je zoekopdracht in de toekomst dus wel een resultaat op.";
 #$txt["en"]["accommodaties"]["zoekopdrachtenwordengemeld"]="We are informed of the search commands that do not return any results. We take account of these results when enlarging our assortment. Your search may therefore produce results when you try again later.";
 
-$txt["nl"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan of [[l1]]neem contact met ons op[[/l1]]. Wij helpen je graag verder.";
-$txt["en"]["accommodaties"]["paszoekcriteriaaan"]="Change your search query or [[l1]]contact us[[/l1]].";
+if($vars["websitetype"]<>1 and $vars["websitetype"]<>3 and $vars["websitetype"]<>7) {
+	$txt["nl"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan of [[l1]]neem contact met ons op[[/l1]]. Wij helpen je graag verder.";
+	$txt["en"]["accommodaties"]["paszoekcriteriaaan"]="Change your search query or [[l1]]contact us[[/l1]].";
+} else {
+	$txt["nl"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan, of neem contact met ons op voor een gratis en [[l2]]geheel vrijblijvend advies[[/l2]].";
+	$txt["en"]["accommodaties"]["paszoekcriteriaaan"]="Change your search query or [[l1]]contact us[[/l1]].";
+}
 
 $txt["nl_z"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan, of neem contact met ons op voor een gratis en [[l2]]geheel vrijblijvend advies[[/l2]].";
-$txt["en_z"]["accommodaties"]["paszoekcriteriaaan"]="For example, search only for a combination of date of arrival and country/skiing area.";
+$txt["en_z"]["accommodaties"]["paszoekcriteriaaan"]="-";
 
 $txt["nl_i"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan, of neem contact met ons op voor een gratis en [[l2]]geheel vrijblijvend advies[[/l2]].";
 $txt["en_i"]["accommodaties"]["paszoekcriteriaaan"]="-";

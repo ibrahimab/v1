@@ -2,14 +2,15 @@
 
 include("admin/vars.php");
 
-if($vars["websitetype"]<>3 and $vars["websitetype"]<>7 and $vars["website"]<>"C") {
+if($vars["websitetype"]<>1 and $vars["websitetype"]<>3 and $vars["websitetype"]<>7) {
+	# alleen chalet, zomerhuisje en italissima toelaten tot deze pagina
 	header("Location: ".$vars["path"]);
 	exit;
 }
 
 # frm = formname (mag ook wat anders zijn)
 $form=new form2("frm");
-$form->settings["fullname"]="Naam";
+$form->settings["fullname"]="Vraag ons advies ".$vars["websitenaam"];
 $form->settings["layout"]["css"]=false;
 $form->settings["message"]["submitbutton"]["nl"]="VERZENDEN";
 #$form->settings["target"]="_blank";
@@ -41,6 +42,7 @@ if($vars["seizoentype"]==2) {
 	}
 	$vars["verblijfsduur"]["1"]="1 ".txt("week","vars");
 	$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
+	$vars["verblijfsduur"]["3"]="1 ".txt("weekend","vars");
 }
 
 unset($vars["aantalslaapkamers"][0]);

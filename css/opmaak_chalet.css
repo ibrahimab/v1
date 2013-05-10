@@ -198,6 +198,8 @@ form {
 	color: #003366;
 	text-decoration: none;
 	font-weight: normal;
+	padding-left: 0.6em;
+	padding-right: 0.6em;
 }
 
 #hoofdmenu a:hover {
@@ -210,6 +212,16 @@ form {
 
 .hoofdmenuspacer {
 	color: #ffffff;
+}
+
+.sgrlogo_hoofdmenu {
+	display: block;
+	margin-top: -50px;
+	width: 30px;
+	height: 27px;
+	z-index: 999;
+	position: absolute;
+	margin-left: -27px;
 }
 
 #kleinelogos {
