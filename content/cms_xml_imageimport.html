@@ -59,6 +59,9 @@ if($_GET["lev"]==362) {
 
 					$foto_data=file_get_contents($key2);
 					file_put_contents($vars["unixdir"]."pic/cms/accommodaties_aanvullend/".$key."-".$teller.".jpg",$foto_data);
+
+					// opslaan in database dat deze foto is binnengehaald
+					$db->query("INSERT INTO diverse_data SET soort='xml_imageimport', veldnaam='".intval($_GET["lev"])."', inhoud='".addslashes(trim($key2))."';");
 				}
 			}
 		}
@@ -70,6 +73,10 @@ if($_GET["lev"]==362) {
 		#
 		# Foto-import Ville in Italia
 		#
+
+		if(!$_GET["toonverborgenfotos"]) {
+			echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&toonverborgenfotos=1")."\">Toon ook de al ge&iuml;mporteerde foto's &raquo;</a></p><br/>";
+		}
 
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
@@ -105,6 +112,13 @@ if($_GET["lev"]==362) {
 			$resultStatus = curl_getinfo($curl);
 		}
 
+		if(!$_GET["toonverborgenfotos"]) {
+			$db->query("SELECT inhoud FROM diverse_data WHERE soort='xml_imageimport' AND veldnaam='".intval($_GET["lev"])."';");
+			while($db->next_record()) {
+				$foto_eeder_geimporteerd[$db->f("inhoud")]=true;
+			}
+		}
+
 		if($resultStatus["http_code"] == 200 and $resultStatus_acc_codes["http_code"] == 200) {
 
 			$xml = simplexml_load_string($response_acc_codes);
@@ -121,7 +135,9 @@ if($_GET["lev"]==362) {
 				// echo $property->attributes()->id;
 				foreach($property->photo as $photo) {
 					// echo $photo->photoPath."<br>";
-					$photo_acc[trim($property->attributes()->id)][]=trim($photo->photoPath);
+					if(!$foto_eeder_geimporteerd[trim($photo->photoPath)]) {
+						$photo_acc[trim($property->attributes()->id)][]=trim($photo->photoPath);
+					}
 				}
 			}
 
@@ -132,33 +148,35 @@ if($_GET["lev"]==362) {
 				echo "<input type=\"hidden\" name=\"imageimport\" value=\"1\">";
 				$db->query("SELECT accommodatie_id, tleverancierscode, naam, plaats, skigebied FROM view_accommodatie WHERE leverancier_id='".intval($_GET["lev"])."' AND tleverancierscode IN (".substr($inquery_typecode,1).") GROUP BY accommodatie_id ORDER BY skigebied, plaats, naam;");
 				while($db->next_record()) {
-					echo "<p><b>".wt_he($db->f("skigebied").", ".$db->f("plaats")." - ".$db->f("naam"))."</b></p>";
-
-					unset($bestaande_foto,$bestaande_foto_teller);
-					$d = dir($vars["unixdir"]."pic/cms/accommodaties_aanvullend/");
-					while (false !== ($entry = $d->read())) {
-						if(preg_match("/^".$db->f("accommodatie_id")."-([0-9]+)\.jpg$/",$entry,$regs)) {
-							$bestaande_foto[intval($regs[1])]=$entry;
-						}
-					}
-					$d->close();
-
-					if(is_array($bestaande_foto)) {
-						ksort($bestaande_foto);
-						echo "<div style=\"background-color:#ebebeb;\">";
-						echo "<p><b><i>&nbsp;Al aanwezige foto's</i></b></p>";
-						foreach ($bestaande_foto as $key => $value) {
-							echo "<div class=\"foto_import\"><img src=\"".wt_he($vars["unixdir"]."pic/cms/accommodaties_aanvullend/".$value)."\" title=\"".wt_he("pic/cms/accommodaties_aanvullend/".$value)."\" data-fotoid=\"".preg_replace("/\.jpg/","",$value)."\">";
-							echo "<span class=\"foto_width_height\" data-fotoid=\"".preg_replace("/\.jpg/","",$value)."\">&nbsp;</span>";
-							echo "</div>";
-							$bestaande_foto_teller++;
-						}
-						echo "<div style=\"clear:both;\"></div>";
-						echo "</div>";
-					}
 
 
 					if(is_array($photo_acc[$koppeling_acc_type[$db->f("tleverancierscode")]])) {
+
+						echo "<p><b>".wt_he($db->f("skigebied").", ".$db->f("plaats")." - ".$db->f("naam"))."</b></p>";
+
+						unset($bestaande_foto,$bestaande_foto_teller);
+						$d = dir($vars["unixdir"]."pic/cms/accommodaties_aanvullend/");
+						while (false !== ($entry = $d->read())) {
+							if(preg_match("/^".$db->f("accommodatie_id")."-([0-9]+)\.jpg$/",$entry,$regs)) {
+								$bestaande_foto[intval($regs[1])]=$entry;
+							}
+						}
+						$d->close();
+
+						if(is_array($bestaande_foto)) {
+							ksort($bestaande_foto);
+							echo "<div style=\"background-color:#ebebeb;\">";
+							echo "<p><b><i>&nbsp;Al aanwezige foto's</i></b></p>";
+							foreach ($bestaande_foto as $key => $value) {
+								echo "<div class=\"foto_import\"><img src=\"".wt_he($vars["unixdir"]."pic/cms/accommodaties_aanvullend/".$value)."\" title=\"".wt_he("pic/cms/accommodaties_aanvullend/".$value)."\" data-fotoid=\"".preg_replace("/\.jpg/","",$value)."\">";
+								echo "<span class=\"foto_width_height\" data-fotoid=\"".preg_replace("/\.jpg/","",$value)."\">&nbsp;</span>";
+								echo "</div>";
+								$bestaande_foto_teller++;
+							}
+							echo "<div style=\"clear:both;\"></div>";
+							echo "</div>";
+						}
+
 
 						echo "<p><b><i>Nieuwe foto's</i></b></p>";
 

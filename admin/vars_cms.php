@@ -129,6 +129,7 @@ if($mustlogin) {
 
 	# Titels (die afwijken van $menu)
 	$title["cms"]="Content Management System ".$vars["websitenaam"];
+	$title["cms_xml_imageimport"]="Foto-import vanuit XML";
 
 	# Layout CMS
 	$layout=new cms_layout;
