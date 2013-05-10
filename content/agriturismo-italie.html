@@ -19,7 +19,19 @@ echo "<p>".wt_he("Een vakantie op een agriturismo in Italië heeft het volgende t
 
 echo "<p>".wt_he("Veel succes met de zoektocht naar uw ideale agriturismo in Italië! En mocht u vragen hebben: aarzel dan niet om")." <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op te nemen.</p>";
 
-echo "<p><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=0&fap=0&fas=0&fadf_d=&fadf_m=&fadf_y=&fdu=1&vf_kenm38=1\">Bekijk onze agriturismi in Itali&euml; &raquo;</a></p>";
+echo "<p><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=0&fap=0&fas=0&fadf_d=&fadf_m=&fadf_y=&fdu=1&vf_kenm56=1\">Bekijk al onze agriturismi in Itali&euml; &raquo;</a></p>";
+
+echo "<div style=\"margin-top:60px;\">";
+
+$accommodatielijst = new accommodatielijst;
+$accommodatielijst->settings["groepeer_per_accommodatie"] = false;
+$accommodatielijst->settings["vanaf_prijzen_tonen"] = true;
+$accommodatielijst->typelijst_toevoegen("4172,3459,7647,7161,6003,6481,6082,7733,5711,6877,7137");
+echo $accommodatielijst->lijst();
+
+echo "</div>";
+
+echo "<p><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=0&fap=0&fas=0&fadf_d=&fadf_m=&fadf_y=&fdu=1&vf_kenm56=1\">Bekijk al onze agriturismi in Itali&euml; &raquo;</a></p>";
 
 echo "</div>";
 

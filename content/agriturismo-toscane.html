@@ -20,8 +20,21 @@ echo "<p>".wt_he("Een vakantie op een agriturismo in Italië heeft het volgende t
 
 echo "<p>".wt_he("Veel succes met de zoektocht naar uw ideale agriturismo in Toscane! En mocht u vragen hebben: aarzel dan niet om")." <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op te nemen.</p>";
 
-echo "<p><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=5-124&fap=0&fas=0&fadf_d=&fadf_m=&fadf_y=&fdu=1&vf_kenm38=1\">Bekijk onze agriturismi in Toscane &raquo;</a><br>";
-echo "<a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=0&fap=0&fas=0&fadf_d=&fadf_m=&fadf_y=&fdu=1&vf_kenm38=1\">Bekijk onze agriturismi in heel Itali&euml; &raquo;</a></p>";
+echo "<p><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=5-124&fap=0&fas=0&fadf_d=&fadf_m=&fadf_y=&fdu=1&vf_kenm56=1\">Bekijk al onze agriturismi in Toscane &raquo;</a><br>";
+echo "<a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=0&fap=0&fas=0&fadf_d=&fadf_m=&fadf_y=&fdu=1&vf_kenm56=1\">Bekijk al onze agriturismi in heel Itali&euml; &raquo;</a></p>";
+
+echo "<div style=\"margin-top:40px;\">";
+
+$accommodatielijst = new accommodatielijst;
+$accommodatielijst->settings["groepeer_per_accommodatie"] = false;
+$accommodatielijst->settings["vanaf_prijzen_tonen"] = true;
+$accommodatielijst->typelijst_toevoegen("7722,7633,3875,3464,3795,3602,3832,4176,3838,3593");
+echo $accommodatielijst->lijst();
+
+echo "</div>";
+
+echo "<p><a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=5-124&fap=0&fas=0&fadf_d=&fadf_m=&fadf_y=&fdu=1&vf_kenm56=1\">Bekijk al onze agriturismi in Toscane &raquo;</a><br>";
+echo "<a href=\"".$vars["path"]."zoek-en-boek.php?filled=1&fzt=&fsg=0&fap=0&fas=0&fadf_d=&fadf_m=&fadf_y=&fdu=1&vf_kenm56=1\">Bekijk al onze agriturismi in heel Itali&euml; &raquo;</a></p>";
 
 echo "</div>";
 

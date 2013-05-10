@@ -33,6 +33,37 @@ class accommodatielijst {
 		$this->types_alle_inhoud[]=$input;
 	}
 
+	public function typelijst_toevoegen($inquery) {
+		global $vars;
+
+		$db = new DB_sql;
+
+		$db->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, a.korteomschrijving, t.korteomschrijving AS tkorteomschrijving, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.skigebied_id, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.apart_tonen_in_zoekresultaten FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE t.type_id IN (".$inquery.") AND a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id ORDER BY FIND_IN_SET(type_id,'".$inquery."');");
+		while($db->next_record()) {
+			$this->type_toevoegen(array(
+				"accommodatie_id"=>$db->f("accommodatie_id"),
+				"type_id"=>$db->f("type_id"),
+				"begincode"=>$db->f("begincode"),
+				"naam"=>$db->f("naam"),
+				"tnaam"=>$db->f("type"),
+				"soortaccommodatie"=>$db->f("soortaccommodatie"),
+				"slaapkamers"=>$db->f("slaapkamers"),
+				"badkamers"=>$db->f("badkamers"),
+				"optimaalaantalpersonen"=>$db->f("optimaalaantalpersonen"),
+				"maxaantalpersonen"=>$db->f("maxaantalpersonen"),
+				"plaats"=>$db->f("plaats"),
+				"skigebied"=>$db->f("skigebied"),
+				"land"=>$db->f("land"),
+				"korteomschrijving"=>$db->f("korteomschrijving"),
+				"tkorteomschrijving"=>$db->f("tkorteomschrijving"),
+				"toonper"=>$db->f("toonper"),
+				"skigebied_id"=>$db->f("skigebied_id"),
+				"tarief_float"=>"",
+				"apart_tonen_in_zoekresultaten"=>$db->f("apart_tonen_in_zoekresultaten"),
+			));
+		}
+	}
+
 	private function type_naar_array($input) {
 
 		// kijken of er een tarief bekend is
@@ -147,7 +178,6 @@ class accommodatielijst {
 			// 	}
 			// }
 		}
-
 	}
 
 	public function lijst() {
