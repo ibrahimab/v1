@@ -509,10 +509,13 @@ if($vars["websitetype"]==7) {
 	$menu["skigebieden"]=txt("menutitle_skigebieden");
 	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
 	$menu["weekendski"]=txt("menutitle_weekendski");
-	if($vars["taal"]=="nl") {
-		$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
+	if($vars["websitetype"]<>1 and $vars["websitetype"]<>3 and $vars["websitetype"]<>7) {
+
+	} else {
+		if($vars["taal"]=="nl") {
+			$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
+		}
 	}
-	// $menu["vraag-ons-advies"]="advies";
 	$menu["contact"]=txt("menutitle_contact");
 
 	if($vars["wederverkoop"]) {
