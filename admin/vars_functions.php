@@ -2668,11 +2668,13 @@ function bereken_flex_tarief($typeid,$flex_aankomstdatum,$verblijfsduur,$flex_ve
 		}
 
 		# tarief per week opvragen
-		$db->query("SELECT DISTINCT tr.week, tr.c_verkoop_site, tr.seizoen_id FROM tarief tr WHERE tr.type_id='".addslashes($typeid)."' AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tr.week IN (".substr($weekinquery,1).");");
-		if($db->num_rows()>0 and $db->num_rows()==@count($verblijfsduur_meerdere_weken_array)) {
-			while($db->next_record()) {
-				$tarief_meerdere_weken[$typeid][$db->f("week")]=$db->f("c_verkoop_site");
-				$te_doorlopen_seizoenen[$db->f("seizoen_id")]=true;
+		if($weekinquery) {
+			$db->query("SELECT DISTINCT tr.week, tr.c_verkoop_site, tr.seizoen_id FROM tarief tr WHERE tr.type_id='".addslashes($typeid)."' AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tr.week IN (".substr($weekinquery,1).");");
+			if($db->num_rows()>0 and $db->num_rows()==@count($verblijfsduur_meerdere_weken_array)) {
+				while($db->next_record()) {
+					$tarief_meerdere_weken[$typeid][$db->f("week")]=$db->f("c_verkoop_site");
+					$te_doorlopen_seizoenen[$db->f("seizoen_id")]=true;
+				}
 			}
 		}
 
