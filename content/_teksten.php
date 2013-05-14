@@ -4752,55 +4752,55 @@ $txt["en"]["verzendmethode"]["telaat"]="You are too late with letting know your 
 
 # vraag ons advies
 $txt["nl"]["vraagonsadvies"]["alinea1"]="Bij [[v_websitenaam]] helpen we je graag bij de zoektocht naar je ideale accommodatie. Ons advies is gratis en geheel vrijblijvend. Na ontvangst van je wensen ontvang je van maandag t/m zaterdag binnen 24 uur een aantal passende suggesties van ons.";
-$txt["en"]["vraagonsadvies"]["alinea1"]="";
+$txt["en"]["vraagonsadvies"]["alinea1"]="At [[v_websitenaam]] we gladly help you in the search for your ideal holiday home. Our advice is free and without any obligations. After receiving your wishes we will send you a number of suggestions within 24 hours (from Monday untill Saturday).";
 
 $txt["nl_z"]["vraagonsadvies"]["alinea1"]="Bij [[v_websitenaam]] helpen we je graag bij de zoektocht naar je ideale vakantiehuis. Ons advies is gratis en geheel vrijblijvend. Na ontvangst van je wensen ontvang je van maandag t/m zaterdag binnen 24 uur een aantal passende suggesties van ons.";
 $txt["en_z"]["vraagonsadvies"]["alinea1"]="-";
 
 $txt["nl"]["vraagonsadvies"]["alinea2"]="Om je zo goed mogelijk van dienst te kunnen zijn, hebben we onderstaand formulier opgesteld. Hoe meer informatie je ons geeft, hoe gemakkelijker het voor ons is om een passend advies te geven. Het onderste veld biedt de ruimte om je specifieke wensen nader toe te lichten.";
-$txt["en"]["vraagonsadvies"]["alinea2"]="";
+$txt["en"]["vraagonsadvies"]["alinea2"]="To help you as good as possible, we have set up the form below. The more information you can give us, the easier it is for us to send you some fitting suggestions. The field at the bottom makes it possible to furthermore explain your wishes.";
 
 $txt["nl"]["vraagonsadvies"]["alinea3"]="Uiteraard kun je ons ook telefonisch bereiken voor advies: 0348-434649";
-$txt["en"]["vraagonsadvies"]["alinea3"]="";
+$txt["en"]["vraagonsadvies"]["alinea3"]="Of course you can also reach us by phone for advice: +31348-434649";
 
 $txt["nl"]["vraagonsadvies"]["forminleiding"]="Vul hieronder je reiswensen in en onze medewerkers gaan voor je op zoek naar een geschikte vakantie. Hoe meer informatie je geeft, hoe passender ons advies.";
-$txt["en"]["vraagonsadvies"]["forminleiding"]="";
+$txt["en"]["vraagonsadvies"]["forminleiding"]="Fill in your wishes and our staff will start to look for the perfect holiday for you. The more information we receive, the better our advice.";
 
 $txt["nl"]["vraagonsadvies"]["bestemming"]="Bestemming";
-$txt["en"]["vraagonsadvies"]["bestemming"]="";
+$txt["en"]["vraagonsadvies"]["bestemming"]="Destination";
 
 $txt["nl"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Val Thorens, Zillertal, omgeving Alpe d'Huez, Dolomieten";
-$txt["en"]["vraagonsadvies"]["bestemming_uitleg"]="";
+$txt["en"]["vraagonsadvies"]["bestemming_uitleg"]="Fill in one or more areas and/or places. For example: Val Thorens, Zillertal, Near Alpe d'Huez.";
 
 $txt["nl_i"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Sicilië, omgeving Siena, Toscane, westkant Gardameer, aan de kust";
-$txt["en_i"]["vraagonsadvies"]["bestemming_uitleg"]="";
+$txt["en_i"]["vraagonsadvies"]["bestemming_uitleg"]="-";
 
 $txt["nl"]["vraagonsadvies"]["verblijfsduur"]="Verblijfsduur";
-$txt["en"]["vraagonsadvies"]["verblijfsduur"]="";
+$txt["en"]["vraagonsadvies"]["verblijfsduur"]="Length of stay";
 
 $txt["nl"]["vraagonsadvies"]["verblijf_tussen_uitleg"]="Vul hieronder de gewenste aankomst- en vertrekdata in of geef de periode aan waarbinnen je vakantie plaats kan vinden.";
-$txt["en"]["vraagonsadvies"]["verblijf_tussen_uitleg"]="";
+$txt["en"]["vraagonsadvies"]["verblijf_tussen_uitleg"]="Fill in the preferred arrival- and departure dates below or inform us about the period in which your holiday can take place.";
 
 $txt["nl"]["vraagonsadvies"]["verblijf_tussen_van"]="Verblijf tussen";
-$txt["en"]["vraagonsadvies"]["verblijf_tussen_van"]="";
+$txt["en"]["vraagonsadvies"]["verblijf_tussen_van"]="Stay between";
 
 $txt["nl"]["vraagonsadvies"]["verblijf_tussen_tot"]="en";
-$txt["en"]["vraagonsadvies"]["verblijf_tussen_tot"]="";
+$txt["en"]["vraagonsadvies"]["verblijf_tussen_tot"]="and";
 
 $txt["nl"]["vraagonsadvies"]["aantalpersonen"]="Aantal personen";
-$txt["en"]["vraagonsadvies"]["aantalpersonen"]="";
+$txt["en"]["vraagonsadvies"]["aantalpersonen"]="Number of persons";
 
 $txt["nl"]["vraagonsadvies"]["aantalvolwassenen"]="Aantal volwassenen";
-$txt["en"]["vraagonsadvies"]["aantalvolwassenen"]="";
+$txt["en"]["vraagonsadvies"]["aantalvolwassenen"]="Number of adults";
 
 $txt["nl"]["vraagonsadvies"]["aantalkinderen"]="Aantal kinderen";
-$txt["en"]["vraagonsadvies"]["aantalkinderen"]="";
+$txt["en"]["vraagonsadvies"]["aantalkinderen"]="Number of children";
 
 $txt["nl"]["vraagonsadvies"]["totenmet12"]="t/m 12 jaar";
-$txt["en"]["vraagonsadvies"]["totenmet12"]="";
+$txt["en"]["vraagonsadvies"]["totenmet12"]="to 12 years";
 
 $txt["nl"]["vraagonsadvies"]["aantalslaapkamers"]="Aantal slaapkamers";
-$txt["en"]["vraagonsadvies"]["aantalslaapkamers"]="";
+$txt["en"]["vraagonsadvies"]["aantalslaapkamers"]="Number of bedrooms";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie"]="Soort accommodatie";
 $txt["en"]["vraagonsadvies"]["soortaccommodatie"]="-";
@@ -4842,7 +4842,7 @@ $txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_6"]="vakantiehuis voor groepen
 $txt["en_i"]["vraagonsadvies"]["soortaccommodatie_6"]="-";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie"]="Budgetindicatie";
-$txt["en"]["vraagonsadvies"]["budgetindicatie"]="";
+$txt["en"]["vraagonsadvies"]["budgetindicatie"]="Budget indication";
 
 $txt["nl"]["vraagonsadvies"]["inclusiefskipas"]="inclusief skipas";
 $txt["en"]["vraagonsadvies"]["inclusiefskipas"]="+ ski lift pass";
@@ -4872,10 +4872,10 @@ $txt["nl"]["vraagonsadvies"]["budgetindicatie_7"]="vanaf € 4000";
 $txt["en"]["vraagonsadvies"]["budgetindicatie_7"]="-";
 
 $txt["nl"]["vraagonsadvies"]["toelichting"]="Toelichting op je reiswensen";
-$txt["en"]["vraagonsadvies"]["toelichting"]="";
+$txt["en"]["vraagonsadvies"]["toelichting"]="Explanation about your holiday wishes";
 
 $txt["nl"]["vraagonsadvies"]["toelichting_uitleg"]="Bijvoorbeeld: faciliteiten en voorkeuren";
-$txt["en"]["vraagonsadvies"]["toelichting_uitleg"]="";
+$txt["en"]["vraagonsadvies"]["toelichting_uitleg"]="For example: facilities and preferences";
 
 $txt["nl"]["vraagonsadvies"]["naam"]="Naam";
 $txt["en"]["vraagonsadvies"]["naam"]="Name";
@@ -4884,16 +4884,16 @@ $txt["nl"]["vraagonsadvies"]["emailadres"]="E-mailadres";
 $txt["en"]["vraagonsadvies"]["emailadres"]="Email";
 
 $txt["nl"]["vraagonsadvies"]["ditmailadreszalniet"]="Dit mailadres zal niet gebruikt worden voor commerciële doeleinden maar enkel voor het versturen van ons reisadvies.";
-$txt["en"]["vraagonsadvies"]["ditmailadreszalniet"]="";
+$txt["en"]["vraagonsadvies"]["ditmailadreszalniet"]="This email adress won't be used for commercial purposes, but only for sending you our suggestions.";
 
 $txt["nl"]["vraagonsadvies"]["telefoonnummer"]="Telefoonnummer";
-$txt["en"]["vraagonsadvies"]["telefoonnummer"]="";
+$txt["en"]["vraagonsadvies"]["telefoonnummer"]="Telephone number";
 
 $txt["nl"]["vraagonsadvies"]["indiengewenst"]="indien gewenst";
-$txt["en"]["vraagonsadvies"]["indiengewenst"]="";
+$txt["en"]["vraagonsadvies"]["indiengewenst"]="if desired";
 
 $txt["nl"]["vraagonsadvies"]["mail_subject"]="Advies [[v_websitenaam]]";
-$txt["en"]["vraagonsadvies"]["mail_subject"]="";
+$txt["en"]["vraagonsadvies"]["mail_subject"]="Advice [[v_websitenaam]]";
 
 
 
