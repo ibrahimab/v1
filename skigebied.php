@@ -4,7 +4,6 @@ $vars["jquery_fancybox"]=true;
 $id="toonskigebied";
 $vars["page_with_tabs"]=true;
 
-
 include("admin/vars.php");
 
 if($vars["websitetype"]==7) {
