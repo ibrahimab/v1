@@ -3191,6 +3191,12 @@ $txt["en"]["boeken"]["gebruikdaarbijhetvolgendewachtwoord"]="Use the following p
 $txt["nl"]["boeken"]["nahetinloggenwwwijzigen"]="Na het inloggen is het mogelijk dit wachtwoord te wijzigen in een voor jou makkelijk te onthouden wachtwoord.";
 $txt["en"]["boeken"]["nahetinloggenwwwijzigen"]="After you have logged in, you can change this password into a password which is easier to remember.";
 
+$txt["nl"]["boeken"]["jekuntookdirectinloggen"]="Je kunt ook direct inloggen via de volgende link";
+$txt["en"]["boeken"]["jekuntookdirectinloggen"]="It is also possible to login directly using this link";
+
+$txt["nl"]["boeken"]["directinloggen"]="inloggen bij \"Mijn boeking\"";
+$txt["en"]["boeken"]["directinloggen"]="login at \"My booking\"";
+
 $txt["nl"]["boeken"]["reisbureau"]="Reisagent";
 $txt["en"]["boeken"]["reisbureau"]="Travel agency";
 

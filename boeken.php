@@ -2833,25 +2833,36 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 			# Mail aan klant
 			unset($html);
-			$mail=new wt_mail;
-			$mail->subject=html("boeking","boeken")." ".$vars["websitenaam"];
-			$mail->from=$vars["email"];
-			$mail->fromname=$vars["websitenaam"];
-#			$mail->returnpath=$vars["email"];
+
+
+			// $mail=new wt_mail;
+			// $mail->subject=html("boeking","boeken")." ".$vars["websitenaam"];
+			// $mail->from=$vars["email"];
+			// $mail->fromname=$vars["websitenaam"];
+			// if($voorkant_cms) {
+			// 	if($login->vars["email"]) {
+			// 		$mail->to=$login->vars["email"];
+			// 	} else {
+			// 		$mail->to="info@chalet.nl";
+			// 	}
+			// } else {
+			// 	$mail->to=$gegevens["stap2"]["email"];
+			// }
+
 			if($voorkant_cms) {
 				if($login->vars["email"]) {
-					$mail->to=$login->vars["email"];
+					$to=$login->vars["email"];
 				} else {
-					$mail->to="info@chalet.nl";
+					$to="info@chalet.nl";
 				}
 			} else {
-#				$mail->to="info@chalet.nl";
-				$mail->to=$gegevens["stap2"]["email"];
+				$to=$gegevens["stap2"]["email"];
 			}
 
-			$html="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style type=\"text/css\"><!--\na:visited:hover,a:hover {\ncolor:".$hover.";\n}\n--></style>\n</head>\n<body style=\"background-color: #F3F3F3;font-family: ".$font.";font-size: 0.8em;\">\n";
-			$html.="<div style=\"width:630px\">";
-			$html.="&nbsp;<br>".html("beste","boeken")." ";
+
+#			$html="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style type=\"text/css\"><!--\na:visited:hover,a:hover {\ncolor:".$hover.";\n}\n--></style>\n</head>\n<body style=\"background-color: #F3F3F3;font-family: ".$font.";font-size: 0.8em;\">\n";
+#			$html.="<div style=\"width:630px\">";
+			$html.=html("beste","boeken")." ";
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
 				$html.=htmlentities($login_rb->vars["voornaam"]);
 			} else {
@@ -2864,10 +2875,14 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$html.="<br>&nbsp;<br>".$tabellen.html("nageblekenbeschikbaarheidsturenwiju","boeken")."<p>";
 			$html.="<P>".html("metvriendelijkegroet","boeken")."<br>".html("medewerkerssitenaam","boeken",array("v_websitenaam"=>$vars["websitenaam"]))."<P>".$vars["langewebsitenaam"]."<br>Wipmolenlaan 3<br>3447 GJ Woerden<br>".($vars["websiteland"]<>"nl" ? html("nederland","contact")."<br>" : "").html("telefoonnummer_chalet","contact")."<br>".html("fax_chalet","contact")."<br>".html("email_kort","contact").": <a href=\"mailto:".$vars["email"]."\">".$vars["email"]."</a><br>&nbsp;";
 
-			$html.="</div></body></html>";
+#			$html.="</div></body></html>";
 
-			$mail->html=$html;
-			$mail->send();
+			// $mail->html=$html;
+			// $mail->send();
+
+			// opmaakmail sturen
+			verstuur_opmaakmail($vars["website"],$to,"",html("boeking","boeken")." ".$vars["websitenaam"],$html,array(""));
+
 
 // if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 // 	exit;

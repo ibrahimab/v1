@@ -507,17 +507,31 @@ class Login {
 
 		$this->logged_in=true;
 
-		$db->query("SELECT uniqueid_ip FROM ".$this->settings["db"]["tablename"]." WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($userid)."';");
+		$db->query("SELECT * FROM ".$this->settings["db"]["tablename"]." WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($userid)."';");
 		if($db->next_record()) {
-			$uniqueid_ip=$db->f("uniqueid_ip");
+
+			if(isset($db->Record["uniqueid_ip"])) {
+				# nieuw uniqueid-systeem (met IP-adres-controle)
+				$uniqueid_ip=$db->f("uniqueid_ip");
+
+				# kijken of de uniqueid geldig is
+				$uniqueid=$this->uniqueid_ip_check($uniqueid_ip);
+				if(!$uniqueid) {
+					# niet geldig / onbekend: nieuwe aanmaken
+					$uniqueid=$this->uniqueid_ip_save($uniqueid_ip,$userid);
+				}
+			} else {
+				# oude systeem (werkt ook prima, is alleen minder veilig)
+				if($db->f("uniqueid")) {
+					$uniqueid=$db->f("uniqueid");
+				} else {
+					$uniqueid=md5(uniqid(rand()));
+					$db->query("UPDATE ".$this->settings["db"]["tablename"]." SET uniqueid='".addslashes($uniqueid)."' WHERE ".$this->settings["db"]["fielduserid"]."='".addslashes($userid)."';");
+				}
+			}
+
 		}
 
-		# kijken of de uniqueid geldig is
-		$uniqueid=$this->uniqueid_ip_check($uniqueid_ip);
-		if(!$uniqueid) {
-			# niet geldig / onbekend: nieuwe aanmaken
-			$uniqueid=$this->uniqueid_ip_save($uniqueid_ip,$userid);
-		}
 
 		# cookies plaatsen
 		$time=time()+($this->settings["cookie"]["timeinminutes"]*60);
