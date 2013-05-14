@@ -23,6 +23,17 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
+		// $directlogin = new directlogin;
+		// echo "<ul>";
+		// $db->query("SELECT bu.user_id, b.website FROM boekinguser bu, boeking b, boeking_persoon bp WHERE bp.email=bu.user AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 ORDER BY bu.user_id DESC LIMIT 0,100;");
+		// while($db->next_record()) {
+		// 	$link=$directlogin->maak_link($db->f("website"),1,$db->f("user_id"));
+		// 	echo "<li><a href=\"".wt_he($link)."\">".wt_he($link)."</a></li>";
+		// }
+		// echo "</ul>";
+
+
+
 		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 		// #

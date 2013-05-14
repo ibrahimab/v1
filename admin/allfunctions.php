@@ -1563,11 +1563,15 @@ function wt_create_id($table,$field,$length=8) {
 	return $id;
 }
 
-function wt_generate_password($length=6) {
+function wt_generate_password($length=6,$complex_password=true) {
 	while(!$password_okay) {
 		# geen letter-l <-> cijfer-1 en letter-o <-> cijfer-0 (kunnen verward worden)
-		$chars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-		$chars=$chars.$chars."!#$%&*";
+		if($complex_password) {
+			$chars = "abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+			$chars=$chars.$chars."!#$%&*";
+		} else {
+			$chars = "abcdefghijkmnpqrstuvwxyz23456789";
+		}
 		$i=0;
 		$pass='';
 		while($i<$length) {
@@ -1576,8 +1580,14 @@ function wt_generate_password($length=6) {
 			$pass = $pass . $tmp;
 			$i++;
 		}
-		if(ereg("[a-z]",$pass) and ereg("[A-Z]",$pass) and ereg("[0-9]",$pass) and ereg("^[a-zA-Z0-9]",$pass) and ereg("[a-zA-Z0-9]$",$pass)) {
-			$password_okay=true;
+		if($complex_password) {
+			if(ereg("[a-z]",$pass) and ereg("[A-Z]",$pass) and ereg("[0-9]",$pass) and ereg("^[a-zA-Z0-9]",$pass) and ereg("[a-zA-Z0-9]$",$pass)) {
+				$password_okay=true;
+			}
+		} else {
+			if(ereg("[a-z]",$pass) and ereg("[0-9]",$pass)) {
+				$password_okay=true;
+			}
 		}
 	}
 	return $pass;

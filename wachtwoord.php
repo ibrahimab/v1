@@ -4,11 +4,11 @@ include("admin/vars.php");
 
 $robot_noindex=true;
 
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="wachtwoord";
 $form->settings["layout"]["css"]=false;
 $form->settings["language"]=$vars["taal"];
-  
+
 #_field: (obl),id,title,db,prevalue,options,layout
 
 $form->field_email(1,"email","E-mailadres");
@@ -16,16 +16,16 @@ $form->field_email(1,"email","E-mailadres");
 $form->check_input();
 
 if($form->okay) {
-	$db->query("SELECT user_id, password_uc FROM boekinguser WHERE user='".addslashes($form->input["email"])."';");
+	$db->query("SELECT user_id, password_uc, wrongcount FROM boekinguser WHERE user='".addslashes($form->input["email"])."';");
 	if($db->next_record()) {
 		# Wachtwoord mailen
-		if($db->f("password_uc")) {
+		if($db->f("password_uc") and $db->f("wrongcount")<50) {
 			# Ongecodeerd wachtwoord gebruiken
 			$password=$db->f("password_uc");
 		} else {
 			# Nieuw wachtwoord aanmaken
-			$password=substr(md5(uniqid(rand(),1)),0,8);
-			$db->query("UPDATE boekinguser SET password='".addslashes(md5($password))."', password_uc='".addslashes($password)."', uniqueid='' WHERE user='".addslashes($form->input["email"])."';");
+			$password=wt_generate_password(6,false);
+			$db->query("UPDATE boekinguser SET password='".addslashes(md5($password))."', password_uc='".addslashes($password)."', uniqueid='', wrongcount=0 WHERE user='".addslashes($form->input["email"])."';");
 		}
 		$mail=new wt_mail;
 		$mail->fromname=$vars["websitenaam"];

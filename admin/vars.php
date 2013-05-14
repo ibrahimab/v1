@@ -98,8 +98,8 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 // autoloaden van classes
 function __autoload($classname) {
 	global $vars;
-	if (file_exists($vars["unixdir"]."admin/siteclass.".$classname . ".php")) {
-		require_once $vars["unixdir"]."admin/siteclass.".$classname . ".php";
+	if (file_exists($vars["unixdir"]."admin/siteclass/siteclass.".$classname . ".php")) {
+		require_once $vars["unixdir"]."admin/siteclass/siteclass.".$classname . ".php";
 		return true;
 	} else {
 		if($classname!="MYPDF") {
