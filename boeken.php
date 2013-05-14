@@ -2639,7 +2639,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$inlogtext.="<br>".html("nahetinloggenwwwijzigen","boeken");
 					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord (".$db->f("password_uc").") bestaan al");
 				} else {
-					$wachtwoord=substr(md5(uniqid(rand(),true)),0,6);
+					$wachtwoord=wt_generate_password(6,false);
 					$db->query("UPDATE boekinguser SET password='".addslashes(md5($wachtwoord))."', password_uc='".addslashes($wachtwoord)."' WHERE user_id='".addslashes($db->f("user_id"))."';");
 					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." bestaat al. Nieuw wachtwoord (".$wachtwoord.") aangemaakt");
 
@@ -2650,7 +2650,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 #				chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord (".htmlentities($db->f("password_uc")).") aanmaken niet nodig (bestaan al)");
 			} else {
 				if(!$gegevens["stap1"]["reisbureau_user_id"]) {
-					$wachtwoord=substr(md5(uniqid(rand(),true)),0,6);
+					$wachtwoord=wt_generate_password(6,false);
 					$db->query("INSERT INTO boekinguser SET user='".addslashes($gegevens["stap2"]["email"])."', password='".addslashes(md5($wachtwoord))."', password_uc='".addslashes($wachtwoord)."';");
 					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord (".$wachtwoord.") aangemaakt");
 					$inlogtext.=html("gebruikdaarbijhetvolgendewachtwoord","boeken")." <strong>".htmlentities($wachtwoord)."</strong>";
