@@ -123,7 +123,7 @@ $txt["nl"]["vars"]["referentie_10"]="Twitter";
 $txt["en"]["vars"]["referentie_10"]="Twitter";
 
 $txt["nl"]["vars"]["weekend"]="weekend";
-$txt["en"]["vars"]["weekend"]="Weekend";
+$txt["en"]["vars"]["weekend"]="weekend";
 
 $txt["nl"]["vars"]["fotos"]="Foto's";
 $txt["en"]["vars"]["fotos"]="Photos";
@@ -4845,10 +4845,10 @@ $txt["nl"]["vraagonsadvies"]["budgetindicatie"]="Budgetindicatie";
 $txt["en"]["vraagonsadvies"]["budgetindicatie"]="Budget indication";
 
 $txt["nl"]["vraagonsadvies"]["inclusiefskipas"]="inclusief skipas";
-$txt["en"]["vraagonsadvies"]["inclusiefskipas"]="+ ski lift pass";
+$txt["en"]["vraagonsadvies"]["inclusiefskipas"]="including ski lift pass";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_1"]="geen";
-$txt["en"]["vraagonsadvies"]["budgetindicatie_1"]="none";
+$txt["en"]["vraagonsadvies"]["budgetindicatie_1"]="no indication";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_perpersoon"]="tot € [[v_bedrag]] per persoon";
 $txt["en"]["vraagonsadvies"]["budgetindicatie_perpersoon"]="max. € [[v_bedrag]] per person";
@@ -4895,6 +4895,8 @@ $txt["en"]["vraagonsadvies"]["indiengewenst"]="if desired";
 $txt["nl"]["vraagonsadvies"]["mail_subject"]="Advies [[v_websitenaam]]";
 $txt["en"]["vraagonsadvies"]["mail_subject"]="Advice [[v_websitenaam]]";
 
+$txt["nl"]["vraagonsadvies"]["bedankt"]="Bedankt voor je aanvraag. Je ontvangt binnen 24 uur (maandag t/m zaterdag) een aantal passende suggesties van ons.";
+$txt["en"]["vraagonsadvies"]["bedankt"]="Thank you for your request. We will offer you some suggestions within 24 hours (from Monday to Saturday).";
 
 
 //

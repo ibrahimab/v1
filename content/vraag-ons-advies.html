@@ -2,7 +2,7 @@
 
 # Content
 if($_GET["fo"]=="frm") {
-	echo "<p>Bedankt voor je aanvraag. Je ontvangt binnen 24 uur (maandag t/m zaterdag) een aantal passende suggesties van ons.</p>";
+	echo "<p>".html("bedankt","vraagonsadvies")."</p>";
 	affiliate_tracking(false,true,true,array("ordernummer"=>"vraagonsadvies"));
 } else {
 	echo "<p>".html("alinea1","vraagonsadvies",array("v_websitenaam"=>$vars["websitenaam"]))."</p>";

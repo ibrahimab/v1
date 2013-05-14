@@ -16,7 +16,7 @@ $txta["nl"]["menu_aanbiedingen"]="aanbiedingen";
 $txta["en"]["menu_aanbiedingen"]="special_offers";
 
 $txta["nl"]["menu_vraag-ons-advies"]="vraag-ons-advies";
-$txta["en"]["menu_vraag-ons-advies"]="-";
+$txta["en"]["menu_vraag-ons-advies"]="ask-our-advice";
 
 $txta["nl"]["menu_top10"]="top10";
 $txta["en"]["menu_top10"]="top10";
@@ -252,7 +252,7 @@ $txta["nl"]["menutitle_aanbiedingen"]="aanbiedingen";
 $txta["en"]["menutitle_aanbiedingen"]="special offers";
 
 $txta["nl"]["menutitle_vraag-ons-advies"]="vraag ons advies";
-$txta["en"]["menutitle_vraag-ons-advies"]="-";
+$txta["en"]["menutitle_vraag-ons-advies"]="ask our advice";
 
 $txta["nl"]["menutitle_weekendski"]="weekendski";
 $txta["en"]["menutitle_weekendski"]="weekend ski";
@@ -484,7 +484,7 @@ $txta["nl"]["title_sitemap"]="Sitemap";
 $txta["en"]["title_sitemap"]="Sitemap";
 
 $txta["nl"]["title_vraagonsadvies"]="Vraag ons advies";
-$txta["en"]["title_vraagonsadvies"]="-";
+$txta["en"]["title_vraagonsadvies"]="Ask our advice";
 
 $txta["nl"]["title_lev_login"]="Beheersysteem accommodatie-eigenaren";
 $txta["en"]["title_lev_login"]="Management system accommodation owners";

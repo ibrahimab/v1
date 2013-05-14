@@ -512,9 +512,7 @@ if($vars["websitetype"]==7) {
 	if($vars["websitetype"]<>1 and $vars["websitetype"]<>3 and $vars["websitetype"]<>7) {
 
 	} else {
-		if($vars["taal"]=="nl") {
-			$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
-		}
+		$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 	}
 	$menu["contact"]=txt("menutitle_contact");
 
@@ -600,6 +598,7 @@ $title["enquete"]=txt("title_enquete");
 $title["zoek-en-boek"]=txt("title_zoekenboek");
 $title["sitemap"]=txt("title_sitemap");
 $title["vraag-ons-advies"]=txt("title_vraagonsadvies");
+// $title["ask-our-advice"]=txt("title_vraagonsadvies");
 
 $title["xmlmanual"]="Manual XML export";
 

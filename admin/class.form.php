@@ -2290,7 +2290,7 @@ class form2 {
 		}
 		reset($this->fields["title"]);
 		while(list($key,$value)=each($this->fields["title"])) {
-			if(isset($this->outputtable_cell[$key])) $return.="<tr><td align=\"left\" valign=\"top\" class=\"wtform_cell_left\">".ereg_replace("\*$","",$value)."</td><td align=\"left\" valign=\"top\" class=\"wtform_cell_right\">".($this->outputtable_cell[$key] ? $this->outputtable_cell[$key] : "&nbsp;")."</td></tr>";
+			if(isset($this->outputtable_cell[$key])) $return.="<tr><td align=\"left\" valign=\"top\" class=\"wtform_cell_left\">".ereg_replace("\*$","",$value)."</td><td align=\"left\" valign=\"top\" class=\"wtform_cell_right\">".(isset($this->outputtable_cell[$key]) ? $this->outputtable_cell[$key] : "&nbsp;")."</td></tr>";
 			if(isset($this->outputtable_row[$key])) $return.="<tr><td align=\"left\" valign=\"top\" colspan=\"2\">".$value."</td></tr>";
 		}
 		$return.="</td></tr>";

@@ -356,7 +356,7 @@ class wt_mail {
 		if($this->xheaders) $this->send_header.=$this->xheaders."\n";
 
 		# Bevat fromname vreemde karakters?
-		if(eregi("^[a-z0-9[:space:]]*$",$this->fromname)) {
+		if($this->fromname and eregi("^[a-z0-9[:space:]]*$",$this->fromname)) {
 			$this->send_header.="From: ".$this->fromname." <".$this->from.">";
 		} elseif($this->fromname) {
 			$this->send_header.="From: \"".$this->fromname."\" <".$this->from.">";

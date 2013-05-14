@@ -14,9 +14,11 @@ $form->settings["fullname"]="Vraag ons advies ".$vars["websitenaam"];
 $form->settings["layout"]["css"]=false;
 $form->settings["message"]["submitbutton"]["nl"]="VERZENDEN";
 #$form->settings["target"]="_blank";
+$form->settings["language"]=$vars["taal"];
 
 # Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 $form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
+
 
 #_field: (obl),id,title,db,prevalue,options,layout
 if($vars["seizoentype"]==2) {
@@ -163,8 +165,7 @@ if($form->okay) {
 	$topbody.="<p>Reageren (korte versie): <a href=\"mailto:".$form->input["email"]."?subject=".$subject."&body=".$body_kort."\">mail sturen</a></p>";
 
 
-	$form->mail($vars["email"],"","Vraag ons advies","",$topbody,"",$vars["email"],"",array("replyto"=>$form->input["emailadres"]));
-
+	$form->mail($vars["email"],"","Vraag ons advies ".$vars["websitenaam"],"",$topbody,"",$vars["email"],"",array("replyto"=>$form->input["emailadres"]));
 }
 $form->end_declaration();
 

@@ -232,6 +232,7 @@ RewriteRule ^tmp_verzendmethode\.php$ /verzendmethode.php [R=301,L]
 
 # Engelstalige pagina's
 RewriteRule ^favourites\.php$ favorieten.php?%{QUERY_STRING}
+RewriteRule ^ask-our-advice\.php$ vraag-ons-advies.php?%{QUERY_STRING}
 
 
 #
