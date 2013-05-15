@@ -3508,7 +3508,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		} elseif($data["ordernummer"]=="contactaanvraag") {
 			$tradetracker_productID="14239";
 		} elseif($data["ordernummer"]=="vraagonsadvies") {
-			$tradetracker_productID="14239";
+			$tradetracker_productID="16873";
 		} else {
 			$tradetracker_productID="204";
 		}
