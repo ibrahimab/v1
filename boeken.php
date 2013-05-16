@@ -838,7 +838,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_text(1,"telefoonnummer",txt("telefoonnummer","boeken"),"",array("text"=>$gegevens["stap2"]["telefoonnummer"]));
 			$form->field_text(0,"mobielwerk",txt("mobielwerk","boeken"),"",array("text"=>$gegevens["stap2"]["mobielwerk"]));
 			$form->field_email(1,"email",txt("email","boeken"),"",array("text"=>$gegevens["stap2"]["email"]));
-			if($boeking_wijzigen or $mustlogin) {
+			if($mustlogin) {
 				$form->field_password(0,"wachtwoord",txt("nieuwwachtwoord","boeken"));
 				$form->field_password(0,"wachtwoord_herhaal",txt("herhaalnieuwwachtwoord","boeken"));
 			}
@@ -2631,32 +2631,39 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$db->query("UPDATE boeking SET verkoop='".addslashes($gegevens["stap1"]["verkoop"])."', accprijs='".addslashes($gegevens["stap1"]["accprijs"])."', ".($gegevens["stap1"]["reisbureau_user_id"] ? "commissie='".addslashes($gegevens["stap1"]["commissie"])."', " : "")."opmerkingen_boeker='".addslashes($form->input["opmerkingen_boeker"])."', ".($form->input["referentiekeuze"] ? "referentiekeuze='".addslashes($form->input["referentiekeuze"])."', " : "").($form->input["verzendmethode_reisdocumenten"] ? "verzendmethode_reisdocumenten='".addslashes($form->input["verzendmethode_reisdocumenten"])."', " : "")."bevestigdatum=NOW()".$setquery_inkoop." WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 
 			# E-mailadres en wachtwoord opslaan in boekinguser
-			$inlogtext=html("viaadreskuntuinloggen","boeken",array("h_adres"=>"<a href=\"".$vars["basehref"].txt("menu_inloggen").".php\">".$vars["basehref"].txt("menu_inloggen").".php</a>"))." ";
 			$db->query("SELECT user_id, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
 			if($db->next_record()) {
+				$directlogin_user_id=$db->f("user_id");
 				if($db->f("password_uc")) {
-					$inlogtext.=html("gebruikdaarbijhetvolgendewachtwoord","boeken")." <strong>".htmlentities($db->f("password_uc"))."</strong>";
-					$inlogtext.="<br>".html("nahetinloggenwwwijzigen","boeken");
+					$directlogin_wachtwoord=$db->f("password_uc");
 					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord (".$db->f("password_uc").") bestaan al");
 				} else {
-					$wachtwoord=wt_generate_password(6,false);
-					$db->query("UPDATE boekinguser SET password='".addslashes(md5($wachtwoord))."', password_uc='".addslashes($wachtwoord)."' WHERE user_id='".addslashes($db->f("user_id"))."';");
-					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." bestaat al. Nieuw wachtwoord (".$wachtwoord.") aangemaakt");
-
-					$inlogtext.=html("gebruikdaarbijhetvolgendewachtwoord","boeken")." <strong>".htmlentities($wachtwoord)."</strong>";
-					$inlogtext.="<br>".html("nahetinloggenwwwijzigen","boeken");
-#					$inlogtext.=html("wachtwoordaleerderontvangen","boeken",array("l1"=>"wachtwoord"));
+					$directlogin_wachtwoord=wt_generate_password(6,false);
+					$db->query("UPDATE boekinguser SET password='".addslashes(md5($directlogin_wachtwoord))."', password_uc='".addslashes($directlogin_wachtwoord)."' WHERE user_id='".addslashes($db->f("user_id"))."';");
+					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." bestaat al. Nieuw wachtwoord (".$directlogin_wachtwoord.") aangemaakt");
 				}
-#				chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord (".htmlentities($db->f("password_uc")).") aanmaken niet nodig (bestaan al)");
 			} else {
 				if(!$gegevens["stap1"]["reisbureau_user_id"]) {
-					$wachtwoord=wt_generate_password(6,false);
-					$db->query("INSERT INTO boekinguser SET user='".addslashes($gegevens["stap2"]["email"])."', password='".addslashes(md5($wachtwoord))."', password_uc='".addslashes($wachtwoord)."';");
-					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord (".$wachtwoord.") aangemaakt");
-					$inlogtext.=html("gebruikdaarbijhetvolgendewachtwoord","boeken")." <strong>".htmlentities($wachtwoord)."</strong>";
-					$inlogtext.="<br>".html("nahetinloggenwwwijzigen","boeken");
+					$directlogin_wachtwoord=wt_generate_password(6,false);
+					$db->query("INSERT INTO boekinguser SET user='".addslashes($gegevens["stap2"]["email"])."', password='".addslashes(md5($directlogin_wachtwoord))."', password_uc='".addslashes($directlogin_wachtwoord)."';");
+					$directlogin_user_id=$db->insert_id();
+					chalet_log("gebruikersnaam ".$gegevens["stap2"]["email"]." en wachtwoord (".$directlogin_wachtwoord.") aangemaakt");
 				}
 			}
+
+			$directlogin = new directlogin;
+			$directlogin_link=$directlogin->maak_link($vars["website"],1,$directlogin_user_id,md5($directlogin_wachtwoord));
+
+			$inlogtext="";
+			$inlogtext.=html("viaadreskuntuinloggen","boeken",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>"));
+
+			# Button
+#			$inlogtext.="<p><center><table cellspacing=\"0\" cellpadding=\"0\"><tr><td align=\"center\" width=\"200\" height=\"30\" bgcolor=\"".$table."\" style=\"-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: ".$thfontcolor."; display: block;\"><a href=\"".wt_he($directlogin_link)."\" style=\"color: ".$thfontcolor."; font-size:11px; font-weight: bold; font-family: Verdana, Arial, Helvetica, sans-serif; text-decoration: none; line-height:30px; width:100%; display:inline-block\">".html("directinloggen","boeken")."</a></td></tr></table></center></p>";
+
+			if($directlogin_wachtwoord) {
+				$inlogtext.=" ".html("gebruikdaarbijhetvolgendewachtwoord","boeken")." <strong>".htmlentities($directlogin_wachtwoord)."</strong>";
+			}
+
 
 			# Status optieaanvraag wijzigen indien gekoppeld aan optieaanvraag
 			if($gegevens["stap1"]["optieaanvraag_id"]) {
@@ -2867,9 +2874,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			verstuur_opmaakmail($vars["website"],$to,"",html("boeking","boeken")." ".$vars["websitenaam"],$html,array(""));
 
 
-// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-// 	exit;
-// }
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	exit;
+}
 
 		}
 

@@ -27,15 +27,19 @@ if($form->okay) {
 			$password=wt_generate_password(6,false);
 			$db->query("UPDATE boekinguser SET password='".addslashes(md5($password))."', password_uc='".addslashes($password)."', uniqueid='', wrongcount=0 WHERE user='".addslashes($form->input["email"])."';");
 		}
-		$mail=new wt_mail;
-		$mail->fromname=$vars["websitenaam"];
-		$mail->from=$vars["email"];
-		$mail->to=$form->input["email"];
-		$mail->subject=txt("nieuwwachtwoord","wachtwoord");
-		$mail->plaintext=txt("uwnieuwewachtwoordis","wachtwoord")." ".$password."\n\n".txt("inloggenkanvia","wachtwoord",array("v_url"=>$vars["basehref"].txt("menu_inloggen").".php")). " \n\n".txt("eenmaalingelogdkuntu","wachtwoord")."\n\n".txt("metvriendelijkegroet","wachtwoord")."\n".txt("medewerkers","wachtwoord")." ".$vars["websitenaam"]."\n\n";
-		$mail->send();
+
+		$directlogin = new directlogin;
+		$directlogin_link=$directlogin->maak_link($vars["website"],1,$db->f("user_id"),md5($password));
+
+		# Button
+		$inlogbutton.="<p><table cellspacing=\"0\" cellpadding=\"0\"><tr><td align=\"center\" width=\"200\" height=\"30\" bgcolor=\"".$table."\" style=\"-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: ".$thfontcolor."; display: block;\"><a href=\"".wt_he($directlogin_link)."\" style=\"color: ".$thfontcolor."; font-size:11px; font-weight: bold; font-family: Verdana, Arial, Helvetica, sans-serif; text-decoration: none; line-height:30px; width:100%; display:inline-block\">".html("directinloggen","boeken")."</a></td></tr></table></p>";
+
+		$body=nl2br(html("mailcontent","wachtwoord",array("v_wachtwoord"=>$password,"h_button"=>$inlogbutton,"h_1"=>"<strong>","h_2"=>"</strong>")));
+
+		verstuur_opmaakmail($vars["website"],$form->input["email"],"",txt("mailsubject","wachtwoord",array("v_website"=>$vars["websitenaam"])),$body,array(""));
+
 	} else {
-		usleep(500000);
+		$form->error("email",txt("mailadresonbekend","wachtwoord"));
 	}
 }
 $form->end_declaration();

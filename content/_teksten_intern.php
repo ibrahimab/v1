@@ -397,8 +397,8 @@ $txta["en"]["title_bsys"]="My booking";
 $txta["nl"]["title_selecteren"]="Gewenste boeking selecteren";
 $txta["en"]["title_selecteren"]="Select booking";
 
-$txta["nl"]["title_wachtwoord"]="Wachtwoord vergeten";
-$txta["en"]["title_wachtwoord"]="Lost password";
+$txta["nl"]["title_wachtwoord"]="Inloggegevens opvragen";
+$txta["en"]["title_wachtwoord"]="Request my login credentials";
 
 $txta["nl"]["title_inloggen"]="Inloggen bij \"Mijn boeking\"";
 $txta["en"]["title_inloggen"]="Login to \"My booking\"";

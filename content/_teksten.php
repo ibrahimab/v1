@@ -3179,23 +3179,17 @@ $txt["en"]["boeken"]["alleenmogelijkbijminimaaldeelnemers"]="only available if a
 $txt["nl"]["boeken"]["plaatsonderaanvinkje"]="Plaats onderaan een vinkje bij \"Ja, ik wil deze boeking plaatsen...\"";
 $txt["en"]["boeken"]["plaatsonderaanvinkje"]="Tick at the bottom \"Yes, I want to make this booking...\"";
 
-$txt["nl"]["boeken"]["viaadreskuntuinloggen"]="Via [[h_adres]] kun je met je e-mailadres inloggen om eventueel wijzigingen in je boeking aan te brengen.";
-$txt["en"]["boeken"]["viaadreskuntuinloggen"]="Via [[h_adres]] you can log in with your e-mail address to make changes in your booking.";
+$txt["nl"]["boeken"]["viaadreskuntuinloggen"]="Via [[h_1]]Mijn boeking[[h_2]] kun je met één klik inloggen om eventueel wijzigingen in je boeking aan te brengen.";
+$txt["en"]["boeken"]["viaadreskuntuinloggen"]="Via [[h_1]]My booking[[h_2]] you can log in with one click to make changes in your booking.";
 
 $txt["nl"]["boeken"]["wachtwoordaleerderontvangen"]="Het bijbehorende wachtwoord heb je al bij een eerdere boeking ontvangen. Indien je het wachtwoord niet meer weet, kun je een [[/l1]]nieuw wachtwoord opvragen[[/l1]].";
 $txt["en"]["boeken"]["wachtwoordaleerderontvangen"]="You have received your password with an earlier booking. If you have forgotten your password, you can request a [[/l1]] new password [[/l1]].";
 
-$txt["nl"]["boeken"]["gebruikdaarbijhetvolgendewachtwoord"]="Gebruik daarbij het volgende wachtwoord:";
-$txt["en"]["boeken"]["gebruikdaarbijhetvolgendewachtwoord"]="Use the following password:";
+$txt["nl"]["boeken"]["gebruikdaarbijhetvolgendewachtwoord"]="Je kunt ook inloggen met je e-mailadres en het volgende wachtwoord:";
+$txt["en"]["boeken"]["gebruikdaarbijhetvolgendewachtwoord"]="You can also login with your email address and the following password:";
 
-$txt["nl"]["boeken"]["nahetinloggenwwwijzigen"]="Na het inloggen is het mogelijk dit wachtwoord te wijzigen in een voor jou makkelijk te onthouden wachtwoord.";
-$txt["en"]["boeken"]["nahetinloggenwwwijzigen"]="After you have logged in, you can change this password into a password which is easier to remember.";
-
-$txt["nl"]["boeken"]["jekuntookdirectinloggen"]="Je kunt ook direct inloggen via de volgende link";
-$txt["en"]["boeken"]["jekuntookdirectinloggen"]="It is also possible to login directly using this link";
-
-$txt["nl"]["boeken"]["directinloggen"]="inloggen bij \"Mijn boeking\"";
-$txt["en"]["boeken"]["directinloggen"]="login at \"My booking\"";
+$txt["nl"]["boeken"]["directinloggen"]="Inloggen bij \"Mijn boeking\"";
+$txt["en"]["boeken"]["directinloggen"]="Login at \"My booking\"";
 
 $txt["nl"]["boeken"]["reisbureau"]="Reisagent";
 $txt["en"]["boeken"]["reisbureau"]="Travel agency";
@@ -3300,8 +3294,8 @@ $txt["en"]["boeking_bevestigd"]["terugnaaraccommodatie"]="Back to the accommodat
 $txt["nl"]["inloggen"]["inleiding"]="Via onderstaand formulier kun je inloggen om de gegevens van je boeking te bekijken en eventueel aan te passen. Voer hieronder het door jou opgegeven e-mailadres van de hoofdboeker in. Het wachtwoord heb je direct na de boeking per e-mail ontvangen.";
 $txt["en"]["inloggen"]["inleiding"]="The form below allows you to log in and view your booking details and change them if necessary. Enter the e-mail address of the main booker below. You have received the password by e-mail immediately after you made your booking.";
 
-$txt["nl"]["inloggen"]["wwvergeten"]="Ik ben mijn wachtwoord vergeten";
-$txt["en"]["inloggen"]["wwvergeten"]="I have forgotten my password";
+$txt["nl"]["inloggen"]["wwvergeten"]="Ik heb mijn inloggegevens niet meer";
+$txt["en"]["inloggen"]["wwvergeten"]="I lost my login credentials";
 
 $txt["nl"]["inloggen_geblokkeerd"]["inleiding"]="Er is bij jouw account te vaak een verkeerd wachtwoord ingevoerd. Het account is daarom tot [[v_datumtijd]] geblokkeerd. Hierna kun je met het juiste wachtwoord weer inloggen.";
 $txt["en"]["inloggen_geblokkeerd"]["inleiding"]="You have entered an incorrect password too many times. The account has therefore been locked until [[v_datumtijd]]. You can log in with the correct password later.";
@@ -3309,11 +3303,14 @@ $txt["en"]["inloggen_geblokkeerd"]["inleiding"]="You have entered an incorrect p
 $txt["nl"]["inloggen_geblokkeerd"]["bentuuwwachtwoordvergeten"]="Ben je je wachtwoord vergeten, dan kun je een [[l1]]nieuw wachtwoord aanvragen[[/l1]]. Ook in dat geval zul je moeten wachten tot [[v_tijd]] voordat je kunt inloggen.";
 $txt["en"]["inloggen_geblokkeerd"]["bentuuwwachtwoordvergeten"]="If you have forgotten your password, you can apply for a [[l1]]new password[[/l1]]. In this case, you will also have to wait until [[v_tijd]] before you can log in.";
 
-$txt["nl"]["wachtwoord"]["inleiding"]="Ben je je wachtwoord vergeten? Als je hieronder je e-mailadres invult, ontvang je via e-mail je wachtwoord.";
-$txt["en"]["wachtwoord"]["inleiding"]="Have you forgotten your password? If you enter your e-mail address below, we will send you your password by e-mail.";
+$txt["nl"]["wachtwoord"]["inleiding"]="Ben je je inloggegevens vergeten? Als je hieronder je e-mailadres invult, ontvang je via e-mail een link om eenvoudig in te loggen.";
+$txt["en"]["wachtwoord"]["inleiding"]="Have you forgotten your login credentials? If you enter your e-mail address below, we will send you your credentials by e-mail.";
 
-$txt["nl"]["wachtwoord"]["indienuwemailadresreedsbijonsbekend"]="Indien je e-mailadres reeds bij ons bekend is, ontvang je binnen enkele minuten via e-mail je wachtwoord. Hierna kun je [[l1]]inloggen[[/l1]] met dat wachtwoord.";
-$txt["en"]["wachtwoord"]["indienuwemailadresreedsbijonsbekend"]="If we already have your e-mail address, you will receive your password within a few minutes. You can then [[l1]]log in[[/l1]] with that password.";
+$txt["nl"]["wachtwoord"]["indienuwemailadresreedsbijonsbekend"]="Je ontvangt binnen enkele minuten via e-mail een link. Hiermee kun je direct inloggen.";
+$txt["en"]["wachtwoord"]["indienuwemailadresreedsbijonsbekend"]="You will receive your password within a few minutes. You can then log in with that password.";
+
+$txt["nl"]["wachtwoord"]["mailadresonbekend"]="onbekend in ons systeem";
+$txt["en"]["wachtwoord"]["mailadresonbekend"]="unknown in our system";
 
 $txt["nl"]["wachtwoord"]["nieuwwachtwoord"]="Je wachtwoord";
 $txt["en"]["wachtwoord"]["nieuwwachtwoord"]="Your password";
@@ -3332,6 +3329,13 @@ $txt["en"]["wachtwoord"]["metvriendelijkegroet"]="Yours sincerely,";
 
 $txt["nl"]["wachtwoord"]["medewerkers"]="Medewerkers";
 $txt["en"]["wachtwoord"]["medewerkers"]="Staff";
+
+$txt["nl"]["wachtwoord"]["mailsubject"]="Inloggegevens [[v_website]]";
+$txt["en"]["wachtwoord"]["mailsubject"]="Login credentials [[v_website]]";
+
+$txt["nl"]["wachtwoord"]["mailcontent"]="Beste klant,\n\nDirect inloggen bij \"Mijn boeking\" kan via de volgende button:[[h_button]]Log je liever in met je e-mailadres dan kun je daarbij het volgende wachtwoord gebruiken: [[h_1]][[v_wachtwoord]][[h_2]].\n\n[ondertekening]";
+$txt["en"]["wachtwoord"]["mailcontent"]="Dear client,\n\nYou can log in at \"My booking\" using this button:[[h_button]]If you prefer to log in with your email address you can use this password: [[h_1]][[v_wachtwoord]][[h_2]].\n\n[ondertekening]";
+
 
 #
 # Pagina reisbureau (bijvoorbeeld http://www.chalettour.nl/reisagent.php)

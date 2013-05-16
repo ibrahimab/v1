@@ -1,7 +1,11 @@
 <?php
 
 if($_GET["fo"]=="frm") {
-	echo html("indienuwemailadresreedsbijonsbekend","wachtwoord",array("l1"=>"inloggen"));
+	if($mail_verstuurd) {
+		echo html("mailadresonbekend","wachtwoord");
+	} else {
+		echo html("indienuwemailadresreedsbijonsbekend","wachtwoord",array("l1"=>"inloggen"));
+	}
 } else {
 	echo html("inleiding","wachtwoord")."<p>";
 	$form->display_all();
