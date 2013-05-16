@@ -11,23 +11,25 @@ include("admin/vars.php");
 if($_POST["filled"]) {
 	# Gegevens opslaan in database
 	while(list($key,$value)=each($vars["sjabloon_velden"])) {
-		reset($_POST[$value]);
-		while(list($key2,$value2)=each($_POST[$value])) {
-			if($value=="aflopen_allotment") {
-				if($value2<>"") {
-					$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
+		if(is_array($_POST[$value])) {
+			reset($_POST[$value]);
+			while(list($key2,$value2)=each($_POST[$value])) {
+				if($value=="aflopen_allotment") {
+					if($value2<>"") {
+						$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
+					} else {
+						$savequery[$key2].=", ".$value."=NULL";
+					}
 				} else {
-					$savequery[$key2].=", ".$value."=NULL";
+					$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
 				}
-			} else {
-				$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
 			}
 		}
 	}
-	
+
 	# Eerst gegevens wissen
 	$db->query("DELETE FROM calculatiesjabloon_week WHERE leverancier_id='".addslashes($_GET["lid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
-	
+
 	# Dan opslaan
 	while(list($key,$value)=each($savequery)) {
 		$db->query("INSERT INTO calculatiesjabloon_week SET leverancier_id='".addslashes($_GET["lid"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".$key."'".$value.";");
@@ -35,7 +37,7 @@ if($_POST["filled"]) {
 	}
 
 	# Vroegboekkorting-datums opslaan in tabel calculatiesjabloon
-	
+
 	reset($vars["tarief_datum_velden"]);
 	while(list($key,$value)=each($vars["tarief_datum_velden"])) {
 		if(ereg("^([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})$",$_POST[$value],$regs)) {
@@ -80,7 +82,7 @@ if($_POST["filled"]) {
 		while(list($key,$value)=each($vars["tarief_datum_velden"])) {
 			if($db->f($value)) {
 				$sjabloon[$value]=date("d-m-Y",$db->f($value));
-				
+
 				# Indien datum verstreken: vroegboekkorting_percentage wissen
 				if($db->f($value)<mktime(0,0,0,date("m"),date("d"),date("Y"))) {
 					$doorloop_array=$sjabloon["weken"];

@@ -50,7 +50,7 @@ class Login {
 			if(!isset($this->settings["errorclass"])) $this->settings["errorclass"]="";
 			if(!isset($this->settings["loginpogingen"])) $this->settings["loginpogingen"]=3; # betekent: 3x onjuist mag, bij de 4e keer onjuist wordt het account geblokkeerd
 			if(!isset($this->settings["loginblocktime"])) $this->settings["loginblocktime"]=3600;
-
+			if(!isset($this->settings["username_type"])) $this->settings["username_type"]="text"; # i<nput type=""> : text of email
 			if(!isset($this->settings["uniqueid_ip_validtime"])) $this->settings["uniqueid_ip_validtime"]=86400*365; # login is 1 jaar geldig
 
 			if(!isset($this->settings["loginform_nobr"])) $this->settings["loginform_nobr"]=false;
@@ -315,6 +315,66 @@ class Login {
 			echo "</TABLE></TR></TD></TABLE></TR></TD></FORM></TABLE>";
 		}
 	}
+
+	function loginform_html5() {
+		if(!$this->logged_in) {
+			echo "<div class=\"wtlogin_maindiv wtlogin_name_".$this->settings["name"].($this->settings["maindiv_class"] ? " ".$this->settings["maindiv_class"] : "")."\">";
+			echo "<form method=\"post\" name=\"loginform\" action=\"".$this->currenturl()."\"".($this->settings["settings"]["no_autocomplete"] ? " autocomplete=\"off\"" : "").">";
+			echo "<input type=\"hidden\" name=\"loginfilled\" value=\"1\">";
+
+			echo "<div class=\"wtlogin_div_username\">";
+			echo "<label class=\"wtlogin_label_username\">";
+			echo $this->settings["message"]["login"];
+			echo "</label>";
+			echo "<input type=\"".$this->settings["username_type"]."\" name=\"username[".$this->settings["name"]."]\" size=\"20\" maxlength=\"128\"";
+			if($_POST["loginfilled"]) {
+				echo " value=\"".wt_he($_POST["username"][$this->settings["name"]])."\"";
+			} elseif($_GET["username"]) {
+				echo " value=\"".wt_he($_GET["username"])."\"";
+			}
+			echo ">";
+			echo "</div>";
+
+
+			echo "<div class=\"wtlogin_div_password\">";
+			echo "<label class=\"wtlogin_label_password\">";
+			echo $this->settings["message"]["password"];
+			echo "</label>";
+			echo "<input type=\"password\" name=\"password[".$this->settings["name"]."]\" size=\"10\" maxlength=\"32\"";
+			if($_POST["loginfilled"]) {
+				echo " value=\"",wt_he($_POST["password"][$this->settings["name"]]),"\"";
+			}
+			echo ">";
+			echo "</div>";
+
+			if($this->settings["settings"]["rememberpassword"]) {
+
+				echo "<div class=\"wtlogin_div_remember\">";
+
+				echo "<input type=\"checkbox\" id=\"remember".$this->settings["name"]."\" name=\"remember\"";
+				if(($this->settings["settings"]["rememberpassword"]=="on" and !$_POST["loginfilled"]) or ($_POST["remember"]=="on" and $_POST["loginfilled"])) echo " checked";
+				echo ">";
+				echo "<label for=\"remember".$this->settings["name"]."\" class=\"wtlogin_label_remember\">&nbsp;&nbsp;";
+				echo $this->settings["message"]["remember"];
+				echo "</label>";
+
+				echo "</div>";
+
+			}
+
+			echo "<div class=\"wtlogin_div_submit\">";
+			echo "<input type=\"submit\" id=\"loginbutton\" value=\"".$this->settings["message"]["button"]."\">";
+			echo "</div>";
+
+			if($_POST["loginfilled"]) {
+				echo "<div class=\"wtlogin_div_errormessage\">";
+				echo $this->errormessage;
+				echo "</div>";
+			}
+			echo "</form></div>";
+		}
+	}
+
 
 	function passwordform() {
 
