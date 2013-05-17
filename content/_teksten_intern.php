@@ -179,6 +179,9 @@ $txta["en"]["pdf_voorwaarden_europeesche_annverz"]="conditions_europeesche_cance
 $txta["nl"]["pdf_voorwaarden_europeesche_reisverz"]="voorwaarden_europeesche_reisverz";
 $txta["en"]["pdf_voorwaarden_europeesche_reisverz"]="NA";
 
+$txta["nl"]["pdf_voorwaarden_schadeverzekering"]="voorwaarden_schadeverz";
+$txta["en"]["pdf_voorwaarden_schadeverzekering"]="NA";
+
 #
 # Submenu-titles
 #

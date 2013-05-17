@@ -3824,6 +3824,43 @@ $txt["en"]["bsys"]["geannuleerd"]="cancelled";
 $txt["nl"]["bsys"]["nachten"]="nachten";
 $txt["en"]["bsys"]["nachten"]="nights";
 
+$txt["nl"]["bsys"]["factuurgoedkeuren"]="Factuur goedkeuren";
+$txt["en"]["bsys"]["factuurgoedkeuren"]="";
+
+$txt["nl"]["bsys"]["boekingisalgoedgekeurd"]="De factuur van reserveringsnummer [[v_boekingsnummer]] is al goedgekeurd.";
+$txt["en"]["bsys"]["boekingisalgoedgekeurd"]="";
+
+$txt["nl"]["bsys"]["akkoordfactuur"]="Ja, ik ga akkoord met de [[h_1]]ontvangen factuur[[h_2]] van reserveringsnummer [[v_boekingsnummer]]";
+$txt["en"]["bsys"]["akkoordfactuur"]="";
+
+$txt["nl"]["bsys"]["akkoordvoorwaarden"]="Ja, ik ga akkoord met de [[h_1]]algemene voorwaarden van [[v_websitenaam]][[h_2]] + onderstaande voorwaarden aangaande verzekeringen voor zover van toepassing";
+$txt["en"]["bsys"]["akkoordvoorwaarden"]="";
+
+$txt["nl"]["bsys"]["voorwaarden_annuleringsverzekering"]="Voorwaarden Europeesche Verzekeringen Annuleringsverzekering";
+$txt["en"]["bsys"]["voorwaarden_annuleringsverzekering"]="";
+
+$txt["nl"]["bsys"]["voorwaarden_schadeverzekering"]="Voorwaarden Europeesche Verzekeringen Schade Logies Verblijven";
+$txt["en"]["bsys"]["voorwaarden_schadeverzekering"]="";
+
+$txt["nl"]["bsys"]["voorwaarden_reisverzekering"]="Voorwaarden Europeesche Verzekeringen Aflopende Reisverzekering";
+$txt["en"]["bsys"]["voorwaarden_reisverzekering"]="";
+
+$txt["nl"]["bsys"]["akkoord"]="Akkoord";
+$txt["en"]["bsys"]["akkoord"]="";
+
+$txt["nl"]["bsys"]["gaakkoordmetallevoorwaarden"]="Ga akkoord met alle voorwaarden door een vinkje te plaatsen.";
+$txt["en"]["bsys"]["gaakkoordmetallevoorwaarden"]="";
+
+$txt["nl"]["bsys"]["akkoordmelding1"]="Bedankt voor het bevestigen van de factuur. We verzoeken je om de betaling zoals vermeld op de factuur in orde te maken.";
+$txt["en"]["bsys"]["akkoordmelding1"]="";
+
+$txt["nl"]["bsys"]["akkoordmelding2"]="Verder wensen we jullie alvast veel voorpret.";
+$txt["en"]["bsys"]["akkoordmelding2"]="";
+
+$txt["nl"]["bsys"]["akkoordmelding3"]="Terug naar \"Mijn boeking\"";
+$txt["en"]["bsys"]["akkoordmelding3"]="";
+
+
 $txt["nl"]["bsys_wijzigen"]["terugnaardevorigepagina"]="Terug naar de vorige pagina";
 $txt["en"]["bsys_wijzigen"]["terugnaardevorigepagina"]="Back to the previous page";
 
@@ -3850,6 +3887,9 @@ $txt["en"]["bsys_selecteren"]["erzijngeenactueleboekingen"]="No current bookings
 #
 # Factuur
 #
+
+$txt["nl"]["factuur"]["bevestigingfactuur"]="Bevestiging / Factuur";
+$txt["en"]["factuur"]["bevestigingfactuur"]="Confirmation / Invoice";
 
 $txt["nl"]["factuur"]["hierbijontvangjedegecorrigeerdebevestiging"]="Hierbij ontvang je de gecorrigeerde bevestiging van onderstaande boeking:";
 $txt["en"]["factuur"]["hierbijontvangjedegecorrigeerdebevestiging"]="Attached, you will find the amended confirmation of the following booking:";

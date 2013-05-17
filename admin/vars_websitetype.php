@@ -32,7 +32,7 @@ if($vars["lokale_testserver"]) {
 			$vars["testsite"]=@file_get_contents($_SERVER["DOCUMENT_ROOT"]."/chalet/tmp/testsite.txt");
 		}
 		if(!$vars["testsite"]) {
-			$vars["testsite"]="chaletnl";
+			$vars["testsite"]="C";
 		}
 	}
 } else {
@@ -46,7 +46,7 @@ if($vars["lokale_testserver"]) {
 $_SERVER["HTTP_HOST"]=strtolower($_SERVER["HTTP_HOST"]);
 if(substr($_SERVER["HTTP_HOST"],-3)==":80") $_SERVER["HTTP_HOST"]=substr($_SERVER["HTTP_HOST"],0,-3);
 if(substr($_SERVER["HTTP_HOST"],-1)==".") $_SERVER["HTTP_HOST"]=substr($_SERVER["HTTP_HOST"],0,-1);
-if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="www3.chalet.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="chaletnl")) {
+if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="www3.chalet.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="C")) {
 	# Chalet.nl Winter
 	$vars["websitetype"]=1;
 	$vars["websitenaam"]="Chalet.nl";
@@ -66,7 +66,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["nieuwsbrief_aanbieden"]=true;
 #	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
-} elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="chaleteu")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="E")) {
 	# Winter Chalet.eu Engelstalig
 	$vars["websitetype"]=1;
 	$vars["websitenaam"]="Chalet.eu";
@@ -83,7 +83,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=0;
 	$vars["wederverkoop"]=true;
-} elseif($_SERVER["HTTP_HOST"]=="www.chalettour.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="chalettour")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.chalettour.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="T")) {
 	# Chalettour Winter
 	$vars["websitetype"]=4;
 	$vars["websitenaam"]="Chalettour.nl";
@@ -100,7 +100,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-} elseif($_SERVER["HTTP_HOST"]=="www.chalet.be" or ($vars["lokale_testserver"] and $vars["testsite"]=="chaletbe")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.chalet.be" or ($vars["lokale_testserver"] and $vars["testsite"]=="B")) {
 	# Chalet.be Winter
 	$vars["websitetype"]=1;
 	$vars["websitenaam"]="Chalet.be";
@@ -118,7 +118,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["nieuwsbrief_aanbieden"]=true;
 #	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
-} elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="zomerhuisjenl")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="Z")) {
 	# Zomerhuisje.nl
 	$vars["websitetype"]=3;
 	$vars["websitenaam"]="Zomerhuisje.nl";
@@ -137,7 +137,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-} elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="zomerhuisjeeu")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="N")) {
 	# Zomerhuisje.eu (NIET MEER IN GEBRUIK!)
 	$vars["websitetype"]=3;
 	$vars["websitenaam"]="Zomerhuisje.eu";
@@ -153,7 +153,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["googleanalytics"]="UA-2078202-5";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
-} elseif($_SERVER["HTTP_HOST"]=="www.chaletsinvallandry.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="vallandrynl")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.chaletsinvallandry.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="V")) {
 	# Chaletsinvallandry.nl
 	$vars["websitetype"]=6;
 	$vars["websitenaam"]="Chalets in Vallandry";
@@ -170,7 +170,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-} elseif($_SERVER["HTTP_HOST"]=="www.chaletsinvallandry.com" or ($vars["lokale_testserver"] and $vars["testsite"]=="vallandrycom")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.chaletsinvallandry.com" or ($vars["lokale_testserver"] and $vars["testsite"]=="Q")) {
 	# Chaletsinvallandry.com
 	$vars["websitetype"]=6;
 	$vars["websitenaam"]="Chalets in Vallandry";
@@ -187,7 +187,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
-} elseif($_SERVER["HTTP_HOST"]=="www.italissima.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="italissima")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.italissima.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="I")) {
 	# Italissima.nl
 	$vars["websitetype"]=7;
 	$vars["websitenaam"]="Italissima";
@@ -207,7 +207,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
 	$vars["nieuwsbrief_aanbieden"]=true;
-} elseif($_SERVER["HTTP_HOST"]=="www.italissima.be" or ($vars["lokale_testserver"] and $vars["testsite"]=="italissimabe")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.italissima.be" or ($vars["lokale_testserver"] and $vars["testsite"]=="K")) {
 	# Italissima.be
 	$vars["websitetype"]=7;
 	$vars["websitenaam"]="Italissima";
@@ -225,7 +225,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=false;
 	$vars["nieuwsbrief_aanbieden"]=true;
-} elseif($_SERVER["HTTP_HOST"]=="www.superski.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="superski")) {
+} elseif($_SERVER["HTTP_HOST"]=="www.superski.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="W")) {
 	# SuperSki
 	$vars["websitetype"]=8;
 	$vars["websitenaam"]="SuperSki";

@@ -6,6 +6,7 @@
 class directlogin {
 
 	public $check_wrongcount;
+	public $boeking_id;
 
 	function __construct() {
 		$check_wrongcount=false; // bij nagaan code: controleren of er niet al teveel ongeldige inlogpogingen zijn
@@ -26,6 +27,9 @@ class directlogin {
 
 			$link.="w/".$this->willekeurige_letter($user_id).$user_id.$this->willekeurige_letter($user_id+33).$code.$soort;
 
+			if($this->boeking_id) {
+				$link.="/".$this->boeking_id;
+			}
 		}
 		return $link;
 	}

@@ -1,13 +1,21 @@
 <?php
 
+
 $boeking_wijzigen=true;
 $robot_noindex=true;
 $vars["verberg_lastacc"]=true;
 $vars["verberg_zoekenboeklinks"]=true;
 
+if($_GET["directlogin"]) {
+	$vars["huidige_user_uitloggen"]=true;
+}
+
+
 include("admin/vars.php");
 
 if($_GET["directlogin"] and $_GET["user_id"] and $_GET["code"]) {
+
+
 
 	if($login->logged_in) {
 		$login->logout();
@@ -22,11 +30,12 @@ if($_GET["directlogin"] and $_GET["user_id"] and $_GET["code"]) {
 		# Opslaan dat er een foute inlogpoging was
 		$db->query("UPDATE boekinguser SET wrongcount=wrongcount+1 WHERE user_id='".intval($_GET["user_id"])."';");
 	}
-	if($_GET["soort"]==2) {
-		# doorlinken naar "boeking goedkeuren"
-		header("Location: ".$vars["path"].txt("menu_inloggen").".php");
+
+	if($_GET["soort"]==3) {
+		# doorlinken naar "factuur goedkeuren"
+		header("Location: ".$vars["path"]."bsys.php?menu=3".($_GET["bid"] ? "&bid=".$_GET["bid"] : ""));
 	} else {
-		header("Location: ".$vars["path"].txt("menu_inloggen").".php");
+		header("Location: ".$vars["path"]."bsys.php".($_GET["bid"] ? "?bid=".$_GET["bid"] : ""));
 	}
 	exit;
 }
@@ -40,7 +49,6 @@ $breadcrumbs["last"]=txt("title_bsys");
 #}
 
 if($login->logged_in) {
-#echo "Pad:".$path;
 	header("Location: ".$path."bsys.php");
 	exit;
 }

@@ -75,7 +75,7 @@ if($login->logged_in) {
 
 			if($_GET["menu"]) {
 				if($_GET["burl"]) {
-					echo "<a href=\"".$_GET["burl"]."\">";
+					echo "<p><a href=\"".$_GET["burl"]."\">";
 					if(ereg("cms\.php",$_GET["burl"])) {
 						echo html("terugnaardehoofdpagina","bsys");
 					} else {
@@ -85,9 +85,11 @@ if($login->logged_in) {
 							echo html("terugnaardeoverzichtspagina","bsys");
 						}
 					}
-					echo "</a><p>";
+					echo "</a></p>";
 				} elseif($mustlogin and $_GET["bid"]) {
-					echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".intval($_GET["bid"])."\">".html("terugnaardeoverzichtspagina","bsys")."</a>";
+					echo "<p><a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".intval($_GET["bid"])."\">".html("terugnaardeoverzichtspagina","bsys")."</a></p>";
+				} elseif($boeking_wijzigen and $_GET["bid"]) {
+					echo "<p><a href=\"".$vars["path"]."bsys.php?bid=".intval($_GET["bid"])."\">".html("terugnaardeoverzichtspagina","bsys")."</a></p>";
 				}
 			} else {
 				if($mustlogin) {
@@ -736,6 +738,59 @@ if($login->logged_in) {
 					# Kijken of de wijzigingen een nieuwe factuur vereisen
 					if($factuur_tewijzigen or ereg("AANTAL_PERSONEN_VAN_([0-9]+)",$gegevens["stap1"]["gewijzigd"]) or ereg("SCHADEVERZEKERING",$gegevens["stap1"]["gewijzigd"]) or ereg("ANN_",$gegevens["stap1"]["gewijzigd"])) {
 						$db2->query("UPDATE boeking SET factuur_tewijzigen=1 WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+					}
+				}
+			} elseif($_GET["menu"]==3 and $gegevens["stap1"]["boekingsnummer"]) {
+				#
+				# Accordeer-systeem
+				#
+
+				echo "<div style=\"border:1px solid #cccccc;background-color:#ebebeb;padding:10px;\">";
+				echo "<h2>".html("factuurgoedkeuren","bsys")."</h2>";
+
+				if($_GET["akkoord"]) {
+					# Bedankt na akkoord geven
+					echo "<p>".html("akkoordmelding1","bsys")."</p>";
+					echo "<p>".html("akkoordmelding2","bsys")."</p>";
+					echo "<p><a href=\"".$vars["path"]."bsys.php?bid=".intval($_GET["bid"])."\">".html("akkoordmelding3","bsys")."</a></p>";
+
+				} elseif($gegevens["stap1"]["factuur_ondertekendatum"] and !$gegevens["stap1"]["vraag_ondertekening"]) {
+					echo "<p>".html("boekingisalgoedgekeurd","bsys",array("v_boekingsnummer"=>$gegevens["stap1"]["boekingsnummer"]))."</p>";
+				} else {
+					if($gegevens["stap1"]["factuurdatum"]>0) {
+
+						echo "<table cellpadding=\"5\">";
+						echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"factuurakkoord\">";
+						echo "<input type=\"hidden\" name=\"factuurakkoord\" value=\"1\">";
+
+						if($_POST["factuurakkoord"]) {
+							echo "<tr><td colspan=\"2\"><strong>".html("gaakkoordmetallevoorwaarden","bsys")."</strong></td></tr>";
+						}
+
+						echo "<tr><td style=\"vertical-align:top;\"><input type=\"checkbox\" name=\"goedkeur1\" id=\"goedkeur1\"></td><td><label for=\"goedkeur1\">".html("akkoordfactuur","bsys",array("h_1"=>"<a href=\"".$vars["path"]."bsys.php?laatstefactuur=1&bid=".intval($_GET["bid"])."\" target=\"_blank\">","h_2"=>"</a>","v_boekingsnummer"=>$gegevens["stap1"]["boekingsnummer"]))."</label></td></tr>";
+						echo "<tr><td style=\"vertical-align:top;\"><input type=\"checkbox\" name=\"goedkeur2\" id=\"goedkeur2\"></td><td><label for=\"goedkeur2\">".html("akkoordvoorwaarden","bsys",array("v_websitenaam"=>$vars["websitenaam"],"h_1"=>"<a href=\"".$vars["path"]."pdf/".txt("pdf_algemene_voorwaarden").".pdf\" target=\"_blank\">","h_2"=>"</a>"))."</label>:";
+						echo "<ol>";
+
+						if(txt("pdf_voorwaarden_europeesche_annverz")<>"NA") {
+							echo "<li><a href=\"".$vars["path"]."pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf\" target=\"_blank\">".html("voorwaarden_annuleringsverzekering","bsys")."</a></li>";
+						}
+
+						if(txt("pdf_voorwaarden_schadeverzekering")<>"NA") {
+							echo "<li><a href=\"".$vars["path"]."pdf/".txt("pdf_voorwaarden_schadeverzekering").".pdf\" target=\"_blank\">".html("voorwaarden_schadeverzekering","bsys")."</a></li>";
+						}
+
+						if(txt("pdf_voorwaarden_europeesche_reisverz")<>"NA") {
+							echo "<li><a href=\"".$vars["path"]."pdf/".txt("pdf_voorwaarden_europeesche_reisverz").".pdf\" target=\"_blank\">".html("voorwaarden_reisverzekering","bsys")."</a></li>";
+						}
+						echo "</ol></td></tr>";
+
+						echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"factuurakkoordsubmit\" onclick=\"document.factuurakkoord.factuurakkoordsubmit.disabled=1;submit();\"></td></tr>";
+
+						echo "</form>";
+						echo "</table>";
+
+					} else {
+						trigger_error("gevraagd om goedkeuring factuur terwijl er nog geen factuurdatum is vastgelegd bij deze boeking",E_USER_NOTICE);
 					}
 				}
 			}

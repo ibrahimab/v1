@@ -9,7 +9,10 @@ if($_GET["testsite"]) {
 		file_put_contents("/home/webtastic/html/chalet/tmp/testsite.txt",$_GET["testsite"]);
 	}
 	if($_GET["gotourl"]) {
-		if($_GET["gotourl"]<>"cms.php") {
+		if(preg_match("/^http:\/\//",$_GET["gotourl"])) {
+			header("Location: ".$_GET["gotourl"]);
+			exit;
+		} elseif($_GET["gotourl"]<>"cms.php") {
 			header("Location: /chalet/".$_GET["gotourl"]);
 			exit;
 		}

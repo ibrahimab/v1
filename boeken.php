@@ -838,10 +838,6 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_text(1,"telefoonnummer",txt("telefoonnummer","boeken"),"",array("text"=>$gegevens["stap2"]["telefoonnummer"]));
 			$form->field_text(0,"mobielwerk",txt("mobielwerk","boeken"),"",array("text"=>$gegevens["stap2"]["mobielwerk"]));
 			$form->field_email(1,"email",txt("email","boeken"),"",array("text"=>$gegevens["stap2"]["email"]));
-			if($mustlogin) {
-				$form->field_password(0,"wachtwoord",txt("nieuwwachtwoord","boeken"));
-				$form->field_password(0,"wachtwoord_herhaal",txt("herhaalnieuwwachtwoord","boeken"));
-			}
 			$form->field_date(($voorkant_cms ? 0 : 1),"geboortedatum",txt("geboortedatum","boeken"),"",array("time"=>$gegevens["stap2"]["geboortedatum"]),array("startyear"=>date("Y"),"endyear"=>1900));
 		}
 		if($gegevens["stap1"]["reisbureau_user_id"]) {
@@ -865,6 +861,36 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					}
 				}
 			}
+		}
+
+		if($mustlogin) {
+			$form->field_htmlrow("","<hr><b>Inloggegevens</b>");
+
+			$db0->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+			if($db0->next_record() and $db0->f("password_uc")) {
+
+				$directlogin = new directlogin;
+				$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
+				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"),md5($db0->f("password_uc")));
+
+				$form->field_htmlcol("","Huidig wachtwoord",array("html"=>wt_he($db0->f("password_uc"))));
+				$form->field_htmlcol("","URL directe inlog",array("html"=>wt_he($directlogin_link)));
+				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+
+					$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],3,$db0->f("user_id"),md5($db0->f("password_uc")));
+
+					$directlogin_link=str_replace($vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]],"http://".$_SERVER["HTTP_HOST"]."/chalet/",$directlogin_link);
+
+					$directlogin_link_l="http://".$_SERVER["HTTP_HOST"]."/chalet/cms.php?gotourl=".urlencode($directlogin_link)."&testsite=".$gegevens["stap1"]["website"];
+
+					$form->field_htmlcol("","URL directe inlog lokaal",array("html"=>"<a href=\"".wt_he($directlogin_link_l)."\" target=\"_blank\">".wt_he($directlogin_link)."</a>"));
+				}
+			}
+
+			$form->field_password(0,"wachtwoord",txt("nieuwwachtwoord","boeken"));
+			$form->field_password(0,"wachtwoord_herhaal",txt("herhaalnieuwwachtwoord","boeken"));
+
+
 		}
 
 		# Kijken of een aangepaste geboortedatum overeenkomt met gekozen opties

@@ -60,12 +60,12 @@ if($gegevens["stap1"]["voucherstatus"]<>"0" and $gegevens["stap1"]["voucherstatu
 
 $factuurdatum_time=time();
 
-$form->field_yesno("ondertekenen","Vraag om ondertekening door de klant","",array("selection"=>($gegevens["stap1"]["factuur_ondertekendatum"]>0||$gegevens["stap1"]["vraag_ondertekening"]==0 ? false : true)));
+$form->field_yesno("ondertekenen","Vraag om goedkeuring/ondertekening door de klant","",array("selection"=>($gegevens["stap1"]["factuur_ondertekendatum"]>0||$gegevens["stap1"]["vraag_ondertekening"]==0 ? false : true)));
 
 #_field: (obl),id,title,db,prevalue,options,layout
 
 if($gegevens["stap1"]["factuurdatum"]) {
-	$form->field_date(0,"factuur_ondertekendatum","Factuur ondertekend ontvangen","",array("time"=>$gegevens["stap1"]["factuur_ondertekendatum"]),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true));
+	$form->field_date(0,"factuur_ondertekendatum","Factuur goedgekeurd door de klant (via website of ondertekening)","",array("time"=>$gegevens["stap1"]["factuur_ondertekendatum"]),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true));
 }
 $form->field_htmlrow("","<hr><b>Mailinstellingen</b>");
 $form->field_yesno("mailblokkeren_opties","Stuur deze klant geen mail met uitnodiging tot inloggen en opties bijboeken (8 weken voor vertrek)","",array("selection"=>$gegevens["stap1"]["mailblokkeren_opties"]));
@@ -122,15 +122,15 @@ if($form->okay) {
 			}
 		}
 
-		# Vraag om ondertekening door de klant
+		# Vraag om goedkeuring/ondertekening door de klant
 		if($form->input["ondertekenen"]) {
-			if(!$gegevens["stap1"]["vraag_ondertekening"]) chalet_log("\"vraag om ondertekening door de klant\" opnieuw aangezet",true,true);
+			if(!$gegevens["stap1"]["vraag_ondertekening"]) chalet_log("\"vraag om goedkeuring/ondertekening door de klant\" opnieuw aangezet",true,true);
 			$setquery.=", vraag_ondertekening=1";
 		} else {
 			if($form->input["factuur_ondertekendatum"]["unixtime"]>0) {
 
 			} else {
-				if($gegevens["stap1"]["vraag_ondertekening"]) chalet_log("\"vraag om ondertekening door de klant\" uitgezet",true,true);
+				if($gegevens["stap1"]["vraag_ondertekening"]) chalet_log("\"vraag om goedkeuring/ondertekening door de klant\" uitgezet",true,true);
 				$setquery.=", vraag_ondertekening=0";
 			}
 		}
@@ -338,6 +338,9 @@ if($form->okay) {
 						$this->Image('pic/factuur_logo.png',10,8,50);
 					}
 				}
+				$this->SetFont('Arial','',14);
+				$this->MultiCell(0,4,"".txt("bevestigingfactuur","factuur"),0,"R");
+				$this->Ln(3);
 				$this->SetFont('Arial','',10);
 				if($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
 					# Adres voor Nederlanders

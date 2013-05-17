@@ -1078,6 +1078,10 @@ if($boeking_wijzigen) {
 	$login->settings["save_user_agent"]=true;
 	$login->end_declaration();
 
+	if($vars["huidige_user_uitloggen"] and $login->logged_in) {
+		$login->logout();
+	}
+
 	# Om welke wederverkoop-boeking gaat het?
 	if($vars["wederverkoop"] and $login_rb->logged_in and $_GET["bid"]) {
 
