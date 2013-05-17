@@ -1845,6 +1845,15 @@ $(document).ready(function() {
 			return false;
 		});
 
+		// factuur goedkeuren door klant: button actief/inactief
+
+		$("input[name=goedkeur1], input[name=goedkeur2]").change(function() {
+			if($("input[name=goedkeur1]").is(":checked") && $("input[name=goedkeur2]").is(":checked")) {
+				$("#factuurakkoordsubmit").removeAttr("disabled");
+			} else {
+				$("#factuurakkoordsubmit").attr("disabled","disabled");
+			}
+		});
 
 		// scroll to top
 		var scroll_to_top_text="Naar boven";

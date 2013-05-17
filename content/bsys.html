@@ -784,7 +784,7 @@ if($login->logged_in) {
 						}
 						echo "</ol></td></tr>";
 
-						echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"factuurakkoordsubmit\" onclick=\"document.factuurakkoord.factuurakkoordsubmit.disabled=1;submit();\"></td></tr>";
+						echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"factuurakkoordsubmit\" disabled onclick=\"document.factuurakkoord.factuurakkoordsubmit.disabled=1;submit();\"></td></tr>";
 
 						echo "</form>";
 						echo "</table>";
