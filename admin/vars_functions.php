@@ -4237,6 +4237,11 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	# attachment toevoegen
 	$cid=$mail->attachment($unixdir.$topfoto,"image/jpeg",true);
 
+	if(is_array($settings["attachment"])) {
+		foreach ($settings["attachment"] as $key => $value) {
+			$mail->attachment($key,"",false,$value);
+		}
+	}
 
 	# from
 	if($settings["from"]) {

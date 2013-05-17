@@ -89,6 +89,7 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[13]]["vertalingen"]) {
 			}
 		}
 	}
+	if($GLOBALS["nieuwe_vertaling"]) $onvertaald=true;
 	if($onvertaald) {
 		echo "\n<hr>&nbsp;<br><b>Let op! Er zijn teksten die nog niet in het Engels zijn vertaald. Ga naar de <a href=\"cms_vertalingen.php\">vertaalmodule</a> om de vertaling aan Jeroen door te geven.</b><br>&nbsp;";
 	}

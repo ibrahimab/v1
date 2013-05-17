@@ -3825,41 +3825,40 @@ $txt["nl"]["bsys"]["nachten"]="nachten";
 $txt["en"]["bsys"]["nachten"]="nights";
 
 $txt["nl"]["bsys"]["factuurgoedkeuren"]="Factuur goedkeuren";
-$txt["en"]["bsys"]["factuurgoedkeuren"]="";
+$txt["en"]["bsys"]["factuurgoedkeuren"]="Approve invoice";
 
 $txt["nl"]["bsys"]["boekingisalgoedgekeurd"]="De factuur van reserveringsnummer [[v_boekingsnummer]] is al goedgekeurd.";
-$txt["en"]["bsys"]["boekingisalgoedgekeurd"]="";
+$txt["en"]["bsys"]["boekingisalgoedgekeurd"]="The invoice of reservation number [[v_boekingsnummer]] is already approved.";
 
 $txt["nl"]["bsys"]["akkoordfactuur"]="Ja, ik ga akkoord met de [[h_1]]ontvangen factuur[[h_2]] van reserveringsnummer [[v_boekingsnummer]]";
-$txt["en"]["bsys"]["akkoordfactuur"]="";
+$txt["en"]["bsys"]["akkoordfactuur"]="Yes, I agree with the [[h_1]]received invoice[[h_2]] of reservation number [[v_boekingsnummer]]";
 
 $txt["nl"]["bsys"]["akkoordvoorwaarden"]="Ja, ik ga akkoord met de [[h_1]]algemene voorwaarden van [[v_websitenaam]][[h_2]] + onderstaande voorwaarden aangaande verzekeringen voor zover van toepassing";
-$txt["en"]["bsys"]["akkoordvoorwaarden"]="";
+$txt["en"]["bsys"]["akkoordvoorwaarden"]="Yes, I agree with the [[h_1]]terms and conditions of [[v_websitenaam]][[h_2]] + below mentioned conditions for insurances (if applicable)";
 
 $txt["nl"]["bsys"]["voorwaarden_annuleringsverzekering"]="Voorwaarden Europeesche Verzekeringen Annuleringsverzekering";
-$txt["en"]["bsys"]["voorwaarden_annuleringsverzekering"]="";
+$txt["en"]["bsys"]["voorwaarden_annuleringsverzekering"]="Conditions Europeesche Verzekeringen Cancellation Insurance";
 
 $txt["nl"]["bsys"]["voorwaarden_schadeverzekering"]="Voorwaarden Europeesche Verzekeringen Schade Logies Verblijven";
-$txt["en"]["bsys"]["voorwaarden_schadeverzekering"]="";
+$txt["en"]["bsys"]["voorwaarden_schadeverzekering"]="Conditions Europeesche Verzekeringen Damage by Tenants";
 
 $txt["nl"]["bsys"]["voorwaarden_reisverzekering"]="Voorwaarden Europeesche Verzekeringen Aflopende Reisverzekering";
-$txt["en"]["bsys"]["voorwaarden_reisverzekering"]="";
+$txt["en"]["bsys"]["voorwaarden_reisverzekering"]="NA";
 
 $txt["nl"]["bsys"]["akkoord"]="Akkoord";
-$txt["en"]["bsys"]["akkoord"]="";
+$txt["en"]["bsys"]["akkoord"]="Confirm";
 
 $txt["nl"]["bsys"]["gaakkoordmetallevoorwaarden"]="Ga akkoord met alle voorwaarden door een vinkje te plaatsen.";
-$txt["en"]["bsys"]["gaakkoordmetallevoorwaarden"]="";
+$txt["en"]["bsys"]["gaakkoordmetallevoorwaarden"]="Please agree with all conditions by checking them off.";
 
 $txt["nl"]["bsys"]["akkoordmelding1"]="Bedankt voor het bevestigen van de factuur. We verzoeken je om de betaling zoals vermeld op de factuur in orde te maken.";
-$txt["en"]["bsys"]["akkoordmelding1"]="";
+$txt["en"]["bsys"]["akkoordmelding1"]="Thank you for confirming the invoice. We kindly ask you to arrange the payment as mentioned on the invoice.";
 
 $txt["nl"]["bsys"]["akkoordmelding2"]="Verder wensen we jullie alvast veel voorpret.";
-$txt["en"]["bsys"]["akkoordmelding2"]="";
+$txt["en"]["bsys"]["akkoordmelding2"]="Furthermore, we wish you already a lot of anticipation.";
 
 $txt["nl"]["bsys"]["akkoordmelding3"]="Terug naar \"Mijn boeking\"";
-$txt["en"]["bsys"]["akkoordmelding3"]="";
-
+$txt["en"]["bsys"]["akkoordmelding3"]="Back to \"My booking\"";
 
 $txt["nl"]["bsys_wijzigen"]["terugnaardevorigepagina"]="Terug naar de vorige pagina";
 $txt["en"]["bsys_wijzigen"]["terugnaardevorigepagina"]="Back to the previous page";
@@ -4070,20 +4069,37 @@ $txt["en"]["factuur"]["attachmentgecorbevest"]="The attachment to this e-mail co
 $txt["nl"]["factuur"]["attachmentbevest"]="Als attachment bij dit mailtje zit een PDF-bestand met daarin de bevestiging van je boeking.";
 $txt["en"]["factuur"]["attachmentbevest"]="The attachment to this e-mail contains a PDF file with the confirmation of your booking.";
 
-$txt["nl"]["factuur"]["pdfdownloaden"]="PDF-bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via http://get.adobe.com/reader/.";
-$txt["en"]["factuur"]["pdfdownloaden"]="PDF files can be opened with Adobe Reader, which can be downloaded for free from http://get.adobe.com/reader/.";
+$txt["nl"]["factuur"]["pdfdownloaden"]="PDF-bestanden zijn te openen met de Adobe Reader, die gratis is te downloaden via [[h_1]]http://get.adobe.com/reader/[[h_2]].";
+$txt["en"]["factuur"]["pdfdownloaden"]="PDF files can be opened with Adobe Reader, which can be downloaded for free from [[h_1]]http://get.adobe.com/reader/[[h_2]].";
 
 $txt["nl"]["factuur"]["bedanktvoorjeboeking"]="Bedankt voor je boeking.";
 $txt["en"]["factuur"]["bedanktvoorjeboeking"]="Thank you for your booking.";
 
-$txt["nl"]["factuur"]["tercontroleopfouten"]="Ter controle op fouten willen we je vragen deze bevestiging binnen 24 uur te controleren en ondertekend per fax, mail of post aan ons retour te sturen.";
+$txt["nl"]["factuur"]["tercontroleopfouten"]="Ter controle op fouten willen we je vragen deze bevestiging (= tevens factuur) binnen 24 uur te controleren en akkoord te geven op één van onderstaande manieren:";
 $txt["en"]["factuur"]["tercontroleopfouten"]="To ensure that no errors have been made, we would ask you to check this confirmation and to return it to us, signed, within 24 hours, either by fax, e-mail or post.";
+
+$nieuwe_vertaling["en"]["factuur"]["tercontroleopfouten"]=true;
+
+$txt["nl"]["factuur"]["onlinebevestigen"]="Online bevestigen";
+$txt["en"]["factuur"]["onlinebevestigen"]="";
+
+$txt["nl"]["factuur"]["onlinebevestigen_uitleg"]="Door digitaal je akkoord te geven over de inhoud van de bevestiging:
+[[h_1]]factuur online goedkeuren[[h_2]]";
+$txt["en"]["factuur"]["onlinebevestigen_uitleg"]="";
+
+$txt["nl"]["factuur"]["permailfaxpost"]="Bevestigen per mail, fax of post";
+$txt["en"]["factuur"]["permailfaxpost"]="";
+
+$txt["nl"]["factuur"]["permailfaxpost_uitleg"]="Door de bevestiging uit te printen, te ondertekenen en terug te sturen. Dit kan per e-mail, fax of post. ";
+$txt["en"]["factuur"]["permailfaxpost_uitleg"]="";
 
 $txt["nl"]["factuur"]["bijonjuistheden"]="Bij onjuistheden horen wij dit graag per omgaande.";
 $txt["en"]["factuur"]["bijonjuistheden"]="If you find any errors, please let us know immediately.";
 
-$txt["nl"]["factuur"]["tot6wekeninloggen"]="Tot 6 weken voor vertrek kun je via je inlogcode de gegevens van de deelnemers zelf invullen of aanpassen en opties bijboeken. Het is natuurlijk ook mogelijk om dit per mail of telefonisch aan ons door te geven.";
+$txt["nl"]["factuur"]["tot6wekeninloggen"]="Tot 4 weken voor vertrek kun je via \"[[h_1]]Mijn boeking[[h_2]]\" de gegevens van de deelnemers zelf invullen of aanpassen en opties bijboeken. Het is natuurlijk ook mogelijk om dit per mail of telefonisch aan ons door te geven, waarna wij het voor je verwerken.";
 $txt["en"]["factuur"]["tot6wekeninloggen"]="Up to 6 weeks before your departure, you can log in to change the data of the participants and add any options. You can of course also provide us with this information by e-mail or telephone.";
+
+$nieuwe_vertaling["en"]["factuur"]["tot6wekeninloggen"]=true;
 
 $txt["nl"]["factuur"]["weadviserenannuleringsverzekering"]="We adviseren je om een annuleringsverzekering af te sluiten. Dit kan zowel individueel als per groep. Let op: dit kan tot 7 dagen na boeking! Voor informatie:";
 $txt["en"]["factuur"]["weadviserenannuleringsverzekering"]="We advise you to take out a cancellation insurance, either per individual or per group. Attention: you can do so up to 7 days after you have made your booking! For information:";
