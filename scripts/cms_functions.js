@@ -314,6 +314,11 @@ $(document).ready(function() {
 		inkoopgegevens_berekenen(true);
 	}
 
+	// bij wijzigen vinkje "Inkoop van 0 is toegestaan": berekening uitvoeren
+	$("input[name='input[inkoop_van_0_toegestaan]']").change(function() {
+		inkoopgegevens_berekenen();
+	});
+
 	// bij garantiegegevens: onload inkoopgegevens_berekenen
 	if($(".uitkomst_garantie_inkoopmincommissie").length>0) {
 		garantie_inkoopgegevens_berekenen();
@@ -721,6 +726,18 @@ function inkoopgegevens_berekenen(onload) {
 	$("#opmerking_totaal_volgens_ontvangen_factuur").html("");
 	$("#submit1frm").removeAttr("disabled");
 	if(!onload) $("select[name='input[factuurbedrag_gecontroleerd]']").val("0");
+
+	if(totaalfactuurbedrag===0) {
+		// alert(totaalfactuurbedrag);
+		$(".inkoop_van_0_toegestaan").show();
+		if($("input[name='input[inkoop_van_0_toegestaan]']").is(":checked")) {
+			if(!onload) $("select[name='input[factuurbedrag_gecontroleerd]']").val("1");
+		}
+	} else {
+		$(".inkoop_van_0_toegestaan").hide();
+	}
+
+
 	if(totaal_volgens_ontvangen_factuur>0||totaal_volgens_ontvangen_factuur<0) {
 		if(betalingssaldo==0) {
 			if(totaal_volgens_ontvangen_factuur==totaalfactuurbedrag) {

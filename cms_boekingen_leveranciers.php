@@ -267,6 +267,7 @@ if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gege
 
 $form->field_htmlrow("","&nbsp;<input type=\"hidden\" name=\"input[extraopties_totaal]\" value=\"".htmlentities(wt_cur($temp_extraopties_totaal,false))."\">","",array("tr_style"=>"display:none;"));
 $form->field_htmlcol("","Totaalfactuurbedrag €",array("html"=>wt_cur($temp_totaalbedrag,false)),"",array("tr_class"=>"inkoopgegevens_opvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_totaalfactuurbedrag"));
+$form->field_yesno("inkoop_van_0_toegestaan","Inkoop van 0 is toegestaan",array("field"=>"inkoop_van_0_toegestaan"),"","",array("tr_class"=>"inkoop_van_0_toegestaan","tr_style"=>"display:none;"));
 
 $form->field_currency(0,"totaal_volgens_ontvangen_factuur","Totaal volgens ontvangen factuur €",array("field"=>"totaal_volgens_ontvangen_factuur"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens","add_html_after_field"=>"<span id=\"opmerking_totaal_volgens_ontvangen_factuur\" style=\"font-weight:bold;\"></span>"));
 $form->field_currency(0,"betalingsverschil","Betalingsverschil €",array("field"=>"betalingsverschil"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens"));
