@@ -1148,7 +1148,7 @@ function optellen(naam) {
 }
 
 function garantie_niet_afboeken(dit,week) {
-	if(dit.value<document.forms['tarieven'].elements['gar['+week+']'].value) {
+	if(parseInt(dit.value,10)<parseInt(document.forms['tarieven'].elements['gar['+week+']'].value,10)) {
 		alert('Garantie afboeken kan niet op deze manier. Doe dat via het menu-item Garanties.');
 		dit.value=document.forms['tarieven'].elements['gar['+week+']'].value;
 	}
