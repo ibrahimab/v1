@@ -646,7 +646,7 @@ if($cms_form[2]->filled) {
 	}
 
 	# Controle of juiste taal wel actief is
-	if(!$vars["cmstaal"]) {
+	if(!$vars["cmstaal"] and $_POST["input"]) {
 		while(list($key,$value)=each($_POST["input"])) {
 			if(ereg("^naam_",$key)) {
 				$cms_form[2]->error("taalprobleem","De CMS-taal is gewijzigd tijdens het bewerken. Opslaan is niet mogelijk. Ga terug naar het CMS-hoofdmenu en kies de gewenste taal",false,true);

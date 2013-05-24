@@ -60,7 +60,8 @@ if($gegevens["stap1"]["voucherstatus"]<>"0" and $gegevens["stap1"]["voucherstatu
 
 $factuurdatum_time=time();
 
-$form->field_yesno("ondertekenen","Vraag om goedkeuring/ondertekening door de klant","",array("selection"=>($gegevens["stap1"]["factuur_ondertekendatum"]>0||$gegevens["stap1"]["vraag_ondertekening"]==0 ? false : true)));
+$form->field_htmlrow("","<hr><b>Goedkeuring</b>");
+$form->field_yesno("ondertekenen","Goedkeuring benodigd: vraag om goedkeuring/ondertekening door de klant","",array("selection"=>($gegevens["stap1"]["vraag_ondertekening"]==0 ? false : true)));
 
 #_field: (obl),id,title,db,prevalue,options,layout
 
@@ -808,7 +809,7 @@ if($form->okay) {
 			}
 
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
-				$directlogin_link=$vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]]."reisagent.php";
+				$directlogin_link=$vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]]."bsys.php?menu=3&reisbureaulogin=1&bid=".$gegevens["stap1"]["boekingid"];
 			} else {
 				$db0->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
 				if($db0->next_record() and $db0->f("password_uc")) {
@@ -837,7 +838,7 @@ if($form->okay) {
 
 			if(!$gegevens["stap1"]["annuleringsverzekering"]) {
 				$link=$gegevens["stap1"]["website_specifiek"]["basehref"].html("menu_verzekeringen").".php#annuleringsverzekering";
-				$html.="<p>".html("weadviserenannuleringsverzekering","factuur")."<br><a href=\"".wt_he($link)."\">".wt_he($link)."</a></p>";
+				$html.="<p>".html("weadviserenannuleringsverzekering","factuur",array("h_1"=>"<a href=\"".wt_he($link)."\">","h_2"=>"</a>"))."</p>";
 			}
 			$html.="<p>".html("pdfdownloaden","factuur",array("h_1"=>"<a href=\"http://get.adobe.com/reader/\">","h_2"=>"</a>"))."</p>";
 			$html.="[ondertekening]";

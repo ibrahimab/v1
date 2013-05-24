@@ -4076,33 +4076,30 @@ $txt["nl"]["factuur"]["bedanktvoorjeboeking"]="Bedankt voor je boeking.";
 $txt["en"]["factuur"]["bedanktvoorjeboeking"]="Thank you for your booking.";
 
 $txt["nl"]["factuur"]["tercontroleopfouten"]="Ter controle op fouten willen we je vragen deze bevestiging (= tevens factuur) binnen 24 uur te controleren en akkoord te geven op één van onderstaande manieren:";
-$txt["en"]["factuur"]["tercontroleopfouten"]="To ensure that no errors have been made, we would ask you to check this confirmation and to return it to us, signed, within 24 hours, either by fax, e-mail or post.";
-
-$nieuwe_vertaling["en"]["factuur"]["tercontroleopfouten"]=true;
+$txt["en"]["factuur"]["tercontroleopfouten"]="To ensure that no errors have been made, we ask you to check the confirmation (= also invoice) within 24 hours and approve it by any of the ways as mentioned below:";
 
 $txt["nl"]["factuur"]["onlinebevestigen"]="Online bevestigen";
-$txt["en"]["factuur"]["onlinebevestigen"]="";
+$txt["en"]["factuur"]["onlinebevestigen"]="Approve online";
 
 $txt["nl"]["factuur"]["onlinebevestigen_uitleg"]="Door digitaal je akkoord te geven over de inhoud van de bevestiging:
 [[h_1]]factuur online goedkeuren[[h_2]]";
-$txt["en"]["factuur"]["onlinebevestigen_uitleg"]="";
+$txt["en"]["factuur"]["onlinebevestigen_uitleg"]="By digitally approving the content of the confirmation:
+[[h_1]]approve invoice online[[h_2]]";
 
 $txt["nl"]["factuur"]["permailfaxpost"]="Bevestigen per mail, fax of post";
-$txt["en"]["factuur"]["permailfaxpost"]="";
+$txt["en"]["factuur"]["permailfaxpost"]="Approve by e-mail, fax or post";
 
-$txt["nl"]["factuur"]["permailfaxpost_uitleg"]="Door de bevestiging uit te printen, te ondertekenen en terug te sturen. Dit kan per e-mail, fax of post. ";
-$txt["en"]["factuur"]["permailfaxpost_uitleg"]="";
+$txt["nl"]["factuur"]["permailfaxpost_uitleg"]="Door de bevestiging uit te printen, te ondertekenen en terug te sturen. Dit kan per e-mail, fax of post.";
+$txt["en"]["factuur"]["permailfaxpost_uitleg"]="By printing out the confirmation, sign it and send it to us. This can be done by email, fax or post.";
 
 $txt["nl"]["factuur"]["bijonjuistheden"]="Bij onjuistheden horen wij dit graag per omgaande.";
 $txt["en"]["factuur"]["bijonjuistheden"]="If you find any errors, please let us know immediately.";
 
 $txt["nl"]["factuur"]["tot6wekeninloggen"]="Tot 4 weken voor vertrek kun je via \"[[h_1]]Mijn boeking[[h_2]]\" de gegevens van de deelnemers zelf invullen of aanpassen en opties bijboeken. Het is natuurlijk ook mogelijk om dit per mail of telefonisch aan ons door te geven, waarna wij het voor je verwerken.";
-$txt["en"]["factuur"]["tot6wekeninloggen"]="Up to 6 weeks before your departure, you can log in to change the data of the participants and add any options. You can of course also provide us with this information by e-mail or telephone.";
+$txt["en"]["factuur"]["tot6wekeninloggen"]="Up to 4 weeks before your departure, you can use \"[[h_1]]My booking[[h_2]]\" to change the data of the participants and add any options. You can of course also provide us with this information by email or telephone.";
 
-$nieuwe_vertaling["en"]["factuur"]["tot6wekeninloggen"]=true;
-
-$txt["nl"]["factuur"]["weadviserenannuleringsverzekering"]="We adviseren je om een annuleringsverzekering af te sluiten. Dit kan zowel individueel als per groep. Let op: dit kan tot 7 dagen na boeking! Voor informatie:";
-$txt["en"]["factuur"]["weadviserenannuleringsverzekering"]="We advise you to take out a cancellation insurance, either per individual or per group. Attention: you can do so up to 7 days after you have made your booking! For information:";
+$txt["nl"]["factuur"]["weadviserenannuleringsverzekering"]="We adviseren je om een annuleringsverzekering af te sluiten. Dit kan zowel individueel als per groep. Let op: dit kan tot 7 dagen na boeking! [[h_1]]Voorwaarden annuleringsverzekering[[h_2]]";
+$txt["en"]["factuur"]["weadviserenannuleringsverzekering"]="We advise you to take out a cancellation insurance, either per individual or per group. Attention: you can do so up to 7 days after you have made your booking! [[h_1]]Terms and conditions cancellation insurance[[h_2]]";
 
 $txt["nl"]["factuur"]["mailmetvriendelijkegroet"]="Met vriendelijke groet,";
 $txt["en"]["factuur"]["mailmetvriendelijkegroet"]="Yours sincerely,";

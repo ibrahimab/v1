@@ -4,6 +4,10 @@ $boeking_wijzigen=true;
 $vars["verberg_zoekenboeklinks"]=true;
 $vars["verberg_directnaar"]=true;
 
+if($_GET["reisbureaulogin"]) {
+	$vars["reisbureau_mustlogin"]=true;
+}
+
 include("admin/vars.php");
 
 if($_GET["laatstefactuur"] and $_GET["bid"]) {
@@ -36,7 +40,13 @@ if($_POST["factuurakkoord"] and $_POST["goedkeur1"] and $_POST["goedkeur2"]) {
 	$gegevens=get_boekinginfo($_GET["bid"]);
 
 	# Ondertekendatum aanpassen
-	$db->query("UPDATE boeking SET factuur_ondertekendatum=NOW(), vraag_ondertekening=0 WHERE boeking_id IN (".$boekingid_inquery.") AND boeking_id='".intval($_GET["bid"])."';");
+	if($boekingid_inquery) {
+		$db->query("UPDATE boeking SET factuur_ondertekendatum=NOW(), vraag_ondertekening=0 WHERE boeking_id IN (".$boekingid_inquery.") AND boeking_id='".intval($_GET["bid"])."';");
+	} elseif($reisbureau_user_id_inquery) {
+		$db->query("UPDATE boeking SET factuur_ondertekendatum=NOW(), vraag_ondertekening=0 WHERE boeking_id='".intval($_GET["bid"])."' AND reisbureau_user_id IN (".$reisbureau_user_id_inquery.");");
+	} else {
+		trigger_error("factuur_ondertekendatum niet aangepast: boekingid_inquery en reisbureau_user_id_inquery allebei leeg",E_USER_NOTICE);
+	}
 
 	# goedkeuring in logbestand plaatsen
 	chalet_log("factuur door de klant goedgekeurd via \"Mijn boeking\"",true,true);

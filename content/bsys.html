@@ -282,6 +282,11 @@ if($login->logged_in) {
 					echo html("bekijken","bsys").":<ul>\n";
 					echo "<li><a href=\"".$path."bsys.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("samenstellingreissom","bsys")."</a></li>";
 					echo "<li><a href=\"".$path."bsys.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("gegevensdeelnemers","bsys")."</a></li>";
+
+					if($gegevens["stap1"]["vraag_ondertekening"]) {
+						# link naar "factuur goedkeuren"
+						echo "<li><a href=\"".$path."bsys.php?menu=3&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("factuurgoedkeuren","bsys")."</a></li>";
+					}
 					echo "</ul><hr>";
 					if($gegevens["stap1"]["wijzigen_toegestaan"]) {
 						echo html("wijzigen","bsys").":<ul>\n";

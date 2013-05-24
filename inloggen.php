@@ -31,11 +31,16 @@ if($_GET["directlogin"] and $_GET["user_id"] and $_GET["code"]) {
 		$db->query("UPDATE boekinguser SET wrongcount=wrongcount+1 WHERE user_id='".intval($_GET["user_id"])."';");
 	}
 
+	unset($querystring);
+	if($_GET["bid"]) {
+		$querystring.="bid=".intval($_GET["bid"]);
+	}
+
 	if($_GET["soort"]==3) {
 		# doorlinken naar "factuur goedkeuren"
-		header("Location: ".$vars["path"]."bsys.php?menu=3".($_GET["bid"] ? "&bid=".$_GET["bid"] : ""));
+		header("Location: ".$vars["path"]."bsys.php?menu=3".($querystring ? "&".$querystring : ""));
 	} else {
-		header("Location: ".$vars["path"]."bsys.php".($_GET["bid"] ? "?bid=".$_GET["bid"] : ""));
+		header("Location: ".$vars["path"]."bsys.php".($querystring ? "?".$querystring : ""));
 	}
 	exit;
 }

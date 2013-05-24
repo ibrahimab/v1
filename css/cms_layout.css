@@ -524,6 +524,11 @@ li {
 	background-color: #FFFBBA;
 }
 
+.opvalmelding {
+	background-color: yellow;
+	font-weight: bold;
+}
+
 .opvalblok {
 	background-color: #FFFBBA;
 	padding: 10px;

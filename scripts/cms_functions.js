@@ -285,6 +285,12 @@ $(document).ready(function() {
 		garantie_inkoopgegevens_berekenen();
 	});
 
+	// bij wijzigen "Factuur goedgekeurd door de klant": "Goedkeuring benodigd" uitzetten
+	$('select[name="input[factuur_ondertekendatum][day]"], select[name="input[factuur_ondertekendatum][month]"], select[name="input[factuur_ondertekendatum][year]"]').change(function() {
+
+		goedkeuringen_benodigd_uitzetten();
+	});
+
 	// submit-button: controle uitvoeren
 	$(".inkoopgegevens_submit").click(function() {
 		var melding=false;
@@ -590,6 +596,19 @@ $(document).ready(function() {
 		}
 	}
 });
+
+function goedkeuringen_benodigd_uitzetten() {
+	// checkbox "Goedkeuring benodigd: vraag om goedkeuring/ondertekening door de klant" uitzetten
+	if($("#yesnoondertekenen").is(":checked")) {
+		$("#yesnoondertekenen").removeAttr("checked");
+
+		var org=$("label[for='yesnoondertekenen']").html();
+		$("label[for='yesnoondertekenen']").html(org+"&nbsp;&nbsp;<span class='opvalmelding'>Vinkje is uitgezet!</span>");
+		setTimeout(function(){
+			$("label[for='yesnoondertekenen']").html(org);
+		},3000);
+	}
+}
 
 
 function get_float_input(fieldname) {

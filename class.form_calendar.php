@@ -63,6 +63,17 @@ if($_GET["justonevar"]) {
 			echo "window.opener.document.".htmlentities($_GET["nm"]).".elements['input[".htmlentities($_GET["input"])."][month]'].value = month;\n";
 			echo "window.opener.document.".htmlentities($_GET["nm"]).".elements['input[".htmlentities($_GET["input"])."][year]'].value = year;\n";
 		}
+
+				#
+				# Kijken of "Goedkeuring benodigd: vraag om goedkeuring/ondertekening door de klant" uitgezet moet worden
+				#
+				if($_GET["input"]=="factuur_ondertekendatum") {
+			?>
+				// window.opener.document.getElementById("yesnoondertekenen").checked=false;
+				window.opener.goedkeuringen_benodigd_uitzetten();
+
+		<?php }
+
 	?>
 		window.close();
 	}
@@ -70,7 +81,7 @@ if($_GET["justonevar"]) {
 <STYLE type="text/css">
 <!--
 	A:hover {
-		color : #CC3333; 
+		color : #CC3333;
 	}
 
 	TD {
