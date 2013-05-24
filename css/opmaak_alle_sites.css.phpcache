@@ -1289,6 +1289,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	color: #003366;
 }
 
+.toonopkaart {
+	font-size: 0.8em;
+}
+
 .zoekresultaten_zoeken_op_kaart {
 	cursor: pointer;
 	background-image: url('../pic/icon_zoeken_op_kaart.png?c=4');

@@ -48,7 +48,7 @@ if($vars["page_with_tabs"]) {
 }
 
 # Font Awesome-css
-echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/font-awesome.min.css\" />\n";
+echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/font-awesome.min.css?c=1\" />\n";
 
 if(!$vars["page_with_tabs"]) {
 	# jQuery UI theme laden

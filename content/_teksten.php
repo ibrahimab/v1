@@ -1296,6 +1296,11 @@ $txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties"]="[[h_1]][[v_aantal]][[h_2]
 $txt["nl_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] vakantiehuis gevonden";
 $txt["en_i"]["zoek-en-boek"]["gevondenaccommodaties_1"]="[[h_1]]1[[h_2]] holiday home found";
 
+$txt["nl"]["zoek-en-boek"]["toonopkaart"]="toon op kaart";
+$txt["en"]["zoek-en-boek"]["toonopkaart"]="show on a map";
+
+$txt["nl"]["zoek-en-boek"]["verbergkaart"]="verberg kaart";
+$txt["en"]["zoek-en-boek"]["verbergkaart"]="hide map";
 
 # zoek-en-boek: zoeken op kaart
 $txt["nl"]["zoek-en-boek"]["bekijkopkaart"]="Bekijk alle resultaten op een kaart";

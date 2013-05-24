@@ -1773,6 +1773,36 @@ $(document).ready(function() {
 			});
 		});
 
+		// link "toon op kaart"
+		$(".toonopkaart").click(function(event){
+			google.maps.event.trigger(map, 'resize');
+			map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
+			$(".zoekresultaten_zoeken_op_kaart_map").slideToggle("slow",function() {
+				if($(this).is(":visible")) {
+					// $(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-down");
+					// $(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-up");
+					$("#zoekresultaten_zoeken_op_kaart_map_canvas").show();
+					google.maps.event.trigger(map, 'resize');
+					map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
+					$("input[name=map]").val("1");
+
+					$(".toonopkaart a").html($(".toonopkaart a").data("toggle"));
+
+				} else {
+					// $(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-up");
+					// $(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-down");
+
+					$("#zoekresultaten_zoeken_op_kaart_map_canvas").hide();
+					$("input[name=map]").val("0");
+
+					$(".toonopkaart a").html($(".toonopkaart a").data("org"));
+
+				}
+			});
+			event.preventDefault();
+		});
+
+
 		// zoeken op kaart
 		if($(".zoekresultaten_zoeken_op_kaart_map").length!==0) {
 			$("#zoekresultaten_zoeken_op_kaart_map_canvas").hide();

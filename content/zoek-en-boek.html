@@ -3302,6 +3302,10 @@ if($aantalresultaten_zonder_gekoppeld_skigebied<count($results)) {
 }
 echo "<div class=\"aantalgevonden\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">";
 echo html("gevondenaccommodaties".($toon_aantalresultaten_verschillende_types==1 ? "_1" : ""),"zoek-en-boek",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"h_1"=>"<strong>","h_2"=>"</strong>"));
+
+if($vars["zoeken_op_kaart"] and $zoeken_op_kaart) {
+	echo "&nbsp;&nbsp;<span class=\"toonopkaart\">(<i class=\"icon-location-arrow\"></i>&nbsp;<a href=\"\" data-org=\"".html("toonopkaart","zoek-en-boek")."\" data-toggle=\"".html("verbergkaart","zoek-en-boek")."\">".html("toonopkaart","zoek-en-boek")."</a>)</span>";
+}
 echo "</div>";
 
 
@@ -3391,7 +3395,8 @@ if($resultaten_tonen) {
 			echo "var googlemaps_zoekenboek=true;\nvar googlemaps_lat=".$gps_lat_midden.";\nvar googlemaps_long=".$gps_long_midden.";\nvar googlemaps_lat_min=".$gps_lat_min.";\nvar googlemaps_long_min=".$gps_long_min.";\nvar googlemaps_lat_max=".$gps_lat_max.";\nvar googlemaps_long_max=".$gps_long_max.";\nvar googlemaps_selected_icon=".$vars["websitetype"].";\nvar zoomlevel=11;\n";
 			echo "</script>\n";
 
-			echo "<div class=\"zoekresultaten_zoeken_op_kaart zoekresultaten_aantalgevonden boxshadow\">".html("bekijkopkaart","zoek-en-boek")."&nbsp;&nbsp;<i class=\"icon-arrow-down\"></i></div>";
+#			echo "<div class=\"zoekresultaten_zoeken_op_kaart zoekresultaten_aantalgevonden boxshadow\">".html("bekijkopkaart","zoek-en-boek")."&nbsp;&nbsp;<i class=\"icon-arrow-down\"></i></div>";
+
 			echo "<div class=\"zoekresultaten_zoeken_op_kaart_map boxshadow\"".($_GET["map"]==1 ? " style=\"display:block;\"" : "").">";
 			echo "<div id=\"zoekresultaten_zoeken_op_kaart_map_canvas\"></div>";
 			echo "</div>";
