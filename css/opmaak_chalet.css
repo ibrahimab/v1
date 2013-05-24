@@ -216,12 +216,12 @@ form {
 
 .sgrlogo_hoofdmenu {
 	display: block;
-	margin-top: -50px;
 	width: 30px;
 	height: 27px;
 	z-index: 999;
 	position: absolute;
 	margin-left: -27px;
+	top: 95px;
 }
 
 #kleinelogos {
