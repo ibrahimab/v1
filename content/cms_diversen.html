@@ -102,7 +102,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 					echo "<tr><td valign=\"top\">Prioriteit</td><td valign=\"top\">".$db->f("prioriteit")."</td></tr>";
 				}
 			}
-			echo "<tr><td valign=\"top\">Omschrijving</td><td valign=\"top\">".nl2br(wt_htmlentities($db->f("omschrijving"),true))."</td></tr>";
+			echo "<tr><td valign=\"top\">Omschrijving</td><td valign=\"top\" style=\"-ms-word-break: break-all;word-break: break-all;word-break: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;\">".nl2br(wt_htmlentities($db->f("omschrijving"),true))."</td></tr>";
 			echo "<tr><td valign=\"top\">Betrokkenen</td><td valign=\"top\">";
 			unset($betrokkenen_getoond);
 			$betrokkenen=split(",",$db->f("betrokkenen"));
