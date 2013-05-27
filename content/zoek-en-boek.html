@@ -3304,7 +3304,13 @@ echo "<div class=\"aantalgevonden\" id=\"aantalgevonden\" data-aantalgevonden=\"
 echo html("gevondenaccommodaties".($toon_aantalresultaten_verschillende_types==1 ? "_1" : ""),"zoek-en-boek",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"h_1"=>"<strong>","h_2"=>"</strong>"));
 
 if($vars["zoeken_op_kaart"] and $zoeken_op_kaart) {
-	echo "&nbsp;&nbsp;<span class=\"toonopkaart\">(<i class=\"icon-location-arrow\"></i>&nbsp;<a href=\"\" data-org=\"".html("toonopkaart","zoek-en-boek")."\" data-toggle=\"".html("verbergkaart","zoek-en-boek")."\">".html("toonopkaart","zoek-en-boek")."</a>)</span>";
+	echo "&nbsp;&nbsp;<span class=\"toonopkaart\">(<i class=\"icon-location-arrow\"></i>&nbsp;<a href=\"\" data-org=\"".html("toonopkaart","zoek-en-boek")."\" data-toggle=\"".html("verbergkaart","zoek-en-boek")."\">";
+	if($_GET["map"]) {
+		echo html("verbergkaart","zoek-en-boek");
+	} else {
+		echo html("toonopkaart","zoek-en-boek");
+	}
+	echo "</a>)</span>";
 }
 echo "</div>";
 
