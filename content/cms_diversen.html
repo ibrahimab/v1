@@ -93,7 +93,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			echo "<div style=\"clear:both;\"></div>\n";
 			echo "</div>";
 			echo "<div id=\"row3_".$db->f("status").$db->f("actie_id")."\" style=\"display:none;padding-left:20px;\">\n";
-			echo "<table cellspacing=\"0\" class=\"tbl difftbl\" style=\"margin-top:5px;margin-bottom:15px;\"><tr><th style=\"width:170px;\">veld</th><th style=\"\">inhoud</th></tr>";
+			echo "<table cellspacing=\"0\" class=\"tbl difftbl\" style=\"background-color:#ffffff;margin-top:5px;margin-bottom:15px;\"><tr><th style=\"width:170px;\">veld</th><th style=\"\">inhoud</th></tr>";
 			if($db->f("alleenwebtastic")) {
 				echo "<tr><td colspan=\"2\"><i>Alleen zichtbaar voor WebTastic</i></td></tr>";
 			}
@@ -102,7 +102,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 					echo "<tr><td valign=\"top\">Prioriteit</td><td valign=\"top\">".$db->f("prioriteit")."</td></tr>";
 				}
 			}
-			echo "<tr><td valign=\"top\">Omschrijving</td><td valign=\"top\" style=\"-ms-word-break: break-all;word-break: break-all;word-break: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;\">".nl2br(wt_htmlentities($db->f("omschrijving"),true))."</td></tr>";
+			echo "<tr><td valign=\"top\">Omschrijving</td><td valign=\"top\" style=\"\">".nl2br(wt_htmlentities($db->f("omschrijving"),true))."</td></tr>";
 			echo "<tr><td valign=\"top\">Betrokkenen</td><td valign=\"top\">";
 			unset($betrokkenen_getoond);
 			$betrokkenen=split(",",$db->f("betrokkenen"));

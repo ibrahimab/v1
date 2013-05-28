@@ -2,7 +2,7 @@
 
 #
 #
-# XML-export van alle accommodaties t.b.v. TradeTracker
+# CSV-export van alle accommodaties t.b.v. Traffic4U
 #
 # ========================>>>>>>>>>>>>>>>> LET OP: bij deze file wordt een cache gebruikt! <<<<<<<<<<<<<<<<==================================
 #
@@ -12,6 +12,9 @@
 #
 #
 #
+
+# TODO: nagaan of cache opzetten in cron/elkuur.php nodig is
+# CACHE NOG NIET ACTIE
 
 set_time_limit(0);
 $geen_tracker_cookie=true;
@@ -41,7 +44,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	define(wt_csvconvert_delimiter,",");
 } else {
-	define(wt_csvconvert_delimiter,",");
+	define(wt_csvconvert_delimiter,";");
 }
 
 # header
