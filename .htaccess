@@ -304,8 +304,9 @@ RewriteRule ^plaats/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRIN
 RewriteRule ^resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 
 
-# forward naar Chalet.nl vanuit Italissima
+# forward naar Chalet vanuit Italissima
 RewriteRule ^forward-chaletnl-italie$ http://www.chalet.nl/land/Italie/ [L,R=301]
+RewriteRule ^forward-chaletbe-italie$ http://www.chalet.be/land/Italie/ [L,R=301]
 
 #
 # Tijdelijke pagina's
