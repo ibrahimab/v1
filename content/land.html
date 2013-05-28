@@ -88,7 +88,7 @@ if($db->num_rows()) {
 
 				$alle_landen[$db->f("land_id")]=$db->f("land");
 			}
-			$tabellen.="<tr><td valign=\"top\" width=\"350\" nowrap><A HREF=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("naam"))."/#beschrijving\">".htmlentities($db->f("naam"))."</A></td>";
+			$tabellen.="<tr><td valign=\"top\" width=\"350\" nowrap><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("naam"))."/#beschrijving\">".htmlentities($db->f("naam"))."</a></td>";
 
 			if($vars["seizoentype"]<>2) {
 				$tabellen.="<td align=\"right\">".($db->f("kilometerpiste") ? $db->f("kilometerpiste")." km" : "&nbsp;")."</td>";
@@ -97,7 +97,7 @@ if($db->num_rows()) {
 
 			$tabellen.="<td align=\"right\">";
 			if($aantal_acc) {
-				$tabellen.="<a href=\"".$vars["path"].txt("menu_accommodaties").".php?filled=1&fsg=".$db->f("land_id")."-".$db->f("skigebied_id").($db->f("kortenaam1") ? "-1" : "")."\">";
+				$tabellen.="<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$db->f("land_id")."-".$db->f("skigebied_id").($db->f("kortenaam1") ? "-1" : "")."\">";
 				if($vars["seizoentype"]==2) {
 					$tabellen.=$aantal_acc." ".($aantal_acc==1 ? html("vakantiehuis") : html("vakantiehuizen"));
 				} else {
@@ -366,7 +366,12 @@ if($vars["seizoentype"]==2 and ($themalandinfo["naam"]=="Frankrijk" or $themalan
 	echo "<div style=\"clear:both;\"></div>";
 	echo "</div>";
 } else {
+
+	if($landinfo["id"]) {
+		echo "<p><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landinfo["id"]."-0\">".html("bekijkonzeaccommodaties","land",array("v_land"=>$landinfo["naam"]))." &raquo;</a></p>";
+	}
 	echo $tabellen;
+
 }
 
 // landen omschrijving lees meer knop

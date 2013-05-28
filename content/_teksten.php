@@ -1668,13 +1668,6 @@ $txt["nl"]["favorieten"][""]="";
 $txt["en"]["favorieten"][""]="";
 
 
-#land.html lees verder
-
-$txt["nl"]["land"]["leesverder"]="Lees verder";
-$txt["en"]["land"]["leesverder"]="Read more";
-$txt["nl"]["land"]["dichtklappen"]="Dichtklappen";
-$txt["en"]["land"]["dichtklappen"]="Show less";
-
 #
 # Accommodatie doormail functie
 #
@@ -2224,6 +2217,18 @@ $txt["en_z"]["land"]["skigebied"]="Regions in [[v_land]]";
 
 $txt["nl"]["land"]["aantalaccommodaties"]="Aantal";
 $txt["en"]["land"]["aantalaccommodaties"]="Accommodations";
+
+$txt["nl"]["land"]["leesverder"]="Lees verder";
+$txt["en"]["land"]["leesverder"]="Read more";
+
+$txt["nl"]["land"]["dichtklappen"]="Dichtklappen";
+$txt["en"]["land"]["dichtklappen"]="Show less";
+
+$txt["nl"]["land"]["bekijkonzeaccommodaties"]="Bekijk al onze chalets en appartementen in [[v_land]]";
+$txt["en"]["land"]["bekijkonzeaccommodaties"]="Have a look at all our chalets and apartments in [[v_land]]";
+
+$txt["nl_z"]["land"]["bekijkonzeaccommodaties"]="Bekijk al onze vakantiehuizen in [[v_land]]";
+$txt["en_z"]["land"]["bekijkonzeaccommodaties"]="Have a look at our holiday homes in [[v_land]]";
 
 
 #
