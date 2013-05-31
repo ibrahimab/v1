@@ -433,6 +433,18 @@ if(date("H")==4 or date("H")==18 or $argv[1]=="xmlopnieuw") {
 	}
 }
 
+# Cache Traffic4U
+if(date("H")==3) {
+	$doorloop_array=array(
+		"feed_traffic4u_bestemmingen_C"=>"http://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
+	);
+	while(list($key,$value)=each($doorloop_array)) {
+		$feed=file_get_contents($value);
+		$filename=$unixdir."cache/".$key.".csv";
+		file_put_contents($filename,$feed);
+	}
+}
+
 #
 # Kijken of alle seizoenen aanwezig zijn in de tabel cmshoofdpagina
 #

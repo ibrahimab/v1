@@ -27,15 +27,15 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 	# UTF-8 BOM
 	echo "\xEF\xBB\xBF";
-} elseif(file_exists($cachefile) and filemtime($cachefile)>=(time()-86400) and !$_GET["nocache"]) {
+} elseif(file_exists($cachefile) and filemtime($cachefile)>=(time()-129600) and !$_GET["nocache"]) {
 	header("Content-Type: application/octet-stream; charset=utf-8");
-	header("Content-Disposition: attachment; filename=\"accommodaties.csv\";" );
+	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 	$content=file_get_contents($cachefile);
 	echo $content;
 	exit;
 } else {
 	header("Content-Type: application/octet-stream; charset=utf-8");
-	header("Content-Disposition: attachment; filename=\"accommodaties.csv\";" );
+	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 
 	# UTF-8 BOM
 	echo "\xEF\xBB\xBF";
@@ -97,8 +97,80 @@ if($_GET["feed"]=="accommodaties") {
 			echo "\n";
 		}
 	}
+} elseif($_GET["feed"]=="bestemmingen") {
+
+	$thema_array=array(
+		"vf_piste1=1"=>"aan de piste",
+		"vf_kenm2=1"=>"catering mogelijk",
+		"vf_kenm4=1"=>"sauna",
+		"vf_kenm43=1"=>"goed voor kids",
+		"vf_kenm6=1"=>"huisdieren toegestaan",
+	);
+
+	echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL skigebied + thema".wt_csvconvert_delimiter."URL plaats + thema\n";
+#	$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND archief=0 AND plaats_id IN (28,30,120);");
+	$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND archief=0 AND plaats_id IN (28,6);");
+	while($db4->next_record()) {
+
+		foreach ($thema_array as $key99 => $value99) {
 
 
+			# skigebied-url
+			if(!$skigebied_al_gehad[$db4->f("skigebied_id").$key99]) {
+
+				$skigebied_al_gehad[$db4->f("skigebied_id").$key99]=true;
+
+				unset($aantal_resultaten_skigebied);
+
+				$temp_skigebied_url=$vars["basehref"].txt("menu_zoek-en-boek").".php?filled=1&".$key99."&fsg=".$db4->f("land_id")."-".$db4->f("skigebied_id");
+				$content=file_get_contents($temp_skigebied_url);
+
+				if(preg_match("/data-aantalgevonden=\"([0-9]+)\"/",$content,$regs)) {
+					if($regs[1]>0) {
+						$aantal_resultaten_skigebied=$regs[1];
+					}
+				}
+			}
+
+
+			# plaats-url
+			unset($aantal_resultaten_plaats);
+			$temp_plaats_url=$vars["basehref"].txt("menu_zoek-en-boek").".php?filled=1&".$key99."&fsg=pl".$db4->f("plaats_id");
+			$content=file_get_contents($temp_plaats_url);
+
+			if(preg_match("/data-aantalgevonden=\"([0-9]+)\"/",$content,$regs)) {
+				if($regs[1]>0) {
+					$aantal_resultaten_plaats=$regs[1];
+				}
+			}
+
+			if($aantal_resultaten_skigebied>0 or $aantal_resultaten_plaats>0) {
+				echo wt_csvconvert(utf8_encode($db4->f("land"))).wt_csvconvert_delimiter;
+				echo wt_csvconvert(utf8_encode($db4->f("skigebied"))).wt_csvconvert_delimiter;
+				echo wt_csvconvert(utf8_encode($db4->f("plaats"))).wt_csvconvert_delimiter;
+				echo wt_csvconvert(utf8_encode($value99)).wt_csvconvert_delimiter;
+				if($aantal_resultaten_skigebied>0) {
+					echo wt_csvconvert(utf8_encode($temp_skigebied_url)).wt_csvconvert_delimiter;
+				} else {
+#					echo wt_csvconvert(utf8_encode($temp_skigebied_url)).wt_csvconvert_delimiter;
+					echo wt_csvconvert_delimiter;
+				}
+				if($aantal_resultaten_plaats>0) {
+					echo wt_csvconvert(utf8_encode($temp_plaats_url));
+				}
+
+				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+					echo wt_csvconvert_delimiter.intval($aantal_resultaten_skigebied).wt_csvconvert_delimiter.intval($aantal_resultaten_plaats);
+				}
+
+				echo "\n";
+
+			}
+
+			sleep(1);
+
+		}
+	}
 }
 
 
