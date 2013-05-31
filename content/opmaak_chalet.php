@@ -451,7 +451,21 @@ if(!$vars["verberg_linkerkolom"] and $vars["website"]<>"T" and (!$vars["verberg_
 	echo "<div id=\"telefoonblok_nummer\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_winter.gif\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
+
+	if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
+		# chat-blok
+		echo "<div id=\"chatblok\" class=\"noprint\">";
+		if($vars["lokale_testserver"]) {
+			echo "<img src=\"".$vars["path"]."pic/tijdelijk/test-chalet-chatbutton-start.jpg\">";
+		} else {
+			echo "<div data-id=\"PTFmcHUgtM\" class=\"livechat_button\"><a href=\"http://www.livechatinc.com/\">live chat software</a></div>";
+		}
+		echo "</div>"; # afsluiten chatblok
+	}
+
+
 }
+
 
 # breadcrumbs
 if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcrumbs"]) {
@@ -868,17 +882,49 @@ if($abtest_snelzoeken) {
 	--></style>\n";
 }
 
-if($_GET["testsysteem"]==1) {
-	?><script type="text/javascript">
+if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
+	#
+	# Chatsysteem
+	#
+
+	?>
+<style>
+
+#bloklinks .bloklinks_blauwelijn {
+	margin-top: 25px;
+}
+
+#zoekenboek_leeg {
+	margin-bottom: -25px;
+}
+
+#zoekenboek_overlay {
+	margin-top: 25px;
+}
+
+#telefoonblok {
+	margin-top: -18px;
+}
+
+#toonaccommodatie_foto {
+	margin-top: 22px;
+	margin-bottom: -16px;
+}
+
+</style>
+
+<script type="text/javascript">
 var __lc = {};
 __lc.license = 2618611;
+__lc.group = 2;
 
 (function() {
 	var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
 	lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
 	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
 })();
-</script><?php
+</script>
+<?php
 
 }
 

@@ -118,6 +118,12 @@ form {
 	text-align: center;
 }
 
+#chatblok {
+	position: absolute;
+	top: 230px;
+	margin-left: 30px;
+}
+
 #bekekenbewaard {
 	margin-left: 30px;
 	font-size: 0.8em;
