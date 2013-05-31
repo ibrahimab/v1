@@ -16,10 +16,11 @@
 // echo htmlentities($output);
 
 $robot_noindex=true;
+$vars["verberg_linkerkolom"]=true;
 include("admin/vars.php");
-if($vars["lokale_testserver"]) {
+#if($vars["lokale_testserver"]) {
 	include "content/opmaak.php";
-}
+#}
 
 // $a = new PPPa;
 
