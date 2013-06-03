@@ -456,7 +456,7 @@ if(!$vars["verberg_linkerkolom"] and $vars["website"]<>"T" and (!$vars["verberg_
 		# chat-blok
 		echo "<div id=\"chatblok\" class=\"noprint\">";
 		if($vars["lokale_testserver"]) {
-			echo "<img src=\"".$vars["path"]."pic/tijdelijk/test-chalet-chatbutton-start.jpg\">";
+			echo "<img src=\"".$vars["path"]."pic/tijdelijk/test-chat-start-chalet.nl.png\">";
 		} else {
 			echo "<div data-id=\"PTFmcHUgtM\" class=\"livechat_button\"><a href=\"http://www.livechatinc.com/\">live chat software</a></div>";
 		}
@@ -749,7 +749,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 
 		# Selecteer een bestemming
 		echo "<div class=\"zoekenboek_invulveld\">";
-		echo "<a href=\"#\" class=\"zoekenboek_invulveld_bestemming\">".html("selecteerbestemming","index")."&nbsp;&raquo;</a>";
+		echo "<a href=\"#\" class=\"zoekenboek_invulveld_bestemming\">".html("selecteerbestemming","index")."<span style=\"font-size:0.7em;\">&nbsp;</span>&raquo;</a>";
 		echo "</div>";
 
 		# Aankomstdatum vullen
@@ -839,49 +839,6 @@ if($vars["zoekenboek_overlay_doorschuiven"]<>0) {
 	echo "<style type=\"text/css\"><!--\n#zoekenboek_overlay {\ntop:".(264+$vars["zoekenboek_overlay_doorschuiven"])."px;\n}\n--></style>\n";
 }
 
-
-if($abtest_snelzoeken) {
-	echo "<style type=\"text/css\"><!--\n
-	#zoekenboek_overlay {
-		height: 70px;
-	}
-
-	#zoekenboek_leeg {
-		margin-bottom: -140px;
-	}
-
-	#abtest_zoekenboek {
-		text-align:center;
-		margin-top: 7px;
-	}
-
-	.abtest_zoekenboekbutton {
-		display: block;
-		margin-top: 7px;
-		background-color: #fb6703;
-		text-decoration: none;
-		color: #ffffff;
-		font-size: 1.1em;
-		padding: 5px;
-		border: 1px solid #fb6703;
-
-		font-weight: normal;
-		background-image:url('".$vars["path"]."pic/boekbutton_arrow.png');
-		background-repeat:no-repeat;
-		background-position: 20px 6px;
-		padding-left: 25px;
-
-	}
-
-	.abtest_zoekenboekbutton:hover {
-		text-decoration: none;
-		color: #003366;
-		border-color: #003366;
-	}
-
-	--></style>\n";
-}
-
 if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
 	#
 	# Chatsysteem
@@ -926,6 +883,48 @@ __lc.group = 2;
 </script>
 <?php
 
+}
+
+if($abtest_snelzoeken) {
+	echo "<style type=\"text/css\"><!--\n
+	#zoekenboek_overlay {
+		height: 70px;
+	}
+
+	#zoekenboek_leeg {
+		margin-bottom: -140px;
+	}
+
+	#abtest_zoekenboek {
+		text-align:center;
+		margin-top: 7px;
+	}
+
+	.abtest_zoekenboekbutton {
+		display: block;
+		margin-top: 7px;
+		background-color: #fb6703;
+		text-decoration: none;
+		color: #ffffff;
+		font-size: 1.1em;
+		padding: 5px;
+		border: 1px solid #fb6703;
+
+		font-weight: normal;
+		background-image:url('".$vars["path"]."pic/boekbutton_arrow.png');
+		background-repeat:no-repeat;
+		background-position: 20px 6px;
+		padding-left: 25px;
+
+	}
+
+	.abtest_zoekenboekbutton:hover {
+		text-decoration: none;
+		color: #003366;
+		border-color: #003366;
+	}
+
+	--></style>\n";
 }
 
 echo "</body>";

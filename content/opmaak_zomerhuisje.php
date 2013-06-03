@@ -434,7 +434,7 @@ if($vars["verberg_linkerkolom"]) {
 
 		# Selecteer een bestemming
 		echo "<div class=\"zoekenboek_invulveld\">";
-		echo "<a href=\"#\" class=\"zoekenboek_invulveld_bestemming\">".html("selecteerbestemming","index")."&nbsp;&raquo;</a>";
+		echo "<a href=\"#\" class=\"zoekenboek_invulveld_bestemming\">".html("selecteerbestemming","index")."<span style=\"font-size:0.7em;\">&nbsp;</span>&raquo;</a>";
 		echo "</div>";
 
 		# aantalpersonen-array vullen

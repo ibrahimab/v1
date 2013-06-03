@@ -451,7 +451,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 
 	# Selecteer een bestemming
 	echo "<div class=\"zoekenboek_invulveld\">";
-	echo "<a href=\"#\" class=\"zoekenboek_invulveld_bestemming\">".html("selecteerbestemming","index")."&nbsp;&raquo;</a>";
+	echo "<a href=\"#\" class=\"zoekenboek_invulveld_bestemming\">".html("selecteerbestemming","index")."<span style=\"font-size:0.7em;\">&nbsp;</span>&raquo;</a>";
 	echo "</div>";
 
 	// # Skigebied-array vullen
