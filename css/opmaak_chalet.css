@@ -124,6 +124,10 @@ form {
 	margin-left: 30px;
 }
 
+#chatblok img {
+	border: 0;
+}
+
 #bekekenbewaard {
 	margin-left: 30px;
 	font-size: 0.8em;

@@ -452,7 +452,7 @@ if(!$vars["verberg_linkerkolom"] and $vars["website"]<>"T" and (!$vars["verberg_
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
 
-	if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
+	if($vars["website"]=="C") {
 		# chat-blok
 		echo "<div id=\"chatblok\" class=\"noprint\">";
 		if($vars["lokale_testserver"]) {
@@ -839,7 +839,7 @@ if($vars["zoekenboek_overlay_doorschuiven"]<>0) {
 	echo "<style type=\"text/css\"><!--\n#zoekenboek_overlay {\ntop:".(264+$vars["zoekenboek_overlay_doorschuiven"])."px;\n}\n--></style>\n";
 }
 
-if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
+if($vars["website"]=="C") {
 	#
 	# Chatsysteem
 	#

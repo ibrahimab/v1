@@ -139,11 +139,16 @@ if($db->next_record()) {
 			echo "</div>"; # afsluiten telefoonblok
 
 
-			if($_GET["testsysteem"]==1 or $vars["lokale_testserver"]) {
+			if($vars["website"]=="C") {
+
+				#
+				# Chatsysteem
+				#
+
 				# chatblok
 				echo "<div id=\"chatblok\" class=\"noprint\">";
 				if($vars["lokale_testserver"]) {
-					echo "<img src=\"".$vars["path"]."pic/tijdelijk/test-chalet-chatbutton-start.jpg\">";
+					echo "<img src=\"".$vars["path"]."pic/tijdelijk/test-chat-start-chalet.nl.png\">";
 				} else {
 					echo "<div data-id=\"PTFmcHUgtM\" class=\"livechat_button\"><a href=\"http://www.livechatinc.com/\">live chat software</a></div>";
 				}
