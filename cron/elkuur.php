@@ -33,29 +33,6 @@ include($unixdir."admin/vars.php");
 
 #wt_mail("jeroen@webtastic.nl","elk uur","mail elk uur");
 
-
-# Cache Traffic4U
-if(date("H")==3 or $argv[1]=="test") {
-	$doorloop_array=array(
-		// "feed_traffic4u_bestemmingen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
-		"feed_traffic4u_bestemmingen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
-	);
-	ini_set("default_socket_timeout",7200);
-	while(list($key,$value)=each($doorloop_array)) {
-		$feed=file_get_contents($value);
-		$filename=$unixdir."cache/".$key.".csv";
-		if(strlen($feed)>10) {
-			file_put_contents($filename,$feed);
-		} else {
-			trigger_error("feed ".$value." is leeg",E_USER_NOTICE);
-		}
-	}
-	ini_set("default_socket_timeout",60);
-	if($argv[1]=="test") {
-		exit;
-	}
-}
-
 #
 # Automatische kortingen (vanwege Zwitserse Franken CHF) doorrekenen
 #
@@ -456,8 +433,36 @@ if(date("H")==4 or date("H")==18 or $argv[1]=="xmlopnieuw") {
 	}
 }
 
+# Cache Traffic4U
+if(date("H")==3 or $argv[1]=="test") {
+	$doorloop_array=array(
+		"feed_traffic4u_bestemmingen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
+		"feed_traffic4u_bestemmingen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
+	);
+	ini_set("default_socket_timeout",7200);
+	while(list($key,$value)=each($doorloop_array)) {
+		$feed=file_get_contents($value);
+		$filename=$unixdir."cache/".$key.".csv";
+		if(strlen($feed)>10) {
+			file_put_contents($filename,$feed);
+		} else {
+			trigger_error("feed ".$value." is leeg",E_USER_NOTICE);
+		}
+	}
+	ini_set("default_socket_timeout",60);
+	// if($argv[1]=="test") {
+	// 	exit;
+	// }
+}
 
-# traffic4u
+// if(date("H")==5 or date("H")==11 or date("H")==17 or $argv[1]=="test") {
+if(date("H")==5 or $argv[1]=="test") {
+	//
+	// Controleren of er nieuw te verzenden roominglists zijn
+	//
+	$roominglist = new roominglist;
+	$roominglist->vergelijk_lijsten();
+}
 
 
 #

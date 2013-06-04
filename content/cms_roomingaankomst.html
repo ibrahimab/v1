@@ -1,0 +1,19 @@
+<?php
+
+
+if(!$a) {
+	# Roominglist totaal
+
+
+	if(is_array($roominglistlijst)) {
+		ksort($roominglistlijst);
+		echo "Roominglist totaal:<ul>";
+		while(list($key,$value)=each($roominglistlijst)) {
+			echo $value;
+		}
+		echo "</ul>";
+	}
+}
+
+
+?>

@@ -284,10 +284,10 @@ $txt["nl"]["vars"]["mailbetalingsinfo_totaalnogteontvangen"]="€ [BEDRAG] totaal 
 $txt["en"]["vars"]["mailbetalingsinfo_totaalnogteontvangen"]="€ [BEDRAG] is the total sum to still receive";
 
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="De prijzen van de door jou bezochte accommodatie in [PLAATS] zijn bekend!";
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="Book your winter holiday for [SEIZOEN] now!";
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="he prices of the accommodation you visited in [PLAATS] are now known";
 
-$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="Boek nu je vakantie voor [SEIZOEN]!";
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="Book your [SEIZOEN] holiday now!";
+$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="De prijzen van de door jou bezochte accommodatie in [PLAATS] zijn bekend!";
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="he prices of the accommodation you visited in [PLAATS] are now known";
 
 $txt["nl"]["vars"]["hetteamvan"]="Het team van [[h_1]][[v_websitenaam]][[h_2]]";
 $txt["en"]["vars"]["hetteamvan"]="The [[h_1]][[v_websitenaam]][[h_2]] team";
