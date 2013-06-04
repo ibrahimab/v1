@@ -212,7 +212,7 @@ $soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
 # Almliesl
 $xml_urls[16][1]="http://www.almliesl.com/export_chalet_nl_occupancy_de_w.xml"; # beschikbaarheid winter
 $xml_urls[16][2]="http://www.almliesl.com/export_chalet_nl_prices_de_w.xml"; # prijzen winter
-$xml_urls[16][3]="http://www.almliesl.com/export_chalet_nl_occupancy_de_s.xml"; # beschikbaarheid zomer
+#$xml_urls[16][3]="http://www.almliesl.com/export_chalet_nl_occupancy_de_s.xml"; # beschikbaarheid zomer
 $xml_urls[16][4]="http://www.almliesl.com/export_chalet_nl_prices_de_s.xml"; # prijzen zomer
 
 # Alpin Rentals Kaprun

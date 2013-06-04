@@ -505,7 +505,7 @@ while(list($key,$value)=each($footer_opsomming)) {
 	} else {
 		$url=wt_he($key)."\" target=\"_blank";
 	}
-	echo "<li><a href=\"".$key."\"".($id<>"index" ? " rel=\"nofollow\"" : "").">".wt_he($value)."</a></li>";
+	echo "<li><a href=\"".$vars["path"].$key."\"".($id<>"index" ? " rel=\"nofollow\"" : "").">".wt_he($value)."</a></li>";
 	if($footer_teller%7==0) {
 		echo "</div>";
 		echo "<div class=\"footer_met_links_blok\">";

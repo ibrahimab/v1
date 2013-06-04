@@ -27,7 +27,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 	# UTF-8 BOM
 	echo "\xEF\xBB\xBF";
-} elseif(file_exists($cachefile) and filemtime($cachefile)>=(time()-129600) and !$_GET["nocache"]) {
+} elseif(!$_GET["nocache"]) {
 	header("Content-Type: application/octet-stream; charset=utf-8");
 	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 	$content=file_get_contents($cachefile);
