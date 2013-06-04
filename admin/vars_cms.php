@@ -1105,6 +1105,7 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 
 
 		$return["subject"]=ereg_replace("\[SEIZOEN\]",$seizoennaam,$return["subject"]);
+		$return["subject"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["subject"]);
 
 		if($gegevens["stap1"]["mailtekst_klanten_vorig_seizoen"]) {
 			$return["body"].=$gegevens["stap1"]["mailtekst_klanten_vorig_seizoen"];

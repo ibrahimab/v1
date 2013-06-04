@@ -283,7 +283,7 @@ $txt["en"]["vars"]["mailbetalingsinfo_nogteontvangeneindbetaling"]="At [DATUM] t
 $txt["nl"]["vars"]["mailbetalingsinfo_totaalnogteontvangen"]="€ [BEDRAG] totaal nog te ontvangen";
 $txt["en"]["vars"]["mailbetalingsinfo_totaalnogteontvangen"]="€ [BEDRAG] is the total sum to still receive";
 
-$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="Boek nu je wintersportvakantie voor [SEIZOEN]!";
+$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="De prijzen van de door jou bezochte accommodatie in [PLAATS] zijn bekend!";
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="Book your winter holiday for [SEIZOEN] now!";
 
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="Boek nu je vakantie voor [SEIZOEN]!";
