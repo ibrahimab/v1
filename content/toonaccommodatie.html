@@ -440,7 +440,7 @@ if($db->next_record()) {
 			$fototeller++;
 			echo "<td rowspan=\"2\">";
 			echo "<a href=\"".wt_he($video_url)."\" class=\"vimeo_fancybox\">";
-			echo "<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"175\" height=\"127\" border=\"0\">";
+			echo "<img src=\"".$vars['path']."pic/video-preview_".$vars["seizoentype"].".jpg\" width=\"175\" height=\"127\" border=\"0\">";
 			echo "</a></td>";
 		}
 		while(list($key,$value)=each($foto["pic"])) {
@@ -549,7 +549,7 @@ if($db->next_record()) {
 		$foto_table.="<tr>";
 		$foto_table.="<td align=\"center\"><div class=\"foto_doorklik\">";
 		$foto_table.="<a href=\"".wt_he($video_url)."\" class=\"vimeo_fancybox\">";
-		$foto_table.="<img src=\"".$vars['path']."pic/videos_algemeen_2.jpg\" width=\"200\" height=\"150\" border=\"0\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\">";
+		$foto_table.="<img src=\"".$vars['path']."pic/video-preview_".$vars["seizoentype"].".jpg\" width=\"200\" height=\"150\" border=\"0\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\">";
 		$foto_table.="</a><br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div></div></td>";
 		$trcounter++;
 	}
