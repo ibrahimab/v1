@@ -168,7 +168,7 @@ if($_GET["lev"]==362) {
 							echo "<div style=\"background-color:#ebebeb;\">";
 							echo "<p><b><i>&nbsp;Al aanwezige foto's</i></b></p>";
 							foreach ($bestaande_foto as $key => $value) {
-								echo "<div class=\"foto_import\"><img src=\"".wt_he($vars["unixdir"]."pic/cms/accommodaties_aanvullend/".$value)."\" title=\"".wt_he("pic/cms/accommodaties_aanvullend/".$value)."\" data-fotoid=\"".preg_replace("/\.jpg/","",$value)."\">";
+								echo "<div class=\"foto_import\"><img src=\"".wt_he($vars["path"]."pic/cms/accommodaties_aanvullend/".$value)."\" title=\"".wt_he("pic/cms/accommodaties_aanvullend/".$value)."\" data-fotoid=\"".preg_replace("/\.jpg/","",$value)."\">";
 								echo "<span class=\"foto_width_height\" data-fotoid=\"".preg_replace("/\.jpg/","",$value)."\">&nbsp;</span>";
 								echo "</div>";
 								$bestaande_foto_teller++;

@@ -97,9 +97,9 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 // autoloaden van classes
 function __autoload($classname) {
-	global $vars;
-	if (file_exists($vars["unixdir"]."admin/siteclass/siteclass.".$classname . ".php")) {
-		require_once $vars["unixdir"]."admin/siteclass/siteclass.".$classname . ".php";
+	global $vars, $unixdir;
+	if (file_exists($unixdir."admin/siteclass/siteclass.".$classname . ".php")) {
+		require_once $unixdir."admin/siteclass/siteclass.".$classname . ".php";
 		return true;
 	} else {
 		if($classname!="MYPDF") {
@@ -189,6 +189,7 @@ require($unixdir."content/_teksten_intern.php");
 require($unixdir."content/_teksten.php");
 
 $vars["path"]=$path;
+$vars["unixdir"]=$unixdir;
 
 #
 # Interne info (voor testsysteem)
