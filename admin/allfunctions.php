@@ -260,6 +260,8 @@ class wt_mail {
 		$this->settings["imap_8bit"]=true;
 		$this->settings["plaintext_wordwrap"]=true;
 		$this->settings["plaintext_utf8"]=false; # werkt nog niet met attachments!
+		$this->settings["subject_utf8"]=false; # werkt nog niet met attachments!
+
 		return true;
 	}
 
@@ -323,14 +325,27 @@ class wt_mail {
 		}
 		if($this->subject) {
 			$this->send_subject=ereg_replace("–","-",$this->subject);
-			# Controleer op ASCII-karakters
-			if(ereg("[^\x20-\x7E]",$this->send_subject)) {
-				if(function_exists(imap_8bit)) {
-					# Quoted-printable
-					$this->send_subject="=?ISO-8859-1?Q?".str_replace("=\r\n","",preg_replace("/\?/","=3F",imap_8bit($this->send_subject)))."?=";
-				} else {
-					# Base64
-					$this->send_subject="=?ISO-8859-1?B?".base64_encode($this->send_subject)."?=";
+			if($this->settings["subject_utf8"]) {
+				# Controleer op non-ASCII-karakters
+				if(preg_match("/[^\x20-\x7f]/",$this->send_subject)) {
+					if(function_exists(imap_8bit)) {
+						# Quoted-printable
+						$this->send_subject="=?UTF-8?Q?".str_replace("=\r\n","",preg_replace("/\?/","=3F",imap_8bit($this->send_subject)))."?=";
+					} else {
+						# Base64
+						$this->send_subject="=?UTF-8?B?".base64_encode($this->send_subject)."?=";
+					}
+				}
+			} else {
+				# Controleer op non-ASCII-karakters
+				if(ereg("[^\x20-\x7E]",$this->send_subject)) {
+					if(function_exists(imap_8bit)) {
+						# Quoted-printable
+						$this->send_subject="=?ISO-8859-1?Q?".str_replace("=\r\n","",preg_replace("/\?/","=3F",imap_8bit($this->send_subject)))."?=";
+					} else {
+						# Base64
+						$this->send_subject="=?ISO-8859-1?B?".base64_encode($this->send_subject)."?=";
+					}
 				}
 			}
 		}
@@ -451,7 +466,8 @@ class wt_mail {
 				# plaintext-mail zonder attachment
 #				$this->send_header.="\nMIME-Version: 1.0\nContent-Type: text/plain; charset=\"iso-8859-15\"\nContent-Transfer-Encoding: 7bit";
 				if($this->settings["plaintext_utf8"]) {
-					$this->send_header.="\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: quoted-printable";
+					// $this->send_header.="\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: quoted-printable";
+					$this->send_header.="\nContent-Type: text/plain; charset=UTF-8";
 				}
 				$this->send_body=$this->send_plaintext;
 			}
