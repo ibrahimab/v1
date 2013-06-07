@@ -235,17 +235,31 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 	# Accommodaties
 #	$db->query("SELECT DISTINCT a.naam AS accommodatie, a.receptie, a.telefoonnummer, p.naam AS plaats, l.naam AS leverancier, l.faxnummer, l.noodnummer FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, a.naam;");
-	$db->query("SELECT DISTINCT a.naam AS accommodatie, a.bestelnaam, a.receptie, a.telefoonnummer, p.naam AS plaats, l.naam AS leverancier, l.faxnummer, l.noodnummer FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, a.naam;");
+
+#	$db->query("SELECT DISTINCT a.naam AS accommodatie, a.bestelnaam, a.receptie, a.telefoonnummer, p.naam AS plaats, l.naam AS leverancier, l.faxnummer, l.noodnummer FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, a.naam;");
+
+# nieuw: vertrekinfo-telefoonnummers
+	$db->query("SELECT DISTINCT a.naam AS accommodatie, a.bestelnaam, a.receptie, l.vertrekinfo_telefoonnummer AS lvertrekinfo_telefoonnummer, a.vertrekinfo_telefoonnummer AS avertrekinfo_telefoonnummer, t.vertrekinfo_telefoonnummer AS tvertrekinfo_telefoonnummer, p.naam AS plaats, l.naam AS leverancier, l.faxnummer, l.noodnummer FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, a.naam;");
 
 
 #	echo $db->lastquery;
 	if($db->num_rows()) {
-		echo $db->f("telefoonnummer");
 		$ms->html.="<table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
 
 		$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Plaats</th><th>Accommodatie</th><th>Contactpersoon</th><th>Telefoonnummer</th><th>Faxnummer</th><th>Noodnummer</th></tr></thead>";
 		while($db->next_record()) {
-			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("plaats"))."</td><td valign=\"top\">".htmlentities($db->f("accommodatie")).($db->f("accommodatie")<>$db->f("bestelnaam") ? " <i>(".htmlentities($db->f("bestelnaam")).")</i>" : "")."</td><td valign=\"top\">".($db->f("receptie") ? htmlentities($db->f("receptie")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? htmlentities($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? htmlentities($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? htmlentities($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
+			# telefoonnummer bepalen
+			if($db->f("tvertrekinfo_telefoonnummer")) {
+				$telefoonnummer=$db->f("tvertrekinfo_telefoonnummer");
+			} elseif($db->f("avertrekinfo_telefoonnummer")) {
+				$telefoonnummer=$db->f("avertrekinfo_telefoonnummer");
+			} elseif($db->f("lvertrekinfo_telefoonnummer")) {
+				$telefoonnummer=$db->f("lvertrekinfo_telefoonnummer");
+			} else {
+				$telefoonnummer="";
+			}
+
+			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("plaats"))."</td><td valign=\"top\">".htmlentities($db->f("accommodatie")).($db->f("accommodatie")<>$db->f("bestelnaam") ? " <i>(".htmlentities($db->f("bestelnaam")).")</i>" : "")."</td><td valign=\"top\">".($db->f("receptie") ? htmlentities($db->f("receptie")) : "&nbsp;")."</td><td valign=\"top\">".($telefoonnummer ? wt_he($telefoonnummer) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? htmlentities($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? htmlentities($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
 		}
 		$ms->html.="</table>";
 	}
