@@ -54,6 +54,7 @@ $form=new form2("frm");
 $form->settings["fullname"]="Naam";
 $form->settings["layout"]["css"]=false;
 $form->settings["db"]["table"]="lid";
+$form->settings["db"]["where"]="lid_id='".intval($_GET["lidid"])."'";
 $form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 #$form->settings["target"]="_blank";
 

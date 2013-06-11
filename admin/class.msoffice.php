@@ -7,6 +7,7 @@ class ms_office {
 		$this->filename="document";
 		$this->margin="70.85pt 70.85pt 70.85pt 70.85pt;";
 		$this->landscape=false;
+		$this->headers=true;
 	}
 
 	function page_break() {
@@ -16,7 +17,7 @@ class ms_office {
 	}
 
 	function create_word_document() {
-	if(!$this->test) {
+	if(!$this->test and $this->headers) {
 		$this->filename=strtolower($this->filename);
 		$this->filename=preg_replace("/[^a-z0-9]/","_",$this->filename);
 		header("Content-type: application/msword");

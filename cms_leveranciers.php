@@ -63,8 +63,8 @@ $cms->db_field(8,"text","faxnummer_reserveringen");
 
 $cms->db_field(8,"text","contactpersoon_lijsten");
 $cms->db_field(8,"email","email_lijsten");
-$cms->db_field(8,"select","stuur_roominglist","",array("selection"=>array(1=>"ja",2=>"nee")));
-$cms->db_field(8,"select","stuur_aankomstlijst","",array("selection"=>array(1=>"ja",2=>"nee")));
+$cms->db_field(8,"select","roominglist_versturen","",array("selection"=>array(1=>"ja",2=>"nee")));
+$cms->db_field(8,"select","aankomstlijst_versturen","",array("selection"=>array(1=>"ja",2=>"nee")));
 
 $cms->db_field(8,"text","noodnummer");
 $cms->db_field(8,"textarea","adresregels");
@@ -170,8 +170,8 @@ if($_GET["beheerder"]) {
 	$cms->edit_field(8,0,"contactpersoon_lijsten","Contactpersoon");
 	$cms->edit_field(8,0,"email_lijsten","E-mailadres");
 
-	$cms->edit_field(8,1,"stuur_aankomstlijst","Wil aankomstlijsten ontvangen");
-	$cms->edit_field(8,1,"stuur_roominglist","Wil roominglists ontvangen");
+	$cms->edit_field(8,1,"aankomstlijst_versturen","Wil aankomstlijsten ontvangen");
+	$cms->edit_field(8,1,"roominglist_versturen","Wil roominglists ontvangen");
 
 	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op aankomstlijst",array("selection"=>false));
 	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op aankomstlijst",array("selection"=>true));
@@ -182,8 +182,8 @@ if($_GET["beheerder"]) {
 	$cms->edit_field(8,0,"contactpersoon_lijsten","Contactpersoon");
 	$cms->edit_field(8,0,"email_lijsten","E-mailadres");
 
-	$cms->edit_field(8,1,"stuur_aankomstlijst","Wil aankomstlijsten ontvangen","","",array("info"=>"Mag alleen uitgezet worden als de lijst naar de beheerder gaat"));
-	$cms->edit_field(8,1,"stuur_roominglist","Wil roominglists ontvangen","","",array("info"=>"Mag alleen uitgezet worden als de lijst naar de beheerder gaat"));
+	$cms->edit_field(8,1,"aankomstlijst_versturen","Wil aankomstlijsten ontvangen","","",array("info"=>"Mag alleen uitgezet worden als de lijst naar de beheerder gaat"));
+	$cms->edit_field(8,1,"roominglist_versturen","Wil roominglists ontvangen","","",array("info"=>"Mag alleen uitgezet worden als de lijst naar de beheerder gaat"));
 
 	$cms->edit_field(8,0,"roominglist_toontelefoonnummer","Toon klant-telefoonnummer op aankomstlijst",array("selection"=>false));
 	$cms->edit_field(8,0,"roominglist_toonaantaldeelnemers","Toon aantal deelnemers op aankomstlijst",array("selection"=>true));

@@ -100,7 +100,7 @@ if($_GET["b"]) {
 }
 
 # Banner rechts
-$blog["blok_rechts"].="<a href=\"https://www.facebook.com/Italissima.nl\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/reisblog/facebookbanner.jpg\" width=\"200\" height=\"350\" border=\"0\"></a>";
+#$blog["blok_rechts"].="<a href=\"https://www.facebook.com/Italissima.nl\" target=\"_blank\"><img src=\"".$vars["path"]."pic/tijdelijk/reisblog/facebookbanner.jpg\" width=\"200\" height=\"350\" border=\"0\"></a>";
 
 
 include "content/opmaak.php";

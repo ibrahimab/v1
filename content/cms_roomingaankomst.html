@@ -1,18 +1,51 @@
 <?php
 
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	echo "<p><a href=\"".$vars["[path"]."cms_roomingaankomst.php?reset=1\">RESET</a></p>";
+}
 
-if(!$a) {
+if($_GET["levid"]) {
+
+	echo "<p><a href=\"".$vars["[path"]."cms_roomingaankomst.php\">&laquo; Terug naar overzicht</a></p>";
+
+	$form->display_all();
+
+
+
+	echo "<div style=\"margin-top:70px;opacity:0.5;\">";
+	echo "<p><b>Te verzenden roominglist:</b></p>";
+
+	echo $vars["create_list"]["html"];
+
+	echo "</div>";
+
+} else {
 	# Roominglist totaal
 
+	// $roominglist = new roominglist;
+	// $roominglist->vergelijk_lijsten();
 
-	if(is_array($roominglistlijst)) {
-		ksort($roominglistlijst);
-		echo "Roominglist totaal:<ul>";
-		while(list($key,$value)=each($roominglistlijst)) {
-			echo $value;
-		}
-		echo "</ul>";
-	}
+	// exit;
+
+	// $roominglist->leverancier_id = 48;
+	// $roominglist->word_bestand();
+	// exit;
+
+
+	// if(is_array($roominglistlijst)) {
+	// 	ksort($roominglistlijst);
+	// 	echo "Roominglist totaal:<ul>";
+	// 	while(list($key,$value)=each($roominglistlijst)) {
+	// 		echo $value;
+	// 	}
+	// 	echo "</ul>";
+	// }
+
+
+	$roominglist = new roominglist;
+
+	echo $roominglist->overzicht_te_verzenden();
+
 }
 
 

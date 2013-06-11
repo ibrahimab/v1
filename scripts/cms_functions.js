@@ -595,6 +595,35 @@ $(document).ready(function() {
 			});
 		}
 	}
+
+
+	// datum toevoegen aan roominglist-goedkeur-veld
+	if($("input[name='input[roominglist_goedgekeurd]']").length>0) {
+
+
+		$("input[name='input[roominglist_goedgekeurd]']").focus(function() {
+			if($(this).val()=="") {
+				var currentTime = new Date()
+				var month = currentTime.getMonth() + 1
+				var day = currentTime.getDate()
+				var year = currentTime.getFullYear()
+				$(this).val(day + "-" + month + "-" + year+ ": ");
+			}
+		});
+
+		// goedgekeurd wissen bij verzenden
+		$("input[name='input[versturen]']").change(function() {
+			if($(this).is(":checked") && $("input[name='input[roominglist_goedgekeurd]']").val()!="") {
+				$("input[name='input[roominglist_goedgekeurd]']").val("");
+
+				var field=$("input[name='input[roominglist_goedgekeurd]']");
+				field.css("background-color","#ff8080");
+				setTimeout(function() {
+					field.css("background-color","#ffffff");
+				},800);
+			}
+		});
+	}
 });
 
 function goedkeuringen_benodigd_uitzetten() {
