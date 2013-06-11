@@ -53,6 +53,11 @@ $form->field_hidden("alleen_tonen","0");
 $form->field_date(1,"datum_nieuwefactuur","Datum aan te maken factuur","",array("time"=>time()),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true));
 $form->field_yesno("factuuraanmaken","Maak nu een factuur aan");
 $form->field_yesno("factuurmailen","Mail deze aangemaakte factuur naar de klant");
+
+$form->field_yesno("voorwaardenmeesturen","Stuur voorwaarden mee (PDF's)","",array("selection"=>($gegevens["stap1"]["factuurdatum"]>0 ? false : true)));
+
+
+
 if($gegevens["stap1"]["voucherstatus"]<>"0" and $gegevens["stap1"]["voucherstatus"]<>"5") {
 	$form->field_select(0,"vouchersopnieuw","Vouchers moeten opnieuw worden aangemaakt","","",array("selection"=>array(1=>"ja",2=>"nee")));
 	$vouchersopnieuw_vragen=true;
@@ -122,6 +127,7 @@ if($form->okay) {
 				$setquery.=", factuurdatum=FROM_UNIXTIME('".addslashes($form->input["datum_nieuwefactuur"]["unixtime"])."')";
 			}
 		}
+
 
 		# Vraag om goedkeuring/ondertekening door de klant
 		if($form->input["ondertekenen"]) {
@@ -844,18 +850,22 @@ if($form->okay) {
 			$html.="[ondertekening]";
 
 
-
-
-			if(!$gegevens["stap1"]["factuurdatum"]) {
+			//
+			// wel/niet meesturen algemene voorwaarden en verzekeringsvoorwaarden
+			//
+			if($form->input["voorwaardenmeesturen"]) {
 				if(file_exists("pdf/".txt("pdf_algemene_voorwaarden").".pdf")) {
 					// $mail->attachment("pdf/".txt("pdf_algemene_voorwaarden").".pdf");
 					$settings["attachment"]["pdf/".txt("pdf_algemene_voorwaarden").".pdf"]=txt("pdf_algemene_voorwaarden").".pdf";
-
+				} else {
+					trigger_error("bestand "."pdf/".txt("pdf_algemene_voorwaarden").".pdf niet beschikbaar",E_USER_NOTICE);
 				}
 				if($gegevens["stap1"]["website_specifiek"]["verzekering_mogelijk"] or $gegevens["stap1"]["annverz_aantalpersonen"]) {
 					if(file_exists("pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf")) {
 						// $mail->attachment("pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf");
 						$settings["attachment"]["pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf"]=txt("pdf_voorwaarden_europeesche_annverz").".pdf";
+					} else {
+						trigger_error("bestand "."pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf niet beschikbaar",E_USER_NOTICE);
 					}
 				}
 			}

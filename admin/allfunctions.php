@@ -962,8 +962,20 @@ function wt_create_thumbnail($file,$newfile,$width,$height,$cut=false,$type="jpg
 	$imgsize=getimagesize($file);
 
 	if($detect_source_type) {
-		# Kijken welk mime-type de bron heeft
-		$mime_content_type=@mime_content_type($file);
+		if(function_exists("mime_content_type")) {
+			# Kijken welk mime-type de bron heeft
+			$mime_content_type=@mime_content_type($file);
+		} else {
+			$tmpimg = @imagecreatefromgif( $file );
+			if($tmpimg) {
+				$mime_content_type="image/gif";
+			} else {
+				$tmpimg = @imagecreatefrompng( $file );
+				if($tmpimg) {
+					$mime_content_type="image/png";
+				}
+			}
+		}
 		if($mime_content_type=="image/gif") {
 			$source_type="gif";
 		} elseif($mime_content_type=="image/png") {
