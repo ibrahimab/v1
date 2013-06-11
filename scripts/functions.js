@@ -1678,16 +1678,7 @@ $(document).ready(function() {
 			// zoek-en-boek homepage
 			$("#form_zoekenboeklinks").submit(function(){
 				show_ajaxloader(true);
-				if($(this).data("ab_ref")=="2") {
-					event_naar_analytics_sturen("A/B-tests","snelzoeken","formulier");
-					setTimeout(function(){
-						$("#form_zoekenboeklinks").unbind().submit();
-						$("#form_zoekenboeklinks").submit();
-					},100);
-					return false;
-				} else {
-					return true;
-				}
+				return true;
 			});
 			if(detect_mobile()) {
 				$(".zoekenboek_invulveld select").addClass("zoekblok_select_mobile_smal");
@@ -1901,16 +1892,6 @@ $(document).ready(function() {
 		//
 		// TIJDELIJKE FUNCTIES
 		//
-
-		// A/B-test snelzoeken: button
-		$("a.abtest_zoekenboekbutton").click(function(){
-			event_naar_analytics_sturen("A/B-tests","snelzoeken","button");
-			var tempurl=$(this).attr("href");
-			setTimeout(function(){
-				document.location.href=tempurl;
-			},100);
-			return false;
-		});
 
 		// meer foto's reisblog Italissima
 		$("a#blog_foto_aanvullend_meer_link").click(function(){

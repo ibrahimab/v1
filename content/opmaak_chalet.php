@@ -22,11 +22,6 @@ if(!$include) {
 	exit;
 }
 
-# A/B-test snelzoeken
-if(($_COOKIE["abt"]==1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and $vars["website"]=="C" and !$voorkant_cms) {
-	$abtest_snelzoeken=true;
-}
-
 
 if($vars["website"]=="E") {
 	# SPDY-header sturen (prefetchen diverse CSS-bestanden)
@@ -646,163 +641,151 @@ echo "</div>";
 if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<div id=\"zoekenboek_overlay\" class=\"noprint\">";
 
-	if($abtest_snelzoeken) {
-		# A/B-test: button
+	#
+	# Formulier "snelzoeken"
+	#
+	echo "<div class=\"bloklinks_kop\" style=\"margin-bottom:10px;\">".html("snelzoeken","index")."</div>";
 
-		echo "<div id=\"abtest_zoekenboek\">";
-		$temp_aantal=file_get_contents($vars["unixdir"]."cache/aantal_accommodaties_".$vars["website"].".txt");
-		echo "<div style=\"\">Doorzoek onze<br/>".number_format($temp_aantal,0,",",".")." accommodaties:</div>";
-		echo "<a href=\"".$vars["path"]."zoek-en-boek.php\" class=\"abtest_zoekenboekbutton\">Zoek en boek</a>";
+	echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\">";
+	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
+	echo "<input type=\"hidden\" name=\"referer\" value=\"2\">"; # t.b.v. statistieken
+	echo "<input type=\"hidden\" name=\"selb\" value=\"0\">"; # doorgeven of mensen klikken op "selecteer bestemming"
 
-		echo "</div>";
+#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";
 
-	} else {
-		# A/B-test: formulier
+	// if($vars["seizoentype"]==1) {
+	// 	# landen in de winter niet op alfabet sorteren
+	// 	$landen_sort[1]="01";
+	// 	$landen_sort[2]="02";
+	// 	$landen_sort[3]="03";
+	// 	$landen_sort[5]="04";
+	// 	$landen_sort[4]="05";
+	// 	$landen_sort[7]="06";
+	// 	$landen_sort[6]="07";
+	// }
 
-		echo "<div class=\"bloklinks_kop\" style=\"margin-bottom:10px;\">".html("snelzoeken","index")."</div>";
+	// # Skigebied-array vullen
+	// $vars["skigebied"]["00AAAAA___-- ".txt("skigebied","index")." --"]=0;
+	// $vars["skigebied"]["00AAAAB___".txt("geenvoorkeur","index")]=0;
 
-		# data-ab_ref = t.b.v. A/B-test (mag later weg - 11-04-2013)
-		echo "<form method=\"get\" action=\"".$vars["path"].txt("menu_zoek-en-boek").".php\" name=\"zoeken\" id=\"form_zoekenboeklinks\"".($_COOKIE["abt"]==2&&!$voorkant_cms ? " data-ab_ref=\"2\"" : "").">";
-		echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
-		echo "<input type=\"hidden\" name=\"referer\" value=\"2\">"; # t.b.v. statistieken
-		echo "<input type=\"hidden\" name=\"selb\" value=\"0\">"; # doorgeven of mensen klikken op "selecteer bestemming"
+	// $db->query("SELECT DISTINCT s.skigebied_id, s.naam, s.kortenaam1, s.kortenaam2, s.kortenaam3, s.kortenaam4, l.naam".$vars["ttv"]." AS land, l.naam AS landnl, l.land_id, s.koppeling_1_1, s.koppeling_1_2, s.koppeling_1_3, s.koppeling_1_4, s.koppeling_1_5, s.koppeling_2_1, s.koppeling_2_2, s.koppeling_2_3, s.koppeling_2_4, s.koppeling_2_5, s.koppeling_3_1, s.koppeling_3_2, s.koppeling_3_3, s.koppeling_3_4, s.koppeling_3_5, s.koppeling_4_1, s.koppeling_4_2, s.koppeling_4_3, s.koppeling_4_4, s.koppeling_4_5, s.koppeling_5_1, s.koppeling_5_2, s.koppeling_5_3, s.koppeling_5_4, s.koppeling_5_5 FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id ORDER BY l.naam".$vars["ttv"].", s.naam;");
+	// while($db->next_record()) {
+	// 	$landen[$db->f("land")]=true;
 
-	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-bottom:3px;\">".html("skigebied","index")."</div>";
+	// 	if($landen_sort[$db->f("land_id")]) {
+	// 		$sorteer=$landen_sort[$db->f("land_id")];
+	// 	} else {
+	// 		$sorteer=$db->f("land");
+	// 	}
 
-		// if($vars["seizoentype"]==1) {
-		// 	# landen in de winter niet op alfabet sorteren
-		// 	$landen_sort[1]="01";
-		// 	$landen_sort[2]="02";
-		// 	$landen_sort[3]="03";
-		// 	$landen_sort[5]="04";
-		// 	$landen_sort[4]="05";
-		// 	$landen_sort[7]="06";
-		// 	$landen_sort[6]="07";
-		// }
+	// 	if(!$landgehad[$db->f("land")]) {
+	// 		$vars["skigebied"][$sorteer."AAAAA___".txt("heelskigebieden","accommodaties")." ".$db->f("land")]=$db->f("land_id")."-0";
 
-		// # Skigebied-array vullen
-		// $vars["skigebied"]["00AAAAA___-- ".txt("skigebied","index")." --"]=0;
-		// $vars["skigebied"]["00AAAAB___".txt("geenvoorkeur","index")]=0;
+	// 		$landnaam[$db->f("land_id")]=$db->f("land");
+	// 		$landgehad[$db->f("land")]=true;
+	// 	}
+	// 	if($db->f("kortenaam1")) {
+	// 		$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam1")]=$db->f("land_id")."-".$db->f("skigebied_id")."-1";
+	// 		if($db->f("kortenaam2")) {
+	// 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam2")]=$db->f("land_id")."-".$db->f("skigebied_id")."-2";
+	// 		}
+	// 		if($db->f("kortenaam3")) {
+	// 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam3")]=$db->f("land_id")."-".$db->f("skigebied_id")."-3";
+	// 		}
+	// 		if($db->f("kortenaam4")) {
+	// 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam4")]=$db->f("land_id")."-".$db->f("skigebied_id")."-4";
+	// 		}
+	// 	} else {
+	// 		$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("naam")]=$db->f("land_id")."-".$db->f("skigebied_id");
+	// 	}
+	// }
+	// setlocale(LC_COLLATE,"nl_NL.ISO8859-1");
+	// ksort($vars["skigebied"],SORT_LOCALE_STRING);
+	// setlocale(LC_COLLATE,"C");
+	//
+	// echo "<div class=\"zoekenboek_invulveld\">";
+	// echo "<select name=\"fsg\" class=\"selectbox\">";
+	// while(list($key,$value)=each($vars["skigebied"])) {
+	// 	if(ereg("^([0-9]+)-0$",$value,$regs)) {
+	// 		if($optgroup_open) echo "</optgroup>\n";
+	// 		echo "<optgroup label=\"".htmlentities($landnaam[$regs[1]])."\">\n";
+	// 		$optgroup_open=true;
+	// 	}
+	// 	if(preg_match("/^([0-9]+)-([0-9]+)/",$value,$regs)) {
+	// 		$landdid_currect=$regs[1];
+	// 		$skigebiedid_currect=$regs[2];
+	// 	}
+	// 	echo "<option value=\"".$value."\"";
+	// 	if(($_GET["filled"] and $_GET["fsg"]==$value) or ($skigebiedid and $skigebiedid==$skigebiedid_currect) or ($landinfo["id"] and $landinfo["id"]==$landdid_currect and preg_match("/AAAAA/",$key))) {
+	// 		if(!$skigebied_selected) {
+	// 			$skigebied_selected=true;
+	// 			echo " selected";
+	// 			if($value) $save_query["regio"]=$vars["skigebied_nl"][$value];
+	// 		}
+	// 	}
+	// 	echo ">";
+	// 	echo htmlentities(ereg_replace("^.*___","",$key))."</option>";
+	// }
+	// if($optgroup_open) echo "</optgroup>\n";
 
-		// $db->query("SELECT DISTINCT s.skigebied_id, s.naam, s.kortenaam1, s.kortenaam2, s.kortenaam3, s.kortenaam4, l.naam".$vars["ttv"]." AS land, l.naam AS landnl, l.land_id, s.koppeling_1_1, s.koppeling_1_2, s.koppeling_1_3, s.koppeling_1_4, s.koppeling_1_5, s.koppeling_2_1, s.koppeling_2_2, s.koppeling_2_3, s.koppeling_2_4, s.koppeling_2_5, s.koppeling_3_1, s.koppeling_3_2, s.koppeling_3_3, s.koppeling_3_4, s.koppeling_3_5, s.koppeling_4_1, s.koppeling_4_2, s.koppeling_4_3, s.koppeling_4_4, s.koppeling_4_5, s.koppeling_5_1, s.koppeling_5_2, s.koppeling_5_3, s.koppeling_5_4, s.koppeling_5_5 FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id ORDER BY l.naam".$vars["ttv"].", s.naam;");
-		// while($db->next_record()) {
-		// 	$landen[$db->f("land")]=true;
+	// echo "</select>";
+	// echo "</div>";
 
-		// 	if($landen_sort[$db->f("land_id")]) {
-		// 		$sorteer=$landen_sort[$db->f("land_id")];
-		// 	} else {
-		// 		$sorteer=$db->f("land");
-		// 	}
+	# Selecteer een bestemming
+	echo "<div class=\"zoekenboek_invulveld\">";
+	echo "<a href=\"#\" class=\"zoekenboek_invulveld_bestemming\">".html("selecteerbestemming","index")."<span style=\"font-size:0.7em;\">&nbsp;</span>&raquo;</a>";
+	echo "</div>";
 
-		// 	if(!$landgehad[$db->f("land")]) {
-		// 		$vars["skigebied"][$sorteer."AAAAA___".txt("heelskigebieden","accommodaties")." ".$db->f("land")]=$db->f("land_id")."-0";
+	# Aankomstdatum vullen
+#	$vars["aankomstdatum_weekend_afkorting"]["-"]=txt("aankomstdatum","index");
+	$vars["aankomstdatum_weekend_afkorting"][0]=txt("geenvoorkeur","index");
+	ksort($vars["aankomstdatum_weekend_afkorting"],SORT_STRING);
 
-		// 		$landnaam[$db->f("land_id")]=$db->f("land");
-		// 		$landgehad[$db->f("land")]=true;
-		// 	}
-		// 	if($db->f("kortenaam1")) {
-		// 		$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam1")]=$db->f("land_id")."-".$db->f("skigebied_id")."-1";
-		// 		if($db->f("kortenaam2")) {
-		// 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam2")]=$db->f("land_id")."-".$db->f("skigebied_id")."-2";
-		// 		}
-		// 		if($db->f("kortenaam3")) {
-		// 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam3")]=$db->f("land_id")."-".$db->f("skigebied_id")."-3";
-		// 		}
-		// 		if($db->f("kortenaam4")) {
-		// 			$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("kortenaam4")]=$db->f("land_id")."-".$db->f("skigebied_id")."-4";
-		// 		}
-		// 	} else {
-		// 		$vars["skigebied"][$sorteer."ZZZZZ___".$db->f("naam")]=$db->f("land_id")."-".$db->f("skigebied_id");
-		// 	}
-		// }
-		// setlocale(LC_COLLATE,"nl_NL.ISO8859-1");
-		// ksort($vars["skigebied"],SORT_LOCALE_STRING);
-		// setlocale(LC_COLLATE,"C");
-		//
-		// echo "<div class=\"zoekenboek_invulveld\">";
-		// echo "<select name=\"fsg\" class=\"selectbox\">";
-		// while(list($key,$value)=each($vars["skigebied"])) {
-		// 	if(ereg("^([0-9]+)-0$",$value,$regs)) {
-		// 		if($optgroup_open) echo "</optgroup>\n";
-		// 		echo "<optgroup label=\"".htmlentities($landnaam[$regs[1]])."\">\n";
-		// 		$optgroup_open=true;
-		// 	}
-		// 	if(preg_match("/^([0-9]+)-([0-9]+)/",$value,$regs)) {
-		// 		$landdid_currect=$regs[1];
-		// 		$skigebiedid_currect=$regs[2];
-		// 	}
-		// 	echo "<option value=\"".$value."\"";
-		// 	if(($_GET["filled"] and $_GET["fsg"]==$value) or ($skigebiedid and $skigebiedid==$skigebiedid_currect) or ($landinfo["id"] and $landinfo["id"]==$landdid_currect and preg_match("/AAAAA/",$key))) {
-		// 		if(!$skigebied_selected) {
-		// 			$skigebied_selected=true;
-		// 			echo " selected";
-		// 			if($value) $save_query["regio"]=$vars["skigebied_nl"][$value];
-		// 		}
-		// 	}
-		// 	echo ">";
-		// 	echo htmlentities(ereg_replace("^.*___","",$key))."</option>";
-		// }
-		// if($optgroup_open) echo "</optgroup>\n";
-
-		// echo "</select>";
-		// echo "</div>";
-
-		# Selecteer een bestemming
-		echo "<div class=\"zoekenboek_invulveld\">";
-		echo "<a href=\"#\" class=\"zoekenboek_invulveld_bestemming\">".html("selecteerbestemming","index")."<span style=\"font-size:0.7em;\">&nbsp;</span>&raquo;</a>";
-		echo "</div>";
-
-		# Aankomstdatum vullen
-	#	$vars["aankomstdatum_weekend_afkorting"]["-"]=txt("aankomstdatum","index");
-		$vars["aankomstdatum_weekend_afkorting"][0]=txt("geenvoorkeur","index");
-		ksort($vars["aankomstdatum_weekend_afkorting"],SORT_STRING);
-
-		echo "<div class=\"zoekenboek_invulveld\">";
-		echo "<select name=\"fad\" class=\"selectbox\" data-placeholder=\"".html("aankomstdatum","index")."\">";
-		echo "<option value=\"\"></option>";
-		while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
-			# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
-			if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
-				echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
-				if($key==="-") echo " selected";
-				echo ">".$value."</option>\n";
-			}
-		}
-		echo "</select>";
-		echo "</div>";
-
-		# aantalpersonen-array vullen
-	#	$vars["aantalpersonen"]["-"]=txt("aantalpersonen","index");
-		$vars["aantalpersonen"][0]=txt("geenvoorkeur","index");
-		for($i=1;$i<=40;$i++) {
-			$vars["aantalpersonen"][$i]=$i;
-		}
-
-	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
-		echo "<div class=\"zoekenboek_invulveld\">";
-		echo "<select name=\"fap\" class=\"selectbox\" data-placeholder=\"".html("aantalpersonen","index")."\">";
-		echo "<option value=\"\"></option>";
-		while(list($key,$value)=each($vars["aantalpersonen"])) {
+	echo "<div class=\"zoekenboek_invulveld\">";
+	echo "<select name=\"fad\" class=\"selectbox\" data-placeholder=\"".html("aankomstdatum","index")."\">";
+	echo "<option value=\"\"></option>";
+	while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
+		# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
+		if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
-			echo ">".htmlentities($value)."</option>";
+			echo ">".$value."</option>\n";
 		}
-		echo "</select>";
-		echo "</div>";
-
-		echo "<div class=\"zoekenboek_invulveld\">";
-		echo "<input type=\"text\" name=\"fzt\" class=\"tekstzoeken\" value=\"".html("zoekoptekst","index")."\" onfocus=\"if(this.value=='".html("zoekoptekst","index")."') this.value='';\" onblur=\"if(this.value=='') this.value='".html("zoekoptekst","index")."';\">";
-		echo "</div>";
-
-	#	echo "<div style=\"margin-top:0px;\">&nbsp;</div>";
-
-		echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
-
-		echo "<div style=\"margin-top:6px;margin-bottom:4px;\"><a href=\"#\" id=\"uitgebreidzoeken\">".html("uitgebreidzoeken","index")." &raquo;</a></div>";
-		echo "</form>";
-
-
 	}
+	echo "</select>";
+	echo "</div>";
+
+	# aantalpersonen-array vullen
+#	$vars["aantalpersonen"]["-"]=txt("aantalpersonen","index");
+	$vars["aantalpersonen"][0]=txt("geenvoorkeur","index");
+	for($i=1;$i<=40;$i++) {
+		$vars["aantalpersonen"][$i]=$i;
+	}
+
+#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
+	echo "<div class=\"zoekenboek_invulveld\">";
+	echo "<select name=\"fap\" class=\"selectbox\" data-placeholder=\"".html("aantalpersonen","index")."\">";
+	echo "<option value=\"\"></option>";
+	while(list($key,$value)=each($vars["aantalpersonen"])) {
+		echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
+		if($key==="-") echo " selected";
+		echo ">".htmlentities($value)."</option>";
+	}
+	echo "</select>";
+	echo "</div>";
+
+	echo "<div class=\"zoekenboek_invulveld\">";
+	echo "<input type=\"text\" name=\"fzt\" class=\"tekstzoeken\" value=\"".html("zoekoptekst","index")."\" onfocus=\"if(this.value=='".html("zoekoptekst","index")."') this.value='';\" onblur=\"if(this.value=='') this.value='".html("zoekoptekst","index")."';\">";
+	echo "</div>";
+
+#	echo "<div style=\"margin-top:0px;\">&nbsp;</div>";
+
+	echo "<input type=\"submit\" value=\" ".html("zoeken","index")."\">";
+
+	echo "<div style=\"margin-top:6px;margin-bottom:4px;\"><a href=\"#\" id=\"uitgebreidzoeken\">".html("uitgebreidzoeken","index")." &raquo;</a></div>";
+	echo "</form>";
+
+
 
 	echo "</div>";
 	echo "</div>\n";
@@ -883,48 +866,6 @@ __lc.group = 2;
 </script>
 <?php
 
-}
-
-if($abtest_snelzoeken) {
-	echo "<style type=\"text/css\"><!--\n
-	#zoekenboek_overlay {
-		height: 70px;
-	}
-
-	#zoekenboek_leeg {
-		margin-bottom: -140px;
-	}
-
-	#abtest_zoekenboek {
-		text-align:center;
-		margin-top: 7px;
-	}
-
-	.abtest_zoekenboekbutton {
-		display: block;
-		margin-top: 7px;
-		background-color: #fb6703;
-		text-decoration: none;
-		color: #ffffff;
-		font-size: 1.1em;
-		padding: 5px;
-		border: 1px solid #fb6703;
-
-		font-weight: normal;
-		background-image:url('".$vars["path"]."pic/boekbutton_arrow.png');
-		background-repeat:no-repeat;
-		background-position: 20px 6px;
-		padding-left: 25px;
-
-	}
-
-	.abtest_zoekenboekbutton:hover {
-		text-decoration: none;
-		color: #003366;
-		border-color: #003366;
-	}
-
-	--></style>\n";
 }
 
 echo "</body>";
