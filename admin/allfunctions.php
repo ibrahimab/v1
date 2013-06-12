@@ -1704,7 +1704,7 @@ function maketime ($hour = false, $minute = false, $second = false, $month = fal
 }
 
 function wt_csvconvert($string,$delimiter=",",$isstring=false) {
-	if(wt_csvconvert_delimiter) {
+	if(defined("wt_csvconvert_delimiter")) {
 		$delimiter=wt_csvconvert_delimiter;
 	}
 	$string=ereg_replace("\r\n","\n",$string);
