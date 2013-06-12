@@ -50,7 +50,13 @@ while(list($key,$value)=each($query)) {
 			$naam=$db->f("naam");
 			$voornaam=$db->f("naam");
 		}
-		$csv[$db->f("debiteurnummer")]=$debiteurnummer.",".wt_csvconvert($naam).",".wt_csvconvert($db->f("adres")).",,".wt_csvconvert($db->f("postcode")).",".wt_csvconvert($db->f("plaats")).",".$vars["landcodes_boekhouding_kort"][$db->f("landcode")].",,Eur,,,".wt_csvconvert($naam).",".$geslacht.",,".wt_csvconvert(substr($voornaam,0,10)).",,,,,,,,,,,,,,,,,,,,,,,,".strtoupper($db->f("taal")).",,,,,,,,,,,,,,".date("dmy",$db->f("invuldatum"));
+		$naam=preg_replace("@,@","/",$naam);
+		$voornaam=preg_replace("@,@","/",$voornaam);
+		$adres=preg_replace("@,@","/",$db->f("adres"));
+		$postcode=preg_replace("@,@","/",$db->f("postcode"));
+		$plaats=preg_replace("@,@","/",$db->f("plaats"));
+
+		$csv[$db->f("debiteurnummer")]=$debiteurnummer.",".wt_csvconvert($naam).",".wt_csvconvert($adres).",,".wt_csvconvert($postcode).",".wt_csvconvert($plaats).",".$vars["landcodes_boekhouding_kort"][$db->f("landcode")].",,Eur,,,".wt_csvconvert($naam).",".$geslacht.",,".wt_csvconvert(substr($voornaam,0,10)).",,,,,,,,,,,,,,,,,,,,,,,,".strtoupper($db->f("taal")).",,,,,,,,,,,,,,".date("dmy",$db->f("invuldatum"));
 	}
 }
 
