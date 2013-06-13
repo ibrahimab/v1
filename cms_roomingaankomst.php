@@ -48,6 +48,13 @@ if($_GET["levid"]) {
 
 		$form->field_htmlrow("","<hr><b>Goedkeuring door leverancier</b>");
 		$form->field_text(0,"roominglist_goedgekeurd","Goedgekeurd op (+eventuele opmerking)",array("field"=>"roominglist_goedgekeurd"));
+		if($db->f("roominglist_goedgekeurd_archief")) {
+			$form->field_htmlcol("","Eerdere goedkeuringen",array("html"=>"<div style=\"border:1px solid #003366;padding:5px;max-height:100px;overflow-y:scroll;\">".nl2br(wt_he($db->f("roominglist_goedgekeurd_archief"))."</div>")));
+		}
+
+		$form->field_htmlrow("","<hr><b>Interne opmerkingen</b>");
+		$form->field_textarea(0,"roominglist_interne_opmerkingen","Opmerkingen",array("field"=>"roominglist_interne_opmerkingen"),"",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
+
 
 		$form->check_input();
 

@@ -46,6 +46,18 @@ if($_GET["levid"]) {
 
 	echo $roominglist->overzicht_te_verzenden();
 
+	echo "&nbsp;<hr>&nbsp;";
+
+	echo $roominglist->overzicht_te_verzenden(array("in_de_wacht"=>true));
+
+	echo "&nbsp;<hr>&nbsp;";
+
+	echo $roominglist->overzicht_goedgekeurd(array("nog_niet_goedgekeurd"=>true));
+
+	echo "&nbsp;<hr>&nbsp;";
+
+	echo $roominglist->overzicht_goedgekeurd();
+
 }
 
 

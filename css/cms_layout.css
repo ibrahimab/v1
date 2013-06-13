@@ -296,6 +296,18 @@ li {
 
 }
 
+.striped tr:nth-child(odd) {
+   background-color: #dddddd;
+}
+
+.tr_onopvallend, .tr_onopvallend a {
+	color: #555555;
+}
+
+.tr_onopvallend a:hover {
+	color: #d40139;
+}
+
 .logtbl {
 	background-color: #cccccc;
 }

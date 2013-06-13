@@ -313,10 +313,10 @@ class roominglist {
 
 	public function word_bestand($settings="") {
 
-		global $unixdir, $vars;
+		global $vars;
 
 		// Word-bestand
-		include $unixdir."admin/class.msoffice.php";
+		include $vars["unixdir"]."admin/class.msoffice.php";
 		$ms=new ms_office;
 		$ms->author="Chalet.nl";
 		$ms->company="Chalet.nl";
@@ -409,37 +409,103 @@ class roominglist {
 
 	public function overzicht_te_verzenden($settings="") {
 
-		global $unixdir, $vars;
+		global $vars;
 
 		$db = new DB_sql;
-		$db2 = new DB_sql;
+		// $db2 = new DB_sql;
 
 		if($settings["in_de_wacht"]) {
 			$andquery.=" AND roominglist_volgende_controle>NOW()";
+			$return.="<h1>In de wacht</h1>";
 		} else {
 			$andquery.=" AND (roominglist_volgende_controle IS NULL OR roominglist_volgende_controle<NOW())";
+			$return.="<h1>Te verzenden roominglists</h1>";
 		}
 
 
-		$return.="<h1>Te verzenden roominglists</h1>";
-
-		$db->query("SELECT leverancier_id, naam, beheerder, roominglist_aantal_wijzigingen, UNIX_TIMESTAMP(roominglist_laatste_verzending_datum) AS roominglist_laatste_verzending_datum FROM leverancier WHERE roominglist_versturen=1 AND roominglist_aantal_wijzigingen>0".$andquery." ORDER BY naam, roominglist_laatste_verzending_datum;");
+		$db->query("SELECT leverancier_id, naam, beheerder, roominglist_aantal_wijzigingen, UNIX_TIMESTAMP(roominglist_laatste_verzending_datum) AS roominglist_laatste_verzending_datum, UNIX_TIMESTAMP(roominglist_volgende_controle) AS roominglist_volgende_controle, roominglist_versturen FROM leverancier WHERE roominglist_aantal_wijzigingen>0".$andquery." ORDER BY roominglist_versturen, naam, roominglist_laatste_verzending_datum;");
 		if($db->num_rows()) {
-			$return.="<table cellspacing=\"0\" class=\"tbl\">";
-			$return.="<tr><th>Leverancier</th><th>Aantal gewijzigde boekingen</th><th>Laatste verzending</th></tr>";
+			$return.="<table cellspacing=\"0\" class=\"tbl striped\">";
+			$return.="<tr><th>Leverancier</th><th>Laatste verzending</th><th>Aantal gewijzigde boekingen</th>";
+			if($settings["in_de_wacht"]) {
+				$return.="<th>Herinneren vanaf</th>";
+			}
+			$return.="</tr>";
 
 			while($db->next_record()) {
-				$return.="<tr><td><a href=\"".$vars["path"]."cms_roomingaankomst.php?levid=".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</a>".($db->f("beheerder") ? " (beheerder)" : "")."</td><td>".intval($db->f("roominglist_aantal_wijzigingen"))."</td><td>".($db->f("roominglist_laatste_verzending_datum")>0 ? date("d-m-Y",$db->f("roominglist_laatste_verzending_datum")) : "&nbsp;")."</tr>";
+				$return.="<tr class=\"".($db->f("roominglist_versturen")==2 ? "tr_onopvallend" : "")."\"><td><a href=\"".$vars["path"]."cms_roomingaankomst.php?levid=".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</a>".($db->f("beheerder") ? " (beheerder)" : "").($db->f("roominglist_versturen")==2 ? " (wil geen roominglists)" : "")."</td><td>".($db->f("roominglist_laatste_verzending_datum")>0 ? date("d-m-Y",$db->f("roominglist_laatste_verzending_datum")) : "&nbsp;")."</td><td>".intval($db->f("roominglist_aantal_wijzigingen"))."</td>";
+
+				if($settings["in_de_wacht"]) {
+					$return.="<td>".date("d-m-Y",$db->f("roominglist_volgende_controle"))."</td>";
+				}
+
+				$return.="</tr>";
 			}
 
 			$return.="</table>";
 
 		} else {
+			if($settings["in_de_wacht"]) {
+				$return.="<p>Er staan geen roominglists in de wacht.</p>";
+			} else {
 			$return.="<p>Er zijn geen te verzenden roominglists.</p>";
+			}
 		}
 
 		return $return;
 	}
+
+	public function overzicht_goedgekeurd($settings="") {
+
+		global $vars;
+
+		$db = new DB_sql;
+		// $db2 = new DB_sql;
+
+		if($settings["nog_niet_goedgekeurd"]) {
+			$andquery.=" AND roominglist_goedgekeurd=''";
+			$return.="<h1>Wacht op goedkeuring</h1>";
+			$orderby=", roominglist_laatste_verzending_datum";
+		} else {
+			$andquery.=" AND roominglist_goedgekeurd<>''";
+			$return.="<h1>Goedgekeurd</h1>";
+			$orderby="";
+		}
+
+
+		$db->query("SELECT leverancier_id, naam, beheerder, roominglist_aantal_wijzigingen, UNIX_TIMESTAMP(roominglist_laatste_verzending_datum) AS roominglist_laatste_verzending_datum, UNIX_TIMESTAMP(roominglist_volgende_controle) AS roominglist_volgende_controle, roominglist_versturen FROM leverancier WHERE roominglist_laatste_verzending_datum IS NOT NULL".$andquery." ORDER BY roominglist_versturen".$orderby.", naam, roominglist_laatste_verzending_datum;");
+		if($db->num_rows()) {
+			$return.="<table cellspacing=\"0\" class=\"tbl striped\">";
+			$return.="<tr><th>Leverancier</th><th>Verzonden</th>";
+			if($settings["in_de_wacht"]) {
+				$return.="<th>Verzenden vanaf</th>";
+			}
+			$return.="</tr>";
+
+			while($db->next_record()) {
+				$return.="<tr class=\"".($db->f("roominglist_versturen")==2 ? "tr_onopvallend" : "")."\"><td><a href=\"".$vars["path"]."cms_roomingaankomst.php?levid=".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</a>".($db->f("beheerder") ? " (beheerder)" : "").($db->f("roominglist_versturen")==2 ? " (wil geen roominglists)" : "")."</td><td>".($db->f("roominglist_laatste_verzending_datum")>0 ? date("d-m-Y",$db->f("roominglist_laatste_verzending_datum")) : "&nbsp;")."</td>";
+
+				if($settings["in_de_wacht"]) {
+					$return.="<td>".date("d-m-Y",$db->f("roominglist_volgende_controle"))."</td>";
+				}
+
+				$return.="</tr>";
+			}
+
+			$return.="</table>";
+
+		} else {
+			if($settings["nog_niet_goedgekeurd"]) {
+				$return.="<p>Er zijn geen goed te keuren roominglists.</p>";
+			} else {
+				$return.="<p>Er zijn geen goedgekeurde roominglists.</p>";
+			}
+		}
+
+		return $return;
+
+	}
+
 
 }
 

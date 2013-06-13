@@ -456,7 +456,7 @@ if(date("H")==3 or $argv[1]=="test") {
 }
 
 // if(date("H")==5 or date("H")==11 or date("H")==17 or $argv[1]=="test") {
-if(date("H")==5 or $argv[1]=="test") {
+if(date("H")==5 or date("H")==13 or $argv[1]=="test") {
 	//
 	// Controleren of er nieuw te verzenden roominglists zijn
 	//

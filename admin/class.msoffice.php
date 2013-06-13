@@ -3,11 +3,14 @@
 class ms_office {
 
 	function ms_office() {
-		return true;
+
+		$this->headers=true;
+		$this->landscape=false;
 		$this->filename="document";
 		$this->margin="70.85pt 70.85pt 70.85pt 70.85pt;";
-		$this->landscape=false;
-		$this->headers=true;
+
+		return true;
+
 	}
 
 	function page_break() {

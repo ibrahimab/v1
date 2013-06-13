@@ -603,26 +603,44 @@ $(document).ready(function() {
 
 		$("input[name='input[roominglist_goedgekeurd]']").focus(function() {
 			if($(this).val()=="") {
-				var currentTime = new Date()
-				var month = currentTime.getMonth() + 1
-				var day = currentTime.getDate()
-				var year = currentTime.getFullYear()
+				var currentTime = new Date();
+				var month = currentTime.getMonth() + 1;
+				var day = currentTime.getDate();
+				var year = currentTime.getFullYear();
 				$(this).val(day + "-" + month + "-" + year+ ": ");
 			}
 		});
 
-		// goedgekeurd wissen bij verzenden
 		$("input[name='input[versturen]']").change(function() {
-			if($(this).is(":checked") && $("input[name='input[roominglist_goedgekeurd]']").val()!="") {
-				$("input[name='input[roominglist_goedgekeurd]']").val("");
+			if($(this).is(":checked")) {
+				// goedgekeurd wissen bij verzenden
+				// herinner-datum op 2 weken van nu zetten
+				var currentTime = new Date(+new Date + 12096e5);
+				var month = currentTime.getMonth() + 1;
+				var day = currentTime.getDate();
+				var year = currentTime.getFullYear();
 
-				var field=$("input[name='input[roominglist_goedgekeurd]']");
-				field.css("background-color","#ff8080");
-				setTimeout(function() {
-					field.css("background-color","#ffffff");
+				$("select[name='input[roominglist_volgende_controle][day]']").val(day);
+				$("select[name='input[roominglist_volgende_controle][month]']").val(month);
+				$("select[name='input[roominglist_volgende_controle][year]']").val(year);
+
+				$("select[name='input[roominglist_volgende_controle][day]']").parent().css("background-color","yellow");
+
+				if($("input[name='input[roominglist_goedgekeurd]']").val()!="") {
+					$("input[name='input[roominglist_goedgekeurd]']").val("");
+					$("input[name='input[roominglist_goedgekeurd]']").css("background-color","#ff8080");
+				}
+
+				var timeout1=setTimeout(function() {
+					$("input[name='input[roominglist_goedgekeurd]']").css("background-color","#ffffff");
+					$("select[name='input[roominglist_volgende_controle][day]']").parent().css("background-color","#ffffff");
 				},800);
 			}
 		});
+
+
+
+
 	}
 });
 
