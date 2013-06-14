@@ -4,6 +4,8 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
+$vars["wysiwyg_info"].="[rechts_afbeelding_1]: afbeelding 1 rechts\n\n[link_afbeelding_2]: afbeelding 2 links\n\n[centreer_afbeelding_3]: afbeelding 3 gecentreerd\n\n---------- = horizontale lijn\n\n----- = nieuwe regel forceren";
+
 /*
 # Gekoppelde plaatsen en regio's opslaan
 if($_POST["toevoegen_filled"]) {
@@ -37,7 +39,8 @@ $cms->db_field(44,"textarea","homepage_inleiding");
 $cms->db_field(44,"text","accommodatiecodes");
 $cms->db_field(44,"date","plaatsingsdatum");
 $cms->db_field(44,"select","categorie","",array("selection"=>$vars["blogcategorie_italissima"]));
-$cms->db_field(44,"picture","afbeelding","",array("savelocation"=>"pic/cms/blog/","filetype"=>"jpg","multiple"=>false));
+$cms->db_field(44,"picture","afbeelding","",array("savelocation"=>"pic/cms/blog/","filetype"=>"jpg","multiple"=>true));
+$cms->db_field(44,"picture","afbeelding_onderaan","",array("savelocation"=>"pic/cms/blog_onderaan/","filetype"=>"jpg","multiple"=>true));
 $cms->db_field(44,"picture","homepage_afbeelding","",array("savelocation"=>"pic/cms/blog_homepage/","filetype"=>"jpg","multiple"=>false));
 
 
@@ -58,7 +61,11 @@ $cms->edit_field(44,1,"inleiding");
 $cms->edit_field(44,1,"inhoud","Inhoud","","",array("rows"=>60,"info"=>$vars["wysiwyg_info"]));
 
 $cms->edit_field(44,0,"accommodatiecodes","Accommodatiecodes (gescheiden door komma's)");
-$cms->edit_field(44,1,"afbeelding","Afbeelding","",array("autoresize"=>true,"img_maxwidth"=>"300"));
+#$cms->edit_field(44,1,"afbeelding","Afbeelding","",array("autoresize"=>true,"img_maxwidth"=>"300"));
+$cms->edit_field(44,0,"afbeelding","Afbeeldingen voor in artikel","",array("autoresize"=>false,"number_of_uploadbuttons"=>6));
+$cms->edit_field(44,0,"htmlrow","<hr>");
+$cms->edit_field(44,0,"afbeelding_onderaan","Afbeeldingen onderaan","",array("autoresize"=>false,"number_of_uploadbuttons"=>6));
+
 
 $cms->edit_field(44,0,"htmlrow","<hr><b>Verwijzing op de homepage</b>");
 $cms->edit_field(44,0,"homepage_actief","Tonen op de homepage",array("selection"=>true));

@@ -15,8 +15,8 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	# (alleen nodig om te testen)
 	#
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-		$db->query("DELETE FROM boeking_betaling;");
-		$db->query("DELETE FROM boeking_betaling WHERE boeking_id=89835;");
+#		$db->query("DELETE FROM boeking_betaling;");
+#		$db->query("DELETE FROM boeking_betaling WHERE boeking_id=89835;");
 	}
 
 	echo "<b>".htmlentities("Bestand \"".$_FILES["xmlbetalingen"]["name"]."\" (".$_FILES["xmlbetalingen"]["type"].")")." ontvangen</b><p>";
@@ -305,6 +305,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 					$toonopenstaand=0;
 				}
 			} else {
+				unset($toonopenstaand,$toonperdirect);
 				$foutmelding[]="onbekend reserveringsnummer ".$value["boekingsnummer"];
 			}
 			if(ereg("([0-9]{4})-([0-9]{2})-([0-9]{2})",$value["datum"],$regs)) {
