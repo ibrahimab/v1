@@ -501,11 +501,11 @@ $footer_opsomming["http://www.chalet.".($vars["website"]=="K" ? "be" : "nl")."/l
 while(list($key,$value)=each($footer_opsomming)) {
 	$footer_teller++;
 	if(preg_match("/http/",$key)) {
-		$url=wt_he($vars["path"].$key);
-	} else {
 		$url=wt_he($key)."\" target=\"_blank";
+	} else {
+		$url=wt_he($vars["path"].$key);
 	}
-	echo "<li><a href=\"".$vars["path"].$key."\"".($id<>"index" ? " rel=\"nofollow\"" : "").">".wt_he($value)."</a></li>";
+	echo "<li><a href=\"".$url."\"".($id<>"index" ? " rel=\"nofollow\"" : "").">".wt_he($value)."</a></li>";
 	if($footer_teller%7==0) {
 		echo "</div>";
 		echo "<div class=\"footer_met_links_blok\">";
