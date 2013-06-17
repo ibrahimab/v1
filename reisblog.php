@@ -48,9 +48,16 @@ if($_GET["b"]) {
 		$blog["plaatsingsdatum"]=$db->f("plaatsingsdatum");
 		$blog["accommodatiecodes"]=$db->f("accommodatiecodes");
 
+		# YouTube-player
 		if(preg_match("/(https?:\/\/www\.youtube\.com\/watch\?v=([a-zA-Z0-9]+))/",$blog["inhoud"],$regs)) {
 			$blog["youtube"]=trim($regs[2]);
 			$blog["inhoud"]=str_replace($regs[1],"",$blog["inhoud"]);
+		}
+
+		# Vimeo-player
+		if(preg_match("/(https?:\/\/vimeo\.com\/([a-zA-Z0-9]+))/",$blog["inhoud"],$regs)) {
+			$blog["vimeo"]=trim($regs[2]);
+			$blog["inhoud"]=str_replace($regs[1],"_VIMEO_",$blog["inhoud"]);
 		}
 
 		# Foto's artikel

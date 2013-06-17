@@ -1485,7 +1485,7 @@ $txt["nl"]["contact"]["achternaam"]="Achternaam";
 $txt["en"]["contact"]["achternaam"]="Surname";
 
 $txt["nl"]["contact"]["adres"]="Adres";
-$txt["en"]["contact"]["adres"]="Adress";
+$txt["en"]["contact"]["adres"]="Adsress";
 
 $txt["nl"]["contact"]["postcode"]="Postcode";
 $txt["en"]["contact"]["postcode"]="Postal code";
@@ -2787,7 +2787,7 @@ $txt["nl"]["beschikbaarheid"]["achternaam"]="Achternaam";
 $txt["en"]["beschikbaarheid"]["achternaam"]="Surname";
 
 $txt["nl"]["beschikbaarheid"]["adres"]="Adres";
-$txt["en"]["beschikbaarheid"]["adres"]="Adress";
+$txt["en"]["beschikbaarheid"]["adres"]="Address";
 
 $txt["nl"]["beschikbaarheid"]["postcode"]="Postcode";
 $txt["en"]["beschikbaarheid"]["postcode"]="Postal code";
@@ -2814,7 +2814,7 @@ $txt["nl"]["beschikbaarheid"]["mobielwerk_kort"]="Mobiel/werktelefoon";
 $txt["en"]["beschikbaarheid"]["mobielwerk_kort"]="Mobile telephone or telephone at work";
 
 $txt["nl"]["beschikbaarheid"]["email"]="E-mailadres";
-$txt["en"]["beschikbaarheid"]["email"]="E-mail adress";
+$txt["en"]["beschikbaarheid"]["email"]="E-mail address";
 
 $txt["nl"]["beschikbaarheid"]["ikwiloptie"]="Ik wil graag een kosteloze optie van 3 dagen op deze accommodatie nemen";
 $txt["en"]["beschikbaarheid"]["ikwiloptie"]="I wish to take an option of three days on this accommodation";
@@ -3515,7 +3515,7 @@ $txt["nl"]["reisbureau_overzicht"]["achternaam"]="Achternaam (of naam filiaal)";
 $txt["en"]["reisbureau_overzicht"]["achternaam"]="Surname";
 
 $txt["nl"]["reisbureau_overzicht"]["adres"]="Adres";
-$txt["en"]["reisbureau_overzicht"]["adres"]="Adress";
+$txt["en"]["reisbureau_overzicht"]["adres"]="Address";
 
 $txt["nl"]["reisbureau_overzicht"]["postcode"]="Postcode";
 $txt["en"]["reisbureau_overzicht"]["postcode"]="Postal code";
@@ -3533,7 +3533,7 @@ $txt["nl"]["reisbureau_overzicht"]["mobiel"]="Mobiel nummer";
 $txt["en"]["reisbureau_overzicht"]["mobiel"]="Mobile number";
 
 $txt["nl"]["reisbureau_overzicht"]["email"]="E-mailadres";
-$txt["en"]["reisbureau_overzicht"]["email"]="E-mailadress";
+$txt["en"]["reisbureau_overzicht"]["email"]="Email address";
 
 $txt["nl"]["reisbureau_overzicht"]["nieuwwachtwoord"]="Nieuw wachtwoord";
 $txt["en"]["reisbureau_overzicht"]["nieuwwachtwoord"]="New password";
@@ -3751,7 +3751,7 @@ $txt["nl"]["bsys"]["naam"]="Naam";
 $txt["en"]["bsys"]["naam"]="Name";
 
 $txt["nl"]["bsys"]["adres"]="Adres";
-$txt["en"]["bsys"]["adres"]="Adress";
+$txt["en"]["bsys"]["adres"]="Address";
 
 $txt["nl"]["bsys"]["postcode"]="Postcode";
 $txt["en"]["bsys"]["postcode"]="Postal code";
@@ -4957,7 +4957,7 @@ $txt["nl"]["vraagonsadvies"]["emailadres"]="E-mailadres";
 $txt["en"]["vraagonsadvies"]["emailadres"]="Email";
 
 $txt["nl"]["vraagonsadvies"]["ditmailadreszalniet"]="Dit mailadres zal niet gebruikt worden voor commerciële doeleinden maar enkel voor het versturen van ons reisadvies.";
-$txt["en"]["vraagonsadvies"]["ditmailadreszalniet"]="This email adress won't be used for commercial purposes, but only for sending you our suggestions.";
+$txt["en"]["vraagonsadvies"]["ditmailadreszalniet"]="This email address won't be used for commercial purposes, but only for sending you our suggestions.";
 
 $txt["nl"]["vraagonsadvies"]["telefoonnummer"]="Telefoonnummer";
 $txt["en"]["vraagonsadvies"]["telefoonnummer"]="Telephone number";

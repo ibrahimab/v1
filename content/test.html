@@ -1,3 +1,26 @@
+<?php
+
+
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+
+
+	?>
+	<style>
+
+	</style>
+	<?php
+
+
+	$tarieventabel = new tarieventabel;
+
+	echo $tarieventabel->toontabel(240,22);
+
+
+} else {
+
+
+?>
+
 <style>
 
 .testbutton {
@@ -233,86 +256,8 @@ td.discount {
 
 <?php
 
-#require("admin/fpdf.php");
 
-#$inlogtext.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td align=\"center\" width=\"200\" height=\"30\" bgcolor=\"".$table."\" style=\"-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: ".$thfontcolor."; display: block;\"><a href=\"http://www.EXAMPLE.com/\" style=\"color: ".$thfontcolor."; font-size:11px; font-weight: bold; font-family: Verdana, Arial, Helvetica, sans-serif; text-decoration: none; line-height:30px; width:100%; display:inline-block\">Inloggen bij &quot;Mijn boeking&quot;</a></td></tr></table>";
-#echo $inlogtext;
-
-#exit;
-
-
-function merge_pdfs($array_pdfs,$targetfile) {
-
-	global $vars;
-
-	require_once($vars["unixdir"]."admin/tcpdf/config/lang/eng.php");
-	require_once($vars["unixdir"]."admin/tcpdf/tcpdf.php");
-
-	require_once($vars["unixdir"]."admin/fpdi/fpdi.php");
-	require_once($vars["unixdir"]."admin/fpdi/fpdf_tpl.php");
-
-	class concat_pdf extends FPDI {
-	     var $files = array();
-	     function setFiles($files) {
-	          $this->files = $files;
-	     }
-	     function concat() {
-	          foreach($this->files AS $file) {
-	               $pagecount = $this->setSourceFile($file);
-	               for ($i = 1; $i <= $pagecount; $i++) {
-	                    $tplidx = $this->ImportPage($i);
-	                    $s = $this->getTemplatesize($tplidx);
-	                    $this->AddPage('P', array($s['w'], $s['h']));
-	                    $this->useTemplate($tplidx);
-	               }
-	          }
-	     }
-	}
-
-	$pdf = new concat_pdf();
-	$pdf->setFiles(array($array_pdfs));
-	$pdf->concat();
-	$pdf->Output($targetfile, "F");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//test comment
- function custumSort($string1, $string2)
-    {
-        $search = array('Ä','Ö','Ü','ß');
-        $replace = array('A','O','U','s');
-        return strcmp(
-           str_ireplace($search, $replace, $string1),
-           str_ireplace($search, $replace, $string2)
-           );
-    }
-$skigebieden=array("Zillertal","Arlberg","Ötztal Sölden","Rauris");
-
-uasort($skigebieden, "custumSort");
-
-// echo "<p>Volgorde:<ul>";
-// while(list($key,$value)=each($skigebieden)) {
-// 	echo "<li>".wt_he($value)."</li>";
-// }
-// echo "</ul></p>";
 
 
 ?>

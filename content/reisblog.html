@@ -65,21 +65,30 @@ if($_GET["voorwaarden"]) {
 			$inhoud=str_replace($regs[0],$img,$inhoud);
 		}
 	}
+
 	if(preg_match("/\[facebook_like\]/",$inhoud)) {
 		$inhoud=str_replace("[facebook_like]",$facebook_like,$inhoud);
 	} else {
 		$inhoud.=$facebook_like;
 	}
 
+	# Vimeo-player embedden
+	if($blog["vimeo"]) {
+		$inhoud=str_replace("_VIMEO_","<div class=\"vimeo\"><iframe src=\"http://player.vimeo.com/video/".wt_he($blog["vimeo"])."?title=0&amp;byline=0&amp;portrait=0\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>",$inhoud);
+	}
+
+#	<iframe src="http://player.vimeo.com/video/68117691?title=0&amp;byline=0&amp;portrait=0" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+
 	echo "<div class=\"blogitem_inhoud\">".$inhoud;
 	echo "<div class=\"clear\"></div>";
 	echo "</div>";
 
 
-	# YouTube embedden
+	# YouTube-player embedden
 	if($blog["youtube"]) {
 		echo "<div class=\"youtube\" style=\"margin-top:30px;\"><iframe width=\"539\" height=\"274\" src=\"http://www.youtube.com/embed/".$blog["youtube"]."?rel=0\" frameborder=\"0\" allowfullscreen></iframe></div>";
 	}
+
 
 	# Aanvullende foto's
 	$d = dir($vars["unixdir"]."pic/cms/reisblog_rechts");
@@ -152,7 +161,7 @@ if($_GET["voorwaarden"]) {
 		if(file_exists($file)) {
 			echo "<a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
 		}
-		echo "<div class=\"blog_inleiding\">".nl2br(wt_he($db->f("inleiding")));
+		echo "<div class=\"blog_inleiding\">".nl2br(wt_he(trim($db->f("inleiding"))));
 		echo " <span class=\"blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></span>";
 		echo "</div>"; # afsluiten blog_inleiding
 		echo "<div style=\"clear: both;\"></div>";

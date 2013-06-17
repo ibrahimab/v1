@@ -27,7 +27,7 @@ if($_GET["b"]) {
 				$img="<img src=\"".$vars["path"]."pic/cms/blog/".intval($_GET["b"])."-".$regs[2].".jpg\" align=\"right\" class=\"blog_img_".$regs[1]."\">";
 			} elseif($regs[1]=="centreer") {
 				$size=getimagesize($file);
-				$img="<img src=\"".$vars["path"]."pic/cms/log/".intval($_GET["b"])."-".$regs[2].".jpg\" style=\"display:block;width:".$size[0]."px;margin-left:auto;margin-right:auto;\" class=\"blog_img_".$regs[1]."\">";
+				$img="<img src=\"".$vars["path"]."pic/cms/blog/".intval($_GET["b"])."-".$regs[2].".jpg\" style=\"display:block;width:".$size[0]."px;margin-left:auto;margin-right:auto;\" class=\"blog_img_".$regs[1]."\">";
 			}
 		} else {
 			$img="";
