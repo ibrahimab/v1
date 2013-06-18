@@ -35,7 +35,8 @@ while($db->next_record()) {
 $blog["blok_rechts"].="</ul>";
 $blog["blok_rechts"].="</div>"; # afsluiten blog_titels_rechts
 
-$facebook_like="<div class=\"clear\"></div><div id=\"facebook_like\">Like en stem mee via <a href=\"https://www.facebook.com/Italissima.nl\" target=\"_blank\">Facebook</a>:<div style=\"margin-left:10px;width:150px;\" class=\"fb-like\" data-href=\"https://www.facebook.com/Italissima.nl\" data-send=\"false\" data-layout=\"button_count\" data-width=\"250\" data-show-faces=\"false\" data-font=\"arial\"></div></div>";
+#$facebook_like="<div class=\"clear\"></div><div id=\"facebook_like\">Like en stem mee via <a href=\"https://www.facebook.com/Italissima.nl\" target=\"_blank\">Facebook</a>:<div style=\"margin-left:10px;width:150px;\" class=\"fb-like\" data-href=\"https://www.facebook.com/Italissima.nl\" data-send=\"false\" data-layout=\"button_count\" data-width=\"250\" data-show-faces=\"false\" data-font=\"arial\"></div></div>";
+$facebook_like="<div class=\"clear\"></div>";
 
 if($_GET["b"]) {
 	$db->query("SELECT reisblog_id, titel, inleiding, inhoud, inhoud_html, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM reisblog WHERE 1=1 AND reisblog_id='".intval($_GET["b"])."' AND actief=1 AND plaatsingsdatum<NOW();");

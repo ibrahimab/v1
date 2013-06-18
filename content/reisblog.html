@@ -74,7 +74,7 @@ if($_GET["voorwaarden"]) {
 
 	# Vimeo-player embedden
 	if($blog["vimeo"]) {
-		$inhoud=str_replace("_VIMEO_","<div class=\"vimeo\"><iframe src=\"http://player.vimeo.com/video/".wt_he($blog["vimeo"])."?title=0&amp;byline=0&amp;portrait=0\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>",$inhoud);
+		$inhoud=str_replace("_VIMEO_","<div class=\"vimeo\"><iframe src=\"https://player.vimeo.com/video/".wt_he($blog["vimeo"])."?title=0&amp;byline=0&amp;portrait=0\" width=\"500\" height=\"281\" frameborder=\"0\" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>",$inhoud);
 	}
 
 #	<iframe src="http://player.vimeo.com/video/68117691?title=0&amp;byline=0&amp;portrait=0" width="500" height="281" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
