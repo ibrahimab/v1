@@ -614,8 +614,8 @@ $(document).ready(function() {
 		$("input[name='input[versturen]']").change(function() {
 			if($(this).is(":checked")) {
 				// goedgekeurd wissen bij verzenden
-				// herinner-datum op 2 weken van nu zetten
-				var currentTime = new Date(+new Date + 12096e5);
+				// herinner-datum op 4 weken van nu zetten
+				var currentTime = new Date(+new Date + (28 * 24 * 60 * 60 * 1000));
 				var month = currentTime.getMonth() + 1;
 				var day = currentTime.getDate();
 				var year = currentTime.getFullYear();
