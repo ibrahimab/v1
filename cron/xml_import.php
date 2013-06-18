@@ -342,7 +342,7 @@ while(list($key,$value)=@each($xml_urls)) {
 			$info = curl_getinfo($ch);
 			curl_close($ch);
 			if($output) {
-				$xml=simplexml_load_string($output);
+				$xml=@simplexml_load_string($output);
 			}
 		} else {
 			# gebruik simplexml_load_file
