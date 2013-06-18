@@ -162,7 +162,7 @@ if($NU_EVEN_NIET and (!$argv[1] or $argv[1]=="17")) {
 $xml_urls[2][1]="http://alpenchaletsbookings.com/avSync.phtml?asId=1";
 
 # Ski France
-$xml_urls[3][1]="https://secure.ski-france.com/avSync.phtml?asId=1";
+$xml_urls[3][1]="https://ski-france-db.com/jobs/avSync.phtml?asId=1";
 
 # CGH
 $xml_urls[4][1]="http://www.cgh-partenaires.com/results.xml";
