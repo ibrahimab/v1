@@ -115,7 +115,17 @@ if($_GET["levid"]) {
 #					echo wt_he($db2->lq);
 #					exit;
 
-
+					# Klantnamen opslaan
+					if(is_array($roominglist->klantnamen_boekingen)) {
+						foreach ($roominglist->klantnamen_boekingen as $key => $value) {
+							$db2->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($value)."' WHERE boeking_id='".intval($key)."';");
+						}
+					}
+					if(is_array($roominglist->klantnamen_garanties)) {
+						foreach ($roominglist->klantnamen_garanties as $key => $value) {
+							$db2->query("UPDATE garantie SET aan_leverancier_doorgegeven_naam='".addslashes($value)."' WHERE garantie_id='".intval($key)."';");
+						}
+					}
 				} else {
 					trigger_error("tmp/roominglist.doc niet gevonden",E_USER_NOTICE);
 				}

@@ -13,6 +13,9 @@ class roominglist {
 
 	public $regels;
 
+	public $klantnamen_boekingen;
+	public $klantnamen_garanties;
+
 	public $leverancier_id_inquery;
 
 	function __construct() {
@@ -187,6 +190,9 @@ class roominglist {
 			}
 			$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
 			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities( wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) ) )."</td>";
+
+			$this->klantnamen_boekingen[$db->f("boeking_id")] = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
+
 			if ( $roominglist_toontelefoonnummer ) {
 				$regels[$sortkey].="<td valign=\"top\">";
 				if ( $db->f( "mobielwerk" ) ) {
@@ -219,7 +225,7 @@ class roominglist {
 		} else {
 			$where="g.aankomstdatum_exact>='".time()."' AND ";
 		}
-		$db->query( "SELECT g.naam, g.aankomstdatum_exact, g.vertrekdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." g.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND g.boeking_id=0;" );
+		$db->query( "SELECT g.garantie_id, g.naam, g.aankomstdatum_exact, g.vertrekdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." g.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND g.boeking_id=0;" );
 		while ( $db->next_record() ) {
 			$sortkey=$db->f( "plaats" )."_".$db->f( "aankomstdatum_exact" )."_".$db->f( "accommodatie" )."_".$db->f( "type" );
 			if ( !$leverancier ) {
@@ -231,6 +237,10 @@ class roominglist {
 			$accnaam_kort=$db->f( "accommodatie" )." ".( $db->f( "type" ) ? $db->f( "type" )." " : "" );
 			$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
 			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities( $db->f( "naam" ) )."</td>";
+
+			# Klantnamen in array plaatsen
+			$this->klantnamen_garanties[$db->f("garantie_id")] = $db->f( "naam" );
+
 			if ( $roominglist_toontelefoonnummer ) {
 				$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
 			}

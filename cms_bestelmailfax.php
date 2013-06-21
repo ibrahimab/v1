@@ -173,6 +173,10 @@ $form->check_input();
 
 if($form->okay) {
 	if($_GET["t"]==1) {
+
+		# Klantnaam opslaan
+		$db->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($form->input["clientsname"])."' WHERE boeking_id='".intval($_GET["bid"])."';");
+
 		unset($html);
 		$html.="<html><body style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 0.8em;\">";
 		$html.="<p>".nl2br(htmlentities($vars["temp_leverancier"]["adresregels"]))."<p>";
