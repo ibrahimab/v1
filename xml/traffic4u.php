@@ -24,6 +24,7 @@ $cachefile=$unixdir."cache/feed_traffic4u_".basename($_GET["feed"])."_".$vars["w
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	header("Content-Type: text/plain; charset=utf-8");
+	// header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 
 	# UTF-8 BOM
 	echo "\xEF\xBB\xBF";
@@ -41,7 +42,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	echo "\xEF\xBB\xBF";
 }
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	define(wt_csvconvert_delimiter,",");
 } else {
 	define(wt_csvconvert_delimiter,";");
@@ -124,8 +125,11 @@ if($_GET["feed"]=="accommodaties") {
 
 		echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL skigebied + thema".wt_csvconvert_delimiter."Aantal accommodaties skigebied + thema".wt_csvconvert_delimiter."URL plaats + thema".wt_csvconvert_delimiter."Aantal accommodaties plaats + thema\n";
 
-		// $db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND plaats_id IN (6,28,30,120,147);");
-		$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id, plaats_id;");
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+			$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND skigebied_id=2 ORDER BY skigebied_id, plaats_id;");
+		} else {
+			$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id, plaats_id;");
+		}
 
 	} else {
 		# Italissima
@@ -145,32 +149,51 @@ if($_GET["feed"]=="accommodaties") {
 	}
 	while($db4->next_record()) {
 
+		reset($thema_array);
+
 		foreach ($thema_array as $key99 => $value99) {
 
 
 			# skigebied-url
-			if(!$skigebied_al_gehad[$db4->f("skigebied_id").$key99]) {
+			if($skigebied_al_gehad[$db4->f("skigebied_id").$key99]) {
+
+				$temp_skigebied_url=$skigebied_al_gehad_url[$db4->f("skigebied_id").$key99];
+				$aantal_resultaten_skigebied=$skigebied_al_gehad_aantal[$db4->f("skigebied_id").$key99];
+
+			} else {
 
 				$skigebied_al_gehad[$db4->f("skigebied_id").$key99]=true;
 
 				unset($aantal_resultaten_skigebied);
 
 				$temp_skigebied_url=$vars["basehref"].txt("menu_zoek-en-boek").".php?filled=1&".$key99."&fsg=".$db4->f("land_id")."-".$db4->f("skigebied_id");
-				$content=file_get_contents($temp_skigebied_url);
+				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+					$content='aaa data-aantalgevonden="88" aa';
+				} else {
+					$content=file_get_contents($temp_skigebied_url);
+				}
 
 				if(preg_match("/data-aantalgevonden=\"([0-9]+)\"/",$content,$regs)) {
 					if($regs[1]>0) {
 						$aantal_resultaten_skigebied=$regs[1];
+
+						$skigebied_al_gehad_url[$db4->f("skigebied_id").$key99]=$temp_skigebied_url;
+						$skigebied_al_gehad_aantal[$db4->f("skigebied_id").$key99]=$aantal_resultaten_skigebied;
+
 					}
 				}
 			}
-
 
 			if($vars["seizoentype"]==1) {
 				# plaats-url
 				unset($aantal_resultaten_plaats);
 				$temp_plaats_url=$vars["basehref"].txt("menu_zoek-en-boek").".php?filled=1&".$key99."&fsg=pl".$db4->f("plaats_id");
-				$content=file_get_contents($temp_plaats_url);
+
+				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+					$content="aaa data-aantalgevonden=\"88\" aa";
+				} else {
+					$content=file_get_contents($temp_plaats_url);
+				}
 
 				if(preg_match("/data-aantalgevonden=\"([0-9]+)\"/",$content,$regs)) {
 					if($regs[1]>0) {
@@ -219,7 +242,9 @@ if($_GET["feed"]=="accommodaties") {
 
 			}
 
-			sleep(1);
+			if($_SERVER["DOCUMENT_ROOT"]!="/home/webtastic/html") {
+				sleep(1);
+			}
 
 		}
 	}
