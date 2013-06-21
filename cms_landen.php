@@ -66,8 +66,11 @@ $cms->db_field(6,"picture","zomerafbeelding_top","",array("savelocation"=>"pic/c
 if($_GET["wzt"]==2) {
 	# Zomer-vertrekinfo
 	$cms->db_field(6,"checkbox","vertrekinfo_goedgekeurd_seizoen","zomervertrekinfo_goedgekeurd_seizoen",array("selection"=>$vars["seizoengoedgekeurd"]));
+	if($vars["cmstaal"]) $cms->db_field(6,"checkbox","vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"zomervertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],array("selection"=>$vars["seizoengoedgekeurd"]));
 	$cms->db_field(6,"text","vertrekinfo_goedgekeurd_datetime","zomervertrekinfo_goedgekeurd_datetime");
+	if($vars["cmstaal"]) $cms->db_field(6,"text","vertrekinfo_goedgekeurd_datetime_".$vars["cmstaal"],"zomervertrekinfo_goedgekeurd_datetime_".$vars["cmstaal"]);
 	$cms->db_field(6,"textarea","vertrekinfo_landroute","zomervertrekinfo_landroute");
+	if($vars["cmstaal"]) $cms->db_field(6,"textarea","vertrekinfo_landroute_".$vars["cmstaal"],"zomervertrekinfo_landroute_".$vars["cmstaal"]);
 } else {
 	# Winter-vertrekinfo
 	$cms->db_field(6,"checkbox","vertrekinfo_goedgekeurd_seizoen","",array("selection"=>$vars["seizoengoedgekeurd"]));
@@ -160,13 +163,27 @@ $cms->edit_field(6,0,"htmlrow","<a name=\"vertrekinfo\"></a><hr><br><b>Vertrekin
 $cms->edit_field(6,0,"htmlrow","<br><i>Alinea 'Enkele aanwijzingen' (hoort bij routebeschrijving)</i>");
 if($_GET["wzt"]==2) {
 	# Zomer
-	$cms->edit_field(6,0,"vertrekinfo_landroute","Tekst");
-	if($vertrekinfo_tracking["zomervertrekinfo_landroute"]) {
-		$cms->edit_field(6,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["zomervertrekinfo_landroute"]))."</div>"));
+	if($vars["cmstaal"]) {
+		$cms->edit_field(6,0,"vertrekinfo_landroute","Tekst NL","",array("noedit"=>true));
+		$cms->edit_field(6,0,"vertrekinfo_landroute_".$vars["cmstaal"],"Tekst ".strtoupper($vars["cmstaal"]));
+		if($vertrekinfo_tracking["vertrekinfo_landroute_".$vars["cmstaal"]]) {
+			$cms->edit_field(6,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["vertrekinfo_landroute_".$vars["cmstaal"]]))."</div>"));
+		}
+	} else {
+		$cms->edit_field(6,0,"vertrekinfo_landroute","Tekst1");
+		if($vertrekinfo_tracking["zomervertrekinfo_landroute"]) {
+			$cms->edit_field(6,0,"htmlcol","Bij laatste goedkeuring",array("html"=>"<div class=\"vertrekinfo_tracking_voorheen\">".nl2br(wt_he($vertrekinfo_tracking["zomervertrekinfo_landroute"]))."</div>"));
+		}
 	}
-	$cms->edit_field(6,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
-	$cms->edit_field(6,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
-	$cms->edit_field(6,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
+	if($vars["cmstaal"]) {
+		$cms->edit_field(6,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo ".strtoupper($vars["cmstaal"])."</b>");
+		$cms->edit_field(6,0,"vertrekinfo_goedgekeurd_seizoen_".$vars["cmstaal"],"Vertrekinfo is goedgekeurd voor seizoen ".strtoupper($vars["cmstaal"]),"","",array("one_per_line"=>true));
+		$cms->edit_field(6,0,"vertrekinfo_goedgekeurd_datetime_".$vars["cmstaal"],"Laatste goedkeuring ".strtoupper($vars["cmstaal"]),"","",array("one_per_line"=>true));
+	} else {
+		$cms->edit_field(6,0,"htmlrow","<br><hr class=\"greyhr\"><br><b>Goedkeuring bovenstaande vertrekinfo</b>");
+		$cms->edit_field(6,0,"vertrekinfo_goedgekeurd_seizoen","Vertrekinfo is goedgekeurd voor seizoen","","",array("one_per_line"=>true));
+		$cms->edit_field(6,0,"vertrekinfo_goedgekeurd_datetime","Laatste goedkeuring","","",array("one_per_line"=>true));
+	}
 } else {
 	# Winter
 	if($vars["cmstaal"]) {
