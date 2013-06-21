@@ -430,7 +430,7 @@ if($vars["websitetype"]==7) {
 	$menu["bestemmingen"]=txt("menutitle_bestemmingen");
 	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
 	$menu["blog"]=txt("menutitle_blog");
-	$menu["reisblog"]="reisblog: beleef Toscane";
+	$menu["reisblog"]="vakantie op een agriturismo";
 	$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 	$menu["contact"]=txt("menutitle_contact");
 
