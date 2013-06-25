@@ -15,62 +15,24 @@ class roominglist {
 
 	public $klantnamen_boekingen;
 	public $klantnamen_garanties;
+	public $garanties;
+	public $naamswijzigingen;
+	public $verberg_naamswijzigingen;
+
+	public $verberg_garanties;
 
 	public $leverancier_id_inquery;
+
+	public $van;
+	public $tot;
 
 	function __construct() {
 
 		// Roominglist totaal of Roominglist op datum (=aankomstlijst)
 		$this->totaal = true;
-	}
 
-	public function leverancierslijst() {
-
-		global $vars;
-
-		$db = new DB_sql;
-
-		// Gewone boekingen
-		$db->query( "SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.leverancier_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND b.aankomstdatum_exact>'".time()."';" );
-		while ( $db->next_record() ) {
-			$sortkey=$db->f( "naam" )."_".$db->f( "leverancier_id" );
-			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f( "leverancier_id" )."\">".htmlentities( $db->f( "naam" ) )."</a></li>";
-
-			$actieve_leverancier[$db->f( "leverancier_id" )]=true;
-		}
-
-		// Gewone boekingen (via beheerder)
-		$db->query( "SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.beheerder_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND b.aankomstdatum_exact>'".time()."';" );
-		while ( $db->next_record() ) {
-			$sortkey=$db->f( "naam" )."_".$db->f( "leverancier_id" );
-			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f( "leverancier_id" )."\">".htmlentities( $db->f( "naam" ) )."</a></li>";
-
-			$actieve_leverancier[$db->f( "leverancier_id" )]=true;
-		}
-
-		// Garanties
-		$db->query( "SELECT DISTINCT l.naam, l.leverancier_id FROM garantie g, accommodatie a, type t, leverancier l WHERE g.leverancier_id=l.leverancier_id AND g.boeking_id=0 AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND g.aankomstdatum_exact>'".time()."';" );
-		while ( $db->next_record() ) {
-			$sortkey=$db->f( "naam" )."_".$db->f( "leverancier_id" );
-			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f( "leverancier_id" )."\">".htmlentities( $db->f( "naam" ) )."</a></li>";
-
-			$actieve_leverancier[$db->f( "leverancier_id" )]=true;
-
-		}
-
-		$this->leverancier_id_inquery=",0";
-		foreach ( $actieve_leverancier as $key => $value ) {
-			$this->leverancier_id_inquery.=",".$key;
-		}
-		$this->leverancier_id_inquery=substr( $this->leverancier_id_inquery, 1 );
-
-		if ( is_array( $roominglistlijst ) ) {
-			ksort( $roominglistlijst );
-
-			return $roominglistlijst;
-		} else {
-			return false;
-		}
+		// van = vandaag
+		$this->van = mktime(0,0,0,date("m"),date("d"),date("Y"));
 	}
 
 	public function vergelijk_lijsten() {
@@ -132,11 +94,22 @@ class roominglist {
 		$db = new DB_sql;
 		$db2 = new DB_sql;
 
+		unset($this->klantnamen_boekingen, $this->klantnamen_garanties);
+
 		if ( $mustlogin ) {
 			if ( $this->totaal ) {
 				cmslog_pagina_title( "Overzichten - Roominglist" );
 			} else {
 				cmslog_pagina_title( "Overzichten - Aankomstlijst" );
+			}
+		}
+
+		// naamswijzingen verbergen?
+		if($this->verberg_naamswijzigingen) {
+			$verberg_naamswijzigingen_array_temp=preg_split("@,@",$this->verberg_naamswijzigingen);
+
+			foreach ($verberg_naamswijzigingen_array_temp as $key => $value) {
+				$verberg_naamswijzigingen_array[$value]=true;
 			}
 		}
 
@@ -160,20 +133,19 @@ class roominglist {
 			$roominglist_site_benaming=$db->f( "roominglist_site_benaming" );
 		}
 
+		//
 		// Gewone boekingen
-		if ( !$this->totaal ) {
-			$where="b.aankomstdatum='".addslashes( $this->date )."' AND ";
+		//
+		if ( $this->totaal ) {
+			$where="b.aankomstdatum_exact>='".$this->van."' AND ";
+			if($this->tot) {
+				$where.="b.aankomstdatum_exact<='".$this->tot."' AND ";
+			}
 		} else {
-			$where="b.aankomstdatum_exact>='".time()."' AND ";
+			$where="b.aankomstdatum='".addslashes( $this->date )."' AND ";
 		}
-		// $db->query("SELECT bp.voornaam, bp.tussenvoegsel, bp.achternaam, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." b.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes($this->leverancier_id)."' AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, b.aankomstdatum_exact, a.naam, t.naam;");
-		// $db->query("SELECT bp.voornaam, bp.tussenvoegsel, bp.achternaam, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." (b.leverancier_id=l.leverancier_id OR a.beheerder_id=l.leverancier_id OR t.beheerder_id=l.leverancier_id) AND l.leverancier_id='".addslashes($this->leverancier_id)."' AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, b.aankomstdatum_exact, a.naam, t.naam;");
-		// $db->query("SELECT bp.voornaam, bp.tussenvoegsel, bp.achternaam, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." (b.leverancier_id=l.leverancier_id OR b.beheerder_id=l.leverancier_id) AND l.leverancier_id='".addslashes($this->leverancier_id)."' AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, b.aankomstdatum_exact, a.naam, t.naam;");
-		// $db->query("SELECT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.mobielwerk, bp.telefoonnummer, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." (b.leverancier_id=l.leverancier_id OR b.beheerder_id=l.leverancier_id) AND l.leverancier_id='".addslashes($this->leverancier_id)."' AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, b.aankomstdatum_exact, a.naam, t.naam;");
-		$db->query( "SELECT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.mobielwerk, bp.telefoonnummer, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." (b.leverancier_id=l.leverancier_id OR b.beheerder_id=l.leverancier_id) AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND UNIX_TIMESTAMP(b.besteldatum)>0 ORDER BY p.naam, b.aankomstdatum_exact, a.naam, t.naam;" );
 
-
-
+		$db->query( "SELECT b.boeking_id, b.boekingsnummer, b.aan_leverancier_doorgegeven_naam, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.mobielwerk, bp.telefoonnummer, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." (b.leverancier_id=l.leverancier_id OR b.beheerder_id=l.leverancier_id) AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 AND UNIX_TIMESTAMP(b.besteldatum)>0 ORDER BY p.naam, b.aankomstdatum_exact, a.naam, t.naam;" );
 		while ( $db->next_record() ) {
 
 			$sortkey=$db->f( "plaats" )."_".$db->f( "aankomstdatum_exact" )."_".$db->f( "accommodatie" )."_".$db->f( "type" );
@@ -189,9 +161,23 @@ class roominglist {
 				$accnaam_kort_aanvullend.=" <i>(our name: ".htmlentities( $db->f( "accommodatie" ).( $db->f( "type" ) ? " ".$db->f( "type" ) : "" ) ).")</i>";
 			}
 			$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
-			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities( wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) ) )."</td>";
 
-			$this->klantnamen_boekingen[$db->f("boeking_id")] = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
+			if($verberg_naamswijzigingen_array[$db->f("boeking_id")]) {
+				$naam=$db->f("aan_leverancier_doorgegeven_naam");
+			} else {
+				$naam=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
+
+				// klantnamen in array plaatsen
+				$this->klantnamen_boekingen[$db->f("boeking_id")] = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
+			}
+
+			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".wt_he( $naam )."</td>";
+
+
+			// naamswijzigingen in array plaatsen
+			if($db->f( "aan_leverancier_doorgegeven_naam" )!=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )) {
+				$this->naamswijzigingen[$db->f("boeking_id")] = "Boeking ".$db->f("boekingsnummer").": \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )."\"";
+			}
 
 			if ( $roominglist_toontelefoonnummer ) {
 				$regels[$sortkey].="<td valign=\"top\">";
@@ -219,13 +205,25 @@ class roominglist {
 			$regels[$sortkey].="<td valign=\"top\">".( $db->f( "leverancierscode" ) ? htmlentities( $db->f( "leverancierscode" ) ) : "&nbsp;" )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( htmlentities( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
 		}
 
+		//
 		// Garanties
-		if ( !$this->totaal ) {
-			$where="g.aankomstdatum='".addslashes( $this->date )."' AND ";
+		//
+		unset($where);
+		if ( $this->totaal ) {
+			$where="g.aankomstdatum_exact>='".$this->van."' AND ";
+			if($this->tot) {
+				$where.="g.aankomstdatum_exact<='".$this->tot."' AND ";
+			}
 		} else {
-			$where="g.aankomstdatum_exact>='".time()."' AND ";
+			$where="g.aankomstdatum='".addslashes( $this->date )."' AND ";
 		}
-		$db->query( "SELECT g.garantie_id, g.naam, g.aankomstdatum_exact, g.vertrekdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." g.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND g.boeking_id=0;" );
+		if($this->verberg_garanties) {
+			$where.="g.garantie_id NOT IN (".$this->verberg_garanties.") AND ";
+		}
+
+
+
+		$db->query( "SELECT g.garantie_id, g.naam, g.aan_leverancier_doorgegeven_naam, g.type_id, g.aankomstdatum_exact, g.vertrekdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, g.reserveringsnummer_extern, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." g.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND g.boeking_id=0;" );
 		while ( $db->next_record() ) {
 			$sortkey=$db->f( "plaats" )."_".$db->f( "aankomstdatum_exact" )."_".$db->f( "accommodatie" )."_".$db->f( "type" );
 			if ( !$leverancier ) {
@@ -236,10 +234,27 @@ class roominglist {
 			$accnaam=$db->f( "accommodatie" )." ".( $db->f( "type" ) ? $db->f( "type" )." " : "" )."(".$db->f( "optimaalaantalpersonen" ).( $db->f( "optimaalaantalpersonen" )<>$db->f( "maxaantalpersonen" ) ? "-".$db->f( "maxaantalpersonen" ) : "" )." p)";
 			$accnaam_kort=$db->f( "accommodatie" )." ".( $db->f( "type" ) ? $db->f( "type" )." " : "" );
 			$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
-			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities( $db->f( "naam" ) )."</td>";
 
-			# Klantnamen in array plaatsen
-			$this->klantnamen_garanties[$db->f("garantie_id")] = $db->f( "naam" );
+			if($verberg_naamswijzigingen_array["g".$db->f("garantie_id")]) {
+				$naam=$db->f("aan_leverancier_doorgegeven_naam");
+			} else {
+				$naam = $db->f( "naam" );
+
+				# Klantnamen in array plaatsen
+				$this->klantnamen_garanties[$db->f("garantie_id")] = $db->f( "naam" );
+
+			}
+
+			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".wt_he( $naam )."</td>";
+
+
+			// naamswijzigingen in array plaatsen
+			if($db->f( "aan_leverancier_doorgegeven_naam" )!=$db->f( "naam" )) {
+				$this->naamswijzigingen["g".$db->f("garantie_id")] = "Garantie ".$db->f("reserveringsnummer_extern").": \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".$db->f( "naam" )."\"";
+			}
+
+			# Garanties in array plaatsen
+			$this->garanties[$db->f("garantie_id")] = $vars["alletypes"][$db->f("type_id")]." - ".$db->f( "naam" )." - ".$db->f( "reserveringsnummer_extern" )." - ".date("d/m/Y",$db->f("aankomstdatum_exact"));
 
 			if ( $roominglist_toontelefoonnummer ) {
 				$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";

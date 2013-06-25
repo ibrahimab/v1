@@ -777,6 +777,10 @@ a.opm:hover .balloon_small {
 	margin-left: 40px;
 }
 
+.roomingaankomst_verzenden {
+	display: none;
+}
+
 @media print {
 
 	body {

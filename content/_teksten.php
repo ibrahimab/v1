@@ -3834,6 +3834,9 @@ $txt["en"]["bsys"]["geannuleerd"]="cancelled";
 $txt["nl"]["bsys"]["nachten"]="nachten";
 $txt["en"]["bsys"]["nachten"]="nights";
 
+$txt["nl"]["bsys"]["factuur"]="Factuur";
+$txt["en"]["bsys"]["factuur"]="Invoice";
+
 $txt["nl"]["bsys"]["factuurgoedkeuren"]="Factuur goedkeuren";
 $txt["en"]["bsys"]["factuurgoedkeuren"]="Approve invoice";
 

@@ -15,7 +15,15 @@ if($_GET["levid"]) {
 	echo "<div style=\"margin-top:70px;opacity:0.5;\">";
 	echo "<p><b>Te verzenden roominglist:</b></p>";
 
+	if(!$form->okay) {
+		$vars["create_list"]=$vars["roominglist_object"]->create_list();
+	}
+
+	// echo wt_dump($vars["roominglist_object"]->garanties);
+
 	echo $vars["create_list"]["html"];
+
+
 
 	echo "</div>";
 

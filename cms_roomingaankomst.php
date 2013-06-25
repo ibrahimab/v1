@@ -1,6 +1,8 @@
 <?php
 
 $mustlogin=true;
+$vars["types_in_vars"]=true;
+
 include("admin/vars.php");
 
 if($_GET["reset"]) {
@@ -18,8 +20,9 @@ if($_GET["levid"]) {
 
 	$roominglist = new roominglist;
 	$roominglist->leverancier_id = intval($_GET["levid"]);
-
 	$vars["create_list"]=$roominglist->create_list();
+
+	$vars["roominglist_object"]=$roominglist;
 
 	$db->query("SELECT leverancier_id, naam, beheerder, contactpersoon_lijsten, email_lijsten, roominglist_goedgekeurd, roominglist_goedgekeurd_archief FROM leverancier WHERE leverancier_id='".intval($_GET["levid"])."';");
 	if($db->next_record()) {
@@ -30,7 +33,7 @@ if($_GET["levid"]) {
 		$form->settings["layout"]["css"]=false;
 		$form->settings["db"]["table"]="leverancier";
 		$form->settings["db"]["where"]="leverancier_id='".intval($_GET["levid"])."'";
-		$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
+		$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN / VERZENDEN";
 		#$form->settings["target"]="_blank";
 
 		# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
@@ -46,14 +49,33 @@ if($_GET["levid"]) {
 		$form->field_email(0,"email","E-mailadres","",array("text"=>"danielle@chalet.nl"));
 		$form->field_email(0,"email_cc","Kopie sturen naar (e-mailadres)");
 
+		$form->field_htmlrow("","<hr><b>Periode</b>","",array("tr_class"=>"roomingaankomst_verzenden"));
+		$form->field_date(1,"van","Van","",array("time"=>time()),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true,"tr_class"=>"roomingaankomst_verzenden"));
+		$form->field_date(0,"tot","Tot en met","","",array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true,"tr_class"=>"roomingaankomst_verzenden"));
+
+		$form->field_htmlrow("","<hr><b>Tekst in mailtje</b>","",array("tr_class"=>"roomingaankomst_verzenden"));
+		$form->field_textarea(0,"mailbody","Tekst","",array("text"=>"See attached file."),"",array("tr_class"=>"roomingaankomst_verzenden"));
+
+		$form->field_htmlrow("","<hr><b>Naamswijzigingen verbergen</b>","",array("tr_class"=>"roomingaankomst_verzenden"));
+		if(is_array($roominglist->naamswijzigingen)) {
+			$form->field_checkbox(0,"roominglist_naamswijzigingen_tegenhouden","Verbergen voor leverancier",array("field"=>"roominglist_naamswijzigingen_tegenhouden"),"",array("selection"=>$roominglist->naamswijzigingen),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden"));
+		} else {
+			$form->field_htmlcol("","Verbergen voor leverancier",array("html"=>"Er zijn geen naamswijzigingen."));
+		}
+
+		$form->field_htmlrow("","<hr><b>Te verbergen garanties</b>","",array("tr_class"=>"roomingaankomst_verzenden"));
+		$form->field_checkbox(0,"roominglist_garanties_verbergen","Verbergen",array("field"=>"roominglist_garanties_verbergen"),"",array("selection"=>$roominglist->garanties),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden"));
+
 		$form->field_htmlrow("","<hr><b>Goedkeuring door leverancier</b>");
 		$form->field_text(0,"roominglist_goedgekeurd","Goedgekeurd op (+eventuele opmerking)",array("field"=>"roominglist_goedgekeurd"));
 		if($db->f("roominglist_goedgekeurd_archief")) {
 			$form->field_htmlcol("","Eerdere goedkeuringen",array("html"=>"<div style=\"border:1px solid #003366;padding:5px;max-height:100px;overflow-y:scroll;\">".nl2br(wt_he($db->f("roominglist_goedgekeurd_archief"))."</div>")));
 		}
 
+
 		$form->field_htmlrow("","<hr><b>Interne opmerkingen</b>");
 		$form->field_textarea(0,"roominglist_interne_opmerkingen","Opmerkingen",array("field"=>"roominglist_interne_opmerkingen"),"",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
+
 
 
 		$form->check_input();
@@ -70,6 +92,25 @@ if($_GET["levid"]) {
 		}
 
 		if($form->okay) {
+
+			if($form->input["van"]["unixtime"]>0) {
+				$roominglist->van=$form->input["van"]["unixtime"];
+			}
+
+			if($form->input["tot"]["unixtime"]>0) {
+				$roominglist->tot=$form->input["tot"]["unixtime"];
+			}
+
+			if($form->input["roominglist_garanties_verbergen"]) {
+				$roominglist->verberg_garanties=$form->input["roominglist_garanties_verbergen"];
+			}
+
+			if($form->input["roominglist_naamswijzigingen_tegenhouden"]) {
+				$roominglist->verberg_naamswijzigingen=$form->input["roominglist_naamswijzigingen_tegenhouden"];
+			}
+#
+
+			$vars["create_list"]=$roominglist->create_list();
 
 			# Gegevens opslaan in de database
 			$form->save_db();
@@ -90,7 +131,7 @@ if($_GET["levid"]) {
 
 					$mail->attachment($vars["unixdir"]."tmp/roominglist.doc","application/msword");
 
-					$mail->plaintext="See attached file.";
+					$mail->plaintext=$form->input["mailbody"];
 
 					$mail->send();
 
@@ -105,15 +146,9 @@ if($_GET["levid"]) {
 					if($roominglist_goedgekeurd_archief) $roominglist_goedgekeurd_archief.="\n";
 					$roominglist_goedgekeurd_archief.=trim($db->f("roominglist_goedgekeurd_archief"));
 
-#print_r($roominglist);
-#exit;
-
 					$roominglist_inhoud_laatste_verzending=trim($roominglist->regels);
 
 					$db2->query("UPDATE leverancier SET roominglist_aantal_wijzigingen=0, roominglist_goedgekeurd='', roominglist_goedgekeurd_archief='".addslashes($roominglist_goedgekeurd_archief)."', roominglist_inhoud_laatste_verzending='".addslashes($roominglist_inhoud_laatste_verzending)."', roominglist_laatste_verzending_datum=NOW() WHERE leverancier_id='".intval( $_GET["levid"] )."';" );
-
-#					echo wt_he($db2->lq);
-#					exit;
 
 					# Klantnamen opslaan
 					if(is_array($roominglist->klantnamen_boekingen)) {
@@ -126,6 +161,12 @@ if($_GET["levid"]) {
 							$db2->query("UPDATE garantie SET aan_leverancier_doorgegeven_naam='".addslashes($value)."' WHERE garantie_id='".intval($key)."';");
 						}
 					}
+
+					if(!$form->input["roominglist_naamswijzigingen_tegenhouden"]) {
+						// bij geen naamswijzigingen: veld leegmaken
+						$db2->query("UPDATE leverancier SET roominglist_naamswijzigingen_tegenhouden='' WHERE leverancier_id='".intval( $_GET["levid"] )."';" );
+					}
+
 				} else {
 					trigger_error("tmp/roominglist.doc niet gevonden",E_USER_NOTICE);
 				}

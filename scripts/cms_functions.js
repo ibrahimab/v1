@@ -613,6 +613,9 @@ $(document).ready(function() {
 
 		$("input[name='input[versturen]']").change(function() {
 			if($(this).is(":checked")) {
+
+				$(".roomingaankomst_verzenden").css("display","table-row");
+
 				// goedgekeurd wissen bij verzenden
 				// herinner-datum op 4 weken van nu zetten
 				var currentTime = new Date(+new Date + (28 * 24 * 60 * 60 * 1000));
@@ -635,11 +638,14 @@ $(document).ready(function() {
 					$("input[name='input[roominglist_goedgekeurd]']").css("background-color","#ffffff");
 					$("select[name='input[roominglist_volgende_controle][day]']").parent().css("background-color","#ffffff");
 				},800);
+			} else {
+				$(".roomingaankomst_verzenden").css("display","none");
 			}
 		});
 
-
-
+		if($("input[name='input[versturen]']").is(":checked")) {
+			$(".roomingaankomst_verzenden").css("display","table-row");
+		}
 
 	}
 });

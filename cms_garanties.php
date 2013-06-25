@@ -15,7 +15,7 @@ if(!$login->has_priv("9") and $_GET["status"]<>1) {
 
 # Gegevens geselecteerde type downloaden
 if($_GET["34k0"]) {
-	$db->query("SELECT type_id, UNIX_TIMESTAMP(inkoopdatum) AS inkoopdatum, aankomstdatum, aankomstdatum_exact, leverancier_id, reserveringsnummer_extern, boeking_id FROM garantie WHERE garantie_id='".addslashes($_GET["34k0"])."';");
+	$db->query("SELECT naam, type_id, UNIX_TIMESTAMP(inkoopdatum) AS inkoopdatum, aankomstdatum, aankomstdatum_exact, leverancier_id, reserveringsnummer_extern, boeking_id FROM garantie WHERE garantie_id='".addslashes($_GET["34k0"])."';");
 	if($db->next_record()) {
 		$acc=accinfo($db->f("type_id"));
 		$aankomstdatum=$db->f("aankomstdatum");
@@ -23,6 +23,7 @@ if($_GET["34k0"]) {
 		$inkoopdatum=$db->f("inkoopdatum");
 		$boekingid=$db->f("boeking_id");
 		$leverancierid=$db->f("leverancier_id");
+		$naam_garantie=$db->f("naam");
 #		$reserveringsnummer_2=get_reserveringsnummer_2($db->f("leverancier_id"),$acc["aankomstdatum_unixtime"][$db->f("aankomstdatum")]);
 #		$reserveringsnummer_extern=$db->f("reserveringsnummer_extern");
 	}
@@ -249,7 +250,7 @@ if($cms_form[34]->filled) {
 function form_before_goto($form) {
 	$db=new DB_sql;
 	$db2=new DB_sql;
-	global $login,$vars,$boekingid;
+	global $login, $vars, $boekingid, $naam_garantie;
 
 	$db->query("SELECT type_id, aankomstdatum FROM garantie WHERE garantie_id='".addslashes($_GET["34k0"])."';");
 	if($db->next_record()) {
@@ -270,10 +271,13 @@ function form_before_goto($form) {
 		voorraad_bijwerken($typeid,$aankomstdatum,true,1,0,0,0,0,0,0,false,9);
 
 		# inkoopbetalingen loskoppelen van boeking
-		$db2->query("UPDATE boeking_betaling_lev SET boeking_id='0' WHERE garantie_id='".addslashes($_GET["34k0"])."';");
-
+		$db2->query("UPDATE boeking_betaling_lev SET boeking_id='0' WHERE garantie_id='".intval($_GET["34k0"])."';");
 	}
+
+	# eerste invoer garantie-naam opslaan in aan_leverancier_doorgegeven_naam
+	$db2->query("UPDATE garantie SET aan_leverancier_doorgegeven_naam=naam WHERE garantie_id='".intval($_GET["34k0"])."' AND aan_leverancier_doorgegeven_naam='';");
 }
+
 
 # End declaration
 $cms->end_declaration();
