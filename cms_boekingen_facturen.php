@@ -795,6 +795,9 @@ if($form->okay) {
 			#
 			$subject="[".$gegevens["stap1"]["boekingsnummer"]."] ".txt("boekingsbevestiging","factuur");
 			$settings["attachment"][$tempfile]=basename($tempfile);
+
+			$settings["no_header_image"]=true;
+
 			$html="";
 
 			# Melding: niet aan klant gestuurd?

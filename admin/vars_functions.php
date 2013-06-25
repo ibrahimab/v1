@@ -4234,9 +4234,12 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 	$mail=new wt_mail;
 
-	# attachment toevoegen
-	$cid=$mail->attachment($unixdir.$topfoto,"image/jpeg",true);
+	# header-attachment toevoegen
+	if(!$settings["no_header_image"]) {
+		$cid=$mail->attachment($unixdir.$topfoto,"image/jpeg",true);
+	}
 
+	# attachments toevoegen
 	if(is_array($settings["attachment"])) {
 		foreach ($settings["attachment"] as $key => $value) {
 			$mail->attachment($key,"",false,$value);
@@ -4263,6 +4266,13 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	# to
 	$mail->to=$to;
 
+
+	// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	// 	$mail->to="jeroen@webtastic.nl";
+	// 	$mail->to="mmtest@postvak.net";
+	// 	$mail->test=false;
+	// }
+
 	# toname
 	if($toname) {
 		$mail->toname=$toname;
@@ -4274,16 +4284,23 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	}
 
 	$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-	$mail->html_top="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style><!--\na:hover { color:#888888; }\n--></style>\n</head><body bgcolor=\"#ffffff\" style=\"background-color:#ffffff;margin:0;padding:0;\"><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" bgcolor=\"#ffffff\" style=\"background-color:#ffffff;width:100%;\"><tr><td align=\"center\" width=\"100%\" style=\"background-color:#ffffff;width:100%;\"><br><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"681\" style=\"background-color:#ffffff;\"><tr><td><a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website].$settings["add_to_basehref"])."\">";
+	$mail->html_top="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style><!--\na:hover { color:#888888; }\n--></style>\n</head><body bgcolor=\"#ffffff\" style=\"background-color:#ffffff;margin:0;padding:0;\"><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" bgcolor=\"#ffffff\" style=\"background-color:#ffffff;width:100%;\"><tr><td align=\"center\" width=\"100%\" style=\"background-color:#ffffff;width:100%;\"><br><table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"681\" style=\"background-color:#ffffff;\"><tr><td>";
+
 
 	# topfoto
-	if($cid) {
-		$mail->html_top.="<img src=\"cid:".$cid."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\">";
+	if($settings["no_header_image"]) {
+		$mail->html_top.="&nbsp;";
 	} else {
-		$mail->html_top.="<img src=\"".wt_he($vars["websiteinfo"]["basehref"][$website]).$topfoto."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\">";
+		$mail->html_top.="<a href=\"".wt_he($vars["websiteinfo"]["basehref"][$website].$settings["add_to_basehref"])."\">";
+		if($cid) {
+			$mail->html_top.="<img src=\"cid:".$cid."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\">";
+		} else {
+			$mail->html_top.="<img src=\"".wt_he($vars["websiteinfo"]["basehref"][$website]).$topfoto."\" ".$topfoto_size[3]." alt=\"".wt_he($vars["websiteinfo"]["websitenaam"][$website])."\" border=\"0\">";
+		}
+		$mail->html_top.="</a><br/>&nbsp;";
 	}
 
-	$mail->html_top.="</a><br/>&nbsp;</td></tr><tr><td style=\"font-family: Verdana, Helvetica, Arial, sans-serif;line-height: 14pt;font-size: 10pt;padding-top:10px;\">\n";
+	$mail->html_top.="</td></tr><tr><td style=\"font-family: Verdana, Helvetica, Arial, sans-serif;line-height: 14pt;font-size: 10pt;padding-top:10px;\">\n";
 
 	$mail->html_bottom="<br/>&nbsp;</td></tr></table></td></tr></table></body></html>\n";
 
