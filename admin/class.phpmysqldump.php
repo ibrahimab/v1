@@ -161,6 +161,7 @@ class phpmysqldump
 							// flag 1 structure and data backup, other only structure
 	var $no_time_limit=TRUE;// si la fonction set_time_limit() est désactivée devient FALSE
 							// time limit for big database
+	var $utf8 = false;
 //**** constructeur *********************************************
 	function phpmysqldump( $host, $user, $password, $base, $langue="fr", $link=NULL)
 	{
@@ -270,6 +271,14 @@ class phpmysqldump
 					continue;
 				}
 
+				# charset goed zetten
+				#$query_charset = mysql_query("SET CHARACTER SET 'latin1';");
+				if($this->utf8) {
+					mysql_set_charset("utf8",$this->link);
+				} else {
+					$this->ecrire("SET CHARACTER SET 'latin1';\n");
+				}
+
 				// creation des views
 				$query = "SHOW CREATE VIEW `$tablename`";
 				$tbcreate = mysql_query($query);
@@ -287,9 +296,6 @@ class phpmysqldump
 
 				$this->backup_comment("debut_table", $tablename);
 
-				# charset goed zetten
-				#$query_charset = mysql_query("SET CHARACTER SET 'latin1';");
-				$this->ecrire("SET CHARACTER SET 'latin1';\n");
 
 
 				// debut du query on vire la table si elle existe deja // if the table exist we erase it

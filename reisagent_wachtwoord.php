@@ -4,11 +4,11 @@ include("admin/vars.php");
 
 $robot_noindex=true;
 
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="wachtwoord";
 $form->settings["layout"]["css"]=false;
 $form->settings["language"]=$vars["taal"];
-  
+
 #_field: (obl),id,title,db,prevalue,options,layout
 
 $form->field_email(1,"email","E-mailadres");
@@ -22,7 +22,7 @@ if($form->okay) {
 
 		# Nieuw wachtwoord aanmaken
 		$password=wt_generate_password(6);
-		$db2->query("UPDATE reisbureau_user SET password='".addslashes(md5($password))."', uniqueid='' WHERE user_id='".addslashes($db->f("user_id"))."';");
+		$db2->query("UPDATE reisbureau_user SET password='".addslashes(md5($password))."', uniqueid='', wrongcount=0, wrongtime=0 WHERE user_id='".addslashes($db->f("user_id"))."';");
 
 		$mail=new wt_mail;
 		$mail->fromname=$vars["websitenaam"];

@@ -282,9 +282,9 @@ if($vars["wederverkoop"]) {
 		$login_rb->settings["message"]["wronglogin"]=nl2br(html("onjuistelogin","reisbureau",array("h_1"=>"<b style=\"color:red;\">","h_2"=>"</b>")));
 		$login_rb->settings["sysop"]="<a href=\"mailto:".$vars["email"]."\">".$vars["websitenaam"]."</a>";
 		if($vars["taal"]=="en") {
-			$login_rb->settings["message"]["wronglogintemp"]="Account geblokkeerd: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">meer informatie</a>";
+			$login_rb->settings["message"]["wronglogintemp"]="Account blocked for 1 hour";
 		} else {
-			$login_rb->settings["message"]["wronglogintemp"]="Account blocked: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">read more</a>";
+			$login_rb->settings["message"]["wronglogintemp"]="Account 1 uur lang geblokkeerd vanwege teveel onjuiste inlogpogingen";
 		}
 		$login_rb->settings["save_user_agent"]=true;
 		$login_rb->settings["recheck_userdata"]=true;
@@ -354,9 +354,9 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["message"]["wronglogin"]=nl2br(html("onjuistelogin","lev_login",array("h_1"=>"<b style=\"color:red;\">","h_2"=>"</b>")));
 		$login_lev->settings["sysop"]="<a href=\"mailto:".$vars["email"]."\">".$vars["websitenaam"]."</a>";
 		if($vars["taal"]=="en") {
-			$login_lev->settings["message"]["wronglogintemp"]="Account geblokkeerd: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">meer informatie</a>";
+			$login_lev->settings["message"]["wronglogintemp"]="Account blocked for 1 hour";
 		} else {
-			$login_lev->settings["message"]["wronglogintemp"]="Account blocked: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">read more</a>";
+			$login_lev->settings["message"]["wronglogintemp"]="Account 1 uur lang geblokkeerd vanwege teveel onjuiste inlogpogingen";
 		}
 		$login_lev->settings["save_user_agent"]=true;
 		$login_lev->settings["recheck_userdata"]=true;

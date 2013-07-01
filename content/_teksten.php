@@ -3310,8 +3310,8 @@ $txt["en"]["inloggen"]["wwvergeten"]="I lost my login credentials";
 $txt["nl"]["inloggen_geblokkeerd"]["inleiding"]="Er is bij jouw account te vaak een verkeerd wachtwoord ingevoerd. Het account is daarom tot [[v_datumtijd]] geblokkeerd. Hierna kun je met het juiste wachtwoord weer inloggen.";
 $txt["en"]["inloggen_geblokkeerd"]["inleiding"]="You have entered an incorrect password too many times. The account has therefore been locked until [[v_datumtijd]]. You can log in with the correct password later.";
 
-$txt["nl"]["inloggen_geblokkeerd"]["bentuuwwachtwoordvergeten"]="Ben je je wachtwoord vergeten, dan kun je een [[l1]]nieuw wachtwoord aanvragen[[/l1]]. Ook in dat geval zul je moeten wachten tot [[v_tijd]] voordat je kunt inloggen.";
-$txt["en"]["inloggen_geblokkeerd"]["bentuuwwachtwoordvergeten"]="If you have forgotten your password, you can apply for a [[l1]]new password[[/l1]]. In this case, you will also have to wait until [[v_tijd]] before you can log in.";
+$txt["nl"]["inloggen_geblokkeerd"]["bentuuwwachtwoordvergeten"]="Ben je je wachtwoord vergeten, dan kun je een [[l1]]nieuw wachtwoord aanvragen[[/l1]].";
+$txt["en"]["inloggen_geblokkeerd"]["bentuuwwachtwoordvergeten"]="If you have forgotten your password, you can apply for a [[l1]]new password[[/l1]].";
 
 $txt["nl"]["wachtwoord"]["inleiding"]="Ben je je inloggegevens vergeten? Als je hieronder je e-mailadres invult, ontvang je via e-mail een link om eenvoudig in te loggen.";
 $txt["en"]["wachtwoord"]["inleiding"]="Have you forgotten your login credentials? If you enter your e-mail address below, we will send you your credentials by e-mail.";
@@ -3360,8 +3360,11 @@ $txt["en"]["reisbureau"]["ubentingelogd"]="Welcome! Please use one of the follow
 $txt["nl"]["reisbureau"]["emailadres"]="E-mailadres";
 $txt["en"]["reisbureau"]["emailadres"]="Email address";
 
-$txt["nl"]["reisbureau"]["onjuistelogin"]="Onjuiste login/wachtwoord-combinatie\n\n[[h_1]]Gebruik voortaan je e-mailadres als gebruikersnaam![[h_2]]";
-$txt["en"]["reisbureau"]["onjuistelogin"]="Wrong username or password\n\n[[h_1]]Please use your email address[[h_2]]";
+// $txt["nl"]["reisbureau"]["onjuistelogin"]="Onjuiste login/wachtwoord-combinatie\n\n[[h_1]]Gebruik voortaan je e-mailadres als gebruikersnaam![[h_2]]";
+// $txt["en"]["reisbureau"]["onjuistelogin"]="Wrong username or password\n\n[[h_1]]Please use your email address[[h_2]]";
+
+$txt["nl"]["reisbureau"]["onjuistelogin"]="Onjuiste e-mail/wachtwoord-combinatie";
+$txt["en"]["reisbureau"]["onjuistelogin"]="Wrong e-mail or password";
 
 $txt["nl"]["reisbureau"]["wwvergeten"]="Ik ben mijn wachtwoord vergeten";
 $txt["en"]["reisbureau"]["wwvergeten"]="I have forgotten my password";
