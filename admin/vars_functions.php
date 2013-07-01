@@ -3358,7 +3358,7 @@ function facebook_opengraph($info="") {
 				$afbeelding="accommodaties/".$temp_accid;
 			}
 		} elseif($id=="blog" and $_GET["b"]) {
-			$afbeelding="blog/".intval($_GET["b"]);
+			$afbeelding="blog/".intval($_GET["b"])."-1";
 		}
 		if($afbeelding) {
 			$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."pic/cms/".$afbeelding.".jpg")."\" />\n";

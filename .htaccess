@@ -235,6 +235,10 @@ RewriteRule ^favourites\.php$ favorieten.php?%{QUERY_STRING}
 RewriteRule ^ask-our-advice\.php$ vraag-ons-advies.php?%{QUERY_STRING}
 
 
+# Oude blog-afbeeldingen nog aanbieden
+RewriteRule pic/cms/blog/([0-9]{1,})\.jpg /pic/cms/blog/$1-1.jpg [R=301,L]
+
+
 #
 # Rewriten van .php-pagina's
 #
