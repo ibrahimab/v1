@@ -180,6 +180,8 @@ RewriteRule ^xml/(accommodations)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_STRING
 RewriteRule ^xml/(accommodation-units)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_STRING}
 RewriteRule ^xml/(availability-and-prices)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_STRING}
 
+# Sitemap
+RewriteRule ^sitemap.xml$ google-sitemap.php?%{QUERY_STRING}
 
 # Vallandry
 RewriteRule ^chalets/([A-Za-z0-9-]*)/([A-Za-z0-9-]*)/?$ chalets.php?chaletpark=$1&seizoen=$2&%{QUERY_STRING}
