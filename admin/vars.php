@@ -1096,6 +1096,7 @@ if($boeking_wijzigen) {
 		}
 		$db->query("SELECT DISTINCT b.boeking_id, b.website FROM boeking b, boeking_persoon bp WHERE b.boeking_id='".addslashes($_GET["bid"])."' AND b.boeking_id=bp.boeking_id AND b.bevestigdatum IS NOT NULL AND b.aankomstdatum>'".(time()-864000)."' AND bp.persoonnummer=1 AND b.reisbureau_user_id IN (".$reisbureau_user_id_inquery.");");
 		if($db->next_record()) {
+			if($boekingid_inquery) $boekingid_inquery.=",".$db->f("boeking_id"); else $boekingid_inquery=$db->f("boeking_id");
 			if($db->f("website")==$vars["website"]) {
 				$login->logged_in=true;
 				$vars["chalettour_loggedin_overzichtboekingen"]=true;
