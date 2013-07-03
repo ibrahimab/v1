@@ -47,7 +47,7 @@ foreach ($sitemap_url as $key => $value) {
 		if($key=="hourly") {
 			echo "<priority>1.0</priority>\n";
 		} elseif($key=="daily") {
-			echo "<priority>0.8</priority>\n";
+			echo "<priority>0.6</priority>\n";
 		} elseif($key=="weekly") {
 			echo "<priority>0.5</priority>\n";
 		} elseif($key=="monthly") {

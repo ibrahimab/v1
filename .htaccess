@@ -181,11 +181,11 @@ RewriteRule ^xml/(accommodation-units)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_S
 RewriteRule ^xml/(availability-and-prices)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_STRING}
 
 # Sitemap
-RewriteCond %{HTTP_HOST} chalet [NC]
+RewriteCond %{HTTP_HOST} (chalet\.nl|chalet\.be|italissima\.nl|italissima\.be|postvak\.net) [NC]
 RewriteRule ^sitemap.xml$ google-sitemap.php?%{QUERY_STRING}
 
 # Videositemap
-RewriteCond %{HTTP_HOST} chalet [NC]
+RewriteCond %{HTTP_HOST} (chalet\.nl|chalet\.be|italissima\.nl|italissima\.be|postvak\.net) [NC]
 RewriteRule ^videositemap.xml$ videositemap.php?%{QUERY_STRING}
 
 # Vallandry

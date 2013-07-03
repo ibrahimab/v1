@@ -96,11 +96,12 @@ while($db->next_record()) {
 
 		echo "<loc>".$url."</loc>\n";
 		echo "<video:video>\n";
-		echo "<video:title>".xml_text(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".trim($db->f("naam"),$db->f("tnaam")))."</video:title>\n";
+		echo "<video:title>".xml_text(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".trim($db->f("naam")." ".$db->f("tnaam")))."</video:title>\n";
+		$description=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".trim($db->f("naam")." ".$db->f("tnaam")).": ";
 		if($db->f("tkorteomschrijving")) {
-			$description=$db->f("tkorteomschrijving");
+			$description.=$db->f("tkorteomschrijving");
 		} else {
-			$description=$db->f("korteomschrijving");
+			$description.=$db->f("korteomschrijving");
 		}
 		echo "<video:description>".xml_text(trim($description))."</video:description>\n";
 		echo "<video:thumbnail_loc>".$vars["basehref"]."pic/video-preview_".$vars["seizoentype"].".jpg</video:thumbnail_loc>\n";
