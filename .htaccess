@@ -181,7 +181,12 @@ RewriteRule ^xml/(accommodation-units)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_S
 RewriteRule ^xml/(availability-and-prices)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_STRING}
 
 # Sitemap
+RewriteCond %{HTTP_HOST} chalet [NC]
 RewriteRule ^sitemap.xml$ google-sitemap.php?%{QUERY_STRING}
+
+# Videositemap
+RewriteCond %{HTTP_HOST} chalet [NC]
+RewriteRule ^videositemap.xml$ videositemap.php?%{QUERY_STRING}
 
 # Vallandry
 RewriteRule ^chalets/([A-Za-z0-9-]*)/([A-Za-z0-9-]*)/?$ chalets.php?chaletpark=$1&seizoen=$2&%{QUERY_STRING}

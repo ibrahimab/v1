@@ -1,5 +1,8 @@
 <?php
 
+$geen_tracker_cookie=true;
+include("admin/vars.php");
+
 header('Content-Type: text/xml; charset=utf-8');
 
 echo "<";
@@ -7,14 +10,17 @@ echo "?xml version=\"1.0\" encoding=\"UTF-8\"?";
 echo ">\n";
 echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
-include("admin/vars.php");
-
 
 # Gewone pagina's
 $sitemap_url["hourly"][]=$vars["basehref"];
 $sitemap_url["hourly"][]=$vars["basehref"].txt("menu_zoek-en-boek").".php";
-$sitemap_url["daily"][]=$vars["basehref"].txt("menu_skigebieden").".php";
-$sitemap_url["daily"][]=$vars["basehref"].txt("menu_aanbiedingen").".php";
+if($vars["seizoentype"]==1) {
+	$sitemap_url["daily"][]=$vars["basehref"].txt("menu_skigebieden").".php";
+	$sitemap_url["daily"][]=$vars["basehref"].txt("menu_aanbiedingen").".php";
+} else {
+	$sitemap_url["daily"][]=$vars["basehref"].txt("menu_bestemmingen").".php";
+	$sitemap_url["daily"][]=$vars["basehref"].txt("menu_aanbiedingen")."/";
+}
 
 if($vars["website"]=="C" or $vars["website"]=="B") {
 	$sitemap_url["weekly"][]=$vars["basehref"].txt("menu_weekendski").".php";
@@ -52,7 +58,7 @@ foreach ($sitemap_url as $key => $value) {
 }
 
 # Accommodaties
-$db->query("SELECT begincode, type_id, soortaccommodatie, naam, tnaam FROM view_accommodatie WHERE archief=0 AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY type_id;");
+$db->query("SELECT begincode, type_id, soortaccommodatie, naam, tnaam".$vars["ttv"]." AS tnaam FROM view_accommodatie WHERE archief=0 AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY type_id;");
 while($db->next_record()) {
 	echo "<url>\n";
 	echo "<loc>".seo_acc_url($db->f("begincode").$db->f("type_id"),$db->f("soortaccommodatie"),$db->f("naam"),$db->f("tnaam"))."</loc>\n";
@@ -82,13 +88,16 @@ while($db->next_record()) {
 }
 
 # Landen
-$db->query("SELECT DISTINCT land".$vars["ttv"]." AS land FROM view_accommodatie WHERE archief=0 AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY land;");
-while($db->next_record()) {
-	echo "<url>\n";
-	echo "<loc>".$vars["basehref"].txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/</loc>\n";
-	echo "<changefreq>weekly</changefreq>\n";
-	echo "<priority>0.8</priority>\n";
-	echo "</url>\n";
+# (niet op Italissima)
+if($vars["websitetype"]<>7) {
+	$db->query("SELECT DISTINCT land".$vars["ttv"]." AS land FROM view_accommodatie WHERE archief=0 AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY land;");
+	while($db->next_record()) {
+		echo "<url>\n";
+		echo "<loc>".$vars["basehref"].txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/</loc>\n";
+		echo "<changefreq>weekly</changefreq>\n";
+		echo "<priority>0.8</priority>\n";
+		echo "</url>\n";
+	}
 }
 
 # Thema's
