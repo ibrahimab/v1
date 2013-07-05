@@ -66,7 +66,10 @@ class roominglist {
 			}
 
 			if ( $this->regels!=$db->f( "roominglist_inhoud_laatste_verzending" ) and !$roominglist_aantal_wijzigingen) {
-				trigger_error("roominglist_aantal_wijzigingen is 0 terwijl er wel wijzigingen zijn (leverancier_id ".$db->f("leverancier_id").")",E_USER_NOTICE);
+				// trigger_error("roominglist_aantal_wijzigingen is 0 terwijl er wel wijzigingen zijn (leverancier_id ".$db->f("leverancier_id").")",E_USER_NOTICE);
+
+				// echo "<br/><br/>Regels:".$this->regels."<br/><br/>";
+				// echo "Database:".$db->f( "roominglist_inhoud_laatste_verzending" )."<br/><br/>";
 
 				// echo wt_he(md5($db->f( "roominglist_inhoud_laatste_verzending" )))."<hr>";
 				// echo wt_he(md5($this->regels));

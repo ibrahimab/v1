@@ -1368,6 +1368,23 @@ function wt_he($text) {
 	return $text;
 }
 
+function wt_hernoem_classname($classname) {
+
+	// functie om te gebruiken bij function __autoload($classname)
+	// zorg ervoor dat classnames naar de juiste files linken
+
+	$hernoem["form2"]="form";
+	$hernoem["Login"]="login";
+	$hernoem["cms_layout"]="cms.layout";
+
+	if($hernoem[$classname]) {
+		$classname=$hernoem[$classname];
+	}
+
+	return $classname;
+
+}
+
 function wt_complex_password_hash($password,$salt,$password_already_md5=false) {
 	if(!$password_already_md5) $password=md5($password);
 	$return="_".sha1($password."WTSALT_wtsalt".$salt);
