@@ -825,9 +825,20 @@ form {
 
 #zoekblok .aantalgevonden {
 	color: #661700;
-	/*background-color: red;*/
-	/*margin-left: 0px;*/
-	/*text-align: center;*/
+	background-color: #ff9900;
+	margin-left: 0px;
+	text-align: center;
+	width: 677px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+#zoekblok .aantalgevonden a {
+	color: #ffffff;
+}
+
+#zoekblok .aantalgevonden a:hover {
+	color: #661700;
 }
 
 .zoekresultaten_zoeken_op_kaart {
