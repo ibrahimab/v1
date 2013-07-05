@@ -3641,6 +3641,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		# Contactaanvraag
 		$google_conversion_label = "3DAzCPfUmwQQ94jL_gM";
 	} elseif($data["ordernummer"]=="vraagonsadvies") {
+		# Vraag ons advies
 		$google_conversion_label = "Qj9RCO_VmwQQ94jL_gM";
 	} else {
 		# Boeking
@@ -3655,14 +3656,14 @@ var google_conversion_language = "en";
 var google_conversion_format = "3";
 var google_conversion_color = "ffffff";
 var google_conversion_label = "'.$google_conversion_label.'";
-var google_conversion_value = 0;
+var google_conversion_value = '.($tradetracker_bedrag ? $tradetracker_bedrag : "0").';
 /* ]]> */
 </script>
-<script type="text/javascript" src="http://www.googleadservices.com/pagead/conversion.js">
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
 <noscript>
 <div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="http://www.googleadservices.com/pagead/conversion/1070777463/?value=0&amp;label='.$google_conversion_label.'&amp;guid=ON&amp;script=0"/>
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/1070777463/?value=0&amp;label='.$google_conversion_label.'&amp;guid=ON&amp;script=0"/>
 </div>
 </noscript>';
 

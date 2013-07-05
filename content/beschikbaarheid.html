@@ -9,26 +9,6 @@ if($_GET["fo"]=="frm") {
 	if(!$vars["rebook"]) {
 		affiliate_tracking(false,true,true,array("ordernummer"=>"beschikbaarheidsaanvraag"));
 	}
-	if($_COOKIE["ga"]) {
-	?><p><!-- Google Code for lead Conversion Page -->
-<script language="JavaScript" type="text/javascript">
-<!--
-var google_conversion_id = 1070777463;
-var google_conversion_language = "nl";
-var google_conversion_format = "1";
-var google_conversion_color = "ffffff";
-if (1) {
-  var google_conversion_value = 1;
-}
-var google_conversion_label = "lead";
-//-->
-</script>
-<script language="JavaScript" src="https://www.googleadservices.com/pagead/conversion.js">
-</script>
-<noscript>
-<img height=1 width=1 border=0 src="https://www.googleadservices.com/pagead/conversion/1070777463/?value=1&label=lead&script=0">
-</noscript><?php }
-
 } else {
 	if($vars["rebook"] and $accinfo["optiedagen_klanten_vorig_seizoen"]>3) {
 		echo html("inleiding1_optie_rebook","beschikbaarheid",array("v_optiedagen"=>$accinfo["optiedagen_klanten_vorig_seizoen"],"h_1"=>"<b>","h_2"=>"</b>"));

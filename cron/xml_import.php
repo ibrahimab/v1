@@ -214,6 +214,9 @@ $xml_urls[16][1]="http://www.almliesl.com/export_chalet_nl_occupancy_de_w.xml"; 
 $xml_urls[16][2]="http://www.almliesl.com/export_chalet_nl_prices_de_w.xml"; # prijzen winter
 #$xml_urls[16][3]="http://www.almliesl.com/export_chalet_nl_occupancy_de_s.xml"; # beschikbaarheid zomer - Tijdelijk uitgezet omdat winter- en zomerfeed hetzelfde zijn (4 juni 2013)
 $xml_urls[16][4]="http://www.almliesl.com/export_chalet_nl_prices_de_s.xml"; # prijzen zomer
+# http://www.almliesl.com/export_chalel_nl_verfuegbarkeiten_so_wi_occupancy_de_w.xml
+
+
 
 # Alpin Rentals Kaprun
 if(file_exists($temp_filename[17])) {
