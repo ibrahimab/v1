@@ -37,15 +37,33 @@ if($vars["nieuwsbrief_aanbieden"]) {
 
 $sitemap_url["monthly"][]=$vars["basehref"].txt("menu_wie-zijn-wij").".php";
 
+if($vars["websitetype"]==7) {
+	$footer_opsomming["agriturismo-italie"]="Agriturismo Italië";
+	$footer_opsomming["agriturismo-toscane"]="Agriturismo Toscane";
+	$footer_opsomming["vakantiehuizen-gardameer"]="Vakantiehuizen Gardameer";
+	$footer_opsomming["vakantiehuizen-bloemenriviera"]="Vakantiehuizen Bloemenrivièra";
+	$footer_opsomming["vakantie-in-italie"]="Vakantie in Italië";
+
+	foreach ($footer_opsomming as $key => $value) {
+		$sitemap_url["daily_08"][]=$vars["basehref"].$key;
+	}
+}
 
 
 foreach ($sitemap_url as $key => $value) {
 	foreach ($value as $key2 => $value2) {
 		echo "<url>\n";
 		echo "<loc>".$value2."</loc>\n";
-		echo "<changefreq>".$key."</changefreq>\n";
+		if($key=="daily_08") {
+			$changefreq="daily";
+		} else {
+			$changefreq=$key;
+		}
+		echo "<changefreq>".$changefreq."</changefreq>\n";
 		if($key=="hourly") {
 			echo "<priority>1.0</priority>\n";
+		} elseif($key=="daily_08") {
+			echo "<priority>0.8</priority>\n";
 		} elseif($key=="daily") {
 			echo "<priority>0.6</priority>\n";
 		} elseif($key=="weekly") {

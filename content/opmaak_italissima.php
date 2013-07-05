@@ -477,6 +477,7 @@ echo "</div>"; # afsluiten .footer_met_links_blok
 echo "<div class=\"footer_met_links_blok\">";
 echo "<br><b>Onze bestemmingen</b><br><br>";
 
+# Bij aanpassingen: ook google-sitemap.php aanpassen!
 $footer_opsomming["agriturismo-italie"]="Agriturismo Italië";
 $footer_opsomming["agriturismo-toscane"]="Agriturismo Toscane";
 $footer_opsomming["regio/Basilicata/"]="Vakantiehuizen in Basilicata";
