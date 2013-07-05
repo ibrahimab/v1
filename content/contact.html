@@ -16,29 +16,19 @@ if($_GET["fo"]=="frm") {
 		#echo "<div style=\"background-color:yellow;padding:10px;border:1px solid #000000;margin-top:10px;\">".nl2br(html("opvalmelding","vars",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">","h_2"=>"</a>","v_email"=>$vars["email"])))."</div>";
 
 		echo "<br><br>";
-		//echo "<br><br><B>".html("adresgegevens","contact")."</B>";
-		echo "<table width=\"70%\" border=\"0\">";
+		echo "<table border=\"0\" cellspacing=\"5\">";
 		echo "<tr>";
-		echo "<td colspan=\"2\"><B>".html("adresgegevens","contact")."</B></td>";
+		echo "<td colspan=\"2\"><B>".html("contactgegevens","contact")."</B></td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".html("postadres","contact").":</td>";
-		echo "<td>".htmlentities($vars["websitenaam"])."</td>";
-		echo "</tr>";
-		echo "<tr>";
-		echo "<td></td>";
-		echo "<td>Wipmolenlaan 3</td>";
-		echo "</tr>";
-		echo "<tr>";
-		echo "<td></td>";
-		echo "<td>3447 GJ Woerden</td>";
-		echo "</tr>";
+		echo "<td valign=\"top\" width=\"200\">".html("postadres","contact").":</td>";
+		echo "<td width=\"400\">".htmlentities($vars["websitenaam"])."<br/>";
+		echo "Wipmolenlaan 3<br/>";
+		echo "3447 GJ Woerden";
 		if($vars["websiteland"]<>"nl") {
-			echo "<tr>";
-			echo "<td></td>";
-			echo "<td>".html("landNaam","contact")."</td>";
-			echo "</tr>";
+			echo "<br/>".html("landNaam","contact");
 		}
+		echo "</tr>";
 		echo "<tr>";
 		echo "<td>".html("telefoonnummer","contact").":</td>";
 
@@ -52,7 +42,22 @@ if($_GET["fo"]=="frm") {
 		echo "<td>".html("email_kort","contact").":</td>";
 		echo "<td><a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</A></td>";
 
-		echo "</tr><tr><td colspan=\"2\"><br><b>".html("overigegegevens","contact")."</b></td></tr>";
+		echo "</tr>";
+
+		if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
+			echo "<tr>";
+			echo "<td valign=\"top\">".html("chat","contact").":</td>";
+			echo "<td height=\"50\">";
+
+			echo "<div id=\"chatblok_contact\" class=\"noprint\">";
+			echo "<div data-id=\"".wt_he($regs[2])."\" class=\"livechat_button\"><a href=\"http://www.livechatinc.com/\">live chat software</a></div>";
+			echo "</div>"; # afsluiten chatblok
+
+			echo "</td>";
+			echo "</tr>";
+		}
+
+		echo "<tr><td colspan=\"2\"><br><b>".html("overigegegevens","contact")."</b></td></tr>";
 		echo "<tr>";
 		echo "<td>".html("BTW","contact")."</td><td>NL-8129.05.386.B.01</td>";
 		echo "</tr>";

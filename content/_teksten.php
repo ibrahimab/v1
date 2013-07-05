@@ -1535,8 +1535,8 @@ $txt["en"]["contact"]["naamreisbureau_chalettour"]="-";
 $txt["nl"]["contact"]["nederland"]="Nederland"; # Dit veld blijft leeg bij de Nederlandstalige versie
 $txt["en"]["contact"]["nederland"]="The Netherlands";
 
-$txt["nl"]["contact"]["adresgegevens"]="Adresgegevens";
-$txt["en"]["contact"]["adresgegevens"]="Contact information";
+$txt["nl"]["contact"]["contactgegevens"]="Contactgegevens";
+$txt["en"]["contact"]["contactgegevens"]="Contact information";
 
 $txt["nl"]["contact"]["postadres"]="Postadres";
 $txt["en"]["contact"]["postadres"]="Address";
@@ -1549,6 +1549,9 @@ $txt["en"]["contact"]["telefoonnummer"]="Telephone number";
 
 $txt["nl"]["contact"]["fax"]="Fax";
 $txt["en"]["contact"]["fax"]="Fax";
+
+$txt["nl"]["contact"]["chat"]="Chat";
+$txt["en"]["contact"]["chat"]="Chat";
 
 $txt["nl"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0348 - 43 46 49";
 $txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
@@ -4841,6 +4844,9 @@ $txt["en"]["vraagonsadvies"]["alinea2"]="To help you as good as possible, we hav
 
 $txt["nl"]["vraagonsadvies"]["alinea3"]="Uiteraard kun je ons ook telefonisch bereiken voor advies: 0348-434649";
 $txt["en"]["vraagonsadvies"]["alinea3"]="Of course you can also reach us by phone for advice: +31348-434649";
+
+$txt["nl"]["vraagonsadvies"]["alinea3_chat"]="Uiteraard kun je ons ook [[h_1]]telefonisch bereiken[[h_2]] of [[h_1]]met ons chatten[[h_2]] voor advies.";
+$txt["en"]["vraagonsadvies"]["alinea3_chat"]="Of course you can also [[h_1]]reach us by phone[[h_2]] for advice or [[h_1]]chat with us[[h_2]].";
 
 $txt["nl"]["vraagonsadvies"]["forminleiding"]="Vul hieronder je reiswensen in en onze medewerkers gaan voor je op zoek naar een geschikte vakantie. Hoe meer informatie je geeft, hoe passender ons advies.";
 $txt["en"]["vraagonsadvies"]["forminleiding"]="Fill in your wishes and our staff will start to look for the perfect holiday for you. The more information we receive, the better our advice.";
