@@ -825,6 +825,9 @@ form {
 
 #zoekblok .aantalgevonden {
 	color: #661700;
+	/*background-color: red;*/
+	/*margin-left: 0px;*/
+	/*text-align: center;*/
 }
 
 .zoekresultaten_zoeken_op_kaart {

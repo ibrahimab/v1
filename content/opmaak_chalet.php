@@ -447,18 +447,16 @@ if(!$vars["verberg_linkerkolom"] and $vars["website"]<>"T" and (!$vars["verberg_
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
 
-	if($vars["website"]=="C") {
+	if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
 		# chat-blok
 		echo "<div id=\"chatblok\" class=\"noprint\">";
 		if($vars["lokale_testserver"]) {
-			echo "<img src=\"".$vars["path"]."pic/tijdelijk/test-chat-start-chalet.nl.png\">";
+			echo "<div data-id=\"".wt_he($regs[2])."\" class=\"livechat_button\"><a href=\"http://www.livechatinc.com/\">live chat software</a></div>";
 		} else {
-			echo "<div data-id=\"PTFmcHUgtM\" class=\"livechat_button\"><a href=\"http://www.livechatinc.com/\">live chat software</a></div>";
+			echo "<div data-id=\"".wt_he($regs[2])."\" class=\"livechat_button\"><a href=\"http://www.livechatinc.com/\">live chat software</a></div>";
 		}
 		echo "</div>"; # afsluiten chatblok
 	}
-
-
 }
 
 
@@ -822,7 +820,7 @@ if($vars["zoekenboek_overlay_doorschuiven"]<>0) {
 	echo "<style type=\"text/css\"><!--\n#zoekenboek_overlay {\ntop:".(264+$vars["zoekenboek_overlay_doorschuiven"])."px;\n}\n--></style>\n";
 }
 
-if($vars["website"]=="C") {
+if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
 	#
 	# Chatsysteem
 	#
@@ -852,11 +850,10 @@ if($vars["website"]=="C") {
 }
 
 </style>
-
 <script type="text/javascript">
 var __lc = {};
 __lc.license = 2618611;
-__lc.group = 2;
+__lc.group = <?php echo $regs[1]; ?>;
 
 (function() {
 	var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
