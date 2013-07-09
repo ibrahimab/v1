@@ -156,7 +156,7 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 			}
 
 			# Mail met kortingscode sturen
-			if($vars["taal"]=="nl") {
+			if($vars["taal"]=="nl" and $vars["fotofabriek_code_na_enquete"]) {
 
 				$db->query("SELECT boeking_id FROM boeking_enquete WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 				if(!$db->next_record()) {

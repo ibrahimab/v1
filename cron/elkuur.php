@@ -109,7 +109,11 @@ if((date("H")>12 and date("H")<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]
 			$gegevens=get_boekinginfo($db->f("boeking_id"));
 
 
-			$mailbody=txt("mail_body","enquete");
+			if($vars["fotofabriek_code_na_enquete"]) {
+				$mailbody=txt("mail_body_kortingscode","enquete");
+			} else {
+				$mailbody=txt("mail_body","enquete");
+			}
 
 			$link=$gegevens["stap1"]["website_specifiek"]["basehref"]."enquete.php?bid=".$gegevens["stap1"]["boekingid"]."&ch=".substr(sha1($gegevens["stap1"]["boekingid"]."kkSLlejkd"),0,8);
 			$mailbody=ereg_replace("\[LINK_ENQUETE\]",$link,$mailbody);

@@ -237,8 +237,10 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$enquete_kortingscode_aantal=$db->f("aantal");
 	}
 
-	$form->field_htmlrow("","<hr><b>Kortingscodes fotofabriek.nl toevoegen</b><br/><br/><i>Een klant ontvangt een code na het invullen van de enquête.</i><br/><br/><b>Aantal nog beschikbare codes: ".intval($enquete_kortingscode_aantal)."</b>");
-	$form->field_textarea(0,"enquete_kortingscode","Nieuwe codes (1 per regel)");
+	if($vars["fotofabriek_code_na_enquete"]) {
+		$form->field_htmlrow("","<hr><b>Kortingscodes fotofabriek.nl toevoegen</b><br/><br/><i>Een klant ontvangt een code na het invullen van de enquête.</i><br/><br/><b>Aantal nog beschikbare codes: ".intval($enquete_kortingscode_aantal)."</b>");
+		$form->field_textarea(0,"enquete_kortingscode","Nieuwe codes (1 per regel)");
+	}
 
 	#$form->field_htmlrow("","<hr><b>Nieuwe vormgeving</b>");
 	#$form->field_yesno("nieuwevormgeving","Toon op deze computer \"".$login->username."\" Chalet.nl/winter in de nieuwe vormgeving","",array("selection"=>$_COOKIE["nieuwevormgeving_fixed"]));
