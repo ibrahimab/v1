@@ -130,6 +130,7 @@ if($mustlogin) {
 	# Titels (die afwijken van $menu)
 	$title["cms"]="Content Management System ".$vars["websitenaam"];
 	$title["cms_xml_imageimport"]="Foto-import vanuit XML";
+	$title["cms_roomingaankomst"]="Roominglists";
 
 	# Layout CMS
 	$layout=new cms_layout;
@@ -924,6 +925,7 @@ $vars["inkoopbetaling_status"]=array(1=>"onderweg",2=>"ingeboekt");
 $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nitalics: [i]tekst[/i]\n\ninterne link: [link=/accommodatie/I4529/]tekst[/link]\n\nexterne link: [link=http://www.test.com/]tekst[/link]\n\n";
 $vars["accommodatie_review_bron"]=array(1=>"door eigen klant ingevulde enquête",2=>"Posarelli");
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
+$vars["soort_garantie"]=array(1=>"seizoen en bulk",2=>"op naam en losse weken");
 
 # Soorten hoofdpagina-meldingen / rollen
 $vars["cms_hoofdpagina_soorten"]=array(

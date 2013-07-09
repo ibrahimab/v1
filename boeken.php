@@ -891,6 +891,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_password(0,"wachtwoord_herhaal",txt("herhaalnieuwwachtwoord","boeken"));
 
 
+			$form->field_htmlrow("","<hr><b>T.b.v. roominglist</b>");
+			$form->field_text(0,"aan_leverancier_doorgegeven_naam","Aan leverancier doorgegeven naam","",array("text"=>$gegevens["stap1"]["aan_leverancier_doorgegeven_naam"]));
+
 		}
 
 		# Kijken of een aangepaste geboortedatum overeenkomt met gekozen opties
@@ -2396,6 +2399,12 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		} elseif($_GET["stap"]==2) {
 			# Cookie plaatsen
 			nawcookie($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"],$form->input["adres"],$form->input["postcode"],$form->input["plaats"],$form->input["land"],$form->input["telefoonnummer"],$form->input["mobielwerk"],$form->input["email"],$form->input["geboortedatum"]["unixtime"],$form->input["nieuwsbrief"],$form->input["geslacht"]);
+
+
+			# aan_leverancier_doorgegeven_naam opslaan
+			if(isset($form->input["aan_leverancier_doorgegeven_naam"])) {
+				$db->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($form->input["aan_leverancier_doorgegeven_naam"])."' WHERE boeking_id='".intval($gegevens["stap1"]["boekingid"])."';");
+			}
 
 			# Opties die niet meer gelden na wijzigen geboortedatum wissen
 			if($opties_nietbeschikbaar_geboortedatum_id and $form->input["wisopties_nietbeschikbaar"]) {

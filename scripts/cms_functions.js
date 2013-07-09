@@ -641,13 +641,30 @@ $(document).ready(function() {
 			} else {
 				$(".roomingaankomst_verzenden").css("display","none");
 			}
+			setHgt2();
 		});
 
 		if($("input[name='input[versturen]']").is(":checked")) {
 			$(".roomingaankomst_verzenden").css("display","table-row");
+			setHgt2();
 		}
 
 	}
+
+	// roominglist-form openen in een popup
+	$("#roominglist_bekijken").click(function(){
+
+		window.open('', 'formpopup', 'width=1000,height=600,resizeable,scrollbars');
+		// form.target = 'formpopup';
+
+		$("input[name=roominglist_bekijken]").val("1");
+
+		$("form[name=frm]").prop("target", 'formpopup');
+		$("form[name=frm]").submit();
+		$("form[name=frm]").prop("target", '');
+
+		return false;
+	});
 });
 
 function goedkeuringen_benodigd_uitzetten() {

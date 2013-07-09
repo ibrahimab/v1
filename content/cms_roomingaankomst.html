@@ -1,7 +1,7 @@
 <?php
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	echo "<p><a href=\"".$vars["[path"]."cms_roomingaankomst.php?reset=1\">RESET</a></p>";
+	echo "<p><a href=\"".$vars["[path"]."cms_roomingaankomst.php?reset=1\">RESET</a> (lokale test)</p>";
 }
 
 if($_GET["levid"]) {
@@ -10,22 +10,16 @@ if($_GET["levid"]) {
 
 	$form->display_all();
 
+	// echo "<div style=\"margin-top:70px;\">";
+	// echo "<p><b>Te verzenden roominglist:</b></p>";
 
+	// if(!$form->okay) {
+	// 	$vars["create_list"]=$vars["roominglist_object"]->create_list();
+	// }
 
-	echo "<div style=\"margin-top:70px;\">";
-	echo "<p><b>Te verzenden roominglist:</b></p>";
-
-	if(!$form->okay) {
-		$vars["create_list"]=$vars["roominglist_object"]->create_list();
-	}
-
-	// echo wt_dump($vars["roominglist_object"]->garanties);
-
-	echo $vars["create_list"]["html"];
-
-
-
-	echo "</div>";
+	// // echo wt_dump($vars["roominglist_object"]->garanties);
+	// echo $vars["create_list"]["html"];
+	// echo "</div>";
 
 } else {
 	# Roominglist totaal

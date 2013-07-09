@@ -108,7 +108,8 @@ $cms->db_field(34,"select","boeking_id","",array("selection"=>$vars["alleboeking
 $cms->db_field(34,"select","leverancier_id","",array("othertable"=>"3","otherkeyfield"=>"leverancier_id","otherfield"=>"naam","otherwhere"=>"beheerder=0"));
 $cms->db_field(34,"textarea","opmerkingen");
 $cms->db_field(34,"select","garantie_id","",array("selection"=>$verkoopprijs));
-
+$cms->db_field(34,"select","soort_garantie","",array("selection"=>$vars["soort_garantie"]));
+$cms->db_field(34,"text","aan_leverancier_doorgegeven_naam");
 
 
 #
@@ -200,6 +201,8 @@ if($_GET["status"]==1) {
 } else {
 	$cms->edit_field(34,0,"reserveringsnummer_extern","Leveranciers-volgnr","",array("noedit"=>true),array("title_html"=>true));
 }
+$cms->edit_field(34,1,"soort_garantie","Soort garantie");
+
 
 #$cms->edit_field(34,0,"reserveringsnummer_intern","Reserveringsnummer intern");
 
@@ -225,6 +228,10 @@ $cms->edit_field(34,0,"boeking_id","Gekoppelde boeking");
 #$cms->edit_field(34,0,"opmerkingen","Opmerkingen");
 $cms->edit_field(34,0,"opmerkingen","Opmerkingen (intern)","",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
 
+if($_GET["status"]==1) {
+	$cms->edit_field(34,0,"htmlrow","<hr><b>T.b.v. roominglist</b>");
+	$cms->edit_field(34,0,"aan_leverancier_doorgegeven_naam","Aan leverancier doorgegeven naam");
+}
 
 # Controle op ingevoerde formuliergegevens
 $cms->set_edit_form_init(34);

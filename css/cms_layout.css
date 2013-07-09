@@ -242,6 +242,13 @@ li {
 	border: solid #282E82 1px;
 }
 
+#roominglist_bekijken {
+	display: block;
+	background-color: yellow;
+	text-align: center;
+	padding: 5px;
+}
+
 .opmerkingen {
 	width: 400px;
 	font-family:  Verdana, Helvetica, Arial, sans-serif;
@@ -612,6 +619,18 @@ li {
 
 .noactive:active {
 	outline:0;
+}
+
+/* ----------------------- */
+/*   roominglist-systeem   */
+/* ----------------------- */
+
+.soort_garantie_1 {
+	color: #40a64a;
+}
+
+.soort_garantie_2 {
+	color: #e324ea;
 }
 
 /* ----------------------- */

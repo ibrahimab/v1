@@ -24,11 +24,32 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
+		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+
+		// $db->query("SELECT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE bp.persoonnummer=1 AND bp.boeking_id=b.boeking_id AND b.boekingsnummer<>'' AND b.aan_leverancier_doorgegeven_naam='' AND b.bestelstatus>1 AND b.boeking_id IN (SELECT boeking_id FROM garantie) ORDER BY b.boeking_id;");
+		// while($db->next_record()) {
+
+		// 	$db2->query("SELECT aan_leverancier_doorgegeven_naam FROM garantie WHERE boeking_id='".$db->f("boeking_id")."';");
+		// 	if($db2->next_record()) {
+
+		// 		$db3->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($db2->f("aan_leverancier_doorgegeven_naam"))."' WHERE boeking_id='".$db->f("boeking_id")."';");
+		// 		echo $db3->lq."<br/>";
+		// 	}
+		// }
+
+
+		// $db->query("SELECT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE bp.persoonnummer=1 AND bp.boeking_id=b.boeking_id AND b.boekingsnummer<>'' AND b.aan_leverancier_doorgegeven_naam='' AND b.bestelstatus>1 AND b.boeking_id NOT IN (SELECT boeking_id FROM garantie) ORDER BY b.boeking_id;");
+		// while($db->next_record()) {
+		// 	$db2->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes(wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) ))."' WHERE boeking_id='".$db->f("boeking_id")."';");
+		// 	echo $db2->lq."<br/>";
+		// }
+
+		// $db->query("UPDATE garantie SET aan_leverancier_doorgegeven_naam=naam WHERE aan_leverancier_doorgegeven_naam='';");
+
 		// $roominglist = new roominglist;
 		// $roominglist->vergelijk_lijsten();
 
 
-#		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 		// $directlogin = new directlogin;
 		// echo "<ul>";
