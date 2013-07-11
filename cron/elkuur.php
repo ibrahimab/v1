@@ -543,7 +543,7 @@ if(date("H")==5) {
 		if($db2->next_record()) {
 			if($db2->f("voorraad_garantie")<>$db->f("aantal")) {
 				voorraad_bijwerken($db->f("type_id"),$db->f("aankomstdatum"),false,$db->f("aantal"),"","","","","","",false,10);
-				wt_mail("jeroen@webtastic.nl","Ter info: onjuist garantie-aantal","\n\nType: ".$db->f("type_id")." - ".date("d-m-Y",$db->f("aankomstdatum")).": ".$db2->f("voorraad_garantie")." moet worden: ".$db->f("aantal"));
+				// wt_mail("jeroen@webtastic.nl","Ter info: onjuist garantie-aantal","\n\nType: ".$db->f("type_id")." - ".date("d-m-Y",$db->f("aankomstdatum")).": ".$db2->f("voorraad_garantie")." moet worden: ".$db->f("aantal"));
 			}
 		}
 	}

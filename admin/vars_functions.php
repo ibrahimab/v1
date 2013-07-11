@@ -3960,9 +3960,22 @@ function googleanalytics() {
 
 
 		(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/".($test_analytics ? "u/ga_debug.js" : "ga.js")."';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;";
+
+			$doubleclick_versie=true; // aangezet op verzoek van Bjorn: 11-07-2013
+
+			if($test_analytics) {
+				// debug-versie Google Analytics
+				$return.="ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/u/ga_debug.js';\n";
+			} elseif($doubleclick_versie) {
+				// DoubleClick-versie Google Analytics
+				$return.="ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';\n";
+			} else {
+				// gewone versie Google Analytics
+				$return.="ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n";
+			}
+
+			$return.="var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		})();
 
 		</script>\n";
