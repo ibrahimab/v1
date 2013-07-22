@@ -92,17 +92,24 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			$mysql_connection_error=true;
 		}
 
-		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr) or preg_match("/locks exceeds the lock table size/",$errstr)) {
+		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr) or preg_match("/locks exceeds the lock table size/",$errstr) or preg_match("/MySQL server has gone away/",$errstr)) {
 
-			$GLOBALS["errorcounterfunction"]["mysql"]++;
-			$mysql_connection_error=true;
-
-			# MySQL-connectiefouten: max 1x per 15 minuten loggen
-			if(@filemtime($GLOBALS["vars"]["unixdir"]."tmp/mysql_connection_error.txt")<time()-900) {
-				@touch($GLOBALS["vars"]["unixdir"]."tmp/mysql_connection_error.txt");
-				if($GLOBALS["errorcounterfunction"]["mysql"]>1) $nietopslaan=true;
-			} else {
+			if($GLOBALS["vars"]["wt_error_handler_mysql_connect_error_hide"]) {
+				// als $vars["wt_error_handler_mysql_connect_error_hide"] aan staat, MySQL-connect-errors niet loggen
 				$nietopslaan=true;
+
+			} else {
+
+				$GLOBALS["errorcounterfunction"]["mysql"]++;
+				$mysql_connection_error=true;
+
+				# MySQL-connectiefouten: max 1x per 15 minuten loggen
+				if(@filemtime($GLOBALS["vars"]["unixdir"]."tmp/mysql_connection_error.txt")<time()-900) {
+					@touch($GLOBALS["vars"]["unixdir"]."tmp/mysql_connection_error.txt");
+					if($GLOBALS["errorcounterfunction"]["mysql"]>1) $nietopslaan=true;
+				} else {
+					$nietopslaan=true;
+				}
 			}
 		}
 

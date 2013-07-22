@@ -38,7 +38,7 @@ class accommodatielijst {
 
 		$db = new DB_sql;
 
-		$db->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, a.korteomschrijving, t.korteomschrijving AS tkorteomschrijving, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.skigebied_id, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.apart_tonen_in_zoekresultaten FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE t.type_id IN (".$inquery.") AND a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id ORDER BY FIND_IN_SET(type_id,'".$inquery."');");
+		$db->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.skigebied_id, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.apart_tonen_in_zoekresultaten FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE t.type_id IN (".$inquery.") AND a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id ORDER BY FIND_IN_SET(type_id,'".$inquery."');");
 		while($db->next_record()) {
 			$this->type_toevoegen(array(
 				"accommodatie_id"=>$db->f("accommodatie_id"),

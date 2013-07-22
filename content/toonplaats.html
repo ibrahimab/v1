@@ -37,7 +37,7 @@ if(!$db->next_record()) {
 		$inquery.=",".$db2->f("plaats_id");
 	}
 
-	$query="SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, a.korteomschrijving, t.korteomschrijving AS tkorteomschrijving, t.type_id, t.badkamers, t.slaapkamers, t.apart_tonen_in_zoekresultaten, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.skigebied_id, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE a.accommodatie_id=t.accommodatie_id AND a.weekendski=0 AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND p.plaats_id IN (".$inquery.") ORDER BY a.naam, t.optimaalaantalpersonen, t.naam".$vars["ttv"].";";
+	$query="SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.type_id, t.badkamers, t.slaapkamers, t.apart_tonen_in_zoekresultaten, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.skigebied_id, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE a.accommodatie_id=t.accommodatie_id AND a.weekendski=0 AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND p.plaats_id IN (".$inquery.") ORDER BY a.naam, t.optimaalaantalpersonen, t.naam".$vars["ttv"].";";
 	$db2->query($query);
 
 #	if($db2->num_rows()>1 and !$_GET["backtypeid"]) {
