@@ -16,7 +16,11 @@ if(!$db->next_record()) {
 	echo terugnaaracc();
 
 	if($vars["websitetype"]<>6) {
-		echo "<div>".$toplinks."</div>";
+		echo "<div>".$toplinks;
+		if($voorkant_cms) {
+			echo "&nbsp;&nbsp;<span class=\"kleinfont\"><a href=\"".wt_he("https://www.chalet.nl/cms_plaatsen.php?show=4&wzt=".$vars["seizoentype"]."&4k0=".$plaatsid)."\" target=\"_blank\">plaats bewerken</a></span>";
+		}
+		echo "</div>";
 	}
 	if($vars["seizoentype"]==1 or ($db->f("afstandtotutrecht") and $vars["taal"]=="nl")) {
 		echo "<div id=\"toonplaats_kenmerken\">";

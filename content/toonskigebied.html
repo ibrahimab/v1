@@ -113,6 +113,11 @@ hr {
 			}
 			echo " - ".htmlentities($db->f("naam"));
 
+			if($voorkant_cms) {
+				echo "&nbsp;&nbsp;<span class=\"kleinfont\"><a href=\"".wt_he("https://www.chalet.nl/cms_skigebieden.php?show=5&wzt=".$vars["seizoentype"]."&5k0=".$skigebiedid)."\" target=\"_blank\">".($vars["seizoentype"]==1 ? "skigebied" : "regio")." bewerken</a></span>";
+			}
+
+
 			if($vars["seizoentype"]==2) {
 				$breadcrumbs[txt("menu_bestemmingen").".php"]=ucfirst(txt("menu_bestemmingen"));
 			} else {
