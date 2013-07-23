@@ -1282,7 +1282,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 		}
 
 		// functie uitgezet op 09-10-2012; getoonde gegevens waren niet correct
-		// TODO: herstellen en weer aanzetten overzicht andere beschikbare flexibele datums
+		// TODO: herstellen en weer aanzetten overzicht andere beschikbare flexibele datums Italissima
 		if($vars["flexibel_toegestaan"] and is_array($flex_alt) and $NU_EVEN_NIET) {
 			$flex_alt_html.="<div class=\"flexalternatieven boxshadow\">";
 			$flex_alt_html.="<i>".html("bekijkeventueelook","zoek-en-boek").":</i><br><br>";
@@ -1962,6 +1962,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					$sorteer.=$koppeling[$db->f("skigebied_id")];
 				}
 
+				# Sortering SuperSki: altijd op prijs
+				if($vars["websitetype"]==8) {
+					$_GET["sort"]=2;
+				}
+
 				if($_GET["sort"]==1 or !$_GET["sort"]) {
 					# standaard-sortering
 
@@ -2554,11 +2559,6 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 
 # hulpmiddeltje om hover-kleur door te geven aan jQuery
 echo "<div id=\"hulp_zoekresultaat_hover\"></div>";
-
-# Sortering SuperSki: altijd op prijs
-if($vars["websitetype"]==8) {
-	$_GET["sort"]=2;
-}
 
 
 echo "<div id=\"zoekblok\" class=\"boxshadow\">";

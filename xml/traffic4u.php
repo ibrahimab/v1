@@ -6,15 +6,12 @@
 #
 # ========================>>>>>>>>>>>>>>>> LET OP: bij deze file wordt een cache gebruikt! <<<<<<<<<<<<<<<<==================================
 #
-# Elke dag om 04:00 uur en 18:00 uur wordt de nieuwe cache aangemaakt (via cron/elkuur.php)
+# Elke dag om 03:00 uur wordt de nieuwe cache aangemaakt (via cron/elkuur.php)
 #
-# handmatig starten aanmaken cache: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php xmlopnieuw
+# handmatig starten aanmaken cache: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php traffic4u
 #
 #
 #
-
-# TODO: nagaan of cache opzetten in cron/elkuur.php nodig is
-# CACHE NOG NIET ACTIE
 
 set_time_limit(0);
 $geen_tracker_cookie=true;
@@ -28,7 +25,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 	# UTF-8 BOM
 	echo "\xEF\xBB\xBF";
-} elseif(!$_GET["nocache"] and $_GET["feed"]=="bestemmingen") {
+} elseif(!$_GET["nocache"] and ($_GET["feed"]=="bestemmingen" or $_GET["feed"]=="bestemmingen-aantal-personen")) {
 	header("Content-Type: application/octet-stream; charset=utf-8");
 	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 	$content=file_get_contents($cachefile);
@@ -107,23 +104,54 @@ if($_GET["feed"]=="accommodaties") {
 			echo "\n";
 		}
 	}
-} elseif($_GET["feed"]=="bestemmingen") {
+} elseif($_GET["feed"]=="bestemmingen" or $_GET["feed"]=="bestemmingen-aantal-personen") {
 	#
 	# Feed 2: bestemmingen en thema's
+	# Feed 3: bestemmingen en aantal personen
 	#
 
 
 	if($vars["seizoentype"]==1) {
 		# winter
-		$thema_array=array(
-			"vf_piste1=1"=>"aan de piste",
-			"vf_kenm2=1"=>"catering mogelijk",
-			"vf_kenm4=1"=>"sauna",
-			"vf_kenm43=1"=>"goed voor kids",
-			"vf_kenm6=1"=>"huisdieren toegestaan",
-		);
 
-		echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL skigebied + thema".wt_csvconvert_delimiter."Aantal accommodaties skigebied + thema".wt_csvconvert_delimiter."URL plaats + thema".wt_csvconvert_delimiter."Aantal accommodaties plaats + thema\n";
+		if($_GET["feed"]=="bestemmingen-aantal-personen") {
+			$doorloop_array=array(
+				"fap=2"=>"2",
+				"fap=3"=>"3",
+				"fap=4"=>"4",
+				"fap=5"=>"5",
+				"fap=6"=>"6",
+				"fap=7"=>"7",
+				"fap=8"=>"8",
+				"fap=9"=>"9",
+				"fap=10"=>"10",
+				"fap=11"=>"11",
+				"fap=12"=>"12",
+				"fap=13"=>"13",
+				"fap=14"=>"14",
+				"fap=15"=>"15",
+				"fap=16"=>"16",
+				"fap=17"=>"17",
+				"fap=18"=>"18",
+				"fap=19"=>"19",
+				"fap=20"=>"20"
+			);
+		} else {
+
+			$doorloop_array=array(
+				"vf_piste1=1"=>"aan de piste",
+				"vf_kenm2=1"=>"catering mogelijk",
+				"vf_kenm4=1"=>"sauna",
+				"vf_kenm43=1"=>"goed voor kids",
+				"vf_kenm6=1"=>"huisdieren toegestaan",
+			);
+		}
+
+		if($_GET["feed"]=="bestemmingen-aantal-personen") {
+			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."URL skigebied + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties skigebied + aantal personen".wt_csvconvert_delimiter."URL plaats + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties plaats + aantal personen\n";
+		} else {
+			echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL skigebied + thema".wt_csvconvert_delimiter."Aantal accommodaties skigebied + thema".wt_csvconvert_delimiter."URL plaats + thema".wt_csvconvert_delimiter."Aantal accommodaties plaats + thema\n";
+		}
 
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 			$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id, plaats_id, plaats FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND skigebied_id=2 ORDER BY skigebied_id, plaats_id;");
@@ -133,25 +161,52 @@ if($_GET["feed"]=="accommodaties") {
 
 	} else {
 		# Italissima
-		$thema_array=array(
-			"vf_kenm21=1"=>"kindvriendelijk",
-			"vf_kenm18=1"=>"privé-zwembad",
-			"vf_kenm8=1"=>"gemeenschappelijk zwembad",
-			"vf_kenm37=1"=>"restaurant",
-			"vf_kenm19=1"=>"huisdieren toegestaan",
-		);
 
-		echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL regio + thema".wt_csvconvert_delimiter."Aantal accommodaties regio + thema\n";
+		if($_GET["feed"]=="bestemmingen-aantal-personen") {
+			$doorloop_array=array(
+				"fap=2"=>"2",
+				"fap=3"=>"3",
+				"fap=4"=>"4",
+				"fap=5"=>"5",
+				"fap=6"=>"6",
+				"fap=7"=>"7",
+				"fap=8"=>"8",
+				"fap=9"=>"9",
+				"fap=10"=>"10"
+			);
+		} else {
+			$doorloop_array=array(
+				"vf_kenm21=1"=>"kindvriendelijk",
+				"vf_kenm18=1"=>"privé-zwembad",
+				"vf_kenm8=1"=>"gemeenschappelijk zwembad",
+				"vf_kenm37=1"=>"restaurant",
+				"vf_kenm19=1"=>"huisdieren toegestaan",
+			);
+		}
+
+
+		if($_GET["feed"]=="bestemmingen-aantal-personen") {
+			echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."URL regio + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties regio + aantal personen\n";
+		} else {
+			echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Thema".wt_csvconvert_delimiter."URL regio + thema".wt_csvconvert_delimiter."Aantal accommodaties regio + thema\n";
+		}
 
 		$db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY skigebied_id;");
 		// $db4->query("SELECT DISTINCT land_id, land, skigebied, skigebied_id FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND skigebied_id IN (124);");
 
 	}
+	$result_teller=0;
 	while($db4->next_record()) {
 
-		reset($thema_array);
+		$result_teller++;
 
-		foreach ($thema_array as $key99 => $value99) {
+		if($_GET["feed"]=="bestemmingen-aantal-personen" and $result_teller>=2) {
+			continue;
+		}
+
+		reset($doorloop_array);
+
+		foreach ($doorloop_array as $key99 => $value99) {
 
 
 			# skigebied-url

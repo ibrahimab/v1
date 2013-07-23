@@ -134,7 +134,7 @@ try {
 			<td class="mpFormField" id="<?php echo $blinker_fields["achternaam"]; ?>TD"><input type="text" name="<?php echo $blinker_fields["achternaam"]; ?>" value="">
 		</td>
 		</tr>
-		<?php if($blinker_fields["per_wanneer"]) { ?>
+		<?php if($blinker_fields["per_wanneer"] and $vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]) { ?>
 		<tr class="mpFormRow">
 			<td class="mpFormLabel">&nbsp;</td>
 			<td><table cellspacing="0" cellpadding="4" border="0"><tr><td colspan="2">Ik wil graag de <?php echo wt_he($vars["websitenaam"]); ?>-nieuwsbrief ontvangen:</td></tr>
