@@ -200,7 +200,7 @@ if($_GET["feed"]=="accommodaties") {
 
 		$result_teller++;
 
-		if($_GET["feed"]=="bestemmingen-aantal-personen" and $result_teller>=2) {
+		if($_GET["feed"]=="bestemmingen-aantal-personen" and $result_teller>=4) {
 			continue;
 		}
 
