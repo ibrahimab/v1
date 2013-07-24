@@ -650,17 +650,17 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 
 } elseif($_GET["t"]==1 and ($_GET["wzt"]==1 or $_GET["wzt"]==4)) {
 	# chalet 728x90 land-thema
-	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('".$siteurl."pic/banners/htmlbanners/chalet".($_GET["wzt"]==4 ? "be" : "")."_htmlbanner_728x90.jpg?c=1');\">\n";
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('".$siteurl."pic/banners/htmlbanners/chalet".($_GET["wzt"]==4 ? "be" : "")."_htmlbanner_2013_728x90.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"".$siteurl."\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:22px;left:295px;\">\n";
+	echo "<div style=\"position:absolute;top:22px;left:475px;\">\n";
 	winter_land();
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:50px;left:295px;\">\n";
+	echo "<div style=\"position:absolute;top:50px;left:475px;\">\n";
 	winter_thema();
 	echo "</div>\n";
 
-	echo "<div style=\"position:absolute;top:35px;left:460px;\"><input type=\"image\" src=\"".$siteurl."pic/banners/htmlbanners/chalet_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:26px;left:640px;\"><input type=\"image\" src=\"".$siteurl."pic/banners/htmlbanners/chalet_zoekenboek_2013.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" class=\"submit2013\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 
@@ -761,48 +761,39 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:490px;left:16px;\"><input type=\"image\" src=\"".$siteurl."pic/banners/htmlbanners/chalet_zoekenboek_2013.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" class=\"submit2013\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
-} elseif($_GET["t"]==6 and $_GET["wzt"]==1) {
+} elseif($_GET["t"]==6 and ($_GET["wzt"]==1 or $_GET["wzt"]==4)) {
 	# chalet 300x250
-	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('".$siteurl."pic/banners/htmlbanners/chalet_htmlbanner_300x250.jpg?c=1');\">\n";
+	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('".$siteurl."pic/banners/htmlbanners/chalet".($_GET["wzt"]==4 ? "be" : "")."_htmlbanner_2013_300x250.jpg?c=1');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"".$siteurl."\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:113px;left:40px;\">\n";
+	echo "<div style=\"position:absolute;top:199px;left:10px;\">\n";
 	winter_land("120px");
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:144px;left:40px;\">\n";
+	echo "<div style=\"position:absolute;top:223px;left:10px;\">\n";
 	winter_thema("120px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:128px;left:170px;\"><input type=\"image\" src=\"".$siteurl."pic/banners/htmlbanners/chalet_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:200px;left:153px;\"><input type=\"image\" src=\"".$siteurl."pic/banners/htmlbanners/chalet_zoekenboek_2013.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" class=\"submit2013\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
-} elseif($_GET["t"]==5 and $_GET["wzt"]==4) {
-	# chalet.be 120x600
+} elseif($_GET["t"]==7 and ($_GET["wzt"]==1 or $_GET["wzt"]==4) and $_GET["themadatum"]==2) {
+	# chalet 120x450
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.chalet.be/pic/banners/htmlbanners/chaletbe_htmlbanner_120x600.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.be/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:235px;left:3px;\">\n";
+	echo "<div style=\"position:fixed;width:120px;height:450px;background-image:url('".$siteurl."pic/banners/htmlbanners/chalet".($_GET["wzt"]==4 ? "be" : "")."_htmlbanner_2013_120x450.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"".$siteurl."\" target=\"_blank\">\n";
+	echo "<div style=\"position:absolute;top:285px;left:3px;\">\n";
 	winter_land("110px");
 	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:279px;left:3px;\">\n";
+	echo "<div style=\"position:absolute;top:315px;left:3px;\">\n";
 	winter_thema("110px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:340px;left:16px;\"><input type=\"image\" src=\"http://www.chalet.be/pic/banners/htmlbanners/chalet_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
-	echo "</form>\n";
-	echo "</div>\n";
-} elseif($_GET["t"]==6 and $_GET["wzt"]==4) {
-	# chalet.be 300x250
-	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('http://www.chalet.be/pic/banners/htmlbanners/chaletbe_htmlbanner_300x250.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.chalet.be/\" target=\"_blank\">\n";
-	echo "<div style=\"position:absolute;top:113px;left:40px;\">\n";
-	winter_land("120px");
-	echo "</div>";
 
-	echo "<div style=\"position:absolute;top:144px;left:40px;\">\n";
-	winter_thema("120px");
+	echo "<div style=\"position:absolute;top:345px;left:3px;\">\n";
+	winter_personen("110px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:128px;left:170px;\"><input type=\"image\" src=\"http://www.chalet.be/pic/banners/htmlbanners/chalet_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+
+	echo "<div style=\"position:absolute;top:390px;left:16px;\"><input type=\"image\" src=\"".$siteurl."pic/banners/htmlbanners/chalet_zoekenboek_2013.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" class=\"submit2013\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==1 and $_GET["wzt"]==5) {
