@@ -85,9 +85,12 @@ while($db->next_record()) {
 
 		# inkoopprijs bepalen
 		if($db2->f("korting")<>0) {
-			$inkoop=$db2->f("bruto")*(1-($db2->f("korting")/100));
-		} else {
+			// $inkoop=$db2->f("bruto")*(1-($db2->f("korting")/100));
+			$inkoop=$db2->f("bruto");
+		} elseif($db2->f("netto_ink")<>0) {
 			$inkoop=$db2->f("netto_ink");
+		} else {
+			$inkoop=$db2->f("bruto");
 		}
 		$setquery="seizoen_id='".addslashes($db2->f("seizoen_id"))."', week='".addslashes($db2->f("week"))."', beschikbaar=1, verkoop='".addslashes($db2->f("bruto"))."', inkoop='".addslashes($inkoop)."', korting='".addslashes($db2->f("korting"))."', omzetbonus='".addslashes($db2->f("omzetbonus"))."', wederverkoop_commissie_agent='".addslashes($db2->f("wederverkoop_commissie_agent"))."', wederverkoop_skipas_id='".$db->f("skipas_id")."', optie_onderdeel_id='".$optie_onderdeel_id."'";
 
