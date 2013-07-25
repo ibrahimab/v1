@@ -1549,7 +1549,8 @@ $(document).ready(function() {
 
 		// sluiten cookie-bar
 		$("#cookie_bottombar_close").click(function () {
-			$("#cookie_bottombar").css("display","none");
+			// $("#cookie_bottombar").css("display","none");
+			$("#cookie_bottombar").animate({bottom:"-50px"},600,function() {});
 			chalet_createCookie("cookiemelding_gelezen","1",3650);
 			return false;
 		});

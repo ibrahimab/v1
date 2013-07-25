@@ -170,7 +170,10 @@ $txt["en"]["vars"]["nvt"]="don't send travel documents";
 $txt["nl"]["vars"]["gaverdermetboeken"]="Ga verder met boeken";
 $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
 
-$txt["nl"]["vars"]["cookiemelding"]="Om u beter van dienst te kunnen zijn wordt er gebruik gemaakt van cookies. Lees ons [[h_1]]privacy-statement[[h_2]] voor meer informatie.";
+// $txt["nl"]["vars"]["cookiemelding"]="Om u beter van dienst te kunnen zijn wordt er gebruik gemaakt van cookies. Lees ons [[h_1]]privacy-statement[[h_2]] voor meer informatie.";
+// $txt["en"]["vars"]["cookiemelding"]="-";
+
+$txt["nl"]["vars"]["cookiemelding"]="Deze website plaatst cookies. Door het gebruik van onze site ga je hiermee akkoord. Zie ons [[h_1]]privacy-statement[[h_2]].";
 $txt["en"]["vars"]["cookiemelding"]="-";
 
 $txt["nl"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: 088 - 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
