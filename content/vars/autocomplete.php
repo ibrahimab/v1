@@ -14,7 +14,7 @@ if($vars["taal"]=="nl") {
 		# Chalet / Chalettour / SuperSki
 		#
 		$autocomplete["aan de piste"][] = "vf_piste1=1";
-		// $autocomplete["bij de piste"][] = "vf_piste1=1";
+		$autocomplete["ski in ski out"][] = "vf_piste1=1";
 		// $autocomplete["op de piste"][] = "vf_piste1=1";
 
 		$autocomplete["catering mogelijk"][] = "vf_kenm2=1";
@@ -35,6 +35,15 @@ if($vars["taal"]=="nl") {
 
 		$autocomplete["grote groepen"][] = "vf_kenm46=1";
 		$autocomplete["groepsaccommodaties"][] = "vf_kenm46=1";
+
+		// aantal badkamers
+		$autocomplete["minimaal 2 badkamers"][] = "vf_badk1=1";
+		$autocomplete["minimaal 3 badkamers"][] = "vf_badk1=2";
+		$autocomplete["minimaal 4 badkamers"][] = "vf_badk1=3";
+		$autocomplete["minimaal 5 badkamers"][] = "vf_badk1=4";
+		$autocomplete["minimaal 6 badkamers"][] = "vf_badk1=5";
+		$autocomplete["minimaal 8 badkamers"][] = "vf_badk1=6";
+		$autocomplete["minimaal 10 badkamers"][] = "vf_badk1=7";
 
 
 	} elseif($vars["websitetype"]==3) {

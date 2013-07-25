@@ -58,7 +58,7 @@ if($seizoen["naam"]) {
 	}
 	unset($teller);
 	echo "</form>";
-	
+
 	# Het daadwerkelijke formulier
 	echo "<form id=\"tarieven\" method=\"post\" action=\"cms_optie_tarieven.php?".$_SERVER["QUERY_STRING"]."\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
@@ -68,7 +68,7 @@ if($seizoen["naam"]) {
 	echo "<input type=\"button\" value=\" ANNULEREN \" id=\"but2\" onclick=\"this.disabled=1;document.forms['tarieven'].but1.disabled=1;document.location='".htmlentities($_GET["from"])."'\"><p>";
 
 	echo "<table cellspacing=\"0\" class=\"tbl\">";
-	
+
 	# Titels
 	echo "<tr>";
 	echo "<th>&nbsp;</th>";
@@ -84,7 +84,7 @@ if($seizoen["naam"]) {
 
 	# Beschikbaarheid
 	$kolomteller=1000;
-	
+
 	$titel="Beschikbaar";
 	echo "<tr".$bijkomendekosten_style."><td>".htmlentities($titel)."</td>";
 	kopieer();
@@ -353,7 +353,7 @@ if($seizoen["naam"]) {
 	echo "</form>";
 	echo "</table>";
 
-	
+
 }
 
 ?></td></tr></table></body></html>
