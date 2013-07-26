@@ -4356,7 +4356,7 @@ $txt["nl"]["enquete"]["mail_body"]="Beste [NAAM],
 
 Welkom thuis! We hopen dat je een fijne vakantie hebt gehad.
 
-Middels een korte enquête zouden wij graag willen weten wat jullie ervaring is geweest. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.
+Middels een korte enquête zouden wij graag willen weten wat jullie ervaring is geweest in [ACCOMMODATIENAAM]. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.
 
 [b]Volgend seizoen[/b]
 Mocht je van ons informatie willen ontvangen over het volgende seizoen, of specifiek over de accommodatie waar je zojuist geweest bent, dan kun je dit bovendien ook in deze enquête aangeven.
@@ -4370,7 +4370,7 @@ Met vriendelijke groet,
 
 [ondertekening]";
 
-$txt["en"]["enquete"]["mail_body"]="Dear [NAAM],\n\nWe hope you've had a good holiday. We would like to hear about your experience, so that we can offer an even better service in the future.\n\nThat's why would like to ask you to devote a few minutes on our survey. The information will be just for internal usage and won't be given to third parties.\n\n[link=[LINK_ENQUETE]]Go to the survey »[/link]\n\nThanks in advance for your help!\n\nKind regards,\n\n[ondertekening]";
+$txt["en"]["enquete"]["mail_body"]="Dear [NAAM],\n\nWe hope you've had a good holiday. We would like to hear about your experience in [ACCOMMODATIENAAM], so that we can offer an even better service in the future.\n\nThat's why we would like to ask you to devote a few minutes on our survey. The information will be just for internal usage and won't be given to third parties.\n\n[link=[LINK_ENQUETE]]Go to the survey »[/link]\n\nThanks in advance for your help!\n\nKind regards,\n\n[ondertekening]";
 
 
 
@@ -4378,7 +4378,7 @@ $txt["nl"]["enquete"]["mail_body_kortingscode"]="Beste [NAAM],
 
 Welkom thuis! We hopen dat je een fijne vakantie hebt gehad.
 
-Middels een korte enquête zouden wij graag willen weten wat jullie ervaring is geweest. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.
+Middels een korte enquête zouden wij graag willen weten wat jullie ervaring is geweest in [ACCOMMODATIENAAM]. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.
 
 [b]Voordelig fotoboek[/b]
 Als dank ontvang je na het invullen van de enquête een kortingscode waarmee je op [link=[LINK_FOTOFABRIEK]]fotofabriek.nl[/link] met 55% korting een A4-fotoboek kunt bestellen!
