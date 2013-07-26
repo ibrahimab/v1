@@ -4,6 +4,8 @@
 # Dit script opent het juiste opmaak-bestand (op basis van $vars["websitetype"])
 #
 
+$opmaak = new opmaakonderdelen;
+
 if($vars["websitetype"]==3) {
 	# Zomerhuisje (.nl en .eu)
 	include("content/opmaak_zomerhuisje.php");
