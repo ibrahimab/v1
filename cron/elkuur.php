@@ -447,10 +447,6 @@ if(date("H")==3 or $argv[1]=="traffic4u") {
 		"feed_traffic4u_bestemmingen-aantal-personen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
 	);
 
-	// $doorloop_array=array(
-	// 	"feed_traffic4u_bestemmingen-aantal-personen_I"=>"https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
-	// );
-
 	ini_set("default_socket_timeout",7200);
 	while(list($key,$value)=each($doorloop_array)) {
 		$feed=file_get_contents($value);
@@ -462,9 +458,6 @@ if(date("H")==3 or $argv[1]=="traffic4u") {
 		}
 	}
 	ini_set("default_socket_timeout",60);
-	// if($argv[1]=="test") {
-	// 	exit;
-	// }
 }
 
 // if(date("H")==5 or date("H")==11 or date("H")==17 or $argv[1]=="test") {

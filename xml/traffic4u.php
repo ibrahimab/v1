@@ -200,9 +200,9 @@ if($_GET["feed"]=="accommodaties") {
 
 		$result_teller++;
 
-		if($_GET["feed"]=="bestemmingen-aantal-personen" and $result_teller>=4) {
-			continue;
-		}
+		// if($_GET["feed"]=="bestemmingen-aantal-personen" and $result_teller>=4) {
+		// 	continue;
+		// }
 
 		reset($doorloop_array);
 
