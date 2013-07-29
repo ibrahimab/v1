@@ -438,8 +438,8 @@ if(date("H")==4 or date("H")==18 or $argv[1]=="xmlopnieuw") {
 	}
 }
 
-# Cache Traffic4U
-if(date("H")==3 or $argv[1]=="traffic4u") {
+# Cache Traffic4U (2 uur 's nachts elke maandag)
+if((date("H")==2 and date("w")==1) or $argv[1]=="traffic4u") {
 	$doorloop_array=array(
 		"feed_traffic4u_bestemmingen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
 		"feed_traffic4u_bestemmingen-aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
