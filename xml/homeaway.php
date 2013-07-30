@@ -102,8 +102,8 @@ while($db->next_record()) {
 				}
 
 				echo "<advertiserRatePeriods>\n";
-				echo "<listingExternalId>".$homeaway_types[$db->f("type_id")]."</listingExternalId>\n";
-				echo "<unitExternalId>".$homeaway_types[$db->f("type_id")]."</unitExternalId>\n";
+				echo "<listingExternalId>HA".$homeaway_types[$db->f("type_id")]."</listingExternalId>\n";
+				echo "<unitExternalId>HA".$homeaway_types[$db->f("type_id")]."</unitExternalId>\n";
 				echo "<ratePeriods>\n";
 
 				$typeid_gehad[$db->f("type_id")]=true;
@@ -165,8 +165,8 @@ while($db->next_record()) {
 				}
 
 				echo "<advertiserReservations>\n";
-				echo "<listingExternalId>".$homeaway_types[$db->f("type_id")]."</listingExternalId>\n";
-				echo "<unitExternalId>".$homeaway_types[$db->f("type_id")]."</unitExternalId>\n";
+				echo "<listingExternalId>HA".$homeaway_types[$db->f("type_id")]."</listingExternalId>\n";
+				echo "<unitExternalId>HA".$homeaway_types[$db->f("type_id")]."</unitExternalId>\n";
 				echo "<reservations>\n";
 
 				$typeid_gehad[$db->f("type_id")]=true;
