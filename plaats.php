@@ -82,13 +82,7 @@ if($plaatsid) {
 
 		if($vars["seizoentype"]==1) {
 			$header["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam");
-			// $title["toonplaats"]=txt("wintersport","toonplaats")." ".$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
-			if($db->f("skigebied")==$db->f("naam")) {
-				$title["toonplaats"]=txt("chaletsvoorwintersportin","vars",array("v_land"=>$db->f("naam").", ".$db->f("land")));
-			} else {
-				$title["toonplaats"]=txt("chaletsvoorwintersportin","vars",array("v_land"=>$db->f("naam").", ".$db->f("skigebied").", ".$db->f("land")));
-			}
-			// $title["toonplaats"]=txt("chaletsvoorwintersportin","vars",array("v_land"=>$db->f("naam")));
+			$title["toonplaats"]=txt("chaletsvoorwintersportin","vars",array("v_land"=>$db->f("naam").", ".$db->f("land")));
 
 			$breadcrumbs[txt("menu_skigebieden").".php"]=ucfirst(txt("menu_skigebieden"));
 			$breadcrumbs[txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/"]=$db->f("land");
