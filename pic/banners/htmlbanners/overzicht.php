@@ -75,15 +75,16 @@ $keuzes[6][5][2]="Italissima.be htmlbanner regio-datum-personen 120x600";
 
 $netwerken[1]="TradeTracker";
 $netwerken[2]="Sneeuwhoogte.nl";
-#$netwerken[3]="Snowplaza";
+$netwerken[3]="Snowplaza";
 
 
 $netwerk_wzt_niet_tonen[1]=array("0");
 $netwerk_wzt_niet_tonen[2]=array("2","3","6");
-#$netwerk_wzt_niet_tonen[3]=array("1","2","3","4","5","6");
+$netwerk_wzt_niet_tonen[3]=array("2","3","6");
 
 // Sneeuwhoogte.nl: alleen 728x90-banners
 $netwerk_alleen_deze_maten_tonen[2]=array("728x90");
+$netwerk_alleen_deze_maten_tonen[3]=array("728x90","300x250");
 
 for($i=1;$i<=3;$i++) {
 
