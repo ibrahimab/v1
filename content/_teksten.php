@@ -38,6 +38,9 @@ $txt["en"]["vars"]["chalet"]="chalet";
 $txt["nl"]["vars"]["chalets"]="chalets";
 $txt["en"]["vars"]["chalets"]="chalets";
 
+$txt["nl"]["vars"]["chaletsvoorwintersportin"]="Chalets voor wintersport in [[v_land]]";
+$txt["en"]["vars"]["chaletsvoorwintersportin"]="Chalets for winter sport in [[v_land]]";
+
 $txt["nl"]["vars"]["appartement"]="appartement";
 $txt["en"]["vars"]["appartement"]="apartment";
 

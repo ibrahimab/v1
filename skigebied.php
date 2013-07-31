@@ -95,7 +95,8 @@ if($skigebiedid) {
 		}
 
 		if($vars["seizoentype"]==1) {
-			$title["toonskigebied"]=txt("title_toonskigebied")." ".$db->f("naam");
+			// $title["toonskigebied"]=txt("title_toonskigebied")." ".$db->f("naam");
+			$title["toonskigebied"]=txt("chaletsvoorwintersportin","vars",array("v_land"=>$db->f("naam")));
 			if(!$meta_description) {
 				$meta_description=txt("title_toonskigebied")." ".$db->f("naam")." in ".$db->f("land");
 			}
