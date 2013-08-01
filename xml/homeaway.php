@@ -1,5 +1,30 @@
 <?php
 
+function wt_dump_with_unixtime($array,$html=true) {
+	ob_start();
+	if(is_array($array)) {
+		print_r($array);
+	} else {
+		echo "Geen array: ".$array;
+	}
+
+	$return=ob_get_contents();
+	ob_end_clean();
+	if($return) {
+		$aanpassen=$return;
+		while(ereg("([0-9]{10,})",$aanpassen,$regs)) {
+			if($regs[1]) {
+				$aanpassen=ereg_replace($regs[1],date("d-m-Y",$regs[1]),$aanpassen);
+			}
+		}
+		$return=$aanpassen;
+	}
+	if($html) {
+		$return="<hr><PRE>".nl2br(htmlentities($return))."</PRE><hr>";
+	}
+	return $return;
+}
+
 
 
 #
@@ -25,16 +50,21 @@ $homeaway_types=array(
 	"244"=>"1138513",
 	"248"=>"1138514",
 	"4034"=>"1138515",
-	"114"=>"1138516",
-	"6635"=>"1138517",
-	"5491"=>"1138519",
-	"7910"=>"1138520",
+	"165"=>"1138516",
+	"4"=>"1138517",
+	"5494"=>"1138519",
+	"7906"=>"1138520",
 	"6577"=>"1138521",
-	"1723"=>"1138522",
-	"4695"=>"1138523",
-	"3177"=>"1138524",
-	"5319"=>"1138525",
+	"1038"=>"1138522",
+	"4697"=>"1138523",
+	"3179"=>"1138524",
+	"5312"=>"1138525",
 );
+
+
+// $homeaway_types=array(
+// 	"4"=>"1138517",
+// );
 
 foreach ($homeaway_types as $key => $value) {
 	$alletypes.=",".$key;
@@ -155,23 +185,23 @@ while($db->next_record()) {
 
 			echo "	</ratePeriod>\n";
 
-		} elseif($availability==3 and !$rates) {
+		} elseif(!$rates and ($availability==1 or $availability==2)) {
 
-			if(!$typeid_gehad[$db->f("type_id")]) {
+			// if(!$typeid_gehad[$db->f("type_id")]) {
 
-				if($typeid_gehad) {
-					echo "</reservations>\n";
-					echo "</advertiserReservations>\n";
-				}
+			// 	if($typeid_gehad) {
+			// 		echo "</reservations>\n";
+			// 		echo "</advertiserReservations>\n";
+			// 	}
 
-				echo "<advertiserReservations>\n";
-				echo "<listingExternalId>HA".$homeaway_types[$db->f("type_id")]."</listingExternalId>\n";
-				echo "<unitExternalId>HA".$homeaway_types[$db->f("type_id")]."</unitExternalId>\n";
-				echo "<reservations>\n";
+			// 	echo "<advertiserReservations>\n";
+			// 	echo "<listingExternalId>HA".$homeaway_types[$db->f("type_id")]."</listingExternalId>\n";
+			// 	echo "<unitExternalId>HA".$homeaway_types[$db->f("type_id")]."</unitExternalId>\n";
+			// 	echo "<reservations>\n";
 
-				$typeid_gehad[$db->f("type_id")]=true;
+			// 	$typeid_gehad[$db->f("type_id")]=true;
 
-			}
+			// }
 
 			# Exacte aankomstdatum
 			$week=$db->f("week");
@@ -193,24 +223,76 @@ while($db->next_record()) {
 			$aantalnachten_afwijking=$aantalnachten_afwijking+$db->f("aankomst_plusmin")-$db->f("vertrek_plusmin");
 			$nachten=7-$aantalnachten_afwijking;
 
-			echo "<reservation>\n";
-			echo "<reservationDates>\n";
-			echo "		<beginDate>".xml_text(date("Y-m-d",$exacte_unixtime))."</beginDate>\n";
-			$enddate=mktime(0,0,0,date("m",$exacte_unixtime),date("d",$exacte_unixtime)+$nachten,date("Y",$exacte_unixtime));
-			echo "		<endDate>".xml_text(date("Y-m-d",$enddate))."</endDate>\n";
-			echo "</reservationDates>\n";
-			echo "</reservation>\n";
+			// echo "<reservation>\n";
+			// echo "<reservationDates>\n";
+			// echo "		<beginDate>".xml_text(date("Y-m-d",$exacte_unixtime))."</beginDate>\n";
 
+
+			// echo "		<endDate>".xml_text(date("Y-m-d",$enddate))."</endDate>\n";
+			// echo "</reservationDates>\n";
+			// echo "</reservation>\n";
+
+			$week=mktime(0,0,0,date("m",$exacte_unixtime),date("d",$exacte_unixtime),date("Y",$exacte_unixtime));
+			for($i=0;$i<=($nachten-1);$i++) {
+				$week=mktime(0,0,0,date("m",$exacte_unixtime),date("d",$exacte_unixtime)+$i,date("Y",$exacte_unixtime));
+				$beschikbaar[$db->f("type_id")][$week]=true;
+			}
 		}
 	}
 }
+
+// echo wt_dump_with_unixtime($beschikbaar);
+
 if($rates) {
 	if($typeid_gehad) {
 		echo "</ratePeriods>\n";
 		echo "</advertiserRatePeriods>\n";
 	}
 } else {
-	if($typeid_gehad) {
+
+// echo wt_dump_with_unixtime($beschikbaar);
+// exit;
+
+	foreach ($homeaway_types as $key => $value) {
+
+		echo "<advertiserReservations>\n";
+		echo "<listingExternalId>HA".$value."</listingExternalId>\n";
+		echo "<unitExternalId>HA".$value."</unitExternalId>\n";
+		echo "<reservations>\n";
+
+		$start=mktime(0,0,0,date("m"),1,date("Y"));
+		$eind=mktime(0,0,0,date("m"),date("d"),date("Y")+2);
+
+		$time=$start;
+		while($time<$eind) {
+
+			echo "<reservation>\n";
+			echo "<reservationDates>\n";
+
+			while($beschikbaar[$key][$time]) {
+				$time=mktime(0,0,0,date("m",$time),date("d",$time)+1,date("Y",$time));
+			}
+			echo "<beginDate>".date("Y-m-d",$time)."</beginDate>\n";
+
+			$time=mktime(0,0,0,date("m",$time),date("d",$time)+1,date("Y",$time));
+
+			while(!$beschikbaar[$key][$time] and $time<$eind) {
+				$time=mktime(0,0,0,date("m",$time),date("d",$time)+1,date("Y",$time));
+			}
+			echo "<endDate>".date("Y-m-d",$time)."</endDate>\n";
+
+			echo "</reservationDates>\n";
+			echo "</reservation>\n";
+
+			// $time=mktime(0,0,0,date("m",$time),date("d",$time)+1,date("Y",$time));
+
+
+			$prevent_hang_teller++;
+			if($prevent_hang_teller>10000) {
+				exit;
+			}
+
+		}
 		echo "</reservations>\n";
 		echo "</advertiserReservations>\n";
 	}
