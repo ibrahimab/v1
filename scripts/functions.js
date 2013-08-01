@@ -1912,6 +1912,48 @@ $(document).ready(function() {
 			});
 			return false;
 		});
+
+		// tarieventabel: meer/minder personen tonen
+		$(".tarieventabel_toggle_personen a").click(function(event) {
+			if ( $(".tarieventabel_aantal_personen_verbergen").is(":visible") ) {
+				$(".tarieventabel_aantal_personen_verbergen").hide();
+				$(".tarieventabel_toggle_personen span").html($(this).data("default"));
+
+				$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-up");
+				$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-down");
+
+			} else {
+				$(".tarieventabel_aantal_personen_verbergen").show();
+				$(".tarieventabel_toggle_personen span").html($(this).data("hide"));
+
+				$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-down");
+				$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-up");
+
+			}
+			event.preventDefault();
+		});
+
+		// verbergen
+		$(".tarieventabel_aantal_personen_verbergen").hide();
+
+
+		// tarieventabel: scrollen
+		$(".tarieventabel_pijl").click(function(event) {
+			var leftPos = $(".tarieventabel_wrapper_rechts").scrollLeft();
+
+			if($(this).hasClass("tarieventabel_pijl_links")) {
+				$(".tarieventabel_wrapper_rechts").animate({scrollLeft: leftPos - 201}, 600);
+			} else {
+				$(".tarieventabel_wrapper_rechts").animate({scrollLeft: leftPos + 201}, 600);
+			}
+			// $(".tarieventabel_wrapper_rechts").scrollRight(10);
+
+			event.preventDefault();
+		});
+
+
+
+
 	}
 });
 

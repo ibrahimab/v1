@@ -50,34 +50,59 @@ class tarieventabel {
 
 		// bepalen welke aantallen personen direct zichtbaar moeten zijn
 		if($_GET["ap"]) {
-			$maxtonen=$_GET["ap"]+2;
-			$mintonen=$_GET["ap"]-2;
+			$this->maxtonen=$_GET["ap"]+2;
+			$this->mintonen=$_GET["ap"]-2;
 		} else {
-			$max=max(array_keys($this->aantal_personen));
-			$maxtonen=$max;
-			$mintonen=$max-4;
+			$this->maxtonen=max(array_keys($this->aantal_personen));
+			$this->mintonen=$this->maxtonen-4;
 		}
 
 
-		$return .= <<<EOT
 
-		<table cellspacing="0" class="tarieventabel_border tarieventabel_titels_links">
-			<tr class="tarieventabel_maanden"><td>&nbsp;</td></tr>
-			<tr class="tarieventabel_datumbalk"><td>Aankomstdatum</td></tr>
-			<tr class="tarieventabel_datumbalk"><td>Aankomstdag</td></tr>
-			<tr class="tarieventabel_datumbalk"><td>Aantal nachten</td></tr>
-			<tr><td>Accommodatiekorting</td></tr>
+		$return.="<table cellspacing=\"0\" cellpadding=\"0\" class=\"tarieventabel_border tarieventabel_titels_links\">";
+		$return.="<tr class=\"tarieventabel_maanden\"><td class=\"tarieventabel_maanden_leeg\">&nbsp;</td></tr>";
 
-EOT;
+		$return.="</td></tr>";
+		$return.="<tr class=\"tarieventabel_datumbalk\"><td>Aankomstdatum</td></tr>";
+		$return.="<tr class=\"tarieventabel_datumbalk\"><td>Aankomstdag</td></tr>";
+		$return.="<tr class=\"tarieventabel_datumbalk\"><td>Aantal nachten</td></tr>";
+		$return.="<tr><td>Accommodatiekorting</td></tr>";
+
 
 		// regels met aantal personen tonen
 		foreach ($this->aantal_personen as $key => $value) {
-			$return.="<tr><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
+			$return.="<tr class=\"".($key<$this->mintonen||$key>$this->maxtonen ? "tarieventabel_aantal_personen_verbergen" : "")."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
 		}
+
 
 		$return.="</table>";
 
+
+
+
+
 		$return .= $this->tabel_tarieven();
+
+		// minder personen open/dichtklappen
+		$return.="<div class=\"tarieventabel_toggle_personen\">";
+		$return.="<a href=\"#\" data-default=\"".html("minderpersonen","tarieventabel")."\" data-hide=\"".html("minderpersonen_verbergen","tarieventabel")."\"><i class=\"icon-chevron-sign-down\"></i>&nbsp;<span>".html("minderpersonen","tarieventabel")."</span></a>";
+		$return.="</div>";
+
+
+		// legenda
+		$return.="<div class=\"tarieventabel_legenda\">";
+		$return.="<div><span class=\"tarieventabel_tarieven_aanbieding\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_aanbieding","tarieventabel")."</div>";
+		$return.="<div><span class=\"tarieventabel_tarieven_niet_beschikbaar\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_niet_beschikbaar","tarieventabel")."</div>";
+		$return.="</div>";
+
+
+		$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_links\">";
+		$return.="<i class=\"icon-chevron-left\"></i>";
+		$return.="</div>";
+
+		$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_rechts\">";
+		$return.="<i class=\"icon-chevron-right\"></i>";
+		$return.="</div>";
 
 		return $return;
 
@@ -91,10 +116,21 @@ EOT;
 
 		# regel met maanden
 		$return.="<tr class=\"tarieventabel_maanden\">";
+		$kolomteller=0;
 		foreach ($this->maand as $key => $value) {
+			$kolomteller++;
 
 			$unixtime=mktime(0,0,0,substr($key,5,2),1,substr($key,0,4));
-			$return.="<td colspan=\"".$value."\">".DATUM("MAAND JJJJ",$unixtime,$vars["taal"])."</td>";
+
+			if($kolomteller==1) {
+				$return.="<td class=\"tarieventabel_tarieven_kolom_links\"";
+			} elseif($kolomteller==count($this->maand)) {
+				$return.="<td class=\"tarieventabel_tarieven_kolom_rechts\"";
+			} else {
+				$return.="<td";
+			}
+
+			$return.=" colspan=\"".$value."\">".DATUM("MAAND JJJJ",$unixtime,$vars["taal"])."</td>";
 		}
 		$return.="</tr>";
 
@@ -121,11 +157,23 @@ EOT;
 
 		# regel met accommodatiekorting
 		$return.="<tr class=\"tarieventabel_korting_tr\">";
+		$kolomteller=0;
 		foreach ($this->dag_van_de_week as $key => $value) {
-			if($this->aanbieding[$key]) {
-				$return.="<td><div class=\"tarieventabel_tarieven_korting\">".wt_he($this->aanbieding[$key])."</div></td>";
+
+			$kolomteller++;
+
+			if($kolomteller==1) {
+				$return.="<td class=\"tarieventabel_tarieven_kolom_links\">";
+			} elseif($kolomteller==count($this->dag_van_de_week)) {
+				$return.="<td class=\"tarieventabel_tarieven_kolom_rechts\">";
 			} else {
-				$return.="<td>&nbsp;</td>";
+				$return.="<td>";
+			}
+
+			if($this->aanbieding[$key]) {
+				$return.="<div class=\"tarieventabel_tarieven_aanbieding\">".wt_he($this->aanbieding[$key])."</div></td>";
+			} else {
+				$return.="&nbsp;</td>";
 			}
 		}
 		$return.="</tr>";
@@ -133,12 +181,22 @@ EOT;
 		# daadwerkelijke tarieven tonen
 		foreach ($this->aantal_personen as $key => $value) {
 
-			$return.="<tr class=\"tarieventabel_tarieven\">";
+			$return.="<tr class=\"tarieventabel_tarieven".($key<$this->mintonen||$key>$this->maxtonen ? " tarieventabel_aantal_personen_verbergen" : "")."\">";
+			$kolomteller=0;
 			foreach ($this->dag as $key2 => $value2) {
-				$return.="<td><div class=\"tarieventabel_tarieven_div\">";
+				$kolomteller++;
+
+				if($kolomteller==1) {
+					$return.="<td class=\"tarieventabel_tarieven_kolom_links\">";
+				} elseif($kolomteller==count($this->dag)) {
+					$return.="<td class=\"tarieventabel_tarieven_kolom_rechts\">";
+				} else {
+					$return.="<td>";
+				}
+				$return.="<div class=\"tarieventabel_tarieven_div\">";
 
 				if($this->aanbieding[$key2]) {
-					$return.="<div class=\"tarieventabel_tarieven_korting\">";
+					$return.="<div class=\"tarieventabel_tarieven_aanbieding\">";
 				}
 
 				$return.=number_format($this->tarief[$key][$key2],0,",",".");

@@ -2395,6 +2395,18 @@ $txt["en"]["tarieventabel"]["wederverkoop_tooncommissie"]="Show/hide commission"
 $txt["nl"]["tarieventabel"]["accommodatieboeken"]="accommodatie boeken";
 $txt["en"]["tarieventabel"]["accommodatieboeken"]="book accommodation";
 
+$txt["nl"]["tarieventabel"]["minderpersonen"]="minder personen";
+$txt["en"]["tarieventabel"]["minderpersonen"]="less persons";
+
+$txt["nl"]["tarieventabel"]["minderpersonen_verbergen"]="inklappen";
+$txt["en"]["tarieventabel"]["minderpersonen_verbergen"]="fold up";
+
+$txt["nl"]["tarieventabel"]["legenda_aanbieding"]="aanbieding (korting al doorberekend)";
+$txt["en"]["tarieventabel"]["legenda_aanbieding"]="special offer";
+
+$txt["nl"]["tarieventabel"]["legenda_niet_beschikbaar"]="niet beschikbaar";
+$txt["en"]["tarieventabel"]["legenda_niet_beschikbaar"]="unavailable";
+
 
 #
 # Pagina Skigebied (bijvoorbeeld http://www.chalet.nl/skigebied/Alpe_d_Huez_Les_Grandes_Rousses/)
