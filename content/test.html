@@ -83,7 +83,6 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_GET["testsysteem"]==1)
 		white-space: nowrap;
 		border-top-width: 0px;
 		height: 19px !important;
-		overflow: hidden;
 	}
 
 	.tarieventabel_datumbalk {
@@ -105,6 +104,15 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_GET["testsysteem"]==1)
 		text-align: center;
 	}
 
+	.tarieventabel_datumbalk_minder_opvallend td {
+		color: #777777;
+	}
+
+	.tarieventabel_datumbalk_opvallend {
+		color: #000000 !important;
+		font-weight: bold;
+	}
+
 	.tarieventabel_tarieven_aanbieding {
 		background-color: #ffa258;
 		border-radius: 4px;
@@ -115,13 +123,24 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_GET["testsysteem"]==1)
 		border-radius: 4px;
 	}
 
+	.tarieventabel_tarieven_gekozen {
+		background-color: #a8f4f0;
+	}
+
+	.tarieventabel_legenda_kleurenblokje {
+		border-radius: 4px;
+	}
+
 	.tarieventabel_tarieven td {
 		text-align: center;
-		cursor: pointer;
 		width: 60px;
 	}
 
-	.tarieventabel_tarieven td:hover {
+	.tarieventabel_tarieven td.tarieventabel_tarieven_beschikbaar {
+		cursor: pointer;
+	}
+
+	.tarieventabel_tarieven td.tarieventabel_tarieven_beschikbaar:hover {
 		background-color: #ffe933;
 	}
 
@@ -161,6 +180,10 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_GET["testsysteem"]==1)
 		left: 160px;
 	}
 
+	.tarieventabel_pijl_scrollstop, .tarieventabel_pijl_scrollstop:hover {
+		background-color: red;
+	}
+
 	.tarieventabel_tarieven_kolom_links {
 		border-left-width: 0px !important;
 	}
@@ -178,6 +201,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_GET["testsysteem"]==1)
 		margin-top: -12px;
 		margin-bottom: 10px;
 		width: 145px;
+		font-size:10px;
 	}
 
 	.tarieventabel_toggle_personen a {
@@ -200,13 +224,18 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_GET["testsysteem"]==1)
 		font-size: 10px;
 	}
 
+
+.tablehide {
+	display: none;
+}
+
 	</style>
 	<?php
 
 
 	$tarieventabel = new tarieventabel;
 
-	echo $tarieventabel->toontabel(240,22);
+	echo $tarieventabel->toontabel();
 
 
 } else {

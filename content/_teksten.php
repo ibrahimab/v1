@@ -2317,6 +2317,9 @@ $txt["en"]["tarieventabel"]["kortingenaldoorgerekend"]="Discounts are already in
 $txt["nl"]["tarieventabel"]["aankomstdatum"]="Aankomstdatum";
 $txt["en"]["tarieventabel"]["aankomstdatum"]="Arrival date";
 
+$txt["nl"]["tarieventabel"]["aankomstdag"]="Aankomstdag";
+$txt["en"]["tarieventabel"]["aankomstdag"]="Arrival date";
+
 $txt["nl"]["tarieventabel"]["aantalnachten"]="Aantal nachten";
 $txt["en"]["tarieventabel"]["aantalnachten"]="Number of nights";
 
@@ -2395,8 +2398,8 @@ $txt["en"]["tarieventabel"]["wederverkoop_tooncommissie"]="Show/hide commission"
 $txt["nl"]["tarieventabel"]["accommodatieboeken"]="accommodatie boeken";
 $txt["en"]["tarieventabel"]["accommodatieboeken"]="book accommodation";
 
-$txt["nl"]["tarieventabel"]["minderpersonen"]="minder personen";
-$txt["en"]["tarieventabel"]["minderpersonen"]="less persons";
+$txt["nl"]["tarieventabel"]["minderpersonen"]="minder/meer personen";
+$txt["en"]["tarieventabel"]["minderpersonen"]="less/more persons";
 
 $txt["nl"]["tarieventabel"]["minderpersonen_verbergen"]="inklappen";
 $txt["en"]["tarieventabel"]["minderpersonen_verbergen"]="fold up";
@@ -2407,6 +2410,14 @@ $txt["en"]["tarieventabel"]["legenda_aanbieding"]="special offer";
 $txt["nl"]["tarieventabel"]["legenda_niet_beschikbaar"]="niet beschikbaar";
 $txt["en"]["tarieventabel"]["legenda_niet_beschikbaar"]="unavailable";
 
+$txt["nl"]["tarieventabel"]["legenda_gekozen_datum_aantal_personen"]="door jou gekozen datum/aantal personen";
+$txt["en"]["tarieventabel"]["legenda_gekozen_datum_aantal_personen"]="selected date/number of persons";
+
+$txt["nl"]["tarieventabel"]["legenda_gekozen_aantal_personen"]="door jou gekozen aantal personen";
+$txt["en"]["tarieventabel"]["legenda_gekozen_aantal_personen"]="selected number of persons";
+
+$txt["nl"]["tarieventabel"]["legenda_gekozen_datum"]="door jou gekozen datum";
+$txt["en"]["tarieventabel"]["legenda_gekozen_datum"]="selected date";
 
 #
 # Pagina Skigebied (bijvoorbeeld http://www.chalet.nl/skigebied/Alpe_d_Huez_Les_Grandes_Rousses/)

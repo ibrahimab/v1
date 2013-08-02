@@ -1890,10 +1890,6 @@ $(document).ready(function() {
 
 		}
 
-		//
-		// TIJDELIJKE FUNCTIES
-		//
-
 		// meer foto's reisblog Italissima
 		$("a#blog_foto_aanvullend_meer_link").click(function(){
 
@@ -1915,45 +1911,126 @@ $(document).ready(function() {
 
 		// tarieventabel: meer/minder personen tonen
 		$(".tarieventabel_toggle_personen a").click(function(event) {
+
+			event.preventDefault();
+
+			var deze=$(this);
+
+			// horizontale scrollpositie onthouden
+			var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
+
+
+
 			if ( $(".tarieventabel_aantal_personen_verbergen").is(":visible") ) {
-				$(".tarieventabel_aantal_personen_verbergen").hide();
-				$(".tarieventabel_toggle_personen span").html($(this).data("default"));
+				// inklappen
+				$(".tarieventabel_aantal_personen_verbergen").fadeOut(700,function(){
+					$(".tarieventabel_aantal_personen_verbergen").hide();
 
-				$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-up");
-				$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-down");
+					$(".tarieventabel_toggle_personen span").html(deze.data("default"));
 
+					$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-up");
+					$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-down");
+
+				});
 			} else {
-				$(".tarieventabel_aantal_personen_verbergen").show();
-				$(".tarieventabel_toggle_personen span").html($(this).data("hide"));
+
+				// openklappen
+
+				// $(".tarieventabel_aantal_personen_verbergen").effect("highlight",{},1000);
+
+				$(".tarieventabel_aantal_personen_verbergen").fadeIn(700,function(){
+					$(".tarieventabel_aantal_personen_verbergen").show();
+				});
+
+				$(".tarieventabel_toggle_personen span").html(deze.data("hide"));
 
 				$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-down");
 				$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-up");
 
 			}
-			event.preventDefault();
+
+
+			// weer scrollen naar oude scrollpositie
+			$(".tarieventabel_wrapper_rechts").scrollLeft(leftPos);
+
+			return false;
+
 		});
 
-		// verbergen
+		// tarieventabel: verbergen laag aantal personen
 		$(".tarieventabel_aantal_personen_verbergen").hide();
 
+		// tarieventabel: klikken op bedrag naar boeken leiden
+		$("td.tarieventabel_tarieven_beschikbaar").click(function(event){
+			event.preventDefault();
+
+			var url='';
+			if($(this).parent().data("aantalpersonen")>0) {
+				url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week")+"&ap="+$(this).parent().data("aantalpersonen");
+			} else {
+				url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week");
+			}
+			document.location.href=url;
+
+		});
 
 		// tarieventabel: scrollen
 		$(".tarieventabel_pijl").click(function(event) {
-			var leftPos = $(".tarieventabel_wrapper_rechts").scrollLeft();
+			var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
+			var pijl_links=false;
+
+			var actieve_pijl=$(this);
 
 			if($(this).hasClass("tarieventabel_pijl_links")) {
-				$(".tarieventabel_wrapper_rechts").animate({scrollLeft: leftPos - 201}, 600);
-			} else {
-				$(".tarieventabel_wrapper_rechts").animate({scrollLeft: leftPos + 201}, 600);
+				pijl_links=true;
 			}
-			// $(".tarieventabel_wrapper_rechts").scrollRight(10);
 
+			var eindpos = 0;
+			var nieuwpos = 0;
+			var maxpos = 0;
+			$(".tarieventabel_maanden td").each(function() {
+				if($(this).data("maand-kolom")) {
+
+					eindpos=parseInt($(this).data("maand-kolom"))*67;
+					maxpos=parseInt($(this).data("maand-kolom"))*67;
+
+					if(pijl_links) {
+						if(eindpos<leftPos) {
+							nieuwpos=eindpos;
+						}
+					} else {
+						if(nieuwpos==0 && eindpos>leftPos) {
+							nieuwpos=eindpos;
+						}
+					}
+				}
+			});
+			if((pijl_links && nieuwpos==0 && leftPos==0) || (!pijl_links && maxpos<= (leftPos+500) )) {
+				// bij klikken als eind al is bereikt: rood oplichten
+				actieve_pijl.addClass("tarieventabel_pijl_scrollstop").delay(500).queue(function(next){
+					$(this).removeClass("tarieventabel_pijl_scrollstop");
+					next();
+				});
+			} else {
+				if((nieuwpos+500)>maxpos) {
+					// bij bereiken eind: rood oplichten
+					actieve_pijl.delay(200).queue(function(next){
+						actieve_pijl.addClass("tarieventabel_pijl_scrollstop").delay(500).queue(function(next2){
+							$(this).removeClass("tarieventabel_pijl_scrollstop");
+							next2();
+						});
+						next();
+					});
+				}
+
+
+				// animatie: scrollen tabel in 600ms
+				$(".tarieventabel_wrapper_rechts").animate({scrollLeft: nieuwpos}, 600, function(){
+
+				});
+			}
 			event.preventDefault();
 		});
-
-
-
-
 	}
 });
 
