@@ -103,14 +103,49 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 			$aanbieding[$seizoenid]["aanbiedingid_sort"]["korting_".$db->f("korting_id")]["weken"][$db2->f("week")]=true;
 		}
 	}
-	ob_start();
-	include("content/tarieventabel.html");
-	$tarieventabel[$seizoenid]=ob_get_contents();
-	ob_end_clean();
-	if($tarieven_getoond[$seizoenid]) {
-		if($seizoenen_inquery) $seizoenen_inquery.=",".$seizoenid; else $seizoenen_inquery=$seizoenid;
-		if($oranjebedragen_row_getoond) {
-			$aanbieding_actief=true;
+
+	if($vars["seizoentype"]==1 and ($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
+		//
+		// nieuwe tarieventabel
+		//
+
+		$temp_tarieventabel = new tarieventabel;
+
+		$temp_tarieventabel->seizoen_id=$seizoenid;
+		$temp_tarieventabel->type_id=$typeid;
+
+		$temp_tarieventabel->css();
+
+		$temp_tarieventabel_content = $temp_tarieventabel->toontabel();
+
+#echo $temp_tarieventabel_content;
+
+		if($temp_tarieventabel->tarieven_getoond) {
+
+			$tarieven_getoond[$seizoenid]=true;
+			$echt_tarieven_getoond=true;
+
+			$tarieventabel[$seizoenid]=$temp_tarieventabel_content;
+
+			if($seizoenen_inquery) $seizoenen_inquery.=",".$seizoenid; else $seizoenen_inquery=$seizoenid;
+			if($temp_tarieventabel->aanbieding_actief) {
+				$aanbieding_actief=true;
+			}
+		}
+
+	} else {
+		//
+		// oude tarieventabel
+		//
+		ob_start();
+		include("content/tarieventabel.html");
+		$tarieventabel[$seizoenid]=ob_get_contents();
+		ob_end_clean();
+		if($tarieven_getoond[$seizoenid]) {
+			if($seizoenen_inquery) $seizoenen_inquery.=",".$seizoenid; else $seizoenen_inquery=$seizoenid;
+			if($oranjebedragen_row_getoond) {
+				$aanbieding_actief=true;
+			}
 		}
 	}
 }
@@ -415,18 +450,6 @@ if($db->next_record()) {
 #		echo $temp_intern;
 #		if($db->f("type_id")==1542) {
 			$interneinfo=$temp_intern;
-#		}
-	}
-#	if(!$echt_tarieven_getoond) {
-#		if($tarieven_ingevoerd) {
-#			echo "<b>".html("geentarieven_accvol","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</b><hr>";
-#		}
-#	}
-	if(!$echt_tarieven_getoond) {
-#		if($tarieven_ingevoerd) {
-#			echo "<b>".html("geentarieven_accvol","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</b><hr>";;
-#		} else {
-#			echo "<b>".html("tarievennognietbekend","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</b><hr>";
 #		}
 	}
 	if(is_array($foto["pic"])) {
