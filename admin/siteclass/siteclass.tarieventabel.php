@@ -13,6 +13,8 @@ class tarieventabel {
 
 		$this->toon_interne_informatie = false;
 
+		// $this->toon_interne_informatie = true;
+
 		$this->voorraad_doorlopen=array(
 			"garantie" => "Garantie",
 			"aflopen_allotment" => "Allotment loopt af op",
@@ -27,14 +29,6 @@ class tarieventabel {
 			"blokkeren_wederverkoop" => "Blokkeren wederverkoop",
 			"aantal_geboekt" => "Aantal geboekt"
 		);
-
-
-		// $this->seizoen_id=22;
-		// $this->type_id=5940;
-		// $this->type_id=115;
-		// $this->type_id=174;
-#		$this->type_id=240;
-
 	}
 
 	public function toontabel() {
@@ -60,7 +54,7 @@ class tarieventabel {
 		global $vars;
 
 		$return .= "<div class=\"tarieventabel_top\">";
-		$return .= "<h1>".html("tarieven","tarieventabel")." ".wt_he($this->seizoen["naam"])."</h1>";
+		$return .= "<h1>".html("tarieven","tarieventabel")."</h1>";
 
 		if($this->arrangement) {
 			$return .= html("ineuros","tarieventabel").", ".html("perpersooninclskipas","tarieventabel");
@@ -204,17 +198,30 @@ class tarieventabel {
 		$kolomteller=0;
 		foreach ($this->maand as $key => $value) {
 			$kolomteller++;
+
+			$class="";
+
 			$kolomteller_onderliggend=$kolomteller_onderliggend+$value;
 
 			$unixtime=mktime(0,0,0,substr($key,5,2),1,substr($key,0,4));
 
 			if($kolomteller==1) {
-				$return.="<td class=\"tarieventabel_tarieven_kolom_links\"";
+				$class.=" tarieventabel_tarieven_kolom_links";
 			} elseif($kolomteller==count($this->maand)) {
-				$return.="<td class=\"tarieventabel_tarieven_kolom_rechts\"";
-			} else {
-				$return.="<td";
+				$class.=" tarieventabel_tarieven_kolom_rechts";
 			}
+
+			$vorige_week=mktime(0,0,0,date("m",$unixtime)-1,date("d",$unixtime),date("Y",$unixtime));
+			$volgende_week=mktime(0,0,0,date("m",$unixtime)+1,date("d",$unixtime),date("Y",$unixtime));
+
+			if(!$this->binnen_seizoen[date("Ym",$vorige_week)] and !$class) {
+				$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+			}
+			if(!$this->binnen_seizoen[date("Ym",$volgende_week)] and !$class) {
+				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+			}
+
+			$return.="<td class=\"".$class."\"";
 
 			$return.=" colspan=\"".$value."\" data-maand-kolom=\"".$kolomteller_onderliggend."\">".DATUM("MAAND JJJJ",$unixtime,$vars["taal"])."</td>";
 		}
@@ -222,22 +229,105 @@ class tarieventabel {
 
 		# regel met aankomstdatum
 		$return.="<tr class=\"tarieventabel_datumbalk tarieventabel_datumbalk_content\">";
+		$kolomteller=0;
 		foreach ($this->dag as $key => $value) {
-			$return.="<td>".$value."</td>";
+			unset($eventueel_seizoenswissel);
+			$kolomteller++;
+
+			$class = "";
+
+			if($kolomteller==1) {
+
+			} elseif($kolomteller==count($this->maand)) {
+
+			} else {
+				$eventueel_seizoenswissel=true;
+			}
+
+			$vorige_week=mktime(0,0,0,date("m",$key),date("d",$key)-7,date("Y",$key));
+			$volgende_week=mktime(0,0,0,date("m",$key),date("d",$key)+7,date("Y",$key));
+
+			if(!$this->binnen_seizoen[date("Ym",$vorige_week)] and $eventueel_seizoenswissel) {
+				$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+			}
+			if(!$this->binnen_seizoen[date("Ym",$volgende_week)] and $eventueel_seizoenswissel) {
+				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+			}
+			$return.="<td class=\"".trim($class)."\">".$value."</td>";
 		}
 		$return.="</tr>";
 
 		# regel met dag van de week
 		$return.="<tr class=\"tarieventabel_datumbalk tarieventabel_datumbalk_content tarieventabel_datumbalk_minder_opvallend\">";
+		$kolomteller=0;
 		foreach ($this->dag_van_de_week as $key => $value) {
-			$return.="<td".($this->dag_van_de_week_afwijkend[$key] ? " class=\"tarieventabel_datumbalk_opvallend\"" : "").">".$value."</td>";
+
+			unset($eventueel_seizoenswissel);
+			$kolomteller++;
+
+			$class = "";
+
+			if($kolomteller==1) {
+
+			} elseif($kolomteller==count($this->dag_van_de_week)) {
+
+			} else {
+				$eventueel_seizoenswissel=true;
+			}
+
+			$vorige_week=mktime(0,0,0,date("m",$key),date("d",$key)-7,date("Y",$key));
+			$volgende_week=mktime(0,0,0,date("m",$key),date("d",$key)+7,date("Y",$key));
+
+			if(!$this->binnen_seizoen[date("Ym",$vorige_week)] and $eventueel_seizoenswissel) {
+				$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+			}
+			if(!$this->binnen_seizoen[date("Ym",$volgende_week)] and $eventueel_seizoenswissel) {
+				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+			}
+
+			if($this->dag_van_de_week_afwijkend[$key]) {
+				$class=" tarieventabel_datumbalk_opvallend";
+			}
+
+			$return.="<td class=\"".trim($class)."\">".$value."</td>";
 		}
 		$return.="</tr>";
 
 		# regel met aantal nachten
 		$return.="<tr class=\"tarieventabel_datumbalk tarieventabel_datumbalk_content tarieventabel_datumbalk_minder_opvallend\">";
+		$kolomteller=0;
 		foreach ($this->dag_van_de_week as $key => $value) {
-			$return.="<td".($this->aantalnachten[$key]<>7 ? " class=\"tarieventabel_datumbalk_opvallend\"" : "").">".$this->aantalnachten[$key]."</td>";
+
+			unset($eventueel_seizoenswissel);
+			$kolomteller++;
+
+			$class = "";
+
+			if($kolomteller==1) {
+
+			} elseif($kolomteller==count($this->dag_van_de_week)) {
+
+			} else {
+				$eventueel_seizoenswissel=true;
+			}
+
+			$vorige_week=mktime(0,0,0,date("m",$key),date("d",$key)-7,date("Y",$key));
+			$volgende_week=mktime(0,0,0,date("m",$key),date("d",$key)+7,date("Y",$key));
+
+			if(!$this->binnen_seizoen[date("Ym",$vorige_week)] and $eventueel_seizoenswissel) {
+				$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+			}
+			if(!$this->binnen_seizoen[date("Ym",$volgende_week)] and $eventueel_seizoenswissel) {
+				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+			}
+
+			if($this->aantalnachten[$key]<>7) {
+				$class.=" tarieventabel_datumbalk_opvallend";
+			}
+
+			$return.="<td class=\"".trim($class)."\">".$this->aantalnachten[$key]."</td>";
+
+			// $return.="<td".($this->aantalnachten[$key]<>7 ? " class=\"tarieventabel_datumbalk_opvallend\"" : "").">".$this->aantalnachten[$key]."</td>";
 		}
 		$return.="</tr>";
 
@@ -272,6 +362,17 @@ class tarieventabel {
 					} elseif($kolomteller==count($this->dag)) {
 						$class.=" tarieventabel_tarieven_kolom_rechts";
 					}
+
+					$vorige_week=mktime(0,0,0,date("m",$key),date("d",$key)-7,date("Y",$key));
+					$volgende_week=mktime(0,0,0,date("m",$key),date("d",$key)+7,date("Y",$key));
+
+					if(!$this->binnen_seizoen[date("Ym",$vorige_week)] and !$class) {
+						$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+					}
+					if(!$this->binnen_seizoen[date("Ym",$volgende_week)] and !$class) {
+						$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+					}
+
 
 					$return.="<td class=\"".trim($class)."\">";
 
@@ -349,14 +450,25 @@ class tarieventabel {
 					$kolomteller++;
 
 					$class="";
-					if($this->tarief[$key][$key2]>0) {
-						$class.=" tarieventabel_tarieven_beschikbaar";
-					}
 
 					if($kolomteller==1) {
 						$class.=" tarieventabel_tarieven_kolom_links";
 					} elseif($kolomteller==count($this->dag)) {
 						$class.=" tarieventabel_tarieven_kolom_rechts";
+					}
+
+					$vorige_week=mktime(0,0,0,date("m",$key2),date("d",$key2)-7,date("Y",$key2));
+					$volgende_week=mktime(0,0,0,date("m",$key2),date("d",$key2)+7,date("Y",$key2));
+
+					if(!$this->binnen_seizoen[date("Ym",$vorige_week)] and !$class) {
+						$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+					}
+					if(!$this->binnen_seizoen[date("Ym",$volgende_week)] and !$class) {
+						$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+					}
+
+					if($this->tarief[$key][$key2]>0) {
+						$class.=" tarieventabel_tarieven_beschikbaar";
 					}
 
 					if($_GET["ap"]==$key and $_GET["d"]==$key2) {
@@ -381,7 +493,7 @@ class tarieventabel {
 						} else {
 							$return.=number_format($this->tarief[$key][$key2],0,",","");
 						}
-						$this->tarieven_getoond=true;
+						$this->tarieven_getoond[$this->week_seizoen_id[$key2]]=true;
 
 						if($this->toonkorting_1[$key2] or $this->toonkorting_2[$key2]) {
 							$return.="</div>";
@@ -414,15 +526,27 @@ class tarieventabel {
 				$kolomteller++;
 
 				$class="";
-				if($this->tarief[$key]>0) {
-					$class.=" tarieventabel_tarieven_beschikbaar";
-				}
 
 				if($kolomteller==1) {
 					$class.=" tarieventabel_tarieven_kolom_links";
 				} elseif($kolomteller==count($this->dag)) {
 					$class.=" tarieventabel_tarieven_kolom_rechts";
 				}
+
+				$vorige_week=mktime(0,0,0,date("m",$key),date("d",$key)-7,date("Y",$key));
+				$volgende_week=mktime(0,0,0,date("m",$key),date("d",$key)+7,date("Y",$key));
+
+				if(!$this->binnen_seizoen[date("Ym",$vorige_week)] and !$class) {
+					$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+				}
+				if(!$this->binnen_seizoen[date("Ym",$volgende_week)] and !$class) {
+					$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+				}
+
+				if($this->tarief[$key]>0) {
+					$class.=" tarieventabel_tarieven_beschikbaar";
+				}
+
 
 				if($_GET["d"]==$key) {
 					$class.=" tarieventabel_tarieven_gekozen";
@@ -442,7 +566,7 @@ class tarieventabel {
 					} else {
 						$return.=number_format($this->tarief[$key],0,",","");
 					}
-					$this->tarieven_getoond=true;
+					$this->tarieven_getoond[$this->week_seizoen_id[$key]]=true;
 
 					if($this->toonkorting_1[$key] or $this->toonkorting_2[$key]) {
 						$return.="</div>";
@@ -481,12 +605,6 @@ class tarieventabel {
 			$this->accinfo=accinfo($this->type_id);
 		}
 
-		# seizoeninfo
-		$db->query("SELECT naam".$vars["ttv"]." AS naam FROM seizoen WHERE seizoen_id='".intval($this->seizoen_id)."';");
-		if($db->next_record()) {
-			$this->seizoen["naam"]=$db->f("naam");
-		}
-
 		if($this->accinfo["toonper"]==3 or $vars["wederverkoop"]) {
 
 		} else {
@@ -494,10 +612,11 @@ class tarieventabel {
 		}
 
 		# Controle op vertrekdagaanpassing?
+		$typeid=$this->type_id;
 		include($vars["unixdir"]."content/vertrekdagaanpassing.html");
 
 		// aflopen_allotment uit calculatiesjabloon halen
-		$db2->query("SELECT week, aflopen_allotment FROM calculatiesjabloon_week WHERE seizoen_id='".intval($this->seizoen_id)."' AND leverancier_id='".intval($this->accinfo["leverancierid"])."';");
+		$db2->query("SELECT week, aflopen_allotment FROM calculatiesjabloon_week WHERE seizoen_id IN (".$this->seizoen_id.") AND leverancier_id='".intval($this->accinfo["leverancierid"])."';");
 		while($db2->next_record()) {
 			if($db2->f("aflopen_allotment")<>"") $this->aflopen_allotment[$db2->f("week")]=$db2->f("aflopen_allotment");
 		}
@@ -512,13 +631,15 @@ class tarieventabel {
 			// gegevens uit database halen
 			//
 
-			$db->query("SELECT t.bruto, t.arrangementsprijs, t.beschikbaar, t.blokkeren_wederverkoop, tp.week, tp.personen, tp.prijs, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.toonexactekorting, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.aanbieding_skipas_percentage, t.aanbieding_skipas_euro FROM tarief_personen tp, tarief t WHERE tp.seizoen_id='".addslashes($this->seizoen_id)."' AND tp.type_id='".addslashes($this->type_id)."' AND t.type_id=tp.type_id AND t.seizoen_id=tp.seizoen_id AND t.week=tp.week AND tp.week>UNIX_TIMESTAMP(NOW()) ORDER BY tp.week, tp.personen DESC;");
+			$db->query("SELECT t.bruto, t.arrangementsprijs, t.beschikbaar, t.blokkeren_wederverkoop, tp.week, tp.personen, tp.prijs, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.toonexactekorting, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.aanbieding_skipas_percentage, t.aanbieding_skipas_euro, t.seizoen_id FROM tarief_personen tp, tarief t WHERE tp.seizoen_id IN(".$this->seizoen_id.") AND tp.type_id='".addslashes($this->type_id)."' AND t.type_id=tp.type_id AND t.seizoen_id=tp.seizoen_id AND t.week=tp.week AND tp.week>UNIX_TIMESTAMP(NOW()) ORDER BY tp.week, tp.personen DESC;");
 			if($db->num_rows()) {
-				// $GLOBALS["tarieven_ingevoerd"][$this->seizoen_id]=true;
 				$this->tarieven_ingevoerd=true;
 			}
 
 			while($db->next_record()) {
+
+				# seizoen_id bij een bepaalde week bepalen
+				$this->week_seizoen_id[$db->f("week")]=$db->f("seizoen_id");
 
 				if($this->toon_interne_informatie) {
 					$this->voorraad["garantie"][$db->f("week")]=$db->f("voorraad_garantie");
@@ -554,10 +675,14 @@ class tarieventabel {
 					if($db->f("aanbieding_skipas_euro")>0) $this->korting["aanbieding_skipas_euro"][$db->f("week")]=$db->f("aanbieding_skipas_euro");
 				}
 
+
+				if(!$this->begin) $this->begin=$db->f("week");
+				$this->eind=$db->f("week");
+
+				$this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
+
 				if($db->f("prijs")>0 and $db->f("beschikbaar") and ($db->f("bruto")>0 or $db->f("arrangementsprijs")>0)) {
 
-					if(!$this->begin) $this->begin=$db->f("week");
-					$this->eind=$db->f("week");
 					$this->tarief[$db->f("personen")][$db->f("week")]=$db->f("prijs");
 
 					$this->aantal_personen[$db->f("personen")]=true;
@@ -605,19 +730,21 @@ class tarieventabel {
 			//
 
 			if($vars["wederverkoop"]) {
-				$db->query("SELECT t.c_bruto, t.bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.wederverkoop_verkoopprijs, t.wederverkoop_commissie_agent, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting FROM tarief t WHERE t.seizoen_id='".addslashes($this->seizoen_id)."' AND t.type_id='".addslashes($this->type_id)."';");
+				$db->query("SELECT t.c_bruto, t.bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.wederverkoop_verkoopprijs, t.wederverkoop_commissie_agent, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting, t.seizoen_id FROM tarief t WHERE t.seizoen_id IN (".$this->seizoen_id.") AND t.type_id='".addslashes($this->type_id)."' ORDER BY t.week;");
 				if($db->num_rows()) {
-					// $GLOBALS["tarieven_ingevoerd"][$this->seizoen_id]=true;
 					$this->tarieven_ingevoerd=true;
 				}
 			} else {
-				$db->query("SELECT t.c_bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting FROM tarief t WHERE t.seizoen_id='".addslashes($this->seizoen_id)."' AND t.type_id='".addslashes($this->type_id)."';");
+				$db->query("SELECT t.c_bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting, t.seizoen_id FROM tarief t WHERE t.seizoen_id IN (".$this->seizoen_id.") AND t.type_id='".addslashes($this->type_id)."' ORDER BY t.week;");
 				if($db->num_rows()) {
-					// $GLOBALS["tarieven_ingevoerd"][$this->seizoen_id]=true;
 					$this->tarieven_ingevoerd=true;
 				}
 			}
 			while($db->next_record()) {
+
+				# seizoen_id bij een bepaalde week bepalen
+				$this->week_seizoen_id[$db->f("week")]=$db->f("seizoen_id");
+
 				# Voorraad bepalen t.b.v. Chalet-medewerkers
 				if($this->toon_interne_informatie) {
 					$this->voorraad["garantie"][$db->f("week")]=$db->f("voorraad_garantie");
@@ -667,12 +794,14 @@ class tarieventabel {
 					if($db->f("aanbieding_acc_euro")<>0) $korting["aanbieding_acc_euro"][$db->f("week")]=$db->f("aanbieding_acc_euro");
 				}
 
+				if(!$this->begin) $this->begin=$db->f("week");
+				$this->eind=$db->f("week");
+
+				$this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
+
 				if($temp_verkoop_site>0 and $temp_beschikbaar and $temp_bruto>0) {
 
 					$this->tarief[$db->f("week")]=$temp_verkoop_site;
-
-					if(!$this->begin) $this->begin=$db->f("week");
-					$this->eind=$db->f("week");
 
 					if($this->tarief[$db->f("week")]>0) {
 						// $tarieventabel_tonen[$db->f("week")]=1;
@@ -725,7 +854,7 @@ class tarieventabel {
 
 
 		// Aantal keer geboekt uit database halen
-		$db->query("SELECT aankomstdatum, aankomstdatum_exact, vertrekdatum_exact FROM boeking WHERE goedgekeurd=1 AND geannuleerd=0 AND type_id='".intval($this->type_id)."' AND seizoen_id='".intval($this->seizoen_id)."';");
+		$db->query("SELECT aankomstdatum, aankomstdatum_exact, vertrekdatum_exact FROM boeking WHERE goedgekeurd=1 AND geannuleerd=0 AND type_id='".intval($this->type_id)."' AND seizoen_id IN (".$this->seizoen_id.");");
 		while($db->next_record()) {
 			$this->voorraad["aantal_geboekt"][$db->f("aankomstdatum")]++;
 
@@ -757,19 +886,22 @@ class tarieventabel {
 		$week=$this->begin;
 		while($week<=$this->eind) {
 
-			if($vertrekdag[$this->seizoen_id][date("dm",$week)] or $this->accinfo["aankomst_plusmin"]) {
-				$aangepaste_unixtime=mktime(0,0,0,date("m",$week),date("d",$week)+$vertrekdag[$this->seizoen_id][date("dm",$week)]+$this->accinfo["aankomst_plusmin"],date("Y",$week));
+			if($vertrekdag[$this->week_seizoen_id[$week]][date("dm",$week)] or $this->accinfo["aankomst_plusmin"]) {
+				$aangepaste_unixtime=mktime(0,0,0,date("m",$week),date("d",$week)+$vertrekdag[$this->week_seizoen_id[$week]][date("dm",$week)]+$this->accinfo["aankomst_plusmin"],date("Y",$week));
 			} else {
 				$aangepaste_unixtime=$week;
 				$exacte_unixtime=$week;
 			}
 
-			$this->dag[$week]=date("d",$aangepaste_unixtime);
-			$this->dag_van_de_week[$week]=strftime("%a",$aangepaste_unixtime);
-			if(date("w",$aangepaste_unixtime)<>6) {
-				$this->dag_van_de_week_afwijkend[$week]=true;
+			if($this->binnen_seizoen[date("Ym",$week)]) {
+
+				$this->dag[$week]=date("d",$aangepaste_unixtime);
+				$this->dag_van_de_week[$week]=strftime("%a",$aangepaste_unixtime);
+				if(date("w",$aangepaste_unixtime)<>6) {
+					$this->dag_van_de_week_afwijkend[$week]=true;
+				}
+				$this->maand[date("Y-m",$aangepaste_unixtime)]++;
 			}
-			$this->maand[date("Y-m",$aangepaste_unixtime)]++;
 
 
 			$exacte_unixtime=$aangepaste_unixtime;
@@ -782,15 +914,16 @@ class tarieventabel {
 		$eind=mktime(0,0,0,date("m",$this->eind),date("d",$this->eind)+7,date("Y",$this->eind));
 		while($week<=$eind) {
 			# Afwijkende vertrekdag
-			$aantalnachten_afwijking[date("dm",$week)]+=$vertrekdag[$this->seizoen_id][date("dm",$week)];
+			$aantalnachten_afwijking[date("dm",$week)]+=$vertrekdag[$this->week_seizoen_id[$week]][date("dm",$week)];
 			$vorigeweek=mktime(0,0,0,date("n",$week),date("j",$week)-7,date("Y",$week));
-			$aantalnachten_afwijking[date("dm",$vorigeweek)]-=$vertrekdag[$this->seizoen_id][date("dm",$week)];
+			$aantalnachten_afwijking[date("dm",$vorigeweek)]-=$vertrekdag[$this->week_seizoen_id[$week]][date("dm",$week)];
 
 			# Afwijkende verblijfsduur
 			$aantalnachten_afwijking[date("dm",$week)]=$aantalnachten_afwijking[date("dm",$week)]+$this->accinfo["aankomst_plusmin"]-$this->accinfo["vertrek_plusmin"];
 
+
 			if($aantalnachten_afwijking[date("dm",$week)]) {
-				$this->aantalnachten[$week]=$aantalnachten_afwijking[date("dm",$week)];
+				$this->aantalnachten[$week]=7-$aantalnachten_afwijking[date("dm",$week)];
 			} else {
 				$this->aantalnachten[$week]=7;
 			}
@@ -1013,6 +1146,14 @@ class tarieventabel {
 
 			.tarieventabel_tarieven_kolom_rechts {
 				border-right-width: 0px !important;
+			}
+
+			.tarieventabel_tarieven_kolom_begin_seizoen {
+				border-left: 1px solid red !important;
+			}
+
+			.tarieventabel_tarieven_kolom_eind_seizoen {
+				border-right: 1px solid red !important;
 			}
 
 			.tarieventabel_aantal_personen_verbergen {
