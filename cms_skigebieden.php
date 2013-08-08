@@ -117,6 +117,7 @@ if($vars["cmstaal"]) $cms->db_field(5,"textarea","omschrijvingskipasbasis_".$var
 $cms->db_field(5,"textarea","omschrijvingskipasuitgebreid");
 if($vars["cmstaal"]) $cms->db_field(5,"textarea","omschrijvingskipasuitgebreid_".$vars["cmstaal"]);
 $cms->db_field(5,"picture","afbeelding","",array("savelocation"=>"pic/cms/skigebieden/","filetype"=>"jpg","multiple"=>true));
+// $cms->db_field(5,"picture","afbeelding_breed","",array("savelocation"=>"pic/cms/skigebieden_breed/","filetype"=>"jpg","multiple"=>true));
 $cms->db_field(5,"picture","landkaart","",array("savelocation"=>"pic/cms/skigebieden_landkaarten/","filetype"=>"gif"));
 $cms->db_field(5,"picture","pistekaart","",array("savelocation"=>"pic/cms/skigebieden_pistekaarten/","filetype"=>"jpg"));
 for($i=1;$i<=5;$i++) {
@@ -142,6 +143,8 @@ if($zomerhuisje) {
 $cms->db_field(5,"yesno","video");
 $cms->db_field(5,"url","video_url");
 
+# foto-onderschrift
+$cms->db_field(5,"text","foto_onderschrift");
 
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
@@ -215,6 +218,8 @@ if($_GET["wzt"]==1) {
 }
 $cms->edit_field(5,0,"htmlrow","<hr><b>Afbeeldingen/landkaart</b>");
 $cms->edit_field(5,0,"afbeelding","Afbeelding(en)","",array("autoresize"=>true,"img_minwidth"=>"200","img_minheight"=>"150","img_maxwidth"=>"600","img_maxheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>8));
+$cms->edit_field(5,0,"foto_onderschrift","Onderschrift bij afbeeldingen");
+// $cms->edit_field(5,0,"afbeelding_breed","Brede afbeelding(en)","",array("autoresize"=>true,"img_width"=>"400","img_height"=>"150","img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
 $cms->edit_field(5,0,"pistekaart","Pistekaart skigebied","",array("img_minheight"=>"150","img_maxwidth"=>"4000","img_maxheight"=>"2200","showfiletype"=>true));
 $cms->edit_field(5,0,"landkaart","Landkaart","",array("img_minheight"=>"150","img_maxwidth"=>"600","img_maxheight"=>"600","showfiletype"=>true));
 

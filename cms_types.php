@@ -494,6 +494,10 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(2,0,"vertrekinfo_exclusief","Afwijkende exclusief-tekst","","",array("info"=>"Indien de tekst niet afwijkt van de website-tekst, dan hier niks invullen."));
 }
 $cms->edit_field(2,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Routebeschrijving naar de receptie of accommodatie' (wordt toegevoegd aan de routebeschrijving naar de betreffende plaats)</i>");
+$db0->query("SELECT p.vertrekinfo_plaatsroute".($vars["cmstaal"] ? "_en" : "")." AS vertrekinfo_plaatsroute FROM plaats p, accommodatie a, type t WHERE a.plaats_id=p.plaats_id AND t.accommodatie_id=a.accommodatie_id AND t.type_id='".intval($_GET["2k0"])."';");
+if($db0->next_record()) {
+	$cms->edit_field(2,0,"htmlcol","Routebeschrijving plaats",array("html"=>nl2br(wt_he($db0->f("vertrekinfo_plaatsroute")))));
+}
 if($vars["cmstaal"]) {
 	$cms->edit_field(2,0,"vertrekinfo_route","Routebeschrijving NL","",array("noedit"=>true));
 	$cms->edit_field(2,0,"vertrekinfo_route_".$vars["cmstaal"],"Routebeschrijving ".strtoupper($vars["cmstaal"]));

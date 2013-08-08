@@ -860,6 +860,20 @@ class tarieventabel {
 				overflow-x: scroll;
 			}
 
+			.tarieventabel_wrapper_rechts::-webkit-scrollbar {
+				-webkit-appearance: none;
+			}
+
+			.tarieventabel_wrapper_rechts::-webkit-scrollbar:horizontal {
+				height: 13px;
+			}
+
+			.tarieventabel_wrapper_rechts::-webkit-scrollbar-thumb {
+				border-radius: 8px;
+				border: 2px solid white;
+				background-color: rgba(0, 0, 0, .5);
+			}
+
 			.tarieventabel_content {
 				float: left;
 				border-top-width: 0px;

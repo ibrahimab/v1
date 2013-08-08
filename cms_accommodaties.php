@@ -6,9 +6,10 @@ $mustlogin=true;
 include("admin/vars.php");
 
 if($_GET["1k0"]) {
-	$db->query("SELECT a.toonper FROM accommodatie a WHERE a.accommodatie_id='".addslashes($_GET["1k0"])."';");
+	$db->query("SELECT a.toonper, a.plaats_id FROM accommodatie a WHERE a.accommodatie_id='".addslashes($_GET["1k0"])."';");
 	if($db->next_record()) {
 		$oud_toonper=$db->f("toonper");
+		$plaats_id=$db->f("plaats_id");
 	}
 
 	# Kijken of er aan deze accommodatie al boekingen hangen
@@ -661,6 +662,10 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(1,0,"vertrekinfo_exclusief","Afwijkende exclusief-tekst","","",array("info"=>"Indien de tekst niet afwijkt van de website-tekst, dan hier niks invullen."));
 }
 $cms->edit_field(1,0,"htmlrow","<br><hr class=\"greyhr\"><br><i>Alinea 'Routebeschrijving naar de receptie of accommodatie' (wordt toegevoegd aan de routebeschrijving naar de betreffende plaats)</i>");
+$db0->query("SELECT vertrekinfo_plaatsroute".($vars["cmstaal"] ? "_en" : "")." AS vertrekinfo_plaatsroute FROM plaats WHERE plaats_id='".intval($plaats_id)."';");
+if($db0->next_record()) {
+	$cms->edit_field(1,0,"htmlcol","Routebeschrijving plaats",array("html"=>nl2br(wt_he($db0->f("vertrekinfo_plaatsroute")))));
+}
 if($vars["cmstaal"]) {
 	$cms->edit_field(1,0,"vertrekinfo_route","Routebeschrijving NL","",array("noedit"=>true));
 	$cms->edit_field(1,0,"vertrekinfo_route_".$vars["cmstaal"],"Routebeschrijving ".strtoupper($vars["cmstaal"]));

@@ -1,6 +1,6 @@
 <?php
 
-$db->query("SELECT skigebied_id, naam, omschrijving".$vars["ttv"]." AS omschrijving, omschrijving_afbreken_na, minhoogte, maxhoogte, altnaam_zichtbaar, skiwaardering, snowboardwaardering, aantalliften, aantalstoeltjesliften, aantalsleepliften, aantalcabineliften, kilometerpiste, aantalgroenepistes, kmgroenepistes, aantalblauwepistes, kmblauwepistes, aantalrodepistes, kmrodepistes, aantalzwartepistes, kmzwartepistes, aantalloipes, kmloipes, omschrijvingskipasbasis".$vars["ttv"]." AS omschrijvingskipasbasis, omschrijvingskipasuitgebreid".$vars["ttv"]." AS omschrijvingskipasuitgebreid, webcam, weerbericht, kaart, kleurcode, accommodatiecodes, googlemaps_zoomlevel, video, video_url FROM skigebied WHERE skigebied_id=".addslashes($skigebiedid)." AND wzt='".addslashes($vars["seizoentype"])."';");
+$db->query("SELECT skigebied_id, naam, omschrijving".$vars["ttv"]." AS omschrijving, omschrijving_afbreken_na, minhoogte, maxhoogte, altnaam_zichtbaar, skiwaardering, snowboardwaardering, aantalliften, aantalstoeltjesliften, aantalsleepliften, aantalcabineliften, kilometerpiste, aantalgroenepistes, kmgroenepistes, aantalblauwepistes, kmblauwepistes, aantalrodepistes, kmrodepistes, aantalzwartepistes, kmzwartepistes, aantalloipes, kmloipes, omschrijvingskipasbasis".$vars["ttv"]." AS omschrijvingskipasbasis, omschrijvingskipasuitgebreid".$vars["ttv"]." AS omschrijvingskipasuitgebreid, webcam, weerbericht, kaart, kleurcode, accommodatiecodes, googlemaps_zoomlevel, video, video_url, foto_onderschrift FROM skigebied WHERE skigebied_id=".addslashes($skigebiedid)." AND wzt='".addslashes($vars["seizoentype"])."';");
 if(!$db->next_record()) {
 	echo html("skigebiednietgevonden","toonskigebied")."<p>";
 	echo html("kieseenanderskigebied","toonskigebied",array("l1"=>"skigebieden"));
@@ -322,7 +322,7 @@ hr {
 	echo "<div id=\"beschrijving\">";
 
 	# Foto's ophalen
-	$foto=imagearray(array("skigebieden"),array($db->f("skigebied_id")));
+	$foto=imagearray(array("skigebieden","skigebieden_breed"),array($db->f("skigebied_id")));
 
 	if(is_array($foto["pic"]) or file_exists("pic/cms/".$pic2)) {
 		echo "<div style=\"margin-bottom:15px;\">";
@@ -367,6 +367,9 @@ hr {
 			if($fototeller>3 or $foto["picbreed"]) {
 				echo "<a href=\"#fotos\" class=\"noprint\">".html("meerfotos","toonskigebied")." &gt;</a>";
 			}
+		}
+		if($db->f("foto_onderschrift")) {
+			echo "<br><span style=\"font-style:italic;font-size:0.8em;\">".wt_he($db->f("foto_onderschrift"))."</span>";
 		}
 		echo "</div>";
 	}
@@ -494,6 +497,9 @@ hr {
 	if($foto_table) {
 		echo "<table cellspacing=\"0\" cellpadding=\"5\">";
 		echo $foto_table;
+		if($db->f("foto_onderschrift")) {
+			echo "<tr><td colspan=\"3\"><span style=\"font-style:italic;font-size:0.8em;\">".wt_he($db->f("foto_onderschrift"))."</span></td></tr>";
+		}
 		echo "</table>";
 	} else {
 		echo "<i>".html("geenfotos","toonskigebied")."</i>";

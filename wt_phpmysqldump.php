@@ -51,12 +51,12 @@ if(!$_GET["cron"]) {
 if($_GET["cron"]) {
 	if(date("H")>=2) {
 		# niet alles downloaden
-#			$sav->where["tarief"]="week>'".(time()-63072000)."'";
-#			$sav->where["tarief_personen"]="week>'".(time()-63072000)."'";
+			$sav->where["tarief"]="week>'".(time()-63072000)."'";
+			$sav->where["tarief_personen"]="week>'".(time()-63072000)."'";
 #			$sav->where["zoekstatistiek"]="UNIX_TIMESTAMP(datumtijd)>'".(time()-2592000)."'";
-#			$sav->where["cmslog"]="UNIX_TIMESTAMP(savedate)>'".(time()-864000)."'";
-#			$sav->where["cmslog_pagina"]="UNIX_TIMESTAMP(savedate)>'".(time()-864000)."'";
-#			$sav->where["bezoeker"]="UNIX_TIMESTAMP(gewijzigd)>'".(time()-864000)."'";
+			$sav->where["cmslog"]="UNIX_TIMESTAMP(savedate)>'".(time()-864000)."'";
+			$sav->where["cmslog_pagina"]="UNIX_TIMESTAMP(savedate)>'".(time()-864000)."'";
+			$sav->where["bezoeker"]="UNIX_TIMESTAMP(gewijzigd)>'".(time()-864000)."'";
 	} else {
 		# 's nachts de volledige database downloaden
 

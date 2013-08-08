@@ -885,7 +885,7 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[14]]["kenmerkencontroleren"]) {
 					}
 					$leverancier_lijst[$db->f("leverancier_id")].="<p><b>".htmlentities($db->f("leverancier"))." ([[AANTAL]]):</b></p>";
 				}
-				$leverancier_lijst[$db->f("leverancier_id")].="<li><a href=\"cms_accommodaties.php?edit=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+				$leverancier_lijst[$db->f("leverancier_id")].="<li><a href=\"cms_accommodaties.php?edit=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."&gotouri=".urlencode($_SERVER["REQUEST_URI"])."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
 				$levteller[$db->f("leverancier_id")]++;
 				$laatste_levid=$db->f("leverancier_id");
 			}

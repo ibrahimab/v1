@@ -241,3 +241,37 @@ hr {
 	text-align: center;
 	width: 100%;
 }
+
+/*capctha*/
+
+.captcha label {
+	margin-top: 25px;
+	margin-bottom: 0px;
+}
+
+#captcha_img {
+	margin-bottom: -20px;
+}
+
+#captcha_juist {
+	display: none;
+}
+
+#captcha_onjuist {
+	display: none;
+	color: red;
+}
+
+#captcha_onjuist a {
+	color: #555555;
+}
+
+#captcha_onjuist a:hover {
+	color: #000000;
+}
+
+input[name=captcha] {
+	width: 150px;
+	text-transform:uppercase;
+	margin-top: 20px;
+}

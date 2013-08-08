@@ -1707,8 +1707,8 @@ $txt["en"]["accommodatiemail"]["stuurkopie"]="Send me a copy";
 $txt["nl"]["accommodatiemail"]["buttonleesmeer"]="Lees meer";
 $txt["en"]["accommodatiemail"]["buttonleesmeer"]="Read more";
 
-$txt["nl"]["accommodatiemail"]["recaptcha_uitleg"]="Typ de volgende letters over:";
-$txt["en"]["accommodatiemail"]["recaptcha_uitleg"]="Please type the following letters:";
+$txt["nl"]["accommodatiemail"]["recaptcha_uitleg"]="Typ de volgende letters over";
+$txt["en"]["accommodatiemail"]["recaptcha_uitleg"]="Please type the following letters";
 
 $txt["nl"]["accommodatiemail"]["captcha_onjuist"]="Onjuiste invoer. [[h_1]]Toon me andere letters[[h_2]]";
 $txt["en"]["accommodatiemail"]["captcha_onjuist"]="Incorrect input. [[h_1]]Please show me different letters[[h_2]]";
@@ -2410,13 +2410,13 @@ $txt["en"]["tarieventabel"]["legenda_aanbieding"]="special offer";
 $txt["nl"]["tarieventabel"]["legenda_niet_beschikbaar"]="niet beschikbaar";
 $txt["en"]["tarieventabel"]["legenda_niet_beschikbaar"]="unavailable";
 
-$txt["nl"]["tarieventabel"]["legenda_gekozen_datum_aantal_personen"]="door jou gekozen datum/aantal personen";
+$txt["nl"]["tarieventabel"]["legenda_gekozen_datum_aantal_personen"]="geselecteerde datum/aantal personen";
 $txt["en"]["tarieventabel"]["legenda_gekozen_datum_aantal_personen"]="selected date/number of persons";
 
-$txt["nl"]["tarieventabel"]["legenda_gekozen_aantal_personen"]="door jou gekozen aantal personen";
+$txt["nl"]["tarieventabel"]["legenda_gekozen_aantal_personen"]="geselecteerd aantal personen";
 $txt["en"]["tarieventabel"]["legenda_gekozen_aantal_personen"]="selected number of persons";
 
-$txt["nl"]["tarieventabel"]["legenda_gekozen_datum"]="door jou gekozen datum";
+$txt["nl"]["tarieventabel"]["legenda_gekozen_datum"]="geselecteerde datum";
 $txt["en"]["tarieventabel"]["legenda_gekozen_datum"]="selected date";
 
 #

@@ -42,22 +42,27 @@ if($_GET["b"]) {
 		$form->field_text(1,"naam","Naam");
 		$form->field_email(0,"email","E-mailadres","","","",array("add_html_after_field"=>"<br><span style=\"font-size:0.8em;font-style:italic;\">Je mailadres wordt niet op de website gepubliceerd.</span>"));
 		$form->field_textarea(1,"reactie","Reactie","","","",array("newline"=>true));
+		$form->field_htmlrow("",html("recaptcha_uitleg","accommodatiemail")."* <img src=\"".$vars["path"]."pic/captcha_image.php?c=1\" id=\"captcha_img\"><input type=\"text\" name=\"captcha\" maxlength=\"5\" autocomplete=\"off\" class=\"wtform_input\">&nbsp;&nbsp;&nbsp;<span id=\"captcha_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"captcha_onjuist\">".html("captcha_onjuist","accommodatiemail",array("h_1"=>"<a href=\"#\" id=\"captcha_reload\">","h_2"=>"</a>"))."</span><br/><br/>");
 		$form->field_htmlrow("","<i>Bij misbruik behoudt Italissima zich het recht voor om reacties (deels) te verwijderen. Het plaatsen van links is niet mogelijk.</i>");
 
 		$form->check_input();
 
 		if($form->filled) {
 
-			$filter_array=array("http://","https://");
-			while(list($key,$value)=each($filter_array)) {
-				$pos=strpos(" ".$form->input["reactie"],$value);
-				if($pos!==false) {
-					$form->error("reactie","het plaatsen van links is vanwege spam-misbruik helaas niet toegestaan");
-					$niet_opslaan=true;
-					break;
-				}
-			}
+			// uitgezet op 6 augustus 2013 op verzoek van Bjorn
+			// $filter_array=array("http://","https://");
+			// while(list($key,$value)=each($filter_array)) {
+			// 	$pos=strpos(" ".$form->input["reactie"],$value);
+			// 	if($pos!==false) {
+			// 		$form->error("reactie","het plaatsen van links is vanwege spam-misbruik helaas niet toegestaan");
+			// 		$niet_opslaan=true;
+			// 		break;
+			// 	}
+			// }
 
+			if(!$_SESSION["captcha_okay"]) {
+				$form->error("reactie","het plaatsen van een reactie kan alleen na het correct overtypen van de 5 letters");
+			}
 		}
 
 		if($form->okay) {

@@ -810,7 +810,7 @@ $vars["bestelmailfax_korting"]=array("D"=>"Kommission","E"=>"Commission","N"=>"C
 #$vars["bestelmailfax_vroegboekkorting"]=array("D"=>"Spezial Rabatt","E"=>"Early Bird","N"=>"Vroegboekkorting");
 $vars["bestelmailfax_vroegboekkorting"]=array("D"=>"Spezial Rabatt","E"=>"Special Reduction","N"=>"Extra korting");
 $vars["bestelmailfax_extra"]=array("D"=>"Extra","E"=>"Extra","N"=>"Extra");
-$vars["bestelmailfax_graagpermailoffaxbevestigen"]=array("D"=>"Wir bitten Sie uns umgehend eine Buchungsbestätigung zu schicken per Mail oder Fax. Vielen dank im voraus.","E"=>"Please confirm this reservation as soon as possible by email or fax.","N"=>"We vragen u deze reservering zo snel mogelijk per e-mail aan ons te bevestigen.");
+$vars["bestelmailfax_graagpermailoffaxbevestigen"]=array("D"=>"Wir bitten Sie uns umgehend eine Buchungsbestätigung zu schicken per Mail. Vielen dank im voraus.","E"=>"Please confirm this reservation as soon as possible by email.","N"=>"We vragen u deze reservering zo snel mogelijk per e-mail aan ons te bevestigen.");
 $vars["bestelmailfax_metvriendelijkegroet"]=array("D"=>"Mit freundlichen Grüßen","E"=>"Thanks in advance","N"=>"Met vriendelijke groet");
 $vars["bestelmailfax_pagina"]=array("D"=>"Seite","E"=>"Page","N"=>"Pagina");
 
