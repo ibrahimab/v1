@@ -160,11 +160,7 @@ echo "<link href=\"https://plus.google.com/102116407421806841336\" rel=\"publish
 echo googleanalytics();
 
 echo "</head>\n";
-echo "<body";
-if($id<>"index") echo " onscroll=\"document.getElementById('terugnaarboven').style.visibility='visible'\"";
-if($onload) echo " onload=\"".$onload."\"";
-echo " id=\"body_".$id."\"";
-echo ">";
+echo $opmaak->body_tag();
 echo "<div id=\"wrapper\">";
 echo "<div id=\"top\">";
 echo "<div id=\"logo\">";

@@ -38,6 +38,34 @@ class opmaakonderdelen {
 			return false;
 		}
 	}
+
+
+	function body_tag() {
+
+		// toon de body-tag (en bijbehorende elementen)
+
+		global $id, $onload;
+
+		$return.="<body";
+		if($id<>"index") $return.=" onscroll=\"document.getElementById('terugnaarboven').style.visibility='visible'\"";
+		if($onload) $return.=" onload=\"".$onload."\"";
+		$return.=" id=\"body_".$id."\"";
+
+		$class="";
+
+		if(preg_match("@Mac OS X@",$_SERVER["HTTP_USER_AGENT"])) {
+			$class.=" mac-osx";
+		}
+
+		if($class) {
+			$return.=" class=\"".trim($class)."\"";
+		}
+
+		$return.=">";
+
+		return $return;
+
+	}
 }
 
 
