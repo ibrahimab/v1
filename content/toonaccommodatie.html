@@ -78,8 +78,10 @@ if($toonper==3 or $vars["wederverkoop"]) {
 # Tarieventabellen inladen
 
 
-if($vars["seizoentype"]==1 and ($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
-	$nieuwe_tarieventabel=true;
+if(($vars["seizoentype"]==1 or $vars["websitetype"]==6) and ($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==6 or $_COOKIE["loginuser"]["chalet"]==15 or $_COOKIE["loginuser"]["chalet"]==26)) {
+	if(!$_GET["oudetabel"]) {
+		$nieuwe_tarieventabel=true;
+	}
 }
 $nieuwe_tarieventabel_seizoen_id_inquery="0";
 unset($tarieventabel);
@@ -137,6 +139,11 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 if($nieuwe_tarieventabel) {
 
 	$tarieventabel_object = new tarieventabel;
+
+	if($voorkant_cms and $_COOKIE["loginuser"]["chalet"]==6) {
+		$tarieventabel_object->toon_interne_informatie = true;
+	}
+
 
 	$tarieventabel_object->seizoen_id=$nieuwe_tarieventabel_seizoen_id_inquery;
 	$tarieventabel_object->type_id=$typeid;
@@ -1141,6 +1148,9 @@ if($db->next_record()) {
 	if($echt_tarieven_getoond) {
 
 		if($nieuwe_tarieventabel) {
+			if($voorkant_cms) {
+				echo "<div style=\"padding:5px;border:1px solid #878481;width:650px;margin-bottom:10px;\"><b><a href=\"".wt_he($_SERVER["REQUEST_URI"].(preg_match("@\?@",$_SERVER["REQUEST_URI"]) ? "&" : "?")."oudetabel=1#prijsinformatie")."\">toon oude tarieventabel &raquo;</a></b></div>";
+			}
 			echo "<a name=\"tar\"></a>";
 			echo $tarieventabel_object_content;
 			echo "<a name=\"optietabel\"></a>";

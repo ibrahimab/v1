@@ -1794,8 +1794,9 @@ $(document).ready(function() {
 			event.preventDefault();
 		});
 
-
+		//
 		// zoeken op kaart
+		//
 		if($(".zoekresultaten_zoeken_op_kaart_map").length!==0) {
 			$("#zoekresultaten_zoeken_op_kaart_map_canvas").hide();
 
@@ -1868,7 +1869,6 @@ $(document).ready(function() {
 		});
 
 		// factuur goedkeuren door klant: button actief/inactief
-
 		$("input[name=goedkeur1], input[name=goedkeur2]").change(function() {
 			if($("input[name=goedkeur1]").is(":checked") && $("input[name=goedkeur2]").is(":checked")) {
 				$("#factuurakkoordsubmit").removeAttr("disabled");
@@ -1909,128 +1909,151 @@ $(document).ready(function() {
 			return false;
 		});
 
-		// tarieventabel: meer/minder personen tonen
-		$(".tarieventabel_toggle_personen a").click(function(event) {
 
-			event.preventDefault();
+		//
+		// tarieventabel-functies
+		//
+		if($(".tarieventabel_wrapper").length!==0) {
 
-			var deze=$(this);
+			var actieve_kolom = parseInt($(".tarieventabel_wrapper").data("actieve-kolom"),10);
 
-			// horizontale scrollpositie onthouden
-			var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
+			if(actieve_kolom>=5) {
+				//
+				// naar juiste positie scrollen bij openen tarieventabel
+				//
 
+				var position = actieve_kolom * 67;
 
+				position=position-(4*67);
 
-			if ( $(".tarieventabel_aantal_personen_verbergen").is(":visible") ) {
-				// inklappen
-				$(".tarieventabel_aantal_personen_verbergen").fadeOut(700,function(){
-					$(".tarieventabel_aantal_personen_verbergen").hide();
+				$(".tarieventabel_wrapper_rechts").scrollLeft(position);
 
-					$(".tarieventabel_toggle_personen span").html(deze.data("default"));
-
-					$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-up");
-					$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-down");
-
-				});
-			} else {
-
-				// openklappen
-
-				// $(".tarieventabel_aantal_personen_verbergen").effect("highlight",{},1000);
-
-				$(".tarieventabel_aantal_personen_verbergen").fadeIn(700,function(){
-					$(".tarieventabel_aantal_personen_verbergen").show();
-				});
-
-				$(".tarieventabel_toggle_personen span").html(deze.data("hide"));
-
-				$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-down");
-				$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-up");
-
+				// alert('pos: '+position);
 			}
 
 
-			// weer scrollen naar oude scrollpositie
-			$(".tarieventabel_wrapper_rechts").scrollLeft(leftPos);
+			// tarieventabel: meer/minder personen tonen
+			$(".tarieventabel_toggle_personen a").click(function(event) {
 
-			return false;
+				event.preventDefault();
 
-		});
+				var deze=$(this);
 
-		// tarieventabel: verbergen laag aantal personen
-		$(".tarieventabel_aantal_personen_verbergen").hide();
+				// horizontale scrollpositie onthouden
+				var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
 
-		// tarieventabel: klikken op bedrag naar boeken leiden
-		$("td.tarieventabel_tarieven_beschikbaar").click(function(event){
-			event.preventDefault();
 
-			var url='';
-			if($(this).parent().data("aantalpersonen")>0) {
-				url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week")+"&ap="+$(this).parent().data("aantalpersonen");
-			} else {
-				url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week");
-			}
-			document.location.href=url;
 
-		});
+				if ( $(".tarieventabel_aantal_personen_verbergen").is(":visible") ) {
+					// inklappen
+					$(".tarieventabel_aantal_personen_verbergen").fadeOut(700,function(){
+						$(".tarieventabel_aantal_personen_verbergen").hide();
 
-		// tarieventabel: scrollen
-		$(".tarieventabel_pijl").click(function(event) {
-			var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
-			var pijl_links=false;
+						$(".tarieventabel_toggle_personen span").html(deze.data("default"));
 
-			var actieve_pijl=$(this);
+						$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-up");
+						$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-down");
 
-			if($(this).hasClass("tarieventabel_pijl_links")) {
-				pijl_links=true;
-			}
+					});
+				} else {
 
-			var eindpos = 0;
-			var nieuwpos = 0;
-			var maxpos = 0;
-			$(".tarieventabel_maanden td").each(function() {
-				if($(this).data("maand-kolom")) {
+					// openklappen
 
-					eindpos=parseInt($(this).data("maand-kolom"))*67;
-					maxpos=parseInt($(this).data("maand-kolom"))*67;
+					// $(".tarieventabel_aantal_personen_verbergen").effect("highlight",{},1000);
 
-					if(pijl_links) {
-						if(eindpos<leftPos) {
-							nieuwpos=eindpos;
-						}
-					} else {
-						if(nieuwpos==0 && eindpos>leftPos) {
-							nieuwpos=eindpos;
+					$(".tarieventabel_aantal_personen_verbergen").fadeIn(700,function(){
+						$(".tarieventabel_aantal_personen_verbergen").show();
+					});
+
+					$(".tarieventabel_toggle_personen span").html(deze.data("hide"));
+
+					$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-down");
+					$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-up");
+
+				}
+
+
+				// weer scrollen naar oude scrollpositie
+				$(".tarieventabel_wrapper_rechts").scrollLeft(leftPos);
+
+				return false;
+
+			});
+
+			// tarieventabel: verbergen laag aantal personen
+			$(".tarieventabel_aantal_personen_verbergen").hide();
+
+			// tarieventabel: klikken op bedrag naar boeken leiden
+			$("td.tarieventabel_tarieven_beschikbaar").click(function(event){
+				event.preventDefault();
+
+				var url='';
+				if($(this).parent().data("aantalpersonen")>0) {
+					url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week")+"&ap="+$(this).parent().data("aantalpersonen");
+				} else {
+					url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week");
+				}
+				document.location.href=url;
+
+			});
+
+			// tarieventabel: scrollen
+			$(".tarieventabel_pijl").click(function(event) {
+				var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
+				var pijl_links=false;
+
+				var actieve_pijl=$(this);
+
+				if($(this).hasClass("tarieventabel_pijl_links")) {
+					pijl_links=true;
+				}
+
+				var eindpos = 0;
+				var nieuwpos = 0;
+				var maxpos = 0;
+				$(".tarieventabel_maanden td").each(function() {
+					if($(this).data("maand-kolom")) {
+
+						eindpos=parseInt($(this).data("maand-kolom"))*67;
+						maxpos=parseInt($(this).data("maand-kolom"))*67;
+
+						if(pijl_links) {
+							if(eindpos<leftPos) {
+								nieuwpos=eindpos;
+							}
+						} else {
+							if(nieuwpos==0 && eindpos>leftPos) {
+								nieuwpos=eindpos;
+							}
 						}
 					}
-				}
-			});
-			if((pijl_links && nieuwpos==0 && leftPos==0) || (!pijl_links && maxpos<= (leftPos+500) )) {
-				// bij klikken als eind al is bereikt: rood oplichten
-				actieve_pijl.addClass("tarieventabel_pijl_scrollstop").delay(500).queue(function(next){
-					$(this).removeClass("tarieventabel_pijl_scrollstop");
-					next();
 				});
-			} else {
-				if((nieuwpos+500)>maxpos) {
-					// bij bereiken eind: rood oplichten
-					actieve_pijl.delay(200).queue(function(next){
-						actieve_pijl.addClass("tarieventabel_pijl_scrollstop").delay(500).queue(function(next2){
-							$(this).removeClass("tarieventabel_pijl_scrollstop");
-							next2();
-						});
+				if((pijl_links && nieuwpos==0 && leftPos==0) || (!pijl_links && maxpos<= (leftPos+500) )) {
+					// bij klikken als eind al is bereikt: rood oplichten
+					actieve_pijl.addClass("tarieventabel_pijl_scrollstop").delay(500).queue(function(next){
+						$(this).removeClass("tarieventabel_pijl_scrollstop");
 						next();
 					});
+				} else {
+					if((nieuwpos+500)>maxpos) {
+						// bij bereiken eind: rood oplichten
+						actieve_pijl.delay(200).queue(function(next){
+							actieve_pijl.addClass("tarieventabel_pijl_scrollstop").delay(500).queue(function(next2){
+								$(this).removeClass("tarieventabel_pijl_scrollstop");
+								next2();
+							});
+							next();
+						});
+					}
+
+					// animatie: scrollen tabel in 600ms
+					$(".tarieventabel_wrapper_rechts").animate({scrollLeft: nieuwpos}, 600, function(){
+
+					});
 				}
-
-
-				// animatie: scrollen tabel in 600ms
-				$(".tarieventabel_wrapper_rechts").animate({scrollLeft: nieuwpos}, 600, function(){
-
-				});
-			}
-			event.preventDefault();
-		});
+				event.preventDefault();
+			});
+		}
 	}
 });
 

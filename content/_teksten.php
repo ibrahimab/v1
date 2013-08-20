@@ -2342,7 +2342,7 @@ $txt["nl"]["tarieventabel"]["personen"]="personen";
 $txt["en"]["tarieventabel"]["personen"]="persons";
 
 $txt["nl"]["tarieventabel"]["prijsperaccommodatie"]="Prijs per accommodatie";
-$txt["en"]["tarieventabel"]["prijsperaccommodatie"]="Rate per accommodation";
+$txt["en"]["tarieventabel"]["prijsperaccommodatie"]="Per accommodation";
 
 $txt["nl"]["tarieventabel"]["toonmeerminderpersonen"]="Toon meer/minder aantal personen";
 $txt["en"]["tarieventabel"]["toonmeerminderpersonen"]="Show more/fewer persons";
