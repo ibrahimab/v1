@@ -56,6 +56,9 @@ class opmaakonderdelen {
 		if(preg_match("@Mac OS X@",$_SERVER["HTTP_USER_AGENT"])) {
 			$class.=" mac-osx";
 		}
+		if(preg_match("@Android@",$_SERVER["HTTP_USER_AGENT"]) or preg_match("@iPad@",$_SERVER["HTTP_USER_AGENT"]) or preg_match("@iPhone@",$_SERVER["HTTP_USER_AGENT"])) {
+			$class.=" mobile";
+		}
 
 		if($class) {
 			$return.=" class=\"".trim($class)."\"";

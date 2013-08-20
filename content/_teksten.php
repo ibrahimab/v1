@@ -2395,6 +2395,12 @@ $txt["en"]["tarieventabel"]["wederverkoop_commissie"]="Commission";
 $txt["nl"]["tarieventabel"]["wederverkoop_tooncommissie"]="Toon/verberg commissie";
 $txt["en"]["tarieventabel"]["wederverkoop_tooncommissie"]="Show/hide commission";
 
+$txt["nl"]["tarieventabel"]["wederverkoop_tooncommissie1"]="Toon commissie";
+$txt["en"]["tarieventabel"]["wederverkoop_tooncommissie1"]="Show commission";
+
+$txt["nl"]["tarieventabel"]["wederverkoop_tooncommissie2"]="Verberg commissie";
+$txt["en"]["tarieventabel"]["wederverkoop_tooncommissie2"]="Hide commission";
+
 $txt["nl"]["tarieventabel"]["accommodatieboeken"]="accommodatie boeken";
 $txt["en"]["tarieventabel"]["accommodatieboeken"]="book accommodation";
 

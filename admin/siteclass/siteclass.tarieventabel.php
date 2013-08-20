@@ -8,13 +8,18 @@
 class tarieventabel {
 
 	public $voorraad;
+	public $commissie;
+
 	public $toon_interne_informatie;
+	public $toon_beschikbaarheid;
+	public $toon_commissie;
 
 	private $actieve_kolom;
 
 	function __construct() {
 
 		$this->toon_interne_informatie = false;
+		$this->toon_beschikbaarheid = false;
 
 		$this->voorraad_doorlopen=array(
 			"garantie" => "Garantie",
@@ -174,7 +179,12 @@ class tarieventabel {
 			}
 
 
-
+			// beschikbaarheid voor reisagenten
+			if($this->toon_beschikbaarheid) {
+				$return.="<tr><td>";
+				$return.=html("wederverkoop_beschikbaarheid","tarieventabel");
+				$return.="</td></tr>";
+			}
 
 
 			// korting
@@ -193,10 +203,15 @@ class tarieventabel {
 
 				// regels met aantal personen tonen
 				foreach ($this->aantal_personen as $key => $value) {
-					$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_aantal_personen_verbergen" : "").($_GET["ap"]==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
+					$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($_GET["ap"]==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
 				}
 			} else {
 				$return.="<tr><td>".html("prijsperaccommodatie","tarieventabel")."</td></tr>";
+
+				if($this->toon_commissie) {
+					// commissie tonen aan reisagenten
+					$return.="<tr class=\"tarieventabel_verbergen\"><td>".html("wederverkoop_commissie","tarieventabel")."</td></tr>";
+				}
 			}
 
 
@@ -205,13 +220,20 @@ class tarieventabel {
 			$return .= $this->tabel_tarieven();
 
 			// minder personen open/dichtklappen
-			$return.="<div class=\"tarieventabel_toggle_personen\">";
-			if($this->max_personen_tonen<$this->max_personen or $this->min_personen_tonen>$this->min_personen) {
-				$return.="<a href=\"#\" data-default=\"".html("minderpersonen","tarieventabel")."\" data-hide=\"".html("minderpersonen_verbergen","tarieventabel")."\"><i class=\"icon-chevron-sign-down\"></i>&nbsp;<span>".html("minderpersonen","tarieventabel")."</span></a>";
-			} else {
-				$return.="&nbsp;";
+			if($this->arrangement) {
+				$return.="<div class=\"tarieventabel_toggle_toon_verberg\">";
+				if($this->max_personen_tonen<$this->max_personen or $this->min_personen_tonen>$this->min_personen) {
+					$return.="<a href=\"#\" data-default=\"".html("minderpersonen","tarieventabel")."\" data-hide=\"".html("minderpersonen_verbergen","tarieventabel")."\"><i class=\"icon-chevron-sign-down\"></i>&nbsp;<span>".html("minderpersonen","tarieventabel")."</span></a>";
+				} else {
+					$return.="&nbsp;";
+				}
+				$return.="</div>";
+			} elseif($this->toon_commissie) {
+				// commissie open/dichtklappen
+				$return.="<div class=\"tarieventabel_toggle_toon_verberg\">";
+				$return.="<a href=\"#\" data-default=\"".html("wederverkoop_tooncommissie1","tarieventabel")."\" data-hide=\"".html("wederverkoop_tooncommissie2","tarieventabel")."\"><i class=\"icon-chevron-sign-down\"></i>&nbsp;<span>".html("wederverkoop_tooncommissie1","tarieventabel")."</span></a>";
+				$return.="</div>";
 			}
-			$return.="</div>";
 
 
 			// legenda
@@ -232,7 +254,13 @@ class tarieventabel {
 					$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_gekozen\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_gekozen_datum","tarieventabel")."</div>";
 				}
 			}
-			if($this->tarieventabel_tarieven_niet_beschikbaar) {
+			if($this->toon_beschikbaarheid) {
+				$return.="<br/><div><b>".html("wederverkoop_beschikbaarheid","tarieventabel").":</b></div>";
+				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_beschikbaarheid_1\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("wederverkoop_groen","tarieventabel")."</div>";
+				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_beschikbaarheid_2\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("wederverkoop_oranje","tarieventabel")."</div>";
+				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_beschikbaarheid_3\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("wederverkoop_zwart","tarieventabel")."</div>";
+			}
+			if($this->tarieventabel_tarieven_niet_beschikbaar and !$this->toon_beschikbaarheid) {
 				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_niet_beschikbaar\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_niet_beschikbaar","tarieventabel")."</div>";
 			}
 			$return.="</div>";
@@ -245,6 +273,29 @@ class tarieventabel {
 			$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_rechts\">";
 			$return.="<i class=\"icon-chevron-right\"></i>";
 			$return.="</div>";
+
+			if($this->toon_interne_informatie) {
+
+				// scrollbuttons ook tonen bij 2e datumblok
+
+				// positie van scrollbuttons bepalen
+				if($this->korting and $this->arrangement) {
+					$top=448;
+				} elseif($this->korting) {
+					$top=420;
+				} else {
+					$top=350;
+				}
+
+				$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_links\" style=\"top: ".$top."px;\">";
+				$return.="<i class=\"icon-chevron-left\"></i>";
+				$return.="</div>";
+
+				$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_rechts\" style=\"top: ".$top."px;\">";
+				$return.="<i class=\"icon-chevron-right\"></i>";
+				$return.="</div>";
+			}
+
 		} else {
 			trigger_error("lege tarieventabel",E_USER_NOTICE);
 		}
@@ -495,6 +546,33 @@ class tarieventabel {
 
 		}
 
+
+		// beschikbaarheid voor reisagenten
+		if($this->toon_beschikbaarheid) {
+			$return.="<tr class=\"tarieventabel_beschikbaarheid_tr\">";
+			$kolomteller=0;
+			foreach ($this->dag_van_de_week as $key => $value) {
+
+				$class="";
+
+				$kolomteller++;
+
+				if($kolomteller==1) {
+					$class.=" tarieventabel_tarieven_kolom_links";
+				} elseif($kolomteller==count($this->dag_van_de_week)) {
+					$class.=" tarieventabel_tarieven_kolom_rechts";
+				}
+
+				// echo $this->voorraad["wederverkoop"][$key]." ";
+
+				$div_class="tarieventabel_tarieven_beschikbaarheid_".($this->voorraad["wederverkoop"][$key] ? $this->voorraad["wederverkoop"][$key] : "3");
+
+
+				$return.="<td class=\"".trim($class)."\"><div class=\"".$div_class."\">&nbsp;</div></td>";
+			}
+			$return.="</tr>";
+		}
+
 		# regel met korting
 		if($this->aanbieding_actief) {
 			$return.="<tr class=\"tarieventabel_korting_tr\">";
@@ -540,7 +618,7 @@ class tarieventabel {
 
 			foreach ($this->aantal_personen as $key => $value) {
 
-				$return.="<tr class=\"tarieventabel_tarieven".($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? " tarieventabel_aantal_personen_verbergen" : "").($_GET["ap"]==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : "")."\" data-aantalpersonen=\"".$key."\">";
+				$return.="<tr class=\"tarieventabel_tarieven".($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? " tarieventabel_verbergen" : "").($_GET["ap"]==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : "")."\" data-aantalpersonen=\"".$key."\">";
 				$kolomteller=0;
 				foreach ($this->dag as $key2 => $value2) {
 					$kolomteller++;
@@ -672,6 +750,28 @@ class tarieventabel {
 				$return.="</div></td>";
 			}
 			$return.="</tr>";
+
+
+			// commissie voor reisagenten
+			if($this->toon_commissie) {
+				$return.="<tr class=\"tarieventabel_commissie_tr tarieventabel_verbergen\">";
+				$kolomteller=0;
+				foreach ($this->dag_van_de_week as $key => $value) {
+
+					$class="";
+
+					$kolomteller++;
+
+					if($kolomteller==1) {
+						$class.=" tarieventabel_tarieven_kolom_links";
+					} elseif($kolomteller==count($this->dag_van_de_week)) {
+						$class.=" tarieventabel_tarieven_kolom_rechts";
+					}
+
+					$return.="<td class=\"".trim($class)."\">".($this->commissie[$key]>0 ? number_format($this->commissie[$key],0,",","")."%" : "&nbsp;")."</td>";
+				}
+				$return.="</tr>";
+			}
 		}
 
 		$return.="</table></div>";
@@ -867,7 +967,7 @@ class tarieventabel {
 					if($db->f("aanbieding_acc_euro")>0) $this->korting["aanbieding_acc_euro"][$db->f("week")]=$db->f("aanbieding_acc_euro");
 				}
 
-				unset($temp_beschikbaar,$temp_bruto);
+				unset($temp_beschikbaar, $temp_bruto, $temp_verkoop_site);
 				if($vars["wederverkoop"]) {
 					$temp_beschikbaar=$db->f("beschikbaar");
 					if($db->f("blokkeren_wederverkoop")) unset($temp_beschikbaar);
@@ -902,24 +1002,25 @@ class tarieventabel {
 
 					if($this->tarief[$db->f("week")]>0) {
 						// $tarieventabel_tonen[$db->f("week")]=1;
-						$commissie[$db->f("week")]=$db->f("wederverkoop_commissie_agent");
+						$this->commissie[$db->f("week")]=$db->f("wederverkoop_commissie_agent");
 						if($vars["chalettour_aanpassing_commissie"]) {
-							$commissie[$db->f("week")]=$commissie[$db->f("week")]+$vars["chalettour_aanpassing_commissie"];
+							$this->commissie[$db->f("week")]=$this->commissie[$db->f("week")]+$vars["chalettour_aanpassing_commissie"];
 						}
 					}
-					# Voorraad bepalen t.b.v. ingelogde reisbureaus
-					# 1 = groen, 2 = oranje, 3 = zwart
+
+					// Voorraad bepalen t.b.v. ingelogde reisbureaus
+					// 1 = beschikbaar (groen), 2 = op aanvraag (licht oranje), 3 = niet beschikbaar (grijs)
 					if($db->f("voorraad_garantie")+$db->f("voorraad_allotment")+$db->f("voorraad_optie_leverancier")+$db->f("voorraad_xml")-$db->f("voorraad_optie_klant")>=1) {
-						$this->voorraad["wederverkoop_kleur"][$db->f("week")]=1;
+						$this->voorraad["wederverkoop"][$db->f("week")]=1;
 					} elseif($db->f("voorraad_request")>=1 or $db->f("voorraad_optie_klant")>=1 or $db->f("voorraad_vervallen_allotment")>=1) {
-						$this->voorraad["wederverkoop_kleur"][$db->f("week")]=2;
+						$this->voorraad["wederverkoop"][$db->f("week")]=2;
 					} else {
-						$this->voorraad["wederverkoop_kleur"][$db->f("week")]=3;
+						$this->voorraad["wederverkoop"][$db->f("week")]=3;
 					}
 
 					if($db->f("week")>time()) {
 
-						# Aanbiedingskleur
+						// Aanbiedingskleur
 						if($db->f("aanbiedingskleur")) $aanbiedingskleur[$db->f("week")]=true;
 
 						if($db->f("aanbiedingskleur_korting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0)) {
@@ -944,7 +1045,7 @@ class tarieventabel {
 						}
 					}
 				} else {
-					$this->voorraad["wederverkoop_kleur"][$db->f("week")]=3;
+					$this->voorraad["wederverkoop"][$db->f("week")]=3;
 				}
 			}
 		}
@@ -1100,16 +1201,16 @@ class tarieventabel {
 			}
 
 
-			/* scrollbar forceren op Mac OS X (webkit) */
-			.mac-osx .tarieventabel_wrapper_rechts::-webkit-scrollbar {
+			/* scrollbar forceren op Mac OS X (webkit) + mobile-devices */
+			.mac-osx .tarieventabel_wrapper_rechts::-webkit-scrollbar, .mobile .tarieventabel_wrapper_rechts::-webkit-scrollbar {
 				-webkit-appearance: none;
 			}
 
-			.mac-osx .tarieventabel_wrapper_rechts::-webkit-scrollbar:horizontal {
+			.mac-osx .tarieventabel_wrapper_rechts::-webkit-scrollbar:horizontal, .mobile .tarieventabel_wrapper_rechts::-webkit-scrollbar:horizontal {
 				height: 13px;
 			}
 
-			.mac-osx .tarieventabel_wrapper_rechts::-webkit-scrollbar-thumb {
+			.mac-osx .tarieventabel_wrapper_rechts::-webkit-scrollbar-thumb, .mobile .tarieventabel_wrapper_rechts::-webkit-scrollbar-thumb {
 				border-radius: 8px;
 				border: 2px solid white;
 				background-color: rgba(0, 0, 0, .5);
@@ -1162,6 +1263,18 @@ class tarieventabel {
 				text-align: center;
 			}
 
+			.tarieventabel_beschikbaarheid_tr {
+				text-align: center;
+			}
+
+			.tarieventabel_commissie {
+				/*display: none;*/
+			}
+
+			.tarieventabel_commissie_tr {
+				text-align: center;
+			}
+
 			.tarieventabel_datumbalk_content {
 				text-align: center;
 			}
@@ -1178,6 +1291,30 @@ class tarieventabel {
 			.tarieventabel_tarieven_aanbieding {
 				background-color: #ffa258;
 				border-radius: 4px;
+			}
+
+			.tarieventabel_tarieven_beschikbaarheid_1 {
+				background-color: #00ff00;
+				border-radius: 4px;
+				width: 40px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			.tarieventabel_tarieven_beschikbaarheid_2 {
+				background-color: #ffcc99;
+				border-radius: 4px;
+				width: 40px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			.tarieventabel_tarieven_beschikbaarheid_3 {
+				background-color: #c0c0c0;
+				border-radius: 4px;
+				width: 40px;
+				margin-left: auto;
+				margin-right: auto;
 			}
 
 			.tarieventabel_tarieven_niet_beschikbaar {
@@ -1249,6 +1386,10 @@ class tarieventabel {
 				background-color: red;
 			}
 
+			.mobile .tarieventabel_pijl {
+				width: 16px;
+			}
+
 			.tarieventabel_tarieven_kolom_links {
 				border-left-width: 0px !important;
 			}
@@ -1265,11 +1406,11 @@ class tarieventabel {
 				border-right: 1px solid red !important;
 			}
 
-			.tarieventabel_aantal_personen_verbergen {
+			.tarieventabel_verbergen {
 				display: none;
 			}
 
-			.tarieventabel_toggle_personen {
+			.tarieventabel_toggle_toon_verberg {
 				margin-left: 3px;
 				margin-top: -12px;
 				margin-bottom: 10px;
@@ -1277,11 +1418,11 @@ class tarieventabel {
 				font-size:10px;
 			}
 
-			.tarieventabel_toggle_personen a {
+			.tarieventabel_toggle_toon_verberg a {
 				text-decoration: none;
 			}
 
-			.tarieventabel_toggle_personen span {
+			.tarieventabel_toggle_toon_verberg span {
 				text-decoration: underline; !important;
 			}
 

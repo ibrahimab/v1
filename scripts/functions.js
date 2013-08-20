@@ -1054,7 +1054,6 @@ $(document).ready(function() {
 
 			if(detect_mobile()) {
 
-
 				// extra ruimte bij verfijnblok voor touch-devices
 				$("#verfijn .keuzeopsomming").addClass("keuzeopsomming_touchdevices");
 
@@ -1933,7 +1932,7 @@ $(document).ready(function() {
 
 
 			// tarieventabel: meer/minder personen tonen
-			$(".tarieventabel_toggle_personen a").click(function(event) {
+			$(".tarieventabel_toggle_toon_verberg a").click(function(event) {
 
 				event.preventDefault();
 
@@ -1944,31 +1943,31 @@ $(document).ready(function() {
 
 
 
-				if ( $(".tarieventabel_aantal_personen_verbergen").is(":visible") ) {
+				if ( $(".tarieventabel_verbergen").is(":visible") ) {
 					// inklappen
-					$(".tarieventabel_aantal_personen_verbergen").fadeOut(700,function(){
-						$(".tarieventabel_aantal_personen_verbergen").hide();
+					$(".tarieventabel_verbergen").fadeOut(700,function(){
+						$(".tarieventabel_verbergen").hide();
 
-						$(".tarieventabel_toggle_personen span").html(deze.data("default"));
+						$(".tarieventabel_toggle_toon_verberg span").html(deze.data("default"));
 
-						$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-up");
-						$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-down");
+						$(".tarieventabel_toggle_toon_verberg i").removeClass("icon-chevron-sign-up");
+						$(".tarieventabel_toggle_toon_verberg i").addClass("icon-chevron-sign-down");
 
 					});
 				} else {
 
 					// openklappen
 
-					// $(".tarieventabel_aantal_personen_verbergen").effect("highlight",{},1000);
+					// $(".tarieventabel_verbergen").effect("highlight",{},1000);
 
-					$(".tarieventabel_aantal_personen_verbergen").fadeIn(700,function(){
-						$(".tarieventabel_aantal_personen_verbergen").show();
+					$(".tarieventabel_verbergen").fadeIn(700,function(){
+						$(".tarieventabel_verbergen").show();
 					});
 
-					$(".tarieventabel_toggle_personen span").html(deze.data("hide"));
+					$(".tarieventabel_toggle_toon_verberg span").html(deze.data("hide"));
 
-					$(".tarieventabel_toggle_personen i").removeClass("icon-chevron-sign-down");
-					$(".tarieventabel_toggle_personen i").addClass("icon-chevron-sign-up");
+					$(".tarieventabel_toggle_toon_verberg i").removeClass("icon-chevron-sign-down");
+					$(".tarieventabel_toggle_toon_verberg i").addClass("icon-chevron-sign-up");
 
 				}
 
@@ -1981,7 +1980,7 @@ $(document).ready(function() {
 			});
 
 			// tarieventabel: verbergen laag aantal personen
-			$(".tarieventabel_aantal_personen_verbergen").hide();
+			$(".tarieventabel_verbergen").hide();
 
 			// tarieventabel: klikken op bedrag naar boeken leiden
 			$("td.tarieventabel_tarieven_beschikbaar").click(function(event){

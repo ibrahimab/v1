@@ -2374,9 +2374,9 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	# Opties
 	$db->query("SELECT og.vertrekinfo_goedgekeurd_seizoen".$ttv." AS vertrekinfo_goedgekeurd_seizoen, og.optie_groep_id, og.vertrekinfo_optiegroep".$ttv." AS vertrekinfo_optiegroep, og.skipas_id, og.optieleverancier_id, os.optie_soort_id, os.naam, os.optiecategorie FROM optie_groep og, optie_soort os, optie_accommodatie oa WHERE oa.accommodatie_id='".addslashes($gegevens["stap1"]["accinfo"]["accommodatie_id"])."' AND oa.optie_groep_id=og.optie_groep_id AND oa.optie_soort_id=os.optie_soort_id ORDER BY FIND_IN_SET(optiecategorie,'3,4,5,1,2,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20'), length(og.vertrekinfo_optiegroep) DESC;");
 	while($db->next_record()) {
-		if(!$skipad_id and $db->f("skipas_id")) {
+		if(!$skipas_id and $db->f("skipas_id")) {
 			# Skipas koppelen
-			$skipad_id=$db->f("skipas_id");
+			$skipas_id=$db->f("skipas_id");
 		}
 
 		if(strlen(trim($db->f("vertrekinfo_optiegroep")))<4) {
@@ -2422,8 +2422,8 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 
 	# Skipasgegevens
 	unset($seizoencontrole);
-	if($skipad_id) {
-		$db->query("SELECT skipas_id, vertrekinfo_goedgekeurd_seizoen".$ttv." AS vertrekinfo_goedgekeurd_seizoen, vertrekinfo_skipas".$ttv." AS vertrekinfo_skipas FROM skipas WHERE skipas_id='".intval($skipad_id)."' AND vertrekinfo_skipas".$ttv." IS NOT NULL;");
+	if($skipas_id) {
+		$db->query("SELECT skipas_id, vertrekinfo_goedgekeurd_seizoen".$ttv." AS vertrekinfo_goedgekeurd_seizoen, vertrekinfo_skipas".$ttv." AS vertrekinfo_skipas FROM skipas WHERE skipas_id='".intval($skipas_id)."' AND vertrekinfo_skipas".$ttv." IS NOT NULL;");
 		if($db->next_record()) {
 			if($db->f("vertrekinfo_skipas")) {
 				$skipassen=$db->f("vertrekinfo_skipas");
@@ -2439,7 +2439,7 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 				$error[]="de alinea 'Skipassen' is dubbel aanwezig: zowel op <a href=\"".$vars["path"]."cms_skipassen.php?edit=10&10k0=".$db->f("skipas_id")."#vertrekinfo\" target=\"_blank\">skipas-</a> als ".$skipas_optie_link."optieniveau</a>";
 			}
 		} else {
-			$error[]="er is nog geen ".$taal_streepje."skipas-tekst <a href=\"".$vars["path"]."cms_skipassen.php?edit=10&10k0=".$skipad_id."#vertrekinfo\" target=\"_blank\">ingevoerd</a>";
+			$error[]="er is nog geen ".$taal_streepje."skipas-tekst <a href=\"".$vars["path"]."cms_skipassen.php?edit=10&10k0=".$skipas_id."#vertrekinfo\" target=\"_blank\">ingevoerd</a>";
 		}
 	}
 

@@ -78,11 +78,12 @@ if($toonper==3 or $vars["wederverkoop"]) {
 # Tarieventabellen inladen
 
 
-if(($vars["seizoentype"]==1 or $vars["websitetype"]==6) and ($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==6 or $_COOKIE["loginuser"]["chalet"]==15 or $_COOKIE["loginuser"]["chalet"]==26)) {
+if(($vars["seizoentype"]==1 or $vars["websitetype"]==6) and ($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==4 or $_COOKIE["loginuser"]["chalet"]==6 or $_COOKIE["loginuser"]["chalet"]==15 or $_COOKIE["loginuser"]["chalet"]==26)) {
 	if(!$_GET["oudetabel"]) {
 		$nieuwe_tarieventabel=true;
 	}
 }
+
 $nieuwe_tarieventabel_seizoen_id_inquery="0";
 unset($tarieventabel);
 @reset($seizoen_tarieven);
@@ -138,11 +139,24 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 
 if($nieuwe_tarieventabel) {
 
+
 	$tarieventabel_object = new tarieventabel;
 
-	if($voorkant_cms and $_COOKIE["loginuser"]["chalet"]==6) {
+	// interne informatie tonen?
+	if($voorkant_cms and ($_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==4 or $_COOKIE["loginuser"]["chalet"]==6)) {
 		$tarieventabel_object->toon_interne_informatie = true;
 	}
+
+	// beschikbaarheid tonen aan reisagenten?
+	if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_beschikbaarheid_inzien"]) or $voorkant_cms)) {
+		$tarieventabel_object->toon_beschikbaarheid = true;
+	}
+
+	// commissie tonen aan reisagenten?
+	if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_commissie_inzien"]) or $voorkant_cms)) {
+		$tarieventabel_object->toon_commissie = true;
+	}
+
 
 
 	$tarieventabel_object->seizoen_id=$nieuwe_tarieventabel_seizoen_id_inquery;
