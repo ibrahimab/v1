@@ -355,7 +355,7 @@ class tarieventabel {
 				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
 			}
 
-			$return.="<td class=\"".$class."\"";
+			$return.="<td class=\"".trim($class)."\"";
 
 			$return.=" colspan=\"".$value."\" data-maand-kolom=\"".$kolomteller_onderliggend."\">".DATUM("MAAND JJJJ",$unixtime,$vars["taal"])."</td>";
 		}
@@ -1640,6 +1640,11 @@ class tarieventabel {
 
 			.tarieventabel_pijl_links {
 				left: 160px;
+			}
+
+			.tarieventabel_pijl_scroll_greyed_out, .tarieventabel_pijl_scroll_greyed_out:hover {
+				background-color: #cccccc;
+				cursor: default;
 			}
 
 			.tarieventabel_pijl_scrollstop, .tarieventabel_pijl_scrollstop:hover {

@@ -1939,7 +1939,6 @@ $(document).ready(function() {
 		//
 		if($(".tarieventabel_wrapper").length!==0) {
 
-
 				if($(".tarieventabel_datumbalk[data-counter=1]").length!==0) {
 					// positionering tarieventabel_pijl_boven bepalen
 					$(".tarieventabel_pijl_boven").css("top",$(".tarieventabel_datumbalk[data-counter=1]").position().top+"px");
@@ -2089,14 +2088,62 @@ $(document).ready(function() {
 
 					// animatie: scrollen tabel in 600ms
 					$(".tarieventabel_wrapper_rechts").animate({scrollLeft: nieuwpos}, 600, function(){
-
+						// tarieventabel_controleer_scrollbuttons();
 					});
 				}
 				event.preventDefault();
 			});
 		}
+
+		$(".tarieventabel_wrapper_rechts").scroll(function() {
+			// kijken of de scrollbuttons uitgeschakeld moeten worden bij scrollen
+			tarieventabel_controleer_scrollbuttons();
+		});
+
+		// kijken of de scrollbuttons uitgeschakeld moeten worden
+		tarieventabel_controleer_scrollbuttons();
+
 	}
 });
+
+function tarieventabel_controleer_scrollbuttons() {
+	var leftPos = parseInt($(".tarieventabel_wrapper_rechts").scrollLeft(),10);
+	var maxpos = 0;
+
+	var maxpos=parseInt($(".tarieventabel_maanden > td").data("maand-kolom"))*67;
+
+	$(".tarieventabel_maanden td").each(function() {
+		if($(this).data("maand-kolom")) {
+			eindpos=parseInt($(this).data("maand-kolom"))*67;
+			maxpos=parseInt($(this).data("maand-kolom"))*67;
+		}
+	});
+
+	// alert(maxpos);
+
+	var actieve_pijl;
+	var pijl_links=false;
+
+
+	$(".tarieventabel_pijl").each(function() {
+
+		actieve_pijl=$(this);
+
+		if(actieve_pijl.hasClass("tarieventabel_pijl_links")) {
+			pijl_links=true;
+		} else {
+			pijl_links=false;
+		}
+
+		// alert(leftPos+" "+maxpos);
+		if((pijl_links && leftPos==0) || (!pijl_links && (leftPos+500)>=maxpos)) {
+			actieve_pijl.addClass("tarieventabel_pijl_scroll_greyed_out");
+		} else {
+			actieve_pijl.removeClass("tarieventabel_pijl_scroll_greyed_out");
+		}
+	});
+
+}
 
 var ZoomlevelBepalen = new function() {
 
