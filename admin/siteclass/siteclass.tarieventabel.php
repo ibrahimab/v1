@@ -43,13 +43,27 @@ class tarieventabel {
 
 		$this->tarieven_uit_database();
 
+		$return .= "<div class=\"tarieventabel_hulp_bij_online_boeken\">";
+		$return .= html("hulpbijonlineboeken","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>","h_2"=>"<span class=\"trigger_livechat_button\">","h_3"=>"</span>"));
+		$return .= "</div>"; # afsluiten .tarieventabel_hulp_bij_online_boeken
+
 		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id."&o=".urlencode($_GET["o"]).(!$this->arrangement && $_GET["ap"] ? "&ap=".intval($_GET["ap"]) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\">";
+
+
 
 		$return .= $this->tabel_top();
 		$return .= $this->tabel_content();
 		$return .= $this->tabel_bottom();
 
-		$return .= "</div>";
+		$toelichting = $this->toelichting();
+
+		if($toelichting) {
+			$return .= "<div class=\"tarieventabel_toelichting\">";
+			$return .= $toelichting;
+			$return .= "</div>"; # afsluiten .tarieventabel_toelichting
+		}
+
+		$return .= "</div>"; # afsluiten .tarieventabel_wrapper
 
 		return $return;
 
@@ -287,7 +301,7 @@ class tarieventabel {
 			}
 
 		} else {
-			trigger_error("lege tarieventabel",E_USER_NOTICE);
+			// trigger_error("lege tarieventabel",E_USER_NOTICE);
 		}
 
 		return $return;
@@ -672,7 +686,6 @@ class tarieventabel {
 				$return.="</tr>";
 			}
 
-
 		} else {
 
 			//
@@ -770,6 +783,205 @@ class tarieventabel {
 
 	}
 
+	private function bijkomende_kosten() {
+
+		global $vars;
+
+		$db = new DB_sql;
+		$db2 = new DB_sql;
+		$db3 = new DB_sql;
+
+
+		$db2->query("SELECT a.bijkomendekosten1_id, a.bijkomendekosten2_id, a.bijkomendekosten3_id, a.bijkomendekosten4_id, a.bijkomendekosten5_id, a.bijkomendekosten6_id, t.bijkomendekosten1_id AS tbijkomendekosten1_id, t.bijkomendekosten2_id AS tbijkomendekosten2_id, t.bijkomendekosten3_id AS tbijkomendekosten3_id, t.bijkomendekosten4_id AS tbijkomendekosten4_id, t.bijkomendekosten5_id AS tbijkomendekosten5_id, t.bijkomendekosten6_id AS tbijkomendekosten6_id FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".addslashes($this->type_id)."';");
+		if($db2->next_record()) {
+			for($i=1;$i<=6;$i++) {
+				if($db2->f("bijkomendekosten".$i."_id")) {
+					if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$db2->f("bijkomendekosten".$i."_id"); else $bijkomendekosten_inquery=$db2->f("bijkomendekosten".$i."_id");
+				}
+				if($db2->f("tbijkomendekosten".$i."_id")) {
+					if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$db2->f("tbijkomendekosten".$i."_id"); else $bijkomendekosten_inquery=$db2->f("tbijkomendekosten".$i."_id");
+				}
+			}
+		}
+
+		# Bijkomende kosten gekoppeld aan skipassen
+		if($this->accinfo["skipasid"]) {
+			$db2->query("SELECT bijkomendekosten_id FROM skipas WHERE skipas_id='".addslashes($this->accinfo["skipasid"])."';");
+			if($db2->next_record()) {
+				if($db2->f("bijkomendekosten_id")) {
+					if($bijkomendekosten_inquery) $bijkomendekosten_inquery.=",".$db2->f("bijkomendekosten_id"); else $bijkomendekosten_inquery=$db2->f("bijkomendekosten_id");
+				}
+			}
+		}
+
+		if($bijkomendekosten_inquery) {
+			$db2->query("SELECT b.bijkomendekosten_id, b.naam".$vars["ttv"]." AS naam, b.omschrijving".$vars["ttv"]." AS omschrijving, b.perboekingpersoon FROM bijkomendekosten b WHERE b.bijkomendekosten_id IN (".$bijkomendekosten_inquery.") ORDER BY b.naam".$vars["ttv"].";");
+			if($db2->num_rows()) {
+				while($db2->next_record()) {
+#					$db3->query("SELECT DISTINCT week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".$db2->f("bijkomendekosten_id")."' AND seizoen_id IN (".$seizoenen_inquery.")".($_GET["optie_datum"] ? " AND week='".addslashes($_GET["optie_datum"])."'" : "").";");
+					$db3->query("SELECT DISTINCT week, verkoop FROM bijkomendekosten_tarief WHERE bijkomendekosten_id='".$db2->f("bijkomendekosten_id")."' AND seizoen_id IN (".$this->seizoen_id.");");
+					while($db3->next_record()) {
+						if($db3->f("verkoop")<>0) {
+							if(!isset($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"])) {
+								$bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"]=$db3->f("verkoop");
+								$bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"]=$db3->f("verkoop");
+							}
+							if($db3->f("verkoop")<$bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"]) $bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"]=$db3->f("verkoop");
+							if($db3->f("verkoop")>$bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"]) $bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"]=$db3->f("verkoop");
+
+							if($_GET["optie_datum"] and $db3->f("week")==$_GET["optie_datum"]) {
+								$bijkomendekosten[$db2->f("bijkomendekosten_id")]["exact"]=$db3->f("verkoop");
+							}
+						}
+					}
+					if(isset($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"])) {
+
+						if(!$bijkomendekosten_header_getoond) {
+
+							// $bijkomendekosten_header2.="<TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
+							// $bijkomendekosten_header2.="<TR><TH colspan=\"2\">".html("bijkomendekosten","toonaccommodatie")."";
+
+							$bijkomendekosten_header_getoond=true;
+						}
+
+						// $bijkomendekosten_table.="<tr><td>";
+						$bijkomendekosten_table.="<table cellspacing=\"0\" border=\"0\">";
+						$bijkomendekosten_table.="<tr>";
+						$bijkomendekosten_table.="<td width=\"440\">".htmlentities($db2->f("naam"));
+						if($db2->f("omschrijving")) {
+							$bijkomendekosten_table.="&nbsp;<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?id=bijkomendekosten&bkid=".$db2->f("bijkomendekosten_id")."');\">&#187;</a>";
+						}
+						$bijkomendekosten_table.="</td><td align=\"right\">";
+						if($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"]==$bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"] or $bijkomendekosten[$db2->f("bijkomendekosten_id")]["exact"]<>0) {
+
+							if($bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"]<>$bijkomendekosten[$db2->f("bijkomendekosten_id")]["max"]) {
+								$bijkomendekosten_afhankelijkvandatum=true;
+							}
+
+							if($bijkomendekosten[$db2->f("bijkomendekosten_id")]["exact"]) {
+								$bijkomendekosten_bedrag=$bijkomendekosten[$db2->f("bijkomendekosten_id")]["exact"];
+							} else {
+								$bijkomendekosten_bedrag=$bijkomendekosten[$db2->f("bijkomendekosten_id")]["min"];
+							}
+
+							if($db2->f("perboekingpersoon")==2) {
+								$bijkomendekosten_table.=html("perpersoonafk","toonaccommodatie");
+							} else {
+								$bijkomendekosten_table.="&nbsp;";
+							}
+							if($bijkomendekosten_bedrag<0) {
+								$bijkomendekosten_table.="<td align=\"right\">".html("korting","vars")."</td>";
+							} else {
+								$bijkomendekosten_table.="<td>&nbsp;</td>";
+							}
+							$bijkomendekosten_table.="<td align=\"right\">&euro;</td>";
+							$bijkomendekosten_table.="<td width=\"60\" align=\"right\">".number_format(abs($bijkomendekosten_bedrag),2,',','.')."</td>";
+						} else {
+							$bijkomendekosten_table.="<td colspan=\"4\" align=\"right\">".html("afhankelijkvandatum","toonaccommodatie")."</td>";
+							$bijkomendekosten_afhankelijkvandatum=true;
+						}
+						$bijkomendekosten_table.="</tr>";
+						$bijkomendekosten_table.="</table>";
+						// $bijkomendekosten_table.="</td></tr>";
+					}
+				}
+				if($bijkomendekosten_header_getoond) {
+					// $bijkomendekosten_table.="</TABLE>";
+				}
+			}
+		}
+		if($bijkomendekosten_table) {
+			if($NU_EVEN_NIET and $optie_pulldown_teller and $bijkomendekosten_afhankelijkvandatum) {
+				$return.="<form name=\"bijkomendekostentabel2".$seizoenid."\" method=\"get\" action=\"".$_SERVER["PHP_SELF"]."#prijsinformatie\" style=\"padding:0px;\">";
+				$return.="<h1>".html("bijkomendekosten","toonaccommodatie").":</h1><div class=\"toelichting_onderdeel\">";
+				// $return.=$bijkomendekosten_header2;
+				$return.="<input type=\"hidden\" name=\"selecttab\" value=\"tarieven\">\n";
+
+				@reset($_GET);
+				while(list($key2,$value2)=@each($_GET)) {
+					if($key2<>"optie_datum" and $key2<>"selecttab" and !is_array($value2)) $return.="<input type=\"hidden\" name=\"".$key2."\" value=\"".htmlentities($value2)."\">\n";
+				}
+				$return.=ereg_replace("optietabel".$seizoenid,"bijkomendekostentabel2".$seizoenid,ereg_replace(html("optietarieven","toonaccommodatie")." ","",$optie_pulldown_html));
+			} else {
+				$return.="<h1>".html("bijkomendekosten","toonaccommodatie").":</h1><div class=\"toelichting_onderdeel\">";
+				// $return.=$bijkomendekosten_header2;
+			}
+			// $return.="</th></tr>";
+
+			$return.=$bijkomendekosten_table;
+
+			$return.="</div>";
+		}
+
+		return $return;
+
+	}
+
+	private function toelichting() {
+
+
+		//
+		// toon teksten "inclusief", "exclusief" en "bijkomende kosten"
+		//
+
+		global $vars;
+
+		$db = new DB_sql;
+
+
+		if($this->arrangement) {
+			# Skipasgegevens uit database halen
+			$db->query("SELECT s.website_omschrijving".$vars["ttv"]." AS website_omschrijving FROM skipas s, accommodatie a WHERE a.skipas_id=s.skipas_id AND a.accommodatie_id='".intval($this->accinfo["accommodatie_id"])."';");
+			if($db->next_record()) {
+				if($db->f("website_omschrijving")) $skipas_website_omschrijving=$db->f("website_omschrijving");
+			}
+		}
+
+
+		if($vars["wederverkoop"]) {
+			if($this->accinfo["inclusief"] or $this->accinfo["tinclusief"]) {
+				$return.="<h1>".html("inclusief","toonaccommodatie").":</h1>";
+				$return.="<div class=\"toelichting_onderdeel\">".toon_tekst_acc_en_type($this->accinfo["inclusief"],$this->accinfo["tinclusief"])."</div>";
+			}
+		} else {
+			if($this->accinfo["inclusief"] or $this->accinfo["tinclusief"] or $skipas_website_omschrijving) {
+				$return.="<h1>".html("inclusief","toonaccommodatie").":</h1>";
+				$return.="<div class=\"toelichting_onderdeel\">";
+				if($skipas_website_omschrijving) $return.=toon_tekst_acc_en_type($skipas_website_omschrijving);
+				if($this->accinfo["inclusief"] or $this->accinfo["tinclusief"]) {
+					if($skipas_website_omschrijving) $return.="<br><br>";
+					$return.=trim(toon_tekst_acc_en_type($this->accinfo["inclusief"],$this->accinfo["tinclusief"]));
+				}
+				$return.="</div>";
+			}
+		}
+		if($this->accinfo["exclusief"] or $this->accinfo["texclusief"]) {
+			$return.="<h1>".html("exclusief","toonaccommodatie").":</h1>";
+			$return.="<div class=\"toelichting_onderdeel\">";
+			$return.=toon_tekst_acc_en_type($this->accinfo["exclusief"],$this->accinfo["texclusief"]);
+			$return.="</div>";
+		}
+
+		// bijkomende kosten
+		$return .= $this->bijkomende_kosten();
+
+		// uitbreidingsmogelijkheden
+		$return.="<h1>".html("uitbreidingsmogelijkheden","tarieventabel").":</h1>";
+		$return.="<div class=\"toelichting_onderdeel\">";
+		$return.=html("bekijkdeextraopties","tarieventabel",array("h_1"=>"<a href=\"#extraopties\">","h_2"=>" &raquo;</a>"));
+		$return.="</div>";
+
+
+
+		$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
+		if(!$vars["wederverkoop"]) {
+			$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->type_id)."&ap=".wt_he($_GET["ap"])."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
+		}
+		$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
+
+		return $return;
+	}
+
 	private function tarieven_uit_database() {
 
 		global $vars, $accinfo;
@@ -785,6 +997,9 @@ class tarieventabel {
 			$this->accinfo=accinfo($this->type_id);
 		}
 
+// echo wt_dump($this->accinfo);
+// exit;
+
 		if($this->accinfo["toonper"]==3 or $vars["wederverkoop"]) {
 
 		} else {
@@ -799,6 +1014,27 @@ class tarieventabel {
 		$db2->query("SELECT week, aflopen_allotment FROM calculatiesjabloon_week WHERE seizoen_id IN (".$this->seizoen_id.") AND leverancier_id='".intval($this->accinfo["leverancierid"])."';");
 		while($db2->next_record()) {
 			if($db2->f("aflopen_allotment")<>"") $this->aflopen_allotment[$db2->f("week")]=$db2->f("aflopen_allotment");
+		}
+
+		// seizoensgegevens uit database halen
+		$db->query("SELECT MIN(UNIX_TIMESTAMP(s.begin)) AS begin, MAX(UNIX_TIMESTAMP(s.eind)) AS eind, s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' AND s.seizoen_id IN (".$this->seizoen_id.") AND s.tonen>1;");
+		if($db->next_record()) {
+
+			// begin, eind en binnen_seizoen bepalen
+			$week=$db->f("begin");
+			$kolomteller=0;
+			while($week<=$db->f("eind")) {
+
+				if($week>time()) {
+
+					if(!$this->begin) $this->begin=$week;
+					$this->eind=$week;
+
+					$this->binnen_seizoen[date("Ym",$week)]=true;
+				}
+
+				$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+			}
 		}
 
 
@@ -855,10 +1091,10 @@ class tarieventabel {
 					if($db->f("aanbieding_skipas_euro")>0) $this->korting["aanbieding_skipas_euro"][$db->f("week")]=$db->f("aanbieding_skipas_euro");
 				}
 
-				if(!$this->begin) $this->begin=$db->f("week");
-				$this->eind=$db->f("week");
+				// if(!$this->begin) $this->begin=$db->f("week");
+				// $this->eind=$db->f("week");
 
-				$this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
+				// $this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
 
 				if($db->f("prijs")>0 and $db->f("beschikbaar") and ($db->f("bruto")>0 or $db->f("arrangementsprijs")>0)) {
 
@@ -981,10 +1217,10 @@ class tarieventabel {
 					if($db->f("aanbieding_acc_euro")<>0) $korting["aanbieding_acc_euro"][$db->f("week")]=$db->f("aanbieding_acc_euro");
 				}
 
-				if(!$this->begin) $this->begin=$db->f("week");
-				$this->eind=$db->f("week");
+				// if(!$this->begin) $this->begin=$db->f("week");
+				// $this->eind=$db->f("week");
 
-				$this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
+				// $this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
 
 				if($temp_verkoop_site>0 and $temp_beschikbaar and $temp_bruto>0) {
 
@@ -1081,7 +1317,6 @@ class tarieventabel {
 				$aangepaste_unixtime=mktime(0,0,0,date("m",$week),date("d",$week)+$vertrekdag[$this->week_seizoen_id[$week]][date("dm",$week)]+$this->accinfo["aankomst_plusmin"],date("Y",$week));
 			} else {
 				$aangepaste_unixtime=$week;
-				$exacte_unixtime=$week;
 			}
 
 			if($this->binnen_seizoen[date("Ym",$week)]) {
@@ -1093,9 +1328,6 @@ class tarieventabel {
 				}
 				$this->maand[date("Y-m",$aangepaste_unixtime)]++;
 			}
-
-
-			$exacte_unixtime=$aangepaste_unixtime;
 
 			if($_GET["d"] and $_GET["d"]==$week) $this->actieve_kolom=$kolomteller;
 
@@ -1139,6 +1371,12 @@ class tarieventabel {
 
 			<style>
 
+			.tarieventabel_hulp_bij_online_boeken {
+				width: 664px;
+				text-align: right;
+				margin-bottom: 5px;
+			}
+
 			.tarieventabel_wrapper {
 				width: 660px;
 				position: relative;
@@ -1164,6 +1402,35 @@ class tarieventabel {
 
 			.tarieventabel_top_interne_link {
 				float: right;
+			}
+
+			.tarieventabel_toelichting {
+				background-color: #d5e1f9;
+				padding-left: 10px;
+				padding-right: 10px;
+				padding-bottom: 15px;
+			}
+
+			.tarieventabel_toelichting h1 {
+				font-size: 12px;
+				font-weight: bold;
+				margin: 0;
+				padding: 0;
+				padding-bottom: 0.3em;
+				padding-top: 20px;
+				color: #003366;
+			}
+
+			.toelichting_onderdeel {
+				margin-left: 20px;
+			}
+
+			.toelichting_bereken_totaalbedrag {
+				padding-top: 20px;
+			}
+
+			.tarieventabel_toelichting table {
+				width: 100%;
 			}
 
 			.tarieventabel_border {
@@ -1420,6 +1687,7 @@ class tarieventabel {
 			}
 
 			.tarieventabel_legenda {
+				margin-top: 10px;
 				margin-left: 162px;
 			}
 

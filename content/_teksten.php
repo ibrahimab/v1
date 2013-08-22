@@ -2299,7 +2299,7 @@ $txt["en_z"]["themas"]["inleiding"]="-";
 #
 # Tarieventabel (zie ongeveer halverwege http://www.chalet.nl/accommodatie/F265/)
 #
-$txt["nl"]["tarieventabel"]["tarieven"]="Tarieven";
+$txt["nl"]["tarieventabel"]["tarieven"]="Prijzen";
 $txt["en"]["tarieventabel"]["tarieven"]="Rates";
 
 $txt["nl"]["tarieventabel"]["ineuros"]="in euro's";
@@ -2350,8 +2350,17 @@ $txt["en"]["tarieventabel"]["toonmeerminderpersonen"]="Show more/fewer persons";
 $txt["nl"]["tarieventabel"]["groterlettertype"]="Groter lettertype";
 $txt["en"]["tarieventabel"]["groterlettertype"]="Larger font";
 
-$txt["nl"]["tarieventabel"]["berekentotaalbedrag"]="Bereken het totaalbedrag inclusief opties";
-$txt["en"]["tarieventabel"]["berekentotaalbedrag"]="Calculate the total price including the options you selected";
+$txt["nl"]["tarieventabel"]["berekentotaalbedrag"]="Bereken totaalbedrag inclusief opties";
+$txt["en"]["tarieventabel"]["berekentotaalbedrag"]="Calculate total price including options";
+
+$txt["nl"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Uitbreidingsmogelijkheden";
+$txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Expandability";
+
+$txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
+$txt["en"]["tarieventabel"]["bekijkdeextraopties"]="See our [[h_1]]extra options[[h_2]";
+
+$txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]] of [[h_2]]chat met ons[[h_3]].";
+$txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
 
 $txt["nl"]["tarieventabel"]["vertrekdagafwijking"]="Let op! Afwijkingen in aankomstdatum en verblijfsduur";
 $txt["en"]["tarieventabel"]["vertrekdagafwijking"]="Please note! Deviation in the date of arrival and the length of your stay";

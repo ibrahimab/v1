@@ -173,7 +173,7 @@ if($nieuwe_tarieventabel) {
 		$echt_tarieven_getoond=true;
 
 		foreach ($tarieventabel_object->tarieven_getoond as $key0 => $value0) {
-			if($seizoenen_inquery) $seizoenen_inquery.=",".$key; else $seizoenen_inquery=$key;
+			if($seizoenen_inquery) $seizoenen_inquery.=",".$key0; else $seizoenen_inquery=$key0;
 		}
 
 		$tarieventabel[$seizoenid]=$tarieventabel_object_content;
@@ -1207,37 +1207,39 @@ if($db->next_record()) {
 	#
 	# Inclusief/exclusief (onder tarieventabel)
 	#
-	if($vars["wederverkoop"]) {
-		if($db->f("inclusief") or $db->f("tinclusief")) {
-			echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
-			echo "<tr><th>".html("inclusief","toonaccommodatie")."</th></tr>";
-			echo "<tr><td>".toon_tekst_acc_en_type($db->f("inclusief"),$db->f("tinclusief"))."</td></tr>";
-			echo "</table><p>";
-		}
-	} else {
-		if($db->f("inclusief") or $db->f("tinclusief") or $skipas_website_omschrijving) {
-			echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
-			echo "<tr><th>".html("inclusief","toonaccommodatie")."</th></tr>";
-			echo "<tr><td>";
-			if($skipas_website_omschrijving) echo toon_tekst_acc_en_type($skipas_website_omschrijving);
+	if(!$nieuwe_tarieventabel) {
+		if($vars["wederverkoop"]) {
 			if($db->f("inclusief") or $db->f("tinclusief")) {
-				if($skipas_website_omschrijving) echo "<br><br>";
-				echo trim(toon_tekst_acc_en_type($db->f("inclusief"),$db->f("tinclusief")));
+				echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
+				echo "<tr><th>".html("inclusief","toonaccommodatie")."</th></tr>";
+				echo "<tr><td>".toon_tekst_acc_en_type($db->f("inclusief"),$db->f("tinclusief"))."</td></tr>";
+				echo "</table><p>";
 			}
+		} else {
+			if($db->f("inclusief") or $db->f("tinclusief") or $skipas_website_omschrijving) {
+				echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
+				echo "<tr><th>".html("inclusief","toonaccommodatie")."</th></tr>";
+				echo "<tr><td>";
+				if($skipas_website_omschrijving) echo toon_tekst_acc_en_type($skipas_website_omschrijving);
+				if($db->f("inclusief") or $db->f("tinclusief")) {
+					if($skipas_website_omschrijving) echo "<br><br>";
+					echo trim(toon_tekst_acc_en_type($db->f("inclusief"),$db->f("tinclusief")));
+				}
+				echo "</td></tr>";
+				echo "</table><p>";
+			}
+		}
+		if($db->f("exclusief") or $db->f("texclusief")) {
+			echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
+			echo "<tr><th>".html("exclusief","toonaccommodatie")."</th></tr>";
+			echo "<tr><td>";
+			echo toon_tekst_acc_en_type($db->f("exclusief"),$db->f("texclusief"));
 			echo "</td></tr>";
 			echo "</table><p>";
 		}
 	}
-	if($db->f("exclusief") or $db->f("texclusief")) {
-		echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
-		echo "<tr><th>".html("exclusief","toonaccommodatie")."</th></tr>";
-		echo "<tr><td>";
-		echo toon_tekst_acc_en_type($db->f("exclusief"),$db->f("texclusief"));
-		echo "</td></tr>";
-		echo "</table><p>";
-	}
 
-	if($echt_tarieven_getoond) {
+	if($echt_tarieven_getoond and !$nieuwe_tarieventabel) {
 		#
 		# Bijkomende kosten (onder tarieventabel)
 		#
@@ -1367,8 +1369,11 @@ if($db->next_record()) {
 		}
 	}
 
-	# Doorgeven aan javascript hoeveel tarieventabellen er zijn
-	echo "<form name=\"frm_aantaltarieventabellen\"><input type=\"hidden\" name=\"aantaltarieventabellen\" value=\"".$seizoenteller."\"></form>";
+	if(!$nieuwe_tarieventabel) {
+		# Doorgeven aan javascript hoeveel tarieventabellen er zijn
+		echo "<form name=\"frm_aantaltarieventabellen\"><input type=\"hidden\" name=\"aantaltarieventabellen\" value=\"".$seizoenteller."\"></form>";
+	}
+
 	echo "</div>";
 
 	echo "</div>";
@@ -1784,8 +1789,12 @@ if($db->next_record()) {
 
 # Accommodatie-gegevens
 function toon_tekst_acc_en_type($tekst1,$tekst2="") {
+
+	$tekst1=trim($tekst1);
+	$tekst2=trim($tekst2);
+
 	if($tekst1 and $tekst2) {
-		return nl2br(wt_htmlentities($tekst1))."<p>".nl2br(wt_htmlentities($tekst2));
+		return nl2br(wt_htmlentities($tekst1))."<br/><br/>".nl2br(wt_htmlentities($tekst2));
 	} elseif($tekst1) {
 		return nl2br(wt_htmlentities($tekst1));
 	} else {
