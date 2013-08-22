@@ -266,32 +266,22 @@ class tarieventabel {
 			$return.="</div>";
 
 
-			$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_links\">";
+			$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_boven tarieventabel_pijl_links\">";
 			$return.="<i class=\"icon-chevron-left\"></i>";
 			$return.="</div>";
 
-			$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_rechts\">";
+			$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_boven tarieventabel_pijl_rechts\">";
 			$return.="<i class=\"icon-chevron-right\"></i>";
 			$return.="</div>";
 
 			if($this->toon_interne_informatie) {
 
 				// scrollbuttons ook tonen bij 2e datumblok
-
-				// positie van scrollbuttons bepalen
-				if($this->korting and $this->arrangement) {
-					$top=448;
-				} elseif($this->korting) {
-					$top=420;
-				} else {
-					$top=350;
-				}
-
-				$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_links\" style=\"top: ".$top."px;\">";
+				$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_links tarieventabel_pijl_onder\">";
 				$return.="<i class=\"icon-chevron-left\"></i>";
 				$return.="</div>";
 
-				$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_rechts\" style=\"top: ".$top."px;\">";
+				$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_rechts tarieventabel_pijl_onder\">";
 				$return.="<i class=\"icon-chevron-right\"></i>";
 				$return.="</div>";
 			}
@@ -319,7 +309,7 @@ class tarieventabel {
 		}
 	}
 
-	private function datum_headers() {
+	private function datum_headers($data_counter=0) {
 
 		global $vars;
 
@@ -358,7 +348,7 @@ class tarieventabel {
 		$return.="</tr>";
 
 		# regel met aankomstdatum
-		$return.="<tr class=\"tarieventabel_datumbalk tarieventabel_datumbalk_content\">";
+		$return.="<tr class=\"tarieventabel_datumbalk tarieventabel_datumbalk_content\" data-counter=\"".$data_counter."\">";
 		$kolomteller=0;
 		foreach ($this->dag as $key => $value) {
 			$kolomteller++;
@@ -439,7 +429,7 @@ class tarieventabel {
 		$return.="<div class=\"tarieventabel_wrapper_rechts\"><table cellspacing=\"0\" class=\"tarieventabel_border tarieventabel_content\">";
 
 		// datum-headers
-		$return.=$this->datum_headers();
+		$return.=$this->datum_headers("1");
 
 		// // voorraad
 		if($this->toon_interne_informatie) {
@@ -542,7 +532,7 @@ class tarieventabel {
 			}
 
 			// datum-headers
-			$return.=$this->datum_headers();
+			$return.=$this->datum_headers("2");
 
 		}
 
@@ -1250,6 +1240,7 @@ class tarieventabel {
 
 			.tarieventabel_datumbalk {
 				background-color: #e6f0fc;
+				height: 26px !important;
 			}
 
 			.tarieventabel_datumbalk td {
@@ -1359,8 +1350,8 @@ class tarieventabel {
 				position: absolute;
 				top: 77px;
 				height: 15px;
-				padding-top: 31px;
-				padding-bottom: 31px;
+				padding-top: 32px;
+				padding-bottom: 32px;
 				background-color: #5e7e9e;
 				cursor: pointer;
 				color: #ffffff;
@@ -1368,6 +1359,8 @@ class tarieventabel {
 				width: 8px;
 				z-index: 10;
 				overflow: hidden;
+
+				display: none;
 			}
 
 			.tarieventabel_pijl:hover {
