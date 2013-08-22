@@ -1908,11 +1908,53 @@ $(document).ready(function() {
 			return false;
 		});
 
+		if($(".trigger_livechat_button").length!==0) {
+
+			//
+			// trigger_livechat_button klikbaar maken indien chat online is
+			//
+			if($(".livechat_button").length!==0) {
+				setTimeout(function() {
+					if($("div.livechat_button img").attr("src").indexOf("online")>0) {
+						$("span.trigger_livechat_button").replaceWith(function() {
+							var text = $.trim($(this).text());
+							return "<a href='#' class='trigger_livechat_button'>" + text + "</a>";
+						});
+					}
+				},1000);
+
+				//
+				// trigger click op chatbutton
+				//
+				$("a.trigger_livechat_button").live("click",function(event) {
+					event.preventDefault();
+					$(".livechat_button a").trigger("click");
+					return false;
+				});
+			}
+		}
 
 		//
 		// tarieventabel-functies
 		//
 		if($(".tarieventabel_wrapper").length!==0) {
+
+
+				if($(".tarieventabel_datumbalk[data-counter=1]").length!==0) {
+					// positionering tarieventabel_pijl_boven bepalen
+					$(".tarieventabel_pijl_boven").css("top",$(".tarieventabel_datumbalk[data-counter=1]").position().top+"px");
+					$(".tarieventabel_pijl_boven").css("display","block");
+				}
+
+				if($(".tarieventabel_datumbalk[data-counter=2]").length!==0) {
+
+					// positionering tarieventabel_pijl_onder bepalen
+					$(".tarieventabel_pijl_onder").css("top",$(".tarieventabel_datumbalk[data-counter=2]").position().top+"px");
+					$(".tarieventabel_pijl_onder").css("display","block");
+				}
+
+				// alert( "left: " + position.left + ", top: " + position.top);
+			// }
 
 			var actieve_kolom = parseInt($(".tarieventabel_wrapper").data("actieve-kolom"),10);
 
