@@ -1,7 +1,10 @@
 <?php
 
-$title["zomer2014"]="Tarieven zomer 2014 al bekend";
+$title["zomer2014"]="Nu al te boeken voor 2014";
+$vars["zoekform_italissima_nieuwe_tarieven"]=true;
 
+$laat_titel_weg=true;
+$vars["verberg_zoekenboeklinks"]=true;
 
 #$laat_titel_weg=true;
 include("admin/vars.php");
@@ -37,6 +40,21 @@ if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 		}
 		@ksort($vars["aankomstdatum_weekend"]);
 	}
+
+	# Totaal aantal accommodaties opvragen: kan getoond worden bij "tarievenbekend_seizoen_id"
+	$db->query("SELECT DISTINCT COUNT(t.type_id) AS aantal FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".addslashes($vars["website"])."%' AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0;");
+	if($db->next_record()) {
+		$totaal_tarievenbekend_seizoen_id=$db->f("aantal");
+	}
+
+	$vars["themainfo"]["naam"]=$title["zomer2014"];
+	$vars["themainfo"]["toelichting"]="Onderstaande vakantiehuizen zijn nu al te boeken voor de zomer van 2014! Deze pagina zal de komende periode regelmatig worden uitgebreid met meer vakantiehuizen.";
+
+	$vars["zoekform_thema"]=true;
+	$id="zoek-en-boek";
+	include("zoek-en-boek.php");
+	exit;
+
 }
 
 include "content/opmaak.php";

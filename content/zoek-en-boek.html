@@ -2568,10 +2568,15 @@ echo "<div id=\"zoekblok\" class=\"boxshadow\">";
 echo "<div class=\"form_element_wrapper\">";
 echo "<form method=\"get\" action=\"";
 if($vars["zoekform_thema"]) {
-	if($themalandinfo["soort"]=="land") {
-		$urlself=$vars["path"].txt("menu_land")."/".wt_he($_GET["land"])."/";
+	if($vars["zoekform_italissima_nieuwe_tarieven"]) {
+		// pagina Italissima: Nu al te boeken voor 2014
+		$urlself=preg_replace("@\?.*$@","",$_SERVER["REQUEST_URI"]);
 	} else {
-		$urlself=$vars["path"].txt("menu_thema")."/".wt_he($_GET["thema"])."/";
+		if($themalandinfo["soort"]=="land") {
+			$urlself=$vars["path"].txt("menu_land")."/".wt_he($_GET["land"])."/";
+		} else {
+			$urlself=$vars["path"].txt("menu_thema")."/".wt_he($_GET["thema"])."/";
+		}
 	}
 } elseif($vars["zoekform_weekendski"]) {
 	$urlself=$vars["path"].txt("menu_weekendski").".php";
@@ -2579,8 +2584,6 @@ if($vars["zoekform_thema"]) {
 	$urlself=$vars["path"]."chalets/".$_GET["chaletpark"]."/".$_GET["seizoen"]."/";
 } elseif($vars["zoekform_aanbiedingen"]) {
 	$urlself=$vars["path"].txt("menu_aanbiedingen").".php";
-} elseif($vars["zoekform_italissima_nieuwe_tarieven"]) {
-	$urlself=$vars["path"].$id.".php";
 } else {
 	$urlself=txt("menu_zoek-en-boek").".php";
 }
