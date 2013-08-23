@@ -1,12 +1,13 @@
 <?php
 
-$title["zomer2013"]="Tarieven zomer 2013 al bekend";
+$title["zomer2014"]="Tarieven zomer 2014 al bekend";
 
 
 #$laat_titel_weg=true;
 include("admin/vars.php");
 
-# Bij WSA en Italissima zijn geen thema's beschikbaar
+
+# Alleen voor Italissima
 if($vars["websitetype"]<>7) {
 	header("Location: ".$vars["path"]);
 	exit;
@@ -15,7 +16,7 @@ if($vars["websitetype"]<>7) {
 #
 # seizoen_id van het te tonen seizoen
 #
-$vars["themainfo"]["tarievenbekend_seizoen_id"]=21;
+$vars["themainfo"]["tarievenbekend_seizoen_id"]=23;
 
 if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 	# $vars["aankomstdatum_weekend"] opnieuw vullen (met het specifieke seizoen voor dit thema)
