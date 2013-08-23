@@ -7,7 +7,7 @@
 #
 #
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["WINDIR"]<>"") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
 	$vars["lokale_testserver"]=true;
 }
 
@@ -26,10 +26,10 @@ if($vars["lokale_testserver"]) {
 	}
 
 	# Testsite bepalen voor Miguel
-	if($_SERVER["WINDIR"]<>"") {
-		$vars["cms_basehref"]="http://test.chalet.nl/chalet/";
+	if($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
+		$vars["cms_basehref"]="http://chalet-nl-dev.web.netromtest.ro/";
 		if(!$vars["testsite"]) {
-			$vars["testsite"]=@file_get_contents($_SERVER["DOCUMENT_ROOT"]."/chalet/tmp/testsite.txt");
+			$vars["testsite"]=@file_get_contents("/var/www/chalet/chalet-nl-dev/tmp/testsite.txt");
 		}
 		if(!$vars["testsite"]) {
 			$vars["testsite"]="C";

@@ -9,7 +9,12 @@ define("WT_trackmailaddress","chaletmailbackup+track@gmail.com");
 define("wt_mail_fromname","Chalet.nl");
 define("wt_mail_from","info@chalet.nl");
 
-
+// Netrom?
+if($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
+	define("netrom_testserver",true);
+} else {
+	define("netrom_testserver",false);
+}
 
 # diverse $vars
 # zoekvolgorde mag maximaal 8 zijn
@@ -44,12 +49,12 @@ if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
 #	$vars["wt_disable_error_handler"]=true;
 }
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["WINDIR"]<>"") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or netrom_testserver) {
 	$vars["lokale_testserver"]=true;
 
-	if($_SERVER["WINDIR"]<>"") {
+	if(netrom_testserver) {
 		$vars["wt_disable_error_handler"]=true;
-		$vars["lokale_testserver_mailadres"]="miguel@chalet.nl";
+		$vars["lokale_testserver_mailadres"]="chalet@netrom.ro";
 	}
 }
 
@@ -70,23 +75,19 @@ require($unixdir."admin/vars_functions.php");
 #
 # MySQL
 #
-
-if($_SERVER["WINDIR"]) {
+if(netrom_testserver) {
 	$mysqlsettings["name"]["remote"]="dbtest_chalet";	# Databasenaam bij provider
+	$mysqlsettings["user"]="chalet-nl-usr";		# Username bij provider
+	$mysqlsettings["password"]="m9prepHaGetr";		# Password bij provider
+	$mysqlsettings["host"]="192.168.192.45";# Hostname bij provider
 } else {
 	$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider
-}
-$mysqlsettings["user"]="chaletdb";		# Username bij provider
-$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
-
-$mysqlsettings["name"]["local"]="dbtest_chalet";		# Optioneel: Databasenaam lokaal (alleen invullen indien anders dan database bij provider)
-// $mysqlsettings["name"]["local"]="online_chaletbackup";	# Databasenaam bij provider
-$mysqlsettings["localhost"]="ss.postvak.net";# Hostname voor lokaal gebruik
-if($_SERVER["WINDIR"]) {
-	$mysqlsettings["host"]="srv01.chalet.nl";# Hostname bij provider
-} else {
+	$mysqlsettings["user"]="chaletdb";		# Username bij provider
+	$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
 	$mysqlsettings["host"]="localhost";# Hostname bij provider
 }
+$mysqlsettings["name"]["local"]="dbtest_chalet";		# Optioneel: Databasenaam lokaal (alleen invullen indien anders dan database bij provider)
+$mysqlsettings["localhost"]="ss.postvak.net";# Hostname voor lokaal gebruik
 
 require($unixdir."admin/class.mysql.php");
 

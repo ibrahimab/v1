@@ -14,7 +14,7 @@
 # Tijdelijk bepaalde leverancierid uitzetten
 #$vars["leverancierid_tijdelijk_niet_importeren"]="4";
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["WINDIR"]<>"") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
 	# Lokaal testen
 	$testsysteem=true;
 	header("Content-type: text/plain; charset=utf-8");
@@ -42,9 +42,9 @@ if($_SERVER["HTTP_HOST"]) {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$tmpdir="/home/webtastic/html/chalet/tmp/";
 		$test_tmpdir="/tmp/";
-	} elseif($_SERVER["WINDIR"]<>"") {
-		$tmpdir=$_SERVER["DOCUMENT_ROOT"]."/chalet/tmp/";
-		$test_tmpdir=$_SERVER["DOCUMENT_ROOT"]."/chalet/tmp/";
+	} elseif($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
+		$tmpdir="/var/www/chalet/chalet-nl-dev/tmp/";
+		$test_tmpdir="/var/www/chalet/chalet-nl-dev/tmp/";
 	} else {
 		$tmpdir="/tmp/";
 	}
