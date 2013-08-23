@@ -43,9 +43,18 @@ class tarieventabel {
 
 		$this->tarieven_uit_database();
 
-		$return .= "<div class=\"tarieventabel_hulp_bij_online_boeken\">";
-		$return .= html("hulpbijonlineboeken","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>","h_2"=>"<span class=\"trigger_livechat_button\">","h_3"=>"</span>"));
-		$return .= "</div>"; # afsluiten .tarieventabel_hulp_bij_online_boeken
+		if((date("w")==6 and date("H")>=10 and date("Hi")<1730) or (date("w")>=1 and date("w")<=5 and date("H")>=9 and date("Hi")<1730)) {
+			//
+			// tekst "hulp bij online boeken" tonen
+			//
+			$return .= "<div class=\"tarieventabel_hulp_bij_online_boeken\">";
+			if($vars["livechat_code"]) {
+				$return .= html("hulpbijonlineboeken","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>","h_2"=>"<span class=\"trigger_livechat_button\">","h_3"=>"</span>"));
+			} else {
+				$return .= html("hulpbijonlineboeken_zonderchat","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>"));
+			}
+			$return .= "</div>"; # afsluiten .tarieventabel_hulp_bij_online_boeken
+		}
 
 		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id."&o=".urlencode($_GET["o"]).(!$this->arrangement && $_GET["ap"] ? "&ap=".intval($_GET["ap"]) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\">";
 

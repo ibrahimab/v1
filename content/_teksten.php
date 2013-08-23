@@ -2357,10 +2357,13 @@ $txt["nl"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Uitbreidingsmogelijkhe
 $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Expandability";
 
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
-$txt["en"]["tarieventabel"]["bekijkdeextraopties"]="See our [[h_1]]extra options[[h_2]";
+$txt["en"]["tarieventabel"]["bekijkdeextraopties"]="See our [[h_1]]extra options[[h_2]]";
 
 $txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]] of [[h_2]]chat met ons[[h_3]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
+
+$txt["nl"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Hulp bij online boeken? Bel ons: [[h_1]]";
+$txt["en"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Need help with booking online? Call us: [[h_1]]";
 
 $txt["nl"]["tarieventabel"]["vertrekdagafwijking"]="Let op! Afwijkingen in aankomstdatum en verblijfsduur";
 $txt["en"]["tarieventabel"]["vertrekdagafwijking"]="Please note! Deviation in the date of arrival and the length of your stay";
