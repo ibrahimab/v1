@@ -348,7 +348,7 @@ if($db2->next_record()) {
 
 
 		if($vars["seizoentype"]==2) {
-			echo "<div class=\"tarieventabel_wrapper\">";
+			echo "<div class=\"tarieventabel_wrapper_zomer\">";
 			echo "<div class=\"tarieventabel_header\">";
 			if($voorkant_cms and !$tarievenpopup) {
 				echo "<div style=\"float:left;width:500px;\">";
@@ -953,7 +953,7 @@ if($db2->next_record()) {
 			echo "</td><td id=\"tarieventabel_rechts[".$seizoenteller."]\">";
 			echo "<span class=\"tarieventabel_arrow\" onmouseover=\"scrollright_actief=1;scrollright(".$seizoenteller.");return false;\" onmouseout=\"scrollright_actief=0;\">";
 			echo "<img src=\"".$vars["path"]."pic/pijlrechts_".($vars["websitetype"]==7 ? "italissima" : "zomer").".gif\"></span></td></tr></table>";
-			echo "</div>"; # Afsluiten tarieventabel_wrapper
+			echo "</div>"; # Afsluiten tarieventabel_wrapper_zomer
 		}
 
 		if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_beschikbaarheid_inzien"]) or $voorkant_cms)) {

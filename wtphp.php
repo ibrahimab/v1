@@ -1,6 +1,8 @@
 <?php
 
 # test 4
+# test
+
 
 #echo "TT";
 include("admin/vars.php");
@@ -9,8 +11,8 @@ include("admin/vars.php");
 
 #error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
-#if($_COOKIE["flc"]) {
+if($_COOKIE["flc"]) {
 	phpinfo();
-#}
+}
 
 ?>

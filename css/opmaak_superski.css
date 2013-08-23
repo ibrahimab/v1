@@ -572,6 +572,40 @@ form {
 	color: #cccccc;
 }
 
+/**/
+/*NIEUWE TARIEVENTABEL*/
+/**/
+.tarieventabel_wrapper {
+	border-color: #a1bddb;
+}
+
+.tarieventabel_top {
+	background-color: #a1bddb;
+	color: #003366;
+}
+
+.tarieventabel_top h1 {
+	color: #003366;
+}
+
+.tarieventabel_toelichting {
+	background-color: #a1bddb;
+}
+
+.tarieventabel_toelichting h1 {
+	color: #003366;
+}
+
+.tarieventabel_border, .tarieventabel_border td, .tarieventabel_titels_links {
+	border-color: #a1bddb;
+}
+
+.tarieventabel_datumbalk {
+	background-color: #e6f0fc;
+}
+
+
+
 .img-swap {
 	border: 0px;
 }

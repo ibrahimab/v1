@@ -335,6 +335,38 @@ form {
 	color: #666600;
 }
 
+/**/
+/*NIEUWE TARIEVENTABEL*/
+/**/
+.tarieventabel_wrapper {
+	border-color: #b2cce5;
+}
+
+.tarieventabel_top {
+	background-color: #b2cce5;
+	color: #003366;
+}
+
+.tarieventabel_top h1 {
+	color: #003366;
+}
+
+.tarieventabel_toelichting {
+	background-color: #b2cce5;
+}
+
+.tarieventabel_toelichting h1 {
+	color: #003366;
+}
+
+.tarieventabel_border, .tarieventabel_border td, .tarieventabel_titels_links {
+	border-color: #b2cce5;
+}
+
+.tarieventabel_datumbalk {
+	background-color: #e6f0fc;
+}
+
 #tabs {
 	margin-top: 20px;
 }
@@ -507,6 +539,7 @@ form {
 .zoekresultaat_prijs_bedrag_aanbieding {
 	color: #666600;
 }
+
 
 @media print {
 
