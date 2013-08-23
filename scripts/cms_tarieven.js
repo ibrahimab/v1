@@ -1189,4 +1189,14 @@ $(document).ready(function(){
 			}
 		}
 	});
+
+
+	$("input[id^=voorraad_garantie]").change(function() {
+		var ingevulde_waarde=parseInt($(this).val(),10);
+		if(ingevulde_waarde>100) {
+			$(this).val("");
+			alert("Je kunt maximaal 100 garanties invoeren");
+		}
+	});
+
 });
