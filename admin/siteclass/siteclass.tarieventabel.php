@@ -20,6 +20,7 @@ class tarieventabel {
 
 		$this->toon_interne_informatie = false;
 		$this->toon_beschikbaarheid = false;
+		$this->toon_commissie = false;
 
 		$this->voorraad_doorlopen=array(
 			"garantie" => "Garantie",

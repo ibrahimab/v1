@@ -78,7 +78,8 @@ if($toonper==3 or $vars["wederverkoop"]) {
 # Tarieventabellen inladen
 
 
-if(($vars["seizoentype"]==1 or $vars["websitetype"]==6) and ($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==4 or $_COOKIE["loginuser"]["chalet"]==6 or $_COOKIE["loginuser"]["chalet"]==15 or $_COOKIE["loginuser"]["chalet"]==26)) {
+// if(($vars["seizoentype"]==1 or $vars["websitetype"]==6) and ($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==4 or $_COOKIE["loginuser"]["chalet"]==6 or $_COOKIE["loginuser"]["chalet"]==15 or $_COOKIE["loginuser"]["chalet"]==26)) {
+if($vars["seizoentype"]==1 or $vars["websitetype"]==6) {
 	if(!$_GET["oudetabel"]) {
 		$nieuwe_tarieventabel=true;
 	}
@@ -143,17 +144,17 @@ if($nieuwe_tarieventabel) {
 	$tarieventabel_object = new tarieventabel;
 
 	// interne informatie tonen?
-	if($voorkant_cms and ($_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==4 or $_COOKIE["loginuser"]["chalet"]==6)) {
+	if($voorkant_cms and $_COOKIE["loginuser"]["chalet"]<>15 and $_COOKIE["loginuser"]["chalet"]<>26) {
 		$tarieventabel_object->toon_interne_informatie = true;
 	}
 
 	// beschikbaarheid tonen aan reisagenten?
-	if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_beschikbaarheid_inzien"]) or $voorkant_cms)) {
+	if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_beschikbaarheid_inzien"]) or $tarieventabel_object->toon_interne_informatie)) {
 		$tarieventabel_object->toon_beschikbaarheid = true;
 	}
 
 	// commissie tonen aan reisagenten?
-	if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_commissie_inzien"]) or $voorkant_cms)) {
+	if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_commissie_inzien"]) or $tarieventabel_object->toon_interne_informatie)) {
 		$tarieventabel_object->toon_commissie = true;
 	}
 
