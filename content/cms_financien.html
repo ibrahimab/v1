@@ -639,17 +639,17 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$andquery_gar_hoofdquery.=" AND g.aankomstdatum_exact<'".mktime(0,0,0,date("m",$form->input["eind"]["unixtime"]),date("d",$form->input["eind"]["unixtime"])+1,date("Y",$form->input["eind"]["unixtime"]))."'";
 	}
 
-	# periode van (boekingsdatum)
+	# periode van (factuurdatum)
 	if($form->input["boekingbegin"]["unixtime"]>0) {
-		$andquery_hoofdquery.=" AND UNIX_TIMESTAMP(b.bevestigdatum)>='".addslashes($form->input["boekingbegin"]["unixtime"])."'";
+		$andquery_hoofdquery.=" AND b.factuurdatum IS NOT NULL AND UNIX_TIMESTAMP(b.factuurdatum)>='".addslashes($form->input["boekingbegin"]["unixtime"])."'";
 
 		# geen garanties
 		$andquery_gar_hoofdquery.=" AND 1=2";
 	}
 
-	# periode tot (boekingsdatum)
+	# periode tot (factuurdatum)
 	if($form->input["boekingeind"]["unixtime"]>0) {
-		$andquery_hoofdquery.=" AND UNIX_TIMESTAMP(b.bevestigdatum)<'".mktime(0,0,0,date("m",$form->input["boekingeind"]["unixtime"]),date("d",$form->input["boekingeind"]["unixtime"])+1,date("Y",$form->input["boekingeind"]["unixtime"]))."'";
+		$andquery_hoofdquery.=" AND b.factuurdatum IS NOT NULL AND UNIX_TIMESTAMP(b.factuurdatum)<'".mktime(0,0,0,date("m",$form->input["boekingeind"]["unixtime"]),date("d",$form->input["boekingeind"]["unixtime"])+1,date("Y",$form->input["boekingeind"]["unixtime"]))."'";
 
 		# geen garanties
 		$andquery_gar_hoofdquery.=" AND 1=2";

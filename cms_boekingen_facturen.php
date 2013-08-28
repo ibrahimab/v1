@@ -843,7 +843,7 @@ if($form->okay) {
 			} else {
 				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"),md5($db0->f("password_uc")));
 			}
-			$html.="<p>".html("tot6wekeninloggen","factuur",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>"))."</p>";
+			$html.="<p>".html("tot6wekeninloggen","factuur",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>","h_3"=>"<i>","h_4"=>"</i>","v_wachtwoord"=>$db0->f("password_uc"),"v_mailadres"=>$gegevens["stap2"]["email"]))."</p>";
 
 			if(!$gegevens["stap1"]["annuleringsverzekering"]) {
 				$link=$gegevens["stap1"]["website_specifiek"]["basehref"].html("menu_verzekeringen").".php#annuleringsverzekering";

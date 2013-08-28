@@ -2,14 +2,14 @@
 var scrollleft_actief=0;
 var scrollright_actief=0;
 
-//Get cookie routine by Shelley Powers 
+//Get cookie routine by Shelley Powers
 function get_cookie(Name) {
 	var search = Name + "="
 	var returnvalue = "";
 	if (document.cookie.length > 0) {
 		offset = document.cookie.indexOf(search)
 		// if cookie exists
-		if (offset != -1) { 
+		if (offset != -1) {
 			offset += search.length
 			// set index of beginning of value
 			end = document.cookie.indexOf(";", offset);
@@ -36,7 +36,7 @@ function hoofdpagina_carousel(teller) {
 			if($("#blok_"+hoofdpagina_blok_teller).length>0) {
 
 			} else {
-				hoofdpagina_blok_teller=1;			
+				hoofdpagina_blok_teller=1;
 			}
 			teller=hoofdpagina_blok_teller;
 		} else {
@@ -48,7 +48,7 @@ function hoofdpagina_carousel(teller) {
 		$("#hoofdpagina_blok_teller_"+teller).addClass("hoofdpagina_blok_teller_active");
 	}
 }
-      
+
 $(document).ready(function() {
 	// hoofdpagina-carousel starten
 
@@ -74,9 +74,18 @@ $(document).ready(function() {
 		$(".hoofdpagina_blok_content a").click(function(e) {
 			e.preventDefault();
 		});
-		
+
 		$(".hoofdpagina_blok_content").click(function() {
-			document.location.href=$(this).find("a").attr("href");
+
+			var dit=$(this);
+
+			event_naar_analytics_sturen("doorklik","klik op carrousel-slide",$(this).data("teller"));
+
+			// anders: even wachten om Analytics te kunnen sturen
+			setTimeout(function() {
+				// heel even wachten zodat Analytics kan laden
+				document.location.href=dit.find("a").attr("href");
+			},100);
 		});
 	}
 });

@@ -162,7 +162,13 @@ if($form->okay) {
 	$subject=preg_replace("/ /","%20",$subject);
 
 	$topbody="<p>Reageren op dit verzoek: <a href=\"mailto:".$form->input["email"]."?subject=".$subject."&body=".$body."\">mail sturen</a></p>";
-	$topbody.="<p>Reageren (korte versie): <a href=\"mailto:".$form->input["email"]."?subject=".$subject."&body=".$body_kort."\">mail sturen</a></p>";
+
+	if($form->input["toelichting"]) {
+		$topbody.="<p>Reageren (korte versie): <a href=\"mailto:".$form->input["email"]."?subject=".$subject."&body=".$body_kort."\">mail sturen</a>";
+		$topbody.=" - <b>let op: tekst &quot;Toelichting op je reiswensen&quot; zelf kopi&euml;ren</b>";
+	}
+
+	$topbody.="</p>";
 
 
 	$form->mail($vars["email"],"","Vraag ons advies ".$vars["websitenaam"],"",$topbody,"",$vars["email"],"",array("replyto"=>$form->input["emailadres"]));

@@ -692,7 +692,7 @@ $title["cms_meldingen"]="Indeling CMS-hoofdpagina / Meldingen";
 
 
 # $vars - Variabelen declareren
-#$vars["actuele_vacature"]="verkoopmedewerkers";
+$vars["actuele_vacature"]="Productmanager Oostenrijk";
 
 $vars["fotofabriek_code_na_enquete"]=false;
 

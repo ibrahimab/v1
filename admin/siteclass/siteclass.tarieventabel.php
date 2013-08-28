@@ -1356,14 +1356,19 @@ class tarieventabel {
 			# Afwijkende verblijfsduur
 			$aantalnachten_afwijking[date("dm",$week)]=$aantalnachten_afwijking[date("dm",$week)]+$this->accinfo["aankomst_plusmin"]-$this->accinfo["vertrek_plusmin"];
 
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
 
+		$week=$this->begin;
+		$eind=mktime(0,0,0,date("m",$this->eind),date("d",$this->eind)+7,date("Y",$this->eind));
+		while($week<=$eind) {
 			if($aantalnachten_afwijking[date("dm",$week)]) {
 				$this->aantalnachten[$week]=7-$aantalnachten_afwijking[date("dm",$week)];
 			} else {
 				$this->aantalnachten[$week]=7;
 			}
-
 			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+
 		}
 
 		return $return;

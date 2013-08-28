@@ -2300,7 +2300,7 @@ $txt["en_z"]["themas"]["inleiding"]="-";
 # Tarieventabel (zie ongeveer halverwege http://www.chalet.nl/accommodatie/F265/)
 #
 $txt["nl"]["tarieventabel"]["tarieven"]="Prijzen";
-$txt["en"]["tarieventabel"]["tarieven"]="Rates";
+$txt["en"]["tarieventabel"]["tarieven"]="Prices";
 
 $txt["nl"]["tarieventabel"]["ineuros"]="in euro's";
 $txt["en"]["tarieventabel"]["ineuros"]="in euros";
@@ -2354,10 +2354,10 @@ $txt["nl"]["tarieventabel"]["berekentotaalbedrag"]="Bereken totaalbedrag inclusi
 $txt["en"]["tarieventabel"]["berekentotaalbedrag"]="Calculate total price including options";
 
 $txt["nl"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Uitbreidingsmogelijkheden";
-$txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Expandability";
+$txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
 
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
-$txt["en"]["tarieventabel"]["bekijkdeextraopties"]="See our [[h_1]]extra options[[h_2]]";
+$txt["en"]["tarieventabel"]["bekijkdeextraopties"]="Look at [[h_1]]our possibilities[[h_2]]";
 
 $txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]] of [[h_2]]chat met ons[[h_3]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
@@ -4161,8 +4161,8 @@ $txt["en"]["factuur"]["permailfaxpost_uitleg"]="By printing out the confirmation
 $txt["nl"]["factuur"]["bijonjuistheden"]="Bij onjuistheden horen wij dit graag per omgaande.";
 $txt["en"]["factuur"]["bijonjuistheden"]="If you find any errors, please let us know immediately.";
 
-$txt["nl"]["factuur"]["tot6wekeninloggen"]="Tot 4 weken voor vertrek kun je via \"[[h_1]]Mijn boeking[[h_2]]\" de gegevens van de deelnemers zelf invullen of aanpassen en opties bijboeken. Het is natuurlijk ook mogelijk om dit per mail of telefonisch aan ons door te geven, waarna wij het voor je verwerken.";
-$txt["en"]["factuur"]["tot6wekeninloggen"]="Up to 4 weeks before your departure, you can use \"[[h_1]]My booking[[h_2]]\" to change the data of the participants and add any options. You can of course also provide us with this information by email or telephone.";
+$txt["nl"]["factuur"]["tot6wekeninloggen"]="Tot 4 weken voor vertrek kun je via \"[[h_1]]Mijn boeking[[h_2]]\" de gegevens van de deelnemers zelf invullen of aanpassen en opties bijboeken. Inloggen kan via een [[h_1]]rechtstreekse link[[h_2]] of via je mailadres ([[h_3]][[v_mailadres]][[h_4]]) en het wachtwoord [[h_3]][[v_wachtwoord]][[h_4]]. Het is natuurlijk ook mogelijk om wijzigingen per mail of telefonisch aan ons door te geven, waarna wij het voor je verwerken.";
+$txt["en"]["factuur"]["tot6wekeninloggen"]="Up to 4 weeks before your departure, you can use \"[[h_1]]My booking[[h_2]]\" to change the data of the participants and add any options. You can login using a [[h_1]]direct link[[h_2]] or your email address ([[h_3]][[v_mailadres]][[h_4]]) and the password [[h_3]][[v_wachtwoord]][[h_4]]. You can of course also provide us with these changes by email or telephone.";
 
 $txt["nl"]["factuur"]["weadviserenannuleringsverzekering"]="We adviseren je om een annuleringsverzekering af te sluiten. Dit kan zowel individueel als per groep. Let op: dit kan tot 7 dagen na boeking! [[h_1]]Voorwaarden annuleringsverzekering[[h_2]]";
 $txt["en"]["factuur"]["weadviserenannuleringsverzekering"]="We advise you to take out a cancellation insurance, either per individual or per group. Attention: you can do so up to 7 days after you have made your booking! [[h_1]]Terms and conditions cancellation insurance[[h_2]]";
