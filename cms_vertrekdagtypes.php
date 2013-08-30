@@ -38,8 +38,8 @@ $cms->list_field(7,"seizoen_id","Seizoen");
 $cms->edit_field(7,1,"seizoen_id","Seizoen");
 $cms->edit_field(7,1,"naam","Interne naam");
 #$cms->edit_field(7,0,"omschrijving","Omschrijving (intern)");
-$cms->edit_field(7,1,"toelichting","Toelichting");
-$cms->edit_field(7,1,"toelichting_en","Toelichting (Engels)");
+$cms->edit_field(7,1,"toelichting","Toelichting (alleen zichtbaar bij oude tarieventabel)");
+$cms->edit_field(7,1,"toelichting_en","Toelichting (Engels; alleen zichtbaar bij oude tarieventabel)");
 #$cms->edit_field(7,1,"soort","Soort");
 $cms->edit_field(7,0,"htmlrow","<hr><b>Afwijkdata</b><br><br><i><br>Voorbeelden:<br><br><b>2512 +1</b> = vertrekdag zaterdag 25 december verschuift naar zondag 26 december<br><b>0202 -1</b> = vertrekdag zaterdag 1 februari verschuift naar vrijdag 1 februari<br><br>Meerdere afwijkingen scheiden door enters</i>");
 $cms->edit_field(7,1,"afwijking","Afwijkdata");
@@ -68,8 +68,8 @@ if($cms_form[7]->filled) {
 		}
 	}
 	if($afwijking_error) $cms_form[7]->error("afwijking","onjuiste afwijking");
-	
-	
+
+
 	if($cms_form[7]->input["naam"] and (eregi("^a:",$cms_form[7]->input["naam"]) or eregi("^a ",$cms_form[7]->input["naam"]))) {
 		$cms_form[7]->error("naam","'A' is gereserveerd voor 'Geen afwijking op seizoensniveau'. Begin bij 'B'");
 	}
