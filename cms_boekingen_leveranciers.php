@@ -270,7 +270,10 @@ $form->field_htmlcol("","Totaalfactuurbedrag €",array("html"=>wt_cur($temp_totaa
 $form->field_yesno("inkoop_van_0_toegestaan","Inkoop van 0 is toegestaan",array("field"=>"inkoop_van_0_toegestaan"),"","",array("tr_class"=>"inkoop_van_0_toegestaan","tr_style"=>"display:none;"));
 
 $form->field_currency(0,"totaal_volgens_ontvangen_factuur","Totaal volgens ontvangen factuur €",array("field"=>"totaal_volgens_ontvangen_factuur"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens","add_html_after_field"=>"<span id=\"opmerking_totaal_volgens_ontvangen_factuur\" style=\"font-weight:bold;\"></span>"));
+
+// betalingsverschil is op verzoek van Bert op "niet tonen" gezet (zodat niemand daar iets kan invullen) - 30-08-2013
 $form->field_currency(0,"betalingsverschil","Betalingsverschil €",array("field"=>"betalingsverschil"),"",array("negative"=>true),array("tr_class"=>"tr_inkoopgegevens_betalingsverschil","input_class"=>"wtform_input inkoopgegevens"));
+
 $form->field_htmlcol("","Saldo factuurbedrag €",array("html"=>""),"",array("tr_class"=>"inkoopgegevens_onopvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_betalingssaldo"));
 $form->field_select(0,"factuurbedrag_gecontroleerd","Factuurbedrag akkoord",array("field"=>"factuurbedrag_gecontroleerd"),"",array("selection"=>$vars["factuurbedrag_gecontroleerd"]),array("tr_style"=>"display:none;"));
 $form->field_textarea(0,"factuur_opmerkingen","Opmerkingen factuur",array("field"=>"factuur_opmerkingen"));
@@ -330,6 +333,10 @@ if($form->okay) {
 	# inkoopnetto + totaalfactuurbedrag (via javascript berekend) opslaan
 	$db->query("UPDATE boeking SET inkoopnetto='".addslashes(str_replace(",",".",$_POST["input"]["inkoopnetto"]))."', totaalfactuurbedrag='".addslashes($_POST["input"]["totaalfactuurbedrag"])."' WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."';");
 
+	# bij bestelstatus = bevestigd: aan_leverancier_doorgegeven_naam opslaan indien die nog leeg is
+	if($form->input["bestelstatus"]==3 and !$gegevens["stap1"]["aan_leverancier_doorgegeven_naam"]) {
+		$db->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."' WHERE boeking_id='".intval($gegevens["stap1"]["boekingid"])."';");
+	}
 
 	# totale_reissom_inkoop_actueel berekenen en opslaan
 	$nieuwe_gegevens=get_boekinginfo($gegevens["stap1"]["boekingid"]);
