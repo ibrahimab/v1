@@ -270,7 +270,7 @@ $form->field_htmlcol("","Totaalfactuurbedrag €",array("html"=>wt_cur($temp_totaa
 $form->field_yesno("inkoop_van_0_toegestaan","Inkoop van 0 is toegestaan",array("field"=>"inkoop_van_0_toegestaan"),"","",array("tr_class"=>"inkoop_van_0_toegestaan","tr_style"=>"display:none;"));
 
 $form->field_currency(0,"totaal_volgens_ontvangen_factuur","Totaal volgens ontvangen factuur €",array("field"=>"totaal_volgens_ontvangen_factuur"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens","add_html_after_field"=>"<span id=\"opmerking_totaal_volgens_ontvangen_factuur\" style=\"font-weight:bold;\"></span>"));
-$form->field_currency(0,"betalingsverschil","Betalingsverschil €",array("field"=>"betalingsverschil"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens"));
+$form->field_currency(0,"betalingsverschil","Betalingsverschil €",array("field"=>"betalingsverschil"),"",array("negative"=>true),array("tr_class"=>"tr_inkoopgegevens_betalingsverschil","input_class"=>"wtform_input inkoopgegevens"));
 $form->field_htmlcol("","Saldo factuurbedrag €",array("html"=>""),"",array("tr_class"=>"inkoopgegevens_onopvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_betalingssaldo"));
 $form->field_select(0,"factuurbedrag_gecontroleerd","Factuurbedrag akkoord",array("field"=>"factuurbedrag_gecontroleerd"),"",array("selection"=>$vars["factuurbedrag_gecontroleerd"]),array("tr_style"=>"display:none;"));
 $form->field_textarea(0,"factuur_opmerkingen","Opmerkingen factuur",array("field"=>"factuur_opmerkingen"));
