@@ -2350,10 +2350,10 @@ function zoekopdracht_naar_analytics_sturen_inclusief_aantal(omschrijving,zoekop
 	}
 }
 
-function event_naar_analytics_sturen(categorie,omschrijving,waarde) {
+function event_naar_analytics_sturen(categorie, omschrijving, waarde, aantal) {
 	// stuur de zoekopdracht naar Google Analytics
 	if (typeof _gaq != "undefined") {
-		_gaq.push(['_trackEvent', categorie, omschrijving, waarde]);
+		_gaq.push(['_trackEvent', categorie, omschrijving, waarde, aantal]);
 	}
 }
 

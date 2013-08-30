@@ -79,7 +79,8 @@ $(document).ready(function() {
 
 			var dit=$(this);
 
-			event_naar_analytics_sturen("doorklik","klik op carrousel-slide",$(this).data("teller"));
+
+			event_naar_analytics_sturen("doorklik", "homepage", "klik op carrousel-slide", $(this).data("teller"));
 
 			// anders: even wachten om Analytics te kunnen sturen
 			setTimeout(function() {
