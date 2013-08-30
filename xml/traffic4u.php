@@ -13,6 +13,11 @@
 #
 #
 
+
+// minimaal aantal zoekresultaten om een combinatie in de feed op te nemen
+$vars["min_aantal_resultaten_traffic4u"]=3;
+
+
 set_time_limit(0);
 $geen_tracker_cookie=true;
 $unixdir="../";
@@ -25,7 +30,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 	# UTF-8 BOM
 	echo "\xEF\xBB\xBF";
-} elseif(!$_GET["nocache"] and ($_GET["feed"]=="bestemmingen" or $_GET["feed"]=="bestemmingen-aantal-personen")) {
+} elseif(!$_GET["nocache"] and ($_GET["feed"]=="bestemmingen" or $_GET["feed"]=="bestemmingen-aantal-personen" or $_GET["feed"]=="land-aantal-personen" or $_GET["feed"]=="aantal-personen")) {
 	header("Content-Type: application/octet-stream; charset=utf-8");
 	header("Content-Disposition: attachment; filename=\"".basename($_GET["feed"]).".csv\";" );
 	$content=file_get_contents($cachefile);
@@ -257,21 +262,21 @@ if($_GET["feed"]=="accommodaties") {
 				}
 			}
 
-			if($aantal_resultaten_skigebied>=3 or $aantal_resultaten_plaats>=3) {
+			if($aantal_resultaten_skigebied>=$vars["min_aantal_resultaten_traffic4u"] or $aantal_resultaten_plaats>=$vars["min_aantal_resultaten_traffic4u"]) {
 				echo wt_csvconvert(utf8_encode($db4->f("land"))).wt_csvconvert_delimiter;
 				echo wt_csvconvert(utf8_encode($db4->f("skigebied"))).wt_csvconvert_delimiter;
 				if($vars["seizoentype"]==1) {
 					echo wt_csvconvert(utf8_encode($db4->f("plaats"))).wt_csvconvert_delimiter;
 				}
 				echo wt_csvconvert(utf8_encode($value99)).wt_csvconvert_delimiter;
-				if($aantal_resultaten_skigebied>=3) {
+				if($aantal_resultaten_skigebied>=$vars["min_aantal_resultaten_traffic4u"]) {
 					echo wt_csvconvert(utf8_encode($temp_skigebied_url));
 				}
 
 				echo wt_csvconvert_delimiter;
 
 				# Aantal accommodaties skigebied + thema
-				if($aantal_resultaten_skigebied>=3) {
+				if($aantal_resultaten_skigebied>=$vars["min_aantal_resultaten_traffic4u"]) {
 					echo intval($aantal_resultaten_skigebied);
 				} else {
 					echo "0";
@@ -280,13 +285,13 @@ if($_GET["feed"]=="accommodaties") {
 				if($vars["seizoentype"]==1) {
 					echo wt_csvconvert_delimiter;
 
-					if($aantal_resultaten_plaats>=3) {
+					if($aantal_resultaten_plaats>=$vars["min_aantal_resultaten_traffic4u"]) {
 						echo wt_csvconvert(utf8_encode($temp_plaats_url));
 					}
 					echo wt_csvconvert_delimiter;;
 
 					# Aantal accommodaties plaats + thema
-					if($aantal_resultaten_plaats>=3) {
+					if($aantal_resultaten_plaats>=$vars["min_aantal_resultaten_traffic4u"]) {
 						echo intval($aantal_resultaten_plaats);
 					} else {
 						echo "0";
@@ -303,8 +308,147 @@ if($_GET["feed"]=="accommodaties") {
 
 		}
 	}
-}
+} elseif( $_GET["feed"]=="land-aantal-personen" ) {
 
+	//
+	// feed land-aantal personen
+	//
+
+	$doorloop_array=array(
+		"fap=2"=>"2",
+		"fap=3"=>"3",
+		"fap=4"=>"4",
+		"fap=5"=>"5",
+		"fap=6"=>"6",
+		"fap=7"=>"7",
+		"fap=8"=>"8",
+		"fap=9"=>"9",
+		"fap=10"=>"10",
+		"fap=11"=>"11",
+		"fap=12"=>"12",
+		"fap=13"=>"13",
+		"fap=14"=>"14",
+		"fap=15"=>"15",
+		"fap=16"=>"16",
+		"fap=17"=>"17",
+		"fap=18"=>"18",
+		"fap=19"=>"19",
+		"fap=20"=>"20"
+	);
+
+	echo "Land".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."URL land + aantal personen".wt_csvconvert_delimiter."Aantal accommodaties land + aantal personen\n";
+
+	$db4->query("SELECT DISTINCT land_id, land FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY land;");
+	$result_teller=0;
+	while($db4->next_record()) {
+
+		$result_teller++;
+
+		reset($doorloop_array);
+		foreach ($doorloop_array as $key99 => $value99) {
+
+			$aantal_resultaten_land=0;
+
+			$temp_land_url=$vars["basehref"].txt("menu_zoek-en-boek").".php?filled=1&".$key99."&fsg=".$db4->f("land_id")."-0";
+
+			if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+				$content="aaa data-aantalgevonden=\"88\" aa";
+			} else {
+				$content=file_get_contents($temp_land_url);
+			}
+
+			if(preg_match("/data-aantalgevonden=\"([0-9]+)\"/",$content,$regs)) {
+				if($regs[1]>0) {
+					$aantal_resultaten_land=$regs[1];
+				}
+			}
+
+			if($aantal_resultaten_land>=$vars["min_aantal_resultaten_traffic4u"]) {
+				echo wt_csvconvert(utf8_encode($db4->f("land"))).wt_csvconvert_delimiter;
+				echo wt_csvconvert(utf8_encode($value99)).wt_csvconvert_delimiter;;
+				echo wt_csvconvert(utf8_encode($temp_land_url)).wt_csvconvert_delimiter;;
+				echo wt_csvconvert(utf8_encode($aantal_resultaten_land));
+				echo "\n";
+			}
+		}
+	}
+} elseif( $_GET["feed"]=="aantal-personen" ) {
+
+	//
+	// feed land-aantal personen
+	//
+
+	$doorloop_array=array(
+		"fap=2"=>"2",
+		"fap=3"=>"3",
+		"fap=4"=>"4",
+		"fap=5"=>"5",
+		"fap=6"=>"6",
+		"fap=7"=>"7",
+		"fap=8"=>"8",
+		"fap=9"=>"9",
+		"fap=10"=>"10",
+		"fap=11"=>"11",
+		"fap=12"=>"12",
+		"fap=13"=>"13",
+		"fap=14"=>"14",
+		"fap=15"=>"15",
+		"fap=16"=>"16",
+		"fap=17"=>"17",
+		"fap=18"=>"18",
+		"fap=19"=>"19",
+		"fap=20"=>"20",
+		"fap=21"=>"21",
+		"fap=22"=>"22",
+		"fap=23"=>"23",
+		"fap=24"=>"24",
+		"fap=25"=>"25",
+		"fap=26"=>"26",
+		"fap=27"=>"27",
+		"fap=28"=>"28",
+		"fap=29"=>"29",
+		"fap=30"=>"30",
+		"fap=31"=>"31",
+		"fap=32"=>"32",
+		"fap=33"=>"33",
+		"fap=34"=>"34",
+		"fap=35"=>"35",
+		"fap=36"=>"36",
+		"fap=37"=>"37",
+		"fap=38"=>"38",
+		"fap=39"=>"39",
+		"fap=40"=>"40"
+	);
+
+	echo "Aantal personen".wt_csvconvert_delimiter."URL aantal personen".wt_csvconvert_delimiter."Aantal accommodaties aantal personen\n";
+
+	reset($doorloop_array);
+	foreach ($doorloop_array as $key99 => $value99) {
+
+		$aantal_resultaten=0;
+
+		$temp_url=$vars["basehref"].txt("menu_zoek-en-boek").".php?filled=1&".$key99;
+
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+			$content="aaa data-aantalgevonden=\"88\" aa";
+		} else {
+			$content=file_get_contents($temp_url);
+		}
+
+		if(preg_match("/data-aantalgevonden=\"([0-9]+)\"/",$content,$regs)) {
+			if($regs[1]>0) {
+				$aantal_resultaten=$regs[1];
+			}
+		}
+
+		if($aantal_resultaten>=$vars["min_aantal_resultaten_traffic4u"]) {
+			echo wt_csvconvert(utf8_encode($value99)).wt_csvconvert_delimiter;;
+			echo wt_csvconvert(utf8_encode($temp_url)).wt_csvconvert_delimiter;;
+			echo wt_csvconvert(utf8_encode($aantal_resultaten));
+			echo "\n";
+		}
+	}
+}
 
 
 ?>
