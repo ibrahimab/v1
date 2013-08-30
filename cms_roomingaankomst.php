@@ -139,7 +139,7 @@ if($_GET["levid"]) {
 
 				echo "<h2>Roominglist</h2>";
 
-				echo "<p><span class=\"nog_niet_besteld\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog niet besteld</p>";
+				echo "<p><span class=\"nog_niet_besteld\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog niet besteld (wordt niet meegezonden)</p>";
 
 // echo $roominglist->verberg_garanties;
 

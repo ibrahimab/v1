@@ -2406,6 +2406,14 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$db->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($form->input["aan_leverancier_doorgegeven_naam"])."' WHERE boeking_id='".intval($gegevens["stap1"]["boekingid"])."';");
 			}
 
+			if($mustlogin) {
+				# kijken of aan_leverancier_doorgegeven_naam is gewijzigd. Zo ja: loggen
+				if($gegevens["stap1"]["aan_leverancier_doorgegeven_naam"]<>$form->input["aan_leverancier_doorgegeven_naam"]) {
+					chalet_log("aan leverancier doorgegeven naam gewijzigd in \"".$form->input["aan_leverancier_doorgegeven_naam"]."\"");
+				}
+			}
+
+
 			# Opties die niet meer gelden na wijzigen geboortedatum wissen
 			if($opties_nietbeschikbaar_geboortedatum_id and $form->input["wisopties_nietbeschikbaar"]) {
 				$db->query("DELETE FROM boeking_optie WHERE optie_onderdeel_id IN (".addslashes($opties_nietbeschikbaar_geboortedatum_id).") AND boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."' AND persoonnummer=1;");

@@ -2,8 +2,6 @@
 
 echo "<strong>".html("boekingsaanvraagisverzonden","boeking_bevestigd")."</strong><p>".html("uontvangtbinnenenkeleminutenmail","boeking_bevestigd")."<p>".html("mochtunogvragenhebben","boeking_bevestigd",array("l1"=>"contact"))."</p>";
 
-echo "<p><a href=\"".wt_he($share_url)."\">&laquo;&nbsp;".html("terugnaaraccommodatie","boeking_bevestigd")."</a></p>";
-
 if($vars["taal"]=="nl") {
 
 	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I") {
@@ -71,6 +69,8 @@ if($vars["taal"]=="nl") {
 		echo "</td><td><img src=\"".$vars["path"]."pic/sunnycars_logo.gif\"></td></tr></table>";
 	}
 }
+
+echo "<p><a href=\"".wt_he($share_url)."\">&laquo;&nbsp;".html("terugnaaraccommodatie","boeking_bevestigd")."</a></p>";
 
 # Tracking
 if($_GET["aanvraagnr"]) {

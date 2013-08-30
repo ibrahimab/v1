@@ -661,7 +661,9 @@ $(document).ready(function() {
 
 		$("form[name=frm]").prop("target", 'formpopup');
 		$("form[name=frm]").submit();
+
 		$("form[name=frm]").prop("target", '');
+		$("input[name=roominglist_bekijken]").val("0");
 
 		return false;
 	});

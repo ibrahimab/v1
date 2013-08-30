@@ -24,6 +24,13 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
+		//
+		// Controleren of er nieuw te verzenden roominglists zijn
+		//
+		// $roominglist = new roominglist;
+		// $roominglist->vergelijk_lijsten();
+
+
 		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 		// $db->query("SELECT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE bp.persoonnummer=1 AND bp.boeking_id=b.boeking_id AND b.boekingsnummer<>'' AND b.aan_leverancier_doorgegeven_naam='' AND b.bestelstatus>1 AND b.boeking_id IN (SELECT boeking_id FROM garantie) ORDER BY b.boeking_id;");
