@@ -147,6 +147,14 @@ class tarieventabel {
 				$this->min_personen=min(array_keys($this->aantal_personen));
 
 				if($_GET["ap"]) {
+					// valt het aantal personen binnen de capaciteit van deze accommodatie?
+					if($_GET["ap"]<$this->min_personen or $_GET["ap"]>$this->max_personen) {
+						// zo niet: aantal personen niet gebruiken bij tonen tarieventabel
+						unset($_GET["ap"]);
+					}
+				}
+
+				if($_GET["ap"]) {
 					$this->max_personen_tonen=$_GET["ap"]+2;
 					$this->min_personen_tonen=$_GET["ap"]-2;
 				} else {
