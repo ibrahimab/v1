@@ -253,6 +253,43 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["livechat_code"]=false;
+} elseif($_SERVER["HTTP_HOST"]=="test.venturasol.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="X")) {
+	# Venturasol
+	$vars["websitetype"]=9;
+	$vars["websitenaam"]="Venturasol";
+	$vars["langewebsitenaam"]="Venturasol";
+	$vars["seizoentype"]=1;
+	$vars["website"]="X";
+	$vars["taal"]="nl";
+	$vars["websiteland"]="nl";
+	$vars["basehref"]="http://www.venturasol.nl/";
+	$vars["email"]="info@venturasol.nl";
+	$path="/";
+	// $vars["googleanalytics"]="UA-2078202-13";
+	// $vars["facebook_pageid"]="290286354404681";
+	// $vars["twitter_user"]="SuperSkiNL";
+	$vars["annverzekering_mogelijk"]=1;
+	$vars["reisverzekering_mogelijk"]=1;
+	$vars["livechat_code"]=false;
+} elseif($_SERVER["HTTP_HOST"]=="partner.venturasol.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="Y")) {
+	# Venturasol-partner
+	$vars["websitetype"]=9;
+	$vars["websitenaam"]="Venturasol-partner";
+	$vars["langewebsitenaam"]="Venturasol-partner";
+	$vars["seizoentype"]=1;
+	$vars["website"]="Y";
+	$vars["taal"]="nl";
+	$vars["websiteland"]="nl";
+	$vars["basehref"]="http://partner.venturasol.nl/";
+	$vars["email"]="info@venturasol.nl";
+	$path="/";
+	// $vars["googleanalytics"]="UA-2078202-13";
+	// $vars["facebook_pageid"]="290286354404681";
+	// $vars["twitter_user"]="SuperSkiNL";
+	$vars["annverzekering_mogelijk"]=1;
+	$vars["reisverzekering_mogelijk"]=1;
+	$vars["wederverkoop"]=true;
+	$vars["livechat_code"]=false;
 } else {
 	# Onbekend welke site er wordt opgevraagd
 	if(ereg("chalet\.nl",$_SERVER["HTTP_HOST"])) {
@@ -317,6 +354,21 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$css_aanbiedingkleur="#661700";
 } elseif($vars["websitetype"]==8) {
 	# SuperSki
+	$bordercolor="#003366";
+	$rood="#e6007e";
+	$hover="#e6007e";
+	$hr="#003366";
+	$table="#003366";
+	$font="Verdana, Arial, Helvetica, sans-serif;";
+	$bodybgcolor="#ebebeb";
+	$thfontcolor="#ffffff";
+	$thfontsize="0.9em";
+	$activetabcolor="#e6007e";
+	$inactivetabcolor="#003366";
+	$inactivetabfontcolor="#ffffff";
+	$css_aanbiedingkleur="#e6007e";
+} elseif($vars["websitetype"]==9) {
+	# Venturasol
 	$bordercolor="#003366";
 	$rood="#e6007e";
 	$hover="#e6007e";
@@ -512,6 +564,30 @@ $vars["websiteinfo"]["taal"]["K"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["K"]=true;
 $vars["websiteinfo"]["livechat_code"]["K"]=false;
 
+$vars["websiteinfo"]["websitenaam"]["X"]="Venturasol";
+$vars["websiteinfo"]["langewebsitenaam"]["X"]="Venturasol";
+$vars["websiteinfo"]["email"]["X"]="info@venturasol.nl";
+$vars["websiteinfo"]["basehref"]["X"]="http://www.venturasol.nl/";
+$vars["websiteinfo"]["websitetype"]["X"]=9;
+$vars["websiteinfo"]["verzekering_mogelijk"]["X"]=1;
+$vars["websiteinfo"]["wederverkoop"]["X"]=false;
+$vars["websiteinfo"]["websiteland"]["X"]="nl";
+$vars["websiteinfo"]["taal"]["X"]="nl";
+$vars["websiteinfo"]["nieuwsbrief_aanbieden"]["X"]=false;
+$vars["websiteinfo"]["livechat_code"]["X"]=false;
+
+$vars["websiteinfo"]["websitenaam"]["Y"]="Venturasol-partner";
+$vars["websiteinfo"]["langewebsitenaam"]["Y"]="Venturasol-partner";
+$vars["websiteinfo"]["email"]["Y"]="info@venturasol.nl";
+$vars["websiteinfo"]["basehref"]["Y"]="http://partner.venturasol.nl/";
+$vars["websiteinfo"]["websitetype"]["Y"]=9;
+$vars["websiteinfo"]["verzekering_mogelijk"]["Y"]=1;
+$vars["websiteinfo"]["wederverkoop"]["Y"]=true;
+$vars["websiteinfo"]["websiteland"]["Y"]="nl";
+$vars["websiteinfo"]["taal"]["Y"]="nl";
+$vars["websiteinfo"]["nieuwsbrief_aanbieden"]["Y"]=false;
+$vars["websiteinfo"]["livechat_code"]["Y"]=false;
+
 $vars["websiteinfo"]["websitenaam"]["C"]="Chalet.nl";
 $vars["websiteinfo"]["langewebsitenaam"]["C"]="Chalet.nl B.V.";
 $vars["websiteinfo"]["email"]["C"]="info@chalet.nl";
@@ -525,25 +601,25 @@ $vars["websiteinfo"]["livechat_code"]["C"]="2-PTFmcHUgtM";
 
 # Diverse vars
 
-$vars["websites"]=array("C"=>"Chalet.nl Winter","Z"=>"Zomerhuisje.nl","W"=>"SuperSki","E"=>"Chalet.eu Engelstalig Winter","S"=>"Chalet.eu Engelstalig Zomer (niet meer actief)","T"=>"Chalettour.nl Winter","O"=>"Chalettour.nl Zomer (niet meer actief)","B"=>"Chalet.be Winter","D"=>"Chalet Duitstalig Winter","N"=>"Zomerhuisje.eu (niet meer actief)","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima.nl","K"=>"Italissima.be");
-$vars["websites_actief"]=array("C"=>"Chalet.nl Winter","Z"=>"Zomerhuisje.nl","W"=>"SuperSki","E"=>"Chalet.eu Engelstalig Winter","T"=>"Chalettour.nl Winter","B"=>"Chalet.be Winter","D"=>"Chalet Duitstalig Winter","N"=>"Zomerhuisje.eu","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima.nl","K"=>"Italissima.be");
-$vars["websites_basehref"]=array("C"=>"http://www.chalet.nl/","Z"=>"http://www.zomerhuisje.nl/","W"=>"http://www.superski.nl/","E"=>"http://www.chalet.eu/","S"=>"http://www.chalet.nl/summer/","T"=>"http://www.chalettour.nl/","O"=>"http://www.chalettour.nl/zomer/","B"=>"http://www.chalet.be/","D"=>"http://www.chalet.eu/","N"=>"http://www.zomerhuisje.eu/","V"=>"http://www.chaletsinvallandry.nl/","Q"=>"http://www.chaletsinvallandry.com/","I"=>"http://www.italissima.nl/","K"=>"http://www.italissima.be/");
+$vars["websites"]=array("C"=>"Chalet.nl Winter","Z"=>"Zomerhuisje.nl","W"=>"SuperSki","E"=>"Chalet.eu Engelstalig Winter","S"=>"Chalet.eu Engelstalig Zomer (niet meer actief)","T"=>"Chalettour.nl Winter","O"=>"Chalettour.nl Zomer (niet meer actief)","B"=>"Chalet.be Winter","D"=>"Chalet Duitstalig Winter","N"=>"Zomerhuisje.eu (niet meer actief)","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima.nl","K"=>"Italissima.be","X"=>"Venturasol","Y"=>"Venturasol-partner");
+$vars["websites_actief"]=array("C"=>"Chalet.nl Winter","Z"=>"Zomerhuisje.nl","W"=>"SuperSki","E"=>"Chalet.eu Engelstalig Winter","T"=>"Chalettour.nl Winter","B"=>"Chalet.be Winter","D"=>"Chalet Duitstalig Winter","N"=>"Zomerhuisje.eu","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima.nl","K"=>"Italissima.be","X"=>"Venturasol","Y"=>"Venturasol-partner");
+$vars["websites_basehref"]=array("C"=>"http://www.chalet.nl/","Z"=>"http://www.zomerhuisje.nl/","W"=>"http://www.superski.nl/","E"=>"http://www.chalet.eu/","S"=>"http://www.chalet.nl/summer/","T"=>"http://www.chalettour.nl/","O"=>"http://www.chalettour.nl/zomer/","B"=>"http://www.chalet.be/","D"=>"http://www.chalet.eu/","N"=>"http://www.zomerhuisje.eu/","V"=>"http://www.chaletsinvallandry.nl/","Q"=>"http://www.chaletsinvallandry.com/","I"=>"http://www.italissima.nl/","K"=>"http://www.italissima.be/","X"=>"http://www.venturasol.nl/","Y"=>"http://partner.venturasol.nl/");
 $vars["websites_inactief"]=array("S"=>true,"O"=>true,"N"=>true);
 #$vars["websites_basehref_siteid"]=array(1=>"http://www.chalet.nl/",2=>"http://www.superski.nl/",3=>"http://www.zomerhuisje.nl/",4=>"http://www.chalettour.nl/",5=>"http://www.chalettour.nl/zomer/",6=>"http://www.chaletsinvallandry.nl/");
 #$vars["websites_wzt_siteid"]=array(1=>1,2=>1,3=>2,4=>1,5=>2,6=>1);
 #$vars["websitetype_namen"]=array(1=>"Chalet.nl / Chalet.eu winter",2=>"SuperSki",3=>"Chalet.nl / Chalet.eu zomer",4=>"Chalettour.nl winter",5=>"Chalettour.nl zomer");
 #$vars["wederverkoop_sites"]=array("T","O","Z");
 
-$vars["websites_wzt"][1]=array("C"=>"Chalet.nl","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","D"=>"Chalet (Duitstalig)","W"=>"SuperSki","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)");
+$vars["websites_wzt"][1]=array("C"=>"Chalet.nl","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","D"=>"Chalet (Duitstalig)","W"=>"SuperSki","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","X"=>"Venturasol","Y"=>"Venturasol-partner");
 $vars["websites_wzt"][2]=array("Z"=>"Zomerhuisje.nl","N"=>"Zomerhuisje.eu (niet meer actief)","S"=>"Chalet.eu Engelstalig Zomer (niet meer actief)","O"=>"Chalettour.nl Zomer (niet meer actief)","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima.nl","K"=>"Italissima.be");
 
-$vars["websites_wzt_actief"][1]=array("C"=>"Chalet.nl","W"=>"SuperSki","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","D"=>"Chalet Duitstalig","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)");
+$vars["websites_wzt_actief"][1]=array("C"=>"Chalet.nl","W"=>"SuperSki","E"=>"Chalet.eu (Engelstalig)","T"=>"Chalettour.nl (wederverkoop)","B"=>"Chalet.be","D"=>"Chalet Duitstalig","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","X"=>"Venturasol","Y"=>"Venturasol-partner");
 $vars["websites_wzt_actief"][2]=array("Z"=>"Zomerhuisje.nl","V"=>"Chalets in Vallandry (.nl)","Q"=>"Chalets in Vallandry (.com)","I"=>"Italissima.nl","K"=>"Italissima.be");
 
 #$vars["websitetype_namen_oud"]=array(1=>"Chalet.nl/.eu/.be winter",2=>"SuperSki",3=>"Zomerhuisje.nl/.eu",4=>"Chalettour.nl (wederverkoop)",5=>"Chalettour.nl zomer (niet meer actief)",6=>"Chalets in Vallandry (.nl en .com)");
-$vars["websitetype_namen"]=array(1=>"Chalet.nl/.eu/.be",2=>"SuperSki",3=>"Zomerhuisje.nl",4=>"Chalettour.nl",6=>"Chalets in Vallandry (.nl en .com)",7=>"Italissima (.nl en .be)");
+$vars["websitetype_namen"]=array(1=>"Chalet.nl/.eu/.be",2=>"SuperSki",3=>"Zomerhuisje.nl",4=>"Chalettour.nl",6=>"Chalets in Vallandry (.nl en .com)",7=>"Italissima (.nl en .be)",9=>"Venturasol");
 
 # websitetype_namen koppelen aan seizoentype (1=winter, 2=zomer)
-$vars["websitetype_namen_wzt"]=array(1=>1,2=>1,3=>2,4=>1,5=>2,6=>1,7=>2);
+$vars["websitetype_namen_wzt"]=array(1=>1,2=>1,3=>2,4=>1,5=>2,6=>1,7=>2,9=>1);
 
 ?>

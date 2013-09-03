@@ -697,11 +697,17 @@ $txta["en"]["telefoonnummer"]="Phone: +31 348 43 46 49";
 $txta["nl_b"]["telefoonnummer"]="Tel: +31 348 43 46 49";
 $txta["en_b"]["telefoonnummer"]="-";
 
+$txta["nl_x"]["telefoonnummer"]="Tel: 0541 - 53 27 98";
+$txta["en_x"]["telefoonnummer"]="Phone: +31 541 532798";
+
 $txta["nl"]["telefoonnummer_colofon"]="tel: 0348 - 43 46 49";
 $txta["en"]["telefoonnummer_colofon"]="phone: +31 348 43 46 49";
 
 $txta["nl_b"]["telefoonnummer_colofon"]="tel: +31 348 43 46 49";
 $txta["en_b"]["telefoonnummer_colofon"]="-";
+
+$txta["nl_x"]["telefoonnummer_colofon"]="tel: 0541 - 53 27 98";
+$txta["en_x"]["telefoonnummer_colofon"]="phone: +31 541 532798";
 
 $txta["nl"]["telefoonnummer_alleen"]="0348 - 43 46 49";
 $txta["en"]["telefoonnummer_alleen"]="+31 348 43 46 49";
@@ -709,11 +715,17 @@ $txta["en"]["telefoonnummer_alleen"]="+31 348 43 46 49";
 $txta["nl_b"]["telefoonnummer_alleen"]="+31 348 43 46 49";
 $txta["en_b"]["telefoonnummer_alleen"]="-";
 
+$txta["nl_x"]["telefoonnummer_alleen"]="0541 - 53 27 98";
+$txta["en_x"]["telefoonnummer_alleen"]="+31 541 532798";
+
 $txta["nl"]["telefoonnummer_telefoonblok"]="0348 - 43 46 49";
 $txta["en"]["telefoonnummer_telefoonblok"]="+31 348 434649";
 
 $txta["nl_b"]["telefoonnummer_telefoonblok"]="+31348434649";
 $txta["en_b"]["telefoonnummer_telefoonblok"]="-";
+
+$txta["nl_x"]["telefoonnummer_telefoonblok"]="0541 - 53 27 98";
+$txta["en_x"]["telefoonnummer_telefoonblok"]="+31 541 532798";
 
 $txta["nl"]["openingstijden_telefoonblok"]="ma-vr 9-17:30 / za 10-17:30";
 $txta["en"]["openingstijden_telefoonblok"]="Mo-Fr 9-17:30 / Sa 10-17:30";

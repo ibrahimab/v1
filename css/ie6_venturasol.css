@@ -1,0 +1,3 @@
+
+/* tabs in IE niet rechts schuiven (geen rounded corners) */
+.ui-tabs .ui-tabs-nav { margin-left: 0px !important; }

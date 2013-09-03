@@ -1,0 +1,53 @@
+
+/*verfijnblok*/
+#verfijn {
+	border: 1px solid #0412b1;
+	background-color: #ffffff;
+	width: 200px;
+	margin-left: -6px;
+}
+
+#verfijn .keuzes_kopjes {
+	background-color: #0412b1;
+}
+
+#verfijn #verfijntopheader {
+	color: #0412b1;
+}
+
+#verfijn .alle_selecties_wissen {
+	border-top-color: #0412b1;
+}
+
+#bloklinks {
+	width: 240px;
+}
+
+#contentrechts {
+	margin-left: 40px;
+	width: 700px;
+	float: left;
+}
+
+#breadcrumb_overlay {
+	margin-left: 246px;
+}
+
+#zoekresultatentable {
+	width: 700px;
+}
+
+#zoektabel {
+
+}
+
+#zoektabel hr {
+	color: #a1bddb;
+	background-color: #a1bddb;
+	height: 1px;
+	border: 0px;
+}
+
+#laatstbekeken {
+	width: 715px;
+}

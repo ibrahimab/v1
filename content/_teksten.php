@@ -1448,11 +1448,14 @@ $txt["en"]["contact"]["tijdsat"]="From 10 am to 5:30 pm";
 $txt["nl"]["contact"]["telefoonNummerGetal"]="0348 - 43 46 49";
 $txt["en"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 
-$txt["nl"]["contact"]["faxNummerGetal"]="0348 - 69 07 52";
-$txt["en"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
+$txt["nl_x"]["contact"]["telefoonNummerGetal"]="0541 - 53 27 98";
+$txt["en_x"]["contact"]["telefoonNummerGetal"]="+31 541 532798";
 
 $txt["nl_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 $txt["en_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
+
+$txt["nl"]["contact"]["faxNummerGetal"]="0348 - 69 07 52";
+$txt["en"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
 
 $txt["nl_b"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";
 $txt["en_b"]["contact"]["faxNummerGetal"]="+31 348 69 07 52";

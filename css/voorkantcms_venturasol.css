@@ -1,0 +1,34 @@
+
+#wrapper {
+	margin-left: 0;
+}
+
+#ajaxloader_page {
+	left: 500px;
+}
+
+#interneinfo_rechts {
+	position: absolute;
+	top: 0;
+	margin-left: 990px;
+	padding: 5px;
+}
+
+#interneinfo_rechts .toonacctabel {
+	background-color: #f3f3f3;
+	width: 280px;
+	font-size: 0.8em;
+}
+
+#interneinfo_rechts .leftcell {
+	width: 50px;
+}
+
+#interneinfo_rechts .rightcell {
+
+}
+
+#interneinfo_rechts .rightcelldiv {
+	word-wrap: break-word;
+	width: 210px;
+}

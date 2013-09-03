@@ -18,6 +18,9 @@ if($vars["websitetype"]==3) {
 } elseif($vars["websitetype"]==8) {
 	# SuperSki
 	include("content/opmaak_superski.php");
+} elseif($vars["websitetype"]==9) {
+	# Venturasol
+	include("content/opmaak_venturasol.php");
 } else {
 	# Chalet (.nl, .eu, .be), Chalettour.nl
 	include("content/opmaak_chalet.php");

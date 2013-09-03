@@ -1,0 +1,15 @@
+
+.boekbutton_tekst {
+	margin-top: 9px;
+}
+
+#laatstbekeken {
+	margin-top: 0px;
+}
+
+#hoofdpagina_twitter_blok table {
+	display: none;
+}
+
+/* tabs in IE niet rechts schuiven (geen rounded corners) */
+.ui-tabs .ui-tabs-nav { margin-left: 0px !important; }

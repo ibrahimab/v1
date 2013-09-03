@@ -1,0 +1,96 @@
+
+h1 {
+	color: #e6007e;
+}
+
+#breadcrumb_overlay {
+	margin-left: 231px;
+}
+
+#telefoonblok {
+	margin-left: -7px;
+}
+
+#toonaccommodatie_kopteksten {
+	margin-top: 40px;
+}
+
+#toonaccommodatie_kenmerken {
+	border: 1px solid #ffffff;
+	padding: 0px;
+}
+
+#toonaccommodatie_kenmerken li {
+	color: #003366;
+}
+
+#toonaccommodatie_kenmerken_klassering {
+	color: #003366;
+}
+
+#toonaccommodatie_kenmerken_2_beoordeling {
+	color: #660066;
+    background-color: #ffffff;
+    padding: 0;
+	line-height: 1em;
+    font-size: 1.6em;
+    margin-top:-4px;
+    margin-left: 4px;
+
+	-webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+#toonaccommodatie_kenmerken_2_beoordelinglink a {
+	color: #003366;
+}
+
+#toonaccommodatie_kenmerken_2_beoordelinglink a:hover {
+	color: #e6007e;
+}
+
+#toonaccommodatie_boekbalk {
+	margin-top: 40px;
+}
+
+#toonaccommodatie_boekbalk_alletypes {
+	-webkit-border-radius: 11px;
+	-moz-border-radius: 11px;
+	border-radius: 11px;
+	behavior: url(/PIE.htc);
+	position: relative;
+}
+
+#beoordeling_gemiddeldtotaaloordeel_cijfer {
+	color: #660066;
+    background-color: #ffffff;
+    padding: 0;
+    margin: 0;
+	line-height: 1em;
+    font-size: 1.6em;
+    margin-top: 8px;
+    margin-left: 6px;
+    margin-right: 6px;
+
+	-webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+.beoordeling_enquete {
+	background-color: #a1bddb;
+	border: 1px solid #e6007e;
+}
+
+.beoordeling_enquete_bovenbalk {
+	background-color: #a1bddb;
+}
+
+.beoordeling_enquete_toelichting {
+	border: 1px solid #e6007e;
+}
+
+.beoordeling_enquete_table {
+	border: 1px solid #e6007e;
+}

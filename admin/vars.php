@@ -210,7 +210,7 @@ if($vars["bezoeker_is_jeroen"] or $vars["testsite"]) {
 $vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas");
 
 
-if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==4 or $vars["websitetype"]==5 or $vars["websitetype"]==6 or $vars["websitetype"]==7 or $vars["websitetype"]==8) {
+if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==4 or $vars["websitetype"]==5 or $vars["websitetype"]==6 or $vars["websitetype"]==7 or $vars["websitetype"]==8 or $vars["websitetype"]==9) {
 	# Alle sites behalve WSA.nl
 	$menu=array("index","accommodaties","aanbiedingen","top10","anderesite","contact");
 	if($vars["websitetype"]==7) {
@@ -505,7 +505,20 @@ if($vars["websitetype"]==7) {
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+} elseif($vars["websitetype"]==9) {
+	#
+	# Venturasol
+	#
+	$menu["index"]=txt("menutitle_index");
+	$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
+	$menu["skigebieden"]=txt("menutitle_skigebieden");
+	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
+	$menu["contact"]=txt("menutitle_contact");
 
+	$submenu["inloggen"]=txt("submenutitle_inloggen");
+	// $submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+	$submenu["favorieten"]=txt("submenutitle_favorieten");
+	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 } else {
 	#
 	# Winter

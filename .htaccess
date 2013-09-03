@@ -42,6 +42,10 @@ RewriteRule ^favicon.ico$ favicon_italissima.ico
 RewriteCond %{HTTP_HOST} superski [NC]
 RewriteRule ^favicon.ico$ favicon_superski.ico
 
+# venturasol
+RewriteCond %{HTTP_HOST} venturasol [NC]
+RewriteRule ^favicon.ico$ favicon_venturasol.ico
+
 # http://ss.postvak.net/chalet/chalet/ doorsturen naar ss.postvak.net/chalet/
 RewriteCond %{HTTP_HOST} ^ss\.postvak\.net [NC]
 RewriteRule ^chalet/(.*)$ /chalet/$1 [R=301,L]

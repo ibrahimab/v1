@@ -40,6 +40,13 @@
 <span style="background-color:#ee54a8;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ee54a8 (hover-kleur hoofdmenu)<br>
 <span style="background-color:#a1bddb;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#a1bddb<br>
 
+<br><b>Venturasol</b><br>
+<span style="background-color:#0412b1;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#0412b1<br>
+<span style="background-color:#ffdc00;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ffdc00<br>
+<span style="background-color:#a1bddb;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#a1bddb<br>
+
+
+
 <br><b>Alle sites</b><br>
 <span style="background-color:#ffa73f;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ffa73f&nbsp;&nbsp;(aanbiedingen - oud!)<br>
 <span style="background-color:#fb6703;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#fb6703&nbsp;&nbsp;(boekbutton)<br>

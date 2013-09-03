@@ -34,10 +34,14 @@ if($_GET["fo"]=="frm") {
 
 		echo "<td>".html("telefoonNummerGetal","contact")."</td>";
 		echo "</tr>";
-		echo "<tr>";
-		echo "<td>".html("fax","contact").":</td>";
-		echo "<td>".html("faxNummerGetal","contact")."</td>";
-		echo "</tr>";
+
+		if($vars["websitetype"]<>9) {
+			echo "<tr>";
+			echo "<td>".html("fax","contact").":</td>";
+			echo "<td>".html("faxNummerGetal","contact")."</td>";
+			echo "</tr>";
+		}
+
 		echo "<tr>";
 		echo "<td>".html("email_kort","contact").":</td>";
 		echo "<td><a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</A></td>";
