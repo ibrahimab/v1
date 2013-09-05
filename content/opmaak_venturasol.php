@@ -295,11 +295,11 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div id=\"hoofdpagina_waarom\">";
 		echo "<div class=\"kop\">".html("waarom","index",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
 		echo "<div><ul>";
-		echo "<li>Reden 1</li>";
-		echo "<li>Reden 2</li>";
-		echo "<li>Reden 3</li>";
-		echo "<li>Reden 4</li>";
-		echo "<li>Reden 5</li>";
+		echo "<li>14 jaar winterspecialist</li>";
+		echo "<li>Kwaliteit</li>";
+		echo "<li>Persoonlijke service</li>";
+		echo "<li>Prijsbewust</li>";
+		echo "<li>Lid SGR-Garantiefonds</li>";
 		echo "</ul></div>"; # afsluiten naamloze div
 		echo "</div>\n"; # afsluiten hoofdpagina_waarom
 		// echo "</a>\n"; # afsluiten hoofdpagina_waarom
@@ -336,7 +336,7 @@ if($vars["verberg_linkerkolom"]) {
 	} else {
 		if($id=="zoek-en-boek") {
 			# zorgen voor hoge content i.v.m. "verfijn"-blok
-			echo "<div style=\"min-height:790px;\">";
+			echo "<div style=\"min-height:890px;\">";
 		} else {
 			echo "<div style=\"min-height:290px;\">";
 		}

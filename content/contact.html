@@ -63,10 +63,26 @@ if($_GET["fo"]=="frm") {
 
 		echo "<tr><td colspan=\"2\"><br><b>".html("overigegegevens","contact")."</b></td></tr>";
 		echo "<tr>";
-		echo "<td>".html("BTW","contact")."</td><td>NL-8129.05.386.B.01</td>";
+		echo "<td>".html("BTW","contact")."</td><td>";
+		if($vars["websitetype"]==9) {
+			// btw-nummer Venturasol
+			echo "NL-8122.76.875.B.01";
+		} else {
+			// btw-nummer Chalet.nl BV
+			echo "NL-8129.05.386.B.01";
+		}
+		echo "</td>";
 		echo "</tr>";
 		echo "<tr>";
-		echo "<td>".html("KvK","contact")."</td><td>30209634</td>";
+		echo "<td>".html("KvK","contact")."</td><td>";
+		if($vars["websitetype"]==9) {
+			// KvK-nummer Venturasol
+			echo "8116755";
+		} else {
+			// KvK-nummer Chalet.nl BV
+			echo "30209634";
+		}
+		echo "</td>";
 		echo "</tr>";
 		if($vars["websiteland"]=="nl"){
 			echo "<td>SGR:</td><td>3199</td>";

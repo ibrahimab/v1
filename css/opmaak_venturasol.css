@@ -55,7 +55,7 @@ hr {
 #toonaccommodatie_kopteksten h1 {
 	padding: 0;
 	margin: 0;
-	color: #e6007e;
+	color: #0412b1;
 	font-size: 1.2em;
 	font-weight: bold;
 }
@@ -570,6 +570,10 @@ form {
 /**/
 .tarieventabel_wrapper {
 	border-color: #a1bddb;
+}
+
+.tarieventabel_wrapper a:hover {
+	color: #000000;
 }
 
 .tarieventabel_top {
@@ -1100,6 +1104,7 @@ form {
 	border-radius: 11px;
 }
 
+
 /* Corner radius */
 .ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl { -moz-border-radius-topleft: 11px; -webkit-border-top-left-radius: 11px; -khtml-border-top-left-radius: 11px; border-top-left-radius: 11px; }
 .ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr { -moz-border-radius-topright: 11px; -webkit-border-top-right-radius: 11px; -khtml-border-top-right-radius: 11px; border-top-right-radius: 11px; }
@@ -1113,6 +1118,15 @@ form {
 
 /* tabs stukje naar rechts schuiven (vanwege rounded corner eronder) */
 .ui-tabs .ui-tabs-nav { margin-left: 11px !important; }
+
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+	color: #0412b1;
+}
+
+.ui-state-hover a, .ui-state-hover a:link, .ui-state-hover a:visited {
+	color: #0412b1;
+}
 
 
 @media print {

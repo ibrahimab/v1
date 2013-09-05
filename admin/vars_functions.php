@@ -4189,28 +4189,7 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 	if(!$website) $website=$vars["website"];
 
-	if($website=="I") {
-		$topfoto=$website;
-	} elseif($website=="K") {
-		$topfoto=$website;
-	} elseif($website=="E") {
-		$topfoto=$website;
-	} elseif($website=="Z") {
-		$topfoto=$website;
-	} elseif($website=="T") {
-		$topfoto=$website;
-	} elseif($website=="B") {
-		$topfoto=$website;
-	} elseif($website=="W") {
-		$topfoto=$website;
-	} elseif($website=="V") {
-		$topfoto=$website;
-	} elseif($website=="Q") {
-		$topfoto=$website;
-	} else {
-		$topfoto="C";
-	}
-	$topfoto="pic/mailheader/".$topfoto.".jpg";
+	$topfoto="pic/mailheader/".$website.".jpg";
 
 	if(file_exists($vars["unixtime"].$topfoto)) {
 		$topfoto_size=getimagesize($vars["unixtime"].$topfoto);

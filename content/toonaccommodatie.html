@@ -13,6 +13,9 @@ if($vars["websitetype"]==3) {
 } elseif($vars["websitetype"]==8) {
 	# Vormgeving: SuperSki
 	$popup_url="favorieten_popup_background_superski";
+} elseif($vars["websitetype"]==9) {
+	# Vormgeving: Venturasol
+	$popup_url="favorieten_popup_background_venturasol";
 } else {
 	# Vormgeving: alle andere sites
 	$popup_url="favorieten_popup_background";
@@ -200,6 +203,8 @@ if($db->next_record()) {
 				echo "italissima";
 			} elseif($vars["websitetype"]==8) {
 				echo "superski";
+			} elseif($vars["websitetype"]==9) {
+				echo "venturasol";
 			} elseif($vars["seizoentype"]==2) {
 				echo "zomer";
 			} else {

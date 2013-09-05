@@ -369,17 +369,17 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$css_aanbiedingkleur="#e6007e";
 } elseif($vars["websitetype"]==9) {
 	# Venturasol
-	$bordercolor="#003366";
-	$rood="#e6007e";
-	$hover="#e6007e";
-	$hr="#003366";
-	$table="#003366";
+	$bordercolor="#0412b1";
+	$rood="#0412b1";
+	$hover="#0412b1";
+	$hr="#0412b1";
+	$table="#0412b1";
 	$font="Verdana, Arial, Helvetica, sans-serif;";
 	$bodybgcolor="#ebebeb";
 	$thfontcolor="#ffffff";
 	$thfontsize="0.9em";
-	$activetabcolor="#e6007e";
-	$inactivetabcolor="#003366";
+	$activetabcolor="#ffdc00";
+	$inactivetabcolor="#0412b1";
 	$inactivetabfontcolor="#ffffff";
 	$css_aanbiedingkleur="#e6007e";
 } else {

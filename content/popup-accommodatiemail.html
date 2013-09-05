@@ -89,17 +89,6 @@ $accinfo=accinfo($_GET["accid"]);
 # Vormgeving bepalen
 if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	# Chalet.nl
-	if($vars["website"]=="C") {
-		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_chalet.png";
-	} elseif($vars["website"]=="E") {
-		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_chaleteu.png";
-	} elseif($vars["website"]=="B") {
-		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_chaletbe.png";
-	} elseif($vars["website"]=="T") {
-		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_chalettour.png";
-	} elseif($vars["website"]=="W") {
-		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_superski.png";
-	}
 	$vars["mail_css_balkkleur"]="#d5e1f9";
 	$vars["mail_css_balktekstkleur"]="#003366";
 	$vars["mail_css_bgcolor"]="#d5e1f9";
@@ -108,7 +97,6 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$vars["mail_css_leesmeer"]="background-color:#003366;color:#ffffff;";
 } elseif($vars["websitetype"]==3) {
 	# Zomerhuisje
-	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_zomerhuisje.png";
 	$vars["mail_css_balkkleur"]="#cfbcd8";
 	$vars["mail_css_balktekstkleur"]="#5f227b";
 	$vars["mail_css_bgcolor"]="#eaeda9";
@@ -117,11 +105,6 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$vars["mail_css_leesmeer"]="background-color:#cbd328;color:#5f227b;";
 } elseif($vars["websitetype"]==6) {
 	# Chalets in Vallandry
-	if($vars["websiteland"]=="nl"){
-		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_vallandry.png";
-	} else {
-		$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_vallandry_en.png";
-	}
 	$vars["mail_css_balkkleur"]="#b2cce5";
 	$vars["mail_css_balktekstkleur"]="#666600";
 	$vars["mail_css_bgcolor"]="#ffd699";
@@ -130,7 +113,6 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	$vars["mail_css_leesmeer"]="background-color:#666600;color:#ffffff;";
 } elseif($vars["websitetype"]==7) {
 	# Italissima
-	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_italissima.png";
 	$vars["mail_css_balkkleur"]="#ffd38f";
 	$vars["mail_css_balktekstkleur"]="#661700";
 	$vars["mail_css_bgcolor"]="#ffd699";
@@ -141,11 +123,18 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
 	# SuperSki
 	$vars["mail_css_balkkleur"]="#003366";
 	$vars["mail_css_balktekstkleur"]="#ffffff";
-	$vars["mail_topfoto"]=$vars["basehref"]."pic/topfoto/favorietenmail_logo_superski.png";
 	$vars["mail_css_bgcolor"]="#003366";
 	$vars["mail_css_tekstkleur"]="#003366";
 	$vars["mail_css_korteomschrijvinkleur"]="#660066";
 	$vars["mail_css_leesmeer"]="background-color:#003366;color:#ffffff;";
+} elseif($vars["websitetype"]==9) {
+	# Venturasol
+	$vars["mail_css_balkkleur"]="#0412b1";
+	$vars["mail_css_balktekstkleur"]="#ffffff";
+	$vars["mail_css_bgcolor"]="#0412b1";
+	$vars["mail_css_tekstkleur"]="#0412b1";
+	$vars["mail_css_korteomschrijvinkleur"]="#660066";
+	$vars["mail_css_leesmeer"]="background-color:#0412b1;color:#ffffff;";
 }
 
 # Accommodatieblok samenstellen

@@ -51,7 +51,7 @@
 }
 
 #hoofdpagina_waarom li {
-	background: url(../pic/waarom_vinkje_superski.png) no-repeat 0 0px;
+	background: url(../pic/waarom_vinkje_venturasol.png) no-repeat 0 0px;
 	padding-left: 13px;
 	font-size: 0.9em;
 	line-height: 1.1em;
@@ -150,7 +150,7 @@
 
 .laatste_acc_vervanging {
 	display: block;
-	background: url(../pic/superski_hoofdpagina/laatste_acc_vervanging.jpg) no-repeat 0 0px;
+	background: url(../pic/venturasol_hoofdpagina/laatste_acc_vervanging.jpg) no-repeat 0 0px;
 	width: 500px;
 	height: 205px;
     -webkit-border-radius: 10px;
@@ -190,14 +190,24 @@
 #hoofdpagina_banner_rechts {
 	display: block;
 	background: url(../pic/venturasol_hoofdpagina/banner_rechts.jpg) no-repeat 0 0px;
-	width: 182px;
-	height: 548px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border: 1px solid #0412b1;
     border-radius: 10px;
 	behavior: url(/PIE.htc);
 	position: relative;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 1.5em;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 182px;
+	height: 548px;
+	padding-top: 80px;
+	text-align: center;
+	/*text-shadow: 1px 1px #666666;*/
+	color: #0412b1;
 }
 
 #hoofdpagina_banner_rechts:hover {

@@ -3,7 +3,7 @@
 #
 #
 # XML-export voor Ski Amis
-# 
+#
 # property list: 	http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=lotst_list@top_id='AMIS',@st='0'
 # property prices:	http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=tarif_lotref@top_id='AMIS',@lot_ref='F249'
 # property availability	http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=extr_plng@top_id='AMIS'
@@ -37,7 +37,7 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 		$db->query("UPDATE reisbureau SET xmlfeed_log='".addslashes($new_xmlfeed_log)."' WHERE reisbureau_id='".addslashes($reisbureau["reisbureau_id"])."';");
 	}
 
-	# querystring ontleden	
+	# querystring ontleden
 	$qry_tmp=preg_split("/[@,]/",$_GET["qry"]);
 	while(list($key,$value)=each($qry_tmp)) {
 		if($value) {
@@ -62,10 +62,10 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 			$wzt="1";
 		} elseif($vars["seizoentype"]==2 and $reisbureau["xmlfeed_zomer"]) {
 			$wzt="2";
-		}	
+		}
 	}
-	
-	# land	
+
+	# land
 	$db->query("SELECT land_id FROM reisbureau_xml_land WHERE wzt IN (".$wzt.") AND reisbureau_id='".addslashes($reisbureau["reisbureau_id"])."';");
 	while($db->next_record()) {
 		$inquery["land"].=",".$db->f("land_id");
@@ -85,7 +85,7 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 	while($db->next_record()) {
 		$inquery["type"].=",".$db->f("type_id");
 	}
-	
+
 	# Alle type_id's ophalen op basis van alle $inquery's
 	if(is_array($inquery)) {
 		while(list($key,$value)=each($inquery)) {
@@ -135,8 +135,8 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 			echo "<lot_tv></lot_tv>\n";
 			echo "<lot_cheminee></lot_cheminee>\n";
 			echo "<lot_wifi></lot_wifi>\n";
-			
-			
+
+
 			# afbeeldingen
 
 			echo "<ImageInter></ImageInter>\n";
@@ -185,11 +185,11 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 		if($qry["tarif_lotref"]) {
 			$show_prices=true;
 		}
-		
+
 		if($qry["extr_plng"]) {
 			$show_availability=true;
 		}
-		
+
 		# Afwijkende vertrekdagen?
 		if($alletypes) {
 			$typeid_inquery_vertrekdag=$alletypes;
@@ -202,7 +202,7 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 		while($db->next_record()) {
 			$aanbieding[$db->f("seizoen_id")]=aanbiedinginfo($db->f("type_id"),$db->f("seizoen_id"),$db->f("week"));
 			if($show_prices or (($db->f("toonper")==3 and $db->f("c_bruto")>0) or ($db->f("toonper")==1 and $db->f("bruto")>0))) {
-			
+
 				# Exacte aankomstdatum
 				$week=$db->f("week");
 				if($vertrekdag[$db->f("type_id")][$db->f("seizoen_id")][date("dm",$week)] or $db->f("aankomst_plusmin")) {
@@ -222,7 +222,7 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 				# Afwijkende verblijfsduur
 				$aantalnachten_afwijking=$aantalnachten_afwijking+$db->f("aankomst_plusmin")-$db->f("vertrek_plusmin");
 				$nachten=7-$aantalnachten_afwijking;
-				
+
 				# vertrekdag
 				$vertrekdag=mktime(0,0,0,date("n",$exacte_unixtime),date("j",$exacte_unixtime)+$nachten,date("Y",$exacte_unixtime));
 
@@ -237,13 +237,13 @@ if($reisbureau["reisbureau_id"] and $_GET["qry"]) {
 						$availability=2;
 					}
 				}
-				
+
 				if($availability==3 and $show_availability) {
 					echo "<lot_ref>".xml_text($db->f("begincode").$db->f("type_id"))."</lot_ref>\n";
 					echo "<ocpt_debut>".xml_text(date("d/m/Y",$exacte_unixtime))."</ocpt_debut>\n";
 					echo "<ocpt_fin>".xml_text(date("d/m/Y",$vertrekdag))."</ocpt_fin>\n";
 				}
-				
+
 				if($availability<>3) {
 					# Prijs
 
