@@ -342,9 +342,9 @@ form {
 }
 
 .zoekenboek_invulveld_bestemming:hover {
-	border-color: #ee54a8;
+	border-color: #0412b1;
 	color: #000000;
-	background: #d5e1f9;
+	/*background: #d5e1f9;*/
 }
 
 #zoekenboek_aanbiedingen {

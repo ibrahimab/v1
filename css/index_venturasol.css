@@ -23,7 +23,7 @@
 	background-color: #ffffff;
 	padding-left: 9px;
 	color: #000000;
-	cursor: pointer;
+	/*cursor: pointer;*/
 	text-decoration: none;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
@@ -32,10 +32,10 @@
 	position: relative;
 }
 
-#hoofdpagina_waarom:hover {
+/*#hoofdpagina_waarom:hover {
 	border: 1px solid #ffdc00;
 }
-
+*/
 #hoofdpagina_waarom .kop {
 	color: #0412b1;
 	font-size: 1.2em;
@@ -162,6 +162,26 @@
 }
 
 .laatste_acc_vervanging:hover {
+	-moz-box-shadow: 2px 2px 2px #888;
+	-webkit-box-shadow: 2px 2px 2px #888;
+	box-shadow: 2px 2px 2px #888;
+}
+
+#hoofdpagina_banner_weekendski {
+	display: block;
+	background: url(../pic/superski_hoofdpagina/banner_weekendski.jpg) no-repeat 0 0px;
+	width: 182px;
+	height: 240px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border: 1px solid #0412b1;
+    border-radius: 10px;
+	behavior: url(/PIE.htc);
+	position: relative;
+	margin-top: 70px;
+}
+
+#hoofdpagina_banner_weekendski:hover {
 	-moz-box-shadow: 2px 2px 2px #888;
 	-webkit-box-shadow: 2px 2px 2px #888;
 	box-shadow: 2px 2px 2px #888;

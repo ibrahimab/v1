@@ -3,16 +3,16 @@
 class search {
 
 	/*
-	
+
 	#
 	# Voorbeeld:
-	# 
+	#
 	$search=new search;
 	$search->wordsplit($_GET["search"]);
 	$andquery=" AND ".$search->regexpquery(array("ft.subject","u.voornaam"));
-	
+
 	*/
-	
+
 	function search() {
 		$this->settings["language"]="nl";
 		$this->settings["delete_ignorewords"]=true;
@@ -51,19 +51,19 @@ class search {
 	}
 
 	function runtime() {
-		list($usec,$sec)=explode(" ", microtime()); 
-		$end=((float)$usec+(float)$sec); 
+		list($usec,$sec)=explode(" ", microtime());
+		$end=((float)$usec+(float)$sec);
 		return $end-$this->starttime;
 	}
-	
+
 	function message($title,$html=false) {
 		if($html) {
 			return $this->settings["message"][$title][$this->settings["language"]];
 		} else {
-			return wt_he($this->settings["message"][$title][$this->settings["language"]]);		
+			return wt_he($this->settings["message"][$title][$this->settings["language"]]);
 		}
 	}
-	
+
 	function form() {
 		$return="<form method=\"get\" action=\"".$_SERVER["PHP_SELF"].($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."\">";
 		$return.="<input type=\"text\" class=\"wts_input\" ".($_GET["q"] ? "value=\"".wt_he($_GET["q"])."\" " : "")."name=\"q\">&nbsp;&nbsp;";
@@ -79,10 +79,10 @@ class search {
 		while(list($key,$value)=@each($this->wordsplit)) {
 			$weight=$this->word_occurrence($value,$title)*$this->settings["weight"]["title"];
 			if($weight) $this->result["weight"][$url]+=$weight;
-			
+
 			$weight=$this->word_occurrence($value,$text)*$this->settings["weight"]["body"];
 			if($weight) $this->result["weight"][$url]+=$weight;
-			
+
 			$weight=$this->word_occurrence($value,$keywords)*$this->settings["weight"]["keywords"];
 			if($weight) $this->result["weight"][$url]+=$weight;
 		}
@@ -97,15 +97,15 @@ class search {
 		while(list($key,$value)=@each($this->wordsplit)) {
 			$weight=$this->word_occurrence($value,$title)*$this->settings["weight"]["title"];
 			if($weight) $this->result["weight"][$url]+=$weight;
-			
+
 			$weight=$this->word_occurrence($value,$text)*$this->settings["weight"]["body"];
 			if($weight) $this->result["weight"][$url]+=$weight;
-			
+
 			$weight=$this->word_occurrence($value,$keywords)*$this->settings["weight"]["keywords"];
 			if($weight) $this->result["weight"][$url]+=$weight;
 		}
 	}
-	
+
 	function search_pages() {
 		global $db0;
 		@reset($this->wordsplit);
@@ -114,7 +114,7 @@ class search {
 			$value=$this->wildcards_min($value);
 			if($value["not"]) $this->wordcount=$this->wordcount-1;
 			if(is_object($db0) and $value["word"]) {
-				$db0->query("SELECT word, page_id, weight FROM search_word WHERE word REGEXP '".($this->settings["only_whole_words"] ? "[[:<:]]" : "").$value["word"].($this->settings["only_whole_words"] ? "[[:>:]]" : "")."';");
+				$db0->query("SELECT word, page_id, weight FROM search_word WHERE word REGEXP '".($this->settings["only_whole_words"] ? "[[:<:]]" : "").addslashes($value["word"]).($this->settings["only_whole_words"] ? "[[:>:]]" : "")."';");
 #				echo $db0->lastquery;
 				while($db0->next_record()) {
 					if($value["not"]) {
@@ -129,7 +129,7 @@ class search {
 				}
 			}
 		}
-		
+
 		while(list($key,$value)=@each($weight)) {
 			if($pagewordcount[$key]==$this->wordcount) {
 				if(!$notpage[$key]) {
@@ -202,7 +202,7 @@ class search {
 			return trim($return).($dots ? "..." : "");
 		}
 	}
-	
+
 	function addaccents($value,$mysql=false) {
 		if($mysql) {
 			$value=eregi_replace("a","(a|ä|å|à|á|â|ã)",$value);
@@ -223,7 +223,7 @@ class search {
 		}
 		return $value;
 	}
-	
+
 	function findwords($string,$wordarray) {
 		if(is_array($wordarray)) {
 			reset($wordarray);
@@ -234,7 +234,7 @@ class search {
 				$value=eregi_replace("\*","[0-9a-zÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñš]*",$value);
 				if($words) $words.="|".$value; else $words=$value;
 			}
-	
+
 			$wordocc=$this->word_occurrence($words,$string);
 			if($wordocc) $wordsleftright=round(20/$wordocc)-2;
 			if($wordsleftright<3) $wordsleftright=3;
@@ -257,12 +257,12 @@ class search {
 		if(!$return) $return=ucfirst($this->cutline($originalstring,175));
 		return $this->highlight($return."...",$wordarray);
 	}
-	
+
 	function htmlent($string) {
 		# Een GOED werkende htmlentities
 		return ereg_replace("€","&euro;",wt_he($string));
 	}
-	
+
 	function highlight($string,$wordarray) {
 		if(is_array($wordarray)) {
 			reset($wordarray);
@@ -280,7 +280,7 @@ class search {
 			if($string2) return $string2; else return $this->htmlent($string);
 		} else return $this->htmlent($string);
 	}
-	
+
 	function word_occurrence($word,$phrase) {
 		$word = trim(strtolower($word));
 		$phrase = strtolower($phrase);
@@ -303,7 +303,7 @@ class search {
 		$return["word"]=$word;
 		return $return;
 	}
-	
+
 	function regexpquery($fields,$words="") {
 		if(is_array($words)) {
 			$doorzoek_words=$words;
@@ -330,7 +330,7 @@ class search {
 		}
 		return $return;
 	}
-	
+
 	function save_query($textquery,$selectquery="",$results=0) {
 		global $db0;
 		if(is_array($selectquery)) {
@@ -370,22 +370,22 @@ class search {
 			$db0->query("UPDATE search_query SET clicked=CONCAT(clicked,'".addslashes($url)."') WHERE textquery='".addslashes($_SESSION["wt_search"]["textquery"])."' AND selectquery='".addslashes($_SESSION["wt_search"]["selectquery"])."' AND host='".$_SERVER["REMOTE_ADDR"]."' AND datetime='".addslashes($_SESSION["wt_search"]["time"])."' AND clicked NOT REGEXP '".addslashes($url)."$';");
 		}
 	}
-	
+
 	function query_starttime() {
-		list($usec,$sec)=explode(" ",microtime()); 
-		$this->query_starttime=((float)$usec+(float)$sec); 
+		list($usec,$sec)=explode(" ",microtime());
+		$this->query_starttime=((float)$usec+(float)$sec);
 	}
-	
+
 	function show_stats() {
 		echo "Statistieken worden gegenereerd....";
 		ob_flush();
 	}
-	
+
 	function wordsplit($words) {
 		$words=strtolower($words);
 		$words=ereg_replace(" \?$"," ",$words);
 		$words=ereg_replace(" \? "," ",$words);
-		$words=ereg_replace("[',+.&;\/\(\)]"," ",$words);
+		$words=ereg_replace("[',|#+.&;\/\(\)]"," ",$words);
 		$words=ereg_replace("\["," ",$words);
 		$words=ereg_replace("\]"," ",$words);
 		$words=ereg_replace("([0-9a-zÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñš])-([0-9a-zÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñš])?","\\1 \\2",$words);
@@ -399,7 +399,7 @@ class search {
 				if($whileteller>100) break;
 			}
 		}
-		
+
 		if($this->settings["delete_ignorewords"]) {
 			$skipwords=$this->settings["ignorewords"][$this->settings["language"]];
 		}
@@ -420,10 +420,10 @@ class search {
 		}
 		$this->wordcount=count($this->wordsplit);
 	}
-	
-	
+
+
 	function html2text($text) {
-		$spec = array(	
+		$spec = array(
 			"&#34" => "\"",
 				"&quot" => "\"",
 			"&#35" => "#",
@@ -442,7 +442,7 @@ class search {
 			"&#46" => ".",
 			"&#47" => "/",
 			"&#48" => "0",
-	
+
 			"&#57" => "9",
 			"&#58" => ":",
 			"&#59" => ";",
@@ -454,7 +454,7 @@ class search {
 			"&#63" => "?",
 			"&#64" => "@",
 			"&#65" => "A",
-	
+
 			"&#90" => "Z",
 			"&#91" => "[",
 			"&#92" => "\\",
@@ -463,7 +463,7 @@ class search {
 			"&#95" => "_",
 			"&#96" => "`",
 			"&#97" => "a",
-	
+
 			"&#122" => "z",
 			"&#123" => "{",
 			"&#124" => "|",
@@ -578,7 +578,7 @@ class search {
 			"&#196" => "Ä",
 				"&Auml" => "Ä",
 			"&#197" => "Å",
-				"&Aring" => "Å",	
+				"&Aring" => "Å",
 			"&#198" => "Æ",
 				"&Aelig" => "Æ",
 			"&#199" => "Ç",
@@ -641,7 +641,7 @@ class search {
 			"&#228" => "ä",
 				"&auml" => "ä",
 			"&#229" => "å",
-				"&aring" => "å",	
+				"&aring" => "å",
 			"&#230" => "æ",
 				"&aelig" => "æ",
 			"&#231" => "ç",
@@ -708,7 +708,7 @@ class search {
 					"'-");
 		return $text;
 	}
-	
+
 	function striphtml($html,$deletehreftext=false) {
 		//replace blank characters by spaces
 		$text = ereg_replace("[\r\n\t]+"," ",$html);
@@ -721,38 +721,38 @@ class search {
 		# Delete content of head, script, and style tags
 		$text = preg_replace("'<head[^>]*?>.*?</head>'si"," ",$text);
 		$text = preg_replace("'.*?<body[^<>]*>'si"," ",$text,1);
-	
+
 		# Tags die niet door een spatie moeten worden vervangen verwijderen
 		$text = eregi_replace("</span>","",$text);
 		$text = eregi_replace("</font>","",$text);
-	
+
 		$text = preg_replace("'<!--*?.*?-->'si"," ",$text);
 		$text = preg_replace("'<script[^>]*?>.*?</script>'si"," ",$text);
 		$text = preg_replace("'<style[^>]*?>.*?</style>'si"," ",$text);
 		if($deletehreftext) $text = preg_replace("'<a [^>]*?>.*?</a>'si","",$text);
-	
+
 		# Delete select-fields
 		$text = preg_replace("'<option[^>]*?>.*?</option>'si","",$text);
 		$text = preg_replace("'<select[^>]*?>.*?</select>'si","",$text);
-	
+
 		$text = eregi_replace("(<[a-z0-9 ]+>)","\\1 ",eregi_replace("(</[a-z0-9 ]+>)","\\1 ",$text));
-	
+
 #		$imagealt=$this->html2text($imagealt);
 		$text=$this->html2text($text);
-	
+
 		# replace blank characters by spaces
 		$text = ereg_replace("[\r\n\t]+"," ",$text);
 		$text = eregi_replace("--|[|{}();\"]+"," ",eregi_replace("</[a-z0-9]+>"," ",$text));
 	#	$text = ereg_replace("(^|[[:blank:]])([^[:alnum:]])($|[[:blank:]])"," ",$text);
-	
+
 		//replace any group of blank characters by a unique space
 		$text = ereg_replace("[[:blank:]".chr(160)."]+"," ",strip_tags($text));
-	
+
 #		$return["body"]=$text;
 #		$return["imagealt"]=$imagealt;
 		return trim($text);
 	}
-	
+
 	function end_declaration() {
 		$query=$_GET["q"];
 		$this->wordsplit($query);
