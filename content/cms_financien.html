@@ -436,8 +436,13 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	if($maillog) {
 
 		$mail=new wt_mail;
-		$mail->fromname="Chalet.nl";
-		$mail->from="info@chalet.nl";
+		if($_GET["bedrijf"]=="venturasol") {
+			$mail->fromname="Venturasol Vacances";
+			$mail->from="info@venturasol.nl";
+		} else {
+			$mail->fromname="Chalet.nl";
+			$mail->from="info@chalet.nl";
+		}
 #		$mail->toname="";
 		$mail->to=$login->vars["email"];
 		if(!$mail->to) $mail->to="info@chalet.nl";
@@ -596,6 +601,22 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 	# $andquery bepalen
 	unset($andquery);
+
+	// boekingen bij juiste B.V. zoeken
+	if($_GET["bedrijf"]=="venturasol") {
+		// Venturasol BV
+		$andquery.=" AND (b.website='X' OR b.website='Y')";
+		$andquery_hoofdquery.=" AND (b.website='X' OR b.website='Y')";
+
+		# geen garanties
+		$andquery_gar.=" AND 1=2";
+		$andquery_gar_hoofdquery.=" AND 1=2";
+
+	} else {
+		// Chalet.nl BV
+		$andquery.=" AND b.website!='X' AND b.website!='Y'";
+		$andquery_hoofdquery.=" AND b.website!='X' AND b.website!='Y'";
+	}
 
 	# soort boekingen (direct of reisbureau)
 	if($form->input["soortboekingen"]=="1") {
@@ -1602,7 +1623,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 	if($_GET["csv"]) {
 		while(list($key,$value)=each($csvoutput)) {
-			$filename=$unixdir."csv/".$vars["unixdir"].$key."---".date("Y-m-d").".csv";
+			if($_GET["bedrijf"]=="venturasol") {
+				$filename=$unixdir."csv/".$vars["unixdir"]."venturasol_".$key."---".date("Y-m-d").".csv";
+			} else {
+				$filename=$unixdir."csv/".$vars["unixdir"].$key."---".date("Y-m-d").".csv";
+			}
 			file_put_contents($filename,$value);
 			echo "Opgeslagen: ".$filename."<br>\n";
 		}
@@ -1614,22 +1639,28 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	# Overzicht met keuzes
 	#
 	echo "<b>Overzichten:</b><ul>";
-	echo "<li><a href=\"cms_financien_betalingen.php?openstaand=1\">Overzicht binnenkomende betalingen en aanmaningen</a> (klanten)</li>";
+	echo "<li><a href=\"cms_financien_betalingen.php?openstaand=1&bedrijf=".wt_he($_GET["bedrijf"])."\">Overzicht binnenkomende betalingen en aanmaningen</a> (klanten)</li>";
 	if($login->has_priv(5)) {
-		echo "<li><a href=\"cms_financien_betalingen.php?uitgaand=1\">Overzicht uitgaande betalingen</a> (leveranciers)</li>";
+		echo "<li><a href=\"cms_financien_betalingen.php?uitgaand=1&bedrijf=".wt_he($_GET["bedrijf"])."\">Overzicht uitgaande betalingen</a> (leveranciers)</li>";
 	} else {
-		echo "<li><a href=\"cms_financien_betalingen.php?uitgaand=1\">Openstaande inkoopfacturen</a> (leveranciers)</li>";
+		echo "<li><a href=\"cms_financien_betalingen.php?uitgaand=1&bedrijf=".wt_he($_GET["bedrijf"])."\">Openstaande inkoopfacturen</a> (leveranciers)</li>";
 	}
 	if(($login->has_priv(27) and in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) or $login->has_priv(28)) {
-		echo "<li><a href=\"cms_financien.php?marges=1\">Totaaloverzicht financi&euml;n</a></li>";
+		echo "<li><a href=\"cms_financien.php?marges=1&bedrijf=".wt_he($_GET["bedrijf"])."\">Totaaloverzicht financi&euml;n</a></li>";
 		$d=dir("csv/");
 		while (false !== ($entry = $d->read())) {
 			if(preg_match("/\.csv$/",$entry)) {
-					$omschrijving=$entry;
-					$omschrijving=preg_replace("/[_]{1,}/"," ",$omschrijving);
-					$omschrijving=preg_replace("/^(.*)---(.*)\.csv$/","\\2 - \\1",$omschrijving);
-					$csv_files[$entry]=$omschrijving;
+				if($_GET["bedrijf"]=="venturasol" and !preg_match("@venturasol@",$entry)) {
+					continue;
 				}
+				if($_GET["bedrijf"]=="chalet" and preg_match("@venturasol@",$entry)) {
+					continue;
+				}
+				$omschrijving=$entry;
+				$omschrijving=preg_replace("/[_]{1,}/"," ",$omschrijving);
+				$omschrijving=preg_replace("/^(.*)---(.*)\.csv$/","\\2 - \\1",$omschrijving);
+				$csv_files[$entry]=$omschrijving;
+			}
 		}
 		$d->close();
 		if(is_array($csv_files)) {
@@ -1646,9 +1677,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 	if($login->has_priv(3)) {
 		echo "<b>CSV-export:</b><ul>";
-		echo "<li><a href=\"cron/export_debiteuren.php\" target=\"_blank\">Debiteuren exporteren</a></li>";
-		echo "<li><a href=\"cron/export_facturen.php?nodate=1\" target=\"_blank\" onclick=\"return confirmClick(this,'Elke boeking wordt slechts eenmalig geëxporteerd. Doorgaan?');\">Nieuwe verkoopboekingen exporteren</a></li>";
-		echo "<li><a href=\"cron/export_facturen.php\" target=\"_blank\">Verkoopboekingen exporteren</a> (periode opgeven)</li>";
+		echo "<li><a href=\"cron/export_debiteuren.php?bedrijf=".wt_he($_GET["bedrijf"])."\" target=\"_blank\">Debiteuren exporteren</a></li>";
+		echo "<li><a href=\"cron/export_facturen.php?nodate=1&bedrijf=".wt_he($_GET["bedrijf"])."\" target=\"_blank\" onclick=\"return confirmClick(this,'Elke boeking wordt slechts eenmalig geëxporteerd. Doorgaan?');\">Nieuwe verkoopboekingen exporteren</a></li>";
+		echo "<li><a href=\"cron/export_facturen.php?bedrijf=".wt_he($_GET["bedrijf"])."\" target=\"_blank\">Verkoopboekingen exporteren</a> (periode opgeven)</li>";
 		echo "<li><a href=\"#\" id=\"toon_overzicht_grootboekrekeningen\">Toon grootboekrekeningnummers</a></li>";
 		echo "</ul>";
 
@@ -1667,6 +1698,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "<tr><th colspan=\"2\" style=\"text-align:right;\">boekjaar:&nbsp;&nbsp;</th><th>vorig</th><th>huidig</th><th>volgend</th><th>vorig</th><th>huidig</th><th>volgend</th></tr>";
 		while(list($key,$value)=each($vars["grootboekrekeningnummers"])) {
 			if(!$vars["websites_inactief"][$key]) {
+				if($_GET["bedrijf"]=="venturasol" and $key<>"X" and $key<>"Y") {
+					continue;
+				}
+				if($_GET["bedrijf"]=="chalet" and ($key=="X" or $key=="Y")) {
+					continue;
+				}
 				echo "<tr>";
 				echo "<td>".$key."</td>";
 				echo "<td>".$vars["websites"][$key]."</td>";

@@ -346,7 +346,7 @@ class cms_layout {
 			}
 		}
 		echo "</ul></div></div>\n";
-		echo "<div id=\"content\">";
+		echo "<div id=\"content\" class=\"".$this->settings["content_class"]."\">";
 		echo "<h1>";
 		if($current_title) {
 			echo wt_he($current_title);
@@ -377,6 +377,9 @@ class cms_layout {
 		echo "</div>";
 		if($this->settings["cms_via_verkeerde_site"]) {
 			echo "<script type=\"text/javascript\">\nvar cms_via_verkeerde_site=1;\n</script>";
+		}
+		if($this->settings["html_bottom"]) {
+			echo $this->settings["html_bottom"];
 		}
 		echo "</body></html>";
 	}

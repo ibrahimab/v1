@@ -3,6 +3,10 @@
 set_time_limit(0);
 $mustlogin=true;
 
+if(!$_GET["bedrijf"]) {
+	$_GET["bedrijf"]="chalet";
+}
+
 include("admin/vars.php");
 
 if($_POST["inkoopbetalingen_filled"] and $login->has_priv(5)) {

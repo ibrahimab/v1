@@ -64,6 +64,15 @@ if($_GET["uitgaand"]==1) {
 		$andquery.=" AND l.leverancier_id='".addslashes($leverancier_id)."'";
 	}
 
+	// boekingen bij juiste B.V. zoeken
+	if($_GET["bedrijf"]=="venturasol") {
+		$andquery_boekingen.=" AND (b.website='X' OR b.website='Y')";
+		$andquery_garanties.=" AND 1=2";
+	} else {
+		$andquery_boekingen.=" AND b.website!='X' AND b.website!='Y'";
+		$andquery_garanties.="";
+	}
+
 	if(!$form->error) {
 
 		# leverancier-gegevens laden
@@ -100,8 +109,8 @@ if($_GET["uitgaand"]==1) {
 			}
 		}
 
-		$query["boekingen"]="SELECT b.boeking_id, b.boekingsnummer, b.factuurnummer_leverancier, b.leverancier_id, UNIX_TIMESTAMP(b.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.inkoopaanbetaling_gewijzigd, b.inkoopbruto, b.inkoopcommissie, l.naam AS leverancier, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, leverancier l WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.boekingsnummer<>'' AND b.leverancier_id=l.leverancier_id AND b.seizoen_id>=17".$andquery.";";
-		$query["garanties"]="SELECT g.garantie_id, UNIX_TIMESTAMP(g.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(g.inkoopdatum) AS bevestigdatum, g.aankomstdatum_exact, g.factuurnummer AS factuurnummer_leverancier, g.reserveringsnummer_extern AS boekingsnummer, g.netto AS totaalfactuurbedrag, g.bruto AS inkoopbruto, g.inkoopaanbetaling_gewijzigd, g.korting_percentage AS inkoopcommissie, g.naam AS garantienaam, l.leverancier_id, l.naam AS leverancier FROM garantie g, type t, leverancier l WHERE 1=1 AND g.aankomstdatum>1306879200 AND g.boeking_id=0 AND g.leverancier_id=l.leverancier_id AND g.type_id=t.type_id".$andquery.";";
+		$query["boekingen"]="SELECT b.boeking_id, b.boekingsnummer, b.factuurnummer_leverancier, b.leverancier_id, UNIX_TIMESTAMP(b.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.inkoopaanbetaling_gewijzigd, b.inkoopbruto, b.inkoopcommissie, l.naam AS leverancier, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, leverancier l WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.boekingsnummer<>'' AND b.leverancier_id=l.leverancier_id AND b.seizoen_id>=17".$andquery.$andquery_boekingen.";";
+		$query["garanties"]="SELECT g.garantie_id, UNIX_TIMESTAMP(g.inkoopfactuurdatum) AS inkoopfactuurdatum, UNIX_TIMESTAMP(g.inkoopdatum) AS bevestigdatum, g.aankomstdatum_exact, g.factuurnummer AS factuurnummer_leverancier, g.reserveringsnummer_extern AS boekingsnummer, g.netto AS totaalfactuurbedrag, g.bruto AS inkoopbruto, g.inkoopaanbetaling_gewijzigd, g.korting_percentage AS inkoopcommissie, g.naam AS garantienaam, l.leverancier_id, l.naam AS leverancier FROM garantie g, type t, leverancier l WHERE 1=1 AND g.aankomstdatum>1306879200 AND g.boeking_id=0 AND g.leverancier_id=l.leverancier_id AND g.type_id=t.type_id".$andquery.$andquery_garanties.";";
 
 		while(list($key0,$value0)=each($query)) {
 			$db->query($value0);
@@ -356,6 +365,13 @@ if($_GET["uitgaand"]==1) {
 		$andq.=" AND b.aankomstdatum_exact<='".strtotime($_GET["tot"])."'";
 	}
 
+	// boekingen bij juiste B.V. zoeken
+	if($_GET["bedrijf"]=="venturasol") {
+		$andq.=" AND (b.website='X' OR b.website='Y')";
+	} else {
+		$andq.=" AND b.website!='X' AND b.website!='Y'";
+	}
+
 	# Laatste factuur bepalen
 	$db->query("SELECT boeking_id, UNIX_TIMESTAMP(datum) AS datum FROM factuur ORDER BY datum DESC;");
 	while($db->next_record()) {
@@ -382,37 +398,37 @@ if($_GET["uitgaand"]==1) {
 			echo "Voor de volgende boekingen is een aanmaning verstuurd:<ul>";
 		} else {
 			if($_GET["actueel"]) {
-				echo "<a href=\"cms_financien_betalingen.php?van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Alle boekingen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Alle boekingen</a>";
 				echo " - ";
-				echo "<a href=\"cms_financien_betalingen.php?openstaand=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Openstaande boekingen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&openstaand=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Openstaande boekingen</a>";
 				echo " - ";
-				echo "<a href=\"cms_financien_betalingen.php?perdirect=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Per direct te voldoen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&perdirect=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Per direct te voldoen</a>";
 				echo " - ";
 				echo "<b>Actuele boekingen</b>";
 			} elseif($_GET["openstaand"]) {
-				echo "<a href=\"cms_financien_betalingen.php?van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Alle boekingen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Alle boekingen</a>";
 				echo " - ";
 				echo "<b>Openstaande boekingen</b>";
 				echo " - ";
-				echo "<a href=\"cms_financien_betalingen.php?perdirect=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Per direct te voldoen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&perdirect=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Per direct te voldoen</a>";
 				echo " - ";
-				echo "<a href=\"cms_financien_betalingen.php?actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
 			} elseif($_GET["perdirect"]) {
-				echo "<a href=\"cms_financien_betalingen.php?van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Alle boekingen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Alle boekingen</a>";
 				echo " - ";
-				echo "<a href=\"cms_financien_betalingen.php?openstaand=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Openstaande boekingen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&openstaand=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Openstaande boekingen</a>";
 				echo " - ";
 				echo "<b>Per direct te voldoen</b>";
 				echo " - ";
-				echo "<a href=\"cms_financien_betalingen.php?actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
 			} else {
 				echo "<b>Alle boekingen</b>";
 				echo " - ";
-				echo "<a href=\"cms_financien_betalingen.php?openstaand=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Openstaande boekingen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&openstaand=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Openstaande boekingen</a>";
 				echo " - ";
-				echo "<a href=\"cms_financien_betalingen.php?perdirect=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Per direct te voldoen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&perdirect=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Per direct te voldoen</a>";
 				echo " - ";
-				echo "<a href=\"cms_financien_betalingen.php?actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
+				echo "<a href=\"cms_financien_betalingen.php?bedrijf=".wt_he($_GET["bedrijf"])."&actueel=1&van=".wt_he($_GET["van"])."&tot=".wt_he($_GET["tot"])."\">Actuele boekingen</a>";
 			}
 			echo "<p>";
 			echo "<div style=\"float:left;\">";

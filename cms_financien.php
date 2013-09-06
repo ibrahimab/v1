@@ -2,13 +2,16 @@
 
 set_time_limit(0);
 
+if(!$_GET["bedrijf"]) {
+	$_GET["bedrijf"]="chalet";
+}
+
 if($_GET["csv"] and ($_SERVER["REMOTE_ADDR"]=="87.250.153.107" or $_SERVER["REMOTE_ADDR"]=="87.250.153.108")) {
 	$vars["mustlogin_cms_cron_false"]=true;
 #	mail("jeroen@webtastic.nl","cms_financien.php",$_SERVER["REMOTE_ADDR"]);
 }
 
 $mustlogin=true;
-
 
 include("admin/vars.php");
 
@@ -39,7 +42,7 @@ if($_GET["marges"]) {
 
 	if($_GET["wiszoek"]) {
 		$db->query("UPDATE user SET fintotaaloverzicht_kolommen='' WHERE user_id='".addslashes($login->user_id)."';");
-		header("Location: ".$vars["path"]."cms_financien.php?marges=1");
+		header("Location: ".$vars["path"]."cms_financien.php?marges=1&bedrijf=".$_GET["bedrijf"]);
 		exit;
 	}
 
@@ -98,8 +101,11 @@ if($_GET["marges"]) {
 	}
 
 	# seizoenen laden
-	$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind FROM seizoen WHERE seizoen_id>=17 ORDER BY begin, eind;");
+	$db->query("SELECT seizoen_id, naam, UNIX_TIMESTAMP(eind) AS eind, type FROM seizoen WHERE seizoen_id>=17 ORDER BY begin, eind;");
 	while($db->next_record()) {
+		if($_GET["bedrijf"]=="venturasol" and $db->f("type")==2) {
+			continue;
+		}
 		$vars["temp_seizoenen"][$db->f("seizoen_id")]=$db->f("naam");
 		if($db->f("eind")>time()-(30*86400)) {
 			$vars["temp_seizoenen_active"].=",".$db->f("seizoen_id");
@@ -162,6 +168,17 @@ if($_GET["marges"]) {
 	$form->field_select(0,"land_id","Land","","",array("selection"=>$vars["temp_landen"],"no_empty_first_selection"=>true));
 	$form->field_select(0,"skigebied_id","Skigebied/regio","","",array("selection"=>$vars["temp_regios"],"optgroup"=>$vars["temp_optgroup"],"no_empty_first_selection"=>true));
 	$form->field_text(0,"plaats","Plaats","","","",array("info"=>"Voer de gewenste plaats(en) in. Er wordt gezocht op delen van de naam, dus zoeken naar 'Les Menuires' toont ook 'Lavassaix (bij Les Menuires)' als resultaat. Meerdere plaatsen kun je scheiden door een komma."));
+
+	# websites bepalen
+	$temp_websites_actief=$vars["websites_actief"];
+	unset($vars["websites_actief"]);
+	foreach ($temp_websites_actief as $key => $value) {
+		if($_GET["bedrijf"]=="venturasol" and ($key=="X" or $key=="Y")) {
+			$vars["websites_actief"][$key]=$value;
+		} elseif($_GET["bedrijf"]=="chalet" and $key!="X" and $key!="Y") {
+			$vars["websites_actief"][$key]=$value;
+		}
+	}
 	$form->field_checkbox(0,"websites","Websites","","",array("selection"=>$vars["websites_actief"]),array("one_per_line"=>true));
 
 
@@ -178,7 +195,7 @@ if($_GET["marges"]) {
 
 	$form->field_checkbox(1,"seizoenen","Te tonen seizoenen","",array("selection"=>substr($vars["temp_seizoenen_active"],1)),array("selection"=>$vars["temp_seizoenen"]),array("one_per_line"=>true));
 	$form->field_checkbox(1,"kolommen","Te tonen kolommen","",array("selection"=>substr($vars["totaaloverzicht_kolommen_active"],1)),array("selection"=>$vars["totaaloverzicht_kolommen"]),array("one_per_line"=>true));
-	$form->field_htmlcol("","",array("html"=>"<a href=\"".$_SERVER["REQUEST_URI"]."&wiszoek=1\">zoekformulier wissen</a>"));
+	$form->field_htmlcol("","",array("html"=>"<a href=\"".$_SERVER["REQUEST_URI"]."&wiszoek=1&bedrijf=".wt_he($_GET["bedrijf"])."\">zoekformulier wissen</a>"));
 
 
 	$form->check_input();
