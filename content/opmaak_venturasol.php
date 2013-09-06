@@ -1,5 +1,14 @@
 <?php
 
+
+// partnersite niet in Google opnemen (behalve homepage)
+if($vars["website"]=="Y") {
+	if($id<>"index") {
+		$robot_noindex=true;
+	}
+	$robot_nofollow=true;
+}
+
 # Te includen bestand bepalen
 if($language_content) {
 	if(file_exists("content/_meertalig/".$id."_venturasol_".$vars["taal"].".html")) {
@@ -312,7 +321,10 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div style=\"clear: both;\"></div>\n";
 		echo "</div>"; # afsluiten hoofdpagina_sociallinks
 
-		echo "<a href=\"".$vars["path"]."\" id=\"hoofdpagina_banner_weekendski\"></a>";
+		if($_COOKIE["vacances"]) {
+			// second-homes-banner alleen tonen indien bezoeker via vancances.venturasol.nl is binnengekomen
+			echo "<a href=\"http://secondhomes.venturasol.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_secondhomes\"></a>";
+		}
 
 	}
 

@@ -90,7 +90,8 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1
 # Dagelijks CSV-export van alle financiele cijfers maken (wordt opgeslagen in de map csv/)
 #
 if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test4") {
-	$a=file_get_contents("https://www.chalet.nl/cms_financien.php?marges=1&csv=1");
+	$a=file_get_contents("https://www.chalet.nl/cms_financien.php?marges=1&csv=1&bedrijf=chalet");
+	$a=file_get_contents("https://www.chalet.nl/cms_financien.php?marges=1&csv=1&bedrijf=venturasol");
 	unset($a);
 }
 

@@ -3582,11 +3582,29 @@ if($resultaten_tonen) {
 	} else {
 #		if(!$vars["zoekform_thema"] and !$vars["zoekform_weekendski"]) {
 		if($_GET["filled"]) {
-			echo "<div id=\"geenresultaten\"><b>".html("helaasgeenresultaten","accommodaties",array("h_1"=>"<span style=\"color:#d40139;font-size:1.2em;\">","h_2"=>"</span>"))."</b></p>";
+			if($_GET["faab"]) {
+				// bij alleen aanbiedingen doorzoeken
+				echo "<div id=\"geenresultaten\"><b>";
+				if(preg_match("@\?@",$_SERVER["REQUEST_URI"])) {
+					echo html("helaasgeenresultaten_aanbiedingen2","accommodaties",array("h_1"=>"<span style=\"color:#d40139;font-size:1.2em;\">","h_2"=>"</span>"));
+				} else {
+					echo html("helaasgeenresultaten_aanbiedingen1","accommodaties",array("h_1"=>"<span style=\"color:#d40139;font-size:1.2em;\">","h_2"=>"</span>"));
+				}
+				echo "</b></p>";
 
-			echo "<p>".html("paszoekcriteriaaan","accommodaties",array("l1"=>"contact","l2"=>"vraag-ons-advies"))."</p>";
+				echo "<p class=\"zoekresultaten_opvalmelding\">".html("helaasgeenresultaten_aanbiedingen_toelichting","accommodaties",array("l1"=>"contact","l2"=>"vraag-ons-advies"))."</p>";
+				echo "<p>".html("paszoekcriteriaaan_aanbiedingen","accommodaties",array("l1"=>"contact","l2"=>"vraag-ons-advies"))."</p>";
 
-			echo html("probeernieuwezoekopdracht","accommodaties",array("h_1"=>"<i>","h_2"=>"</i>"));
+				echo html("probeernieuwezoekopdracht","accommodaties",array("h_1"=>"<i>","h_2"=>"</i>"));
+			} else {
+				echo "<div id=\"geenresultaten\"><b>";
+				echo html("helaasgeenresultaten","accommodaties",array("h_1"=>"<span style=\"color:#d40139;font-size:1.2em;\">","h_2"=>"</span>"));
+				echo "</b></p>";
+
+				echo "<p>".html("paszoekcriteriaaan","accommodaties",array("l1"=>"contact","l2"=>"vraag-ons-advies"))."</p>";
+
+				echo html("probeernieuwezoekopdracht","accommodaties",array("h_1"=>"<i>","h_2"=>"</i>"));
+			}
 			if($vars["flexibel_toegestaan"] and $flex_alt_html) echo $flex_alt_html;
 
 			echo "</div>";

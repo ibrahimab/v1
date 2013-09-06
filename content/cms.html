@@ -24,6 +24,41 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
+
+		// #
+		// # FUNCTIE BEWAREN!! Kan later nogmaals nodig zijn
+		// #
+		// # Nieuwe kenmerken als onbekend aanmerken bij winteraccommodaties
+		// #
+		// # types
+		// $nieuwe_kenmerken="22,23";
+		// $db->query("SELECT t.type_id, t.kenmerken_onbekend FROM type t, accommodatie a WHERE a.wzt=1 AND t.accommodatie_id=a.accommodatie_id;");
+		// while($db->next_record()) {
+		// 	if(!preg_match("/".$nieuwe_kenmerken."/",$db->f("kenmerken_onbekend"))) {
+		// 		if($db->f("kenmerken_onbekend")) {
+		// 			$db2->query("UPDATE type SET kenmerken_onbekend='".$db->f("kenmerken_onbekend").",".$nieuwe_kenmerken."' WHERE type_id='".$db->f("type_id")."';");
+		// 		} else {
+		// 			$db2->query("UPDATE type SET kenmerken_onbekend='".$nieuwe_kenmerken."' WHERE type_id='".$db->f("type_id")."';");
+		// 		}
+		// 		echo $db2->lq."<br>";
+		// 	}
+		// }
+		// # accommodaties
+		// $nieuwe_kenmerken="23,24";
+		// $db->query("SELECT accommodatie_id, kenmerken_onbekend FROM accommodatie WHERE wzt=1;");
+		// while($db->next_record()) {
+		// 	if(!preg_match("/".$nieuwe_kenmerken."/",$db->f("kenmerken_onbekend"))) {
+		// 		if($db->f("kenmerken_onbekend")) {
+		// 			$db2->query("UPDATE accommodatie SET kenmerken_onbekend='".$db->f("kenmerken_onbekend").",".$nieuwe_kenmerken."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+		// 		} else {
+		// 			$db2->query("UPDATE accommodatie SET kenmerken_onbekend='".$nieuwe_kenmerken."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
+		// 		}
+		// 		echo $db2->lq."<br>";
+		// 	}
+		// }
+
+
+
 		//
 		// Controleren of er nieuw te verzenden roominglists zijn
 		//
@@ -78,40 +113,6 @@ if(!$login->logged_in) {
 		// 	$filename=$unixdir."cache/".$key.".csv";
 		// 	file_put_contents($filename,$feed);
 		// }
-
-		// #
-		// # FUNCTIE BEWAREN!! Kan later nogmaals nodig zijn
-		#
-		# Nieuwe kenmerken als onbekend aanmerken bij zomeraccommodaties
-		#
-		// # accommodaties
-		// $nieuwe_kenmerken="42,43,44,45,46,47";
-		// $db->query("SELECT accommodatie_id, kenmerken_onbekend FROM accommodatie WHERE wzt=2;");
-		// while($db->next_record()) {
-		// 	if(!preg_match("/".$nieuwe_kenmerken."/",$db->f("kenmerken_onbekend"))) {
-		// 		if($db->f("kenmerken_onbekend")) {
-		// 			$db2->query("UPDATE accommodatie SET kenmerken_onbekend='".$db->f("kenmerken_onbekend").",".$nieuwe_kenmerken."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
-		// 		} else {
-		// 			$db2->query("UPDATE accommodatie SET kenmerken_onbekend='".$nieuwe_kenmerken."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';");
-		// 		}
-		// 		echo $db2->lq."<br>";
-		// 	}
-		// }
-
-		// # types
-		// $nieuwe_kenmerken="24,25,26,27,28,29";
-		// $db->query("SELECT t.type_id, t.kenmerken_onbekend FROM type t, accommodatie a WHERE a.wzt=2 AND t.accommodatie_id=a.accommodatie_id;");
-		// while($db->next_record()) {
-		// 	if(!preg_match("/".$nieuwe_kenmerken."/",$db->f("kenmerken_onbekend"))) {
-		// 		if($db->f("kenmerken_onbekend")) {
-		// 			$db2->query("UPDATE type SET kenmerken_onbekend='".$db->f("kenmerken_onbekend").",".$nieuwe_kenmerken."' WHERE type_id='".$db->f("type_id")."';");
-		// 		} else {
-		// 			$db2->query("UPDATE type SET kenmerken_onbekend='".$nieuwe_kenmerken."' WHERE type_id='".$db->f("type_id")."';");
-		// 		}
-		// 		echo $db2->lq."<br>";
-		// 	}
-		// }
-
 
 
 		// // Dubbele GPS-coordinaten opzoeken

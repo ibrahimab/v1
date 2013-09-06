@@ -657,52 +657,6 @@ $title["huiseigenaren"]=txt("title_huiseigenaren");
 $title["blog"]=txt("title_blog");
 
 
-$title["cms_boekingen_facturen"]="Boeking - Facturen";
-$title["cms_boekingen_vouchers"]="Boeking - Vouchers";
-$title["cms_boekingen_diversen"]="Boeking - Bedragen";
-$title["cms_boekingen_enquete"]="Boeking - Enquête";
-$title["cms_boekingen_leveranciers"]="Boeking - Leveranciers";
-$title["cms_boekingen_wijzigen"]="Boeking - Opties wijzigen";
-$title["cms_etiketten"]="Etiketten printen";
-$title["cms_mailteksten_versturen"]="Opties-bijboeken-mailtjes versturen (voor winterboekingen)";
-$title["cms_openstaandebetalingen"]="Openstaande betalingen";
-$title["cms_xmlnewimport"]="XML-import accommodaties".($_GET["lev"] ? " - ".$vars["xmlnewimport_leveranciers"][$_GET["lev"]] : "");
-if($_POST["aanmaningenversturen"]) {
-	$title["cms_financien_betalingen"]="Aanmaningen versturen";
-} else {
-	if($_GET["uitgaand"]) {
-		$title["cms_financien_betalingen"]="Overzicht openstaande uitgaande betalingen";
-	} else {
-		$title["cms_financien_betalingen"]="Overzicht betalingen en aanmaningen";
-	}
-}
-$title["cms_mail_klanten_vorig_seizoen"]="Bestaande klanten";
-if($_GET["t"]==2) {
-	$title["cms_overzichten_overig"]="Overzicht ontbrekende handtekeningen";
-	$title["cms_diversen"]="Actielijst WebTastic - archief";
-} elseif($_GET["t"]==3) {
-	$title["cms_overzichten_overig"]="Overzicht te vertalen teksten";
-	$title["cms_diversen"]="Diverse instellingen";
-} elseif($_GET["t"]==4) {
-	$title["cms_diversen"]="Actielijst WebTastic - wensen/ideeën";
-} elseif($_GET["t"]==5) {
-	$title["cms_overzichten_overig"]="Overzicht vouchers";
-} elseif($_GET["t"]==6) {
-	$title["cms_overzichten_overig"]="Overzicht na te kijken winteraccommodaties";
-	$title["cms_diversen"]="Diverse statistieken";
-} elseif($_GET["t"]==7) {
-	$title["cms_overzichten_overig"]="Overzicht na te kijken zomeraccommodaties";
-} elseif($_GET["t"]==10) {
-	$title["cms_overzichten_overig"]="Overzicht nieuwsbrief-leden";
-} elseif($_GET["t"]==11) {
-	$title["cms_overzichten_overig"]="Na te kijken beoordelingen";
-} else {
-	$title["cms_overzichten_overig"]="Overzichten - overig";
-	$title["cms_diversen"]="Actielijst WebTastic";
-}
-$title["cms_overzichten_boekingen"]="Adressen bij boekingen";
-$title["cms_meldingen"]="Indeling CMS-hoofdpagina / Meldingen";
-
 
 
 # $vars - Variabelen declareren
@@ -1025,6 +979,11 @@ $vars["grootboekrekeningnummers"]["I"]=					array(-1=>"1911",0=>"8600",1=>"1936"
 $vars["grootboekrekeningnummers_wederverkoop"]["I"]=	array(-1=>"1911",0=>"8610",1=>"1943");
 $vars["grootboekrekeningnummers"]["K"]=					array(-1=>"1911",0=>"8860",1=>"1941");
 $vars["grootboekrekeningnummers"]["B"]=					array(-1=>"1911",0=>"8850",1=>"1939");
+
+$vars["grootboekrekeningnummers"]["X"]=					array(-1=>"1911",0=>"8100",1=>"1931");
+$vars["grootboekrekeningnummers"]["Y"]=					array(-1=>"1911",0=>"8300",1=>"1933");
+$vars["grootboekrekeningnummers_wederverkoop"]["Y"]=	array(-1=>"1911",0=>"8310",1=>"1953");
+
 
 # Inactieve sites
 $vars["grootboekrekeningnummers"]["N"]=					array(-1=>"1911",0=>"8860",1=>"1941");

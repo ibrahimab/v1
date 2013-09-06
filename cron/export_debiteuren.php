@@ -4,6 +4,10 @@ $cronmap=true;
 
 set_time_limit(0);
 
+if(!$_GET["bedrijf"]) {
+	$_GET["bedrijf"]="chalet";
+}
+
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	echo "<pre>";
 } else {
@@ -25,10 +29,19 @@ unset($query);
 // alleen kijken naar boekingen van -2 weken tot ooit
 $boekingen_vanaf=mktime(0,0,0,date("m"),date("d")-14,date("Y"));
 
-$query[1]="SELECT b.debiteurnummer, p.voornaam, p.tussenvoegsel, p.achternaam, p.adres, p.postcode, p.plaats, b.landcode, p.telefoonnummer, p.geslacht, b.taal, UNIX_TIMESTAMP(b.invuldatum) AS invuldatum FROM boeking b, boeking_persoon p WHERE b.reisbureau_user_id IS NULL AND p.persoonnummer=1 AND p.boeking_id=b.boeking_id AND b.debiteurnummer>0 AND b.goedgekeurd=1 AND b.aankomstdatum>=".$boekingen_vanaf." ORDER BY b.boeking_id;";
+
+// boekingen bij juiste B.V. zoeken
+unset($andquery);
+if($_GET["bedrijf"]=="venturasol") {
+	$andquery.=" AND (b.website='X' OR b.website='Y')";
+} else {
+	$andquery.=" AND b.website!='X' AND b.website!='Y'";
+}
+
+$query[1]="SELECT b.debiteurnummer, p.voornaam, p.tussenvoegsel, p.achternaam, p.adres, p.postcode, p.plaats, b.landcode, p.telefoonnummer, p.geslacht, b.taal, UNIX_TIMESTAMP(b.invuldatum) AS invuldatum FROM boeking b, boeking_persoon p WHERE b.reisbureau_user_id IS NULL AND p.persoonnummer=1 AND p.boeking_id=b.boeking_id AND b.debiteurnummer>0 AND b.goedgekeurd=1 AND b.aankomstdatum>=".$boekingen_vanaf.$andquery." ORDER BY b.boeking_id;";
 
 # query voor reisbureaus
-$query[2]="SELECT b.debiteurnummer, r.naam, r.adres, r.postcode, r.plaats, b.landcode, r.telefoonnummer, b.taal, UNIX_TIMESTAMP(b.invuldatum) AS invuldatum FROM boeking b, reisbureau r, reisbureau_user ru WHERE b.reisbureau_user_id=ru.user_id AND ru.reisbureau_id=r.reisbureau_id AND b.wederverkoop=1 AND b.debiteurnummer>0 AND b.goedgekeurd=1 AND b.aankomstdatum>=".$boekingen_vanaf." ORDER BY b.boeking_id;";
+$query[2]="SELECT b.debiteurnummer, r.naam, r.adres, r.postcode, r.plaats, b.landcode, r.telefoonnummer, b.taal, UNIX_TIMESTAMP(b.invuldatum) AS invuldatum FROM boeking b, reisbureau r, reisbureau_user ru WHERE b.reisbureau_user_id=ru.user_id AND ru.reisbureau_id=r.reisbureau_id AND b.wederverkoop=1 AND b.debiteurnummer>0 AND b.goedgekeurd=1 AND b.aankomstdatum>=".$boekingen_vanaf.$andquery." ORDER BY b.boeking_id;";
 
 while(list($key,$value)=each($query)) {
 	$db->query($value);

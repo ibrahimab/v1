@@ -132,6 +132,66 @@ if($mustlogin) {
 	$title["cms_xml_imageimport"]="Foto-import vanuit XML";
 	$title["cms_roomingaankomst"]="Roominglists";
 
+	if($_GET["bedrijf"]=="venturasol") {
+		$title["cms_financien"]="Financiën Venturasol Vacances B.V.";
+	} else {
+		if($_GET["bedrijf"]) $_GET["bedrijf"]="chalet";
+		$title["cms_financien"]="Financiën Chalet.nl B.V.";
+	}
+
+	$title["cms_boekingen_facturen"]="Boeking - Facturen";
+	$title["cms_boekingen_vouchers"]="Boeking - Vouchers";
+	$title["cms_boekingen_diversen"]="Boeking - Bedragen";
+	$title["cms_boekingen_enquete"]="Boeking - Enquête";
+	$title["cms_boekingen_leveranciers"]="Boeking - Leveranciers";
+	$title["cms_boekingen_wijzigen"]="Boeking - Opties wijzigen";
+	$title["cms_etiketten"]="Etiketten printen";
+	$title["cms_mailteksten_versturen"]="Opties-bijboeken-mailtjes versturen (voor winterboekingen)";
+	$title["cms_openstaandebetalingen"]="Openstaande betalingen";
+	$title["cms_xmlnewimport"]="XML-import accommodaties".($_GET["lev"] ? " - ".$vars["xmlnewimport_leveranciers"][$_GET["lev"]] : "");
+	if($_POST["aanmaningenversturen"]) {
+		$title["cms_financien_betalingen"]="Aanmaningen versturen";
+	} else {
+		if($_GET["uitgaand"]) {
+			$title["cms_financien_betalingen"]="Overzicht openstaande uitgaande betalingen";
+		} else {
+			$title["cms_financien_betalingen"]="Overzicht betalingen en aanmaningen";
+		}
+	}
+	if($_GET["bedrijf"]=="venturasol") {
+		$title["cms_financien_betalingen"].=" - Venturasol Vacances B.V.";
+	} elseif($_GET["bedrijf"]=="chalet") {
+		$title["cms_financien_betalingen"].=" - Chalet.nl B.V.";
+	}
+
+	$title["cms_mail_klanten_vorig_seizoen"]="Bestaande klanten";
+	if($_GET["t"]==2) {
+		$title["cms_overzichten_overig"]="Overzicht ontbrekende handtekeningen";
+		$title["cms_diversen"]="Actielijst WebTastic - archief";
+	} elseif($_GET["t"]==3) {
+		$title["cms_overzichten_overig"]="Overzicht te vertalen teksten";
+		$title["cms_diversen"]="Diverse instellingen";
+	} elseif($_GET["t"]==4) {
+		$title["cms_diversen"]="Actielijst WebTastic - wensen/ideeën";
+	} elseif($_GET["t"]==5) {
+		$title["cms_overzichten_overig"]="Overzicht vouchers";
+	} elseif($_GET["t"]==6) {
+		$title["cms_overzichten_overig"]="Overzicht na te kijken winteraccommodaties";
+		$title["cms_diversen"]="Diverse statistieken";
+	} elseif($_GET["t"]==7) {
+		$title["cms_overzichten_overig"]="Overzicht na te kijken zomeraccommodaties";
+	} elseif($_GET["t"]==10) {
+		$title["cms_overzichten_overig"]="Overzicht nieuwsbrief-leden";
+	} elseif($_GET["t"]==11) {
+		$title["cms_overzichten_overig"]="Na te kijken beoordelingen";
+	} else {
+		$title["cms_overzichten_overig"]="Overzichten - overig";
+		$title["cms_diversen"]="Actielijst WebTastic";
+	}
+	$title["cms_overzichten_boekingen"]="Adressen bij boekingen";
+	$title["cms_meldingen"]="Indeling CMS-hoofdpagina / Meldingen";
+
+
 	# Layout CMS
 	$layout=new cms_layout;
 	$layout->settings["system_name"]="CMS Chalet.nl";
@@ -164,6 +224,15 @@ if($mustlogin) {
 
 	if($id=="cms_financien_betalingen" or $id=="cms_overzichten_overig") {
 		$layout->settings["render_as_ie7"]=true;
+	}
+
+	// bij financieel: logo Chalet of Venturasol tonen
+	if($_GET["bedrijf"]=="venturasol") {
+		$layout->settings["html_bottom"]="<div class=\"financieel_logo_rechts financieel_venturasol\">Venturasol Vacances B.V.<img src=\"".$vars["path"]."pic/logo_venturasol.png\"></div>";
+		$layout->settings["content_class"]="financieel_venturasol";
+	} elseif($_GET["bedrijf"]=="chalet") {
+		$layout->settings["html_bottom"]="<div class=\"financieel_logo_rechts financieel_chalet\">Chalet.nl B.V.<img src=\"".$vars["path"]."pic/logo_chalet.gif\"></div>";
+		$layout->settings["content_class"]="financieel_chalet";
 	}
 
 	# Achtergrondkleur CMS bepalen
@@ -241,7 +310,9 @@ if($mustlogin) {
 	}
 
 	if(($login->has_priv(27) and in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) or $login->has_priv(28) or $login->has_priv(3)) {
-		$layout->menu_item("cms_financien","Financiën","",true);
+		$layout->menu_item("cms_financien","Financiën","",true,false,array("slide"=>true));
+		$layout->submenu_item("cms_financien","","cms_financien","Chalet.nl B.V.",array("bedrijf"=>"chalet"),true);
+		$layout->submenu_item("cms_financien","","cms_financien","Venturasol Vacances B.V.",array("bedrijf"=>"venturasol"),true);
 	}
 
 	$layout->menu_item("cms_garanties","Garanties","",true,false,array("slide"=>true));

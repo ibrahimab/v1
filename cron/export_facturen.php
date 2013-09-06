@@ -4,6 +4,10 @@ $cronmap=true;
 
 set_time_limit(0);
 
+if(!$_GET["bedrijf"]) {
+	$_GET["bedrijf"]="chalet";
+}
+
 $unixdir="../";
 include($unixdir."admin/vars.php");
 
@@ -35,12 +39,22 @@ if($form->input["tot"]["unixtime"]>mktime(0,0,0,date("m"),date("d")-1,date("Y"))
 if(boekjaar($form->input["van"]["unixtime"])<>boekjaar($form->input["van"]["unixtime"])) $form->error("tot","beide datums moeten in hetzelfde boekjaar zijn");
 
 if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
+
+
+	// boekingen bij juiste B.V. zoeken
+	unset($andquery);
+	if($_GET["bedrijf"]=="venturasol") {
+		$andquery.=" AND (b.website='X' OR b.website='Y')";
+	} else {
+		$andquery.=" AND b.website!='X' AND b.website!='Y'";
+	}
+
 	if($_GET["nodate"]) {
 		$tempwhere="f.geexporteerd=0";
 	} else {
 		$tempwhere="UNIX_TIMESTAMP(f.datum)>='".addslashes($form->input["van"]["unixtime"])."' AND UNIX_TIMESTAMP(f.datum)<='".addslashes($form->input["tot"]["unixtime"])."'";
 	}
-	$db->query("SELECT b.boeking_id, b.debiteurnummer, b.boekingsnummer, b.landcode, b.aankomstdatum_exact, b.reisbureau_user_id, p.voornaam, p.tussenvoegsel, p.achternaam, f.factuur_id, UNIX_TIMESTAMP(f.datum) AS factuurdatum, fr.regelnummer, fr.bedrag, fr.grootboektype FROM boeking b, boeking_persoon p, factuur f, factuurregel fr WHERE f.boeking_id=b.boeking_id AND fr.factuur_id=f.factuur_id AND p.persoonnummer=1 AND p.boeking_id=b.boeking_id AND debiteurnummer>0 AND ".$tempwhere." ORDER BY f.factuur_id, fr.regelnummer;");
+	$db->query("SELECT b.boeking_id, b.debiteurnummer, b.boekingsnummer, b.landcode, b.aankomstdatum_exact, b.reisbureau_user_id, p.voornaam, p.tussenvoegsel, p.achternaam, f.factuur_id, UNIX_TIMESTAMP(f.datum) AS factuurdatum, fr.regelnummer, fr.bedrag, fr.grootboektype FROM boeking b, boeking_persoon p, factuur f, factuurregel fr WHERE f.boeking_id=b.boeking_id AND fr.factuur_id=f.factuur_id AND p.persoonnummer=1 AND p.boeking_id=b.boeking_id AND debiteurnummer>0 AND ".$tempwhere.$andquery." ORDER BY f.factuur_id, fr.regelnummer;");
 #	echo $db->lastquery;
 	while($db->next_record()) {
 
@@ -133,7 +147,7 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 	<link href="<?php echo $path; ?>css/cms_layout.css" rel="stylesheet" type="text/css" />
 	</head><body>
 	<?php
-	echo "<div style=\"width:800px;padding:10px;background-color:#ffffff;\">";
+	echo "<div style=\"width:800px;padding:10px;background-color:".($_GET["bedrijf"]=="venturasol" ? "#fff093" : "#ffffff").";\">";
 	echo "<h3>CSV-Export verkoopboekingen</h3>";
 	echo "Door het invullen van een begin- en einddatum worden de verkoopboekingen ge&euml;xporeerd naar CSV.<p>";
 

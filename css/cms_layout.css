@@ -804,6 +804,41 @@ a.opm:hover .balloon_small {
 	display: none;
 }
 
+.financieel_logo_rechts {
+	position: absolute;
+	top: 60px;
+	left: 1200px;
+	width: 230px;
+	height: 200px;
+	background-color: #ffffff;
+	border: 2px solid #CC3333;
+	padding: 10px;
+	font-weight: bold;
+	font-size: 1.3em;
+	text-align: center;
+	z-index: 100;
+}
+
+.financieel_logo_rechts img {
+	display: block;
+	margin-top: 30px;
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.financieel_venturasol {
+	background-color: #fff093 !important;
+}
+
+.financieel_chalet {
+
+}
+
+#fixedtable_header_div {
+	z-index: 101;
+}
+
 @media print {
 
 	body {

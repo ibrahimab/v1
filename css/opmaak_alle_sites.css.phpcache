@@ -1293,6 +1293,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	font-size: 0.8em;
 }
 
+.zoekresultaten_opvalmelding {
+	background-color: #ffee80;
+}
+
 .zoekresultaten_zoeken_op_kaart {
 	cursor: pointer;
 	background-image: url('../pic/icon_zoeken_op_kaart.png?c=4');

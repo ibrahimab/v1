@@ -167,11 +167,11 @@
 	box-shadow: 2px 2px 2px #888;
 }
 
-#hoofdpagina_banner_weekendski {
+#hoofdpagina_banner_secondhomes {
 	display: block;
-	background: url(../pic/superski_hoofdpagina/banner_weekendski.jpg) no-repeat 0 0px;
+	background: url(../pic/venturasol_hoofdpagina/banner_secondhomes.jpg) no-repeat 0 0px;
 	width: 182px;
-	height: 240px;
+	height: 250px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border: 1px solid #0412b1;
@@ -181,7 +181,7 @@
 	margin-top: 70px;
 }
 
-#hoofdpagina_banner_weekendski:hover {
+#hoofdpagina_banner_secondhomes:hover {
 	-moz-box-shadow: 2px 2px 2px #888;
 	-webkit-box-shadow: 2px 2px 2px #888;
 	box-shadow: 2px 2px 2px #888;

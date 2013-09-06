@@ -862,18 +862,35 @@ $txt["en"]["accommodaties"]["accommodatieperweek"]="accommodation/week";
 $txt["nl"]["accommodaties"]["helaasgeenresultaten"]="Helaas, je zoekopdracht heeft [[h_1]]0[[h_2]] resultaten opgeleverd.";
 $txt["en"]["accommodaties"]["helaasgeenresultaten"]="Sorry, your search has returned [[h_1]]0[[h_2]] results.";
 
+$txt["nl"]["accommodaties"]["helaasgeenresultaten_aanbiedingen1"]="Momenteel hebben we geen actuele aanbiedingen.";
+$txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen1"]="There are no special offers right now.";
+
+$txt["nl"]["accommodaties"]["helaasgeenresultaten_aanbiedingen2"]="Binnen onze aanbiedingen heeft je zoekopdracht geen resultaten opgeleverd.";
+$txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen2"]="Sorry, your search has returned no results.";
+
+$txt["nl"]["accommodaties"]["helaasgeenresultaten_aanbiedingen_toelichting"]="Zet het vinkje \"zoek alleen naar aanbiedingen\" uit om ons volledige aanbod te doorzoeken.";
+$txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen_toelichting"]="Please untick \"only search for special offers\" to search our total programme.";
+
 #$txt["nl"]["accommodaties"]["probeernieuwezoekopdracht"]="Probeer een nieuwe zoekopdracht met minder voorwaarden.";
 #$txt["en"]["accommodaties"]["probeernieuwezoekopdracht"]="Start a new search with fewer criteria.";
 
 #$txt["nl"]["accommodaties"]["zoekopdrachtenwordengemeld"]="De zoekopdrachten die geen resultaten opleveren worden gemeld aan ons. Wij houden bij de uitbreiding van ons assortiment rekening met deze resultaten. Wellicht levert je zoekopdracht in de toekomst dus wel een resultaat op.";
 #$txt["en"]["accommodaties"]["zoekopdrachtenwordengemeld"]="We are informed of the search commands that do not return any results. We take account of these results when enlarging our assortment. Your search may therefore produce results when you try again later.";
 
-if($vars["websitetype"]<>1 and $vars["websitetype"]<>3 and $vars["websitetype"]<>7) {
-	$txt["nl"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan of [[l1]]neem contact met ons op[[/l1]]. Wij helpen je graag verder.";
-	$txt["en"]["accommodaties"]["paszoekcriteriaaan"]="Change your search query or [[l1]]contact us[[/l1]].";
-} else {
+if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==7) {
+	// sites die "vraag ons advies" aanbieden
 	$txt["nl"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan, of neem contact met ons op voor een gratis en [[l2]]geheel vrijblijvend advies[[/l2]].";
 	$txt["en"]["accommodaties"]["paszoekcriteriaaan"]="Change your search query or [[l1]]contact us[[/l1]].";
+
+	$txt["nl"]["accommodaties"]["paszoekcriteriaaan_aanbiedingen"]="Je kunt ook je zoekcriteria aanpassen, of contact met ons opnemen voor een gratis en [[l2]]geheel vrijblijvend advies[[/l2]].";
+	$txt["en"]["accommodaties"]["paszoekcriteriaaan_aanbiedingen"]="Change your search query or [[l1]]contact us[[/l1]].";
+
+} else {
+	$txt["nl"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan of [[l1]]neem contact met ons op[[/l1]]. Wij helpen je graag verder.";
+	$txt["en"]["accommodaties"]["paszoekcriteriaaan"]="Change your search query or [[l1]]contact us[[/l1]].";
+
+	$txt["nl"]["accommodaties"]["paszoekcriteriaaan_aanbiedingen"]="Je kunt ook je zoekcriteria aanpassen, of [[l1]]contact met ons opnemen[[/l1]]. Wij helpen je graag verder.";
+	$txt["en"]["accommodaties"]["paszoekcriteriaaan_aanbiedingen"]="Change your search query or [[l1]]contact us[[/l1]].";
 }
 
 $txt["nl_z"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan, of neem contact met ons op voor een gratis en [[l2]]geheel vrijblijvend advies[[/l2]].";

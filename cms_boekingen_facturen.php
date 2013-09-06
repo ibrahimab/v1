@@ -857,11 +857,17 @@ if($form->okay) {
 			// wel/niet meesturen algemene voorwaarden en verzekeringsvoorwaarden
 			//
 			if($form->input["voorwaardenmeesturen"]) {
-				if(file_exists("pdf/".txt("pdf_algemene_voorwaarden").".pdf")) {
-					// $mail->attachment("pdf/".txt("pdf_algemene_voorwaarden").".pdf");
-					$settings["attachment"]["pdf/".txt("pdf_algemene_voorwaarden").".pdf"]=txt("pdf_algemene_voorwaarden").".pdf";
+
+				if($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
+					$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasol.pdf";
 				} else {
-					trigger_error("bestand "."pdf/".txt("pdf_algemene_voorwaarden").".pdf niet beschikbaar",E_USER_NOTICE);
+					$pdffile="pdf/".txt("pdf_algemene_voorwaarden").".pdf";
+				}
+				if(file_exists($pdffile)) {
+					// $mail->attachment("pdf/".txt("pdf_algemene_voorwaarden").".pdf");
+					$settings["attachment"][$pdffile]=txt("pdf_algemene_voorwaarden").".pdf";
+				} else {
+					trigger_error("bestand ".$pdffile." niet beschikbaar",E_USER_NOTICE);
 				}
 				if($gegevens["stap1"]["website_specifiek"]["verzekering_mogelijk"] or $gegevens["stap1"]["annverz_aantalpersonen"]) {
 					if(file_exists("pdf/".txt("pdf_voorwaarden_europeesche_annverz").".pdf")) {
