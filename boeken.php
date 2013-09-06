@@ -327,12 +327,24 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$reserveringsnummer_2=get_reserveringsnummer_2($leverancierid,$gegevens["stap1"]["aankomstdatum_exact"]);
 				} else {
 					# Nieuwe methode
-					$db->query("SELECT SUBSTR(boekingsnummer,6,4) AS volgnummer FROM boeking WHERE SUBSTR(boekingsnummer,2,4)='".date("ym")."' AND CHAR_LENGTH(boekingsnummer)=9 ORDER BY 1 DESC LIMIT 0,1;");
+					if($gegevens["stap1"]["website"]=="X" or $gegevens["stap1"]["website"]=="Y") {
+						// Laatste nummer Venturasol-boekingen opvragen
+						$db->query("SELECT SUBSTR(boekingsnummer,6,4) AS volgnummer FROM boeking WHERE SUBSTR(boekingsnummer,2,4)='".date("ym")."' AND CHAR_LENGTH(boekingsnummer)=9 AND (website='X' OR website='Y') ORDER BY 1 DESC LIMIT 0,1;");
+					} else {
+						// Laatste nummer boekingen overige sites opvragen
+						$db->query("SELECT SUBSTR(boekingsnummer,6,4) AS volgnummer FROM boeking WHERE SUBSTR(boekingsnummer,2,4)='".date("ym")."' AND CHAR_LENGTH(boekingsnummer)=9 AND website!='X' AND website!='Y' ORDER BY 1 DESC LIMIT 0,1;");
+					}
 #					echo $db->lq;
 					if($db->next_record()) {
 						$reserveringsnummer=$gegevens["stap1"]["website"].date("ym").strval((intval($db->f("volgnummer"))+1));
 					} else {
-						$reserveringsnummer=$gegevens["stap1"]["website"].date("ym")."5001";
+						if($gegevens["stap1"]["website"]=="X" or $gegevens["stap1"]["website"]=="Y") {
+							// boekingen van Venturasol beginnen na jaar/maand te tellen bij 3001
+							$reserveringsnummer=$gegevens["stap1"]["website"].date("ym")."3001";
+						} else {
+							// boekingen van overige sites beginnen na jaar/maand te tellen bij 5001
+							$reserveringsnummer=$gegevens["stap1"]["website"].date("ym")."5001";
+						}
 					}
 				}
 			}
