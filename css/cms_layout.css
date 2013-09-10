@@ -590,8 +590,8 @@ li {
 }
 
 .voorraad_readonly {
-	background-color: #d1d1d1;
 	font-style: italic;
+	opacity: 0.6;
 }
 
 .redlink {

@@ -2825,11 +2825,11 @@ function terugnaaracc() {
 	}
 }
 
-function voorraad_bijwerken($typeid,$week,$plusmin,$garantie,$allotment,$vervallen_allotment,$optie_leverancier,$xml,$request,$optie_klant,$alleen_wijzigen_indien_brutoprijs=true,$logvia=0) {
+function voorraad_bijwerken($type_id,$week,$plusmin,$garantie,$allotment,$vervallen_allotment,$optie_leverancier,$xml,$request,$optie_klant,$alleen_wijzigen_indien_brutoprijs=true,$logvia=0) {
 	global $vars,$login;
 	$db=new DB_sql;
 	$db2=new DB_sql;
-	$db->query("SELECT t.type_id, t.verzameltype, t.verzameltype_parent, ta.voorraad_garantie, ta.voorraad_allotment, ta.voorraad_vervallen_allotment, ta.voorraad_optie_leverancier, ta.voorraad_xml, ta.voorraad_request, ta.voorraad_optie_klant, ta.voorraad_bijwerken, ta.beschikbaar, ta.seizoen_id FROM tarief ta, type t WHERE ta.type_id=t.type_id AND t.type_id='".addslashes($typeid)."' AND ta.week='".addslashes($week)."';");
+	$db->query("SELECT t.type_id, t.verzameltype, t.verzameltype_parent, ta.voorraad_garantie, ta.voorraad_allotment, ta.voorraad_vervallen_allotment, ta.voorraad_optie_leverancier, ta.voorraad_xml, ta.voorraad_request, ta.voorraad_optie_klant, ta.voorraad_bijwerken, ta.beschikbaar, ta.seizoen_id FROM tarief ta, type t WHERE ta.type_id=t.type_id AND t.type_id='".addslashes($type_id)."' AND ta.week='".addslashes($week)."';");
 	if($db->next_record()) {
 		if($db->f("verzameltype")) {
 #			trigger_error("functie voorraad_bijwerken toegepast op verzameltype ".$db->f("type_id"),E_USER_NOTICE);
@@ -2902,7 +2902,7 @@ function voorraad_bijwerken($typeid,$week,$plusmin,$garantie,$allotment,$vervall
 					}
 				}
 			}
-			$query="UPDATE tarief SET voorraad_garantie='".addslashes($new_garantie)."', voorraad_allotment='".addslashes($new_allotment)."', voorraad_vervallen_allotment='".addslashes($new_vervallen_allotment)."', voorraad_optie_leverancier='".addslashes($new_optie_leverancier)."', voorraad_xml='".addslashes($new_xml)."', voorraad_request='".addslashes($new_request)."', voorraad_optie_klant='".addslashes($new_optie_klant)."', beschikbaar='".addslashes($beschikbaar)."' WHERE type_id='".addslashes($typeid)."' AND week='".addslashes($week)."'";
+			$query="UPDATE tarief SET voorraad_garantie='".addslashes($new_garantie)."', voorraad_allotment='".addslashes($new_allotment)."', voorraad_vervallen_allotment='".addslashes($new_vervallen_allotment)."', voorraad_optie_leverancier='".addslashes($new_optie_leverancier)."', voorraad_xml='".addslashes($new_xml)."', voorraad_request='".addslashes($new_request)."', voorraad_optie_klant='".addslashes($new_optie_klant)."', beschikbaar='".addslashes($beschikbaar)."' WHERE type_id='".addslashes($type_id)."' AND week='".addslashes($week)."'";
 			if($alleen_wijzigen_indien_brutoprijs) {
 				$query.=" AND (bruto>0 OR c_bruto>0 OR arrangementsprijs>0);";
 			}
@@ -2921,7 +2921,7 @@ function voorraad_bijwerken($typeid,$week,$plusmin,$garantie,$allotment,$vervall
 				} else {
 					$request=$_SERVER["PHP_SELF"];
 				}
-				$db2->query("INSERT INTO beschikbaar_archief SET type_id='".addslashes($typeid)."', seizoen_id='".addslashes($seizoenid)."', week='".addslashes($week)."', datumtijd=NOW(), beschikbaar='".addslashes($wijzig_beschikbaar)."', garantie='".addslashes($wijzig_garantie)."', allotment='".addslashes($wijzig_allotment)."', vervallen_allotment='".addslashes($wijzig_vervallen_allotment)."', optie_leverancier='".addslashes($wijzig_optie_leverancier)."', xml='".addslashes($wijzig_xml)."', request='".addslashes($wijzig_request)."', optie_klant='".addslashes($wijzig_optie_klant)."', totaal='".addslashes($bovenste5)."', user_id='".addslashes($werknemerid)."', via='".$logvia."', request_uri='".addslashes($request)."';");
+				$db2->query("INSERT INTO beschikbaar_archief SET type_id='".addslashes($type_id)."', seizoen_id='".addslashes($seizoenid)."', week='".addslashes($week)."', datumtijd=NOW(), beschikbaar='".addslashes($wijzig_beschikbaar)."', garantie='".addslashes($wijzig_garantie)."', allotment='".addslashes($wijzig_allotment)."', vervallen_allotment='".addslashes($wijzig_vervallen_allotment)."', optie_leverancier='".addslashes($wijzig_optie_leverancier)."', xml='".addslashes($wijzig_xml)."', request='".addslashes($wijzig_request)."', optie_klant='".addslashes($wijzig_optie_klant)."', totaal='".addslashes($bovenste5)."', user_id='".addslashes($werknemerid)."', via='".$logvia."', request_uri='".addslashes($request)."';");
 			}
 
 			if($db->f("verzameltype_parent")) {
@@ -2961,11 +2961,15 @@ function voorraad_bijwerken($typeid,$week,$plusmin,$garantie,$allotment,$vervall
 							} else {
 								$werknemerid="0";
 							}
-#							$db2->query("INSERT INTO beschikbaar_archief SET type_id='".addslashes($typeid)."', seizoen_id='".addslashes($seizoenid)."', week='".addslashes($week)."', datumtijd=NOW(), beschikbaar='".addslashes($opslaan[$key]["beschikbaar"])."', user_id='".addslashes($werknemerid)."', via='4', request_uri='".addslashes($_SERVER["REQUEST_URI"])."';");
+#							$db2->query("INSERT INTO beschikbaar_archief SET type_id='".addslashes($type_id)."', seizoen_id='".addslashes($seizoenid)."', week='".addslashes($week)."', datumtijd=NOW(), beschikbaar='".addslashes($opslaan[$key]["beschikbaar"])."', user_id='".addslashes($werknemerid)."', via='4', request_uri='".addslashes($_SERVER["REQUEST_URI"])."';");
 						}
 					}
 				}
 			}
+
+			// gekoppelde voorraad bijwerken
+			// $voorraad_gekoppeld=new voorraad_gekoppeld;
+			// $voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 
 			return $query."\n";
 		}

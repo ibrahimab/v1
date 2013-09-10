@@ -201,6 +201,15 @@ if($_GET["wzt"]==2 and $_GET["edit"]==2) {
 	$cms->db_field(2,"select","zomerwinterkoppeling_accommodatie_id","",array("selection"=>$wzt_koppeling));
 	$cms->db_field(2,"yesno","geenzomerwinterkoppeling");
 }
+
+if($_GET["edit"]==2) {
+	$db->query("SELECT v.begincode, v.type_id, v.naam, v.tnaam, v.optimaalaantalpersonen, v.maxaantalpersonen FROM view_accommodatie v WHERE v.wzt='".intval($_GET["wzt"])."' AND v.plaats_id=(SELECT plaats_id FROM view_accommodatie WHERE type_id='".intval($_GET["2k0"])."') AND type_id<>'".intval($_GET["2k0"])."' ORDER BY v.naam, v.tnaam, v.optimaalaantalpersonen, v.type_id;");
+	while($db->next_record()) {
+		$voorraad_gekoppeld_type_id[$db->f("type_id")]=$db->f("begincode").$db->f("type_id")." - ".trim($db->f("naam")." ".$db->f("tnaam"))." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)";
+	}
+}
+$cms->db_field(2,"select","voorraad_gekoppeld_type_id","",array("selection"=>$voorraad_gekoppeld_type_id));
+
 $cms->db_field(2,"picture","picgroot","",array("savelocation"=>"pic/cms/types_specifiek/","filetype"=>"jpg"));
 $cms->db_field(2,"picture","picklein","",array("savelocation"=>"pic/cms/types_specifiek_tn/","filetype"=>"jpg"));
 $cms->db_field(2,"picture","picaanvullend","",array("savelocation"=>"pic/cms/types/","filetype"=>"jpg","multiple"=>true));
@@ -309,6 +318,21 @@ if($_GET["wzt"]==2 and $_GET["edit"]==2) {
 	$cms->edit_field(2,0,"zomerwinterkoppeling_accommodatie_id","Zelfde accommodatie in winterprogramma");
 	$cms->edit_field(2,0,"geenzomerwinterkoppeling","Deze accommodatie is niet beschikbaar in het winterprogramma");
 }
+
+
+// kijken of dit type voorraad-houder is voor andere types
+$db->query("SELECT t.type_id, v.accommodatie_id, v.begincode, v.naam, v.tnaam, v.optimaalaantalpersonen, v.maxaantalpersonen FROM type t, view_accommodatie v WHERE v.type_id=t.type_id AND t.voorraad_gekoppeld_type_id='".intval($_GET["2k0"])."';");
+if($db->num_rows()) {
+
+	while($db->next_record()) {
+		$gekoppelde_types_html.="<li><a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." - ".trim($db->f("naam")." ".$db->f("tnaam"))." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)</a></li>";
+	}
+	$cms->edit_field(2,0,"htmlrow","<hr><b>Voorraad overnemen van ander type</b><p><i>Dit type is voorraad-houder van:</i><ul>".$gekoppelde_types_html."</ul>");
+} else {
+	$cms->edit_field(2,0,"htmlrow","<hr><b>Voorraad overnemen van ander type</b><p><i>Vul hier een type in om de voorraad van dat type automatisch over te nemen. Er is in dat geval geen eigen voorraad meer van toepassing op dit type. De eerste koppeling wordt gemaakt bij de eerstvolgende keer dat de voorraad wordt opgeslagen.</i>");
+	$cms->edit_field(2,0,"voorraad_gekoppeld_type_id","Voorraad overnemen van");
+}
+
 $cms->edit_field(2,0,"htmlrow","<hr>");
 $cms->edit_field(2,1,"optimaalaantalpersonen","Capaciteit");
 $cms->edit_field(2,1,"maxaantalpersonen","Maximale capaciteit");
@@ -647,6 +671,11 @@ if($cms_form[2]->filled) {
 	# Controle op zomerwinterkoppeling_accommodatie_id vs geenzomerwinterkoppeling
 	if($cms_form[2]->input["zomerwinterkoppeling_accommodatie_id"] and $cms_form[2]->input["geenzomerwinterkoppeling"]) {
 		$cms_form[2]->error("zomerwinterkoppeling_accommodatie_id","niet invullen bij &quot;Deze accommodatie is niet beschikbaar in het winterprogramma&quot;");
+	}
+
+	// indien verzameltype: voorraad_gekoppeld_type_id niet toestaan
+	if(($cms_form[2]->input["verzameltype"] or $cms_form[2]->input["verzameltype_parent"]) and $cms_form[2]->input["voorraad_gekoppeld_type_id"]) {
+		$cms_form[2]->error("voorraad_gekoppeld_type_id","niet mogelijk bij verzameltype (voorraad is via het verzameltype al gekoppeld)");
 	}
 
 	# Controle of juiste taal wel actief is

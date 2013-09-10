@@ -56,7 +56,7 @@ RewriteRule ^index\.php$ / [R=301,L]
 
 # partner-venturasol: nog niet online
 RewriteCond %{HTTP_HOST} partner\.venturasol\.nl [NC]
-RewriteRule ^(.*)$ http://www.partner.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
 
 
 

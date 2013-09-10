@@ -325,6 +325,9 @@ if($_POST["filled"]) {
 
 	}
 
+	// gekoppelde voorraad bijwerken
+	// $voorraad_gekoppeld=new voorraad_gekoppeld;
+	// $voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 
 	if($_GET["from"]) {
 		header("Location: ".$_GET["from"]);
@@ -344,7 +347,7 @@ if($_POST["filled"]) {
 	}
 
 	# Accommodatiegegevens laden
-	$db->query("SELECT a.accommodatie_id, a.wzt, a.naam AS anaam, a.toonper, t.leverancier_id, a.skipas_id, a.aankomst_plusmin, a.vertrek_plusmin, t.websites, t.naam AS tnaam, t.leverancierscode, t.onderverdeeld_in_nummers, t.code, p.naam AS plaats, t.optimaalaantalpersonen, t.maxaantalpersonen, t.aangepaste_min_tonen, l.begincode, lev.naam AS leverancier, lev.opmerkingen_intern, lev.aflopen_allotment, lev.zwitersefranken , a.aantekeningen, t.aantekeningen AS taantekeningen, t.verzameltype FROM accommodatie a, type t, plaats p, land l, leverancier lev WHERE t.leverancier_id=lev.leverancier_id AND l.land_id=p.land_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id=t.accommodatie_id AND t.type_id='".addslashes($_GET["tid"])."';");
+	$db->query("SELECT a.accommodatie_id, a.wzt, a.naam AS anaam, a.toonper, t.leverancier_id, a.skipas_id, a.aankomst_plusmin, a.vertrek_plusmin, t.websites, t.naam AS tnaam, t.leverancierscode, t.onderverdeeld_in_nummers, t.code, p.naam AS plaats, t.optimaalaantalpersonen, t.maxaantalpersonen, t.aangepaste_min_tonen, l.begincode, lev.naam AS leverancier, lev.opmerkingen_intern, lev.aflopen_allotment, lev.zwitersefranken , a.aantekeningen, t.aantekeningen AS taantekeningen, t.verzameltype, t.voorraad_gekoppeld_type_id FROM accommodatie a, type t, plaats p, land l, leverancier lev WHERE t.leverancier_id=lev.leverancier_id AND l.land_id=p.land_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id=t.accommodatie_id AND t.type_id='".addslashes($_GET["tid"])."';");
 	if($db->next_record()) {
 		$acc["accommodatie_id"]=$db->f("accommodatie_id");
 		$acc["wzt"]=$db->f("wzt");
@@ -356,6 +359,7 @@ if($_POST["filled"]) {
 		$acc["code"]=$db->f("code");
 		$acc["onderverdeeld_in_nummers"]=$db->f("onderverdeeld_in_nummers");
 		$acc["land_begincode"]=$db->f("begincode");
+		// $acc["voorraad_gekoppeld_type_id"]=$db->f("voorraad_gekoppeld_type_id");
 		if($db->f("optimaalaantalpersonen")>12) {
 			if($db->f("aangepaste_min_tonen")) {
 				$acc["min_tonen"]=$db->f("aangepaste_min_tonen");

@@ -1165,16 +1165,29 @@ function blokkeerxml(dit,week) {
 $(document).ready(function(){
 	// jquery
 
-	$('.voorraad_readonly').attr("readonly", true);
-
+	// verzameltype: buttons uitschakelen
 	if($("input[name=verzameltype]").length!=0) {
 		if(document.forms['tarieven'].elements["verzameltype"].value==1) {
-	//		$('input').attr("disabled", true);
-	//		$('textarea').attr("disabled", true);
-	//		$('input:checkbox').attr("disabled", true);
-	//		$('input[type=button]').attr("disabled", false);
 			$('#but1').attr("disabled", true);
 			$('#but3').attr("disabled", true);
+		}
+	}
+
+	// gekoppelde voorraad?
+	if($("input[name=voorraad_gekoppeld_type_id]").length!=0) {
+		if(document.forms['tarieven'].elements["voorraad_gekoppeld_type_id"].value>0) {
+			// dit betreft een type waarbij de voorraad door een voorraad-houder bepaald wordt: bewerken niet mogelijk
+			$(".voorraad_archief").hide();
+			$(".voorraad_opmerkingen_voorraad_log").hide();
+			$(".voorraad_tr input").attr("readonly", true);
+			$(".voorraad_tr").addClass("voorraad_readonly");
+
+			// zorgen dat checkboxes niet klikbaar zijn
+			$(".voorraad_tr input").click(function(event) {
+				$(this).blur();
+				event.preventDefault();
+			});
+
 		}
 	}
 

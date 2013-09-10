@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 <title>CMS Chalet.nl - Tarievenmodule</title>
 <meta name="robots" content="noindex,nofollow" />
-<link href="css/cms_layout.css" rel="stylesheet" type="text/css" />
+<link href="css/cms_layout.css?cache=<?php echo @filemtime("css/cms_layout.css"); ?>" rel="stylesheet" type="text/css" />
 <link REL="shortcut icon" href="favicon.ico" />
 <script src="<?php echo wt_he($vars["jquery_url"]); ?>"></script>
 <script type="text/javascript" language="JavaScript1.2" src="scripts/cms_tarieven.js?cache=<?php echo @filemtime("scripts/cms_tarieven.js"); ?>"></script>
@@ -96,9 +96,9 @@ if($seizoen["naam"]) {
 
 	# Het daadwerkelijke formulier
 	if($acc["verzameltype"]) {
-		echo "<form name=\"tarieven\"  id=\"tarieven\" method=\"post\" action=\"404.php\">";
+		echo "<form name=\"tarieven\" id=\"tarieven\" method=\"post\" action=\"404.php\">";
 	} else {
-		echo "<form name=\"tarieven\"  id=\"tarieven\" method=\"post\" action=\"cms_tarieven.php?".$_SERVER["QUERY_STRING"]."\">";
+		echo "<form name=\"tarieven\" id=\"tarieven\" method=\"post\" action=\"cms_tarieven.php?".$_SERVER["QUERY_STRING"]."\">";
 	}
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 	echo "<input type=\"hidden\" name=\"filled_via_echt_form\" value=\"1\">";
@@ -106,6 +106,7 @@ if($seizoen["naam"]) {
 	echo "<input type=\"hidden\" name=\"toonper\" value=\"".$acc["toonper"]."\">";
 	echo "<input type=\"hidden\" name=\"flexibel\" value=\"0\">";
 	echo "<input type=\"hidden\" name=\"verzameltype\" value=\"".$acc["verzameltype"]."\">";
+	echo "<input type=\"hidden\" name=\"voorraad_gekoppeld_type_id\" value=\"".$acc["voorraad_gekoppeld_type_id"]."\">";
 
 	# Calculatie wederverkoop doorgeven via hidden value
 #	if(ereg("T",$acc["websites"]) or ereg("O",$acc["websites"]) or ereg("Z",$acc["websites"]) or ereg("E",$acc["websites"])) {
@@ -129,7 +130,7 @@ if($seizoen["naam"]) {
 	echo "<p><input type=\"checkbox\" name=\"melding_geen_tarieven_tonen\" value=\"1\"".($melding_geen_tarieven_verbergen ? "" : " checked")." id=\"melding_geen_tarieven_tonen\" style=\"vertical-align:middle;position:relative;bottom:1px;\"><label for=\"melding_geen_tarieven_tonen\">&nbsp;Toon een melding op de CMS-hoofdpagina indien er onvoldoende tarieven zijn ingevoerd</label></p>";
 	echo "<p><input type=\"checkbox\" name=\"hoogseizoencontrole\" value=\"1\"".($hoogseizoencontrole ? " checked" : "")." id=\"hoogseizoencontrole\" style=\"vertical-align:middle;position:relative;bottom:1px;\"><label for=\"hoogseizoencontrole\">&nbsp;Toon een melding op de CMS-hoofdpagina indien de hoogseizoen-tarieven onjuist zijn</label></p>";
 	if($acc["verzameltype"]) {
-		echo "<b style=\"background-color:yellow;\">Verzameltype: alleen lezen</b>&nbsp;&nbsp;";
+		echo "<p><b style=\"background-color:yellow;\">Verzameltype: alleen lezen</b></p>";
 	}
 
 	if(!$_GET["autosave"]) {
@@ -205,6 +206,13 @@ if($seizoen["naam"]) {
 		$tarieventabel_opmerkingen.="Let op! Gewijzigde tarieven na XML-import. Zie de regels &quot;Voorheen&quot; en &quot;Bruto-accommodatie&quot;.";
 	}
 
+	if($acc["voorraad_gekoppeld_type_id"]) {
+		if($tarieventabel_opmerkingen) {
+			$tarieventabel_opmerkingen.="<br>";
+		}
+		$tarieventabel_opmerkingen.="Voorraad wordt bepaald door een <a href=\"".$vars["path"]."cms_types.php?show=2&2k0=".$acc["voorraad_gekoppeld_type_id"]."\" target=\"_blank\">voorraad-houder</a>: voorraad kan niet worden gewijzigd";
+	}
+
 	echo "<p id=\"opmerkingen1\" style=\"color:red\">";
 	if($tarieventabel_opmerkingen) {
 		echo $tarieventabel_opmerkingen;
@@ -256,27 +264,11 @@ if($seizoen["naam"]) {
 
 	$voorraad_kopieer=true;
 
-#$acc["onderverdeeld_in_nummers"]=false;
-#
-#	if($acc["onderverdeeld_in_nummers"]) {
-#		$voorraad_bewerkbaarheidclass=" class=\"voorraad_readonly\"";
-#		$voorraad_kopieer=false;
-#
-#		echo "<span style=\"font-size:1.2em;\"><b><span style=\"color:red;\">Onderstaande voorraad is niet te bewerken.</span> Deze wordt bepaald door de volgende nummers:</b>&nbsp;&nbsp;";
-#		$db->query("SELECT nummer_id, nummer FROM nummer WHERE type_id='".addslashes($_GET["tid"])."';");
-#		while($db->next_record()) {
-#			if($nummer_getoond) echo "&nbsp;&nbsp;-&nbsp;&nbsp;";
-#			echo "<a href=\"".$vars["path"]."cms_nummers_voorraad.php?from=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&nid=".$db->f("nummer_id")."&sid=".wt_he($_GET["sid"])."\">nummer ".wt_he($db->f("nummer"))."</a>";
-#			$nummer_getoond=true;
-#		}
-#		echo "</span><p>";
-#	}
-
 	# Voorraad garantie
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="In garantie";
-	echo "<tr style=\"background-color:#00FF00;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#00FF00;\"><td>".wt_he($titel)."</td>";
 	if($voorraad_kopieer) {
 		kopieer("voorraad_garantie","voorraad",true);
 	} else {
@@ -285,7 +277,7 @@ if($seizoen["naam"]) {
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
 		$regelteller++;
-		echo "<td align=\"center\" nowrap><input type=\"text\"".$voorraad_bewerkbaarheidclass." tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"garantie_niet_afboeken(this,'".$week."');bereken_voorraad(this,'".$week."');\" id=\"voorraad_garantie[".$week."]\" name=\"voorraad_garantie[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_garantie"])."\"><input type=\"hidden\" name=\"gar[".$week."]\" value=\"".intval($seizoen["weken"][$week]["voorraad_garantie"])."\"></td>";
+		echo "<td align=\"center\" nowrap><input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"garantie_niet_afboeken(this,'".$week."');bereken_voorraad(this,'".$week."');\" id=\"voorraad_garantie[".$week."]\" name=\"voorraad_garantie[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_garantie"])."\"><input type=\"hidden\" name=\"gar[".$week."]\" value=\"".intval($seizoen["weken"][$week]["voorraad_garantie"])."\"></td>";
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 	}
 	echo "<td nowrap>".wt_he($titel)."</td>";
@@ -295,7 +287,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Allotment loopt af op";
-	echo "<tr style=\"background-color:#CCFFCC;height:22px;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#CCFFCC;height:22px;\"><td>".wt_he($titel)."</td>";
 	echo "<td>&nbsp;</td>";
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
@@ -310,7 +302,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Afwijking allotment-dagen";
-	echo "<tr style=\"background-color:#CCFFCC;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#CCFFCC;\"><td>".wt_he($titel)."</td>";
 	kopieer("aflopen_allotment",0,true);
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
@@ -325,7 +317,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="In allotment";
-	echo "<tr style=\"background-color:#CCFFCC;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#CCFFCC;\"><td>".wt_he($titel)."</td>";
 	if($voorraad_kopieer) {
 		kopieer("voorraad_allotment","voorraad",true);
 	} else {
@@ -334,7 +326,7 @@ if($seizoen["naam"]) {
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
 		$regelteller++;
-		echo "<td align=\"center\" nowrap><input type=\"text\"".$voorraad_bewerkbaarheidclass." tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_allotment[".$week."]\" name=\"voorraad_allotment[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_allotment"])."\"><input type=\"hidden\" name=\"voorraad_allotment_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_allotment"]."\"></td>";
+		echo "<td align=\"center\" nowrap><input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_allotment[".$week."]\" name=\"voorraad_allotment[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_allotment"])."\"><input type=\"hidden\" name=\"voorraad_allotment_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_allotment"]."\"></td>";
 #		$bruto_totaal+=$seizoen["weken"][$week]["bruto"];
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 	}
@@ -345,7 +337,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Vervallen allotment";
-	echo "<tr style=\"background-color:#f88912;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#f88912;\"><td>".wt_he($titel)."</td>";
 	if($voorraad_kopieer) {
 		kopieer("voorraad_vervallen_allotment","voorraad",true);
 	} else {
@@ -354,7 +346,7 @@ if($seizoen["naam"]) {
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
 		$regelteller++;
-		echo "<td align=\"center\" nowrap><input type=\"text\"".$voorraad_bewerkbaarheidclass." tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_vervallen_allotment[".$week."]\" name=\"voorraad_vervallen_allotment[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_vervallen_allotment"])."\"><input type=\"hidden\" name=\"voorraad_vervallen_allotment_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_vervallen_allotment"]."\"></td>";
+		echo "<td align=\"center\" nowrap><input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_vervallen_allotment[".$week."]\" name=\"voorraad_vervallen_allotment[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_vervallen_allotment"])."\"><input type=\"hidden\" name=\"voorraad_vervallen_allotment_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_vervallen_allotment"]."\"></td>";
 #		$bruto_totaal+=$seizoen["weken"][$week]["bruto"];
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 	}
@@ -365,7 +357,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="In optie bij leverancier";
-	echo "<tr style=\"background-color:#CCFFCC;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#CCFFCC;\"><td>".wt_he($titel)."</td>";
 	if($voorraad_kopieer) {
 		kopieer("voorraad_optie_leverancier","voorraad",true);
 	} else {
@@ -374,7 +366,7 @@ if($seizoen["naam"]) {
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
 		$regelteller++;
-		echo "<td align=\"center\" nowrap><input type=\"text\"".$voorraad_bewerkbaarheidclass." tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_optie_leverancier[".$week."]\" name=\"voorraad_optie_leverancier[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_optie_leverancier"])."\"><input type=\"hidden\" name=\"voorraad_optie_leverancier_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_optie_leverancier"]."\"></td>";
+		echo "<td align=\"center\" nowrap><input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_optie_leverancier[".$week."]\" name=\"voorraad_optie_leverancier[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_optie_leverancier"])."\"><input type=\"hidden\" name=\"voorraad_optie_leverancier_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_optie_leverancier"]."\"></td>";
 #		$bruto_totaal+=$seizoen["weken"][$week]["bruto"];
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 	}
@@ -385,12 +377,12 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Beschikbaar via XML";
-	echo "<tr style=\"background-color:#FF99CC;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#FF99CC;\"><td>".wt_he($titel)."</td>";
 	kopieer();
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
 		$regelteller++;
-		echo "<td align=\"center\" nowrap><input readonly type=\"text\"".$voorraad_bewerkbaarheidclass." tabindex=\"".($regelteller+$kolomteller)."\" id=\"voorraad_xml[".$week."]\" name=\"voorraad_xml[".$week."]\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_xml"])."\"></td>";
+		echo "<td align=\"center\" nowrap><input readonly type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" id=\"voorraad_xml[".$week."]\" name=\"voorraad_xml[".$week."]\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_xml"])."\"></td>";
 #		$bruto_totaal+=$seizoen["weken"][$week]["bruto"];
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 	}
@@ -401,7 +393,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Op request beschikbaar";
-	echo "<tr style=\"background-color:#FFCC99;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#FFCC99;\"><td>".wt_he($titel)."</td>";
 	if($voorraad_kopieer) {
 		kopieer("voorraad_request","voorraad",true);
 	} else {
@@ -416,7 +408,7 @@ if($seizoen["naam"]) {
 			$temp_request=$seizoen["weken"][$week]["voorraad_request"];
 		}
 
-		echo "<td align=\"center\" nowrap><input type=\"text\"".$voorraad_bewerkbaarheidclass." tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_request[".$week."]\" name=\"voorraad_request[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($temp_request)."\"><input type=\"hidden\" name=\"voorraad_request_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_request"]."\"></td>";
+		echo "<td align=\"center\" nowrap><input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_request[".$week."]\" name=\"voorraad_request[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($temp_request)."\"><input type=\"hidden\" name=\"voorraad_request_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_request"]."\"></td>";
 #		$bruto_totaal+=$seizoen["weken"][$week]["bruto"];
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 	}
@@ -427,7 +419,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Optie aan klant gegeven";
-	echo "<tr style=\"background-color:#CCFFFF;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#CCFFFF;\"><td>".wt_he($titel)."</td>";
 	if($voorraad_kopieer) {
 		kopieer("voorraad_optie_klant","voorraad",true);
 	} else {
@@ -436,7 +428,7 @@ if($seizoen["naam"]) {
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
 		$regelteller++;
-		echo "<td align=\"center\" nowrap><input type=\"text\"".$voorraad_bewerkbaarheidclass." tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_optie_klant[".$week."]\" name=\"voorraad_optie_klant[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_optie_klant"])."\"><input type=\"hidden\" name=\"voorraad_optie_klant_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_optie_klant"]."\"></td>";
+		echo "<td align=\"center\" nowrap><input type=\"text\" tabindex=\"".($regelteller+$kolomteller)."\" onchange=\"bereken_voorraad(this,'".$week."');\" id=\"voorraad_optie_klant[".$week."]\" name=\"voorraad_optie_klant[".$week."]\" onkeypress=\"return disableEnterKey(this,'".$week."',event)\" size=\"4\" value=\"".wt_he($seizoen["weken"][$week]["voorraad_optie_klant"])."\"><input type=\"hidden\" name=\"voorraad_optie_klant_voorheen[".$week."]\" value=\"".$seizoen["weken"][$week]["voorraad_optie_klant"]."\"></td>";
 #		$bruto_totaal+=$seizoen["weken"][$week]["bruto"];
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 	}
@@ -447,7 +439,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Totaal beschikbaar";
-	echo "<tr style=\"background-color:#FFFF99;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#FFFF99;\"><td>".wt_he($titel)."</td>";
 	kopieer();
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
@@ -462,7 +454,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Automatisch bijwerken";
-	echo "<tr style=\"background-color:#FFFF99;\"><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\" style=\"background-color:#FFFF99;\"><td>".wt_he($titel)."</td>";
 	$kopieer_tabindex++;
 	echo "<td align=\"center\"><input type=\"checkbox\" onclick=\"kopieer_checkbox(this,'voorraad_bijwerken');\" tabindex=\"".$kopieer_tabindex."\">&gt;</td>";
 	$week=$seizoen["begin"];
@@ -492,7 +484,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Laatste wijziging voorraad";
-	echo "<tr style=\"background-color:#ebebeb;height:20px;\"><td nowrap>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr voorraad_archief\" style=\"background-color:#ebebeb;height:20px;\"><td nowrap>".wt_he($titel)."</td>";
 	echo "<td>&nbsp;</td>";
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
@@ -507,7 +499,7 @@ if($seizoen["naam"]) {
 	$kolomteller=$kolomteller+1000;
 	$regelteller=0;
 	$titel="Beschikbaar tonen";
-	echo "<tr><td>".wt_he($titel)."</td>";
+	echo "<tr class=\"voorraad_tr\"><td>".wt_he($titel)."</td>";
 	kopieer();
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
@@ -562,7 +554,7 @@ if($seizoen["naam"]) {
 	echo "</tr>";
 
 	# Opmerkingen bij beschikbaar_archief
-	echo "<tr style=\"background-color:#878481;\"><td>Opmerkingen voorraad-log</td>";
+	echo "<tr class=\"voorraad_tr voorraad_opmerkingen_voorraad_log\" style=\"background-color:#878481;\"><td>Opmerkingen voorraad-log</td>";
 	kopieer();
 	echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerkingen_voorraad\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (wordt opgeslagen in voorraad-log, alleen bij wijzigingen aan de voorraad/beschikbaarheid)</td>";
 	echo "<td nowrap>".wt_he($titel)."</td>";
