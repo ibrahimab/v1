@@ -425,6 +425,7 @@ class form2 {
 		global $vars;
 		$return=$this->settings["message"][$title][$this->settings["language"]];
 		while(list($key,$value)=@each($value_array)) {
+			$value=strval($value);
 			$return=ereg_replace("_VAL".$key."_",$value,$return);
 		}
 		if($html) {
@@ -2081,6 +2082,7 @@ class form2 {
 					if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
 				} elseif($value=="upload") {
 					$file_upload[$key]=false;
+					unset($upload_error);
 					if(is_array($_FILES["input"]["tmp_name"][$key])) {
 						while(list($key2,$value2)=each($_FILES["input"]["tmp_name"][$key])) {
 							if($_FILES["input"]["tmp_name"][$key][$key2] and $_FILES["input"]["tmp_name"][$key][$key2]<>"none") {

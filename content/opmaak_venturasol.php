@@ -313,13 +313,15 @@ if($vars["verberg_linkerkolom"]) {
 		echo "</div>\n"; # afsluiten hoofdpagina_waarom
 		// echo "</a>\n"; # afsluiten hoofdpagina_waarom
 
-		echo "<div id=\"hoofdpagina_sociallinks\">";
-		echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-		echo "<a href=\"https://www.facebook.com/Venturasol.Vacances\" title=\"Volg Venturasol via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-		echo "<a href=\"https://twitter.com/Venturasol_nl\" title=\"Volg Venturasol via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
-		// echo "<a href=\"https://plus.google.com/102617791232710517310/\" title=\"Volg SuperSki via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>\n";
-		echo "<div style=\"clear: both;\"></div>\n";
-		echo "</div>"; # afsluiten hoofdpagina_sociallinks
+		if($vars["website"]=="X") {
+			echo "<div id=\"hoofdpagina_sociallinks\">";
+			echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+			echo "<a href=\"https://www.facebook.com/Venturasol.Vacances\" title=\"Volg Venturasol via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+			echo "<a href=\"https://twitter.com/Venturasol_nl\" title=\"Volg Venturasol via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
+			// echo "<a href=\"https://plus.google.com/102617791232710517310/\" title=\"Volg SuperSki via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>\n";
+			echo "<div style=\"clear: both;\"></div>\n";
+			echo "</div>"; # afsluiten hoofdpagina_sociallinks
+		}
 
 		if($_COOKIE["vacances"]) {
 			// second-homes-banner alleen tonen indien bezoeker via vancances.venturasol.nl is binnengekomen

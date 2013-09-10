@@ -863,13 +863,13 @@ $txt["nl"]["accommodaties"]["helaasgeenresultaten"]="Helaas, je zoekopdracht hee
 $txt["en"]["accommodaties"]["helaasgeenresultaten"]="Sorry, your search has returned [[h_1]]0[[h_2]] results.";
 
 $txt["nl"]["accommodaties"]["helaasgeenresultaten_aanbiedingen1"]="Momenteel hebben we geen actuele aanbiedingen.";
-$txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen1"]="There are no special offers right now.";
+$txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen1"]="Currently there are no special offers available.";
 
 $txt["nl"]["accommodaties"]["helaasgeenresultaten_aanbiedingen2"]="Binnen onze aanbiedingen heeft je zoekopdracht geen resultaten opgeleverd.";
-$txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen2"]="Sorry, your search has returned no results.";
+$txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen2"]="There were no search results within our special offers.";
 
 $txt["nl"]["accommodaties"]["helaasgeenresultaten_aanbiedingen_toelichting"]="Zet het vinkje \"zoek alleen naar aanbiedingen\" uit om ons volledige aanbod te doorzoeken.";
-$txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen_toelichting"]="Please untick \"only search for special offers\" to search our total programme.";
+$txt["en"]["accommodaties"]["helaasgeenresultaten_aanbiedingen_toelichting"]="Please tick off \"only search for special offers\" to search our total programme.";
 
 #$txt["nl"]["accommodaties"]["probeernieuwezoekopdracht"]="Probeer een nieuwe zoekopdracht met minder voorwaarden.";
 #$txt["en"]["accommodaties"]["probeernieuwezoekopdracht"]="Start a new search with fewer criteria.";

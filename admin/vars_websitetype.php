@@ -265,9 +265,9 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["basehref"]="http://test.venturasol.nl/";
 	$vars["email"]="info@venturasol.nl";
 	$path="/";
-	// $vars["googleanalytics"]="UA-2078202-13";
-	// $vars["facebook_pageid"]="290286354404681";
-	// $vars["twitter_user"]="SuperSkiNL";
+	$vars["googleanalytics"]="UA-2078202-15";
+	$vars["facebook_pageid"]="162914327091136";
+	$vars["twitter_user"]="Venturasol_nl";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["livechat_code"]=false;
@@ -283,9 +283,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["basehref"]="http://partner.venturasol.nl/";
 	$vars["email"]="info@venturasol.nl";
 	$path="/";
-	// $vars["googleanalytics"]="UA-2078202-13";
-	// $vars["facebook_pageid"]="290286354404681";
-	// $vars["twitter_user"]="SuperSkiNL";
+	$vars["googleanalytics"]="UA-2078202-16";
 	$vars["annverzekering_mogelijk"]=1;
 	$vars["reisverzekering_mogelijk"]=1;
 	$vars["wederverkoop"]=true;
