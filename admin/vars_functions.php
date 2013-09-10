@@ -167,7 +167,7 @@ function accinfo($typeid,$aankomstdatum=0,$aantalpersonen=0,$options="") {
 
 	$db=new DB_sql;
 	$db2=new DB_sql;
-	$db->query("SELECT a.wzt, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, a.soortaccommodatie, a.toonper, a.flexibel, t.websites, a.vertrekinfo_seizoengoedgekeurd, a.vertrekinfo_seizoengoedgekeurd_en, a.accommodatie_id, t.leverancier_id, a.aankomst_plusmin, a.vertrek_plusmin, a.receptie".$ttv." AS receptie, a.telefoonnummer, a.voucherinfo".$ttv." AS avoucherinfo, a.mailtekst_id, a.optiedagen_klanten_vorig_seizoen, a.korteomschrijving".$ttv." AS akorteomschrijving, t.korteomschrijving".$ttv." AS tkorteomschrijving, t.voucherinfo".$ttv." AS tvoucherinfo, a.inclusief".$ttv." AS inclusief, t.inclusief".$ttv." AS tinclusief, a.exclusief".$ttv." AS exclusief, t.exclusief".$ttv." AS texclusief, a.tonen AS atonen, t.tonen AS ttonen, t.type_id, t.naam".$ttv." AS type, t.naam AS tnaam, t.code, t.optimaalaantalpersonen, t.maxaantalpersonen, t.slaapkamers, t.slaapkamersextra".$ttv." AS slaapkamersextra, t.badkamers, t.badkamersextra".$ttv." AS badkamersextra, t.oppervlakte, t.oppervlakteextra".$ttv." AS oppervlakteextra, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, t.aangepaste_min_tonen, t.leverancierscode, t.beheerder_id, t.eigenaar_id, t.verzameltype, t.verzameltype_parent, p.naam AS plaats, p.plaats_id, l.naam".$ttv." AS land, l.begincode, s.naam AS skigebied, lev.aflopen_allotment FROM type t, accommodatie a, plaats p, land l, leverancier lev, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.leverancier_id=lev.leverancier_id AND t.type_id='".addslashes($typeid)."' AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id;");
+	$db->query("SELECT a.wzt, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, a.soortaccommodatie, a.toonper, a.flexibel, t.websites, a.vertrekinfo_seizoengoedgekeurd, a.vertrekinfo_seizoengoedgekeurd_en, a.accommodatie_id, t.leverancier_id, a.aankomst_plusmin, a.vertrek_plusmin, a.receptie".$ttv." AS receptie, a.telefoonnummer, a.voucherinfo".$ttv." AS avoucherinfo, a.mailtekst_id, a.optiedagen_klanten_vorig_seizoen, a.korteomschrijving".$ttv." AS akorteomschrijving, t.korteomschrijving".$ttv." AS tkorteomschrijving, t.voucherinfo".$ttv." AS tvoucherinfo, a.inclusief".$ttv." AS inclusief, t.inclusief".$ttv." AS tinclusief, a.exclusief".$ttv." AS exclusief, t.exclusief".$ttv." AS texclusief, a.tonen AS atonen, t.tonen AS ttonen, t.type_id, t.naam".$ttv." AS type, t.naam AS tnaam, t.code, t.optimaalaantalpersonen, t.maxaantalpersonen, t.slaapkamers, t.slaapkamersextra".$ttv." AS slaapkamersextra, t.badkamers, t.badkamersextra".$ttv." AS badkamersextra, t.oppervlakte, t.oppervlakteextra".$ttv." AS oppervlakteextra, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, t.aangepaste_min_tonen, t.leverancierscode, t.beheerder_id, t.eigenaar_id, t.verzameltype, t.verzameltype_parent, t.voorraad_gekoppeld_type_id, p.naam AS plaats, p.plaats_id, l.naam".$ttv." AS land, l.begincode, s.naam AS skigebied, lev.aflopen_allotment FROM type t, accommodatie a, plaats p, land l, leverancier lev, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.leverancier_id=lev.leverancier_id AND t.type_id='".addslashes($typeid)."' AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id;");
 	if($db->next_record()) {
 		while(list($key,$value)=each($db->Record)) {
 			if(!ereg("^[0-9]$",$key)) $return[$key]=$value;
@@ -2968,8 +2968,8 @@ function voorraad_bijwerken($type_id,$week,$plusmin,$garantie,$allotment,$verval
 			}
 
 			// gekoppelde voorraad bijwerken
-			// $voorraad_gekoppeld=new voorraad_gekoppeld;
-			// $voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
+			$voorraad_gekoppeld=new voorraad_gekoppeld;
+			$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 
 			return $query."\n";
 		}

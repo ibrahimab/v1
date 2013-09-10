@@ -329,8 +329,8 @@ if($db->num_rows()) {
 	}
 	$cms->edit_field(2,0,"htmlrow","<hr><b>Voorraad overnemen van ander type</b><p><i>Dit type is voorraad-houder van:</i><ul>".$gekoppelde_types_html."</ul>");
 } else {
-	$cms->edit_field(2,0,"htmlrow","<hr><b>Voorraad overnemen van ander type</b><p><i>Vul hier een type in om de voorraad van dat type automatisch over te nemen. Er is in dat geval geen eigen voorraad meer van toepassing op dit type. De eerste koppeling wordt gemaakt bij de eerstvolgende keer dat de voorraad wordt opgeslagen.</i>");
-	$cms->edit_field(2,0,"voorraad_gekoppeld_type_id","Voorraad overnemen van");
+	$cms->edit_field(2,0,"htmlrow","<hr><b>Voorraad overnemen van ander type</b><p><i>Vul hier een type in om de voorraad van dat type automatisch over te nemen. Er is in dat geval geen eigen voorraad meer van toepassing op dit type.</i>");
+	$cms->edit_field(2,0,"voorraad_gekoppeld_type_id","Voorraad-houder");
 }
 
 $cms->edit_field(2,0,"htmlrow","<hr>");
@@ -608,6 +608,12 @@ function form_before_goto($form) {
 #				echo $db2->lastquery."<br>";
 			}
 		}
+	}
+
+	if($form->input["voorraad_gekoppeld_type_id"]) {
+		// gekoppelde voorraad bijwerken
+		$voorraad_gekoppeld=new voorraad_gekoppeld;
+		$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 	}
 
 	# afbeeldingen verplaatsen en omzetten

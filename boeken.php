@@ -498,6 +498,12 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 							$voorraad_afboeken_keuzes["niet_bijwerken"]="voorraad niet bijwerken";
 						}
 
+						if($accinfo["voorraad_gekoppeld_type_id"]) {
+							# bij voorraad_gekoppeld_type_id: voorraad afboeken niet van toepassing
+							unset($voorraad_afboeken_keuzes);
+							$voorraad_afboeken_keuzes["niet_bijwerken"]="voorraad niet bijwerken (".$accinfo["begincode"].$accinfo["type_id"]." heeft ".$accinfo["begincode"].$accinfo["voorraad_gekoppeld_type_id"]." als voorraad-houder)";
+						}
+
 						$form->field_select(0,"voorraad_afboeken","Voorraad afboeken*","","",array("selection"=>$voorraad_afboeken_keuzes),array("tr_class"=>"tr_reserveringsnummer","onchange"=>$voorraad_afboeken_onchange));
 
 						if($db->f("voorraad_optie_klant")>0) {

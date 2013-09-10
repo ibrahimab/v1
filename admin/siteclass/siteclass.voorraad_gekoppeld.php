@@ -37,7 +37,7 @@ class voorraad_gekoppeld {
 
 			while($db->next_record()) {
 				$db2->query("UPDATE tarief t1, tarief t2, type t SET ".substr($update_query,1)." WHERE t2.type_id='".$db->f("type_id")."' AND t1.type_id=t.voorraad_gekoppeld_type_id AND t2.type_id=t.type_id AND t1.week=t2.week AND t1.seizoen_id=t2.seizoen_id;");
-				echo $db2->lq."<br>";
+				// echo $db2->lq."<br>";
 			}
 		}
 	}

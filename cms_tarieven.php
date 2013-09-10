@@ -326,8 +326,8 @@ if($_POST["filled"]) {
 	}
 
 	// gekoppelde voorraad bijwerken
-	// $voorraad_gekoppeld=new voorraad_gekoppeld;
-	// $voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
+	$voorraad_gekoppeld=new voorraad_gekoppeld;
+	$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 
 	if($_GET["from"]) {
 		header("Location: ".$_GET["from"]);
@@ -359,7 +359,7 @@ if($_POST["filled"]) {
 		$acc["code"]=$db->f("code");
 		$acc["onderverdeeld_in_nummers"]=$db->f("onderverdeeld_in_nummers");
 		$acc["land_begincode"]=$db->f("begincode");
-		// $acc["voorraad_gekoppeld_type_id"]=$db->f("voorraad_gekoppeld_type_id");
+		$acc["voorraad_gekoppeld_type_id"]=$db->f("voorraad_gekoppeld_type_id");
 		if($db->f("optimaalaantalpersonen")>12) {
 			if($db->f("aangepaste_min_tonen")) {
 				$acc["min_tonen"]=$db->f("aangepaste_min_tonen");
