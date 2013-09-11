@@ -325,7 +325,7 @@ if($vars["verberg_linkerkolom"]) {
 
 		if($_COOKIE["vacances"]) {
 			// second-homes-banner alleen tonen indien bezoeker via vancances.venturasol.nl is binnengekomen
-			echo "<a href=\"http://secondhomes.venturasol.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_secondhomes\"></a>";
+			echo "<a href=\"http://www.venturasolsecondhomes.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_secondhomes\"></a>";
 		}
 
 	}
