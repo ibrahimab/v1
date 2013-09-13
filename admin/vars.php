@@ -237,7 +237,7 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==4
 # Wederverkoop-instellingen (inlogsysteem reisagenten)
 #
 if($vars["wederverkoop"]) {
-	if($vars["website"]=="T") {
+	if($vars["website"]=="T" or $vars["website"]=="Y") {
 		# Chalettour = noindex
 		if($id<>"index") {
 			$robot_noindex=true;

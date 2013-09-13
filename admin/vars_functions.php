@@ -3399,6 +3399,12 @@ function facebook_opengraph($info="") {
 			} elseif($vars["website"]=="K") {
 				# Italissima
 				$logo_afbeelding="logo_italissima.gif";
+			} elseif($vars["website"]=="X") {
+				# Venturasol
+				$logo_afbeelding="logo_venturasol.gif";
+			} elseif($vars["website"]=="Y") {
+				# Venturasol-partner
+				$logo_afbeelding="logo_venturasol.gif";
 			}
 			if($logo_afbeelding) {
 				$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."pic/".$logo_afbeelding)."\" />\n";

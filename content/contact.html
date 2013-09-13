@@ -7,7 +7,7 @@ if($_GET["fo"]=="frm") {
 	affiliate_tracking(false,true,true,array("ordernummer"=>"contactaanvraag"));
 
 } else {
-	if($vars["website"]=="T") {
+	if($vars["website"]=="T" or $vars["website"]=="Y") {
 		echo html("inleiding_chalettour","contact");
 	} else {
 		echo html("inleiding","contact",array("h_1"=>"<nobr>","h_2"=>"</nobr>"));

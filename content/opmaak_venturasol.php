@@ -1,14 +1,5 @@
 <?php
 
-
-// partnersite niet in Google opnemen (behalve homepage)
-if($vars["website"]=="Y") {
-	if($id<>"index") {
-		$robot_noindex=true;
-	}
-	$robot_nofollow=true;
-}
-
 # Te includen bestand bepalen
 if($language_content) {
 	if(file_exists("content/_meertalig/".$id."_venturasol_".$vars["taal"].".html")) {

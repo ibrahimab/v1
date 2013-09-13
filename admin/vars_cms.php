@@ -998,6 +998,7 @@ $vars["accommodatie_review_bron"]=array(1=>"door eigen klant ingevulde enquête",
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
 $vars["soort_garantie"]=array(1=>"seizoen en bulk",2=>"op naam en losse weken");
 
+
 # Soorten hoofdpagina-meldingen / rollen
 $vars["cms_hoofdpagina_soorten"]=array(
 	11=>"boekingen",
