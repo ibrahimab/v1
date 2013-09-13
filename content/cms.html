@@ -24,6 +24,12 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
+		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+
+
+		// gekoppelde voorraad bijwerken
+		// $voorraad_gekoppeld=new voorraad_gekoppeld;
+		// $voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 
 		// #
 		// # FUNCTIE BEWAREN!! Kan later nogmaals nodig zijn
@@ -66,7 +72,6 @@ if(!$login->logged_in) {
 		// $roominglist->vergelijk_lijsten();
 
 
-		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 		// $db->query("SELECT b.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp WHERE bp.persoonnummer=1 AND bp.boeking_id=b.boeking_id AND b.boekingsnummer<>'' AND b.aan_leverancier_doorgegeven_naam='' AND b.bestelstatus>1 AND b.boeking_id IN (SELECT boeking_id FROM garantie) ORDER BY b.boeking_id;");
 		// while($db->next_record()) {

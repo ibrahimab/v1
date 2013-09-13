@@ -680,7 +680,7 @@ if($cms_form[2]->filled) {
 	}
 
 	// indien verzameltype: voorraad_gekoppeld_type_id niet toestaan
-	if(($cms_form[2]->input["verzameltype"] or $cms_form[2]->input["verzameltype_parent"]) and $cms_form[2]->input["voorraad_gekoppeld_type_id"]) {
+	if($cms_form[2]->input["verzameltype"] and $cms_form[2]->input["voorraad_gekoppeld_type_id"]) {
 		$cms_form[2]->error("voorraad_gekoppeld_type_id","niet mogelijk bij verzameltype (voorraad is via het verzameltype al gekoppeld)");
 	}
 

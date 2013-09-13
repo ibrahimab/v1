@@ -2014,7 +2014,7 @@ function wt_diff($old, $new) {
 	return $return;
 }
 
-function verzameltype_berekenen($seizoenid,$typeid) {
+function verzameltype_berekenen($seizoenid, $typeid) {
 	#
 	# Verzameltype berekenen
 	#
