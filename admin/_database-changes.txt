@@ -2,8 +2,9 @@
 
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
+13-sep-2013 14:03
+ALTER TABLE `boeking_betaling` ADD `type` TINYINT( 1 ) NULL DEFAULT NULL AFTER `bedrag` 
 
 10-sep-2013 11:13
-
 ALTER TABLE `type` ADD `voorraad_gekoppeld_type_id` INT NULL DEFAULT NULL AFTER `verzameltype_parent` 
 

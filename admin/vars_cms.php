@@ -997,6 +997,7 @@ $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nit
 $vars["accommodatie_review_bron"]=array(1=>"door eigen klant ingevulde enquête",2=>"Posarelli");
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
 $vars["soort_garantie"]=array(1=>"seizoen en bulk",2=>"op naam en losse weken");
+$vars["boeking_betaling_type"]=array(1=>"bank-overschrijving",2=>"bank-overschrijving door Docdata",3=>"verrekening Docdata-betaling/overschrijving",4=>"Docdata-betaling (iDEAL)",5=>"Docdata-betaling (creditcard)",6=>"Docdata-betaling (Mister Cash)");
 
 
 # Soorten hoofdpagina-meldingen / rollen
