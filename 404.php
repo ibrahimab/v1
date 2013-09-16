@@ -8,6 +8,39 @@ if(ereg("/pic/chalets/",$_SERVER["REQUEST_URI"])) {
 	fpassthru($fp);
 	fclose($fp);
 } else {
+
+
+	if($_SERVER["HTTP_HOST"]=="test.venturasol.nl") {
+		// redirects voor Venturasol (301's oude site naar nieuwe site)
+
+		$redirect["http://test.venturasol.nl/skivakanties/home"]="http://test.venturasol.nl/";
+		$redirect["http://test.venturasol.nl/skigebieden"]="http://test.venturasol.nl/skigebieden.php";
+		$redirect["http://test.venturasol.nl/skivakanties/aanbiedingen"]="http://test.venturasol.nl/aanbiedingen.php";
+		$redirect["http://test.venturasol.nl/skivakanties/zoek-en-boek"]="http://test.venturasol.nl/zoek-en-boek.php";
+		$redirect["http://test.venturasol.nl/skivakanties/bestemming/les-trois-vallees"]="http://test.venturasol.nl/wintersport/skigebied/Les-Trois-Vallees/";
+		$redirect["http://test.venturasol.nl/voorwaarden"]="http://test.venturasol.nl/algemenevoorwaarden.php";
+
+		// accommodaties
+		$redirect["http://test.venturasol.nl/skivakanties/accomodatie/les-trois-vallees/les-menuires-le-hameau-des-marmottes-8-kamer-chalet-7-slaapkamers-max-14-pers"]="http://test.venturasol.nl/wintersport/f8275/Chalet-Le-Hameau-des-Marmottes-8-kamer";
+		$redirect["http://test.venturasol.nl/skivakanties/accomodatie/les-trois-vallees-600km-piste-les-menuires-appartementen/chalet-appartementen-le-hameau-des-marmottes"]="http://test.venturasol.nl/wintersport/f8345/Chalet-appartement-Le-Hameau-des-Marmottes-3-kamer";
+		$redirect["http://test.venturasol.nl/skivakanties/accomodatie/les-trois-vallees/les-menuires-le-hameau-des-marmottes-6-kamer-chalet-5-slaapkamers-sauna-max-10-personen"]="http://test.venturasol.nl/wintersport/f8268/Chalet-Le-Hameau-des-Marmottes-6-kamer-met-sauna";
+		$redirect["http://test.venturasol.nl/skivakanties/accomodatie/les-trois-vallees/les-menuires-le-hameau-des-marmottes-7-kamer-chalet-6-slaapkamers-max-12-pers"]="http://test.venturasol.nl/wintersport/f8274/Chalet-Le-Hameau-des-Marmottes-7-kamer";
+		$redirect["http://test.venturasol.nl/skivakanties/accomodatie/les-trois-vallees/les-menuires-le-hameau-des-marmottes-8-kamer-chalet-7-slaapkamers-max-14-pers"]="http://test.venturasol.nl/wintersport/f8275/Chalet-Le-Hameau-des-Marmottes-8-kamer";
+		$redirect["http://test.venturasol.nl/skivakanties/accomodatie/les-trois-vallees-600km-piste-les-menuires-appartementen/les-alpages-de-reberty-copy"]="http://test.venturasol.nl/wintersport/f8365/Chalet-appartement-Les-Alpages-de-Reberty-2-kamer-cabine-zondag-t-m-zondag";
+		$redirect["http://test.venturasol.nl/skivakanties/accomodatie/les-trois-vallees-600km-piste-les-menuires-appartementen/les-alpages-de-reberty"]="http://test.venturasol.nl/wintersport/f8356/Chalet-appartement-Penthouse-Les-Alpages-de-Reberty-5-kamer-zondag-t-m-zondag";
+
+		$current_url="http://test.venturasol.nl".$_SERVER["REQUEST_URI"];
+		if($redirect[$current_url]) {
+			header("Location: ".$redirect[$current_url],true,301);
+			exit;
+		} elseif(preg_match("@skivakanties/accomodatie@",$_SERVER["REQUEST_URI"])) {
+			header("Location: /zoek-en-boek.php",true,301);
+			exit;
+		}
+	}
+
+
+
 	if(eregi("ac[a-z]+/([A-Za-z0]+[0-9]+)",$_SERVER["REQUEST_URI"],$regs404)) {
 		include("admin/vars.php");
 		if(substr($regs404[1],0,1)=="0") {
