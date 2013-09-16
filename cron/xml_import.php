@@ -36,6 +36,8 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="
 }
 
 set_time_limit(0);
+ini_set("default_socket_timeout", 20);
+
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 	$unzip="/usr/bin/unzip";
@@ -63,6 +65,8 @@ include($unixdir."admin/vars_xmlimport.php");
 if(!$argv[1] and !$testsysteem) {
 	if(date("i")==5 and (date("H")==0 or date("H")==3 or date("H")==9 or date("H")==12 or date("H")==15 or date("H")==18 or date("H")==21)) {
 		# Alle leveranciers worden doorlopen
+	} elseif(date("H")==10 and date("i")==11 and $NU_EVEN_NIET) {
+		# Om alle leveranciers als test allemaal te kunnen nalopen: 10:11 uur
 
 	} else {
 		$db->query("SELECT handmatige_xmlimport_id FROM diverse_instellingen WHERE handmatige_xmlimport_id>0;");
@@ -99,7 +103,13 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 		# Zip-file downloaden
 		if(@filemtime($tmpdir."dispo.zip")<(time()-3600)) {
 			@unlink($tmpdir."dispo.zip");
-			if($zip=@file_get_contents("ftp://to3:PnV#cmq2@mutpv.pierreetvacances.com/".$dispo.".zip")) {
+			$opts = stream_context_create(array(
+				'http' => array(
+					'timeout' => 120
+					)
+				)
+			);
+			if($zip=@file_get_contents("ftp://to3:PnV#cmq2@mutpv.pierreetvacances.com/".$dispo.".zip", false, $opts)) {
 				$fh=fopen($tmpdir."dispo.zip","w",false);
 				fwrite($fh,$zip);
 				fclose($fh);
@@ -336,6 +346,7 @@ while(list($key,$value)=@each($xml_urls)) {
 			# gebruik CURL (vanwege http-login)
 			unset($ch);
 			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 			curl_setopt($ch, CURLOPT_URL, $value2);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_USERPWD, $http_login[$key]);
@@ -963,7 +974,13 @@ while(list($key,$value)=@each($csv_urls)) {
 @reset($soap_urls);
 while(list($key,$value)=@each($soap_urls)) {
 	@unlink($tmpdir."soapfile_".$key.".txt");
-	$soapcontent=@file_get_contents($value);
+	$opts = stream_context_create(array(
+		'http' => array(
+			'timeout' => 20
+			)
+		)
+	);
+	$soapcontent=@file_get_contents($value, false, $opts);
 	if(strlen($soapcontent)>100) {
 		file_put_contents($tmpdir."soapfile_".$key.".txt",$soapcontent);
 	}

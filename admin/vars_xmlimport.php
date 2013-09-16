@@ -49,10 +49,17 @@ function marche_RPC_get_house_availability( $RPC_login, $RPC_pass, $idhouse, $da
 
 function marche_get_info( $function, $pars, $vals ) {
 	global $marche_server, $marche_script;
-	if ( $pars[0]=="RPC_login" ) { $challenge=@file_get_contents( "http://".$marche_server.$marche_script."?challenge=1" );
+	if ( $pars[0]=="RPC_login" ) {
+		$opts = stream_context_create(array(
+			'http' => array(
+				'timeout' => 10
+				)
+			)
+		);
+		$challenge=@file_get_contents( "http://".$marche_server.$marche_script."?challenge=1" , false, $opts);
 		if ( $challenge =="" ) return "";
 		$chap=md5( $challenge.$vals[1] );
-	};
+	}
 	//Qui genero l'xml da inviare al server
 	$start=0; $xm="<REQUEST>\n  <FUNCTION>".$function."</FUNCTION>\n";
 	if ( $chap ) { $xm.="  <AUTH>\n    <CHAP>$chap</CHAP>\n    <USER>".$vals[0]."</USER>\n  </AUTH>\n";
