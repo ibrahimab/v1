@@ -1,5 +1,9 @@
 <?php
 
+set_time_limit(0);
+ini_set("default_socket_timeout", 20);
+
+
 $marche_server="api.marcheholiday.it";
 $marche_script="/APIserver.php";
 
@@ -23,7 +27,14 @@ function marche_RPC_get_house_availability( $RPC_login, $RPC_pass, $idhouse, $da
 
 function marche_get_info( $function, $pars, $vals ) {
 	global $marche_server, $marche_script;
-	if ( $pars[0]=="RPC_login" ) { $challenge=@file_get_contents( "http://".$marche_server.$marche_script."?challenge=1" );
+	if ( $pars[0]=="RPC_login" ) {
+		$opts = stream_context_create(array(
+			'http' => array(
+				'timeout' => 10
+				)
+			)
+		);
+		$challenge=@file_get_contents( "http://".$marche_server.$marche_script."?challenge=1" , false, $opts);
 		if ( $challenge =="" ) return "";
 		$chap=md5( $challenge.$vals[1] );
 	};
@@ -74,7 +85,7 @@ function marche_get_info( $function, $pars, $vals ) {
 #
 echo "<b>Test with marche_RPC_get_house_calendar</b>:";
 
-$result = marche_RPC_get_house_calendar("chaletmh","chalet11",176,"2013-01-05",54);
+$result = marche_RPC_get_house_calendar("chaletmh","chalet11",176,"2014-01-25",54);
 echo "<pre>";
 echo var_dump($result);
 echo "</pre>";
@@ -87,7 +98,7 @@ echo "<hr>";
 
 echo "<b>Test with marche_RPC_get_house_availability</b>:";
 
-$result = marche_RPC_get_house_availability("chaletmh","chalet11",176,"2013-01-05",54);
+$result = marche_RPC_get_house_availability("chaletmh","chalet11",176,"2014-01-25",54);
 echo "<pre>";
 echo var_dump($result);
 echo "</pre>";
