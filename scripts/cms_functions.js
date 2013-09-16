@@ -752,6 +752,10 @@ function inkoopgegevens_verschil(fieldname,hoger_is_beter) {
 function bedrag_min_korting(bedrag,kortingspercentage) {
 	bedrag=bedrag*(100-kortingspercentage);
 	bedrag=bedrag/100;
+
+	// afrondingsproblemen in javascript met toFixed(2), daarom:
+	// bedrag=Math.round(bedrag * 100) / 100;
+
 	bedrag=parseFloat(bedrag.toFixed(2));
 	return bedrag;
 }
