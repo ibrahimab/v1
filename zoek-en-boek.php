@@ -125,6 +125,11 @@ if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or str
 					$herlaad_url=preg_replace("/\?.*/","",$herlaad_url);
 					$herlaad_url.=$querystring;
 
+					if($vars["zoekform_aanbiedingen"]) {
+						// aanbiedingenpagina:
+						$herlaad_url.="&faab=1&aab=1";
+					}
+
 					header("Location: ".$herlaad_url);
 					exit;
 				}
