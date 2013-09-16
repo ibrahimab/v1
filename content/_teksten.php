@@ -1585,6 +1585,9 @@ $txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
 $txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon: +31 348 43 46 49";
 $txt["en_b"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
 
+$txt["nl_x"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0541 - 53 27 98";
+$txt["en_x"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 541 53 27 98";
+
 $txt["nl"]["contact"]["fax_chalet"]="Fax: 0348 - 69 07 52";
 $txt["en"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
 

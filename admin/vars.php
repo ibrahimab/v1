@@ -239,7 +239,7 @@ if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==4
 if($vars["wederverkoop"]) {
 	if($vars["website"]=="T" or $vars["website"]=="Y") {
 		# Chalettour = noindex
-		if($id<>"index") {
+		if($id<>"index" or $vars["website"]=="Y") {
 			$robot_noindex=true;
 		}
 		$robot_nofollow=true;
@@ -515,7 +515,15 @@ if($vars["websitetype"]==7) {
 	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
 	$menu["contact"]=txt("menutitle_contact");
 
-	$submenu["inloggen"]=txt("submenutitle_inloggen");
+	if($vars["wederverkoop"]) {
+		if(!$vars["chalettour_logged_in"]) {
+			$submenu["inloggen"]=txt("submenutitle_inloggen");
+			$submenu["reisagent"]=txt("submenutitle_reisagent");
+		}
+	} else {
+		$submenu["inloggen"]=txt("submenutitle_inloggen");
+	}
+
 	// $submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");

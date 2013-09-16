@@ -7,7 +7,7 @@ $vars["verberg_zoekenboeklinks"]=true;
 include("admin/vars.php");
 
 # Bij Italissima, SuperSki en Venturasol zijn geen thema's beschikbaar
-if(($vars["websitetype"]==7 or $vars["websitetype"]==8 or $vars["websitetype"]==9) and $_GET["thema"]<>"2013-2014" and $_GET["thema"]<>"2014-2015") {
+if($vars["websitetype"]==7 or $vars["websitetype"]==8 or $vars["websitetype"]==9) {
 	header("Location: ".$vars["path"]);
 	exit;
 }

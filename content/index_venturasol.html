@@ -51,7 +51,32 @@ echo "<div style=\"clear: both;\"></div>\n";
 echo "</div>"; # afsluiten hoofdpagina_middenkolom
 
 echo "<div id=\"hoofdpagina_rechterkolom\">";
-echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php/?filled=1&fsg=pl1\" id=\"hoofdpagina_banner_rechts\">Wintersport in<br/>Les Menuires</a>";
+
+# Opsomming "Waarom Venturasol?"
+// echo "<a href=\"".$vars["path"].txt("menu_wie-zijn-wij").".php\" id=\"hoofdpagina_waarom\">";
+echo "<div id=\"hoofdpagina_waarom\">";
+echo "<div class=\"kop\">".html("waarom","index",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
+echo "<div><ul>";
+echo "<li>14 jaar winterspecialist</li>";
+echo "<li>Kwaliteit</li>";
+echo "<li>Persoonlijke service</li>";
+echo "<li>Prijsbewust</li>";
+echo "<li>Lid SGR-Garantiefonds</li>";
+echo "</ul></div>"; # afsluiten naamloze div
+echo "</div>\n"; # afsluiten hoofdpagina_waarom
+// echo "</a>\n"; # afsluiten hoofdpagina_waarom
+
+if($vars["website"]=="X") {
+	echo "<div id=\"hoofdpagina_sociallinks\">";
+	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+	echo "<a href=\"https://www.facebook.com/Venturasol.Vacances\" title=\"Volg Venturasol via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+	echo "<a href=\"https://twitter.com/Venturasol_nl\" title=\"Volg Venturasol via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
+	// echo "<a href=\"https://plus.google.com/102617791232710517310/\" title=\"Volg SuperSki via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>\n";
+	echo "<div style=\"clear: both;\"></div>\n";
+	echo "</div>"; # afsluiten hoofdpagina_sociallinks
+}
+
+echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php/?filled=1&fsg=pl1\" id=\"hoofdpagina_banner_rechts\"><b>Wintersport</b><br/>in Les Menuires</a>";
 
 // echo "<div id=\"directnaar\" class=\"noprint\">";
 // echo "<div id=\"directnaar_kop\"><span class=\"bloklinks_kop\">".html("directnaar","index")."</span></div>";

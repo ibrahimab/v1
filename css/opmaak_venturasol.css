@@ -129,12 +129,17 @@ form {
 #tagline h1 {
 	color: #0412b1;
 	font-size: 1.1em;
-	font-weight: bold;
+	font-weight: normal;
 	display: block;
 	margin: 0;
 	padding: 0;
 	letter-spacing: 0px;
 	text-align: center;
+	font-size: 1.4em;
+}
+
+#tagline h1 b {
+	font-weight: bold;
 }
 
 #sgr_logo {

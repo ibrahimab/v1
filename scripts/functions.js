@@ -2110,6 +2110,27 @@ $(document).ready(function() {
 		// kijken of de scrollbuttons uitgeschakeld moeten worden
 		tarieventabel_controleer_scrollbuttons();
 
+
+		// externe links als Anayltics-event opslaan
+		$("a.analytics_track_external_click").click(function(event) {
+
+			event.preventDefault();
+			var external_url=$(this).attr("href");
+
+			if (typeof _gaq != "undefined") {
+				_gaq.push(["_trackEvent", "doorklik naar externe site", "url", external_url]);
+			}
+
+			// heel even wachten zodat Analytics kan laden
+			setTimeout(function() {
+				// document.location.href = external_url;
+				window.open(external_url, "_blank");
+			},100);
+
+			return false;
+
+		});
+
 	}
 });
 

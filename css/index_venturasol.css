@@ -178,7 +178,7 @@
     border-radius: 10px;
 	behavior: url(/PIE.htc);
 	position: relative;
-	margin-top: 70px;
+	margin-top: 30px;
 }
 
 #hoofdpagina_banner_secondhomes:hover {
@@ -188,6 +188,7 @@
 }
 
 #hoofdpagina_banner_rechts {
+	margin-top: 80px;
 	display: block;
 	background: url(../pic/venturasol_hoofdpagina/banner_rechts.jpg) no-repeat 0 0px;
     -webkit-border-radius: 10px;
@@ -197,7 +198,6 @@
 	behavior: url(/PIE.htc);
 	position: relative;
 	text-decoration: none;
-	font-weight: bold;
 	font-size: 1.5em;
 	box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -208,6 +208,11 @@
 	text-align: center;
 	/*text-shadow: 1px 1px #666666;*/
 	color: #0412b1;
+}
+
+#hoofdpagina_banner_rechts b {
+	font-weight: bold;
+	font-size: 1.1em;
 }
 
 #hoofdpagina_banner_rechts:hover {

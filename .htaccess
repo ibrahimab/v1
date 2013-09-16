@@ -56,6 +56,8 @@ RewriteRule ^index\.php$ / [R=301,L]
 
 # partner-venturasol: nog niet online
 RewriteCond %{HTTP_HOST} partner\.venturasol\.nl [NC]
+RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113 [NC]
+RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154 [NC]
 RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
 
 # secondhomes.venturasol.nl: doorsturen naar nieuwe domeinnaam venturasolsecondhomes.nl

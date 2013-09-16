@@ -562,8 +562,8 @@ $vars["websiteinfo"]["taal"]["K"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["K"]=true;
 $vars["websiteinfo"]["livechat_code"]["K"]=false;
 
-$vars["websiteinfo"]["websitenaam"]["X"]="Venturasol";
-$vars["websiteinfo"]["langewebsitenaam"]["X"]="Venturasol";
+$vars["websiteinfo"]["websitenaam"]["X"]="Venturasol Vacances";
+$vars["websiteinfo"]["langewebsitenaam"]["X"]="Venturasol Vacances";
 $vars["websiteinfo"]["email"]["X"]="info@venturasol.nl";
 $vars["websiteinfo"]["basehref"]["X"]="http://test.venturasol.nl/";
 $vars["websiteinfo"]["websitetype"]["X"]=9;

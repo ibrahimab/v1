@@ -3401,10 +3401,10 @@ function facebook_opengraph($info="") {
 				$logo_afbeelding="logo_italissima.gif";
 			} elseif($vars["website"]=="X") {
 				# Venturasol
-				$logo_afbeelding="logo_venturasol.gif";
+				$logo_afbeelding="logo_venturasol.png";
 			} elseif($vars["website"]=="Y") {
 				# Venturasol-partner
-				$logo_afbeelding="logo_venturasol.gif";
+				$logo_afbeelding="logo_venturasol.png";
 			}
 			if($logo_afbeelding) {
 				$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."pic/".$logo_afbeelding)."\" />\n";

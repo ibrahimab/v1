@@ -189,7 +189,7 @@ echo "</div>\n"; # afsluiten submenu
 
 echo "<div id=\"topfoto\" class=\"noprint\" style=\"background-image:url('".$vars["path"].($vars["venturasol_topfoto"] ? $vars["venturasol_topfoto"] : "pic/topfoto_venturasol_1.jpg")."');\">";
 echo "<a href=\"".$vars["path"]."\" id=\"logo\">&nbsp;</a>";
-echo "<div id=\"tagline\" class=\"noprint\"><h1>vrijstaande chalets en<br/>luxe appartementen<br/>in Frankrijk</h1></div>";
+echo "<div id=\"tagline\" class=\"noprint\"><h1><b>Chalets en<br/>appartementen</b><br/>in Frankrijk</h1></div>";
 echo "<div style=\"clear: both;\"></div>\n";
 echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" id=\"sgr_logo\">&nbsp;</a>";
 
@@ -289,36 +289,10 @@ if($vars["verberg_linkerkolom"]) {
 	}
 
 	if($id=="index") {
-
-		# Opsomming "Waarom Venturasol?"
-		// echo "<a href=\"".$vars["path"].txt("menu_wie-zijn-wij").".php\" id=\"hoofdpagina_waarom\">";
-		echo "<div id=\"hoofdpagina_waarom\">";
-		echo "<div class=\"kop\">".html("waarom","index",array("v_websitenaam"=>$vars["websitenaam"]))."</div>";
-		echo "<div><ul>";
-		echo "<li>14 jaar winterspecialist</li>";
-		echo "<li>Kwaliteit</li>";
-		echo "<li>Persoonlijke service</li>";
-		echo "<li>Prijsbewust</li>";
-		echo "<li>Lid SGR-Garantiefonds</li>";
-		echo "</ul></div>"; # afsluiten naamloze div
-		echo "</div>\n"; # afsluiten hoofdpagina_waarom
-		// echo "</a>\n"; # afsluiten hoofdpagina_waarom
-
+		// second-homes-banner
 		if($vars["website"]=="X") {
-			echo "<div id=\"hoofdpagina_sociallinks\">";
-			echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-			echo "<a href=\"https://www.facebook.com/Venturasol.Vacances\" title=\"Volg Venturasol via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-			echo "<a href=\"https://twitter.com/Venturasol_nl\" title=\"Volg Venturasol via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
-			// echo "<a href=\"https://plus.google.com/102617791232710517310/\" title=\"Volg SuperSki via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>\n";
-			echo "<div style=\"clear: both;\"></div>\n";
-			echo "</div>"; # afsluiten hoofdpagina_sociallinks
+			echo "<a href=\"http://www.venturasolsecondhomes.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_secondhomes\" class=\"analytics_track_external_click\"></a>";
 		}
-
-		if($_COOKIE["vacances"]) {
-			// second-homes-banner alleen tonen indien bezoeker via vancances.venturasol.nl is binnengekomen
-			echo "<a href=\"http://www.venturasolsecondhomes.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_secondhomes\"></a>";
-		}
-
 	}
 
 	echo "</div>\n"; # afsluiten bloklinks

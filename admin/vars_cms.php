@@ -2578,6 +2578,9 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 		# SuperSki
 		$logo="factuur_logo_superski.png";
+	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
+		# SuperSki
+		$logo="factuur_logo_venturasol.png";
 	} else {
 		# Chalet Winter
 		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="be") {
