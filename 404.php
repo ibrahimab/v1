@@ -19,6 +19,18 @@ if(ereg("/pic/chalets/",$_SERVER["REQUEST_URI"])) {
 		$redirect["http://test.venturasol.nl/skivakanties/zoek-en-boek"]="http://test.venturasol.nl/zoek-en-boek.php";
 		$redirect["http://test.venturasol.nl/skivakanties/bestemming/les-trois-vallees"]="http://test.venturasol.nl/wintersport/skigebied/Les-Trois-Vallees/";
 		$redirect["http://test.venturasol.nl/voorwaarden"]="http://test.venturasol.nl/algemenevoorwaarden.php";
+		$redirect["http://test.venturasol.nl/appartementen"]="http://test.venturasol.nl/zoek-en-boek.php";
+		$redirect["http://test.venturasol.nl/ski-chalet"]="http://test.venturasol.nl/zoek-en-boek.php";
+		$redirect["http://test.venturasol.nl/skigebieden"]="http://test.venturasol.nl/skigebieden.php";
+		$redirect["http://test.venturasol.nl/offerte-winter"]="http://test.venturasol.nl/contact.php";
+		$redirect["http://test.venturasol.nl/wie"]="http://test.venturasol.nl/zoek-en-boek.php";
+		$redirect["http://test.venturasol.nl/service-winter"]="http://test.venturasol.nl/zoek-en-boek.php";
+		$redirect["http://test.venturasol.nl/zonvakanties/home"]="http://test.venturasol.nl/zoek-en-boek.php";
+		$redirect["http://test.venturasol.nl/sitemap-winter"]="http://test.venturasol.nl/zoek-en-boek.php";
+		$redirect["http://test.venturasol.nl/wie-zijn-wij"]="http://test.venturasol.nl/zoek-en-boek.php";
+		$redirect["http://test.venturasol.nl/skivakanties/alle-accommodaties"]="http://test.venturasol.nl/zoek-en-boek.php";
+		// $redirect[""]="";
+		// $redirect[""]="";
 
 		// accommodaties
 		$redirect["http://test.venturasol.nl/skivakanties/accomodatie/les-trois-vallees/les-menuires-le-hameau-des-marmottes-8-kamer-chalet-7-slaapkamers-max-14-pers"]="http://test.venturasol.nl/wintersport/f8275/Chalet-Le-Hameau-des-Marmottes-8-kamer";
@@ -33,7 +45,7 @@ if(ereg("/pic/chalets/",$_SERVER["REQUEST_URI"])) {
 		if($redirect[$current_url]) {
 			header("Location: ".$redirect[$current_url],true,301);
 			exit;
-		} elseif(preg_match("@skivakanties/accomodatie@",$_SERVER["REQUEST_URI"])) {
+		} elseif(preg_match("@skivakanties/accomodatie@",$_SERVER["REQUEST_URI"]) or preg_match("@skivakanties/bestemming@",$_SERVER["REQUEST_URI"])) {
 			header("Location: /zoek-en-boek.php",true,301);
 			exit;
 		}
