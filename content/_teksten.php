@@ -4033,8 +4033,8 @@ $txt["en"]["factuur"]["bedanktgecorboeking10dagen"]="Thank you for your amended 
 $txt["nl"]["factuur"]["bedanktgecorboekingreispapieren"]="Bedankt voor je gecorrigeerde boeking. Na ontvangst van het totaalbedrag sturen wij de reisdocumenten en routebeschrijving naar je toe.";
 $txt["en"]["factuur"]["bedanktgecorboekingreispapieren"]="Thank you for your amended booking. After we have received the total sum, we will send you the travel documents and the route description.";
 
-$txt["nl"]["factuur"]["tercontrolebinnen24uur"]="Ter controle op fouten willen we je vragen deze bevestiging binnen 24 uur te controleren en ondertekend per fax, mail of post aan ons retour te sturen. Bij onjuistheden horen wij dit graag per omgaande.";
-$txt["en"]["factuur"]["tercontrolebinnen24uur"]="To ensure that no errors have been made, we would ask you to check this confirmation, and to return it to us, signed, within 24 hours, by fax, e-mail or post. If any errors have been made, please let us know immediately.";
+$txt["nl"]["factuur"]["tercontrolebinnen24uur"]="Ter controle op fouten willen we je vragen deze bevestiging binnen 24 uur te controleren. Bij onjuistheden horen wij dit graag per omgaande.";
+$txt["en"]["factuur"]["tercontrolebinnen24uur"]="To ensure that no errors have been made, we would ask you to check this confirmation. If any errors have been made, please let us know immediately.";
 
 $txt["nl"]["factuur"]["tot6wekenvoorvertrek"]="Tot 6 weken voor vertrek kun je via je inlogcode de gegevens van de deelnemers zelf invullen of aanpassen en opties bijboeken. Het is natuurlijk ook mogelijk om dit per mail of telefonisch aan ons door te geven.";
 $txt["en"]["factuur"]["tot6wekenvoorvertrek"]="Up to 6 weeks before your departure, you can log in to change the data of the participants and add any options. You can of course also provide us with this information by e-mail or telephone.";
@@ -4454,7 +4454,7 @@ Welkom thuis! We hopen dat je een fijne vakantie hebt gehad.
 Middels een korte enquête zouden wij graag willen weten wat jullie ervaring is geweest in [ACCOMMODATIENAAM]. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.
 
 [b]Voordelig fotoboek[/b]
-Als dank ontvang je na het invullen van de enquête een kortingscode waarmee je op [link=[LINK_FOTOFABRIEK]]fotofabriek.nl[/link] met 55% korting een A4-fotoboek kunt bestellen!
+Als dank ontvang je na het invullen van de enquête een kortingscode waarmee je op [link=[LINK_FOTOFABRIEK]]fotofabriek.nl[/link] met 25% korting een foto-canvas kunt bestellen!
 
 [b]Volgend seizoen[/b]
 Mocht je van ons informatie willen ontvangen over het volgende seizoen, of specifiek over de accommodatie waar je zojuist geweest bent, dan kun je dit bovendien ook in deze enquête aangeven.
@@ -4642,7 +4642,7 @@ $txt["en"]["enquete"]["versturen"]="Send survey";
 $txt["nl"]["enquete"]["bedankt"]="Hartelijk dank voor je medewerking. We hopen je binnenkort opnieuw van dienst te mogen zijn.";
 $txt["en"]["enquete"]["bedankt"]="Thank you for your help! We hope we can be of service again in the future.";
 
-$txt["nl"]["enquete"]["bedankt_fotofabriek"]="De kortingscode waarmee je op [[h_1]]fotofabriek.nl[[h_2]] met 55% korting een A4-fotoboek kunt bestellen zal per mail aan je worden toegezonden.";
+$txt["nl"]["enquete"]["bedankt_fotofabriek"]="De kortingscode waarmee je op [[h_1]]fotofabriek.nl[[h_2]] met 25% korting een foto-canvas kunt bestellen zal per mail aan je worden toegezonden.";
 $txt["en"]["enquete"]["bedankt_fotofabriek"]="-";
 
 $txt["nl"]["enquete"]["naarhoofdpagina"]="Naar onze hoofdpagina";
