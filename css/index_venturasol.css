@@ -190,7 +190,7 @@
 #hoofdpagina_banner_rechts {
 	margin-top: 80px;
 	display: block;
-	background: url(../pic/venturasol_hoofdpagina/banner_rechts.jpg) no-repeat 0 0px;
+	background: url(../pic/venturasol_hoofdpagina/banner_rechts.jpg?c=2) no-repeat 0 0px;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border: 1px solid #0412b1;
@@ -203,8 +203,8 @@
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	width: 182px;
-	height: 548px;
-	padding-top: 80px;
+	height: 388px;
+	padding-top: 30px;
 	text-align: center;
 	/*text-shadow: 1px 1px #666666;*/
 	color: #0412b1;

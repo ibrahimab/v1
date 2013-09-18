@@ -121,7 +121,7 @@ if((date("H")>12 and date("H")<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]
 #			$mailbody=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$mailbody);
 			$mailbody=ereg_replace("\[NAAM\]",trim($gegevens["stap2"]["voornaam"]),$mailbody);
 			$mailbody=ereg_replace("\[ACCOMMODATIENAAM\]",trim($gegevens["stap1"]["accinfo"]["accnaam"]),$mailbody);
-			$mailbody=ereg_replace("\[LINK_FOTOFABRIEK\]","http://www.fotofabriek.nl/chalet-fotoboeken-actie/",$mailbody);
+			$mailbody=ereg_replace("\[LINK_FOTOFABRIEK\]","http://www.fotofabriek.nl/chalet-actie/",$mailbody);
 
 			$subject=txt("mail_subject","enquete");
 

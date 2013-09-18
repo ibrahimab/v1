@@ -991,13 +991,13 @@ $vars["bevestigmethode"]=array(1=>"stuurt direct een factuur",2=>"bevestigt zond
 $vars["nummers_voorraad_velden"]=array("voorraad_garantie","voorraad_allotment","voorraad_vervallen_allotment","voorraad_optie_leverancier","voorraad_request","voorraad_optie_klant","voorraad_bijwerken");
 $vars["bestelstatus"]=array(1=>"nog niet besteld",2=>"bevestiging afwachten",3=>"bevestigd");
 $vars["factuurbedrag_gecontroleerd"]=array(1=>"ja, alles klopt",2=>"nee, bedrag komt niet overeen");
-$vars["optiecategorie"]=array(1=>"n.v.t.",2=>"bijkomende kosten verblijf",3=>"skipassen",4=>"huurmateriaal",5=>"skilessen",6=>"catering/maaltijden",7=>"vervoer",8=>"verzekeringen",9=>"aanbiedingskortingen + klachtafhandeling",20=>"overig");
+$vars["optiecategorie"]=array(1=>"n.v.t.",2=>"bijkomende kosten verblijf",3=>"skipassen",4=>"huurmateriaal",5=>"skilessen",6=>"catering/maaltijden",7=>"vervoer",8=>"verzekeringen",9=>"aanbiedingskortingen + klachtafhandeling",20=>"borg");
 $vars["inkoopbetaling_status"]=array(1=>"onderweg",2=>"ingeboekt");
 $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nitalics: [i]tekst[/i]\n\ninterne link: [link=/accommodatie/I4529/]tekst[/link]\n\nexterne link: [link=http://www.test.com/]tekst[/link]\n\n";
 $vars["accommodatie_review_bron"]=array(1=>"door eigen klant ingevulde enquête",2=>"Posarelli");
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
 $vars["soort_garantie"]=array(1=>"seizoen en bulk",2=>"op naam en losse weken");
-$vars["boeking_betaling_type"]=array(1=>"bank-overschrijving",2=>"bank-overschrijving door Docdata",3=>"verrekening Docdata-betaling/overschrijving",4=>"Docdata-betaling (iDEAL)",5=>"Docdata-betaling (creditcard)",6=>"Docdata-betaling (Mister Cash)");
+$vars["boeking_betaling_type"]=array(1=>"bank-overschrijving",2=>"uitbetaling door Docdata",3=>"verrekening Docdata-betaling/overschrijving",4=>"Docdata-betaling (iDEAL)",5=>"Docdata-betaling (creditcard)",6=>"Docdata-uitbetaling (Mister Cash)");
 
 
 # Soorten hoofdpagina-meldingen / rollen

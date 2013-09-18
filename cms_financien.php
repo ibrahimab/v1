@@ -61,7 +61,7 @@ if($_GET["marges"]) {
 		"opties_vervoer"=>"Opties: netto-inkoopwaarde vervoer",
 		"opties_verzekeringen"=>"Opties: netto-inkoopwaarde verzekeringen",
 		"opties_kortingen"=>"Opties: netto-inkoopwaarde aanbiedingskortingen + klachtafhandeling",
-		"opties_overig"=>"Opties: netto-inkoopwaarde overig",
+		"opties_overig"=>"Opties: netto-inkoopwaarde borg",
 		"commissie_btw"=>"BTW over commissie",
 		"inkooptotaal"=>"Inkoop totaal",
 		"marge_euro"=>"Marge in euro's",
