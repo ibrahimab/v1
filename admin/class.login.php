@@ -318,7 +318,7 @@ class Login {
 
 	function loginform_html5() {
 		if(!$this->logged_in) {
-			echo "<div class=\"wtlogin_maindiv wtlogin_name_".$this->settings["name"].($this->settings["maindiv_class"] ? " ".$this->settings["maindiv_class"] : "")."\">";
+			echo "<div class=\"wtlogin_maindiv wtlogin_name_".$this->settings["name"].($this->settings["html5form"]["class_maindiv"] ? " ".$this->settings["html5form"]["class_maindiv"] : "")."\">";
 			echo "<form method=\"post\" name=\"loginform\" action=\"".$this->currenturl()."\"".($this->settings["settings"]["no_autocomplete"] ? " autocomplete=\"off\"" : "").">";
 			echo "<input type=\"hidden\" name=\"loginfilled\" value=\"1\">";
 
@@ -332,7 +332,7 @@ class Login {
 			} elseif($_GET["username"]) {
 				echo " value=\"".wt_he($_GET["username"])."\"";
 			}
-			echo ">";
+			echo " class=\"".$this->settings["html5form"]["class_username"]."\">";
 			echo "</div>";
 
 
@@ -344,7 +344,7 @@ class Login {
 			if($_POST["loginfilled"]) {
 				echo " value=\"",wt_he($_POST["password"][$this->settings["name"]]),"\"";
 			}
-			echo ">";
+			echo " class=\"".$this->settings["html5form"]["class_password"]."\">";
 			echo "</div>";
 
 			if($this->settings["settings"]["rememberpassword"]) {
@@ -363,7 +363,7 @@ class Login {
 			}
 
 			echo "<div class=\"wtlogin_div_submit\">";
-			echo "<input type=\"submit\" id=\"loginbutton\" value=\"".$this->settings["message"]["button"]."\">";
+			echo "<input type=\"submit\" id=\"loginbutton\" value=\"".$this->settings["message"]["button"]."\" class=\"".$this->settings["html5form"]["class_button"]."\">";
 			echo "</div>";
 
 			if($_POST["loginfilled"]) {

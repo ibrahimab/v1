@@ -1552,10 +1552,10 @@ $txt["en"]["contact"]["nieuwsbriefvraag"]="-";
 $txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik wil graag lid worden van de [[v_websitenaam]]-nieuwsbrief";
 $txt["en_z"]["contact"]["nieuwsbriefvraag"]="-";
 
-$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
 $txt["en"]["contact"]["inleiding"]="If you have any questions, comments or any other things you would like to let us know, please complete the form below, send us an e-mail or contact us by telephone.";
 
-$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerking of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
 $txt["en_b"]["contact"]["inleiding"]="-";
 
 $txt["nl"]["contact"]["inleiding_chalettour"]="Neem voor meer informatie, vragen of opmerkingen direct contact op met uw reisbureau of vul onderstaand contactformulier in.";
