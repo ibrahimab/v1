@@ -180,11 +180,11 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 						wt_mail("bjorn@chalet.nl","Nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes","Er zijn nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes beschikbaar.\n\nVoeg z.s.m. nieuwe codes toe via http://www.chalet.nl/cms_diversen.php?t=3\n\n");
 					}
 
-					$mailbody="Als dank voor het invullen van de enquête van ".$vars["websitenaam"]." ontvang je hierbij je kortingscode. Met deze kortingscode kun je op [link=http://www.fotofabriek.nl/chalet-fotoboeken-actie/]fotofabriek.nl[/link] met 55% korting een A4-fotoboek bestellen!
+					$mailbody="Als dank voor het invullen van de enquête van ".$vars["websitenaam"]." ontvang je hierbij je kortingscode. Met deze kortingscode kun je op [link=http://www.fotofabriek.nl/chalet-actie/]fotofabriek.nl[/link] met 25% korting een foto-canvas bestellen!
 
 Je kortingscode is: [b]".trim($kortingscode)."[/b]
 
-Bekijk de [link=http://www.fotofabriek.nl/chalet-fotoboeken-actie/]speciale actiepagina[/link] voor verdere details en de voorwaarden.
+Deze is geldig t/m 1 mei 2014 en kan eenmalig worden gebruikt. Bekijk de [link=http://www.fotofabriek.nl/chalet-actie/]speciale actiepagina[/link] voor verdere details en de voorwaarden.
 
 Wij wensen je hiermee heel veel plezier en hopen je binnenkort opnieuw van dienst te mogen zijn.
 
