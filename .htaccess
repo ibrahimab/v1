@@ -54,12 +54,6 @@ RewriteRule ^chalet/(.*)$ /chalet/$1 [R=301,L]
 RewriteRule ^index\.php$ / [R=301,L]
 
 
-# partner-venturasol: nog niet online
-RewriteCond %{HTTP_HOST} partner\.venturasol\.nl [NC]
-RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113 [NC]
-RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154 [NC]
-RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
-
 # secondhomes.venturasol.nl: doorsturen naar nieuwe domeinnaam venturasolsecondhomes.nl
 RewriteCond %{HTTP_HOST} secondhomes\.venturasol\.nl [NC]
 RewriteRule ^(.*)$ http://www.venturasolsecondhomes.nl/$1 [L,R=301]
@@ -145,9 +139,8 @@ RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
 RewriteCond %{HTTP_HOST} venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^partner\.venturasol\.nl [NC]
-RewriteCond %{HTTP_HOST} !^test\.venturasol\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://test.venturasol.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
 
 
 #
