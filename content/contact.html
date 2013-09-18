@@ -84,8 +84,14 @@ if($_GET["fo"]=="frm") {
 		}
 		echo "</td>";
 		echo "</tr>";
-		if($vars["websiteland"]=="nl"){
-			echo "<td>SGR:</td><td>3199</td>";
+		if($vars["websiteland"]=="nl") {
+			echo "<td>SGR:</td><td>";
+			if($vars["websitetype"]==9) {
+				echo "2781";
+			} else {
+				echo "3199";
+			}
+			echo "</td>";
 		}
 		echo "</p>";
 		echo "</tr>";
