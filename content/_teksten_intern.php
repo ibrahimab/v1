@@ -300,6 +300,9 @@ $txta["en_i"]["subtitel"]="-";
 $txta["nl_w"]["subtitel"]="Wintersport - Superdeals voor skivakanties";
 $txta["en_w"]["subtitel"]="-";
 
+$txta["nl_x"]["subtitel"]="chalets en appartementen in Frankrijk";
+$txta["en_x"]["subtitel"]="-";
+
 $txta["nl"]["sitetitel"]="-";
 $txta["en"]["sitetitel"]="-";
 
@@ -328,6 +331,10 @@ $txta["en_i"]["description"]="-";
 
 $txta["nl_w"]["description"]="SuperSki biedt je interessante deals voor een wintersportvakantie in Frankrijk, Oostenrijk, Zwitserland, Duitsland en Italië.";
 $txta["en_w"]["description"]="-";
+
+$txta["nl_x"]["description"]="Specialist in luxe chalets en appartementen voor een wintersportvakantie in Frankrijk";
+$txta["en_x"]["description"]="-";
+
 
 # Pagina-titels
 $txta["nl"]["title_index"]="Hoofdpagina";
