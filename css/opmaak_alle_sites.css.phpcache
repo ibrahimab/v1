@@ -2286,6 +2286,13 @@ blog
 	padding-left: 20px;
 }
 
+.blog_lees_ook span {
+	display: block;
+	font-style: italic;
+	margin-top: 6px;
+	margin-bottom: 6px;
+}
+
 #blog_sociallinks a img:hover {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
 	filter: alpha(opacity=60);

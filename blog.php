@@ -33,12 +33,23 @@ if($_GET["b"]) {
 		// links naar artikelen uit dezelfde categorie
 		$db2->query("SELECT blog_id, titel FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND categorie='".addslashes($db->f("categorie"))."' AND blog_id<>'".addslashes($_GET["b"])."' AND actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, blog_id DESC LIMIT 0,10;");
 		if($db2->num_rows()) {
-			$vars["in_plaats_van_directnaar"].="<div class=\"blog_lees_ook\"><i>Lees ook:</i><ul>";
+			$vars["in_plaats_van_directnaar"].="<div class=\"blog_lees_ook\"><span>Lees ook:</span><ul>";
 			while($db2->next_record()) {
 				$vars["in_plaats_van_directnaar"].="<li><a href=\"".$vars["path"]."blog.php?b=".$db2->f("blog_id")."\">".wt_he($db2->f("titel"))."</a></li>";
 			}
-			$vars["in_plaats_van_directnaar"].="</ul></div>"; // afsluiten .blog_lees_ook
-			$vars["in_plaats_van_directnaar"].="<p><a href=\"".$vars["path"]."blog.php\">Bekijk alle blogartikelen &raquo;</a></p>";
+			$vars["in_plaats_van_directnaar"].="</ul></div><br/>"; // afsluiten .blog_lees_ook
+		}
+
+		$db2->query("SELECT COUNT(blog_id) AS aantal, categorie FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW() GROUP BY categorie HAVING COUNT(blog_id)>0;");
+		if($db2->num_rows()) {
+			$vars["in_plaats_van_directnaar"].="<div class=\"blog_lees_ook\"><span>Blog-categorie&euml;n:</span><ul>";
+			while($db2->next_record()) {
+				$cat_aantal[$db2->f("categorie")]=$db2->f("aantal");
+			}
+			while(list($key,$value)=each($vars["blogcategorie"][$vars["websitetype"]])) {
+				$vars["in_plaats_van_directnaar"].="<li><a href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($vars["blogcategorie"][$vars["websitetype"]][$key]))."</a> (".$cat_aantal[$key].")</li>";
+			}
+			$vars["in_plaats_van_directnaar"].="</ul></div>";
 		}
 
 
