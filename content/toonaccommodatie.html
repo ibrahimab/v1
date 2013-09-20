@@ -1730,12 +1730,9 @@ if($db->next_record()) {
 
 			if($_GET["d"]) {
 				$anderetypes.="<div style=\"float:left;\">";
-				if($db2->f("beschikbaar") and ($db2->f("bruto")>0 or $db->f("c_bruto")>0)) {
-#					$anderetypes.="<span style=\"background-color:#ffffff;\"></span>&nbsp;";
-#					$anderetypes.="<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"10\" height=\"10\" alt=\"\" style=\"margin-bottom:-2px;\">";
+				if($db2->f("beschikbaar") and ($db2->f("bruto")>0 or $db2->f("c_bruto")>0)) {
 					$anderetypes.="<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"10\" height=\"10\" alt=\"\" style=\"margin-bottom:-2px;\">&nbsp;";
 				} else {
-#					$anderetypes.="<span style=\"background-color:#d40139;\">&nbsp;&nbsp;&nbsp;</span>&nbsp;";
 					$anderetypes.="<img src=\"".$vars["path"]."pic/cross.gif\" width=\"10\" height=\"10\" alt=\"\" title=\"".html("nietmeerbeschikbaarvoordezeaankomstdatum","toonaccommodatie")."\" style=\"margin-bottom:-2px;\">&nbsp;";
 
 					$nietbeschikbaar_getoond=true;
