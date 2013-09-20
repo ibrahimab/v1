@@ -30,8 +30,7 @@ if($_GET["b"]) {
 				$img="<img src=\"".$vars["path"]."pic/cms/blog/".intval($_GET["b"])."-".$regs[2].".jpg\" style=\"display:block;width:".$size[0]."px;margin-left:auto;margin-right:auto;\" class=\"blog_img_".$regs[1]."\">";
 			}
 		} else {
-			$img="";
-			trigger_error("afbeelding ".$regs[2]." ontbreekt",E_USER_NOTICE);
+			$img="<p><b>AFBEELDING ONTBREEKT</b></p>";
 		}
 		$inhoud=str_replace($regs[0],$img,$inhoud);
 	}
@@ -128,7 +127,7 @@ if($_GET["b"]) {
 	#
 
 	# aantal artikelen per categorie bepalen
-	$db->query("SELECT COUNT(blog_id) AS aantal, categorie FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW() GROUP BY categorie;");
+	$db->query("SELECT COUNT(blog_id) AS aantal, categorie FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW() GROUP BY categorie;");
 	while($db->next_record()) {
 		$cat_aantal[$db->f("categorie")]=$db->f("aantal");
 	}
@@ -141,8 +140,8 @@ if($_GET["b"]) {
 	}
 	echo "</ul>";
 } elseif($_GET["cat"]) {
-	echo "<div style=\"float:right;background-color:#FFFFFF; font-size:18px; width:200px; height:25px; color:#661700; padding-left:5px;padding-right:5px;padding-top:5px\">Per categorie";
-	$db->query("SELECT COUNT(blog_id) AS aantal, categorie FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW() GROUP BY categorie;");
+	echo "<div class=\"blog_per_categorie\">Per categorie";
+	$db->query("SELECT COUNT(blog_id) AS aantal, categorie FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW() GROUP BY categorie;");
 	while($db->next_record()) {
 		$cat_aantal[$db->f("categorie")]=$db->f("aantal");
 	}
@@ -155,7 +154,7 @@ if($_GET["b"]) {
 	}
 	echo "</ul></div>";
 	echo "</div>";
-	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,2");
+	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,10");
 	while($db->next_record()) {
 		echo "<div class=\"blog_item\" style=\"width:500px\">";
 		if($blogitem_gehad) echo "<hr>";
@@ -173,8 +172,9 @@ if($_GET["b"]) {
 		echo "</div>"; # afsluiten class blog_item
 		$blogitem_gehad=true;
 	}
-	echo "<div style=\"margin-top:20px;padding-top:20px;border-top:2px solid #ffd38f; width:500px;\"><a href=\"".$vars["path"]."blog.php?archief=1\">";
-	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 2,18446744073709551615");
+	echo "<div style=\"margin-top:20px;padding-top:20px;border-top:2px solid #ffd38f; width:500px;\">";
+	// echo "<a href=\"".$vars["path"]."blog.php?archief=1\">";
+	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 10,18446744073709551615");
 	while($db->next_record()){
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
 		echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></div>";
@@ -182,10 +182,10 @@ if($_GET["b"]) {
 	}
 } else {
 	#
-	#Overzicht van alle recente blogitems tonen
+	# Overzicht van alle recente blogitems tonen
 	#
-	echo "<div style=\"float:right;background-color:#FFFFFF; font-size:18px; width:200px; height:25px; color:#661700; padding-left:5px;padding-right:5px;padding-top:5px\">Per categorie";
-	$db->query("SELECT COUNT(blog_id) AS aantal, categorie FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW() GROUP BY categorie;");
+	echo "<div class=\"blog_per_categorie\">Per categorie";
+	$db->query("SELECT COUNT(blog_id) AS aantal, categorie FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW() GROUP BY categorie;");
 	while($db->next_record()) {
 		$cat_aantal[$db->f("categorie")]=$db->f("aantal");
 	}
@@ -198,7 +198,7 @@ if($_GET["b"]) {
 	}
 	echo "</ul></div>";
 	echo "</div>";
-	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,2");
+	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,10");
 	while($db->next_record()) {
 		echo "<div class=\"blog_item\" style=\"width:500px\">";
 		if($blogitem_gehad) echo "<hr>";
@@ -216,8 +216,9 @@ if($_GET["b"]) {
 		echo "</div>"; # afsluiten class blog_item
 		$blogitem_gehad=true;
 	}
-	echo "<div style=\"margin-top:20px;padding-top:20px;border-top:2px solid #ffd38f; width:500px;\"><a href=\"".$vars["path"]."blog.php?archief=1\">";
-	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE 1=1 AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 2,18446744073709551615");
+	echo "<div class=\"blog_opsomming\">";
+	// echo "<a href=\"".$vars["path"]."blog.php?archief=1\">AAA</a>";
+	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 10,18446744073709551615");
 	while($db->next_record()){
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
 		echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></div>";

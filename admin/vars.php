@@ -711,7 +711,7 @@ $vars["verzendmethode_reisdocumenten"]=array(1=>txt("email","vars"),2=>txt("post
 $vars["verzendmethode_reisdocumenten_inclusief_nvt"]=array(1=>txt("email","vars"),2=>txt("post","vars"),3=>txt("nvt","vars"));
 
 // blogcategorie Chalet.nl/be
-$vars["blogcategorie"][1]=array(1=>"eten & drinken",2=>"tradities & feestdagen",3=>"kunst & cultuur",4=>"mode & design",5=>"films",7=>"levensstijl",6=>"overig");
+$vars["blogcategorie"][1]=array(1=>"trends",2=>"bestemmingen",3=>"eten & drinken",4=>"skimateriaal & -kleding",5=>"wintersport-lifestyle",6=>"overig");
 
 // blogcategorie Italissima
 $vars["blogcategorie"][7]=array(1=>"eten & drinken",2=>"tradities & feestdagen",3=>"kunst & cultuur",4=>"mode & design",5=>"films",7=>"levensstijl",6=>"overig");

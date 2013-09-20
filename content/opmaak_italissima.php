@@ -327,8 +327,9 @@ if($vars["verberg_linkerkolom"]) {
 #		echo "<div class=\"bloklinks_blauwelijn\"></div>\n";
 	}
 
-	if(!$vars["verberg_directnaar"]) {
-
+	if($vars["verberg_directnaar"] and $vars["in_plaats_van_directnaar"]) {
+		echo $vars["in_plaats_van_directnaar"];
+	} elseif(!$vars["verberg_directnaar"]) {
 		if($id=="index" and $vars["nieuwsbrief_aanbieden"]) {
 			# Inschrijven nieuwsbrief
 			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";

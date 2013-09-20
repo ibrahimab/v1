@@ -711,6 +711,20 @@ form {
 	margin-top: 5px;
 }
 
+.blog_opvalblok {
+	background-color: #ffd38f;
+	color: #661700;
+}
+
+.blog_opvalblok:hover {
+	background-color: #ff9900;
+	color: #ffffff;
+}
+
+#blog_content_links {
+	width: 550px;
+}
+
 #blogverwijzing {
 	margin-top: 20px;
 }
@@ -725,6 +739,19 @@ form {
 #blogverwijzing h1 {
 	font-size: 1.0em;
 	font-weight: bold;
+}
+
+.blog_per_categorie {
+	color: #661700;
+}
+
+#body_blog hr {
+	color: #ffd38f;
+	background-color: #ffd38f;
+}
+
+.blog_opsomming {
+	border-color: #ffd38f;
 }
 
 #bekijkflexibel {

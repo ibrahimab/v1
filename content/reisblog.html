@@ -60,7 +60,7 @@ if($_GET["voorwaarden"]) {
 					$img="<img src=\"".$vars["path"]."pic/cms/reisblog/".intval($_GET["b"])."-".$regs[2].".jpg\" style=\"display:block;width:".$size[0]."px;margin-left:auto;margin-right:auto;\" class=\"blog_img_".$regs[1]."\">";
 				}
 			} else {
-				$img="<p>AFBEELDING ONTBREEKT</p>";
+				$img="<p><b>AFBEELDING ONTBREEKT</b></p>";
 			}
 			$inhoud=str_replace($regs[0],$img,$inhoud);
 		}

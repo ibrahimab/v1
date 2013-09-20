@@ -1,17 +1,22 @@
 <?php
 
 
+
 include("admin/vars.php");
 
-if($vars["websitetype"]<>7) {
+if($vars["websitetype"]<>7 and $vars["website"]<>"C" and $vars["website"]<>"B") {
 	header("Location: ".$vars["path"]);
 	exit;
 }
 
-$meta_description="Op dit blog vind je artikelen die te maken hebben met Italië en het aanbod van Italissima, aanbieder van agriturismi en andere vakantiehuizen in Italië.";
+if($vars["websitetype"]==7) {
+	$meta_description="Op dit blog vind je artikelen die te maken hebben met Italië en het aanbod van Italissima, aanbieder van agriturismi en andere vakantiehuizen in Italië.";
+}
+
+$vars["verberg_directnaar"]=true;
 
 if($_GET["b"]) {
-	$db->query("SELECT blog_id, titel, inleiding, inhoud, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum, accommodatiecodes FROM blog WHERE 1=1 AND blog_id='".addslashes($_GET["b"])."' AND actief=1 AND plaatsingsdatum<NOW();");
+	$db->query("SELECT blog_id, titel, inleiding, inhoud, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum, accommodatiecodes, categorie FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND blog_id='".addslashes($_GET["b"])."' AND actief=1 AND plaatsingsdatum<NOW();");
 	if($db->next_record()) {
 		$blog["blog_id"]=$db->f("blog_id");
 		$blog["titel"]=$db->f("titel");
@@ -24,6 +29,18 @@ if($_GET["b"]) {
 			$blog["youtube"]=$regs[2];
 			$blog["inhoud"]=str_replace($regs[1],"",$blog["inhoud"]);
 		}
+
+		// links naar artikelen uit dezelfde categorie
+		$db2->query("SELECT blog_id, titel FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND categorie='".addslashes($db->f("categorie"))."' AND blog_id<>'".addslashes($_GET["b"])."' AND actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, blog_id DESC LIMIT 0,10;");
+		if($db2->num_rows()) {
+			$vars["in_plaats_van_directnaar"].="<div class=\"blog_lees_ook\"><i>Lees ook:</i><ul>";
+			while($db2->next_record()) {
+				$vars["in_plaats_van_directnaar"].="<li><a href=\"".$vars["path"]."blog.php?b=".$db2->f("blog_id")."\">".wt_he($db2->f("titel"))."</a></li>";
+			}
+			$vars["in_plaats_van_directnaar"].="</ul></div>"; // afsluiten .blog_lees_ook
+			$vars["in_plaats_van_directnaar"].="<p><a href=\"".$vars["path"]."blog.php\">Bekijk alle blogartikelen &raquo;</a></p>";
+		}
+
 
 		# reactie-form
 		$form=new form2("frm");
@@ -43,7 +60,7 @@ if($_GET["b"]) {
 		$form->field_email(0,"email","E-mailadres","","","",array("add_html_after_field"=>"<br><span style=\"font-size:0.8em;font-style:italic;\">Je mailadres wordt niet op de website gepubliceerd.</span>"));
 		$form->field_textarea(1,"reactie","Reactie","","","",array("newline"=>true));
 		$form->field_htmlrow("",html("recaptcha_uitleg","accommodatiemail")."* <img src=\"".$vars["path"]."pic/captcha_image.php?c=1\" id=\"captcha_img\"><input type=\"text\" name=\"captcha\" maxlength=\"5\" autocomplete=\"off\" class=\"wtform_input\">&nbsp;&nbsp;&nbsp;<span id=\"captcha_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"captcha_onjuist\">".html("captcha_onjuist","accommodatiemail",array("h_1"=>"<a href=\"#\" id=\"captcha_reload\">","h_2"=>"</a>"))."</span><br/><br/>");
-		$form->field_htmlrow("","<i>Bij misbruik behoudt Italissima zich het recht voor om reacties (deels) te verwijderen. Het plaatsen van links is niet mogelijk.</i>");
+		$form->field_htmlrow("","<i>Bij misbruik behoudt ".wt_he($vars["websitenaam"])." zich het recht voor om reacties (deels) te verwijderen. Het plaatsen van links is niet mogelijk.</i>");
 
 		$form->check_input();
 
@@ -83,8 +100,13 @@ if($_GET["b"]) {
 
 				# Mailtje naar Sélina en Bjorn sturen
 				$mail=new wt_mail;
-				$mail->fromname="Italissima";
-				$mail->from="info@italissima.nl";
+				if($vars["websitetype"]==7) {
+					$mail->fromname="Italissima";
+					$mail->from="info@italissima.nl";
+				} else {
+					$mail->fromname="Chalet.nl";
+					$mail->from="info@chalet.nl";
+				}
 				$mail->subject="Nieuwe blog-reactie";
 
 				$mail->plaintext="Bij de blogpost \"".$db->f("titel")."\" is de volgende reactie geplaatst:\n\nNaam: ".$form->input["naam"]."\nE-mail: ".($form->input["email"] ? $form->input["email"] : "niet ingevuld")."\nReactie:\n\n".$form->input["reactie"]."\n\nGa naar de volgende URL om reacties te bewerken of te wissen:\nhttps://www.chalet.nl/cms_blog.php?show=44&44k0=".$db->f("blog_id")."\n\n";
@@ -130,15 +152,20 @@ if($_GET["b"]) {
 					}
 
 					if(file_exists($file)) {
-						$blog["blok_rechts"].="<div class=\"blog_opvalblok\" onclick=\"document.location.href='".htmlentities($accurl)."'\">";
+						$blog["blok_rechts"].="<a href=\"".wt_he($accurl)."\" class=\"blog_opvalblok\">";
 						$blog["blok_rechts"].="<div class=\"blog_opval_regel1\">".wt_he($db->f("skigebied"))."</div>";
 						$blog["blok_rechts"].="<div class=\"blog_opval_regel2\">".wt_he($db->f("plaats"))."</div>";
-						$blog["blok_rechts"].="<div class=\"overlay_foto\">";
 
+						$blog["blok_rechts"].="<div class=\"overlay_foto\">";
 						$blog["blok_rechts"].="<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\">";
-						$blog["blok_rechts"].="<div class=\"blog_opval_regel3\">".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</div>";
-						$blog["blok_rechts"].="</div>";
-						$blog["blok_rechts"].="</div>"; # afsluiten class blog_opvalblok
+						$blog["blok_rechts"].="<div class=\"blog_opval_regel3\">";
+						if($vars["websitetype"]==7) {
+							$blog["blok_rechts"].=wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ");
+						}
+						$blog["blok_rechts"].=wt_he($db->f("naam"))."</div>";
+						$blog["blok_rechts"].="</div>"; # afsluiten .overlay_foto
+
+						$blog["blok_rechts"].="</a>"; # afsluiten .blog_opvalblok
 					}
 				}
 			}

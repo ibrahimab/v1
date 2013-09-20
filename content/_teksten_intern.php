@@ -512,7 +512,7 @@ $txta["en"]["title_kort-verblijf"]="Short Stay";
 $txta["nl"]["title_huiseigenaren"]="Huiseigenaren";
 $txta["en"]["title_huiseigenaren"]="Chalet owners";
 
-$txta["nl"]["title_blog"]="Blog Italissima";
+$txta["nl"]["title_blog"]="Blog ".$vars["websitenaam"];
 $txta["en"]["title_blog"]="-";
 
 $txta["nl"]["title_privacy-statement"]="Privacy-statement";
