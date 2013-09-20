@@ -47,7 +47,9 @@ if($_GET["b"]) {
 				$cat_aantal[$db2->f("categorie")]=$db2->f("aantal");
 			}
 			while(list($key,$value)=each($vars["blogcategorie"][$vars["websitetype"]])) {
-				$vars["in_plaats_van_directnaar"].="<li><a href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($vars["blogcategorie"][$vars["websitetype"]][$key]))."</a> (".$cat_aantal[$key].")</li>";
+				if($cat_aantal[$key]) {
+					$vars["in_plaats_van_directnaar"].="<li><a href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($vars["blogcategorie"][$vars["websitetype"]][$key]))."</a> (".$cat_aantal[$key].")</li>";
+				}
 			}
 			$vars["in_plaats_van_directnaar"].="</ul></div>";
 		}

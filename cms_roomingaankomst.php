@@ -58,15 +58,15 @@ if($_GET["levid"]) {
 		$form->field_htmlrow("","<hr><b>Tekst in mailtje</b>","",array("tr_class"=>"roomingaankomst_verzenden"));
 		$form->field_textarea(0,"mailbody","Tekst","",array("text"=>"See attached file."),"",array("tr_class"=>"roomingaankomst_verzenden"));
 
-		$form->field_htmlrow("","<hr><b>Naamswijzigingen verbergen</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
+		$form->field_htmlrow("","<hr><b>Naamswijzigingen doorgeven</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
 		if(is_array($roominglist->naamswijzigingen)) {
-			$form->field_checkbox(0,"roominglist_naamswijzigingen_tegenhouden","Verbergen voor leverancier (oude naam tonen)",array("field"=>"roominglist_naamswijzigingen_tegenhouden"),"",array("selection"=>$roominglist->naamswijzigingen_html),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden","content_html"=>true));
+			$form->field_checkbox(0,"roominglist_naamswijzigingen_doorgeven","Opnemen in roominglist","","",array("selection"=>$roominglist->naamswijzigingen_html),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden","content_html"=>true));
 		} else {
-			$form->field_htmlcol("","Verbergen voor leverancier",array("html"=>"Er zijn geen naamswijzigingen."),"",array("tr_class"=>"roomingaankomst_verzenden"));
+			$form->field_htmlcol("","Opnemen in roominglist",array("html"=>"Er zijn geen naamswijzigingen."),"",array("tr_class"=>"roomingaankomst_verzenden"));
 		}
 
-		$form->field_htmlrow("","<hr><b>Te verbergen ongebruikte garanties</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
-		$form->field_checkbox(0,"roominglist_garanties_verbergen","Verbergen voor leverancier","",array("selection"=>substr($roominglist->garanties_verbergen,1)),array("selection"=>$roominglist->garanties_html),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden","content_html"=>true));
+		$form->field_htmlrow("","<hr><b>Op te nemen garanties</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
+		$form->field_checkbox(0,"roominglist_garanties_doorgeven","Opnemen in roominglist","",array("selection"=>substr($roominglist->garanties_doorgeven,1)),array("selection"=>$roominglist->garanties_html),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden","content_html"=>true));
 
 		$form->field_htmlrow("","<hr><b>Goedkeuring door leverancier</b>");
 		$form->field_text(0,"roominglist_goedgekeurd","Goedgekeurd op (+eventuele opmerking)",array("field"=>"roominglist_goedgekeurd"));
@@ -103,9 +103,17 @@ if($_GET["levid"]) {
 				$roominglist->tot=$form->input["tot"]["unixtime"];
 			}
 
-			if($form->input["roominglist_garanties_verbergen"]) {
-				$roominglist->verberg_garanties=$form->input["roominglist_garanties_verbergen"];
+			if($form->input["roominglist_garanties_doorgeven"]) {
+				$roominglist->garanties_doorgeven=$form->input["roominglist_garanties_doorgeven"];
 			}
+
+			// if($form->input["roominglist_naamswijzigingen_doorgeven"]) {
+			// 	$roominglist->naamswijzigingen_doorgeven=$form->input["roominglist_naamswijzigingen_tegenhouden"];
+			// }
+
+			// if($form->input["roominglist_garanties_verbergen"]) {
+			// 	$roominglist->verberg_garanties=$form->input["roominglist_garanties_verbergen"];
+			// }
 
 			if($form->input["roominglist_naamswijzigingen_tegenhouden"]) {
 				$roominglist->verberg_naamswijzigingen=$form->input["roominglist_naamswijzigingen_tegenhouden"];
@@ -141,8 +149,6 @@ if($_GET["levid"]) {
 
 				echo "<p><span class=\"nog_niet_besteld\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog niet besteld (wordt niet meegezonden)</p>";
 
-// echo $roominglist->verberg_garanties;
-
 				// $vars["create_list"]=$vars["roominglist_object"]->create_list();
 
 				echo $vars["create_list"]["html"];
@@ -165,7 +171,11 @@ if($_GET["levid"]) {
 						$mail->fromname="Chalet.nl";
 						$mail->from="info@chalet.nl";
 						$mail->to=$form->input["email"];
-						$mail->subject="Roominglist";
+						if($form->input["email"]=="danielle@chalet.nl") {
+							$mail->subject="Roominglist ".$leveranciersnaam;
+						} else {
+							$mail->subject="Roominglist";
+						}
 
 						$mail->attachment($vars["unixdir"]."tmp/roominglist.doc","application/msword");
 

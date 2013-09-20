@@ -130,7 +130,7 @@ if($mustlogin) {
 	# Titels (die afwijken van $menu)
 	$title["cms"]="Content Management System ".$vars["websitenaam"];
 	$title["cms_xml_imageimport"]="Foto-import vanuit XML";
-	$title["cms_roomingaankomst"]="Roominglists";
+	$title["cms_roomingaankomst"]="Roominglists (systeem is nog in ontwikkeling)";
 
 	if($_GET["bedrijf"]=="venturasol") {
 		$title["cms_financien"]="Financiën Venturasol Vacances B.V.";
@@ -371,6 +371,7 @@ if($mustlogin) {
 	}
 	if($login->has_priv("25")) {
 		$layout->submenu_item("cms_overzichten","","cms_overzichten","Lijsten",array("t"=>"1"),true);
+		$layout->submenu_item("cms_overzichten","","cms_roomingaankomst","Roominglists","",true);
 	}
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Ontbr. handtekeningen",array("t"=>"2"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Te vertalen teksten",array("t"=>"3"),true);
@@ -1036,7 +1037,7 @@ $vars["priv"]=array(
 	22=>"Adressen bij boekingen inzien",
 	23=>"Reisbureaus beheren",
 	24=>"Bestaande klanten inzien",
-	25=>"Lijsten bij \"Overzichten > Lijsten\" inzien",
+	25=>"Lijsten bij \"Overzichten > Lijsten\" inzien (o.a. roominglists)",
 	26=>"WebTastic-acties: prioriteit en status wijzigen",
 	27=>"Totaaloverzicht financiën kunnen opvragen (alleen binnen kantoor)",
 	28=>"Totaaloverzicht financiën kunnen opvragen (buiten kantoor)",

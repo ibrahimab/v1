@@ -4453,7 +4453,7 @@ Welkom thuis! We hopen dat je een fijne vakantie hebt gehad.
 
 Middels een korte enquête zouden wij graag willen weten wat jullie ervaring is geweest in [ACCOMMODATIENAAM]. De informatie wordt alleen voor interne doeleinden gebruikt en zal niet worden verstrekt aan derden.
 
-[b]Voordelig fotoboek[/b]
+[b]Voordelig foto-canvas[/b]
 Als dank ontvang je na het invullen van de enquête een kortingscode waarmee je op [link=[LINK_FOTOFABRIEK]]fotofabriek.nl[/link] met 25% korting een foto-canvas kunt bestellen!
 
 [b]Volgend seizoen[/b]
