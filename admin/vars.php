@@ -709,7 +709,13 @@ $vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina'
 $vars["geslacht"]=array(1=>txt("man","vars"),2=>txt("vrouw","vars"));
 $vars["verzendmethode_reisdocumenten"]=array(1=>txt("email","vars"),2=>txt("post","vars"));
 $vars["verzendmethode_reisdocumenten_inclusief_nvt"]=array(1=>txt("email","vars"),2=>txt("post","vars"),3=>txt("nvt","vars"));
-$vars["blogcategorie_italissima"]=array(1=>"eten & drinken",2=>"tradities & feestdagen",3=>"kunst & cultuur",4=>"mode & design",5=>"films",6=>"Overig",7=>"levenstijl");
+
+// blogcategorie Chalet.nl/be
+$vars["blogcategorie"][1]=array(1=>"eten & drinken",2=>"tradities & feestdagen",3=>"kunst & cultuur",4=>"mode & design",5=>"films",7=>"levensstijl",6=>"overig");
+
+// blogcategorie Italissima
+$vars["blogcategorie"][7]=array(1=>"eten & drinken",2=>"tradities & feestdagen",3=>"kunst & cultuur",4=>"mode & design",5=>"films",7=>"levensstijl",6=>"overig");
+
 
 $vars["recaptcha_publickey"]="6LdyodYSAAAAAORWNxjHjtO7q76k38LP7eQpYzg9";
 $vars["recaptcha_privatekey"]="6LdyodYSAAAAAIVrp5gAZBhBygsy1KObuX6XAM-W";

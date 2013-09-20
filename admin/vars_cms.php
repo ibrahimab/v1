@@ -299,7 +299,8 @@ if($mustlogin) {
 	$layout->menu_item("cms_diversen","Diversen","",true,false,array("slide"=>true));
 	$layout->submenu_item("cms_diversen","","cms_diversen","Actielijst WebTastic",array("t"=>"1"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Actielijst archief",array("t"=>"2"),true);
-	$layout->submenu_item("cms_diversen","","cms_blog","Blog Italissima","",true);
+	$layout->submenu_item("cms_diversen","","cms_blog","Blog Chalet.nl/be",array("websitetype"=>"1"),true);
+	$layout->submenu_item("cms_diversen","","cms_blog","Blog Italissima",array("websitetype"=>"7"),true);
 	$layout->submenu_item("cms_diversen","","cms_reisblog","Reisblog Italissima","",true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Instellingen",array("t"=>"3"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Statistieken",array("t"=>"6"),true);
@@ -853,8 +854,13 @@ if($mustlogin) {
 	$cms->db[45]["maintable"]="blog_plaats";
 
 	# 46 = blog_skigebied
-	$cms->settings[46]["types"]="gekoppelde regio's";
-	$cms->settings[46]["type_single"]="gekoppelde regio";
+	if($_GET["websitetype"]==7) {
+		$cms->settings[46]["types"]="gekoppelde regio's";
+		$cms->settings[46]["type_single"]="gekoppelde regio";
+	} else {
+		$cms->settings[46]["types"]="gekoppelde skigebieden";
+		$cms->settings[46]["type_single"]="gekoppeld skigebied";
+	}
 	$cms->settings[46]["file"]="cms_blog.php";
 	$cms->settings[46]["log"]["active"]=true;
 	$cms->db[46]["maintable"]="blog_skigebied";

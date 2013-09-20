@@ -134,7 +134,7 @@ if($_GET["b"]) {
 	}
 	echo "<p>Bekijk al onze blog-artikelen per categorie</p>";
 	echo "<ul>";
-	while(list($key,$value)=each($vars["blogcategorie_italissima"])) {
+	while(list($key,$value)=each($vars["blogcategorie"][$vars["websitetype"]])) {
 		if($cat_aantal[$key]>0) {
 			echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($value))."</a> (".$cat_aantal[$key].")</li>";
 		}
@@ -148,7 +148,7 @@ if($_GET["b"]) {
 	}
 	echo "<div style=\"float:right; position:relative; font-size:12px; background-color:#FFFFFF; width:220px; padding-left:5px;padding-right:5px;padding-top:5px\">";
 	echo "<ul>";
-	while(list($key,$value)=each($vars["blogcategorie_italissima"])) {
+	while(list($key,$value)=each($vars["blogcategorie"][$vars["websitetype"]])) {
 		if($cat_aantal[$key]>0) {
 			echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($value))."</a> (".$cat_aantal[$key].")</li>";
 		}
@@ -191,7 +191,7 @@ if($_GET["b"]) {
 	}
 	echo "<div style=\"float:right; position:relative; font-size:12px; background-color:#FFFFFF; width:220px; padding-left:5px;padding-right:5px;padding-top:5px\">";
 	echo "<ul>";
-	while(list($key,$value)=each($vars["blogcategorie_italissima"])) {
+	while(list($key,$value)=each($vars["blogcategorie"][$vars["websitetype"]])) {
 		if($cat_aantal[$key]>0) {
 			echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($value))."</a> (".$cat_aantal[$key].")</li>";
 		}

@@ -4,6 +4,17 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
+if(!$_GET["websitetype"]) {
+	if($_GET["44k0"]) {
+		$db->query("SELECT websitetype FROM blog WHERE blog_id='".addslashes($_GET["44k0"])."';");
+		if($db->next_record()) {
+			$_GET["websitetype"]=$db->f("websitetype");
+		}
+	} else {
+		$_GET["websitetype"]=1;
+	}
+}
+
 $vars["wysiwyg_info"].="[rechts_afbeelding_1]: afbeelding 1 rechts\n\n[link_afbeelding_2]: afbeelding 2 links\n\n[centreer_afbeelding_3]: afbeelding 3 gecentreerd\n\n---------- = horizontale lijn\n\n----- = nieuwe regel forceren";
 
 /*
@@ -20,10 +31,14 @@ if($_POST["toevoegen_filled"]) {
 }
 */
 
+$cms->db[44]["where"]="websitetype='".addslashes($_GET["websitetype"])."'";
+$cms->db[44]["set"]="websitetype='".addslashes($_GET["websitetype"])."'";
+
 
 $cms->settings[44]["list"]["show_icon"]=true;
 $cms->settings[44]["list"]["edit_icon"]=false;
 $cms->settings[44]["list"]["delete_icon"]=true;
+$cms->settings[44]["show"]["goto_new_record"]=true;
 
 #$cms->db[44]["where"]="wzt='".addslashes($_GET["wzt"])."'";
 #$cms->db[44]["set"]="wzt='".addslashes($_GET["wzt"])."'";
@@ -38,7 +53,7 @@ $cms->db_field(44,"text","homepage_titel");
 $cms->db_field(44,"textarea","homepage_inleiding");
 $cms->db_field(44,"text","accommodatiecodes");
 $cms->db_field(44,"date","plaatsingsdatum");
-$cms->db_field(44,"select","categorie","",array("selection"=>$vars["blogcategorie_italissima"]));
+$cms->db_field(44,"select","categorie","",array("selection"=>$vars["blogcategorie"][$_GET["websitetype"]]));
 $cms->db_field(44,"picture","afbeelding","",array("savelocation"=>"pic/cms/blog/","filetype"=>"jpg","multiple"=>true));
 $cms->db_field(44,"picture","afbeelding_onderaan","",array("savelocation"=>"pic/cms/blog_onderaan/","filetype"=>"jpg","multiple"=>true));
 $cms->db_field(44,"picture","homepage_afbeelding","",array("savelocation"=>"pic/cms/blog_homepage/","filetype"=>"jpg","multiple"=>false));
@@ -66,13 +81,13 @@ $cms->edit_field(44,0,"afbeelding","Afbeeldingen voor in artikel","",array("auto
 $cms->edit_field(44,0,"htmlrow","<hr>");
 $cms->edit_field(44,0,"afbeelding_onderaan","Afbeeldingen onderaan","",array("autoresize"=>false,"number_of_uploadbuttons"=>6));
 
-
-$cms->edit_field(44,0,"htmlrow","<hr><b>Verwijzing op de homepage</b>");
-$cms->edit_field(44,0,"homepage_actief","Tonen op de homepage",array("selection"=>true));
-$cms->edit_field(44,0,"homepage_titel","Titel");
-$cms->edit_field(44,0,"homepage_inleiding","Inleidende tekst");
-$cms->edit_field(44,1,"homepage_afbeelding","Afbeelding","",array("autoresize"=>true,"img_width"=>"148","img_maxheight"=>"99"));
-
+if($_GET["websitetype"]==7) {
+	$cms->edit_field(44,0,"htmlrow","<hr><b>Verwijzing op de homepage</b>");
+	$cms->edit_field(44,0,"homepage_actief","Tonen op de homepage",array("selection"=>true));
+	$cms->edit_field(44,0,"homepage_titel","Titel");
+	$cms->edit_field(44,0,"homepage_inleiding","Inleidende tekst");
+	$cms->edit_field(44,1,"homepage_afbeelding","Afbeelding","",array("autoresize"=>true,"img_width"=>"148","img_maxheight"=>"99"));
+}
 
 
 
@@ -122,7 +137,13 @@ $cms->db[45]["where"]="blog_id='".addslashes($_GET["44k0"])."'";
 $cms->db[45]["set"]="blog_id='".addslashes($_GET["44k0"])."'";
 
 # Database db_field($counter,$type,$id,$field="",$options="")
-$cms->db_field(45,"select","plaats_id","",array("othertable"=>"4","otherkeyfield"=>"plaats_id","otherfield"=>"naam","otherwhere"=>"wzt=2 AND land_id=5"));
+if($_GET["websitetype"]==7) {
+	// plaatsen Italissima
+	$cms->db_field(45,"select","plaats_id","",array("othertable"=>"4","otherkeyfield"=>"plaats_id","otherfield"=>"naam","otherwhere"=>"wzt=2 AND land_id=5"));
+} else {
+	// plaatsen Chalet
+	$cms->db_field(45,"select","plaats_id","",array("othertable"=>"4","otherkeyfield"=>"plaats_id","otherfield"=>"naam","otherwhere"=>"wzt=1"));
+}
 
 # Listing list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_sort[45]=array("plaats_id");
@@ -145,7 +166,13 @@ $cms->db[46]["where"]="blog_id='".addslashes($_GET["44k0"])."'";
 $cms->db[46]["set"]="blog_id='".addslashes($_GET["44k0"])."'";
 
 # Database db_field($counter,$type,$id,$field="",$options="")
-$cms->db_field(46,"select","skigebied_id","",array("othertable"=>"5","otherkeyfield"=>"skigebied_id","otherfield"=>"naam","otherwhere"=>"wzt=2 AND skigebied_id IN (SELECT DISTINCT skigebied_id FROM plaats WHERE land_id=5)"));
+if($_GET["websitetype"]==7) {
+	// regio's Italissima
+	$cms->db_field(46,"select","skigebied_id","",array("othertable"=>"5","otherkeyfield"=>"skigebied_id","otherfield"=>"naam","otherwhere"=>"wzt=2 AND skigebied_id IN (SELECT DISTINCT skigebied_id FROM plaats WHERE land_id=5)"));
+} else {
+	// skigebieden Chalet
+	$cms->db_field(46,"select","skigebied_id","",array("othertable"=>"5","otherkeyfield"=>"skigebied_id","otherfield"=>"naam","otherwhere"=>"wzt=1"));
+}
 
 # Listing list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_sort[46]=array("skigebied_id");

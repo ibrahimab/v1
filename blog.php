@@ -157,10 +157,10 @@ if($_GET["b"]) {
 	$breadcrumbs["last"]="Archief";
 } else {
 	if($_GET["cat"]) {
-		$title["blog"].=" - ".ucfirst($vars["blogcategorie_italissima"][$_GET["cat"]]);
+		$title["blog"].=" - ".ucfirst($vars["blogcategorie"][$vars["websitetype"]][$_GET["cat"]]);
 		$breadcrumbs[txt("menu_blog").".php"]=txt("title_blog");
 		$breadcrumbs[txt("menu_blog").".php?archief=1"]="Archief";
-		$breadcrumbs["last"]=ucfirst($vars["blogcategorie_italissima"][$_GET["cat"]]);
+		$breadcrumbs["last"]=ucfirst($vars["blogcategorie"][$vars["websitetype"]][$_GET["cat"]]);
 	}
 }
 
