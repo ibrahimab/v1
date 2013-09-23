@@ -373,7 +373,7 @@ if($vars["verberg_linkerkolom"]) {
 		if($vars["nieuwsbrief_aanbieden"]) {
 			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
 			echo "<div class=\"kop\">Nieuwsbrief</div>";
-			echo "<div>Ontvang aanbiedingen, nieuws en reistips.</div>";
+			echo "<div>Mis nooit aanbiedingen, nieuws en reistips.</div>";
 			if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
 				$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
 			} else {
