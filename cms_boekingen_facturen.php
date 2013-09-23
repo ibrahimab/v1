@@ -50,7 +50,10 @@ $form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 $form->field_htmlrow("","<a href=\"#\" onclick=\"document.frm.target='_blank';document.frm.elements['alleen_tonen'].value=1;document.frm.submit();document.frm.target='';document.frm.elements['alleen_tonen'].value=0;\">Bekijk de te mailen factuur &raquo;</a>");
 $form->field_hidden("alleen_tonen","0");
 
-$form->field_date(1,"datum_nieuwefactuur","Datum aan te maken factuur","",array("time"=>time()),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true));
+// $form->field_date(1,"datum_nieuwefactuur","Datum aan te maken factuur","",array("time"=>time()),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true));
+$form->field_htmlcol("","Datum aan te maken factuur",array("text"=>datum("D MAAND JJJJ")));
+
+
 $form->field_yesno("factuuraanmaken","Maak nu een factuur aan");
 $form->field_yesno("factuurmailen","Mail deze aangemaakte factuur naar de klant");
 
@@ -62,8 +65,6 @@ if($gegevens["stap1"]["voucherstatus"]<>"0" and $gegevens["stap1"]["voucherstatu
 	$form->field_select(0,"vouchersopnieuw","Vouchers moeten opnieuw worden aangemaakt","","",array("selection"=>array(1=>"ja",2=>"nee")));
 	$vouchersopnieuw_vragen=true;
 }
-
-$factuurdatum_time=time();
 
 $form->field_htmlrow("","<hr><b>Goedkeuring</b>");
 $form->field_yesno("ondertekenen","Goedkeuring benodigd: vraag om goedkeuring/ondertekening door de klant","",array("selection"=>($gegevens["stap1"]["vraag_ondertekening"]==0 ? false : true)));
@@ -105,6 +106,10 @@ if($form->filled) {
 
 if($form->okay) {
 
+	# Factuurdatum
+	// $factuurdatum=$form->input["datum_nieuwefactuur"]["unixtime"];
+	$factuurdatum=mktime(0,0,0,date("m"),date("d")+7,date("Y"));
+
 	# Voucherstatus
 	if($form->input["vouchersopnieuw"]==1) {
 		$db->query("UPDATE boeking SET voucherstatus='5' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
@@ -124,7 +129,7 @@ if($form->okay) {
 		} else {
 			if($form->input["factuuraanmaken"]) {
 				# Bij aanmaken factuur: factuurdatum opslaan
-				$setquery.=", factuurdatum=FROM_UNIXTIME('".addslashes($form->input["datum_nieuwefactuur"]["unixtime"])."')";
+				$setquery.=", factuurdatum=FROM_UNIXTIME('".addslashes($factuurdatum)."')";
 			}
 		}
 
@@ -292,7 +297,7 @@ if($form->okay) {
 			$gegevens["stap1"]["factuur_tekstvak4"]=txt("tercontrolebinnen24uur","factuur")."\n\n".txt("tot6wekenvoorvertrek","factuur");
 		}
 		if(!$_POST["alleen_tonen"] and $form->input["factuuraanmaken"]) {
-			$db->query("UPDATE boeking SET factuur_versturen=0, factuur_tewijzigen=0, factuurdatum=FROM_UNIXTIME('".addslashes($form->input["datum_nieuwefactuur"]["unixtime"])."') WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+			$db->query("UPDATE boeking SET factuur_versturen=0, factuur_tewijzigen=0, factuurdatum=FROM_UNIXTIME('".addslashes($factuurdatum)."') WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		}
 
 		require("admin/fpdf.php");
@@ -401,7 +406,7 @@ if($form->okay) {
 			$pdf->Cell(0,4,$gegevens["stap2"]["postcode"]." ".$gegevens["stap2"]["plaats"].($gegevens["stap2"]["land"]<>"Nederland" ? " / ".$gegevens["stap2"]["land"] : ""),0,1);
 		}
 		$pdf->Ln();
-		$pdf->Cell(0,4,"Woerden, ".DATUM("D MAAND JJJJ",$form->input["datum_nieuwefactuur"]["unixtime"],$gegevens["stap1"]["taal"]),0,1);
+		$pdf->Cell(0,4,"Woerden, ".DATUM("D MAAND JJJJ",$factuurdatum,$gegevens["stap1"]["taal"]),0,1);
 		$pdf->Ln();
 		$pdf->Ln();
 		$pdf->Cell(0,4,txt("beste","factuur")." ".($gegevens["stap1"]["reisbureau_user_id"] ? $gegevens["stap1"]["reisbureau_uservoornaam"] : ucfirst($gegevens["stap2"]["voornaam"])).",",0,1);
@@ -716,7 +721,7 @@ if($form->okay) {
 					$oude_factuurid=$db->f("factuur_id");
 
 					# Nieuw factuurnummer aanmaken
-					$creditfactuur_datum=$form->input["datum_nieuwefactuur"]["unixtime"];
+					$creditfactuur_datum=$factuurdatum;
 					$prefix=$vars["factuurnummer_prefix"][boekjaar($creditfactuur_datum)];
 					$db->query("SELECT MAX(factuur_id) AS factuur_id FROM factuur WHERE SUBSTRING(factuur_id,1,".strlen($prefix).")='".$prefix."';");
 					if($db->next_record()) {
@@ -738,7 +743,7 @@ if($form->okay) {
 			#
 			# Factuur opslaan in database
 			#
-			$prefix=$vars["factuurnummer_prefix"][boekjaar($form->input["datum_nieuwefactuur"]["unixtime"])];
+			$prefix=$vars["factuurnummer_prefix"][boekjaar($factuurdatum)];
 			$db->query("SELECT MAX(factuur_id) AS factuur_id FROM factuur WHERE SUBSTRING(factuur_id,1,".strlen($prefix).")='".$prefix."';");
 			if($db->next_record()) {
 				$factuurid=$db->f("factuur_id")+1;
@@ -746,7 +751,7 @@ if($form->okay) {
 			if($factuurid==1) {
 				$factuurid=intval($prefix."00001");
 			}
-			$db->query("INSERT INTO factuur SET factuur_id='".$factuurid."', filename='".addslashes($archieffile_db)."', datum=FROM_UNIXTIME(".addslashes($form->input["datum_nieuwefactuur"]["unixtime"])."), volgorde_datetime=NOW(), boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+			$db->query("INSERT INTO factuur SET factuur_id='".$factuurid."', filename='".addslashes($archieffile_db)."', datum=FROM_UNIXTIME(".addslashes($factuurdatum)."), volgorde_datetime=NOW(), boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 			if($db->insert_id()) {
 				$db->query("INSERT INTO factuurregel SET factuur_id='".addslashes($factuurid)."', regelnummer='0', bedrag='".addslashes($gegevens["fin"]["totale_reissom"])."', omschrijving='".addslashes("hele boekstuk")."', grootboektype=0;");
 				$db->query("INSERT INTO factuurregel SET factuur_id='".addslashes($factuurid)."', regelnummer='1', bedrag='".addslashes($gegevens["fin"]["totale_reissom"])."', omschrijving='".addslashes("totaal")."', grootboektype=1;");

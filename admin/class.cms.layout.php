@@ -196,7 +196,7 @@ class cms_layout {
 			}
 			$this->bodyonload.="setHgt();";
 		}
-		echo "<body".($this->bodyonload ? " onload=\"".$this->bodyonload."\"" : "")."><div style=\"height:1px;\"><a name=\"top\"></a></div>";
+		echo "<body id=\"cms_body_".$this->pageid."\"".($this->bodyonload ? " onload=\"".$this->bodyonload."\"" : "")."><div style=\"height:1px;\"><a name=\"top\"></a></div>";
 		echo "<div id=\"wrapper\">\n";
 		echo "<div id=\"top\">\n";
 		echo "<div id=\"logo\">\n";
