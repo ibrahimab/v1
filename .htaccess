@@ -38,10 +38,6 @@ RewriteRule ^favicon.ico$ favicon_vallandry.ico
 RewriteCond %{HTTP_HOST} italissima [NC]
 RewriteRule ^favicon.ico$ favicon_italissima.ico
 
-# superski
-RewriteCond %{HTTP_HOST} superski [NC]
-RewriteRule ^favicon.ico$ favicon_superski.ico
-
 # venturasol
 RewriteCond %{HTTP_HOST} venturasol [NC]
 RewriteRule ^favicon.ico$ favicon_venturasol.ico
@@ -67,7 +63,6 @@ RewriteCond %{HTTP_HOST} chalet\.eu [NC]
 RewriteCond %{SERVER_PORT} 80
 RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=301]
 
-
 #
 # zonder www doorsturen naar met www
 #
@@ -77,11 +72,6 @@ RewriteCond %{HTTP_HOST} !^srv01\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
-RewriteCond %{HTTP_HOST} !^www\.wintersportaccommodaties\.nl [NC]
-RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalet\.eu [NC]
@@ -131,11 +121,6 @@ RewriteCond %{HTTP_HOST} !^www\.italissima\.be [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.italissima.be/$1 [L,R=301]
 
-RewriteCond %{HTTP_HOST} superski\.nl [NC]
-RewriteCond %{HTTP_HOST} !^www\.superski\.nl [NC]
-RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
-
 RewriteCond %{HTTP_HOST} venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^partner\.venturasol\.nl [NC]
@@ -157,27 +142,23 @@ RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
 RewriteCond %{QUERY_STRING} ^(.*)fb_xd_fragment=?[A-Za-z0-9]*&?(.*)$
 RewriteRule (.*) /$1?%1%2 [R=301,L]
 
+
 #
-# WSA doorsturen naar SuperSki met 301-header
+# Sites die niet meer bestaan forwarden met een 301
 #
+
+# wintersportaccommodaties.nl
 RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
-RewriteRule ^(.*)$ http://www.superski.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
+
+# superski.nl
+RewriteCond %{HTTP_HOST} superski\.nl [NC]
+RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
 
 # zomerhuisje.eu doorsturen naar zomerhuisje.nl (.eu is niet meer actief - 04-12-2012)
 RewriteCond %{HTTP_HOST} zomerhuisje\.eu [NC]
 RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
 
-
-#
-# TIJDELIJK: www.italissima.be doorsturen naar italissima.nl
-#
-#RewriteCond %{HTTP_HOST} ^www\.italissima\.be [NC]
-#RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113 [NC]
-#RewriteCond %{REMOTE_ADDR} !^80\.101\.166\.235 [NC]
-#RewriteCond %{REMOTE_ADDR} !^213\.125\.164\.74 [NC]
-#RewriteCond %{REMOTE_ADDR} !^82\.93\.130\.238 [NC]
-#RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238 [NC]
-#RewriteRule ^(.*)$ http://www.italissima.nl/ [L,R=301]
 
 RewriteRule groepsreizen\.php$ /zoek-en-boek.php [R=301,L]
 
@@ -292,10 +273,6 @@ RewriteRule ^italie/$ /tradetracker/ [L]
 # TradeTracker Italissima.be
 RewriteCond %{HTTP_HOST} italissima\.be [NC]
 RewriteRule ^vakantie/$ /tradetracker/ [L]
-
-# TradeTracker SuperSki
-RewriteCond %{HTTP_HOST} superski\.nl [NC]
-RewriteRule ^superski/$ /tradetracker/ [L]
 
 # Foute spellingen accommodatie
 RewriteRule ^acomodatie/(.*)$ /accommodatie/$1  [L,R=301]
