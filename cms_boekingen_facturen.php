@@ -108,7 +108,7 @@ if($form->okay) {
 
 	# Factuurdatum
 	// $factuurdatum=$form->input["datum_nieuwefactuur"]["unixtime"];
-	$factuurdatum=mktime(0,0,0,date("m"),date("d")+7,date("Y"));
+	$factuurdatum=mktime(0,0,0,date("m"),date("d"),date("Y"));
 
 	# Voucherstatus
 	if($form->input["vouchersopnieuw"]==1) {

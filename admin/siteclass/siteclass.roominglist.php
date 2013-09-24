@@ -536,7 +536,7 @@ class roominglist {
 		$db->query("SELECT leverancier_id, naam, beheerder, roominglist_aantal_wijzigingen, UNIX_TIMESTAMP(roominglist_laatste_verzending_datum) AS roominglist_laatste_verzending_datum, UNIX_TIMESTAMP(roominglist_volgende_controle) AS roominglist_volgende_controle, roominglist_versturen FROM leverancier WHERE roominglist_aantal_wijzigingen>0".$andquery." ORDER BY roominglist_versturen, naam, roominglist_laatste_verzending_datum;");
 		if($db->num_rows()) {
 			$return.="<table cellspacing=\"0\" class=\"tbl striped\">";
-			$return.="<tr><th>Leverancier</th><th>Laatste verzending</th><th>Aantal niet opgenomen in laatste verzending</th>";
+			$return.="<tr><th>Leverancier</th><th>Laatste verzending</th><th>Gewijzigde boekingen t.o.v. laatste verzending</th>";
 			if($settings["in_de_wacht"]) {
 				$return.="<th>Herinneren vanaf</th>";
 			}

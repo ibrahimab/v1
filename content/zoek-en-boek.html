@@ -38,15 +38,15 @@ if(strlen($_GET["fzt"])>0) {
 }
 
 
-# voor CMS-gebruikers: zowel Chalet.nl als SuperSki doorzoeken
-if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and ($_GET["allesites"] or !$_GET["filled"])) {
-	$vars["where_websites_query"]="(websites LIKE '%C%' OR websites LIKE '%W%')";
-	$vars["where_websites_query_t"]="(t.websites LIKE '%C%' OR t.websites LIKE '%W%')";
-	$_GET["allesites"]=1;
-} else {
+# voor CMS-gebruikers: zowel Chalet.nl als SuperSki doorzoeken (uitgezet: SuperSki bestaat niet meer - 24-9-2013)
+// if($voorkant_cms and ($vars["website"]=="C" or $vars["website"]=="W") and ($_GET["allesites"] or !$_GET["filled"])) {
+// 	$vars["where_websites_query"]="(websites LIKE '%C%' OR websites LIKE '%W%')";
+// 	$vars["where_websites_query_t"]="(t.websites LIKE '%C%' OR t.websites LIKE '%W%')";
+// 	$_GET["allesites"]=1;
+// } else {
 	$vars["where_websites_query"]="websites LIKE '%".$vars["website"]."%'";
 	$vars["where_websites_query_t"]="t.websites LIKE '%".$vars["website"]."%'";
-}
+// }
 
 # Kijken of flexibel zoeken is toegestaan
 #if(($vars["website"]=="Z" and $landgebied[0]=="5") or $vars["websitetype"]==7) {
@@ -2118,15 +2118,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					} else {
 						$trcolor="#FFFFFF";
 					}
-
-					if(!preg_match("/".$vars["website"]."/",$db->f("websites"))) {
-						# Accommodatie van andere website (Chalet.nl <==> SuperSki) andere kleur geven
-						if($vars["website"]=="W") {
-							$trclass.=" zoekresultaat_andere_site_chalet";
-						} else {
-							$trclass.=" zoekresultaat_andere_site_superski";
-						}
-					}
 				}
 				unset($trclass_vallandry);
 				if($vars["websitetype"]==6 and $id=="zoek-en-boek" and (!$trcolor or $trcolor=="#FFFFFF" or !$voorkant_cms)) {
@@ -2308,23 +2299,8 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 #					$sorteerscore_skigebied[$results_teller]=intval($koppeling[$value2["skigebied_id"]]);
 				}
 
-				# link naar andere site (Chalet.nl <==> SuperSki)
-				if(preg_match("/zoekresultaat_andere_site/",$value2["type_id_trclass"])) {
-					if($vars["website"]=="C") {
-						$url_prefix="http://www.superski.nl";
-					} else {
-						$url_prefix="http://www.chalet.nl";
-					}
-				} else {
-					$url_prefix="";
-				}
-
 				# querystring bepalen (voor "back"-functie)
-				if($url_prefix) {
-					$querystring="?back=".urlencode("http".($_SERVER["HTTPS"] ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-				} else {
-					$querystring="?back=".urlencode($_SERVER["REQUEST_URI"]);
-				}
+				$querystring="?back=".urlencode($_SERVER["REQUEST_URI"]);
 				if($_GET["fap"]) $querystring.="&ap=".$_GET["fap"];
 				if($_GET["fad"]) $querystring.="&d=".$_GET["fad"];
 				if($_GET["fdu"]) $querystring.="&fdu=".$_GET["fdu"];
@@ -2343,7 +2319,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 
 				# resultaat (gehele accommodatie)
-				$results[$results_teller].="<a href=\"".wt_he($url_prefix.$vars["path"].txt("menu_accommodatie")."/".$value2["begincode"].$value2["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat\">";
+				$results[$results_teller].="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".$value2["begincode"].$value2["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat\">";
 					$results[$results_teller].="<div class=\"zoekresultaat_top\">";
 						$results[$results_teller].="<div class=\"zoekresultaat_titel\">".wt_he(ucfirst($vars["soortaccommodatie"][$value2["soortaccommodatie"]])." ".$value2["naam"].(!$newresults_multiple&&$value2["tnaam"] ? " ".$value2["tnaam"] : ""))."</div>";
 					$results[$results_teller].="</div>";
@@ -2447,20 +2423,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$toon_aantalresultaten_verschillende_types++;
 					}
 
-					# link naar andere site (Chalet.nl <==> SuperSki)
-					if(preg_match("/zoekresultaat_andere_site/",$value2["type_id_trclass"])) {
-						if($vars["website"]=="C") {
-							$url_prefix="http://www.superski.nl";
-						} else {
-							$url_prefix="http://www.chalet.nl";
-						}
-					} else {
-						$url_prefix="";
-					}
-
 #					$results[$results_teller].="<div>".wt_he($value2["naam"])."</div>";
 					if($newresults_multiple) {
-						$results[$results_teller].="<a href=\"".wt_he($url_prefix.$vars["path"].txt("menu_accommodatie")."/".$value2["begincode"].$value2["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat_type\">";
+						$results[$results_teller].="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".$value2["begincode"].$value2["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat_type\">";
 					} else {
 						$results[$results_teller].="<div class=\"zoekresultaat_type_een_resultaat\">";
 					}
@@ -2544,7 +2509,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 #			echo html("uitgebreidzoeken","thema");
 #			echo "</div>";
 
-			echo "<a href=\"".wt_he($vars["path"].txt("menu_zoek-en-boek").".php?filled=1&".$vars["themainfo"]["uitgebreidzoeken_url"])."&referer=5".($_GET["allesites"] ? "&allesites=1" : "")."\" class=\"button\" style=\"float:left;\" rel=\"nofollow\">";
+			echo "<a href=\"".wt_he($vars["path"].txt("menu_zoek-en-boek").".php?filled=1&".$vars["themainfo"]["uitgebreidzoeken_url"])."&referer=5\" class=\"button\" style=\"float:left;\" rel=\"nofollow\">";
 			echo html("uitgebreidzoeken","thema");
 			echo "</a>";
 
@@ -3140,24 +3105,24 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 			echo "</div>"; # afsluiten .zoekblok_item
 
 
-			if($vars["website"]=="C" or $vars["website"]=="W") {
-				# Zoeken binnen andere site (Chalet.nl <==> SuperSki)
+			// if($vars["website"]=="C" or $vars["website"]=="W") {
+			// 	# Zoeken binnen andere site (Chalet.nl <==> SuperSki)
 
-				echo "<div class=\"zoekblok_item zoekblok_item_geen_titel intern\">";
+			// 	echo "<div class=\"zoekblok_item zoekblok_item_geen_titel intern\">";
 
-				echo "<input type=\"checkbox\" name=\"allesites\" value=\"1\"".($_GET["allesites"]||!$_GET["filled"] ? " checked" : "")." id=\"allesites\" class=\"onchangesubmit\" style=\"vertical-align:middle;position:relative;bottom:1px;\">";
-				echo "<label for=\"allesites\">&nbsp;Doorzoek ook ";
-				if($vars["website"]=="C") {
-					echo "SuperSki";
-				} else {
-					echo "Chalet.nl";
-				}
-				echo "</label>";
+			// 	echo "<input type=\"checkbox\" name=\"allesites\" value=\"1\"".($_GET["allesites"]||!$_GET["filled"] ? " checked" : "")." id=\"allesites\" class=\"onchangesubmit\" style=\"vertical-align:middle;position:relative;bottom:1px;\">";
+			// 	echo "<label for=\"allesites\">&nbsp;Doorzoek ook ";
+			// 	if($vars["website"]=="C") {
+			// 		echo "SuperSki";
+			// 	} else {
+			// 		echo "Chalet.nl";
+			// 	}
+			// 	echo "</label>";
 
-				echo "<div class=\"clear\"></div>";
-				echo "</div>"; # afsluiten .zoekblok_item
+			// 	echo "<div class=\"clear\"></div>";
+			// 	echo "</div>"; # afsluiten .zoekblok_item
 
-			}
+			// }
 		}
 	}
 
