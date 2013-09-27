@@ -10,6 +10,20 @@ if($_GET["levid"]) {
 
 	$form->display_all();
 
+
+	// archief naamswijzigingen
+	$db->query("SELECT leverancier_naamswijziging_id, beschrijving, UNIX_TIMESTAMP(verzonden) AS verzonden, UNIX_TIMESTAMP(goedgekeurd) AS goedgekeurd FROM leverancier_naamswijziging WHERE leverancier_id='".intval($_GET["levid"])."' ORDER BY verzonden DESC, leverancier_naamswijziging_id DESC;");
+	if($db->num_rows()) {
+		echo "<br/><p><b>Archief naamswijzigingen</b></p>";
+		echo "<table class=\"tbl\" cellspacing=\"0\">";
+		echo "<tr><th>Wijziging</th><th>Doorgegeven aan leverancier</th><th>Goedgekeurd</th></tr>";
+		while($db->next_record()) {
+			echo "<tr><td>".$db->f("beschrijving")."</td><td>".date("d-m-Y",$db->f("verzonden"))."</td><td>".($db->f("goedgekeurd") ? date("d-m-Y",$db->f("goedgekeurd")) : "&nbsp;")."</td></tr>";
+		}
+		echo "</table>";
+	}
+
+
 	// echo "<div style=\"margin-top:70px;\">";
 	// echo "<p><b>Te verzenden roominglist:</b></p>";
 

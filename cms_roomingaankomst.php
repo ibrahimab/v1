@@ -60,7 +60,7 @@ if($_GET["levid"]) {
 
 		$form->field_htmlrow("","<hr><b>Naamswijzigingen doorgeven</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
 		if(is_array($roominglist->naamswijzigingen)) {
-			$form->field_checkbox(0,"roominglist_naamswijzigingen_doorgeven","Opnemen in roominglist","","",array("selection"=>$roominglist->naamswijzigingen_html),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden","content_html"=>true));
+			$form->field_checkbox(0,"roominglist_naamswijzigingen_doorgeven","Naamswijziging opnemen in roominglist","","",array("selection"=>$roominglist->naamswijzigingen_html),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden","content_html"=>true));
 		} else {
 			$form->field_htmlcol("","Opnemen in roominglist",array("html"=>"Er zijn geen naamswijzigingen."),"",array("tr_class"=>"roomingaankomst_verzenden"));
 		}
@@ -70,6 +70,16 @@ if($_GET["levid"]) {
 
 		$form->field_htmlrow("","<hr><b>Goedkeuring door leverancier</b>");
 		$form->field_text(0,"roominglist_goedgekeurd","Goedgekeurd op (+eventuele opmerking)",array("field"=>"roominglist_goedgekeurd"));
+
+		$db->query("SELECT leverancier_naamswijziging_id, beschrijving FROM leverancier_naamswijziging WHERE leverancier_id='".intval($_GET["levid"])."' AND goedgekeurd IS NULL ORDER BY verzonden;");
+		if($db->num_rows()) {
+			while($db->next_record()) {
+				$leverancier_naamswijziging_goedkeuren[$db->f("leverancier_naamswijziging_id")]=$db->f("beschrijving");
+			}
+			$form->field_checkbox(0,"leverancier_naamswijziging_goedkeuren","Naamswijziging goedgekeuren","","",array("selection"=>$leverancier_naamswijziging_goedkeuren),array("one_per_line"=>true,"content_html"=>true));
+		}
+
+
 		if($db->f("roominglist_goedgekeurd_archief")) {
 			$form->field_htmlcol("","Eerdere goedkeuringen",array("html"=>"<div style=\"border:1px solid #003366;padding:5px;max-height:100px;overflow-y:scroll;\">".nl2br(wt_he($db->f("roominglist_goedgekeurd_archief"))."</div>")));
 		}
@@ -95,6 +105,8 @@ if($_GET["levid"]) {
 
 		if($form->okay) {
 
+			$roominglist->frm_filled = true;
+
 			if($form->input["van"]["unixtime"]>0) {
 				$roominglist->van=$form->input["van"]["unixtime"];
 			}
@@ -107,17 +119,17 @@ if($_GET["levid"]) {
 				$roominglist->garanties_doorgeven=$form->input["roominglist_garanties_doorgeven"];
 			}
 
-			// if($form->input["roominglist_naamswijzigingen_doorgeven"]) {
-			// 	$roominglist->naamswijzigingen_doorgeven=$form->input["roominglist_naamswijzigingen_tegenhouden"];
-			// }
+			if($form->input["roominglist_naamswijzigingen_doorgeven"]) {
+				$roominglist->naamswijzigingen_doorgeven=$form->input["roominglist_naamswijzigingen_doorgeven"];
+			}
 
 			// if($form->input["roominglist_garanties_verbergen"]) {
 			// 	$roominglist->verberg_garanties=$form->input["roominglist_garanties_verbergen"];
 			// }
 
-			if($form->input["roominglist_naamswijzigingen_tegenhouden"]) {
-				$roominglist->verberg_naamswijzigingen=$form->input["roominglist_naamswijzigingen_tegenhouden"];
-			}
+			// if($form->input["roominglist_naamswijzigingen_tegenhouden"]) {
+			// 	$roominglist->verberg_naamswijzigingen=$form->input["roominglist_naamswijzigingen_tegenhouden"];
+			// }
 
 			if($_POST["roominglist_bekijken"]) {
 				$roominglist->onbesteld_opvallend=true;
@@ -158,6 +170,14 @@ if($_GET["levid"]) {
 			} else {
 				# Gegevens opslaan in de database
 				$form->save_db();
+
+				// goedgekeurde naamswijzigingen opslaan
+				if($form->input["leverancier_naamswijziging_goedkeuren"]) {
+					foreach (preg_split("@,@",$form->input["leverancier_naamswijziging_goedkeuren"]) as $key => $value) {
+						echo $key." ".$value."<br>";
+						$db->query("UPDATE leverancier_naamswijziging SET goedgekeurd=NOW() WHERE leverancier_naamswijziging_id='".intval($value)."';");
+					}
+				}
 
 				# Versturen
 				if($form->input["versturen"] and !$_POST["roominglist_bekijken"]) {
@@ -213,11 +233,18 @@ if($_GET["levid"]) {
 						if(is_array($roominglist->klantnamen_boekingen)) {
 							foreach ($roominglist->klantnamen_boekingen as $key => $value) {
 								$db2->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($value)."' WHERE boeking_id='".intval($key)."';");
+
+								// naamswijziging opslaan (zodat deze kan worden goedgekeurd)
+								$db2->query("INSERT INTO leverancier_naamswijziging SET leverancier_id='".intval($_GET["levid"])."', verzonden=NOW(), beschrijving='".addslashes($roominglist->naamswijzigingen_html[$key])."', boeking_id='".intval($key)."';");
 							}
 						}
 						if(is_array($roominglist->klantnamen_garanties)) {
 							foreach ($roominglist->klantnamen_garanties as $key => $value) {
 								$db2->query("UPDATE garantie SET aan_leverancier_doorgegeven_naam='".addslashes($value)."' WHERE garantie_id='".intval($key)."';");
+
+								// naamswijziging opslaan (zodat deze kan worden goedgekeurd)
+								$db2->query("INSERT INTO leverancier_naamswijziging SET leverancier_id='".intval($_GET["levid"])."', verzonden=NOW(), beschrijving='".addslashes($roominglist->naamswijzigingen_html["g".$key])."', garantie_id='".intval($key)."';");
+
 							}
 						}
 

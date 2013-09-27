@@ -17,9 +17,11 @@ class roominglist {
 	public $klantnamen_garanties;
 	public $garanties;
 	public $naamswijzigingen;
+	public $naamswijzigingen_html;
 	public $verberg_naamswijzigingen;
 	public $onbesteld_opvallend;
 
+	public $frm_filled;
 
 	public $leverancier_id_inquery;
 
@@ -119,6 +121,17 @@ class roominglist {
 		// 	}
 		// }
 
+		// naamswijzingen opnemen?
+		if($this->naamswijzigingen_doorgeven) {
+			$naamswijzigingen_doorgeven_array_temp=preg_split("@,@",$this->naamswijzigingen_doorgeven);
+
+			if(is_array($naamswijzigingen_doorgeven_array_temp)) {
+				foreach ($naamswijzigingen_doorgeven_array_temp as $key => $value) {
+					$naamswijzigingen_doorgeven_array[$value]=true;
+				}
+			}
+		}
+
 		$colspan=9;
 
 		// Leveranciersgegevens ophalen
@@ -186,7 +199,7 @@ class roominglist {
 			$where.="b.aankomstdatum='".addslashes( $this->date )."' AND ";
 		}
 
-		if($_POST["frm_filled"] and $this->boeking_id_notinquery) {
+		if($this->frm_filled and $this->boeking_id_notinquery) {
 			$where.="b.boeking_id NOT IN (".substr($this->boeking_id_notinquery,1).") AND ";
 		}
 
@@ -209,17 +222,10 @@ class roominglist {
 				}
 				$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
 
-				// if($verberg_naamswijzigingen_array[$db->f("boeking_id")]) {
-				// 	$naam=$db->f("aan_leverancier_doorgegeven_naam");
-				// } else {
-					$naam=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
 
-					// klantnamen in array plaatsen
-					$this->klantnamen_boekingen[$db->f("boeking_id")] = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
-				// }
 
-				$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'".($this->onbesteld_opvallend&&$db->f("bestelstatus")<=1 ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
 
+				$naam=$db->f("aan_leverancier_doorgegeven_naam");
 
 				// naamswijzigingen in array plaatsen
 				if($db->f( "aan_leverancier_doorgegeven_naam" )!=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )) {
@@ -231,7 +237,19 @@ class roominglist {
 					if(isset($garantie_boeking[$db->f("boeking_id")])) {
 						$this->naamswijzigingen_html[$db->f("boeking_id")]="<span class=\"soort_garantie_".$garantie_boeking[$db->f("boeking_id")]."\">".$this->naamswijzigingen_html[$db->f("boeking_id")]."</span>";
 					}
+
+					// kijken of naamswijziging in roominglist moet worden opgenomen
+					if($naamswijzigingen_doorgeven_array[$db->f("boeking_id")]) {
+						$naam=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
+
+						// klantnamen in array plaatsen
+						$this->klantnamen_boekingen[$db->f("boeking_id")] = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
+
+					}
+
 				}
+
+				$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'".($this->onbesteld_opvallend&&$db->f("bestelstatus")<=1 ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
 
 				// boeking die aan garantie is: opnemen in de lijst met uit te schakelen garanties
 				if(isset($garantie_boeking[$db->f("boeking_id")])) {
@@ -284,7 +302,7 @@ class roominglist {
 		}
 
 		// aleen garanties die zijn aangevinkt opnemen
-		if($_POST["frm_filled"]) {
+		if($this->frm_filled) {
 			$where.="g.garantie_id IN (".substr($this->garantie_id_inquery,1).") AND ";
 		}
 
@@ -304,24 +322,15 @@ class roominglist {
 			$accnaam_kort=$db->f( "accommodatie" )." ".( $db->f( "type" ) ? $db->f( "type" )." " : "" );
 			$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
 
-			// if($verberg_naamswijzigingen_array["g".$db->f("garantie_id")]) {
-			// 	$naam=$db->f("aan_leverancier_doorgegeven_naam");
-			// } else {
-				$naam = $db->f( "naam" );
-
-				# Klantnamen in array plaatsen
-				$this->klantnamen_garanties[$db->f("garantie_id")] = $db->f( "naam" );
-
-			// }
-
 			if($db->f( "inkoopdatum" ) or $db->f( "factuurnummer" )) {
 				$nog_niet_besteld=false;
 			} else {
 				$nog_niet_besteld=true;
 			}
 
-			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'".($this->onbesteld_opvallend&&$nog_niet_besteld ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
 
+
+			$naam=$db->f("aan_leverancier_doorgegeven_naam");
 
 			// naamswijzigingen in array plaatsen
 			if($db->f( "aan_leverancier_doorgegeven_naam" )!=$db->f( "naam" )) {
@@ -329,7 +338,16 @@ class roominglist {
 
 				$this->naamswijzigingen_html["g".$db->f("garantie_id")] = "<span class=\"soort_garantie_".$db->f("soort_garantie")."\">Garantie <a href=\"cms_garanties.php?edit=34&34k0=".$db->f("garantie_id")."\" target=\"_blank\">".$db->f("reserveringsnummer_extern")."</a>:".wt_he(" \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".$db->f( "naam" )."\"")."</span>";
 
+				// kijken of naamswijziging in roominglist moet worden opgenomen
+				if($naamswijzigingen_doorgeven_array["g".$db->f("garantie_id")]) {
+					$naam = $db->f( "naam" );
+
+					# Klantnamen in array plaatsen
+					$this->klantnamen_garanties[$db->f("garantie_id")] = $db->f( "naam" );
+				}
 			}
+
+			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'".($this->onbesteld_opvallend&&$nog_niet_besteld ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
 
 			# Garanties in array plaatsen
 			$this->garanties[$db->f("garantie_id")] = $vars["alletypes"][$db->f("type_id")]." - ".$db->f( "naam" )." - ".$db->f( "reserveringsnummer_extern" )." - ".date("d/m/Y",$db->f("aankomstdatum_exact"));
