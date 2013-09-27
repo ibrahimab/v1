@@ -2,6 +2,19 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 
+27-sep-2013 16:14
+DROP TABLE IF EXISTS `leverancier_naamswijziging`;
+CREATE TABLE IF NOT EXISTS `leverancier_naamswijziging` (
+  `leverancier_naamswijziging_id` int(11) NOT NULL AUTO_INCREMENT,
+  `leverancier_id` int(11) NOT NULL,
+  `verzonden` datetime NOT NULL,
+  `goedgekeurd` datetime DEFAULT NULL,
+  `beschrijving` text CHARACTER SET latin1 NOT NULL,
+  `boeking_id` int(11) DEFAULT NULL,
+  `garantie_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`leverancier_naamswijziging_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
 19-sep-2013 14:16
 ALTER TABLE `boeking_betaling` ADD `docdata_payment_id` BIGINT NULL DEFAULT NULL AFTER `importtext` 
 
