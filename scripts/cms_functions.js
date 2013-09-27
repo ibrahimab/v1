@@ -651,6 +651,9 @@ $(document).ready(function() {
 
 		// roominglist: vinkjes "Naamswijzigingen doorgeven" en "Op te nemen garanties" aan elkaar koppelen
 		$("input[name^='input[roominglist_naamswijzigingen_doorgeven]']").change(function(event) {
+
+			// alert($(this).find("label").attr("class"));
+
 			var boeking_id = $(this).attr("name").replace(/\D/g,'');
 			if($(this).is(":checked")) {
 				$("input[name='input[roominglist_garanties_doorgeven][b"+boeking_id+"]']").prop("checked", true);

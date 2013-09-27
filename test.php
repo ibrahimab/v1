@@ -1,5 +1,14 @@
 <?php
 
+// phpinfo();
+
+
+$array = array("blue", "red", "green", "blue", "1blue");
+$aantal_landen=count(array_keys($array, "blue"));
+
+echo $aantal_landen;
+
+exit;
 
 // $url="https://secure.villeinitalia.com/protAgency/AvailableFile.jsp";
 // $ch = curl_init();
