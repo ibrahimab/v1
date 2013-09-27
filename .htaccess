@@ -52,7 +52,7 @@ RewriteRule ^index\.php$ / [R=301,L]
 
 # secondhomes.venturasol.nl: doorsturen naar nieuwe domeinnaam venturasolsecondhomes.nl
 RewriteCond %{HTTP_HOST} secondhomes\.venturasol\.nl [NC]
-RewriteRule ^(.*)$ http://www.venturasolsecondhomes.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ http://www.venturasol-secondhomes.nl/$1 [L,R=301]
 
 
 

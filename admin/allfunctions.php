@@ -42,7 +42,7 @@ if (!function_exists("remove_magic_quotes")) {
 }
 
 if(get_magic_quotes_gpc() and !$magicquotesremoved and $NU_EVEN_NIET) {
-	// uitgezet omdat chalet.eu (met mod_fcgid) onterecht get_magic_quotes_gpc()=true gaf
+	// uitgezet omdat chalet.eu (met mod_fcgid) een fout genereerde met deze functie
 	remove_magic_quotes('_POST');
 	@reset($_POST);
 	remove_magic_quotes('_COOKIE');
