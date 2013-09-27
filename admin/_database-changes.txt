@@ -1,6 +1,8 @@
 
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
+27-sep-2013 17:26
+ALTER TABLE `diverse_instellingen` ADD `wisselkoers_pond` DECIMAL( 10, 10 ) NOT NULL 
 
 27-sep-2013 16:14
 DROP TABLE IF EXISTS `leverancier_naamswijziging`;
