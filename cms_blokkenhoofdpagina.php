@@ -41,6 +41,7 @@ if($_GET["wzt"]==1) {
 	unset($vars["websites_wzt"][1]["D"]);
 	unset($vars["websites_wzt"][1]["Q"]);
 	unset($vars["websites_wzt"][1]["V"]);
+	unset($vars["websites_wzt"][1]["W"]);
 	$cms->db_field(37,"checkbox","websites","",array("selection"=>$vars["websites_wzt"][$_GET["wzt"]]));
 } elseif($_GET["wzt"]==3) {
 	unset($vars["websites_wzt"][2]["Z"]);

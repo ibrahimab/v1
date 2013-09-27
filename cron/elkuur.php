@@ -33,6 +33,20 @@ include($unixdir."admin/vars.php");
 
 #wt_mail("jeroen@webtastic.nl","elk uur","mail elk uur");
 
+# Wisselkoers pond opvragen
+if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+	$koers_json=file_get_contents("http://rate-exchange.appspot.com/currency?from=EUR&to=GBP");
+	if($koers_json) {
+		$koers_array=json_decode($koers_json, true);
+		// echo wt_dump($koers_array);
+		if($koers_array["rate"]) {
+			// echo $koers_array["rate"];
+			$db->query("UPDATE diverse_instellingen SET wisselkoers_pond=".addslashes($koers_array["rate"])." WHERE diverse_instellingen_id=1;");
+		}
+	}
+}
+
+
 #
 # Automatische kortingen (vanwege Zwitserse Franken CHF) doorrekenen
 #
