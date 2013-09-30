@@ -669,7 +669,7 @@ $title["blog"]=txt("title_blog");
 
 
 # $vars - Variabelen declareren
-$vars["actuele_vacature"]="Productmanager Oostenrijk";
+// $vars["actuele_vacature"]="Productmanager Oostenrijk";
 
 $vars["fotofabriek_code_na_enquete"]=true;
 
