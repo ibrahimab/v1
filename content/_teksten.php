@@ -3097,6 +3097,9 @@ $txt["en"]["boeken"]["voorhetwijzigenvanachternaam"]="Please contact us if you n
 $txt["nl"]["boeken"]["adres"]="Adres";
 $txt["en"]["boeken"]["adres"]="Address";
 
+$txt["nl"]["boeken"]["houseno"]="Huisnummer";
+$txt["en"]["boeken"]["houseno"]="House no.";
+
 $txt["nl"]["boeken"]["postcode"]="Postcode";
 $txt["en"]["boeken"]["postcode"]="Postal code";
 
@@ -3922,6 +3925,9 @@ $txt["en"]["bsys"]["factuur"]="Invoice";
 $txt["nl"]["bsys"]["factuurgoedkeuren"]="Factuur goedkeuren";
 $txt["en"]["bsys"]["factuurgoedkeuren"]="Approve invoice";
 
+$txt["nl"]["bsys"]["payment"]="Factuur betaling";
+$txt["en"]["bsys"]["payment"]="Payment";
+
 $txt["nl"]["bsys"]["boekingisalgoedgekeurd"]="De factuur van reserveringsnummer [[v_boekingsnummer]] is al goedgekeurd.";
 $txt["en"]["bsys"]["boekingisalgoedgekeurd"]="The invoice of reservation number [[v_boekingsnummer]] is already approved.";
 
@@ -3954,6 +3960,68 @@ $txt["en"]["bsys"]["akkoordmelding2"]="Furthermore, we wish you already a lot of
 
 $txt["nl"]["bsys"]["akkoordmelding3"]="Terug naar \"Mijn boeking\"";
 $txt["en"]["bsys"]["akkoordmelding3"]="Back to \"My booking\"";
+
+/***** BEGIN Docdata translations *****/
+
+$txt["nl"]["bsys"]["success_1"]="The Payment has been registered within system.";
+$txt["en"]["bsys"]["success_1"]="The Payment has been registered within system.";
+
+$txt["nl"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your order again later.";
+$txt["en"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your order again later.";
+
+$txt["nl"]["bsys"]["error_1"]="Order not found in the system.";
+$txt["en"]["bsys"]["error_1"]="Order not found in the system.";
+
+$txt["nl"]["bsys"]["error_2"]="An error occurred during the payment process.";
+$txt["en"]["bsys"]["error_2"]="An error occurred during the payment process.";
+
+$txt["nl"]["bsys"]["error_3"]="Invalid order specified for the payment.";
+$txt["en"]["bsys"]["error_3"]="Invalid order specified for the payment.";
+
+$txt["nl"]["bsys"]["error_4"]="Please login in order to pay for the order.";
+$txt["en"]["bsys"]["error_4"]="Please login in order to pay for the order.";
+
+$txt["nl"]["bsys"]["bank_transfer"]="Overschrijving";
+$txt["en"]["bsys"]["bank_transfer"]="Bank transfer";
+
+$txt["nl"]["bsys"]["payments_history"]="Betalingen geschiedenis";
+$txt["en"]["bsys"]["payments_history"]="Payments history";
+
+$txt["nl"]["bsys"]["payment_date"]="Datum";
+$txt["en"]["bsys"]["payment_date"]="Date";
+
+$txt["nl"]["bsys"]["payment_amount"]="Bedrag";
+$txt["en"]["bsys"]["payment_amount"]="Amount";
+
+$txt["nl"]["bsys"]["payment_type"]="Type";
+$txt["en"]["bsys"]["payment_type"]="Type";
+
+$txt["nl"]["bsys"]["total_amount"]="Totaal bedrag";
+$txt["en"]["bsys"]["total_amount"]="Total amount";
+
+$txt["nl"]["bsys"]["total_paid"]="Totaal betaalde";
+$txt["en"]["bsys"]["total_paid"]="Total paid";
+
+$txt["nl"]["bsys"]["remaining_payments"]="Resterende betalingen";
+$txt["en"]["bsys"]["remaining_payments"]="Remaining payments";
+
+$txt["nl"]["bsys"]["payment_part"]="Welk gedeelte wil je betalen";
+$txt["en"]["bsys"]["payment_part"]="What part do you want to pay";
+
+$txt["nl"]["bsys"]["payment_method"]="Methode";
+$txt["en"]["bsys"]["payment_method"]="Method";
+
+$txt["nl"]["bsys"]["advance_payment"]="Een deelbetaling doen";
+$txt["en"]["bsys"]["advance_payment"]="Advance payment";
+
+$txt["nl"]["bsys"]["full_payment"]="Het totale bedrag betalen";
+$txt["en"]["bsys"]["full_payment"]="Full payment";
+
+$txt["nl"]["bsys"]["customer_country"]="Selecteer uw land";
+$txt["en"]["bsys"]["customer_country"]="Select your country";
+
+/***** END Docdata translations *****/
+
 
 $txt["nl"]["bsys_wijzigen"]["terugnaardevorigepagina"]="Terug naar de vorige pagina";
 $txt["en"]["bsys_wijzigen"]["terugnaardevorigepagina"]="Back to the previous page";

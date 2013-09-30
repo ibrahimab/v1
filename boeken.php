@@ -193,6 +193,7 @@ if(!$gegevens["stap_voltooid"][2]) {
 		$gegevens["stap2"]["tussenvoegsel"]=$temp_naw["tussenvoegsel"];
 		$gegevens["stap2"]["achternaam"]=$temp_naw["achternaam"];
 		$gegevens["stap2"]["adres"]=$temp_naw["adres"];
+		$gegevens["stap2"]["houseno"]=$temp_naw["houseno"];
 		$gegevens["stap2"]["postcode"]=$temp_naw["postcode"];
 		$gegevens["stap2"]["plaats"]=$temp_naw["plaats"];
 		$gegevens["stap2"]["land"]=$temp_naw["land"];
@@ -2416,7 +2417,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 		} elseif($_GET["stap"]==2) {
 			# Cookie plaatsen
-			nawcookie($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"],$form->input["adres"],$form->input["postcode"],$form->input["plaats"],$form->input["land"],$form->input["telefoonnummer"],$form->input["mobielwerk"],$form->input["email"],$form->input["geboortedatum"]["unixtime"],$form->input["nieuwsbrief"],$form->input["geslacht"]);
+			nawcookie($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"],$form->input["adres"],$form->input["postcode"],$form->input["plaats"],$form->input["land"],$form->input["telefoonnummer"],$form->input["mobielwerk"],$form->input["email"],$form->input["geboortedatum"]["unixtime"],$form->input["nieuwsbrief"],$form->input["geslacht"],$form->input["houseno"]);
 
 
 			# aan_leverancier_doorgegeven_naam opslaan
@@ -2440,7 +2441,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			}
 
 			# Gegevens opslaan in boeking_persoon (met "persoonnummer=1")
-			$setquery="voornaam='".addslashes($form->input["voornaam"])."', tussenvoegsel='".addslashes($form->input["tussenvoegsel"])."', achternaam='".addslashes($form->input["achternaam"])."', adres='".addslashes($form->input["adres"])."', postcode='".addslashes($form->input["postcode"])."', plaats='".addslashes($form->input["plaats"])."', land='".addslashes($form->input["land"])."', telefoonnummer='".addslashes($form->input["telefoonnummer"])."', mobielwerk='".addslashes($form->input["mobielwerk"])."', email='".addslashes($form->input["email"])."', geboortedatum=".($form->input["geboortedatum"]["year"] ? "'".addslashes($form->input["geboortedatum"]["unixtime"])."'" : "NULL").", geslacht='".addslashes($form->input["geslacht"])."'";
+			$setquery="voornaam='".addslashes($form->input["voornaam"])."', tussenvoegsel='".addslashes($form->input["tussenvoegsel"])."', achternaam='".addslashes($form->input["achternaam"])."', adres='".addslashes($form->input["adres"])."', houseno='".addslashes($form->input["houseno"])."', postcode='".addslashes($form->input["postcode"])."', plaats='".addslashes($form->input["plaats"])."', land='".addslashes($form->input["land"])."', telefoonnummer='".addslashes($form->input["telefoonnummer"])."', mobielwerk='".addslashes($form->input["mobielwerk"])."', email='".addslashes($form->input["email"])."', geboortedatum=".($form->input["geboortedatum"]["year"] ? "'".addslashes($form->input["geboortedatum"]["unixtime"])."'" : "NULL").", geslacht='".addslashes($form->input["geslacht"])."'";
 			if($boeking_wijzigen or $mustlogin) {
 				if($form->input["verzendmethode_reisdocumenten"]) {
 					# verzendmethode_reisdocumenten opslaan

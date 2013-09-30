@@ -1,0 +1,389 @@
+<?php
+
+class Order extends Model {
+
+	// ADVANCE_PAYMENT and FULL_PAYMENT values are set as enum fields in Dataabse table docdata_payments
+	const ADVANCE_PAYMENT = "advance";
+	const FULL_PAYMENT = "full";
+
+	public $increment_id = null;
+	public static $customer_id = null;
+
+	protected $customer;
+	protected $cluster_key = null;
+	private $payment_type = "advance";
+	private $payment_amount = 0;
+	private $table = "boeking"; // Database table name
+        private $docdata_table = "docdata_payments"; // Database table name
+	private $data = array();
+	private $payment = null;
+
+	public function loadByIncrementId($orderId = null) {
+		$orderId = (int)$orderId;
+
+		// Get approved (goedgekeurd) orders only
+		$sql = "SELECT * FROM `" . $this->table . "` WHERE goedgekeurd = 1 AND boeking_id = '" . mysql_real_escape_string($orderId) . "' LIMIT 1";
+        $this->query($sql);
+                
+        if($this->num_rows() == 0) return null;
+
+		$this->next_record();
+
+		$this->increment_id = htmlspecialchars($this->f("boeking_id"));
+
+		$this->data[$this->increment_id]['boekingsnummer'] = htmlspecialchars($this->f("boekingsnummer")); // Booking number
+		$this->data[$this->increment_id]['totale_reissom'] = htmlspecialchars($this->f("totale_reissom")); // Grand total
+		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($this->f("bestelstatus")); // Order status
+		$this->data[$this->increment_id]['naam_accommodatie'] = htmlspecialchars($this->f("naam_accommodatie")); // Accommodation name
+		$this->data[$this->increment_id]['aanbetaling1'] = htmlspecialchars($this->f("aanbetaling1")); // Advance payment #1
+		$this->data[$this->increment_id]['aanbetaling2'] = htmlspecialchars($this->f("aanbetaling2")); // Advance payment #2
+		$this->data[$this->increment_id]['aanbetaling2_datum'] = htmlspecialchars($this->f("aanbetaling2_datum")); // Advance payment #2
+		$this->data[$this->increment_id]['website'] = htmlspecialchars($this->f("website")); // Booking website code
+		$this->data[$this->increment_id]['taal'] = htmlspecialchars($this->f("taal")); // Booking language
+
+		return $this;
+	}
+
+	public function loadByDocdataId($docdata_id = NULL) {
+		// Get approved (goedgekeurd) orders only
+		$sql = "SELECT * FROM `" .  $this->docdata_table . "`, `" . $this->table ."` ";
+		$sql .= "WHERE {$this->docdata_table}.docdata_payment_id =" . mysql_real_escape_string($docdata_id) . " AND {$this->table}.goedgekeurd = 1 AND {$this->table}.boeking_id = {$this->docdata_table}.boeking_id" ." LIMIT 1";
+
+		$this->query($sql);
+
+		if($this->num_rows() == 0) return null;
+
+		$this->next_record();
+		$this->increment_id = htmlspecialchars($this->f("boeking_id"));
+		$this->cluster_key = htmlspecialchars($this->f("cluster_key"));
+
+		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($this->f("bestelstatus")); // Order status
+		$this->data[$this->increment_id]['totale_reissom'] = htmlspecialchars($this->f("totale_reissom")); // Grand total
+
+		return $this;
+	}
+
+	public function getIncrementId() {
+		return $this->increment_id;
+	}
+
+	public function getRealOrderId() {
+		$data = $this->data[$this->increment_id];
+		return $data['boekingsnummer'];
+	}
+
+	public function getDocdataPaymentOrderKey() {
+		return App::get("model/payment")->getDocdataPaymentOrderKey($this->increment_id, $this->getPaymentType());
+	}
+
+	public function getDocdataPaymentClusterKey() {
+		return App::get("model/payment")->getDocdataPaymentClusterKey($this->getDocdataPaymentId(), $this->getPaymentType());
+	}
+
+	private function getPaymentType() {
+		$this->payment_type = App::get("model/payment")->getDocdataPaymentType($this->increment_id, $this->cluster_key);
+                
+        return (!empty($this->payment_type)) ? $this->payment_type : self::FULL_PAYMENT;
+	}
+
+	public function setPaymentType($payment_type) {
+		$this->payment_type = (!empty($payment_type)) ? $payment_type : self::FULL_PAYMENT;
+	}
+
+	private function getCustomer($order_id) {
+		$sql = "SELECT bu.user_id FROM boeking b, boeking_persoon bp
+				INNER JOIN boekinguser bu ON bp.email = bu.user
+				WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.boeking_id = '" . mysql_real_escape_string($order_id) ."'";
+		$this->query($sql);
+
+		$this->customer = $this->next_record();
+	}
+        
+	public function getCustomerId() {
+
+		if(empty(self::$customer_id)) {
+			$this->getCustomer($this->increment_id);
+
+			$user_id = htmlspecialchars($this->f("user_id"));
+
+			self::$customer_id = $user_id;
+		}
+		else {
+			$user_id = self::$customer_id;
+		}
+
+		return $user_id;
+	}
+
+	/**
+	 * Order Currency code; default is EUR
+	 *
+	 * @return string
+	 */
+	public function getOrderCurrencyCode() {
+		return "EUR";
+	}
+
+	/**
+	 * Amount of the advance payment
+	 *
+	 * @return float
+	 */
+	public function getAdvancePaymentAmount() {
+
+		$data = $this->data[$this->increment_id];
+
+		$this->payment_type = self::ADVANCE_PAYMENT;
+		$this->payment_amount = $data['aanbetaling1'];
+
+		return $this->payment_amount;
+	}
+
+	/**
+	 * Get order grand total
+	 *
+	 * @return mixed
+	 */
+	public function getGrandTotal() {
+		$data = $this->data[$this->increment_id];
+
+		$this->payment_amount = $data['totale_reissom'];
+		$this->payment_type = self::FULL_PAYMENT;
+
+		return $this->payment_amount;
+	}
+
+	/**
+	 * Get website code from the order info
+	 *
+	 * @return string
+	 */
+	public function getWebsiteCode() {
+		$data = $this->data[$this->increment_id];
+
+		return $data["website"];
+	}
+
+	/**
+	 * Get order language that is used when redirecting to docdata webmenu
+	 *
+	 * @return string
+	 */
+	public function getLanguage() {
+		$data = $this->data[$this->increment_id];
+
+		return $data["taal"];
+	}
+	/**
+	 * Get order shipping cost amount;
+	 * For the moment is 0.
+	 *
+	 * return int;
+	 */
+	public function getShippingAmount() {
+		return 0;
+	}
+
+	/**
+	 * Get the order tax amount;
+	 * For the moment is 0.
+	 *
+	 * return int;
+	 */
+	public function getTaxAmount() {
+		return 0;
+	}
+
+	/**
+	 * Get order shipping tax amount;
+	 * For the moment is 0.
+	 *
+	 * return int;
+	 */
+	public function getShippingTaxAmount() {
+		return 0;
+	}
+
+	/**
+	 * Get billing address from the Customer model
+	 *
+	 * @return Customer $address Address object
+	 */
+	public function getBillingAddress() {
+		return App::get('model/customer')->load(self::$customer_id, $this->increment_id);
+	}
+
+	/**
+	 * Shipping address is the same as Billing address
+	 *
+	 * @return Customer $address Address object
+	 */
+	public function getShippingAddress() {
+		return $this->getBillingAddress();
+	}
+
+	/**
+	 * Get all the booking items that will be include in the Docdata invoice
+	 *
+	 * return array
+	 */
+	public function getAllItems() {
+		return array();
+	}
+
+	/**
+	 * Fetch payment instance for the order
+	 *
+	 * @return Payment model
+	 */
+	public function getPayment() {
+		if(!$this->payment) {
+			$payment = App::get('model/payment');
+			$this->payment = $payment;
+		} else {
+			$payment = $this->payment;
+		}
+
+		$payment->orderId = $this->increment_id;
+		$payment->clusterKey = $this->cluster_key;
+
+		return $payment;
+	}
+
+	/**
+	 * Insert payment in the database with the cluster key
+	 *
+	 * @param $payment_order_key
+	 *
+	 * @return void
+	 */
+	public function setDocdataPaymentOrderKey($payment_order_key) {
+		App::get('model/payment')->createPayment($payment_order_key, $this->increment_id, $this->payment_type, $this->payment_amount);
+	}
+
+	/**
+	 * Set payment code
+	 *
+	 * @param $pm_code
+	 */
+	public function setPmCode($pm_code) {
+		$payment = $this->getPayment();
+		$payment->code = $pm_code;
+	}
+
+	/**
+	 * Get order status
+	 *
+	 * @return mixed
+	 */
+	public function getState() {
+		$data = $this->data[$this->increment_id];
+		return $data['bestelstatus'];
+	}
+
+	public function getStoreId() {
+		return null;
+	}
+
+	/**
+	 * Fetch the name of the order accommodation
+	 * @return mixed
+	 */
+	public function getAccommodationName() {
+		$data = $this->data[$this->increment_id];
+		return $data['naam_accommodatie'];
+	}
+
+	/**
+	 * Get the payment status for the order
+	 *
+	 * @return mixed
+	 */
+	public function getStatus() {
+		return App::get('model/payment')->getOrderStatus($this->increment_id, $this->cluster_key);
+	}
+
+	/**
+	 * Get the cluster key of the order
+	 *
+	 * @return string
+	 */
+	public function getClusterKey() {
+		return $this->cluster_key;
+	}
+
+	/**
+	 * Register the payment into the boeking_betaling table
+	 * This happens only when the order is paid
+	 *
+	 * @param $captured
+	 */
+	public function setInvoice($captured) {
+		App::get('model/payment')->setInvoice($this->increment_id, $this->getDocdataPaymentId() , $this->getDocdataPaymentMethod(), $captured);
+	}        
+
+	/**
+	 * Update docdata payment with the Docdata Payment ID
+	 *
+	 * @param $id
+	 */
+	public function setDocdataPaymentId($id) {
+		App::get('model/payment')->setDocdataPaymentId($id, $this->increment_id, $this->cluster_key);
+	}
+
+	/**
+	 * Get the docdata_payment_id for the order
+	 *
+	 * @return int
+	 */
+	public function getDocdataPaymentId() {
+            return App::get('model/payment')->getDocdataPaymentId($this->cluster_key);
+	}        
+        
+	public function getDocdataPaymentMethod() {
+            return App::get('model/payment')->getDocdataPaymentMethod($this->cluster_key);
+	}          
+        
+
+	/**
+	 * Function that returns the difference between order total amount and order payments
+	 *
+	 * @return int
+	 */
+	public function getBaseTotalDue() {
+		// Select order total         
+		$order_total = $this->data[$this->increment_id]['totale_reissom'];
+		// Select payments totals
+		$payments_total = App::get('model/payment')->getPayments($this->increment_id);
+                $this->payment_amount = $order_total - $payments_total;
+		$this->payment_type = self::FULL_PAYMENT;                
+
+		return $this->payment_amount;
+	}
+        
+	public function getBaseTotal() {
+		// Select order total         
+		// Select payments totals
+		$payments_total = App::get('model/payment')->getPayments($this->increment_id);
+
+		return $payments_total;
+	}        
+
+	/**
+	 * Set payment cluster key
+	 *
+	 * @param $key
+	 */
+	public function setClusterKey($key) {
+		$this->cluster_key = $key;
+	}
+
+	/**
+	 * Get order id
+	 * @return null
+	 */
+	public function getId() {
+		return $this->increment_id;
+	}
+
+}

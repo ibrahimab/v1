@@ -67,6 +67,12 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["nieuwsbrief_aanbieden"]=true;
 #	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
 	$vars["livechat_code"]="2-PTFmcHUgtM";
+	$vars["docdata_payments"] = array(
+		"docdata_idl" => array(
+			"title"	=> "iDeal",
+			"icon"	=>	"pic/payment_icons/ideal.png"
+		)
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="E")) {
 	# Winter Chalet.eu Engelstalig
 	$vars["websitetype"]=1;
@@ -85,6 +91,16 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["reisverzekering_mogelijk"]=0;
 	$vars["wederverkoop"]=true;
 	$vars["livechat_code"]=false;
+	$vars["docdata_payments"] = array(
+		"docdata_vi" => array(
+			"title"	=> "Visa",
+			"icon"	=>	"pic/payment_icons/visa.png"
+		),
+		"docdata_mc" => array(
+			"title"	=> "MasterCard",
+			"icon"	=>	"pic/payment_icons/mastercard.png"
+		)
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.chalettour.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="T")) {
 	# Chalettour Winter
 	$vars["websitetype"]=4;
@@ -122,6 +138,12 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["nieuwsbrief_aanbieden"]=true;
 #	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
 	$vars["livechat_code"]="3-eex4-wCgtM";
+	$vars["docdata_payments"] = array(
+		"docdata_mrc" => array(
+			"title" => "MrCash",
+			"icon"	=>	"pic/payment_icons/mrcash.png"
+		)
+	);
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="Z")) {
 	# Zomerhuisje.nl
 	$vars["websitetype"]=3;

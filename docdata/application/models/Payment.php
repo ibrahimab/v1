@@ -1,0 +1,285 @@
+<?php
+
+class Payment extends Model {
+
+	public $paymentId = null;
+	public $orderId = null;
+	public $clusterKey = null;
+	public $code = null;
+
+	private $table = "docdata_payments";
+	private $paymentsTable = "boeking_betaling";
+
+	function __construct($orderId = null) {
+
+		if($orderId) {
+			$sql = "SELECT * FROM `" . $this->table . "` WHERE docdata_payment_id = '" . mysql_real_escape_string($orderId) . "' LIMIT 1";
+			$this->query($sql);
+
+			$this->next_record();
+			$this->paymentId = htmlspecialchars($this->f("id"));
+		}
+		parent::__construct();
+		//$this->db; # Used for database queries
+	}
+        
+
+	/**
+	 * Save the payment details when it is created
+	 *
+	 * @param string $cluster_key (md5)
+	 * @param int $order_id
+	 * @param string $payment_type
+	 * @param float $amount
+	 *
+	 * @return bool
+	 */
+	public function createPayment($cluster_key, $order_id, $payment_type, $amount) {
+
+		$config = App::get('helper/config');
+		$status = $config->getItem("new", $config::GROUP_STATUS);
+
+		$sql  = "INSERT INTO `" . $this->table . "` ";
+		$sql .= "SET cluster_key = '" . mysql_real_escape_string($cluster_key) . "', ";
+		$sql .= "boeking_id = '" . mysql_real_escape_string($order_id) . "', status = '" . mysql_real_escape_string($status) . "', ";
+		$sql .= "amount = '" . mysql_real_escape_string($amount) . "', type = '" . mysql_real_escape_string($payment_type) ."' ;";
+
+		$this->query($sql);
+
+		return (bool)$this->num_rows();
+	}
+
+	/**
+	 * Returns the payment code
+	 *
+	 * @return null
+	 */
+	public function getCode() {
+		return $this->code;
+	}
+
+	/**
+	 * Get Cluster Key based on order id and payment type
+	 *
+	 * @param $order_id
+	 * @param string $payment_type (advance / full)
+	 * @return int
+	 */
+	public function getDocdataPaymentOrderKey($order_id, $payment_type) {
+            
+		$sql  = "SELECT cluster_key FROM `" . $this->table . "` ";
+		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($order_id) . "' AND type = '" . mysql_real_escape_string($payment_type) ."' ORDER BY id DESC LIMIT 1";
+
+		$this->query($sql);
+		if((int)$this->num_rows() == 0) return null;
+
+        $this->next_record();
+
+        return htmlspecialchars($this->f("cluster_key"));
+	}
+
+	/**
+	 * Get Cluster Key based on docdata payment id and payment type
+	 *
+	 * @param $docdata_id
+	 * @param string $payment_type (advance / full)
+	 * @return int
+	 */
+	public function getDocdataPaymentClusterKey($docdata_id, $payment_type) {
+
+		$sql  = "SELECT cluster_key FROM `" . $this->table . "` ";
+		$sql .= "WHERE docdata_payment_id = '" . mysql_real_escape_string($docdata_id) . "' AND type = '" . mysql_real_escape_string($payment_type) ."' LIMIT 1";
+
+		$this->query($sql);
+		if((int)$this->num_rows() == 0) return null;
+
+                $this->next_record();
+
+                return htmlspecialchars($this->f("cluster_key"));
+	}
+
+	/**
+	 * Get Payment Type based on order id and Docdata cluster key
+	 *
+	 * @param $order_id
+	 * @param string $cluster_key (md5)
+	 * @return int
+	 */
+	public function getDocdataPaymentType($order_id, $cluster_key) {
+		$sql  = "SELECT type FROM `" . $this->table . "` ";
+		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($order_id) . "' AND cluster_key = '" . mysql_real_escape_string($cluster_key) ."' LIMIT 1";
+                
+		$this->query($sql);
+                
+		if((int)$this->num_rows() == 0) return null;
+
+		$this->next_record();
+                
+
+		return htmlspecialchars($this->f("type"));
+	}
+
+	/**
+	 * Get Order id based on Cluster key
+	 *
+	 * @param $cluster_key
+	 * @return string
+	 */
+	public function getDocdataPaymentOrderId($cluster_key) {
+
+		$sql  = "SELECT boeking_id FROM `" . $this->table . "` ";
+		$sql .= "WHERE cluster_key = '" . mysql_real_escape_string($cluster_key) . "' LIMIT 1";
+
+		$this->query($sql);
+		if((int)$this->num_rows() == 0) return null;
+
+		$this->next_record();
+		return htmlspecialchars($this->f("boeking_id"));
+	}
+
+	/**
+	 * Update payment status to cancel
+	 *
+	 * @param int $orderId
+	 * @param string $clusterKey
+	 * @param string $message
+	 *
+	 * @return int
+	 */
+	public function cancel($orderId, $clusterKey, $message) {
+
+		$status = parent::STATE_CANCELED;
+
+		$sql  = "UPDATE `" . $this->table . "` ";
+		$sql .= "SET status = '" . mysql_real_escape_string($status) . "', message = '" . mysql_real_escape_string($message) ."', updated_at = NOW() ";
+		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($orderId) . "' AND cluster_key = '" . mysql_real_escape_string($clusterKey) ."' LIMIT 1";
+
+		$this->query($sql);
+
+		return $this->affected_rows();
+	}
+
+	public function getMethodInstance() {
+		return $this;
+	}
+
+	/**
+	 * Return order status from payment table
+	 *
+	 * @param int $orderId
+	 * @param string $clusterKey
+	 * @return string
+	 */
+	public function getOrderStatus($orderId, $clusterKey) {
+		$sql  = "SELECT status FROM `" . $this->table . "` ";
+		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($orderId) . "' AND cluster_key = '" . mysql_real_escape_string($clusterKey) ."' LIMIT 1";
+
+		$this->query($sql);
+		if((int)$this->num_rows() == 0) return null;
+
+		$this->next_record();
+		return htmlspecialchars($this->f("status"));
+	}
+
+	/**
+	 * Set docdata payment id after a successful payment received from docdata
+	 *
+	 * @param bigint $id
+	 * @param int $orderId
+	 * @param string $clusterKey
+	 * @return int
+	 */
+	public function setDocdataPaymentId($id, $orderId, $clusterKey) {
+
+		$sql  = "UPDATE `" . $this->table . "` ";
+		$sql .= "SET docdata_payment_id = '" . mysql_real_escape_string($id) . "', updated_at = NOW() ";
+		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($orderId) . "' AND cluster_key = '" . mysql_real_escape_string($clusterKey) . "' LIMIT 1";
+
+		$this->query($sql);
+
+		return $this->affected_rows();
+	}
+        
+	public function getDocdataPaymentId($clusterKey) {
+
+		$sql  = "SELECT docdata_payment_id FROM `" . $this->table . "` ";
+		$sql .= "WHERE cluster_key = '" . mysql_real_escape_string($clusterKey) ."' LIMIT 1";
+
+		$this->query($sql);
+		if((int)$this->num_rows() == 0) return null;
+
+		$this->next_record();
+		return htmlspecialchars($this->f("docdata_payment_id"));
+	}        
+        
+	public function getDocdataPaymentMethod($clusterKey) {
+
+		$sql  = "SELECT payment_method FROM `" . $this->table . "` ";
+		$sql .= "WHERE cluster_key = '" . mysql_real_escape_string($clusterKey) ."' LIMIT 1";
+
+		$this->query($sql);
+		if((int)$this->num_rows() == 0) return null;
+
+		$this->next_record();
+		return htmlspecialchars($this->f("payment_method"));
+	}          
+
+	/**
+	 * Set docdata payment method after a successful payment received from docdata
+	 *
+	 * @param string $method
+	 *
+	 * @return int
+	 */
+	public function setMethod($method) {
+
+		$sql  = "UPDATE `" . $this->table . "` ";
+		$sql .= "SET payment_method = '" . mysql_real_escape_string($method) . "', updated_at = NOW() ";
+		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($this->orderId) . "' AND cluster_key = '" . mysql_real_escape_string($this->clusterKey) . "' LIMIT 1";
+
+		$this->query($sql);
+
+		return $this->affected_rows();
+	}
+        
+	public function setInvoice($order_id, $payment_id, $type, $captured) {
+		$config = App::get('app/config')->getConfig();
+		$payments_cfg = $config['payment'];
+
+		$sql  = "INSERT INTO `" . $this->paymentsTable . "` ";
+		$sql .= "SET boeking_id = '" . mysql_real_escape_string($order_id) . "', ";
+        $sql .= "bedrag = " . mysql_real_escape_string($captured) . ", datum = NOW(), ";
+        $sql .= "type = '" . mysql_real_escape_string($payments_cfg[$type]['command']) . "', ";
+		$sql .= " docdata_payment_id = '" . mysql_real_escape_string($payment_id) ."' ;";
+                
+		$this->query($sql);
+
+		return (bool)$this->num_rows();
+	}        
+
+	/**
+	 * Update payment status
+	 *
+	 * @param string $status
+	 * @param string $msg
+	 * @return int
+	 */
+	public function setStatus($status, $msg) {
+
+		$sql  = "UPDATE `" . $this->table . "` ";
+		$sql .= "SET status = '" . mysql_real_escape_string($status) . "', message = '" . mysql_real_escape_string($msg) . "', updated_at = NOW() ";
+		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($this->orderId) . "' AND cluster_key = '" . mysql_real_escape_string($this->clusterKey) . "' LIMIT 1";
+
+		$this->query($sql);
+
+		return $this->affected_rows();
+	}
+
+	public function getPayments($orderId) {
+		$sql = "SELECT SUM(bedrag) AS total FROM `" . $this->paymentsTable ."` WHERE boeking_id = '" . mysql_real_escape_string($orderId) . "'";
+		$this->query($sql);
+
+		$this->next_record();
+		return $this->f("total");
+	}
+}

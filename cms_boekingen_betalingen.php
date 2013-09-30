@@ -76,6 +76,7 @@ $cms->db_field(26,"textarea","opmerkingen");
 $cms->db_field(26,"yesno","mailsturen","",array("notdb"=>true));
 $cms->db_field(26,"yesno","goedgekeurde_betaling_wissen","",array("notdb"=>true));
 $cms->db_field(26,"yesno","import");
+$cms->db_field(26,"text","type");
 $cms->db_field(26,"datetime","importdatetime");
 
 
@@ -103,6 +104,7 @@ if($login->has_priv("5")) {
 $cms->list_sort[26]=array("datum");
 $cms->list_field(26,"datum","Datum",array("date_format"=>"DD-MM-JJJJ"));
 $cms->list_field(26,"bedrag","Bedrag");
+$cms->list_field(26,"type","Payment method");
 $cms->list_field(26,"import","Via Exact-import");
 $cms->list_field(26,"importdatetime","Importmoment",array("date_format"=>"D MAAND JJJJ, UU:ZZ"));
 
