@@ -2402,8 +2402,50 @@ nieuwe tarieventabel
 	font-weight: bold;
 }
 
+.tarieventabel_top_left {
+	float: left;
+}
+
+.tarieventabel_top_right {
+	float: right;
+	text-align: right;
+}
+
 .tarieventabel_top_interne_link {
 	float: right;
+}
+
+.tarieventabel_top_valuta {
+	float: right;
+}
+
+.option_valuta_euro {
+	background-color: #ffffff;
+	background-image: url("http://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/800px-Flag_of_Europe.svg.png");
+	background-repeat: no-repeat;
+	background-size: 25px 14px;
+	background-position: 0 0;
+}
+
+.option_valuta_gbp {
+	background-color: #ffffff;
+	background-image: url("http://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/800px-Flag_of_the_United_Kingdom.svg.png");
+	background-repeat: no-repeat;
+	background-size: 25px 14px;
+	background-position: 0 0;
+}
+
+.tarieventabel_top_valuta select {
+	margin-left: 1em;
+	background-position: 2px 2px;
+	padding-left: 0px;
+}
+
+.tarieventabel_top_valuta_toelichting {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	font-style: italic;
+	font-size: 0.8em;
 }
 
 .tarieventabel_toelichting {

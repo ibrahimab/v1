@@ -165,6 +165,12 @@ if($nieuwe_tarieventabel) {
 		$tarieventabel_object->toon_commissie = true;
 	}
 
+	// andere valuta tonen
+	if($vars["website"]=="E" and ($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_GET["testsysteem"])) {
+		$tarieventabel_object->meerdere_valuta = true;
+		$tarieventabel_object->actieve_valuta = "gbp";
+	}
+
 
 
 	$tarieventabel_object->seizoen_id=$nieuwe_tarieventabel_seizoen_id_inquery;

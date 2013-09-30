@@ -2334,11 +2334,29 @@ $txt["en"]["tarieventabel"]["tarieven"]="Prices";
 $txt["nl"]["tarieventabel"]["ineuros"]="in euro's";
 $txt["en"]["tarieventabel"]["ineuros"]="in euros";
 
+$txt["nl"]["tarieventabel"]["inponden"]="in Britse ponden";
+$txt["en"]["tarieventabel"]["inponden"]="in British Pounds";
+
 $txt["nl"]["tarieventabel"]["peraccommodatie"]="per accommodatie";
 $txt["en"]["tarieventabel"]["peraccommodatie"]="per accommodation";
 
 $txt["nl"]["tarieventabel"]["perpersooninclskipas"]="per persoon, inclusief skipas";
 $txt["en"]["tarieventabel"]["perpersooninclskipas"]="per person, including ski-lift pass";
+
+$txt["nl"]["tarieventabel"]["valuta"]="Valuta";
+$txt["en"]["tarieventabel"]["valuta"]="Currency";
+
+$txt["nl"]["tarieventabel"]["euro"]="euro";
+$txt["en"]["tarieventabel"]["euro"]="Euro";
+
+$txt["nl"]["tarieventabel"]["gbp"]="GBP";
+$txt["en"]["tarieventabel"]["gbp"]="GBP";
+
+// $txt["nl"]["tarieventabel"]["valuta_toelichting_euro"]="prijzen zijn exact zoals getoond";
+// $txt["en"]["tarieventabel"]["valuta_toelichting_euro"]="prices are exactly as shown";
+
+$txt["nl"]["tarieventabel"]["valuta_toelichting_gbp"]="prijzen zijn een schatting op basis van de huidige wisselkoers";
+$txt["en"]["tarieventabel"]["valuta_toelichting_gbp"]="prices are an estimation based on the current exchange rate";
 
 $txt["nl"]["tarieventabel"]["kortingenaldoorgerekend"]="Kortingen zijn al doorgerekend";
 $txt["en"]["tarieventabel"]["kortingenaldoorgerekend"]="Discounts are already included";
