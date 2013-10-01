@@ -10,7 +10,7 @@ include("admin/vars.php");
 if($_GET["bid"] and $_GET["c"]==substr(sha1($_GET["bid"]."_WT_488439fk3"),0,8)) {
 
 	$gegevens=get_boekinginfo($_GET["bid"]);
-	nawcookie($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"],$gegevens["stap2"]["adres"],$gegevens["stap2"]["postcode"],$gegevens["stap2"]["plaats"],$gegevens["stap2"]["land"],$gegevens["stap2"]["telefoonnummer"],$gegevens["stap2"]["mobielwerk"],$gegevens["stap2"]["email"],$gegevens["stap2"]["geboortedatum"],0,$gegevens["stap2"]["geslacht"],$gegevens["stap2"]["houseno"]);
+	nawcookie($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"],$gegevens["stap2"]["adres"],$gegevens["stap2"]["postcode"],$gegevens["stap2"]["plaats"],$gegevens["stap2"]["land"],$gegevens["stap2"]["telefoonnummer"],$gegevens["stap2"]["mobielwerk"],$gegevens["stap2"]["email"],$gegevens["stap2"]["geboortedatum"],0,$gegevens["stap2"]["geslacht"]);
 
 	setcookie("rebook",$_GET["bid"]."_".$_GET["c"],0,"/");
 

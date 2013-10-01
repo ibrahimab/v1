@@ -1,14 +1,20 @@
 <?php
-$html = '<html><body>';
+$html = '<html>';
 
-/* temporary message */
-$html.= __('Redirecting to Docdata...');
+$html .= '<head>';
+// (used when customer click on the previous button of his browser)
+$html .= '<script type="text/javascript">history.go(1);</script>';
+$html .= '</head>';
 
-/* check if the cluster already exists
-   (used when customer click on the previous button of his browser) */
+/* check if the cluster already exists */
 if ($paymentOrderExists) {
-	$html.= '<script type="text/javascript">history.go(1);</script>';
+
 } else {
+
+	$html . '<body>';
+
+	/* temporary message */
+	$html.= __('Redirecting to Docdata...');
 
 	/* creating the form with action and hidden fields */
 	$form = '<form id="docdata_checkout" name="docdata_checkout" method="GET" action="' . $webmenuUrl .'">';
@@ -16,7 +22,8 @@ if ($paymentOrderExists) {
 	foreach($params as $key => $value) {
 		$form .= '<input type="hidden" name="' . $key . '" value="' . $value . '" />';
 	}
-	//$form .= '<input type="submit">';
+
+	#$form .= '<input type="submit">';
 	$form .= '</form>';
 
 	$html.= $form;

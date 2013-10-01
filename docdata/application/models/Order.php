@@ -63,33 +63,46 @@ class Order extends Model {
 		return $this;
 	}
 
-	public function getIncrementId() {
-		return $this->increment_id;
-	}
-
 	public function getRealOrderId() {
 		$data = $this->data[$this->increment_id];
 		return $data['boekingsnummer'];
 	}
 
-	public function getDocdataPaymentOrderKey() {
-		return App::get("model/payment")->getDocdataPaymentOrderKey($this->increment_id, $this->getPaymentType());
+	public function getDocdataPaymentOrderKey($status = null) {
+		return App::get("model/payment")->getDocdataPaymentOrderKey($this->increment_id, $this->payment_type, $status);
 	}
 
 	public function getDocdataPaymentClusterKey() {
 		return App::get("model/payment")->getDocdataPaymentClusterKey($this->getDocdataPaymentId(), $this->getPaymentType());
 	}
 
+	/**
+	 * Get the current order payment type
+	 *
+	 * @return string
+	 *
+	 */
 	private function getPaymentType() {
 		$this->payment_type = App::get("model/payment")->getDocdataPaymentType($this->increment_id, $this->cluster_key);
                 
         return (!empty($this->payment_type)) ? $this->payment_type : self::FULL_PAYMENT;
 	}
 
+	/**
+	 * Set order payment type (advance or full)
+	 *
+	 * @param $payment_type
+	 */
 	public function setPaymentType($payment_type) {
 		$this->payment_type = (!empty($payment_type)) ? $payment_type : self::FULL_PAYMENT;
 	}
 
+	/**
+	 * Set customer details based on order ID
+	 *
+	 * @param $order_id
+	 * @return void
+	 */
 	private function getCustomer($order_id) {
 		$sql = "SELECT bu.user_id FROM boeking b, boeking_persoon bp
 				INNER JOIN boekinguser bu ON bp.email = bu.user
@@ -98,7 +111,12 @@ class Order extends Model {
 
 		$this->customer = $this->next_record();
 	}
-        
+
+	/**
+	 * Returns the customer id for the current order
+	 *
+	 * @return null|string
+	 */
 	public function getCustomerId() {
 
 		if(empty(self::$customer_id)) {
@@ -281,6 +299,12 @@ class Order extends Model {
 		return $data['bestelstatus'];
 	}
 
+	/**
+	 * Can be used to handle different docdata payment profiles per website
+	 * For the moment is not the case
+	 *
+	 * @return null
+	 */
 	public function getStoreId() {
 		return null;
 	}
@@ -384,6 +408,42 @@ class Order extends Model {
 	 */
 	public function getId() {
 		return $this->increment_id;
+	}
+
+	/**
+	 * Check if the payment is already registered in DocData to avoid creating multiple payments
+	 *
+	 * @param string $cluster_key
+	 * @param Request $request
+	 * @return bool
+	 */
+	public function matchBackOrder($cluster_key, $request) {
+		if(empty($cluster_key)) return false;
+
+		// Get the payment
+		$existing_payment = App::get('model/payment')->loadByClusterKey($cluster_key, $this->getId());
+		if(!$existing_payment) return false;
+
+		switch($request->getParam('payment_type')) {
+			case self::ADVANCE_PAYMENT:
+				$gross_amount = $this->getAdvancePaymentAmount();
+				break;
+			case self::FULL_PAYMENT:
+				$gross_amount = $this->getBaseTotalDue();
+				break;
+		}
+
+		$_helper = App::get('helper/data');
+		$total_gross_amount = $_helper->getAmountInMinorUnit($gross_amount, $this->getOrderCurrencyCode());
+		$db_gross_amount = $_helper->getAmountInMinorUnit($existing_payment["amount"], $this->getOrderCurrencyCode());
+
+		// Compare the amounts
+		if($total_gross_amount != $db_gross_amount) return false;
+
+		// Compare payment type
+		if($this->payment_type != $existing_payment["type"]) return false;
+
+		return true;
 	}
 
 }

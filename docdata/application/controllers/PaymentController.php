@@ -62,7 +62,7 @@ class PaymentController extends Controller {
 
 		$orderId = null;
 		if ($this->order !== null) {
-			return $this->order->getIncrementId();
+			return $this->order->getId();
 		}
 
 		//first check id in request params
@@ -433,7 +433,7 @@ class PaymentController extends Controller {
 		if ($order != null) {
 			$order->setClusterKey($request->getParam("key"));
 
-			App::get('helper/data')->log('Success Action for the order '.$order->getIncrementId());
+			App::get('helper/data')->log('Success Action for the order '.$order->getId());
 			//handle new order
 			$this->_newOrder($order, $request);
 		} else {
@@ -495,8 +495,8 @@ class PaymentController extends Controller {
 
 			// Check if the order is belongs to the currently logged in user
 			if($user_id != $customer_id) {
-				App::get('helper/data')->log('The order with the id: ' . $order->getIncrementId() .' does not belong to the user with id: ' .$user_id, App::ERR);
-				App::get('helper/data')->dbLog('The order with the id: ' . $order->getIncrementId() .' does not belong to the user with id: ' .$user_id, App::ERR, $order->getIncrementId());
+				App::get('helper/data')->log('The order with the id: ' . $order->getId() .' does not belong to the user with id: ' .$user_id, App::ERR);
+				App::get('helper/data')->dbLog('The order with the id: ' . $order->getId() .' does not belong to the user with id: ' .$user_id, App::ERR, $order->getId());
 
 				// Order does not belong to the logged in user
 				$errCode = 3;
@@ -515,10 +515,10 @@ class PaymentController extends Controller {
 		App::get('helper/data')->log('Redirect Action for the order '.$order->getRealOrderId());
                         
 		//make sure order still needs to be placed with Docdata
-		#$payment_order_key = $order->getDocdataPaymentOrderKey();
-		$payment_order_key = NULL;
+		$payment_order_key = $order->getDocdataPaymentOrderKey($status="pending");
+		$checkOtherParams = $order->matchBackOrder($payment_order_key, $request);
 
-		#if ($payment_order_key === null || $payment_order_key == "") {
+		if ($payment_order_key === null || $checkOtherParams == false) {
 
 			// Get payment code from the $_POST request parameters
 			$pm_code = $request->getParam('pm_code');
@@ -556,12 +556,12 @@ class PaymentController extends Controller {
 				$this->render = 0;
 				return;
 			}
-		#}
+		}
 
 		if(!isset($extra_params)) $extra_params = array();
 		if(!isset($pm_code)) $pm_code = "docdata_idl";
 
-		$payment_order_key = $order->getDocdataPaymentOrderKey();
+		$payment_order_key = $order->getDocdataPaymentOrderKey($status="pending");
 
 		$extra_paramsSO = App::get('helper/data')->removePrefix(
 			Model_Method_Abstract::PREFIX_SHOW,

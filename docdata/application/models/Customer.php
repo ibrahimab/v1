@@ -23,7 +23,6 @@ class Customer extends Model {
 			$this->customer['initials'] = $this->f('tussenvoegsel');
 			$this->customer['lastname'] = $this->f('achternaam');
 			$this->customer['address']	= $this->f('adres');
-			$this->customer['houseno']	= $this->f('houseno');
 			$this->customer['postcode']	= $this->f('postcode');
 			$this->customer['city']	= $this->f('plaats');
 			#$this->customer['country']	= $this->f('land');
@@ -73,10 +72,6 @@ class Customer extends Model {
 
 	public function getStreetFull() {
 		return $this->customer['address'];
-	}
-
-	public function getHouseNumber() {
-		return $this->customer['houseno'];
 	}
 
 	public function getPostCode() {

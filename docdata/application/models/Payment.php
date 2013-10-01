@@ -20,7 +20,6 @@ class Payment extends Model {
 			$this->paymentId = htmlspecialchars($this->f("id"));
 		}
 		parent::__construct();
-		//$this->db; # Used for database queries
 	}
         
 
@@ -63,12 +62,17 @@ class Payment extends Model {
 	 *
 	 * @param $order_id
 	 * @param string $payment_type (advance / full)
+	 * @param string $status The payment status
 	 * @return int
 	 */
-	public function getDocdataPaymentOrderKey($order_id, $payment_type) {
+	public function getDocdataPaymentOrderKey($order_id, $payment_type, $status = NULL) {
             
 		$sql  = "SELECT cluster_key FROM `" . $this->table . "` ";
-		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($order_id) . "' AND type = '" . mysql_real_escape_string($payment_type) ."' ORDER BY id DESC LIMIT 1";
+		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($order_id) . "' AND type = '" . mysql_real_escape_string($payment_type) ."' ";
+		if($status) {
+			$sql .= "AND status='". $status ."' ";
+		}
+		$sql .= "ORDER BY id DESC LIMIT 1";
 
 		$this->query($sql);
 		if((int)$this->num_rows() == 0) return null;
@@ -159,6 +163,11 @@ class Payment extends Model {
 		return $this->affected_rows();
 	}
 
+	/**
+	 * Return class instance
+	 *
+	 * @return $this
+	 */
 	public function getMethodInstance() {
 		return $this;
 	}
@@ -199,7 +208,13 @@ class Payment extends Model {
 
 		return $this->affected_rows();
 	}
-        
+
+	/**
+	 * Get the docdata payment id based on the cluster key
+	 *
+	 * @param string $clusterKey
+	 * @return null|int
+	 */
 	public function getDocdataPaymentId($clusterKey) {
 
 		$sql  = "SELECT docdata_payment_id FROM `" . $this->table . "` ";
@@ -210,8 +225,14 @@ class Payment extends Model {
 
 		$this->next_record();
 		return htmlspecialchars($this->f("docdata_payment_id"));
-	}        
-        
+	}
+
+	/**
+	 * Get the payment method based on the cluster key
+	 *
+	 * @param string $clusterKey
+	 * @return null|string
+	 */
 	public function getDocdataPaymentMethod($clusterKey) {
 
 		$sql  = "SELECT payment_method FROM `" . $this->table . "` ";
@@ -228,7 +249,6 @@ class Payment extends Model {
 	 * Set docdata payment method after a successful payment received from docdata
 	 *
 	 * @param string $method
-	 *
 	 * @return int
 	 */
 	public function setMethod($method) {
@@ -241,7 +261,17 @@ class Payment extends Model {
 
 		return $this->affected_rows();
 	}
-        
+
+	/**
+	 * Save the payment into the boeking_betaling table
+	 * It is executed only when the payment status is "paid"
+	 *
+	 * @param int $order_id
+	 * @param int $payment_id
+	 * @param string $type
+	 * @param float $captured
+	 * @return bool
+	 */
 	public function setInvoice($order_id, $payment_id, $type, $captured) {
 		$config = App::get('app/config')->getConfig();
 		$payments_cfg = $config['payment'];
@@ -275,11 +305,41 @@ class Payment extends Model {
 		return $this->affected_rows();
 	}
 
+	/**
+	 * Get the total amount of the paid payments from boeking_betaling table
+	 *
+	 * @param int $orderId
+	 * @return mixed
+	 */
 	public function getPayments($orderId) {
 		$sql = "SELECT SUM(bedrag) AS total FROM `" . $this->paymentsTable ."` WHERE boeking_id = '" . mysql_real_escape_string($orderId) . "'";
 		$this->query($sql);
 
 		$this->next_record();
 		return $this->f("total");
+	}
+
+	/**
+	 * Get payment details by cluster key and order_id
+	 *
+	 * @param string $clusterKey
+	 * @param int $orderId
+	 * @return array|null
+	 */
+	public function loadByClusterKey($clusterKey, $orderId) {
+		$sql  = "SELECT * FROM `" . $this->table . "` ";
+		$sql .= "WHERE cluster_key = '" . mysql_real_escape_string($clusterKey) ."' ";
+		$sql .= "AND boeking_id = '". $orderId ."' AND status='pending' AND docdata_payment_id = '0' LIMIT 1";
+
+		$this->query($sql);
+		if((int)$this->num_rows() == 0) return null;
+
+		$this->next_record();
+
+		return array(
+			"amount" => $this->f("amount"),
+			"type"	=> $this->f("type")
+		);
+
 	}
 }

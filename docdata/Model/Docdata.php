@@ -294,7 +294,7 @@ class Model_Docdata implements Model_System {
 			$this->log("Multiple statusses detected. Selected $final_status for use and going on. Other statusses: ".implode(', ', array_keys($statusses)));
 		}
 		
-		$order_id = $order->getIncrementId();
+		$order_id = $order->getId();
 
 		//do not change an order that is already set to complete state
 		if ($order->getState() === Order::STATE_COMPLETE) {

@@ -26,8 +26,8 @@ class Helper_Api_Create extends Helper_Api_Abstract {
 
 	/**
 	 * Retrieves the configured merchant data
-	 * @param The website code (C, E, B)
 	 *
+	 * @param string $website_code The website code (C, E, B)
 	 * @return array Merchant data
 	 */
 	public function getPaymentPreferences($website_code = "C") {
@@ -103,7 +103,6 @@ class Helper_Api_Create extends Helper_Api_Abstract {
 	 * @return string Docdata gender
 	 */
 	private function _getDocdataGender($gender = null) {
-		$result;
 
 		switch($gender) :
 			case "1" :
@@ -234,7 +233,6 @@ class Helper_Api_Create extends Helper_Api_Abstract {
 
 		$payment_type = $request->getParam('payment_type');
 
-		//var_dump($order->getAdvancePaymentAmount());
 		if ($order->getBaseTotalDue() < $order->getGrandTotal()) $payment_type = $order::FULL_PAYMENT;
 		switch($payment_type) {
 			case $order::ADVANCE_PAYMENT:
@@ -267,15 +265,11 @@ class Helper_Api_Create extends Helper_Api_Abstract {
 		// Try to get a docdata/afterpay specific address first
 		$street_full = $address->getStreetFull();
 		$result['street'] = $this->_limitLength($this->_getStreetFromAddress($street_full), 35); // Max 35 chars
-		$house_no = $address->getHouseNumber();
-		if(!empty($house_no)) {
-			$result['houseNumber'] = $house_no;
-		} else {
-			$result['houseNumber'] = $this->_limitLength($this->_getStreetNumber($street_full), 35); // Max 35 chars
-			$house_nr_add = $this->_getStreetNumberAddition($street_full);
-			if (!empty($house_nr_add)) {
-				$result['houseNumberAddition'] = $this->_limitLength($house_nr_add, 35); // Max 35 chars
-			}
+
+		$result['houseNumber'] = $this->_limitLength($this->_getStreetNumber($street_full), 35); // Max 35 chars
+		$house_nr_add = $this->_getStreetNumberAddition($street_full);
+		if (!empty($house_nr_add)) {
+			$result['houseNumberAddition'] = $this->_limitLength($house_nr_add, 35); // Max 35 chars
 		}
 
 		// suppress spaces in postal code

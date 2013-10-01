@@ -3097,9 +3097,6 @@ $txt["en"]["boeken"]["voorhetwijzigenvanachternaam"]="Please contact us if you n
 $txt["nl"]["boeken"]["adres"]="Adres";
 $txt["en"]["boeken"]["adres"]="Address";
 
-$txt["nl"]["boeken"]["houseno"]="Huisnummer";
-$txt["en"]["boeken"]["houseno"]="House no.";
-
 $txt["nl"]["boeken"]["postcode"]="Postcode";
 $txt["en"]["boeken"]["postcode"]="Postal code";
 

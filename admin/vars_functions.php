@@ -877,7 +877,7 @@ function boekinginfo($boekingid) {
 	}
 
 	# Persoonlijke gegevens uit database halen
-	$db->query("SELECT persoonnummer, status, voornaam, tussenvoegsel, achternaam, adres, houseno, postcode, plaats, land, telefoonnummer, mobielwerk, email, geboortedatum, geslacht, annverz, annverz_voorheen, annverz_verzekerdbedrag FROM boeking_persoon WHERE boeking_id='".addslashes($boekingid)."' ORDER BY status, persoonnummer;");
+	$db->query("SELECT persoonnummer, status, voornaam, tussenvoegsel, achternaam, adres, postcode, plaats, land, telefoonnummer, mobielwerk, email, geboortedatum, geslacht, annverz, annverz_voorheen, annverz_verzekerdbedrag FROM boeking_persoon WHERE boeking_id='".addslashes($boekingid)."' ORDER BY status, persoonnummer;");
 	while($db->next_record()) {
 		if($db->f("persoonnummer")==1) {
 			# Hoofdboeker
@@ -885,7 +885,6 @@ function boekinginfo($boekingid) {
 			$return["stap2"][$db->f("status")]["tussenvoegsel"]=$db->f("tussenvoegsel");
 			$return["stap2"][$db->f("status")]["achternaam"]=$db->f("achternaam");
 			$return["stap2"][$db->f("status")]["adres"]=$db->f("adres");
-			$return["stap2"][$db->f("status")]["houseno"]=$db->f("houseno");
 			$return["stap2"][$db->f("status")]["postcode"]=$db->f("postcode");
 			$return["stap2"][$db->f("status")]["plaats"]=$db->f("plaats");
 			$return["stap2"][$db->f("status")]["land"]=$db->f("land");
@@ -2026,14 +2025,14 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 	return $return;
 }
 
-function nawcookie($voornaam,$tussenvoegsel,$achternaam,$adres,$postcode,$plaats,$land,$telefoonnummer,$mobielwerk,$email,$geboortedatum='not',$nieuwsbrief,$geslacht=0,$houseno='') {
+function nawcookie($voornaam,$tussenvoegsel,$achternaam,$adres,$postcode,$plaats,$land,$telefoonnummer,$mobielwerk,$email,$geboortedatum='not',$nieuwsbrief,$geslacht=0) {
 	global $vars,$voorkant_cms;
 
 	if(((!$voorkant_cms or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") and !$vars["chalettour_logged_in"]) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		if($_COOKIE["sch"]) {
 			$db=new DB_sql;
 			if($nieuwsbrief) $nieuwsbrief=1; else $nieuwsbrief="";
-			$db->query("UPDATE bezoeker SET voornaam='".addslashes($voornaam)."', tussenvoegsel='".addslashes($tussenvoegsel)."', achternaam='".addslashes($achternaam)."', adres='".addslashes($adres)."', houseno='".addslashes($houseno)."', postcode='".addslashes($postcode)."', plaats='".addslashes($plaats)."', land='".addslashes($land)."', telefoonnummer='".addslashes($telefoonnummer)."', mobielwerk='".addslashes($mobielwerk)."', email='".addslashes($email)."'".($geboortedatum=="not" ? "" : ", geboortedatum=FROM_UNIXTIME('".addslashes($geboortedatum)."')").($nieuwsbrief ? ", nieuwsbrief='1'" : "").($geslacht ? ", geslacht='".addslashes($geslacht)."'" : "").", gewijzigd=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."';");
+			$db->query("UPDATE bezoeker SET voornaam='".addslashes($voornaam)."', tussenvoegsel='".addslashes($tussenvoegsel)."', achternaam='".addslashes($achternaam)."', adres='".addslashes($adres)."', postcode='".addslashes($postcode)."', plaats='".addslashes($plaats)."', land='".addslashes($land)."', telefoonnummer='".addslashes($telefoonnummer)."', mobielwerk='".addslashes($mobielwerk)."', email='".addslashes($email)."'".($geboortedatum=="not" ? "" : ", geboortedatum=FROM_UNIXTIME('".addslashes($geboortedatum)."')").($nieuwsbrief ? ", nieuwsbrief='1'" : "").($geslacht ? ", geslacht='".addslashes($geslacht)."'" : "").", gewijzigd=NOW() WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."';");
 
 			# Cookies wissen (is dadelijk niet meer nodig)
 			$cookietime=time()-86400;
@@ -2041,7 +2040,6 @@ function nawcookie($voornaam,$tussenvoegsel,$achternaam,$adres,$postcode,$plaats
 			setcookie("naw[tussenvoegsel]","",$cookietime,"/");
 			setcookie("naw[achternaam]","",$cookietime,"/");
 			setcookie("naw[adres]","",$cookietime,"/");
-			setcookie("naw[houseno]","",$cookietime,"/");
 			setcookie("naw[postcode]","",$cookietime,"/");
 			setcookie("naw[plaats]","",$cookietime,"/");
 			setcookie("naw[land]","",$cookietime,"/");
@@ -2057,13 +2055,12 @@ function nawcookie($voornaam,$tussenvoegsel,$achternaam,$adres,$postcode,$plaats
 function getnaw() {
 	if($_COOKIE["sch"]) {
 		$db=new DB_sql;
-		$db->query("SELECT voornaam, tussenvoegsel, achternaam, adres, houseno, postcode, plaats, land, telefoonnummer, mobielwerk, email, UNIX_TIMESTAMP(geboortedatum) AS geboortedatum, nieuwsbrief, geslacht FROM bezoeker WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."';");
+		$db->query("SELECT voornaam, tussenvoegsel, achternaam, adres, postcode, plaats, land, telefoonnummer, mobielwerk, email, UNIX_TIMESTAMP(geboortedatum) AS geboortedatum, nieuwsbrief, geslacht FROM bezoeker WHERE bezoeker_id='".addslashes($_COOKIE["sch"])."';");
 		if($db->next_record()) {
 			$return["voornaam"]=$db->f("voornaam");
 			$return["tussenvoegsel"]=$db->f("tussenvoegsel");
 			$return["achternaam"]=$db->f("achternaam");
 			$return["adres"]=$db->f("adres");
-			$return["houseno"]=$db->f("houseno");
 			$return["postcode"]=$db->f("postcode");
 			$return["plaats"]=$db->f("plaats");
 			$return["land"]=$db->f("land");
