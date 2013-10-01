@@ -863,7 +863,7 @@ if($login->logged_in) {
                             }
                         }
 
-                        if($showCountriesDropdown || 1>0) {
+                        if($showCountriesDropdown) {
                             echo "<label>" . html("customer_country","bsys") .": ";
                             echo "<select name=\"country\">";
                             foreach($countriesList[$vars["taal"]] as $key => $value) {
