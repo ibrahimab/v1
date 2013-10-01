@@ -18,14 +18,24 @@ if($_SERVER["HTTP_HOST"]=="www.chalet.nl") {
 define ('SITE_URL', $site_url);
 
 // Docdata account
-define ('MERCHANT_NAME', 'chalet_nl');
-define ('MERCHANT_PASSWORD', '7rU5ehew');
+define ("TEST_MERCHANT_NAME", "chalet_nl");
+define ("TEST_MERCHANT_PASSWORD", "7rU5ehew");
+define ('PRODUCTION_MERCHANT_NAME', null);
+define ('PRODUCTION_MERCHANT_PASSWORD', null);
 
 # the below credentials should be filled in accordance with the local available resources
 define('DB_NAME', ''); # database name
 define('DB_USER', ''); # user name
 define('DB_PASSWORD', ''); # db password
 define('DB_HOST', ''); # host name
+// Payment module mode: test | production
+define('MODULE_MODE', 'test');
+
+// Docdata Payment URLs
+define('TEST_WSDL', 'https://test.tripledeal.com/ps/services/paymentservice/1_0?wsdl');
+define('PRODUCTION_WSDL', '');
+define('TEST_WEBMENU', 'https://test.tripledeal.com/ps/menu?command=show_payment_cluster');
+define('PRODUCTION_WEBMENU', '');
 
 class Config {
 
@@ -66,26 +76,26 @@ class Config {
 		$this->general = array(
 			"version" 				=> 1.0,
 			"active"				=> 1,
-			"module_mode"	 		=> 'test', //All values: $this->types_ModuleModes
+			"module_mode"	 		=> MODULE_MODE, //All values: $this->types_ModuleModes
 			"webmenu_active" 		=> 1, //All values: $this->types_WebmenuTypes
 			"webmenu_css_id" 		=> array(
-				"C"	=>	"1",
-				"E"	=>	"2",
-				"B"	=>	"3"
+				"C"	=>	"1", // Chalet.nl
+				"E"	=>	"2", // Chalet.eu
+				"B"	=>	"3" // Chalet.be
 			),
 			"docdata_payment_title" => 'Docdata',
 			"confidence_level" 		=> 'authorization', //All values: $this->types_ConfidenceLevels
-			"test_wsdl"				=> "https://test.tripledeal.com/ps/services/paymentservice/1_0?wsdl",
-			"production_wsdl"		=> "production_wsdl",
-			"test_webmenu"			=> "https://test.tripledeal.com/ps/menu?command=show_payment_cluster",
-			"production_webmenu"	=> "production_webmenu"
+			"test_wsdl"				=> TEST_WSDL,
+			"production_wsdl"		=> PRODUCTION_WSDL,
+			"test_webmenu"			=> TEST_WEBMENU,
+			"production_webmenu"	=> PRODUCTION_WEBMENU
 		);
 
 		$this->merchant_account = array(
-			"production_username" => null,
-			"production_password" => null,
-			"test_username" => 'chalet_nl',
-			"test_password" => '7rU5ehew',
+			"production_username" => PRODUCTION_MERCHANT_NAME, // will be provided by docdata after acceptance test
+			"production_password" => PRODUCTION_MERCHANT_PASSWORD, // will be provided by docdata after acceptance test
+			"test_username" => TEST_MERCHANT_NAME,
+			"test_password" => TEST_MERCHANT_PASSWORD,
 		);
 
 		$this->payment_preferences = array(
@@ -94,7 +104,7 @@ class Config {
 			"exhortation_period1_number_days" => 1,
 			"exhortation_period1_profile" => "standard",
 			"exhortation_period2_number_days" => 10,
-			"exhortation_period2_profile" => '',
+			"exhortation_period2_profile" => "standard",
 		);
 
 		$this->custom_statuses = array(
@@ -124,9 +134,9 @@ class Config {
 		);
 
 		$this->payment_profiles = array(
-			"C"	=> "chalet.nl",
-			"E" => "chalet.eu",
-			"B" => "chalet.be"
+			"C"	=> "chalet.nl", // Chalet.nl
+			"E" => "chalet.eu", // Chalet.eu
+			"B" => "chalet.be" // Chalet.be
 		);
 
 		$this->payment = array(

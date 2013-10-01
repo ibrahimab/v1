@@ -23,10 +23,11 @@ class Helper_Api_Abstract {
 	 */
 	public function getMerchantDetails($storeId = null) {
 
+		$merchant = App::get("helper/config")->getMerchant($storeId);
+
 		return array(
-			// Todo: get from Config class
-			'name' => MERCHANT_NAME,
-			'password' => MERCHANT_PASSWORD
+			"name" => $merchant["username"],
+			"password" => $merchant["password"]
 		);
 	}
 

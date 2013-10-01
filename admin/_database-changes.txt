@@ -58,7 +58,3 @@ CREATE TABLE `docdata_lock` (
   PRIMARY KEY (`lock_code`),
   KEY `process_code` (`process_code`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
-// house number updates
-ALTER TABLE `boeking_persoon` ADD `houseno` varchar( 10 ) NOT NULL AFTER `adres`;
-ALTER TABLE `bezoeker` ADD `houseno` varchar( 10 ) NOT NULL AFTER `gewijzigd`;
