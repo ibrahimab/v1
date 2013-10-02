@@ -203,7 +203,7 @@ if($gegevens["stap1"]["leverancierscode"]) {
 						#
 						# Des Neiges
 						#
-						echo "<div style=\"border:1px solid #000000;background-color:yellow;padding:5px;width:500px;margin-top:10px;margin-bottom:10px;\">Let op: het XML-bestelsysteem van Des Neiges is nog niet uitgebreid getest.</div>";
+						// echo "<div style=\"border:1px solid #000000;background-color:yellow;padding:5px;width:500px;margin-top:10px;margin-bottom:10px;\">Let op: het XML-bestelsysteem van Des Neiges is nog niet uitgebreid getest.</div>";
 						$client = new SoapClient("http://chaletdesneiges.resalys.com/rsl/wsdl_distrib",array('trace'=>1));
 
 						$soap_conventionid="";
