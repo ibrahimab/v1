@@ -54,6 +54,13 @@ if($_GET["show"]==21) {
 	if($overzicht_per_accommodatie) {
 		echo "<p><a href=\"cms_mail_klanten_vorig_seizoen.php?status=2&accid=".$overzicht_per_accommodatie."\">Verstuur mailtjes aan boekingen van vorig seizoen</a><p>";
 	}
+
+	if($_GET["bt"]==1) {
+		echo "<p><span class=\"tr_bestelstatus_hele_tr_opvallend\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog geen bestelstatus</p>";
+	}
+
+
+
 	$cms->display_cms();
 	if($overzicht_per_accommodatie) {
 		echo "<p><a href=\"cms_mail_klanten_vorig_seizoen.php?status=2&accid=".$overzicht_per_accommodatie."\">Verstuur mailtjes aan boekingen van vorig seizoen</a>";

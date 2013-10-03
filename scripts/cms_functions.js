@@ -710,6 +710,10 @@ $(document).ready(function() {
 		return false;
 	});
 
+
+	// bij overzicht aanvragen (http://www.chalet.nl/cms_boekingen.php?bt=1&archief=0) hele tr opvallend kleuren als er nog geen bestelstatus bekend is
+	$(".bestelstatus_hele_tr_opvallend").parent().parent().addClass("tr_bestelstatus_hele_tr_opvallend");
+
 });
 
 function goedkeuringen_benodigd_uitzetten() {

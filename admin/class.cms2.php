@@ -677,6 +677,9 @@ class cms2 {
 							$tl->add_record($key,$db->f("primkey"),"",$db->f($key),true);
 						}
 					} elseif($this->db[$counter]["type"][$key]=="select" or $this->db[$counter]["type"][$key]=="radio") {
+
+						# Overige select-fields
+
 						# select-type en radio-type
 						unset($array);
 						if($this->list[$counter]["options"][$key]["selection"]) {
@@ -685,12 +688,20 @@ class cms2 {
 						} else {
 							$array=$this->db[$counter]["options"][$key];
 						}
+
+						$options_array = $array["selection"][$db->f($key)];
+
+						// kijken of het veld html bevat
+						if($this->list[$counter]["layout"][$key]["html"]) {
+							$options_array["html"]=true;
+						}
+
 						if($this->list[$counter]["options"][$key]["date_format"] and $array["selection"][$db->f($key)]) {
 							# Select-field met date-format in list-options
 							if($this->list[$counter]["options"][$key]["key_is_date"]) {
-								$tl->add_record($key,$db->f("primkey"),datum($this->list[$counter]["options"][$key]["date_format"],$db->f($key),$this->settings["language"]),$array["selection"][$db->f($key)],true);
+								$tl->add_record($key,$db->f("primkey"),datum($this->list[$counter]["options"][$key]["date_format"],$db->f($key),$this->settings["language"]),$options_array,true);
 							} else {
-								$tl->add_record($key,$db->f("primkey"),datum($this->list[$counter]["options"][$key]["date_format"],$array["selection"][$db->f($key)],$this->settings["language"]),$array["selection"][$db->f($key)],true);
+								$tl->add_record($key,$db->f("primkey"),datum($this->list[$counter]["options"][$key]["date_format"],$array["selection"][$db->f($key)],$this->settings["language"]),$options_array,true);
 							}
 						} else {
 							# Overige select-fields
