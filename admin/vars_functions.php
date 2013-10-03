@@ -1854,7 +1854,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		}
 	}
 
-	if($gegevens["fin"]["commissie_accommodatie"]>0 or $gegevens["fin"]["commissie_opties"]>0) {
+	if($gegevens["fin"]["commissie_accommodatie"]<>0 or $gegevens["fin"]["commissie_opties"]<>0) {
 
 		# Commissie reisbureau
 
@@ -1878,7 +1878,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		if($kleurteller>1) unset($kleurteller);
 		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "").$temp_class."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
 
-		if($gegevens["fin"]["commissie_accommodatie"]>0) {
+		if($gegevens["fin"]["commissie_accommodatie"]<>0) {
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
 			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "").$temp_class."><td valign=\"top\" style=\"padding-right:10px\">".html("commissie_accommodatie","vars");
@@ -1889,7 +1889,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			$return.="</tr>";
 		}
 
-		if($gegevens["fin"]["commissie_opties"]>0) {
+		if($gegevens["fin"]["commissie_opties"]<>0) {
 			# Commissie opties
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);

@@ -583,7 +583,7 @@ if($form->okay) {
 
 		factuur_opties("","","","optellen");
 
-		if($gegevens["fin"]["commissie_accommodatie"]>0 or $gegevens["fin"]["commissie_opties"]>0) {
+		if($gegevens["fin"]["commissie_accommodatie"]<>0 or $gegevens["fin"]["commissie_opties"]<>0) {
 			factuur_opties("",txt("totaal_klant","factuur"),$gegevens["fin"]["totale_reissom_zonder_commissie_aftrek"],"plaintext");
 			$pdf->Ln();
 
@@ -591,7 +591,7 @@ if($form->okay) {
 				$pdf->AddPage();
 			}
 
-			if($gegevens["fin"]["commissie_accommodatie"]>0) {
+			if($gegevens["fin"]["commissie_accommodatie"]<>0) {
 				factuur_opties("",txt("commissie_accommodatie","factuur")." (".round($gegevens["stap1"]["commissie"],0)."%)",0-$gegevens["fin"]["commissie_accommodatie"],"plaintext",0,true);
 			}
 
@@ -603,7 +603,7 @@ if($form->okay) {
 				$perc=txt("commissie_diverse_percentages","factuur");
 			}
 
-			if($gegevens["fin"]["commissie_opties"]>0) {
+			if($gegevens["fin"]["commissie_opties"]<>0) {
 				factuur_opties("",txt("commissie_opties","factuur")." (".$perc.")",0-$gegevens["fin"]["commissie_opties"],"plaintext",0,true);
 			}
 
