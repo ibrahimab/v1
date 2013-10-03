@@ -76,6 +76,7 @@ form {
 	background-color: #ffffff;
 	margin-left: auto;
 	margin-right: auto;
+    	position: relative;
 }
 
 #top {
@@ -225,19 +226,14 @@ form {
 }
 
 .sgrlogo_hoofdmenu {
-	display: block;
-	width: 30px;
-	height: 27px;
-	z-index: 999;
-	position: absolute;
-	margin-left: -27px;
-	top: 95px;
+    margin-left: 5px;
 }
 
 #kleinelogos {
-	float: right;
-	margin-top: 7px;
-	margin-right: 5px;
+    right: 0;
+    top: 95px;
+    position: absolute;
+    margin-right: 5px;
 }
 
 #content {

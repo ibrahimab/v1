@@ -76,7 +76,7 @@ $cms->db_field(26,"textarea","opmerkingen");
 $cms->db_field(26,"yesno","mailsturen","",array("notdb"=>true));
 $cms->db_field(26,"yesno","goedgekeurde_betaling_wissen","",array("notdb"=>true));
 $cms->db_field(26,"yesno","import");
-$cms->db_field(26,"text","type");
+$cms->db_field(26,"select","type","",array("selection"=>$vars["boeking_betaling_type"]));
 $cms->db_field(26,"datetime","importdatetime");
 
 
@@ -128,6 +128,7 @@ $cms->settings[26]["show"]["goto_new_record"]=false;
 $cms->edit_field(26,1,"bedrag","","",array("negative"=>true));
 $cms->edit_field(26,1,"datum","Betaaldatum",array("time"=>time()),array("startyear"=>2003,"endyear"=>date("Y")+1),array("calendar"=>true));
 $cms->edit_field(26,0,"opmerkingen","Opmerkingen");
+$cms->edit_field(26,1,"type","Payment method");
 if($_GET["add"]==26) $cms->edit_field(26,0,"mailsturen","Mail sturen aan klant dat betaling is ontvangen");
 if($_GET["add"]==26 and $gegevens["stap1"]["goedgekeurde_betaling"]>0) $cms->edit_field(26,0,"goedgekeurde_betaling_wissen","Eerder goedgekeurde betaling t.w.v. € ".number_format($gegevens["stap1"]["goedgekeurde_betaling"],2,',','.')." wissen",array("selection"=>true));
 

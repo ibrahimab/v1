@@ -154,7 +154,8 @@ class Config {
 				"model" => "model/method_mastercard",
 				"regions" => "INT",
 				"group" => "docdata",
-				"command" => "MASTERCARD"
+				"command" => "MASTERCARD",
+				"type"	=> 5 //Docdata-betaling (creditcard), defined in admin/vars_cms.php
 			),
 			"docdata_mae" => array(
 				"title" => "Maestro",
@@ -162,7 +163,8 @@ class Config {
 				"model" => "model/method_maestro",
 				"regions" => "INT",
 				"group" => "docdata",
-				"command" => "MAESTRO"
+				"command" => "MAESTRO",
+				"type"	=> 5 //Docdata-betaling (creditcard), defined in admin/vars_cms.php
 			),
 			"docdata_vi" => array(
 				"title" => "Visa",
@@ -170,7 +172,8 @@ class Config {
 				"model" => "model/method_visa",
 				"regions" => "INT",
 				"group" => "docdata",
-				"command" => "VISA"
+				"command" => "VISA",
+				"type"	=> 5 //Docdata-betaling (creditcard), defined in admin/vars_cms.php
 			),
 			"docdata_mrc" => array(
 				"title" => "MrCash",
@@ -178,7 +181,8 @@ class Config {
 				"model" => "model/method_mrcash",
 				"regions" => "BE",
 				"group" => "docdata",
-				"command" => "MISTERCASH"
+				"command" => "MISTERCASH",
+				"type"	=> 6 //Docdata-uitbetaling (Mister Cash), defined in admin/vars_cms.php
 			),
 			"docdata_idl" => array(
 				"title" => "iDEAL",
@@ -187,6 +191,7 @@ class Config {
 				"regions" => "NL",
 				"group" => "docdata",
 				"command" => "IDEAL",
+				"type"	=> 4, //Docdata-betaling (iDEAL), defined in admin/vars_cms.php
 				"issuers" => array (
 					"rbb" => array (
 						"id" => "0021",

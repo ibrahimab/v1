@@ -3922,9 +3922,6 @@ $txt["en"]["bsys"]["factuur"]="Invoice";
 $txt["nl"]["bsys"]["factuurgoedkeuren"]="Factuur goedkeuren";
 $txt["en"]["bsys"]["factuurgoedkeuren"]="Approve invoice";
 
-$txt["nl"]["bsys"]["payment"]="Factuur betaling";
-$txt["en"]["bsys"]["payment"]="Payment";
-
 $txt["nl"]["bsys"]["boekingisalgoedgekeurd"]="De factuur van reserveringsnummer [[v_boekingsnummer]] is al goedgekeurd.";
 $txt["en"]["bsys"]["boekingisalgoedgekeurd"]="The invoice of reservation number [[v_boekingsnummer]] is already approved.";
 
@@ -3960,23 +3957,56 @@ $txt["en"]["bsys"]["akkoordmelding3"]="Back to \"My booking\"";
 
 /***** BEGIN Docdata translations *****/
 
+$txt["nl"]["bsys"]["payment"]="Betalen";
+$txt["en"]["bsys"]["payment"]="Payments";
+
+$txt["nl"]["bsys"]["pay_now"]="Click here to pay ";
+$txt["en"]["bsys"]["pay_now"]="Click here to pay ";
+
+$txt["nl"]["bsys"]["paynow_bank_transfer"]="Pay now through bank-transfer";
+$txt["en"]["bsys"]["paynow_bank_transfer"]="Pay now through bank-transfer";
+
+$txt["nl"]["bsys"]["docdata_idl"]="via iDEAL";
+$txt["en"]["bsys"]["docdata_idl"]="by iDEAL";
+
+$txt["nl"]["bsys"]["docdata_mrc"]="via MrCash";
+$txt["en"]["bsys"]["docdata_mrc"]="by MrCash";
+
+$txt["nl"]["bsys"]["docdata_vi"]="via Credit Card";
+$txt["en"]["bsys"]["docdata_vi"]="by Credit Card";
+
+$txt["nl"]["bsys"]["docdata_mc"]="via Credit Card";
+$txt["en"]["bsys"]["docdata_mc"]="by Credit Card";
+
+$txt["nl"]["bsys"]["via_bank_transfer"]="via bankoverschrijving";
+$txt["en"]["bsys"]["via_bank_transfer"]="by Bank transfer";
+
+$txt["nl"]["bsys"]["summary"]="betaaloverzicht";
+$txt["en"]["bsys"]["summary"]="Payments summary";
+
+$txt["nl"]["bsys"]["no_payments"]="You don't have any payments registered.";
+$txt["en"]["bsys"]["no_payments"]="You don't have any payments registered.";
+
+$txt["nl"]["bsys"]["no_remaining_payments"]="The booking is fully paid";
+$txt["en"]["bsys"]["no_remaining_payments"]="The booking is fully paid";
+
 $txt["nl"]["bsys"]["success_1"]="The Payment has been registered within system.";
 $txt["en"]["bsys"]["success_1"]="The Payment has been registered within system.";
 
-$txt["nl"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your order again later.";
-$txt["en"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your order again later.";
+$txt["nl"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your payment again later.";
+$txt["en"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your payment again later.";
 
-$txt["nl"]["bsys"]["error_1"]="Order not found in the system.";
-$txt["en"]["bsys"]["error_1"]="Order not found in the system.";
+$txt["nl"]["bsys"]["error_1"]="Booking not found in the system.";
+$txt["en"]["bsys"]["error_1"]="Booking not found in the system.";
 
 $txt["nl"]["bsys"]["error_2"]="An error occurred during the payment process.";
 $txt["en"]["bsys"]["error_2"]="An error occurred during the payment process.";
 
-$txt["nl"]["bsys"]["error_3"]="Invalid order specified for the payment.";
-$txt["en"]["bsys"]["error_3"]="Invalid order specified for the payment.";
+$txt["nl"]["bsys"]["error_3"]="Invalid booking specified for the payment.";
+$txt["en"]["bsys"]["error_3"]="Invalid booking specified for the payment.";
 
-$txt["nl"]["bsys"]["error_4"]="Please login in order to pay for the order.";
-$txt["en"]["bsys"]["error_4"]="Please login in order to pay for the order.";
+$txt["nl"]["bsys"]["error_4"]="Please login in order to pay for the booking.";
+$txt["en"]["bsys"]["error_4"]="Please login in order to pay for the booking.";
 
 $txt["nl"]["bsys"]["bank_transfer"]="Overschrijving";
 $txt["en"]["bsys"]["bank_transfer"]="Bank transfer";

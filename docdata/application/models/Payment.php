@@ -279,7 +279,7 @@ class Payment extends Model {
 		$sql  = "INSERT INTO `" . $this->paymentsTable . "` ";
 		$sql .= "SET boeking_id = '" . mysql_real_escape_string($order_id) . "', ";
         $sql .= "bedrag = " . mysql_real_escape_string($captured) . ", datum = NOW(), ";
-        $sql .= "type = '" . mysql_real_escape_string($payments_cfg[$type]['command']) . "', ";
+        $sql .= "type = '" . mysql_real_escape_string($payments_cfg[$type]['type']) . "', ";
 		$sql .= " docdata_payment_id = '" . mysql_real_escape_string($payment_id) ."' ;";
                 
 		$this->query($sql);

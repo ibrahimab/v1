@@ -58,3 +58,6 @@ CREATE TABLE `docdata_lock` (
   PRIMARY KEY (`lock_code`),
   KEY `process_code` (`process_code`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+03-oct-2013
+ALTER TABLE `boeking_betaling` CHANGE `type` `type` tinyint(4) NULL AFTER `docdata_payment_id`, COMMENT='';
