@@ -1376,6 +1376,22 @@ function wt_he($text) {
 	return $text;
 }
 
+function wt_url_zonder_http($url) {
+
+	// zet een volledige URL om in een mooi toonbare URL
+	// bijvoorbeeld: http://www.webtastic.nl/ wordt www.webtastic.nl
+
+	// http(s) verwijderen
+	$url = preg_replace("@^https?://@","",$url);
+
+	// laatste slash verwijderen (als er maar 1 slash in de url voorkomt)
+	if(preg_match("@/$@",$url) and substr_count($url, "/")==1) {
+		$url = substr($url, 0, -1);
+	}
+
+	return $url;
+}
+
 function wt_hernoem_classname($classname) {
 
 	// functie om te gebruiken bij function __autoload($classname)
