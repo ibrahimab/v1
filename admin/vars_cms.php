@@ -144,7 +144,7 @@ if($mustlogin) {
 	$title["cms_boekingen_diversen"]="Boeking - Bedragen";
 	$title["cms_boekingen_enquete"]="Boeking - Enquête";
 	$title["cms_boekingen_leveranciers"]="Boeking - Leveranciers";
-	$title["cms_boekingen_wijzigen"]="Boeking - Opties wijzigen";
+	$title["cms_boekingen_wijzigen"]="Boeking - wijzigen";
 	$title["cms_etiketten"]="Etiketten printen";
 	$title["cms_mailteksten_versturen"]="Opties-bijboeken-mailtjes versturen (voor winterboekingen)";
 	$title["cms_openstaandebetalingen"]="Openstaande betalingen";

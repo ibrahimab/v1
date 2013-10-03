@@ -22,7 +22,7 @@ if($_GET["stap"]==1) {
 	$form->display_all();
 } elseif($_GET["stap"]==4) {
 	if($gegevens["stap1"]["aantalpersonen"]==@count($gegevens["stap3"]["geboortedatum_ingevuld"])) {
-		$form->display_all();	
+		$form->display_all();
 	} else {
 		echo "<br><b>".html("optiestoevoegenpasmogelijk","bsys_wijzigen")."</b><ul>";
 		for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
@@ -42,7 +42,7 @@ if($_GET["stap"]==1) {
 				echo "</a></li>";
 			}
 		}
-#echo wt_dump($gegevens["stap3"]);		
+#echo wt_dump($gegevens["stap3"]);
 	}
 }
 
