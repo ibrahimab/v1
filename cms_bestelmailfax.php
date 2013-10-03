@@ -78,7 +78,61 @@ if($_GET["t"]==1) {
 	$form->field_htmlcol("aan","Mailadres",array("text"=>$vars["temp_leverancier"]["email"]));
 }
 $form->field_text(1,"contactpersoon",$vars["bestelmailfax_beste"][$bmftaal],"",array("text"=>$vars["temp_leverancier"]["contactpersoon"])); # (opslaan in databaseveld "test")
-$form->field_select(1,"soort",$vars["bestelmailfax_dezeacchebbenwij"][$bmftaal],"",array("selection"=>$invullen["soort"]),array("selection"=>$vars["bestelmailfax_soort"][$bmftaal]));
+
+// eerder afgeboekte voorraad bepalen
+
+// 1 = op aanvraag
+// 2 = in allotment
+// 3 = in garantie
+// 4 = in optie
+unset($temp_teller);
+$temp_log=$gegevens["stap1"]["log"];
+while(preg_match("@1 afboeken@",$temp_log)) {
+	if(preg_match("@(voorraad ([a-z0-9 ]+) 1 afboeken)@",$temp_log,$regs)) {
+		$afgeboekte_voorraad=1;
+		if($regs[2]=="request") {
+			$afgeboekte_voorraad=1;
+		} elseif($regs[2]=="allotment") {
+			$afgeboekte_voorraad=2;
+		} elseif($regs[2]=="garantie") {
+			$afgeboekte_voorraad=3;
+		} elseif($regs[2]=="optie leverancier") {
+			$afgeboekte_voorraad=4;
+		}
+	}
+	$temp_log=str_replace($regs[1], "", $temp_log);
+
+	$temp_teller++;
+	if($temp_teller>100) {
+		echo $temp_log;
+		exit;
+	}
+}
+
+// actuele voorraad bepalen
+$db->query("SELECT voorraad_garantie, voorraad_allotment, voorraad_optie_leverancier, voorraad_request FROM tarief WHERE type_id='".intval($invullen["accinfo"]["type_id"])."' AND week='".$gegevens["stap1"]["aankomstdatum"]."';");
+if($db->next_record()) {
+	$huidige_voorraad[1]=$db->f("voorraad_request");
+	$huidige_voorraad[2]=$db->f("voorraad_allotment");
+	$huidige_voorraad[3]=$db->f("voorraad_garantie");
+	$huidige_voorraad[4]=$db->f("voorraad_optie_leverancier");
+}
+
+// voorraad vermelden bij keuzes "Deze accommodatie hebben wij..."
+foreach ($vars["bestelmailfax_soort"][$bmftaal] as $key => $value) {
+	$deze_accommodatie_hebben_wij[$key]=$value;
+
+	if($afgeboekte_voorraad==$key) {
+		$deze_accommodatie_hebben_wij[$key].=" - (eerder gekozen)";
+	} else {
+		$deze_accommodatie_hebben_wij[$key].=" - (actuele voorraad: ".$huidige_voorraad[$key].")";
+	}
+}
+
+
+
+
+$form->field_select(1,"soort",$vars["bestelmailfax_dezeacchebbenwij"][$bmftaal],"",array("selection"=>$invullen["soort"]),array("selection"=>$deze_accommodatie_hebben_wij));
 $form->field_text(0,"geldig",$vars["bestelmailfax_tot"][$bmftaal],"",array("text"=>$invullen["looptaf"]));
 $form->field_htmlrow("","<hr>");
 $form->field_text(1,"clientsname",$vars["bestelmailfax_klantnaam"][$bmftaal],"",array("text"=>wt_naam($invullen["voornaam"],$invullen["tussenvoegsel"],$invullen["achternaam"])));
