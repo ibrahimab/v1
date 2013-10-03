@@ -86,7 +86,7 @@ if($gegevens["stap1"]["leverancierscode"]) {
 				}
 
 
-			} elseif($xml_type==7 or $xml_type==10 or $xml_type==12 or $xml_type==18 or $xml_type==19 or $xml_type==20) {
+			} elseif($xml_type==7 or $xml_type==10 or $xml_type==12 or $xml_type==18 or $xml_type==19 or $xml_type==20 or $xml_type==22) {
 				#
 				# Alle Arkiane-sites
 				#
@@ -119,6 +119,9 @@ if($gegevens["stap1"]["leverancierscode"]) {
 
 				# Centrale Locative de l'Immobilière des Hauts Forts
 				$arkiane_url[20]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=ins_opti@top_id='CHALE'";
+
+				# Nexis
+				$arkiane_url[22]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=ins_opti@top_id='CHALE'";
 
 
 				$xml_url=$arkiane_url[$xml_type].",@lot_ref='".urlencode($value)."',@begin='".urlencode(date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"]))."',@end='".urlencode(date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]))."',@price='',@civi='M',@name='".urlencode(($gegevens["stap2"]["tussenvoegsel"] ? $gegevens["stap2"]["tussenvoegsel"]." " : "").$gegevens["stap2"]["achternaam"])."',@firstname='".urlencode($gegevens["stap2"]["voornaam"])."',@addr1='".urlencode("Wipmolenlaan 3")."',@addr2='',@addr3='',@postcode='".urlencode("3447 GJ")."',@city='".urlencode("Woerden")."',@country='".urlencode("The Netherlands")."',@tel='".urlencode("+31348434649")."',@fax='".urlencode("+31348690752")."',@email='".urlencode("info@chalet.nl")."',@comments='".urlencode($comment)."',@lang=''";
