@@ -162,6 +162,7 @@ if($_GET["levid"]) {
 				echo "<h2>Roominglist</h2>";
 
 				echo "<p><span class=\"nog_niet_besteld\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog niet besteld (wordt niet meegezonden)</p>";
+				echo "<p><span style=\"font-weight:bold;background-color:yellow;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = naamswijziging (geel + dikgedrukt, wordt w&eacute;l meegezonden)</p>";
 
 				// $vars["create_list"]=$vars["roominglist_object"]->create_list();
 

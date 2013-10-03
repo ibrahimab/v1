@@ -657,23 +657,43 @@ $(document).ready(function() {
 
 			if($(this).next("label").find("span").attr("class")=="soort_garantie_1") {
 
-				var boeking_id = $(this).attr("name").replace(/\D/g,'');
-				if($(this).is(":checked")) {
-					$("input[name='input[roominglist_garanties_doorgeven][b"+boeking_id+"]']").prop("checked", true);
+				var boeking_of_garantie_id='';
+
+				if($(this).attr("name").indexOf("[g")>0) {
+					// onverkochte garantie
+					boeking_of_garantie_id=$(this).attr("name").replace(/\D/g,'');
 				} else {
-					$("input[name='input[roominglist_garanties_doorgeven][b"+boeking_id+"]']").prop("checked", false);
+					// boeking
+					boeking_of_garantie_id="b"+$(this).attr("name").replace(/\D/g,'');
 				}
+
+				if($(this).is(":checked")) {
+					$("input[name='input[roominglist_garanties_doorgeven]["+boeking_of_garantie_id+"]']").prop("checked", true);
+				} else {
+					$("input[name='input[roominglist_garanties_doorgeven]["+boeking_of_garantie_id+"]']").prop("checked", false);
+				}
+
 			}
 		});
 		$("input[name^='input[roominglist_garanties_doorgeven]']").change(function(event) {
 
 			if($(this).next("label").find("span").attr("class")=="soort_garantie_1") {
 
-				var boeking_id = $(this).attr("name").replace(/\D/g,'');
-				if($(this).is(":checked")) {
-					$("input[name='input[roominglist_naamswijzigingen_doorgeven]["+boeking_id+"]']").prop("checked", true);
+				var boeking_of_garantie_id='';
+
+				if($(this).attr("name").indexOf("[b")>0) {
+					// boeking
+					boeking_of_garantie_id=$(this).attr("name").replace(/\D/g,'');
 				} else {
-					$("input[name='input[roominglist_naamswijzigingen_doorgeven]["+boeking_id+"]']").prop("checked", false);
+					// onverkochte garantie
+					boeking_of_garantie_id="g"+$(this).attr("name").replace(/\D/g,'');
+				}
+
+				// var boeking_id = $(this).attr("name").replace(/\D/g,'');
+				if($(this).is(":checked")) {
+					$("input[name='input[roominglist_naamswijzigingen_doorgeven]["+boeking_of_garantie_id+"]']").prop("checked", true);
+				} else {
+					$("input[name='input[roominglist_naamswijzigingen_doorgeven]["+boeking_of_garantie_id+"]']").prop("checked", false);
 				}
 			}
 		});

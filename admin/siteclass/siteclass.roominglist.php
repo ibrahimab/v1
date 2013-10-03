@@ -132,6 +132,9 @@ class roominglist {
 			}
 		}
 
+// echo wt_dump($naamswijzigingen_doorgeven_array);
+// exit;
+
 		$colspan=9;
 
 		// Leveranciersgegevens ophalen
@@ -228,6 +231,7 @@ class roominglist {
 				$naam=$db->f("aan_leverancier_doorgegeven_naam");
 
 				// naamswijzigingen in array plaatsen
+				unset($naamswijziging_opvallend);
 				if($db->f( "aan_leverancier_doorgegeven_naam" )!=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )) {
 					$this->naamswijzigingen[$db->f("boeking_id")] = "Boeking ".$db->f("boekingsnummer").": \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )."\"";
 
@@ -245,11 +249,12 @@ class roominglist {
 						// klantnamen in array plaatsen
 						$this->klantnamen_boekingen[$db->f("boeking_id")] = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
 
+						// naamswijzigingen laten opvallen in de roominglist
+						$naamswijziging_opvallend="font-weight:bold;background-color:yellow;";
 					}
-
 				}
 
-				$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'".($this->onbesteld_opvallend&&$db->f("bestelstatus")<=1 ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
+				$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".($this->onbesteld_opvallend&&$db->f("bestelstatus")<=1 ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
 
 				// boeking die aan garantie is: opnemen in de lijst met uit te schakelen garanties
 				if(isset($garantie_boeking[$db->f("boeking_id")])) {
@@ -333,6 +338,7 @@ class roominglist {
 			$naam=$db->f("aan_leverancier_doorgegeven_naam");
 
 			// naamswijzigingen in array plaatsen
+			unset($naamswijziging_opvallend);
 			if($db->f( "aan_leverancier_doorgegeven_naam" )!=$db->f( "naam" )) {
 				$this->naamswijzigingen["g".$db->f("garantie_id")] = "Garantie ".$db->f("reserveringsnummer_extern").": \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".$db->f( "naam" )."\"";
 
@@ -344,10 +350,13 @@ class roominglist {
 
 					# Klantnamen in array plaatsen
 					$this->klantnamen_garanties[$db->f("garantie_id")] = $db->f( "naam" );
+
+					// naamswijzigingen laten opvallen in de roominglist
+					$naamswijziging_opvallend="font-weight:bold;background-color:yellow;";
 				}
 			}
 
-			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'".($this->onbesteld_opvallend&&$nog_niet_besteld ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
+			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".($this->onbesteld_opvallend&&$nog_niet_besteld ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
 
 			# Garanties in array plaatsen
 			$this->garanties[$db->f("garantie_id")] = $vars["alletypes"][$db->f("type_id")]." - ".$db->f( "naam" )." - ".$db->f( "reserveringsnummer_extern" )." - ".date("d/m/Y",$db->f("aankomstdatum_exact"));
