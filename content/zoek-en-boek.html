@@ -171,7 +171,7 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[5]["fields"]=array(
 		"charmanteskidorpen"=>44,
 		"10voorapresski"=>45,
-		"grotegroepen"=>46,
+		// "grotegroepen"=>46,
 		"superskistations"=>47
 	);
 	$keuzeopsomming[5]["addwhere"][44][]="(p.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
@@ -1557,11 +1557,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$verfijnd["aantalkmpiste"][4]++;
 					}
 
-					# Verfijnd zoeken: voor groepen
-	#				if(check_kenmerken($db->f("tkenmerken"),6) or check_kenmerken($db->f("akenmerken"),6)) {
-	#					$verfijnd["kenmerken"][1]++;
-	#				}
-
 					# Verfijnd zoeken: faciliteiten
 
 					# Verfijnd zoeken: catering
@@ -1629,10 +1624,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					if(check_kenmerken($db->f("pkenmerken"),6)) {
 						# 10 voor apres ski
 						$verfijnd["kenmerken"][45]++;
-					}
-					if(check_kenmerken($db->f("tkenmerken"),6) or check_kenmerken($db->f("akenmerken"),6)) {
-						# voor groepen
-						$verfijnd["kenmerken"][46]++;
 					}
 					if(check_kenmerken($db->f("pkenmerken"),14)) {
 						# super ski-stations
