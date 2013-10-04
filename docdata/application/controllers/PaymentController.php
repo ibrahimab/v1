@@ -559,7 +559,9 @@ class PaymentController extends Controller {
 		}
 
 		if(!isset($extra_params)) $extra_params = array();
-		if(!isset($pm_code)) $pm_code = "docdata_idl";
+		// Get payment code from the $_POST request parameters
+		$pm_code = $request->getParam('pm_code');
+		if(empty($pm_code)) $pm_code = "docdata_idl";
 
 		$payment_order_key = $order->getDocdataPaymentOrderKey($status="pending");
 

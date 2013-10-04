@@ -66,7 +66,7 @@ if($login->logged_in) {
             if($db->num_rows() > 0) {
                 while($db->next_record()) {
                     $type = ($db->f('type') == NULL) ? html("bank_transfer","bsys") : $db->f('type');
-                    $txt_html[$db->f('datum')] = "<tr><td>". $db->f('datum') ."</td><td>&euro; ". $db->f('bedrag') ."</td><td>". $type ."</td></tr>";
+                    $txt_html[$db->f('datum')] = "<tr><td>". $db->f('datum') ."</td><td>&euro; ". number_format($db->f('bedrag'),2,',','.') ."</td></tr>";
                     $total_paid += $db->f('bedrag');
                 }
             }
@@ -80,29 +80,31 @@ if($login->logged_in) {
                 $checked2 = ' checked="checked"';
             }
 
+            # Get payment dates
+            $datum_weken_voorvertrek=date("d/m/Y",mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-$gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"])));
+                if($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]%7==0 and $gegevens["stap1"]["totale_reissom_dagenvooraankomst"]<>7) {
+                $aanbetaling_aantalweken=round($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]/7);
+            } else {
+                $aanbetaling_aantaldagen=$gegevens["stap1"]["totale_reissom_dagenvooraankomst"];
+            }
+            # Full payment date
+            if($aanbetaling_aantalweken) {
+                $full_pay_date = txt("uiterlijkXwekenvoorvertrek","factuur",array("v_weken"=>$aanbetaling_aantalweken,"v_datum"=>$datum_weken_voorvertrek));
+            } else {
+                $full_pay_date = txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
+            }
+            # Advance payment date
+            if($gegevens["stap1"]["dagen_voor_vertrek"]>($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+$gegevens["stap1"]["aanbetaling1_dagennaboeken"])) {
+                $pay_date = date("d/m/Y", $gegevens["stap1"]["factuur_ondertekendatum"]);
+                $advance_pay_date = txt("uiterlijkdatumtebetalen","factuur",array("v_datum"=> $pay_date));
+            }
+
             # Switch pages
             switch ((int)$_GET["menu"]) {
                 #DocData payment form
                 case 1:
                     // Display the form only if there are any amounts due to be paid
                     if($ramining_payments > 0) {
-
-                        $datum_weken_voorvertrek=date("d/m/Y",mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-$gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"])));
-                        if($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]%7==0 and $gegevens["stap1"]["totale_reissom_dagenvooraankomst"]<>7) {
-                            $aanbetaling_aantalweken=round($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]/7);
-                        } else {
-                            $aanbetaling_aantaldagen=$gegevens["stap1"]["totale_reissom_dagenvooraankomst"];
-                        }
-
-                        if($aanbetaling_aantalweken) {
-                            $full_pay_date = txt("uiterlijkXwekenvoorvertrek","factuur",array("v_weken"=>$aanbetaling_aantalweken,"v_datum"=>$datum_weken_voorvertrek));
-                        } else {
-                            $full_pay_date = txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
-                        }
-
-                        if($gegevens["stap1"]["dagen_voor_vertrek"]>($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+$gegevens["stap1"]["aanbetaling1_dagennaboeken"])) {
-                            $advance_pay_date = txt("binnenXdagentevoldoen","factuur",array("v_dagen"=>$gegevens["stap1"]["aanbetaling1_dagennaboeken"]));
-                        }
 
                         echo "<table align=\"center\" style=\"width:85%;\" cellpadding=\"5\">";
                         echo "<tr style=\"background: #d5e1f9;\"><td><em><strong>". html("payment_part","bsys") ."</strong></em></td><td><em><strong>". html("payment_method","bsys") ."</strong></em></td></tr>";
@@ -186,29 +188,67 @@ if($login->logged_in) {
 
                 # Bank Transfer page
                 case 2:
-                    echo "Bank transfer text";
+                    echo "<h2>". html("bank_transfer","bsys") ."</h2><br />";
+
+                    if($ramining_payments > 0) {
+                        echo "<table align=\"center\" style=\"width:100%;\">";
+                        // if no payment was made we display the advanced payment text
+                        if(!$advance_payment) {
+                            echo "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
+                        }
+
+                        echo "<tr><td width=\"60%\">" . $full_pay_date ."</td><td> &euro; " . number_format($ramining_payments,2,',','.') ."</td></tr>";
+                        echo "</table>";
+
+                        echo "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
+                    } else {
+                        echo html("no_remaining_payments","bsys");
+                    }
                 break;
 
                 #Payments history table
                 case 3:
+                    echo "<h2>". html("summary","bsys") ."</h2><br />";
+
                     # Display Docdata transactions table if there are any payments registered for this order
                     if(count($txt_html) > 0 && $total_paid > 0) {
                         ksort($txt_html);
-                        echo "<h2>". html("payments_history","bsys") ."</h2><br />";
 
                         echo "<table style=\"width:100%\" class=\"toonacctabel\" cellpadding=\"5\">";
-                        echo "<tr><th>". html("payment_date","bsys") ."</th><th>". html("payment_amount","bsys") ."</th><th>". html("payment_type","bsys") ."</th></tr>";
+                        echo "<tr><th>". html("payment_date","bsys") ."</th><th>". html("payment_amount","bsys") ."</th></tr>";
                         foreach($txt_html as $entry) {
                             echo $entry;
                         }
 
-                        echo "<tr><td colspan=\"3\">&nbsp;</td></tr>";
-                        echo "<tr><td align=\"right\" colspan=\"2\">". html("total_amount","bsys") .":</td><td>&euro; ". number_format($gegevens["fin"]["totale_reissom"],2,',','.') ."</td></tr>";
-                        echo "<tr><td align=\"right\" colspan=\"2\">". html("total_paid","bsys") .":</td><td>&euro; ". number_format(($total_paid * -1),2,',','.') ."</td></tr>";
-                        echo "<tr><td align=\"right\" colspan=\"2\">". html("remaining_payments","bsys") .":</td><td>&euro; ". number_format($ramining_payments,2,',','.') ."</td></tr>";
+                        echo "<tr><td colspan=\"2\">&nbsp;</td></tr>";
+                        echo "<tr><td align=\"right\">". html("total_amount","bsys") .":</td><td>&euro; ". number_format($gegevens["fin"]["totale_reissom"],2,',','.') ."</td></tr>";
+                        echo "<tr><td align=\"right\">". html("total_paid","bsys") .":</td><td>&euro; ". number_format(($total_paid * -1),2,',','.') ."</td></tr>";
+                        echo "<tr><td align=\"right\">". html("remaining_payments","bsys") .":";
+                        if($ramining_payments > 0) {
+                            echo "<br /><em>" . $full_pay_date ."</em>";
+                        }
+                        echo "</td><td>&euro; ". number_format($ramining_payments,2,',','.') ."</td></tr>";
                         echo "</table>";
+
+                        if($ramining_payments > 0) {
+                            reset($vars["docdata_payments"]);
+                            echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys") . html(key($vars["docdata_payments"]),"bsys")."</a> <br />
+                                <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
+                            </p>";
+                        }
                     } else {
-                        echo html("no_payments","bsys");
+                        #echo html("no_payments","bsys");
+                        // if no payment was made we display the advanced payment text
+                        if(!$advance_payment) {
+                            echo "<p>" . html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .") &nbsp; &nbsp; <em>" . $advance_pay_date ."</em></p>";
+                        }
+
+                        echo "<p>" . html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .") &nbsp; &nbsp; <em>" . $full_pay_date ."</em></p>";
+
+                        reset($vars["docdata_payments"]);
+                        echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys") . html(key($vars["docdata_payments"]),"bsys")."</a> <br />
+                            <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
+                        </p>";
                     }
                 break;
 

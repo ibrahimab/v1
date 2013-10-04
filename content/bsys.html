@@ -317,8 +317,23 @@ if($login->logged_in) {
                     if($gegevens["stap1"]["factuurdatum"]>0) {
                         if(!$gegevens["stap1"]["vraag_ondertekening"]) {
                             echo html("payment","bsys").":<ul>\n";
-                            echo "<li><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html(key($vars["docdata_payments"]),"bsys")."</a></li>";
-                            echo "<li><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("via_bank_transfer","bsys")."</a></li>";
+
+                            # Get all registered payments
+                            $total_paid = 0;
+                            $sql = "SELECT SUM(bedrag) as total FROM `boeking_betaling` WHERE boeking_id = '" . mysql_real_escape_string($_GET["bid"]) . "'";
+                            $db->query($sql);
+                            if($db->num_rows() > 0) {
+                                $db->next_record();
+                                $total_paid = $db->f('total');
+                            }
+
+                            $ramining_payments = round($gegevens["fin"]["totale_reissom"] - $total_paid, 2);
+
+                            if($ramining_payments > 0) {
+                                reset($vars["docdata_payments"]);
+                                echo "<li><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html(key($vars["docdata_payments"]),"bsys")."</a></li>";
+                                echo "<li><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("via_bank_transfer","bsys")."</a></li>";
+                            }
                             echo "<li><a href=\"".$path."bsys_payments.php?menu=3&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("summary","bsys")."</a></li>";
                             echo "</ul><hr>";
                         }
@@ -774,6 +789,7 @@ if($login->logged_in) {
 				if($_GET["akkoord"]) {
 					# Bedankt na akkoord geven
 					echo "<p>".html("akkoordmelding1","bsys")."</p>";
+                    reset($vars["docdata_payments"]);
                     echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys") . html(key($vars["docdata_payments"]),"bsys")."</a> <br />
     <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
 </p>";
