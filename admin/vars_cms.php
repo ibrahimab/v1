@@ -360,7 +360,7 @@ if($mustlogin) {
 
 	$layout->menu_item("cms_optie_soorten","Opties","",true);
 
-	$layout->menu_item("cms_blokkenaccommodaties","Opvalblokkken","",true,false,array("slide"=>true));
+	$layout->menu_item("cms_blokkenaccommodaties","Opvalblokken","",true,false,array("slide"=>true));
 	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Zomerhuisje",array("wst"=>"3"),true);
 	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Italissima",array("wst"=>"7"),true);
 
