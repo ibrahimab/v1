@@ -768,6 +768,16 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	margin-bottom: 20px;
 }
 
+.zoekblok_interne_opmerking {
+	background-color: #ffffff;
+	margin-bottom: 12px;
+	padding-top: 4px;
+	cursor: pointer;
+	color: #000000;
+	padding:10px;
+	text-align:center;
+}
+
 .form_element_wrapper {
 	height: 0px;
 	overflow: hidden;

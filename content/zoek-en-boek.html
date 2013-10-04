@@ -3218,6 +3218,10 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 	$vars["zoek-en-boek-functions-init"]=true;
 }
 
+if($voorkant_cms and $vars["seizoen_alleen_intern"]) {
+	echo "<div class=\"zoekblok_interne_opmerking\">Niet zichtbaar bij zoek-en-boek voor gewone bezoekers: <b>".substr($vars["seizoen_alleen_intern"],4)."</b></div>";
+}
+
 if($vars["websitetype"]==1) {
 	# Chalet
 	zoekblok_bestemming();

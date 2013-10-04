@@ -706,7 +706,6 @@ $vars["maxpersonen"]=array("1"=>"8","2"=>"12","3"=>"12","4"=>"16","5"=>"18","6"=
 $vars["optimaalmaxpersonen"]=array("1"=>"4","2"=>"6","3"=>"6","4"=>"8","5"=>"9","6"=>"10","7"=>"11","8"=>"12","9"=>"13","10"=>"14","11"=>"15","12"=>"16","13"=>"18","14"=>"19","15"=>"20","16"=>"25","17"=>"25","18"=>"28","19"=>"28","20"=>"50");
 
 $vars["minpersonen_boeking"]=array("1"=>"1","2"=>"1","3"=>"1","4"=>"2","5"=>"2","6"=>"3","7"=>"4","8"=>"4","9"=>"5","10"=>"6","11"=>"7","12"=>"7","13"=>"8","14"=>"8","15"=>"9","16"=>"10","17"=>"11","18"=>"12","19"=>"12","20"=>"13");
-$vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina's",4=>"tonen op de accommodatiepagina's en bij intern gebruik het zoekformulier",3=>"tonen op de accommodatiepagina's en het zoekformulier");
 $vars["geslacht"]=array(1=>txt("man","vars"),2=>txt("vrouw","vars"));
 $vars["verzendmethode_reisdocumenten"]=array(1=>txt("email","vars"),2=>txt("post","vars"));
 $vars["verzendmethode_reisdocumenten_inclusief_nvt"]=array(1=>txt("email","vars"),2=>txt("post","vars"),3=>txt("nvt","vars"));
@@ -1184,7 +1183,7 @@ if($boeking_wijzigen) {
 	} else {
 		$temp_seizoentype=$vars["seizoentype"];
 	}
-	$db->query("SELECT UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind, seizoen_id FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen".($voorkant_cms ? ">=" : "=")."3 ORDER BY begin, eind;");
+	$db->query("SELECT naam, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind, seizoen_id, tonen FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen".($voorkant_cms ? ">=" : "=")."3 ORDER BY begin, eind;");
 	if($db->num_rows()) {
 		if($id=="accommodaties" or $id=="zoek-en-boek" or $id=="thema" or $id=="weekendski" or $id=="land" or $id=="chalets") $vars["aankomstdatum_weekend"][0]=$vars["geenvoorkeur"];
 		while($db->next_record()) {
@@ -1201,6 +1200,11 @@ if($boeking_wijzigen) {
 				}
 
 				$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
+			}
+
+			// kijken of seizoen intern anders gebruikt wordt dan extern
+			if($db->f("tonen")==4 and $voorkant_cms) {
+				$vars["seizoen_alleen_intern"].=" en ".$db->f("naam");
 			}
 		}
 		@ksort($vars["aankomstdatum"]);

@@ -1177,7 +1177,7 @@ if($db->next_record()) {
 	# Tarieventabellen tonen
 	if($echt_tarieven_getoond) {
 
-		if($voorkant_cms) {
+		if($voorkant_cms and $vars["seizoentype"]==1) {
 			// keuze tussen oude en nieuwe tarieventabel
 			echo "<div style=\"padding:5px;border:1px solid #878481;width:650px;margin-bottom:10px;font-weight:bold;\">";
 			$gewijzigde_url=$_SERVER["REQUEST_URI"];

@@ -1005,6 +1005,8 @@ $vars["accommodatie_review_bron"]=array(1=>"door eigen klant ingevulde enquête",
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
 $vars["soort_garantie"]=array(1=>"seizoen en bulk",2=>"op naam en losse weken");
 $vars["boeking_betaling_type"]=array(1=>"bank-overschrijving",2=>"uitbetaling door Docdata",3=>"verrekening Docdata-betaling/overschrijving",4=>"Docdata-betaling (iDEAL)",5=>"Docdata-betaling (creditcard)",6=>"Docdata-uitbetaling (Mister Cash)");
+$vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina's",4=>"tonen op de accommodatiepagina's en bij intern gebruik het zoekformulier",3=>"tonen op de accommodatiepagina's en het zoekformulier");
+
 
 // XML-leveranciers
 $vars["xml_type"]=array(
