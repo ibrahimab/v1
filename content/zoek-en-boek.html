@@ -171,12 +171,12 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[5]["fields"]=array(
 		"charmanteskidorpen"=>44,
 		"10voorapresski"=>45,
-		// "grotegroepen"=>46,
-		"superskistations"=>47
+		"superskistations"=>47,
+		"winterwellness"=>46
 	);
 	$keuzeopsomming[5]["addwhere"][44][]="(p.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
 	$keuzeopsomming[5]["addwhere"][45][]="(p.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
-	$keuzeopsomming[5]["addwhere"][46][]="(t.kenmerken REGEXP '[[:<:]]6[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
+	$keuzeopsomming[5]["addwhere"][46][]="(t.kenmerken REGEXP '[[:<:]]9[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]9[[:>:]]')";
 	$keuzeopsomming[5]["addwhere"][47][]="(p.kenmerken REGEXP '[[:<:]]14[[:>:]]')";
 
 	# Aantal badkamers
@@ -1629,6 +1629,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						# super ski-stations
 						$verfijnd["kenmerken"][47]++;
 					}
+
+					if(check_kenmerken($db->f("tkenmerken"),9) or check_kenmerken($db->f("akenmerken"),9)) {
+						# winter-wellness
+						$verfijnd["kenmerken"][46]++;
+					}
+
 				} else {
 
 					#
