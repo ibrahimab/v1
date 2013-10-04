@@ -2423,6 +2423,7 @@ nieuwe tarieventabel
 
 .tarieventabel_top_interne_link {
 	float: right;
+	margin-bottom: 3px;
 }
 
 .tarieventabel_top_valuta {
