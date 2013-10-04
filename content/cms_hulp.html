@@ -25,7 +25,7 @@
 // }
 // echo "<hr>";
 
-echo "Op deze pagina is ruimte voor hulp bij gebruik van het CMS.<p><p>";
+echo "Op deze pagina is ruimte voor diverse documentatie en een aantal links.<p><p>";
 echo "<hr>";
 
 for($i=1;$i<=2;$i++) {
@@ -43,7 +43,7 @@ for($i=1;$i<=2;$i++) {
 }
 
 echo "<br><hr><br>";
-echo "Verschillende soorten accommodaties:<ul>";
+echo "<b>Verschillende soorten accommodaties:</b><ul>";
 while(list($key,$value)=each($vars["soortaccommodatie"])) {
 	echo "<li>".htmlentities($value)."</li>";
 }
@@ -51,6 +51,15 @@ echo "</ul>";
 
 #echo "<br><hr><h2>Eerder besproken wensen die niet realiseerbaar bleken te zijn:</h2>";
 
+echo "<br><hr><br>";
+echo "<b>Sites van concurrenten/goede voorbeelden:</b>";
+echo "<ul>";
+echo "<li><a href=\"http://www.booking.com/\">Booking.com</a></li>";
+echo "<li><a href=\"http://www.easytobook.com/\">Easytobook.com</a></li>";
+echo "<li><a href=\"https://www.airbnb.com/\">Airbnb.com</a></li>";
+echo "<li><a href=\"http://www.belvilla.nl/\">Belvilla</a></li>";
+echo "<li><a href=\"http://winter.bizztravel.nl/\">Bizztravel</a></li>";
+echo "</ul>";
 
 
 
