@@ -155,20 +155,28 @@ class tarieventabel {
 			$return.="<option value=\"gbp\" class=\"option_valuta_gbp\"".($this->actieve_valuta=="gbp" ? " selected" : "").">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".html("gbp","tarieventabel")."&nbsp;</option>";
 			$return.="</select>";
 
-			$return.="<div class=\"tarieventabel_top_valuta_toelichting\" data-euro=\"\" data-gbp=\"".html("valuta_toelichting_gbp","tarieventabel")."\">";
-
+			$return.="<div class=\"tarieventabel_top_valuta_toelichting1\" data-euro=\"\" data-gbp=\"".html("valuta_toelichting1_gbp","tarieventabel")."\">";
 			if($this->actieve_valuta=="gbp") {
-				$return.=html("valuta_toelichting_gbp","tarieventabel");
+				$return.=html("valuta_toelichting1_gbp","tarieventabel");
 			} else {
-				// $return.=html("valuta_toelichting_euro","tarieventabel");
+				// $return.=html("valuta_toelichting1_euro","tarieventabel");
 			}
+			$return.="</div>"; // afsluiten .tarieventabel_top_valuta_toelichting1
 
-			$return.="</div>"; // afsluiten .tarieventabel_top_valuta_toelichting
+			$return.="<div class=\"tarieventabel_top_valuta_toelichting2\" data-euro=\"\" data-gbp=\"".html("valuta_toelichting2_gbp","tarieventabel")."\">";
+			if($this->actieve_valuta=="gbp") {
+				$return.=html("valuta_toelichting2_gbp","tarieventabel");
+			} else {
+				// $return.=html("valuta_toelichting2_euro","tarieventabel");
+			}
+			$return.="</div>"; // afsluiten .tarieventabel_top_valuta_toelichting2
 
 			$return.="</div>"; // afsluiten .tarieventabel_top_valuta
 		}
 
 		$return .= "</div>"; // afsluiten .tarieventabel_top_right
+
+		$return.= "<div class=\"clear\"></div>";
 
 		$return .= "</div>"; // afsluiten .tarieventabel_top
 

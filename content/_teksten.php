@@ -2358,8 +2358,11 @@ $txt["en"]["tarieventabel"]["gbp"]="GBP";
 // $txt["nl"]["tarieventabel"]["valuta_toelichting_euro"]="prijzen zijn exact zoals getoond";
 // $txt["en"]["tarieventabel"]["valuta_toelichting_euro"]="prices are exactly as shown";
 
-$txt["nl"]["tarieventabel"]["valuta_toelichting_gbp"]="prijzen zijn een schatting op basis van de huidige wisselkoers";
-$txt["en"]["tarieventabel"]["valuta_toelichting_gbp"]="prices are an estimation based on the current exchange rate";
+$txt["nl"]["tarieventabel"]["valuta_toelichting1_gbp"]="Prijzen zijn een schatting op basis van de huidige wisselkoers.";
+$txt["en"]["tarieventabel"]["valuta_toelichting1_gbp"]="Prices are an estimation based on the current exchange rate.";
+
+$txt["nl"]["tarieventabel"]["valuta_toelichting2_gbp"]="Boekingen vinden altijd in euro's plaats.";
+$txt["en"]["tarieventabel"]["valuta_toelichting2_gbp"]="Bookings always need to be done in Euros.";
 
 $txt["nl"]["tarieventabel"]["kortingenaldoorgerekend"]="Kortingen zijn al doorgerekend";
 $txt["en"]["tarieventabel"]["kortingenaldoorgerekend"]="Discounts are already included";

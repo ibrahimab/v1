@@ -2402,7 +2402,7 @@ nieuwe tarieventabel
 	padding: 5px;
 	background-color: #d5e1f9;
 	color: #003366;
-	height: 38px;
+	min-height: 38px;
 	overflow: hidden;
 }
 
@@ -2451,11 +2451,18 @@ nieuwe tarieventabel
 	padding-left: 0px;
 }
 
-.tarieventabel_top_valuta_toelichting {
+.tarieventabel_top_valuta_toelichting1 {
 	margin-top: 5px;
-	margin-bottom: 5px;
 	font-style: italic;
 	font-size: 0.8em;
+	height: 14px;
+}
+
+.tarieventabel_top_valuta_toelichting2 {
+	margin-top: 2px;
+	font-style: italic;
+	font-size: 0.8em;
+	height: 14px;
 }
 
 .tarieventabel_toelichting {

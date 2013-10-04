@@ -2138,7 +2138,8 @@ $(document).ready(function() {
 
 			// juiste teksten tonen
 			$(".tarieventabel_top_valutanaam").html($(".tarieventabel_top_valutanaam").data(currency));
-			$(".tarieventabel_top_valuta_toelichting").html($(".tarieventabel_top_valuta_toelichting").data(currency));
+			$(".tarieventabel_top_valuta_toelichting1").html($(".tarieventabel_top_valuta_toelichting1").data(currency));
+			$(".tarieventabel_top_valuta_toelichting2").html($(".tarieventabel_top_valuta_toelichting2").data(currency));
 
 			// juiste vlag tonen
 			$(".tarieventabel_top_valuta select").removeClass();
