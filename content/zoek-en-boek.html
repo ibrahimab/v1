@@ -2391,7 +2391,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 									}
 								} elseif($gekozen["fdu"]>1) {
 									$zoekresultaat_prijs_periode.=$gekozen["fdu"]." ".html("weken","vars");
-								} elseif($vanaf_prijzen_tonen and $_GET["fdu"]) {
+								} elseif($vanaf_prijzen_tonen and $_GET["fdu"] and $_GET["fdu"]<>"1") {
 									$zoekresultaat_prijs_periode.=html("per")." ".html("week","vars");
 								} else {
 									$zoekresultaat_prijs_periode.="1 ".html("week","vars");
