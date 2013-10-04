@@ -5,7 +5,7 @@ $mustlogin=true;
 include("admin/vars.php");
 
 if($_GET["lid"]) {
-	$invullen["soort"]=4;
+	// $invullen["soort"]=4;
 	$invullen["leverancier"]=$_GET["lid"];
 	$db->query("SELECT voornaam, tussenvoegsel, achternaam, aankomstdatum, aankomstdatum_exact, aantalpersonen, type_id, UNIX_TIMESTAMP(einddatum_klant) AS einddatum_klant, website FROM optieaanvraag WHERE optieaanvraag_id='".addslashes($_GET["oaid"])."';");
 	if($db->next_record()) {
@@ -104,7 +104,8 @@ while(preg_match("@1 afboeken@",$temp_log)) {
 
 	$temp_teller++;
 	if($temp_teller>100) {
-		echo $temp_log;
+		trigger_error("vastlopende while-loop",E_USER_NOTICE);
+		echo "FOUTMELDING: X881<br/>".$temp_log;
 		exit;
 	}
 }
@@ -132,7 +133,7 @@ foreach ($vars["bestelmailfax_soort"][$bmftaal] as $key => $value) {
 
 
 
-$form->field_select(1,"soort",$vars["bestelmailfax_dezeacchebbenwij"][$bmftaal],"",array("selection"=>$invullen["soort"]),array("selection"=>$deze_accommodatie_hebben_wij));
+$form->field_select(1,"soort",$vars["bestelmailfax_dezeacchebbenwij"][$bmftaal],"",array("selection"=>$afgeboekte_voorraad),array("selection"=>$deze_accommodatie_hebben_wij));
 $form->field_text(0,"geldig",$vars["bestelmailfax_tot"][$bmftaal],"",array("text"=>$invullen["looptaf"]));
 $form->field_htmlrow("","<hr>");
 $form->field_text(1,"clientsname",$vars["bestelmailfax_klantnaam"][$bmftaal],"",array("text"=>wt_naam($invullen["voornaam"],$invullen["tussenvoegsel"],$invullen["achternaam"])));
