@@ -293,6 +293,7 @@ if($testsysteem) {
 #	$xml_urls[20][1]="/tmp/locative.xml";
 #	$xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
 #	$xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
+	$xml_urls[22][1]="/tmp/nexity.xml"; # prijzen
 	unset($http_login[21]);
 }
 
@@ -320,7 +321,7 @@ if($testsysteem) {
 			$test_leverancierids.=",".$db->f("leverancier_id");
 		}
 	}
-	$test_leverancierids="229";
+	$test_leverancierids="325";
 }
 
 
