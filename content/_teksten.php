@@ -3757,6 +3757,9 @@ $txt["en"]["bsys"]["terugnaardevorigepagina"]="back to the previous page";
 $txt["nl"]["bsys"]["terugnaardeoverzichtspagina"]="terug naar de overzichtspagina";
 $txt["en"]["bsys"]["terugnaardeoverzichtspagina"]="back to the overview page";
 
+$txt["nl"]["bsys"]["andereboeking"]="andere boeking";
+$txt["en"]["bsys"]["andereboeking"]="other booking";
+
 $txt["nl"]["bsys"]["inleiding"]="Welkom bij \"Mijn boeking\" van [[v_websitenaam]]. Via dit systeem kun je de gegevens van je boekingen bij [[v_websitenaam]] inzien en wijzigen.";
 $txt["en"]["bsys"]["inleiding"]="Welcome to \"My booking\" of [[v_websitenaam]]. This system allows you to view and change the details of your booking with [[v_websitenaam]].";
 
