@@ -711,6 +711,13 @@ $(document).ready(function() {
 			}
 		});
 
+		// bij openen pagina: alle gewone boekingen (geen garanties) met naamswijziging waarbij aan_leverancier_doorgegeven_naam nog leeg is: standaard aanvinken
+		$("input[name^='input[roominglist_naamswijzigingen_doorgeven]']").each(function() {
+			if($(this).next("label").find("span").length==0 && $(this).next("label").text().indexOf(': "" is nu')>0) {
+				// console.log($(this).next("label").text().indexOf(': "" is nu'));
+				$(this).prop("checked", true);
+			}
+		});
 	}
 
 	// roominglist-form openen in een popup
