@@ -41,7 +41,7 @@ if($login->logged_in) {
             $gegevens["stap5"]=$temp_gegevens["stap5"];
         }
 
-        echo "<p><a href=\"".$_GET["burl"]."\">";
+        echo "<p><a href=\"".$vars["path"]."bsys.php?bid=".intval($_GET["bid"])."\">";
             echo html("terugnaardeoverzichtspagina","bsys");
         echo "</a></p>";
 
@@ -106,7 +106,7 @@ if($login->logged_in) {
                     // Display the form only if there are any amounts due to be paid
                     if($ramining_payments > 0) {
 
-                        echo "<table align=\"center\" style=\"width:85%;\" cellpadding=\"5\">";
+                        echo "<table align=\"center\" style=\"width:100%;\" cellpadding=\"5\">";
                         echo "<tr style=\"background: #d5e1f9;\"><td><em><strong>". html("payment_part","bsys") ."</strong></em></td><td><em><strong>". html("payment_method","bsys") ."</strong></em></td></tr>";
                         echo "<form method=\"post\" action=\"http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"] . "/docdata/payment/redirect/"."\" name=\"payment\">";
                         echo "<input type=\"hidden\" name=\"order\" value=\"{$_GET["bid"]}\">";
