@@ -303,6 +303,11 @@ li {
 
 }
 
+#tablediv {
+	z-index: 101;
+	position: relative;
+}
+
 .striped tr:nth-child(odd) {
    background-color: #dddddd;
 }
