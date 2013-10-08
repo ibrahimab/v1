@@ -12,6 +12,19 @@ $onload="initialize_googlemaps();";
 #$vars["jquery_scrollto"]=true;
 include_once "admin/vars.php";
 
+// bewaren in cookie welke tarieventabel getoond moet worden (oud of nieuw)
+if($_GET["tarieventabelversie"]) {
+	if($_GET["tarieventabelversie"]==1) {
+		// oud: cookie opslaan
+		setcookie("oude_tarieventabel",intval($_GET["tarieventabelversie"]),time()+(86400*3650),"/");
+	} else {
+		// nieuw: cookie wissen
+		setcookie("oude_tarieventabel","",time()-86400,"/");
+	}
+	$_COOKIE["oude_tarieventabel"]=intval($_GET["tarieventabelversie"]);
+}
+
+
 if($_POST["ookbeschikbaarkeuze"]) {
 	$location=eregi_replace("/".txt("menu_accommodatie")."/[a-zA-Z0-9]+/","/".txt("menu_accommodatie")."/".urlencode($_POST["ookbeschikbaarkeuze"])."/",$_SERVER["REQUEST_URI"]);
 	header("Location: ".$location);

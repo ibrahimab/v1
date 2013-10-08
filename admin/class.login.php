@@ -547,10 +547,21 @@ class Login {
 		//
 		$db=new DB_sql;
 
+		// kijken of adddatetime en editdatetime aanwezig zijn
+		$db->query("SHOW COLUMNS FROM ".$this->settings["db"]["tablename"].";");
+		while($db->next_record()) {
+			if($db->f("Field")=="adddatetime") {
+				$setquery.=", adddatetime=NOW()";
+			}
+			if($db->f("Field")=="editdatetime") {
+				$setquery.=", editdatetime=NOW()";
+			}
+		}
+
 		if($password) {
 			$password_hash=wt_complex_password_hash($password,$this->settings["salt"]);
 		}
-		$db->query("INSERT INTO ".$this->settings["db"]["tablename"]." SET ".$this->settings["db"]["fieldusername"]."='".addslashes($username)."'".($password ? ", password='".addslashes($password_hash)."'" : "").";");
+		$db->query("INSERT INTO ".$this->settings["db"]["tablename"]." SET ".$this->settings["db"]["fieldusername"]."='".addslashes($username)."'".($password ? ", password='".addslashes($password_hash)."'" : "").$setquery.";");
 		if($db->insert_id()) {
 			return $db->insert_id();
 		} else {

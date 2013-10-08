@@ -4,8 +4,12 @@ if($mustlogin) {
 	echo boekingkoptekst($gegevens);
 }
 
-if($_GET["burl"] and $mustlogin) {
-	echo "<a href=\"".$_GET["burl"]."\">Terug naar overzichtspagina</a><p>";
+if($mustlogin) {
+	if($_GET["burl"]) {
+		echo "<a href=\"".$_GET["burl"]."\">Terug naar overzichtspagina</a><p>";
+	} elseif($_GET["bid"]) {
+		echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".intval($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
+	}
 	if($gegevens["stap1"]["zit_in_beheersysteem_melding"]) echo $gegevens["stap1"]["zit_in_beheersysteem_melding"];
 }
 

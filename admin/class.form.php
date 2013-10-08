@@ -1427,7 +1427,7 @@ class form2 {
 			# Toon complete tabel
 			if($this->settings["layout"]["css"]) echo $this->display_css();
 			echo "<a name=\"wtform_".$this->settings["formname"]."\"></a>\n";
-			echo "\n<table border=\"0\" cellspacing=0 class=\"wtform_table\"".($this->settings["table_style"] ? " style=\"".$this->settings["table_style"]."\"" : "").">";
+			echo "\n<table border=\"0\" cellspacing=0 class=\"wtform_table".($this->settings["table_class"] ? " ".$this->settings["table_class"] : "")."\"".($this->settings["table_style"] ? " style=\"".$this->settings["table_style"]."\"" : "").">";
 			if($this->settings["html_after_open_table"]) echo $this->settings["html_after_open_table"];
 			if($this->settings["htmlheader"]) echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\">".$this->settings["htmlheader"]."</td></tr>\n";
 			echo $this->display_openform();

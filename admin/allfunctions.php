@@ -248,7 +248,7 @@ class wt_mail {
 
 	function wt_mail() {
 		global $vars;
-		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"]))) $this->test=true;
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or $GLOBALS["vars"]["acceptatie_testserver"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"]))) $this->test=true;
 		$this->send_mail=true;
 		if($_SERVER["HTTPS"]<>"on" or $vars["wt_mail_https_bcc"]) {
 			if(WT_mail_no_send_bcc===true) {
@@ -1374,6 +1374,22 @@ function wt_he($text) {
 		$text=htmlentities($text);
 	}
 	return $text;
+}
+
+function wt_url_zonder_http($url) {
+
+	// zet een volledige URL om in een mooi toonbare URL
+	// bijvoorbeeld: http://www.webtastic.nl/ wordt www.webtastic.nl
+
+	// http(s) verwijderen
+	$url = preg_replace("@^https?://@","",$url);
+
+	// laatste slash verwijderen (als er maar 1 slash in de url voorkomt)
+	if(preg_match("@/$@",$url) and substr_count($url, "/")==1) {
+		$url = substr($url, 0, -1);
+	}
+
+	return $url;
 }
 
 function wt_hernoem_classname($classname) {

@@ -87,7 +87,7 @@ if($toonper==3 or $vars["wederverkoop"]) {
 
 // if(($vars["seizoentype"]==1 or $vars["websitetype"]==6) and ($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==4 or $_COOKIE["loginuser"]["chalet"]==6 or $_COOKIE["loginuser"]["chalet"]==15 or $_COOKIE["loginuser"]["chalet"]==26)) {
 if($vars["seizoentype"]==1 or $vars["websitetype"]==6) {
-	if(!$_GET["oudetabel"]) {
+	if($_COOKIE["oude_tarieventabel"]<>1 or !$voorkant_cms) {
 		$nieuwe_tarieventabel=true;
 	}
 }
@@ -163,6 +163,12 @@ if($nieuwe_tarieventabel) {
 	// commissie tonen aan reisagenten?
 	if($vars["wederverkoop"] and (($vars["chalettour_logged_in"] and $vars["wederverkoop_commissie_inzien"]) or $tarieventabel_object->toon_interne_informatie)) {
 		$tarieventabel_object->toon_commissie = true;
+	}
+
+	// andere valuta tonen
+	if($vars["website"]=="E" and ($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_GET["testsysteem"])) {
+		$tarieventabel_object->meerdere_valuta = true;
+		$tarieventabel_object->actieve_valuta = "gbp";
 	}
 
 
@@ -1171,10 +1177,22 @@ if($db->next_record()) {
 	# Tarieventabellen tonen
 	if($echt_tarieven_getoond) {
 
-		if($nieuwe_tarieventabel) {
-			if($voorkant_cms) {
-				echo "<div style=\"padding:5px;border:1px solid #878481;width:650px;margin-bottom:10px;\"><b><a href=\"".wt_he($_SERVER["REQUEST_URI"].(preg_match("@\?@",$_SERVER["REQUEST_URI"]) ? "&" : "?")."oudetabel=1#prijsinformatie")."\">toon oude tarieventabel &raquo;</a></b></div>";
+		if($voorkant_cms and $vars["seizoentype"]==1) {
+			// keuze tussen oude en nieuwe tarieventabel
+			echo "<div style=\"padding:5px;border:1px solid #878481;width:650px;margin-bottom:10px;font-weight:bold;\">";
+			$gewijzigde_url=$_SERVER["REQUEST_URI"];
+			$gewijzigde_url=preg_replace("@tarieventabelversie=[0-9]@","",$gewijzigde_url);
+			$gewijzigde_url=preg_replace("@&{2,}@","",$gewijzigde_url);
+			$gewijzigde_url=preg_replace("@&$@","",$gewijzigde_url);
+			if($nieuwe_tarieventabel) {
+				echo "<a href=\"".wt_he($gewijzigde_url.(preg_match("@\?@",$gewijzigde_url) ? "&" : "?")."tarieventabelversie=1#prijsinformatie")."\">toon oude tarieventabel &raquo;</a>";
+			} else {
+				echo "<a href=\"".wt_he($gewijzigde_url.(preg_match("@\?@",$gewijzigde_url) ? "&" : "?")."tarieventabelversie=2#prijsinformatie")."\">toon nieuwe tarieventabel &raquo;</a>";
 			}
+			echo "</div>";
+		}
+
+		if($nieuwe_tarieventabel) {
 			echo "<a name=\"tar\"></a>";
 			echo $tarieventabel_object_content;
 			echo "<a name=\"optietabel\"></a>";

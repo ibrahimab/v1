@@ -242,7 +242,7 @@ $txt["nl"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Beste [NAAM],\n\nEen a
 $txt["en"]["vars"]["mailpersoonsgegevens_reminder_wzt2"]="Dear [NAAM],\n\nA few days ago we sent you an e-mail asking for the personal information of the participants of your vacation. According to our administration this information has not been entered yet.\n\nTo make sure your travel documents are accurate we need the personal information of the participants. Therefore we would like to ask you to enter this information as soon as possible so we can send everything to you in time.\n\nWith your e-mail address in combination with the login code you have already received you can enter the information of the participants at [LINK]. If you have forgotten your login code you can also request a new one here.\n\nThe following information needs to be filled in:\n\n[GEGEVENS]\n\nAfter we have received the final payment we will send you the travel documents as soon as possible, which includes extra information about your stay, where to pick up your key, vouchers for additional options.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nBij controle van onze administratie is gebleken dat er een achterstand is in de betaling van jullie [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nWij willen je daarom vragen om het openstaande bedrag per omgaande over te maken naar bankrekeningnummer 84.93.06.671 onder vermelding van het reserveringsnummer [RESERVERINGSNUMMER].\n\nGegevens voor internationale betaling:\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden\n\nMocht de betaling reeds voldaan zijn dan ontvangen wij graag de volgende gegevens zodat wij onze administratie kunnen controleren:\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["en"]["vars"]["mailaanmaning"]="Dear [NAAM],\n\nWhile checking our administration we found out that you are a bit behind on your payment for [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nTherefore we would like to ask you to send the money that you are still due to our bank account number 84.93.06.671. Please make sure you also state the reservation number [RESERVERINGSNUMMER] at the transaction.\n\nInformation for internation payment:\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden\n\nIf you have already made the payment, please send us the following information so we can check our administration:\n- Sum of money sent\n- Date of payment\n- Way of payment\n\nAfter we have received the money you are still due we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+$txt["en"]["vars"]["mailaanmaning"]="Dear [NAAM],\n\nWhile checking our administration we found out that you are a bit behind on your payment for [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nTherefore we would like to ask you to send the money that you are still due to our bank account number:\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden\n\nPlease make sure you also state the reservation number [RESERVERINGSNUMMER] at the transaction.\n\nIf you have already made the payment, please send us the following information so we can check our administration:\n- Sum of money sent\n- Date of payment\n- Way of payment\n\nAfter we have received the money you are still due we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl_x"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nBij controle van onze administratie is gebleken dat er een achterstand is in de betaling van jullie [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nWij willen je daarom vragen om het openstaande bedrag per omgaande over te maken naar bankrekeningnummer 43.66.72.901 onder vermelding van het reserveringsnummer [RESERVERINGSNUMMER].\n\nGegevens voor internationale betaling:\nIBAN: NL77 ABNA 0436 6729 01\nBIC: ABNANL2A\n\nMocht de betaling reeds voldaan zijn dan ontvangen wij graag de volgende gegevens zodat wij onze administratie kunnen controleren:\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)541 - 53 27 98";
 $txt["en_x"]["vars"]["mailaanmaning"]="-";
@@ -275,7 +275,7 @@ $txt["nl"]["vars"]["mailbetaling_subject"]="Ontvangstbevestiging betaling [SOORT
 $txt["en"]["vars"]["mailbetaling_subject"]="Acknowledgment of payment [SOORTVAKANTIE]";
 
 $txt["nl"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nNa verwerking van deze betaling wordt het nieuwe openstaande saldo:\n\n[BETALINGSINFO]\nWij willen je vragen om het resterende bedrag voor de uiterste betaaldatum over te maken naar bankrekeningnummer 84.93.06.671 onder vermelding van het reserveringsnummer [RESERVERINGSNUMMER].\n\nGegevens voor internationale betaling:\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["en"]["vars"]["mailbetaling"]="Dear [NAAM],\n\nOn [DATUM] we received a payment of € [BEDRAG] on our bank account which is related to your [SOORTVAKANTIE]. Thank you for that.\n\nAfter we have processed this payment the new sum of money you are due will be:\n\n[BETALINGSINFO]\nTherefore we would like to ask you to send the money that you are still due to our bank account number 84.93.06.671. Please make sure you also state the reservation number [RESERVERINGSNUMMER] at the transaction.\n\nInformation for internation payment:\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden\n\nAfter we have received the money you are still due we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+$txt["en"]["vars"]["mailbetaling"]="Dear [NAAM],\n\nOn [DATUM] we received a payment of € [BEDRAG] on our bank account which is related to your [SOORTVAKANTIE]. Thank you for that.\n\nAfter we have processed this payment the new sum of money you are due will be:\n\n[BETALINGSINFO]\nTherefore we would like to ask you to send the money that you are still due to our bank account number:\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden\n\nPlease make sure you also state the reservation number [RESERVERINGSNUMMER] at the transaction.\n\nAfter we have received the money you are still due we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl_x"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nNa verwerking van deze betaling wordt het nieuwe openstaande saldo:\n\n[BETALINGSINFO]\nWij willen je vragen om het resterende bedrag voor de uiterste betaaldatum over te maken naar bankrekeningnummer 43.66.72.901 onder vermelding van het reserveringsnummer [RESERVERINGSNUMMER].\n\nGegevens voor internationale betaling:\nIBAN: NL77 ABNA 0436 6729 01\nBIC: ABNANL2A\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)541 - 53 27 98";
 $txt["en_x"]["vars"]["mailbetaling"]="-";
@@ -1303,6 +1303,9 @@ $txt["en"]["zoek-en-boek"]["voorgroepen"]="for groups";
 
 $txt["nl"]["zoek-en-boek"]["grotegroepen"]="grote groepen";
 $txt["en"]["zoek-en-boek"]["grotegroepen"]="large groups";
+
+$txt["nl"]["zoek-en-boek"]["winterwellness"]="winter-wellness";
+$txt["en"]["zoek-en-boek"]["winterwellness"]="winter wellness";
 
 $txt["nl"]["zoek-en-boek"]["catering"]="catering mogelijk";
 $txt["en"]["zoek-en-boek"]["catering"]="catering possible";
@@ -2337,11 +2340,32 @@ $txt["en"]["tarieventabel"]["tarieven"]="Prices";
 $txt["nl"]["tarieventabel"]["ineuros"]="in euro's";
 $txt["en"]["tarieventabel"]["ineuros"]="in euros";
 
+$txt["nl"]["tarieventabel"]["inponden"]="in Britse ponden";
+$txt["en"]["tarieventabel"]["inponden"]="in British Pounds";
+
 $txt["nl"]["tarieventabel"]["peraccommodatie"]="per accommodatie";
 $txt["en"]["tarieventabel"]["peraccommodatie"]="per accommodation";
 
 $txt["nl"]["tarieventabel"]["perpersooninclskipas"]="per persoon, inclusief skipas";
 $txt["en"]["tarieventabel"]["perpersooninclskipas"]="per person, including ski-lift pass";
+
+$txt["nl"]["tarieventabel"]["valuta"]="Valuta";
+$txt["en"]["tarieventabel"]["valuta"]="Currency";
+
+$txt["nl"]["tarieventabel"]["euro"]="euro";
+$txt["en"]["tarieventabel"]["euro"]="Euro";
+
+$txt["nl"]["tarieventabel"]["gbp"]="GBP";
+$txt["en"]["tarieventabel"]["gbp"]="GBP";
+
+// $txt["nl"]["tarieventabel"]["valuta_toelichting_euro"]="prijzen zijn exact zoals getoond";
+// $txt["en"]["tarieventabel"]["valuta_toelichting_euro"]="prices are exactly as shown";
+
+$txt["nl"]["tarieventabel"]["valuta_toelichting1_gbp"]="Prijzen zijn een schatting op basis van de huidige wisselkoers.";
+$txt["en"]["tarieventabel"]["valuta_toelichting1_gbp"]="Prices are an estimation based on the current exchange rate.";
+
+$txt["nl"]["tarieventabel"]["valuta_toelichting2_gbp"]="Boekingen vinden altijd in euro's plaats.";
+$txt["en"]["tarieventabel"]["valuta_toelichting2_gbp"]="Bookings always need to be done in Euros.";
 
 $txt["nl"]["tarieventabel"]["kortingenaldoorgerekend"]="Kortingen zijn al doorgerekend";
 $txt["en"]["tarieventabel"]["kortingenaldoorgerekend"]="Discounts are already included";
@@ -3741,6 +3765,9 @@ $txt["en"]["bsys"]["terugnaardevorigepagina"]="back to the previous page";
 
 $txt["nl"]["bsys"]["terugnaardeoverzichtspagina"]="terug naar de overzichtspagina";
 $txt["en"]["bsys"]["terugnaardeoverzichtspagina"]="back to the overview page";
+
+$txt["nl"]["bsys"]["andereboeking"]="andere boeking";
+$txt["en"]["bsys"]["andereboeking"]="other booking";
 
 $txt["nl"]["bsys"]["inleiding"]="Welkom bij \"Mijn boeking\" van [[v_websitenaam]]. Via dit systeem kun je de gegevens van je boekingen bij [[v_websitenaam]] inzien en wijzigen.";
 $txt["en"]["bsys"]["inleiding"]="Welcome to \"My booking\" of [[v_websitenaam]]. This system allows you to view and change the details of your booking with [[v_websitenaam]].";

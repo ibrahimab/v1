@@ -228,7 +228,7 @@ if($login->logged_in) {
 										}
 
 										# Boeken via XML: aangeven welke xml-types hier gebruik van maken
-										if($db2->f("xml_type")==1 or $db2->f("xml_type")==12 or $db2->f("xml_type")==13 or $db2->f("xml_type")==15 or $db2->f("xml_type")==18 or $db2->f("xml_type")==19 or $db2->f("xml_type")==20) {
+										if($db2->f("xml_type")==1 or $db2->f("xml_type")==12 or $db2->f("xml_type")==13 or $db2->f("xml_type")==15 or $db2->f("xml_type")==18 or $db2->f("xml_type")==19 or $db2->f("xml_type")==20 or $db2->f("xml_type")==22) {
 											if(!$db2->f("standaardbestelmanier") or $db2->f("standaardbestelmanier")==3) {
 												if($gegevens["stap1"]["accinfo"]["leverancierscode"]) {
 													echo "<li><a href=\"".$path."cms_boeken_xml.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\" onclick=\"return confirmClick(this,'Deze boeking bestellen via XML?');\">Via XML</a></li>";
@@ -292,7 +292,6 @@ if($login->logged_in) {
 							echo "<li><a href=\"".$path."bsys.php?laatstefactuur=1&bid=".$gegevens["stap1"]["boekingid"]."\" target=\"_blank\">".html("factuur","bsys")."</a></li>";
 						}
 					}
-                                        
 					echo "</ul><hr>";
 					if($gegevens["stap1"]["wijzigen_toegestaan"]) {
 						echo html("wijzigen","bsys").":<ul>\n";

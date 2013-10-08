@@ -86,6 +86,13 @@ if(netrom_testserver) {
 	$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
 	$mysqlsettings["host"]="localhost";# Hostname bij provider
 }
+// database for acceptation-testserver
+if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"])) {
+	$mysqlsettings["name"]["remote"]="dbtest_chalet";	# TEST-databasenaam bij provider
+	$vars["acceptatie_testserver"]=true;
+}
+
+
 $mysqlsettings["name"]["local"]="dbtest_chalet";		# Optioneel: Databasenaam lokaal (alleen invullen indien anders dan database bij provider)
 $mysqlsettings["localhost"]="ss.postvak.net";# Hostname voor lokaal gebruik
 
@@ -669,7 +676,7 @@ $title["blog"]=txt("title_blog");
 
 
 # $vars - Variabelen declareren
-$vars["actuele_vacature"]="Productmanager Oostenrijk";
+// $vars["actuele_vacature"]="Productmanager Oostenrijk";
 
 $vars["fotofabriek_code_na_enquete"]=true;
 
@@ -706,7 +713,6 @@ $vars["maxpersonen"]=array("1"=>"8","2"=>"12","3"=>"12","4"=>"16","5"=>"18","6"=
 $vars["optimaalmaxpersonen"]=array("1"=>"4","2"=>"6","3"=>"6","4"=>"8","5"=>"9","6"=>"10","7"=>"11","8"=>"12","9"=>"13","10"=>"14","11"=>"15","12"=>"16","13"=>"18","14"=>"19","15"=>"20","16"=>"25","17"=>"25","18"=>"28","19"=>"28","20"=>"50");
 
 $vars["minpersonen_boeking"]=array("1"=>"1","2"=>"1","3"=>"1","4"=>"2","5"=>"2","6"=>"3","7"=>"4","8"=>"4","9"=>"5","10"=>"6","11"=>"7","12"=>"7","13"=>"8","14"=>"8","15"=>"9","16"=>"10","17"=>"11","18"=>"12","19"=>"12","20"=>"13");
-$vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina's",4=>"tonen op de accommodatiepagina's en bij intern gebruik het zoekformulier",3=>"tonen op de accommodatiepagina's en het zoekformulier");
 $vars["geslacht"]=array(1=>txt("man","vars"),2=>txt("vrouw","vars"));
 $vars["verzendmethode_reisdocumenten"]=array(1=>txt("email","vars"),2=>txt("post","vars"));
 $vars["verzendmethode_reisdocumenten_inclusief_nvt"]=array(1=>txt("email","vars"),2=>txt("post","vars"),3=>txt("nvt","vars"));
@@ -958,9 +964,6 @@ $vars["aanbieding_soort"]=array(1=>txt("gewoneaanbieding","vars"),2=>txt("lastmi
 $vars["aanbieding_soort_cms"]=array(1=>"Aanbieding met toelichting voor bezoeker",2=>"Aanbieding zonder toelichting (= gewoon korting)");
 $vars["bedrag_soort"]=array(1=>"Korting in euro's",2=>"Kortingspercentage",3=>"Exact bedrag",4=>"Geen bedrag (handmatige verwerking)");
 
-$vars["xml_type"]=array(1=>"Huetten (1)",2=>"Alpenchalets Ski France (2)",3=>"France Reisen Ski France (3)",4=>"CGH (4)",5=>"Pierre & Vacances (5)",6=>"Frosch (6)",7=>"CIS / Bellecôte Chalets (VVE) (7)",8=>"Posarelli Villas (8)",9=>"Maisons Vacances Ann Giraud (9)",10=>"CIS Immobilier (10)",11=>"Odalys Résidences (11)",12=>"Deux Alpes Voyages (12)",13=>"Eurogroup (13)",14=>"Marche Holiday (14)",15=>"Des Neiges (15)",16=>"Almliesl (16)",17=>"Alpin Rentals Kaprun (17)",18=>"Agence des Belleville (18)",19=>"Oxygène Immobilier (19)",20=>"Centrale Locative de l'Immobilière des Hauts Forts (20)",21=>"Ville in Italia (21)");
-asort($vars["xml_type"]);
-
 # vars reisbureaus
 $vars["commissie_hooglaag"]=array(2=>"hoog",1=>"laag");
 
@@ -1187,7 +1190,7 @@ if($boeking_wijzigen) {
 	} else {
 		$temp_seizoentype=$vars["seizoentype"];
 	}
-	$db->query("SELECT UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind, seizoen_id FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen".($voorkant_cms ? ">=" : "=")."3 ORDER BY begin, eind;");
+	$db->query("SELECT naam, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind, seizoen_id, tonen FROM seizoen WHERE type IN (".$temp_seizoentype.") AND tonen".($voorkant_cms ? ">=" : "=")."3 ORDER BY begin, eind;");
 	if($db->num_rows()) {
 		if($id=="accommodaties" or $id=="zoek-en-boek" or $id=="thema" or $id=="weekendski" or $id=="land" or $id=="chalets") $vars["aankomstdatum_weekend"][0]=$vars["geenvoorkeur"];
 		while($db->next_record()) {
@@ -1204,6 +1207,11 @@ if($boeking_wijzigen) {
 				}
 
 				$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
+			}
+
+			// kijken of seizoen intern anders gebruikt wordt dan extern
+			if($db->f("tonen")==4 and $voorkant_cms) {
+				$vars["seizoen_alleen_intern"].=" en ".$db->f("naam");
 			}
 		}
 		@ksort($vars["aankomstdatum"]);
@@ -1224,7 +1232,7 @@ if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET
 			$andere_boeking = $txt["en"]["vars"]["andere_boeking"];
 		}
 
-		if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">". $andere_boeking ."</a> - ";
+		if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">".html("andereboeking","bsys")."</a> - ";
 		$rechtsboven.="<a href=\"".$path.txt("menu_inloggen").".php?logout=21\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>$login->username))."</a>";
 		$rechtsboven.="</font>";
 	} elseif(ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {

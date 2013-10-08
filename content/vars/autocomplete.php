@@ -33,7 +33,7 @@ if($vars["taal"]=="nl") {
 		$autocomplete["10 voor après-ski"][] = "vf_kenm45=1";
 		$autocomplete["après-ski"][] = "vf_kenm45=1";
 
-		$autocomplete["grote groepen"][] = "vf_kenm46=1";
+		// $autocomplete["grote groepen"][] = "vf_kenm46=1";
 		$autocomplete["groepsaccommodaties"][] = "vf_kenm46=1";
 
 		// aantal badkamers

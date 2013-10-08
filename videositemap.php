@@ -75,7 +75,7 @@ while($db->next_record()) {
 
 
 # Accommodaties/types
-$db->query("SELECT t.type_id, l.begincode, a.soortaccommodatie, a.naam, t.naam".$vars["ttv"]." AS tnaam, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, a.video_url, t.video_url AS tvideo_url FROM accommodatie a, type t, land l, plaats p WHERE (a.video=1 OR t.video=1) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.websites LIKE '%".$vars["website"]."%' ORDER BY t.type_id;");
+$db->query("SELECT t.type_id, l.begincode, a.soortaccommodatie, a.accommodatie_id, a.naam, t.naam".$vars["ttv"]." AS tnaam, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, a.video_url, t.video_url AS tvideo_url FROM accommodatie a, type t, land l, plaats p WHERE (a.video=1 OR t.video=1) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.websites LIKE '%".$vars["website"]."%' ORDER BY t.type_id;");
 while($db->next_record()) {
 
 	if($db->f("tvideo_url")) {
@@ -104,7 +104,17 @@ while($db->next_record()) {
 			$description.=$db->f("korteomschrijving");
 		}
 		echo "<video:description>".xml_text(trim($description))."</video:description>\n";
-		echo "<video:thumbnail_loc>".$vars["basehref"]."pic/video-preview_".$vars["seizoentype"].".jpg</video:thumbnail_loc>\n";
+
+		// preview-afbeelding bepalen
+		if(file_exists($vars["unixdir"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
+			$preview_afbeelding=$vars["basehref"]."pic/cms/types_specifiek/".$db->f("type_id").".jpg";
+		} elseif(file_exists($vars["unixdir"]."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
+			$preview_afbeelding=$vars["basehref"]."pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg";
+		} else {
+			$preview_afbeelding=$vars["basehref"]."pic/video-preview_".$vars["seizoentype"].".jpg";
+		}
+
+		echo "<video:thumbnail_loc>".$preview_afbeelding."</video:thumbnail_loc>\n";
 		echo "<video:player_loc allow_embed=\"yes\">".$vimeo_url."</video:player_loc>\n";
 		echo "</video:video>\n";
 		echo "</url>\n";

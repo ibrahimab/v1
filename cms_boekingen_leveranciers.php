@@ -333,8 +333,8 @@ if($form->okay) {
 	# inkoopnetto + totaalfactuurbedrag (via javascript berekend) opslaan
 	$db->query("UPDATE boeking SET inkoopnetto='".addslashes(str_replace(",",".",$_POST["input"]["inkoopnetto"]))."', totaalfactuurbedrag='".addslashes($_POST["input"]["totaalfactuurbedrag"])."' WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."';");
 
-	# bij bestelstatus = bevestigd: aan_leverancier_doorgegeven_naam opslaan indien die nog leeg is
-	if($form->input["bestelstatus"]==3 and !$gegevens["stap1"]["aan_leverancier_doorgegeven_naam"]) {
+	# bij bestelstatus = "bevestiging afwachten" of "bevestigd": aan_leverancier_doorgegeven_naam opslaan indien die nog leeg is
+	if($form->input["bestelstatus"]>=2 and !$gegevens["stap1"]["aan_leverancier_doorgegeven_naam"]) {
 		$db->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."' WHERE boeking_id='".intval($gegevens["stap1"]["boekingid"])."';");
 	}
 

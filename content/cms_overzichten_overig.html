@@ -680,8 +680,8 @@ if($_GET["t"]==1) {
 
 	echo "<ul>";
 	echo "<li><a href=\"#beddenperseizoen\">Aantal aangeboden bedden per seizoen</a></li>";
-	echo "<li><a href=\"#grotegroepen\">Chalet.nl-accommodaties van 10 personen of meer die niet in het thema &quot;grote groepen&quot; vallen</a></li>";
-	echo "<li><a href=\"#grotegroepenminder\">Chalet.nl-accommodaties van minder dan 10 personen die in het thema &quot;grote groepen&quot; vallen</a></li>";
+	// echo "<li><a href=\"#grotegroepen\">Chalet.nl-accommodaties van 10 personen of meer die niet in het thema &quot;grote groepen&quot; vallen</a></li>";
+	// echo "<li><a href=\"#grotegroepenminder\">Chalet.nl-accommodaties van minder dan 10 personen die in het thema &quot;grote groepen&quot; vallen</a></li>";
 	echo "<li><a href=\"#goedvoorkids\">Chalet.nl-accommodaties die niet in het thema &quot;goed voor kids&quot; vallen</a></li>";
 	echo "<li><a href=\"#skigebiedensnowplaza\">Skigebieden Chalet.nl t.b.v. Snowplaza</a></li>";
 	echo "<li><a href=\"#plaatsenzomerhuisje\">Plaatsen Zomerhuisje</a></li>";
@@ -711,41 +711,69 @@ if($_GET["t"]==1) {
 
 	echo "&nbsp;";
 
-	# Accommodaties van > 10 personen die niet in thema "grote groepen" vallen
-	unset($results);
-	$db->query("SELECT type_id, accommodatie_id FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE t.websites LIKE '%C%' AND t.maxaantalpersonen>=10 AND (t.kenmerken NOT REGEXP '[[:<:]]6[[:>:]]' AND a.kenmerken NOT REGEXP '[[:<:]]6[[:>:]]') AND a.wzt=1 AND a.archief=0 AND t.tonen=1 AND a.tonen=1;");
-	if($db->num_rows()) {
-		echo "<a name=\"grotegroepen\"></a>";
-		echo "<b>Chalet.nl-accommodaties van 10 personen of meer die niet in het thema &quot;grote groepen&quot; vallen:</b></p>";
- 		while($db->next_record()) {
- 			$results[$vars["alletypes"][$db->f("type_id")]]="<li><a href=\"".$vars["path"]."cms_types.php?show=2&wzt=1&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
-		}
-		ksort($results);
+	// # Accommodaties van > 10 personen die niet in thema "grote groepen" vallen
+	// unset($results);
+	// $db->query("SELECT type_id, accommodatie_id, t.kenmerken, t.kenmerken_nee, t.kenmerken_onbekend, t.kenmerken_irrelevant FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE t.websites LIKE '%C%' AND t.maxaantalpersonen>=10 AND (t.kenmerken NOT REGEXP '[[:<:]]6[[:>:]]' AND a.kenmerken NOT REGEXP '[[:<:]]6[[:>:]]') AND a.wzt=1 AND a.archief=0 AND t.tonen=1 AND a.tonen=1 ORDER BY type_id;");
+	// if($db->num_rows()) {
+	// 	echo "<a name=\"grotegroepen\"></a>";
+	// 	echo "<b>Chalet.nl-accommodaties van 10 personen of meer die niet in het thema &quot;grote groepen&quot; vallen:</b></p>";
+ // 		while($db->next_record()) {
+ // 			$results[$vars["alletypes"][$db->f("type_id")]]="<li><a href=\"".$vars["path"]."cms_types.php?show=2&wzt=1&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
 
-		echo "<ol>";
-		while(list($key,$value)=each($results)) {
-			echo $value;
-		}
-		echo "</ol>";
-	}
+ // 			$nieuwe_kenmerken="";
+ // 			if($db->f("kenmerken")) {
+ // 				$nieuwe_kenmerken=$db->f("kenmerken").",6";
+ // 			} else {
+ // 				$nieuwe_kenmerken="6";
+ // 			}
+
+ // 			$kenmerken_nee=$db->f("kenmerken_nee");
+ // 			$kenmerken_nee=preg_replace("/\b6\b/","",$kenmerken_nee);
+ // 			$kenmerken_nee=preg_replace("@,{2,}@",",",$kenmerken_nee);
+
+ // 			$kenmerken_onbekend=$db->f("kenmerken_onbekend");
+ // 			$kenmerken_onbekend=preg_replace("/\b6\b/","",$kenmerken_onbekend);
+ // 			$kenmerken_onbekend=preg_replace("@,{2,}@",",",$kenmerken_onbekend);
+
+ // 			$kenmerken_irrelevant=$db->f("kenmerken_irrelevant");
+ // 			$kenmerken_irrelevant=preg_replace("/\b6\b/","",$kenmerken_irrelevant);
+ // 			$kenmerken_irrelevant=preg_replace("@,{2,}@",",",$kenmerken_irrelevant);
+
+
+ // 			// $db2->query("UPDATE type SET kenmerken='".addslashes($nieuwe_kenmerken)."' WHERE type_id='".$db->f("type_id")."';");
+ // 			$query="UPDATE type SET kenmerken='".addslashes($nieuwe_kenmerken)."', kenmerken_nee='".addslashes($kenmerken_nee)."', kenmerken_onbekend='".addslashes($kenmerken_onbekend)."', kenmerken_irrelevant='".addslashes($kenmerken_irrelevant)."' WHERE type_id='".$db->f("type_id")."';";
+
+ // 			$db2->query($query);
+
+	// 		echo $query."<br/><br/>";
+ // 			// echo $db2->lq."<br>";
+	// 	}
+	// 	ksort($results);
+
+	// 	echo "<ol>";
+	// 	while(list($key,$value)=each($results)) {
+	// 		echo $value;
+	// 	}
+	// 	echo "</ol>";
+	// }
 
 	# Accommodaties van < 10 personen die in thema "grote groepen" vallen
-	unset($results);
-	$db->query("SELECT type_id, accommodatie_id FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE t.websites LIKE '%C%' AND t.maxaantalpersonen<10 AND (t.kenmerken REGEXP '[[:<:]]6[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]6[[:>:]]') AND a.wzt=1 AND a.archief=0 AND t.tonen=1 AND a.tonen=1;");
-	if($db->num_rows()) {
-		echo "<a name=\"grotegroepenminder\"></a>";
-		echo "<b>Chalet.nl-accommodaties van minder dan 10 personen die in het thema &quot;grote groepen&quot; vallen:</b></p>";
- 		while($db->next_record()) {
- 			$results[$vars["alletypes"][$db->f("type_id")]]="<li><a href=\"".$vars["path"]."cms_types.php?show=2&wzt=1&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
-		}
-		ksort($results);
+	// unset($results);
+	// $db->query("SELECT type_id, accommodatie_id FROM type t INNER JOIN accommodatie a USING (accommodatie_id) WHERE t.websites LIKE '%C%' AND t.maxaantalpersonen<10 AND (t.kenmerken REGEXP '[[:<:]]6[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]6[[:>:]]') AND a.wzt=1 AND a.archief=0 AND t.tonen=1 AND a.tonen=1;");
+	// if($db->num_rows()) {
+	// 	echo "<a name=\"grotegroepenminder\"></a>";
+	// 	echo "<b>Chalet.nl-accommodaties van minder dan 10 personen die in het thema &quot;grote groepen&quot; vallen:</b></p>";
+ // 		while($db->next_record()) {
+ // 			$results[$vars["alletypes"][$db->f("type_id")]]="<li><a href=\"".$vars["path"]."cms_types.php?show=2&wzt=1&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a></li>";
+	// 	}
+	// 	ksort($results);
 
-		echo "<ol>";
-		while(list($key,$value)=each($results)) {
-			echo $value;
-		}
-		echo "</ol>";
-	}
+	// 	echo "<ol>";
+	// 	while(list($key,$value)=each($results)) {
+	// 		echo $value;
+	// 	}
+	// 	echo "</ol>";
+	// }
 
 
 	# Accommodaties die niet in thema "goed voor kids" vallen

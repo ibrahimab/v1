@@ -50,9 +50,14 @@ $form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 $form->field_htmlrow("","<a href=\"#\" onclick=\"document.frm.target='_blank';document.frm.elements['alleen_tonen'].value=1;document.frm.submit();document.frm.target='';document.frm.elements['alleen_tonen'].value=0;\">Bekijk de te mailen factuur &raquo;</a>");
 $form->field_hidden("alleen_tonen","0");
 
-// $form->field_date(1,"datum_nieuwefactuur","Datum aan te maken factuur","",array("time"=>time()),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true));
-$form->field_htmlcol("","Datum aan te maken factuur",array("text"=>datum("D MAAND JJJJ")));
 
+$factuurdatum_kan_gewijzigd_worden = true;
+
+if($factuurdatum_kan_gewijzigd_worden) {
+	$form->field_date(1,"datum_nieuwefactuur","Datum aan te maken factuur","",array("time"=>time()),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true));
+} else {
+	$form->field_htmlcol("","Datum aan te maken factuur",array("text"=>datum("D MAAND JJJJ")));
+}
 
 $form->field_yesno("factuuraanmaken","Maak nu een factuur aan");
 $form->field_yesno("factuurmailen","Mail deze aangemaakte factuur naar de klant");
@@ -107,8 +112,11 @@ if($form->filled) {
 if($form->okay) {
 
 	# Factuurdatum
-	// $factuurdatum=$form->input["datum_nieuwefactuur"]["unixtime"];
-	$factuurdatum=mktime(0,0,0,date("m"),date("d"),date("Y"));
+	if($factuurdatum_kan_gewijzigd_worden) {
+		$factuurdatum=$form->input["datum_nieuwefactuur"]["unixtime"];
+	} else {
+		$factuurdatum=mktime(0,0,0,date("m"),date("d"),date("Y"));
+	}
 
 	# Voucherstatus
 	if($form->input["vouchersopnieuw"]==1) {
@@ -575,7 +583,7 @@ if($form->okay) {
 
 		factuur_opties("","","","optellen");
 
-		if($gegevens["fin"]["commissie_accommodatie"]>0 or $gegevens["fin"]["commissie_opties"]>0) {
+		if($gegevens["fin"]["commissie_accommodatie"]<>0 or $gegevens["fin"]["commissie_opties"]<>0) {
 			factuur_opties("",txt("totaal_klant","factuur"),$gegevens["fin"]["totale_reissom_zonder_commissie_aftrek"],"plaintext");
 			$pdf->Ln();
 
@@ -583,7 +591,7 @@ if($form->okay) {
 				$pdf->AddPage();
 			}
 
-			if($gegevens["fin"]["commissie_accommodatie"]>0) {
+			if($gegevens["fin"]["commissie_accommodatie"]<>0) {
 				factuur_opties("",txt("commissie_accommodatie","factuur")." (".round($gegevens["stap1"]["commissie"],0)."%)",0-$gegevens["fin"]["commissie_accommodatie"],"plaintext",0,true);
 			}
 
@@ -595,7 +603,7 @@ if($form->okay) {
 				$perc=txt("commissie_diverse_percentages","factuur");
 			}
 
-			if($gegevens["fin"]["commissie_opties"]>0) {
+			if($gegevens["fin"]["commissie_opties"]<>0) {
 				factuur_opties("",txt("commissie_opties","factuur")." (".$perc.")",0-$gegevens["fin"]["commissie_opties"],"plaintext",0,true);
 			}
 

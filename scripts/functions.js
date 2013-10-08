@@ -2123,6 +2123,30 @@ $(document).ready(function() {
 			return true;
 		});
 
+
+
+		// switchen tussen valuta
+		$(".tarieventabel_top_valuta select").change(function(event) {
+			var currency=$(this).val();
+
+			// juiste tarieven tonen
+			$(".tarieventabel_tarieven_div div[data-euro]").each(function() {
+				$(this).text($(this).data(currency));
+			});
+
+// alert($(".tarieventabel_top_valutanaam").data(currency));
+
+			// juiste teksten tonen
+			$(".tarieventabel_top_valutanaam").html($(".tarieventabel_top_valutanaam").data(currency));
+			$(".tarieventabel_top_valuta_toelichting1").html($(".tarieventabel_top_valuta_toelichting1").data(currency));
+			$(".tarieventabel_top_valuta_toelichting2").html($(".tarieventabel_top_valuta_toelichting2").data(currency));
+
+			// juiste vlag tonen
+			$(".tarieventabel_top_valuta select").removeClass();
+			$(".tarieventabel_top_valuta select").addClass("option_valuta_"+currency);
+
+		});
+
 	}
 });
 

@@ -60,6 +60,7 @@ RewriteRule ^(.*)$ http://www.venturasol-secondhomes.nl/$1 [L,R=301]
 # niet-https doorsturen naar https
 #
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
+RewriteCond %{HTTP_HOST} !^test\.chalet\.eu [NC]
 RewriteCond %{SERVER_PORT} 80
 RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=301]
 
@@ -75,16 +76,19 @@ RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalet\.eu [NC]
+RewriteCond %{HTTP_HOST} !^test\.chalet\.eu [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalettour\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalettour\.nl [NC]
+RewriteCond %{HTTP_HOST} !^test\.chalettour\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chalettour.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalet\.be [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalet\.be [NC]
+RewriteCond %{HTTP_HOST} !^test\.chalet\.be [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chalet.be/$1 [L,R=301]
 
@@ -93,39 +97,53 @@ RewriteRule ^(.*)$ http://www.chalet.eu/ [L,R=301]
 
 RewriteCond %{HTTP_HOST} zomerhuisje\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.nl [NC]
+RewriteCond %{HTTP_HOST} !^test\.zomerhuisje\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} zomerhuisje\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.eu [NC]
+RewriteCond %{HTTP_HOST} !^test\.zomerhuisje\.eu [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.zomerhuisje.eu/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chaletsinvallandry\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.chaletsinvallandry\.nl [NC]
+RewriteCond %{HTTP_HOST} !^test\.chaletsinvallandry\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chaletsinvallandry.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chaletsinvallandry\.com [NC]
 RewriteCond %{HTTP_HOST} !^www\.chaletsinvallandry\.com [NC]
+RewriteCond %{HTTP_HOST} !^test\.chaletsinvallandry\.com [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.chaletsinvallandry.com/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} italissima\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.italissima\.nl [NC]
+RewriteCond %{HTTP_HOST} !^test\.italissima\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} italissima\.be [NC]
 RewriteCond %{HTTP_HOST} !^www\.italissima\.be [NC]
+RewriteCond %{HTTP_HOST} !^test\.italissima\.be [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.italissima.be/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.venturasol\.nl [NC]
+RewriteCond %{HTTP_HOST} !^test\.venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^partner\.venturasol\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
+
+
+# Test-server alleen beschikbaar voor bepaalde IP-adressen
+RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
+RewriteCond %{REMOTE_ADDR} !=31.223.173.113
+RewriteCond %{REMOTE_ADDR} !=213.125.152.154
+RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
 
 
 #

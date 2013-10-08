@@ -144,7 +144,7 @@ if($mustlogin) {
 	$title["cms_boekingen_diversen"]="Boeking - Bedragen";
 	$title["cms_boekingen_enquete"]="Boeking - Enquête";
 	$title["cms_boekingen_leveranciers"]="Boeking - Leveranciers";
-	$title["cms_boekingen_wijzigen"]="Boeking - Opties wijzigen";
+	$title["cms_boekingen_wijzigen"]="Boeking - wijzigen";
 	$title["cms_etiketten"]="Etiketten printen";
 	$title["cms_mailteksten_versturen"]="Opties-bijboeken-mailtjes versturen (voor winterboekingen)";
 	$title["cms_openstaandebetalingen"]="Openstaande betalingen";
@@ -360,7 +360,7 @@ if($mustlogin) {
 
 	$layout->menu_item("cms_optie_soorten","Opties","",true);
 
-	$layout->menu_item("cms_blokkenaccommodaties","Opvalblokkken","",true,false,array("slide"=>true));
+	$layout->menu_item("cms_blokkenaccommodaties","Opvalblokken","",true,false,array("slide"=>true));
 	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Zomerhuisje",array("wst"=>"3"),true);
 	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Italissima",array("wst"=>"7"),true);
 
@@ -951,7 +951,7 @@ if($mustlogin) {
 #
 # cmslog_pagina opslaan
 #
-if($_SERVER["REQUEST_URI"] and is_object($login) and !$_POST and !$vars["cmslog_pagina_niet_opslaan"] and !$_GET["delete"] and !$_GET["delkid"]) {
+if($_SERVER["REQUEST_URI"] and is_object($login) and !$_POST and !$vars["cmslog_pagina_niet_opslaan"] and !$_GET["delete"] and !$_GET["delkid"] and !$cron) {
 	if($login->vars["cmslog_pagina"]) {
 		if(is_object($layout)) {
 			if($layout->pageid=="cms") {
@@ -1005,6 +1005,36 @@ $vars["accommodatie_review_bron"]=array(1=>"door eigen klant ingevulde enquête",
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
 $vars["soort_garantie"]=array(1=>"seizoen en bulk",2=>"op naam en losse weken");
 $vars["boeking_betaling_type"]=array(1=>"bank-overschrijving",2=>"uitbetaling door Docdata",3=>"verrekening Docdata-betaling/overschrijving",4=>"Docdata-betaling (iDEAL)",5=>"Docdata-betaling (creditcard)",6=>"Docdata-uitbetaling (Mister Cash)");
+$vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina's",4=>"tonen op de accommodatiepagina's en bij intern gebruik het zoekformulier",3=>"tonen op de accommodatiepagina's en het zoekformulier");
+
+
+// XML-leveranciers
+$vars["xml_type"]=array(
+	1=>"Huetten (1)",
+	2=>"Alpenchalets Ski France (2)",
+	3=>"France Reisen Ski France (3)",
+	4=>"CGH (4)",
+	5=>"Pierre & Vacances (5)",
+	6=>"Frosch (6)",
+	7=>"CIS / Bellecôte Chalets (VVE) (7)",
+	8=>"Posarelli Villas (8)",
+	9=>"Maisons Vacances Ann Giraud (9)",
+	10=>"CIS Immobilier (10)",
+	11=>"Odalys Résidences (11)",
+	12=>"Deux Alpes Voyages (12)",
+	13=>"Eurogroup (13)",
+	14=>"Marche Holiday (14)",
+	15=>"Des Neiges (15)",
+	16=>"Almliesl (16)",
+	17=>"Alpin Rentals Kaprun (17)",
+	18=>"Agence des Belleville (18)",
+	19=>"Oxygène Immobilier (19)",
+	20=>"Centrale Locative de l'Immobilière des Hauts Forts (20)",
+	21=>"Ville in Italia (21)",
+	22=>"Nexity (22)",
+);
+asort($vars["xml_type"]);
+
 
 
 # Soorten hoofdpagina-meldingen / rollen

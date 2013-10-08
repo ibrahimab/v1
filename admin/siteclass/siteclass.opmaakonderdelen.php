@@ -44,7 +44,7 @@ class opmaakonderdelen {
 
 		// toon de body-tag (en bijbehorende elementen)
 
-		global $id, $onload;
+		global $id, $onload, $vars;
 
 		$return.="<body";
 		if($id<>"index") $return.=" onscroll=\"document.getElementById('terugnaarboven').style.visibility='visible'\"";
@@ -65,6 +65,19 @@ class opmaakonderdelen {
 		}
 
 		$return.=">";
+
+		// rode achtergrondkleur bij acceptatie-server
+		if($vars["acceptatie_testserver"]) {
+
+			$return.="
+			<style>
+			body {
+				background-color: #f6adba;
+			}
+			</style>
+			";
+		}
+
 
 		return $return;
 

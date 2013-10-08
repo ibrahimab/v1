@@ -303,6 +303,11 @@ li {
 
 }
 
+#tablediv {
+	z-index: 101;
+	position: relative;
+}
+
 .striped tr:nth-child(odd) {
    background-color: #dddddd;
 }
@@ -621,6 +626,11 @@ li {
 	outline:0;
 }
 
+.tr_bestelstatus_hele_tr_opvallend {
+	background-color: #94d3ff;
+}
+
+
 /* ----------------------- */
 /*   roominglist-systeem   */
 /* ----------------------- */
@@ -722,6 +732,31 @@ a.opm:hover .balloon_small {
 	padding: 5px;
 }
 
+a.opm .balloon_small2 {
+	display: none;
+}
+
+a.opm:hover .balloon_small2 {
+	display: block;
+	position: absolute;
+	margin-top: 30px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: -2px;
+	border: 1px solid #000000;
+	background-color: yellow;
+	color: #000000;
+	min-height: 30px;
+	width: 270px;
+	text-align: left;
+	vertical-align: bottom;
+	padding: 5px;
+}
+
+a.opm {
+	color: blue;
+	text-decoration: underline;
+}
 
 /* ----------------------- */
 /*   scrollable table      */

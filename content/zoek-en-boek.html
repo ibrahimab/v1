@@ -171,12 +171,12 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[5]["fields"]=array(
 		"charmanteskidorpen"=>44,
 		"10voorapresski"=>45,
-		"grotegroepen"=>46,
-		"superskistations"=>47
+		"superskistations"=>47,
+		"winterwellness"=>46
 	);
 	$keuzeopsomming[5]["addwhere"][44][]="(p.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
 	$keuzeopsomming[5]["addwhere"][45][]="(p.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
-	$keuzeopsomming[5]["addwhere"][46][]="(t.kenmerken REGEXP '[[:<:]]6[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
+	$keuzeopsomming[5]["addwhere"][46][]="(t.kenmerken REGEXP '[[:<:]]9[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]9[[:>:]]')";
 	$keuzeopsomming[5]["addwhere"][47][]="(p.kenmerken REGEXP '[[:<:]]14[[:>:]]')";
 
 	# Aantal badkamers
@@ -1557,11 +1557,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$verfijnd["aantalkmpiste"][4]++;
 					}
 
-					# Verfijnd zoeken: voor groepen
-	#				if(check_kenmerken($db->f("tkenmerken"),6) or check_kenmerken($db->f("akenmerken"),6)) {
-	#					$verfijnd["kenmerken"][1]++;
-	#				}
-
 					# Verfijnd zoeken: faciliteiten
 
 					# Verfijnd zoeken: catering
@@ -1630,14 +1625,16 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						# 10 voor apres ski
 						$verfijnd["kenmerken"][45]++;
 					}
-					if(check_kenmerken($db->f("tkenmerken"),6) or check_kenmerken($db->f("akenmerken"),6)) {
-						# voor groepen
-						$verfijnd["kenmerken"][46]++;
-					}
 					if(check_kenmerken($db->f("pkenmerken"),14)) {
 						# super ski-stations
 						$verfijnd["kenmerken"][47]++;
 					}
+
+					if(check_kenmerken($db->f("tkenmerken"),9) or check_kenmerken($db->f("akenmerken"),9)) {
+						# winter-wellness
+						$verfijnd["kenmerken"][46]++;
+					}
+
 				} else {
 
 					#
@@ -2394,6 +2391,8 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 									}
 								} elseif($gekozen["fdu"]>1) {
 									$zoekresultaat_prijs_periode.=$gekozen["fdu"]." ".html("weken","vars");
+								} elseif($vanaf_prijzen_tonen and $_GET["fdu"] and $_GET["fdu"]<>"1") {
+									$zoekresultaat_prijs_periode.=html("per")." ".html("week","vars");
 								} else {
 									$zoekresultaat_prijs_periode.="1 ".html("week","vars");
 								}
@@ -3225,6 +3224,10 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 	}
 
 	$vars["zoek-en-boek-functions-init"]=true;
+}
+
+if($voorkant_cms and $vars["seizoen_alleen_intern"]) {
+	echo "<div class=\"zoekblok_interne_opmerking\">Niet zichtbaar bij zoek-en-boek voor gewone bezoekers: <b>".substr($vars["seizoen_alleen_intern"],4)."</b></div>";
 }
 
 if($vars["websitetype"]==1) {

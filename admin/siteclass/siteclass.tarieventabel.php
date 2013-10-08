@@ -16,11 +16,15 @@ class tarieventabel {
 
 	private $actieve_kolom;
 
+	public $meerdere_valuta;
+
 	function __construct() {
 
 		$this->toon_interne_informatie = false;
 		$this->toon_beschikbaarheid = false;
 		$this->toon_commissie = false;
+		$this->meerdere_valuta = false;
+
 
 		$this->voorraad_doorlopen=array(
 			"garantie" => "Garantie",
@@ -91,13 +95,29 @@ class tarieventabel {
 		global $vars;
 
 		$return .= "<div class=\"tarieventabel_top\">";
+		$return .= "<div class=\"tarieventabel_top_left\">";
 		$return .= "<h1>".html("tarieven","tarieventabel")."</h1>";
 
-		if($this->arrangement) {
-			$return .= html("ineuros","tarieventabel").", ".html("perpersooninclskipas","tarieventabel");
+		if($this->meerdere_valuta) {
+			$return .= "<span class=\"tarieventabel_top_valutanaam\" data-euro=\"".html("ineuros","tarieventabel")."\" data-gbp=\"".html("inponden","tarieventabel")."\">";
+			if($this->actieve_valuta=="gbp") {
+				$return .= html("inponden","tarieventabel");
+			} else {
+				$return .= html("ineuros","tarieventabel");
+			}
+			$return .= "</span>";
 		} else {
-			$return .= html("ineuros","tarieventabel").", ".html("peraccommodatie","tarieventabel");
+			$return .= html("ineuros","tarieventabel");
 		}
+
+		if($this->arrangement) {
+			$return .= ", ".html("perpersooninclskipas","tarieventabel");
+		} else {
+			$return .= ", ".html("peraccommodatie","tarieventabel");
+		}
+
+		$return .= "</div>"; // afsluiten .tarieventabel_top_left
+		$return .= "<div class=\"tarieventabel_top_right\">";
 
 		if($this->toon_interne_informatie) {
 			//
@@ -125,8 +145,40 @@ class tarieventabel {
 			$return.="</div>";
 			$return.="<div class=\"clear\"></div>\n";
 		}
+		if($this->meerdere_valuta) {
+			$return.="<div class=\"tarieventabel_top_valuta\">";
 
-		$return .= "</div>";
+			$return.=html("valuta","tarieventabel").":";
+
+			$return.="<select class=\"option_valuta_".($this->actieve_valuta=="gbp" ? "gbp" : "euro")."\">";
+			$return.="<option value=\"euro\" class=\"option_valuta_euro\"".($this->actieve_valuta!="gbp" ? " selected" : "").">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".html("euro","tarieventabel")."&nbsp;</option>";
+			$return.="<option value=\"gbp\" class=\"option_valuta_gbp\"".($this->actieve_valuta=="gbp" ? " selected" : "").">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".html("gbp","tarieventabel")."&nbsp;</option>";
+			$return.="</select>";
+
+			$return.="<div class=\"tarieventabel_top_valuta_toelichting1\" data-euro=\"\" data-gbp=\"".html("valuta_toelichting1_gbp","tarieventabel")."\">";
+			if($this->actieve_valuta=="gbp") {
+				$return.=html("valuta_toelichting1_gbp","tarieventabel");
+			} else {
+				// $return.=html("valuta_toelichting1_euro","tarieventabel");
+			}
+			$return.="</div>"; // afsluiten .tarieventabel_top_valuta_toelichting1
+
+			$return.="<div class=\"tarieventabel_top_valuta_toelichting2\" data-euro=\"\" data-gbp=\"".html("valuta_toelichting2_gbp","tarieventabel")."\">";
+			if($this->actieve_valuta=="gbp") {
+				$return.=html("valuta_toelichting2_gbp","tarieventabel");
+			} else {
+				// $return.=html("valuta_toelichting2_euro","tarieventabel");
+			}
+			$return.="</div>"; // afsluiten .tarieventabel_top_valuta_toelichting2
+
+			$return.="</div>"; // afsluiten .tarieventabel_top_valuta
+		}
+
+		$return .= "</div>"; // afsluiten .tarieventabel_top_right
+
+		$return.= "<div class=\"clear\"></div>";
+
+		$return .= "</div>"; // afsluiten .tarieventabel_top
 
 		return $return;
 
@@ -753,20 +805,42 @@ class tarieventabel {
 				$return.="<div class=\"tarieventabel_tarieven_div\">";
 
 				if($this->tarief[$key]>0) {
-					if($this->toonkorting_1[$key] or $this->toonkorting_2[$key]) {
-						$return.="<div class=\"tarieventabel_tarieven_aanbieding\">";
-					}
 
 					if($this->tarief[$key]>=10000) {
-						$return.=number_format($this->tarief[$key],0,",",".");
+						$te_tonen_bedrag["euro"]=number_format($this->tarief[$key],0,",",".");
 					} else {
-						$return.=number_format($this->tarief[$key],0,",","");
+						$te_tonen_bedrag["euro"]=number_format($this->tarief[$key],0,",","");
 					}
-					$this->tarieven_getoond[$this->week_seizoen_id[$key]]=true;
 
 					if($this->toonkorting_1[$key] or $this->toonkorting_2[$key]) {
-						$return.="</div>";
+						$return.="<div class=\"tarieventabel_tarieven_aanbieding\"";
+					} else {
+						$return.="<div";
 					}
+
+					if($this->meerdere_valuta) {
+						$bedrag_andere_valuta["gbp"]=round($this->wisselkoers["gbp"]*$this->tarief[$key]);
+
+						if($bedrag_andere_valuta["gbp"]>=10000) {
+							$te_tonen_bedrag["gbp"]=number_format($bedrag_andere_valuta["gbp"],0,",",".");
+						} else {
+							$te_tonen_bedrag["gbp"]=number_format($bedrag_andere_valuta["gbp"],0,",","");
+						}
+						$return.=" data-euro=\"".wt_he($te_tonen_bedrag["euro"])."\" data-gbp=\"".wt_he($te_tonen_bedrag["gbp"])."\"";
+					}
+					$return.=">";
+
+					if($this->meerdere_valuta and $this->actieve_valuta=="gbp") {
+						$return.=$te_tonen_bedrag["gbp"];
+					} else {
+						$return.=$te_tonen_bedrag["euro"];
+					}
+
+					$this->tarieven_getoond[$this->week_seizoen_id[$key]]=true;
+
+					// if($this->toonkorting_1[$key] or $this->toonkorting_2[$key]) {
+						$return.="</div>";
+					// }
 				} else {
 					$return.="<div class=\"tarieventabel_tarieven_niet_beschikbaar\">";
 					$return.="&nbsp;";
@@ -1029,6 +1103,14 @@ class tarieventabel {
 
 		} else {
 			$this->arrangement=true;
+		}
+
+
+		if($this->meerdere_valuta) {
+			$db->query("SELECT wisselkoers_pond FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+			if($db->next_record()) {
+				$this->wisselkoers["gbp"]=$db->f("wisselkoers_pond");
+			}
 		}
 
 		# Controle op vertrekdagaanpassing?

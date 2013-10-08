@@ -56,7 +56,9 @@ if($_GET["levid"]) {
 		$form->field_date(0,"tot","Tot en met","","",array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true,"tr_class"=>"roomingaankomst_verzenden"));
 
 		$form->field_htmlrow("","<hr><b>Tekst in mailtje</b>","",array("tr_class"=>"roomingaankomst_verzenden"));
-		$form->field_textarea(0,"mailbody","Tekst","",array("text"=>"See attached file."),"",array("tr_class"=>"roomingaankomst_verzenden"));
+
+		$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send you attached an actual list with all our outstanding reservations till today.\n\nCan you please check these reservations and the eventual extra options and send us a confirmation by return.\n\nThanks in advance for your early reaction.\n\nKind regards,\nDaniëlle";
+		$form->field_textarea(0,"mailbody","Tekst","",array("text"=>$mailtekst),"",array("tr_class"=>"roomingaankomst_verzenden"));
 
 		$form->field_htmlrow("","<hr><b>Naamswijzigingen doorgeven</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
 		if(is_array($roominglist->naamswijzigingen)) {
@@ -160,6 +162,7 @@ if($_GET["levid"]) {
 				echo "<h2>Roominglist</h2>";
 
 				echo "<p><span class=\"nog_niet_besteld\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog niet besteld (wordt niet meegezonden)</p>";
+				echo "<p><span style=\"font-weight:bold;background-color:yellow;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = naamswijziging (geel + dikgedrukt, wordt w&eacute;l meegezonden)</p>";
 
 				// $vars["create_list"]=$vars["roominglist_object"]->create_list();
 
