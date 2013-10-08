@@ -138,6 +138,13 @@ RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
 
 
+# Test-server alleen beschikbaar voor bepaalde IP-adressen
+RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
+RewriteCond %{REMOTE_ADDR} !=31.223.173.113
+RewriteCond %{REMOTE_ADDR} !=213.125.152.154
+RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
+
+
 #
 # Spelfout-domeinnamen doorsturen naar de juiste domeinnaam
 #
