@@ -86,6 +86,13 @@ if(netrom_testserver) {
 	$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
 	$mysqlsettings["host"]="localhost";# Hostname bij provider
 }
+// database for acceptation-testserver
+if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"])) {
+	$mysqlsettings["name"]["remote"]="dbtest_chalet";	# TEST-databasenaam bij provider
+	$vars["acceptatie_testserver"]=true;
+}
+
+
 $mysqlsettings["name"]["local"]="dbtest_chalet";		# Optioneel: Databasenaam lokaal (alleen invullen indien anders dan database bij provider)
 $mysqlsettings["localhost"]="ss.postvak.net";# Hostname voor lokaal gebruik
 
