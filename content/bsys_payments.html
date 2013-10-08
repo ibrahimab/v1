@@ -112,55 +112,77 @@ if($login->logged_in) {
                         echo "<input type=\"hidden\" name=\"order\" value=\"{$_GET["bid"]}\">";
                         echo "<tr><td style=\"vertical-align:top;\">";
 
-                            // if no payment was made we display the advanced payment option
+                            // if no payment was made we display the advanced payment options
                             if(!$advance_payment) {
                                 echo "<p>";
                                 echo "<input type=\"radio\" name=\"payment_type\" id=\"advance\" value=\"advance\" ". $checked1 ." />";
                                 echo "<label for=\"advance\">". html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .")</label><br/>";
                                 echo "&nbsp; &nbsp; <em>" . $advance_pay_date ."</em>";
                                 echo "</p>";
-                            }
 
-                            echo "<p>";
-                            echo "<input type=\"radio\" name=\"payment_type\" id=\"full\" value=\"full\" ". $checked2 ." />";
-                            echo "<label for=\"full\">". html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")</label><br />";
-                            echo "&nbsp; &nbsp; <em>" . $full_pay_date ."</em>";
-                            echo "</p>";
+                                echo "<p>";
+                                echo "<input type=\"radio\" name=\"payment_type\" id=\"full\" value=\"full\" ". $checked2 ." />";
+                                echo "<label for=\"full\">". html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")</label><br />";
+                                echo "&nbsp; &nbsp; <em>" . $full_pay_date ."</em>";
+                                echo "</p>";
+                            } else {
+                                echo "<p>";
+                                echo "<input type=\"hidden\" name=\"payment_type\" id=\"full\" value=\"full\" />";
+                                echo html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")<br />";
+                                echo "<em>" . $full_pay_date ."</em>";
+                                echo "</p>";
+                            }
 
                             echo "</td>";
 
                             echo "<td style=\"vertical-align:top;width: 30%;\">";
                             echo "<p>";
                             // display payment methods
-                            if(count($vars["docdata_payments"]) > 0) {
+                            $count_payments = count($vars["docdata_payments"]);
+                            if($count_payments > 0) {
                                 $checked = ' checked="checked"';
                                 foreach($vars["docdata_payments"] as $key => $value) {
-                                    echo "<label><input type=\"radio\" name=\"pm_code\" value=\"". $key ."\" ". $checked ." />". $value["title"] ."</label>";
+                                    if($count_payments > 1) {
+                                        echo "<label><input type=\"radio\" name=\"pm_code\" value=\"". $key ."\" ". $checked ." />". $value["title"] ."</label>";
+                                    } else {
+                                        echo "<input type=\"hidden\" name=\"pm_code\" value=\"". $key ."\" />". $value["title"];
+                                    }
+
                                     echo "<img style=\"padding-left:10px;vertical-align:middle;\" src=\"". $vars["path"] . $value["icon"] ."\" alt=\"". $value["title"] ."\" />";
                                     echo "<div style=\"clear:both;height:3px;\">&nbsp;</div>";
                                     $checked = '';
-                                }
+
+                                } #end foreach
                             }
 
-                            # Search for the country code in the countries list
-                            $clientCountry = $gegevens["stap2"]["land"];
-                            $showCountriesDropdown = true;
-                            if($clientCountry != '') {
-                                $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["nl"]);
-                                if(count($matches) == 0) {
-                                    $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["en"]);
+                            // For Dutch orders we set default country to NL
+                            if($gegevens["stap1"]["website"] == "C") {
+                                $iso_landcode = "NL";
+                                $showCountriesDropdown = false;
+                            } elseif($gegevens["stap1"]["website"] == "B") {
+                                // For Belgium orders we set default country to BE
+                                $iso_landcode = "BE";
+                                $showCountriesDropdown = false;
+                            } else {
+                                # Search for the country code in the countries list
+                                $clientCountry = $gegevens["stap2"]["land"];
+                                $showCountriesDropdown = true;
+                                if($clientCountry != '') {
+                                    $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["nl"]);
                                     if(count($matches) == 0) {
-                                        $showCountriesDropdown = true;
+                                        $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["en"]);
+                                        if(count($matches) == 0) {
+                                            $showCountriesDropdown = true;
+                                        } elseif(count($matches) == 1) {
+                                            $showCountriesDropdown = false;
+                                            $iso_landcode = key($matches);
+                                        }
                                     } elseif(count($matches) == 1) {
                                         $showCountriesDropdown = false;
                                         $iso_landcode = key($matches);
                                     }
-                                } elseif(count($matches) == 1) {
-                                    $showCountriesDropdown = false;
-                                    $iso_landcode = key($matches);
                                 }
                             }
-
 
                             # If no match was found for the country code, we display a dropdown with the countries
                             if($showCountriesDropdown) {
