@@ -559,6 +559,9 @@ $txt["en"]["vars"]["totalereissom_klant"]="Total travel sum client";
 $txt["nl"]["vars"]["gebruikersnaamuitloggen"]="[[v_gebruiker]] uitloggen";
 $txt["en"]["vars"]["gebruikersnaamuitloggen"]="log out [[v_gebruiker]]";
 
+$txt["nl"]["vars"]["andere_boeking"]="andere boeking";
+$txt["en"]["vars"]["andere_boeking"]="other booking";
+
 $txt["nl"]["vars"]["uitloggen"]="uitloggen";
 $txt["en"]["vars"]["uitloggen"]="log out";
 
@@ -3963,8 +3966,8 @@ $txt["en"]["bsys"]["payment"]="Payments";
 $txt["nl"]["bsys"]["pay_now"]="Click here to pay ";
 $txt["en"]["bsys"]["pay_now"]="Click here to pay ";
 
-$txt["nl"]["bsys"]["paynow_bank_transfer"]="Pay now through bank-transfer";
-$txt["en"]["bsys"]["paynow_bank_transfer"]="Pay now through bank-transfer";
+$txt["nl"]["bsys"]["paynow_bank_transfer"]="Pay now by bank-transfer";
+$txt["en"]["bsys"]["paynow_bank_transfer"]="Pay now by bank-transfer";
 
 $txt["nl"]["bsys"]["docdata_idl"]="via iDEAL";
 $txt["en"]["bsys"]["docdata_idl"]="by iDEAL";
@@ -4023,7 +4026,7 @@ $txt["en"]["bsys"]["payment_type"]="Type";
 $txt["nl"]["bsys"]["total_amount"]="Totaal bedrag";
 $txt["en"]["bsys"]["total_amount"]="Total amount";
 
-$txt["nl"]["bsys"]["total_paid"]="Totaal betaalde";
+$txt["nl"]["bsys"]["total_paid"]="Totaal betaald";
 $txt["en"]["bsys"]["total_paid"]="Total paid";
 
 $txt["nl"]["bsys"]["remaining_payments"]="Resterende betalingen";

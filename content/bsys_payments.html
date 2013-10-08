@@ -191,16 +191,26 @@ if($login->logged_in) {
                     echo "<h2>". html("bank_transfer","bsys") ."</h2><br />";
 
                     if($ramining_payments > 0) {
-                        echo "<table align=\"center\" style=\"width:100%;\">";
+
+                        $payments_overview = "<table align=\"center\" style=\"width:100%;\">";
                         // if no payment was made we display the advanced payment text
                         if(!$advance_payment) {
-                            echo "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
+                            $payments_overview .= "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
                         }
 
-                        echo "<tr><td width=\"60%\">" . $full_pay_date ."</td><td> &euro; " . number_format($ramining_payments,2,',','.') ."</td></tr>";
-                        echo "</table>";
+                        $payments_overview .= "<tr><td width=\"60%\">" . $full_pay_date ."</td><td> &euro; " . number_format($ramining_payments,2,',','.') ."</td></tr>";
+                        $payments_overview .= "</table>";
 
-                        echo "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
+                        $payments_text = "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
+
+                        if($vars["website"] == "E" || $vars["website"] == "C") {
+                            echo $payments_text;
+                            echo $payments_overview;
+                        } else {
+                            echo $payments_overview;
+                            echo $payments_text;
+                        }
+
                     } else {
                         echo html("no_remaining_payments","bsys");
                     }

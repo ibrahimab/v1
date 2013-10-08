@@ -1216,7 +1216,15 @@ if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET
 	unset($rechtsboven);
 	if($boeking_wijzigen and $login->logged_in and !$vars["chalettour_loggedin_overzichtboekingen"]) {
 		$rechtsboven.="<font size=\"1\">";
-		if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">andere boeking</a> - ";
+
+		$andere_boeking = "andere boeking";
+		if($vars["taal"] == "nl") {
+			$andere_boeking = $txt["nl"]["vars"]["andere_boeking"];
+		} elseif($vars["taal"] == "en") {
+			$andere_boeking = $txt["en"]["vars"]["andere_boeking"];
+		}
+
+		if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">". $andere_boeking ."</a> - ";
 		$rechtsboven.="<a href=\"".$path.txt("menu_inloggen").".php?logout=21\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>$login->username))."</a>";
 		$rechtsboven.="</font>";
 	} elseif(ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {
