@@ -60,6 +60,7 @@ RewriteRule ^(.*)$ http://www.venturasol-secondhomes.nl/$1 [L,R=301]
 # niet-https doorsturen naar https
 #
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
+RewriteCond %{HTTP_HOST} !^test\.chalet\.eu [NC]
 RewriteCond %{SERVER_PORT} 80
 RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=301]
 
