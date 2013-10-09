@@ -142,6 +142,7 @@ RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
 # Test-server alleen beschikbaar voor bepaalde IP-adressen
 #
 RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
+RewriteCond %{REQUEST_URI} !wt_git_autopull\.php [NC]
 # WebTastic-IP 1
 RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
 # WebTastic-IP 2
