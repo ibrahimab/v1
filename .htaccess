@@ -138,11 +138,25 @@ RewriteCond %{HTTP_HOST} !^partner\.venturasol\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
 
-
+#
 # Test-server alleen beschikbaar voor bepaalde IP-adressen
+#
 RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
-RewriteCond %{REMOTE_ADDR} !=31.223.173.113
-RewriteCond %{REMOTE_ADDR} !=213.125.152.154
+# WebTastic-IP 1
+RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
+# WebTastic-IP 2
+RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
+# Chalet-IP
+RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
+# NetRom IP 1
+RewriteCond %{REMOTE_ADDR} !^82\.77\.165\.60
+# NetRom IP 2
+RewriteCond %{REMOTE_ADDR} !^194\.102\.98\.2.*
+RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
+
+# Test-server: geen https toestaan
+RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
+RewriteCond %{SERVER_PORT} 443
 RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
 
 

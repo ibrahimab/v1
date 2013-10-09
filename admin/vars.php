@@ -254,7 +254,7 @@ if($vars["wederverkoop"]) {
 	}
 
 	# Zorgen dat ingelogde reisbureaus altijd via https werken
-	if($_COOKIE["rbli"]["reisbureau"]==md5($_SERVER["REMOTE_ADDR"]."_reisbureau_QjJEJ938ja2") and $_SERVER["HTTPS"]<>"on" and ($vars["website"]=="C" or $vars["website"]=="Z") and !$vars["lokale_testserver"] and !$_POST) {
+	if($_COOKIE["rbli"]["reisbureau"]==md5($_SERVER["REMOTE_ADDR"]."_reisbureau_QjJEJ938ja2") and $_SERVER["HTTPS"]<>"on" and ($vars["website"]=="C" or $vars["website"]=="Z") and !$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$_POST) {
 #		if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
 			header("Location: https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
 			exit;
@@ -277,7 +277,7 @@ if($vars["wederverkoop"]) {
 		} else {
 			$login_rb->settings["mustlogin"]=false;
 		}
-		if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
 			$login_rb->settings["mustlogin_via_https"]=true;
 		}
 
@@ -349,7 +349,7 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["mustlogin"]=true;
 		$login_lev->settings["salt"]=$vars["salt"];
 
-		if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
 			$login_lev->settings["mustlogin_via_https"]=true;
 		}
 
@@ -402,7 +402,7 @@ $vars["vertrouwde_ips"]=array("213.125.152.154","213.125.152.155","213.125.152.1
 # Geldigheidsduur intern FLC-cookie verlengen
 if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
 
-	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
+	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
 		if(in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
 			# binnen kantoor
 		} else {
@@ -1053,7 +1053,7 @@ if($boeking_wijzigen) {
 	} else {
 		$login->settings["mustlogin"]=true;
 	}
-	if(!$vars["lokale_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
+	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and ($vars["website"]=="C" or $vars["website"]=="Z")) {
 		$login->settings["mustlogin_via_https"]=true;
 	}
 	$login->settings["loginpage"]=$path.txt("menu_inloggen").".php";
