@@ -16,7 +16,7 @@ if($argv[1]=="cron") {
 
 	if(file_exists($checkfile)) {
 		unlink($checkfile);
-		system("cd /var/www/chalet.nl/html_test/;git fetch origin;git reset --hard origin/acceptance-test");
+		passthru("cd /var/www/chalet.nl/html_test/;git fetch origin;git reset --hard origin/acceptance-test");
 	}
 
 } elseif($_POST["payload"]) {
@@ -28,8 +28,6 @@ if($argv[1]=="cron") {
 	}
 
 	wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false));
-} else {
-	wt_mail("jeroen@webtastic.nl","lege POST guthub",wt_dump($_POST,false));
 }
 
 echo "OK";
