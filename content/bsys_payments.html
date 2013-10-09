@@ -225,13 +225,8 @@ if($login->logged_in) {
 
                         $payments_text = "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
 
-                        if($vars["website"] == "E" || $vars["website"] == "C") {
-                            echo $payments_text;
-                            echo $payments_overview;
-                        } else {
-                            echo $payments_overview;
-                            echo $payments_text;
-                        }
+                        echo $payments_text;
+                        echo $payments_overview;
 
                     } else {
                         echo html("no_remaining_payments","bsys");
