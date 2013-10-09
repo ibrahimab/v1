@@ -7,7 +7,7 @@ if(!$vars["nieuwsbrief_aanbieden"]) {
 	exit;
 } else {
 
-	if($vars["website"]=="C" and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
+	if($vars["website"]=="C" and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
 		# deze pagina altijd via https
 		header("Location: https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
 		exit;
