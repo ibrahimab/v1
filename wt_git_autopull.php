@@ -24,6 +24,8 @@ if($argv[1]=="cron") {
 	}
 
 	wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false));
+} else {
+	wt_mail("jeroen@webtastic.nl","lege POST guthub",wt_dump($_POST,false));
 }
 
 echo "OK";
