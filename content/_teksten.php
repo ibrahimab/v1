@@ -3990,10 +3990,10 @@ $txt["en"]["bsys"]["akkoordmelding3"]="Back to \"My booking\"";
 $txt["nl"]["bsys"]["payment"]="Betalen";
 $txt["en"]["bsys"]["payment"]="Payments";
 
-$txt["nl"]["bsys"]["pay_now"]="Click here to pay ";
-$txt["en"]["bsys"]["pay_now"]="Click here to pay ";
+$txt["nl"]["bsys"]["pay_now"]="Klik hier om [[v_method]] te betalen";
+$txt["en"]["bsys"]["pay_now"]="Click here to pay [[v_method]]";
 
-$txt["nl"]["bsys"]["paynow_bank_transfer"]="Pay now by bank-transfer";
+$txt["nl"]["bsys"]["paynow_bank_transfer"]="Betaal nu via bankoverschrijving";
 $txt["en"]["bsys"]["paynow_bank_transfer"]="Pay now by bank-transfer";
 
 $txt["nl"]["bsys"]["docdata_idl"]="via iDEAL";

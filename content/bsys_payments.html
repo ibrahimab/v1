@@ -259,7 +259,7 @@ if($login->logged_in) {
 
                         if($ramining_payments > 0) {
                             reset($vars["docdata_payments"]);
-                            echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys") . html(key($vars["docdata_payments"]),"bsys")."</a> <br />
+                            echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html(key($vars["docdata_payments"]),"bsys")))."</a> <br />
                                 <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
                             </p>";
                         }
@@ -273,7 +273,7 @@ if($login->logged_in) {
                         echo "<p>" . html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .") &nbsp; &nbsp; <em>" . $full_pay_date ."</em></p>";
 
                         reset($vars["docdata_payments"]);
-                        echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys") . html(key($vars["docdata_payments"]),"bsys")."</a> <br />
+                        echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html(key($vars["docdata_payments"]),"bsys")))."</a> <br />
                             <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
                         </p>";
                     }
