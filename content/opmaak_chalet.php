@@ -382,7 +382,7 @@ if($vars["verberg_linkerkolom"]) {
 			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
 			echo "<div class=\"kop\">Nieuwsbrief</div>";
 			echo "<div>Mis nooit aanbiedingen, nieuws en reistips.</div>";
-			if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"]) {
+			if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
 				$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
 			} else {
 				$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
