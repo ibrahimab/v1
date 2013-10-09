@@ -19,17 +19,20 @@ if($argv[1]=="cron") {
 		passthru("cd /var/www/chalet.nl/html_test/;git fetch origin;git reset --hard origin/acceptance-test");
 	}
 
-} elseif($_POST["payload"]) {
+} else {
 
-	$obj = json_decode($_POST["payload"], true);
+	if($_POST["payload"]) {
 
-	if(preg_match("@acceptance-test@",$obj["ref"])) {
-		touch($checkfile);
+		$obj = json_decode($_POST["payload"], true);
+
+		if(preg_match("@acceptance-test@",$obj["ref"])) {
+			touch($checkfile);
+			wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false));
+		}
+
 	}
-
-	wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false));
+	echo "OK";
 }
 
-echo "OK";
 
 ?>
