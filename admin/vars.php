@@ -567,6 +567,11 @@ if($vars["websitetype"]==7) {
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+
+	if($vars["website"]=="C" or $vars["website"]=="B") {
+		$submenu["blog"]="blog";
+	}
+
 	$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
 }
 
