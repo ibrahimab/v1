@@ -1,5 +1,13 @@
 <?php
 
+//
+//
+//
+// LET OP!!!! Na opzetten van deze pagina voor een nieuw seizoen: ook .htaccess aanpassen (zorgen voor 301 van oud naar nieuw): RewriteRule ^zomer2013\.php$ /zomer2014.php [L,R=301]
+//
+//
+//
+
 $title["zomer2014"]="Nu al te boeken voor 2014";
 $vars["zoekform_italissima_nieuwe_tarieven"]=true;
 
