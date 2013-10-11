@@ -2333,6 +2333,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				if($geenaanbetaling) {
 					$setquery.=", aanbetaling1_gewijzigd=0";
 				}
+
+				$setquery.=", valt_onder_bedrijf='".intval($vars["valt_onder_bedrijf"])."'";
+
 				$db->query("INSERT INTO boeking SET ".$setquery.";");
 #echo $db->lastquery;
 #exit;
