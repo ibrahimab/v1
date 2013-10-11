@@ -12,10 +12,6 @@ if($_GET["reset"]) {
 	exit;
 }
 
-// $roominglist->leverancier_id = 48;
-// $roominglist->word_bestand();
-// exit;
-
 if($_GET["levid"]) {
 
 	$roominglist = new roominglist;
@@ -57,8 +53,15 @@ if($_GET["levid"]) {
 
 		$form->field_htmlrow("","<hr><b>Tekst in mailtje</b>","",array("tr_class"=>"roomingaankomst_verzenden"));
 
-		$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send you attached an actual list with all our outstanding reservations till today.\n\nCan you please check these reservations and the eventual extra options and send us a confirmation by return.\n\nThanks in advance for your early reaction.\n\nKind regards,\nDaniëlle";
-		$form->field_textarea(0,"mailbody","Tekst","",array("text"=>$mailtekst),"",array("tr_class"=>"roomingaankomst_verzenden"));
+		if($roominglist->bestelmailfax_taal=="N") {
+			$mailtekst="Beste ".$db->f("contactpersoon_lijsten").",\n\nBijgaand sturen wij een actueel overzicht met al onze uitstaande reserveringen tot heden. Hierbij het verzoek om deze reserveringen en de eventuele opties te controleren en ons per omgaande te bevestigen.\n\nBij voorbaat heel hartelijk bedankt voor je snelle reactie.\n\nMet vriendelijke groet,";
+		} elseif($roominglist->bestelmailfax_taal=="D") {
+			$mailtekst="Sehr geehrte(r) ".$db->f("contactpersoon_lijsten").",\n\nAnbei schicken wir Ihnen einen Übersicht mit unseren ausstehenden Reservierungen bis heute. Können Sie diese Reservierungen und die zusätzliche Optionen bitte überprüfen und uns umgehend bestätigen. Wir danken Ihnen in voraus für Ihre baldige Reaktion.\n\nMit freundlichem Gruß,";
+		} else {
+			$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send you attached an actual list with all our outstanding reservations till today.\n\nCan you please check these reservations and the eventual extra options and send us a confirmation by return.\n\nThanks in advance for your early reaction.\n\nKind regards,";
+		}
+		$mailtekst.="\n\n".wt_naam($login->vars["voornaam"],$login->vars["tussenvoegsel"],$login->vars["achternaam"])."\n\nChalet.nl\nWipmolenlaan 3\n3447 GJ Woerden\nKvK: 30209634\nTel:  +31 (0) 348 43 46 49\nFax: +31 (0) 348 69 07 52\nEmail: ".$login->vars["email"]."\n";
+		$form->field_textarea(0,"mailbody","Tekst","",array("text"=>$mailtekst),"",array("tr_class"=>"roomingaankomst_verzenden","rows"=>24));
 
 		$form->field_htmlrow("","<hr><b>Naamswijzigingen doorgeven</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
 		if(is_array($roominglist->naamswijzigingen)) {
@@ -66,6 +69,9 @@ if($_GET["levid"]) {
 		} else {
 			$form->field_htmlcol("","Opnemen in roominglist",array("html"=>"Er zijn geen naamswijzigingen."),"",array("tr_class"=>"roomingaankomst_verzenden"));
 		}
+
+// echo "A:".$roominglist->garanties_doorgeven;
+// exit;
 
 		$form->field_htmlrow("","<hr><b>Op te nemen garanties</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
 		$form->field_checkbox(0,"roominglist_garanties_doorgeven","Opnemen in roominglist","",array("selection"=>substr($roominglist->garanties_doorgeven,1)),array("selection"=>$roominglist->garanties_html),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden","content_html"=>true));
@@ -230,7 +236,15 @@ if($_GET["levid"]) {
 
 						$roominglist_inhoud_laatste_verzending=trim($roominglist->regels);
 
-						$db2->query("UPDATE leverancier SET roominglist_aantal_wijzigingen=0, roominglist_goedgekeurd='', roominglist_goedgekeurd_archief='".addslashes($roominglist_goedgekeurd_archief)."', roominglist_inhoud_laatste_verzending='".addslashes($roominglist_inhoud_laatste_verzending)."', roominglist_laatste_verzending_datum=NOW() WHERE leverancier_id='".intval( $_GET["levid"] )."';" );
+						if(is_array($roominglist->garanties_doorgeven_opslaan_array)) {
+							// welke garanties moeten de volgende keer opnieuw aangevinkt zijn?
+							foreach ($roominglist->garanties_doorgeven_opslaan_array as $key => $value) {
+								$garanties_doorgeven_opslaan.=",".$key;
+							}
+							$garanties_doorgeven_opslaan=substr($garanties_doorgeven_opslaan,1);
+						}
+
+						$db2->query("UPDATE leverancier SET roominglist_aantal_wijzigingen=0, roominglist_goedgekeurd='', roominglist_goedgekeurd_archief='".addslashes($roominglist_goedgekeurd_archief)."', roominglist_inhoud_laatste_verzending='".addslashes($roominglist_inhoud_laatste_verzending)."', roominglist_laatste_verzending_datum=NOW(), roominglist_garanties_doorgeven='".addslashes($garanties_doorgeven_opslaan)."' WHERE leverancier_id='".intval( $_GET["levid"] )."';" );
 
 						# Klantnamen opslaan
 						if(is_array($roominglist->klantnamen_boekingen)) {
@@ -251,10 +265,10 @@ if($_GET["levid"]) {
 							}
 						}
 
-						if(!$form->input["roominglist_naamswijzigingen_tegenhouden"]) {
-							// bij geen naamswijzigingen: veld leegmaken
-							$db2->query("UPDATE leverancier SET roominglist_naamswijzigingen_tegenhouden='' WHERE leverancier_id='".intval( $_GET["levid"] )."';" );
-						}
+						// if(!$form->input["roominglist_naamswijzigingen_tegenhouden"]) {
+						// 	// bij geen naamswijzigingen: veld leegmaken
+						// 	$db2->query("UPDATE leverancier SET roominglist_naamswijzigingen_tegenhouden='' WHERE leverancier_id='".intval( $_GET["levid"] )."';" );
+						// }
 
 					} else {
 						trigger_error("tmp/roominglist.doc niet gevonden",E_USER_NOTICE);
