@@ -1523,7 +1523,7 @@ $txt["nl"]["contact"]["achternaam"]="Achternaam";
 $txt["en"]["contact"]["achternaam"]="Surname";
 
 $txt["nl"]["contact"]["adres"]="Adres";
-$txt["en"]["contact"]["adres"]="Adsress";
+$txt["en"]["contact"]["adres"]="Address";
 
 $txt["nl"]["contact"]["postcode"]="Postcode";
 $txt["en"]["contact"]["postcode"]="Postal code";

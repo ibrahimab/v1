@@ -567,6 +567,11 @@ if($vars["websitetype"]==7) {
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+
+	if($vars["website"]=="C" or $vars["website"]=="B") {
+		$submenu["blog"]="blog";
+	}
+
 	$submenu["zomerhuisje"]=txt("submenutitle_zomerhuisje");
 }
 
@@ -1224,14 +1229,6 @@ if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET
 	unset($rechtsboven);
 	if($boeking_wijzigen and $login->logged_in and !$vars["chalettour_loggedin_overzichtboekingen"]) {
 		$rechtsboven.="<font size=\"1\">";
-
-		$andere_boeking = "andere boeking";
-		if($vars["taal"] == "nl") {
-			$andere_boeking = $txt["nl"]["vars"]["andere_boeking"];
-		} elseif($vars["taal"] == "en") {
-			$andere_boeking = $txt["en"]["vars"]["andere_boeking"];
-		}
-
 		if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">".html("andereboeking","bsys")."</a> - ";
 		$rechtsboven.="<a href=\"".$path.txt("menu_inloggen").".php?logout=21\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>$login->username))."</a>";
 		$rechtsboven.="</font>";

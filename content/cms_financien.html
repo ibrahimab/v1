@@ -605,8 +605,8 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	// boekingen bij juiste B.V. zoeken
 	if($_GET["bedrijf"]=="venturasol") {
 		// Venturasol BV
-		$andquery.=" AND (b.website='X' OR b.website='Y')";
-		$andquery_hoofdquery.=" AND (b.website='X' OR b.website='Y')";
+		$andquery.=" AND b.valt_onder_bedrijf=2";
+		$andquery_hoofdquery.=" AND b.valt_onder_bedrijf=2";
 
 		# geen garanties
 		$andquery_gar.=" AND 1=2";
@@ -614,8 +614,8 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 	} else {
 		// Chalet.nl BV
-		$andquery.=" AND b.website!='X' AND b.website!='Y'";
-		$andquery_hoofdquery.=" AND b.website!='X' AND b.website!='Y'";
+		$andquery.=" AND b.valt_onder_bedrijf=1";
+		$andquery_hoofdquery.=" AND b.valt_onder_bedrijf=1";
 	}
 
 	# soort boekingen (direct of reisbureau)

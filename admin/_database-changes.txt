@@ -3,7 +3,11 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+11-oct-2013 13:33
+ALTER TABLE `boeking` ADD `valt_onder_bedrijf` TINYINT( 1 ) NOT NULL DEFAULT '1'
 
+11-oct-2013 09:10
+ALTER TABLE `leverancier` ADD `roominglist_garanties_doorgeven` TEXT NOT NULL AFTER `roominglist_goedgekeurd_archief` 
 
 27-sep-2013 17:26
 ALTER TABLE `diverse_instellingen` ADD `wisselkoers_pond` DECIMAL( 10, 10 ) NOT NULL 
