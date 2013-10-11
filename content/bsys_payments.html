@@ -213,7 +213,7 @@ if($login->logged_in) {
 
                     if($ramining_payments > 0) {
 
-                        $payments_overview = "<table align=\"center\" cellpadding=0 cellspacing=0 style=\"width:100%;\">";
+                        $payments_overview = "<table align=\"center\" cellpadding=\"0\" cellspacing=\"2\" style=\"width:100%;\">";
                         // if no payment was made we display the advanced payment text
                         if(!$advance_payment) {
                             $payments_overview .= "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
@@ -264,13 +264,14 @@ if($login->logged_in) {
                         }
                     } else {
                         #echo html("no_payments","bsys");
+                        echo "<table style=\"width:100%\" cellspacing=\"2\" cellpadding=\"0\">";
                         // if no payment was made we display the advanced payment text
                         if(!$advance_payment) {
-                            echo "<p>" . html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .") &nbsp; &nbsp; <em>" . $advance_pay_date ."</em></p>";
+                            echo "<tr><td>" . html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .")</td><td>" . $advance_pay_date ."</td></tr>";
                         }
 
-                        echo "<p>" . html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .") &nbsp; &nbsp; <em>" . $full_pay_date ."</em></p>";
-
+                            echo "<tr><td>" . html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")</td><td>" . $full_pay_date ."</td></tr>";
+                        echo "</table>";
                         reset($vars["docdata_payments"]);
                         echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html(key($vars["docdata_payments"]),"bsys")))."</a> <br />
                             <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
