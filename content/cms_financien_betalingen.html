@@ -66,10 +66,10 @@ if($_GET["uitgaand"]==1) {
 
 	// boekingen bij juiste B.V. zoeken
 	if($_GET["bedrijf"]=="venturasol") {
-		$andquery_boekingen.=" AND (b.website='X' OR b.website='Y')";
+		$andquery_boekingen.=" AND b.valt_onder_bedrijf=2";
 		$andquery_garanties.=" AND 1=2";
 	} else {
-		$andquery_boekingen.=" AND b.website!='X' AND b.website!='Y'";
+		$andquery_boekingen.=" AND b.valt_onder_bedrijf=1";
 		$andquery_garanties.="";
 	}
 

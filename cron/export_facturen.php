@@ -44,9 +44,9 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 	// boekingen bij juiste B.V. zoeken
 	unset($andquery);
 	if($_GET["bedrijf"]=="venturasol") {
-		$andquery.=" AND (b.website='X' OR b.website='Y')";
+		$andquery.=" AND b.valt_onder_bedrijf=2";
 	} else {
-		$andquery.=" AND b.website!='X' AND b.website!='Y'";
+		$andquery.=" AND b.valt_onder_bedrijf=1";
 	}
 
 	if($_GET["nodate"]) {

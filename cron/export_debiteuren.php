@@ -33,9 +33,9 @@ $boekingen_vanaf=mktime(0,0,0,date("m"),date("d")-14,date("Y"));
 // boekingen bij juiste B.V. zoeken
 unset($andquery);
 if($_GET["bedrijf"]=="venturasol") {
-	$andquery.=" AND (b.website='X' OR b.website='Y')";
+	$andquery.=" AND b.valt_onder_bedrijf=2";
 } else {
-	$andquery.=" AND b.website!='X' AND b.website!='Y'";
+	$andquery.=" AND b.valt_onder_bedrijf=1";
 }
 
 $query[1]="SELECT b.debiteurnummer, p.voornaam, p.tussenvoegsel, p.achternaam, p.adres, p.postcode, p.plaats, b.landcode, p.telefoonnummer, p.geslacht, b.taal, UNIX_TIMESTAMP(b.invuldatum) AS invuldatum FROM boeking b, boeking_persoon p WHERE b.reisbureau_user_id IS NULL AND p.persoonnummer=1 AND p.boeking_id=b.boeking_id AND b.debiteurnummer>0 AND b.goedgekeurd=1 AND b.aankomstdatum>=".$boekingen_vanaf.$andquery." ORDER BY b.boeking_id;";
