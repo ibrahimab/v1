@@ -27,7 +27,7 @@ if($argv[1]=="cron") {
 
 		if(preg_match("@acceptance-test@",$obj["ref"])) {
 			touch($checkfile);
-			wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false));
+			// wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false));
 		}
 
 	}
