@@ -238,6 +238,8 @@ if($mustlogin) {
 	# Achtergrondkleur CMS bepalen
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=878481";
+	} elseif($vars["acceptatie_testserver"]) {
+		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=f6adba";
 	} elseif($login->userlevel>=10 and !preg_match("/Chrome/",$_SERVER["HTTP_USER_AGENT"])) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=ff1844";
 	} elseif($_GET["wzt"]==2) {
