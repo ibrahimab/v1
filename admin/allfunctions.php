@@ -552,7 +552,7 @@ class wt_mail {
 				} else {
 					$this->toname_aangepast=ereg_replace("@","_at_",$this->to);
 				}
-				if($GLOBALS["vars"]["lokale_testserver"] and $GLOBALS["vars"]["lokale_testserver_mailadres"]) {
+				if($GLOBALS["vars"]["lokale_testserver_mailadres"]) {
 					$this->to=$GLOBALS["vars"]["lokale_testserver_mailadres"];
 				} elseif($_SERVER["HTTP_HOST"]=="bl.postvak.net" or $_SERVER["HOSTNAME"]=="bl.postvak.net" or ($_SERVER["SERVER_ADDR"]=="172.16.6.1" and $_SERVER["REMOTE_ADDR"]=="172.16.6.40")) {
 					$this->to="testform_bl@webtastic.nl";
