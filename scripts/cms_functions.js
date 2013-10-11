@@ -652,9 +652,6 @@ $(document).ready(function() {
 		// roominglist: vinkjes "Naamswijzigingen doorgeven" en "Op te nemen garanties" aan elkaar koppelen
 		$("input[name^='input[roominglist_naamswijzigingen_doorgeven]']").change(function(event) {
 
-			// alert($(this).find("label").attr("class"));
-			// console.log($(this).next("label").find("span").attr("class"));
-
 			if($(this).next("label").find("span").attr("class")=="soort_garantie_1") {
 
 				var boeking_of_garantie_id='';
@@ -714,7 +711,6 @@ $(document).ready(function() {
 		// bij openen pagina: alle gewone boekingen (geen garanties) met naamswijziging waarbij aan_leverancier_doorgegeven_naam nog leeg is: standaard aanvinken
 		$("input[name^='input[roominglist_naamswijzigingen_doorgeven]']").each(function() {
 			if($(this).next("label").find("span").length==0 && $(this).next("label").text().indexOf(': "" is nu')>0) {
-				// console.log($(this).next("label").text().indexOf(': "" is nu'));
 				$(this).prop("checked", true);
 			}
 		});

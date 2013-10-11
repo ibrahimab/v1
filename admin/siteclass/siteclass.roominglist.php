@@ -31,6 +31,8 @@ class roominglist {
 	private $boeking_id_inquery;
 	private $garantie_id_inquery;
 
+	// $roominglist->garanties_doorgeven_opslaan
+
 	function __construct() {
 
 		// Roominglist totaal of Roominglist op datum (=aankomstlijst)
@@ -112,15 +114,6 @@ class roominglist {
 			}
 		}
 
-		// naamswijzingen verbergen?
-		// if($this->verberg_naamswijzigingen) {
-		// 	$verberg_naamswijzigingen_array_temp=preg_split("@,@",$this->verberg_naamswijzigingen);
-
-		// 	foreach ($verberg_naamswijzigingen_array_temp as $key => $value) {
-		// 		$verberg_naamswijzigingen_array[$value]=true;
-		// 	}
-		// }
-
 		// naamswijzingen opnemen?
 		if($this->naamswijzigingen_doorgeven) {
 			$naamswijzigingen_doorgeven_array_temp=preg_split("@,@",$this->naamswijzigingen_doorgeven);
@@ -132,14 +125,10 @@ class roominglist {
 			}
 		}
 
-// echo wt_dump($naamswijzigingen_doorgeven_array);
-// exit;
-
 		$colspan=9;
 
 		// Leveranciersgegevens ophalen
-
-		$db->query( "SELECT roominglist_toonaantaldeelnemers, roominglist_toontelefoonnummer, roominglist_site_benaming FROM leverancier WHERE leverancier_id='".intval( $this->leverancier_id )."';" );
+		$db->query( "SELECT bestelmailfax_taal, roominglist_toonaantaldeelnemers, roominglist_toontelefoonnummer, roominglist_site_benaming, roominglist_garanties_doorgeven FROM leverancier WHERE leverancier_id='".intval( $this->leverancier_id )."';" );
 		if ( $db->next_record() ) {
 			if ( $db->f( "roominglist_toonaantaldeelnemers" ) ) {
 				if ( !$this->totaal ) {
@@ -153,32 +142,68 @@ class roominglist {
 				}
 			}
 			$roominglist_site_benaming=$db->f( "roominglist_site_benaming" );
+			$roominglist_garanties_doorgeven=$db->f( "roominglist_garanties_doorgeven" );
+
+			$this->bestelmailfax_taal=$db->f( "bestelmailfax_taal" );
+
 		}
 
 		// garantie-koppeling
-		$db->query("SELECT garantie_id, boeking_id, soort_garantie FROM garantie WHERE boeking_id>0;");
+		$db->query("SELECT garantie_id, boeking_id, soort_garantie FROM garantie WHERE 1=1;");
 		while($db->next_record()) {
-			$garantie_boeking[$db->f("boeking_id")]=$db->f("soort_garantie");
-			$boeking_garantie[$db->f("garantie_id")]=$db->f("boeking_id");
+			if($db->f("boeking_id")>0) {
+				$garantie_boeking[$db->f("boeking_id")]=$db->f("soort_garantie");
+				$garantie_boeking_garantie_id[$db->f("boeking_id")]=$db->f("garantie_id");
+				$boeking_garantie[$db->f("garantie_id")]=$db->f("boeking_id");
+			}
+			$garantie_soort[$db->f("garantie_id")]=$db->f("soort_garantie");
 		}
 
 
 		// bepalen welke garanties moeten worden opgenomen
 		$this->garantie_id_inquery=",0";
+		if(!$this->frm_filled and $roominglist_garanties_doorgeven) {
+			// nog geen formulier gepost: aan te vinken halen uit database roominglist_garanties_doorgeven
+			$garanties_doorgeven_array=explode(",",$roominglist_garanties_doorgeven);
+			if(is_array($garanties_doorgeven_array)) {
+				foreach ($garanties_doorgeven_array as $key => $value) {
+					if($value and $boeking_garantie[$value]) {
+						$this->garanties_doorgeven.=",b".$boeking_garantie[$value];
+					} else {
+						$this->garanties_doorgeven.=",".$value;
+					}
+				}
+			}
+		}
+
 		if($this->garanties_doorgeven) {
 			$garanties_doorgeven_array=explode(",",$this->garanties_doorgeven);
 			if(is_array($garanties_doorgeven_array)) {
 				foreach ($garanties_doorgeven_array as $key => $value) {
 					if(preg_match("@^b([0-9]+)$@",$value,$regs)) {
 						$boeking_doorgeven[$regs[1]]=true;
+						if($garantie_boeking[$regs[1]]==1) {
+							// seizoen/bulk-garantie (via boeking): opslaan
+							$this->garanties_doorgeven_opslaan_array[$garantie_boeking_garantie_id[$regs[1]]]=true;
+						}
 					} elseif($value) {
 						$this->garantie_id_inquery.=",".$value;
+						if($garantie_soort[$value]==1) {
+							// seizoen/bulk-garantie: opslaan
+							$this->garanties_doorgeven_opslaan_array[$value]=true;
+						}
 					}
 				}
 			}
+
+			// if($this->frm_filled) {
+			// 	echo $this->garanties_doorgeven;
+			// 	echo wt_dump($this->garanties_doorgeven_opslaan_array);
+			// 	exit;
+			// }
 		}
 
-		// bepalen welke garantie-boekingen niet opgenomen moeten worden (garantie-boekingen die niet zijn aangevinkt)
+		// bepalen welke garantie-boekingen opgenomen moeten worden (garantie-boekingen die zijn aangevinkt)
 		$this->boeking_id_notinquery=",0";
 		if(is_array($boeking_garantie)) {
 			foreach ($boeking_garantie as $key => $value) {
