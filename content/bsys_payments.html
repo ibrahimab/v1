@@ -94,10 +94,9 @@ if($login->logged_in) {
                 $full_pay_date = txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
             }
             # Advance payment date
-            if($gegevens["stap1"]["dagen_voor_vertrek"]>($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+$gegevens["stap1"]["aanbetaling1_dagennaboeken"])) {
-                $pay_date = date("d/m/Y", $gegevens["stap1"]["factuur_ondertekendatum"]);
-                $advance_pay_date = txt("uiterlijkdatumtebetalen","factuur",array("v_datum"=> $pay_date));
-            }
+            $n_date = strtotime("+ ".$gegevens["stap1"]["aanbetaling1_dagennaboeken"]. " day", $gegevens["stap1"]["bevestigdatum"]);
+            $pay_date = date("d/m/Y", $n_date);
+            $advance_pay_date = txt("uiterlijkdatumtebetalen","factuur",array("v_datum"=> $pay_date));
 
             # Switch pages
             switch ((int)$_GET["menu"]) {
@@ -214,7 +213,7 @@ if($login->logged_in) {
 
                     if($ramining_payments > 0) {
 
-                        $payments_overview = "<table align=\"center\" style=\"width:100%;\">";
+                        $payments_overview = "<table align=\"center\" cellpadding=0 cellspacing=0 style=\"width:100%;\">";
                         // if no payment was made we display the advanced payment text
                         if(!$advance_payment) {
                             $payments_overview .= "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
