@@ -292,6 +292,7 @@ if($login->logged_in) {
 							echo "<li><a href=\"".$path."bsys.php?laatstefactuur=1&bid=".$gegevens["stap1"]["boekingid"]."\" target=\"_blank\">".html("factuur","bsys")."</a></li>";
 						}
 					}
+                                        
 					echo "</ul><hr>";
 					if($gegevens["stap1"]["wijzigen_toegestaan"]) {
 						echo html("wijzigen","bsys").":<ul>\n";
@@ -332,7 +333,11 @@ if($login->logged_in) {
 
                                 if($ramining_payments > 0) {
                                     reset($vars["docdata_payments"]);
-                                    echo "<li><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html(key($vars["docdata_payments"]),"bsys")."</a></li>";
+                                    $txt_by = "docdata";
+                                    foreach($vars["docdata_payments"] as $method) {
+                                        $txt_by .= "_" . $method["by"];
+                                    }
+                                    echo "<li><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html($txt_by,"bsys")."</a></li>";
                                     echo "<li><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("via_bank_transfer","bsys")."</a></li>";
                                 }
                                 echo "<li><a href=\"".$path."bsys_payments.php?menu=3&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("summary","bsys")."</a></li>";
@@ -794,7 +799,11 @@ if($login->logged_in) {
 
                     if($vars["website"] == "C" || $vars["website"] == "E" || $vars["website"] == "B") {
                         reset($vars["docdata_payments"]);
-                        echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys") . html(key($vars["docdata_payments"]),"bsys")."</a> <br />
+                        $txt_by = "docdata";
+                        foreach($vars["docdata_payments"] as $method) {
+                            $txt_by .= "_" . $method["by"];
+                        }
+                        echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))."</a> <br />
                                 <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a></p>";
                     }
 

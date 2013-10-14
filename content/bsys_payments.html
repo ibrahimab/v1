@@ -258,22 +258,29 @@ if($login->logged_in) {
 
                         if($ramining_payments > 0) {
                             reset($vars["docdata_payments"]);
-                            echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html(key($vars["docdata_payments"]),"bsys")))."</a> <br />
+                            $txt_by = "docdata";
+                            foreach($vars["docdata_payments"] as $method) {
+                                $txt_by .= "_" . $method["by"];
+                            }
+                            echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))."</a> <br />
                                 <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
                             </p>";
                         }
                     } else {
                         #echo html("no_payments","bsys");
                         echo "<table style=\"width:100%\" cellspacing=\"2\" cellpadding=\"0\">";
-                        // if no payment was made we display the advanced payment text
-                        if(!$advance_payment) {
-                            echo "<tr><td>" . html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .")</td><td>" . $advance_pay_date ."</td></tr>";
-                        }
-
+                            // if no payment was made we display the advanced payment text
+                            if(!$advance_payment) {
+                                echo "<tr><td>" . html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .")</td><td>" . $advance_pay_date ."</td></tr>";
+                            }
                             echo "<tr><td>" . html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")</td><td>" . $full_pay_date ."</td></tr>";
                         echo "</table>";
                         reset($vars["docdata_payments"]);
-                        echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html(key($vars["docdata_payments"]),"bsys")))."</a> <br />
+                        $txt_by = "docdata";
+                        foreach($vars["docdata_payments"] as $method) {
+                            $txt_by .= "_" . $method["by"];
+                        }
+                        echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))."</a> <br />
                             <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
                         </p>";
                     }

@@ -4008,6 +4008,12 @@ $txt["en"]["bsys"]["docdata_vi"]="by Credit Card";
 $txt["nl"]["bsys"]["docdata_mc"]="via Credit Card";
 $txt["en"]["bsys"]["docdata_mc"]="by Credit Card";
 
+$txt["nl"]["bsys"]["docdata_vi_mc"]="via Credit Card";
+$txt["en"]["bsys"]["docdata_vi_mc"]="by Credit Card";
+
+$txt["nl"]["bsys"]["docdata_vi_mc_idl_mrc"]="via Credit Card, iDeal of Mr.Cash";
+$txt["en"]["bsys"]["docdata_vi_mc_idl_mrc"]="by Credit Card, iDeal or Mr.Cash";
+
 $txt["nl"]["bsys"]["via_bank_transfer"]="via bankoverschrijving";
 $txt["en"]["bsys"]["via_bank_transfer"]="by Bank transfer";
 
