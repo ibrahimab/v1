@@ -1393,7 +1393,13 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 			$return["body"].=$gegevens["stap1"]["aanmaning_tekst"];
 			$return["bewerkt"]=true;
 		} else {
-			$return["body"]=$txt[$taal]["vars"]["mailaanmaning"]."\n\n";
+			if($gegevens["stap1"]["website"]=="X" or $gegevens["stap1"]["website"]=="Y") {
+				// aanmaning-tekst Venturasol
+				$return["body"]=$txt[$taal."_x"]["vars"]["mailaanmaning"]."\n\n";
+			} else {
+				// aanmaning-tekst alle andere sites
+				$return["body"]=$txt[$taal]["vars"]["mailaanmaning"]."\n\n";
+			}
 
 			# Gegevens overzetten
 			$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
