@@ -87,7 +87,7 @@ if(netrom_testserver) {
 	$mysqlsettings["host"]="localhost";# Hostname bij provider
 }
 // database for acceptation-testserver
-if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"])) {
+if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
 	$mysqlsettings["name"]["remote"]="dbtest_chalet";	# TEST-databasenaam bij provider
 	$vars["acceptatie_testserver"]=true;
 
@@ -99,6 +99,8 @@ if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"])) {
 		$vars["lokale_testserver_mailadres"]="bjorn@chalet.nl";
 	} elseif($_SERVER["REMOTE_ADDR"]=="82.77.165.60" or $_SERVER["REMOTE_ADDR"]=="194.102.98.240") {
 		$vars["lokale_testserver_mailadres"]="chalet@netrom.ro";
+	} else {
+		$vars["lokale_testserver_mailadres"]="testform_ss@webtastic.nl";
 	}
 }
 
