@@ -1,6 +1,6 @@
 <?php
 
-# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 22...)
+# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 23...)
 
 #
 # Script wordt elke minuut gerund, maar alleen volledig afgelopen om: 5 minuten over 0,3,9,12,15,18,21 uur
@@ -50,6 +50,10 @@ if($_SERVER["HTTP_HOST"]) {
 	} else {
 		$tmpdir="/tmp/";
 	}
+} elseif(preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
+	$unixdir="/var/www/chalet.nl/html_test/";
+	$tmpdir="/var/www/chalet.nl/html_test/tmp/";
+	$unzip="/usr/bin/unzip";
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
 	$tmpdir="/var/www/chalet.nl/html/tmp/";
@@ -255,6 +259,8 @@ $http_login[21]="italissima:italissima2144";
 $xml_urls[22][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=extr_plng@top_id='CHANL'";
 #$xml_urls[22][2]="Nexity" (tarieven werken met losse XML's per accommodatie)
 
+#Interhome
+$soap_urls[23] = $unixdir."suppliers/interhome/index.php";
 
 
 
@@ -993,76 +999,118 @@ while(list($key,$value)=@each($csv_urls)) {
 #
 @reset($soap_urls);
 while(list($key,$value)=@each($soap_urls)) {
-	@unlink($tmpdir."soapfile_".$key.".txt");
-	$opts = stream_context_create(array(
-		'http' => array(
-			'timeout' => 20
+
+	if($key == 23) {
+		if(file_exists($value)) {
+
+			require_once($value);
+
+			// Instantiate the Interhome class
+			$interHome = new InterHome();
+
+			// Get the Interhome server status
+			$iHomeServerStatus = current($interHome->getStatus())->getCheckServerHealthResult();
+
+			// Check for SOAP server services
+			if($iHomeServerStatus->getAvailability() != "OK" || $iHomeServerStatus->getPriceCheck() != "OK"){
+				print_r($iHomeServerStatus->getMessages());
+				die();
+			}
+			// Get the last dates for each season type (winter=1, summer=2)
+			$q = "SELECT max(eind) AS end, type FROM `seizoen` GROUP BY type";
+			$db->query($q);
+			while($db->next_record()) {
+				$endDate[$db->f("type")] = $db->f("end");
+			}
+			// Get all accommodations from Interhome (421)
+			$q = "SELECT t.leverancierscode, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '421' AND t.`leverancierscode` <> ''";
+			$db->query($q);
+
+			// Loop through all the database accommodations
+			while($db->next_record()) {
+				$accCode = $db->f("leverancierscode");
+				$seasonId = $db->f("wzt");
+				// Get the availability
+				$xml_beschikbaar[$key][$accCode] = $interHome->getAvailability($accCode, $endDate[$seasonId]);
+				// Get the prices
+				$xml_brutoprijs[$key][$accCode] = $interHome->getPrices($accCode);
+			}
+
+			$xml_laatsteimport_leverancier[$key]=true;
+		}
+	} else {
+
+		@unlink($tmpdir."soapfile_".$key.".txt");
+		$opts = stream_context_create(array(
+			'http' => array(
+				'timeout' => 20
+				)
 			)
-		)
-	);
-	$soapcontent=@file_get_contents($value, false, $opts);
-	if(strlen($soapcontent)>100) {
-		file_put_contents($tmpdir."soapfile_".$key.".txt",$soapcontent);
-	}
-	if(file_exists($tmpdir."soapfile_".$key.".txt")) {
-		$client = @new SoapClient($tmpdir."soapfile_".$key.".txt",array('trace'=>1));
-		if(is_object($client)) {
+		);
+		$soapcontent=@file_get_contents($value, false, $opts);
+		if(strlen($soapcontent)>100) {
+			file_put_contents($tmpdir."soapfile_".$key.".txt",$soapcontent);
+		}
+		if(file_exists($tmpdir."soapfile_".$key.".txt")) {
+			$client = @new SoapClient($tmpdir."soapfile_".$key.".txt",array('trace'=>1));
+			if(is_object($client)) {
 
-			if($key==13 or $key==15) {
-				#
-				# Eurogroup
-				#
-				if($key==13) {
-					$te_doorlopen_partnercodes=array("REBERE002","REBERE004");
-					$soap_baseid="eurogroup";
-					$soap_username="chaletnl";
-					$soap_password="partner";
-#					$soap_conventionid="1894"; # conventionid is alleen nodig in de zomer!
-					$soap_conventionid="";
-					$soap_allotment="";
-				}
-
-				#
-				# Des Neiges
-				#
-				if($key==15) {
-					$te_doorlopen_partnercodes=array("CHNL");
-					$soap_baseid="cdn";
-					$soap_username="CHNL";
-					$soap_password="chnl";
-					$soap_conventionid="";
-					$soap_allotment="0";
-				}
-
-				while(list($key2,$value2)=each($te_doorlopen_partnercodes)) {
-					unset($soap_error);
-					try {
-						$result=$client->getDistribProposals2($soap_baseid,$soap_username,$soap_password,$value2,$soap_conventionid,$soap_allotment);
-					} catch (Exception $e) {
-#						echo($e->getMessage());
-
-						if(!$soap_error_getoond[$key]) {
-							trigger_error("_notice: SOAP-id ".$key." onbereikbaar: ".$e->getMessage(),E_USER_NOTICE);
-							$soap_error_getoond[$key]=true;
-						}
-						$soap_error=true;
+				if($key==13 or $key==15) {
+					#
+					# Eurogroup
+					#
+					if($key==13) {
+						$te_doorlopen_partnercodes=array("REBERE002","REBERE004");
+						$soap_baseid="eurogroup";
+						$soap_username="chaletnl";
+						$soap_password="partner";
+						#$soap_conventionid="1894"; # conventionid is alleen nodig in de zomer!
+						$soap_conventionid="";
+						$soap_allotment="";
 					}
-					if(!$soap_error) {
-						if(is_array($result->distribProposal)) {
-							foreach($result->distribProposal as $value3) {
-								$typeid=utf8_decode($value3->etab_id)."_".utf8_decode($value3->room_type_code);
 
-								$datum_begin=strtotime($value3->start_date);
-								$datum_eind=strtotime($value3->end_date);
+					#
+					# Des Neiges
+					#
+					if($key==15) {
+						$te_doorlopen_partnercodes=array("CHNL");
+						$soap_baseid="cdn";
+						$soap_username="CHNL";
+						$soap_password="chnl";
+						$soap_conventionid="";
+						$soap_allotment="0";
+					}
 
-								$aantal=$value3->allotment_availability;
+					while(list($key2,$value2)=each($te_doorlopen_partnercodes)) {
+						unset($soap_error);
+						try {
+							$result=$client->getDistribProposals2($soap_baseid,$soap_username,$soap_password,$value2,$soap_conventionid,$soap_allotment);
+						} catch (Exception $e) {
+							#echo($e->getMessage());
 
-								$aantaldagen=round(($datum_eind-$datum_begin)/86400);
+							if(!$soap_error_getoond[$key]) {
+								trigger_error("_notice: SOAP-id ".$key." onbereikbaar: ".$e->getMessage(),E_USER_NOTICE);
+								$soap_error_getoond[$key]=true;
+							}
+							$soap_error=true;
+						}
+						if(!$soap_error) {
+							if(is_array($result->distribProposal)) {
+								foreach($result->distribProposal as $value3) {
+									$typeid=utf8_decode($value3->etab_id)."_".utf8_decode($value3->room_type_code);
 
-								if($aantaldagen>=6 and $aantaldagen<=9) {
-									$xml_beschikbaar[$key][$typeid][$datum_begin]+=$aantal;
-									$xml_brutoprijs[$key][$typeid][$datum_begin]=utf8_decode($value3->public_price);
-									$xml_laatsteimport_leverancier[$key]=true;
+									$datum_begin=strtotime($value3->start_date);
+									$datum_eind=strtotime($value3->end_date);
+
+									$aantal=$value3->allotment_availability;
+
+									$aantaldagen=round(($datum_eind-$datum_begin)/86400);
+
+									if($aantaldagen>=6 and $aantaldagen<=9) {
+										$xml_beschikbaar[$key][$typeid][$datum_begin]+=$aantal;
+										$xml_brutoprijs[$key][$typeid][$datum_begin]=utf8_decode($value3->public_price);
+										$xml_laatsteimport_leverancier[$key]=true;
+									}
 								}
 							}
 						}
@@ -1070,8 +1118,8 @@ while(list($key,$value)=@each($soap_urls)) {
 				}
 			}
 		}
+		unset($client,$result,$datum_begin,$datum_eind,$aantal,$aantaldagen,$value3,$typeid);
 	}
-	unset($client,$result,$datum_begin,$datum_eind,$aantal,$aantaldagen,$value3,$typeid);
 }
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
@@ -1604,6 +1652,20 @@ while($db->next_record()) {
 
 			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
 
+		} elseif($db->f("xml_type")==23) {
+			#
+			# Leverancier Interhome
+			#
+			# Beschikbaarheid
+			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
+				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
+				while(list($key2,$value2)=each($xml_beschikbaar[$db->f("xml_type")][$value])) {
+					$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]+=$value2;
+					$xml_laatsteimport[$db->f("type_id")]=true;
+				}
+			}
+			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
+
 		}
 
 		#
@@ -1614,9 +1676,9 @@ while($db->next_record()) {
 			#
 			# week-tarieven
 			#
-			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17" or $db->f("xml_type")=="18" or $db->f("xml_type")=="19" or $db->f("xml_type")=="20" or $db->f("xml_type")=="21" or $db->f("xml_type")=="22") {
+			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17" or $db->f("xml_type")=="18" or $db->f("xml_type")=="19" or $db->f("xml_type")=="20" or $db->f("xml_type")=="21" or $db->f("xml_type")=="22" or $db->f("xml_type")=="23") {
 				#
-				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale Locative de l'Immobilière des Hauts Forts (20), Ville in Italia (21) + Nexity (22)
+				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale Locative de l'Immobilière des Hauts Forts (20), Ville in Italia (21) + Nexity (22), Interhome (23)
 				#
 				if(is_array($xml_brutoprijs[$db->f("xml_type")][$value])) {
 					reset($xml_brutoprijs[$db->f("xml_type")][$value]);
