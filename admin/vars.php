@@ -87,7 +87,7 @@ if(netrom_testserver) {
 	$mysqlsettings["host"]="localhost";# Hostname bij provider
 }
 // database for acceptation-testserver
-if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"])) {
+if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
 	$mysqlsettings["name"]["remote"]="dbtest_chalet";	# TEST-databasenaam bij provider
 	$vars["acceptatie_testserver"]=true;
 

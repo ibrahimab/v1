@@ -50,6 +50,10 @@ if($_SERVER["HTTP_HOST"]) {
 	} else {
 		$tmpdir="/tmp/";
 	}
+} elseif(preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
+	$unixdir="/var/www/chalet.nl/html_test/";
+	$tmpdir="/var/www/chalet.nl/html_test/tmp/";
+	$unzip="/usr/bin/unzip";
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
 	$tmpdir="/var/www/chalet.nl/html/tmp/";
@@ -256,7 +260,7 @@ $xml_urls[22][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=ex
 #$xml_urls[22][2]="Nexity" (tarieven werken met losse XML's per accommodatie)
 
 #Interhome
-$soap_urls[101] = "../suppliers/interhome/index.php";
+$soap_urls[101] = $unixdir."suppliers/interhome/index.php";
 
 
 
