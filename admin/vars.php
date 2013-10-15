@@ -99,6 +99,8 @@ if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$
 		$vars["lokale_testserver_mailadres"]="bjorn@chalet.nl";
 	} elseif($_SERVER["REMOTE_ADDR"]=="82.77.165.60" or $_SERVER["REMOTE_ADDR"]=="194.102.98.240") {
 		$vars["lokale_testserver_mailadres"]="chalet@netrom.ro";
+	} else {
+		$vars["lokale_testserver_mailadres"]="testform_ss@webtastic.nl";
 	}
 }
 

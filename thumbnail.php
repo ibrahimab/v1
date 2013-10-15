@@ -211,7 +211,7 @@ if($_GET["lk"]) {
 		if($savefile) {
 			$time=@filemtime($openfile);
 			if($time) {
-				touch($savefile,$time);
+				@touch($savefile,$time);
 			}
 			if($_GET["cache"]) {
 				$savefile.="?cache=".$_GET["cache"];

@@ -1,8 +1,8 @@
 <?php
 
-$boeking_wijzigen=true;
+$title["error_msg"]="Error message";
 $vars["verberg_zoekenboeklinks"]=true;
-$vars["verberg_directnaar"]=true;
+$robot_noindex=true;
 include("admin/vars.php");
 include "content/opmaak.php";
 
