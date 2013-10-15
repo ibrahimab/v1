@@ -148,12 +148,19 @@ class tarieventabel {
 		if($this->meerdere_valuta) {
 			$return.="<div class=\"tarieventabel_top_valuta\">";
 
-			$return.=html("valuta","tarieventabel").":";
+			$return.=html("valuta","tarieventabel").":&nbsp;";
 
-			$return.="<select class=\"option_valuta_".($this->actieve_valuta=="gbp" ? "gbp" : "euro")."\">";
-			$return.="<option value=\"euro\" class=\"option_valuta_euro\"".($this->actieve_valuta!="gbp" ? " selected" : "").">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".html("euro","tarieventabel")."&nbsp;</option>";
-			$return.="<option value=\"gbp\" class=\"option_valuta_gbp\"".($this->actieve_valuta=="gbp" ? " selected" : "").">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".html("gbp","tarieventabel")."&nbsp;</option>";
+			// $return.="<select class=\"option_valuta_".($this->actieve_valuta=="gbp" ? "gbp" : "euro")."\">";
+			// $return.="<option value=\"euro\" class=\"option_valuta_euro\"".($this->actieve_valuta!="gbp" ? " selected" : "").">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".html("euro","tarieventabel")."&nbsp;</option>";
+			// $return.="<option value=\"gbp\" class=\"option_valuta_gbp\"".($this->actieve_valuta=="gbp" ? " selected" : "").">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".html("gbp","tarieventabel")."&nbsp;</option>";
+			// $return.="</select>";
+
+			$return.="<div class=\"tarieventabel_top_valuta_select\">";
+			$return.="<select class=\"currency_select\">";
+			$return.="<option value=\"euro\"".($this->actieve_valuta!="gbp" ? " selected" : "")." data-image=\"".$vars["path"]."pic/flag-eu.png\">".html("euro","tarieventabel")."&nbsp;&nbsp;</option>";
+			$return.="<option value=\"gbp\"".($this->actieve_valuta=="gbp" ? " selected" : "")." data-image=\"".$vars["path"]."pic/flag-uk.png\">".html("gbp","tarieventabel")."&nbsp;&nbsp;</option>";
 			$return.="</select>";
+			$return.="</div>"; // afsluiten .tarieventabel_top_valuta_select
 
 			$return.="<div class=\"tarieventabel_top_valuta_toelichting1\" data-euro=\"\" data-gbp=\"".html("valuta_toelichting1_gbp","tarieventabel")."\">";
 			if($this->actieve_valuta=="gbp") {
