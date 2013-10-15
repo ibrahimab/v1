@@ -1658,8 +1658,7 @@ while($db->next_record()) {
 			#
 			# Beschikbaarheid
 			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
-				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
-				$beschikbaar = array();
+				reset($xml_beschikbaar[$db->f("xml_type")][$value]);				
 				while(list($key2,$value2)=each($xml_beschikbaar[$db->f("xml_type")][$value])) {
 					$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]+=$value2;
 					$xml_laatsteimport[$db->f("type_id")]=true;
