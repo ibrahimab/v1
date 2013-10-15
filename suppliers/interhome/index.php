@@ -58,14 +58,15 @@ class InterHome extends SoapClass {
 		$this->wsdl["wsdl_header"] = false;
 
 		$ihomeServiceCheck = new IHomeServiceCheck($this->wsdl);
+
+		// Reset the SOAP header
+		unset($this->wsdl["wsdl_header"]);
+
 		// Call for IHomeServiceCheck::CheckServerHealth()
 		if($ihomeServiceCheck->CheckServerHealth())
 			return $ihomeServiceCheck->getResult();
 		else
 			return $ihomeServiceCheck->getLastError();
-
-		// Reset the SOAP header
-		unset($this->wsdl["wsdl_header"]);
 	}
 
 	/**

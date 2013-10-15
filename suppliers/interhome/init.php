@@ -38,8 +38,39 @@ abstract class SoapClass {
 	protected function date_to_gmdate( $timeteller = '' ) {
 		$date = date("Y-m-d", $timeteller);
 		$timeteller = gmdate("U", strtotime($date));
+		$offset = $this->getServerTimeOffset();
 
-		return strtotime("+1 hour", $timeteller);
+		return strtotime("+$offset hour", $timeteller);
+	}
+
+	/**
+	 * Function used to get the current server datetime offset compared with "Europe/Amsterdam"
+	 *
+	 * @return integer
+	 */
+	private function getServerTimeOffset() {
+		$localTimezone = date_default_timezone_get();
+
+		$dateTimeZoneAmsterdam = new DateTimeZone("Europe/Amsterdam");
+		$dateTimeZoneLocal = new DateTimeZone($localTimezone);
+
+		// Create two DateTime objects that will contain the same Unix timestamp, but
+		// have different timezones attached to them.
+		$dateTimeAmsterdam = new DateTime("now", $dateTimeZoneAmsterdam);
+		$dateTimeLocal = new DateTime("now", $dateTimeZoneLocal);
+
+		// Calculate the GMT offset for the date/time contained in the $dateTimeAmsterdam
+		// object, but using the timezone rules as defined for Local ($dateTimeZoneLocal).
+
+		// Should show int(32400) (for dates after Sat Sep 8 01:00:00 1951 JST).
+		//Number of seconds Local is ahead of GMT at the specific time: $timeOffset = $dateTimeZoneLocal->getOffset($dateTimeAmsterdam);
+		//Number of seconds Amsterdam is ahead of GMT at the specific time: $dateTimeZoneAmsterdam->getOffset($dateTimeAmsterdam)
+
+		//Number of seconds Local is ahead of Amsterdam at the specific time:
+		$diff = ($dateTimeZoneLocal->getOffset($dateTimeAmsterdam)-$dateTimeZoneAmsterdam->getOffset($dateTimeAmsterdam));
+
+		// Convert seconds to hours
+		return floor($diff/3600);
 	}
 
 	/**
