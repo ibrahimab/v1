@@ -13,14 +13,20 @@ ErrorDocument 404 /404.php
 #
 # Geen enkele pagina tonen wegens werkzaamheden
 #
-#RewriteCond %{REQUEST_URI} !unavailable [NC]
-#RewriteCond %{REQUEST_URI} !logo [NC]
-#RewriteCond %{REQUEST_URI} !wt_phpmysqldump [NC]
-#RewriteCond %{REQUEST_URI} !wtpma [NC]
-#RewriteRule ^(.*)$ /unavailable.php
+# RewriteCond %{REQUEST_URI} !unavailable [NC]
+# RewriteCond %{REQUEST_URI} !logo [NC]
+# RewriteCond %{REQUEST_URI} !wt_phpmysqldump [NC]
+# RewriteCond %{REQUEST_URI} !wtpma [NC]
+# RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
+# RewriteRule ^(.*)$ /unavailable.php
 
 
 RewriteEngine On
+
+
+# blokkeren ongewenste spider
+SetEnvIfNoCase User-Agent "80legs" bad_user
+Deny from env=bad_user
 
 #
 # favicons
