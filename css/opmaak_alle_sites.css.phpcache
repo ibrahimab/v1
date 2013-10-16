@@ -2427,6 +2427,8 @@ nieuwe tarieventabel
 
 .tarieventabel_top_valuta {
 	float: right;
+	height: 75px;
+	overflow: hidden;
 }
 
 .tarieventabel_top_valuta_select {
