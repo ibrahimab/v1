@@ -15,7 +15,7 @@ if(!$login->logged_in) {
 			echo "<p><a href=\"cms.php?delflc=1\">Ik wil de voorkant van de site bekijken zonder te zijn ingelogd</a>.";
 		}
 #	}
-	if(!$_GET["logout"] and !$_GET["reloaded"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+	if(!$_GET["logout"] and !$_GET["reloaded"] and !$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
 		wt_mail("chaletmailbackup+systemlog@gmail.com","Chalet inlogform opgevraagd",$vars["basehref"]."\n".$_SERVER["REQUEST_URI"]."\n\n_COOKIE\n".wt_dump($_COOKIE,false)."\n\n_SERVER\n".wt_dump($_SERVER,false));
 	}
 } else {
