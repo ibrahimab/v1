@@ -246,8 +246,8 @@ class InterHome extends SoapClass {
 						...
 						- Z - min. stay 26 days
 					*/
-					
-					if(date("w",$day)==5 && substr($change,$i-6,1)=="C" && substr($min_stay,$i-6,1)!="0") {					
+
+					if(date("w",$day)==5 && (substr($change,$i-6,1)=="C" || substr($change,$i-6,1)=="I") && substr($min_stay,$i-6,1)!="0") {
 						# on Friday we check to see if the previous week was free, and 6 days ago (Saturday) was a changeover was possible
 						if($temp_available[$week]==7) {
 							if(!isset($soap_available[$week])) $soap_available[$week] = 0;
