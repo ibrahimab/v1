@@ -3937,7 +3937,7 @@ function googleanalytics() {
 	$test_analytics=true;
 
 	if($test_analytics)	{
-		if($vars["lokale_testserver"]) {
+		if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 			$vars["googleanalytics"]="UA-2078202-12";
 		} else {
 			$test_analytics=false;

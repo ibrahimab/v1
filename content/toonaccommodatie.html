@@ -166,7 +166,7 @@ if($nieuwe_tarieventabel) {
 	}
 
 	// andere valuta tonen
-	if($vars["website"]=="E" and ($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $vars["acceptatie_testserver"])) {
+	if($vars["website"]=="E") {
 		$tarieventabel_object->meerdere_valuta = true;
 		$tarieventabel_object->actieve_valuta = "euro";
 	}

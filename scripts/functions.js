@@ -2148,6 +2148,9 @@ $(document).ready(function() {
 			$(".tarieventabel_top_valuta select").removeClass();
 			$(".tarieventabel_top_valuta select").addClass("option_valuta_"+currency);
 
+			// event naar Analytics sturen
+			event_naar_analytics_sturen("bezoekers-acties", "valuta gewijzigd", currency);
+
 		});
 
 	}
@@ -2395,7 +2398,11 @@ function zoekopdracht_naar_analytics_sturen_inclusief_aantal(omschrijving,zoekop
 function event_naar_analytics_sturen(categorie, omschrijving, waarde, aantal) {
 	// stuur de zoekopdracht naar Google Analytics
 	if (typeof _gaq != "undefined") {
-		_gaq.push(['_trackEvent', categorie, omschrijving, waarde, aantal]);
+		if(typeof(aantal)==="undefined") {
+			_gaq.push(['_trackEvent', categorie, omschrijving, waarde]);
+		} else {
+			_gaq.push(['_trackEvent', categorie, omschrijving, waarde, aantal]);
+		}
 	}
 }
 
