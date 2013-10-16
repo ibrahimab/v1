@@ -1034,7 +1034,7 @@ $vars["xml_type"]=array(
 	20=>"Centrale Locative de l'Immobilière des Hauts Forts (20)",
 	21=>"Ville in Italia (21)",
 	22=>"Nexity (22)",
-	101=>"Interhome (101)",
+	23=>"Interhome (23)",
 );
 asort($vars["xml_type"]);
 
