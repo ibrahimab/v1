@@ -47,7 +47,7 @@ img.fnone{float:none !important}
 .ddcommon .ddChild{position:absolute;display:none;width:100%;overflow-y:auto; overflow-x:hidden; zoom:1; z-index:9999}
 .ddcommon .ddChild li{clear:both;}
 .ddcommon .ddChild li .description{display:block;}
-.ddcommon .ddChild li img{border:0 none; position:relative;vertical-align:middle;float:left}
+.ddcommon .ddChild li img{border:0 none; position:relative;vertical-align:middle;float:left;}
 .ddcommon .ddChild li.optgroup{padding:0;}
 .ddcommon .ddChild li.optgroup .optgroupTitle{padding:0 5px; font-weight:bold; font-style:italic}
 .ddcommon .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
@@ -59,10 +59,10 @@ img.fnone{float:none !important}
 .dd .ddArrow{width:16px;height:16px; margin-top:-8px; background:url(../pic/msdropdown/dd_arrow.gif) no-repeat;}
 .dd .ddArrow:hover{background-position:0 100%;}
 .dd .ddTitle{color:#000;background:#e2e2e4 url(../pic/msdropdown/title-bg.gif) repeat-x left top;}
-.dd .ddTitle .ddTitleText{padding:5px 20px 5px 5px;}
+.dd .ddTitle .ddTitleText{padding:2px 20px 2px 5px;}
 .dd .ddTitle .ddTitleText .ddTitleText{padding:0;}
 .dd .ddTitle .description{font-size:12px; color:#666}
-.dd .ddTitle .ddTitleText img{padding-right:5px;}
+.dd .ddTitle .ddTitleText img{padding-right:5px;margin-top:-2px;}
 .dd .ddChild{border:1px solid #c3c3c3; background-color:#fff; left:-1px;}
 .dd .ddChild li{padding:5px; padding-top:2px; padding-bottom:2px; background-color:#fff; border-bottom:1px solid #c3c3c3;}
 .dd .ddChild li .description{color:#666;}
