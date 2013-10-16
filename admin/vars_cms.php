@@ -113,7 +113,7 @@ if($mustlogin) {
 	if(!in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
 		$login->settings["settings"]["rememberpassword"]=false;
 		$login->settings["settings"]["no_autocomplete"]=true;
-		if($_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html" and $_SERVER["REMOTE_ADDR"]<>"31.223.173.113") {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and $_SERVER["REMOTE_ADDR"]<>"31.223.173.113") {
 			$login->settings["mail_after_login"]="bert@chalet.nl";
 			$host=gethostbyaddr($_SERVER["REMOTE_ADDR"]);
 			$login->settings["mailtext_after_login"]="Zojuist heeft [[voornaam]] vanaf een andere locatie ingelogd in het Chalet.nl-CMS.\n\n".$host.($_SERVER["REMOTE_ADDR"]<>$host ? " (".$_SERVER["REMOTE_ADDR"].")" : "");

@@ -2126,6 +2126,11 @@ $(document).ready(function() {
 
 
 		// switchen tussen valuta
+
+		if($.msDropdown) {
+			$(".currency_select").msDropdown();
+		}
+
 		$(".tarieventabel_top_valuta select").change(function(event) {
 			var currency=$(this).val();
 
@@ -2133,8 +2138,6 @@ $(document).ready(function() {
 			$(".tarieventabel_tarieven_div div[data-euro]").each(function() {
 				$(this).text($(this).data(currency));
 			});
-
-// alert($(".tarieventabel_top_valutanaam").data(currency));
 
 			// juiste teksten tonen
 			$(".tarieventabel_top_valutanaam").html($(".tarieventabel_top_valutanaam").data(currency));

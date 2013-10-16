@@ -102,9 +102,14 @@ if($vars["canonical"]) {
 } elseif($_SERVER["HTTPS"]=="on") {
 	echo "<link rel=\"canonical\" href=\"http://".htmlentities($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."\" />\n";
 }
-# JQuery
+# jQuery
 echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
 echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
+
+if($vars["website"]=="E") {
+	# jQuery ms-Dropdown (https://github.com/marghoobsuleman/ms-Dropdown)
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.dd.min.js\"></script>\n";
+}
 
 if($vars["googlemaps"]) {
 	# Google Maps API

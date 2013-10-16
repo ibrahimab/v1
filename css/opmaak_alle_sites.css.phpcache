@@ -2403,7 +2403,6 @@ nieuwe tarieventabel
 	background-color: #d5e1f9;
 	color: #003366;
 	min-height: 38px;
-	overflow: hidden;
 }
 
 .tarieventabel_top h1 {
@@ -2428,28 +2427,17 @@ nieuwe tarieventabel
 
 .tarieventabel_top_valuta {
 	float: right;
+	height: 75px;
+	overflow: hidden;
 }
 
-.option_valuta_euro {
-	background-color: #ffffff;
-	background-image: url("http://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/800px-Flag_of_Europe.svg.png");
-	background-repeat: no-repeat;
-	background-size: 25px 14px;
-	background-position: 0 0;
-}
-
-.option_valuta_gbp {
-	background-color: #ffffff;
-	background-image: url("http://upload.wikimedia.org/wikipedia/en/thumb/a/ae/Flag_of_the_United_Kingdom.svg/800px-Flag_of_the_United_Kingdom.svg.png");
-	background-repeat: no-repeat;
-	background-size: 25px 14px;
-	background-position: 0 0;
+.tarieventabel_top_valuta_select {
+	text-align: left;
+	display: inline;
 }
 
 .tarieventabel_top_valuta select {
-	margin-left: 1em;
-	background-position: 2px 2px;
-	padding-left: 0px;
+	width: 100px;
 }
 
 .tarieventabel_top_valuta_toelichting1 {
