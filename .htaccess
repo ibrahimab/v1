@@ -143,6 +143,7 @@ RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
 #
 RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
 RewriteCond %{REQUEST_URI} !wt_git_autopull\.php [NC]
+RewriteCond %{REQUEST_URI} !robots.*\.txt [NC]
 # WebTastic-IP 1
 RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
 # WebTastic-IP 2
@@ -160,7 +161,11 @@ RewriteRule ^(.*)$ http://www.chalet.nl/error_msg.php?t=1 [L,R=301]
 # Test-server: geen https toestaan
 RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
 RewriteCond %{SERVER_PORT} 443
-RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ http://www.chalet.nl/error_msg.php?t=2 [L,R=301]
+
+# Test-server: robots.txt met disallow tonen
+RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
+RewriteRule ^robots\.txt$ robots_block.txt
 
 
 #
