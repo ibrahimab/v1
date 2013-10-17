@@ -790,36 +790,6 @@ $(document).ready(function() {
 				'overlayOpacity' :	0.8
 			});
 
-			// tijdelijk: fancybox-popup bij Zomerhuisje (melding over koerswijziging)
-			if($("#zomerhuisje_popup").length!==0) {
-				$("#zomerhuisje_popup").fancybox({
-					'type'			: 'inline',
-					'width'			: 670,
-					'height'		: 420,
-					'autoDimensions': false,
-					'autoScale'		: false,
-					'transitionIn'	:	'elastic',
-					'transitionOut'	:	'elastic',
-					'speedIn'		: 300,
-					'speedOut'		: 300,
-					'padding' :		0,
-					'margin' :		0,
-					'overlayShow'	:	true,
-					'hideOnContentClick' :	false,
-					'overlayColor' :	'#454545',
-					'onComplete'	:	function() {
-
-					},
-					'overlayOpacity' :	0.8
-				});
-
-				$.fancybox.init();
-
-				// popup direct tonen bij openen pagina
-				$("#zomerhuisje_popup").click();
-			}
-
-
 			// klikken op foto's op overzicht-tab: fancybox openen
 			$(".fotopopup_tab_overzicht").click(function() {
 				$(".fotopopup[data-teller="+$(this).data("teller")+"]").trigger("click");

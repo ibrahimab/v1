@@ -39,6 +39,8 @@ class DB_Sql {
 	var $Link_ID  = 0;
 	var $Query_ID = 0;
 
+	/* time when a query is considered as slow */
+	var $log_slow_queries_time=3;
 
 
 	/* public: constructor */
@@ -166,7 +168,7 @@ class DB_Sql {
 			printf( "Debug: query = %s<br>\n", $Query_String );
 
 		if($this->log_slow_queries) {
-			$this->log_slow_queries_start=time();
+			$this->log_slow_queries_start=microtime(true);
 		}
 
 		$this->Query_ID = @mysql_query( $Query_String, $this->Link_ID );
@@ -192,9 +194,9 @@ class DB_Sql {
 		}
 
 		if($this->log_slow_queries) {
-			$query_time=time()-$this->log_slow_queries_start;
-			if($query_time>=3) {
-				file_put_contents($this->log_slow_queries,date("r",$this->log_slow_queries_start)." - ".$query_time." seconds - ".$Query_String."\n",FILE_APPEND);
+			$query_time=microtime(true)-$this->log_slow_queries_start;
+			if($query_time>=$this->log_slow_queries_time) {
+				file_put_contents($this->log_slow_queries,date("r",$this->log_slow_queries_start)." - ".number_format($query_time,5)." seconds - ".$Query_String."\n",FILE_APPEND);
 			}
 		}
 

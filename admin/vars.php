@@ -112,8 +112,17 @@ require($unixdir."admin/class.mysql.php");
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$db->query("SET CHARACTER SET 'latin1';");
+
+	// log slow queries
+	// $db->log_slow_queries="/tmp/slow_query.txt";
+	// $db->log_slow_queries_time=.1;
 }
 
+if($_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
+	// log slow queries
+	// $db->log_slow_queries="/var/www/chalet.nl/slow_query.txt";
+	// $db->log_slow_queries_time=.1;
+}
 
 // autoloaden van classes
 function __autoload($classname) {

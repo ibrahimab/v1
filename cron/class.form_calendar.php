@@ -70,7 +70,7 @@ if($_GET["justonevar"]) {
 <STYLE type="text/css">
 <!--
 	A:hover {
-		color : #CC3333; 
+		color : #CC3333;
 	}
 
 	TD {
