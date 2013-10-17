@@ -250,28 +250,9 @@ if ( $_GET["t"]==1 ) {
 	$return["ok"]=true;
 } elseif ( $_GET["t"]==5 ) {
 	//
-	// onbekende code van Miguel
+	// NIET IN GEBRUIK
 	//
-	if ( $_GET["action"]=="maakAan" ) {
-		$typesArr=explode( ",", $_GET["types"] );
-		$db->query( "INSERT INTO groep(groepnaam) VALUES('".addslashes( $_GET["naam"] )."');" );
-		$db2->query( "SELECT id FROM groep WHERE groepnaam='".addslashes( $_GET["naam"] )."';" );
-		for ( $i=0;$i<count( $typesArr )-1;$i++ ) {
-			$db3->query( "UPDATE type SET groep_id = '".addslashes( $db2->f( "id" ) )."' WHERE type_id='".addslashes( $typesArr[$i] )."'" );
-		}
-		$return["ok"]=true;
-	} elseif ( $_GET["action"]=="alleLevTypes" ) {
-		$types=array();
-		$db->query( "SELECT type_id FROM type WHERE leverancier_id='".addslashes( $_GET["id"] )."';" );
-		while ( $db->next_record() ) {
-			array_push( $types, $db->f( "type_id" ) );
-		}
-		$return["types"]=$types;
-		$return["ok"]=true;
-	} elseif ( $_GET["action"]=="koppel" ) {
-		$db->query( "INSERT INTO levgroepkoppeling(leverancier_id, groep_id) VALUES('".addslashes( $_GET["levid"] )."','".addslashes( $_GET["grid"] )."');" );
-		$return["ok"]=true;
-	}
+
 } elseif ( $_GET["t"]==6 ) {
 	//
 	// NIET IN GEBRUIK

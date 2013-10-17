@@ -803,93 +803,14 @@ while(list($key,$value)=@each($xml_urls)) {
 				}
 			} elseif($key==17) {
 				#
-				# Ontwikkeld door Miguel: niet bekend of dit werkt
 				#
-				# Leverancier Alpin Rentals Kaprun hier verder uitbouwen. Lees de accommodatie code volgens de leverencier uit. de
+				# Leverancier Alpin Rentals Kaprun
+				#
+				#
 
-				//echo "Bij Miguel";
-				$accommodaties=array();
-				$perweekArr=array();
-				foreach($xml->House as $accommodatie) {
-					//alles in een array zetten zodat het sorteren op een handige manier kan.
-					array_push($accommodaties, $accommodatie);
-					$datevars=explode("-", $accommodatie->Date);
-					$datum=strtotime($datevars[2]."-".$datevars[1]."-".$datevars[0]);
-					$dag=mktime(0,0,0,date("m",$datum),date("d",$datum)+1,date("Y",$datum));
+				# werkt niet (ooit door Miguel ontwikkeld)
 
-					if(date("w",$dag)==6) {
-						$week=$dag;
-					}
-					elseif(date("w",$dag)==5){
-						//de data hier blijken op een donderdag te vallen. door twee dagen bij te doen, komen ze op een zaterdag te vallen.
-						$dag=mktime(0,0,0,date("m",$datum),date("d",$datum)+2,date("Y",$datum));
-					}
-					else {
-						$week=mktime(0,0,0,date("m",$dag),date("d",$dag)-(date("w",$dag)+1),date("Y",$dag));
-					}
-					$perweekArr[$week]=array();
-				}
-				//alle data doorlopen en deze per week verdelen, zo dat we de vooraaden per iedere week en per type kunnen uitlezen.
-				for($i=0;$i<count($accommodaties);$i++){
-					$datevars=explode("-", $accommodaties[$i]->Date);
-					$datum=strtotime($datevars[2]."-".$datevars[1]."-".$datevars[0]);
-					$dag=mktime(0,0,0,date("m",$datum),date("d",$datum)+1,date("Y",$datum));
-				if(date("w",$dag)==6) {
-						$week=$dag;
-					}
-					elseif(date("w",$dag)==5){
-						//de data hier blijken op een donderdag te vallen. door twee dagen bij te doen, komen ze op een zaterdag te vallen.
-						$dag=mktime(0,0,0,date("m",$datum),date("d",$datum)+2,date("Y",$datum));
-					}
-					else {
-						$week=mktime(0,0,0,date("m",$dag),date("d",$dag)-(date("w",$dag)+1),date("Y",$dag));
-					}
-					array_push($perweekArr[$week],$accommodaties[$i]);
-				}
-				//en nu de xml data een per een vergelijken met de gesorteerde gegevens zodat we op een nauwkeurige manier de vooraad kunnen bepalen
-				foreach($xml->House as $accommodatie) {
-					$datevars=explode("-", $accommodatie->Date);
-					$datum=strtotime($datevars[2]."-".$datevars[1]."-".$datevars[0]);
-					$dag=mktime(0,0,0,date("m",$datum),date("d",$datum)+1,date("Y",$datum));
 
-					if(date("w",$dag)==6) {
-						$week=$dag;
-					}
-					elseif(date("w",$dag)==5){
-						//de data hier blijken op een donderdag te vallen. door twee dagen bij te doen, komen ze op een zaterdag te vallen.
-						$dag=mktime(0,0,0,date("m",$datum),date("d",$datum)+2,date("Y",$datum));
-					}
-					else {
-						$week=mktime(0,0,0,date("m",$dag),date("d",$dag)-(date("w",$dag)+1),date("Y",$dag));
-					}
-						$xml_beschikbaar[$key][trim($accommodatie->HouseCode)][$week]=0;
-						$btypes=array();
-						for($z=0;$z<count($perweekArr[$week]);$z++){
-							if(substr($perweekArr[$week][$z]->HouseCode,0,11)==substr(trim($accommodatie->HouseCode),0,11)){
-								array_push($btypes, $perweekArr[$week][$z]);
-							}
-						}
-						$dagen=0;
-						//er zijn zeven dagen in de week. we willen de aantallen maar een keer per week verhogen of verlagen dus doen we dat iedere zevende dag.
-						for($y=0;$y<count($btypes);$y++){
-							if($dagen==7){
-								if(substr($btypes[$y]->HouseCode,0,11) == substr($accommodatie->HouseCode,0,11)){
-									if($btypes[$y]->Availability=="Free" and $btypes[$y]->MinNights == "7" or $btypes[$y]->MinNights == "3"){
-										$xml_beschikbaar[$key][trim($accommodatie->HouseCode)][$week]++;
-									}
-									elseif($btypes[$y]->Availability=="Occupied"){
-										$xml_beschikbaar[$key][trim($accommodatie->HouseCode)][$week]-1;
-									}
-								}
-								$dagen=0;
-							}
-							$dagen++;
-						}
-					$xml_laatsteimport_leverancier[$key]=true;
-				}
-				//var_dump($xml_brutoprijs);
-#				echo wt_dump_with_unixtime($xml_beschikbaar);
-#				exit;
 			} elseif($key==21) {
 				#
 				# Leverancier Ville in Italia
@@ -900,16 +821,11 @@ while(list($key,$value)=@each($xml_urls)) {
 					foreach($xml->property as $property) {
 
 						$use_key=trim($property->object->objectCode);
-						// echo $use_key."\n";
 
 						foreach($property->object->freePeriod as $freePeriod) {
 
-#var_dump($freePeriod->start);
-
 							$datum_begin=strtotime(trim($freePeriod->start));
 							$datum_eind=strtotime(trim($freePeriod->end));
-
-#echo "Begin:".$datum_begin."\n";
 
 							# Doorlopen van begin tot eind
 							$week=$datum_begin;
