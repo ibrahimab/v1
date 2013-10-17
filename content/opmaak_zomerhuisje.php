@@ -648,13 +648,6 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 	echo "</div>"; # interneinfo_rechts
 }
 
-// fancybox-popup bij Zomerhuisje (melding over koerswijziging)
-if($vars["trackercookie_terugkerende_bezoeker"] and !$_COOKIE["zh_kw"]) {
-	# zh_kw = Zomerhuisje-koerswijziging
-	echo "<a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=zomerhuisje-koerswijziging\" id=\"zomerhuisje_popup\" style=\"display:none;\" rel=\"nofollow\">&nbsp;</a>";
-}
-
-
 echo "</body>";
 echo "</html>";
 
