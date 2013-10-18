@@ -3216,7 +3216,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		# "alles wissen"-link
 		if(strpos($_SERVER["REQUEST_URI"],"filled=1")) {
 			echo "<div class=\"zoekblok_alleswissen\">";
-			echo "<a href=\"".wt_he($urlself.(strpos($_SERVER["REQUEST_URI"],"&aab=1") ? "?filled=1&aab=1&faab=1" : "")).($_GET["testsysteem"] ? "?testsysteem=1" : "")."\"><i class=\"icon-remove-sign\"></i>".html("alleswissen","zoek-en-boek")."</a>";
+			echo "<a href=\"".wt_he($urlself.(strpos($_SERVER["REQUEST_URI"],"&aab=1") ? "?filled=1&aab=1&faab=1" : "")).($_GET["testsysteem"] ? "?testsysteem=1" : "")."\"><i class=\"icon-remove-sign\"></i><span>".html("alleswissen","zoek-en-boek")."</span></a>";
 			echo "</div>"; # afsluiten .zoekblok_alleswissen
 		}
 

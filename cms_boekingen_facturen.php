@@ -592,7 +592,7 @@ if($form->okay) {
 			}
 
 			if($gegevens["fin"]["commissie_accommodatie"]<>0) {
-				factuur_opties("",txt("commissie_accommodatie","factuur")." (".round($gegevens["stap1"]["commissie"],0)."%)",0-$gegevens["fin"]["commissie_accommodatie"],"plaintext",0,true);
+				factuur_opties("",txt("commissie_accommodatie","factuur")." (".getal_met_juist_aantal_decimalen_weergeven($gegevens["stap1"]["commissie"])."%)",0-$gegevens["fin"]["commissie_accommodatie"],"plaintext",0,true);
 			}
 
 			if(@count($gegevens["stap4"]["opties_commissie_precentages"])==1) {

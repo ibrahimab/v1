@@ -1448,6 +1448,12 @@ $(document).ready(function() {
 					$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
 				}
 			});
+
+			// zoektijd tonen aan ingelogde CMS-gebruikers
+			if($("div#page_load_time").length!==0 && $("span#zoektijd").length!==0) {
+				// alert('a');
+				$("span#zoektijd").text($("div#page_load_time").data("time"));
+			}
 		}
 
 		// zoeken binnen andere site: kijken of alle resultaten extern zijn (van Chalet.nl naar SuperSki)

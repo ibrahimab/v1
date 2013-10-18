@@ -630,6 +630,16 @@ function wt_ss_beep() {
 	$fp = fsockopen("vps.postvak.net",11200,$errno,$errstr,1);
 }
 
+function wt_aantal_decimalen($value) {
+	if ((int)$value == $value) {
+		return 0;
+	} else if (! is_numeric($value)) {
+		// throw new Exception('numberOfDecimals: ' . $value . ' is not a number!');
+		return false;
+	}
+	return strlen($value) - strrpos($value, '.') - 1;
+}
+
 function wt_get_extension($file,$filename="") {
 	$temp=@getimagesize($_FILES["uploadedfile"]["tmp_name"]);
 	if($temp["mime"]=="image/jpeg") {
@@ -1962,12 +1972,12 @@ function wt_get_twitter_url($url,$query_string_array,$oauth_consumer_key,$oauth_
 	$oauth["oauth_timestamp"]=time();
 	$oauth["oauth_version"]="1.0";
 
-    $r = array();
-    ksort($oauth);
-    foreach($oauth as $key=>$value){
-        $r[] = "$key=" . rawurlencode($value);
-    }
-    $base_info="GET&" . rawurlencode($url) . '&' . rawurlencode(implode('&', $r));
+	$r = array();
+	ksort($oauth);
+	foreach($oauth as $key=>$value){
+		$r[] = "$key=" . rawurlencode($value);
+	}
+	$base_info="GET&" . rawurlencode($url) . '&' . rawurlencode(implode('&', $r));
 
 
 
@@ -1980,18 +1990,18 @@ function wt_get_twitter_url($url,$query_string_array,$oauth_consumer_key,$oauth_
 	}
 
 	// Make Requests
-    $r = 'Authorization: OAuth ';
-    $values = array();
-    foreach($oauth as $key=>$value)
-        $values[] = "$key=\"" . rawurlencode($value) . "\"";
-    $r .= implode(', ', $values);
+	$r = 'Authorization: OAuth ';
+	$values = array();
+	foreach($oauth as $key=>$value)
+		$values[] = "$key=\"" . rawurlencode($value) . "\"";
+	$r .= implode(', ', $values);
 	$header = array($r, 'Expect:');
 
 	$options = array( CURLOPT_HTTPHEADER => $header,
-	                  CURLOPT_HEADER => false,
-	                  CURLOPT_URL => $url ,
-	                  CURLOPT_RETURNTRANSFER => true,
-	                  CURLOPT_SSL_VERIFYPEER => false);
+					  CURLOPT_HEADER => false,
+					  CURLOPT_URL => $url ,
+					  CURLOPT_RETURNTRANSFER => true,
+					  CURLOPT_SSL_VERIFYPEER => false);
 
 
 	$feed = curl_init();
