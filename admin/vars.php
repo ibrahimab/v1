@@ -71,24 +71,8 @@ require($unixdir."admin/class.tablelist.php");
 require($unixdir."admin/class.cms.layout.php");
 require($unixdir."admin/vars_functions.php");
 
-
-#
-# MySQL
-#
-if(netrom_testserver) {
-	$mysqlsettings["name"]["remote"]="dbtest_chalet";	# Databasenaam bij provider
-	$mysqlsettings["user"]="chalet-nl-usr";		# Username bij provider
-	$mysqlsettings["password"]="m9prepHaGetr";		# Password bij provider
-	$mysqlsettings["host"]="192.168.192.45";# Hostname bij provider
-} else {
-	$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider
-	$mysqlsettings["user"]="chaletdb";		# Username bij provider
-	$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
-	$mysqlsettings["host"]="localhost";# Hostname bij provider
-}
-// database for acceptation-testserver
+// is this the acceptation-testserver?
 if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
-	$mysqlsettings["name"]["remote"]="dbtest_chalet";	# TEST-databasenaam bij provider
 	$vars["acceptatie_testserver"]=true;
 
 	if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="37.34.56.191") {
@@ -105,9 +89,10 @@ if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$
 }
 
 
-$mysqlsettings["name"]["local"]="dbtest_chalet";		# Optioneel: Databasenaam lokaal (alleen invullen indien anders dan database bij provider)
-$mysqlsettings["localhost"]="ss.postvak.net";# Hostname voor lokaal gebruik
-
+#
+# MySQL
+#
+require($unixdir."admin/vars_db.php");
 require($unixdir."admin/class.mysql.php");
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
