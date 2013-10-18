@@ -250,28 +250,9 @@ if ( $_GET["t"]==1 ) {
 	$return["ok"]=true;
 } elseif ( $_GET["t"]==5 ) {
 	//
-	// onbekende code van Miguel
+	// NIET IN GEBRUIK
 	//
-	if ( $_GET["action"]=="maakAan" ) {
-		$typesArr=explode( ",", $_GET["types"] );
-		$db->query( "INSERT INTO groep(groepnaam) VALUES('".addslashes( $_GET["naam"] )."');" );
-		$db2->query( "SELECT id FROM groep WHERE groepnaam='".addslashes( $_GET["naam"] )."';" );
-		for ( $i=0;$i<count( $typesArr )-1;$i++ ) {
-			$db3->query( "UPDATE type SET groep_id = '".addslashes( $db2->f( "id" ) )."' WHERE type_id='".addslashes( $typesArr[$i] )."'" );
-		}
-		$return["ok"]=true;
-	} elseif ( $_GET["action"]=="alleLevTypes" ) {
-		$types=array();
-		$db->query( "SELECT type_id FROM type WHERE leverancier_id='".addslashes( $_GET["id"] )."';" );
-		while ( $db->next_record() ) {
-			array_push( $types, $db->f( "type_id" ) );
-		}
-		$return["types"]=$types;
-		$return["ok"]=true;
-	} elseif ( $_GET["action"]=="koppel" ) {
-		$db->query( "INSERT INTO levgroepkoppeling(leverancier_id, groep_id) VALUES('".addslashes( $_GET["levid"] )."','".addslashes( $_GET["grid"] )."');" );
-		$return["ok"]=true;
-	}
+
 } elseif ( $_GET["t"]==6 ) {
 	//
 	// NIET IN GEBRUIK
@@ -558,152 +539,9 @@ if ( $_GET["t"]==1 ) {
 		//print_r($xmle);
 	}
 } elseif($_GET["t"]==9) {
-	#	Ideal betalingssysteem docdata payements
-	if($_GET["action"]=="doTransaction"){
-	#Verzoek tot het uitvoeren van een transactie.
-	//$boekingObject=array();
-	//$_GET['klantachterNaam']="Moukimou";
-	//$_GET['klantvoorNaam']="Miguel";
-	//$_GET['klantgeboorteD']="1986-05-23";
-	//$_GET['klantfoon']="0301235485456";
-	//$boekingObject["voorletters"]="EM";
-	//$_GET['klantEmail']="miguel@hotmail.com";
-	//$_GET['klantgender']="M";
-	//$_GET['klantstraat']="otterstraat";
-	//$_GET['klanthuisnummer']="2";
-	//$_GET['klantpostcode']="3513CM";
-	//$_GET['klantplaats']="Utrecht";
-	//$_GET['klantID']=1234578;
-	//$_GET['bedrag']=302100;
-	//$boekingObject["Termijn"]=920;
-
-	//$_GET['kenmerk']="C121050495778";
-
-	//$boekingObject["plaats"]="test plaats";
-	//$boekingObject["Accommodatie"]="Chalet Almhaus Peter(8-10 pers.)";
-	//$boekingObject["Deelnemers"]="8 personen";
-	//$boekingObject["Verblijfsperiode"]="16 februari 2013 - 23 februari 2013";
-	//$boekingObject["product"][0]="1x Accommodatie";
-	//$boekingObject["product"]["prijs"][0]=2810;
-	//$boekingObject["product"][1]="1x Energie en eindschoonmaakkosten (excl. keukenhoek) verplicht te voldoen";
-	//$boekingObject["product"]["prijs"][1]=191;
-	//$_GET['klantproduct']= "1x Accommodatie";
-	//$boekingObject["Reserveringskosten"]=true;
-	//$url = "http://test.tripledeal.com/ps/services/paymentservice/0_4?wsdl";
-	$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
-
-	$client = new SoapClient( $url,array('trace'=>1));
-	//echo $client->__getLastResponse();
-	//var_dump($client->__getFunctions());
-	//print_r($_POST);
-
-	$parameters['version'] = "0.9";
-
-	//	merchant
-	$parameters['merchant']['name'] = "chalet_nl";
-	$parameters['merchant']['password'] = "7rU5ehew";
-
-	$parameters['paymentPreferences']['profile'] = 'standard';
-	$parameters['paymentPreferences']['numberOfDaysToPay'] = '14';
-
-	// 	order
-	$parameters['merchantOrderReference'] = $_GET['kenmerk'];
-	$parameters['totalGrossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR','rate' => '0');
-	$parameters['totalNetAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR','rate' => '0');
+	// t=9 is no longer in use (available for new rpc_json-request)
 
 
-	$parameters['totalVatAmount'] = array('_' => '0','currency' => 'EUR','rate' => '0');
-
-	//	shopper
-	$parameters['shopper']['id'] = $_GET['klantID'];
-	$parameters['shopper']['name']['first'] = $_GET['klantvoorNaam'];
-	$parameters['shopper']['name']['last'] = $_GET['klantachterNaam'];
-	$parameters['shopper']['email'] = $_GET['klantEmail'];
-	$parameters['shopper']['language']['code'] = 'nl';
-	$parameters['shopper']['gender'] = $_GET['klantgender'];
-	$parameters['shopper']['dateOfBirth'] = $_GET['klantgeboorteD'];
-	$parameters['shopper']['phoneNumber'] = $_GET['klantfoon'];
-	$parameters['shopper']['mobilePhoneNumber'] = $_GET['klantfoon'];
-
-	$parameters['billTo']['name']['first'] = $_GET['klantvoorNaam'];
-	$parameters['billTo']['name']['last'] = $_GET['klantachterNaam'];
-	$parameters['billTo']['name']['initials'] = $_GET['klantvoorletters'];
-	$parameters['billTo']['address']['street'] = $_GET['klantstraat'];
-	$parameters['billTo']['address']['houseNumber'] = $_GET['klanthuisnummer'];
-	$parameters['billTo']['address']['postalCode'] = $_GET['klantpostcode'];
-	$parameters['billTo']['address']['city'] = $_GET['klantplaats'];
-	$parameters['billTo']['address']['country']['code'] = 'NL';
-
-	$parameters['shipTo']['name']['first'] = $_GET['klantvoorNaam'];
-	$parameters['shipTo']['name']['last'] = $_GET['klantachterNaam'];
-	$parameters['shipTo']['address']['street'] = $_GET['klantstraat'];
-	$parameters['shipTo']['address']['houseNumber'] = $_GET['klanthuisnummer'];
-	$parameters['shipTo']['address']['postalCode'] = $_GET['klantpostcode'];
-	$parameters['shipTo']['address']['city'] = $_GET['klantplaats'];
-	$parameters['shipTo']['address']['country']['code'] = 'NL';
-
-	//	lineitem
-	$parameters['item'][0]['number'] = '12345';
-	$parameters['item'][0]['name'] = $_GET['klantproduct'];
-	$parameters['item'][0]['code'] = '123';
-	$parameters['item'][0]['quantity'] = array('_' => '1','unitOfMeasure' => 'PCS');
-
-	$parameters['item'][0]['description'] = $_GET['klantproduct'];
-	$parameters['item'][0]['netAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');
-	$parameters['item'][0]['grossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');
-	$parameters['item'][0]['vat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));
-	$parameters['item'][0]['totalNetAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');
-	$parameters['item'][0]['totalGrossAmount'] = array('_' => $_GET['bedrag'],'currency' => 'EUR');
-	$parameters['item'][0]['totalVat'] = array('rate' => '0','amount' => array('_' => '0','currency' => 'EUR'));
-
-	//	dorequest
-	$response = $client->create( $parameters );
-	//echo $client->__getLastRequest();
-	//var_dump($response);
-	if( isset( $response->createSuccess->key ) ) {
-		$return["OrderStatus"]="OK";
-		$_SESSION["key"]=$response->createSuccess->key;
-		$return["Orderkey"]=$response->createSuccess->key;
-	} else {
-		$return["OrderStatus"]=$response->createError;
-
-	}
-	}elseif($_GET["action"]=="getstatus"){
-		#het opvragen van de status van een transactie zodat nagegaan kan owrden of de bataling goed gegaan is of niet
-			//$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
-			//$client = new SoapClient( $url,array('trace'=>1));
-
-			//$parameters['version'] = "0.9";
-
-			//	merchant
-			//$parameters['merchant']['name'] = "chalet_nl";
-			//$parameters['merchant']['password'] = "7rU5ehew";
-			//$url="https://test.docdatapayments.com/ps/menu?command=status_payment_cluster&merchant_name=chalet_nl&merchant_password=7rU5ehew&
-		//payment_cluster_key=57E04C4D2EC9DFCB88DC48F4CC2A354D&report_type=xml_std";
-
-		$url ="https://test.tripledeal.com/ps/services/paymentservice/0_9?wsdl";
-
-		$client = new SoapClient($url);
-		//echo $client->__getLastResponse();
-		//var_dump($client->__getFunctions());
-		//print_r($_POST);
-
-		$parameters['version'] = "0.9";
-
-		//	merchant
-		$parameters['merchant']['name'] = "chalet_nl";
-		$parameters['merchant']['password'] = "7rU5ehew";
-		//cluster
-		$parameters['paymentOrderKey']=$_SESSION["key"];
-		$response = $client->status( $parameters );
-		if( isset( $response->statusSuccess->success ) ) {
-			$return["paymentStatus"]="OK";
-			$return["statusCode"]=$response->statusSuccess->success->code;
-		} else {
-			$return["OrderStatus"]=$response->statusError;
-		}
-		//echo var_dump($response);
-	}
 } elseif($_GET["t"]==10) {
 	#
 	# CAPTCHA-systeem: input controleren
