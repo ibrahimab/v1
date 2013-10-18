@@ -276,6 +276,7 @@ $cms->db_field(1,"text","gps_lat");
 $cms->db_field(1,"text","gps_long");
 
 $cms->db_field(1,"picture","picgroot","",array("savelocation"=>"pic/cms/accommodaties/","filetype"=>"jpg"));
+$cms->db_field(1,"picture","hoofdfoto_accommodatie","",array("savelocation"=>"pic/cms/hoofdfoto_accommodatie/","filetype"=>"jpg"));
 #$cms->db_field(1,"picture","picklein","",array("savelocation"=>"pic/cms/accommodaties_tn/","filetype"=>"jpg"));
 $cms->db_field(1,"picture","picaanvullend","",array("savelocation"=>"pic/cms/accommodaties_aanvullend/","filetype"=>"jpg","multiple"=>true));
 $cms->db_field(1,"picture","picaanvullendonderaan","",array("savelocation"=>"pic/cms/accommodaties_aanvullend_onderaan/","filetype"=>"jpg","multiple"=>true));
@@ -574,6 +575,7 @@ $cms->edit_field(1,0,"htmlrow","<hr><b>Afbeeldingen</b><br><i>Afbeeldingen kunne
 #$cms->edit_field(1,0,"picgroot","Grote hoofdafbeelding","",array("img_width"=>"240","img_height"=>"180"));
 #$cms->edit_field(1,0,"picklein","Kleine hoofdafbeelding","",array("img_width"=>"60","img_height"=>"45"));
 $cms->edit_field(1,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));
+$cms->edit_field(1,0,"hoofdfoto_accommodatie","Hoofdafbeelding (groot formaat)","",array("img_minwidth"=>"600","img_minheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3"),array("info"=>"Upload de foto in een zo groot mogelijk formaat."));
 $cms->edit_field(1,0,"picaanvullend","Aanvullende afbeelding(en)","",array("autoresize"=>true,"img_width"=>"600","img_height"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
 $cms->edit_field(1,0,"picaanvullendonderaan","Aanvullende afbeelding(en) (komen onderaan)","",array("autoresize"=>true,"img_width"=>"600","img_height"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
 $cms->edit_field(1,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("autoresize"=>true,"img_width"=>"400","img_height"=>"150","img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
