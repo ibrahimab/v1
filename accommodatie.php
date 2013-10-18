@@ -153,7 +153,6 @@ if($acc_aanwezig) {
 		header("Location: ".$path.txt("menu_accommodatie")."/".$db->f("doorsturen_naar_type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : ""));
 		exit;
 	}
-#	header("HTTP/1.0 404 Not Found");
 	$robot_noindex=true;
 	unset($vars["canonical"]);
 
@@ -165,19 +164,12 @@ if($acc_aanwezig) {
 			if($db->next_record()) {
 				header("Location: http://www.italissima.nl".$_SERVER["REQUEST_URI"],true,301);
 				exit;
-			} else {
-				header("Location: ".$vars["path"],true,301);
-				exit;
 			}
-		} else {
-			#
-			# Tijdelijk: bij Zomerhuisje alle niet gevonden accommodaties doorsturen naar de homepage (vanwege koerswijziging: alleen berg-accommodaties)
-			# 26-10-2012
-			#
-			header("Location: ".$vars["path"],true,301);
-			exit;
 		}
 	}
+
+	header("HTTP/1.0 404 Not Found");
+
 }
 
 

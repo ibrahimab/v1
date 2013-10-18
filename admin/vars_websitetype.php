@@ -25,7 +25,7 @@ if($vars["lokale_testserver"]) {
 		}
 	}
 
-	# Testsite bepalen voor Miguel
+	# Testsite bepalen
 	if($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
 		$vars["cms_basehref"]="http://chalet-nl-dev.web.netromtest.ro/";
 		if(!$vars["testsite"]) {
