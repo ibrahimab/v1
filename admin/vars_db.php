@@ -4,6 +4,13 @@
 // database-credentials
 //
 
+// Netrom?
+if($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
+	if(!defined("netrom_testserver")) define("netrom_testserver",true);
+} else {
+	if(!defined("netrom_testserver")) define("netrom_testserver",false);
+}
+
 // is this the acceptation-testserver?
 if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
 	$vars["acceptatie_testserver"]=true;
