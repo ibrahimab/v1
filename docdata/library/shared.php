@@ -4,7 +4,7 @@
 
 function setReporting() {
 	if (DEVELOPMENT_ENVIRONMENT == true) {
-		error_reporting(E_ALL);
+		error_reporting(E_ALL ^ E_NOTICE);
 		ini_set('display_errors','On');
 	} else {
 		error_reporting(E_ALL);
