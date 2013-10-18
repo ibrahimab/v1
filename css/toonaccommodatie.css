@@ -73,17 +73,17 @@ h2 {
 	box-sizing : border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	background: url(../pic/icons/icon-alletypes_1.png);
-	background-size: 40px;
+	background: url(../pic/icons/icon-alletypes_1.png?c=1);
+	background-size: 35px 35px;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 	text-align: center;
-	width: 40px;
-	height: 50px;
-	padding-top: 27px;
+	width: 35px;
+	height: 35px;
+	padding-top: 24px;
 	line-height: 9px;
 	font-size: 9px;
-	color: #ffffff;
+	color: #003366;
 	overflow: hidden;
 	white-space:nowrap;
 }
