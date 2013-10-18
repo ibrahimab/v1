@@ -23,12 +23,12 @@ define ('PRODUCTION_MERCHANT_NAME', null);
 define ('PRODUCTION_MERCHANT_PASSWORD', null);
 
 # the below credentials should be filled from the share database config file
-include_once( SITE_ROOT . DS . "admin" . DS . "vars_db.php" );
+#include_once( SITE_ROOT . DS . "admin" . DS . "vars_db.php" );
 
-define('DB_NAME', $mysqlsettings["name"]["remote"]); # database name
-define('DB_USER', $mysqlsettings["user"]); # user name
-define('DB_PASSWORD', $mysqlsettings["password"]); # db password
-define('DB_HOST', $mysqlsettings["host"]); # host name
+define('DB_NAME', "dbtest_chalet"); # database name
+define('DB_USER', "chaletdb"); # user name
+define('DB_PASSWORD', "kskL2K2kaQ"); # db password
+define('DB_HOST', "localhost"); # host name
 
 // Payment module mode: test | production
 define('MODULE_MODE', 'test');
