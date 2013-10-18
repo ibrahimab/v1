@@ -4,13 +4,13 @@
 
 function setReporting() {
 	if (DEVELOPMENT_ENVIRONMENT == true) {
-		error_reporting(E_ALL ^ E_NOTICE);
+		error_reporting(E_ERROR | E_WARNING);
 		ini_set('display_errors','On');
 	} else {
-		error_reporting(E_ALL);
+		error_reporting(E_ERROR | E_WARNING);
 		ini_set('display_errors','Off');
 		ini_set('log_errors', 'On');
-		ini_set('error_log', ROOT.DS.'tmp'.DS.'logs'.DS.'error.log');
+		ini_set('error_log', ROOT.DS.'log'.DS.'error.log');
 	}
 }
 
