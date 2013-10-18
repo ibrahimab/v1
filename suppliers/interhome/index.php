@@ -108,38 +108,43 @@ class InterHome extends SoapClass {
 					}
 				}
 			} else {
-				// If no errors were found
-				// Get accomodation code from the response
-				#$accommodationCode = $itemPriceList->getAccommodationCode();
-
+				// If no errors were found				
 				// Get all the price items from the response
 				$arrPriceListItems = $itemPriceList->getItems()->getPriceListItem();
-				if(count($arrPriceListItems) > 0) {				
-					foreach ($arrPriceListItems as $key => $item) {
 
+				if(count($arrPriceListItems) > 0) {
+					foreach ($arrPriceListItems as $key => $item) {
 						$date_begin = strtotime($item->getStartDate());
 						$date_end = strtotime($item->getEndDate());
 						$price = $item->getPrice();
 
-						# Convert the start date to Saturday
-						if(date("w",$date_begin)<>6) {
-							$date_begin = $this->_nearestSaturday($date_begin);
+						$day = $date_begin;
+						// Create price for each day
+						while($day <= $date_end) {
+							$day_price = round($price/7, 2);
+							$tmp_price[$day] = $day_price;
+							$day = mktime(0,0,0,date("m",$day),date("d",$day)+1,date("Y",$day));
 						}
-						if(date("w",$date_end)<>6) {
-							$date_end = $this->_nearestSaturday($date_end);
-						}
-
-						# Loop throught all the dates and create a price entry for each week
-						$week = $date_begin;
-
-						while($week < $date_end) {
-							$week = $this->date_to_gmdate($week);
-							$soap_price[$week] = $price;
-							$week = mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));						
-						}
-						
 					}
 
+					// Create a temp array with costs for each week and the number of days in that week
+					foreach ($tmp_price as $tmp_day => $tmp_day_price) {
+						if(date("w",$tmp_day)==6) {
+							$tmp_week = $tmp_day;
+							if(!isset($tmp_soap_price[$tmp_week])) $tmp_soap_price[$tmp_week] = array("price" => 0, "days" => 0);
+						}
+						if(isset($tmp_week)) {
+							$tmp_soap_price[$tmp_week]["price"] += $tmp_day_price;
+							$tmp_soap_price[$tmp_week]["days"]++;
+						}
+					}
+
+					# Loop throught all the weeks and round the price for each week only if the week contains 7 days
+					foreach($tmp_soap_price as $week => $value) {
+						if($value["days"] == 7) {
+							$soap_price[$week] = round($value["price"], 0);
+						}
+					}
 				}
 			}
 
@@ -215,7 +220,7 @@ class InterHome extends SoapClass {
 						- Q = on request
 					*/
 					# Available in this day
-					if(substr($state,$i,1)=="Y") {
+					if(substr($state,$i,1)=="Y" || substr($state,$i,1)=="Q") {
 						if(!isset($temp_available[$week])) $temp_available[$week] = 0;
 						# available
 						$temp_available[$week]++;
