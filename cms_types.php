@@ -211,6 +211,7 @@ if($_GET["edit"]==2) {
 $cms->db_field(2,"select","voorraad_gekoppeld_type_id","",array("selection"=>$voorraad_gekoppeld_type_id));
 
 $cms->db_field(2,"picture","picgroot","",array("savelocation"=>"pic/cms/types_specifiek/","filetype"=>"jpg"));
+$cms->db_field(2,"picture","hoofdfoto_type","",array("savelocation"=>"pic/cms/hoofdfoto_type/","filetype"=>"jpg"));
 $cms->db_field(2,"picture","picklein","",array("savelocation"=>"pic/cms/types_specifiek_tn/","filetype"=>"jpg"));
 $cms->db_field(2,"picture","picaanvullend","",array("savelocation"=>"pic/cms/types/","filetype"=>"jpg","multiple"=>true));
 $cms->db_field(2,"picture","picaanvullend_breed","",array("savelocation"=>"pic/cms/types_breed/","filetype"=>"jpg","multiple"=>true));
@@ -442,6 +443,7 @@ $cms->edit_field(2,1,"htmlrow","<hr>");
 #$cms->edit_field(2,0,"picaanvullend","Aanvullende afbeelding(en)","",array("img_minwidth"=>"200","img_minheight"=>"150","img_maxwidth"=>"600","img_maxheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>8));
 #$cms->edit_field(2,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("img_width"=>"400","img_height"=>"150","number_of_uploadbuttons"=>2));
 $cms->edit_field(2,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));
+$cms->edit_field(2,0,"hoofdfoto_type","Hoofdafbeelding (groot formaat)","",array("img_minwidth"=>"600","img_minheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3"),array("info"=>"Upload de foto in een zo groot mogelijk formaat."));
 $cms->edit_field(2,0,"picaanvullend","Aanvullende afbeelding(en)","",array("autoresize"=>true,"img_width"=>"600","img_height"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>8));
 $cms->edit_field(2,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("autoresize"=>true,"img_width"=>"400","img_height"=>"150","img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
 
