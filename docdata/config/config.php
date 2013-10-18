@@ -6,14 +6,13 @@ define ('DEVELOPMENT_ENVIRONMENT',true);
 
 // Chalet Server
 
-if($_SERVER["HTTP_HOST"]=="www.chalet.nl") {
-	$site_url = "https://www.chalet.nl/";
-}elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu") {
-	$site_url = "https://www.chalet.eu/";
-}elseif($_SERVER["HTTP_HOST"]=="www.chalet.be") {
-	$site_url = "https://www.chalet.be/";
+if($_SERVER["HTTP_HOST"]=="test.chalet.nl") {
+    $site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.nl/";
+}elseif($_SERVER["HTTP_HOST"]=="test.chalet.eu") {
+    $site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.eu/";
+}elseif($_SERVER["HTTP_HOST"]=="test.chalet.be") {
+    $site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.be/";
 }
-
 
 define ('SITE_URL', $site_url);
 
@@ -24,10 +23,10 @@ define ('PRODUCTION_MERCHANT_NAME', null);
 define ('PRODUCTION_MERCHANT_PASSWORD', null);
 
 # the below credentials should be filled in accordance with the local available resources
-define('DB_NAME', ''); # database name
-define('DB_USER', ''); # user name
-define('DB_PASSWORD', ''); # db password
-define('DB_HOST', ''); # host name
+define('DB_NAME', 'dbtest_chalet'); # database name
+define('DB_USER', 'chaletdb'); # user name
+define('DB_PASSWORD', 'kskL2K2kaQ'); # db password
+define('DB_HOST', 'localhost'); # host name
 // Payment module mode: test | production
 define('MODULE_MODE', 'test');
 
