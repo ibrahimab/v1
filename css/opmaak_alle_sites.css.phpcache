@@ -179,6 +179,10 @@ h3 {
 	margin-bottom: 4px;
 }
 
+.data-div {
+	display: none;
+}
+
 .hoofdpagina_tabel {
 	border: solid <?php echo $rood; ?> 1px;
 }
@@ -1226,6 +1230,14 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 .zoekblok_alleswissen {
 	display: inline;
 	margin-left: 30px;
+}
+
+.zoekblok_alleswissen a {
+	text-decoration: none;
+}
+
+.zoekblok_alleswissen a span {
+	text-decoration: underline;
 }
 
 

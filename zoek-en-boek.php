@@ -1,5 +1,9 @@
 <?php
 
+
+$vars["page_starttime"]=microtime(true);
+
+
 include_once("admin/vars.php");
 
 if(!session_id()) session_start();

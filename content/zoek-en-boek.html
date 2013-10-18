@@ -3216,7 +3216,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		# "alles wissen"-link
 		if(strpos($_SERVER["REQUEST_URI"],"filled=1")) {
 			echo "<div class=\"zoekblok_alleswissen\">";
-			echo "<a href=\"".wt_he($urlself.(strpos($_SERVER["REQUEST_URI"],"&aab=1") ? "?filled=1&aab=1&faab=1" : "")).($_GET["testsysteem"] ? "?testsysteem=1" : "")."\"><i class=\"icon-remove-sign\"></i>".html("alleswissen","zoek-en-boek")."</a>";
+			echo "<a href=\"".wt_he($urlself.(strpos($_SERVER["REQUEST_URI"],"&aab=1") ? "?filled=1&aab=1&faab=1" : "")).($_GET["testsysteem"] ? "?testsysteem=1" : "")."\"><i class=\"icon-remove-sign\"></i><span>".html("alleswissen","zoek-en-boek")."</span></a>";
 			echo "</div>"; # afsluiten .zoekblok_alleswissen
 		}
 
@@ -3428,6 +3428,10 @@ if($resultaten_tonen) {
 		}
 
 		echo "</td></tr>";
+
+		if($voorkant_cms and $_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
+			echo "<tr><td colspan=\"5\" style=\"color:#888888;text-align:right;padding-right:10px;\">(intern: zoektijd <span id=\"zoektijd\"></span> sec.)</td></tr>";
+		}
 
 		echo "<tr>";
 
@@ -3726,5 +3730,9 @@ if($vars["verfijnen_aanbieden"]) {
 		$lhtml="";
 	}
 }
+
+// pageload-time bepalen
+echo "<div class=\"data-div\" id=\"page_load_time\" data-time=\"".number_format(microtime(true)-$vars["page_starttime"],2)."\"></div>";
+
 
 ?>
