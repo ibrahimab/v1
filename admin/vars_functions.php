@@ -1882,7 +1882,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
 			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "").$temp_class."><td valign=\"top\" style=\"padding-right:10px\">".html("commissie_accommodatie","vars");
-			$return.="</td>".$extra_td."<td valign=\"top\" style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["stap1"]["commissie"],0,',','.')."%</td>";
+			$return.="</td>".$extra_td."<td valign=\"top\" style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".getal_met_juist_aantal_decimalen_weergeven($gegevens["stap1"]["commissie"])."%</td>";
 			$return.="<td valign=\"top\" nowrap style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" style=\"padding-right:10px\">=</td>";
 			$return.="<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_accommodatie"],2,',','.')."</td>";
 			$return.="<td valign=\"top\" nowrap>".reissom_tabel_korting_of_min_tekst($bedrag,$inkoop)."</td>";
@@ -1899,7 +1899,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 				$return.="<td valign=\"top\" style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">";
 				reset($gegevens["stap4"]["opties_commissie_precentages"]);
 				list($temp_key,$temp_value)=each($gegevens["stap4"]["opties_commissie_precentages"]);
-				$return.=number_format($temp_key,0,',','.')."%";
+				$return.=getal_met_juist_aantal_decimalen_weergeven($temp_key)."%";
 				$return.="</td>";
 				$return.="<td valign=\"top\" nowrap style=\"padding-right:10px\">&nbsp;</td><td valign=\"top\" style=\"padding-right:10px\">=</td>";
 			} else {
@@ -1918,7 +1918,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			if($kleurteller>1) unset($kleurteller);
 			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td valign=\"top\" style=\"padding-right:10px\">".html("commissie_btw","vars");
 			$return.="</td>".$extra_td."<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_accommodatie"]+$gegevens["fin"]["commissie_opties"],2,',','.')."</td>";
-			$return.="<td valign=\"top\" style=\"padding-right:10px\" nowrap> x ".number_format($gegevens["stap1"]["btw_over_commissie_percentage"],0,',','.')."%</td><td style=\"padding-right:10px\">=</td>";
+			$return.="<td valign=\"top\" style=\"padding-right:10px\" nowrap> x ".getal_met_juist_aantal_decimalen_weergeven($gegevens["stap1"]["btw_over_commissie_percentage"])."%</td><td style=\"padding-right:10px\">=</td>";
 			$return.="<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
 			$return.="<td valign=\"top\">&nbsp;</td>";
 			$return.="</tr>";
@@ -1930,7 +1930,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 				if($kleurteller_inkoop>1) unset($kleurteller_inkoop);
 				$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td valign=\"top\" style=\"padding-right:10px\">".html("commissie_btw","vars");
 				$return_inkoop.="</td><td>&nbsp;</td><td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td valign=\"top\" align=\"right\" style=\"padding-right:10px\">".number_format($gegevens["fin"]["commissie_accommodatie"]+$gegevens["fin"]["commissie_opties"],2,',','.')."</td>";
-				$return_inkoop.="<td valign=\"top\" style=\"padding-right:10px\" nowrap> x ".number_format($gegevens["stap1"]["btw_over_commissie_percentage"],0,',','.')."%</td><td style=\"padding-right:10px\">=</td>";
+				$return_inkoop.="<td valign=\"top\" style=\"padding-right:10px\" nowrap> x ".getal_met_juist_aantal_decimalen_weergeven($gegevens["stap1"]["btw_over_commissie_percentage"])."%</td><td style=\"padding-right:10px\">=</td>";
 				$return_inkoop.="<td valign=\"top\" style=\"padding-right:10px\">&euro;</td><td align=\"right\" style=\"padding-right:10px\">".number_format(0-$gegevens["fin"]["commissie_btw"],2,',','.')."</td>";
 				$return_inkoop.="<td valign=\"top\">&nbsp;</td>";
 				$return_inkoop.="</tr>";
@@ -4183,6 +4183,21 @@ function opvalblok() {
 			$return.="</div>"; # afsluiten class opvalblok
 		}
 	}
+
+	return $return;
+}
+
+function getal_met_juist_aantal_decimalen_weergeven($getal) {
+	//
+	// getal tonen zonder eind-nullen (en met komma + duizendtallen-scheiding)
+	//
+	$return = number_format($getal, wt_aantal_decimalen($getal), ",", ".");
+
+	// laatste nullen strippen
+	$return = preg_replace("@(,[0-9]*)0{1,}$@","\\1",$return);
+
+	// comma strippen indien nodig
+	$return = preg_replace("@,$@","",$return);
 
 	return $return;
 }
