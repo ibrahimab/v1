@@ -1,0 +1,12 @@
+
+When this file is updated in Git it means there are changes to the file-structure (that are in the .gitignore-file, so you will have to change them manually).
+
+===========>>>>> Please add new entries to the top of this document (sort order: new-old) <<<<<===========
+
+
+
+18-oct-2013:
+add these directories (and make them writable):
+- pic/cms/hoofdfoto_accommodatie
+- pic/cms/hoofdfoto_type
+
