@@ -14,7 +14,7 @@ if ($paymentOrderExists) {
 	$html . '<body>';
 
 	/* temporary message */
-	$html.= __('Redirecting to Docdata...');
+	#$html.= __('Redirecting to Docdata...');
 
 	/* creating the form with action and hidden fields */
 	$form = '<form id="docdata_checkout" name="docdata_checkout" method="GET" action="' . $webmenuUrl .'">';
