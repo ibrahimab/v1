@@ -1772,6 +1772,7 @@ if($db->next_record()) {
 				$anderetypes.=wt_he($typenaam);
 			}
 			$anderetypes.="</div>"; // afsluiten .alletypes_typenaam
+			$anderetypes.="<div class=\"clear\"></div>";
 
 			if($accinfo["type_id"]==$db2->f("type_id")) {
 				$anderetypes.="</div>";
