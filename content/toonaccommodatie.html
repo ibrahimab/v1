@@ -1719,7 +1719,80 @@ if($db->next_record()) {
 		}
 		$db2->seek();
 	}
-	if($alletypestonen) {
+	// alle types van deze accommodatie
+	if($alletypestonen and ($vars["lokale_testserver"] or $vars["acceptatie_testserver"])) {
+		echo "<div id=\"toonaccommodatie_boekbalk_alletypes\">";
+		echo "<div class=\"alletypes_header\">";
+		echo html("alletypes2","toonaccommodatie");
+		echo "</div>";
+
+
+		while($db2->next_record()) {
+			$anderetypes.="<div class=\"alletypes_item\">";
+			if(@count($gekoppeld_soortaccommodatie)>=2) {
+				$vars["soortaccommodatie_meervoud"]=array(1=>txt("chalets","vars"),2=>txt("appartementen","vars"),3=>txt("hotels","vars"),4=>txt("chaletappartementen","vars"),6=>txt("vakantiewoningen","vars"),7=>txt("villas","vars"),8=>txt("kastelen","vars"));
+				unset($gekoppeld_toon);
+				if(!$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]) {
+					if($gekoppeld_soortaccommodatie[$db2->f("soortaccommodatie")]>=2) {
+						$gekoppeld_toon=$vars["soortaccommodatie_meervoud"][$db2->f("soortaccommodatie")];
+					} else {
+						$gekoppeld_toon=$vars["soortaccommodatie"][$db2->f("soortaccommodatie")];
+					}
+					$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]=true;
+				}
+				if($gekoppeld_toon) {
+					$anderetypes.="<div class=\"alletypes_soort_accommodatie\">".wt_he(ucfirst($gekoppeld_toon))."</div>";
+				}
+			}
+
+			$alletypes_beschikbaar_class="";
+			if($_GET["d"]) {
+				if($db2->f("beschikbaar") and ($db2->f("bruto")>0 or $db2->f("c_bruto")>0)) {
+					$alletypes_beschikbaar_class="alletypes_beschikbaar";
+				} else {
+					$alletypes_beschikbaar_class="alletypes_niet_beschikbaar";
+					$nietbeschikbaar_getoond=true;
+				}
+			}
+			if($accinfo["type_id"]==$db2->f("type_id")) {
+				$anderetypes.="<div class=\"alletypes_type".trim(" ".$alletypes_beschikbaar_class)."\">";
+			} else {
+				$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."#indeling";
+				$anderetypes.="<a href=\"".wt_he($linkandertype)."\" class=\"alletypes_type linkandertype".trim(" ".$alletypes_beschikbaar_class)."\">";
+			}
+
+			// aantal personen
+			$anderetypes.="<div class=\"alletypes_aantalpersonen\">";
+			$anderetypes.=$db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? "-".$db2->f("maxaantalpersonen") : "");
+			$anderetypes.="</div>"; // afsluiten .alletypes_aantalpersonen
+
+			$anderetypes.="<div class=\"alletypes_typenaam\">";
+			if($db2->f("type")) {
+				$typenaam=ereg_replace("^\((.*)\)","\\1",$db2->f("type"));
+				$anderetypes.=wt_he($typenaam);
+			}
+			$anderetypes.="</div>"; // afsluiten .alletypes_typenaam
+
+			if($accinfo["type_id"]==$db2->f("type_id")) {
+				$anderetypes.="</div>";
+			} else {
+				$anderetypes.="</a>";
+			}
+			// $anderetypes.="</div><div style=\"clear:both;\"></div>";
+
+			$anderetypes.="</div>"; // afsluiten .alletypes_item
+		}
+		echo $anderetypes;
+		if($_GET["d"] and $nietbeschikbaar_getoond) {
+			echo "<div style=\"padding-top:15px;padding-bottom:10px;\">";
+#			echo "<span style=\"background-color:#d40139;\">&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("nietmeerbeschikbaarvoordezeaankomstdatum","toonaccommodatie");
+			echo "<img src=\"".$vars["path"]."pic/cross.gif\" width=\"10\" height=\"10\" alt=\"\" style=\"margin-bottom:-1px;\">&nbsp;=&nbsp;".html("nietmeerbeschikbaarvoordezeaankomstdatum","toonaccommodatie");
+			echo "</div>";
+		}
+
+		echo "</div>";
+
+	} elseif($alletypestonen) {
 		echo "<div id=\"toonaccommodatie_boekbalk_alletypes\">";
 		echo "<div style=\"margin-left:12px;width:145px;padding-top:8px;\"><i>";
 		echo nl2br(html("alletypes","toonaccommodatie"));

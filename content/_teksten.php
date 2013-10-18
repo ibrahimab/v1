@@ -2076,6 +2076,9 @@ $txt["en"]["toonaccommodatie"]["ookbeschikbaar"]="Also available";
 $txt["nl"]["toonaccommodatie"]["alletypes"]="Alle types\nvan deze accommodatie";
 $txt["en"]["toonaccommodatie"]["alletypes"]="All types\nof this accommodation";
 
+$txt["nl"]["toonaccommodatie"]["alletypes2"]="Alle types van deze accommodatie";
+$txt["en"]["toonaccommodatie"]["alletypes2"]="All types of this accommodation";
+
 $txt["nl"]["toonaccommodatie"]["nietmeerbeschikbaarvoordezeaankomstdatum"]="niet meer beschikbaar voor deze aankomstdatum";
 $txt["en"]["toonaccommodatie"]["nietmeerbeschikbaarvoordezeaankomstdatum"]="not available for the selected date";
 

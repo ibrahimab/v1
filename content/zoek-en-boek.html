@@ -3429,6 +3429,10 @@ if($resultaten_tonen) {
 
 		echo "</td></tr>";
 
+		if($voorkant_cms) {
+			echo "<tr><td colspan=\"5\" style=\"color:#888888;text-align:right;padding-right:15px;\">(intern: zoektijd <span id=\"zoektijd\"></span> sec.)</td></tr>";
+		}
+
 		echo "<tr>";
 
 		# Sorteren alleen aanbiedingen:
@@ -3726,5 +3730,9 @@ if($vars["verfijnen_aanbieden"]) {
 		$lhtml="";
 	}
 }
+
+// pageload-time bepalen
+echo "<div class=\"data-div\" id=\"page_load_time\" data-time=\"".number_format(microtime(true)-$vars["page_starttime"],2,",",".")."\"></div>";
+
 
 ?>
