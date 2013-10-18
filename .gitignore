@@ -39,3 +39,6 @@ pdf/vouchers
 # Netbeans-projectfiles
 nbproject/
 
+#DocData log
+docdata/log
+
