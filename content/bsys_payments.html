@@ -104,10 +104,10 @@ if($login->logged_in) {
                 case 1:
                     // Display the form only if there are any amounts due to be paid
                     if($ramining_payments > 0) {
-
+                        echo "<form method=\"post\" action=\"http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"] . "/docdata/payment/redirect/"."\" name=\"payment\">";
                         echo "<table align=\"center\" style=\"width:100%;\" cellpadding=\"5\">";
                         echo "<tr style=\"background: #d5e1f9;\"><td><em><strong>". html("payment_part","bsys") ."</strong></em></td><td><em><strong>". html("payment_method","bsys") ."</strong></em></td></tr>";
-                        echo "<form method=\"post\" action=\"http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"] . "/docdata/payment/redirect/"."\" name=\"payment\">";
+
                         echo "<input type=\"hidden\" name=\"order\" value=\"{$_GET["bid"]}\">";
                         echo "<tr><td style=\"vertical-align:top;\">";
 
@@ -135,7 +135,7 @@ if($login->logged_in) {
                             echo "</td>";
 
                             echo "<td style=\"vertical-align:top;width: 30%;\">";
-                            echo "<p>";
+
                             // display payment methods
                             $count_payments = count($vars["docdata_payments"]);
                             if($count_payments > 0) {
@@ -153,6 +153,9 @@ if($login->logged_in) {
 
                                 } #end foreach
                             }
+
+                            echo "</td></tr>";
+                            echo "<tr><td colspan=\"2\" align=\"right\">";
 
                             // For Dutch orders we set default country to NL
                             if($gegevens["stap1"]["website"] == "C") {
@@ -187,21 +190,29 @@ if($login->logged_in) {
                             if($showCountriesDropdown) {
                                 echo "<label>" . html("customer_country","bsys") .": ";
                                 echo "<select name=\"country\">";
-                                foreach($countriesList[$vars["taal"]] as $key => $value) {
-                                    echo "<option value=\"". $key ."\" title=\"". htmlspecialchars($value) ."\">" . htmlspecialchars($value) ."</option>";
-                                }
+                                    foreach($countriesList[$vars["taal"]] as $key => $value) {
+                                        echo "<option value=\"". $key ."\" title=\"". htmlspecialchars($value) ."\">" . htmlspecialchars($value) ."</option>";
+                                    }
                                 echo "</select></label>";
+
+                                echo "<script>jQuery(function($){
+                                    $('input[name=pm_code]').change(function() {
+                                    if($(this).val() == 'docdata_idl') {
+                                        $('select[name=country]').val('NL').parent().hide();
+                                    } else {
+                                        $('select[name=country]').parent().show();
+                                    }
+                                    });
+                                });</script>";
                             } else {
                                 echo "<input type=\"hidden\" name=\"country\" value=\"". $iso_landcode ."\" />";
                             }
-                            echo "</p>";
 
-                            echo "</td></tr>";
-
+                        echo "</td></tr>";
                         echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"paymentsubmit\" onclick=\"submit();\"></td></tr>";
 
-                        echo "</form>";
                         echo "</table>";
+                        echo "</form>";
                     } else {
                         echo html("no_remaining_payments","bsys");
                     }
