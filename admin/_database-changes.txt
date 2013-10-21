@@ -3,11 +3,58 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+21-oct-2013 09:26
+CREATE TABLE `interhome_countries_regions` (
+  `country_code` char(2) NOT NULL,
+  `country` varchar(125) DEFAULT NULL,
+  `region_code` int(11) DEFAULT NULL,
+  `region` varchar(255) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  KEY `country_code` (`country_code`),
+  KEY `region_code` (`region_code`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
+
 11-oct-2013 13:33
 ALTER TABLE `boeking` ADD `valt_onder_bedrijf` TINYINT( 1 ) NOT NULL DEFAULT '1'
 
 11-oct-2013 09:10
 ALTER TABLE `leverancier` ADD `roominglist_garanties_doorgeven` TEXT NOT NULL AFTER `roominglist_goedgekeurd_archief` 
+
+03-oct-2013
+ALTER TABLE `boeking_betaling` CHANGE `type` `type` tinyint(4) NULL AFTER `docdata_payment_id`, COMMENT='';
+
+30-sep-2013 16:30
+CREATE TABLE `docdata_payments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cluster_key` char(32) NOT NULL,
+  `boeking_id` int(11) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
+  `type` varchar(30) NOT NULL,
+  `status` varchar(125) NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `docdata_payment_id` bigint(20) NOT NULL,
+  `payment_method` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cluster_key_boeking_id` (`cluster_key`,`boeking_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `docdata_log` (
+  `boeking_id` int(11) NOT NULL,
+  `channel` varchar(255) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
+  `message` longtext,
+  `time` int(10) unsigned DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `docdata_lock` (
+  `lock_code` varchar(100) NOT NULL,
+  `process_code` varchar(100) DEFAULT NULL,
+  `lock_time` int(11) NOT NULL,
+  PRIMARY KEY (`lock_code`),
+  KEY `process_code` (`process_code`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 27-sep-2013 17:26
 ALTER TABLE `diverse_instellingen` ADD `wisselkoers_pond` DECIMAL( 10, 10 ) NOT NULL 
@@ -33,4 +80,3 @@ ALTER TABLE `boeking_betaling` ADD `type` TINYINT( 1 ) NULL DEFAULT NULL AFTER `
 
 10-sep-2013 11:13
 ALTER TABLE `type` ADD `voorraad_gekoppeld_type_id` INT NULL DEFAULT NULL AFTER `verzameltype_parent` 
-
