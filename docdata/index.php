@@ -1,9 +1,8 @@
 <?php
 session_start();
 
-//Force using https
+//Force using https on production environment
 //if($_SERVER["HTTPS"]<>"on") {
-//	# deze pagina altijd via https
 //	header("Location: https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
 //	exit;
 //}

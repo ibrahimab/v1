@@ -19,8 +19,8 @@ define ('SITE_URL', $site_url);
 // Docdata account
 define ("TEST_MERCHANT_NAME", "chalet_nl");
 define ("TEST_MERCHANT_PASSWORD", "7rU5ehew");
-define ('PRODUCTION_MERCHANT_NAME', null);
-define ('PRODUCTION_MERCHANT_PASSWORD', null);
+define ('PRODUCTION_MERCHANT_NAME', "chalet_nl");
+define ('PRODUCTION_MERCHANT_PASSWORD', "ZAphAm6f");
 
 # the below credentials should be filled from the share database config file
 if(file_exists(SITE_ROOT . DS . "admin" . DS . "vars_db.php")) {
@@ -39,9 +39,9 @@ define('MODULE_MODE', 'test');
 
 // Docdata Payment URLs
 define('TEST_WSDL', 'https://test.tripledeal.com/ps/services/paymentservice/1_0?wsdl');
-define('PRODUCTION_WSDL', '');
+define('PRODUCTION_WSDL', 'https://secure.docdatapayments.com/ps/services/paymentservice/1_0?wsdl');
 define('TEST_WEBMENU', 'https://test.tripledeal.com/ps/menu?command=show_payment_cluster');
-define('PRODUCTION_WEBMENU', '');
+define('PRODUCTION_WEBMENU', 'https://secure.docdatapayments.com/ps/menu?command=show_payment_cluster');
 
 class Config {
 
