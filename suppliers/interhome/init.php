@@ -8,7 +8,7 @@ if(!defined("DS")) define("DS", DIRECTORY_SEPARATOR);
 abstract class SoapClass {
 
 	private $tmpDir = "tmp"; // Default local temporary directory
-	private $unzip = "unzip"; // Server extract command
+	private $unzip = "/usr/bin/unzip"; // Server extract command
 
 	function __construct() {
 		$this->tmpDir = realpath(__DIR__) . DS . "tmp" . DS;
