@@ -197,11 +197,13 @@ if($login->logged_in) {
 
                                 echo "<script>jQuery(function($){
                                     $('input[name=pm_code]').change(function() {
-                                    if($(this).val() == 'docdata_idl') {
-                                        $('select[name=country]').val('NL').parent().hide();
-                                    } else {
-                                        $('select[name=country]').parent().show();
-                                    }
+                                        if($(this).val() == 'docdata_idl') {
+                                            $('select[name=country]').val('NL').parent().hide();
+                                        } else if($(this).val() == 'docdata_mrc') {
+                                                $('select[name=country]').val('BE').parent().hide();
+                                        } else {
+                                            $('select[name=country]').parent().show();
+                                        }
                                     });
                                 });</script>";
                             } else {
