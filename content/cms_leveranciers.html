@@ -77,11 +77,61 @@ if($_GET["schoonmaakkosten"]) {
 			# Nieuwe accommodaties importeren
 			if($vars["xmlnewimport_leveranciers"][$_GET["8k0"]]) {
 				echo "<b>XML-import accommodatiegegevens (teksten+foto's)</b><ul>";
-				echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."\">Nieuwe accommodaties importeren voor ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
-				$db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id='".addslashes($_GET["8k0"])."';");
-				if($db->num_rows()) {
-					echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."&toonwijzigingen=1\">Wijzigingen bekijken bij XML ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
-				}
+
+                #Interhome special links
+				if($_GET["8k0"] == 421) {
+                    echo "<li><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_ih_filters\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('ih_filters');return false;\">Nieuwe accommodaties importeren voor ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+                    $db->query("SELECT * FROM `interhome_countries_regions`");
+                    while($db->next_record()) {
+                        if(is_null($db->f("region_code"))) {
+                            $countries[$db->f("country_code")] = $db->f("country");
+                        } else {
+                            $regions[$db->f("country_code")][$db->f("region_code")] = utf8_encode($db->f("region"));
+                        }
+                    }
+                    echo "<script>
+                        var regions = ". json_encode($regions) .";
+                        $(document).ready(function(){
+                            $(\"#ih_country\").change(function(){
+                                var cc = $(this).val();
+                                var options = \"\";
+                                for(var code in regions[cc]) {
+                                    options+=\"<option value='\"+code+\"'>\"+regions[cc][code]+\"</option>\";
+                                }
+                                $(\"#ih_region\").html(options);
+                            });
+                            $(\"#ih_country\").trigger(\"change\");
+                        });
+
+                    </script>";
+                    echo "<li style=\"display: none;\" class=\"showhide\" id=\"ih_filters\">
+                        <form method=\"get\" action=\"cms_xmlnewimport.php\">
+                            <input type=\"hidden\" name=\"lev\" value=\"". htmlentities($_GET["8k0"]) ."\" />
+                            <label>Country: <select name=\"country\" id=\"ih_country\">
+                    ";
+
+                                foreach($countries as $code => $name) {
+                                    echo "<option value=\"". $code ."\">". $name ."</option>";
+                                }
+
+                    echo "  </select></label>
+                            <label>Region: <select name=\"region\" id=\"ih_region\"></select></label>
+                    ";
+                    $db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id='".addslashes($_GET["8k0"])."';");
+                    if($db->num_rows()) {
+                        echo "<label>Wijzigingen bekijken bij XML: <input type=\"checkbox\" name=\"toonwijzigingen\" value=\"1\" /></label>";
+                    }
+                    echo "  <input type=\"submit\" />
+                        </form>
+                    </li>";
+                } else {
+                    echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."\">Nieuwe accommodaties importeren voor ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+
+                    $db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id='".addslashes($_GET["8k0"])."';");
+                    if($db->num_rows()) {
+                        echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."&toonwijzigingen=1\">Wijzigingen bekijken bij XML ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+                    }
+                }
 
 				# Posarelli: link naar info over schoonmaakkosten
 				if($_GET["8k0"]==131) {

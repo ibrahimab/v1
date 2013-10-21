@@ -3,6 +3,17 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+21-oct-2013 09:26
+CREATE TABLE `interhome_countries_regions` (
+  `country_code` char(2) NOT NULL,
+  `country` varchar(125) DEFAULT NULL,
+  `region_code` int(11) DEFAULT NULL,
+  `region` varchar(255) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  KEY `country_code` (`country_code`),
+  KEY `region_code` (`region_code`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8
+
 11-oct-2013 13:33
 ALTER TABLE `boeking` ADD `valt_onder_bedrijf` TINYINT( 1 ) NOT NULL DEFAULT '1'
 

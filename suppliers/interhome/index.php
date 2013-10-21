@@ -25,9 +25,13 @@ class InterHome extends SoapClass {
 	private $salesOffice = '4040'; // Netherlands
 	private $currencyCode = 'EUR'; // Euro
 	private $languageCode = 'NL'; // Dutch
-	private $xmlCustomerFeedback = 'customerfeedback.xml.zip'; // The zip file from FTP	
+	private $xmlCustomerFeedback = 'customerfeedback.xml.zip'; // The zip file from FTP	containing customer feedback
+	private $xmlCountriesRegions = 'countryregionplace_nl.xml.zip'; // The zip file from FTP containing all countries, regions and places with their codes
 
-	function __construct() {		
+	function __construct() {
+
+		parent::__construct();
+
 		/**
 		 * Wsdl instanciation infos
 		 */
@@ -380,7 +384,7 @@ class InterHome extends SoapClass {
 	 * @param string $countryCode The two letters ISO country code
 	 * @param integer $regionCode The id of the region provided by Interhome; the parameter can be omitted
 	 * @param integer $placeCode The id of the place provided by Interhome; the parameter can be omitted
-	 * @return array\
+	 * @return array
 	 */
 	public function getAccommodations($countryCode = "", $regionCode = "", $placeCode = "") {
 
@@ -449,21 +453,22 @@ class InterHome extends SoapClass {
 
 				if((int)$RowsCount > $MaxPageSize) {
 					$pagesCount = ceil($RowsCount / $MaxPageSize);
-					
+
 					if($pagesCount >= 1) {
 						$count=1;
 
-						for ($i=1; $i<=$pagesCount; $i++) { 
-							
+						for ($i=1; $i<=$pagesCount; $i++) {
+
 							$params["Page"] = $i;
 
 							if($ihomeServiceSearch->Search(new IHomeStructSearch($params))) {
 								$result = current($ihomeServiceSearch->getResult());
 								$itemSearchResult = $result->getSearchResult();
 								$arrSearchResultItems = $itemSearchResult->getItems()->getSearchResultItem();
-								
-								foreach ($arrSearchResultItems as $key => $value) {									
-									$arrSearch[$count] = $value->getAccommodationCode();
+
+								foreach ($arrSearchResultItems as $value) {
+									$arrSearch[$value->getAccommodationCode()]["region"] = $value->getRegion();
+									$arrSearch[$value->getAccommodationCode()]["place"] = $value->getPlace();
 									$count++;
 								}
 
@@ -480,10 +485,14 @@ class InterHome extends SoapClass {
 					$count=1;
 
 					if($RowsCount == 1) {
-						$arrSearch[$count] = $arrSearchResultItems;
+						#$arrSearch[$count] = $arrSearchResultItems->getAccommodationCode();
+						$arrSearch[$arrSearchResultItems->getAccommodationCode()]["region"] = $arrSearchResultItems->getRegion();
+						$arrSearch[$arrSearchResultItems->getAccommodationCode()]["place"] = $arrSearchResultItems->getPlace();
 					} else {
 						foreach ($arrSearchResultItems as $value) {
-							$arrSearch[$count] = $value;
+							#$arrSearch[$count] = $value->getAccommodationCode();
+							$arrSearch[$value->getAccommodationCode()]["region"] = $value->getRegion();
+							$arrSearch[$value->getAccommodationCode()]["place"] = $value->getPlace();
 							$count++;
 						}
 					}
@@ -507,7 +516,7 @@ class InterHome extends SoapClass {
 		$output = $this->getFileFromZip($this->xml_url, $this->xmlCustomerFeedback);
 
 		if(file_exists($output)) {
-			$xml=simplexml_load_file($output);	
+			$xml = simplexml_load_file($output);
 			$arrFeedback = array();
 			foreach ($xml->children() as $item) {
 				#e.g. SimpleXMLElement Object ( [code] => AT1010.103.1 [customername] => Chiara G. [customercountry] => IT [periodoftravel] => 12.2010 [totalrating] => 9.0 [localservice] => 8 [furnishings] => 8 [cleanliness] => 10 [valueformoney] => 10 )
@@ -515,6 +524,63 @@ class InterHome extends SoapClass {
 				$arrFeedback[] = $arrItem;
 			}
 			return $arrFeedback;
+		}
+
+		return null;
+	}
+
+	/**
+	 * The function returns an array with all the countries and the associated regions from Interhome
+	 *
+	 * @return null|array
+	 */
+	public function getCountriesRegions() {
+		// Called from parent class
+		$output = $this->getFileFromZip($this->xml_url, $this->xmlCountriesRegions);
+
+		if(file_exists($output)) {
+			$xml = simplexml_load_file($output);
+			$arrFeedback = array();
+			foreach ($xml->children() as $node => $item) {
+				// If the parent node is a country
+				if($node == "country") {
+					$code = (string)$item->code;
+					$arrItem[$code]["code"] = $code;
+					$arrItem[$code]["name"] = (string)$item->name;
+					// It there are regions
+					if(isset($item->regions)) {
+						// loop through each region
+						foreach((array)$item->regions as $region) {
+							// If there are multiple regions
+							if(is_array($region)) {
+								foreach($region as $reg) {
+									// Add the region code and name
+									$arrItem[$code]["regions"][] = array("code" => (string)$reg->code, "name" => (string)$reg->name);
+									// Check for sub regions
+									if(isset($reg->subregions)) {
+										foreach((array)$reg->subregions as $subreg) {
+											if(is_array($subreg)) {
+												foreach($subreg as $sreg) {
+													// Add the sub region code and name
+													$arrItem[$code]["regions"][] = array("code" => (string)$sreg->code, "name" => (string)$sreg->name);
+												}
+											} else {
+												// Add the sub region code and name
+												$arrItem[$code]["regions"][] = array("code" => (string)$subreg->code, "name" => (string)$subreg->name);
+											}
+										}
+									}
+								}
+							} else { // if there is only one region
+								// Add the region code and name
+								$arrItem[$code]["regions"][] = array("code" => (string)$region->code, "name" => (string)$region->name);
+							}
+						}
+					}
+				}
+			}
+
+			return $arrItem;
 		}
 
 		return null;
@@ -533,3 +599,4 @@ class InterHome extends SoapClass {
 #print_r($interHome->getAccommodations($contryCode="AT", $regionCode="40", $placeCode = "6600"));
 #print_r($interHome->getStatus());
 #print_r($interHome->getCustomerFeedback());
+#print_r($interHome->getCountriesRegions());

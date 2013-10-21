@@ -221,7 +221,7 @@ if($vars["bezoeker_is_jeroen"] or $vars["testsite"]) {
 
 # Leveranciers waarbij het mogelijk is nieuwe accommodaties te importeren (levcode+naam)
 #$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",144=>"Maisons Vacances Ann Giraud"); # Maisons Vacances uitgezet op verzoek van Barteld (27-11-2012)
-$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas");
+$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",421=>"Interhome");
 
 
 if($vars["websitetype"]==1 or $vars["websitetype"]==3 or $vars["websitetype"]==4 or $vars["websitetype"]==5 or $vars["websitetype"]==6 or $vars["websitetype"]==7 or $vars["websitetype"]==8 or $vars["websitetype"]==9) {
@@ -704,6 +704,7 @@ $vars["begineinddagen"]=array(-10=>"-10 dagen",-9=>"-9 dagen",-8=>"-8 dagen",-7=
 $vars["geenvoorkeur"]="-- ".txt("geenvoorkeur","vars")." --";
 $vars["kwaliteit"]=array(1=>"*",2=>"* *",3=>"* * *",4=>"* * * *",5=>"* * * * *");
 $vars["soortaccommodatie"]=array(1=>txt("chalet","vars"),2=>txt("appartement","vars"),3=>txt("hotel","vars"),4=>txt("chaletappartement","vars"),6=>txt("vakantiewoning","vars"),7=>txt("villa","vars"),8=>txt("kasteel","vars"),9=>txt("vakantiepark","vars"),10=>txt("agriturismo","vars"),11=>txt("domein","vars"),12=>txt("pension","vars"));
+$vars["interhome_soortaccommodatie"] = array("h"=>1,"a"=>2,"d"=>6); // h=house; a=apartment; d=detached house
 $vars["toonper"]=array(1=>"A : Prijs Arrangement (accommodatie + skipas)",2=>"B : Prijs Arrangement (pakket + toeslag onbezet bed)",3=>"C : Prijs Accommodatie");
 $vars["toonper_beperktekeuze"]=array(1=>"A : Prijs Arrangement (accommodatie + skipas)",3=>"C : Prijs Accommodatie");
 $vars["seizoentype_namen"]=array(1=>"winter",2=>"zomer");

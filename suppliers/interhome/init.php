@@ -7,8 +7,12 @@ if(!defined("DS")) define("DS", DIRECTORY_SEPARATOR);
 
 abstract class SoapClass {
 
-	private $tmpDir = "./tmp/"; // Local temporary directory
+	private $tmpDir = "tmp"; // Default local temporary directory
 	private $unzip = "unzip"; // Server extract command
+
+	function __construct() {
+		$this->tmpDir = realpath(__DIR__) . DS . "tmp" . DS;
+	}
 
 	/**
 	 * Get the nearest Saturday based on provided date
@@ -92,14 +96,13 @@ abstract class SoapClass {
 		$zipFile = $this->tmpDir . $file;
 		$extractedFile = basename($zipFile, ".zip");
 		
-		if($zip = @file_get_contents($url . $file, false, $opts)) {			
-				$fh = fopen($zipFile,"w",false);
-				fwrite($fh, $zip);
-				fclose($fh);
+		if($zip = @file_get_contents($url . $file, false, $opts)) {
+			$fh = fopen($zipFile,"w",false);
+			fwrite($fh, $zip);
+			fclose($fh);
 
 			# Zip-file extract
 			@unlink($this->tmpDir . $extractedFile);
-
 
 			if(file_exists($zipFile)) {
 				exec($this->unzip . " " . $zipFile . " -d ". $this->tmpDir);
