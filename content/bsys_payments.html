@@ -170,6 +170,10 @@ if($login->logged_in) {
                                 $clientCountry = $gegevens["stap2"]["land"];
                                 $showCountriesDropdown = true;
                                 if($clientCountry != '') {
+                                    # Check if the client countries has a special name
+                                    if(array_key_exists($clientCountry, $customCountriesList)){
+                                        $clientCountry = $customCountriesList[$clientCountry];
+                                    }
                                     $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["nl"]);
                                     if(count($matches) == 0) {
                                         $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["en"]);
@@ -188,7 +192,7 @@ if($login->logged_in) {
 
                             # If no match was found for the country code, we display a dropdown with the countries
                             if($showCountriesDropdown) {
-                                echo "<label>" . html("customer_country","bsys") .": ";
+                                echo "<label>" . html("customer_country","bsys") ."*: ";
                                 echo "<select name=\"country\">";
                                     foreach($countriesList[$vars["taal"]] as $key => $value) {
                                         echo "<option value=\"". $key ."\" title=\"". htmlspecialchars($value) ."\">" . htmlspecialchars($value) ."</option>";
@@ -205,13 +209,21 @@ if($login->logged_in) {
                                             $('select[name=country]').parent().show();
                                         }
                                     });
+                                    // Check if the user selected the country
+                                    $('form[name=payment]').submit(function(){
+                                       if($('select[name=country]').val() == '') {
+                                           alert('" . html('error_5', 'bsys') . "');
+                                           event.preventDefault();
+                                          return false;
+                                       }
+                                    });
                                 });</script>";
                             } else {
                                 echo "<input type=\"hidden\" name=\"country\" value=\"". $iso_landcode ."\" />";
                             }
 
                         echo "</td></tr>";
-                        echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"paymentsubmit\" onclick=\"submit();\"></td></tr>";
+                        echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"paymentsubmit\"></td></tr>";
 
                         echo "</table>";
                         echo "</form>";

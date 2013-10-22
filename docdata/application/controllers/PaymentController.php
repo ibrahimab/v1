@@ -468,6 +468,13 @@ class PaymentController extends Controller {
 		// Instantiate the return page
 		$this->setReturnPage();
 
+		// Check if the user selected the country
+		if($request->getParam("country") == ""){
+			$errCode = 5;
+			$this->_redirect($this->redirectPage . "&error=" . $errCode);
+			return;
+		}
+
 		/* retrieve the order */
 		$order = $this->getOrder(false, $request);
                 

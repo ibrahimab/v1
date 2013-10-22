@@ -4047,6 +4047,9 @@ $txt["en"]["bsys"]["error_3"]="Invalid booking specified for the payment.";
 $txt["nl"]["bsys"]["error_4"]="Please login in order to pay for the booking.";
 $txt["en"]["bsys"]["error_4"]="Please login in order to pay for the booking.";
 
+$txt["nl"]["bsys"]["error_5"]="Selecteer uw land.";
+$txt["en"]["bsys"]["error_5"]="Please select your country.";
+
 $txt["nl"]["bsys"]["bank_transfer"]="Bank overschrijving";
 $txt["en"]["bsys"]["bank_transfer"]="Bank transfer";
 

@@ -13,7 +13,7 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 
 	$interHome = new InterHome();
 
-	if(!isset($_GET["action"])) die("Action not specified");
+	if(!isset($argv[1])) die("Action not specified");
 
 	// Helper function for escaping mysql values
 	if(!function_exists("esc")) {
@@ -29,7 +29,7 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 	}
 
 	// Update Interhome countries and regions database table
-	if($_GET["action"] == "countries") {
+	if($argv[1] == "countries") {
 		// Get all the countries and regions from Interhome XML service
 		$countriesRegions = $interHome->getCountriesRegions();
 
@@ -68,7 +68,7 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 			echo "Imported " . $countries . " countries and " . $regions ." regions";
 			exit;
 		}
-	} elseif($_GET["action"] == "checkforchanges") {
+	} elseif($argv[1] == "checkforchanges") {
 		// Check for changes of information from Interhome compared with the saved xml data
 
 		$lev = 421; // Interhome supplier (leverancier) id

@@ -40,4 +40,5 @@ pdf/vouchers
 nbproject/
 
 #DocData log
-/docdata/log/*.log
+docdata/log/
+

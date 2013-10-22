@@ -1,17 +1,46 @@
 <?php
 /** Configuration Variables **/
 
-define ('DEVELOPMENT_ENVIRONMENT',true);
+# the below credentials should be filled from the share database config file (admin/vars_db.php)
+define('DB_NAME', $mysqlsettings["name"]["remote"]);
+define('DB_USER', $mysqlsettings["user"]);
+define('DB_PASSWORD', $mysqlsettings["password"]);
+define('DB_HOST', $mysqlsettings["host"]);
 
+// Check if acceptation server
+if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == true)) {
 
-// Chalet Server
+	// Errors display: true | false
+	define ('DEVELOPMENT_ENVIRONMENT',true);
 
-if($_SERVER["HTTP_HOST"]=="test.chalet.nl") {
-    $site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.nl/";
-}elseif($_SERVER["HTTP_HOST"]=="test.chalet.eu") {
-    $site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.eu/";
-}elseif($_SERVER["HTTP_HOST"]=="test.chalet.be") {
-    $site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.be/";
+	// Payment module mode: test | production
+	define('MODULE_MODE', 'test');
+
+	// Chalet Server
+	if($_SERVER["HTTP_HOST"]=="test.chalet.nl") {
+		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.nl/";
+	}elseif($_SERVER["HTTP_HOST"]=="test.chalet.eu") {
+		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.eu/";
+	}elseif($_SERVER["HTTP_HOST"]=="test.chalet.be") {
+		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.be/";
+	}
+
+} else {
+
+	// Live server
+	define ('DEVELOPMENT_ENVIRONMENT',false);
+
+	// Payment module mode: test | production
+	define('MODULE_MODE', 'production');
+
+	// Chalet Server
+	if($_SERVER["HTTP_HOST"]=="www.chalet.nl") {
+		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://www.chalet.nl/";
+	}elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu") {
+		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://www.chalet.eu/";
+	}elseif($_SERVER["HTTP_HOST"]=="www.chalet.be") {
+		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://www.chalet.be/";
+	}
 }
 
 define ('SITE_URL', $site_url);
@@ -21,21 +50,6 @@ define ("TEST_MERCHANT_NAME", "chalet_nl");
 define ("TEST_MERCHANT_PASSWORD", "7rU5ehew");
 define ('PRODUCTION_MERCHANT_NAME', "chalet_nl");
 define ('PRODUCTION_MERCHANT_PASSWORD', "ZAphAm6f");
-
-# the below credentials should be filled from the share database config file
-if(file_exists(SITE_ROOT . DS . "admin" . DS . "vars_db.php")) {
-	require_once( SITE_ROOT . DS . "admin" . DS . "vars_db.php" );
-
-	define('DB_NAME', $mysqlsettings["name"]["remote"]);
-	define('DB_USER', $mysqlsettings["user"]);
-	define('DB_PASSWORD', $mysqlsettings["password"]);
-	define('DB_HOST', $mysqlsettings["host"]);
-} else {
-	die("Can not load database config file");
-}
-
-// Payment module mode: test | production
-define('MODULE_MODE', 'test');
 
 // Docdata Payment URLs
 define('TEST_WSDL', 'https://test.tripledeal.com/ps/services/paymentservice/1_0?wsdl');

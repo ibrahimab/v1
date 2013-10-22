@@ -1451,7 +1451,13 @@ if($_GET["fromsite"]) {
 
 #echo wt_dump($_SESSION);
 
+// Contains custom variations of the countries names
+$customCountriesList = array(
+	"The Netherlands" => "Netherlands"
+);
+
 $countriesList["nl"] = array(
+	""   => "",
 	"NL" => "Nederland",
 	"AL" => "Albanië",
 	"DZ" => "Algerije",
@@ -1648,6 +1654,7 @@ $countriesList["nl"] = array(
 );
 
 $countriesList["en"] = array (
+	""   => "",
 	"AF" => "Afghanistan",
 	"AX" => "Åland Islands",
 	"AL" => "Albania",
