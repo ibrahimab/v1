@@ -111,7 +111,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 			"by"	=> 	"idl"
 		),
 		"docdata_mrc" => array(
-			"title" =>	"MrCash",
+			"title" =>	"Mister Cash",
 			"icon"	=>	"pic/payment_icons/mrcash.png",
 			"by"	=>	"mrc"
 		)
@@ -157,7 +157,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["valt_onder_bedrijf"]=1;
 	$vars["docdata_payments"] = array(
 		"docdata_mrc" => array(
-			"title" => 	"MrCash",
+			"title" => 	"Mister Cash",
 			"icon"	=>	"pic/payment_icons/mrcash.png",
 			"by"	=>	"mrc"
 		)

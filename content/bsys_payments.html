@@ -507,6 +507,9 @@ if($login->logged_in) {
 				echo "<p align=\"center\" style=\"color:#999900;font-weight:bold;background:#fff;padding:5px;border:1px solid #999900;\">".html("success_".$_GET["success"],"bsys")."</p>";
 			} elseif(isset($_GET["error"]) && (int)$_GET["error"] > 0) {
 				echo "<p align=\"center\" style=\"color:#d40139;font-weight:bold;background:#fff;padding:5px;border:1px solid #d40139;\">".html("error_".$_GET["error"],"bsys")."</p>";
+
+				// send error to errorlog
+				trigger_error("Docdata-foutmelding ".$_GET["error"].":".txt("error_".$_GET["error"],"bsys"),E_USER_NOTICE);
 			}
 
 			# Init variables
@@ -612,72 +615,72 @@ if($login->logged_in) {
 							echo "</td></tr>";
 							echo "<tr><td colspan=\"2\" align=\"right\">";
 
-                            // For Dutch orders we set default country to NL
-                            if($gegevens["stap1"]["website"] == "C") {
-                                $iso_landcode = "NL";
-                                $showCountriesDropdown = false;
-                            } elseif($gegevens["stap1"]["website"] == "B") {
-                                // For Belgium orders we set default country to BE
-                                $iso_landcode = "BE";
-                                $showCountriesDropdown = false;
-                            } else {
-                                # Search for the country code in the countries list
-                                $clientCountry = $gegevens["stap2"]["land"];
-                                $showCountriesDropdown = true;
-                                if($clientCountry != '') {
-                                    # Check if the client countries has a special name
-                                    if(array_key_exists($clientCountry, $customCountriesList)){
-                                        $clientCountry = $customCountriesList[$clientCountry];
-                                    }
-                                    $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["nl"]);
-                                    if(count($matches) == 0) {
-                                        $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["en"]);
-                                        if(count($matches) == 0) {
-                                            $showCountriesDropdown = true;
-                                        } elseif(count($matches) == 1) {
-                                            $showCountriesDropdown = false;
-                                            $iso_landcode = key($matches);
-                                        }
-                                    } elseif(count($matches) == 1) {
-                                        $showCountriesDropdown = false;
-                                        $iso_landcode = key($matches);
-                                    }
-                                }
-                            }
+							// For Dutch orders we set default country to NL
+							if($gegevens["stap1"]["website"] == "C") {
+								$iso_landcode = "NL";
+								$showCountriesDropdown = false;
+							} elseif($gegevens["stap1"]["website"] == "B") {
+								// For Belgium orders we set default country to BE
+								$iso_landcode = "BE";
+								$showCountriesDropdown = false;
+							} else {
+								# Search for the country code in the countries list
+								$clientCountry = $gegevens["stap2"]["land"];
+								$showCountriesDropdown = true;
+								if($clientCountry != '') {
+									# Check if the client countries has a special name
+									if(array_key_exists($clientCountry, $customCountriesList)){
+										$clientCountry = $customCountriesList[$clientCountry];
+									}
+									$matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["nl"]);
+									if(count($matches) == 0) {
+										$matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["en"]);
+										if(count($matches) == 0) {
+											$showCountriesDropdown = true;
+										} elseif(count($matches) == 1) {
+											$showCountriesDropdown = false;
+											$iso_landcode = key($matches);
+										}
+									} elseif(count($matches) == 1) {
+										$showCountriesDropdown = false;
+										$iso_landcode = key($matches);
+									}
+								}
+							}
 
-                            # If no match was found for the country code, we display a dropdown with the countries
-                            if($showCountriesDropdown) {
-                                echo "<label>" . html("customer_country","bsys") ."*: ";
-                                echo "<select name=\"country\">";
-                                    foreach($countriesList[$vars["taal"]] as $key => $value) {
-                                        echo "<option value=\"". $key ."\" title=\"". wt_he($value) ."\">" . wt_he($value) ."</option>";
-                                    }
-                                echo "</select></label>";
+							# If no match was found for the country code, we display a dropdown with the countries
+							if($showCountriesDropdown) {
+								echo "<label>" . html("customer_country","bsys") ."*: ";
+								echo "<select name=\"country\">";
+									foreach($countriesList[$vars["taal"]] as $key => $value) {
+										echo "<option value=\"". $key ."\" title=\"". wt_he($value) ."\">" . wt_he($value) ."</option>";
+									}
+								echo "</select></label>";
 
-                                echo "<script>jQuery(function($){
-                                    $('input[name=pm_code]').change(function() {
-                                        if($(this).val() == 'docdata_idl') {
-                                            $('select[name=country]').val('NL').parent().hide();
-                                        } else if($(this).val() == 'docdata_mrc') {
-                                                $('select[name=country]').val('BE').parent().hide();
-                                        } else {
-                                            $('select[name=country]').parent().show();
-                                        }
-                                    });
-                                    // Check if the user selected the country
-                                    $('form[name=payment]').submit(function(){
-                                       if($('select[name=country]').val() == '') {
-                                           event.preventDefault();
-                                          return false;
-                                       }
-                                    });
-                                });</script>";
-                            } else {
-                                echo "<input type=\"hidden\" name=\"country\" value=\"". $iso_landcode ."\" />";
-                            }
+								echo "<script>jQuery(function($){
+									$('input[name=pm_code]').change(function() {
+										if($(this).val() == 'docdata_idl') {
+											$('select[name=country]').val('NL').parent().hide();
+										} else if($(this).val() == 'docdata_mrc') {
+											$('select[name=country]').val('BE').parent().hide();
+										} else {
+											$('select[name=country]').parent().show();
+										}
+									});
+									// Check if the user selected the country
+									$('form[name=payment]').submit(function(){
+									   if($('select[name=country]').val() == '') {
+										   event.preventDefault();
+										  return false;
+									   }
+									});
+								});</script>";
+							} else {
+								echo "<input type=\"hidden\" name=\"country\" value=\"". $iso_landcode ."\" />";
+							}
 
-                        echo "</td></tr>";
-                        echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"paymentsubmit\"></td></tr>";
+						echo "</td></tr>";
+						echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"paymentsubmit\"></td></tr>";
 
 						echo "</table>";
 						echo "</form>";

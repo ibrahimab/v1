@@ -4002,8 +4002,8 @@ $txt["en"]["bsys"]["paynow_bank_transfer"]="Pay now by bank-transfer";
 $txt["nl"]["bsys"]["docdata_idl"]="via iDEAL";
 $txt["en"]["bsys"]["docdata_idl"]="by iDEAL";
 
-$txt["nl"]["bsys"]["docdata_mrc"]="via MrCash";
-$txt["en"]["bsys"]["docdata_mrc"]="by MrCash";
+$txt["nl"]["bsys"]["docdata_mrc"]="via Mister Cash";
+$txt["en"]["bsys"]["docdata_mrc"]="by Mister Cash";
 
 $txt["nl"]["bsys"]["docdata_vi"]="via creditcard";
 $txt["en"]["bsys"]["docdata_vi"]="by Credit Card";
@@ -4014,8 +4014,8 @@ $txt["en"]["bsys"]["docdata_mc"]="by Credit Card";
 $txt["nl"]["bsys"]["docdata_vi_mc"]="via creditcard";
 $txt["en"]["bsys"]["docdata_vi_mc"]="by Credit Card";
 
-$txt["nl"]["bsys"]["docdata_vi_mc_idl_mrc"]="via creditcard, iDEAL of Mr.Cash";
-$txt["en"]["bsys"]["docdata_vi_mc_idl_mrc"]="by Credit Card, iDEAL or Mr.Cash";
+$txt["nl"]["bsys"]["docdata_vi_mc_idl_mrc"]="via creditcard, iDEAL of Mister Cash";
+$txt["en"]["bsys"]["docdata_vi_mc_idl_mrc"]="by Credit Card, iDEAL or Mister Cash";
 
 $txt["nl"]["bsys"]["via_bank_transfer"]="via bankoverschrijving";
 $txt["en"]["bsys"]["via_bank_transfer"]="by Bank transfer";
@@ -4023,16 +4023,16 @@ $txt["en"]["bsys"]["via_bank_transfer"]="by Bank transfer";
 $txt["nl"]["bsys"]["summary"]="Betaaloverzicht";
 $txt["en"]["bsys"]["summary"]="Payments summary";
 
-$txt["nl"]["bsys"]["no_payments"]="You don't have any payments registered.";
+$txt["nl"]["bsys"]["no_payments"]="Je hebt geen betalingen geregistreerd staan.";
 $txt["en"]["bsys"]["no_payments"]="You don't have any payments registered.";
 
 $txt["nl"]["bsys"]["no_remaining_payments"]="De boeking is al volledig betaald.";
 $txt["en"]["bsys"]["no_remaining_payments"]="The booking is fully paid.";
 
 $txt["nl"]["bsys"]["success_1"]="De betaling heeft correct plaatsgevonden.";
-$txt["en"]["bsys"]["success_1"]="The Payment has been registered within system.";
+$txt["en"]["bsys"]["success_1"]="The payment has been registered within system.";
 
-$txt["nl"]["bsys"]["success_2"]="De betaling is op jouw verzoek afgebroken.";
+$txt["nl"]["bsys"]["success_2"]="De betaling is op jouw verzoek afgebroken. Je kunt naar wens de betaling later opnieuw uitvoeren.";
 $txt["en"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your payment again later.";
 
 $txt["nl"]["bsys"]["error_1"]="Beoking niet gevonden.";
@@ -4089,11 +4089,13 @@ $txt["en"]["bsys"]["advance_payment"]="Advance payment";
 $txt["nl"]["bsys"]["full_payment"]="Het totale bedrag betalen";
 $txt["en"]["bsys"]["full_payment"]="Full payment";
 
-$txt["nl"]["bsys"]["customer_country"]="Selecteer uw land";
+$txt["nl"]["bsys"]["customer_country"]="Selecteer je land";
 $txt["en"]["bsys"]["customer_country"]="Select your country";
 
 $txt["nl"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 84.93.06.671 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
 $txt["en"]["bsys"]["banktransfer_text"] = "You can send the money you are still due to our bank account number:\n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO - Woerden \n\n Please make sure you also state the reservation number [b][[v_resnumber]][/b] at the transaction. \n After we received the money you are still due we will send you your travel information circa 10 days before your departure.";
+
+
 /***** END Docdata translations *****/
 
 
