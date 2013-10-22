@@ -37,6 +37,7 @@ class Order extends Model {
 		$this->data[$this->increment_id]['naam_accommodatie'] = htmlspecialchars($this->f("naam_accommodatie")); // Accommodation name
 		$this->data[$this->increment_id]['aanbetaling1'] = htmlspecialchars($this->f("aanbetaling1")); // Advance payment #1
 		$this->data[$this->increment_id]['aanbetaling2'] = htmlspecialchars($this->f("aanbetaling2")); // Advance payment #2
+		$this->data[$this->increment_id]['aanbetaling1_gewijzigd'] = htmlspecialchars($this->f("aanbetaling1_gewijzigd")); // Advance payment manual entered
 		$this->data[$this->increment_id]['aanbetaling2_datum'] = htmlspecialchars($this->f("aanbetaling2_datum")); // Advance payment #2
 		$this->data[$this->increment_id]['website'] = htmlspecialchars($this->f("website")); // Booking website code
 		$this->data[$this->increment_id]['taal'] = htmlspecialchars($this->f("taal")); // Booking language
@@ -152,8 +153,12 @@ class Order extends Model {
 		$data = $this->data[$this->increment_id];
 
 		$this->payment_type = self::ADVANCE_PAYMENT;
-		$this->payment_amount = $data['aanbetaling1'];
 
+		if(!empty($data['aanbetaling1_gewijzigd'])) {
+			$this->payment_amount = $data['aanbetaling1_gewijzigd'];
+		} else {
+			$this->payment_amount = $data['aanbetaling1'];
+		}
 		return $this->payment_amount;
 	}
 
@@ -367,7 +372,6 @@ class Order extends Model {
 	public function getDocdataPaymentMethod() {
             return App::get('model/payment')->getDocdataPaymentMethod($this->cluster_key);
 	}          
-        
 
 	/**
 	 * Function that returns the difference between order total amount and order payments
