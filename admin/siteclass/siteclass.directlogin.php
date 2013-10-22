@@ -15,6 +15,13 @@ class directlogin {
 	public function maak_link($website,$soort,$user_id,$md5_password="") {
 		global $vars;
 
+
+		// soort = 2 : doorlinken naar "betalen"
+		// soort = 3 : doorlinken naar "factuur goedkeuren"
+
+		// zie inloggen.php voor deze redirects
+
+
 		$link=$vars["websiteinfo"]["basehref"][$website];
 
 		$code=$this->code($user_id,$md5_password);

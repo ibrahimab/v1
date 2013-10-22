@@ -177,15 +177,25 @@ if($login->logged_in) {
 								$directlogin = new directlogin;
 								$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
 								$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db2->f("user_id"),md5($db2->f("password_uc")));
+
+								$directlogin_link2=$directlogin->maak_link($gegevens["stap1"]["website"],2,$db2->f("user_id"),md5($db2->f("password_uc")));
+
 								echo "<div class=\"opvalblok\">";
 								if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 									$directlogin_link=str_replace($vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]],"http://".$_SERVER["HTTP_HOST"]."/chalet/",$directlogin_link);
 									$directlogin_link="http://".$_SERVER["HTTP_HOST"]."/chalet/cms.php?gotourl=".urlencode($directlogin_link)."&testsite=".$gegevens["stap1"]["website"];
+
+									$directlogin_link2=str_replace($vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]],"http://".$_SERVER["HTTP_HOST"]."/chalet/",$directlogin_link2);
+									$directlogin_link2="http://".$_SERVER["HTTP_HOST"]."/chalet/cms.php?gotourl=".urlencode($directlogin_link2)."&testsite=".$gegevens["stap1"]["website"];
 									echo "Test-server";
 								} else {
 									echo "Acceptatie-server";
 								}
-								echo ": <a href=\"".wt_he($directlogin_link)."\" target=\"_blank\">Inloggen in &quot;Mijn boeking&quot;</a></div>";
+								echo ":<ul>";
+								echo "<li><a href=\"".wt_he($directlogin_link)."\" target=\"_blank\">Inloggen in &quot;Mijn boeking&quot;</a></li>";
+								echo "<li><a href=\"".wt_he($directlogin_link2)."\" target=\"_blank\">Betalingen</a></li>";
+
+								echo "</ul></div>";
 							}
 						}
 
