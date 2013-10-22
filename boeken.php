@@ -892,7 +892,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"),md5($db0->f("password_uc")));
 
 				$form->field_htmlcol("","Huidig wachtwoord",array("html"=>wt_he($db0->f("password_uc"))));
-				$form->field_htmlcol("","URL directe inlog",array("html"=>wt_he($directlogin_link)));
+				if($vars["acceptatie_testserver"]) {
+					$form->field_htmlcol("","URL directe inlog",array("html"=>"<a href=\"".wt_he($directlogin_link)."\" target=\"_blank\">".wt_he($directlogin_link)."</a>"));
+				} else {
+					$form->field_htmlcol("","URL directe inlog",array("html"=>wt_he($directlogin_link)));
+				}
 				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 					$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],3,$db0->f("user_id"),md5($db0->f("password_uc")));

@@ -15,11 +15,7 @@ class directlogin {
 	public function maak_link($website,$soort,$user_id,$md5_password="") {
 		global $vars;
 
-		if($vars["lokale_testserver1"]) {
-			$link=$vars["basehref"];
-		} else {
-			$link=$vars["websiteinfo"]["basehref"][$website];
-		}
+		$link=$vars["websiteinfo"]["basehref"][$website];
 
 		$code=$this->code($user_id,$md5_password);
 
