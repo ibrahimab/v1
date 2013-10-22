@@ -3,6 +3,7 @@
 $boeking_wijzigen=true;
 $vars["verberg_zoekenboeklinks"]=true;
 $vars["verberg_directnaar"]=true;
+$vars["verberg_breadcrumbs"]=true;
 
 if($_GET["reisbureaulogin"]) {
 	$vars["reisbureau_mustlogin"]=true;

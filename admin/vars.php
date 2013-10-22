@@ -610,6 +610,7 @@ $title["boeking_bevestigd"]=txt("title_boeking_bevestigd");
 $title["bsys"]=txt("title_bsys");
 $title["bsys_wijzigen"]=txt("title_bsys");
 $title["bsys_selecteren"]=txt("title_selecteren");
+$title["bsys_payments"]=txt("title_bsys");
 $title["wachtwoord"]=txt("title_wachtwoord");
 $title["inloggen"]=txt("title_inloggen");
 $title["inloggen_geblokkeerd"]=txt("title_inloggen_geblokkeerd");
