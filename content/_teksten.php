@@ -4030,7 +4030,7 @@ $txt["nl"]["bsys"]["no_remaining_payments"]="De boeking is al volledig betaald."
 $txt["en"]["bsys"]["no_remaining_payments"]="The booking is fully paid.";
 
 $txt["nl"]["bsys"]["success_1"]="De betaling heeft correct plaatsgevonden.";
-$txt["en"]["bsys"]["success_1"]="The payment has been registered within system.";
+$txt["en"]["bsys"]["success_1"]="The payment has been registered within our system.";
 
 $txt["nl"]["bsys"]["success_2"]="De betaling is op jouw verzoek afgebroken. Je kunt naar wens de betaling later opnieuw uitvoeren.";
 $txt["en"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your payment again later.";
