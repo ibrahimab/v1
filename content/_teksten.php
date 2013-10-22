@@ -4062,7 +4062,7 @@ $txt["en"]["bsys"]["payment_amount"]="Amount";
 $txt["nl"]["bsys"]["payment_type"]="Type";
 $txt["en"]["bsys"]["payment_type"]="Type";
 
-$txt["nl"]["bsys"]["total_amount"]="Totaal bedrag";
+$txt["nl"]["bsys"]["total_amount"]="Totaalbedrag";
 $txt["en"]["bsys"]["total_amount"]="Total amount";
 
 $txt["nl"]["bsys"]["total_paid"]="Totaal betaald";
@@ -4071,8 +4071,8 @@ $txt["en"]["bsys"]["total_paid"]="Total paid";
 $txt["nl"]["bsys"]["remaining_payments"]="Resterende betalingen";
 $txt["en"]["bsys"]["remaining_payments"]="Remaining payments";
 
-$txt["nl"]["bsys"]["payment_part"]="Welk gedeelte wil je betalen";
-$txt["en"]["bsys"]["payment_part"]="What part do you want to pay";
+$txt["nl"]["bsys"]["payment_part"]="Welk gedeelte wil je betalen?";
+$txt["en"]["bsys"]["payment_part"]="What part do you want to pay?";
 
 $txt["nl"]["bsys"]["payment_method"]="Methode";
 $txt["en"]["bsys"]["payment_method"]="Method";

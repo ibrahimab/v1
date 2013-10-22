@@ -61,12 +61,12 @@ if($login->logged_in) {
 			$checked2 = '';
 
 			# Get all registered payments
-			$sql = "SELECT * FROM `boeking_betaling` WHERE boeking_id = '" . mysql_real_escape_string($_GET["bid"]) . "'";
+			$sql = "SELECT type, UNIX_TIMESTAMP(datum) AS datum, bedrag FROM `boeking_betaling` WHERE boeking_id = '" . mysql_real_escape_string($_GET["bid"]) . "'";
 			$db->query($sql);
 			if($db->num_rows() > 0) {
 				while($db->next_record()) {
 					$type = ($db->f('type') == NULL) ? html("bank_transfer","bsys") : $db->f('type');
-					$txt_html[$db->f('datum')] = "<tr><td>". $db->f('datum') ."</td><td>&euro; ". number_format($db->f('bedrag'),2,',','.') ."</td></tr>";
+					$txt_html[$db->f('datum')] = "<tr><td>". datum("D MAAND JJJJ",$db->f('datum')) ."</td><td align=\"right\">&euro; ". number_format($db->f('bedrag'),2,',','.') ."</td></tr>";
 					$total_paid += $db->f('bedrag');
 				}
 			}
@@ -272,13 +272,13 @@ if($login->logged_in) {
 						}
 
 						echo "<tr><td colspan=\"2\">&nbsp;</td></tr>";
-						echo "<tr><td align=\"right\">". html("total_amount","bsys") .":</td><td>&euro; ". number_format($gegevens["fin"]["totale_reissom"],2,',','.') ."</td></tr>";
-						echo "<tr><td align=\"right\">". html("total_paid","bsys") .":</td><td>&euro; ". number_format(($total_paid * -1),2,',','.') ."</td></tr>";
+						echo "<tr><td align=\"right\">". html("total_amount","bsys") .":</td><td align=\"right\">&euro; ". number_format($gegevens["fin"]["totale_reissom"],2,',','.') ."</td></tr>";
+						echo "<tr><td align=\"right\">". html("total_paid","bsys") .":</td><td align=\"right\">&euro; ". number_format(($total_paid * -1),2,',','.') ."</td></tr>";
 						echo "<tr><td align=\"right\">". html("remaining_payments","bsys") .":";
 						if($ramining_payments > 0) {
 							echo "<br /><em>" . $full_pay_date ."</em>";
 						}
-						echo "</td><td>&euro; ". number_format($ramining_payments,2,',','.') ."</td></tr>";
+						echo "</td><td align=\"right\">&euro; ". number_format($ramining_payments,2,',','.') ."</td></tr>";
 						echo "</table>";
 
 						if($ramining_payments > 0) {
