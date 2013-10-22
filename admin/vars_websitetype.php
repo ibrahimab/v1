@@ -69,6 +69,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]="2-PTFmcHUgtM";
 	$vars["valt_onder_bedrijf"]=1;
 
+	if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 		$vars["docdata_payments"] = array(
 			"docdata_idl" => array(
 				"title"	=> 	"iDEAL",
@@ -76,6 +77,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 				"by"	=> 	"idl"
 			)
 		);
+	}
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or $_SERVER["HTTP_HOST"]=="test.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="E")) {
 	# Winter Chalet.eu Engelstalig
 	$vars["websitetype"]=1;
@@ -95,28 +97,30 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["wederverkoop"]=true;
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
-	$vars["docdata_payments"] = array(
-		"docdata_vi" => array(
-			"title"	=> 	"Visa",
-			"icon"	=>	"pic/payment_icons/visa.png",
-			"by"	=> 	"vi"
-		),
-		"docdata_mc" => array(
-			"title"	=> 	"MasterCard",
-			"icon"	=>	"pic/payment_icons/mastercard.png",
-			"by"	=> 	"mc"
-		),
-		"docdata_idl" => array(
-			"title"	=> 	"iDEAL",
-			"icon"	=>	"pic/payment_icons/ideal.png",
-			"by"	=> 	"idl"
-		),
-		"docdata_mrc" => array(
-			"title" =>	"Mister Cash",
-			"icon"	=>	"pic/payment_icons/mrcash.png",
-			"by"	=>	"mrc"
-		)
-	);
+	if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+		$vars["docdata_payments"] = array(
+			"docdata_vi" => array(
+				"title"	=> 	"Visa",
+				"icon"	=>	"pic/payment_icons/visa.png",
+				"by"	=> 	"vi"
+			),
+			"docdata_mc" => array(
+				"title"	=> 	"MasterCard",
+				"icon"	=>	"pic/payment_icons/mastercard.png",
+				"by"	=> 	"mc"
+			),
+			"docdata_idl" => array(
+				"title"	=> 	"iDEAL",
+				"icon"	=>	"pic/payment_icons/ideal.png",
+				"by"	=> 	"idl"
+			),
+			"docdata_mrc" => array(
+				"title" =>	"Mister Cash",
+				"icon"	=>	"pic/payment_icons/mrcash.png",
+				"by"	=>	"mrc"
+			)
+		);
+	}
 } elseif($_SERVER["HTTP_HOST"]=="www.chalettour.nl" or $_SERVER["HTTP_HOST"]=="test.chalettour.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="T")) {
 	# Chalettour Winter
 	$vars["websitetype"]=4;
@@ -156,13 +160,15 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 #	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
 	$vars["livechat_code"]="3-eex4-wCgtM";
 	$vars["valt_onder_bedrijf"]=1;
-	$vars["docdata_payments"] = array(
-		"docdata_mrc" => array(
-			"title" => 	"Mister Cash",
-			"icon"	=>	"pic/payment_icons/mrcash.png",
-			"by"	=>	"mrc"
-		)
-	);
+	if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+		$vars["docdata_payments"] = array(
+			"docdata_mrc" => array(
+				"title" => 	"Mister Cash",
+				"icon"	=>	"pic/payment_icons/mrcash.png",
+				"by"	=>	"mrc"
+			)
+		);
+	}
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.nl" or $_SERVER["HTTP_HOST"]=="test.zomerhuisje.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="Z")) {
 	# Zomerhuisje.nl
 	$vars["websitetype"]=3;
