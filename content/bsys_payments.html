@@ -509,7 +509,7 @@ if($login->logged_in) {
 				echo "<p align=\"center\" style=\"color:#d40139;font-weight:bold;background:#fff;padding:5px;border:1px solid #d40139;\">".html("error_".$_GET["error"],"bsys")."</p>";
 
 				// send error to errorlog
-				trigger_error("Docdata-foutmelding ".$_GET["error"].":".txt("error_".$_GET["error"],"bsys"),E_USER_NOTICE);
+				trigger_error("_notice: Docdata-foutmelding ".$_GET["error"].": ".txt("error_".$_GET["error"],"bsys"),E_USER_NOTICE);
 			}
 
 			# Init variables

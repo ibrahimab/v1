@@ -104,7 +104,7 @@ if($login->has_priv("5")) {
 $cms->list_sort[26]=array("datum");
 $cms->list_field(26,"datum","Datum",array("date_format"=>"DD-MM-JJJJ"));
 $cms->list_field(26,"bedrag","Bedrag");
-$cms->list_field(26,"type","Payment method");
+$cms->list_field(26,"type","Soort");
 $cms->list_field(26,"import","Via Exact-import");
 $cms->list_field(26,"importdatetime","Importmoment",array("date_format"=>"D MAAND JJJJ, UU:ZZ"));
 
@@ -128,7 +128,7 @@ $cms->settings[26]["show"]["goto_new_record"]=false;
 $cms->edit_field(26,1,"bedrag","","",array("negative"=>true));
 $cms->edit_field(26,1,"datum","Betaaldatum",array("time"=>time()),array("startyear"=>2003,"endyear"=>date("Y")+1),array("calendar"=>true));
 $cms->edit_field(26,0,"opmerkingen","Opmerkingen");
-$cms->edit_field(26,1,"type","Payment method");
+$cms->edit_field(26,1,"type","Soort betaling");
 if($_GET["add"]==26) $cms->edit_field(26,0,"mailsturen","Mail sturen aan klant dat betaling is ontvangen");
 if($_GET["add"]==26 and $gegevens["stap1"]["goedgekeurde_betaling"]>0) $cms->edit_field(26,0,"goedgekeurde_betaling_wissen","Eerder goedgekeurde betaling t.w.v. € ".number_format($gegevens["stap1"]["goedgekeurde_betaling"],2,',','.')." wissen",array("selection"=>true));
 
@@ -160,7 +160,7 @@ if($cms_form[26]->okay) {
 		$mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] ".txt("mailonderwerp","betalingen");
 		$mail->plaintext=txt("mailbody","betalingen",array("v_naam"=>$gegevens["stap2"]["voornaam"],"v_datum"=>date("d-m-Y",$cms_form[26]->input["datum"]["unixtime"]),"v_bedrag"=>"€ ".number_format($cms_form[26]->input["bedrag"],2,',','.')));
 		$mail->plaintext.="\n\n".txt("metvriendelijkegroet","betalingen")."\n".txt("medewerkerswebsitenaam","betalingen",array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]));
-		
+
 		$mail->send();
 	}
 }

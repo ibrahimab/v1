@@ -3,6 +3,10 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+22-oct-2013 15:17
+ALTER TABLE `boeking_betaling` CHANGE `type` `type` TINYINT( 1 ) NULL DEFAULT '1';
+UPDATE `boeking_betaling` SET `type`=1 WHERE `type` IS NULL;
+
 21-oct-2013 09:26
 CREATE TABLE `interhome_countries_regions` (
   `country_code` char(2) NOT NULL,
