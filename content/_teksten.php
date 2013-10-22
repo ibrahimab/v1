@@ -3993,10 +3993,10 @@ $txt["en"]["bsys"]["akkoordmelding3"]="Back to \"My booking\"";
 $txt["nl"]["bsys"]["payment"]="Betalen";
 $txt["en"]["bsys"]["payment"]="Payments";
 
-$txt["nl"]["bsys"]["pay_now"]="Klik hier om [[v_method]] te betalen";
-$txt["en"]["bsys"]["pay_now"]="Click here to pay [[v_method]]";
+$txt["nl"]["bsys"]["pay_now"]="Betaal nu [[v_method]]";
+$txt["en"]["bsys"]["pay_now"]="Pay now [[v_method]]";
 
-$txt["nl"]["bsys"]["paynow_bank_transfer"]="Betaal nu via bankoverschrijving";
+$txt["nl"]["bsys"]["paynow_bank_transfer"]="Betaal nu via een bankoverschrijving";
 $txt["en"]["bsys"]["paynow_bank_transfer"]="Pay now by bank-transfer";
 
 $txt["nl"]["bsys"]["docdata_idl"]="via iDEAL";
@@ -4005,17 +4005,17 @@ $txt["en"]["bsys"]["docdata_idl"]="by iDEAL";
 $txt["nl"]["bsys"]["docdata_mrc"]="via MrCash";
 $txt["en"]["bsys"]["docdata_mrc"]="by MrCash";
 
-$txt["nl"]["bsys"]["docdata_vi"]="via Credit Card";
+$txt["nl"]["bsys"]["docdata_vi"]="via creditcard";
 $txt["en"]["bsys"]["docdata_vi"]="by Credit Card";
 
-$txt["nl"]["bsys"]["docdata_mc"]="via Credit Card";
+$txt["nl"]["bsys"]["docdata_mc"]="via creditcard";
 $txt["en"]["bsys"]["docdata_mc"]="by Credit Card";
 
-$txt["nl"]["bsys"]["docdata_vi_mc"]="via Credit Card";
+$txt["nl"]["bsys"]["docdata_vi_mc"]="via creditcard";
 $txt["en"]["bsys"]["docdata_vi_mc"]="by Credit Card";
 
-$txt["nl"]["bsys"]["docdata_vi_mc_idl_mrc"]="via Credit Card, iDeal of Mr.Cash";
-$txt["en"]["bsys"]["docdata_vi_mc_idl_mrc"]="by Credit Card, iDeal or Mr.Cash";
+$txt["nl"]["bsys"]["docdata_vi_mc_idl_mrc"]="via creditcard, iDEAL of Mr.Cash";
+$txt["en"]["bsys"]["docdata_vi_mc_idl_mrc"]="by Credit Card, iDEAL or Mr.Cash";
 
 $txt["nl"]["bsys"]["via_bank_transfer"]="via bankoverschrijving";
 $txt["en"]["bsys"]["via_bank_transfer"]="by Bank transfer";
@@ -4047,7 +4047,7 @@ $txt["en"]["bsys"]["error_3"]="Invalid booking specified for the payment.";
 $txt["nl"]["bsys"]["error_4"]="Please login in order to pay for the booking.";
 $txt["en"]["bsys"]["error_4"]="Please login in order to pay for the booking.";
 
-$txt["nl"]["bsys"]["bank_transfer"]="Bank overschrijving";
+$txt["nl"]["bsys"]["bank_transfer"]="Bankoverschrijving";
 $txt["en"]["bsys"]["bank_transfer"]="Bank transfer";
 
 $txt["nl"]["bsys"]["payment_date"]="Datum";
@@ -4074,7 +4074,13 @@ $txt["en"]["bsys"]["payment_part"]="What part do you want to pay";
 $txt["nl"]["bsys"]["payment_method"]="Methode";
 $txt["en"]["bsys"]["payment_method"]="Method";
 
-$txt["nl"]["bsys"]["advance_payment"]="Een deelbetaling doen";
+$txt["nl"]["bsys"]["aanbetaling"]="Aanbetaling";
+$txt["en"]["bsys"]["aanbetaling"]="Advance payment";
+
+$txt["nl"]["bsys"]["totaalbedrag"]="Totaalbedrag";
+$txt["en"]["bsys"]["totaalbedrag"]="Full payment";
+
+$txt["nl"]["bsys"]["advance_payment"]="Aanbetaling betalen";
 $txt["en"]["bsys"]["advance_payment"]="Advance payment";
 
 $txt["nl"]["bsys"]["full_payment"]="Het totale bedrag betalen";

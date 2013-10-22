@@ -1,305 +1,302 @@
 <?php
 
 if($login->logged_in) {
-    if($_GET["bid"]) {
-        $db->query("SELECT boeking_id, type_id, aankomstdatum, aantalpersonen FROM boeking WHERE boeking_id='".addslashes($_GET["bid"])."'".($boeking_wijzigen ? " AND website='".$vars["website"]."'" : "").";");
+	if($_GET["bid"]) {
+		$db->query("SELECT boeking_id, type_id, aankomstdatum, aantalpersonen FROM boeking WHERE boeking_id='".addslashes($_GET["bid"])."'".($boeking_wijzigen ? " AND website='".$vars["website"]."'" : "").";");
 		#echo $db->lastquery;
 
-        if($db->next_record()) {
+		if($db->next_record()) {
 
-            #
-            # Gegevens uit database halen
-            #
-            $temp_gegevens=boekinginfo($db->f("boeking_id"));
+			#
+			# Gegevens uit database halen
+			#
+			$temp_gegevens=boekinginfo($db->f("boeking_id"));
 
-            $gegevens["stap1"]=$temp_gegevens["stap1"];
+			$gegevens["stap1"]=$temp_gegevens["stap1"];
 
-            # Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
-            if($temp_gegevens["stap2"][2]) {
-            $gegevens["stap2"]=$temp_gegevens["stap2"][2];
-            } elseif($temp_gegevens["stap2"][1]) {
-            $gegevens["stap2"]=$temp_gegevens["stap2"][1];
-            }
+			# Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
+			if($temp_gegevens["stap2"][2]) {
+			$gegevens["stap2"]=$temp_gegevens["stap2"][2];
+			} elseif($temp_gegevens["stap2"][1]) {
+			$gegevens["stap2"]=$temp_gegevens["stap2"][1];
+			}
 
-            # Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
-            if($temp_gegevens["stap3"][2][2]) {
-            $gegevens["stap3"]=$temp_gegevens["stap3"][2];
-            } elseif($temp_gegevens["stap3"][1][2]) {
-            $gegevens["stap3"]=$temp_gegevens["stap3"][1];
-            }
+			# Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
+			if($temp_gegevens["stap3"][2][2]) {
+			$gegevens["stap3"]=$temp_gegevens["stap3"][2];
+			} elseif($temp_gegevens["stap3"][1][2]) {
+			$gegevens["stap3"]=$temp_gegevens["stap3"][1];
+			}
 
-            # Controle op status Geselecteerde opties (2 heeft voorkeur boven 1)
-            if($temp_gegevens["stap4"][2]) {
-            $gegevens["stap4"]=$temp_gegevens["stap4"][2];
-            $gegevens["stap4"]["actieve_status"]=2;
-            $gegevens["fin"]=$temp_gegevens["fin"][2];
-            } else {
-            $gegevens["stap4"]=$temp_gegevens["stap4"][1];
-            $gegevens["stap4"]["actieve_status"]=1;
-            $gegevens["fin"]=$temp_gegevens["fin"][1];
-            }
-            $gegevens["stap5"]=$temp_gegevens["stap5"];
-        }
+			# Controle op status Geselecteerde opties (2 heeft voorkeur boven 1)
+			if($temp_gegevens["stap4"][2]) {
+			$gegevens["stap4"]=$temp_gegevens["stap4"][2];
+			$gegevens["stap4"]["actieve_status"]=2;
+			$gegevens["fin"]=$temp_gegevens["fin"][2];
+			} else {
+			$gegevens["stap4"]=$temp_gegevens["stap4"][1];
+			$gegevens["stap4"]["actieve_status"]=1;
+			$gegevens["fin"]=$temp_gegevens["fin"][1];
+			}
+			$gegevens["stap5"]=$temp_gegevens["stap5"];
+		}
 
-        echo "<p><a href=\"".$vars["path"]."bsys.php?bid=".intval($_GET["bid"])."\">";
-            echo html("terugnaardeoverzichtspagina","bsys");
-        echo "</a></p>";
+		echo "<p><a href=\"".$vars["path"]."bsys.php?bid=".intval($_GET["bid"])."\">";
+			echo html("terugnaardeoverzichtspagina","bsys");
+		echo "</a></p>";
 
-        if(isset($_GET["menu"]) && $gegevens["stap1"]["factuurdatum"]>0) {
+		if(isset($_GET["menu"]) && $gegevens["stap1"]["factuurdatum"]>0) {
 
-            # Display messages
-            if(isset($_GET["success"]) && (int)$_GET["success"] > 0) {
-                echo "<p align=\"center\" style=\"color:#999900;font-weight:bold;background:#fff;padding:5px;border:1px solid #999900;\">".html("success_".$_GET["success"],"bsys")."</p>";
-            } elseif(isset($_GET["error"]) && (int)$_GET["error"] > 0) {
-                echo "<p align=\"center\" style=\"color:#d40139;font-weight:bold;background:#fff;padding:5px;border:1px solid #d40139;\">".html("error_".$_GET["error"],"bsys")."</p>";
-            }
+			# Display messages
+			if(isset($_GET["success"]) && (int)$_GET["success"] > 0) {
+				echo "<p align=\"center\" style=\"color:#999900;font-weight:bold;background:#fff;padding:5px;border:1px solid #999900;\">".html("success_".$_GET["success"],"bsys")."</p>";
+			} elseif(isset($_GET["error"]) && (int)$_GET["error"] > 0) {
+				echo "<p align=\"center\" style=\"color:#d40139;font-weight:bold;background:#fff;padding:5px;border:1px solid #d40139;\">".html("error_".$_GET["error"],"bsys")."</p>";
+			}
 
-            # Init variables
-            $txt_html = array();
-            $total_paid = 0;
-            $checked1 = ' checked="checked"';
-            $checked2 = '';
+			# Init variables
+			$txt_html = array();
+			$total_paid = 0;
+			$checked1 = ' checked="checked"';
+			$checked2 = '';
 
-            # Get all registered payments
-            $sql = "SELECT * FROM `boeking_betaling` WHERE boeking_id = '" . mysql_real_escape_string($_GET["bid"]) . "'";
-            $db->query($sql);
-            if($db->num_rows() > 0) {
-                while($db->next_record()) {
-                    $type = ($db->f('type') == NULL) ? html("bank_transfer","bsys") : $db->f('type');
-                    $txt_html[$db->f('datum')] = "<tr><td>". $db->f('datum') ."</td><td>&euro; ". number_format($db->f('bedrag'),2,',','.') ."</td></tr>";
-                    $total_paid += $db->f('bedrag');
-                }
-            }
+			# Get all registered payments
+			$sql = "SELECT * FROM `boeking_betaling` WHERE boeking_id = '" . mysql_real_escape_string($_GET["bid"]) . "'";
+			$db->query($sql);
+			if($db->num_rows() > 0) {
+				while($db->next_record()) {
+					$type = ($db->f('type') == NULL) ? html("bank_transfer","bsys") : $db->f('type');
+					$txt_html[$db->f('datum')] = "<tr><td>". $db->f('datum') ."</td><td>&euro; ". number_format($db->f('bedrag'),2,',','.') ."</td></tr>";
+					$total_paid += $db->f('bedrag');
+				}
+			}
 
-            $ramining_payments = round($gegevens["fin"]["totale_reissom"] - $total_paid, 2);
+			$ramining_payments = round($gegevens["fin"]["totale_reissom"] - $total_paid, 2);
 
-            # If at least one payment was made, we display only the remaining amount to be paid
-            if(count($txt_html) > 0 && $total_paid > 0) {
-                $advance_payment = true;
-                $checked1 = '';
-                $checked2 = ' checked="checked"';
-            }
+			# If at least one payment was made, we display only the remaining amount to be paid
+			if(count($txt_html) > 0 && $total_paid > 0) {
+				$advance_payment = true;
+				$checked1 = '';
+				$checked2 = ' checked="checked"';
+			}
 
-            # Get payment dates
-            $datum_weken_voorvertrek=date("d/m/Y",mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-$gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"])));
-                if($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]%7==0 and $gegevens["stap1"]["totale_reissom_dagenvooraankomst"]<>7) {
-                $aanbetaling_aantalweken=round($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]/7);
-            } else {
-                $aanbetaling_aantaldagen=$gegevens["stap1"]["totale_reissom_dagenvooraankomst"];
-            }
-            # Full payment date
-            if($aanbetaling_aantalweken) {
-                $full_pay_date = txt("uiterlijkXwekenvoorvertrek","factuur",array("v_weken"=>$aanbetaling_aantalweken,"v_datum"=>$datum_weken_voorvertrek));
-            } else {
-                $full_pay_date = txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
-            }
-            # Advance payment date
-            $n_date = strtotime("+ ".$gegevens["stap1"]["aanbetaling1_dagennaboeken"]. " day", $gegevens["stap1"]["bevestigdatum"]);
-            $pay_date = date("d/m/Y", $n_date);
-            $advance_pay_date = txt("uiterlijkdatumtebetalen","factuur",array("v_datum"=> $pay_date));
+			# Get payment dates
+			$datum_weken_voorvertrek=date("d/m/Y",mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-$gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"])));
+				if($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]%7==0 and $gegevens["stap1"]["totale_reissom_dagenvooraankomst"]<>7) {
+				$aanbetaling_aantalweken=round($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]/7);
+			} else {
+				$aanbetaling_aantaldagen=$gegevens["stap1"]["totale_reissom_dagenvooraankomst"];
+			}
+			# Full payment date
+			if($aanbetaling_aantalweken) {
+				$full_pay_date = txt("uiterlijkXwekenvoorvertrek","factuur",array("v_weken"=>$aanbetaling_aantalweken,"v_datum"=>$datum_weken_voorvertrek));
+			} else {
+				$full_pay_date = txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
+			}
+			# Advance payment date
+			$n_date = strtotime("+ ".$gegevens["stap1"]["aanbetaling1_dagennaboeken"]. " day", $gegevens["stap1"]["bevestigdatum"]);
+			$pay_date = date("d/m/Y", $n_date);
+			$advance_pay_date = txt("uiterlijkdatumtebetalen","factuur",array("v_datum"=> $pay_date));
 
-            # Switch pages
-            switch ((int)$_GET["menu"]) {
-                #DocData payment form
-                case 1:
-                    // Display the form only if there are any amounts due to be paid
-                    if($ramining_payments > 0) {
-                        echo "<form method=\"post\" action=\"http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"] . "/docdata/payment/redirect/"."\" name=\"payment\">";
-                        echo "<table align=\"center\" style=\"width:100%;\" cellpadding=\"5\">";
-                        echo "<tr style=\"background: #d5e1f9;\"><td><em><strong>". html("payment_part","bsys") ."</strong></em></td><td><em><strong>". html("payment_method","bsys") ."</strong></em></td></tr>";
+			# Switch pages
+			switch ((int)$_GET["menu"]) {
+				#DocData payment form
+				case 1:
+					// Display the form only if there are any amounts due to be paid
+					if($ramining_payments > 0) {
+						echo "<form method=\"post\" action=\"http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"] . "/docdata/payment/redirect/"."\" name=\"payment\">";
+						echo "<table align=\"center\" style=\"width:100%;\" cellpadding=\"5\">";
+						echo "<tr style=\"background: #d5e1f9;\"><td><em><strong>". html("payment_part","bsys") ."</strong></em></td><td><em><strong>". html("payment_method","bsys") ."</strong></em></td></tr>";
 
-                        echo "<input type=\"hidden\" name=\"order\" value=\"{$_GET["bid"]}\">";
-                        echo "<tr><td style=\"vertical-align:top;\">";
+						echo "<input type=\"hidden\" name=\"order\" value=\"{$_GET["bid"]}\">";
+						echo "<tr><td style=\"vertical-align:top;\">";
 
-                            // if no payment was made we display the advanced payment options
-                            if(!$advance_payment) {
-                                echo "<p>";
-                                echo "<input type=\"radio\" name=\"payment_type\" id=\"advance\" value=\"advance\" ". $checked1 ." />";
-                                echo "<label for=\"advance\">". html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .")</label><br/>";
-                                echo "&nbsp; &nbsp; <em>" . $advance_pay_date ."</em>";
-                                echo "</p>";
+							// if no payment was made we display the advanced payment options
+							if(!$advance_payment) {
+								echo "<p>";
+								echo "<input type=\"radio\" name=\"payment_type\" id=\"advance\" value=\"advance\" ". $checked1 ." />";
+								echo "<label for=\"advance\">". html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .")</label><br/>";
+								echo "&nbsp; &nbsp; <em>" . $advance_pay_date ."</em>";
+								echo "</p>";
 
-                                echo "<p>";
-                                echo "<input type=\"radio\" name=\"payment_type\" id=\"full\" value=\"full\" ". $checked2 ." />";
-                                echo "<label for=\"full\">". html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")</label><br />";
-                                echo "&nbsp; &nbsp; <em>" . $full_pay_date ."</em>";
-                                echo "</p>";
-                            } else {
-                                echo "<p>";
-                                echo "<input type=\"hidden\" name=\"payment_type\" id=\"full\" value=\"full\" />";
-                                echo html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")<br />";
-                                echo "<em>" . $full_pay_date ."</em>";
-                                echo "</p>";
-                            }
+								echo "<p>";
+								echo "<input type=\"radio\" name=\"payment_type\" id=\"full\" value=\"full\" ". $checked2 ." />";
+								echo "<label for=\"full\">". html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")</label><br />";
+								echo "&nbsp; &nbsp; <em>" . $full_pay_date ."</em>";
+								echo "</p>";
+							} else {
+								echo "<p>";
+								echo "<input type=\"hidden\" name=\"payment_type\" id=\"full\" value=\"full\" />";
+								echo html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")<br />";
+								echo "<em>" . $full_pay_date ."</em>";
+								echo "</p>";
+							}
 
-                            echo "</td>";
+							echo "</td>";
 
-                            echo "<td style=\"vertical-align:top;width: 30%;\">";
+							echo "<td style=\"vertical-align:top;width: 30%;\">";
 
-                            // display payment methods
-                            $count_payments = count($vars["docdata_payments"]);
-                            if($count_payments > 0) {
-                                $checked = ' checked="checked"';
-                                foreach($vars["docdata_payments"] as $key => $value) {
-                                    if($count_payments > 1) {
-                                        echo "<label><input type=\"radio\" name=\"pm_code\" value=\"". $key ."\" ". $checked ." />". $value["title"] ."</label>";
-                                    } else {
-                                        echo "<input type=\"hidden\" name=\"pm_code\" value=\"". $key ."\" />". $value["title"];
-                                    }
+							// display payment methods
+							$count_payments = count($vars["docdata_payments"]);
+							if($count_payments > 0) {
+								$checked = ' checked="checked"';
+								foreach($vars["docdata_payments"] as $key => $value) {
+									if($count_payments > 1) {
+										echo "<label><input type=\"radio\" name=\"pm_code\" value=\"". $key ."\" ". $checked ." />". $value["title"] ."</label>";
+									} else {
+										echo "<input type=\"hidden\" name=\"pm_code\" value=\"". $key ."\" />". $value["title"];
+									}
 
-                                    echo "<img style=\"padding-left:10px;vertical-align:middle;\" src=\"". $vars["path"] . $value["icon"] ."\" alt=\"". $value["title"] ."\" />";
-                                    echo "<div style=\"clear:both;height:3px;\">&nbsp;</div>";
-                                    $checked = '';
+									echo "<img style=\"padding-left:10px;vertical-align:middle;\" src=\"". $vars["path"] . $value["icon"] ."\" alt=\"". $value["title"] ."\" />";
+									echo "<div style=\"clear:both;height:3px;\">&nbsp;</div>";
+									$checked = '';
 
-                                } #end foreach
-                            }
+								} #end foreach
+							}
 
-                            echo "</td></tr>";
-                            echo "<tr><td colspan=\"2\" align=\"right\">";
+							echo "</td></tr>";
+							echo "<tr><td colspan=\"2\" align=\"right\">";
 
-                            // For Dutch orders we set default country to NL
-                            if($gegevens["stap1"]["website"] == "C") {
-                                $iso_landcode = "NL";
-                                $showCountriesDropdown = false;
-                            } elseif($gegevens["stap1"]["website"] == "B") {
-                                // For Belgium orders we set default country to BE
-                                $iso_landcode = "BE";
-                                $showCountriesDropdown = false;
-                            } else {
-                                # Search for the country code in the countries list
-                                $clientCountry = $gegevens["stap2"]["land"];
-                                $showCountriesDropdown = true;
-                                if($clientCountry != '') {
-                                    $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["nl"]);
-                                    if(count($matches) == 0) {
-                                        $matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["en"]);
-                                        if(count($matches) == 0) {
-                                            $showCountriesDropdown = true;
-                                        } elseif(count($matches) == 1) {
-                                            $showCountriesDropdown = false;
-                                            $iso_landcode = key($matches);
-                                        }
-                                    } elseif(count($matches) == 1) {
-                                        $showCountriesDropdown = false;
-                                        $iso_landcode = key($matches);
-                                    }
-                                }
-                            }
+							// For Dutch orders we set default country to NL
+							if($gegevens["stap1"]["website"] == "C") {
+								$iso_landcode = "NL";
+								$showCountriesDropdown = false;
+							} elseif($gegevens["stap1"]["website"] == "B") {
+								// For Belgium orders we set default country to BE
+								$iso_landcode = "BE";
+								$showCountriesDropdown = false;
+							} else {
+								# Search for the country code in the countries list
+								$clientCountry = $gegevens["stap2"]["land"];
+								$showCountriesDropdown = true;
+								if($clientCountry != '') {
+									$matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["nl"]);
+									if(count($matches) == 0) {
+										$matches  = preg_grep ('/^'. $clientCountry .'$/i', $countriesList["en"]);
+										if(count($matches) == 0) {
+											$showCountriesDropdown = true;
+										} elseif(count($matches) == 1) {
+											$showCountriesDropdown = false;
+											$iso_landcode = key($matches);
+										}
+									} elseif(count($matches) == 1) {
+										$showCountriesDropdown = false;
+										$iso_landcode = key($matches);
+									}
+								}
+							}
 
-                            # If no match was found for the country code, we display a dropdown with the countries
-                            if($showCountriesDropdown) {
-                                echo "<label>" . html("customer_country","bsys") .": ";
-                                echo "<select name=\"country\">";
-                                    foreach($countriesList[$vars["taal"]] as $key => $value) {
-                                        echo "<option value=\"". $key ."\" title=\"". htmlspecialchars($value) ."\">" . htmlspecialchars($value) ."</option>";
-                                    }
-                                echo "</select></label>";
+							# If no match was found for the country code, we display a dropdown with the countries
+							if($showCountriesDropdown) {
+								echo "<label>" . html("customer_country","bsys") .": ";
+								echo "<select name=\"country\">";
+									foreach($countriesList[$vars["taal"]] as $key => $value) {
+										echo "<option value=\"". $key ."\" title=\"". htmlspecialchars($value) ."\">" . htmlspecialchars($value) ."</option>";
+									}
+								echo "</select></label>";
 
-                                echo "<script>jQuery(function($){
-                                    $('input[name=pm_code]').change(function() {
-                                        if($(this).val() == 'docdata_idl') {
-                                            $('select[name=country]').val('NL').parent().hide();
-                                        } else if($(this).val() == 'docdata_mrc') {
-                                                $('select[name=country]').val('BE').parent().hide();
-                                        } else {
-                                            $('select[name=country]').parent().show();
-                                        }
-                                    });
-                                });</script>";
-                            } else {
-                                echo "<input type=\"hidden\" name=\"country\" value=\"". $iso_landcode ."\" />";
-                            }
+								echo "<script>jQuery(function($){
+									$('input[name=pm_code]').change(function() {
+										if($(this).val() == 'docdata_idl') {
+											$('select[name=country]').val('NL').parent().hide();
+										} else if($(this).val() == 'docdata_mrc') {
+												$('select[name=country]').val('BE').parent().hide();
+										} else {
+											$('select[name=country]').parent().show();
+										}
+									});
+								});</script>";
+							} else {
+								echo "<input type=\"hidden\" name=\"country\" value=\"". $iso_landcode ."\" />";
+							}
 
-                        echo "</td></tr>";
-                        echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"paymentsubmit\" onclick=\"submit();\"></td></tr>";
+						echo "</td></tr>";
+						echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"paymentsubmit\" onclick=\"submit();\"></td></tr>";
 
-                        echo "</table>";
-                        echo "</form>";
-                    } else {
-                        echo html("no_remaining_payments","bsys");
-                    }
-                break;
+						echo "</table>";
+						echo "</form>";
+					} else {
+						echo html("no_remaining_payments","bsys");
+					}
+				break;
 
-                # Bank Transfer page
-                case 2:
-                    echo "<h2>". html("bank_transfer","bsys") ."</h2><br />";
+				# Bank Transfer page
+				case 2:
+					echo "<h2>". html("bank_transfer","bsys") ."</h2><br />";
 
-                    if($ramining_payments > 0) {
+					if($ramining_payments > 0) {
 
-                        $payments_overview = "<table align=\"center\" cellpadding=\"0\" cellspacing=\"2\" style=\"width:100%;\">";
-                        // if no payment was made we display the advanced payment text
-                        if(!$advance_payment) {
-                            $payments_overview .= "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
-                        }
+						$payments_overview = "<table align=\"center\" cellpadding=\"0\" cellspacing=\"2\" style=\"width:100%;\">";
+						// if no payment was made we display the advanced payment text
+						if(!$advance_payment) {
+							$payments_overview .= "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
+						}
 
-                        $payments_overview .= "<tr><td width=\"60%\">" . $full_pay_date ."</td><td> &euro; " . number_format($ramining_payments,2,',','.') ."</td></tr>";
-                        $payments_overview .= "</table>";
+						$payments_overview .= "<tr><td width=\"60%\">" . $full_pay_date ."</td><td> &euro; " . number_format($ramining_payments,2,',','.') ."</td></tr>";
+						$payments_overview .= "</table>";
 
-                        $payments_text = "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
+						$payments_text = "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
 
-                        echo $payments_text;
-                        echo $payments_overview;
+						echo $payments_text;
+						echo $payments_overview;
 
-                    } else {
-                        echo html("no_remaining_payments","bsys");
-                    }
-                break;
+					} else {
+						echo html("no_remaining_payments","bsys");
+					}
+				break;
 
-                #Payments history table
-                case 3:
-                    echo "<h2>". html("summary","bsys") ."</h2><br />";
+				#Payments history table
+				case 3:
+					echo "<h2>". html("summary","bsys") ."</h2><br />";
 
-                    # Display Docdata transactions table if there are any payments registered for this order
-                    if(count($txt_html) > 0 && $total_paid > 0) {
-                        ksort($txt_html);
+					# Display Docdata transactions table if there are any payments registered for this order
+					if(count($txt_html) > 0 && $total_paid > 0) {
+						ksort($txt_html);
 
-                        echo "<table style=\"width:100%\" class=\"toonacctabel\" cellpadding=\"5\">";
-                        echo "<tr><th>". html("payment_date","bsys") ."</th><th>". html("payment_amount","bsys") ."</th></tr>";
-                        foreach($txt_html as $entry) {
-                            echo $entry;
-                        }
+						echo "<table style=\"width:100%\" class=\"toonacctabel\" cellpadding=\"5\">";
+						echo "<tr><th>". html("payment_date","bsys") ."</th><th>". html("payment_amount","bsys") ."</th></tr>";
+						foreach($txt_html as $entry) {
+							echo $entry;
+						}
 
-                        echo "<tr><td colspan=\"2\">&nbsp;</td></tr>";
-                        echo "<tr><td align=\"right\">". html("total_amount","bsys") .":</td><td>&euro; ". number_format($gegevens["fin"]["totale_reissom"],2,',','.') ."</td></tr>";
-                        echo "<tr><td align=\"right\">". html("total_paid","bsys") .":</td><td>&euro; ". number_format(($total_paid * -1),2,',','.') ."</td></tr>";
-                        echo "<tr><td align=\"right\">". html("remaining_payments","bsys") .":";
-                        if($ramining_payments > 0) {
-                            echo "<br /><em>" . $full_pay_date ."</em>";
-                        }
-                        echo "</td><td>&euro; ". number_format($ramining_payments,2,',','.') ."</td></tr>";
-                        echo "</table>";
+						echo "<tr><td colspan=\"2\">&nbsp;</td></tr>";
+						echo "<tr><td align=\"right\">". html("total_amount","bsys") .":</td><td>&euro; ". number_format($gegevens["fin"]["totale_reissom"],2,',','.') ."</td></tr>";
+						echo "<tr><td align=\"right\">". html("total_paid","bsys") .":</td><td>&euro; ". number_format(($total_paid * -1),2,',','.') ."</td></tr>";
+						echo "<tr><td align=\"right\">". html("remaining_payments","bsys") .":";
+						if($ramining_payments > 0) {
+							echo "<br /><em>" . $full_pay_date ."</em>";
+						}
+						echo "</td><td>&euro; ". number_format($ramining_payments,2,',','.') ."</td></tr>";
+						echo "</table>";
 
-                        if($ramining_payments > 0) {
-                            reset($vars["docdata_payments"]);
-                            $txt_by = "docdata";
-                            foreach($vars["docdata_payments"] as $method) {
-                                $txt_by .= "_" . $method["by"];
-                            }
-                            echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))."</a> <br />
-                                <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
-                            </p>";
-                        }
-                    } else {
-                        #echo html("no_payments","bsys");
-                        echo "<table style=\"width:100%\" cellspacing=\"2\" cellpadding=\"0\">";
-                            // if no payment was made we display the advanced payment text
-                            if(!$advance_payment) {
-                                echo "<tr><td>" . html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .")</td><td>" . $advance_pay_date ."</td></tr>";
-                            }
-                            echo "<tr><td>" . html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")</td><td>" . $full_pay_date ."</td></tr>";
-                        echo "</table>";
-                        reset($vars["docdata_payments"]);
-                        $txt_by = "docdata";
-                        foreach($vars["docdata_payments"] as $method) {
-                            $txt_by .= "_" . $method["by"];
-                        }
-                        echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))."</a> <br />
-                            <a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ."</a>
-                        </p>";
-                    }
-                break;
-
-            }
-        }
-    }
+						if($ramining_payments > 0) {
+							reset($vars["docdata_payments"]);
+							$txt_by = "docdata";
+							foreach($vars["docdata_payments"] as $method) {
+								$txt_by .= "_" . $method["by"];
+							}
+							echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))." &raquo;</a></p>";
+							echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
+						}
+					} else {
+						#echo html("no_payments","bsys");
+						echo "<table style=\"width:100%\" cellspacing=\"2\" cellpadding=\"0\">";
+							// if no payment was made we display the advanced payment text
+							if(!$advance_payment) {
+								echo "<tr><td>" . html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .")</td><td>" . $advance_pay_date ."</td></tr>";
+							}
+							echo "<tr><td>" . html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")</td><td>" . $full_pay_date ."</td></tr>";
+						echo "</table>";
+						reset($vars["docdata_payments"]);
+						$txt_by = "docdata";
+						foreach($vars["docdata_payments"] as $method) {
+							$txt_by .= "_" . $method["by"];
+						}
+						echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))." &raquo;</a></p>";
+						echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
+					}
+				break;
+			}
+		}
+	}
 }
