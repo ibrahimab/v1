@@ -335,7 +335,8 @@ if($login->logged_in) {
 					}
 					echo "<hr>";
 
-					if($vars["website"] == "C" || $vars["website"] == "E" || $vars["website"] == "B") {
+					// if($vars["website"] == "C" || $vars["website"] == "E" || $vars["website"] == "B") {
+					if($vars["docdata_payments"]) {
 						if($gegevens["stap1"]["factuurdatum"]>0) {
 							if(!$gegevens["stap1"]["vraag_ondertekening"]) {
 								echo html("payment","bsys").":<ul>\n";
@@ -817,7 +818,8 @@ if($login->logged_in) {
 					# Bedankt na akkoord geven
 					echo "<p>".html("akkoordmelding1","bsys")."</p>";
 
-					if($vars["website"] == "C" || $vars["website"] == "E" || $vars["website"] == "B") {
+					// if($vars["website"] == "C" || $vars["website"] == "E" || $vars["website"] == "B") {
+					if($vars["docdata_payments"]) {
 						reset($vars["docdata_payments"]);
 						$txt_by = "docdata";
 						foreach($vars["docdata_payments"] as $method) {
