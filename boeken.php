@@ -899,7 +899,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				}
 				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
-					$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],3,$db0->f("user_id"),md5($db0->f("password_uc")));
+					$directlogin_link=$directlogin->maak_link($gegevens["stap1"]["website"],1,$db0->f("user_id"),md5($db0->f("password_uc")));
 
 					$directlogin_link=str_replace($vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]],"http://".$_SERVER["HTTP_HOST"]."/chalet/",$directlogin_link);
 
