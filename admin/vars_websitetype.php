@@ -68,13 +68,14 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 #	$vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]=true;
 	$vars["livechat_code"]="2-PTFmcHUgtM";
 	$vars["valt_onder_bedrijf"]=1;
-	$vars["docdata_payments"] = array(
-		"docdata_idl" => array(
-			"title"	=> 	"iDEAL",
-			"icon"	=>	"pic/payment_icons/ideal.png",
-			"by"	=> 	"idl"
-		)
-	);
+
+		$vars["docdata_payments"] = array(
+			"docdata_idl" => array(
+				"title"	=> 	"iDEAL",
+				"icon"	=>	"pic/payment_icons/ideal.png",
+				"by"	=> 	"idl"
+			)
+		);
 } elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu" or $_SERVER["HTTP_HOST"]=="test.chalet.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="E")) {
 	# Winter Chalet.eu Engelstalig
 	$vars["websitetype"]=1;
