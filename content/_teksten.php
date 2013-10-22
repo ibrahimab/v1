@@ -4026,31 +4026,31 @@ $txt["en"]["bsys"]["summary"]="Payments summary";
 $txt["nl"]["bsys"]["no_payments"]="You don't have any payments registered.";
 $txt["en"]["bsys"]["no_payments"]="You don't have any payments registered.";
 
-$txt["nl"]["bsys"]["no_remaining_payments"]="The booking is fully paid.";
+$txt["nl"]["bsys"]["no_remaining_payments"]="De boeking is al volledig betaald.";
 $txt["en"]["bsys"]["no_remaining_payments"]="The booking is fully paid.";
 
-$txt["nl"]["bsys"]["success_1"]="The Payment has been registered within system.";
+$txt["nl"]["bsys"]["success_1"]="De betaling heeft correct plaatsgevonden.";
 $txt["en"]["bsys"]["success_1"]="The Payment has been registered within system.";
 
-$txt["nl"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your payment again later.";
+$txt["nl"]["bsys"]["success_2"]="De betaling is op jouw verzoek afgebroken.";
 $txt["en"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your payment again later.";
 
-$txt["nl"]["bsys"]["error_1"]="Booking not found in the system.";
+$txt["nl"]["bsys"]["error_1"]="Beoking niet gevonden.";
 $txt["en"]["bsys"]["error_1"]="Booking not found in the system.";
 
-$txt["nl"]["bsys"]["error_2"]="An error occurred during the payment process.";
+$txt["nl"]["bsys"]["error_2"]="Er heeft een fout plaatsgevonden tijdens het betalingsproces.";
 $txt["en"]["bsys"]["error_2"]="An error occurred during the payment process.";
 
-$txt["nl"]["bsys"]["error_3"]="Invalid booking specified for the payment.";
+$txt["nl"]["bsys"]["error_3"]="Onjuiste boeking voor deze betaling.";
 $txt["en"]["bsys"]["error_3"]="Invalid booking specified for the payment.";
 
-$txt["nl"]["bsys"]["error_4"]="Please login in order to pay for the booking.";
+$txt["nl"]["bsys"]["error_4"]="Log in om te kunnen betalen.";
 $txt["en"]["bsys"]["error_4"]="Please login in order to pay for the booking.";
 
 $txt["nl"]["bsys"]["error_5"]="Selecteer uw land.";
 $txt["en"]["bsys"]["error_5"]="Please select your country.";
 
-$txt["nl"]["bsys"]["bank_transfer"]="Bank overschrijving";
+$txt["nl"]["bsys"]["bank_transfer"]="Bankoverschrijving";
 $txt["en"]["bsys"]["bank_transfer"]="Bank transfer";
 
 $txt["nl"]["bsys"]["payment_date"]="Datum";
