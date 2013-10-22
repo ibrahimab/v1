@@ -4035,7 +4035,7 @@ $txt["en"]["bsys"]["success_1"]="The payment has been registered within our syst
 $txt["nl"]["bsys"]["success_2"]="De betaling is op jouw verzoek afgebroken. Je kunt naar wens de betaling later opnieuw uitvoeren.";
 $txt["en"]["bsys"]["success_2"]="Your payment was cancelled upon your request. You can still place your payment again later.";
 
-$txt["nl"]["bsys"]["error_1"]="Beoking niet gevonden.";
+$txt["nl"]["bsys"]["error_1"]="Boeking niet gevonden.";
 $txt["en"]["bsys"]["error_1"]="Booking not found in the system.";
 
 $txt["nl"]["bsys"]["error_2"]="Er heeft een fout plaatsgevonden tijdens het betalingsproces.";
