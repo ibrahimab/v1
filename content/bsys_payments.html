@@ -695,13 +695,18 @@ if($login->logged_in) {
 
 					if($ramining_payments > 0) {
 
-						$payments_overview = "<table align=\"center\" cellpadding=\"0\" cellspacing=\"2\" style=\"width:100%;\">";
+						$payments_overview = "<table cellpadding=\"0\" cellspacing=\"2\" style=\"width:690px;\">";
 						// if no payment was made we display the advanced payment text
 						if(!$advance_payment) {
-							$payments_overview .= "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
+							$payments_overview .= "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td align=\"right\"> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
 						}
 
-						$payments_overview .= "<tr><td width=\"60%\">" . $full_pay_date ."</td><td> &euro; " . number_format($ramining_payments,2,',','.') ."</td></tr>";
+						$restbetalen=$gegevens["fin"]["totale_reissom"]-$gegevens["fin"]["aanbetaling"];
+						if($ramining_payments<>$restbetalen and $ramining_payments<>$gegevens["fin"]["totale_reissom"]) {
+							$restbetalen=$ramining_payments;
+						}
+
+						$payments_overview .= "<tr><td width=\"60%\">" . $full_pay_date ."</td><td align=\"right\"> &euro; " . number_format($restbetalen,2,',','.') ."</td></tr>";
 						$payments_overview .= "</table>";
 
 						$payments_text = "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
@@ -754,7 +759,13 @@ if($login->logged_in) {
 							if(!$advance_payment) {
 								echo "<tr><td>" . $advance_pay_date ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
 							}
-							echo "<tr><td>" . $full_pay_date ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($ramining_payments,2,',','.') ."</td></tr>";
+
+							$restbetalen=$gegevens["fin"]["totale_reissom"]-$gegevens["fin"]["aanbetaling"];
+							if($ramining_payments<>$restbetalen and $ramining_payments<>$gegevens["fin"]["totale_reissom"]) {
+								$restbetalen=$ramining_payments;
+							}
+
+							echo "<tr><td>" . $full_pay_date ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($restbetalen,2,',','.') ."</td></tr>";
 						echo "</table>";
 						reset($vars["docdata_payments"]);
 						$txt_by = "docdata";
