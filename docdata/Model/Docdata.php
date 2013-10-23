@@ -169,7 +169,7 @@ class Model_Docdata implements Model_System {
 		$call_elements = array(
 			'version' => $helper->getApiVersion(),
 			'merchant' => $helper->getMerchantDetails($order->getStoreId()),
-			'paymentOrderKey' => $order->getDocdataPaymentOrderKey()
+			'paymentOrderKey' => $order->getClusterKey()
 		);
 
 		$response_object = App::get('model/api_response');
@@ -199,7 +199,7 @@ class Model_Docdata implements Model_System {
 		$call_elements = array(
 			'version' => $helper->getApiVersion(),
 			'merchant' => $helper->getMerchantDetails($order->getStoreId()),
-			'paymentOrderKey' => $order->getDocdataPaymentOrderKey()
+			'paymentOrderKey' => $order->getClusterKey()
 		);
 
 		// Create call API object, pass self and the call elements
