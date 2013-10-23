@@ -303,6 +303,9 @@ class PaymentController extends Controller {
 		//The Payment has been registered within system.
 		$okCode = 1;
 
+		//Return to Payments overview page (menu=3)
+		$redirectPage = str_replace("menu=1", "menu=3", $this->redirectPage);
+		
 		//redirect customer to success page
 		$this->_redirect($this->redirectPage . "&success=" . $okCode);
 	}
