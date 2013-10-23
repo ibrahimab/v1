@@ -307,7 +307,7 @@ class PaymentController extends Controller {
 		$redirectPage = str_replace("menu=1", "menu=3", $this->redirectPage);
 		
 		//redirect customer to success page
-		$this->_redirect($this->redirectPage . "&success=" . $okCode);
+		$this->_redirect($redirectPage . "&success=" . $okCode);
 	}
 
 	/**
