@@ -74,7 +74,14 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 			"docdata_idl" => array(
 				"title"	=> 	"iDEAL",
 				"icon"	=>	"pic/payment_icons/ideal.png",
-				"by"	=> 	"idl"
+				"by"	=> 	"idl",
+				"country" => array("NL")
+			),
+			"docdata_mrc" => array(
+				"title" =>	"MrCash",
+				"icon"	=>	"pic/payment_icons/mrcash.png",
+				"by"	=>	"mrc",
+				"country" => array("BE")
 			)
 		);
 	}
@@ -112,12 +119,14 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 			"docdata_idl" => array(
 				"title"	=> 	"iDEAL",
 				"icon"	=>	"pic/payment_icons/ideal.png",
-				"by"	=> 	"idl"
+				"by"	=> 	"idl",
+				"country" => array("NL")
 			),
 			"docdata_mrc" => array(
 				"title" =>	"Mister Cash",
 				"icon"	=>	"pic/payment_icons/mrcash.png",
-				"by"	=>	"mrc"
+				"by"	=>	"mrc",
+				"country" => array("BE")
 			)
 		);
 	}
@@ -165,7 +174,8 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 			"docdata_mrc" => array(
 				"title" => 	"Mister Cash",
 				"icon"	=>	"pic/payment_icons/mrcash.png",
-				"by"	=>	"mrc"
+				"by"	=>	"mrc",
+				"country" => array("BE")
 			)
 		);
 	}

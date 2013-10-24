@@ -4017,6 +4017,15 @@ $txt["en"]["bsys"]["docdata_vi_mc"]="by Credit Card";
 $txt["nl"]["bsys"]["docdata_vi_mc_idl_mrc"]="via creditcard, iDEAL of Mister Cash";
 $txt["en"]["bsys"]["docdata_vi_mc_idl_mrc"]="by Credit Card, iDEAL or Mister Cash";
 
+$txt["nl"]["bsys"]["docdata_vi_mc_idl"]="via creditcard of iDEAL";
+$txt["en"]["bsys"]["docdata_vi_mc_idl"]="by Credit Card or iDEAL";
+
+$txt["nl"]["bsys"]["docdata_vi_mc_mrc"]="via creditcard of Mister Cash";
+$txt["en"]["bsys"]["docdata_vi_mc_mrc"]="by Credit Card or Mister Cash";
+
+$txt["nl"]["bsys"]["docdata_idl_mrc"]="via iDEAL of Mister Cash";
+$txt["en"]["bsys"]["docdata_idl_mrc"]="by iDEAL or Mister Cash";
+
 $txt["nl"]["bsys"]["via_bank_transfer"]="via bankoverschrijving";
 $txt["en"]["bsys"]["via_bank_transfer"]="by Bank transfer";
 

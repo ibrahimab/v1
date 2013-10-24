@@ -40,7 +40,17 @@ if($login->logged_in) {
 			}
 			$gegevens["stap5"]=$temp_gegevens["stap5"];
 
-			if(($temp_gegevens["stap4"][1]["korting"] and $mustlogin) or $temp_gegevens["stap4"][2]["korting"]) {
+            // Set the booking person country code
+            if(file_exists("docdata/library/functions.php")) {
+                require_once("docdata/library/functions.php");
+
+                $gegevens["stap2"]["iso_land"] = docdata_iso_landcode($gegevens["stap2"]["land"], $gegevens["stap1"]["website"]);
+            } else {
+                $gegevens["stap2"]["iso_land"] = false;
+            }
+
+
+            if(($temp_gegevens["stap4"][1]["korting"] and $mustlogin) or $temp_gegevens["stap4"][2]["korting"]) {
 				$celbreedte=110;
 			} else {
 				$celbreedte=80;
@@ -366,6 +376,7 @@ if($login->logged_in) {
 									reset($vars["docdata_payments"]);
 									$txt_by = "docdata";
 									foreach($vars["docdata_payments"] as $method) {
+                                        if($gegevens["stap2"]["iso_land"] && isset($method["country"]) && !in_array($gegevens["stap2"]["iso_land"], $method["country"])) continue;
 										$txt_by .= "_" . $method["by"];
 									}
 									echo "<li><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html($txt_by,"bsys")."</a></li>";
@@ -833,6 +844,7 @@ if($login->logged_in) {
 						reset($vars["docdata_payments"]);
 						$txt_by = "docdata";
 						foreach($vars["docdata_payments"] as $method) {
+                            if($gegevens["stap2"]["iso_land"] && isset($method["country"]) && !in_array($gegevens["stap2"]["iso_land"], $method["country"])) continue;
 							$txt_by .= "_" . $method["by"];
 						}
 						echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))." &raquo;</a></p>";
