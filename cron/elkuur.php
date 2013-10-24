@@ -478,7 +478,6 @@ if((date("H")==2 and date("w")==1) or $argv[1]=="traffic4u") {
 	ini_set("default_socket_timeout",60);
 }
 
-// if(date("H")==5 or date("H")==11 or date("H")==17 or $argv[1]=="test") {
 if(date("H")==5 or date("H")==13 or $argv[1]=="test") {
 	//
 	// Controleren of er nieuw te verzenden roominglists zijn
