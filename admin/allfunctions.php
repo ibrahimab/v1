@@ -1605,6 +1605,10 @@ function wt_microtime_float() {
 }
 
 function wt_naam($voornaam='',$tussenvoegsel='',$achternaam,$achternaameerst=false,$voorletters=false) {
+	if($voornaam) $voornaam=trim($voornaam);
+	if($tussenvoegsel) $tussenvoegsel=trim($tussenvoegsel);
+	$achternaam=trim($achternaam);
+
 	if($voorletters and $voornaam) {
 		if(substr($voornaam,-1)<>".") $voornaam.=".";
 	}
