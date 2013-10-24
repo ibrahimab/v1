@@ -76,7 +76,6 @@ if($login->logged_in) {
 			$db->query($sql);
 			if($db->num_rows() > 0) {
 				while($db->next_record()) {
-					$type = ($db->f('type') == NULL) ? html("bank_transfer","bsys") : $db->f('type');
 					$txt_html[$db->f('datum')] = "<tr><td>". datum("D MAAND JJJJ",$db->f('datum')) ."</td><td align=\"right\">&euro; ". number_format($db->f('bedrag'),2,',','.') ."</td></tr>";
 					$total_paid += $db->f('bedrag');
 				}
@@ -90,6 +89,11 @@ if($login->logged_in) {
 				$checked1 = '';
 				$checked2 = ' checked="checked"';
 			}
+
+            # Disable the advance payment if the advance payment date is higher then the full payment date
+            if($gegevens["stap1"]["dagen_voor_vertrek"]<($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+$gegevens["stap1"]["aanbetaling1_dagennaboeken"])) {
+                $advance_payment = true;
+            }
 
 			# Get payment dates
 			$datum_weken_voorvertrek=date("d/m/Y",mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-$gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"])));
