@@ -3,6 +3,9 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+25-oct-2013 13:07
+ALTER TABLE `boeking` ADD `tonen_in_mijn_boeking` TINYINT( 1 ) NOT NULL DEFAULT '1';
+
 24-oct-2013 13:27
 ALTER TABLE `leverancier` CHANGE `roominglist_goedgekeurd` `roominglist_goedgekeurd` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
 
