@@ -1,6 +1,7 @@
 <?php
 
 $vars["reisbureau_mustlogin"]=true;
+$vars["verberg_breadcrumbs"]=true;
 include("admin/vars.php");
 
 if($vars["wederverkoop"]) {
@@ -9,7 +10,7 @@ if($vars["wederverkoop"]) {
 		exit;
 	}
 	if($_GET["mijngeg"]) {
-	
+
 		# Gegevens reisbureau uit database halen
 		$db->query("SELECT * FROM reisbureau WHERE reisbureau_id='".addslashes($login_rb->vars["reisbureau_id"])."';");
 		if($db->next_record()) {
@@ -38,11 +39,11 @@ if($vars["wederverkoop"]) {
 			if($reisbureau["post_adres"]<>$reisbureau["adres"] or $reisbureau["post_plaats"]<>$reisbureau["plaats"]) {
 				$htmlcontact.="<br><br><b>".html("postadres","reisbureau_overzicht").":</b><br>";
 				$htmlcontact.=htmlentities($reisbureau["post_adres"])."<br>".htmlentities($reisbureau["post_postcode"]." ".$reisbureau["post_plaats"])."<br>".htmlentities($reisbureau["post_land"]);
-				
+
 			}
 		}
-		
-		
+
+
 		# frm = formname (mag ook wat anders zijn)
 		$form=new form2("frm");
 		$form->settings["language"]=$vars["taal"];
@@ -50,13 +51,13 @@ if($vars["wederverkoop"]) {
 		$form->settings["layout"]["css"]=false;
 		$form->settings["db"]["table"]="reisbureau_user";
 		$form->settings["db"]["where"]="user_id='".addslashes($login_rb->user_id)."'";
-		
+
 		$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 		#$form->settings["target"]="_blank";
-		 
+
 		# Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 		$form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
-		
+
 		#_field: (obl),id,title,db,prevalue,options,layout
 		if($login_rb->vars["hoofdgebruiker"]) {
 
@@ -109,30 +110,30 @@ if($vars["wederverkoop"]) {
 		$form->field_text(0,"telefoonnummer",txt("telefoonnummer","reisbureau_overzicht"),array("field"=>"telefoonnummer"));
 		$form->field_text(0,"mobiel",txt("mobiel","reisbureau_overzicht"),array("field"=>"mobiel"));
 		$form->field_url(0,"website",txt("eigenwebsite","reisbureau_overzicht"),array("field"=>"website"));
-		
+
 #		if($vars["taal"]=="nl") {
 			# tijdelijk uitgezet vanwege overgang naar Blinker (29-09-2011)
 #			$form->field_htmlrow("","<hr>");
 #			$form->field_yesno("mailingmanager_gewonenieuwsbrief",txt("lidchaletzomerhuisjenieuwsbrief","reisbureau_overzicht"),array("field"=>"mailingmanager_gewonenieuwsbrief"));
 #			$form->field_yesno("mailingmanager_agentennieuwsbrief",txt("lidagentennieuwsbrief","reisbureau_overzicht"),array("field"=>"mailingmanager_agentennieuwsbrief"));
 #		}
-				
+
 		$form->check_input();
-		
+
 		if($form->filled) {
 			if($form->input["password"] and $form->input["password"]<>$form->input["password2"]) $form->error("password2",html("voer2xwachtwoord","reisbureau_overzicht"));
 		}
-		
+
 		if($form->okay) {
-		
+
 			#
 			# Gegevens loggen
 			#
-			
-		
+
+
 			# Gegevens opslaan in de database
 			$form->save_db();
-			
+
 			# Gegevens opslaan in tabel reisbureau
 			if($login_rb->vars["hoofdgebruiker"]) {
 				$db->query("UPDATE reisbureau SET verantwoordelijke='".addslashes($form->input["reisbureau_verantwoordelijke"])."', email_overeenkomst='".addslashes($form->input["reisbureau_email_overeenkomst"])."', anvrnummer='".addslashes($form->input["reisbureau_anvrnummer"])."', kvknummer='".addslashes($form->input["reisbureau_kvknummer"])."', btwnummer='".addslashes($form->input["reisbureau_btwnummer"])."', adres='".addslashes($form->input["reisbureau_adres"])."', postcode='".addslashes($form->input["reisbureau_postcode"])."', plaats='".addslashes($form->input["reisbureau_plaats"])."', land='".addslashes($form->input["reisbureau_land"])."', post_adres='".addslashes($form->input["reisbureau_post_adres"])."', post_postcode='".addslashes($form->input["reisbureau_post_postcode"])."', post_plaats='".addslashes($form->input["reisbureau_post_plaats"])."', post_land='".addslashes($form->input["reisbureau_post_land"])."', telefoonnummer='".addslashes($form->input["reisbureau_telefoonnummer"])."', noodnummer='".addslashes($form->input["reisbureau_noodnummer"])."', website='".addslashes($form->input["reisbureau_website"])."', email_facturen='".addslashes($form->input["reisbureau_email_facturen"])."', email_marketing='".addslashes($form->input["reisbureau_email_marketing"])."' WHERE reisbureau_id='".addslashes($login_rb->vars["reisbureau_id"])."';");

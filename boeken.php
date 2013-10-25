@@ -545,6 +545,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			if(!$gegevens["stap1"]["geannuleerd"]) {
 				$form->field_yesno("geannuleerd","deze boeking moet worden geannuleerd (boekhouding wordt <b>niet</b> gecrediteerd)","",array("selection"=>$gegevens["stap1"]["geannuleerd"]),"",array("title_html"=>true));
 			}
+			$form->field_yesno("tonen_in_mijn_boeking","deze boeking is voor de klant zichtbaar in \"Mijn boeking\"","",array("selection"=>$gegevens["stap1"]["tonen_in_mijn_boeking"]),"",array("title_html"=>true));
+
 			$form->field_htmlrow("","<hr><b>Gegevens m.b.t. boekhouding</b>");
 			if($gegevens["stap1"]["landcode"]) {
 				$landcode=$gegevens["stap1"]["landcode"];
@@ -1837,7 +1839,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					}
 
 #					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($gegevens["stap1"]["geannuleerd"] ? "1" : $form->input["geannuleerd"]))."'";
-					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($form->input["geannuleerd"] ? "1" : "0"))."', btw_over_commissie='".addslashes($form->input["btw_over_commissie"])."'";
+					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($form->input["geannuleerd"] ? "1" : "0"))."', btw_over_commissie='".addslashes($form->input["btw_over_commissie"])."', tonen_in_mijn_boeking='".addslashes($form->input["tonen_in_mijn_boeking"])."'";
 
 					# Eventueel beheerderid opslaan
 					if($form->input["beheerderid"]) {
@@ -2970,6 +2972,12 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 			if($form->input["aankomstdatum_exact"]["unixtime"] and $form->input["aankomstdatum_exact"]["unixtime"]<>$gegevens["stap1"]["aankomstdatum_exact"]) chalet_log("exacte aankomstdatum (van ".date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"])." naar ".date("d-m-Y",$form->input["aankomstdatum_exact"]["unixtime"]).")",true,true);
 			if($form->input["vertrekdatum_exact"]["unixtime"] and $form->input["vertrekdatum_exact"]["unixtime"]<>$gegevens["stap1"]["vertrekdatum_exact"]) chalet_log("exacte vertrekdatum (van ".date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"])." naar ".date("d-m-Y",$form->input["vertrekdatum_exact"]["unixtime"]).")",true,true);
 			if($form->input["kortingscode"]) chalet_log("kortingscode: ".strtoupper($form->input["kortingscode"]));
+
+			if($mustlogin and intval($form->input["tonen_in_mijn_boeking"])<>intval($gegevens["stap1"]["tonen_in_mijn_boeking"])) {
+				if($form->input["tonen_in_mijn_boeking"]) chalet_log("aangezet: deze boeking is voor de klant zichtbaar in \"Mijn boeking\"");
+				if(!$form->input["tonen_in_mijn_boeking"]) chalet_log("uitgezet: deze boeking is voor de klant zichtbaar in \"Mijn boeking\"");
+			}
+
 
 			if($mustlogin) {
 				if($form->input["beheerderid"]<>$gegevens["stap1"]["beheerderid"]) chalet_log("beheerder (van ".($gegevens["stap1"]["beheerderid"] ? $alle_beheerders[$gegevens["stap1"]["beheerderid"]] : "-leeg-")." naar ".($form->input["beheerderid"] ? $alle_beheerders[$form->input["beheerderid"]] : "-leeg-").")",true,true);

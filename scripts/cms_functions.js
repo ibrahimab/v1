@@ -737,6 +737,15 @@ $(document).ready(function() {
 	// bij overzicht aanvragen (http://www.chalet.nl/cms_boekingen.php?bt=1&archief=0) hele tr opvallend kleuren als er nog geen bestelstatus bekend is
 	$(".bestelstatus_hele_tr_opvallend").parent().parent().addClass("tr_bestelstatus_hele_tr_opvallend");
 
+
+	// bij annuleren boeking: vinkje "deze boeking is voor de klant zichtbaar in "Mijn boeking"" uitzetten
+	$("input[name='input[geannuleerd]']").change(function() {
+		if($(this).is(":checked") && $("input[name='input[tonen_in_mijn_boeking]']").length!==0 && $("input[name='input[tonen_in_mijn_boeking]']").is(":checked")) {
+			$("input[name='input[tonen_in_mijn_boeking]']").prop("checked", false);
+			$("label[for='yesnotonen_in_mijn_boeking']").effect("highlight", {color: "red"}, 3000);
+		}
+	});
+
 });
 
 function goedkeuringen_benodigd_uitzetten() {

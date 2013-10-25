@@ -236,7 +236,13 @@ if($form->okay) {
 		$html.="<html><body style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 0.8em;\">";
 		$html.="<p>".nl2br(htmlentities($vars["temp_leverancier"]["adresregels"]))."<p>";
 		$html.=htmlentities($vars["bestelmailfax_beste"][$bmftaal])." ".htmlentities($form->input["contactpersoon"]).",<p>";
-		$html.=htmlentities($vars["bestelmailfax_hierbijwillenwe"][$bmftaal]).".<p>";
+		$html.=htmlentities($vars["bestelmailfax_hierbijwillenwe"][$bmftaal]);
+		if($_GET["reserveringsnummer"]) {
+			$html.=": ".wt_he($vars["bestelmailfax_soort"][$bmftaal][4]." ".$_GET["reserveringsnummer"]);
+		} else {
+			$html.=".";
+		}
+		$html.="<p>";
 		$html.=htmlentities($vars["bestelmailfax_dezeacchebbenwij"][$bmftaal])." ".htmlentities($vars["bestelmailfax_soort"][$bmftaal][$form->input["soort"]]);
 		if($form->input["geldig"]) $html.=" ".htmlentities($vars["bestelmailfax_tot"][$bmftaal])." ".htmlentities($form->input["geldig"]);
 		$html.=":<p>";
