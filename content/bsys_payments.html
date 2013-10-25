@@ -323,7 +323,9 @@ if($login->logged_in) {
 						echo "</table>";
 
 						if($ramining_payments > 0) {
-							echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))." &raquo;</a></p>";
+							if($txt[$vars["taal"]]["bsys"][$txt_by]) {
+								echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
+							}
 							echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
 						}
 					} else {
@@ -342,7 +344,9 @@ if($login->logged_in) {
 							echo "<tr><td>" . $full_pay_date ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($restbetalen,2,',','.') ."</td></tr>";
 						echo "</table>";
 
-						echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))." &raquo;</a></p>";
+						if($txt[$vars["taal"]]["bsys"][$txt_by]) {
+							echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
+						}
 						echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
 					}
 				break;

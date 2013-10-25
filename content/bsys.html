@@ -379,7 +379,9 @@ if($login->logged_in) {
                                         if($gegevens["stap2"]["iso_land"] && isset($method["country"]) && !in_array($gegevens["stap2"]["iso_land"], $method["country"])) continue;
 										$txt_by .= "_" . $method["by"];
 									}
-									echo "<li><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html($txt_by,"bsys")."</a></li>";
+									if($txt[$vars["taal"]]["bsys"][$txt_by]) {
+										echo "<li><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html($txt_by,"bsys")."</a></li>";
+									}
 									echo "<li><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("via_bank_transfer","bsys")."</a></li>";
 								}
 								echo "<li><a href=\"".$path."bsys_payments.php?menu=3&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("summary","bsys")."</a></li>";
@@ -847,7 +849,9 @@ if($login->logged_in) {
                             if($gegevens["stap2"]["iso_land"] && isset($method["country"]) && !in_array($gegevens["stap2"]["iso_land"], $method["country"])) continue;
 							$txt_by .= "_" . $method["by"];
 						}
-						echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => html($txt_by,"bsys")))." &raquo;</a></p>";
+						if($txt[$vars["taal"]]["bsys"][$txt_by]) {
+							echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
+						}
 						echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
 					}
 
