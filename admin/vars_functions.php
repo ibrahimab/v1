@@ -2584,14 +2584,14 @@ function imagearray($onderdeel,$id,$dirprefix="") {
 }
 
 function imageurl($file,$width="",$height="") {
-	global $vars,$unixdir;
+	global $vars, $unixdir;
 	if($vars["accommodatie_word"]) {
 		# voor aanmaken Word-bestand (reisagenten): origineel gebruiken
 		$return=$vars["path"]."pic/cms/".$file;
 	} else {
 		# de rest: nagaan of er cache of thumbnail moet worden getoond
-		$cachefile=$unixdir."pic/cms/_imgcache/".$width."x".$height."-".preg_replace("/\//","-",$file);
-		if(file_exists($cachefile) and filemtime($cachefile)==@filemtime($unixdir."pic/cms/".$file)) {
+		$cachefile="pic/cms/_imgcache/".$width."x".$height."-".preg_replace("/\//","-",$file);
+		if(file_exists($unixdir.$cachefile) and filemtime($unixdir.$cachefile)==@filemtime($unixdir."pic/cms/".$file)) {
 			$return=$vars["path"].$cachefile."?cache=".filemtime($cachefile);
 		} else {
 			$return=$vars["path"]."thumbnail.php?file=".urlencode($file);
