@@ -23,7 +23,7 @@ if($_GET["burl"]) {
 	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
 }
 
-if($gegevens["stap1"]["leverancierscode"]) {
+if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
 	echo "<span class=\"error\">Bestellen via XML niet mogelijk: er is al een <a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".htmlentities(urlencode($_GET["burl"]))."&bid=".htmlentities($_GET["bid"])."\">Reserveringsnummer leverancier</a> bij deze boeking bekend.</span>";
 } else {
 	if(is_array($leveranciercodes)) {
@@ -127,44 +127,51 @@ if($gegevens["stap1"]["leverancierscode"]) {
 				$xml_url=$arkiane_url[$xml_type].",@lot_ref='".urlencode($value)."',@begin='".urlencode(date("d-m-Y",$gegevens["stap1"]["aankomstdatum_exact"]))."',@end='".urlencode(date("d-m-Y",$gegevens["stap1"]["vertrekdatum_exact"]))."',@price='',@civi='M',@name='".urlencode(($gegevens["stap2"]["tussenvoegsel"] ? $gegevens["stap2"]["tussenvoegsel"]." " : "").$gegevens["stap2"]["achternaam"])."',@firstname='".urlencode($gegevens["stap2"]["voornaam"])."',@addr1='".urlencode("Wipmolenlaan 3")."',@addr2='',@addr3='',@postcode='".urlencode("3447 GJ")."',@city='".urlencode("Woerden")."',@country='".urlencode("The Netherlands")."',@tel='".urlencode("+31348434649")."',@fax='".urlencode("+31348690752")."',@email='".urlencode("info@chalet.nl")."',@comments='".urlencode($comment)."',@lang=''";
 
 				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-					echo wt_he($xml_url)."<hr>";
-				} else {
-					$xml=simplexml_load_file($xml_url);
-					if(is_object($xml)) {
+					// echo wt_he($xml_url)."<hr>";
+					$xml_url="/home/webtastic/html/chalet/tmp/arkiana_xml_bestelling_testxml.xml";
+				}
+				$xml=simplexml_load_file($xml_url);
+				if(is_object($xml)) {
 
-						if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-							echo "<pre>";
+					if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+						// echo "<pre>";
 
-							echo "\n\n1\n";
-							print_r($xml);
+						// echo "\n\n1\n";
+						// print_r($xml);
 
-							echo "\n\n2\n";
-							print_r($xml->LINE);
+						// echo "\n\n2\n";
+						// print_r($xml->LINE);
 
-							echo "\n\n3\n";
-							print_r($xml->LINE->resa_no);
+						// echo "\n\n3\n";
+						// print_r($xml->LINE->resa_no);
 
-							echo "\n\n4\n";
-							print_r($xml->LINE->opti_dossier);
+						// echo "\n\n4\n";
+						// print_r($xml->LINE->opti_dossier);
 
-							echo "</pre>";
-						}
-
-						if($xml->LINE->err) {
-							echo "<b>Foutmelding bij accommodatie ".$value.":</b> <span class=\"error\">".htmlentities(utf8_decode($xml->LINE->err))."</span><br>";
-						} else {
-							$reserveringsnummer=trim(utf8_decode($xml->LINE->resa_no));
-							echo "<br><b>Accommodatie ".wt_he($value)." is besteld. Ontvangen reserveringsnummer: <i>".wt_he($reserveringsnummer)."</i></b><br><br>Dit reserveringsnummer is opgeslagen in het CMS en de bestelstatus is gewijzigd in &quot;bevestigd&quot;.<br><br>";
-							$db->query("UPDATE boeking SET leverancierscode='".addslashes($reserveringsnummer)."', bestelstatus=3, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-							chalet_log("bestelling via xml verzonden (ontvangen reserveringsnummer: ".$reserveringsnummer.")",false,true);
-							chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestigd'",false,true);
-							break;
-						}
-					} else {
-						echo "<b>Foutmelding bij accommodatie ".$value." (graag alle tekst kopi&euml;ren en doorgeven aan Jeroen):</b><pre>";
-						print_r($xml);
-						echo "</pre><hr>";
+						// echo "</pre>";
 					}
+
+					if($xml->LINE->err) {
+						echo "<b>Foutmelding bij accommodatie ".$value.":</b> <span class=\"error\">".htmlentities(utf8_decode($xml->LINE->err))."</span><br>";
+					} else {
+						$reserveringsnummer=trim(utf8_decode($xml->LINE->resa_no));
+						// echo "Dit reserveringsnummer is opgeslagen in het CMS en de bestelstatus is gewijzigd in &quot;bevestigd&quot;.<br><br>";
+						echo "<div class=\"opvalblok\">";
+						echo "Accommodatie ".wt_he($value)." is nu in optie besteld. Ontvangen reserveringsnummer: <i>".wt_he($reserveringsnummer)."</i><br><br>";
+						echo "<b>Let op!</b> De optie-aanvraag moet nog per mail worden omgezet in een definitieve bestelling.<br/><br/>";
+
+						echo "<a href=\"".$vars["path"]."cms_bestelmailfax.php?t=1&bid=".intval($_GET["bid"])."&reserveringsnummer=".urlencode($reserveringsnummer)."\">Bestelmail nu sturen &raquo;</a>";
+						echo "</div>";
+
+						// $db->query("UPDATE boeking SET leverancierscode='".addslashes($reserveringsnummer)."', bestelstatus=3, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+						chalet_log("optie-aanvraag via xml verzonden (ontvangen reserveringsnummer: ".$reserveringsnummer.")",false,true);
+						// chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestigd'",false,true);
+						break;
+					}
+				} else {
+					echo "<b>Foutmelding bij accommodatie ".$value." (graag alle tekst kopi&euml;ren en doorgeven aan Jeroen):</b><pre>";
+					print_r($xml);
+					echo "</pre><hr>";
 				}
 			} elseif($xml_type==13 or $xml_type==15) {
 				#
