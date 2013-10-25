@@ -3,7 +3,6 @@
 if($boekingid_inquery) {
 	if(!$_GET["back"] or ereg("^".$path."inloggen\.php",$_GET["back"])) $_GET["back"]=$path."bsys.php";
 	$db->query("SELECT t.type_id, a.naam AS accommodatie, t.naam".$vars["ttv"]." AS type, p.naam AS plaats, b.boeking_id, b.aankomstdatum, b.aantalpersonen FROM accommodatie a, type t, boeking b, plaats p WHERE t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id AND a.plaats_id=p.plaats_id AND b.boeking_id IN (".$boekingid_inquery.") ORDER BY b.aankomstdatum, a.naam, t.naam, p.naam;");
-#	$db->query("SELECT b.type_id FROM boeking WHERE boeking_id IN (".$boekingid_inquery.") ORDER BY b.aankomstdatum, a.naam, t.naam, p.naam;");
 	if($db->num_rows()) {
 		echo html("inleiding","bsys_selecteren")."<ul>";
 		while($db->next_record()) {

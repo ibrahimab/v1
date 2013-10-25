@@ -1106,7 +1106,7 @@ if($boeking_wijzigen) {
 		} else {
 			$reisbureau_user_id_inquery=$login_rb->user_id;
 		}
-		$db->query("SELECT DISTINCT b.boeking_id, b.website FROM boeking b, boeking_persoon bp WHERE b.boeking_id='".addslashes($_GET["bid"])."' AND b.boeking_id=bp.boeking_id AND b.bevestigdatum IS NOT NULL AND b.aankomstdatum>'".(time()-864000)."' AND bp.persoonnummer=1 AND b.reisbureau_user_id IN (".$reisbureau_user_id_inquery.");");
+		$db->query("SELECT DISTINCT b.boeking_id, b.website FROM boeking b, boeking_persoon bp WHERE b.boeking_id='".addslashes($_GET["bid"])."' AND b.boeking_id=bp.boeking_id AND b.bevestigdatum IS NOT NULL AND b.aankomstdatum>'".(time()-864000)."' AND bp.persoonnummer=1 AND b.reisbureau_user_id IN (".$reisbureau_user_id_inquery.") AND b.tonen_in_mijn_boeking=1;");
 		if($db->next_record()) {
 			if($boekingid_inquery) $boekingid_inquery.=",".$db->f("boeking_id"); else $boekingid_inquery=$db->f("boeking_id");
 			if($db->f("website")==$vars["website"]) {
@@ -1126,7 +1126,7 @@ if($boeking_wijzigen) {
 		}
 	} else {
 		if($login->logged_in) {
-			$db->query("SELECT DISTINCT b.boeking_id FROM boeking b, boeking_persoon bp WHERE b.boeking_id=bp.boeking_id AND b.website='".$vars["website"]."' AND bp.email='".addslashes($login->username)."' AND b.bevestigdatum IS NOT NULL AND b.aankomstdatum>'".(time()-864000)."';");
+			$db->query("SELECT DISTINCT b.boeking_id FROM boeking b, boeking_persoon bp WHERE b.boeking_id=bp.boeking_id AND b.website='".$vars["website"]."' AND bp.email='".addslashes($login->username)."' AND b.bevestigdatum IS NOT NULL AND b.aankomstdatum>'".(time()-864000)."' AND b.tonen_in_mijn_boeking=1;");
 			if($db->num_rows()) {
 				while($db->next_record()) {
 					$wijzigen[$db->f("boeking_id")]=true;
