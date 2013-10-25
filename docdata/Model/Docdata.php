@@ -172,6 +172,8 @@ class Model_Docdata implements Model_System {
 			'paymentOrderKey' => $order->getClusterKey()
 		);
 
+		$call_elements['orderId'] = $order->getId();
+
 		$response_object = App::get('model/api_response');
 		// Create call API object, pass self and the call elements
 		$this->_call_api = App::get('model/api_cancel')->call($this, $response_object, $call_elements);
@@ -201,6 +203,8 @@ class Model_Docdata implements Model_System {
 			'merchant' => $helper->getMerchantDetails($order->getStoreId()),
 			'paymentOrderKey' => $order->getClusterKey()
 		);
+
+		$call_elements['orderId'] = $order->getId();
 
 		// Create call API object, pass self and the call elements
 		$response_object = App::get('model/api_response');

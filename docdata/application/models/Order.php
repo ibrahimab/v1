@@ -21,45 +21,48 @@ class Order extends Model {
 	public function loadByIncrementId($orderId = null) {
 		$orderId = (int)$orderId;
 
+		$data = get_boekinginfo($orderId);
+
 		// Get approved (goedgekeurd) orders only
-		$sql = "SELECT * FROM `" . $this->table . "` WHERE goedgekeurd = 1 AND boeking_id = '" . mysql_real_escape_string($orderId) . "' LIMIT 1";
-        $this->query($sql);
-                
-        if($this->num_rows() == 0) return null;
+		if($data["stap1"]["goedgekeurd"] <> 1) return null;
 
-		$this->next_record();
+		$this->increment_id = htmlspecialchars($data["stap1"]["boekingid"]);
 
-		$this->increment_id = htmlspecialchars($this->f("boeking_id"));
-
-		$this->data[$this->increment_id]['boekingsnummer'] = htmlspecialchars($this->f("boekingsnummer")); // Booking number
-		$this->data[$this->increment_id]['totale_reissom'] = htmlspecialchars($this->f("totale_reissom")); // Grand total
-		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($this->f("bestelstatus")); // Order status
-		$this->data[$this->increment_id]['naam_accommodatie'] = htmlspecialchars($this->f("naam_accommodatie")); // Accommodation name
-		$this->data[$this->increment_id]['aanbetaling1'] = htmlspecialchars($this->f("aanbetaling1")); // Advance payment #1
-		$this->data[$this->increment_id]['aanbetaling2'] = htmlspecialchars($this->f("aanbetaling2")); // Advance payment #2
-		$this->data[$this->increment_id]['aanbetaling1_gewijzigd'] = htmlspecialchars($this->f("aanbetaling1_gewijzigd")); // Advance payment manual entered
-		$this->data[$this->increment_id]['aanbetaling2_datum'] = htmlspecialchars($this->f("aanbetaling2_datum")); // Advance payment #2
-		$this->data[$this->increment_id]['website'] = htmlspecialchars($this->f("website")); // Booking website code
-		$this->data[$this->increment_id]['taal'] = htmlspecialchars($this->f("taal")); // Booking language
+		$this->data[$this->increment_id]['boekingsnummer'] = htmlspecialchars($data["stap1"]["boekingsnummer"]); // Booking number
+		$this->data[$this->increment_id]['totale_reissom'] = htmlspecialchars($data["fin"]["totale_reissom"]); // Grand total
+		$this->data[$this->increment_id]['aanbetaling'] = htmlspecialchars($data["fin"]["aanbetaling"]); // Advance payment #1
+		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"]); // Order status
+		$this->data[$this->increment_id]['naam_accommodatie'] = htmlspecialchars($data["stap1"]["accinfo"]["accommodatie"]); // Accommodation name
+		$this->data[$this->increment_id]['aanbetaling1'] = htmlspecialchars($data["stap1"]["aanbetaling1"]); // Advance payment #1
+		$this->data[$this->increment_id]['aanbetaling2'] = htmlspecialchars($data["stap1"]["aanbetaling2"]); // Advance payment #2
+		$this->data[$this->increment_id]['aanbetaling1_gewijzigd'] = htmlspecialchars($data["stap1"]["aanbetaling1_gewijzigd"]); // Advance payment manual entered
+		$this->data[$this->increment_id]['aanbetaling2_datum'] = htmlspecialchars($data["stap1"]["aanbetaling2_datum"]); // Advance payment #2
+		$this->data[$this->increment_id]['website'] = htmlspecialchars($data["stap1"]["website"]); // Booking website code
+		$this->data[$this->increment_id]['taal'] = htmlspecialchars($data["stap1"]["taal"]); // Booking language
 
 		return $this;
 	}
 
 	public function loadByDocdataId($docdata_id = NULL) {
 		// Get approved (goedgekeurd) orders only
-		$sql = "SELECT * FROM `" .  $this->docdata_table . "`, `" . $this->table ."` ";
-		$sql .= "WHERE {$this->docdata_table}.docdata_payment_id =" . mysql_real_escape_string($docdata_id) . " AND {$this->table}.goedgekeurd = 1 AND {$this->table}.boeking_id = {$this->docdata_table}.boeking_id" ." LIMIT 1";
+		$sql = "SELECT dp.boeking_id, dp.cluster_key FROM `" .  $this->docdata_table . "` dp, `" . $this->table ."` b ";
+		$sql .= "WHERE dp.docdata_payment_id = '" . mysql_real_escape_string($docdata_id) . "' AND b.goedgekeurd = 1 AND b.boeking_id = dp.boeking_id LIMIT 1";
 
 		$this->query($sql);
 
 		if($this->num_rows() == 0) return null;
 
 		$this->next_record();
-		$this->increment_id = htmlspecialchars($this->f("boeking_id"));
+
+		$orderId = $this->f("boeking_id");
+
+		$this->increment_id = htmlspecialchars($orderId);
 		$this->cluster_key = htmlspecialchars($this->f("cluster_key"));
 
-		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($this->f("bestelstatus")); // Order status
-		$this->data[$this->increment_id]['totale_reissom'] = htmlspecialchars($this->f("totale_reissom")); // Grand total
+		$data = get_boekinginfo($orderId);
+
+		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"]); // Order status
+		$this->data[$this->increment_id]['totale_reissom'] = htmlspecialchars($data["fin"]["totale_reissom"]); // Grand total
 
 		return $this;
 	}
@@ -153,12 +156,8 @@ class Order extends Model {
 		$data = $this->data[$this->increment_id];
 
 		$this->payment_type = self::ADVANCE_PAYMENT;
+		$this->payment_amount = $data['aanbetaling'];
 
-		if(!empty($data['aanbetaling1_gewijzigd'])) {
-			$this->payment_amount = $data['aanbetaling1_gewijzigd'];
-		} else {
-			$this->payment_amount = $data['aanbetaling1'];
-		}
 		return $this->payment_amount;
 	}
 

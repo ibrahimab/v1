@@ -26,7 +26,15 @@ class Model_Api_Cancel extends Model_Api_Abstract {
 		
 		try {
 			$this->_api->log('API call Cancel: ', self::SEVERITY_DEBUG);
-			$this->_api->log($elements, self::SEVERITY_DEBUG);
+
+			if(isset($elements["orderId"])) {
+				$elements["action"] = 'API call Cancel';
+				// Log into the database
+				$this->_api->log($elements, self::SEVERITY_DEBUG, $elements["orderId"]);
+				unset($elements["orderId"]);
+				unset($elements["action"]);
+			}
+
 			//perform cancel call (wrap elements in array as rootelement)
 			$client = $this->getConnection($api);
 			$client->__soapCall('cancel', array($elements));

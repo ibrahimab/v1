@@ -140,6 +140,8 @@ function __($text) {
 }
 
 include_once( SITE_ROOT . DS . "admin" . DS . "class.mysql.php" );
+include_once( SITE_ROOT . DS . "admin" . DS . "allfunctions.php" );
+include_once( SITE_ROOT . DS . "admin" . DS . "vars_functions.php" );
 
 setReporting();
 removeMagicQuotes();
