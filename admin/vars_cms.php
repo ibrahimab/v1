@@ -1751,6 +1751,13 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 			if($gegevens["stap1"]["totale_reissom_inkoop"]<>0) $return.=" (laatste goedkeuring: &euro;&nbsp;".number_format($gegevens["stap1"]["totale_reissom_inkoop"],2,",",".").")";
 			$return.="<br><br><a href=\"".$path."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"])."&bid=".$gegevens["stap1"]["boekingid"]."\">inkoopgegevens controleren en opslaan &raquo;</a></td></tr>";
 		}
+
+		$dubbel_reserveringsnummer = new dubbel_reserveringsnummer($gegevens["stap1"]["boekingid"]);
+		if($dubbel_reserveringsnummer->dubbel) {
+			$return.="<tr style=\"color:#000000;background-color:yellow;text-align:center;\"><td colspan=\"3\">&nbsp;<br/>Waarschuwing: reserveringsnummer ".$gegevens["stap1"]["boekingsnummer"]." wordt ook bij een <a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$dubbel_reserveringsnummer->dubbel_boeking_id."\" target=\"_blank\">andere boeking</a> gebruikt! Herstel dit z.s.m.!<br/>&nbsp;</td></tr>";
+			$vars["dubbel_reserveringsnummer"]=true;
+		}
+
 		$return.="</table>";
 
 		if($verschil>0.01) {

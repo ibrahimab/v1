@@ -590,7 +590,7 @@ function boekinginfo($boekingid) {
 #		$return["stap1"]["accinfo"]["toonper"]=$db->f("toonper");
 
 		$return["stap1"]["boekingid"]=$db->f("boeking_id");
-		$return["stap1"]["boekingsnummer"]=$db->f("boekingsnummer");
+		$return["stap1"]["boekingsnummer"]=trim($db->f("boekingsnummer"));
 		$return["stap1"]["bezoekerid"]=$db->f("bezoeker_id");
 		$return["stap1"]["leverancierscode"]=$db->f("leverancierscode");
 		$return["stap1"]["leverancierscode_oud"]=$db->f("leverancierscode_oud");

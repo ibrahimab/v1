@@ -43,7 +43,11 @@ if($gegevens["stap1"]["geannuleerd"]) {
 	echo "<b style=\"color:red\">Let op: deze boeking is geannuleerd. Het crediteren van de boeking is boekhoudkundig gezien al automatisch gebeurd.</b><p>";
 }
 
-$form->display_all();
+if($vars["dubbel_reserveringsnummer"]) {
+	echo "<b>Het aanmaken van een factuur is alleen mogelijk als het reserveringsnummer uniek is.</b>";
+} else {
+	$form->display_all();
+}
 
 
 ?>
