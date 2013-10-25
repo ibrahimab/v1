@@ -288,6 +288,10 @@ if($login->logged_in) {
 												echo "<li>Via inlog op website: er is geen website aan deze leverancier gekoppeld</li>";
 											}
 										}
+										if($db2->f("standaardbestelmanier")==5) {
+											echo "<li><b>Boeking moet intern verwerkt worden.</b></li>";
+										}
+
 										echo "</ul>";
 #									} else {
 #										echo "<b> is pas mogelijk na het invullen van het veld &quot;akkoord&quot; bij de <a href=\"".$path."cms_boekingen_leveranciers.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\">inkoopgegevens</a></b><br><br>";
