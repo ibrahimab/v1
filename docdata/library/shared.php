@@ -47,9 +47,11 @@ function unregisterGlobals() {
 /** Main Call Function **/
 
 function callHook() {
-	global $url;
+	global $dd_url;
 	global $default;
 	global $request;
+
+	$url = $dd_url;
 
 	$queryString = array();
 
@@ -105,7 +107,7 @@ function routeURL($url) {
 
 /** Autoload any classes that are required **/
 
-function __autoload($className) {
+function doctata_autoload($className) {
 	if (file_exists(ROOT . DS . 'library' . DS . strtolower($className) . '.php')) {
 		require_once(ROOT . DS . 'library' . DS . strtolower($className) . '.php');
 	} else if (file_exists(ROOT . DS . 'application' . DS . 'controllers' . DS . $className . '.php')) {
@@ -127,6 +129,8 @@ function __autoload($className) {
 	}
 }
 
+spl_autoload_register('doctata_autoload');
+
 function loadDirectories($className) {
 	$parts = explode("_", $className);
 	$path = implode(DS, $parts);
@@ -139,9 +143,7 @@ function __($text) {
 	return $text;
 }
 
-include_once( SITE_ROOT . DS . "admin" . DS . "class.mysql.php" );
-include_once( SITE_ROOT . DS . "admin" . DS . "allfunctions.php" );
-include_once( SITE_ROOT . DS . "admin" . DS . "vars_functions.php" );
+include( SITE_ROOT . DS . "admin" . DS . "vars.php" );
 
 setReporting();
 removeMagicQuotes();
