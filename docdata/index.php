@@ -23,9 +23,9 @@ if(file_exists(SITE_ROOT . DS . "admin" . DS . "vars_db.php")) {
 	die("Can not load database config file");
 }
 
-$url = $_SERVER["REQUEST_URI"];
-$pos = strpos($url, "?");
-if($pos) $url = substr($url, 0, $pos);
+$dd_url = $_SERVER["REQUEST_URI"];
+$pos = strpos($dd_url, "?");
+if($pos) $dd_url = substr($dd_url, 0, $pos);
 
 require_once (ROOT . DS . 'library' . DS . 'request.php');
 

@@ -26,9 +26,11 @@ class Model_Api_Create extends Model_Api_Abstract {
 		try {
 			$this->_api->log('API call Create: ', self::SEVERITY_DEBUG);
 			if(isset($elements["orderId"])) {
+				$elements["action"] = 'API call Create';
 				// Log into the database
 				$this->_api->log($elements, self::SEVERITY_DEBUG, $elements["orderId"]);
 				unset($elements["orderId"]);
+				unset($elements["action"]);
 			}
 			//perform create call (wrap elements in array as rootelement)
 			$client = $this->getConnection($api);
