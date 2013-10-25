@@ -32,7 +32,8 @@ class Order extends Model {
 		$this->data[$this->increment_id]['totale_reissom'] = htmlspecialchars($data["fin"]["totale_reissom"]); // Grand total
 		$this->data[$this->increment_id]['aanbetaling'] = htmlspecialchars($data["fin"]["aanbetaling"]); // Advance payment #1
 		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"]); // Order status
-		$this->data[$this->increment_id]['naam_accommodatie'] = htmlspecialchars($data["stap1"]["accinfo"]["accommodatie"]); // Accommodation name
+		$acc_name = $data["stap1"]["accinfo"]["begincode"] . $data["stap1"]["accinfo"]["typeid"] . " - " . $data["stap1"]["accinfo"]["naam"];
+		$this->data[$this->increment_id]['naam_accommodatie'] = htmlspecialchars($acc_name); // Accommodation name
 		$this->data[$this->increment_id]['aanbetaling1'] = htmlspecialchars($data["stap1"]["aanbetaling1"]); // Advance payment #1
 		$this->data[$this->increment_id]['aanbetaling2'] = htmlspecialchars($data["stap1"]["aanbetaling2"]); // Advance payment #2
 		$this->data[$this->increment_id]['aanbetaling1_gewijzigd'] = htmlspecialchars($data["stap1"]["aanbetaling1_gewijzigd"]); // Advance payment manual entered
