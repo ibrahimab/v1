@@ -274,7 +274,7 @@ if($login->logged_in) {
 						}
 
 						$restbetalen=$gegevens["fin"]["totale_reissom"]-$gegevens["fin"]["aanbetaling"];
-						if($ramining_payments<>$restbetalen and $ramining_payments<>$gegevens["fin"]["totale_reissom"]) {
+						if($ramining_payments<>$restbetalen and ($ramining_payments<>$gegevens["fin"]["totale_reissom"] or $advance_payment)) {
 							$restbetalen=$ramining_payments;
 						}
 
@@ -335,7 +335,7 @@ if($login->logged_in) {
 							}
 
 							$restbetalen=$gegevens["fin"]["totale_reissom"]-$gegevens["fin"]["aanbetaling"];
-							if($ramining_payments<>$restbetalen and $ramining_payments<>$gegevens["fin"]["totale_reissom"]) {
+							if($ramining_payments<>$restbetalen and ($ramining_payments<>$gegevens["fin"]["totale_reissom"] or $advance_payment)) {
 								$restbetalen=$ramining_payments;
 							}
 
