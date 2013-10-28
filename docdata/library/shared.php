@@ -6,6 +6,8 @@ function setReporting() {
 	if (DEVELOPMENT_ENVIRONMENT == true) {
 		error_reporting(E_ERROR | E_WARNING);
 		ini_set('display_errors','On');
+		ini_set('log_errors', 'On');
+		ini_set('error_log', ROOT.DS.'log'.DS.'error.log');
 	} else {
 		error_reporting(E_ERROR | E_WARNING);
 		ini_set('display_errors','Off');

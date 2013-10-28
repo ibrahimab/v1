@@ -440,6 +440,9 @@ class PaymentController extends Controller {
 			//handle new order
 			$this->_newOrder($order, $request);
 		} else {
+
+			$this->render = 0;
+
 			//no order found in session or via URL
 			$errCode = 1;
 			$this->_redirect($this->redirectPage . "&error=" .$errCode);
@@ -473,6 +476,10 @@ class PaymentController extends Controller {
 
 		// Check if the user selected the country
 		if($request->getParam("country") == ""){
+
+			$this->render = 0;
+
+			// The country code was not specified
 			$errCode = 5;
 			$this->_redirect($this->redirectPage . "&error=" . $errCode);
 			return;
@@ -508,6 +515,8 @@ class PaymentController extends Controller {
 				App::get('helper/data')->log('The order with the id: ' . $order->getId() .' does not belong to the user with id: ' .$user_id, App::ERR);
 				App::get('helper/data')->dbLog('The order with the id: ' . $order->getId() .' does not belong to the user with id: ' .$user_id, App::ERR, $order->getId());
 
+				$this->render = 0;
+
 				// Order does not belong to the logged in user
 				$errCode = 3;
 				$this->_redirect($this->redirectPage . "&error=" . $errCode);
@@ -515,6 +524,8 @@ class PaymentController extends Controller {
 			}
 		} else {
 			App::get('helper/data')->log('Customer not logged in when accessing redirect action.', App::ERR);
+
+			$this->render = 0;
 
 			// User must login
 			$errCode = 4;
@@ -627,6 +638,9 @@ class PaymentController extends Controller {
 			//handle new order
 			$this->_newOrder($order, $request);
 		} else {
+
+			$this->render = 0;
+
 			//no order found in session or via URL
 			$errCode = 1;
 			$this->_redirect($this->redirectPage . "&error=" . $errCode);
