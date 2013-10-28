@@ -41,14 +41,14 @@ if($grizzly_title) {
 	echo $grizzly_title;
 } else {
 	if($id=="index") {
-		echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("subtitel"));
+		echo wt_he($vars["websitenaam"])." - ".wt_he(txt("subtitel"));
 		$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("subtitel");
 	} else {
 		if($title[$id] and $id) {
-			echo htmlentities($title[$id])." - ";
+			echo wt_he($title[$id])." - ";
 			$vars["facebook_title"]=$title[$id];
 		}
-		echo htmlentities($vars["websitenaam"]);
+		echo wt_he($vars["websitenaam"]);
 	}
 }
 echo "</title>";

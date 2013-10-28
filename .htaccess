@@ -381,6 +381,10 @@ RewriteRule ^reisblog/$ /reisblog [L,R=301]
 RewriteRule ^reisblog$ reisblog.php?%{QUERY_STRING}
 RewriteRule ^reisblog/voorwaarden$ reisblog.php?voorwaarden=1&%{QUERY_STRING}
 
+# reiskookboek Italissima
+RewriteRule ^kixx/$ /kixx [L,R=301]
+RewriteRule ^kixx$ actie-kixx.php?%{QUERY_STRING}
+
 
 #
 # Oude pagina's die niet meer bestaan: redirect naar homepage
