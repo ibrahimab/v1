@@ -49,6 +49,9 @@ if($login->logged_in) {
                 $gegevens["stap2"]["iso_land"] = false;
             }
 
+			if($gegevens["stap1"]["website"] == "B") {
+				$gegevens["stap2"]["iso_land"] = "BE";
+			}
 
             if(($temp_gegevens["stap4"][1]["korting"] and $mustlogin) or $temp_gegevens["stap4"][2]["korting"]) {
 				$celbreedte=110;

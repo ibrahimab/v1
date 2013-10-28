@@ -49,6 +49,10 @@ if($login->logged_in) {
             $gegevens["stap2"]["iso_land"] = false;
         }
 
+		if($gegevens["stap1"]["website"] == "B") {
+			$gegevens["stap2"]["iso_land"] = "BE";
+		}
+
 		echo "<p><a href=\"".$vars["path"]."bsys.php?bid=".intval($_GET["bid"])."\">";
 			echo html("terugnaardeoverzichtspagina","bsys");
 		echo "</a></p>";
