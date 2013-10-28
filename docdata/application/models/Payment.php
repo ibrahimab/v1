@@ -273,18 +273,29 @@ class Payment extends Model {
 	 * @return bool
 	 */
 	public function setInvoice($order_id, $payment_id, $type, $captured) {
+		global $vars;
+
 		$config = App::get('app/config')->getConfig();
 		$payments_cfg = $config['payment'];
+		$payment_type = $payments_cfg[$type]['type'];
 
 		$sql  = "INSERT INTO `" . $this->paymentsTable . "` ";
 		$sql .= "SET boeking_id = '" . mysql_real_escape_string($order_id) . "', ";
         $sql .= "bedrag = " . mysql_real_escape_string($captured) . ", datum = NOW(), ";
-        $sql .= "type = '" . mysql_real_escape_string($payments_cfg[$type]['type']) . "', ";
+        $sql .= "type = '" . mysql_real_escape_string($payment_type) . "', ";
 		$sql .= " docdata_payment_id = '" . mysql_real_escape_string($payment_id) ."' ;";
                 
 		$this->query($sql);
 
-		return (bool)$this->num_rows();
+		$ok = $this->affected_rows();
+
+		if($ok == 1) {
+			// save booking log on success payment
+			$text = "Correct uitgevoerde Docdata-betaling: ".$vars["boeking_betaling_type"][$payment_type]." ".number_format($captured,2,",",".")." (id: ".$payment_id.")";
+			boeking_log($order_id, $text);
+		}
+
+		return (bool)$ok;
 	}        
 
 	/**
