@@ -62,6 +62,10 @@ if($login->logged_in) {
 			# Display messages
 			if(isset($_GET["success"]) && (int)$_GET["success"] > 0) {
 				echo "<p align=\"center\" style=\"color:#999900;font-weight:bold;background:#fff;padding:5px;border:1px solid #999900;\">".html("success_".$_GET["success"],"bsys")."</p>";
+
+				// log succes in booking-log
+				boeking_log($_GET["bid"], "Docdata-melding aan klant: \"".txt("success_".$_GET["success"],"bsys")."\"");
+
 			} elseif(isset($_GET["error"]) && (int)$_GET["error"] > 0) {
 				echo "<p align=\"center\" style=\"color:#d40139;font-weight:bold;background:#fff;padding:5px;border:1px solid #d40139;\">".html("error_".$_GET["error"],"bsys")."</p>";
 
@@ -69,7 +73,7 @@ if($login->logged_in) {
 				trigger_error("_notice: Docdata-foutmelding ".$_GET["error"].": ".txt("error_".$_GET["error"],"bsys"),E_USER_NOTICE);
 
 				// log error in booking-log
-				boeking_log($_GET["bid"], "foutmelding bij Docdata-betaling: ".txt("error_".$_GET["error"],"bsys"));
+				boeking_log($_GET["bid"], "Docdata-melding aan klant: \"".txt("error_".$_GET["error"],"bsys")."\"");
 
 			}
 
