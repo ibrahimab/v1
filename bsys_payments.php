@@ -1,6 +1,5 @@
 <?php
 
-$mustlogin=true;
 $boeking_wijzigen=true;
 $vars["verberg_zoekenboeklinks"]=true;
 $vars["verberg_directnaar"]=true;
