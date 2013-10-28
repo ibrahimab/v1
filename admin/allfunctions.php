@@ -93,6 +93,15 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			$mysql_connection_error=true;
 		}
 
+		// php-session-errors veroorzaakt door hack-poging niet opslaan
+		if(preg_match("@open.*sess_.*O_RDWR.*failed.*Permission denied@",$errstr) and $errno==2) {
+			$nietopslaan=true;
+		}
+		if(preg_match("@Failed to write session data.*Please verify that the current setting of session\.save_path is correct@",$errstr) and $errno==2) {
+			$nietopslaan=true;
+		}
+
+
 		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr) or preg_match("/locks exceeds the lock table size/",$errstr) or preg_match("/MySQL server has gone away/",$errstr) or  preg_match("/Lost connection to MySQL server during query/",$errstr)) {
 
 			if($GLOBALS["vars"]["wt_error_handler_mysql_connect_error_hide"]) {
