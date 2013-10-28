@@ -2810,6 +2810,60 @@ function chalet_log($text,$aangepast=false,$save_in_db=false) {
 	return;
 }
 
+
+/*
+ * Function boeking_log
+ *
+ * saves a log entry for a booking (saves it immediately, the function chalet_log() can be used to create multiple entries, without saving).
+ *
+ * @param integer $boeking_id the id of the booking
+ * @param string $text the text to add to the log
+ * @return boolean Whether the boeking_id could be found
+ */
+function boeking_log($boeking_id, $text) {
+
+	global $mustlogin, $login, $cron;
+
+	$db=new DB_sql;
+
+	if($_COOKIE["loginuser"]["chalet"]<>1 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+
+		$db->query("SELECT log, boekingsnummer FROM boeking WHERE boeking_id='".intval($boeking_id)."';");
+		if($db->next_record()) {
+
+			$log = $db->f("log");
+			$boekingsnummer = $db->f("boekingsnummer");
+
+			if($log) $log.="\n";
+			$log.=time()."-";
+			if($mustlogin or $_COOKIE["loginuser"]["chalet"]) {
+				$log.="c".($_COOKIE["loginuser"]["chalet"]<>3 ? $_COOKIE["loginuser"]["chalet"] : "")."-";
+				$lasteditor=$_COOKIE["loginuser"]["chalet"];
+			} elseif($cron) {
+				$log.="s-";
+				$lasteditor=0;
+			} else {
+				$log.="k-";
+				$lasteditor=0;
+			}
+
+			$log.="i-";
+			$log.=" ".$text;
+			$db->query("UPDATE boeking SET log='".addslashes($log)."', bewerkdatetime=NOW(), lasteditor='".addslashes($lasteditor)."' WHERE boeking_id='".addslashes($boeking_id)."';");
+
+			# ook opslaan in cmslog (specialtype=2)
+			if($_COOKIE["loginuser"]["chalet"] and $boeking_id) {
+				$db->query("INSERT INTO cmslog SET user_id='".addslashes($_COOKIE["loginuser"]["chalet"])."', specialtype=2, cms_id='0', cms_name='boeking', record_id='".addslashes($boeking_id)."', record_name='".($boekingsnummer ? $boekingsnummer : "aanvraagnummer ".$boeking_id)."', table_name='boeking', field='', field_name='', field_type='', previous='', now='', url='".addslashes($_SERVER["REQUEST_URI"])."', boekinglogtekst='".addslashes($text)."', savedate=NOW();");
+			}
+
+			return true;
+
+		} else {
+			return false;
+		}
+	}
+}
+
 function boeking_veiligheid($boekingid) {
 	return substr(md5("_WT_SECURITY_".$boekingid),0,8);
 }
