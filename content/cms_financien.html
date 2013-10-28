@@ -1624,9 +1624,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	if($_GET["csv"]) {
 		while(list($key,$value)=each($csvoutput)) {
 			if($_GET["bedrijf"]=="venturasol") {
-				$filename=$unixdir."csv/".$vars["unixdir"]."venturasol_".$key."---".date("Y-m-d").".csv";
+				$filename=$vars["unixdir"]."csv/venturasol_".$key."---".date("Y-m-d").".csv";
 			} else {
-				$filename=$unixdir."csv/".$vars["unixdir"].$key."---".date("Y-m-d").".csv";
+				$filename=$vars["unixdir"]."csv/".$key."---".date("Y-m-d").".csv";
 			}
 			file_put_contents($filename,$value);
 			echo "Opgeslagen: ".$filename."<br>\n";
