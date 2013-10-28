@@ -21,7 +21,7 @@ class Payment extends Model {
 		}
 		parent::__construct();
 	}
-        
+
 
 	/**
 	 * Save the payment details when it is created
@@ -66,7 +66,7 @@ class Payment extends Model {
 	 * @return int
 	 */
 	public function getDocdataPaymentOrderKey($order_id, $payment_type, $status = NULL) {
-            
+
 		$sql  = "SELECT cluster_key FROM `" . $this->table . "` ";
 		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($order_id) . "' AND type = '" . mysql_real_escape_string($payment_type) ."' ";
 		if($status) {
@@ -112,13 +112,13 @@ class Payment extends Model {
 	public function getDocdataPaymentType($order_id, $cluster_key) {
 		$sql  = "SELECT type FROM `" . $this->table . "` ";
 		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($order_id) . "' AND cluster_key = '" . mysql_real_escape_string($cluster_key) ."' LIMIT 1";
-                
+
 		$this->query($sql);
-                
+
 		if((int)$this->num_rows() == 0) return null;
 
 		$this->next_record();
-                
+
 
 		return htmlspecialchars($this->f("type"));
 	}
@@ -243,7 +243,7 @@ class Payment extends Model {
 
 		$this->next_record();
 		return htmlspecialchars($this->f("payment_method"));
-	}          
+	}
 
 	/**
 	 * Set docdata payment method after a successful payment received from docdata
@@ -284,19 +284,19 @@ class Payment extends Model {
         $sql .= "bedrag = " . mysql_real_escape_string($captured) . ", datum = NOW(), ";
         $sql .= "type = '" . mysql_real_escape_string($payment_type) . "', ";
 		$sql .= " docdata_payment_id = '" . mysql_real_escape_string($payment_id) ."' ;";
-                
+
 		$this->query($sql);
 
 		$ok = $this->affected_rows();
 
 		if($ok == 1) {
 			// save booking log on success payment
-			$text = "Correct uitgevoerde Docdata-betaling: ".$vars["boeking_betaling_type"][$payment_type]." ".number_format($captured,2,",",".")." (id: ".$payment_id.")";
+			$text = $vars["boeking_betaling_type"][$payment_type].": € ".number_format($captured,2,",",".")." (id: ".$payment_id.")";
 			boeking_log($order_id, $text);
 		}
 
 		return (bool)$ok;
-	}        
+	}
 
 	/**
 	 * Update payment status
