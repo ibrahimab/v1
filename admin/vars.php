@@ -62,7 +62,7 @@ if($_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["DOCUMENT_ROOT"]=="/home
 	$vars["webtastic"]=true;
 }
 
-$unixdir =  dirname(dirname(__FILE__)) . "/";
+$unixdir = dirname(dirname(__FILE__)) . "/";
 
 # Bestanden includen
 require($unixdir."admin/allfunctions.php");
