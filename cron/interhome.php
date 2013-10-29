@@ -1,8 +1,8 @@
 <?php
-if($_SERVER["HTTP_HOST"]) {
+if(isset($_SERVER["HTTP_HOST"])) {
 	$unixdir="../";
 } else {
-	$unixdir="/var/www/chalet.nl/html/";
+    $unixdir=dirname(dirname(__FILE__))."/";
 }
 $cron=true;
 include($unixdir."admin/vars.php");

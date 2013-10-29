@@ -832,6 +832,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 	}
 
+	if($form->input["grootboek"]) {
+		// geen garanties bij opgegeven grootboekrekeningnummer
+		$andquery_gar.=" AND 1=2";
+		$andquery_gar_hoofdquery.=" AND 1=2";
+	}
+
 	if($form->input["testsysteem"]) {
 
 	}
@@ -989,6 +995,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							if($kolom["boeking_klantnaam"]) {
 								$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("naam"))."</td>";
 							}
+							if($kolom["boeking_grootboekrekeningnummer"]) {
+								$losseregel.="<td style=\"text-align:left;\">".wt_he($grootboek)."</td>";
+							}
 							$losseregel.="</tr>";
 
 							$fin["losseboekingen"][$seizoenid][]=$losseregel;
@@ -999,9 +1008,24 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		}
 	}
 
+
+
 	# Gewone boekingen
-	$db->query("SELECT SUBSTR(b.boekingsnummer,2) AS sortboekingsnummer, b.seizoen_id, b.boeking_id, b.boekingsnummer, b.leverancier_id, b.type_id, b.aantalpersonen, b.aankomstdatum, b.totale_reissom, b.totale_reissom_inkoop, b.inkoopbruto, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.btw_over_commissie, b.btw_over_commissie_percentage, b.verkoop, b.commissie, a.bestelnaam AS abestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, p.naam AS plaats, l.naam AS leverancier, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, skigebied s, leverancier l WHERE p.skigebied_id=s.skigebied_id AND b.leverancier_id=l.leverancier_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.totale_reissom_inkoop IS NOT NULL AND b.seizoen_id IN (".$seizoen_id.") AND CHAR_LENGTH(b.boekingsnummer)>0 AND b.type_id=t.type_id".$andquery.$andquery_hoofdquery." ORDER BY 1;");
+	$db->query("SELECT SUBSTR(b.boekingsnummer,2) AS sortboekingsnummer, b.seizoen_id, b.boeking_id, UNIX_TIMESTAMP(b.factuurdatum) AS factuurdatum, b.website, b.reisbureau_user_id, b.boekingsnummer, b.leverancier_id, b.type_id, b.aantalpersonen, b.aankomstdatum, b.totale_reissom, b.totale_reissom_inkoop, b.inkoopbruto, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.btw_over_commissie, b.btw_over_commissie_percentage, b.verkoop, b.commissie, a.bestelnaam AS abestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, p.naam AS plaats, l.naam AS leverancier, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, skigebied s, leverancier l WHERE p.skigebied_id=s.skigebied_id AND b.leverancier_id=l.leverancier_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.totale_reissom_inkoop IS NOT NULL AND b.seizoen_id IN (".$seizoen_id.") AND CHAR_LENGTH(b.boekingsnummer)>0 AND b.type_id=t.type_id".$andquery.$andquery_hoofdquery." ORDER BY 1;");
 	while($db->next_record()) {
+
+		if($kolom["boeking_grootboekrekeningnummer"] or $form->input["grootboek"]) {
+
+//			$form->input["grootboek_uitgangsdatum"]["unixtime"];
+
+			$grootboek = $vars["grootboekrekeningnummers_object"]->bepaal_grootboekrekeningnummer(boekjaar($db->f("factuurdatum")), $db->f("website"), $db->f("aankomstdatum_exact"), 1, $db->f("reisbureau_user_id"));
+		}
+
+		if($form->input["grootboek"] and $grootboek<>$form->input["grootboek"]) {
+			// ander grootboekrekeningnummer: continue
+			continue;
+		}
+
 
 		# Commissie-btw berekenen
 		if($db->f("btw_over_commissie") and $db->f("btw_over_commissie_percentage")<>0) {
@@ -1189,6 +1213,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["boeking_klantnaam"]) {
 				$losseregel.="<td style=\"text-align:left;\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td>";
 			}
+			if($kolom["boeking_grootboekrekeningnummer"]) {
+
+				$losseregel.="<td style=\"text-align:left;\">".wt_he($grootboek)."</td>";
+			}
 
 			$losseregel.="</tr>";
 
@@ -1329,6 +1357,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		if($kolom["boeking_klantnaam"]) {
 			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_klantnaam"])."\">B: Klantnaam</th>";
 		}
+		if($kolom["boeking_grootboekrekeningnummer"]) {
+			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_grootboekrekeningnummer"])."\">B: Grootboek</th>";
+		}
 		echo "</tr>";
 
 
@@ -1443,6 +1474,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["boeking_klantnaam"]) {
 				echo "<td>&nbsp;</td>";
 			}
+			if($kolom["boeking_grootboekrekeningnummer"]) {
+				echo "<td>&nbsp;</td>";
+			}
 			echo "</tr>";
 		}
 
@@ -1543,6 +1577,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 					echo "<td>&nbsp;</td>";
 				}
 				if($kolom["boeking_klantnaam"]) {
+					echo "<td>&nbsp;</td>";
+				}
+				if($kolom["boeking_grootboekrekeningnummer"]) {
 					echo "<td>&nbsp;</td>";
 				}
 				echo "</tr>";
@@ -1694,9 +1731,13 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 		echo "<table cellspacing=\"0\" cellpadding=\"4\" class=\"tbl\">";
 
-		echo "<tr><td colspan=\"2\">&nbsp;</td><td colspan=\"3\">&nbsp;</td><td colspan=\"3\"><i>wederverkoop</i></td></tr>";
-		echo "<tr><th colspan=\"2\" style=\"text-align:right;\">boekjaar:&nbsp;&nbsp;</th><th>vorig</th><th>huidig</th><th>volgend</th><th>vorig</th><th>huidig</th><th>volgend</th></tr>";
-		while(list($key,$value)=each($vars["grootboekrekeningnummers"])) {
+		echo "<tr><td colspan=\"2\">&nbsp;</td><td colspan=\"3\">&nbsp;</td><td colspan=\"3\"><i>wederverkoop NL</i></td><td colspan=\"3\"><i>wederverkoop buiten NL</i></td></tr>";
+		echo "<tr><th colspan=\"2\" style=\"text-align:right;\">boekjaar:&nbsp;&nbsp;</th><th>vorig</th><th>huidig</th><th>volgend</th><th>vorig</th><th>huidig</th><th>volgend</th><th>vorig</th><th>huidig</th><th>volgend</th></tr>";
+
+
+		$grootboekrekeningnummers = new grootboekrekeningnummers;
+
+		while(list($key,$value)=each($grootboekrekeningnummers->grootboekrekeningnummers)) {
 			if(!$vars["websites_inactief"][$key]) {
 				if($_GET["bedrijf"]=="venturasol" and $key<>"X" and $key<>"Y") {
 					continue;
@@ -1710,10 +1751,17 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				echo "<td>".$value[-1]."</td>";
 				echo "<td>".$value[0]."</td>";
 				echo "<td>".$value[1]."</td>";
-				if($vars["grootboekrekeningnummers_wederverkoop"][$key]) {
-					echo "<td>".$vars["grootboekrekeningnummers_wederverkoop"][$key][-1]."</td>";
-					echo "<td>".$vars["grootboekrekeningnummers_wederverkoop"][$key][0]."</td>";
-					echo "<td>".$vars["grootboekrekeningnummers_wederverkoop"][$key][1]."</td>";
+				if($grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop[$key]) {
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop[$key][-1]."</td>";
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop[$key][0]."</td>";
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop[$key][1]."</td>";
+				} else {
+					echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+				}
+				if($grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop_buitenland[$key]) {
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop_buitenland[$key][-1]."</td>";
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop_buitenland[$key][0]."</td>";
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop_buitenland[$key][1]."</td>";
 				} else {
 					echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
 				}

@@ -55,17 +55,30 @@ h2 {
 
 .alletypes_soort_accommodatie {
 	margin-top: 20px;
-	margin-bottom: 8px;
+	margin-bottom: 5px;
 	font-style: italic;
 	text-align: center;
 }
 
 .alletypes_type {
 	display: block;
-	border-top: 1px solid #cccccc;
-	border-bottom: 1px solid #cccccc;
 	min-height: 35px;
 	text-decoration: none;
+	padding: 2px;
+}
+
+div.alletypes_type {
+	background-color: #003366;
+	color: #ffffff;
+}
+
+a.alletypes_type {
+	background-color: #d5e1f9;
+}
+
+a.alletypes_type:hover {
+	background-color: #003366;
+	color: #ffffff;
 }
 
 .alletypes_aantalpersonen {
@@ -73,14 +86,14 @@ h2 {
 	box-sizing : border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	background: url(../pic/icons/icon-alletypes_1.png?c=1);
+	background: url(../pic/icons/icon-alletypes_3.png?c=1);
 	background-size: 35px 35px;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
 	text-align: center;
 	width: 35px;
 	height: 35px;
-	padding-top: 24px;
+	padding-top: 25px;
 	line-height: 9px;
 	font-size: 9px;
 	color: #003366;

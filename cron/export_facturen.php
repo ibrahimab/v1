@@ -54,7 +54,10 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 	} else {
 		$tempwhere="UNIX_TIMESTAMP(f.datum)>='".addslashes($form->input["van"]["unixtime"])."' AND UNIX_TIMESTAMP(f.datum)<='".addslashes($form->input["tot"]["unixtime"])."'";
 	}
-	$db->query("SELECT b.boeking_id, b.debiteurnummer, b.boekingsnummer, b.landcode, b.aankomstdatum_exact, b.reisbureau_user_id, p.voornaam, p.tussenvoegsel, p.achternaam, f.factuur_id, UNIX_TIMESTAMP(f.datum) AS factuurdatum, fr.regelnummer, fr.bedrag, fr.grootboektype FROM boeking b, boeking_persoon p, factuur f, factuurregel fr WHERE f.boeking_id=b.boeking_id AND fr.factuur_id=f.factuur_id AND p.persoonnummer=1 AND p.boeking_id=b.boeking_id AND debiteurnummer>0 AND ".$tempwhere.$andquery." ORDER BY f.factuur_id, fr.regelnummer;");
+
+	$grootboekrekeningnummers = new grootboekrekeningnummers;
+
+	$db->query("SELECT b.boeking_id, b.debiteurnummer, b.website, b.boekingsnummer, b.landcode, b.aankomstdatum_exact, b.reisbureau_user_id, p.voornaam, p.tussenvoegsel, p.achternaam, f.factuur_id, UNIX_TIMESTAMP(f.datum) AS factuurdatum, fr.regelnummer, fr.bedrag, fr.grootboektype FROM boeking b, boeking_persoon p, factuur f, factuurregel fr WHERE f.boeking_id=b.boeking_id AND fr.factuur_id=f.factuur_id AND p.persoonnummer=1 AND p.boeking_id=b.boeking_id AND debiteurnummer>0 AND ".$tempwhere.$andquery." ORDER BY f.factuur_id, fr.regelnummer;");
 #	echo $db->lastquery;
 	while($db->next_record()) {
 
@@ -91,27 +94,8 @@ if($form->okay or ($_GET["nodate"] and $_GET["confirmed"])) {
 			$betaalref="";
 
 			# Grootboekrekening bepalen
-			$website=ereg_replace("^([A-Z]).*$","\\1",$db->f("boekingsnummer"));
-			if($boekjaar<boekjaar($db->f("aankomstdatum_exact"))) {
-				$boekjaar_plusmin=1;
-			} elseif($boekjaar>boekjaar($db->f("aankomstdatum_exact"))) {
-				$boekjaar_plusmin=-1;
-			} else {
-				$boekjaar_plusmin=0;
-			}
-			if($db->f("grootboektype")==0) {
-				$grootboek="";
-			} elseif($db->f("grootboektype")==1) {
-				# Alleen vanaf boekjaar 2010 wederverkoop-grootboekrekeningen toepassen
-				if($db->f("reisbureau_user_id") and $boekjaar>=2010) {
-					$wederverkoop="_wederverkoop";
-				} else {
-					$wederverkoop="";
-				}
-				$grootboek=$vars["grootboekrekeningnummers".$wederverkoop][$website][$boekjaar_plusmin];
-			} elseif($db->f("grootboektype")==2) {
-				$grootboek="1513";
-			}
+			$grootboek = $grootboekrekeningnummers->bepaal_grootboekrekeningnummer($boekjaar, $db->f("website"), $db->f("aankomstdatum_exact"), $db->f("grootboektype"), $db->f("reisbureau_user_id"));
+
 
 			# BTW-code en -bedrag
 			$btwcode=$vars["landcodes_boekhouding_btwcode"][$db->f("landcode")];
