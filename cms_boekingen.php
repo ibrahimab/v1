@@ -242,6 +242,7 @@ if($_GET["edit"]==21 or $_GET["show"]==21) {
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(21,"noedit","boeking_id");
+$cms->db_field(21,"text","website");
 $cms->db_field(21,"select","boekingsgegevens","boeking_id",array("selection"=>$boekingsgegevens["hoofdboeker"]));
 $cms->db_field(21,"select","acc_of_arrangement","boeking_id",array("selection"=>$boekingsgegevens["acc_of_arrangement"]));
 if($_GET["archief"]==1) {
@@ -267,9 +268,10 @@ $cms->list_sort_desc[21]=true;
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 if($_GET["bt"]==1) {
+	$cms->list_field(21,"website","Site");
 	$cms->list_field(21,"boeking_id","Nr");
 	$cms->list_field(21,"bestelstatus","Bestelstatus","",array("html"=>true));
-} elseif($_GET["bt"]==2 or $_GET["bt"]==4) {
+} elseif($_GET["boekingsearch"] or $_GET["bt"]==2 or $_GET["bt"]==4) {
 	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
 } elseif($_GET["bt"]==5) {
 	$cms->list_sort[21]=array("aankomstdatum_exact");
