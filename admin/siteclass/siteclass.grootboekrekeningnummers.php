@@ -59,10 +59,27 @@ class grootboekrekeningnummers {
 				$this->reisbureau_user_id_buitenland[$db->f("reisbureau_user_id")]=true;
 			}
 		}
-
-
 	}
 
+	function grootboekrekening_array() {
+		foreach ($this->grootboekrekeningnummers as $key => $value) {
+			$array[$value[-1]]=$value[-1];
+			$array[$value[0]]=$value[0];
+			$array[$value[1]]=$value[1];
+		}
+		foreach ($this->grootboekrekeningnummers_wederverkoop as $key => $value) {
+			$array[$value[-1]]=$value[-1];
+			$array[$value[0]]=$value[0];
+			$array[$value[1]]=$value[1];
+		}
+		foreach ($this->grootboekrekeningnummers_wederverkoop_buitenland as $key => $value) {
+			$array[$value[-1]]=$value[-1];
+			$array[$value[0]]=$value[0];
+			$array[$value[1]]=$value[1];
+		}
+		ksort($array);
+		return $array;
+	}
 
 	function bepaal_grootboekrekeningnummer($boekjaar, $website, $aankomstdatum_exact, $grootboektype, $reisbureau_user_id=0) {
 

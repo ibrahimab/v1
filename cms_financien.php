@@ -74,6 +74,7 @@ if($_GET["marges"]) {
 		"boeking_aankomstdatum"=>"Details boeking: aankomstdatum",
 		"boeking_resnr"=>"Details boeking: reserveringsnummer",
 		"boeking_klantnaam"=>"Details boeking: klantnaam",
+		"boeking_grootboekrekeningnummer"=>"Details boeking: grootboekrekeningnummer",
 	);
 
 
@@ -137,6 +138,11 @@ if($_GET["marges"]) {
 
 	}
 
+	$vars["grootboekrekeningnummers_object"] = new grootboekrekeningnummers;
+
+
+
+
 	# frm = formname (mag ook wat anders zijn)
 	$form=new form2("frm");
 	$form->settings["fullname"]="Periode";
@@ -188,9 +194,15 @@ if($_GET["marges"]) {
 
 	$form->field_htmlrow("","<br/><b>Factuurdatum</b> (laatste factuur; garanties worden niet gespecificeerd)");
 
+
+
+
 	$form->field_date(0,"boekingbegin","Van","","",array("startyear"=>2006,"endyear"=>date("Y")+2),array("calendar"=>true));
 	$form->field_date(0,"boekingeind","Tot en met","","",array("startyear"=>2006,"endyear"=>date("Y")+2),array("calendar"=>true));
 
+	$form->field_htmlrow("","<hr><b>Grootboekrekeningnummer</b>");
+	$form->field_select(0,"grootboek","Grootboekrekeningnummer","","",array("selection"=>$vars["grootboekrekeningnummers_object"]->grootboekrekening_array()));
+	// $form->field_date(1,"grootboek_uitgangsdatum","Uitgangsdatum","",array("time"=>time()),array("startyear"=>2006,"endyear"=>date("Y")+2),array("calendar"=>true));
 	$form->field_htmlrow("","<hr>");
 
 	$form->field_checkbox(1,"seizoenen","Te tonen seizoenen","",array("selection"=>substr($vars["temp_seizoenen_active"],1)),array("selection"=>$vars["temp_seizoenen"]),array("one_per_line"=>true));
