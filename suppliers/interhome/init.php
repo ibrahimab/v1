@@ -4,6 +4,7 @@ ini_set('display_errors', true);
 ini_set('max_execution_time', 300); //300 seconds = 5 minutes
 #error_reporting(-1);
 if(!defined("DS")) define("DS", DIRECTORY_SEPARATOR);
+if(!defined('SITE_ROOT')) define('SITE_ROOT', dirname(dirname(dirname(__FILE__))));
 
 abstract class SoapClass {
 
@@ -11,7 +12,7 @@ abstract class SoapClass {
 	private $unzip = "/usr/bin/unzip"; // Server extract command
 
 	function __construct() {
-		$this->tmpDir = realpath(__DIR__) . DS . "tmp" . DS;
+		$this->tmpDir = SITE_ROOT . DS . "tmp" . DS;
 	}
 
 	/**

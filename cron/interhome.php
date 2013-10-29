@@ -1,6 +1,8 @@
 <?php
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
+} elseif(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
+	$unixdir="/var/www/chalet.nl/html_test/";
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
 }
