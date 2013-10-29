@@ -1733,11 +1733,11 @@ if($db->next_record()) {
 				$vars["soortaccommodatie_meervoud"]=array(1=>txt("chalets","vars"),2=>txt("appartementen","vars"),3=>txt("hotels","vars"),4=>txt("chaletappartementen","vars"),6=>txt("vakantiewoningen","vars"),7=>txt("villas","vars"),8=>txt("kastelen","vars"));
 				unset($gekoppeld_toon);
 				if(!$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]) {
-					if($gekoppeld_soortaccommodatie[$db2->f("soortaccommodatie")]>=2) {
+					// if($gekoppeld_soortaccommodatie[$db2->f("soortaccommodatie")]>=2) {
 						$gekoppeld_toon=$vars["soortaccommodatie_meervoud"][$db2->f("soortaccommodatie")];
-					} else {
-						$gekoppeld_toon=$vars["soortaccommodatie"][$db2->f("soortaccommodatie")];
-					}
+					// } else {
+						// $gekoppeld_toon=$vars["soortaccommodatie"][$db2->f("soortaccommodatie")];
+					// }
 					$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]=true;
 				}
 				if($gekoppeld_toon) {
