@@ -75,6 +75,7 @@ if($_GET["marges"]) {
 		"boeking_resnr"=>"Details boeking: reserveringsnummer",
 		"boeking_klantnaam"=>"Details boeking: klantnaam",
 		"boeking_grootboekrekeningnummer"=>"Details boeking: grootboekrekeningnummer",
+		"boeking_garantie"=>"Details boeking: garantie",
 	);
 
 

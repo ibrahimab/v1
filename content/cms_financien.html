@@ -998,6 +998,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 							if($kolom["boeking_grootboekrekeningnummer"]) {
 								$losseregel.="<td style=\"text-align:left;\">".wt_he($grootboek)."</td>";
 							}
+							if($kolom["boeking_garantie"]) {
+								$losseregel.="<td>ja</td>";
+							}
 							$losseregel.="</tr>";
 
 							$fin["losseboekingen"][$seizoenid][]=$losseregel;
@@ -1214,8 +1217,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$losseregel.="<td style=\"text-align:left;\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td>";
 			}
 			if($kolom["boeking_grootboekrekeningnummer"]) {
-
 				$losseregel.="<td style=\"text-align:left;\">".wt_he($grootboek)."</td>";
+			}
+			if($kolom["boeking_garantie"]) {
+				$losseregel.="<td>".($fin["garantieboeking"][$db->f("boeking_id")] ? "ja" : "&nbsp;")."</td>";
 			}
 
 			$losseregel.="</tr>";
@@ -1360,6 +1365,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		if($kolom["boeking_grootboekrekeningnummer"]) {
 			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_grootboekrekeningnummer"])."\">B: Grootboek</th>";
 		}
+		if($kolom["boeking_garantie"]) {
+			echo "<th title=\"Garantie\">Gar.</th>";
+		}
+
 		echo "</tr>";
 
 
@@ -1472,6 +1481,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				echo "<td>&nbsp;</td>";
 			}
 			if($kolom["boeking_klantnaam"]) {
+				echo "<td>&nbsp;</td>";
+			}
+			if($kolom["boeking_grootboekrekeningnummer"]) {
 				echo "<td>&nbsp;</td>";
 			}
 			if($kolom["boeking_grootboekrekeningnummer"]) {
