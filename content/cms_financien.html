@@ -1694,9 +1694,13 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 		echo "<table cellspacing=\"0\" cellpadding=\"4\" class=\"tbl\">";
 
-		echo "<tr><td colspan=\"2\">&nbsp;</td><td colspan=\"3\">&nbsp;</td><td colspan=\"3\"><i>wederverkoop</i></td></tr>";
-		echo "<tr><th colspan=\"2\" style=\"text-align:right;\">boekjaar:&nbsp;&nbsp;</th><th>vorig</th><th>huidig</th><th>volgend</th><th>vorig</th><th>huidig</th><th>volgend</th></tr>";
-		while(list($key,$value)=each($vars["grootboekrekeningnummers"])) {
+		echo "<tr><td colspan=\"2\">&nbsp;</td><td colspan=\"3\">&nbsp;</td><td colspan=\"3\"><i>wederverkoop NL</i></td><td colspan=\"3\"><i>wederverkoop buiten NL</i></td></tr>";
+		echo "<tr><th colspan=\"2\" style=\"text-align:right;\">boekjaar:&nbsp;&nbsp;</th><th>vorig</th><th>huidig</th><th>volgend</th><th>vorig</th><th>huidig</th><th>volgend</th><th>vorig</th><th>huidig</th><th>volgend</th></tr>";
+
+
+		$grootboekrekeningnummers = new grootboekrekeningnummers;
+
+		while(list($key,$value)=each($grootboekrekeningnummers->grootboekrekeningnummers)) {
 			if(!$vars["websites_inactief"][$key]) {
 				if($_GET["bedrijf"]=="venturasol" and $key<>"X" and $key<>"Y") {
 					continue;
@@ -1710,10 +1714,17 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				echo "<td>".$value[-1]."</td>";
 				echo "<td>".$value[0]."</td>";
 				echo "<td>".$value[1]."</td>";
-				if($vars["grootboekrekeningnummers_wederverkoop"][$key]) {
-					echo "<td>".$vars["grootboekrekeningnummers_wederverkoop"][$key][-1]."</td>";
-					echo "<td>".$vars["grootboekrekeningnummers_wederverkoop"][$key][0]."</td>";
-					echo "<td>".$vars["grootboekrekeningnummers_wederverkoop"][$key][1]."</td>";
+				if($grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop[$key]) {
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop[$key][-1]."</td>";
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop[$key][0]."</td>";
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop[$key][1]."</td>";
+				} else {
+					echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+				}
+				if($grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop_buitenland[$key]) {
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop_buitenland[$key][-1]."</td>";
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop_buitenland[$key][0]."</td>";
+					echo "<td>".$grootboekrekeningnummers->grootboekrekeningnummers_wederverkoop_buitenland[$key][1]."</td>";
 				} else {
 					echo "<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
 				}
