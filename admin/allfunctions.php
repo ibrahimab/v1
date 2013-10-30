@@ -1631,6 +1631,9 @@ function wt_naam($voornaam='',$tussenvoegsel='',$achternaam,$achternaameerst=fal
 		}
 		if($return) $return.=" ".ucfirst($achternaam); else $return=ucfirst($achternaam);
 	}
+
+	$return = preg_replace("@ {2,}@"," ",$return);
+
 	return $return;
 }
 
