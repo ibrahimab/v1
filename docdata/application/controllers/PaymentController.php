@@ -476,6 +476,9 @@ class PaymentController extends Controller {
 
 		// If it is not set the order
 		if(!$request->getParam("order")) {
+			
+			$this->render = 0;
+		
 			$this->_redirect($this->redirectPage);
 			return;
 		}
