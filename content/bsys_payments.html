@@ -167,6 +167,8 @@ if($login->logged_in) {
 							$count_payments = count($vars["docdata_payments"]);
 							if($count_payments > 0) {
 								$checked = ' checked="checked"';
+								$limit_countries = true;
+								$limited_countries = "";
                                 reset($vars["docdata_payments"]);
 								foreach($vars["docdata_payments"] as $key => $value) {
                                     echo "<div class=\"p_m\">";
@@ -174,10 +176,15 @@ if($login->logged_in) {
                                         if ($gegevens["stap2"]["iso_land"] && isset($value["country"]) && !in_array($gegevens["stap2"]["iso_land"], $value["country"])) {
                                             continue;
                                         }
-                                        $country = (isset($value["country"])) ? implode(",", $value["country"]) : "";
+										if(isset($value["country"])) {
+											$country = implode(",", $value["country"]);
+											$limited_countries .= $country.",";
+										} else {
+											$limit_countries = false;
+											$country = "";
+										}
 
                                         echo "<label><input type=\"radio\" name=\"pm_code\" data-country=\"". $country  ."\" value=\"". $key ."\" ". $checked ." />". $value["title"] ."</label>";
-
                                     } else {
                                         echo "<input type=\"hidden\" name=\"pm_code\" value=\"". $key ."\" />". $value["title"];
                                     }
@@ -199,12 +206,12 @@ if($login->logged_in) {
 
 
 							# If no match was found for the country code, we display a dropdown with the countries
-						    if(!$gegevens["stap2"]["iso_land"]) {
+						    if(!isset($gegevens["stap2"]["iso_land"]) || $gegevens["stap2"]["iso_land"] == false)  {
 								echo "<label>" . html("customer_country","bsys") ."*: ";
 								echo "<select name=\"country\">";
 									foreach($countriesList[$vars["taal"]] as $key => $value) {
-                                        if($gegevens["stap1"]["website"] == "C") {
-                                            if($key == "NL" || $key == "BE") {}
+                                        if($limit_countries && $limited_countries != "") {
+                                            if($key != "" && strpos($limited_countries,$key) !== false) {}
                                             else { continue; }
                                         }
 										echo "<option value=\"". $key ."\" title=\"". wt_he($value) ."\">" . wt_he($value) ."</option>";

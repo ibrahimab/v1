@@ -23,7 +23,9 @@ if ($paymentOrderExists) {
 		$form .= '<input type="hidden" name="' . $key . '" value="' . $value . '" />';
 	}
 
-	#$form .= '<input type="submit">';
+	$form .= '<noscript>';
+	$form .= txt("redirect","docdata") . ' <input value="Submit" type="submit">';
+	$form .= '</noscript>';
 	$form .= '</form>';
 
 	$html.= $form;
