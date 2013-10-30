@@ -7,7 +7,15 @@ define('DB_USER', $mysqlsettings["user"]);
 define('DB_PASSWORD', $mysqlsettings["password"]);
 define('DB_HOST', $mysqlsettings["host"]);
 
-// Check if acceptation server
+// Get the website basehref
+$site_url = $vars["basehref"];
+
+// Check if SSL is activated
+if($_SERVER["HTTPS"]=="on") {
+	$site_url = str_replace("http://", "https://", $site_url);
+}
+
+// Check if acceptance server
 if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == true)) {
 
 	// Errors display: true | false
@@ -16,14 +24,8 @@ if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == t
 	// Payment module mode: test | production
 	define('MODULE_MODE', 'test');
 
-	// Chalet Server
-	if($_SERVER["HTTP_HOST"]=="test.chalet.nl") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.nl/";
-	}elseif($_SERVER["HTTP_HOST"]=="test.chalet.eu") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.eu/";
-	}elseif($_SERVER["HTTP_HOST"]=="test.chalet.be") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.be/";
-	}
+	// Switch to test domain
+	$site_url = str_replace("www.", "test.", $site_url);
 
 } else {
 
@@ -33,14 +35,6 @@ if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == t
 	// Payment module mode: test | production
 	define('MODULE_MODE', 'production');
 
-	// Chalet Server
-	if($_SERVER["HTTP_HOST"]=="www.chalet.nl") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://www.chalet.nl/";
-	}elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://www.chalet.eu/";
-	}elseif($_SERVER["HTTP_HOST"]=="www.chalet.be") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://www.chalet.be/";
-	}
 }
 
 define ('SITE_URL', $site_url);
