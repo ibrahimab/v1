@@ -172,7 +172,7 @@ if($login->logged_in) {
                                 reset($vars["docdata_payments"]);
 								foreach($vars["docdata_payments"] as $key => $value) {
                                     echo "<div class=\"p_m\">";
-                                    if ($count_payments > 1) {
+                                    if ($count_payments >= 1) {
                                         if ($gegevens["stap2"]["iso_land"] && isset($value["country"]) && !in_array($gegevens["stap2"]["iso_land"], $value["country"])) {
                                             continue;
                                         }
@@ -204,6 +204,17 @@ if($login->logged_in) {
 							echo "</td></tr>";
 							echo "<tr><td colspan=\"2\" align=\"right\">";
 
+							# If there exists a limit for the countries
+							if($limit_countries){
+								$limited_countries = substr($limited_countries, 0, -1);
+								$limited_countries = explode(",", $limited_countries);
+								$limited_countries = array_unique($limited_countries);
+								reset($limited_countries);
+								# If there is only one country available, we set it as default country
+								if(count($limited_countries) == 1) {
+									$gegevens["stap2"]["iso_land"] = $limited_countries[0];
+								}
+							}
 
 							# If no match was found for the country code, we display a dropdown with the countries
 						    if(!isset($gegevens["stap2"]["iso_land"]) || $gegevens["stap2"]["iso_land"] == false)  {
@@ -211,7 +222,7 @@ if($login->logged_in) {
 								echo "<select name=\"country\">";
 									foreach($countriesList[$vars["taal"]] as $key => $value) {
                                         if($limit_countries && $limited_countries != "") {
-                                            if($key != "" && strpos($limited_countries,$key) !== false) {}
+                                            if($key != "" && in_array($key, $limited_countries) !== false) {}
                                             else { continue; }
                                         }
 										echo "<option value=\"". $key ."\" title=\"". wt_he($value) ."\">" . wt_he($value) ."</option>";
