@@ -626,6 +626,10 @@ li {
 	outline:0;
 }
 
+.tr_venturasol_boeking {
+	background-color: #fff093;
+}
+
 .tr_bestelstatus_hele_tr_opvallend {
 	background-color: #94d3ff;
 }

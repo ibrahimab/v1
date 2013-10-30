@@ -26,6 +26,25 @@ if(!$login->logged_in) {
 
 		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+		// overbodige spaties strippen
+		// $db->query("SELECT boeking_id, aan_leverancier_doorgegeven_naam FROM boeking WHERE aan_leverancier_doorgegeven_naam<>'';");
+		// while($db->next_record()) {
+		// 	$aan_leverancier_doorgegeven_naam = preg_replace("@ {2,}@"," ",$db->f("aan_leverancier_doorgegeven_naam"));
+		// 	$aan_leverancier_doorgegeven_naam = trim($aan_leverancier_doorgegeven_naam);
+
+		// 	if($aan_leverancier_doorgegeven_naam<>$db->f("aan_leverancier_doorgegeven_naam")) {
+		// 		$query="UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($aan_leverancier_doorgegeven_naam)."' WHERE boeking_id='".$db->f("boeking_id")."';";
+		// 		$db2->query($query);
+		// 		echo wt_he($query)."<br/>";
+		// 	}
+
+		// }
+
+		// $roominglist = new roominglist;
+		// $roominglist->leverancier_id_inquery = "330";
+		// $roominglist->leverancier_id_inquery = "227";
+		// $roominglist->vergelijk_lijsten();
+
 
 		// gekoppelde voorraad bijwerken
 		// $voorraad_gekoppeld=new voorraad_gekoppeld;

@@ -135,8 +135,13 @@ if($_GET["21k0"]) {
 		$aankomstdatum=$db->f("aankomstdatum");
 		$seizoenid=$db->f("seizoen_id");
 		$vars["log"]=$db->f("log");
-		if($vars["websites_wzt"][2][$db->f("website")] and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-			$layout->settings["extra_cssfiles"][]="css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
+
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and $login->userlevel<10) {
+			if($vars["websites_wzt"][2][$db->f("website")]) {
+				$layout->settings["extra_cssfiles"][]="css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
+			} elseif($db->f("website")=="X" or $db->f("website")=="Y") {
+				$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=fff093";
+			}
 		}
 	}
 	$accinfo=accinfo($vars["typeid"]);
@@ -267,17 +272,47 @@ $cms->db_field(21,"select","stap_voltooid","",array("selection"=>$vars["boeken"]
 $cms->list_sort_desc[21]=true;
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
-if($_GET["bt"]==1) {
+if($_GET["boekingsearch"]) {
+	// na zoekopdracht
+	$cms->list_field(21,"website","Site");
+	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
+	$cms->list_sort[21]=array("aankomstdatum_exact","website");
+	$cms->list_sort_desc[21]=true;
+} elseif($_GET["bt"]==1) {
+	// aangevraagd
 	$cms->list_field(21,"website","Site");
 	$cms->list_field(21,"boeking_id","Nr");
 	$cms->list_field(21,"bestelstatus","Bestelstatus","",array("html"=>true));
-} elseif($_GET["boekingsearch"] or $_GET["bt"]==2 or $_GET["bt"]==4) {
+	$cms->list_sort[21]=array("boeking_id");
+	$cms->list_sort_desc[21]=true;
+} elseif($_GET["bt"]==2) {
+	// bevestigd
+	$cms->list_field(21,"website","Site");
 	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
+	$cms->list_sort[21]=array("boekingsnummer","website");
+	$cms->list_sort_desc[21]=true;
+} elseif($_GET["bt"]==3) {
+	// recent onafgerond
+	$cms->list_field(21,"website","Site");
+	$cms->list_field(21,"invuldatum","Ingevuld",array("date_format"=>"DD-MM-JJJJ"));
+	$cms->list_sort[21]=array("invuldatum");
+	$cms->list_sort_desc[21]=true;
+} elseif($_GET["bt"]==4) {
+	$cms->list_field(21,"website","Site");
+	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
+	$cms->list_sort[21]=array("boekingsnummer","website");
+	$cms->list_sort_desc[21]=false;
 } elseif($_GET["bt"]==5) {
+	// actueel
+	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
 	$cms->list_sort[21]=array("aankomstdatum_exact");
 	$cms->list_sort_desc[21]=false;
 } else {
+	// alle andere
+	$cms->list_field(21,"website","Site");
 	$cms->list_field(21,"invuldatum","Ingevuld",array("date_format"=>"DD-MM-JJJJ"));
+	$cms->list_sort[21]=array("invuldatum");
+	$cms->list_sort_desc[21]=true;
 }
 $cms->list_field(21,"type_id","Accommodatie");
 $cms->list_field(21,"aankomstdatum_exact","Aankomst",array("date_format"=>"DD-MM-JJ"));

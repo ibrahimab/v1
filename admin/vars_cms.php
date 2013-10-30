@@ -235,8 +235,9 @@ if($mustlogin) {
 		$layout->settings["content_class"]="financieel_chalet";
 	}
 
+
 	# Achtergrondkleur CMS bepalen
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	if($vars["lokale_testserver"]) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=878481";
 	} elseif($vars["acceptatie_testserver"]) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=f6adba";
@@ -246,10 +247,14 @@ if($mustlogin) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
 	}
 	if($_GET["bid"]) {
-		$db->query("SELECT website FROM boeking WHERE boeking_id='".addslashes($_GET["bid"])."';");
-		if($db->next_record()) {
-			if($vars["websites_wzt"][2][$db->f("website")] and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html" and $login->userlevel<10) {
-				$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and $login->userlevel<10) {
+			$db->query("SELECT website FROM boeking WHERE boeking_id='".addslashes($_GET["bid"])."';");
+			if($db->next_record()) {
+				if($vars["websites_wzt"][2][$db->f("website")]) {
+					$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
+				} elseif($db->f("website")=="X" or $db->f("website")=="Y") {
+					$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=fff093";
+				}
 			}
 		}
 	}
