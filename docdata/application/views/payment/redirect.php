@@ -18,11 +18,11 @@ if ($paymentOrderExists) {
 
 	/* creating the form with action and hidden fields */
 	$form = '<form id="docdata_checkout" name="docdata_checkout" method="GET" action="' . $webmenuUrl .'">';
-
-	foreach($params as $key => $value) {
-		$form .= '<input type="hidden" name="' . $key . '" value="' . $value . '" />';
+	if(isset($params) && count($params) > 0) {
+		foreach($params as $key => $value) {
+			$form .= '<input type="hidden" name="' . $key . '" value="' . $value . '" />';
+		}
 	}
-
 	$form .= '<noscript>';
 	$form .= txt("redirect","docdata") . ' <input value="Submit" type="submit">';
 	$form .= '</noscript>';
