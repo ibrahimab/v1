@@ -55,9 +55,12 @@ if($_GET["show"]==21) {
 		echo "<p><a href=\"cms_mail_klanten_vorig_seizoen.php?status=2&accid=".$overzicht_per_accommodatie."\">Verstuur mailtjes aan boekingen van vorig seizoen</a><p>";
 	}
 
+	echo "<p>";
 	if($_GET["bt"]==1) {
-		echo "<p><span class=\"tr_bestelstatus_hele_tr_opvallend\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog geen bestelstatus</p>";
+		echo "<span class=\"tr_bestelstatus_hele_tr_opvallend\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog geen bestelstatus<br/><br/>";
 	}
+	echo "<span class=\"tr_venturasol_boeking\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = Venturasol-boeking<br/>";
+	echo "</p>";
 
 
 
