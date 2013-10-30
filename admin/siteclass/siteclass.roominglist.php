@@ -51,49 +51,48 @@ class roominglist {
 		$db = new DB_sql;
 		$db2 = new DB_sql;
 
-		// $db->query("SELECT leverancier_id, FROM leverancier WHERE leverancier_id IN (".$this->leverancier_id_inquery.");");
-		$db->query( "SELECT leverancier_id, roominglist_inhoud_laatste_verzending FROM leverancier WHERE 1=1 ORDER BY leverancier_id;" );
+		$db->query( "SELECT naam, leverancier_id, roominglist_inhoud_laatste_verzending FROM leverancier WHERE 1=1".($this->leverancier_id_inquery ? " AND leverancier_id IN (".$this->leverancier_id_inquery.")" : "")." ORDER BY leverancier_id;" );
 		while ( $db->next_record() ) {
 
-			unset( $nieuwe_roominglist, $roominglist_aantal_wijzigingen, $roominglist_inhoud_laatste_verzending_array, $roominglist_inhoud_nieuwe_verzending_array, $create_list );
+			unset( $nieuwe_roominglist, $roominglist_aantal_wijzigingen, $roominglist_inhoud_laatste_verzending_array, $roominglist_inhoud_laatste_verzending_stripped_array, $roominglist_inhoud_nieuwe_verzending_array, $roominglist_inhoud_nieuwe_verzending_stripped_array, $create_list );
 
-			$roominglist_inhoud_laatste_verzending_array=explode( "\n", trim($db->f( "roominglist_inhoud_laatste_verzending" ) ) );
+			$roominglist_inhoud_laatste_verzending_array=explode( "</td></tr>", trim($db->f( "roominglist_inhoud_laatste_verzending" ) ) );
+
+			foreach ( $roominglist_inhoud_laatste_verzending_array as $key => $value ) {
+				if($value) {
+					$value = preg_replace("@&nbsp;@"," ",$value);
+					$value = preg_replace("@ {2,}@"," ",$value);
+					$value = trim(html_entity_decode(strip_tags($value)));
+					if($value) {
+						$roominglist_inhoud_laatste_verzending_stripped_array[$value]=true;
+					}
+				}
+			}
 
 			$this->leverancier_id = $db->f( "leverancier_id" );
 			$create_list = $this->create_list();
 
-			$roominglist_inhoud_nieuwe_verzending_array=explode( "\n", trim($this->regels) );
+			$roominglist_inhoud_nieuwe_verzending_array=explode( "</td></tr>", trim($this->regels) );
+			foreach ( $roominglist_inhoud_nieuwe_verzending_array as $key => $value ) {
+				if($value) {
+					$value = preg_replace("@&nbsp;@"," ",$value);
+					$value = preg_replace("@ {2,}@"," ",$value);
+					$value = trim(html_entity_decode(strip_tags($value)));
+					if($value) {
+						$roominglist_inhoud_nieuwe_verzending_stripped_array[$value]=true;
+					}
+				}
+			}
 
-			if ( $this->regels and is_array( $roominglist_inhoud_nieuwe_verzending_array ) ) {
-				foreach ( $roominglist_inhoud_nieuwe_verzending_array as $key => $value ) {
-					if ( ( is_array( $roominglist_inhoud_laatste_verzending_array ) and !in_array( $value, $roominglist_inhoud_laatste_verzending_array ) ) or !is_array( $roominglist_inhoud_laatste_verzending_array ) ) {
+			if ( $this->regels and is_array( $roominglist_inhoud_nieuwe_verzending_stripped_array ) ) {
+				foreach ( $roominglist_inhoud_nieuwe_verzending_stripped_array as $key => $value ) {
+					if ( ( is_array( $roominglist_inhoud_laatste_verzending_stripped_array ) and !$roominglist_inhoud_laatste_verzending_stripped_array[$key] ) or !is_array( $roominglist_inhoud_laatste_verzending_stripped_array ) ) {
 						$roominglist_aantal_wijzigingen++;
 					}
 				}
 			}
 
-			if ( $this->regels!=$db->f( "roominglist_inhoud_laatste_verzending" ) and !$roominglist_aantal_wijzigingen) {
-				// trigger_error("roominglist_aantal_wijzigingen is 0 terwijl er wel wijzigingen zijn (leverancier_id ".$db->f("leverancier_id").")",E_USER_NOTICE);
-
-				// echo "<br/><br/>Regels:".$this->regels."<br/><br/>";
-				// echo "Database:".$db->f( "roominglist_inhoud_laatste_verzending" )."<br/><br/>";
-
-				// echo wt_he(md5($db->f( "roominglist_inhoud_laatste_verzending" )))."<hr>";
-				// echo wt_he(md5($this->regels));
-
-				// echo "<hr>";
-				// echo wt_he($db->f( "roominglist_inhoud_laatste_verzending" ))."<hr>";
-				// echo "<hr>";
-				// echo wt_he($this->regels);
-
-				// echo wt_dump($roominglist_inhoud_nieuwe_verzending_array);
-				// echo wt_dump($roominglist_inhoud_laatste_verzending_array);
-			}
-
 			$db2->query( "UPDATE leverancier SET roominglist_aantal_wijzigingen='".intval( $roominglist_aantal_wijzigingen )."' WHERE leverancier_id='".intval( $db->f( "leverancier_id" ) )."';" );
-
-			// echo $db2->lq."<br>";
-			// exit;
 		}
 	}
 

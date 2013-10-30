@@ -84,7 +84,7 @@ if($_GET["levid"]) {
 			while($db->next_record()) {
 				$leverancier_naamswijziging_goedkeuren[$db->f("leverancier_naamswijziging_id")]=$db->f("beschrijving");
 			}
-			$form->field_checkbox(0,"leverancier_naamswijziging_goedkeuren","Naamswijziging goedgekeuren","","",array("selection"=>$leverancier_naamswijziging_goedkeuren),array("one_per_line"=>true,"content_html"=>true));
+			$form->field_checkbox(0,"leverancier_naamswijziging_goedkeuren","Naamswijziging is goedgekeurd","","",array("selection"=>$leverancier_naamswijziging_goedkeuren),array("one_per_line"=>true,"content_html"=>true));
 		}
 
 
