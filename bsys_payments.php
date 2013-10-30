@@ -9,7 +9,7 @@ include("admin/vars.php");
 
 $breadcrumbs["last"] = txt("payment", "bsys");
 
-if($vars["website"] != "C" && $vars["website"] != "E" && $vars["website"] != "B") {
+if(!$vars["docdata_payments"]) {
 	header("Location: ".$path);
 	exit;
 }

@@ -99,9 +99,16 @@ class Config {
 			"module_mode"	 		=> MODULE_MODE, //All values: $this->types_ModuleModes
 			"webmenu_active" 		=> 1, //All values: $this->types_WebmenuTypes
 			"webmenu_css_id" 		=> array(
-				"C"	=>	"1", // Chalet.nl
-				"E"	=>	"2", // Chalet.eu
-				"B"	=>	"3" // Chalet.be
+				"C" => "1", // Chalet.nl
+				"E" => "2", // Chalet.eu
+				"B" => "3", // Chalet.be
+				"I" => "4", // Itallisima.nl
+				"K" => "5", // Itallisima.be
+				"Z" => "6", // zomerhuisje.nl
+				"X" => "7", // venturasol.nl
+				"V" => "8", // chaletsinvallandry.nl
+				"Q" => "9", // chaletsinvallandry.com
+
 			),
 			"docdata_payment_title" => 'Docdata',
 			"confidence_level" 		=> 'authorization', //All values: $this->types_ConfidenceLevels
@@ -154,9 +161,15 @@ class Config {
 		);
 
 		$this->payment_profiles = array(
-			"C"	=> "chalet.nl", // Chalet.nl
-			"E" => "chalet.eu", // Chalet.eu
-			"B" => "chalet.be" // Chalet.be
+			"C" => "chalet.nl",
+			"E" => "chalet.eu",
+			"B" => "chalet.be",
+			"I" => "italissima.nl",
+			"K" => "italissima.be",
+			"Z" => "zomerhuisje.nl",
+			"X" => "venturasol.nl",
+			"V" => "chaletsinvallandry.nl",
+			"Q" => "chaletsinvallandry.com",
 		);
 
 		$this->payment = array(

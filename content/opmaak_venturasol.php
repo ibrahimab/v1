@@ -191,8 +191,18 @@ echo "<div id=\"topfoto\" class=\"noprint\" style=\"background-image:url('".$var
 echo "<a href=\"".$vars["path"]."\" id=\"logo\">&nbsp;</a>";
 echo "<div id=\"tagline\" class=\"noprint\"><h1><b>Chalets en<br/>appartementen</b><br/>in Frankrijk</h1></div>";
 echo "<div style=\"clear: both;\"></div>\n";
-echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" id=\"sgr_logo\">&nbsp;</a>";
+echo "<div id=\"kleinelogos\">";
+echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" border=\"0\" width=\"30\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
 
+# Docdata payment logos
+if($vars["docdata_payments"]) {
+	if(count($vars["docdata_payments"]) > 0) {
+		foreach($vars["docdata_payments"] as $key => $value) {
+			echo "<img class=\"sgrlogo_hoofdmenu\" src=\"". $vars["path"] . $value["icon"] ."\" height=\"27\" alt=\"". $value["title"] ."\" />";
+		}
+	}
+}
+echo "</div>";
 echo "<div style=\"clear: both;\"></div>\n";
 
 echo "</div>\n"; # afsluiten topfoto

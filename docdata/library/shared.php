@@ -145,7 +145,7 @@ function __($text) {
 	return $text;
 }
 
-include( SITE_ROOT . DS . "admin" . DS . "vars.php" );
+
 
 setReporting();
 removeMagicQuotes();

@@ -229,6 +229,15 @@ if($id<>"index") {
 if($vars["websiteland"]=="nl") {
 	echo "<div style=\"position:absolute;bottom:8px;right:4px;\" class=\"noprint\">";
 	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" border=\"0\" width=\"35\" height=\"33\" style=\"margin-top:4px;\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
+
+	# Docdata payment logos
+	if($vars["docdata_payments"]) {
+		if(count($vars["docdata_payments"]) > 0) {
+			foreach($vars["docdata_payments"] as $key => $value) {
+				echo "<img class=\"sgrlogo_hoofdmenu\" src=\"". $vars["path"] . $value["icon"] ."\" height=\"27\" alt=\"". $value["title"] ."\" />";
+			}
+		}
+	}
 	echo "</div>";
 }
 echo "</div>";

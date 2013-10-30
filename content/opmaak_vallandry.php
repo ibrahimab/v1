@@ -335,7 +335,18 @@ if($vars["verberg_linkerkolom"]) {
 		echo "</form>";
 
 		if($vars["website"]=="V") {
-			echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" width=\"35\" height=\"33\" style=\"margin-top:20px;margin-bottom:100px;\" border=\"0\"></a>";
+			echo "<div style=\"margin-top:20px;margin-bottom:100px;\">";
+			echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" width=\"35\" height=\"33\" border=\"0\"></a>";
+
+			# Docdata payment logos
+			if($vars["docdata_payments"]) {
+				if(count($vars["docdata_payments"]) > 0) {
+					foreach($vars["docdata_payments"] as $key => $value) {
+						echo "<img src=\"". $vars["path"] . $value["icon"] ."\" height=\"33\" alt=\"". $value["title"] ."\" />";
+					}
+				}
+			}
+			echo "</div>";
 		} else {
 			echo "<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"35\" height=\"33\" style=\"margin-top:20px;margin-bottom:100px;\" border=\"0\">";
 		}
