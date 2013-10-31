@@ -99,6 +99,7 @@ form {
 #meldingen {
 	float: right;
 	font-size: 0.85em;
+	line-height: 38px;
 }
 
 #meldingen a {
@@ -540,6 +541,10 @@ form {
 	color: #666600;
 }
 
+#sgr_logo {
+	float: right;
+	margin: 5px 0 5px 0;
+}
 
 @media print {
 

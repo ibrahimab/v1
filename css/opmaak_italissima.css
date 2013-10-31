@@ -157,6 +157,7 @@ form {
 #meldingen {
 	font-size: 0.85em;
 	float: right;
+	line-height: 32px;
 }
 
 #meldingen a {
