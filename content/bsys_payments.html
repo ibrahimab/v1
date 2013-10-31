@@ -16,27 +16,27 @@ if($login->logged_in) {
 
 			# Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
 			if($temp_gegevens["stap2"][2]) {
-			$gegevens["stap2"]=$temp_gegevens["stap2"][2];
+				$gegevens["stap2"]=$temp_gegevens["stap2"][2];
 			} elseif($temp_gegevens["stap2"][1]) {
-			$gegevens["stap2"]=$temp_gegevens["stap2"][1];
+				$gegevens["stap2"]=$temp_gegevens["stap2"][1];
 			}
 
 			# Controle op status Persoonlijke gegevens (2 heeft voorkeur boven 1)
 			if($temp_gegevens["stap3"][2][2]) {
-			$gegevens["stap3"]=$temp_gegevens["stap3"][2];
+				$gegevens["stap3"]=$temp_gegevens["stap3"][2];
 			} elseif($temp_gegevens["stap3"][1][2]) {
-			$gegevens["stap3"]=$temp_gegevens["stap3"][1];
+				$gegevens["stap3"]=$temp_gegevens["stap3"][1];
 			}
 
 			# Controle op status Geselecteerde opties (2 heeft voorkeur boven 1)
 			if($temp_gegevens["stap4"][2]) {
-			$gegevens["stap4"]=$temp_gegevens["stap4"][2];
-			$gegevens["stap4"]["actieve_status"]=2;
-			$gegevens["fin"]=$temp_gegevens["fin"][2];
+				$gegevens["stap4"]=$temp_gegevens["stap4"][2];
+				$gegevens["stap4"]["actieve_status"]=2;
+				$gegevens["fin"]=$temp_gegevens["fin"][2];
 			} else {
-			$gegevens["stap4"]=$temp_gegevens["stap4"][1];
-			$gegevens["stap4"]["actieve_status"]=1;
-			$gegevens["fin"]=$temp_gegevens["fin"][1];
+				$gegevens["stap4"]=$temp_gegevens["stap4"][1];
+				$gegevens["stap4"]["actieve_status"]=1;
+				$gegevens["fin"]=$temp_gegevens["fin"][1];
 			}
 			$gegevens["stap5"]=$temp_gegevens["stap5"];
 		}
@@ -79,7 +79,10 @@ if($login->logged_in) {
 
 			# Init variables
 			$txt_html = array();
-			$total_paid = 0;
+			$aanbetalen = 0; // Advance payment
+			$reedsvoldaan = 0; // Already paid
+			$restbetalen = 0; // Remaining payments
+
 			$checked1 = ' checked="checked"';
 			$checked2 = '';
 
@@ -89,41 +92,32 @@ if($login->logged_in) {
 			if($db->num_rows() > 0) {
 				while($db->next_record()) {
 					$txt_html[$db->f('datum')] = "<tr><td>". datum("D MAAND JJJJ",$db->f('datum')) ."</td><td align=\"right\">&euro; ". number_format($db->f('bedrag'),2,',','.') ."</td></tr>";
-					$total_paid += $db->f('bedrag');
+					$reedsvoldaan=round($reedsvoldaan+$db->f("bedrag"),2);
 				}
 			}
 
-			$ramining_payments = round($gegevens["fin"]["totale_reissom"] - $total_paid, 2);
+			// Get the correct payment texts, as on the invoice
+			$gegevens = factuur_totaals($gegevens);
+
+			// Substract from the total amount the already paid amounts
+			$ramining_payments = round($gegevens["fin"]["totale_reissom"] - $reedsvoldaan, 2);
 
 			# If at least one payment was made, we display only the remaining amount to be paid
-			if(count($txt_html) > 0 && $total_paid > 0) {
-				$advance_payment = true;
+			if(count($txt_html) > 0 && $reedsvoldaan > 0) {
+				$advance_payment = true; // hide advance payment
 				$checked1 = '';
 				$checked2 = ' checked="checked"';
 			}
 
             # Disable the advance payment if the advance payment date is higher then the full payment date
             if($gegevens["stap1"]["dagen_voor_vertrek"]<($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+$gegevens["stap1"]["aanbetaling1_dagennaboeken"])) {
-                $advance_payment = true;
+                $advance_payment = true; // hide advance payment
             }
 
-			# Get payment dates
-			$datum_weken_voorvertrek=date("d/m/Y",mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-$gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"])));
-				if($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]%7==0 and $gegevens["stap1"]["totale_reissom_dagenvooraankomst"]<>7) {
-				$aanbetaling_aantalweken=round($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]/7);
-			} else {
-				$aanbetaling_aantaldagen=$gegevens["stap1"]["totale_reissom_dagenvooraankomst"];
-			}
-			# Full payment date
-			if($aanbetaling_aantalweken) {
-				$full_pay_date = txt("uiterlijkXwekenvoorvertrek","factuur",array("v_weken"=>$aanbetaling_aantalweken,"v_datum"=>$datum_weken_voorvertrek));
-			} else {
-				$full_pay_date = txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
-			}
-			# Advance payment date
-			$n_date = strtotime("+ ".$gegevens["stap1"]["aanbetaling1_dagennaboeken"]. " day", $gegevens["stap1"]["bevestigdatum"]);
-			$pay_date = date("d/m/Y", $n_date);
-			$advance_pay_date = txt("uiterlijkdatumtebetalen","factuur",array("v_datum"=> $pay_date));
+			# Advance payment date, it is set by the "factuur_totaals" function
+			$advance_pay_date = $gegevens["stap1"]["factuur_tekstvak2"];
+			# Full payment date, it is set by the "factuur_totaals" function
+			$full_pay_date = $gegevens["stap1"]["factuur_tekstvak3"];
 
 			# Switch pages
 			switch ((int)$_GET["menu"]) {
@@ -303,7 +297,6 @@ if($login->logged_in) {
 							$payments_overview .= "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td align=\"right\"> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
 						}
 
-						$restbetalen=$gegevens["fin"]["totale_reissom"]-$gegevens["fin"]["aanbetaling"];
 						if($ramining_payments<>$restbetalen and ($ramining_payments<>$gegevens["fin"]["totale_reissom"] or $advance_payment)) {
 							$restbetalen=$ramining_payments;
 						}
@@ -333,7 +326,7 @@ if($login->logged_in) {
                     }
 
 					# Display Docdata transactions table if there are any payments registered for this order
-					if(count($txt_html) > 0 && $total_paid > 0) {
+					if(count($txt_html) > 0 && $reedsvoldaan > 0) {
 						ksort($txt_html);
 
 						echo "<table style=\"width:100%\" class=\"toonacctabel\" cellpadding=\"5\">";
@@ -344,7 +337,7 @@ if($login->logged_in) {
 
 						echo "<tr><td colspan=\"2\">&nbsp;</td></tr>";
 						echo "<tr><td align=\"right\">". html("total_amount","bsys") .":</td><td align=\"right\">&euro; ". number_format($gegevens["fin"]["totale_reissom"],2,',','.') ."</td></tr>";
-						echo "<tr><td align=\"right\">". html("total_paid","bsys") .":</td><td align=\"right\">&euro; ". number_format(($total_paid * -1),2,',','.') ."</td></tr>";
+						echo "<tr><td align=\"right\">". html("total_paid","bsys") .":</td><td align=\"right\">&euro; ". number_format(($reedsvoldaan * -1),2,',','.') ."</td></tr>";
 						echo "<tr><td align=\"right\">". html("remaining_payments","bsys") .":";
 						if($ramining_payments > 0) {
 							echo "<br /><em>" . $full_pay_date ."</em>";
@@ -366,7 +359,6 @@ if($login->logged_in) {
 								echo "<tr><td>" . $advance_pay_date ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
 							}
 
-							$restbetalen=$gegevens["fin"]["totale_reissom"]-$gegevens["fin"]["aanbetaling"];
 							if($ramining_payments<>$restbetalen and ($ramining_payments<>$gegevens["fin"]["totale_reissom"] or $advance_payment)) {
 								$restbetalen=$ramining_payments;
 							}
