@@ -163,9 +163,9 @@ class Helper_Api_Create extends Helper_Api_Abstract {
 		}
 
 		return array(
-			'initials' => $this->_limitLength($initials, 35), 					// Max 35 chars
-			'first' => $this->_limitLength($user_data->getFirstname(), 35), 	// Max 35 chars
-			'last' => $this->_limitLength($user_data->getLastname(), 35)		// Max 35 chars
+			'initials' => utf8_encode($this->_limitLength($initials, 35)), 					// Max 35 chars
+			'first' => utf8_encode($this->_limitLength($user_data->getFirstname(), 35)), 	// Max 35 chars
+			'last' => utf8_encode($this->_limitLength($user_data->getLastname(), 35))		// Max 35 chars
 		);
 	}
 
@@ -264,7 +264,7 @@ class Helper_Api_Create extends Helper_Api_Abstract {
 
 		// Try to get a docdata/afterpay specific address first
 		$street_full = $address->getStreetFull();
-		$result['street'] = $this->_limitLength($this->_getStreetFromAddress($street_full), 35); // Max 35 chars
+		$result['street'] = utf8_encode($this->_limitLength($this->_getStreetFromAddress($street_full), 35)); // Max 35 chars
 
 		$result['houseNumber'] = $this->_limitLength($this->_getStreetNumber($street_full), 35); // Max 35 chars
 		$house_nr_add = $this->_getStreetNumberAddition($street_full);
@@ -274,7 +274,7 @@ class Helper_Api_Create extends Helper_Api_Abstract {
 
 		// suppress spaces in postal code
 		$result['postalCode'] = str_replace(' ', '', $address->getPostcode()); // Min 1 character max 50, NMTOKEN
-		$result['city'] = $this->_limitLength($address->getCity(), 35); // Max 35 chars
+		$result['city'] = utf8_encode($this->_limitLength($address->getCity(), 35)); // Max 35 chars
 		$result['country'] = array('code' => $address->getCountryId());
 
 		return $result;
