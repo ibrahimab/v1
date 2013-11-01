@@ -160,8 +160,12 @@ if($_GET["lev"]==131) {
 	$levinfo["xmltarievenimport"]=1;
 } elseif($_GET["lev"]==421) {
     # Interhome
-    $levinfo["wzt"]=1;
-    $levinfo["websites"]="C,B";
+    $levinfo["wzt"]=(isset($_GET["wzt"])) ? (int)$_GET["wzt"] : 1;
+	if($levinfo["wzt"] == 2) {
+    	$levinfo["websites"]="Z,O,N";
+	} else {
+		$levinfo["websites"]="C,B";
+	}
     $levinfo["skipas_id"]=0;
     $levinfo["soortaccommodatie"]=6;
     $levinfo["toonper"]=3;
