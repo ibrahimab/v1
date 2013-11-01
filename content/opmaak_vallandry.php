@@ -198,6 +198,21 @@ if($last_acc and $id<>"saved") {
 	echo "<a href=\"".$vars["path"]."saved.php\">".html("laatstbekekenaccommodaties","index")."</a>";
 	echo "</div>";
 }
+
+echo "<div id=\"sgr_logo\">";
+# Docdata payment logos
+if($vars["docdata_payments"]) {
+	if(count($vars["docdata_payments"]) > 0) {
+		foreach($vars["docdata_payments"] as $key => $value) {
+			echo "<img src=\"". $vars["path"] . $value["icon"] ."\" height=\"30\" style=\"margin-left:5px;vertical-align:middle;\" alt=\"". $value["title"] ."\" />";
+		}
+	}
+}
+if($vars["website"]=="V") {
+	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" height=\"30\" style=\"vertical-align: middle;\" border=\"0\"></a>";
+}
+echo "</div>";
+
 echo "<div id=\"meldingen\">";
 if($helemaalboven) echo $helemaalboven;
 $rechtsboven=str_replace("<font size=\"1\">","<font>",$rechtsboven);
@@ -334,11 +349,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div style=\"margin-top:10px;margin-bottom:0px;\"><a href=\"#\" id=\"uitgebreidzoeken\">".html("uitgebreidzoeken","index")."</a></div>";
 		echo "</form>";
 
-		if($vars["website"]=="V") {
-			echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" width=\"35\" height=\"33\" style=\"margin-top:20px;margin-bottom:100px;\" border=\"0\"></a>";
-		} else {
-			echo "<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"35\" height=\"33\" style=\"margin-top:20px;margin-bottom:100px;\" border=\"0\">";
-		}
+		echo "<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"35\" height=\"33\" style=\"margin-top:20px;margin-bottom:100px;\" border=\"0\">";
 
 		echo "</div>"; # afsluiten "zoekenboek"
 	}

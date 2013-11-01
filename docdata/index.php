@@ -6,8 +6,8 @@ if(!defined('ROOT')) define('ROOT', dirname(__FILE__));
 if(!defined('SITE_ROOT')) define('SITE_ROOT', dirname(dirname(__FILE__)));
 
 # load the share database config file
-if(file_exists(SITE_ROOT . DS . "admin" . DS . "vars_db.php")) {
-	require_once( SITE_ROOT . DS . "admin" . DS . "vars_db.php" );
+if(file_exists(SITE_ROOT . DS . "admin" . DS . "vars.php")) {
+	require_once( SITE_ROOT . DS . "admin" . DS . "vars.php" );
 
 	if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == true)) {
 

@@ -125,7 +125,7 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 		$db->query($sql);
 		$new = array();
 		while($db->next_record()) {
-			if(!$verberg_xmlcode[$db->f("code")]) {
+			if(!isset($verberg_xmlcode[$db->f("code")])) {
 				$services[$db->f("code")] = $interHome->getAdditionalServices($db->f("code"));
 				$property[$db->f("code")] = $interHome->getAccommodation($db->f("code"));
 			}
@@ -226,7 +226,7 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 		if(is_array($new)) {
 			reset($new);
 			while(list($key,$value)=each($new)) {
-				if(!$verberg_xmlcode[$key]) {
+				if(!isset($verberg_xmlcode[$key])) {
 					checkforxmlchanges($xml_importvalues,array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"extraopties"=>$value["extraopties"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
 					checkforxmlchanges($xml_importvalues,array("naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
 				}

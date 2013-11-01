@@ -11,6 +11,8 @@ class Order extends Model {
 
 	protected $customer;
 	protected $cluster_key = null;
+	protected $order_reference = null;
+
 	private $payment_type = "advance";
 	private $payment_amount = 0;
 	private $table = "boeking"; // Database table name
@@ -44,10 +46,10 @@ class Order extends Model {
 		return $this;
 	}
 
-	public function loadByDocdataId($docdata_id = NULL) {
+	public function loadByOrderReference($reference) {
 		// Get approved (goedgekeurd) orders only
 		$sql = "SELECT dp.boeking_id, dp.cluster_key FROM `" .  $this->docdata_table . "` dp, `" . $this->table ."` b ";
-		$sql .= "WHERE dp.docdata_payment_id = '" . mysql_real_escape_string($docdata_id) . "' AND b.goedgekeurd = 1 AND b.boeking_id = dp.boeking_id LIMIT 1";
+		$sql .= "WHERE dp.reference = '" . mysql_real_escape_string($reference) . "' AND b.goedgekeurd = 1 AND b.boeking_id = dp.boeking_id LIMIT 1";
 
 		$this->query($sql);
 
@@ -281,7 +283,7 @@ class Order extends Model {
 	 * @return void
 	 */
 	public function setDocdataPaymentOrderKey($payment_order_key) {
-		App::get('model/payment')->createPayment($payment_order_key, $this->increment_id, $this->payment_type, $this->payment_amount);
+		App::get('model/payment')->createPayment($payment_order_key, $this->increment_id, $this->payment_type, $this->payment_amount, $this->order_reference);
 	}
 
 	/**
@@ -404,6 +406,15 @@ class Order extends Model {
 	 */
 	public function setClusterKey($key) {
 		$this->cluster_key = $key;
+	}
+
+	/**
+	 * Set order reference
+	 *
+	 * @param $key
+	 */
+	public function setOrderReference($key) {
+		$this->order_reference = $key;
 	}
 
 	/**

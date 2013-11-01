@@ -27,6 +27,7 @@ class InterHome extends SoapClass {
 	private $languageCode = 'NL'; // Dutch
 	private $xmlCustomerFeedback = 'customerfeedback.xml.zip'; // The zip file from FTP	containing customer feedback
 	private $xmlCountriesRegions = 'countryregionplace_nl.xml.zip'; // The zip file from FTP containing all countries, regions and places with their codes
+	private $xmlWeekPrice = 'price_4040_eur.xml.zip'; // The zip file from FTP	containing week prices
 
 	function __construct() {
 
@@ -80,7 +81,7 @@ class InterHome extends SoapClass {
 	 * @param string $accCode The accommodation code from Interhome
 	 * @return array|null
 	 */
-	public function getPrices($accCode = null) {
+	public function getPriceList($accCode = null) {
 
 		// Check if the accommodation code is set
 		if(empty($accCode) || empty($this->wsdl)) return null;
@@ -382,8 +383,8 @@ class InterHome extends SoapClass {
 	 * The returned accommodations can be imported (or not) into the Chalet database
 	 *
 	 * @param string $countryCode The two letters ISO country code
-	 * @param integer $regionCode The id of the region provided by Interhome; the parameter can be omitted
-	 * @param integer $placeCode The id of the place provided by Interhome; the parameter can be omitted
+	 * @param string $regionCode The id of the region provided by Interhome; the parameter can be omitted
+	 * @param string $placeCode The id of the place provided by Interhome; the parameter can be omitted
 	 * @return array
 	 */
 	public function getAccommodations($countryCode = "", $regionCode = "", $placeCode = "") {
@@ -529,6 +530,69 @@ class InterHome extends SoapClass {
 		return null;
 	}
 
+	public function getWeekPrice($arrCodes = array()) {
+
+		// Called from parent class
+		$output = $this->getFileFromZip($this->xml_url, $this->xmlWeekPrice);
+
+		if(file_exists($output)) {
+			$xml = simplexml_load_file($output);
+
+			foreach ($xml->children() as $data) {
+				# e.g.: SimpleXMLElement Object ( [code] => AT6574.410.1 [startdate] => 2013-11-02 [enddate] => 2013-11-08 [rentalprice] => 521.00 [minrentalprice] => 349.00 [maxrentalprice] => 1220.00 [specialoffer] => SimpleXMLElement Object ( [code] => LM/00000001 [specialofferprice] => 349.00 ) [services] => SimpleXMLElement Object ( [service] => SimpleXMLElement Object ( [code] => CF [serviceprice] => 2.5 [textcode] => 0000000182 ) ) )
+
+				$accCode = $data->code->__toString();
+				if($arrCodes[$accCode] == 1) {
+
+					$startDate = strtotime((string)$data->startdate);
+					$endDate = strtotime((string)$data->enddate);
+
+					if(isset($data->specialoffer)) {
+						$price = floatval($data->specialoffer->specialofferprice);
+					} else {
+						$price = floatval($data->rentalprice);
+					}
+
+					$arrWeekPrice[$accCode][$startDate] = array("e" => $endDate, "p" => $price);
+				}
+			}
+			return $arrWeekPrice;
+
+		}
+
+		return array();
+	}
+
+	public function getPrices($accCode = NULL, $arrPriceListItems = array()) {
+
+		// Check if the accommodation code is set
+		if(empty($arrPriceListItems) || empty($accCode)) return null;
+
+		if(!isset($arrPriceListItems[$accCode])) return null;
+
+		if(count($arrPriceListItems[$accCode]) > 0) {
+			foreach ($arrPriceListItems[$accCode] as $date_begin => $item) {
+				$date_end = $item["e"];
+				$xml_price = $item["p"];
+
+				if(date("w",$date_begin) != 6) {
+					$week = $this->_nearestSaturday($date_begin);
+				} else {
+					$week = $date_begin;
+				}
+
+				// Create price for each day
+				while($week <= $date_end) {
+					$price[$week] = $xml_price;
+					$week = mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+				}
+			}
+		}
+
+		return $price;
+
+	}
+
 	/**
 	 * The function returns an array with all the countries and the associated regions from Interhome
 	 *
@@ -592,7 +656,7 @@ class InterHome extends SoapClass {
 // Class call examples
 #$interHome = new InterHome();
 
-#print_r($interHome->getPrices($accCode = "de2981.100.1"));
+#print_r($interHome->getPriceList($accCode = "ch6612.200.3"));
 #print_r($interHome->getAvailability($accCode = "de2981.100.1"));
 #print_r($interHome->getAccommodation($accCode = "at6574.410.1"));
 #print_r($interHome->getAdditionalServices($accCode = "at6574.410.1"));
@@ -600,3 +664,5 @@ class InterHome extends SoapClass {
 #print_r($interHome->getStatus());
 #print_r($interHome->getCustomerFeedback());
 #print_r($interHome->getCountriesRegions());
+#print_r($interHome->getWeekPrice(array("AT6574.220.1" => true, "AT6365.700.1" => true, "AT6290.530.2" => true, "AT6450.510.1" => true, "AT6574.170.1" => true)));
+#print_r($interHome->getPrices("CH7050.250.4"));

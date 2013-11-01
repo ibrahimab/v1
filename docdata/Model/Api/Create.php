@@ -53,6 +53,7 @@ class Model_Api_Create extends Model_Api_Abstract {
 
 			//only 1 result so get first and extract value by converting to string (simplexmlelement)
 			$payment_order_key = (string)$node[0];
+			$api->setOrderReference($elements["merchantOrderReference"]);
 			$api->setDocdataPaymentOrderKey($payment_order_key);
 			$api->log('A payment order has been created with the key: '.$payment_order_key);
 

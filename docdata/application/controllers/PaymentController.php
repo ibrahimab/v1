@@ -330,22 +330,11 @@ class PaymentController extends Controller {
 			$error = true;
 		}
 
-		$position = strpos($reference, '_');
-		$reference = ($position !== false ? substr($reference, 0, $position) : $reference);
-		if (strlen($reference) === 0) {
-			// Error, could not find underscore
-			$helper->log(
-				'Reference evaluated to nothing usable, anything after an underscore is stripped, maybe that caused this?',
-				App::WARN
-			);
-			$error = true;
-		}
-
 		//acquire lock for reference
 		$lock = $this->getOrderLock($reference);
 
 		//retrieve the order to update
-		$order = App::get("model/order")->loadByDocdataId($reference);
+		$order = App::get("model/order")->loadByOrderReference($reference);
                 
 		
                 if ($order === null || $order->getId() === null) {

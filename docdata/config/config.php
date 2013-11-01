@@ -7,7 +7,15 @@ define('DB_USER', $mysqlsettings["user"]);
 define('DB_PASSWORD', $mysqlsettings["password"]);
 define('DB_HOST', $mysqlsettings["host"]);
 
-// Check if acceptation server
+// Get the website basehref
+$site_url = $vars["basehref"];
+
+// Check if SSL is activated
+if($_SERVER["HTTPS"]=="on") {
+	$site_url = str_replace("http://", "https://", $site_url);
+}
+
+// Check if acceptance server
 if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == true)) {
 
 	// Errors display: true | false
@@ -16,14 +24,8 @@ if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == t
 	// Payment module mode: test | production
 	define('MODULE_MODE', 'test');
 
-	// Chalet Server
-	if($_SERVER["HTTP_HOST"]=="test.chalet.nl") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.nl/";
-	}elseif($_SERVER["HTTP_HOST"]=="test.chalet.eu") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.eu/";
-	}elseif($_SERVER["HTTP_HOST"]=="test.chalet.be") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://test.chalet.be/";
-	}
+	// Switch to test domain
+	$site_url = str_replace("www.", "test.", $site_url);
 
 } else {
 
@@ -33,14 +35,6 @@ if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == t
 	// Payment module mode: test | production
 	define('MODULE_MODE', 'production');
 
-	// Chalet Server
-	if($_SERVER["HTTP_HOST"]=="www.chalet.nl") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://www.chalet.nl/";
-	}elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://www.chalet.eu/";
-	}elseif($_SERVER["HTTP_HOST"]=="www.chalet.be") {
-		$site_url = "http". ($_SERVER["HTTPS"]=="on" ? "s" : "") ."://www.chalet.be/";
-	}
 }
 
 define ('SITE_URL', $site_url);
@@ -99,9 +93,16 @@ class Config {
 			"module_mode"	 		=> MODULE_MODE, //All values: $this->types_ModuleModes
 			"webmenu_active" 		=> 1, //All values: $this->types_WebmenuTypes
 			"webmenu_css_id" 		=> array(
-				"C"	=>	"1", // Chalet.nl
-				"E"	=>	"2", // Chalet.eu
-				"B"	=>	"3" // Chalet.be
+				"C" => "1", // Chalet.nl
+				"E" => "2", // Chalet.eu
+				"B" => "3", // Chalet.be
+				"I" => "4", // Itallisima.nl
+				"K" => "5", // Itallisima.be
+				"Z" => "6", // zomerhuisje.nl
+				"X" => "7", // venturasol.nl
+				"V" => "8", // chaletsinvallandry.nl
+				"Q" => "9", // chaletsinvallandry.com
+
 			),
 			"docdata_payment_title" => 'Docdata',
 			"confidence_level" 		=> 'authorization', //All values: $this->types_ConfidenceLevels
@@ -154,9 +155,15 @@ class Config {
 		);
 
 		$this->payment_profiles = array(
-			"C"	=> "chalet.nl", // Chalet.nl
-			"E" => "chalet.eu", // Chalet.eu
-			"B" => "chalet.be" // Chalet.be
+			"C" => "chalet.nl",
+			"E" => "chalet.eu",
+			"B" => "chalet.be",
+			"I" => "italissima.nl",
+			"K" => "italissima.be",
+			"Z" => "zomerhuisje.nl",
+			"X" => "venturasol.nl",
+			"V" => "chaletsinvallandry.nl",
+			"Q" => "chaletsinvallandry.com",
 		);
 
 		$this->payment = array(

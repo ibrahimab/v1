@@ -278,7 +278,17 @@ echo "<div id=\"balkbovencontent\" class=\"noprint\">";
 echo "<div id=\"sgr_logo\">";
 if($vars["website"]=="I") {
 	# SGR-logo
-	echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/sgr_klein.gif\" width=\"25\" height=\"23\" border=\"0\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
+	echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\"><img src=\"".$vars["path"]."pic/sgr_klein.gif\" width=\"25\" style=\"vertical-align: top;\" height=\"23\" border=\"0\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
+}
+if($vars["docdata_payments"]) {
+	# Docdata payment logos
+	if($vars["docdata_payments"]) {
+		if(count($vars["docdata_payments"]) > 0) {
+			foreach($vars["docdata_payments"] as $key => $value) {
+				echo "<img class=\"sgrlogo_hoofdmenu\" src=\"". $vars["path"] . $value["icon"] ."\" height=\"27\" style=\"vertical-align: top;\" alt=\"". $value["title"] ."\" />";
+			}
+		}
+	}
 }
 echo "</div>";
 
