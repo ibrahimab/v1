@@ -86,7 +86,7 @@ a.alletypes_type:hover {
 	box-sizing : border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	background: url(../pic/icons/icon-alletypes_8.png);
+	background: url(../pic/icons/icon-alletypes_normaal.png);
 	background-size: 35px 35px;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
@@ -99,6 +99,18 @@ a.alletypes_type:hover {
 	color: #003366;
 	overflow: hidden;
 	white-space:nowrap;
+}
+
+.alletypes_beschikbaar .alletypes_aantalpersonen {
+	background: url(../pic/icons/icon-alletypes_vrij.png);
+}
+
+.alletypes_niet_beschikbaar {
+	opacity: 0.6;
+}
+
+.alletypes_niet_beschikbaar .alletypes_aantalpersonen {
+	background: url(../pic/icons/icon-alletypes_normaal.png);
 }
 
 .alletypes_typenaam {
