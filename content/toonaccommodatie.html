@@ -1750,14 +1750,14 @@ if($db->next_record()) {
 					$alletypes_beschikbaar_class="alletypes_beschikbaar";
 				} else {
 					$alletypes_beschikbaar_class="alletypes_niet_beschikbaar";
-					$nietbeschikbaar_getoond=true;
+					// $nietbeschikbaar_getoond=true;
 				}
 			}
 			if($accinfo["type_id"]==$db2->f("type_id")) {
-				$anderetypes.="<div class=\"alletypes_type".trim(" ".$alletypes_beschikbaar_class)."\">";
+				$anderetypes.="<div class=\"".trim("alletypes_type ".$alletypes_beschikbaar_class)."\">";
 			} else {
 				$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."#indeling";
-				$anderetypes.="<a href=\"".wt_he($linkandertype)."\" class=\"alletypes_type linkandertype".trim(" ".$alletypes_beschikbaar_class)."\">";
+				$anderetypes.="<a href=\"".wt_he($linkandertype)."\" class=\"alletypes_type ".trim("linkandertype ".$alletypes_beschikbaar_class)."\">";
 			}
 
 
