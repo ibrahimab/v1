@@ -1726,6 +1726,29 @@ if($db->next_record()) {
 		echo html("alletypes2","toonaccommodatie");
 		echo "</div>";
 
+		if($_GET["versie"]==1) {
+
+		}
+		if($_GET["versie"]==2) {
+		echo "<style>\n.alletypes_aantalpersonen {
+			background: url(".$vars["path"]."pic/icons/icon-alletypes_5.png?c=1);
+			background-repeat: no-repeat;
+
+			padding-top: 24px;
+
+		}\n</style>";
+		}
+
+		if($_GET["versie"]==3) {
+		echo "<style>\n.alletypes_aantalpersonen {
+			background: url(".$vars["path"]."pic/icons/icon-alletypes_4.png?c=1);
+			background-repeat: no-repeat;
+
+			padding-top: 25px;
+
+		}\n</style>";
+		}
+
 
 		while($db2->next_record()) {
 			$anderetypes.="<div class=\"alletypes_item\">";
@@ -1760,6 +1783,7 @@ if($db->next_record()) {
 				$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."#indeling";
 				$anderetypes.="<a href=\"".wt_he($linkandertype)."\" class=\"alletypes_type linkandertype".trim(" ".$alletypes_beschikbaar_class)."\">";
 			}
+
 
 			// aantal personen
 			$anderetypes.="<div class=\"alletypes_aantalpersonen\">";
