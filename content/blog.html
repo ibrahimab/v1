@@ -16,18 +16,36 @@ if($_GET["b"]) {
 	$inhoud=str_replace("----------","<div class=\"clear\"></div><hr>",$inhoud);
 	$inhoud=str_replace("-----","<div class=\"clear\"></div>",$inhoud);
 
+
+	# Beschikbare afbeeldingen bepalen
+	unset($fototeller);
+	$dir="pic/cms/blog/";
+	$d=dir($dir);
+	while($entry=$d->read()) {
+		if(preg_match("@^".intval($_GET["b"])."-([0-9]+)\.jpg$@", $entry, $regs)) {
+			$temp_afbeelding[]=$regs[1];
+		}
+	}
+	if(is_array($temp_afbeelding)) {
+		asort($temp_afbeelding);
+		foreach ($temp_afbeelding as $key => $value) {
+			$fototeller++;
+			$vars["beschikbare_afbeelding"][$fototeller]=$value;
+		}
+	}
+
 	# Afbeeldingen
 	while(preg_match("/\[(rechts|links|centreer)_afbeelding_([0-9]+)\]/",$inhoud,$regs)) {
-		$file="pic/cms/blog/".intval($_GET["b"])."-".$regs[2].".jpg";
+		$file="pic/cms/blog/".intval($_GET["b"])."-".$vars["beschikbare_afbeelding"][$regs[2]].".jpg";
 		if(file_exists($file)) {
 			if($regs[1]=="links") {
 				$align="left";
-				$img="<img src=\"".$vars["path"]."pic/cms/blog/".intval($_GET["b"])."-".$regs[2].".jpg\" align=\"left\" class=\"blog_img_".$regs[1]."\">";
+				$img="<img src=\"".$vars["path"]."pic/cms/blog/".intval($_GET["b"])."-".$vars["beschikbare_afbeelding"][$regs[2]].".jpg\" align=\"left\" class=\"blog_img_".$regs[1]."\">";
 			} elseif($regs[1]=="rechts") {
-				$img="<img src=\"".$vars["path"]."pic/cms/blog/".intval($_GET["b"])."-".$regs[2].".jpg\" align=\"right\" class=\"blog_img_".$regs[1]."\">";
+				$img="<img src=\"".$vars["path"]."pic/cms/blog/".intval($_GET["b"])."-".$vars["beschikbare_afbeelding"][$regs[2]].".jpg\" align=\"right\" class=\"blog_img_".$regs[1]."\">";
 			} elseif($regs[1]=="centreer") {
 				$size=getimagesize($file);
-				$img="<img src=\"".$vars["path"]."pic/cms/blog/".intval($_GET["b"])."-".$regs[2].".jpg\" style=\"display:block;width:".$size[0]."px;margin-left:auto;margin-right:auto;\" class=\"blog_img_".$regs[1]."\">";
+				$img="<img src=\"".$vars["path"]."pic/cms/blog/".intval($_GET["b"])."-".$vars["beschikbare_afbeelding"][$regs[2]].".jpg\" style=\"display:block;width:".$size[0]."px;margin-left:auto;margin-right:auto;\" class=\"blog_img_".$regs[1]."\">";
 			}
 		} else {
 			$img="<p><b>AFBEELDING ONTBREEKT</b></p>";
@@ -57,6 +75,7 @@ if($_GET["b"]) {
 		echo "<h2>Foto's</h2>";
 		echo "<div style=\"float:left;margin-left:10px;margin-top:3px;color:#666666;\">(klik voor een vergroting)</div>";
 		echo "<div class=\"clear\"></div>";
+		unset($fototeller);
 		while(list($key,$value)=each($foto_aanvullend)) {
 			$fototeller++;
 			if($fototeller==4) {
@@ -73,7 +92,12 @@ if($_GET["b"]) {
 				$blog_foto_aanvullend_meer=false;
 				$kolomteller=1;
 			}
-			echo "<a href=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/blog_onderaan/".$value)."&w=800")."\" class=\"fotopopup_border".($kolomteller==2 ? " blog_foto_aanvullend_midden" : "")."\" rel=\"group1\"><img src=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/blog_onderaan/".$value)."&w=180")."\" width=\"180\"></a>";
+			if($vars["websitetype"]==7) {
+				$photo_width=180;
+			} else {
+				$photo_width=170;
+			}
+			echo "<a href=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/blog_onderaan/".$value)."&w=800")."\" class=\"fotopopup_border".($kolomteller==2 ? " blog_foto_aanvullend_midden" : "")."\" rel=\"group1\"><img src=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/blog_onderaan/".$value)."&w=".$photo_width)."\" width=\"".$photo_width."\"></a>";
 		}
 		if($fototeller>=4) {
 			echo "</div>"; # afsluiten #blog_foto_aanvullend_meer

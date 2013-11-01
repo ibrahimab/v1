@@ -372,18 +372,21 @@ RewriteRule ^forward-chaletbe-italie$ http://www.chalet.be/land/Italie/ [L,R=301
 RewriteRule ^alpe-d-huzes/$ /alpe-d-huzes [L,R=301]
 RewriteRule ^alpe-d-huzes$ alpedhuzes.php?%{QUERY_STRING}
 
-# reiskookboek Italissima
-RewriteRule ^reiskookboek/$ /reiskookboek [L,R=301]
-RewriteRule ^reiskookboek$ actie-kookboek.php?%{QUERY_STRING}
-
-# nieuwsbrief-actie
+# reisblog
 RewriteRule ^reisblog/$ /reisblog [L,R=301]
 RewriteRule ^reisblog$ reisblog.php?%{QUERY_STRING}
 RewriteRule ^reisblog/voorwaarden$ reisblog.php?voorwaarden=1&%{QUERY_STRING}
 
-# reiskookboek Italissima
+# Kixx
 RewriteRule ^kixx/$ /kixx [L,R=301]
 RewriteRule ^kixx$ actie-kixx.php?%{QUERY_STRING}
+
+#
+# afgelopen acties
+#
+
+# reiskookboek Italissima
+RewriteRule ^reiskookboek$ / [L,R=301]
 
 
 #
