@@ -33,7 +33,7 @@ class Payment extends Model {
 	 *
 	 * @return bool
 	 */
-	public function createPayment($cluster_key, $order_id, $payment_type, $amount) {
+	public function createPayment($cluster_key, $order_id, $payment_type, $amount, $order_reference) {
 
 		$config = App::get('helper/config');
 		$status = $config->getItem("new", $config::GROUP_STATUS);
@@ -41,7 +41,7 @@ class Payment extends Model {
 		$sql  = "INSERT INTO `" . $this->table . "` ";
 		$sql .= "SET cluster_key = '" . mysql_real_escape_string($cluster_key) . "', ";
 		$sql .= "boeking_id = '" . mysql_real_escape_string($order_id) . "', status = '" . mysql_real_escape_string($status) . "', ";
-		$sql .= "amount = '" . mysql_real_escape_string($amount) . "', type = '" . mysql_real_escape_string($payment_type) ."' ;";
+		$sql .= "amount = '" . mysql_real_escape_string($amount) . "', type = '" . mysql_real_escape_string($payment_type) ."', reference = '" . mysql_real_escape_string($order_reference) . "' ;";
 
 		$this->query($sql);
 

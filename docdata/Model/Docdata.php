@@ -110,7 +110,8 @@ class Model_Docdata implements Model_System {
 		$call_elements = array();
 		$call_elements['version'] = $helper->getApiVersion();
 		$call_elements['merchant'] = $helper->getMerchantDetails();
-		$call_elements['merchantOrderReference'] = $order->getRealOrderId() . "_" . time();
+		$order_reference = $order->getRealOrderId() . "_" . time();
+		$call_elements['merchantOrderReference'] = $order_reference;
 		$call_elements['paymentPreferences'] = $helper->getPaymentPreferences($order->getWebsiteCode());
 		$menu_pref = $helper->getMenuPreference($order->getWebsiteCode());
                 
@@ -146,6 +147,7 @@ class Model_Docdata implements Model_System {
 
 			$payment_order_key = (string)$node[0];
 			$this->_order->setClusterKey($payment_order_key);
+			$this->_order->setOrderReference($order_reference);
 		}
 
         return $this;
@@ -404,6 +406,20 @@ class Model_Docdata implements Model_System {
 		if ($this->_order !== null) {
 			//set key and save order
 			$this->_order->setDocdataPaymentOrderKey($payment_order_key);
+		}
+	}
+
+	/**
+	 * Sets the order reference in the current order
+	 *
+	 * @param string $order_reference for the current order.
+	 *
+	 * @return void
+	 */
+	public function setOrderReference($order_reference) {
+		if ($this->_order !== null) {
+			//set key and save order
+			$this->_order->setOrderReference($order_reference);
 		}
 	}
 
