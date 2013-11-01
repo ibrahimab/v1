@@ -92,7 +92,12 @@ if($_GET["b"]) {
 				$blog_foto_aanvullend_meer=false;
 				$kolomteller=1;
 			}
-			echo "<a href=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/blog_onderaan/".$value)."&w=800")."\" class=\"fotopopup_border".($kolomteller==2 ? " blog_foto_aanvullend_midden" : "")."\" rel=\"group1\"><img src=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/blog_onderaan/".$value)."&w=180")."\" width=\"180\"></a>";
+			if($vars["websitetype"]==7) {
+				$photo_width=180;
+			} else {
+				$photo_width=170;
+			}
+			echo "<a href=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/blog_onderaan/".$value)."&w=800")."\" class=\"fotopopup_border".($kolomteller==2 ? " blog_foto_aanvullend_midden" : "")."\" rel=\"group1\"><img src=\"".wt_he($vars["path"]."t/t.php?src=".urlencode("pic/cms/blog_onderaan/".$value)."&w=".$photo_width)."\" width=\"".$photo_width."\"></a>";
 		}
 		if($fototeller>=4) {
 			echo "</div>"; # afsluiten #blog_foto_aanvullend_meer
