@@ -16,7 +16,15 @@ if($vars["websitetype"]==7) {
 $vars["verberg_directnaar"]=true;
 
 if($_GET["b"]) {
-	$db->query("SELECT blog_id, titel, inleiding, inhoud, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum, accommodatiecodes, categorie FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND blog_id='".addslashes($_GET["b"])."' AND actief=1 AND plaatsingsdatum<NOW();");
+
+	if(in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"]) and $_GET["test"]) {
+		$andquery="";
+	} else {
+		$andquery=" AND actief=1";
+	}
+
+
+	$db->query("SELECT blog_id, titel, inleiding, inhoud, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum, accommodatiecodes, categorie FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND blog_id='".addslashes($_GET["b"])."'".$andquery." AND plaatsingsdatum<NOW();");
 	if($db->next_record()) {
 		$blog["blog_id"]=$db->f("blog_id");
 		$blog["titel"]=$db->f("titel");
