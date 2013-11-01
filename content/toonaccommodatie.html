@@ -1748,6 +1748,15 @@ if($db->next_record()) {
 
 		}\n</style>";
 		}
+		if($_GET["versie"]==4) {
+		echo "<style>\n.alletypes_aantalpersonen {
+			background: url(".$vars["path"]."pic/icons/icon-alletypes_6.png?c=1);
+			background-repeat: no-repeat;
+
+			padding-top: 23px;
+
+		}\n</style>";
+		}
 
 
 		while($db2->next_record()) {
