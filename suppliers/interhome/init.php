@@ -2,7 +2,6 @@
 ini_set('memory_limit','-1');
 ini_set('display_errors', true);
 ini_set('max_execution_time', 300); //300 seconds = 5 minutes
-#error_reporting(-1);
 if(!defined("DS")) define("DS", DIRECTORY_SEPARATOR);
 if(!defined('SITE_ROOT')) define('SITE_ROOT', dirname(dirname(dirname(__FILE__))));
 

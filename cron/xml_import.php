@@ -949,7 +949,13 @@ while(list($key,$value)=@each($soap_urls)) {
 				// Get the availability
 				$xml_beschikbaar[$key][$accCode] = $interHome->getAvailability($accCode, $endDate[$seasonId]);
 				// Get the prices
-				$xml_brutoprijs[$key][$accCode] = $interHome->getPrices($accCode);
+				$arrCodes[$accCode] = 1;
+			}
+
+			$arrAllPrices = $interHome->getWeekPrice($arrCodes);
+
+			foreach($arrCodes as $code=>$v) {
+				$xml_brutoprijs[$key][$code] = $interHome->getPrices($code,$arrAllPrices);
 			}
 
 			$xml_laatsteimport_leverancier[$key]=true;
