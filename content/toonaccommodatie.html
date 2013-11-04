@@ -1720,7 +1720,7 @@ if($db->next_record()) {
 		$db2->seek();
 	}
 	// alle types van deze accommodatie
-	if($alletypestonen and ($vars["lokale_testserver"] or $vars["acceptatie_testserver"])) {
+	if($alletypestonen and ($vars["websitetype"]==1 or $vars["websitetype"]==4)) {
 		echo "<div id=\"toonaccommodatie_boekbalk_alletypes\">";
 		echo "<div class=\"alletypes_header\">";
 		echo html("alletypes2","toonaccommodatie");
@@ -1785,9 +1785,13 @@ if($db->next_record()) {
 		}
 		echo $anderetypes;
 		if($_GET["d"] and $nietbeschikbaar_getoond) {
-			echo "<div style=\"padding-top:15px;padding-bottom:10px;\">";
+			echo "<div class=\"alletypes_legenda\">";
+			echo "<h2>".html("beschikbaarheiddatum","toonaccommodatie",array("h_datum"=>"<br/>".datum("D MAAND JJJJ",$_GET["d"],$vars["taal"]))).":</h2>";
+			echo "<div><span>&nbsp;</span> = ".html("beschikbaar","toonaccommodatie")."</div>";
+			echo "<div><span class=\"niet_beschikbaar\">&nbsp;</span> = ".html("nietbeschikbaar","toonaccommodatie")."</div>";
 #			echo "<span style=\"background-color:#d40139;\">&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("nietmeerbeschikbaarvoordezeaankomstdatum","toonaccommodatie");
-			echo "<img src=\"".$vars["path"]."pic/cross.gif\" width=\"10\" height=\"10\" alt=\"\" style=\"margin-bottom:-1px;\">&nbsp;=&nbsp;".html("nietmeerbeschikbaarvoordezeaankomstdatum","toonaccommodatie");
+#			echo "<img src=\"".$vars["path"]."pic/cross.gif\" width=\"10\" height=\"10\" alt=\"\" style=\"margin-bottom:-1px;\">&nbsp;=&nbsp;".html("nietmeerbeschikbaarvoordezeaankomstdatum","toonaccommodatie");
+			echo "<div class=\"clear\"></div>";
 			echo "</div>";
 		}
 

@@ -2082,6 +2082,15 @@ $txt["en"]["toonaccommodatie"]["alletypes2"]="All types of this accommodation";
 $txt["nl"]["toonaccommodatie"]["nietmeerbeschikbaarvoordezeaankomstdatum"]="niet meer beschikbaar voor deze aankomstdatum";
 $txt["en"]["toonaccommodatie"]["nietmeerbeschikbaarvoordezeaankomstdatum"]="not available for the selected date";
 
+$txt["nl"]["toonaccommodatie"]["beschikbaarheiddatum"]="Beschikbaarheid op [[h_datum]]";
+$txt["en"]["toonaccommodatie"]["beschikbaarheiddatum"]="Availability on [[h_datum]]";
+
+$txt["nl"]["toonaccommodatie"]["beschikbaar"]="beschikbaar";
+$txt["en"]["toonaccommodatie"]["beschikbaar"]="available";
+
+$txt["nl"]["toonaccommodatie"]["nietbeschikbaar"]="niet beschikbaar";
+$txt["en"]["toonaccommodatie"]["nietbeschikbaar"]="not available";
+
 $txt["nl"]["toonaccommodatie"]["extraopties"]="Extra opties";
 $txt["en"]["toonaccommodatie"]["extraopties"]="Extra options";
 

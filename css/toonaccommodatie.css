@@ -33,10 +33,11 @@ h2 {
 }
 
 #toonaccommodatie_boekbalk_alletypes {
-	margin-top:10px;
+	margin-top: 12px;
 	border: 1px solid #003366;
 	text-align:left;
-	padding-left:3px;
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
 .alletypes_header {
@@ -44,13 +45,12 @@ h2 {
 	font-weight: bold;
 	font-size: 1.1em;
 	color: #003366;
-	margin-top: 3px;
+	margin-top: 12px;
 }
 
 .alletypes_item {
 	margin-bottom: 10px;
 	margin-top: 10px;
-	margin-right: 2px;
 }
 
 .alletypes_soort_accommodatie {
@@ -68,17 +68,18 @@ h2 {
 }
 
 div.alletypes_type {
-	background-color: #003366;
-	color: #ffffff;
+	background-color: #d5e1f9;
+	border: 1px solid #003366;
 }
 
 a.alletypes_type {
 	background-color: #d5e1f9;
+	border: 1px solid #d5e1f9;
 }
 
 a.alletypes_type:hover {
-	background-color: #003366;
-	color: #ffffff;
+	border: 1px solid #003366;
+	color: #003366;
 }
 
 .alletypes_aantalpersonen {
@@ -86,7 +87,7 @@ a.alletypes_type:hover {
 	box-sizing : border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
-	background: url(../pic/icons/icon-alletypes_normaal.png);
+	background: url(../pic/icons/icon-alletypes_vrij.png);
 	background-size: 35px 35px;
 	background-repeat: no-repeat;
 	background-position: 0px 0px;
@@ -101,22 +102,61 @@ a.alletypes_type:hover {
 	white-space:nowrap;
 }
 
-.alletypes_beschikbaar .alletypes_aantalpersonen {
-	background: url(../pic/icons/icon-alletypes_vrij.png);
-}
-
-.alletypes_niet_beschikbaar {
-	opacity: 0.6;
-}
-
 .alletypes_niet_beschikbaar .alletypes_aantalpersonen {
-	background: url(../pic/icons/icon-alletypes_normaal.png);
+	background: url(../pic/icons/icon-alletypes_niet_beschikbaar.png);
+}
+
+.alletypes_niet_beschikbaar:hover .alletypes_aantalpersonen {
+	color: ffffff;
+}
+
+div.alletypes_niet_beschikbaar {
+	background-color: #cccccc;
+	border: 1px solid #003366;
+	color: #003366;
+}
+
+a.alletypes_niet_beschikbaar {
+	background-color: #cccccc;
+	border: 1px solid #cccccc;
+	color: #003366;
 }
 
 .alletypes_typenaam {
 	float: left;
 	padding-left: 4px;
 	vertical-align: middle;
+}
+
+.alletypes_legenda {
+	background-color: #ebebeb;
+	padding: 3px;
+	margin-top: 15px;
+	margin-bottom: 0px;
+}
+
+.alletypes_legenda h2 {
+	font-size: 1.0em;
+	font-weight: normal;
+	font-style: italic;
+	text-align: center;
+	margin-bottom: 3px;
+	margin-top: 0;
+}
+
+.alletypes_legenda div {
+	margin-bottom: 3px;
+}
+
+.alletypes_legenda span {
+	display: inline-block;
+	width: 35px;
+	background-color: #d5e1f9;
+	border: 1px solid #003366;
+}
+
+.alletypes_legenda span.niet_beschikbaar {
+	background-color: #cccccc;
 }
 
 #toonaccommodatie_foto {
