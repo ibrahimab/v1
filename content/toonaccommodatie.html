@@ -1720,7 +1720,7 @@ if($db->next_record()) {
 		$db2->seek();
 	}
 	// alle types van deze accommodatie
-	if($alletypestonen and ($vars["lokale_testserver"] or $vars["acceptatie_testserver"])) {
+	if($alletypestonen and ($vars["websitetype"]==1 or $vars["websitetype"]==4)) {
 		echo "<div id=\"toonaccommodatie_boekbalk_alletypes\">";
 		echo "<div class=\"alletypes_header\">";
 		echo html("alletypes2","toonaccommodatie");
@@ -1783,6 +1783,7 @@ if($db->next_record()) {
 
 			$anderetypes.="</div>"; // afsluiten .alletypes_item
 		}
+		echo $anderetypes;
 		if($_GET["d"] and $nietbeschikbaar_getoond) {
 			echo "<div class=\"alletypes_legenda\">";
 			echo "<h2>".html("beschikbaarheiddatum","toonaccommodatie",array("h_datum"=>"<br/>".datum("D MAAND JJJJ",$_GET["d"],$vars["taal"]))).":</h2>";
@@ -1793,7 +1794,6 @@ if($db->next_record()) {
 			echo "<div class=\"clear\"></div>";
 			echo "</div>";
 		}
-		echo $anderetypes;
 
 		echo "</div>";
 
