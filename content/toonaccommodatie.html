@@ -1720,7 +1720,7 @@ if($db->next_record()) {
 		$db2->seek();
 	}
 	// alle types van deze accommodatie
-	if($alletypestonen and ($vars["websitetype"]==1 or $vars["websitetype"]==4)) {
+	if($alletypestonen and ($vars["websitetype"]==1 or $vars["websitetype"]==4) and ($vars["lokale_testserver"]  or $vars["acceptatie_testserver"])) {
 		echo "<div id=\"toonaccommodatie_boekbalk_alletypes\">";
 		echo "<div class=\"alletypes_header\">";
 		echo html("alletypes2","toonaccommodatie");
