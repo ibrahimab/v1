@@ -516,6 +516,7 @@ var gebruik_jquery=true;
 var landkaartklikbaar_info_hoverkleur="#636f07";
 var eerste_tab_getoond=false;
 var google_analytics_tab_verstuurd=false;
+var maxHeight = 0;
 
 $(document).ready(function() {
 
@@ -523,6 +524,13 @@ $(document).ready(function() {
 		//
 		// jquery
 		//
+
+
+		// "Alle types van deze accommodatie" elk blokje dezelfde hoogte
+		$("div.alletypes_typenaam").each(function() {
+			maxHeight = Math.max(maxHeight, $(this).height());
+		}).height(maxHeight);
+
 
 		if($().tabs) {
 			//

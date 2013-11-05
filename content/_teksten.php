@@ -2091,6 +2091,15 @@ $txt["en"]["toonaccommodatie"]["beschikbaar"]="available";
 $txt["nl"]["toonaccommodatie"]["nietbeschikbaar"]="niet beschikbaar";
 $txt["en"]["toonaccommodatie"]["nietbeschikbaar"]="not available";
 
+$txt["nl"]["toonaccommodatie"]["prijs"]="prijs";
+$txt["en"]["toonaccommodatie"]["prijs"]="price";
+
+$txt["nl"]["toonaccommodatie"]["peraccommodatie"]="per accommodatie";
+$txt["en"]["toonaccommodatie"]["peraccommodatie"]="per accommodation";
+
+$txt["nl"]["toonaccommodatie"]["perpersooninclskipas"]="p.p. incl. skipas";
+$txt["en"]["toonaccommodatie"]["perpersooninclskipas"]="p.p. incl. ski-lift pass";
+
 $txt["nl"]["toonaccommodatie"]["extraopties"]="Extra opties";
 $txt["en"]["toonaccommodatie"]["extraopties"]="Extra options";
 
