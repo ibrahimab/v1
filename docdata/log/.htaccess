@@ -1,4 +1,4 @@
-AuthUserFile .htpasswd
+AuthUserFile /var/www/chalet.nl/html/docdata/log/.htpasswd
 AuthGroupFile .htgroup
 AuthName "Chalet.nl"
 AuthType Basic
