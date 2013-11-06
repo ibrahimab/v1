@@ -126,7 +126,7 @@ if($login->logged_in) {
 					// Display the form only if there are any amounts due to be paid
 					if($ramining_payments > 0) {
 						echo "<form method=\"post\" action=\"http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"] . "/docdata/payment/redirect/"."\" name=\"payment\">";
-						echo "<table align=\"center\" class=\"toonacctabel\" style=\"width:100%;\" cellpadding=\"5\">";
+						echo "<table align=\"center\" class=\"toonacctabel no-border\" style=\"width:100%;\" cellpadding=\"5\">";
 						echo "<tr><th>". html("payment_part","bsys") ."</th><th>". html("payment_method","bsys") ."</th></tr>";
 
 						echo "<input type=\"hidden\" name=\"order\" value=\"{$_GET["bid"]}\">";

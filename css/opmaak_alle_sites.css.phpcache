@@ -1958,10 +1958,18 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	border-style: solid;
 }
 
+.toonacctabel.no-border {
+	border-width: 0;
+}
+
 .toonacctabel th, .toonacctabel td {
 	margin: 0;
 	border-width: 1px 1px 0 0;
 	border-style: solid;
+}
+
+.toonacctabel.no-border th, .toonacctabel.no-border td {
+	border-width: 0;
 }
 
 .toonacctabel td table td {
