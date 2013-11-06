@@ -126,8 +126,8 @@ if($login->logged_in) {
 					// Display the form only if there are any amounts due to be paid
 					if($ramining_payments > 0) {
 						echo "<form method=\"post\" action=\"http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"] . "/docdata/payment/redirect/"."\" name=\"payment\">";
-						echo "<table align=\"center\" style=\"width:100%;\" cellpadding=\"5\">";
-						echo "<tr style=\"background: #d5e1f9;\"><td><em><strong>". html("payment_part","bsys") ."</strong></em></td><td><em><strong>". html("payment_method","bsys") ."</strong></em></td></tr>";
+						echo "<table align=\"center\" class=\"toonacctabel\" style=\"width:100%;\" cellpadding=\"5\">";
+						echo "<tr><th>". html("payment_part","bsys") ."</th><th>". html("payment_method","bsys") ."</th></tr>";
 
 						echo "<input type=\"hidden\" name=\"order\" value=\"{$_GET["bid"]}\">";
 						echo "<tr><td style=\"vertical-align:top;\">";
@@ -196,7 +196,6 @@ if($login->logged_in) {
                                 }
                             });</script>";
 							echo "</td></tr>";
-							echo "<tr><td colspan=\"2\" align=\"right\">";
 
 							# If there exists a limit for the countries
 							if($limit_countries){
@@ -212,6 +211,7 @@ if($login->logged_in) {
 
 							# If no match was found for the country code, we display a dropdown with the countries
 						    if(!isset($gegevens["stap2"]["iso_land"]) || $gegevens["stap2"]["iso_land"] == false)  {
+								echo "<tr><td colspan=\"2\" align=\"right\">";
 								echo "<label>" . html("customer_country","bsys") ."*: ";
 								echo "<select name=\"country\">";
 									foreach($countriesList[$vars["taal"]] as $key => $value) {
@@ -271,11 +271,12 @@ if($login->logged_in) {
                                         }
 									});
 								});</script>";
+								echo "</td></tr>";
 							} else {
 								echo "<input type=\"hidden\" name=\"country\" value=\"". $gegevens["stap2"]["iso_land"] ."\" />";
 							}
 
-						echo "</td></tr>";
+
 						echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"paymentsubmit\"></td></tr>";
 
 						echo "</table>";
