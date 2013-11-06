@@ -3,6 +3,16 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+6-nov-2013 16:37
+ALTER TABLE `docdata_payments`
+CHANGE `created_at` `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
+
+ALTER TABLE `docdata_payments`
+CHANGE `updated_at` `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+ALTER TABLE `docdata_payments`
+CHANGE `cluster_key` `cluster_key` varchar(255) COLLATE 'utf8_general_ci' NOT NULL;
+
 1-nov-2013 10:47
 ALTER TABLE `docdata_payments` ADD COLUMN `reference` VARCHAR(50) NOT NULL AFTER `type`;
 
