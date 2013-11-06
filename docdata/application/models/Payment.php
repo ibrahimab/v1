@@ -30,7 +30,7 @@ class Payment extends Model {
 	 * @param int $order_id
 	 * @param string $payment_type
 	 * @param float $amount
-	 *
+	 * @param string $order_reference
 	 * @return bool
 	 */
 	public function createPayment($cluster_key, $order_id, $payment_type, $amount, $order_reference) {
@@ -40,7 +40,7 @@ class Payment extends Model {
 
 		$sql  = "INSERT INTO `" . $this->table . "` ";
 		$sql .= "SET cluster_key = '" . mysql_real_escape_string($cluster_key) . "', ";
-		$sql .= "boeking_id = '" . mysql_real_escape_string($order_id) . "', status = '" . mysql_real_escape_string($status) . "', ";
+		$sql .= "boeking_id = '" . mysql_real_escape_string($order_id) . "', status = '" . mysql_real_escape_string($status) . "', created_at = NOW(), ";
 		$sql .= "amount = '" . mysql_real_escape_string($amount) . "', type = '" . mysql_real_escape_string($payment_type) ."', reference = '" . mysql_real_escape_string($order_reference) . "' ;";
 
 		$this->query($sql);
