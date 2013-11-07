@@ -57,3 +57,33 @@
 #toonaccommodatie_aanbieding {
 	color: #636f07;
 }
+
+/**/
+/*alle types van deze accommodatie*/
+/**/
+
+.alletypes_header {
+	color: #5f227b;
+}
+
+.alletypes_type {
+	background-color: #eff2be;
+	border-color: #eff2be;
+}
+
+div.alletypes_type {
+	border-color: #5f227b;
+}
+
+a.alletypes_type:hover {
+	border-color: #5f227b;
+}
+
+div.alletypes_niet_beschikbaar {
+	background-color: #cccccc;
+}
+
+a.alletypes_niet_beschikbaar {
+	background-color: #cccccc;
+	border-color: #cccccc;
+}

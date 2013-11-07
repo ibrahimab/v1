@@ -134,6 +134,10 @@ if($mustlogin) {
 
 	if($_GET["bedrijf"]=="venturasol") {
 		$title["cms_financien"]="Financiën Venturasol Vacances B.V.";
+
+		// intern mailadres: aanpassen naar Venturasol-adres
+		$login->vars["email"]=preg_replace("/@chalet\.nl/", "@venturasol.nl", $login->vars["email"]);
+
 	} else {
 		if($_GET["bedrijf"]) $_GET["bedrijf"]="chalet";
 		$title["cms_financien"]="Financiën Chalet.nl B.V.";

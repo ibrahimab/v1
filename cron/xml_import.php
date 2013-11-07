@@ -239,7 +239,7 @@ if(file_exists($temp_filename[17])) {
 }
 
 # Agence des Belleville
-$xml_urls[18][1]="http://www.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&top=58&qry=extr_plng@top_id='CHALE'";
+$xml_urls[18][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&top=58&qry=extr_plng@top_id='CHALE'";
 #$xml_urls[18][2]="Agence des Belleville" (tarieven werken met losse XML's per accommodatie)
 
 # Oxygène Immobilier (via Arkiane)
@@ -1346,7 +1346,7 @@ while($db->next_record()) {
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=122&top=3037&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==18) {
 				# Agence des Belleville
-				$xml_url="http://www.alpes-skiresa.com/xml/xml_v1.asp?app=LS&clt=141&top=58&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
+				$xml_url="http://resa.alpes-skiresa.com/xml/xml_v1.asp?app=LS&clt=141&top=58&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==19) {
 				# Oxygène Immobilier
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=23&top=6&qry=tarif_lotref@top_id='CHANL',@lot_ref='".$value."'";

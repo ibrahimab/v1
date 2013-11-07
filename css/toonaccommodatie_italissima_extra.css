@@ -108,3 +108,33 @@
 .aanbieding a:hover {
 	color: #000000 !important;
 }
+
+/**/
+/*alle types van deze accommodatie*/
+/**/
+
+.alletypes_header {
+	color: #661700;
+}
+
+.alletypes_type {
+	background-color: #ffd38f;
+	border-color: #ffd38f;
+}
+
+div.alletypes_type {
+	border-color: #661700;
+}
+
+a.alletypes_type:hover {
+	border-color: #661700;
+}
+
+div.alletypes_niet_beschikbaar {
+	background-color: #cccccc;
+}
+
+a.alletypes_niet_beschikbaar {
+	background-color: #cccccc;
+	border-color: #cccccc;
+}
