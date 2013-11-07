@@ -933,10 +933,11 @@ while(list($key,$value)=@each($soap_urls)) {
 				die();
 			}
 			// Get the last dates for each season type (winter=1, summer=2)
-			$q = "SELECT max(eind) AS end, type FROM `seizoen` GROUP BY type";
+			$q = "SELECT max(eind) AS end, max(begin) as begin, type FROM `seizoen` GROUP BY type";
 			$db->query($q);
 			while($db->next_record()) {
 				$endDate[$db->f("type")] = $db->f("end");
+				$startDate[$db->f("type")] = $db->f("begin");
 			}
 			// Get all accommodations from Interhome (421)
 			$q = "SELECT t.leverancierscode, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '421' AND t.`leverancierscode` <> ''";
@@ -946,19 +947,22 @@ while(list($key,$value)=@each($soap_urls)) {
 			while($db->next_record()) {
 				$accCode = $db->f("leverancierscode");
 				$seasonId = $db->f("wzt");
-				// Get the availability
-				$xml_beschikbaar[$key][$accCode] = $interHome->getAvailability($accCode, $endDate[$seasonId]);
-				// Get the prices
-				$arrCodes[$accCode] = 1;
+
+				$x = strtotime($endDate[$seasonId]);
+				$end_date = strtotime("+ 7 days", $x);
+				$end_date = date("Y-m-d", $end_date);
+
+				if($availability = $interHome->getAvailability($accCode, $startDate[$seasonId], $end_date)) {
+					// Get the availability
+					$xml_beschikbaar[$key][$accCode] = $availability;
+				}
 			}
 
-			$arrAllPrices = $interHome->getWeekPrice($arrCodes);
-
-			foreach($arrCodes as $code=>$v) {
-				$xml_brutoprijs[$key][$code] = $interHome->getPrices($code,$arrAllPrices);
-			}
+			// Get the prices
+			$xml_brutoprijs[$key] = $interHome->processPrices($xml_beschikbaar);
 
 			$xml_laatsteimport_leverancier[$key]=true;
+
 		}
 	} else {
 
