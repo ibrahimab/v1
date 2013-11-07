@@ -94,3 +94,33 @@ h1 {
 .beoordeling_enquete_table {
 	border: 1px solid #e6007e;
 }
+
+/**/
+/*alle types van deze accommodatie*/
+/**/
+
+.alletypes_header {
+	color: #0412b1;
+}
+
+.alletypes_type {
+	background-color: #a1bddb;
+	border-color: #a1bddb;
+}
+
+div.alletypes_type {
+	border-color: #0412b1;
+}
+
+a.alletypes_type:hover {
+	border-color: #0412b1;
+}
+
+div.alletypes_niet_beschikbaar {
+	background-color: #cccccc;
+}
+
+a.alletypes_niet_beschikbaar {
+	background-color: #cccccc;
+	border-color: #cccccc;
+}

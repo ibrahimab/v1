@@ -65,49 +65,25 @@ h2 {
 	min-height: 35px;
 	text-decoration: none;
 	padding: 3px;
-}
-
-div.alletypes_type {
-	background-color: #d5e1f9;
-	border: 2px solid #003366;
-}
-
-a.alletypes_type {
 	background-color: #d5e1f9;
 	border: 2px solid #d5e1f9;
 }
 
+div.alletypes_type {
+	border: 2px solid #003366;
+}
+
+a.alletypes_type {
+
+}
+
 a.alletypes_type:hover {
 	border-color: #003366;
-	color: #003366;
+	color: #000000;
 }
 
 .alletypes_aantalpersonen {
 	font-weight: bold;
-}
-
-.alletypes_aantalpersonenNU_EVEN_NIET {
-	float: left;
-	box-sizing : border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	background: url(../pic/icons/icon-alletypes_vrij.png);
-	background-size: 35px 35px;
-	background-repeat: no-repeat;
-	background-position: 0px 0px;
-	text-align: center;
-	width: 35px;
-	height: 35px;
-	padding-top: 24px;
-	line-height: 9px;
-	font-size: 9px;
-	color: #003366;
-	overflow: hidden;
-	white-space:nowrap;
-}
-
-.alletypes_niet_beschikbaar .alletypes_aantalpersonen {
-	/*background: url(../pic/icons/icon-alletypes_niet_beschikbaar.png);*/
 }
 
 .alletypes_niet_beschikbaar:hover .alletypes_aantalpersonen {
@@ -116,21 +92,11 @@ a.alletypes_type:hover {
 
 div.alletypes_niet_beschikbaar {
 	background-color: #cccccc;
-	border-color: #003366;
-	color: #003366;
 }
 
 a.alletypes_niet_beschikbaar {
 	background-color: #cccccc;
 	border-color: #cccccc;
-	color: #003366;
-}
-
-.alletypes_typenaam {
-/*	float: left;
-	padding-left: 4px;
-	vertical-align: middle;
-*/
 }
 
 .alletypes_prijs {
@@ -144,7 +110,9 @@ a.alletypes_niet_beschikbaar {
 
 .alletypes_legenda {
 	background-color: #ebebeb;
-	padding: 3px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	padding-left: 3px;
 	margin-top: 15px;
 	margin-bottom: 0px;
 }
@@ -160,13 +128,14 @@ a.alletypes_niet_beschikbaar {
 
 .alletypes_legenda div {
 	margin-bottom: 3px;
+	white-space: nowrap;
+	overflow-x: hidden;
 }
 
 .alletypes_legenda span {
 	display: inline-block;
-	width: 35px;
-	background-color: #d5e1f9;
-	border: 1px solid #003366;
+	width: 30px;
+	border: 1px solid #888888;
 }
 
 .alletypes_legenda span.niet_beschikbaar {
