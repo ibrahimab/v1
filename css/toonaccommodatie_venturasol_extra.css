@@ -60,6 +60,7 @@ h1 {
 	border-radius: 11px;
 	behavior: url(/PIE.htc);
 	position: relative;
+	border-color: #0412b1;
 }
 
 #beoordeling_gemiddeldtotaaloordeel_cijfer {
