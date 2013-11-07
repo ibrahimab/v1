@@ -62,6 +62,11 @@
 /*alle types van deze accommodatie*/
 /**/
 
+#toonaccommodatie_boekbalk_alletypes {
+	border-color: #5f227b;
+	margin-top: 6px;
+}
+
 .alletypes_header {
 	color: #5f227b;
 }
