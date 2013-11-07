@@ -92,12 +92,12 @@ a.alletypes_type:hover {
 
 div.alletypes_niet_beschikbaar {
 	background-color: #cccccc;
-	border-color: #cccccc;
 }
 
 a.alletypes_niet_beschikbaar {
 	background-color: #cccccc;
 	border-color: #cccccc;
+	color: #444444;
 }
 
 .alletypes_prijs {
