@@ -165,21 +165,26 @@ class InterHome extends SoapClass {
 	 * It then formats the dates and returns the availability for each week, starting with Saturday
 	 *
 	 * @param string $accCode The accommodation code from Interhome
+	 * @param string $checkIn date
 	 * @param string $checkOut Check out date
 	 * @return array|null
 	 */
-	public function getAvailability($accCode = null, $checkOut = "") {
+	public function getAvailability($accCode = null, $checkIn, $checkOut = "") {
 
 		// Check if the accommodation code is set
-		if(empty($accCode) || empty($this->wsdl)) return null;
+		if(empty($accCode) || empty($this->wsdl)) return false;
 
 		/**************************************
 		 * IHomeServiceAvailability
 		 */
+
+		if(!isset($checkIn) || empty($checkIn)) {
+			$checkIn = date("Y-m-d");
+		}
 		$ihomeServiceAvailability = new IHomeServiceAvailability($this->wsdl);
 		$params = array(
 			'AccommodationCode' => $accCode,
-			'CheckIn' 			=> date("Y-m-d"),
+			'CheckIn' 			=> $checkIn,
 			'CheckOut' 			=> $checkOut
 		);
 
@@ -193,7 +198,8 @@ class InterHome extends SoapClass {
 			if($itemServiceAvailability->getOk() == false) {
 				if(count($errors = $itemServiceAvailability->getErrors()) > 0) {
 					foreach ($errors as $error) {						
-						return $error->getDescription();
+						//return $error->getDescription();
+						return false;
 					}
 				}
 			} else {
@@ -270,7 +276,8 @@ class InterHome extends SoapClass {
 				return $soap_available;				
 			}	
 		} else {
-			return $ihomeServiceAvailability->getLastError();
+			//return $ihomeServiceAvailability->getLastError();
+			return false;
 		}
 	}
 
@@ -650,6 +657,119 @@ class InterHome extends SoapClass {
 		return null;
 	}
 
+	/**
+	 * The function returns the accommodations prices using the SOAP Prices method for a specific week
+	 *
+	 * @param $accCodes;	Array containing all the accommodations and their weekly availability
+	 * @param $checkIn; 	The start of the week
+	 * @param null $checkOut; The end of the week
+	 * @return array|null
+	 */
+	private function _getPrices($accCodes, $checkIn, $checkOut = NULL) {
+
+		if(!$checkOut) {
+			// By default the checkout date is after 7 days
+			$checkOut = date("Y-m-d", strtotime("+ 7 days", $checkIn));
+		}
+
+		$checkIn = date("Y-m-d", $checkIn);
+
+		/********************************
+		 * IHomeServicePrices
+		 */
+		$ihomeServicePrices = new IHomeServicePrices($this->wsdl);
+
+		if(count($accCodes) > 0) {
+			foreach ($accCodes as $accCode) {
+				$stays[] = array(
+					'AccommodationCode' => $accCode,
+					'CheckIn'			=> $checkIn,
+					'CheckOut' 			=> $checkOut
+				);
+			}
+		}
+
+		if(count($stays) == 0) return null;
+
+		$params = array(
+			'Stays' => $stays,
+			'CurrencyCode' => 'EUR',
+			'SalesOfficeCode' => '4040',
+			'LanguageCode' => $this->languageCode,
+		);
+
+		// call for IHomeServicePrices::Prices()
+		if($ihomeServicePrices->Prices(new IHomeStructPrices($params))){
+
+			$result = current($ihomeServicePrices->getResult());
+			$itemPricesResult = $result->getPricesResult();
+
+			// Check for errors
+			if($itemPricesResult->getOk() == false) {
+
+				if(count($errors = $itemPricesResult->getErrors()) > 0) {
+					foreach ($errors as $error) {
+						return $error->getDescription();
+					}
+				}
+
+			} else {
+				$arrPrices = array();
+
+				$arrPricesResultItems = $itemPricesResult->getPrices()->getPricesPriceItem();
+
+				if(is_array($arrPricesResultItems) && count($arrPricesResultItems) > 0) {
+					foreach ($arrPricesResultItems as $item) {
+						$arrPrices[$item->getAccommodationCode()] = $item->getPrice1();
+					}
+				} else {
+					$arrPrices[$arrPricesResultItems->getAccommodationCode()] =  $arrPricesResultItems->getPrice1();
+				}
+
+				return $arrPrices;
+			}
+
+		}
+		else {
+			return $ihomeServicePrices->getLastError();
+		}
+	}
+
+	/**
+	 * The function returns the weekly prices for each accommodation
+	 */
+	public function processPrices($av) {
+
+		$list = current($av);
+
+		// Create a list with the accommodations that are available per week
+		foreach($list as $acc_code => $weeks) {
+			if(is_array($weeks)) {
+			foreach($weeks as $week => $ok) {
+				$tmp[$week][] = $acc_code;
+			}
+			}
+		}
+
+		// For each week call the Prices method by sending an array with all the accommodations that are available on that week
+		foreach($tmp as $week => $accommodations) {
+			// Call the Prices SOAP method
+			$formated[$week] = $this->_getPrices($accommodations, $week);
+		}
+
+		// Return the weekly prices for each accommodation
+		foreach($formated as $week => $accommodations) {
+			if(is_array($accommodations)) {
+				foreach($accommodations as $code => $price) {
+					$final[$code][$week] = $price;
+					ksort($final[$code]);
+				}
+			}
+		}
+
+		return $final;
+	}
+
 } #end class
 
 
@@ -666,3 +786,4 @@ class InterHome extends SoapClass {
 #print_r($interHome->getCountriesRegions());
 #print_r($interHome->getWeekPrice(array("AT6574.220.1" => true, "AT6365.700.1" => true, "AT6290.530.2" => true, "AT6450.510.1" => true, "AT6574.170.1" => true)));
 #print_r($interHome->getPrices("CH7050.250.4"));
+#print_r($interHome->processPrices(array()));
