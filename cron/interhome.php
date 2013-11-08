@@ -121,9 +121,10 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 		}
 
 		// Get the distinct accommodations that were imported to be used to compare
-		$sql = "SELECT DISTINCT(xmlcode) AS code FROM `xml_importvalues` WHERE leverancier_id='".addslashes($lev)."'";
+		$sql = "SELECT DISTINCT(xmlcode) AS code FROM `xml_importvalues` WHERE soort=2 AND leverancier_id='".addslashes($lev)."'";
 		$db->query($sql);
 		$new = array();
+		$property = array();
 		while($db->next_record()) {
 			if(!isset($verberg_xmlcode[$db->f("code")])) {
 				$services[$db->f("code")] = $interHome->getAdditionalServices($db->f("code"));
@@ -153,26 +154,34 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 				$volgnummer++;
 
 				$uniekeid = $value->getAccommodationCode();
-				$new[$uniekeid]["volgnummer"] 				= $volgnummer;
-				$new[$uniekeid]["accnaam"] 					= conv($value->getHouseName());
-				$new[$uniekeid]["typenaam"] 				= $uniekeid;
-				$new[$uniekeid]["skigebied_id"] 			= $bekend_skigebied;
-				$new[$uniekeid]["plaats_id"] 				= $bekend_plaats;
-				$new[$uniekeid]["accid"] 					= $value->getAccommodationCode();
-				$new[$uniekeid]["optimaalaantalpersonen"] 	= $value->getPax();
-				$new[$uniekeid]["maxaantalpersonen"] 		= $value->getPax();
-				$new[$uniekeid]["slaapkamers"] 				= $value->getBedRooms();
-				$new[$uniekeid]["kwaliteit"] 				= $value->getQuality();
-				$new[$uniekeid]["accomschrijving"] 			= conv($value->getInsideDescription());
-				$new[$uniekeid]["accafbeelding"] 			= $value->getPictures()->getString();
-				$new[$uniekeid]["typeafbeelding"] 			= $value->getPictures()->getString();
-				$new[$uniekeid]["soortaccommodatie"] 		= $type_id;
-				$new[$uniekeid]["gps_lat"] 					= $value->getGeoLat();
-				$new[$uniekeid]["gps_long"] 				= $value->getGeoLng();
 
-				$included_services 	= "";
+				$tmp_uniekeid = explode(".", $uniekeid, -1);
+				$tmp_uniekeid = implode(".", $tmp_uniekeid);
+				$new[$uniekeid]["accid"] = $tmp_uniekeid;
+
+				$new[$uniekeid]["volgnummer"] = $volgnummer;
+				$new[$uniekeid]["accnaam"] = conv($value->getHouseName());
+				$new[$uniekeid]["typenaam"] = conv($value->getHouseName());
+				$new[$uniekeid]["skigebied_id"] = $value->getRegion();
+				$new[$uniekeid]["plaats_id"] = $value->getPlace();
+				$new[$uniekeid]["optimaalaantalpersonen"] = $value->getPax();
+				$new[$uniekeid]["maxaantalpersonen"] = $value->getPax();
+				$new[$uniekeid]["slaapkamers"] = $value->getBedRooms();
+				$new[$uniekeid]["kwaliteit"] = $value->getQuality();
+				$new[$uniekeid]["typeindeling"] = conv($value->getInsideDescription());
+				$new[$uniekeid]["accomschrijving"] = conv($value->getOutsideDescription());
+				$new[$uniekeid]["accafbeelding"] = $value->getPictures()->getString();
+				$new[$uniekeid]["typeafbeelding"] = $value->getPictures()->getString();
+				$new[$uniekeid]["soortaccommodatie"] = $type_id;
+				$new[$uniekeid]["gps_lat"] = $value->getGeoLat();
+				$new[$uniekeid]["gps_long"] = $value->getGeoLng();
+				if(preg_match("/([0-9]+\.?[0-9]+) m2\.?(.*)$/", $new[$uniekeid]["typeindeling"], $matches)) {
+					$new[$uniekeid]["oppervlakte"]=trim($matches[1]);
+				}
+
+				$included_services = "";
 				$exclusive_services = "";
-				$extra_services 	= "";
+				$extra_services = "";
 
 				if(isset($services[$uniekeid]) && is_array($services[$uniekeid])) {
 					while(list($key,$service)=each($services[$uniekeid])) {
@@ -183,7 +192,7 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 								case "N5":
 									$included_services .= conv($service->getDescription()) . ". ";
 									$txt = $service->getText();
-									if(!empty($txt)) $included_services .= " " . conv(rtrim($service->getText(), ".")) . ". ";
+									#if(!empty($txt)) $included_services .= " " . iconv("UTF-8", "CP1252", rtrim($service->getText(), ".")) . ". ";
 									break;
 
 								case "Y1":
@@ -193,8 +202,10 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 									$currency = $service->getCurrency();
 									$txt = $service->getText();
 
-									$exclusive_services .= conv($service->getDescription()) . " (". $currency . " " .$amount ."). ";
-									if(!empty($txt)) $exclusive_services .= " " . conv(rtrim($txt, ".")) . ". ";
+									$exclusive_services .= conv($service->getDescription());
+									if($amount > 0) $exclusive_services .= " (". $currency . " " .$amount .")";
+									$exclusive_services .= ". ";
+									#if(!empty($txt)) $exclusive_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
 									break;
 
 								case "Y5":
@@ -204,8 +215,21 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 									$currency = $service->getCurrency();
 									$txt = $service->getText();
 
-									$extra_services .= conv($service->getDescription()) . " (". $currency . " " .$amount ."). ";
-									if(!empty($txt)) $extra_services .= " " . conv(rtrim($txt, ".")) . ". ";
+									$extra_services .= conv($service->getDescription());
+									if($amount > 0) $extra_services .= " (". $currency . " " .$amount .")";
+									$extra_services .= ". ";
+									#if(!empty($txt)) $extra_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
+									break;
+
+								default:
+									$amount = $service->getAmount();
+									$currency = $service->getCurrency();
+									$txt = $service->getText();
+
+									$extra_services .= conv($service->getDescription());
+									if($amount > 0) $extra_services .= " (". $currency . " " .$amount .")";
+									$extra_services .= ". ";
+									#if(!empty($txt)) $extra_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
 									break;
 							}
 						} else {
@@ -214,12 +238,11 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 					}
 				}
 
-				$new[$uniekeid]["inclusief"] = $included_services;
-				$new[$uniekeid]["exclusief"] = $exclusive_services;
-				$new[$uniekeid]["extraopties"] = $extra_services;
+				$new[$uniekeid]["inclusief"] = trim($included_services);
+				$new[$uniekeid]["exclusief"] = trim($exclusive_services . $extra_services);
 
-				$new[$uniekeid]["typeinclusief"] = $included_services;
-				$new[$uniekeid]["typeexclusief"] = $exclusive_services;
+				$new[$uniekeid]["typeinclusief"] = trim($included_services);
+				$new[$uniekeid]["typeexclusief"] = trim($exclusive_services . $extra_services);
 			}
 		}
 

@@ -498,6 +498,8 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 		}
 	} elseif($_GET["lev"] == 421) {
 
+		#Interhome
+
         if(file_exists($path."suppliers/interhome/index.php")) {
 
             require_once($path."suppliers/interhome/index.php");
@@ -519,9 +521,13 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                 if(!($values instanceof SoapFault)) {
                     if(isset($_GET["verborgen"]) && $_GET["verborgen"] == 1){
                         if(!isset($verberg_xmlcode[$key])) continue;
-                    } else {
-                        if(isset($verberg_xmlcode[$key]) || isset($type_xmlcode[$key]) || $counter > 20) continue;
-                    }
+                    } elseif(isset($verberg_xmlcode[$key])) {
+                        continue;
+                    } if(isset($type_xmlcode[$key]) && !isset($_GET["toonwijzigingen"])) {
+						continue;
+					} elseif(!isset($_GET["toonwijzigingen"]) && $counter > 20) {
+						continue;
+					}
 
                     $region = iconv("UTF-8", "CP1252", $value["region"]);
                     if($skigebied_xmlnamen[$region]) {
@@ -565,22 +571,30 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                     $volgnummer++;
 
                     $uniekeid = $value->getAccommodationCode();
-                    $new[$uniekeid]["volgnummer"] = $volgnummer;
+
+					$tmp_uniekeid = explode(".", $uniekeid, -1);
+					$tmp_uniekeid = implode(".", $tmp_uniekeid);
+					$new[$uniekeid]["accid"] = $tmp_uniekeid;
+
+					$new[$uniekeid]["volgnummer"] = $volgnummer;
                     $new[$uniekeid]["accnaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
-                    $new[$uniekeid]["typenaam"] = $uniekeid;
+                    $new[$uniekeid]["typenaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
                     $new[$uniekeid]["skigebied_id"] = $value->getRegion();
                     $new[$uniekeid]["plaats_id"] = $value->getPlace();
-                    $new[$uniekeid]["accid"] = $value->getAccommodationCode();
                     $new[$uniekeid]["optimaalaantalpersonen"] = $value->getPax();
                     $new[$uniekeid]["maxaantalpersonen"] = $value->getPax();
                     $new[$uniekeid]["slaapkamers"] = $value->getBedRooms();
                     $new[$uniekeid]["kwaliteit"] = $value->getQuality();
-                    $new[$uniekeid]["accomschrijving"] = iconv("UTF-8", "CP1252", $value->getInsideDescription());
+                    $new[$uniekeid]["typeindeling"] = iconv("UTF-8", "CP1252", $value->getInsideDescription());
+					$new[$uniekeid]["accomschrijving"] = iconv("UTF-8", "CP1252", $value->getOutsideDescription());
                     $new[$uniekeid]["accafbeelding"] = $value->getPictures()->getString();
                     $new[$uniekeid]["typeafbeelding"] = $value->getPictures()->getString();
                     $new[$uniekeid]["soortaccommodatie"] = $type_id;
                     $new[$uniekeid]["gps_lat"] = $value->getGeoLat();
                     $new[$uniekeid]["gps_long"] = $value->getGeoLng();
+					if(preg_match("/([0-9]+\.?[0-9]+) m2\.?(.*)$/", $new[$uniekeid]["typeindeling"], $matches)) {
+						$new[$uniekeid]["oppervlakte"]=trim($matches[1]);
+					}
 
                     $included_services = "";
                     $exclusive_services = "";
@@ -595,7 +609,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                                     case "N5":
                                         $included_services .= iconv("UTF-8", "CP1252", $service->getDescription()) . ". ";
                                         $txt = $service->getText();
-                                        if(!empty($txt)) $included_services .= " " . iconv("UTF-8", "CP1252", rtrim($service->getText(), ".")) . ". ";
+                                        #if(!empty($txt)) $included_services .= " " . iconv("UTF-8", "CP1252", rtrim($service->getText(), ".")) . ". ";
                                     break;
 
                                     case "Y1":
@@ -605,8 +619,10 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                                         $currency = $service->getCurrency();
                                         $txt = $service->getText();
 
-                                        $exclusive_services .= iconv("UTF-8", "CP1252", $service->getDescription()) . " (". $currency . " " .$amount ."). ";
-                                        if(!empty($txt)) $exclusive_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
+                                        $exclusive_services .= iconv("UTF-8", "CP1252", $service->getDescription());
+										if($amount > 0) $exclusive_services .= " (". $currency . " " .$amount .")";
+										$exclusive_services .= ". ";
+                                        #if(!empty($txt)) $exclusive_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
                                     break;
 
                                     case "Y5":
@@ -616,22 +632,34 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                                         $currency = $service->getCurrency();
                                         $txt = $service->getText();
 
-                                        $extra_services .= iconv("UTF-8", "CP1252", $service->getDescription()) . " (". $currency . " " .$amount ."). ";
-                                        if(!empty($txt)) $extra_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
+                                        $extra_services .= iconv("UTF-8", "CP1252", $service->getDescription());
+										if($amount > 0) $extra_services .= " (". $currency . " " .$amount .")";
+										$extra_services .= ". ";
+                                        #if(!empty($txt)) $extra_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
                                     break;
+
+									default:
+										$amount = $service->getAmount();
+										$currency = $service->getCurrency();
+										$txt = $service->getText();
+
+										$extra_services .= iconv("UTF-8", "CP1252", $service->getDescription());
+										if($amount > 0) $extra_services .= " (". $currency . " " .$amount .")";
+										$extra_services .= ". ";
+										#if(!empty($txt)) $extra_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
+									break;
                                 }
                             } else {
-                                echo $value->getMessage();
+                                echo $service->getMessage();
                             }
                         }
                     }
 
-                    $new[$uniekeid]["inclusief"] = $included_services;
-                    $new[$uniekeid]["exclusief"] = $exclusive_services;
-                    $new[$uniekeid]["extraopties"] = $extra_services;
+                    $new[$uniekeid]["inclusief"] = trim($included_services);
+                    $new[$uniekeid]["exclusief"] = trim($exclusive_services . $extra_services);
 
-                    $new[$uniekeid]["typeinclusief"] = $included_services;
-                    $new[$uniekeid]["typeexclusief"] = $exclusive_services;
+                    $new[$uniekeid]["typeinclusief"] = trim($included_services);
+                    $new[$uniekeid]["typeexclusief"] = trim($exclusive_services . $extra_services);
 
                 }
             }
@@ -669,7 +697,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 			reset($new);
 			while(list($key,$value)=each($new)) {
 				if(!$verberg_xmlcode[$key]) {
-					checkforxmlchanges($xml_importvalues,array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"extraopties"=>$value["extraopties"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
+					checkforxmlchanges($xml_importvalues,array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
 					checkforxmlchanges($xml_importvalues,array("naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
 				}
 			}
@@ -770,7 +798,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
                         # Added for Interhome
                         if($_GET["lev"] == 421) {
-                            $setquery_acc.=", gps_lat='".addslashes($value["gps_lat"])."', gps_long='".addslashes($value["gps_long"])."', soortaccommodatie='".addslashes($value["soortaccommodatie"])."', extraopties='".addslashes($value["extraopties"])."', inclusief='".addslashes($value["inclusief"])."' ";
+                            $setquery_acc.=", gps_lat='".addslashes($value["gps_lat"])."', gps_long='".addslashes($value["gps_long"])."', soortaccommodatie='".addslashes($value["soortaccommodatie"])."', inclusief='".addslashes($value["inclusief"])."' ";
                         } else {
                             $setquery_acc.=", soortaccommodatie='".addslashes($levinfo["soortaccommodatie"])."'";
                         }
@@ -787,7 +815,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 								$accid=$db->insert_id();
 							}
 						}
-						savexmlfield(array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"omschrijving_en"=>$value["accomschrijving_en"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"extraopties"=>$value["extraopties"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
+						savexmlfield(array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"omschrijving_en"=>$value["accomschrijving_en"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
 
 						if($_GET["toonwijzigingen"] and $_POST["uniekeid"][$key]=="verberg") {
 							# wijziging_bekend op NULL zetten
@@ -913,7 +941,8 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 	#					echo $db->lastquery."<br>";
 					}
 				} else {
-					if($_GET["toonwijzigingen"] and !$gewijzigd_acc[$value["accid"]] and !$gewijzigd_type[$key]) {
+
+					if($_GET["toonwijzigingen"] and (!$gewijzigd_acc[$value["accid"]] or !$gewijzigd_type[$key])) {
 						continue;
 					}
 
@@ -1063,14 +1092,6 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 						} else {
 							echo "<tr><td valign=\"top\">Exclusief (type)</td><td valign=\"top\">".nl2br(htmlentities($value["typeexclusief"]))."&nbsp;</td></tr>";
 						}
-
-                        # Extraopties
-                        if($xml_importvalues[1][$value["accid"]]["extraopties"] and only_alphanum($value["extraopties"])<>only_alphanum($xml_importvalues[1][$value["accid"]]["extraopties"]) and $_GET["toonwijzigingen"]) {
-                            echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Extraopties (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["extraopties"]))."&nbsp;</td></tr>";
-                            echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Extraopties (accommodatie) (voorheen)</td><td valign=\"top\">".nl2br(htmlentities($xml_importvalues[1][$value["accid"]]["extraopties"]))."&nbsp;</td></tr>";
-                        } else {
-                            echo "<tr><td valign=\"top\">Extraopties (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["extraopties"]))."&nbsp;</td></tr>";
-                        }
 
 						# Oppervlakte
 						if($xml_importvalues[2][$key]["oppervlakte"] and only_alphanum($value["oppervlakte"])<>only_alphanum($xml_importvalues[2][$key]["oppervlakte"]) and $_GET["toonwijzigingen"]) {
