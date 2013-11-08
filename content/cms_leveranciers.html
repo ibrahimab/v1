@@ -89,7 +89,10 @@ if($_GET["schoonmaakkosten"]) {
 							if(is_null($db->f("region_code"))) {
 								$countries[$db->f("country_code")] = $db->f("country");
 							} else {
-								$regions[$db->f("country_code")][$db->f("region_code")] = utf8_encode($db->f("region"));
+								$reg_code = $db->f("region_code");
+								if($reg_code < 10) $reg_code = "0".$reg_code;
+
+								$regions[$db->f("country_code")][$reg_code] = utf8_encode($db->f("region"));
 							}
 						}
 						echo "<script>
