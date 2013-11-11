@@ -1719,9 +1719,9 @@ if($db->next_record()) {
 
 // echo wt_dump($alletypes_prijs);
 
-		$db2->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, ta.beschikbaar, ta.bruto, ta.c_bruto, ta.c_verkoop_site, ta.wederverkoop_verkoopprijs FROM accommodatie a, type t, plaats p, skigebied s, land l, tarief ta WHERE ta.week='".addslashes($_GET["d"])."' AND ta.type_id=t.type_id AND a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id IN(".addslashes($gekoppeld_inquery).") ORDER BY ".$gekoppeld_order."t.optimaalaantalpersonen, t.maxaantalpersonen, a.naam, t.naam".$vars["ttv"].";");
+		$db2->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, ta.beschikbaar, ta.bruto, ta.c_bruto, ta.c_verkoop_site, ta.wederverkoop_verkoopprijs FROM accommodatie a, type t, plaats p, skigebied s, land l, tarief ta WHERE ta.week='".addslashes($_GET["d"])."' AND ta.type_id=t.type_id AND a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id IN(".addslashes($gekoppeld_inquery).")".($_GET["ap"] ? " AND t.maxaantalpersonen>=".intval($_GET["ap"]) : "")." ORDER BY ".$gekoppeld_order."t.optimaalaantalpersonen, t.maxaantalpersonen, a.naam, t.naam".$vars["ttv"].";");
 	} else {
-		$db2->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id IN(".addslashes($gekoppeld_inquery).") ORDER BY ".$gekoppeld_order."t.optimaalaantalpersonen, t.maxaantalpersonen, a.naam, t.naam".$vars["ttv"].";");
+		$db2->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id IN(".addslashes($gekoppeld_inquery).")".($_GET["ap"] ? " AND t.maxaantalpersonen>=".intval($_GET["ap"]) : "")." ORDER BY ".$gekoppeld_order."t.optimaalaantalpersonen, t.maxaantalpersonen, a.naam, t.naam".$vars["ttv"].";");
 	}
 	if($db2->num_rows()) {
 		while($db2->next_record()) {
@@ -1746,19 +1746,8 @@ if($db->next_record()) {
 		echo "</div>";
 
 		while($db2->next_record()) {
-			$anderetypes.="<div class=\"alletypes_item\">";
-			if(@count($gekoppeld_soortaccommodatie)>=2) {
-				$vars["soortaccommodatie_meervoud"]=array(1=>txt("chalets","vars"),2=>txt("appartementen","vars"),3=>txt("hotels","vars"),4=>txt("chaletappartementen","vars"),6=>txt("vakantiewoningen","vars"),7=>txt("villas","vars"),8=>txt("kastelen","vars"));
-				unset($gekoppeld_toon);
-				if(!$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]) {
-					$gekoppeld_toon=$vars["soortaccommodatie_meervoud"][$db2->f("soortaccommodatie")];
-					$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]=true;
-				}
-				if($gekoppeld_toon) {
-					$anderetypes.="<div class=\"alletypes_soort_accommodatie\">".wt_he(ucfirst($gekoppeld_toon))."</div>";
-				}
-			}
 
+			// prijs berekenen
 			unset($prijs);
 			$alletypes_beschikbaar_class="";
 			if($_GET["d"]) {
@@ -1776,6 +1765,25 @@ if($db->next_record()) {
 					$nietbeschikbaar_getoond=true;
 				}
 			}
+
+
+			if($alletypes_toon_prijzen and $db2->f("beschikbaar") and !$prijs) {
+				continue;
+			}
+
+			$anderetypes.="<div class=\"alletypes_item\">";
+			if(@count($gekoppeld_soortaccommodatie)>=2) {
+				$vars["soortaccommodatie_meervoud"]=array(1=>txt("chalets","vars"),2=>txt("appartementen","vars"),3=>txt("hotels","vars"),4=>txt("chaletappartementen","vars"),6=>txt("vakantiewoningen","vars"),7=>txt("villas","vars"),8=>txt("kastelen","vars"));
+				unset($gekoppeld_toon);
+				if(!$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]) {
+					$gekoppeld_toon=$vars["soortaccommodatie_meervoud"][$db2->f("soortaccommodatie")];
+					$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]=true;
+				}
+				if($gekoppeld_toon) {
+					$anderetypes.="<div class=\"alletypes_soort_accommodatie\">".wt_he(ucfirst($gekoppeld_toon))."</div>";
+				}
+			}
+
 			if($accinfo["type_id"]==$db2->f("type_id")) {
 				$anderetypes.="<div class=\"".trim("alletypes_type ".$alletypes_beschikbaar_class)."\">";
 			} else {
@@ -1812,6 +1820,9 @@ if($db->next_record()) {
 						$anderetypes.=html("perpersoonafk","toonaccommodatie");
 					}
 					$anderetypes.="</span>";
+				} elseif($db2->f("beschikbaar")) {
+					// wel beschikbaar, geen prijs bekend (zou eigenlijk niet mogen voorkomen)
+					$anderetypes.="&nbsp;";
 				} else {
 					$anderetypes.="&nbsp;<span class=\"nietbeschikbaar\">".html("nietbeschikbaar","toonaccommodatie")."</span>";
 				}
@@ -1829,7 +1840,7 @@ if($db->next_record()) {
 
 			$anderetypes.="</div>"; // afsluiten .alletypes_item
 		}
-		if($_GET["d"] and ($nietbeschikbaar_getoond or $alletypes_prijs_getoond)) {
+		if($_GET["d"]) {
 			echo "<div class=\"alletypes_legenda\">";
 			echo "<h2>".datum("D MAAND JJJJ",$_GET["d"],$vars["taal"])."</h2>";
 			if($alletypes_prijs_getoond) {
@@ -1847,87 +1858,6 @@ if($db->next_record()) {
 		}
 
 		echo $anderetypes;
-
-		echo "</div>";
-
-	} elseif($alletypestonen) {
-		echo "<div id=\"toonaccommodatie_boekbalk_alletypes\">";
-		echo "<div style=\"margin-left:12px;width:145px;padding-top:8px;\"><i>";
-		echo nl2br(html("alletypes","toonaccommodatie"));
-		echo ":</i></div>";
-		while($db2->next_record()) {
-			# Aantal personen
-			if($db2->f("type")) {
-				$typenaam=ereg_replace("^\((.*)\)","\\1",$db2->f("type"));
-			}
-			$anderetypes.="<div style=\"margin-bottom:10px;margin-top:10px;margin-right:2px;\">";
-			if(@count($gekoppeld_soortaccommodatie)>=2) {
-				$vars["soortaccommodatie_meervoud"]=array(1=>txt("chalets","vars"),2=>txt("appartementen","vars"),3=>txt("hotels","vars"),4=>txt("chaletappartementen","vars"),6=>txt("vakantiewoningen","vars"),7=>txt("villas","vars"),8=>txt("kastelen","vars"));
-				unset($gekoppeld_toon);
-				if(!$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]) {
-					if($gekoppeld_soortaccommodatie[$db2->f("soortaccommodatie")]>=2) {
-						$gekoppeld_toon=$vars["soortaccommodatie_meervoud"][$db2->f("soortaccommodatie")];
-					} else {
-						$gekoppeld_toon=$vars["soortaccommodatie"][$db2->f("soortaccommodatie")];
-					}
-					$gekoppeld_soortaccommodatie_gehad[$db2->f("soortaccommodatie")]=true;
-				}
-				if($gekoppeld_toon) {
-					$anderetypes.="<div style=\"margin-top:20px;margin-bottom:8px;font-style:italic;\">".htmlentities(ucfirst($gekoppeld_toon)).":</div>";
-				}
-			}
-
-			if($_GET["d"]) {
-				$anderetypes.="<div style=\"float:left;\">";
-				if($db2->f("beschikbaar") and ($db2->f("bruto")>0 or $db2->f("c_bruto")>0)) {
-					$anderetypes.="<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"10\" height=\"10\" alt=\"\" style=\"margin-bottom:-2px;\">&nbsp;";
-				} else {
-					$anderetypes.="<img src=\"".$vars["path"]."pic/cross.gif\" width=\"10\" height=\"10\" alt=\"\" title=\"".html("nietmeerbeschikbaarvoordezeaankomstdatum","toonaccommodatie")."\" style=\"margin-bottom:-2px;\">&nbsp;";
-
-					$nietbeschikbaar_getoond=true;
-				}
-				$anderetypes.="</div>";
-				$anderetypes.="<div style=\"width:145px;float:left;\">";
-			} else {
-				$anderetypes.="<div style=\"float:left;\">";
-				$anderetypes.="<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"10\" height=\"10\" alt=\"\" style=\"margin-bottom:-2px;\">&nbsp;";
-				$anderetypes.="</div>";
-				$anderetypes.="<div style=\"width:145px;float:left;\">";
-			}
-			if($accinfo["type_id"]==$db2->f("type_id")) {
-				$anderetypes.="<b>";
-			} else {
-				$linkandertype=$vars["path"].txt("menu_accommodatie")."/".$db2->f("begincode").$db2->f("type_id")."/".($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."#indeling";
-				$anderetypes.="<a href=\"".htmlentities($linkandertype)."\" class=\"linkandertype\">";
-			}
-			$anderetypes.=$db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ";
-			if($db2->f("maxaantalpersonen")==1) {
-				$anderetypes.=html("persoon");
-			} else {
-				$anderetypes.=html("personen");
-			}
-			if($db2->f("type")) {
-				$typenaam=ereg_replace("^\((.*)\)","\\1",$db2->f("type"));
-				$anderetypes.=" (".htmlentities($typenaam).")";
-			}
-			if($accinfo["type_id"]==$db2->f("type_id")) {
-				$anderetypes.="</b>";
-			} else {
-				$anderetypes.="</a>";
-			}
-#			if($_GET["d"]) {
-				$anderetypes.="</div><div style=\"clear:both;\"></div>";
-#			}
-
-			$anderetypes.="</div>";
-		}
-		echo $anderetypes;
-		if($_GET["d"] and $nietbeschikbaar_getoond) {
-			echo "<div style=\"padding-top:15px;padding-bottom:10px;\">";
-#			echo "<span style=\"background-color:#d40139;\">&nbsp;&nbsp;&nbsp;</span>&nbsp;=&nbsp;".html("nietmeerbeschikbaarvoordezeaankomstdatum","toonaccommodatie");
-			echo "<img src=\"".$vars["path"]."pic/cross.gif\" width=\"10\" height=\"10\" alt=\"\" style=\"margin-bottom:-1px;\">&nbsp;=&nbsp;".html("nietmeerbeschikbaarvoordezeaankomstdatum","toonaccommodatie");
-			echo "</div>";
-		}
 
 		echo "</div>";
 	}
