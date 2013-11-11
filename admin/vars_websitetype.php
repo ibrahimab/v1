@@ -201,7 +201,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
 	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 		$vars["docdata_payments"] = array(
 			"docdata_idl" => array(
 				"title"	=> 	"iDEAL",
@@ -210,7 +210,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 				"country" => array("NL")
 			)
 		);
-	}
+	// }
 } elseif($_SERVER["HTTP_HOST"]=="www.zomerhuisje.eu" or $_SERVER["HTTP_HOST"]=="test.zomerhuisje.eu" or ($vars["lokale_testserver"] and $vars["testsite"]=="N")) {
 	# Zomerhuisje.eu (NIET MEER IN GEBRUIK!)
 	$vars["websitetype"]=3;
@@ -249,7 +249,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
 	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 		$vars["docdata_payments"] = array(
 			"docdata_idl" => array(
 				"title"	=> 	"iDEAL",
@@ -258,7 +258,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 				"country" => array("NL")
 			)
 		);
-	}
+	// }
 } elseif($_SERVER["HTTP_HOST"]=="www.chaletsinvallandry.com" or $_SERVER["HTTP_HOST"]=="test.chaletsinvallandry.com" or $_SERVER["HTTP_HOST"]=="chalet-chaletsinvallandry.web.netromtest.ro" or ($vars["lokale_testserver"] and $vars["testsite"]=="Q")) {
 	# Chaletsinvallandry.com
 	$vars["websitetype"]=6;
@@ -279,7 +279,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
 	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 		$vars["docdata_payments"] = array(
 			"docdata_vi" => array(
 				"title"	=> 	"Visa",
@@ -304,7 +304,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 				"country" => array("BE")
 			)
 		);
-	}
+	// }
 } elseif($_SERVER["HTTP_HOST"]=="www.italissima.nl" or $_SERVER["HTTP_HOST"]=="test.italissima.nl" or $_SERVER["HTTP_HOST"]=="chalet-italissima.web.netromtest.ro" or ($vars["lokale_testserver"] and $vars["testsite"]=="I")) {
 	# Italissima.nl
 	$vars["websitetype"]=7;
@@ -328,7 +328,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
 	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 		$vars["docdata_payments"] = array(
 			"docdata_idl" => array(
 				"title"	=> 	"iDEAL",
@@ -337,7 +337,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 				"country" => array("NL")
 			)
 		);
-	}
+	// }
 } elseif($_SERVER["HTTP_HOST"]=="www.italissima.be" or $_SERVER["HTTP_HOST"]=="test.italissima.be" or $_SERVER["HTTP_HOST"]=="chalet-italissimabe.web.netromtest.ro" or ($vars["lokale_testserver"] and $vars["testsite"]=="K")) {
 	# Italissima.be
 	$vars["websitetype"]=7;
@@ -359,7 +359,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=1;
 	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 		$vars["docdata_payments"] = array(
 			"docdata_mrc" => array(
 				"title" =>	"MrCash",
@@ -368,7 +368,7 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 				"country" => array("BE")
 			)
 		);
-	}
+	// }
 } elseif($_SERVER["HTTP_HOST"]=="www.superski.nl" or $_SERVER["HTTP_HOST"]=="test.superski.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="W")) {
 	# SuperSki
 	$vars["websitetype"]=8;
@@ -408,16 +408,16 @@ if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="ww
 	$vars["livechat_code"]=false;
 	$vars["valt_onder_bedrijf"]=2;
 	// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="213.125.152.154" or $vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		$vars["docdata_payments"] = array(
-			"docdata_idl" => array(
-				"title"	=> 	"iDEAL",
-				"icon"	=>	"pic/payment_icons/ideal.png",
-				"by"	=> 	"idl",
-				"country" => array("NL")
-			)
-		);
-	}
+	// if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	// 	$vars["docdata_payments"] = array(
+	// 		"docdata_idl" => array(
+	// 			"title"	=> 	"iDEAL",
+	// 			"icon"	=>	"pic/payment_icons/ideal.png",
+	// 			"by"	=> 	"idl",
+	// 			"country" => array("NL")
+	// 		)
+	// 	);
+	// }
 } elseif($_SERVER["HTTP_HOST"]=="partner.venturasol.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="Y")) {
 	# Venturasol-partner
 	$vars["websitetype"]=9;
