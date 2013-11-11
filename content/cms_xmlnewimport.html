@@ -170,6 +170,13 @@ if($_GET["lev"]==131) {
     $levinfo["soortaccommodatie"]=6;
     $levinfo["toonper"]=3;
     $levinfo["xmltarievenimport"]=1;
+} elseif($_GET["lev"]==35) {
+	# Direkt Holidays
+	$levinfo["wzt"]=1;
+	$levinfo["websites"]="C,T,B";
+	$levinfo["skipas_id"]=0;
+	$levinfo["toonper"]=3;
+	$levinfo["xmltarievenimport"]=1;
 }
 
 # XML-namen skigebieden
@@ -513,7 +520,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
         }
 
         if($foundProperties) {
-            $interhome_count = count($foundProperties);
+			$properties_count = count($foundProperties);
 
             $counter = 1;
 
@@ -664,7 +671,66 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                 }
             }
         }
-    }
+
+    } elseif($_GET["lev"] == 35) {
+		#Direkt Holidays
+		if(file_exists($path."suppliers/direktholidays/index.php")) {
+
+			require_once($path."suppliers/direktholidays/index.php");
+
+			$direktHolidays = new DirektHolidays('http://www.direktholidays.at/index.php?id=3&no_cache=1&L=2');
+
+		} else {
+			die("Invalid supplier: Interhome");
+		}
+
+		$foundProperties = $direktHolidays->getAccommodations();
+
+		if($foundProperties) {
+			$properties_count = count($foundProperties);
+
+			$counter = 1;
+
+			foreach($foundProperties as $key => $url) {
+
+				if(isset($_GET["verborgen"]) && $_GET["verborgen"] == 1){
+					if(!isset($verberg_xmlcode[$key])) continue;
+				} elseif(isset($verberg_xmlcode[$key])) {
+					continue;
+				} if(isset($type_xmlcode[$key]) && !isset($_GET["toonwijzigingen"])) {
+					continue;
+				} elseif(!isset($_GET["toonwijzigingen"]) && $counter > 20) {
+					continue;
+				}
+
+				$d = $direktHolidays->getAccommodation($url);
+
+				unset($bekend_skigebied,$bekend_plaats);
+				if($skigebied_xmlnamen[$d["skigebied_id"]]) {
+					$bekend_skigebied=$skigebied_xmlnamen[$d["skigebied_id"]];
+				} else {
+					$onbekend_skigebied[$d["skigebied_id"]]=true;
+				}
+				if($plaats_xmlnamen[$d["plaats_id"]]) {
+					$bekend_plaats=$plaats_xmlnamen[$d["plaats_id"]];
+				} else {
+					$onbekend_plaats[$d["plaats_id"]]=true;
+				}
+
+				if($bekend_skigebied && $bekend_plaats) {
+
+					$d["accid"] = $key;
+					$d["skigebied_id"] = $bekend_skigebied;
+					$d["plaats_id"] = $bekend_plaats;
+					$d["soortaccommodatie"] = array_search($d["soortaccommodatie"], $vars["soortaccommodatie"]);
+
+					$new[$key] = $d;
+					$counter++;
+				}
+			}
+		}
+
+	}
 
 	#
 	#
@@ -750,8 +816,8 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					if(!$_GET["verborgen"]) {
 						echo "Aantal accommodaties in XML: ";
                         // Check if Interhome
-                        if($_GET["lev"] == 421) {
-                            echo $interhome_count."<br>";
+                        if(isset($properties_count)) {
+                            echo $properties_count."<br>";
                         } else {
                             echo intval(@count($new))."<br>";
                         }
@@ -799,7 +865,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                         # Added for Interhome
                         if($_GET["lev"] == 421) {
                             $setquery_acc.=", gps_lat='".addslashes($value["gps_lat"])."', gps_long='".addslashes($value["gps_long"])."', soortaccommodatie='".addslashes($value["soortaccommodatie"])."', inclusief='".addslashes($value["inclusief"])."' ";
-                        } else {
+                        } elseif(isset($value["soortaccommodatie"]) && (int)$value["soortaccommodatie"] > 0) {
+							$setquery_acc.=", soortaccommodatie='".addslashes($value["soortaccommodatie"])."'";
+						} else {
                             $setquery_acc.=", soortaccommodatie='".addslashes($levinfo["soortaccommodatie"])."'";
                         }
 
@@ -942,8 +1010,14 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					}
 				} else {
 
-					if($_GET["toonwijzigingen"] and (!$gewijzigd_acc[$value["accid"]] or !$gewijzigd_type[$key])) {
-						continue;
+					if($_GET["lev"] == 421) {
+						if($_GET["toonwijzigingen"] and (!$gewijzigd_acc[$value["accid"]] or !$gewijzigd_type[$key])) {
+							continue;
+						}
+					} else {
+						if($_GET["toonwijzigingen"] and !$gewijzigd_acc[$value["accid"]] and !$gewijzigd_type[$key]) {
+							continue;
+						}
 					}
 
 

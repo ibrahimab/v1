@@ -126,7 +126,7 @@ if($_GET["schoonmaakkosten"]) {
 						echo "  <label>Season: <select name=\"wzt\" id=\"ih_season\"><option value=\"1\">Winter</option><option value=\"2\">Summer</option></select></label>";
 						$db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id='".addslashes($_GET["8k0"])."';");
 						if($db->num_rows()) {
-							echo "<label>Wijzigingen bekijken bij XML: <input type=\"checkbox\" name=\"toonwijzigingen\" value=\"1\" /></label>";
+							echo "<label> Wijzigingen bekijken bij XML: <input type=\"checkbox\" name=\"toonwijzigingen\" value=\"1\" /></label>";
 						}
 						echo "  <input type=\"submit\" />
 							</form>
