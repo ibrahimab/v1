@@ -1155,6 +1155,14 @@ function mailtekst_opties($boekingid) {
 			$return["body"]=ereg_replace("\[LINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_inloggen"].".php",$return["body"]);
 			$return["body"]=ereg_replace("\[VERZEKERINGLINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_verzekeringen"].".php",$return["body"]);
 			$return["body"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["body"]);
+
+			if($gegevens["stap1"]["website"]=="X" or $gegevens["stap1"]["website"]=="Y") {
+				$telefoonnummer=$txt[$taal."_x"]["vars"]["mailopties_wzt_telefoonnummer"];
+			} else {
+				$telefoonnummer=$txt[$taal]["vars"]["mailopties_wzt_telefoonnummer"];
+			}
+
+			$return["body"]=ereg_replace("\[TELEFOONNUMMER\]",$telefoonnummer,$return["body"]);
 		}
 
 
@@ -1293,6 +1301,13 @@ function mailtekst_verzendmethode_reisdocumenten($boekingid) {
 			$return["body"]=ereg_replace("\[DATUM\]",DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal),$return["body"]);
 			$return["body"]=ereg_replace("\[LINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_inloggen"].".php",$return["body"]);
 			$return["body"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["body"]);
+
+			if($gegevens["stap1"]["website"]=="X" or $gegevens["stap1"]["website"]=="Y") {
+				$telefoonnummer=$txt[$taal."_x"]["vars"]["mailopties_wzt_telefoonnummer"];
+			} else {
+				$telefoonnummer=$txt[$taal]["vars"]["mailopties_wzt_telefoonnummer"];
+			}
+			$return["body"]=ereg_replace("\[TELEFOONNUMMER\]",$telefoonnummer,$return["body"]);
 
 			# Link naar verzendmethode_reisdocumenten invullen
 			$url=$vars["websites_basehref"][$gegevens["stap1"]["website"]]."verzendmethode.php?bid=".$boekingid."&c=".substr(sha1("ldlklKDKLk".$boekingid."JJJdkkk4uah!"),0,8);
