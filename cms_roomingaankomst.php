@@ -197,8 +197,8 @@ if($_GET["levid"]) {
 					if(file_exists($vars["unixdir"]."tmp/roominglist.doc")) {
 
 						$mail=new wt_mail;
-						$mail->fromname="Chalet.nl";
-						$mail->from="info@chalet.nl";
+						$mail->fromname="Chalet.nl: ".$login->vars["voornaam"];
+						$mail->from=$login->vars["email"];
 						$mail->to=$form->input["email"];
 						if($form->input["email"]=="danielle@chalet.nl") {
 							$mail->subject="Roominglist ".$leveranciersnaam;
@@ -220,6 +220,7 @@ if($_GET["levid"]) {
 
 						// kopie aan Danielle als archief
 						if($form->input["email"]<>"danielle@chalet.nl") {
+							$mail->fromname="Chalet.nl";
 							$mail->from="archief-roominglist@chalet.nl";
 							$mail->to="danielle@chalet.nl";
 
