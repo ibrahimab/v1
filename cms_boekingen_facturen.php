@@ -138,6 +138,10 @@ if($form->okay) {
 			if($form->input["factuuraanmaken"]) {
 				# Bij aanmaken factuur: factuurdatum opslaan
 				$setquery.=", factuurdatum=FROM_UNIXTIME('".addslashes($factuurdatum)."')";
+
+				if(!$gegevens["stap1"]["factuurdatum_eerste_factuur"]) {
+					$setquery.=", factuurdatum_eerste_factuur=FROM_UNIXTIME('".addslashes($factuurdatum)."')";
+				}
 			}
 		}
 
