@@ -26,11 +26,12 @@ if(!$login->logged_in) {
 
 		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
-		$db->query("SELECT boeking_id, MIN(datum) AS datum FROM `factuur` GROUP BY boeking_id ORDER BY 2;");
-		while($db->next_record()) {
-			$db2->query("UPDATE boeking SET factuurdatum_eerste_factuur='".$db->f("datum")."' WHERE boeking_id='".$db->f("boeking_id")."';");
-			echo $db2->lq."<br/>";
-		}
+		// // factuurdatum_eerste_factuur bepalen
+		// $db->query("SELECT boeking_id, MIN(datum) AS datum FROM `factuur` GROUP BY boeking_id ORDER BY 2;");
+		// while($db->next_record()) {
+		// 	$db2->query("UPDATE boeking SET factuurdatum_eerste_factuur='".$db->f("datum")."' WHERE boeking_id='".$db->f("boeking_id")."';");
+		// 	echo $db2->lq."<br/>";
+		// }
 
 		// overbodige spaties strippen
 		// $db->query("SELECT boeking_id, aan_leverancier_doorgegeven_naam FROM boeking WHERE aan_leverancier_doorgegeven_naam<>'';");

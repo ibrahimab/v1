@@ -41,9 +41,12 @@ class booking_payment {
 
 			$this->text["reedsvoldaan"]=txt("reedsvoldaan","factuur");
 			$this->amount["reedsvoldaan"]=$reedsvoldaan;
-			$this->amount["te_verdelen_over_aanbetalingen"]=$reedsvoldaan;
+			$this->amount["beschikbaar_voor_aanbetalingen"]=$reedsvoldaan;
 		}
 
+		// aantal dagen na boeken bepalen
+		$dagennaboeken=round((mktime(0,0,0,date("m"),date("d"),date("Y"))-$this->gegevens["stap1"]["factuurdatum_eerste_factuur"])/86400);
+		$aanbetaling1_dagen_over=$this->gegevens["stap1"]["aanbetaling1_dagennaboeken"]-$dagennaboeken;
 
 
 		# aantal dagen voor vertrek
@@ -61,17 +64,21 @@ class booking_payment {
 			//
 
 			// aanbetaling 1
-			$this->text["aanbetaling1"]=txt("binnenXdagentevoldoen","factuur",array("v_dagen"=>$this->gegevens["stap1"]["aanbetaling1_dagennaboeken"]));
+			if($aanbetaling1_dagen_over<=3) {
+				$this->text["aanbetaling1"]=txt("perdirecttevoldoen","factuur");
+			} else {
+				$this->text["aanbetaling1"]=txt("binnenXdagentevoldoen","factuur",array("v_dagen"=>$aanbetaling1_dagen_over));
+			}
 			$this->amount["aanbetaling1"]=$this->gegevens["fin"]["aanbetaling"];
 
-			if($this->amount["te_verdelen_over_aanbetalingen"]>=$this->amount["aanbetaling1"]) {
+			if($this->amount["beschikbaar_voor_aanbetalingen"]>=$this->amount["aanbetaling1"]) {
 				$this->amount["aanbetaling1_voldaan"]=$this->amount["aanbetaling1"];
 				$this->amount["aanbetaling1"]=0;
-			} elseif($this->amount["te_verdelen_over_aanbetalingen"]) {
-				$this->amount["aanbetaling1_voldaan"]=$this->amount["te_verdelen_over_aanbetalingen"];
-				$this->amount["aanbetaling1"]=$this->amount["aanbetaling1"]-$this->amount["te_verdelen_over_aanbetalingen"];
+			} elseif($this->amount["beschikbaar_voor_aanbetalingen"]) {
+				$this->amount["aanbetaling1_voldaan"]=$this->amount["beschikbaar_voor_aanbetalingen"];
+				$this->amount["aanbetaling1"]=$this->amount["aanbetaling1"]-$this->amount["beschikbaar_voor_aanbetalingen"];
 			}
-			$this->amount["te_verdelen_over_aanbetalingen"]=$this->amount["te_verdelen_over_aanbetalingen"]-$this->amount["aanbetaling1_voldaan"];
+			$this->amount["beschikbaar_voor_aanbetalingen"]=$this->amount["beschikbaar_voor_aanbetalingen"]-$this->amount["aanbetaling1_voldaan"];
 
 			// aanbetaling 2
 			if($this->gegevens["stap1"]["aanbetaling2"] and $this->gegevens["stap1"]["aanbetaling2_datum"]) {
@@ -80,16 +87,16 @@ class booking_payment {
 
 					$this->amount["aanbetaling2"]=$this->gegevens["stap1"]["aanbetaling2"];
 
-					if($this->amount["te_verdelen_over_aanbetalingen"]>=$this->amount["aanbetaling2"]) {
+					if($this->amount["beschikbaar_voor_aanbetalingen"]>=$this->amount["aanbetaling2"]) {
 						$this->amount["aanbetaling2_voldaan"]=$this->amount["aanbetaling2"];
 						$this->amount["aanbetaling2"]=0;
-					} elseif($this->amount["te_verdelen_over_aanbetalingen"]) {
-						$this->amount["aanbetaling2_voldaan"]=$this->amount["te_verdelen_over_aanbetalingen"];
-						$this->amount["aanbetaling2"]=$this->amount["aanbetaling2"]-$this->amount["te_verdelen_over_aanbetalingen"];
+					} elseif($this->amount["beschikbaar_voor_aanbetalingen"]) {
+						$this->amount["aanbetaling2_voldaan"]=$this->amount["beschikbaar_voor_aanbetalingen"];
+						$this->amount["aanbetaling2"]=$this->amount["aanbetaling2"]-$this->amount["beschikbaar_voor_aanbetalingen"];
 					}
 				}
 
-				$this->amount["te_verdelen_over_aanbetalingen"]=$this->amount["te_verdelen_over_aanbetalingen"]-$this->amount["aanbetaling2_voldaan"];
+				$this->amount["beschikbaar_voor_aanbetalingen"]=$this->amount["beschikbaar_voor_aanbetalingen"]-$this->amount["aanbetaling2_voldaan"];
 
 			}
 
@@ -99,7 +106,7 @@ class booking_payment {
 			} else {
 				$this->text["eindbetaling"]=txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
 			}
-			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-($this->amount["aanbetaling1"]+$this->amount["aanbetaling1_voldaan"])-($this->amount["aanbetaling2"]+$this->amount["aanbetaling2_voldaan"])-$this->amount["te_verdelen_over_aanbetalingen"];
+			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-($this->amount["aanbetaling1"]+$this->amount["aanbetaling1_voldaan"])-($this->amount["aanbetaling2"]+$this->amount["aanbetaling2_voldaan"])-$this->amount["beschikbaar_voor_aanbetalingen"];
 
 		} elseif($this->gegevens["stap1"]["dagen_voor_vertrek"]>$this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]) {
 			//
