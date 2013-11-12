@@ -25,6 +25,8 @@ class tarieventabel {
 		$this->toon_commissie = false;
 		$this->meerdere_valuta = false;
 
+		$this->get_aantal_personen = $_GET["ap"];
+
 
 		$this->voorraad_doorlopen=array(
 			"garantie" => "Garantie",
@@ -68,7 +70,7 @@ class tarieventabel {
 			}
 		}
 
-		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id."&o=".urlencode($_GET["o"]).(!$this->arrangement && $_GET["ap"] ? "&ap=".intval($_GET["ap"]) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\">";
+		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id."&o=".urlencode($_GET["o"]).(!$this->arrangement && $this->get_aantal_personen ? "&ap=".intval($this->get_aantal_personen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\">";
 
 
 
@@ -205,17 +207,17 @@ class tarieventabel {
 				$this->max_personen=max(array_keys($this->aantal_personen));
 				$this->min_personen=min(array_keys($this->aantal_personen));
 
-				if($_GET["ap"]) {
+				if($this->get_aantal_personen) {
 					// valt het aantal personen binnen de capaciteit van deze accommodatie?
-					if($_GET["ap"]<$this->min_personen or $_GET["ap"]>$this->max_personen) {
+					if($this->get_aantal_personen<$this->min_personen or $this->get_aantal_personen>$this->max_personen) {
 						// zo niet: aantal personen niet gebruiken bij tonen tarieventabel
-						unset($_GET["ap"]);
+						unset($this->get_aantal_personen);
 					}
 				}
 
-				if($_GET["ap"]) {
-					$this->max_personen_tonen=$_GET["ap"]+2;
-					$this->min_personen_tonen=$_GET["ap"]-2;
+				if($this->get_aantal_personen) {
+					$this->max_personen_tonen=$this->get_aantal_personen+2;
+					$this->min_personen_tonen=$this->get_aantal_personen-2;
 				} else {
 					$this->max_personen_tonen=max(array_keys($this->aantal_personen));
 					$this->min_personen_tonen=$this->max_personen_tonen-4;
@@ -301,7 +303,7 @@ class tarieventabel {
 
 				// regels met aantal personen tonen
 				foreach ($this->aantal_personen as $key => $value) {
-					$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($_GET["ap"]==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
+					$return.="<tr class=\"".trim(($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? "tarieventabel_verbergen" : "").($this->get_aantal_personen==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : ""))."\"><td>".$key."&nbsp;".($key==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel"))."</td></tr>";
 				}
 			} else {
 				$return.="<tr><td>".html("prijsperaccommodatie","tarieventabel")."</td></tr>";
@@ -340,11 +342,11 @@ class tarieventabel {
 				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_aanbieding\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_aanbieding","tarieventabel")."</div>";
 			}
 			if($this->arrangement) {
-				if($_GET["ap"] and $_GET["d"]) {
+				if($this->get_aantal_personen and $_GET["d"]) {
 					$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_gekozen\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_gekozen_datum_aantal_personen","tarieventabel")."</div>";
-				} elseif($_GET["ap"] and !$_GET["d"]) {
+				} elseif($this->get_aantal_personen and !$_GET["d"]) {
 					$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_gekozen\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_gekozen_aantal_personen","tarieventabel")."</div>";
-				} elseif($_GET["d"] and !$_GET["ap"]) {
+				} elseif($_GET["d"] and !$this->get_aantal_personen) {
 					$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_gekozen\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_gekozen_datum","tarieventabel")."</div>";
 				}
 			} else {
@@ -706,7 +708,7 @@ class tarieventabel {
 
 			foreach ($this->aantal_personen as $key => $value) {
 
-				$return.="<tr class=\"tarieventabel_tarieven".($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? " tarieventabel_verbergen" : "").($_GET["ap"]==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : "")."\" data-aantalpersonen=\"".$key."\">";
+				$return.="<tr class=\"tarieventabel_tarieven".($key<$this->min_personen_tonen||$key>$this->max_personen_tonen ? " tarieventabel_verbergen" : "").($this->get_aantal_personen==$key && !$_GET["d"] ? " tarieventabel_tarieven_gekozen" : "")."\" data-aantalpersonen=\"".$key."\">";
 				$kolomteller=0;
 				foreach ($this->dag as $key2 => $value2) {
 					$kolomteller++;
@@ -730,11 +732,11 @@ class tarieventabel {
 						$class.=" tarieventabel_tarieven_beschikbaar";
 					}
 
-					if($_GET["ap"]==$key and $_GET["d"]==$key2) {
+					if($this->get_aantal_personen==$key and $_GET["d"]==$key2) {
 						$class.=" tarieventabel_tarieven_gekozen";
-					} elseif($_GET["ap"]==$key and !$_GET["d"]) {
+					} elseif($this->get_aantal_personen==$key and !$_GET["d"]) {
 						$class.=" tarieventabel_tarieven_gekozen";
-					} elseif($_GET["d"]==$key2 and !$_GET["ap"]) {
+					} elseif($_GET["d"]==$key2 and !$this->get_aantal_personen) {
 						$class.=" tarieventabel_tarieven_gekozen";
 					}
 
@@ -1081,7 +1083,7 @@ class tarieventabel {
 
 		$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
 		if(!$vars["wederverkoop"]) {
-			$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->type_id)."&ap=".wt_he($_GET["ap"])."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
+			$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->type_id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
 		}
 		$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
 

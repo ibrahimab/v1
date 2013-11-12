@@ -43,8 +43,8 @@ if($_GET["levid"]) {
 		$form->field_date(0,"roominglist_volgende_controle","Herinner mij opnieuw vanaf",array("field"=>"roominglist_volgende_controle"),"",array("startyear"=>date("Y"),"endyear"=>date("Y")+1),array("calendar"=>true));
 		$form->field_htmlrow("","<hr><b>Roominglist verzenden</b>");
 		$form->field_yesno("versturen","Verstuur onderstaande roominglist naar dit mailadres:");
-		// $form->field_email(0,"email","E-mailadres","",array("text"=>$db->f("email_lijsten")));
-		$form->field_email(0,"email","E-mailadres","",array("text"=>"danielle@chalet.nl"));
+		$form->field_email(0,"email","E-mailadres","",array("text"=>$db->f("email_lijsten")));
+		// $form->field_email(0,"email","E-mailadres","",array("text"=>"danielle@chalet.nl"));
 		$form->field_email(0,"email_cc","Kopie sturen naar (e-mailadres)");
 
 		$form->field_htmlrow("","<hr><b>Periode</b>","",array("tr_class"=>"roomingaankomst_verzenden"));
