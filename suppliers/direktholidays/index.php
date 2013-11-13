@@ -8,8 +8,11 @@ class DirektHolidays {
 	private $_session = array();
 	private $_links = array();
 
-	public function __construct($startPageURL) {
-		$this->processDirektHolidays($startPageURL);
+	public function __construct($startPageURL = NULL) {
+		// default start page is: http://www.direktholidays.at/index.php?id=3&L=2
+		if($startPageURL) {
+			$this->processDirektHolidays($startPageURL);
+		}
 	}
 
 	/**
@@ -67,7 +70,16 @@ class DirektHolidays {
 		$output = $this->execute($url, "//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-right']/div[@id='c312']/div[@id='atonfewo_pi3-listview']/div[@class='atonfewo_pi3-listview-item']/div[@class='atonfewo_pi3-listview-item-image']/a/@href");
 
 		foreach ($output as $node) {
-			$this->_links[] = $this->_url . $node->nodeValue;
+
+			$acc_url = $this->_url . $node->nodeValue;
+
+			$query_str = parse_url($acc_url, PHP_URL_QUERY);
+			parse_str($query_str, $query_params);
+
+			// Accommodation code
+			$code = $query_params["tx_atonfewo_pi1"]["ve"];
+
+			$this->_links[$code] = $acc_url;
 		}
 	}
 
@@ -86,12 +98,23 @@ class DirektHolidays {
 		curl_setopt($ch, CURLOPT_POSTFIELDS, "tx_atonfewo_sv2[type]=0&tx_atonfewo_sv2[searchbox-destination][1]=true&tx_atonfewo_sv2[searchbox-destination][2]=true&tx_atonfewo_sv2[searchbox-destination][3]=true&tx_atonfewo_sv2[searchbox-destination][4]=true&tx_atonfewo_sv2[searchbox-destination][5]=true&tx_atonfewo_sv2[searchbox-destination][6]=true");
 		$data = curl_exec($ch);
 		curl_close($ch);
-
-		foreach(json_decode($data) as $code) {
-			$links[$code] = $this->_url . "index.php?id=119&L=2&tx_atonfewo_pi1[ve]=" . $code;
+		if($data) {
+			foreach(json_decode($data) as $code) {
+				$links[$code] = $this->getAccommodationURL($code);
+			}
 		}
 
 		return $links;
+	}
+
+	/**
+	 * Create full URL to the accommodation page
+	 *
+	 * @param string $code
+	 * @return string
+	 */
+	public function getAccommodationURL($code) {
+		return $this->_url . "index.php?id=119&L=2&tx_atonfewo_pi1[ve]=" . $code;
 	}
 
 	/**
@@ -102,20 +125,14 @@ class DirektHolidays {
 	 */
 	public function getAccommodations($limit = 0) {
 		// get the details of each accommodation
-		$i=0;
+		$i=1;
 		$urls = array();
 
-		foreach ($this->_links as $url) {
+		foreach ($this->_links as $key => $url) {
 
-			$query_str = parse_url($url, PHP_URL_QUERY);
-			parse_str($query_str, $query_params);
+			$urls[$key] = $url;
 
-			// Accommodation code
-			$code = $query_params["tx_atonfewo_pi1"]["ve"];
-
-			$urls[$code] = $url;
-
-			if($limit != 0 && $i > $limit) {
+			if($limit != 0 && $i >= $limit) {
 				break;
 			}
 			$i++;
@@ -255,9 +272,25 @@ class DirektHolidays {
 	 * @param string $query used by xPath
 	 * @return DOMNodeList
 	 */
-	private function execute($url, $query) {
+	private function execute($url, $query = NULL) {
 
 		$html= file_get_contents($url);
+
+		// get all links to the accommodations
+		$result = $this->load($html, $query);
+
+		return $result;
+	}
+
+	/**
+	 * Load the html file into a DOMDocument object in order to execute XPath queries
+	 *
+	 * @param string $html
+	 * @param null|string $query
+	 * @return DOMNodeList|DOMXPath
+	 */
+	private function load($html, $query = NULL) {
+
 		$dom = new DOMDocument();
 		@$dom->loadHTML($html);
 		$xPath = new DOMXPath($dom);
@@ -265,8 +298,12 @@ class DirektHolidays {
 		// Set the current xPath;
 		$this->setXPath($xPath);
 
+		$result = $xPath;
+
+		if($query) {
 		// get all links to the accommodations
-		$result = $xPath->query($query);
+			$result = $xPath->query($query);
+		}
 
 		return $result;
 	}
@@ -320,8 +357,147 @@ class DirektHolidays {
 		return $text;
 	}
 
-	private function __clone() {}
+	/**
+	 * Extract prices from the accommodation HTML page
+	 *
+	 * @param string $html
+	 * @param date $start_date; 	Season start date
+	 * @param date $end_date; 	Season end date
+	 * @return array
+	 */
+	public function getPrices($html, $start_date, $end_date) {
 
+		$result = array();
+
+		$start_date = strtotime($start_date);
+		$end_date = strtotime($end_date);
+
+		$query = "//div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-bookingarea']/div[@id='atonfewo_pi1-detailview-bookingarea-alternativedate']/table/tr";
+		$details = $this->load($html, $query);
+
+		$xPath = $this->getXPath();
+
+		//perform our xpath sub-queries to get the data
+		foreach ($details as $node)
+		{
+			//we are now using each 'node' as the limit for the new xpath query to search within
+			//Make the queries relative... start them with a dot (e.g. ".//…").
+			$date = $xPath->query(".//td[@class='date']", $node);
+			$price = $xPath->query(".//td[@class='price']", $node);
+
+			$i = 0;
+			foreach ($date as $detail){
+
+				$price = trim(utf8_decode($price->item($i)->nodeValue));
+				$price = preg_replace("/([^0-9])/i", "", $price);
+				$price = round($price/100, 2);
+
+				$date = trim($detail->nodeValue);
+				$date = preg_replace("/([^0-9\.])/i", " ", $date);
+				$date = preg_replace('/\s+/', ' ',$date);
+
+				$date = explode(" ", $date);
+				$week = strtotime($date[0]);
+
+				if($start_date <= $week && $week < $end_date) {
+					$result[$week] = $price;
+				}
+				$i++;
+			}
+		}
+
+		// Accommodation details
+		return $result;
+	}
+
+	/**
+	 * Performs a CURL request to get the accommodation page including the prices as well
+	 * @param $url
+	 * @return mixed
+	 */
+	public function curlPricesRequest($url) {
+
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_COOKIE, "fe_typo_user=f269a50d47dbae7a34c0e226bff59643"); // mockup cookie
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($ch,CURLOPT_TIMEOUT, 5);
+
+		$data = curl_exec($ch);
+		curl_close($ch);
+
+		return $data;
+	}
+
+	/**
+	 * Extract prices from the accommodation HTML page
+	 *
+	 * @param string $html
+	 * @param date $start_date
+	 * @param date $end_date
+	 * @return array
+	 */
+	public function getAvailability($html, $start_date, $end_date) {
+
+		$result = array();
+
+		$start_date = strtotime($start_date);
+		$end_date = strtotime($end_date);
+
+		$query = "//div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-tabs']/div[@id='atonfewo_pi1-detailview-tabs-2']/div[@class='atonfewo_pi1-detailview-tabs-2-calendar']/table";
+		$details = $this->load($html, $query);
+
+		$nl_months = array(1 => "januari", 2 => "februari", 3 => "maart", 4 => "april", 5 => "mei", 6 => "juni", 7 => "juli", 8 => "augustus", 9 => "september", 10 => "oktober", 11 => "november", 12 => "december");
+
+		$xPath = $this->getXPath();
+
+		//perform our xpath sub-queries to each table
+		foreach ($details as $table)
+		{
+			$th = $xPath->query(".//tr/th/text()", $table);
+			$tmp = $this->getNodesValues($th);
+			$tmp = explode(" ", $tmp);
+
+			$month = array_search($tmp[0], $nl_months);
+			$year = $tmp[1];
+
+			// get sub-queries for each table row
+			$node = $xPath->query(".//tr", $table);
+			foreach($node as $tr) {
+
+				// get each td in the table row
+				$td = $xPath->query(".//td[6]", $tr);
+
+				foreach ($td as $detail){
+					$day = $detail->nodeValue;
+					if($day != "Sa" && $day != "") {
+						$week = strtotime($year."-".$month."-".$day);
+						if($start_date <= $week && $week < $end_date) {
+							if(date("w", $week) == 6) {
+								$available = trim($detail->getAttribute('class'));
+								$available = explode(" ", $available);
+								if(array_search("dayinpast", $available) === false && array_search("reservation", $available) === false && array_search("reservation-start", $available) === false) {
+									$result[$week] = 1;
+								} elseif(array_search("reservation", $available) !== false) {
+									$last_week = strtotime("-7 days", $week);
+									if(isset($result[$last_week])) unset($result[$last_week]);
+								}
+							}
+						} else {
+							continue;
+						}
+					}
+				}
+			}
+		}
+
+		// Accommodation availability
+		return $result;
+	}
 }
 
 ?>

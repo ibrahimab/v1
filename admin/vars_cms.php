@@ -1043,6 +1043,7 @@ $vars["xml_type"]=array(
 	21=>"Ville in Italia (21)",
 	22=>"Nexity (22)",
 	23=>"Interhome (23)",
+	24=>"Direkt Holidays (24)",
 );
 asort($vars["xml_type"]);
 
