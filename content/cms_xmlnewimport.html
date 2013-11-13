@@ -508,16 +508,32 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 		#Interhome
 
         if(file_exists($path."suppliers/interhome/index.php")) {
-
             require_once($path."suppliers/interhome/index.php");
-
-            $interHome = new InterHome();
-            if(isset($_GET["country"])) $countryCode = $_GET["country"];
-            if(isset($_GET["region"])) $regionCode = $_GET["region"];
-            $foundProperties = $interHome->getAccommodations($countryCode, $regionCode, $placeCode = "");
         } else {
             die("Invalid supplier: Interhome");
         }
+
+		$interHome = new InterHome();
+
+
+		if(isset($_POST["filled"])) {
+			$imported_acc = $excluded_acc = array();
+			foreach($_POST["uniekeid"] as $code => $option) {
+				if($option == "import") {
+					# Get the details only for imported accommodations
+					$imported_acc[$code] = 1;
+				} elseif($option == "verberg") {
+					# For excluded accommodations we do not need their details, just the code
+					$excluded_acc[$code] = "verberg";
+				}
+			}
+		}
+
+		if(isset($_GET["country"])) $countryCode = $_GET["country"];
+		if(isset($_GET["region"])) $regionCode = $_GET["region"];
+
+		$foundProperties = $interHome->getAccommodations($countryCode, $regionCode, $placeCode = "");
+		$new = array();
 
         if($foundProperties) {
 			$properties_count = count($foundProperties);
@@ -526,14 +542,23 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
             while(list($key,$value)=each($foundProperties)) {
                 if(!($values instanceof SoapFault)) {
-                    if(isset($_GET["verborgen"]) && $_GET["verborgen"] == 1){
+					if(isset($_POST["filled"]) && !isset($imported_acc[$key])) {
+						# skip accommodations that are not marked for importing in $_POST request
+						continue;
+					}
+					# if the page is loaded to see the excluded accommodations
+					if(isset($_GET["verborgen"]) && $_GET["verborgen"] == 1){
+						# if the accommodation is not marked as excluded
                         if(!isset($verberg_xmlcode[$key])) continue;
                     } elseif(isset($verberg_xmlcode[$key])) {
+						# if the accommodation is marked as excluded
                         continue;
                     } if(isset($type_xmlcode[$key]) && !isset($_GET["toonwijzigingen"])) {
+						# accommodation is already imported
 						continue;
 					} elseif(!isset($_GET["toonwijzigingen"]) && $counter > 20) {
-						continue;
+						# limited to 20 accommodations on page
+						break;
 					}
 
                     $region = iconv("UTF-8", "CP1252", $value["region"]);
@@ -554,15 +579,21 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
                     if($bekend_skigebied && $bekend_plaats) {
 
-                        $accommodation = $interHome->getAccommodation($key);
-                        $accommodation->setRegion($bekend_skigebied);
-                        $accommodation->setPlace($bekend_plaats);
+						if(!isset($_POST["filled"]) || isset($_GET["verborgen"])) {
+							$accommodation = $value["info"];
+						} else {
+							$accommodation = $interHome->getAccommodation($key);
+						}
+						if(!($accommodation instanceof SoapFault)) {
+							$accommodation->setRegion($bekend_skigebied);
+							$accommodation->setPlace($bekend_plaats);
 
-                        $property[$key] = $accommodation;
-                        if(!isset($_GET["verborgen"])){
-                            $services[$key] = $interHome->getAdditionalServices($key);
-                        }
-                        $counter++;
+							$property[$key] = $accommodation;
+							if(!isset($_GET["verborgen"]) && isset($_POST["filled"])){
+								$services[$key] = $interHome->getAdditionalServices($key);
+							}
+							$counter++;
+						}
                     }
                 } else {
                     echo $value->getMessage();
@@ -573,10 +604,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
             if(is_array($property) && count($property) > 0) {
                 while(list($key,$value)=each($property)) {
 
-                    $type_id = $vars["interhome_soortaccommodatie"][$value->getType()];
-
                     $volgnummer++;
 
+					$type_id = $vars["interhome_soortaccommodatie"][$value->getType()];
                     $uniekeid = $value->getAccommodationCode();
 
 					$tmp_uniekeid = explode(".", $uniekeid, -1);
@@ -584,8 +614,6 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					$new[$uniekeid]["accid"] = $tmp_uniekeid;
 
 					$new[$uniekeid]["volgnummer"] = $volgnummer;
-                    $new[$uniekeid]["accnaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
-                    $new[$uniekeid]["typenaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
                     $new[$uniekeid]["skigebied_id"] = $value->getRegion();
                     $new[$uniekeid]["plaats_id"] = $value->getPlace();
                     $new[$uniekeid]["optimaalaantalpersonen"] = $value->getPax();
@@ -593,98 +621,68 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                     $new[$uniekeid]["slaapkamers"] = $value->getBedRooms();
                     $new[$uniekeid]["kwaliteit"] = $value->getQuality();
                     $new[$uniekeid]["typeindeling"] = iconv("UTF-8", "CP1252", $value->getInsideDescription());
-					$new[$uniekeid]["accomschrijving"] = iconv("UTF-8", "CP1252", $value->getOutsideDescription());
-                    $new[$uniekeid]["accafbeelding"] = $value->getPictures()->getString();
-                    $new[$uniekeid]["typeafbeelding"] = $value->getPictures()->getString();
                     $new[$uniekeid]["soortaccommodatie"] = $type_id;
-                    $new[$uniekeid]["gps_lat"] = $value->getGeoLat();
-                    $new[$uniekeid]["gps_long"] = $value->getGeoLng();
-					if(preg_match("/([0-9]+\.?[0-9]+) m2\.?(.*)$/", $new[$uniekeid]["typeindeling"], $matches)) {
-						$new[$uniekeid]["oppervlakte"]=trim($matches[1]);
+	
+					if(isset($_POST["filled"])) {
+						$new[$uniekeid]["accnaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
+						$new[$uniekeid]["typenaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
+						$new[$uniekeid]["accafbeelding"] = $value->getPictures()->getString();
+						$new[$uniekeid]["typeafbeelding"] = $value->getPictures()->getString();
+						$new[$uniekeid]["accomschrijving"] = iconv("UTF-8", "CP1252", $value->getOutsideDescription());
+
+						$new[$uniekeid]["gps_lat"] = $value->getGeoLat();
+						$new[$uniekeid]["gps_long"] = $value->getGeoLng();
+						if(preg_match("/([0-9]+\.?[0-9]+) m2\.?(.*)$/", $new[$uniekeid]["typeindeling"], $matches)) {
+							$new[$uniekeid]["oppervlakte"]=trim($matches[1]);
+						}
 					}
 
-                    $included_services = "";
-                    $exclusive_services = "";
-                    $extra_services = "";
-
                     if(isset($services[$uniekeid]) && is_array($services[$uniekeid])) {
-                        while(list($key,$service)=each($services[$uniekeid])) {
-                            if(!($service instanceof SoapFault)) {
-                                switch($service->getType()) {
-                                    case "Y2":
-                                    case "N2":
-                                    case "N5":
-                                        $included_services .= iconv("UTF-8", "CP1252", $service->getDescription()) . ". ";
-                                        $txt = $service->getText();
-                                        #if(!empty($txt)) $included_services .= " " . iconv("UTF-8", "CP1252", rtrim($service->getText(), ".")) . ". ";
-                                    break;
+                        $formated_services = $interHome->formatServices($services[$uniekeid]);
+						if(is_array($formated_services)) {
+							$new[$uniekeid]["inclusief"] = $formated_services["included_services"];
+							$new[$uniekeid]["exclusief"] = $formated_services["additional_services"];
 
-                                    case "Y1":
-                                    case "Y4":
-                                    case "N1":
-                                        $amount = $service->getAmount();
-                                        $currency = $service->getCurrency();
-                                        $txt = $service->getText();
-
-                                        $exclusive_services .= iconv("UTF-8", "CP1252", $service->getDescription());
-										if($amount > 0) $exclusive_services .= " (". $currency . " " .$amount .")";
-										$exclusive_services .= ". ";
-                                        #if(!empty($txt)) $exclusive_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
-                                    break;
-
-                                    case "Y5":
-                                    case "Y6":
-                                    case "N4":
-                                        $amount = $service->getAmount();
-                                        $currency = $service->getCurrency();
-                                        $txt = $service->getText();
-
-                                        $extra_services .= iconv("UTF-8", "CP1252", $service->getDescription());
-										if($amount > 0) $extra_services .= " (". $currency . " " .$amount .")";
-										$extra_services .= ". ";
-                                        #if(!empty($txt)) $extra_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
-                                    break;
-
-									default:
-										$amount = $service->getAmount();
-										$currency = $service->getCurrency();
-										$txt = $service->getText();
-
-										$extra_services .= iconv("UTF-8", "CP1252", $service->getDescription());
-										if($amount > 0) $extra_services .= " (". $currency . " " .$amount .")";
-										$extra_services .= ". ";
-										#if(!empty($txt)) $extra_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
-									break;
-                                }
-                            } else {
-                                echo $service->getMessage();
-                            }
-                        }
+							$new[$uniekeid]["typeinclusief"] = $formated_services["included_services"];
+							$new[$uniekeid]["typeexclusief"] = $formated_services["additional_services"];
+						}
                     }
+                } #end while
+            } #end if
+        } #end if
 
-                    $new[$uniekeid]["inclusief"] = trim($included_services);
-                    $new[$uniekeid]["exclusief"] = trim($exclusive_services . $extra_services);
-
-                    $new[$uniekeid]["typeinclusief"] = trim($included_services);
-                    $new[$uniekeid]["typeexclusief"] = trim($exclusive_services . $extra_services);
-
-                }
-            }
-        }
+		if(isset($_POST["filled"])) {
+			$new = array_merge($new, $excluded_acc);
+			unset($excluded_acc);
+		}
 
     } elseif($_GET["lev"] == 35) {
 		#Direkt Holidays
 		if(file_exists($path."suppliers/direktholidays/index.php")) {
-
 			require_once($path."suppliers/direktholidays/index.php");
-
-			$direktHolidays = new DirektHolidays('http://www.direktholidays.at/index.php?id=3&no_cache=1&L=2');
-
 		} else {
-			die("Invalid supplier: Interhome");
+			die("Invalid supplier: Direkt Holidays");
+		}
+
+		if(isset($_POST["filled"])) {
+			$direktHolidays = new DirektHolidays();
+
+			$excluded_acc = array();
+			foreach($_POST["uniekeid"] as $code => $option) {
+				if($option == "import") {
+					# Get the details only for imported accommodations
+					$direktHolidays->setLinks($code);
+				} elseif($option == "verberg") {
+					# For excluded accommodations we do not need their details, just the code
+					$excluded_acc[$code] = "verberg";
+				}
+			}
+		} else {
+			$direktHolidays = new DirektHolidays('http://www.direktholidays.at/index.php?id=3&no_cache=1&L=2');
 		}
 
 		$foundProperties = $direktHolidays->getAccommodations();
+		$new = array();
 
 		if($foundProperties) {
 			$properties_count = count($foundProperties);
@@ -729,7 +727,10 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 				}
 			}
 		}
-
+		if(isset($_POST["filled"])) {
+			$new = array_merge($new, $excluded_acc);
+			unset($excluded_acc);
+		}
 	}
 
 	#
@@ -865,6 +866,14 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                         # Added for Interhome
                         if($_GET["lev"] == 421) {
                             $setquery_acc.=", gps_lat='".addslashes($value["gps_lat"])."', gps_long='".addslashes($value["gps_long"])."', soortaccommodatie='".addslashes($value["soortaccommodatie"])."', inclusief='".addslashes($value["inclusief"])."' ";
+
+							# set the images
+							$i10 = 0;
+							foreach($value["accafbeelding"] as $img) {
+								$i10 += 10;
+								$_POST["imgvolgorde"]["acc"][$value["accid"]][$img] = $i10;
+							}
+
                         } elseif(isset($value["soortaccommodatie"]) && (int)$value["soortaccommodatie"] > 0) {
 							$setquery_acc.=", soortaccommodatie='".addslashes($value["soortaccommodatie"])."'";
 						} else {
@@ -898,6 +907,13 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                                 # Added for Interhome
                                 if($_GET["lev"] == 421) {
                                     $setquery_type.=", gps_lat='".addslashes($value["gps_lat"])."', gps_long='".addslashes($value["gps_long"])."', inclusief='".addslashes($value["inclusief"])."' ";
+
+									# set the images
+									$i10 = 0;
+									foreach($value["typeafbeelding"] as $img) {
+										$i10 += 10;
+										$_POST["imgvolgorde"]["type"][$key][$img] = $i10;
+									}
                                 }
 
                                 $db->query("SELECT t.type_id, t.accommodatie_id FROM type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancierscode='".addslashes($key)."' AND a.leverancier_id='".addslashes($_GET["lev"])."';");

@@ -127,8 +127,9 @@ class DirektHolidays {
 		// get the details of each accommodation
 		$i=1;
 		$urls = array();
+		$links = $this->getLinks();
 
-		foreach ($this->_links as $key => $url) {
+		foreach ($links as $key => $url) {
 
 			$urls[$key] = $url;
 
@@ -497,6 +498,14 @@ class DirektHolidays {
 
 		// Accommodation availability
 		return $result;
+	}
+
+	public function setLinks($code) {
+		$this->_links[$code] = $this->getAccommodationURL($code);
+	}
+
+	private function getLinks() {
+		return $this->_links;
 	}
 }
 

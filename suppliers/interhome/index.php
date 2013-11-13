@@ -463,7 +463,6 @@ class InterHome extends SoapClass {
 					$pagesCount = ceil($RowsCount / $MaxPageSize);
 
 					if($pagesCount >= 1) {
-						$count=1;
 
 						for ($i=1; $i<=$pagesCount; $i++) {
 
@@ -477,7 +476,7 @@ class InterHome extends SoapClass {
 								foreach ($arrSearchResultItems as $value) {
 									$arrSearch[$value->getAccommodationCode()]["region"] = $value->getRegion();
 									$arrSearch[$value->getAccommodationCode()]["place"] = $value->getPlace();
-									$count++;
+									$arrSearch[$value->getAccommodationCode()]["info"] = $value;
 								}
 
 							}
@@ -490,17 +489,16 @@ class InterHome extends SoapClass {
 				} else {
 
 					$arrSearchResultItems = $itemSearchResult->getItems()->getSearchResultItem();
-					$count=1;
 
 					if($RowsCount == 1) {
-						#$arrSearch[$count] = $arrSearchResultItems->getAccommodationCode();
 						$arrSearch[$arrSearchResultItems->getAccommodationCode()]["region"] = $arrSearchResultItems->getRegion();
 						$arrSearch[$arrSearchResultItems->getAccommodationCode()]["place"] = $arrSearchResultItems->getPlace();
+						$arrSearch[$arrSearchResultItems->getAccommodationCode()]["info"] = $arrSearchResultItems;
 					} else {
 						foreach ($arrSearchResultItems as $value) {
-							#$arrSearch[$count] = $value->getAccommodationCode();
 							$arrSearch[$value->getAccommodationCode()]["region"] = $value->getRegion();
 							$arrSearch[$value->getAccommodationCode()]["place"] = $value->getPlace();
+							$arrSearch[$value->getAccommodationCode()]["info"] = $value;
 							$count++;
 						}
 					}
@@ -770,6 +768,73 @@ class InterHome extends SoapClass {
 		return $final;
 	}
 
+	public function formatServices($services) {
+
+		$included_services = array();
+		$exclusive_services = array();
+		$extra_services = array();
+
+		while(list($key,$service)=each($services)) {
+			if(!($service instanceof SoapFault)) {
+				switch($service->getType()) {
+					case "Y2":
+					case "N2":
+					case "N5":
+						$included_services_text = iconv("UTF-8", "CP1252", $service->getDescription());
+
+						$included_services[$service->getCode()] = $included_services_text;
+
+						#$txt = $service->getText();
+						#if(!empty($txt)) $included_services .= " " . iconv("UTF-8", "CP1252", rtrim($service->getText(), ".")) . ". ";
+						break;
+
+					case "Y1":
+					case "Y4":
+					case "N1":
+						$amount = $service->getAmount();
+						$currency = $service->getCurrency();
+
+						$exclusive_services_text = iconv("UTF-8", "CP1252", $service->getDescription());
+						if($amount > 0) $exclusive_services_text .= " (". $currency . " " .$amount .")";
+
+						$exclusive_services[$service->getCode()] = $exclusive_services_text;
+
+						#$txt = $service->getText();
+						#if(!empty($txt)) $exclusive_services .= " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
+						break;
+
+					default:
+						#Y5, Y6, N4 codes
+						$amount = $service->getAmount();
+						$currency = $service->getCurrency();
+
+
+						$extra_services_text = iconv("UTF-8", "CP1252", $service->getDescription());
+						if($amount > 0) $extra_services_text .= " (". $currency . " " .$amount .")";
+
+						$extra_services[$service->getCode()] = $extra_services_text;
+
+						#$txt = $service->getText();
+						#if(!empty($txt)) $extra_services_text " " . iconv("UTF-8", "CP1252", rtrim($txt, ".")) . ". ";
+						break;
+				}
+			} else {
+				return $service->getMessage();
+			}
+		}
+
+		$additional_services = array_merge($exclusive_services, $extra_services);
+
+		$txt_included = '';
+		$txt_additional = '';
+		if(count($included_services) > 0) $txt_included = implode(". ", $included_services) . ".";
+		if(count($additional_services) > 0) $txt_additional = implode(". ", $additional_services) . ".";
+
+		return array(
+			"included_services" 	=> $txt_included,
+			"additional_services" 	=> $txt_additional
+		);
+	}
 } #end class
 
 
