@@ -332,7 +332,7 @@ class InterHome extends SoapClass {
 	 * @param null $accCode The accommodation code from Interhome
 	 * @return array|null
 	 */
-	public function getAdditionalServices($accCode = null) {
+	public function getAdditionalServices($accCode, $seasonStart = '', $seasonEnd = '') {
 
 		// Check if the accommodation code is set
 		if(empty($accCode) || empty($this->wsdl)) return null;
@@ -348,7 +348,9 @@ class InterHome extends SoapClass {
 			'SalesOfficeCode' 	=> $this->salesOffice,
 			'Adults' 			=> '',
 			'Children' 			=> '',
-			'Babies' 			=> ''
+			'Babies' 			=> '',
+			'CheckIn' 			=> $seasonStart,
+			'CheckOut' 			=> $seasonEnd
 		);
 
 
@@ -844,7 +846,7 @@ class InterHome extends SoapClass {
 #print_r($interHome->getPriceList($accCode = "ch6612.200.3"));
 #print_r($interHome->getAvailability($accCode = "de2981.100.1"));
 #print_r($interHome->getAccommodation($accCode = "at6574.410.1"));
-#print_r($interHome->getAdditionalServices($accCode = "at6574.410.1"));
+#print_r($interHome->getAdditionalServices($accCode = "at6574.410.1", "2013-12-07", "2014-04-26"));
 #print_r($interHome->getAccommodations($contryCode="AT", $regionCode="40", $placeCode = "6600"));
 #print_r($interHome->getStatus());
 #print_r($interHome->getCustomerFeedback());

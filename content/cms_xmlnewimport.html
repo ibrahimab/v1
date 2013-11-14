@@ -515,7 +515,6 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 		$interHome = new InterHome();
 
-
 		if(isset($_POST["filled"])) {
 			$imported_acc = $excluded_acc = array();
 			foreach($_POST["uniekeid"] as $code => $option) {
@@ -590,7 +589,16 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 							$property[$key] = $accommodation;
 							if(!isset($_GET["verborgen"]) && isset($_POST["filled"])){
-								$services[$key] = $interHome->getAdditionalServices($key);
+
+								// Get the last dates for each season type (winter=1, summer=2)
+								$q = "SELECT max(eind) AS end, max(begin) as begin, type FROM `seizoen` WHERE type = '".$levinfo["wzt"]."' LIMIT 1";
+								$db->query($q);
+								$db->next_record();
+
+								$startDate = $db->f("begin");
+								$endDate = $db->f("end");
+
+								$services[$key] = $interHome->getAdditionalServices($key, $startDate, $endDate);
 							}
 							$counter++;
 						}
@@ -640,11 +648,14 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                     if(isset($services[$uniekeid]) && is_array($services[$uniekeid])) {
                         $formated_services = $interHome->formatServices($services[$uniekeid]);
 						if(is_array($formated_services)) {
-							$new[$uniekeid]["inclusief"] = $formated_services["included_services"];
-							$new[$uniekeid]["exclusief"] = $formated_services["additional_services"];
-
-							$new[$uniekeid]["typeinclusief"] = $formated_services["included_services"];
-							$new[$uniekeid]["typeexclusief"] = $formated_services["additional_services"];
+							if($formated_services["included_services"] != ''){
+								$new[$uniekeid]["inclusief"] = $formated_services["included_services"];
+								$new[$uniekeid]["typeinclusief"] = $formated_services["included_services"];
+							}
+							if($formated_services["additional_services"] != ''){
+								$new[$uniekeid]["exclusief"] = $formated_services["additional_services"];
+								$new[$uniekeid]["typeexclusief"] = $formated_services["additional_services"];
+							}
 						}
                     }
                 } #end while
