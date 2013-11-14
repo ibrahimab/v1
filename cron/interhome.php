@@ -257,6 +257,63 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 		}
 
 		exit;
+	} elseif($argv[1] == "customerfeedback") {
+		// Import customer feedback for Interhome accommodations
+
+		// Get the entries from the Interhome server by XML
+		$cf = $interHome->getCustomerFeedback();
+
+		if($cf) {
+
+			// Get all Interhome's accommodations from the database
+			$db->query("SELECT leverancierscode, type_id FROM `type` WHERE leverancier_id = '421' AND leverancierscode <> ''");
+			while($db->next_record()) {
+				$type[$db->f("type_id")] = $db->f("leverancierscode");
+			}
+
+			// Get aleredy imported feedback's
+			$db->query("SELECT hash, type_id FROM `boeking_enquete` WHERE hash <> '' AND boeking_id = '0'");
+			while($db->next_record()) {
+				if(isset($type[$db->f("type_id")])) $existing[$db->f("hash")] = 1;
+			}
+			$i = 0;
+			foreach($cf as $object) {
+				$obj = serialize((array)$object);
+				$hash = md5($obj);
+
+				if(isset($existing[$hash])) {
+					// Check if the feedback is alredy imported
+					continue;
+				} else {
+					// Search the accommodation code in the database entries
+					$type_id = array_search($object->code->__toString(), $type);
+					if($type_id !== false) {
+
+						$customername = $object->customername->__toString();
+						$customername = iconv('utf8', 'windows-1252', $customername);
+						$customername = esc($customername);
+						$localservice = ceil($object->localservice->__toString());
+						$furnishings = ceil($object->furnishings->__toString());
+						$cleanliness = ceil($object->cleanliness->__toString());
+						$valueformoney = ceil($object->valueformoney->__toString());
+						$totalrating = ceil($object->totalrating->__toString());
+						$periodoftravel = $object->periodoftravel->__toString();
+						$aankomstdatum_exact = date("Y-m-d", strtotime("01.".$periodoftravel));
+
+						if($localservice+$furnishings+$cleanliness+$valueformoney+$totalrating > 0) {
+							// If the votes are valid, insert into the database
+							$q  = "INSERT INTO `boeking_enquete` (`vraag1_1`,`vraag1_2`,`vraag1_3`,`vraag1_4`,`vraag1_5`,`vraag1_6`,`vraag1_7`,`aankomstdatum_exact`,`type_id`,`websitetekst_naam`,`hash`,`invulmoment`) ";
+							$q .= "VALUES ('$localservice', '$furnishings', 11, '$cleanliness', 11, '$valueformoney', '$totalrating', '$aankomstdatum_exact', '$type_id', '$customername', '$hash', NOW())";
+							$db2->query($q);
+
+							$i++;
+						}
+					}
+				}
+				unset($obj);
+			}
+			echo "Successfully imported " . $i ." customer feedback's";
+		}
 	} else {
 		die("Invalid action");
 	}

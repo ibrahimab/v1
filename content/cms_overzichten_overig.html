@@ -672,6 +672,19 @@ if($_GET["t"]==1) {
 		echo "<p>Geen beoordelingen met deze status gevonden.</p>";
 	}
 
+	// Get Interhome imported customer feedback
+	$db->query("SELECT e.aankomstdatum_exact, e.hash, UNIX_TIMESTAMP(e.invulmoment) AS invulmoment, e.type_id, v.plaats, v.naam, v.wzt FROM boeking_enquete e, view_accommodatie v WHERE v.type_id=e.type_id AND e.boeking_id=0 AND e.hash <> '' AND e.beoordeeld='0' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 ORDER BY v.wzt, v.plaats, e.aankomstdatum_exact, e.invulmoment");
+	if($db->num_rows()) {
+		echo "<ul>";
+			while($db->next_record()) {
+				if(!$algehad[$db->f("wzt")]) {
+					echo "<br><b>".$vars["seizoentype_namen"][$db->f("wzt")]."</b><br>";
+					$algehad[$db->f("wzt")]=true;
+				}
+				echo "<li><a href=\"".wt_he("cms_boekingen_enquete.php?hash=".$db->f("hash")."&from=".urlencode($_SERVER["REQUEST_URI"])."&controleren=1")."\">Interhome XML import - ".wt_he(date("d/m/Y",strtotime($db->f("aankomstdatum_exact")))." - ".$vars["alletypes"][$db->f("type_id")])."</a></li>";
+			}
+		echo "</ul>";
+	}
 } else {
 
 	#

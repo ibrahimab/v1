@@ -1,21 +1,31 @@
 <?php
 
 if(!$vars["lev_login_enquete"]) {
-	echo boekingkoptekst($gegevens);
+	if($_GET["bid"]) {
+		echo boekingkoptekst($gegevens);
+	}
 	if($_GET["burl"]) {
 		echo "<a href=\"".$_GET["burl"]."\">terug naar boekingsgegevens</a><p>";
 	} elseif($_GET["bid"]) {
 		echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
 
-		if($_GET["controleren"]) {
-			echo "<p>";
-			$form->display_all();
-			echo "</p>";
-		}
+	} elseif($_GET["hash"]) {
+		echo "<a href=\"".wt_he($_GET["from"])."\">bekijk de bijbehorende boeking</a><p>";
+	}
+
+	if($_GET["controleren"]) {
+		echo "<p>";
+		$form->display_all();
+		echo "</p>";
 	}
 }
 
-$db->query("SELECT * FROM boeking_enquete WHERE boeking_id='".addslashes($_GET["bid"])."';");
+if($_GET["bid"]) {
+	$db->query("SELECT * FROM boeking_enquete WHERE boeking_id='".addslashes($_GET["bid"])."';");
+} elseif($_GET["hash"]) {
+	// If it is an Interhome imported review
+	$db->query("SELECT * FROM boeking_enquete WHERE hash='".addslashes($_GET["hash"])."';");
+}
 if($db->next_record()) {
 
 	echo html("ingevuld","lev_login_enquete").": ".DATUM("DAG D MAAND JJJJ, UU:ZZ",strtotime($db->f("invulmoment")),$vars["taal"])."u.";

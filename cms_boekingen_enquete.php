@@ -3,8 +3,10 @@
 $mustlogin=true;
 include("admin/vars.php");
 
-$gegevens=get_boekinginfo($_GET["bid"]);
 
+if($_GET["bid"]) {
+	$gegevens=get_boekinginfo($_GET["bid"]);
+}
 
 if($_GET["controleren"]) {
 	# frm = formname (mag ook wat anders zijn)
@@ -12,7 +14,11 @@ if($_GET["controleren"]) {
 	$form->settings["fullname"]="beoordelingen";
 	$form->settings["layout"]["css"]=false;
 	$form->settings["db"]["table"]="boeking_enquete";
-	$form->settings["db"]["where"]="boeking_id='".intval($_GET["bid"])."'";
+	if($_GET["bid"]) {
+		$form->settings["db"]["where"]="boeking_id='".intval($_GET["bid"])."'";
+	} elseif($_GET["hash"]) {
+		$form->settings["db"]["where"]="hash='".addslashes($_GET["hash"])."'";
+	}
 	$form->settings["layout"]["stars"]=false;
 
 	$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
@@ -43,8 +49,14 @@ if($_GET["controleren"]) {
 
 	if($form->okay) {
 
+		if($_GET["bid"]) {
+			$where = "boeking_id='".addslashes($_GET["bid"])."'";
+		} elseif($_GET["hash"]) {
+			// Check if it is an Interhome imported review
+			$where = "hash='".addslashes($_GET["hash"])."'";
+		}
 		# Wijzigingen loggen bij boeking
-		$db->query("SELECT beoordeeld, websitetekst_gewijzigd FROM boeking_enquete WHERE boeking_id='".addslashes($_GET["bid"])."';");
+		$db->query("SELECT beoordeeld, websitetekst_gewijzigd FROM boeking_enquete WHERE ".$where.";");
 		if($db->next_record()) {
 			if($db->f("beoordeeld")<>$form->input["beoordeeld"]) {
 				chalet_log("status enquête gewijzigd naar: ".$vars["enquetestatus"][$form->input["beoordeeld"]],false,true);
