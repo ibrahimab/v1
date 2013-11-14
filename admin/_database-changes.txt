@@ -3,6 +3,10 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+14-nov-2013 16:00
+ALTER TABLE `boeking_enquete` ADD `hash` CHAR(32) NULL DEFAULT NULL AFTER `omgezet`;
+ALTER TABLE `boeking_enquete` ADD UNIQUE (hash);
+
 12-nov-2013 17:31
 ALTER TABLE `boeking` ADD `factuurdatum_eerste_factuur` DATE NULL DEFAULT NULL AFTER `factuurdatum` ;
 
