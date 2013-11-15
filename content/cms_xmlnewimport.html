@@ -618,6 +618,10 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					$foundProperties[$db->f("code")] = $interHome->getAccommodation($db->f("code"));
 				}
 			}
+		} elseif(isset($_GET["verborgen"])) {
+			foreach($verberg_xmlcode as $vCode => $val) {
+				$foundProperties[$vCode] = $interHome->getAccommodation($vCode);
+			}
 		} else {
 			$foundProperties = $interHome->getAccommodations($countryCode, $regionCode, $placeCode = "");
 		}
@@ -640,10 +644,14 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 						break;
 					}
 
-					if(isset($_GET["checkforchanges"])) {
-						$value["info"] = $value;
-						$value["region"] = $value->getRegion();
-						$value["place"] = $value->getPlace();
+					$tmp_value = array();
+					if(isset($_GET["checkforchanges"]) || isset($_GET["verborgen"])) {
+						$tmp_value["info"] = $value;
+						$tmp_value["region"] = $value->getRegion();
+						$tmp_value["place"] = $value->getPlace();
+					}
+					if(!empty($tmp_value)) {
+						$value = $tmp_value;
 					}
 
                     $region = iconv("UTF-8", "CP1252", $value["region"]);
@@ -769,6 +777,15 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 				} elseif($option == "verberg") {
 					# For excluded accommodations we do not need their details, just the code
 					$excluded_acc[$code] = "verberg";
+				}
+			}
+		} elseif(isset($_GET["verborgen"])){
+			$direktHolidays = new DirektHolidays();
+
+			if($verberg_xmlcode) {
+				foreach($verberg_xmlcode as $vCode => $val) {
+					# Get the details only for excluded accommodations
+					$direktHolidays->setLinks($vCode);
 				}
 			}
 		} else {
