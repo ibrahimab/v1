@@ -46,6 +46,11 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]
 	}
 }
 
+// aanbetaling1 vastzetten na 15 dagen
+if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test12") {
+	$vijftien_dagen_geleden = date("Y-m-d", mktime(0,0,0,date("m"), date("d")-15, date("Y")));
+	$db->query("UPDATE boeking SET aanbetaling1_vastgezet=1 WHERE aanbetaling1_vastgezet=0 AND factuurdatum_eerste_factuur IS NOT NULL AND factuurdatum_eerste_factuur<='".$vijftien_dagen_geleden."';");
+}
 
 #
 # Automatische kortingen (vanwege Zwitserse Franken CHF) doorrekenen

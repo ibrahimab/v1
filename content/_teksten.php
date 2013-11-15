@@ -1558,10 +1558,10 @@ $txt["en"]["contact"]["opmerkingen"]="Questions or comments";
 $txt["nl"]["contact"]["teruggebeld"]="Ik wil graag teruggebeld worden";
 $txt["en"]["contact"]["teruggebeld"]="Please call me back";
 
-$txt["nl"]["contact"]["nieuwsbriefvraag"]="Ik wil geen aanbiedingen, nieuws en reistips meer missen en word lid van de [[v_websitenaam]]-nieuwsbrief";
+$txt["nl"]["contact"]["nieuwsbriefvraag"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en"]["contact"]["nieuwsbriefvraag"]="-";
 
-$txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik wil geen aanbiedingen, nieuws en reistips meer missen en word lid van de [[v_websitenaam]]-nieuwsbrief";
+$txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en_z"]["contact"]["nieuwsbriefvraag"]="-";
 
 $txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
@@ -2961,10 +2961,10 @@ $txt["en"]["beschikbaarheid"]["wensenindienbezet"]="Your wishes if occupied";
 $txt["nl"]["beschikbaarheid"]["vragenopmerkingen"]="Vragen of opmerkingen";
 $txt["en"]["beschikbaarheid"]["vragenopmerkingen"]="Questions or comments";
 
-$txt["nl"]["beschikbaarheid"]["ikwilgraaglidworden"]="Ik wil geen aanbiedingen, nieuws en reistips meer missen en word lid van de [[v_websitenaam]]-nieuwsbrief";
+$txt["nl"]["beschikbaarheid"]["ikwilgraaglidworden"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en"]["beschikbaarheid"]["ikwilgraaglidworden"]="-";
 
-$txt["nl_z"]["beschikbaarheid"]["ikwilgraaglidworden"]="Ik wil geen aanbiedingen, nieuws en reistips meer missen en word lid van de [[v_websitenaam]]-nieuwsbrief";
+$txt["nl_z"]["beschikbaarheid"]["ikwilgraaglidworden"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en_z"]["beschikbaarheid"]["ikwilgraaglidworden"]="-";
 
 $txt["nl"]["beschikbaarheid"]["beschikbaarheidcontroleren_optie"]="Optie aanvragen";
@@ -3271,10 +3271,10 @@ $txt["en"]["boeken"]["optie_niet_bewerken"]="This option is processed manually. 
 $txt["nl"]["boeken"]["referentiekeuze"]="Ik ken [[v_websitenaam]] via";
 $txt["en"]["boeken"]["referentiekeuze"]="I know [[v_websitenaam]] from";
 
-$txt["nl"]["boeken"]["ikwilgraaglidworden"]="Ik wil geen aanbiedingen, nieuws en reistips meer missen en word lid van de [[v_websitenaam]]-nieuwsbrief";
+$txt["nl"]["boeken"]["ikwilgraaglidworden"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en"]["boeken"]["ikwilgraaglidworden"]="-";
 
-$txt["nl_z"]["boeken"]["ikwilgraaglidworden"]="Ik wil geen aanbiedingen, nieuws en reistips meer missen en word lid van de [[v_websitenaam]]-nieuwsbrief";
+$txt["nl_z"]["boeken"]["ikwilgraaglidworden"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en_z"]["boeken"]["ikwilgraaglidworden"]="-";
 
 $txt["nl"]["boeken"]["jaikwildezeboekingplaatsen"]="Ja, ik wil deze boeking plaatsen en ga akkoord met de [[h_1]][[l1]]algemene voorwaarden[[/l1]][[h_2]] van [[v_websitenaam]]. Bij gebleken beschikbaarheid komt deze accommodatie definitief op mijn naam te staan.";
