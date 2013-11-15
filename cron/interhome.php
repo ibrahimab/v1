@@ -259,14 +259,14 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 		exit;
 	} elseif($argv[1] == "customerfeedback") {
 		// Import customer feedback for Interhome accommodations
-
+		$lev = 421;
 		// Get the entries from the Interhome server by XML
 		$cf = $interHome->getCustomerFeedback();
 
 		if($cf) {
 
 			// Get all Interhome's accommodations from the database
-			$db->query("SELECT leverancierscode, type_id FROM `type` WHERE leverancier_id = '421' AND leverancierscode <> ''");
+			$db->query("SELECT leverancierscode, type_id FROM `type` WHERE leverancier_id = '$lev' AND leverancierscode <> ''");
 			while($db->next_record()) {
 				$type[$db->f("type_id")] = $db->f("leverancierscode");
 			}
@@ -302,8 +302,8 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 
 						if($localservice+$furnishings+$cleanliness+$valueformoney+$totalrating > 0) {
 							// If the votes are valid, insert into the database
-							$q  = "INSERT INTO `boeking_enquete` (`vraag1_1`,`vraag1_2`,`vraag1_3`,`vraag1_4`,`vraag1_5`,`vraag1_6`,`vraag1_7`,`aankomstdatum_exact`,`type_id`,`websitetekst_naam`,`hash`,`invulmoment`) ";
-							$q .= "VALUES ('$localservice', '$furnishings', 11, '$cleanliness', 11, '$valueformoney', '$totalrating', '$aankomstdatum_exact', '$type_id', '$customername', '$hash', NOW())";
+							$q  = "INSERT INTO `boeking_enquete` (`vraag1_1`,`vraag1_2`,`vraag1_3`,`vraag1_4`,`vraag1_5`,`vraag1_6`,`vraag1_7`,`aankomstdatum_exact`,`type_id`,`websitetekst_naam`,`hash`,`source_leverancier_id`,`invulmoment`) ";
+							$q .= "VALUES ('$localservice', '$furnishings', 11, '$cleanliness', 11, '$valueformoney', '$totalrating', '$aankomstdatum_exact', '$type_id', '$customername', '$hash', '$lev', NOW())";
 							$db2->query($q);
 
 							$i++;
