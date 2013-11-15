@@ -17,7 +17,7 @@ if($_GET["controleren"]) {
 	if($_GET["bid"]) {
 		$form->settings["db"]["where"]="boeking_id='".intval($_GET["bid"])."'";
 	} elseif($_GET["hash"]) {
-		$form->settings["db"]["where"]="hash='".addslashes($_GET["hash"])."'";
+		$form->settings["db"]["where"]="hash='".addslashes($_GET["hash"])."' AND source_leverancier_id='".addslashes($_GET["lev"])."'";
 	}
 	$form->settings["layout"]["stars"]=false;
 
@@ -53,7 +53,7 @@ if($_GET["controleren"]) {
 			$where = "boeking_id='".addslashes($_GET["bid"])."'";
 		} elseif($_GET["hash"]) {
 			// Check if it is an Interhome imported review
-			$where = "hash='".addslashes($_GET["hash"])."'";
+			$where = "hash='".addslashes($_GET["hash"])."' AND source_leverancier_id='".addslashes($_GET["lev"])."'";
 		}
 		# Wijzigingen loggen bij boeking
 		$db->query("SELECT beoordeeld, websitetekst_gewijzigd FROM boeking_enquete WHERE ".$where.";");
