@@ -3,6 +3,17 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+15-nov-2013 13:15
+ALTER TABLE `boeking` ADD `aanbetaling1_vastgezet` TINYINT( 1 ) NOT NULL AFTER `aanbetaling1` ;
+
+15-nov-2013 13:10
+ALTER TABLE `boeking_enquete` ADD `source_leverancier_id` INT(11) DEFAULT 0 AFTER `hash`;
+ALTER TABLE `boeking_enquete` ADD UNIQUE `hash_source_leverancier_id` (`hash`, `source_leverancier_id`), DROP INDEX `hash`;
+
+14-nov-2013 16:00
+ALTER TABLE `boeking_enquete` ADD `hash` CHAR(32) NULL DEFAULT NULL AFTER `omgezet`;
+ALTER TABLE `boeking_enquete` ADD UNIQUE (hash);
+
 12-nov-2013 17:31
 ALTER TABLE `boeking` ADD `factuurdatum_eerste_factuur` DATE NULL DEFAULT NULL AFTER `factuurdatum` ;
 
