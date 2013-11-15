@@ -89,8 +89,8 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 			}
 			$i = 0;
 			foreach($cf as $object) {
-				$obj = serialize((array)$object);
-				$hash = md5($obj);
+
+				$hash = md5(strip_tags($object->asXML()));
 
 				if(isset($existing[$hash])) {
 					// Check if the feedback is alredy imported
