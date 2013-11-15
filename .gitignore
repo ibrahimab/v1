@@ -42,3 +42,5 @@ nbproject/
 #DocData log
 docdata/log/*.log
 
+# ssh-files
+.ssh/
