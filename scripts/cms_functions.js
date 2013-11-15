@@ -757,6 +757,12 @@ $(document).ready(function() {
 		}
 	});
 
+
+	// als aanbetaling1 is vastgezet: vinkje uitzetten bij handmatig wijzigen
+	$("input[name='input[aanbetaling1_gewijzigd]']").change(function(event){
+		$("input[name='input[aanbetaling1_gewijzigd_vastgezet]']").prop("checked", false);
+	});
+
 });
 
 function goedkeuringen_benodigd_uitzetten() {
