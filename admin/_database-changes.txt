@@ -9,6 +9,7 @@ ALTER TABLE `boeking` ADD `aanbetaling1_vastgezet` TINYINT( 1 ) NOT NULL AFTER `
 15-nov-2013 13:10
 ALTER TABLE `boeking_enquete` ADD `source_leverancier_id` INT(11) DEFAULT 0 AFTER `hash`;
 ALTER TABLE `boeking_enquete` ADD UNIQUE `hash_source_leverancier_id` (`hash`, `source_leverancier_id`), DROP INDEX `hash`;
+ALTER TABLE `boeking_enquete` ADD INDEX `boeking_id` (`boeking_id`), DROP INDEX `PRIMARY`;
 
 14-nov-2013 16:00
 ALTER TABLE `boeking_enquete` ADD `hash` CHAR(32) NULL DEFAULT NULL AFTER `omgezet`;
