@@ -114,7 +114,7 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 						if($localservice+$furnishings+$cleanliness+$valueformoney+$totalrating > 0) {
 							// If the votes are valid, insert into the database
 							$q  = "INSERT INTO `boeking_enquete` (`vraag1_1`,`vraag1_2`,`vraag1_3`,`vraag1_4`,`vraag1_5`,`vraag1_6`,`vraag1_7`,`aankomstdatum_exact`,`type_id`,`websitetekst_naam`,`hash`,`source_leverancier_id`,`invulmoment`) ";
-							$q .= "VALUES ('$localservice', '$furnishings', 11, '$cleanliness', 11, '$valueformoney', '$totalrating', '$aankomstdatum_exact', '$type_id', '$customername', '$hash', '$lev', NOW())";
+							$q .= "VALUES ('$localservice', 11, '$furnishings', '$cleanliness', 11, '$valueformoney', '$totalrating', '$aankomstdatum_exact', '$type_id', '$customername', '$hash', '$lev', NOW())";
 							$db2->query($q);
 
 							$i++;
