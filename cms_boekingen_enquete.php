@@ -9,16 +9,18 @@ if($_GET["bid"]) {
 }
 
 if($_GET["controleren"]) {
+	if($_GET["bid"]) {
+		$where_condition = "boeking_id='".intval($_GET["bid"])."'";
+	} elseif($_GET["hash"]){
+		$where_condition = "hash='".addslashes($_GET["hash"])."' AND source_leverancier_id='".addslashes($_GET["lev"])."'";
+	}
+
 	# frm = formname (mag ook wat anders zijn)
 	$form=new form2("frm");
 	$form->settings["fullname"]="beoordelingen";
 	$form->settings["layout"]["css"]=false;
 	$form->settings["db"]["table"]="boeking_enquete";
-	if($_GET["bid"]) {
-		$form->settings["db"]["where"]="boeking_id='".intval($_GET["bid"])."'";
-	} elseif($_GET["hash"]) {
-		$form->settings["db"]["where"]="hash='".addslashes($_GET["hash"])."' AND source_leverancier_id='".addslashes($_GET["lev"])."'";
-	}
+	$form->settings["db"]["where"]=$where_condition;
 	$form->settings["layout"]["stars"]=false;
 
 	$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
@@ -31,7 +33,7 @@ if($_GET["controleren"]) {
 
 #	$form->field_htmlrow("","<b>Bekijk onderstaande enqu&ecirc;te en vul de status in.</b>");
 	$form->field_select(1,"beoordeeld","Status van onderstaande enquête",array("field"=>"beoordeeld"),"",array("selection"=>$vars["enquetestatus"],"allow_0"=>true));
-	$db->query("SELECT vraag1_7, websitetekst FROM boeking_enquete WHERE boeking_id='".addslashes($_GET["bid"])."';");
+	$db->query("SELECT vraag1_7, websitetekst FROM boeking_enquete WHERE ".$where_condition.";");
 	if($db->next_record() and $db->f("websitetekst")<>"") {
 		$form->field_textarea(0,"websitetekst_gewijzigd","Totaaloordeel",array("field"=>"websitetekst_gewijzigd"),"",array("newline"=>true));
 	} else {
@@ -49,14 +51,8 @@ if($_GET["controleren"]) {
 
 	if($form->okay) {
 
-		if($_GET["bid"]) {
-			$where = "boeking_id='".addslashes($_GET["bid"])."'";
-		} elseif($_GET["hash"]) {
-			// Check if it is an Interhome imported review
-			$where = "hash='".addslashes($_GET["hash"])."' AND source_leverancier_id='".addslashes($_GET["lev"])."'";
-		}
 		# Wijzigingen loggen bij boeking
-		$db->query("SELECT beoordeeld, websitetekst_gewijzigd FROM boeking_enquete WHERE ".$where.";");
+		$db->query("SELECT beoordeeld, websitetekst_gewijzigd FROM boeking_enquete WHERE ".$where_condition.";");
 		if($db->next_record()) {
 			if($db->f("beoordeeld")<>$form->input["beoordeeld"]) {
 				chalet_log("status enquête gewijzigd naar: ".$vars["enquetestatus"][$form->input["beoordeeld"]],false,true);
