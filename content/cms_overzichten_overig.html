@@ -672,8 +672,9 @@ if($_GET["t"]==1) {
 		echo "<p>Geen beoordelingen met deze status gevonden.</p>";
 	}
 
+	unset($algehad);
 	// Get Interhome imported customer feedback
-	$db->query("SELECT e.aankomstdatum_exact, e.hash, UNIX_TIMESTAMP(e.invulmoment) AS invulmoment, e.type_id, v.plaats, v.naam, v.wzt, l.naam as lnaam, l.leverancier_id FROM boeking_enquete e, view_accommodatie v, leverancier l WHERE l.leverancier_id=e.source_leverancier_id AND v.type_id=e.type_id AND e.boeking_id=0 AND e.hash <> '' AND e.beoordeeld='0' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 ORDER BY v.wzt, v.plaats, e.aankomstdatum_exact, e.invulmoment");
+	$db->query("SELECT e.aankomstdatum_exact, e.hash, UNIX_TIMESTAMP(e.invulmoment) AS invulmoment, e.type_id, v.plaats, v.naam, v.wzt, l.naam as lnaam, l.leverancier_id FROM boeking_enquete e, view_accommodatie v, leverancier l WHERE l.leverancier_id=e.source_leverancier_id AND v.type_id=e.type_id AND e.boeking_id=0 AND e.hash <> '' AND e.beoordeeld='".addslashes($_GET["enquetestatus"])."' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 ORDER BY v.wzt, v.plaats, e.aankomstdatum_exact, e.invulmoment");
 	if($db->num_rows()) {
 		echo "<ul>";
 			while($db->next_record()) {
