@@ -158,11 +158,8 @@ if($form->okay) {
 				$setquery.=", vraag_ondertekening=0";
 			}
 		}
-		if(!$gegevens["stap1"]["aanbetaling1_vastgezet"]) {
-			$setquery.=", aanbetaling1='".addslashes($gegevens["fin"]["aanbetaling_ongewijzigd"])."'";
-		}
 
-		$setquery.=", factuur_bedrag_wijkt_af=0, totale_reissom='".addslashes($gegevens["fin"]["totale_reissom"])."', mailblokkeren_opties='".addslashes($form->input["mailblokkeren_opties"])."', mailblokkeren_persoonsgegevens='".addslashes($form->input["mailblokkeren_persoonsgegevens"])."', aanmaning_mailblokkeren='".addslashes($form->input["aanmaning_mailblokkeren"])."', mailblokkeren_ontvangenbetaling='".addslashes($form->input["mailblokkeren_ontvangenbetaling"])."', mailblokkeren_klanten_vorig_seizoen='".addslashes($form->input["mailblokkeren_klanten_vorig_seizoen"])."', mailblokkeren_enquete='".addslashes($form->input["mailblokkeren_enquete"])."', pdfplattegrond_nietnodig='".addslashes($form->input["pdfplattegrond_nietnodig"])."'";
+		$setquery.=", factuur_bedrag_wijkt_af=0, aanbetaling1='".addslashes($gegevens["fin"]["aanbetaling_ongewijzigd"])."', totale_reissom='".addslashes($gegevens["fin"]["totale_reissom"])."', mailblokkeren_opties='".addslashes($form->input["mailblokkeren_opties"])."', mailblokkeren_persoonsgegevens='".addslashes($form->input["mailblokkeren_persoonsgegevens"])."', aanmaning_mailblokkeren='".addslashes($form->input["aanmaning_mailblokkeren"])."', mailblokkeren_ontvangenbetaling='".addslashes($form->input["mailblokkeren_ontvangenbetaling"])."', mailblokkeren_klanten_vorig_seizoen='".addslashes($form->input["mailblokkeren_klanten_vorig_seizoen"])."', mailblokkeren_enquete='".addslashes($form->input["mailblokkeren_enquete"])."', pdfplattegrond_nietnodig='".addslashes($form->input["pdfplattegrond_nietnodig"])."'";
 
 		# inkoop bepalen en opslaan in totale_reissom_inkoop
 #		$reissom_tabel=reissom_tabel($gegevens,$gegevens["stap1"]["accinfo"],"",true);
@@ -242,7 +239,7 @@ if($form->okay) {
 		}
 
 		# Tekstvak 2 en 3
-		// $gegevens = factuur_totaals($gegevens);
+		$gegevens = factuur_totaals($gegevens);
 
 		if(!$_POST["alleen_tonen"] and $form->input["factuuraanmaken"]) {
 			$db->query("UPDATE boeking SET factuur_versturen=0, factuur_tewijzigen=0, factuurdatum=FROM_UNIXTIME('".addslashes($factuurdatum)."') WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
@@ -565,52 +562,22 @@ if($form->okay) {
 		$pdf->Cell(190,4,"");
 		$pdf->Ln();
 
-		//
-		// betalingen
-		//
-		$booking_payment = new booking_payment($gegevens);
-		$booking_payment->bereken_aanbetaling_opnieuw=true;
-		$booking_payment->get_amounts();
 
-		if($booking_payment->amount["reedsvoldaan"]<>0) {
-			// reeds voldaan
-			factuur_opties("",$booking_payment->text["reedsvoldaan"],$booking_payment->amount["reedsvoldaan"],"plaintext");
+
+
+		if($gegevens["stap1"]["factuur_tekstvak2"] and $aanbetalen<>0) {
+			factuur_opties("",$gegevens["stap1"]["factuur_tekstvak2"],$aanbetalen,"plaintext");
 			$pdf->Ln(1);
 		}
 
-		if($booking_payment->amount["aanbetaling1"]<>0) {
-			// aanbetaling 1
-			factuur_opties("",$booking_payment->text["aanbetaling1"],$booking_payment->amount["aanbetaling1"],"plaintext");
+		# Aanbetaling 2
+		if($aanbetaling2_factuurtekst and $gegevens["stap1"]["aanbetaling2"]<>0) {
+			factuur_opties("",$aanbetaling2_factuurtekst,$gegevens["stap1"]["aanbetaling2"],"plaintext");
 			$pdf->Ln(1);
 		}
 
-		if($booking_payment->amount["aanbetaling2"]<>0) {
-			// aanbetaling 2
-			factuur_opties("",$booking_payment->text["aanbetaling2"],$booking_payment->amount["aanbetaling2"],"plaintext");
-			$pdf->Ln(1);
-		}
-
-		if($booking_payment->amount["eindbetaling"]<>0) {
-			// aanbetaling 2
-			factuur_opties("",$booking_payment->text["eindbetaling"],abs($booking_payment->amount["eindbetaling"]),"plaintext");
-			$pdf->Ln(1);
-		}
-
-
-		// if($gegevens["stap1"]["factuur_tekstvak2"] and $aanbetalen<>0) {
-		// 	factuur_opties("",$gegevens["stap1"]["factuur_tekstvak2"],$aanbetalen,"plaintext");
-		// 	$pdf->Ln(1);
-		// }
-
-		// # Aanbetaling 2
-		// if($aanbetaling2_factuurtekst and $gegevens["stap1"]["aanbetaling2"]<>0) {
-		// 	factuur_opties("",$aanbetaling2_factuurtekst,$gegevens["stap1"]["aanbetaling2"],"plaintext");
-		// 	$pdf->Ln(1);
-		// }
-
-		// if($restbetalen<>0) factuur_opties("",$gegevens["stap1"]["factuur_tekstvak3"],abs($restbetalen),"plaintext");
-		// $pdf->Ln(1);
-
+		if($restbetalen<>0) factuur_opties("",$gegevens["stap1"]["factuur_tekstvak3"],abs($restbetalen),"plaintext");
+		$pdf->Ln(1);
 		$pdf->Cell(190,4,txt("vermeldresnummer","factuur",array("v_resnummer"=>$gegevens["stap1"]["boekingsnummer"])));
 		$pdf->Ln();
 
@@ -618,7 +585,7 @@ if($form->okay) {
 			$pdf->AddPage();
 		}
 		$pdf->Ln();
-		$pdf->MultiCell(0,4,$booking_payment->text["afsluiting"]);
+		$pdf->MultiCell(0,4,$gegevens["stap1"]["factuur_tekstvak4"]);
 		$pdf->Ln();
 
 		$pdf->Ln();
