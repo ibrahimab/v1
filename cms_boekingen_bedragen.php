@@ -92,11 +92,6 @@ $form->field_currency(0,"reserveringskosten","Reserveringskosten",array("field"=
 #$form->field_noedit("aanbetaling","Aanbetaling","",array("html"=>"&euro;&nbsp;".number_format($gegevens["fin"]["aanbetaling_ongewijzigd"],2,',','.')));
 #$form->field_currency(0,"aanbetaling_gewijzigd","Aanbetaling gewijzigd",array("field"=>"aanbetaling_gewijzigd"));
 $form->field_htmlrow("","<hr><b>Aanbetaling 1</b>");
-
-if($gegevens["stap1"]["aanbetaling1_vastgezet"]) {
-	$form->field_htmlrow("","<i>Deze boeking is al meer dan 15 dagen oud. Het bedrag van aanbetaling 1 is daarom vastgezet. Bij het wijzigen van de boeking zal het aanbetalingsbedrag niet meer automatisch veranderen. Handmatig aanpassen van de aanbetaling kan nog wel.</i>");
-}
-
 $form->field_noedit("aanbetaling1","Bedrag","",array("html"=>"&euro;&nbsp;".number_format($gegevens["fin"]["aanbetaling_ongewijzigd"],2,',','.')));
 $form->field_currency(0,"aanbetaling1_gewijzigd","Gewijzigd bedrag",array("field"=>"aanbetaling1_gewijzigd"));
 $form->field_integer(1,"aanbetaling1_dagennaboeken","Aantal dagen na boeken",array("field"=>"aanbetaling1_dagennaboeken"));

@@ -223,14 +223,6 @@ if($login->logged_in) {
 						if($_GET["bt"]==3 or !$gegevens["stap1"]["bevestigdatum"]) {
 							echo "<a href=\"cms_boeking_oppakken.php?boekingid=".addslashes($gegevens["stap1"]["boekingid"])."\" target=\"_blank\">Deze onafgeronde boeking oppakken &gt; &gt;</a><p>";
 						} else {
-
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	$booking_payment = new booking_payment($gegevens);
-	$booking_payment->get_amounts();
-	echo wt_dump($booking_payment->text);
-	echo wt_dump($booking_payment->amount);
-}
-
 							echo "Wijzigen:<ul>";
 							echo "<li><a href=\"".$bewerk_url."1\">Algemene gegevens</a>";
 #							echo " <font size=1>(status, reserveringsnummer, accommodatie, aantal personen, interne opmerkingen)</font>";

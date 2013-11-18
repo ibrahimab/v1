@@ -9,8 +9,6 @@ class booking_payment {
 	public $gegevens;
 	public $text;
 
-	public $bereken_aanbetaling_opnieuw = false;
-
 	function __construct($gegevens) {
 
 		if($gegevens) {
@@ -18,9 +16,12 @@ class booking_payment {
 		} else {
 			trigger_error("empty \$gegevens parsed to class booking_payment",E_USER_NOTICE);
 		}
+
+		$this->get_amounts();
+
 	}
 
-	public function get_amounts() {
+	private function get_amounts() {
 
 		global $vars;
 
@@ -49,18 +50,14 @@ class booking_payment {
 
 
 		# aantal dagen voor vertrek
-		$datum_weken_voorvertrek_unixtime=mktime(0,0,0,date("m",$this->gegevens["stap1"]["aankomstdatum_exact"]),date("d",$this->gegevens["stap1"]["aankomstdatum_exact"])-$this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$this->gegevens["stap1"]["aankomstdatum_exact"]));
-		$datum_weken_voorvertrek=date("d/m/Y",$datum_weken_voorvertrek_unixtime);
+		$datum_weken_voorvertrek=date("d/m/Y",mktime(0,0,0,date("m",$this->gegevens["stap1"]["aankomstdatum_exact"]),date("d",$this->gegevens["stap1"]["aankomstdatum_exact"])-$this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$this->gegevens["stap1"]["aankomstdatum_exact"])));
 
 		if($this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]%7==0 and $this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]<>7) {
 			$aanbetaling_aantalweken=round($this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]/7);
 		} else {
 			$aanbetaling_aantaldagen=$this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"];
 		}
-		// if($this->gegevens["stap1"]["dagen_voor_vertrek"]>($this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+$this->gegevens["stap1"]["aanbetaling1_dagennaboeken"])) {
-
-		// tot 45 dagen voor aankomst: aanbetaling tonen
-		if($this->gegevens["stap1"]["dagen_voor_vertrek"]>($this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+3)) {
+		if($this->gegevens["stap1"]["dagen_voor_vertrek"]>($this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+$this->gegevens["stap1"]["aanbetaling1_dagennaboeken"])) {
 
 			//
 			// Down payments
@@ -72,11 +69,7 @@ class booking_payment {
 			} else {
 				$this->text["aanbetaling1"]=txt("binnenXdagentevoldoen","factuur",array("v_dagen"=>$aanbetaling1_dagen_over));
 			}
-			if($this->bereken_aanbetaling_opnieuw and !$this->gegevens["stap1"]["aanbetaling1_vastgezet"] and !$this->gegevens["stap1"]["aanbetaling1_gewijzigd"]) {
-				$this->amount["aanbetaling1"]=$this->gegevens["fin"]["aanbetaling_ongewijzigd"];
-			} else {
-				$this->amount["aanbetaling1"]=$this->gegevens["fin"]["aanbetaling"];
-			}
+			$this->amount["aanbetaling1"]=$this->gegevens["fin"]["aanbetaling"];
 
 			if($this->amount["beschikbaar_voor_aanbetalingen"]>=$this->amount["aanbetaling1"]) {
 				$this->amount["aanbetaling1_voldaan"]=$this->amount["aanbetaling1"];
