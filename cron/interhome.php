@@ -83,7 +83,7 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 			}
 
 			// Get aleredy imported feedback's
-			$db->query("SELECT hash, type_id FROM `boeking_enquete` WHERE hash <> '' AND source_leverancier_id='$lev' AND boeking_id = '0'");
+			$db->query("SELECT hash, type_id FROM `boeking_enquete` WHERE hash <> '' AND source_leverancier_id='$lev' AND boeking_id IS NULL");
 			while($db->next_record()) {
 				if(isset($type[$db->f("type_id")])) $existing[$db->f("hash")] = 1;
 			}

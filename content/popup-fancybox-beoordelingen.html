@@ -22,7 +22,7 @@ if($db->next_record()) {
 	}
 
 	// Get Interhome imported customer feedback
-	$db->query("SELECT UNIX_TIMESTAMP(be.aankomstdatum_exact) as aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7, be.hash FROM boeking_enquete be, type t WHERE be.type_id=t.type_id AND be.boeking_id=0 AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY be.aankomstdatum_exact DESC;");
+	$db->query("SELECT UNIX_TIMESTAMP(be.aankomstdatum_exact) as aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7, be.hash FROM boeking_enquete be, type t WHERE be.type_id=t.type_id AND be.boeking_id IS NULL AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY be.aankomstdatum_exact DESC;");
 	while($db->next_record()) {
 		$beoordeling_aantalbeoordelingen=$db->num_rows();
 		$enquete[$db->f("hash")]["aankomstdatum_exact"]=$db->f("aankomstdatum_exact");

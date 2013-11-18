@@ -3,6 +3,11 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+18-nov-2013 15:15
+ALTER TABLE `boeking_enquete` CHANGE `boeking_id` `boeking_id` int(11) NULL FIRST;
+UPDATE `boeking_enquete` SET boeking_id=NULL WHERE boeking_id=0;
+ALTER TABLE `boeking_enquete` ADD UNIQUE `boeking_id` (`boeking_id`), DROP INDEX `boeking_id`;
+
 15-nov-2013 13:15
 ALTER TABLE `boeking` ADD `aanbetaling1_vastgezet` TINYINT( 1 ) NOT NULL AFTER `aanbetaling1` ;
 
