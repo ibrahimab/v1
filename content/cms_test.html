@@ -1,5 +1,35 @@
 <?php
 
+echo "<br/>";
+$show = array(240417, 240414, 240412, 239892);
+
+foreach ($show as $key => $value) {
+	echo "<h1>Booking ".$value."</h1>";
+
+	// make sure $gegevens is filled
+	$gegevens = get_boekinginfo($value);
+
+	// use class booking_payment
+	$booking_payment = new booking_payment($gegevens);
+	$booking_payment->get_amounts();
+
+	// show amounts
+	foreach ($booking_payment->amount as $key2 => $value2) {
+		echo "<ul>";
+
+		// only if amount>0
+		if($value2>0) {
+			echo "<li><b>".$key2."</b>:<ul>";
+			echo "<li>text: ".wt_he($booking_payment->text[$key2])."</li>";
+			echo "<li>amount: ".$value2."</li>";
+			echo "</ul>";
+		}
+		echo "</ul>";
+	}
+
+	echo "<hr>";
+
+}
 
 
 

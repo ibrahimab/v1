@@ -756,7 +756,6 @@ $(document).ready(function() {
 			$("label[for='yesnotonen_in_mijn_boeking']").effect("highlight", {color: "red"}, 3000);
 		}
 	});
-
 });
 
 function goedkeuringen_benodigd_uitzetten() {
