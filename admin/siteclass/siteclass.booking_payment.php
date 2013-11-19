@@ -18,6 +18,11 @@ class booking_payment {
 		} else {
 			trigger_error("empty \$gegevens parsed to class booking_payment",E_USER_NOTICE);
 		}
+
+		if(!$this->gegevens["stap1"]["factuurdatum_eerste_factuur"]) {
+			// when no invoice has been created: use today as first invoice-date
+			$this->gegevens["stap1"]["factuurdatum_eerste_factuur"]=mktime(0,0,0,date("m"),date("d"),date("Y"));
+		}
 	}
 
 	public function get_amounts() {
