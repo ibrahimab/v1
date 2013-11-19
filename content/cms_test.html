@@ -1,9 +1,16 @@
 <?php
 
 echo "<br/>";
-$show_booking = array(237553, 240417, 240414, 240412, 239892);
 
+// example-bookings
+$show_booking = array(237553, 240417, 240414, 240412, 239892, 240419);
+
+// use these fields for Docdata-payments
 $show_fields = array ("aanbetaling1", "aanbetaling2", "totaal");
+// $booking_payment->amount["aanbetaling1"] and $booking_payment->text["aanbetaling1"]
+// $booking_payment->amount["aanbetaling2"] and $booking_payment->text["aanbetaling2"]
+// $booking_payment->amount["totaal"] and $booking_payment->text["totaal"]
+
 
 foreach ($show_booking as $key => $value) {
 	echo "<h1>Booking ".$value."</h1>";
