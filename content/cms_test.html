@@ -1,9 +1,11 @@
 <?php
 
 echo "<br/>";
-$show = array(240417, 240414, 240412, 239892);
+$show_booking = array(237553, 240417, 240414, 240412, 239892);
 
-foreach ($show as $key => $value) {
+$show_fields = array ("aanbetaling1", "aanbetaling2", "totaal");
+
+foreach ($show_booking as $key => $value) {
 	echo "<h1>Booking ".$value."</h1>";
 
 	// make sure $gegevens is filled
@@ -14,14 +16,14 @@ foreach ($show as $key => $value) {
 	$booking_payment->get_amounts();
 
 	// show amounts
-	foreach ($booking_payment->amount as $key2 => $value2) {
+	foreach ($show_fields as $key2 => $value2) {
 		echo "<ul>";
 
 		// only if amount>0
-		if($value2>0) {
-			echo "<li><b>".$key2."</b>:<ul>";
-			echo "<li>text: ".wt_he($booking_payment->text[$key2])."</li>";
-			echo "<li>amount: ".$value2."</li>";
+		if($booking_payment->amount[$value2]>0) {
+			echo "<li><b>".$value2."</b>:<ul>";
+			echo "<li>text: ".wt_he($booking_payment->text[$value2])."</li>";
+			echo "<li>amount: ".$booking_payment->amount[$value2]."</li>";
 			echo "</ul>";
 		}
 		echo "</ul>";
