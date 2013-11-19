@@ -162,6 +162,13 @@ class booking_payment {
 			$this->text["eindbetaling"]=txt("terugteontvangen","factuur");
 		}
 
+		// total amount
+		if($this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"]>0) {
+			$this->text["totaal"]=$this->text["eindbetaling"];
+			$this->amount["totaal"]=$this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"];
+		}
+
+
 		//
 		// extra text on invoice
 		//
