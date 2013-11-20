@@ -288,7 +288,7 @@ class tarieventabel {
 
 
 			// korting
-			if($this->aanbieding_actief) {
+			if($this->aanbieding_actief and ($this->toonkorting_soort_1 or $this->toonkorting_soort_2)) {
 				$return.="<tr><td>";
 				if($this->accinfo["toonper"]==1) {
 					$return.=html("kortingaccommodatie","tarieventabel");
@@ -664,7 +664,7 @@ class tarieventabel {
 		}
 
 		# regel met korting
-		if($this->aanbieding_actief) {
+		if($this->aanbieding_actief and ($this->toonkorting_soort_1 or $this->toonkorting_soort_2)) {
 			$return.="<tr class=\"tarieventabel_korting_tr\">";
 			$kolomteller=0;
 			foreach ($this->dag_van_de_week as $key => $value) {
@@ -745,7 +745,7 @@ class tarieventabel {
 					$return.="<div class=\"tarieventabel_tarieven_div\">";
 
 					if($this->tarief[$key][$key2]>0) {
-						if($this->toonkorting_1[$key2] or $this->toonkorting_2[$key2]) {
+						if($this->toonkorting_1[$key2] or $this->toonkorting_2[$key2] or $this->toonkorting_3[$key2]) {
 							$return.="<div class=\"tarieventabel_tarieven_aanbieding\">";
 						}
 
@@ -756,7 +756,7 @@ class tarieventabel {
 						}
 						$this->tarieven_getoond[$this->week_seizoen_id[$key2]]=true;
 
-						if($this->toonkorting_1[$key2] or $this->toonkorting_2[$key2]) {
+						if($this->toonkorting_1[$key2] or $this->toonkorting_2[$key2] or $this->toonkorting_3[$key2]) {
 							$return.="</div>";
 						}
 					} else {
@@ -821,7 +821,7 @@ class tarieventabel {
 						$te_tonen_bedrag["euro"]=number_format($this->tarief[$key],0,",","");
 					}
 
-					if($this->toonkorting_1[$key] or $this->toonkorting_2[$key]) {
+					if($this->toonkorting_1[$key] or $this->toonkorting_2[$key] or $this->toonkorting_3[$key]) {
 						$return.="<div class=\"tarieventabel_tarieven_aanbieding\"";
 					} else {
 						$return.="<div";
@@ -847,7 +847,7 @@ class tarieventabel {
 
 					$this->tarieven_getoond[$this->week_seizoen_id[$key]]=true;
 
-					// if($this->toonkorting_1[$key] or $this->toonkorting_2[$key]) {
+					// if($this->toonkorting_1[$key] or $this->toonkorting_2[$key] or $this->toonkorting_3[$key]) {
 						$return.="</div>";
 					// }
 				} else {
@@ -1225,10 +1225,16 @@ class tarieventabel {
 					if($db->f("week")>time()) {
 
 						# Aanbiedingskleur
-						if($db->f("aanbiedingskleur")) $aanbiedingskleur[$db->f("week")]=true;
+						// if($db->f("aanbiedingskleur")) {
+						// 	$aanbiedingskleur[$db->f("week")]=true;
+						// }
 
 						if($db->f("aanbiedingskleur_korting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0 or $db->f("aanbieding_skipas_percentage")>0 or $db->f("aanbieding_skipas_euro")>0)) {
-							$aanbiedingskleur[$db->f("week")]=true;
+							// $aanbiedingskleur[$db->f("week")]=true;
+
+							$this->toonkorting_3[$db->f("week")]=true;
+							$this->aanbieding_actief=true;
+
 						}
 
 						if($db->f("toonexactekorting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0)) {
@@ -1363,10 +1369,15 @@ class tarieventabel {
 					if($db->f("week")>time()) {
 
 						// Aanbiedingskleur
-						if($db->f("aanbiedingskleur")) $aanbiedingskleur[$db->f("week")]=true;
+						// if($db->f("aanbiedingskleur")) {
+						// 	$aanbiedingskleur[$db->f("week")]=true;
+						// }
 
 						if($db->f("aanbiedingskleur_korting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0)) {
-							$aanbiedingskleur[$db->f("week")]=true;
+							// $aanbiedingskleur[$db->f("week")]=true;
+
+							$this->toonkorting_3[$db->f("week")]=true;
+							$this->aanbieding_actief=true;
 						}
 
 						if($db->f("toonexactekorting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0)) {
