@@ -31,11 +31,6 @@ if(!$login->logged_in) {
 		// $db->query("UPDATE boeking SET aanbetaling1_vastgezet=1 WHERE aanbetaling1_vastgezet=0 AND factuurdatum_eerste_factuur IS NOT NULL AND factuurdatum_eerste_factuur<='".$vijftien_dagen_geleden."';");
 		// echo $db->lq.": ".$db->affected_rows();
 
-		// aanbetaling1 vastzetten na 15 dagen
-		$vijftien_dagen_geleden = date("Y-m-d", mktime(0,0,0,date("m"), date("d")-15, date("Y")));
-		$db->query("UPDATE boeking SET aanbetaling1_vastgezet=1 WHERE aanbetaling1_vastgezet=0 AND factuurdatum_eerste_factuur IS NOT NULL AND factuurdatum_eerste_factuur<='".$vijftien_dagen_geleden."';");
-		echo $db->lq.": ".$db->affected_rows();
-
 		// // factuurdatum_eerste_factuur bepalen
 		// $db->query("SELECT boeking_id, MIN(datum) AS datum FROM `factuur` GROUP BY boeking_id ORDER BY 2;");
 		// while($db->next_record()) {
