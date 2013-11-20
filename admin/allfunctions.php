@@ -102,7 +102,7 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 		}
 
 
-		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr) or preg_match("/locks exceeds the lock table size/",$errstr) or preg_match("/MySQL server has gone away/",$errstr) or  preg_match("/Lost connection to MySQL server during query/",$errstr)) {
+		if(preg_match("/pconnect/",$errstr) or preg_match("/next_record/",$errstr) or preg_match("/lost mysql connection/",$errstr) or preg_match("/Lock wait timeout exceeded/",$errstr) or preg_match("/locks exceeds the lock table size/",$errstr) or preg_match("/MySQL server has gone away/",$errstr) or  preg_match("/Lost connection to MySQL server during query/",$errstr) or preg_match("/Deadlock found when trying to get lock/")) {
 
 			if($GLOBALS["vars"]["wt_error_handler_mysql_connect_error_hide"]) {
 				// als $vars["wt_error_handler_mysql_connect_error_hide"] aan staat, MySQL-connect-errors niet loggen
