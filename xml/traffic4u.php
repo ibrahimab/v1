@@ -14,6 +14,22 @@
 #
 
 
+/*
+
+URL's or all feeds:
+
+https://chalet.nl/xml/traffic4u.php?feed=accommodaties
+https://chalet.nl/xml/traffic4u.php?feed=bestemmingen
+https://chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen
+https://chalet.nl/xml/traffic4u.php?feed=land-aantal-personen
+https://chalet.nl/xml/traffic4u.php?feed=aantal-personen
+
+https://www.italissima.nl/xml/traffic4u.php?feed=accommodaties
+https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen
+https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen
+
+*/
+
 // minimaal aantal zoekresultaten om een combinatie in de feed op te nemen
 $vars["min_aantal_resultaten_traffic4u"]=3;
 
