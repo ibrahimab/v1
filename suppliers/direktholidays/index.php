@@ -383,32 +383,41 @@ class DirektHolidays {
 		{
 			//we are now using each 'node' as the limit for the new xpath query to search within
 			//Make the queries relative... start them with a dot (e.g. ".//…").
-			$date = $xPath->query(".//td[@class='date']", $node);
-			$price = $xPath->query(".//td[@class='price']", $node);
+			$button = $xPath->query(".//td[@class='button']/div", $node);
 
-			$i = 0;
-			foreach ($date as $detail){
+			$accId = $button->item(0)->getAttribute("id");
+			$id = $button->item(0)->getAttribute("name");
+			$arrival = $button->item(0)->getAttribute("arrival");
+			$duration = $button->item(0)->getAttribute("duration");
+			$d = getdate($arrival);
+			$week = strtotime($d["year"]."-".$d["mon"]."-".$d["mday"]);
 
-				$price = trim(utf8_decode($price->item($i)->nodeValue));
-				$price = preg_replace("/([^0-9])/i", "", $price);
-				$price = round($price/100, 2);
-
-				$date = trim($detail->nodeValue);
-				$date = preg_replace("/([^0-9\.])/i", " ", $date);
-				$date = preg_replace('/\s+/', ' ',$date);
-
-				$date = explode(" ", $date);
-				$week = strtotime($date[0]);
-
-				if($start_date <= $week && $week < $end_date) {
-					$result[$week] = $price;
-				}
-				$i++;
+			if($duration == 604800 && date("w", $arrival) == "6" && $start_date <= $week && $week <= $end_date) {
+				// Create page link
+				$pageLink = $this->_url . "index.php?id=".$id."&L=2&tx_atonfewo_pi4[v_nr]=".$accId."&tx_atonfewo_pi4[arrival]=".$arrival."&tx_atonfewo_pi4[duration]=".$duration;
+				$result[$week] = $this->extractPrice($pageLink);
 			}
 		}
 
-		// Accommodation details
 		return $result;
+	}
+
+	/**
+	 * Extract the price from the Accommodation booking page
+	 *
+	 * @param string $url
+	 * @return float
+	 */
+	private function extractPrice($url) {
+
+		$query = "//div[@id='atonfewo_pi4-checkout']/div[@id='atonfewo_pi4-checkout-tabs']/div[@id='atonfewo_pi4-checkout-tabs-1']/div[@id='atonfewo_pi4-checkout-tabs-1-rightcol']/div[@id='atonfewo_pi4-checkout-tabs-1-rightcol-prices']/table/tr[2]/td[@class='td-1']";
+		$output = $this->execute($url, $query);
+
+		$price = trim(utf8_decode($output->item(0)->nodeValue));
+		$price = preg_replace("/([^0-9])/i", "", $price);
+		$price = round($price/100, 2);
+
+		return $price;
 	}
 
 	/**
