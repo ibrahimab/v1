@@ -47,6 +47,9 @@ while($db->next_record()) {
 	if($db->f("aanbiedingskleur")) $korting[$db->f("type_id")][$db->f("week")]["aanbiedingskleur"]=$db->f("aanbiedingskleur");
 	if($db->f("toon_abpagina")) $korting[$db->f("type_id")][$db->f("week")]["toon_abpagina"]=$db->f("toon_abpagina");
 	if($db->f("toon_als_aanbieding")) $korting[$db->f("type_id")][$db->f("week")]["toon_als_aanbieding"]=$db->f("toon_als_aanbieding");
+
+	// zorgen dat vanaf-prijzen worden doorgerekend
+	$voorraad_gekoppeld->vanaf_prijzen_berekenen($db->f("type_id"));
 }
 
 # kortingen opslaan
@@ -76,10 +79,11 @@ while($db3->next_record()) {
 	if($cron) {
 		echo "Bereken type_id ".$db3->f("type_id")." (seizoen_id ".$db3->f("seizoen_id").")<br>\n";
 		flush();
-
-		$voorraad_gekoppeld->vanaf_prijzen_berekenen($db3->f("type_id"));
-
 	}
+
+	// zorgen dat vanaf-prijzen worden doorgerekend
+	$voorraad_gekoppeld->vanaf_prijzen_berekenen($db3->f("type_id"));
+
 	unset($seizoen,$acc,$skipas);
 	$_GET["tid"]=$db3->f("type_id");
 	$_GET["sid"]=$db3->f("seizoen_id");
