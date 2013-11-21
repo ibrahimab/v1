@@ -31,11 +31,13 @@ class booking_payment {
 
 		$db = new DB_sql;
 
+		$reedsvoldaan=0;
 
 		// determine reeds voldaan
 		$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum FROM boeking_betaling WHERE boeking_id='".intval($this->gegevens["stap1"]["boekingid"])."' ORDER BY datum;");
 		while($db->next_record()) {
 			$reedsvoldaan=round($reedsvoldaan+$db->f("bedrag"),2);
+			$reedsvoldaan_datum[$db->f("datum")]=round($db->f("bedrag"), 2);
 		}
 
 		if($reedsvoldaan>0) {
@@ -46,6 +48,9 @@ class booking_payment {
 			$this->text["reedsvoldaan"]=txt("reedsvoldaan","factuur");
 			$this->amount["reedsvoldaan"]=$reedsvoldaan;
 			$this->amount["beschikbaar_voor_aanbetalingen"]=$reedsvoldaan;
+			$this->payments["reedsvoldaan"]=$reedsvoldaan_datum;
+		} else {
+			$this->amount["reedsvoldaan"]=$reedsvoldaan;
 		}
 
 		// aantal dagen na boeken bepalen

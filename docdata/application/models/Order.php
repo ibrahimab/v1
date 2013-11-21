@@ -1,9 +1,11 @@
 <?php
 
+require_once(SITE_ROOT . DS . "admin" . DS . "siteclass" . DS. "siteclass.booking_payment.php");
+
 class Order extends Model {
 
-	// ADVANCE_PAYMENT and FULL_PAYMENT values are set as enum fields in Dataabse table docdata_payments
-	const ADVANCE_PAYMENT = "advance";
+	const ADVANCE_PAYMENT_1 = "advance1";
+	const ADVANCE_PAYMENT_2 = "advance2";
 	const FULL_PAYMENT = "full";
 
 	public $increment_id = null;
@@ -13,10 +15,10 @@ class Order extends Model {
 	protected $cluster_key = null;
 	protected $order_reference = null;
 
-	private $payment_type = "advance";
+	private $payment_type = "advance1";
 	private $payment_amount = 0;
-	private $table = "boeking"; // Database table name
-        private $docdata_table = "docdata_payments"; // Database table name
+	private $table = "boeking"; // Bookings table name
+	private $docdata_table = "docdata_payments"; // Payments table name
 	private $data = array();
 	private $payment = null;
 
@@ -28,20 +30,22 @@ class Order extends Model {
 		// Get approved (goedgekeurd) orders only
 		if($data["stap1"]["goedgekeurd"] <> 1) return null;
 
+		$acc_name = $data["stap1"]["accinfo"]["begincode"] . $data["stap1"]["accinfo"]["typeid"] . " - " . $data["stap1"]["accinfo"]["naam"];
+
+		$booking_payment = new booking_payment($data);
+		$booking_payment->get_amounts();
+
 		$this->increment_id = htmlspecialchars($data["stap1"]["boekingid"]);
 
 		$this->data[$this->increment_id]['boekingsnummer'] = htmlspecialchars($data["stap1"]["boekingsnummer"]); // Booking number
-		$this->data[$this->increment_id]['totale_reissom'] = htmlspecialchars($data["fin"]["totale_reissom"]); // Grand total
-		$this->data[$this->increment_id]['aanbetaling'] = htmlspecialchars($data["fin"]["aanbetaling"]); // Advance payment #1
 		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"]); // Order status
-		$acc_name = $data["stap1"]["accinfo"]["begincode"] . $data["stap1"]["accinfo"]["typeid"] . " - " . $data["stap1"]["accinfo"]["naam"];
 		$this->data[$this->increment_id]['naam_accommodatie'] = htmlspecialchars($acc_name); // Accommodation name
-		$this->data[$this->increment_id]['aanbetaling1'] = htmlspecialchars($data["stap1"]["aanbetaling1"]); // Advance payment #1
-		$this->data[$this->increment_id]['aanbetaling2'] = htmlspecialchars($data["stap1"]["aanbetaling2"]); // Advance payment #2
-		$this->data[$this->increment_id]['aanbetaling1_gewijzigd'] = htmlspecialchars($data["stap1"]["aanbetaling1_gewijzigd"]); // Advance payment manual entered
-		$this->data[$this->increment_id]['aanbetaling2_datum'] = htmlspecialchars($data["stap1"]["aanbetaling2_datum"]); // Advance payment #2
 		$this->data[$this->increment_id]['website'] = htmlspecialchars($data["stap1"]["website"]); // Booking website code
 		$this->data[$this->increment_id]['taal'] = htmlspecialchars($data["stap1"]["taal"]); // Booking language
+
+		$this->data[$this->increment_id]['totale_reissom'] = $booking_payment->amount["totaal"]; // Final total
+		$this->data[$this->increment_id]['aanbetaling1'] = $booking_payment->amount["aanbetaling1"]; // Advance payment #1
+		$this->data[$this->increment_id]['aanbetaling2'] = $booking_payment->amount["aanbetaling1"]+$booking_payment->amount["aanbetaling2"]; // Advance payment #2
 
 		return $this;
 	}
@@ -54,7 +58,6 @@ class Order extends Model {
 		$this->query($sql);
 
 		if($this->num_rows() == 0) return null;
-
 		$this->next_record();
 
 		$orderId = $this->f("boeking_id");
@@ -64,8 +67,11 @@ class Order extends Model {
 
 		$data = get_boekinginfo($orderId);
 
+		$booking_payment = new booking_payment($data);
+		$booking_payment->get_amounts();
+
 		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"]); // Order status
-		$this->data[$this->increment_id]['totale_reissom'] = htmlspecialchars($data["fin"]["totale_reissom"]); // Grand total
+		$this->data[$this->increment_id]['totale_reissom'] = $booking_payment->amount["total"]; // Final total
 
 		return $this;
 	}
@@ -128,12 +134,9 @@ class Order extends Model {
 
 		if(empty(self::$customer_id)) {
 			$this->getCustomer($this->increment_id);
-
 			$user_id = htmlspecialchars($this->f("user_id"));
-
 			self::$customer_id = $user_id;
-		}
-		else {
+		} else {
 			$user_id = self::$customer_id;
 		}
 
@@ -152,14 +155,20 @@ class Order extends Model {
 	/**
 	 * Amount of the advance payment
 	 *
+	 * @param int $type
 	 * @return float
 	 */
-	public function getAdvancePaymentAmount() {
+	public function getAdvancePaymentAmount($type = 1) {
 
 		$data = $this->data[$this->increment_id];
 
-		$this->payment_type = self::ADVANCE_PAYMENT;
-		$this->payment_amount = $data['aanbetaling'];
+		if($type == 1) {
+			$this->payment_type = self::ADVANCE_PAYMENT_1;
+		} elseif($type == 2) {
+			$this->payment_type = self::ADVANCE_PAYMENT_2;
+		}
+
+		$this->payment_amount = $data['aanbetaling'.$type];
 
 		return $this->payment_amount;
 	}
@@ -203,7 +212,7 @@ class Order extends Model {
 	 * Get order shipping cost amount;
 	 * For the moment is 0.
 	 *
-	 * return int;
+	 * @return int;
 	 */
 	public function getShippingAmount() {
 		return 0;
@@ -213,7 +222,7 @@ class Order extends Model {
 	 * Get the order tax amount;
 	 * For the moment is 0.
 	 *
-	 * return int;
+	 * @return int;
 	 */
 	public function getTaxAmount() {
 		return 0;
@@ -223,7 +232,7 @@ class Order extends Model {
 	 * Get order shipping tax amount;
 	 * For the moment is 0.
 	 *
-	 * return int;
+	 * @return int;
 	 */
 	public function getShippingTaxAmount() {
 		return 0;
@@ -381,18 +390,13 @@ class Order extends Model {
 	 * @return int
 	 */
 	public function getBaseTotalDue() {
-		// Select order total         
-		$order_total = $this->data[$this->increment_id]['totale_reissom'];
-		// Select payments totals
-		$payments_total = App::get('model/payment')->getPayments($this->increment_id);
-                $this->payment_amount = $order_total - $payments_total;
-		$this->payment_type = self::FULL_PAYMENT;                
+        $this->payment_amount = $this->data[$this->increment_id]['totale_reissom'];
+		$this->payment_type = self::FULL_PAYMENT;
 
 		return $this->payment_amount;
 	}
         
 	public function getBaseTotal() {
-		// Select order total         
 		// Select payments totals
 		$payments_total = App::get('model/payment')->getPayments($this->increment_id);
 
@@ -440,8 +444,11 @@ class Order extends Model {
 		if(!$existing_payment) return false;
 
 		switch($request->getParam('payment_type')) {
-			case self::ADVANCE_PAYMENT:
-				$gross_amount = $this->getAdvancePaymentAmount();
+			case self::ADVANCE_PAYMENT_1:
+				$gross_amount = $this->getAdvancePaymentAmount(1);
+				break;
+			case self::ADVANCE_PAYMENT_2:
+				$gross_amount = $this->getAdvancePaymentAmount(2);
 				break;
 			case self::FULL_PAYMENT:
 				$gross_amount = $this->getBaseTotalDue();
