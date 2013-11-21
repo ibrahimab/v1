@@ -11,7 +11,9 @@ class booking_payment {
 
 	public $bereken_aanbetaling_opnieuw = false;
 
-	function __construct($gegevens) {
+	public $bereken_reeds_voldaan = true;
+
+	function __construct($gegevens, $reeds_voldaan=0) {
 
 		if($gegevens) {
 			$this->gegevens = $gegevens;
@@ -22,6 +24,10 @@ class booking_payment {
 		if(!$this->gegevens["stap1"]["factuurdatum_eerste_factuur"]) {
 			// when no invoice has been created: use today as first invoice-date
 			$this->gegevens["stap1"]["factuurdatum_eerste_factuur"]=mktime(0,0,0,date("m"),date("d"),date("Y"));
+		}
+
+		if($reeds_voldaan) {
+			$this->reeds_voldaan = $reeds_voldaan;
 		}
 	}
 
@@ -34,20 +40,24 @@ class booking_payment {
 		$reedsvoldaan=0;
 
 		// determine reeds voldaan
-		$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum FROM boeking_betaling WHERE boeking_id='".intval($this->gegevens["stap1"]["boekingid"])."' ORDER BY datum;");
-		while($db->next_record()) {
-			$reedsvoldaan=round($reedsvoldaan+$db->f("bedrag"),2);
-			$reedsvoldaan_datum[]=array("date" => $db->f("datum"), "amount" => round($db->f("bedrag"), 2));
+		if($this->bereken_reeds_voldaan) {
+			$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum FROM boeking_betaling WHERE boeking_id='".intval($this->gegevens["stap1"]["boekingid"])."' ORDER BY datum;");
+			while($db->next_record()) {
+				$reeds_voldaan=round($reeds_voldaan+$db->f("bedrag"),2);
+				$reedsvoldaan_datum[]=array("date" => $db->f("datum"), "amount" => round($db->f("bedrag"), 2));
+			}
+		} else {
+			$reeds_voldaan=$this->reeds_voldaan;
 		}
 
-		if($reedsvoldaan>0) {
+		if($reeds_voldaan>0) {
 			//
 			// reeds voldaan
 			//
 
 			$this->text["reedsvoldaan"]=txt("reedsvoldaan","factuur");
-			$this->amount["reedsvoldaan"]=$reedsvoldaan;
-			$this->amount["beschikbaar_voor_aanbetalingen"]=$reedsvoldaan;
+			$this->amount["reedsvoldaan"]=$reeds_voldaan;
+			$this->amount["beschikbaar_voor_aanbetalingen"]=$reeds_voldaan;
 			$this->payments["reedsvoldaan"]=$reedsvoldaan_datum;
 		} else {
 			$this->amount["reedsvoldaan"]=$reedsvoldaan;
@@ -58,16 +68,28 @@ class booking_payment {
 		$aanbetaling1_dagen_over=$this->gegevens["stap1"]["aanbetaling1_dagennaboeken"]-$dagennaboeken;
 
 
-		# aantal dagen voor vertrek
-		$datum_weken_voorvertrek_unixtime=mktime(0,0,0,date("m",$this->gegevens["stap1"]["aankomstdatum_exact"]),date("d",$this->gegevens["stap1"]["aankomstdatum_exact"])-$this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$this->gegevens["stap1"]["aankomstdatum_exact"]));
-		$datum_weken_voorvertrek=date("d/m/Y",$datum_weken_voorvertrek_unixtime);
+		// calculate dates
+		$this->date["aanbetaling1"] = mktime(0, 0, 0, date("m", $this->gegevens["stap1"]["factuurdatum_eerste_factuur"]), date("d", $this->gegevens["stap1"]["factuurdatum_eerste_factuur"])+$this->gegevens["stap1"]["aanbetaling1_dagennaboeken"], date("Y",$this->gegevens["stap1"]["factuurdatum_eerste_factuur"]));
+		$this->date["aanbetaling2"] = $this->gegevens["stap1"]["aanbetaling2_datum"];
+		$this->date["eindbetaling"] = mktime(0, 0, 0, date("m",$this->gegevens["stap1"]["aankomstdatum_exact"]), date("d",$this->gegevens["stap1"]["aankomstdatum_exact"])-$this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"], date("Y",$this->gegevens["stap1"]["aankomstdatum_exact"]));
+		if($this->date["aanbetaling1"]>=$this->date["eindbetaling"]) {
+			// if date of aanbetaling1 is after or equal eindbetaling: ask for downpayment 1 day prior to eindbetaling
+			$this->date["aanbetaling1"] = mktime(0, 0, 0, date("m",$this->date["eindbetaling"]), date("d",$this->date["eindbetaling"])-1, date("Y",$this->date["eindbetaling"]));
+		}
 
+// echo date("r", $this->date["eindbetaling"]);
+
+		# aantal dagen/weken voor vertrek
 		if($this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]%7==0 and $this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]<>7) {
 			$aanbetaling_aantalweken=round($this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]/7);
 		} else {
 			$aanbetaling_aantaldagen=$this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"];
 		}
 		// if($this->gegevens["stap1"]["dagen_voor_vertrek"]>($this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+$this->gegevens["stap1"]["aanbetaling1_dagennaboeken"])) {
+
+// echo $aanbetaling_aantaldagen.$aanbetaling_aantalweken;
+
+
 
 		// tot 45 dagen voor aankomst: aanbetaling tonen
 		if($this->gegevens["stap1"]["dagen_voor_vertrek"]>($this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+3)) {
@@ -82,6 +104,8 @@ class booking_payment {
 			} else {
 				$this->text["aanbetaling1"]=txt("binnenXdagentevoldoen","factuur",array("v_dagen"=>$aanbetaling1_dagen_over));
 			}
+
+
 			if($this->bereken_aanbetaling_opnieuw and !$this->gegevens["stap1"]["aanbetaling1_vastgezet"] and !$this->gegevens["stap1"]["aanbetaling1_gewijzigd"]) {
 				$this->amount["aanbetaling1"]=$this->gegevens["fin"]["aanbetaling_ongewijzigd"];
 			} else {
@@ -119,9 +143,9 @@ class booking_payment {
 
 			// final payment
 			if($aanbetaling_aantalweken) {
-				$this->text["eindbetaling"]=txt("uiterlijkXwekenvoorvertrek","factuur",array("v_weken"=>$aanbetaling_aantalweken,"v_datum"=>$datum_weken_voorvertrek));
+				$this->text["eindbetaling"]=txt("uiterlijkXwekenvoorvertrek","factuur",array("v_weken"=>$aanbetaling_aantalweken,"v_datum"=>date("d/m/Y",$this->date["eindbetaling"])));
 			} else {
-				$this->text["eindbetaling"]=txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
+				$this->text["eindbetaling"]=txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>date("d/m/Y",$this->date["eindbetaling"])));
 			}
 			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-($this->amount["aanbetaling1"]+$this->amount["aanbetaling1_voldaan"])-($this->amount["aanbetaling2"]+$this->amount["aanbetaling2_voldaan"])-$this->amount["beschikbaar_voor_aanbetalingen"];
 
@@ -131,9 +155,9 @@ class booking_payment {
 			//
 
 			if($aanbetaling_aantalweken) {
-				$this->text["eindbetaling"]=txt("uiterlijkXwekenvoorvertrek","factuur",array("v_weken"=>$aanbetaling_aantalweken,"v_datum"=>$datum_weken_voorvertrek));
+				$this->text["eindbetaling"]=txt("uiterlijkXwekenvoorvertrek","factuur",array("v_weken"=>$aanbetaling_aantalweken,"v_datum"=>date("d/m/Y",$this->date["eindbetaling"])));
 			} else {
-				$this->text["eindbetaling"]=txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>$datum_weken_voorvertrek));
+				$this->text["eindbetaling"]=txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>date("d/m/Y",$this->date["eindbetaling"])));
 			}
 			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"];
 
@@ -160,6 +184,7 @@ class booking_payment {
 			$this->text["eindbetaling"]=txt("metspoedopdrachttevoldoen","factuur");
 			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"];
 		}
+
 
 		// if($this->gegevens["stap1"]["factuurdatum"] and $this->amount["reedsvoldaan"]<>0) {
 		// 	$this->amount["aanbetaling1"]=$this->amount["reedsvoldaan"];
