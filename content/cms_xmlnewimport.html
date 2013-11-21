@@ -684,13 +684,21 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 							if(!isset($_GET["verborgen"]) && (isset($_POST["filled"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["checkforchanges"]) || isset($_GET["herstel"]))){
 
 								// Get the last dates for each season type (winter=1, summer=2)
-								$q = "SELECT max(eind) AS end, max(begin) as begin, type FROM `seizoen` WHERE type = '".$levinfo["wzt"]."' LIMIT 1";
+								$q = "SELECT max(begin) as begin, type FROM `seizoen` WHERE type = '".$levinfo["wzt"]."' AND eind>NOW() AND tonen=3 LIMIT 1";
 								$db->query($q);
 								$db->next_record();
-
 								$startDate = $db->f("begin");
-								$endDate = $db->f("end");
-								$services[$key] = $interHome->getAdditionalServices($key, $startDate, $endDate);
+								if(strtotime($db->f("begin")) < time()) {
+									$startDate = date("Y-m-d");
+								}
+
+								$services_dates = $interHome->getNearestDate($key, $startDate);
+
+								if(!is_array($services_dates)) {
+									$services_dates = array("", "");
+								}
+
+								$services[$key] = $interHome->getAdditionalServices($key, $services_dates[0], $services_dates[1]);
 							}
 							$counter++;
 						}

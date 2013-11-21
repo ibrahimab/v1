@@ -235,9 +235,12 @@ class Helper_Api_Create extends Helper_Api_Abstract {
 
 		if ($order->getBaseTotalDue() < $order->getGrandTotal()) $payment_type = $order::FULL_PAYMENT;
 		switch($payment_type) {
-			case $order::ADVANCE_PAYMENT:
-				$gross_amount = $order->getAdvancePaymentAmount();
+			case $order::ADVANCE_PAYMENT_1:
+				$gross_amount = $order->getAdvancePaymentAmount(1);
 			break;
+			case $order::ADVANCE_PAYMENT_2:
+				$gross_amount = $order->getAdvancePaymentAmount(2);
+				break;
 			case $order::FULL_PAYMENT:
 				$gross_amount = $order->getBaseTotalDue();
 			break;

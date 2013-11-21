@@ -1,4 +1,6 @@
 <?php
+if(!defined("DS")) define("DS", DIRECTORY_SEPARATOR);
+if(!defined('SITE_ROOT')) define('SITE_ROOT', dirname(dirname(dirname(__FILE__))));
 
 class DirektHolidays {
 
@@ -422,22 +424,30 @@ class DirektHolidays {
 
 	/**
 	 * Performs a CURL request to get the accommodation page including the prices as well
-	 * @param $url
+	 * @param $accURL
 	 * @return mixed
 	 */
-	public function curlPricesRequest($url) {
+	public function curlPricesRequest($accURL) {
+
+		$url = $this->_url . "?eID=ajaxReq";
 
 		$ch = curl_init();
 
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_COOKIE, "fe_typo_user=f269a50d47dbae7a34c0e226bff59643"); // mockup cookie
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($ch,CURLOPT_TIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_COOKIEJAR, SITE_ROOT . DS . "tmp" . DS . "direktholidays_cookies.txt");
+		curl_setopt($ch, CURLOPT_POST, true);
 
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "tx_atonfewo_sv2[type]=0&tx_atonfewo_sv2[searchbox-destination][1]=true&tx_atonfewo_sv2[searchbox-destination][2]=true&tx_atonfewo_sv2[searchbox-destination][3]=true&tx_atonfewo_sv2[searchbox-destination][4]=true&tx_atonfewo_sv2[searchbox-destination][5]=true&tx_atonfewo_sv2[searchbox-destination][6]=true&tx_atonfewo_sv2[searchbox-datechooser-arrival]=&tx_atonfewo_sv2[searchbox-select-duration]=7&tx_atonfewo_sv2[searchbox-select-adults]=2&tx_atonfewo_sv2[searchbox-select-children]=0&tx_atonfewo_sv2[searchbox-checkbox-pet]=false&tx_atonfewo_sv2[searchbox-select-objecttype]=0&tx_atonfewo_sv2[searchbox-checkbox-smoke]=false");
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_exec($ch);
+
+		curl_setopt($ch, CURLOPT_COOKIEFILE, SITE_ROOT . DS . "tmp" . DS . "direktholidays_cookies.txt");
+		curl_setopt($ch, CURLOPT_POST, false);
+
+		curl_setopt($ch, CURLOPT_URL, $accURL);
 		$data = curl_exec($ch);
+
 		curl_close($ch);
 
 		return $data;
