@@ -277,7 +277,7 @@ class wt_mail {
 		$this->settings["imap_8bit"]=true;
 		$this->settings["plaintext_wordwrap"]=true;
 		$this->settings["plaintext_utf8"]=false; # werkt nog niet met attachments!
-		$this->settings["subject_utf8"]=false; # werkt nog niet met attachments!
+		$this->settings["utf8_headers"]=false;
 
 		return true;
 	}
@@ -328,43 +328,49 @@ class wt_mail {
 		}
 	}
 
+	function encode_header($text) {
+
+		//
+		// use correct encoding
+		//
+
+		$return = trim($text);
+
+		if(preg_match("/[^\x20-\x7f]/",$return)) {
+
+			if($this->settings["utf8_headers"]) {
+				if(function_exists(imap_8bit)) {
+					# Quoted-printable
+					$return="=?UTF-8?Q?".str_replace("=\r\n","",preg_replace("/\?/","=3F",imap_8bit($return)))."?=";
+				} else {
+					# Base64
+					$return="=?UTF-8?B?".base64_encode($return)."?=";
+				}
+			} else {
+				if(function_exists(imap_8bit)) {
+					# Quoted-printable
+					$return="=?ISO-8859-1?Q?".str_replace("=\r\n","",preg_replace("/\?/","=3F",imap_8bit($return)))."?=";
+				} else {
+					# Base64
+					$return="=?ISO-8859-1?B?".base64_encode($return)."?=";
+				}
+			}
+		}
+
+		return $return;
+
+	}
+
 	function send() {
 		unset($this->send_to,$this->send_subject,$this->send_plaintext,$this->send_html,$this->send_header,$this->send_body,$this->send_attachment);
 		if($this->toname) {
-			# Bevat toname vreemde karakters?
-			if(eregi("^[a-z0-9[:space:]]*$",$this->toname)) {
-				$this->send_to=trim($this->toname)." <".trim($this->to).">";
-			} else {
-				$this->send_to="\"".trim($this->toname)."\" <".trim($this->to).">";
-			}
+			$this->send_to=$this->encode_header($this->toname)." <".trim($this->to).">";
 		} else {
 			$this->send_to=$this->to;
 		}
 		if($this->subject) {
 			$this->send_subject=ereg_replace("–","-",$this->subject);
-			if($this->settings["subject_utf8"]) {
-				# Controleer op non-ASCII-karakters
-				if(preg_match("/[^\x20-\x7f]/",$this->send_subject)) {
-					if(function_exists(imap_8bit)) {
-						# Quoted-printable
-						$this->send_subject="=?UTF-8?Q?".str_replace("=\r\n","",preg_replace("/\?/","=3F",imap_8bit($this->send_subject)))."?=";
-					} else {
-						# Base64
-						$this->send_subject="=?UTF-8?B?".base64_encode($this->send_subject)."?=";
-					}
-				}
-			} else {
-				# Controleer op non-ASCII-karakters
-				if(ereg("[^\x20-\x7E]",$this->send_subject)) {
-					if(function_exists(imap_8bit)) {
-						# Quoted-printable
-						$this->send_subject="=?ISO-8859-1?Q?".str_replace("=\r\n","",preg_replace("/\?/","=3F",imap_8bit($this->send_subject)))."?=";
-					} else {
-						# Base64
-						$this->send_subject="=?ISO-8859-1?B?".base64_encode($this->send_subject)."?=";
-					}
-				}
-			}
+			$this->send_subject=$this->encode_header($this->send_subject);
 		}
 
 		# Header bepalen
@@ -387,11 +393,8 @@ class wt_mail {
 		if($this->extraheaders) $this->send_header.=$this->extraheaders."\n";
 		if($this->xheaders) $this->send_header.=$this->xheaders."\n";
 
-		# Bevat fromname vreemde karakters?
-		if($this->fromname and eregi("^[a-z0-9[:space:]]*$",$this->fromname)) {
-			$this->send_header.="From: ".$this->fromname." <".$this->from.">";
-		} elseif($this->fromname) {
-			$this->send_header.="From: \"".$this->fromname."\" <".$this->from.">";
+		if($this->fromname) {
+			$this->send_header.="From: ".$this->encode_header($this->fromname)." <".$this->from.">";
 		} else {
 			$this->send_header.="From: ".$this->from;
 		}
@@ -481,9 +484,7 @@ class wt_mail {
 				$this->send_body.="\n--".$boundary0."--\n";
 			} else {
 				# plaintext-mail zonder attachment
-#				$this->send_header.="\nMIME-Version: 1.0\nContent-Type: text/plain; charset=\"iso-8859-15\"\nContent-Transfer-Encoding: 7bit";
 				if($this->settings["plaintext_utf8"]) {
-					// $this->send_header.="\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: quoted-printable";
 					$this->send_header.="\nContent-Type: text/plain; charset=UTF-8";
 				}
 				$this->send_body=$this->send_plaintext;
@@ -1386,7 +1387,7 @@ function wt_has_value($value) {
 function wt_he($text) {
 	global $vars;
 	if($vars["wt_htmlentities_cp1252"]) {
-		$text=htmlentities($text,ENT_COMPAT,cp1252);
+		$text=htmlentities($text,ENT_COMPAT,'cp1252');
 	} elseif($vars["wt_htmlentities_utf8"]) {
 		$text=htmlentities($text,ENT_COMPAT,'UTF-8');
 	} else {
