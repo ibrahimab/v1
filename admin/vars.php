@@ -105,10 +105,14 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	// $db->log_slow_queries_time=.1;
 }
 
-if($_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
-	// log slow queries
-	// $db->log_slow_queries="/var/www/chalet.nl/slow_query.txt";
-	// $db->log_slow_queries_time=.1;
+if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	// // log slow queries
+	// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	// 	$db->log_slow_queries="/tmp/slow_query.txt";
+	// } else {
+	// 	$db->log_slow_queries="/var/www/chalet.nl/slow_query.txt";
+	// }
+	// $db->log_slow_queries_time=0;
 }
 
 // autoloaden van classes
