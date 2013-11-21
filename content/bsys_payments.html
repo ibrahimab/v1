@@ -167,7 +167,7 @@ if($login->logged_in) {
 								if($advance_payment2_amount) {
 									echo "<p>";
 									echo "<input type=\"radio\" name=\"payment_type\" id=\"advance2\" value=\"advance2\" ". $checked2 ." />";
-									echo "<label for=\"advance2\">". html("advance_payment","bsys", array("v_no" => "2 ")) ." (&euro; " . $advance_payment2_amount .")</label><br/>";
+									echo "<label for=\"advance2\">". html("complete_advance_payment","bsys") ." (&euro; " . $advance_payment2_amount .")</label><br/>";
 									echo "&nbsp; &nbsp; <em>" . $advance_payment2_text ."</em>";
 									echo "</p>";
 

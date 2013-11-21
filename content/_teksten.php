@@ -4119,6 +4119,9 @@ $txt["en"]["bsys"]["totaalbedrag"]="Full payment";
 $txt["nl"]["bsys"]["advance_payment"]="Aanbetaling [[v_no]]betalen";
 $txt["en"]["bsys"]["advance_payment"]="Advance payment";
 
+$txt["nl"]["bsys"]["complete_advance_payment"]="Pay complete down-payment";
+$txt["en"]["bsys"]["complete_advance_payment"]="Pay complete down-payment";
+
 $txt["nl"]["bsys"]["full_payment"]="Het totale bedrag betalen";
 $txt["en"]["bsys"]["full_payment"]="Full payment";
 
