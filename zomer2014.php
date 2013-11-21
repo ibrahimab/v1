@@ -25,7 +25,7 @@ if($vars["websitetype"]<>7) {
 }
 
 #
-# seizoen_id van het te tonen seizoen
+# seizoen_id van het te tonen seizoen (ook aanpassen in siteclass.voorraad_gekoppeld)
 #
 $vars["themainfo"]["tarievenbekend_seizoen_id"]=23;
 

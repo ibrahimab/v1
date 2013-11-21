@@ -102,7 +102,20 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1
 # Alle kortingen/aanbiedingen doorrekenen
 #
 if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
+	// $db->query("UPDATE cache_vanafprijs_type SET wis=1 WHERE 1=1;");
 	include($unixdir."cron/tarieven_berekenen.php");
+}
+
+#
+# Calculate vanaf-prijzen
+#
+if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
+	$voorraad_gekoppeld=new voorraad_gekoppeld;
+	$db->query("SELECT type_id FROM view_accommodatie WHERE 1=1;");
+	while($db->next_record()) {
+		$voorraad_gekoppeld->vanaf_prijzen_berekenen($db->f("type_id"));
+	}
+	$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 }
 
 #

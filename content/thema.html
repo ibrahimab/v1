@@ -11,6 +11,7 @@ if($db->next_record()) {
 			$foto[]="themas/".$entry;
 		}
 	}
+
 	if(is_array($foto)) {
 		sort($foto);
 		echo "<table style=\"margin-bottom:10px;\" cellspacing=\"0\" cellpadding=\"0\"><tr>";

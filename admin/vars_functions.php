@@ -3028,6 +3028,7 @@ function voorraad_bijwerken($type_id,$week,$plusmin,$garantie,$allotment,$verval
 
 			// gekoppelde voorraad bijwerken
 			$voorraad_gekoppeld=new voorraad_gekoppeld;
+			$voorraad_gekoppeld->vanaf_prijzen_berekenen($type_id);
 			$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 
 			return $query."\n";

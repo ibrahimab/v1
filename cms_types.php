@@ -615,6 +615,7 @@ function form_before_goto($form) {
 	if($form->input["voorraad_gekoppeld_type_id"]) {
 		// gekoppelde voorraad bijwerken
 		$voorraad_gekoppeld=new voorraad_gekoppeld;
+		$voorraad_gekoppeld->vanaf_prijzen_berekenen($form->input["voorraad_gekoppeld_type_id"]);
 		$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 	}
 

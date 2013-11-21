@@ -926,7 +926,7 @@ while(list($key,$value)=@each($soap_urls)) {
 			$direktHolidays = new DirektHolidays("http://www.direktholidays.at/index.php?id=3&L=2");
 
 			// Get the last dates for each season type (winter=1, summer=2)
-			$q = "SELECT max(eind) AS end, max(begin) as begin, type FROM `seizoen` GROUP BY type";
+			$q = "SELECT max(eind) AS end, max(begin) as begin, type FROM `seizoen` WHERE eind>NOW() AND tonen=3 GROUP BY type";
 			$db->query($q);
 			while($db->next_record()) {
 				$endDate[$db->f("type")] = $db->f("end");
@@ -976,7 +976,7 @@ while(list($key,$value)=@each($soap_urls)) {
 				die();
 			}
 			// Get the last dates for each season type (winter=1, summer=2)
-			$q = "SELECT max(eind) AS end, max(begin) as begin, type FROM `seizoen` GROUP BY type";
+			$q = "SELECT max(eind) AS end, max(begin) as begin, type FROM `seizoen` WHERE eind>NOW() AND tonen=3 GROUP BY type";
 			$db->query($q);
 			while($db->next_record()) {
 				$endDate[$db->f("type")] = $db->f("end");

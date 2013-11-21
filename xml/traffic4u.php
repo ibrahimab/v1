@@ -14,6 +14,22 @@
 #
 
 
+/*
+
+URL's or all feeds:
+
+https://chalet.nl/xml/traffic4u.php?feed=accommodaties
+https://chalet.nl/xml/traffic4u.php?feed=bestemmingen
+https://chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen
+https://chalet.nl/xml/traffic4u.php?feed=land-aantal-personen
+https://chalet.nl/xml/traffic4u.php?feed=aantal-personen
+
+https://www.italissima.nl/xml/traffic4u.php?feed=accommodaties
+https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen
+https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen
+
+*/
+
 // minimaal aantal zoekresultaten om een combinatie in de feed op te nemen
 $vars["min_aantal_resultaten_traffic4u"]=3;
 
@@ -57,9 +73,9 @@ if($_GET["feed"]=="accommodaties") {
 	#
 
 	if($vars["seizoentype"]==1) {
-		echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Soort accommodatie".wt_csvconvert_delimiter."Accommodatienaam".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."Accommodatie-URL".wt_csvconvert_delimiter."Afstand tot de piste".wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter."Klassering\n";
+		echo "Land".wt_csvconvert_delimiter."Skigebied".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Soort accommodatie".wt_csvconvert_delimiter."Accommodatienaam".wt_csvconvert_delimiter."Typenaam".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."Accommodatie-URL".wt_csvconvert_delimiter."Afstand tot de piste".wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter."Klassering\n";
 	} else {
-		echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Soort accommodatie".wt_csvconvert_delimiter."Accommodatienaam".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."Accommodatie-URL".wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter."Klassering\n";
+		echo "Land".wt_csvconvert_delimiter."Regio".wt_csvconvert_delimiter."Plaats".wt_csvconvert_delimiter."Soort accommodatie".wt_csvconvert_delimiter."Accommodatienaam".wt_csvconvert_delimiter."Typenaam".wt_csvconvert_delimiter."Aantal personen".wt_csvconvert_delimiter."Accommodatie-URL".wt_csvconvert_delimiter."Afstand tot restaurant".wt_csvconvert_delimiter."Afstand tot winkels".wt_csvconvert_delimiter."Klassering\n";
 	}
 	$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, t.naam AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra, a.afstandskilift, a.afstandskiliftextra, a.afstandloipe, a.afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, s.skigebied_id, s.naam AS skigebied, l.naam AS land, l.begincode, p.naam AS plaats, p.plaats_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "")." ORDER BY t.type_id".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? " LIMIT 0,10" : "").";");
 	while($db->next_record()) {
@@ -70,8 +86,9 @@ if($_GET["feed"]=="accommodaties") {
 
 			echo wt_csvconvert(utf8_encode(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")]))).wt_csvconvert_delimiter;
 
-			$accnaam=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "");
-			echo wt_csvconvert(utf8_encode($accnaam)).wt_csvconvert_delimiter;
+			// $accnaam=$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "");
+			echo wt_csvconvert(utf8_encode($db->f("naam"))).wt_csvconvert_delimiter;
+			echo wt_csvconvert(utf8_encode($db->f("tnaam"))).wt_csvconvert_delimiter;
 
 			echo wt_csvconvert($i).wt_csvconvert_delimiter;
 			echo wt_csvconvert(utf8_encode($vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/")).wt_csvconvert_delimiter;

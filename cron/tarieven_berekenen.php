@@ -28,6 +28,11 @@ if(!$vars) {
 }
 $vandaag=mktime(0,0,0,date("m"),date("d"),date("Y"));
 
+// zorgen dat vanaf-prijzen worden doorgerekend
+$voorraad_gekoppeld=new voorraad_gekoppeld;
+$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
+
+
 # kortingen uit db halen
 unset($korting);
 $db->query("SELECT k.type_id, k.toonexactekorting, k.aanbiedingskleur, k.toon_abpagina, k.toon_als_aanbieding, kt.week, kt.inkoopkorting_percentage, kt.aanbieding_acc_percentage, kt.aanbieding_skipas_percentage, kt.inkoopkorting_euro, kt.aanbieding_acc_euro, kt.aanbieding_skipas_euro FROM korting k, korting_tarief kt WHERE k.actief=1 AND kt.korting_id=k.korting_id AND UNIX_TIMESTAMP(k.van)<='".$vandaag."' AND UNIX_TIMESTAMP(k.tot)>='".$vandaag."'".($typeid_berekenen_inquery ? " AND k.type_id IN (".$typeid_berekenen_inquery.")" : "").";");
@@ -42,6 +47,9 @@ while($db->next_record()) {
 	if($db->f("aanbiedingskleur")) $korting[$db->f("type_id")][$db->f("week")]["aanbiedingskleur"]=$db->f("aanbiedingskleur");
 	if($db->f("toon_abpagina")) $korting[$db->f("type_id")][$db->f("week")]["toon_abpagina"]=$db->f("toon_abpagina");
 	if($db->f("toon_als_aanbieding")) $korting[$db->f("type_id")][$db->f("week")]["toon_als_aanbieding"]=$db->f("toon_als_aanbieding");
+
+	// zorgen dat vanaf-prijzen worden doorgerekend
+	$voorraad_gekoppeld->vanaf_prijzen_berekenen($db->f("type_id"));
 }
 
 # kortingen opslaan
@@ -72,6 +80,10 @@ while($db3->next_record()) {
 		echo "Bereken type_id ".$db3->f("type_id")." (seizoen_id ".$db3->f("seizoen_id").")<br>\n";
 		flush();
 	}
+
+	// zorgen dat vanaf-prijzen worden doorgerekend
+	$voorraad_gekoppeld->vanaf_prijzen_berekenen($db3->f("type_id"));
+
 	unset($seizoen,$acc,$skipas);
 	$_GET["tid"]=$db3->f("type_id");
 	$_GET["sid"]=$db3->f("seizoen_id");

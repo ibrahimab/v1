@@ -79,52 +79,68 @@ if($login->logged_in) {
 
 			# Init variables
 			$txt_html = array();
-			$aanbetalen = 0; // Advance payment
-			$reedsvoldaan = 0; // Already paid
-			$restbetalen = 0; // Remaining payments
+			$advance_payment1_amount = false;
+			$advance_payment2_amount = false;
 
-			$checked1 = ' checked="checked"';
+			$checked1 = '';
 			$checked2 = '';
+			$checked3 = '';
+
+			// Get the correct payment texts and amounts, as on the invoice
+			$booking_payment = new booking_payment($gegevens);
+			$booking_payment->get_amounts();
 
 			# Get all registered payments
-			$sql = "SELECT type, UNIX_TIMESTAMP(datum) AS datum, bedrag FROM `boeking_betaling` WHERE boeking_id = '" . mysql_real_escape_string($_GET["bid"]) . "'";
-			$db->query($sql);
-			if($db->num_rows() > 0) {
-				while($db->next_record()) {
-					$txt_html[$db->f('datum')] = "<tr><td>". datum("D MAAND JJJJ",$db->f('datum')) ."</td><td align=\"right\">&euro; ". number_format($db->f('bedrag'),2,',','.') ."</td></tr>";
-					$reedsvoldaan=round($reedsvoldaan+$db->f("bedrag"),2);
+			$reedsvoldaan = $booking_payment->amount["reedsvoldaan"];
+
+			if($reedsvoldaan) {
+				foreach($booking_payment->payments["reedsvoldaan"] as $item) {
+					$txt_html[] = "<tr><td>". datum("D MAAND JJJJ",$item["date"]) ."</td><td align=\"right\">&euro; ". number_format($item["amount"],2,',','.') ."</td></tr>";
 				}
 			}
 
-			// Get the correct payment texts, as on the invoice
-			$gegevens = factuur_totaals($gegevens);
+			$advance_payment1_amount_t = 0;
+			if($booking_payment->amount["aanbetaling1"]>0) {
+				# Advance payment 1
+				$advance_payment1_text = $booking_payment->text["aanbetaling1"];
+				$advance_payment1_amount_t = round($booking_payment->amount["aanbetaling1"], 2);
+				$advance_payment1_amount = number_format($advance_payment1_amount_t,2,',','.');
+				$checked1 = ' checked="checked"';
+			}
 
-			// Substract from the total amount the already paid amounts
-			$ramining_payments = round($gegevens["fin"]["totale_reissom"] - $reedsvoldaan, 2);
-
-			# If at least one payment was made, we display only the remaining amount to be paid
-			if(count($txt_html) > 0 && $reedsvoldaan > 0) {
-				$advance_payment = true; // hide advance payment
-				$checked1 = '';
+			if($booking_payment->amount["aanbetaling2"]>0) {
+				# Advance payment 2
+				$advance_payment2_text = $booking_payment->text["aanbetaling2"];
+				$advance_payment2_amount = $advance_payment1_amount_t+round($booking_payment->amount["aanbetaling2"], 2);
+				$advance_payment2_amount = number_format($advance_payment2_amount,2,',','.');
 				$checked2 = ' checked="checked"';
 			}
 
-            # Disable the advance payment if the advance payment date is higher then the full payment date
-            if($gegevens["stap1"]["dagen_voor_vertrek"]<($gegevens["stap1"]["totale_reissom_dagenvooraankomst"]+$gegevens["stap1"]["aanbetaling1_dagennaboeken"])) {
-                $advance_payment = true; // hide advance payment
-            }
+			if(!$advance_payment1_amount && !$advance_payment2_amount) {
+				$hide_advance_payment = true; // hide advance payment
+				$has_multiple_advance_payments = false; // there aren't multiple advance payments
+				$checked1 = '';
+				$checked2 = '';
+				$checked3 = ' checked="checked"';
+			} elseif($advance_payment1_amount && $advance_payment2_amount) {
+				$has_multiple_advance_payments = true; // there aren multiple advance payments
+				$checked1 = ' checked="checked"';
+				$checked2 = '';
+				$checked3 = '';
+			}
 
-			# Advance payment date, it is set by the "factuur_totaals" function
-			$advance_pay_date = $gegevens["stap1"]["factuur_tekstvak2"];
-			# Full payment date, it is set by the "factuur_totaals" function
-			$full_pay_date = $gegevens["stap1"]["factuur_tekstvak3"];
+			if($booking_payment->amount["totaal"]>0) {
+				# Full payment
+				$remaining_payment_text = $booking_payment->text["totaal"];
+				$remaining_payment_amount = round($booking_payment->amount["totaal"], 2);
+			}
 
 			# Switch pages
 			switch ((int)$_GET["menu"]) {
 				#DocData payment form
 				case 1:
 					// Display the form only if there are any amounts due to be paid
-					if($ramining_payments > 0) {
+					if($remaining_payment_amount > 0) {
 						echo "<form method=\"post\" action=\"http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"] . "/docdata/payment/redirect/"."\" name=\"payment\">";
 						echo "<table align=\"center\" class=\"toonacctabel no-border\" style=\"width:100%;\" cellpadding=\"5\">";
 						echo "<tr><th>". html("payment_part","bsys") ."</th><th>". html("payment_method","bsys") ."</th></tr>";
@@ -133,23 +149,40 @@ if($login->logged_in) {
 						echo "<tr><td style=\"vertical-align:top;\">";
 
 							// if no payment was made we display the advanced payment options
-							if(!$advance_payment) {
-								echo "<p>";
-								echo "<input type=\"radio\" name=\"payment_type\" id=\"advance\" value=\"advance\" ". $checked1 ." />";
-								echo "<label for=\"advance\">". html("advance_payment","bsys") ." (&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') .")</label><br/>";
-								echo "&nbsp; &nbsp; <em>" . $advance_pay_date ."</em>";
-								echo "</p>";
+							if(!$hide_advance_payment) {
+
+								if($advance_payment1_amount) {
+									if(!$has_multiple_advance_payments) {
+										$v_no = "";
+									} else {
+										$v_no = "1 ";
+									}
+									echo "<p>";
+									echo "<input type=\"radio\" name=\"payment_type\" id=\"advance1\" value=\"advance1\" ". $checked1 ." />";
+									echo "<label for=\"advance1\">". html("advance_payment","bsys", array("v_no" => $v_no)) ." (&euro; " . $advance_payment1_amount .")</label><br/>";
+									echo "&nbsp; &nbsp; <em>" . $advance_payment1_text ."</em>";
+									echo "</p>";
+								}
+
+								if($advance_payment2_amount) {
+									echo "<p>";
+									echo "<input type=\"radio\" name=\"payment_type\" id=\"advance2\" value=\"advance2\" ". $checked2 ." />";
+									echo "<label for=\"advance2\">". html("complete_advance_payment","bsys") ." (&euro; " . $advance_payment2_amount .")</label><br/>";
+									echo "&nbsp; &nbsp; <em>" . $advance_payment2_text ."</em>";
+									echo "</p>";
+
+								}
 
 								echo "<p>";
-								echo "<input type=\"radio\" name=\"payment_type\" id=\"full\" value=\"full\" ". $checked2 ." />";
-								echo "<label for=\"full\">". html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")</label><br />";
-								echo "&nbsp; &nbsp; <em>" . $full_pay_date ."</em>";
+								echo "<input type=\"radio\" name=\"payment_type\" id=\"full\" value=\"full\" ". $checked3 ." />";
+								echo "<label for=\"full\">". html("full_payment","bsys") ." (&euro; " . number_format($remaining_payment_amount,2,',','.') .")</label><br />";
+								echo "&nbsp; &nbsp; <em>" . $remaining_payment_text ."</em>";
 								echo "</p>";
 							} else {
 								echo "<p>";
 								echo "<input type=\"hidden\" name=\"payment_type\" id=\"full\" value=\"full\" />";
-								echo html("full_payment","bsys") ." (&euro; " . number_format($ramining_payments,2,',','.') .")<br />";
-								echo "<em>" . $full_pay_date ."</em>";
+								echo html("full_payment","bsys") ." (&euro; " . number_format($remaining_payment_amount,2,',','.') .")<br />";
+								echo "<em>" . $remaining_payment_text ."</em>";
 								echo "</p>";
 							}
 
@@ -276,7 +309,6 @@ if($login->logged_in) {
 								echo "<input type=\"hidden\" name=\"country\" value=\"". $gegevens["stap2"]["iso_land"] ."\" />";
 							}
 
-
 						echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" ".wt_he(strtoupper(txt("akkoord","bsys")))." \" id=\"paymentsubmit\"></td></tr>";
 
 						echo "</table>";
@@ -290,19 +322,20 @@ if($login->logged_in) {
 				case 2:
 					echo "<h2>". html("bank_transfer","bsys") ."</h2><br />";
 
-					if($ramining_payments > 0) {
+					if($remaining_payment_amount > 0) {
 
 						$payments_overview = "<table cellpadding=\"0\" cellspacing=\"2\" style=\"width:690px;\">";
 						// if no payment was made we display the advanced payment text
-						if(!$advance_payment) {
-							$payments_overview .= "<tr><td width=\"65%\">" . $advance_pay_date ."</td><td align=\"right\"> &euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
+						if(!$hide_advance_payment) {
+							if($advance_payment1_amount) {
+								$payments_overview .= "<tr><td width=\"65%\">" . $advance_payment1_text ."</td><td align=\"right\"> &euro; " . $advance_payment1_amount ."</td></tr>";
+							}
+							if($advance_payment2_amount) {
+								$payments_overview .= "<tr><td width=\"65%\">" . $advance_payment2_text ."</td><td align=\"right\"> &euro; " . $advance_payment2_amount ."</td></tr>";
+							}
 						}
 
-						if($ramining_payments<>$restbetalen and ($ramining_payments<>$gegevens["fin"]["totale_reissom"] or $advance_payment)) {
-							$restbetalen=$ramining_payments;
-						}
-
-						$payments_overview .= "<tr><td width=\"60%\">" . $full_pay_date ."</td><td align=\"right\"> &euro; " . number_format($restbetalen,2,',','.') ."</td></tr>";
+						$payments_overview .= "<tr><td width=\"60%\">" . $booking_payment->text["eindbetaling"] ."</td><td align=\"right\"> &euro; " . number_format($booking_payment->amount["eindbetaling"],2,',','.') ."</td></tr>";
 						$payments_overview .= "</table>";
 
 						$payments_text = "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
@@ -340,31 +373,31 @@ if($login->logged_in) {
 						echo "<tr><td align=\"right\">". html("total_amount","bsys") .":</td><td align=\"right\">&euro; ". number_format($gegevens["fin"]["totale_reissom"],2,',','.') ."</td></tr>";
 						echo "<tr><td align=\"right\">". html("total_paid","bsys") .":</td><td align=\"right\">&euro; ". number_format(($reedsvoldaan * -1),2,',','.') ."</td></tr>";
 						echo "<tr><td align=\"right\">". html("remaining_payments","bsys") .":";
-						if($ramining_payments > 0) {
-							echo "<br /><em>" . $full_pay_date ."</em>";
+						if($remaining_payment_amount > 0) {
+							echo "<br /><em>" . $remaining_payment_text ."</em>";
 						}
-						echo "</td><td align=\"right\">&euro; ". number_format($ramining_payments,2,',','.') ."</td></tr>";
+						echo "</td><td align=\"right\">&euro; ". number_format($remaining_payment_amount,2,',','.') ."</td></tr>";
 						echo "</table>";
 
-						if($ramining_payments > 0) {
+						if($remaining_payment_amount > 0) {
 							if($txt[$vars["taal"]]["bsys"][$txt_by]) {
 								echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
 							}
 							echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
 						}
 					} else {
-						#echo html("no_payments","bsys");
 						echo "<table cellspacing=\"2\" cellpadding=\"0\">";
 							// if no payment was made we display the advanced payment text
-							if(!$advance_payment) {
-								echo "<tr><td>" . $advance_pay_date ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($gegevens["fin"]["aanbetaling"],2,',','.') ."</td></tr>";
+							if(!$hide_advance_payment) {
+								if($advance_payment1_amount) {
+									echo "<tr><td>" . $advance_payment1_text ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment1_amount ."</td></tr>";
+								}
+								if($advance_payment2_amount) {
+									echo "<tr><td>" . $advance_payment2_text ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment2_amount ."</td></tr>";
+								}
 							}
 
-							if($ramining_payments<>$restbetalen and ($ramining_payments<>$gegevens["fin"]["totale_reissom"] or $advance_payment)) {
-								$restbetalen=$ramining_payments;
-							}
-
-							echo "<tr><td>" . $full_pay_date ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($restbetalen,2,',','.') ."</td></tr>";
+							echo "<tr><td>" . $booking_payment->text["eindbetaling"] ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($booking_payment->amount["eindbetaling"],2,',','.') ."</td></tr>";
 						echo "</table>";
 
 						if($txt[$vars["taal"]]["bsys"][$txt_by]) {

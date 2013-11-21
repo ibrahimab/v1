@@ -3,6 +3,21 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+21-nov-2013 19:20
+DROP TABLE IF EXISTS `cache_vanafprijs_type`;
+CREATE TABLE IF NOT EXISTS `cache_vanafprijs_type` (
+  `type_id` int(11) NOT NULL,
+  `wis` tinyint(1) NOT NULL,
+  `prijs` decimal(10,2) DEFAULT NULL,
+  `prijs_intern` decimal(10,2) DEFAULT NULL,
+  `prijs_wederverkoop` decimal(10,2) DEFAULT NULL,
+  `prijs_wederverkoop_intern` decimal(10,2) DEFAULT NULL,
+  `prijs_nieuw_seizoen` decimal(10,2) DEFAULT NULL,
+  `adddatetime` datetime NOT NULL,
+  `editdatetime` datetime NOT NULL,
+  PRIMARY KEY (`type_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 18-nov-2013 15:15
 ALTER TABLE `boeking_enquete` CHANGE `boeking_id` `boeking_id` int(11) NULL FIRST;
 UPDATE `boeking_enquete` SET boeking_id=NULL WHERE boeking_id=0;

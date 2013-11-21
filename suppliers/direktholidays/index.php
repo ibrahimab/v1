@@ -1,4 +1,6 @@
 <?php
+if(!defined("DS")) define("DS", DIRECTORY_SEPARATOR);
+if(!defined('SITE_ROOT')) define('SITE_ROOT', dirname(dirname(dirname(__FILE__))));
 
 class DirektHolidays {
 
@@ -383,52 +385,69 @@ class DirektHolidays {
 		{
 			//we are now using each 'node' as the limit for the new xpath query to search within
 			//Make the queries relative... start them with a dot (e.g. ".//…").
-			$date = $xPath->query(".//td[@class='date']", $node);
-			$price = $xPath->query(".//td[@class='price']", $node);
+			$button = $xPath->query(".//td[@class='button']/div", $node);
 
-			$i = 0;
-			foreach ($date as $detail){
+			$accId = $button->item(0)->getAttribute("id");
+			$id = $button->item(0)->getAttribute("name");
+			$arrival = $button->item(0)->getAttribute("arrival");
+			$duration = $button->item(0)->getAttribute("duration");
+			$d = getdate($arrival);
+			$week = strtotime($d["year"]."-".$d["mon"]."-".$d["mday"]);
 
-				$price = trim(utf8_decode($price->item($i)->nodeValue));
-				$price = preg_replace("/([^0-9])/i", "", $price);
-				$price = round($price/100, 2);
-
-				$date = trim($detail->nodeValue);
-				$date = preg_replace("/([^0-9\.])/i", " ", $date);
-				$date = preg_replace('/\s+/', ' ',$date);
-
-				$date = explode(" ", $date);
-				$week = strtotime($date[0]);
-
-				if($start_date <= $week && $week < $end_date) {
-					$result[$week] = $price;
-				}
-				$i++;
+			if($duration == 604800 && date("w", $arrival) == "6" && $start_date <= $week && $week <= $end_date) {
+				// Create page link
+				$pageLink = $this->_url . "index.php?id=".$id."&L=2&tx_atonfewo_pi4[v_nr]=".$accId."&tx_atonfewo_pi4[arrival]=".$arrival."&tx_atonfewo_pi4[duration]=".$duration;
+				$result[$week] = $this->extractPrice($pageLink);
 			}
 		}
 
-		// Accommodation details
 		return $result;
 	}
 
 	/**
+	 * Extract the price from the Accommodation booking page
+	 *
+	 * @param string $url
+	 * @return float
+	 */
+	private function extractPrice($url) {
+
+		$query = "//div[@id='atonfewo_pi4-checkout']/div[@id='atonfewo_pi4-checkout-tabs']/div[@id='atonfewo_pi4-checkout-tabs-1']/div[@id='atonfewo_pi4-checkout-tabs-1-rightcol']/div[@id='atonfewo_pi4-checkout-tabs-1-rightcol-prices']/table/tr[2]/td[@class='td-1']";
+		$output = $this->execute($url, $query);
+
+		$price = trim(utf8_decode($output->item(0)->nodeValue));
+		$price = preg_replace("/([^0-9])/i", "", $price);
+		$price = round($price/100, 2);
+
+		return $price;
+	}
+
+	/**
 	 * Performs a CURL request to get the accommodation page including the prices as well
-	 * @param $url
+	 * @param $accURL
 	 * @return mixed
 	 */
-	public function curlPricesRequest($url) {
+	public function curlPricesRequest($accURL) {
+
+		$url = $this->_url . "?eID=ajaxReq";
 
 		$ch = curl_init();
 
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_COOKIE, "fe_typo_user=f269a50d47dbae7a34c0e226bff59643"); // mockup cookie
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-		curl_setopt($ch,CURLOPT_TIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_COOKIEJAR, SITE_ROOT . DS . "tmp" . DS . "direktholidays_cookies.txt");
+		curl_setopt($ch, CURLOPT_POST, true);
 
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "tx_atonfewo_sv2[type]=0&tx_atonfewo_sv2[searchbox-destination][1]=true&tx_atonfewo_sv2[searchbox-destination][2]=true&tx_atonfewo_sv2[searchbox-destination][3]=true&tx_atonfewo_sv2[searchbox-destination][4]=true&tx_atonfewo_sv2[searchbox-destination][5]=true&tx_atonfewo_sv2[searchbox-destination][6]=true&tx_atonfewo_sv2[searchbox-datechooser-arrival]=&tx_atonfewo_sv2[searchbox-select-duration]=7&tx_atonfewo_sv2[searchbox-select-adults]=2&tx_atonfewo_sv2[searchbox-select-children]=0&tx_atonfewo_sv2[searchbox-checkbox-pet]=false&tx_atonfewo_sv2[searchbox-select-objecttype]=0&tx_atonfewo_sv2[searchbox-checkbox-smoke]=false");
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_exec($ch);
+
+		curl_setopt($ch, CURLOPT_COOKIEFILE, SITE_ROOT . DS . "tmp" . DS . "direktholidays_cookies.txt");
+		curl_setopt($ch, CURLOPT_POST, false);
+
+		curl_setopt($ch, CURLOPT_URL, $accURL);
 		$data = curl_exec($ch);
+
 		curl_close($ch);
 
 		return $data;

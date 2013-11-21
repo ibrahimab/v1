@@ -329,7 +329,9 @@ class InterHome extends SoapClass {
 	/**
 	 * The function retrieves all the additional services that can be applied for a specific accommodation
 	 *
-	 * @param null $accCode The accommodation code from Interhome
+	 * @param $accCode The accommodation code from Interhome
+	 * @param string $seasonStart date
+	 * @param string $seasonEnd date
 	 * @return array|null
 	 */
 	public function getAdditionalServices($accCode, $seasonStart = '', $seasonEnd = '') {
@@ -340,7 +342,6 @@ class InterHome extends SoapClass {
 		/************************************
 		 * IHomeServiceAdditional
 		 */
-
 		$params = array(
 			'AccommodationCode' => $accCode,
 			'LanguageCode' 		=> $this->languageCode,
@@ -352,7 +353,6 @@ class InterHome extends SoapClass {
 			'CheckIn' 			=> $seasonStart,
 			'CheckOut' 			=> $seasonEnd
 		);
-
 
 		$ihomeServiceAdditional = new IHomeServiceAdditional($this->wsdl);
 		// Call for IHomeServiceAdditional::AdditionalServices()
@@ -378,11 +378,9 @@ class InterHome extends SoapClass {
 
 					}
 				}
-
 				return $arrServices;
 			}
-		}
-		else {
+		} else {
 			return $ihomeServiceAdditional->getLastError();
 		}
 	}
@@ -837,6 +835,52 @@ class InterHome extends SoapClass {
 			"additional_services" 	=> $txt_additional
 		);
 	}
+
+	/**
+	 * Function gets the first available booking date for an accommodation, starting from a specific date
+	 *
+	 * @param string $accCode
+	 * @param date $checkIn
+	 *
+	 * @return mixed
+	 */
+	public function getNearestDate($accCode, $checkIn) {
+
+		$ihomeServiceNearest = new IHomeServiceNearest($this->wsdl);
+		// Call for IHomeServiceNearest::NearestBookingDate()
+		$params = array(
+			"AccomodationCode" => $accCode,
+			"CheckIn" => $checkIn,
+			"Duration" => 7
+		);
+		$return = null;
+
+		if($ihomeServiceNearest->NearestBookingDate(new IHomeStructNearestBookingDate($params))) {
+			$result = $ihomeServiceNearest->getResult();
+			$data = current($result->getNearestBookingDateResult());
+			if($data->getOk() == 1) {
+				/*
+				State Availability of property
+					- Y = available
+					- N = occupied
+					- Q = on request
+				*/
+				if($data->getState() == "Y" || $data->getState() == "Q") {
+					$min_stay = $data->getMinimumStay();
+					if($min_stay != "0") {
+						$stay = ord($min_stay) - 64;
+						$timestamp = strtotime($data->getCheckIn());
+						$checkOut = date("Y-m-d", strtotime("+".$stay." days", $timestamp));
+						$return = array($data->getCheckIn(), $checkOut);
+					}
+				}
+			}
+			return $return;
+		} else {
+			return $ihomeServiceNearest->getLastError();
+		}
+	}
+
 } #end class
 
 
