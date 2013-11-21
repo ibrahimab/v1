@@ -2,6 +2,24 @@
 
 include("admin/vars.php");
 
+// $mail=new wt_mail;
+// $mail->fromname="Testmailër";
+// $mail->from="test@webtastic.nl";
+// $mail->toname="Jeroën";
+// $mail->to="jeroen@webtastic.nl";
+// $mail->subject="Onderwerp hé ga je?";
+
+// $mail->plaintext="Hallo";
+
+// $mail->html_top="";
+// $mail->html="<B>Hallo</B>";
+// $mail->html_bottom="";
+
+// $mail->send();
+
+// exit;
+
+
 if($_GET["errortest"]) {
 	echo "Errortest has been sent...";
 	sort($empty_test_array);
