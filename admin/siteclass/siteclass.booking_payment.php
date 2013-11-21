@@ -37,7 +37,7 @@ class booking_payment {
 		$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum FROM boeking_betaling WHERE boeking_id='".intval($this->gegevens["stap1"]["boekingid"])."' ORDER BY datum;");
 		while($db->next_record()) {
 			$reedsvoldaan=round($reedsvoldaan+$db->f("bedrag"),2);
-			$reedsvoldaan_datum[$db->f("datum")]=round($db->f("bedrag"), 2);
+			$reedsvoldaan_datum[]=array("date" => $db->f("datum"), "amount" => round($db->f("bedrag"), 2));
 		}
 
 		if($reedsvoldaan>0) {

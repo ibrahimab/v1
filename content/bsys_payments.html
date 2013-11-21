@@ -94,8 +94,8 @@ if($login->logged_in) {
 			$reedsvoldaan = $booking_payment->amount["reedsvoldaan"];
 
 			if($reedsvoldaan) {
-				foreach($booking_payment->payments["reedsvoldaan"] as $date => $amount) {
-					$txt_html[$date] = "<tr><td>". datum("D MAAND JJJJ",$date) ."</td><td align=\"right\">&euro; ". number_format($amount,2,',','.') ."</td></tr>";
+				foreach($booking_payment->payments["reedsvoldaan"] as $item) {
+					$txt_html[] = "<tr><td>". datum("D MAAND JJJJ",$item["date"]) ."</td><td align=\"right\">&euro; ". number_format($item["amount"],2,',','.') ."</td></tr>";
 				}
 			}
 
