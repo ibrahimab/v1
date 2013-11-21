@@ -327,6 +327,7 @@ if($_POST["filled"]) {
 
 	// gekoppelde voorraad bijwerken
 	$voorraad_gekoppeld=new voorraad_gekoppeld;
+	$voorraad_gekoppeld->vanaf_prijzen_berekenen($_GET["tid"]);
 	$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 
 	if($_GET["from"]) {

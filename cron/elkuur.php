@@ -102,6 +102,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1
 # Alle kortingen/aanbiedingen doorrekenen
 #
 if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
+	// $db->query("UPDATE cache_vanafprijs_type SET wis=1 WHERE 1=1;");
 	include($unixdir."cron/tarieven_berekenen.php");
 }
 
