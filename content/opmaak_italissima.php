@@ -750,7 +750,6 @@ __lc.group = <?php echo $regs[1]; ?>;
 
 }
 
-
 echo "</body>";
 echo "</html>";
 

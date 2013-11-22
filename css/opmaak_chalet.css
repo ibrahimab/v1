@@ -125,6 +125,10 @@ form {
 	margin-left: 30px;
 }
 
+#chatblok a {
+	color: #ffffff;
+}
+
 #chatblok img {
 	border: 0;
 }
