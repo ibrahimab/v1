@@ -1000,6 +1000,7 @@ class tarieventabel {
 		}
 		if($bijkomendekosten_table) {
 			if($NU_EVEN_NIET and $optie_pulldown_teller and $bijkomendekosten_afhankelijkvandatum) {
+				// bijkomende kosten die afhankelijk zijn van datum: tijdelijk niet oproepbaar ($NU_EVEN_NIET) per exacte datum. Als er een datum is geselecteerd: dan worden de juist kosten al getoond
 				$return.="<form name=\"bijkomendekostentabel2".$seizoenid."\" method=\"get\" action=\"".$_SERVER["PHP_SELF"]."#prijsinformatie\" style=\"padding:0px;\">";
 				$return.="<h1>".html("bijkomendekosten","toonaccommodatie").":</h1><div class=\"toelichting_onderdeel\">";
 				// $return.=$bijkomendekosten_header2;

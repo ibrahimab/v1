@@ -111,7 +111,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1
 #
 if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
 	$voorraad_gekoppeld=new voorraad_gekoppeld;
-	$db->query("SELECT type_id FROM view_accommodatie WHERE 1=1;");
+	$db->query("SELECT type_id FROM type WHERE 1=1 ORDER BY type_id;");
 	while($db->next_record()) {
 		$voorraad_gekoppeld->vanaf_prijzen_berekenen($db->f("type_id"));
 	}
