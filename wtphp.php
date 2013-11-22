@@ -2,6 +2,38 @@
 
 include("admin/vars.php");
 
+// $mailadres="bjorn@chalet.nl";
+// $naam="Bjorn den Blanken";
+
+// $mailadres="jeroen@webtastic.nl";
+// $naam="Jeroen Boschman";
+
+// $order_number="C12115414";
+
+// echo "Testmail is naar Trustpilot verzonden.<br/><br/>Klantgegevens: [".$order_number."] ".$naam." - ".$mailadres;
+
+// $mail=new wt_mail;
+// $mail->fromname="Italissima.nl";
+// $mail->from="info@italissima.nl";
+
+// // $mail->fromname="Chalet.nl";
+// // $mail->from="info@chalet.nl";
+
+// $mail->to="b69417c8@trustpilotservice.com";
+// // $mail->to="jeroen@webtastic.nl";
+// $mail->subject="Order number ".$order_number;
+
+// $mail->plaintext="Customer Email: ".$mailadres."\n\nCustomer Name: ".$naam."\n\n";
+
+// // $mail->html_top="";
+// // $mail->html="<B>Hallo</B>";
+// // $mail->html_bottom="";
+
+// $mail->send();
+
+// exit;
+
+
 // $mail=new wt_mail;
 // $mail->fromname="Testmailër";
 // $mail->from="test@webtastic.nl";

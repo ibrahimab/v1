@@ -1167,7 +1167,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 			$vanaf_prijzen_tonen=true;
 
-			if(!$_GET["fap"] and !$_GET["fad"]) {
+			if(!$_GET["fap"] and !$_GET["fad"] and !$vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 				if($voorkant_cms) {
 					$prijs_field="prijs_intern";
 				} elseif($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
@@ -1229,7 +1229,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 			$vanaf_prijzen_tonen=true;
 
-			if(!$_GET["fap"] and !$_GET["fad"]) {
+			if(!$_GET["fap"] and !$_GET["fad"] and !$vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 				if($voorkant_cms) {
 					$prijs_field="prijs_intern";
 				} elseif($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
