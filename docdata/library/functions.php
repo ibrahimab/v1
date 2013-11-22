@@ -480,22 +480,27 @@ function docdata_iso_landcode($clientCountry, $websiteCode = "") {
 	if ($websiteCode == "B") {
 		$iso_landcode = "BE";
 	} else {
+		$match_nl = false;
+		$match_en = false;
+
 		# Search for the country code in the countries list
-		if ($clientCountry != '') {
+		if (!empty($clientCountry)) {
 			# Check if the client countries has a special name
 			if (array_key_exists($clientCountry, $customCountriesList)) {
 				$clientCountry = $customCountriesList[$clientCountry];
 			}
-			$matches = preg_grep('/^' . $clientCountry . '$/i', $countriesList["nl"]);
-			if (count($matches) == 0) {
-				$matches = preg_grep('/^' . $clientCountry . '$/i', $countriesList["en"]);
-				if (count($matches) == 0) {
-					$iso_landcode = false;
-				} elseif (count($matches) == 1) {
-					$iso_landcode = key($matches);
+			if (!empty($clientCountry)) {
+				$match_nl = array_search($clientCountry, $countriesList["nl"]);
+				if ($match_nl === false) {
+					$match_en = array_search($clientCountry, $countriesList["en"]);
+					if ($match_en === false) {
+						$iso_landcode = false;
+					} else {
+						$iso_landcode = $match_en;
+					}
+				} else {
+					$iso_landcode = $match_nl;
 				}
-			} elseif (count($matches) == 1) {
-				$iso_landcode = key($matches);
 			}
 		}
 	}

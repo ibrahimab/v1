@@ -738,7 +738,7 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[14]]["xml"]["accommodaties"]) {
 	#
 	# Controle op wijzigingen bij XML-accommodatie-imports
 	#
-	$db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id IN (131);");
+	$db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id IN (131, 421);");
 	if($db->num_rows()) {
 		echo "\n<hr><span><b>Bij de volgende leveranciers zijn gewijzigde XML-gegevens bekend:</b></span><ul>";
 		while($db->next_record()) {

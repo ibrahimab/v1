@@ -52,6 +52,21 @@ if($_POST["factuurakkoord"] and $_POST["goedkeur1"] and $_POST["goedkeur2"]) {
 	# goedkeuring in logbestand plaatsen
 	chalet_log("factuur door de klant goedgekeurd via \"Mijn boeking\"",true,true);
 
+	if($vars["trustpilot_code"]) {
+
+		$mail=new wt_mail;
+		$mail->from=$vars["email"];
+		$mail->fromname=$vars["websitenaam"];
+		$mail->to=$vars["trustpilot_code"];
+		$mail->subject="Order number ".$gegevens["stap1"]["boekingsnummer"];
+		$mail->settings["plaintext_utf8"]=true;
+
+		$mail->plaintext="Customer Email: ".utf8_encode($gegevens["stap2"]["email"])."\n\nCustomer Name: ".utf8_encode(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."\n\n";
+		$mail->send();
+
+		chalet_log("klantgegevens zijn doorgestuurd naar Trustpilot",true,true);
+	}
+
 	header("Location: ".$vars["path"]."bsys.php?menu=3&bid=".intval($_GET["bid"])."&akkoord=1");
 	exit;
 }

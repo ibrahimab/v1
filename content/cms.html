@@ -24,11 +24,88 @@ if(!$login->logged_in) {
 
 	if($login->userlevel==10 and !$_GET["meldingen"]) {
 
-		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
+
+		//
+		// check for differences between old en new "vanaf-prijzen"-system
+		//
+
+		echo "<h1>Controle op nieuwe vanaf-prijzen</h1>";
+
+		# toonper = 1 en 2 (arrangement)
+		$temp_seizoentype="1,2";
+		$db->query("SELECT tp.type_id, MIN(tp.prijs) AS prijs_per_persoon FROM tarief tr, tarief_personen tp, seizoen sz WHERE tr.seizoen_id=sz.seizoen_id AND tp.type_id=tr.type_id AND tp.seizoen_id=sz.seizoen_id AND tp.week=tr.week AND tr.week>".time()." AND sz.tonen=3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND tp.prijs>0 GROUP BY tp.type_id;");
+		while($db->next_record()) {
+			$vanafprijs_12[$db->f("type_id")]=$db->f("prijs_per_persoon");
+		}
+
+		# toonper = 3 (accommodatie)
+		$db->query("SELECT tr.type_id, MIN(tr.c_verkoop_site) AS c_verkoop_site FROM accommodatie a, type t, tarief tr, seizoen sz WHERE a.toonper=3 AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tr.week>".time()." AND sz.tonen=3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 GROUP BY tr.type_id;");
+		while($db->next_record()) {
+			$vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
+		}
+
+		$db->query("SELECT t.type_id, a.toonper, c.prijs AS prijs FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
+		while($db->next_record()) {
+			if($db->f("toonper")==1) {
+				$nieuw_vanafprijs_12[$db->f("type_id")]=$db->f("prijs");
+			} else {
+				$nieuw_vanafprijs_3[$db->f("type_id")]=$db->f("prijs");
+			}
+		}
+
+		foreach ($nieuw_vanafprijs_12 as $key => $value) {
+			if($value>0 and $value<>$vanafprijs_12[$key]) {
+				echo "vanafprijs12 - Andere prijs bij type ".$key.": ".$value."(nieuw) versus ".$vanafprijs_12[$key]." (oud)<br/>";
+			}
+		}
+		foreach ($nieuw_vanafprijs_3 as $key => $value) {
+			if($value>0 and $value<>$vanafprijs_3[$key]) {
+				echo "vanafprijs3 - Andere prijs bij type ".$key.": ".$value."(nieuw) versus ".$vanafprijs_3[$key]." (oud)<br/>";
+			}
+		}
+
+		foreach ($vanafprijs_12 as $key => $value) {
+			if($value>0 and $value<>$vanafprijs_12[$key]) {
+				echo "vanafprijs12 - Andere prijs bij type ".$key.": ".$value."(oud) versus ".$nieuw_vanafprijs_12[$key]." (nieuw)<br/>";
+			}
+		}
+		foreach ($vanafprijs_3 as $key => $value) {
+			if($value>0 and $value<>$vanafprijs_3[$key]) {
+				echo "vanafprijs3 - Andere prijs bij type ".$key.": ".$value."(oud) versus ".$nieuw_vanafprijs_3[$key]." (nieuw)<br/>";
+			}
+		}
+
+		//
+		// wederverkoop
+		//
+		unset($vanafprijs_3,$nieuw_vanafprijs_3);
+		$db->query("SELECT tr.type_id, MIN(tr.wederverkoop_verkoopprijs) AS wederverkoop_verkoopprijs FROM accommodatie a, type t, tarief tr, seizoen sz WHERE (a.toonper=1 OR a.toonper=3) AND tr.type_id=t.type_id AND tr.seizoen_id=sz.seizoen_id AND tr.blokkeren_wederverkoop=0 AND tr.week>".time()." AND sz.tonen=3 AND sz.type IN (".$temp_seizoentype.") AND tr.beschikbaar=1 AND (tr.bruto>0 OR tr.c_bruto>0 OR tr.arrangementsprijs>0) AND t.accommodatie_id=a.accommodatie_id AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 GROUP BY tr.type_id;");
+		while($db->next_record()) {
+			$vanafprijs_3[$db->f("type_id")]=$db->f("wederverkoop_verkoopprijs");
+		}
+
+		$db->query("SELECT t.type_id, a.toonper, c.prijs_wederverkoop AS prijs FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
+		while($db->next_record()) {
+			$nieuw_vanafprijs_3[$db->f("type_id")]=$db->f("prijs");
+		}
+
+		foreach ($nieuw_vanafprijs_3 as $key => $value) {
+			if($value>0 and $value<>$vanafprijs_3[$key]) {
+				echo "vanafprijs3-wederverkoop - Andere prijs bij type ".$key.": ".$value."(nieuw) versus ".$vanafprijs_3[$key]." (oud)<br/>";
+			}
+		}
+		foreach ($vanafprijs_3 as $key => $value) {
+			if($value>0 and $value<>$vanafprijs_3[$key]) {
+				echo "vanafprijs3-wederverkoop - Andere prijs bij type ".$key.": ".$value."(oud) versus ".$nieuw_vanafprijs_3[$key]." (nieuw)<br/>";
+			}
+		}
+
 
 
 		// $voorraad_gekoppeld=new voorraad_gekoppeld;
-		// $db->query("SELECT type_id FROM view_accommodatie WHERE 1=1;");
+		// $voorraad_gekoppeld=new voorraad_gekoppeld;
+		// $db->query("SELECT type_id FROM type WHERE 1=1 ORDER BY type_id;");
 		// while($db->next_record()) {
 		// 	$voorraad_gekoppeld->vanaf_prijzen_berekenen($db->f("type_id"));
 		// }

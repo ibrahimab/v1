@@ -10,10 +10,6 @@ $checkfile = "/var/www/chalet.nl/html_test/tmp/git-autopull-acceptance-test.txt"
 
 if($argv[1]=="cron") {
 
-	if($argv[2]=="sleep") {
-		sleep(30);
-	}
-
 	if(file_exists($checkfile)) {
 		unlink($checkfile);
 		passthru("cd /var/www/chalet.nl/html_test/;git fetch origin;git reset --hard origin/acceptance-test");
