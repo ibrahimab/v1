@@ -158,6 +158,10 @@ form {
 	margin-left: 26px;
 }
 
+#chatblok a {
+	color: #ffffff;
+}
+
 #telefoonblok:hover, .livechat_button:hover {
 	opacity: .7;
 }
