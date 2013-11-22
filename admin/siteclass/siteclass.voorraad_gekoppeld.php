@@ -73,7 +73,14 @@ class voorraad_gekoppeld {
 
 		// nog doen: nieuw seizoen wel/niet opnemen: $vars["themainfo"]["tarievenbekend_seizoen_id"]
 
-		if($GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"]) {
+		if(is_array($GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"])) {
+
+
+			$inquery=",0";
+			foreach ($GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"] as $key => $value) {
+				$inquery.=",".$key;
+			}
+			$inquery=substr($inquery,1);
 
 
 			// $start_time=microtime(true);
@@ -89,14 +96,14 @@ class voorraad_gekoppeld {
 
 
 			// check for verzameltypes
-			$db->query("SELECT DISTINCT verzameltype_parent FROM type WHERE verzameltype_parent IS NOT NULL AND type_id IN (".substr($GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"],1).");");
+			$db->query("SELECT DISTINCT verzameltype_parent FROM type WHERE verzameltype_parent IS NOT NULL AND type_id IN (".$inquery.");");
 			while($db->next_record()) {
 				$GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"].=",".$db->f("verzameltype_parent");
 			}
 
 
-			$db->query("UPDATE cache_vanafprijs_type SET wis=1 WHERE type_id IN (".substr($GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"],1).");");
-			$db->query("SELECT type_id, toonper, wzt FROM view_accommodatie WHERE type_id IN (".substr($GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"],1).");");
+			$db->query("UPDATE cache_vanafprijs_type SET wis=1 WHERE type_id IN (".$inquery.");");
+			$db->query("SELECT type_id, toonper, wzt FROM view_accommodatie WHERE type_id IN (".$inquery.");");
 			while($db->next_record()) {
 				unset($prijs, $update);
 				if($db->f("toonper")==1) {
@@ -166,7 +173,8 @@ class voorraad_gekoppeld {
 				// echo $db2->lq."<br>";
 
 			}
-			$db->query("DELETE FROM cache_vanafprijs_type WHERE wis=1 AND type_id IN (".substr($GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"],1).");");
+			$db->query("DELETE FROM cache_vanafprijs_type WHERE wis=1 AND type_id IN (".$inquery.");");
+			// echo $db->lq."<br>";
 
 			// $query_time=microtime(true)-$start_time;
 			// echo "Time:".$query_time;
@@ -175,7 +183,7 @@ class voorraad_gekoppeld {
 	}
 
 	public function vanaf_prijzen_berekenen($type_id) {
-		$GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"].=",".intval($type_id);
+		$GLOBALS["class_voorraad_gekoppeld_vanaf_prijzen_types"][intval($type_id)]=true;
 	}
 
 	public function koppeling_uitvoeren_na_einde_script() {
