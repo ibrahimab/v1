@@ -63,6 +63,9 @@ $cron=true;
 include($unixdir."admin/vars.php");
 include($unixdir."admin/vars_xmlimport.php");
 
+// make it possible to calculate the changed "vanaf"-prices
+$voorraad_gekoppeld=new voorraad_gekoppeld;
+$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 
 #
 # Vaste run, of handmatig gestarte run via https://www.chalet.nl/cms_diversen.php?t=3?
@@ -1891,6 +1894,9 @@ while(list($key,$value)=@each($beschikbaar)) {
 						if(!$db->f("beschikbaar")) {
 							$mailtxt[$key."_".$wzt[$key2]].=ereg_replace("_SEIZOEN_ID_",$db->f("seizoen_id"),$type_namen[$key2])." ".date("d-m-Y",$databaseweek).": van <i>niet beschikbaar</i> naar <i>beschikbaar</i><br>\n";
 							$wijzig_beschikbaar=1;
+
+							// re-calculate "vanaf"-prices
+							$voorraad_gekoppeld->vanaf_prijzen_berekenen($key2);
 						}
 
 					} else {
@@ -1898,6 +1904,9 @@ while(list($key,$value)=@each($beschikbaar)) {
 						if($db->f("beschikbaar")) {
 							$mailtxt[$key."_".$wzt[$key2]].=ereg_replace("_SEIZOEN_ID_",$db->f("seizoen_id"),$type_namen[$key2])." ".date("d-m-Y",$databaseweek).": van <i>beschikbaar</i> naar <i>niet beschikbaar</i><br>\n";
 							$wijzig_beschikbaar=2;
+
+							// re-calculate "vanaf"-prices
+							$voorraad_gekoppeld->vanaf_prijzen_berekenen($key2);
 						}
 					}
 				} else {
@@ -1955,12 +1964,18 @@ while(list($key,$value)=@each($aantal_beschikbaar)) {
 							if(!$db->f("beschikbaar")) {
 								$mailtxt[$key."_".$wzt[$key2]].=ereg_replace("_SEIZOEN_ID_",$db->f("seizoen_id"),$type_namen[$key2])." ".date("d-m-Y",$databaseweek).": van <i>niet beschikbaar</i> naar <i>beschikbaar</i><br>\n";
 								$wijzig_beschikbaar=1;
+
+								// re-calculate "vanaf"-prices
+								$voorraad_gekoppeld->vanaf_prijzen_berekenen($key2);
 							}
 						} else {
 							$tempbeschikbaar=0;
 							if($db->f("beschikbaar")) {
 								$mailtxt[$key."_".$wzt[$key2]].=ereg_replace("_SEIZOEN_ID_",$db->f("seizoen_id"),$type_namen[$key2])." ".date("d-m-Y",$databaseweek).": van <i>beschikbaar</i> naar <i>niet beschikbaar</i><br>\n";
 								$wijzig_beschikbaar=2;
+
+								// re-calculate "vanaf"-prices
+								$voorraad_gekoppeld->vanaf_prijzen_berekenen($key2);
 							}
 						}
 					} else {

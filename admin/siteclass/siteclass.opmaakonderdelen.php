@@ -16,7 +16,7 @@ class opmaakonderdelen {
 		global $vars, $voorkant_cms, $login;
 
 
-		if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or $vars["lokale_testserverNU_EVEN_NIET"] or ($voorkant_cms and ($login->user_id==15 or $login->user_id==26)))) {
+		if($vars["cookiemelding_tonen"] and $vars["websiteland"]=="nl" and (!$_COOKIE["cookiemelding_gelezen"] or ($voorkant_cms and ($login->user_id==15 or $login->user_id==26)))) {
 			$this->toon_cookiebalk=true;
 		} else {
 			$this->toon_cookiebalk=false;

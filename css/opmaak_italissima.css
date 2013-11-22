@@ -117,12 +117,13 @@ form {
 
 #telefoonblok {
 	position: absolute;
-	top: 239px;
-	margin-left: 10px;
-	width: 196px;
+	top: 226px;
+	margin-left: 26px;
+	width: 170px;
 	padding: 2px;
 	background-color: #ff9900;
 	color: #661700;
+	width: 166px;
 }
 
 .telefoonblokhover {
@@ -136,8 +137,8 @@ form {
 }
 
 #telefoonblok_nummer img {
-	margin-left: 18px;
-	margin-right: 10px;
+	margin-left: 0px;
+	margin-right: 5px;
 }
 
 #telefoonblok_open {
@@ -146,6 +147,45 @@ form {
 	font-size: 0.7em;
 	text-align: center;
 }
+
+/**/
+/*LiveChat chatbutton*/
+/**/
+
+#chatblok {
+	position: absolute;
+	top: 274px;
+	margin-left: 26px;
+}
+
+#chatblok a {
+	color: #ffffff;
+}
+
+#telefoonblok:hover, .livechat_button:hover {
+	opacity: .7;
+}
+
+#chatblok img {
+	border: 0;
+}
+
+#zoekenboek_leeg {
+	margin-bottom: 25px;
+}
+
+#zoekenboek_overlay {
+	margin-top: 25px;
+}
+
+#toonaccommodatie_foto {
+	margin-top: 22px;
+	margin-bottom: -16px;
+}
+
+
+
+
 
 #bekekenbewaard {
 	margin-left: 30px;

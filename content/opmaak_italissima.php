@@ -453,6 +453,14 @@ if(!$vars["verberg_linkerkolom"] and (!$vars["verberg_linkerkolom"] or $id=="too
 	echo "<div id=\"telefoonblok_nummer\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_italissima.gif\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
+
+	if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
+		# chat-blok
+		echo "<div id=\"chatblok\" class=\"noprint\">";
+		echo "<div data-id=\"".wt_he($regs[2])."\" class=\"livechat_button\"><a href=\"http://www.livechatinc.com/\">live chat software</a></div>";
+		echo "</div>"; # afsluiten chatblok
+	}
+
 }
 
 # breadcrumbs
@@ -719,6 +727,27 @@ if($opmaak->toon_cookiebalk()) {
 # Balk met opvallende melding
 if($vars["opvalmelding_tonen"] and (!$_COOKIE["opvalmelding_gelezen"] or $vars["lokale_testserver"])) {
 	echo "<div id=\"opval_bottombar\" class=\"noprint\"><div id=\"opval_bottombar_wrapper\"><div id=\"opval_bottombar_text\">".nl2br(html("opvalmelding","vars",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">","h_2"=>"</a>","v_email"=>$vars["email"])))."</div><div id=\"opval_bottombar_close\">&nbsp;</div></div></div>";
+}
+
+if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
+	#
+	# Chatsysteem
+	#
+
+	?>
+<script type="text/javascript">
+var __lc = {};
+__lc.license = 2618611;
+__lc.group = <?php echo $regs[1]; ?>;
+
+(function() {
+	var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+	lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+})();
+</script>
+<?php
+
 }
 
 echo "</body>";
