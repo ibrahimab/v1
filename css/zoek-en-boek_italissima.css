@@ -19,8 +19,8 @@
 	border-top-color: #ff9900;
 }
 
-#telefoonblok {
-	margin-left: 21px;
+#telefoonblok, #chatblok {
+	margin-left: 37px;
 }
 
 #bloklinks {
