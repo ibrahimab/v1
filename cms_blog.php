@@ -87,6 +87,9 @@ if($_GET["websitetype"]==7) {
 	$cms->edit_field(44,0,"homepage_titel","Titel");
 	$cms->edit_field(44,0,"homepage_inleiding","Inleidende tekst");
 	$cms->edit_field(44,1,"homepage_afbeelding","Afbeelding","",array("autoresize"=>true,"img_width"=>"148","img_maxheight"=>"99"));
+} else {
+	$cms->edit_field(44,0,"htmlrow","<hr>");
+	$cms->edit_field(44,1,"homepage_afbeelding","Afbeelding voor overzichtspagina","",array("autoresize"=>true,"img_width"=>"148","img_maxheight"=>"99"));
 }
 
 
