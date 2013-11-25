@@ -1,5 +1,5 @@
 User-agent: *
-Crawl-delay: 20
+Crawl-delay: 10
 Disallow: /404.php
 Disallow: /tradetracker/
 Disallow: /pdf/
