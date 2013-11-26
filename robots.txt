@@ -1,6 +1,8 @@
 User-agent: *
+Crawl-delay: 10
 Disallow: /404.php
 Disallow: /tradetracker/
+Disallow: tradetracker
 Disallow: /pdf/
 Disallow: /xml/
 Disallow: /cms/
@@ -16,33 +18,128 @@ Disallow: /calc.php
 Disallow: /popup.php
 Disallow: /popup_fancybox.php
 Disallow: /print.php
-Disallow: /*/*/?back*
-Disallow: /*?backtypeid=*
-Disallow: /zoek-en-boek.php*filled=1*fap=*
-Disallow: /zoek-en-boek.php*&vf_*
-Disallow: /zoek-en-boek.php*filled=1*fzt=*
-Disallow: /zoek-en-boek.php*?z=*
-Disallow: /zoek-en-boek.php*&z=*
-Disallow: /aanbiedingen.php*filled=1*fap=*
-Disallow: /aanbiedingen.php*&vf_*
-Disallow: /aanbiedingen.php*filled=1*fzt=*
-Disallow: /aanbiedingen.php*?z=*
-Disallow: /aanbiedingen.php*&z=*
-Disallow: /search-and-book.php*filled=1*fap=*
-Disallow: /search-and-book.php*&vf_*
-Disallow: /search-and-book.php*filled=1*fzt=*
-Disallow: /search-and-book.php*?z=*
-Disallow: /search-and-book.php*&z=*
-Disallow: /special_offers.php*filled=1*fap=*
-Disallow: /special_offers.php*&vf_*
-Disallow: /special_offers.php*filled=1*fzt=*
-Disallow: /special_offers.php*?z=*
-Disallow: /special_offers.php*&z=*
+Disallow: /*/*/?back
+Disallow: /*?backtypeid=
+Disallow: /zoek-en-boek.php*filled=1*fap=
+Disallow: /zoek-en-boek.php*&vf_
+Disallow: /zoek-en-boek.php*filled=1*fzt=
+Disallow: /zoek-en-boek.php*?z=
+Disallow: /zoek-en-boek.php*&z=
+Disallow: /aanbiedingen.php*filled=1*fap=
+Disallow: /aanbiedingen.php*&vf_
+Disallow: /aanbiedingen.php*filled=1*fzt=
+Disallow: /aanbiedingen.php*?z=
+Disallow: /aanbiedingen.php*&z=
+Disallow: /search-and-book.php*filled=1*fap=
+Disallow: /search-and-book.php*&vf_
+Disallow: /search-and-book.php*filled=1*fzt=
+Disallow: /search-and-book.php*?z=
+Disallow: /search-and-book.php*&z=
+Disallow: /special_offers.php*filled=1*fap=
+Disallow: /special_offers.php*&vf_
+Disallow: /special_offers.php*filled=1*fzt=
+Disallow: /special_offers.php*?z=
+Disallow: /special_offers.php*&z=
 Disallow: /thema/*filled=1
 Disallow: /theme/*filled=1
 Disallow: /*toonflex=1
 Disallow: test*
-
+Disallow: /*?accid=
+Disallow: /*?cache=
+Disallow: /*?thema=
+Disallow: /*?network=
+Disallow: /*?filled=1
+Disallow: /*&filled=1
 
 User-agent: 008
+Disallow: /
+
+User-agent: panscient.com
+Disallow: /
+
+User-agent: vscooter
+Disallow: /
+
+User-agent: psbot
+Disallow: /
+
+User-agent: ia_archiver
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: twiceler
+Disallow: /
+
+User-agent: Yandex
+Disallow: /
+
+User-agent: taptubot
+Disallow: /
+
+User-agent: TwengaBot
+Disallow: /
+
+User-agent: sitebot
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: Ezooms
+Disallow: /
+
+User-agent: sistrix
+Disallow: /
+
+User-agent: aiHitBot
+Disallow: /
+
+User-agent: InfoPath
+Disallow: /
+
+User-agent: InfoPath.2
+Disallow: /
+
+User-agent: swebot
+Disallow: /
+
+User-agent: EC2LinkFinder
+Disallow: /
+
+User-agent: TurnitinBot
+Disallow: /
+
+User-agent: SearchmetericsBot
+Disallow: /
+
+User-agent: WBSearchBot
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: Sosospider
+Disallow: /
+
+User-agent: ip-web-crawler.com
+Disallow: /
+
+User-agent: netEstate NE Crawler
+Disallow: /
+
+User-agent: Aboundexbot
+Disallow: /
+
+User-agent: meanpathbot
+Disallow: /
+
+User-agent: Mail.Ru
+Disallow: /
+
+User-agent: spbot
 Disallow: /

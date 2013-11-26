@@ -59,9 +59,16 @@ if($_POST["factuurakkoord"] and $_POST["goedkeur1"] and $_POST["goedkeur2"]) {
 		$mail->fromname=$vars["websitenaam"];
 		$mail->to=$vars["trustpilot_code"];
 		$mail->subject="Order number ".$gegevens["stap1"]["boekingsnummer"];
-		$mail->settings["plaintext_utf8"]=true;
+		// $mail->settings["plaintext_utf8"]=true;
 
-		$mail->plaintext="Customer Email: ".utf8_encode($gegevens["stap2"]["email"])."\n\nCustomer Name: ".utf8_encode(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."\n\n";
+		// $mail->plaintext="Customer Email: ".utf8_encode($gegevens["stap2"]["email"])."\n\nCustomer Name: ".utf8_encode(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."\n\n";
+
+		$mail->html="<!--
+		tp_lang: nl-NL
+		tp_tld: nl
+		-->
+		Customer Email: ".wt_he($gegevens["stap2"]["email"])."<br/>\nCustomer Name: ".wt_he(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."<br/>\n";
+
 		$mail->send();
 
 		chalet_log("klantgegevens zijn doorgestuurd naar Trustpilot",true,true);

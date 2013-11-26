@@ -3573,8 +3573,11 @@ if($resultaten_tonen) {
 			$temp_qs=ereg_replace("&scrolly=[0-9]{1,}","",$temp_qs);
 			$temp_qs=ereg_replace("\?scrolly=[0-9]{1,}&","?",$temp_qs);
 			$temp_qs=ereg_replace("\?scrolly=[0-9]{1,}$","",$temp_qs);
+			$temp_qs=ereg_replace("scrolly=[0-9]{1,}","",$temp_qs);
+			$temp_qs=ereg_replace("thema=[a-zA-Z0-9-]{1,}","",$temp_qs);
+			if(substr($temp_qs,0,1)=="&") $temp_qs=substr($temp_qs,1);
 
-			$zoekurl="<a href=\"".$urlself."?".$temp_qs."&page=";
+			$zoekurl="<a href=\"".$urlself."?".($temp_qs ? $temp_qs."&" : "")."page=";
 
 			echo "<div class=\"zoekresultaten_paginas_nummers\">";
 
@@ -3779,7 +3782,9 @@ if($vars["verfijnen_aanbieden"]) {
 }
 
 // pageload-time bepalen
-echo "<div class=\"data-div\" id=\"page_load_time\" data-time=\"".number_format(microtime(true)-$vars["page_starttime"],2,",",".")."\"></div>";
+if($vars["page_starttime"]) {
+	echo "<div class=\"data-div\" id=\"page_load_time\" data-time=\"".number_format(microtime(true)-$vars["page_starttime"],2,",",".")."\"></div>";
+}
 
 
 ?>
