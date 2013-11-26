@@ -810,10 +810,16 @@ if($this->tarief[$key][$key2]>0) {
 					$class.=" tarieventabel_tarieven_beschikbaar";
 				}
 
-
 				if($_GET["d"]==$key) {
 					$class.=" tarieventabel_tarieven_gekozen";
 				}
+
+// voor Selina
+if($this->tarief[$key]>0) {
+
+} else {
+	$class.=" tarieventabel_tarieven_niet_beschikbaar_td";
+}
 
 				$return.="<td class=\"".trim($class)."\" data-week=\"".$key."\">";
 
