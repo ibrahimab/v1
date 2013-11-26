@@ -525,6 +525,10 @@ form {
 	background-color: #bababa;
 }
 
+.tarieventabel_tarieven_niet_beschikbaar_td {
+	background-color: #bababa;
+}
+
 .aanbiedingtabel th {
 	background-color: #ffffff;
 	color: #d40139;
