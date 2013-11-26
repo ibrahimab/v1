@@ -488,6 +488,7 @@ form {
 
 
 
+
 .tarieventabel_tarieven_aanbieding {
 	background-color: transparent;
 	color: #d40139;
@@ -502,6 +503,13 @@ form {
 .tarieventabel_tarieven_gekozen {
 	background-color: #fbe5d8;
 }
+
+.tarieventabel_tarieven td.tarieventabel_tarieven_beschikbaar:hover {
+	background-color: #fb6703;
+	color: #ffffff;
+}
+
+
 
 
 
