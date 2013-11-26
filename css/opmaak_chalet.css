@@ -486,6 +486,25 @@ form {
 	color: #d40139;
 }
 
+
+
+.tarieventabel_tarieven_aanbieding {
+	background-color: transparent;
+	color: #d40139;
+	font-weight: bold;
+}
+
+.tarieventabel_legenda_kleurenblokje_aanbieding {
+	background-color: #d40139;
+	font-weight: normal;
+}
+
+.tarieventabel_tarieven_gekozen {
+	background-color: #fbe5d8;
+}
+
+
+
 .img-swap {
 	border: 0px;
 }
