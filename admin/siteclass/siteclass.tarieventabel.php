@@ -739,6 +739,12 @@ class tarieventabel {
 					} elseif($_GET["d"]==$key2 and !$this->get_aantal_personen) {
 						$class.=" tarieventabel_tarieven_gekozen";
 					}
+// voor Selina
+if($this->tarief[$key][$key2]>0) {
+
+} else {
+	$class.=" tarieventabel_tarieven_niet_beschikbaar_td";
+}
 
 					$return.="<td class=\"".trim($class)."\" data-week=\"".$key2."\">";
 
