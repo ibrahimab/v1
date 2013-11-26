@@ -45,7 +45,7 @@ if(!$login->logged_in) {
 			$vanafprijs_3[$db->f("type_id")]=$db->f("c_verkoop_site");
 		}
 
-		$db->query("SELECT t.type_id, a.toonper, c.prijs AS prijs FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
+		$db->query("SELECT t.type_id, a.toonper, c.prijs AS prijs FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.") AND a.tonen=1 AND t.tonen=1 AND a.tonenzoekformulier=1;");
 		while($db->next_record()) {
 			if($db->f("toonper")==1) {
 				$nieuw_vanafprijs_12[$db->f("type_id")]=$db->f("prijs");
@@ -85,7 +85,7 @@ if(!$login->logged_in) {
 			$vanafprijs_3[$db->f("type_id")]=$db->f("wederverkoop_verkoopprijs");
 		}
 
-		$db->query("SELECT t.type_id, a.toonper, c.prijs_wederverkoop AS prijs FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
+		$db->query("SELECT t.type_id, a.toonper, c.prijs_wederverkoop AS prijs FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.") AND a.tonen=1 AND t.tonen=1 AND a.tonenzoekformulier=1;");
 		while($db->next_record()) {
 			$nieuw_vanafprijs_3[$db->f("type_id")]=$db->f("prijs");
 		}
