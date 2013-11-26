@@ -1,5 +1,6 @@
 <?php
 
+$vars["page_starttime"]=microtime(true);
 
 $laat_titel_weg=true;
 $vars["verberg_zoekenboeklinks"]=true;
