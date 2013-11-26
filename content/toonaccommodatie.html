@@ -1,8 +1,12 @@
 <?php
 
-if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) { ?>
+if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 
-<style>
+echo "<style>";
+
+if($_GET["versie"]==1) {
+
+	?>
 
 .tarieventabel_tarieven_aanbieding {
 	background-color: #d40139;
@@ -13,9 +17,66 @@ if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) { ?>
 	color: #000000 !important;
 }
 
-</style>
 
 <?php
+
+} elseif($_GET["versie"]==2) { ?>
+
+.tarieventabel_tarieven_aanbieding {
+	background-color: #ffffff !important;
+	color: #000000;
+	border: 1px solid #d40139;
+	padding: 0px;
+	box-sizing: border-box;
+}
+
+.tarieventabel_tarieven_div {
+	margin: 0;
+	padding: 0;
+}
+
+.tarieventabel_tarieven td:hover .tarieventabel_tarieven_aanbieding {
+	color: #000000 !important;
+}
+
+<?php } elseif($_GET["versie"]==3) { ?>
+
+.tarieventabel_tarieven_aanbieding {
+	background-color: #4ea352;
+	color: #ffffff;
+}
+
+.tarieventabel_tarieven td:hover .tarieventabel_tarieven_aanbieding {
+	color: #000000 !important;
+}
+
+<?php } elseif($_GET["versie"]==4) { ?>
+
+.tarieventabel_tarieven_aanbieding {
+	background-color: #ffcc66;
+	color: #000000;
+}
+
+.tarieventabel_tarieven td:hover .tarieventabel_tarieven_aanbieding {
+	color: #000000 !important;
+}
+
+<?php } elseif($_GET["versie"]==5) { ?>
+
+.tarieventabel_tarieven_aanbieding {
+	background-color: #f9d633;
+	color: #000000;
+}
+
+.tarieventabel_tarieven td:hover .tarieventabel_tarieven_aanbieding {
+	color: #000000 !important;
+}
+
+<?php
+}
+
+
+echo "<style>";
 
 }
 
