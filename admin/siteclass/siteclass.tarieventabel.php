@@ -339,7 +339,7 @@ class tarieventabel {
 			// legenda
 			$return.="<div class=\"tarieventabel_legenda\">";
 			if($this->aanbieding_actief) {
-				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_aanbieding\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_aanbieding","tarieventabel")."</div>";
+				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_legenda_kleurenblokje_aanbieding tarieventabel_tarieven_aanbieding\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_aanbieding","tarieventabel")."</div>";
 			}
 			if($this->arrangement) {
 				if($this->get_aantal_personen and $_GET["d"]) {
