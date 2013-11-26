@@ -162,6 +162,8 @@ RewriteCond %{REMOTE_ADDR} !^82\.77\.165\.60
 RewriteCond %{REMOTE_ADDR} !^194\.102\.98\.2.*
 # Docdata
 RewriteCond %{REMOTE_ADDR} !^213\.136\.23\.8
+# Selina
+RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238
 RewriteRule ^(.*)$ http://www.chalet.nl/error_msg.php?t=1 [L,R=301]
 
 # Test-server: geen https toestaan
