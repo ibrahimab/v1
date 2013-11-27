@@ -272,7 +272,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 			$imported_acc = $excluded_acc = array();
 
 			foreach($_POST["uniekeid"] as $code => $option) {
-				if($option == "import") {
+				if($option == "import" || isset($_GET["toonwijzigingen"])) {
 					# Get the details only for imported accommodations
 					$imported_acc[$code] = 1;
 				} elseif($option == "verberg") {
@@ -595,7 +595,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 		if(isset($_POST["filled"])) {
 			$imported_acc = $excluded_acc = array();
 			foreach($_POST["uniekeid"] as $code => $option) {
-				if($option == "import") {
+				if($option == "import" || isset($_GET["toonwijzigingen"])) {
 					# Get the details only for imported accommodations
 					$imported_acc[$code] = 1;
 				} elseif($option == "verberg") {
@@ -778,7 +778,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 			$imported_acc = $excluded_acc = array();
 			foreach($_POST["uniekeid"] as $code => $option) {
-				if($option == "import") {
+				if($option == "import" || isset($_GET["toonwijzigingen"])) {
 					# Get the details only for imported accommodations
 					$direktHolidays->setLinks($code);
 					$imported_acc[$code] = 1;
