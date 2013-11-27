@@ -961,6 +961,7 @@ while(list($key,$value)=@each($soap_urls)) {
 					$xml_brutoprijs[$key][$accCode] = $prices;
 				}
 			}
+			$xml_laatsteimport_leverancier[$key]=true;
 		}
 	} elseif($key == 23) {
 		if(file_exists($value)) {
