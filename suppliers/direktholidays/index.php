@@ -30,30 +30,31 @@ class DirektHolidays {
 
 			// get all elements with a particular id and then loop through and print the href attribute
 			$elements = $this->execute($url, "//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-right']/div[@id='c312']/div[@id='atonfewo_pi3-listview']/div[@id='atonfewo_pi3-listview-pagebrowser'][1]/div[@class='browseBoxWrap']/div[@class='browseLinksWrap']/span[@class='inactiveLinkWrap']/a/@href");
+			if($elements) {
+				foreach ($elements as $e) {
 
-			foreach ($elements as $e) {
+					parse_str($e->nodeValue, $output);
 
-				parse_str($e->nodeValue, $output);
+					if(!isset($output["tx_atonfewo_pi3"])) {
+						continue;
+					}
 
-				if(!isset($output["tx_atonfewo_pi3"])) {
-					continue;
-				}
+					if(isset($output["cHash"])) {
+						unset($output["cHash"]);
+					}
 
-				if(isset($output["cHash"])) {
-					unset($output["cHash"]);
-				}
+					if(isset($output["no_cache"])) {
+						unset($output["no_cache"]);
+					}
 
-				if(isset($output["no_cache"])) {
-					unset($output["no_cache"]);
-				}
+					$link = http_build_query($output);
+					$link = urldecode($link);
+					$link = str_replace(array("[", "]", "index_php"), array("%5B", "%5D", "index.php"), $link);
 
-				$link = http_build_query($output);
-				$link = urldecode($link);
-				$link = str_replace(array("[", "]", "index_php"), array("%5B", "%5D", "index.php"), $link);
-
-				if( !isset($this->_session["direktholidays"][$link]) ) {
-					$this->_session["direktholidays"][$link] = 1;
-					$this->processDirektHolidays($this->_url . $link);
+					if( !isset($this->_session["direktholidays"][$link]) ) {
+						$this->_session["direktholidays"][$link] = 1;
+						$this->processDirektHolidays($this->_url . $link);
+					}
 				}
 			}
 		} else {
@@ -70,18 +71,19 @@ class DirektHolidays {
 
 		// get all links to the accommodations
 		$output = $this->execute($url, "//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-right']/div[@id='c312']/div[@id='atonfewo_pi3-listview']/div[@class='atonfewo_pi3-listview-item']/div[@class='atonfewo_pi3-listview-item-image']/a/@href");
+		if($output) {
+			foreach ($output as $node) {
 
-		foreach ($output as $node) {
+				$acc_url = $this->_url . $node->nodeValue;
 
-			$acc_url = $this->_url . $node->nodeValue;
+				$query_str = parse_url($acc_url, PHP_URL_QUERY);
+				parse_str($query_str, $query_params);
 
-			$query_str = parse_url($acc_url, PHP_URL_QUERY);
-			parse_str($query_str, $query_params);
+				// Accommodation code
+				$code = $query_params["tx_atonfewo_pi1"]["ve"];
 
-			// Accommodation code
-			$code = $query_params["tx_atonfewo_pi1"]["ve"];
-
-			$this->_links[$code] = $acc_url;
+				$this->_links[$code] = $acc_url;
+			}
 		}
 	}
 
@@ -156,56 +158,60 @@ class DirektHolidays {
 
 		$name = $this->execute($url, "//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-facts']/div[@id='atonfewo_pi1-detailview-facts-headline']/h1");
 
-		// Accommodation name
-		$acc["name"] = trim($name->item(0)->nodeValue);
+		if($name) {
+			// Accommodation name
+			$acc["name"] = trim($name->item(0)->nodeValue);
 
-		// Get current xPath
-		$xPath = $this->getXPath();
+			// Get current xPath
+			$xPath = $this->getXPath();
 
-		$short_description = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-facts']/div[@id='atonfewo_pi1-detailview-facts-shortdescription']/p");
+			$short_description = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-facts']/div[@id='atonfewo_pi1-detailview-facts-shortdescription']/p");
 
-		// Accommodation short description
-		$acc["short_description"] = trim($short_description->item(0)->nodeValue);
+			// Accommodation short description
+			$acc["short_description"] = trim($short_description->item(0)->nodeValue);
 
-		$details = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-facts']/div[@class='atonfewo_pi1-detailview-facts-table']/table/tr");
+			$details = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-facts']/div[@class='atonfewo_pi1-detailview-facts-table']/table/tr");
 
-		//when we process the nodes below, we will be cycling through
-		$result = array();
+			//when we process the nodes below, we will be cycling through
+			$result = array();
 
-		//perform our xpath sub-queries to get the data
-		foreach ($details as $node)
-		{
-			//we are now using each 'node' as the limit for the new xpath query to search within
-			//Make the queries relative... start them with a dot (e.g. ".//…").
-			$details = $xPath->query(".//td[@class='td-key']", $node);
-			$values = $xPath->query(".//td[@class='td-value']", $node);
+			//perform our xpath sub-queries to get the data
+			foreach ($details as $node)
+			{
+				//we are now using each 'node' as the limit for the new xpath query to search within
+				//Make the queries relative... start them with a dot (e.g. ".//…").
+				$details = $xPath->query(".//td[@class='td-key']", $node);
+				$values = $xPath->query(".//td[@class='td-value']", $node);
 
-			$i = 0;
-			foreach ($details as $detail){
-				$result[trim($detail->nodeValue)] = trim($values->item($i)->nodeValue);
-				$i++;
+				$i = 0;
+				foreach ($details as $detail){
+					$result[trim($detail->nodeValue)] = trim($values->item($i)->nodeValue);
+					$i++;
+				}
 			}
+
+			// Accommodation details
+			$acc["details"] = $result;
+
+			$images = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-image']/a/@href");
+
+			// Accommodation images
+			$acc["images"] = $this->getNodesValues($images, true);
+
+			$description = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-tabs']/div[@id='atonfewo_pi1-detailview-tabs-1']/p");
+
+			// Accommodation description
+			$acc["description"] = trim($description->item(0)->nodeValue);
+
+			$place_description = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-tabs']/div[@id='atonfewo_pi1-detailview-tabs-3']/p[1]");
+
+			// Place description
+			$acc["place_description"] = trim($place_description->item(0)->nodeValue);
+
+			return $this->formatValues($acc);
+		} else {
+			return false;
 		}
-
-		// Accommodation details
-		$acc["details"] = $result;
-
-		$images = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-image']/a/@href");
-
-		// Accommodation images
-		$acc["images"] = $this->getNodesValues($images, true);
-
-		$description = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-tabs']/div[@id='atonfewo_pi1-detailview-tabs-1']/p");
-
-		// Accommodation description
-		$acc["description"] = trim($description->item(0)->nodeValue);
-
-		$place_description = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-tabs']/div[@id='atonfewo_pi1-detailview-tabs-3']/p[1]");
-
-		// Place description
-		$acc["place_description"] = trim($place_description->item(0)->nodeValue);
-
-		return $this->formatValues($acc);
 	}
 
 	/**
@@ -277,11 +283,21 @@ class DirektHolidays {
 	 */
 	private function execute($url, $query = NULL) {
 
-		$html= file_get_contents($url);
+		$ch = curl_init();
+		$timeout = 5;
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+		$html = curl_exec($ch);
+		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE); // find HTTP status
+		curl_close($ch);
 
-		// get all links to the accommodations
-		$result = $this->load($html, $query);
-
+		if($html && $status == 200) {
+			// get all links to the accommodations
+			$result = $this->load($html, $query);
+		} else {
+			$result = false;
+		}
 		return $result;
 	}
 
@@ -414,11 +430,13 @@ class DirektHolidays {
 
 		$query = "//div[@id='atonfewo_pi4-checkout']/div[@id='atonfewo_pi4-checkout-tabs']/div[@id='atonfewo_pi4-checkout-tabs-1']/div[@id='atonfewo_pi4-checkout-tabs-1-rightcol']/div[@id='atonfewo_pi4-checkout-tabs-1-rightcol-prices']/table/tr[2]/td[@class='td-1']";
 		$output = $this->execute($url, $query);
+		$price = false;
 
-		$price = trim(utf8_decode($output->item(0)->nodeValue));
-		$price = preg_replace("/([^0-9])/i", "", $price);
-		$price = round($price/100, 2);
-
+		if($output) {
+			$price = trim(utf8_decode($output->item(0)->nodeValue));
+			$price = preg_replace("/([^0-9])/i", "", $price);
+			$price = round($price/100, 2);
+		}
 		return $price;
 	}
 

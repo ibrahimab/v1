@@ -302,30 +302,6 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 		}
 		// Get the information only when saving the accommodations
 		if(isset($_POST["filled"]) || isset($_GET["checkforchanges"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["herstel"])) {
-			$propertyimage=getxml("posarellivillas","http://export.posarellivillas.com/propertyImage.xml");
-			$unitimage=getxml("posarellivillas","http://export.posarellivillas.com/unitImage.xml");
-
-			# $propertyimage omzetten naar $propertyimage_id
-			unset($omzetteller);
-			while(list($key2,$value2)=each($propertyimage)) {
-				# Type-gegevens
-				$omzetteller++;
-				$keyid=trim($value2["id"]);
-				while(list($key3,$value3)=each($value2)) {
-					$propertyimage_id[$keyid][$omzetteller][$key3]=$value2[$key3];
-				}
-			}
-
-			# $unitimage omzetten naar $unitimage_id
-			unset($omzetteller);
-			while(list($key2,$value2)=each($unitimage)) {
-				# Type-gegevens
-				$omzetteller++;
-				$keyid=trim($value2["unique_serial"]);
-				while(list($key3,$value3)=each($value2)) {
-					$unitimage_id[$keyid][$omzetteller][$key3]=$value2[$key3];
-				}
-			}
 
 			$propertydesc=getxml("posarellivillas","http://export.posarellivillas.com/propertyDescription.xml");
 			$unitdesc=getxml("posarellivillas","http://export.posarellivillas.com/unitDescription.xml");
@@ -349,6 +325,34 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 				$keyid=trim($value2["unique_serial"]);
 				while(list($key3,$value3)=each($value2)) {
 					$unitdesc_id[$keyid][$omzetteller][$key3]=$value2[$key3];
+				}
+			}
+		}
+
+		# Get images only when importing the accommodation
+		if(isset($_POST["filled"]) && !isset($_GET["checkforchanges"]) && !isset($_GET["toonwijzigingen"]) && !isset($_GET["herstel"])) {
+			$propertyimage=getxml("posarellivillas","http://export.posarellivillas.com/propertyImage.xml");
+			$unitimage=getxml("posarellivillas","http://export.posarellivillas.com/unitImage.xml");
+
+			# $propertyimage omzetten naar $propertyimage_id
+			unset($omzetteller);
+			while(list($key2,$value2)=each($propertyimage)) {
+				# Type-gegevens
+				$omzetteller++;
+				$keyid=trim($value2["id"]);
+				while(list($key3,$value3)=each($value2)) {
+					$propertyimage_id[$keyid][$omzetteller][$key3]=$value2[$key3];
+				}
+			}
+
+			# $unitimage omzetten naar $unitimage_id
+			unset($omzetteller);
+			while(list($key2,$value2)=each($unitimage)) {
+				# Type-gegevens
+				$omzetteller++;
+				$keyid=trim($value2["unique_serial"]);
+				while(list($key3,$value3)=each($value2)) {
+					$unitimage_id[$keyid][$omzetteller][$key3]=$value2[$key3];
 				}
 			}
 		}
@@ -734,15 +738,18 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					if(isset($_POST["filled"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["checkforchanges"]) || isset($_GET["herstel"])) {
 						$new[$uniekeid]["accnaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
 						$new[$uniekeid]["typenaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
-						$new[$uniekeid]["accafbeelding"] = $value->getPictures()->getString();
-						$new[$uniekeid]["typeafbeelding"] = $value->getPictures()->getString();
 						$new[$uniekeid]["accomschrijving"] = iconv("UTF-8", "CP1252", $value->getOutsideDescription());
-
 						$new[$uniekeid]["gps_lat"] = $value->getGeoLat();
 						$new[$uniekeid]["gps_long"] = $value->getGeoLng();
 						if(preg_match("/([0-9]+\.?[0-9]+) m2\.?(.*)$/", $new[$uniekeid]["typeindeling"], $matches)) {
 							$new[$uniekeid]["oppervlakte"]=trim($matches[1]);
 						}
+					}
+
+					# Get images only when importing the accommodation
+					if(isset($_POST["filled"]) && !isset($_GET["checkforchanges"]) && !isset($_GET["toonwijzigingen"]) && !isset($_GET["herstel"])) {
+						$new[$uniekeid]["accafbeelding"] = $value->getPictures()->getString();
+						$new[$uniekeid]["typeafbeelding"] = $value->getPictures()->getString();
 					}
 
                     if(isset($services[$uniekeid]) && is_array($services[$uniekeid])) {
@@ -819,31 +826,31 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 				}
 
 				$d = $direktHolidays->getAccommodation($url);
-
-				unset($bekend_skigebied,$bekend_plaats);
-				if($skigebied_xmlnamen[$d["skigebied_id"]]) {
-					$bekend_skigebied=$skigebied_xmlnamen[$d["skigebied_id"]];
-				} else {
-					$onbekend_skigebied[$d["skigebied_id"]]=true;
-				}
-				if($plaats_xmlnamen[$d["plaats_id"]]) {
-					$bekend_plaats=$plaats_xmlnamen[$d["plaats_id"]];
-				} else {
-					$onbekend_plaats[$d["plaats_id"]]=true;
-				}
-
-				if($bekend_skigebied && $bekend_plaats) {
-
-					$d["accid"] = $key;
-					$d["skigebied_id"] = $bekend_skigebied;
-					$d["plaats_id"] = $bekend_plaats;
-					$d["soortaccommodatie"] = array_search($d["soortaccommodatie"], $vars["soortaccommodatie"]);
-					if(!isset($_POST["filled"]) || isset($_GET["checkforchanges"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["herstel"])) {
-						unset($d["accafbeelding"]);
-						unset($d["typeafbeelding"]);
+				if($d) {
+					unset($bekend_skigebied,$bekend_plaats);
+					if($skigebied_xmlnamen[$d["skigebied_id"]]) {
+						$bekend_skigebied=$skigebied_xmlnamen[$d["skigebied_id"]];
+					} else {
+						$onbekend_skigebied[$d["skigebied_id"]]=true;
 					}
-					$new[$key] = $d;
-					$counter++;
+					if($plaats_xmlnamen[$d["plaats_id"]]) {
+						$bekend_plaats=$plaats_xmlnamen[$d["plaats_id"]];
+					} else {
+						$onbekend_plaats[$d["plaats_id"]]=true;
+					}
+
+					if($bekend_skigebied && $bekend_plaats) {
+						$d["accid"] = $key;
+						$d["skigebied_id"] = $bekend_skigebied;
+						$d["plaats_id"] = $bekend_plaats;
+						$d["soortaccommodatie"] = array_search($d["soortaccommodatie"], $vars["soortaccommodatie"]);
+						if(!isset($_POST["filled"]) || isset($_GET["checkforchanges"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["herstel"])) {
+							unset($d["accafbeelding"]);
+							unset($d["typeafbeelding"]);
+						}
+						$new[$key] = $d;
+						$counter++;
+					}
 				}
 			}
 		}
@@ -851,7 +858,6 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 			$new = array_merge($new, $excluded_acc);
 			unset($excluded_acc);
 		}
-
 	}
 
 	#
@@ -994,11 +1000,13 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                         }
 
 						if($_GET["lev"] == 421 || $_GET["lev"] == 131 || $_GET["lev"] == 35) {
-							# set the images
-							$i10 = 0;
-							foreach($value["accafbeelding"] as $img) {
-								$i10 += 10;
-								$_POST["imgvolgorde"]["acc"][$value["accid"]][$img] = $i10;
+							if(isset($value["accafbeelding"]) && is_array($value["accafbeelding"])) {
+								# set the images
+								$i10 = 0;
+								foreach($value["accafbeelding"] as $img) {
+									$i10 += 10;
+									$_POST["imgvolgorde"]["acc"][$value["accid"]][$img] = $i10;
+								}
 							}
 						}
 
@@ -1032,11 +1040,13 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 								}
 
 								if($_GET["lev"] == 421 || $_GET["lev"] == 131 || $_GET["lev"] == 35) {
-									# set the images
-									$i10 = 0;
-									foreach($value["typeafbeelding"] as $img) {
-										$i10 += 10;
-										$_POST["imgvolgorde"]["type"][$key][$img] = $i10;
+									if(isset($value["typeafbeelding"]) && is_array($value["typeafbeelding"])) {
+										# set the images
+										$i10 = 0;
+										foreach($value["typeafbeelding"] as $img) {
+											$i10 += 10;
+											$_POST["imgvolgorde"]["type"][$key][$img] = $i10;
+										}
 									}
                                 }
 
