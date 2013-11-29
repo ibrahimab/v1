@@ -3,6 +3,17 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+29-nov-2013 15:02
+DROP TABLE IF EXISTS `leverancier_aankomstlijst`;
+CREATE TABLE IF NOT EXISTS `leverancier_aankomstlijst` (
+  `leverancier_id` int(11) NOT NULL,
+  `aankomstdatum` date NOT NULL,
+  `laatste_verzending` datetime NOT NULL,
+  `goedgekeurd` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`leverancier_id`,`aankomstdatum`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 21-nov-2013 19:20
 DROP TABLE IF EXISTS `cache_vanafprijs_type`;
 CREATE TABLE IF NOT EXISTS `cache_vanafprijs_type` (
