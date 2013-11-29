@@ -33,6 +33,7 @@ echo "</div>"; # afsluiten landkaartklikbaar_kaart
 echo "<div id=\"landkaartklikbaar_namen\">";
 
 if($regions) {
+	$disabled = array();
 	foreach($regions as $id => $name) {
 		if($regio["aantal_acc"][$id]) {
 			echo "<div id=\"regio_".$id."\" class=\"landnaam\" rel=\"".$id."\" data-noacc=\"".intval($regio["aantal_acc"][$id])."\"><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($name)."/\">".htmlentities($name)."</a> (".intval($regio["aantal_acc"][$id]).")</div>";
@@ -41,40 +42,40 @@ if($regions) {
 		}
 	}
 }
-if($disabled) {
-	echo "<script>
-		jQuery(function(){
-			var disabled_regions = {".implode(',',$disabled)."};
-			// Set disabled colors for the following regions
-			jQuery('#vmap').vectorMap('set', 'colors', disabled_regions);
 
-			jQuery('#vmap').bind('regionClick.jqvmap', function(event, code, region){
-				// Disable click event for the following regions
-				if (disabled_regions.hasOwnProperty(code)) {
-					event.preventDefault();
-				} else {
-					var tmp = code.replace('IT-','');
-					if(jQuery('div#regio_'+tmp).length > 0) {
-						var loc = jQuery('div#regio_'+tmp+' a').attr('href');
-						window.location = loc;
-					}
-				}
-			});
+echo "<script>
+	jQuery(function(){
+		var disabled_regions = {".implode(',',$disabled)."};
+		// Set disabled colors for the following regions
+		jQuery('#vmap').vectorMap('set', 'colors', disabled_regions);
 
-			jQuery('#vmap').bind('regionMouseOver.jqvmap', function(event, code){
-				// Disable hover effect for the following regions
-				if (disabled_regions.hasOwnProperty(code)) {
-					jQuery('#vmap').css('cursor', 'default');
-					event.preventDefault();
-				} else {
-					jQuery('#vmap').css('cursor', 'pointer');
-					var tmp = code.replace('IT-','');
-					jQuery('div#regio_'+tmp).addClass('hover');
+		jQuery('#vmap').bind('regionClick.jqvmap', function(event, code, region){
+			// Disable click event for the following regions
+			if (disabled_regions.hasOwnProperty(code)) {
+				event.preventDefault();
+			} else {
+				var tmp = code.replace('IT-','');
+				if(jQuery('div#regio_'+tmp).length > 0) {
+					var loc = jQuery('div#regio_'+tmp+' a').attr('href');
+					window.location = loc;
 				}
-			});
+			}
 		});
-	</script>";
-}
+
+		jQuery('#vmap').bind('regionMouseOver.jqvmap', function(event, code){
+			// Disable hover effect for the following regions
+			if (disabled_regions.hasOwnProperty(code)) {
+				jQuery('#vmap').css('cursor', 'default');
+				event.preventDefault();
+			} else {
+				jQuery('#vmap').css('cursor', 'pointer');
+				var tmp = code.replace('IT-','');
+				jQuery('div#regio_'+tmp).addClass('hover');
+			}
+		});
+	});
+</script>";
+
 
 echo "</div>"; # afsluiten landkaartklikbaar_namen
 
