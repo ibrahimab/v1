@@ -598,7 +598,7 @@ $(document).ready(function() {
 
 
 	// datum toevoegen aan roominglist-goedkeur-veld
-	if($("input[name='input[roominglist_goedgekeurd]']").length>0) {
+	if($("#cms_body_cms_roomingaankomst").length>0) {
 
 
 		$("input[name='input[roominglist_goedgekeurd]']").focus(function() {
@@ -720,7 +720,6 @@ $(document).ready(function() {
 	$("#roominglist_bekijken").click(function(){
 
 		window.open('', 'formpopup', 'width=1000,height=600,resizeable,scrollbars');
-		// form.target = 'formpopup';
 
 		$("input[name=roominglist_bekijken]").val("1");
 
