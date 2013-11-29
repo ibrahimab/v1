@@ -6,73 +6,84 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 if($_GET["levid"]) {
 
-	echo "<p><a href=\"".$vars["[path"]."cms_roomingaankomst.php\">&laquo; Terug naar overzicht</a></p>";
+		echo "<p><a href=\"".$vars["[path"]."cms_roomingaankomst.php?t=".wt_he($_GET["t"]).($_GET["date"] ? "&date=".intval($_GET["date"]) : "")."\">&laquo; Terug naar overzicht</a></p>";
 
 	$form->display_all();
 
 
-	// archief naamswijzigingen
-	$db->query("SELECT leverancier_naamswijziging_id, beschrijving, UNIX_TIMESTAMP(verzonden) AS verzonden, UNIX_TIMESTAMP(goedgekeurd) AS goedgekeurd FROM leverancier_naamswijziging WHERE leverancier_id='".intval($_GET["levid"])."' ORDER BY verzonden DESC, leverancier_naamswijziging_id DESC;");
-	if($db->num_rows()) {
-		echo "<br/><p><b>Archief naamswijzigingen</b></p>";
-		echo "<table class=\"tbl\" cellspacing=\"0\">";
-		echo "<tr><th>Wijziging</th><th>Doorgegeven aan leverancier</th><th>Goedgekeurd</th></tr>";
-		while($db->next_record()) {
-			echo "<tr><td>".$db->f("beschrijving")."</td><td>".date("d-m-Y",$db->f("verzonden"))."</td><td>".($db->f("goedgekeurd") ? date("d-m-Y",$db->f("goedgekeurd")) : "&nbsp;")."</td></tr>";
+	if($_GET["t"]==1) {
+
+		// archief naamswijzigingen
+		$db->query("SELECT leverancier_naamswijziging_id, beschrijving, UNIX_TIMESTAMP(verzonden) AS verzonden, UNIX_TIMESTAMP(goedgekeurd) AS goedgekeurd FROM leverancier_naamswijziging WHERE leverancier_id='".intval($_GET["levid"])."' ORDER BY verzonden DESC, leverancier_naamswijziging_id DESC;");
+		if($db->num_rows()) {
+			echo "<br/><p><b>Archief naamswijzigingen</b></p>";
+			echo "<table class=\"tbl\" cellspacing=\"0\">";
+			echo "<tr><th>Wijziging</th><th>Doorgegeven aan leverancier</th><th>Goedgekeurd</th></tr>";
+			while($db->next_record()) {
+				echo "<tr><td>".$db->f("beschrijving")."</td><td>".date("d-m-Y",$db->f("verzonden"))."</td><td>".($db->f("goedgekeurd") ? date("d-m-Y",$db->f("goedgekeurd")) : "&nbsp;")."</td></tr>";
+			}
+			echo "</table>";
 		}
-		echo "</table>";
 	}
-
-
-	// echo "<div style=\"margin-top:70px;\">";
-	// echo "<p><b>Te verzenden roominglist:</b></p>";
-
-	// if(!$form->okay) {
-	// 	$vars["create_list"]=$vars["roominglist_object"]->create_list();
-	// }
-
-	// // echo wt_dump($vars["roominglist_object"]->garanties);
-	// echo $vars["create_list"]["html"];
-	// echo "</div>";
-
 } else {
-	# Roominglist totaal
-
-	// $roominglist = new roominglist;
-	// $roominglist->vergelijk_lijsten();
-
-	// exit;
-
-	// $roominglist->leverancier_id = 48;
-	// $roominglist->word_bestand();
-	// exit;
-
-
-	// if(is_array($roominglistlijst)) {
-	// 	ksort($roominglistlijst);
-	// 	echo "Roominglist totaal:<ul>";
-	// 	while(list($key,$value)=each($roominglistlijst)) {
-	// 		echo $value;
-	// 	}
-	// 	echo "</ul>";
-	// }
-
-
+	//
+	// overzicht
+	//
 	$roominglist = new roominglist;
 
-	echo $roominglist->overzicht_te_verzenden();
+	if($_GET["t"]==2) {
 
-	echo "&nbsp;<hr>&nbsp;";
+		echo "<form method=\"get\" action=\"cms_roomingaankomst.php\" name=\"overzicht_form\">";
+		echo "<input type=\"hidden\" name=\"t\" value=\"2\">";
 
-	echo $roominglist->overzicht_te_verzenden(array("in_de_wacht"=>true));
+		# Gewone boekingen
+		$db->query("SELECT DISTINCT b.aankomstdatum FROM boeking b, accommodatie a, type t WHERE b.aankomstdatum>=".mktime(0,0,0,date("m"),date("d")-($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html"||$login->userlevel>=10 ? 40 : 8),date("Y"))." AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id ORDER BY aankomstdatum;");
+		while($db->next_record()) {
+			$keuze_aankomstdatums[$db->f("aankomstdatum")]=true;
+		}
 
-	echo "&nbsp;<hr>&nbsp;";
+		# Garanties
+		$db->query("SELECT DISTINCT g.aankomstdatum FROM garantie g WHERE g.aankomstdatum>=".mktime(0,0,0,date("m"),date("d")-8,date("Y"))." AND g.boeking_id=0;");
+		while($db->next_record()) {
+			$keuze_aankomstdatums[$db->f("aankomstdatum")]=true;
+		}
 
-	echo $roominglist->overzicht_goedgekeurd(array("nog_niet_goedgekeurd"=>true));
+		if(is_array($keuze_aankomstdatums)) {
+			ksort($keuze_aankomstdatums);
+			echo "Aankomstdatum&nbsp;&nbsp;<select name=\"date\" onchange=\"submit();\">";
+			echo "<option value=\"0\">-- selecteer een aankomstdatum --</option>";
+			while(list($key,$value)=@each($keuze_aankomstdatums)) {
+				echo "<option ".($_GET["date"]==$key ? " selected" : "")." value=\"".$key."\">".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$key])."</option>";
+				if($_GET["date"]==$key) $actieve_datum=true;
+			}
+			echo "</select>";
+			echo "</form>";
+		}
 
-	echo "&nbsp;<hr>&nbsp;";
+		if($_GET["date"]) {
+			echo $roominglist->overzicht_aankomstlijsten(array("date"=>$_GET["date"]));
+			echo "&nbsp;<hr>&nbsp;";
+			echo $roominglist->overzicht_aankomstlijsten(array("date"=>$_GET["date"], "nog_niet_goedgekeurd"=>true));
+			echo "&nbsp;<hr>&nbsp;";
+			echo $roominglist->overzicht_aankomstlijsten(array("date"=>$_GET["date"], "goedgekeurd"=>true));
+		}
 
-	echo $roominglist->overzicht_goedgekeurd();
+	} else {
+
+		echo $roominglist->overzicht_te_verzenden();
+
+		echo "&nbsp;<hr>&nbsp;";
+
+		echo $roominglist->overzicht_te_verzenden(array("in_de_wacht"=>true));
+
+		echo "&nbsp;<hr>&nbsp;";
+
+		echo $roominglist->overzicht_goedgekeurd(array("nog_niet_goedgekeurd"=>true));
+
+		echo "&nbsp;<hr>&nbsp;";
+
+		echo $roominglist->overzicht_goedgekeurd();
+	}
 
 }
 
