@@ -1,6 +1,6 @@
 <?php
 
-include("admin/vars.php");
+// include("admin/vars.php");
 
 // $mailadres="bjorn@chalet.nl";
 // $naam="Bjorn den Blanken";
@@ -58,9 +58,9 @@ if($_GET["errortest"]) {
 	echo "Errortest has been sent...";
 	sort($empty_test_array);
 } else {
-	if($_COOKIE["flc"]) {
+	// if($_COOKIE["flc"]) {
 		phpinfo();
-	}
+	// }
 }
 
 # test 12
