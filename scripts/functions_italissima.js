@@ -190,12 +190,12 @@ $(document).ready(function() {
 
 	if(jQuery('#vmap').length > 0) {
 
-		var pin_id = 0; // Id of the Gardameer region
-		if(jQuery("div#regio_"+pin_id).length > 0) {
-			var pin_c = $("#pin_142").html();
-		} else {
-			var pin_c = '';
+		var pin_id = 230; // Id of the Gardameer region
+		if(jQuery("div#regio_"+pin_id).length <= 0) {
+			 $("#pin_142 .pin_content").addClass("disabled");
 		}
+
+		var pin_c = $("#pin_142").html();
 
 		jQuery('#vmap').vectorMap({
 			map: 'it_mill_en',
@@ -220,40 +220,12 @@ $(document).ready(function() {
 					return false;
 				}
 			},
-			onRegionOver: function(event, code)
-			{
-				// Disable hover effect for the following regions
-				if (code == 'IT-65' || code == 'IT-67' || code == 'IT-78') {
-					jQuery("#vmap").css("cursor", "default");
-					event.preventDefault();
-				} else {
-					jQuery("#vmap").css("cursor", "pointer");
-					var tmp = code.replace("IT-","");
-					jQuery("div#regio_"+tmp).addClass("hover");
-				}
-			},
 			onRegionOut: function(event, code, region)
 			{
 				var tmp = code.replace("IT-","");
 				jQuery("div#regio_"+tmp).removeClass("hover");
-			},
-			onRegionClick: function(event, code, region)
-			{
-				// Disable click event for the following regions
-				if (code == 'IT-65' || code == 'IT-67' || code == 'IT-78') {
-					event.preventDefault();
-				} else {
-					var tmp = code.replace("IT-","");
-					if(jQuery("div#regio_"+tmp).length > 0) {
-						var loc = jQuery("div#regio_"+tmp+' a').attr("href");
-						window.location = loc;
-					}
-				}
 			}
 		});
-
-		// Set disabled colors for the following regions
-		jQuery('#vmap').vectorMap('set', 'colors', {'IT-65': '#e0d1cc', 'IT-67': '#e0d1cc', 'IT-78': '#e0d1cc'});
 
 		// Highlight map region when the mouse is over a region in the list
 		jQuery("#landkaartklikbaar_namen .landnaam a").hover(

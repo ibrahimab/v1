@@ -67,3 +67,7 @@
 .jqvmap_pin .pin_content:hover, .jqvmap_pin .pin_content.hover {
 	background: url("../pic/region-hover.png") no-repeat;
 }
+.jqvmap_pin .pin_content.disabled {
+	background: url("../pic/region-disabled.png") no-repeat !important;
+	cursor: default !important;
+}
