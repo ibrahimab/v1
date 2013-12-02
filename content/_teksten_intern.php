@@ -728,7 +728,7 @@ $txta["en_x"]["telefoonnummer_alleen"]="+31 541 532798";
 $txta["nl"]["telefoonnummer_telefoonblok"]="0348 - 43 46 49";
 $txta["en"]["telefoonnummer_telefoonblok"]="+31 348 434649";
 
-$txta["nl_b"]["telefoonnummer_telefoonblok"]="+31348434649";
+$txta["nl_b"]["telefoonnummer_telefoonblok"]="+31 348 434649";
 $txta["en_b"]["telefoonnummer_telefoonblok"]="-";
 
 $txta["nl_x"]["telefoonnummer_telefoonblok"]="0541 - 53 27 98";
