@@ -176,7 +176,7 @@ function wt_removeDiacritics (str) {
 
 $(document).ready(function() {
 	// wtform_multiradio: alle radio's van de betreffende kolom tegelijk checken
-	$(".wtform_multiradio_check_all").click(function(){
+	$(".wtform_multiradio_check_all").click(function() {
 		var wtform_multiradio_value=$(this).data("value");
 		var wtform_multiradio_id=$(this).data("id");
 		$(".wtform_multiradio_fields_"+wtform_multiradio_id).each(function() {
@@ -187,4 +187,10 @@ $(document).ready(function() {
 		});
 		$(this).removeAttr("checked");
 	});
+
+	// wtform: prevent spambots: change wtform_botcheck
+	if($("form.wtform_prevent_spambots").length!==0) {
+		$("input[name=wtform_botcheck]").val("checked3283847");
+	}
+
 });

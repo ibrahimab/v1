@@ -229,8 +229,10 @@ if($_GET["levid"]) {
 				echo "</html>";
 				exit;
 			} else {
-				# Gegevens opslaan in de database
-				$form->save_db();
+				if($_GET["t"]==1) {
+					# Gegevens opslaan in de database
+					$form->save_db();
+				}
 
 				// goedgekeurde naamswijzigingen opslaan
 				if($roominglist->totaal) {

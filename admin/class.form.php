@@ -56,6 +56,8 @@ $form->settings["layout"]["css"]=false;
 $form->settings["db"]["table"]="lid";
 $form->settings["db"]["where"]="lid_id='".intval($_GET["lidid"])."'";
 $form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
+$form->settings["prevent_csrf"] = true;
+$form->settings["prevent_spambots"] = true;
 #$form->settings["target"]="_blank";
 
 # Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
@@ -253,6 +255,12 @@ class form2 {
 		$this->settings["bcc_mail_https"]=false;
 		$this->settings["download_uploaded_files"]=true;
 
+		// Cross-site request forgery - http://css-tricks.com/serious-form-security/
+		$this->settings["prevent_csrf"]=false;
+
+		// Block spambots (via JavaScript after submit-click - allfunctions.js is necessary!)
+		$this->settings["prevent_spambots"]=false;
+
 		# Messages
 		$this->settings["message"]["verplichtveld"]["nl"]="Verplicht veld";
 		$this->settings["message"]["verplichtveld"]["en"]="Compulsory field";
@@ -406,6 +414,14 @@ class form2 {
 		$this->settings["message"]["error_password_spaces"]["nl"]="spaties zijn niet toegestaan";
 		$this->settings["message"]["error_password_spaces"]["en"]="spaces are not allowed";
 
+		$this->settings["message"]["error_csrf"]["nl"]="Verzendfout - probeer het opnieuw";
+		$this->settings["message"]["error_csrf"]["en"]="Send error - please try again";
+
+		$this->settings["message"]["enable_javascript"]["nl"]="Verzendfout - uw browser ondersteunt geen JavaScript";
+		$this->settings["message"]["enable_javascript"]["en"]="Send error - your browser doesn't support JavaScript";
+
+
+
 		if($_POST["pg"]) {
 			if($_POST[$this->settings["formname"]."_filled"]==1) $this->filled=true;
 			$this->value=$_POST["input"];
@@ -442,6 +458,22 @@ class form2 {
 		return $return;
 	}
 
+	function insert_form_tokens() {
+
+		// form security: csrf
+		if($this->settings["prevent_csrf"]) {
+
+			$token1 = sha1(uniqid(microtime(), true));
+			$token2 = sha1(uniqid(microtime(), true));
+			$_SESSION["form_csrf"][$token2] = $token1;
+
+			$return.="<input type=\"hidden\" name=\"".$this->settings["formname"]."_csrf_token\" value=\"".wt_he($token1)."\">";
+			$return.="<input type=\"hidden\" name=\"".$this->settings["formname"]."_csrf_token_name\" value=\"".wt_he($token2)."\">";
+		}
+
+		return $return;
+	}
+
 	function newfield($type,$checktype,$obl,$id,$title,$db,$prevalue,$options,$layout) {
 		global $vars;
 
@@ -450,7 +482,13 @@ class form2 {
 			if($this->settings["language"]=="nl") {
 				setlocale(LC_TIME,"nl_NL.ISO_8859-1");
 				setlocale(LC_MONETARY,"nl_NL.ISO_8859-1");
+
+				if(!session_id()) {
+					session_start();
+				}
+
 			}
+
 			$this->init=true;
 		}
 		if(!ereg("^[a-zA-Z0-9_]+$",$id)) {
@@ -645,7 +683,7 @@ class form2 {
 	function display_openform() {
 		global $vars;
 
-		$return.="<form class=\"wtform\" method=\"".$this->settings["type"]."\" action=\"";
+		$return.="<form class=\"wtform".($this->settings["prevent_spambots"] ? " wtform_prevent_spambots" : "")."\" method=\"".$this->settings["type"]."\" action=\"";
 		if($_SERVER["REQUEST_URI"]) {
 			if($_SERVER["QUERY_STRING"]) {
 #				$return.=str_replace("\?".$_SERVER["QUERY_STRING"],"",$_SERVER["REQUEST_URI"]);
@@ -686,6 +724,14 @@ class form2 {
 		$return.=">";
 #		$return.="<a name=\"wtform_".$this->settings["formname"]."\"></a>";
 		$return.=$hidden."<input type=\"hidden\" name=\"".$this->settings["formname"]."_filled\" value=\"1\"><input type=\"hidden\" name=\"pg\" value=\"1\">";
+
+		// prevent csrf
+		$return.=$this->insert_form_tokens();
+
+		if($this->settings["prevent_spambots"]) {
+			$return.="<input type=\"hidden\" name=\"wtform_botcheck\" value=\"1\">";
+		}
+
 		if(is_array($this->hidden)) {
 			while(list($key,$value)=each($this->hidden)) {
 				$return.="<input type=\"hidden\" name=\"".$key."\" value=\"".wt_he($value["value"])."\">\n";
@@ -1883,6 +1929,26 @@ class form2 {
 		$this->check_input=true;
 		if($this->filled and $_GET["fo"]<>$this->settings["formname"]) {
 			$this->get_db();
+
+			// check for csrf
+			if($this->settings["prevent_csrf"]) {
+
+				if($_POST[$this->settings["formname"]."_csrf_token"] and $_SESSION["form_csrf"][$_POST[$this->settings["formname"]."_csrf_token_name"] ] == $_POST[$this->settings["formname"]."_csrf_token"]) {
+
+				} else {
+					$this->error["extra"][]=$this->message("error_csrf");
+					trigger_error("_notice: csrf-fout",E_USER_NOTICE);
+				}
+				// unset($_SESSION["form_csrf"][$_POST[$this->settings["formname"]."_csrf_token_name"] ]);
+			}
+
+			if($this->settings["prevent_spambots"]) {
+				if($_POST["wtform_botcheck"]<>"checked3283847") {
+					$this->error["extra"][]=$this->message("enable_javascript");
+					trigger_error("_notice: spambot-fout",E_USER_NOTICE);
+				}
+			}
+
 			reset($this->fields["checktype"]);
 			while(list($key,$value)=each($this->fields["checktype"])) {
 				if($value=="checkbox") {
