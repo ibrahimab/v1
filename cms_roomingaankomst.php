@@ -5,6 +5,10 @@ $vars["types_in_vars"]=true;
 
 include("admin/vars.php");
 
+if(!$_GET["t"]) {
+	$_GET["t"]=1;
+}
+
 if($_GET["reset"]) {
 	$roominglist = new roominglist;
 	$roominglist->vergelijk_lijsten();
@@ -36,9 +40,12 @@ if($_GET["levid"]) {
 		$form=new form2("frm");
 		$form->settings["fullname"]="roominglistform";
 		$form->settings["layout"]["css"]=false;
-		$form->settings["db"]["table"]="leverancier";
-		$form->settings["db"]["where"]="leverancier_id='".intval($_GET["levid"])."'";
-		$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN / VERZENDEN";
+		if($_GET["t"]==1) {
+			$form->settings["db"]["table"]="leverancier";
+			$form->settings["db"]["where"]="leverancier_id='".intval($_GET["levid"])."'";
+		}
+		$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
+
 		#$form->settings["target"]="_blank";
 
 		$leveranciersnaam=$db->f("naam");
@@ -76,13 +83,12 @@ if($_GET["levid"]) {
 		if($_GET["t"]==2) {
 			// text aankomstlijst
 			if($roominglist->bestelmailfax_taal=="N") {
-				$mailtekst="Beste ".$db->f("contactpersoon_lijsten").",\n\nNEDERLANDSE TEKST NL,";
+				$mailtekst="Beste ".$db->f("contactpersoon_lijsten").",\n\nBijgaand sturen we een overzicht met onze aankomsten op ".date("d/m/Y",$_GET["date"]).". Hierbij het verzoek om deze reserveringen en extra opties te checken en ons per omgaande te bevestigen.\n\nAlvast heel hartelijk bedankt voor je snelle reactie.\n\nMet vriendelijke groet,";
 			} elseif($roominglist->bestelmailfax_taal=="D") {
-				$mailtekst="Sehr geehrte(r) ".$db->f("contactpersoon_lijsten").",\n\nDUITSE TEKST";
+				$mailtekst="Sehr geehrte(r) ".$db->f("contactpersoon_lijsten").",\n\nAnbei unsere Anreiseliste für die Woche vom ".date("d/m/Y",$_GET["date"]).". Können Sie diese Reservierungen und zusätzliche Optionen bitte überprüfen und uns umgehend bestätigen.\n\nViele Dank in voraus für Ihre baldige Rückbestätigung.\n\nMit freundlichem Gruß,";
 			} else {
-				$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nENGELSE TEKST";
+				$mailtekst="Dear ".$db->f("contactpersoon_lijsten").",\n\nWe are pleased to send you attached a list with our arrivals on ".date("d/m/Y",$_GET["date"]).". Can you please check these reservations and the eventual extra options and send us confirmation by return.\n\nThanks in advance for your early reply.\n\nKind regards,";
 			}
-
 		} else {
 			// text roominglist
 			if($roominglist->bestelmailfax_taal=="N") {
@@ -264,7 +270,7 @@ if($_GET["levid"]) {
 						if($roominglist->totaal) {
 							$mail->subject="Roominglist";
 						} else {
-							$mail->subject="Arrivals";
+							$mail->subject="Arrivals ".date("d/m/Y",$_GET["date"]);
 						}
 						if($form->input["email"]=="danielle@chalet.nl") {
 							$mail->subject.=" ".$leveranciersnaam;
@@ -291,7 +297,7 @@ if($_GET["levid"]) {
 							if($roominglist->totaal) {
 								$mail->subject="Roominglist ".$leveranciersnaam;;
 							} else {
-								$mail->subject="Arrivals ".$leveranciersnaam;;
+								$mail->subject="Arrivals ".date("d/m/Y",$_GET["date"])." ".$leveranciersnaam;;
 							}
 
 							$mail->send();

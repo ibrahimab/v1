@@ -614,6 +614,8 @@ $(document).ready(function() {
 		$("input[name='input[versturen]']").change(function() {
 			if($(this).is(":checked")) {
 
+				$("#submit1frm").val("VERZENDEN");
+
 				$(".roomingaankomst_verzenden").css("display","table-row");
 
 				// goedgekeurd wissen bij verzenden
@@ -640,6 +642,7 @@ $(document).ready(function() {
 				},800);
 			} else {
 				$(".roomingaankomst_verzenden").css("display","none");
+				$("#submit1frm").val("OPSLAAN");
 			}
 			setHgt2();
 		});
