@@ -63,12 +63,21 @@ RewriteRule ^(.*)$ http://www.venturasol-secondhomes.nl/$1 [L,R=301]
 
 
 #
-# niet-https doorsturen naar https
+# niet-https doorsturen naar https: chalet.eu (i.v.m. SPDY)
 #
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.eu [NC]
 RewriteCond %{SERVER_PORT} 80
 RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=301]
+
+#
+# niet-https doorsturen naar https: italissima.nl (i.v.m. SPDY)
+#
+RewriteCond %{HTTP_HOST} italissima\.nl [NC]
+RewriteCond %{HTTP_HOST} !^test\.italissima\.nl [NC]
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
+
 
 #
 # zonder www doorsturen naar met www
