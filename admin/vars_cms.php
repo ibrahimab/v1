@@ -2660,8 +2660,8 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 		# SuperSki
 		$logo="factuur_logo_superski.png";
-	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
-		# SuperSki
+	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
+		# Venturasol
 		$logo="factuur_logo_venturasol.png";
 	} else {
 		# Chalet Winter
@@ -2680,8 +2680,13 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	$content.="<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%\"><tr><td><img src=\"pic/".$logo."\" style=\"width:170px;\"><br/><br/></td>";
 	$content.="<td style=\"text-align:right;\">";
 	if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
-		# Adres voor Nederlanders
-		$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0348 434649</b><br/><b>Fax: 0348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+		if($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
+			# Adres voor Venturasol
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0541 532798</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+		} else {
+			# Adres voor Nederlanders
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0348 434649</b><br/><b>Fax: 0348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+		}
 	} else {
 		if($gegevens["stap1"]["taal"]=="en") {
 			# Adres voor Engelstalige buitenlanders
