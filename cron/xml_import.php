@@ -935,13 +935,23 @@ while(list($key,$value)=@each($soap_urls)) {
 				$endDate[$db->f("type")] = $db->f("end");
 				$startDate[$db->f("type")] = $db->f("begin");
 			}
-			// Get all accommodations from Interhome (421)
-			$q = "SELECT t.leverancierscode, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '35' AND t.`leverancierscode` <> ''";
+			// Get all accommodations from Direkt Holidays (35)
+			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '35' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> '';";
 			$db->query($q);
 
 			// Loop through all the database accommodations
 			while($db->next_record()) {
-				$accCode = $db->f("leverancierscode");
+
+				if($db->f("leverancierscode_negeertarief") != NULL) {
+					$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
+					$leverancierscode = explode(",",$db->f("leverancierscode"));
+
+					$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
+					$accCode = array_shift($accCode);
+				} else {
+					$accCode = $db->f("leverancierscode");
+				}
+
 				$seasonId = $db->f("wzt");
 
 				$x = strtotime($endDate[$seasonId]);
@@ -953,12 +963,20 @@ while(list($key,$value)=@each($soap_urls)) {
 
 				if($availability = $direktHolidays->getAvailability($html, $startDate[$seasonId], $end_date)) {
 					// Get the availability
-					$xml_beschikbaar[$key][$accCode] = $availability;
+					if(isset($xml_beschikbaar[$key][$accCode])) {
+						$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+					} else {
+						$xml_beschikbaar[$key][$accCode] = $availability;
+					}
 				}
 
 				if($prices = $direktHolidays->getPrices($html, $startDate[$seasonId], $end_date)) {
 					// Get the prices
-					$xml_brutoprijs[$key][$accCode] = $prices;
+					if(isset($xml_brutoprijs[$key][$accCode])) {
+						$xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
+					} else {
+						$xml_brutoprijs[$key][$accCode] = $prices;
+					}
 				}
 			}
 			$xml_laatsteimport_leverancier[$key]=true;
@@ -987,12 +1005,22 @@ while(list($key,$value)=@each($soap_urls)) {
 				$startDate[$db->f("type")] = $db->f("begin");
 			}
 			// Get all accommodations from Interhome (421)
-			$q = "SELECT t.leverancierscode, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '421' AND t.`leverancierscode` <> ''";
+			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '421' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
 			$db->query($q);
 
 			// Loop through all the database accommodations
 			while($db->next_record()) {
-				$accCode = $db->f("leverancierscode");
+
+				if($db->f("leverancierscode_negeertarief") != NULL) {
+					$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
+					$leverancierscode = explode(",",$db->f("leverancierscode"));
+
+					$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
+					$accCode = array_shift($accCode);
+				} else {
+					$accCode = $db->f("leverancierscode");
+				}
+
 				$seasonId = $db->f("wzt");
 
 				$x = strtotime($endDate[$seasonId]);
@@ -1001,7 +1029,11 @@ while(list($key,$value)=@each($soap_urls)) {
 
 				if($availability = $interHome->getAvailability($accCode, $startDate[$seasonId], $end_date)) {
 					// Get the availability
-					$xml_beschikbaar[$key][$accCode] = $availability;
+					if(isset($xml_beschikbaar[$key][$accCode])) {
+						$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+					} else {
+						$xml_beschikbaar[$key][$accCode] = $availability;
+					}
 				}
 			}
 
