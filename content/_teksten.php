@@ -5078,6 +5078,10 @@ $txt["en"]["lev_login"]["pasvanafzomer2011"]="The calendar contains information 
 $txt["nl"]["lev_login"]["bezettingsoverzicht"]="Bezettingsoverzicht";
 $txt["en"]["lev_login"]["bezettingsoverzicht"]="Occupancy schedule";
 
+$txt["nl"]["lev_login"]["totaal"]="Totaal";
+$txt["en"]["lev_login"]["totaal"]="Total";
+
+
 #
 #
 #
