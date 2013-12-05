@@ -1784,6 +1784,15 @@ while($db->next_record()) {
 
 										if($nieuwxmltarief>0 and floor($oudtarief)<>floor($nieuwxmltarief) and (floor($xmltarief_al_in_db)<>floor($nieuwxmltarief) or $seizoen_al_in_db<>$seizoen_opslaan)) {
 
+											// Direkt Holidays summer season custom start / end dates
+											if($db->f("xml_type") == 24) {
+												$tmp_date = getdate($key2);
+												// For the summer season (2), change start date to 01/04 and end date to 30/10
+												if(($wzt[$db->f("type_id")] == 2) && ($tmp_date["mon"] < 4 || $tmp_date["mon"] > 10)) {
+													continue;
+												}
+											}
+
 											$tarievenquery="week='".addslashes($key2)."', bruto='".addslashes($nieuwxmltarief)."', type_id='".addslashes($db->f("type_id"))."', seizoen_id='".addslashes($seizoen_opslaan)."', importmoment=NOW()";
 											if(isset($xmltarief_al_in_db)) {
 												$db2->query("UPDATE xml_tarievenimport SET ".$tarievenquery." WHERE week='".addslashes($key2)."' AND type_id='".addslashes($db->f("type_id"))."';");
