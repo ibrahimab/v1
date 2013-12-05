@@ -293,12 +293,13 @@ if($_GET["levid"]) {
 						// kopie aan Danielle als archief
 						if($form->input["email"]<>"danielle@chalet.nl") {
 							$mail->fromname="Chalet.nl";
-							$mail->from="archief-roominglist@chalet.nl";
 							$mail->to="danielle@chalet.nl";
 
 							if($roominglist->totaal) {
+								$mail->from="archief-roominglist@chalet.nl";
 								$mail->subject="Roominglist ".$leveranciersnaam;;
 							} else {
+								$mail->from="archief-arrivals@chalet.nl";
 								$mail->subject="Arrivals ".date("d/m/Y",$_GET["date"])." ".$leveranciersnaam;;
 							}
 

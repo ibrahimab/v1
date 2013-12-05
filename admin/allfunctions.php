@@ -328,13 +328,18 @@ class wt_mail {
 		}
 	}
 
-	function encode_header($text) {
+	function encode_header($text, $use_quotes=false) {
 
 		//
 		// use correct encoding
 		//
 
 		$return = trim($text);
+
+		if($use_quotes and preg_match("/[^A-Za-z0-9 ]/",$return)) {
+			// use quotes if non-alphanumeric
+			$quote='"';
+		}
 
 		if(preg_match("/[^\x20-\x7f]/",$return)) {
 
@@ -357,14 +362,14 @@ class wt_mail {
 			}
 		}
 
-		return $return;
+		return $quote.$return.$quote;
 
 	}
 
 	function send() {
 		unset($this->send_to,$this->send_subject,$this->send_plaintext,$this->send_html,$this->send_header,$this->send_body,$this->send_attachment);
 		if($this->toname) {
-			$this->send_to=$this->encode_header($this->toname)." <".trim($this->to).">";
+			$this->send_to=$this->encode_header($this->toname, true)." <".trim($this->to).">";
 		} else {
 			$this->send_to=$this->to;
 		}
@@ -394,7 +399,7 @@ class wt_mail {
 		if($this->xheaders) $this->send_header.=$this->xheaders."\n";
 
 		if($this->fromname) {
-			$this->send_header.="From: ".$this->encode_header($this->fromname)." <".$this->from.">";
+			$this->send_header.="From: ".$this->encode_header($this->fromname, true)." <".$this->from.">";
 		} else {
 			$this->send_header.="From: ".$this->from;
 		}
