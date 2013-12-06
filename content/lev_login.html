@@ -17,7 +17,7 @@ function totaal_regel($seizoenid) {
 
 	if($login_lev->vars["inlog_inzichtinkoop"] or $login_lev->vars["inlog_inzichtbetalingen"]) {
 
-		$return.="<tr style=\"background-color:#ebebeb;\"><td>Totaal</td>";
+		$return.="<tr style=\"background-color:#ebebeb;font-weight:bold;\"><td>".html("totaal","lev_login")."</td>";
 		if($vars["mag_aanvullende_gegevens_inzien"]) {
 			// geen inzicht in roominglist voor Venturasol
 			$return.="<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
@@ -38,7 +38,7 @@ function totaal_regel($seizoenid) {
 function totaal_regel_derden($seizoenid) {
 	# totaal-regel
 	global $totaal,$login_lev;
-	$return.="<tr style=\"background-color:#ebebeb;\"><td>Totaal</td><td>&nbsp;</td>";
+	$return.="<tr style=\"background-color:#ebebeb;font-weight:bold;\"><td>".html("totaal","lev_login")."</td><td>&nbsp;</td>";
 	if($login_lev->vars["inlog_inzichtinkoop"]) {
 		$return.="<td align=\"right\">".number_format($totaal[$seizoenid]["netto"],2,",",".")."</td>";
 	}
