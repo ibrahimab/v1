@@ -20,6 +20,12 @@ if($_GET["levid"]) {
 
 	$roominglist = new roominglist;
 	$roominglist->leverancier_id = intval($_GET["levid"]);
+
+	if($_GET["t"]==2) {
+		$roominglist->totaal = false;
+		$roominglist->date = $_GET["date"];
+	}
+
 	$vars["create_list"]=$roominglist->create_list();
 
 	$vars["roominglist_object"]=$roominglist;
@@ -107,6 +113,12 @@ if($_GET["levid"]) {
 				$form->field_htmlrow("","<hr><b>Goedkeuring door leverancier</b>");
 				$form->field_text(0,"roominglist_goedgekeurd","Goedgekeurd op (+eventuele opmerking)","",array("text"=>$leverancier_aankomstlijst_goedgekeurd));
 			}
+
+			if($roominglist->garanties_html) {
+				$form->field_htmlrow("","<hr><b>Op te nemen garanties</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
+				$form->field_checkbox(0,"roominglist_garanties_doorgeven","Opnemen in aankomstlijst","",array("selection"=>substr($roominglist->garanties_doorgeven,1)),array("selection"=>$roominglist->garanties_html),array("one_per_line"=>true,"tr_class"=>"roomingaankomst_verzenden","content_html"=>true));
+			}
+
 			$form->field_htmlrow("","<a href=\"#\" id=\"roominglist_bekijken\">Aankomstlijst bekijken zonder verzenden &raquo;</a><input type=\"hidden\" name=\"roominglist_bekijken\" value=\"0\"><input type=\"hidden\" name=\"t\" value=\"2\"><input type=\"hidden\" name=\"date\" value=\"".intval($_GET["date"])."\">");
 		} else {
 			$form->field_htmlrow("","<hr><b>Naamswijzigingen doorgeven</b><br/><br/><p><i>Legenda</i><br/><span class=\"soort_garantie_1\">garantie: ".$vars["soort_garantie"][1]."</span><br/><span class=\"soort_garantie_2\">garantie: ".$vars["soort_garantie"][2]."</span></p>","",array("tr_class"=>"roomingaankomst_verzenden"));
@@ -169,9 +181,7 @@ if($_GET["levid"]) {
 				$roominglist->tot=$form->input["tot"]["unixtime"];
 			}
 
-			if($form->input["roominglist_garanties_doorgeven"]) {
-				$roominglist->garanties_doorgeven=$form->input["roominglist_garanties_doorgeven"];
-			}
+			$roominglist->garanties_doorgeven=$form->input["roominglist_garanties_doorgeven"];
 
 			if($form->input["roominglist_naamswijzigingen_doorgeven"]) {
 				$roominglist->naamswijzigingen_doorgeven=$form->input["roominglist_naamswijzigingen_doorgeven"];
@@ -185,9 +195,7 @@ if($_GET["levid"]) {
 			if($_POST["t"]==2) {
 				// arrivals (not roominglist)
 				$roominglist->totaal=false;
-
 				$roominglist->date=$_POST["date"];
-
 			}
 
 			$vars["create_list"]=$roominglist->create_list();
@@ -217,14 +225,18 @@ if($_GET["levid"]) {
 					echo "<h2>Aankomstlijst</h2>";
 				}
 
-				echo "<p><span class=\"nog_niet_besteld\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog niet besteld (wordt niet meegezonden)</p>";
-				if($roominglist->totaal) {
-					echo "<p><span style=\"font-weight:bold;background-color:yellow;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = naamswijziging (geel + dikgedrukt, wordt w&eacute;l meegezonden)</p>";
+
+				if($roominglist->regels) {
+
+					echo "<p><span class=\"nog_niet_besteld\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog niet besteld (wordt niet meegezonden)</p>";
+					if($roominglist->totaal) {
+						echo "<p><span style=\"font-weight:bold;background-color:yellow;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = naamswijziging (geel + dikgedrukt, wordt w&eacute;l meegezonden)</p>";
+					}
+
+					echo $vars["create_list"]["html"];
+				} else {
+					echo "<p>De aankomstlijst is leeg.</p>";
 				}
-
-				// $vars["create_list"]=$vars["roominglist_object"]->create_list();
-
-				echo $vars["create_list"]["html"];
 
 				echo "</html>";
 				exit;
@@ -278,7 +290,9 @@ if($_GET["levid"]) {
 							$mail->subject.=" ".$leveranciersnaam;
 						}
 
-						$mail->attachment($vars["unixdir"]."tmp/".$filename,"application/msword");
+						if($roominglist->regels) {
+							$mail->attachment($vars["unixdir"]."tmp/".$filename,"application/msword");
+						}
 
 						$mail->plaintext=$form->input["mailbody"];
 
@@ -350,15 +364,9 @@ if($_GET["levid"]) {
 							// aankomstlijst
 							//
 
-							$set="leverancier_id='".intval($_GET["levid"])."', aankomstdatum=FROM_UNIXTIME(".intval($_GET["date"])."), laatste_verzending=NOW(), goedgekeurd=NULL";
-							$db2->query("INSERT INTO leverancier_aankomstlijst SET ".$set." ON DUPLICATE KEY UPDATE laatste_verzending=NOW(), goedgekeurd=NULL;");
+							$set="laatste_verzending=NOW(), goedgekeurd=NULL, aantal_wijzigingen=0, inhoud_laatste_verzending='".addslashes(trim($roominglist->regels))."', garanties_doorgeven='".addslashes($form->input["roominglist_garanties_doorgeven"])."'";
+							$db2->query("INSERT INTO leverancier_aankomstlijst SET leverancier_id='".intval($_GET["levid"])."', aankomstdatum=FROM_UNIXTIME(".intval($_GET["date"])."), ".$set." ON DUPLICATE KEY UPDATE ".$set.";");
 						}
-
-						// if(!$form->input["roominglist_naamswijzigingen_tegenhouden"]) {
-						// 	// bij geen naamswijzigingen: veld leegmaken
-						// 	$db2->query("UPDATE leverancier SET roominglist_naamswijzigingen_tegenhouden='' WHERE leverancier_id='".intval( $_GET["levid"] )."';" );
-						// }
-
 					} else {
 						trigger_error("tmp/".$filename." niet gevonden",E_USER_NOTICE);
 					}

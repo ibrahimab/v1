@@ -26,6 +26,12 @@ if(!$login->logged_in) {
 
 		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+		$roominglist = new roominglist;
+		$roominglist->vergelijk_lijsten_arrivals();
+
+		// exit;
+
+
 		//
 		// check for differences between old en new "vanaf-prijzen"-system
 		//

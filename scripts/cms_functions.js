@@ -604,8 +604,8 @@ $(document).ready(function() {
 		$("input[name='input[roominglist_goedgekeurd]']").focus(function() {
 			if($(this).val()=="") {
 				var currentTime = new Date();
-				var month = currentTime.getMonth() + 1;
-				var day = currentTime.getDate();
+				var month = ('0' + (currentTime.getMonth()+1)).slice(-2);
+				var day = ('0' + currentTime.getDate()).slice(-2);
 				var year = currentTime.getFullYear();
 				$(this).val(day + "-" + month + "-" + year+ ": ");
 			}

@@ -502,6 +502,15 @@ if(date("H")==5 or $argv[1]=="test") {
 	//
 	$roominglist = new roominglist;
 	$roominglist->vergelijk_lijsten();
+
+}
+
+if(date("H")==6 or date("H")==12 or date("H")==16 or $argv[1]=="test") {
+	//
+	// Controleren of er nieuw te verzenden aankomstlijsten zijn
+	//
+	$roominglist = new roominglist;
+	$roominglist->vergelijk_lijsten_arrivals();
 }
 
 
