@@ -3,6 +3,10 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+6-dec-2013 09:53
+ALTER TABLE `leverancier_aankomstlijst` ADD `aantal_wijzigingen` INT NOT NULL , ADD `inhoud_laatste_verzending` MEDIUMTEXT NULL DEFAULT NULL ;
+ALTER TABLE `leverancier_aankomstlijst` ADD `garanties_doorgeven` TEXT NOT NULL ;
+
 29-nov-2013 15:02
 DROP TABLE IF EXISTS `leverancier_aankomstlijst`;
 CREATE TABLE IF NOT EXISTS `leverancier_aankomstlijst` (
