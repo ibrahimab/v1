@@ -598,14 +598,14 @@ $(document).ready(function() {
 
 
 	// datum toevoegen aan roominglist-goedkeur-veld
-	if($("input[name='input[roominglist_goedgekeurd]']").length>0) {
+	if($("#cms_body_cms_roomingaankomst").length>0) {
 
 
 		$("input[name='input[roominglist_goedgekeurd]']").focus(function() {
 			if($(this).val()=="") {
 				var currentTime = new Date();
-				var month = currentTime.getMonth() + 1;
-				var day = currentTime.getDate();
+				var month = ('0' + (currentTime.getMonth()+1)).slice(-2);
+				var day = ('0' + currentTime.getDate()).slice(-2);
 				var year = currentTime.getFullYear();
 				$(this).val(day + "-" + month + "-" + year+ ": ");
 			}
@@ -613,6 +613,8 @@ $(document).ready(function() {
 
 		$("input[name='input[versturen]']").change(function() {
 			if($(this).is(":checked")) {
+
+				$("#submit1frm").val("VERZENDEN");
 
 				$(".roomingaankomst_verzenden").css("display","table-row");
 
@@ -640,6 +642,7 @@ $(document).ready(function() {
 				},800);
 			} else {
 				$(".roomingaankomst_verzenden").css("display","none");
+				$("#submit1frm").val("OPSLAAN");
 			}
 			setHgt2();
 		});
@@ -720,7 +723,6 @@ $(document).ready(function() {
 	$("#roominglist_bekijken").click(function(){
 
 		window.open('', 'formpopup', 'width=1000,height=600,resizeable,scrollbars');
-		// form.target = 'formpopup';
 
 		$("input[name=roominglist_bekijken]").val("1");
 

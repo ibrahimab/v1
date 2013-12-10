@@ -226,7 +226,7 @@ if(!$_GET["beheerder"]) {
 
 }
 
-$cms->edit_field(8,0,"htmlrow","<hr><br><b><i>Inlogsysteem - eigenarenlogin</i></b><br><br>Inloggen kan via: <a href=\"https://www.chalet.nl/ownerlogin\" target=\"_blank\">https://www.chalet.nl/ownerlogin</a><br>&nbsp;");
+$cms->edit_field(8,0,"htmlrow","<hr><br><b><i>Inlogsysteem - eigenarenlogin</i></b><br><br>Inloggen kan via:<ul><li><a href=\"https://www.chalet.nl/ownerlogin\" target=\"_blank\">https://www.chalet.nl/ownerlogin</a></li><li><a href=\"http://www.venturasol.nl/ownerlogin\" target=\"_blank\">http://www.venturasol.nl/ownerlogin</a></li></ul>");
 $cms->edit_field(8,0,"inlog_toegestaan","Deze ".$cms->settings[8]["type_single"]." mag inloggen (met contract-mailadres)");
 $cms->edit_field(8,0,"inlog_taal","Taal inlogsysteem");
 $cms->edit_field(8,0,"inlog_wintersite","Website winter");

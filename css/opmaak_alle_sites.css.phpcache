@@ -762,6 +762,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 /*                       */
 /*                       */
 
+#zoekresultatentable {
+	width: 700px;
+}
+
 #zoekblok {
 	border: 1px solid #003366;
 	background-color: #eaf0fc;

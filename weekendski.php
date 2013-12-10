@@ -1,5 +1,6 @@
 <?php
 
+$vars["page_starttime"]=microtime(true);
 $vars["verberg_zoekenboeklinks"]=true;
 
 include("admin/vars.php");

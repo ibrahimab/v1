@@ -2430,18 +2430,22 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 							if($value2["tarief"]) {
 								unset($zoekresultaat_prijs_periode);
 								$zoekresultaat_prijs_periode.="<div class=\"zoekresultaat_prijs_periode\">";
-								if(preg_match("/^([0-9]+)n$/",$gekozen["fdu"],$regs)) {
-									if($regs[1]==1) {
-										$zoekresultaat_prijs_periode.="1 ".html("nacht","vars");
-									} else {
-										$zoekresultaat_prijs_periode.=intval($regs[1])." ".html("nachten","vars");
-									}
-								} elseif($gekozen["fdu"]>1) {
-									$zoekresultaat_prijs_periode.=$gekozen["fdu"]." ".html("weken","vars");
-								} elseif($vanaf_prijzen_tonen and $_GET["fdu"] and $_GET["fdu"]<>"1") {
-									$zoekresultaat_prijs_periode.=html("per")." ".html("week","vars");
+								if($vars["zoekform_weekendski"]) {
+									$zoekresultaat_prijs_periode.="1 ".html("weekend","vars");
 								} else {
-									$zoekresultaat_prijs_periode.="1 ".html("week","vars");
+									if(preg_match("/^([0-9]+)n$/",$gekozen["fdu"],$regs)) {
+										if($regs[1]==1) {
+											$zoekresultaat_prijs_periode.="1 ".html("nacht","vars");
+										} else {
+											$zoekresultaat_prijs_periode.=intval($regs[1])." ".html("nachten","vars");
+										}
+									} elseif($gekozen["fdu"]>1) {
+										$zoekresultaat_prijs_periode.=$gekozen["fdu"]." ".html("weken","vars");
+									} elseif($vanaf_prijzen_tonen and $_GET["fdu"] and $_GET["fdu"]<>"1") {
+										$zoekresultaat_prijs_periode.=html("per")." ".html("week","vars");
+									} else {
+										$zoekresultaat_prijs_periode.="1 ".html("week","vars");
+									}
 								}
 								$zoekresultaat_prijs_periode.="</div>";
 
@@ -3573,8 +3577,11 @@ if($resultaten_tonen) {
 			$temp_qs=ereg_replace("&scrolly=[0-9]{1,}","",$temp_qs);
 			$temp_qs=ereg_replace("\?scrolly=[0-9]{1,}&","?",$temp_qs);
 			$temp_qs=ereg_replace("\?scrolly=[0-9]{1,}$","",$temp_qs);
+			$temp_qs=ereg_replace("scrolly=[0-9]{1,}","",$temp_qs);
+			$temp_qs=ereg_replace("thema=[a-zA-Z0-9-]{1,}","",$temp_qs);
+			if(substr($temp_qs,0,1)=="&") $temp_qs=substr($temp_qs,1);
 
-			$zoekurl="<a href=\"".$urlself."?".$temp_qs."&page=";
+			$zoekurl="<a href=\"".$urlself."?".($temp_qs ? $temp_qs."&" : "")."page=";
 
 			echo "<div class=\"zoekresultaten_paginas_nummers\">";
 
@@ -3779,7 +3786,9 @@ if($vars["verfijnen_aanbieden"]) {
 }
 
 // pageload-time bepalen
-echo "<div class=\"data-div\" id=\"page_load_time\" data-time=\"".number_format(microtime(true)-$vars["page_starttime"],2,",",".")."\"></div>";
+if($vars["page_starttime"]) {
+	echo "<div class=\"data-div\" id=\"page_load_time\" data-time=\"".number_format(microtime(true)-$vars["page_starttime"],2,",",".")."\"></div>";
+}
 
 
 ?>

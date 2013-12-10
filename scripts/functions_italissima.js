@@ -187,4 +187,101 @@ $(document).ready(function() {
 	$("#hoofdpagina_tarievenalbekend").mouseleave(function() {
 		$("#hoofdpagina_tarievenalbekend_bekijk").css("color","#661700");
 	});
+
+	if(jQuery('#vmap').length > 0) {
+
+		var pin_id = 230; // Id of the Gardameer region
+		if(jQuery("div#regio_"+pin_id).length <= 0) {
+			 $("#pin_142 .pin_content").addClass("disabled");
+		}
+
+		var pin_c = $("#pin_142").html();
+
+		jQuery('#vmap').vectorMap({
+			map: 'it_mill_en',
+			backgroundColor: '#ffffff',
+			borderColor: '#ffffff',
+			color: '#ffd38f',
+			hoverColor: '#ff9900',
+			selectedColor: '#ff9900',
+			borderOpacity: 1,
+			enableZoom: false,
+			pins: {"IT-142": pin_c},
+			onLabelShow: function(event, label, code)
+			{
+				var tmp = code.replace("IT-","");
+
+				if(jQuery("div#regio_"+tmp).length > 0) {
+					var name = jQuery("div#regio_"+tmp+' a').text();
+					var noacc = jQuery("div#regio_"+tmp).attr("data-noacc");
+
+					label.html(name + ': '+ noacc +' vakantiehuizen');
+				} else {
+					return false;
+				}
+			},
+			onRegionOut: function(event, code, region)
+			{
+				var tmp = code.replace("IT-","");
+				jQuery("div#regio_"+tmp).removeClass("hover");
+			}
+		});
+
+		// Highlight map region when the mouse is over a region in the list
+		jQuery("#landkaartklikbaar_namen .landnaam a").hover(
+			function(){
+				var id = $(this).parent().attr("rel");
+				jQuery('#vmap #jqvmap1_IT-'+id).attr("fill", "#ff9900");
+				if(id == pin_id) {
+					jQuery('#jqvmap1_IT-142_pin div.pin_content').addClass("hover");
+				}
+			},
+			function() {
+				var id = $(this).parent().attr("rel");
+				jQuery('#vmap #jqvmap1_IT-'+id).attr("fill", "#ffd38f");
+				if(id == pin_id) {
+					jQuery('#jqvmap1_IT-142_pin div.pin_content').removeClass("hover");
+				}
+			}
+		);
+
+		// Coditions added for the Gardameer region
+		if(jQuery("div#regio_"+pin_id).length > 0) {
+
+			var name = jQuery("div#regio_"+pin_id+' a').text();
+			var noacc = jQuery("div#regio_"+pin_id).attr("data-noacc");
+			// Set the content of the tip
+			$(".pin_tip").html(name + ': '+ noacc +' vakantiehuizen');
+
+			jQuery('#jqvmap1_IT-142_pin').delegate('div.pin_content', 'mouseover mouseout', function (e) {
+				if (e.type == 'mouseover') {
+					$(".pin_tip").show();
+					jQuery("div#regio_"+pin_id).addClass("hover");
+				} else {
+					$(".pin_tip").hide();
+					jQuery("div#regio_"+pin_id).removeClass("hover");
+				}
+			});
+
+			jQuery('#jqvmap1_IT-142_pin').mousemove(function (e) {
+				if ($(".pin_tip").is(':visible')) {
+					var left = e.pageX - 15 - $(".pin_tip").width();
+					var top = e.pageY - 15 - $(".pin_tip").height();
+					if(left < 0)
+						left = e.pageX + 15;
+					if(top < 0)
+						top = e.pageY + 15;
+					$(".pin_tip").css({
+						left: left,
+						top: top
+					});
+				}
+			});
+
+			jQuery('#jqvmap1_IT-142_pin').click(function(){
+				var loc = jQuery("div#regio_"+pin_id+' a').attr("href");
+				window.location = loc;
+			});
+		}
+	}
 });

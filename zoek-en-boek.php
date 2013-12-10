@@ -1,8 +1,6 @@
 <?php
 
-
 $vars["page_starttime"]=microtime(true);
-
 
 include_once("admin/vars.php");
 

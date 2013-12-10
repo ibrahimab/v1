@@ -142,7 +142,7 @@ class tarieventabel {
 				$seizoenid=$this->seizoen_id;
 			}
 
-			$return.=ereg_replace("[a-z]+/$","",$vars["path"])."cms_tarieven.php?&sid=".$seizoenid."&tid=".$this->type_id."&from=".urlencode("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie")."\" title=\"tarieven bewerken\">";
+			$return.=ereg_replace("[a-z]+/$","",$vars["path"])."cms_tarieven.php?sid=".$seizoenid."&tid=".$this->type_id."&from=".urlencode("http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie")."\" title=\"tarieven bewerken\">";
 			$return.="<img src=\"".$vars["path"]."pic/class.cms_edit.gif\" border=\"0\" alt=\"Tarieven bewerken\" width=\"14\" height=\"14\"></a>";
 			$return.="</div>";
 			$return.="<div class=\"clear\"></div>\n";
@@ -339,7 +339,7 @@ class tarieventabel {
 			// legenda
 			$return.="<div class=\"tarieventabel_legenda\">";
 			if($this->aanbieding_actief) {
-				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_aanbieding\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_aanbieding","tarieventabel")."</div>";
+				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_legenda_kleurenblokje_aanbieding tarieventabel_tarieven_aanbieding\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_aanbieding","tarieventabel")."</div>";
 			}
 			if($this->arrangement) {
 				if($this->get_aantal_personen and $_GET["d"]) {
@@ -739,6 +739,12 @@ class tarieventabel {
 					} elseif($_GET["d"]==$key2 and !$this->get_aantal_personen) {
 						$class.=" tarieventabel_tarieven_gekozen";
 					}
+// voor Selina
+if($this->tarief[$key][$key2]>0) {
+
+} else {
+	$class.=" tarieventabel_tarieven_niet_beschikbaar_td";
+}
 
 					$return.="<td class=\"".trim($class)."\" data-week=\"".$key2."\">";
 
@@ -804,10 +810,16 @@ class tarieventabel {
 					$class.=" tarieventabel_tarieven_beschikbaar";
 				}
 
-
 				if($_GET["d"]==$key) {
 					$class.=" tarieventabel_tarieven_gekozen";
 				}
+
+// voor Selina
+if($this->tarief[$key]>0) {
+
+} else {
+	$class.=" tarieventabel_tarieven_niet_beschikbaar_td";
+}
 
 				$return.="<td class=\"".trim($class)."\" data-week=\"".$key."\">";
 

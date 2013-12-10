@@ -179,7 +179,7 @@ form {
 }
 
 #toonaccommodatie_foto {
-	margin-top: 22px;
+	margin-top: 31px;
 	margin-bottom: -16px;
 }
 
@@ -601,6 +601,18 @@ form {
 
 #landkaartklikbaar_namen .landnaam {
 	margin-bottom: 10px;
+}
+
+#landkaartklikbaar_namen .landnaam.hover {
+	color: #F90;
+}
+
+#landkaartklikbaar_namen .landnaam.hover a {
+	color: #F90;
+}
+
+#vmap {
+	cursor: pointer;
 }
 
 #landkaartklikbaar_info {

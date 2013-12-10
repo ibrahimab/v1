@@ -1897,7 +1897,7 @@ $txt["nl_z"]["toonaccommodatie"]["tarievennognietbekend"]="De tarieven voor deze
 $txt["en_z"]["toonaccommodatie"]["tarievennognietbekend"]="The rates for this accommodation are not yet known. Please [[l1]]contact[[/l1]] us so that we can check the rate for you.";
 
 $txt["nl"]["toonaccommodatie"]["geenopties"]="Er zijn op dit moment geen opties beschikbaar voor deze accommodatie.";
-$txt["en"]["toonaccommodatie"]["geenopties"]="There are no option available for this accommodation.";
+$txt["en"]["toonaccommodatie"]["geenopties"]="There are no options available for this accommodation.";
 
 $txt["nl"]["toonaccommodatie"]["accommodatiegegevens"]="Accommodatiegegevens";
 $txt["en"]["toonaccommodatie"]["accommodatiegegevens"]="Accommodation data";
@@ -5077,6 +5077,10 @@ $txt["en"]["lev_login"]["pasvanafzomer2011"]="The calendar contains information 
 
 $txt["nl"]["lev_login"]["bezettingsoverzicht"]="Bezettingsoverzicht";
 $txt["en"]["lev_login"]["bezettingsoverzicht"]="Occupancy schedule";
+
+$txt["nl"]["lev_login"]["totaal"]="Totaal";
+$txt["en"]["lev_login"]["totaal"]="Total";
+
 
 #
 #

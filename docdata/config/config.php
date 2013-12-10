@@ -122,10 +122,10 @@ class Config {
 		$this->payment_preferences = array(
 			"profile" => "standard",
 			"number_of_days_to_pay" => 6,
-			"exhortation_period1_number_days" => 1,
-			"exhortation_period1_profile" => "standard",
-			"exhortation_period2_number_days" => 10,
-			"exhortation_period2_profile" => "standard",
+			"exhortation_period1_number_days" => "",
+			"exhortation_period1_profile" => "",
+			"exhortation_period2_number_days" => "",
+			"exhortation_period2_profile" => "",
 		);
 
 		$this->custom_statuses = array(

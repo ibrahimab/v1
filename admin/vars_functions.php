@@ -2372,7 +2372,9 @@ if(!$skipastarieven_verwerken and $GLOBALS["id"]<>"cms_kortingen_tarieven" and !
 
 			$return["c_inkoop"]=$return["c_netto"];
 
-			$marge_percentage_afronding=($return["c_verkoop"]-$return["c_inkoop"])/$return["c_verkoop"]*100;
+			if($return["c_verkoop"]<>0) {
+				$marge_percentage_afronding=($return["c_verkoop"]-$return["c_inkoop"])/$return["c_verkoop"]*100;
+			}
 			if($acc["flexibel_afronden_op_hele_euros"]) {
 				if($marge_percentage_afronding>12.5) {
 					$return["c_verkoop_afgerond"]=floor($return["c_verkoop"]);

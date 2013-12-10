@@ -66,6 +66,9 @@ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opm
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_alle_sites.css.phpcache?cache=".@filemtime("css/opmaak_alle_sites.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
 
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_italissima.css?cache=".@filemtime("css/opmaak_italissima.css")."\" />\n";
+if($id == "bestemmingen") {
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/jqvmap.css?cache=".@filemtime("css/jqvmap.css")."\" />\n";
+}
 if(file_exists("css/".$id."_italissima.css")) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/".$id."_italissima.css?cache=".@filemtime("css/".$id."_italissima.css")."\" />\n";
 } elseif(file_exists("css/".$id.".css")) {
@@ -138,6 +141,11 @@ if($id=="zoek-en-boek") {
 
 # Javascript-functions
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
+
+if($id == "bestemmingen") {
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.vmap.js?cache=".@filemtime("scripts/jquery.vmap.js")."\" ></script>\n";
+	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery-jvectormap-it-mill-en.js?cache=".@filemtime("scripts/jquery-jvectormap-it-mill-en.js")."\" ></script>\n";
+}
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_italissima.js?cache=".@filemtime("scripts/functions_italissima.js")."\" ></script>\n";
 if(file_exists("scripts/functions_".$id.".js")) {
 	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."\" ></script>\n";

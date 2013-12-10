@@ -159,7 +159,9 @@ echo "<meta name=\"description\" content=\"".wt_he(($meta_description ? $meta_de
 echo facebook_opengraph();
 
 # Google+
-echo "<link href=\"https://plus.google.com/102116407421806841336\" rel=\"publisher\" />\n";
+if($vars["website"]=="C") {
+	echo "<link href=\"https://plus.google.com/+ChaletNlWintersport\" rel=\"publisher\" />\n";
+}
 
 # Google Analytics
 echo googleanalytics();

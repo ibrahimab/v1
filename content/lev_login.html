@@ -5,26 +5,40 @@
 
 echo "<h1>".html("title_lev_login")."</h1>";
 
+if($login_lev->vars["inlog_wintersite"]<>"X" and $login_lev->vars["inlog_wintersite"]<>"Y") {
+	$vars["mag_aanvullende_gegevens_inzien"]=true;
+}
+
+
+
 function totaal_regel($seizoenid) {
 	# totaal-regel
-	global $totaal,$login_lev;
-	$return.="<tr style=\"background-color:#ebebeb;\"><td>Totaal</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
-	if($login_lev->vars["inlog_inzichtinkoop"]) {
-		$return.="<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
-		$return.="<td align=\"right\">".number_format($totaal[$seizoenid]["netto"],2,",",".")."</td>";
+	global $totaal, $login_lev, $vars;
+
+	if($login_lev->vars["inlog_inzichtinkoop"] or $login_lev->vars["inlog_inzichtbetalingen"]) {
+
+		$return.="<tr style=\"background-color:#ebebeb;font-weight:bold;\"><td>".html("totaal","lev_login")."</td>";
+		if($vars["mag_aanvullende_gegevens_inzien"]) {
+			// geen inzicht in roominglist voor Venturasol
+			$return.="<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+		}
+		if($login_lev->vars["inlog_inzichtinkoop"]) {
+			$return.="<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
+			$return.="<td align=\"right\">".number_format($totaal[$seizoenid]["netto"],2,",",".")."</td>";
+		}
+		if($login_lev->vars["inlog_inzichtbetalingen"]) {
+			$return.="<td align=\"right\">".number_format($totaal[$seizoenid]["voldaan"],2,",",".")."</td>";
+			$return.="<td>&nbsp;</td>";
+		}
+		$return.="<td>&nbsp;</td></tr>";
 	}
-	if($login_lev->vars["inlog_inzichtbetalingen"]) {
-		$return.="<td align=\"right\">".number_format($totaal[$seizoenid]["voldaan"],2,",",".")."</td>";
-		$return.="<td>&nbsp;</td>";
-	}
-	$return.="<td>&nbsp;</td></tr>";
 	return $return;
 }
 
 function totaal_regel_derden($seizoenid) {
 	# totaal-regel
 	global $totaal,$login_lev;
-	$return.="<tr style=\"background-color:#ebebeb;\"><td>Totaal</td><td>&nbsp;</td>";
+	$return.="<tr style=\"background-color:#ebebeb;font-weight:bold;\"><td>".html("totaal","lev_login")."</td><td>&nbsp;</td>";
 	if($login_lev->vars["inlog_inzichtinkoop"]) {
 		$return.="<td align=\"right\">".number_format($totaal[$seizoenid]["netto"],2,",",".")."</td>";
 	}
@@ -117,10 +131,12 @@ if($login_lev->logged_in) {
 		echo "<li><a href=\"".$vars["path"]."lev_login.php?t=4\">".html("kalendermetplanning","lev_login")."</a></li>";
 		echo "<li><a href=\"".$vars["path"]."lev_login.php?t=2\">".html("boekingenviachalet","lev_login",array("v_websitenaam"=>$vars["websitenaam"]))."</a></li>";
 		if($login_lev->vars["inlog_toon_derden"]) {
-#			echo "<li>".html("boekingenviaderden","lev_login")."</li>";
 			echo "<li><a href=\"".$vars["path"]."lev_login.php?t=3\">".html("boekingenviaderden","lev_login")."</a></li>";
 		}
-		echo "<li><a href=\"".$vars["path"]."cms_overzichten_print.php?roominglist=1\" target=\"_blank\">".html("roominglist","lev_login")."</a></li>";
+		if($vars["mag_aanvullende_gegevens_inzien"]) {
+			// geen inzicht in roominglist voor Venturasol
+			echo "<li><a href=\"".$vars["path"]."cms_overzichten_print.php?roominglist=1\" target=\"_blank\">".html("roominglist","lev_login")."</a></li>";
+		}
 		echo "<li><a href=\"".$vars["path"]."lev_login.php?t=1\">".html("mijngegevens","lev_login")."</a></li>";
 
 		// bezettingsoverzichten
@@ -244,7 +260,7 @@ if($login_lev->logged_in) {
 
 		if($_GET["t"]==2) {
 
-			$db->query("SELECT s.naam".$vars["ttv_lev_login"]." AS seizoen, s.seizoen_id, UNIX_TIMESTAMP(s.eind) AS eind, a.wzt, a.naam, a.toonper, a.tonen, t.tonen AS ttonen, l.begincode, t.type_id, t.naam AS tnaam, a.bestelnaam, t.bestelnaam AS tbestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.websites, p.naam AS plaats, b.boeking_id, b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, b.inkoopbruto, b.inkoopcommissie, b.inkoopnetto, t.leverancier_id, t.eigenaar_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, seizoen s WHERE b.seizoen_id=s.seizoen_id AND p.land_id=l.land_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id=t.type_id OR b.verzameltype_gekozentype_id=t.type_id) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND (t.leverancier_id='".addslashes($login_lev->user_id)."' OR t.beheerder_id='".addslashes($login_lev->user_id)."' OR t.eigenaar_id='".addslashes($login_lev->user_id)."') AND b.boekingsnummer<>'' AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.besteldatum IS NOT NULL AND b.seizoen_id>=17 AND (b.type_id IN (".addslashes($inquery_type_id).") OR b.verzameltype_gekozentype_id IN (".addslashes($inquery_type_id)."))".$andquery." ORDER BY s.begin DESC, b.aankomstdatum_exact DESC, b.vertrekdatum_exact DESC, bp.achternaam, bp.voornaam;");
+			$db->query("SELECT s.naam".$vars["ttv_lev_login"]." AS seizoen, s.seizoen_id, UNIX_TIMESTAMP(s.eind) AS eind, a.wzt, a.naam, a.toonper, a.tonen, t.tonen AS ttonen, l.begincode, t.type_id, t.naam AS tnaam, a.bestelnaam, t.bestelnaam AS tbestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.websites, p.naam AS plaats, b.boeking_id, b.aankomstdatum_exact, b.vertrekdatum_exact, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, b.inkoopbruto, b.inkoopcommissie, b.inkoopnetto, t.leverancier_id, t.eigenaar_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, seizoen s WHERE b.seizoen_id=s.seizoen_id AND p.land_id=l.land_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND (b.type_id=t.type_id OR b.verzameltype_gekozentype_id=t.type_id) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND (t.leverancier_id='".addslashes($login_lev->user_id)."' OR t.beheerder_id='".addslashes($login_lev->user_id)."' OR t.eigenaar_id='".addslashes($login_lev->user_id)."') AND b.boekingsnummer<>'' AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.besteldatum IS NOT NULL AND b.seizoen_id>=17 AND (b.type_id IN (".addslashes($inquery_type_id).") OR b.verzameltype_gekozentype_id IN (".addslashes($inquery_type_id)."))".$andquery." ORDER BY s.begin DESC, b.aankomstdatum_exact, b.vertrekdatum_exact, bp.achternaam, bp.voornaam;");
 			if($db->num_rows()) {
 				unset($boekingid_inquery);
 				while($db->next_record()) {
@@ -279,12 +295,18 @@ if($login_lev->logged_in) {
 						echo "<tr>";
 						echo "<th style=\"width:70px;\">".html("aankomst","lev_login")."</th>";
 						echo "<th style=\"width:55px;\">".html("nachten","lev_login")."</th>";
-						echo "<th style=\"\">".html("klant","lev_login")."</th>";
-						echo "<th style=\"width:80px;\">".html("geboekt","lev_login")."</th>";
+						if($vars["mag_aanvullende_gegevens_inzien"]) {
+							// hide these columns for Venturasol
+							echo "<th style=\"\">".html("klant","lev_login")."</th>";
+							echo "<th style=\"width:80px;\">".html("geboekt","lev_login")."</th>";
+						}
 
 						if($login_lev->vars["inlog_inzichtinkoop"]) {
 							echo "<th style=\"width:80px;text-align:right;\">".html("huurprijs","lev_login")."</th>";
-							echo "<th style=\"width:60px;text-align:right;\">".html("commissie","lev_login")."</th>";
+							if($vars["mag_aanvullende_gegevens_inzien"]) {
+								// hide these columns for Venturasol
+								echo "<th style=\"width:60px;text-align:right;\">".html("commissie","lev_login")."</th>";
+							}
 							echo "<th style=\"width:80px;text-align:right;\">".html("korting","lev_login")."</th>";
 							echo "<th style=\"width:80px;text-align:right;\">".html("netto","lev_login")."</th>";
 						}
@@ -301,11 +323,17 @@ if($login_lev->logged_in) {
 					echo "<tr>";
 					echo "<td>".date("d/m/y",$db->f("aankomstdatum_exact"))."</td>";
 					echo "<td align=\"right\">".round(($db->f("vertrekdatum_exact")-$db->f("aankomstdatum_exact"))/86400)."</td>";
-					echo "<td>".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td>";
-					echo "<td>".date("d/m/y",$db->f("besteldatum"))."</td>";
+					if($vars["mag_aanvullende_gegevens_inzien"]) {
+						// hide these columns for Venturasol
+						echo "<td>".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td>";
+						echo "<td>".date("d/m/y",$db->f("besteldatum"))."</td>";
+					}
 					if($login_lev->vars["inlog_inzichtinkoop"]) {
 						echo "<td align=\"right\">".number_format($db->f("inkoopbruto"),2,",",".")."</td>";
-						echo "<td align=\"right\">".($db->f("inkoopcommissie")<>0 ? number_format($db->f("inkoopcommissie"),2,",",".")."%" : "&nbsp;")."</td>";
+						if($vars["mag_aanvullende_gegevens_inzien"]) {
+							// hide these columns for Venturasol
+							echo "<td align=\"right\">".($db->f("inkoopcommissie")<>0 ? number_format($db->f("inkoopcommissie"),2,",",".")."%" : "&nbsp;")."</td>";
+						}
 
 						$inkoopbruto_min_commissie=$db->f("inkoopbruto");
 						if($db->f("inkoopcommissie")<>0) {
@@ -551,7 +579,14 @@ if($login_lev->logged_in) {
 		echo "<input type=\"hidden\" name=\"lev_login_cms\" value=\"1\">";
 		echo "<select name=\"leverancier_id\">";
 		echo "<option></option>";
-		$db->query("SELECT leverancier_id, naam FROM leverancier WHERE inlog_toegestaan=1 ORDER BY naam;");
+
+		if($vars["seizoentype"]==1) {
+			$andquery_inlog=" AND inlog_wintersite='".addslashes($vars["website"])."'";
+		} else {
+			$andquery_inlog=" AND inlog_zomersite='".addslashes($vars["website"])."'";
+		}
+		$db->query("SELECT leverancier_id, naam FROM leverancier WHERE inlog_toegestaan=1".$andquery_inlog." ORDER BY naam;");
+		echo $db->lq;
 		while($db->next_record()) {
 			echo "<option value=\"".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</option>";
 		}

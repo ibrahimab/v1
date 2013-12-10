@@ -63,12 +63,21 @@ RewriteRule ^(.*)$ http://www.venturasol-secondhomes.nl/$1 [L,R=301]
 
 
 #
-# niet-https doorsturen naar https
+# niet-https doorsturen naar https: chalet.eu (i.v.m. SPDY)
 #
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.eu [NC]
 RewriteCond %{SERVER_PORT} 80
 RewriteRule ^(.*)$ https://www.chalet.eu/$1 [L,R=301]
+
+#
+# niet-https doorsturen naar https: italissima.nl (i.v.m. SPDY)
+#
+RewriteCond %{HTTP_HOST} italissima\.nl [NC]
+RewriteCond %{HTTP_HOST} !^test\.italissima\.nl [NC]
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
+
 
 #
 # zonder www doorsturen naar met www
@@ -162,6 +171,8 @@ RewriteCond %{REMOTE_ADDR} !^82\.77\.165\.60
 RewriteCond %{REMOTE_ADDR} !^194\.102\.98\.2.*
 # Docdata
 RewriteCond %{REMOTE_ADDR} !^213\.136\.23\.8
+# Selina
+RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238
 RewriteRule ^(.*)$ http://www.chalet.nl/error_msg.php?t=1 [L,R=301]
 
 # Test-server: geen https toestaan
@@ -541,3 +552,4 @@ php_value memory_limit 256M
 #	ModPagespeedEnableFilters outline_css,outline_javascript
 
 </IfModule>
+

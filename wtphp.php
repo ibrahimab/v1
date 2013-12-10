@@ -1,29 +1,31 @@
 <?php
 
-include("admin/vars.php");
+// include("admin/vars.php");
 
 // $mailadres="bjorn@chalet.nl";
 // $naam="Bjorn den Blanken";
 
 // $mailadres="jeroen@webtastic.nl";
-// $naam="Jeroen Boschman";
+// $naam="André Test";
 
-// $order_number="C12115414";
+// $order_number="B10000002";
 
 // echo "Testmail is naar Trustpilot verzonden.<br/><br/>Klantgegevens: [".$order_number."] ".$naam." - ".$mailadres;
 
 // $mail=new wt_mail;
-// $mail->fromname="Italissima.nl";
-// $mail->from="info@italissima.nl";
 
-// // $mail->fromname="Chalet.nl";
-// // $mail->from="info@chalet.nl";
+// $mail->from=$vars["email"];
+// $mail->fromname=$vars["websitenaam"];
 
-// $mail->to="b69417c8@trustpilotservice.com";
+// $mail->to=$vars["trustpilot_code"];
 // // $mail->to="jeroen@webtastic.nl";
 // $mail->subject="Order number ".$order_number;
 
-// $mail->plaintext="Customer Email: ".$mailadres."\n\nCustomer Name: ".$naam."\n\n";
+// $mail->html="<!--
+// tp_lang: nl-NL
+// tp_tld: nl
+// -->
+// Customer Email: ".wt_he($mailadres)."\n<br/>Customer Name: ".wt_he($naam)."<br/>\n";
 
 // // $mail->html_top="";
 // // $mail->html="<B>Hallo</B>";
@@ -56,9 +58,9 @@ if($_GET["errortest"]) {
 	echo "Errortest has been sent...";
 	sort($empty_test_array);
 } else {
-	if($_COOKIE["flc"]) {
+	// if($_COOKIE["flc"]) {
 		phpinfo();
-	}
+	// }
 }
 
 # test 12
