@@ -167,7 +167,7 @@ class booking_payment {
 			}
 			$this->amount["eindbetaling"]=$this->totale_reissom-$this->amount["reedsvoldaan"];
 
-		} elseif($this->gegevens["stap1"]["dagen_voor_vertrek"]>14) {
+		} elseif($this->gegevens["stap1"]["dagen_voor_vertrek"]>7) {
 
 			//
 			// final payment: per omgaande
@@ -178,10 +178,10 @@ class booking_payment {
 		} else {
 
 			//
-			// final payment: urgent
+			// final payment: per direct
 			//
 
-			$this->text["eindbetaling"]=txt("metspoedopdrachttevoldoen","factuur");
+			$this->text["eindbetaling"]=txt("perdirecttevoldoen","factuur");
 			$this->amount["eindbetaling"]=$this->totale_reissom-$this->amount["reedsvoldaan"];
 		}
 
