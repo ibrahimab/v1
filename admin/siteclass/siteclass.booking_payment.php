@@ -167,19 +167,13 @@ class booking_payment {
 			}
 			$this->amount["eindbetaling"]=$this->totale_reissom-$this->amount["reedsvoldaan"];
 
-		} elseif($this->gegevens["stap1"]["dagen_voor_vertrek"]>28) {
-			//
-			// final payment: within 5 days
-			//
-			$this->text["eindbetaling"]=txt("binnen5dagentevoldoen","factuur");
-			$this->amount["eindbetaling"]=$this->totale_reissom-$this->amount["reedsvoldaan"];
 		} elseif($this->gegevens["stap1"]["dagen_voor_vertrek"]>14) {
 
 			//
-			// final payment: directly
+			// final payment: per omgaande
 			//
 
-			$this->text["eindbetaling"]=txt("perdirecttevoldoen","factuur");
+			$this->text["eindbetaling"]=txt("peromgaandetevoldoen","factuur");
 			$this->amount["eindbetaling"]=$this->totale_reissom-$this->amount["reedsvoldaan"];
 		} else {
 

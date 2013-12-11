@@ -4201,6 +4201,10 @@ $txt["en"]["factuur"]["binnen5dagentevoldoen"]="To be paid within 5 days";
 $txt["nl"]["factuur"]["perdirecttevoldoen"]="Per direct te voldoen";
 $txt["en"]["factuur"]["perdirecttevoldoen"]="To be paid immediately";
 
+$txt["nl"]["factuur"]["peromgaandetevoldoen"]="Per omgaande te voldoen";
+$txt["en"]["factuur"]["peromgaandetevoldoen"]="To be paid immediately";
+$nieuwe_vertaling["en"]["factuur"]["peromgaandetevoldoen"]=true;
+
 $txt["nl"]["factuur"]["metspoedopdrachttevoldoen"]="Met spoedopdracht te voldoen";
 $txt["en"]["factuur"]["metspoedopdrachttevoldoen"]="Payment by direct bank transfer";
 
