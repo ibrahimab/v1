@@ -377,7 +377,7 @@ class roominglist {
 						$this->garanties_html["b".$db->f("boeking_id")] = "<span class=\"soort_garantie_".$garantie_boeking[$db->f("boeking_id")]."\">".wt_he($vars["alletypes"][$db->f("type_id")])." - ".wt_he( wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) ) )." - <a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a> - ".date("d/m/Y",$db->f("aankomstdatum_exact"))."</span>";
 					}
 
-					if($garantie_boeking[$db->f("boeking_id")]==2 and $this->toaal) {
+					if($garantie_boeking[$db->f("boeking_id")]==2 and $this->totaal) {
 						// "garantie: op naam en losse weken": standaard doorgeven
 						$this->garanties_doorgeven.=","."b".$db->f("boeking_id");
 					}

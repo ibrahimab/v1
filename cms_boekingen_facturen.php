@@ -569,7 +569,7 @@ if($form->okay) {
 		// betalingen
 		//
 		$booking_payment = new booking_payment($gegevens);
-		$booking_payment->bereken_aanbetaling_opnieuw=true;
+		$booking_payment->bereken_bedragen_opnieuw=true;
 		$booking_payment->get_amounts();
 
 		if($booking_payment->amount["reedsvoldaan"]<>0) {

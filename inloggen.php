@@ -37,8 +37,8 @@ if($_GET["directlogin"] and $_GET["user_id"] and $_GET["code"]) {
 	}
 
 	if($_GET["soort"]==2) {
-		# doorlinken naar "betalen"
-		header("Location: ".$vars["path"]."bsys_payments.php?menu=1".($querystring ? "&".$querystring : ""));
+		# doorlinken naar "Betaaloverzicht"
+		header("Location: ".$vars["path"]."bsys_payments.php?menu=3".($querystring ? "&".$querystring : ""));
 	} elseif($_GET["soort"]==3) {
 		# doorlinken naar "factuur goedkeuren"
 		header("Location: ".$vars["path"]."bsys.php?menu=3".($querystring ? "&".$querystring : ""));

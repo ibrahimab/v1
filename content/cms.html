@@ -26,8 +26,27 @@ if(!$login->logged_in) {
 
 		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
-		$roominglist = new roominglist;
-		$roominglist->vergelijk_lijsten_arrivals();
+
+		// tonen_in_mijn_boeking uitzetten 10 dagen na aankomst (indien betalingen zijn voldaan)
+		$db->query("SELECT boeking_id, vertrekdatum_exact FROM boeking WHERE bevestigdatum IS NOT NULL AND vertrekdatum_exact<".(time()-(86400*3))." AND tonen_in_mijn_boeking=1 ORDER BY boeking_id;");
+		while($db->next_record()) {
+
+			$gegevens=get_boekinginfo($db->f("boeking_id"));
+
+			$booking_payment = new booking_payment($gegevens);
+			$booking_payment->get_amounts();
+
+			if($booking_payment->amount["eindbetaling"]>0) {
+				// nog openstaand bedrag
+			} else {
+				// voldaan: boeking mag "dicht"
+				$db2->query("UPDATE boeking SET tonen_in_mijn_boeking=0 WHERE boeking_id='".intval($db->f("boeking_id"))."';");
+			}
+		}
+
+
+		// $roominglist = new roominglist;
+		// $roominglist->vergelijk_lijsten_arrivals();
 
 		// exit;
 
