@@ -3985,8 +3985,9 @@ $txt["en"]["bsys"]["boekingisalgoedgekeurd"]="The invoice of reservation number 
 $txt["nl"]["bsys"]["akkoordfactuur"]="Ja, ik ga akkoord met de [[h_1]]ontvangen factuur[[h_2]] van reserveringsnummer [[v_boekingsnummer]]";
 $txt["en"]["bsys"]["akkoordfactuur"]="Yes, I agree with the [[h_1]]received invoice[[h_2]] of reservation number [[v_boekingsnummer]]";
 
-$txt["nl"]["bsys"]["akkoordvoorwaarden"]="Ja, ik ga akkoord met de [[h_1]]algemene voorwaarden van [[v_websitenaam]][[h_2]] + onderstaande voorwaarden aangaande verzekeringen voor zover van toepassing";
+$txt["nl"]["bsys"]["akkoordvoorwaarden"]="Ja, ik ga akkoord met de [[h_1]]algemene voorwaarden van [[v_websitenaam]][[h_2]] (altijd van toepassing) + onderstaande voorwaarden aangaande verzekeringen (alleen van toepassing als ik een verzekering afsluit)";
 $txt["en"]["bsys"]["akkoordvoorwaarden"]="Yes, I agree with the [[h_1]]terms and conditions of [[v_websitenaam]][[h_2]] + below mentioned conditions for insurances (if applicable)";
+$nieuwe_vertaling["en"]["bsys"]["akkoordvoorwaarden"]=true;
 
 $txt["nl"]["bsys"]["voorwaarden_annuleringsverzekering"]="Voorwaarden Europeesche Verzekeringen Annuleringsverzekering";
 $txt["en"]["bsys"]["voorwaarden_annuleringsverzekering"]="Conditions Europeesche Verzekeringen Cancellation Insurance";
