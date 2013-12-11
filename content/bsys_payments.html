@@ -381,29 +381,30 @@ if($login->logged_in) {
 
 						if($remaining_payment_amount > 0) {
 							if($txt[$vars["taal"]]["bsys"][$txt_by]) {
-								echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
+								echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\" class=\"button\" style=\"width:300px;\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
 							}
-							echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
+							echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\" class=\"button\" style=\"width:300px;\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
 						}
 					} else {
-						echo "<table cellspacing=\"2\" cellpadding=\"0\">";
+						echo "<table style=\"width:600px;\" class=\"toonacctabel\" cellpadding=\"5\">";
+							echo "<tr><th>&nbsp;</th><th style=\"text-align:right;\">". html("payment_amount","bsys") ."</th></tr>";
 							// if no payment was made we display the advanced payment text
 							if(!$hide_advance_payment) {
 								if($advance_payment1_amount) {
-									echo "<tr><td>" . $advance_payment1_text ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment1_amount ."</td></tr>";
+									echo "<tr><td>" . $advance_payment1_text ."&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment1_amount ."</td></tr>";
 								}
 								if($advance_payment2_amount) {
-									echo "<tr><td>" . $advance_payment2_text ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment2_amount ."</td></tr>";
+									echo "<tr><td>" . $advance_payment2_text ."&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment2_amount ."</td></tr>";
 								}
 							}
 
-							echo "<tr><td>" . $booking_payment->text["eindbetaling"] ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($booking_payment->amount["eindbetaling"],2,',','.') ."</td></tr>";
+							echo "<tr><td>" . $booking_payment->text["eindbetaling"] ."&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($booking_payment->amount["eindbetaling"],2,',','.') ."</td></tr>";
 						echo "</table>";
 
 						if($txt[$vars["taal"]]["bsys"][$txt_by]) {
-							echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
+							echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\" class=\"button\" style=\"width:300px;\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
 						}
-						echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
+						echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\" class=\"button\" style=\"width:300px;\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
 					}
 				break;
 			}

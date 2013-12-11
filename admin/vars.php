@@ -1102,7 +1102,7 @@ if($boeking_wijzigen) {
 		}
 	} else {
 		if($login->logged_in) {
-			$db->query("SELECT DISTINCT b.boeking_id FROM boeking b, boeking_persoon bp WHERE b.boeking_id=bp.boeking_id AND b.website='".$vars["website"]."' AND bp.email='".addslashes($login->username)."' AND b.bevestigdatum IS NOT NULL AND b.aankomstdatum>'".(time()-864000)."' AND b.tonen_in_mijn_boeking=1;");
+			$db->query("SELECT DISTINCT b.boeking_id FROM boeking b, boeking_persoon bp WHERE b.boeking_id=bp.boeking_id AND b.website='".$vars["website"]."' AND bp.email='".addslashes($login->username)."' AND b.bevestigdatum IS NOT NULL AND b.tonen_in_mijn_boeking=1;");
 			if($db->num_rows()) {
 				while($db->next_record()) {
 					$wijzigen[$db->f("boeking_id")]=true;
