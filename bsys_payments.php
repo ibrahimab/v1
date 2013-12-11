@@ -9,10 +9,10 @@ include("admin/vars.php");
 
 $breadcrumbs["last"] = txt("payment", "bsys");
 
-if(!$vars["docdata_payments"]) {
-	header("Location: ".$path);
-	exit;
-}
+// if(!$vars["docdata_payments"]) {
+// 	header("Location: ".$path);
+// 	exit;
+// }
 
 $gegevens=get_boekinginfo($_GET["bid"]);
 // bij geen factuur: terug naar homepage "Mijn boeking"
