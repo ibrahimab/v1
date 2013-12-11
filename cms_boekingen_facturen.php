@@ -242,8 +242,6 @@ if($form->okay) {
 		}
 
 		# Tekstvak 2 en 3
-		// $gegevens = factuur_totaals($gegevens);
-
 		if(!$_POST["alleen_tonen"] and $form->input["factuuraanmaken"]) {
 			$db->query("UPDATE boeking SET factuur_versturen=0, factuur_tewijzigen=0, factuurdatum=FROM_UNIXTIME('".addslashes($factuurdatum)."') WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		}

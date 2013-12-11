@@ -492,7 +492,8 @@ form {
 }
 
 .button:hover {
-	border: 1px solid #a1bddb;
+	border: 1px solid #ffdc00;
+	color: #ffdc00 !important;
 }
 
 .button_accpagina {
