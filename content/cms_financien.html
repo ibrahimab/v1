@@ -15,7 +15,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	# (alleen nodig om te testen)
 	#
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-#		$db->query("DELETE FROM boeking_betaling;");
+		$db->query("DELETE FROM boeking_betaling;");
 #		$db->query("DELETE FROM boeking_betaling WHERE boeking_id=89835;");
 	}
 
@@ -495,29 +495,32 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 					# Mail sturen
 
-					# Mailtekst bepalen
-					$mailtekst_ontvangenbetaling=mailtekst_ontvangenbetaling($velden["boekingid"],$velden["bedrag"],$velden["datum"]);
+					// # Mailtekst bepalen
+					// $mailtekst_ontvangenbetaling=mailtekst_ontvangenbetaling($velden["boekingid"],$velden["bedrag"],$velden["datum"]);
 
-					# Mail versturen aan klant (ontvangstbevestiging betaling)
-					$mail=new wt_mail;
-					$mail->from=$mailtekst_ontvangenbetaling["from"];
-					$mail->fromname=$mailtekst_ontvangenbetaling["fromname"];
-					$mail->subject=$mailtekst_ontvangenbetaling["subject"];
-					$mail->plaintext=$mailtekst_ontvangenbetaling["body"];
+					// # Mail versturen aan klant (ontvangstbevestiging betaling)
+					// $mail=new wt_mail;
+					// $mail->from=$mailtekst_ontvangenbetaling["from"];
+					// $mail->fromname=$mailtekst_ontvangenbetaling["fromname"];
+					// $mail->subject=$mailtekst_ontvangenbetaling["subject"];
+					// $mail->plaintext=$mailtekst_ontvangenbetaling["body"];
 
-					if($mailtekst_ontvangenbetaling["to_1"] or $mailtekst_ontvangenbetaling["to_2"]) {
-						$mail->to=$mailtekst_ontvangenbetaling["to_1"];
-						$mail->send();
-						if($mailtekst_ontvangenbetaling["to_2"]) {
-							$mail->to=$mailtekst_ontvangenbetaling["to_2"];
-							$mail->send();
-						}
-					} else {
-						$mail->to=$mailtekst_ontvangenbetaling["to"];
-						$mail->send();
-					}
+					// if($mailtekst_ontvangenbetaling["to_1"] or $mailtekst_ontvangenbetaling["to_2"]) {
+					// 	$mail->to=$mailtekst_ontvangenbetaling["to_1"];
+					// 	$mail->send();
+					// 	if($mailtekst_ontvangenbetaling["to_2"]) {
+					// 		$mail->to=$mailtekst_ontvangenbetaling["to_2"];
+					// 		$mail->send();
+					// 	}
+					// } else {
+					// 	$mail->to=$mailtekst_ontvangenbetaling["to"];
+					// 	$mail->send();
+					// }
 
-					echo "<li><a href=\"cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">".$mailtekst_ontvangenbetaling["boekingsnummer"]."</a>: ".htmlentities($mail->to);
+					$paymentmail = new paymentmail;
+					$paymentmail->send_mail($velden["boekingid"], $velden["bedrag"], $velden["datum"]);
+
+					echo "<li><a href=\"cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">".$paymentmail->gegevens["stap1"]["boekingsnummer"]."</a>: ".wt_he($paymentmail->to);
 					if($updateveld=="aanbetaling1_gewijzigd") {
 						echo "&nbsp;&nbsp;<b>(aanbetaling1 is gewijzigd in &euro;&nbsp;".number_format($velden["bedrag"],2,',','.').")</b>";
 					}
@@ -536,7 +539,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 						if($updateveld=="aanbetaling2") {
 							$velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- bij ontvangstbevestiging: aanbetaling2 gewijzigd in € ".number_format($velden["bedrag"],2,',','.');
 						}
-						$velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- ontvangstbevestiging betaling gemaild aan ".$mailtekst_ontvangenbetaling["to_log"];
+						// $velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- ontvangstbevestiging betaling gemaild aan ".$mailtekst_ontvangenbetaling["to_log"];
 
 						# Log opslaan
 						$db->query("UPDATE boeking SET log='".addslashes($velden["log"])."' WHERE boeking_id='".addslashes($velden["boekingid"])."';");

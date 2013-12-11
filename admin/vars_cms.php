@@ -1479,7 +1479,7 @@ function mailtekst_ontvangenbetaling($boekingid,$bedrag,$datum) {
 		$taal=$gegevens["stap1"]["taal"];
 
 		$totaal=round($gegevens["stap1"]["totale_reissom"],2);
-		$db->query("SELECT sum(bedrag) AS bedrag FROM boeking_betaling WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+		$db->query("SELECT SUM(bedrag) AS bedrag FROM boeking_betaling WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		if($db->next_record()) {
 			$voldaan=$db->f("bedrag");
 		}

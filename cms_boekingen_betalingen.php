@@ -147,21 +147,13 @@ if($cms_form[26]->okay) {
 	}
 
 	chalet_log("betaling ".date("d-m-Y",$cms_form[26]->input["datum"]["unixtime"]).": € ".number_format($cms_form[26]->input["bedrag"],2,',','.'),false,true);
-	if($_GET["add"]==26 and $cms_form[26]->input["mailsturen"]) {
-		# Mail versturen aan klant
-		$mail=new wt_mail;
-		$mail->fromname=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
-		$mail->from=$gegevens["stap1"]["website_specifiek"]["email"];
+}
 
-		$mail->to=$gegevens["stap2"]["email"];
-		#$mail->to="info@chalet.nl";
-
-		chalet_log("betalingsgegevens gemaild aan ".$mail->to,true,true);
-		$mail->subject="[".$gegevens["stap1"]["boekingsnummer"]."] ".txt("mailonderwerp","betalingen");
-		$mail->plaintext=txt("mailbody","betalingen",array("v_naam"=>$gegevens["stap2"]["voornaam"],"v_datum"=>date("d-m-Y",$cms_form[26]->input["datum"]["unixtime"]),"v_bedrag"=>"€ ".number_format($cms_form[26]->input["bedrag"],2,',','.')));
-		$mail->plaintext.="\n\n".txt("metvriendelijkegroet","betalingen")."\n".txt("medewerkerswebsitenaam","betalingen",array("v_websitenaam"=>$gegevens["stap1"]["website_specifiek"]["websitenaam"]));
-
-		$mail->send();
+function form_before_goto($form) {
+	if($_GET["add"]==26 and $form->input["mailsturen"]) {
+		// Ontvangstbevestigen mailen aan klant
+		$paymentmail = new paymentmail;
+		$paymentmail->send_mail($_GET["bid"], $form->input["bedrag"], $form->input["datum"]["unixtime"]);
 	}
 }
 
