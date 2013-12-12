@@ -929,6 +929,12 @@ form {
 	border-color: #ffd38f;
 }
 
+.zoekresultaten_zoeken_op_kaart_map .zoekresultaten_zoeken_op_kaart_map_canvas {
+	width: 100% !important;
+	height: 100% !important;
+	margin: 0 !important;
+}
+
 #zoekresultaten_sorteer {
 	margin-top: 10px;
 }

@@ -117,5 +117,6 @@ h3 {
 }
 
 .googlemaps_infowindow {
-	width: 150px;
+	width: 350px;
+	min-height: 100px;
 }

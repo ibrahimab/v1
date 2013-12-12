@@ -554,8 +554,10 @@ if($db->next_record()) {
 		echo "<h2>";
 		if($db->f("tkorteomschrijving")) {
 			echo wt_he($db->f("tkorteomschrijving"));
+			$omschrijving = wt_he($db->f("tkorteomschrijving"));
 		} else {
 			echo wt_he($db->f("korteomschrijving"));
+			$omschrijving = wt_he($db->f("korteomschrijving"));
 		}
 		echo "</h2>";
 	}
@@ -767,7 +769,18 @@ if($db->next_record()) {
 		if(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
 			echo "var googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
 		}
-		echo "var googlemaps_accid=".$db->f("accommodatie_id").";var googlemaps_typeid=".$db->f("type_id").";\nvar googlemaps_selected_icon=".$vars["websitetype"].";\nvar googlemaps_lat=".$gps_lat.";\nvar googlemaps_long=".$gps_long.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("land")))."';\nvar zoomlevel=".($vars["seizoentype"]==2 ? "9" : "11").";\n</script>\n";
+		echo "var googlemaps_accid=".$db->f("accommodatie_id").";\nvar googlemaps_typeid=".$db->f("type_id").";\nvar googlemaps_selected_icon=".$vars["websitetype"].";\nvar googlemaps_lat=".$gps_lat.";\nvar googlemaps_long=".$gps_long.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("skigebied")))."';\nvar zoomlevel=".($vars["seizoentype"]==2 ? "9" : "11").";\n";
+		echo "var googlemaps_kwaliteit='".$kwaliteit."';\nvar googlemaps_omschrijving='".addslashes($omschrijving)."';\n";
+
+		$q = "SELECT prijs FROM `cache_vanafprijs_type` WHERE type_id='$typeid' LIMIT 1";
+		$db0->query($q);
+		$db0->next_record();
+		if($db0->f("prijs") && $db0->f("prijs")!=0) {
+			echo "var googlemaps_tarief='vanaf &euro;&nbsp;".number_format($db0->f("prijs"),0,",",".")."';\n";
+		}
+
+		echo "</script>\n";
+
 		echo "<div id=\"map_canvas\"></div>";
 		if($vars["websitetype"]<>6) {
 			# op alle sites behalve Chalets in Vallandry de button "Bekijk al onze accommodaties in dit gebied" tonen

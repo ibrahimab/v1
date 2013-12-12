@@ -285,9 +285,13 @@ googlemaps_icon_ander[8] = 'superskiander.png';
 googlemaps_icon_ander[9] = 'venturasolander.png';
 var googlemaps_marker = [];
 var googlemaps_marker_2 = [];
+var googlemaps_marker_id = 0;
 var googlemaps_infowindow;
 var googlemaps_counter=0;
 var googlemaps_skigebiedid=0;
+var googlemaps_kwaliteit='';
+var googlemaps_omschrijving='';
+var googlemaps_tarief=0;
 var zoekblok_tekst='';
 var lokale_testserver=false;
 var absolute_path='/';
@@ -300,23 +304,47 @@ function initialize_googlemaps() {
 	//http://code.google.com/intl/nl/apis/maps/documentation/javascript/reference.html
 	if(gps_coordinaten_bekend==1) {
 
-// alert(location.href.replace(location.hash,"")+"=="+chalet_getCookie("map_regio_url"));
+		// If it is search page, set default zoom
+		if(googlemaps_zoekenboek != false) {
+			var bound=new google.maps.LatLngBounds(new google.maps.LatLng(googlemaps_lat_min,googlemaps_long_min),new google.maps.LatLng(googlemaps_lat_max,googlemaps_long_max));
+			zoomlevel=ZoomlevelBepalen.getMinimumZoomLevelContainingBounds(bound,670,380);
+			if(zoomlevel>10) zoomlevel=10;
+		}
 
-		if(googlemaps_skigebiedid>0 && location.href.replace(location.hash,"")==chalet_getCookie("map_regio_url")) {
-			// zoom/center terugzetten bij regio-pagina
-			if(chalet_getCookie("map_regio_zoom")) {
-				zoomlevel=parseInt(chalet_getCookie("map_regio_zoom"),10);
-			}
+		var mapCookie = chalet_getCookie("map_regio");
+		// Check to see if we should restore map on initial state
+		if(typeof mapCookie != "undefined") {
+			mapCookie = JSON.parse(mapCookie);
 
-			if(chalet_getCookie("map_regio_center")) {
-				var latlong_object=JSON.parse(chalet_getCookie("map_regio_center"));
-				if(latlong_object.hb && latlong_object.ib) {
-					googlemaps_lat=latlong_object.hb;
-					googlemaps_long=latlong_object.ib;
+			// Applies on search and region pages
+			if((googlemaps_skigebiedid>0 || googlemaps_zoekenboek) && decodeURIComponent(location.href.replace(location.hash,""))==mapCookie.url) {
+
+				// previous zoom information
+				if(mapCookie.z) {
+					zoomlevel=parseInt(mapCookie.z,10);
 				}
+
+				// previous latitude and longitude information
+				if(mapCookie.lt && mapCookie.lg) {
+					googlemaps_lat=mapCookie.lt;
+					googlemaps_long=mapCookie.lg;
+				}
+
+				// previous marker information
+				if(mapCookie.m) {
+					googlemaps_marker_id = mapCookie.m;
+				}
+
+				// Delete the cookie information
+				chalet_createCookie("map_regio", "", -1);
+
+			} else if(googlemaps_skigebiedid===0 && decodeURIComponent(location.href.replace(location.hash,""))==mapCookie.url) {
+				// Applies on accommodation page only
+				var fromCookie = true;
 			}
 		}
 
+		// Default map options
 		var myOptions = {
 			zoom: zoomlevel,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -331,45 +359,78 @@ function initialize_googlemaps() {
 		};
 		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-		google.maps.event.addListener(map, 'bounds_changed', function(event) {
-			if(!googlemaps_init&&googlemaps_skigebiedid===0) {
-				var value = [];
-				value[1]=googlemaps_lat;
-				value[2]=googlemaps_long;
-				value['naamhtml']=googlemaps_naam;
-				value['plaatsland']=googlemaps_plaatsland;
-				value['aantalpersonen']=googlemaps_aantalpersonen;
-				value['afbeelding']=googlemaps_afbeelding;
-				googlemaps_createmarker(value,true,true);
+		// Accommodation page only
+		if(!googlemaps_zoekenboek&&!googlemaps_init&&googlemaps_skigebiedid===0) {
+			// set marker and check if other accommodations should be displayed as well
+			var value = [];
+			value[1]=googlemaps_lat;
+			value[2]=googlemaps_long;
+			value['naamhtml']=googlemaps_naam;
+			value['plaatsland']=googlemaps_plaatsland;
+			value['aantalpersonen']=googlemaps_aantalpersonen;
+			value['afbeelding']=googlemaps_afbeelding;
+			value['kwaliteit']=googlemaps_kwaliteit;
+			value['omschrijving']=googlemaps_omschrijving;
+			value['tarief']=googlemaps_tarief;
 
-				$("#googlemaps_other").css("visibility","visible");
-				googlemaps_init=true;
+			googlemaps_createmarker(value,true,true);
+
+			$("#googlemaps_other").css("visibility","visible");
+			googlemaps_init=true;
+
+			// If it is a return action in the accommodation page
+			if(fromCookie == true) {
+				// previous marker information
+				if(mapCookie.m) {
+					googlemaps_marker_id = mapCookie.m;
+				}
+
+				// display other accommodations
+				googlemaps_show_other_acc();
+
+				map.setCenter(new google.maps.LatLng(mapCookie.lt,mapCookie.lg));
+				map.setZoom(mapCookie.z);
+
+				// Delete the cookie information
+				chalet_createCookie("map_regio", "", -1);
 			}
-		});
+		}
+
+		// Search page only
+		if(googlemaps_zoekenboek) {
+			// markers op basis van zoekresultaten plaatsen
+			$("div.data_zoeken_op_kaart").each(function() {
+				var value = [];
+				value[1]=$(this).data("gps_lat");
+				value[2]=$(this).data("gps_long");
+				value["naamhtml"]=$(this).data("naamhtml");
+				value["plaatsland"]=$(this).data("plaatsland");
+				value["aantalpersonen"]=$(this).data("aantalpersonen");
+				value["afbeelding"]=$(this).data("afbeelding");
+				value["tarief"]=$(this).data("tarief");
+				value["url"]=$(this).data("url");
+				value["kwaliteit"]=$(this).data("kwaliteit");
+				value["omschrijving"]=$(this).data("omschrijving");
+				value["key"]=$(this).data("key");
+
+				googlemaps_createmarker(value,true,false);
+			});
+
+		}
+
+		// region page only
 		if(googlemaps_skigebiedid>0) {
 			// Italissima: plaatsen op de kaart zetten
-			googlemaps_show_villages();
+			googlemaps_show_region_acc();
 		}
-
-		// positie goedzetten
-		if(googlemaps_init) {
-			google.maps.event.trigger(map, 'resize');
-			map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
-		}
-
 	}
 }
 
 function googlemaps_createmarker(value,main,use_animation) {
+
 	googlemaps_counter=googlemaps_counter+1;
 	var myLatLng = new google.maps.LatLng(value[1],value[2]);
-	if(googlemaps_skigebiedid>0) {
-		if(value.binnengebied==1) {
-			main=true;
-		} else {
-			main=false;
-		}
-	}
+
 	var animation;
 	if(use_animation) {
 		animation="google.maps.Animation.DROP";
@@ -386,47 +447,50 @@ function googlemaps_createmarker(value,main,use_animation) {
 		title: value['naam'],
 		zIndex: (main ? 1000 : googlemaps_counter)
 	});
-	var tmpcontent="";
+
 	googlemaps_marker_2.push(marker);
-	google.maps.event.addListener(marker, 'click', function() {
+	google.maps.event.addListener(marker, 'click', function(event) {
 		if(googlemaps_infowindow) googlemaps_infowindow.close();
-		if(googlemaps_zoekenboek) {
-			// Bekijk alle resultaten op een kaart
-			tmpcontent=	'<div class="googlemaps_infowindow googlemaps_infowindow_zoekenboek">'+
-					'<img src="'+value['afbeelding']+'">'+
-					'<b><a href="'+value['url']+'" onclick="return map_zoek_en_boek_click(this);">'+value['naamhtml']+'</a>&nbsp;&nbsp;&nbsp;</b><br>'+
-					''+value['plaatsland']+'<br>'+value['aantalpersonen']+'<br>'+value['tarief']+'</div>';
-		} else if(googlemaps_skigebiedid>0) {
-			// regio
-			tmpcontent=	'<div class="googlemaps_infowindow">'+
-					'<b>'+value['naamhtml']+'&nbsp;&nbsp;&nbsp;</b><br>'+
-					''+value['aantalacc']+'<br>'+
-					value['skigebied']+
-					'</div>';
-		} else {
-			if(main) {
-				// losse accommodatie: actieve accommodatie
-				tmpcontent=	'<div class="googlemaps_infowindow">'+
-						'<img src="'+value['afbeelding']+'">'+
-						'<b>'+value['naamhtml']+'&nbsp;&nbsp;&nbsp;</b><br>'+
-						''+value['plaatsland']+'<br>'+
-						value['aantalpersonen']+
-						'</div>';
-			} else {
-				// losse accommodatie: alle andere accommodaties
-				tmpcontent=	'<div class="googlemaps_infowindow">'+
-						'<img src="'+value['afbeelding']+'">'+
-						'<b><a href="'+value['url']+'">'+value['naamhtml']+'</a>&nbsp;&nbsp;&nbsp;</b><br>'+
-						''+value['plaatsland']+'<br>'+
-						value['aantalpersonen']+
-						'</div>';
-			}
-		}
-		googlemaps_infowindow = new google.maps.InfoWindow({
-			content: tmpcontent
-		});
-		googlemaps_infowindow.open(map,marker);
+
+		googlemaps_infowindow = new google.maps.InfoWindow();
+		googlemaps_infowindow.open(map, marker);
+		googlemaps_infowindow.setContent(googlemaps_marker_content(value));
 	});
+
+	if(googlemaps_marker_id) {
+		if(value['key'] == googlemaps_marker_id) {
+			googlemaps_infowindow = new google.maps.InfoWindow({
+				content: googlemaps_marker_content(value)
+			});
+			setTimeout(function(){googlemaps_infowindow.open(map,marker);}, 1000);
+		}
+	}
+}
+
+function googlemaps_marker_content(value) {
+	var tmpcontent="";
+	// Bekijk alle resultaten op een kaart
+	tmpcontent=	'<div class="googlemaps_infowindow googlemaps_infowindow_zoekenboek clearfix">';
+	if(value['afbeelding']) tmpcontent+='<div class="ileft">';
+	tmpcontent+='<p>';
+	if(value['url']) tmpcontent+='<a href="'+value['url']+'" data-marker="'+value['key']+'" onclick="return map_zoek_en_boek_click(this);">';
+	if(value['naamhtml']) tmpcontent+='<b>'+value['naamhtml']+'</b>';
+	if(value['url']) tmpcontent+='</a>&nbsp;&nbsp;&nbsp;';
+	if(value['plaatsland']) tmpcontent+='<br />'+value['plaatsland'];
+	if(value['aantalpersonen']) tmpcontent+='<br />'+value['aantalpersonen'];
+	if(value['tarief']) tmpcontent+='<br />'+value['tarief'];
+	if(value['kwaliteit']) {
+		var w = 17 * value['kwaliteit'];
+		tmpcontent+='<br /><span class="sterren" style="width:'+w+'px;">&nbsp;</span>';
+	}
+	if(value['omschrijving']) tmpcontent+='<br /><br />'+value['omschrijving'];
+	tmpcontent+='</p>';
+	if(value['afbeelding']) tmpcontent+='</div>';
+
+	if(value['afbeelding']) tmpcontent+='<div class="iright"><img src="'+value['afbeelding']+'"></div>';
+	tmpcontent+='</div>';
+
+	return tmpcontent;
 }
 
 function googlemaps_deletemarkers() {
@@ -437,6 +501,24 @@ function googlemaps_deletemarkers() {
 	$("#googlemaps_other").css("visibility","visible");
 }
 
+function googlemaps_show_region_acc() {
+	$.getJSON(googlemaps_base+"rpc_json.php", {
+		"t": 1,
+		"skigebiedid":googlemaps_skigebiedid
+	}, function(data) {
+		if(data.ok&&data.aantal>0) {
+			$.each(data.acc, function(key, value) {
+				value.key = key;
+				if(value.skigebied_id == googlemaps_skigebiedid) {
+					googlemaps_createmarker(value,true,true);
+				} else {
+					googlemaps_createmarker(value,false,true);
+				}
+			});
+		}
+	});
+}
+
 function googlemaps_show_other_acc() {
 	if(googlemaps_init) {
 		for (var i = 1; i < googlemaps_marker_2.length; i++) {
@@ -444,15 +526,12 @@ function googlemaps_show_other_acc() {
 		}
 		$.getJSON(googlemaps_base+"rpc_json.php", {
 			"t": 1,
-			"lat1":map.getBounds().getNorthEast().lat(),
-			"long1":map.getBounds().getNorthEast().lng(),
-			"lat2":map.getBounds().getSouthWest().lat(),
-			"long2":map.getBounds().getSouthWest().lng(),
 			"accid":googlemaps_accid,
 			"typeid":googlemaps_typeid
 		}, function(data) {
 			if(data.ok&&data.aantal>0) {
 				$.each(data.acc, function(key, value) {
+					value.key = key;
 					googlemaps_createmarker(value,false,true);
 				});
 				$("#googlemaps_deleteother").css("visibility","visible");
@@ -462,22 +541,6 @@ function googlemaps_show_other_acc() {
 	}
 }
 
-function googlemaps_show_villages() {
-	// plaatsen tonen op regiopagina Italissima
-	for (var i = 1; i < googlemaps_marker_2.length; i++) {
-		googlemaps_marker_2[i].setMap(null);
-	}
-	$.getJSON(googlemaps_base+"rpc_json.php", {
-		"t": 2,
-		"skigebiedid":googlemaps_skigebiedid
-	}, function(data) {
-		if(data.ok&&data.aantal>0) {
-			$.each(data.plaats, function(key, value) {
-				googlemaps_createmarker(value,false,true);
-			});
-		}
-	});
-}
 
 function recordOutboundPopup(category, action) {
 	try {
@@ -1737,14 +1800,14 @@ $(document).ready(function() {
 				if($(this).is(":visible")) {
 					$(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-down");
 					$(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-up");
-					$("#zoekresultaten_zoeken_op_kaart_map_canvas").show();
+					$(".zoekresultaten_zoeken_op_kaart_map_canvas").show();
 					google.maps.event.trigger(map, 'resize');
 					map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
 					$("input[name=map]").val("1");
 				} else {
 					$(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-up");
 					$(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-down");
-					$("#zoekresultaten_zoeken_op_kaart_map_canvas").hide();
+					$(".zoekresultaten_zoeken_op_kaart_map_canvas").hide();
 					$("input[name=map]").val("0");
 				}
 			});
@@ -1758,21 +1821,27 @@ $(document).ready(function() {
 				if($(this).is(":visible")) {
 					// $(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-down");
 					// $(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-up");
-					$("#zoekresultaten_zoeken_op_kaart_map_canvas").show();
+					$(".zoekresultaten_zoeken_op_kaart_map_canvas").show();
 					google.maps.event.trigger(map, 'resize');
 					map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
 					$("input[name=map]").val("1");
 
 					$(".toonopkaart a").html($(".toonopkaart a").data("toggle"));
+					window.location.hash = 'kaart';
 
 				} else {
 					// $(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-up");
 					// $(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-down");
 
-					$("#zoekresultaten_zoeken_op_kaart_map_canvas").hide();
+					$(".zoekresultaten_zoeken_op_kaart_map_canvas").hide();
 					$("input[name=map]").val("0");
 
 					$(".toonopkaart a").html($(".toonopkaart a").data("org"));
+
+					// remove the kaart hash
+					if(window.location.hash == '#kaart') {
+						window.history.back(1);
+					}
 
 				}
 			});
@@ -1783,75 +1852,15 @@ $(document).ready(function() {
 		// zoeken op kaart
 		//
 		if($(".zoekresultaten_zoeken_op_kaart_map").length!==0) {
-			$("#zoekresultaten_zoeken_op_kaart_map_canvas").hide();
 
-			var bound=new google.maps.LatLngBounds(new google.maps.LatLng(googlemaps_lat_min,googlemaps_long_min),new google.maps.LatLng(googlemaps_lat_max,googlemaps_long_max));
-			var zoomlevel=ZoomlevelBepalen.getMinimumZoomLevelContainingBounds(bound,670,380);
-
-			if(zoomlevel>10) zoomlevel=10;
-
-			if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible") && location.href==chalet_getCookie("map_zoek_en_boek_url")) {
-				// kaart is gebruikt: gebruik eerder gekozen zoom + center
-				if(chalet_getCookie("map_zoek_en_boek_zoom")) {
-					zoomlevel=parseInt(chalet_getCookie("map_zoek_en_boek_zoom"),10);
-				}
-
-				if(chalet_getCookie("map_zoek_en_boek_center")) {
-					var latlong_object=JSON.parse(chalet_getCookie("map_zoek_en_boek_center"));
-					if(latlong_object.hb && latlong_object.ib) {
-						googlemaps_lat=latlong_object.hb;
-						googlemaps_long=latlong_object.ib;
-					}
-				}
+			if(location.hash == '#kaart') {
+				$(".toonopkaart a").html($(".toonopkaart a").data("toggle"));
+				$(".zoekresultaten_zoeken_op_kaart_map_canvas, .zoekresultaten_zoeken_op_kaart_map").show();
 			}
 
-			// cookies maar 1x gebruiken: wis cookies
-			chalet_createCookie("map_zoek_en_boek_zoom","");
-			chalet_createCookie("map_zoek_en_boek_center","");
-			chalet_createCookie("map_zoek_en_boek_url","");
-
-
-
-			var center = new google.maps.LatLng(googlemaps_lat,googlemaps_long);
-
-			var myOptions = {
-				zoom: zoomlevel,
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				scaleControl: true,
-				panControl: true,
-				overviewMapControl: true,
-				streetViewControl: true,
-				mapTypeControl: true,
-				zoomControl: true,
-				scrollwheel: false,
-				center: center
-			};
-			map = new google.maps.Map(document.getElementById("zoekresultaten_zoeken_op_kaart_map_canvas"), myOptions);
-
-			// markers op basis van zoekresultaten plaatsen
-			$("div.data_zoeken_op_kaart").each(function() {
-				var value = [];
-				value[1]=$(this).data("gps_lat");
-				value[2]=$(this).data("gps_long");
-				value["naamhtml"]=$(this).data("naamhtml");
-				value["plaatsland"]=$(this).data("plaatsland");
-				value["aantalpersonen"]=$(this).data("aantalpersonen");
-				value["afbeelding"]=$(this).data("afbeelding");
-				value["tarief"]=$(this).data("tarief");
-				value["url"]=$(this).data("url");
-
-				googlemaps_createmarker(value,true,false);
-			});
-
-			if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
-				$("#zoekresultaten_zoeken_op_kaart_map_canvas").show();
-			}
+			// start google map
+			initialize_googlemaps();
 		}
-
-		$("div.googlemaps_infowindow_zoekenboek").on("click", function(event){
-			alert($(this).text());
-			return false;
-		});
 
 		// factuur goedkeuren door klant: button actief/inactief
 		$("input[name=goedkeur1], input[name=goedkeur2]").change(function() {
@@ -2277,11 +2286,9 @@ function map_zoek_en_boek_click(e) {
 	var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
 	$(e).attr("href",nieuwe_url);
 
+	var marker = $(e).data("marker");
 	// huidige Google Maps-zoom en -center opslaan
-	chalet_createCookie("map_zoek_en_boek_zoom",map.getZoom());
-	chalet_createCookie("map_zoek_en_boek_center",JSON.stringify(map.getCenter()));
-	chalet_createCookie("map_zoek_en_boek_url",back_url);
-
+	map_regio_click(marker);
 
 	// klik doorgeven aan Analytics
 	zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via kaart");
@@ -2294,15 +2301,22 @@ function map_zoek_en_boek_click(e) {
 	return false;
 }
 
-function map_regio_click(e) {
+function map_regio_click(marker) {
 	// klikken op plaats bij regio-Google Maps (Italissima)
 
 	// huidige Google Maps-zoom en -center opslaan
-	chalet_createCookie("map_regio_zoom",map.getZoom());
-	chalet_createCookie("map_regio_center",JSON.stringify(map.getCenter()));
+	var mapCentre=map.getCenter();
+	var mapLat=mapCentre.lat();
+	var mapLng=mapCentre.lng();
+	if(marker) {
+		var mapMarker=marker;
+	} else {
+		var mapMarker=false;
+	}
 
-	chalet_createCookie("map_regio_url",location.href.replace(location.hash,""));
+	var mapCookie= {lt: mapLat, lg: mapLng, z: map.getZoom(), url: location.href.replace(location.hash,""), m: mapMarker };
 
+	chalet_createCookie("map_regio",JSON.stringify(mapCookie));
 	return true;
 }
 
