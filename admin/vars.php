@@ -136,6 +136,7 @@ function __autoload($classname) {
 		return false;
 	}
 }
+spl_autoload_register('__autoload');
 
 #
 # jquery/fancybox
