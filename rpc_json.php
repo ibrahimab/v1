@@ -44,8 +44,8 @@ if ( $_GET["t"]==1 ) {
 	// $db->query("SELECT accommodatie_id, soortaccommodatie, type_id, gps_lat, gps_long, naam, plaats, skigebied, land, begincode, MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE gps_lat<=".addslashes($_GET["lat1"])." AND gps_lat>=".addslashes($_GET["lat2"])." AND gps_long<=".addslashes($_GET["long1"])." AND gps_long>=".addslashes($_GET["long2"])." AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' AND accommodatie_id<>'".addslashes($_GET["accid"])."' GROUP BY accommodatie_id ORDER BY accommodatie_id;");
 	// $db->query("SELECT accommodatie_id, soortaccommodatie, type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE ((gps_lat IS NOT NULL AND gps_long IS NOT NULL) OR ((tgps_lat IS NOT NULL AND tgps_long IS NOT NULL))) AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id ORDER BY accommodatie_id;");
 
-	$query["types"]="SELECT accommodatie_id, soortaccommodatie, type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, optimaalaantalpersonen, maxaantalpersonen FROM view_accommodatie WHERE tgps_lat IS NOT NULL AND tgps_long IS NOT NULL AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY accommodatie_id;";
-	$query["accommodaties"]="SELECT accommodatie_id, soortaccommodatie, type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE gps_lat IS NOT NULL AND gps_long IS NOT NULL AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id ORDER BY accommodatie_id, type_id;";
+	$query["types"]="SELECT accommodatie_id, soortaccommodatie, skigebied_id, akorteomschrijving, tkorteomschrijving, akwaliteit, tkwaliteit, view_accommodatie.type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, optimaalaantalpersonen, maxaantalpersonen, cache_vanafprijs_type.prijs FROM view_accommodatie RIGHT JOIN `cache_vanafprijs_type` ON view_accommodatie.type_id=cache_vanafprijs_type.type_id WHERE tgps_lat IS NOT NULL AND tgps_long IS NOT NULL AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY accommodatie_id;";
+	$query["accommodaties"]="SELECT accommodatie_id, soortaccommodatie, skigebied_id, akorteomschrijving, tkorteomschrijving, akwaliteit, tkwaliteit, view_accommodatie.type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen, cache_vanafprijs_type.prijs FROM view_accommodatie RIGHT JOIN `cache_vanafprijs_type` ON view_accommodatie.type_id=cache_vanafprijs_type.type_id WHERE gps_lat IS NOT NULL AND gps_long IS NOT NULL AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id ORDER BY accommodatie_id, type_id;";
 
 	while ( list( $key, $value )=each( $query ) ) {
 		$db->query( $value );
@@ -74,9 +74,27 @@ if ( $_GET["t"]==1 ) {
 							} elseif ( file_exists( "pic/cms/accommodaties/".$db->f( "accommodatie_id" ).".jpg" ) ) {
 								$return["acc"][$db->f( "type_id" )]["afbeelding"]=imageurl( "accommodaties/".$db->f( "accommodatie_id" ).".jpg", 170, 127 );
 							}
-							$return["acc"][$db->f( "type_id" )]["plaatsland"]=utf8_encode( wt_he( $db->f( "plaats" ).", ".$db->f( "land" ) ) );
+							$return["acc"][$db->f( "type_id" )]["plaatsland"]=utf8_encode( wt_he( $db->f( "plaats" ).", ".$db->f( "skigebied" ) ) );
 							$return["acc"][$db->f( "type_id" )]["aantalpersonen"]=utf8_encode( $db->f( "optimaalaantalpersonen" ).( $db->f( "maxaantalpersonen" )>$db->f( "optimaalaantalpersonen" ) ? " - ".$db->f( "maxaantalpersonen" ) : "" )." ".html( "personen" ) );
 							$return["acc"][$db->f( "type_id" )]["url"]=utf8_encode( $vars["path"].txt( "menu_accommodatie" )."/".$db->f( "begincode" ).$db->f( "type_id" )."/" );
+							$return["acc"][$db->f( "type_id" )]["skigebied_id"]=$db->f("skigebied_id");
+
+							if($db->f("tkwaliteit") && $db->f("tkwaliteit")!=0) {
+								$return["acc"][$db->f( "type_id" )]["kwaliteit"]=(int)$db->f("tkwaliteit");
+							} elseif($db->f("akwaliteit") && $db->f("akwaliteit")!=0) {
+								$return["acc"][$db->f( "type_id" )]["kwaliteit"]=(int)$db->f("akwaliteit");
+							}
+
+							if($db->f("tkorteomschrijving") && $db->f("tkorteomschrijving")!='') {
+								$return["acc"][$db->f( "type_id" )]["omschrijving"]=utf8_encode( wt_he($db->f("tkorteomschrijving")) );
+							} elseif($db->f("akorteomschrijving") && $db->f("akorteomschrijving")!=null) {
+								$return["acc"][$db->f( "type_id" )]["omschrijving"]=utf8_encode( wt_he($db->f("akorteomschrijving")) );
+							}
+
+							$prijs=$db->f("prijs");
+							if($prijs && $prijs!=0) {
+								$return["acc"][$db->f( "type_id" )]["tarief"]="vanaf &euro;&nbsp;".number_format($prijs,0,",",".");
+							}
 						}
 					} else {
 						// gps-gegevens op accommodatie-niveau
@@ -88,9 +106,27 @@ if ( $_GET["t"]==1 ) {
 							if ( file_exists( "pic/cms/accommodaties/".$db->f( "accommodatie_id" ).".jpg" ) ) {
 								$return["acc"][$db->f( "type_id" )]["afbeelding"]=imageurl( "accommodaties/".$db->f( "accommodatie_id" ).".jpg", 170, 127 );
 							}
-							$return["acc"][$db->f( "type_id" )]["plaatsland"]=utf8_encode( wt_he( $db->f( "plaats" ).", ".$db->f( "land" ) ) );
+							$return["acc"][$db->f( "type_id" )]["plaatsland"]=utf8_encode( wt_he( $db->f( "plaats" ).", ".$db->f( "skigebied" ) ) );
 							$return["acc"][$db->f( "type_id" )]["aantalpersonen"]=utf8_encode( $db->f( "optimaalaantalpersonen" ).( $db->f( "maxaantalpersonen" )>$db->f( "optimaalaantalpersonen" ) ? " - ".$db->f( "maxaantalpersonen" ) : "" )." ".html( "personen" ) );
 							$return["acc"][$db->f( "type_id" )]["url"]=utf8_encode( $vars["path"].txt( "menu_accommodatie" )."/".$db->f( "begincode" ).$db->f( "type_id" )."/" );
+							$return["acc"][$db->f( "type_id" )]["skigebied_id"]=$db->f("skigebied_id");
+
+							if($db->f("akwaliteit") && $db->f("akwaliteit")!=0) {
+								$return["acc"][$db->f( "type_id" )]["kwaliteit"]=(int)$db->f("akwaliteit");
+							} elseif($db->f("tkwaliteit") && $db->f("tkwaliteit")!=0) {
+								$return["acc"][$db->f( "type_id" )]["kwaliteit"]=(int)$db->f("tkwaliteit");
+							}
+
+							if($db->f("tkorteomschrijving") && $db->f("tkorteomschrijving")!='') {
+								$return["acc"][$db->f( "type_id" )]["omschrijving"]=utf8_encode( wt_he($db->f("tkorteomschrijving")) );
+							} elseif($db->f("akorteomschrijving") && $db->f("akorteomschrijving")!='') {
+								$return["acc"][$db->f( "type_id" )]["omschrijving"]=utf8_encode( wt_he($db->f("akorteomschrijving")) );
+							}
+
+							$prijs=$db->f("prijs");
+							if($prijs && $prijs!=0) {
+								$return["acc"][$db->f( "type_id" )]["tarief"]="vanaf &euro;&nbsp;".number_format($prijs,0,",",".");
+							}
 						}
 					}
 

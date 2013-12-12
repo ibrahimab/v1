@@ -268,13 +268,13 @@ hr {
 			echo "var googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
 		}
 
-		echo "var googlemaps_skigebiedid=".$db->f("skigebied_id").";\nvar googlemaps_selected_icon=71;\nvar googlemaps_lat=".$gps_lat_midden.";\nvar googlemaps_long=".$gps_long_midden.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("land")))."';\nvar zoomlevel=".($db->f("googlemaps_zoomlevel")>0 ? $db->f("googlemaps_zoomlevel") : "8")."\n</script>\n";
+		echo "var googlemaps_skigebiedid=".$db->f("skigebied_id").";\nvar googlemaps_selected_icon=7;\nvar googlemaps_lat=".$gps_lat_midden.";\nvar googlemaps_long=".$gps_long_midden.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("land")))."';\nvar zoomlevel=".($db->f("googlemaps_zoomlevel")>0 ? $db->f("googlemaps_zoomlevel") : "8").";\n</script>\n";
 		echo "<div id=\"map_canvas\"></div>";
 
 		if(!preg_match("/MSIE [67]/",$_SERVER["HTTP_USER_AGENT"])) {
 			# Bij MSIE 6 en 7: alleen plaatsen uit de actieve regio tonen (vanwege de Javascript-traagheid van die browsers)
-			echo "<table style=\"height:90px;margin-top:-10px;margin-bottom:20px;\" border=0><tr><td><img src=\"".$vars["path"]."pic/googlemapsicons/italissima_plaats.png\" style=\"margin-bottom:-15px;\"> = plaats in ".wt_he($db->f("naam"))."</td></tr>";
-			echo "<tr><td><img src=\"".$vars["path"]."pic/googlemapsicons/italissima_plaatsander.png\" style=\"margin-bottom:-15px;\"> = plaats in een andere regio</td></tr></table>";
+			echo "<table style=\"height:90px;margin-top:-10px;margin-bottom:20px;\" border=0><tr><td><img src=\"".$vars["path"]."pic/googlemapsicons/italissima.png\" style=\"margin-bottom:-15px;\"> = accommodaties in ".wt_he($db->f("naam"))."</td></tr>";
+			echo "<tr><td><img src=\"".$vars["path"]."pic/googlemapsicons/italissimaander.png\" style=\"margin-bottom:-15px;\"> = accommodaties in een andere regio</td></tr></table>";
 		}
 
 		echo "</div>";
