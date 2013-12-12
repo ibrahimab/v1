@@ -176,8 +176,9 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 						$enquete_kortingscode_aantal=$db2->f("aantal");
 					}
 					if($enquete_kortingscode_aantal<50) {
-						# Zo niet: Bjorn mailen
+						# Zo niet: Bjorn en Sélina mailen
 						wt_mail("bjorn@chalet.nl","Nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes","Er zijn nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes beschikbaar.\n\nVoeg z.s.m. nieuwe codes toe via http://www.chalet.nl/cms_diversen.php?t=3\n\n");
+						wt_mail("selina@chalet.nl","Nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes","Er zijn nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes beschikbaar.\n\nVoeg z.s.m. nieuwe codes toe via http://www.chalet.nl/cms_diversen.php?t=3\n\n");
 					}
 
 					$mailbody="Als dank voor het invullen van de enquête van ".$vars["websitenaam"]." ontvang je hierbij je kortingscode. Met deze kortingscode kun je op [link=http://www.fotofabriek.nl/chalet-actie/]fotofabriek.nl[/link] met 25% korting een foto-canvas bestellen!
