@@ -1,7 +1,5 @@
 <?php
 
-require_once(SITE_ROOT . DS . "admin" . DS . "siteclass" . DS. "siteclass.booking_payment.php");
-
 class Order extends Model {
 
 	const ADVANCE_PAYMENT_1 = "advance1";

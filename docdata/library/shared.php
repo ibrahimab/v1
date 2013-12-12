@@ -109,7 +109,7 @@ function routeURL($url) {
 
 /** Autoload any classes that are required **/
 
-function doctata_autoload($className) {
+function docdata_autoload($className) {
 	if (file_exists(ROOT . DS . 'library' . DS . strtolower($className) . '.php')) {
 		require_once(ROOT . DS . 'library' . DS . strtolower($className) . '.php');
 	} else if (file_exists(ROOT . DS . 'application' . DS . 'controllers' . DS . $className . '.php')) {
@@ -131,7 +131,7 @@ function doctata_autoload($className) {
 	}
 }
 
-spl_autoload_register('doctata_autoload');
+spl_autoload_register('docdata_autoload', true, true);
 
 function loadDirectories($className) {
 	$parts = explode("_", $className);
