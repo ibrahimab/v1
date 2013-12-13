@@ -494,29 +494,6 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 					}
 
 					# Mail sturen
-
-					// # Mailtekst bepalen
-					// $mailtekst_ontvangenbetaling=mailtekst_ontvangenbetaling($velden["boekingid"],$velden["bedrag"],$velden["datum"]);
-
-					// # Mail versturen aan klant (ontvangstbevestiging betaling)
-					// $mail=new wt_mail;
-					// $mail->from=$mailtekst_ontvangenbetaling["from"];
-					// $mail->fromname=$mailtekst_ontvangenbetaling["fromname"];
-					// $mail->subject=$mailtekst_ontvangenbetaling["subject"];
-					// $mail->plaintext=$mailtekst_ontvangenbetaling["body"];
-
-					// if($mailtekst_ontvangenbetaling["to_1"] or $mailtekst_ontvangenbetaling["to_2"]) {
-					// 	$mail->to=$mailtekst_ontvangenbetaling["to_1"];
-					// 	$mail->send();
-					// 	if($mailtekst_ontvangenbetaling["to_2"]) {
-					// 		$mail->to=$mailtekst_ontvangenbetaling["to_2"];
-					// 		$mail->send();
-					// 	}
-					// } else {
-					// 	$mail->to=$mailtekst_ontvangenbetaling["to"];
-					// 	$mail->send();
-					// }
-
 					$paymentmail = new paymentmail;
 					$paymentmail->send_mail($velden["boekingid"], $velden["bedrag"], $velden["datum"]);
 
@@ -539,7 +516,6 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 						if($updateveld=="aanbetaling2") {
 							$velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- bij ontvangstbevestiging: aanbetaling2 gewijzigd in € ".number_format($velden["bedrag"],2,',','.');
 						}
-						// $velden["log"].="\n".time()."-c".$_COOKIE["loginuser"]["chalet"]."-i- ontvangstbevestiging betaling gemaild aan ".$mailtekst_ontvangenbetaling["to_log"];
 
 						# Log opslaan
 						$db->query("UPDATE boeking SET log='".addslashes($velden["log"])."' WHERE boeking_id='".addslashes($velden["boekingid"])."';");

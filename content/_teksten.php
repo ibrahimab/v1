@@ -3993,8 +3993,7 @@ $txt["nl"]["bsys"]["akkoordfactuur"]="Ja, ik ga akkoord met de [[h_1]]ontvangen 
 $txt["en"]["bsys"]["akkoordfactuur"]="Yes, I agree with the [[h_1]]received invoice[[h_2]] of reservation number [[v_boekingsnummer]]";
 
 $txt["nl"]["bsys"]["akkoordvoorwaarden"]="Ja, ik ga akkoord met de [[h_1]]algemene voorwaarden van [[v_websitenaam]][[h_2]] (altijd van toepassing) + onderstaande voorwaarden aangaande verzekeringen (alleen van toepassing als ik een verzekering afsluit)";
-$txt["en"]["bsys"]["akkoordvoorwaarden"]="Yes, I agree with the [[h_1]]terms and conditions of [[v_websitenaam]][[h_2]] + below mentioned conditions for insurances (if applicable)";
-$nieuwe_vertaling["en"]["bsys"]["akkoordvoorwaarden"]=true;
+$txt["en"]["bsys"]["akkoordvoorwaarden"]="Yes, I agree with the [[h_1]]terms and conditions of [[v_websitenaam]][[h_2]] (always apply) + following terms and conditions regarding insurance (only apply if I take out insurance)";
 
 $txt["nl"]["bsys"]["voorwaarden_annuleringsverzekering"]="Voorwaarden Europeesche Verzekeringen Annuleringsverzekering";
 $txt["en"]["bsys"]["voorwaarden_annuleringsverzekering"]="Conditions Europeesche Verzekeringen Cancellation Insurance";
@@ -4210,7 +4209,6 @@ $txt["en"]["factuur"]["perdirecttevoldoen"]="To be paid immediately";
 
 $txt["nl"]["factuur"]["peromgaandetevoldoen"]="Per omgaande te voldoen";
 $txt["en"]["factuur"]["peromgaandetevoldoen"]="To be paid immediately";
-$nieuwe_vertaling["en"]["factuur"]["peromgaandetevoldoen"]=true;
 
 $txt["nl"]["factuur"]["metspoedopdrachttevoldoen"]="Met spoedopdracht te voldoen";
 $txt["en"]["factuur"]["metspoedopdrachttevoldoen"]="Payment by direct bank transfer";
