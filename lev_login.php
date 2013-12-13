@@ -13,6 +13,39 @@ $robot_noindex=true;
 
 if($login_lev->logged_in) {
 
+
+	if($_GET["roominglist"]) {
+		if($login_lev->vars["inlog_toon_roominglists"]) {
+
+			// roominglist tonen
+
+			$roominglist = new roominglist;
+			$roominglist->leverancier_id = intval($login_lev->user_id);
+
+			// if($login_lev->vars["roominglist_garanties_doorgeven"]) {
+			// 	$roominglist->garanties_doorgeven=$login_lev->vars["roominglist_garanties_doorgeven"];
+			// } else {
+			// 	$roominglist->garanties_doorgeven="0";
+			// }
+
+			$vars["create_list"]=$roominglist->create_list();
+
+			$filename = $vars["unixdir"]."tmp/roominglist-".$login_lev->user_id."-".time().".doc";
+			$roominglist->word_bestand(array("save_filename"=>$filename));
+
+			header("Content-type: application/msword");
+			header("Content-Disposition: attachment; filename=roominglist-".date("Y-m-d").".doc");
+			header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+
+			readfile($filename);
+
+			unlink($filename);
+			exit;
+
+		}
+		exit;
+	}
+
 	# Taal bepalen
 	if($login_lev->vars["inlog_taal"]) {
 		$org_taal=$vars["taal"];
