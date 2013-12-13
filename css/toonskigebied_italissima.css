@@ -120,3 +120,11 @@ h3 {
 	width: 350px;
 	min-height: 100px;
 }
+
+.googlemaps_infowindow .iright {
+	width: 140px;
+}
+
+.googlemaps_infowindow .ileft {
+	width: 206px;
+}
