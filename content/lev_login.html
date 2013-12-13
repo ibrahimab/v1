@@ -19,7 +19,7 @@ function totaal_regel($seizoenid) {
 
 		$return.="<tr style=\"background-color:#ebebeb;font-weight:bold;\"><td>".html("totaal","lev_login")."</td>";
 		if($vars["mag_aanvullende_gegevens_inzien"]) {
-			// geen inzicht in roominglist voor Venturasol
+			// inzicht in aanvullende gegevens
 			$return.="<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
 		}
 		if($login_lev->vars["inlog_inzichtinkoop"]) {
@@ -133,9 +133,9 @@ if($login_lev->logged_in) {
 		if($login_lev->vars["inlog_toon_derden"]) {
 			echo "<li><a href=\"".$vars["path"]."lev_login.php?t=3\">".html("boekingenviaderden","lev_login")."</a></li>";
 		}
-		if($vars["mag_aanvullende_gegevens_inzien"]) {
-			// geen inzicht in roominglist voor Venturasol
-			echo "<li><a href=\"".$vars["path"]."cms_overzichten_print.php?roominglist=1\" target=\"_blank\">".html("roominglist","lev_login")."</a></li>";
+		if($login_lev->vars["inlog_toon_roominglists"]) {
+			// inzicht in roominglist
+			echo "<li><a href=\"".$vars["path"]."lev_login.php?roominglist=1\" target=\"_blank\">".html("roominglist","lev_login")."</a></li>";
 		}
 		echo "<li><a href=\"".$vars["path"]."lev_login.php?t=1\">".html("mijngegevens","lev_login")."</a></li>";
 

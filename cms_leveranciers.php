@@ -100,6 +100,7 @@ $cms->db_field(8,"select","inlog_wintersite","",array("selection"=>$vars["websit
 $cms->db_field(8,"select","inlog_zomersite","",array("selection"=>$vars["websites_wzt_actief"][2]),array("one_per_line"));
 $cms->db_field(8,"yesno","inlog_inzichtinkoop");
 $cms->db_field(8,"yesno","inlog_inzichtbetalingen");
+$cms->db_field(8,"yesno","inlog_toon_roominglists");
 $cms->db_field(8,"yesno","inlog_toon_derden");
 $cms->db_field(8,"password","password");
 $cms->db_field(8,"textarea","inlog_afspraken");
@@ -233,6 +234,7 @@ $cms->edit_field(8,0,"inlog_wintersite","Website winter");
 $cms->edit_field(8,0,"inlog_zomersite","Website zomer");
 $cms->edit_field(8,0,"inlog_inzichtinkoop","Mag inzicht hebben in bruto-/nettoprijs");
 $cms->edit_field(8,0,"inlog_inzichtbetalingen","Mag inzicht hebben in betalingen aan de leverancier");
+$cms->edit_field(8,0,"inlog_toon_roominglists","Mag roominglists inzien");
 $cms->edit_field(8,0,"inlog_toon_derden","Toon 'Boekingen via derden'","","",array("info"=>"Boekingen via derden is NIET hetzelfde als boekingen via partners!\n\nEen voorbeeld van boekingen via derden zijn de boekingen van PVR in Vallandry op de chalets welke zij beheren, en waarvan de betalingen ook via hun gaan. Wanneer de betaling via ons gaat is het gewoon een partnerboeking welke via \"reisbureaus\" ingeboekt wordt."));
 $cms->edit_field(8,0,"inlog_afspraken","Afspraken (te zien na inloggen)");
 $cms->edit_field(8,0,"inlog_interne_opmerkingen","Interne opmerkingen m.b.t inloggen","",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));

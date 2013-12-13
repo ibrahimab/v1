@@ -1436,7 +1436,14 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 			}
 
 			# Gegevens overzetten
-			$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
+			if($gegevens["stap1"]["reisbureau_user_id"]) {
+				// $return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",." ("..")",$return["body"]);
+				$return["body"]=ereg_replace("\[NAAM\]",wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"])." (".$gegevens["stap1"]["boekingsnummer"].")",$return["body"]);
+			} else {
+				// $return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"],$return["body"]);
+				$return["body"]=ereg_replace("\[NAAM\]",$gegevens["stap2"]["voornaam"],$return["body"]);
+			}
+
 			$return["body"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["body"]);
 			$return["body"]=ereg_replace("\[DATUM\]",DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$taal),$return["body"]);
 #			$return["body"]=ereg_replace("\[LINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_inloggen"].".php",$return["body"]);
@@ -1445,20 +1452,19 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 			$return["body"]=ereg_replace("\[SOORTBETALING\]",$return["soortbetaling"],$return["body"]);
 			$return["body"]=ereg_replace("\[BEDRAG\]",$return["bedrag"],$return["body"]);
 
-			if($gegevens["stap1"]["reisbureau_user_id"]) {
-				$return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"]." (".wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]).")",$return["body"]);
-			} else {
-				$return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"],$return["body"]);
-			}
 
 			$return["body"]=ereg_replace("\[BETALINGSINFO\]",betalingsinfo::get_text($gegevens, $voldaan),$return["body"]);
 
 			// betaallink
-			$db2->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
-			if($db2->next_record() and $db2->f("password_uc")) {
-				$directlogin = new directlogin;
-				$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
-				$directlogin_link = $directlogin->maak_link($gegevens["stap1"]["website"], 2, $db2->f("user_id"),md5($db2->f("password_uc")));
+			if($gegevens["stap1"]["reisbureau_user_id"]) {
+				$directlogin_link = $vars["websiteinfo"]["basehref"][$gegevens["stap1"]["website"]]."reisagent.php";
+			} else {
+				$db2->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+				if($db2->next_record() and $db2->f("password_uc")) {
+					$directlogin = new directlogin;
+					$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
+					$directlogin_link = $directlogin->maak_link($gegevens["stap1"]["website"], 2, $db2->f("user_id"),md5($db2->f("password_uc")));
+				}
 			}
 
 			$return["body"]=ereg_replace("\[BETAALLINK\]", $directlogin_link, $return["body"]);

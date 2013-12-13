@@ -48,12 +48,17 @@ if($_GET["t"]==5 or $_GET["t"]==8 or $_GET["t"]==9 or $_GET["t"]==10 or $_GET["t
 		$ms->landscape=true;
 	}
 
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") $ms->test=true;
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") $ms->test=true;
 }
 
 if($_GET["t"]==1 or $_GET["t"]==2) {
 	# t=1 --> Roominglist totaal
 	# t=2 --> Roominglist op datum (=aankomstlijst)
+
+
+	//
+	// Depricated code! Use siteclass.roominglist.php
+	//
 
 	if($mustlogin) {
 		if($_GET["t"]==1) {
