@@ -470,7 +470,7 @@ function googlemaps_createmarker(value,main,use_animation) {
 function googlemaps_marker_content(value) {
 	var tmpcontent="";
 	// Bekijk alle resultaten op een kaart
-	tmpcontent=	'<div class="googlemaps_infowindow googlemaps_infowindow_zoekenboek clearfix">';
+	tmpcontent=	'<div class="googlemaps_infowindow clearfix">';
 	if(value['afbeelding']) tmpcontent+='<div class="ileft">';
 	tmpcontent+='<p>';
 	if(value['url']) tmpcontent+='<a href="'+value['url']+'" data-marker="'+value['key']+'" onclick="return map_zoek_en_boek_click(this);">';
