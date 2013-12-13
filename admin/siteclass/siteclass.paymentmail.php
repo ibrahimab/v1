@@ -139,7 +139,7 @@ class paymentmail {
 	#			$return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$this->gegevens["stap1"]["boekingsnummer"]." (".wt_naam($this->gegevens["stap2"]["voornaam"],$this->gegevens["stap2"]["tussenvoegsel"],$this->gegevens["stap2"]["achternaam"]).")",$return["body"]);
 			}
 
-			$return["body"]=ereg_replace("\[BETALINGSINFO\]",betalingsinfo($this->gegevens,$this->voldaan),$return["body"]);
+			$return["body"]=ereg_replace("\[BETALINGSINFO\]", betalingsinfo::get_text($this->gegevens, $this->voldaan), $return["body"]);
 			$return["subject"]=ereg_replace("\[SOORTVAKANTIE\]",$return["soortvakantie"],$return["subject"]);
 
 			// betaallink

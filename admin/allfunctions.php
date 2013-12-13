@@ -58,7 +58,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 }
 
 # Error handling
-if($vars["wt_disable_error_handler"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/extern-html" or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"]))) {
+if($vars["wt_disable_error_handler"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/extern-html" or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"])) or (defined("wt_test") and constant("wt_test") === true)) {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $_SERVER["HTTP_HOST"]=="ss.postvak.net") {
 		# Lokaal
 #		@set_error_handler('LocalErrorHandler');
@@ -257,7 +257,7 @@ class wt_mail {
 
 	function wt_mail() {
 		global $vars;
-		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or $GLOBALS["vars"]["acceptatie_testserver"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"]))) $this->test=true;
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or $GLOBALS["vars"]["acceptatie_testserver"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"])) or (defined("wt_test") and constant("wt_test") === true)) $this->test=true;
 		$this->send_mail=true;
 		if($_SERVER["HTTPS"]<>"on" or $vars["wt_mail_https_bcc"]) {
 			if(WT_mail_no_send_bcc===true) {
@@ -571,7 +571,7 @@ class wt_mail {
 					$this->to=$GLOBALS["vars"]["lokale_testserver_mailadres"];
 				} elseif($_SERVER["HTTP_HOST"]=="bl.postvak.net" or $_SERVER["HOSTNAME"]=="bl.postvak.net" or ($_SERVER["SERVER_ADDR"]=="172.16.6.1" and $_SERVER["REMOTE_ADDR"]=="172.16.6.40")) {
 					$this->to="testform_bl@webtastic.nl";
-				} elseif($_SERVER["HTTP_HOST"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="ss.postvak.net") {
+				} elseif($_SERVER["HTTP_HOST"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="ss.postvak.net" or (defined("wt_test_name") and constant("wt_test_name") === "macbook") or (defined("wt_test_name") and constant("wt_test_name") === "ss")) {
 					$this->to="testform_ss@webtastic.nl";
 				} else {
 					$this->to="testform@webtastic.nl";
