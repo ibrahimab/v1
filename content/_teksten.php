@@ -296,8 +296,7 @@ $txt["nl"]["vars"]["mailbetaling_voldaan"]="Beste [NAAM],\n\nWij hebben op [DATU
 $txt["en"]["vars"]["mailbetaling_voldaan"]="Dear [NAAM],\n\nOn [DATUM] we received a payment of € [BEDRAG] on our bank account which is related to your [SOORTVAKANTIE]. Thank you for that.\n\nThis makes your vacation fully paid for and we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailbetalingsinfo_ontvangenbedrag"]="€ [BEDRAG] reeds voldaan";
-$txt["en"]["vars"]["mailbetalingsinfo_ontvangenbedrag"]="€ [BEDRAG] already received";
-$nieuwe_vertaling["en"]["vars"]["mailbetalingsinfo_ontvangenbedrag"]=true;
+$txt["en"]["vars"]["mailbetalingsinfo_ontvangenbedrag"]="€ [BEDRAG] already paid";
 
 $txt["nl"]["vars"]["mailbetalingsinfo_nogteontvangenaanbetaling"]="€ [BEDRAG] nog te betalen aanbetaling per [DATUM]";
 $txt["en"]["vars"]["mailbetalingsinfo_nogteontvangenaanbetaling"]="At [DATUM] the down payment to pay is € [BEDRAG]";

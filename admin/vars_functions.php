@@ -4013,12 +4013,15 @@ function googleanalytics() {
 			$extra.="_gaq.push(['_setCustomVar', 1, 'AB-testing', '".$_COOKIE["abt"]."', 1]);\n";
 		}
 
+		// removed on 13-12-2013:
+		//		_gaq.push(['_gat._anonymizeIp']);
+
 		$return="<script type=\"text/javascript\">
 
 		var page_with_tabs=false;
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', '".$vars["googleanalytics"]."']);
-		_gaq.push(['_gat._anonymizeIp']);
+
 		".$vars["googleanalytics_extra"].$extra."
 
 		var canonical_link;
