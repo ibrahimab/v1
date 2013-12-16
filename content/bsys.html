@@ -229,6 +229,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$booking_payment->get_amounts();
 	echo wt_dump($booking_payment->text);
 	echo wt_dump($booking_payment->amount);
+	echo wt_dump($booking_payment->date);
 }
 
 							echo "Wijzigen:<ul>";

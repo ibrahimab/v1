@@ -389,7 +389,7 @@ if($_GET["uitgaand"]==1) {
 	#echo wt_dump($voldaan_array);
 	#exit;
 
-	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.aankomstdatum_exact, b.totale_reissom, b.goedgekeurde_betaling, b.aanbetaling1_dagennaboeken, b.aanbetaling1 , b.aanbetaling1_gewijzigd, UNIX_TIMESTAMP(b.aanbetaling2_datum) AS aanbetaling2_datum, b.aanbetaling2, b.totale_reissom_dagenvooraankomst, b.aanmaning_tekst, b.aanmaning_mailblokkeren, UNIX_TIMESTAMP(b.aanmaning_verstuurdatum) AS aanmaning_verstuurdatum, b.aanmaning_aantal, b.opmerkingen_intern, UNIX_TIMESTAMP(b.opmerkingen_intern_gewijzigd) AS opmerkingen_intern_gewijzigd, b.reisbureau_user_id, p.voornaam, p.tussenvoegsel, p.achternaam FROM boeking b, boeking_persoon p, factuur f WHERE f.boeking_id=b.boeking_id AND p.boeking_id=b.boeking_id AND p.persoonnummer=1 AND b.boekingsnummer<>''".$andq." ORDER BY b.aankomstdatum_exact;");
+	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.aankomstdatum_exact, b.totale_reissom, b.goedgekeurde_betaling, b.aanbetaling1_dagennaboeken, b.aanbetaling1 , b.aanbetaling1_gewijzigd, UNIX_TIMESTAMP(b.aanbetaling2_datum) AS aanbetaling2_datum, b.aanbetaling2, b.totale_reissom_dagenvooraankomst, b.aanmaning_tekst, b.aanmaning_mailblokkeren, UNIX_TIMESTAMP(b.aanmaning_verstuurdatum) AS aanmaning_verstuurdatum, b.aanmaning_aantal, b.opmerkingen_intern, UNIX_TIMESTAMP(b.opmerkingen_intern_gewijzigd) AS opmerkingen_intern_gewijzigd, b.reisbureau_user_id, UNIX_TIMESTAMP(b.factuurdatum_eerste_factuur) AS factuurdatum_eerste_factuur, p.voornaam, p.tussenvoegsel, p.achternaam FROM boeking b, boeking_persoon p, factuur f WHERE f.boeking_id=b.boeking_id AND p.boeking_id=b.boeking_id AND p.persoonnummer=1 AND b.boekingsnummer<>''".$andq." ORDER BY b.aankomstdatum_exact;");
 #	if($db->num_rows()) {
 		if(!$db->num_rows()) {
 			echo "<p style=\"background-color:yellow;\"><b>geen resultaten gevonden...</b></p>";
@@ -494,7 +494,7 @@ if($_GET["uitgaand"]==1) {
 			$db->seek();
 		}
 		while($db->next_record()) {
-			unset($regeltonen,$totaal,$voldaan,$openstaand,$telaat,$telaat_type,$tevoldoen);
+			unset($regeltonen, $totaal, $voldaan, $openstaand, $telaat, $telaat_type, $tevoldoen, $eindbetaling_datum);
 			$totaal=round($db->f("totale_reissom"),2);
 
 			$voldaan=$voldaan_array[$db->f("boeking_id")];
@@ -532,7 +532,16 @@ if($_GET["uitgaand"]==1) {
 				}
 
 				# Eindbetaling
-				if($aantaldagen_voor_aankomst<$db->f("totale_reissom_dagenvooraankomst")) {
+
+				$over_8_dagen = mktime(0, 0, 0, date("m"), date("d")+8, date("Y"));
+				$geleden_5_dagen = mktime(0, 0, 0, date("m"), date("d")-5, date("Y"));
+
+				// if($aantaldagen_voor_aankomst<$db->f("totale_reissom_dagenvooraankomst")) {
+				if($aantaldagen_voor_aankomst<$db->f("totale_reissom_dagenvooraankomst") and ( ($db->f("aankomstdatum_exact")<=$over_8_dagen) or ($db->f("factuurdatum_eerste_factuur")<=$geleden_5_dagen) )) {
+
+					$eindbetaling_datum = mktime(0, 0, 0, date("m",$db->f("aankomstdatum_exact")), date("d",$db->f("aankomstdatum_exact"))-$db->f("totale_reissom_dagenvooraankomst"), date("Y",$db->f("aankomstdatum_exact")));
+
+
 					$telaat=true;
 					$telaat_type=3;
 					$telaat_type_naam="eindbetaling";
