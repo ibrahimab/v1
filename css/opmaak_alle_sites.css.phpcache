@@ -732,7 +732,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 }
 
 .googlemaps_infowindow .sterren {
-	background: url(../pic/ster_7.png) repeat-x;
+	background: url(../pic/ster_<?php echo $vars["websitetype"]; ?>.png) repeat-x;
 	height: 16px;
 	display: inline-block;
     width: 0;
