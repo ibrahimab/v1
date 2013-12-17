@@ -23,6 +23,8 @@ class roominglist {
 
 	public $frm_filled;
 
+	public $aankomstlijst_gele_wijziging;
+
 	public $leverancier_id_inquery;
 
 	public $van;
@@ -37,7 +39,7 @@ class roominglist {
 		$this->totaal = true;
 
 		// van = vandaag
-		$this->van = mktime(0,0,0,date("m"),date("d"),date("Y"));
+		$this->van = mktime( 0, 0, 0, date( "m" ), date( "d" ), date( "Y" ) );
 	}
 
 	public function vergelijk_lijsten() {
@@ -49,19 +51,19 @@ class roominglist {
 		$db = new DB_sql;
 		$db2 = new DB_sql;
 
-		$db->query( "SELECT naam, leverancier_id, roominglist_inhoud_laatste_verzending FROM leverancier WHERE 1=1".($this->leverancier_id_inquery ? " AND leverancier_id IN (".$this->leverancier_id_inquery.")" : "")." ORDER BY leverancier_id;" );
+		$db->query( "SELECT naam, leverancier_id, roominglist_inhoud_laatste_verzending FROM leverancier WHERE 1=1".( $this->leverancier_id_inquery ? " AND leverancier_id IN (".$this->leverancier_id_inquery.")" : "" )." ORDER BY leverancier_id;" );
 		while ( $db->next_record() ) {
 
 			unset( $nieuwe_roominglist, $roominglist_aantal_wijzigingen, $roominglist_inhoud_laatste_verzending_array, $roominglist_inhoud_laatste_verzending_stripped_array, $roominglist_inhoud_nieuwe_verzending_array, $roominglist_inhoud_nieuwe_verzending_stripped_array, $create_list );
 
-			$roominglist_inhoud_laatste_verzending_array=explode( "</td></tr>", trim($db->f( "roominglist_inhoud_laatste_verzending" ) ) );
+			$roominglist_inhoud_laatste_verzending_array=explode( "</td></tr>", trim( $db->f( "roominglist_inhoud_laatste_verzending" ) ) );
 
 			foreach ( $roominglist_inhoud_laatste_verzending_array as $key => $value ) {
-				if($value) {
-					$value = preg_replace("@&nbsp;@"," ",$value);
-					$value = preg_replace("@ {2,}@"," ",$value);
-					$value = trim(html_entity_decode(strip_tags($value)));
-					if($value) {
+				if ( $value ) {
+					$value = preg_replace( "@&nbsp;@", " ", $value );
+					$value = preg_replace( "@ {2,}@", " ", $value );
+					$value = trim( html_entity_decode( strip_tags( $value ) ) );
+					if ( $value ) {
 						$roominglist_inhoud_laatste_verzending_stripped_array[$value]=true;
 					}
 				}
@@ -70,13 +72,13 @@ class roominglist {
 			$this->leverancier_id = $db->f( "leverancier_id" );
 			$create_list = $this->create_list();
 
-			$roominglist_inhoud_nieuwe_verzending_array=explode( "</td></tr>", trim($this->regels) );
+			$roominglist_inhoud_nieuwe_verzending_array=explode( "</td></tr>", trim( $this->regels ) );
 			foreach ( $roominglist_inhoud_nieuwe_verzending_array as $key => $value ) {
-				if($value) {
-					$value = preg_replace("@&nbsp;@"," ",$value);
-					$value = preg_replace("@ {2,}@"," ",$value);
-					$value = trim(html_entity_decode(strip_tags($value)));
-					if($value) {
+				if ( $value ) {
+					$value = preg_replace( "@&nbsp;@", " ", $value );
+					$value = preg_replace( "@ {2,}@", " ", $value );
+					$value = trim( html_entity_decode( strip_tags( $value ) ) );
+					if ( $value ) {
 						$roominglist_inhoud_nieuwe_verzending_stripped_array[$value]=true;
 					}
 				}
@@ -108,14 +110,14 @@ class roominglist {
 
 			unset( $nieuwe_roominglist, $aantal_wijzigingen, $inhoud_laatste_verzending_array, $inhoud_laatste_verzending_stripped_array, $inhoud_nieuwe_verzending_array, $inhoud_nieuwe_verzending_stripped_array, $create_list );
 
-			$inhoud_laatste_verzending_array=explode( "</td></tr>", trim($db->f( "inhoud_laatste_verzending" ) ) );
+			$inhoud_laatste_verzending_array=explode( "</td></tr>", trim( $db->f( "inhoud_laatste_verzending" ) ) );
 
 			foreach ( $inhoud_laatste_verzending_array as $key => $value ) {
-				if($value) {
-					$value = preg_replace("@&nbsp;@"," ",$value);
-					$value = preg_replace("@ {2,}@"," ",$value);
-					$value = trim(html_entity_decode(strip_tags($value)));
-					if($value) {
+				if ( $value ) {
+					$value = preg_replace( "@&nbsp;@", " ", $value );
+					$value = preg_replace( "@ {2,}@", " ", $value );
+					$value = trim( html_entity_decode( strip_tags( $value ) ) );
+					if ( $value ) {
 						$inhoud_laatste_verzending_stripped_array[$value]=true;
 					}
 				}
@@ -124,30 +126,20 @@ class roominglist {
 			$this->leverancier_id = $db->f( "leverancier_id" );
 			$this->totaal = false;
 			$this->vergelijk_lijsten = true;
-			$this->date = $db->f("aankomstdatum");
+			$this->date = $db->f( "aankomstdatum" );
 			$create_list = $this->create_list();
 
-// if($this->leverancier_id==249) {
-// echo wt_he($this->regels);
-// exit;
-// }
-
-			$inhoud_nieuwe_verzending_array=explode( "</td></tr>", trim($this->regels) );
+			$inhoud_nieuwe_verzending_array=explode( "</td></tr>", trim( $this->regels ) );
 			foreach ( $inhoud_nieuwe_verzending_array as $key => $value ) {
-				if($value) {
-					$value = preg_replace("@&nbsp;@"," ",$value);
-					$value = preg_replace("@ {2,}@"," ",$value);
-					$value = trim(html_entity_decode(strip_tags($value)));
-					if($value) {
+				if ( $value ) {
+					$value = preg_replace( "@&nbsp;@", " ", $value );
+					$value = preg_replace( "@ {2,}@", " ", $value );
+					$value = trim( html_entity_decode( strip_tags( $value ) ) );
+					if ( $value ) {
 						$inhoud_nieuwe_verzending_stripped_array[$value]=true;
 					}
 				}
 			}
-
-// if($db->f("leverancier_id")==53) {
-// 	echo wt_dump($inhoud_laatste_verzending_stripped_array);
-// 	echo wt_dump($inhoud_nieuwe_verzending_stripped_array);
-// }
 
 			if ( $this->regels and is_array( $inhoud_nieuwe_verzending_stripped_array ) ) {
 				foreach ( $inhoud_nieuwe_verzending_stripped_array as $key => $value ) {
@@ -157,7 +149,7 @@ class roominglist {
 				}
 			}
 
-			$db2->query( "UPDATE leverancier_aankomstlijst SET aantal_wijzigingen='".intval( $aantal_wijzigingen )."' WHERE leverancier_id='".intval( $db->f( "leverancier_id" ) )."' AND aankomstdatum='".date("Y-m-d", $db->f("aankomstdatum"))."';" );
+			$db2->query( "UPDATE leverancier_aankomstlijst SET aantal_wijzigingen='".intval( $aantal_wijzigingen )."' WHERE leverancier_id='".intval( $db->f( "leverancier_id" ) )."' AND aankomstdatum='".date( "Y-m-d", $db->f( "aankomstdatum" ) )."';" );
 		}
 	}
 
@@ -168,7 +160,7 @@ class roominglist {
 		$db = new DB_sql;
 		$db2 = new DB_sql;
 
-		unset($this->klantnamen_boekingen, $this->klantnamen_garanties);
+		unset( $this->klantnamen_boekingen, $this->klantnamen_garanties );
 
 		if ( $mustlogin ) {
 			if ( $this->totaal ) {
@@ -179,11 +171,11 @@ class roominglist {
 		}
 
 		// naamswijzingen opnemen?
-		if($this->naamswijzigingen_doorgeven) {
-			$naamswijzigingen_doorgeven_array_temp=preg_split("@,@",$this->naamswijzigingen_doorgeven);
+		if ( $this->naamswijzigingen_doorgeven ) {
+			$naamswijzigingen_doorgeven_array_temp=preg_split( "@,@", $this->naamswijzigingen_doorgeven );
 
-			if(is_array($naamswijzigingen_doorgeven_array_temp)) {
-				foreach ($naamswijzigingen_doorgeven_array_temp as $key => $value) {
+			if ( is_array( $naamswijzigingen_doorgeven_array_temp ) ) {
+				foreach ( $naamswijzigingen_doorgeven_array_temp as $key => $value ) {
 					$naamswijzigingen_doorgeven_array[$value]=true;
 				}
 			}
@@ -207,7 +199,7 @@ class roominglist {
 			}
 			$roominglist_site_benaming=$db->f( "roominglist_site_benaming" );
 
-			if($this->totaal) {
+			if ( $this->totaal ) {
 				$roominglist_garanties_doorgeven=$db->f( "roominglist_garanties_doorgeven" );
 			}
 
@@ -216,37 +208,61 @@ class roominglist {
 		}
 
 
-		if(!$this->totaal) {
+		if ( !$this->totaal ) {
+
+
 
 			// aankomstlijst: welke garanties?
-			$db->query( "SELECT garanties_doorgeven FROM leverancier_aankomstlijst WHERE leverancier_id='".intval( $this->leverancier_id )."' AND aankomstdatum='".date("Y-m-d", $this->date)."';" );
-			if($db->next_record()) {
+			$db->query( "SELECT garanties_doorgeven, inhoud_laatste_verzending FROM leverancier_aankomstlijst WHERE leverancier_id='".intval( $this->leverancier_id )."' AND aankomstdatum='".date( "Y-m-d", $this->date )."';" );
+			if ( $db->next_record() ) {
 				$roominglist_garanties_doorgeven=$db->f( "garanties_doorgeven" );
 			}
-			if(!$roominglist_garanties_doorgeven) $roominglist_garanties_doorgeven="0";
+			if ( !$roominglist_garanties_doorgeven ) $roominglist_garanties_doorgeven="0";
+
+			// vergelijking kunnen maken met oude lijst
+			unset( $inhoud_laatste_verzending_array, $inhoud_laatste_verzending_stripped_array );
+			$inhoud_laatste_verzending_array=explode( "</td></tr>", trim( $db->f( "inhoud_laatste_verzending" ) ) );
+			foreach ( $inhoud_laatste_verzending_array as $key => $value ) {
+				if ( $value ) {
+
+					if ( preg_match( "@data-list-id=\"([a-z][0-9]+)\"@", $value, $regs ) ) {
+						$data_list_id=$regs[1];
+					} else {
+						$data_list_id=false;
+					}
+
+					if ( $data_list_id ) {
+						$value = preg_replace( "@&nbsp;@", " ", $value );
+						$value = preg_replace( "@ {2,}@", " ", $value );
+						$value = trim( html_entity_decode( strip_tags( $value ) ) );
+						if ( $value ) {
+							$inhoud_laatste_verzending_stripped_array[$value]=$data_list_id;
+						}
+					}
+				}
+			}
 		}
 
-
 		// garantie-koppeling
-		$db->query("SELECT garantie_id, boeking_id, soort_garantie FROM garantie WHERE 1=1;");
-		while($db->next_record()) {
-			if($db->f("boeking_id")>0) {
-				$garantie_boeking[$db->f("boeking_id")]=$db->f("soort_garantie");
-				$garantie_boeking_garantie_id[$db->f("boeking_id")]=$db->f("garantie_id");
-				$boeking_garantie[$db->f("garantie_id")]=$db->f("boeking_id");
+		$db->query( "SELECT garantie_id, boeking_id, soort_garantie FROM garantie WHERE 1=1;" );
+		while ( $db->next_record() ) {
+			if ( $db->f( "boeking_id" )>0 ) {
+				$garantie_boeking[$db->f( "boeking_id" )]=$db->f( "soort_garantie" );
+				$garantie_boeking_garantie_id[$db->f( "boeking_id" )]=$db->f( "garantie_id" );
+				$boeking_garantie[$db->f( "garantie_id" )]=$db->f( "boeking_id" );
 			}
-			$garantie_soort[$db->f("garantie_id")]=$db->f("soort_garantie");
+			$garantie_soort[$db->f( "garantie_id" )]=$db->f( "soort_garantie" );
 		}
 
 
 		// bepalen welke garanties moeten worden opgenomen
 		$this->garantie_id_inquery=",0";
-		if(!$this->frm_filled and ($roominglist_garanties_doorgeven or $roominglist_garanties_doorgeven=="0")) {
+		if ( !$this->frm_filled and ( $roominglist_garanties_doorgeven or $roominglist_garanties_doorgeven=="0" ) ) {
 			// nog geen formulier gepost: aan te vinken halen uit database roominglist_garanties_doorgeven
-			$garanties_doorgeven_array=explode(",",$roominglist_garanties_doorgeven);
-			if(is_array($garanties_doorgeven_array)) {
-				foreach ($garanties_doorgeven_array as $key => $value) {
-					if($value and $boeking_garantie[$value]) {
+			$garanties_doorgeven_array=explode( ",", $roominglist_garanties_doorgeven );
+			if ( is_array( $garanties_doorgeven_array ) ) {
+				foreach ( $garanties_doorgeven_array as $key => $value ) {
+					if ( $value and $boeking_garantie[$value] ) {
 						$this->garanties_doorgeven.=",b".$boeking_garantie[$value];
 					} else {
 						$this->garanties_doorgeven.=",".$value;
@@ -255,19 +271,19 @@ class roominglist {
 			}
 		}
 
-		if($this->garanties_doorgeven) {
-			$garanties_doorgeven_array=explode(",",$this->garanties_doorgeven);
-			if(is_array($garanties_doorgeven_array)) {
-				foreach ($garanties_doorgeven_array as $key => $value) {
-					if(preg_match("@^b([0-9]+)$@",$value,$regs)) {
+		if ( $this->garanties_doorgeven ) {
+			$garanties_doorgeven_array=explode( ",", $this->garanties_doorgeven );
+			if ( is_array( $garanties_doorgeven_array ) ) {
+				foreach ( $garanties_doorgeven_array as $key => $value ) {
+					if ( preg_match( "@^b([0-9]+)$@", $value, $regs ) ) {
 						$boeking_doorgeven[$regs[1]]=true;
-						if($garantie_boeking[$regs[1]]==1) {
+						if ( $garantie_boeking[$regs[1]]==1 ) {
 							// seizoen/bulk-garantie (via boeking): opslaan
 							$this->garanties_doorgeven_opslaan_array[$garantie_boeking_garantie_id[$regs[1]]]=true;
 						}
-					} elseif($value) {
+					} elseif ( $value ) {
 						$this->garantie_id_inquery.=",".$value;
-						if($garantie_soort[$value]==1 or !$this->totaal) {
+						if ( $garantie_soort[$value]==1 or !$this->totaal ) {
 							// seizoen/bulk-garantie: opslaan
 							$this->garanties_doorgeven_opslaan_array[$value]=true;
 						}
@@ -276,23 +292,11 @@ class roominglist {
 			}
 		}
 
-// if($this->leverancier_id==249) {
-// 	echo $this->garantie_id_inquery;
-// 	echo wt_dump($this->garanties_doorgeven);
-// 	echo wt_dump($this->garanties_doorgeven_opslaan_array);
-// }
-
-
-// if($this->frm_filled) {
-// 	echo wt_dump($this->garanties_doorgeven_opslaan_array);
-// 	echo $this->garanties_doorgeven;
-// 	// exit;
-// }
 		// bepalen welke garantie-boekingen opgenomen moeten worden (garantie-boekingen die zijn aangevinkt)
 		$this->boeking_id_notinquery=",0";
-		if(is_array($boeking_garantie) and $this->totaal) {
-			foreach ($boeking_garantie as $key => $value) {
-				if(!$boeking_doorgeven[$value]) {
+		if ( is_array( $boeking_garantie ) and $this->totaal ) {
+			foreach ( $boeking_garantie as $key => $value ) {
+				if ( !$boeking_doorgeven[$value] ) {
 					$this->boeking_id_notinquery.=",".$value;
 				}
 			}
@@ -305,21 +309,21 @@ class roominglist {
 
 		if ( $this->totaal ) {
 			$where.="b.aankomstdatum_exact>='".$this->van."' AND ";
-			if($this->tot) {
+			if ( $this->tot ) {
 				$where.="b.aankomstdatum_exact<='".$this->tot."' AND ";
 			}
 		} else {
 			$where.="b.aankomstdatum='".addslashes( $this->date )."' AND ";
 		}
 
-		if($this->frm_filled and $this->boeking_id_notinquery) {
-			$where.="b.boeking_id NOT IN (".substr($this->boeking_id_notinquery,1).") AND ";
+		if ( $this->frm_filled and $this->boeking_id_notinquery ) {
+			$where.="b.boeking_id NOT IN (".substr( $this->boeking_id_notinquery, 1 ).") AND ";
 		}
 
 		$db->query( "SELECT b.boeking_id, b.boekingsnummer, b.type_id, b.aan_leverancier_doorgegeven_naam, b.bestelstatus, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.mobielwerk, bp.telefoonnummer, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.opmerkingen_voucher, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, a.bestelnaam AS abestelnaam, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." (b.leverancier_id=l.leverancier_id OR b.beheerder_id=l.leverancier_id) AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND ((b.verzameltype_gekozentype_id IS NULL AND b.type_id=t.type_id) OR (b.verzameltype_gekozentype_id>0 AND b.verzameltype_gekozentype_id=t.type_id)) AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY p.naam, b.aankomstdatum_exact, a.naam, t.naam;" );
 		while ( $db->next_record() ) {
 
-			if($db->f("besteldatum")>0 or isset($garantie_boeking[$db->f("boeking_id")])) {
+			if ( $db->f( "besteldatum" )>0 or isset( $garantie_boeking[$db->f( "boeking_id" )] ) ) {
 
 				$sortkey=$db->f( "plaats" )."_".$db->f( "aankomstdatum_exact" )."_".$db->f( "accommodatie" )."_".$db->f( "type" );
 				if ( !$leverancier ) {
@@ -338,28 +342,28 @@ class roominglist {
 
 
 
-				$naam=$db->f("aan_leverancier_doorgegeven_naam");
+				$naam=$db->f( "aan_leverancier_doorgegeven_naam" );
 
-				if($this->totaal) {
+				if ( $this->totaal ) {
 
 					// naamswijzigingen in array plaatsen
-					unset($naamswijziging_opvallend);
-					if($db->f( "aan_leverancier_doorgegeven_naam" )!=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )) {
-						$this->naamswijzigingen[$db->f("boeking_id")] = "Boeking ".$db->f("boekingsnummer").": \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )."\"";
+					unset( $naamswijziging_opvallend );
+					if ( $db->f( "aan_leverancier_doorgegeven_naam" )!=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) ) ) {
+						$this->naamswijzigingen[$db->f( "boeking_id" )] = "Boeking ".$db->f( "boekingsnummer" ).": \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )."\"";
 
-						$this->naamswijzigingen_html[$db->f("boeking_id")] = "Boeking <a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a>:".wt_he(" \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )."\"");
+						$this->naamswijzigingen_html[$db->f( "boeking_id" )] = "Boeking <a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f( "boeking_id" )."\" target=\"_blank\">".$db->f( "boekingsnummer" )."</a>:".wt_he( " \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) )."\"" );
 
 						// tonen of het om een garantie-boeking gaat
-						if(isset($garantie_boeking[$db->f("boeking_id")])) {
-							$this->naamswijzigingen_html[$db->f("boeking_id")]="<span class=\"soort_garantie_".$garantie_boeking[$db->f("boeking_id")]."\">".$this->naamswijzigingen_html[$db->f("boeking_id")]."</span>";
+						if ( isset( $garantie_boeking[$db->f( "boeking_id" )] ) ) {
+							$this->naamswijzigingen_html[$db->f( "boeking_id" )]="<span class=\"soort_garantie_".$garantie_boeking[$db->f( "boeking_id" )]."\">".$this->naamswijzigingen_html[$db->f( "boeking_id" )]."</span>";
 						}
 
 						// kijken of naamswijziging in roominglist moet worden opgenomen
-						if($naamswijzigingen_doorgeven_array[$db->f("boeking_id")]) {
+						if ( $naamswijzigingen_doorgeven_array[$db->f( "boeking_id" )] ) {
 							$naam=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
 
 							// klantnamen in array plaatsen
-							$this->klantnamen_boekingen[$db->f("boeking_id")] = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
+							$this->klantnamen_boekingen[$db->f( "boeking_id" )] = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
 
 							// naamswijzigingen laten opvallen in de roominglist
 							$naamswijziging_opvallend="font-weight:bold;background-color:yellow;";
@@ -369,17 +373,17 @@ class roominglist {
 					$naam = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
 				}
 
-				$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".($this->onbesteld_opvallend&&$db->f("bestelstatus")<=1 ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
+				$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".( $this->onbesteld_opvallend&&$db->f( "bestelstatus" )<=1 ? " class='nog_niet_besteld'" : "" )." data-list-id=\"b".$db->f( "boeking_id" )."\"><td valign=\"top\">".wt_he( $naam )."</td>";
 
 				// boeking die aan garantie is: opnemen in de lijst met te selecteren garanties
-				if(isset($garantie_boeking[$db->f("boeking_id")])) {
-					if($this->totaal) {
-						$this->garanties_html["b".$db->f("boeking_id")] = "<span class=\"soort_garantie_".$garantie_boeking[$db->f("boeking_id")]."\">".wt_he($vars["alletypes"][$db->f("type_id")])." - ".wt_he( wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) ) )." - <a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a> - ".date("d/m/Y",$db->f("aankomstdatum_exact"))."</span>";
+				if ( isset( $garantie_boeking[$db->f( "boeking_id" )] ) ) {
+					if ( $this->totaal ) {
+						$this->garanties_html["b".$db->f( "boeking_id" )] = "<span class=\"soort_garantie_".$garantie_boeking[$db->f( "boeking_id" )]."\">".wt_he( $vars["alletypes"][$db->f( "type_id" )] )." - ".wt_he( wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) ) )." - <a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f( "boeking_id" )."\" target=\"_blank\">".$db->f( "boekingsnummer" )."</a> - ".date( "d/m/Y", $db->f( "aankomstdatum_exact" ) )."</span>";
 					}
 
-					if($garantie_boeking[$db->f("boeking_id")]==2 and $this->totaal) {
+					if ( $garantie_boeking[$db->f( "boeking_id" )]==2 and $this->totaal ) {
 						// "garantie: op naam en losse weken": standaard doorgeven
-						$this->garanties_doorgeven.=","."b".$db->f("boeking_id");
+						$this->garanties_doorgeven.=","."b".$db->f( "boeking_id" );
 					}
 				}
 
@@ -413,10 +417,10 @@ class roominglist {
 		//
 		// Garanties
 		//
-		unset($where);
+		unset( $where );
 		if ( $this->totaal ) {
 			$where="g.aankomstdatum_exact>='".$this->van."' AND ";
-			if($this->tot) {
+			if ( $this->tot ) {
 				$where.="g.aankomstdatum_exact<='".$this->tot."' AND ";
 			}
 		} else {
@@ -424,12 +428,12 @@ class roominglist {
 		}
 
 		// aleen garanties die zijn aangevinkt opnemen
-		if($this->frm_filled or $this->vergelijk_lijsten) {
-			$where.="g.garantie_id IN (".substr($this->garantie_id_inquery,1).") AND ";
+		if ( $this->frm_filled or $this->vergelijk_lijsten ) {
+			$where.="g.garantie_id IN (".substr( $this->garantie_id_inquery, 1 ).") AND ";
 		}
 
 		// if($this->verberg_garanties) {
-		// 	$where.="g.garantie_id NOT IN (".$this->verberg_garanties.") AND ";
+		//  $where.="g.garantie_id NOT IN (".$this->verberg_garanties.") AND ";
 		// }
 
 		$db->query( "SELECT g.garantie_id, g.naam, g.aan_leverancier_doorgegeven_naam, g.type_id, g.soort_garantie, g.aankomstdatum_exact, g.vertrekdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, g.reserveringsnummer_extern, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." g.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND g.boeking_id=0 ORDER BY g.aankomstdatum_exact, t.type_id, g.garantie_id;" );
@@ -444,7 +448,7 @@ class roominglist {
 			$accnaam_kort=$db->f( "accommodatie" )." ".( $db->f( "type" ) ? $db->f( "type" )." " : "" );
 			$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
 
-			if($db->f( "inkoopdatum" ) or $db->f( "factuurnummer" )) {
+			if ( $db->f( "inkoopdatum" ) or $db->f( "factuurnummer" ) ) {
 				$nog_niet_besteld=false;
 			} else {
 				$nog_niet_besteld=true;
@@ -452,23 +456,23 @@ class roominglist {
 
 
 
-			$naam=$db->f("aan_leverancier_doorgegeven_naam");
+			$naam=$db->f( "aan_leverancier_doorgegeven_naam" );
 
-			if($this->totaal) {
+			if ( $this->totaal ) {
 
 				// naamswijzigingen in array plaatsen
-				unset($naamswijziging_opvallend);
-				if($db->f( "aan_leverancier_doorgegeven_naam" )!=$db->f( "naam" )) {
-					$this->naamswijzigingen["g".$db->f("garantie_id")] = "Garantie ".$db->f("reserveringsnummer_extern").": \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".$db->f( "naam" )."\"";
+				unset( $naamswijziging_opvallend );
+				if ( $db->f( "aan_leverancier_doorgegeven_naam" )!=$db->f( "naam" ) ) {
+					$this->naamswijzigingen["g".$db->f( "garantie_id" )] = "Garantie ".$db->f( "reserveringsnummer_extern" ).": \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".$db->f( "naam" )."\"";
 
-					$this->naamswijzigingen_html["g".$db->f("garantie_id")] = "<span class=\"soort_garantie_".$db->f("soort_garantie")."\">Garantie <a href=\"cms_garanties.php?edit=34&34k0=".$db->f("garantie_id")."\" target=\"_blank\">".$db->f("reserveringsnummer_extern")."</a>:".wt_he(" \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".$db->f( "naam" )."\"")."</span>";
+					$this->naamswijzigingen_html["g".$db->f( "garantie_id" )] = "<span class=\"soort_garantie_".$db->f( "soort_garantie" )."\">Garantie <a href=\"cms_garanties.php?edit=34&34k0=".$db->f( "garantie_id" )."\" target=\"_blank\">".$db->f( "reserveringsnummer_extern" )."</a>:".wt_he( " \"".$db->f( "aan_leverancier_doorgegeven_naam" )."\" is nu \"".$db->f( "naam" )."\"" )."</span>";
 
 					// kijken of naamswijziging in roominglist moet worden opgenomen
-					if($naamswijzigingen_doorgeven_array["g".$db->f("garantie_id")]) {
+					if ( $naamswijzigingen_doorgeven_array["g".$db->f( "garantie_id" )] ) {
 						$naam = $db->f( "naam" );
 
-						# Klantnamen in array plaatsen
-						$this->klantnamen_garanties[$db->f("garantie_id")] = $db->f( "naam" );
+						// Klantnamen in array plaatsen
+						$this->klantnamen_garanties[$db->f( "garantie_id" )] = $db->f( "naam" );
 
 						// naamswijzigingen laten opvallen in de roominglist
 						$naamswijziging_opvallend="font-weight:bold;background-color:yellow;";
@@ -478,16 +482,16 @@ class roominglist {
 				$naam = $db->f( "naam" );
 			}
 
-			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".($this->onbesteld_opvallend&&$nog_niet_besteld ? " class='nog_niet_besteld'" : "")."><td valign=\"top\">".wt_he( $naam )."</td>";
+			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;".$naamswijziging_opvallend."'".( $this->onbesteld_opvallend&&$nog_niet_besteld ? " class='nog_niet_besteld'" : "" )." data-list-id=\"g".$db->f( "garantie_id" )."\"><td valign=\"top\">".wt_he( $naam )."</td>";
 
-			# Garanties in array plaatsen
-			$this->garanties[$db->f("garantie_id")] = $vars["alletypes"][$db->f("type_id")]." - ".$db->f( "naam" )." - ".$db->f( "reserveringsnummer_extern" )." - ".date("d/m/Y",$db->f("aankomstdatum_exact"));
+			// Garanties in array plaatsen
+			$this->garanties[$db->f( "garantie_id" )] = $vars["alletypes"][$db->f( "type_id" )]." - ".$db->f( "naam" )." - ".$db->f( "reserveringsnummer_extern" )." - ".date( "d/m/Y", $db->f( "aankomstdatum_exact" ) );
 
-			$this->garanties_html[$db->f("garantie_id")] = "<span class=\"soort_garantie_".$db->f("soort_garantie")."\">".wt_he($vars["alletypes"][$db->f("type_id")])." - ".wt_he($db->f( "naam" ))." - <a href=\"cms_garanties.php?edit=34&34k0=".$db->f("garantie_id")."\" target=\"_blank\">".$db->f( "reserveringsnummer_extern" )."</a> - ".date("d/m/Y",$db->f("aankomstdatum_exact"))."</span>";
+			$this->garanties_html[$db->f( "garantie_id" )] = "<span class=\"soort_garantie_".$db->f( "soort_garantie" )."\">".wt_he( $vars["alletypes"][$db->f( "type_id" )] )." - ".wt_he( $db->f( "naam" ) )." - <a href=\"cms_garanties.php?edit=34&34k0=".$db->f( "garantie_id" )."\" target=\"_blank\">".$db->f( "reserveringsnummer_extern" )."</a> - ".date( "d/m/Y", $db->f( "aankomstdatum_exact" ) )."</span>";
 
-			if($db->f("soort_garantie")==2 and $this->totaal) {
+			if ( $db->f( "soort_garantie" )==2 and $this->totaal ) {
 				// "garantie: op naam en losse weken": standaard doorgeven
-				$this->garanties_doorgeven.=",".$db->f("garantie_id");
+				$this->garanties_doorgeven.=",".$db->f( "garantie_id" );
 			}
 
 			if ( $roominglist_toontelefoonnummer ) {
@@ -502,7 +506,7 @@ class roominglist {
 			$regels[$sortkey].="<td valign=\"top\">".( $db->f( "factuurnummer" ) ? htmlentities( $db->f( "factuurnummer" ) ) : ( $db->f( "inkoopdatum" )>0 ? "OK ".date( "d-m-Y", $db->f( "inkoopdatum" ) ) : "&nbsp;" ) )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( htmlentities( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
 		}
 
-		unset($this->regels);
+		unset( $this->regels );
 
 		if ( is_array( $regels ) ) {
 			ksort( $regels );
@@ -517,7 +521,63 @@ class roominglist {
 				$this->regels.=$value."\n";
 			}
 
-			$this->regels=trim($this->regels);
+			$this->regels=trim( $this->regels );
+
+
+			// check for changes for arrivals
+			if ( !$this->totaal and is_array( $inhoud_laatste_verzending_stripped_array ) ) {
+				$inhoud_nieuwe_verzending_array=explode( "</td></tr>", trim( $this->regels ) );
+				foreach ( $inhoud_nieuwe_verzending_array as $key => $value ) {
+					if ( $value ) {
+
+						if ( preg_match( "@data-list-id=\"([a-z][0-9]+)\"@", $value, $regs ) ) {
+							$data_list_id = $regs[1];
+						} else {
+							$data_list_id = false;
+						}
+
+						if ( $data_list_id ) {
+							$value = preg_replace( "@&nbsp;@", " ", $value );
+							$value = preg_replace( "@ {2,}@", " ", $value );
+							$value = trim( html_entity_decode( strip_tags( $value ) ) );
+							if ( $value ) {
+								$inhoud_nieuwe_verzending_stripped_array[$value]=$data_list_id;
+							}
+						}
+					}
+				}
+
+				if ( $this->regels and is_array( $inhoud_nieuwe_verzending_stripped_array ) ) {
+					foreach ( $inhoud_nieuwe_verzending_stripped_array as $key => $value ) {
+						if ( $inhoud_laatste_verzending_stripped_array[$key] ) {
+							$data_list_id_ongewijzigd[$value] = true;
+						}
+					}
+				}
+
+				// echo wt_dump($data_list_id_ongewijzigd);
+
+				unset($while_teller);
+				while(preg_match("@(((<tr style=')([^>]+))data-list-id=\"([a-z][0-9]+)\")@", $html, $regs)) {
+					$while_teller++;
+					// echo wt_dump($regs);
+					$replace = $regs[2];
+					if($data_list_id_ongewijzigd[$regs[5]]) {
+
+					} else {
+						$replace = str_replace($regs[3] , $regs[3]."font-weight:bold;background-color:yellow;", $replace);
+						$this->aankomstlijst_gele_wijziging = true;
+					}
+					// echo wt_he("==".$replace."==");
+					// echo "replace ".wt_he($regs[1])." with ".wt_he($replace)."<hr/>";
+					$html = str_replace($regs[1], $replace, $html);
+					// exit;
+
+					if($while_teller>1000) {
+						break;
+					}
+				}
+			}
 
 
 			$totaal_html.="<table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
@@ -570,7 +630,7 @@ class roominglist {
 
 	}
 
-	public function word_bestand($settings="") {
+	public function word_bestand( $settings="" ) {
 
 		global $vars;
 
@@ -650,7 +710,7 @@ class roominglist {
 		$ms->html=$create_list["html"];
 
 
-		if($settings["save_filename"]) {
+		if ( $settings["save_filename"] ) {
 
 			$ms->headers=false;
 
@@ -659,21 +719,21 @@ class roominglist {
 			$ms->create_word_document();
 			$output = ob_get_clean();
 
-			file_put_contents($settings["save_filename"], $output);
+			file_put_contents( $settings["save_filename"], $output );
 
 		} else {
 			$ms->create_word_document();
 		}
 	}
 
-	public function overzicht_te_verzenden($settings="") {
+	public function overzicht_te_verzenden( $settings="" ) {
 
 		global $vars;
 
 		$db = new DB_sql;
 		// $db2 = new DB_sql;
 
-		if($settings["in_de_wacht"]) {
+		if ( $settings["in_de_wacht"] ) {
 			$andquery.=" AND roominglist_volgende_controle>NOW()";
 			$return.="<h1>In de wacht</h1>";
 		} else {
@@ -682,20 +742,20 @@ class roominglist {
 		}
 
 
-		$db->query("SELECT leverancier_id, naam, beheerder, roominglist_aantal_wijzigingen, UNIX_TIMESTAMP(roominglist_laatste_verzending_datum) AS roominglist_laatste_verzending_datum, UNIX_TIMESTAMP(roominglist_volgende_controle) AS roominglist_volgende_controle, roominglist_versturen FROM leverancier WHERE roominglist_aantal_wijzigingen>0".$andquery." ORDER BY roominglist_versturen, naam, roominglist_laatste_verzending_datum;");
-		if($db->num_rows()) {
+		$db->query( "SELECT leverancier_id, naam, beheerder, roominglist_aantal_wijzigingen, UNIX_TIMESTAMP(roominglist_laatste_verzending_datum) AS roominglist_laatste_verzending_datum, UNIX_TIMESTAMP(roominglist_volgende_controle) AS roominglist_volgende_controle, roominglist_versturen FROM leverancier WHERE roominglist_aantal_wijzigingen>0".$andquery." ORDER BY roominglist_versturen, naam, roominglist_laatste_verzending_datum;" );
+		if ( $db->num_rows() ) {
 			$return.="<table cellspacing=\"0\" class=\"tbl striped\">";
 			$return.="<tr><th>Leverancier</th><th>Laatste verzending</th><th>Niet in laatste verzending opgenomen</th>";
-			if($settings["in_de_wacht"]) {
+			if ( $settings["in_de_wacht"] ) {
 				$return.="<th>Herinneren vanaf</th>";
 			}
 			$return.="</tr>";
 
-			while($db->next_record()) {
-				$return.="<tr class=\"".($db->f("roominglist_versturen")==2 ? "tr_onopvallend" : "")."\"><td><a href=\"".$vars["path"]."cms_roomingaankomst.php?t=1&levid=".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</a>".($db->f("beheerder") ? " (beheerder)" : "").($db->f("roominglist_versturen")==2 ? " (wil geen roominglists)" : "")."</td><td>".($db->f("roominglist_laatste_verzending_datum")>0 ? date("d-m-Y",$db->f("roominglist_laatste_verzending_datum")) : "&nbsp;")."</td><td>".intval($db->f("roominglist_aantal_wijzigingen"))."</td>";
+			while ( $db->next_record() ) {
+				$return.="<tr class=\"".( $db->f( "roominglist_versturen" )==2 ? "tr_onopvallend" : "" )."\"><td><a href=\"".$vars["path"]."cms_roomingaankomst.php?t=1&levid=".$db->f( "leverancier_id" )."\">".wt_he( $db->f( "naam" ) )."</a>".( $db->f( "beheerder" ) ? " (beheerder)" : "" ).( $db->f( "roominglist_versturen" )==2 ? " (wil geen roominglists)" : "" )."</td><td>".( $db->f( "roominglist_laatste_verzending_datum" )>0 ? date( "d-m-Y", $db->f( "roominglist_laatste_verzending_datum" ) ) : "&nbsp;" )."</td><td>".intval( $db->f( "roominglist_aantal_wijzigingen" ) )."</td>";
 
-				if($settings["in_de_wacht"]) {
-					$return.="<td>".date("d-m-Y",$db->f("roominglist_volgende_controle"))."</td>";
+				if ( $settings["in_de_wacht"] ) {
+					$return.="<td>".date( "d-m-Y", $db->f( "roominglist_volgende_controle" ) )."</td>";
 				}
 
 				$return.="</tr>";
@@ -704,7 +764,7 @@ class roominglist {
 			$return.="</table>";
 
 		} else {
-			if($settings["in_de_wacht"]) {
+			if ( $settings["in_de_wacht"] ) {
 				$return.="<p>Er staan geen roominglists in de wacht.</p>";
 			} else {
 				$return.="<p>Er zijn geen te verzenden roominglists.</p>";
@@ -714,14 +774,14 @@ class roominglist {
 		return $return;
 	}
 
-	public function overzicht_goedgekeurd($settings="") {
+	public function overzicht_goedgekeurd( $settings="" ) {
 
 		global $vars;
 
 		$db = new DB_sql;
 		// $db2 = new DB_sql;
 
-		if($settings["nog_niet_goedgekeurd"]) {
+		if ( $settings["nog_niet_goedgekeurd"] ) {
 			$andquery.=" AND roominglist_goedgekeurd=''";
 			$return.="<h1>Wacht op goedkeuring</h1>";
 			$orderby=", roominglist_laatste_verzending_datum";
@@ -732,20 +792,20 @@ class roominglist {
 		}
 
 
-		$db->query("SELECT leverancier_id, naam, beheerder, roominglist_aantal_wijzigingen, UNIX_TIMESTAMP(roominglist_laatste_verzending_datum) AS roominglist_laatste_verzending_datum, UNIX_TIMESTAMP(roominglist_volgende_controle) AS roominglist_volgende_controle, roominglist_versturen FROM leverancier WHERE roominglist_laatste_verzending_datum IS NOT NULL".$andquery." ORDER BY roominglist_versturen".$orderby.", naam, roominglist_laatste_verzending_datum;");
-		if($db->num_rows()) {
+		$db->query( "SELECT leverancier_id, naam, beheerder, roominglist_aantal_wijzigingen, UNIX_TIMESTAMP(roominglist_laatste_verzending_datum) AS roominglist_laatste_verzending_datum, UNIX_TIMESTAMP(roominglist_volgende_controle) AS roominglist_volgende_controle, roominglist_versturen FROM leverancier WHERE roominglist_laatste_verzending_datum IS NOT NULL".$andquery." ORDER BY roominglist_versturen".$orderby.", naam, roominglist_laatste_verzending_datum;" );
+		if ( $db->num_rows() ) {
 			$return.="<table cellspacing=\"0\" class=\"tbl striped\">";
 			$return.="<tr><th>Leverancier</th><th>Verzonden</th>";
-			if($settings["in_de_wacht"]) {
+			if ( $settings["in_de_wacht"] ) {
 				$return.="<th>Verzenden vanaf</th>";
 			}
 			$return.="</tr>";
 
-			while($db->next_record()) {
-				$return.="<tr class=\"".($db->f("roominglist_versturen")==2 ? "tr_onopvallend" : "")."\"><td><a href=\"".$vars["path"]."cms_roomingaankomst.php?t=1&levid=".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</a>".($db->f("beheerder") ? " (beheerder)" : "").($db->f("roominglist_versturen")==2 ? " (wil geen roominglists)" : "")."</td><td>".($db->f("roominglist_laatste_verzending_datum")>0 ? date("d-m-Y",$db->f("roominglist_laatste_verzending_datum")) : "&nbsp;")."</td>";
+			while ( $db->next_record() ) {
+				$return.="<tr class=\"".( $db->f( "roominglist_versturen" )==2 ? "tr_onopvallend" : "" )."\"><td><a href=\"".$vars["path"]."cms_roomingaankomst.php?t=1&levid=".$db->f( "leverancier_id" )."\">".wt_he( $db->f( "naam" ) )."</a>".( $db->f( "beheerder" ) ? " (beheerder)" : "" ).( $db->f( "roominglist_versturen" )==2 ? " (wil geen roominglists)" : "" )."</td><td>".( $db->f( "roominglist_laatste_verzending_datum" )>0 ? date( "d-m-Y", $db->f( "roominglist_laatste_verzending_datum" ) ) : "&nbsp;" )."</td>";
 
-				if($settings["in_de_wacht"]) {
-					$return.="<td>".date("d-m-Y",$db->f("roominglist_volgende_controle"))."</td>";
+				if ( $settings["in_de_wacht"] ) {
+					$return.="<td>".date( "d-m-Y", $db->f( "roominglist_volgende_controle" ) )."</td>";
 				}
 
 				$return.="</tr>";
@@ -754,7 +814,7 @@ class roominglist {
 			$return.="</table>";
 
 		} else {
-			if($settings["nog_niet_goedgekeurd"]) {
+			if ( $settings["nog_niet_goedgekeurd"] ) {
 				$return.="<p>Er zijn geen goed te keuren roominglists.</p>";
 			} else {
 				$return.="<p>Er zijn geen goedgekeurde roominglists.</p>";
@@ -766,16 +826,16 @@ class roominglist {
 	}
 
 
-	public function overzicht_aankomstlijsten($settings="") {
+	public function overzicht_aankomstlijsten( $settings="" ) {
 
 		global $vars;
 
 		$db = new DB_sql;
 
-		if($settings["nog_niet_goedgekeurd"]) {
+		if ( $settings["nog_niet_goedgekeurd"] ) {
 			$return.="<h1>Wacht op goedkeuring</h1>";
 			$andquery.=" AND la.laatste_verzending IS NOT NULL AND la.goedgekeurd IS NULL";
-		} elseif($settings["goedgekeurd"]) {
+		} elseif ( $settings["goedgekeurd"] ) {
 			$return.="<h1>Goedgekeurd</h1>";
 			$andquery.=" AND la.goedgekeurd IS NOT NULL";
 		} else {
@@ -786,49 +846,49 @@ class roominglist {
 
 		$inquery="0";
 
-		# Gewone boekingen
-		$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.aankomstdatum='".addslashes($settings["date"])."' AND b.leverancier_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
-		while($db->next_record()) {
-			$inquery.=",".$db->f("leverancier_id");
+		// Gewone boekingen
+		$db->query( "SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.aankomstdatum='".addslashes( $settings["date"] )."' AND b.leverancier_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;" );
+		while ( $db->next_record() ) {
+			$inquery.=",".$db->f( "leverancier_id" );
 		}
 
-		# Gewone boekingen (via beheerder)
-		$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.aankomstdatum='".addslashes($settings["date"])."' AND b.beheerder_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
-		while($db->next_record()) {
-			$inquery.=",".$db->f("leverancier_id");
+		// Gewone boekingen (via beheerder)
+		$db->query( "SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.aankomstdatum='".addslashes( $settings["date"] )."' AND b.beheerder_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;" );
+		while ( $db->next_record() ) {
+			$inquery.=",".$db->f( "leverancier_id" );
 		}
 
-		# Garanties
-		$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM garantie g, accommodatie a, type t, leverancier l WHERE g.aankomstdatum='".addslashes($settings["date"])."' AND g.leverancier_id=l.leverancier_id AND g.boeking_id=0 AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
-		while($db->next_record()) {
-			$inquery.=",".$db->f("leverancier_id");
+		// Garanties
+		$db->query( "SELECT DISTINCT l.naam, l.leverancier_id FROM garantie g, accommodatie a, type t, leverancier l WHERE g.aankomstdatum='".addslashes( $settings["date"] )."' AND g.leverancier_id=l.leverancier_id AND g.boeking_id=0 AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;" );
+		while ( $db->next_record() ) {
+			$inquery.=",".$db->f( "leverancier_id" );
 		}
 
 
-		$db->query("SELECT l.leverancier_id, naam, beheerder, aankomstlijst_versturen, UNIX_TIMESTAMP(la.laatste_verzending) AS laatste_verzending, la.goedgekeurd, la.aantal_wijzigingen FROM leverancier l LEFT JOIN leverancier_aankomstlijst la ON (la.leverancier_id=l.leverancier_id AND la.aankomstdatum='".date("Y-m-d", $settings["date"])."') WHERE l.leverancier_id IN (".$inquery.")".$andquery." ORDER BY aankomstlijst_versturen, naam;");
-		if($db->num_rows()) {
+		$db->query( "SELECT l.leverancier_id, naam, beheerder, aankomstlijst_versturen, UNIX_TIMESTAMP(la.laatste_verzending) AS laatste_verzending, la.goedgekeurd, la.aantal_wijzigingen FROM leverancier l LEFT JOIN leverancier_aankomstlijst la ON (la.leverancier_id=l.leverancier_id AND la.aankomstdatum='".date( "Y-m-d", $settings["date"] )."') WHERE l.leverancier_id IN (".$inquery.")".$andquery." ORDER BY aankomstlijst_versturen, naam;" );
+		if ( $db->num_rows() ) {
 			$return.="<table cellspacing=\"0\" class=\"tbl striped\">";
 			$return.="<tr><th>Leverancier</th>";
 			$return.="<th>Verzonden</th>";
-			if(!$settings["nog_niet_goedgekeurd"] and !$settings["goedgekeurd"]) {
+			if ( !$settings["nog_niet_goedgekeurd"] and !$settings["goedgekeurd"] ) {
 				$return.="<th>Niet in laatste verzending opgenomen</th>";
 			}
-			if($settings["goedgekeurd"]) {
+			if ( $settings["goedgekeurd"] ) {
 				$return.="<th>Goedgekeurd</th>";
 			}
 			$return.="</tr>";
 
-			while($db->next_record()) {
-				$return.="<tr class=\"".($db->f("aankomstlijst_versturen")==2 ? "tr_onopvallend" : "")."\"><td><a href=\"".$vars["path"]."cms_roomingaankomst.php?t=2&date=".intval($settings["date"])."&levid=".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</a>".($db->f("beheerder") ? " (beheerder)" : "").($db->f("aankomstlijst_versturen")==2 ? " (wil geen aankomstlijsten)" : "")."</td>";
+			while ( $db->next_record() ) {
+				$return.="<tr class=\"".( $db->f( "aankomstlijst_versturen" )==2 ? "tr_onopvallend" : "" )."\"><td><a href=\"".$vars["path"]."cms_roomingaankomst.php?t=2&date=".intval( $settings["date"] )."&levid=".$db->f( "leverancier_id" )."\">".wt_he( $db->f( "naam" ) )."</a>".( $db->f( "beheerder" ) ? " (beheerder)" : "" ).( $db->f( "aankomstlijst_versturen" )==2 ? " (wil geen aankomstlijsten)" : "" )."</td>";
 
-				$return.="<td>".($db->f("laatste_verzending")>0 ? date("d-m-Y",$db->f("laatste_verzending")) : "&nbsp;")."</td>";
+				$return.="<td>".( $db->f( "laatste_verzending" )>0 ? date( "d-m-Y", $db->f( "laatste_verzending" ) ) : "&nbsp;" )."</td>";
 
-				if(!$settings["nog_niet_goedgekeurd"] and !$settings["goedgekeurd"]) {
-					$return.="<td>".($db->f("aantal_wijzigingen")>0 ? $db->f("aantal_wijzigingen") : "&nbsp;")."</td>";
+				if ( !$settings["nog_niet_goedgekeurd"] and !$settings["goedgekeurd"] ) {
+					$return.="<td>".( $db->f( "aantal_wijzigingen" )>0 ? $db->f( "aantal_wijzigingen" ) : "&nbsp;" )."</td>";
 				}
 
-				if($settings["goedgekeurd"]) {
-					$return.="<td>".($db->f("goedgekeurd") ? wt_he(preg_replace("@:@","",substr($db->f("goedgekeurd"),0,10))) : "&nbsp;")."</td>";
+				if ( $settings["goedgekeurd"] ) {
+					$return.="<td>".( $db->f( "goedgekeurd" ) ? wt_he( preg_replace( "@:@", "", substr( $db->f( "goedgekeurd" ), 0, 10 ) ) ) : "&nbsp;" )."</td>";
 				}
 				$return.="</tr>";
 			}
@@ -836,7 +896,7 @@ class roominglist {
 			$return.="</table>";
 
 		} else {
-			if(!$settings["nog_niet_goedgekeurd"] and !$settings["goedgekeurd"]) {
+			if ( !$settings["nog_niet_goedgekeurd"] and !$settings["goedgekeurd"] ) {
 				$return.="<p>Er zijn geen aankomstlijsten voor deze datum.</p>";
 			}
 		}

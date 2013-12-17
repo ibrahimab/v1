@@ -1964,6 +1964,12 @@ function verzameltype_berekenen($seizoenid, $typeid) {
 
 	$db->query("SELECT t.verzameltype_parent, a.toonper FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".addslashes($typeid)."' AND t.verzameltype_parent>0;");
 	if($db->next_record()) {
+
+		// calculate the changed "vanaf"-prices
+		$voorraad_gekoppeld=new voorraad_gekoppeld;
+		$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
+		$voorraad_gekoppeld->vanaf_prijzen_berekenen($db->f("verzameltype_parent"));
+
 		$verzameltype_parent=$db->f("verzameltype_parent");
 		$toonper=$db->f("toonper");
 
@@ -1975,6 +1981,10 @@ function verzameltype_berekenen($seizoenid, $typeid) {
 		$db->query("SELECT type_id FROM type WHERE verzameltype_parent='".addslashes($verzameltype_parent)."';");
 		while($db->next_record()) {
 			if($verzameltype_inquery) $verzameltype_inquery.=",".$db->f("type_id"); else $verzameltype_inquery=$db->f("type_id");
+
+			// zorgen dat vanaf-prijs wordt doorgerekend voor dit type_id
+			$voorraad_gekoppeld->vanaf_prijzen_berekenen($db->f("type_id"));
+
 		}
 
 		# Voorraad + beschikbaar opslaan

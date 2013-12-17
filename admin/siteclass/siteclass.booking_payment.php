@@ -78,6 +78,12 @@ class booking_payment {
 		$this->date["aanbetaling1"] = mktime(0, 0, 0, date("m", $this->gegevens["stap1"]["factuurdatum_eerste_factuur"]), date("d", $this->gegevens["stap1"]["factuurdatum_eerste_factuur"])+$this->gegevens["stap1"]["aanbetaling1_dagennaboeken"], date("Y",$this->gegevens["stap1"]["factuurdatum_eerste_factuur"]));
 		$this->date["aanbetaling2"] = $this->gegevens["stap1"]["aanbetaling2_datum"];
 		$this->date["eindbetaling"] = mktime(0, 0, 0, date("m",$this->gegevens["stap1"]["aankomstdatum_exact"]), date("d",$this->gegevens["stap1"]["aankomstdatum_exact"])-$this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"], date("Y",$this->gegevens["stap1"]["aankomstdatum_exact"]));
+
+		if($this->date["eindbetaling"]<=$this->gegevens["stap1"]["factuurdatum_eerste_factuur"]) {
+			// eindbetaling is earlier than factuurdatum_eerste_factuur
+			$this->date["eindbetaling"] = $this->gegevens["stap1"]["factuurdatum_eerste_factuur"];
+		}
+
 		if($this->date["aanbetaling1"]>=$this->date["eindbetaling"]) {
 			// if date of aanbetaling1 is after or equal eindbetaling: ask for downpayment 1 day prior to eindbetaling
 			$this->date["aanbetaling1"] = mktime(0, 0, 0, date("m",$this->date["eindbetaling"]), date("d",$this->date["eindbetaling"])-1, date("Y",$this->date["eindbetaling"]));

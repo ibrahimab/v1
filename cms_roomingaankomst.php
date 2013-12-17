@@ -231,6 +231,8 @@ if($_GET["levid"]) {
 					echo "<p><span class=\"nog_niet_besteld\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = nog niet besteld (wordt niet meegezonden)</p>";
 					if($roominglist->totaal) {
 						echo "<p><span style=\"font-weight:bold;background-color:yellow;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = naamswijziging (geel + dikgedrukt, wordt w&eacute;l meegezonden)</p>";
+					} elseif($roominglist->aankomstlijst_gele_wijziging) {
+						echo "<p><span style=\"font-weight:bold;background-color:yellow;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = wijziging t.o.v. laatste aankomstlijst (geel + dikgedrukt, wordt w&eacute;l meegezonden)</p>";
 					}
 
 					echo $vars["create_list"]["html"];
