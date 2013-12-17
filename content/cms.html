@@ -55,7 +55,7 @@ if(!$login->logged_in) {
 		// check for differences between old en new "vanaf-prijzen"-system
 		//
 
-		if(!$vars["acceptatie_testserver"]) {
+		if(!$vars["acceptatie_testserver"] and !$vars["lokale_testserver"]) {
 
 			echo "<h1>Controle op nieuwe vanaf-prijzen</h1>";
 

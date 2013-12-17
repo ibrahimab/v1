@@ -562,11 +562,38 @@ if($seizoen["naam"]) {
 
 	$db->query("SELECT t.type_id FROM type t, leverancier l WHERE (t.leverancier_id=l.leverancier_id OR t.beheerder_id=l.leverancier_id) AND t.type_id='".addslashes($_GET["tid"])."' AND l.inlog_toegestaan;");
 	if($db->next_record()) {
-		echo "<tr style=\"background-color:#878481;\"><td>Geblokkeerd door eigenaar</td>";
+
+		//
+		// Geblokkeerd door eigenaar
+		//
+
+		$eigenaar_formulier = true;
+
+
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Geblokkeerd door eigenaar";
+		echo "<tr style=\"background-color:#a9a8a6;\" class=\"bezeteigenaar_tr\"><td>".wt_he($titel)."</td>";
 		kopieer();
-		echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_bezeteigenaar\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+
+//			SELECT * FROM `tarief` WHERE `opmerking_bezeteigenaar`<>'' OR `opmerking_bezeteigenaar` IS NOT NULL ORDER BY week DESC;
+
+			echo "<td align=\"center\" nowrap><input type=\"checkbox\" value=\"1\" name=\"bezeteigenaar[".$week."]\" id=\"bezeteigenaar[".$week."]\"".($seizoen["weken"][$week]["opmerking_bezeteigenaar"] ? " checked" : "")." data-week=\"".$week."\"><input type=\"hidden\" name=\"bezeteigenaar_voorheen[".$week."]\" value=\"".($seizoen["weken"][$week]["opmerking_bezeteigenaar"] ? "1" : "0")."\">
+			<input type=\"hidden\" name=\"opmerking_bezeteigenaar[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["opmerking_bezeteigenaar"])."\">
+			</td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
 		echo "<td nowrap>".wt_he($titel)."</td>";
 		echo "</tr>";
+
+		// echo "<tr style=\"background-color:#a9a8a6;display:none;\" class=\"bezeteigenaar_opmerking_tr\"><td>&nbsp;</td>";
+		// kopieer();
+		// echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_bezeteigenaar\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
+		// echo "<td nowrap>&nbsp;</td>";
+		// echo "</tr>";
 
 		echo "<tr style=\"background-color:#878481;\"><td>Boeking via derden</td>";
 		kopieer();
@@ -2194,4 +2221,27 @@ if($seizoen["naam"]) {
 	echo "</table>";
 }
 
-?></td></tr></table></body></html>
+echo "</td></tr></table>";
+
+
+
+if($eigenaar_formulier) {
+
+	echo "<div id=\"dim_content\">";
+	echo "</div>"; // dim_content
+
+
+	echo "<div id=\"eigenaar_formulier\">";
+	echo "<img src=\"".$vars["path"]."pic/close_icon.svg\" class=\"cancel\" align=\"right\">";
+	echo "<h1>Blokkering door eigenaar - week <span class=\"date\"></span></h1>";
+	echo "<p><label>Opmerking voor in eigenarenlogin:</label><input type=\"text\" name=\"eigenaar_formulier_opmerking\"></p>";
+	// echo "<p>Aantal personen:&nbsp;<input type=\"text\" name=\"eigenaar_formulier_aantal_personen\"></p>";
+	echo "<p><input type=\"submit\" id=\"submit\" value=\" TOEVOEGEN \">&nbsp;&nbsp;&nbsp;";
+	echo "<input type=\"button\" id=\"delete\" value=\" BLOKKERING VERWIJDEREN \"></p>";
+	echo "<p class=\"opslaan_opmerking\">Gegevens worden pas bewaard bij het opslaan van de gehele tarievenmodule.</p>";
+	echo "</div>";
+}
+
+echo "</body></html>";
+
+?>
