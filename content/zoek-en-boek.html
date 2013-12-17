@@ -1981,6 +1981,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 								if($tarief_float>0 and floatval($tarief_float)<$zoeken_op_kaart_data[$use_key]["tarief"]) {
 									# tarief: goedkoopste tonen
 									$zoeken_op_kaart_data[$use_key]["tarief"]=floatval($tarief_float);
+									$zoeken_op_kaart_data[$use_key]["toonper"]=$db->f("toonper");
 									$zoeken_op_kaart_data[$use_key]["vanaf"]=true;
 									$zoeken_op_kaart_data[$use_key]["url"]=$vars["path"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
 									$zoeken_op_kaart_data[$use_key]["afbeelding"]=$temp_afbeelding;
@@ -2016,6 +2017,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 							$zoeken_op_kaart_data[$use_key]["url"]=$vars["path"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/";
 							if($tarief_float>0) {
 								$zoeken_op_kaart_data[$use_key]["tarief"]=floatval($tarief_float);
+								$zoeken_op_kaart_data[$use_key]["toonper"]=$db->f("toonper");
 							}
 							$zoeken_op_kaart_data[$use_key]["accommodatie_id"]=$db->f("accommodatie_id");
 							$zoeken_op_kaart_data[$use_key]["naamaccommodatie"]=$db->f("naam");
