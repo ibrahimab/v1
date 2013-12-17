@@ -767,7 +767,14 @@ if($db->next_record()) {
 		$db0->query($q);
 		$db0->next_record();
 		if($db0->f("prijs") && $db0->f("prijs")!=0) {
-			echo "var googlemaps_tarief='vanaf &euro;&nbsp;".number_format($db0->f("prijs"),0,",",".")."';\n";
+			$str = "var googlemaps_tarief='vanaf &euro;&nbsp;".number_format($db0->f("prijs"),0,",",".");
+			if($db->f("toonper")==3 or $vars["wederverkoop"]) {
+				$str .= " ". html("peraccommodatie","zoek-en-boek");
+			} else {
+				$str .= " " . html("perpersoon","zoek-en-boek")."<br>".html("inclusiefskipas","zoek-en-boek");
+			}
+			$str .= "';\n";
+			echo $str;
 		}
 
 		echo "</script>\n";

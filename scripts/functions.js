@@ -488,9 +488,11 @@ function googlemaps_marker_content(value) {
 	if(value['afbeelding']) tmpcontent+='</div>';
 
 	if(value['afbeelding']) tmpcontent+='<div class="iright"><img src="'+value['afbeelding']+'"></div>';
+	tmpcontent+='<div class="clear">&nbsp;</div>';
 	tmpcontent+='</div>';
 
-	return tmpcontent;
+	var c = $(tmpcontent);
+	return c[0];
 }
 
 function googlemaps_deletemarkers() {

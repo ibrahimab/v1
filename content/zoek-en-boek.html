@@ -3706,6 +3706,11 @@ if($vars["zoeken_op_kaart"] and is_array($zoeken_op_kaart_data)) {
 				$zoeken_op_kaart_tarief.=html("vanaf")." ";
 			}
 			$zoeken_op_kaart_tarief.="&euro;&nbsp;".number_format($value["tarief"],0,",",".");
+			if($value["toonper"]==3 or $vars["wederverkoop"]) {
+				$zoeken_op_kaart_tarief.= " ". html("peraccommodatie","zoek-en-boek");
+			} else {
+				$zoeken_op_kaart_tarief.= " " . html("perpersoon","zoek-en-boek")."<br>".html("inclusiefskipas","zoek-en-boek");
+			}
 		}
 
 		echo "<div class=\"data_zoeken_op_kaart\" data-gps_lat=\"".wt_he($value["gps_lat"])."\" data-gps_long=\"".wt_he($value["gps_long"])."\" data-plaatsland=\"".wt_he($value["plaatsland"])."\" data-aantalpersonen=\"".$value["optimaalaantalpersonen"].($value["maxaantalpersonen"]>$value["optimaalaantalpersonen"] ? " - ".$value["maxaantalpersonen"] : "")." ".($value["maxaantalpersonen"]==1 ? html("persoon") : html("personen"))."\" data-naamhtml=\"".wt_he($value["naamhtml"])."\" data-afbeelding=\"".wt_he($value["afbeelding"])."\" data-url=\"".wt_he($value["url"])."\" data-tarief=\"".wt_he($zoeken_op_kaart_tarief)."\" data-key=\"".wt_he($value["accommodatie_id"])."\" data-kwaliteit=\"".wt_he($value["kwaliteit"])."\" data-omschrijving=\"".wt_he($value["omschrijving"])."\"></div>";
