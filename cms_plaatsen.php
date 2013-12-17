@@ -334,8 +334,8 @@ if($cms_form[4]->filled) {
 	}
 
 	# Controle op Vimeo-link
-	if($cms_form[4]->input["video_url"] and !preg_match("/^http:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[4]->input["video_url"])) {
-		$cms_form[4]->error("video_url","onjuist formaat. Voorbeeld: http://player.vimeo.com/video/44377043");
+	if($cms_form[4]->input["video_url"] and !preg_match("/^https:\/\/player\.vimeo\.com\/video\/[0-9]+$/",$cms_form[4]->input["video_url"])) {
+		$cms_form[4]->error("video_url","onjuist formaat. Voorbeeld: https://player.vimeo.com/video/44377043");
 	}
 
 }
