@@ -58,7 +58,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 }
 
 # Error handling
-if($vars["wt_disable_error_handler"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/extern-html" or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"]))) {
+if($vars["wt_disable_error_handler"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/extern-html" or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"])) or (defined("wt_test") and constant("wt_test") === true)) {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $_SERVER["HTTP_HOST"]=="ss.postvak.net") {
 		# Lokaal
 #		@set_error_handler('LocalErrorHandler');
@@ -257,7 +257,7 @@ class wt_mail {
 
 	function wt_mail() {
 		global $vars;
-		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or $GLOBALS["vars"]["acceptatie_testserver"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"]))) $this->test=true;
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or $GLOBALS["vars"]["acceptatie_testserver"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"])) or (defined("wt_test") and constant("wt_test") === true)) $this->test=true;
 		$this->send_mail=true;
 		if($_SERVER["HTTPS"]<>"on" or $vars["wt_mail_https_bcc"]) {
 			if(WT_mail_no_send_bcc===true) {
@@ -328,13 +328,18 @@ class wt_mail {
 		}
 	}
 
-	function encode_header($text) {
+	function encode_header($text, $use_quotes=false) {
 
 		//
 		// use correct encoding
 		//
 
 		$return = trim($text);
+
+		if($use_quotes and preg_match("/[^A-Za-z0-9 ]/",$return)) {
+			// use quotes if non-alphanumeric
+			$quote='"';
+		}
 
 		if(preg_match("/[^\x20-\x7f]/",$return)) {
 
@@ -357,14 +362,14 @@ class wt_mail {
 			}
 		}
 
-		return $return;
+		return $quote.$return.$quote;
 
 	}
 
 	function send() {
 		unset($this->send_to,$this->send_subject,$this->send_plaintext,$this->send_html,$this->send_header,$this->send_body,$this->send_attachment);
 		if($this->toname) {
-			$this->send_to=$this->encode_header($this->toname)." <".trim($this->to).">";
+			$this->send_to=$this->encode_header($this->toname, true)." <".trim($this->to).">";
 		} else {
 			$this->send_to=$this->to;
 		}
@@ -394,7 +399,7 @@ class wt_mail {
 		if($this->xheaders) $this->send_header.=$this->xheaders."\n";
 
 		if($this->fromname) {
-			$this->send_header.="From: ".$this->encode_header($this->fromname)." <".$this->from.">";
+			$this->send_header.="From: ".$this->encode_header($this->fromname, true)." <".$this->from.">";
 		} else {
 			$this->send_header.="From: ".$this->from;
 		}
@@ -566,7 +571,7 @@ class wt_mail {
 					$this->to=$GLOBALS["vars"]["lokale_testserver_mailadres"];
 				} elseif($_SERVER["HTTP_HOST"]=="bl.postvak.net" or $_SERVER["HOSTNAME"]=="bl.postvak.net" or ($_SERVER["SERVER_ADDR"]=="172.16.6.1" and $_SERVER["REMOTE_ADDR"]=="172.16.6.40")) {
 					$this->to="testform_bl@webtastic.nl";
-				} elseif($_SERVER["HTTP_HOST"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="ss.postvak.net") {
+				} elseif($_SERVER["HTTP_HOST"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="ss.postvak.net" or (defined("wt_test_name") and constant("wt_test_name") === "macbook") or (defined("wt_test_name") and constant("wt_test_name") === "ss")) {
 					$this->to="testform_ss@webtastic.nl";
 				} else {
 					$this->to="testform@webtastic.nl";

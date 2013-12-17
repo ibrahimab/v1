@@ -636,6 +636,62 @@ li {
 
 
 /* ----------------------- */
+/*   tarievenmodule        */
+/* ----------------------- */
+
+#eigenaar_formulier {
+	display: none;
+	width: 500px;
+	height: 400px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	margin-top: -200px;
+	margin-left: -250px;
+	background-color: #ffffff;
+	border: 2px solid #003366;
+	padding: 10px;
+	z-index: 101;
+}
+
+#eigenaar_formulier .cancel {
+	width: 20px;
+	height: 20px;
+}
+
+#eigenaar_formulier .cancel:hover {
+	cursor: pointer;
+	opacity: 0.7;
+}
+
+#eigenaar_formulier label {
+	display: block;
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+#eigenaar_formulier input[type=text] {
+	width: 400px;
+}
+
+#eigenaar_formulier .opslaan_opmerking {
+	font-size: 0.8em;
+	color: #888888;
+}
+
+#dim_content {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 100;
+}
+
+
+/* ----------------------- */
 /*   roominglist-systeem   */
 /* ----------------------- */
 
