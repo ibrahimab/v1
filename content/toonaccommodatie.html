@@ -1621,23 +1621,23 @@ if($db->next_record()) {
 	#
 	# Blok met social media-buttons + print/mail-buttons
 	#
-	echo "<div id=\"socialmedia\">";
+	echo "<div id=\"socialmedia\" class=\"socialshare\">";
 
 
 	# Printbutton
-	echo "<a href=\"#\" onclick=\"window.print();return false;\"><img src=\"".$vars["path"]."pic/icons/printer.png\" width=\"16\" height=\"16\" border=\"0\" title=\"".html("paginaafdrukken","toonaccommodatie")."\"></a>";
+	echo "<a href=\"#\" class=\"print\" onclick=\"window.print();return false;\"></a>";
 
 	# Doormailfunctie
-	echo "<a href=\"#\" onclick=\"popwindow(800,740,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\" title=\"".html("popuptitle_stuurdoor")."\"><img src=\"".$vars["path"]."pic/icons/mail.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+	echo "<a href=\"#\" class=\"mail\" onclick=\"popwindow(800,740,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\" title=\"".html("popuptitle_stuurdoor")."\"></a>";
 
 	# Social media-links
 	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="W") {
 
 		$share_url=$vars["canonical"];
 		$share_text="Bekijk deze accommodatie bij ".$vars["websitenaam"];
-		echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze accommodatie met je Facebook-vrienden\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/icons/facebook.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
-		echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze accommodatie met je Twitter-volgers\" class=\"twitter_share_window\"><img src=\"".$vars["path"]."pic/icons/twitter.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
-		echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze accommodatie met je Google+-circles\" class=\"googleplus_share_window\"><img src=\"".$vars["path"]."pic/icons/googleplus.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+		echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze accommodatie met je Facebook-vrienden\" class=\"facebook_share_window fb\"></a>";
+		echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze accommodatie met je Twitter-volgers\" class=\"twitter_share_window tw\"></a>";
+		echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze accommodatie met je Google+-circles\" class=\"googleplus_share_window gplus\"></a>";
 	}
 	echo "<div style=\"clear:both;\"></div>";
 

@@ -276,15 +276,15 @@ while(list($key,$value)=each($menu)) {
 	echo "</a>";
 }
 echo "</div>\n";
-echo "<div id=\"kleinelogos\">";
+echo "<div class=\"paymenticons\" id=\"kleinelogos\">";
 if($vars["websiteland"]=="nl") {
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" border=\"0\" width=\"30\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
+	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
 }
 
 if($vars["docdata_payments"]) {
 	if(count($vars["docdata_payments"]) > 0) {
 		foreach($vars["docdata_payments"] as $key => $value) {
-			echo "<img class=\"sgrlogo_hoofdmenu\" src=\"". $vars["path"] . $value["icon"] ."\" height=\"27\" alt=\"". $value["title"] ."\" />";
+			echo "<span class=\"". $value["by"] ."\" title=\"". $value["title"] ."\"></span>";
 		}
 	}
 }

@@ -199,18 +199,20 @@ if($last_acc and $id<>"saved") {
 	echo "</div>";
 }
 
-echo "<div id=\"sgr_logo\">";
+echo "<div class=\"paymenticons\" id=\"sgr_logo\">";
+if($vars["website"]=="V") {
+    echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" height=\"27\" style=\"border:0;\" /></a>";
+}
+
 # Docdata payment logos
 if($vars["docdata_payments"]) {
 	if(count($vars["docdata_payments"]) > 0) {
 		foreach($vars["docdata_payments"] as $key => $value) {
-			echo "<img src=\"". $vars["path"] . $value["icon"] ."\" height=\"30\" style=\"margin-left:5px;vertical-align:middle;\" alt=\"". $value["title"] ."\" />";
+			echo "<span class=\"". $value["by"] ."\" title=\"". $value["title"] ."\"></span>";
 		}
 	}
 }
-if($vars["website"]=="V") {
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" height=\"30\" style=\"vertical-align: middle;\" border=\"0\"></a>";
-}
+
 echo "</div>";
 
 echo "<div id=\"meldingen\">";

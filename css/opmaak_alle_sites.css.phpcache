@@ -117,6 +117,76 @@ li {
 	padding-bottom: 5px;
 }
 
+/**/
+/*sociallinks*/
+/**/
+
+#hoofdpagina_sociallinks .googleplus,
+#hoofdpagina_sociallinks .twitter,
+#hoofdpagina_sociallinks .facebook {
+	width:32px;
+	height:32px;
+	display:inline-block;
+	background-repeat:no-repeat;
+	background-image:url('../pic/sociallinks-sprite.png');
+}
+
+#hoofdpagina_sociallinks .googleplus {
+	background-position:-2px -1px;
+}
+
+#hoofdpagina_sociallinks .googleplus:hover {
+	background-position:-35px -1px;
+}
+
+#hoofdpagina_sociallinks .twitter {
+	background-position:-68px -1px;
+}
+
+#hoofdpagina_sociallinks .twitter:hover {
+	background-position:-101px -1px;
+}
+
+#hoofdpagina_sociallinks .facebook {
+	background-position:-134px -1px;
+}
+
+#hoofdpagina_sociallinks .facebook:hover {
+	background-position:-167px -1px;
+}
+
+/**/
+/*paymenticons*/
+/**/
+
+.paymenticons .mc, .paymenticons .idl, .paymenticons .mrc, .paymenticons .vi {
+	background-image:url('../pic/payment_icons/sprite.png');
+	height:27px;
+	display:inline-block;
+	background-repeat:no-repeat;
+	margin-left: 5px;
+}
+
+.paymenticons .mc {
+	width:44px;
+	background-position:-1px -0px;
+}
+
+.paymenticons .idl {
+	width:31px;
+	background-position:-45px -0px;
+}
+
+.paymenticons .mrc {
+	width:45px;
+	background-position:-77px -0px;
+}
+
+.paymenticons .vi {
+	width:56px;
+	background-position:-124px -0px;
+}
+
 .formstyle100 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 1.0em;
@@ -2356,6 +2426,44 @@ blog
 	margin-left: 5px;
 }
 
+.socialshare .fb,
+.socialshare .tw,
+.socialshare .gplus,
+.socialshare .mail,
+.socialshare .print {
+	background-image:url("../pic/icons/shareicons-sprite.png");
+	display:inline-block;
+	background-repeat:no-repeat;
+	width:16px;
+	height:16px;
+}
+
+.socialshare .fb {
+	background-position:-0px -0px;
+}
+
+.socialshare .tw {
+	background-position:-16px -0px;
+}
+
+.socialshare .gplus {
+	background-position:-32px -0px;
+}
+
+.socialshare .mail {
+	background-position:-48px -0px;
+}
+
+.socialshare .print {
+	background-position:-64px -0px;
+}
+
+.socialshare a:hover {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	opacity: .6;
+}
+
 .blog_lees_ook ul {
 	padding-left: 20px;
 }
@@ -2365,12 +2473,6 @@ blog
 	font-style: italic;
 	margin-top: 6px;
 	margin-bottom: 6px;
-}
-
-#blog_sociallinks a img:hover {
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-	filter: alpha(opacity=60);
-	opacity: .6;
 }
 
 .blog_img_links {

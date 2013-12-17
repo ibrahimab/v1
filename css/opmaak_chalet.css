@@ -233,6 +233,10 @@ form {
     margin-left: 5px;
 }
 
+.sgrlogo_hoofdmenu img {
+	border: 0;
+}
+
 #kleinelogos {
     right: 0;
     top: 95px;

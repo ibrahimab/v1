@@ -227,14 +227,14 @@ if($id<>"index") {
 	echo "<a href=\"".$vars["path"]."\" style=\"display:block;position:absolute;top:0px;left:371px;width:227px;height:180px;\" class=\"noprint\"></a>";
 }
 if($vars["websiteland"]=="nl") {
-	echo "<div style=\"position:absolute;bottom:8px;right:4px;\" class=\"noprint\">";
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" border=\"0\" width=\"35\" height=\"33\" style=\"margin-top:4px;\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
+	echo "<div style=\"position:absolute;bottom:8px;right:4px;\" class=\"noprint paymenticons\">";
+	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" border=\"0\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
 
 	# Docdata payment logos
 	if($vars["docdata_payments"]) {
 		if(count($vars["docdata_payments"]) > 0) {
 			foreach($vars["docdata_payments"] as $key => $value) {
-				echo "<img class=\"sgrlogo_hoofdmenu\" src=\"". $vars["path"] . $value["icon"] ."\" height=\"27\" alt=\"". $value["title"] ."\" />";
+				echo "<span class=\"sgrlogo_hoofdmenu ". $value["by"] ."\" title=\"". $value["title"] ."\"></span>";
 			}
 		}
 	}
@@ -552,9 +552,9 @@ if($vars["verberg_linkerkolom"]) {
 		// echo "<div id=\"hoofdpagina_sociallinks\">";
 		// echo "<div style=\"float:left;padding-left:10px;\">";
 		// echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-		// echo "<a href=\"https://www.facebook.com/Zomerhuisje.nl\" title=\"Volg Zomerhuisje.nl via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-		// echo "<a href=\"https://twitter.com/@Zomerhuisje\" title=\"Volg Zomerhuisje.nl via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-		// echo "<a href=\"https://plus.google.com/113644542072220125279?prsrc=3\" title=\"Volg Zomerhuisje.nl via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+		// echo "<a href=\"https://www.facebook.com/Zomerhuisje.nl\" title=\"Volg Zomerhuisje.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
+		// echo "<a href=\"https://twitter.com/@Zomerhuisje\" title=\"Volg Zomerhuisje.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
+		// echo "<a href=\"https://plus.google.com/113644542072220125279?prsrc=3\" title=\"Volg Zomerhuisje.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
 		// echo "</div>\n";
 		// echo "</div>\n";  # afsluiten hoofdpagina_sociallinks
 

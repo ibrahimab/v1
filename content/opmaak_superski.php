@@ -304,9 +304,9 @@ if($vars["verberg_linkerkolom"]) {
 
 		echo "<div id=\"hoofdpagina_sociallinks\">";
 		echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-		echo "<a href=\"https://www.facebook.com/SuperSki.nl\" title=\"Volg SuperSki via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-		echo "<a href=\"https://twitter.com/SuperSkiNL\" title=\"Volg SuperSki via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap twitter\"></a>";
-		echo "<a href=\"https://plus.google.com/102617791232710517310/\" title=\"Volg SuperSki via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>\n";
+		echo "<a href=\"https://www.facebook.com/SuperSki.nl\" title=\"Volg SuperSki via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
+		echo "<a href=\"https://twitter.com/SuperSkiNL\" title=\"Volg SuperSki via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
+		echo "<a href=\"https://plus.google.com/102617791232710517310/\" title=\"Volg SuperSki via Google+\" target=\"_blank\" class=\"googleplus\"></a>\n";
 		echo "<div style=\"clear: both;\"></div>\n";
 		echo "</div>"; # afsluiten hoofdpagina_sociallinks
 
