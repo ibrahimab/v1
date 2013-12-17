@@ -2,6 +2,8 @@
 // global vars
 var opmerkingen_text=[];
 var opmerkingen_text_alertgetoond=0;
+var eigenaar_formulier_week = 0;
+
 
 function disableEnterKey(dit,week,e) {
 	var key;
@@ -159,7 +161,13 @@ function bereken_voorraad(dit,week) {
 	if(document.forms['tarieven'].elements['voorraad_xml['+week+']'].value>0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_xml['+week+']'].value);
 	if(document.forms['tarieven'].elements['voorraad_request['+week+']'].value>0 || document.forms['tarieven'].elements['voorraad_request['+week+']'].value<0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_request['+week+']'].value);
 
-	if(document.forms['tarieven'].elements['voorraad_bijwerken['+week+']'].checked==true) {
+
+	var beschikbaar_is_mogelijk = false;
+	if($("input[name='bezeteigenaar["+week+"]']").is(":not(:checked)") || $("input[name='bezeteigenaar["+week+"]']").length==0) {
+		beschikbaar_is_mogelijk = true;
+	}
+
+	if(document.forms['tarieven'].elements['voorraad_bijwerken['+week+']'].checked==true && beschikbaar_is_mogelijk) {
 		if(totaal>0) {
 			document.forms['tarieven'].elements['beschikbaar['+week+']'].checked=true;
 		} else {
@@ -1162,7 +1170,7 @@ function blokkeerxml(dit,week) {
 	bereken_voorraad(dit,week);
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
 	// jquery
 
 	// verzameltype: buttons uitschakelen
@@ -1211,5 +1219,90 @@ $(document).ready(function(){
 			alert("Foutmelding: je kunt maximaal 100 garanties invoeren.");
 		}
 	});
+
+
+	if($("#eigenaar_formulier").length!==0) {
+
+		//
+		//
+		// bezet eigenaar
+		//
+		//
+
+		// Geblokkeerd door eigenaar
+		$(".bezeteigenaar_tr input").click(function(event) {
+			event.preventDefault();
+
+			eigenaar_formulier_week = $(this).data("week");
+
+
+
+			if($("input[name='bezeteigenaar_voorheen["+eigenaar_formulier_week+"]']").val()=="1") {
+				$("#eigenaar_formulier input[type=submit]").val("WIJZIGEN");
+				$("#eigenaar_formulier #submit").prop("disabled", false);
+				$("#eigenaar_formulier #delete").show();
+			} else {
+				$("#eigenaar_formulier input[type=submit]").val("WEEK BLOKKEREN");
+				$("#eigenaar_formulier #submit").prop("disabled", true);
+				$("#eigenaar_formulier #delete").hide();
+			}
+
+			// fill opmerkingen-field
+			$("input[name=eigenaar_formulier_opmerking]").val($("input[name='opmerking_bezeteigenaar["+eigenaar_formulier_week+"]']").val());
+
+			var date = new Date(parseInt($("input[name='aankomstdatum_exact["+eigenaar_formulier_week+"]']").val(),10) * 1000);
+			var curr_date = date.getDate();
+		    var curr_month = date.getMonth() + 1; //Months are zero based
+		    var curr_year = date.getFullYear();
+		    $("#eigenaar_formulier span.date").html(curr_date + "/" + curr_month + "/" + curr_year);
+
+
+		    // show form, dim other content
+		    $("#dim_content").show();
+		    $("#eigenaar_formulier").show();
+
+		    return false;
+
+		});
+
+		$("input[name=eigenaar_formulier_opmerking]").keyup(function(event){
+			if($(this).val().length==0) {
+				$("#eigenaar_formulier #submit").prop("disabled", true);
+			} else {
+				$("#eigenaar_formulier #submit").prop("disabled", false);
+			}
+		});
+
+
+		$("#eigenaar_formulier .cancel").click(function(event) {
+			$("#eigenaar_formulier").hide();
+			$("#dim_content").hide();
+		});
+
+		$("#eigenaar_formulier #submit").click(function(event) {
+
+			$("input[name='bezeteigenaar_voorheen["+eigenaar_formulier_week+"]']").val("1");
+			$("input[name='opmerking_bezeteigenaar["+eigenaar_formulier_week+"]']").val($("input[name=eigenaar_formulier_opmerking]").val());
+			$("input[name='bezeteigenaar["+eigenaar_formulier_week+"]']").prop("checked", true);
+			$("input[name='beschikbaar["+eigenaar_formulier_week+"]']").prop("checked", false);
+
+// console.log($("input[name='opmerking_bezeteigenaar["+eigenaar_formulier_week+"]']").val());
+			$("#eigenaar_formulier").hide();
+			$("#dim_content").hide();
+		});
+
+		$("#eigenaar_formulier #delete").click(function(event) {
+
+			$("input[name='bezeteigenaar_voorheen["+eigenaar_formulier_week+"]']").val("0");
+			$("input[name='opmerking_bezeteigenaar["+eigenaar_formulier_week+"]']").val("");
+			$("input[name='bezeteigenaar["+eigenaar_formulier_week+"]']").prop("checked", false);
+
+			$("#eigenaar_formulier").hide();
+			$("#dim_content").hide();
+		});
+	}
+
+
+
 
 });
