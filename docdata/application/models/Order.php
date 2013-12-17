@@ -1,7 +1,5 @@
 <?php
 
-require_once(SITE_ROOT . DS . "admin" . DS . "siteclass" . DS. "siteclass.booking_payment.php");
-
 class Order extends Model {
 
 	const ADVANCE_PAYMENT_1 = "advance1";
@@ -71,7 +69,7 @@ class Order extends Model {
 		$booking_payment->get_amounts();
 
 		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"]); // Order status
-		$this->data[$this->increment_id]['totale_reissom'] = $booking_payment->amount["total"]; // Final total
+		$this->data[$this->increment_id]['totale_reissom'] = $booking_payment->amount["totaal"]; // Final total
 
 		return $this;
 	}

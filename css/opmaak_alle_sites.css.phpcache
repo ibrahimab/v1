@@ -678,6 +678,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	height: 400px;
 	cursor: pointer;
 	border: 1px solid <?php echo $activetabcolor; ?>;
+	line-height: normal;
 }
 
 #googlemaps_other {
@@ -699,14 +700,57 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 }
 
 .googlemaps_infowindow {
-	width: 300px;
+	width: 400px;
+	line-height:normal;
+}
+
+.googlemaps_infowindow p {
+	margin-top: 0;
+}
+
+.gm-style-iw {
+	overflow: hidden !important;
+}
+
+.gm-style-iw > div {
+	overflow: hidden !important;
+}
+
+.googlemaps_infowindow .iright {
+	float: right;
+    width: 170px;
+    margin-left: 4px;
+}
+
+.googlemaps_infowindow .ileft {
+	float: left;
+	width: 226px;
 }
 
 .googlemaps_infowindow img {
-	float: right;
-	width: 100px;
-	margin-left: 4px;
-	margin-right: 12px;
+	width: 170px;
+}
+
+.googlemaps_infowindow .sterren {
+	background: url(../pic/ster_7.png) repeat-x;
+	height: 16px;
+	display: inline-block;
+    width: 0;
+}
+
+.googlemaps_infowindow.clearfix {
+  *zoom: 1;
+}
+
+.googlemaps_infowindow.clearfix:before,
+.googlemaps_infowindow.clearfix:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.googlemaps_infowindow.clearfix:after {
+  clear: both;
 }
 
 #terugnaarzoekresultaten {

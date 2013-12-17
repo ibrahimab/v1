@@ -9,7 +9,7 @@ class booking_payment {
 	public $gegevens;
 	public $text;
 
-	public $bereken_aanbetaling_opnieuw = false;
+	public $bereken_bedragen_opnieuw = false;
 
 	public $bereken_reeds_voldaan = true;
 
@@ -48,6 +48,12 @@ class booking_payment {
 			}
 		} else {
 			$reeds_voldaan=$this->reeds_voldaan;
+		}
+
+		if($this->bereken_bedragen_opnieuw) {
+			$this->totale_reissom = $this->gegevens["fin"]["totale_reissom"];
+		} else {
+			$this->totale_reissom = $this->gegevens["stap1"]["totale_reissom"];
 		}
 
 		if($reeds_voldaan>0) {
@@ -106,7 +112,7 @@ class booking_payment {
 			}
 
 
-			if($this->bereken_aanbetaling_opnieuw and !$this->gegevens["stap1"]["aanbetaling1_vastgezet"] and !$this->gegevens["stap1"]["aanbetaling1_gewijzigd"]) {
+			if($this->bereken_bedragen_opnieuw and !$this->gegevens["stap1"]["aanbetaling1_vastgezet"] and !$this->gegevens["stap1"]["aanbetaling1_gewijzigd"]) {
 				$this->amount["aanbetaling1"]=$this->gegevens["fin"]["aanbetaling_ongewijzigd"];
 			} else {
 				$this->amount["aanbetaling1"]=$this->gegevens["fin"]["aanbetaling"];
@@ -147,7 +153,7 @@ class booking_payment {
 			} else {
 				$this->text["eindbetaling"]=txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>date("d/m/Y",$this->date["eindbetaling"])));
 			}
-			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-($this->amount["aanbetaling1"]+$this->amount["aanbetaling1_voldaan"])-($this->amount["aanbetaling2"]+$this->amount["aanbetaling2_voldaan"])-$this->amount["beschikbaar_voor_aanbetalingen"];
+			$this->amount["eindbetaling"]=$this->totale_reissom-($this->amount["aanbetaling1"]+$this->amount["aanbetaling1_voldaan"])-($this->amount["aanbetaling2"]+$this->amount["aanbetaling2_voldaan"])-$this->amount["beschikbaar_voor_aanbetalingen"];
 
 		} elseif($this->gegevens["stap1"]["dagen_voor_vertrek"]>$this->gegevens["stap1"]["totale_reissom_dagenvooraankomst"]) {
 			//
@@ -159,30 +165,24 @@ class booking_payment {
 			} else {
 				$this->text["eindbetaling"]=txt("uiterlijkXdagenvoorvertrek","factuur",array("v_dagen"=>$aanbetaling_aantaldagen,"v_datum"=>date("d/m/Y",$this->date["eindbetaling"])));
 			}
-			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"];
+			$this->amount["eindbetaling"]=$this->totale_reissom-$this->amount["reedsvoldaan"];
 
-		} elseif($this->gegevens["stap1"]["dagen_voor_vertrek"]>28) {
-			//
-			// final payment: within 5 days
-			//
-			$this->text["eindbetaling"]=txt("binnen5dagentevoldoen","factuur");
-			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"];
-		} elseif($this->gegevens["stap1"]["dagen_voor_vertrek"]>14) {
+		} elseif($this->gegevens["stap1"]["dagen_voor_vertrek"]>7) {
 
 			//
-			// final payment: directly
+			// final payment: per omgaande
 			//
 
-			$this->text["eindbetaling"]=txt("perdirecttevoldoen","factuur");
-			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"];
+			$this->text["eindbetaling"]=txt("peromgaandetevoldoen","factuur");
+			$this->amount["eindbetaling"]=$this->totale_reissom-$this->amount["reedsvoldaan"];
 		} else {
 
 			//
-			// final payment: urgent
+			// final payment: per direct
 			//
 
-			$this->text["eindbetaling"]=txt("metspoedopdrachttevoldoen","factuur");
-			$this->amount["eindbetaling"]=$this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"];
+			$this->text["eindbetaling"]=txt("perdirecttevoldoen","factuur");
+			$this->amount["eindbetaling"]=$this->totale_reissom-$this->amount["reedsvoldaan"];
 		}
 
 
@@ -198,9 +198,17 @@ class booking_payment {
 		}
 
 		// total amount
-		if($this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"]>0) {
+		if($this->totale_reissom-$this->amount["reedsvoldaan"]>0) {
 			$this->text["totaal"]=$this->text["eindbetaling"];
-			$this->amount["totaal"]=$this->gegevens["fin"]["totale_reissom"]-$this->amount["reedsvoldaan"];
+			$this->amount["totaal"]=$this->totale_reissom-$this->amount["reedsvoldaan"];
+		}
+
+		if(is_array($this->amount)) {
+			foreach ($this->amount as $key => $value) {
+				if($value<>0) {
+					$this->amount[$key] = round($value, 2);
+				}
+			}
 		}
 
 

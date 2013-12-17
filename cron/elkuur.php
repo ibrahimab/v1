@@ -28,13 +28,15 @@ $geen_tracker_cookie=true;
 $boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
 
+$huidig_uur = date("H");
+
 #echo date("d-m-Y H:i")."u.<pre>\n\nChalet.nl elk uur\n\n\n";
 #flush();
 
 #wt_mail("jeroen@webtastic.nl","elk uur","mail elk uur");
 
 # Wisselkoers pond opvragen
-if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
 	$koers_json=file_get_contents("http://rate-exchange.appspot.com/currency?from=EUR&to=GBP");
 	if($koers_json) {
 		$koers_array=json_decode($koers_json, true);
@@ -47,7 +49,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]
 }
 
 // aanbetaling1 vastzetten na 15 dagen
-if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test12") {
+if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test12") {
 	$vijftien_dagen_geleden = date("Y-m-d", mktime(0,0,0,date("m"), date("d")-15, date("Y")));
 	$db->query("UPDATE boeking SET aanbetaling1_vastgezet=1 WHERE aanbetaling1_vastgezet=0 AND factuurdatum_eerste_factuur IS NOT NULL AND factuurdatum_eerste_factuur<='".$vijftien_dagen_geleden."';");
 }
@@ -55,7 +57,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]
 #
 # Automatische kortingen (vanwege Zwitserse Franken CHF) doorrekenen
 #
-if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
+if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
 	$db->query("SELECT seizoen_id, zwitersefranken_kortingspercentage, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen;");
 	while($db->next_record()) {
 		$seizoen_zwitersefranken_kortingspercentage[$db->f("seizoen_id")]=$db->f("zwitersefranken_kortingspercentage");
@@ -63,32 +65,25 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1
 		$seizoen_eind[$db->f("seizoen_id")]=$db->f("eind");
 	}
 	$db->query("UPDATE korting SET delete_after_automatische_korting=1 WHERE automatische_korting=1;");
-#echo $db->lastquery."<br>";
 	$db->query("SELECT DISTINCT ta.seizoen_id, ta.type_id FROM tarief ta, type t WHERE ta.type_id=t.type_id AND t.leverancier_id IN (SELECT leverancier_id FROM leverancier WHERE zwitersefranken=1) AND ta.week>'".time()."';");
-#echo $db->lastquery."<br>";
 	while($db->next_record()) {
 		$db2->query("SELECT korting_id FROM korting WHERE automatische_korting=1 AND type_id='".addslashes($db->f("type_id"))."' AND seizoen_id='".addslashes($db->f("seizoen_id"))."';");
 		if($db2->next_record()) {
 			$kortingid=$db2->f("korting_id");
 			$db3->query("UPDATE korting SET delete_after_automatische_korting=0, editdatetime=NOW() WHERE automatische_korting=1 AND korting_id='".addslashes($db2->f("korting_id"))."';");
-#echo $db3->lastquery."<br>";
 		} else {
 			$db2->query("INSERT INTO korting SET actief=1, type_id='".addslashes($db->f("type_id"))."', seizoen_id='".addslashes($db->f("seizoen_id"))."', naam='Automatisch: Zwitserse Franken', van=FROM_UNIXTIME(".mktime(0,0,0,date("m"),date("d")-1,date("Y"))."), tot=FROM_UNIXTIME(".$seizoen_eind[$db->f("seizoen_id")]."), toonexactekorting=0, aanbiedingskleur=0, toon_abpagina=0, automatische_korting=1, adddatetime=NOW(), editdatetime=NOW();");
-#echo $db2->lastquery."<br>";
 			$kortingid=$db2->insert_id();
 		}
 		if($kortingid) {
 			$db2->query("UPDATE korting_tarief SET inkoopkorting_percentage='".$seizoen_zwitersefranken_kortingspercentage[$db->f("seizoen_id")]."', aanbieding_acc_percentage='".$seizoen_zwitersefranken_kortingspercentage[$db->f("seizoen_id")]."' WHERE korting_id='".addslashes($kortingid)."';");
-#echo $db2->lastquery."<br>";
 			$week=$seizoen_begin[$db->f("seizoen_id")];
 			while($week<=$seizoen_eind[$db->f("seizoen_id")]) {
 				$db2->query("INSERT INTO korting_tarief SET korting_id='".addslashes($kortingid)."', week='".$week."', inkoopkorting_percentage='".$seizoen_zwitersefranken_kortingspercentage[$db->f("seizoen_id")]."', aanbieding_acc_percentage='".$seizoen_zwitersefranken_kortingspercentage[$db->f("seizoen_id")]."', opgeslagen=NOW();");
-#echo $db2->lastquery."<br>";
 				$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 			}
 
 		}
-#		echo "<br>&nbsp;<hr>&nbsp;<br>";
 	}
 	# automatische kortingen die niet meer actief zijn wissen
 	$db->query("DELETE FROM korting_tarief WHERE korting_id IN (SELECT korting_id FROM korting WHERE delete_after_automatische_korting=1 AND automatische_korting=1);");
@@ -101,7 +96,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1
 #
 # Alle kortingen/aanbiedingen doorrekenen
 #
-if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
+if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
 	// $db->query("UPDATE cache_vanafprijs_type SET wis=1 WHERE 1=1;");
 	include($unixdir."cron/tarieven_berekenen.php");
 }
@@ -109,7 +104,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1
 #
 # Calculate vanaf-prijzen
 #
-if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
+if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test2") {
 	$voorraad_gekoppeld=new voorraad_gekoppeld;
 	$db->query("SELECT type_id FROM type WHERE 1=1 ORDER BY type_id;");
 	while($db->next_record()) {
@@ -121,16 +116,36 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1
 #
 # Dagelijks CSV-export van alle financiele cijfers maken (wordt opgeslagen in de map csv/)
 #
-if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test4") {
+if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test4") {
 	$a=file_get_contents("https://www.chalet.nl/cms_financien.php?marges=1&csv=1&bedrijf=chalet");
 	$a=file_get_contents("https://www.chalet.nl/cms_financien.php?marges=1&csv=1&bedrijf=venturasol");
 	unset($a);
 }
 
+//
+// tonen_in_mijn_boeking uitzetten 10 dagen na aankomst (indien betalingen zijn voldaan)
+//
+$db->query("SELECT boeking_id, vertrekdatum_exact FROM boeking WHERE bevestigdatum IS NOT NULL AND vertrekdatum_exact<".(time()-(86400*3))." AND tonen_in_mijn_boeking=1 ORDER BY boeking_id;");
+while($db->next_record()) {
+
+	$gegevens=get_boekinginfo($db->f("boeking_id"));
+
+	$booking_payment = new booking_payment($gegevens);
+	$booking_payment->get_amounts();
+
+	if($booking_payment->amount["eindbetaling"]>0) {
+		// nog openstaand bedrag
+	} else {
+		// voldaan: boeking mag "dicht"
+		$db2->query("UPDATE boeking SET tonen_in_mijn_boeking=0 WHERE boeking_id='".intval($db->f("boeking_id"))."';");
+	}
+}
+unset($gegevens);
+
 #
 # Uitnodigingen voor de enquete versturen (niet aan wederverkoop-boekingen)
 #
-if((date("H")>12 and date("H")<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
+if(($huidig_uur>12 and $huidig_uur<20 and date("w")==4) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
 	unset($teller);
 	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.vertrekdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.vertrekdatum_exact<'".(time()-172800)."' AND b.vertrekdatum_exact>'".(time()-1209600)."' AND b.mailblokkeren_enquete=0 AND b.mailverstuurd_enquete IS NULL AND reisbureau_user_id IS NULL ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
 	if($db->num_rows()) {
@@ -232,7 +247,7 @@ $db->query("UPDATE aanbieding SET tonen=0 WHERE tonen=1 AND einddatum IS NOT NUL
 #
 # Controleren op XML-imports: al 24 uur geen import
 #
-if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	$gisteren=mktime(12,0,0,date("m"),date("d")-1,date("Y"));
 	$db->query("SELECT leverancier_id, naam, UNIX_TIMESTAMP(xml_laatsteimport) AS xml_laatsteimport FROM leverancier WHERE xml_type>0 ORDER BY naam;");
 	while($db->next_record()) {
@@ -265,7 +280,7 @@ if(date("H")==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 #
 # Controleren op wijzigingen in XML-imports
 #
-if((date("H")==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+if(($huidig_uur==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test") {
 		echo "via cms_xmlnewimport.html controleren op XML-imports<br>";
 	}
@@ -281,7 +296,7 @@ if((date("H")==5 and date("w")==0) or $_SERVER["DOCUMENT_ROOT"]=="/home/webtasti
 #
 # Volgorde van blokken hoofdpagina resetten (zodat deze weer 10, 20, 30, etc... wordt)
 #
-#if(date("H")==3 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+#if($huidig_uur==3 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 #	$wzt_array=array(1,2);
 #	while(list($key,$value)=each($wzt_array)) {
 #		$volgorde=0;
@@ -321,7 +336,7 @@ while($db->next_record()) {
 #
 # Controle op onjuiste wederverkoop-tarieven
 #
-#if(date("H")==8 or date("H")==18) {
+#if($huidig_uur==8 or $huidig_uur==18) {
 	$db->query("SELECT DISTINCT ta.type_id, ta.seizoen_id FROM tarief ta, type t, accommodatie a WHERE t.tonen=1 AND a.tonen=1 AND t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND ta.c_bruto>0 AND ta.c_verkoop_site>0 AND ta.wederverkoop_verkoopprijs>0 AND (ta.wederverkoop_verkoopprijs<(ta.c_verkoop_site-10));");
 	if($db->num_rows()) {
 		wt_mail("jeroen@webtastic.nl","Onjuiste wederverkoop-tarieven Chalet.nl","Er zijn onjuiste wederverkoop-tarieven aangetroffen (via cron/elkuur.php) op Chalet.nl.\n\nOpen de volgende pagina en wacht tot alles is verwerkt:\n\nhttp://www.chalet.nl/cms_tarieven_autosubmit.php?check=1&t=99&confirmed=1\n\n");
@@ -408,7 +423,7 @@ while($db->next_record()) {
 #
 # Tabellen bezoek en bezoeker opschonen
 #
-if(date("H")==3) {
+if($huidig_uur==3) {
 
 	# Bepalen welke records in "bezoek" gekoppeld zijn aan een boeking
 	$db->query("SELECT bezoeker_id FROM boeking WHERE bezoeker_id<>'';");
@@ -441,7 +456,7 @@ if(date("H")==3) {
 #
 # handmatig starten: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php xmlopnieuw
 #
-if(date("H")==4 or date("H")==18 or $argv[1]=="xmlopnieuw") {
+if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 	if($argv[1]=="xmlopnieuw") {
 		echo "xmlopnieuw:\n\n";
 	}
@@ -473,7 +488,7 @@ if(date("H")==4 or date("H")==18 or $argv[1]=="xmlopnieuw") {
 
 # Cache Traffic4U (2 uur 's nachts elke maandag)
 # handmatig starten: /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php traffic4u
-if((date("H")==2 and date("w")==1) or $argv[1]=="traffic4u") {
+if(($huidig_uur==2 and date("w")==1) or $argv[1]=="traffic4u") {
 	$doorloop_array=array(
 		"feed_traffic4u_bestemmingen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen&nocache=1",
 		"feed_traffic4u_bestemmingen-aantal-personen_C"=>"https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen&nocache=1",
@@ -496,12 +511,21 @@ if((date("H")==2 and date("w")==1) or $argv[1]=="traffic4u") {
 	ini_set("default_socket_timeout",60);
 }
 
-if(date("H")==5 or $argv[1]=="test") {
+if($huidig_uur==5 or $argv[1]=="test") {
 	//
 	// Controleren of er nieuw te verzenden roominglists zijn
 	//
 	$roominglist = new roominglist;
 	$roominglist->vergelijk_lijsten();
+
+}
+
+if($huidig_uur==6 or $huidig_uur==12 or $huidig_uur==16 or $argv[1]=="test") {
+	//
+	// Controleren of er nieuw te verzenden aankomstlijsten zijn
+	//
+	$roominglist = new roominglist;
+	$roominglist->vergelijk_lijsten_arrivals();
 }
 
 
@@ -540,7 +564,7 @@ $a=file_get_contents("http://www.chalet.nl/zoek-en-boek.php?save_aantalaccommoda
 #
 # Kijken bij welke boekingen factuurbedrag afwijkt van berekende totale reissom (en dan "factuur_bedrag_wijkt_af" aanpassen)
 #
-if(date("H")==4) {
+if($huidig_uur==4) {
 	$db->query("SELECT boeking_id, totale_reissom, boekingsnummer FROM boeking WHERE boekingsnummer<>'' AND geannuleerd=0 AND aankomstdatum>'".time()."' ORDER BY aankomstdatum;");
 	while($db->next_record()) {
 		$gegevens=get_boekinginfo($db->f("boeking_id"));
@@ -568,7 +592,7 @@ if(date("H")==4) {
 #
 # Opschoon-acties en database-optimaliseren
 #
-if(date("H")==5) {
+if($huidig_uur==5) {
 
 	#
 	# Controle op garantie-voorraad

@@ -110,7 +110,7 @@ if($_GET["mijngeg"]) {
 	} else {
 		$reisbureau_user_id_inquery=$login_rb->user_id;
 	}
-	$db->query("SELECT DISTINCT b.website, b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.plaats, bp.land FROM boeking b, boeking_persoon bp WHERE b.boeking_id=bp.boeking_id AND b.bevestigdatum IS NOT NULL AND b.aankomstdatum>'".(time()-864000)."' AND bp.persoonnummer=1 AND b.reisbureau_user_id IN (".$reisbureau_user_id_inquery.") AND b.website='".$vars["website"]."' AND b.tonen_in_mijn_boeking=1;");
+	$db->query("SELECT DISTINCT b.website, b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.plaats, bp.land FROM boeking b, boeking_persoon bp WHERE b.boeking_id=bp.boeking_id AND b.bevestigdatum IS NOT NULL AND b.tonen_in_mijn_boeking=1 AND bp.persoonnummer=1 AND b.reisbureau_user_id IN (".$reisbureau_user_id_inquery.") AND b.website='".$vars["website"]."' AND b.tonen_in_mijn_boeking=1;");
 	if($db->num_rows()) {
 		$tl=new tablelist;
 		$tl->settings["arrowcolor"]="white";

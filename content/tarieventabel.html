@@ -371,7 +371,7 @@ if($db2->next_record()) {
 				if($vars["lokale_testserver"]) {
 					echo "/chalet";
 				}
-				echo ereg_replace("[a-z]+/$","",$path)."cms_tarieven.php?&sid=".$seizoenid."&tid=".$typeid."&from=".urlencode("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie")."\">";
+				echo ereg_replace("[a-z]+/$","",$path)."cms_tarieven.php?sid=".$seizoenid."&tid=".$typeid."&from=".urlencode("http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie")."\">";
 				echo "<IMG SRC=\"".$path."pic/class.cms_edit.gif\" border=\"0\" alt=\"Tarieven bewerken\" width=\"14\" height=\"14\"></a>";
 				echo "</div>";
 				echo "<div style=\"clear: both;\"></div>\n";

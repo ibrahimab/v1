@@ -1390,6 +1390,10 @@ function persoonsgegevensgewenst($gegevens) {
 
 function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 	global $db,$vars,$txt,$txta,$gegevens;
+
+
+	$db2 = new DB_sql;
+
 	if($boekingid) {
 		$gegevens=get_boekinginfo($boekingid);
 		$taal=$gegevens["stap1"]["taal"];
@@ -1447,7 +1451,18 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 				$return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"],$return["body"]);
 			}
 
-			$return["body"]=ereg_replace("\[BETALINGSINFO\]",betalingsinfo($gegevens,$voldaan),$return["body"]);
+			$return["body"]=ereg_replace("\[BETALINGSINFO\]",betalingsinfo::get_text($gegevens, $voldaan),$return["body"]);
+
+			// betaallink
+			$db2->query("SELECT user_id, password, password_uc FROM boekinguser WHERE user='".addslashes($gegevens["stap2"]["email"])."';");
+			if($db2->next_record() and $db2->f("password_uc")) {
+				$directlogin = new directlogin;
+				$directlogin->boeking_id=$gegevens["stap1"]["boekingid"];
+				$directlogin_link = $directlogin->maak_link($gegevens["stap1"]["website"], 2, $db2->f("user_id"),md5($db2->f("password_uc")));
+			}
+
+			$return["body"]=ereg_replace("\[BETAALLINK\]", $directlogin_link, $return["body"]);
+
 		}
 		$return["subject"]=ereg_replace("\[SOORTVAKANTIE\]",$return["soortvakantie"],$return["subject"]);
 
@@ -1464,7 +1479,7 @@ function mailtekst_ontvangenbetaling($boekingid,$bedrag,$datum) {
 		$taal=$gegevens["stap1"]["taal"];
 
 		$totaal=round($gegevens["stap1"]["totale_reissom"],2);
-		$db->query("SELECT sum(bedrag) AS bedrag FROM boeking_betaling WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+		$db->query("SELECT SUM(bedrag) AS bedrag FROM boeking_betaling WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		if($db->next_record()) {
 			$voldaan=$db->f("bedrag");
 		}
@@ -1523,105 +1538,13 @@ function mailtekst_ontvangenbetaling($boekingid,$bedrag,$datum) {
 #			$return["body"]=ereg_replace("\[RESERVERINGSNUMMER\]",$gegevens["stap1"]["boekingsnummer"]." (".wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]).")",$return["body"]);
 		}
 
-		$return["body"]=ereg_replace("\[BETALINGSINFO\]",betalingsinfo($gegevens,$voldaan),$return["body"]);
+		$return["body"]=ereg_replace("\[BETALINGSINFO\]",betalingsinfo::get_text($gegevens, $voldaan),$return["body"]);
 		$return["subject"]=ereg_replace("\[SOORTVAKANTIE\]",$return["soortvakantie"],$return["subject"]);
 
 		return $return;
 	} else {
 		return false;
 	}
-}
-
-function betalingsinfo($gegevens,$voldaan) {
-	global $db,$vars,$txt,$txta;
-
-	$taal=$gegevens["stap1"]["taal"];
-
-	$totaal=$gegevens["stap1"]["totale_reissom"];
-	$openstaand=$totaal-$voldaan;
-	$openstaand=$openstaand;
-
-	# Totale reissom (voor test)
-	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-		$return.="€ ".number_format($totaal,2,',','.')." Totale reissom\n";
-	}
-
-	# Voldaan
-	if($voldaan>0) {
-		$return.=ereg_replace("\[BEDRAG\]",number_format($voldaan,2,',','.'),$txt[$taal]["vars"]["mailbetalingsinfo_ontvangenbedrag"])."\n";
-	}
-
-	# Aanbetaling 1
-	if($gegevens["fin"]["aanbetaling"] and $voldaan<$gegevens["fin"]["aanbetaling"]) {
-		$tevoldoen=$gegevens["fin"]["aanbetaling"]-$voldaan;
-		$tevoldoen=round($tevoldoen,2);
-		if($tevoldoen>0) {
-			$return.=ereg_replace("\[BEDRAG\]",number_format($tevoldoen,2,',','.'),$txt[$taal]["vars"]["mailbetalingsinfo_nogteontvangenaanbetaling"])."\n";
-
-			$aanbetaling1_datum=mktime(0,0,0,date("m",$gegevens["stap1"]["bevestigdatum"]),date("d",$gegevens["stap1"]["bevestigdatum"])+$gegevens["stap1"]["aanbetaling1_dagennaboeken"],date("Y",$gegevens["stap1"]["bevestigdatum"]));
-
-			if($aanbetaling1_datum<$gegevens["stap1"]["bevestigdatum"]) {
-				$aanbetaling1_datum=$gegevens["stap1"]["bevestigdatum"];
-			}
-
-			$return=ereg_replace("\[DATUM\]",DATUM("D MAAND JJJJ",$aanbetaling1_datum,$taal),$return);
-			$getoond["aanbetaling1"]=true;
-		}
-	}
-
-	# Aanbetaling 2
-	if($gegevens["stap1"]["aanbetaling2"] and $voldaan<($gegevens["fin"]["aanbetaling"]+$gegevens["stap1"]["aanbetaling2"])) {
-		if($voldaan>$gegevens["fin"]["aanbetaling"]) {
-			$meer_dan_aanbetaling1=$voldaan-$gegevens["fin"]["aanbetaling"];
-			$tevoldoen=$gegevens["stap1"]["aanbetaling2"]-$meer_dan_aanbetaling1;
-		} else {
-			$tevoldoen=$gegevens["stap1"]["aanbetaling2"];
-		}
-		$tevoldoen=round($tevoldoen,2);
-		if($tevoldoen>0) {
-			$return.=ereg_replace("\[BEDRAG\]",number_format($tevoldoen,2,',','.'),$txt[$taal]["vars"]["mailbetalingsinfo_nogteontvangenaanbetaling"])."\n";
-			$return=ereg_replace("\[DATUM\]",DATUM("D MAAND JJJJ",$gegevens["stap1"]["aanbetaling2_datum"],$taal),$return);
-			$getoond["aanbetaling2"]=true;
-		}
-	}
-
-	# Eindbetaling
-	$eindbetaling=$totaal-$gegevens["fin"]["aanbetaling"]-$gegevens["stap1"]["aanbetaling2"];
-	if($eindbetaling>$openstaand) $eindbetaling=$openstaand;
-	$eindbetaling=round($eindbetaling,2);
-
-	#
-	# Te betalen bedrag moet hoger dan 0.01 zijn (vanwege afrondingsverschillen) - 25 november 2010
-	#
-	if($eindbetaling>0.01) {
-		$return.=ereg_replace("\[BEDRAG\]",number_format($eindbetaling,2,',','.'),$txt[$taal]["vars"]["mailbetalingsinfo_nogteontvangeneindbetaling"])."\n";
-
-		$eindbetaling_datum=mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-$gegevens["stap1"]["totale_reissom_dagenvooraankomst"],date("Y",$gegevens["stap1"]["aankomstdatum_exact"]));
-
-		# Nooit eerder dan boekingsmoment
-		if($eindbetaling_datum<$gegevens["stap1"]["bevestigdatum"]) {
-			$eindbetaling_datum=$gegevens["stap1"]["bevestigdatum"];
-		}
-
-		# Nooit eerder dan aanbetalingsdatum
-		if($aanbetaling1_datum>0 and $eindbetaling_datum<$aanbetaling1_datum) {
-			$eindbetaling_datum=$aanbetaling1_datum;
-		}
-
-		$return=ereg_replace("\[DATUM\]",DATUM("D MAAND JJJJ",$eindbetaling_datum,$taal),$return);
-		$getoond["eindbetaling"]=true;
-	}
-
-	# Totaal nog te ontvangen
-	#
-	# Te betalen bedrag moet hoger dan 0.01 zijn (vanwege afrondingsverschillen) - 25 november 2010
-	#
-	if(@count($getoond)>1 and $openstaand>0.01) {
-		$return.=ereg_replace("\[BEDRAG\]",number_format($openstaand,2,',','.'),$txt[$taal]["vars"]["mailbetalingsinfo_totaalnogteontvangen"])."\n";
-		$getoond["totaal"]=true;
-	}
-
-	return $return;
 }
 
 function boekingkoptekst($gegevens,$voucherstatus=true) {
@@ -2660,8 +2583,8 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 		# SuperSki
 		$logo="factuur_logo_superski.png";
-	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
-		# SuperSki
+	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
+		# Venturasol
 		$logo="factuur_logo_venturasol.png";
 	} else {
 		# Chalet Winter
@@ -2680,8 +2603,13 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	$content.="<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%\"><tr><td><img src=\"pic/".$logo."\" style=\"width:170px;\"><br/><br/></td>";
 	$content.="<td style=\"text-align:right;\">";
 	if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
-		# Adres voor Nederlanders
-		$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0348 434649</b><br/><b>Fax: 0348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+		if($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
+			# Adres voor Venturasol
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0541 532798</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+		} else {
+			# Adres voor Nederlanders
+			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0348 434649</b><br/><b>Fax: 0348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+		}
 	} else {
 		if($gegevens["stap1"]["taal"]=="en") {
 			# Adres voor Engelstalige buitenlanders

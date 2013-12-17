@@ -42,12 +42,12 @@ if($login->logged_in) {
 		}
 
 		// Set the booking person country code
-        if(file_exists("docdata/library/functions.php")) {
-            require_once("docdata/library/functions.php");
-            $gegevens["stap2"]["iso_land"] = docdata_iso_landcode($gegevens["stap2"]["land"], $gegevens["stap1"]["website"]);
-        } else {
-            $gegevens["stap2"]["iso_land"] = false;
-        }
+		if(file_exists("docdata/library/functions.php")) {
+			require_once("docdata/library/functions.php");
+			$gegevens["stap2"]["iso_land"] = docdata_iso_landcode($gegevens["stap2"]["land"], $gegevens["stap1"]["website"]);
+		} else {
+			$gegevens["stap2"]["iso_land"] = false;
+		}
 
 		if($gegevens["stap1"]["website"] == "B") {
 			$gegevens["stap2"]["iso_land"] = "BE";
@@ -196,13 +196,13 @@ if($login->logged_in) {
 								$checked = ' checked="checked"';
 								$limit_countries = true;
 								$limited_countries = "";
-                                reset($vars["docdata_payments"]);
+								reset($vars["docdata_payments"]);
 								foreach($vars["docdata_payments"] as $key => $value) {
-                                    echo "<div class=\"p_m\">";
-                                    if ($count_payments >= 1) {
-                                        if ($gegevens["stap2"]["iso_land"] && isset($value["country"]) && !in_array($gegevens["stap2"]["iso_land"], $value["country"])) {
-                                            continue;
-                                        }
+									echo "<div class=\"p_m\">";
+									if ($count_payments >= 1) {
+										if ($gegevens["stap2"]["iso_land"] && isset($value["country"]) && !in_array($gegevens["stap2"]["iso_land"], $value["country"])) {
+											continue;
+										}
 										if(isset($value["country"])) {
 											$country = implode(",", $value["country"]);
 											$limited_countries .= $country.",";
@@ -211,23 +211,23 @@ if($login->logged_in) {
 											$country = "";
 										}
 
-                                        echo "<label><input type=\"radio\" name=\"pm_code\" data-country=\"". $country  ."\" value=\"". $key ."\" ". $checked ." />". $value["title"] ."</label>";
-                                    } else {
-                                        echo "<input type=\"hidden\" name=\"pm_code\" value=\"". $key ."\" />". $value["title"];
-                                    }
+										echo "<label><input type=\"radio\" name=\"pm_code\" data-country=\"". $country  ."\" value=\"". $key ."\" ". $checked ." />". $value["title"] ."</label>";
+									} else {
+										echo "<input type=\"hidden\" name=\"pm_code\" value=\"". $key ."\" />". $value["title"];
+									}
 
-                                    echo "<img style=\"padding-left:10px;vertical-align:middle;\" src=\"". $vars["path"] . $value["icon"] ."\" alt=\"". $value["title"] ."\" />";
-                                    echo "<div style=\"clear:both;height:3px;\">&nbsp;</div>";
-                                    echo "</div>";
-                                    $checked = '';
+									echo "<img style=\"padding-left:10px;vertical-align:middle;\" src=\"". $vars["path"] . $value["icon"] ."\" alt=\"". $value["title"] ."\" />";
+									echo "<div style=\"clear:both;height:3px;\">&nbsp;</div>";
+									echo "</div>";
+									$checked = '';
 
-                                } #end foreach
-						    }
-                            echo "<script>jQuery(function($){
-                                if( $('input[name=pm_code]').length == 1 && $('input[name=pm_code]').attr('type') == 'radio')  {
-                                    $('input[name=pm_code]').hide();
-                                }
-                            });</script>";
+								} #end foreach
+							}
+							echo "<script>jQuery(function($){
+								if( $('input[name=pm_code]').length == 1 && $('input[name=pm_code]').attr('type') == 'radio')  {
+									$('input[name=pm_code]').hide();
+								}
+							});</script>";
 							echo "</td></tr>";
 
 							# If there exists a limit for the countries
@@ -243,28 +243,28 @@ if($login->logged_in) {
 							}
 
 							# If no match was found for the country code, we display a dropdown with the countries
-						    if(!isset($gegevens["stap2"]["iso_land"]) || $gegevens["stap2"]["iso_land"] == false)  {
+							if(!isset($gegevens["stap2"]["iso_land"]) || $gegevens["stap2"]["iso_land"] == false)  {
 								echo "<tr><td colspan=\"2\" align=\"right\">";
 								echo "<label>" . html("customer_country","bsys") ."*: ";
 								echo "<select name=\"country\">";
 									foreach($countriesList[$vars["taal"]] as $key => $value) {
-                                        if($limit_countries && $limited_countries != "") {
-                                            if($key != "" && in_array($key, $limited_countries) !== false) {}
-                                            else { continue; }
-                                        }
+										if($limit_countries && $limited_countries != "") {
+											if($key != "" && in_array($key, $limited_countries) !== false) {}
+											else { continue; }
+										}
 										echo "<option value=\"". $key ."\" title=\"". wt_he($value) ."\">" . wt_he($value) ."</option>";
 									}
 								echo "</select></label>";
 
 								echo "<script>jQuery(function($){
-                                    if( $('input[name=pm_code]').length == 1 )  {
-                                        $('input[name=pm_code]').hide();
-                                    }
-                                    $('input[name=pm_code]').change(function() {
-                                        if($(this).val() == 'docdata_idl') {
-                                            $('select[name=country]').val('NL');
-                                        } else if($(this).val() == 'docdata_mrc') {
-                                                $('select[name=country]').val('BE');
+									if( $('input[name=pm_code]').length == 1 )  {
+										$('input[name=pm_code]').hide();
+									}
+									$('input[name=pm_code]').change(function() {
+										if($(this).val() == 'docdata_idl') {
+											$('select[name=country]').val('NL');
+										} else if($(this).val() == 'docdata_mrc') {
+												$('select[name=country]').val('BE');
 										}
 									});
 									// Check if the user selected the country
@@ -274,34 +274,34 @@ if($login->logged_in) {
 										  return false;
 									   }
 									});
-                                    $('select[name=country]').change(function(){
-                                        var val = $(this).val();
-                                        var chk = false;
-                                        $('input[name=pm_code]').each(function(){
-                                            var data_country = $(this).attr('data-country');
-                                            if(data_country != '') {
-                                                var arr_country = data_country.split(',');
-                                                var found = false
-                                                for(var i = 0; i < arr_country.length; i++) {
-                                                    if(val == arr_country[i]) found = true;
-                                                }
-                                                if(data_country != '' && found == false) {
-                                                    $(this).attr('disabled', 'disabled');
-                                                    if($(this).is(':checked')) {
-                                                        $(this).prop('checked', false);
-                                                        chk = true;
-                                                    }
-                                                    $(this).parents('.p_m').hide();
-                                                }
-                                                else {
-                                                    $(this).prop('disabled', false);
-                                                    $(this).parents('.p_m').show();
-                                                }
-                                            }
-                                        });
-                                        if(chk) {
-                                            $('input[name=pm_code]:enabled').first().prop('checked', true);
-                                        }
+									$('select[name=country]').change(function(){
+										var val = $(this).val();
+										var chk = false;
+										$('input[name=pm_code]').each(function(){
+											var data_country = $(this).attr('data-country');
+											if(data_country != '') {
+												var arr_country = data_country.split(',');
+												var found = false
+												for(var i = 0; i < arr_country.length; i++) {
+													if(val == arr_country[i]) found = true;
+												}
+												if(data_country != '' && found == false) {
+													$(this).attr('disabled', 'disabled');
+													if($(this).is(':checked')) {
+														$(this).prop('checked', false);
+														chk = true;
+													}
+													$(this).parents('.p_m').hide();
+												}
+												else {
+													$(this).prop('disabled', false);
+													$(this).parents('.p_m').show();
+												}
+											}
+										});
+										if(chk) {
+											$('input[name=pm_code]:enabled').first().prop('checked', true);
+										}
 									});
 								});</script>";
 								echo "</td></tr>";
@@ -324,24 +324,28 @@ if($login->logged_in) {
 
 					if($remaining_payment_amount > 0) {
 
-						$payments_overview = "<table cellpadding=\"0\" cellspacing=\"2\" style=\"width:690px;\">";
+						$payments_overview = "<table cellpadding=\"0\" cellspacing=\"2\" style=\"width:690px;\" border=1>";
+
+						$payments_overview = "<table style=\"width:600px;\" class=\"toonacctabel\" cellpadding=\"5\">";
+						$payments_overview .= "<tr><th>&nbsp;</th><th style=\"text-align:right;\">". html("payment_amount","bsys") ."</th></tr>";
+
 						// if no payment was made we display the advanced payment text
 						if(!$hide_advance_payment) {
 							if($advance_payment1_amount) {
-								$payments_overview .= "<tr><td width=\"65%\">" . $advance_payment1_text ."</td><td align=\"right\"> &euro; " . $advance_payment1_amount ."</td></tr>";
+								$payments_overview .= "<tr><td width=\"80%\">" . $advance_payment1_text ."</td><td align=\"right\"> &euro; " . $advance_payment1_amount ."</td></tr>";
 							}
 							if($advance_payment2_amount) {
-								$payments_overview .= "<tr><td width=\"65%\">" . $advance_payment2_text ."</td><td align=\"right\"> &euro; " . $advance_payment2_amount ."</td></tr>";
+								$payments_overview .= "<tr><td width=\"80%\">" . $advance_payment2_text ."</td><td align=\"right\"> &euro; " . $advance_payment2_amount ."</td></tr>";
 							}
 						}
 
-						$payments_overview .= "<tr><td width=\"60%\">" . $booking_payment->text["eindbetaling"] ."</td><td align=\"right\"> &euro; " . number_format($booking_payment->amount["eindbetaling"],2,',','.') ."</td></tr>";
+						$payments_overview .= "<tr><td width=\"80%\">" . $booking_payment->text["eindbetaling"] ."</td><td align=\"right\"> &euro; " . number_format($booking_payment->amount["eindbetaling"],2,',','.') ."</td></tr>";
 						$payments_overview .= "</table>";
 
 						$payments_text = "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
 
-						echo $payments_text;
 						echo $payments_overview;
+						echo $payments_text;
 
 					} else {
 						echo html("no_remaining_payments","bsys");
@@ -352,18 +356,22 @@ if($login->logged_in) {
 				case 3:
 					echo "<h2>". html("summary","bsys") ."</h2><br />";
 
-                    $txt_by = "docdata";
-                    reset($vars["docdata_payments"]);
-                    foreach($vars["docdata_payments"] as $method) {
-                        if($gegevens["stap2"]["iso_land"] && isset($method["country"]) && !in_array($gegevens["stap2"]["iso_land"], $method["country"])) continue;
-                        $txt_by .= "_" . $method["by"];
-                    }
+					$txt_by = "docdata";
+					if(is_array($vars["docdata_payments"])) {
+						reset($vars["docdata_payments"]);
+						foreach($vars["docdata_payments"] as $method) {
+							if($gegevens["stap2"]["iso_land"] && isset($method["country"]) && !in_array($gegevens["stap2"]["iso_land"], $method["country"])) continue;
+							$txt_by .= "_" . $method["by"];
+						}
+					}
 
 					# Display Docdata transactions table if there are any payments registered for this order
 					if(count($txt_html) > 0 && $reedsvoldaan > 0) {
 						ksort($txt_html);
 
-						echo "<table style=\"width:100%\" class=\"toonacctabel\" cellpadding=\"5\">";
+
+						echo "<div style=\"margin-right:5px;\">";
+						echo "<table style=\"width:100%;\" class=\"toonacctabel\" cellpadding=\"5\">";
 						echo "<tr><th>". html("payment_date","bsys") ."</th><th>". html("payment_amount","bsys") ."</th></tr>";
 						foreach($txt_html as $entry) {
 							echo $entry;
@@ -378,32 +386,34 @@ if($login->logged_in) {
 						}
 						echo "</td><td align=\"right\">&euro; ". number_format($remaining_payment_amount,2,',','.') ."</td></tr>";
 						echo "</table>";
+						echo "</div>";
 
 						if($remaining_payment_amount > 0) {
 							if($txt[$vars["taal"]]["bsys"][$txt_by]) {
-								echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
+								echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\" class=\"button\" style=\"width:300px;\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
 							}
-							echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
+							echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\" class=\"button\" style=\"width:300px;\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
 						}
 					} else {
-						echo "<table cellspacing=\"2\" cellpadding=\"0\">";
+						echo "<table style=\"width:600px;\" class=\"toonacctabel\" cellpadding=\"5\">";
+							echo "<tr><th>&nbsp;</th><th style=\"text-align:right;\">". html("payment_amount","bsys") ."</th></tr>";
 							// if no payment was made we display the advanced payment text
 							if(!$hide_advance_payment) {
 								if($advance_payment1_amount) {
-									echo "<tr><td>" . $advance_payment1_text ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment1_amount ."</td></tr>";
+									echo "<tr><td width=\"80%\">" . $advance_payment1_text ."&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment1_amount ."</td></tr>";
 								}
 								if($advance_payment2_amount) {
-									echo "<tr><td>" . $advance_payment2_text ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment2_amount ."</td></tr>";
+									echo "<tr><td width=\"80%\">" . $advance_payment2_text ."&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . $advance_payment2_amount ."</td></tr>";
 								}
 							}
 
-							echo "<tr><td>" . $booking_payment->text["eindbetaling"] ."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($booking_payment->amount["eindbetaling"],2,',','.') ."</td></tr>";
+							echo "<tr><td width=\"80%\">" . $booking_payment->text["eindbetaling"] ."&nbsp;&nbsp;</td><td align=\"right\">" . "&euro; " . number_format($booking_payment->amount["eindbetaling"],2,',','.') ."</td></tr>";
 						echo "</table>";
 
 						if($txt[$vars["taal"]]["bsys"][$txt_by]) {
-							echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
+							echo "<p><a href=\"".$path."bsys_payments.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\" class=\"button\" style=\"width:300px;\">".html("pay_now","bsys", array("v_method" => txt($txt_by,"bsys")))." &raquo;</a></p>";
 						}
-						echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
+						echo "<p><a href=\"".$path."bsys_payments.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\" class=\"button\" style=\"width:300px;\">". html("paynow_bank_transfer","bsys") ." &raquo;</a></p>";
 					}
 				break;
 			}

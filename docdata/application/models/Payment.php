@@ -293,6 +293,11 @@ class Payment extends Model {
 			// save booking log on success payment
 			$text = $vars["boeking_betaling_type"][$payment_type].": € ".number_format($captured,2,",",".")." (id: ".$payment_id.")";
 			boeking_log($order_id, $text);
+
+			// send payment-receipt to client
+			$paymentmail = new paymentmail;
+			$paymentmail->send_mail($order_id, $captured, time());
+
 		}
 
 		return (bool)$ok;

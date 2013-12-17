@@ -382,6 +382,7 @@ class Model_Docdata implements Model_System {
 			// When the status is "paid" we add the entry to the invoice
 			if($final_status == self::STATUS_CLOSED_PAID) {
 				$order->setInvoice($helper->getAmountInMajorUnit($captured, $order_currency_code));
+				$this->log("Ordernr [$order_id] set as PAID", App::INFO);
 			}
 
 		} else {

@@ -142,7 +142,7 @@ class tarieventabel {
 				$seizoenid=$this->seizoen_id;
 			}
 
-			$return.=ereg_replace("[a-z]+/$","",$vars["path"])."cms_tarieven.php?&sid=".$seizoenid."&tid=".$this->type_id."&from=".urlencode("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie")."\" title=\"tarieven bewerken\">";
+			$return.=ereg_replace("[a-z]+/$","",$vars["path"])."cms_tarieven.php?sid=".$seizoenid."&tid=".$this->type_id."&from=".urlencode("http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]."#prijsinformatie")."\" title=\"tarieven bewerken\">";
 			$return.="<img src=\"".$vars["path"]."pic/class.cms_edit.gif\" border=\"0\" alt=\"Tarieven bewerken\" width=\"14\" height=\"14\"></a>";
 			$return.="</div>";
 			$return.="<div class=\"clear\"></div>\n";

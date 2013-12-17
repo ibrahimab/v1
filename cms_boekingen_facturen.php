@@ -242,8 +242,6 @@ if($form->okay) {
 		}
 
 		# Tekstvak 2 en 3
-		// $gegevens = factuur_totaals($gegevens);
-
 		if(!$_POST["alleen_tonen"] and $form->input["factuuraanmaken"]) {
 			$db->query("UPDATE boeking SET factuur_versturen=0, factuur_tewijzigen=0, factuurdatum=FROM_UNIXTIME('".addslashes($factuurdatum)."') WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 		}
@@ -569,7 +567,7 @@ if($form->okay) {
 		// betalingen
 		//
 		$booking_payment = new booking_payment($gegevens);
-		$booking_payment->bereken_aanbetaling_opnieuw=true;
+		$booking_payment->bereken_bedragen_opnieuw=true;
 		$booking_payment->get_amounts();
 
 		if($booking_payment->amount["reedsvoldaan"]<>0) {
