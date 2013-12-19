@@ -215,7 +215,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "<form method=\"post\" name=\"frm\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\">";
 		echo "<input type=\"hidden\" name=\"ontvangstbevestigingmailen\" value=\"1\">";
 		$table.="<table class=\"tbl\" cellspacing=\"0\" cellpadding=\"0\">";
-		$table.="<tr id=\"fixedtable_header\"><th>&nbsp;</th><th>Reserveringsnummer&nbsp;</th><th>Datum</th><th>Ontvangen</th><th>Openstaand</th><th nowrap>P.direct</th><th>Melding</th><th>&nbsp;</th><!-- _WT_WIS --><th title=\"Stuur ontvangstbevestiging\">Ontv.bev.</th><th title=\"Vraag om aanbetaling\">Aanbet.</th><!-- _WT_WIS --></tr>";
+		$table.="<tr id=\"fixedtable_header\"><th>&nbsp;</th><th>Reserveringsnummer&nbsp;</th><th>Datum</th><th>Ontvangen</th><th>Openstaand</th><th nowrap>P.direct</th><th>Melding</th><th>&nbsp;</th><!-- _WT_WIS --><th title=\"Stuur ontvangstbevestiging\">Ontv.bev.</th><th title=\"Vraag om aanbetaling\">Aanbet.</th><!-- _WT_WIS --></tr>\n";
 		echo $table;
 
 		while(list($key,$value)=each($betaling)) {
