@@ -1,11 +1,10 @@
 <?php
 
-echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
-  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
-echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
-echo "<head>";
+echo "<!DOCTYPE html>\n";
+echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n prefix=\"fb: http://www.facebook.com/2008/fbml og: http://ogp.me/ns#\">\n";
+echo "<head>\n";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
-echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />\n";
+echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
 echo "<title>";
 if($grizzly_title) {
 	echo $grizzly_title;
@@ -95,7 +94,7 @@ if($vars["jquery_maphilight"]) {
 
 if($vars["googlemaps"]) {
 	# Google Maps API
-	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&sensor=false\" type=\"text/javascript\"></script>\n";
+	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&amp;sensor=false\" type=\"text/javascript\"></script>\n";
 }
 
 # jQuery Chosen javascript
@@ -165,7 +164,7 @@ echo "<div id=\"top\">";
 
 echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
 echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
-echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</b>";
+echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
 echo "</div>";
 
 echo "<div id=\"submenu\">";
@@ -219,7 +218,7 @@ while(list($key,$value)=each($vars["topfoto"])) {
 	}
 }
 echo "<div style=\"position:absolute;top:0px;left:0px;\">";
-echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."?c=1\" width=\"970\" height=\"179\" alt=\"".htmlentities($vars["websitenaam"])."\" border=\"0\">";
+echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."?c=1\" width=\"970\" height=\"179\" alt=\"".htmlentities($vars["websitenaam"])."\" style=\"border:0;\" />";
 echo "</div>";
 
 # Link naar hoofdpagina
@@ -228,7 +227,7 @@ if($id<>"index") {
 }
 if($vars["websiteland"]=="nl") {
 	echo "<div style=\"position:absolute;bottom:8px;right:4px;\" class=\"noprint paymenticons\">";
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" border=\"0\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" style=\"border:0;\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
 
 	# Docdata payment logos
 	if($vars["docdata_payments"]) {
@@ -346,7 +345,7 @@ if($vars["verberg_linkerkolom"]) {
 
 	# telefoonblok
 	echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "").">";
-	echo "<div id=\"telefoonblok_nummer\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_zomer.gif\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
+	echo "<div id=\"telefoonblok_nummer\"><table><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_zomer.gif\" alt=\"Call us\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
 
@@ -454,7 +453,7 @@ if($vars["verberg_linkerkolom"]) {
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fap\" class=\"selectbox\" data-placeholder=\"".html("aantalpersonen","index")."\">";
-		echo "<option value=\"\"></option>";
+		echo "<option value=\"\"> </option>";
 		while(list($key,$value)=each($vars["aantalpersonen"])) {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
@@ -471,7 +470,7 @@ if($vars["verberg_linkerkolom"]) {
 
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fad\" class=\"selectbox\" data-placeholder=\"".html("aankomstdatum","index")."\">";
-		echo "<option value=\"\"></option>";
+		echo "<option value=\"\"> </option>";
 		while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
 			# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
 			if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
@@ -493,7 +492,7 @@ if($vars["verberg_linkerkolom"]) {
 
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fdu\" class=\"selectbox\" data-placeholder=\"".html("verblijfsduur","index")."\">";
-		echo "<option value=\"\"></option>";
+		echo "<option value=\"\"> </option>";
 		while(list($key,$value)=each($vars["verblijfsduur"])) {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
@@ -604,7 +603,7 @@ if($vars["verberg_linkerkolom"]) {
 
 echo "<div id=\"colofon\" class=\"noprint\">".html("handelsnaam_zomerhuisje")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a>&nbsp;&nbsp;-&nbsp;&nbsp;tel:&nbsp;".html("telefoonnummer_alleen")."</div>\n";
 
-echo "<div id=\"submenu\" style=\"text-align:center;\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
+echo "<div id=\"submenu_footer\" style=\"text-align:center;\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 
 echo "</div>\n"; # "content" afsluiten
 
@@ -637,7 +636,7 @@ if($lhtml) {
 echo "</div>\n"; # "wrapper" afsluiten
 
 # Ajaxloader in het midden van de pagina
-echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\"></div>";
+echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\" alt=\"loading...\" /></div>";
 
 # Balk met cookie-melding cookiebalk
 if($opmaak->toon_cookiebalk()) {

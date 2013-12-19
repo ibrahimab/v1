@@ -162,6 +162,8 @@
 #hoofdpagina_twitter_blok {
 	margin-bottom: 10px;
 	margin-top: 15px;
+	border-spacing: 2px;
+	border-collapse: separate;
 }
 
 #hoofdpagina_lijn {

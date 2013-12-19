@@ -1138,7 +1138,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$schadeverzekering_checkbox_getoond=true;
 			$form->field_yesno("schadeverzekering","<b>".html("ikwileenschadeverzekering","boeken")."</b>","",array("selection"=>$schadeverzekering_checkbox),"",array("title_html"=>true));
 			if(!$mustlogin) {
-				$form->field_htmlrow("schadeverzekering_toelichting","<font size=\"1\"><a href=\"javascript:popwindow(650,0,'popup.php?id=schadeverzekering')\">".html("toelichtingschadeverzekering","boeken")."</a></font><div style=\"height:15px;\"></div>");
+				$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=schadeverzekering')\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
 			}
 		}
 
@@ -1160,8 +1160,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			}
 			$form->field_yesno("annuleringsverzekering","<b>".html("ikwileenannuleringsverzekering","boeken")."</b>","",array("selection"=>$ann_verz_checkbox),"",array("title_html"=>true,"onclick"=>"annverz(".$gegevens["stap1"]["aantalpersonen"].",this.checked)"));
 			if(!$mustlogin) {
-#				$form->field_htmlrow("ann_toelichting",html("wanneermaareendeelvandegroep","boeken")."<p><font size=\"1\"><a href=\"javascript:popwindow(650,0,'popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></font>");
-				$form->field_htmlrow("ann_toelichting","<font size=\"1\"><a href=\"javascript:popwindow(650,0,'popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></font>");
+#				$form->field_htmlrow("ann_toelichting",html("wanneermaareendeelvandegroep","boeken")."<p><span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
+				$form->field_htmlrow("ann_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
 			}
 		}
 
@@ -1217,7 +1217,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					if(is_array($optie_keuzes)) {
 						if($mustlogin or !$gegevens["stap_voltooid"][5] or $gegevens["stap1"]["wijzigen_toegestaan"] or $dagen_na_bevestigdatum<=3) {
 							if($optie_soort["meerinformatie"][$key] and !$mustlogin) {
-								$veldnaam=htmlentities($value)."<font size=1><br><span class=\"noprint\">(<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?id=opties&gid=".$optie_soort["optiegroepid"][$key]."');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></font>";
+								$veldnaam=htmlentities($value)."<span class=\"x-small\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?id=opties&amp;gid=".$optie_soort["optiegroepid"][$key]."');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
 							} else {
 								$veldnaam=$value;
 							}
@@ -1268,7 +1268,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					if($mustlogin) {
 						$veldnaam=html("annuleringsverzekering","boeken");
 					} else {
-						$veldnaam=html("annuleringsverzekering","boeken")."<font size=1><br><span class=\"noprint\">(<a href=\"javascript:popwindow(650,0,'".$vars["path"]."popup.php?id=annuleringsverzekering');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></font>";
+						$veldnaam=html("annuleringsverzekering","boeken")."<span class=\"x-small\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(650,0,'".$vars["path"]."popup.php?id=annuleringsverzekering');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
 					}
 					$form->field_select(0,"annverz_".$i,$veldnaam,"",array("selection"=>$annverz_keuze),array("selection"=>$annverz_array,"empty_is_0"=>true),array("title_html"=>true));
 				}
@@ -1318,14 +1318,14 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		}
 
 		$reissomtabel=reissom_tabel($gegevens,$accinfo,array("tonen_verbergen"=>true));
-		$form->field_htmlrow("","<hr><b>".txt("samenstellingreissom","boeken")."</b><p><table cellspacing=\"0\" width=\"660\" cellpadding=\"0\">".$reissomtabel."</table><hr>");
+		$form->field_htmlrow("","<hr><b>".txt("samenstellingreissom","boeken")."</b><p><table style=\"width:660px;\">".$reissomtabel."</table><hr>");
 		$reissomtabel=reissom_tabel($gegevens,$accinfo);
 
 		if($gegevens["stap1"]["opmerkingen_opties"]) {
 			$form->field_noedit("opmerkingen_opties",txt("vragenopmerkingenoveropties","boeken"),"",array("html"=>nl2br($gegevens["stap1"]["opmerkingen_opties"])),"",array("title_html"=>true));
-			$form->field_textarea(0,"opmerkingen_boeker",txt("overigevragenopmerkingen","boeken")."<br><font style=\"font-size:0.8em\">(".txt("overigevragenopmerkingen_extra","boeken").")</font>","","","",array("title_html"=>true));
+			$form->field_textarea(0,"opmerkingen_boeker",txt("overigevragenopmerkingen","boeken")."<br><span style=\"font-size:0.8em\">(".txt("overigevragenopmerkingen_extra","boeken").")</span>","","","",array("title_html"=>true));
 		} else {
-			$form->field_textarea(0,"opmerkingen_boeker",txt("eventuelevragenopmerkingen","boeken")."<br><font style=\"font-size:0.8em\">(".txt("overigevragenopmerkingen_extra","boeken").")</font>","","","",array("title_html"=>true));
+			$form->field_textarea(0,"opmerkingen_boeker",txt("eventuelevragenopmerkingen","boeken")."<br><span style=\"font-size:0.8em\">(".txt("overigevragenopmerkingen_extra","boeken").")</span>","","","",array("title_html"=>true));
 		}
 
 		if($gegevens["stap1"]["reisbureau_verzendmethode_reisdocumenten"] and $gegevens["stap1"]["stap_voltooid"]<5) {
@@ -2734,7 +2734,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$inlogtext.=html("viaadreskuntuinloggen","boeken",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>"));
 
 			# Button
-#			$inlogtext.="<p><center><table cellspacing=\"0\" cellpadding=\"0\"><tr><td align=\"center\" width=\"200\" height=\"30\" bgcolor=\"".$table."\" style=\"-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: ".$thfontcolor."; display: block;\"><a href=\"".wt_he($directlogin_link)."\" style=\"color: ".$thfontcolor."; font-size:11px; font-weight: bold; font-family: Verdana, Arial, Helvetica, sans-serif; text-decoration: none; line-height:30px; width:100%; display:inline-block\">".html("directinloggen","boeken")."</a></td></tr></table></center></p>";
+#			$inlogtext.="<p><center><table><tr><td width=\"200\" height=\"30\" bgcolor=\"".$table."\" style=\"-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: ".$thfontcolor."; display: block; text-align: center;\"><a href=\"".wt_he($directlogin_link)."\" style=\"color: ".$thfontcolor."; font-size:11px; font-weight: bold; font-family: Verdana, Arial, Helvetica, sans-serif; text-decoration: none; line-height:30px; width:100%; display:inline-block\">".html("directinloggen","boeken")."</a></td></tr></table></center></p>";
 
 			if($directlogin_wachtwoord) {
 				$inlogtext.=" ".html("gebruikdaarbijhetvolgendewachtwoord","boeken")." <strong>".htmlentities($directlogin_wachtwoord)."</strong>";
@@ -2757,7 +2757,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 			# Tabellen met boekingsinformatie opstellen
 			$tabellen="";
-			$tabellen.="<table style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\" cellspacing=\"0\" cellpadding=\"3\">";
+			$tabellen.="<table class=\"pad3\" style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\">";
 			$tabellen.="<tr><td colspan=\"2\" style=\"font-weight: bold;background-color: ".$table.";color:".$thfontcolor.";border:solid ".$table." 1px\">".html("algemenegegevens","boeken")."</td></tr>";
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
 				$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("reisbureau","boeken")."</td><td style=\"border:solid ".$table." 1px\">".$gegevens["stap1"]["reisbureau_naam"]." - ".$gegevens["stap1"]["reisbureau_usernaam"]."</td></tr>";
@@ -2772,20 +2772,20 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			} else {
 				$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("verblijfsperiode","boeken")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($accinfo["aankomstdatum"][$gegevens["stap1"]["aankomstdatum"]]." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum"],$vars["taal"]))."</td></tr>";
 			}
-			if($gegevens["stap1"]["opmerkingen_opties"]) $tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\" valign=\"top\">".html("vragenofopmerkingenopties","boeken")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(htmlentities($gegevens["stap1"]["opmerkingen_opties"]))."</td></tr>";
-			if($form->input["opmerkingen_boeker"]) $tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\" valign=\"top\">".html("vragenofopmerkingen","boeken")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(htmlentities($form->input["opmerkingen_boeker"]))."</td></tr>";
+			if($gegevens["stap1"]["opmerkingen_opties"]) $tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px;vertical-align:top;\">".html("vragenofopmerkingenopties","boeken")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(htmlentities($gegevens["stap1"]["opmerkingen_opties"]))."</td></tr>";
+			if($form->input["opmerkingen_boeker"]) $tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px;vertical-align:top;\">".html("vragenofopmerkingen","boeken")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(htmlentities($form->input["opmerkingen_boeker"]))."</td></tr>";
 
 			$tabellen.="</table><p>";
 
 			# Samenstelling reissom
-			$tabellen.="<table style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 2px;\" cellspacing=\"0\" cellpadding=\"3\">";
+			$tabellen.="<table class=\"pad3\" style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 2px;\">";
 			$tabellen.="<tr><td colspan=\"8\" style=\"font-weight: bold;background-color: ".$table.";color:".$thfontcolor.";border:solid ".$table." 1px\">".html("samenstellingreissom","boeken")."</td></tr>";
 			$tabellen.=$reissomtabel;
 			$tabellen.="</table><p>";
 
 			if($gegevens["stap1"]["reisbureau_user_id"]) {
 				# Factuurgegevens (alleen tonen als gekoppeld aan reisbureau-user)
-				$tabellen.="<table style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 2px;\" cellspacing=\"0\" cellpadding=\"3\">";
+				$tabellen.="<table class=\"pad3\" style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 2px;\">";
 				$tabellen.="<tr><td colspan=\"8\" style=\"font-weight: bold;background-color: ".$table.";color:".$thfontcolor.";border:solid ".$table." 1px\">".html("factuurgegevens","boeken")."</td></tr>";
 				$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("reisbureau","boeken")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($gegevens["stap1"]["reisbureau_naam"])."&nbsp;</td></tr>";
 				$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("adres","boeken")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($gegevens["stap1"]["reisbureau_adres"])."&nbsp;</td></tr>";
@@ -2797,7 +2797,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 			for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 				if($gegevens["stap3"][$i]["voornaam"] or $gegevens["stap3"][$i]["tussenvoegsel"] or $gegevens["stap3"][$i]["achternaam"] or $gegevens["stap3"][$i]["plaats"] or $gegevens["stap3"][$i]["geslacht"] or $gegevens["stap3"][$i]["geboortedatum"] or is_array($gegevens["stap4"][$i]["opties_perpersoon"]) or $gegevens["stap3"][$i]["annverz"]) {
-					$tabellen.="<table style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\" cellspacing=\"0\" cellpadding=\"3\">";
+					$tabellen.="<table class=\"pad3\" style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\">";
 					$tabellen.="<tr><td colspan=\"2\" style=\"font-weight: bold;background-color: ".$table.";color:".$thfontcolor.";border:solid ".$table." 1px\">".($i==1 ? html("gegevenshoofdboeker","boeken") : html("gegevenspersoon","boeken")." ".$i)."</td></tr>";
 					$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("naam","boeken")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities(wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"]))."&nbsp;</td></tr>";
 					$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("geslacht","boeken")."</td><td style=\"border:solid ".$table." 1px\">".$vars["geslacht"][$gegevens["stap3"][$i]["geslacht"]]."&nbsp;</td></tr>";
@@ -2818,20 +2818,20 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("woonplaats","boeken")."</td><td style=\"border:solid ".$table." 1px\">".$gegevens["stap3"][$i]["plaats"]."&nbsp;</td></tr>";
 					}
 					if(is_array($gegevens["stap4"][$i]["opties_perpersoon"]) or $gegevens["stap3"][$i]["annverz"]) {
-						$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\" valign=\"top\">".html("opties","boeken")."</td><td style=\"border:solid ".$table." 1px\">";
+						$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px;vertical-align:top;\">".html("opties","boeken")."</td><td style=\"border:solid ".$table." 1px\">";
 						@reset($gegevens["stap4"][$i]["opties_perpersoon"]);
-						$tabellen.="<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"font-family: ".$font.";font-size: 1.0em;width:450px\">";
+						$tabellen.="<table style=\"font-family: ".$font.";font-size: 1.0em;width:450px;border:0;\">";
 						while(list($key,$value)=@each($gegevens["stap4"][$i]["opties_perpersoon"])) {
-							$tabellen.="<tr><td valign=\"top\">".htmlentities($value)."&nbsp;</td><td valign=\"top\">";
-							$tabellen.="&euro;&nbsp;</td><td valign=\"top\" align=\"right\">".number_format($gegevens["stap4"][$i]["optieonderdeel_verkoop"][$key],2,',','.');
+							$tabellen.="<tr><td style=\"vertical-align:top;\">".htmlentities($value)."&nbsp;</td><td style=\"vertical-align:top;\">";
+							$tabellen.="&euro;&nbsp;</td><td style=\"vertical-align:top;text-align:right;\">".number_format($gegevens["stap4"][$i]["optieonderdeel_verkoop"][$key],2,',','.');
 							$tabellen.="</td></tr>";
 						}
 						# Annuleringsverzekering
 						if($gegevens["stap3"][$i]["annverz"]) {
-							$tabellen.="<tr><td colspan=\"3\" valign=\"top\">".htmlentities($vars["annverz_soorten_kort"][$gegevens["stap3"][$i]["annverz"]])."&nbsp;</td>";
-#							$tabellen.="<td valign=\"top\">";
-#							$tabellen.="&euro;&nbsp;</td><td valign=\"top\" align=\"right\">".number_format($gegevens["stap4"][$i]["annverz_persoon"][$key],2,',','.');
-#							$tabellen.="&euro;&nbsp;</td><td valign=\"top\" align=\"right\">".number_format($gegevens["stap4"][$i]["annverz_persoon"],2,',','.');
+							$tabellen.="<tr><td colspan=\"3\" style=\"vertical-align:top;\">".htmlentities($vars["annverz_soorten_kort"][$gegevens["stap3"][$i]["annverz"]])."&nbsp;</td>";
+#							$tabellen.="<td style=\"vertical-align:top;\">";
+#							$tabellen.="&euro;&nbsp;</td><td style=\"vertical-align:top;text-align:right;\">".number_format($gegevens["stap4"][$i]["annverz_persoon"][$key],2,',','.');
+#							$tabellen.="&euro;&nbsp;</td><td style=\"vertical-align:top;text-align:right;\">".number_format($gegevens["stap4"][$i]["annverz_persoon"],2,',','.');
 #							$tabellen.="</td>";
 							$tabellen.="</tr>";
 						}
@@ -2890,13 +2890,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$html.="&nbsp;<br>De volgende gegevens zijn zojuist via de website ingevoerd:<p>".$tabellen;
 
 			if($referer["opsomming"] or $form->input["referentiekeuze"]) {
-				$html.="<p><table style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\" cellspacing=\"0\" cellpadding=\"3\">";
+				$html.="<p><table class=\"pad3\" style=\"background-color: #FFFFFF;width: 630px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\">";
 				$html.="<tr><td colspan=\"2\" style=\"font-weight: bold;background-color: ".$table.";color:".$thfontcolor.";border:solid ".$table." 1px\">Referentie</td></tr>";
 				if($referer["opsomming"]) {
-					$html.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\" valign=\"top\">Referentielink</td><td style=\"border:solid ".$table." 1px\">".$referer["opsomming"]."</td></tr>";
+					$html.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px;vertical-align:top;\">Referentielink</td><td style=\"border:solid ".$table." 1px\">".$referer["opsomming"]."</td></tr>";
 				}
 				if($form->input["referentiekeuze"]) {
-					$html.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\" valign=\"top\">Referentiekeuze</td><td style=\"border:solid ".$table." 1px\">";
+					$html.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px;vertical-align:top;\">Referentiekeuze</td><td style=\"border:solid ".$table." 1px\">";
 					$referentiekeuze_array=split(",",$form->input["referentiekeuze"]);
 					while(list($key,$value)=each($referentiekeuze_array)) {
 #						$html.=htmlentities($vars["referentiekeuze"][$form->input["referentiekeuze"]])."<br>";

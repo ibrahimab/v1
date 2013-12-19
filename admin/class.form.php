@@ -707,7 +707,7 @@ class form2 {
 				$return.="?";
 				reset($_GET);
 				while(list($key,$value)=each($_GET)) {
-					if($multiple) $return.="&";
+					if($multiple) $return.="&amp;";
 					if(!is_array($value) and $key<>"fo" and $value<>$this->settings["formname"]) {
 						$return.=urlencode($key)."=".urlencode($value);
 						$multiple=true;
@@ -748,7 +748,7 @@ class form2 {
 		# Eerst foutmeldingen van de veldnamen tonen en vervolgens extra foutmeldingen
 
 		if(is_array($this->error)) {
-			$return="<font class=\"wtform_error\">".$this->message("error_foutform").":<ul style=\"padding-left:1.0em;margin-top:0px;margin-bottom:0px;margin-left:5px;\">";
+			$return="<span class=\"wtform_error\">".$this->message("error_foutform").":</span><ul class=\"wtform_error\" style=\"padding-left:1.0em;margin-top:0px;margin-bottom:0px;margin-left:5px;\">";
 			if($this->settings["layout"]["stars"] and in_array("obl",$this->error)) {
 				$return.="<li style=\"".($this->settings["error"]["li_css_paddingleft"] ? "padding-left:0.8em;" : "")."\">".$this->message("error_verplicht");
 				$counter++;
@@ -779,7 +779,7 @@ class form2 {
 				if($counter) $return.=";";
 				$return.="<li style=\"".($this->settings["error"]["li_css_paddingleft"] ? "padding-left:0.8em;" : "")."\">".$value;
 			}
-			$return.=".</ul></font>";
+			$return.=".</ul>";
 			return $return;
 		} else {
 			return false;
@@ -788,7 +788,7 @@ class form2 {
 
 	function display_title($id) {
 		global $vars;
-		if($this->error[$id]) $return.="<font class=\"wtform_error\">";
+		if($this->error[$id]) $return.="<span class=\"wtform_error\">";
 		if($this->fields["title"][$id]) {
 #			if($this->fields["checktype"][$id]=="currency") $return.="<span style=\"float:left;\">";
 			if($this->fields["layout"][$id]["title_html"]) {
@@ -801,7 +801,7 @@ class form2 {
 				}
 			}
 			if($this->settings["layout"]["stars"] and $this->fields["obl"][$id] and substr($return,-1)<>"*") $return.="*";
-			if($this->error[$id]) $return.="</font>";
+			if($this->error[$id]) $return.="</span>";
 			if($this->fields["layout"][$id]["add_html_after_title"]) $return.=$this->fields["layout"][$id]["add_html_after_title"];
 #			if($this->fields["checktype"][$id]=="currency") $return.="</span><span style=\"float:right;\">&euro;</span>";
 			return $return;
@@ -834,7 +834,7 @@ class form2 {
 
 					if($this->fields["layout"][$id]["indent"]) {
 						# inspringen indien keuze meerdere regels bevat
-						$return.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"top\">";
+						$return.="<table><tr><td style=\"vertical-align:top;\">";
 					}
 					$return.="<input type=\"checkbox\" id=\"checkbox".$id.$key."\" name=\"input[".$id."][".wt_he($key)."]\" ".($this->value[$id][$key]=="on" ? "checked " : "");
 					if($this->fields["layout"][$id]["onchange"]) {
@@ -846,7 +846,7 @@ class form2 {
 					$return.=">";
 					if($this->fields["layout"][$id]["indent"]) {
 						# inspringen indien keuze meerdere regels bevat
-						$return.="</td><td>&nbsp;</td><td valign=\"top\"><label for=\"checkbox".$id.$key."\">";
+						$return.="</td><td>&nbsp;</td><td style=\"vertical-align:top;\"><label for=\"checkbox".$id.$key."\">";
 					} else {
 						$return.="<label for=\"checkbox".$id.$key."\">&nbsp;";
 					}
@@ -918,7 +918,7 @@ class form2 {
 				$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 			}
 
-			$return.="><option></option>";
+			$return.="><option> </option>";
 			for($i=1;$i<=31;$i++) {
 				$return.="<option value=\"".$i."\"";
 				if($this->value[$id]["day"]==$i) $return.=" selected";
@@ -935,7 +935,7 @@ class form2 {
 				$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 			}
 
-			$return.="><option></option>";
+			$return.="><option> </option>";
 			for($i=1;$i<=12;$i++) {
 				$return.="<option value=\"".$i."\"";
 				if($this->value[$id]["month"]==$i) $return.=" selected";
@@ -957,7 +957,7 @@ class form2 {
 					$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 				}
 
-				$return.="><option></option>";
+				$return.="><option> </option>";
 				if($this->fields["options"][$id]["startyear"]<$this->fields["options"][$id]["endyear"]) {
 					for($i=$this->fields["options"][$id]["startyear"];$i<=$this->fields["options"][$id]["endyear"];$i++) {
 						$return.="<option value=\"".$i."\"";
@@ -982,7 +982,7 @@ class form2 {
 					$return.="<select name=\"input[".$id."][hour]\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\"";
 					if($this->fields["options"][$id]["hour_onblur"]) $return.=" onblur=\"".$this->fields["options"][$id]["hour_onblur"]."\"";
 					if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
-					$return.="><option></option>";
+					$return.="><option> </option>";
 					for($i=0;$i<=23;$i++) {
 						$return.="<option value=\"".strftime("%H",mktime($i,0,0,1,1,2004))."\"";
 						if($this->value[$id]["hour"]==strftime("%H",mktime($i,0,0,1,1,2004))) $return.=" selected";
@@ -992,7 +992,7 @@ class form2 {
 
 					$return.="<select name=\"input[".$id."][minute]\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\"";
 					if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
-					$return.="><option></option>";
+					$return.="><option> </option>";
 					if(!$this->fields["options"][$id]["min_jump"]) $this->fields["options"][$id]["min_jump"]=1;
 					for($i=0;$i<=59;$i=$i+$this->fields["options"][$id]["min_jump"]) {
 						$return.="<option value=\"".strftime("%M",mktime(1,$i,0,1,1,2004))."\"";
@@ -1055,10 +1055,10 @@ class form2 {
 #exit;
 #$this->fields["prevalue"][$key2]["multiselection"][$key3]
 
-			$return.="<table cellspacing=\"0\" cellpadding=\"4\" class=\"wtform_multiradio_tbl\"><tr><td>&nbsp;</td>";
+			$return.="<table cellpadding=\"4\" class=\"wtform_multiradio_tbl\"><tr><td>&nbsp;</td>";
 			reset($this->fields["options"][$id]["multiselection"]);
 			while(list($key,$value)=each($this->fields["options"][$id]["multiselection"])) {
-				$return.="<td align=\"center\"><label for=\"wtform_multiradio_check_all_".wt_he($id."_".$value)."\">";
+				$return.="<td style=\"text-align:center;\"><label for=\"wtform_multiradio_check_all_".wt_he($id."_".$value)."\">";
 				$return.=wt_he($value);
 				$return.="<input type=\"radio\" name=\"1\" id=\"wtform_multiradio_check_all_".wt_he($id."_".$value)."\" class=\"wtform_multiradio_check_all\" data-id=\"".wt_he($id)."\" data-value=\"".wt_he($key)."\">";
 				$return.="</label>";
@@ -1067,12 +1067,12 @@ class form2 {
 			$return.="</tr>";
 			reset($this->fields["options"][$id]["selection"]);
 			while(list($key,$value)=each($this->fields["options"][$id]["selection"])) {
-				$return.="<tr><td valign=\"top\">";
+				$return.="<tr><td style=\"vertical-align:top;\">";
 				$return.=wt_he($value);
 				$return.="</td>";
 				reset($this->fields["options"][$id]["multiselection"]);
 				while(list($key2,$value2)=each($this->fields["options"][$id]["multiselection"])) {
-					$return.="<td align=\"center\" valign=\"top\">";
+					$return.="<td style=\"text-align:center;vertical-align:top;\">";
 					$return.="<input type=\"radio\" class=\"wtform_multiradio_fields_".$id."\" id=\"multiradio".$id."_".$key."_".$key2."\" name=\"input[".$id."][".$key."]\" ".($this->value[$id][$key]==$key2 ? "checked " : "")."value=\"".wt_he($key2)."\"";
 					if($this->fields["layout"][$id]["onchange"]) {
 						$return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
@@ -1151,7 +1151,7 @@ class form2 {
 			}
 			while(list($key,$value)=each($this->fields["options"][$id]["selection"])) {
 				if($this->fields["layout"][$id]["one_per_line"]) {
-					$return.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td valign=\"top\">";
+					$return.="<table><tr><td style=\"vertical-align:top;\">";
 				}
 				$return.="<input type=\"radio\" id=\"radio".$id.$key."\" name=\"input[".$id."]\" ".($this->value[$id]==$key ? "checked " : "")."value=\"".wt_he($key)."\"";
 				if($this->fields["layout"][$id]["onchange"]) {
@@ -1162,7 +1162,7 @@ class form2 {
 				}
 				$return.=">";
 				if($this->fields["layout"][$id]["one_per_line"]) {
-					$return.="</td><td>&nbsp;</td><td valign=\"top\">";
+					$return.="</td><td>&nbsp;</td><td style=\"vertical-align:top;\">";
 				}
 				$return.="<label for=\"radio".$id.$key."\">";
 				if($this->fields["layout"][$id]["one_per_line"]) {
@@ -1205,7 +1205,7 @@ class form2 {
 				if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 				$return.=">";
 				if(!$this->fields["options"][$id]["no_empty_first_selection"]) {
-					$return.="<option".($this->fields["options"][$id]["empty_is_0"] ? " value=\"0\"" : "")."></option>";
+					$return.="<option".($this->fields["options"][$id]["empty_is_0"] ? " value=\"0\"" : "")."> </option>";
 				}
 				reset($this->fields["options"][$id]["selection"]);
 				unset($optgroup_open);
@@ -1337,7 +1337,7 @@ class form2 {
 						$ext=strtolower(substr($value,strrpos($value,".")+1,strlen($value)-strrpos($value,".")-1));
 						if($ext=="jpg" or $ext=="gif" or $ext=="png") {
 							$return.="<table class=\"wtform_img_tbl\">";
-							$return.="<tr><td align=\"center\"><img src=\"".($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value)."?anticache=".time()."\" width=\"".$temp["width"]."\" height=\"".$temp["height"]."\" border=\"0\" alt=\"".wt_he($value)."\" title=\"".wt_he($value)."\"><br>";
+							$return.="<tr><td style=\"text-align:center;\"><img src=\"".($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value)."?anticache=".time()."\" width=\"".$temp["width"]."\" height=\"".$temp["height"]."\" border=\"0\" alt=\"".wt_he($value)."\" title=\"".wt_he($value)."\"><br>";
 							if(!$this->fields["layout"][$id]["verberg_imgsize"]) $return.="<span style=\"font-size:0.8em;\">".$temp["filesize"][0]." x ".$temp["filesize"][1]." ".$this->message("pixels")."</span><br>";
 							if(!$this->fields["obl"][$id] and !$this->fields["layout"][$id]["verberg_afbeeldingwissen"]) $return.="<input type=\"checkbox\" name=\"imagedelete[".$id."]".($this->fields["options"][$id]["multiple"] ? "[".$key."]" : "")."\" id=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\"><label for=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\">".$this->message("afbeeldingwissen")."</label>";
 							if($this->fields["options"][$id]["multiple"] and @count($temp["filename"])>1 and !$this->fields["options"][$id]["blokkeer_volgorde"]) {
@@ -1348,7 +1348,7 @@ class form2 {
 							$return.="</table><br>";
 						} elseif($ext=="pdf" or $ext=="doc" or $ext=="pps") {
 							$return.="<table class=\"wtform_img_tbl\">";
-							$return.="<tr><td align=\"center\">";
+							$return.="<tr><td style=\"text-align:center;\">";
 							if($this->settings["download_uploaded_files"]) $return.="<a href=\"".wt_he(($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value))."?c=".@filemtime($value)."\" target=\"_blank\">";
 							$return.="<img src=\"".$this->settings["path"]."pic/class.form_".$ext."_icon.gif\" width=\"20\" height=\"20\" border=\"0\" alt=\"".wt_he($value)."\" title=\"".wt_he($value)."\">";
 							if($this->settings["download_uploaded_files"]) $return.="</a>";
@@ -1472,15 +1472,15 @@ class form2 {
 
 			# Toon complete tabel
 			if($this->settings["layout"]["css"]) echo $this->display_css();
-			echo "<a name=\"wtform_".$this->settings["formname"]."\"></a>\n";
-			echo "\n<table border=\"0\" cellspacing=0 class=\"wtform_table".($this->settings["table_class"] ? " ".$this->settings["table_class"] : "")."\"".($this->settings["table_style"] ? " style=\"".$this->settings["table_style"]."\"" : "").">";
+			echo "<a data-name=\"wtform_".$this->settings["formname"]."\"></a>\n";
+			echo $this->display_openform()."\n";
+			echo "\n<table class=\"wtform_table".($this->settings["table_class"] ? " ".$this->settings["table_class"] : "")."\"".($this->settings["table_style"] ? " style=\"".$this->settings["table_style"]."\"" : "").">";
 			if($this->settings["html_after_open_table"]) echo $this->settings["html_after_open_table"];
 			if($this->settings["htmlheader"]) echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\">".$this->settings["htmlheader"]."</td></tr>\n";
-			echo $this->display_openform();
 
 			# Extra submitbutton bovenaan formulier?
 			if($this->settings["layout"]["top_submit_button"]) {
-				echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\" align=\"center\">".$this->display_submitbutton();
+				echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\" style=\"text-align:center;\">".$this->display_submitbutton();
 				if($this->settings["annuleerbutton"] and $this->settings["annuleerbutton_url"]) {
 					echo "&nbsp;&nbsp;&nbsp;".$this->display_annuleerbutton();
 				}
@@ -1525,13 +1525,13 @@ class form2 {
 				}
 			}
 			if($this->settings["layout"]["stars"] and is_array($this->fields["obl"])) echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\">* = ".$this->message("verplichtveld")."</td></tr>";
-			echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\" align=\"center\">".$this->display_submitbutton();
+			echo "<tr><td class=\"wtform_cell_colspan\" colspan=\"2\" style=\"text-align:center;\">".$this->display_submitbutton();
 			if($this->settings["annuleerbutton"] and $this->settings["annuleerbutton_url"]) {
 				echo "&nbsp;&nbsp;&nbsp;".$this->display_annuleerbutton();
 			}
 			echo "</td></tr>";
-			echo $this->display_closeform();
 			echo "</table>\n";
+			echo $this->display_closeform();
 		} else {
 			# Toon okay-melding(en)
 #			echo "<h1>== OKAY ==</h1>";
@@ -2359,8 +2359,8 @@ class form2 {
 		}
 		reset($this->fields["title"]);
 		while(list($key,$value)=each($this->fields["title"])) {
-			if(isset($this->outputtable_cell[$key])) $return.="<tr><td align=\"left\" valign=\"top\" class=\"wtform_cell_left\">".ereg_replace("\*$","",$value)."</td><td align=\"left\" valign=\"top\" class=\"wtform_cell_right\">".(isset($this->outputtable_cell[$key]) ? $this->outputtable_cell[$key] : "&nbsp;")."</td></tr>";
-			if(isset($this->outputtable_row[$key])) $return.="<tr><td align=\"left\" valign=\"top\" colspan=\"2\">".$value."</td></tr>";
+			if(isset($this->outputtable_cell[$key])) $return.="<tr><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_left\">".ereg_replace("\*$","",$value)."</td><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_right\">".(isset($this->outputtable_cell[$key]) ? $this->outputtable_cell[$key] : "&nbsp;")."</td></tr>";
+			if(isset($this->outputtable_row[$key])) $return.="<tr><td style=\"text-align:left;vertical-align:top;\" colspan=\"2\">".$value."</td></tr>";
 		}
 		$return.="</td></tr>";
 		if($this->outputtable_tr) {

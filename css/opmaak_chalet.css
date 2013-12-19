@@ -148,7 +148,7 @@ form {
 }
 
 #logo img {
-
+	border: 0;
 }
 
 #meldingen {
@@ -698,6 +698,11 @@ form {
 	background-color:#FFFFFF;
 	font-size:11px;
 	color:#d40139;
+}
+
+#footerWrap ul {
+	margin: 0;
+	padding: 0;
 }
 
 .IND {

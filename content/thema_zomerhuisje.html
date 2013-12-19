@@ -38,19 +38,19 @@ if($themalandinfo) {
 	echo "<div id=\"themablok\" style=\"background-color:".$vars["themakleurcode_licht"][$themalandinfo["kleurcode"]]."\">";
 	if(file_exists("pic/cms/".$themalandinfo["padhoofdafbeelding"]."/".$themalandinfo["id"].".jpg")) {
 		echo "<div id=\"themafotos\">";
-		echo "<div style=\"padding-bottom:10px;\"><img src=\"".$vars["path"]."pic/cms/".$themalandinfo["padhoofdafbeelding"]."/".$themalandinfo["id"].".jpg\" width=\"240\" height=\"180\"></div>";
+		echo "<div style=\"padding-bottom:10px;\"><img src=\"".$vars["path"]."pic/cms/".$themalandinfo["padhoofdafbeelding"]."/".$themalandinfo["id"].".jpg\" width=\"240\" height=\"180\" alt=\"".$themalandinfo["id"]."\" /></div>";
 
 		if($accthema[2] and $accthema[3]) {
 			echo "<div style=\"padding-bottom:7px;\">".html("accommodaties","thema").":</div>";
 			echo "<div style=\"float:left;\">";
 			echo "<div class=\"overlay_foto\" onclick=\"document.location.href='".htmlentities($accthema[2]["url"])."'\">";
-			echo "<img src=\"".$vars["path"].htmlentities($accthema[2]["pic"])."\" width=\"115\" border=\"0\">";
+			echo "<img src=\"".$vars["path"].htmlentities($accthema[2]["pic"])."\" width=\"115\" style=\"border:0;\" alt=\"".basename($accthema[2]["pic"])."\" />";
 			echo "<div class=\"fotoinfo_2\">".htmlentities($accthema[2]["toontekst"])."</div>";
 			echo "</div>";
 			echo "</div>";
 			echo "<div style=\"float:right;\">";
 			echo "<div class=\"overlay_foto\" onclick=\"document.location.href='".htmlentities($accthema[3]["url"])."'\">";
-			echo "<img src=\"".$vars["path"].htmlentities($accthema[3]["pic"])."\" width=\"115\" border=\"0\">";
+			echo "<img src=\"".$vars["path"].htmlentities($accthema[3]["pic"])."\" width=\"115\" style=\"border:0;\" alt=\"".basename($accthema[3]["pic"])."\" />";
 			echo "<div class=\"fotoinfo_2\">".htmlentities($accthema[3]["toontekst"])."</div>";
 			echo "</div>";
 			echo "</div>";
@@ -99,7 +99,7 @@ if($themalandinfo) {
 		echo "<div id=\"accommodatietip\" style=\"background-color:".$vars["themakleurcode"][$themalandinfo["kleurcode"]]."\">";
 		echo "<div style=\"padding-bottom:5px;\">".html("accommodatietip","thema").":</div>";
 		echo "<div class=\"overlay_foto\" style=\"".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "height:114px;" : "")."\" onclick=\"document.location.href='".htmlentities($accthema[1]["url"])."'\">";
-		echo "<img src=\"".$vars["path"].htmlentities($accthema[1]["pic"])."\" width=\"150\" border=\"0\">";
+		echo "<img src=\"".$vars["path"].htmlentities($accthema[1]["pic"])."\" width=\"150\" style=\"border:0;\" alt=\"".basename($accthema[1]["pic"])."\" >";
 		echo "<div class=\"fotoinfo_1\">".htmlentities($accthema[1]["toontekst"])."</div>";
 		echo "</div>";
 		echo "</div>";

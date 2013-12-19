@@ -24,13 +24,11 @@ if(!$include) {
 	exit;
 }
 
-echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
-  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
-echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n      xmlns:og=\"http://ogp.me/ns#\"\n      xmlns:fb=\"https://www.facebook.com/2008/fbml\">\n";
-
+echo "<!DOCTYPE html>\n";
+echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n prefix=\"fb: http://www.facebook.com/2008/fbml og: http://ogp.me/ns#\">\n";
 echo "<head>\n";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
-echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />\n";
+echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
 echo "<title>";
 if($id=="index") {
 	echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("subtitel"));
@@ -167,7 +165,7 @@ echo "<div id=\"wrapper\">";
 echo "<div id=\"top\">";
 
 echo "<div id=\"submenu\">";
-echo "<table cellspacing=0 cellpadding=0 id=\"submenu_table\"><tr><td>";
+echo "<table id=\"submenu_table\"><tr><td>";
 while(list($key,$value)=each($submenu)) {
 	$submenuteller++;
 	if($value<>"-") {
@@ -214,7 +212,7 @@ echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
 #echo "<div id=\"menubalk_print_logo\"><img src=\"".$vars["path"]."pic/factuur_logo_venturasol.png\"></div>";
 echo "<div id=\"menubalk_print_info\">";
 echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
-echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</p></b>";
+echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
 echo "</div>"; # afsluiten #menubalk_print_info
 echo "<div style=\"clear: both;\"></div>\n";
 echo "</div>"; # afsluiten #menubalk_print
@@ -351,7 +349,7 @@ echo "<div style=\"clear: both;\"></div>\n";
 # telefoonblok
 if(!$vars["verberg_linkerkolom"] and (!$vars["verberg_linkerkolom"] or $id=="toonaccommodatie")) {
 	echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "").">";
-	echo "<div id=\"telefoonblok_nummer\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_venturasol.gif\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
+	echo "<div id=\"telefoonblok_nummer\"><table><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_venturasol.gif\" alt=\"Call us\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
 }
@@ -521,7 +519,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 #	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<select name=\"fap\" class=\"selectbox\" data-placeholder=\"".html("aantalpersonen","index")."\">";
-	echo "<option value=\"\"></option>";
+	echo "<option value=\"\"> </option>";
 	while(list($key,$value)=each($vars["aantalpersonen"])) {
 		echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 		if($key==="-") echo " selected";
@@ -538,7 +536,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<select name=\"fad\" class=\"selectbox\" data-placeholder=\"".html("aankomstdatum","index")."\">";
-	echo "<option value=\"\"></option>";
+	echo "<option value=\"\"> </option>";
 	while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
 		# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
 		if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
@@ -562,7 +560,6 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	echo "<div style=\"margin-top:7px;margin-bottom:0px;\"><a href=\"#\" id=\"uitgebreidzoeken\">".html("uitgebreidzoeken","index")."</a></div>";
 	echo "</form>";
 
-	echo "</div>";
 	echo "</div>\n";
 
 } elseif($lhtml) {
@@ -584,8 +581,10 @@ if($vars["zoekenboek_overlay_doorschuiven"]) {
 	echo "<style type=\"text/css\"><!--\n#zoekenboek_overlay {\ntop:".(264+$vars["zoekenboek_overlay_doorschuiven"])."px;\n}\n--></style>\n";
 }
 
+echo "\n</div><!-- END #wrapper -->\n";
+
 # Ajaxloader in het midden van de pagina
-echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\"></div>";
+echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\" alt=\"loading...\"></div>";
 
 # Balk met cookie-melding cookiebalk
 if($opmaak->toon_cookiebalk()) {

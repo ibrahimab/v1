@@ -13,6 +13,24 @@ body {
     -webkit-text-size-adjust: 100%;
 }
 
+table {
+	border-collapse: collapse;
+	padding: 0px;
+	border-spacing: 0px;
+}
+
+table.pad3 td {
+	padding: 3px;
+}
+
+image {
+	border: 0;
+}
+
+span.x-small {
+	font-size: x-small;
+}
+
 .boekbutton {
 	margin-bottom: 15px;
 }

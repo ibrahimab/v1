@@ -18,7 +18,7 @@ if(is_array($blokkenhoofdpagina)) {
 		$blokkenhoofdpagina_teller++;
 		echo "<div class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "").">";
 		$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
-		echo "<div><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\"></a></div>";
+		echo "<div><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" alt=\"".basename($file)."\" /></a></div>";
 		echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";
 		echo "<div class=\"hoofdpagina_blok_omschrijving\">".wt_he($value["omschrijving"])."</div>";
 		echo "</div>";
@@ -38,7 +38,7 @@ echo "<div id=\"hoofdpagina_midden\">";
 
 echo "<div id=\"hoofdpagina_kaart\" onclick=\"document.location.href='".$vars["path"]."bestemmingen.php'\" title=\"Zoeken per regio\">";
 echo "<h2>Zoeken per regio</h2>";
-echo "<img src=\"".$vars["path"]."pic/italissima-kaart.gif\" width=\"167\" height=\"204\" border=\"0\">";
+echo "<img src=\"".$vars["path"]."pic/italissima-kaart.gif\" width=\"167\" height=\"204\" style=\"border:0;\" alt=\"italissima kaart\" />";
 echo "</div>"; # afsluiten hoofdpagina_kaart
 
 echo "<div id=\"hoofdpagina_meerinfo\">";
@@ -54,7 +54,7 @@ if($last_acc_html) {
 	echo $last_acc_html;
 } else {
 	echo "<div id=\"laatstbekeken\" style=\"background-color:#ffffff;\">";
-	echo "<img src=\"".$vars["path"]."pic/italissima_hoofdpagina/laatste_acc_vervanging.jpg\" width=\"580\" height=\"200\">";
+	echo "<img src=\"".$vars["path"]."pic/italissima_hoofdpagina/laatste_acc_vervanging.jpg\" width=\"580\" height=\"200\" alt=\"laatste acc vervanging\" />";
 	echo "</div>"; # afsluiten laatstbekeken
 }
 
@@ -88,7 +88,7 @@ while($db->next_record()) {
 	if($blogitem_gehad) echo "<hr>";
 	$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
 	if(file_exists($file)) {
-		echo "<div><a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("homepage_titel"))."\"></a></div>";
+		echo "<div><a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"".wt_he($db->f("homepage_titel"))."\" /></a></div>";
 	}
 	echo "<div class=\"hoofdpagina_blog_titel\"><a href=\"".htmlentities($url)."\">".wt_he($db->f("homepage_titel"))."</a></div>";
 	echo "<div class=\"hoofdpagina_blog_inleiding\">".wt_he($db->f("homepage_inleiding"))."</div>";
