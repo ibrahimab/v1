@@ -461,18 +461,18 @@ if($login_lev->logged_in) {
 			}
 
 			# Voorraad
-			$db->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") ORDER BY a.wzt DESC, ta.week;");
+			$db->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, eb.soort, eb.opmerking, UNIX_TIMESTAMP(eb.begin) AS eigenaar_blokkering_begin, UNIX_TIMESTAMP(eb.eind) AS eigenaar_blokkering_eind FROM accommodatie a, type t, tarief ta LEFT JOIN eigenaar_blokkering eb ON(eb.type_id=ta.type_id AND eb.week=ta.week) WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") ORDER BY a.wzt DESC, ta.week;");
 			while($db->next_record()) {
 				unset($tempclass,$temptext);
-				if(!$db->f("beschikbaar") and $db->f("opmerking_bezeteigenaar")) {
+				if(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("soort")==1) {
 					$tempclass="boeking_eigenaar";
-					$temptext=txt("boekingviaeigenaar","lev_login").": ".$db->f("opmerking_bezeteigenaar");
-				} elseif(!$db->f("beschikbaar") and $db->f("opmerking_boekingderden") and $login_lev->vars["inlog_toon_derden"]) {
+					$temptext=txt("boekingviaeigenaar","lev_login").": ".$db->f("opmerking");
+				} elseif(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("soort")==2 and $login_lev->vars["inlog_toon_derden"]) {
 					$tempclass="boeking_viaderden";
-					$temptext=txt("boekingviaderden","lev_login").": ".$db->f("opmerking_boekingderden");
-				} elseif(!$db->f("beschikbaar") and $db->f("opmerking_nietbeschikbaarverhuur")) {
+					$temptext=txt("boekingviaderden","lev_login").": ".$db->f("opmerking");
+				} elseif(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("soort")==3) {
 					$tempclass="voorraad_nietbeschikbaarvoorverhuur";
-					$temptext=txt("nietbeschikbaarvoorverhuur","lev_login").": ".$db->f("opmerking_nietbeschikbaarverhuur");
+					$temptext=txt("nietbeschikbaarvoorverhuur","lev_login").": ".$db->f("opmerking");
 				} elseif($db->f("voorraad_optie_klant")) {
 					$tempclass="staatinoptievoorklant";
 					$temptext=txt("staatinoptievoorklant","lev_login");
@@ -483,6 +483,7 @@ if($login_lev->logged_in) {
 					$tempclass="voorraad_request";
 					$temptext=txt("navragenbijeigenaar","lev_login");
 				}
+
 				if($vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))] or $accinfo["aankomst_plusmin"]) {
 					$dag=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+$vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))]+$accinfo["aankomst_plusmin"],date("Y",$db->f("week")));
 				} else {
@@ -494,6 +495,15 @@ if($login_lev->logged_in) {
 				} else {
 					$eind=$eind;
 				}
+
+				// manual dates
+				if(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("eigenaar_blokkering_begin")) {
+					$dag = $db->f("eigenaar_blokkering_begin");
+				}
+				if(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("eigenaar_blokkering_eind")) {
+					$eind = $db->f("eigenaar_blokkering_eind");
+				}
+
 				while($dag<$eind) {
 					if($db->f("beschikbaar")) {
 						if($tempclass) {

@@ -8,6 +8,7 @@
 <link REL="shortcut icon" href="favicon.ico" />
 <script src="<?php echo wt_he($vars["jquery_url"]); ?>"></script>
 <script src="<?php echo wt_he($vars["jqueryui_url"]); ?>"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/smoothness/jquery-ui.css" type="text/css" />
 <script type="text/javascript" language="JavaScript1.2" src="scripts/cms_tarieven.js?cache=<?php echo @filemtime("scripts/cms_tarieven.js"); ?>"></script>
 <script type="text/javascript" language="JavaScript1.2" src="scripts/cms_functions.js?cache=<?php echo @filemtime("scripts/cms_functions.js"); ?>"></script>
 </head>
@@ -52,7 +53,7 @@ function datumregel($titel="") {
 		}
 		echo "<th>".date("d/m",$tempweek);
 		if(!$vars["datumregelgetoond"]) {
-			echo "<input type=\"hidden\" name=\"aankomstdatum_exact[".$week."]\" value=\"".$tempweek."\">";
+			$aankomstdatum_exact_data .= "<input type=\"hidden\" name=\"aankomstdatum_exact[".$week."]\" value=\"".$tempweek."\" class=\"aankomstdatum_exact_data\">";
 		}
 		echo "</th>";
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
@@ -60,6 +61,12 @@ function datumregel($titel="") {
 	echo "<th>&nbsp;</th>";
 	echo "</tr>";
 	if(!$aantal_weken) $aantal_weken=$temp_aantal_weken;
+
+	if($aankomstdatum_exact_data) {
+		echo $aankomstdatum_exact_data;
+		// laatste aankomstdatum
+		echo "<input type=\"hidden\" name=\"laatste_vertrek\" value=\"".$week."\" class=\"aankomstdatum_exact_data\">";
+	}
 	$vars["datumregelgetoond"]=true;
 }
 
@@ -568,75 +575,32 @@ if($seizoen["naam"]) {
 		// Geblokkeerd door eigenaar
 		//
 
+		echo "<input type=\"hidden\" name=\"eigenaar_blokkering\" value=\"1\">";
+
 		$eigenaar_formulier = true;
 
 
-		$kolomteller=$kolomteller+1000;
-		$regelteller=0;
-		$titel="Geblokkeerd door eigenaar";
-		echo "<tr style=\"background-color:#a9a8a6;\" class=\"eigenarenlogin_opmerkingen\" data-soort=\"bezeteigenaar\"><td>".wt_he($titel)."</td>";
-		kopieer();
-		$week=$seizoen["begin"];
-		while($week<=$seizoen["eind"]) {
-			$regelteller++;
-			echo "<td align=\"center\" nowrap><input type=\"checkbox\" value=\"1\" name=\"bezeteigenaar[".$week."]\" id=\"bezeteigenaar[".$week."]\"".($seizoen["weken"][$week]["opmerking_bezeteigenaar"] ? " checked" : "")." data-week=\"".$week."\"><input type=\"hidden\" name=\"bezeteigenaar_voorheen[".$week."]\" value=\"".($seizoen["weken"][$week]["opmerking_bezeteigenaar"] ? "1" : "0")."\">
-			<input type=\"hidden\" name=\"opmerking_bezeteigenaar[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["opmerking_bezeteigenaar"])."\">
-			</td>";
-			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		foreach ($vars["eigenaar_blokkering"] as $key => $value) {
+			$kolomteller=$kolomteller+1000;
+			$regelteller=0;
+			$titel=$vars["eigenaar_blokkering_naam"][$key];
+			echo "<tr style=\"background-color:#a9a8a6;\" class=\"eigenarenlogin_opmerkingen\" data-soort=\"".$value."\"><td>".wt_he($titel)."</td>";
+			kopieer();
+			$week=$seizoen["begin"];
+			while($week<=$seizoen["eind"]) {
+				$regelteller++;
+				echo "<td align=\"center\" nowrap><input type=\"checkbox\" value=\"1\" name=\"".$value."[".$week."]\" id=\"".$value."[".$week."]\"".($seizoen["weken"][$week]["eigenaar_blokkering"][$key]["opmerking"] ? " checked" : "")." data-week=\"".$week."\"><input type=\"hidden\" name=\"".$value."_voorheen[".$week."]\" value=\"".($seizoen["weken"][$week]["eigenaar_blokkering"][$key]["opmerking"] ? "1" : "0")."\">
+				<input type=\"hidden\" name=\"opmerking_".$value."[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["eigenaar_blokkering"][$key]["opmerking"])."\">
+				<input type=\"hidden\" name=\"begin_".$value."[".$week."]\" value=\"".($seizoen["weken"][$week]["eigenaar_blokkering"][$key]["begin"]>0 ? date("d/m/Y",$seizoen["weken"][$week]["eigenaar_blokkering"][$key]["begin"]) : "")."\">
+				<input type=\"hidden\" name=\"eind_".$value."[".$week."]\" value=\"".($seizoen["weken"][$week]["eigenaar_blokkering"][$key]["eind"]>0 ? date("d/m/Y",$seizoen["weken"][$week]["eigenaar_blokkering"][$key]["eind"]) : "")."\">
+				<input type=\"hidden\" name=\"deelnemers_".$value."[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["eigenaar_blokkering"][$key]["deelnemers"])."\">
+				<input type=\"hidden\" name=\"tekst_extra_options_".$value."[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["eigenaar_blokkering"][$key]["tekst_extra_options"])."\">
+				</td>";
+				$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+			}
+			echo "<td nowrap>".wt_he($titel)."</td>";
+			echo "</tr>";
 		}
-		echo "<td nowrap>".wt_he($titel)."</td>";
-		echo "</tr>";
-
-		$kolomteller=$kolomteller+1000;
-		$regelteller=0;
-		$titel="Boeking via derden";
-		echo "<tr style=\"background-color:#a9a8a6;\" class=\"eigenarenlogin_opmerkingen\" data-soort=\"boekingderden\"><td>".wt_he($titel)."</td>";
-		kopieer();
-		$week=$seizoen["begin"];
-		while($week<=$seizoen["eind"]) {
-			$regelteller++;
-			echo "<td align=\"center\" nowrap><input type=\"checkbox\" value=\"1\" name=\"boekingderden[".$week."]\" id=\"boekingderden[".$week."]\"".($seizoen["weken"][$week]["opmerking_boekingderden"] ? " checked" : "")." data-week=\"".$week."\"><input type=\"hidden\" name=\"boekingderden_voorheen[".$week."]\" value=\"".($seizoen["weken"][$week]["opmerking_boekingderden"] ? "1" : "0")."\">
-			<input type=\"hidden\" name=\"opmerking_boekingderden[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["opmerking_boekingderden"])."\">
-			</td>";
-			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
-		}
-		echo "<td nowrap>".wt_he($titel)."</td>";
-		echo "</tr>";
-
-		$kolomteller=$kolomteller+1000;
-		$regelteller=0;
-		$titel="Niet beschikbaar voor verhuur";
-		echo "<tr style=\"background-color:#a9a8a6;\" class=\"eigenarenlogin_opmerkingen\" data-soort=\"nietbeschikbaarverhuur\"><td>".wt_he($titel)."</td>";
-		kopieer();
-		$week=$seizoen["begin"];
-		while($week<=$seizoen["eind"]) {
-			$regelteller++;
-			echo "<td align=\"center\" nowrap><input type=\"checkbox\" value=\"1\" name=\"nietbeschikbaarverhuur[".$week."]\" id=\"nietbeschikbaarverhuur[".$week."]\"".($seizoen["weken"][$week]["opmerking_nietbeschikbaarverhuur"] ? " checked" : "")." data-week=\"".$week."\"><input type=\"hidden\" name=\"nietbeschikbaarverhuur_voorheen[".$week."]\" value=\"".($seizoen["weken"][$week]["opmerking_nietbeschikbaarverhuur"] ? "1" : "0")."\">
-			<input type=\"hidden\" name=\"opmerking_nietbeschikbaarverhuur[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["opmerking_nietbeschikbaarverhuur"])."\">
-			</td>";
-			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
-		}
-		echo "<td nowrap>".wt_he($titel)."</td>";
-		echo "</tr>";
-
-
-		// echo "<tr style=\"background-color:#a9a8a6;display:none;\" class=\"bezeteigenaar_opmerking_tr\"><td>&nbsp;</td>";
-		// kopieer();
-		// echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_bezeteigenaar\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
-		// echo "<td nowrap>&nbsp;</td>";
-		// echo "</tr>";
-
-		// echo "<tr style=\"background-color:#878481;\"><td>Boeking via derden</td>";
-		// kopieer();
-		// echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_boekingderden\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
-		// echo "<td nowrap>".wt_he($titel)."</td>";
-		// echo "</tr>";
-
-		// echo "<tr style=\"background-color:#878481;\"><td>Niet beschikbaar voor verhuur</td>";
-		// kopieer();
-		// echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_nietbeschikbaarverhuur\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
-		// echo "<td nowrap>".wt_he($titel)."</td>";
-		// echo "</tr>";
 	}
 
 
@@ -2266,7 +2230,10 @@ if($eigenaar_formulier) {
 	echo "<img src=\"".$vars["path"]."pic/close_icon.svg\" class=\"cancel\" align=\"right\">";
 	echo "<h1><span></span> - week <span class=\"date\"></span></h1>";
 	echo "<p><label>Opmerking voor in eigenarenlogin:</label><input type=\"text\" name=\"eigenaar_formulier_opmerking\"></p>";
-	// echo "<p>Aantal personen:&nbsp;<input type=\"text\" name=\"eigenaar_formulier_aantal_personen\"></p>";
+	echo "<p><label>Aankomstdatum (leeg = standaardperiode):</label><input type=\"text\" name=\"eigenaar_formulier_begin\"><input type=\"hidden\" name=\"eigenaar_formulier_begin_hidden\"></p>";
+	echo "<p><label>Vertrekdatum (leeg = standaardperiode):</label><input type=\"text\" name=\"eigenaar_formulier_eind\"><input type=\"hidden\" name=\"eigenaar_formulier_eind_hidden\"></p>";
+	echo "<p><label>Aantal deelnemers:</label><input type=\"text\" name=\"eigenaar_formulier_deelnemers\" pattern=\"\d*\"></p>";
+	echo "<p><label>Tekst &quot;Extra options&quot; (roominglist + aankomstlijst):</label><input type=\"text\" name=\"eigenaar_formulier_tekst_extra_options\" pattern=\"\d*\"></p>";
 	echo "<p><input type=\"submit\" id=\"submit\" value=\" TOEVOEGEN \">&nbsp;&nbsp;&nbsp;";
 	echo "<input type=\"button\" id=\"delete\" value=\" BLOKKERING VERWIJDEREN \"></p>";
 	echo "<p class=\"opslaan_opmerking\"><b>Let op:</b> gegevens worden pas bewaard bij het opslaan van de gehele tarievenmodule.</p>";

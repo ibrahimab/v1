@@ -26,6 +26,53 @@ if(!$login->logged_in) {
 
 		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+// 		$db->query("DELETE FROM eigenaar_blokkering;");
+// 		$db->query("SELECT opmerking_bezeteigenaar, opmerking_boekingderden, opmerking_nietbeschikbaarverhuur, week, seizoen_id, type_id FROM tarief WHERE opmerking_bezeteigenaar IS NOT NULL OR opmerking_boekingderden IS NOT NULL OR opmerking_nietbeschikbaarverhuur IS NOT NULL;");
+// 		while($db->next_record()) {
+// 			$tekst=$db->f("type_id")." - ".date("r",$db->f("week"))."<br>";
+// 			if($db->f("opmerking_bezeteigenaar") and $db->f("opmerking_boekingderden")) {
+// 				echo "Error 1: ".$tekst;
+// 			} elseif($db->f("opmerking_bezeteigenaar") and $db->f("opmerking_nietbeschikbaarverhuur")) {
+// 				echo "Error 2: ".$tekst;
+// 			} elseif($db->f("opmerking_boekingderden") and $db->f("opmerking_nietbeschikbaarverhuur")) {
+// 				echo "Error 3: ".$tekst;
+// 			} else {
+// 				$soort=0;
+// 				$opmerking="";
+// 				if($db->f("opmerking_bezeteigenaar")) {
+// 					$soort=1;
+// 					$opmerking=$db->f("opmerking_bezeteigenaar");
+// 				}
+// 				if($db->f("opmerking_boekingderden")) {
+// if($soort) {
+// 	echo "Error 5: ".$tekst;
+// 	exit;
+// }
+
+// 					$soort=2;
+// 					$opmerking=$db->f("opmerking_boekingderden");
+// 				}
+// 				if($db->f("opmerking_nietbeschikbaarverhuur")) {
+
+// if($soort) {
+// 	echo "Error 6: ".$tekst;
+// 	exit;
+// }
+// 					$soort=3;
+// 					$opmerking=$db->f("opmerking_nietbeschikbaarverhuur");
+// 				}
+
+// 				if($soort) {
+// 					$db2->query("INSERT INTO eigenaar_blokkering SET type_id='".$db->f("type_id")."', week='".$db->f("week")."', seizoen_id='".$db->f("seizoen_id")."', soort='".$soort."', opmerking='".addslashes($opmerking)."';");
+// 					echo $db2->lq."<br>";
+// 				} else {
+// 					echo "Error 4: ".$tekst;
+
+// 				}
+
+// 			}
+// 		}
+
 
 		// // tonen_in_mijn_boeking uitzetten 10 dagen na aankomst (indien betalingen zijn voldaan)
 		// $db->query("SELECT boeking_id, vertrekdatum_exact FROM boeking WHERE bevestigdatum IS NOT NULL AND vertrekdatum_exact<".(time()-(86400*3))." AND tonen_in_mijn_boeking=1 ORDER BY boeking_id;");
