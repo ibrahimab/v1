@@ -48,7 +48,7 @@ if($_POST["filled"]) {
 	while(list($key,$value)=each($vars["tarief_velden"])) {
 		@reset($_POST[$value]);
 		while(list($key2,$value2)=@each($_POST[$value])) {
-			if($value=="aflopen_allotment" or $value=="opmerking_bezeteigenaar") {
+			if($value=="aflopen_allotment" or $value=="opmerking_bezeteigenaar" or $value=="opmerking_boekingderden" or $value=="opmerking_nietbeschikbaarverhuur") {
 				if($value2<>"") {
 					$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
 				} else {
@@ -85,19 +85,19 @@ if($_POST["filled"]) {
 		}
 	}
 
-	# Gegevens m.b.t. opmerkingen die bewaard moeten blijven opvragen en aan savequery toevoegen
-	$db->query("SELECT week, opmerking_bezeteigenaar, opmerking_boekingderden, opmerking_nietbeschikbaarverhuur FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
-	while($db->next_record()) {
-		// if($db->f("opmerking_bezeteigenaar")) {
-		// 	$savequery[$db->f("week")].=", opmerking_bezeteigenaar='".addslashes($db->f("opmerking_bezeteigenaar"))."'";
-		// }
-		if($db->f("opmerking_boekingderden")) {
-			$savequery[$db->f("week")].=", opmerking_boekingderden='".addslashes($db->f("opmerking_boekingderden"))."'";
-		}
-		if($db->f("opmerking_nietbeschikbaarverhuur")) {
-			$savequery[$db->f("week")].=", opmerking_nietbeschikbaarverhuur='".addslashes($db->f("opmerking_nietbeschikbaarverhuur"))."'";
-		}
-	}
+	// # Gegevens m.b.t. opmerkingen die bewaard moeten blijven opvragen en aan savequery toevoegen
+	// $db->query("SELECT week, opmerking_bezeteigenaar, opmerking_boekingderden, opmerking_nietbeschikbaarverhuur FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
+	// while($db->next_record()) {
+	// 	if($db->f("opmerking_bezeteigenaar")) {
+	// 		$savequery[$db->f("week")].=", opmerking_bezeteigenaar='".addslashes($db->f("opmerking_bezeteigenaar"))."'";
+	// 	}
+	// 	if($db->f("opmerking_boekingderden")) {
+	// 		$savequery[$db->f("week")].=", opmerking_boekingderden='".addslashes($db->f("opmerking_boekingderden"))."'";
+	// 	}
+	// 	if($db->f("opmerking_nietbeschikbaarverhuur")) {
+	// 		$savequery[$db->f("week")].=", opmerking_nietbeschikbaarverhuur='".addslashes($db->f("opmerking_nietbeschikbaarverhuur"))."'";
+	// 	}
+	// }
 
 	if(!$skipastarieven_verwerken and !$ingevulde_waarde_opgeslagen and !$_POST["wis_bruto"]) {
 #		trigger_error("_notice: geen tarieven om op te slaan. POST-count: ".@count($_POST),E_USER_NOTICE);
@@ -175,28 +175,28 @@ if($_POST["filled"]) {
 			#
 			# Opmerkingen m.b.t. eigenarenlogin opslaan
 			#
-			unset($setquery_eigenaarlogin);
+			// unset($setquery_eigenaarlogin);
 			// if($_POST["opmerking_bezeteigenaar"]) {
 			// 	$setquery_eigenaarlogin.=", opmerking_bezeteigenaar='".addslashes($_POST["opmerking_bezeteigenaar"])."', opmerking_boekingderden=NULL, opmerking_nietbeschikbaarverhuur=NULL";
 			// 	if(!$_POST["opmerkingen_voorraad"]) {
 			// 		$_POST["opmerkingen_voorraad"]=$_POST["opmerking_bezeteigenaar"];
 			// 	}
 			// }
-			if($_POST["opmerking_boekingderden"]) {
-				$setquery_eigenaarlogin.=", opmerking_boekingderden='".addslashes($_POST["opmerking_boekingderden"])."', opmerking_bezeteigenaar=NULL, opmerking_nietbeschikbaarverhuur=NULL";
-				if(!$_POST["opmerkingen_voorraad"]) {
-					$_POST["opmerkingen_voorraad"]=$_POST["opmerking_boekingderden"];
-				}
-			}
-			if($_POST["opmerking_nietbeschikbaarverhuur"]) {
-				$setquery_eigenaarlogin.=", opmerking_nietbeschikbaarverhuur='".addslashes($_POST["opmerking_nietbeschikbaarverhuur"])."', opmerking_boekingderden=NULL, opmerking_bezeteigenaar=NULL";
-				if(!$_POST["opmerkingen_voorraad"]) {
-					$_POST["opmerkingen_voorraad"]=$_POST["opmerking_nietbeschikbaarverhuur"];
-				}
-			}
-			if($setquery_eigenaarlogin) {
-				$db->query("UPDATE tarief SET ".substr($setquery_eigenaarlogin,1)." WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."' AND week='".$key."';");
-			}
+			// if($_POST["opmerking_boekingderden"]) {
+			// 	$setquery_eigenaarlogin.=", opmerking_boekingderden='".addslashes($_POST["opmerking_boekingderden"])."', opmerking_bezeteigenaar=NULL, opmerking_nietbeschikbaarverhuur=NULL";
+			// 	if(!$_POST["opmerkingen_voorraad"]) {
+			// 		$_POST["opmerkingen_voorraad"]=$_POST["opmerking_boekingderden"];
+			// 	}
+			// }
+			// if($_POST["opmerking_nietbeschikbaarverhuur"]) {
+			// 	$setquery_eigenaarlogin.=", opmerking_nietbeschikbaarverhuur='".addslashes($_POST["opmerking_nietbeschikbaarverhuur"])."', opmerking_boekingderden=NULL, opmerking_bezeteigenaar=NULL";
+			// 	if(!$_POST["opmerkingen_voorraad"]) {
+			// 		$_POST["opmerkingen_voorraad"]=$_POST["opmerking_nietbeschikbaarverhuur"];
+			// 	}
+			// }
+			// if($setquery_eigenaarlogin) {
+			// 	$db->query("UPDATE tarief SET ".substr($setquery_eigenaarlogin,1)." WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."' AND week='".$key."';");
+			// }
 		}
 		if($wijzig_beschikbaar or $wijzig_garantie or $wijzig_allotment or $wijzig_vervallen_allotment or $wijzig_optie_leverancier or $wijzig_xml or $wijzig_request or $wijzig_optie_klant) {
 			$bovenste5=intval($_POST["voorraad_garantie"][$key])+intval($_POST["voorraad_allotment"][$key])+intval($_POST["voorraad_vervallen_allotment"][$key])+intval($_POST["voorraad_optie_leverancier"][$key])+intval($_POST["voorraad_xml"][$key])+intval($_POST["voorraad_request"][$key]);
@@ -544,11 +544,11 @@ if($_POST["filled"]) {
 	$db->query("SELECT type_id FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
 	if($db->next_record()) {
 		# Tarieven uit tabel tarief
-		$db->query("SELECT week, beschikbaar, blokkeren_wederverkoop, bruto, korting_percentage, toeslag, korting_euro, vroegboekkorting_percentage, vroegboekkorting_euro, opslag_accommodatie, opslag_skipas, afwijking_alle, arrangementsprijs, onbezet_bed, toeslag_arrangement_euro, korting_arrangement_euro, toeslag_bed_euro, korting_bed_euro, vroegboekkorting_arrangement_percentage, vroegboekkorting_arrangement_euro, vroegboekkorting_bed_percentage, vroegboekkorting_bed_euro, opslag, c_bruto, c_korting_percentage, c_toeslag, c_korting_euro, c_vroegboekkorting_percentage, c_vroegboekkorting_euro, c_opslag_accommodatie, c_verkoop_afwijking, c_verkoop_site, voorraad_garantie, voorraad_allotment, voorraad_vervallen_allotment, voorraad_optie_leverancier, voorraad_xml, voorraad_request, voorraad_optie_klant, voorraad_bijwerken, wederverkoop_opslag_euro, wederverkoop_opslag_percentage, wederverkoop_commissie_agent, aanbiedingskleur, autoimportxmltarief, blokkeerxml, aflopen_allotment, aanbieding_acc_percentage, aanbieding_acc_euro, toonexactekorting, aanbieding_skipas_percentage, aanbieding_skipas_euro, inkoopkorting_percentage, inkoopkorting_euro, opmerking_bezeteigenaar FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
+		$db->query("SELECT week, beschikbaar, blokkeren_wederverkoop, bruto, korting_percentage, toeslag, korting_euro, vroegboekkorting_percentage, vroegboekkorting_euro, opslag_accommodatie, opslag_skipas, afwijking_alle, arrangementsprijs, onbezet_bed, toeslag_arrangement_euro, korting_arrangement_euro, toeslag_bed_euro, korting_bed_euro, vroegboekkorting_arrangement_percentage, vroegboekkorting_arrangement_euro, vroegboekkorting_bed_percentage, vroegboekkorting_bed_euro, opslag, c_bruto, c_korting_percentage, c_toeslag, c_korting_euro, c_vroegboekkorting_percentage, c_vroegboekkorting_euro, c_opslag_accommodatie, c_verkoop_afwijking, c_verkoop_site, voorraad_garantie, voorraad_allotment, voorraad_vervallen_allotment, voorraad_optie_leverancier, voorraad_xml, voorraad_request, voorraad_optie_klant, voorraad_bijwerken, wederverkoop_opslag_euro, wederverkoop_opslag_percentage, wederverkoop_commissie_agent, aanbiedingskleur, autoimportxmltarief, blokkeerxml, aflopen_allotment, aanbieding_acc_percentage, aanbieding_acc_euro, toonexactekorting, aanbieding_skipas_percentage, aanbieding_skipas_euro, inkoopkorting_percentage, inkoopkorting_euro, opmerking_bezeteigenaar, opmerking_boekingderden, opmerking_nietbeschikbaarverhuur FROM tarief WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
 		while($db->next_record()) {
 			reset($vars["tarief_velden"]);
 			while(list($key,$value)=each($vars["tarief_velden"])) {
-				if($value=="aflopen_allotment" or $value=="opmerking_bezeteigenaar") {
+				if($value=="aflopen_allotment" or $value=="opmerking_bezeteigenaar" or $value=="opmerking_boekingderden" or $value=="opmerking_nietbeschikbaarverhuur") {
 					if($db->f($value)<>"") $seizoen["weken"][$db->f("week")][$value]=$db->f($value);
 				} else {
 					if($db->f($value)<>0) $seizoen["weken"][$db->f("week")][$value]=$db->f($value);

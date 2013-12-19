@@ -7,6 +7,7 @@
 <link href="css/cms_layout.css?cache=<?php echo @filemtime("css/cms_layout.css"); ?>" rel="stylesheet" type="text/css" />
 <link REL="shortcut icon" href="favicon.ico" />
 <script src="<?php echo wt_he($vars["jquery_url"]); ?>"></script>
+<script src="<?php echo wt_he($vars["jqueryui_url"]); ?>"></script>
 <script type="text/javascript" language="JavaScript1.2" src="scripts/cms_tarieven.js?cache=<?php echo @filemtime("scripts/cms_tarieven.js"); ?>"></script>
 <script type="text/javascript" language="JavaScript1.2" src="scripts/cms_functions.js?cache=<?php echo @filemtime("scripts/cms_functions.js"); ?>"></script>
 </head>
@@ -573,14 +574,11 @@ if($seizoen["naam"]) {
 		$kolomteller=$kolomteller+1000;
 		$regelteller=0;
 		$titel="Geblokkeerd door eigenaar";
-		echo "<tr style=\"background-color:#a9a8a6;\" class=\"bezeteigenaar_tr\"><td>".wt_he($titel)."</td>";
+		echo "<tr style=\"background-color:#a9a8a6;\" class=\"eigenarenlogin_opmerkingen\" data-soort=\"bezeteigenaar\"><td>".wt_he($titel)."</td>";
 		kopieer();
 		$week=$seizoen["begin"];
 		while($week<=$seizoen["eind"]) {
 			$regelteller++;
-
-//			SELECT * FROM `tarief` WHERE `opmerking_bezeteigenaar`<>'' OR `opmerking_bezeteigenaar` IS NOT NULL ORDER BY week DESC;
-
 			echo "<td align=\"center\" nowrap><input type=\"checkbox\" value=\"1\" name=\"bezeteigenaar[".$week."]\" id=\"bezeteigenaar[".$week."]\"".($seizoen["weken"][$week]["opmerking_bezeteigenaar"] ? " checked" : "")." data-week=\"".$week."\"><input type=\"hidden\" name=\"bezeteigenaar_voorheen[".$week."]\" value=\"".($seizoen["weken"][$week]["opmerking_bezeteigenaar"] ? "1" : "0")."\">
 			<input type=\"hidden\" name=\"opmerking_bezeteigenaar[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["opmerking_bezeteigenaar"])."\">
 			</td>";
@@ -589,23 +587,56 @@ if($seizoen["naam"]) {
 		echo "<td nowrap>".wt_he($titel)."</td>";
 		echo "</tr>";
 
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Boeking via derden";
+		echo "<tr style=\"background-color:#a9a8a6;\" class=\"eigenarenlogin_opmerkingen\" data-soort=\"boekingderden\"><td>".wt_he($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"center\" nowrap><input type=\"checkbox\" value=\"1\" name=\"boekingderden[".$week."]\" id=\"boekingderden[".$week."]\"".($seizoen["weken"][$week]["opmerking_boekingderden"] ? " checked" : "")." data-week=\"".$week."\"><input type=\"hidden\" name=\"boekingderden_voorheen[".$week."]\" value=\"".($seizoen["weken"][$week]["opmerking_boekingderden"] ? "1" : "0")."\">
+			<input type=\"hidden\" name=\"opmerking_boekingderden[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["opmerking_boekingderden"])."\">
+			</td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".wt_he($titel)."</td>";
+		echo "</tr>";
+
+		$kolomteller=$kolomteller+1000;
+		$regelteller=0;
+		$titel="Niet beschikbaar voor verhuur";
+		echo "<tr style=\"background-color:#a9a8a6;\" class=\"eigenarenlogin_opmerkingen\" data-soort=\"nietbeschikbaarverhuur\"><td>".wt_he($titel)."</td>";
+		kopieer();
+		$week=$seizoen["begin"];
+		while($week<=$seizoen["eind"]) {
+			$regelteller++;
+			echo "<td align=\"center\" nowrap><input type=\"checkbox\" value=\"1\" name=\"nietbeschikbaarverhuur[".$week."]\" id=\"nietbeschikbaarverhuur[".$week."]\"".($seizoen["weken"][$week]["opmerking_nietbeschikbaarverhuur"] ? " checked" : "")." data-week=\"".$week."\"><input type=\"hidden\" name=\"nietbeschikbaarverhuur_voorheen[".$week."]\" value=\"".($seizoen["weken"][$week]["opmerking_nietbeschikbaarverhuur"] ? "1" : "0")."\">
+			<input type=\"hidden\" name=\"opmerking_nietbeschikbaarverhuur[".$week."]\" value=\"".wt_he($seizoen["weken"][$week]["opmerking_nietbeschikbaarverhuur"])."\">
+			</td>";
+			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+		}
+		echo "<td nowrap>".wt_he($titel)."</td>";
+		echo "</tr>";
+
+
 		// echo "<tr style=\"background-color:#a9a8a6;display:none;\" class=\"bezeteigenaar_opmerking_tr\"><td>&nbsp;</td>";
 		// kopieer();
 		// echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_bezeteigenaar\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
 		// echo "<td nowrap>&nbsp;</td>";
 		// echo "</tr>";
 
-		echo "<tr style=\"background-color:#878481;\"><td>Boeking via derden</td>";
-		kopieer();
-		echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_boekingderden\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
-		echo "<td nowrap>".wt_he($titel)."</td>";
-		echo "</tr>";
+		// echo "<tr style=\"background-color:#878481;\"><td>Boeking via derden</td>";
+		// kopieer();
+		// echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_boekingderden\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
+		// echo "<td nowrap>".wt_he($titel)."</td>";
+		// echo "</tr>";
 
-		echo "<tr style=\"background-color:#878481;\"><td>Niet beschikbaar voor verhuur</td>";
-		kopieer();
-		echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_nietbeschikbaarverhuur\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
-		echo "<td nowrap>".wt_he($titel)."</td>";
-		echo "</tr>";
+		// echo "<tr style=\"background-color:#878481;\"><td>Niet beschikbaar voor verhuur</td>";
+		// kopieer();
+		// echo "<td align=\"left\" colspan=\"".$regelteller."\"><input type=\"text\" name=\"opmerking_nietbeschikbaarverhuur\" maxlength=\"255\" value=\"\" style=\"width:600px;\"> (opmerking wordt opgeslagen bij eigenarenlogin; alleen bij uitzetten beschikbaarheid)</td>";
+		// echo "<td nowrap>".wt_he($titel)."</td>";
+		// echo "</tr>";
 	}
 
 
@@ -2233,12 +2264,12 @@ if($eigenaar_formulier) {
 
 	echo "<div id=\"eigenaar_formulier\">";
 	echo "<img src=\"".$vars["path"]."pic/close_icon.svg\" class=\"cancel\" align=\"right\">";
-	echo "<h1>Blokkering door eigenaar - week <span class=\"date\"></span></h1>";
+	echo "<h1><span></span> - week <span class=\"date\"></span></h1>";
 	echo "<p><label>Opmerking voor in eigenarenlogin:</label><input type=\"text\" name=\"eigenaar_formulier_opmerking\"></p>";
 	// echo "<p>Aantal personen:&nbsp;<input type=\"text\" name=\"eigenaar_formulier_aantal_personen\"></p>";
 	echo "<p><input type=\"submit\" id=\"submit\" value=\" TOEVOEGEN \">&nbsp;&nbsp;&nbsp;";
 	echo "<input type=\"button\" id=\"delete\" value=\" BLOKKERING VERWIJDEREN \"></p>";
-	echo "<p class=\"opslaan_opmerking\">Gegevens worden pas bewaard bij het opslaan van de gehele tarievenmodule.</p>";
+	echo "<p class=\"opslaan_opmerking\"><b>Let op:</b> gegevens worden pas bewaard bij het opslaan van de gehele tarievenmodule.</p>";
 	echo "</div>";
 }
 
