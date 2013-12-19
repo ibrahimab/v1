@@ -318,6 +318,8 @@ class PaymentController extends Controller {
 	public function updateAction() {
 		$error = false;
 
+        App::get('helper/data')->log('Update Action');
+
 		$request = App::getRequest();
 		$helper = App::get('helper/data');
 
@@ -359,7 +361,9 @@ class PaymentController extends Controller {
 			$result = App::get('model/docdata')->statusCall($order, array());
 		}
 
-		$this->releaseOrderLock($lock);
+        if($lock instanceof Model_Locking) {
+		    $this->releaseOrderLock($lock);
+        }
 
 		if (isset($result) && $result->hasError()) {
 			// Error, error during status update
