@@ -3,6 +3,21 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+19-dec-2013 17:41
+CREATE TABLE IF NOT EXISTS `eigenaar_blokkering` (
+  `type_id` int(11) NOT NULL,
+  `seizoen_id` int(11) NOT NULL,
+  `week` bigint(20) NOT NULL,
+  `soort` tinyint(1) NOT NULL,
+  `opmerking` varchar(255) NOT NULL,
+  `begin` date DEFAULT NULL,
+  `eind` date DEFAULT NULL,
+  `deelnemers` int(11) DEFAULT NULL,
+  `tekst_extra_options` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`type_id`,`seizoen_id`,`week`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
 13-dec-2013 15:41
 ALTER TABLE `leverancier` ADD `inlog_toon_roominglists` TINYINT( 1 ) NOT NULL AFTER `inlog_toon_derden` ;
 
