@@ -100,6 +100,7 @@ form {
 	display: block;
 	width: 970px;
 	height: 180px;
+	line-height: normal;
 }
 
 #logo {

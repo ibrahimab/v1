@@ -18,7 +18,7 @@ if(is_array($blokkenhoofdpagina)) {
 		$blokkenhoofdpagina_teller++;
 		echo "<div class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "").">";
 		$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
-		echo "<div><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" alt=\"".basename($file)."\" /></a></div>";
+		echo "<div class=\"hoofdpagina_blok_image\"><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" alt=\"".basename($file)."\" /></a></div>";
 		echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";
 		echo "<div class=\"hoofdpagina_blok_omschrijving\">".wt_he($value["omschrijving"])."</div>";
 		echo "</div>";
@@ -38,7 +38,7 @@ echo "<div id=\"hoofdpagina_midden\">";
 
 echo "<div id=\"hoofdpagina_kaart\" onclick=\"document.location.href='".$vars["path"]."bestemmingen.php'\" title=\"Zoeken per regio\">";
 echo "<h2>Zoeken per regio</h2>";
-echo "<img src=\"".$vars["path"]."pic/italissima-kaart.gif\" width=\"167\" height=\"204\" style=\"border:0;\" alt=\"italissima kaart\" />";
+echo "<img src=\"".$vars["path"]."pic/italissima-kaart.gif\" width=\"167\" height=\"204\" style=\"border:0;display:block;\" alt=\"italissima kaart\" />";
 echo "</div>"; # afsluiten hoofdpagina_kaart
 
 echo "<div id=\"hoofdpagina_meerinfo\">";
