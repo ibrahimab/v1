@@ -1,5 +1,5 @@
 <?php
-
+$page_id = $id;
 # Te includen bestand bepalen
 if($language_content) {
 	if(file_exists("content/_meertalig/".$id."_venturasol_".$vars["taal"].".html")) {
@@ -600,8 +600,8 @@ if($vars["jquery_fancybox"]) {
 # Javascript-functions
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions_venturasol.js?cache=".@filemtime("scripts/functions_venturasol.js")."'";
-if(file_exists("scripts/functions_".$id.".js")) {
-	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."'";
+if(file_exists("scripts/functions_".$page_id.".js")) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$page_id.".js?cache=".@filemtime("scripts/functions_".$page_id.".js")."'";
 }
 
 # IE8-javascript

@@ -1,5 +1,5 @@
 <?php
-
+$page_id = $id;
 # Te includen bestand bepalen
 if($language_content) {
 	if(file_exists("content/_meertalig/".$id."_".$vars["taal"].".html")) {
@@ -805,8 +805,8 @@ if($vars["jquery_fancybox"]) {
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions_chalet.js?cache=".@filemtime("scripts/functions_chalet.js")."'";
 
-if(file_exists("scripts/functions_".$id.".js")) {
-	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."'";
+if(file_exists("scripts/functions_".$page_id.".js")) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$page_id.".js?cache=".@filemtime("scripts/functions_".$page_id.".js")."'";
 }
 
 # IE8-javascript

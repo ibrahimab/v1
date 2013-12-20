@@ -1,5 +1,5 @@
 <?php
-
+$page_id = $id;
 # Te includen bestand bepalen
 if($language_content) {
 	if(file_exists("content/_meertalig/".$id."_italissima_".$vars["taal"].".html")) {
@@ -727,12 +727,12 @@ if($vars["jquery_maphilight"]) {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.maphilight.min.js'";
 }
 
-if($id=="zoek-en-boek") {
+if($page_id=="zoek-en-boek") {
 	# jQuery noUiSlider
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.nouislider.min.js'";
 }
 
-if($id == "bestemmingen") {
+if($page_id == "bestemmingen") {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.vmap.js?cache=".@filemtime("scripts/jquery.vmap.js")."'";
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery-jvectormap-it-mill-en.js?cache=".@filemtime("scripts/jquery-jvectormap-it-mill-en.js")."'";
 }
@@ -746,8 +746,8 @@ if($vars["jquery_fancybox"]) {
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions_italissima.js?cache=".@filemtime("scripts/functions_italissima.js")."'";
 
-if(file_exists("scripts/functions_".$id.".js")) {
-	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."'";
+if(file_exists("scripts/functions_".$page_id.".js")) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$page_id.".js?cache=".@filemtime("scripts/functions_".$page_id.".js")."'";
 }
 
 # IE8-javascript

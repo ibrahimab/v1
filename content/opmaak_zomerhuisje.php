@@ -1,5 +1,5 @@
 <?php
-
+$page_id = $id;
 echo "<!DOCTYPE html>\n";
 echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n prefix=\"fb: http://www.facebook.com/2008/fbml og: http://ogp.me/ns#\">\n";
 echo "<head>\n";
@@ -623,7 +623,6 @@ if($vars["jquery_maphilight"]) {
 #	echo "<script src=\"".$vars["path"]."scripts/jquery.metadata.js\" type=\"text/javascript\"></script>\n";
 }
 
-
 if($vars["googlemaps"]) {
 	# Google Maps API
 	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&amp;sensor=false\" type=\"text/javascript\"></script>\n";
@@ -638,7 +637,7 @@ echo googleanalytics();
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."'";
 #}
 
-if($id=="zoek-en-boek") {
+if($page_id=="zoek-en-boek") {
 	# jQuery noUiSlider
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.nouislider.min.js'";
 }
@@ -656,8 +655,8 @@ if($vars["jquery_fancybox"]) {
 # Javascript-functions
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions_zomerhuisje.js?cache=".@filemtime("scripts/functions_zomerhuisje.js")."'";
-if(file_exists("scripts/functions_".$id.".js")) {
-	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."'";
+if(file_exists("scripts/functions_".$page_id.".js")) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$page_id.".js?cache=".@filemtime("scripts/functions_".$page_id.".js")."'";
 }
 if($grizzly_body and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
 	$lazyLoadJs[] = "'https://www.zomerhuisje.nl/vakantie/zomerhuisjenl.js'";

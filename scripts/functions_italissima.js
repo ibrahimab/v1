@@ -227,6 +227,34 @@ $(document).ready(function() {
 			}
 		});
 
+		// Set disabled colors for the following regions
+		jQuery('#vmap').vectorMap('set', 'colors', disabled_regions);
+
+		jQuery('#vmap').bind('regionClick.jqvmap', function(event, code, region){
+			// Disable click event for the following regions
+			if (disabled_regions.hasOwnProperty(code)) {
+				event.preventDefault();
+			} else {
+				var tmp = code.replace('IT-','');
+				if(jQuery('div#regio_'+tmp).length > 0) {
+					var loc = jQuery('div#regio_'+tmp+' a').attr('href');
+					window.location = loc;
+				}
+			}
+		});
+
+		jQuery('#vmap').bind('regionMouseOver.jqvmap', function(event, code){
+			// Disable hover effect for the following regions
+			if (disabled_regions.hasOwnProperty(code)) {
+				jQuery('#vmap').css('cursor', 'default');
+				event.preventDefault();
+			} else {
+				jQuery('#vmap').css('cursor', 'pointer');
+				var tmp = code.replace('IT-','');
+				jQuery('div#regio_'+tmp).addClass('hover');
+			}
+		});
+
 		// Highlight map region when the mouse is over a region in the list
 		jQuery("#landkaartklikbaar_namen .landnaam a").hover(
 			function(){
