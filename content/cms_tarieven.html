@@ -65,7 +65,17 @@ function datumregel($titel="") {
 	if($aankomstdatum_exact_data) {
 		echo $aankomstdatum_exact_data;
 		// laatste aankomstdatum
-		echo "<input type=\"hidden\" name=\"laatste_vertrek\" value=\"".$week."\" class=\"aankomstdatum_exact_data\">";
+		if($vertrekdag[$_GET["sid"]][date("dm",$week)]) {
+			$vertrekdag_plusmin=$vertrekdag[$_GET["sid"]][date("dm",$week)];
+		} else {
+			$vertrekdag_plusmin=0;
+		}
+		if($acc["aankomst_plusmin"]<>0 or $vertrekdag_plusmin<>0) {
+			$tempweek=mktime(0,0,0,date("m",$week),date("d",$week)+$acc["aankomst_plusmin"]+$vertrekdag_plusmin,date("Y",$week));
+		} else {
+			$tempweek=$week;
+		}
+		echo "<input type=\"hidden\" name=\"laatste_vertrek\" value=\"".$tempweek."\" class=\"aankomstdatum_exact_data\">";
 	}
 	$vars["datumregelgetoond"]=true;
 }
@@ -2228,12 +2238,13 @@ if($eigenaar_formulier) {
 
 	echo "<div id=\"eigenaar_formulier\">";
 	echo "<img src=\"".$vars["path"]."pic/close_icon.svg\" class=\"cancel\" align=\"right\">";
-	echo "<h1><span></span> - week <span class=\"date\"></span></h1>";
-	echo "<p><label>Opmerking voor in eigenarenlogin:</label><input type=\"text\" name=\"eigenaar_formulier_opmerking\"></p>";
-	echo "<p><label>Aankomstdatum (leeg = standaardperiode):</label><input type=\"text\" name=\"eigenaar_formulier_begin\"><input type=\"hidden\" name=\"eigenaar_formulier_begin_hidden\"></p>";
-	echo "<p><label>Vertrekdatum (leeg = standaardperiode):</label><input type=\"text\" name=\"eigenaar_formulier_eind\"><input type=\"hidden\" name=\"eigenaar_formulier_eind_hidden\"></p>";
-	echo "<p><label>Aantal deelnemers:</label><input type=\"text\" name=\"eigenaar_formulier_deelnemers\" pattern=\"\d*\"></p>";
-	echo "<p><label>Tekst &quot;Extra options&quot; (roominglist + aankomstlijst):</label><input type=\"text\" name=\"eigenaar_formulier_tekst_extra_options\" pattern=\"\d*\"></p>";
+	echo "<h1><span class=\"soort\"></span> - week <span class=\"date\"></span></h1>";
+	echo "<p><label>Opmerking voor in eigenarenlogin:</label><br/><input type=\"text\" name=\"eigenaar_formulier_opmerking\"></p>";
+	echo "<p><label>Aankomstdatum:</label><br/><input type=\"text\" name=\"eigenaar_formulier_begin\"><input type=\"hidden\" name=\"eigenaar_formulier_begin_hidden\"></p>";
+	echo "<p><label>Vertrekdatum:</label><br/><input type=\"text\" name=\"eigenaar_formulier_eind\"><input type=\"hidden\" name=\"eigenaar_formulier_eind_hidden\"></p>";
+	echo "<p><label>Aantal deelnemers:</label><br/><input type=\"text\" name=\"eigenaar_formulier_deelnemers\" pattern=\"\d*\"></p>";
+	echo "<p><label>Tekst &quot;Extra options&quot; (roominglist + aankomstlijst):</label><br/><input type=\"text\" name=\"eigenaar_formulier_tekst_extra_options\"></p>";
+	echo "<p><input type=\"checkbox\" name=\"eigenaar_formulier_voorraad_wissen\" id=\"eigenaar_formulier_voorraad_wissen\" value=\"1\"><label for=\"eigenaar_formulier_voorraad_wissen\">&nbsp;&nbsp;Aanwezige voorraad (<span class=\"voorraad\"></span>) wissen</label></p>";
 	echo "<p><input type=\"submit\" id=\"submit\" value=\" TOEVOEGEN \">&nbsp;&nbsp;&nbsp;";
 	echo "<input type=\"button\" id=\"delete\" value=\" BLOKKERING VERWIJDEREN \"></p>";
 	echo "<p class=\"opslaan_opmerking\"><b>Let op:</b> gegevens worden pas bewaard bij het opslaan van de gehele tarievenmodule.</p>";

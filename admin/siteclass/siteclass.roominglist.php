@@ -506,9 +506,58 @@ class roominglist {
 			$regels[$sortkey].="<td valign=\"top\">".( $db->f( "factuurnummer" ) ? htmlentities( $db->f( "factuurnummer" ) ) : ( $db->f( "inkoopdatum" )>0 ? "OK ".date( "d-m-Y", $db->f( "inkoopdatum" ) ) : "&nbsp;" ) )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( htmlentities( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
 		}
 
+
+
+		//
+		// eigenaar_blokkering
+		//
+
+		unset( $where );
+		if ( $this->totaal ) {
+			$where="UNIX_TIMESTAMP(e.begin)>='".$this->van."' AND ";
+			if ( $this->tot ) {
+				$where.="UNIX_TIMESTAMP(e.begin)<='".$this->tot."' AND ";
+			}
+		} else {
+			$where="e.week='".addslashes( $this->date )."' AND ";
+		}
+
+		$db->query( "SELECT e.type_id, e.soort, UNIX_TIMESTAMP(e.begin) AS aankomstdatum_exact, UNIX_TIMESTAMP(e.eind) AS vertrekdatum_exact, e.deelnemers, e.tekst_extra_options, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM eigenaar_blokkering e, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." t.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND e.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND e.soort=1 ORDER BY e.begin, e.eind, t.type_id;" );
+		while ( $db->next_record() ) {
+			$sortkey=$db->f( "plaats" )."_".$db->f( "aankomstdatum_exact" )."_".$db->f( "accommodatie" )."_".$db->f( "type" );
+			if ( !$leverancier ) {
+				$leverancier=$db->f( "leverancier" );
+				$aankomstdatum=$db->f( "aankomstdatum_exact" );
+			}
+			$aankomstdata[$db->f( "aankomstdatum_exact" )]=true;
+			$accnaam=$db->f( "accommodatie" )." ".( $db->f( "type" ) ? $db->f( "type" )." " : "" )."(".$db->f( "optimaalaantalpersonen" ).( $db->f( "optimaalaantalpersonen" )<>$db->f( "maxaantalpersonen" ) ? "-".$db->f( "maxaantalpersonen" ) : "" )." p)";
+			$accnaam_kort=$db->f( "accommodatie" )." ".( $db->f( "type" ) ? $db->f( "type" )." " : "" );
+
+			$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
+
+			$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid;' data-list-id=\"e".$db->f( "type_id" ).$db->f( "aankomstdatum_exact" )."\"><td valign=\"top\"><i>accommodation-owner</i></td>";
+			if ( $roominglist_toontelefoonnummer ) {
+				$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
+			}
+			$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".htmlentities( $db->f( "plaats" ) )."</td><td valign=\"top\">".wt_he($accnaam_kort)."</td><td valign=\"top\">".( $db->f( "code" ) ? htmlentities( $db->f( "code" ) ) : "&nbsp;" )."</td>";
+			if ( $roominglist_toonaantaldeelnemers ) {
+				$regels[$sortkey].="<td valign=\"top\">".$db->f("deelnemers")."</td>";
+			} else {
+				$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
+			}
+			$regels[$sortkey].="<td valign=\"top\">&nbsp;</td><td valign=\"top\">".( $db->f( "tekst_extra_options" ) ? nl2br( htmlentities( $db->f( "tekst_extra_options" ) ) ) : "&nbsp;" )."</td></tr>";
+
+		}
+
+
+
+		//
+		// process regels
+		//
 		unset( $this->regels );
 
 		if ( is_array( $regels ) ) {
+
 			ksort( $regels );
 
 			while ( list( $key, $value )=each( $regels ) ) {

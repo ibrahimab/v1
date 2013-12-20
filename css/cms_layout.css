@@ -642,12 +642,12 @@ li {
 #eigenaar_formulier {
 	display: none;
 	width: 500px;
-	height: 400px;
+	height: 450px;
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	margin-top: -200px;
-	margin-left: -250px;
+	margin-left: -225px;
 	background-color: #ffffff;
 	border: 2px solid #003366;
 	padding: 10px;
@@ -664,14 +664,23 @@ li {
 	opacity: 0.7;
 }
 
-#eigenaar_formulier label {
+#eigenaar_formulier p {
 	display: block;
 	margin-top: 15px;
 	margin-bottom: 5px;
+	padding: 0;
 }
 
 #eigenaar_formulier input[type=text] {
+	display: block;
 	width: 400px;
+	margin-top: 5px;
+}
+
+#eigenaar_formulier input[type=checkbox] {
+	vertical-align:middle;
+	position:relative;
+	bottom:1px;
 }
 
 #eigenaar_formulier .opslaan_opmerking {
