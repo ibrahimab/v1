@@ -59,8 +59,8 @@ span.x-small {
 	line-height: normal;
 }
 
-#laatstbekeken {
-	line-height: 0;
+#laatstbekeken img {
+	display: block;
 }
 
 #hoofdpagina_twitter_blok td {

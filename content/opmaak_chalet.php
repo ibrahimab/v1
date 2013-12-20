@@ -796,6 +796,10 @@ if($vars["page_with_tabs"]) {
 	# jQuery Address: t.b.v. correcte verwerking hashes in URL
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.address-1.5.min.js'";
 }
+# Lazy load Fancybox
+if($vars["jquery_fancybox"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
 
 # Javascript-functions
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
@@ -803,11 +807,6 @@ $lazyLoadJs[] = "'".$vars["path"]."scripts/functions_chalet.js?cache=".@filemtim
 
 if(file_exists("scripts/functions_".$id.".js")) {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."'";
-}
-
-# Lazy load Fancybox
-if($vars["jquery_fancybox"]) {
-	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
 }
 
 # IE8-javascript

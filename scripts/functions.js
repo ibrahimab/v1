@@ -1987,13 +1987,15 @@ $(document).ready(function() {
 			//
 			if($(".livechat_button").length!==0) {
 				setTimeout(function() {
-					if($("div.livechat_button img").attr("src").indexOf("online")>0) {
-						$("span.trigger_livechat_button").replaceWith(function() {
-							var text = $.trim($(this).text());
-							return "<a href='#' class='trigger_livechat_button'>" + text + "</a>";
-						});
+					if($("div.livechat_button img").length!==0) {
+						if($("div.livechat_button img").attr("src").indexOf("online")>0) {
+							$("span.trigger_livechat_button").replaceWith(function() {
+								var text = $.trim($(this).text());
+								return "<a href='#' class='trigger_livechat_button'>" + text + "</a>";
+							});
+						}
 					}
-				},1000);
+				},1500);
 
 				//
 				// trigger click op chatbutton

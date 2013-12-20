@@ -105,7 +105,6 @@ if($vars["canonical"]) {
 }
 
 
-
 # meta name robots
 if(!$vars["canonical"] and ($_GET["back"] or $_GET["backtypeid"] or $_GET["filled"] or $_GET["page"] or $_GET["PHPSESSID"] or $id=="boeken")) {
 	$robot_noindex=true;
@@ -593,16 +592,16 @@ if($vars["page_with_tabs"]) {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.address-1.5.min.js'";
 }
 
+# Fancybox
+if($vars["jquery_fancybox"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
+
 # Javascript-functions
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
 $lazyLoadJs[] = "'".$vars["path"]."scripts/functions_venturasol.js?cache=".@filemtime("scripts/functions_venturasol.js")."'";
 if(file_exists("scripts/functions_".$id.".js")) {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."'";
-}
-
-# Fancybox
-if($vars["jquery_fancybox"]) {
-	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
 }
 
 # IE8-javascript

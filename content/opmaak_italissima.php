@@ -732,10 +732,14 @@ if($id=="zoek-en-boek") {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.nouislider.min.js'";
 }
 
-
 if($id == "bestemmingen") {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.vmap.js?cache=".@filemtime("scripts/jquery.vmap.js")."'";
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery-jvectormap-it-mill-en.js?cache=".@filemtime("scripts/jquery-jvectormap-it-mill-en.js")."'";
+}
+
+# Lazy load Fancybox
+if($vars["jquery_fancybox"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
 }
 
 # Javascript-functions
@@ -744,11 +748,6 @@ $lazyLoadJs[] = "'".$vars["path"]."scripts/functions_italissima.js?cache=".@file
 
 if(file_exists("scripts/functions_".$id.".js")) {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."'";
-}
-
-# Lazy load Fancybox
-if($vars["jquery_fancybox"]) {
-	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
 }
 
 # IE8-javascript

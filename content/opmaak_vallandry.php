@@ -404,14 +404,14 @@ if($vars["page_with_tabs"]) {
 	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.address-1.5.min.js'";
 }
 
-# Javascript-functions
-$lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
-$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_vallandry.js?cache=".@filemtime("scripts/functions_vallandry.js")."'";
-
 # Lazy load Fancybox
 if($vars["jquery_fancybox"]) {
 	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
 }
+
+# Javascript-functions
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_vallandry.js?cache=".@filemtime("scripts/functions_vallandry.js")."'";
 
 # IE8-javascript
 if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
