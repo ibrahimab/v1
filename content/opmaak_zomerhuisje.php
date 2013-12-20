@@ -72,6 +72,15 @@ if(preg_match("/MSIE 7/",$_SERVER["HTTP_USER_AGENT"])) {
 if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie8.css?cache=".@filemtime("css/ie8.css")."\" />\n";
 }
+# Fancybox
+if($vars["jquery_fancybox"]) {
+	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
+}
+
+echo "<script>";
+// Hides the tabs + zoekblok during initialization
+echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
+echo "</script>";
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_zomerhuisje.ico\" />\n";
 
@@ -81,58 +90,6 @@ if($vars["canonical"]) {
 	echo "<link rel=\"canonical\" href=\"http://".htmlentities($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."\" />\n";
 }
 
-# jQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
-
-if($vars["jquery_maphilight"]) {
-	# Google Maps API
-	echo "<script src=\"".$vars["path"]."scripts/jquery.maphilight.min.js\" type=\"text/javascript\"></script>\n";
-#	echo "<script src=\"".$vars["path"]."scripts/jquery.metadata.js\" type=\"text/javascript\"></script>\n";
-}
-
-
-if($vars["googlemaps"]) {
-	# Google Maps API
-	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&amp;sensor=false\" type=\"text/javascript\"></script>\n";
-}
-
-# jQuery Chosen javascript
-#if($vars["jquery_chosen"]) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."\"></script>\n";
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."\"></script>\n";
-#}
-
-if($id=="zoek-en-boek") {
-	# jQuery noUiSlider
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.nouislider.min.js\"></script>\n";
-}
-
-# Javascript-functions
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_zomerhuisje.js?cache=".@filemtime("scripts/functions_zomerhuisje.js")."\" ></script>\n";
-if($grizzly_body and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-	echo "<script type=\"text/javascript\" language=\"JavaScript\" src=\"https://www.zomerhuisje.nl/vakantie/zomerhuisjenl.js\"></script>\n";
-}
-
-if(file_exists("scripts/functions_".$id.".js")) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."\" ></script>\n";
-}
-# Fancybox
-if($vars["jquery_fancybox"]) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js\"></script>\n";
-	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
-}
-
-# IE8-javascript
-if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/ie8.js?cache=".@filemtime("scripts/ie8.js")."\" ></script>\n";
-}
-
-if($vars["page_with_tabs"]) {
-	# jQuery Address: t.b.v. correcte verwerking hashes in URL
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.address-1.5.min.js\"></script>\n";
-}
 
 # meta name robots
 if(!$vars["canonical"] and ($_GET["back"] or $_GET["backtypeid"] or $_GET["filled"] or $_GET["page"] or $_GET["PHPSESSID"] or $id=="boeken")) {
@@ -150,9 +107,6 @@ echo facebook_opengraph();
 
 # Google+
 echo "<link href=\"https://plus.google.com/113644542072220125279\" rel=\"publisher\" />\n";
-
-# Google Analytics
-echo googleanalytics();
 
 echo "</head>\n";
 
@@ -655,6 +609,95 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 	echo $interneinfo;
 	echo "</div>"; # interneinfo_rechts
 }
+
+
+######################### Load javascript files
+
+# jQuery
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
+
+if($vars["jquery_maphilight"]) {
+	# Google Maps API
+	echo "<script src=\"".$vars["path"]."scripts/jquery.maphilight.min.js\" type=\"text/javascript\"></script>\n";
+#	echo "<script src=\"".$vars["path"]."scripts/jquery.metadata.js\" type=\"text/javascript\"></script>\n";
+}
+
+
+if($vars["googlemaps"]) {
+	# Google Maps API
+	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&amp;sensor=false\" type=\"text/javascript\"></script>\n";
+}
+
+# Google Analytics
+echo googleanalytics();
+
+# jQuery Chosen javascript
+#if($vars["jquery_chosen"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."'";
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."'";
+#}
+
+if($id=="zoek-en-boek") {
+	# jQuery noUiSlider
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.nouislider.min.js'";
+}
+
+if($vars["page_with_tabs"]) {
+	# jQuery Address: t.b.v. correcte verwerking hashes in URL
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.address-1.5.min.js'";
+}
+
+# Javascript-functions
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_zomerhuisje.js?cache=".@filemtime("scripts/functions_zomerhuisje.js")."'";
+if(file_exists("scripts/functions_".$id.".js")) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."'";
+}
+if($grizzly_body and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+	$lazyLoadJs[] = "'https://www.zomerhuisje.nl/vakantie/zomerhuisjenl.js'";
+}
+
+# Fancybox
+if($vars["jquery_fancybox"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
+
+# IE8-javascript
+if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/ie8.js?cache=".@filemtime("scripts/ie8.js")."'";
+}
+?>
+
+<script type="text/javascript">
+
+	var deferredJSFiles = [<?php echo implode(",", $lazyLoadJs); ?>];
+
+	function downloadJSAtOnload() {
+		if (!deferredJSFiles.length)
+			return;
+		var deferredJSFile = deferredJSFiles.shift();
+		var element = document.createElement('script');
+		element.src = deferredJSFile;
+		element.async = true;
+		element.onload = element.onreadystatechange = function() {
+			if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')
+				downloadJSAtOnload();
+		};
+		document.body.appendChild(element);
+	}
+
+	if (window.addEventListener) {
+		window.addEventListener('load', downloadJSAtOnload, false);
+	} else if (window.attachEvent) {
+		window.attachEvent('onload', downloadJSAtOnload);
+	} else {
+		window.load = downloadJSAtOnload;
+	}
+
+</script>
+
+<?php
 
 echo "</body>";
 echo "</html>";

@@ -749,25 +749,28 @@ if($db->next_record()) {
 			$gps_lat=$db->f("gps_lat");
 			$gps_long=$db->f("gps_long");
 		}
-		echo "<script>\n";
+		echo "<script>\n
+			var mapOptions = {};
+		";
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-			echo "var googlemaps_base='/chalet/';\n";
+			echo "mapOptions.googlemaps_base='/chalet/';\n";
 		}
 		$db0->query("SELECT MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE accommodatie_id='".$db->f("accommodatie_id")."' AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id;");
 		if($db0->next_record()) {
-			echo "var googlemaps_aantalpersonen='".$db0->f("optimaalaantalpersonen").($db0->f("maxaantalpersonen")>$db0->f("optimaalaantalpersonen") ? " - ".$db0->f("maxaantalpersonen") : "")." ".html("personen")."';\n";
+			echo "mapOptions.googlemaps_aantalpersonen='".$db0->f("optimaalaantalpersonen").($db0->f("maxaantalpersonen")>$db0->f("optimaalaantalpersonen") ? " - ".$db0->f("maxaantalpersonen") : "")." ".html("personen")."';\n";
 		}
 		if(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-			echo "var googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
+			echo "mapOptions.googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
 		}
-		echo "var googlemaps_accid=".$db->f("accommodatie_id").";\nvar googlemaps_typeid=".$db->f("type_id").";\nvar googlemaps_selected_icon=".$vars["websitetype"].";\nvar googlemaps_lat=".$gps_lat.";\nvar googlemaps_long=".$gps_long.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("skigebied")))."';\nvar zoomlevel=".($vars["seizoentype"]==2 ? "9" : "11").";\n";
-		echo "var googlemaps_kwaliteit='".$kwaliteit."';\nvar googlemaps_omschrijving='".addslashes($omschrijving)."';\n";
+		echo "mapOptions.googlemaps_accid=".$db->f("accommodatie_id").";\n mapOptions.googlemaps_typeid=".$db->f("type_id").";\n mapOptions.googlemaps_selected_icon=".$vars["websitetype"].";\n mapOptions.googlemaps_lat=".$gps_lat.";\n mapOptions.googlemaps_long=".$gps_long.";\n mapOptions.gps_coordinaten_bekend=1;\n mapOptions.googlemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\n mapOptions.googlemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("skigebied")))."';\n mapOptions.zoomlevel=".($vars["seizoentype"]==2 ? "9" : "11").";\n";
+		echo "mapOptions.googlemaps_kwaliteit='".$kwaliteit."';\n mapOptions.googlemaps_omschrijving='".addslashes($omschrijving)."';\n";
 
 		$q = "SELECT prijs FROM `cache_vanafprijs_type` WHERE type_id='$typeid' LIMIT 1";
 		$db0->query($q);
 		$db0->next_record();
 		if($db0->f("prijs") && $db0->f("prijs")!=0) {
-			$str = "var googlemaps_tarief='vanaf &euro;&nbsp;".number_format($db0->f("prijs"),0,",",".");
+
+			$str = " mapOptions.googlemaps_tarief='vanaf &euro;&nbsp;".number_format($db0->f("prijs"),0,",",".");
 			if($db->f("toonper")==3 or $vars["wederverkoop"]) {
 				$str .= " ". html("peraccommodatie","zoek-en-boek");
 			} else {
@@ -775,6 +778,7 @@ if($db->next_record()) {
 			}
 			$str .= "';\n";
 			echo $str;
+
 		}
 
 		echo "</script>\n";

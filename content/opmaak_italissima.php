@@ -90,6 +90,15 @@ if(preg_match("/MSIE 7/",$_SERVER["HTTP_USER_AGENT"])) {
 if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie8.css?cache=".@filemtime("css/ie8.css")."\" />\n";
 }
+# Fancybox
+if($vars["jquery_fancybox"]) {
+	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
+}
+
+echo "<script>";
+// Hides the tabs + zoekblok during initialization
+echo 'document.write(\'<style type="text/css">	#tabs { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
+echo "</script>";
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_italissima.ico\" />\n";
 
@@ -98,10 +107,6 @@ if($vars["canonical"]) {
 } elseif($_SERVER["HTTPS"]=="on") {
 	echo "<link rel=\"canonical\" href=\"http://".htmlentities($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."\" />\n";
 }
-
-# JQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
 
 #echo "<script type=\"text/javascript\" src=\"http://labs.juliendecaudin.com/barousel/js/jquery.thslide.js\"></script>\n";
 
@@ -113,57 +118,6 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	# $.("").....;
 	# $.inlog(false);
 #	echo "<script type=\"text/javascript\" src=\"".htmlentities("http://ss.postvak.net/_intern/extra/jquery.inlog.js")."\" ></script>\n";
-}
-
-if($vars["jquery_maphilight"]) {
-	# Google Maps API
-	echo "<script src=\"".$vars["path"]."scripts/jquery.maphilight.min.js\" type=\"text/javascript\"></script>\n";
-}
-
-if($vars["googlemaps"]) {
-	# Google Maps API
-	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&amp;sensor=false\" type=\"text/javascript\"></script>\n";
-}
-
-# allfunctions
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."\"></script>\n";
-
-# jQuery Chosen javascript
-if($vars["jquery_chosen"]) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."\"></script>\n";
-}
-
-if($id=="zoek-en-boek") {
-	# jQuery noUiSlider
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.nouislider.min.js\"></script>\n";
-}
-
-# Javascript-functions
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
-
-if($id == "bestemmingen") {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.vmap.js?cache=".@filemtime("scripts/jquery.vmap.js")."\" ></script>\n";
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery-jvectormap-it-mill-en.js?cache=".@filemtime("scripts/jquery-jvectormap-it-mill-en.js")."\" ></script>\n";
-}
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_italissima.js?cache=".@filemtime("scripts/functions_italissima.js")."\" ></script>\n";
-if(file_exists("scripts/functions_".$id.".js")) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."\" ></script>\n";
-}
-
-# Fancybox
-if($vars["jquery_fancybox"]) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js\"></script>\n";
-	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
-}
-
-# IE8-javascript
-if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/ie8.js?cache=".@filemtime("scripts/ie8.js")."\" ></script>\n";
-}
-
-if($vars["page_with_tabs"]) {
-	# jQuery Address: t.b.v. correcte verwerking hashes in URL
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.address-1.5.min.js\"></script>\n";
 }
 
 # meta name robots
@@ -186,9 +140,6 @@ echo "<meta property=\"fb:app_id\" content=\"317521581710031\"/>\n";
 
 # Google+
 echo "<link href=\"https://plus.google.com/118061823772005667855\" rel=\"publisher\" />\n";
-
-# Google Analytics
-echo googleanalytics();
 
 echo "</head>\n";
 
@@ -739,26 +690,119 @@ if($vars["opvalmelding_tonen"] and (!$_COOKIE["opvalmelding_gelezen"] or $vars["
 	echo "<div id=\"opval_bottombar\" class=\"noprint\"><div id=\"opval_bottombar_wrapper\"><div id=\"opval_bottombar_text\">".nl2br(html("opvalmelding","vars",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">","h_2"=>"</a>","v_email"=>$vars["email"])))."</div><div id=\"opval_bottombar_close\">&nbsp;</div></div></div>";
 }
 
+
+######################### Load javascript files
+
+# JQuery
+echo "<script type=\"text/javascript\" async src=\"".htmlentities($vars["jquery_url"])."\"></script>\n";
+echo "<script type=\"text/javascript\" async src=\"".htmlentities($vars["jqueryui_url"])."\"></script>\n";
+
+if($vars["googlemaps"]) {
+	# Google Maps API
+	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&amp;sensor=false\" type=\"text/javascript\"></script>\n";
+}
+
+# Google Analytics
+echo googleanalytics();
+
+if($vars["website"]=="E") {
+	# jQuery ms-Dropdown (https://github.com/marghoobsuleman/ms-Dropdown)
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.dd.min.js'";
+}
+
+if($vars["page_with_tabs"]) {
+	# jQuery Address: t.b.v. correcte verwerking hashes in URL
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.address-1.5.min.js'";
+}
+
+$lazyLoadJs[] = "'".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."'";
+
+# jQuery Chosen javascript
+if($vars["jquery_chosen"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."'";
+}
+
+if($vars["jquery_maphilight"]) {
+	# Google Maps API
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.maphilight.min.js'";
+}
+
+if($id=="zoek-en-boek") {
+	# jQuery noUiSlider
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.nouislider.min.js'";
+}
+
+
+if($id == "bestemmingen") {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.vmap.js?cache=".@filemtime("scripts/jquery.vmap.js")."'";
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery-jvectormap-it-mill-en.js?cache=".@filemtime("scripts/jquery-jvectormap-it-mill-en.js")."'";
+}
+
+# Javascript-functions
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_italissima.js?cache=".@filemtime("scripts/functions_italissima.js")."'";
+
+if(file_exists("scripts/functions_".$id.".js")) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."'";
+}
+
+# Lazy load Fancybox
+if($vars["jquery_fancybox"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
+
+# IE8-javascript
+if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/ie8.js?cache=".@filemtime("scripts/ie8.js")."'";
+}
+
 if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) {
 	#
 	# Chatsysteem
 	#
-
-	?>
-<script type="text/javascript">
-var __lc = {};
-__lc.license = 2618611;
-__lc.group = <?php echo $regs[1]; ?>;
-
-(function() {
-	var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
-	lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
-})();
-</script>
-<?php
-
+	$http = 'http://';
+	if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+		$http = 'https://';
+	}
+	$lazyLoadJs[] = "'".$http."cdn.livechatinc.com/tracking.js'";
 }
+?>
+
+<script type="text/javascript">
+
+	<?php if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code"],$regs)) { ?>
+	var __lc = {};
+	__lc.license = 2618611;
+	__lc.group = <?php echo $regs[1]; ?>;
+	<?php } ?>
+
+	var deferredJSFiles = [<?php echo implode(",", $lazyLoadJs); ?>];
+
+	function downloadJSAtOnload() {
+		if (!deferredJSFiles.length)
+			return;
+		var deferredJSFile = deferredJSFiles.shift();
+		var element = document.createElement('script');
+		element.src = deferredJSFile;
+		element.async = true;
+		element.onload = element.onreadystatechange = function() {
+			if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')
+				downloadJSAtOnload();
+		};
+		document.body.appendChild(element);
+	}
+
+	if (window.addEventListener) {
+		window.addEventListener('load', downloadJSAtOnload, false);
+	} else if (window.attachEvent) {
+		window.attachEvent('onload', downloadJSAtOnload);
+	} else {
+		window.load = downloadJSAtOnload;
+	}
+
+</script>
+
+<?php
 
 echo "</body>";
 echo "</html>";
