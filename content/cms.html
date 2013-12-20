@@ -26,6 +26,49 @@ if(!$login->logged_in) {
 
 		echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+
+
+
+
+// 		$db->query("SELECT DISTINCT type_id FROM eigenaar_blokkering ORDER BY type_id;");
+// 		while($db->next_record()) {
+// 			$typeid_inquery_vertrekdag.=",".$db->f("type_id");
+
+// 			$accinfo=accinfo($db->f("type_id"));
+
+// 			if($accinfo["aankomst_plusmin"] or $accinfo["vertrek_plusmin"]) {
+// 				echo "Regel: ".$db->f("type_id")." ".$accinfo["aankomst_plusmin"]."--".$accinfo["vertrek_plusmin"]."<br/>";
+// 				$zondag[$db->f("type_id")]=true;
+// 			}
+
+
+// 		}
+// 		$typeid_inquery_vertrekdag=substr($typeid_inquery_vertrekdag,1);
+// 		include($vars["unixdir"]."content/vertrekdagaanpassing.html");
+
+// // echo wt_dump($vertrekdag);
+
+
+// 		$db->query("SELECT type_id, seizoen_id, week FROM eigenaar_blokkering WHERE (begin IS NULL OR eind IS NULL) ORDER BY type_id;");
+// 		while($db->next_record()) {
+// 			if($zondag[$db->f("type_id")]) {
+// 				$aankomstdatum_exact=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+1,date("Y",$db->f("week")));
+// 			} else {
+// 				$aankomstdatum_exact=$db->f("week");
+
+// 			}
+// 			// $aankomstdatum_exact=$db->f("week");
+
+// 			$vertrekdatum_exact=mktime(0,0,0,date("m",$aankomstdatum_exact),date("d",$aankomstdatum_exact)+7,date("Y",$aankomstdatum_exact));
+
+// 			$db2->query("UPDATE eigenaar_blokkering SET begin=FROM_UNIXTIME(".$aankomstdatum_exact."), eind=FROM_UNIXTIME(".$vertrekdatum_exact.") WHERE seizoen_id='".$db->f("seizoen_id")."' AND type_id='".$db->f("type_id")."' AND week='".$db->f("week")."';");
+// 			echo $db2->lq."<br/>";
+// 		}
+
+
+
+
+
 // 		$db->query("DELETE FROM eigenaar_blokkering;");
 // 		$db->query("SELECT opmerking_bezeteigenaar, opmerking_boekingderden, opmerking_nietbeschikbaarverhuur, week, seizoen_id, type_id FROM tarief WHERE opmerking_bezeteigenaar IS NOT NULL OR opmerking_boekingderden IS NOT NULL OR opmerking_nietbeschikbaarverhuur IS NOT NULL;");
 // 		while($db->next_record()) {

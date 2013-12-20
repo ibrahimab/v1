@@ -199,6 +199,13 @@ if($_POST["filled"]) {
 		if($wijzig_beschikbaar or $wijzig_garantie or $wijzig_allotment or $wijzig_vervallen_allotment or $wijzig_optie_leverancier or $wijzig_xml or $wijzig_request or $wijzig_optie_klant) {
 			$bovenste5=intval($_POST["voorraad_garantie"][$key])+intval($_POST["voorraad_allotment"][$key])+intval($_POST["voorraad_vervallen_allotment"][$key])+intval($_POST["voorraad_optie_leverancier"][$key])+intval($_POST["voorraad_xml"][$key])+intval($_POST["voorraad_request"][$key]);
 
+			if($_POST["voorraad_gewist_na_blokkade"][$key]==1) {
+				if($_POST["opmerkingen_voorraad"]) {
+					$_POST["opmerkingen_voorraad"].=" - ";
+				}
+				$_POST["opmerkingen_voorraad"].="voorraad gewist na toevoegen eigenaren-blokkade";
+			}
+
 			$db->query("INSERT INTO beschikbaar_archief SET type_id='".addslashes($_GET["tid"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".addslashes($key)."', datumtijd=FROM_UNIXTIME('".$datetime."'), beschikbaar='".addslashes($wijzig_beschikbaar)."', garantie='".addslashes($wijzig_garantie)."', allotment='".addslashes($wijzig_allotment)."', vervallen_allotment='".addslashes($wijzig_vervallen_allotment)."', optie_leverancier='".addslashes($wijzig_optie_leverancier)."', xml='".addslashes($wijzig_xml)."', request='".addslashes($wijzig_request)."', optie_klant='".addslashes($wijzig_optie_klant)."', totaal='".addslashes($bovenste5)."', user_id='".addslashes($login->user_id)."', via='".($_GET["autosave"] ? "2" : "1")."', request_uri='".addslashes($_SERVER["REQUEST_URI"])."', opmerkingen='".addslashes($_POST["opmerkingen_voorraad"])."';");
 
 			# ook opslaan in cmslog (specialtype=2)

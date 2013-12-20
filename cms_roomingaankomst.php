@@ -203,8 +203,8 @@ if($_GET["levid"]) {
 			if($_POST["roominglist_bekijken"]) {
 
 				// preview roominglist
-				echo "<!DOCTYPE html>\n<html>";
-
+				echo "<!DOCTYPE html>\n<html><head>\n";
+				echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />";
 				echo "<style>
 
 				html {
@@ -216,7 +216,7 @@ if($_GET["levid"]) {
 					background-color: #8bb9ff;
 				}
 
-				</style>
+				</style></head><body>
 				";
 
 				if($roominglist->totaal) {
@@ -240,7 +240,7 @@ if($_GET["levid"]) {
 					echo "<p>De aankomstlijst is leeg.</p>";
 				}
 
-				echo "</html>";
+				echo "</body></html>";
 				exit;
 			} else {
 				if($_GET["t"]==1) {
