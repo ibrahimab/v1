@@ -1294,7 +1294,14 @@ $(document).ready(function() {
 					$("#eigenaar_formulier #delete").hide();
 
 					// voorraad
-					if(parseInt($("input[name='voorraad_totaal["+eigenaar_formulier_week+"]']").val(),10)>0) {
+					if(
+						parseInt($("input[name='voorraad_totaal["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_allotment["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_vervallen_allotment["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_optie_leverancier["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_request["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_optie_klant["+eigenaar_formulier_week+"]']").val(),10)>0
+					) {
 						$("#eigenaar_formulier span.voorraad").html($("input[name='voorraad_totaal["+eigenaar_formulier_week+"]']").val());
 						$("input[name=eigenaar_formulier_voorraad_wissen]").parent().show();
 					}
@@ -1462,6 +1469,7 @@ $(document).ready(function() {
 				$("input[name='voorraad_vervallen_allotment["+eigenaar_formulier_week+"]']").val("");
 				$("input[name='voorraad_optie_leverancier["+eigenaar_formulier_week+"]']").val("");
 				$("input[name='voorraad_request["+eigenaar_formulier_week+"]']").val("");
+				$("input[name='voorraad_optie_klant["+eigenaar_formulier_week+"]']").val("");
 				bereken_voorraad("opnieuw_berekenen",eigenaar_formulier_week);
 
 				// make it possible to log this deletion
