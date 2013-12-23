@@ -2137,6 +2137,21 @@ $(document).ready(function() {
 
 		});
 
+
+		// open/close faq-questions
+		$(".faq_vraag").click(function(event){
+			$(this).next().slideToggle("fast");
+		})
+		var faq_open_all = 0;
+		$(".faq_open_all").click(function(event) {
+			if(faq_open_all==1) {
+				$(".faq_antwoord").slideUp("fast");
+				faq_open_all = 0;
+			} else {
+				$(".faq_antwoord").slideDown("fast");
+				faq_open_all = 1;
+			}
+		})
 	}
 });
 

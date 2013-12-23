@@ -5387,4 +5387,19 @@ $txt["nl"]["vertrekinfo"]["telefoonnummer"]="Telefoonnummer van [[v_beheer]]";
 $txt["en"]["vertrekinfo"]["telefoonnummer"]="Telephone number of  [[v_beheer]]";
 
 
+# faq
+$txt["nl"]["faq"]["nietgevonden"]="Het antwoord op je vraag niet gevonden? Neem [[h_1]]contact[[h_2]] met ons op of [[h_3]]chat met ons[[h_4]].";
+$txt["en"]["faq"]["nietgevonden"]="";
+
+$txt["nl"]["faq"]["nietgevonden_zonder_chat"]="Het antwoord op je vraag niet gevonden? Neem [[h_1]]contact[[h_2]] met ons op.";
+$txt["en"]["faq"]["nietgevonden_zonder_chat"]="";
+
+$txt["nl"]["faq"]["klikopeenvraag"]="Klik op een vraag om het antwoord te bekijken;";
+$txt["en"]["faq"]["klikopeenvraag"]="";
+
+$txt["nl"]["faq"]["alleantwoordenopenen"]="Je kunt ook [[h_1]]alle antwoorden openklappen[[h_2]];";
+$txt["en"]["faq"]["alleantwoordenopenen"]="";
+
+
+
 ?>
