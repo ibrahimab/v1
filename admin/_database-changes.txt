@@ -3,6 +3,26 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+23-dec-2013 15:00
+CREATE TABLE IF NOT EXISTS `faq` (
+  `faq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `websites` varchar(255) NOT NULL,
+  `volgorde` int(11) NOT NULL,
+  `interne_naam` varchar(100) NOT NULL,
+  `vraag` text NOT NULL,
+  `vraag_de` text NOT NULL,
+  `vraag_en` text NOT NULL,
+  `vraag_fr` text NOT NULL,
+  `antwoord` text NOT NULL,
+  `antwoord_de` text NOT NULL,
+  `antwoord_en` text NOT NULL,
+  `antwoord_fr` text NOT NULL,
+  `adddatetime` datetime NOT NULL,
+  `editdatetime` datetime NOT NULL,
+  PRIMARY KEY (`faq_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+
 19-dec-2013 17:41
 CREATE TABLE IF NOT EXISTS `eigenaar_blokkering` (
   `type_id` int(11) NOT NULL,

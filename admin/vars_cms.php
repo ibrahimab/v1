@@ -320,6 +320,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_diversen","","cms_diversen","Instellingen",array("t"=>"3"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Statistieken",array("t"=>"6"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Vouchertermen",array("t"=>"5"),true);
+	$layout->submenu_item("cms_diversen","","cms_faq","Veelgestelde vragen","",true);
 
 	if($login->has_priv("29")) {
 		$layout->menu_item("cms_evenementen","Evenementen","",true);
@@ -945,6 +946,12 @@ if($mustlogin) {
 	$cms->settings[55]["log"]["active"]=true;
 	$cms->db[55]["maintable"]="reisblog";
 
+	# 56 = faq
+	$cms->settings[56]["types"]="veelgestelde vragen";
+	$cms->settings[56]["type_single"]="veelgestelde vraag";
+	$cms->settings[56]["file"]="cms_faq.php";
+	$cms->settings[56]["log"]["active"]=true;
+	$cms->db[56]["maintable"]="faq";
 
 	# Aankomstdata vullen (voor CMS)
 	$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");
