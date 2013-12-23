@@ -379,8 +379,9 @@ if($login_lev->logged_in) {
 				include("content/vertrekdagaanpassing.html");
 			}
 
-			# boekingen derden opvragen (op basis van ta.opmerking_boekingderden)
-			$db->query("SELECT s.naam AS seizoen, ta.seizoen_id, ta.week, ta.bruto, ta.c_bruto, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.opmerking_boekingderden FROM tarief ta, accommodatie a, type t, seizoen s WHERE ta.seizoen_id=s.seizoen_id AND ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") AND ta.beschikbaar=0 AND ta.opmerking_boekingderden<>'' AND opmerking_boekingderden IS NOT NULL ORDER BY a.wzt DESC, ta.week;");
+			# boekingen derden opvragen (op basis van eb.opmerking)
+			$db->query("SELECT s.naam AS seizoen, ta.seizoen_id, ta.week, ta.bruto, ta.c_bruto, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, eb.opmerking FROM tarief ta, accommodatie a, type t, seizoen s, eigenaar_blokkering eb WHERE eb.type_id=ta.type_id AND eb.week=ta.week AND eb.soort=2 AND ta.seizoen_id=s.seizoen_id AND ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") AND ta.beschikbaar=0 ORDER BY a.wzt DESC, ta.week;");
+
 			if($db->num_rows()) {
 				while($db->next_record()) {
 					if(!$seizoen_gehad[$db->f("seizoen_id")]) {
@@ -409,7 +410,7 @@ if($login_lev->logged_in) {
 
 					echo "<td>".date("d/m/y",$dag)."</td>";
 
-					$opmerking_boekingderden=$db->f("opmerking_boekingderden");
+					$opmerking_boekingderden=$db->f("opmerking");
 					if($login_lev->vars["inlog_taal"]=="en") {
 						# "klantnaam onbekend" vervangen door "name client unknown"
 						$opmerking_boekingderden=str_replace("klantnaam onbekend","name client unknown",$opmerking_boekingderden);
