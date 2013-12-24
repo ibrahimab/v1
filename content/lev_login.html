@@ -380,7 +380,7 @@ if($login_lev->logged_in) {
 			}
 
 			# boekingen derden opvragen (op basis van eb.opmerking)
-			$db->query("SELECT s.naam AS seizoen, ta.seizoen_id, ta.week, ta.bruto, ta.c_bruto, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, eb.opmerking FROM tarief ta, accommodatie a, type t, seizoen s, eigenaar_blokkering eb WHERE eb.type_id=ta.type_id AND eb.week=ta.week AND eb.soort=2 AND ta.seizoen_id=s.seizoen_id AND ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") AND ta.beschikbaar=0 ORDER BY a.wzt DESC, ta.week;");
+			$db->query("SELECT s.naam AS seizoen, ta.seizoen_id, ta.week, ta.bruto, ta.c_bruto, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, eb.opmerking, UNIX_TIMESTAMP(eb.begin) AS begin FROM tarief ta, accommodatie a, type t, seizoen s, eigenaar_blokkering eb WHERE eb.type_id=ta.type_id AND eb.week=ta.week AND eb.soort=2 AND ta.seizoen_id=s.seizoen_id AND ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") AND ta.beschikbaar=0 ORDER BY a.wzt DESC, ta.week;");
 
 			if($db->num_rows()) {
 				while($db->next_record()) {
@@ -402,11 +402,12 @@ if($login_lev->logged_in) {
 						$seizoen_gehad[$db->f("seizoen_id")]=true;
 					}
 					echo "<tr>";
-					if($vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))] or $accinfo["aankomst_plusmin"]) {
-						$dag=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+$vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))]+$accinfo["aankomst_plusmin"],date("Y",$db->f("week")));
-					} else {
-						$dag=$db->f("week");
-					}
+					// if($vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))] or $accinfo["aankomst_plusmin"]) {
+					// 	$dag=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+$vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))]+$accinfo["aankomst_plusmin"],date("Y",$db->f("week")));
+					// } else {
+					// 	$dag=$db->f("week");
+					// }
+					$dag = $db->f("begin");
 
 					echo "<td>".date("d/m/y",$dag)."</td>";
 

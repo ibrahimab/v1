@@ -3,6 +3,9 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+24-dec-2013 13:47
+ALTER TABLE `leverancier_aankomstlijst` ADD `niet_verzenden` TINYINT( 1 ) NOT NULL ;
+
 23-dec-2013 15:00
 CREATE TABLE IF NOT EXISTS `faq` (
   `faq_id` int(11) NOT NULL AUTO_INCREMENT,
