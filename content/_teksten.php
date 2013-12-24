@@ -5389,16 +5389,16 @@ $txt["en"]["vertrekinfo"]["telefoonnummer"]="Telephone number of  [[v_beheer]]";
 
 # faq
 $txt["nl"]["faq"]["nietgevonden"]="Het antwoord op je vraag niet gevonden? Neem [[h_1]]contact[[h_2]] met ons op of [[h_3]]chat met ons[[h_4]].";
-$txt["en"]["faq"]["nietgevonden"]="";
+$txt["en"]["faq"]["nietgevonden"]="Did this not answer your question? Please [[h_1]]contact[[h_2]] us or [[h_3]]open the chat[[h_4]].";
 
 $txt["nl"]["faq"]["nietgevonden_zonder_chat"]="Het antwoord op je vraag niet gevonden? Neem [[h_1]]contact[[h_2]] met ons op.";
-$txt["en"]["faq"]["nietgevonden_zonder_chat"]="";
+$txt["en"]["faq"]["nietgevonden_zonder_chat"]="Did this not answer your question? Please [[h_1]]contact[[h_2]] us.";
 
 $txt["nl"]["faq"]["klikopeenvraag"]="Klik op een vraag om het antwoord te bekijken;";
-$txt["en"]["faq"]["klikopeenvraag"]="";
+$txt["en"]["faq"]["klikopeenvraag"]="Click on a question to see the answer;";
 
 $txt["nl"]["faq"]["alleantwoordenopenen"]="Je kunt ook [[h_1]]alle antwoorden openklappen[[h_2]];";
-$txt["en"]["faq"]["alleantwoordenopenen"]="";
+$txt["en"]["faq"]["alleantwoordenopenen"]="You can also [[h_1]]open all answers[[h_2]];";
 
 
 
