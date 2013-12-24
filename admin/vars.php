@@ -952,8 +952,8 @@ asort($vars["kenmerken_plaats_2"]);
 asort($vars["kenmerken_skigebied_1"]);
 asort($vars["kenmerken_skigebied_2"]);
 
-//Docdata payment type
-$vars["boeking_betaling_type"]=array(1=>"bank-overschrijving",2=>"uitbetaling door Docdata",3=>"verrekening Docdata-betaling/overschrijving",4=>"Docdata-betaling (iDEAL)",5=>"Docdata-betaling (creditcard)",6=>"Docdata-uitbetaling (Mister Cash)");
+// Docdata payment type
+$vars["boeking_betaling_type"]=array(1=>"bank-overschrijving", 2=>"uitbetaling door Docdata", 3=>"verrekening Docdata-betaling/overschrijving", 4=>"Docdata-betaling (iDEAL)", 5=>"Docdata-betaling (creditcard)", 6=>"Docdata-uitbetaling (Mister Cash)", 7=>"betalingsverschil");
 
 # Mailtjes bij optieaanvragen-systeem
 
