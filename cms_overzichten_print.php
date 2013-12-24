@@ -586,7 +586,9 @@ exit;
 		$db2->query("SELECT bo.persoonnummer FROM boeking_optie bo, optie_groep og, optie_onderdeel oo WHERE og.skipas_id>0 AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oo.optie_groep_id=og.optie_groep_id AND bo.boeking_id='".addslashes($db->f("boeking_id"))."';");
 		while($db2->next_record()) {
 			$afwijkende_skipas[$db2->f("persoonnummer")]=true;
-			if($not_in) $not_in.=",".$db2->f("persoonnummer"); else $not_in=$db2->f("persoonnummer");
+			if($db2->f("persoonnummer")) {
+				if($not_in) $not_in.=",".$db2->f("persoonnummer"); else $not_in=$db2->f("persoonnummer");
+			}
 		}
 		# Handmatige opties
 		$db2->query("SELECT deelnemers FROM extra_optie WHERE boeking_id='".addslashes($db->f("boeking_id"))."' AND skipas_id>0;");
@@ -594,7 +596,9 @@ exit;
 			$tempdeelnemers=@split(",",$db2->f("deelnemers"));
 			while(list($key,$value)=@each($tempdeelnemers)) {
 				$afwijkende_skipas[$value]=true;
-				if($not_in) $not_in.=",".$value; else $not_in=$value;
+				if($value) {
+					if($not_in) $not_in.=",".$value; else $not_in=$value;
+				}
 			}
 		}
 
@@ -833,7 +837,9 @@ exit;
 		$db3->query("SELECT bo.persoonnummer FROM boeking_optie bo, optie_groep og, optie_onderdeel oo, optie_soort os WHERE og.optie_soort_id=os.optie_soort_id AND og.skipas_id>0 AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oo.optie_groep_id=og.optie_groep_id AND os.losse_skipas=0 AND bo.boeking_id='".addslashes($db2->f("boeking_id"))."';");
 		while($db3->next_record()) {
 			$afwijkende_skipas[$db3->f("persoonnummer")]=true;
-			if($not_in) $not_in.=",".$db3->f("persoonnummer"); else $not_in=$db3->f("persoonnummer");
+			if($db3->f("persoonnummer")) {
+				if($not_in) $not_in.=",".$db3->f("persoonnummer"); else $not_in=$db3->f("persoonnummer");
+			}
 		}
 
 		# Handmatige opties
@@ -842,7 +848,9 @@ exit;
 			$tempdeelnemers=@split(",",$db3->f("deelnemers"));
 			while(list($key,$value)=@each($tempdeelnemers)) {
 				$afwijkende_skipas[$value]=true;
-				if($not_in) $not_in.=",".$value; else $not_in=$value;
+				if($value) {
+					if($not_in) $not_in.=",".$value; else $not_in=$value;
+				}
 			}
 		}
 
@@ -1217,7 +1225,9 @@ exit;
 		$db3->query("SELECT bo.persoonnummer FROM boeking_optie bo, optie_groep og, optie_onderdeel oo, optie_soort os WHERE og.optie_soort_id=os.optie_soort_id AND og.skipas_id>0 AND bo.status=1 AND bo.optie_onderdeel_id=oo.optie_onderdeel_id AND oo.optie_groep_id=og.optie_groep_id AND os.losse_skipas=0 AND bo.boeking_id='".addslashes($db2->f("boeking_id"))."';");
 		while($db3->next_record()) {
 			$afwijkende_skipas[$db3->f("persoonnummer")]=true;
-			if($not_in) $not_in.=",".$db3->f("persoonnummer"); else $not_in=$db3->f("persoonnummer");
+			if($db3->f("persoonnummer")) {
+				if($not_in) $not_in.=",".$db3->f("persoonnummer"); else $not_in=$db3->f("persoonnummer");
+			}
 		}
 
 		# Handmatige opties
@@ -1226,7 +1236,9 @@ exit;
 			$tempdeelnemers=@split(",",$db3->f("deelnemers"));
 			while(list($key,$value)=@each($tempdeelnemers)) {
 				$afwijkende_skipas[$value]=true;
-				if($not_in) $not_in.=",".$value; else $not_in=$value;
+				if($value) {
+					if($not_in) $not_in.=",".$value; else $not_in=$value;
+				}
 			}
 		}
 
