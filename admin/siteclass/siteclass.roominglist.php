@@ -149,6 +149,7 @@ class roominglist {
 				}
 			}
 
+			$db2->query( "UPDATE leverancier_aankomstlijst SET niet_verzenden=0 WHERE aantal_wijzigingen<".intval( $aantal_wijzigingen )." AND leverancier_id='".intval( $db->f( "leverancier_id" ) )."' AND aankomstdatum='".date( "Y-m-d", $db->f( "aankomstdatum" ) )."';" );
 			$db2->query( "UPDATE leverancier_aankomstlijst SET aantal_wijzigingen='".intval( $aantal_wijzigingen )."' WHERE leverancier_id='".intval( $db->f( "leverancier_id" ) )."' AND aankomstdatum='".date( "Y-m-d", $db->f( "aankomstdatum" ) )."';" );
 		}
 	}
@@ -370,6 +371,16 @@ class roominglist {
 						}
 					}
 				} else {
+					if ( $db->f( "aan_leverancier_doorgegeven_naam" )!=wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) ) ) {
+						$naamswijziging_opvallend="font-weight:bold;background-color:yellow;";
+						$this->aankomstlijst_gele_wijziging = true;
+
+						// klantnamen in array plaatsen
+						$this->klantnamen_boekingen[$db->f( "boeking_id" )] = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
+
+					} else {
+						$naamswijziging_opvallend="";
+					}
 					$naam = wt_naam( $db->f( "voornaam" ), $db->f( "tussenvoegsel" ), $db->f( "achternaam" ) );
 				}
 
@@ -479,6 +490,18 @@ class roominglist {
 					}
 				}
 			} else {
+
+				if ( $db->f( "aan_leverancier_doorgegeven_naam" )!=$db->f( "naam" ) ) {
+					$naamswijziging_opvallend="font-weight:bold;background-color:yellow;";
+					$this->aankomstlijst_gele_wijziging = true;
+
+					// Klantnamen in array plaatsen
+					$this->klantnamen_garanties[$db->f( "garantie_id" )] = $db->f( "naam" );
+
+				} else {
+					$naamswijziging_opvallend="";
+				}
+
 				$naam = $db->f( "naam" );
 			}
 
@@ -884,12 +907,15 @@ class roominglist {
 		if ( $settings["nog_niet_goedgekeurd"] ) {
 			$return.="<h1>Wacht op goedkeuring</h1>";
 			$andquery.=" AND la.laatste_verzending IS NOT NULL AND la.goedgekeurd IS NULL";
+		} elseif ( $settings["niet_verzenden"] ) {
+			$return.="<h1>Verzenden niet nodig</h1>";
+			$andquery.=" AND la.niet_verzenden=1";
 		} elseif ( $settings["goedgekeurd"] ) {
 			$return.="<h1>Goedgekeurd</h1>";
 			$andquery.=" AND la.goedgekeurd IS NOT NULL";
 		} else {
 			$return.="<h1>Te verzenden</h1>";
-			$andquery.=" AND (la.leverancier_id IS NULL OR la.aantal_wijzigingen>0)";
+			$andquery.=" AND (la.leverancier_id IS NULL OR la.aantal_wijzigingen>0 AND la.niet_verzenden=0)";
 		}
 
 
