@@ -316,6 +316,11 @@ RewriteRule ^vakantiehuizen-gardameer$ vakantiehuizen-gardameer.php?%{QUERY_STRI
 RewriteRule ^vakantiehuizen-bloemenriviera$ vakantiehuizen-bloemenriviera.php?%{QUERY_STRING}
 RewriteRule ^vakantie-in-italie$ vakantie-in-italie.php?%{QUERY_STRING}
 
+# landingpages zoek-en-boek
+RewriteRule ^agriturismo-italie2$ zoek-en-boek.php?prequery=1&pagetype=landing-italissima&pagecontent=agriturismo-italie&%{QUERY_STRING}
+RewriteRule ^agriturismo-toscane2$ zoek-en-boek.php?prequery=1&pagetype=landing-italissima&pagecontent=agriturismo-toscane&%{QUERY_STRING}
+
+
 RewriteRule ^aanbiedingen$ /aanbiedingen/ [L,R=301]
 RewriteRule ^aanbiedingen/$ aanbiedingen_zomerhuisje.php?%{QUERY_STRING}
 RewriteRule ^aanbiedingen/([A-Za-z0-9-]*)$ /aanbiedingen/$1/
