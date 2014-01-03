@@ -1730,7 +1730,7 @@ $(document).ready(function() {
 
 
 		// zoek op kaart
-		$(".zoekresultaten_zoeken_op_kaart").click(function(){
+		$(".zoekresultaten_zoeken_op_kaart").click(function() {
 			google.maps.event.trigger(map, 'resize');
 			map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
 			$(".zoekresultaten_zoeken_op_kaart_map").slideToggle("slow",function() {
@@ -2153,6 +2153,22 @@ $(document).ready(function() {
 			}
 		})
 	}
+
+	// slide up/down
+	$(".slide_more").click(function(event) {
+		event.preventDefault();
+		if($(".slide_more_div").is(":visible")) {
+			$(".slide_more_div").slideUp("normal", function(){
+				$(".slide_more").html($(".slide_more").data("open"));
+			});
+		} else {
+			$(".slide_more_div").slideDown("normal", function(){
+				$(".slide_more").html($(".slide_more").data("close"));
+			});
+		}
+
+		return false;
+	});
 });
 
 

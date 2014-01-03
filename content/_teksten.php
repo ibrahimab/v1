@@ -1896,7 +1896,7 @@ $txt["en"]["toonaccommodatie"]["geldigvoordeaangebodenweken"]="Subject to availa
 $txt["nl"]["toonaccommodatie"]["geldigheid"]="Geldigheid";
 $txt["en"]["toonaccommodatie"]["geldigheid"]="Validity";
 
-$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor winter 2013/2014 zijn momenteel nog geen tarieven bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
+$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor winter 2014/2015 zijn momenteel nog geen tarieven bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
 $txt["en"]["toonaccommodatie"]["tarievennognietbekend"]="The rates for this accommodation are not yet known. Please [[l1]]contact[[/l1]] us so that we can check the rate for you.";
 
 $txt["nl_z"]["toonaccommodatie"]["tarievennognietbekend"]="De tarieven voor deze accommodatie zijn nog niet bekend. Neem [[l1]]contact[[/l1]] met ons op zodat wij de prijs voor je kunnen nagaan.";

@@ -531,6 +531,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 
 }
 
+.slide_more_div {
+	display: none;
+}
+
 .virtuelerondgang {
 	margin-top: 3px;
 	margin-bottom: 3px;
