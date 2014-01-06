@@ -1791,6 +1791,10 @@ while($db->next_record()) {
 												if(($wzt[$db->f("type_id")] == 2) && ($tmp_date["mon"] < 4 || $tmp_date["mon"] > 10)) {
 													continue;
 												}
+												// For the winter season (1), change the end date to 12/04
+												if(($wzt[$db->f("type_id")] == 1) && ($tmp_date["mon"] == 4 && $tmp_date["mday"] > 12)) {
+													continue;
+												}
 											}
 
 											$tarievenquery="week='".addslashes($key2)."', bruto='".addslashes($nieuwxmltarief)."', type_id='".addslashes($db->f("type_id"))."', seizoen_id='".addslashes($seizoen_opslaan)."', importmoment=NOW()";
