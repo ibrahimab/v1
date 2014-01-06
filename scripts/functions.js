@@ -351,6 +351,7 @@ var mapDefaults = {
 	googlemaps_infowindow: null
 };
 
+var map_back_url='';
 var zoekblok_tekst='';
 var lokale_testserver=false;
 var absolute_path='/';
@@ -383,8 +384,11 @@ function initialize_googlemaps(mapSettings) {
 		if(typeof mapCookie != "undefined") {
 			mapCookie = JSON.parse(mapCookie);
 
+			var pageUrl = location.href.split('?')[0];
+			pageUrl = decodeURIComponent(pageUrl.replace(location.hash,""));
+
 			// Applies on search and region pages
-			if((mapOptions.googlemaps_skigebiedid>0 || mapOptions.googlemaps_zoekenboek) && decodeURIComponent(location.href.replace(location.hash,""))==mapCookie.url) {
+			if((mapOptions.googlemaps_skigebiedid>0 || mapOptions.googlemaps_zoekenboek) && (pageUrl==mapCookie.url || pageUrl==mapCookie.url.split('?')[0])) {
 
 				// previous zoom information
 				if(mapCookie.z) {
@@ -405,7 +409,7 @@ function initialize_googlemaps(mapSettings) {
 				// Delete the cookie information
 				chalet_createCookie("map_regio", "", -1);
 
-			} else if(mapOptions.googlemaps_skigebiedid===0 && decodeURIComponent(location.href.replace(location.hash,""))==mapCookie.url) {
+			} else if(mapOptions.googlemaps_skigebiedid===0 && pageUrl==mapCookie.url) {
 				// Applies on accommodation page only
 				var fromCookie = true;
 			}
@@ -2288,8 +2292,26 @@ function map_zoek_en_boek_click(e) {
 	show_ajaxloader(true);
 
 	var back_url=location.href;
-	back_url=updateURLParameter(back_url,"scrolly",$(window).scrollTop());
-	back_url=updateURLParameter(back_url,"map",1);
+	if(!mapOptions.googlemaps_zoekenboek && mapOptions.googlemaps_skigebiedid===0) {
+		back_url = back_url.replace(location.hash,"");
+		if(back_url.indexOf('?back=')) {
+			map_back_url = decodeURIComponent(back_url.split('?back=')[0]);
+			back_url = decodeURIComponent(back_url.split('?back=')[1]);
+		}
+		var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
+
+	} else {
+		back_url=updateURLParameter(back_url,"scrolly",$(window).scrollTop());
+		back_url=updateURLParameter(back_url,"map",1);
+
+		if(back_url.indexOf('#kaart')) {
+			back_url = back_url.replace("#kaart", "");
+			back_url += "#kaart";
+		}
+		map_back_url = back_url;
+		var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
+	}
+
 	var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
 	$(e).attr("href",nieuwe_url);
 
@@ -2321,7 +2343,13 @@ function map_regio_click(marker) {
 		var mapMarker=false;
 	}
 
-	var mapCookie= {lt: mapLat, lg: mapLng, z: map.getZoom(), url: location.href.replace(location.hash,""), m: mapMarker };
+	var url = location.href;
+	if(typeof map_back_url != "undefined" && map_back_url != '') {
+		url = map_back_url;
+		map_back_url = '';
+	}
+
+	var mapCookie= {lt: mapLat, lg: mapLng, z: map.getZoom(), url: url, m: mapMarker };
 
 	chalet_createCookie("map_regio",JSON.stringify(mapCookie));
 	return true;
