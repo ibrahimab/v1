@@ -332,20 +332,19 @@ class PaymentController extends Controller {
 			$error = true;
 		}
 
-		//acquire lock for reference
-		$lock = $this->getOrderLock($reference);
-
 		//retrieve the order to update
 		$order = App::get("model/order")->loadByOrderReference($reference);
-                
-		
-                if ($order === null || $order->getId() === null) {
+
+		if ($order === null || $order->getId() === null) {
 			// Error, order by the given reference has not been found
 			$helper->log(
 				'Order not found by given reference, cannot proceed',
 				App::ERR
 			);
 			$error = true;
+		} else {
+			//acquire lock for reference
+			$lock = $this->getOrderLock($order->getId());
 		}
 
 		if ($order === null || $order->getDocdataPaymentClusterKey() === null) {
