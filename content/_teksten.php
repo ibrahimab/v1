@@ -541,6 +541,9 @@ $txt["en"]["vars"]["poliskostenverzekeringen"]="Policy cost insurance(s)";
 $txt["nl"]["vars"]["reserveringskosten"]="Reserveringskosten";
 $txt["en"]["vars"]["reserveringskosten"]="Booking costs";
 
+$txt["nl"]["vars"]["perboeking"]="per boeking";
+$txt["en"]["vars"]["perboeking"]="per booking";
+
 $txt["nl"]["vars"]["commissie"]="Commissie";
 $txt["en"]["vars"]["commissie"]="Commission";
 
@@ -4136,6 +4139,9 @@ $txt["en"]["bsys"]["customer_country"]="Select your country";
 
 $txt["nl"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 84.93.06.671 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
 $txt["en"]["bsys"]["banktransfer_text"] = "You can send the money you are still due to our bank account number:\n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO - Woerden \n\n Please make sure you also state the reservation number [b][[v_resnumber]][/b] at the transaction. \n After we received the money you are still due we will send you your travel information circa 10 days before your departure.";
+
+$txt["nl_x"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 43.66.72.901 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL77 ABNA 0436 6729 01 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
+$txt["en_x"]["bsys"]["banktransfer_text"] = "-";
 
 $txt["nl"]["docdata"]["redirect"]="Als je niet automatisch wordt doorverwezen klik dan op deze knop:";
 $txt["en"]["docdata"]["redirect"]="If you are not redirected automatically click this button:";
