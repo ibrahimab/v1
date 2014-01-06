@@ -1286,14 +1286,16 @@ if($db->next_record()) {
 				echo "</table><p>";
 			}
 		}
-		if($db->f("exclusief") or $db->f("texclusief")) {
+		// if($db->f("exclusief") or $db->f("texclusief")) {
 			echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 			echo "<tr><th>".html("exclusief","toonaccommodatie")."</th></tr>";
 			echo "<tr><td>";
-			echo toon_tekst_acc_en_type($db->f("exclusief"),$db->f("texclusief"));
+
+			$texclusief=trim($db->f("texclusief")."\n\n".txt("reserveringskosten", "vars").": € ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").".");
+			echo toon_tekst_acc_en_type($db->f("exclusief"),$texclusief);
 			echo "</td></tr>";
 			echo "</table><p>";
-		}
+		// }
 	}
 
 	if($echt_tarieven_getoond and !$nieuwe_tarieventabel) {

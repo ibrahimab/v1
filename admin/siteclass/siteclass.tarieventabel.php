@@ -1076,6 +1076,9 @@ if($this->tarief[$key]>0) {
 				$return.="</div>";
 			}
 		}
+
+		$this->accinfo["texclusief"]=trim($this->accinfo["texclusief"]."\n\n".txt("reserveringskosten", "vars").": € ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").".");
+
 		if($this->accinfo["exclusief"] or $this->accinfo["texclusief"]) {
 			$return.="<h1>".html("exclusief","toonaccommodatie").":</h1>";
 			$return.="<div class=\"toelichting_onderdeel\">";
