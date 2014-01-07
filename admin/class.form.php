@@ -834,7 +834,7 @@ class form2 {
 
 					if($this->fields["layout"][$id]["indent"]) {
 						# inspringen indien keuze meerdere regels bevat
-						$return.="<table><tr><td style=\"vertical-align:top;\">";
+						$return.="<table class=\"table\"><tr><td style=\"vertical-align:top;\">";
 					}
 					$return.="<input type=\"checkbox\" id=\"checkbox".$id.$key."\" name=\"input[".$id."][".wt_he($key)."]\" ".($this->value[$id][$key]=="on" ? "checked " : "");
 					if($this->fields["layout"][$id]["onchange"]) {
@@ -1055,7 +1055,7 @@ class form2 {
 #exit;
 #$this->fields["prevalue"][$key2]["multiselection"][$key3]
 
-			$return.="<table cellpadding=\"4\" class=\"wtform_multiradio_tbl\"><tr><td>&nbsp;</td>";
+			$return.="<table cellspacing=\"0\" cellpadding=\"4\" class=\"wtform_multiradio_tbl\"><tr><td>&nbsp;</td>";
 			reset($this->fields["options"][$id]["multiselection"]);
 			while(list($key,$value)=each($this->fields["options"][$id]["multiselection"])) {
 				$return.="<td style=\"text-align:center;\"><label for=\"wtform_multiradio_check_all_".wt_he($id."_".$value)."\">";
@@ -1151,7 +1151,7 @@ class form2 {
 			}
 			while(list($key,$value)=each($this->fields["options"][$id]["selection"])) {
 				if($this->fields["layout"][$id]["one_per_line"]) {
-					$return.="<table><tr><td style=\"vertical-align:top;\">";
+					$return.="<table class=\"table\"><tr><td style=\"vertical-align:top;\">";
 				}
 				$return.="<input type=\"radio\" id=\"radio".$id.$key."\" name=\"input[".$id."]\" ".($this->value[$id]==$key ? "checked " : "")."value=\"".wt_he($key)."\"";
 				if($this->fields["layout"][$id]["onchange"]) {

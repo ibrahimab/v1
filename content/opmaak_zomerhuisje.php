@@ -237,7 +237,7 @@ if($last_acc and $id<>"saved") {
 }
 echo "<div id=\"meldingen\">";
 if($helemaalboven) echo $helemaalboven;
-$rechtsboven=str_replace("<font size=\"1\">","<font>",$rechtsboven);
+$rechtsboven=str_replace("<span class=\"x-small\">","<span>",$rechtsboven);
 if($rechtsboven) {
 	if($helemaalboven) echo "&nbsp;&nbsp;";
 	echo $rechtsboven;
@@ -303,7 +303,7 @@ if($vars["verberg_linkerkolom"]) {
 
 	# telefoonblok
 	echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "").">";
-	echo "<div id=\"telefoonblok_nummer\"><table><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_zomer.gif\" alt=\"Call us\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
+	echo "<div id=\"telefoonblok_nummer\"><table class=\"table\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_zomer.gif\" alt=\"Call us\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
 

@@ -1285,7 +1285,7 @@ if($_COOKIE["sch"]) {
 						$last_acc_html.="<div class=\"laatstbekeken_divider\">&nbsp;</div>";
 					}
 					$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."/';\">";
-					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\" alt=\"".basename($value["afbeelding"])."\"></div>";
+					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\" alt=\"\"></div>";
 					$last_acc_html.="<div class=\"laatstbekeken_tekst\">";
 					$last_acc_html.="<div>".wt_he($value["naam"])."</div>";
 					$last_acc_html.="<div style=\"margin-top:7px;\">";

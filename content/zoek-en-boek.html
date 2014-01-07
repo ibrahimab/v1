@@ -2424,7 +2424,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 								$img="accommodaties/".$value2["accommodatie_id"].".jpg";
 							}
 						}
-						$results[$results_teller].="<div class=\"zoekresultaat_img\"><img src=\"".wt_he($vars["path"]."pic/cms/".$img)."\" alt=\"".basename($img)."\"></div>";
+						$results[$results_teller].="<div class=\"zoekresultaat_img\"><img src=\"".wt_he($vars["path"]."pic/cms/".$img)."\" alt=\"\"></div>";
 
 						$results[$results_teller].="<div class=\"zoekresultaat_content\">";
 
@@ -3475,7 +3475,7 @@ if($resultaten_tonen) {
 			file_put_contents($unixdir."cache/aantal_accommodaties_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types);
 		}
 
-		echo "<table id=\"zoekresultatentable\">";
+		echo "<table id=\"zoekresultatentable\" class=\"table\">";
 		echo "<tr><td></td><td></td><td></td><td></td><td></td></tr>";
 		if($vars["flexibel_toegestaan"]) {
 			echo "<tr><td colspan=\"5\" style=\"text-align:left;\">";

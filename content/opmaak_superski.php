@@ -134,7 +134,7 @@ echo "<div id=\"wrapper\">";
 echo "<div id=\"top\">";
 
 echo "<div id=\"submenu\">";
-echo "<table cellspacing=0 cellpadding=0 id=\"submenu_table\"><tr><td>";
+echo "<table class=\"table\" id=\"submenu_table\"><tr><td>";
 while(list($key,$value)=each($submenu)) {
 	$submenuteller++;
 	if($value<>"-") {
@@ -327,7 +327,7 @@ echo "<div style=\"clear: both;\"></div>\n";
 # telefoonblok
 if(!$vars["verberg_linkerkolom"] and (!$vars["verberg_linkerkolom"] or $id=="toonaccommodatie")) {
 	echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "").">";
-	echo "<div id=\"telefoonblok_nummer\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_superski.gif\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
+	echo "<div id=\"telefoonblok_nummer\"><table class=\"table\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_superski.gif\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
 }

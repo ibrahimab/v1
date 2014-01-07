@@ -13,22 +13,27 @@ body {
     -webkit-text-size-adjust: 100%;
 }
 
-table {
+.table,
+#body_index table,
+#body_zoek-en-boek table,
+#body_boeken table {
 	border-collapse: collapse;
 	padding: 0px;
 	border-spacing: 0px;
 }
 
-table td {
-	padding: 0;
+.table td {
+    padding: 0;
 }
 
 table.pad3 td {
 	padding: 3px;
 }
 
-image {
+img {
 	border: 0;
+    vertical-align: top;
+    line-height: 0;
 }
 
 span.x-small {
@@ -412,6 +417,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	width: 700px;
 	background-color: #FFFFFF;
 	border: 2px solid <?php echo $table; ?>;
+	border-spacing: 0;
 }
 
 .wtform_input {
@@ -944,6 +950,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	margin-bottom: 20px;
 }
 
+#zoekblok form {
+    overflow: hidden;
+}
+
 .zoekblok_interne_opmerking {
 	background-color: #ffffff;
 	margin-bottom: 12px;
@@ -1050,6 +1060,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	position: relative;
 	margin-left: 35px;
 	float: left;
+	line-height: 0;
 }
 
 #zoekblok input[type=checkbox] {
@@ -1097,12 +1108,14 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	float: left;
 	margin-right: 15px;
 	margin-top: 4px;
+	line-height: normal;
 }
 
 .zoekblok_prijsklasse_max {
 	float: left;
 	margin-left: 15px;
 	margin-top: 4px;
+	line-height: normal;
 }
 
 .zoekblok_prijsklasse input {

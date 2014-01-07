@@ -4242,7 +4242,7 @@ function opvalblok() {
 			$return.="<div class=\"opvalblok_regel1\">".wt_he($db->f("regel1"))."</div>";
 			$return.="<div class=\"opvalblok_regel2\">".wt_he($db->f("regel2"))."</div>";
 			$return.="<div class=\"overlay_foto\">";
-			$return.="<img src=\"".wt_he($vars["path"].$afbeelding)."\" alt=\"".basename($afbeelding)."\">";
+			$return.="<img src=\"".wt_he($vars["path"].$afbeelding)."\" alt=\"\">";
 			$return.="<div class=\"opvalblok_regel3\">".wt_he($db->f("regel3"))."</div>";
 			$return.="</div>";
 			$return.="</div>"; # afsluiten class opvalblok

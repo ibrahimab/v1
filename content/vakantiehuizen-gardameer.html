@@ -55,7 +55,7 @@ if($inquery) {
 #						echo "<div class=\"skigebied_opval_regel2\">".wt_he($db2->f("plaats"))."</div>";
 			echo "<div class=\"overlay_foto\">";
 		
-			echo "<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\" alt=\"".basename($file)."\" />";
+			echo "<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\" alt=\"\" />";
 			echo "<div class=\"skigebied_opval_regel3\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$db2->f("naam"))."</div>";
 			echo "</div>";
 			echo "</div>"; # afsluiten class blog_opvalblok

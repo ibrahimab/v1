@@ -18,7 +18,7 @@ if(is_array($blokkenhoofdpagina)) {
 		$blokkenhoofdpagina_teller++;
 		echo "<div class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "").">";
 		$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
-		echo "<div class=\"hoofdpagina_blok_image\"><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" alt=\"".basename($file)."\" /></a></div>";
+		echo "<div class=\"hoofdpagina_blok_image\"><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" alt=\"\" /></a></div>";
 		echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";
 		echo "<div class=\"hoofdpagina_blok_omschrijving\">".wt_he($value["omschrijving"])."</div>";
 		echo "</div>";
