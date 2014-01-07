@@ -52,7 +52,7 @@ if($grizzly_title) {
 }
 echo "</title>";
 if($vars["page_with_tabs"]) {
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
 }
 
 # Font Awesome-css
@@ -131,6 +131,10 @@ echo "<script>";
 // Hides the tabs + zoekblok during initialization
 echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek_overlay { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
 echo "</script>";
+
+# JQuery
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\"></script>\n";
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\"></script>\n";
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon.ico\" />\n";
 if($vars["canonical"]) {
@@ -235,7 +239,7 @@ if($id=="index") {
 	echo "2";
 }
 echo ".jpg\" width=\"725\" height=\"106\" alt=\"topfoto\">";
-echo "</div>\n";
+echo "</div><!--END #topfoto-->\n";
 echo "<div id=\"lijn\">&nbsp;</div>\n";
 echo "<div id=\"hoofdmenubalk\">";
 echo "<div id=\"hoofdmenu\">";
@@ -265,7 +269,8 @@ while(list($key,$value)=each($menu)) {
 #	echo "&nbsp;&nbsp;";
 	echo "</a>";
 }
-echo "</div>\n";
+echo "</div><!--END #hoofdmenu-->\n";
+
 echo "<div class=\"paymenticons\" id=\"kleinelogos\">";
 if($vars["websiteland"]=="nl") {
 	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
@@ -278,8 +283,8 @@ if($vars["docdata_payments"]) {
 		}
 	}
 }
-echo "</div>\n";
-echo "</div>\n";
+echo "</div><!-- END #kleinelogos -->\n";
+echo "</div><!--END #hoofdmenubalk-->\n";
 echo "</div>\n";
 echo "<div style=\"clear: both;\"></div>\n";
 echo "</div>\n";
@@ -298,7 +303,7 @@ if($rechtsboven) {
 	if($helemaalboven) echo "&nbsp;&nbsp;";
 	echo $rechtsboven;
 }
-echo "</div>";
+echo "</div><!-- END #meldingen -->";
 
 echo "<div style=\"clear: both;\"></div>\n";
 
@@ -337,7 +342,7 @@ if($vars["verberg_linkerkolom"]) {
 #		echo "<div id=\"contactgegevens\">".htmlentities($vars["websitenaam"])."&nbsp;&nbsp;&nbsp;".html("telefoonnummer")."&nbsp;&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a></div>";
 	}
 
-	echo "</div>\n";
+	echo "</div><!-- END #contentvolledig -->\n";
 } else {
 	echo "<div id=\"bloklinks_blok\" class=\"noprint\">";
 
@@ -433,11 +438,12 @@ if($vars["verberg_linkerkolom"]) {
 #		echo "<div id=\"blauwelijn_onderaan\"></div>\n";
 #		echo "<div id=\"contactgegevens\">".htmlentities($vars["websitenaam"])."&nbsp;&nbsp;&nbsp;".html("telefoonnummer")."&nbsp;&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a></div>";
 	}
+	echo "</div><!-- END #contentrechts -->\n";
 }
 
-echo "</div>\n";
+echo "</div><!-- END #content -->\n";
 echo "<div style=\"clear: both;\"></div>\n";
-echo "</div>\n";
+
 
 
 echo "<div style=\"clear: both;\"></div>\n";
@@ -768,10 +774,6 @@ if($vars["page_starttime"]) {
 }
 
 ######################### Load javascript files
-
-# JQuery
-echo "<script type=\"text/javascript\" async src=\"".htmlentities($vars["jquery_url"])."\"></script>\n";
-echo "<script type=\"text/javascript\" async src=\"".htmlentities($vars["jqueryui_url"])."\"></script>\n";
 
 if($vars["googlemaps"]) {
 	# Google Maps API

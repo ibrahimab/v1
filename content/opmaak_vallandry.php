@@ -78,6 +78,10 @@ echo "<script>";
 echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
 echo "</script>";
 
+# JQuery
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
+
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_vallandry.ico\" />\n";
 
 if($vars["canonical"]) {
@@ -348,7 +352,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
 
-	echo "</div>";
+	echo "</div>";# afsluiten contentrechts
 	echo "<div style=\"clear: both;\"></div>\n";
 }
 
@@ -380,10 +384,6 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 }
 
 ######################### Load javascript files
-
-# JQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
 
 if($vars["googlemaps"]) {
 	# Google Maps API

@@ -659,7 +659,7 @@ $(document).ready(function() {
 
 	if($("body").data("onload")) {
 		var functionName = $("body").data("onload");
-		if(functionName == 'initialize_googlemaps') {
+		if(functionName == 'initialize_googlemaps' && typeof mapOptions != "undefined") {
 			initialize_googlemaps(mapOptions);
 		}
 	}
@@ -2294,9 +2294,12 @@ function map_zoek_en_boek_click(e) {
 	var back_url=location.href;
 	if(!mapOptions.googlemaps_zoekenboek && mapOptions.googlemaps_skigebiedid===0) {
 		back_url = back_url.replace(location.hash,"");
-		if(back_url.indexOf('?back=')) {
+		if(back_url.indexOf('?back=') > -1) {
 			map_back_url = decodeURIComponent(back_url.split('?back=')[0]);
 			back_url = decodeURIComponent(back_url.split('?back=')[1]);
+		} else {
+			back_url = decodeURIComponent(back_url);
+			map_back_url = back_url;
 		}
 		var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
 
@@ -2304,7 +2307,7 @@ function map_zoek_en_boek_click(e) {
 		back_url=updateURLParameter(back_url,"scrolly",$(window).scrollTop());
 		back_url=updateURLParameter(back_url,"map",1);
 
-		if(back_url.indexOf('#kaart')) {
+		if(back_url.indexOf('#kaart') > -1) {
 			back_url = back_url.replace("#kaart", "");
 			back_url += "#kaart";
 		}
@@ -2312,7 +2315,6 @@ function map_zoek_en_boek_click(e) {
 		var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
 	}
 
-	var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
 	$(e).attr("href",nieuwe_url);
 
 	var marker = $(e).data("marker");
