@@ -186,7 +186,7 @@ li {
 	height:32px;
 	display:inline-block;
 	background-repeat:no-repeat;
-	background-image:url('../pic/sociallinks-sprite.png');
+	background-image:url('../pic/icons-sprite.png');
 }
 
 #hoofdpagina_sociallinks .googleplus {
@@ -218,7 +218,7 @@ li {
 /**/
 
 .paymenticons .mc, .paymenticons .idl, .paymenticons .mrc, .paymenticons .vi {
-	background-image:url('../pic/payment_icons/sprite.png');
+	background-image:url('../pic/icons-sprite.png');
 	height:27px;
 	display:inline-block;
 	background-repeat:no-repeat;
@@ -227,22 +227,22 @@ li {
 
 .paymenticons .mc {
 	width:44px;
-	background-position:-1px -0px;
+	background-position:-1px -50px;
 }
 
 .paymenticons .idl {
 	width:31px;
-	background-position:-45px -0px;
+	background-position:-45px -50px;
 }
 
 .paymenticons .mrc {
 	width:45px;
-	background-position:-77px -0px;
+	background-position:-77px -50px;
 }
 
 .paymenticons .vi {
 	width:56px;
-	background-position:-124px -0px;
+	background-position:-124px -50px;
 }
 
 .formstyle100 {
@@ -2489,7 +2489,7 @@ blog
 .socialshare .gplus,
 .socialshare .mail,
 .socialshare .print {
-	background-image:url("../pic/icons/shareicons-sprite.png");
+	background-image:url("../pic/icons-sprite.png");
 	display:inline-block;
 	background-repeat:no-repeat;
 	width:16px;
@@ -2497,23 +2497,23 @@ blog
 }
 
 .socialshare .fb {
-	background-position:-0px -0px;
+	background-position:-0px -34px;
 }
 
 .socialshare .tw {
-	background-position:-16px -0px;
+	background-position:-16px -34px;
 }
 
 .socialshare .gplus {
-	background-position:-32px -0px;
+	background-position:-32px -34px;
 }
 
 .socialshare .mail {
-	background-position:-48px -0px;
+	background-position:-48px -34px;
 }
 
 .socialshare .print {
-	background-position:-64px -0px;
+	background-position:-64px -34px;
 }
 
 .socialshare a:hover {
