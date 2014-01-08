@@ -1101,6 +1101,18 @@ form {
 }
 
 
+/* veelgestelde vragen/faq */
+.faq_vraag {
+	background-color: #a1bddb;
+	color: #0412b1;
+}
+
+.faq_vraag:hover {
+	background-color: #0412b1;
+	color: #ffffff;
+}
+
+
 /* Aanpassingen jQueryUI tabs */
 
 .ui-tabs .ui-tabs-panel {

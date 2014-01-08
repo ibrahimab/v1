@@ -497,6 +497,7 @@ echo"<div id=\"footer_met_links\">";
 echo "<div class=\"footer_met_links_blok footer_met_links_blok_linkerkant\">";
 echo "<br><b>&copy; Italissima</b><br><br>";
 if($id<>"index") $rel_no_follow=" rel=\"nofollow\"";
+echo "<li><a href=\"".$vars["path"]."veelgestelde-vragen\">Veelgestelde vragen</a></li>";
 echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\"".$rel_no_follow.">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\"".$rel_no_follow.">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\"".$rel_no_follow.">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\"".$rel_no_follow.">Sitemap</a></li>";
 echo "</div>"; # afsluiten .footer_met_links_blok
 

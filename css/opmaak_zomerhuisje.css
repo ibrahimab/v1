@@ -903,6 +903,17 @@ form {
 	overflow: hidden;
 }
 
+/* veelgestelde vragen/faq */
+.faq_vraag {
+	background-color: #cbd328;
+	color: #5f227b;
+}
+
+.faq_vraag:hover {
+	background-color: #5f227b;
+	color: #ffffff;
+}
+
 
 @media print {
 

@@ -62,9 +62,9 @@ class tarieventabel {
 			if($kantoor_open->is_het_kantoor_geopend()) {
 				$return .= "<div class=\"tarieventabel_hulp_bij_online_boeken\">";
 				if($vars["livechat_code"]) {
-					$return .= html("hulpbijonlineboeken","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>","h_2"=>"<span class=\"trigger_livechat_button\">","h_3"=>"</span>"));
+					$return .= html("hulpbijonlineboeken","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>","h_2"=>"<span class=\"trigger_livechat_button\">","h_3"=>"</span>", "h_4"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">", "h_5"=>"</a>"));
 				} else {
-					$return .= html("hulpbijonlineboeken_zonderchat","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>"));
+					$return .= html("hulpbijonlineboeken_zonderchat","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>", "h_4"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">", "h_5"=>"</a>"));
 				}
 				$return .= "</div>"; # afsluiten .tarieventabel_hulp_bij_online_boeken
 			}

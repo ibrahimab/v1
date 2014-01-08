@@ -4,12 +4,24 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
+# wzt opvragen indien niet meegegeven met query_string
+if(!$_GET["wzt"]) {
+	if($_GET["56k0"]) {
+		$db->query("SELECT wzt FROM faq WHERE faq_id='".addslashes($_GET["56k0"])."';");
+		if($db->next_record()) {
+			$_GET["wzt"]=$db->f("wzt");
+		}
+	} else {
+		$_GET["wzt"]=1;
+	}
+}
+
 $cms->settings[56]["list"]["show_icon"]=false;
 $cms->settings[56]["list"]["edit_icon"]=true;
 $cms->settings[56]["list"]["delete_icon"]=true;
 
 // nieuwe waarde volgorde bepalen
-$db->query("SELECT MAX(volgorde) AS volgorde FROM faq WHERE 1=1 ORDER BY volgorde;");
+$db->query("SELECT MAX(volgorde) AS volgorde FROM faq WHERE wzt='".intval($_GET["wzt"])."' ORDER BY volgorde;");
 if($db->next_record()) {
 	$volgorde = $db->f("volgorde");
 }
@@ -17,10 +29,18 @@ $volgorde=$volgorde+10;
 
 // ksort($vars["websites_actief"]);
 
-$te_tonen_websites = array("C"=>"Chalet.nl", "B"=>"Chalet.be", "T"=>"Chalettour.nl","V"=>"Chalets in Vallandry (.nl)","X"=>"Venturasol","Y"=>"Venturasol-partner");
+if($_GET["wzt"]==2) {
+	$te_tonen_websites = array("I"=>"Italissima.nl", "K"=>"Italissima.be", "Z"=>"Zomerhuisje.nl");
+} else {
+	$te_tonen_websites = array("C"=>"Chalet.nl", "B"=>"Chalet.be", "T"=>"Chalettour.nl","V"=>"Chalets in Vallandry (.nl)","X"=>"Venturasol","Y"=>"Venturasol-partner");
+}
 
 
 # Database db_field($counter,$type,$id,$field="",$options="")
+
+$cms->db[56]["where"]="wzt='".intval($_GET["wzt"])."'";
+$cms->db[56]["set"]="wzt='".intval($_GET["wzt"])."'";
+
 $cms->db_field(56,"checkbox","websites","",array("selection"=>$te_tonen_websites));
 $cms->db_field(56,"integer","volgorde");
 $cms->db_field(56,"text","interne_naam");
@@ -63,7 +83,7 @@ function form_before_goto($form) {
 	global $login, $vars;
 
 	$volgorde=0;
-	$db->query("SELECT faq_id FROM faq WHERE 1=1 ORDER BY volgorde;");
+	$db->query("SELECT faq_id FROM faq WHERE wzt='".intval($_GET["wzt"])."' ORDER BY volgorde;");
 	while($db->next_record()) {
 		$volgorde=$volgorde+10;
 		$db2->query("UPDATE faq SET volgorde='".$volgorde."' WHERE faq_id='".$db->f("faq_id")."';");

@@ -1573,13 +1573,13 @@ $txt["en"]["contact"]["nieuwsbriefvraag"]="-";
 $txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en_z"]["contact"]["nieuwsbriefvraag"]="-";
 
-$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
 $txt["en"]["contact"]["inleiding"]="If you have any questions, comments or any other things you would like to let us know, please complete the form below, send us an e-mail or contact us by telephone.";
 
-$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
 $txt["en_b"]["contact"]["inleiding"]="-";
 
-$txt["nl"]["contact"]["inleiding_chalettour"]="Neem voor meer informatie, vragen of opmerkingen direct contact op met uw reisbureau of vul onderstaand contactformulier in.";
+$txt["nl"]["contact"]["inleiding_chalettour"]="Neem voor meer informatie, vragen of opmerkingen direct contact op met uw reisbureau of vul onderstaand contactformulier in. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
 $txt["en"]["contact"]["inleiding_chalettour"]="-";
 
 $txt["nl"]["contact"]["naamreisbureau_chalettour"]="Naam reisbureau";
@@ -2451,10 +2451,10 @@ $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
 $txt["en"]["tarieventabel"]["bekijkdeextraopties"]="Look at [[h_1]]our possibilities[[h_2]]";
 
-$txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]] of [[h_2]]chat met ons[[h_3]].";
+$txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]], [[h_2]]chat met ons[[h_3]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
 
-$txt["nl"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Hulp bij online boeken? Bel ons: [[h_1]]";
+$txt["nl"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Hulp bij online boeken? Bel [[h_1]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]]";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Need help with booking online? Call us: [[h_1]]";
 
 $txt["nl"]["tarieventabel"]["vertrekdagafwijking"]="Let op! Afwijkingen in aankomstdatum en verblijfsduur";
