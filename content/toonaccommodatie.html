@@ -1291,7 +1291,7 @@ if($db->next_record()) {
 			echo "<tr><th>".html("exclusief","toonaccommodatie")."</th></tr>";
 			echo "<tr><td>";
 
-			$texclusief=trim($db->f("texclusief")."\n\n".txt("reserveringskosten", "vars").": € ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").".");
+			$texclusief=trim($db->f("texclusief")."\n\n".txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").").");
 			echo toon_tekst_acc_en_type($db->f("exclusief"),$texclusief);
 			echo "</td></tr>";
 			echo "</table><p>";
