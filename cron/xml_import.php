@@ -1260,12 +1260,14 @@ while($db->next_record()) {
 			# Beschikbaarheid Huetten
 			$aantal_beschikbaar[$db->f("xml_type")][$db->f("type_id")]++;
 
-			$xml_url="https://api.huetten.com/dataexchange/BookingOverview.aspx?PartnerId=76640&Pwd=chalet.nl&xmlFile=%3Cparameter%3E%3CLodgeId%3E".$value."%3C/LodgeId%3E%3CPeriod%20StartDate=%22".date("d-m-Y",time()+86400)."%22%20EndDate=%2201-01-".(date("Y")+3)."%22/%3E%3C/parameter%3E";
+			$xml_url="https://cst-sync-hms.viomassl.com/xml_booking_overview.php?PartnerId=info@chalet.nl&Pwd=6LSuMaJ4&xmlFile=%3Cparameter%3E%3CLodgeId%3E".$value."%3C/LodgeId%3E%3CPeriod%20StartDate=%22".date("d-m-Y",time()+86400)."%22%20EndDate=%2201-01-".(date("Y")+3)."%22/%3E%3C/parameter%3E";
 			echo "Beschikbaarheid: ".$xml_url."\n";
 #			echo $db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." leverancierid ".$value.":\n".$xml_url."\n";
 
 			flush();
-			$xml=wt_getxml($xml_url);
+			if($xml=@simplexml_load_file($xml_url)) {
+				$xml=wt_getxml($xml_url);
+			}
 			if(is_array($xml["buchungs_liste"]["huette"]["booking_info"]["trip"])) {
 				$correct_gedownload[$db->f("xml_type")]=true;
 				$xml_laatsteimport_leverancier[$db->f("xml_type")]=true;
@@ -1299,7 +1301,7 @@ while($db->next_record()) {
 			}
 
 			# Tarieven Huetten
-			$xml_url="https://api.huetten.com/dataexchange/MasterData.aspx?PartnerId=76640&Pwd=chalet.nl&xmlFile=%3Cparameter%3E%3CLodgeId%3E".$value."%3C/LodgeId%3E%3C/parameter%3E";
+			$xml_url="https://cst-sync-hms.viomassl.com/xml_masterdata.php?PartnerId=info@chalet.nl&Pwd=6LSuMaJ4&xmlFile=%3Cparameter%3E%3CLodgeId%3E".$value."%3C/LodgeId%3E%3C/parameter%3E";
 			echo "Tarieven typeid ".$db->f("type_id").": ".$xml_url."\n";
 			unset($xml,$season);
 
