@@ -3,6 +3,10 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+08-jan-2014 10:38
+ALTER TABLE `faq` ADD `wzt` TINYINT( 1 ) NOT NULL DEFAULT '1' AFTER `faq_id` ;
+
+
 24-dec-2013 13:47
 ALTER TABLE `leverancier_aankomstlijst` ADD `niet_verzenden` TINYINT( 1 ) NOT NULL ;
 
