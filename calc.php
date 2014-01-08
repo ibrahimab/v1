@@ -123,7 +123,26 @@ if($_GET["stap"]==1) {
 	$form->field_select(1,"aantalpersonen",txt("aantalpersonen","boeken"),"",array("selection"=>($gegevens["stap1"]["aantalpersonen"] ? $gegevens["stap1"]["aantalpersonen"] : $_GET["ap"])),array("selection"=>$temp_aantalpersonen_array));
 
 
-	if($accinfo["flexibel"]) {
+	# Aankomstdata-array bepalen (geen data uit het verleden en geen data zonder optietarieven)
+	$db->query("SELECT DISTINCT t.week, s.optie_soort_id FROM optie_tarief t, optie_onderdeel o, optie_accommodatie a, optie_soort s, type ty WHERE a.optie_soort_id=s.optie_soort_id AND t.optie_onderdeel_id=o.optie_onderdeel_id AND ty.accommodatie_id=a.accommodatie_id AND ty.type_id='".addslashes($_GET["tid"])."' AND a.optie_groep_id=o.optie_groep_id;");
+	while($db->next_record()) {
+		$datum_optietarieven[$db->f("week")]++;
+	}
+
+
+	@reset($accinfo["aankomstdatum_beschikbaar"]);
+	unset($temp_aankomstdata);
+	while(list($key,$value)=@each($accinfo["aankomstdatum_beschikbaar"])) {
+		if($key>time()) {
+			$temp_aankomstdatum_beschikbaar=true;
+			if(is_array($datum_optietarieven) and ($datum_optietarieven[$key]>1 or $datum_optietarieven[$key]==max($datum_optietarieven))) {
+				$temp_aankomstdata[$key]=$value;
+				$temp_optietarieven_beschikbaar=true;
+			}
+		}
+	}
+
+	if($accinfo["wzt"]==2) {
 		# flexibel
 
 		# aankomstdatum
@@ -132,7 +151,12 @@ if($_GET["stap"]==1) {
 		} elseif($_GET["d"]) {
 			$temp_aankomstdatum_exact=$_GET["d"];
 		}
-		$form->field_date(1,"aankomstdatum_flex",txt("aankomstdatum","beschikbaarheid"),"",array("time"=>$temp_aankomstdatum_exact),array("startyear"=>date("Y"),"endyear"=>date("Y")+1),array("calendar"=>true));
+
+		if($accinfo["flexibel"]) {
+			$form->field_date(1,"aankomstdatum_flex",txt("aankomstdatum","beschikbaarheid"),"",array("time"=>$temp_aankomstdatum_exact),array("startyear"=>date("Y"),"endyear"=>date("Y")+1),array("calendar"=>true));
+		} else {
+			$form->field_select(1,"aankomstdatum",txt("aankomstdatum","boeken"),"",array("selection"=>($gegevens["stap1"]["aankomstdatum"] ? $gegevens["stap1"]["aankomstdatum"] : $_GET["d"])),array("selection"=>$temp_aankomstdata));
+		}
 
 		# verblijfsduur
 		unset($vars["verblijfsduur"]);
@@ -140,9 +164,11 @@ if($_GET["stap"]==1) {
 		$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
 		$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
 		$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
-		$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
-		for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
-			$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
+		if($accinfo["flexibel"]) {
+			$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
+			for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
+				$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
+			}
 		}
 		if($_GET["fldu"]) {
 			$temp_verblijfsduur=$_GET["fldu"];
@@ -156,33 +182,19 @@ if($_GET["stap"]==1) {
 		$temp_optietarieven_beschikbaar=true;
 	} else {
 
-		# Aankomstdata-array bepalen (geen data uit het verleden en geen data zonder optietarieven)
-		$db->query("SELECT DISTINCT t.week, s.optie_soort_id FROM optie_tarief t, optie_onderdeel o, optie_accommodatie a, optie_soort s, type ty WHERE a.optie_soort_id=s.optie_soort_id AND t.optie_onderdeel_id=o.optie_onderdeel_id AND ty.accommodatie_id=a.accommodatie_id AND ty.type_id='".addslashes($_GET["tid"])."' AND a.optie_groep_id=o.optie_groep_id;");
-		while($db->next_record()) {
-			$datum_optietarieven[$db->f("week")]++;
-		}
-
-
-		@reset($accinfo["aankomstdatum_beschikbaar"]);
-		unset($temp_aankomstdata);
-		while(list($key,$value)=@each($accinfo["aankomstdatum_beschikbaar"])) {
-			if($key>time()) {
-				$temp_aankomstdatum_beschikbaar=true;
-				if(is_array($datum_optietarieven) and ($datum_optietarieven[$key]>1 or $datum_optietarieven[$key]==max($datum_optietarieven))) {
-					$temp_aankomstdata[$key]=$value;
-					$temp_optietarieven_beschikbaar=true;
-				}
-			}
-		}
 		$form->field_select(1,"aankomstdatum",txt("aankomstdatum","boeken"),"",array("selection"=>($gegevens["stap1"]["aankomstdatum"] ? $gegevens["stap1"]["aankomstdatum"] : $_GET["d"])),array("selection"=>$temp_aankomstdata));
 	}
 
 	$form->check_input();
 
 	if($form->filled) {
-		if($accinfo["flexibel"] and $form->input["verblijfsduur"]) {
+		if($accinfo["flexibel"] or $form->input["verblijfsduur"]) {
 			# flexibel - controle op tarief/beschikbaarheid
-			$flextarief=bereken_flex_tarief($_GET["tid"],$form->input["aankomstdatum_flex"]["unixtime"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]));
+			if($accinfo["flexibel"]) {
+				$flextarief=bereken_flex_tarief($_GET["tid"],$form->input["aankomstdatum_flex"]["unixtime"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]));
+			} else {
+				$flextarief=bereken_flex_tarief($_GET["tid"],$form->input["aankomstdatum"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum"],$form->input["verblijfsduur"]));
+			}
 			if($flextarief["tarief"]>0) {
 
 			} else {
@@ -208,12 +220,21 @@ if($_GET["stap"]==1) {
 					$extrasetquery=", reisbureau_user_id='".addslashes($login_rb->user_id)."'";
 				}
 
-				if($accinfo["flexibel"]) {
-					$extrasetquery.=", aankomstdatum_exact='".addslashes($form->input["aankomstdatum_flex"]["unixtime"])."', vertrekdatum_exact='".addslashes(flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]))."'";
+				if($accinfo["wzt"]==2) {
+
+					if($accinfo["flexibel"]) {
+						$extrasetquery.=", aankomstdatum_exact='".addslashes($form->input["aankomstdatum_flex"]["unixtime"])."', vertrekdatum_exact='".addslashes(flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]))."'";
+					} else {
+						$extrasetquery.=", aankomstdatum_exact='".addslashes($form->input["aankomstdatum"])."', vertrekdatum_exact='".addslashes(flex_bereken_vertrekdatum($form->input["aankomstdatum"],$form->input["verblijfsduur"]))."'";
+					}
 
 					# Kijken of dit een flexibele boeking is
-					if(flex_is_dit_flexibel($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"])) {
-						$extrasetquery.=", flexibel=1, verblijfsduur='".addslashes($form->input["verblijfsduur"])."'";
+					if($accinfo["flexibel"]) {
+						if(flex_is_dit_flexibel($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"])) {
+							$extrasetquery.=", flexibel=1, verblijfsduur='".addslashes($form->input["verblijfsduur"])."'";
+						}
+					} else {
+						$extrasetquery.=", flexibel=0, verblijfsduur='".addslashes($form->input["verblijfsduur"])."'";
 					}
 
 					if($flextarief["tarief"]>0) {
@@ -384,7 +405,7 @@ if($_GET["stap"]==1) {
 	$overzicht.="<tr><td>".html("accommodatie","boeken")."</td><td><a href=\"".$accinfo["url"]."\" target=\"_blank\">".htmlentities(ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</a></td></tr>";
 	$overzicht.="<tr><td>".html("plaats","boeken")."</td><td>".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
 	$overzicht.="<tr><td>".html("aantalpersonen","boeken")."</td><td>".htmlentities($gegevens["stap1"]["aantalpersonen"])."</td></tr>";
-	if($gegevens["stap1"]["flexibel"]) {
+	if($gegevens["stap1"]["flexibel"] or $gegevens["stap1"]["verblijfsduur"]>1) {
 		$overzicht.="<tr><td>".html("verblijfsperiode","boeken")."</td><td>".htmlentities(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]))."</td></tr>";
 	} else {
 		$overzicht.="<tr><td>".html("verblijfsperiode","boeken")."</td><td>".htmlentities($accinfo["aankomstdatum"][$gegevens["stap1"]["aankomstdatum"]]." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum"],$vars["taal"]))."</td></tr>";
@@ -405,6 +426,8 @@ if($_GET["stap"]==1) {
 	$overzicht.="<p>";
 	if($gegevens["stap1"]["flexibel"]) {
 		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".htmlentities($_GET["tid"])."&flad=".$gegevens["stap1"]["aankomstdatum_exact"]."&fldu=".$gegevens["stap1"]["verblijfsduur"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
+	} elseif($gegevens["stap1"]["verblijfsduur"]>1) {
+		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".htmlentities($_GET["tid"])."&d=".$gegevens["stap1"]["aankomstdatum"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."&fldu=".$gegevens["stap1"]["verblijfsduur"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
 	} else {
 		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".htmlentities($_GET["tid"])."&d=".$gegevens["stap1"]["aankomstdatum"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
 	}
