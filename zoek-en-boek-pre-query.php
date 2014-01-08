@@ -23,6 +23,8 @@ if($_GET["pagetype"]=="landing-italissima") {
 
 		$landing_searchtext = "Bekijk en doorzoek onze agriturismo in Italië";
 
+		$landing_canonical = "agriturismo-italie";
+
 		if($_GET["prequery"]) {
 			$_GET["vf_kenm56"]=1;
 		}
@@ -35,6 +37,8 @@ if($_GET["pagetype"]=="landing-italissima") {
 		$landing_content_slide_html="<h2>Wat is een agriturismo?</h2><p>Een 'agriturismo' is een landelijk gelegen domein dat enerzijds wordt gebruikt als boerenbedrijf en anderzijds als toeristische accommodatie. Wat hierbij aanspreekt is het genieten van de Toscaanse, landelijke levensstijl, de kleinschaligheid, de gastvrijheid en de lokale keuken met de producten van het landgoed zelf. Een vakantie in een agriturismo is een ideale combinatie van cultuur, sfeer en ontspanning: al het goede van Toscane. Let hierbij ook op de uitstekende prijs/kwaliteitsverhouding van de agriturismo! Een weekverblijf op een agriturismo begint bij zo&rsquo;n 300 euro in het laagseizoen en vaak kun je tegen schappelijke prijzen met de eigenaren van de agriturismo mee-eten. De agriturismo is er dan ook in vele gedaanten, van eenvoudig tot super-de-luxe.</p><h3>Kortom: wat maakt een agriturismo in Toscane zo bijzonder?</h3><p>Een vakantie op een agriturismo in Itali&euml; heeft het volgende te bieden:<ul><li>Vakantie in een rustige omgeving, weg van de drukte</li><li>Comfortabele vakantiehuizen in landelijke stijl</li><li>Agriturismo omgeven door veel ruimte</li><li>De gemoedelijke sfeer van het platteland van Toscane</li><li>De gastvrijheid waar Toscane bekend om staat</li><li>Genieten van de streekproducten die geproduceerd zijn op de eigen agriturismo</li><li>Panoramisch uitzicht vanaf de agriturismo over het glooiende landschap van Toscane</li><li>Een agriturismo in Toscane is een perfecte uitvalsbasis om de regio te verkennen.</li></ul></p><p>Veel succes met de zoektocht naar je ideale agriturismo in Toscane! En mocht je vragen hebben: aarzel dan niet om <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op te nemen.</p>";
 
 		$landing_searchtext = "Bekijk en doorzoek onze agriturismo in Toscane";
+
+		$landing_canonical = "agriturismo-toscane";
 
 		if($_GET["prequery"]) {
 			$_GET["vf_kenm56"]=1;

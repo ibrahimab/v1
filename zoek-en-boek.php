@@ -178,7 +178,11 @@ if($_GET["fsg"] and !preg_match("/,/",$_GET["fsg"])) {
 #	if($landgebied[1]>0) addwhere("p.skigebied_id='".addslashes($landgebied[1])."'");
 }
 
-$vars["canonical"]=$vars["basehref"].txt("menu_zoek-en-boek").".php";
+if($landing_canonical) {
+	$vars["canonical"]=$vars["basehref"].$landing_canonical;
+} else {
+	$vars["canonical"]=$vars["basehref"].txt("menu_zoek-en-boek").".php";
+}
 
 if($zoekresultaten_title and !$pre_query_content) {
 	$title["zoek-en-boek"].=" - ".$zoekresultaten_title;
