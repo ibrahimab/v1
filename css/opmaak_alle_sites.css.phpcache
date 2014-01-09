@@ -951,7 +951,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 }
 
 #zoekblok form {
-    overflow: hidden;
+    display: inline-block;
 }
 
 .zoekblok_interne_opmerking {
