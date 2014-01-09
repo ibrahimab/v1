@@ -1,11 +1,10 @@
 <?php
 
-echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
-  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
-echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
-echo "<head>";
+echo "<!DOCTYPE html>\n";
+echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n prefix=\"fb: http://www.facebook.com/2008/fbml og: http://ogp.me/ns#\">\n";
+echo "<head>\n";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
-echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />\n";
+echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
 echo "<title>";
 if($id=="index") {
 	echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("sitetitel"));
@@ -18,7 +17,7 @@ if($id=="index") {
 echo "</title>";
 
 if($vars["page_with_tabs"]) {
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
 }
 
 # Font Awesome-css
@@ -34,8 +33,8 @@ if(!$vars["page_with_tabs"]) {
 	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."css/chosen.css\" type=\"text/css\" />\n";
 #}
 
-echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_websites_en_cms.css.phpcache?cache=".@filemtime("css/opmaak_websites_en_cms.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
-echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_alle_sites.css.phpcache?cache=".@filemtime("css/opmaak_alle_sites.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
+echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_websites_en_cms.css.phpcache?cache=".@filemtime("css/opmaak_websites_en_cms.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
+echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_alle_sites.css.phpcache?cache=".@filemtime("css/opmaak_alle_sites.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
 
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_vallandry.css?cache=".@filemtime("css/opmaak_vallandry.css")."\" />\n";
 if(file_exists("css/".$id."_vallandry.css")) {
@@ -69,6 +68,19 @@ if(preg_match("/MSIE 7/",$_SERVER["HTTP_USER_AGENT"])) {
 if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie8.css?cache=".@filemtime("css/ie8.css")."\" />\n";
 }
+# Fancybox
+if($vars["jquery_fancybox"]) {
+	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
+}
+
+echo "<script>";
+// Hides the tabs + zoekblok during initialization
+echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
+echo "</script>";
+
+# JQuery
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_vallandry.ico\" />\n";
 
@@ -76,41 +88,6 @@ if($vars["canonical"]) {
 	echo "<link rel=\"canonical\" href=\"".htmlentities($vars["canonical"])."\" />\n";
 } elseif($_SERVER["HTTPS"]=="on") {
 	echo "<link rel=\"canonical\" href=\"http://".htmlentities($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."\" />\n";
-}
-
-# JQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
-
-if($vars["googlemaps"]) {
-	# Google Maps API
-	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&sensor=false\" type=\"text/javascript\"></script>\n";
-}
-
-# jQuery Chosen javascript
-#if($vars["jquery_chosen"]) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."\"></script>\n";
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."\"></script>\n";
-#}
-
-# Javascript-functions
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_vallandry.js?cache=".@filemtime("scripts/functions_vallandry.js")."\" ></script>\n";
-
-# Fancybox
-if($vars["jquery_fancybox"]) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js\"></script>\n";
-	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
-}
-
-# IE8-javascript
-if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/ie8.js?cache=".@filemtime("scripts/ie8.js")."\" ></script>\n";
-}
-
-if($vars["page_with_tabs"]) {
-	# jQuery Address: t.b.v. correcte verwerking hashes in URL
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.address-1.5.min.js\"></script>\n";
 }
 
 # meta name robots
@@ -125,9 +102,6 @@ if($robot_noindex or $robot_nofollow) {
 #echo "<meta name=\"description\" content=\"".htmlentities(txt("subtitel"))."\" />";
 echo "<meta name=\"description\" content=\"".wt_he(($meta_description ? $meta_description : ($title[$id]&&$id&&$id<>"index" ? $title[$id] : txt("subtitel"))))."\" />\n";
 
-# Google Analytics
-echo googleanalytics();
-
 echo "</head>\n";
 
 echo $opmaak->body_tag();
@@ -138,7 +112,7 @@ echo "<div id=\"top\">";
 
 echo "<div id=\"menubalk_print\" style=\"margin-bottom:100px;\" class=\"onlyprint\">";
 echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
-echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</b>";
+echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
 echo "</div>";
 
 echo "<div id=\"submenu\">";
@@ -151,16 +125,16 @@ while(list($key,$value)=each($submenu)) {
 	}
 }
 if($vars["taal"]=="en") {
-	echo "<a href=\"http://www.chaletsinvallandry.nl/\"><img src=\"".$vars["path"]."pic/vlag_nl_klein.gif\" border=\"0\" width=\"17\" height=\"11\" style=\"padding-top:0px;\"></a>";
+	echo "<a href=\"http://www.chaletsinvallandry.nl/\"><img src=\"".$vars["path"]."pic/vlag_nl_klein.gif\" alt=\"NL\" width=\"17\" height=\"11\" style=\"padding-top:0px;border:0;\"></a>";
 } else {
-	echo "<a href=\"http://www.chaletsinvallandry.com/\"><img src=\"".$vars["path"]."pic/vlag_en_klein.gif\" border=\"0\" width=\"17\" height=\"11\" style=\"padding-top:0px;\"></a>";
+	echo "<a href=\"http://www.chaletsinvallandry.com/\"><img src=\"".$vars["path"]."pic/vlag_en_klein.gif\" alt=\"EN\" width=\"17\" height=\"11\" style=\"padding-top:0px;border:0;\"></a>";
 }
 
 echo "</div>\n";
 
 echo "<div id=\"topfoto\" class=\"noprint\">";
 if($id<>"index") echo "<a href=\"".$vars["path"]."\">";
-echo "<img src=\"".$vars["path"]."pic/vallandry_topbalk".($vars["taal"]=="en" ? "_en" : "").".jpg\" width=\"970\" height=\"161\" alt=\"\" border=\"0\">";
+echo "<img src=\"".$vars["path"]."pic/vallandry_topbalk".($vars["taal"]=="en" ? "_en" : "").".jpg\" width=\"970\" height=\"161\" alt=\"\" style=\"border:0;\">";
 if($id<>"index") echo "</a>";
 echo "</div>";
 
@@ -199,18 +173,20 @@ if($last_acc and $id<>"saved") {
 	echo "</div>";
 }
 
-echo "<div id=\"sgr_logo\">";
+echo "<div class=\"paymenticons\" id=\"sgr_logo\">";
+if($vars["website"]=="V") {
+    echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" height=\"27\" style=\"border:0;\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+}
+
 # Docdata payment logos
 if($vars["docdata_payments"]) {
 	if(count($vars["docdata_payments"]) > 0) {
 		foreach($vars["docdata_payments"] as $key => $value) {
-			echo "<img src=\"". $vars["path"] . $value["icon"] ."\" height=\"30\" style=\"margin-left:5px;vertical-align:middle;\" alt=\"". $value["title"] ."\" />";
+			echo "<span class=\"". $value["by"] ."\" title=\"". $value["title"] ."\"></span>";
 		}
 	}
 }
-if($vars["website"]=="V") {
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" height=\"30\" style=\"vertical-align: middle;\" border=\"0\"></a>";
-}
+
 echo "</div>";
 
 echo "<div id=\"meldingen\">";
@@ -286,7 +262,7 @@ if($vars["verberg_linkerkolom"]) {
 
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fad\" class=\"selectbox\" data-placeholder=\"".html("aankomstdatum","index")."\">";
-		echo "<option value=\"\"></option>";
+		echo "<option value=\"\"> </option>";
 		while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
 			# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
 			if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
@@ -308,7 +284,7 @@ if($vars["verberg_linkerkolom"]) {
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fap\" class=\"selectbox\" data-placeholder=\"".html("aantalpersonen","index")."\">";
-		echo "<option value=\"\"></option>";
+		echo "<option value=\"\"> </option>";
 		while(list($key,$value)=each($vars["aantalpersonen"])) {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
@@ -349,7 +325,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div style=\"margin-top:10px;margin-bottom:0px;\"><a href=\"#\" id=\"uitgebreidzoeken\">".html("uitgebreidzoeken","index")."</a></div>";
 		echo "</form>";
 
-		echo "<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"35\" height=\"33\" style=\"margin-top:20px;margin-bottom:100px;\" border=\"0\">";
+		echo "<img src=\"".$vars["path"]."pic/leeg.gif\" width=\"35\" height=\"33\" style=\"margin-top:20px;margin-bottom:100px;border:0;\" alt=\"\" />";
 
 		echo "</div>"; # afsluiten "zoekenboek"
 	}
@@ -376,19 +352,19 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
 
-	echo "</div>";
+	echo "</div>";# afsluiten contentrechts
 	echo "<div style=\"clear: both;\"></div>\n";
 }
 
 echo "<div id=\"colofon\" class=\"noprint\">".html("chaletsinvallandry")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".ereg_replace("invallandry","<i>in</i>vallandry",htmlentities($vars["email"]))."</a>&nbsp;&nbsp;-&nbsp;&nbsp;".html("telefoonnummer")."</div>\n";
-echo "<div id=\"submenu\" class=\"noprint\" style=\"text-align:center;\"> <a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
+echo "<div id=\"submenu_footer\" class=\"noprint\" style=\"text-align:center;\"> <a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 
 echo "</div>\n"; # "content" afsluiten
 
 echo "</div>\n"; # "wrapper" afsluiten
 
 # Ajaxloader in het midden van de pagina
-echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\"></div>";
+echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\" alt=\"loading...\" /></div>";
 
 # Balk met cookie-melding cookiebalk
 if($opmaak->toon_cookiebalk()) {
@@ -406,6 +382,72 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 		echo $interneinfo;
 		echo "</div>"; # interneinfo_rechts
 }
+
+######################### Load javascript files
+
+if($vars["googlemaps"]) {
+	# Google Maps API
+	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&amp;sensor=false\" type=\"text/javascript\"></script>\n";
+}
+
+# Google Analytics
+echo googleanalytics();
+
+# jQuery Chosen javascript
+#if($vars["jquery_chosen"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."'";
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."'";
+#}
+
+if($vars["page_with_tabs"]) {
+	# jQuery Address: t.b.v. correcte verwerking hashes in URL
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.address-1.5.min.js'";
+}
+
+# Lazy load Fancybox
+if($vars["jquery_fancybox"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
+
+# Javascript-functions
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_vallandry.js?cache=".@filemtime("scripts/functions_vallandry.js")."'";
+
+# IE8-javascript
+if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/ie8.js?cache=".@filemtime("scripts/ie8.js")."'";
+}
+?>
+
+<script type="text/javascript">
+
+	var deferredJSFiles = [<?php echo implode(",", $lazyLoadJs); ?>];
+
+	function downloadJSAtOnload() {
+		if (!deferredJSFiles.length)
+			return;
+		var deferredJSFile = deferredJSFiles.shift();
+		var element = document.createElement('script');
+		element.src = deferredJSFile;
+		element.async = true;
+		element.onload = element.onreadystatechange = function() {
+			if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')
+				downloadJSAtOnload();
+		};
+		document.body.appendChild(element);
+	}
+
+	if (window.addEventListener) {
+		window.addEventListener('load', downloadJSAtOnload, false);
+	} else if (window.attachEvent) {
+		window.attachEvent('onload', downloadJSAtOnload);
+	} else {
+		window.load = downloadJSAtOnload;
+	}
+
+</script>
+
+<?php
 
 echo "</body>";
 echo "</html>";

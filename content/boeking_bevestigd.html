@@ -1,6 +1,6 @@
 <?php
 
-echo "<strong>".html("boekingsaanvraagisverzonden","boeking_bevestigd")."</strong><p>".html("uontvangtbinnenenkeleminutenmail","boeking_bevestigd")."<p>".html("mochtunogvragenhebben","boeking_bevestigd",array("l1"=>"contact"))."</p>";
+echo "<strong>".html("boekingsaanvraagisverzonden","boeking_bevestigd")."</strong><p>".html("uontvangtbinnenenkeleminutenmail","boeking_bevestigd")."</p><p>".html("mochtunogvragenhebben","boeking_bevestigd",array("l1"=>"contact"))."</p>";
 
 if($vars["taal"]=="nl") {
 
@@ -27,11 +27,11 @@ if($vars["taal"]=="nl") {
 			$facebooklink="https://www.facebook.com/pages/Italissima/272671556122756";
 			$facebooktekst="Ik heb zojuist deze vakantie geboekt!";
 		}
-		echo "&nbsp;<br><table style=\"border:1px solid ".$bordercolor.";margin-top:0px;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\"><tr><td colspan=\"2\">Laat je vrienden weten dat je zojuist een vakantie hebt geboekt:</td></tr>";
+		echo "&nbsp;<br><table style=\"border:1px solid ".$bordercolor.";margin-top:0px;\"><tr><td style=\"padding:3px;\" colspan=\"2\">Laat je vrienden weten dat je zojuist een vakantie hebt geboekt:</td></tr>";
 
 
 		# Twitter
-// 		echo "<tr><td style=\"padding-top:9px;width:110px;font-style:italic;\">Via Twitter</td><td style=\"padding-top:9px;width:320px;\">";
+// 		echo "<tr><td style=\"padding:3px;padding-top:9px;width:110px;font-style:italic;\">Via Twitter</td><td style=\"padding:3px;padding-top:9px;width:320px;\">";
 // 		echo "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"".wt_he($share_url)."\" data-text=\"".wt_he($twittertekst)."\" data-via=\"".$twitterlink."\" data-lang=\"nl\" data-count=\"none\">Tweeten</a>\n";
 // 		echo "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"//platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>\n";
 // 		echo "</td></tr>";
@@ -42,13 +42,13 @@ if($vars["taal"]=="nl") {
 // 		}
 
 		# Twitter
-		echo "<tr><td style=\"padding-top:9px;width:110px;font-style:italic;\">Via Twitter</td><td style=\"padding-top:9px;width:320px;\"><a href=\"".wt_he("https://twitter.com/home?status=".urlencode($twittertekst." ".$share_url))."\" title=\"Laat je Twitter-volgers weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/twitter-share_off.gif\" class=\"img-swap\"></a></td></tr>";
+		echo "<tr><td style=\"padding:3px;padding-top:9px;width:110px;font-style:italic;\">Via Twitter</td><td style=\"padding:3px;padding-top:9px;width:320px;\"><a href=\"".wt_he("https://twitter.com/home?status=".urlencode($twittertekst." ".$share_url))."\" title=\"Laat je Twitter-volgers weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/twitter-share_off.gif\" class=\"img-swap\" alt=\"Share on Twitter\"></a></td></tr>";
 
 		# Facebook
-		echo "<tr><td style=\"padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding-top:9px;width:320px;\"><a href=\"".htmlentities("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($facebooktekst))."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\"></a></td></tr>";
-#		echo "<tr><td style=\"padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding-top:9px;width:320px;\"><a href=\"".wt_he("https://www.facebook.com/sharer.php?s=100&p[title]=".wt_he($vars["websitenaam"])."&p[summary]=".urlencode(wt_he($facebooktekst))."&p[url]=".urlencode($share_url)."")."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\"></a></td></tr>";
+		echo "<tr><td style=\"padding:3px;padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding:3px;padding-top:9px;width:320px;\"><a href=\"".htmlentities("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($facebooktekst))."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\" alt=\"Share on Facebook\"></a></td></tr>";
+#		echo "<tr><td style=\"padding:3px;padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding:3px;padding-top:9px;width:320px;\"><a href=\"".wt_he("https://www.facebook.com/sharer.php?s=100&p[title]=".wt_he($vars["websitenaam"])."&p[summary]=".urlencode(wt_he($facebooktekst))."&p[url]=".urlencode($share_url)."")."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\"></a></td></tr>";
 
-		echo "</table></p>";
+		echo "</table>";
 	}
 
 # http://www.facebook.com/sharer.php?s=100&amp;p[title]=".wt_he($vars["sitenaam"])."&amp;p[summary]=".urlencode(wt_he($socialtext))."&amp;p[url]=".urlencode($vars["officialwebsite"])."&amp;&amp;p[images][0]=".urlencode($vars["basehref_sites"]."logo_for_facebook_share.jpg")
@@ -66,7 +66,7 @@ if($vars["taal"]=="nl") {
 		if($vars["websiteland"]=="nl") {
 			echo " Al 12 jaar op rij gekozen tot beste autoverhuurder door de Nederlandse Reisbureaus.";
 		}
-		echo "</td><td><img src=\"".$vars["path"]."pic/sunnycars_logo.gif\"></td></tr></table>";
+		echo "</td><td><img src=\"".$vars["path"]."pic/sunnycars_logo.gif\" alt=\"Sunny Cars\" /></td></tr></table>";
 	}
 }
 

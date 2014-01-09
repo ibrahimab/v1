@@ -246,9 +246,8 @@
 	text-align: left;
 }
 
-#hoofdpagina_sociallinks img {
+#hoofdpagina_sociallinks a {
 	margin-right: 7px;
-	vertical-align: text-top;
 }
 
 h1 {

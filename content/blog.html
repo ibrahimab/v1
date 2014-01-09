@@ -109,13 +109,13 @@ if($_GET["b"]) {
 
 	# Social media
 	echo "<div class=\"clear\"></div>";
-	echo "<div id=\"blog_sociallinks\" class=\"noprint\">";
+	echo "<div id=\"blog_sociallinks\" class=\"noprint socialshare\">";
 
 	$share_url=$vars["basehref"]."blog.php?b=".intval($_GET["b"]);
 
-	echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze post met je Google+-circles\" class=\"googleplus_share_window\"><img src=\"".$vars["path"]."pic/icons/googleplus.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
-	echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze post met je Twitter-volgers\" class=\"twitter_share_window\"><img src=\"".$vars["path"]."pic/icons/twitter.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
-	echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze post met je Facebook-vrienden\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/icons/facebook.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+	echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze post met je Google+-circles\" class=\"googleplus_share_window gplus\"></a>";
+	echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze post met je Twitter-volgers\" class=\"twitter_share_window tw\"></a>";
+	echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze post met je Facebook-vrienden\" class=\"facebook_share_window fb\"></a>";
 
 	echo "</div>"; # afsluiten blog_sociallinks
 	echo "<div style=\"clear: both;\"></div>";

@@ -1,11 +1,10 @@
 <?php
-
-echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\"
-  \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n";
-echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
-echo "<head>";
+$page_id = $id;
+echo "<!DOCTYPE html>\n";
+echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n prefix=\"fb: http://www.facebook.com/2008/fbml og: http://ogp.me/ns#\">\n";
+echo "<head>\n";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
-echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />\n";
+echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
 echo "<title>";
 if($grizzly_title) {
 	echo $grizzly_title;
@@ -24,7 +23,7 @@ if($grizzly_title) {
 echo "</title>";
 
 if($vars["page_with_tabs"]) {
-	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."&type=".$vars["websitetype"]."\" />\n";
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
 }
 
 # Font Awesome-css
@@ -73,6 +72,19 @@ if(preg_match("/MSIE 7/",$_SERVER["HTTP_USER_AGENT"])) {
 if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/ie8.css?cache=".@filemtime("css/ie8.css")."\" />\n";
 }
+# Fancybox
+if($vars["jquery_fancybox"]) {
+	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
+}
+
+echo "<script>";
+// Hides the tabs + zoekblok during initialization
+echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
+echo "</script>";
+
+# jQuery
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_zomerhuisje.ico\" />\n";
 
@@ -82,58 +94,6 @@ if($vars["canonical"]) {
 	echo "<link rel=\"canonical\" href=\"http://".htmlentities($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."\" />\n";
 }
 
-# jQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
-
-if($vars["jquery_maphilight"]) {
-	# Google Maps API
-	echo "<script src=\"".$vars["path"]."scripts/jquery.maphilight.min.js\" type=\"text/javascript\"></script>\n";
-#	echo "<script src=\"".$vars["path"]."scripts/jquery.metadata.js\" type=\"text/javascript\"></script>\n";
-}
-
-
-if($vars["googlemaps"]) {
-	# Google Maps API
-	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&sensor=false\" type=\"text/javascript\"></script>\n";
-}
-
-# jQuery Chosen javascript
-#if($vars["jquery_chosen"]) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."\"></script>\n";
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."\"></script>\n";
-#}
-
-if($id=="zoek-en-boek") {
-	# jQuery noUiSlider
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.nouislider.min.js\"></script>\n";
-}
-
-# Javascript-functions
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_zomerhuisje.js?cache=".@filemtime("scripts/functions_zomerhuisje.js")."\" ></script>\n";
-if($grizzly_body and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-	echo "<script type=\"text/javascript\" language=\"JavaScript\" src=\"https://www.zomerhuisje.nl/vakantie/zomerhuisjenl.js\"></script>\n";
-}
-
-if(file_exists("scripts/functions_".$id.".js")) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions_".$id.".js?cache=".@filemtime("scripts/functions_".$id.".js")."\" ></script>\n";
-}
-# Fancybox
-if($vars["jquery_fancybox"]) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js\"></script>\n";
-	echo "<link rel=\"stylesheet\" href=\"".$vars["path"]."fancybox/jquery.fancybox-1.3.4.css?c=1\" type=\"text/css\" media=\"screen\" />\n";
-}
-
-# IE8-javascript
-if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/ie8.js?cache=".@filemtime("scripts/ie8.js")."\" ></script>\n";
-}
-
-if($vars["page_with_tabs"]) {
-	# jQuery Address: t.b.v. correcte verwerking hashes in URL
-	echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/jquery.address-1.5.min.js\"></script>\n";
-}
 
 # meta name robots
 if(!$vars["canonical"] and ($_GET["back"] or $_GET["backtypeid"] or $_GET["filled"] or $_GET["page"] or $_GET["PHPSESSID"] or $id=="boeken")) {
@@ -152,9 +112,6 @@ echo facebook_opengraph();
 # Google+
 echo "<link href=\"https://plus.google.com/113644542072220125279\" rel=\"publisher\" />\n";
 
-# Google Analytics
-echo googleanalytics();
-
 echo "</head>\n";
 
 echo $opmaak->body_tag();
@@ -165,7 +122,7 @@ echo "<div id=\"top\">";
 
 echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
 echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
-echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</b>";
+echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
 echo "</div>";
 
 echo "<div id=\"submenu\">";
@@ -219,7 +176,7 @@ while(list($key,$value)=each($vars["topfoto"])) {
 	}
 }
 echo "<div style=\"position:absolute;top:0px;left:0px;\">";
-echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."?c=1\" width=\"970\" height=\"179\" alt=\"".htmlentities($vars["websitenaam"])."\" border=\"0\">";
+echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."?c=1\" width=\"970\" height=\"179\" alt=\"".htmlentities($vars["websitenaam"])."\" style=\"border:0;\" />";
 echo "</div>";
 
 # Link naar hoofdpagina
@@ -227,14 +184,14 @@ if($id<>"index") {
 	echo "<a href=\"".$vars["path"]."\" style=\"display:block;position:absolute;top:0px;left:371px;width:227px;height:180px;\" class=\"noprint\"></a>";
 }
 if($vars["websiteland"]=="nl") {
-	echo "<div style=\"position:absolute;bottom:8px;right:4px;\" class=\"noprint\">";
-	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" border=\"0\" width=\"35\" height=\"33\" style=\"margin-top:4px;\" alt=\"Stichting Garantiefonds Reisgelden\"></a>";
+	echo "<div style=\"position:absolute;bottom:8px;right:4px;\" class=\"noprint paymenticons\">";
+	echo "<a href=\"".$vars["path"].txt("menu_algemenevoorwaarden").".php#sgr\"><img src=\"".$vars["path"]."pic/sgr_zomerhuisje.gif\" style=\"border:0;\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
 
 	# Docdata payment logos
 	if($vars["docdata_payments"]) {
 		if(count($vars["docdata_payments"]) > 0) {
 			foreach($vars["docdata_payments"] as $key => $value) {
-				echo "<img class=\"sgrlogo_hoofdmenu\" src=\"". $vars["path"] . $value["icon"] ."\" height=\"27\" alt=\"". $value["title"] ."\" />";
+				echo "<span class=\"sgrlogo_hoofdmenu ". $value["by"] ."\" title=\"". $value["title"] ."\"></span>";
 			}
 		}
 	}
@@ -280,7 +237,7 @@ if($last_acc and $id<>"saved") {
 }
 echo "<div id=\"meldingen\">";
 if($helemaalboven) echo $helemaalboven;
-$rechtsboven=str_replace("<font size=\"1\">","<font>",$rechtsboven);
+$rechtsboven=str_replace("<span class=\"x-small\">","<span>",$rechtsboven);
 if($rechtsboven) {
 	if($helemaalboven) echo "&nbsp;&nbsp;";
 	echo $rechtsboven;
@@ -346,7 +303,7 @@ if($vars["verberg_linkerkolom"]) {
 
 	# telefoonblok
 	echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "").">";
-	echo "<div id=\"telefoonblok_nummer\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_zomer.gif\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
+	echo "<div id=\"telefoonblok_nummer\"><table class=\"table\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_zomer.gif\" alt=\"Call us\"></td><td>".html("telefoonnummer_telefoonblok")."</td></tr></table></div>";
 	echo "<div id=\"telefoonblok_open\">".html("openingstijden_telefoonblok")."</div>";
 	echo "</div>"; # afsluiten telefoonblok
 
@@ -454,7 +411,7 @@ if($vars["verberg_linkerkolom"]) {
 	#	echo "<div class=\"zoekenboek_tekst\" style=\"margin-top:10px;margin-bottom:3px;\">".html("aantalpersonen","index")."</div>";
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fap\" class=\"selectbox\" data-placeholder=\"".html("aantalpersonen","index")."\">";
-		echo "<option value=\"\"></option>";
+		echo "<option value=\"\"> </option>";
 		while(list($key,$value)=each($vars["aantalpersonen"])) {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
@@ -471,7 +428,7 @@ if($vars["verberg_linkerkolom"]) {
 
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fad\" class=\"selectbox\" data-placeholder=\"".html("aankomstdatum","index")."\">";
-		echo "<option value=\"\"></option>";
+		echo "<option value=\"\"> </option>";
 		while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
 			# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
 			if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
@@ -493,7 +450,7 @@ if($vars["verberg_linkerkolom"]) {
 
 		echo "<div class=\"zoekenboek_invulveld\">";
 		echo "<select name=\"fdu\" class=\"selectbox\" data-placeholder=\"".html("verblijfsduur","index")."\">";
-		echo "<option value=\"\"></option>";
+		echo "<option value=\"\"> </option>";
 		while(list($key,$value)=each($vars["verblijfsduur"])) {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
@@ -552,9 +509,9 @@ if($vars["verberg_linkerkolom"]) {
 		// echo "<div id=\"hoofdpagina_sociallinks\">";
 		// echo "<div style=\"float:left;padding-left:10px;\">";
 		// echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-		// echo "<a href=\"https://www.facebook.com/Zomerhuisje.nl\" title=\"Volg Zomerhuisje.nl via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-		// echo "<a href=\"https://twitter.com/@Zomerhuisje\" title=\"Volg Zomerhuisje.nl via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-		// echo "<a href=\"https://plus.google.com/113644542072220125279?prsrc=3\" title=\"Volg Zomerhuisje.nl via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+		// echo "<a href=\"https://www.facebook.com/Zomerhuisje.nl\" title=\"Volg Zomerhuisje.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
+		// echo "<a href=\"https://twitter.com/@Zomerhuisje\" title=\"Volg Zomerhuisje.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
+		// echo "<a href=\"https://plus.google.com/113644542072220125279?prsrc=3\" title=\"Volg Zomerhuisje.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
 		// echo "</div>\n";
 		// echo "</div>\n";  # afsluiten hoofdpagina_sociallinks
 
@@ -598,13 +555,13 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 	}
 
-	echo "</div>";
+	echo "</div>";# afsluiten contentrechts
 	echo "<div style=\"clear: both;\"></div>\n";
 }
 
 echo "<div id=\"colofon\" class=\"noprint\">".html("handelsnaam_zomerhuisje")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a>&nbsp;&nbsp;-&nbsp;&nbsp;tel:&nbsp;".html("telefoonnummer_alleen")."</div>\n";
 
-echo "<div id=\"submenu\" style=\"text-align:center;\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
+echo "<div id=\"submenu_footer\" style=\"text-align:center;\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 
 echo "</div>\n"; # "content" afsluiten
 
@@ -637,7 +594,7 @@ if($lhtml) {
 echo "</div>\n"; # "wrapper" afsluiten
 
 # Ajaxloader in het midden van de pagina
-echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\"></div>";
+echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-large2.gif\" alt=\"loading...\" /></div>";
 
 # Balk met cookie-melding cookiebalk
 if($opmaak->toon_cookiebalk()) {
@@ -656,6 +613,90 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 	echo $interneinfo;
 	echo "</div>"; # interneinfo_rechts
 }
+
+
+######################### Load javascript files
+
+if($vars["jquery_maphilight"]) {
+	# Google Maps API
+	echo "<script src=\"".$vars["path"]."scripts/jquery.maphilight.min.js\" type=\"text/javascript\"></script>\n";
+#	echo "<script src=\"".$vars["path"]."scripts/jquery.metadata.js\" type=\"text/javascript\"></script>\n";
+}
+
+if($vars["googlemaps"]) {
+	# Google Maps API
+	echo "<script src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&amp;sensor=false\" type=\"text/javascript\"></script>\n";
+}
+
+# Google Analytics
+echo googleanalytics();
+
+# jQuery Chosen javascript
+#if($vars["jquery_chosen"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/allfunctions.js?c=".@filemtime("scripts/allfunctions.js")."'";
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.chosen.js?c=".@filemtime("scripts/jquery.chosen.js")."'";
+#}
+
+if($page_id=="zoek-en-boek") {
+	# jQuery noUiSlider
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.nouislider.min.js'";
+}
+
+if($vars["page_with_tabs"]) {
+	# jQuery Address: t.b.v. correcte verwerking hashes in URL
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/jquery.address-1.5.min.js'";
+}
+
+# Fancybox
+if($vars["jquery_fancybox"]) {
+	$lazyLoadJs[] = "'".$vars["path"]."fancybox/jquery.fancybox-1.3.4.pack.js'";
+}
+
+# Javascript-functions
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."'";
+$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_zomerhuisje.js?cache=".@filemtime("scripts/functions_zomerhuisje.js")."'";
+if(file_exists("scripts/functions_".$page_id.".js")) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/functions_".$page_id.".js?cache=".@filemtime("scripts/functions_".$page_id.".js")."'";
+}
+if($grizzly_body and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
+	$lazyLoadJs[] = "'https://www.zomerhuisje.nl/vakantie/zomerhuisjenl.js'";
+}
+
+# IE8-javascript
+if(preg_match("/MSIE 8/",$_SERVER["HTTP_USER_AGENT"])) {
+	$lazyLoadJs[] = "'".$vars["path"]."scripts/ie8.js?cache=".@filemtime("scripts/ie8.js")."'";
+}
+?>
+
+<script type="text/javascript">
+
+	var deferredJSFiles = [<?php echo implode(",", $lazyLoadJs); ?>];
+
+	function downloadJSAtOnload() {
+		if (!deferredJSFiles.length)
+			return;
+		var deferredJSFile = deferredJSFiles.shift();
+		var element = document.createElement('script');
+		element.src = deferredJSFile;
+		element.async = true;
+		element.onload = element.onreadystatechange = function() {
+			if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete')
+				downloadJSAtOnload();
+		};
+		document.body.appendChild(element);
+	}
+
+	if (window.addEventListener) {
+		window.addEventListener('load', downloadJSAtOnload, false);
+	} else if (window.attachEvent) {
+		window.attachEvent('onload', downloadJSAtOnload);
+	} else {
+		window.load = downloadJSAtOnload;
+	}
+
+</script>
+
+<?php
 
 echo "</body>";
 echo "</html>";

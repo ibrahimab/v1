@@ -241,8 +241,9 @@ hr {
 
 		# Google Maps
 		echo "<script>\n";
+		echo "var mapOptions = {};";
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-			echo "var googlemaps_base='/chalet/';\n";
+			echo "mapOptions.googlemaps_base='/chalet/';\n";
 		}
 
 		# GPS-coordinaten van het midden van de regio bepalen
@@ -262,13 +263,13 @@ hr {
 
 		$db0->query("SELECT MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE accommodatie_id='".$db->f("accommodatie_id")."' AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id;");
 		if($db0->next_record()) {
-			echo "var googlemaps_aantalpersonen='".$db0->f("optimaalaantalpersonen").($db0->f("maxaantalpersonen")>$db0->f("optimaalaantalpersonen") ? " - ".$db0->f("maxaantalpersonen") : "")." ".html("personen")."';\n";
+			echo "mapOptions.googlemaps_aantalpersonen='".$db0->f("optimaalaantalpersonen").($db0->f("maxaantalpersonen")>$db0->f("optimaalaantalpersonen") ? " - ".$db0->f("maxaantalpersonen") : "")." ".html("personen")."';\n";
 		}
 		if(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-			echo "var googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
+			echo "mapOptions.googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
 		}
 
-		echo "var googlemaps_skigebiedid=".$db->f("skigebied_id").";\nvar googlemaps_selected_icon=7;\nvar googlemaps_lat=".$gps_lat_midden.";\nvar googlemaps_long=".$gps_long_midden.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("land")))."';\nvar zoomlevel=".($db->f("googlemaps_zoomlevel")>0 ? $db->f("googlemaps_zoomlevel") : "8").";\n</script>\n";
+		echo "mapOptions.googlemaps_skigebiedid=".$db->f("skigebied_id").";\n mapOptions.googlemaps_selected_icon=7;\n mapOptions.googlemaps_lat=".$gps_lat_midden.";\n mapOptions.googlemaps_long=".$gps_long_midden.";\n mapOptions.gps_coordinaten_bekend=1;\n mapOptions.googlemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\n mapOptions.googlemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("land")))."';\n mapOptions.zoomlevel=".($db->f("googlemaps_zoomlevel")>0 ? $db->f("googlemaps_zoomlevel") : "8").";\n</script>\n";
 		echo "<div id=\"map_canvas\"></div>";
 
 		if(!preg_match("/MSIE [67]/",$_SERVER["HTTP_USER_AGENT"])) {
@@ -555,7 +556,7 @@ hr {
 #						echo "<div class=\"skigebied_opval_regel2\">".wt_he($db2->f("plaats"))."</div>";
 						echo "<div class=\"overlay_foto\">";
 
-						echo "<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\">";
+						echo "<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\" alt=\"\" />";
 						echo "<div class=\"skigebied_opval_regel3\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$db2->f("naam"))."</div>";
 						echo "</div>";
 						echo "</div>"; # afsluiten class blog_opvalblok

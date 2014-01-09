@@ -1,6 +1,59 @@
 
-// Hides the tabs + zoekblok during initialization
-document.write('<style type="text/css">	#tabs { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>');
+var ZoomlevelBepalen = new function() {
+
+	var OFFSET = 268435456;
+	var RADIUS = OFFSET / Math.PI;
+
+	/**
+	 * Gets the minimum zoom level that entirely contains the Lat/Lon bounding rectangle given.
+	 *
+	 * @param {google.maps.LatLngBounds} boundary the Lat/Lon bounding rectangle to be contained
+	 * @param {number} mapWidth the width of the map in pixels
+	 * @param {number} mapHeight the height of the map in pixels
+	 * @return {number} the minimum zoom level that entirely contains the given Lat/Lon rectangle boundary
+	 */
+	this.getMinimumZoomLevelContainingBounds = function ( boundary, mapWidth, mapHeight ) {
+
+		var zoomIndependentSouthWestPoint = latLonToZoomLevelIndependentPoint( boundary.getSouthWest() );
+		var zoomIndependentNorthEastPoint = latLonToZoomLevelIndependentPoint( boundary.getNorthEast() );
+		var zoomIndependentNorthWestPoint = { x: zoomIndependentSouthWestPoint.x, y: zoomIndependentNorthEastPoint.y };
+		var zoomIndependentSouthEastPoint = { x: zoomIndependentNorthEastPoint.x, y: zoomIndependentSouthWestPoint.y };
+		var zoomLevelDependentSouthEast, zoomLevelDependentNorthWest, zoomLevelWidth, zoomLevelHeight;
+		for( var zoom = 21; zoom >= 0; --zoom ) {
+			zoomLevelDependentSouthEast = zoomLevelIndependentPointToMapCanvasPoint( zoomIndependentSouthEastPoint, zoom );
+			zoomLevelDependentNorthWest = zoomLevelIndependentPointToMapCanvasPoint( zoomIndependentNorthWestPoint, zoom );
+			zoomLevelWidth = zoomLevelDependentSouthEast.x - zoomLevelDependentNorthWest.x;
+			zoomLevelHeight = zoomLevelDependentSouthEast.y - zoomLevelDependentNorthWest.y;
+			if( zoomLevelWidth <= mapWidth && zoomLevelHeight <= mapHeight )
+				return zoom;
+		}
+		return 0;
+	};
+
+	function latLonToZoomLevelIndependentPoint ( latLon ) {
+		return { x: lonToX( latLon.lng() ), y: latToY( latLon.lat() ) };
+	}
+
+	function zoomLevelIndependentPointToMapCanvasPoint ( point, zoomLevel ) {
+		return {
+			x: zoomLevelIndependentCoordinateToMapCanvasCoordinate( point.x, zoomLevel ),
+			y: zoomLevelIndependentCoordinateToMapCanvasCoordinate( point.y, zoomLevel )
+		};
+	}
+
+	function zoomLevelIndependentCoordinateToMapCanvasCoordinate ( coordinate, zoomLevel ) {
+		return coordinate >> ( 21 - zoomLevel );
+	}
+
+	function latToY ( lat ) {
+		return OFFSET - RADIUS * Math.log( ( 1 + Math.sin( lat * Math.PI / 180 ) ) / ( 1 - Math.sin( lat * Math.PI / 180 ) ) ) / 2;
+	}
+
+	function lonToX ( lon ) {
+		return OFFSET + RADIUS * lon * Math.PI / 180;
+	}
+
+};
 
 // detecteer een mobiel apparaat (tablet of smartphone)
 function detect_mobile() {
@@ -251,47 +304,54 @@ function testgegevens() {
 //
 var geocoder;
 var map;
-var googlemaps_lat=0;
-var googlemaps_long=0;
-var zoomlevel=11;
-var gps_coordinaten_bekend=0;
-var googlemaps_selected_icon=1;
-var googlemaps_init=false;
-var googlemaps_base='/';
-var googlemaps_naam='';
-var googlemaps_plaatsland='';
-var googlemaps_aantalpersonen='';
-var googlemaps_afbeelding='';
-var googlemaps_icon = [];
-var googlemaps_icon_ander = [];
-var googlemaps_zoekenboek = false;
-googlemaps_icon[1] = 'chalet.png';
-googlemaps_icon[2] = 'chalet.png';
-googlemaps_icon[3] = 'zomerhuisje.png';
-googlemaps_icon[4] = 'chalet.png';
-googlemaps_icon[6] = 'vallandry.png';
-googlemaps_icon[7] = 'italissima.png';
-googlemaps_icon[71] = 'italissima_plaats.png';
-googlemaps_icon[8] = 'superski.png';
-googlemaps_icon[9] = 'venturasol.png';
-googlemaps_icon_ander[1] = 'chaletander.png';
-googlemaps_icon_ander[2] = 'chaletander.png';
-googlemaps_icon_ander[3] = 'zomerhuisjeander.png';
-googlemaps_icon_ander[4] = 'chaletander.png';
-googlemaps_icon_ander[6] = 'vallandryander.png';
-googlemaps_icon_ander[7] = 'italissimaander.png';
-googlemaps_icon_ander[71] = 'italissima_plaatsander.png';
-googlemaps_icon_ander[8] = 'superskiander.png';
-googlemaps_icon_ander[9] = 'venturasolander.png';
-var googlemaps_marker = [];
-var googlemaps_marker_2 = [];
-var googlemaps_marker_id = 0;
-var googlemaps_infowindow;
-var googlemaps_counter=0;
-var googlemaps_skigebiedid=0;
-var googlemaps_kwaliteit='';
-var googlemaps_omschrijving='';
-var googlemaps_tarief=0;
+
+var mapDefaults = {
+	googlemaps_lat: 0,
+	googlemaps_long: 0,
+	zoomlevel: 11,
+	gps_coordinaten_bekend: 0,
+	googlemaps_selected_icon: 1,
+	googlemaps_init: false,
+	googlemaps_base: '/',
+	googlemaps_naam: '',
+	googlemaps_plaatsland: '',
+	googlemaps_aantalpersonen: '',
+	googlemaps_afbeelding: '',
+	googlemaps_icon: {
+		1: 'chalet.png',
+		2: 'chalet.png',
+		3: 'zomerhuisje.png',
+		4: 'chalet.png',
+		6: 'vallandry.png',
+		7: 'italissima.png',
+		71: 'italissima_plaats.png',
+		8: 'superski.png',
+		9: 'venturasol.png'
+	},
+	googlemaps_icon_ander: {
+		1: 'chaletander.png',
+		2: 'chaletander.png',
+		3: 'zomerhuisjeander.png',
+		4: 'chaletander.png',
+		6: 'vallandryander.png',
+		7: 'italissimaander.png',
+		71: 'italissima_plaatsander.png',
+		8: 'superskiander.png',
+		9: 'venturasolander.png'
+	},
+	googlemaps_zoekenboek: false,
+	googlemaps_marker: [],
+	googlemaps_marker_2: [],
+	googlemaps_marker_id: 0,
+	googlemaps_counter: 0,
+	googlemaps_skigebiedid: 0,
+	googlemaps_kwaliteit: '',
+	googlemaps_omschrijving: '',
+	googlemaps_tarief: 0,
+	googlemaps_infowindow: null
+};
+
+var map_back_url='';
 var zoekblok_tekst='';
 var lokale_testserver=false;
 var absolute_path='/';
@@ -300,45 +360,56 @@ if(location.href.indexOf("/chalet/")>1) {
 	var lokale_testserver=true;
 }
 
-function initialize_googlemaps() {
+function initialize_googlemaps(mapSettings) {
+
+	mapOptions = $.extend( {}, mapDefaults, mapSettings );
+
 	//http://code.google.com/intl/nl/apis/maps/documentation/javascript/reference.html
-	if(gps_coordinaten_bekend==1) {
+	if(mapOptions.gps_coordinaten_bekend==1) {
 
 		// If it is search page, set default zoom
-		if(googlemaps_zoekenboek != false) {
-			var bound=new google.maps.LatLngBounds(new google.maps.LatLng(googlemaps_lat_min,googlemaps_long_min),new google.maps.LatLng(googlemaps_lat_max,googlemaps_long_max));
-			zoomlevel=ZoomlevelBepalen.getMinimumZoomLevelContainingBounds(bound,670,380);
-			if(zoomlevel>10) zoomlevel=10;
+		if(typeof mapOptions.googlemaps_zoekenboek == "undefined"){
+			mapOptions.googlemaps_zoekenboek = false;
+		} else if(mapOptions.googlemaps_zoekenboek != false) {
+			var bound=new google.maps.LatLngBounds(new google.maps.LatLng(mapOptions.googlemaps_lat_min,mapOptions.googlemaps_long_min),new google.maps.LatLng(mapOptions.googlemaps_lat_max,mapOptions.googlemaps_long_max));
+			mapOptions.zoomlevel=ZoomlevelBepalen.getMinimumZoomLevelContainingBounds(bound,670,380);
+			if(mapOptions.zoomlevel>10) mapOptions.zoomlevel=10;
 		}
 
+		if(typeof mapOptions.googlemaps_skigebiedid == "undefined") {
+			mapOptions.googlemaps_skigebiedid=false;
+		}
 		var mapCookie = chalet_getCookie("map_regio");
 		// Check to see if we should restore map on initial state
 		if(typeof mapCookie != "undefined") {
 			mapCookie = JSON.parse(mapCookie);
 
+			var pageUrl = location.href.split('?')[0];
+			pageUrl = decodeURIComponent(pageUrl.replace(location.hash,""));
+
 			// Applies on search and region pages
-			if((googlemaps_skigebiedid>0 || googlemaps_zoekenboek) && decodeURIComponent(location.href.replace(location.hash,""))==mapCookie.url) {
+			if((mapOptions.googlemaps_skigebiedid>0 || mapOptions.googlemaps_zoekenboek) && (pageUrl==mapCookie.url || pageUrl==mapCookie.url.split('?')[0])) {
 
 				// previous zoom information
 				if(mapCookie.z) {
-					zoomlevel=parseInt(mapCookie.z,10);
+					mapOptions.zoomlevel=parseInt(mapCookie.z,10);
 				}
 
 				// previous latitude and longitude information
 				if(mapCookie.lt && mapCookie.lg) {
-					googlemaps_lat=mapCookie.lt;
-					googlemaps_long=mapCookie.lg;
+					mapOptions.googlemaps_lat=mapCookie.lt;
+					mapOptions.googlemaps_long=mapCookie.lg;
 				}
 
 				// previous marker information
 				if(mapCookie.m) {
-					googlemaps_marker_id = mapCookie.m;
+					mapOptions.googlemaps_marker_id = mapCookie.m;
 				}
 
 				// Delete the cookie information
 				chalet_createCookie("map_regio", "", -1);
 
-			} else if(googlemaps_skigebiedid===0 && decodeURIComponent(location.href.replace(location.hash,""))==mapCookie.url) {
+			} else if(mapOptions.googlemaps_skigebiedid===0 && pageUrl==mapCookie.url) {
 				// Applies on accommodation page only
 				var fromCookie = true;
 			}
@@ -346,7 +417,7 @@ function initialize_googlemaps() {
 
 		// Default map options
 		var myOptions = {
-			zoom: zoomlevel,
+			zoom: mapOptions.zoomlevel,
 			mapTypeId: google.maps.MapTypeId.ROADMAP,
 			scaleControl: true,
 			panControl: true,
@@ -355,34 +426,35 @@ function initialize_googlemaps() {
 			mapTypeControl: true,
 			zoomControl: true,
 			scrollwheel: false,
-			center: new google.maps.LatLng(googlemaps_lat,googlemaps_long)
+			center: new google.maps.LatLng(mapOptions.googlemaps_lat,mapOptions.googlemaps_long)
 		};
 		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
 		// Accommodation page only
-		if(!googlemaps_zoekenboek&&!googlemaps_init&&googlemaps_skigebiedid===0) {
+		if(!mapOptions.googlemaps_zoekenboek && !mapOptions.googlemaps_init && mapOptions.googlemaps_skigebiedid===0) {
+
 			// set marker and check if other accommodations should be displayed as well
 			var value = [];
-			value[1]=googlemaps_lat;
-			value[2]=googlemaps_long;
-			value['naamhtml']=googlemaps_naam;
-			value['plaatsland']=googlemaps_plaatsland;
-			value['aantalpersonen']=googlemaps_aantalpersonen;
-			value['afbeelding']=googlemaps_afbeelding;
-			value['kwaliteit']=googlemaps_kwaliteit;
-			value['omschrijving']=googlemaps_omschrijving;
-			value['tarief']=googlemaps_tarief;
+			value[1]=mapOptions.googlemaps_lat;
+			value[2]=mapOptions.googlemaps_long;
+			value['naamhtml']=mapOptions.googlemaps_naam;
+			value['plaatsland']=mapOptions.googlemaps_plaatsland;
+			value['aantalpersonen']=mapOptions.googlemaps_aantalpersonen;
+			value['afbeelding']=mapOptions.googlemaps_afbeelding;
+			value['kwaliteit']=mapOptions.googlemaps_kwaliteit;
+			value['omschrijving']=mapOptions.googlemaps_omschrijving;
+			value['tarief']=mapOptions.googlemaps_tarief;
 
 			googlemaps_createmarker(value,true,true);
 
 			$("#googlemaps_other").css("visibility","visible");
-			googlemaps_init=true;
+			mapOptions.googlemaps_init=true;
 
 			// If it is a return action in the accommodation page
 			if(fromCookie == true) {
 				// previous marker information
 				if(mapCookie.m) {
-					googlemaps_marker_id = mapCookie.m;
+					mapOptions.googlemaps_marker_id = mapCookie.m;
 				}
 
 				// display other accommodations
@@ -397,7 +469,7 @@ function initialize_googlemaps() {
 		}
 
 		// Search page only
-		if(googlemaps_zoekenboek) {
+		if(mapOptions.googlemaps_zoekenboek) {
 			// markers op basis van zoekresultaten plaatsen
 			$("div.data_zoeken_op_kaart").each(function() {
 				var value = [];
@@ -419,7 +491,7 @@ function initialize_googlemaps() {
 		}
 
 		// region page only
-		if(googlemaps_skigebiedid>0) {
+		if(mapOptions.googlemaps_skigebiedid>0) {
 			// Italissima: plaatsen op de kaart zetten
 			googlemaps_show_region_acc();
 		}
@@ -428,7 +500,7 @@ function initialize_googlemaps() {
 
 function googlemaps_createmarker(value,main,use_animation) {
 
-	googlemaps_counter=googlemaps_counter+1;
+	mapOptions.googlemaps_counter=mapOptions.googlemaps_counter+1;
 	var myLatLng = new google.maps.LatLng(value[1],value[2]);
 
 	var animation;
@@ -437,32 +509,32 @@ function googlemaps_createmarker(value,main,use_animation) {
 	} else {
 		animation="";
 	}
-	var marker = googlemaps_marker[googlemaps_counter];
+	var marker = mapOptions.googlemaps_marker[mapOptions.googlemaps_counter];
 	marker = new google.maps.Marker({
 		map: map,
 		position: myLatLng,
 		draggable: false,
-		icon: googlemaps_base+'pic/googlemapsicons/'+(main ? googlemaps_icon[googlemaps_selected_icon] : googlemaps_icon_ander[googlemaps_selected_icon]),
+		icon: mapOptions.googlemaps_base+'pic/googlemapsicons/'+(main ? mapOptions.googlemaps_icon[mapOptions.googlemaps_selected_icon] : mapOptions.googlemaps_icon_ander[mapOptions.googlemaps_selected_icon]),
 		animation: animation,
 		title: value['naam'],
-		zIndex: (main ? 1000 : googlemaps_counter)
+		zIndex: (main ? 1000 : mapOptions.googlemaps_counter)
 	});
 
-	googlemaps_marker_2.push(marker);
+	mapOptions.googlemaps_marker_2.push(marker);
 	google.maps.event.addListener(marker, 'click', function(event) {
-		if(googlemaps_infowindow) googlemaps_infowindow.close();
+		if(mapOptions.googlemaps_infowindow) mapOptions.googlemaps_infowindow.close();
 
-		googlemaps_infowindow = new google.maps.InfoWindow();
-		googlemaps_infowindow.open(map, marker);
-		googlemaps_infowindow.setContent(googlemaps_marker_content(value));
+		mapOptions.googlemaps_infowindow = new google.maps.InfoWindow({maxWidth: 400, minHeight: 400});
+		mapOptions.googlemaps_infowindow.open(map, marker);
+		mapOptions.googlemaps_infowindow.setContent(googlemaps_marker_content(value));
 	});
 
-	if(googlemaps_marker_id) {
-		if(value['key'] == googlemaps_marker_id) {
-			googlemaps_infowindow = new google.maps.InfoWindow({
+	if(mapOptions.googlemaps_marker_id) {
+		if(value['key'] == mapOptions.googlemaps_marker_id) {
+			mapOptions.googlemaps_infowindow = new google.maps.InfoWindow({
 				content: googlemaps_marker_content(value)
 			});
-			setTimeout(function(){googlemaps_infowindow.open(map,marker);}, 1000);
+			setTimeout(function(){mapOptions.googlemaps_infowindow.open(map,marker);}, 1000);
 		}
 	}
 }
@@ -496,22 +568,22 @@ function googlemaps_marker_content(value) {
 }
 
 function googlemaps_deletemarkers() {
-	for (var i = 1; i < googlemaps_marker_2.length; i++) {
-		googlemaps_marker_2[i].setMap(null);
+	for (var i = 1; i < mapOptions.googlemaps_marker_2.length; i++) {
+		mapOptions.googlemaps_marker_2[i].setMap(null);
 	}
 	$("#googlemaps_deleteother").css("visibility","hidden");
 	$("#googlemaps_other").css("visibility","visible");
 }
 
 function googlemaps_show_region_acc() {
-	$.getJSON(googlemaps_base+"rpc_json.php", {
+	$.getJSON(mapOptions.googlemaps_base+"rpc_json.php", {
 		"t": 1,
-		"skigebiedid":googlemaps_skigebiedid
+		"skigebiedid": mapOptions.googlemaps_skigebiedid
 	}, function(data) {
 		if(data.ok&&data.aantal>0) {
 			$.each(data.acc, function(key, value) {
 				value.key = key;
-				if(value.skigebied_id == googlemaps_skigebiedid) {
+				if(value.skigebied_id == mapOptions.googlemaps_skigebiedid) {
 					googlemaps_createmarker(value,true,true);
 				} else {
 					googlemaps_createmarker(value,false,true);
@@ -522,14 +594,14 @@ function googlemaps_show_region_acc() {
 }
 
 function googlemaps_show_other_acc() {
-	if(googlemaps_init) {
-		for (var i = 1; i < googlemaps_marker_2.length; i++) {
-			googlemaps_marker_2[i].setMap(null);
+	if(mapOptions.googlemaps_init) {
+		for (var i = 1; i < mapOptions.googlemaps_marker_2.length; i++) {
+			mapOptions.googlemaps_marker_2[i].setMap(null);
 		}
-		$.getJSON(googlemaps_base+"rpc_json.php", {
+		$.getJSON(mapOptions.googlemaps_base+"rpc_json.php", {
 			"t": 1,
-			"accid":googlemaps_accid,
-			"typeid":googlemaps_typeid
+			"accid":mapOptions.googlemaps_accid,
+			"typeid":mapOptions.googlemaps_typeid
 		}, function(data) {
 			if(data.ok&&data.aantal>0) {
 				$.each(data.acc, function(key, value) {
@@ -584,6 +656,13 @@ var google_analytics_tab_verstuurd=false;
 var maxHeight = 0;
 
 $(document).ready(function() {
+
+	if($("body").data("onload")) {
+		var functionName = $("body").data("onload");
+		if(functionName == 'initialize_googlemaps' && typeof mapOptions != "undefined") {
+			initialize_googlemaps(mapOptions);
+		}
+	}
 
 	if(gebruik_jquery===true) {
 		//
@@ -1795,16 +1874,16 @@ $(document).ready(function() {
 
 
 		// zoek op kaart
-		$(".zoekresultaten_zoeken_op_kaart").click(function() {
+		$(".zoekresultaten_zoeken_op_kaart").click(function(){
 			google.maps.event.trigger(map, 'resize');
-			map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
+			map.setCenter(new google.maps.LatLng(mapOptions.googlemaps_lat,mapOptions.googlemaps_long));
 			$(".zoekresultaten_zoeken_op_kaart_map").slideToggle("slow",function() {
 				if($(this).is(":visible")) {
 					$(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-down");
 					$(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-up");
 					$(".zoekresultaten_zoeken_op_kaart_map_canvas").show();
 					google.maps.event.trigger(map, 'resize');
-					map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
+					map.setCenter(new google.maps.LatLng(mapOptions.googlemaps_lat,mapOptions.googlemaps_long));
 					$("input[name=map]").val("1");
 				} else {
 					$(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-up");
@@ -1818,14 +1897,14 @@ $(document).ready(function() {
 		// link "toon op kaart"
 		$(".toonopkaart").click(function(event){
 			google.maps.event.trigger(map, 'resize');
-			map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
+			map.setCenter(new google.maps.LatLng(mapOptions.googlemaps_lat,mapOptions.googlemaps_long));
 			$(".zoekresultaten_zoeken_op_kaart_map").slideToggle("slow",function() {
 				if($(this).is(":visible")) {
 					// $(".zoekresultaten_zoeken_op_kaart i").removeClass("icon-arrow-down");
 					// $(".zoekresultaten_zoeken_op_kaart i").addClass("icon-arrow-up");
 					$(".zoekresultaten_zoeken_op_kaart_map_canvas").show();
 					google.maps.event.trigger(map, 'resize');
-					map.setCenter(new google.maps.LatLng(googlemaps_lat,googlemaps_long));
+					map.setCenter(new google.maps.LatLng(mapOptions.googlemaps_lat,mapOptions.googlemaps_long));
 					$("input[name=map]").val("1");
 
 					$(".toonopkaart a").html($(".toonopkaart a").data("toggle"));
@@ -1861,7 +1940,7 @@ $(document).ready(function() {
 			}
 
 			// start google map
-			initialize_googlemaps();
+			initialize_googlemaps(mapOptions);
 		}
 
 		// factuur goedkeuren door klant: button actief/inactief
@@ -1912,13 +1991,15 @@ $(document).ready(function() {
 			//
 			if($(".livechat_button").length!==0) {
 				setTimeout(function() {
-					if($("div.livechat_button img").attr("src").indexOf("online")>0) {
-						$("span.trigger_livechat_button").replaceWith(function() {
-							var text = $.trim($(this).text());
-							return "<a href='#' class='trigger_livechat_button'>" + text + "</a>";
-						});
+					if($("div.livechat_button img").length!==0) {
+						if($("div.livechat_button img").attr("src").indexOf("online")>0) {
+							$("span.trigger_livechat_button").replaceWith(function() {
+								var text = $.trim($(this).text());
+								return "<a href='#' class='trigger_livechat_button'>" + text + "</a>";
+							});
+						}
 					}
-				},1000);
+				},1500);
 
 				//
 				// trigger click op chatbutton
@@ -2222,70 +2303,34 @@ function tarieventabel_controleer_scrollbuttons() {
 	});
 }
 
-var ZoomlevelBepalen = new function() {
-
-   var OFFSET = 268435456;
-   var RADIUS = OFFSET / Math.PI;
-
-   /**
-	* Gets the minimum zoom level that entirely contains the Lat/Lon bounding rectangle given.
-	*
-	* @param {google.maps.LatLngBounds} boundary the Lat/Lon bounding rectangle to be contained
-	* @param {number} mapWidth the width of the map in pixels
-	* @param {number} mapHeight the height of the map in pixels
-	* @return {number} the minimum zoom level that entirely contains the given Lat/Lon rectangle boundary
-	*/
-   this.getMinimumZoomLevelContainingBounds = function ( boundary, mapWidth, mapHeight ) {
-
-	  var zoomIndependentSouthWestPoint = latLonToZoomLevelIndependentPoint( boundary.getSouthWest() );
-	  var zoomIndependentNorthEastPoint = latLonToZoomLevelIndependentPoint( boundary.getNorthEast() );
-	  var zoomIndependentNorthWestPoint = { x: zoomIndependentSouthWestPoint.x, y: zoomIndependentNorthEastPoint.y };
-	  var zoomIndependentSouthEastPoint = { x: zoomIndependentNorthEastPoint.x, y: zoomIndependentSouthWestPoint.y };
-	  var zoomLevelDependentSouthEast, zoomLevelDependentNorthWest, zoomLevelWidth, zoomLevelHeight;
-	  for( var zoom = 21; zoom >= 0; --zoom ) {
-		 zoomLevelDependentSouthEast = zoomLevelIndependentPointToMapCanvasPoint( zoomIndependentSouthEastPoint, zoom );
-		 zoomLevelDependentNorthWest = zoomLevelIndependentPointToMapCanvasPoint( zoomIndependentNorthWestPoint, zoom );
-		 zoomLevelWidth = zoomLevelDependentSouthEast.x - zoomLevelDependentNorthWest.x;
-		 zoomLevelHeight = zoomLevelDependentSouthEast.y - zoomLevelDependentNorthWest.y;
-		 if( zoomLevelWidth <= mapWidth && zoomLevelHeight <= mapHeight )
-			return zoom;
-	  }
-	  return 0;
-   };
-
-   function latLonToZoomLevelIndependentPoint ( latLon ) {
-	  return { x: lonToX( latLon.lng() ), y: latToY( latLon.lat() ) };
-   }
-
-   function zoomLevelIndependentPointToMapCanvasPoint ( point, zoomLevel ) {
-	  return {
-		 x: zoomLevelIndependentCoordinateToMapCanvasCoordinate( point.x, zoomLevel ),
-		 y: zoomLevelIndependentCoordinateToMapCanvasCoordinate( point.y, zoomLevel )
-	  };
-   }
-
-   function zoomLevelIndependentCoordinateToMapCanvasCoordinate ( coordinate, zoomLevel ) {
-	  return coordinate >> ( 21 - zoomLevel );
-   }
-
-   function latToY ( lat ) {
-	  return OFFSET - RADIUS * Math.log( ( 1 + Math.sin( lat * Math.PI / 180 ) ) / ( 1 - Math.sin( lat * Math.PI / 180 ) ) ) / 2;
-   }
-
-   function lonToX ( lon ) {
-	  return OFFSET + RADIUS * lon * Math.PI / 180;
-   }
-
-};
-
 function map_zoek_en_boek_click(e) {
 	// klikken op accommodatie bij zoeken op kaart
 	show_ajaxloader(true);
 
 	var back_url=location.href;
-	back_url=updateURLParameter(back_url,"scrolly",$(window).scrollTop());
-	back_url=updateURLParameter(back_url,"map",1);
-	var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
+	if(!mapOptions.googlemaps_zoekenboek && mapOptions.googlemaps_skigebiedid===0) {
+		back_url = back_url.replace(location.hash,"");
+		if(back_url.indexOf('?back=') > -1) {
+			map_back_url = decodeURIComponent(back_url.split('?back=')[0]);
+			back_url = decodeURIComponent(back_url.split('?back=')[1]);
+		} else {
+			back_url = decodeURIComponent(back_url);
+			map_back_url = back_url;
+		}
+		var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
+
+	} else {
+		back_url=updateURLParameter(back_url,"scrolly",$(window).scrollTop());
+		back_url=updateURLParameter(back_url,"map",1);
+
+		if(back_url.indexOf('#kaart') > -1) {
+			back_url = back_url.replace("#kaart", "");
+			back_url += "#kaart";
+		}
+		map_back_url = back_url;
+		var nieuwe_url=$(e).attr("href")+"?back="+encodeURIComponent(back_url).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
+	}
+
 	$(e).attr("href",nieuwe_url);
 
 	var marker = $(e).data("marker");
@@ -2316,7 +2361,13 @@ function map_regio_click(marker) {
 		var mapMarker=false;
 	}
 
-	var mapCookie= {lt: mapLat, lg: mapLng, z: map.getZoom(), url: location.href.replace(location.hash,""), m: mapMarker };
+	var url = location.href;
+	if(typeof map_back_url != "undefined" && map_back_url != '') {
+		url = map_back_url;
+		map_back_url = '';
+	}
+
+	var mapCookie= {lt: mapLat, lg: mapLng, z: map.getZoom(), url: url, m: mapMarker };
 
 	chalet_createCookie("map_regio",JSON.stringify(mapCookie));
 	return true;
@@ -2443,7 +2494,7 @@ $(document).ready(function() {
 	if(gebruik_jquery===true) {
 
 		// zoekblok pas tonen als alles klaar is
-		$("#zoekblok, #verfijn").css("visibility","visible");
+		$("#zoekblok, #verfijn, #zoekenboek_overlay, #zoekenboek").css("visibility","visible");
 
 		// indien _GET["selb"]==1 : bestemming-pulldown openklappen
 		if(location.href.indexOf("&selb=1") > -1 && $("div.datadiv").data("referer_zoekenboek")!="0") {
@@ -2451,7 +2502,7 @@ $(document).ready(function() {
 		}
 
 
-//		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek" && $("div.zoekblok_zoek_alleen_aanbiedingen").length==0) {
+		// if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek" && $("div.zoekblok_zoek_alleen_aanbiedingen").length==0) {
 		if($("#zoekblok").length!==0 && parseInt($("div.datadiv").data("nieuwezoekopdracht"),10)==1 && $("body").attr("id")=="body_zoek-en-boek") {
 
 			//

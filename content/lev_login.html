@@ -590,7 +590,7 @@ if($login_lev->logged_in) {
 		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
 		echo "<input type=\"hidden\" name=\"lev_login_cms\" value=\"1\">";
 		echo "<select name=\"leverancier_id\">";
-		echo "<option></option>";
+		echo "<option> </option>";
 
 		if($vars["seizoentype"]==1) {
 			$andquery_inlog=" AND inlog_wintersite='".addslashes($vars["website"])."'";
