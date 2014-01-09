@@ -1629,7 +1629,7 @@ if($db->next_record()) {
 
 
 	# Printbutton
-	echo "<a href=\"#\" class=\"print\" onclick=\"window.print();return false;\"></a>";
+	echo "<a href=\"#\" class=\"print\" onclick=\"window.print();return false;\" title=\"".html("paginaafdrukken","toonaccommodatie")."\"></a>";
 
 	# Doormailfunctie
 	echo "<a href=\"#\" class=\"mail\" onclick=\"popwindow(800,740,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\" title=\"".html("popuptitle_stuurdoor")."\"></a>";

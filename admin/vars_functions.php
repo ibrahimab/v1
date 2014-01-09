@@ -2548,7 +2548,7 @@ function imagetable($onderdeel,$id) {
 			$foto_table.="<TR><TD colspan=\"2\" align=\"center\"><img src=\"".$path."pic/cms/".$value."\" alt=\"\" width=\"400\" height=\"150\"></TD></TR>";
 		}
 
-		echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel\">";
+		echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 		echo "<TR><TH>".html("fotos","vars")."</TH><TH style=\"text-align:right;font-size:0.7em;\" class=\"noprint\">";
 		if($vergroting) {
 			echo "<img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" border=\"0\"> = ".html("klikvoorvergroting","imagetable");
@@ -2556,7 +2556,7 @@ function imagetable($onderdeel,$id) {
 			echo "&nbsp;";
 		}
 		echo "</TH></TR>";
-		echo "<TR><TD colspan=\"2\"><TABLE border=\"0\" width=\"100%\" cellpadding=\"8\" class=\"geenborders\">";
+		echo "<TR><TD colspan=\"2\"><TABLE border=\"0\" width=\"100%\" cellspacing=\"0\" cellpadding=\"8\" class=\"geenborders\">";
 
 		echo $foto_table;
 
@@ -2625,7 +2625,7 @@ function balk() {
 	} else {
 		$colspan=4;
 	}
-	return "<TR style=\"background-color:#FFFFFF;\"><TD colspan=\"".$colspan."\"><TABLE width=\"100%\"><TR><TD bgcolor=\"".$bgcolor."\"><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"2\" alt=\"\"></TD></TR></TABLE></TD></TR>";
+	return "<TR style=\"background-color:#FFFFFF;\"><TD colspan=\"".$colspan."\"><TABLE width=\"100%\" cellspacing=\"0\" cellpadding=\"0\"><TR><TD bgcolor=\"".$bgcolor."\"><img src=\"".$path."pic/leeg.gif\" width=\"1\" height=\"2\" alt=\"\"></TD></TR></TABLE></TD></TR>";
 }
 
 function bereken_tarief($typeid,$seizoen,$week,$aantalpersonen) {
@@ -3707,7 +3707,7 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		if($vars["lokale_testserver"]) {
 			echo "<img src=\"ss.postvak.net/tradetrackertest/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&amp;conversionType=".($sale ? "sales" : "lead")."&amp;orderID=".$orderID.($sale ? "&amp;orderAmount=".$orderAmount : "")."&amp;email=$email&amp;additional=$additional\" width=\"1\" height=\"1\" style=\"border:0;\" alt=\"\" />\n";
 		} else {
-			echo "<img src=\"https://t".($sale ? "s" : "l").".tradetracker.nl/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&amp;conversionType=".($sale ? "sales" : "lead")."&amp;orderID=".$orderID.($sale ? "&orderAmount=".$orderAmount : "")."&amp;email=$email&amp;additional=$additional\" width=\"1\" height=\"1\" style=\"border:0;\" alt=\"\" />\n";
+			echo "<img src=\"https://t".($sale ? "s" : "l").".tradetracker.nl/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&amp;conversionType=".($sale ? "sales" : "lead")."&amp;orderID=".$orderID.($sale ? "&amp;orderAmount=".$orderAmount : "")."&amp;email=$email&amp;additional=$additional\" width=\"1\" height=\"1\" style=\"border:0;\" alt=\"\" />\n";
 		}
 	}
 

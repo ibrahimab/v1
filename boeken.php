@@ -1318,7 +1318,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		}
 
 		$reissomtabel=reissom_tabel($gegevens,$accinfo,array("tonen_verbergen"=>true));
-		$form->field_htmlrow("","<hr><b>".txt("samenstellingreissom","boeken")."</b><p><table style=\"width:660px;\">".$reissomtabel."</table><hr>");
+		$form->field_htmlrow("","<hr><b>".txt("samenstellingreissom","boeken")."</b><p><table class=\"table\" style=\"width:660px;\">".$reissomtabel."</table><hr>");
 		$reissomtabel=reissom_tabel($gegevens,$accinfo);
 
 		if($gegevens["stap1"]["opmerkingen_opties"]) {
@@ -2734,7 +2734,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$inlogtext.=html("viaadreskuntuinloggen","boeken",array("h_1"=>"<a href=\"".wt_he($directlogin_link)."\">","h_2"=>"</a>"));
 
 			# Button
-#			$inlogtext.="<p><center><table><tr><td width=\"200\" height=\"30\" bgcolor=\"".$table."\" style=\"-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: ".$thfontcolor."; display: block; text-align: center;\"><a href=\"".wt_he($directlogin_link)."\" style=\"color: ".$thfontcolor."; font-size:11px; font-weight: bold; font-family: Verdana, Arial, Helvetica, sans-serif; text-decoration: none; line-height:30px; width:100%; display:inline-block\">".html("directinloggen","boeken")."</a></td></tr></table></center></p>";
+#			$inlogtext.="<p><center><table class=\"table\"><tr><td width=\"200\" height=\"30\" bgcolor=\"".$table."\" style=\"-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; color: ".$thfontcolor."; display: block; text-align: center;\"><a href=\"".wt_he($directlogin_link)."\" style=\"color: ".$thfontcolor."; font-size:11px; font-weight: bold; font-family: Verdana, Arial, Helvetica, sans-serif; text-decoration: none; line-height:30px; width:100%; display:inline-block\">".html("directinloggen","boeken")."</a></td></tr></table></center></p>";
 
 			if($directlogin_wachtwoord) {
 				$inlogtext.=" ".html("gebruikdaarbijhetvolgendewachtwoord","boeken")." <strong>".htmlentities($directlogin_wachtwoord)."</strong>";
@@ -2820,7 +2820,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					if(is_array($gegevens["stap4"][$i]["opties_perpersoon"]) or $gegevens["stap3"][$i]["annverz"]) {
 						$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px;vertical-align:top;\">".html("opties","boeken")."</td><td style=\"border:solid ".$table." 1px\">";
 						@reset($gegevens["stap4"][$i]["opties_perpersoon"]);
-						$tabellen.="<table style=\"font-family: ".$font.";font-size: 1.0em;width:450px;border:0;\">";
+						$tabellen.="<table class=\"table\" style=\"font-family: ".$font.";font-size: 1.0em;width:450px;border:0;\">";
 						while(list($key,$value)=@each($gegevens["stap4"][$i]["opties_perpersoon"])) {
 							$tabellen.="<tr><td style=\"vertical-align:top;\">".htmlentities($value)."&nbsp;</td><td style=\"vertical-align:top;\">";
 							$tabellen.="&euro;&nbsp;</td><td style=\"vertical-align:top;text-align:right;\">".number_format($gegevens["stap4"][$i]["optieonderdeel_verkoop"][$key],2,',','.');

@@ -38,7 +38,7 @@ if($themalandinfo) {
 	echo "<div id=\"themablok\" style=\"background-color:".$vars["themakleurcode_licht"][$themalandinfo["kleurcode"]]."\">";
 	if(file_exists("pic/cms/".$themalandinfo["padhoofdafbeelding"]."/".$themalandinfo["id"].".jpg")) {
 		echo "<div id=\"themafotos\">";
-		echo "<div style=\"padding-bottom:10px;\"><img src=\"".$vars["path"]."pic/cms/".$themalandinfo["padhoofdafbeelding"]."/".$themalandinfo["id"].".jpg\" width=\"240\" height=\"180\" alt=\"".$themalandinfo["id"]."\" /></div>";
+		echo "<div style=\"padding-bottom:10px;\"><img src=\"".$vars["path"]."pic/cms/".$themalandinfo["padhoofdafbeelding"]."/".$themalandinfo["id"].".jpg\" width=\"240\" height=\"180\" alt=\"\" /></div>";
 
 		if($accthema[2] and $accthema[3]) {
 			echo "<div style=\"padding-bottom:7px;\">".html("accommodaties","thema").":</div>";
