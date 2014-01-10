@@ -1663,41 +1663,13 @@ if($db->next_record()) {
 	echo "</div>"; # afsluiten #socialmedia
 
 
-	echo "<ul>";
+	echo "<ul class=\"list_under_bookbuttons\">";
 
 	# "Word bestand downloaden"-link voor ingelogde reisagenten
 	if($vars["wederverkoop"] and ($vars["chalettour_logged_in"] or $voorkant_cms)) {
 		echo "<li><a href=\"".$vars["path"]."accommodatie_word.php?accid=".htmlentities($typeid)."\" rel=\"nofollow\">".html("wordbestanddownloaden","toonaccommodatie")."</a></li>";
 	}
 
-	#
-	# Link naar andere site (zomer/winter)
-	#
-	if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
-		# Op Chalet.nl/be link naar zomerhuisje.nl/eu
-		if($db->f("zomerwinterkoppeling_accommodatie_id")) {
-			if($vars["website"]=="C") {
-				$beginurl="http://www.zomerhuisje.nl";
-			} elseif($vars["website"]=="B") {
-				$beginurl="http://www.zomerhuisje.eu";
-			}
-			if($beginurl) {
-#				echo "<li><a href=\"".$beginurl.ereg_replace("[a-z]+/$","",$path).txt("menu_accommodatie")."/".$db->f("begincode").$db->f("zomerwinterkoppeling_accommodatie_id")."/\">".html("accommodatieopanderesite_2","toonaccommodatie")."</a></li>";
-			}
-		}
-	} elseif($vars["websitetype"]==3 or $vars["websitetype"]==5) {
-		# Op Zomerhuisje.nl/eu link naar winterpagina
-		if($db->f("zomerwinterkoppeling_accommodatie_id")) {
-			if($vars["website"]=="Z") {
-				$beginurl="http://www.chalet.nl";
-			} elseif($vars["website"]=="N") {
-				$beginurl="http://www.chalet.be";
-			}
-			if($beginurl) {
-#				echo "<li><a href=\"".$beginurl.ereg_replace("[a-z]+/$","",$path).txt("menu_accommodatie")."/".$db->f("begincode").$db->f("zomerwinterkoppeling_accommodatie_id")."/\">".html("accommodatieopanderesite_2","toonaccommodatie")."</a></li>";
-			}
-		}
-	}
 	if($voorkant_cms) {
 		echo "<li><a href=\"";
 		if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
