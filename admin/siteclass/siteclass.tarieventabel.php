@@ -53,38 +53,8 @@ class tarieventabel {
 
 		// link to new season
 		if($this->seizoen_counter>1) {
-
-			$return .= "<style>
-
-			.tarieventabel_nextseason {
-				text-align: right;
-				margin-right: 24px;
-			}
-
-
-			.tarieventabel_nextseason a {
-				background-color: #003366;
-				color: #ffffff;
-				display: inline-block;
-				padding: 7px;
-				margin-bottom: 15px;
-				text-decoration: none;
-			}
-
-			.tarieventabel_nextseason a:hover {
-				background-color: #d5e1f9;
-				color: #003366;
-			}
-
-
-			</style>
-			";
-
 			$return .= "<div class=\"tarieventabel_nextseason\"><a href=\"#\" class=\"tarieventabel_jump_jaarmaand\" data-jaarmaand=\"".date("Ym", $this->seizoeninfo[$this->last_seizoen_id]["begin"])."\">".html("nualteboeken", "tarieventabel", array("v_seizoennaam"=>$this->seizoeninfo[$this->last_seizoen_id]["naam"]))." &raquo;</a></div>";
 		}
-
-
-
 
 		// $this->seizoeninfo[$db->f("seizoen_id")]["naam"] = $db->f("naam");
 
@@ -1209,7 +1179,7 @@ if($this->tarief[$key]>0) {
 
 		// seizoensgegevens uit database halen
 		// $db->query("SELECT MIN(UNIX_TIMESTAMP(s.begin)) AS begin, MAX(UNIX_TIMESTAMP(s.eind)) AS eind, s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' AND s.seizoen_id IN (".$this->seizoen_id.") AND s.tonen>1;");
-		$db->query("SELECT s.seizoen_id, UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind, s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' AND s.seizoen_id IN (".$this->seizoen_id.") AND s.tonen>1 ORDER BY s.begin, s.eind;");
+		$db->query("SELECT s.seizoen_id, UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind, s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' AND s.seizoen_id IN (".$this->seizoen_id.") AND s.tonen>1 AND s.eind>NOW() ORDER BY s.begin, s.eind;");
 		while($db->next_record()) {
 
 			// seizoeninfo
