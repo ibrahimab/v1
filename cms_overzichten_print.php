@@ -302,7 +302,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	}
 
 	# Opties
-	$db->query("SELECT DISTINCT og.optie_groep_id, og.naam, og.contactpersoon, og.telefoonnummer, og.faxnummer, og.noodnummer FROM optie_accommodatie oa, optie_groep og, boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE (og.contactpersoon<>'' OR og.telefoonnummer<>'' OR og.faxnummer<>'' OR og.noodnummer<>'') AND oa.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY og.naam;");
+	$db->query("SELECT DISTINCT og.optie_groep_id, og.naam, og.contactpersoon, og.telefoonnummer, og.faxnummer, og.noodnummer FROM optie_accommodatie oa, optie_groep og, boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE og.optie_groep_id IN (SELECT DISTINCT optie_groep_id FROM optie_onderdeel oo, optie_tarief ot WHERE ot.week>".time()." AND ot.optie_onderdeel_id=oo.optie_onderdeel_id) AND (og.contactpersoon<>'' OR og.telefoonnummer<>'' OR og.faxnummer<>'' OR og.noodnummer<>'') AND oa.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY og.naam;");
 	if($db->num_rows()) {
 		$ms->html.="<br>&nbsp;<br><table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
 		$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Optie</th><th>Contactpersoon</th><th>Telefoonnummer</th><th>Faxnummer</th><th>Noodnummer</th></tr></thead>";
@@ -457,6 +457,17 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Skipas</th><th>Contactpersoon</th><th>Telefoonnummer</th><th>Faxnummer</th><th>Noodnummer</th></tr></thead>";
 		while($db->next_record()) {
 			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("naam").$db->f("optie_groep_id"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? htmlentities($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? htmlentities($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? htmlentities($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? htmlentities($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
+		}
+		$ms->html.="</table>";
+	}
+
+	# Opties
+	$db->query("SELECT DISTINCT og.optie_groep_id, og.naam, og.contactpersoon, og.telefoonnummer, og.faxnummer, og.noodnummer FROM optie_accommodatie oa, optie_groep og, boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, leverancier l WHERE og.optie_groep_id IN (SELECT DISTINCT optie_groep_id FROM optie_onderdeel oo, optie_tarief ot WHERE ot.week>".time()." AND ot.optie_onderdeel_id=oo.optie_onderdeel_id) AND (og.contactpersoon<>'' OR og.telefoonnummer<>'' OR og.faxnummer<>'' OR og.noodnummer<>'') AND oa.optie_groep_id=og.optie_groep_id AND oa.accommodatie_id=a.accommodatie_id AND b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY og.naam;");
+	if($db->num_rows()) {
+		$ms->html.="<br>&nbsp;<br><table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
+		$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Optie</th><th>Contactpersoon</th><th>Telefoonnummer</th><th>Faxnummer</th><th>Noodnummer</th></tr></thead>";
+		while($db->next_record()) {
+			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("naam"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? htmlentities($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? htmlentities($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? htmlentities($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? htmlentities($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
 		}
 		$ms->html.="</table>";
 	}
