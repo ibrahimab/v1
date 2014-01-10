@@ -834,7 +834,7 @@ class form2 {
 
 					if($this->fields["layout"][$id]["indent"]) {
 						# inspringen indien keuze meerdere regels bevat
-						$return.="<table class=\"table\"><tr><td style=\"vertical-align:top;\">";
+						$return.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"vertical-align:top;\">";
 					}
 					$return.="<input type=\"checkbox\" id=\"checkbox".$id.$key."\" name=\"input[".$id."][".wt_he($key)."]\" ".($this->value[$id][$key]=="on" ? "checked " : "");
 					if($this->fields["layout"][$id]["onchange"]) {
@@ -1151,7 +1151,7 @@ class form2 {
 			}
 			while(list($key,$value)=each($this->fields["options"][$id]["selection"])) {
 				if($this->fields["layout"][$id]["one_per_line"]) {
-					$return.="<table class=\"table\"><tr><td style=\"vertical-align:top;\">";
+					$return.="<table cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"vertical-align:top;\">";
 				}
 				$return.="<input type=\"radio\" id=\"radio".$id.$key."\" name=\"input[".$id."]\" ".($this->value[$id]==$key ? "checked " : "")."value=\"".wt_he($key)."\"";
 				if($this->fields["layout"][$id]["onchange"]) {
