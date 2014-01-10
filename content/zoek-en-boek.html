@@ -2428,7 +2428,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 								$img="accommodaties/".$value2["accommodatie_id"].".jpg";
 							}
 						}
-						$results[$results_teller].="<div class=\"zoekresultaat_img\"><img src=\"".wt_he($vars["path"]."pic/cms/".$img)."\"></div>";
+						$results[$results_teller].="<div class=\"zoekresultaat_img\"><img src=\"".wt_he($vars["path"]."pic/cms/".$img)."\" alt=\"\"></div>";
 
 						$results[$results_teller].="<div class=\"zoekresultaat_content\">";
 
@@ -2439,12 +2439,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 							$results[$results_teller].="<div class=\"zoekresultaat_content_sterren\">";
 							if($newresultsminmax[$value]["minkwaliteit"]) {
 								for($i=1;$i<=$newresultsminmax[$value]["minkwaliteit"];$i++) {
-									$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\">";
+									$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\" alt=\"*\">";
 								}
 								if($newresultsminmax[$value]["maxkwaliteit"]>$newresultsminmax[$value]["minkwaliteit"]) {
-									$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster-scheidingsteken.gif\">";
+									$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster-scheidingsteken.gif\" alt=\" \">";
 									for($i=1;$i<=$newresultsminmax[$value]["maxkwaliteit"];$i++) {
-										$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\">";
+										$results[$results_teller].="<img src=\"".$vars["path"]."pic/ster_".$vars["websitetype"].".png\" alt=\"*\">";
 									}
 								}
 							}
@@ -2604,7 +2604,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 #			echo html("uitgebreidzoeken","thema");
 #			echo "</div>";
 
-			echo "<a href=\"".wt_he($vars["path"].txt("menu_zoek-en-boek").".php?filled=1&".$vars["themainfo"]["uitgebreidzoeken_url"])."&referer=5\" class=\"button\" style=\"float:left;\" rel=\"nofollow\">";
+			echo "<a href=\"".wt_he($vars["path"].txt("menu_zoek-en-boek").".php?filled=1&".$vars["themainfo"]["uitgebreidzoeken_url"])."&amp;referer=5\" class=\"button\" style=\"float:left;\" rel=\"nofollow\">";
 			echo html("uitgebreidzoeken","thema");
 			echo "</a>";
 
@@ -2639,7 +2639,6 @@ echo "<div id=\"zoekblok\" class=\"boxshadow\">";
 
 
 # formulier-declaratie
-echo "<div class=\"form_element_wrapper\">";
 echo "<form method=\"get\" action=\"";
 if($vars["zoekform_thema"]) {
 	if($vars["zoekform_italissima_nieuwe_tarieven"]) {
@@ -2664,7 +2663,7 @@ if($vars["zoekform_thema"]) {
 echo $urlself;
 #$urlself=ereg_replace("#form","",$urlself);
 echo "\" name=\"zoeken\" id=\"zoeken\">";
-echo "</div>"; # afsluiten .form_element_wrapper
+
 
 
 #
@@ -2793,7 +2792,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 
 
 		echo "<select name=\"fsg_invoer\" class=\"zoekblok_select\" id=\"zoekblok_field_bestemming\" data-placeholder=\"".wt_he($placeholder)."\" data-no_results_text=\"".html("geenresultatenmet","zoek-en-boek")."\">";
-		echo "<option></option>";
+		echo "<option> </option>";
 		unset($vars["skigebied"]["00AAAAA___".$vars["geenvoorkeur"]]);
 		while(list($key,$value)=each($vars["skigebied"])) {
 
@@ -2888,7 +2887,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 	#		echo "<select name=\"fap\" class=\"zoekblok_select onchangesubmit\">";
 
 		echo "<select name=\"fap\" class=\"zoekblok_select onchangesubmit\" data-placeholder=\"- ".html("geenvoorkeur","vars")." -\">";
-		echo "<option value=\"0\"".(!$_GET["fap"] ? " selected" : "")."></option>";
+		echo "<option value=\"0\"".(!$_GET["fap"] ? " selected" : "")."> </option>";
 		unset($vars["aantalpersonen"][0]);
 		reset($vars["aantalpersonen"]);
 		while(list($key,$value)=each($vars["aantalpersonen"])) {
@@ -2921,7 +2920,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		echo "<div class=\"zoekblok_field\">";
 
 		echo "<select name=\"fas\" class=\"zoekblok_select onchangesubmit\" data-placeholder=\"- ".html("geenvoorkeur","vars")." -\">";
-		echo "<option value=\"0\"".(!$_GET["fas"] ? " selected" : "")."></option>";
+		echo "<option value=\"0\"".(!$_GET["fas"] ? " selected" : "")."> </option>";
 		unset($vars["aantalslaapkamers"][0]);
 		reset($vars["aantalslaapkamers"]);
 		while(list($key,$value)=each($vars["aantalslaapkamers"])) {
@@ -2961,7 +2960,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 			#
 			# Kalender
 			echo "<div style=\"float:left;margin-top:5px;\">";
-			echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=286,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" class=\"zoekblok_aankomstdatum_calendar\">";
+			echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" style=\"border:0;\" onClick=\"window.open('".$vars["path"]."calendar.php?nm=zoeken&amp;lang=".$vars["taal"]."&amp;justonevar=1&amp;input=fadf&amp;month='+document.zoeken.elements['fadf_m'].value+'&amp;year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=286,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" class=\"zoekblok_aankomstdatum_calendar\">";
 			echo "</div>";
 
 			# dag
@@ -3000,7 +2999,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 			if(is_array($vars["aankomstdatum_weekend"])) {
 
 				echo "<select name=\"fad\" class=\"zoekblok_select onchangesubmit\" data-placeholder=\"- ".html("geenvoorkeur","vars")." -\">";
-				echo "<option value=\"0\"".(!$_GET["fad"] ? " selected" : "")."></option>";
+				echo "<option value=\"0\"".(!$_GET["fad"] ? " selected" : "")."> </option>";
 				unset($vars["aankomstdatum_weekend"][0]);
 				reset($vars["aankomstdatum_weekend"]);
 				while(list($key,$value)=each($vars["aankomstdatum_weekend"])) {
@@ -3059,7 +3058,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 			}
 		}
 		echo "<select name=\"fdu\" class=\"zoekblok_select onchangesubmit\" data-placeholder=\"- ".html("geenvoorkeur","vars")." -\">";
-		echo "<option value=\"0\"".(!$_GET["fdu"] ? " selected" : "")."></option>";
+		echo "<option value=\"0\"".(!$_GET["fdu"] ? " selected" : "")."> </option>";
 
 		reset($vars["verblijfsduur"]);
 		while(list($key,$value)=each($vars["verblijfsduur"])) {
@@ -3192,7 +3191,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 			echo "<div class=\"zoekblok_field\">";
 
 			echo "<select name=\"lev\" class=\"zoekblok_select onchangesubmit\" data-placeholder=\"- ".html("geenvoorkeur","vars")." -\">";
-			echo "<option value=\"0\"".(!$_GET["lev"] ? " selected" : "")."></option>";
+			echo "<option value=\"0\"".(!$_GET["lev"] ? " selected" : "")."> </option>";
 			$db->query("SELECT DISTINCT l.leverancier_id, l.naam FROM leverancier l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.wzt='".$vars["seizoentype"]."' AND ".$vars["where_websites_query_t"]." ORDER BY naam;");
 			while($db->next_record()) {
 				echo "<option value=\"".$db->f("leverancier_id")."\"";
@@ -3305,7 +3304,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		# "alles wissen"-link
 		if(strpos($_SERVER["REQUEST_URI"],"filled=1")) {
 			echo "<div class=\"zoekblok_alleswissen\">";
-			echo "<a href=\"".wt_he($urlself.(strpos($_SERVER["REQUEST_URI"],"&aab=1") ? "?filled=1&aab=1&faab=1" : "")).($_GET["testsysteem"] ? "?testsysteem=1" : "")."\"><i class=\"icon-remove-sign\"></i><span>".html("alleswissen","zoek-en-boek")."</span></a>";
+			echo "<a href=\"".wt_he($urlself.(strpos($_SERVER["REQUEST_URI"],"&aab=1") ? "?filled=1&amp;aab=1&amp;faab=1" : "")).($_GET["testsysteem"] ? "?testsysteem=1" : "")."\"><i class=\"icon-remove-sign\"></i><span>".html("alleswissen","zoek-en-boek")."</span></a>";
 			echo "</div>"; # afsluiten .zoekblok_alleswissen
 		}
 
@@ -3486,12 +3485,12 @@ if($resultaten_tonen) {
 			file_put_contents($unixdir."cache/aantal_accommodaties_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types);
 		}
 
-		echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" width=\"740\" id=\"zoekresultatentable\">";
-
+		echo "<table id=\"zoekresultatentable\" class=\"table\">";
+		echo "<tr><td></td><td></td><td></td><td></td><td></td></tr>";
 		if($vars["flexibel_toegestaan"]) {
-			echo "<tr><td colspan=\"5\" align=\"left\">";
+			echo "<tr><td colspan=\"5\" style=\"text-align:left;\">";
 		} else {
-			echo "<tr><td colspan=\"4\" align=\"left\">";
+			echo "<tr><td colspan=\"4\" style=\"text-align:left;\">";
 		}
 
 		# Flexibel: alternatieven tonen
@@ -3503,10 +3502,12 @@ if($resultaten_tonen) {
 			$gps_lat_midden=($gps_lat_min+$gps_lat_max)/2;
 			$gps_long_midden=($gps_long_min+$gps_long_max)/2;
 			echo "<script>\n";
+			echo "var mapOptions = {};\n";
+
 			if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-				echo "var googlemaps_base='/chalet/';\n";
+				echo "mapOptions.googlemaps_base='/chalet/';\n";
 			}
-			echo "var googlemaps_zoekenboek=true;\nvar googlemaps_lat=".$gps_lat_midden.";\nvar googlemaps_long=".$gps_long_midden.";\nvar googlemaps_lat_min=".$gps_lat_min.";\nvar googlemaps_long_min=".$gps_long_min.";\nvar googlemaps_lat_max=".$gps_lat_max.";\nvar googlemaps_long_max=".$gps_long_max.";\nvar googlemaps_selected_icon=".$vars["websitetype"].";\nvar zoomlevel=11;\nvar gps_coordinaten_bekend=1;\n";
+			echo "mapOptions.googlemaps_zoekenboek=true;\n mapOptions.googlemaps_lat=".$gps_lat_midden.";\n mapOptions.googlemaps_long=".$gps_long_midden.";\n mapOptions.googlemaps_lat_min=".$gps_lat_min.";\n mapOptions.googlemaps_long_min=".$gps_long_min.";\n mapOptions.googlemaps_lat_max=".$gps_lat_max.";\n mapOptions.googlemaps_long_max=".$gps_long_max.";\n mapOptions.googlemaps_selected_icon=".$vars["websitetype"].";\n mapOptions.zoomlevel=11;\n mapOptions.gps_coordinaten_bekend=1;\n";
 			echo "</script>\n";
 
 #			echo "<div class=\"zoekresultaten_zoeken_op_kaart zoekresultaten_aantalgevonden boxshadow\">".html("bekijkopkaart","zoek-en-boek")."&nbsp;&nbsp;<i class=\"icon-arrow-down\"></i></div>";
@@ -3516,7 +3517,11 @@ if($resultaten_tonen) {
 			echo "</div>";
 		}
 
-		echo "</td></tr>";
+		echo "</td>";
+		if(!$vars["flexibel_toegestaan"]) {
+			echo "<td></td>";
+		}
+		echo "</tr>";
 
 		if($voorkant_cms) {
 			echo "<tr><td colspan=\"5\" style=\"color:#888888;text-align:right;padding-right:15px;\">(intern: zoektijd <span id=\"zoektijd\"></span> sec.)</td></tr>";
@@ -3529,7 +3534,7 @@ if($resultaten_tonen) {
 		# - niet bij SuperSki
 		# - niet op thema-pagina
 		if($tarieven_tonen and $vars["websitetype"]<>8 and !$vars["themainfo"]["uitgebreidzoeken_url"]) {
-			echo "<td colspan=\"5\" align=\"right\" valign=\"bottom\" style=\"padding-right:10px;\">";
+			echo "<td colspan=\"5\" style=\"padding-right:10px;text-align:right;vertical-align:bottom;\">";
 			echo "<div id=\"zoekresultaten_sorteer\">";
 			$vars["sorteerkeuzes"][3]=txt("sorteer_prijsaflopend","zoek-en-boek");
 			$vars["sorteerkeuzes"][2]=txt("sorteer_prijsoplopend","zoek-en-boek");
@@ -3619,7 +3624,7 @@ if($resultaten_tonen) {
 			$temp_qs=ereg_replace("thema=[a-zA-Z0-9-]{1,}","",$temp_qs);
 			if(substr($temp_qs,0,1)=="&") $temp_qs=substr($temp_qs,1);
 
-			$zoekurl="<a href=\"".$urlself."?".($temp_qs ? $temp_qs."&" : "")."page=";
+			$zoekurl="<a href=\"".$urlself."?".($temp_qs ? $temp_qs."&amp;" : "")."page=";
 
 			echo "<div class=\"zoekresultaten_paginas_nummers\">";
 
@@ -3763,7 +3768,7 @@ if($vars["verfijnen_aanbieden"]) {
 						} elseif($verfijnd[$verfijndname][$value]>0) {
 							$request_uri=$_SERVER["REQUEST_URI"];
 							$request_uri=preg_replace("/page=[0-9]+&/","",$request_uri);
-							$keuzes.="<a href=\"".wt_he($request_uri).(preg_match("/\?/",$request_uri) ? "&" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&fzt=&").$getname.$getnumber."=".$getvalue.($vars["aanbiedingenpagina_voor_de_eerste_keer_geopend"] ? "&faab=1" : "")."\" class=\"keuzeopsomming\" rel=\"nofollow\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(".$verfijnd[$verfijndname][$value].")</span></a>";
+							$keuzes.="<a href=\"".wt_he($request_uri).(preg_match("/\?/",$request_uri) ? "&amp;" : "?").(isset($_GET["fzt"]) ? "" : "filled=1&amp;fzt=&amp;").$getname.$getnumber."=".$getvalue.($vars["aanbiedingenpagina_voor_de_eerste_keer_geopend"] ? "&amp;faab=1" : "")."\" class=\"keuzeopsomming\" rel=\"nofollow\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(".$verfijnd[$verfijndname][$value].")</span></a>";
 						} else {
 							$keuzes.="<div class=\"keuzeopsomming keuzeopsomming_leeg\">".html($key,"zoek-en-boek")." <span class=\"aantal\">(0)</span></div>";
 						}

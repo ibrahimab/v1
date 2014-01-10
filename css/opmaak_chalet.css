@@ -148,7 +148,7 @@ form {
 }
 
 #logo img {
-
+	border: 0;
 }
 
 #meldingen {
@@ -233,6 +233,10 @@ form {
 
 .sgrlogo_hoofdmenu {
     margin-left: 5px;
+}
+
+.sgrlogo_hoofdmenu img {
+	border: 0;
 }
 
 #kleinelogos {
@@ -696,6 +700,11 @@ form {
 	background-color:#FFFFFF;
 	font-size:11px;
 	color:#d40139;
+}
+
+#footerWrap ul {
+	margin: 0;
+	padding: 0;
 }
 
 .IND {

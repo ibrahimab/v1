@@ -18,7 +18,7 @@ if(is_array($blokkenhoofdpagina)) {
 		$blokkenhoofdpagina_teller++;
 		echo "<div class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "")." data-teller=\"".$blokkenhoofdpagina_teller."\">";
 		$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
-		echo "<div><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\"/></a></div>";
+		echo "<div class=\"hoofdpagina_blok_image\"><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"\"/></a></div>";
 		echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";
 		echo "<div class=\"hoofdpagina_blok_omschrijving\">".wt_he($value["omschrijving"])."</div>";
 		echo "</div>";
@@ -40,7 +40,7 @@ if($last_acc_html) {
 } else {
 	echo "<div id=\"laatstbekeken\" style=\"background-color:#ffffff;\">";
 	echo "<div id=\"blauwelijn_onderaan\" style=\"margin-top:10px;margin-bottom:8px;\"></div>\n";
-	echo "<img src=\"".$vars["path"]."pic/chalet_hoofdpagina/laatste_acc_vervanging.jpg\" width=\"500\" height=\"130\">";
+	echo "<img src=\"".$vars["path"]."pic/chalet_hoofdpagina/laatste_acc_vervanging.jpg\" width=\"500\" height=\"130\" alt=\"laatste acc vervanging\">";
 	echo "</div>"; # afsluiten laatstbekeken
 }
 
@@ -106,9 +106,9 @@ if($vars["website"]=="C") {
 	echo "<div id=\"hoofdpagina_sociallinks\">";
 	echo "<div style=\"float:right;\">";
 	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-	echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_facebook_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-	echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_twitter_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
-	echo "<a href=\"https://plus.google.com/102116407421806841336?prsrc=3\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\"><img src=\"".$vars["path"]."pic/icon_googleplus_off.png\" width=\"32\" height=\"32\" class=\"img-swap\"></a>";
+	echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
+	echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
+	echo "<a href=\"https://plus.google.com/102116407421806841336?prsrc=3\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
 	echo "</div>\n";
 	echo "<div style=\"float:right;\"></div>";
 	echo "<div style=\"clear: both;\"></div>\n";

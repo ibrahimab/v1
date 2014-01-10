@@ -25,7 +25,7 @@ while($db->next_record()) {
 	$timeteller=$db->f("begin");
 	while($timeteller<=$db->f("eind")) {
 		if($timeteller>=time()+21600) {
-			echo "$('#vertrekdatum').append($(\"<option></option>\").attr(\"value\",".$timeteller.").text(\"".DATUM("D MND JJJJ",$timeteller)."\"));\n";
+			echo "$('#vertrekdatum').append($(\"<option> </option>\").attr(\"value\",".$timeteller.").text(\"".DATUM("D MND JJJJ",$timeteller)."\"));\n";
 		}
 		$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
 	}

@@ -167,19 +167,19 @@ if($seizoen["naam"]) {
 	echo "<tr><td nowrap>Geldig vanaf</td><td>";
 	echo "<img src=\"pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('class.form_calendar.php?nm=tarieven&lang=nl&input=van&month='+document.tarieven.elements['input[van][month]'].value+'&year='+document.tarieven.elements['input[van][year]'].value, '_blank', 'scrollbars=no,width=345,height=250,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
 	# dag
-	echo "<select name=\"input[van][day]\" class=\"wtform_input_narrow\"><option></option>";
+	echo "<select name=\"input[van][day]\" class=\"wtform_input_narrow\"><option> </option>";
 	for($i=1;$i<=31;$i++) {
 		echo "<option value=\"".$i."\"".($korting["van"]&&date("d",$korting["van"])==$i ? " selected" : "").">".$i."&nbsp;</option>";
 	}
 	echo "</select>";
 	# maand
-	echo "&nbsp;&nbsp;<select name=\"input[van][month]\" class=\"wtform_input_narrow\"><option></option>";
+	echo "&nbsp;&nbsp;<select name=\"input[van][month]\" class=\"wtform_input_narrow\"><option> </option>";
 	for($i=1;$i<=12;$i++) {
 		echo "<option value=\"".$i."\"".($korting["van"]&&date("m",$korting["van"])==$i ? " selected" : "").">".strftime("%B",mktime(0,0,0,$i,1,2010))."&nbsp;</option>";
 	}
 	echo "</select>";
 	# jaar
-	echo "&nbsp;&nbsp;<select name=\"input[van][year]\" class=\"wtform_input_narrow\"><option></option>";
+	echo "&nbsp;&nbsp;<select name=\"input[van][year]\" class=\"wtform_input_narrow\"><option> </option>";
 	for($i=2010;$i<=date("Y")+2;$i++) {
 		echo "<option value=\"".$i."\"".($korting["van"]&&date("Y",$korting["van"])==$i ? " selected" : "").">".$i."&nbsp;</option>";
 	}
@@ -190,19 +190,19 @@ if($seizoen["naam"]) {
 	echo "<tr><td nowrap>Geldig tot en met</td><td>";
 	echo "<img src=\"pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('class.form_calendar.php?nm=tarieven&lang=nl&input=tot&month='+document.tarieven.elements['input[tot][month]'].value+'&year='+document.tarieven.elements['input[tot][year]'].value, '_blank', 'scrollbars=no,width=345,height=250,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
 	# dag
-	echo "<select name=\"input[tot][day]\" class=\"wtform_input_narrow\"><option></option>";
+	echo "<select name=\"input[tot][day]\" class=\"wtform_input_narrow\"><option> </option>";
 	for($i=1;$i<=31;$i++) {
 		echo "<option value=\"".$i."\"".($korting["tot"]&&date("d",$korting["tot"])==$i ? " selected" : "").">".$i."&nbsp;</option>";
 	}
 	echo "</select>";
 	# maand
-	echo "&nbsp;&nbsp;<select name=\"input[tot][month]\" class=\"wtform_input_narrow\"><option></option>";
+	echo "&nbsp;&nbsp;<select name=\"input[tot][month]\" class=\"wtform_input_narrow\"><option> </option>";
 	for($i=1;$i<=12;$i++) {
 		echo "<option value=\"".$i."\"".($korting["tot"]&&date("m",$korting["tot"])==$i ? " selected" : "").">".strftime("%B",mktime(0,0,0,$i,1,2010))."&nbsp;</option>";
 	}
 	echo "</select>";
 	# jaar
-	echo "&nbsp;&nbsp;<select name=\"input[tot][year]\" class=\"wtform_input_narrow\"><option></option>";
+	echo "&nbsp;&nbsp;<select name=\"input[tot][year]\" class=\"wtform_input_narrow\"><option> </option>";
 	for($i=2010;$i<=date("Y")+2;$i++) {
 		echo "<option value=\"".$i."\"".($korting["tot"]&&date("Y",$korting["tot"])==$i ? " selected" : "").">".$i."&nbsp;</option>";
 	}

@@ -1218,10 +1218,10 @@ if($boeking_wijzigen) {
 if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET"]["boeking"]["boekingid"]) and $id<>"boeken")) {
 	unset($rechtsboven);
 	if($boeking_wijzigen and $login->logged_in and !$vars["chalettour_loggedin_overzichtboekingen"]) {
-		$rechtsboven.="<font size=\"1\">";
+		$rechtsboven.="<span class=\"x-small\">";
 		if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">".html("andereboeking","bsys")."</a> - ";
 		$rechtsboven.="<a href=\"".$path.txt("menu_inloggen").".php?logout=21\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>$login->username))."</a>";
-		$rechtsboven.="</font>";
+		$rechtsboven.="</span>";
 	} elseif(ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {
 		if($regs[2]==boeking_veiligheid($regs[1])) {
 			$db->query("SELECT type_id FROM boeking WHERE boeking_id='".addslashes($_COOKIE["CHALET"]["boeking"]["boekingid"])."' AND bevestigdatum IS NULL;");
@@ -1229,11 +1229,11 @@ if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET
 				$verder=accinfo($db->f("type_id"));
 				if(($id=="toonaccommodatie" and $typeid<>$db->f("type_id")) or ($id<>"boeken" and $id<>"toonaccommodatie")) {
 					if($verder["tonen"] and !$voorkant_cms) {
-						$rechtsboven.="<font size=\"1\"><a href=\"".$path."boeken.php?bfbid=".$regs[1]."\">".html("gaverdermetboeken","vars")." ";
+						$rechtsboven.="<span class=\"x-small\"><a href=\"".$path."boeken.php?bfbid=".$regs[1]."\">".html("gaverdermetboeken","vars")." ";
 						if(!$vars["wederverkoop"]) {
 							$rechtsboven.=htmlentities(ucfirst($verder["soortaccommodatie"])." ".$verder["accommodatie"]);
 						}
-						$rechtsboven.=" &gt;</a></font>";
+						$rechtsboven.=" &gt;</a></span>";
 					}
 				}
 			}
@@ -1285,7 +1285,7 @@ if($_COOKIE["sch"]) {
 						$last_acc_html.="<div class=\"laatstbekeken_divider\">&nbsp;</div>";
 					}
 					$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."/';\">";
-					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\"></div>";
+					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\" alt=\"\"></div>";
 					$last_acc_html.="<div class=\"laatstbekeken_tekst\">";
 					$last_acc_html.="<div>".wt_he($value["naam"])."</div>";
 					$last_acc_html.="<div style=\"margin-top:7px;\">";
