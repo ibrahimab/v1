@@ -173,7 +173,7 @@ if($_GET["internelijst"]) {
 	if($_GET["date"]) {
 		if($actieve_datum) {
 			echo "<hr><h2>Overzichten ".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$_GET["date"]])."</h2><ul>";
-			echo "<li><a href=\"cms_overzichten_print.php?t=3&date=".$_GET["date"]."\">Telefoonlijst</a></li>";
+			echo "<li><a href=\"cms_overzichten_print.php?t=3&date=".$_GET["date"]."\">Gegevens optieleveranciers</a></li>";
 			echo "<li><a href=\"cms_overzichten_print.php?t=4&date=".$_GET["date"]."\">Vertreklijst</a></li>";
 			echo "<li><a href=\"cms_overzichten.php?mailadressen=1&date=".$_GET["date"]."\">Alle e-mailadressen van klanten</a></li>";
 			echo "<li><a href=\"cms_etiketten.php?t=7&date=".$_GET["date"]."\">Etiketten met adressen</a></li>";
@@ -203,14 +203,15 @@ if($_GET["internelijst"]) {
 			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=2&lid=".$db->f("leverancier_id")."&date=".$_GET["date"]."\">".htmlentities($db->f("naam"))."</a></li>";
 		}
 
-		if(is_array($roominglistlijst)) {
-			ksort($roominglistlijst);
-			echo "<li>Aankomstlijst op datum:<ul>";
-			while(list($key,$value)=each($roominglistlijst)) {
-				echo $value;
-			}
-			echo "</ul></li>";
-		}
+		// if(is_array($roominglistlijst)) {
+		// 	ksort($roominglistlijst);
+		// 	echo "<li>Aankomstlijst op datum:<ul>";
+		// 	while(list($key,$value)=each($roominglistlijst)) {
+		// 		echo $value;
+		// 	}
+		// 	echo "</ul></li>";
+		// }
+
 		echo "</ul>";
 
 		# Skipasbestellijsten
@@ -317,14 +318,15 @@ if($_GET["internelijst"]) {
 		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</a></li>";
 	}
 
-	if(is_array($roominglistlijst)) {
-		ksort($roominglistlijst);
-		echo "<li>Roominglist totaal:<ul>";
-		while(list($key,$value)=each($roominglistlijst)) {
-			echo $value;
-		}
-		echo "</ul>";
-	}
+	// if(is_array($roominglistlijst)) {
+	// 	ksort($roominglistlijst);
+	// 	echo "<li>Roominglist totaal:<ul>";
+	// 	while(list($key,$value)=each($roominglistlijst)) {
+	// 		echo $value;
+	// 	}
+	// 	echo "</ul>";
+	// }
+
 	#echo "<li><a href=\"cms_overzichten_print.php?t=1&lid=".$_GET["8k0"]."\" target=\"_blank\">Roominglist totaal</a></li>";
 	echo "</ul>";
 
