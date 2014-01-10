@@ -86,7 +86,7 @@ if($toonper==3 or $vars["wederverkoop"]) {
 
 
 // if(($vars["seizoentype"]==1 or $vars["websitetype"]==6) and ($_GET["testsysteem"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_COOKIE["loginuser"]["chalet"]==1 or $_COOKIE["loginuser"]["chalet"]==4 or $_COOKIE["loginuser"]["chalet"]==6 or $_COOKIE["loginuser"]["chalet"]==15 or $_COOKIE["loginuser"]["chalet"]==26)) {
-if($vars["seizoentype"]==1 or $vars["websitetype"]==6) {
+if($vars["seizoentype"]==1 or $vars["websitetype"]==6 or $vars["lokale_testserver"]) {
 	if($_COOKIE["oude_tarieventabel"]<>1 or !$voorkant_cms) {
 		$nieuwe_tarieventabel=true;
 	}
