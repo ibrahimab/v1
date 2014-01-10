@@ -645,6 +645,27 @@ function zoekblok_submit() {
 	$("#zoeken").submit();
 }
 
+/**
+ * Remove window.location hash without affecting the scrolling position
+ */
+function removeHash () {
+	var scrollV, scrollH, loc = window.location;
+	if ("replaceState" in history)
+		history.replaceState("", document.title, loc.pathname + loc.search);
+	else {
+		var docElem = document.documentElement ? document.documentElement : document.body;
+		// Prevent scrolling by storing the page's current scroll offset
+		scrollV = docElem.scrollTop;
+		scrollH = docElem.scrollLeft;
+
+		loc.hash = "";
+
+		// Restore the scroll offset, should be flicker free
+		docElem.scrollTop = scrollV;
+		docElem.scrollLeft = scrollH;
+	}
+}
+
 var tonen_of_niet;
 var form_gewijzigd;
 var selectbox_actief=0;
@@ -1360,11 +1381,11 @@ $(document).ready(function() {
 				show_ajaxloader(false);
 				var nieuwe_waarde="";
 				var al_gehad = [];
-				if($("input[name=fsg]").val().length>0) {
+				if($("input[name=fsg]").length>0 && $("input[name=fsg]").val().length>0) {
 					nieuwe_waarde+=","+$("input[name=fsg]").val();
 					al_gehad = $("input[name=fsg]").val().split(",");
 				}
-				if($("select[name=fsg_invoer]").val().length>0) {
+				if($("select[name=fsg_invoer]").length>0 && $("select[name=fsg_invoer]").val().length>0) {
 					var in_array=$.inArray($("select[name=fsg_invoer]").val(),al_gehad);
 					if(in_array>-1) {
 
@@ -1921,7 +1942,7 @@ $(document).ready(function() {
 
 					// remove the kaart hash
 					if(window.location.hash == '#kaart') {
-						window.history.back(1);
+						removeHash();
 					}
 
 				}
