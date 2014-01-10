@@ -2451,6 +2451,9 @@ $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
 $txt["en"]["tarieventabel"]["bekijkdeextraopties"]="Look at [[h_1]]our possibilities[[h_2]]";
 
+$txt["nl"]["tarieventabel"]["nualteboeken"]="Nu al te boeken: [[v_seizoennaam]]";
+$txt["en"]["tarieventabel"]["nualteboeken"]="Already bookable: [[v_seizoennaam]]";
+
 $txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]], [[h_2]]chat met ons[[h_3]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
 

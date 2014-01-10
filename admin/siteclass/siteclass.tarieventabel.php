@@ -51,6 +51,43 @@ class tarieventabel {
 		$this->tarieven_uit_database();
 
 
+		// link to new season
+		if($this->seizoen_counter>1) {
+
+			$return .= "<style>
+
+			.tarieventabel_nextseason {
+				text-align: right;
+				margin-right: 24px;
+			}
+
+
+			.tarieventabel_nextseason a {
+				background-color: #003366;
+				color: #ffffff;
+				display: inline-block;
+				padding: 7px;
+				margin-bottom: 15px;
+				text-decoration: none;
+			}
+
+			.tarieventabel_nextseason a:hover {
+				background-color: #d5e1f9;
+				color: #003366;
+			}
+
+
+			</style>
+			";
+
+			$return .= "<div class=\"tarieventabel_nextseason\"><a href=\"#\" class=\"tarieventabel_jump_jaarmaand\" data-jaarmaand=\"".date("Ym", $this->seizoeninfo[$this->last_seizoen_id]["begin"])."\">".html("nualteboeken", "tarieventabel", array("v_seizoennaam"=>$this->seizoeninfo[$this->last_seizoen_id]["naam"]))." &raquo;</a></div>";
+		}
+
+
+
+
+		// $this->seizoeninfo[$db->f("seizoen_id")]["naam"] = $db->f("naam");
+
 
 		if($vars["websitetype"]<>4) {
 			//
@@ -71,7 +108,6 @@ class tarieventabel {
 		}
 
 		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id."&o=".urlencode($_GET["o"]).(!$this->arrangement && $this->get_aantal_personen ? "&ap=".intval($this->get_aantal_personen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\">";
-
 
 
 		$return .= $this->tabel_top();
@@ -394,7 +430,7 @@ class tarieventabel {
 
 	}
 
-	private function seizoenswissel($week,$begin=true) {
+	private function seizoenswissel($week, $begin=true) {
 		// kijk of een week aan het begin of eind van een seizoen ligt
 		if($begin) {
 			$checkweek=mktime(0,0,0,date("m",$week),date("d",$week)-7,date("Y",$week));
@@ -402,7 +438,7 @@ class tarieventabel {
 			$checkweek=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 		}
 
-		if(!$this->binnen_seizoen[date("Ym",$checkweek)] and $this->dag[$checkweek]) {
+		if($this->seizoen_counter>1 and !$this->binnen_seizoen[date("Ym",$checkweek)] and (($begin and $checkweek>$this->begin) or (!$begin and $checkweek<$this->eind))) {
 			return true;
 		} else {
 			return false;
@@ -443,7 +479,7 @@ class tarieventabel {
 
 			$return.="<td class=\"".trim($class)."\"";
 
-			$return.=" colspan=\"".$value."\" data-maand-kolom=\"".$kolomteller_onderliggend."\">".DATUM("MAAND JJJJ",$unixtime,$vars["taal"])."</td>";
+			$return.=" colspan=\"".$value."\" data-jaarmaand=\"".date("Ym", $unixtime)."\" data-maand-kolom=\"".$kolomteller_onderliggend."\">".DATUM("MAAND JJJJ",$unixtime,$vars["taal"])."</td>";
 		}
 		$return.="</tr>";
 
@@ -582,7 +618,17 @@ class tarieventabel {
 				$return.="<tr class=\"tarieventabel_tr_leeg tarieventabel_voorraad_tr\">";
 
 				foreach ($this->dag as $key => $value) {
-					$return.="<td>&nbsp;</td>";
+
+					$class="";
+
+					if($this->seizoenswissel($key,true)) {
+						$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+					}
+					if($this->seizoenswissel($key,false)) {
+						$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+					}
+
+					$return.="<td class=\"".trim($class)."\">&nbsp;</td>";
 				}
 				$return.="</tr>";
 
@@ -671,13 +717,25 @@ class tarieventabel {
 
 				$kolomteller++;
 
+				$class="";
+
 				if($kolomteller==1) {
-					$return.="<td class=\"tarieventabel_tarieven_kolom_links\">";
+					$class.=" tarieventabel_tarieven_kolom_links";
 				} elseif($kolomteller==count($this->dag_van_de_week)) {
-					$return.="<td class=\"tarieventabel_tarieven_kolom_rechts\">";
-				} else {
-					$return.="<td>";
+					$class.=" tarieventabel_tarieven_kolom_rechts";
 				}
+
+				if($this->seizoenswissel($key,true)) {
+					$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
+				}
+				if($this->seizoenswissel($key,false)) {
+					$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
+				}
+
+				$return.="<td class=\"".trim($class)."\">";
+
+
+
 
 				if($this->toonkorting_1[$key] or $this->toonkorting_2[$key]) {
 					$return.="<div class=\"tarieventabel_tarieven_aanbieding\">";
@@ -721,10 +779,10 @@ class tarieventabel {
 						$class.=" tarieventabel_tarieven_kolom_rechts";
 					}
 
-					if($this->seizoenswissel($key,true)) {
+					if($this->seizoenswissel($key2,true)) {
 						$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
 					}
-					if($this->seizoenswissel($key,false)) {
+					if($this->seizoenswissel($key2,false)) {
 						$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
 					}
 
@@ -1149,8 +1207,18 @@ if($this->tarief[$key]>0) {
 		}
 
 		// seizoensgegevens uit database halen
-		$db->query("SELECT MIN(UNIX_TIMESTAMP(s.begin)) AS begin, MAX(UNIX_TIMESTAMP(s.eind)) AS eind, s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' AND s.seizoen_id IN (".$this->seizoen_id.") AND s.tonen>1;");
-		if($db->next_record()) {
+		// $db->query("SELECT MIN(UNIX_TIMESTAMP(s.begin)) AS begin, MAX(UNIX_TIMESTAMP(s.eind)) AS eind, s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' AND s.seizoen_id IN (".$this->seizoen_id.") AND s.tonen>1;");
+		$db->query("SELECT s.seizoen_id, UNIX_TIMESTAMP(s.begin) AS begin, UNIX_TIMESTAMP(s.eind) AS eind, s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' AND s.seizoen_id IN (".$this->seizoen_id.") AND s.tonen>1 ORDER BY s.begin, s.eind;");
+		while($db->next_record()) {
+
+			// seizoeninfo
+			$this->seizoeninfo[$db->f("seizoen_id")]["naam"] = $db->f("naam");
+			$this->seizoeninfo[$db->f("seizoen_id")]["begin"] = $db->f("begin");
+			$this->seizoeninfo[$db->f("seizoen_id")]["eind"] = $db->f("eind");
+
+			$this->last_seizoen_id = $db->f("seizoen_id");
+			$this->seizoen_counter ++;
+
 
 			// begin, eind en binnen_seizoen bepalen
 			$week=$db->f("begin");
@@ -1454,8 +1522,6 @@ if($this->tarief[$key]>0) {
 		$kolomteller=0;
 		while($week<=$this->eind) {
 
-			$kolomteller++;
-
 			if($vertrekdag[$this->week_seizoen_id[$week]][date("dm",$week)] or $this->accinfo["aankomst_plusmin"]) {
 				$aangepaste_unixtime=mktime(0,0,0,date("m",$week),date("d",$week)+$vertrekdag[$this->week_seizoen_id[$week]][date("dm",$week)]+$this->accinfo["aankomst_plusmin"],date("Y",$week));
 			} else {
@@ -1463,6 +1529,8 @@ if($this->tarief[$key]>0) {
 			}
 
 			if($this->binnen_seizoen[date("Ym",$week)]) {
+
+				$kolomteller++;
 
 				$this->dag[$week]=date("d",$aangepaste_unixtime);
 				$this->dag_van_de_week[$week]=strftime("%a",$aangepaste_unixtime);

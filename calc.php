@@ -198,7 +198,11 @@ if($_GET["stap"]==1) {
 			if($flextarief["tarief"]>0) {
 
 			} else {
-				$form->error("aankomstdatum_flex",txt("gekozenperiodenietbeschikbaar","boeken"));
+				if($accinfo["flexibel"]) {
+					$form->error("aankomstdatum_flex",txt("gekozenperiodenietbeschikbaar","boeken"));
+				} else {
+					$form->error("aankomstdatum",txt("gekozenperiodenietbeschikbaar","boeken"));
+				}
 				$form->error("verblijfsduur",txt("gekozenperiodenietbeschikbaar","boeken"));
 			}
 		}

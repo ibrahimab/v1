@@ -2064,6 +2064,46 @@ $(document).ready(function() {
 				$(".tarieventabel_wrapper_rechts").scrollLeft(position);
 			}
 
+			//
+			// click on .tarieventabel_jump_jaarmaand
+			//
+			$("a.tarieventabel_jump_jaarmaand").click(function(event) {
+
+				event.preventDefault();
+
+				var jaarmaand = $(this).data("jaarmaand");
+
+				var actieve_kolom = parseInt($("td[data-jaarmaand="+jaarmaand+"]").data("maand-kolom"),10);
+
+				var new_position = actieve_kolom * 67;
+
+				new_position=new_position-(4*67);
+				// $(".tarieventabel_wrapper_rechts").scrollLeft(new_position);
+
+				var pixels_to_scroll = Math.abs(new_position-$(".tarieventabel_wrapper_rechts").scrollLeft());
+				var animate_time = 1200;
+
+				if(pixels_to_scroll<200) {
+					animate_time = 200;
+				} else if(pixels_to_scroll < 600) {
+					animate_time = 600;
+				} else if(pixels_to_scroll < 10) {
+					animate_time = 1;
+				}
+
+
+				// animatie: scrollen tabel in 1200ms
+				$(".tarieventabel_wrapper_rechts").animate({scrollLeft: new_position}, animate_time, function(){
+					tarieventabel_controleer_scrollbuttons();
+				});
+
+				// highlight
+				$("td").filter(function() {
+					return  $(this).data("jaarmaand") >= jaarmaand;
+				}).effect("highlight", {}, 3000 + animate_time);
+
+			});
+
 
 			// tarieventabel: meer/minder personen tonen
 			$(".tarieventabel_toggle_toon_verberg a").click(function(event) {
