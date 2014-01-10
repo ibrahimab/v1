@@ -519,6 +519,10 @@ beoordeling_header_right {
 	line-height: 1.5em;
 }
 
+.list_under_bookbuttons li {
+	line-height: 1.3em;
+}
+
 @media print {
 	#toonaccommodatie_content {
 		float: left;
