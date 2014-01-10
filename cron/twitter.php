@@ -15,6 +15,9 @@ set_time_limit(0);
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 	$tmpdir="/tmp/";
+} elseif(preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
+	$unixdir="/var/www/chalet.nl/html_test/";
+	$tmpdir="/var/www/chalet.nl/html_test/tmp/";
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
 	$tmpdir="/var/www/chalet.nl/html/tmp/";
