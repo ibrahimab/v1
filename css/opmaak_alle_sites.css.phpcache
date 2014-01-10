@@ -3106,6 +3106,24 @@ nieuwe tarieventabel
 	background-color: #ffffff;
 }
 
+.tarieventabel_nextseason {
+	text-align: right;
+	margin-right: 24px;
+}
+
+.tarieventabel_nextseason a {
+	background-color: #003366;
+	color: #ffffff;
+	display: inline-block;
+	padding: 7px;
+	margin-bottom: 15px;
+	text-decoration: none;
+}
+
+.tarieventabel_nextseason a:hover {
+	background-color: #d5e1f9;
+	color: #003366;
+}
 
 
 
