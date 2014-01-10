@@ -671,6 +671,12 @@ form {
 	border-color: #cfbcd8;
 }
 
+.zoekresultaten_zoeken_op_kaart_map_canvas {
+	height: 100% !important;
+	margin: 0 !important;
+	width: 100% !important;
+}
+
 #zoekresultaten_sorteer {
 	margin-top: 10px;
 }

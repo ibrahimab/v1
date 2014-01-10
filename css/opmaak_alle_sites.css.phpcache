@@ -45,6 +45,7 @@ span.x-small {
 }
 
 #topfoto {
+    overflow: hidden;
 	line-height: 0;
 }
 
@@ -2420,6 +2421,10 @@ blog
 	text-decoration: none;
 }
 
+.blog_opvalblok .overlay_foto img {
+    border: 0;
+}
+
 .blog_opval_regel1 {
 	padding-left: 5px;
 	padding-right: 5px;
@@ -2428,6 +2433,7 @@ blog
 	width: 180px;
 	white-space: nowrap;
 	overflow: hidden;
+	line-height: normal;
 }
 
 .blog_opval_regel2 {
@@ -2439,6 +2445,7 @@ blog
 	width: 180px;
 	white-space: nowrap;
 	overflow: hidden;
+	line-height: normal;
 }
 
 .blog_opval_regel3 {
@@ -2456,6 +2463,7 @@ blog
 	background: url('../pic/fotoslider/transparent-bg.png');
 	white-space: nowrap;
 	overflow: hidden;
+	line-height: normal;
 }
 
 #blogitem_plaatsreactie {

@@ -75,7 +75,7 @@ if($vars["jquery_fancybox"]) {
 
 echo "<script>";
 // Hides the tabs + zoekblok during initialization
-echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
+echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn, #body_chalets #zoekblok { visibility: hidden; } </style>\');';
 echo "</script>";
 
 # JQuery
