@@ -148,7 +148,7 @@ form {
 }
 
 #logo img {
-
+	border: 0;
 }
 
 #meldingen {
@@ -198,10 +198,12 @@ form {
 }
 
 #hoofdmenubalk {
-	font-size: 1.1em;
+	font-size: 14px;
 	height: 40px;
 	background-color: #d5e1f9;
 	color: #d40139;
+	overflow-x: hidden;
+	white-space: nowrap;
 }
 
 #hoofdmenu {
@@ -213,8 +215,8 @@ form {
 	color: #003366;
 	text-decoration: none;
 	font-weight: normal;
-	padding-left: 0.6em;
-	padding-right: 0.6em;
+	padding-left: 8px;
+	padding-right: 8px;
 }
 
 #hoofdmenu a:hover {
@@ -231,6 +233,10 @@ form {
 
 .sgrlogo_hoofdmenu {
     margin-left: 5px;
+}
+
+.sgrlogo_hoofdmenu img {
+	border: 0;
 }
 
 #kleinelogos {
@@ -694,6 +700,11 @@ form {
 	background-color:#FFFFFF;
 	font-size:11px;
 	color:#d40139;
+}
+
+#footerWrap ul {
+	margin: 0;
+	padding: 0;
 }
 
 .IND {

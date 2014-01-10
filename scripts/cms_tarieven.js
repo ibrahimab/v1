@@ -3,7 +3,7 @@
 var opmerkingen_text=[];
 var opmerkingen_text_alertgetoond=0;
 var eigenaar_formulier_week = 0;
-
+var eigenarenlogin_soort = '';
 
 function disableEnterKey(dit,week,e) {
 	var key;
@@ -67,7 +67,7 @@ function kopieer(dit,naam,nummer,integer) {
 			} else if(nummer=='opties') {
 				bereken_opties('kopieer',week);
 			} else if(nummer=='voorraad') {
-				 bereken_voorraad('kopieer',week);
+				bereken_voorraad('kopieer', week, naam);
 			} else if(nummer=='nummer_voorraad') {
 				 bereken_nummer_voorraad('kopieer',week);
 			} else {
@@ -145,14 +145,40 @@ function bereken_skipas(dit,week) {
 	}
 }
 
-function bereken_voorraad(dit,week) {
-	if(dit=='kopieer') {
+function bereken_voorraad(dit, week, naam) {
+	var waarde_ingevoerd = false;
+	if(dit=='kopieer' || dit=='opnieuw_berekenen') {
 
 	} else {
 		dit.value=dit.value.replace(',','');
 		dit.value=dit.value.replace('.','');
 		dit.value=dit.value.replace('-','');
+		waarde_ingevoerd = true;
 	}
+
+	var voorraad_toestaan = true;
+	if($("#eigenaar_formulier").length!==0 && (dit=='kopieer' || waarde_ingevoerd) ) {
+		if($("input[name='bezeteigenaar["+week+"]']").is(":checked") || $("input[name='boekingderden["+week+"]']").is(":checked") || $("input[name='nietbeschikbaarverhuur["+week+"]']").is(":checked")) {
+
+			var date = new Date(parseInt($("input[name='aankomstdatum_exact["+week+"]']").val(), 10) * 1000);
+			var curr_date = date.getDate();
+			var curr_month = date.getMonth() + 1; //Months are zero based
+			var curr_year = date.getFullYear();
+
+			var r=confirm("Er is een blokkade actief i.v.m. de eigenaar op  "+("0" + curr_date).slice(-2) + "/" + ("0" + curr_month).slice(-2) + ".\n\nVoorraad toch toevoegen?");
+			if (r==true) {
+
+			} else {
+				if(dit=='kopieer') {
+					document.forms['tarieven'].elements[naam+'['+week+']'].value="";
+				} else {
+					dit.value = "";
+				}
+				voorraad_toestaan = false;
+			}
+		}
+	}
+
 	var totaal=0;
 	if(document.forms['tarieven'].elements['voorraad_garantie['+week+']'].value>0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_garantie['+week+']'].value);
 	if(document.forms['tarieven'].elements['voorraad_allotment['+week+']'].value>0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_allotment['+week+']'].value);
@@ -162,21 +188,22 @@ function bereken_voorraad(dit,week) {
 	if(document.forms['tarieven'].elements['voorraad_request['+week+']'].value>0 || document.forms['tarieven'].elements['voorraad_request['+week+']'].value<0) totaal=totaal+parseInt(document.forms['tarieven'].elements['voorraad_request['+week+']'].value);
 
 
-	var beschikbaar_is_mogelijk = false;
-	if($("input[name='bezeteigenaar["+week+"]']").is(":not(:checked)") || $("input[name='bezeteigenaar["+week+"]']").length==0) {
-		beschikbaar_is_mogelijk = true;
-	}
-
-	if(document.forms['tarieven'].elements['voorraad_bijwerken['+week+']'].checked==true && beschikbaar_is_mogelijk) {
-		if(totaal>0) {
-			document.forms['tarieven'].elements['beschikbaar['+week+']'].checked=true;
-		} else {
-			document.forms['tarieven'].elements['beschikbaar['+week+']'].checked=false;
+	if(voorraad_toestaan) {
+		if(document.forms['tarieven'].elements['voorraad_bijwerken['+week+']'].checked==true) {
+			if(totaal>0) {
+				document.forms['tarieven'].elements['beschikbaar['+week+']'].checked=true;
+			} else {
+				document.forms['tarieven'].elements['beschikbaar['+week+']'].checked=false;
+			}
 		}
-	}
-	if(document.forms['tarieven'].elements['voorraad_optie_klant['+week+']'].value>0) totaal=totaal-parseInt(document.forms['tarieven'].elements['voorraad_optie_klant['+week+']'].value);
+		if(document.forms['tarieven'].elements['voorraad_optie_klant['+week+']'].value>0) totaal=totaal-parseInt(document.forms['tarieven'].elements['voorraad_optie_klant['+week+']'].value);
 
-	document.forms['tarieven'].elements['voorraad_totaal['+week+']'].value=totaal;
+		document.forms['tarieven'].elements['voorraad_totaal['+week+']'].value=totaal;
+
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function bereken_nummer_voorraad(dit,week) {
@@ -1225,84 +1252,277 @@ $(document).ready(function() {
 
 		//
 		//
-		// bezet eigenaar
+		// eigenaar_blokkering
 		//
 		//
 
 		// Geblokkeerd door eigenaar
-		$(".bezeteigenaar_tr input").click(function(event) {
+		$(".eigenarenlogin_opmerkingen input").click(function(event) {
 			event.preventDefault();
 
+
+
+
+			eigenarenlogin_soort = $(this).parents(".eigenarenlogin_opmerkingen").data("soort");
 			eigenaar_formulier_week = $(this).data("week");
 
-
-
-			if($("input[name='bezeteigenaar_voorheen["+eigenaar_formulier_week+"]']").val()=="1") {
-				$("#eigenaar_formulier input[type=submit]").val("WIJZIGEN");
-				$("#eigenaar_formulier #submit").prop("disabled", false);
-				$("#eigenaar_formulier #delete").show();
+			if(eigenarenlogin_soort=="bezeteigenaar" && $("input[name='boekingderden["+eigenaar_formulier_week+"]']").is(":checked")) {
+				$("input[name='boekingderden["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
+			} else if(eigenarenlogin_soort=="bezeteigenaar" &&  $("input[name='nietbeschikbaarverhuur["+eigenaar_formulier_week+"]']").is(":checked")) {
+				$("input[name='nietbeschikbaarverhuur["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
+			} else if(eigenarenlogin_soort=="boekingderden" &&  $("input[name='bezeteigenaar["+eigenaar_formulier_week+"]']").is(":checked")) {
+				$("input[name='bezeteigenaar["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
+			} else if(eigenarenlogin_soort=="boekingderden" &&  $("input[name='nietbeschikbaarverhuur["+eigenaar_formulier_week+"]']").is(":checked")) {
+				$("input[name='nietbeschikbaarverhuur["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
+			} else if(eigenarenlogin_soort=="nietbeschikbaarverhuur" &&  $("input[name='bezeteigenaar["+eigenaar_formulier_week+"]']").is(":checked")) {
+				$("input[name='bezeteigenaar["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
+			} else if(eigenarenlogin_soort=="nietbeschikbaarverhuur" &&  $("input[name='boekingderden["+eigenaar_formulier_week+"]']").is(":checked")) {
+				$("input[name='boekingderden["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
+			} else if($("input[name='aantal_geboekt["+eigenaar_formulier_week+"]']").val().length>0) {
+				$("input[name='aantal_geboekt["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
 			} else {
-				$("#eigenaar_formulier input[type=submit]").val("WEEK BLOKKEREN");
-				$("#eigenaar_formulier #submit").prop("disabled", true);
-				$("#eigenaar_formulier #delete").hide();
+
+				$("input[name=eigenaar_formulier_voorraad_wissen]").parent().hide();
+				$("#eigenaar_formulier_voorraad_wissen").prop("checked", false);
+				if($("input[name='opmerking_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val().length>0) {
+					$("#eigenaar_formulier input[type=submit]").val("WIJZIGEN");
+					$("#eigenaar_formulier #submit").prop("disabled", false);
+					$("#eigenaar_formulier #delete").show();
+				} else {
+					$("#eigenaar_formulier input[type=submit]").val("WEEK BLOKKEREN");
+					$("#eigenaar_formulier #submit").prop("disabled", true);
+					$("#eigenaar_formulier #delete").hide();
+
+					// voorraad
+					if(
+						parseInt($("input[name='voorraad_totaal["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_allotment["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_vervallen_allotment["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_optie_leverancier["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_request["+eigenaar_formulier_week+"]']").val(),10)>0 ||
+						parseInt($("input[name='voorraad_optie_klant["+eigenaar_formulier_week+"]']").val(),10)>0
+					) {
+						$("#eigenaar_formulier span.voorraad").html($("input[name='voorraad_totaal["+eigenaar_formulier_week+"]']").val());
+						$("input[name=eigenaar_formulier_voorraad_wissen]").parent().show();
+					}
+				}
+
+				var date = new Date(parseInt($("input[name='aankomstdatum_exact["+eigenaar_formulier_week+"]']").val(), 10) * 1000);
+				var curr_date = date.getDate();
+				var curr_month = date.getMonth() + 1; //Months are zero based
+				var curr_year = date.getFullYear();
+				$("#eigenaar_formulier span.date").html( ("0" + curr_date).slice(-2) + "/" + ("0" + curr_month).slice(-2) + "/" + curr_year);
+				$("#eigenaar_formulier span.soort").html($(this).parents(".eigenarenlogin_opmerkingen").children("td:first-child").html());
+
+
+				// fill all fields
+				$("input[name=eigenaar_formulier_opmerking]").val($("input[name='opmerking_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val());
+				$("input[name=eigenaar_formulier_begin]").val($("input[name='begin_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val());
+				$("input[name=eigenaar_formulier_eind]").val($("input[name='eind_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val());
+				$("input[name=eigenaar_formulier_deelnemers]").val($("input[name='deelnemers_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val());
+				$("input[name=eigenaar_formulier_tekst_extra_options]").val($("input[name='tekst_extra_options_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val());
+
+
+
+				// prevalue for date fields
+				if($("input[name=eigenaar_formulier_begin]").val()=="") {
+					$("input[name=eigenaar_formulier_begin]").val( ("0" + curr_date).slice(-2) + "/" + ("0" + curr_month).slice(-2) + "/" + curr_year);
+				}
+				$("input[name=eigenaar_formulier_begin_hidden]").val( ("0" + curr_date).slice(-2) + "/" + ("0" + curr_month).slice(-2) + "/" + curr_year);
+
+				// determine eind
+				date = new Date(parseInt($("input[name='aankomstdatum_exact["+eigenaar_formulier_week+"]']").next(".aankomstdatum_exact_data").val(), 10) * 1000);
+				curr_date = date.getDate();
+				curr_month = date.getMonth() + 1; //Months are zero based
+				curr_year = date.getFullYear();
+				if($("input[name=eigenaar_formulier_eind]").val()=="") {
+					$("input[name=eigenaar_formulier_eind]").val( ("0" + curr_date).slice(-2) + "/" + ("0" + curr_month).slice(-2) + "/" + curr_year);
+				}
+
+				$("input[name=eigenaar_formulier_eind_hidden]").val( ("0" + curr_date).slice(-2) + "/" + ("0" + curr_month).slice(-2) + "/" + curr_year);
+
+				// hide fields
+				if(eigenarenlogin_soort=="boekingderden" || eigenarenlogin_soort=="nietbeschikbaarverhuur") {
+					$("input[name=eigenaar_formulier_deelnemers]").val("");
+					$("input[name=eigenaar_formulier_tekst_extra_options]").val("");
+					$("input[name=eigenaar_formulier_deelnemers]").parent().hide();
+					$("input[name=eigenaar_formulier_tekst_extra_options]").parent().hide();
+				} else {
+					$("input[name=eigenaar_formulier_deelnemers]").parent().show();
+					$("input[name=eigenaar_formulier_tekst_extra_options]").parent().show();
+				}
+
+
+				// show form, dim other content
+				$("#dim_content").show();
+				$("#eigenaar_formulier").show();
 			}
 
-			// fill opmerkingen-field
-			$("input[name=eigenaar_formulier_opmerking]").val($("input[name='opmerking_bezeteigenaar["+eigenaar_formulier_week+"]']").val());
-
-			var date = new Date(parseInt($("input[name='aankomstdatum_exact["+eigenaar_formulier_week+"]']").val(),10) * 1000);
-			var curr_date = date.getDate();
-		    var curr_month = date.getMonth() + 1; //Months are zero based
-		    var curr_year = date.getFullYear();
-		    $("#eigenaar_formulier span.date").html(curr_date + "/" + curr_month + "/" + curr_year);
-
-
-		    // show form, dim other content
-		    $("#dim_content").show();
-		    $("#eigenaar_formulier").show();
-
-		    return false;
+			return false;
 
 		});
 
+		// click date-fields
+		$("input[name=eigenaar_formulier_begin]").focus(function(event){
+			if(!$("input[name=eigenaar_formulier_begin]").val()) {
+				$("input[name=eigenaar_formulier_begin]").val($("input[name=eigenaar_formulier_begin_hidden]").val());
+			}
+		});
+		// click date-fields
+		$("input[name=eigenaar_formulier_eind]").focus(function(event){
+			if(!$("input[name=eigenaar_formulier_eind]").val()) {
+				$("input[name=eigenaar_formulier_eind]").val($("input[name=eigenaar_formulier_eind_hidden]").val());
+			}
+		});
+
+		// check date-fields
+		$("input[name=eigenaar_formulier_begin], input[name=eigenaar_formulier_eind]").keyup(function(event){
+
+			$(this).val($(this).val().replace("-", "/"));
+			$(this).val($(this).val().replace(" ", ""));
+
+			eigenaar_formulier_check();
+
+		});
+
+		var eigenaar_formulier_check_correct_fields = 0;
+
+		function eigenaar_formulier_check_date(deze) {
+
+			var new_date_res = $(deze).val().split("/");
+
+			var new_date = new Date(new_date_res[2], new_date_res[1], new_date_res[0]);
+
+			var min_date_res = $("input[name=eigenaar_formulier_begin_hidden]").val().split("/");
+			var min_date = new Date(min_date_res[2], min_date_res[1], min_date_res[0]);
+
+			var max_date_res = $("input[name=eigenaar_formulier_eind_hidden]").val().split("/");
+			var max_date = new Date(max_date_res[2], max_date_res[1], max_date_res[0]);
+
+			if(new_date.getTime()<min_date.getTime() || new_date.getTime()>max_date.getTime()) {
+				$(deze).css("color", "red");
+				return false;
+			} else {
+				$(deze).css("color", "#000000");
+				return true;
+			}
+		}
+
+		function eigenaar_formulier_check() {
+
+			var eigenaar_formulier_check_correct_fields=0;
+
+			if($("input[name=eigenaar_formulier_begin]").val().length>0) {
+				if(eigenaar_formulier_check_date("input[name=eigenaar_formulier_begin]")) {
+					eigenaar_formulier_check_correct_fields = eigenaar_formulier_check_correct_fields + 1;
+				}
+			} else {
+				eigenaar_formulier_check_correct_fields = eigenaar_formulier_check_correct_fields + 1;
+			}
+			if($("input[name=eigenaar_formulier_eind]").val().length>0) {
+				if(eigenaar_formulier_check_date("input[name=eigenaar_formulier_eind]")) {
+					eigenaar_formulier_check_correct_fields = eigenaar_formulier_check_correct_fields + 1;
+				}
+			} else {
+				eigenaar_formulier_check_correct_fields = eigenaar_formulier_check_correct_fields + 1;
+			}
+
+			if($("input[name=eigenaar_formulier_opmerking]").val().length>0) {
+				eigenaar_formulier_check_correct_fields = eigenaar_formulier_check_correct_fields + 1;
+			}
+
+			if(eigenaar_formulier_check_correct_fields==3) {
+				$("#eigenaar_formulier #submit").prop("disabled", false);
+			} else {
+				$("#eigenaar_formulier #submit").prop("disabled", true);
+			}
+		}
+
+		// save-button: only with filled opmerking
 		$("input[name=eigenaar_formulier_opmerking]").keyup(function(event){
-			if($(this).val().length==0) {
-				$("#eigenaar_formulier #submit").prop("disabled", true);
-			} else {
-				$("#eigenaar_formulier #submit").prop("disabled", false);
-			}
+			eigenaar_formulier_check();
 		});
 
-
+		// click cancel
 		$("#eigenaar_formulier .cancel").click(function(event) {
 			$("#eigenaar_formulier").hide();
 			$("#dim_content").hide();
 		});
 
+		// click submit
 		$("#eigenaar_formulier #submit").click(function(event) {
 
-			$("input[name='bezeteigenaar_voorheen["+eigenaar_formulier_week+"]']").val("1");
-			$("input[name='opmerking_bezeteigenaar["+eigenaar_formulier_week+"]']").val($("input[name=eigenaar_formulier_opmerking]").val());
-			$("input[name='bezeteigenaar["+eigenaar_formulier_week+"]']").prop("checked", true);
-			$("input[name='beschikbaar["+eigenaar_formulier_week+"]']").prop("checked", false);
+			// $("input[name='"+eigenarenlogin_soort+"_voorheen["+eigenaar_formulier_week+"]']").val("1");
+			$("input[name='opmerking_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val($("input[name=eigenaar_formulier_opmerking]").val());
+			$("input[name='begin_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val($("input[name=eigenaar_formulier_begin]").val());
+			$("input[name='eind_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val($("input[name=eigenaar_formulier_eind]").val());
+			$("input[name='deelnemers_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val($("input[name=eigenaar_formulier_deelnemers]").val());
+			$("input[name='tekst_extra_options_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val($("input[name=eigenaar_formulier_tekst_extra_options]").val());
 
-// console.log($("input[name='opmerking_bezeteigenaar["+eigenaar_formulier_week+"]']").val());
+
+			$("input[name='"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").prop("checked", true);
+			// $("input[name='beschikbaar["+eigenaar_formulier_week+"]']").prop("checked", false);
+
+			// voorraad wissen
+			if ( $("input[name=eigenaar_formulier_voorraad_wissen]").is(":checked")) {
+				$("input[name='voorraad_allotment["+eigenaar_formulier_week+"]']").val("");
+				$("input[name='voorraad_vervallen_allotment["+eigenaar_formulier_week+"]']").val("");
+				$("input[name='voorraad_optie_leverancier["+eigenaar_formulier_week+"]']").val("");
+				$("input[name='voorraad_request["+eigenaar_formulier_week+"]']").val("");
+				$("input[name='voorraad_optie_klant["+eigenaar_formulier_week+"]']").val("");
+				bereken_voorraad("opnieuw_berekenen",eigenaar_formulier_week);
+
+				// make it possible to log this deletion
+				$("<input>").attr({
+					type: "hidden",
+					name: "voorraad_gewist_na_blokkade["+eigenaar_formulier_week+"]",
+					value: "1"
+				}).appendTo("form#tarieven");
+			}
+
 			$("#eigenaar_formulier").hide();
 			$("#dim_content").hide();
 		});
 
+		// click delete
 		$("#eigenaar_formulier #delete").click(function(event) {
 
-			$("input[name='bezeteigenaar_voorheen["+eigenaar_formulier_week+"]']").val("0");
-			$("input[name='opmerking_bezeteigenaar["+eigenaar_formulier_week+"]']").val("");
-			$("input[name='bezeteigenaar["+eigenaar_formulier_week+"]']").prop("checked", false);
+			// $("input[name='"+eigenarenlogin_soort+"_voorheen["+eigenaar_formulier_week+"]']").val("0");
+			$("input[name='opmerking_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val("");
+			$("input[name='begin_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val("");
+			$("input[name='eind_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val("");
+			$("input[name='deelnemers_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val("");
+			$("input[name='tekst_extra_options_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val("");
+
+			$("input[name='"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").prop("checked", false);
+
+			bereken_voorraad("opnieuw_berekenen",eigenaar_formulier_week);
 
 			$("#eigenaar_formulier").hide();
 			$("#dim_content").hide();
 		});
+
+		// click "beschikbaar": check if no eigenaar_blokkering has been filled
+		$("input[name^='beschikbaar[']").click(function(event) {
+
+			var week = $(this).attr("name").replace(/\D/g,'');
+
+			if ( $("input[name='boekingderden["+week+"]']").is(":checked")) {
+				$("input[name='boekingderden["+week+"]']").parent("td").effect("highlight", {}, 1000);
+				event.preventDefault();
+				return false;
+			} else if ( $("input[name='bezeteigenaar["+week+"]']").is(":checked")) {
+				$("input[name='bezeteigenaar["+week+"]']").parent("td").effect("highlight", {}, 1000);
+				event.preventDefault();
+				return false;
+			} else if ( $("input[name='nietbeschikbaarverhuur["+week+"]']").is(":checked")) {
+				$("input[name='nietbeschikbaarverhuur["+week+"]']").parent("td").effect("highlight", {}, 1000);
+				event.preventDefault();
+				return false;
+			} else {
+				return true;
+			}
+		});
 	}
-
-
-
 
 });

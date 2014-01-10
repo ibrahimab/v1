@@ -115,19 +115,19 @@ form {
 
 }
 
-#submenu {
+#submenu, #submenu_footer {
 	color: #999999;
 	padding-top: 3px;
 	padding-bottom: 3px;
 	font-size: 0.85em;
 }
 
-#submenu a {
+#submenu a, #submenu_footer a {
 	color: #999999;
 	font-weight: normal;
 }
 
-#submenu a:hover {
+#submenu a:hover, #submenu_footer a:hover {
 	color: #6699cc;
 }
 
@@ -544,6 +544,18 @@ form {
 #sgr_logo {
 	float: right;
 	margin: 5px 0 5px 0;
+}
+
+
+/* veelgestelde vragen/faq */
+.faq_vraag {
+	background-color: #b2cce5;
+	color: #000000;
+}
+
+.faq_vraag:hover {
+	background-color: #6699cc;
+	color: #ffffff;
 }
 
 @media print {

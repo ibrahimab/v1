@@ -219,6 +219,7 @@ a.alletypes_niet_beschikbaar {
 
 #toonaccommodatie_kleinelinks {
 	text-align: center;
+	line-height: 0;
 }
 
 #toonaccommodatie_kenmerken {
@@ -264,6 +265,10 @@ a.alletypes_niet_beschikbaar {
 
 #toonaccommodatie_kenmerken_klassering_info {
 	margin-left: 15px;
+}
+
+#rich_snippets_rating {
+	display: none;
 }
 
 #toonaccommodatie_kenmerken_2_beoordeling {

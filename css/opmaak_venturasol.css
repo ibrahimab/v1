@@ -100,6 +100,7 @@ form {
 	display: block;
 	width: 970px;
 	height: 180px;
+	line-height: normal;
 }
 
 #logo {
@@ -1098,6 +1099,18 @@ form {
 /* wie zijn wij */
 #body_wie-zijn-wij b {
 	color: #0412b1;
+}
+
+
+/* veelgestelde vragen/faq */
+.faq_vraag {
+	background-color: #a1bddb;
+	color: #0412b1;
+}
+
+.faq_vraag:hover {
+	background-color: #0412b1;
+	color: #ffffff;
 }
 
 

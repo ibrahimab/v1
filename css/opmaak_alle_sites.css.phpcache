@@ -13,6 +13,70 @@ body {
     -webkit-text-size-adjust: 100%;
 }
 
+.table,
+#body_index table,
+#body_zoek-en-boek table,
+#body_boeken table {
+	border-collapse: collapse;
+	padding: 0px;
+	border-spacing: 0px;
+}
+
+.table td {
+    padding: 0;
+}
+
+table.pad3 td {
+	padding: 3px;
+}
+
+img {
+	border: 0;
+    vertical-align: top;
+    line-height: 0;
+}
+
+span.x-small {
+	font-size: x-small;
+}
+
+#logo {
+	line-height: 0;
+}
+
+#topfoto {
+    overflow: hidden;
+	line-height: 0;
+}
+
+#telefoonblok_nummer table td {
+	line-height: 0;
+}
+
+.zoekenboek_invulveld {
+	line-height: 0;
+}
+
+.overlay_foto {
+	line-height: 0;
+}
+
+.opvalblok_regel3 {
+	line-height: normal;
+}
+
+#laatstbekeken img {
+	display: block;
+}
+
+#hoofdpagina_twitter_blok td {
+	padding: 1px;
+}
+
+#hoofdpagina_blok .hoofdpagina_blok_image {
+	line-height: 0;
+}
+
 .boekbutton {
 	margin-bottom: 15px;
 }
@@ -115,6 +179,76 @@ ul {
 
 li {
 	padding-bottom: 5px;
+}
+
+/**/
+/*sociallinks*/
+/**/
+
+#hoofdpagina_sociallinks .googleplus,
+#hoofdpagina_sociallinks .twitter,
+#hoofdpagina_sociallinks .facebook {
+	width:32px;
+	height:32px;
+	display:inline-block;
+	background-repeat:no-repeat;
+	background-image:url('../pic/icons-sprite.png');
+}
+
+#hoofdpagina_sociallinks .googleplus {
+	background-position:-2px -1px;
+}
+
+#hoofdpagina_sociallinks .googleplus:hover {
+	background-position:-35px -1px;
+}
+
+#hoofdpagina_sociallinks .twitter {
+	background-position:-68px -1px;
+}
+
+#hoofdpagina_sociallinks .twitter:hover {
+	background-position:-101px -1px;
+}
+
+#hoofdpagina_sociallinks .facebook {
+	background-position:-134px -1px;
+}
+
+#hoofdpagina_sociallinks .facebook:hover {
+	background-position:-167px -1px;
+}
+
+/**/
+/*paymenticons*/
+/**/
+
+.paymenticons .mc, .paymenticons .idl, .paymenticons .mrc, .paymenticons .vi {
+	background-image:url('../pic/icons-sprite.png');
+	height:27px;
+	display:inline-block;
+	background-repeat:no-repeat;
+	margin-left: 5px;
+}
+
+.paymenticons .mc {
+	width:44px;
+	background-position:-1px -50px;
+}
+
+.paymenticons .idl {
+	width:31px;
+	background-position:-45px -50px;
+}
+
+.paymenticons .mrc {
+	width:45px;
+	background-position:-77px -50px;
+}
+
+.paymenticons .vi {
+	width:56px;
+	background-position:-124px -50px;
 }
 
 .formstyle100 {
@@ -284,6 +418,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	width: 700px;
 	background-color: #FFFFFF;
 	border: 2px solid <?php echo $table; ?>;
+	border-spacing: 0;
 }
 
 .wtform_input {
@@ -531,6 +666,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 
 }
 
+.slide_more_div {
+	display: none;
+}
+
 .virtuelerondgang {
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -702,19 +841,13 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 .googlemaps_infowindow {
 	width: 400px;
 	line-height:normal;
+	min-width: 400px;
 }
 
 .googlemaps_infowindow p {
-	margin-top: 0;
+	margin: 0;
 }
 
-.gm-style-iw {
-	overflow: hidden !important;
-}
-
-.gm-style-iw > div {
-	overflow: hidden !important;
-}
 
 .googlemaps_infowindow .iright {
 	float: right;
@@ -725,6 +858,8 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 .googlemaps_infowindow .ileft {
 	float: left;
 	width: 226px;
+	height: auto;
+
 }
 
 .googlemaps_infowindow img {
@@ -732,7 +867,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 }
 
 .googlemaps_infowindow .sterren {
-	background: url(../pic/ster_7.png) repeat-x;
+	background: url(../pic/ster_<?php echo $vars["websitetype"]; ?>.png) repeat-x;
 	height: 16px;
 	display: inline-block;
     width: 0;
@@ -818,6 +953,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	padding-bottom: 0px;
 	width: 680px;
 	margin-bottom: 20px;
+}
+
+#zoekblok form {
+    display: inline-block;
 }
 
 .zoekblok_interne_opmerking {
@@ -926,6 +1065,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	position: relative;
 	margin-left: 35px;
 	float: left;
+	line-height: 0;
 }
 
 #zoekblok input[type=checkbox] {
@@ -973,12 +1113,14 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	float: left;
 	margin-right: 15px;
 	margin-top: 4px;
+	line-height: normal;
 }
 
 .zoekblok_prijsklasse_max {
 	float: left;
 	margin-left: 15px;
 	margin-top: 4px;
+	line-height: normal;
 }
 
 .zoekblok_prijsklasse input {
@@ -2283,6 +2425,10 @@ blog
 	text-decoration: none;
 }
 
+.blog_opvalblok .overlay_foto img {
+    border: 0;
+}
+
 .blog_opval_regel1 {
 	padding-left: 5px;
 	padding-right: 5px;
@@ -2291,6 +2437,7 @@ blog
 	width: 180px;
 	white-space: nowrap;
 	overflow: hidden;
+	line-height: normal;
 }
 
 .blog_opval_regel2 {
@@ -2302,6 +2449,7 @@ blog
 	width: 180px;
 	white-space: nowrap;
 	overflow: hidden;
+	line-height: normal;
 }
 
 .blog_opval_regel3 {
@@ -2319,6 +2467,7 @@ blog
 	background: url('../pic/fotoslider/transparent-bg.png');
 	white-space: nowrap;
 	overflow: hidden;
+	line-height: normal;
 }
 
 #blogitem_plaatsreactie {
@@ -2360,6 +2509,44 @@ blog
 	margin-left: 5px;
 }
 
+.socialshare .fb,
+.socialshare .tw,
+.socialshare .gplus,
+.socialshare .mail,
+.socialshare .print {
+	background-image:url("../pic/icons-sprite.png");
+	display:inline-block;
+	background-repeat:no-repeat;
+	width:16px;
+	height:16px;
+}
+
+.socialshare .fb {
+	background-position:-0px -34px;
+}
+
+.socialshare .tw {
+	background-position:-16px -34px;
+}
+
+.socialshare .gplus {
+	background-position:-32px -34px;
+}
+
+.socialshare .mail {
+	background-position:-48px -34px;
+}
+
+.socialshare .print {
+	background-position:-64px -34px;
+}
+
+.socialshare a:hover {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	opacity: .6;
+}
+
 .blog_lees_ook ul {
 	padding-left: 20px;
 }
@@ -2369,12 +2556,6 @@ blog
 	font-style: italic;
 	margin-top: 6px;
 	margin-bottom: 6px;
-}
-
-#blog_sociallinks a img:hover {
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-	filter: alpha(opacity=60);
-	opacity: .6;
 }
 
 .blog_img_links {
@@ -2440,6 +2621,43 @@ blog
 	display: block;
 	text-align: center;
 	width: 100%;
+}
+
+
+/*
+
+=========================
+veelgestelde vragen (faq)
+=========================
+
+*/
+
+.faq_vraag {
+	margin-top: 1.5em;
+	margin-bottom: 0.6em;
+	display: block;
+	background-color: #d5e1f9;
+	color: #003366;
+	font-size: 1.1em;
+	padding: 5px;
+}
+
+.faq_vraag:first-child {
+	margin-top: 0em;
+}
+
+.faq_vraag:hover {
+	background-color: #003366;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+.faq_antwoord {
+	display: none;
+}
+
+.faq_eindtekst {
+	font-weight: bold;
 }
 
 

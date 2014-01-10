@@ -163,19 +163,19 @@ form {
 
 }
 
-#submenu {
+#submenu, #submenu_footer {
 	color: #999999;
 	padding-top: 3px;
 	padding-bottom: 3px;
 	font-size: 0.85em;
 }
 
-#submenu a {
+#submenu a, #submenu_footer a {
 	color: #999999;
 	font-weight: normal;
 }
 
-#submenu a:hover {
+#submenu a:hover, #submenu_footer a:hover {
 	color: #cbd328;
 }
 
@@ -671,6 +671,12 @@ form {
 	border-color: #cfbcd8;
 }
 
+.zoekresultaten_zoeken_op_kaart_map_canvas {
+	height: 100% !important;
+	margin: 0 !important;
+	width: 100% !important;
+}
+
 #zoekresultaten_sorteer {
 	margin-top: 10px;
 }
@@ -901,6 +907,17 @@ form {
 	background: url('../pic/fotoslider/transparent-bg.png');
 	white-space: nowrap;
 	overflow: hidden;
+}
+
+/* veelgestelde vragen/faq */
+.faq_vraag {
+	background-color: #cbd328;
+	color: #5f227b;
+}
+
+.faq_vraag:hover {
+	background-color: #5f227b;
+	color: #ffffff;
 }
 
 

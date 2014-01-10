@@ -45,7 +45,7 @@ if($werknemer_optieaanvraag) {
 $form->field_noedit("accnaam",txt("accommodatie","beschikbaarheid"),"",array("text"=>ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam"]." (".$accinfo["aantalpersonen"].")"));
 $form->field_noedit("accplaats",txt("plaats","beschikbaarheid"),"",array("text"=>$accinfo["plaats"].", ".$accinfo["land"]));
 $form->field_select(1,"aantalpersonen",txt("aantalpersonen","beschikbaarheid"),"",array("selection"=>$_GET["ap"]),array("selection"=>$accinfo["aantalpersonen_array"]));
-if($accinfo["flexibel"]) {
+if($accinfo["wzt"]==2) {
 	# flexibel
 
 	# aankomstdatum
@@ -54,7 +54,18 @@ if($accinfo["flexibel"]) {
 	} elseif($_GET["d"]) {
 		$temp_aankomstdatum_exact=$_GET["d"];
 	}
-	$form->field_date(1,"aankomstdatum_flex",txt("aankomstdatum","beschikbaarheid"),"",array("time"=>$temp_aankomstdatum_exact),array("startyear"=>date("Y"),"endyear"=>date("Y")+1),array("calendar"=>true));
+	if($accinfo["flexibel"]) {
+		$form->field_date(1,"aankomstdatum_flex",txt("aankomstdatum","beschikbaarheid"),"",array("time"=>$temp_aankomstdatum_exact),array("startyear"=>date("Y"),"endyear"=>date("Y")+1),array("calendar"=>true));
+	} else {
+		@reset($accinfo["aankomstdatum_beschikbaar"]);
+		unset($temp_aankomstdata);
+		while(list($key,$value)=@each($accinfo["aankomstdatum_beschikbaar"])) {
+			if($key>time()) {
+				$temp_aankomstdata[$key]=$value;
+			}
+		}
+		$form->field_select(1,"aankomstdatum",txt("aankomstdatum","beschikbaarheid"),"",array("selection"=>$_GET["d"]),array("selection"=>$temp_aankomstdata));
+	}
 
 	# verblijfsduur
 	unset($vars["verblijfsduur"]);
@@ -62,9 +73,12 @@ if($accinfo["flexibel"]) {
 	$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
 	$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
 	$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
-	$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
-	for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
-		$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
+
+	if($accinfo["flexibel"]) {
+		$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
+		for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
+			$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
+		}
 	}
 	if($_GET["fldu"]) {
 		$temp_verblijfsduur=$_GET["fldu"];
@@ -142,9 +156,13 @@ if($werknemer_optieaanvraag) {
 $form->check_input();
 
 if($form->filled) {
-	if($accinfo["flexibel"]) {
+	if($accinfo["flexibel"] or $form->input["verblijfsduur"]>1) {
 		# flexibel - controle op tarief/beschikbaarheid
-		$flextarief=bereken_flex_tarief($_GET["tid"],$form->input["aankomstdatum_flex"]["unixtime"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]));
+		if($accinfo["flexibel"]) {
+			$flextarief=bereken_flex_tarief($_GET["tid"],$form->input["aankomstdatum_flex"]["unixtime"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]));
+		} else {
+			$flextarief=bereken_flex_tarief($_GET["tid"],$form->input["aankomstdatum"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum"],$form->input["verblijfsduur"]));
+		}
 		if($flextarief["tarief"]>0) {
 
 		} else {
@@ -325,8 +343,12 @@ if($form->okay) {
 		$html.="<tr><td class=\"wtform_cell_left\">Accommodatie</td><td class=\"wtform_cell_right\"><a href=\"".$accinfo["url"]."\">".$accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".htmlentities($accinfo["naam"])."</a> - ".$accinfo["aantalpersonen"]."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Plaats</td><td class=\"wtform_cell_right\">".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Aantal personen</td><td class=\"wtform_cell_right\">".htmlentities($form->input["aantalpersonen"])."</td></tr>";
-		if($accinfo["flexibel"]) {
-			$html.="<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"])."</td></tr>";
+		if($accinfo["wzt"]==2) {
+			if($accinfo["flexibel"]) {
+				$html.="<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"])."</td></tr>";
+			} else {
+				$html.="<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"])."</td></tr>";
+			}
 			$html.="<tr><td class=\"wtform_cell_left\">Verblijfsduur</td><td class=\"wtform_cell_right\">".htmlentities($vars["verblijfsduur"][$form->input["verblijfsduur"]])."</td></tr>";
 		} else {
 			$html.="<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".htmlentities($accinfo["aankomstdatum"][$form->input["aankomstdatum"]])."</td></tr>";
@@ -377,8 +399,12 @@ if($form->okay) {
 		$html.="<tr><td style=\"font-weight: bold;width:145px;border:solid ".$table." 1px\">".html("accommodatie","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["url"]."\">".ucfirst($accinfo["soortaccommodatie"])." ".htmlentities($accinfo["naam"])."</a></td></tr>";
 		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("plaats","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["plaats_url"]."\">".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</a></td></tr>";
 		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aantalpersonen","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($form->input["aantalpersonen"])."</td></tr>";
-		if($accinfo["flexibel"]) {
-			$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities(DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"],$vars["taal"]))."</td></tr>";
+		if($accinfo["wzt"]==2) {
+			if($accinfo["flexibel"]) {
+				$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities(DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"],$vars["taal"]))."</td></tr>";
+			} else {
+				$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities(DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"],$vars["taal"]))."</td></tr>";
+			}
 			$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("verblijfsduur","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($vars["verblijfsduur"][$form->input["verblijfsduur"]])."</td></tr>";
 		} else {
 			$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($accinfo["aankomstdatum"][$form->input["aankomstdatum"]])."</td></tr>";

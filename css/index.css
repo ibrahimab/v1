@@ -79,9 +79,8 @@
 	text-align: right;
 }
 
-#hoofdpagina_sociallinks img {
+#hoofdpagina_sociallinks a {
 	margin-left: 7px;
-	vertical-align: text-top;
 }
 
 #hoofdpagina_fotoslide {
@@ -163,6 +162,8 @@
 #hoofdpagina_twitter_blok {
 	margin-bottom: 10px;
 	margin-top: 15px;
+	border-spacing: 2px;
+	border-collapse: separate;
 }
 
 #hoofdpagina_lijn {

@@ -3,6 +3,52 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+08-jan-2014 10:38
+ALTER TABLE `faq` ADD `wzt` TINYINT( 1 ) NOT NULL DEFAULT '1' AFTER `faq_id` ;
+
+
+24-dec-2013 13:47
+ALTER TABLE `leverancier_aankomstlijst` ADD `niet_verzenden` TINYINT( 1 ) NOT NULL ;
+
+23-dec-2013 15:00
+CREATE TABLE IF NOT EXISTS `faq` (
+  `faq_id` int(11) NOT NULL AUTO_INCREMENT,
+  `websites` varchar(255) NOT NULL,
+  `volgorde` int(11) NOT NULL,
+  `interne_naam` varchar(100) NOT NULL,
+  `vraag` text NOT NULL,
+  `vraag_de` text NOT NULL,
+  `vraag_en` text NOT NULL,
+  `vraag_fr` text NOT NULL,
+  `antwoord` text NOT NULL,
+  `antwoord_de` text NOT NULL,
+  `antwoord_en` text NOT NULL,
+  `antwoord_fr` text NOT NULL,
+  `adddatetime` datetime NOT NULL,
+  `editdatetime` datetime NOT NULL,
+  PRIMARY KEY (`faq_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+
+19-dec-2013 17:41
+CREATE TABLE IF NOT EXISTS `eigenaar_blokkering` (
+  `type_id` int(11) NOT NULL,
+  `seizoen_id` int(11) NOT NULL,
+  `week` bigint(20) NOT NULL,
+  `soort` tinyint(1) NOT NULL,
+  `opmerking` varchar(255) NOT NULL,
+  `begin` date DEFAULT NULL,
+  `eind` date DEFAULT NULL,
+  `deelnemers` int(11) DEFAULT NULL,
+  `tekst_extra_options` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`type_id`,`seizoen_id`,`week`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+13-dec-2013 15:41
+ALTER TABLE `leverancier` ADD `inlog_toon_roominglists` TINYINT( 1 ) NOT NULL AFTER `inlog_toon_derden` ;
+
+
 11-dec-2013 16:45
 ALTER VIEW view_accommodatie AS SELECT `a`.`accommodatie_id` AS `accommodatie_id`,`a`.`wzt` AS `wzt`,`t`.`websites` AS `websites`,`l`.`begincode` AS `begincode`,`t`.`type_id` AS `type_id`,`a`.`naam` AS `naam`,`a`.`kwaliteit` AS `akwaliteit`,`a`.`weekendski` AS `weekendski`, `a`.`korteomschrijving` AS `akorteomschrijving`, `t`.`kwaliteit` AS `tkwaliteit`,`t`.`naam` AS `tnaam`,`t`.`naam_de` AS `tnaam_de`,`t`.`naam_en` AS `tnaam_en`,`t`.`naam_fr` AS `tnaam_fr`,`t`.`optimaalaantalpersonen` AS `optimaalaantalpersonen`,`t`.`maxaantalpersonen` AS `maxaantalpersonen`,`t`.`verzameltype` AS `verzameltype`,`t`.`verzameltype_parent` AS `verzameltype_parent`, `t`.`korteomschrijving` AS `tkorteomschrijving`, `lev`.`leverancier_id` AS `leverancier_id`,`lev`.`naam` AS `leverancier`,`t`.`beheerder_id` AS `beheerder_id`,`t`.`eigenaar_id` AS `eigenaar_id`,`t`.`code` AS `code`,`a`.`soortaccommodatie` AS `soortaccommodatie`,`a`.`toonper` AS `toonper`,`a`.`tonen` AS `atonen`,`a`.`receptie` AS `receptie`,`a`.`receptie_en` AS `receptie_en`,`a`.`telefoonnummer` AS `telefoonnummer`,`a`.`gps_lat` AS `gps_lat`,`a`.`gps_long` AS `gps_long`,`t`.`gps_lat` AS `tgps_lat`,`t`.`gps_long` AS `tgps_long`,`t`.`tonen` AS `ttonen`,`a`.`archief` AS `archief`,`p`.`plaats_id` AS `plaats_id`,`p`.`naam` AS `plaats`,`p`.`altnaam` AS `plaats_altnaam`,`s`.`skigebied_id` AS `skigebied_id`,`s`.`naam` AS `skigebied`,`s`.`altnaam` AS `skigebied_altnaam`,`l`.`naam` AS `land`,`l`.`naam_de` AS `land_de`,`l`.`naam_en` AS `land_en`,`l`.`naam_fr` AS `land_fr`,`l`.`land_id` AS `land_id`,`a`.`leverancierscode` AS `aleverancierscode`,`t`.`leverancierscode` AS `tleverancierscode` from (((((`accommodatie` `a` join `type` `t`) join `plaats` `p`) join `skigebied` `s`) join `land` `l`) join `leverancier` `lev`) where ((`t`.`leverancier_id` = `lev`.`leverancier_id`) and (`t`.`accommodatie_id` = `a`.`accommodatie_id`) and (`a`.`plaats_id` = `p`.`plaats_id`) and (`p`.`skigebied_id` = `s`.`skigebied_id`) and (`p`.`land_id` = `l`.`land_id`)) order by `p`.`naam`,`a`.`naam`,`t`.`naam`,`t`.`maxaantalpersonen`;
 

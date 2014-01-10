@@ -7,7 +7,7 @@ $id="toonaccommodatie";
 
 # Google Maps
 $vars["googlemaps"]=true;
-$onload="initialize_googlemaps();";
+$data_onload="initialize_googlemaps";
 
 #$vars["jquery_scrollto"]=true;
 include_once "admin/vars.php";

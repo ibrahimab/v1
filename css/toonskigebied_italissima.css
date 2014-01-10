@@ -88,6 +88,7 @@
 	background: url('../pic/fotoslider/transparent-bg.png');
 	white-space: nowrap;
 	overflow: hidden;
+	line-height: normal;
 }
 
 #skigebied_omschrijving_afgebrokendeel {
@@ -118,5 +119,14 @@ h3 {
 
 .googlemaps_infowindow {
 	width: 350px;
-	min-height: 100px;
+	min-width: 350px;
+}
+
+.googlemaps_infowindow .iright {
+	width: 140px;
+	overflow: hidden;
+}
+
+.googlemaps_infowindow .ileft {
+	width: 206px;
 }

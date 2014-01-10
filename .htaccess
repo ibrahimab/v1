@@ -309,11 +309,18 @@ RewriteRule pic/cms/blog/([0-9]{1,})\.jpg /pic/cms/blog/$1-1.jpg [R=301,L]
 RewriteRule ^sitemap/$ /sitemap [L,R=301]
 #RewriteRule ^sitemap\.php$ /sitemap [L,R=301]
 RewriteRule ^sitemap$ sitemap.php?%{QUERY_STRING}
-RewriteRule ^agriturismo-italie$ agriturismo-italie.php?%{QUERY_STRING}
-RewriteRule ^agriturismo-toscane$ agriturismo-toscane.php?%{QUERY_STRING}
-RewriteRule ^vakantiehuizen-gardameer$ vakantiehuizen-gardameer.php?%{QUERY_STRING}
+RewriteRule ^veelgestelde-vragen$ veelgestelde-vragen.php?%{QUERY_STRING}
+
+
+# landingspagin's Italissima
+RewriteRule ^vakantiehuizen-gardameer$ /vakantiehuizen/regio/Gardameer/ [L,R=301]
 RewriteRule ^vakantiehuizen-bloemenriviera$ vakantiehuizen-bloemenriviera.php?%{QUERY_STRING}
 RewriteRule ^vakantie-in-italie$ vakantie-in-italie.php?%{QUERY_STRING}
+
+# landingpages zoek-en-boek
+RewriteRule ^agriturismo-italie$ zoek-en-boek.php?prequery=1&pagetype=landing-italissima&pagecontent=agriturismo-italie&%{QUERY_STRING}
+RewriteRule ^agriturismo-toscane$ zoek-en-boek.php?prequery=1&pagetype=landing-italissima&pagecontent=agriturismo-toscane&%{QUERY_STRING}
+
 
 RewriteRule ^aanbiedingen$ /aanbiedingen/ [L,R=301]
 RewriteRule ^aanbiedingen/$ aanbiedingen_zomerhuisje.php?%{QUERY_STRING}

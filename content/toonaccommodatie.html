@@ -196,19 +196,23 @@ if($nieuwe_tarieventabel) {
 			$aanbieding_actief=true;
 		}
 	}
+
+	if($tarieventabel_object->tarieven_ingevoerd) {
+		$tarieven_ingevoerd=true;
+	}
 }
 
 $db->query("SELECT DISTINCT a.wzt, a.accommodatie_id, a.naam, a.altnaam_zichtbaar, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, a.kenmerken_gecontroleerd, a.url_leverancier AS aurl_leverancier, t.zomerwinterkoppeling_accommodatie_id, t.code, t.altnaam_zichtbaar AS taltnaam_zichtbaar, t.naam".$vars["ttv"]." AS tnaam, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.url_leverancier AS turl_leverancier, t.verzameltype, a.soortaccommodatie, a.omschrijving".$vars["ttv"]." AS omschrijving, t.omschrijving".$vars["ttv"]." AS tomschrijving, a.kwaliteit AS akwaliteit, a.kenmerken AS kenmerken_accommodatie, t.type_id, t.kwaliteit, t.optimaalaantalpersonen, a.toonper, a.aantekeningen, t.aantekeningen AS taantekeningen, t.kenmerken AS kenmerken_type, t.maxaantalpersonen, t.oppervlakte, t.oppervlakteextra".$vars["ttv"]." AS oppervlakteextra, t.slaapkamers, t.slaapkamersextra".$vars["ttv"]." AS slaapkamersextra, t.badkamers, t.badkamersextra".$vars["ttv"]." AS badkamersextra, a.indeling".$vars["ttv"]." AS indeling, t.indeling".$vars["ttv"]." AS tindeling, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, p.afstandtotutrecht, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra, a.inclusief".$vars["ttv"]." AS inclusief, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, t.inclusief".$vars["ttv"]." AS tinclusief, a.exclusief".$vars["ttv"]." AS exclusief, a.extraopties".$vars["ttv"]." AS extraopties, t.exclusief".$vars["ttv"]." AS texclusief, t.url_virtuele_rondgang, a.video AS avideo, a.video_url AS avideo_url, t.video AS tvideo, t.video_url AS tvideo_url, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats, p.omschrijving".$vars["ttv"]." AS plaatsomschrijving, p.plaats_id, p.kenmerken AS kenmerken_plaats, s.naam AS skigebied, s.omschrijving".$vars["ttv"]." AS skigebiedomschrijving, s.kenmerken AS kenmerken_skigebied, lev.leverancier_id, lev.naam AS leverancier, lev.opmerkingen_intern AS lopmerkingen_intern, lev.url AS url_leverancier FROM accommodatie a, plaats p, skigebied s, land l, type t, leverancier lev WHERE a.accommodatie_id=t.accommodatie_id AND p.land_id=l.land_id AND t.type_id='".addslashes($typeid)."' AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.leverancier_id=lev.leverancier_id AND t.tonen=1;");
 if($db->next_record()) {
 	$accid=$db->f("accommodatie_id");
-	echo "<div id=\"toonaccommodatie_content\">";
+	echo "<div id=\"toonaccommodatie_content\" itemscope=\"itemscope\" itemtype=\"http://schema.org/LodgingBusiness\">";
 	echo "<div id=\"toonaccommodatie_bovenbalk\">";
 	echo "<div id=\"toonaccommodatie_foto\">";
 	if(($vars["seizoentype"]==1 or $vars["seizoentype"]==2) and $vars["websitetype"]<>6) {
 		# telefoonblok
 		if($vars["website"]<>"T" and (!$vars["verberg_linkerkolom"] or $id=="toonaccommodatie")) {
 			echo "<div id=\"telefoonblok\" class=\"noprint".($id<>"contact" ? " telefoonblokhover" : "")."\"".($id<>"contact" ? " onclick=\"document.location.href='".$vars["path"].txt("menu_contact").".php';\"" : "")." style=\"\">";
-			echo "<div id=\"telefoonblok_nummer\"><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_";
+			echo "<div id=\"telefoonblok_nummer\"><table class=\"table\"><tr><td><img src=\"".$vars["path"]."pic/icon_telefoon_";
 			if($vars["websitetype"]==7) {
 				echo "italissima";
 			} elseif($vars["websitetype"]==8) {
@@ -257,14 +261,14 @@ if($db->next_record()) {
 	} else {
 		$afbeelding="accommodaties/0";
 	}
-	echo "<img src=\"".imageurl($afbeelding.".jpg",170,127)."\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
+	echo "<img src=\"".imageurl($afbeelding.".jpg",170,127)."\" itemprop=\"image\" alt=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\">";
 	echo "</div>";
 	echo "<div id=\"toonaccommodatie_kopteksten\">";
 	if($aanbieding_actief) {
 		echo "<a href=\"#prijsinformatie\" id=\"toonaccommodatie_aanbieding\" title=\"".html("bekijkdeaanbieding","toonaccommodatie")."\"><img src=\"".$vars["path"]."pic/aanbieding_groot_".$vars["websitetype"].".gif\">".html("aanbieding_klein","toonaccommodatie")."</a>";
 	}
 	if($accinfo["bestelnaam"] and $voorkant_cms) echo "<i>(".htmlentities($accinfo["bestelnaam"]).")</i><br>";
-	echo "<h1>".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</h1>";
+	echo "<h1 itemprop=\"name\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</h1>";
 	echo "<h3 style=\"padding-bottom:3px;\">".($db->f("tnaam") ? htmlentities($db->f("tnaam")) : "&nbsp;")."</h3>";
 	if($vars["websitetype"]==6) {
 		echo "<div id=\"toonaccommodatie_vallandry_spacer\">&nbsp;</div>";
@@ -354,7 +358,12 @@ if($db->next_record()) {
 				} else {
 					echo number_format($db2->f("totaaloordeel"),1,",",".");
 				}
-				echo "</div><div id=\"toonaccommodatie_kenmerken_2_beoordelinglink\">(<a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=beoordelingen&typeid=".$typeid."\" rel=\"nofollow\" id=\"beoordeling_link\">".$db2->f("aantal")." ".($db2->f("aantal")==1 ? html("klantbeoordeling","toonaccommodatie") : html("klantbeoordelingen","toonaccommodatie"))."</a>)</div><div class=\"clear\"></div></li>";
+				echo "</div><div id=\"toonaccommodatie_kenmerken_2_beoordelinglink\">(<a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=beoordelingen&typeid=".$typeid."\" rel=\"nofollow\" id=\"beoordeling_link\">".$db2->f("aantal")." ".($db2->f("aantal")==1 ? html("klantbeoordeling","toonaccommodatie") : html("klantbeoordelingen","toonaccommodatie"))."</a>)</div>";
+
+				// rich snippet rating
+				echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($db2->f("totaaloordeel"),1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$db2->f("aantal")."</span></div>";
+
+				echo "<div class=\"clear\"></div></li>";
 			}
 		}
 	}
@@ -749,25 +758,36 @@ if($db->next_record()) {
 			$gps_lat=$db->f("gps_lat");
 			$gps_long=$db->f("gps_long");
 		}
-		echo "<script>\n";
+		echo "<script>\n
+			var mapOptions = {};
+		";
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-			echo "var googlemaps_base='/chalet/';\n";
+			echo "mapOptions.googlemaps_base='/chalet/';\n";
 		}
 		$db0->query("SELECT MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE accommodatie_id='".$db->f("accommodatie_id")."' AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id;");
 		if($db0->next_record()) {
-			echo "var googlemaps_aantalpersonen='".$db0->f("optimaalaantalpersonen").($db0->f("maxaantalpersonen")>$db0->f("optimaalaantalpersonen") ? " - ".$db0->f("maxaantalpersonen") : "")." ".html("personen")."';\n";
+			echo "mapOptions.googlemaps_aantalpersonen='".$db0->f("optimaalaantalpersonen").($db0->f("maxaantalpersonen")>$db0->f("optimaalaantalpersonen") ? " - ".$db0->f("maxaantalpersonen") : "")." ".html("personen")."';\n";
 		}
 		if(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
-			echo "var googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
+			echo "mapOptions.googlemaps_afbeelding='".imageurl("accommodaties/".$db->f("accommodatie_id").".jpg",170,127)."';\n";
 		}
-		echo "var googlemaps_accid=".$db->f("accommodatie_id").";\nvar googlemaps_typeid=".$db->f("type_id").";\nvar googlemaps_selected_icon=".$vars["websitetype"].";\nvar googlemaps_lat=".$gps_lat.";\nvar googlemaps_long=".$gps_long.";\nvar gps_coordinaten_bekend=1;\ngooglemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\ngooglemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("skigebied")))."';\nvar zoomlevel=".($vars["seizoentype"]==2 ? "9" : "11").";\n";
-		echo "var googlemaps_kwaliteit='".$kwaliteit."';\nvar googlemaps_omschrijving='".addslashes($omschrijving)."';\n";
+		echo "mapOptions.googlemaps_accid=".$db->f("accommodatie_id").";\n mapOptions.googlemaps_typeid=".$db->f("type_id").";\n mapOptions.googlemaps_selected_icon=".$vars["websitetype"].";\n mapOptions.googlemaps_lat=".$gps_lat.";\n mapOptions.googlemaps_long=".$gps_long.";\n mapOptions.gps_coordinaten_bekend=1;\n mapOptions.googlemaps_naam='".addslashes(wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")))."';\n mapOptions.googlemaps_plaatsland='".addslashes(wt_he($db->f("plaats").", ".$db->f("skigebied")))."';\n mapOptions.zoomlevel=".($vars["seizoentype"]==2 ? "9" : "11").";\n";
+		echo "mapOptions.googlemaps_kwaliteit='".$kwaliteit."';\n mapOptions.googlemaps_omschrijving='".addslashes($omschrijving)."';\n";
 
 		$q = "SELECT prijs FROM `cache_vanafprijs_type` WHERE type_id='$typeid' LIMIT 1";
 		$db0->query($q);
 		$db0->next_record();
 		if($db0->f("prijs") && $db0->f("prijs")!=0) {
-			echo "var googlemaps_tarief='vanaf &euro;&nbsp;".number_format($db0->f("prijs"),0,",",".")."';\n";
+
+			$str = " mapOptions.googlemaps_tarief='vanaf &euro;&nbsp;".number_format($db0->f("prijs"),0,",",".");
+			if($db->f("toonper")==3 or $vars["wederverkoop"]) {
+				$str .= " ". html("peraccommodatie","zoek-en-boek");
+			} else {
+				$str .= " " . html("perpersoon","zoek-en-boek")."<br>".html("inclusiefskipas","zoek-en-boek");
+			}
+			$str .= "';\n";
+			echo $str;
+
 		}
 
 		echo "</script>\n";
@@ -1270,14 +1290,16 @@ if($db->next_record()) {
 				echo "</table><p>";
 			}
 		}
-		if($db->f("exclusief") or $db->f("texclusief")) {
+		// if($db->f("exclusief") or $db->f("texclusief")) {
 			echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 			echo "<tr><th>".html("exclusief","toonaccommodatie")."</th></tr>";
 			echo "<tr><td>";
-			echo toon_tekst_acc_en_type($db->f("exclusief"),$db->f("texclusief"));
+
+			$texclusief=trim($db->f("texclusief")."\n\n".txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").").");
+			echo toon_tekst_acc_en_type($db->f("exclusief"),$texclusief);
 			echo "</td></tr>";
 			echo "</table><p>";
-		}
+		// }
 	}
 
 	if($echt_tarieven_getoond and !$nieuwe_tarieventabel) {
@@ -1440,6 +1462,10 @@ if($db->next_record()) {
 	}
 
 	if($_GET["back"]) {
+		if(preg_match("@^%2F@", $_GET["back"])) {
+			// $_GET["back"] is still urlencoded: decode
+			$_GET["back"] = urldecode($_GET["back"]);
+		}
 		echo "<a href=\"";
 		if(preg_match("/^https?/",$_GET["back"])) {
 			echo wt_he($_GET["back"]);
@@ -1614,23 +1640,23 @@ if($db->next_record()) {
 	#
 	# Blok met social media-buttons + print/mail-buttons
 	#
-	echo "<div id=\"socialmedia\">";
+	echo "<div id=\"socialmedia\" class=\"socialshare\">";
 
 
 	# Printbutton
-	echo "<a href=\"#\" onclick=\"window.print();return false;\"><img src=\"".$vars["path"]."pic/icons/printer.png\" width=\"16\" height=\"16\" border=\"0\" title=\"".html("paginaafdrukken","toonaccommodatie")."\"></a>";
+	echo "<a href=\"#\" class=\"print\" onclick=\"window.print();return false;\" title=\"".html("paginaafdrukken","toonaccommodatie")."\"></a>";
 
 	# Doormailfunctie
-	echo "<a href=\"#\" onclick=\"popwindow(800,740,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\" title=\"".html("popuptitle_stuurdoor")."\"><img src=\"".$vars["path"]."pic/icons/mail.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+	echo "<a href=\"#\" class=\"mail\" onclick=\"popwindow(800,740,'".$vars["path"]."popup.php?id=accommodatiemail&accid=".$typeid."');return false;\" title=\"".html("popuptitle_stuurdoor")."\"></a>";
 
 	# Social media-links
 	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="W") {
 
 		$share_url=$vars["canonical"];
 		$share_text="Bekijk deze accommodatie bij ".$vars["websitenaam"];
-		echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze accommodatie met je Facebook-vrienden\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/icons/facebook.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
-		echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze accommodatie met je Twitter-volgers\" class=\"twitter_share_window\"><img src=\"".$vars["path"]."pic/icons/twitter.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
-		echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze accommodatie met je Google+-circles\" class=\"googleplus_share_window\"><img src=\"".$vars["path"]."pic/icons/googleplus.png\" width=\"16\" height=\"16\" border=\"0\"></a>";
+		echo "<a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($share_text))."\" title=\"Deel deze accommodatie met je Facebook-vrienden\" class=\"facebook_share_window fb\"></a>";
+		echo "<a href=\"".wt_he("https://twitter.com/home?status=".urlencode($share_text.": ".$share_url))."\" title=\"Deel deze accommodatie met je Twitter-volgers\" class=\"twitter_share_window tw\"></a>";
+		echo "<a href=\"".wt_he("https://plus.google.com/share?url=".urlencode($share_url))."\" title=\"Deel deze accommodatie met je Google+-circles\" class=\"googleplus_share_window gplus\"></a>";
 	}
 	echo "<div style=\"clear:both;\"></div>";
 
@@ -1883,7 +1909,7 @@ if($db->next_record()) {
 	echo "<div style=\"margin-left:200px;margin-top:15px;\">";
 	echo "<b>".html("accommodatienietgevonden","toonaccommodatie")."</b><p>";
 	echo html("accommodatienietgevonden_lang","toonaccommodatie",array("v_websitenaam"=>$vars["websitenaam"],"l1"=>"accommodaties"));
-	echo "</div>";
+	echo "</p></div>";
 }
 
 # Accommodatie-gegevens

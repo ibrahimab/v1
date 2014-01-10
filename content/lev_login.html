@@ -19,7 +19,7 @@ function totaal_regel($seizoenid) {
 
 		$return.="<tr style=\"background-color:#ebebeb;font-weight:bold;\"><td>".html("totaal","lev_login")."</td>";
 		if($vars["mag_aanvullende_gegevens_inzien"]) {
-			// geen inzicht in roominglist voor Venturasol
+			// inzicht in aanvullende gegevens
 			$return.="<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td>";
 		}
 		if($login_lev->vars["inlog_inzichtinkoop"]) {
@@ -133,9 +133,9 @@ if($login_lev->logged_in) {
 		if($login_lev->vars["inlog_toon_derden"]) {
 			echo "<li><a href=\"".$vars["path"]."lev_login.php?t=3\">".html("boekingenviaderden","lev_login")."</a></li>";
 		}
-		if($vars["mag_aanvullende_gegevens_inzien"]) {
-			// geen inzicht in roominglist voor Venturasol
-			echo "<li><a href=\"".$vars["path"]."cms_overzichten_print.php?roominglist=1\" target=\"_blank\">".html("roominglist","lev_login")."</a></li>";
+		if($login_lev->vars["inlog_toon_roominglists"]) {
+			// inzicht in roominglist
+			echo "<li><a href=\"".$vars["path"]."lev_login.php?roominglist=1\" target=\"_blank\">".html("roominglist","lev_login")."</a></li>";
 		}
 		echo "<li><a href=\"".$vars["path"]."lev_login.php?t=1\">".html("mijngegevens","lev_login")."</a></li>";
 
@@ -379,8 +379,9 @@ if($login_lev->logged_in) {
 				include("content/vertrekdagaanpassing.html");
 			}
 
-			# boekingen derden opvragen (op basis van ta.opmerking_boekingderden)
-			$db->query("SELECT s.naam AS seizoen, ta.seizoen_id, ta.week, ta.bruto, ta.c_bruto, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.opmerking_boekingderden FROM tarief ta, accommodatie a, type t, seizoen s WHERE ta.seizoen_id=s.seizoen_id AND ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") AND ta.beschikbaar=0 AND ta.opmerking_boekingderden<>'' AND opmerking_boekingderden IS NOT NULL ORDER BY a.wzt DESC, ta.week;");
+			# boekingen derden opvragen (op basis van eb.opmerking)
+			$db->query("SELECT s.naam AS seizoen, ta.seizoen_id, ta.week, ta.bruto, ta.c_bruto, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, eb.opmerking, UNIX_TIMESTAMP(eb.begin) AS begin FROM tarief ta, accommodatie a, type t, seizoen s, eigenaar_blokkering eb WHERE eb.type_id=ta.type_id AND eb.week=ta.week AND eb.soort=2 AND ta.seizoen_id=s.seizoen_id AND ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") AND ta.beschikbaar=0 ORDER BY a.wzt DESC, ta.week;");
+
 			if($db->num_rows()) {
 				while($db->next_record()) {
 					if(!$seizoen_gehad[$db->f("seizoen_id")]) {
@@ -401,15 +402,16 @@ if($login_lev->logged_in) {
 						$seizoen_gehad[$db->f("seizoen_id")]=true;
 					}
 					echo "<tr>";
-					if($vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))] or $accinfo["aankomst_plusmin"]) {
-						$dag=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+$vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))]+$accinfo["aankomst_plusmin"],date("Y",$db->f("week")));
-					} else {
-						$dag=$db->f("week");
-					}
+					// if($vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))] or $accinfo["aankomst_plusmin"]) {
+					// 	$dag=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+$vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))]+$accinfo["aankomst_plusmin"],date("Y",$db->f("week")));
+					// } else {
+					// 	$dag=$db->f("week");
+					// }
+					$dag = $db->f("begin");
 
 					echo "<td>".date("d/m/y",$dag)."</td>";
 
-					$opmerking_boekingderden=$db->f("opmerking_boekingderden");
+					$opmerking_boekingderden=$db->f("opmerking");
 					if($login_lev->vars["inlog_taal"]=="en") {
 						# "klantnaam onbekend" vervangen door "name client unknown"
 						$opmerking_boekingderden=str_replace("klantnaam onbekend","name client unknown",$opmerking_boekingderden);
@@ -461,18 +463,18 @@ if($login_lev->logged_in) {
 			}
 
 			# Voorraad
-			$db->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, ta.opmerking_bezeteigenaar, ta.opmerking_boekingderden, ta.opmerking_nietbeschikbaarverhuur FROM tarief ta, accommodatie a, type t WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") ORDER BY a.wzt DESC, ta.week;");
+			$db->query("SELECT ta.seizoen_id, ta.week, ta.beschikbaar, ta.voorraad_allotment, ta.voorraad_request, ta.voorraad_optie_klant, eb.soort, eb.opmerking, UNIX_TIMESTAMP(eb.begin) AS eigenaar_blokkering_begin, UNIX_TIMESTAMP(eb.eind) AS eigenaar_blokkering_eind FROM accommodatie a, type t, tarief ta LEFT JOIN eigenaar_blokkering eb ON(eb.type_id=ta.type_id AND eb.week=ta.week) WHERE ta.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id IN (".addslashes($inquery_type_id).") ORDER BY a.wzt DESC, ta.week;");
 			while($db->next_record()) {
 				unset($tempclass,$temptext);
-				if(!$db->f("beschikbaar") and $db->f("opmerking_bezeteigenaar")) {
+				if(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("soort")==1) {
 					$tempclass="boeking_eigenaar";
-					$temptext=txt("boekingviaeigenaar","lev_login").": ".$db->f("opmerking_bezeteigenaar");
-				} elseif(!$db->f("beschikbaar") and $db->f("opmerking_boekingderden") and $login_lev->vars["inlog_toon_derden"]) {
+					$temptext=txt("boekingviaeigenaar","lev_login").": ".$db->f("opmerking");
+				} elseif(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("soort")==2 and $login_lev->vars["inlog_toon_derden"]) {
 					$tempclass="boeking_viaderden";
-					$temptext=txt("boekingviaderden","lev_login").": ".$db->f("opmerking_boekingderden");
-				} elseif(!$db->f("beschikbaar") and $db->f("opmerking_nietbeschikbaarverhuur")) {
+					$temptext=txt("boekingviaderden","lev_login").": ".$db->f("opmerking");
+				} elseif(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("soort")==3) {
 					$tempclass="voorraad_nietbeschikbaarvoorverhuur";
-					$temptext=txt("nietbeschikbaarvoorverhuur","lev_login").": ".$db->f("opmerking_nietbeschikbaarverhuur");
+					$temptext=txt("nietbeschikbaarvoorverhuur","lev_login").": ".$db->f("opmerking");
 				} elseif($db->f("voorraad_optie_klant")) {
 					$tempclass="staatinoptievoorklant";
 					$temptext=txt("staatinoptievoorklant","lev_login");
@@ -483,6 +485,7 @@ if($login_lev->logged_in) {
 					$tempclass="voorraad_request";
 					$temptext=txt("navragenbijeigenaar","lev_login");
 				}
+
 				if($vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))] or $accinfo["aankomst_plusmin"]) {
 					$dag=mktime(0,0,0,date("m",$db->f("week")),date("d",$db->f("week"))+$vertrekdag[$db->f("seizoen_id")][date("dm",$db->f("week"))]+$accinfo["aankomst_plusmin"],date("Y",$db->f("week")));
 				} else {
@@ -494,6 +497,15 @@ if($login_lev->logged_in) {
 				} else {
 					$eind=$eind;
 				}
+
+				// manual dates
+				if(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("eigenaar_blokkering_begin")) {
+					$dag = $db->f("eigenaar_blokkering_begin");
+				}
+				if(!$db->f("beschikbaar") and $db->f("opmerking") and $db->f("eigenaar_blokkering_eind")) {
+					$eind = $db->f("eigenaar_blokkering_eind");
+				}
+
 				while($dag<$eind) {
 					if($db->f("beschikbaar")) {
 						if($tempclass) {
@@ -578,7 +590,7 @@ if($login_lev->logged_in) {
 		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
 		echo "<input type=\"hidden\" name=\"lev_login_cms\" value=\"1\">";
 		echo "<select name=\"leverancier_id\">";
-		echo "<option></option>";
+		echo "<option> </option>";
 
 		if($vars["seizoentype"]==1) {
 			$andquery_inlog=" AND inlog_wintersite='".addslashes($vars["website"])."'";

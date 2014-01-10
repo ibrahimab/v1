@@ -4,6 +4,10 @@ $vars["page_starttime"]=microtime(true);
 
 include_once("admin/vars.php");
 
+if($_GET["pagetype"]) {
+	include_once("zoek-en-boek-pre-query.php");
+}
+
 if(!session_id()) session_start();
 
 if($vars["zoekform_aanbiedingen"] and $vars["seizoentype"]==2) {
@@ -32,6 +36,8 @@ if($vars["websitetype"]==3 or $vars["websitetype"]==7) {
 
 if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 	$breadcrumbs["last"]=$vars["themainfo"]["naam"];
+} elseif($pre_query_breadcrumb) {
+	$breadcrumbs["last"]=$pre_query_breadcrumb;
 } else {
 	$breadcrumbs["last"]=txt("title_zoekenboek");
 }
@@ -172,9 +178,13 @@ if($_GET["fsg"] and !preg_match("/,/",$_GET["fsg"])) {
 #	if($landgebied[1]>0) addwhere("p.skigebied_id='".addslashes($landgebied[1])."'");
 }
 
-$vars["canonical"]=$vars["basehref"].txt("menu_zoek-en-boek").".php";
+if($landing_canonical) {
+	$vars["canonical"]=$vars["basehref"].$landing_canonical;
+} else {
+	$vars["canonical"]=$vars["basehref"].txt("menu_zoek-en-boek").".php";
+}
 
-if($zoekresultaten_title) {
+if($zoekresultaten_title and !$pre_query_content) {
 	$title["zoek-en-boek"].=" - ".$zoekresultaten_title;
 }
 if($vars["zoekform_aanbiedingen"]) {

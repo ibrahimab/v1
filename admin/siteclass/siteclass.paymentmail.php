@@ -8,6 +8,7 @@ class paymentmail {
 
 	public $gegevens;
 	public $to;
+	public $test = false;
 
 	private $taal;
 	private $totaal;
@@ -34,21 +35,32 @@ class paymentmail {
 
 		if($mailtekst_ontvangenbetaling["to_1"] or $mailtekst_ontvangenbetaling["to_2"]) {
 			$mail->to=$mailtekst_ontvangenbetaling["to_1"];
+			if($this->test) {
+				$mail->to="jeroen@webtastic.nl";
+			}
 			$mail->send();
 			$this->mailed_to($mail->to);
 			if($mailtekst_ontvangenbetaling["to_2"]) {
 				$mail->to=$mailtekst_ontvangenbetaling["to_2"];
+				if($this->test) {
+					$mail->to="jeroen@webtastic.nl";
+				}
 				$mail->send();
 				$this->mailed_to($mail->to);
 			}
 		} else {
 			$mail->to=$mailtekst_ontvangenbetaling["to"];
+			if($this->test) {
+				$mail->to="jeroen@webtastic.nl";
+			}
 			$mail->send();
 			$this->mailed_to($mail->to);
 		}
 
-		// log that the mail has been sent
-		boeking_log($boeking_id, "ontvangstbevestiging betaling gemaild aan ".$mailtekst_ontvangenbetaling["to_log"]);
+		if(!$this->test) {
+			// log that the mail has been sent
+			boeking_log($boeking_id, "ontvangstbevestiging betaling gemaild aan ".$mailtekst_ontvangenbetaling["to_log"]);
+		}
 	}
 
 	private function mailed_to($to) {

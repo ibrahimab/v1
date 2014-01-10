@@ -721,10 +721,7 @@ $vars["toonper"]=array(1=>"A : Prijs Arrangement (accommodatie + skipas)",2=>"B 
 $vars["toonper_beperktekeuze"]=array(1=>"A : Prijs Arrangement (accommodatie + skipas)",3=>"C : Prijs Accommodatie");
 $vars["seizoentype_namen"]=array(1=>"winter",2=>"zomer");
 $vars["sjabloon_velden"]=array("aflopen_allotment","korting_percentage","toeslag","korting_euro","vroegboekkorting_percentage","vroegboekkorting_euro","opslag_accommodatie","opslag_skipas","korting_arrangement_bed_percentage","toeslag_arrangement_euro","korting_arrangement_euro","toeslag_bed_euro","korting_bed_euro","vroegboekkorting_arrangement_percentage","vroegboekkorting_arrangement_euro","vroegboekkorting_bed_percentage","vroegboekkorting_bed_euro","opslag","c_korting_percentage","c_toeslag","c_korting_euro","c_vroegboekkorting_percentage","c_vroegboekkorting_euro","c_opslag_accommodatie","wederverkoop_opslag_euro","wederverkoop_opslag_percentage","wederverkoop_commissie_agent");
-
-$vars["tarief_velden"]=array("beschikbaar", "blokkeren_wederverkoop", "bruto", "korting_percentage", "toeslag", "korting_euro", "vroegboekkorting_percentage", "vroegboekkorting_euro", "opslag_accommodatie", "opslag_skipas", "arrangementsprijs", "onbezet_bed", "korting_arrangement_bed_percentage", "toeslag_arrangement_euro", "korting_arrangement_euro", "toeslag_bed_euro", "korting_bed_euro", "vroegboekkorting_arrangement_percentage", "vroegboekkorting_arrangement_euro", "vroegboekkorting_bed_percentage", "vroegboekkorting_bed_euro", "opslag", "c_bruto", "c_korting_percentage", "c_toeslag", "c_korting_euro", "c_vroegboekkorting_percentage", "c_vroegboekkorting_euro", "c_opslag_accommodatie", "c_verkoop_afwijking", "c_verkoop_site", "voorraad_garantie", "voorraad_allotment", "voorraad_vervallen_allotment", "voorraad_optie_leverancier", "voorraad_xml", "voorraad_request", "voorraad_optie_klant", "voorraad_bijwerken", "wederverkoop_opslag_euro", "wederverkoop_opslag_percentage", "wederverkoop_commissie_agent", "wederverkoop_verkoopprijs", "aanbiedingskleur", "autoimportxmltarief", "blokkeerxml", "aflopen_allotment", "aanbieding_acc_percentage", "aanbieding_acc_euro", "aanbieding_skipas_percentage", "aanbieding_skipas_euro", "inkoopkorting_percentage", "inkoopkorting_euro", "verkoop_accommodatie", "toonexactekorting", "opmerking_bezeteigenaar");
-
-
+$vars["tarief_velden"]=array("beschikbaar", "blokkeren_wederverkoop", "bruto", "korting_percentage", "toeslag", "korting_euro", "vroegboekkorting_percentage", "vroegboekkorting_euro", "opslag_accommodatie", "opslag_skipas", "arrangementsprijs", "onbezet_bed", "korting_arrangement_bed_percentage", "toeslag_arrangement_euro", "korting_arrangement_euro", "toeslag_bed_euro", "korting_bed_euro", "vroegboekkorting_arrangement_percentage", "vroegboekkorting_arrangement_euro", "vroegboekkorting_bed_percentage", "vroegboekkorting_bed_euro", "opslag", "c_bruto", "c_korting_percentage", "c_toeslag", "c_korting_euro", "c_vroegboekkorting_percentage", "c_vroegboekkorting_euro", "c_opslag_accommodatie", "c_verkoop_afwijking", "c_verkoop_site", "voorraad_garantie", "voorraad_allotment", "voorraad_vervallen_allotment", "voorraad_optie_leverancier", "voorraad_xml", "voorraad_request", "voorraad_optie_klant", "voorraad_bijwerken", "wederverkoop_opslag_euro", "wederverkoop_opslag_percentage", "wederverkoop_commissie_agent", "wederverkoop_verkoopprijs", "aanbiedingskleur", "autoimportxmltarief", "blokkeerxml", "aflopen_allotment", "aanbieding_acc_percentage", "aanbieding_acc_euro", "aanbieding_skipas_percentage", "aanbieding_skipas_euro", "inkoopkorting_percentage", "inkoopkorting_euro", "verkoop_accommodatie", "toonexactekorting");
 
 #$vars["tarief_velden_nietopslaan"]=array("aanbieding_acc_percentage","aanbieding_acc_euro","aanbieding_skipas_percentage","aanbieding_skipas_euro");
 $vars["tarief_datum_velden"]=array("vroegboekkorting_percentage_datum","vroegboekkorting_euro_datum","vroegboekkorting_arrangement_percentage_datum","vroegboekkorting_arrangement_euro_datum","vroegboekkorting_bed_percentage_datum","vroegboekkorting_bed_euro_datum","c_vroegboekkorting_euro_datum","c_vroegboekkorting_percentage_datum");
@@ -804,7 +801,7 @@ $vars["bestelmailfax_taal"]=array("D"=>"Duits","E"=>"Engels","N"=>"Nederlands");
 
 $vars["bestelmailfax_beste"]=array("D"=>"Sehr Geehrte(r)","E"=>"Dear","N"=>"Beste");
 $vars["bestelmailfax_hierbijwillenwe"]=array("D"=>"Wir möchten gerne nachfolgende Fixreservierung machen","E"=>"We would like to make the next definitive reservation","N"=>"Hierbij willen wij onderstaande accommodatie definitief boeken");
-$vars["bestelmailfax_dezeacchebbenwij"]=array("D"=>"Dieser Akkommodation ist","E"=>"This accommodation is","N"=>"Deze accommodatie hebben wij");
+$vars["bestelmailfax_dezeacchebbenwij"]=array("D"=>"Zur Ihrer Information: Wir haben es","E"=>"This accommodation is","N"=>"Deze accommodatie hebben wij");
 $vars["bestelmailfax_soort"]["D"]=array(1=>"auf Anfrage",2=>"in Kontingent",3=>"in Garantie",4=>"in Option");
 $vars["bestelmailfax_soort"]["E"]=array(1=>"on request",2=>"in allotment",3=>"in guarantee",4=>"in option");
 $vars["bestelmailfax_soort"]["N"]=array(1=>"op aanvraag",2=>"in allotment",3=>"in garantie",4=>"in optie");
@@ -955,8 +952,8 @@ asort($vars["kenmerken_plaats_2"]);
 asort($vars["kenmerken_skigebied_1"]);
 asort($vars["kenmerken_skigebied_2"]);
 
-//Docdata payment type
-$vars["boeking_betaling_type"]=array(1=>"bank-overschrijving",2=>"uitbetaling door Docdata",3=>"verrekening Docdata-betaling/overschrijving",4=>"Docdata-betaling (iDEAL)",5=>"Docdata-betaling (creditcard)",6=>"Docdata-uitbetaling (Mister Cash)");
+// Docdata payment type
+$vars["boeking_betaling_type"]=array(1=>"bank-overschrijving", 2=>"uitbetaling door Docdata", 3=>"verrekening Docdata-betaling/overschrijving", 4=>"Docdata-betaling (iDEAL)", 5=>"Docdata-betaling (creditcard)", 6=>"Docdata-uitbetaling (Mister Cash)", 7=>"betalingsverschil");
 
 # Mailtjes bij optieaanvragen-systeem
 
@@ -1221,10 +1218,10 @@ if($boeking_wijzigen) {
 if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET"]["boeking"]["boekingid"]) and $id<>"boeken")) {
 	unset($rechtsboven);
 	if($boeking_wijzigen and $login->logged_in and !$vars["chalettour_loggedin_overzichtboekingen"]) {
-		$rechtsboven.="<font size=\"1\">";
+		$rechtsboven.="<span class=\"x-small\">";
 		if(@count($wijzigen)>1 and $id<>"bsys_selecteren") $rechtsboven.="<a href=\"bsys_selecteren.php\">".html("andereboeking","bsys")."</a> - ";
 		$rechtsboven.="<a href=\"".$path.txt("menu_inloggen").".php?logout=21\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>$login->username))."</a>";
-		$rechtsboven.="</font>";
+		$rechtsboven.="</span>";
 	} elseif(ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {
 		if($regs[2]==boeking_veiligheid($regs[1])) {
 			$db->query("SELECT type_id FROM boeking WHERE boeking_id='".addslashes($_COOKIE["CHALET"]["boeking"]["boekingid"])."' AND bevestigdatum IS NULL;");
@@ -1232,11 +1229,11 @@ if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET
 				$verder=accinfo($db->f("type_id"));
 				if(($id=="toonaccommodatie" and $typeid<>$db->f("type_id")) or ($id<>"boeken" and $id<>"toonaccommodatie")) {
 					if($verder["tonen"] and !$voorkant_cms) {
-						$rechtsboven.="<font size=\"1\"><a href=\"".$path."boeken.php?bfbid=".$regs[1]."\">".html("gaverdermetboeken","vars")." ";
+						$rechtsboven.="<span class=\"x-small\"><a href=\"".$path."boeken.php?bfbid=".$regs[1]."\">".html("gaverdermetboeken","vars")." ";
 						if(!$vars["wederverkoop"]) {
 							$rechtsboven.=htmlentities(ucfirst($verder["soortaccommodatie"])." ".$verder["accommodatie"]);
 						}
-						$rechtsboven.=" &gt;</a></font>";
+						$rechtsboven.=" &gt;</a></span>";
 					}
 				}
 			}
@@ -1288,7 +1285,7 @@ if($_COOKIE["sch"]) {
 						$last_acc_html.="<div class=\"laatstbekeken_divider\">&nbsp;</div>";
 					}
 					$last_acc_html.="<div class=\"laatstbekeken_acc\" onclick=\"document.location.href='".$vars["path"].txt("menu_accommodatie")."/".$value["begincode"].$key."/';\">";
-					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\"></div>";
+					$last_acc_html.="<div class=\"laatstbekeken_img_div\"><img src=\"".$vars["path"]."pic/cms/".$value["afbeelding"]."\" alt=\"\"></div>";
 					$last_acc_html.="<div class=\"laatstbekeken_tekst\">";
 					$last_acc_html.="<div>".wt_he($value["naam"])."</div>";
 					$last_acc_html.="<div style=\"margin-top:7px;\">";

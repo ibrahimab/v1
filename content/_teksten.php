@@ -284,7 +284,7 @@ $txt["nl"]["vars"]["mailbetaling_subject"]="Ontvangstbevestiging betaling [SOORT
 $txt["en"]["vars"]["mailbetaling_subject"]="Acknowledgment of payment [SOORTVAKANTIE]";
 
 $txt["nl"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nNa verwerking van deze betaling wordt het nieuwe openstaande saldo:\n\n[BETALINGSINFO]\nWij willen je vragen om het resterende bedrag voor de uiterste betaaldatum naar ons over te maken. Ga voor alle betaalinformatie en de mogelijkheid om online te betalen naar de volgende website:\n\n[BETAALLINK]\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["en"]["vars"]["mailbetaling"]="Dear [NAAM],\n\nOn [DATUM] we received a payment of € [BEDRAG] on our bank account which is related to your [SOORTVAKANTIE]. Thank you for that.\n\nAfter we have processed this payment the new sum of money you are due will be:\n\n[BETALINGSINFO]\nTherefore we would like to ask you to send the money that you are still due.Visit the website below for all payment information and the possibility to pay online:\n\n[BETAALLINK]\n\nPlease make sure you also state the reservation number [RESERVERINGSNUMMER] at the transaction.\n\nAfter we have received the money you are still due we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
+$txt["en"]["vars"]["mailbetaling"]="Dear [NAAM],\n\nOn [DATUM] we received a payment of € [BEDRAG] on our bank account which is related to your [SOORTVAKANTIE]. Thank you for that.\n\nAfter we have processed this payment the new sum of money you are due will be:\n\n[BETALINGSINFO]\nTherefore we would like to ask you to send the money that you are still due.Visit the website below for all payment information and the possibility to pay online:\n\n[BETAALLINK]\n\nAfter we have received the money you are still due we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl_t"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nNa verwerking van deze betaling wordt het nieuwe openstaande saldo:\n\n[BETALINGSINFO]\nWij willen je vragen om het resterende bedrag voor de uiterste betaaldatum naar ons over te maken. Ga voor alle betaalinformatie naar de volgende website:\n\n[BETAALLINK]\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["en_t"]["vars"]["mailbetaling"]="-";
@@ -295,17 +295,17 @@ $txt["en_x"]["vars"]["mailbetaling"]="-";
 $txt["nl"]["vars"]["mailbetaling_voldaan"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nHiermee is het totaalbedrag van jullie reis voldaan en worden ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["en"]["vars"]["mailbetaling_voldaan"]="Dear [NAAM],\n\nOn [DATUM] we received a payment of € [BEDRAG] on our bank account which is related to your [SOORTVAKANTIE]. Thank you for that.\n\nThis makes your vacation fully paid for and we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
-$txt["nl"]["vars"]["mailbetalingsinfo_ontvangenbedrag"]="€ [BEDRAG] reeds ontvangen";
-$txt["en"]["vars"]["mailbetalingsinfo_ontvangenbedrag"]="€ [BEDRAG] already received";
+$txt["nl"]["vars"]["mailbetalingsinfo_ontvangenbedrag"]="€ [BEDRAG] reeds voldaan";
+$txt["en"]["vars"]["mailbetalingsinfo_ontvangenbedrag"]="€ [BEDRAG] already paid";
 
-$txt["nl"]["vars"]["mailbetalingsinfo_nogteontvangenaanbetaling"]="€ [BEDRAG] nog te ontvangen aanbetaling per [DATUM]";
-$txt["en"]["vars"]["mailbetalingsinfo_nogteontvangenaanbetaling"]="At [DATUM] the down payment to receive is € [BEDRAG]";
+$txt["nl"]["vars"]["mailbetalingsinfo_nogteontvangenaanbetaling"]="€ [BEDRAG] nog te betalen aanbetaling per [DATUM]";
+$txt["en"]["vars"]["mailbetalingsinfo_nogteontvangenaanbetaling"]="At [DATUM] the down payment to pay is € [BEDRAG]";
 
-$txt["nl"]["vars"]["mailbetalingsinfo_nogteontvangeneindbetaling"]="€ [BEDRAG] nog te ontvangen eindbetaling per [DATUM]";
-$txt["en"]["vars"]["mailbetalingsinfo_nogteontvangeneindbetaling"]="At [DATUM] the final payment to receive is € [BEDRAG]";
+$txt["nl"]["vars"]["mailbetalingsinfo_nogteontvangeneindbetaling"]="€ [BEDRAG] nog te betalen eindbetaling per [DATUM]";
+$txt["en"]["vars"]["mailbetalingsinfo_nogteontvangeneindbetaling"]="At [DATUM] the final payment to pay is € [BEDRAG]";
 
-$txt["nl"]["vars"]["mailbetalingsinfo_totaalnogteontvangen"]="€ [BEDRAG] totaal nog te ontvangen";
-$txt["en"]["vars"]["mailbetalingsinfo_totaalnogteontvangen"]="€ [BEDRAG] is the total sum to still receive";
+$txt["nl"]["vars"]["mailbetalingsinfo_totaalnogteontvangen"]="€ [BEDRAG] totaal nog te betalen";
+$txt["en"]["vars"]["mailbetalingsinfo_totaalnogteontvangen"]="€ [BEDRAG] is the total sum to still pay";
 
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="De prijzen van de door jou bezochte accommodatie in [PLAATS] zijn bekend!";
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="he prices of the accommodation you visited in [PLAATS] are now known";
@@ -540,6 +540,9 @@ $txt["en"]["vars"]["poliskostenverzekeringen"]="Policy cost insurance(s)";
 
 $txt["nl"]["vars"]["reserveringskosten"]="Reserveringskosten";
 $txt["en"]["vars"]["reserveringskosten"]="Booking costs";
+
+$txt["nl"]["vars"]["perboeking"]="per boeking";
+$txt["en"]["vars"]["perboeking"]="per booking";
 
 $txt["nl"]["vars"]["commissie"]="Commissie";
 $txt["en"]["vars"]["commissie"]="Commission";
@@ -1570,13 +1573,13 @@ $txt["en"]["contact"]["nieuwsbriefvraag"]="-";
 $txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en_z"]["contact"]["nieuwsbriefvraag"]="-";
 
-$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
 $txt["en"]["contact"]["inleiding"]="If you have any questions, comments or any other things you would like to let us know, please complete the form below, send us an e-mail or contact us by telephone.";
 
-$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
 $txt["en_b"]["contact"]["inleiding"]="-";
 
-$txt["nl"]["contact"]["inleiding_chalettour"]="Neem voor meer informatie, vragen of opmerkingen direct contact op met uw reisbureau of vul onderstaand contactformulier in.";
+$txt["nl"]["contact"]["inleiding_chalettour"]="Neem voor meer informatie, vragen of opmerkingen direct contact op met uw reisbureau of vul onderstaand contactformulier in. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
 $txt["en"]["contact"]["inleiding_chalettour"]="-";
 
 $txt["nl"]["contact"]["naamreisbureau_chalettour"]="Naam reisbureau";
@@ -1896,7 +1899,7 @@ $txt["en"]["toonaccommodatie"]["geldigvoordeaangebodenweken"]="Subject to availa
 $txt["nl"]["toonaccommodatie"]["geldigheid"]="Geldigheid";
 $txt["en"]["toonaccommodatie"]["geldigheid"]="Validity";
 
-$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor winter 2013/2014 zijn momenteel nog geen tarieven bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
+$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor winter 2014/2015 zijn momenteel nog geen tarieven bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
 $txt["en"]["toonaccommodatie"]["tarievennognietbekend"]="The rates for this accommodation are not yet known. Please [[l1]]contact[[/l1]] us so that we can check the rate for you.";
 
 $txt["nl_z"]["toonaccommodatie"]["tarievennognietbekend"]="De tarieven voor deze accommodatie zijn nog niet bekend. Neem [[l1]]contact[[/l1]] met ons op zodat wij de prijs voor je kunnen nagaan.";
@@ -2448,10 +2451,13 @@ $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
 $txt["en"]["tarieventabel"]["bekijkdeextraopties"]="Look at [[h_1]]our possibilities[[h_2]]";
 
-$txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]] of [[h_2]]chat met ons[[h_3]].";
+$txt["nl"]["tarieventabel"]["nualteboeken"]="Nu al te boeken: [[v_seizoennaam]]";
+$txt["en"]["tarieventabel"]["nualteboeken"]="Already bookable: [[v_seizoennaam]]";
+
+$txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]], [[h_2]]chat met ons[[h_3]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
 
-$txt["nl"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Hulp bij online boeken? Bel ons: [[h_1]]";
+$txt["nl"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Hulp bij online boeken? Bel [[h_1]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]]";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Need help with booking online? Call us: [[h_1]]";
 
 $txt["nl"]["tarieventabel"]["vertrekdagafwijking"]="Let op! Afwijkingen in aankomstdatum en verblijfsduur";
@@ -3992,8 +3998,7 @@ $txt["nl"]["bsys"]["akkoordfactuur"]="Ja, ik ga akkoord met de [[h_1]]ontvangen 
 $txt["en"]["bsys"]["akkoordfactuur"]="Yes, I agree with the [[h_1]]received invoice[[h_2]] of reservation number [[v_boekingsnummer]]";
 
 $txt["nl"]["bsys"]["akkoordvoorwaarden"]="Ja, ik ga akkoord met de [[h_1]]algemene voorwaarden van [[v_websitenaam]][[h_2]] (altijd van toepassing) + onderstaande voorwaarden aangaande verzekeringen (alleen van toepassing als ik een verzekering afsluit)";
-$txt["en"]["bsys"]["akkoordvoorwaarden"]="Yes, I agree with the [[h_1]]terms and conditions of [[v_websitenaam]][[h_2]] + below mentioned conditions for insurances (if applicable)";
-$nieuwe_vertaling["en"]["bsys"]["akkoordvoorwaarden"]=true;
+$txt["en"]["bsys"]["akkoordvoorwaarden"]="Yes, I agree with the [[h_1]]terms and conditions of [[v_websitenaam]][[h_2]] (always apply) + following terms and conditions regarding insurance (only apply if I take out insurance)";
 
 $txt["nl"]["bsys"]["voorwaarden_annuleringsverzekering"]="Voorwaarden Europeesche Verzekeringen Annuleringsverzekering";
 $txt["en"]["bsys"]["voorwaarden_annuleringsverzekering"]="Conditions Europeesche Verzekeringen Cancellation Insurance";
@@ -4138,6 +4143,9 @@ $txt["en"]["bsys"]["customer_country"]="Select your country";
 $txt["nl"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 84.93.06.671 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
 $txt["en"]["bsys"]["banktransfer_text"] = "You can send the money you are still due to our bank account number:\n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO - Woerden \n\n Please make sure you also state the reservation number [b][[v_resnumber]][/b] at the transaction. \n After we received the money you are still due we will send you your travel information circa 10 days before your departure.";
 
+$txt["nl_x"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 43.66.72.901 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL77 ABNA 0436 6729 01 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
+$txt["en_x"]["bsys"]["banktransfer_text"] = "-";
+
 $txt["nl"]["docdata"]["redirect"]="Als je niet automatisch wordt doorverwezen klik dan op deze knop:";
 $txt["en"]["docdata"]["redirect"]="If you are not redirected automatically click this button:";
 
@@ -4209,7 +4217,6 @@ $txt["en"]["factuur"]["perdirecttevoldoen"]="To be paid immediately";
 
 $txt["nl"]["factuur"]["peromgaandetevoldoen"]="Per omgaande te voldoen";
 $txt["en"]["factuur"]["peromgaandetevoldoen"]="To be paid immediately";
-$nieuwe_vertaling["en"]["factuur"]["peromgaandetevoldoen"]=true;
 
 $txt["nl"]["factuur"]["metspoedopdrachttevoldoen"]="Met spoedopdracht te voldoen";
 $txt["en"]["factuur"]["metspoedopdrachttevoldoen"]="Payment by direct bank transfer";
@@ -5387,6 +5394,21 @@ $txt["en"]["vertrekinfo"]["sleuteladres"]="Address to pick up your key";
 
 $txt["nl"]["vertrekinfo"]["telefoonnummer"]="Telefoonnummer van [[v_beheer]]";
 $txt["en"]["vertrekinfo"]["telefoonnummer"]="Telephone number of  [[v_beheer]]";
+
+
+# faq
+$txt["nl"]["faq"]["nietgevonden"]="Het antwoord op je vraag niet gevonden? Neem [[h_1]]contact[[h_2]] met ons op of [[h_3]]chat met ons[[h_4]].";
+$txt["en"]["faq"]["nietgevonden"]="Did this not answer your question? Please [[h_1]]contact[[h_2]] us or [[h_3]]open the chat[[h_4]].";
+
+$txt["nl"]["faq"]["nietgevonden_zonder_chat"]="Het antwoord op je vraag niet gevonden? Neem [[h_1]]contact[[h_2]] met ons op.";
+$txt["en"]["faq"]["nietgevonden_zonder_chat"]="Did this not answer your question? Please [[h_1]]contact[[h_2]] us.";
+
+$txt["nl"]["faq"]["klikopeenvraag"]="Klik op een vraag om het antwoord te bekijken;";
+$txt["en"]["faq"]["klikopeenvraag"]="Click on a question to see the answer;";
+
+$txt["nl"]["faq"]["alleantwoordenopenen"]="Je kunt ook [[h_1]]alle antwoorden openklappen[[h_2]];";
+$txt["en"]["faq"]["alleantwoordenopenen"]="You can also [[h_1]]open all answers[[h_2]];";
+
 
 
 ?>

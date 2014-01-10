@@ -297,7 +297,6 @@ class Payment extends Model {
 			// send payment-receipt to client
 			$paymentmail = new paymentmail;
 			$paymentmail->send_mail($order_id, $captured, time());
-
 		}
 
 		return (bool)$ok;

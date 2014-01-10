@@ -11,7 +11,7 @@ if($vars["websitetype"]==7) {
 	$laat_titel_weg=true;
 
 	$vars["googlemaps"]=true;
-	$onload="initialize_googlemaps();";
+	$data_onload="initialize_googlemaps";
 }
 
 // #if($url[1]) $url[0].=$url[1];

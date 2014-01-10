@@ -15,6 +15,9 @@ set_time_limit(0);
 if($_SERVER["HTTP_HOST"]) {
 	$unixdir="../";
 	$tmpdir="/tmp/";
+} elseif(preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
+	$unixdir="/var/www/chalet.nl/html_test/";
+	$tmpdir="/var/www/chalet.nl/html_test/tmp/";
 } else {
 	$unixdir="/var/www/chalet.nl/html/";
 	$tmpdir="/var/www/chalet.nl/html/tmp/";
@@ -149,26 +152,26 @@ foreach($username as $userAccount) {
 
 		if($userAccount=='Italissima') {
 			// horizontaal tweets tonen
-			$content="<table cellspacing=\"0\" style=\"background-color:#e0d1cc;padding-left:25px;padding-top:5px; padding-bottom:5px; padding-right:25px; width:580px;\">
+			$content="<table style=\"background-color:#e0d1cc;padding: 5px 25px;width:580px;border-collapse:separate;\">
 					<tr><td style=\"color:#661700; font-size:1.2em;padding-bottom:10px;\" colspan=\"2\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/Italissima\" target=\"_blank\">Italissima op Twitter</a></td></tr>
-					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht[1]."<hr></td></tr>
-					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht[2]."<hr></td></tr>
-					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht[3]."</td></tr>
+					<tr><td colspan=\"2\" style=\"font-size:11px;vertical-align:top;\">".$bericht[1]."<hr></td></tr>
+					<tr><td colspan=\"2\" style=\"font-size:11px;vertical-align:top;\">".$bericht[2]."<hr></td></tr>
+					<tr><td colspan=\"2\" style=\"font-size:11px;vertical-align:top;\">".$bericht[3]."</td></tr>
 					</table>";
  		} elseif($userAccount=='SuperSkiNL') {
-			$content="<table cellspacing=\"0\" style=\"padding-left:15px;padding-top:5px; padding-bottom:5px; padding-right:15px; width:100%;\">
+			$content="<table style=\"padding: 5px 15px;width:100%;border-collapse:separate;\">
 					<tr><td style=\"color:#661700; font-size:1.2em;padding-bottom:10px;\" colspan=\"2\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/SuperSkiNL\" target=\"_blank\">SuperSki op Twitter</a></td></tr>
-					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht[1]."<hr></td></tr>
-					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht[2]."<hr></td></tr>
-					<tr><td valign=\"top\" colspan=\"2\" style=\"font-size:11px;\">".$bericht[3]."</td></tr>
+					<tr><td colspan=\"2\" style=\"font-size:11px;vertical-align:top;\">".$bericht[1]."<hr></td></tr>
+					<tr><td colspan=\"2\" style=\"font-size:11px;vertical-align:top;\">".$bericht[2]."<hr></td></tr>
+					<tr><td colspan=\"2\" style=\"font-size:11px;vertical-align:top;\">".$bericht[3]."</td></tr>
 					</table>";
 		} else {
 			// verticaal tweets tonen
-			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_twitter_blok\" cellspacing=\"2\" style=\"".($backColor ? "background-color:".$backColor.";" : "")."padding:5px;\">";
-			$content.="<td style=\"color:".$kopColor.";font-size:14px;\"><div style=\"cursor:pointer;\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/".$userAccount."\" target=\"_blank\">".$naam." op Twitter</a></div></td></tr><tr><td></td><td></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht[1]."<br><br></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht[2]."<br><br></td></tr>";
-			$content.="<tr><td valign=\"top\" style=\"font-size:11px;\" colspan=\"2\">".$bericht[3]."<br><br></td></tr>";
+			$content.="<div style=\"background-color:#cfbcd8; width:170px;\"><table id=\"hoofdpagina_twitter_blok\" style=\"".($backColor ? "background-color:".$backColor.";" : "")."padding:5px;border-collapse:separate;border-spacing: 2px;\"><tr>";
+			$content.="<td style=\"color:".$kopColor.";font-size:14px;\" colspan=\"2\"><div style=\"cursor:pointer;\"><a style=\"text-decoration:none;\" href=\"https://twitter.com/".$userAccount."\" target=\"_blank\">".$naam." op Twitter</a></div></td></tr><tr><td></td><td></td></tr>";
+			$content.="<tr><td style=\"font-size:11px;vertical-align:top;\" colspan=\"2\">".$bericht[1]."<br><br></td></tr>";
+			$content.="<tr><td style=\"font-size:11px;vertical-align:top;\" colspan=\"2\">".$bericht[2]."<br><br></td></tr>";
+			$content.="<tr><td style=\"font-size:11px;vertical-align:top;\" colspan=\"2\">".$bericht[3]."<br><br></td></tr>";
 			$content.="</table></div>";
 		}
 		$toWrite=$unixdir."cache/twitter".$userAccount.".html";

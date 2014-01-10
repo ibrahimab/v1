@@ -318,6 +318,8 @@ class PaymentController extends Controller {
 	public function updateAction() {
 		$error = false;
 
+        App::get('helper/data')->log('Update Action');
+
 		$request = App::getRequest();
 		$helper = App::get('helper/data');
 
@@ -330,20 +332,19 @@ class PaymentController extends Controller {
 			$error = true;
 		}
 
-		//acquire lock for reference
-		$lock = $this->getOrderLock($reference);
-
 		//retrieve the order to update
 		$order = App::get("model/order")->loadByOrderReference($reference);
-                
-		
-                if ($order === null || $order->getId() === null) {
+
+		if ($order === null || $order->getId() === null) {
 			// Error, order by the given reference has not been found
 			$helper->log(
 				'Order not found by given reference, cannot proceed',
 				App::ERR
 			);
 			$error = true;
+		} else {
+			//acquire lock for reference
+			$lock = $this->getOrderLock($order->getId());
 		}
 
 		if ($order === null || $order->getDocdataPaymentClusterKey() === null) {
@@ -359,7 +360,9 @@ class PaymentController extends Controller {
 			$result = App::get('model/docdata')->statusCall($order, array());
 		}
 
-		$this->releaseOrderLock($lock);
+        if($lock instanceof Model_Locking) {
+		    $this->releaseOrderLock($lock);
+        }
 
 		if (isset($result) && $result->hasError()) {
 			// Error, error during status update

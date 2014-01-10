@@ -69,11 +69,6 @@
 	margin-right: 5px;
 }
 
-#hoofdpagina_sociallinks img {
-	vertical-align: text-top;
-	float: left;
-}
-
 #hoofdpagina_sociallinks .twitter {
 	margin-left: 9px;
 	margin-right: 9px;
@@ -188,7 +183,7 @@
 }
 
 #hoofdpagina_banner_rechts {
-	margin-top: 80px;
+	margin-top: 25px;
 	display: block;
 	background: url(../pic/venturasol_hoofdpagina/banner_rechts.jpg?c=2) no-repeat 0 0px;
     -webkit-border-radius: 10px;

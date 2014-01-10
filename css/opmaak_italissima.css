@@ -1038,6 +1038,11 @@ form {
 	background-color: #f3f3f3;
 }
 
+#footer_met_links ul {
+	margin: 0;
+	padding: 0;
+}
+
 .footer_met_links_blok {
 	float: left;
 	padding-left: 35px;
@@ -1132,6 +1137,17 @@ form {
 /*nieuwsbrief*/
 #nieuwsbrief_vulin {
 	border:1px solid #ffd38f;
+}
+
+/* veelgestelde vragen/faq */
+.faq_vraag {
+	background-color: #e0d1cc;
+	color: #661700;
+}
+
+.faq_vraag:hover {
+	background-color: #661700;
+	color: #ffffff;
 }
 
 @media print {

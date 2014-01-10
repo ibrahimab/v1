@@ -63,6 +63,8 @@ if($_GET["levid"]) {
 		if($_GET["date"]) {
 			echo $roominglist->overzicht_aankomstlijsten(array("date"=>$_GET["date"]));
 			echo "&nbsp;<hr>&nbsp;";
+			echo $roominglist->overzicht_aankomstlijsten(array("date"=>$_GET["date"], "niet_verzenden"=>true));
+			echo "&nbsp;<hr>&nbsp;";
 			echo $roominglist->overzicht_aankomstlijsten(array("date"=>$_GET["date"], "nog_niet_goedgekeurd"=>true));
 			echo "&nbsp;<hr>&nbsp;";
 			echo $roominglist->overzicht_aankomstlijsten(array("date"=>$_GET["date"], "goedgekeurd"=>true));

@@ -8,9 +8,9 @@ if($_GET["fo"]=="frm") {
 
 } else {
 	if($vars["website"]=="T" or $vars["website"]=="Y") {
-		echo html("inleiding_chalettour","contact");
+		echo html("inleiding_chalettour","contact",array("h_1"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">","h_2"=>"</a>"));
 	} else {
-		echo html("inleiding","contact",array("h_1"=>"<nobr>","h_2"=>"</nobr>"));
+		echo html("inleiding","contact",array("h_1"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">","h_2"=>"</a>"));
 
 		# Tijdelijk! Telefoon doet het niet
 		#echo "<div style=\"background-color:yellow;padding:10px;border:1px solid #000000;margin-top:10px;\">".nl2br(html("opvalmelding","vars",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">","h_2"=>"</a>","v_email"=>$vars["email"])))."</div>";
@@ -69,7 +69,7 @@ if($_GET["fo"]=="frm") {
 			echo "NL-8122.76.875.B.01";
 		} else {
 			// btw-nummer Chalet.nl BV
-			echo "NL-8129.05.386.B.01";
+			echo "NL-8169.23.462.B.01";
 		}
 		echo "</td>";
 		echo "</tr>";

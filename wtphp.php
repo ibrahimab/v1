@@ -2,6 +2,7 @@
 
 // include("admin/vars.php");
 
+
 // $mailadres="bjorn@chalet.nl";
 // $naam="Bjorn den Blanken";
 
