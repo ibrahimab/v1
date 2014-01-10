@@ -635,7 +635,7 @@ function boekinginfo($boekingid) {
 
 				$commissie_opnieuw_opgehaald=true;
 
-				if($return["stap1"]["flexibel"]) {
+				if($return["stap1"]["flexibel"] or $return["stap1"]["verblijfsduur"]>1) {
 					$flextarief=bereken_flex_tarief($return["stap1"]["typeid"],$return["stap1"]["aankomstdatum_exact"],0,$return["stap1"]["vertrekdatum_exact"]);
 					$return["stap1"]["verkoop"]=$flextarief["tarief"];
 				}

@@ -224,7 +224,7 @@ if($login->logged_in) {
 							echo "<a href=\"cms_boeking_oppakken.php?boekingid=".addslashes($gegevens["stap1"]["boekingid"])."\" target=\"_blank\">Deze onafgeronde boeking oppakken &gt; &gt;</a><p>";
 						} else {
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	$booking_payment = new booking_payment($gegevens);
 	$booking_payment->get_amounts();
 	echo wt_dump($booking_payment->text);

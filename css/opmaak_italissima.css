@@ -1139,6 +1139,17 @@ form {
 	border:1px solid #ffd38f;
 }
 
+/* veelgestelde vragen/faq */
+.faq_vraag {
+	background-color: #e0d1cc;
+	color: #661700;
+}
+
+.faq_vraag:hover {
+	background-color: #661700;
+	color: #ffffff;
+}
+
 @media print {
 
 	body {

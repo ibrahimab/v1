@@ -541,6 +541,9 @@ $txt["en"]["vars"]["poliskostenverzekeringen"]="Policy cost insurance(s)";
 $txt["nl"]["vars"]["reserveringskosten"]="Reserveringskosten";
 $txt["en"]["vars"]["reserveringskosten"]="Booking costs";
 
+$txt["nl"]["vars"]["perboeking"]="per boeking";
+$txt["en"]["vars"]["perboeking"]="per booking";
+
 $txt["nl"]["vars"]["commissie"]="Commissie";
 $txt["en"]["vars"]["commissie"]="Commission";
 
@@ -1570,13 +1573,13 @@ $txt["en"]["contact"]["nieuwsbriefvraag"]="-";
 $txt["nl_z"]["contact"]["nieuwsbriefvraag"]="Ik meld mij aan voor de [[v_websitenaam]]-nieuwsbrief en mis zo geen aanbiedingen, nieuws en reistips meer";
 $txt["en_z"]["contact"]["nieuwsbriefvraag"]="-";
 
-$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["nl"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
 $txt["en"]["contact"]["inleiding"]="If you have any questions, comments or any other things you would like to let us know, please complete the form below, send us an e-mail or contact us by telephone.";
 
-$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen.";
+$txt["nl_b"]["contact"]["inleiding"]="Heb je nog vragen, opmerkingen of iets anders wat je aan ons wilt laten weten dan kun je onderstaand formulier invullen, ons een e-mail sturen of telefonisch contact met ons opnemen. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
 $txt["en_b"]["contact"]["inleiding"]="-";
 
-$txt["nl"]["contact"]["inleiding_chalettour"]="Neem voor meer informatie, vragen of opmerkingen direct contact op met uw reisbureau of vul onderstaand contactformulier in.";
+$txt["nl"]["contact"]["inleiding_chalettour"]="Neem voor meer informatie, vragen of opmerkingen direct contact op met uw reisbureau of vul onderstaand contactformulier in. Bekijk ook onze [[h_1]]veelgestelde vragen[[h_2]].";
 $txt["en"]["contact"]["inleiding_chalettour"]="-";
 
 $txt["nl"]["contact"]["naamreisbureau_chalettour"]="Naam reisbureau";
@@ -1896,7 +1899,7 @@ $txt["en"]["toonaccommodatie"]["geldigvoordeaangebodenweken"]="Subject to availa
 $txt["nl"]["toonaccommodatie"]["geldigheid"]="Geldigheid";
 $txt["en"]["toonaccommodatie"]["geldigheid"]="Validity";
 
-$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor winter 2013/2014 zijn momenteel nog geen tarieven bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
+$txt["nl"]["toonaccommodatie"]["tarievennognietbekend"]="Voor winter 2014/2015 zijn momenteel nog geen tarieven bekend. Neem [[l1]]contact[[/l1]] met ons op voor een prijsindicatie.";
 $txt["en"]["toonaccommodatie"]["tarievennognietbekend"]="The rates for this accommodation are not yet known. Please [[l1]]contact[[/l1]] us so that we can check the rate for you.";
 
 $txt["nl_z"]["toonaccommodatie"]["tarievennognietbekend"]="De tarieven voor deze accommodatie zijn nog niet bekend. Neem [[l1]]contact[[/l1]] met ons op zodat wij de prijs voor je kunnen nagaan.";
@@ -2448,10 +2451,13 @@ $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
 $txt["en"]["tarieventabel"]["bekijkdeextraopties"]="Look at [[h_1]]our possibilities[[h_2]]";
 
-$txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]] of [[h_2]]chat met ons[[h_3]].";
+$txt["nl"]["tarieventabel"]["nualteboeken"]="Nu al te boeken: [[v_seizoennaam]]";
+$txt["en"]["tarieventabel"]["nualteboeken"]="Already bookable: [[v_seizoennaam]]";
+
+$txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]], [[h_2]]chat met ons[[h_3]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
 
-$txt["nl"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Hulp bij online boeken? Bel ons: [[h_1]]";
+$txt["nl"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Hulp bij online boeken? Bel [[h_1]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]]";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken_zonderchat"]="Need help with booking online? Call us: [[h_1]]";
 
 $txt["nl"]["tarieventabel"]["vertrekdagafwijking"]="Let op! Afwijkingen in aankomstdatum en verblijfsduur";
@@ -4136,6 +4142,9 @@ $txt["en"]["bsys"]["customer_country"]="Select your country";
 
 $txt["nl"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 84.93.06.671 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
 $txt["en"]["bsys"]["banktransfer_text"] = "You can send the money you are still due to our bank account number:\n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO - Woerden \n\n Please make sure you also state the reservation number [b][[v_resnumber]][/b] at the transaction. \n After we received the money you are still due we will send you your travel information circa 10 days before your departure.";
+
+$txt["nl_x"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 43.66.72.901 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL77 ABNA 0436 6729 01 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
+$txt["en_x"]["bsys"]["banktransfer_text"] = "-";
 
 $txt["nl"]["docdata"]["redirect"]="Als je niet automatisch wordt doorverwezen klik dan op deze knop:";
 $txt["en"]["docdata"]["redirect"]="If you are not redirected automatically click this button:";

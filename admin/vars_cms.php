@@ -320,7 +320,8 @@ if($mustlogin) {
 	$layout->submenu_item("cms_diversen","","cms_diversen","Instellingen",array("t"=>"3"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Statistieken",array("t"=>"6"),true);
 	$layout->submenu_item("cms_diversen","","cms_diversen","Vouchertermen",array("t"=>"5"),true);
-	$layout->submenu_item("cms_diversen","","cms_faq","Veelgestelde vragen","",true);
+	$layout->submenu_item("cms_diversen","","cms_faq","Veelgestelde vragen winter",array("wzt"=>"1"),true);
+	$layout->submenu_item("cms_diversen","","cms_faq","Veelgestelde vragen zomer",array("wzt"=>"2"),true);
 
 	if($login->has_priv("29")) {
 		$layout->menu_item("cms_evenementen","Evenementen","",true);

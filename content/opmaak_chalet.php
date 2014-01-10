@@ -504,6 +504,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<div class=\"divSepIND\">";
 		echo "<br><b>&copy; ".wt_he($vars["websitenaam"])."</b><br><br>";
 		echo "<ul>";
+		echo "<li><a href=\"".$vars["path"]."veelgestelde-vragen\">Veelgestelde vragen</a></li>";
 		echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\" rel=\"nofollow\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\" rel=\"nofollow\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\" rel=\"nofollow\">Privacy statement</a></li><li><a href=\"".$vars["path"]."sitemap\" rel=\"nofollow\">Sitemap</a></li>";
 		echo "</ul>";
 		echo "</div>";
@@ -547,6 +548,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<div class=\"divSepIND\">";
 		echo "<br><b>&copy; ".wt_he($vars["websitenaam"])."</b><br><br>";
 		echo "<ul>";
+		echo "<li><a href=\"".$vars["path"]."veelgestelde-vragen\">Veelgestelde vragen</a></li>";
 		echo "<li><a href=\"".$vars["path"]."algemenevoorwaarden.php\">Algemene voorwaarden</a></li><li><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a></li><li><a href=\"".$vars["path"]."privacy-statement.php\">Privacy-statement</a></li><li><a href=\"".$vars["path"]."sitemap\">Sitemap</a></li>";
 		echo "</ul>";
 		echo "</div>";
@@ -772,10 +774,6 @@ if($vars["opvalmelding_tonen"] and (!$_COOKIE["opvalmelding_gelezen"] or $vars["
 	echo "<div id=\"opval_bottombar\" class=\"noprint\"><div id=\"opval_bottombar_wrapper\"><div id=\"opval_bottombar_text\">".nl2br(html("opvalmelding","vars",array("h_1"=>"<a href=\"mailto:".$vars["email"]."\">","h_2"=>"</a>","v_email"=>$vars["email"])))."</div><div id=\"opval_bottombar_close\">&nbsp;</div></div></div>";
 }
 
-// pageload-time bepalen
-if($vars["page_starttime"]) {
-	echo "<div class=\"clear\" style=\"text-align: right\" id=\"page_load_time_2\" data-time=\"".number_format(microtime(true)-$vars["page_starttime"],4,",",".")."\">Page loaded in: ".number_format(microtime(true)-$vars["page_starttime"],4,",",".")." sec.</div>";
-}
 
 ######################### Load javascript files
 

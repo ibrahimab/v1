@@ -666,6 +666,10 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 
 }
 
+.slide_more_div {
+	display: none;
+}
+
 .virtuelerondgang {
 	margin-top: 3px;
 	margin-bottom: 3px;
@@ -2617,6 +2621,43 @@ blog
 	display: block;
 	text-align: center;
 	width: 100%;
+}
+
+
+/*
+
+=========================
+veelgestelde vragen (faq)
+=========================
+
+*/
+
+.faq_vraag {
+	margin-top: 1.5em;
+	margin-bottom: 0.6em;
+	display: block;
+	background-color: #d5e1f9;
+	color: #003366;
+	font-size: 1.1em;
+	padding: 5px;
+}
+
+.faq_vraag:first-child {
+	margin-top: 0em;
+}
+
+.faq_vraag:hover {
+	background-color: #003366;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+.faq_antwoord {
+	display: none;
+}
+
+.faq_eindtekst {
+	font-weight: bold;
 }
 
 

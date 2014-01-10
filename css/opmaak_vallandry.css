@@ -546,6 +546,18 @@ form {
 	margin: 5px 0 5px 0;
 }
 
+
+/* veelgestelde vragen/faq */
+.faq_vraag {
+	background-color: #b2cce5;
+	color: #000000;
+}
+
+.faq_vraag:hover {
+	background-color: #6699cc;
+	color: #ffffff;
+}
+
 @media print {
 
 	body {

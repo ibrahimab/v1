@@ -4,6 +4,10 @@
 # Zoekformulier
 #
 
+if($pre_query_content) {
+	echo $pre_query_content;
+}
+
 # tekstzoeken: zoekopdracht "opschonen" (voor zoekopdrachten die binnenkomen via andere pagina dan zoek-en-boek.php - want in zoek-en-boek.php wordt dit opschonen ook al gedaan)
 if($_GET["fzt"]==txt("tekstzoeken","zoek-en-boek")) {
 	# als tekstzoekopdracht bestaat uit de placeholder-tekst: tekstzoekopdracht wissen
@@ -2684,6 +2688,12 @@ if($_GET["sort"] and $vars["websitetype"]<>8) {
 if($vars["zoeken_op_kaart"]) {
 	# doorgeven of bij zoeken op kaart de kaart zichtbaar is
 	echo "<input type=\"hidden\" name=\"map\" value=\"".intval($_GET["map"])."\">\n";
+}
+
+if($_GET["pagetype"] and $_GET["pagecontent"]) {
+	# zoek-en-boek-pre-query
+	echo "<input type=\"hidden\" name=\"pagetype\" value=\"".wt_he($_GET["pagetype"])."\">\n";
+	echo "<input type=\"hidden\" name=\"pagecontent\" value=\"".wt_he($_GET["pagecontent"])."\">\n";
 }
 
 
