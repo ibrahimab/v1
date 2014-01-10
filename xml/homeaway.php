@@ -40,26 +40,66 @@ $geen_tracker_cookie=true;
 $unixdir="../";
 include("../admin/vars.php");
 
-$wzt=1;
-$homeaway_types=array(
-	"242"=>"1138508",
-	"240"=>"1138509",
-	"453"=>"1138510",
-	"249"=>"1138511",
-	"3167"=>"1138512",
-	"247"=>"1138513",
-	"248"=>"1138514",
-	"4034"=>"1138515",
-	"165"=>"1138516",
-	"4"=>"1138517",
-	"5409"=>"1138519",
-	"7906"=>"1138520",
-	"6577"=>"1138521",
-	"1038"=>"1138522",
-	"4697"=>"1138523",
-	"3179"=>"1138524",
-	"5312"=>"1138525",
-);
+$wzt=$vars["seizoentype"];
+
+if($wzt==1) {
+	// https://www.chalet.eu/xml/homeaway.php?feedtype=rates
+	// https://www.chalet.eu/xml/homeaway.php?feedtype=reservations
+	$homeaway_types=array(
+		"242"=>"1138508",
+		"240"=>"1138509",
+		"453"=>"1138510",
+		"249"=>"1138511",
+		"3167"=>"1138512",
+		"247"=>"1138513",
+		"248"=>"1138514",
+		"4034"=>"1138515",
+		"165"=>"1138516",
+		"4"=>"1138517",
+		"5409"=>"1138519",
+		"7906"=>"1138520",
+		"6577"=>"1138521",
+		"1038"=>"1138522",
+		"4697"=>"1138523",
+		"3179"=>"1138524",
+		"5312"=>"1138525",
+		"6642"=>"1309554",
+		"8172"=>"1309555",
+		"5943"=>"1309556",
+		"5941"=>"1309557",
+		"5940"=>"1309558",
+		"245"=>"1309559",
+		"6545"=>"1309561",
+		"6641"=>"1309562",
+		"241"=>"1309563",
+		"250"=>"1309564",
+		"252"=>"1309565",
+		"8369"=>"1309566",
+		"3"=>"1309567",
+		"5"=>"1309568",
+		"2"=>"1309569",
+		"7"=>"1309570",
+		"7910"=>"1309571",
+		"4662"=>"1309572",
+		"5493"=>"1309573",
+		"7896"=>"1309574",
+	);
+} elseif($wzt==2) {
+	// https://www.italissima.nl/xml/homeaway.php?feedtype=rates
+	// https://www.italissima.nl/xml/homeaway.php?feedtype=reservations
+	$homeaway_types=array(
+		"6561"=>"1309576",
+		"6877"=>"1309577",
+		"7160"=>"1309578",
+		"8412"=>"1309579",
+		"7619"=>"1309580",
+		"6138"=>"1309581",
+		"7678"=>"1309582",
+		"8609"=>"1309583",
+		"7484"=>"1309584",
+		"7179"=>"1309585",
+	);
+}
 
 
 // $homeaway_types=array(
@@ -73,7 +113,7 @@ foreach ($homeaway_types as $key => $value) {
 $alletypes=substr($alletypes,1);
 
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	header("Content-Type: text/plain; charset=utf-8");
 } else {
 	header("Content-Type: text/xml; charset=utf-8");
@@ -171,7 +211,13 @@ while($db->next_record()) {
 			echo "</dateRange>\n";
 
 			echo "<minimumStay>ONE_WEEK</minimumStay>\n";
-			echo "<name>\n<texts>\n<text locale='en'>\n<textValue>Winter</textValue>\n</text>\n</texts></name>\n";
+			echo "<name>\n<texts>\n<text locale='en'>\n<textValue>";
+			if($wzt==1) {
+				echo "Winter";
+			} else {
+				echo "Summer";
+			}
+			echo "</textValue>\n</text>\n</texts></name>\n";
 
 			# Prijs
 			# aanbiedingen verwerken
