@@ -683,7 +683,7 @@ class form2 {
 	function display_openform() {
 		global $vars;
 
-		$return.="<form class=\"wtform".($this->settings["prevent_spambots"] ? " wtform_prevent_spambots" : "")."\" method=\"".$this->settings["type"]."\" action=\"";
+		$return.="<form class=\"wtform".($this->settings["prevent_spambots"] ? " wtform_prevent_spambots" : "").($this->settings["form_css_class"] ? " ".$this->settings["form_css_class"] : "")."\" method=\"".$this->settings["type"]."\" action=\"";
 		if($_SERVER["REQUEST_URI"]) {
 			if($_SERVER["QUERY_STRING"]) {
 #				$return.=str_replace("\?".$_SERVER["QUERY_STRING"],"",$_SERVER["REQUEST_URI"]);
