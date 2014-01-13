@@ -490,7 +490,7 @@ class tarieventabel {
 				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
 			}
 
-			if($this->dag_van_de_week_afwijkend[$key]) {
+			if($this->dag_van_de_week_afwijkend[$key] and $key>time()) {
 				$class=" tarieventabel_datumbalk_opvallend";
 			}
 
@@ -514,13 +514,11 @@ class tarieventabel {
 				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
 			}
 
-			if($this->aantalnachten[$key]<>7) {
+			if($this->aantalnachten[$key]<>7 and $key>time()) {
 				$class.=" tarieventabel_datumbalk_opvallend";
 			}
 
 			$return.="<td class=\"".trim($class)."\">".$this->aantalnachten[$key]."</td>";
-
-			// $return.="<td".($this->aantalnachten[$key]<>7 ? " class=\"tarieventabel_datumbalk_opvallend\"" : "").">".$this->aantalnachten[$key]."</td>";
 		}
 		$return.="</tr>";
 
