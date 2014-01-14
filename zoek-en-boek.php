@@ -184,6 +184,10 @@ if($landing_canonical) {
 	$vars["canonical"]=$vars["basehref"].txt("menu_zoek-en-boek").".php";
 }
 
+if($landing_meta_description) {
+	$meta_description = $landing_meta_description;
+}
+
 if($zoekresultaten_title and !$pre_query_content) {
 	$title["zoek-en-boek"].=" - ".$zoekresultaten_title;
 }
