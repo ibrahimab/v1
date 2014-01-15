@@ -192,9 +192,7 @@ $(document).ready(function() {
 	// open/close WebTastic-actions http://www.chalet.nl/cms_diversen.php?t=1
 	$(".open-wtactie").click(function (event) {
 		event.preventDefault();
-
 		var deze = $(this);
-
 		window.location.hash = "WT"+deze.data("id");
 
 		$("html, body").animate({scrollTop: $("div[data-wtid=WT"+deze.data("id")+"]").position().top }, '500', 'swing', function() {
@@ -202,12 +200,8 @@ $(document).ready(function() {
 				setHgt2();
 			});
 		});
-
-		// console.log( + " " + deze.data("id"));
-
 		return false;
 	});
-
 
 
 	$('.vertalingafvinken').attr("title","wijziging afvinken");

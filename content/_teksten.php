@@ -3416,11 +3416,13 @@ $txt["en"]["boeken"]["boeking"]="Booking";
 $txt["nl"]["boeken"]["beste"]="Beste";
 $txt["en"]["boeken"]["beste"]="Dear";
 
-$txt["nl"]["boeken"]["wijhebbenuwboekingsaanvraag"]="Wij hebben je boekingsaanvraag volgens onderstaande gegevens in goede orde ontvangen.";
+$txt["nl"]["boeken"]["wijhebbenuwboekingsaanvraag"]="Wij hebben je boekingsaanvraag volgens onderstaande gegevens in goede orde ontvangen en willen je daarvoor hartelijk bedanken!";
 $txt["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]="We have received your booking request in accordance with the information below.";
+$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
 
-$txt["nl"]["boeken"]["nageblekenbeschikbaarheidsturenwiju"]="Na gebleken beschikbaarheid sturen wij je binnen enkele dagen de boekingsbevestiging per e-mail toe.";
+$txt["nl"]["boeken"]["nageblekenbeschikbaarheidsturenwiju"]="Na gebleken beschikbaarheid sturen wij je binnen uiterlijk één werkdag (meestal al eerder) de boekingsbevestiging per e-mail toe. Mocht de door jou geboekte accommodatie onverhoopt niet beschikbaar blijken, dan zullen we je direct een voorstel voor gelijkwaardige alternatieven doen.";
 $txt["en"]["boeken"]["nageblekenbeschikbaarheidsturenwiju"]="If available, we will send you your booking confirmation within a day or two.";
+$nieuwe_vertaling["en"]["boeken"]["nageblekenbeschikbaarheidsturenwiju"]=true;
 
 $txt["nl"]["boeken"]["metvriendelijkegroet"]="Met vriendelijke groet,";
 $txt["en"]["boeken"]["metvriendelijkegroet"]="Yours sincerely,";
