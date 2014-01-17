@@ -428,6 +428,103 @@ form {
 	color: #cbd328;
 }
 
+
+/**/
+/*NIEUWE TARIEVENTABEL*/
+/**/
+
+.tarieventabel_wrapper {
+	border-color: #cfbcd8;
+}
+
+.tarieventabel_wrapper a:hover {
+	color: #000000;
+}
+
+.tarieventabel_top {
+	background-color: #cfbcd8;
+	color: #5f227b;
+}
+
+.tarieventabel_top h1 {
+	color: #5f227b;
+}
+
+.tarieventabel_toelichting {
+	background-color: #cfbcd8;
+}
+
+.tarieventabel_toelichting h1 {
+	color: #5f227b;
+}
+
+.tarieventabel_border, .tarieventabel_border td, .tarieventabel_titels_links {
+	border-color: #cfbcd8;
+}
+
+.tarieventabel_datumbalk {
+	background-color: #eff2be;
+}
+
+.tarieventabel_pijl {
+	background-color: #5f227b;
+}
+
+.tarieventabel_pijl:hover {
+	background-color: #cfbcd8;
+}
+
+.tarieventabel_pijl_scroll_greyed_out, .tarieventabel_pijl_scroll_greyed_out:hover {
+	background-color: #cccccc;
+}
+
+.tarieventabel_pijl_scrollstop, .tarieventabel_pijl_scrollstop:hover {
+	background-color: red;
+}
+
+
+/*voor Selina*/
+.tarieventabel_tarieven_aanbieding {
+	background-color: transparent;
+	color: #5f227b;
+	font-weight: bold;
+}
+
+.tarieventabel_legenda_kleurenblokje {
+	border-radius: 0;
+}
+
+.tarieventabel_legenda_kleurenblokje_aanbieding {
+	background-color: #5f227b;
+	font-weight: normal;
+}
+
+.tarieventabel_tarieven_gekozen {
+	background-color: #86d6ff;
+}
+
+.tarieventabel_tarieven td.tarieventabel_tarieven_beschikbaar:hover {
+	background-color: #fb6703;
+	color: #ffffff;
+}
+
+.tarieventabel_tarieven td:hover .tarieventabel_tarieven_aanbieding {
+	background-color: #fb6703;
+	color: #ffffff;
+}
+
+.tarieventabel_tarieven_niet_beschikbaar {
+	border-radius: 0;
+	width: auto;
+	background-color: #bababa;
+}
+
+.tarieventabel_tarieven_niet_beschikbaar_td {
+	background-color: #bababa;
+}
+
+
+
 #tabs {
 	margin-top: 20px;
 }
