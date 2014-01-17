@@ -490,7 +490,7 @@ class tarieventabel {
 				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
 			}
 
-			if($this->dag_van_de_week_afwijkend[$key]) {
+			if($this->dag_van_de_week_afwijkend[$key] and $key>time()) {
 				$class=" tarieventabel_datumbalk_opvallend";
 			}
 
@@ -514,13 +514,11 @@ class tarieventabel {
 				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
 			}
 
-			if($this->aantalnachten[$key]<>7) {
+			if($this->aantalnachten[$key]<>7 and $key>time()) {
 				$class.=" tarieventabel_datumbalk_opvallend";
 			}
 
 			$return.="<td class=\"".trim($class)."\">".$this->aantalnachten[$key]."</td>";
-
-			// $return.="<td".($this->aantalnachten[$key]<>7 ? " class=\"tarieventabel_datumbalk_opvallend\"" : "").">".$this->aantalnachten[$key]."</td>";
 		}
 		$return.="</tr>";
 
@@ -1218,7 +1216,7 @@ if($this->tarief[$key]>0) {
 			// gegevens uit database halen
 			//
 
-			$db->query("SELECT t.bruto, t.arrangementsprijs, t.beschikbaar, t.blokkeren_wederverkoop, tp.week, tp.personen, tp.prijs, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.toonexactekorting, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.aanbieding_skipas_percentage, t.aanbieding_skipas_euro, t.seizoen_id FROM tarief_personen tp, tarief t WHERE tp.seizoen_id IN(".$this->seizoen_id.") AND tp.type_id='".addslashes($this->type_id)."' AND t.type_id=tp.type_id AND t.seizoen_id=tp.seizoen_id AND t.week=tp.week AND tp.week>UNIX_TIMESTAMP(NOW()) ORDER BY tp.week, tp.personen DESC;");
+			$db->query("SELECT t.bruto, t.arrangementsprijs, t.beschikbaar, t.blokkeren_wederverkoop, tp.week, tp.personen, tp.prijs, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.toonexactekorting, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.aanbieding_skipas_percentage, t.aanbieding_skipas_euro, t.seizoen_id FROM tarief_personen tp, tarief t WHERE tp.seizoen_id IN(".$this->seizoen_id.") AND tp.type_id='".addslashes($this->type_id)."' AND t.type_id=tp.type_id AND t.seizoen_id=tp.seizoen_id AND t.week=tp.week AND tp.week>UNIX_TIMESTAMP((NOW()- INTERVAL 6 WEEK)) ORDER BY tp.week, tp.personen DESC;");
 			if($db->num_rows()) {
 				$this->tarieven_ingevoerd=true;
 			}
@@ -1267,7 +1265,7 @@ if($this->tarief[$key]>0) {
 
 				// $this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
 
-				if($db->f("prijs")>0 and $db->f("beschikbaar") and ($db->f("bruto")>0 or $db->f("arrangementsprijs")>0)) {
+				if($db->f("week")>=time() and $db->f("prijs")>0 and $db->f("beschikbaar") and ($db->f("bruto")>0 or $db->f("arrangementsprijs")>0)) {
 
 					$this->tarief[$db->f("personen")][$db->f("week")]=$db->f("prijs");
 
@@ -1322,12 +1320,12 @@ if($this->tarief[$key]>0) {
 			//
 
 			if($vars["wederverkoop"]) {
-				$db->query("SELECT t.c_bruto, t.bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.wederverkoop_verkoopprijs, t.wederverkoop_commissie_agent, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting, t.seizoen_id FROM tarief t WHERE t.seizoen_id IN (".$this->seizoen_id.") AND t.type_id='".addslashes($this->type_id)."' AND t.week>UNIX_TIMESTAMP(NOW()) ORDER BY t.week;");
+				$db->query("SELECT t.c_bruto, t.bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.wederverkoop_verkoopprijs, t.wederverkoop_commissie_agent, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting, t.seizoen_id FROM tarief t WHERE t.seizoen_id IN (".$this->seizoen_id.") AND t.type_id='".addslashes($this->type_id)."' AND t.week>UNIX_TIMESTAMP((NOW()- INTERVAL 6 WEEK)) ORDER BY t.week;");
 				if($db->num_rows()) {
 					$this->tarieven_ingevoerd=true;
 				}
 			} else {
-				$db->query("SELECT t.c_bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting, t.seizoen_id FROM tarief t WHERE t.seizoen_id IN (".$this->seizoen_id.") AND t.type_id='".addslashes($this->type_id)."' AND t.week>UNIX_TIMESTAMP(NOW()) ORDER BY t.week;");
+				$db->query("SELECT t.c_bruto, t.beschikbaar, t.blokkeren_wederverkoop, t.week, t.c_verkoop_site, t.voorraad_garantie, t.voorraad_allotment, t.voorraad_vervallen_allotment, t.voorraad_optie_leverancier, t.voorraad_xml, t.voorraad_request, t.voorraad_optie_klant, t.voorraad_bijwerken, t.aanbiedingskleur, t.aanbiedingskleur_korting, t.aflopen_allotment, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.aanbieding_acc_percentage, t.aanbieding_acc_euro, t.toonexactekorting, t.seizoen_id FROM tarief t WHERE t.seizoen_id IN (".$this->seizoen_id.") AND t.type_id='".addslashes($this->type_id)."' AND t.week>UNIX_TIMESTAMP((NOW()- INTERVAL 6 WEEK)) ORDER BY t.week;");
 				if($db->num_rows()) {
 					$this->tarieven_ingevoerd=true;
 				}
@@ -1399,7 +1397,7 @@ if($this->tarief[$key]>0) {
 
 				// $this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
 
-				if($temp_verkoop_site>0 and $temp_beschikbaar and $temp_bruto>0) {
+				if($db->f("week")>=time() and $temp_verkoop_site>0 and $temp_beschikbaar and $temp_bruto>0) {
 
 					$this->tarief[$db->f("week")]=$temp_verkoop_site;
 
@@ -1492,7 +1490,6 @@ if($this->tarief[$key]>0) {
 		$week=$this->begin;
 		$kolomteller=0;
 		while($week<=$this->eind) {
-
 			if($vertrekdag[$this->week_seizoen_id[$week]][date("dm",$week)] or $this->accinfo["aankomst_plusmin"]) {
 				$aangepaste_unixtime=mktime(0,0,0,date("m",$week),date("d",$week)+$vertrekdag[$this->week_seizoen_id[$week]][date("dm",$week)]+$this->accinfo["aankomst_plusmin"],date("Y",$week));
 			} else {

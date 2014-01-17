@@ -943,6 +943,17 @@ a.opm {
 	z-index: 101;
 }
 
+.wtactie_omschrijving {
+
+}
+
+.wtactie_omschrijving {
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+}
+
+
 @media print {
 
 	body {

@@ -298,6 +298,9 @@ if($form->okay) {
 		$subject=txt(($_GET["o"]||$form->input["optie"] ? "optieaanvraag" : "beschikbaarheidaanvraag"),"beschikbaarheid");
 		if(eregi("^belgie$",$form->input["land"])) $form->input["land"]="België";
 		$subject.=" ".$omschrijving;
+		if($form->input["verblijfsduur"]) {
+			$verblijfsduur_tekst = txt("verblijfsduur","beschikbaarheid").": ".$vars["verblijfsduur"][$form->input["verblijfsduur"]]."%0D%0A%0D%0A";
+		}
 		if($wederverkoop_aanvraag) {
 			$body=$vars["chalettour_naam"]."%0D%0A".$vars["chalettour_reisagentnaam"]."%0D%0A";
 			if($login_rb->vars["telefoonnummer"]) {
@@ -307,9 +310,9 @@ if($form->okay) {
 			}
 			if($login_rb->vars["mobiel"]) $body.=$login_rb->vars["mobiel"]."%0D%0A";
 			$body.="%0D%0A";
-			$body.=wt_naam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".ucfirst($form->input["plaats"])."%0D%0A".$form->input["telefoonnummer"]."%0D%0A%0D%0A".$omschrijving."%0D%0A".txt("vooromschrijving","beschikbaarheid").": ".$accinfo["url"]."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["wensenbezet"]))."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["vraag"]));
+			$body.=wt_naam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".ucfirst($form->input["plaats"])."%0D%0A".$form->input["telefoonnummer"]."%0D%0A%0D%0A".$verblijfsduur_tekst.$omschrijving."%0D%0A".txt("vooromschrijving","beschikbaarheid").": ".$accinfo["url"]."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["wensenbezet"]))."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["vraag"]));
 		} else {
-			$body=wt_naam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".$form->input["adres"]."%0D%0A".$form->input["postcode"]." ".ucfirst($form->input["plaats"])."%0D%0A".($form->input["land"]<>"Nederland" ? ucfirst($form->input["land"])."%0D%0A" : "").$form->input["telefoonnummer"]."%0D%0A".$form->input["mobielwerk"]."%0D%0A%0D%0A".$omschrijving."%0D%0A".txt("vooromschrijving","beschikbaarheid").": ".$accinfo["url"]."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["wensenbezet"]))."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["vraag"]));
+			$body=wt_naam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".$form->input["adres"]."%0D%0A".$form->input["postcode"]." ".ucfirst($form->input["plaats"])."%0D%0A".($form->input["land"]<>"Nederland" ? ucfirst($form->input["land"])."%0D%0A" : "").$form->input["telefoonnummer"]."%0D%0A".$form->input["mobielwerk"]."%0D%0A%0D%0A".$verblijfsduur_tekst.$omschrijving."%0D%0A".txt("vooromschrijving","beschikbaarheid").": ".$accinfo["url"]."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["wensenbezet"]))."%0D%0A%0D%0A".ereg_replace("\n","%0D%0A",ereg_replace("\"","%22",$form->input["vraag"]));
 		}
 		$subject=ereg_replace("&"," ",$subject);
 		$subject=ereg_replace("   "," ",$subject);
@@ -382,6 +385,7 @@ if($form->okay) {
 
 		$mail->html=$html;
 		$mail->send();
+
 		unset($html);
 
 		# Mail aan klant

@@ -47,6 +47,7 @@ if($_GET["levid"]) {
 		$form=new form2("frm");
 		$form->settings["fullname"]="roominglistform";
 		$form->settings["layout"]["css"]=false;
+		$form->settings["form_css_class"]="no_submit_disable";
 		if($_GET["t"]==1) {
 			$form->settings["db"]["table"]="leverancier";
 			$form->settings["db"]["where"]="leverancier_id='".intval($_GET["levid"])."'";

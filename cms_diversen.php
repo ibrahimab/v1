@@ -104,7 +104,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	} else {
 		$cms->edit_field(39,1,"prioriteit","Prioriteit","",array("noedit"=>true));
 	}
-	$cms->edit_field(39,0,"omschrijving","Omschrijving","","",array("rows"=>15));
+	$cms->edit_field(39,0,"omschrijving","Omschrijving","","",array("rows"=>25));
 	$cms->edit_field(39,$obl_personen,"user_id","Verantwoordelijke bij Chalet.nl",array("selection"=>$login->user_id),"",array("onchange"=>"document.forms['frm'].elements['input[betrokkenen]['+this.value+']'].checked=true;"));
 	$cms->edit_field(39,$obl_personen,"betrokkenen","Betrokkenen",array("selection"=>$login->user_id),"",array("one_per_line"=>true));
 	$cms->edit_field(39,0,"einddatum","Streefdatum oplevering (optioneel)","","",array("calendar"=>true));

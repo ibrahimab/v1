@@ -16,14 +16,27 @@ if($_GET["pagetype"]=="landing-italissima") {
 
 		$landing_title = "Agriturismo Italië";
 		$landing_photo = "agriturismo_italie.jpg";
-		$landing_content_html="Een 'agriturismo' is een landelijk gelegen domein in Itali&euml; dat enerzijds wordt gebruikt als boerenbedrijf en anderzijds als toeristische accommodatie. In de meeste gevallen woont de eigenaar ook op de agriturismo zelf. De agriturismo als vakantieverblijf is momenteel erg in trek bij vakantiegangers. Wat hierbij aanspreekt is het genieten van de Italiaanse, landelijke levensstijl, de kleinschaligheid, de gastvrijheid en de lokale keuken met de producten van het landgoed zelf. Een vakantie in een agriturismo is een ideale combinatie van cultuur, sfeer en ontspanning. Kortom, al het goede van het Italiaanse leven.";
+		$landing_content_html="Een accommodatie mag een 'agriturismo' worden genoemd als het landelijk gelegen domein in Itali&euml; is, dat enerzijds wordt gebruikt als boerenbedrijf en anderzijds als toeristisch verblijf. In veel gevallen woont de eigenaar ook op de agriturismo zelf. De agriturismo als vakantieverblijf is momenteel erg in trek. Wat gasten hierbij aanspreekt is het genieten van de Italiaanse, landelijke levensstijl, de kleinschaligheid, de gastvrijheid en de lokale keuken met de producten van het landgoed zelf. Een vakantie in een agriturismo is een ideale combinatie van cultuur, sfeer en ontspanning. Kortom, al het goede van het Italiaanse leven.";
 
 		$landing_moretext = "meer over onze agriturismi in Italië";
-		$landing_content_slide_html="<h2>Onze agriturismi in Itali&euml;</h2><p>De agriturismo is er in vele gedaanten, van eenvoudig tot super-de-luxe. Italissima beschikt dan ook over een gevarieerd aanbod van vakantiehuizen op agriturismi door heel Itali&euml;. Let hierbij ook op de uitstekende prijs/kwaliteitsverhouding van een agriturismo! Een weekverblijf op een agriturismo begint bij zo&rsquo;n 300 euro in het laagseizoen en vaak kun je tegen schappelijke prijzen met de eigenaren van de agriturismo mee-eten. Vrijwel iedere agriturismo beschikt over een zwembad en je kunt in veel gevallen de ter plekke verbouwde producten, meestal wijn en olijfolie, van de agriturismo ook proeven en/of kopen.</p><h3>Kortom: wat maakt een agriturismo in Itali&euml; zo bijzonder?</h3><p>Een vakantie op een agriturismo in Itali&euml; heeft het volgende te bieden:<ul><li>Vakantie in een rustige omgeving, weg van de drukte</li><li>Comfortabele vakantiehuizen in landelijke stijl</li><li>Agriturismo omgeven door veel ruimte</li><li>De gemoedelijke sfeer van het platteland van Itali&euml;</li><li>De gastvrijheid waar Itali&euml; bekend om staat</li><li>Genieten van de streekproducten die geproduceerd zijn op de eigen agriturismo</li><li>Panoramisch uitzicht vanaf de agriturismo over het glooiende landschap van Itali&euml;</li><li>Een agriturismo in Itali&euml; is een perfecte uitvalsbasis om de omgeving te verkennen.</li></ul></p><p>Veel succes met de zoektocht naar je ideale agriturismo in Itali&euml;! En mocht je vragen hebben: aarzel dan niet om <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op te nemen.</p>";
+		$landing_content_slide_html="<h2>Onze agriturismi in Itali&euml;</h2>
+		<p>Er zijn veel verschillende soorten agriturismi, van eenvoudig tot super-de-luxe. Italissima beschikt dan ook over een gevarieerd aanbod van vakantiehuizen op agriturismi door heel Itali&euml;. Vrijwel iedere agriturismo beschikt over een (soms priv&eacute;-)zwembad en je kunt in veel gevallen de ter plekke verbouwde producten van de agriturismo ook proeven en/of kopen.</p>
+		<p>Let ook op de uitstekende prijs/kwaliteitsverhouding van een agriturismo! Een weekverblijf op een agriturismo begint bij zo&rsquo;n 300 euro in het laagseizoen en vaak kun je tegen schappelijke prijzen met de eigenaren van de agriturismo mee-eten, wat natuurlijk ook weer geld scheelt.</p>
+		<h3>Wat maakt een agriturismo in Itali&euml; zo bijzonder?</h3><p>Een vakantie op een agriturismo in Itali&euml; heeft het volgende te bieden:<ul>
+		<li>Vakantie in een rustige omgeving, weg van de drukte</li>
+		<li>Comfortabele vakantiehuizen in landelijke stijl</li>
+		<li>Een agriturismo is omgeven door veel ruimte</li>
+		<li>De gemoedelijke sfeer van het platteland van Itali&euml;</li>
+		<li>De gastvrijheid waar Itali&euml; bekend om staat</li>
+		<li>Genieten van de streekproducten die geproduceerd zijn op de eigen agriturismo</li>
+		<li>Panoramisch uitzicht vanaf de agriturismo over het glooiende landschap van Itali&euml;</li>
+		<li>Een agriturismo in Itali&euml; is een perfecte uitvalsbasis om de omgeving te verkennen.</li></ul></p><p>Veel succes met de zoektocht naar je ideale agriturismo in Itali&euml;! En mocht je vragen hebben: aarzel dan niet om <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op te nemen.</p>";
 
 		$landing_searchtext = "Bekijk en doorzoek onze agriturismi in Italië";
 
 		$landing_canonical = "agriturismo-italie";
+
+		$landing_meta_description = "Op zoek naar een heerlijke vakantie op een agriturismo in Italië? Bekijk dan hier ons volledige aanbod aan agriturismi en boek eenvoudig online.";
 
 		if($_GET["prequery"]) {
 			$_GET["vf_kenm56"]=1;
@@ -39,6 +52,8 @@ if($_GET["pagetype"]=="landing-italissima") {
 		$landing_searchtext = "Bekijk en doorzoek onze agriturismi in Toscane";
 
 		$landing_canonical = "agriturismo-toscane";
+
+		$landing_meta_description = "De perfecte agriturismo in Toscane boek je eenvoudig online bij Italissima! Wij zijn specialist in agriturismi verspreid door heel Italië.";
 
 		if($_GET["prequery"]) {
 			$_GET["vf_kenm56"]=1;

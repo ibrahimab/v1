@@ -188,7 +188,7 @@ if($_GET["stap"]==1) {
 	$form->check_input();
 
 	if($form->filled) {
-		if($accinfo["flexibel"] or $form->input["verblijfsduur"]) {
+		if($accinfo["flexibel"] or $form->input["verblijfsduur"]>1) {
 			# flexibel - controle op tarief/beschikbaarheid
 			if($accinfo["flexibel"]) {
 				$flextarief=bereken_flex_tarief($_GET["tid"],$form->input["aankomstdatum_flex"]["unixtime"],0,flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]));
