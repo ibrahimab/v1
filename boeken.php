@@ -2976,7 +2976,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	exit;
+	// exit;
 }
 
 		}
