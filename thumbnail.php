@@ -215,7 +215,7 @@ if($_GET["lk"]) {
 			}
 			if($_GET["cache"]) {
 				$savefile.="?cache=".$_GET["cache"];
-				header("Location: ".$openfile,true,301);
+				header("Location: ".$savefile,true,301);
 			} else {
 				header("Location: ".$savefile);
 			}

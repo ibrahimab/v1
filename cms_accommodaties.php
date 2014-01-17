@@ -576,8 +576,8 @@ $cms->edit_field(1,0,"htmlrow","<hr><b>Afbeeldingen</b><br><i>Afbeeldingen kunne
 #$cms->edit_field(1,0,"picklein","Kleine hoofdafbeelding","",array("img_width"=>"60","img_height"=>"45"));
 $cms->edit_field(1,0,"picgroot","Hoofdafbeelding","",array("img_minwidth"=>"240","img_minheight"=>"180","img_ratio_width"=>"4","img_ratio_height"=>"3"));
 $cms->edit_field(1,0,"hoofdfoto_accommodatie","Hoofdafbeelding (groot formaat; wordt nu nog niet gebruikt)","",array("img_minwidth"=>"600","img_minheight"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3"),array("info"=>"Upload de foto in een zo groot mogelijk formaat. Deze foto wordt nu nog niet gebruikt. Pas zodra veel hoofdfoto's in groot formaat beschikbaar zijn, wordt er naar deze versie overgestapt."));
-$cms->edit_field(1,0,"picaanvullend","Aanvullende afbeelding(en)","",array("autoresize"=>true,"img_width"=>"600","img_height"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
-$cms->edit_field(1,0,"picaanvullendonderaan","Aanvullende afbeelding(en) (komen onderaan)","",array("autoresize"=>true,"img_width"=>"600","img_height"=>"450","img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
+$cms->edit_field(1,0,"picaanvullend","Aanvullende afbeelding(en)","",array("autoresize"=>false,"img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
+$cms->edit_field(1,0,"picaanvullendonderaan","Aanvullende afbeelding(en) (komen onderaan)","",array("autoresize"=>false,"img_ratio_width"=>"4","img_ratio_height"=>"3","number_of_uploadbuttons"=>6));
 $cms->edit_field(1,0,"picaanvullend_breed","Aanvullende brede afbeelding(en)","",array("autoresize"=>true,"img_width"=>"400","img_height"=>"150","img_ratio_width"=>"8","img_ratio_height"=>"3","number_of_uploadbuttons"=>2));
 
 $cms->edit_field(1,0,"htmlrow","<hr><b>Video</b>");
