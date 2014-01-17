@@ -619,18 +619,11 @@ form {
 
 /*voor Selina*/
 .tarieventabel_tarieven_aanbieding {
-	background-color: transparent;
 	color: #661700;
-	font-weight: bold;
-}
-
-.tarieventabel_legenda_kleurenblokje {
-	border-radius: 0;
 }
 
 .tarieventabel_legenda_kleurenblokje_aanbieding {
 	background-color: #661700;
-	font-weight: normal;
 }
 
 .tarieventabel_tarieven_gekozen {
@@ -648,8 +641,6 @@ form {
 }
 
 .tarieventabel_tarieven_niet_beschikbaar {
-	border-radius: 0;
-	width: auto;
 	background-color: #bababa;
 }
 
