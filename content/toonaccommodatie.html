@@ -345,7 +345,7 @@ if($db->next_record()) {
 	}
 
 	// beoordeling tonen
-	if($vars["taal"]=="nl" and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6 or $vars["websitetype"]==8)) {
+	if($vars["taal"]=="nl" and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6  or $vars["websitetype"]==7 or $vars["websitetype"]==8)) {
 		$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND vraag1_7>0 AND beoordeeld=1 GROUP BY type_id;");
 		if($db2->next_record()) {
 			if($db2->f("totaaloordeel")<10 or $db2->f("aantal")>1) {

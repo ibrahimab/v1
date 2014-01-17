@@ -45,7 +45,14 @@ if($db->next_record()) {
 
 	uasort($enquete, 'cmp');
 
-	echo "<style type=\"text/css\">\n"; ?>
+	echo "<style type=\"text/css\">\n";
+
+	if($_GET["test"]) {
+		include("css/toonaccommodatie.css");
+	}
+
+
+	?>
 
 
 	<?php

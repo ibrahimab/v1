@@ -58,6 +58,44 @@
 	border: 1px solid #ff9900;
 }
 
+
+/*beoordelingen*/
+
+#toonaccommodatie_kenmerken_2_beoordeling {
+	color: #ffffff;
+	background-color: #ff9900;
+}
+
+#toonaccommodatie_kenmerken_2_beoordelinglink a:hover {
+	color: #ff9900;
+}
+
+#beoordeling_gemiddeldtotaaloordeel_cijfer {
+	color: #ffffff;
+	background-color: #ff9900;
+}
+
+.beoordeling_enquete {
+	background-color: #ffd38f;
+	border-color: #ff9900;
+}
+
+.beoordeling_enquete_bovenbalk {
+	background-color: #ffd38f;
+	color: #661700;
+}
+
+.beoordeling_enquete_table {
+	border-color: #ff9900;
+}
+
+.beoordeling_enquete_toelichting {
+	border-color: #ff9900;
+}
+
+
+
+
 #toonaccommodatie_boekbalk_alletypes {
 	border: 1px solid #ff9900;
 	margin-top: 6px;
