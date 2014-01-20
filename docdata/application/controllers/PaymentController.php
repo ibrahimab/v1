@@ -204,7 +204,14 @@ class PaymentController extends Controller {
 				$okCode = 2;
 				$redirect = "&success=" . $okCode;
 			} else {
-				$errCode = 2;
+				$invalidStreet = "'ns1:street' is not valid";
+				if(preg_match("/".$invalidStreet."/i", $error)) {
+					// Invalid or incomplete street address
+					$errCode = 6;
+				} else {
+					$errCode = 2;
+				}
+
 				$redirect = "&error=" . $errCode;
 			}
 
