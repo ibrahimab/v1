@@ -2672,7 +2672,7 @@ function bereken_flex_tarief($typeid,$flex_aankomstdatum,$verblijfsduur,$flex_ve
 	$return["aantalnachten"]=$aantalnachten;
 
 	# kijken of het flexibele datums zijn
-	if(date("w",$flex_aankomstdatum)==6 and fmod($aantalnachten,7)==0) {
+	if(@date("w",$flex_aankomstdatum)==6 and fmod($aantalnachten,7)==0) {
 		# niet flexibel
 		unset($weekinquery);
 		for($i=0;$i<round($aantalnachten/7);$i++) {
@@ -3373,7 +3373,9 @@ function flex_bereken_vertrekdatum($aankomstdatum,$verblijfsduur) {
 	} else {
 		$aantalnachten=intval($verblijfsduur)*7;
 	}
-	$vertrekdatum=mktime(0,0,0,date("m",$aankomstdatum),date("d",$aankomstdatum)+$aantalnachten,date("Y",$aankomstdatum));
+	if($aankomstdatum) {
+		$vertrekdatum=mktime(0,0,0,date("m",$aankomstdatum),date("d",$aankomstdatum)+$aantalnachten,date("Y",$aankomstdatum));
+	}
 	if($vertrekdatum) {
 		return $vertrekdatum;
 	}
