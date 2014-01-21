@@ -3310,6 +3310,9 @@ $txt["en"]["boeken"]["gebruik6tekens"]="use at least 6 characters without spaces
 $txt["nl"]["boeken"]["tweekeerhetzelfdeww"]="voer twee keer hetzelfde wachtwoord in";
 $txt["en"]["boeken"]["tweekeerhetzelfdeww"]="enter the same password twice";
 
+$txt["nl"]["boeken"]["volledigadres"]="voer je volledige adres in";
+$txt["en"]["boeken"]["volledigadres"]="please enter your complete address";
+
 $txt["nl"]["boeken"]["geboortedatumpersoon"]="Geboortedatum persoon";
 $txt["en"]["boeken"]["geboortedatumpersoon"]="Date of birth";
 

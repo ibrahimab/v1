@@ -1760,6 +1760,12 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$form->error("wachtwoord_herhaal",html("tweekeerhetzelfdeww","boeken"));
 				}
 			}
+
+			// check for address
+			if($form->input["adres"] and (strlen(trim($form->input["adres"]))<3 or !preg_match("@[a-zA-Z]@",$form->input["adres"]))) {
+				$form->error("adres",html("volledigadres", "boeken"));
+			}
+
 		} elseif($_GET["stap"]==3) {
 			for($i=2;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 				if(isset($form->input["geboortedatum".$i]["unixtime"]) and $form->input["geboortedatum".$i]["unixtime"]>time()) $form->error("geboortedatum".$i,html("geendatumtoekomst","boeken"),"","",html("geboortedatumpersoon","boeken")." ".$i);
@@ -2790,7 +2796,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("accommodatie","boeken")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["url"]."\">".ucfirst($accinfo["soortaccommodatie"])." ".htmlentities($accinfo["naam_ap"])."</a></td></tr>";
 			$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("plaats","boeken")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["plaats_url"]."\">".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</a></td></tr>";
 			$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("aantalpersonen","boeken")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($gegevens["stap1"]["aantalpersonen"])."</td></tr>";
-			if($gegevens["stap1"]["flexibel"]) {
+			if($gegevens["stap1"]["flexibel"] or $gegevens["stap1"]["verblijfsduur"]>1) {
 				$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("verblijfsperiode","boeken")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]))."</td></tr>";
 			} else {
 				$tabellen.="<tr><td style=\"width:165px;font-weight: bold;border:solid ".$table." 1px\">".html("verblijfsperiode","boeken")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($accinfo["aankomstdatum"][$gegevens["stap1"]["aankomstdatum"]]." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum"],$vars["taal"]))."</td></tr>";
