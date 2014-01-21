@@ -189,13 +189,18 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$(".openklappen_actie").click(function(event) {
+		event.preventDefault();
+		history.pushState(null, null, "#WT"+$(this).data("actieid"));
+		return false;
+	});
+
 	// open/close WebTastic-actions http://www.chalet.nl/cms_diversen.php?t=1
 	$(".open-wtactie").click(function (event) {
 		event.preventDefault();
 		var deze = $(this);
-		window.location.hash = "WT"+deze.data("id");
 
-		$("html, body").animate({scrollTop: $("div[data-wtid=WT"+deze.data("id")+"]").position().top }, '500', 'swing', function() {
+		$("html, body").animate({scrollTop: $("div[data-wtid="+deze.data("id")+"]").position().top }, '500', 'swing', function() {
 			$("div[data-id="+deze.data("id")+"]").slideDown("slow",function() {
 				setHgt2();
 			});
@@ -203,6 +208,14 @@ $(document).ready(function() {
 		return false;
 	});
 
+
+	if($("#cms_body_cms_diversen").length!==0 && window.location.hash.length!==0) {
+		// open action
+		if(/^#WT[0-9]+$/.test(window.location.hash)) {
+			$("div[data-id="+$(window.location.hash).data("wtid")+"]").show();
+			setHgt2();
+		}
+	}
 
 	$('.vertalingafvinken').attr("title","wijziging afvinken");
 	$(".vertalingafvinken").click(function () {

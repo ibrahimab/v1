@@ -60,12 +60,13 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			} else {
 				$extracolor="";
 			}
-			echo "<div data-wtid=\"WT".$db->f("actie_id")."\">";
+
+			echo "<div id=\"WT".$db->f("actie_id")."\" data-wtid=\"".$db->f("actie_id")."\">";
 			echo "\n\n<div id=\"row1_".$db->f("status").$db->f("actie_id")."\" style=\"\">";
 			echo "<div id=\"row2_".$db->f("status").$db->f("actie_id")."\" style=\"padding:2px;\">";
 			echo "<div id=\"row_".$db->f("status")."_".$db->f("actie_id")."\" style=\"background-color:".($extracolor ? $extracolor : $bgcolor).";padding-top:6px;\">";
 			echo "<div style=\"float:left;width:20px;padding-top:3px;padding-left:2px;\"><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" border=\"0\"></div>";
-			echo "<div class=\"openklappen\" rel=\"row3_".$db->f("status").$db->f("actie_id")."\" style=\"width:760px;float:left;\"><b>WT".$db->f("actie_id")."</b> <a href=\"#\" onclick=\"return false;\">".htmlentities($db->f("naam"))."</a></div>";
+			echo "<div class=\"openklappen openklappen_actie\" rel=\"row3_".$db->f("status").$db->f("actie_id")."\" data-actieid=\"".$db->f("actie_id")."\" style=\"width:760px;float:left;\"><b>WT".$db->f("actie_id")."</b> <a href=\"#\" onclick=\"return false;\">".htmlentities($db->f("naam"))."</a></div>";
 			if($login->userlevel>=10 or $login->has_priv(26)) {
 				echo "<div style=\"float:right;width:30px;margin-bottom:4px;margin-top:-3px;\"><a href=\"cms_diversen.php?bc=".intval($_GET["bc"]+1)."&delete=39&t=".htmlentities($_GET["t"])."&39k0=".$db->f("actie_id")."\" onclick=\"return confirmLink('row_".$db->f("status")."_".$db->f("actie_id")."',this,'Actie  wissen?')\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
 			}
