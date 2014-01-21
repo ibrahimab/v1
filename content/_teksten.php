@@ -4098,8 +4098,8 @@ $txt["en"]["bsys"]["error_4"]="Please login in order to pay for the booking.";
 $txt["nl"]["bsys"]["error_5"]="Selecteer uw land.";
 $txt["en"]["bsys"]["error_5"]="Please select your country.";
 
-$txt["nl"]["bsys"]["error_6"]="Vul alsjeblieft een volledig adres in.";
-$txt["en"]["bsys"]["error_6"]="Please enter a complete street address.";
+$txt["nl"]["bsys"]["error_6"]="Vul alsjeblieft een volledig adres in. [[h_1]]Je kunt het adres hier wijzigen[[h_2]]";
+$txt["en"]["bsys"]["error_6"]="Please enter a complete street address. [[h_1]]You can change the address here[[h_2]]";
 
 $txt["nl"]["bsys"]["bank_transfer"]="Bankoverschrijving";
 $txt["en"]["bsys"]["bank_transfer"]="Bank transfer";
