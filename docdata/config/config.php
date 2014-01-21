@@ -11,7 +11,7 @@ define('DB_HOST', $mysqlsettings["host"]);
 $site_url = $vars["basehref"];
 
 // Check if SSL is activated
-if($_SERVER["HTTPS"]=="on") {
+if($_SERVER["HTTPS"]=="on" && (!isset($vars["acceptatie_testserver"]) || ($vars["acceptatie_testserver"] == false))) {
 	$site_url = str_replace("http://", "https://", $site_url);
 }
 
