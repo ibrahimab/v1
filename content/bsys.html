@@ -217,7 +217,7 @@ if($login->logged_in) {
 						echo "<li><a href=\"".$_SERVER["REQUEST_URI"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."&menu=2\">Gegevens en opties alle deelnemers</a></li>";
 						$db2->query("SELECT boeking_id FROM boeking_enquete WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 						if($db2->num_rows()) {
-							echo "<li><a href=\"".$path."cms_boekingen_enquete.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\">Ingevulde enqu&ecirc;te</a></li>";
+							echo "<li><a href=\"".$path."cms_boekingen_enquete.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."&controleren=1\">Ingevulde enqu&ecirc;te</a></li>";
 						}
 						echo "</ul>";
 						if($_GET["bt"]==3 or !$gegevens["stap1"]["bevestigdatum"]) {

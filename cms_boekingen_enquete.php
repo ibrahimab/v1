@@ -39,6 +39,7 @@ if($_GET["controleren"]) {
 	} else {
 		$form->field_htmlcol("","Tekst totaaloordeel",array("html"=>"<i>niet ingevuld</i>"));
 	}
+	$form->field_text(0,"websitetekst_naam","Op website te tonen naam (leeg=anoniem)",array("field"=>"websitetekst_naam"),"",array("newline"=>true));
 	if(!$db->f("vraag1_7")) {
 		$form->field_htmlrow("","<span style=\"color:red;\">Omdat het 'Totaaloordeel accommodatie' ontbreekt zal deze beoordeling niet worden getoond op de accommodatiepagina.</span>");
 	}
@@ -46,7 +47,9 @@ if($_GET["controleren"]) {
 	$form->check_input();
 
 	if($form->filled) {
-
+		if(preg_match("/@/", $form->input["websitetekst_naam"])) {
+			$form->error("websitetekst_naam", "Mailadres niet toegestaan");
+		}
 	}
 
 	if($form->okay) {
