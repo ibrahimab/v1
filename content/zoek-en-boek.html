@@ -2686,6 +2686,12 @@ if($_GET["sort"] and $vars["websitetype"]<>8) {
 	echo "<input type=\"hidden\" name=\"sort\" value=\"".wt_he($_GET["sort"])."\">\n";
 }
 if($vars["zoeken_op_kaart"]) {
+
+	// always show map by default
+	if(!isset($_GET["map"])) {
+		$_GET["map"]=1;
+	}
+
 	# doorgeven of bij zoeken op kaart de kaart zichtbaar is
 	echo "<input type=\"hidden\" name=\"map\" value=\"".intval($_GET["map"])."\">\n";
 }
@@ -3524,7 +3530,7 @@ if($resultaten_tonen) {
 		echo "</tr>";
 
 		if($voorkant_cms) {
-			echo "<tr><td colspan=\"5\" style=\"color:#888888;text-align:right;padding-right:15px;\">(intern: zoektijd <span id=\"zoektijd\"></span> sec.)</td></tr>";
+			echo "<tr><td colspan=\"5\" style=\"color:#888888;text-align:right;padding-right:15px;padding-top: 8px;\">(intern: zoektijd <span id=\"zoektijd\"></span> sec.)</td></tr>";
 		}
 
 		echo "<tr>";
