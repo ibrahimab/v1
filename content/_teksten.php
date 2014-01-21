@@ -4099,7 +4099,7 @@ $txt["nl"]["bsys"]["error_5"]="Selecteer uw land.";
 $txt["en"]["bsys"]["error_5"]="Please select your country.";
 
 $txt["nl"]["bsys"]["error_6"]="Vul alsjeblieft een volledig adres in.";
-$txt["en"]["bsys"]["error_6"]="Please enter your full street address.";
+$txt["en"]["bsys"]["error_6"]="Please enter a complete street address.";
 
 $txt["nl"]["bsys"]["bank_transfer"]="Bankoverschrijving";
 $txt["en"]["bsys"]["bank_transfer"]="Bank transfer";

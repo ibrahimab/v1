@@ -480,26 +480,34 @@ function docdata_iso_landcode($clientCountry, $websiteCode = "") {
 	if ($websiteCode == "B") {
 		$iso_landcode = "BE";
 	} else {
-		$match_nl = false;
-		$match_en = false;
-
 		# Search for the country code in the countries list
 		if (!empty($clientCountry)) {
 			# Check if the client countries has a special name
-			if (array_key_exists($clientCountry, $customCountriesList)) {
-				$clientCountry = $customCountriesList[$clientCountry];
+			if(isset($customCountriesList) && is_array($customCountriesList)) {
+				foreach($customCountriesList as $key => $value) {
+					if($clientCountry == $key || strtolower($clientCountry) == strtolower($key)) {
+						$clientCountry = $value;
+					}
+				}
 			}
 			if (!empty($clientCountry)) {
-				$match_nl = array_search($clientCountry, $countriesList["nl"]);
-				if ($match_nl === false) {
-					$match_en = array_search($clientCountry, $countriesList["en"]);
-					if ($match_en === false) {
-						$iso_landcode = false;
-					} else {
-						$iso_landcode = $match_en;
+				# Search in NL country names
+				if(isset($countriesList["nl"]) && is_array($countriesList["nl"])) {
+					foreach($countriesList["nl"] as $key => $value) {
+						if($clientCountry == $value || strtolower($clientCountry) == strtolower($value)) {
+							$iso_landcode = $key;
+						}
 					}
-				} else {
-					$iso_landcode = $match_nl;
+				}
+				if($iso_landcode === false) {
+					# Search in EN country names
+					if(isset($countriesList["en"]) && is_array($countriesList["en"])) {
+						foreach($countriesList["en"] as $key => $value) {
+							if($clientCountry == $value || strtolower($clientCountry) == strtolower($value)) {
+								$iso_landcode = $key;
+							}
+						}
+					}
 				}
 			}
 		}

@@ -13,6 +13,9 @@ $site_url = $vars["basehref"];
 // Check if SSL is activated
 if($_SERVER["HTTPS"]=="on" && (!isset($vars["acceptatie_testserver"]) || ($vars["acceptatie_testserver"] == false))) {
 	$site_url = str_replace("http://", "https://", $site_url);
+} elseif($vars["acceptatie_testserver"]) {
+	// Remove https in acceptance test server
+	$site_url = str_replace("https://", "http://", $site_url);
 }
 
 // Check if acceptance server
