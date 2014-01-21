@@ -90,13 +90,12 @@
 }
 
 .beoordeling_enquete_cijfers {
-	float: right;
 	width: 370px;
 }
 
 .beoordeling_enquete_toelichting {
-	float: left;
 	border-color: #ff9900;
+	min-height: 136px;
 }
 
 

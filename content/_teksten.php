@@ -2184,6 +2184,11 @@ $txt["en"]["beoordelingen"]["anoniem"]="anonymous";
 $txt["nl"]["beoordelingen"]["toelichting"]="toelichting";
 $txt["en"]["beoordelingen"]["toelichting"]="notes";
 
+$txt["nl"]["beoordelingen"]["geencijfers"]="Er zijn geen cijfers ingevuld.";
+$txt["en"]["beoordelingen"]["geencijfers"]="There are no votes recorded.";
+
+
+
 #
 # Calc.php (totaalbedrag vakantie berekenen zonder te boeken)
 #

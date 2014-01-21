@@ -496,6 +496,12 @@ beoordeling_header_right {
 	box-sizing: border-box;
 }
 
+.beoordeling_enquete_toelichting_geen_cijfers {
+	color: #777777;
+	font-style: italic;
+	float: left;
+}
+
 .beoordeling_enquete_toelichting_wrapper {
 	padding: 7px;
 }

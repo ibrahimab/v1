@@ -111,6 +111,9 @@ if(is_array($enquete)) {
 	if(is_array($enquete)) {
 		while(list($key,$value)=each($enquete)) {
 
+			$regelteller=0;
+			unset($table);
+
 			echo "<div class=\"beoordeling_enquete\">";
 
 			echo "<div class=\"beoordeling_enquete_bovenbalk\">";
@@ -130,20 +133,29 @@ if(is_array($enquete)) {
 
 			echo "<div class=\"beoordeling_enquete_cijfers\">";
 
-			echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"beoordeling_enquete_table\">";
+			$table .= "<table cellspacing=\"0\" cellpadding=\"0\" class=\"beoordeling_enquete_table\">";
 			for($i=1;$i<=6;$i++) {
 				if($value[$i]>0) {
 					$regelteller++;
-					echo "<tr class=\"".($regelteller%2 ? "regel1" : "regel2")."\"><td>".html("vraag1_".$i,"enquete")."</td><td>&nbsp;</td><td align=\"right\">".intval($value[$i])."</td></tr>";
+					$table .= "<tr class=\"".($regelteller%2 ? "regel1" : "regel2")."\"><td>".html("vraag1_".$i,"enquete")."</td><td>&nbsp;</td><td align=\"right\">".intval($value[$i])."</td></tr>";
 				}
 			}
 			if($value[7] and $vars["websitetype"]==7) {
 				$regelteller++;
-				echo "<tr class=\"".($regelteller%2 ? "regel1" : "regel2")."\"><td><b>".html("totaaloordeel","beoordelingen")."</b></td><td>&nbsp;</td><td align=\"right\"><b>".intval($value[7])."</b></td></tr>";
+				$table .= "<tr class=\"".($regelteller%2 ? "regel1" : "regel2")."\"><td><b>".html("totaaloordeel","beoordelingen")."</b></td><td>&nbsp;</td><td align=\"right\"><b>".intval($value[7])."</b></td></tr>";
 			}
 
-			echo "</table>";
+			$table .= "</table>";
 
+			if($regelteller) {
+				echo $table;
+			} else {
+				echo "<div class=\"beoordeling_enquete_toelichting beoordeling_enquete_toelichting_geen_cijfers\">";
+				echo "<div class=\"beoordeling_enquete_toelichting_wrapper\">";
+				echo html("geencijfers", "beoordelingen");
+				echo "</div>"; // afsluiten .beoordeling_enquete_toelichting_wrapper
+				echo "</div>"; // afsluiten .beoordeling_enquete_toelichting
+			}
 
 			echo "</div>"; // afsluiten .beoordeling_enquete_cijfers
 
