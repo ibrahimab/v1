@@ -1760,6 +1760,12 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$form->error("wachtwoord_herhaal",html("tweekeerhetzelfdeww","boeken"));
 				}
 			}
+
+			// check for address
+			if($form->input["adres"] and (strlen(trim($form->input["adres"]))<3 or !preg_match("@[a-zA-Z]@",$form->input["adres"]))) {
+				$form->error("adres",html("volledigadres", "boeken"));
+			}
+
 		} elseif($_GET["stap"]==3) {
 			for($i=2;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 				if(isset($form->input["geboortedatum".$i]["unixtime"]) and $form->input["geboortedatum".$i]["unixtime"]>time()) $form->error("geboortedatum".$i,html("geendatumtoekomst","boeken"),"","",html("geboortedatumpersoon","boeken")." ".$i);
