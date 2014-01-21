@@ -346,23 +346,48 @@ if($db->next_record()) {
 
 	// beoordeling tonen
 	if($vars["taal"]=="nl" and ($vars["websitetype"]==1 or $vars["websitetype"]==4 or $vars["websitetype"]==6  or $vars["websitetype"]==7 or $vars["websitetype"]==8)) {
+
+
+		if($vars["taal"]=="nl" and $vars["websitetype"]==7) {
+			// reviews Posarelli
+			$db2->query("SELECT COUNT(accommodatie_review_id) AS aantal FROM accommodatie_review WHERE bron=2 AND actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
+			if($db2->next_record()) {
+				$review["counter"] = $db2->f("aantal");
+			}
+		}
+
 		$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND vraag1_7>0 AND beoordeeld=1 GROUP BY type_id;");
 		if($db2->next_record()) {
-			if($db2->f("totaaloordeel")<10 or $db2->f("aantal")>1) {
-				# Bij een 10: alleen tonen als er meer dan 1 beoordeling is
-				echo "<li><div style=\"float:left;\">waardering: </div><div id=\"toonaccommodatie_kenmerken_2_beoordeling\">";
-				if($db2->f("totaaloordeel")==10) {
+			$review["counter"] += $db2->f("aantal");
+			$review["counter_enquete"] = $db2->f("aantal");
+			$review["totaaloordeel"] = $db2->f("totaaloordeel");
+		}
+
+		if($review["counter"]) {
+			# Bij een 10: alleen tonen als er meer dan 1 beoordeling is
+			echo "<li><div style=\"float:left;\">waardering: </div>";
+			if(($review["totaaloordeel"]>1 and $review["totaaloordeel"]<10) or $review["counter_enquete"]>1) {
+				echo "<div id=\"toonaccommodatie_kenmerken_2_beoordeling\">";
+				if($review["totaaloordeel"]==10) {
 					echo "10";
 				} else {
-					echo number_format($db2->f("totaaloordeel"),1,",",".");
+					echo number_format($review["totaaloordeel"],1,",",".");
 				}
-				echo "</div><div id=\"toonaccommodatie_kenmerken_2_beoordelinglink\">(<a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=beoordelingen&typeid=".$typeid."\" rel=\"nofollow\" id=\"beoordeling_link\">".$db2->f("aantal")." ".($db2->f("aantal")==1 ? html("klantbeoordeling","toonaccommodatie") : html("klantbeoordelingen","toonaccommodatie"))."</a>)</div>";
-
-				// rich snippet rating
-				echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($db2->f("totaaloordeel"),1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$db2->f("aantal")."</span></div>";
-
-				echo "<div class=\"clear\"></div></li>";
+				echo "</div>";
+				$review_between_brackets = true;
 			}
+			echo "<div id=\"toonaccommodatie_kenmerken_2_beoordelinglink\">";
+			if($review_between_brackets) echo "(";
+			echo "<a href=\"".$vars["path"]."popup_fancybox.php?popupfbid=beoordelingen&typeid=".$typeid."\" rel=\"nofollow\" id=\"beoordeling_link\">".$review["counter"]." ".($review["counter"]==1 ? html("klantbeoordeling","toonaccommodatie") : html("klantbeoordelingen","toonaccommodatie"))."</a>";
+			if($review_between_brackets) echo ")";
+			echo "</div>";
+
+			// rich snippet rating
+			if(($review["totaaloordeel"]>1 and $review["totaaloordeel"]<10) or $review["counter_enquete"]>1) {
+				echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($review["totaaloordeel"],1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$review["counter_enquete"]."</span></div>";
+			}
+
+			echo "<div class=\"clear\"></div></li>";
 		}
 	}
 	echo "</ul>";
@@ -573,24 +598,26 @@ if($db->next_record()) {
 #		}
 #		echo "</td></tr></table></div>";
 #	}
+
 	# Reviews
-	if($vars["taal"]=="nl" and $vars["websitetype"]==7) {
-		$db2->query("SELECT UNIX_TIMESTAMP(datum) AS datum, naam, tekst, afbreken FROM accommodatie_review WHERE actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
-		if($db2->num_rows()) {
-			echo "<div id=\"reviews\">";
-			echo "<h2>Beoordeling".($db2->num_rows()>1 ? "en" : "")."</h2>";
-			while($db2->next_record()) {
-				echo "<div class=\"reviewblok\">";
-				if($db2->f("afbreken")) {
-					echo "<div class=\"reviewblok_afbreken\"><div class=\"reviewblok_afbreken_content\">";
-				} else {
-					echo "<div><div>";
-				}
-				echo "<div class=\"reviewblok_datum\">".($db2->f("naam") ? wt_he($db2->f("naam")).", " : "").DATUM("D MAAND JJJJ",$db2->f("datum"))."</div>".nl2br(wt_he($db2->f("tekst")))."</div></div><div class=\"reviewblok_afbreken_openklap\"><a href=\"#\" onclick=\"return false;\">Lees verder</a></div></div>";
-			}
-			echo "</div>";
-		}
-	}
+	// if($vars["taal"]=="nl" and $vars["websitetype"]==7) {
+	// 	$db2->query("SELECT UNIX_TIMESTAMP(datum) AS datum, naam, tekst, afbreken FROM accommodatie_review WHERE actief=1 AND accommodatie_id='".$db->f("accommodatie_id")."' ORDER BY datum DESC, adddatetime DESC;");
+	// 	if($db2->num_rows()) {
+	// 		echo "<div id=\"reviews\">";
+	// 		echo "<h2>Beoordeling".($db2->num_rows()>1 ? "en" : "")."</h2>";
+	// 		while($db2->next_record()) {
+	// 			echo "<div class=\"reviewblok\">";
+	// 			if($db2->f("afbreken")) {
+	// 				echo "<div class=\"reviewblok_afbreken\"><div class=\"reviewblok_afbreken_content\">";
+	// 			} else {
+	// 				echo "<div><div>";
+	// 			}
+	// 			echo "<div class=\"reviewblok_datum\">".($db2->f("naam") ? wt_he($db2->f("naam")).", " : "").DATUM("D MAAND JJJJ",$db2->f("datum"))."</div>".nl2br(wt_he($db2->f("tekst")))."</div></div><div class=\"reviewblok_afbreken_openklap\"><a href=\"#\" onclick=\"return false;\">Lees verder</a></div></div>";
+	// 		}
+	// 		echo "</div>";
+	// 	}
+	// }
+
 	echo "</div>";
 
 	#

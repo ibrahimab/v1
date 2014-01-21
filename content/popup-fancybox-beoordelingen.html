@@ -1,16 +1,32 @@
 <?php
 
+$accinfo=accinfo($_GET["typeid"]);
+
+
+// reviews Posarelli
+$db->query("SELECT accommodatie_review_id, UNIX_TIMESTAMP(ar.datum) AS datum, ar.naam, ar.tekst, ar.afbreken FROM accommodatie_review ar INNER JOIN type t USING (accommodatie_id) WHERE ar.bron=2 AND ar.actief=1 AND t.type_id='".intval($_GET["typeid"])."' ORDER BY ar.datum DESC, ar.adddatetime DESC;");
+while($db->next_record()) {
+	$beoordeling_aantalbeoordelingen++;
+
+	$enquete["review_".$db->f("accommodatie_review_id")]["aankomstdatum_exact"]=$db->f("datum");
+	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_gewijzigd"]=$db->f("tekst");
+	$enquete["review_".$db->f("accommodatie_review_id")]["websitetekst_naam"]=$db->f("naam");
+
+}
+
+// echo wt_dump($enquete);
+// exit;
+
 $db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel FROM boeking_enquete be, view_accommodatie v WHERE be.vraag1_7>0 AND be.type_id='".intval($_GET["typeid"])."' AND be.beoordeeld=1 AND v.type_id=be.type_id AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 GROUP BY be.type_id;");
 
 if($db->next_record()) {
 	$totaaloordeel=$db->f("totaaloordeel");
 
-	$accinfo=accinfo($_GET["typeid"]);
 
 
 	$db->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7 FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
 	while($db->next_record()) {
-		$beoordeling_aantalbeoordelingen=$db->num_rows();
+		$beoordeling_aantalbeoordelingen++;
 		$enquete[$db->f("boeking_id")]["aankomstdatum_exact"]=$db->f("aankomstdatum_exact");
 		$enquete[$db->f("boeking_id")]["websitetekst_gewijzigd"]=$db->f("websitetekst_gewijzigd");
 		$enquete[$db->f("boeking_id")]["websitetekst_naam"]=$db->f("websitetekst_naam");
@@ -24,7 +40,7 @@ if($db->next_record()) {
 	// Get Interhome imported customer feedback
 	$db->query("SELECT UNIX_TIMESTAMP(be.aankomstdatum_exact) as aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7, be.hash FROM boeking_enquete be, type t WHERE be.type_id=t.type_id AND be.boeking_id IS NULL AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY be.aankomstdatum_exact DESC;");
 	while($db->next_record()) {
-		$beoordeling_aantalbeoordelingen=$db->num_rows();
+		$beoordeling_aantalbeoordelingen++;
 		$enquete[$db->f("hash")]["aankomstdatum_exact"]=$db->f("aankomstdatum_exact");
 		$enquete[$db->f("hash")]["websitetekst_gewijzigd"]=$db->f("websitetekst_gewijzigd");
 		$enquete[$db->f("hash")]["websitetekst_naam"]=$db->f("websitetekst_naam");
@@ -34,6 +50,9 @@ if($db->next_record()) {
 			}
 		}
 	}
+}
+
+if(is_array($enquete)) {
 
 	// Sort by aankomstdatum_exact desc
 	function cmp($a, $b) {
@@ -51,12 +70,6 @@ if($db->next_record()) {
 		include("css/toonaccommodatie.css");
 	}
 
-
-	?>
-
-
-	<?php
-
 	echo "</style>";
 
 	echo "<div id=\"beoordeling_wrapper\">";
@@ -73,16 +86,18 @@ if($db->next_record()) {
 
 	echo "<div id=\"beoordeling_gemiddeldtotaaloordeel_regel\">";
 
-	echo "<div id=\"beoordeling_gemiddeldtotaaloordeel\">";
-	echo html("gemiddeldtotaaloordeel","beoordelingen").":</div>";
-	echo "<div id=\"beoordeling_gemiddeldtotaaloordeel_cijfer\">";
-	if($totaaloordeel==10) {
-		echo "10";
-	} else {
-		echo number_format($totaaloordeel,1,",",".");
+	if($totaaloordeel) {
+		echo "<div id=\"beoordeling_gemiddeldtotaaloordeel\">";
+		echo html("gemiddeldtotaaloordeel","beoordelingen").":</div>";
+		echo "<div id=\"beoordeling_gemiddeldtotaaloordeel_cijfer\">";
+		if($totaaloordeel==10) {
+			echo "10";
+		} else {
+			echo number_format($totaaloordeel,1,",",".");
+		}
+		echo "</div>";
 	}
-	echo "</div>";
-	echo "<div id=\"beoordeling_aantalbeoordelingen\">(".intval($beoordeling_aantalbeoordelingen)." ".($beoordeling_aantalbeoordelingen==1 ? html("beoordeling","beoordelingen") : html("beoordelingen","beoordelingen")).")</div>";
+	echo "<div id=\"beoordeling_aantalbeoordelingen\">".intval($beoordeling_aantalbeoordelingen)." ".($beoordeling_aantalbeoordelingen==1 ? html("beoordeling","beoordelingen") : html("beoordelingen","beoordelingen"))."</div>";
 
 	echo "</div>"; // afsluiten #beoordeling_gemiddeldtotaaloordeel_regel
 	echo "</div>"; // afsluiten #beoordeling_header_right
@@ -99,8 +114,10 @@ if($db->next_record()) {
 			echo "<div class=\"beoordeling_enquete\">";
 
 			echo "<div class=\"beoordeling_enquete_bovenbalk\">";
-			echo "<b>".html("totaaloordeel","beoordelingen").": ".$value[7]."</b>";
-			echo " - ";
+			if($value[7] and $vars["websitetype"]<>7) {
+				echo "<b>".html("totaaloordeel","beoordelingen").": ".$value[7]."</b>";
+				echo " - ";
+			}
 			echo html("aankomst","beoordelingen").": ".DATUM("MAAND JJJJ",$value["aankomstdatum_exact"],$vars["taal"]);
 
 			echo " - ".html("ingevulddoor","beoordelingen").": ";
@@ -120,7 +137,13 @@ if($db->next_record()) {
 					echo "<tr class=\"".($regelteller%2 ? "regel1" : "regel2")."\"><td>".html("vraag1_".$i,"enquete")."</td><td>&nbsp;</td><td align=\"right\">".intval($value[$i])."</td></tr>";
 				}
 			}
+			if($value[7] and $vars["websitetype"]==7) {
+				$regelteller++;
+				echo "<tr class=\"".($regelteller%2 ? "regel1" : "regel2")."\"><td><b>".html("totaaloordeel","beoordelingen")."</b></td><td>&nbsp;</td><td align=\"right\"><b>".intval($value[7])."</b></td></tr>";
+			}
+
 			echo "</table>";
+
 
 			echo "</div>"; // afsluiten .beoordeling_enquete_cijfers
 

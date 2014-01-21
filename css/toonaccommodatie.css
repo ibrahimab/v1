@@ -448,6 +448,7 @@ beoordeling_header_right {
 
     margin-left: 2px;
     margin-bottom: -8px;
+    margin-right: 5px;
     padding-left: 4px;
 
 	color: #003366;
@@ -463,7 +464,6 @@ beoordeling_header_right {
 #beoordeling_aantalbeoordelingen {
 	font-weight: normal;
 	float: left;
-	margin-left: 5px;
 	margin-top: 10px;
 }
 
