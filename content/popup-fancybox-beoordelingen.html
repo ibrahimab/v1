@@ -91,7 +91,7 @@ if(is_array($enquete)) {
 		echo html("gemiddeldtotaaloordeel","beoordelingen").":</div>";
 		echo "<div id=\"beoordeling_gemiddeldtotaaloordeel_cijfer\">";
 		if($totaaloordeel==10) {
-			echo "10";
+			echo "&thinsp;10";
 		} else {
 			echo number_format($totaaloordeel,1,",",".");
 		}

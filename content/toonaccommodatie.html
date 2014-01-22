@@ -366,7 +366,7 @@ if($db->next_record()) {
 		if($review["counter"]) {
 			# Bij een 10: alleen tonen als er meer dan 1 beoordeling is
 			echo "<li><div style=\"float:left;\">waardering: </div>";
-			if(($review["totaaloordeel"]>1 and $review["totaaloordeel"]<10) or $review["counter_enquete"]>1) {
+			if($review["totaaloordeel"]>=1) {
 				echo "<div id=\"toonaccommodatie_kenmerken_2_beoordeling\">";
 				if($review["totaaloordeel"]==10) {
 					echo "10";
@@ -383,7 +383,7 @@ if($db->next_record()) {
 			echo "</div>";
 
 			// rich snippet rating
-			if(($review["totaaloordeel"]>1 and $review["totaaloordeel"]<10) or $review["counter_enquete"]>1) {
+			if($review["counter_enquete"]>0 and $review["totaaloordeel"]>=1 and $review["totaaloordeel"]<=10) {
 				echo "<div id=\"rich_snippets_rating\" itemprop=\"aggregateRating\" itemscope itemtype=\"http://schema.org/AggregateRating\"><span itemprop=\"ratingValue\">".number_format($review["totaaloordeel"],1,".",".")."</span><span itemprop=\"bestRating\">10</span><span itemprop=\"ratingCount\">".$review["counter_enquete"]."</span></div>";
 			}
 
