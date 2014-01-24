@@ -1027,7 +1027,12 @@ while(list($key,$value)=@each($soap_urls)) {
 				$end_date = strtotime("+ 7 days", $x);
 				$end_date = date("Y-m-d", $end_date);
 
-				if($availability = $interHome->getAvailability($accCode, $startDate[$seasonId], $end_date)) {
+				$start_date = $startDate[$seasonId];
+				if(strtotime($startDate[$seasonId]) < time()) {
+					$start_date = date("Y-m-d");
+				}
+
+				if($availability = $interHome->getAvailability($accCode, $start_date, $end_date)) {
 					// Get the availability
 					if(isset($xml_beschikbaar[$key][$accCode])) {
 						$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
