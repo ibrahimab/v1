@@ -94,25 +94,48 @@ echo "</div>\n"; # afsluiten hoofdpagina_themas_blok
 
 
 
-if($vars["website"]=="C") {
+if($vars["website"]=="C" or $vars["website"]=="B") {
 
 	echo "<div style=\"clear: both;\"></div>\n";
 
 	echo "<div class=\"bloklinks_blauwelijn\"></div>";
 
-	# Twitterblok includen
-    include("cache/twitterChaletNL.html");
 
-	echo "<div id=\"hoofdpagina_sociallinks\">";
-	echo "<div style=\"float:right;\">";
-	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-	echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
-	echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
-	echo "<a href=\"https://plus.google.com/102116407421806841336?prsrc=3\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
-	echo "</div>\n";
-	echo "<div style=\"float:right;\"></div>";
-	echo "<div style=\"clear: both;\"></div>\n";
-	echo "</div>\n"; # afsluiten hoofdpagina_sociallinks
+	$db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,1;");
+	if($db->num_rows()) {
+		echo "<div id=\"hoofdpagina_blog\">";
+		echo "<h2><a href=\"".$vars["path"]."blog.php\">Blog ".wt_he($vars["websitenaam"])."</a></h2>";
+		while($db->next_record()) {
+			$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
+			echo "<a href=\"".wt_he($url)."\" class=\"hoofdpagina_blog_item\">";
+			if($blogitem_gehad) echo "<hr>";
+			$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
+			if(file_exists($file)) {
+				echo "<div><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"".wt_he($db->f("homepage_titel"))."\" /></div>";
+			}
+			echo "<div class=\"hoofdpagina_blog_titel\">".wt_he($db->f("homepage_titel"))."</div>";
+			echo "<div class=\"hoofdpagina_blog_inleiding\">".wt_he($db->f("homepage_inleiding"))."</div>";
+			echo "<div class=\"hoofdpagina_blog_link\">Lees verder &raquo;</div>";
+
+			echo "</a>"; # afsluiten class hoofdpagina_blog_item
+			$blogitem_gehad=true;
+		}
+		#hoofdpagina_blog_titel
+		echo "</div>"; # afsluiten hoofdpagina_blog
+	}
+
+	if($vars["website"]=="C") {
+		echo "<div id=\"hoofdpagina_sociallinks\">";
+		echo "<div style=\"float:right;\">";
+		echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+		echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
+		echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
+		echo "<a href=\"https://plus.google.com/102116407421806841336?prsrc=3\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
+		echo "</div>\n";
+		echo "<div style=\"float:right;\"></div>";
+		echo "<div style=\"clear: both;\"></div>\n";
+		echo "</div>\n"; # afsluiten hoofdpagina_sociallinks
+	}
 }
 
 // if($vars["website"]=="T" and $id<>"alpedhuzes") {

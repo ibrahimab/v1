@@ -81,7 +81,7 @@ echo "</a>"; # afsluiten hoofdpagina_vraagonsadvies
 
 echo "<div id=\"hoofdpagina_blog\">";
 echo "<h2><a href=\"".$vars["path"]."blog.php\">Blog Italissima</a></h2>";
-$db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE 1=1 AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,2;");
+$db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,2;");
 while($db->next_record()) {
 	echo "<div class=\"hoofdpagina_blog_item\">";
 	$url=$vars["path"]."blog.php?b=".$db->f("blog_id");

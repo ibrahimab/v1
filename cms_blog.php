@@ -64,11 +64,11 @@ $cms->db_field(44,"picture","homepage_afbeelding","",array("savelocation"=>"pic/
 $cms->list_sort[44]=array("plaatsingsdatum","titel");
 $cms->list_sort_desc[44]=true;
 $cms->list_field(44,"titel","Titel");
-$cms->list_field(44,"actief","Tonen");
+$cms->list_field(44,"actief","Actief");
 $cms->list_field(44,"plaatsingsdatum","Tonen vanaf",array("date_format"=>"D MAAND JJJJ"));
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
-$cms->edit_field(44,0,"actief","Tonen op de website",array("selection"=>true));
+$cms->edit_field(44,0,"actief","Actief",array("selection"=>true));
 $cms->edit_field(44,1,"plaatsingsdatum","Tonen vanaf",array("time"=>time()),"",array("calendar"=>true));
 $cms->edit_field(44,1,"titel");
 $cms->edit_field(44,1,"categorie","Categorie");
@@ -81,16 +81,11 @@ $cms->edit_field(44,0,"afbeelding","Afbeeldingen voor in artikel","",array("auto
 $cms->edit_field(44,0,"htmlrow","<hr>");
 $cms->edit_field(44,0,"afbeelding_onderaan","Afbeeldingen onderaan","",array("autoresize"=>false,"number_of_uploadbuttons"=>6));
 
-if($_GET["websitetype"]==7) {
-	$cms->edit_field(44,0,"htmlrow","<hr><b>Verwijzing op de homepage</b>");
-	$cms->edit_field(44,0,"homepage_actief","Tonen op de homepage",array("selection"=>true));
-	$cms->edit_field(44,0,"homepage_titel","Titel");
-	$cms->edit_field(44,0,"homepage_inleiding","Inleidende tekst");
-	$cms->edit_field(44,1,"homepage_afbeelding","Afbeelding","",array("autoresize"=>true,"img_width"=>"148","img_maxheight"=>"99"));
-} else {
-	$cms->edit_field(44,0,"htmlrow","<hr>");
-	$cms->edit_field(44,1,"homepage_afbeelding","Afbeelding voor overzichtspagina","",array("autoresize"=>true,"img_width"=>"148","img_maxheight"=>"99"));
-}
+$cms->edit_field(44,0,"htmlrow","<hr><b>Verwijzing op de homepage</b>");
+$cms->edit_field(44,0,"homepage_actief","Tonen op de homepage",array("selection"=>true));
+$cms->edit_field(44,0,"homepage_titel","Titel");
+$cms->edit_field(44,0,"homepage_inleiding","Inleidende tekst");
+$cms->edit_field(44,1,"homepage_afbeelding","Afbeelding","",array("autoresize"=>true,"img_width"=>"148","img_maxheight"=>"99"));
 
 
 

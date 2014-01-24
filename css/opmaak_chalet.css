@@ -353,6 +353,74 @@ form {
 	padding-bottom: 5px;
 }
 
+#hoofdpagina_blog {
+	background-color: #eaf0fc;
+	padding: 10px;
+	padding-bottom: 12px;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+#hoofdpagina_blog h2 {
+	font-weight: bold;
+	margin-top: 2px;
+	margin-bottom: 8px;
+	border-bottom: 2px solid #ffffff;
+	padding-bottom: 8px;
+}
+
+#hoofdpagina_blog h2 a {
+	text-decoration: none;
+}
+
+.hoofdpagina_blog_item {
+	display: block;
+	font-size: 0.85em;
+	line-height: 120%;
+	text-decoration: none;
+}
+
+.hoofdpagina_blog_item:hover {
+	color: #003366 !important;
+}
+
+.hoofdpagina_blog_item:hover .hoofdpagina_blog_titel, .hoofdpagina_blog_item:hover .hoofdpagina_blog_link {
+	color: #d40139;
+}
+
+.hoofdpagina_blog_link {
+	text-decoration: underline;
+}
+
+
+#hoofdpagina_blog img {
+	width: 148px;
+}
+
+.hoofdpagina_blog_titel {
+	margin-top: 6px;
+	margin-bottom: 6px;
+	color: #003366;
+	font-weight: bold;
+}
+
+.hoofdpagina_blog_inleiding {
+
+}
+
+.hoofdpagina_blog_link {
+	margin-top: 4px;
+}
+
+#hoofdpagina_blog hr {
+	color: #ffffff;
+	background-color: #ffffff;
+	height: 2px;
+	border: 0px;
+	margin-top: 12px;
+	margin-bottom: 12px;
+}
+
 #breadcrumb_overlay {
 	position:absolute;
 	top: 195px;
