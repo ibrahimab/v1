@@ -394,7 +394,7 @@ class tablelist {
 					}
 					if($this->fields["type"][$key2]=="currency") {
 						$return.="<td".($tdclass ? " class=\"".$tdclass."\"" : "")." style=\"text-align:right\">".$aname_in_td;
-						if(ereg("^[0-9\.,]+$",$this->fields["content"][$key2][$key])) {
+						if(ereg("^-?[0-9\.,]+$",$this->fields["content"][$key2][$key])) {
 							$this->fields["content"][$key2][$key]=ereg_replace(",",".",$this->fields["content"][$key2][$key]);
 							if(!$this->settings["currencyfields_hide_euro_sign"]) {
 								$return.="&euro;&nbsp;";
