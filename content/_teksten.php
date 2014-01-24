@@ -333,7 +333,7 @@ Elk jaar constateren we weer dat vooral de grote accommodaties erg populair zijn
 [b]Klantvoordeel[/b]
 We geven je nu een [b]optie van [OPTIEDAGEN] dagen[/b] in plaats van de gebruikelijke 3-daagse optie, om je de kans te geven rustig met je reisgenoten te overleggen. Via een van de twee onderstaande links kun je gebruik maken van dit voordeel:
 [ul][li][link=[LINK_ACC]]Een vrijblijvende optie van [OPTIEDAGEN] dagen nemen op [ACCOMMODATIENAAM][/link][/li]
-[li][link=[LINK_ALGEMEEN]]Een andere accommodatie zoeken uit ons actuele aanbod voor winter 2013/2014 en te profiteren van de extra lange optie[/link][/li][/ul]
+[li][link=[LINK_ALGEMEEN]]Een andere accommodatie zoeken uit ons actuele aanbod voor winter 2014/2015 en te profiteren van de extra lange optie[/link][/li][/ul]
 Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
 
 Alvast veel vakantie-voorpret toegewenst!
@@ -352,7 +352,7 @@ Every year we notice that the big accommodations are very popular and are booked
 [b]Your advantage[/b]
 We can now give you an [b]option of [OPTIEDAGEN] days[/b] instead of the normal 3-day option, to give you the chance to discuss with fellow travelers. Through one of the two links below you can make use of this advantage:
 [ul][li][link=[LINK_ACC]]A noncommital option of [OPTIEDAGEN] days on [ACCOMMODATIENAAM][/link][/li]
-[li][link=[LINK_ALGEMEEN]]Search for another already available accommodation for the 2013/2014 winter season and take advantage of the same extra long option[/link][/li][/ul]
+[li][link=[LINK_ALGEMEEN]]Search for another already available accommodation for the 2014/2015 winter season and take advantage of the same extra long option[/link][/li][/ul]
 Of course it is also possible to send us your wishes [link=[LINK_CONTACT]]by e-mail[/link]. We will gladly give you proper advice to help you find a fitting accommodation.
 
 We wish you a lot of fun with your search!
@@ -385,14 +385,14 @@ $txt["en"]["vars"]["mail_klanten_vorig_seizoen_2"]="-";
 # winter NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Beste [NAAM],
 
-Deze winter ben je via [WEBSITE] op wintersport geweest. Je hebt aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2013/2014. Daarom willen we je graag als eerste laten weten dat een groot deel hiervan nu al te reserveren is.
+Deze winter ben je via [WEBSITE] op wintersport geweest. Je hebt aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2014/2015. Daarom willen we je graag als eerste laten weten dat een groot deel hiervan nu al te reserveren is.
 
 [b]Klantvoordeel[/b]
 Elk jaar constateren we weer dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.
 
 Om je de kans te geven rustig met je reisgenoten te overleggen, geven we je als klant nu een [b]extra lange optie[/b] in plaats van de gebruikelijke 3-daagse optie. De lengte van de optie is afhankelijk van de accommodatie en de verblijfsperiode. Via onderstaande link kun je gebruik maken van dit voordeel:
 
-[link=[LINK_ALGEMEEN]]Een accommodatie zoeken voor winter 2013/2014 en profiteren van de extra lange optie[/link]
+[link=[LINK_ALGEMEEN]]Een accommodatie zoeken voor winter 2014/2015 en profiteren van de extra lange optie[/link]
 
 Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
 
@@ -403,14 +403,14 @@ Alvast veel vakantie-voorpret toegewenst!
 # winter EN
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Dear [NAAM],
 
-This past winter you went on a winter holiday via [WEBSITE]. You let us know that you wanted to be informed about our winter accommodations for the 2013/2014 winter season. That's why we want you to be among the first to know that a big part of our accommodations can now be booked.
+This past winter you went on a winter holiday via [WEBSITE]. You let us know that you wanted to be informed about our winter accommodations for the 2014/2015 winter season. That's why we want you to be among the first to know that a big part of our accommodations can now be booked.
 
 [b]Your advantage[/b]
 Every year we notice that the big accommodations are very popular and are booked early. This is especially true for the Christmas and spring holidays, which are already in high demand. So we recommend you don't wait too long to start your search.
 
 We can now give you an [b]extra long option[/b] instead of the normal 3-day option, to give you the chance to discuss with fellow travelers. The length of the option depends on the accommodation and the period of stay. Through the link below you can make use of this advantage:
 
-[link=[LINK_ALGEMEEN]]Search for an accommodation for the winter 2013/2014 winter season and take advantage of the extra long option[/link]
+[link=[LINK_ALGEMEEN]]Search for an accommodation for the winter 2014/2015 winter season and take advantage of the extra long option[/link]
 
 Of course it is also possible to send us your wishes [link=[LINK_CONTACT]]by e-mail[/link]. We will gladly give you proper advice to help you find a fitting accommodation.
 
@@ -2325,7 +2325,7 @@ $txt["en"]["thema"]["meerinformatie"]="more information";
 $txt["nl"]["thema"]["aantalaccommodaties"]="Aantal accommodaties";
 $txt["en"]["thema"]["aantalaccommodaties"]="Number of accommodations";
 
-$txt["nl"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties voor 2013/2014 met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
+$txt["nl"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties voor 2014/2015 met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale aanbod)";
 $txt["en"]["thema"]["aantalaccommodatiesmettarieven"]="Number of accommodations with rates: [[v_aantal]] (= [[v_percentage]] of our total programme)";
 
 $txt["nl_z"]["thema"]["aantalaccommodatiesmettarieven"]="Aantal accommodaties met tarieven: [[v_aantal]] (= [[v_percentage]] van ons totale zomeraanbod)";
