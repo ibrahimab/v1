@@ -15,8 +15,9 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	# (alleen nodig om te testen)
 	#
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-		// $db->query("DELETE FROM boeking_betaling;");
-		$db->query("DELETE FROM boeking_betaling WHERE boeking_id=108763;");
+		$db->query("DELETE FROM boeking_betaling WHERE type NOT IN (4,5,6);");
+		// $db->query("UPDATE boeking_betaling SET banktransactieid='';");
+		// $db->query("DELETE FROM boeking_betaling WHERE boeking_id=244050;");
 	}
 
 	echo "<b>".htmlentities("Bestand \"".$_FILES["xmlbetalingen"]["name"]."\" (".$_FILES["xmlbetalingen"]["type"].")")." ontvangen</b><p>";
@@ -190,6 +191,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 					$betaling[$betalingteller]["importtext"]=trim($csv[6]);
 
 					$betaling[$betalingteller]["soortbestand"]="csv";
+
+					if(preg_match("@DOCDATA PAYMENTS/@", $csv[6])) {
+						// uitbetaling door Docdata ($vars["boeking_betaling_type"] = 2)
+						$betaling[$betalingteller]["type_of_payment"] = 2;
+					}
 				}
 			}
 		} else {
@@ -375,7 +381,11 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				}
 				$regel.="</b></span></td><!-- _WT_WIS --><td>&nbsp;</td><td>&nbsp;</td><!-- _WT_WIS -->";
 			} else {
-				$regel.="<td valign=\"top\"><a href=\"".ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">OK</a></td>";
+				$regel.="<td valign=\"top\"><a href=\"".ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">OK</a>";
+				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $value["type_of_payment"]==2) {
+					$regel.=" <span title=\"Docdata-uitbetaling\">docdata</span>";
+				}
+				$regel.="</td>";
 
 				# kijken of er een overbetaling van toepassing is
 				$openstaand=round($velden["totale_reissom"]-$velden["bedrag"],2);
@@ -383,6 +393,13 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				if($db2->next_record()) {
 					$openstaand=round($openstaand-$db2->f("totaal"),2);
 				}
+
+
+				// docdata: "verrekening Docdata-betaling/overschrijving"
+				if($value["type_of_payment"]==2) {
+					$openstaand=round($openstaand+$velden["bedrag"],2);
+				}
+
 				if($openstaand<0) {
 					$regel.="<td><a href=\"".ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">overbetaling: &euro;&nbsp;".number_format(abs($openstaand),2,",",".")."</a></td>";
 				} else {
@@ -403,8 +420,20 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$maillog.=$regel."\n";
 			} else {
 
+				$extra_setquery="";
+
+				// type of payment: "uitbetaling door Docdata"
+				if($value["type_of_payment"]==2) {
+					$extra_setquery.=", type=2";
+				}
+
 				# Gegevens opslaan in database
-				$db->query("INSERT INTO boeking_betaling SET boeking_id='".addslashes($velden["boekingid"])."', bedrag='".addslashes($velden["bedrag"])."', datum=FROM_UNIXTIME('".addslashes($velden["datum"])."'), import=1, importtext='".addslashes($value["importtext"])."', importdatetime=NOW(), banktransactieid='".addslashes($velden["banktransactieid"])."';");
+				$db->query("INSERT INTO boeking_betaling SET boeking_id='".addslashes($velden["boekingid"])."', bedrag='".addslashes($velden["bedrag"])."', datum=FROM_UNIXTIME('".addslashes($velden["datum"])."'), import=1, importtext='".addslashes($value["importtext"])."', importdatetime=NOW(), banktransactieid='".addslashes($velden["banktransactieid"])."'".$extra_setquery.";");
+
+				// docdata: "verrekening Docdata-betaling/overschrijving"
+				if($value["type_of_payment"]==2) {
+					$db->query("INSERT INTO boeking_betaling SET boeking_id='".addslashes($velden["boekingid"])."', bedrag='-".addslashes($velden["bedrag"])."', datum=FROM_UNIXTIME('".addslashes($velden["datum"])."'), import=1, type=3, importdatetime=NOW();");
+				}
 
 				# loggen dat goedgekeurde_betaling op 0 is gezet
 				if($velden["goedgekeurde_betaling"]>0) {

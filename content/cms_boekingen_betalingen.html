@@ -66,13 +66,13 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 		echo "<tr><td>Totale reissom (op basis van laatst verstuurde factuur)&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["totale_reissom"],2,',','.')."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		$nog_te_betalen=round($gegevens["stap1"]["totale_reissom"],2);
 	#	echo $nog_te_betalen;
-		$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum, opmerkingen, toon_opmerkingen_in_overzicht FROM boeking_betaling WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."' ORDER BY datum;");
+		$db->query("SELECT bedrag, UNIX_TIMESTAMP(datum) AS datum, opmerkingen, toon_opmerkingen_in_overzicht, type FROM boeking_betaling WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."' ORDER BY datum;");
 		while($db->next_record()) {
 			echo "<tr><td style=\"white-space:nowrap;\">";
 			if($db->f("toon_opmerkingen_in_overzicht")) {
 				echo htmlentities($db->f("opmerkingen"));
 			} else {
-				echo ($db->f("bedrag")<0 ? "Terugstorting" : "Betaling");
+				echo ($db->f("bedrag")<0 && $db->f("type")<>3 ? "Terugstorting" : wt_he($vars["boeking_betaling_type"][$db->f("type")]));
 			}
 			echo " ".date("d-m-Y",$db->f("datum"))."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($db->f("bedrag"),2,',','.')."</td><td>&nbsp;-</td><td>&nbsp;</td></tr>";
 			$nog_te_betalen=round($nog_te_betalen-$db->f("bedrag"),2);
