@@ -1039,6 +1039,8 @@ while(list($key,$value)=@each($soap_urls)) {
 					} else {
 						$xml_beschikbaar[$key][$accCode] = $availability;
 					}
+				}  else {
+					$xml_beschikbaar[$key][$accCode] = array();
 				}
 			}
 

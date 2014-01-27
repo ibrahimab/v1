@@ -263,12 +263,18 @@ class InterHome extends SoapClass {
 						- Z - min. stay 26 days
 					*/
 
-					if(date("w",$day)==5 && (substr($change,$i-6,1)=="C" || substr($change,$i-6,1)=="I") && substr($min_stay,$i-6,1)!="0") {
+					if(date("w",$day)==5 && substr($min_stay,$i-6,1)!="0") {
 						# on Friday we check to see if the previous week was free, and 6 days ago (Saturday) was a changeover was possible
-						if($temp_available[$week]==7) {
-							if(!isset($soap_available[$week])) $soap_available[$week] = 0;
+						if(substr($change,$i-6,1)=="C" || substr($change,$i-6,1)=="I") {
+							if($temp_available[$week]==7) {
+								if(!isset($soap_available[$week])) $soap_available[$week] = 0;
 
-							$soap_available[$week]+=1;
+								$soap_available[$week]+=1;
+							} else {
+								$soap_available[$week]=0;
+							}
+						} else {
+							$soap_available[$week]=0;
 						}
 					}
 				}
@@ -743,28 +749,31 @@ class InterHome extends SoapClass {
 		// Create a list with the accommodations that are available per week
 		foreach($list as $acc_code => $weeks) {
 			if(is_array($weeks)) {
-			foreach($weeks as $week => $ok) {
-				$tmp[$week][] = $acc_code;
-			}
-			}
-		}
-
-		// For each week call the Prices method by sending an array with all the accommodations that are available on that week
-		foreach($tmp as $week => $accommodations) {
-			// Call the Prices SOAP method
-			$formated[$week] = $this->_getPrices($accommodations, $week);
-		}
-
-		// Return the weekly prices for each accommodation
-		foreach($formated as $week => $accommodations) {
-			if(is_array($accommodations)) {
-				foreach($accommodations as $code => $price) {
-					$final[$code][$week] = $price;
-					ksort($final[$code]);
+				foreach($weeks as $week => $ok) {
+					$tmp[$week][] = $acc_code;
 				}
 			}
 		}
 
+		// For each week call the Prices method by sending an array with all the accommodations that are available on that week
+		if(is_array($tmp)) {
+			foreach($tmp as $week => $accommodations) {
+				// Call the Prices SOAP method
+				$formated[$week] = $this->_getPrices($accommodations, $week);
+			}
+		}
+
+		if(is_array($formated)) {
+			// Return the weekly prices for each accommodation
+			foreach($formated as $week => $accommodations) {
+				if(is_array($accommodations)) {
+					foreach($accommodations as $code => $price) {
+						$final[$code][$week] = $price;
+						ksort($final[$code]);
+					}
+				}
+			}
+		}
 		return $final;
 	}
 
