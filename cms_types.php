@@ -612,10 +612,16 @@ function form_before_goto($form) {
 		}
 	}
 
-	if($form->input["voorraad_gekoppeld_type_id"]) {
-		// gekoppelde voorraad bijwerken
+	if(($_GET["edit"]==2 or $_GET["add"]==2) and $_POST["frm_filled"]) {
+
 		$voorraad_gekoppeld=new voorraad_gekoppeld;
-		$voorraad_gekoppeld->vanaf_prijzen_berekenen($form->input["voorraad_gekoppeld_type_id"]);
+		if($form->input["voorraad_gekoppeld_type_id"]) {
+			// gekoppelde voorraad bijwerken
+			$voorraad_gekoppeld->vanaf_prijzen_berekenen($form->input["voorraad_gekoppeld_type_id"]);
+		}
+		if($_GET["2k0"]) {
+			$voorraad_gekoppeld->vanaf_prijzen_berekenen($_GET["2k0"]);
+		}
 		$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 	}
 

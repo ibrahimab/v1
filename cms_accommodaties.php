@@ -25,6 +25,18 @@ if($_GET["1k0"]) {
 	}
 }
 
+if($_GET["edit"]==1 and $_GET["1k0"] and $_POST["frm_filled"]) {
+
+	$db->query("SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["1k0"])."';");
+	if($db->num_rows()) {
+		$voorraad_gekoppeld=new voorraad_gekoppeld;
+		while($db->next_record()) {
+			$voorraad_gekoppeld->vanaf_prijzen_berekenen($db->f("type_id"));
+		}
+		$voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
+	}
+}
+
 if($_GET["xmlvoorraadreset"]) {
 	#
 	# XML-voorraad van alle onderliggende tarieven op 0 zetten (en daarna beschikbaarheid indien nodig aanpassen)
