@@ -1,0 +1,23 @@
+<?php
+
+
+echo "<div style=\"border:1px solid #777777;background-color:#ebebeb;padding:10px;margin-top:20px;margin-bottom:20px;\">";
+echo "Soort:&nbsp;&nbsp;";
+if($_GET["soort"]=="te_ontvangen") {
+	echo "<span style=\"display:inline-block;width:150px;\">";
+	echo "<b>te ontvangen</b>";
+	echo "</span>";
+	echo "<a href=\"".$vars["path"]."cms_docdatapayments.php?bedrijf=".wt_he($_GET["bedrijf"])."&soort=reeds_ontvangen\">reeds ontvangen</a>";
+} else {
+	echo "<span style=\"display:inline-block;width:150px;\">";
+	echo "<a href=\"".$vars["path"]."cms_docdatapayments.php?bedrijf=".wt_he($_GET["bedrijf"])."&soort=te_ontvangen\">te ontvangen</a>";
+	echo "</span>";
+	echo "<b>reeds ontvangen</b>";
+}
+echo "</div>";
+
+$docdatapayments = new docdatapayments;
+echo $docdatapayments->show_docdata_payments_table();
+
+
+?>

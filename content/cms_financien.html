@@ -1698,6 +1698,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	#
 	echo "<b>Overzichten:</b><ul>";
 	echo "<li><a href=\"cms_financien_betalingen.php?openstaand=1&bedrijf=".wt_he($_GET["bedrijf"])."\">Overzicht binnenkomende betalingen en aanmaningen</a> (klanten)</li>";
+	echo "<li><a href=\"cms_docdatapayments.php?bedrijf=".wt_he($_GET["bedrijf"])."\">Overzicht Docdata-betalingen</a> (klanten)</li>";
 	if($login->has_priv(5)) {
 		echo "<li><a href=\"cms_financien_betalingen.php?uitgaand=1&bedrijf=".wt_he($_GET["bedrijf"])."\">Overzicht uitgaande betalingen</a> (leveranciers)</li>";
 	} else {

@@ -436,6 +436,7 @@ if($_GET["uitgaand"]==1) {
 			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#a6ffb3;\">Groen</span> = openstaand bedrag waarvan de <i>volledige betaling</i> al is goedgekeurd</div>";
 			echo "<div style=\"margin-bottom:3px;\"><span style=\"background-color:#94d3ff;\">Blauw</span> = openstaand bedrag waarvan een <i>gedeeltelijke betaling</i> al is goedgekeurd</div>";
 			echo "</div>";
+
 			echo "<div style=\"float:right;margin-top:-30px;\">";
 			echo "<table>";
 			echo "<form method=\"get\">";
@@ -453,6 +454,20 @@ if($_GET["uitgaand"]==1) {
 			echo "</div>";
 
 			echo "<div style=\"clear:both;\"></div>";
+
+			// check for docdata-payments that are due
+			$docdatapayments = new docdatapayments;
+			$docdatapayments->soort = "te_ontvangen";
+			$docdatapayments_html = $docdatapayments->show_docdata_payments_table();
+			if($docdatapayments->te_laat_aantal>0) {
+				echo "<div style=\"background-color:#fdff86;padding:5px;border:1px solid #cccccc;margin-top:10px;\"><a href=\"".$vars["path"]."cms_docdatapayments.php?bedrijf=".wt_he($_GET["bedrijf"])."&soort=te_ontvangen\">";
+				if($docdatapayments->te_laat_aantal==1) {
+					echo "Er is 1 Docdata-betaling te laat";
+				} else {
+					echo "Er zijn ".$docdatapayments->te_laat_aantal." Docdata-betalingen te laat";
+				}
+				echo " &raquo;</a></div>";
+			}
 
 			echo "<p>";
 			echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
