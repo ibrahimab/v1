@@ -15,7 +15,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	# (alleen nodig om te testen)
 	#
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-		$db->query("DELETE FROM boeking_betaling WHERE type NOT IN (4,5,6);");
+		// $db->query("DELETE FROM boeking_betaling WHERE type NOT IN (4,5,6);");
 		// $db->query("UPDATE boeking_betaling SET banktransactieid='';");
 		// $db->query("DELETE FROM boeking_betaling WHERE boeking_id=244050;");
 	}
@@ -192,7 +192,8 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 					$betaling[$betalingteller]["soortbestand"]="csv";
 
-					if(preg_match("@DOCDATA PAYMENTS/@", $csv[6])) {
+					// if(preg_match("@DOCDATA PAYMENTS/@", $csv[6])) {
+					if(preg_match("@DOCDATA@i", $csv[6])) {
 						// uitbetaling door Docdata ($vars["boeking_betaling_type"] = 2)
 						$betaling[$betalingteller]["type_of_payment"] = 2;
 					}
@@ -382,8 +383,8 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$regel.="</b></span></td><!-- _WT_WIS --><td>&nbsp;</td><td>&nbsp;</td><!-- _WT_WIS -->";
 			} else {
 				$regel.="<td valign=\"top\"><a href=\"".ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"]).($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "chalet/" : "")."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">OK</a>";
-				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" and $value["type_of_payment"]==2) {
-					$regel.=" <span title=\"Docdata-uitbetaling\">docdata</span>";
+				if($value["type_of_payment"]==2) {
+					$regel.=" <span title=\"Docdata-uitbetaling\">(docdata)</span>";
 				}
 				$regel.="</td>";
 
