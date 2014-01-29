@@ -7,7 +7,7 @@
 #
 #
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro") {
 	$vars["lokale_testserver"]=true;
 }
 
@@ -26,10 +26,10 @@ if($vars["lokale_testserver"]) {
 	}
 
 	# Testsite bepalen
-	if($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
-		$vars["cms_basehref"]="http://chalet-nl-dev.web.netromtest.ro/";
+	if($_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro") {
+		$vars["cms_basehref"]="http://chalet-dev.web.netromtest.ro/";
 		if(!$vars["testsite"]) {
-			$vars["testsite"]=@file_get_contents("/var/www/chalet/chalet-nl-dev/tmp/testsite.txt");
+			$vars["testsite"]=@file_get_contents("/var/www/chalet/chalet-dev/tmp/testsite.txt");
 		}
 		if(!$vars["testsite"]) {
 			$vars["testsite"]="C";

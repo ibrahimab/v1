@@ -5,9 +5,9 @@
 //
 
 if(netrom_testserver) {
-	$mysqlsettings["name"]["remote"]="dbtest_chalet";	# Databasenaam bij provider
-	$mysqlsettings["user"]="chalet-nl-usr";		# Username bij provider
-	$mysqlsettings["password"]="m9prepHaGetr";		# Password bij provider
+	$mysqlsettings["name"]["remote"]="chalet.chalet-nl.dev";	# Databasenaam bij provider
+	$mysqlsettings["user"]="chaletuser";		# Username bij provider
+	$mysqlsettings["password"]="cHekE4Rutr5t";		# Password bij provider
 	$mysqlsettings["host"]="192.168.192.45";# Hostname bij provider
 } else {
 	$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider
