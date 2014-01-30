@@ -21,7 +21,7 @@ if($_GET["testmail"]) {
 		echo "<p><b>Testmail verstuurd aan: <i>".wt_he($login->vars["email"])."</i></b></p>";
 	}
 } else {
-	echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&testmail=1")."\">Stuur een testmailtje aan <i>".wt_he($login->vars["email"])."</i> &raquo;</a> (sla eventuele wijzigingen wel eerst op)</p>";
+	echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&testmail=1")."\">Stuur een testmailtje aan <i>".wt_he($login->vars["email"])."</i> &raquo;</a> (let op: eventuele wijzigingen in de tekst worden niet opgeslagen)</p>";
 }
 
 ?>

@@ -56,6 +56,7 @@ $cms->db_field(9,"select","tonen","",array("selection"=>$vars["seizoen_tonen"]))
 $cms->db_field(9,"yesno","optietarieventonen");
 $cms->db_field(9,"yesno","optietarieven_controleren_in_cms");
 $cms->db_field(9,"yesno","verplichtekeuze_vertrekdagtype");
+$cms->db_field(9,"yesno","show_newpricesmail");
 $cms->db_field(9,"date","begin");
 $cms->db_field(9,"date","eind");
 $cms->db_field(9,"select","type","",array("selection"=>$vars["seizoentype_namen"]));
@@ -124,6 +125,8 @@ $cms->edit_field(9,1,"tonen","Zichtbaarheid",array("selection"=>1));
 $cms->edit_field(9,0,"optietarieventonen","Optietarieven van dit seizoen: tonen op de accommodatiepagina",array("selection"=>true));
 $cms->edit_field(9,0,"optietarieven_controleren_in_cms","Optie/skipas-tarieven van dit seizoen: tonen in CMS of ze zijn gevuld",array("selection"=>false));
 $cms->edit_field(9,0,"verplichtekeuze_vertrekdagtype","Bij dit seizoen is het verplicht per accommodatie een vertrekdagtype te selecteren");
+$cms->edit_field(9,0,"show_newpricesmail","Bied website-bezoekers aan een mail te ontvangen zodra prijzen van dit seizoen bekend zijn");
+
 
 
 if($vars["cmstaal"]) {

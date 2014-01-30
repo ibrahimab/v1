@@ -2105,6 +2105,17 @@ $(document).ready(function() {
 			});
 
 
+			//
+			// click on .tarieventabel_jump_jaarmaand
+			//
+			$(".tarieventabel_newpricesmail a").click(function(event) {
+
+				event.preventDefault();
+
+				$(".tarieventabel_newpricesmail_form").slideToggle();
+			});
+
+
 			// tarieventabel: meer/minder personen tonen
 			$(".tarieventabel_toggle_toon_verberg a").click(function(event) {
 
@@ -2305,6 +2316,38 @@ $(document).ready(function() {
 				faq_open_all = 1;
 			}
 		})
+
+
+		// newpricesmail
+		$(".tarieventabel_newpricesmail_form form").submit(function(event) {
+
+			event.preventDefault();
+			$(".tarieventabel_newpricesmail_form img").hide();
+			$(".tarieventabel_newpricesmail_form input[type=submit]").attr("disabled","disabled");
+
+			$("#ajaxloader_page").show();
+
+			$.getJSON(absolute_path+"rpc_json.php", {
+			"t": "newpricesmail",
+			"email": $(".tarieventabel_newpricesmail_form input[type=email]").val(),
+			"seizoen_id": $(".tarieventabel_newpricesmail_form").data("seizoen_id")
+			}, function(data) {
+				if(data.ok) {
+					$("#ajaxloader_page").hide();
+					$(".tarieventabel_newpricesmail_form input[type=submit]").removeAttr("disabled");
+				}
+				if(data.added) {
+					$(".tarieventabel_newpricesmail_form img.okay").fadeIn("slow", function() {
+						$(this).delay(2000).fadeOut("slow");
+					});
+					$(".tarieventabel_newpricesmail_form input[type=email]").val("");
+				} else {
+					$(".tarieventabel_newpricesmail_form img.notokay").fadeIn("fast", function() {
+						$(this).delay(2000).fadeOut("slow");
+					});
+				}
+			});
+		});
 	}
 
 	// slide up/down

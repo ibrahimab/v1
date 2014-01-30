@@ -48,12 +48,46 @@ class tarieventabel {
 
 		global $vars;
 
+		$db = new DB_sql;
+
 		$this->tarieven_uit_database();
 
 
 		// link to new season
 		if($this->seizoen_counter>1) {
 			$return .= "<div class=\"tarieventabel_nextseason\"><a href=\"#\" class=\"tarieventabel_jump_jaarmaand\" data-jaarmaand=\"".date("Ym", $this->seizoeninfo[$this->last_seizoen_id]["begin"])."\">".html("nualteboeken", "tarieventabel", array("v_seizoennaam"=>$this->seizoeninfo[$this->last_seizoen_id]["naam"]))." &raquo;</a></div>";
+		} else {
+			// check for seasons without prices
+			$db->query("SELECT seizoen_id, naam FROM seizoen WHERE show_newpricesmail=1 AND type='".intval($vars["seizoentype"])."' AND seizoen_id NOT IN (".$this->seizoen_id.") ORDER BY eind DESC LIMIT 0,1;");
+			if($db->next_record()) {
+				$seizoennaam_kort = trim(preg_replace("@winter@","",$db->f("naam")));
+//				Laat je emailadres achter en je ontvangt een bericht zodra deze accommodatie te boeken is voor
+				$return .= "<div class=\"tarieventabel_newpricesmail\"><a href=\"#\">".html("mailmijvolgendseizoen_button", "tarieventabel", array("v_seizoennaam"=>$seizoennaam_kort))." &raquo;</a></div>";
+
+				$return .= "<div class=\"tarieventabel_newpricesmail_form\" data-seizoen_id=\"".intval($db->f("seizoen_id"))."\">";
+				$return .= "<h1>".html("mailmijvolgendseizoen_button", "tarieventabel", array("v_seizoennaam"=>$seizoennaam_kort))."</h1>";
+				$return .= "<p>".html("mailmijvolgendseizoen_inleiding", "tarieventabel", array("v_seizoennaam"=>$db->f("naam")))."</p>";
+				$return .= "<form method=\"post\">";
+				$return .= "<label>".html("mailmijvolgendseizoen_email", "tarieventabel").":</label>";
+
+				$return .= "<input type=\"email\">";
+
+				$return .= "&nbsp;&nbsp;&nbsp;<input type=\"submit\" value=\"".html("mailmijvolgendseizoen_send", "tarieventabel")."\">";
+				$return .= "<img src=\"".$vars["path"]."pic/icon_okay.png\" class=\"okay\"><img src=\"".$vars["path"]."pic/icon_notokay.png\" class=\"notokay\">";
+
+
+				if($vars["nieuwsbrief_aanbieden"]) {
+					// [] Meld mij ook aan voor de nieuwsbrief
+				}
+
+				$return .= "</form>";
+
+				// // $return .= "<tr><td>".html("mailmijvolgendseizoeninleiding", "tarieventabel", array("v_seizoennaam"=>$db->f("naam")))."</td></tr>";
+				// $return .= "</table>";
+				$return .= "</div>"; // close
+
+
+			}
 		}
 
 		// $this->seizoeninfo[$db->f("seizoen_id")]["naam"] = $db->f("naam");

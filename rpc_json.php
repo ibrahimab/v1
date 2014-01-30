@@ -647,6 +647,17 @@ if ( $_GET["t"]==1 ) {
 			$return["foutmelding"]=html("verplichtveld","accommodatiemail");
 		}
 	}
+
+} elseif($_GET["t"]=="newpricesmail") {
+	if($_GET["seizoen_id"] and $_GET["email"]) {
+		$db->query("INSERT INTO newpricesmail SET seizoen_id='".intval($_GET["seizoen_id"])."', email='".addslashes($_GET["email"])."', adddatetime=NOW();");
+
+		$db->query("SELECT newpricesmail_id FROM newpricesmail WHERE seizoen_id='".intval($_GET["seizoen_id"])."' AND email='".addslashes($_GET["email"])."';");
+		if($db->next_record()) {
+			$return["added"] = true;
+		}
+	}
+	usleep(500000);
 }
 
 $return["ok"]=true;

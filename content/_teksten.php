@@ -2461,6 +2461,19 @@ $txt["en"]["tarieventabel"]["bekijkdeextraopties"]="Look at [[h_1]]our possibili
 $txt["nl"]["tarieventabel"]["nualteboeken"]="Nu al te boeken: [[v_seizoennaam]]";
 $txt["en"]["tarieventabel"]["nualteboeken"]="Already bookable: [[v_seizoennaam]]";
 
+$txt["nl"]["tarieventabel"]["mailmijvolgendseizoen_button"]="Mail mij over de prijzen van [[v_seizoennaam]]";
+$txt["en"]["tarieventabel"]["mailmijvolgendseizoen_button"]="";
+
+$txt["nl"]["tarieventabel"]["mailmijvolgendseizoen_inleiding"]="Laat je e-mailadres achter en je ontvangt een bericht zodra deze accommodatie te boeken is voor [[v_seizoennaam]].";
+$txt["en"]["tarieventabel"]["mailmijvolgendseizoen_inleiding"]="";
+
+$txt["nl"]["tarieventabel"]["mailmijvolgendseizoen_email"]="E-mailadres";
+$txt["en"]["tarieventabel"]["mailmijvolgendseizoen_email"]="Email address";
+
+$txt["nl"]["tarieventabel"]["mailmijvolgendseizoen_send"]="Verzenden";
+$txt["en"]["tarieventabel"]["mailmijvolgendseizoen_send"]="Send";
+
+
 $txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]], [[h_2]]chat met ons[[h_3]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
 

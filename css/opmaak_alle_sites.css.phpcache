@@ -3122,6 +3122,66 @@ nieuwe tarieventabel
 	color: #003366;
 }
 
+
+/**/
+/*newpricesmail*/
+/**/
+
+.tarieventabel_newpricesmail {
+	text-align: right;
+	margin-right: 24px;
+}
+
+.tarieventabel_newpricesmail a {
+	background-color: #003366;
+	color: #ffffff;
+	display: inline-block;
+	padding: 7px;
+	margin-bottom: 15px;
+	text-decoration: none;
+}
+
+.tarieventabel_newpricesmail a:hover {
+	background-color: #d5e1f9;
+	color: #003366;
+}
+
+.tarieventabel_newpricesmail_form {
+	display: none;
+	background-color: #d5e1f9;
+	padding: 10px;
+	border: 1px solid #003366;
+	color: #003366;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	width: 660px;
+	margin-bottom: 20px;
+}
+
+.tarieventabel_newpricesmail_form h1 {
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #003366;
+}
+
+.tarieventabel_newpricesmail_form label {
+	display: block;
+	margin-top: 1em;
+}
+
+.tarieventabel_newpricesmail_form input[type=email] {
+	margin-top: 3px;
+	width: 250px;
+}
+
+.tarieventabel_newpricesmail_form img {
+	margin-top: 4px;
+	margin-left: 15px;
+	display: none;
+}
+
+
+
 /*voor Selina*/
 .tarieventabel_tarieven_aanbieding {
 	background-color: transparent;
