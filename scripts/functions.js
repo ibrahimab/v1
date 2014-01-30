@@ -2330,6 +2330,7 @@ $(document).ready(function() {
 			$.getJSON(absolute_path+"rpc_json.php", {
 			"t": "newpricesmail",
 			"email": $(".tarieventabel_newpricesmail_form input[type=email]").val(),
+			"type_id": $(".tarieventabel_newpricesmail_form").data("type_id"),
 			"seizoen_id": $(".tarieventabel_newpricesmail_form").data("seizoen_id")
 			}, function(data) {
 				if(data.ok) {

@@ -649,10 +649,10 @@ if ( $_GET["t"]==1 ) {
 	}
 
 } elseif($_GET["t"]=="newpricesmail") {
-	if($_GET["seizoen_id"] and $_GET["email"]) {
-		$db->query("INSERT INTO newpricesmail SET seizoen_id='".intval($_GET["seizoen_id"])."', email='".addslashes($_GET["email"])."', adddatetime=NOW();");
+	if($_GET["seizoen_id"] and $_GET["type_id"] and $_GET["email"]) {
+		$db->query("INSERT INTO newpricesmail SET seizoen_id='".intval($_GET["seizoen_id"])."', type_id='".intval($_GET["type_id"])."', email='".addslashes($_GET["email"])."', adddatetime=NOW();");
 
-		$db->query("SELECT newpricesmail_id FROM newpricesmail WHERE seizoen_id='".intval($_GET["seizoen_id"])."' AND email='".addslashes($_GET["email"])."';");
+		$db->query("SELECT newpricesmail_id FROM newpricesmail WHERE seizoen_id='".intval($_GET["seizoen_id"])."' AND type_id='".intval($_GET["type_id"])."' AND email='".addslashes($_GET["email"])."';");
 		if($db->next_record()) {
 			$return["added"] = true;
 		}
