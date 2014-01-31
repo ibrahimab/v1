@@ -3,19 +3,20 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
-30-jan-2014 16:31
+31-jan-2014 16:30
 DROP TABLE IF EXISTS `newpricesmail`;
 CREATE TABLE IF NOT EXISTS `newpricesmail` (
   `newpricesmail_id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
   `type_id` int(11) NOT NULL,
   `seizoen_id` int(11) NOT NULL,
+  `website` char(1) NOT NULL,
+  `mailtekst` text,
   `sent` datetime DEFAULT NULL,
   `adddatetime` datetime NOT NULL,
   PRIMARY KEY (`newpricesmail_id`),
-  UNIQUE KEY `email` (`email`,`type_id`,`seizoen_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
+  UNIQUE KEY `email` (`email`,`type_id`,`seizoen_id`,`website`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 28-jan-2014 14:21
 ALTER TABLE `boeking_betaling` ADD INDEX (boeking_id, bedrag, type, datum);
