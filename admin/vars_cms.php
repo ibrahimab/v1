@@ -1025,7 +1025,7 @@ $vars["factuurbedrag_gecontroleerd"]=array(1=>"ja, alles klopt",2=>"nee, bedrag 
 $vars["optiecategorie"]=array(1=>"n.v.t.",2=>"bijkomende kosten verblijf",3=>"skipassen",4=>"huurmateriaal",5=>"skilessen",6=>"catering/maaltijden",7=>"vervoer",8=>"verzekeringen",9=>"aanbiedingskortingen + klachtafhandeling",20=>"borg");
 $vars["inkoopbetaling_status"]=array(1=>"onderweg",2=>"ingeboekt");
 $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nitalics: [i]tekst[/i]\n\ninterne link: [link=/accommodatie/I4529/]tekst[/link]\n\nexterne link: [link=http://www.test.com/]tekst[/link]\n\n";
-$vars["accommodatie_review_bron"]=array(1=>"door eigen klant ingevulde enquête",2=>"Posarelli");
+$vars["accommodatie_review_bron"]=array(2=>"Posarelli");
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
 $vars["soort_garantie"]=array(1=>"seizoen en bulk",2=>"op naam en losse weken");
 $vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina's",4=>"tonen op de accommodatiepagina's en bij intern gebruik het zoekformulier",3=>"tonen op de accommodatiepagina's en het zoekformulier");

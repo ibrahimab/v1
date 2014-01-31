@@ -356,7 +356,13 @@ if($db->next_record()) {
 			}
 		}
 
-		$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND vraag1_7>0 AND beoordeeld=1 GROUP BY type_id;");
+		if($vars["websitetype"]==7) {
+			// Italissima: combine reviews from other types of the same accommodation
+			$db2->query("SELECT AVG(be.vraag1_7) AS totaaloordeel, COUNT(be.type_id) AS aantal FROM boeking_enquete be, type t WHERE t.accommodatie_id='".intval($db->f("accommodatie_id"))."' AND be.type_id=t.type_id AND be.vraag1_7>0 AND be.beoordeeld=1 GROUP BY t.accommodatie_id;");
+		} else {
+			// Other sites: only show reviews from this type
+			$db2->query("SELECT AVG(vraag1_7) AS totaaloordeel, COUNT(type_id) AS aantal FROM boeking_enquete WHERE type_id='".addslashes($typeid)."' AND vraag1_7>0 AND beoordeeld=1 GROUP BY type_id;");
+		}
 		if($db2->next_record()) {
 			$review["counter"] += $db2->f("aantal");
 			$review["counter_enquete"] = $db2->f("aantal");

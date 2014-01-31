@@ -14,17 +14,26 @@ while($db->next_record()) {
 
 }
 
-// echo wt_dump($enquete);
+// echo wt_dump($accinfo["accommodatie_id"]);
 // exit;
 
-$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel FROM boeking_enquete be, view_accommodatie v WHERE be.vraag1_7>0 AND be.type_id='".intval($_GET["typeid"])."' AND be.beoordeeld=1 AND v.type_id=be.type_id AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 GROUP BY be.type_id;");
+if($vars["websitetype"]==7) {
+	// Italissima: combine reviews from other types of the same accommodation
+	$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel, COUNT(be.type_id) AS aantal FROM boeking_enquete be, type t WHERE t.accommodatie_id='".intval($accinfo["accommodatie_id"])."' AND be.type_id=t.type_id AND be.vraag1_7>0 AND be.beoordeeld=1 GROUP BY t.accommodatie_id;");
+// echo $db->lq;
+} else {
+	// Other sites: only show reviews from this type
+	$db->query("SELECT AVG(be.vraag1_7) AS totaaloordeel FROM boeking_enquete be, view_accommodatie v WHERE be.vraag1_7>0 AND be.type_id='".intval($_GET["typeid"])."' AND be.beoordeeld=1 AND v.type_id=be.type_id AND v.atonen=1 AND v.ttonen=1 AND v.archief=0 GROUP BY be.type_id;");
+}
 
 if($db->next_record()) {
 	$totaaloordeel=$db->f("totaaloordeel");
 
-
-
-	$db->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7 FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
+	if($vars["websitetype"]==7) {
+		$db->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7, t.naam, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.accommodatie_id='".intval($accinfo["accommodatie_id"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
+	} else {
+		$db->query("SELECT b.boeking_id, b.aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7 FROM boeking_enquete be, boeking b, type t WHERE b.type_id=t.type_id AND be.boeking_id=b.boeking_id AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY b.aankomstdatum_exact DESC, b.boeking_id;");
+	}
 	while($db->next_record()) {
 		$beoordeling_aantalbeoordelingen++;
 		$enquete[$db->f("boeking_id")]["aankomstdatum_exact"]=$db->f("aankomstdatum_exact");
@@ -35,7 +44,16 @@ if($db->next_record()) {
 				$enquete[$db->f("boeking_id")][$i]=$db->f("vraag1_".$i);
 			}
 		}
+		if($vars["websitetype"]==7) {
+			$enquete[$db->f("boeking_id")]["type_naam"]=$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".txt("pers");
+			if($db->f("naam")) {
+				$enquete[$db->f("boeking_id")]["type_naam"] = trim($db->f("naam")." (".$enquete[$db->f("boeking_id")]["type_naam"].")");
+			}
+		}
 	}
+
+// echo wt_dump($enquete);
+// exit;
 
 	// Get Interhome imported customer feedback
 	$db->query("SELECT UNIX_TIMESTAMP(be.aankomstdatum_exact) as aankomstdatum_exact, be.websitetekst_gewijzigd, be.websitetekst_naam, be.vraag1_1, be.vraag1_2, be.vraag1_3, be.vraag1_4, be.vraag1_5, be.vraag1_6, be.vraag1_7, be.hash FROM boeking_enquete be, type t WHERE be.type_id=t.type_id AND be.boeking_id IS NULL AND t.type_id='".intval($_GET["typeid"])."' AND be.vraag1_7>0 AND be.beoordeeld=1 ORDER BY be.aankomstdatum_exact DESC;");
@@ -120,6 +138,9 @@ if(is_array($enquete)) {
 			if($value[7] and $vars["websitetype"]<>7) {
 				echo "<b>".html("totaaloordeel","beoordelingen").": ".$value[7]."</b>";
 				echo " - ";
+			}
+			if($value["type_naam"]) {
+				echo html("type","beoordelingen").": ".wt_he($value["type_naam"])." - ";
 			}
 			echo html("aankomst","beoordelingen").": ".DATUM("MAAND JJJJ",$value["aankomstdatum_exact"],$vars["taal"]);
 

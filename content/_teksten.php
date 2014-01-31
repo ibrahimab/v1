@@ -2187,6 +2187,8 @@ $txt["en"]["beoordelingen"]["toelichting"]="notes";
 $txt["nl"]["beoordelingen"]["geencijfers"]="Er zijn geen cijfers ingevuld.";
 $txt["en"]["beoordelingen"]["geencijfers"]="There are no votes recorded.";
 
+$txt["nl"]["beoordelingen"]["type"]="type";
+$txt["en"]["beoordelingen"]["type"]="type";
 
 
 #
