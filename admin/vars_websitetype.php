@@ -585,6 +585,7 @@ $vars["websiteinfo"]["websiteland"]["W"]="nl";
 $vars["websiteinfo"]["taal"]["W"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["W"]=false;
 $vars["websiteinfo"]["livechat_code"]["W"]=false;
+$vars["websiteinfo"]["seizoentype"]["W"]=1;
 
 $vars["websiteinfo"]["websitenaam"]["E"]="Chalet.eu";
 $vars["websiteinfo"]["langewebsitenaam"]["E"]="Chalet.nl B.V. / Chalet.eu";
@@ -597,6 +598,7 @@ $vars["websiteinfo"]["websiteland"]["E"]="en";
 $vars["websiteinfo"]["taal"]["E"]="en";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["E"]=false;
 $vars["websiteinfo"]["livechat_code"]["E"]=false;
+$vars["websiteinfo"]["seizoentype"]["E"]=1;
 
 $vars["websiteinfo"]["websitenaam"]["Z"]="Zomerhuisje.nl";
 $vars["websiteinfo"]["langewebsitenaam"]["Z"]="Chalet.nl B.V. / Zomerhuisje.nl";
@@ -609,6 +611,7 @@ $vars["websiteinfo"]["websiteland"]["Z"]="nl";
 $vars["websiteinfo"]["taal"]["Z"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["Z"]=false;
 $vars["websiteinfo"]["livechat_code"]["Z"]=false;
+$vars["websiteinfo"]["seizoentype"]["Z"]=2;
 
 $vars["websiteinfo"]["websitenaam"]["S"]="Chalet.eu";
 $vars["websiteinfo"]["langewebsitenaam"]["S"]="Chalet.nl B.V. / Chalet.eu";
@@ -620,6 +623,7 @@ $vars["websiteinfo"]["websiteland"]["S"]="en";
 $vars["websiteinfo"]["taal"]["S"]="en";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["S"]=false;
 $vars["websiteinfo"]["livechat_code"]["S"]=false;
+$vars["websiteinfo"]["seizoentype"]["S"]=2;
 
 $vars["websiteinfo"]["websitenaam"]["T"]="Chalettour.nl";
 $vars["websiteinfo"]["langewebsitenaam"]["T"]="Chalet.nl B.V. / Chalettour.nl";
@@ -632,6 +636,7 @@ $vars["websiteinfo"]["websiteland"]["T"]="nl";
 $vars["websiteinfo"]["taal"]["T"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["T"]=false;
 $vars["websiteinfo"]["livechat_code"]["T"]=false;
+$vars["websiteinfo"]["seizoentype"]["T"]=1;
 
 $vars["websiteinfo"]["websitenaam"]["O"]="Chalettour.nl";
 $vars["websiteinfo"]["langewebsitenaam"]["O"]="Chalet.nl B.V. / Chalettour.nl";
@@ -644,6 +649,7 @@ $vars["websiteinfo"]["websiteland"]["O"]="nl";
 $vars["websiteinfo"]["taal"]["O"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["O"]=false;
 $vars["websiteinfo"]["livechat_code"]["O"]=false;
+$vars["websiteinfo"]["seizoentype"]["O"]=2;
 
 $vars["websiteinfo"]["websitenaam"]["B"]="Chalet.be";
 $vars["websiteinfo"]["langewebsitenaam"]["B"]="Chalet.nl B.V. / Chalet.be";
@@ -655,6 +661,7 @@ $vars["websiteinfo"]["websiteland"]["B"]="be";
 $vars["websiteinfo"]["taal"]["B"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["B"]=true;
 $vars["websiteinfo"]["livechat_code"]["B"]="3-eex4-wCgtM";
+$vars["websiteinfo"]["seizoentype"]["B"]=1;
 
 $vars["websiteinfo"]["websitenaam"]["N"]="Zomerhuisje.eu";
 $vars["websiteinfo"]["langewebsitenaam"]["N"]="Chalet.nl B.V. / Zomerhuisje.eu";
@@ -666,6 +673,7 @@ $vars["websiteinfo"]["websiteland"]["N"]="be";
 $vars["websiteinfo"]["taal"]["N"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["N"]=false;
 $vars["websiteinfo"]["livechat_code"]["N"]=false;
+$vars["websiteinfo"]["seizoentype"]["N"]=2;
 
 $vars["websiteinfo"]["websitenaam"]["V"]="Chalets in Vallandry";
 $vars["websiteinfo"]["langewebsitenaam"]["V"]="Chalets in Vallandry";
@@ -678,6 +686,7 @@ $vars["websiteinfo"]["websiteland"]["V"]="nl";
 $vars["websiteinfo"]["taal"]["V"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["V"]=false;
 $vars["websiteinfo"]["livechat_code"]["V"]=false;
+$vars["websiteinfo"]["seizoentype"]["V"]=1;
 
 $vars["websiteinfo"]["websitenaam"]["Q"]="Chalets in Vallandry";
 $vars["websiteinfo"]["langewebsitenaam"]["Q"]="Chalets in Vallandry";
@@ -690,6 +699,7 @@ $vars["websiteinfo"]["websiteland"]["Q"]="en";
 $vars["websiteinfo"]["taal"]["Q"]="en";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["Q"]=false;
 $vars["websiteinfo"]["livechat_code"]["Q"]=false;
+$vars["websiteinfo"]["seizoentype"]["Q"]=1;
 
 $vars["websiteinfo"]["websitenaam"]["I"]="Italissima";
 $vars["websiteinfo"]["langewebsitenaam"]["I"]="Chalet.nl B.V. / Italissima";
@@ -702,6 +712,7 @@ $vars["websiteinfo"]["websiteland"]["I"]="nl";
 $vars["websiteinfo"]["taal"]["I"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["I"]=true;
 $vars["websiteinfo"]["livechat_code"]["I"]=false;
+$vars["websiteinfo"]["seizoentype"]["I"]=2;
 
 $vars["websiteinfo"]["websitenaam"]["K"]="Italissima";
 $vars["websiteinfo"]["langewebsitenaam"]["K"]="Chalet.nl B.V. / Italissima";
@@ -714,6 +725,7 @@ $vars["websiteinfo"]["websiteland"]["K"]="be";
 $vars["websiteinfo"]["taal"]["K"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["K"]=true;
 $vars["websiteinfo"]["livechat_code"]["K"]=false;
+$vars["websiteinfo"]["seizoentype"]["K"]=2;
 
 $vars["websiteinfo"]["websitenaam"]["X"]="Venturasol Vacances";
 $vars["websiteinfo"]["langewebsitenaam"]["X"]="Venturasol Vacances";
@@ -726,6 +738,7 @@ $vars["websiteinfo"]["websiteland"]["X"]="nl";
 $vars["websiteinfo"]["taal"]["X"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["X"]=false;
 $vars["websiteinfo"]["livechat_code"]["X"]=false;
+$vars["websiteinfo"]["seizoentype"]["X"]=1;
 
 $vars["websiteinfo"]["websitenaam"]["Y"]="Venturasol Vacances";
 $vars["websiteinfo"]["langewebsitenaam"]["Y"]="Venturasol Vacances";
@@ -738,6 +751,7 @@ $vars["websiteinfo"]["websiteland"]["Y"]="nl";
 $vars["websiteinfo"]["taal"]["Y"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["Y"]=false;
 $vars["websiteinfo"]["livechat_code"]["Y"]=false;
+$vars["websiteinfo"]["seizoentype"]["Y"]=1;
 
 $vars["websiteinfo"]["websitenaam"]["C"]="Chalet.nl";
 $vars["websiteinfo"]["langewebsitenaam"]["C"]="Chalet.nl B.V.";
@@ -749,6 +763,7 @@ $vars["websiteinfo"]["websiteland"]["C"]="nl";
 $vars["websiteinfo"]["taal"]["C"]="nl";
 $vars["websiteinfo"]["nieuwsbrief_aanbieden"]["C"]=true;
 $vars["websiteinfo"]["livechat_code"]["C"]="2-PTFmcHUgtM";
+$vars["websiteinfo"]["seizoentype"]["C"]=1;
 
 # Diverse vars
 

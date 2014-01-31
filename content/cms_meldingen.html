@@ -503,11 +503,20 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[15]]["mailen"]["bestaandeklanten"]) {
 		$huidigeseizoen=$db->f("winter_huidig_seizoen_id").",".$db->f("zomer_huidig_seizoen_id");
 	}
 #	$db->query("SELECT DISTINCT b.boekingsnummer, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_klanten_vorig_seizoen, bp.voornaam, bp.tussenvoegsel, bp.achternaam, a.naam, p.naam AS plaats, l.begincode, a.accommodatie_id, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, skigebied s, tarief ta WHERE b.mailblokkeren_klanten_vorig_seizoen=0 AND ta.type_id=t.type_id AND ta.seizoen_id IN (".$huidigeseizoen.") AND (ta.bruto>0 OR ta.c_bruto>0) AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.seizoen_id IN (".$vorigeseizoen.") AND b.mailverstuurd_klanten_vorig_seizoen IS NULL AND b.mailverbergen_klanten_vorig_seizoen=0 ORDER BY p.naam, a.naam, t.optimaalaantalpersonen, a.accommodatie_id, b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
-	$wherequery=" AND (b.status_vanaf_klanten_vorig_seizoen IS NULL OR UNIX_TIMESTAMP(status_vanaf_klanten_vorig_seizoen)<='".mktime(0,0,0,date("m"),date("d"),date("Y"))."') AND (b.status_klanten_vorig_seizoen=0 OR b.status_klanten_vorig_seizoen=3)";
-	$db->query("SELECT DISTINCT b.boekingsnummer, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_klanten_vorig_seizoen, b.mailblokkeren_klanten_vorig_seizoen, b.opmerkingen_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd_klanten_vorig_seizoen) AS mailverstuurd_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd2_klanten_vorig_seizoen) AS mailverstuurd2_klanten_vorig_seizoen, b.status_klanten_vorig_seizoen, bp.voornaam, bp.tussenvoegsel, bp.achternaam, a.internenaam AS naam, p.naam AS plaats, l.begincode, a.accommodatie_id, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, skigebied s, tarief ta WHERE ta.type_id=t.type_id AND ta.seizoen_id IN (".$huidigeseizoen.") AND (ta.bruto>0 OR ta.c_bruto>0) AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.seizoen_id IN (".$vorigeseizoen.") AND b.mailverbergen_klanten_vorig_seizoen=0 AND b.mailblokkeren_klanten_vorig_seizoen=0".$wherequery.";");
 
-	if($db->num_rows()) {
-		echo "\n<hr><span><b>Er zijn te verzenden <a href=\"cms_mail_klanten_vorig_seizoen.php?status=2\">mailtjes bestaande klanten m.b.t. volgend seizoen</a> (".$db->num_rows().").</b></span>";
+	$aantal = 0;
+	$wherequery=" AND (b.status_vanaf_klanten_vorig_seizoen IS NULL OR UNIX_TIMESTAMP(status_vanaf_klanten_vorig_seizoen)<='".mktime(0,0,0,date("m"),date("d"),date("Y"))."') AND (b.status_klanten_vorig_seizoen=0 OR b.status_klanten_vorig_seizoen=3)";
+	$db->query("SELECT COUNT(DISTINCT(b.boeking_id)) AS aantal FROM boeking b, accommodatie a, type t, plaats p, land l, skigebied s, tarief ta WHERE ta.type_id=t.type_id AND ta.seizoen_id IN (".$huidigeseizoen.") AND (ta.bruto>0 OR ta.c_bruto>0) AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.seizoen_id IN (".$vorigeseizoen.") AND b.mailverbergen_klanten_vorig_seizoen=0 AND b.mailblokkeren_klanten_vorig_seizoen=0".$wherequery.";");
+	if($db->next_record()) {
+		$aantal = $aantal + $db->f("aantal");
+	}
+
+	$db->query("SELECT DISTINCT COUNT(DISTINCT(np.newpricesmail_id)) AS aantal FROM newpricesmail np, tarief ta WHERE ta.type_id=np.type_id AND np.seizoen_id IN (".$huidigeseizoen.") AND (ta.bruto>0 OR ta.c_bruto>0) AND np.seizoen_id=ta.seizoen_id AND np.sent IS NULL;");
+	if($db->next_record()) {
+		$aantal = $aantal + $db->f("aantal");
+	}
+	if($aantal) {
+		echo "\n<hr><span><b>Er zijn te verzenden <a href=\"cms_mail_klanten_vorig_seizoen.php?status=2\">mailtjes bestaande klanten m.b.t. volgend seizoen</a> (".$aantal.").</b></span>";
 	}
 }
 

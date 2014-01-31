@@ -29,6 +29,12 @@ if($_GET["id"]=="cms_mail_klanten_vorig_seizoen_bewerken" and isset($_POST["mail
 	exit;
 }
 
+if($_GET["id"]=="cms_mail_klanten_vorig_seizoen_bewerken" and isset($_POST["mailtekst"]) and $_GET["newpricesmail_id"]) {
+	$db->query("UPDATE newpricesmail SET mailtekst='".addslashes($_POST["mailtekst"])."' WHERE newpricesmail_id='".intval($_GET["newpricesmail_id"])."';");
+	echo "<html><body onload=\"window.opener.document.getElementById('bewerk_np_".$_GET["newpricesmail_id"]."').style.display='inline';self.close();\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</body></html>";
+	exit;
+}
+
 #if($vars["websitetype"]==1) {
 #	$bordercolor="#0D3E88";
 #	$rood="#D3033A";

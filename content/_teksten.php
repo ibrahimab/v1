@@ -437,6 +437,14 @@ Alvast veel vakantie-voorpret toegewenst!
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="-";
 
 
+$txt["nl"]["vars"]["newpricesmail_1"] = "Beste geïnteresseerde,\n\nOp [WEBSITE] heb je aangegeven bericht te willen ontvangen zodra de prijzen van [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] voor het winterseizoen van [SEIZOEN] bekend zijn.\n\nBij deze willen we je laten weten dat deze prijzen nu online staan en de accommodatie geboekt kan worden.\n\nElk jaar constateren we dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.\n\nAlvast veel vakantie-voorpret toegewenst!\n\n[ondertekening]";
+$txt["en"]["vars"]["newpricesmail_1"] = "";
+
+$txt["nl"]["vars"]["newpricesmail_2"] = "";
+$txt["en"]["vars"]["newpricesmail_2"] = "";
+
+
+
 #
 # Popup.php
 #
@@ -2462,10 +2470,10 @@ $txt["nl"]["tarieventabel"]["nualteboeken"]="Nu al te boeken: [[v_seizoennaam]]"
 $txt["en"]["tarieventabel"]["nualteboeken"]="Already bookable: [[v_seizoennaam]]";
 
 $txt["nl"]["tarieventabel"]["mailmijvolgendseizoen_button"]="Mail mij over de prijzen van [[v_seizoennaam]]";
-$txt["en"]["tarieventabel"]["mailmijvolgendseizoen_button"]="";
+$txt["en"]["tarieventabel"]["mailmijvolgendseizoen_button"]="E-mail me about the [[v_seizoennaam]] prices";
 
 $txt["nl"]["tarieventabel"]["mailmijvolgendseizoen_inleiding"]="Laat je e-mailadres achter en je ontvangt een bericht zodra deze accommodatie te boeken is voor [[v_seizoennaam]].";
-$txt["en"]["tarieventabel"]["mailmijvolgendseizoen_inleiding"]="";
+$txt["en"]["tarieventabel"]["mailmijvolgendseizoen_inleiding"]="Leave your e-mail address to be notified once this accommodation can be booked for [[v_seizoennaam]].";
 
 $txt["nl"]["tarieventabel"]["mailmijvolgendseizoen_email"]="E-mailadres";
 $txt["en"]["tarieventabel"]["mailmijvolgendseizoen_email"]="Email address";
