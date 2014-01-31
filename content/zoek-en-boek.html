@@ -237,7 +237,7 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[3]["addwhere"][53][]="a.soortaccommodatie=7";
 		$keuzeopsomming[3]["addwhere"][54][]="a.soortaccommodatie=8";
 		$keuzeopsomming[3]["addwhere"][55][]="a.soortaccommodatie=9";
-		$keuzeopsomming[3]["addwhere"][56][]="a.soortaccommodatie=10";
+		$keuzeopsomming[3]["addwhere"][56][]="(a.soortaccommodatie=10 OR a.kenmerken REGEXP '[[:<:]]41[[:>:]]')";
 		$keuzeopsomming[3]["addwhere"][57][]="a.soortaccommodatie=11";
 		$keuzeopsomming[3]["addwhere"][58][]="(t.kenmerken REGEXP '[[:<:]]2[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]22[[:>:]]' OR t.kenmerken REGEXP '[[:<:]]15[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]27[[:>:]]')";
 
@@ -396,28 +396,15 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[1]["name"]="ligging";
 		$keuzeopsomming[1]["verfijndname"]="kenmerken";
 		$keuzeopsomming[1]["getname"]="vf_kenm";
-		if($vars["websitetype"]==7) {
-			# andere keuzes bij Italissima
-			$keuzeopsomming[1]["fields"]=array(
-				"zwemwater"=>1,
-				"golfbaan"=>2,
-				"tennisbaan10km"=>3,
-				"paardrijden"=>4,
-				"centrumloopafstand"=>36,
-				"indebergen"=>5,
-				"wijnstreek"=>6,
-				"opeenvakantiepark"=>7,
-			);
-		} else {
-			$keuzeopsomming[1]["fields"]=array(
-				"zwemwater"=>1,
-				"golfbaan"=>2,
-				"tennisbaan10km"=>3,
-				"paardrijden"=>4,
-				"centrumloopafstand"=>36,
-				"opeenvakantiepark"=>7,
-			);
-		}
+		$keuzeopsomming[1]["fields"]=array(
+			"zwemwater"=>1,
+			"golfbaan"=>2,
+			"tennisbaan10km"=>3,
+			"paardrijden"=>4,
+			"centrumloopafstand"=>36,
+			"opeenvakantiepark"=>7,
+		);
+
 		$keuzeopsomming[1]["addwhere"][1][]="(a.kenmerken REGEXP '[[:<:]]16[[:>:]]' OR p.kenmerken REGEXP '[[:<:]]7[[:>:]]')";
 		$keuzeopsomming[1]["addwhere"][2][]="(a.kenmerken REGEXP '[[:<:]]2[[:>:]]' OR p.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
 		$keuzeopsomming[1]["addwhere"][3][]="(a.kenmerken REGEXP '[[:<:]]29[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]19[[:>:]]')";
@@ -451,21 +438,12 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[3]["name"]="soortaccommodatie";
 		$keuzeopsomming[3]["verfijndname"]="kenmerken";
 		$keuzeopsomming[3]["getname"]="vf_kenm";
-		if($vars["websitetype"]==7) {
-			# andere keuzes bij Italissima
-			$keuzeopsomming[3]["fields"]=array(
-				"vrijstaandhuis"=>12,
-				"vrijstaandhuismetmeerdere"=>13,
-				"geschakeldewoning"=>14,
-				"agriturismo"=>38
-			);
-		} else {
-			$keuzeopsomming[3]["fields"]=array(
-				"vrijstaandhuis"=>12,
-				"vrijstaandhuismetmeerdere"=>13,
-				"geschakeldewoning"=>14
-			);
-		}
+		$keuzeopsomming[3]["fields"]=array(
+			"vrijstaandhuis"=>12,
+			"vrijstaandhuismetmeerdere"=>13,
+			"geschakeldewoning"=>14
+		);
+
 		$keuzeopsomming[3]["addwhere"][12][]="(t.kenmerken REGEXP '[[:<:]]2[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]22[[:>:]]')";
 		$keuzeopsomming[3]["addwhere"][13][]="(t.kenmerken REGEXP '[[:<:]]15[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]27[[:>:]]')";
 		$keuzeopsomming[3]["addwhere"][14][]="(t.kenmerken REGEXP '[[:<:]]14[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]23[[:>:]]')";
@@ -508,38 +486,19 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[6]["name"]="themas";
 		$keuzeopsomming[6]["verfijndname"]="kenmerken";
 		$keuzeopsomming[6]["getname"]="vf_kenm";
-		if($vars["websitetype"]==7) {
-			# andere keuzes bij Italissima
-			$keuzeopsomming[6]["fields"]=array(
-				"vleugjewellness"=>24,
-				"huisjemetzwembad"=>32,
-				"metznallen"=>28,
-				"vakantieparken"=>33,
-				"bijzonder"=>22,
-				"topselectie"=>25,
-				"huisjevoor2"=>27,
-				"greenfeeproof"=>29,
-				"goedvoorkids"=>21,
-				"actiefindebergen"=>30,
-				"stekjebijhetwater"=>31,
-				"boerderij"=>34,
-				"wijndomein"=>35
-		#		"voordeligweg"=>26,
-			);
-		} else {
-			$keuzeopsomming[6]["fields"]=array(
-				"vleugjewellness"=>24,
-				"metznallen"=>28,
-				"vakantieparken"=>33,
-				"bijzonder"=>22,
-				"topselectie"=>25,
-				"huisjevoor2"=>27,
-				"greenfeeproof"=>29,
-				"goedvoorkids"=>21,
-				"stekjebijhetwater"=>31,
-				"boerderij"=>34
-			);
-		}
+		$keuzeopsomming[6]["fields"]=array(
+			"vleugjewellness"=>24,
+			"metznallen"=>28,
+			"vakantieparken"=>33,
+			"bijzonder"=>22,
+			"topselectie"=>25,
+			"huisjevoor2"=>27,
+			"greenfeeproof"=>29,
+			"goedvoorkids"=>21,
+			"stekjebijhetwater"=>31,
+			"boerderij"=>34
+		);
+
 		$keuzeopsomming[6]["addwhere"][21][]="(t.kenmerken REGEXP '[[:<:]]5[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]5[[:>:]]')";
 		$keuzeopsomming[6]["addwhere"][22][]="(t.kenmerken REGEXP '[[:<:]]16[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]28[[:>:]]')";
 		$keuzeopsomming[6]["addwhere"][23][]="(a.kenmerken REGEXP '[[:<:]]17[[:>:]]' OR p.kenmerken REGEXP '[[:<:]]8[[:>:]]' OR s.kenmerken REGEXP '[[:<:]]5[[:>:]]')";
@@ -561,33 +520,20 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[7]["name"]="afstandvanafutrecht";
 		$keuzeopsomming[7]["verfijndname"]="afstandvanafutrecht";
 		$keuzeopsomming[7]["getname"]="vf_afst";
-		if($vars["websitetype"]==7) {
-			# andere keuzes bij Italissima
-			$keuzeopsomming[7]["fields"]=array(
-				"tot1250"=>1,
-				"12501500"=>2,
-				"meerdan1500"=>3
-			);
-			$keuzeopsomming[7]["addwhere"][1][]="p.afstandtotutrecht>0";
-			$keuzeopsomming[7]["addwhere"][1][]="p.afstandtotutrecht<=1250";
-			$keuzeopsomming[7]["addwhere"][2][]="p.afstandtotutrecht>1250";
-			$keuzeopsomming[7]["addwhere"][2][]="p.afstandtotutrecht<=1500";
-			$keuzeopsomming[7]["addwhere"][3][]="p.afstandtotutrecht>1500";
-		} else {
-			$keuzeopsomming[7]["fields"]=array(
-				"tot600"=>1,
-				"6001000"=>2,
-				"10001500"=>3,
-				"meerdan1500"=>4
-			);
-			$keuzeopsomming[7]["addwhere"][1][]="p.afstandtotutrecht>0";
-			$keuzeopsomming[7]["addwhere"][1][]="p.afstandtotutrecht<=600";
-			$keuzeopsomming[7]["addwhere"][2][]="p.afstandtotutrecht>600";
-			$keuzeopsomming[7]["addwhere"][2][]="p.afstandtotutrecht<=1000";
-			$keuzeopsomming[7]["addwhere"][3][]="p.afstandtotutrecht>1000";
-			$keuzeopsomming[7]["addwhere"][3][]="p.afstandtotutrecht<=1500";
-			$keuzeopsomming[7]["addwhere"][4][]="p.afstandtotutrecht>1500";
-		}
+		$keuzeopsomming[7]["fields"]=array(
+			"tot600"=>1,
+			"6001000"=>2,
+			"10001500"=>3,
+			"meerdan1500"=>4
+		);
+		$keuzeopsomming[7]["addwhere"][1][]="p.afstandtotutrecht>0";
+		$keuzeopsomming[7]["addwhere"][1][]="p.afstandtotutrecht<=600";
+		$keuzeopsomming[7]["addwhere"][2][]="p.afstandtotutrecht>600";
+		$keuzeopsomming[7]["addwhere"][2][]="p.afstandtotutrecht<=1000";
+		$keuzeopsomming[7]["addwhere"][3][]="p.afstandtotutrecht>1000";
+		$keuzeopsomming[7]["addwhere"][3][]="p.afstandtotutrecht<=1500";
+		$keuzeopsomming[7]["addwhere"][4][]="p.afstandtotutrecht>1500";
+
 	}
 }
 
@@ -1797,11 +1743,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$verfijnd["kenmerken"][14]++;
 					}
 
-					# Verfijnd zoeken: agriturismo
-					if(check_kenmerken($db->f("akenmerken"),41)) {
-						$verfijnd["kenmerken"][38]++;
-					}
-
 					# Verfijnd zoeken: kleinschaligvakantiepark
 					if(check_kenmerken($db->f("akenmerken"),24)) {
 						$verfijnd["kenmerken"][48]++;
@@ -1832,8 +1773,8 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$verfijnd["kenmerken"][55]++;
 					}
 
-					# Verfijnd zoeken: agriturismo (veld soortaccommodatie)
-					if($db->f("soortaccommodatie")==10) {
+					# Verfijnd zoeken: agriturismo (veld soortaccommodatie + akenmerken==41)
+					if($db->f("soortaccommodatie")==10 or check_kenmerken($db->f("akenmerken"),41)) {
 						$verfijnd["kenmerken"][56]++;
 					}
 
