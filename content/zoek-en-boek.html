@@ -958,6 +958,10 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 
 	if($vars["flexibel_toegestaan"] and $_GET["fadf_d"] and $_GET["fadf_m"] and $_GET["fadf_y"]) {
+
+
+		// Italissima verblijfsduur
+
 		$flex_aankomstdatum=mktime(0,0,0,$_GET["fadf_m"],$_GET["fadf_d"],$_GET["fadf_y"]);
 
 		// bij geen verblijfsduur: uitgaan van verblijfsduur van 1 week
@@ -991,6 +995,16 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 			$_GET["fad"]=$flex_aankomstdatum;
 			$gekozen["fdu"]=floor($aantalnachten/7);
 			unset($flex_aankomstdatum);
+		}
+	} elseif($vars["seizoentype"]==2) {
+
+		// Zomerhuisje verblijfsduur
+
+		// bij geen verblijfsduur: uitgaan van verblijfsduur van 1 week
+		if($_GET["fdu"]) {
+			$gekozen["fdu"]=$_GET["fdu"];
+		} else {
+			$gekozen["fdu"]=1;
 		}
 	}
 
