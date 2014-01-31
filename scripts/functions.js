@@ -2105,17 +2105,6 @@ $(document).ready(function() {
 			});
 
 
-			//
-			// click on .tarieventabel_jump_jaarmaand
-			//
-			$(".tarieventabel_newpricesmail a").click(function(event) {
-
-				event.preventDefault();
-
-				$(".tarieventabel_newpricesmail_form").slideToggle();
-			});
-
-
 			// tarieventabel: meer/minder personen tonen
 			$(".tarieventabel_toggle_toon_verberg a").click(function(event) {
 
@@ -2319,6 +2308,13 @@ $(document).ready(function() {
 
 
 		// newpricesmail
+		$(".tarieventabel_newpricesmail a").click(function(event) {
+
+			event.preventDefault();
+
+			$(".tarieventabel_newpricesmail_form").slideToggle();
+		});
+
 		$(".tarieventabel_newpricesmail_form form").submit(function(event) {
 
 			event.preventDefault();
@@ -2340,6 +2336,10 @@ $(document).ready(function() {
 				if(data.added) {
 					$(".tarieventabel_newpricesmail_form img.okay").fadeIn("slow", function() {
 						$(this).delay(2000).fadeOut("slow");
+
+						// event naar Analytics sturen
+						event_naar_analytics_sturen("bezoekers-acties", "mail mij over prijzen nieuw seizoen", $(".tarieventabel_newpricesmail_form").data("seizoen_name"));
+
 					});
 					$(".tarieventabel_newpricesmail_form input[type=email]").val("");
 				} else {
