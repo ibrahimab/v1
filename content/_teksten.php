@@ -438,10 +438,10 @@ $txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]=
 
 
 $txt["nl"]["vars"]["newpricesmail_1"] = "Beste geïnteresseerde,\n\nOp [WEBSITE] heb je aangegeven bericht te willen ontvangen zodra de prijzen van [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] voor het winterseizoen van [SEIZOEN] bekend zijn.\n\nBij deze willen we je laten weten dat deze prijzen nu online staan en de accommodatie geboekt kan worden.\n\nElk jaar constateren we dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.\n\nAlvast veel vakantie-voorpret toegewenst!\n\n[ondertekening]";
-$txt["en"]["vars"]["newpricesmail_1"] = "";
+$txt["en"]["vars"]["newpricesmail_1"] = "Hello,\n\nOn [WEBSITE] you asked to be notified once the prices of [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] for the [SEIZOEN] winter season would be known.\n\nWe would like to inform you that the prices are published, so the accommodation can now be booked.\n\nEvery year we find that the bigger accommodations are very popular, and thus are booked early on each year. This is especially true for the Christmas break and half-term vacation. These weeks are already in high demand, so we recommend not waiting too long to start your search.\n\nWe wish you a lot of fun in finding something suitable!\n\n[ondertekening]";
 
 $txt["nl"]["vars"]["newpricesmail_2"] = "Beste geïnteresseerde,\n\nOp [WEBSITE] heb je aangegeven bericht te willen ontvangen zodra de prijzen van [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] voor het zomerseizoen van [SEIZOEN] bekend zijn.\n\nBij deze willen we je laten weten dat deze prijzen nu online staan en de accommodatie geboekt kan worden.\n\nAlvast veel vakantie-voorpret toegewenst!\n\n[ondertekening]";
-$txt["en"]["vars"]["newpricesmail_2"] = "-";
+$txt["en"]["vars"]["newpricesmail_2"] = "Hello,\n\nOn [WEBSITE] you asked to be notified once the prices of [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] for the [SEIZOEN] winter season would be known.\n\nWe would like to inform you that the prices are published, so the accommodation can now be booked.\n\nWe wish you a lot of fun in finding something suitable!\n\n[ondertekening]";
 
 
 
