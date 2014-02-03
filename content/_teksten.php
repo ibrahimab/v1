@@ -440,8 +440,8 @@ $txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]=
 $txt["nl"]["vars"]["newpricesmail_1"] = "Beste geïnteresseerde,\n\nOp [WEBSITE] heb je aangegeven bericht te willen ontvangen zodra de prijzen van [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] voor het winterseizoen van [SEIZOEN] bekend zijn.\n\nBij deze willen we je laten weten dat deze prijzen nu online staan en de accommodatie geboekt kan worden.\n\nElk jaar constateren we dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.\n\nAlvast veel vakantie-voorpret toegewenst!\n\n[ondertekening]";
 $txt["en"]["vars"]["newpricesmail_1"] = "";
 
-$txt["nl"]["vars"]["newpricesmail_2"] = "";
-$txt["en"]["vars"]["newpricesmail_2"] = "";
+$txt["nl"]["vars"]["newpricesmail_2"] = "Beste geïnteresseerde,\n\nOp [WEBSITE] heb je aangegeven bericht te willen ontvangen zodra de prijzen van [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] voor het zomerseizoen van [SEIZOEN] bekend zijn.\n\nBij deze willen we je laten weten dat deze prijzen nu online staan en de accommodatie geboekt kan worden.\n\nAlvast veel vakantie-voorpret toegewenst!\n\n[ondertekening]";
+$txt["en"]["vars"]["newpricesmail_2"] = "-";
 
 
 

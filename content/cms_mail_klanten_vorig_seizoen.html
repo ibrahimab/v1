@@ -316,6 +316,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 		ksort($select_table);
 
 		foreach ($select_table as $key => $value) {
+			$klanten_teller++;
 			echo $value;
 		}
 
@@ -323,6 +324,8 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 		echo "<tr><td colspan=\"8\" align=\"center\"><input type=\"submit\" value=\" ".($_GET["status"]==2 ? "MAILTJES VERSTUREN / " : "")."GEGEVENS OPSLAAN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"></td></tr>";
 		echo "</form>";
 		echo "</table>";
+
+		echo "<p>Totaal: ".$klanten_teller."</p>";
 
 	} else {
 		echo "<i>Geen boekingen gevonden.</i>";
