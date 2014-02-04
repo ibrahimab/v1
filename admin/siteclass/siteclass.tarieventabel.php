@@ -24,6 +24,8 @@ class tarieventabel {
 		$this->toon_beschikbaarheid = false;
 		$this->toon_commissie = false;
 		$this->meerdere_valuta = false;
+		// $this->show_afwijkend_legenda = true;
+		$this->show_afwijkend_legenda = false;
 
 		$this->get_aantal_personen = $_GET["ap"];
 
@@ -403,7 +405,28 @@ class tarieventabel {
 			if($this->tarieventabel_tarieven_niet_beschikbaar and !$this->toon_beschikbaarheid) {
 				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_tarieven_niet_beschikbaar\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_niet_beschikbaar","tarieventabel")."</div>";
 			}
-			$return.="</div>";
+
+			// check for afwijkende vertrekdag
+			if($this->show_afwijkend_legenda) {
+				foreach ($this->aantalnachten as $key_datum => $value_nachten) {
+					if($key_datum>time()) {
+						if($value_nachten and ($value_nachten<>7 or $this->dag_van_de_week_afwijkend[$key_datum])) {
+							if($this->unixtime_week[$key_datum]) {
+								$eind=mktime(0,0,0,date("m",$this->unixtime_week[$key_datum]),date("d",$this->unixtime_week[$key_datum])+$value_nachten,date("Y",$this->unixtime_week[$key_datum]));
+								$afwijkend .= "<div>".DATUM("DAG D MND JJJJ", $this->unixtime_week[$key_datum])." - ".DATUM("DAG D MND JJJJ", $eind)." (".$value_nachten." ".($value_nachten==1 ? html("nacht", "vars") : html("nachten", "vars")).")</div>";
+							}
+						}
+					}
+				}
+				if($afwijkend) {
+					$return .= "<div><span class=\"tarieventabel_legenda_kleurenblokje\">*</span> = ".html("legenda_vertrekdagaanpassing","tarieventabel").":</div>";
+					$return .= "<div class=\"tarieventabel_legenda_vertrekdagaanpassing\">";
+					$return .= $afwijkend;
+					$return .= "</div>"; // close .tarieventabel_legenda_vertrekdagaanpassing
+				}
+			}
+
+			$return.="</div>"; // close .tarieventabel_legenda
 
 
 			$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_boven tarieventabel_pijl_links\">";
@@ -516,6 +539,7 @@ class tarieventabel {
 			$kolomteller++;
 
 			$class = "";
+			$star = "";
 
 			if($this->seizoenswissel($key,true)) {
 				$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
@@ -525,10 +549,13 @@ class tarieventabel {
 			}
 
 			if($this->dag_van_de_week_afwijkend[$key] and $key>time()) {
-				$class=" tarieventabel_datumbalk_opvallend";
+				$class = " tarieventabel_datumbalk_opvallend";
+				if($this->show_afwijkend_legenda) {
+					$star = "*";
+				}
 			}
 
-			$return.="<td class=\"".trim($class)."\">".$value."</td>";
+			$return.="<td class=\"".trim($class)."\">".$value.$star."</td>";
 		}
 		$return.="</tr>";
 
@@ -540,6 +567,7 @@ class tarieventabel {
 			$kolomteller++;
 
 			$class = "";
+			$star = "";
 
 			if($this->seizoenswissel($key,true)) {
 				$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
@@ -550,9 +578,12 @@ class tarieventabel {
 
 			if($this->aantalnachten[$key]<>7 and $key>time()) {
 				$class.=" tarieventabel_datumbalk_opvallend";
+				if($this->show_afwijkend_legenda) {
+					$star = "*";
+				}
 			}
 
-			$return.="<td class=\"".trim($class)."\">".$this->aantalnachten[$key]."</td>";
+			$return.="<td class=\"".trim($class)."\">".$this->aantalnachten[$key].$star."</td>";
 		}
 		$return.="</tr>";
 
@@ -1541,6 +1572,7 @@ if($this->tarief[$key]>0) {
 				}
 				$this->maand[date("Y-m",$aangepaste_unixtime)]++;
 			}
+			$this->unixtime_week[$week] = $aangepaste_unixtime;
 
 			if($_GET["d"] and $_GET["d"]==$week) $this->actieve_kolom=$kolomteller;
 

@@ -2551,6 +2551,9 @@ $txt["en"]["tarieventabel"]["legenda_aanbieding"]="special offer";
 $txt["nl"]["tarieventabel"]["legenda_niet_beschikbaar"]="niet beschikbaar";
 $txt["en"]["tarieventabel"]["legenda_niet_beschikbaar"]="unavailable";
 
+$txt["nl"]["tarieventabel"]["legenda_vertrekdagaanpassing"]="afwijking in aankomstdag en/of verblijfsduur";
+$txt["en"]["tarieventabel"]["legenda_vertrekdagaanpassing"]="";
+
 $txt["nl"]["tarieventabel"]["legenda_gekozen_datum_aantal_personen"]="geselecteerde datum/aantal personen";
 $txt["en"]["tarieventabel"]["legenda_gekozen_datum_aantal_personen"]="selected date/number of persons";
 

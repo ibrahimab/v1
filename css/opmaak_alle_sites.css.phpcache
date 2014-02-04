@@ -3036,8 +3036,8 @@ nieuwe tarieventabel
 	margin-left: 162px;
 }
 
-.tarieventabel_legenda div {
-	margin-bottom: 5px;
+.tarieventabel_legenda > div {
+	margin-bottom: 7px;
 }
 
 .tarieventabel_legenda span {
@@ -3190,7 +3190,20 @@ nieuwe tarieventabel
 }
 
 .tarieventabel_legenda_kleurenblokje {
+	display: inline-block;
+	width: 28px;
+	text-align: center;
 	border-radius: 0px;
+	font-weight: bold;
+}
+
+.tarieventabel_legenda_vertrekdagaanpassing {
+	margin-top: -6px;
+	margin-left: 48px;
+}
+
+.tarieventabel_legenda_vertrekdagaanpassing div {
+
 }
 
 .tarieventabel_legenda_kleurenblokje_aanbieding {
