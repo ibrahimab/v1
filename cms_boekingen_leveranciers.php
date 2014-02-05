@@ -272,7 +272,7 @@ $form->field_yesno("inkoop_van_0_toegestaan","Inkoop van 0 is toegestaan",array(
 $form->field_currency(0,"totaal_volgens_ontvangen_factuur","Totaal volgens ontvangen factuur €",array("field"=>"totaal_volgens_ontvangen_factuur"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens","add_html_after_field"=>"<span id=\"opmerking_totaal_volgens_ontvangen_factuur\" style=\"font-weight:bold;\"></span>"));
 
 // betalingsverschil is op verzoek van Bert op "niet tonen" gezet (zodat niemand daar iets kan invullen) - 30-08-2013
-$form->field_currency(0,"betalingsverschil","Betalingsverschil €",array("field"=>"betalingsverschil"),"",array("negative"=>true),array("tr_class"=>"tr_inkoopgegevens_betalingsverschil","input_class"=>"wtform_input inkoopgegevens"));
+// $form->field_currency(0,"betalingsverschil","Betalingsverschil €",array("field"=>"betalingsverschil"),"",array("negative"=>true),array("tr_class"=>"tr_inkoopgegevens_betalingsverschil","input_class"=>"wtform_input inkoopgegevens"));
 
 $form->field_htmlcol("","Saldo factuurbedrag €",array("html"=>""),"",array("tr_class"=>"inkoopgegevens_onopvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_betalingssaldo"));
 $form->field_select(0,"factuurbedrag_gecontroleerd","Factuurbedrag akkoord",array("field"=>"factuurbedrag_gecontroleerd"),"",array("selection"=>$vars["factuurbedrag_gecontroleerd"]),array("tr_style"=>"display:none;"));
@@ -300,12 +300,13 @@ if($form->filled) {
 			$form->error("factuurbedrag_gecontroleerd","saldo factuurbedrag moet 0 zijn");
 		}
 	}
-	if($form->input["factuurbedrag_gecontroleerd"]==1 and $form->input["betalingsverschil"]) {
-		$form->error("betalingsverschil","niet van toepassing bij 'ja, alles klopt'");
-	}
-	if($form->input["factuurbedrag_gecontroleerd"]==2 and !$form->input["betalingsverschil"]) {
-		$form->error("betalingsverschil","verplicht bij 'ja, maar het bedrag wijkt af'");
-	}
+	// betalingsverschil is op verzoek van Bert op "niet tonen" gezet (zodat niemand daar iets kan invullen) - 30-08-2013
+	// if($form->input["factuurbedrag_gecontroleerd"]==1 and $form->input["betalingsverschil"]) {
+	// 	$form->error("betalingsverschil","niet van toepassing bij 'ja, alles klopt'");
+	// }
+	// if($form->input["factuurbedrag_gecontroleerd"]==2 and !$form->input["betalingsverschil"]) {
+	// 	$form->error("betalingsverschil","verplicht bij 'ja, maar het bedrag wijkt af'");
+	// }
 	if($form->input["totaal_volgens_ontvangen_factuur"]<>0 and !$form->input["factuurnummer_leverancier"]) {
 		$form->error("factuurnummer_leverancier","verplicht bij invullen factuurbedrag");
 	}

@@ -851,10 +851,10 @@ a.opm {
 
 }
 
-.tr_inkoopgegevens_betalingsverschil {
+/*.tr_inkoopgegevens_betalingsverschil {
 	display: none;
 }
-
+*/
 .inkoopgegevens_opvallend td {
 	background-color: #fffbba;
 	font-weight: bold;

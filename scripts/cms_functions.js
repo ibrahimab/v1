@@ -893,7 +893,9 @@ function inkoopgegevens_berekenen(onload) {
 	var inkoopkorting_euro=get_float_input('inkoopkorting_euro');
 	var extraopties_totaal=get_float_input('extraopties_totaal');
 	var totaal_volgens_ontvangen_factuur=get_float_input('totaal_volgens_ontvangen_factuur');
-	var betalingsverschil=get_float_input('betalingsverschil');
+	// betalingsverschil is op verzoek van Bert op "niet tonen" gezet (zodat niemand daar iets kan invullen) - 30-08-2013
+	// var betalingsverschil=get_float_input('betalingsverschil');
+	var betalingsverschil=0;
 	var betalingssaldo=0;
 
 
