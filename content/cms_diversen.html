@@ -184,12 +184,16 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$avg_query.=", ROUND(AVG(NULLIF(vraag3_".$i.",0)), 1) AS vraag3_".$i;
 	}
 	$db->query("SELECT YEAR(aankomstdatum_exact) AS year, MONTH(aankomstdatum_exact) AS month, COUNT(boeking_id) AS aantal ".$avg_query." FROM boeking_enquete WHERE aankomstdatum_exact>=(NOW() - INTERVAL 2 YEAR - INTERVAL 1 MONTH) GROUP BY YEAR(aankomstdatum_exact), MONTH(aankomstdatum_exact) ORDER BY aankomstdatum_exact;");
+	$db->query("SELECT YEAR(aankomstdatum_exact) AS year, MONTH(aankomstdatum_exact) AS month, COUNT(boeking_id) AS aantal ".$avg_query." FROM boeking_enquete WHERE 1=1 GROUP BY YEAR(aankomstdatum_exact), MONTH(aankomstdatum_exact) ORDER BY aankomstdatum_exact;");
 	while($db->next_record()) {
 
 		$this_month_unixtime = mktime(0, 0, 0, $db->f("month"), 1, $db->f("year"));
 		$this_month = date("Ym", $this_month_unixtime);
 		$stats_name[$this_month] = DATUM("MAAND JJJJ", $this_month_unixtime);
 		$stats_counter[$this_month] = $db->f("aantal");
+
+		$last_year_unixtime = mktime(0, 0, 0, $db->f("month"), 1, $db->f("year")-1);
+		$last_year = date("Ym", $last_year_unixtime);
 
 // echo $this_month." ".$last_month."<br>";
 
@@ -200,6 +204,11 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			if($stats[$last_month][$i]) {
 				$stats_change[$this_month][$i] = round((($db->f("vraag3_".$i) / $stats[$last_month][$i]) - 1) * 100, 0);
 			}
+
+			if($stats[$last_year][$i]) {
+				$stats_change_year[$this_month][$i] = round((($db->f("vraag3_".$i) / $stats[$last_year][$i]) - 1) * 100, 0);
+			}
+
 		}
 
 		$last_month = $this_month;
@@ -208,9 +217,15 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 	echo "<style>
 
-	.stats_tbl tr td:nth-child(3), .stats_tbl tr td:nth-child(4) {
+	.stats_tbl th {
+		white-space: nowrap;
+	}
+
+	.stats_tbl tr td:nth-child(3), .stats_tbl tr td:nth-child(4), .stats_tbl tr td:nth-child(5) {
 		text-align: right;
 	}
+
+
 
 	.decline {
 		color: red;
@@ -224,28 +239,53 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 	echo "<table class=\"tbl stats_tbl\" cellspacing=\"0\">";
 
+
+	$one_year_ago = date("Ym", mktime(0, 0, 0, date("m"), 1, date("Y")-1));
+
 	krsort($stats);
 	foreach ($stats as $key => $value) {
 
-		$this_month = date("Ym", mktime(0, 0, 0, $db->f("month"), 1, $db->f("year")));
+		if($key>=$one_year_ago) {
 
-		echo "<tr><td colspan=\"4\"><br/><b>aankomsten ".$stats_name[$key]."</b><br/><i>".$stats_counter[$key]." ingevulde enqu&ecirc;tes</i></td></tr>";
-		echo "<tr><th>&nbsp;</th><th>Vraag</th><th>Gemiddelde score</th><th>Verschil</th></tr>";
-		foreach ($value as $key2 => $value2) {
-			echo "<tr><td>".$key2."</td><td>".wt_he(str_replace("over [[v_websitenaam]]", "", $txt["nl"]["enquete"]["vraag3_".$key2]))."</td><td>".$value2."</td><td>";
-			if($stats_change[$key][$key2]<0) {
-				echo "<span class=\"decline\">";
-				echo $stats_change[$key][$key2];
-				echo "%</span>";
+			echo "<tr><td colspan=\"5\"><br/><b>aankomsten ".$stats_name[$key]."</b><br/><i>".$stats_counter[$key]." ingevulde enqu&ecirc;tes</i></td></tr>";
+			echo "<tr><th>&nbsp;</th><th>vraag</th><th>gemiddeld&nbsp;</th><th>verschil maand eerder&nbsp;</th><th>verschil jaar eerder&nbsp;</th></tr>";
+			foreach ($value as $key2 => $value2) {
+				echo "<tr><td>".$key2."</td><td>".wt_he(str_replace("over [[v_websitenaam]]", "", $txt["nl"]["enquete"]["vraag3_".$key2]))."</td><td>".$value2."</td>";
 
-			} elseif($stats_change[$key][$key2]>0) {
-				echo "<span class=\"raise\">";
-				echo $stats_change[$key][$key2];
-				echo "%</span>";
-			} else {
-				echo "&nbsp;";
+				// verschil vorige maand
+				echo "<td>";
+				if($stats_change[$key][$key2]<0) {
+					echo "<span class=\"decline\">";
+					echo $stats_change[$key][$key2];
+					echo "%</span>";
+
+				} elseif($stats_change[$key][$key2]>0) {
+					echo "<span class=\"raise\">";
+					echo $stats_change[$key][$key2];
+					echo "%</span>";
+				} else {
+					echo "&nbsp;";
+				}
+				echo "</td>";
+
+				// verschil vorig jaar
+				echo "<td>";
+				if($stats_change_year[$key][$key2]<0) {
+					echo "<span class=\"decline\">";
+					echo $stats_change_year[$key][$key2];
+					echo "%</span>";
+
+				} elseif($stats_change_year[$key][$key2]>0) {
+					echo "<span class=\"raise\">";
+					echo $stats_change_year[$key][$key2];
+					echo "%</span>";
+				} else {
+					echo "&nbsp;";
+				}
+				echo "</td>";
+
+				echo "</tr>";
 			}
-			echo "</td></tr>";
 		}
 	}
 
