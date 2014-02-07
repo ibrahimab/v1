@@ -110,7 +110,7 @@ class docdatapayments {
 				}
 				$return .= "<td><a href=\"".$vars["path"]."cms_boekingen_betalingen.php?bid=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a></td>";
 				$return .= "<td>".date("d-m-Y", $db->f("aankomstdatum_exact"))."</td>";
-				$return .= "<td style=\"text-align:right;\">&euro;&nbsp;".number_format($db->f("bedrag"),2,",",".")."</td>";
+				$return .= "<td style=\"text-align:right;\">".number_format($db->f("bedrag"),2,",",".")."</td>";
 				$return .= "<td>".wt_he($soort_betaling[$db->f("type")])."</td>";
 				$return .= "<td>".date("d-m-Y", $db->f("datum"))."</td>";
 				if($this->soort=="te_ontvangen") {
