@@ -116,7 +116,8 @@ if($db->num_rows()) {
 }
 
 #if($vars["seizoentype"]==2 and ($themalandinfo["naam"]=="Frankrijk" or $themalandinfo["naam"]=="Italië" or $themalandinfo["naam"]=="Spanje" or $themalandinfo["naam"]=="Oostenrijk" or $themalandinfo["naam"]=="Zwitserland" or (($themalandinfo["naam"]=="Duitsland") and $_GET["test"]==1))) {
-if($vars["seizoentype"]==2 and ($themalandinfo["naam"]=="Frankrijk" or $themalandinfo["naam"]=="Italië" or $themalandinfo["naam"]=="Spanje" or $themalandinfo["naam"]=="Oostenrijk" or $themalandinfo["naam"]=="Zwitserland" or $themalandinfo["naam"]=="Duitsland")) {
+// landkaarten Zomerhuisje uitgezet op verzoek van Brenda 7-2-2014
+if($FUNCTIE_UITGEZET and $vars["seizoentype"]==2 and ($themalandinfo["naam"]=="Frankrijk" or $themalandinfo["naam"]=="Italië" or $themalandinfo["naam"]=="Spanje" or $themalandinfo["naam"]=="Oostenrijk" or $themalandinfo["naam"]=="Zwitserland" or $themalandinfo["naam"]=="Duitsland")) {
 	#
 	# Klikbaar landkaart-systeem
 	#
@@ -386,7 +387,7 @@ if($vars["seizoentype"]==2 and ($themalandinfo["naam"]=="Frankrijk" or $themalan
 } else {
 
 	if($landinfo["id"]) {
-		echo "<div style=\"margin-top:1.5em;margin-bottom:2em;font-weight:bold;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landinfo["id"]."-0\">".html("bekijkonzeaccommodaties","land",array("v_land"=>$landinfo["naam"]))." &raquo;</a></div>";
+		// echo "<div style=\"margin-top:1.5em;margin-bottom:2em;font-weight:bold;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landinfo["id"]."-0\">".html("bekijkonzeaccommodaties","land",array("v_land"=>$landinfo["naam"]))." &raquo;</a></div>";
 	}
 	echo $tabellen;
 
