@@ -99,6 +99,8 @@ class docdatapayments {
 			$return .= "<tr><th>reserveringsnr</th><th>aankomst</th><th style=\"text-align:right;\">bedrag</th><th>soort</th><th>door klant betaald op&nbsp;</th><th>".($this->soort=="te_ontvangen" ? "status" : "uitbetaald door Docdata op")."</th></tr>";
 			while($db->next_record()) {
 
+				$total_amount+=$db->f("bedrag");
+
 				$aantal_dagen_geleden = round((time()-$db->f("datum"))/86400);
 				$dagen_te_laat = $aantal_dagen_geleden-$soort_betaling_dagen[$db->f("type")];
 				if($dagen_te_laat>0 and $this->soort=="te_ontvangen") {
@@ -124,6 +126,11 @@ class docdatapayments {
 				}
 				$return .= "</tr>";
 			}
+
+			$return .= "<tr style=\"font-weight:bold;background-color:#ebebeb;\"><td colspan=\"2\">Totaal</td><td align=\"right\">".number_format($total_amount, 2, ",", ".")."</td><td colspan=\"3\">&nbsp;</td></tr>";
+
+
+
 			$return .= "</table>";
 		} else {
 			$return .= "<p><i>Geen Docdata-betalingen gevonden die aan de zoekcriteria voldoen.</i></p>";
