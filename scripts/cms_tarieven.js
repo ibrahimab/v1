@@ -1439,7 +1439,7 @@ $(document).ready(function() {
 		}
 
 		// save-button: only with filled opmerking
-		$("input[name=eigenaar_formulier_opmerking]").keyup(function(event){
+		$("input[name=eigenaar_formulier_opmerking]").bind("input propertychange", function() {
 			eigenaar_formulier_check();
 		});
 
