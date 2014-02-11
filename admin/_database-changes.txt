@@ -3,6 +3,11 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+11-feb-2014 15:02
+ALTER TABLE `garantie` CHANGE `factuurnummer` `factuurnummer` VARCHAR( 40 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL ;
+ALTER TABLE `garantie` ADD `leverancierscode` VARCHAR( 30 ) NULL DEFAULT NULL AFTER `factuurnummer` ;
+
+
 31-jan-2014 16:30
 DROP TABLE IF EXISTS `newpricesmail`;
 CREATE TABLE IF NOT EXISTS `newpricesmail` (
@@ -162,7 +167,7 @@ CREATE TABLE `interhome_countries_regions` (
 ALTER TABLE `boeking` ADD `valt_onder_bedrijf` TINYINT( 1 ) NOT NULL DEFAULT '1'
 
 11-oct-2013 09:10
-ALTER TABLE `leverancier` ADD `roominglist_garanties_doorgeven` TEXT NOT NULL AFTER `roominglist_goedgekeurd_archief` 
+ALTER TABLE `leverancier` ADD `roominglist_garanties_doorgeven` TEXT NOT NULL AFTER `roominglist_goedgekeurd_archief`
 
 03-oct-2013
 ALTER TABLE `boeking_betaling` CHANGE `type` `type` tinyint(4) NULL AFTER `docdata_payment_id`, COMMENT='';
@@ -201,7 +206,7 @@ CREATE TABLE `docdata_lock` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 27-sep-2013 17:26
-ALTER TABLE `diverse_instellingen` ADD `wisselkoers_pond` DECIMAL( 10, 10 ) NOT NULL 
+ALTER TABLE `diverse_instellingen` ADD `wisselkoers_pond` DECIMAL( 10, 10 ) NOT NULL
 
 27-sep-2013 16:14
 DROP TABLE IF EXISTS `leverancier_naamswijziging`;
@@ -217,10 +222,10 @@ CREATE TABLE IF NOT EXISTS `leverancier_naamswijziging` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 19-sep-2013 14:16
-ALTER TABLE `boeking_betaling` ADD `docdata_payment_id` BIGINT NULL DEFAULT NULL AFTER `importtext` 
+ALTER TABLE `boeking_betaling` ADD `docdata_payment_id` BIGINT NULL DEFAULT NULL AFTER `importtext`
 
 13-sep-2013 14:03
-ALTER TABLE `boeking_betaling` ADD `type` TINYINT( 1 ) NULL DEFAULT NULL AFTER `bedrag` 
+ALTER TABLE `boeking_betaling` ADD `type` TINYINT( 1 ) NULL DEFAULT NULL AFTER `bedrag`
 
 10-sep-2013 11:13
-ALTER TABLE `type` ADD `voorraad_gekoppeld_type_id` INT NULL DEFAULT NULL AFTER `verzameltype_parent` 
+ALTER TABLE `type` ADD `voorraad_gekoppeld_type_id` INT NULL DEFAULT NULL AFTER `verzameltype_parent`

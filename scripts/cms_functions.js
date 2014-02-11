@@ -275,6 +275,14 @@ $(document).ready(function() {
 		}
 	});
 
+	// garantie: bij invoeren 'Reserveringsnummer leverancier' of 'Factuurnummer leverancier' besteldatum invullen
+	$(".garantie_leverancierscode_keydown").keydown(function() {
+		if($("select[name='input[inkoopdatum][day]']").val()=="") {
+			setdate('inkoopdatum','');
+		}
+	});
+
+
 	// bij wijzigen bestelstatus (bij boeking 'Inkoop- en leveranciersgegevens'): automatisch besteldatum invullen
 	$(".bestelstatus_besteldatum").change(function() {
 		if($(this).val()==2 || $(this).val()==3) {

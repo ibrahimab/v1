@@ -98,6 +98,7 @@ $cms->db_field(34,"date","verkoopdatum");
 $cms->db_field(34,"text","reserveringsnummer_extern");
 $cms->db_field(34,"yesno","confirmed");
 $cms->db_field(34,"text","factuurnummer");
+$cms->db_field(34,"text","leverancierscode");
 $cms->db_field(34,"currency","bruto");
 $cms->db_field(34,"float","korting_percentage");
 $cms->db_field(34,"currency","korting_euro");
@@ -220,9 +221,30 @@ $cms->edit_field(34,0,"inkoopdatum","Inkoopdatum","",array("startyear"=>2009,"en
 if($temp["leverancier_aanbetaling_dagen"]<>"" or $temp["leverancier_eindbetaling_dagen_factuur"]<>"") {
 	$cms->edit_field(34,0,"inkoopfactuurdatum","Factuurdatum","",array("startyear"=>2009,"endyear"=>date("Y")+2),array("calendar"=>true));
 }
-$cms->edit_field(34,0,"htmlrow","<i>Vul confirmed &oacute;f factuurnummer in (niet allebei)</i>");
-$cms->edit_field(34,1,"confirmed","Confirmed","","",array("onclick"=>"if(this.checked==true&&document.frm.elements['input[inkoopdatum][day]'].value=='') setdate('inkoopdatum','');"));
-$cms->edit_field(34,0,"factuurnummer","Factuurnummer");
+
+if($temp["leverancier_bevestigmethode"]) {
+	$cms->edit_field(34,0,"htmlcol","Bevestigmethode",array("html"=>$temp["leverancier_naam"]." ".htmlentities($vars["bevestigmethode"][$temp["leverancier_bevestigmethode"]])),"",array("tr_style"=>"color:grey;font-style:italic;","title_html"=>true));
+} else {
+	$cms->edit_field(34,0,"htmlcol","Bevestigmethode",array("html"=>"<span style=\"background-color:yellow;\">Er is bij <a href=\"".$vars["path"]."cms_leveranciers.php?edit=8&beheerder=0&8k0=".$temp["leverancier_id"]."\" target=\"_blank\">".htmlentities($temp["leverancier_naam"])."</a> nog geen bevestigmethode aangegeven.</span>"),"",array("tr_style"=>"color:grey;","title_html"=>true));
+}
+
+if($temp["leverancier_bevestigmethode"]==1) {
+	# bevestigmethode: stuurt direct een factuurnummer
+
+} elseif($temp["leverancier_bevestigmethode"]==2) {
+	# bevestigmethode: bevestigt zonder reserveringsnummer
+	// $form->field_text(0,"leverancierscode","Bevestiging leverancier (zonder reserv.nr)",array("field"=>"leverancierscode"),"","",array("input_class"=>"wtform_input garantie_leverancierscode_keydown"));
+	$cms->edit_field(34,0,"leverancierscode","Bevestiging leverancier (zonder reserv.nr)", "", "", array("input_class"=>"wtform_input garantie_leverancierscode_keydown","add_html_after_field"=>"<br><span style=\"font-size:0.8em;\">Moet reserveringsnummer zijn, dus g&eacute;&eacute;n OK of datum!</span>"));
+} elseif($temp["leverancier_bevestigmethode"]==3) {
+	# bevestigmethode: bevestigt met reserveringsnummer
+	// $form->field_text(0,"leverancierscode","Reserveringsnummer leverancier",array("field"=>"leverancierscode"),"","",array("input_class"=>"wtform_input garantie_leverancierscode_keydown","add_html_after_field"=>"<br><span style=\"font-size:0.8em;\">Moet reserveringsnummer zijn, dus g&eacute;&eacute;n OK of datum!</span>"));
+	$cms->edit_field(34,0,"leverancierscode","Reserveringsnummer leverancier", "", "", array("input_class"=>"wtform_input garantie_leverancierscode_keydown","add_html_after_field"=>"<br><span style=\"font-size:0.8em;\">Moet reserveringsnummer zijn, dus g&eacute;&eacute;n OK of datum!</span>"));
+} else {
+	$cms->edit_field(34,0,"leverancierscode","Reserveringsnummer leverancier");
+}
+// $cms->edit_field(34,0,"htmlrow","<i>Vul confirmed &oacute;f factuurnummer in (niet allebei)</i>");
+// $cms->edit_field(34,1,"confirmed","Confirmed","","",array("onclick"=>"if(this.checked==true&&document.frm.elements['input[inkoopdatum][day]'].value=='') setdate('inkoopdatum','');"));
+$cms->edit_field(34,0,"factuurnummer","Factuurnummer", "", "", array("input_class"=>"wtform_input garantie_leverancierscode_keydown"));
 $cms->edit_field(34,0,"verkoopdatum","Verkoopdatum","",array("startyear"=>2009,"endyear"=>date("Y")+2),array("calendar"=>true));
 $cms->edit_field(34,0,"boeking_id","Gekoppelde boeking");
 #$cms->edit_field(34,0,"opmerkingen","Opmerkingen");

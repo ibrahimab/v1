@@ -144,9 +144,9 @@ if($_GET["uitgaand"]==1) {
 						}
 						if(!$betaling[$boeking_key]) {
 							if($key0=="garanties") {
-								$melding[]="aanbetaling: <a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">factuurdatum</a> nog niet ingevuld";
+								$melding[]="aanbetaling: <a href=\"".wt_he($vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id"))."\" target=\"_blank\">factuurdatum</a> nog niet ingevuld";
 							} else {
-								$melding[]="aanbetaling: <a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">factuurdatum</a> nog niet ingevuld";
+								$melding[]="aanbetaling: <a href=\"".wt_he($vars["path"]."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id"))."\" target=\"_blank\">factuurdatum</a> nog niet ingevuld";
 							}
 						}
 					}

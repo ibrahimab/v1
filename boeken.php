@@ -1464,17 +1464,15 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$voorraad_typeid=$form->input["typeid"];
 					if(ereg("^voorraad_garantie_([0-9]+)$",$form->input["voorraad_afboeken"],$regs)) {
 						# Kijken of garantie kan worden afgeboekt
-						$db->query("SELECT garantie_id, naam, reserveringsnummer_extern, aan_leverancier_doorgegeven_naam, UNIX_TIMESTAMP(inkoopdatum) AS inkoopdatum, confirmed, factuurnummer, bruto, netto, korting_percentage, korting_euro, inkoopkorting_percentage, inkoopkorting_euro, inkoopaanbetaling_gewijzigd, UNIX_TIMESTAMP(inkoopfactuurdatum) AS inkoopfactuurdatum FROM garantie WHERE garantie_id='".addslashes($regs[1])."' AND boeking_id=0 AND type_id='".addslashes($form->input["typeid"])."' AND aankomstdatum='".addslashes($form->input["aankomstdatum"])."';");
+						$db->query("SELECT garantie_id, naam, reserveringsnummer_extern, aan_leverancier_doorgegeven_naam, UNIX_TIMESTAMP(inkoopdatum) AS inkoopdatum, confirmed, factuurnummer, leverancierscode, bruto, netto, korting_percentage, korting_euro, inkoopkorting_percentage, inkoopkorting_euro, inkoopaanbetaling_gewijzigd, UNIX_TIMESTAMP(inkoopfactuurdatum) AS inkoopfactuurdatum FROM garantie WHERE garantie_id='".addslashes($regs[1])."' AND boeking_id=0 AND type_id='".addslashes($form->input["typeid"])."' AND aankomstdatum='".addslashes($form->input["aankomstdatum"])."';");
 						if($db->next_record()) {
 							$log_garantie_tekst="boeking gekoppeld aan garantie: ".$db->f("naam").($db->f("reserveringsnummer_extern") ? " (".$db->f("reserveringsnummer_extern").")" : "");
 
-							if($db->f("factuurnummer")) {
-								$temp_garantie_leverancierscode=$db->f("factuurnummer");
-							} elseif($db->f("confirmed") and $db->f("inkoopdatum")) {
-								$temp_garantie_leverancierscode="OK ".date("d-m-Y",$db->f("inkoopdatum"));
-							} elseif($db->f("confirmed")) {
-								$temp_garantie_leverancierscode="OK";
-							}
+							$temp_garantie_overnemen = true;
+
+							$temp_garantie_factuurnummer=$db->f("factuurnummer");
+							$temp_garantie_leverancierscode=$db->f("leverancierscode");
+
 							$temp_garantie_inkoopdatum=$db->f("inkoopdatum");
 							$temp_garantie_bruto=$db->f("bruto");
 							$temp_garantie_netto=$db->f("netto");
@@ -1495,17 +1493,15 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						$voorraad_typeid=$regs[1];
 
 						# Kijken of garantie kan worden afgeboekt
-						$db->query("SELECT garantie_id, naam, reserveringsnummer_extern, aan_leverancier_doorgegeven_naam, UNIX_TIMESTAMP(inkoopdatum) AS inkoopdatum, confirmed, factuurnummer, bruto, netto, korting_percentage, korting_euro, inkoopkorting_percentage, inkoopkorting_euro, inkoopaanbetaling_gewijzigd, UNIX_TIMESTAMP(inkoopfactuurdatum) AS inkoopfactuurdatum FROM garantie WHERE garantie_id='".addslashes($regs[2])."' AND boeking_id=0 AND type_id='".addslashes($voorraad_typeid)."' AND aankomstdatum='".addslashes($form->input["aankomstdatum"])."';");
+						$db->query("SELECT garantie_id, naam, reserveringsnummer_extern, aan_leverancier_doorgegeven_naam, UNIX_TIMESTAMP(inkoopdatum) AS inkoopdatum, confirmed, factuurnummer, leverancierscode, bruto, netto, korting_percentage, korting_euro, inkoopkorting_percentage, inkoopkorting_euro, inkoopaanbetaling_gewijzigd, UNIX_TIMESTAMP(inkoopfactuurdatum) AS inkoopfactuurdatum FROM garantie WHERE garantie_id='".addslashes($regs[2])."' AND boeking_id=0 AND type_id='".addslashes($voorraad_typeid)."' AND aankomstdatum='".addslashes($form->input["aankomstdatum"])."';");
 						if($db->next_record()) {
 							$log_garantie_tekst="boeking gekoppeld aan garantie: ".$db->f("naam").($db->f("reserveringsnummer_extern") ? " (".$db->f("reserveringsnummer_extern").")" : "");
 
-							if($db->f("factuurnummer")) {
-								$temp_garantie_leverancierscode=$db->f("factuurnummer");
-							} elseif($db->f("confirmed") and $db->f("inkoopdatum")) {
-								$temp_garantie_leverancierscode="OK ".date("d-m-Y",$db->f("inkoopdatum"));
-							} elseif($db->f("confirmed")) {
-								$temp_garantie_leverancierscode="OK";
-							}
+							$temp_garantie_overnemen = true;
+
+							$temp_garantie_factuurnummer=$db->f("factuurnummer");
+							$temp_garantie_leverancierscode=$db->f("leverancierscode");
+
 							$temp_garantie_inkoopdatum=$db->f("inkoopdatum");
 							$temp_garantie_bruto=$db->f("bruto");
 							$temp_garantie_netto=$db->f("netto");
@@ -2032,9 +2028,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						}
 						voorraad_bijwerken($voorraad_typeid,$form->input["aankomstdatum"],true,$bijwerken_garantie,$bijwerken_allotment,$bijwerken_vervallen_allotment,$bijwerken_optie_leverancier,0,$bijwerken_request,0,true,6);
 
-						if($temp_garantie_leverancierscode) {
+						if($temp_garantie_overnemen) {
 							# Leveranciers-reserveringsnummer, bruto, netto, inkoopdatum uit garantie koppelen aan boeking
-							$setquery.=", leverancierscode='".addslashes($temp_garantie_leverancierscode)."', bestelstatus=3, inkoopnetto='".addslashes($temp_garantie_netto)."', inkoopbruto='".addslashes($temp_garantie_bruto)."'";
+							$setquery.=", leverancierscode='".addslashes($temp_garantie_leverancierscode)."', factuurnummer_leverancier='".addslashes($temp_garantie_factuurnummer)."', bestelstatus=3, inkoopnetto='".addslashes($temp_garantie_netto)."', inkoopbruto='".addslashes($temp_garantie_bruto)."'";
 							if($temp_garantie_inkoopdatum>0) {
 								# inkoopdatum garantie opslaan in besteldatum boeking
 								$setquery.=", besteldatum=FROM_UNIXTIME('".$temp_garantie_inkoopdatum."')";
