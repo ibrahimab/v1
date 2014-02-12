@@ -2799,7 +2799,22 @@ nieuwe tarieventabel
 	overflow-x: scroll;
 }
 
+
 /* scrollbar forceren op Mac OS X (webkit) + mobile-devices */
+
+/*scrollbar zoek en boek*/
+.mac-osx #zoekblok ::-webkit-scrollbar {
+   -webkit-appearance: none;
+   width: 7px;
+}
+
+.mac-osx #zoekblok ::-webkit-scrollbar-thumb {
+   border-radius: 4px;
+   background-color: rgba(0,0,0,.5);
+   -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+/*scrollbar tarieventabel*/
 .mac-osx .tarieventabel_wrapper_rechts::-webkit-scrollbar, .mobile .tarieventabel_wrapper_rechts::-webkit-scrollbar {
 	-webkit-appearance: none;
 }
