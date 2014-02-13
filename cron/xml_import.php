@@ -1045,7 +1045,7 @@ while(list($key,$value)=@each($soap_urls)) {
 			}
 
 			// Get the prices
-			$xml_brutoprijs[$key] = $interHome->processPrices($xml_beschikbaar);
+			$xml_brutoprijs[$key] = $interHome->processPrices($xml_beschikbaar[$key]);
 
 			$xml_laatsteimport_leverancier[$key]=true;
 

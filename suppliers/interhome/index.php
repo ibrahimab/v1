@@ -744,7 +744,7 @@ class InterHome extends SoapClass {
 	 */
 	public function processPrices($av) {
 
-		$list = current($av);
+		$list = $av;
 
 		// Create a list with the accommodations that are available per week
 		foreach($list as $acc_code => $weeks) {
