@@ -70,6 +70,12 @@ if(file_exists($unixdir."suppliers/interhome/index.php")) {
 		}
 	} elseif($argv[1] == "customerfeedback") {
 		// Import customer feedback for Interhome accommodations
+
+		//
+		// Import of customerfeedback has been disabled after request from Bjorn (14-02-2014)
+		//
+		exit;
+
 		$lev = 421;
 		// Get the entries from the Interhome server by XML
 		$cf = $interHome->getCustomerFeedback();
