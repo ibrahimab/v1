@@ -143,6 +143,7 @@ $cms->db_field(2,"yesno","xmltarievenimport");
 $cms->db_field(2,"url","url_leverancier");
 $cms->db_field(2,"yesno","tonen");
 $cms->db_field(2,"yesno","tonenzoekformulier");
+$cms->db_field(2,"yesno","request_translation");
 $cms->db_field(2,"yesno","controleren");
 $cms->db_field(2,"yesno","onderverdeeld_in_nummers");
 #$cms->db_field(2,"yesno","shortlist");
@@ -282,6 +283,7 @@ if($db->next_record()) {
 $cms->edit_field(2,0,"controleren","Nog nakijken");
 $cms->edit_field(2,0,"tonen","Tonen op de website",array("selection"=>true));
 $cms->edit_field(2,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
+$cms->edit_field(2,0,"request_translation","Opnemen in vertaallijst als 'Tonen op de website' uit staat",array("selection"=>false));
 $cms->edit_field(2,0,"verzameltype","Dit is een verzameltype");
 $cms->edit_field(2,0,"verzameltype_parent","Dit type valt onder het volgende verzameltype");
 $cms->edit_field(2,0,"apart_tonen_in_zoekresultaten","Toon dit type bij de zoekresultaten als losse accommodatie (niet als onderdeel van de bovenliggende accommodatie)");

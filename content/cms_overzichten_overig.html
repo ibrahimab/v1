@@ -233,13 +233,13 @@ if($_GET["t"]==1) {
 			}
 
 			# accommodaties
-			$db->query("SELECT a.accommodatie_id FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.wzt=1 AND a.archief=0 AND a.websites LIKE '%".$vars["cmstaal_website"]."%' AND a.tonen=1 ORDER BY p.naam, a.naam;");
+			$db->query("SELECT a.accommodatie_id FROM accommodatie a, plaats p WHERE a.plaats_id=p.plaats_id AND a.wzt=1 AND a.archief=0 AND a.websites LIKE '%".$vars["cmstaal_website"]."%' AND (a.tonen=1 OR a.request_translation=1) ORDER BY p.naam, a.naam;");
 			while($db->next_record()) {
 				$alleen_inquery["accommodatie"].=",".$db->f("accommodatie_id");
 			}
 
 			# types
-			$db->query("SELECT t.type_id FROM type t, accommodatie a, plaats p WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND t.tonen=1 AND t.websites LIKE '%".$vars["cmstaal_website"]."%' AND a.accommodatie_id IN (".substr($alleen_inquery["accommodatie"],1).") ORDER BY p.naam, a.naam, t.naam, t.optimaalaantalpersonen;");
+			$db->query("SELECT t.type_id FROM type t, accommodatie a, plaats p WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND (t.tonen=1 OR t.request_translation=1) AND t.websites LIKE '%".$vars["cmstaal_website"]."%' AND a.accommodatie_id IN (".substr($alleen_inquery["accommodatie"],1).") ORDER BY p.naam, a.naam, t.naam, t.optimaalaantalpersonen;");
 			while($db->next_record()) {
 				$alleen_inquery["type"].=",".$db->f("type_id");
 			}

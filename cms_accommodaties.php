@@ -191,6 +191,7 @@ $cms->db_field(1,"text","altnaam_zichtbaar");
 $cms->db_field(1,"textarea","aantekeningen","",array("dontlog"=>true));
 $cms->db_field(1,"yesno","controleren");
 $cms->db_field(1,"yesno","tonen");
+$cms->db_field(1,"yesno","request_translation");
 $cms->db_field(1,"yesno","archief");
 $cms->db_field(1,"yesno","tonenzoekformulier");
 $cms->db_field(1,"text","leverancierscode");
@@ -371,6 +372,7 @@ $cms->edit_field(1,0,"archief","Gearchiveerde accommodatie");
 $cms->edit_field(1,0,"controleren","Nog nakijken");
 $cms->edit_field(1,0,"tonen","Tonen op de website",array("selection"=>true));
 $cms->edit_field(1,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
+$cms->edit_field(1,0,"request_translation","Opnemen in vertaallijst als 'Tonen op de website' uit staat",array("selection"=>false));
 $cms->edit_field(1,0,"weekendski","Weekendski");
 if($_GET["edit"]==1) {
 	$cms->edit_field(1,0,"htmlrow","<hr><i><span style=\"color:red;\"><b>Let op!</b> Bij wijzigen &quot;websites&quot; worden alle onderliggende types aangepast.</span><br>Om dat te voorkomen kun je &quot;websites&quot; aanpassen op type-niveau.</i><br/><br/>Een ingevulde waarde hier wil zeggen dat bij minstens &eacute;&eacute;n onderliggend type deze website aangevinkt staat. Het wil niet zeggen dat bij &agrave;lle onderliggende types de website aangevinkt staat.");
