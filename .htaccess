@@ -44,6 +44,10 @@ RewriteRule ^favicon.ico$ favicon_vallandry.ico
 RewriteCond %{HTTP_HOST} italissima [NC]
 RewriteRule ^favicon.ico$ favicon_italissima.ico
 
+# italyhomes
+RewriteCond %{HTTP_HOST} italyhomes [NC]
+RewriteRule ^favicon.ico$ favicon_italissima.ico
+
 # venturasol
 RewriteCond %{HTTP_HOST} venturasol [NC]
 RewriteRule ^favicon.ico$ favicon_venturasol.ico
@@ -146,12 +150,31 @@ RewriteCond %{HTTP_HOST} !^test\.italissima\.be [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.italissima.be/$1 [L,R=301]
 
+RewriteCond %{HTTP_HOST} italyhomes\.eu [NC]
+RewriteCond %{HTTP_HOST} !^www\.italyhomes\.eu [NC]
+RewriteCond %{HTTP_HOST} !^test\.italyhomes\.eu [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
+RewriteRule ^(.*)$ http://www.italyhomes.eu/$1 [L,R=301]
+
 RewriteCond %{HTTP_HOST} venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^partner\.venturasol\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
+
+#
+# TIJDELIJK italyhomes nog niet toegankelijk
+#
+RewriteCond %{HTTP_HOST} italyhomes\.eu [NC]
+# WebTastic-IP 1
+RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
+# WebTastic-IP 2
+RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
+# Chalet-IP
+RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=302]
+
 
 #
 # Test-server alleen beschikbaar voor bepaalde IP-adressen
@@ -237,11 +260,11 @@ RewriteRule ^xml/(accommodation-units)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_S
 RewriteRule ^xml/(availability-and-prices)\.xml.* xml/feed.php?feedtype=$1&%{QUERY_STRING}
 
 # Sitemap
-RewriteCond %{HTTP_HOST} (chalet\.nl|chalet\.be|italissima\.nl|italissima\.be|postvak\.net) [NC]
+RewriteCond %{HTTP_HOST} (chalet\.nl|chalet\.be|italissima\.nl|italissima\.be|italyhomes\.eu|postvak\.net) [NC]
 RewriteRule ^sitemap.xml$ google-sitemap.php?%{QUERY_STRING}
 
 # Videositemap
-RewriteCond %{HTTP_HOST} (chalet\.nl|chalet\.be|italissima\.nl|italissima\.be|postvak\.net) [NC]
+RewriteCond %{HTTP_HOST} (chalet\.nl|chalet\.be|italissima\.nl|italissima\.be|italyhomes\.eu|postvak\.net) [NC]
 RewriteRule ^videositemap.xml$ videositemap.php?%{QUERY_STRING}
 
 # Vallandry
@@ -296,6 +319,7 @@ RewriteRule ^tmp_verzendmethode\.php$ /verzendmethode.php [R=301,L]
 # Engelstalige pagina's
 RewriteRule ^favourites\.php$ favorieten.php?%{QUERY_STRING}
 RewriteRule ^ask-our-advice\.php$ vraag-ons-advies.php?%{QUERY_STRING}
+RewriteRule ^destinations\.php$ bestemmingen.php?%{QUERY_STRING}
 
 
 # Oude blog-afbeeldingen nog aanbieden

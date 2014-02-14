@@ -146,10 +146,10 @@ hr {
 		$file="pic/cms/skigebieden_hoofdfoto/".$db->f("skigebied_id").".jpg";
 		echo "<div id=\"toonskigebied_italissima_infoblok\" style=\"background-color:".$vars["themakleurcode_licht"][$kleurcode]."\">";
 		echo "<img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\">";
-		echo "<h1>Vakantiehuizen ".wt_he($db->f("naam"))."</h1>";
+		echo "<h1>".wt_he(ucfirst(txt("vakantiehuizen")))." ".wt_he($db->f("naam"))."</h1>";
 
 		# Italissima: blog-links bepalen
-		if($vars["websitetype"]==7) {
+		if($vars["websitetype"]==7 and $vars["taal"]=="nl") {
 			$db2->query("SELECT b.blog_id, b.titel, b.inleiding, b.inhoud, UNIX_TIMESTAMP(b.plaatsingsdatum) AS plaatsingsdatum FROM blog b, blog_skigebied s WHERE 1=1 AND s.blog_id=b.blog_id AND s.skigebied_id='".$db->f("skigebied_id")."' AND b.actief=1 AND b.plaatsingsdatum<NOW() ORDER BY b.plaatsingsdatum DESC, b.adddatetime;");
 			if($db2->num_rows()) {
 				$blog_html.="<hr><div id=\"blogverwijzing\" style=\"margin-top:12px;margin-bottom:10px;\"><h1>Uit ons blog:</h1>";

@@ -3,12 +3,12 @@
 // phpinfo();
 
 
-$array = array("blue", "red", "green", "blue", "1blue");
-$aantal_landen=count(array_keys($array, "blue"));
+// $array = array("blue", "red", "green", "blue", "1blue");
+// $aantal_landen=count(array_keys($array, "blue"));
 
-echo $aantal_landen;
+// echo $aantal_landen;
 
-exit;
+// exit;
 
 // $url="https://secure.villeinitalia.com/protAgency/AvailableFile.jsp";
 // $ch = curl_init();

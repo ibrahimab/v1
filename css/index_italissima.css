@@ -175,6 +175,10 @@
 	text-decoration: underline;
 }
 
+#hoofdpagina_kaart:hover img {
+	opacity: 0.7;
+}
+
 #hoofdpagina_kaart h2 {
 	margin-bottom: 38px;
 }

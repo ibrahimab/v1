@@ -101,7 +101,7 @@ if($skigebiedid) {
 				$meta_description=txt("title_toonskigebied")." ".$db->f("naam")." in ".$db->f("land");
 			}
 		} else {
-			$title["toonskigebied"]="Vakantiehuizen ".$db->f("naam");
+			$title["toonskigebied"]=ucfirst(txt("vakantiehuizen"))." ".$db->f("naam");
 			if(!$meta_description) {
 				if($vars["taal"]=="en") {
 					$meta_description="Overview of our accommodations ".$db->f("naam").", ".$db->f("land");

@@ -295,7 +295,7 @@ $txta["nl_z"]["subtitel"]="Vakantie in zomer, voorjaar en najaar - Vakantiehuize
 $txta["en_z"]["subtitel"]="Summer Holidays - Chalets - Accommodations - Holiday Homes";
 
 $txta["nl_i"]["subtitel"]="Agriturismi en overige vakantiehuizen in Italië";
-$txta["en_i"]["subtitel"]="-";
+$txta["en_i"]["subtitel"]="";
 
 $txta["nl_w"]["subtitel"]="Wintersport - Superdeals voor skivakanties";
 $txta["en_w"]["subtitel"]="-";
@@ -313,7 +313,7 @@ $txta["nl_v"]["sitetitel"]="Puur genieten in Vallandry";
 $txta["en_v"]["sitetitel"]="Take a break in Vallandry";
 
 $txta["nl_i"]["sitetitel"]="Agriturismi en andere vakantiehuizen in Italië";
-$txta["en_i"]["sitetitel"]="-";
+$txta["en_i"]["sitetitel"]="";
 
 
 
@@ -606,7 +606,7 @@ $txta["nl"]["vakantiehuis"]="vakantiehuis";
 $txta["en"]["vakantiehuis"]="accommodation";
 
 $txta["nl"]["vakantiehuizen"]="vakantiehuizen";
-$txta["en"]["vakantiehuizen"]="accommodations";
+$txta["en"]["vakantiehuizen"]="holiday-homes";
 
 $txta["nl"]["aanbiedingen"]="aanbiedingen";
 $txta["en"]["aanbiedingen"]="special offers";
@@ -688,6 +688,9 @@ $txta["en_t"]["handelsnaam"]="-";
 
 $txta["nl_b"]["handelsnaam"]="Chalet.be is een handelsnaam van Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - Nederland";
 $txta["en_b"]["handelsnaam"]="-";
+
+$txta["nl_i"]["handelsnaam"]="Italissima is een handelsnaam van Chalet.nl B.V";
+$txta["en_i"]["handelsnaam"]="Italyhomes is a trademark of Chalet.nl B.V.";
 
 $txta["nl"]["handelsnaam_zomerhuisje"]="Zomerhuisje.nl is een handelsnaam van Chalet.nl B.V.";
 $txta["en"]["handelsnaam_zomerhuisje"]="-";

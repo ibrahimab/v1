@@ -112,7 +112,9 @@ if($_GET["wzt"]==1) {
 } elseif($_GET["wzt"]==3) {
 	$cms->edit_field(37,0,"websites","Websites",array("selection"=>"I,K"),"",array("one_per_line"=>true));
 	$cms->edit_field(37,1,"titel","Titel");
+	$cms->edit_field(37,0,"titel_en","Titel (Engels)");
 	$cms->edit_field(37,1,"omschrijving","Omschrijving");
+	$cms->edit_field(37,0,"omschrijving_en","Omschrijving (Engels)");
 } else {
 	$cms->edit_field(37,1,"titel","Titel");
 	$cms->edit_field(37,1,"omschrijving","Omschrijving");
@@ -152,7 +154,7 @@ if($cms_form[37]->filled) {
 		}
 
 		# Verplichte Engelse velden bij Chalet.eu aangevinkt:
-		if(preg_match("/E/",$cms_form[37]->input["websites"])) {
+		if(preg_match("/E/",$cms_form[37]->input["websites"]) or preg_match("/H/",$cms_form[37]->input["websites"])) {
 			if(!$cms_form[37]->input["titel_en"]) $cms_form[37]->error("titel_en","obl");
 			if(!$cms_form[37]->input["omschrijving_en"]) $cms_form[37]->error("omschrijving_en","obl");
 		}

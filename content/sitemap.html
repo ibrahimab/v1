@@ -9,11 +9,12 @@ if($vars["websitetype"]==7) {
 	while($db->next_record()) {
 		echo "<li><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/\">".html("chaletsin","sitemap")." ".htmlentities($db->f("skigebied"))."</a></li>";
 	}
-	echo "<li><a href=\"".$vars["path"]."agriturismo-italie\">Agriturismo Itali&euml;</a></li>";
-	echo "<li><a href=\"".$vars["path"]."agriturismo-toscane\">Agriturismo Toscane</a></li>";
-	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-gardameer\">Vakantiehuizen Gardameer</a></li>";
-	echo "<li><a href=\"".$vars["path"]."vakantiehuizen-bloemenriviera\">Vakantiehuizen Bloemenrivi&egrave;ra</a></li>";
-	echo "<li><a href=\"".$vars["path"]."vakantie-in-italie\">Vakantie in Itali&euml;</a></li>";
+	if($vars["taal"]=="nl") {
+		echo "<li><a href=\"".$vars["path"]."agriturismo-italie\">Agriturismo Itali&euml;</a></li>";
+		echo "<li><a href=\"".$vars["path"]."agriturismo-toscane\">Agriturismo Toscane</a></li>";
+		echo "<li><a href=\"".$vars["path"]."vakantiehuizen-bloemenriviera\">Vakantiehuizen Bloemenrivi&egrave;ra</a></li>";
+		echo "<li><a href=\"".$vars["path"]."vakantie-in-italie\">Vakantie in Itali&euml;</a></li>";
+	}
 	echo "</ul>";
 	echo "</p>";
 } else {

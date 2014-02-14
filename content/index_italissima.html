@@ -3,7 +3,7 @@
 echo "<div id=\"hoofdpagina_links\">";
 
 echo "<div id=\"hoofdpagina_koptekst\">";
-echo "<h1>Agriturismi en overige vakantiehuizen in Itali&euml;</h1>";
+echo "<h1>".html("koptekst", "index")."</h1>";
 echo "</div>"; # afsluiten hoofdpagina_koptekst
 
 echo "<div id=\"hoofdpagina_blok\">";
@@ -36,14 +36,14 @@ echo "</div>"; # afsluiten hoofdpagina_blok
 
 echo "<div id=\"hoofdpagina_midden\">";
 
-echo "<div id=\"hoofdpagina_kaart\" onclick=\"document.location.href='".$vars["path"]."bestemmingen.php'\" title=\"Zoeken per regio\">";
-echo "<h2>Zoeken per regio</h2>";
+echo "<div id=\"hoofdpagina_kaart\" onclick=\"document.location.href='".$vars["path"].txt("menu_bestemmingen").".php'\">";
+echo "<h2>".html("zoeken_per_regio","index")."</h2>";
 echo "<img src=\"".$vars["path"]."pic/italissima-kaart.gif\" width=\"167\" height=\"204\" style=\"border:0;display:block;\" alt=\"italissima kaart\" />";
 echo "</div>"; # afsluiten hoofdpagina_kaart
 
 echo "<div id=\"hoofdpagina_meerinfo\">";
-echo "<h2>Direct naar:</h2>";
-echo "<a href=\"".$vars["path"]."bestemmingen.php\">Alle regio's van Itali&euml; &raquo;</a>";
+echo "<h2>".html("directnaar", "index").":</h2>";
+echo "<a href=\"".$vars["path"].txt("menu_bestemmingen").".php\">".html("alle_regios_van_italie", "index")." &raquo;</a>";
 echo "</div>"; # afsluiten hoofdpagina_meerinfo
 
 echo "</div>"; # afsluiten hoofdpagina_midden
@@ -72,33 +72,37 @@ echo "</div>"; # afsluiten hoofdpagina_links
 
 echo "<div id=\"hoofdpagina_rechts\">";
 
-echo "<a href=\"".$vars["path"]."vraag-ons-advies.php\" id=\"hoofdpagina_vraagonsadvies\">";
-echo "<h2>Vraag ons advies</h2>";
-echo "<div id=\"hoofdpagina_vraagonsadvies_leesmeer\">Lees meer &raquo;</div>";
+echo "<a href=\"".$vars["path"].txt("menu_vraag-ons-advies").".php\" id=\"hoofdpagina_vraagonsadvies\">";
+echo "<h2>".html("vraag_ons_advies", "index")."</h2>";
+echo "<div id=\"hoofdpagina_vraagonsadvies_leesmeer\">".html("lees_meer", "index")." &raquo;</div>";
 echo "<div class=\"clear\"></div>";
 echo "</a>"; # afsluiten hoofdpagina_vraagonsadvies
 
 
-echo "<div id=\"hoofdpagina_blog\">";
-echo "<h2><a href=\"".$vars["path"]."blog.php\">Blog Italissima</a></h2>";
-$db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,2;");
-while($db->next_record()) {
-	echo "<div class=\"hoofdpagina_blog_item\">";
-	$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
-	if($blogitem_gehad) echo "<hr>";
-	$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
-	if(file_exists($file)) {
-		echo "<div><a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"".wt_he($db->f("homepage_titel"))."\" /></a></div>";
-	}
-	echo "<div class=\"hoofdpagina_blog_titel\"><a href=\"".htmlentities($url)."\">".wt_he($db->f("homepage_titel"))."</a></div>";
-	echo "<div class=\"hoofdpagina_blog_inleiding\">".wt_he($db->f("homepage_inleiding"))."</div>";
-	echo "<div class=\"hoofdpagina_blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></div>";
+if($vars["taal"]=="nl") {
+	echo "<div id=\"hoofdpagina_blog\">";
+	echo "<h2><a href=\"".$vars["path"]."blog.php\">Blog Italissima</a></h2>";
+	$db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,2;");
+	while($db->next_record()) {
+		echo "<div class=\"hoofdpagina_blog_item\">";
+		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
+		if($blogitem_gehad) echo "<hr>";
+		$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
+		if(file_exists($file)) {
+			echo "<div><a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"".wt_he($db->f("homepage_titel"))."\" /></a></div>";
+		}
+		echo "<div class=\"hoofdpagina_blog_titel\"><a href=\"".htmlentities($url)."\">".wt_he($db->f("homepage_titel"))."</a></div>";
+		echo "<div class=\"hoofdpagina_blog_inleiding\">".wt_he($db->f("homepage_inleiding"))."</div>";
+		echo "<div class=\"hoofdpagina_blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></div>";
 
-	echo "</div>"; # afsluiten class hoofdpagina_blog_item
-	$blogitem_gehad=true;
+		echo "</div>"; # afsluiten class hoofdpagina_blog_item
+		$blogitem_gehad=true;
+	}
+	echo "</div>"; # afsluiten hoofdpagina_blog
+} else {
+	echo "<img src=\"".$vars["path"]."pic/italissima_hoofdpagina/banner-right.jpg\">";
 }
-#hoofdpagina_blog_titel
-echo "</div>"; # afsluiten hoofdpagina_blog
+
 
 if($vars["website"]=="I") {
 	# Links naar social media ("Volg ons")

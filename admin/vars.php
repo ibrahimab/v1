@@ -456,8 +456,9 @@ if($vars["websitetype"]==7) {
 	$menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
 	$menu["bestemmingen"]=txt("menutitle_bestemmingen");
 	$menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
-	$menu["blog"]=txt("menutitle_blog");
-	$menu["reisblog"]="vakantie op een agriturismo";
+	if($vars["taal"]=="nl") {
+		$menu["blog"]=txt("menutitle_blog");
+	}
 	$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 	$menu["contact"]=txt("menutitle_contact");
 

@@ -80,7 +80,11 @@ function txt($id,$page="",$settings="",$html=false) {
 	if($return=="") {
 		if($taal=="nl")	trigger_error("txt[nl][".$page."][".$id."] is leeg",E_USER_NOTICE);
 #		$return="[[MISSING: ".$id."_".$taal."]]";
-		$return="-";
+		if($vars["lokale_testserver"]) {
+			$return=$id;
+		} else {
+			$return="-";
+		}
 	}
 	if($html) {
 		$return=wt_he($return);
