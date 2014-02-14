@@ -173,6 +173,8 @@ RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
 RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
 # Chalet-IP
 RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
+# Linda
+RewriteCond %{REMOTE_ADDR} !^83\.218\.164\.218
 RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=302]
 
 
