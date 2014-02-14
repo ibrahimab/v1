@@ -76,11 +76,20 @@
 	width: 170px;
 	background-color: #ffffff;
 	color: #003366;
-	text-align: right;
+	text-align: left;
 }
 
 #hoofdpagina_sociallinks a {
-	margin-left: 7px;
+	margin-right: 7px;
+}
+
+#hoofdpagina_trustpilot {
+	margin-top: 15px;
+	max-height: 150px;
+}
+
+#hoofdpagina_trustpilot:hover {
+	opacity: .7;
 }
 
 #hoofdpagina_fotoslide {

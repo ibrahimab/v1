@@ -125,16 +125,17 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 	}
 
 	if($vars["website"]=="C") {
-		echo "<div id=\"hoofdpagina_sociallinks\">";
-		echo "<div style=\"float:right;\">";
-		echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-		echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
-		echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
-		echo "<a href=\"https://plus.google.com/102116407421806841336?prsrc=3\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
+
+		// Trustpilot
+
+		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">";
+		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:1238875,showReviews:False,width:170;\">\n";
+		echo "<a href=\"http://www.trustpilot.nl/review/chalet.nl\" rel=\"nofollow\" hidden>Chalet.nl Wintersport Beoordelingen</a>\n";
 		echo "</div>\n";
-		echo "<div style=\"float:right;\"></div>";
-		echo "<div style=\"clear: both;\"></div>\n";
-		echo "</div>\n"; # afsluiten hoofdpagina_sociallinks
+		echo "<script type=\"text/javascript\">\n";
+		echo "(function () { var a = \"https:\" == document.location.protocol ? \"https://ssl.trustpilot.com\" : \"http://s.trustpilot.com\", b = document.createElement(\"script\"); b.type = \"text/javascript\"; b.async = true; b.src = a + \"/tpelements/tp_elements_all.js\"; var c = document.getElementsByTagName(\"script\")[0]; c.parentNode.insertBefore(b, c) })();";
+		echo "</script>\n";
+		echo "</div>\n"; // close #hoofdpagina_trustpilot
 	}
 }
 

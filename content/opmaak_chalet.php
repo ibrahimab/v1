@@ -129,7 +129,7 @@ echo "<style type=\"text/css\">
 
 echo "<script>";
 // Hides the tabs + zoekblok during initialization
-echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek_overlay { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
+echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek_overlay, .hide_during_pageload { visibility: hidden; } #body_zoek-en-boek #zoekblok, #body_zoek-en-boek #verfijn { visibility: hidden; } </style>\');';
 echo "</script>";
 
 # JQuery
@@ -396,6 +396,19 @@ if($vars["verberg_linkerkolom"]) {
 			echo "</div>\n"; # afsluiten hoofdpagina_nieuwsbrief
 
 			echo "<div style=\"clear:both;\"></div>";
+
+			if($vars["website"]=="C" and $id=="index") {
+				echo "<div id=\"hoofdpagina_sociallinks\">";
+				echo "<div style=\"float:left;\">";
+				echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+				echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
+				echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
+				echo "<a href=\"https://plus.google.com/+ChaletNLWintersport\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
+				echo "</div>\n";
+				echo "<div style=\"float:right;\"></div>";
+				echo "<div style=\"clear: both;\"></div>\n";
+				echo "</div>\n"; # afsluiten #hoofdpagina_sociallinks
+			}
 
 			// if($vars["website"]=="C" and $id<>"alpedhuzes") {
 			// 	# Alpe d'HuZes

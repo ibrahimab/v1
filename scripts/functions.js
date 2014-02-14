@@ -2599,7 +2599,7 @@ $(document).ready(function() {
 	if(gebruik_jquery===true) {
 
 		// zoekblok pas tonen als alles klaar is
-		$("#zoekblok, #verfijn, #zoekenboek_overlay, #zoekenboek").css("visibility","visible");
+		$("#zoekblok, #verfijn, #zoekenboek_overlay, #zoekenboek, .hide_during_pageload").css("visibility","visible");
 
 		// indien _GET["selb"]==1 : bestemming-pulldown openklappen
 		if(location.href.indexOf("&selb=1") > -1 && $("div.datadiv").data("referer_zoekenboek")!="0") {
