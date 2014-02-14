@@ -3,6 +3,11 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+14-feb-2014 14:51
+ALTER TABLE `accommodatie` ADD `request_translation` TINYINT( 1 ) NOT NULL AFTER `tonen` ;
+ALTER TABLE `type` ADD `request_translation` TINYINT( 1 ) NOT NULL AFTER `tonenzoekformulier` ;
+
+
 11-feb-2014 15:02
 ALTER TABLE `garantie` CHANGE `factuurnummer` `factuurnummer` VARCHAR( 40 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL ;
 ALTER TABLE `garantie` ADD `leverancierscode` VARCHAR( 30 ) NULL DEFAULT NULL AFTER `factuurnummer` ;
