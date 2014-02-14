@@ -177,6 +177,8 @@ if($_GET["b"]) {
 			echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($value))."</a> (".$cat_aantal[$key].")</li>";
 		}
 	}
+	echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."reisblog\">Reisblog Toscane</a> (18)</li>";
+
 	echo "</ul></div>";
 	echo "</div>";
 	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,10");
@@ -221,6 +223,7 @@ if($_GET["b"]) {
 			echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($value))."</a> (".$cat_aantal[$key].")</li>";
 		}
 	}
+	echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."reisblog\">Reisblog Toscane</a> (18)</li>";
 	echo "</ul></div>";
 	echo "</div>";
 	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,10");
