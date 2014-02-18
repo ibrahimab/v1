@@ -447,7 +447,7 @@ class roominglist {
 		//  $where.="g.garantie_id NOT IN (".$this->verberg_garanties.") AND ";
 		// }
 
-		$db->query( "SELECT g.garantie_id, g.naam, g.aan_leverancier_doorgegeven_naam, g.type_id, g.soort_garantie, g.aankomstdatum_exact, g.vertrekdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, g.reserveringsnummer_extern, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." g.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND g.boeking_id=0 ORDER BY g.aankomstdatum_exact, t.type_id, g.garantie_id;" );
+		$db->query( "SELECT g.garantie_id, g.naam, g.aan_leverancier_doorgegeven_naam, g.type_id, g.soort_garantie, g.aankomstdatum_exact, g.vertrekdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, g.reserveringsnummer_extern, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." ((g.leverancier_id=l.leverancier_id AND g.leverancier_id='".intval( $this->leverancier_id )."') OR (t.beheerder_id='".intval( $this->leverancier_id )."' AND l.leverancier_id='".intval( $this->leverancier_id )."')) AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND g.boeking_id=0 ORDER BY g.aankomstdatum_exact, t.type_id, g.garantie_id;" );
 		while ( $db->next_record() ) {
 			$sortkey=$db->f( "plaats" )."_".$db->f( "aankomstdatum_exact" )."_".$db->f( "accommodatie" )."_".$db->f( "type" );
 			if ( !$leverancier ) {
@@ -545,7 +545,7 @@ class roominglist {
 			$where="e.week='".addslashes( $this->date )."' AND ";
 		}
 
-		$db->query( "SELECT e.type_id, e.soort, UNIX_TIMESTAMP(e.begin) AS aankomstdatum_exact, UNIX_TIMESTAMP(e.eind) AS vertrekdatum_exact, e.deelnemers, e.tekst_extra_options, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM eigenaar_blokkering e, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." t.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes( $this->leverancier_id )."' AND e.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND e.soort=1 ORDER BY e.begin, e.eind, t.type_id;" );
+		$db->query( "SELECT e.type_id, e.soort, UNIX_TIMESTAMP(e.begin) AS aankomstdatum_exact, UNIX_TIMESTAMP(e.eind) AS vertrekdatum_exact, e.deelnemers, e.tekst_extra_options, p.plaats_id, p.naam AS plaats, a.naam AS accommodatie, t.naam AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, t.code, l.naam AS leverancier FROM eigenaar_blokkering e, type t, accommodatie a, plaats p, leverancier l WHERE ".$where." t.leverancier_id=l.leverancier_id AND (t.leverancier_id='".addslashes( $this->leverancier_id )."' OR t.beheerder_id='".intval($this->leverancier_id)."') AND e.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND e.soort=1 ORDER BY e.begin, e.eind, t.type_id;" );
 		while ( $db->next_record() ) {
 			$sortkey=$db->f( "plaats" )."_".$db->f( "aankomstdatum_exact" )."_".$db->f( "accommodatie" )."_".$db->f( "type" );
 			if ( !$leverancier ) {
