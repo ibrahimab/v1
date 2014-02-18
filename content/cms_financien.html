@@ -671,15 +671,15 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 	# periode van (factuurdatum)
 	if($form->input["boekingbegin"]["unixtime"]>0) {
-		$andquery_hoofdquery.=" AND b.factuurdatum IS NOT NULL AND UNIX_TIMESTAMP(b.factuurdatum)>='".addslashes($form->input["boekingbegin"]["unixtime"])."'";
+		$andquery_hoofdquery.=" AND b.factuurdatum_eerste_factuur IS NOT NULL AND UNIX_TIMESTAMP(b.factuurdatum_eerste_factuur)>='".addslashes($form->input["boekingbegin"]["unixtime"])."'";
 
 		# geen garanties
 		$andquery_gar_hoofdquery.=" AND 1=2";
 	}
 
-	# periode tot (factuurdatum)
+	# periode tot (factuurdatum_eerste_factuur)
 	if($form->input["boekingeind"]["unixtime"]>0) {
-		$andquery_hoofdquery.=" AND b.factuurdatum IS NOT NULL AND UNIX_TIMESTAMP(b.factuurdatum)<'".mktime(0,0,0,date("m",$form->input["boekingeind"]["unixtime"]),date("d",$form->input["boekingeind"]["unixtime"])+1,date("Y",$form->input["boekingeind"]["unixtime"]))."'";
+		$andquery_hoofdquery.=" AND b.factuurdatum_eerste_factuur IS NOT NULL AND UNIX_TIMESTAMP(b.factuurdatum_eerste_factuur)<'".mktime(0,0,0,date("m",$form->input["boekingeind"]["unixtime"]),date("d",$form->input["boekingeind"]["unixtime"])+1,date("Y",$form->input["boekingeind"]["unixtime"]))."'";
 
 		# geen garanties
 		$andquery_gar_hoofdquery.=" AND 1=2";
@@ -693,8 +693,17 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 	# alleen verkochte garanties
 	if($form->input["alleenverkochtegaranties"]) {
-		$andquery.=" AND b.boeking_id IN (SELECT boeking_id FROM garantie)";
+		unset($inquery);
+		$db->query("SELECT DISTINCT boeking_id FROM garantie WHERE boeking_id>0;");
+		while($db->next_record()) {
+			$inquery.=",".$db->f("boeking_id");
+		}
+		if($inquery) {
+			$andquery.=" AND b.boeking_id IN (".substr($inquery,1).")";
+		}
 	}
+// echo $andquery;
+// exit;
 
 #echo $andquery_hoofdquery;
 
@@ -1818,62 +1827,5 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 }
 
-if($dit_is_helemaal_niet_nodig) {
-
-
-	$db->query("SELECT f.boeking_id, fr.bedrag, UNIX_TIMESTAMP(f.datum) AS datum FROM factuur f, factuurregel fr WHERE fr.factuur_id=f.factuur_id AND fr.regelnummer=0;");
-	while($db->next_record()) {
-		$totaal[boekjaar($db->f("datum"))]+=$db->f("bedrag");
-		$boeking1[$db->f("boeking_id")]+=$db->f("bedrag");
-		$boekjaar1[$db->f("boeking_id")]=boekjaar($db->f("datum"));
-	}
-	ksort($totaal);
-	echo "Facturen<table>";
-	while(list($key,$value)=each($totaal)) {
-		echo "<tr><td>Boekjaar ".$key."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&euro;&nbsp;</td><td align=\"right\">".number_format($value,2,',','.')."</td></tr>";
-	}
-	echo "</table>&nbsp;<hr>&nbsp;<p>";
-
-	$db->query("SELECT boeking_id, UNIX_TIMESTAMP(factuurdatum) AS factuurdatum FROM boeking WHERE goedgekeurd=1;");
-	while($db->next_record()) {
-		$temp_gegevens=boekinginfo($db->f("boeking_id"));
-		$gegevens["stap1"]["boekingid"]=$temp_gegevens["stap1"]["boekingid"];
-		$gegevens["stap1"]["factuurdatum"]=$temp_gegevens["stap1"]["factuurdatum"];
-
-		if($temp_gegevens["stap4"][2]) {
-			$gegevens["stap4"]=$temp_gegevens["stap4"][2];
-			$gegevens["stap4"]["actieve_status"]=2;
-			$gegevens["fin"]=$temp_gegevens["fin"][2];
-		} else {
-			$gegevens["stap4"]=$temp_gegevens["stap4"][1];
-			$gegevens["stap4"]["actieve_status"]=1;
-			$gegevens["fin"]=$temp_gegevens["fin"][1];
-		}
-		$totaal2[boekjaar($db->f("factuurdatum"))]+=$gegevens["fin"]["totale_reissom"];
-		$boeking2[$db->f("boeking_id")]+=$gegevens["fin"]["totale_reissom"];
-		$boekjaar2[$db->f("boeking_id")]=boekjaar($db->f("factuurdatum"));
-	}
-
-	ksort($totaal2);
-	echo "Boekingen<table>";
-	while(list($key,$value)=each($totaal2)) {
-		echo "<tr><td>Boekjaar ".$key."</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&euro;&nbsp;</td><td align=\"right\">".number_format($value,2,',','.')."</td></tr>";
-	}
-	echo "</table>";
-
-	echo "<hr>Boekjaar<p>";
-	while(list($key,$value)=each($boekjaar1)) {
-		if($value<>$boekjaar2[$key]) echo "Boeking ".$key." - factuur:".$boekjaar2[$key]." - boeking:".$value."<br>";
-	}
-
-	echo "<hr>Boeking1<p>";
-	while(list($key,$value)=each($boeking1)) {
-		if(intval($value*100)<>intval($boeking2[$key]*100)) echo "Boeking ".$key." - factuur:".$boeking2[$key]." - boeking:".$value."<br>";
-	}
-	echo "<hr>Boeking2<p>";
-	while(list($key,$value)=each($boeking2)) {
-		if(intval($value*100)<>intval($boeking1[$key]*100)) echo "Boeking ".$key." - factuur:".$boeking1[$key]." - boeking:".$value."<br>";
-	}
-}
 
 ?>

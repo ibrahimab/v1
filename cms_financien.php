@@ -193,7 +193,7 @@ if($_GET["marges"]) {
 	$form->field_date(0,"begin","Van","","",array("startyear"=>2006,"endyear"=>date("Y")+2),array("calendar"=>true));
 	$form->field_date(0,"eind","Tot en met","","",array("startyear"=>2006,"endyear"=>date("Y")+2),array("calendar"=>true));
 
-	$form->field_htmlrow("","<br/><b>Factuurdatum</b> (laatste factuur; garanties worden niet gespecificeerd)");
+	$form->field_htmlrow("","<br/><b>Factuurdatum</b> (eerste factuur; garanties worden niet gespecificeerd)");
 
 
 
