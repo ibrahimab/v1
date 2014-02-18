@@ -1278,7 +1278,7 @@ $(document).ready(function() {
 				$("input[name='bezeteigenaar["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
 			} else if(eigenarenlogin_soort=="nietbeschikbaarverhuur" &&  $("input[name='boekingderden["+eigenaar_formulier_week+"]']").is(":checked")) {
 				$("input[name='boekingderden["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
-			} else if($("input[name='aantal_geboekt["+eigenaar_formulier_week+"]']").val().length>0) {
+			} else if($(this).is(":checked") && $("input[name='aantal_geboekt["+eigenaar_formulier_week+"]']").val().length>0) {
 				$("input[name='aantal_geboekt["+eigenaar_formulier_week+"]']").parent("td").effect("highlight", {}, 1000);
 			} else {
 
