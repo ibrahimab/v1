@@ -208,6 +208,21 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// checbox_check_all
+	$(".checbox_check_all").change(function(event) {
+		var use_element = "";
+		if($(this).data("only-class")) {
+			use_element = "." + $(this).data("only-class");
+		} else {
+			use_element = "input[type=checkbox]";
+		}
+
+		if($(this).is(":checked")) {
+			$(use_element).prop("checked", true);
+		} else {
+			$(use_element).prop("checked", false);
+		}
+	});
 
 	if($("#cms_body_cms_diversen").length!==0 && window.location.hash.length!==0) {
 		// open action

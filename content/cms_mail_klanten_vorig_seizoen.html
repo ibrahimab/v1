@@ -244,7 +244,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 					$select_table[$use_key] .= "<span id=\"bewerk".$db->f("boeking_id")."\" style=\"".($db->f("mailtekst_klanten_vorig_seizoen")=="" ? "display:none;" : "")."\">";
 					$select_table[$use_key] .= "ja";
 					$select_table[$use_key] .= "</span>";
-					$select_table[$use_key] .= "&nbsp;</td><td align=\"center\"".($db->f("mailblokkeren_klanten_vorig_seizoen") ? "style=\"background-color:#ffa9a9;\"" : "")."><input type=\"checkbox\" name=\"boeking[".$db->f("boeking_id")."]\" value=\"1\">";
+					$select_table[$use_key] .= "&nbsp;</td><td align=\"center\"".($db->f("mailblokkeren_klanten_vorig_seizoen") ? "style=\"background-color:#ffa9a9;\"" : "")."><input type=\"checkbox\" name=\"boeking[".$db->f("boeking_id")."]\" value=\"1\" class=\"checkbox_versturen\">";
 					$select_table[$use_key] .= "</td></tr>\n";
 				} else {
 					$select_table[$use_key] .= "<td>".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td><td align=\"center\" title=\"".htmlentities($db->f("opmerkingen_klanten_vorig_seizoen"))."\">".($db->f("opmerkingen_klanten_vorig_seizoen") ? "ja" : "&nbsp;")."</td><td>".($db->f("mailverstuurd_klanten_vorig_seizoen")>0 ? date("d-m-Y",$db->f("mailverstuurd_klanten_vorig_seizoen")) : "&nbsp;").($db->f("mailverstuurd2_klanten_vorig_seizoen")>0 ? "<br>".date("d-m-Y",$db->f("mailverstuurd2_klanten_vorig_seizoen")) : "")."</td><td>".htmlentities($vars["status_bestaandeklanten"][$db->f("status_klanten_vorig_seizoen")])."</td></tr>\n";
@@ -307,7 +307,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 			if(!$_GET["accid"]) {
 				echo "<th>Type</th>";
 			}
-			echo "<th>Hoofdboeker</th><th>Aankomst</th><th>Tekst</th><th>Bewerkt</th><th>Versturen</th></tr>";
+			echo "<th>Hoofdboeker</th><th>Aankomst</th><th>Tekst</th><th>Bewerkt</th><th>Versturen<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"checkbox\" class=\"checbox_check_all\" data-only-class=\"checkbox_versturen\"></th></tr>";
 		} else {
 			echo "<tr><th title=\"Verwijder de boeking uit deze lijst\" style=\"width:10px;\">Wis</th><th>Boeking</th>";
 			echo "<th>Hoofdboeker</th><th>Opmerkingen</th><th>Verstuurd</th><th style=\"width:200px;\">Status</th></tr>";

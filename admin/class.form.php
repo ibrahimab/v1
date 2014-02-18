@@ -1349,7 +1349,9 @@ class form2 {
 						} elseif($ext=="pdf" or $ext=="doc" or $ext=="pps") {
 							$return.="<table class=\"wtform_img_tbl\">";
 							$return.="<tr><td style=\"text-align:center;\">";
-							if($this->settings["download_uploaded_files"]) $return.="<a href=\"".wt_he(($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value))."?c=".@filemtime($value)."\" target=\"_blank\">";
+							if($this->settings["download_uploaded_files"]) {
+								$return.="<a href=\"".wt_he(($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value)).(preg_match("@\?@", $this->fields["options"][$id]["requestfilevia"]) ? "&" : "?")."c=".@filemtime($value)."\" target=\"_blank\">";
+							}
 							$return.="<img src=\"".$this->settings["path"]."pic/class.form_".$ext."_icon.gif\" width=\"20\" height=\"20\" border=\"0\" alt=\"".wt_he($value)."\" title=\"".wt_he($value)."\">";
 							if($this->settings["download_uploaded_files"]) $return.="</a>";
 							$return.="<br>";
