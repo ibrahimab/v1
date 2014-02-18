@@ -1,6 +1,6 @@
 <?php
 
-$db->query("SELECT skigebied_id, naam, omschrijving".$vars["ttv"]." AS omschrijving, omschrijving_afbreken_na, minhoogte, maxhoogte, altnaam_zichtbaar, skiwaardering, snowboardwaardering, aantalliften, aantalstoeltjesliften, aantalsleepliften, aantalcabineliften, kilometerpiste, aantalgroenepistes, kmgroenepistes, aantalblauwepistes, kmblauwepistes, aantalrodepistes, kmrodepistes, aantalzwartepistes, kmzwartepistes, aantalloipes, kmloipes, omschrijvingskipasbasis".$vars["ttv"]." AS omschrijvingskipasbasis, omschrijvingskipasuitgebreid".$vars["ttv"]." AS omschrijvingskipasuitgebreid, webcam, weerbericht, kaart, kleurcode, accommodatiecodes, googlemaps_zoomlevel, video, video_url, foto_onderschrift FROM skigebied WHERE skigebied_id=".addslashes($skigebiedid)." AND wzt='".addslashes($vars["seizoentype"])."';");
+$db->query("SELECT skigebied_id, naam".$vars["ttv"]." AS naam, omschrijving".$vars["ttv"]." AS omschrijving, omschrijving_afbreken_na, minhoogte, maxhoogte, altnaam_zichtbaar, skiwaardering, snowboardwaardering, aantalliften, aantalstoeltjesliften, aantalsleepliften, aantalcabineliften, kilometerpiste, aantalgroenepistes, kmgroenepistes, aantalblauwepistes, kmblauwepistes, aantalrodepistes, kmrodepistes, aantalzwartepistes, kmzwartepistes, aantalloipes, kmloipes, omschrijvingskipasbasis".$vars["ttv"]." AS omschrijvingskipasbasis, omschrijvingskipasuitgebreid".$vars["ttv"]." AS omschrijvingskipasuitgebreid, webcam, weerbericht, kaart, kleurcode, accommodatiecodes, googlemaps_zoomlevel, video, video_url, foto_onderschrift FROM skigebied WHERE skigebied_id=".addslashes($skigebiedid)." AND wzt='".addslashes($vars["seizoentype"])."';");
 if(!$db->next_record()) {
 	echo html("skigebiednietgevonden","toonskigebied")."<p>";
 	echo html("kieseenanderskigebied","toonskigebied",array("l1"=>"skigebieden"));
@@ -536,7 +536,7 @@ hr {
 			}
 
 			if($inquery) {
-				$db2->query("SELECT accommodatie_id, type_id, naam, skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
+				$db2->query("SELECT accommodatie_id, type_id, naam, skigebied".$vars["ttv"]." AS skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
 				while($db2->next_record()) {
 					$accurl=$vars["path"]."accommodatie/".$db2->f("begincode").$db2->f("type_id")."/";
 

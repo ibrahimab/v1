@@ -52,7 +52,7 @@ if($vars["seizoentype"]==2) {
 
 # Skigebied-array vullen
 unset($tabellen,$landenteller,$landgehad);
-$db->query("SELECT DISTINCT s.naam, l.naam".$vars["ttv"]." AS land, s.skigebied_id, s.minhoogte, s.maxhoogte, s.kilometerpiste, s.kortenaam1, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.websites LIKE '%".$vars["website"]."%' AND l.land_id='".addslashes($landinfo["id"])."' ORDER BY l.naam".$vars["ttv"].", s.naam;");
+$db->query("SELECT DISTINCT s.naam".$vars["ttv"]." AS naam, l.naam".$vars["ttv"]." AS land, s.skigebied_id, s.minhoogte, s.maxhoogte, s.kilometerpiste, s.kortenaam1, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.websites LIKE '%".$vars["website"]."%' AND l.land_id='".addslashes($landinfo["id"])."' ORDER BY l.naam".$vars["ttv"].", s.naam".$vars["ttv"].";");
 if($db->num_rows()) {
 	while($db->next_record()) {
 
@@ -351,7 +351,7 @@ if($FUNCTIE_UITGEZET and $vars["seizoentype"]==2 and ($themalandinfo["naam"]=="F
 	while(list($key,$value)=each($coords)) {
 		$inquery.=",".$key;
 	}
-	$db->query("SELECT skigebied_id, naam FROM skigebied WHERE skigebied_id IN (".substr($inquery,1).") ORDER BY naam;");
+	$db->query("SELECT skigebied_id, naam".$vars["ttv"]." AS naam FROM skigebied WHERE skigebied_id IN (".substr($inquery,1).") ORDER BY naam".$vars["ttv"].";");
 	while($db->next_record()) {
 		$regio["naam"][$db->f("skigebied_id")]=$db->f("naam");
 	}
@@ -374,7 +374,7 @@ if($FUNCTIE_UITGEZET and $vars["seizoentype"]==2 and ($themalandinfo["naam"]=="F
 	echo "<div id=\"landkaartklikbaar_namen\">";
 
 	if($inquery) {
-		$db->query("SELECT skigebied_id, naam FROM skigebied WHERE skigebied_id IN (".substr($inquery,1).") ORDER BY naam;");
+		$db->query("SELECT skigebied_id, naam".$vars["ttv"]." AS naam FROM skigebied WHERE skigebied_id IN (".substr($inquery,1).") ORDER BY naam".$vars["ttv"].";");
 		while($db->next_record()) {
 			if($regio["aantal_acc"][$db->f("skigebied_id")]) {
 				echo "<div id=\"regio_".$db->f("skigebied_id")."\" class=\"landnaam\" rel=\"".$db->f("skigebied_id")."\"><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("naam"))."/#beschrijving\">".htmlentities($db->f("naam"))."</a> (".intval($regio["aantal_acc"][$db->f("skigebied_id")]).")</div>";

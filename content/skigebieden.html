@@ -10,7 +10,7 @@ echo "</tr></table>";
 
 # Skigebied-array vullen
 unset($tabellen,$landenteller);
-$db->query("SELECT DISTINCT s.naam, l.naam".$vars["ttv"]." AS land, l.omschrijving".$vars["ttv"]." AS omschrijving, s.skigebied_id, s.minhoogte, s.maxhoogte, s.kilometerpiste, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(l.land_id,'1,2,3,5,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20'), l.naam".$vars["ttv"].", s.naam;");
+$db->query("SELECT DISTINCT s.naam".$vars["ttv"]." AS naam, l.naam".$vars["ttv"]." AS land, l.omschrijving".$vars["ttv"]." AS omschrijving, s.skigebied_id, s.minhoogte, s.maxhoogte, s.kilometerpiste, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(l.land_id,'1,2,3,5,4,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20'), l.naam".$vars["ttv"].", s.naam;");
 if($db->num_rows()) {
 	while($db->next_record()) {
 		# Aantal accommodaties bepalen

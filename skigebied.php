@@ -35,7 +35,7 @@ if($url[0]) {
 }
 
 $skigebiedid=0;
-$db->query("SELECT skigebied_id, naam, descriptiontag".$vars["ttv"]." AS descriptiontag FROM skigebied WHERE wzt='".addslashes($vars["seizoentype"])."';");
+$db->query("SELECT skigebied_id, naam AS naam_org, naam".$vars["ttv"]." AS naam, descriptiontag".$vars["ttv"]." AS descriptiontag FROM skigebied WHERE wzt='".addslashes($vars["seizoentype"])."';");
 while($db->next_record()) {
 	if(wt_convert2url_oud($url[0])<>wt_convert2url($url[0]) and wt_convert2url($db->f("naam"))==wt_convert2url($url[0])) {
 		# heel oude url's forwarden
@@ -71,6 +71,10 @@ while($db->next_record()) {
 	} elseif(strtolower(wt_convert2url_seo($url[0]))==strtolower(wt_convert2url_seo($db->f("naam")))) {
 		header("Location: ".$path.txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("naam"))."/",true,301);
 		exit;
+	} elseif($vars["ttv"] and $db->f("naam_org")<>$db->f("naam") and strtolower(wt_convert2url_seo($url[0]))==strtolower(wt_convert2url_seo($db->f("naam_org")))) {
+		// non-English region name: redirect to English name
+		header("Location: ".$path.txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("naam"))."/",true,301);
+		exit;
 	}
 }
 
@@ -78,10 +82,10 @@ if($skigebiedid) {
 	if($voorkant_cms) {
 		# land bepalen
 		# Ook bij geen accommodaties: gegevens ophalen
-		$db->query("SELECT naam FROM skigebied WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."';");
+		$db->query("SELECT naam".$vars["ttv"]." AS naam FROM skigebied WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."';");
 	} else {
 		# Alleen bij accommodaties: gegevens ophalen
-		$db->query("SELECT skigebied AS naam, land, land_id FROM view_accommodatie WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."' AND atonen=1 AND ttonen=1 AND archief=0 AND websites LIKE '%".$vars["website"]."%';");
+		$db->query("SELECT skigebied".$vars["ttv"]." AS naam, land, land_id FROM view_accommodatie WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."' AND atonen=1 AND ttonen=1 AND archief=0 AND websites LIKE '%".$vars["website"]."%';");
 	}
 	if($db->next_record()) {
 

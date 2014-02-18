@@ -67,6 +67,7 @@ $cms->db[5]["set"]="wzt='".addslashes($_GET["wzt"])."'";
 
 # Database db_field($counter,$type,$id,$field="",$options="")
 $cms->db_field(5,"text","naam");
+if($vars["cmstaal"]) $cms->db_field(5,"text","naam_".$vars["cmstaal"]);
 
 # inactieve sites uitzetten
 while(list($key,$value)=each($vars["websites_inactief"])) {
@@ -153,7 +154,12 @@ $cms->list_field(5,"websites","Sites");
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(5,0,"websites","Toon in totaaloverzicht op",array("selection"=>($_GET["wzt"]==1 ? "B,C,T,W" : "N,O,Z")),"",array("one_per_line"=>true));
-$cms->edit_field(5,1,"naam");
+if($vars["cmstaal"]) {
+	$cms->edit_field(5,1,"naam", "Naam NL","",array("noedit"=>true));
+	$cms->edit_field(5,1,"naam_".$vars["cmstaal"], "Naam ".strtoupper($vars["cmstaal"]));
+} else {
+	$cms->edit_field(5,1,"naam");
+}
 $cms->edit_field(5,0,"altnaam","Zoekwoorden (zoekformulier)");
 $cms->edit_field(5,0,"altnaam_zichtbaar","Alternatieve spelling (zoekformulier)");
 if($vars["cmstaal"]) {
@@ -308,6 +314,13 @@ if($_GET["delete"]==5 and $_GET["5k0"]) {
 	}
 }
 
+
+function form_before_goto($form) {
+	$db = new DB_sql;
+
+	// set English name if empty
+	$db->query("UPDATE skigebied SET naam_en=naam WHERE naam_en='';");
+}
 
 # End declaration
 $cms->end_declaration();
