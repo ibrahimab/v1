@@ -1,5 +1,19 @@
 <?php
 
+
+function save_aan_leverancier_doorgegeven_naam() {
+
+	$db = new DB_sql;
+
+	global $vars, $gegevens;
+
+	$naam = wt_naam( $gegevens["stap2"]["voornaam"], $gegevens["stap2"]["tussenvoegsel"], $gegevens["stap2"]["achternaam"]);
+
+	// Save aan_leverancier_doorgegeven_naam
+	$db->query("UPDATE boeking SET aan_leverancier_doorgegeven_naam='".addslashes($naam)."' WHERE boeking_id='".intval($gegevens["stap1"]["boekingid"])."';");
+}
+
+
 $gegevens=get_boekinginfo($_GET["bid"]);
 
 # Kijken of het om een verzameltype gaat
@@ -52,6 +66,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 					$db->query("UPDATE boeking SET leverancierscode='".addslashes($bestelnummer)."', bestelstatus=3, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 					chalet_log("bestelling via xml verzonden (ontvangen reserveringsnummer: ".$bestelnummer.")",false,true);
 					chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestigd'",false,true);
+					save_aan_leverancier_doorgegeven_naam();
 					break;
 				}
 			} elseif($xml_type==9) {
@@ -82,6 +97,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 					$db->query("UPDATE boeking SET bestelstatus=2, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 					chalet_log("bestelling via xml verzonden",false,true);
 					chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestiging afwachten'",false,true);
+					save_aan_leverancier_doorgegeven_naam();
 					break;
 				}
 
@@ -166,6 +182,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 						// $db->query("UPDATE boeking SET leverancierscode='".addslashes($reserveringsnummer)."', bestelstatus=3, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 						chalet_log("optie-aanvraag via xml verzonden (ontvangen reserveringsnummer: ".$reserveringsnummer.")",false,true);
 						// chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestigd'",false,true);
+						save_aan_leverancier_doorgegeven_naam();
 						break;
 					}
 				} else {
@@ -253,10 +270,14 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 
 					if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 						# testsysteem
+
+						save_aan_leverancier_doorgegeven_naam();
+
 						echo "getDistribProposalsbyDate2(\"".$soap_baseid."\",\"".$soap_username."\",\"".$soap_password."\",\"".$soap_partnercode."\",\"".$conventionid."\",\"\",".$code[0].",".$code[1].",".date("Y-m-d",$gegevens["stap1"]["aankomstdatum_exact"]).",".date("Y-m-d",$gegevens["stap1"]["vertrekdatum_exact"]).")<br>";
 						echo "base_product_code: ".$base_product_code."<br><br><pre>";
 						print_r($client);
 						print_r($result);
+
 						exit;
 					}
 
@@ -311,6 +332,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 								$db->query("UPDATE boeking SET leverancierscode='".addslashes(utf8_decode($result))."', bestelstatus=3, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 								chalet_log("bestelling via xml verzonden (ontvangen reserveringsnummer: ".utf8_decode($result).")",false,true);
 								chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestigd'",false,true);
+								save_aan_leverancier_doorgegeven_naam();
 							} else {
 								echo "<span class=\"error\">Boeken niet gelukt.<br><br>Foutmelding van het ".$soap_systeemnaam."-systeem: ".htmlentities(($error ? $error : "onbekende fout"))."</span><p>";
 								trigger_error("notice: ".$soap_systeemnaam."-foutmelding ".$error,E_USER_NOTICE);
