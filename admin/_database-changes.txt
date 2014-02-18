@@ -3,6 +3,12 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+18-feb-2014 15:02
+ALTER TABLE `skigebied` ADD `naam_de` VARCHAR( 100 ) NOT NULL AFTER `naam` ,
+ADD `naam_en` VARCHAR( 100 ) NOT NULL AFTER `naam_de` ,
+ADD `naam_fr` VARCHAR( 100 ) NOT NULL AFTER `naam_en` ;
+
+
 14-feb-2014 14:51
 ALTER TABLE `accommodatie` ADD `request_translation` TINYINT( 1 ) NOT NULL AFTER `tonen` ;
 ALTER TABLE `type` ADD `request_translation` TINYINT( 1 ) NOT NULL AFTER `tonenzoekformulier` ;
