@@ -119,6 +119,9 @@ $txta["en"]["menu_index"]="index";
 $txta["nl"]["menu_plaats"]="plaats";
 $txta["en"]["menu_plaats"]="resort";
 
+$txta["nl_i"]["menu_plaats"]="plaats";
+$txta["en_i"]["menu_plaats"]="location";
+
 $txta["nl"]["menu_calc"]="calc";
 $txta["en"]["menu_calc"]="calc";
 

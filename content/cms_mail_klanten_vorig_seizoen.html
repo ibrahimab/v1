@@ -184,22 +184,22 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 		$andere_accommodaties_inquery.=",".$db->f("boeking_id");
 	}
 
-	if($_GET["andere_accommodaties"]==0 or $_GET["andere_accommodaties"]==0) {
-		// eigen accommodatie: alleen indien enquete vraag4 = 1
-		$db->query("SELECT boeking_id FROM boeking_enquete WHERE vraag4=1;");
-		while($db->next_record()) {
-			$eigen_accommodaties_inquery.=",".$db->f("boeking_id");
-		}
-		if($eigen_accommodaties_inquery) {
-			$wherequery.=" AND b.boeking_id IN (".substr($eigen_accommodaties_inquery,1).")";
-		}
-	}
+	// if($_GET["andere_accommodaties"]==0 or $_GET["andere_accommodaties"]==0) {
+	// 	// eigen accommodatie: alleen indien enquete vraag4 = 1
+	// 	$db->query("SELECT boeking_id FROM boeking_enquete WHERE vraag4=1;");
+	// 	while($db->next_record()) {
+	// 		$eigen_accommodaties_inquery.=",".$db->f("boeking_id");
+	// 	}
+	// 	if($eigen_accommodaties_inquery) {
+	// 		$wherequery.=" AND b.boeking_id IN (".substr($eigen_accommodaties_inquery,1).")";
+	// 	}
+	// }
 
 	if($_GET["andere_accommodaties"]==2) {
 		# klanten die over andere accommodaties geinformeerd willen worden
 		$wherequery.=" AND b.boeking_id IN (".substr($andere_accommodaties_inquery,1).")";
 	} elseif($_GET["andere_accommodaties"]==1) {
-		# klanten die over hun eigen accommodatie geinformeerd willen worden&nbsp; (en waarvoor NOG GEEN tarieven bekend zijn)
+		# klanten die over hun eigen accommodatie geinformeerd willen worden (en waarvoor NOG GEEN tarieven bekend zijn)
 		$wherequery.=" AND b.boeking_id NOT IN (".substr($andere_accommodaties_inquery,1).")";
 		# Bekijken welke types al tarieven hebben
 		$type_inquery=",0";
@@ -211,7 +211,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 
 		$wherequery_newpricesmail .= " AND t.type_id NOT IN (".substr($type_inquery,1).")";
 	} else {
-		# klanten die over hun eigen accommodatie geinformeerd willen worden&nbsp; (en waarvoor al tarieven bekend zijn)
+		# klanten die over hun eigen accommodatie geinformeerd willen worden (en waarvoor al tarieven bekend zijn)
 		$wherequery.=" AND b.boeking_id NOT IN (".substr($andere_accommodaties_inquery,1).")";
 		if($_GET["status"]==1 or $_GET["status"]==2) {
 			# Bekijken welke types al tarieven hebben
@@ -230,7 +230,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 	//
 	// bookings
 	//
-	$db->query("SELECT DISTINCT b.boekingsnummer, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_klanten_vorig_seizoen, b.mailblokkeren_klanten_vorig_seizoen, b.opmerkingen_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd_klanten_vorig_seizoen) AS mailverstuurd_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd2_klanten_vorig_seizoen) AS mailverstuurd2_klanten_vorig_seizoen, b.status_klanten_vorig_seizoen, bp.voornaam, bp.tussenvoegsel, bp.achternaam, a.naam, p.naam AS plaats, l.begincode, a.accommodatie_id, a.tonen AS atonen, t.type_id, t.tonen AS ttonen, t.websites, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, skigebied s WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.seizoen_id IN (".$vorigeseizoen.")".($_GET["accid"] ? " AND a.accommodatie_id='".addslashes($_GET["accid"])."'" : "")." AND b.mailverbergen_klanten_vorig_seizoen=0".$wherequery." ORDER BY ".($_GET["status"]==4 ? "b.boekingsnummer DESC, " : "")."a.wzt, p.naam, a.naam, t.optimaalaantalpersonen, a.accommodatie_id, b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
+	$db->query("SELECT DISTINCT b.boekingsnummer, b.boeking_id, b.aankomstdatum, b.aankomstdatum_exact, b.website, b.mailtekst_klanten_vorig_seizoen, b.mailblokkeren_klanten_vorig_seizoen, b.opmerkingen_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd_klanten_vorig_seizoen) AS mailverstuurd_klanten_vorig_seizoen, UNIX_TIMESTAMP(b.mailverstuurd2_klanten_vorig_seizoen) AS mailverstuurd2_klanten_vorig_seizoen, b.status_klanten_vorig_seizoen, bp.voornaam, bp.tussenvoegsel, bp.achternaam, a.naam, p.naam AS plaats, l.begincode, a.accommodatie_id, a.tonen AS atonen, t.type_id, t.tonen AS ttonen, t.websites, t.optimaalaantalpersonen, t.maxaantalpersonen FROM boeking b, boeking_persoon bp, accommodatie a, type t, plaats p, land l, skigebied s WHERE b.reisbureau_user_id IS NULL AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.goedgekeurd=1 AND b.seizoen_id IN (".$vorigeseizoen.")".($_GET["accid"] ? " AND a.accommodatie_id='".addslashes($_GET["accid"])."'" : "")." AND b.mailverbergen_klanten_vorig_seizoen=0".$wherequery." ORDER BY ".($_GET["status"]==4 ? "b.boekingsnummer DESC, " : "")."a.wzt, p.naam, a.naam, t.optimaalaantalpersonen, a.accommodatie_id, b.aankomstdatum_exact, s.naam, p.naam, b.boekingsnummer;");
 
 	if($db->num_rows()) {
 		while($db->next_record()) {

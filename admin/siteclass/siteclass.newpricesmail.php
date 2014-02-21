@@ -49,7 +49,7 @@ class newpricesmail {
 			$return["website"] = $website;
 			$return["to"] = $email;
 			$return["toname"] = "";
-			$return["subject"] = "De prijzen van de door jou bekeken accommodatie in [PLAATS] zijn bekend!";
+			$return["subject"] = $txt[$vars["taal"]]["vars"]["newpricesmail_subject"];
 			$return["subject"] = str_replace("[PLAATS]", $db->f("plaats"), $return["subject"]);
 
 			if($mailtekst) {
