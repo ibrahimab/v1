@@ -341,11 +341,11 @@ RewriteRule ^veelgestelde-vragen$ veelgestelde-vragen.php?%{QUERY_STRING}
 # landingspagin's Italissima
 RewriteRule ^vakantiehuizen-gardameer$ /vakantiehuizen/regio/Gardameer/ [L,R=301]
 RewriteRule ^vakantiehuizen-bloemenriviera$ vakantiehuizen-bloemenriviera.php?%{QUERY_STRING}
-RewriteRule ^vakantie-in-italie$ vakantie-in-italie.php?%{QUERY_STRING}
 
 # landingpages zoek-en-boek
 RewriteRule ^agriturismo-italie$ zoek-en-boek.php?prequery=1&pagetype=landing-italissima&pagecontent=agriturismo-italie&%{QUERY_STRING}
 RewriteRule ^agriturismo-toscane$ zoek-en-boek.php?prequery=1&pagetype=landing-italissima&pagecontent=agriturismo-toscane&%{QUERY_STRING}
+RewriteRule ^vakantie-in-italie$ zoek-en-boek.php?prequery=1&pagetype=landing-italissima&pagecontent=vakantie-in-italie&%{QUERY_STRING}
 
 
 RewriteRule ^aanbiedingen$ /aanbiedingen/ [L,R=301]
