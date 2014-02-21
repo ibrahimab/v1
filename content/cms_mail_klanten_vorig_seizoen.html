@@ -48,6 +48,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 						if($mailtekst["bewerkt"] and $login->vars["email"]) {
 							$settings["bcc"]=$login->vars["email"];
 						}
+						$settings["add_to_basehref"]="?utm_source=email&utm_medium=email&utm_campaign=mail-volgend-seizoen-klant";
 
 						# Mail versturen (met opmaak)
 						verstuur_opmaakmail($mailtekst["website"],$mailtekst["to"],$mailtekst["toname"],$mailtekst["subject"],$mailtekst["body"],$settings);
@@ -94,6 +95,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 						if($mailtekst["bewerkt"] and $login->vars["email"]) {
 							$settings["bcc"]=$login->vars["email"];
 						}
+						$settings["add_to_basehref"]="?utm_source=email&utm_medium=email&utm_campaign=mail-volgend-seizoen";
 
 						# Mail versturen (met opmaak)
 						verstuur_opmaakmail($mailtekst["website"],$mailtekst["to"],$mailtekst["toname"],$mailtekst["subject"],$mailtekst["body"],$settings);
@@ -176,13 +178,22 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 	}
 
 	# Boekingen zonder enquete: ook "mail me over andere accommodaties/bestemmingen" toepassen
-	$db->query("SELECT boeking_id FROM boeking WHERE seizoen_id IN (".$vorigeseizoen.") AND aankomstdatum<".(time()-86400*15)." AND boeking_id NOT IN (SELECT boeking_id FROM boeking_enquete WHERE boeking_id IS NOT NULL);");
+	$db->query("SELECT boeking_id FROM boeking WHERE seizoen_id IN (".$vorigeseizoen.") AND vertrekdatum_exact<".(time()-86400*8)." AND boeking_id NOT IN (SELECT boeking_id FROM boeking_enquete WHERE boeking_id IS NOT NULL);");
 	while($db->next_record()) {
 		$andere_accommodaties[$db->f("boeking_id")]=true;
 		$andere_accommodaties_inquery.=",".$db->f("boeking_id");
 	}
 
-
+	if($_GET["andere_accommodaties"]==0 or $_GET["andere_accommodaties"]==0) {
+		// eigen accommodatie: alleen indien enquete vraag4 = 1
+		$db->query("SELECT boeking_id FROM boeking_enquete WHERE vraag4=1;");
+		while($db->next_record()) {
+			$eigen_accommodaties_inquery.=",".$db->f("boeking_id");
+		}
+		if($eigen_accommodaties_inquery) {
+			$wherequery.=" AND b.boeking_id IN (".substr($eigen_accommodaties_inquery,1).")";
+		}
+	}
 
 	if($_GET["andere_accommodaties"]==2) {
 		# klanten die over andere accommodaties geinformeerd willen worden
@@ -200,7 +211,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 
 		$wherequery_newpricesmail .= " AND t.type_id NOT IN (".substr($type_inquery,1).")";
 	} else {
-		# klanten die over andere accommodaties geinformeerd willen worden
+		# klanten die over hun eigen accommodatie geinformeerd willen worden&nbsp; (en waarvoor al tarieven bekend zijn)
 		$wherequery.=" AND b.boeking_id NOT IN (".substr($andere_accommodaties_inquery,1).")";
 		if($_GET["status"]==1 or $_GET["status"]==2) {
 			# Bekijken welke types al tarieven hebben

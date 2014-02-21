@@ -27,7 +27,25 @@ if($_GET["bid"] and $_GET["c"]==substr(sha1($_GET["bid"]."_WT_488439fk3"),0,8)) 
 		}
 	}
 
+	if($_GET["utm_source"]) {
+		$add_to_url .= "&utm_source=".urlencode($_GET["utm_source"]);
+	}
+	if($_GET["utm_medium"]) {
+		$add_to_url .= "&utm_medium=".urlencode($_GET["utm_medium"]);
+	}
+	if($_GET["utm_campaign"]) {
+		$add_to_url .= "&utm_campaign=".urlencode($_GET["utm_campaign"]);
+	}
+
 	if(!$goto) $goto=$vars["path"];
+
+	if($add_to_url) {
+		if(preg_match("@\?@", $goto)) {
+			$goto .= $add_to_url;
+		} else {
+			$goto .= "?".substr($add_to_url, 1);
+		}
+	}
 
 	header("Location: ".$goto);
 	exit;

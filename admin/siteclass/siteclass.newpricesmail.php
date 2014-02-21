@@ -65,7 +65,7 @@ class newpricesmail {
 
 				$return["body"] = str_replace("[ACCOMMODATIENAAM]", $acc_name, $return["body"]);
 
-				$return["body"] = str_replace("[LINK_ACC]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "http://ss.postvak.net/chalet/" : $vars["websites_basehref"][$website]).txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/",$return["body"]);
+				$return["body"] = str_replace("[LINK_ACC]",($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "http://ss.postvak.net/chalet/" : $vars["websites_basehref"][$website]).txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/"."?utm_source=email&utm_medium=email&utm_campaign=mail-volgend-seizoen",$return["body"]);
 			}
 
 
