@@ -404,6 +404,7 @@ RewriteRule ^resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRIN
 # Plaats-pagina's zomer
 RewriteRule ^vakantiehuizen/plaats/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 RewriteRule ^holiday-homes/resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
+RewriteRule ^holiday-homes/location/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 
 
 # forward naar Chalet vanuit Italissima
