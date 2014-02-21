@@ -277,7 +277,7 @@ if($db->next_record()) {
 	if($vars["websitetype"]==6) {
 		echo "<div id=\"toonaccommodatie_vallandry_spacer\">&nbsp;</div>";
 	} else {
-		echo "<div class=\"invisible_link\"><a href=\"".$path.txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/#beschrijving\">".htmlentities($db->f("plaats"))."</a> - <a href=\"".$path.txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/#beschrijving\">".htmlentities($db->f("skigebied"))."</a></div>";
+		echo "<div class=\"invisible_link\"><a href=\"".$path.txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/#beschrijving\">".htmlentities($db->f("plaats"))."</a> - <a href=\"".$path.txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/#beschrijving\">".htmlentities($db->f("skigebied"))."</a></div>";
 	}
 	echo "<div id=\"toonaccommodatie_kenmerken\">";
 	echo "<div id=\"toonaccommodatie_kenmerken_1\">";
@@ -760,12 +760,12 @@ if($db->next_record()) {
 	$pdf_plattegrond="pdf/plaats_plattegrond/".$accinfo["plaats_id"].".pdf";
 	if($vars["websitetype"]==6) {
 		# Vallandry
-		echo "<tr><td width=\"175\" nowrap>".html("plaats","toonaccommodatie")."</TD><TD><a href=\"".$path.txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/#beschrijving\">".htmlentities($db->f("plaats"))."</A>".(file_exists($pdf_plattegrond) ? " - <a href=\"".$path.htmlentities($pdf_plattegrond)."\" target=\"_blank\">".html("pdfplattegrond","toonaccommodatie")."</a>" : "")."</TD></TR>";
+		echo "<tr><td width=\"175\" nowrap>".html("plaats","toonaccommodatie")."</TD><TD><a href=\"".$path.txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/#beschrijving\">".htmlentities($db->f("plaats"))."</A>".(file_exists($pdf_plattegrond) ? " - <a href=\"".$path.htmlentities($pdf_plattegrond)."\" target=\"_blank\">".html("pdfplattegrond","toonaccommodatie")."</a>" : "")."</TD></TR>";
 		if($vars["seizoentype"]==1) {
 			echo "<tr><td width=\"175\" nowrap>".html("skigebied","toonaccommodatie")."</TD><TD><a href=\"".$path.txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/\">".htmlentities($db->f("skigebied"))." - ".htmlentities($db->f("land"))."</A></TD></TR>";
 		}
 	} else {
-		echo "<tr><td width=\"175\" nowrap>".html("plaats","toonaccommodatie")."</TD><TD><A HREF=\"".$path.txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/?backtypeid=".$db->f("type_id").($url[1] ? "&backqs=".urlencode(substr($url[1],1)) : "")."#beschrijving\">".htmlentities($db->f("plaats"))."</A>".(file_exists($pdf_plattegrond) ? " - <a href=\"".$path.htmlentities($pdf_plattegrond)."\" target=\"_blank\">".html("pdfplattegrond","toonaccommodatie")."</a>" : "")."</TD></TR>";
+		echo "<tr><td width=\"175\" nowrap>".html("plaats","toonaccommodatie")."</TD><TD><A HREF=\"".$path.txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/?backtypeid=".$db->f("type_id").($url[1] ? "&backqs=".urlencode(substr($url[1],1)) : "")."#beschrijving\">".htmlentities($db->f("plaats"))."</A>".(file_exists($pdf_plattegrond) ? " - <a href=\"".$path.htmlentities($pdf_plattegrond)."\" target=\"_blank\">".html("pdfplattegrond","toonaccommodatie")."</a>" : "")."</TD></TR>";
 		echo "<tr><td width=\"175\" nowrap>".html("skigebied","toonaccommodatie")."</TD><TD><A HREF=\"".$path.txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/?backtypeid=".$db->f("type_id").($url[1] ? "&backqs=".urlencode(substr($url[1],1)) : "")."\">".htmlentities($db->f("skigebied"))." - ".htmlentities($db->f("land"))."</A></TD></TR>";
 	}
 #	if($vars["seizoentype"]==2) {

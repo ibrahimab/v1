@@ -99,7 +99,7 @@ while($db->next_record()) {
 $db->query("SELECT DISTINCT plaats FROM view_accommodatie WHERE archief=0 AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY plaats;");
 while($db->next_record()) {
 	echo "<url>\n";
-	echo "<loc>".$vars["basehref"].txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/</loc>\n";
+	echo "<loc>".$vars["basehref"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/</loc>\n";
 	echo "<changefreq>weekly</changefreq>\n";
 	echo "<priority>0.8</priority>\n";
 	echo "</url>\n";

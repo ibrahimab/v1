@@ -28,10 +28,20 @@ if($vars["websitetype"]==6) {
 }
 
 if($url[0]) {
-	$vars["canonical"]=$vars["basehref"].txt("menu_plaats")."/".$url[0]."/";
+	$vars["canonical"]=$vars["basehref"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".$url[0]."/";
 } else {
 #	if($_SERVER["HTTP_REFERER"]) trigger_error("plaats niet beschikbaar",E_USER_NOTICE);
 	header("Location: ".$path.txt("menu_accommodaties").".php");
+	exit;
+}
+
+// 301 if no txt("canonical_accommodatiepagina")
+if(!preg_match("@".txt("canonical_accommodatiepagina")."@", $_SERVER["REQUEST_URI"])) {
+	$new_url=$vars["basehref"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".$url[0]."/";
+	if(preg_match("@(\?.*)@", $_SERVER["REQUEST_URI"], $regs)) {
+		$new_url .= $regs[1];
+	}
+	header("Location: ".$new_url, true, 301);
 	exit;
 }
 
@@ -40,11 +50,11 @@ $db->query("SELECT plaats_id, naam, descriptiontag".$vars["ttv"]." AS descriptio
 while($db->next_record()) {
 	if(wt_convert2url_oud($url[0])<>wt_convert2url($url[0])) {
 		# heel oude url's forwarden
-		header("Location: ".$path.txt("menu_plaats")."/".wt_convert2url_seo($url[0]),true,301);
+		header("Location: ".$path.txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($url[0]),true,301);
 		exit;
 	} elseif(preg_match("/_/",$url[0])) {
 		# minder oude url's forwarden
-		header("Location: ".$path.txt("menu_plaats")."/".preg_replace("/_/","-",$url[0])."/",true,301);
+		header("Location: ".$path.txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".preg_replace("/_/","-",$url[0])."/",true,301);
 		exit;
 	} elseif(wt_convert2url_seo($url[0])==wt_convert2url_seo($db->f("naam"))) {
 		$plaatsid=$db->f("plaats_id");
@@ -55,7 +65,7 @@ while($db->next_record()) {
 		}
 		break;
 	} elseif(strtolower(wt_convert2url_seo($url[0]))==strtolower(wt_convert2url_seo($db->f("naam")))) {
-		header("Location: ".$vars["path"].txt("menu_plaats")."/".wt_convert2url_seo($db->f("naam"))."/",true,301);
+		header("Location: ".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("naam"))."/",true,301);
 		exit;
 	}
 }
@@ -147,7 +157,7 @@ if($plaatsid) {
 	$db->query("SELECT p.naam AS nieuwenaam, c.previous FROM plaats p, cmslog c WHERE c.table_name='plaats' AND c.field='naam' AND c.previous<>'' AND c.record_id=p.plaats_id AND p.wzt='".addslashes($vars["seizoentype"])."' ORDER BY c.savedate DESC;");
 	while($db->next_record()) {
 		if(wt_convert2url_seo($db->f("previous"))==wt_convert2url_seo($url[0])) {
-			header("Location: ".$path.txt("menu_plaats")."/".wt_convert2url_seo($db->f("nieuwenaam"))."/",true,301);
+			header("Location: ".$path.txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("nieuwenaam"))."/",true,301);
 			exit;
 		}
 	}

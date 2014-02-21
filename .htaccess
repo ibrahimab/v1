@@ -395,9 +395,15 @@ RewriteRule ^vakantiehuizen/regio/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigeb
 RewriteRule ^holiday-homes/region/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
 RewriteRule ^regio/([A-Za-z0-9_-]+)/?.*$ skigebied.php?naamskigebied=$1&%{QUERY_STRING}
 
-# Plaats-pagina's
+# Plaats-pagina's winter
+RewriteRule ^wintersport/plaats/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
+RewriteRule ^winter-sports/resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 RewriteRule ^plaats/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 RewriteRule ^resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
+
+# Plaats-pagina's zomer
+RewriteRule ^vakantiehuizen/plaats/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
+RewriteRule ^holiday-homes/resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 
 
 # forward naar Chalet vanuit Italissima

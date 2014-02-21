@@ -51,7 +51,7 @@ if($db->num_rows()){
 				$xmloutput.=xml_text($db->f("plaats"));
 				$xmloutput.="</plaatsNaam>\n";
 				$xmloutput.="<plaatsUrl>";
-				$xmloutput.=$vars["basehref"].txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/";
+				$xmloutput.=$vars["basehref"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("plaats"))."/";
 				$xmloutput.="</plaatsUrl>\n";
 				$xmloutput.="</plaats>\n";
 			}

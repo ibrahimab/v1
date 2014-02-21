@@ -58,7 +58,7 @@ while($db->next_record()) {
 
 		$video_al_gehad[$vimeo_url]=true;
 
-		$url=$vars["basehref"].txt("menu_plaats")."/".wt_convert2url_seo($db->f("naam"));
+		$url=$vars["basehref"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db->f("naam"));
 
 		echo "<url>\n";
 
