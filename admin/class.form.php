@@ -2244,7 +2244,7 @@ class form2 {
 
 											# Ratio checken
 											if($this->fields["options"][$key]["img_ratio_width"] and $this->fields["options"][$key]["img_ratio_height"] and $temp["img"]["getimagesize"][0] and $temp["img"]["getimagesize"][1]) {
-												if(($this->fields["options"][$key]["img_ratio_width"]/$this->fields["options"][$key]["img_ratio_height"])<>($temp["img"]["getimagesize"][0]/$temp["img"]["getimagesize"][1])) {
+												if(round($this->fields["options"][$key]["img_ratio_width"]/$this->fields["options"][$key]["img_ratio_height"],2)<>round($temp["img"]["getimagesize"][0]/$temp["img"]["getimagesize"][1],2)) {
 													$upload_error[$key2]=$this->message("error_img_ratio","",array(1=>$this->fields["options"][$key]["img_ratio_width"],2=>$this->fields["options"][$key]["img_ratio_height"]));
 												}
 											}
