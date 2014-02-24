@@ -441,10 +441,7 @@ $txt["nl"]["vars"]["newpricesmail_2"] = "Beste geïnteresseerde,\n\nOp [WEBSITE] 
 $txt["en"]["vars"]["newpricesmail_2"] = "Hello,\n\nOn [WEBSITE] you asked to be notified once the prices of [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] for the [SEIZOEN] winter season would be known.\n\nWe would like to inform you that the prices are published, so the accommodation can now be booked.\n\nWe wish you a lot of fun in finding something suitable!\n\n[ondertekening]";
 
 $txt["nl"]["vars"]["newpricesmail_subject"] = "De prijzen van de door jou bekeken accommodatie in [PLAATS] zijn bekend!";
-$txt["en"]["vars"]["newpricesmail_subject"] = "The prices of the accommodation in [PLAATS] are now known";
-$nieuwe_vertaling["en"]["vars"]["newpricesmail_subject"]=true;
-
-
+$txt["en"]["vars"]["newpricesmail_subject"] = "The prices are known of the accommodation in [PLAATS] you were looking at!";
 
 
 #
