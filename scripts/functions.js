@@ -2053,14 +2053,21 @@ $(document).ready(function() {
 			//
 			// naar juiste positie scrollen bij openen tarieventabel
 			//
+
+			// actieve-kolom (based on $_GET["d"])
 			var actieve_kolom = parseInt($(".tarieventabel_wrapper").data("actieve-kolom"),10);
 			if(actieve_kolom>=5) {
-
-
 				var position = actieve_kolom * 67;
-
 				position=position-(4*67);
+				$(".tarieventabel_wrapper_rechts").scrollLeft(position);
+			}
 
+			// scroll_first_monthyear (empty $_GET["d"], start of season for this accommodation)
+			var scroll_first_monthyear = $(".tarieventabel_wrapper").data("scroll_first_monthyear");
+			if(scroll_first_monthyear) {
+				var new_actieve_kolom = parseInt($("td[data-jaarmaand="+scroll_first_monthyear+"]").data("maand-eerste-kolom"),10);
+				var position = new_actieve_kolom * 67;
+				position=position-67;
 				$(".tarieventabel_wrapper_rechts").scrollLeft(position);
 			}
 
@@ -2072,13 +2079,9 @@ $(document).ready(function() {
 				event.preventDefault();
 
 				var jaarmaand = $(this).data("jaarmaand");
-
-				var actieve_kolom = parseInt($("td[data-jaarmaand="+jaarmaand+"]").data("maand-kolom"),10);
-
+				var actieve_kolom = parseInt($("td[data-jaarmaand="+jaarmaand+"]").data("maand-eerste-kolom"),10);
 				var new_position = actieve_kolom * 67;
-
-				new_position=new_position-(4*67);
-				// $(".tarieventabel_wrapper_rechts").scrollLeft(new_position);
+				new_position=new_position-67;
 
 				var pixels_to_scroll = Math.abs(new_position-$(".tarieventabel_wrapper_rechts").scrollLeft());
 				var animate_time = 1200;

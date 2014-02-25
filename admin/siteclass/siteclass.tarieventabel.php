@@ -113,7 +113,12 @@ class tarieventabel {
 			}
 		}
 
-		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id."&o=".urlencode($_GET["o"]).(!$this->arrangement && $this->get_aantal_personen ? "&ap=".intval($this->get_aantal_personen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\">";
+		if($vars["seizoentype"]==1) {
+			// winter: always scroll to december
+			$this->scroll_first_monthyear = date("Ym", $this->seizoeninfo[$this->first_seizoen_id]["begin"]);
+		}
+
+		$return .= "<div class=\"tarieventabel_wrapper\" data-boek-url=\"".wt_he($vars["path"].txt("menu_boeken").".php?tid=".$this->type_id."&o=".urlencode($_GET["o"]).(!$this->arrangement && $this->get_aantal_personen ? "&ap=".intval($this->get_aantal_personen) : ""))."\" data-actieve-kolom=\"".intval($this->actieve_kolom)."\" data-scroll_first_monthyear=\"".wt_he($this->scroll_first_monthyear)."\">";
 
 
 		$return .= $this->tabel_top();
@@ -506,7 +511,7 @@ class tarieventabel {
 
 			$return.="<td class=\"".trim($class)."\"";
 
-			$return.=" colspan=\"".$value."\" data-jaarmaand=\"".date("Ym", $unixtime)."\" data-maand-kolom=\"".$kolomteller_onderliggend."\">".DATUM("MAAND JJJJ",$unixtime,$vars["taal"])."</td>";
+			$return.=" colspan=\"".$value."\" data-jaarmaand=\"".date("Ym", $unixtime)."\" data-maand-eerste-kolom=\"".intval($kolomteller_onderliggend-$value+1)."\" data-maand-kolom=\"".$kolomteller_onderliggend."\">".DATUM("MAAND JJJJ",$unixtime,$vars["taal"])."</td>";
 		}
 		$return.="</tr>";
 
@@ -1250,6 +1255,9 @@ if($this->tarief[$key]>0) {
 			$this->seizoeninfo[$db->f("seizoen_id")]["begin"] = $db->f("begin");
 			$this->seizoeninfo[$db->f("seizoen_id")]["eind"] = $db->f("eind");
 
+			if(!$this->first_seizoen_id) {
+				$this->first_seizoen_id = $db->f("seizoen_id");
+			}
 			$this->last_seizoen_id = $db->f("seizoen_id");
 			$this->seizoen_counter ++;
 
@@ -1330,6 +1338,10 @@ if($this->tarief[$key]>0) {
 
 				// $this->binnen_seizoen[date("Ym",$db->f("week"))]=true;
 
+				if($db->f("week")>=time() and $db->f("bruto")>0) {
+					$this->tarief_ingevoerd[$db->f("week")] = true;
+				}
+
 				if($db->f("week")>=time() and $db->f("prijs")>0 and $db->f("beschikbaar") and ($db->f("bruto")>0 or $db->f("arrangementsprijs")>0)) {
 
 					$this->tarief[$db->f("personen")][$db->f("week")]=$db->f("prijs");
@@ -1396,6 +1408,10 @@ if($this->tarief[$key]>0) {
 				}
 			}
 			while($db->next_record()) {
+
+				if($db->f("week")>=time() and $db->f("c_bruto")>0) {
+					$this->tarief_ingevoerd[$db->f("week")] = true;
+				}
 
 				# seizoen_id bij een bepaalde week bepalen
 				$this->week_seizoen_id[$db->f("week")]=$db->f("seizoen_id");
@@ -1575,6 +1591,13 @@ if($this->tarief[$key]>0) {
 			$this->unixtime_week[$week] = $aangepaste_unixtime;
 
 			if($_GET["d"] and $_GET["d"]==$week) $this->actieve_kolom=$kolomteller;
+
+
+			if(!$_GET["d"] and !$this->scroll_first_monthyear) {
+				if($this->tarief_ingevoerd[$week]) {
+					$this->scroll_first_monthyear=date("Ym", $week);
+				}
+			}
 
 			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 		}

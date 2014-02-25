@@ -3070,6 +3070,10 @@ nieuwe tarieventabel
 	padding-right: 2px;
 }
 
+.tarieventabel_voorraad_tr td img {
+	margin-top: 3px;
+}
+
 .tarieventabel_voorraad_garantie {
 	background-color: #00ff00;
 }
