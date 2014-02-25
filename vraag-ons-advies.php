@@ -30,8 +30,8 @@ if($vars["seizoentype"]==2) {
 	$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
 	$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
 	$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
-	$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
-	for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
+	// $vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
+	for($i=3;$i<=$vars["flex_max_aantalnachten"];$i++) {
 		$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
 	}
 } else {
@@ -62,7 +62,7 @@ $vars["soortaccommodatie_keuzes"]=array(1=>txt("soortaccommodatie_1","vraagonsad
 $form->field_htmlrow("","<div style=\"width:650px;margin-bottom:15px;\"><b><i>".html("forminleiding","vraagonsadvies")."</i></b></div>");
 $form->field_text(0,"bestemming",txt("bestemming","vraagonsadvies"),"","","",array("add_html_after_field"=>"<div style=\"margin-top:4px;font-size:0.8em;\">".html("bestemming_uitleg","vraagonsadvies")."</div>"));
 if($vars["seizoentype"]==2) {
-	$form->field_select(0,"verblijfsduur",txt("verblijfsduur","vraagonsadvies"),"","",array("selection"=>$vars["verblijfsduur"],"optgroup"=>array("1"=>"Aantal weken","1n"=>"Aantal nachten")));
+	$form->field_select(0,"verblijfsduur",txt("verblijfsduur","vraagonsadvies"),"","",array("selection"=>$vars["verblijfsduur"],"optgroup"=>array("1"=>txt("aantalweken"),"3n"=>txt("aantalnachten"))));
 } else {
 	$form->field_select(0,"verblijfsduur",txt("verblijfsduur","vraagonsadvies"),"","",array("selection"=>$vars["verblijfsduur"]));
 }

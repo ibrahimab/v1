@@ -755,5 +755,10 @@ $txta["en"]["weekend"]="Weekend";
 $txta["nl"]["en"]="en";
 $txta["en"]["en"]="and";
 
+$txta["nl"]["aantalnachten"]="Aantal nachten";
+$txta["en"]["aantalnachten"]="Number of nights";
+
+$txta["nl"]["aantalweken"]="Aantal weken";
+$txta["en"]["aantalweken"]="Number of weeks";
 
 ?>

@@ -165,8 +165,8 @@ if($_GET["stap"]==1) {
 		$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
 		$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
 		if($accinfo["flexibel"]) {
-			$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
-			for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
+			// $vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
+			for($i=3;$i<=$vars["flex_max_aantalnachten"];$i++) {
 				$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
 			}
 		}
@@ -177,7 +177,7 @@ if($_GET["stap"]==1) {
 		} else {
 			$temp_verblijfsduur=1;
 		}
-		$form->field_select(1,"verblijfsduur",txt("verblijfsduur","boeken"),"",array("selection"=>$temp_verblijfsduur),array("selection"=>$vars["verblijfsduur"]));
+		$form->field_select(1,"verblijfsduur",txt("verblijfsduur","boeken"),"",array("selection"=>$temp_verblijfsduur),array("selection"=>$vars["verblijfsduur"],"optgroup"=>array("1"=>txt("aantalweken"),"3n"=>txt("aantalnachten"))));
 		$temp_aankomstdatum_beschikbaar=true;
 		$temp_optietarieven_beschikbaar=true;
 	} else {

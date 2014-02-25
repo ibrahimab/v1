@@ -1086,8 +1086,8 @@ if($db->next_record()) {
 		$vars["verblijfsduur"]["2"]="2 ".txt("weken","vars");
 		$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
 		$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
-		$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
-		for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
+		// $vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
+		for($i=3;$i<=$vars["flex_max_aantalnachten"];$i++) {
 			$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
 		}
 		echo "<select name=\"fldu\" class=\"formstyle100\" onchange=\"accommodatiepagina_flexibel_onchange();\">";
@@ -1095,12 +1095,12 @@ if($db->next_record()) {
 		while(list($key,$value)=each($vars["verblijfsduur"])) {
 			if(preg_match("/n/",$key)) {
 				if(!$key_gehad["nachten"]) {
-					echo "</optgroup><optgroup label=\"Aantal nachten\">\n";
+					echo "</optgroup><optgroup label=\"".html("aantalnachten")."\">\n";
 					$key_gehad["nachten"]=true;
 				}
 			} else {
 				if(!$key_gehad["weken"]) {
-					echo "<optgroup label=\"Aantal weken\">\n";
+					echo "<optgroup label=\"".html("aantalweken")."\">\n";
 					$key_gehad["weken"]=true;
 				}
 

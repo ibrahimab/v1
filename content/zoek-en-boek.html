@@ -3016,8 +3016,8 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		$vars["verblijfsduur"]["3"]="3 ".txt("weken","vars");
 		$vars["verblijfsduur"]["4"]="4 ".txt("weken","vars");
 		if($vars["flexibel_toegestaan"]) {
-			$vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
-			for($i=2;$i<=$vars["flex_max_aantalnachten"];$i++) {
+			// $vars["verblijfsduur"]["1n"]="1 ".txt("nacht","vars");
+			for($i=3;$i<=$vars["flex_max_aantalnachten"];$i++) {
 				$vars["verblijfsduur"][$i."n"]=$i." ".txt("nachten","vars");
 			}
 		}
