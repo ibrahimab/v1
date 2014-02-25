@@ -79,9 +79,12 @@ if($gegevens["stap1"]["boekingid"]) {
 		$temp["leverancier_eindbetaling_dagen_factuur"]=$db->f("eindbetaling_dagen_factuur");
 	}
 
-	$db->query("SELECT garantie_id FROM garantie WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+	$db->query("SELECT garantie_id, soort_garantie FROM garantie WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 	if($db->next_record()) {
 		$temp["garantie"]=" <span style=\"color:green;\">(via garantie)</span>";
+		if($db->f("soort_garantie")==1) {
+			$temp["garantie_seizoen_bulk"] = true;
+		}
 	}
 }
 
@@ -269,7 +272,11 @@ $form->field_htmlrow("","&nbsp;<input type=\"hidden\" name=\"input[extraopties_t
 $form->field_htmlcol("","Totaalfactuurbedrag €",array("html"=>wt_cur($temp_totaalbedrag,false)),"",array("tr_class"=>"inkoopgegevens_opvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_totaalfactuurbedrag"));
 $form->field_yesno("inkoop_van_0_toegestaan","Inkoop van 0 is toegestaan",array("field"=>"inkoop_van_0_toegestaan"),"","",array("tr_class"=>"inkoop_van_0_toegestaan","tr_style"=>"display:none;"));
 
-$form->field_currency(0,"totaal_volgens_ontvangen_factuur","Totaal volgens ontvangen factuur €",array("field"=>"totaal_volgens_ontvangen_factuur"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens","add_html_after_field"=>"<span id=\"opmerking_totaal_volgens_ontvangen_factuur\" style=\"font-weight:bold;\"></span>"));
+if($temp["garantie_seizoen_bulk"] and !$gegevens["stap1"]["totaal_volgens_ontvangen_factuur"]) {
+	// place "Totaalfactuurbedrag" in field "Totaal volgens ontvangen factuur" when seizoen-garantie
+	$force_text = array("force_text"=>$temp_totaalbedrag);
+}
+$form->field_currency(0,"totaal_volgens_ontvangen_factuur","Totaal volgens ontvangen factuur €",array("field"=>"totaal_volgens_ontvangen_factuur"),$force_text,array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens","add_html_after_field"=>"<span id=\"opmerking_totaal_volgens_ontvangen_factuur\" style=\"font-weight:bold;\"></span>"));
 
 // betalingsverschil is op verzoek van Bert op "niet tonen" gezet (zodat niemand daar iets kan invullen) - 30-08-2013
 // $form->field_currency(0,"betalingsverschil","Betalingsverschil €",array("field"=>"betalingsverschil"),"",array("negative"=>true),array("tr_class"=>"tr_inkoopgegevens_betalingsverschil","input_class"=>"wtform_input inkoopgegevens"));
