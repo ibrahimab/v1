@@ -816,6 +816,7 @@ if (!function_exists("datum")) {
 		$a = strtoupper($a);
 		if(!$time) $time=time();
 		if($language=="nl") {
+			// Nederlands
 			switch(wt_adodb_date("w",$time)) {
 				case 0: $dag="zondag"; break;
 				case 1: $dag="maandag"; break;
@@ -862,7 +863,56 @@ if (!function_exists("datum")) {
 				case 11: $mnd="nov"; break;
 				case 12: $mnd="dec"; break;
 			}
+		} elseif($language=="fr") {
+			// français
+			switch(wt_adodb_date("w",$time)) {
+				case 0: $dag="dimanche"; break;
+				case 1: $dag="lundi"; break;
+				case 2: $dag="mardi"; break;
+				case 3: $dag="mercredi"; break;
+				case 4: $dag="jeudi"; break;
+				case 5: $dag="vendredi"; break;
+				case 6: $dag="samedi"; break;
+			}
+			switch(wt_adodb_date("w",$time)) {
+				case 0: $dg="dim."; break;
+				case 1: $dg="lun."; break;
+				case 2: $dg="mar."; break;
+				case 3: $dg="mer."; break;
+				case 4: $dg="jeu."; break;
+				case 5: $dg="ven."; break;
+				case 6: $dg="sam."; break;
+			}
+			switch(wt_adodb_date("n",$time)) {
+				case 1: $maand="janvier"; break;
+				case 2: $maand="février"; break;
+				case 3: $maand="mars"; break;
+				case 4: $maand="avril"; break;
+				case 5: $maand="mai"; break;
+				case 6: $maand="juin"; break;
+				case 7: $maand="juillet"; break;
+				case 8: $maand="août"; break;
+				case 9: $maand="septembre"; break;
+				case 10: $maand="octobre"; break;
+				case 11: $maand="novembre"; break;
+				case 12: $maand="décembre"; break;
+			}
+			switch(wt_adodb_date("n",$time)) {
+				case 1: $mnd="janv."; break;
+				case 2: $mnd="févr."; break;
+				case 3: $mnd="mars"; break;
+				case 4: $mnd="avril"; break;
+				case 5: $mnd="mai"; break;
+				case 6: $mnd="juin"; break;
+				case 7: $mnd="juil."; break;
+				case 8: $mnd="août"; break;
+				case 9: $mnd="sept."; break;
+				case 10: $mnd="oct."; break;
+				case 11: $mnd="nov."; break;
+				case 12: $mnd="déc."; break;
+			}
 		} else {
+			// English
 			switch(wt_adodb_date("w",$time)) {
 				case 0: $dag="Sunday"; break;
 				case 1: $dag="Monday"; break;
