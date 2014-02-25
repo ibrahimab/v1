@@ -540,6 +540,10 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_date(1,"aankomstdatum_exact","Exacte aankomstdatum","",array("time"=>$gegevens["stap1"]["aankomstdatum_exact"]),"",array("calendar"=>true,"tr_class"=>"tr_datum_exact","onchange"=>"toggle_display('tr_aankomstdatum',0);"));
 			$form->field_date(1,"vertrekdatum_exact","Exacte vertrekdatum","",array("time"=>$gegevens["stap1"]["vertrekdatum_exact"]),"",array("calendar"=>true,"tr_class"=>"tr_datum_exact","onchange"=>"toggle_display('tr_aankomstdatum',0);"));
 
+			if($gegevens["stap1"]["voorraad_afboeken"]) {
+				$form->field_select(1,"voorraad_afboeken_change","Bij bevestigen is voorraad afgeboekt van","",array("selection"=>$gegevens["stap1"]["voorraad_afboeken"]),array("selection"=>$vars["voorraad_afboeken"]));
+			}
+
 			$form->field_textarea(0,"opmerkingen_intern","Opmerkingen (intern)","",array("text"=>$gegevens["stap1"]["opmerkingen_intern"]),array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
 			$form->field_text(0,"opmerkingen_vertreklijst","Opmerkingen (vertreklijst)","",array("text"=>$gegevens["stap1"]["opmerkingen_vertreklijst"]));
 			if(!$gegevens["stap1"]["geannuleerd"]) {
@@ -2010,21 +2014,25 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						if($voorraad_veldnaam=="voorraad_garantie") {
 							$bijwerken_garantie=-1;
 							$log_afboeken=true;
+							$setquery.=", voorraad_afboeken=2";
 						} elseif($voorraad_veldnaam=="voorraad_allotment") {
 							$bijwerken_allotment=-1;
 							$log_afboeken=true;
-						} elseif($voorraad_veldnaam=="voorraad_allotment") {
-							$bijwerken_allotment=-1;
-							$log_afboeken=true;
+							$setquery.=", voorraad_afboeken=3";
 						} elseif($voorraad_veldnaam=="voorraad_vervallen_allotment") {
 							$bijwerken_vervallen_allotment=-1;
 							$log_afboeken=true;
+							$setquery.=", voorraad_afboeken=4";
 						} elseif($voorraad_veldnaam=="voorraad_request") {
 							$bijwerken_request=-1;
 							$log_afboeken=true;
+							$setquery.=", voorraad_afboeken=5";
 						} elseif($voorraad_veldnaam=="voorraad_optie_leverancier") {
 							$bijwerken_optie_leverancier=-1;
 							$log_afboeken=true;
+							$setquery.=", voorraad_afboeken=6";
+						} elseif($voorraad_veldnaam=="niet_bijwerken") {
+							$setquery.=", voorraad_afboeken=1";
 						}
 						voorraad_bijwerken($voorraad_typeid,$form->input["aankomstdatum"],true,$bijwerken_garantie,$bijwerken_allotment,$bijwerken_vervallen_allotment,$bijwerken_optie_leverancier,0,$bijwerken_request,0,true,6);
 
@@ -2088,6 +2096,15 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						# verzameltype_gekozentype_id opslaan
 						if($verzameltype_gekozentype_id) {
 							$setquery.=", verzameltype_gekozentype_id='".addslashes($verzameltype_gekozentype_id)."'";
+						}
+					}
+
+					if($form->input["voorraad_afboeken_change"]) {
+						// manually changed "Bij bevestigen is voorraad afgeboekt van"
+						$setquery.=", voorraad_afboeken='".intval($form->input["voorraad_afboeken_change"])."'";
+
+						if($form->input["voorraad_afboeken_change"]<>$gegevens["stap1"]["voorraad_afboeken"]) {
+							chalet_log("handmatig aangepast \"Bij bevestigen is voorraad afgeboekt van\": ".$vars["voorraad_afboeken"][$form->input["voorraad_afboeken_change"]]);
 						}
 					}
 

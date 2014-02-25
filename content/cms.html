@@ -26,6 +26,12 @@ if(!$login->logged_in) {
 
 		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+		// $db->query("SELECT boeking_id FROM garantie WHERE boeking_id IS NOT NULL AND boeking_id>0 ORDER BY boeking_id;");
+		// while($db->next_record()) {
+		// 	$db2->query("UPDATE boeking SET voorraad_afboeken=2 WHERE boeking_id='".$db->f("boeking_id")."';");
+		// 	echo $db2->lq."<br />";
+		// }
+
 		// $db->query("UPDATE skigebied SET naam_en=naam WHERE naam_en='';");
 		// UPDATE skigebied SET naam_en = REPLACE(naam_en, 'Dolomieten', 'Dolomites');
 
