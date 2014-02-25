@@ -1459,6 +1459,12 @@ $(document).ready(function() {
 			$("input[name='deelnemers_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val($("input[name=eigenaar_formulier_deelnemers]").val());
 			$("input[name='tekst_extra_options_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").val($("input[name=eigenaar_formulier_tekst_extra_options]").val());
 
+			// make it possible to log this change
+			$("<input>").attr({
+				type: "hidden",
+				name: "beschikbaarheidslog_"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]",
+				value: $("input[name=eigenaar_formulier_opmerking]").val()
+			}).appendTo("form#tarieven");
 
 			$("input[name='"+eigenarenlogin_soort+"["+eigenaar_formulier_week+"]']").prop("checked", true);
 			// $("input[name='beschikbaar["+eigenaar_formulier_week+"]']").prop("checked", false);

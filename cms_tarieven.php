@@ -203,7 +203,15 @@ if($_POST["filled"]) {
 				if($_POST["opmerkingen_voorraad"]) {
 					$_POST["opmerkingen_voorraad"].=" - ";
 				}
-				$_POST["opmerkingen_voorraad"].="voorraad gewist na toevoegen eigenaren-blokkade";
+				if($_POST["beschikbaarheidslog_bezeteigenaar"][$key]) {
+					$_POST["opmerkingen_voorraad"].="geblokkeerd door eigenaar: ".$_POST["beschikbaarheidslog_bezeteigenaar"][$key];
+				} elseif($_POST["beschikbaarheidslog_boekingderden"][$key]) {
+					$_POST["opmerkingen_voorraad"].="boeking via derden: ".$_POST["beschikbaarheidslog_boekingderden"][$key];
+				} elseif($_POST["beschikbaarheidslog_nietbeschikbaarverhuur"][$key]) {
+					$_POST["opmerkingen_voorraad"].="niet beschikbaar voor verhuur: ".$_POST["beschikbaarheidslog_nietbeschikbaarverhuur"][$key];
+				} else {
+					$_POST["opmerkingen_voorraad"].="voorraad gewist na toevoegen blokkade";
+				}
 			}
 
 			$db->query("INSERT INTO beschikbaar_archief SET type_id='".addslashes($_GET["tid"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".addslashes($key)."', datumtijd=FROM_UNIXTIME('".$datetime."'), beschikbaar='".addslashes($wijzig_beschikbaar)."', garantie='".addslashes($wijzig_garantie)."', allotment='".addslashes($wijzig_allotment)."', vervallen_allotment='".addslashes($wijzig_vervallen_allotment)."', optie_leverancier='".addslashes($wijzig_optie_leverancier)."', xml='".addslashes($wijzig_xml)."', request='".addslashes($wijzig_request)."', optie_klant='".addslashes($wijzig_optie_klant)."', totaal='".addslashes($bovenste5)."', user_id='".addslashes($login->user_id)."', via='".($_GET["autosave"] ? "2" : "1")."', request_uri='".addslashes($_SERVER["REQUEST_URI"])."', opmerkingen='".addslashes($_POST["opmerkingen_voorraad"])."';");
