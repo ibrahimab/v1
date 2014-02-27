@@ -1,4 +1,5 @@
 <?php
+
 $page_id = $id;
 # Te includen bestand bepalen
 if($language_content) {
@@ -27,8 +28,6 @@ if($vars["website"]=="E") {
 	# SPDY-header sturen (prefetchen diverse CSS-bestanden)
 #	header('X-Associated-Content: "'.$vars["path"].'css/opmaak_alle_sites.css.phpcache?cache='.@filemtime("css/opmaak_alle_sites.css.phpcache").'&type='.$vars["websitetype"].'", "'.$vars["path"].'css/tabs.css.phpcache?cache='.@filemtime("css/tabs.css.phpcache").'&type='.$vars["websitetype"].'"');
 }
-
-
 
 echo "<!DOCTYPE html>\n";
 echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n prefix=\"fb: http://www.facebook.com/2008/fbml og: http://ogp.me/ns#\">\n";
@@ -230,6 +229,10 @@ echo "</td><td>";
 #}
 echo "</td></tr></table>";
 echo "</div>\n";
+
+if($vars["website"]=="C") {
+	echo "<a href=\"http://www.zooverawards.nl/stemmen/groep/Chalet\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\"><img src=\"".wt_he($vars["path"]."pic/tijdelijk/zoover_awards.png")."\"></a>";
+}
 
 echo "<div id=\"topfoto\">";
 echo "<img src=\"".$vars["path"]."pic/topfoto_";

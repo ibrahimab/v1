@@ -797,6 +797,18 @@ form {
 	text-decoration:underline;
 }
 
+.zoover_awards {
+	display: block;
+	background-color: red;
+	position: absolute;
+	top: 30px;
+	right: 0px;
+}
+
+.zoover_awards:hover {
+	opacity: 0.8;
+}
+
 @media print {
 
 	body {
