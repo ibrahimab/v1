@@ -73,6 +73,18 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 			flush();
 			sleep(1);
 		}
+	} elseif($key=="H") {
+		# italyhomes.eu: alleen aanbiedingen Italië ophalen
+		$url=$value.$txta[$vars["websiteinfo"]["taal"][$key]]["menu_aanbiedingen"]."/?nocache=1";
+		echo "\n-----------------------------------\n".$url."\n\n";
+		$opsomming=@file_get_contents($url);
+		if(preg_match("/<!-- WTbegin -->(.*)<!-- WTend -->/s",$opsomming,$regs)) {
+			$filename=$unixdir."cache/aanbiedingen_land_5_".$key.".html";
+			file_put_contents($filename,$regs[1]);
+			echo "Opgeslagen: ".$filename."\n";
+			flush();
+			sleep(1);
+		}
 	} elseif($key<>"S" and $key<>"O") {
 
 		# winter: geen cache meer van toepassing (vandaar een continue)

@@ -148,45 +148,6 @@ form {
 	text-align: center;
 }
 
-/**/
-/*LiveChat chatbutton*/
-/**/
-
-#chatblok {
-	position: absolute;
-	top: 274px;
-	margin-left: 26px;
-}
-
-#chatblok a {
-	color: #ffffff;
-}
-
-#telefoonblok:hover, .livechat_button:hover {
-	opacity: .7;
-}
-
-#chatblok img {
-	border: 0;
-}
-
-#zoekenboek_leeg {
-	margin-bottom: 25px;
-}
-
-#zoekenboek_overlay {
-	margin-top: 25px;
-}
-
-#toonaccommodatie_foto {
-	margin-top: 31px;
-	margin-bottom: -16px;
-}
-
-
-
-
-
 #bekekenbewaard {
 	margin-left: 30px;
 	font-size: 0.8em;

@@ -366,28 +366,6 @@ if ( $_GET["t"]==1 ) {
 		$mail_content.="<div style=\"width:681px; position:absolute; left:10%;\"><!-- kopiemelding -->";
 		$mail_content.="<table style=\"font-family:Verdana, Arial, Helvetica, sans-serif;color:#003366;\" border=\"0\" width=\"681\"><tr><td>";
 
-		// if($vars["website"]=="I") {
-		// 	$mail_topfoto="favorietenmail_logo_italissima";
-		// } elseif($vars["website"]=="K") {
-		// 	$mail_topfoto="favorietenmail_logo_italissima";
-		// } elseif($vars["website"]=="E") {
-		// 	$mail_topfoto="favorietenmail_logo_chaleteu";
-		// } elseif($vars["website"]=="Z") {
-		// 	$mail_topfoto="favorietenmail_logo_zomerhuisje";
-		// } elseif($vars["website"]=="T") {
-		// 	$mail_topfoto="favorietenmail_logo_chalettour";
-		// } elseif($vars["website"]=="B") {
-		// 	$mail_topfoto="favorietenmail_logo_chaletbe";
-		// } elseif($vars["website"]=="W") {
-		// 	$mail_topfoto="favorietenmail_logo_superski";
-		// } elseif($vars["website"]=="X") {
-		// 	$mail_topfoto="favorietenmail_logo_venturasol";
-		// } elseif($vars["website"]=="Y") {
-		// 	$mail_topfoto="favorietenmail_logo_venturasol";
-		// } else {
-		// 	$mail_topfoto="favorietenmail_logo_chalet";
-		// }
-
 		if(file_exists($vars["unixtime"]."pic/mailheader/".$vars["website"].".jpg")) {
 			$topfoto_size=getimagesize($vars["unixtime"]."pic/mailheader/".$vars["website"].".jpg");
 		}

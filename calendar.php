@@ -1,14 +1,17 @@
 <?php
 
+include("content/_teksten.php");
+
 if($_GET["lang"]=="en") {
 	setlocale(LC_ALL,'en_EN');
 	$text["title"]="Calendar";
-	$text["klik"]="Click on the day of your choice.";
+	$text["klik"]="Calendar";
+	$text["flex"]=$txt["en"]["zoek-en-boek"]["kalender_flexibel"];
 } else {
 #	setlocale(LC_ALL,"nl_NL.ISO_8859-1");
 	setlocale(LC_ALL,"nl_NL.ISO8859-1");
 	$text["title"]="Kalender";
-#	$text["klik"]="Klik op de gewenste dag.";
+	$text["flex"]=$txt["nl"]["zoek-en-boek"]["kalender_flexibel"];
 }
 
 $month=date("n",mktime(0,0,0,date("m"),date("d")+15,date("Y")));
@@ -148,7 +151,9 @@ if($lastday<7) {
 echo "</TABLE></TD></TR>";
 if(!$_GET["accpagina"]) {
 	echo "<TR><TD colspan=\"3\">";
-	echo "<div style=\"font-weight:bold;padding:5px;border:1px solid #878481;background-color:#ffff99;margin-top:5px;\">Een verblijf van zaterdag tot zaterdag levert vaak de meeste resultaten op.</div>";
+	echo "<div style=\"font-weight:bold;padding:5px;border:1px solid #878481;background-color:#ffff99;margin-top:5px;\">";
+	echo $text["flex"];
+	echo "</div>";
 	echo "</TD></TR>";
 }
 echo "</TABLE>";

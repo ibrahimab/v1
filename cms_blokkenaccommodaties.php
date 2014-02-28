@@ -7,30 +7,29 @@ $_GET["wzt"]=2;
 $mustlogin=true;
 $vars["types_in_vars"]=true;
 $vars["types_in_vars_wzt_splitsen"]=true;
-if($_GET["wst"]==7) {
+
+if($_GET["websites"]=="I,K") {
+	$where_website="(websites LIKE '%I%' OR	websites LIKE '%K%')";
+	$where_website_acc="(a.websites LIKE '%I%' OR a.websites LIKE '%K%')";
+} else {
+	$where_website="websites LIKE '%".addslashes($_GET["websites"])."%'";
+	$where_website_acc="a.websites LIKE '%".addslashes($_GET["websites"])."%'";
+}
+
+
+if($_GET["websites"]=="I,K" or $_GET["websites"]=="H") {
 	# Italissima: alleen Italiaans accommodaties tonen
-	$vars["types_in_vars_andquery"]=" AND p.land_id=5";
+	$vars["types_in_vars_andquery"]=" AND ".$where_website_acc;
 }
 include("admin/vars.php");
 
-# wst opvragen indien niet meegegeven met query_string
-if(!$_GET["wst"]) {
-	if($_GET["38k0"]) {
-		$db->query("SELECT websitetype FROM blokaccommodatie WHERE blokaccommodatie_id='".addslashes($_GET["38k0"])."';");
-		if($db->next_record()) {
-			$_GET["wst"]=$db->f("websitetype");
-		}
-	} else {
-		$_GET["wst"]=3;
-	}
-}
 
 #
 # Database-declaratie
 #
 
-$cms->db[38]["where"]="websitetype='".addslashes($_GET["wst"])."'";
-$cms->db[38]["set"]="websitetype='".addslashes($_GET["wst"])."'";
+$cms->db[38]["where"]="websites='".addslashes($_GET["websites"])."'";
+$cms->db[38]["set"]="website='".addslashes($_GET["websites"])."'";
 
 
 # Database db_field($counter,$type,$id,$field="",$options="")
@@ -48,14 +47,15 @@ $cms->db_field(38,"yesno","hoofdpagina");
 $cms->db_field(38,"yesno","bestemmingen");
 $cms->db_field(38,"yesno","themaoverzicht");
 $cms->db_field(38,"yesno","aanbiedingenpagina");
-if($_GET["wst"]==7) {
-	$cms->db_field(38,"select","skigebied_id","",array("othertable"=>"5","otherkeyfield"=>"skigebied_id","otherfield"=>"naam","otherwhere"=>"skigebied_id IN (SELECT DISTINCT skigebied_id FROM view_accommodatie WHERE land_id=5)"));
-	$cms->db_field(38,"select","plaats_id","",array("othertable"=>"4","otherkeyfield"=>"plaats_id","otherfield"=>"naam","otherwhere"=>"land_id=5"));
-} else {
+if($_GET["websites"]=="Z") {
 	$cms->db_field(38,"select","thema_id","",array("othertable"=>"36","otherkeyfield"=>"thema_id","otherfield"=>"naam","otherwhere"=>"wzt='".addslashes($_GET["wzt"])."'"));
 	$cms->db_field(38,"select","land_id","",array("othertable"=>"6","otherkeyfield"=>"land_id","otherfield"=>"naam"));
 	$cms->db_field(38,"select","skigebied_id","",array("othertable"=>"5","otherkeyfield"=>"skigebied_id","otherfield"=>"naam","otherwhere"=>"wzt='".addslashes($_GET["wzt"])."'"));
 	$cms->db_field(38,"select","plaats_id","",array("othertable"=>"4","otherkeyfield"=>"plaats_id","otherfield"=>"naam","otherwhere"=>"wzt='".addslashes($_GET["wzt"])."'"));
+
+} else {
+	$cms->db_field(38,"select","skigebied_id","",array("othertable"=>"5","otherkeyfield"=>"skigebied_id","otherfield"=>"naam","otherwhere"=>"skigebied_id IN (SELECT DISTINCT skigebied_id FROM view_accommodatie WHERE ".$where_website.")"));
+	$cms->db_field(38,"select","plaats_id","",array("othertable"=>"4","otherkeyfield"=>"plaats_id","otherfield"=>"naam","otherwhere"=>$where_website));
 }
 
 #
@@ -111,7 +111,7 @@ $cms->edit_field(38,0,"htmlrow","<hr><b>Toon dit blok op de volgende pagina's</b
 $cms->edit_field(38,0,"hoofdpagina","Hoofdpagina");
 $cms->edit_field(38,0,"bestemmingen","Bestemmingen");
 $cms->edit_field(38,0,"aanbiedingenpagina","Aanbiedingenpagina");
-if($_GET["wst"]<>7) {
+if($_GET["websites"]=="Z") {
 	$cms->edit_field(38,0,"themaoverzicht","Thema-overzicht");
 	$cms->edit_field(38,0,"thema_id","Thema");
 	$cms->edit_field(38,0,"land_id","Land");
@@ -134,7 +134,7 @@ function form_before_goto($form) {
 	global $login,$vars;
 
 	$volgorde=0;
-	$db->query("SELECT blokaccommodatie_id FROM blokaccommodatie WHERE websitetype='".addslashes($_GET["wst"])."' ORDER BY volgorde;");
+	$db->query("SELECT blokaccommodatie_id FROM blokaccommodatie WHERE websites='".addslashes($_GET["websites"])."' ORDER BY volgorde;");
 	while($db->next_record()) {
 		$volgorde=$volgorde+10;
 		$db2->query("UPDATE blokaccommodatie SET volgorde='".$volgorde."' WHERE blokaccommodatie_id='".$db->f("blokaccommodatie_id")."';");

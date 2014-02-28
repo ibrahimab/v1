@@ -559,8 +559,13 @@ if($form->okay) {
 					# Zomerhuisje-logo
 					$pdf->Image("pic/factuur_logo_zomerhuisje.png",165,3+$y,32);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
-					# Italissima-logo
-					$pdf->Image("pic/factuur_logo_italissima.png",165,3+$y,32);
+					if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="en") {
+						# Italyhomes-logo
+						$pdf->Image("pic/factuur_logo_italyhomes.png",165,3+$y,32);
+					} else {
+						# Italissima-logo
+						$pdf->Image("pic/factuur_logo_italissima.png",165,3+$y,32);
+					}
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 					# SuperSki-logo
 					$pdf->Image("pic/factuur_logo_superski.png",155,3+$y,45);

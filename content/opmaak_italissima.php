@@ -65,6 +65,10 @@ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opm
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_alle_sites.css.phpcache?cache=".@filemtime("css/opmaak_alle_sites.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
 
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/opmaak_italissima.css?cache=".@filemtime("css/opmaak_italissima.css")."\" />\n";
+if($vars["livechat_code"]) {
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/italissima_chat.css?cache=".@filemtime("css/italissima_chat.css")."\" />\n";
+}
+
 if($id == "bestemmingen") {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/jqvmap.css?cache=".@filemtime("css/jqvmap.css")."\" />\n";
 }
@@ -176,7 +180,12 @@ echo "</div>\n"; # afsluiten submenu
 
 echo "<div id=\"logo\">";
 if($id<>"index") echo "<a href=\"".$vars["path"]."\">";
-echo "<img src=\"".$vars["path"]."pic/logo_italissima.gif\" width=\"200\" height=\"160\" style=\"border:0;\" alt=\"".htmlentities($vars["websitenaam"])."\" />";
+if($vars["taal"]=="en") {
+	$logofile="logo_italyhomes.gif";
+} else {
+	$logofile="logo_italissima.gif";
+}
+echo "<img src=\"".$vars["path"]."pic/".$logofile."\" width=\"200\" height=\"160\" style=\"border:0;\" alt=\"".htmlentities($vars["websitenaam"])."\" />";
 if($id<>"index") echo "</a>";
 echo "</div>\n"; # afsluiten logo
 

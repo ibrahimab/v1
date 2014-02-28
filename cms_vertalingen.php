@@ -31,7 +31,7 @@ while(list($afwijkingkey,$afwijkingvalue)=each($doorloop_array)) {
 		while(list($key2,$value2)=each($value)) {
 			if(!$txt["en".$afwijking][$key][$key2] and $value2) {
 				$form->field_htmlrow("","<b>Pagina &quot;".($key=="vars" ? "algemeen" : ($key=="index" ? "hoofdpagina" : $key))."&quot; - onderdeel &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div style=\"border:1px solid #000000;padding:5px;\">".nl2br(htmlentities($value2))."</div></div>");
-				$form->field_textarea(0,ereg_replace("-","",$key).$key2.$afwijkingvalue,"<i>Engels (txt[".$key."][".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
+				$form->field_textarea(0,ereg_replace("-","",$key).ereg_replace("-","",$key2).$afwijkingvalue,"<i>Engels (txt[".$key."][".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
 				$form->field_htmlrow("","<hr>");
 				$vars["onvertaald"]=true;
 			}
@@ -43,7 +43,7 @@ if(is_array($nieuwe_vertaling)) {
 		while(list($key2,$value2)=each($value)) {
 			if(!$txt["en".$afwijking][$key][$key2] and $value2) {
 				$form->field_htmlrow("","<b>Pagina &quot;".($key=="vars" ? "algemeen" : ($key=="index" ? "hoofdpagina" : $key))."&quot; - onderdeel &quot;".$key2."&quot;</b><p><div style=\"width:676px\"><i>Nederlands:</i><br><div style=\"border:1px solid #000000;padding:5px;\">".nl2br(htmlentities($txt["nl"][$key][$key2]))."</div></div>");
-				$form->field_textarea(0,ereg_replace("-","",$key).$key2,"<i>Engels (txt[".$key."][".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
+				$form->field_textarea(0,ereg_replace("-","",$key).ereg_replace("-","",$key2),"<i>Engels (txt[".$key."][".$key2."])</i>","","","",array("newline"=>true,"title_html"=>true));
 				$form->field_htmlrow("","<hr>");
 				$vars["onvertaald"]=true;
 			}

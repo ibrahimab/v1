@@ -313,6 +313,9 @@ $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="The prices of the ac
 $txt["nl"]["vars"]["hetteamvan"]="Het team van [[h_1]][[v_websitenaam]][[h_2]]";
 $txt["en"]["vars"]["hetteamvan"]="The [[h_1]][[v_websitenaam]][[h_2]] team";
 
+$txt["nl"]["vars"]["bestemmingen"]="Bestemmingen";
+$txt["en"]["vars"]["bestemmingen"]="Destinations";
+
 
 #
 # Tekst voor klanten die hebben aangegeven "Ja, mail me over deze accommodatie"
@@ -1379,9 +1382,29 @@ $txt["en"]["zoek-en-boek"]["inleidingaanbiedingen"]="Through this form you can s
 $txt["nl"]["zoek-en-boek"]["skidorp"]="Skidorp(en)";
 $txt["en"]["zoek-en-boek"]["skidorp"]="Ski village(s)";
 
+$txt["nl"]["zoek-en-boek"]["kalender_flexibel"]="Een verblijf van zaterdag tot zaterdag levert vaak de meeste resultaten op.";
+$txt["en"]["zoek-en-boek"]["kalender_flexibel"]="";
+
+$txt["nl"]["zoek-en-boek"]["prijs_van"]="van";
+$txt["en"]["zoek-en-boek"]["prijs_van"]="from";
+
+$txt["nl"]["zoek-en-boek"]["prijs_tot"]="tot";
+$txt["en"]["zoek-en-boek"]["prijs_tot"]="to";
+
+$txt["nl"]["zoek-en-boek"]["prijs_en_meer"]="en meer";
+$txt["en"]["zoek-en-boek"]["prijs_en_meer"]="and more";
+
+$txt["nl"]["zoek-en-boek"]["per_vakantiehuis"]="per vakantiehuis";
+$txt["en"]["zoek-en-boek"]["per_vakantiehuis"]="per holiday home";
+
+
 #
 # Aanbiedingen-pagina (http://www.chalet.nl/aanbiedingen.php)
 #
+
+$txt["nl"]["aanbiedingen"]["aanbiedingen"]="Aanbiedingen";
+$txt["en"]["aanbiedingen"]["aanbiedingen"]="Special offers";
+
 $txt["nl"]["aanbiedingen"]["hierondervindtu"]="Hieronder vind je een selectie uit onze vele aanbiedingen. Per aanbieding zijn alle accommodaties gesorteerd op aantal personen.";
 $txt["en"]["aanbiedingen"]["hierondervindtu"]="Below you will find a selection from our many special offers.";
 
@@ -1426,6 +1449,12 @@ $txt["en"]["aanbiedingen"]["bekijkandere"]="Choose a [[l1]]different arrival dat
 
 $txt["nl"]["aanbiedingen"]["andereselecteren"]="Je kunt ook een [[l1]]andere aankomstdatum[[/l1]] selecteren.";
 $txt["en"]["aanbiedingen"]["andereselecteren"]="You can also select a [[l1]]different arrival date[[/l1]].";
+
+$txt["nl"]["aanbiedingen"]["aanbiedingen-italie"]="Aanbiedingen Italië";
+$txt["en"]["aanbiedingen"]["aanbiedingen-italie"]="Special offers Italy";
+
+$txt["nl"]["aanbiedingen"]["geen-aanbiedingen"]="Wij hebben op dit moment helaas geen aanbiedingen in [[v_land]]";
+$txt["en"]["aanbiedingen"]["geen-aanbiedingen"]="";
 
 
 #
@@ -1790,7 +1819,7 @@ $txt["nl"]["toonaccommodatie"]["virtuele_rondgang"]="bekijk een virtuele rondgan
 $txt["en"]["toonaccommodatie"]["virtuele_rondgang"]="view virtual";
 
 $txt["nl"]["toonaccommodatie"]["geenfotos"]="Er zijn helaas geen foto's beschikbaar.";
-$txt["en"]["toonaccommodatie"]["geenfotos"]="Unfortunately there are no photos' available.";
+$txt["en"]["toonaccommodatie"]["geenfotos"]="Unfortunately there are no photos available.";
 
 $txt["nl"]["toonaccommodatie"]["virtuele_rondgang_acc"]="Bekijk ook een virtuele rondgang van deze accommodatie";
 $txt["en"]["toonaccommodatie"]["virtuele_rondgang_acc"]="Also view a virtual presentation of this accommodation";
@@ -2109,6 +2138,46 @@ $txt["en"]["toonaccommodatie"]["klantbeoordelingen"]="ratings";
 
 $txt["nl"]["toonaccommodatie"]["klassering"]="klassering";
 $txt["en"]["toonaccommodatie"]["klassering"]="classification";
+
+$txt["nl"]["toonaccommodatie"]["prijs-bij-flex"]="Prijs bij aankomst op [[v_aankomstdatum]] en verblijf van [[v_verblijfsduur]]";
+$txt["en"]["toonaccommodatie"]["prijs-bij-flex"]="";
+
+$txt["nl"]["toonaccommodatie"]["voer-verblijfsperiode-in"]="Voer hieronder de gewenste verblijfsperiode in";
+$txt["en"]["toonaccommodatie"]["voer-verblijfsperiode-in"]="";
+
+$txt["nl"]["toonaccommodatie"]["prijs-per-accommodatie"]="Prijs per accommodatie";
+$txt["en"]["toonaccommodatie"]["prijs-per-accommodatie"]="";
+
+$txt["nl"]["toonaccommodatie"]["gekozen-periode-niet-beschikbaar"]="De gekozen periode is helaas niet beschikbaar.";
+$txt["en"]["toonaccommodatie"]["gekozen-periode-niet-beschikbaar"]="";
+
+$txt["nl"]["toonaccommodatie"]["onderstaande-tarieven-za-za"]="Onderstaande tarieven gaan uit van een verblijf van zaterdag tot zaterdag.";
+$txt["en"]["toonaccommodatie"]["onderstaande-tarieven-za-za"]="";
+
+$txt["nl"]["toonaccommodatie"]["beijk-ook-afwijkend"]="Bekijk ook onze tarieven voor afwijkende dagen";
+$txt["en"]["toonaccommodatie"]["beijk-ook-afwijkend"]="";
+
+$txt["nl"]["toonaccommodatie"]["bekijk-weektarieven"]="Bekijk de weektarieven";
+$txt["en"]["toonaccommodatie"]["bekijk-weektarieven"]="";
+
+$txt["nl"]["toonaccommodatie"]["bekijk-ook-weektarieven"]="Bekijk ook de weektarieven";
+$txt["en"]["toonaccommodatie"]["bekijk-ook-weektarieven"]="";
+
+$txt["nl"]["toonaccommodatie"][""]="";
+$txt["en"]["toonaccommodatie"][""]="";
+
+$txt["nl"]["toonaccommodatie"][""]="";
+$txt["en"]["toonaccommodatie"][""]="";
+
+$txt["nl"]["toonaccommodatie"][""]="";
+$txt["en"]["toonaccommodatie"][""]="";
+
+$txt["nl"]["toonaccommodatie"][""]="";
+$txt["en"]["toonaccommodatie"][""]="";
+
+
+
+
 
 
 # tabs
@@ -2585,7 +2654,7 @@ $txt["nl_z"]["toonskigebied"]["bekijkonzeaccommodaties"]="Bekijk onze vakantiehu
 $txt["en_z"]["toonskigebied"]["bekijkonzeaccommodaties"]="Have a look at our holiday homes in [[v_skigebied]]";
 
 $txt["nl"]["toonskigebied"]["geenfotos"]="Er zijn helaas geen foto's beschikbaar.";
-$txt["en"]["toonskigebied"]["geenfotos"]="Unfortunately there are no photos' available.";
+$txt["en"]["toonskigebied"]["geenfotos"]="Unfortunately there are no photos available.";
 
 $txt["nl"]["toonskigebied"]["alternatievespelling"]="Alternatieve spelling";
 $txt["en"]["toonskigebied"]["alternatievespelling"]="Alternative spelling";
@@ -2707,6 +2776,23 @@ $txt["en"]["toonskigebied"]["alternatievespelling"]="Alternative spelling";
 
 $txt["nl"]["toonskigebied"]["klikopdekaart"]="Klik op de kaart voor een vergroting";
 $txt["en"]["toonskigebied"]["klikopdekaart"]="Click on the map to enlarge";
+
+$txt["nl"]["toonskigebied"]["toon-lijst"]="Toon lijst met alle vakantiehuizen in [[v_regio]]";
+$txt["en"]["toonskigebied"]["toon-lijst"]="";
+
+$txt["nl"]["toonskigebied"]["ligging-plaatsen"]="Ligging van alle plaatsen in [[v_regio]]";
+$txt["en"]["toonskigebied"]["ligging-plaatsen"]="";
+
+$txt["nl"]["toonskigebied"]["overzicht-plaatsen"]="Overzicht van alle plaatsen in [[v_regio]]";
+$txt["en"]["toonskigebied"]["overzicht-plaatsen"]="";
+
+$txt["nl"]["toonskigebied"]["accommodaties-andere-regio"]="accommodaties in een andere regio";
+$txt["en"]["toonskigebied"]["accommodaties-andere-regio"]="";
+
+$txt["nl"]["toonskigebied"]["accommodaties-in-regio"]="accommodaties in [[v_regio]]";
+$txt["en"]["toonskigebied"]["accommodaties-in-regio"]="";
+
+
 
 #
 # Pagina Plaats (bijvoorbeeld http://www.chalet.nl/plaats/Alpe_d_Huez/)
@@ -2850,7 +2936,7 @@ $txt["nl"]["toonplaats"]["meerfotos"]="meer foto's";
 $txt["en"]["toonplaats"]["meerfotos"]="more photos";
 
 $txt["nl"]["toonplaats"]["geenfotos"]="Er zijn helaas geen foto's beschikbaar.";
-$txt["en"]["toonplaats"]["geenfotos"]="Unfortunately there are no photos' available.";
+$txt["en"]["toonplaats"]["geenfotos"]="Unfortunately there are no photos available.";
 
 $txt["nl"]["toonplaats"]["bekijkalleaccommodaties"]="Bekijk alle chalets en appartementen in [[v_skigebied]]";
 $txt["en"]["toonplaats"]["bekijkalleaccommodaties"]="View all chalets and apartments in [[v_skigebied]]";

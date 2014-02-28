@@ -265,13 +265,16 @@ class form2 {
 		$this->settings["message"]["verplichtveld"]["nl"]="Verplicht veld";
 		$this->settings["message"]["verplichtveld"]["en"]="Compulsory field";
 		$this->settings["message"]["verplichtveld"]["de"]="Pflichtangaben";
+		$this->settings["message"]["verplichtveld"]["fr"]="Champ obligatoire";
 
 		$this->settings["message"]["submitbutton"]["nl"]="OK";
 		$this->settings["message"]["submitbutton"]["en"]="OK";
 		$this->settings["message"]["submitbutton"]["de"]="OK";
+		$this->settings["message"]["submitbutton"]["fr"]="OK";
 
 		$this->settings["message"]["kalender"]["nl"]="Kalender";
 		$this->settings["message"]["kalender"]["en"]="Calendar";
+		$this->settings["message"]["kalender"]["fr"]="calendrier";
 
 		$this->settings["message"]["u"]["nl"]="u";
 		$this->settings["message"]["u"]["en"]="h";
@@ -285,6 +288,7 @@ class form2 {
 		$this->settings["message"]["volgendegegevens"]["nl"]="De volgende gegevens zijn via [URL] ingevoerd";
 		$this->settings["message"]["volgendegegevens"]["en"]="The following data has been entered on [URL]";
 		$this->settings["message"]["volgendegegevens"]["de"]="De volgende gegevens zijn via [URL] ingevoerd";
+		$this->settings["message"]["volgendegegevens"]["fr"]="Les données suivantes ont été inscrites sur [URL]";
 
 		$this->settings["message"]["invoer"]["nl"]="Invoer";
 		$this->settings["message"]["invoer"]["en"]="Form ";
@@ -300,12 +304,14 @@ class form2 {
 
 		$this->settings["message"]["imgsize_size"]["nl"]="_VAL1_x_VAL2_ pixels";
 		$this->settings["message"]["imgsize_size"]["en"]="_VAL1_x_VAL2_ pixels";
+		$this->settings["message"]["imgsize_size"]["fr"]="_VAL1_x_VAL2_ pixels";
 
 		$this->settings["message"]["imgsize_ratio"]["nl"]="verhouding _VAL1_:_VAL2_";
 		$this->settings["message"]["imgsize_ratio"]["en"]="ratio _VAL1_:_VAL2_";
 
 		$this->settings["message"]["showfiletype"]["nl"]="_VAL1_-bestand";
 		$this->settings["message"]["showfiletype"]["en"]="_VAL1_-file";
+		$this->settings["message"]["showfiletype"]["fr"]="_VAL1_-fichier";
 
 		$this->settings["message"]["afbeeldingwissen"]["nl"]="afbeelding wissen";
 		$this->settings["message"]["afbeeldingwissen"]["en"]="delete image";
@@ -323,6 +329,7 @@ class form2 {
 		$this->settings["message"]["error_foutform"]["nl"]="U heeft niet alle velden correct ingevuld";
 		$this->settings["message"]["error_foutform"]["en"]="Not all fields are filled out correctly";
 		$this->settings["message"]["error_foutform"]["de"]="Nicht alle Felder sind korrekt ausgefüllt";
+		$this->settings["message"]["error_foutform"]["fr"]="";
 
 		$this->settings["message"]["error_verplicht"]["nl"]="Velden met een asterisk (*) zijn verplicht";
 		$this->settings["message"]["error_verplicht"]["en"]="Fields marked with an asterisk are compulsory";
@@ -331,6 +338,7 @@ class form2 {
 		$this->settings["message"]["error_verplicht_veld"]["nl"]="verplicht veld";
 		$this->settings["message"]["error_verplicht_veld"]["en"]="compulsory field";
 		$this->settings["message"]["error_verplicht_veld"]["de"]="Pflichtangaben";
+		$this->settings["message"]["error_verplicht_veld"]["fr"]="champ obligatoire";
 
 		$this->settings["message"]["error_email"]["nl"]="geen geldig adres";
 		$this->settings["message"]["error_email"]["en"]="not a valid address";
@@ -439,11 +447,20 @@ class form2 {
 	#
 	function message($title,$html=true,$value_array="") {
 		global $vars;
+		if(!$this->settings["message"][$title][$this->settings["language"]]) {
+			trigger_error("WT-Error: no ".$this->settings["language"]." translation for ".$title,E_USER_NOTICE);
+
+			$this->settings["message"][$title][$this->settings["language"]] = $this->settings["message"][$title]["nl"];
+		}
 		$return=$this->settings["message"][$title][$this->settings["language"]];
 		while(list($key,$value)=@each($value_array)) {
 			$value=strval($value);
 			$return=ereg_replace("_VAL".$key."_",$value,$return);
 		}
+		if($vars["wt_htmlentities_utf8"]) {
+			$return = iconv("CP1252", "UTF-8", $return);
+		}
+
 		if($html) {
 			if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
 				$return=wt_he($return);

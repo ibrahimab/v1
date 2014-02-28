@@ -25,6 +25,8 @@ if($vars["website"]=="I") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:372px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="K") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:314px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
+} elseif($vars["website"]=="H") {
+	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:300px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="E") {
 	echo "<div style=\"position:absolute;top:11px;\"><div id=\"favorieten_popup\" style=\"margin-left:265px;width:305px; height:160px;background-image:url(".$vars["path"]."pic/".$popup_url.".png);background-repeat:no-repeat; padding:5px; font-size:12px; text-align:center; display:none;\">";
 } elseif($vars["website"]=="Z") {
@@ -997,9 +999,9 @@ if($db->next_record()) {
 #		echo "<a name=\"prijsinformatie_flextarieven\"></a>";
 		echo "<table width=\"660\" class=\"toonacctabel\" cellspacing=\"0\" style=\"width:690px;\">";
 		if($flextarief["aantalnachten"]) {
-			echo "<tr><th>Prijs bij aankomst op ".DATUM("DAG D MAAND JJJJ",$_GET["flad"])." en verblijf van ".htmlentities($flextarief["aantalnachten_text"])."</th></tr>";
+			echo "<tr><th>".html("prijs-bij-flex", "toonaccommodatie", array("v_aankomstdatum"=>DATUM("DAG D MAAND JJJJ", $_GET["flad"], $vars["taal"]), "v_verblijfsduur"=>$flextarief["aantalnachten_text"]))."</th></tr>";
 		} else {
-			echo "<tr><th>Voer hieronder de gewenste verblijfsperiode in:</th></tr>";
+			echo "<tr><th>".html("voer-verblijfsperiode-in", "toonaccommodatie").":</th></tr>";
 		}
 		echo "<tr><td>";
 
@@ -1019,14 +1021,12 @@ if($db->next_record()) {
 		echo "<table border=\"0\" width=\"500\" cellspacing=\"0\" cellpadding=\"0\" class=\"geenbordertable\">";
 		echo "<tr><td colspan=\"2\">";
 		if($flextarief["tarief"]>0) {
-			echo "<b>Prijs per accommodatie: ";
+			echo "<b>".html("prijs-per-accommodatie", "toonaccommodatie").": ";
 			echo "&euro;&nbsp;".number_format($flextarief["tarief"],2,",",".");
 			echo "</b>";
 		} else {
 			if($_GET["flad"] and $_GET["fldu"]) {
-				echo "De gekozen periode is helaas niet beschikbaar.";
-			} else {
-#				echo "&nbsp;";
+				echo html("gekozen-periode-niet-beschikbaar", "toonaccommodatie");
 			}
 		}
 		echo "</td></tr>";
@@ -1036,7 +1036,7 @@ if($db->next_record()) {
 		echo "<tr><td valign=bottom>".html("aankomstdatum","accommodaties")."</td><td valign=top align=left width=65%>";
 
 		# Kalender
-		echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?accpagina=1&nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=250,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
+		echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?accpagina=1&nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=445,height=250,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
 
 		if($_GET["flad"]) {
 			$temp_actievedatum["fadf_d"]=date("d",$_GET["flad"]);
@@ -1142,7 +1142,9 @@ if($db->next_record()) {
 			$flexurl.="#prijsinformatie";
 			echo "<table width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\" id=\"bekijkflexibel\">";
 			echo "<tr><td>";
-			echo "Onderstaande tarieven gaan uit van een verblijf van zaterdag tot zaterdag.<br><a href=\"".htmlentities($flexurl)."\">Bekijk ook onze tarieven voor afwijkende dagen &gt;</a>";
+			echo html("onderstaande-tarieven-za-za", "toonaccommodatie");
+			echo "<br><a href=\"".htmlentities($flexurl)."\">";
+			echo html("beijk-ook-afwijkend", "toonaccommodatie")." &gt;</a>";
 			echo "</td></tr></table>";
 			$flexmelding=true;
 		}
@@ -1153,13 +1155,11 @@ if($db->next_record()) {
 		if($echt_tarieven_getoond) {
 			echo "<a href=\"#\" onclick=\"return weektarieven_openklappen();\">";
 			if($_GET["toonflex"]) {
-				echo "Bekijk de weektarieven";
+				echo html("bekijk-weektarieven", "toonaccommodatie");
 			} else {
-				echo "Bekijk ook de weektarieven";
+				echo html("bekijk-ook-weektarieven", "toonaccommodatie");
 			}
 			echo " &gt;</a>";
-		} else {
-#			echo "&nbsp;";
 		}
 		echo "</div>";
 		echo "<div style=\"display:none;\" id=\"weektarieven\">";

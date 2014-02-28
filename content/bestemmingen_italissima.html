@@ -4,7 +4,7 @@ $landinfo["id"]=5;
 
 # Regio-array vullen
 unset($tabellen,$landenteller,$landgehad);
-$db->query("SELECT DISTINCT s.naam, l.naam".$vars["ttv"]." AS land, s.skigebied_id, s.minhoogte, s.maxhoogte, s.kilometerpiste, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.websites LIKE '%".$vars["website"]."%' AND l.land_id='".addslashes($landinfo["id"])."' ORDER BY l.naam".$vars["ttv"].", s.naam;");
+$db->query("SELECT DISTINCT s.naam, l.naam".$vars["ttv"]." AS land, s.skigebied_id, s.minhoogte, s.maxhoogte, s.kilometerpiste, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND l.land_id='".addslashes($landinfo["id"])."' ORDER BY l.naam".$vars["ttv"].", s.naam;");
 if($db->num_rows()) {
 	while($db->next_record()) {
 		$regions[$db->f("skigebied_id")] = $db->f("naam");

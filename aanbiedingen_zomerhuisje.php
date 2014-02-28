@@ -13,8 +13,8 @@ if(!preg_match("/\?/",$_SERVER["REQUEST_URI"]) and substr($_SERVER["REQUEST_URI"
 
 if($vars["websitetype"]==7) {
 	$land["id"]=5;
-	$land["naam"]="Italië";
-	$title["aanbiedingen_zomerhuisje"]="Aanbiedingen Italië";
+	$land["naam"] = txt("italie", "index");
+	$title["aanbiedingen_zomerhuisje"] = txt("aanbiedingen-italie", "aanbiedingen");
 } else {
 	$land["id"]=0;
 	$db->query("SELECT land_id, naam".$vars["ttv"]." AS naam FROM land WHERE zomertonen=1;");
@@ -22,10 +22,10 @@ if($vars["websitetype"]==7) {
 		if(wt_convert2url_seo($db->f("naam"))==wt_convert2url_seo($_GET["land"])) {
 			$land["id"]=$db->f("land_id");
 			$land["naam"]=$db->f("naam");
-			$title["aanbiedingen_zomerhuisje"]="Aanbiedingen ".$db->f("naam");
+			$title["aanbiedingen_zomerhuisje"] = txt("aanbiedingen", "aanbiedingen")." ".$db->f("naam");
 
-			$breadcrumbs[txt("menu_aanbiedingen")."/"]="Aanbiedingen";
-			$breadcrumbs["last"]=$db->f("naam");
+			$breadcrumbs[txt("menu_aanbiedingen")."/"] = txt("aanbiedingen", "aanbiedingen");
+			$breadcrumbs["last"] = $db->f("naam");
 
 		}
 	}
@@ -38,7 +38,7 @@ if($vars["seizoentype"]==2 and $_GET["aid"]) {
 		$title["aanbiedingen_zomerhuisje"]="Aanbieding ".$land["naam"]." - ".$db->f("onlinenaam");
 
 		unset($breadcrumbs);
-		$breadcrumbs[txt("menu_aanbiedingen")."/"]="Aanbiedingen";
+		$breadcrumbs[txt("menu_aanbiedingen")."/"] = txt("aanbiedingen", "aanbiedingen");
 		$breadcrumbs[txt("menu_aanbiedingen")."/".wt_convert2url_seo($land["naam"])."/"]=$land["naam"];
 		$breadcrumbs["last"]=$db->f("onlinenaam");
 
@@ -52,7 +52,7 @@ if($vars["seizoentype"]==2 and $_GET["aid"]) {
 	}
 }
 
-if(!$title["aanbiedingen_zomerhuisje"]) $title["aanbiedingen_zomerhuisje"]="Aanbiedingen";
+if(!$title["aanbiedingen_zomerhuisje"]) $title["aanbiedingen_zomerhuisje"] = txt("aanbiedingen", "aanbiedingen");
 
 include "content/opmaak.php";
 

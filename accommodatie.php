@@ -114,7 +114,7 @@ if($url[0]) {
 
 #		$breadcrumbs[txt("menu_skigebieden").".php"]=ucfirst(txt("menu_skigebieden"));
 		if($vars["websitetype"]==7) {
-			$breadcrumbs["bestemmingen.php"]="Bestemmingen";
+			$breadcrumbs[txt("menu_bestemmingen").".php"] = txt("bestemmingen", "vars");
 		} else {
 			$breadcrumbs[txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/"]=$db->f("land");
 		}

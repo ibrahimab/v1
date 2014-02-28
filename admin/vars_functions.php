@@ -81,7 +81,14 @@ function txt($id,$page="",$settings="",$html=false) {
 		if($taal=="nl")	trigger_error("txt[nl][".$page."][".$id."] is leeg",E_USER_NOTICE);
 #		$return="[[MISSING: ".$id."_".$taal."]]";
 		if($vars["lokale_testserver"]) {
-			$return=$id;
+			$return="-".preg_replace("@_@", " ", $id)."-";
+			if(is_array($settings)) {
+				foreach ($settings as $key => $value) {
+					if(preg_match("@^v_@", $key)) {
+						$return .= " [[".$key."]]";
+					}
+				}
+			}
 		} else {
 			$return="-";
 		}
@@ -3468,6 +3475,9 @@ function facebook_opengraph($info="") {
 			} elseif($vars["website"]=="K") {
 				# Italissima
 				$logo_afbeelding="logo_italissima.gif";
+			} elseif($vars["website"]=="H") {
+				# Italyhomes
+				$logo_afbeelding="logo_italyhomes.gif";
 			} elseif($vars["website"]=="X") {
 				# Venturasol
 				$logo_afbeelding="logo_venturasol.png";
@@ -4227,7 +4237,7 @@ function opvalblok() {
 	}
 
 	$checkdate=mktime(0,0,0,date("m"),date("d"),date("Y"));
-	$db->query("SELECT b.regel1, b.regel2, b.regel3, b.begindatum, b.einddatum, t.type_id, a.accommodatie_id, l.begincode FROM blokaccommodatie b, accommodatie a, type t, plaats p, land l WHERE b.websitetype='".intval($vars["websitetype"])."' AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND b.tonen=1 AND a.tonen=1 AND t.tonen=1 AND (b.begindatum IS NULL OR b.begindatum<=NOW()) AND (b.einddatum IS NULL OR b.einddatum>=NOW()) AND ".$where." ORDER BY ".$order_by." LIMIT ".$limit.";");
+	$db->query("SELECT b.regel1, b.regel2, b.regel3, b.begindatum, b.einddatum, t.type_id, a.accommodatie_id, l.begincode FROM blokaccommodatie b, accommodatie a, type t, plaats p, land l WHERE b.websites LIKE '%".$vars["website"]."%' AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND b.tonen=1 AND a.tonen=1 AND t.tonen=1 AND (b.begindatum IS NULL OR b.begindatum<=NOW()) AND (b.einddatum IS NULL OR b.einddatum>=NOW()) AND ".$where." ORDER BY ".$order_by." LIMIT ".$limit.";");
 
 	while($db->next_record()) {
 

@@ -378,8 +378,9 @@ if($mustlogin) {
 	$layout->menu_item("cms_optie_soorten","Opties","",true);
 
 	$layout->menu_item("cms_blokkenaccommodaties","Opvalblokken","",true,false,array("slide"=>true));
-	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Zomerhuisje",array("wst"=>"3"),true);
-	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Italissima",array("wst"=>"7"),true);
+	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Zomerhuisje",array("websites"=>"Z"),true);
+	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Italissima",array("websites"=>"I,K"),true);
+	$layout->submenu_item("cms_blokkenaccommodaties","","cms_blokkenaccommodaties","Italyhomes",array("websites"=>"H"),true);
 
 	# Overzichten
 	$layout->menu_item("cms_overzichten","Overzichten","",true,false,array("slide"=>true));
@@ -2530,7 +2531,11 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		# Chalettour
 		$logo="factuur_logo_chalettour.png";
 	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
-		$logo="factuur_logo_italissima.png";
+		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="en") {
+			$logo="factuur_logo_italyhomes.png";
+		} else {
+			$logo="factuur_logo_italissima.png";
+		}
 	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 		# SuperSki
 		$logo="factuur_logo_superski.png";

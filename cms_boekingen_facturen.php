@@ -279,7 +279,11 @@ if($form->okay) {
 					# Chalettour
 					$this->Image('pic/factuur_logo_chalettour.png',10,8,50);
 				} elseif($this->gegevens["stap1"]["website_specifiek"]["websitetype"]==7) {
-					$this->Image('pic/factuur_logo_italissima.png',10,8,50);
+					if($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="en") {
+						$this->Image('pic/factuur_logo_italyhomes.png',10,8,50);
+					} else {
+						$this->Image('pic/factuur_logo_italissima.png',10,8,50);
+					}
 				} elseif($this->gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 					# SuperSki
 					$this->Image('pic/factuur_logo_superski.png',10,10,70);

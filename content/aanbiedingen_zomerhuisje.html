@@ -150,7 +150,7 @@ if($land["id"]) {
 
 		# Kortingen met teksten
 		$vandaag=mktime(0,0,0,date("m"),date("d"),date("Y"));
-		$db->query("SELECT DISTINCT k.korting_id, k.naam, k.onlinenaam".$vars["ttv"]." AS onlinenaam, k.xml_korting, k.gekoppeld_code, k.omschrijving".$vars["ttv"]." AS omschrijving, k.volgorde, t.type_id FROM korting k, korting_tarief kt, type t, tarief ta, accommodatie a WHERE k.actief=1 AND t.accommodatie_id=a.accommodatie_id AND a.wzt=2 AND kt.korting_id=k.korting_id AND k.type_id=t.type_id AND ta.type_id=t.type_id AND kt.week=ta.week AND ta.beschikbaar=1 AND t.type_id IN (".substr($type_inquery,1).") AND (ta.bruto>0 OR ta.c_bruto>0) AND k.seizoen_id IN (".addslashes($seizoen_inquery).") AND k.onlinenaam<>'' AND UNIX_TIMESTAMP(k.van)<='".$vandaag."' AND UNIX_TIMESTAMP(k.tot)>='".$vandaag."' ORDER BY k.volgorde;");
+		$db->query("SELECT DISTINCT k.korting_id, k.naam, k.onlinenaam".$vars["ttv"]." AS onlinenaam, k.xml_korting, k.gekoppeld_code, k.omschrijving".$vars["ttv"]." AS omschrijving, k.volgorde, t.type_id FROM korting k, korting_tarief kt, type t, tarief ta, accommodatie a WHERE k.actief=1 AND t.accommodatie_id=a.accommodatie_id AND a.wzt=2 AND kt.korting_id=k.korting_id AND k.type_id=t.type_id AND ta.type_id=t.type_id AND kt.week=ta.week AND ta.beschikbaar=1 AND t.type_id IN (".substr($type_inquery,1).") AND (ta.bruto>0 OR ta.c_bruto>0) AND k.seizoen_id IN (".addslashes($seizoen_inquery).") AND k.onlinenaam".$vars["ttv"]."<>'' AND UNIX_TIMESTAMP(k.van)<='".$vandaag."' AND UNIX_TIMESTAMP(k.tot)>='".$vandaag."' ORDER BY k.volgorde;");
 
 		while($db->next_record()) {
 			$aanbiedingteller++;
@@ -293,7 +293,7 @@ if($land["id"]) {
 			}
 		}
 		if(!$aanbiedingen_getoond) {
-			echo "Wij hebben op dit moment helaas geen aanbiedingen in ".htmlentities($land["naam"]).".<br><br>";
+			echo html("geen-aanbiedingen", "aanbiedingen", array("v_land"=>$land["naam"])).".<br><br>";
 	#		echo "<a href=\"".$vars["path"]."aanbiedingen/\">Bekijk onze aanbiedingen in andere landen &gt;</a>";
 		}
 		echo "<!-- WTend -->\n";
