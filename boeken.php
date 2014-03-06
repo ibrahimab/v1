@@ -2296,7 +2296,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						$form->input["aankomstdatum"]=dichtstbijzijnde_zaterdag($form->input["aankomstdatum_flex"]["unixtime"]);
 						$setquery.=", aankomstdatum_exact='".addslashes($form->input["aankomstdatum_flex"]["unixtime"])."', vertrekdatum_exact='".addslashes(flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"]))."', verblijfsduur='".addslashes($form->input["verblijfsduur"])."'";
 					} else {
-						$setquery.=", aankomstdatum_exact='".addslashes($form->input["aankomstdatum"])."', vertrekdatum_exact='".addslashes(flex_bereken_vertrekdatum($form->input["aankomstdatum"],$form->input["verblijfsduur"]))."', verblijfsduur='".addslashes($form->input["verblijfsduur"])."'";
+						$nieuw_accinfo=accinfo($_GET["tid"],$form->input["aankomstdatum"],$form->input["aantalpersonen"]);
+						$setquery.=", aankomstdatum_exact='".addslashes($nieuw_accinfo["aankomstdatum_unixtime"][$form->input["aankomstdatum"]])."', vertrekdatum_exact='".addslashes(flex_bereken_vertrekdatum($nieuw_accinfo["aankomstdatum_unixtime"][$form->input["aankomstdatum"]],$form->input["verblijfsduur"]))."', verblijfsduur='".addslashes($form->input["verblijfsduur"])."'";
 					}
 				}
 
@@ -2385,8 +2386,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$setquery.=", valt_onder_bedrijf='".intval($vars["valt_onder_bedrijf"])."'";
 
 				$db->query("INSERT INTO boeking SET ".$setquery.";");
-#echo $db->lastquery;
-#exit;
+// echo $db->lastquery;
+// exit;
 				if($db->insert_id()) {
 					$_SESSION["boeking"]["boekingid"][$db->insert_id()]=true;
 					$gegevens["stap1"]["boekingid"]=$db->insert_id();
