@@ -1287,6 +1287,12 @@ if($db->next_record()) {
 		}
 	} else {
 		if($tarieven_ingevoerd) {
+
+			if($tarieventabel_object->mailmijvolgendseizoen_form) {
+				echo $tarieventabel_object->mailmijvolgendseizoen_form;
+				echo "<div style=\"margin-top:-10px;\"></div>";
+			}
+
 			# Seizoennamen bepalen (vorig seizoen, dit seizoen)
 			$db2->query("SELECT DISTINCT s.naam".$vars["ttv"]." AS naam FROM seizoen s WHERE s.type='".$vars["seizoentype"]."' ORDER BY s.begin DESC LIMIT 0,2;");
 			while($db2->next_record()) {
@@ -1296,6 +1302,8 @@ if($db->next_record()) {
 				$huidig_seizoen=$db2->f("naam");
 			}
 			echo "<p>".html("geentarieven_accvol","toonaccommodatie",array("v_accommodatienaam"=>$accinfo["accnaam"],"v_huidigseizoen"=>$huidig_seizoen,"v_volgendseizoen"=>$volgend_seizoen,"l1"=>"contact?accid=".$typeid))."</p>";
+
+
 		} else {
 			echo "<p>".html("tarievennognietbekend","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</p>";
 		}

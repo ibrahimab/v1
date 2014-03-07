@@ -120,10 +120,12 @@ if($_GET["wzt"]==1) {
 	$cms->edit_field(37,1,"omschrijving","Omschrijving");
 }
 
+$advies = array("add_html_after_field"=>"<div style=\"margin-top:4px;margin-bottom:10px;font-size:0.9em;color:blue;\">Tip: test of de URL correct werkt op alle hierboven aangevinkte websites.</div>");
+
 if($_GET["wzt"]==1) {
-	$cms->edit_field(37,1,"link","Link (zonder 'http://www.chalet.nl')");
+	$cms->edit_field(37,1,"link","Link (zonder 'http://www.chalet.nl')", "", "", $advies);
 } elseif($_GET["wzt"]==3) {
-	$cms->edit_field(37,1,"link","Link (zonder 'http://www.italissima.nl')");
+	$cms->edit_field(37,1,"link","Link (zonder 'http://www.italissima.nl')", "", "", $advies);
 } else {
 	$cms->edit_field(37,1,"link","Link (zonder 'http://www.zomerhuisje.nl')");
 }
