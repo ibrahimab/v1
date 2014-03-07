@@ -72,14 +72,14 @@ function aanbieding_dichtklap(accid) {
 //window.onload=onloadfunction;
 
 
-//Get cookie routine by Shelley Powers 
+//Get cookie routine by Shelley Powers
 function get_cookie(Name) {
   var search = Name + "="
   var returnvalue = "";
   if (document.cookie.length > 0) {
     offset = document.cookie.indexOf(search)
     // if cookie exists
-    if (offset != -1) { 
+    if (offset != -1) {
       offset += search.length
       // set index of beginning of value
       end = document.cookie.indexOf(";", offset);
@@ -106,7 +106,7 @@ function hoofdpagina_carousel(teller) {
 			if($("#blok_"+hoofdpagina_blok_teller).length>0) {
 
 			} else {
-				hoofdpagina_blok_teller=1;			
+				hoofdpagina_blok_teller=1;
 			}
 			teller=hoofdpagina_blok_teller;
 		} else {
@@ -118,7 +118,7 @@ function hoofdpagina_carousel(teller) {
 		$("#hoofdpagina_blok_teller_"+teller).addClass("hoofdpagina_blok_teller_active");
 	}
 }
-      
+
 $(document).ready(function() {
 	// hoofdpagina-carousel starten
 
@@ -144,7 +144,7 @@ $(document).ready(function() {
 		$(".hoofdpagina_blok_content a").click(function(e) {
 			e.preventDefault();
 		});
-		
+
 		$(".hoofdpagina_blok_content").mouseenter(function() {
 			$(this).find("img").css("border","1px solid #ffffff");
 		});
@@ -152,7 +152,7 @@ $(document).ready(function() {
 		$(".hoofdpagina_blok_content").mouseleave(function() {
 			$(this).find("img").css("border","1px solid #ff9900");
 		});
-		
+
 		$(".hoofdpagina_blok_content").click(function() {
 			document.location.href=$(this).find("a").attr("href");
 		});
@@ -169,7 +169,7 @@ $(document).ready(function() {
 			}
 		});
 	});
-	
+
 	// hover "lees meer" bij hoofdpagina_vraagonsadvies
 	$("#hoofdpagina_vraagonsadvies").mouseenter(function() {
 		$("#hoofdpagina_vraagonsadvies_leesmeer").css("color","#ffffff");
@@ -214,8 +214,11 @@ $(document).ready(function() {
 				if(jQuery("div#regio_"+tmp).length > 0) {
 					var name = jQuery("div#regio_"+tmp+' a').text();
 					var noacc = jQuery("div#regio_"+tmp).attr("data-noacc");
-
-					label.html(name + ': '+ noacc +' vakantiehuizen');
+					if(noacc==1) {
+						label.html(name + ': '+ noacc +' '+$("#landkaartklikbaar_kaart").data("vakantiehuis"));
+					} else {
+						label.html(name + ': '+ noacc +' '+$("#landkaartklikbaar_kaart").data("vakantiehuizen"));
+					}
 				} else {
 					return false;
 				}

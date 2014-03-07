@@ -813,6 +813,9 @@ if (!function_exists("datum")) {
 		#
 		# Gebruik: datum(string,[timestamp],[taal])
 		#
+
+		global $vars;
+
 		$a = strtoupper($a);
 		if(!$time) $time=time();
 		if($language=="nl") {
@@ -975,6 +978,11 @@ if (!function_exists("datum")) {
 		$a = ereg_replace("(^|[^a-zA-Z0-9])ZZ($|[^a-zA-Z0-9])","\\1".wt_adodb_date("i",$time)."\\2",$a);
 		$a = ereg_replace("(^|[^a-zA-Z0-9])SS($|[^a-zA-Z0-9])","\\1".wt_adodb_date("s",$time)."\\2",$a);
 		$a = ereg_replace("_","&nbsp;",$a);
+
+		if($vars["wt_htmlentities_utf8"]) {
+			$a = iconv("CP1252", "UTF-8", $a);
+		}
+
 		return $a;
 	}
 }

@@ -32,7 +32,7 @@ if ( $_GET["t"]==1 ) {
 	//
 	// Op Google Maps accommodaties plaatsen
 	//
-	$db->query( "SELECT accommodatie_id, tnaam, COUNT(type_id) AS aantal FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id;" );
+	$db->query( "SELECT accommodatie_id, tnaam".$vars["ttv"]." AS tnaam, COUNT(type_id) AS aantal FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id;" );
 	while ( $db->next_record() ) {
 		if ( $db->f( "aantal" )==1 ) {
 			$typenaam[$db->f( "accommodatie_id" )]=$db->f( "tnaam" );
@@ -44,8 +44,8 @@ if ( $_GET["t"]==1 ) {
 	// $db->query("SELECT accommodatie_id, soortaccommodatie, type_id, gps_lat, gps_long, naam, plaats, skigebied, land, begincode, MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE gps_lat<=".addslashes($_GET["lat1"])." AND gps_lat>=".addslashes($_GET["lat2"])." AND gps_long<=".addslashes($_GET["long1"])." AND gps_long>=".addslashes($_GET["long2"])." AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' AND accommodatie_id<>'".addslashes($_GET["accid"])."' GROUP BY accommodatie_id ORDER BY accommodatie_id;");
 	// $db->query("SELECT accommodatie_id, soortaccommodatie, type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE ((gps_lat IS NOT NULL AND gps_long IS NOT NULL) OR ((tgps_lat IS NOT NULL AND tgps_long IS NOT NULL))) AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id ORDER BY accommodatie_id;");
 
-	$query["types"]="SELECT accommodatie_id, toonper, soortaccommodatie, skigebied_id, akorteomschrijving, tkorteomschrijving, akwaliteit, tkwaliteit, view_accommodatie.type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, optimaalaantalpersonen, maxaantalpersonen, cache_vanafprijs_type.prijs FROM view_accommodatie RIGHT JOIN `cache_vanafprijs_type` ON view_accommodatie.type_id=cache_vanafprijs_type.type_id WHERE tgps_lat IS NOT NULL AND tgps_long IS NOT NULL AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY accommodatie_id;";
-	$query["accommodaties"]="SELECT accommodatie_id, toonper, soortaccommodatie, skigebied_id, akorteomschrijving, tkorteomschrijving, akwaliteit, tkwaliteit, view_accommodatie.type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen, cache_vanafprijs_type.prijs FROM view_accommodatie RIGHT JOIN `cache_vanafprijs_type` ON view_accommodatie.type_id=cache_vanafprijs_type.type_id WHERE gps_lat IS NOT NULL AND gps_long IS NOT NULL AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id ORDER BY accommodatie_id, type_id;";
+	$query["types"]="SELECT accommodatie_id, toonper, soortaccommodatie, skigebied_id, akorteomschrijving".$vars["ttv"]." AS akorteomschrijving, tkorteomschrijving".$vars["ttv"]." AS tkorteomschrijving, akwaliteit, tkwaliteit, view_accommodatie.type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, optimaalaantalpersonen, maxaantalpersonen, cache_vanafprijs_type.prijs FROM view_accommodatie RIGHT JOIN `cache_vanafprijs_type` ON view_accommodatie.type_id=cache_vanafprijs_type.type_id WHERE tgps_lat IS NOT NULL AND tgps_long IS NOT NULL AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' ORDER BY accommodatie_id;";
+	$query["accommodaties"]="SELECT accommodatie_id, toonper, soortaccommodatie, skigebied_id, akorteomschrijving".$vars["ttv"]." AS akorteomschrijving, tkorteomschrijving".$vars["ttv"]." AS tkorteomschrijving, akwaliteit, tkwaliteit, view_accommodatie.type_id, gps_lat, gps_long, tgps_lat, tgps_long, naam, plaats, skigebied, land, begincode, MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen, cache_vanafprijs_type.prijs FROM view_accommodatie RIGHT JOIN `cache_vanafprijs_type` ON view_accommodatie.type_id=cache_vanafprijs_type.type_id WHERE gps_lat IS NOT NULL AND gps_long IS NOT NULL AND atonen=1 AND ttonen=1 AND websites LIKE '%".$vars["website"]."%' GROUP BY accommodatie_id ORDER BY accommodatie_id, type_id;";
 
 	while ( list( $key, $value )=each( $query ) ) {
 		$db->query( $value );
@@ -93,7 +93,7 @@ if ( $_GET["t"]==1 ) {
 
 							$prijs=$db->f("prijs");
 							if($prijs && $prijs!=0) {
-								$return["acc"][$db->f( "type_id" )]["tarief"]="vanaf &euro;&nbsp;".number_format($prijs,0,",",".");
+								$return["acc"][$db->f( "type_id" )]["tarief"]=html("vanaf")." &euro;&nbsp;".number_format($prijs,0,",",".");
 								if($db->f("toonper")==3 or $vars["wederverkoop"]) {
 									$return["acc"][$db->f( "type_id" )]["tarief"].= utf8_encode(" ".html("peraccommodatie","zoek-en-boek"));
 								} else {
@@ -130,7 +130,7 @@ if ( $_GET["t"]==1 ) {
 
 							$prijs=$db->f("prijs");
 							if($prijs && $prijs!=0) {
-								$return["acc"][$db->f( "type_id" )]["tarief"]="vanaf &euro;&nbsp;".number_format($prijs,0,",",".");
+								$return["acc"][$db->f( "type_id" )]["tarief"]=html("vanaf")." &euro;&nbsp;".number_format($prijs,0,",",".");
 
 								if($db->f("toonper")==3 or $vars["wederverkoop"]) {
 									$return["acc"][$db->f( "type_id" )]["tarief"].= utf8_encode(" ".html("peraccommodatie","zoek-en-boek"));

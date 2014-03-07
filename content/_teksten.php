@@ -218,7 +218,7 @@ $txt["nl"]["vars"]["mailverzendmethode_reisdocumenten_wzt1"]="Beste [NAAM],\n\nO
 $txt["en"]["vars"]["mailverzendmethode_reisdocumenten_wzt1"]="Dear [NAAM],\n\nOn [DATUM] you will depart for [PLAATS]. Around 10 days before your departure you will receive the travel documents which contain information about the route, your stay there, where you can get your keys, vouchers for additional options you may have booked, etc.\n\nPlease let us know how you would like to receive the travel documents (per regular mail or per e-mail). You can visit the following URL to let us now your preference:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nYou have until [UITERLIJKE_DATUM] to let us know what you prefer.\n\nKind regards,\nTeam [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailverzendmethode_reisdocumenten_wzt2"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS]. Ongeveer 10 dagen voor vertrek ontvang je de reisdocumenten met daarin extra informatie over jullie route, verblijf, sleuteladres, vouchers voor eventueel bijgeboekte opties enz.\n\nGraag vernemen wij hoe je deze reisdocumenten wilt ontvangen (per post of per e-mail). Bezoek daarvoor de volgende link:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nJe hebt tot en met [UITERLIJKE_DATUM] de tijd om je voorkeur door te geven.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
-$txt["en"]["vars"]["mailverzendmethode_reisdocumenten_wzt2"]="";
+$txt["en"]["vars"]["mailverzendmethode_reisdocumenten_wzt2"]="Dear [NAAM],\n\nOn [DATUM] you are leaving for [PLAATS]. Approximately 10 days prior to your departure you will receive the travel documents containing additional information about the route, your stay, the key holder, vouchers for any additions options booked, etcetera.\n\nPlease let us know how you would like to receive these travel documents (through the post of via e-mail). Please use the following link to let us know:\n\n[VERZENDMETHODE_REISDOCUMENTEN_URL]\n\nYou have until [UITERLIJKE_DATUM] to let us know your preference.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 
 $txt["nl"]["vars"]["mailverzendmethode_reisdocumenten_subject_wzt1"]="Gewenste verzendmethode reisdocumenten";
 $txt["en"]["vars"]["mailverzendmethode_reisdocumenten_subject_wzt1"]="Preferred method of sending travel documents";
@@ -376,7 +376,21 @@ Alvast veel vakantie-voorpret toegewenst!
 
 [ondertekening]";
 # zomer EN
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_2"]="";
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_2"]="Dear [NAME],
+
+Through [WEBSITE] you booked a vacation, and you went to the following accommodation: [link=[LINK_ACC]][ACCOMMODATIENAAM][/link].
+
+We would like to let you know that this accommodation (among others) can be booked for the next season.
+
+[b]Your advantage[/b]
+We would like to offer you an [b]option of [OPTIEDAGEN] days[/b] instead of the normal 3 day option. This give you the chance to take some extra time to discuss some things with your party. Through the following link you can make use of this offer:
+[ul][li][link=[LINK_ACC]]Take a non-commital option of [OPTIEDAGEN] days on [ACCOMMODATIENAAM][/link][/li]
+[li][link=[LINK_ALGEMEEN]]Search for another accommodation in our current offering for the next summer, and make use of the extra long option[/link][/li][/ul]
+Of course you can also tell us your wishes through [link=[LINK_CONTACT]]e-mail[/link]. We are more than happy to give you suitable advice - all free of charge, of course.
+
+We hope you have fun your search for a good accommodation!
+
+[ondertekening]";
 
 #
 # Tekst voor klanten die hebben aangegeven "Ja, mail me over andere accommodaties/bestemmingen"
@@ -434,7 +448,20 @@ Alvast veel vakantie-voorpret toegewenst!
 
 [ondertekening]";
 # zomer EN
-$txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="";
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_2"]="Dear [NAAM],
+
+Through [WEBSITE] you have booked a vacation. You let us know you would like to be informed about the next summer season. That's why we want you to be one of the first people to know that a great deal of accommodations can be booked now!
+
+[b]Your advantage[/b]
+We would like to offer you an [b]extra long option[/b] instead of the normal 3 day option. This give you the chance to take some extra time to discuss some things with your party. Through the following link you can make use of this offer:
+
+[link=[LINK_ALGEMEEN]]Search for another accommodation in our current offering for the next summer, and make use of the extra long option[/link]
+
+Of course you can also tell us your wishes through [link=[LINK_CONTACT]]e-mail[/link]. We are more than happy to give you suitable advice - all free of charge, of course.
+
+We hope you have fun your search for a good accommodation!
+
+[ondertekening]";
 
 
 $txt["nl"]["vars"]["newpricesmail_1"] = "Beste geïnteresseerde,\n\nOp [WEBSITE] heb je aangegeven bericht te willen ontvangen zodra de prijzen van [link=[LINK_ACC]][ACCOMMODATIENAAM][/link] voor het winterseizoen van [SEIZOEN] bekend zijn.\n\nBij deze willen we je laten weten dat deze prijzen nu online staan en de accommodatie geboekt kan worden.\n\nElk jaar constateren we dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.\n\nAlvast veel vakantie-voorpret toegewenst!\n\n[ondertekening]";
@@ -686,7 +713,7 @@ $txt["nl"]["index"]["zoekenboek"]="Zoek en boek";
 $txt["en"]["index"]["zoekenboek"]="Search and book";
 
 $txt["nl"]["index"]["meeraanbiedingen"]="Meer aanbiedingen";
-$txt["en"]["index"]["meeraanbiedingen"]="";
+$txt["en"]["index"]["meeraanbiedingen"]="More special offers";
 
 $txt["nl"]["index"]["zoekenopkaart"]="Zoeken op kaart";
 $txt["en"]["index"]["zoekenopkaart"]="Map search";
@@ -752,11 +779,10 @@ $txt["nl_b"]["index"]["waarom6"]="-";
 $txt["en_b"]["index"]["waarom6"]="-";
 
 $txt["nl"]["index"]["waarom7"]="Uniek aanbod";
-$txt["en"]["index"]["waarom7"]="";
+$txt["en"]["index"]["waarom7"]="Unique offerings";
 
 $txt["nl"]["index"]["waarom8"]="14 jaar ervaring";
-$txt["en"]["index"]["waarom8"]="";
-
+$txt["en"]["index"]["waarom8"]="14 years of experience";
 
 $txt["nl"]["index"]["meer"]="meer";
 $txt["en"]["index"]["meer"]="more";
@@ -774,10 +800,10 @@ $txt["en"]["index"]["inleidingvallandry"]="Vallandry is a versatile mountain vil
 # Homepage Italissima / Italyhomes
 #
 $txt["nl_i"]["index"]["koptekst"]="Agriturismi en overige vakantiehuizen in Italië";
-$txt["en_i"]["index"]["koptekst"]="";
+$txt["en_i"]["index"]["koptekst"]="Agriturismi and additional holiday homes in Italy";
 
 $txt["nl"]["index"]["zoeken_per_regio"]="Zoeken per regio";
-$txt["en"]["index"]["zoeken_per_regio"]="";
+$txt["en"]["index"]["zoeken_per_regio"]="Search by region";
 
 $txt["nl"]["index"]["vraag_ons_advies"]="Vraag ons advies";
 $txt["en"]["index"]["vraag_ons_advies"]="Ask our advice";
@@ -907,13 +933,13 @@ $txt["nl_z"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan, of
 $txt["en_z"]["accommodaties"]["paszoekcriteriaaan"]="-";
 
 $txt["nl_i"]["accommodaties"]["paszoekcriteriaaan"]="Pas je zoekcriteria aan, of neem contact met ons op voor een gratis en [[l2]]geheel vrijblijvend advies[[/l2]].";
-$txt["en_i"]["accommodaties"]["paszoekcriteriaaan"]="";
+$txt["en_i"]["accommodaties"]["paszoekcriteriaaan"]="Adjust your searching critera, or contact us for free [[l2]]advice[[/l2]].";
 
 $txt["nl"]["accommodaties"]["probeernieuwezoekopdracht"]="[[h_1]]Tip:[[h_2]] Probeer een nieuwe zoekopdracht met minder criteria. Zoek bijvoorbeeld op een combinatie van aankomstdatum en skigebied.";
 $txt["en"]["accommodaties"]["probeernieuwezoekopdracht"]="[[h_1]]Tip:[[h_2]] Search only for a combination of date of arrival and country/skiing area.";
 
 $txt["nl_z"]["accommodaties"]["probeernieuwezoekopdracht"]="[[h_1]]Tip:[[h_2]] Probeer een nieuwe zoekopdracht met minder criteria. Zoek bijvoorbeeld op een combinatie van aankomstdatum en bestemming.";
-$txt["en_z"]["accommodaties"]["probeernieuwezoekopdracht"]="";
+$txt["en_z"]["accommodaties"]["probeernieuwezoekopdracht"]="[[h_1]]Tip:[[h_2]] Search only for a combination of date of arrival and a region.";
 
 $txt["nl"]["accommodaties"]["onderstaandeprijzen"]="Onderstaande prijzen zijn per accommodatie en zonder skipas.";
 $txt["en"]["accommodaties"]["onderstaandeprijzen"]="Prices below are per accommodation and without lift pass.";
@@ -1060,22 +1086,22 @@ $txt["nl"]["zoek-en-boek"]["opeenvakantiepark"]="op een vakantiepark";
 $txt["en"]["zoek-en-boek"]["opeenvakantiepark"]="at a holiday park";
 
 $txt["nl"]["zoek-en-boek"]["centrumloopafstand"]="centrum op loopafstand";
-$txt["en"]["zoek-en-boek"]["centrumloopafstand"]="";
+$txt["en"]["zoek-en-boek"]["centrumloopafstand"]="centre within walking distance";
 
 $txt["nl"]["zoek-en-boek"]["faciliteitenterplaatse"]="Faciliteiten ter plaatse";
 $txt["en"]["zoek-en-boek"]["faciliteitenterplaatse"]="Facilities on site";
 
 $txt["nl_i"]["zoek-en-boek"]["faciliteitenterplaatse"]="Faciliteiten";
-$txt["en_i"]["zoek-en-boek"]["faciliteitenterplaatse"]="";
+$txt["en_i"]["zoek-en-boek"]["faciliteitenterplaatse"]="Facilities on site";
 
 $txt["nl"]["zoek-en-boek"]["zwembad"]="zwembad";
 $txt["en"]["zoek-en-boek"]["zwembad"]="swimming pool";
 
 $txt["nl_i"]["zoek-en-boek"]["zwembad"]="gemeenschappelijk zwembad";
-$txt["en_i"]["zoek-en-boek"]["zwembad"]="";
+$txt["en_i"]["zoek-en-boek"]["zwembad"]="communal swimming pool";
 
 $txt["nl"]["zoek-en-boek"]["tuinterras"]="gemeenschappelijke tuin/terras";
-$txt["en"]["zoek-en-boek"]["tuinterras"]="";
+$txt["en"]["zoek-en-boek"]["tuinterras"]="shared garden / terrace";
 
 $txt["nl"]["zoek-en-boek"]["tennisbaan"]="tennisbaan";
 $txt["en"]["zoek-en-boek"]["tennisbaan"]="tennis court";
@@ -1099,22 +1125,22 @@ $txt["nl"]["zoek-en-boek"]["vrijstaandhuis"]="vrijstaand huis";
 $txt["en"]["zoek-en-boek"]["vrijstaandhuis"]="detached house";
 
 $txt["nl_i"]["zoek-en-boek"]["vrijstaandhuis"]="vrijstaand vakantiehuis";
-$txt["en_i"]["zoek-en-boek"]["vrijstaandhuis"]="";
+$txt["en_i"]["zoek-en-boek"]["vrijstaandhuis"]="detached holiday home";
 
 $txt["nl"]["zoek-en-boek"]["vrijstaandhuismetmeerdere"]="vrijstaand met meerdere huizen";
 $txt["en"]["zoek-en-boek"]["vrijstaandhuismetmeerdere"]="detached with several houses";
 
 $txt["nl_i"]["zoek-en-boek"]["vrijstaandhuismetmeerdere"]="vrijstaand huis bij meerdere vakantiehuizen";
-$txt["en_i"]["zoek-en-boek"]["vrijstaandhuismetmeerdere"]="";
+$txt["en_i"]["zoek-en-boek"]["vrijstaandhuismetmeerdere"]="detached holiday home with several other homes";
 
 $txt["nl"]["zoek-en-boek"]["geschakeldewoning"]="geschakelde woning";
 $txt["en"]["zoek-en-boek"]["geschakeldewoning"]="attached house";
 
 $txt["nl_i"]["zoek-en-boek"]["geschakeldewoning"]="appartement in vakantiehuis";
-$txt["en_i"]["zoek-en-boek"]["geschakeldewoning"]="";
+$txt["en_i"]["zoek-en-boek"]["geschakeldewoning"]="apartment in a holiday home";
 
 $txt["nl"]["zoek-en-boek"]["kleinschaligvakantiepark"]="(kleinschalig) vakantiepark";
-$txt["en"]["zoek-en-boek"]["kleinschaligvakantiepark"]="";
+$txt["en"]["zoek-en-boek"]["kleinschaligvakantiepark"]="(small-scale) holiday park";
 
 $txt["nl"]["zoek-en-boek"]["agriturismo"]="agriturismo";
 $txt["en"]["zoek-en-boek"]["agriturismo"]="agriturismo";
@@ -1159,7 +1185,7 @@ $txt["nl"]["zoek-en-boek"]["priveterras"]="privé-terras";
 $txt["en"]["zoek-en-boek"]["priveterras"]="private terrace";
 
 $txt["nl_i"]["zoek-en-boek"]["priveterras"]="privé-tuin/terras";
-$txt["en_i"]["zoek-en-boek"]["priveterras"]="";
+$txt["en_i"]["zoek-en-boek"]["priveterras"]="private garden / terrace";
 
 $txt["nl"]["zoek-en-boek"]["internetwifi"]="internet / Wi-Fi";
 $txt["en"]["zoek-en-boek"]["internetwifi"]="internet / Wi-Fi";
@@ -1201,7 +1227,7 @@ $txt["nl"]["zoek-en-boek"]["goedvoorkids"]="goed voor kids";
 $txt["en"]["zoek-en-boek"]["goedvoorkids"]="good for kids";
 
 $txt["nl_i"]["zoek-en-boek"]["goedvoorkids"]="kindvriendelijk";
-$txt["en_i"]["zoek-en-boek"]["goedvoorkids"]="";
+$txt["en_i"]["zoek-en-boek"]["goedvoorkids"]="child-friendly";
 
 $txt["nl"]["zoek-en-boek"]["bijzonder"]="bijzonder";
 $txt["en"]["zoek-en-boek"]["bijzonder"]="special";
@@ -1383,7 +1409,7 @@ $txt["nl"]["zoek-en-boek"]["skidorp"]="Skidorp(en)";
 $txt["en"]["zoek-en-boek"]["skidorp"]="Ski village(s)";
 
 $txt["nl"]["zoek-en-boek"]["kalender_flexibel"]="Een verblijf van zaterdag tot zaterdag levert vaak de meeste resultaten op.";
-$txt["en"]["zoek-en-boek"]["kalender_flexibel"]="";
+$txt["en"]["zoek-en-boek"]["kalender_flexibel"]="Stays from Saturday to Saturday often yields the most results.";
 
 $txt["nl"]["zoek-en-boek"]["prijs_van"]="van";
 $txt["en"]["zoek-en-boek"]["prijs_van"]="from";
@@ -1454,7 +1480,14 @@ $txt["nl"]["aanbiedingen"]["aanbiedingen-italie"]="Aanbiedingen Italië";
 $txt["en"]["aanbiedingen"]["aanbiedingen-italie"]="Special offers Italy";
 
 $txt["nl"]["aanbiedingen"]["geen-aanbiedingen"]="Wij hebben op dit moment helaas geen aanbiedingen in [[v_land]]";
-$txt["en"]["aanbiedingen"]["geen-aanbiedingen"]="";
+$txt["en"]["aanbiedingen"]["geen-aanbiedingen"]="Sadly there are currently no special offers in [[v_land]]";
+
+$txt["nl_i"]["aanbiedingen"]["geen-aanbiedingen"]="Wij hebben op dit moment helaas geen aanbiedingen.";
+$txt["en_i"]["aanbiedingen"]["geen-aanbiedingen"]="Sadly there are currently no special offers.";
+
+$txt["nl"]["aanbiedingen"]["bekijk-de-aanbiedingen"]="Bekijk de accommodaties bij deze aanbieding";
+$txt["en"]["aanbiedingen"]["bekijk-de-aanbiedingen"]="";
+
 
 
 #
@@ -2050,7 +2083,7 @@ $txt["nl"]["toonaccommodatie"]["kaartkanafwijken"]="Deze kaart geeft een indicat
 $txt["en"]["toonaccommodatie"]["kaartkanafwijken"]="This map shows you an indication of the location of our accommodations. The exact location might be slightly different.";
 
 $txt["nl_z"]["toonaccommodatie"]["kaartkanafwijken"]="Deze kaart geeft een indicatie van de ligging van onze vakantiehuizen. De exacte locatie kan enigszins afwijken.";
-$txt["en_z"]["toonaccommodatie"]["kaartkanafwijken"]="";
+$txt["en_z"]["toonaccommodatie"]["kaartkanafwijken"]="This map shows you an indication of the location of our holiday homes. The exact location might be slightly different.";
 
 $txt["nl"]["toonaccommodatie"]["alternatievespelling"]="Alternatieve spelling";
 $txt["en"]["toonaccommodatie"]["alternatievespelling"]="Alternative spelling";
@@ -2140,28 +2173,28 @@ $txt["nl"]["toonaccommodatie"]["klassering"]="klassering";
 $txt["en"]["toonaccommodatie"]["klassering"]="classification";
 
 $txt["nl"]["toonaccommodatie"]["prijs-bij-flex"]="Prijs bij aankomst op [[v_aankomstdatum]] en verblijf van [[v_verblijfsduur]]";
-$txt["en"]["toonaccommodatie"]["prijs-bij-flex"]="";
+$txt["en"]["toonaccommodatie"]["prijs-bij-flex"]="Price when arriving on [[v_aankomstdatum]] and staying [[v_verblijfsduur]]";
 
 $txt["nl"]["toonaccommodatie"]["voer-verblijfsperiode-in"]="Voer hieronder de gewenste verblijfsperiode in";
-$txt["en"]["toonaccommodatie"]["voer-verblijfsperiode-in"]="";
+$txt["en"]["toonaccommodatie"]["voer-verblijfsperiode-in"]="Enter your desired period of stay";
 
 $txt["nl"]["toonaccommodatie"]["prijs-per-accommodatie"]="Prijs per accommodatie";
-$txt["en"]["toonaccommodatie"]["prijs-per-accommodatie"]="";
+$txt["en"]["toonaccommodatie"]["prijs-per-accommodatie"]="Price per accommodation";
 
 $txt["nl"]["toonaccommodatie"]["gekozen-periode-niet-beschikbaar"]="De gekozen periode is helaas niet beschikbaar.";
-$txt["en"]["toonaccommodatie"]["gekozen-periode-niet-beschikbaar"]="";
+$txt["en"]["toonaccommodatie"]["gekozen-periode-niet-beschikbaar"]="The period selected is sadly not available.";
 
 $txt["nl"]["toonaccommodatie"]["onderstaande-tarieven-za-za"]="Onderstaande tarieven gaan uit van een verblijf van zaterdag tot zaterdag.";
-$txt["en"]["toonaccommodatie"]["onderstaande-tarieven-za-za"]="";
+$txt["en"]["toonaccommodatie"]["onderstaande-tarieven-za-za"]="The following rates are based on a stay from Saturday to Saturday.";
 
 $txt["nl"]["toonaccommodatie"]["beijk-ook-afwijkend"]="Bekijk ook onze tarieven voor afwijkende dagen";
-$txt["en"]["toonaccommodatie"]["beijk-ook-afwijkend"]="";
+$txt["en"]["toonaccommodatie"]["beijk-ook-afwijkend"]="Also look at our rates for different days";
 
 $txt["nl"]["toonaccommodatie"]["bekijk-weektarieven"]="Bekijk de weektarieven";
-$txt["en"]["toonaccommodatie"]["bekijk-weektarieven"]="";
+$txt["en"]["toonaccommodatie"]["bekijk-weektarieven"]="See the weekly rates";
 
 $txt["nl"]["toonaccommodatie"]["bekijk-ook-weektarieven"]="Bekijk ook de weektarieven";
-$txt["en"]["toonaccommodatie"]["bekijk-ook-weektarieven"]="";
+$txt["en"]["toonaccommodatie"]["bekijk-ook-weektarieven"]="Also see the weekly rates";
 
 $txt["nl"]["toonaccommodatie"][""]="";
 $txt["en"]["toonaccommodatie"][""]="";
@@ -2639,7 +2672,7 @@ $txt["nl"]["toonskigebied"]["tab_plaatsen"]="skidorpen";
 $txt["en"]["toonskigebied"]["tab_plaatsen"]="ski villages";
 
 $txt["nl_z"]["toonskigebied"]["tab_plaatsen"]="plaatsen";
-$txt["en_z"]["toonskigebied"]["tab_plaatsen"]="";
+$txt["en_z"]["toonskigebied"]["tab_plaatsen"]="places";
 
 $txt["nl"]["toonskigebied"]["tab_ligging"]="ligging";
 $txt["en"]["toonskigebied"]["tab_ligging"]="location";
@@ -2669,8 +2702,7 @@ $txt["nl"]["toonskigebied"]["geenplaatsen"]="Er zijn op dit moment geen plaatsen
 $txt["en"]["toonskigebied"]["geenplaatsen"]="There are no ski villages in this skiing area in our system at the moment.";
 
 $txt["nl_z"]["toonskigebied"]["geenplaatsen"]="Er zijn op dit moment geen plaatsen in deze regio in ons systeem aanwezig.";
-$txt["en_z"]["toonskigebied"]["geenplaatsen"]="";
-
+$txt["en_z"]["toonskigebied"]["geenplaatsen"]="There are no places in this region in our system at the moment.";
 
 $txt["nl"]["toonskigebied"]["kieseenanderskigebied"]="Kies een [[l1]]ander skigebied[[/l1]].";
 $txt["en"]["toonskigebied"]["kieseenanderskigebied"]="Choose a [[l1]] different skiing area [[/l1]].";
@@ -2778,19 +2810,19 @@ $txt["nl"]["toonskigebied"]["klikopdekaart"]="Klik op de kaart voor een vergroti
 $txt["en"]["toonskigebied"]["klikopdekaart"]="Click on the map to enlarge";
 
 $txt["nl"]["toonskigebied"]["toon-lijst"]="Toon lijst met alle vakantiehuizen in [[v_regio]]";
-$txt["en"]["toonskigebied"]["toon-lijst"]="";
+$txt["en"]["toonskigebied"]["toon-lijst"]="Show list containing all holiday homes in [[v_regio]]";
 
 $txt["nl"]["toonskigebied"]["ligging-plaatsen"]="Ligging van alle plaatsen in [[v_regio]]";
-$txt["en"]["toonskigebied"]["ligging-plaatsen"]="";
+$txt["en"]["toonskigebied"]["ligging-plaatsen"]="Location of all places in [[v_regio]]";
 
 $txt["nl"]["toonskigebied"]["overzicht-plaatsen"]="Overzicht van alle plaatsen in [[v_regio]]";
-$txt["en"]["toonskigebied"]["overzicht-plaatsen"]="";
+$txt["en"]["toonskigebied"]["overzicht-plaatsen"]="List of all places in [[v_regio]]";
 
 $txt["nl"]["toonskigebied"]["accommodaties-andere-regio"]="accommodaties in een andere regio";
-$txt["en"]["toonskigebied"]["accommodaties-andere-regio"]="";
+$txt["en"]["toonskigebied"]["accommodaties-andere-regio"]="accommodations in a different region";
 
 $txt["nl"]["toonskigebied"]["accommodaties-in-regio"]="accommodaties in [[v_regio]]";
-$txt["en"]["toonskigebied"]["accommodaties-in-regio"]="";
+$txt["en"]["toonskigebied"]["accommodaties-in-regio"]="accommodations in [[v_regio]]";
 
 
 
@@ -3006,7 +3038,7 @@ $txt["nl"]["beschikbaarheid"]["verblijfsduur"]="Verblijfsduur";
 $txt["en"]["beschikbaarheid"]["verblijfsduur"]="Length of stay";
 
 $txt["nl"]["beschikbaarheid"]["gekozenperiodenietbeschikbaar"]="Gekozen periode niet beschikbaar";
-$txt["en"]["beschikbaarheid"]["gekozenperiodenietbeschikbaar"]="";
+$txt["en"]["beschikbaarheid"]["gekozenperiodenietbeschikbaar"]="Selected period is not available";
 
 $txt["nl"]["beschikbaarheid"]["naam"]="Naam";
 $txt["en"]["beschikbaarheid"]["naam"]="Name";
@@ -3208,7 +3240,7 @@ $txt["en"]["boeken"]["verblijfsduur"]="Length of stay";
 #$txt["en"]["boeken"]["kortingscodeoptioneel"]="Reference code [[h_1]](optional)[[h_2]]";
 
 $txt["nl"]["boeken"]["gekozenperiodenietbeschikbaar"]="Gekozen periode niet beschikbaar";
-$txt["en"]["boeken"]["gekozenperiodenietbeschikbaar"]="";
+$txt["en"]["boeken"]["gekozenperiodenietbeschikbaar"]="Selected period is not available";
 
 $txt["nl"]["boeken"]["kortingscodeoptioneel"]="Actiecode [[h_1]](optioneel)[[h_2]]";
 $txt["en"]["boeken"]["kortingscodeoptioneel"]="Reference code [[h_1]](optional)[[h_2]]";
@@ -4421,8 +4453,8 @@ $txt["en"]["factuur"]["commissie_btw"]="[[v_btwpercentage]]% VAT over € [[v_comm
 $txt["nl"]["factuur"]["commissie_diverse_percentages"]="diverse percentages";
 $txt["en"]["factuur"]["commissie_diverse_percentages"]="several percentages";
 
-$txt["nl"]["factuur"]["vermeldresnummer"]="Vermeld bij betaling het reserveringsnummer [[v_resnummer]]";
-$txt["en"]["factuur"]["vermeldresnummer"]="Please state your booking number [[v_resnummer]] when paying";
+$txt["nl"]["factuur"]["vermeldresnummer"]="Vermeld bij betaling het reserveringsnummer [[v_resnummer]].";
+$txt["en"]["factuur"]["vermeldresnummer"]="Please state your booking number [[v_resnummer]] when paying.";
 
 $txt["nl"]["factuur"]["metvriendelijkegroet"]="Met vriendelijke groet,";
 $txt["en"]["factuur"]["metvriendelijkegroet"]="Yours sincerely,";
@@ -5237,7 +5269,7 @@ $txt["nl"]["vraagonsadvies"]["alinea1"]="Bij [[v_websitenaam]] helpen we je graa
 $txt["en"]["vraagonsadvies"]["alinea1"]="At [[v_websitenaam]] we gladly help you in the search for your ideal holiday home. Our advice is free and without any obligations. After receiving your wishes we will send you a number of suggestions within 24 hours (from Monday untill Saturday).";
 
 $txt["nl_z"]["vraagonsadvies"]["alinea1"]="Bij [[v_websitenaam]] helpen we je graag bij de zoektocht naar je ideale vakantiehuis. Ons advies is gratis en geheel vrijblijvend. Na ontvangst van je wensen ontvang je van maandag t/m zaterdag binnen 24 uur een aantal passende suggesties van ons.";
-$txt["en_z"]["vraagonsadvies"]["alinea1"]="";
+$txt["en_z"]["vraagonsadvies"]["alinea1"]="At [[v_websitenaam]] we gladly help you in the search for your ideal holiday home. Our advice is free and without any obligations. After receiving your wishes we will send you a number of suggestions within 24 hours (from Monday untill Saturday).";
 
 $txt["nl"]["vraagonsadvies"]["alinea2"]="Om je zo goed mogelijk van dienst te kunnen zijn, hebben we onderstaand formulier opgesteld. Hoe meer informatie je ons geeft, hoe gemakkelijker het voor ons is om een passend advies te geven. Het onderste veld biedt de ruimte om je specifieke wensen nader toe te lichten.";
 $txt["en"]["vraagonsadvies"]["alinea2"]="To help you as good as possible, we have set up the form below. The more information you can give us, the easier it is for us to send you some fitting suggestions. The field at the bottom makes it possible to furthermore explain your wishes.";
@@ -5258,7 +5290,7 @@ $txt["nl"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebi
 $txt["en"]["vraagonsadvies"]["bestemming_uitleg"]="Fill in one or more areas and/or places. For example: Val Thorens, Zillertal, Near Alpe d'Huez.";
 
 $txt["nl_i"]["vraagonsadvies"]["bestemming_uitleg"]="Vul hier één of meerdere gebieden en/of plaatsnamen in. Bijvoorbeeld: Sicilië, omgeving Siena, Toscane, westkant Gardameer, aan de kust";
-$txt["en_i"]["vraagonsadvies"]["bestemming_uitleg"]="";
+$txt["en_i"]["vraagonsadvies"]["bestemming_uitleg"]="Fill in one or more areas and / or places names. For example: Sicily, area of Siena, Tuscany, west side Lake Garda, at the coast";
 
 $txt["nl"]["vraagonsadvies"]["verblijfsduur"]="Verblijfsduur";
 $txt["en"]["vraagonsadvies"]["verblijfsduur"]="Length of stay";
@@ -5288,43 +5320,43 @@ $txt["nl"]["vraagonsadvies"]["aantalslaapkamers"]="Aantal slaapkamers";
 $txt["en"]["vraagonsadvies"]["aantalslaapkamers"]="Number of bedrooms";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie"]="Soort accommodatie";
-$txt["en"]["vraagonsadvies"]["soortaccommodatie"]="";
+$txt["en"]["vraagonsadvies"]["soortaccommodatie"]="Type of accommodation";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_1"]="Vrijstaand huis";
-$txt["en"]["vraagonsadvies"]["soortaccommodatie_1"]="";
+$txt["en"]["vraagonsadvies"]["soortaccommodatie_1"]="Detached home";
 
 $txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_1"]="agriturismo of boerenbedrijf";
-$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_1"]="";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_1"]="agriturismo or farm building";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_2"]="Vakantiepark";
-$txt["en"]["vraagonsadvies"]["soortaccommodatie_2"]="";
+$txt["en"]["vraagonsadvies"]["soortaccommodatie_2"]="Holiday park";
 
 $txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_2"]="appartement in vakantiehuis";
-$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_2"]="";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_2"]="apartment in a holiday home";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_3"]="Appartementencomplex";
-$txt["en"]["vraagonsadvies"]["soortaccommodatie_3"]="";
+$txt["en"]["vraagonsadvies"]["soortaccommodatie_3"]="Apartment complex";
 
 $txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_3"]="vrijstaand vakantiehuis";
-$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_3"]="";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_3"]="detached holiday home";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_4"]="Agriturismo of boerenbedrijf";
-$txt["en"]["vraagonsadvies"]["soortaccommodatie_4"]="";
+$txt["en"]["vraagonsadvies"]["soortaccommodatie_4"]="Agriturismo or farm building";
 
 $txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_4"]="(kleinschalig) vakantiepark";
-$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_4"]="";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_4"]="(small-scale) holiday park";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_5"]="Bijzondere accommodatie";
-$txt["en"]["vraagonsadvies"]["soortaccommodatie_5"]="";
+$txt["en"]["vraagonsadvies"]["soortaccommodatie_5"]="Extraordinary accommodation";
 
 $txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_5"]="luxe vakantiehuis";
-$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_5"]="";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_5"]="luxurious holiday home";
 
 $txt["nl"]["vraagonsadvies"]["soortaccommodatie_6"]="Groepsaccommodatie";
-$txt["en"]["vraagonsadvies"]["soortaccommodatie_6"]="";
+$txt["en"]["vraagonsadvies"]["soortaccommodatie_6"]="Group accommodation";
 
 $txt["nl_i"]["vraagonsadvies"]["soortaccommodatie_6"]="vakantiehuis voor groepen";
-$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_6"]="";
+$txt["en_i"]["vraagonsadvies"]["soortaccommodatie_6"]="holiday home for groups";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie"]="Budgetindicatie";
 $txt["en"]["vraagonsadvies"]["budgetindicatie"]="Budget indication";
@@ -5339,22 +5371,22 @@ $txt["nl"]["vraagonsadvies"]["budgetindicatie_perpersoon"]="tot € [[v_bedrag]] p
 $txt["en"]["vraagonsadvies"]["budgetindicatie_perpersoon"]="max. € [[v_bedrag]] per person";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_2"]="maximaal € 750";
-$txt["en"]["vraagonsadvies"]["budgetindicatie_2"]="";
+$txt["en"]["vraagonsadvies"]["budgetindicatie_2"]="maximum of € 750";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_3"]="tussen € 750 en € 1250";
-$txt["en"]["vraagonsadvies"]["budgetindicatie_3"]="";
+$txt["en"]["vraagonsadvies"]["budgetindicatie_3"]="between € 750 and € 1250";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_4"]="tussen € 1250 en € 1750";
-$txt["en"]["vraagonsadvies"]["budgetindicatie_4"]="";
+$txt["en"]["vraagonsadvies"]["budgetindicatie_4"]="between € 1250 en € 1750";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_5"]="tussen € 1750 en € 2500";
-$txt["en"]["vraagonsadvies"]["budgetindicatie_5"]="";
+$txt["en"]["vraagonsadvies"]["budgetindicatie_5"]="between € 1750 en € 2500";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_6"]="tussen € 2500 en € 4000";
-$txt["en"]["vraagonsadvies"]["budgetindicatie_6"]="";
+$txt["en"]["vraagonsadvies"]["budgetindicatie_6"]="between € 2500 en € 4000";
 
 $txt["nl"]["vraagonsadvies"]["budgetindicatie_7"]="vanaf € 4000";
-$txt["en"]["vraagonsadvies"]["budgetindicatie_7"]="";
+$txt["en"]["vraagonsadvies"]["budgetindicatie_7"]="€ 4000 and up";
 
 $txt["nl"]["vraagonsadvies"]["toelichting"]="Toelichting op je reiswensen";
 $txt["en"]["vraagonsadvies"]["toelichting"]="Explanation about your holiday wishes";

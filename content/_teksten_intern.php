@@ -120,7 +120,7 @@ $txta["nl"]["menu_plaats"]="plaats";
 $txta["en"]["menu_plaats"]="resort";
 
 $txta["nl_i"]["menu_plaats"]="plaats";
-$txta["en_i"]["menu_plaats"]="location";
+$txta["en_i"]["menu_plaats"]="place";
 
 $txta["nl"]["menu_calc"]="calc";
 $txta["en"]["menu_calc"]="calc";
@@ -298,7 +298,7 @@ $txta["nl_z"]["subtitel"]="Vakantie in zomer, voorjaar en najaar - Vakantiehuize
 $txta["en_z"]["subtitel"]="Summer Holidays - Chalets - Accommodations - Holiday Homes";
 
 $txta["nl_i"]["subtitel"]="Agriturismi en overige vakantiehuizen in Italië";
-$txta["en_i"]["subtitel"]="";
+$txta["en_i"]["subtitel"]="Agriturismi and additional holiday homes in Italy";
 
 $txta["nl_w"]["subtitel"]="Wintersport - Superdeals voor skivakanties";
 $txta["en_w"]["subtitel"]="-";
@@ -316,7 +316,7 @@ $txta["nl_v"]["sitetitel"]="Puur genieten in Vallandry";
 $txta["en_v"]["sitetitel"]="Take a break in Vallandry";
 
 $txta["nl_i"]["sitetitel"]="Agriturismi en andere vakantiehuizen in Italië";
-$txta["en_i"]["sitetitel"]="";
+$txta["en_i"]["sitetitel"]="Agriturismi and other holiday homes in Italy";
 
 
 
@@ -606,7 +606,7 @@ $txta["nl"]["chalets"]="chalets";
 $txta["en"]["chalets"]="chalets";
 
 $txta["nl"]["vakantiehuis"]="vakantiehuis";
-$txta["en"]["vakantiehuis"]="accommodation";
+$txta["en"]["vakantiehuis"]="holiday-home";
 
 $txta["nl"]["vakantiehuizen"]="vakantiehuizen";
 $txta["en"]["vakantiehuizen"]="holiday-homes";

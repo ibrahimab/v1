@@ -10,7 +10,7 @@ $form->settings["layout"]["css"]=false;
 $form->settings["message"]["submitbutton"]["nl"]="VERSTUREN";
 
 // $doorloop_array=array("","t","b","v","z");
-$doorloop_array=array("","v", "i"); # alleen Vallandry-afwijkingen moeten in het Engels vertaald worden
+$doorloop_array=array("","v", "z", "i"); # alleen Vallandry-afwijkingen moeten in het Engels vertaald worden
 while(list($afwijkingkey,$afwijkingvalue)=each($doorloop_array)) {
 	if($afwijkingvalue) {
 		$afwijking="_".$afwijkingvalue;

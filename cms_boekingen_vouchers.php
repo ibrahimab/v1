@@ -780,7 +780,7 @@ if($form->okay) {
 					# Italissima-mailadres
 					$pdf->SetFont('Arial','B',6);
 					$pdf->Ln(4);
-					$pdf->Cell(0,4,"Italissima - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
+					$pdf->Cell(0,4,$gegevens["stap1"]["website_specifiek"]["websitenaam"]." - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==8) {
 					# SuperSki-mailadres
 					$pdf->SetFont('Arial','B',6);

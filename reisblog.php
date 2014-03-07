@@ -3,7 +3,7 @@
 
 include("admin/vars.php");
 
-if($vars["websitetype"]<>7) {
+if($vars["website"]<>"I" and $vars["website"]<>"K") {
 	header("Location: ".$vars["path"]);
 	exit;
 }

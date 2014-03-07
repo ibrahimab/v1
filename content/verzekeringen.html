@@ -13,23 +13,26 @@ echo "<a name=\"ann\"></a><hr>";
 #echo "<h3>".html("annuleringsverzekering","verzekeringen")."</h3>";
 include("content/_meertalig/popup-annuleringsverzekering_".$vars["taal"].".html");
 
-echo "<a name=\"schade\"></a><hr>";
+if($vars["taal"]=="nl") {
+	echo "<a name=\"schade\"></a><hr>";
+}
 include("content/_meertalig/popup-schadeverzekering_".$vars["taal"].".html");
 
-$db->query("SELECT optie_groep_id, og.omschrijving".$vars["ttv"]." AS omschrijving FROM optie_groep og, optie_soort os WHERE os.reisverzekering=1 AND og.optie_soort_id=os.optie_soort_id AND optie_groep_id='".($vars["seizoentype"]==2 ? "369" : "42")."';");
-if($db->next_record()) {
-	echo "<a name=\"reis\"></a><hr><h3>".html("reisverzekering","verzekeringen")."</h3>";
-	echo nl2br(htmlentities($db->f("omschrijving")));
-	echo "<p>";
-	echo html("10dagenreisverzekering","verzekeringen").": &euro; 26,00<br>";
-	echo html("kindtm4jaargratis","verzekeringen")."<br>";
-#	echo html("poliskostenreisverzekering","verzekeringen").": &euro; 3,75<p>";
-	echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
-	if(file_exists("pdf/".txt("pdf_voorwaarden_europeesche_reisverz").".pdf")) echo "<tr><td><img src=\"pic/pdflogo.gif\" width=\"18\" height=\"18\" border=\"0\"></td><td>&nbsp;<a href=\"pdf/".txt("pdf_voorwaarden_europeesche_reisverz").".pdf\" target=\"_blank\">".html("voorwaardenreisverzekering","verzekeringen")."</a></td></tr>";
-	echo "</table>";
+if($vars["reisverzekering_mogelijk"]) {
+	$db->query("SELECT optie_groep_id, og.omschrijving".$vars["ttv"]." AS omschrijving FROM optie_groep og, optie_soort os WHERE os.reisverzekering=1 AND og.optie_soort_id=os.optie_soort_id AND optie_groep_id='".($vars["seizoentype"]==2 ? "369" : "42")."';");
+	if($db->next_record()) {
+		echo "<a name=\"reis\"></a><hr><h3>".html("reisverzekering","verzekeringen")."</h3>";
+		echo nl2br(wt_he($db->f("omschrijving")));
+		echo "<p>";
+		echo html("10dagenreisverzekering","verzekeringen").": &euro; 26,00<br>";
+		echo html("kindtm4jaargratis","verzekeringen")."<br>";
+	#	echo html("poliskostenreisverzekering","verzekeringen").": &euro; 3,75<p>";
+		echo "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
+		if(file_exists("pdf/".txt("pdf_voorwaarden_europeesche_reisverz").".pdf")) echo "<tr><td><img src=\"pic/pdflogo.gif\" width=\"18\" height=\"18\" border=\"0\"></td><td>&nbsp;<a href=\"pdf/".txt("pdf_voorwaarden_europeesche_reisverz").".pdf\" target=\"_blank\">".html("voorwaardenreisverzekering","verzekeringen")."</a></td></tr>";
+		echo "</table>";
+	}
 }
-
-if($vars["seizoentype"]==2) {
+if($vars["seizoentype"]==2 and $vars["taal"]=="nl") {
 	echo "<hr><p><b>Autohuur</b>";
 	echo "<table class=\"sunnycar_banner\" style=\"\" onclick=\"popwindowXY(824,630,'http://www.sunnycars.nl/booking/entry?ak=743147',true);recordOutboundPopup('Externe popup','Sunny Cars');\" cellspacing=\"0\" cellpadding=\"3\"><tr><td><img src=\"".$vars["path"]."pic/sunnycars_foto.jpg\"></td><td><b><i>Ter plaatse een auto huren?</i></b><br><br>Boek dan direct bij <b>Sunny Cars</b>. Al 12 jaar op rij gekozen tot beste autoverhuurder door de Nederlandse Reisbureaus.</td><td><img src=\"".$vars["path"]."pic/sunnycars_logo.gif\"></td></tr></table>";
 	echo "</p>";

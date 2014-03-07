@@ -237,12 +237,11 @@ if($land["id"]) {
 							$accgehad[$db->f("accommodatie_id")]=true;
 							$accnaamgehad[$db->f("naam")]=true;
 							$toonlijstteller++;
-							$toonlijst[$toonlijstteller]="<div class=\"aanbieding_accommodatieblok\" onclick=\"document.location.href='".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/';\"><a name=\"aanbiedingblok".$toonlijstteller."\"></a><table cellspacing=\"0\" cellpadding=\"0\"><tr><td width=\"60\"><img src=\"".$vars["path"].$file."\"></td><td style=\"width:340px;padding-left:5px;padding-right:5px;\"><a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/?back=".htmlentities(urlencode($_SERVER["REQUEST_URI"])).($_GET["aid"] ? "" : "&cnt=".$key)."\">".htmlentities($db->f("naam"))."</a><br>".htmlentities($db->f("plaats")." - ".$db->f("skigebied"))."</td><td align=\"right\" style=\"padding-right:2px;\">".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." personen</td></tr></table></div>";
+							$toonlijst[$toonlijstteller]="<div class=\"aanbieding_accommodatieblok\" onclick=\"document.location.href='".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/';\"><a name=\"aanbiedingblok".$toonlijstteller."\"></a><table cellspacing=\"0\" cellpadding=\"0\"><tr><td width=\"60\"><img src=\"".$vars["path"].$file."\"></td><td style=\"width:340px;padding-left:5px;padding-right:5px;\"><a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/?back=".htmlentities(urlencode($_SERVER["REQUEST_URI"])).($_GET["aid"] ? "" : "&cnt=".$key)."\">".htmlentities($db->f("naam"))."</a><br>".htmlentities($db->f("plaats")." - ".$db->f("skigebied"))."</td><td align=\"right\" style=\"padding-right:2px;\">".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".html("personen")."</td></tr></table></div>";
 							if($toonlijst_alleenfoto_teller<=7) {
 								$toonlijst_alleenfoto_teller++;
-								$toonlijst_alleenfoto.="<a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/\"><img src=\"".$vars["path"].$file."\" title=\"".htmlentities($db->f("naam")." ".$db->f("plaats")." - ".$db->f("skigebied")." ".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." personen")."\"></a>";
+								$toonlijst_alleenfoto.="<a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/\"><img src=\"".$vars["path"].$file."\" title=\"".htmlentities($db->f("naam")." ".$db->f("plaats")." - ".$db->f("skigebied")." ".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".html("personen"))."\"></a>";
 							}
-
 						}
 					}
 				} else {
@@ -263,7 +262,7 @@ if($land["id"]) {
 							} else {
 								echo "<div class=\"aanbieding_bekijkalle\" id=\"bekijkalle_".$key2."\">";
 								echo "<div class=\"aanbieding_toonlijst_alleenfoto\">".$toonlijst_alleenfoto."</div>";
-								echo "<hr><div style=\"text-align:right;margin-bottom:3px;\"><span class=\"aanbieding_bekijkalle_tekst\" onclick=\"aanbieding_openklap('".$key2."');\">Bekijk de accommodaties bij deze aanbieding &darr;</span></div>";
+								echo "<hr><div style=\"text-align:right;margin-bottom:3px;\"><span class=\"aanbieding_bekijkalle_tekst\" onclick=\"aanbieding_openklap('".$key2."');\">".html("bekijk-de-aanbiedingen", "aanbiedingen")." &darr;</span></div>";
 								echo "</div>";
 								echo "<div class=\"aanbieding_openklap\" id=\"aanbieding_openklap_".$key2."\">";
 								echo $toon_alsnog_eerste;
@@ -293,7 +292,7 @@ if($land["id"]) {
 			}
 		}
 		if(!$aanbiedingen_getoond) {
-			echo html("geen-aanbiedingen", "aanbiedingen", array("v_land"=>$land["naam"])).".<br><br>";
+			echo html("geen-aanbiedingen", "aanbiedingen", array("v_land"=>$land["naam"]))."<br><br>";
 	#		echo "<a href=\"".$vars["path"]."aanbiedingen/\">Bekijk onze aanbiedingen in andere landen &gt;</a>";
 		}
 		echo "<!-- WTend -->\n";

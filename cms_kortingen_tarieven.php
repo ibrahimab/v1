@@ -10,6 +10,10 @@ if(!$skipastarieven_verwerken) {
 	include("admin/vars.php");
 }
 
+if($vars["cmstaal"]) {
+	$vars["ttv"]="_".$vars["cmstaal"];
+}
+
 if($_POST["filled"]) {
 
 	# toonper bepalen

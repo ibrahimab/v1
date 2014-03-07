@@ -175,6 +175,8 @@ RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
 RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
 # Linda
 RewriteCond %{REMOTE_ADDR} !^83\.218\.164\.218
+# Lokaal (voor ophalen aanbiedingencache)
+RewriteCond %{REMOTE_ADDR} !^87\.250\.153\.107
 RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=302]
 
 
@@ -407,7 +409,7 @@ RewriteRule ^resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRIN
 # Plaats-pagina's zomer
 RewriteRule ^vakantiehuizen/plaats/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 RewriteRule ^holiday-homes/resort/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
-RewriteRule ^holiday-homes/location/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
+RewriteRule ^holiday-homes/place/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&%{QUERY_STRING}
 
 
 # forward naar Chalet vanuit Italissima

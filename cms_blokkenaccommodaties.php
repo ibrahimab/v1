@@ -29,7 +29,7 @@ include("admin/vars.php");
 #
 
 $cms->db[38]["where"]="websites='".addslashes($_GET["websites"])."'";
-$cms->db[38]["set"]="website='".addslashes($_GET["websites"])."'";
+$cms->db[38]["set"]="websites='".addslashes($_GET["websites"])."'";
 
 
 # Database db_field($counter,$type,$id,$field="",$options="")
