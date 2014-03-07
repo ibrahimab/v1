@@ -163,21 +163,21 @@ RewriteCond %{HTTP_HOST} !^partner\.venturasol\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
 
-#
-# TIJDELIJK italyhomes nog niet toegankelijk
-#
-RewriteCond %{HTTP_HOST} italyhomes\.eu [NC]
-# WebTastic-IP 1
-RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
-# WebTastic-IP 2
-RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
-# Chalet-IP
-RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
-# Linda
-RewriteCond %{REMOTE_ADDR} !^83\.218\.164\.218
-# Lokaal (voor ophalen aanbiedingencache)
-RewriteCond %{REMOTE_ADDR} !^87\.250\.153\.107
-RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=302]
+# #
+# # TIJDELIJK italyhomes nog niet toegankelijk (want in ontwikkeling)
+# #
+# RewriteCond %{HTTP_HOST} italyhomes\.eu [NC]
+# # WebTastic-IP 1
+# RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113
+# # WebTastic-IP 2
+# RewriteCond %{REMOTE_ADDR} !^37\.34\.56\.191
+# # Chalet-IP
+# RewriteCond %{REMOTE_ADDR} !^213\.125\.152\.154
+# # Linda
+# RewriteCond %{REMOTE_ADDR} !^83\.218\.164\.218
+# # Lokaal (voor ophalen aanbiedingencache)
+# RewriteCond %{REMOTE_ADDR} !^87\.250\.153\.107
+# RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=302]
 
 
 #
