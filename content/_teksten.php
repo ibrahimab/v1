@@ -1486,7 +1486,7 @@ $txt["nl_i"]["aanbiedingen"]["geen-aanbiedingen"]="Wij hebben op dit moment hela
 $txt["en_i"]["aanbiedingen"]["geen-aanbiedingen"]="Sadly there are currently no special offers.";
 
 $txt["nl"]["aanbiedingen"]["bekijk-de-aanbiedingen"]="Bekijk de accommodaties bij deze aanbieding";
-$txt["en"]["aanbiedingen"]["bekijk-de-aanbiedingen"]="";
+$txt["en"]["aanbiedingen"]["bekijk-de-aanbiedingen"]="See accommodations with this offer";
 
 
 
@@ -2030,6 +2030,9 @@ $txt["en"]["toonaccommodatie"]["kilometer"]="kilometres";
 
 $txt["nl"]["toonaccommodatie"]["afstandrestaurantbar"]="Afstand tot restaurant/bar";
 $txt["en"]["toonaccommodatie"]["afstandrestaurantbar"]="Distance to restaurant/bar";
+
+$txt["nl_i"]["toonaccommodatie"]["afstandrestaurantbar"]="Afstand tot restaurant";
+$txt["en_i"]["toonaccommodatie"]["afstandrestaurantbar"]="Distance to restaurant";
 
 $txt["nl"]["toonaccommodatie"]["afstandpiste"]="Afstand tot piste";
 $txt["en"]["toonaccommodatie"]["afstandpiste"]="Distance to ski run";
