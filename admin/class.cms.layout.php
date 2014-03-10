@@ -95,7 +95,7 @@ class cms_layout {
 	}
 
 	function display_all($current_title="") {
-		global $cms,$db,$db2,$db3,$db4,$form,$login,$vars,$cms_form,$gegevens,$mustlogin,$_GLOBAL,$txt,$txta;
+		global $cms,$db,$db2,$db3,$db4,$form,$login,$vars,$cms_form,$gegevens,$mustlogin,$_GLOBAL,$txt,$txta,$taal;
 		if($current_title) {
 			if($this->cmslog_pagina_id) {
 				$db->query("UPDATE cmslog_pagina SET title='".addslashes($current_title)."' WHERE cmslog_pagina_id='".addslashes($this->cmslog_pagina_id)."';");

@@ -63,6 +63,9 @@
 class cms2 {
 
 	function cms2() {
+
+		global $vars;
+
 		$this->settings["language"]="nl";
 		if($_GET["bc"]==-1) {
 			unset($_SESSION["CMS2"]["back"],$_GET["bc"]);
@@ -71,104 +74,146 @@ class cms2 {
 		# Messages
 		$this->settings["message"]["nognietaanweziginsysteem"]["nl"]="er zijn nog geen _VALveldnaam_ aanwezig in het systeem";
 		$this->settings["message"]["nognietaanweziginsysteem"]["en"]="no _VALveldnaam_ in the system yet";
+		$this->settings["message"]["nognietaanweziginsysteem"]["fr"]="no _VALveldnaam_ in the system yet";
 
 		$this->settings["message"]["verplichtveldnognietbeschikbaar"]["nl"]="verplicht veld '_VALveldnaam_' is nog niet beschikbaar";
 		$this->settings["message"]["verplichtveldnognietbeschikbaar"]["en"]="Compulsory field '_VALveldnaam_' is not available yet";
+		$this->settings["message"]["verplichtveldnognietbeschikbaar"]["fr"]="Compulsory field '_VALveldnaam_' is not available yet";
 
 		$this->settings["message"]["veldnaamopenen"]["nl"]="_VALveldnaam_ openen";
 		$this->settings["message"]["veldnaamopenen"]["en"]="Open _VALveldnaam_";
+		$this->settings["message"]["veldnaamopenen"]["fr"]="Open _VALveldnaam_";
 
 		$this->settings["message"]["veldnaambewerken"]["nl"]="_VALveldnaam_ bewerken";
 		$this->settings["message"]["veldnaambewerken"]["en"]="Edit _VALveldnaam_";
+		$this->settings["message"]["veldnaambewerken"]["fr"]="Edit _VALveldnaam_";
 
 		$this->settings["message"]["veldnaamprinten"]["nl"]="_VALveldnaam_ printen";
 		$this->settings["message"]["veldnaamprinten"]["en"]="Print _VALveldnaam_";
+		$this->settings["message"]["veldnaamprinten"]["fr"]="Print _VALveldnaam_";
 
 		$this->settings["message"]["veldnaamwissen"]["nl"]="_VALveldnaam_ wissen";
 		$this->settings["message"]["veldnaamwissen"]["en"]="Delete _VALveldnaam_";
+		$this->settings["message"]["veldnaamwissen"]["fr"]="Delete _VALveldnaam_";
 
 		$this->settings["message"]["foutbijhetwissenvan"]["nl"]="Fout bij het wissen van";
 		$this->settings["message"]["foutbijhetwissenvan"]["en"]="Eror deleting";
+		$this->settings["message"]["foutbijhetwissenvan"]["fr"]="Eror deleting";
 
 		$this->settings["message"]["terugnaarvorigepagina"]["nl"]="Terug naar vorige pagina";
 		$this->settings["message"]["terugnaarvorigepagina"]["en"]="Back to the previous page";
+		$this->settings["message"]["terugnaarvorigepagina"]["fr"]="Back to the previous page";
 
 		$this->settings["message"]["erzijngeenveldnaamgekoppeld"]["nl"]="Er zijn geen _VALveldnaam_ gekoppeld.";
 		$this->settings["message"]["erzijngeenveldnaamgekoppeld"]["en"]="There are no _VALveldnaam_ linked.";
+		$this->settings["message"]["erzijngeenveldnaamgekoppeld"]["fr"]="There are no _VALveldnaam_ linked.";
 
 		$this->settings["message"]["erzijngeenveldnaamaanwezig"]["nl"]="Er zijn geen _VALveldnaam_ aanwezig.";
 		$this->settings["message"]["erzijngeenveldnaamaanwezig"]["en"]="There are no _VALveldnaam_.";
+		$this->settings["message"]["erzijngeenveldnaamaanwezig"]["fr"]="il n'y a pas de _VALveldnaam_.";
 
 		$this->settings["message"]["selecteereentoetevoegenveldnaam"]["nl"]="selecteer een toe te voegen _VALveldnaam_";
 		$this->settings["message"]["selecteereentoetevoegenveldnaam"]["en"]="select a _VALveldnaam_ to add";
+		$this->settings["message"]["selecteereentoetevoegenveldnaam"]["fr"]="choisir _VALveldnaam_";
 
 		$this->settings["message"]["noggeenveldnaaminhetsysteem"]["nl"]="nog geen _VALveldnaam_ in het systeem";
 		$this->settings["message"]["noggeenveldnaaminhetsysteem"]["en"]="no _VALveldnaam_ in the system yet";
+		$this->settings["message"]["noggeenveldnaaminhetsysteem"]["fr"]="pas de _VALveldnaam_ dans le système";
 
 		$this->settings["message"]["veldnaamtoevoegen"]["nl"]="_VALveldnaam_ toevoegen";
 		$this->settings["message"]["veldnaamtoevoegen"]["en"]="Add _VALveldnaam_";
+		$this->settings["message"]["veldnaamtoevoegen"]["fr"]="Ajouter _VALveldnaam_";
 
 		$this->settings["message"]["nieuwbestand"]["nl"]="nieuw bestand";
 		$this->settings["message"]["nieuwbestand"]["en"]="new file";
+		$this->settings["message"]["nieuwbestand"]["fr"]="new file";
 
 		$this->settings["message"]["bestand"]["nl"]="bestand";
 		$this->settings["message"]["bestand"]["en"]="file";
+		$this->settings["message"]["bestand"]["fr"]="file";
 
 		$this->settings["message"]["bestandgewist"]["nl"]="bestand gewist";
 		$this->settings["message"]["bestandgewist"]["en"]="file deleted";
+		$this->settings["message"]["bestandgewist"]["fr"]="file deleted";
 
 		$this->settings["message"]["bestandgewistenvervangen"]["nl"]="bestand gewist en vervangen door nieuw bestand";
 		$this->settings["message"]["bestandgewistenvervangen"]["en"]="file deleted and replaced by new file";
+		$this->settings["message"]["bestandgewistenvervangen"]["fr"]="file deleted and replaced by new file";
 
 		$this->settings["message"]["toevoegen"]["nl"]="TOEVOEGEN";
 		$this->settings["message"]["toevoegen"]["en"]="ADD";
+		$this->settings["message"]["toevoegen"]["fr"]="AJOUTER";
 
 		$this->settings["message"]["opslaan"]["nl"]="OPSLAAN";
 		$this->settings["message"]["opslaan"]["en"]="SAVE";
+		$this->settings["message"]["opslaan"]["fr"]="SAVE";
 
 		$this->settings["message"]["nieuw"]["nl"]="Nieuw";
 		$this->settings["message"]["nieuw"]["en"]="New";
+		$this->settings["message"]["nieuw"]["fr"]="Nouveau";
 
 		$this->settings["message"]["herhaal"]["nl"]="Herhaal";
 		$this->settings["message"]["herhaal"]["en"]="Repeat";
+		$this->settings["message"]["herhaal"]["fr"]="Repeat";
 
 		$this->settings["message"]["niethetzelfde"]["nl"]="niet hetzelfde";
 		$this->settings["message"]["niethetzelfde"]["en"]="not equal";
+		$this->settings["message"]["niethetzelfde"]["fr"]="not equal";
 
 		$this->settings["message"]["veldnaamtoevoegennietmogelijk"]["nl"]="_VALveldnaam_ toevoegen niet mogelijk:";
 		$this->settings["message"]["veldnaamtoevoegennietmogelijk"]["en"]="not possible to add _VALveldnaam_:";
+		$this->settings["message"]["veldnaamtoevoegennietmogelijk"]["fr"]="not possible to add _VALveldnaam_:";
 
 		$this->settings["message"]["ja"]["nl"]="ja";
 		$this->settings["message"]["ja"]["en"]="yes";
+		$this->settings["message"]["ja"]["fr"]="oui";
 
 		$this->settings["message"]["nee"]["nl"]="nee";
 		$this->settings["message"]["nee"]["en"]="no";
+		$this->settings["message"]["nee"]["fr"]="non";
 
 		$this->settings["message"]["terugnaarveldnaam"]["nl"]="Terug naar _VALveldnaam_";
 		$this->settings["message"]["terugnaarveldnaam"]["en"]="Back to _VALveldnaam_";
+		$this->settings["message"]["terugnaarveldnaam"]["fr"]="Retour _VALveldnaam_";
 
 		$this->settings["message"]["overzichtveldnaam"]["nl"]="overzicht _VALveldnaam_";
 		$this->settings["message"]["overzichtveldnaam"]["en"]="overview _VALveldnaam_";
+		$this->settings["message"]["overzichtveldnaam"]["fr"]="aperçu _VALveldnaam_";
 
 		$this->settings["message"]["bewerken"]["nl"]="Bewerken";
 		$this->settings["message"]["bewerken"]["en"]="Edit";
+		$this->settings["message"]["bewerken"]["fr"]="Edit";
 
 		$this->settings["message"]["printen"]["nl"]="Printen";
 		$this->settings["message"]["printen"]["en"]="Print";
+		$this->settings["message"]["printen"]["fr"]="Print";
 
 		$this->settings["message"]["record_niet_gevonden"]["nl"]="Record niet gevonden";
 		$this->settings["message"]["record_niet_gevonden"]["en"]="Record not found";
+		$this->settings["message"]["record_niet_gevonden"]["fr"]="Record not found";
 
 		$this->settings["message"]["record_toegevoegd"]["nl"]="Nieuw record aangemaakt";
 		$this->settings["message"]["record_toegevoegd"]["en"]="New record created";
+		$this->settings["message"]["record_toegevoegd"]["fr"]="New record created";
 
 		$this->settings["message"]["aangevinkterecordswissen"]["nl"]="Aangevinkte _VALveldnaam_ wissen";
 		$this->settings["message"]["aangevinkterecordswissen"]["en"]="Delete checkbox _VALveldnaam_";
+		$this->settings["message"]["aangevinkterecordswissen"]["fr"]="Delete checkbox _VALveldnaam_";
 
 #		$this->settings["message"][""]["nl"]="";
 #		$this->settings["message"][""]["en"]="";
 #		$this->settings["message"][""]["nl"]="";
 #		$this->settings["message"][""]["en"]="";
+
+
+		if($vars["wt_htmlentities_utf8"]) {
+			foreach ($this->settings["message"] as $key => $value) {
+				foreach ($value as $key2 => $value2) {
+					$this->settings["message"][$key][$key2] = iconv("CP1252", "UTF-8", $value2);
+				}
+			}
+		}
+
 		return true;
 	}
 

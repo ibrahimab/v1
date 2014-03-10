@@ -537,7 +537,7 @@ hr {
 			}
 
 			if($inquery) {
-				$db2->query("SELECT accommodatie_id, type_id, naam, skigebied".$vars["ttv"]." AS skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
+				$db2->query("SELECT accommodatie_id, type_id, naam, skigebied".$vars["ttv"]." AS skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") AND websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
 				while($db2->next_record()) {
 					$accurl=$vars["path"]."accommodatie/".$db2->f("begincode").$db2->f("type_id")."/";
 

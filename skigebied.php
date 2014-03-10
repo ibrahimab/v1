@@ -85,7 +85,7 @@ if($skigebiedid) {
 		$db->query("SELECT naam".$vars["ttv"]." AS naam FROM skigebied WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."';");
 	} else {
 		# Alleen bij accommodaties: gegevens ophalen
-		$db->query("SELECT skigebied".$vars["ttv"]." AS naam, land, land_id FROM view_accommodatie WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."' AND atonen=1 AND ttonen=1 AND archief=0 AND websites LIKE '%".$vars["website"]."%';");
+		$db->query("SELECT skigebied".$vars["ttv"]." AS naam, land".$vars["ttv"]." AS land, land_id FROM view_accommodatie WHERE skigebied_id='".addslashes($skigebiedid)."' AND wzt='".addslashes($vars["seizoentype"])."' AND atonen=1 AND ttonen=1 AND archief=0 AND websites LIKE '%".$vars["website"]."%';");
 	}
 	if($db->next_record()) {
 
@@ -108,7 +108,7 @@ if($skigebiedid) {
 			$title["toonskigebied"]=ucfirst(txt("vakantiehuizen"))." ".$db->f("naam");
 			if(!$meta_description) {
 				if($vars["taal"]=="en") {
-					$meta_description="Overview of our accommodations ".$db->f("naam").", ".$db->f("land");
+					$meta_description="Overview of our accommodations in ".$db->f("naam").", ".$db->f("land");
 				} else {
 					$meta_description="Overzicht van ons aanbod in ".$db->f("naam").", ".$db->f("land");
 				}
