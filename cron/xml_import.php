@@ -929,11 +929,11 @@ while(list($key,$value)=@each($soap_urls)) {
 			$direktHolidays = new DirektHolidays("http://www.direktholidays.at/index.php?id=3&L=2");
 
 			// Get the last dates for each season type (winter=1, summer=2)
-			$q = "SELECT max(eind) AS end, max(begin) as begin, type FROM `seizoen` WHERE eind>NOW() AND tonen=3 GROUP BY type";
+			$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
 			$db->query($q);
 			while($db->next_record()) {
-				$endDate[$db->f("type")] = $db->f("end");
-				$startDate[$db->f("type")] = $db->f("begin");
+				$endDate[$db->f("type")][] = $db->f("end");
+				$startDate[$db->f("type")][] = $db->f("begin");
 			}
 			// Get all accommodations from Direkt Holidays (35)
 			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '35' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> '';";
@@ -953,31 +953,37 @@ while(list($key,$value)=@each($soap_urls)) {
 				}
 
 				$seasonId = $db->f("wzt");
+                                foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
+                                    $x = strtotime($endDateValue);
+                                    $end_date = strtotime("+ 7 days", $x);
+                                    $end_date = date("Y-m-d", $end_date);
 
-				$x = strtotime($endDate[$seasonId]);
-				$end_date = strtotime("+ 7 days", $x);
-				$end_date = date("Y-m-d", $end_date);
+                                    $url = $direktHolidays->getAccommodationURL($accCode);
+                                    $html = $direktHolidays->curlPricesRequest($url);
+                                    $start_date = $startDate[$seasonId][$endDatekey];
+                                    if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+                                            $start_date = date("Y-m-d");
+                                    }
 
-				$url = $direktHolidays->getAccommodationURL($accCode);
-				$html = $direktHolidays->curlPricesRequest($url);
+                                    if($availability = $direktHolidays->getAvailability($html, $start_date, $end_date)) {
+                                            // Get the availability
+                                            if(isset($xml_beschikbaar[$key][$accCode])) {
+                                                    $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+                                            } else {
+                                                    $xml_beschikbaar[$key][$accCode] = $availability;
+                                            }
+                                    }
 
-				if($availability = $direktHolidays->getAvailability($html, $startDate[$seasonId], $end_date)) {
-					// Get the availability
-					if(isset($xml_beschikbaar[$key][$accCode])) {
-						$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-					} else {
-						$xml_beschikbaar[$key][$accCode] = $availability;
-					}
-				}
-
-				if($prices = $direktHolidays->getPrices($html, $startDate[$seasonId], $end_date)) {
-					// Get the prices
-					if(isset($xml_brutoprijs[$key][$accCode])) {
-						$xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
-					} else {
-						$xml_brutoprijs[$key][$accCode] = $prices;
-					}
-				}
+                                    if($prices = $direktHolidays->getPrices($html, $start_date, $end_date)) {
+                                            // Get the prices
+                                            if(isset($xml_brutoprijs[$key][$accCode])) {
+                                                    $xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
+                                            } else {
+                                                    $xml_brutoprijs[$key][$accCode] = $prices;
+                                            }
+                                   }
+                                }
+                               
 			}
 			$xml_laatsteimport_leverancier[$key]=true;
 		}
@@ -998,12 +1004,14 @@ while(list($key,$value)=@each($soap_urls)) {
 				die();
 			}
 			// Get the last dates for each season type (winter=1, summer=2)
-			$q = "SELECT max(eind) AS end, max(begin) as begin, type FROM `seizoen` WHERE eind>NOW() AND tonen=3 GROUP BY type";
-			$db->query($q);
+                        $q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
+                         
+                        $db->query($q);
 			while($db->next_record()) {
-				$endDate[$db->f("type")] = $db->f("end");
-				$startDate[$db->f("type")] = $db->f("begin");
-			}
+				$endDate[$db->f("type")][] = $db->f("end");
+				$startDate[$db->f("type")][] = $db->f("begin");                           
+                        }
+                                                                         
 			// Get all accommodations from Interhome (421)
 			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '421' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
 			$db->query($q);
@@ -1023,27 +1031,33 @@ while(list($key,$value)=@each($soap_urls)) {
 
 				$seasonId = $db->f("wzt");
 
-				$x = strtotime($endDate[$seasonId]);
-				$end_date = strtotime("+ 7 days", $x);
-				$end_date = date("Y-m-d", $end_date);
+                foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
+                    $x = strtotime($endDateValue);
+                    $end_date = strtotime("+ 7 days", $x);
+                    $end_date = date("Y-m-d", $end_date);
 
-				$start_date = $startDate[$seasonId];
-				if(strtotime($startDate[$seasonId]) < time()) {
-					$start_date = date("Y-m-d");
-				}
+                    $start_date = $startDate[$seasonId][$endDatekey];
+                    if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+                            $start_date = date("Y-m-d");
+                    }
 
-				if($availability = $interHome->getAvailability($accCode, $start_date, $end_date)) {
-					// Get the availability
-					if(isset($xml_beschikbaar[$key][$accCode])) {
-						$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-					} else {
-						$xml_beschikbaar[$key][$accCode] = $availability;
-					}
-				}  else {
-					$xml_beschikbaar[$key][$accCode] = array();
-				}
+                    if($availability = $interHome->getAvailability($accCode, $start_date, $end_date)) {
+                            // Get the availability
+                            if(isset($xml_beschikbaar[$key][$accCode])) {
+                                    $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+                            } else {
+                                    $xml_beschikbaar[$key][$accCode] = $availability;
+                            }
+                    }  else {
+                            $xml_beschikbaar[$key][$accCode] = array();
+                    }
+                }
+                                
+   
 			}
-
+            
+            file_put_contents($unixdir."tmp/availabilities_1.txt", var_export($xml_beschikbaar[23], true));
+                        
 			// Get the prices
 			$xml_brutoprijs[$key] = $interHome->processPrices($xml_beschikbaar[$key]);
 
