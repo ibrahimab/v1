@@ -103,7 +103,7 @@ class tarieventabel {
 			}
 		}
 
-		if($vars["seizoentype"]==1) {
+		if($vars["seizoentype"]==1 and !$_GET["d"]) {
 			// winter: always scroll to december
 			$this->scroll_first_monthyear = date("Ym", $this->seizoeninfo[$this->first_seizoen_id]["begin"]);
 		}
