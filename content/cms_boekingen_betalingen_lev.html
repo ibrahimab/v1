@@ -19,7 +19,7 @@ if($_GET["edit"]<>43 and $_GET["add"]<>43) {
 
 	if($_GET["bid"]) {
 		if($login->has_priv("5")) {
-			echo "<b>Opmerkingen factuur:</b><p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\"><input type=\"hidden\" name=\"opmfilled\" value=\"1\"><textarea name=\"opmerkingen\" cols=90 rows=4>".htmlentities($gegevens["stap1"]["factuur_opmerkingen"])."</textarea><br><input type=\"submit\" value=\" OPMERKINGEN OPSLAAN \"></form><hr>";
+			echo "<b>Opmerkingen factuur:</b><p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\"><input type=\"hidden\" name=\"opmfilled\" value=\"1\"><textarea name=\"opmerkingen\" cols=90 rows=4 onfocus=\"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')\">".htmlentities($gegevens["stap1"]["factuur_opmerkingen"])."</textarea><br><input type=\"submit\" value=\" OPMERKINGEN OPSLAAN \"></form><hr>";
 		} elseif($gegevens["stap1"]["factuur_opmerkingen"]) {
 			echo "<b>Opmerkingen factuur:</b><p>".nl2br(wt_he($gegevens["stap1"]["factuur_opmerkingen"]))."</p><hr>";
 		}

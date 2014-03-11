@@ -283,7 +283,7 @@ $form->field_currency(0,"totaal_volgens_ontvangen_factuur","Totaal volgens ontva
 
 $form->field_htmlcol("","Saldo factuurbedrag €",array("html"=>""),"",array("tr_class"=>"inkoopgegevens_onopvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_betalingssaldo"));
 $form->field_select(0,"factuurbedrag_gecontroleerd","Factuurbedrag akkoord",array("field"=>"factuurbedrag_gecontroleerd"),"",array("selection"=>$vars["factuurbedrag_gecontroleerd"]),array("tr_style"=>"display:none;"));
-$form->field_textarea(0,"factuur_opmerkingen","Opmerkingen factuur",array("field"=>"factuur_opmerkingen"));
+$form->field_textarea(0,"factuur_opmerkingen","Opmerkingen factuur",array("field"=>"factuur_opmerkingen"),"",array("onfocus"=>"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')"));
 
 
 $db->query("SELECT boeking_id FROM boeking WHERE boeking_id='".addslashes($_GET["bid"])."' AND eenmaliggecontroleerd=0;");
