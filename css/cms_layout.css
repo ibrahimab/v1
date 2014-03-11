@@ -780,12 +780,17 @@ a.opm:hover .balloon_fullwidth {
 	padding: 5px;
 }
 
-a.opm .balloon_small {
-	display: none;
+a.opm img {
+	cursor: pointer;
 }
 
-a.opm:hover .balloon_small {
-	display: block;
+a.opm img:hover {
+	opacity: 0.7;
+}
+
+a.opm .balloon_small {
+	display: none;
+
 	position: absolute;
 	margin-top: 10px;
 	margin-right: 0px;
@@ -799,6 +804,7 @@ a.opm:hover .balloon_small {
 	text-align: left;
 	vertical-align: bottom;
 	padding: 5px;
+
 }
 
 a.opm .balloon_small2 {

@@ -809,6 +809,24 @@ $(document).ready(function() {
 			$("label[for='yesnotonen_in_mijn_boeking']").effect("highlight", {color: "red"}, 3000);
 		}
 	});
+
+
+	// info-balloon clickable
+	$("a.opm img").click(function(event) {
+		var deze = $(this).parent().find("span");
+		if(deze.hasClass("balloon_small")) {
+			event.preventDefault();
+			if(deze.is(":visible")) {
+				$(this).parent().find("span").css("display", "none");
+			} else {
+				// hide others
+				$("a.opm span").parent().find("span").css("display", "none");
+
+				// show current
+				$(this).parent().find("span").css("display", "block");
+			}
+		}
+	});
 });
 
 function goedkeuringen_benodigd_uitzetten() {
