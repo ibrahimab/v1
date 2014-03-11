@@ -8,6 +8,7 @@
 <link REL="shortcut icon" href="favicon.ico" />
 <script type="text/javascript" language="JavaScript1.2" src="scripts/jquery.js"></script>
 <script type="text/javascript" language="JavaScript1.2" src="scripts/cms_tarieven.js"></script>
+<script type="text/javascript" language="JavaScript1.2" src="scripts/cms_functions.js?cache=<?php echo @filemtime("scripts/cms_functions.js"); ?>"></script>
 </head>
 <body><?php
 echo "<table class=\"content_popup\"><tr><td>";
@@ -47,7 +48,7 @@ if($seizoen["naam"]) {
 	}
 	unset($teller);
 	echo "</form>";
-	
+
 	# Het daadwerkelijke formulier
 	echo "<form id=\"tarieven\" method=\"post\" action=\"cms_skipastarieven.php?".$_SERVER["QUERY_STRING"]."\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
@@ -58,13 +59,13 @@ if($seizoen["naam"]) {
 	echo "<input type=\"button\" value=\" ANNULEREN \" id=\"but2\" onclick=\"this.disabled=1;document.forms['tarieven'].but1.disabled=1;document.location='".htmlentities($_GET["from"])."'\"><p>";
 	echo "</div>";
 	echo "<div style=\"margin-left:10px;float:left;text-align:right;\"><b>Opmerkingen</b><br>";
-	echo "<textarea name=\"opmerkingen\" rows=\"5\" cols=\"55\">".htmlentities($opmerkingen)."</textarea>";
+	echo "<textarea name=\"opmerkingen\" rows=\"5\" cols=\"55\" onfocus=\"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')\">".htmlentities($opmerkingen)."</textarea>";
 	echo "</div>";
 	echo "<div style=\"clear: both;\"></div><br>";
 	echo "<table cellspacing=\"0\" class=\"tbl\">";
 	echo "<input type=\"hidden\" name=\"max\" value=\"".$acc["max"]."\">";
 	echo "<input type=\"hidden\" name=\"min_tonen\" value=\"".$acc["min_tonen"]."\">";
-	
+
 	# Titels
 	echo "<tr>";
 	echo "<th>&nbsp;</th>";
