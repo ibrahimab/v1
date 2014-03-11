@@ -304,7 +304,7 @@ li {
 }
 
 #tablediv {
-	z-index: 101;
+	z-index: 1;
 	position: relative;
 }
 
@@ -920,7 +920,7 @@ a.opm {
 	font-weight: bold;
 	font-size: 1.3em;
 	text-align: center;
-	z-index: 100;
+	z-index: 0;
 }
 
 .financieel_logo_rechts img {
