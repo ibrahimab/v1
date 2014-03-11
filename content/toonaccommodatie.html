@@ -109,7 +109,7 @@ while(list($key_s,$value_s)=@each($seizoen_tarieven)) {
 	}
 
 	$vandaag=mktime(0,0,0,date("m"),date("d"),date("Y"));
-	$db->query("SELECT korting_id, onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving, UNIX_TIMESTAMP(tot) AS tot FROM korting WHERE actief=1 AND onlinenaam".$vars["ttv"]."<>'' AND omschrijving".$vars["ttv"]."<>'' AND type_id='".addslashes($typeid)."' AND seizoen_id='".addslashes($seizoenid)."' AND UNIX_TIMESTAMP(van)<='".$vandaag."' AND UNIX_TIMESTAMP(tot)>='".$vandaag."';");
+	$db->query("SELECT korting_id, onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving, UNIX_TIMESTAMP(tot) AS tot FROM korting WHERE actief=1 AND xml_korting=0 AND onlinenaam".$vars["ttv"]."<>'' AND omschrijving".$vars["ttv"]."<>'' AND type_id='".addslashes($typeid)."' AND seizoen_id='".addslashes($seizoenid)."' AND UNIX_TIMESTAMP(van)<='".$vandaag."' AND UNIX_TIMESTAMP(tot)>='".$vandaag."';");
 	while($db->next_record()) {
 		$aanbieding[$seizoenid]["aanbiedingid_sort"]["korting_".$db->f("korting_id")]["soort"]=$db->f("onlinenaam");
 		$aanbieding[$seizoenid]["aanbiedingid_sort"]["korting_".$db->f("korting_id")]["omschrijving"]=$db->f("omschrijving");

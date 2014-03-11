@@ -308,6 +308,7 @@ class form2 {
 
 		$this->settings["message"]["imgsize_ratio"]["nl"]="verhouding _VAL1_:_VAL2_";
 		$this->settings["message"]["imgsize_ratio"]["en"]="ratio _VAL1_:_VAL2_";
+		$this->settings["message"]["imgsize_ratio"]["fr"]="ratio _VAL1_:_VAL2_";
 
 		$this->settings["message"]["showfiletype"]["nl"]="_VAL1_-bestand";
 		$this->settings["message"]["showfiletype"]["en"]="_VAL1_-file";
