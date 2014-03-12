@@ -27,6 +27,25 @@ echo "<table class=\"content_popup\"><tr><td>";
 $typeid=$_GET["tid"];
 include("content/vertrekdagaanpassing.html");
 
+
+// determine season
+$week=$seizoen["begin_overall"];
+while($week<=$seizoen["eind_overall"]) {
+	if($vertrekdag[$_GET["sid"]][date("dm",$week)]) {
+		$vertrekdag_plusmin=$vertrekdag[$_GET["sid"]][date("dm",$week)];
+	} else {
+		$vertrekdag_plusmin=0;
+	}
+	if($acc["aankomst_plusmin"]<>0 or $vertrekdag_plusmin<>0) {
+		$tempweek=mktime(0,0,0,date("m",$week),date("d",$week)+$acc["aankomst_plusmin"]+$vertrekdag_plusmin,date("Y",$week));
+	} else {
+		$tempweek=$week;
+	}
+	$complete_season[$week] = $tempweek;
+	$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+}
+
+
 function lege_regel() {
 	global $aantal_weken;
 	echo "<tr><td colspan=\"".($aantal_weken+3)."\">&nbsp;</td></tr>";
@@ -149,6 +168,21 @@ if($seizoen["naam"]) {
 	echo "<p><input type=\"checkbox\" name=\"hoogseizoencontrole\" value=\"1\"".($hoogseizoencontrole ? " checked" : "")." id=\"hoogseizoencontrole\" style=\"vertical-align:middle;position:relative;bottom:1px;\"><label for=\"hoogseizoencontrole\">&nbsp;Toon een melding op de CMS-hoofdpagina indien de hoogseizoen-tarieven onjuist zijn</label></p>";
 	if($acc["verzameltype"]) {
 		echo "<p><b style=\"background-color:yellow;\">Verzameltype: alleen lezen</b></p>";
+	} elseif(!$_GET["autosave"]) {
+		echo "<div class=\"tarieven_seizoen_begin_eind\">Seizoen loopt van ";
+		echo "<select name=\"seizoen_begin\">";
+		foreach ($complete_season as $key => $value) {
+			echo "<option value=\"".$key."\"".($key==$seizoen["begin_echt"] ? " selected" : "").">".date("d/m", $value)."</option>";
+		}
+		echo "</select>";
+		echo " tot en met ";
+
+		echo "<select name=\"seizoen_eind\">";
+		foreach ($complete_season as $key => $value) {
+			echo "<option value=\"".$key."\"".($key==$seizoen["eind_echt"] ? " selected" : "").">".date("d/m", $value)."</option>";
+		}
+		echo "</select>";
+		echo "</div>"; // close .tarieven_seizoen_begin_eind
 	}
 
 	if(!$_GET["autosave"]) {
@@ -209,6 +243,7 @@ if($seizoen["naam"]) {
 #	if(!$acc["wederverkoop"]) {
 #		echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&wederverkoop_aanzetten=1\">Accommodatie tonen op wederverkoop-sites (wederverkoop aanzetten)</a>";
 #	}
+
 
 	if(!$vars["calculatiesjabloon_aanwezig"]) {
 		echo "<p><span class=\"error\" style=\"font-size:1.3em;\">Let op! Er is nog geen leverancier-calculatiesjabloon voor dit seizoen aanwezig!</span>";

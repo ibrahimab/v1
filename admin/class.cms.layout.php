@@ -139,7 +139,7 @@ class cms_layout {
 			}
 		}
 
-		if(file_exists($this->settings["favicon"])) {
+		if($this->settings["favicon"]) {
 			echo "<link REL=\"shortcut icon\" href=\"".$this->settings["favicon"]."\" />";
 		}
 

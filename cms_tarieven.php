@@ -158,6 +158,11 @@ if($_POST["filled"]) {
 		}
 	}
 
+	if($_POST["seizoen_begin"] and $_POST["seizoen_eind"]) {
+		$vroegboekdatum_query .= ", begin=FROM_UNIXTIME(".intval($_POST["seizoen_begin"])."), eind=FROM_UNIXTIME(".intval($_POST["seizoen_eind"]).")";
+	}
+
+
 	# Gegevens in type_seizoen opslaan (o.a. log)
 	$db->query("SELECT type_id, log FROM type_seizoen WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
 	$log=$login->vars["voornaam"]." (".$login->user_id.") - ".date("d/m/Y, H:i")."u.";
@@ -357,6 +362,14 @@ if($_POST["filled"]) {
 		$seizoen["naam"]=$db->f("naam");
 		$seizoen["begin"]=$db->f("begin");
 		$seizoen["eind"]=$db->f("eind");
+
+		$seizoen["begin_echt"]=$db->f("begin");
+		$seizoen["eind_echt"]=$db->f("eind");
+
+
+		$seizoen["begin_overall"]=$db->f("begin");
+		$seizoen["eind_overall"]=$db->f("eind");
+
 	}
 
 	# Accommodatiegegevens laden
@@ -626,12 +639,22 @@ if($_POST["filled"]) {
 		}
 
 		# Optie en vroegboekkorting-datums uit tabel type_seizoen
-		$db->query("SELECT optie".$datum_velden.", melding_geen_tarieven_verbergen, log, hoogseizoencontrole, hoogseizoen_onjuiste_tarieven FROM type_seizoen WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
+		$db->query("SELECT optie".$datum_velden.", melding_geen_tarieven_verbergen, log, hoogseizoencontrole, hoogseizoen_onjuiste_tarieven, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM type_seizoen WHERE type_id='".addslashes($_GET["tid"])."' AND seizoen_id='".addslashes($_GET["sid"])."';");
 		if($db->next_record()) {
 			if($db->f("optie")) $seizoen["optie"]=$db->f("optie");
 			if($db->f("log")) $tarievenlog=$db->f("log");
 			if($db->f("melding_geen_tarieven_verbergen")) $melding_geen_tarieven_verbergen=true;
 			if($db->f("hoogseizoencontrole")) $hoogseizoencontrole=true;
+
+			if($db->f("begin") and $db->f("eind")) {
+				// other seizoen-begin and eind
+				// $seizoen["begin"]=$db->f("begin");
+				// $seizoen["eind"]=$db->f("eind");
+
+				$seizoen["begin_echt"]=$db->f("begin");
+				$seizoen["eind_echt"]=$db->f("eind");
+
+			}
 
 			if($db->f("hoogseizoencontrole") and $db->f("hoogseizoen_onjuiste_tarieven")) {
 				$db2->query("SELECT t.type_id FROM leverancier l, type t WHERE t.leverancier_id=l.leverancier_id AND l.hoogseizoencontrole=1 AND t.type_id='".addslashes($_GET["tid"])."';");
