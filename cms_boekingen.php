@@ -104,27 +104,29 @@ function bestelstatus_tekst($bestelstatus,$opmerkingen_intern) {
 
 }
 
-# Boekingsgegevens laden (gewone boekingen)
-$db->query("SELECT bp.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, b.toonper, b.wederverkoop, b.bestelstatus, b.opmerkingen_intern FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.reisbureau_user_id IS NULL;");
-while($db->next_record()) {
-	$boekingsgegevens["hoofdboeker"][$db->f("boeking_id")]=wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))." (".$db->f("email").")";
-	$boekingsgegevens["acc_of_arrangement"][$db->f("boeking_id")]=($db->f("toonper")==3||$db->f("wederverkoop") ? "Acc" : "Arr");
-	$boekingsgegevens["bestelstatus"][$db->f("boeking_id")]=bestelstatus_tekst($db->f("bestelstatus"),$db->f("opmerkingen_intern"));
-}
-
-# Boekingsgegevens laden (wederverkoop-boekingen)
-$db->query("SELECT bp.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, r.naam, b.reisbureau_user_id, b.bestelstatus, b.opmerkingen_intern FROM boeking b, boeking_persoon bp, reisbureau r, reisbureau_user ru WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.reisbureau_user_id=ru.user_id AND ru.reisbureau_id=r.reisbureau_id;");
-while($db->next_record()) {
-	$boekingsgegevens["hoofdboeker"][$db->f("boeking_id")]=wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))." (".$db->f("naam").")";
-	$boekingsgegevens["acc_of_arrangement"][$db->f("boeking_id")]=($db->f("reisbureau_user_id") ? "Acc + Com" : "Acc");
-	$boekingsgegevens["bestelstatus"][$db->f("boeking_id")]=bestelstatus_tekst($db->f("bestelstatus"),$db->f("opmerkingen_intern"));
-}
-
-# Boekingsgegevens laden (enquetes)
-if($_GET["archief"]==1) {
-	$db->query("SELECT boeking_id FROM boeking_enquete;");
+if($_GET["show"]<>21) {
+	# Boekingsgegevens laden (gewone boekingen)
+	$db->query("SELECT bp.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, b.toonper, b.wederverkoop, b.bestelstatus, b.opmerkingen_intern FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.reisbureau_user_id IS NULL;");
 	while($db->next_record()) {
-		$boekingsgegevens["enquete"][$db->f("boeking_id")]="ja";
+		$boekingsgegevens["hoofdboeker"][$db->f("boeking_id")]=wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))." (".$db->f("email").")";
+		$boekingsgegevens["acc_of_arrangement"][$db->f("boeking_id")]=($db->f("toonper")==3||$db->f("wederverkoop") ? "Acc" : "Arr");
+		$boekingsgegevens["bestelstatus"][$db->f("boeking_id")]=bestelstatus_tekst($db->f("bestelstatus"),$db->f("opmerkingen_intern"));
+	}
+
+	# Boekingsgegevens laden (wederverkoop-boekingen)
+	$db->query("SELECT bp.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, r.naam, b.reisbureau_user_id, b.bestelstatus, b.opmerkingen_intern FROM boeking b, boeking_persoon bp, reisbureau r, reisbureau_user ru WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.reisbureau_user_id=ru.user_id AND ru.reisbureau_id=r.reisbureau_id;");
+	while($db->next_record()) {
+		$boekingsgegevens["hoofdboeker"][$db->f("boeking_id")]=wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))." (".$db->f("naam").")";
+		$boekingsgegevens["acc_of_arrangement"][$db->f("boeking_id")]=($db->f("reisbureau_user_id") ? "Acc + Com" : "Acc");
+		$boekingsgegevens["bestelstatus"][$db->f("boeking_id")]=bestelstatus_tekst($db->f("bestelstatus"),$db->f("opmerkingen_intern"));
+	}
+
+	# Boekingsgegevens laden (enquetes)
+	if($_GET["archief"]==1) {
+		$db->query("SELECT boeking_id FROM boeking_enquete;");
+		while($db->next_record()) {
+			$boekingsgegevens["enquete"][$db->f("boeking_id")]="ja";
+		}
 	}
 }
 
@@ -350,6 +352,14 @@ if($cms->set_delete_init(21)) {
 
 # End declaration
 $cms->end_declaration();
+
+// use boekingsnummer as title
+if($_GET["21k0"] and $_GET["show"]==21) {
+	$db->query("SELECT boekingsnummer FROM boeking WHERE boeking_id='".intval($_GET["21k0"])."';");
+	if($db->next_record()) {
+		$cms->page_title = "Boeking ".$db->f("boekingsnummer");
+	}
+}
 
 $layout->display_all($cms->page_title);
 
