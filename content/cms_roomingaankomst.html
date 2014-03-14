@@ -33,6 +33,10 @@ if($_GET["levid"]) {
 
 	if($_GET["t"]==2) {
 
+		if(!$_GET["date"]) {
+			$_GET["date"] = komendezaterdag();
+		}
+
 		echo "<form method=\"get\" action=\"cms_roomingaankomst.php\" name=\"overzicht_form\">";
 		echo "<input type=\"hidden\" name=\"t\" value=\"2\">";
 
