@@ -30,7 +30,7 @@ if($_GET["levid"]) {
 
 	$vars["roominglist_object"]=$roominglist;
 
-	$db->query("SELECT leverancier_id, naam, beheerder, contactpersoon_lijsten, email_lijsten, roominglist_goedgekeurd, roominglist_goedgekeurd_archief FROM leverancier WHERE leverancier_id='".intval($_GET["levid"])."';");
+	$db->query("SELECT leverancier_id, naam, beheerder, contactpersoon_lijsten, email_lijsten, email_lijsten_kopie, roominglist_goedgekeurd, roominglist_goedgekeurd_archief FROM leverancier WHERE leverancier_id='".intval($_GET["levid"])."';");
 	if($db->next_record()) {
 
 		// goedkeuring needed?
@@ -81,7 +81,13 @@ if($_GET["levid"]) {
 		}
 		$form->field_email(0,"email","E-mailadres","",array("text"=>$db->f("email_lijsten")),"",array("tr_class"=>"roomingaankomst_verzenden"));
 		// $form->field_email(0,"email","E-mailadres","",array("text"=>"danielle@chalet.nl"));
-		$form->field_email(0,"email_cc","Kopie sturen naar (e-mailadres)","","","",array("tr_class"=>"roomingaankomst_verzenden"));
+		if($_GET["t"]==2) {
+			// aankomstlijst: use email_lijsten_kopie
+			$form->field_email(0,"email_cc","Kopie sturen naar (e-mailadres)","",array("text"=>$db->f("email_lijsten_kopie")),"",array("tr_class"=>"roomingaankomst_verzenden"));
+		} else {
+			// roominglist: don't use email_lijsten_kopie
+			$form->field_email(0,"email_cc","Kopie sturen naar (e-mailadres)","","","",array("tr_class"=>"roomingaankomst_verzenden"));
+		}
 
 		if($_GET["t"]==1) {
 			$form->field_htmlrow("","<hr><b>Periode</b>","",array("tr_class"=>"roomingaankomst_verzenden"));

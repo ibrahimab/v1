@@ -63,6 +63,7 @@ $cms->db_field(8,"text","faxnummer_reserveringen");
 
 $cms->db_field(8,"text","contactpersoon_lijsten");
 $cms->db_field(8,"email","email_lijsten");
+$cms->db_field(8,"email","email_lijsten_kopie");
 $cms->db_field(8,"select","roominglist_versturen","",array("selection"=>array(1=>"ja",2=>"nee")));
 $cms->db_field(8,"select","aankomstlijst_versturen","",array("selection"=>array(1=>"ja",2=>"nee")));
 
@@ -170,6 +171,7 @@ if($_GET["beheerder"]) {
 
 	$cms->edit_field(8,0,"contactpersoon_lijsten","Contactpersoon");
 	$cms->edit_field(8,0,"email_lijsten","E-mailadres");
+	$cms->edit_field(8,0,"email_lijsten_kopie","Kopie aankomstlijsten mailen naar");
 
 	$cms->edit_field(8,1,"aankomstlijst_versturen","Wil aankomstlijsten ontvangen");
 	$cms->edit_field(8,1,"roominglist_versturen","Wil roominglists ontvangen");
@@ -182,6 +184,7 @@ if($_GET["beheerder"]) {
 	$cms->edit_field(8,0,"htmlrow","<hr><b><i>Aankomstlijst/roominglist</i></b>");
 	$cms->edit_field(8,0,"contactpersoon_lijsten","Contactpersoon");
 	$cms->edit_field(8,0,"email_lijsten","E-mailadres");
+	$cms->edit_field(8,0,"email_lijsten_kopie","Kopie aankomstlijsten mailen naar","","",array("info"=>"Het hier ingevulde mailadres wordt standaard ingevuld bij het veld \"Kopie sturen naar\" bij het versturen van de aankomstlijsten."));
 
 	$cms->edit_field(8,1,"aankomstlijst_versturen","Wil aankomstlijsten ontvangen","","",array("info"=>"Mag alleen uitgezet worden als de lijst naar de beheerder gaat"));
 	$cms->edit_field(8,1,"roominglist_versturen","Wil roominglists ontvangen","","",array("info"=>"Mag alleen uitgezet worden als de lijst naar de beheerder gaat"));
