@@ -655,7 +655,7 @@ function boekinginfo($boekingid) {
 			}
 		}
 		if($db->f("accprijs")=="") {
-			if($return["stap1"]["flexibel"]) {
+			if($return["stap1"]["flexibel"] or $return["stap1"]["verblijfsduur"]>1) {
 				$return["stap1"]["accprijs"]=$return["stap1"]["verkoop"];
 			} else {
 				if(!$temp_accinfo) {

@@ -148,75 +148,85 @@ if($invullen["accinfo"]["accommodatie"]<>$invullen["accinfo"]["abestelnaam"]) {
 $form->field_text(1,"accommodation",$vars["bestelmailfax_accommodatie"][$bmftaal],"",array("text"=>$acc_naam));
 $form->field_text(0,"type",$vars["bestelmailfax_type"][$bmftaal],"",array("text"=>$invullen["accinfo"]["code"]));
 $form->field_text(1,"maxcapacity",$vars["bestelmailfax_maxcapaciteit"][$bmftaal],"",array("text"=>$invullen["accinfo"]["maxaantalpersonen"]." ".($invullen["accinfo"]["maxaantalpersonen"]==1 ? $vars["bestelmailfax_persoon"][$bmftaal] : $vars["bestelmailfax_personen"][$bmftaal])));
-$db->query("SELECT t.bruto, t.korting_percentage, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.korting_euro, t.c_bruto, t.c_korting_percentage, t.c_korting_euro, t.arrangementsprijs, t.korting_arrangement_bed_percentage, t.vroegboekkorting_percentage, t.vroegboekkorting_euro, t.vroegboekkorting_arrangement_percentage, t.vroegboekkorting_arrangement_euro, t.c_vroegboekkorting_percentage, t.c_vroegboekkorting_euro, UNIX_TIMESTAMP(ts.vroegboekkorting_percentage_datum) AS vroegboekkorting_percentage_datum, UNIX_TIMESTAMP(ts.vroegboekkorting_euro_datum) AS vroegboekkorting_euro_datum, UNIX_TIMESTAMP(ts.vroegboekkorting_arrangement_percentage_datum) AS vroegboekkorting_arrangement_percentage_datum, UNIX_TIMESTAMP(ts.vroegboekkorting_arrangement_euro_datum) AS vroegboekkorting_arrangement_euro_datum, UNIX_TIMESTAMP(ts.c_vroegboekkorting_euro_datum) AS c_vroegboekkorting_euro_datum, UNIX_TIMESTAMP(ts.c_vroegboekkorting_percentage_datum) AS c_vroegboekkorting_percentage_datum FROM tarief t, type_seizoen ts WHERE t.type_id='".$invullen["accinfo"]["typeid"]."' AND t.week='".$invullen["aankomstdatum"]."' AND t.seizoen_id='".$invullen["seizoenid"]."' AND ts.seizoen_id=t.seizoen_id AND ts.type_id=t.type_id;");
-if($db->next_record()) {
-	if($vars["temp_leverancier"]["zwitersefranken"]==1) {
-		$valuta="CHF";
-	} else {
-		$valuta="EURO";
-	}
-	if($invullen["accinfo"]["toonper"]==1) {
-		# Tarievenoptie A Prijs Arrangement (accommodatie + skipas)
-		$price=$db->f("bruto");
-		if($db->f("korting_euro")>0) {
-			$commission=$valuta." ".number_format($db->f("korting_euro"),2,',','.');
-		} elseif($db->f("korting_percentage")>0) {
-			$commission=$db->f("korting_percentage");
-			$commission=ereg_replace("\.00$","",$commission)."%";
-		}
-		if($db->f("vroegboekkorting_percentage")>0 and (!$db->f("vroegboekkorting_percentage_datum") or $db->f("vroegboekkorting_percentage_datum")>=time())) {
-			$vroegboekkorting=$db->f("vroegboekkorting_percentage")."%";
-			$vroegboekkorting=ereg_replace("\.00","",$vroegboekkorting);
-		}
-		if($db->f("vroegboekkorting_euro")>0 and (!$db->f("vroegboekkorting_euro_datum") or $db->f("vroegboekkorting_euro_datum")>=time())) {
-			$vroegboekkorting=$valuta." ".$db->f("vroegboekkorting_euro");
-		}
-		if($db->f("inkoopkorting_percentage")>0) {
-			$vroegboekkorting=$db->f("inkoopkorting_percentage")."%";
-			$vroegboekkorting=ereg_replace("\.00","",$vroegboekkorting);
-		}
-		if($db->f("inkoopkorting_euro")>0) {
-			$vroegboekkorting=$valuta." ".$db->f("inkoopkorting_euro");
-		}
-	} elseif($invullen["accinfo"]["toonper"]==2) {
-		# Tarievenoptie B : Prijs Arrangement (pakket + toeslag onbezet bed)
-		$price=$db->f("arrangementsprijs");
-#		$commission=$db->f("korting_arrangement_bed_percentage");
-	} elseif($invullen["accinfo"]["toonper"]==3) {
-		# Tarievenoptie C : Prijs Accommodatie
-		$price=$db->f("c_bruto");
 
-		if($db->f("c_korting_euro")>0) {
-			$commission=$valuta." ".number_format($db->f("c_korting_euro"),2,',','.');
-		} elseif($db->f("c_korting_percentage")>0) {
-			$commission=$db->f("c_korting_percentage");
-			$commission=ereg_replace("\.00$","",$commission)."%";
-		}
+if($gegevens["stap1"]["flexibel"] or $gegevens["stap1"]["verblijfsduur"]>1) {
+	$form->field_htmlrow("","<hr><b>Let op: afwijkende verblijfsduur. Onderstaande velden zelf opzoeken en invullen.</b>");
+} else {
 
-		if($db->f("c_vroegboekkorting_percentage")>0 and (!$db->f("c_vroegboekkorting_percentage_datum") or $db->f("c_vroegboekkorting_percentage_datum")>=time())) {
-			$vroegboekkorting=$db->f("c_vroegboekkorting_percentage")."%";
-			$vroegboekkorting=ereg_replace("\.00","",$vroegboekkorting);
+	$db->query("SELECT t.bruto, t.korting_percentage, t.inkoopkorting_percentage, t.inkoopkorting_euro, t.korting_euro, t.c_bruto, t.c_korting_percentage, t.c_korting_euro, t.arrangementsprijs, t.korting_arrangement_bed_percentage, t.vroegboekkorting_percentage, t.vroegboekkorting_euro, t.vroegboekkorting_arrangement_percentage, t.vroegboekkorting_arrangement_euro, t.c_vroegboekkorting_percentage, t.c_vroegboekkorting_euro, UNIX_TIMESTAMP(ts.vroegboekkorting_percentage_datum) AS vroegboekkorting_percentage_datum, UNIX_TIMESTAMP(ts.vroegboekkorting_euro_datum) AS vroegboekkorting_euro_datum, UNIX_TIMESTAMP(ts.vroegboekkorting_arrangement_percentage_datum) AS vroegboekkorting_arrangement_percentage_datum, UNIX_TIMESTAMP(ts.vroegboekkorting_arrangement_euro_datum) AS vroegboekkorting_arrangement_euro_datum, UNIX_TIMESTAMP(ts.c_vroegboekkorting_euro_datum) AS c_vroegboekkorting_euro_datum, UNIX_TIMESTAMP(ts.c_vroegboekkorting_percentage_datum) AS c_vroegboekkorting_percentage_datum FROM tarief t, type_seizoen ts WHERE t.type_id='".$invullen["accinfo"]["typeid"]."' AND t.week='".$invullen["aankomstdatum"]."' AND t.seizoen_id='".$invullen["seizoenid"]."' AND ts.seizoen_id=t.seizoen_id AND ts.type_id=t.type_id;");
+	if($db->next_record()) {
+		if($vars["temp_leverancier"]["zwitersefranken"]==1) {
+			$valuta="CHF";
+		} else {
+			$valuta="EURO";
 		}
-		if($db->f("c_vroegboekkorting_euro")>0 and (!$db->f("c_vroegboekkorting_euro_datum") or $db->f("c_vroegboekkorting_euro_datum")>=time())) {
-			$vroegboekkorting=$valuta." ".number_format($db->f("c_vroegboekkorting_euro"),2,',','.');
-		}
+		if($invullen["accinfo"]["toonper"]==1) {
+			# Tarievenoptie A Prijs Arrangement (accommodatie + skipas)
+			$price=$db->f("bruto");
+			if($db->f("korting_euro")>0) {
+				$commission=$valuta." ".number_format($db->f("korting_euro"),2,',','.');
+			} elseif($db->f("korting_percentage")>0) {
+				$commission=$db->f("korting_percentage");
+				$commission=ereg_replace("\.00$","",$commission)."%";
+			}
+			if($db->f("vroegboekkorting_percentage")>0 and (!$db->f("vroegboekkorting_percentage_datum") or $db->f("vroegboekkorting_percentage_datum")>=time())) {
+				$vroegboekkorting=$db->f("vroegboekkorting_percentage")."%";
+				$vroegboekkorting=ereg_replace("\.00","",$vroegboekkorting);
+			}
+			if($db->f("vroegboekkorting_euro")>0 and (!$db->f("vroegboekkorting_euro_datum") or $db->f("vroegboekkorting_euro_datum")>=time())) {
+				$vroegboekkorting=$valuta." ".$db->f("vroegboekkorting_euro");
+			}
+			if($db->f("inkoopkorting_percentage")>0) {
+				$vroegboekkorting=$db->f("inkoopkorting_percentage")."%";
+				$vroegboekkorting=ereg_replace("\.00","",$vroegboekkorting);
+			}
+			if($db->f("inkoopkorting_euro")>0) {
+				$vroegboekkorting=$valuta." ".$db->f("inkoopkorting_euro");
+			}
+		} elseif($invullen["accinfo"]["toonper"]==2) {
+			# Tarievenoptie B : Prijs Arrangement (pakket + toeslag onbezet bed)
+			$price=$db->f("arrangementsprijs");
+	#		$commission=$db->f("korting_arrangement_bed_percentage");
+		} elseif($invullen["accinfo"]["toonper"]==3) {
+			# Tarievenoptie C : Prijs Accommodatie
+			$price=$db->f("c_bruto");
 
-		if($db->f("inkoopkorting_percentage")>0) {
-			$vroegboekkorting=$db->f("inkoopkorting_percentage")."%";
-			$vroegboekkorting=ereg_replace("\.00","",$vroegboekkorting);
-		}
-		if($db->f("inkoopkorting_euro")>0) {
-			$vroegboekkorting=$valuta." ".$db->f("inkoopkorting_euro");
+			if($db->f("c_korting_euro")>0) {
+				$commission=$valuta." ".number_format($db->f("c_korting_euro"),2,',','.');
+			} elseif($db->f("c_korting_percentage")>0) {
+				$commission=$db->f("c_korting_percentage");
+				$commission=ereg_replace("\.00$","",$commission)."%";
+			}
+
+			if($db->f("c_vroegboekkorting_percentage")>0 and (!$db->f("c_vroegboekkorting_percentage_datum") or $db->f("c_vroegboekkorting_percentage_datum")>=time())) {
+				$vroegboekkorting=$db->f("c_vroegboekkorting_percentage")."%";
+				$vroegboekkorting=ereg_replace("\.00","",$vroegboekkorting);
+			}
+			if($db->f("c_vroegboekkorting_euro")>0 and (!$db->f("c_vroegboekkorting_euro_datum") or $db->f("c_vroegboekkorting_euro_datum")>=time())) {
+				$vroegboekkorting=$valuta." ".number_format($db->f("c_vroegboekkorting_euro"),2,',','.');
+			}
+
+			if($db->f("inkoopkorting_percentage")>0) {
+				$vroegboekkorting=$db->f("inkoopkorting_percentage")."%";
+				$vroegboekkorting=ereg_replace("\.00","",$vroegboekkorting);
+			}
+			if($db->f("inkoopkorting_euro")>0) {
+				$vroegboekkorting=$valuta." ".$db->f("inkoopkorting_euro");
+			}
 		}
 	}
 }
-$form->field_text(1,"price",$vars["bestelmailfax_prijs"][$bmftaal],"",array("text"=>$valuta." ".number_format($price,2,',','.')));
+$form->field_text(1,"price",$vars["bestelmailfax_prijs"][$bmftaal],"",array("text"=>($price>0 ? $valuta." ".number_format($price,2,',','.') : "")));
 $form->field_text(1,"commission",$vars["bestelmailfax_korting"][$bmftaal],"",array("text"=>$commission));
 if($vars["temp_leverancier"]["zwitersefranken"]==1) {
 	$form->field_htmlrow("","<br><span style=\"color:red;font-weight:bold;\">Let op: omrekenkoers van CHF naar EURO op &quot;0&quot; zetten!</span>");
 }
 
 $form->field_text(0,"vroegboekkorting",$vars["bestelmailfax_vroegboekkorting"][$bmftaal],"",array("text"=>$vroegboekkorting));
+if($gegevens["stap1"]["flexibel"] or $gegevens["stap1"]["verblijfsduur"]>1) {
+	$form->field_htmlrow("","<hr>");
+}
+
 $form->field_textarea(0,"extra",$vars["bestelmailfax_extra"][$bmftaal],"",array("text"=>$gegevens["stap1"]["opmerkingen_voucher"]));
 #$form->field_text(1,"ondertekennaam",$vars["bestelmailfax_metvriendelijkegroet"][$bmftaal],"",array("text"=>wt_naam($login->vars["voornaam"],$login->vars["tussenvoegsel"],$login->vars["achternaam"])));
 $form->field_text(1,"ondertekennaam",$vars["bestelmailfax_metvriendelijkegroet"][$bmftaal],"",array("text"=>$login->vars["voornaam"]));
