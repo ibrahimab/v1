@@ -426,6 +426,10 @@ function initialize_googlemaps(mapSettings) {
 			mapTypeControl: true,
 			zoomControl: true,
 			scrollwheel: false,
+			'styles':[{'featureType': "poi.business",
+				'elementType': "labels",
+				'stylers': [
+				{ 'visibility': "off" }]}],
 			center: new google.maps.LatLng(mapOptions.googlemaps_lat,mapOptions.googlemaps_long)
 		};
 		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
