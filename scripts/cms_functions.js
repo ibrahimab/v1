@@ -290,6 +290,17 @@ $(document).ready(function() {
 		}
 	});
 
+	// when checking "Schriftelijke bevestiging volgt binnen enkele dagen": bestelstatus becomes "bevestigd"
+	$("#yesnobestelstatus_schriftelijk_later").change(function() {
+		if($(this).is(":checked")) {
+			// bestelstatus wijzigen in 'bevestigd'
+			if($("select[name='input[bestelstatus]']").val()!=3) {
+				$("select[name='input[bestelstatus]']").val("3");
+				$(".bestelstatus_td").effect("highlight", {}, 3000);
+			}
+		}
+	});
+
 	// garantie: bij invoeren 'Reserveringsnummer leverancier' of 'Factuurnummer leverancier' besteldatum invullen
 	$(".garantie_leverancierscode_keydown").keydown(function() {
 		if($("select[name='input[inkoopdatum][day]']").val()=="") {
