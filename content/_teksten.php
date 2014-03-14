@@ -1682,9 +1682,7 @@ $txt["nl"]["contact"]["linkniettoegestaan"]="een link invullen is niet toegestaa
 $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 
 $txt["nl"]["contact"]["mail-of-telefoon"]="Om contact met je op te kunnen nemen hebben wij óf een telefoonnummer óf een emailadres nodig";
-$txt["en"]["contact"]["mail-of-telefoon"]="To be able to contact you please fill in your email address or telephone number";
-$nieuwe_vertaling["en"]["contact"]["mail-of-telefoon"]=true;
-
+$txt["en"]["contact"]["mail-of-telefoon"]="To contact you we need either a telephone number or an email address";
 
 
 #
