@@ -940,6 +940,14 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#888888');
 }
 
+/*         */
+/* Contact */
+/*         */
+
+.contact_mail-of-telefoon {
+	font-size: 0.8em;
+	margin-top: -4px;
+}
 
 /*                       */
 /*                       */

@@ -741,6 +741,7 @@ class form2 {
 		if($this->settings["target"]) $return.=" target=\"".$this->settings["target"]."\"";
 		$return.=">";
 #		$return.="<a name=\"wtform_".$this->settings["formname"]."\"></a>";
+		$return.="<div id=\"wtform_".$this->settings["formname"]."\"></div>";
 		$return.=$hidden."<input type=\"hidden\" name=\"".$this->settings["formname"]."_filled\" value=\"1\"><input type=\"hidden\" name=\"pg\" value=\"1\">";
 
 		// prevent csrf

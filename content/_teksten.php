@@ -1561,8 +1561,8 @@ $txt["en"]["contact"]["KvK"]="CoC:";
 $txt["nl"]["contact"]["verzenden"]="verzenden";
 $txt["en"]["contact"]["verzenden"]="send";
 
-$txt["nl"]["contact"]["bedankt"]="Bedankt voor je gegevens. Wij zullen je aanvraag zo spoedig mogelijk verwerken.";
-$txt["en"]["contact"]["bedankt"]="Thank you for your data. We will process your application as soon as possible.";
+$txt["nl"]["contact"]["bedankt"]="Bedankt voor je gegevens. Wij zullen zo spoedig mogelijk contact met je opnemen.";
+$txt["en"]["contact"]["bedankt"]="Thank you for your data. We will contact you as soon as possible.";
 
 $txt["nl"]["contact"]["reactieopuwvraag"]="Reactie op je vraag";
 $txt["en"]["contact"]["reactieopuwvraag"]="Answer to your question";
@@ -1572,6 +1572,9 @@ $txt["en"]["contact"]["accommodatie"]="Accommodation";
 
 $txt["nl"]["contact"]["plaats"]="Plaats";
 $txt["en"]["contact"]["plaats"]="Place";
+
+$txt["nl"]["contact"]["naam"]="Naam";
+$txt["en"]["contact"]["naam"]="Name";
 
 $txt["nl"]["contact"]["voornaam"]="Voornaam";
 $txt["en"]["contact"]["voornaam"]="First name";
@@ -1677,6 +1680,12 @@ $txt["en"]["contact"]["contactformulier"]="Contact Form";
 
 $txt["nl"]["contact"]["linkniettoegestaan"]="een link invullen is niet toegestaan";
 $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
+
+$txt["nl"]["contact"]["mail-of-telefoon"]="Om contact met je op te kunnen nemen hebben wij óf een telefoonnummer óf een emailadres nodig";
+$txt["en"]["contact"]["mail-of-telefoon"]="To be able to contact you please fill in your email address or telephone number";
+$nieuwe_vertaling["en"]["contact"]["mail-of-telefoon"]=true;
+
+
 
 #
 # Favorieten (http://www.chalet.nl/favorieten.php)
