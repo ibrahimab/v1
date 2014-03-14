@@ -3,6 +3,9 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+14-mar-2014 15:32
+ALTER TABLE `leverancier` ADD `email_lijsten_kopie` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `email_lijsten` ;
+
 11-mar-2014 16:20
 ALTER TABLE `type_seizoen` ADD `begin` DATE NULL DEFAULT NULL AFTER `seizoen_id` ,
 ADD `eind` DATE NULL DEFAULT NULL AFTER `begin` ;
