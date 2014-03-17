@@ -297,6 +297,7 @@ $(document).ready(function() {
 			if($("select[name='input[bestelstatus]']").val()!=3) {
 				$("select[name='input[bestelstatus]']").val("3");
 				$(".bestelstatus_td").effect("highlight", {}, 3000);
+				besteldatum_invullen();
 			}
 		}
 	});
