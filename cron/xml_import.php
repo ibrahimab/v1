@@ -268,6 +268,9 @@ $soap_urls[23] = $unixdir."suppliers/interhome/index.php";
 # Direkt Holidays
 $soap_urls[24] = $unixdir."suppliers/direktholidays/index.php";
 
+//Marche Holidays
+$soap_urls[25] = $unixdir."suppliers/marche/index.php";
+
 #
 # Voor testsysteem
 #
@@ -1031,28 +1034,29 @@ while(list($key,$value)=@each($soap_urls)) {
 
 				$seasonId = $db->f("wzt");
 
-                foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
-                    $x = strtotime($endDateValue);
-                    $end_date = strtotime("+ 7 days", $x);
-                    $end_date = date("Y-m-d", $end_date);
+                                foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
+                                    $x = strtotime($endDateValue);
+                                    $end_date = strtotime("+ 7 days", $x);
+                                    $end_date = date("Y-m-d", $end_date);
 
-                    $start_date = $startDate[$seasonId][$endDatekey];
-                    if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
-                            $start_date = date("Y-m-d");
-                    }
+                                    $start_date = $startDate[$seasonId][$endDatekey];
+                                    if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+                                            $start_date = date("Y-m-d");
+                                    }
 
-                    if($availability = $interHome->getAvailability($accCode, $start_date, $end_date)) {
-                            // Get the availability
-                            if(isset($xml_beschikbaar[$key][$accCode])) {
-                                    $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-                            } else {
-                                    $xml_beschikbaar[$key][$accCode] = $availability;
-                            }
-                    }  else {
-                            $xml_beschikbaar[$key][$accCode] = array();
-                    }
-                }
-                                
+
+
+                                    if($availability = $interHome->getAvailability($accCode, $start_date, $end_date)) {
+                                            // Get the availability
+                                            if(isset($xml_beschikbaar[$key][$accCode])) {
+                                                    $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+                                            } else {
+                                                    $xml_beschikbaar[$key][$accCode] = $availability;
+                                            }
+                                    }  
+                                }
+                                if(!isset($xml_beschikbaar[$key][$accCode]))
+                                        $xml_beschikbaar[$key][$accCode] = array();                                
    
 			}
             
@@ -1064,7 +1068,78 @@ while(list($key,$value)=@each($soap_urls)) {
 			$xml_laatsteimport_leverancier[$key]=true;
 
 		}
-	} else {
+       
+        } elseif($key == 25) {
+		if(file_exists($value)) {
+                        //Marche Holidays
+                        require_once($value);
+
+                        $marcheHolidays = new MarcheHolidays();
+                        
+			// Get the last dates for each season type (winter=1, summer=2)
+                        $q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
+                         
+                        $db->query($q);
+			while($db->next_record()) {
+                                                      
+                                
+				$endDate[$db->f("type")][] = $db->f("end");
+				$startDate[$db->f("type")][] = $db->f("begin");
+                           
+                        }
+                                                                         
+			// Get all accommodations from Marche Holidays (229)
+			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '229' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
+           
+                        $db->query($q);
+
+			// Loop through all the database accommodations
+			while($db->next_record()) {
+
+				if($db->f("leverancierscode_negeertarief") != NULL) {
+					$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
+					$leverancierscode = explode(",",$db->f("leverancierscode"));
+
+					$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
+					$accCode = array_shift($accCode);
+				} else {
+					$accCode = $db->f("leverancierscode");
+				}
+
+				$seasonId = $db->f("wzt");
+                                
+
+                                foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
+                                    $x = strtotime($endDateValue);
+                                    $end_date = strtotime("+ 7 days", $x);
+                                    $end_date = date("Y-m-d", $end_date);
+
+                                    $start_date = $startDate[$seasonId][$endDatekey];
+                                    if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+                                            $start_date = date("Y-m-d");
+                                    }
+
+
+
+                                    if($availability = $marcheHolidays->getAvailability($accCode, $start_date, $end_date)) {
+                                            // Get the availability
+                                            if(isset($xml_beschikbaar[$key][$accCode])) {
+                                                    $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+                                            } else {
+                                                    $xml_beschikbaar[$key][$accCode] = $availability;
+                                            }
+                                    }  
+                                   
+                                    }
+                                
+                                    if(!isset($xml_beschikbaar[$key][$accCode]))
+                                        $xml_beschikbaar[$key][$accCode] = array();
+			}
+		}
+                
+                
+                
+        } else {
 
 		@unlink($tmpdir."soapfile_".$key.".txt");
 		$opts = stream_context_create(array(
@@ -1224,7 +1299,7 @@ if($testsysteem) {
 	} else {
 		$andquery="";
 	}
-	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, t.xmltarievenimport, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL ".$andquery.($vars["leverancierid_tijdelijk_niet_importeren"] ? " AND l.leverancier_id NOT IN (".$vars["leverancierid_tijdelijk_niet_importeren"].")" : "")." AND t.leverancierscode IS NOT NULL ORDER BY t.leverancier_id, a.wzt;");
+	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, t.xmltarievenimport, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL ".$andquery.($vars["leverancierid_tijdelijk_niet_importeren"] ? " AND l.leverancier_id NOT IN (".$vars["leverancierid_tijdelijk_niet_importeren"].")" : "")." AND t.leverancierscode IS NOT NULL ORDER BY t.leverancier_id, a.wzt;");
 }
 while($db->next_record()) {
 	unset($totaaltarief);
@@ -1709,8 +1784,23 @@ while($db->next_record()) {
 			}
 			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
 
-		}
+		
+                } elseif($db->f("xml_type")==25) {
 
+			#
+			# Leverancier MacheHolidays
+			#
+			# Beschikbaarheid
+			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
+				reset($xml_beschikbaar[$db->f("xml_type")][$value]);
+				while(list($key2,$value2)=each($xml_beschikbaar[$db->f("xml_type")][$value])) {
+					$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$key2]+=$value2;
+					$xml_laatsteimport[$db->f("type_id")]=true;
+				}
+			}
+			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
+
+		}
 		#
 		# Tarieven bijwerken
 		#

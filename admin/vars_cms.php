@@ -1049,7 +1049,9 @@ $vars["xml_type"]=array(
 	11=>"Odalys Résidences (11)",
 	12=>"Deux Alpes Voyages (12)",
 	13=>"Eurogroup (13)",
-	14=>"Marche Holiday (14)",
+//	14=>"Marche Holiday (14)",
+
+
 	15=>"Des Neiges (15)",
 	16=>"Almliesl (16)",
 	// 17=>"Alpin Rentals Kaprun - werkt niet! (17)",
@@ -1060,6 +1062,7 @@ $vars["xml_type"]=array(
 	22=>"Nexity (22)",
 	23=>"Interhome (23)",
 	24=>"Direkt Holidays (24)",
+    	25=>"Marche Holiday (25)"
 );
 asort($vars["xml_type"]);
 
