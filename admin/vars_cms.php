@@ -1887,7 +1887,9 @@ function inkoopgegevens_berekenen_en_opslaan($gegevens) {
 	$fin["totaalfactuurbedrag"]=$fin["inkoopnetto"];
 	$fin["totaalfactuurbedrag"]=$fin["totaalfactuurbedrag"]+$temp_extraopties_totaal;
 
-	$db->query("UPDATE boeking SET totale_reissom_inkoop='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', totale_reissom_inkoop_actueel='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', inkoopnetto='".addslashes($fin["inkoopnetto"])."', totaalfactuurbedrag='".addslashes($fin["totaalfactuurbedrag"])."' WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."';");
+	// saving of totaalfactuurbedrag disabled (19-03-2014) because of error with approval of inkoopbetalingen
+	// $db->query("UPDATE boeking SET totale_reissom_inkoop='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', totale_reissom_inkoop_actueel='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', inkoopnetto='".addslashes($fin["inkoopnetto"])."', totaalfactuurbedrag='".addslashes($fin["totaalfactuurbedrag"])."' WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."';");
+	$db->query("UPDATE boeking SET totale_reissom_inkoop='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', totale_reissom_inkoop_actueel='".addslashes($reissom_tabel["bedragen"]["inkoop"])."', inkoopnetto='".addslashes($fin["inkoopnetto"])."' WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."';");
 
 	# inkoop van opties
 	$db->query("DELETE FROM boeking_optieinkoop WHERE boeking_id='".$gegevens["stap1"]["boekingid"]."';");

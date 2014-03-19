@@ -41,6 +41,12 @@ if($_GET["edit"]<>43 and $_GET["add"]<>43) {
 		echo "<tr><td>Inkoopkorting accommodatie&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["inkoopkorting_euro"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 	}
 	echo "<tr style=\"background-color:#fffbba;font-weight:bold;\"><td>Totaalfactuurbedrag&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["totaalfactuurbedrag"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+
+	if($gegevens["stap1"]["totaalfactuurbedrag"]=="") {
+		echo "<tr><td colspan=\"5\">&nbsp;</td></tr>";
+		echo "<tr style=\"background-color:yellow;font-weight:bold;\"><td colspan=\"5\"><a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$gegevens["stap1"]["boekingid"]."&bid=".$gegevens["stap1"]["boekingid"]."\">nog geen inkoopbedrag opgeslagen</a></td></tr>";
+	}
+
 	if($gegevens["stap1"]["totaal_volgens_ontvangen_factuur"]) {
 		echo "<tr><td>Totaal volgens ontvangen factuur&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["totaal_volgens_ontvangen_factuur"],2,",",".")."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 		if($gegevens["stap1"]["betalingsverschil"]) {
