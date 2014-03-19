@@ -41,7 +41,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			$where.=" AND (betrokkenen REGEXP '[[:<:]]".addslashes($login->user_id)."[[:>:]]' OR status=1)";
 		}
 
-		$db->query("SELECT u.voornaam, u.user_id, a.actie_id, a.naam, a.status, a.omschrijving, a.alleenwebtastic, a.prioriteit, a.prioriteit IS NULL AS prioriteitisnull, a.betrokkenen, a.soort, UNIX_TIMESTAMP(a.einddatum) AS einddatum, a.einddatum IS NULL AS einddatumisnull, a.geschattetijd, a.geschattetijd_min, a.geschattetijd_max, a.zie_ook, a.opmerkingen, a.interne_notities FROM actie a, user u WHERE a.user_id=u.user_id ".$where." ORDER BY FIELD(a.status,".$order1.")".$order2.";");
+		$db->query("SELECT u.voornaam, u.user_id, a.actie_id, a.naam, a.status, a.omschrijving, a.alleenwebtastic, a.prioriteit, a.prioriteit IS NULL AS prioriteitisnull, a.betrokkenen, a.soort, UNIX_TIMESTAMP(a.einddatum) AS einddatum, a.einddatum IS NULL AS einddatumisnull, a.geschattetijd, a.geschattetijd_min, a.geschattetijd_max, a.zie_ook, a.opmerkingen, a.interne_notities, UNIX_TIMESTAMP(a.adddatetime) AS adddatetime FROM actie a, user u WHERE a.user_id=u.user_id ".$where." ORDER BY FIELD(a.status,".$order1.")".$order2.";");
 #		echo $db->lastquery;
 		while($db->next_record()) {
 			if(!$status_gehad[$db->f("status")]) {
@@ -105,6 +105,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 					echo "<tr><td valign=\"top\">Prioriteit</td><td valign=\"top\">".$db->f("prioriteit")."</td></tr>";
 				}
 			}
+			echo "<tr><td valign=\"top\">Toegevoegd op</td><td valign=\"top\">".DATUM("DAG D MAAND JJJJ", $db->f("adddatetime"))."</td></tr>";
+
 
 			$omschrijving = nl2br(wt_htmlentities($db->f("omschrijving"),true));
 
