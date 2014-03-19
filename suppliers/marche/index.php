@@ -162,6 +162,12 @@ class MarcheHolidays {
         foreach($accommodations->DATA_ROW as $accommodation){
             $timeNotAvailable = strtotime($accommodation->from);
             $accNotAvail[$timeNotAvailable] = 0;
+            $intervalSaturday = strtotime("next Saturday", $timeNotAvailable);
+        
+            while($intervalSaturday <= strtotime($accommodation->to)){
+                $accNotAvail[$intervalSaturday] = 0;
+                $intervalSaturday = strtotime("next Saturday", $intervalSaturday);
+            }
         }
         $allAccommodations = array();
         while($lastWeek >= $nextSaturday){
