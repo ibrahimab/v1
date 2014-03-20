@@ -57,19 +57,21 @@ if(!$login->logged_in) {
 		// 		$db2->query($query);
 		// 	}
 
-		// 	$key1 = substr($key, 0, -3);
-		// 	$key2 = intval(substr($key, -3));
+			// $key1 = substr($key, 0, -3);
+			// $key2 = intval(substr($key, -3));
 
 
-		// 	$value1 = substr($value, 0, -3);
-		// 	$value2 = intval(substr($value, -3));
+			// $value1 = substr($value, 0, -3);
+			// $value2 = intval(substr($value, -3));
 
-		// 	$db->query("SELECT naam, type_id FROM type WHERE url_leverancier like 'http://www.posarellivillas.%/_".$key1."_".$key2."_unit.phtm';");
+			// echo $value.": ".$value1."_".$value2."<br/>";
+
+		// 	$db->query("SELECT naam, type_id, url_leverancier FROM type WHERE url_leverancier like 'http://www.posarellivillas.%/_".$key1."_".$key2."_unit.phtm';");
 		// 	while($db->next_record()) {
 		// 		$new_url="http://www.posarellivillas.nl/_".$value1."_".$value2."_unit.phtm";
 		// 		$query="UPDATE type SET url_leverancier='".addslashes($new_url)."' WHERE type_id='".$db->f("type_id")."';";
-		// 		echo wt_he($db->f("naam")." PSV: ".$query)."<br/>";
-		// 		$db2->query($query);
+		// 		echo wt_he($db->f("type_id").": ".$key."=>".$value." ".$db->f("url_leverancier")." wordt ".$new_url)."<br/>";
+		// 		// $db2->query($query);
 		// 	}
 
 		// }
