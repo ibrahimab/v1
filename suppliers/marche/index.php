@@ -141,7 +141,7 @@ class MarcheHolidays {
         $endDate = new DateTime($stop);
         
         $difference = $startDate->diff($endDate);
-        $numweek = floor($difference->days/7);
+        $numweek = (int)floor($difference->days/7);
         
         $this->setParams(array(
                             "idhouse"   => $accommodationCode,
@@ -156,11 +156,18 @@ class MarcheHolidays {
         } else {
             $nextSaturday = strtotime($start);
         }
-        $lastWeek = strtotime(date("Y-m-d"). " +".$numweek." weeks");
-        
+        $lastWeek = strtotime($start . " +".$numweek." weeks");
+
         $accNotAvail = array();
         foreach($accommodations->DATA_ROW as $accommodation){
             $timeNotAvailable = strtotime($accommodation->from);
+            
+            $getThisDay = getdate($timeNotAvailable);
+            
+            if($getThisDay['weekday'] != "Saturday"){
+                $timeNotAvailable = strtotime("last Saturday", $timeNotAvailable);
+            }
+            
             $accNotAvail[$timeNotAvailable] = 0;
             $intervalSaturday = strtotime("next Saturday", $timeNotAvailable);
         
