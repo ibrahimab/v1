@@ -316,6 +316,7 @@ class form2 {
 
 		$this->settings["message"]["afbeeldingwissen"]["nl"]="afbeelding wissen";
 		$this->settings["message"]["afbeeldingwissen"]["en"]="delete image";
+		$this->settings["message"]["afbeeldingwissen"]["fr"]="effacer image";
 
 		$this->settings["message"]["afbeeldingvolgorde"]["nl"]="volgorde";
 		$this->settings["message"]["afbeeldingvolgorde"]["en"]="order";
@@ -330,11 +331,12 @@ class form2 {
 		$this->settings["message"]["error_foutform"]["nl"]="U heeft niet alle velden correct ingevuld";
 		$this->settings["message"]["error_foutform"]["en"]="Not all fields are filled out correctly";
 		$this->settings["message"]["error_foutform"]["de"]="Nicht alle Felder sind korrekt ausgefüllt";
-		$this->settings["message"]["error_foutform"]["fr"]="";
+		$this->settings["message"]["error_foutform"]["fr"]="Vous n'avez pas rempli tous les champs correctement";
 
 		$this->settings["message"]["error_verplicht"]["nl"]="Velden met een asterisk (*) zijn verplicht";
 		$this->settings["message"]["error_verplicht"]["en"]="Fields marked with an asterisk are compulsory";
 		$this->settings["message"]["error_verplicht"]["de"]="Sie haben nicht alle benötigten Felder ausgefüllt";
+		$this->settings["message"]["error_verplicht"]["fr"]="Les champs suivis d'un astérisque (*) sont obligatoires";
 
 		$this->settings["message"]["error_verplicht_veld"]["nl"]="verplicht veld";
 		$this->settings["message"]["error_verplicht_veld"]["en"]="compulsory field";
@@ -344,6 +346,7 @@ class form2 {
 		$this->settings["message"]["error_email"]["nl"]="geen geldig adres";
 		$this->settings["message"]["error_email"]["en"]="not a valid address";
 		$this->settings["message"]["error_email"]["de"]="falsche Adresse";
+		$this->settings["message"]["error_email"]["fr"]="adresse email invalide";
 
 		$this->settings["message"]["error_float"]["nl"]="alleen cijfers en een komma toegestaan";
 		$this->settings["message"]["error_float"]["en"]="only digits and a comma allowed";
@@ -416,6 +419,7 @@ class form2 {
 
 		$this->settings["message"]["error_password_strong"]["nl"]="minimaal 6 tekens met zowel cijfers als letters";
 		$this->settings["message"]["error_password_strong"]["en"]="use at least 6 characters width both letters and numbers";
+		$this->settings["message"]["error_password_strong"]["fr"]="minimum 6 signes avec un mélange de chiffres et de lettres";
 
 		$this->settings["message"]["error_password_superstrong"]["nl"]="minimaal 6 tekens met cijfers, letters, hoofd- en kleine letters";
 		$this->settings["message"]["error_password_superstrong"]["en"]="use at least 6 characters width both letters (lowercase and uppercase) and numbers";

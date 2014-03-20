@@ -26,6 +26,54 @@ if(!$login->logged_in) {
 
 		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+		// Posarelli-codes omzetten
+		// include("content/temp_omzetten.php");
+
+		// foreach ($omzetten as $key => $value) {
+
+		// 	$db->query("SELECT naam, accommodatie_id FROM accommodatie WHERE url_leverancier like 'http://www.posarellivillas.%/_".$key."__index.phtm';");
+		// 	while($db->next_record()) {
+		// 		$new_url="http://www.posarellivillas.nl/_".$value."__index.phtm";
+		// 		$query="UPDATE accommodatie SET url_leverancier='".addslashes($new_url)."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';";
+		// 		echo wt_he($db->f("naam").": ".$query)."<br/>";
+		// 		$db2->query($query);
+		// 	}
+
+		// 	$db->query("SELECT naam, accommodatie_id FROM accommodatie WHERE url_leverancier like 'http://www.posarellivillas.%/_".$key."_1_unit.phtm';");
+		// 	while($db->next_record()) {
+		// 		$new_url="http://www.posarellivillas.nl/_".$value."_1_unit.phtm";
+		// 		$query="UPDATE accommodatie SET url_leverancier='".addslashes($new_url)."' WHERE accommodatie_id='".$db->f("accommodatie_id")."';";
+		// 		echo wt_he($db->f("naam")." PSV: ".$query)."<br/>";
+		// 		$db2->query($query);
+		// 	}
+
+		// }
+
+		// foreach ($omzetten_type as $key => $value) {
+		// 	$db->query("SELECT naam, type_id FROM type WHERE code='".$key."' AND leverancier_id=131;");
+		// 	while($db->next_record()) {
+		// 		$query="UPDATE type SET code='".addslashes($value)."' WHERE type_id='".$db->f("type_id")."';";
+		// 		echo wt_he($db->f("naam").": ".$query)."<br/>";
+		// 		$db2->query($query);
+		// 	}
+
+		// 	$key1 = substr($key, 0, -3);
+		// 	$key2 = intval(substr($key, -3));
+
+
+		// 	$value1 = substr($value, 0, -3);
+		// 	$value2 = intval(substr($value, -3));
+
+		// 	$db->query("SELECT naam, type_id FROM type WHERE url_leverancier like 'http://www.posarellivillas.%/_".$key1."_".$key2."_unit.phtm';");
+		// 	while($db->next_record()) {
+		// 		$new_url="http://www.posarellivillas.nl/_".$value1."_".$value2."_unit.phtm";
+		// 		$query="UPDATE type SET url_leverancier='".addslashes($new_url)."' WHERE type_id='".$db->f("type_id")."';";
+		// 		echo wt_he($db->f("naam")." PSV: ".$query)."<br/>";
+		// 		$db2->query($query);
+		// 	}
+
+		// }
+
 		// $db->query("SELECT boeking_id FROM garantie WHERE boeking_id IS NOT NULL AND boeking_id>0 ORDER BY boeking_id;");
 		// while($db->next_record()) {
 		// 	$db2->query("UPDATE boeking SET voorraad_afboeken=2 WHERE boeking_id='".$db->f("boeking_id")."';");
