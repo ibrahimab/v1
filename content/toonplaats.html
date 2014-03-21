@@ -237,8 +237,10 @@ if(!$db->next_record()) {
 		echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
 		if($db->f("luchthaven")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("dichtstbijzijndeluchthaven","toonplaats")."</TD><TD>".wt_he($db->f("luchthaven"))."</TD></TR>";
 		if($db->f("afstandtotluchthaven")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("afstandtotluchthaven","toonplaats")."</TD><TD>".wt_he($db->f("afstandtotluchthaven"))." ".html("kilometer","toonplaats")."</TD></TR>";
-		if($db->f("treinstation")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("dichtstbijzijndetreinstation","toonplaats")."</TD><TD>".wt_he($db->f("treinstation"))."</TD></TR>";
-		if($db->f("afstandtottreinstation")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("afstandtottreinstation","toonplaats")."</TD><TD>".wt_he($db->f("afstandtottreinstation"))." ".html("kilometer","toonplaats")."</TD></TR>";
+		if($vars["seizoentype"]==1) {
+			if($db->f("treinstation")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("dichtstbijzijndetreinstation","toonplaats")."</TD><TD>".wt_he($db->f("treinstation"))."</TD></TR>";
+			if($db->f("afstandtottreinstation")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("afstandtottreinstation","toonplaats")."</TD><TD>".wt_he($db->f("afstandtottreinstation"))." ".html("kilometer","toonplaats")."</TD></TR>";
+		}
 		if($db->f("vervoeromschrijving")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aanvullendeinformatievervoer","toonplaats")."</TD><TD>".nl2br(wt_he($db->f("vervoeromschrijving")))."</TD></TR>";
 		echo "</TABLE>";
 

@@ -234,8 +234,10 @@ $cms->edit_field(4,0,"kenmerken","Kenmerken");
 $cms->edit_field(4,0,"htmlrow","<hr><b>Vervoer</b>");
 $cms->edit_field(4,0,"luchthaven","Dichtsbijzijnde luchthaven");
 $cms->edit_field(4,0,"afstandtotluchthaven","Afstand tot luchthaven (in k.m.)");
-$cms->edit_field(4,0,"treinstation","Dichtsbijzijnde treinstation");
-$cms->edit_field(4,0,"afstandtottreinstation","Afstand tot treinstation (in k.m.)");
+if($_GET["wzt"]==1) {
+	$cms->edit_field(4,0,"treinstation","Dichtsbijzijnde treinstation");
+	$cms->edit_field(4,0,"afstandtottreinstation","Afstand tot treinstation (in k.m.)");
+}
 if($vars["cmstaal"]) {
 	$cms->edit_field(4,0,"vervoeromschrijving","Aanvulling vervoer NL","",array("noedit"=>true));
 	$cms->edit_field(4,0,"vervoeromschrijving_".$vars["cmstaal"],"Aanvulling vervoer ".strtoupper($vars["cmstaal"]));
