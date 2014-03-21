@@ -7,7 +7,7 @@ if($_GET["show"]==35) {
 	if($_GET["35k0"] and $login->userlevel<10) {
 		$db->query("UPDATE optieaanvraag SET gezien=1 WHERE optieaanvraag_id='".addslashes($_GET["35k0"])."';");
 	}
-	
+
 	$db->query("SELECT naam FROM leverancier WHERE leverancier_id='".addslashes($vars["temp_optieaanvraag"]["acc"]["leverancier_id"])."';");
 	if($db->next_record()) {
 		$leverancier=$db->f("naam");
@@ -43,7 +43,7 @@ if($_GET["show"]==35) {
 	}
 	echo "</select>";
 	echo "</form>";
-	
+
 	if($_GET["status"]<6) {
 		echo "<p>Of status wijzigen en mail sturen:<ul>";
 		if($_GET["status"]==1 or $_GET["status"]==2) {
@@ -52,7 +52,7 @@ if($_GET["show"]==35) {
 		} elseif($_GET["status"]==5) {
 		} elseif($_GET["status"]==4 or $_GET["status"]==6) {
 			# "klant gaat erop in" of "klant gaat er niet op in". Bij afkeuren: mailtje aan leverancier
-#			echo "<li><a href=\"cms_bestelmailfax.php?t=1&lid=".$vars["temp_optieaanvraag"]["acc"]["leverancier_id"]."&burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&oaid=".htmlentities($_GET["35k0"])."\">Klant gaat op optie in (leverancier bestelling mailen)</a></li>";
+#			echo "<li><a href=\"cms_bestelmail.php?lid=".$vars["temp_optieaanvraag"]["acc"]["leverancier_id"]."&burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&oaid=".htmlentities($_GET["35k0"])."\">Klant gaat op optie in (leverancier bestelling mailen)</a></li>";
 		}
 
 		if($_GET["status"]<2) {

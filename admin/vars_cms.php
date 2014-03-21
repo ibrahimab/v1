@@ -1016,7 +1016,7 @@ $vars["bijkomendekosten_perboekingpersoon"]=array(1=>"per boeking",2=>"per perso
 $vars["bijkomendekosten_gekoppeldaan"]=array(1=>"accommodaties/types",2=>"skipassen",3=>"opties");
 $vars["status_bestaandeklanten"]=array(0=>"mail sturen",1=>"mail verstuurd",2=>"nabellen",3=>"opnieuw mailen",4=>"optie bij ons aangevraagd",5=>"geboekt bij ons",6=>"elders geboekt",7=>"geen belangstelling");
 $vars["themakleurencombinatie"]=array(1=>"kleurencombinatie 1",2=>"kleurencombinatie 2",3=>"kleurencombinatie 3",4=>"kleurencombinatie 4",5=>"kleurencombinatie 5",6=>"kleurencombinatie 6",7=>"kleurencombinatie 7",8=>"kleurencombinatie 8",9=>"kleurencombinatie 9");
-$vars["standaardbestelmanier"]=array(1=>"via e-mail", 2=>"via fax", 3=>"via XML", 4=>"via inlog op website", 5=>"interne verwerking");
+$vars["standaardbestelmanier"]=array(1=>"via e-mail", 3=>"via XML", 4=>"via inlog op website", 5=>"interne verwerking");
 $vars["bevestigmethode"]=array(1=>"stuurt direct een factuur",2=>"bevestigt zonder reserveringsnummer",3=>"bevestigt met reserveringsnummer");
 #$vars["nummers_voorraad_velden"]=array("voorraad_garantie","voorraad_allotment","voorraad_vervallen_allotment","voorraad_optie_leverancier","voorraad_xml","voorraad_request","voorraad_optie_klant","voorraad_bijwerken");
 # zonder XML:

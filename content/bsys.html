@@ -269,14 +269,11 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 										echo "<ul>";
 										if(!$db2->f("standaardbestelmanier") or $db2->f("standaardbestelmanier")==1) {
 											if($db2->f("email")) {
-												echo "<li><a href=\"".$path."cms_bestelmailfax.php?t=1&burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\">Via e-mail</a> (vanaf <i>".htmlentities($login->vars["email"])."</i>)</li>";
-												echo "<li><a href=\"".$path."cms_bestelmailfax.php?t=1&burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."&info=1\">Via e-mail</a> (vanaf <i>info@chalet.nl</i>)</li>";
+												echo "<li><a href=\"".$path."cms_bestelmail.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\">Via e-mail</a> (vanaf <i>".htmlentities($login->vars["email"])."</i>)</li>";
+												echo "<li><a href=\"".$path."cms_bestelmail.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."&info=1\">Via e-mail</a> (vanaf <i>info@chalet.nl</i>)</li>";
 											} elseif($db2->f("standaardbestelmanier")) {
 												echo "<li>Via e-mail: er is geen mailadres aan deze leverancier gekoppeld</li>";
 											}
-										}
-										if(!$db2->f("standaardbestelmanier") or $db2->f("standaardbestelmanier")==2) {
-											echo "<li><a href=\"".$path."cms_bestelmailfax.php?t=2&burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\">Via fax</a></li>";
 										}
 
 										# Boeken via XML: aangeven welke xml-types hier gebruik van maken

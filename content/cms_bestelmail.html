@@ -10,13 +10,7 @@ if($_GET["oaid"]) {
 	echo "<a href=\"".$_GET["burl"]."\">terug naar de overzichtspagina</a><p>";
 }
 
-echo "<h2>Bestellen via ";
-if($_GET["t"]==1) {
-	echo "e-mail";
-} else {
-	echo "fax";
-}
-echo "</h2>";
+echo "<h2>Bestellen via e-mail</h2>";
 if($_GET["fo"]=="frm") {
 	echo "Bestelling is verzonden naar <i>".$vars["temp_leverancier"]["email"]."</i>.<p>";
 	if($_GET["oaid"]) {

@@ -176,7 +176,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 						echo "Accommodatie ".wt_he($value)." is nu in optie besteld. Ontvangen reserveringsnummer: <i>".wt_he($reserveringsnummer)."</i><br><br>";
 						echo "<b>Let op!</b> De optie-aanvraag moet nog per mail worden omgezet in een definitieve bestelling.<br/><br/>";
 
-						echo "<a href=\"".$vars["path"]."cms_bestelmailfax.php?t=1&bid=".intval($_GET["bid"])."&reserveringsnummer=".urlencode($reserveringsnummer)."\">Bestelmail nu sturen &raquo;</a>";
+						echo "<a href=\"".$vars["path"]."cms_bestelmail.php?bid=".intval($_GET["bid"])."&reserveringsnummer=".urlencode($reserveringsnummer)."\">Bestelmail nu sturen &raquo;</a>";
 						echo "</div>";
 
 						// $db->query("UPDATE boeking SET leverancierscode='".addslashes($reserveringsnummer)."', bestelstatus=3, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
