@@ -10,7 +10,7 @@ if($vars["website"]<>"I" and $vars["website"]<>"K" and $vars["website"]<>"C" and
 }
 
 if($vars["websitetype"]==7) {
-	$meta_description="Op dit blog vind je artikelen die te maken hebben met Italië en het aanbod van Italissima, aanbieder van agriturismi en andere vakantiehuizen in Italië.";
+	$meta_description="Op dit blog vind je artikelen die te maken hebben met Italië en het aanbod van Italissima, aanbieder van agriturismi en overige vakantiehuizen in Italië.";
 }
 
 $vars["verberg_directnaar"]=true;
