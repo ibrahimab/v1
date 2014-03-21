@@ -456,7 +456,7 @@ if($seizoen["naam"]) {
 	while($week<=$seizoen["eind"]) {
 		$regelteller++;
 		if($seizoen["leeg"] and !$acc["xml_leverancierscode"]) {
-			$temp_request=1;
+			$temp_request="";
 		} else {
 			$temp_request=$seizoen["weken"][$week]["voorraad_request"];
 		}
