@@ -201,6 +201,9 @@ if($_GET["bt"]==1) {
 	# Geannuleerd
 	$cms->db[21]["where"]="geannuleerd=1";
 	if($login->has_priv("2")) $cms->settings[21]["list"]["delete_icon"]=true;
+} elseif($_GET["bt"]==7) {
+	// vervallen aanvragen
+	$cms->db[21]["where"]="vervallen_aanvraag=1";
 } elseif($_GET["boekingsearch"]) {
 	if(ereg("@",$_GET["boekingsearch"])) {
 		$db->query("SELECT boeking_id FROM boeking_persoon WHERE email LIKE '%".addslashes(strtolower($_GET["boekingsearch"]))."%';");

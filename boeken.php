@@ -550,6 +550,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$form->field_yesno("geannuleerd","deze boeking moet worden geannuleerd (boekhouding wordt <b>niet</b> gecrediteerd)","",array("selection"=>$gegevens["stap1"]["geannuleerd"]),"",array("title_html"=>true));
 			}
 			$form->field_yesno("tonen_in_mijn_boeking","deze boeking is voor de klant zichtbaar in \"Mijn boeking\"","",array("selection"=>$gegevens["stap1"]["tonen_in_mijn_boeking"]),"",array("title_html"=>true));
+			if(!$gegevens["stap1"]["boekingsnummer"]) {
+				$form->field_yesno("vervallen_aanvraag","dit is een vervallen aanvraag","",array("selection"=>$gegevens["stap1"]["vervallen_aanvraag"]));
+			}
 
 			$form->field_htmlrow("","<hr><b>Gegevens m.b.t. boekhouding</b>");
 			if($gegevens["stap1"]["landcode"]) {
@@ -1594,6 +1597,17 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 						$form->error("verzameltype_gekozentype_id","geen tarieven in het systeem voor dit onderliggende type op deze datum");
 					}
 				}
+
+				// check for "dit is een vervallen aanvraag"
+				if($form->input["vervallen_aanvraag"]) {
+					if($form->input["goedgekeurd"]) {
+						$form->error("vervallen_aanvraag","Zet \"dit is een vervallen aanvraag\" uit om de boeking te bevestigen");
+					}
+					if($form->input["tonen_in_mijn_boeking"]) {
+						$form->error("tonen_in_mijn_boeking","Een vervallen aanvraag kan niet zichtbaar zijn in \"Mijn boeking\"");
+					}
+				}
+
 			} else {
 				#
 				# Controle op aanwezigheid tarieven voor gekozen datum (voor klanten)
@@ -1859,7 +1873,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					}
 
 #					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($gegevens["stap1"]["geannuleerd"] ? "1" : $form->input["geannuleerd"]))."'";
-					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($form->input["geannuleerd"] ? "1" : "0"))."', btw_over_commissie='".addslashes($form->input["btw_over_commissie"])."', tonen_in_mijn_boeking='".addslashes($form->input["tonen_in_mijn_boeking"])."'";
+					$setquery.=", leverancier_id='".addslashes($form->input["leverancierid"])."', landcode='".addslashes($form->input["landcode"])."', opmerkingen_intern='".addslashes(trim($form->input["opmerkingen_intern"]))."', goedgekeurd='".addslashes($form->input["goedgekeurd"])."', geannuleerd='".addslashes(($form->input["geannuleerd"] ? "1" : "0"))."', btw_over_commissie='".addslashes($form->input["btw_over_commissie"])."', tonen_in_mijn_boeking='".addslashes($form->input["tonen_in_mijn_boeking"])."', vervallen_aanvraag='".intval($form->input["vervallen_aanvraag"])."'";
 
 					# Eventueel beheerderid opslaan
 					if($form->input["beheerderid"]) {
@@ -3021,6 +3035,10 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 			if($mustlogin and intval($form->input["tonen_in_mijn_boeking"])<>intval($gegevens["stap1"]["tonen_in_mijn_boeking"])) {
 				if($form->input["tonen_in_mijn_boeking"]) chalet_log("aangezet: deze boeking is voor de klant zichtbaar in \"Mijn boeking\"");
 				if(!$form->input["tonen_in_mijn_boeking"]) chalet_log("uitgezet: deze boeking is voor de klant zichtbaar in \"Mijn boeking\"");
+			}
+			if($mustlogin and intval($form->input["vervallen_aanvraag"])<>intval($gegevens["stap1"]["vervallen_aanvraag"])) {
+				if($form->input["vervallen_aanvraag"]) chalet_log("aangezet: dit is een vervallen aanvraag");
+				if(!$form->input["vervallen_aanvraag"]) chalet_log("uitgezet: dit is een vervallen aanvraag");
 			}
 
 

@@ -839,6 +839,18 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+
+	// vervallen aanvraag
+	$("input[name='input[vervallen_aanvraag]']").change(function() {
+		if($(this).is(":checked")) {
+			if($("input[name='input[tonen_in_mijn_boeking]']").is(":checked")) {
+				$("input[name='input[tonen_in_mijn_boeking]']").prop("checked", false);
+				$("label[for=yesnotonen_in_mijn_boeking]").effect("highlight", {}, 3000);
+			}
+		}
+	});
+
 });
 
 function goedkeuringen_benodigd_uitzetten() {
