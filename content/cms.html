@@ -26,6 +26,15 @@ if(!$login->logged_in) {
 
 		// echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
+
+		// $db->query("SELECT type_id, week FROM xml_tarievenimport WHERE type_id NOT IN (SELECT DISTINCT type_id FROM view_accommodatie WHERE atonen=1 AND ttonen=1) ORDER BY week, type_id;");
+		// echo $db->num_rows()."=aantal ";
+		// while($db->next_record()) {
+		// 	echo $db->f("type_id").": ".date("r", $db->f("week"))."<br/>";
+		// }
+
+		// $db->query("DELETE FROM xml_tarievenimport WHERE type_id NOT IN (SELECT DISTINCT type_id FROM view_accommodatie WHERE atonen=1 AND ttonen=1) ORDER BY week, type_id;");
+
 		// Posarelli-codes omzetten
 		// include("content/temp_omzetten.php");
 
