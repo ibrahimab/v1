@@ -343,63 +343,64 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["nietbekeken"]) {
 }
 
 
-if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["aflopend-klant"]) {
-	#
-	# Controle op aflopende opties (einddatum_klant)
-	#
-	$db->query("SELECT o.optieaanvraag_id, o.status, UNIX_TIMESTAMP(o.einddatum_klant) AS einddatum_klant, a.internenaam AS naam, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, l.begincode, p.naam AS plaats, o.aankomstdatum_exact, o.voornaam, o.tussenvoegsel, o.achternaam FROM optieaanvraag o, accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND o.type_id=t.type_id AND o.status<=7 AND o.einddatum_klant IS NOT NULL AND UNIX_TIMESTAMP(o.einddatum_klant)<='".(mktime(0,0,0,date("m"),date("d"),date("Y")))."' ORDER BY o.einddatum_klant, o.achternaam, a.internenaam;");
-	if($db->num_rows()) {
-		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_aflopend_optie_klant\">&nbsp;<span onclick=\"slidetoggle('aflopend_optie_klant');\" class=\"redlink\">Aflopende optie-aanvragen (klant)</span> <b>(".$db->num_rows().")</b>";
-#		echo "<div id=\"xmlbestaand".$db->f("leverancier_id")."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
-#		echo "\n<hr><span onclick=\"slidetoggle('aflopend_optie_klant');\" class=\"redlink\">Aflopende optie-aanvragen (klant)</span>";
-		echo "<div id=\"aflopend_optie_klant\" style=\"display:none;min-height:0;\">";
-		echo "<ul>";
-		while($db->next_record()) {
-			$looptijd=round(($db->f("einddatum_klant")-mktime(0,0,0,date("m"),date("d"),date("Y")))/86400);
-			echo "<li><a href=\"cms_optieaanvragen.php?show=35&status=".$db->f("status")."&35k0=".$db->f("optieaanvraag_id")."\">";
-			echo htmlentities($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("naam"))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." pers)"." - ";
-			echo date("d-m-Y",$db->f("aankomstdatum_exact"))."</a> - ";
-			echo wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
-			echo " - ";
-			if($looptijd<1) echo "<span style=\"color:red;font-weight:bold;\">";
-			echo "looptijd: nog ".$looptijd." ";
-			if($looptijd==1) echo "dag"; else echo "dagen";
-			if($looptijd<0) echo "</span>";
-			echo "</li>";
-		}
-		echo "</ul>";
-		echo "</div>";
-	}
-}
+// uitgezet op 25-3-2014 (optiesysteem niet meer in gebruik)
+// if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["aflopend-klant"]) {
+// 	#
+// 	# Controle op aflopende opties (einddatum_klant)
+// 	#
+// 	$db->query("SELECT o.optieaanvraag_id, o.status, UNIX_TIMESTAMP(o.einddatum_klant) AS einddatum_klant, a.internenaam AS naam, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, l.begincode, p.naam AS plaats, o.aankomstdatum_exact, o.voornaam, o.tussenvoegsel, o.achternaam FROM optieaanvraag o, accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND o.type_id=t.type_id AND o.status<=7 AND o.einddatum_klant IS NOT NULL AND UNIX_TIMESTAMP(o.einddatum_klant)<='".(mktime(0,0,0,date("m"),date("d"),date("Y")))."' ORDER BY o.einddatum_klant, o.achternaam, a.internenaam;");
+// 	if($db->num_rows()) {
+// 		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_aflopend_optie_klant\">&nbsp;<span onclick=\"slidetoggle('aflopend_optie_klant');\" class=\"redlink\">Aflopende optie-aanvragen (klant)</span> <b>(".$db->num_rows().")</b>";
+// #		echo "<div id=\"xmlbestaand".$db->f("leverancier_id")."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+// #		echo "\n<hr><span onclick=\"slidetoggle('aflopend_optie_klant');\" class=\"redlink\">Aflopende optie-aanvragen (klant)</span>";
+// 		echo "<div id=\"aflopend_optie_klant\" style=\"display:none;min-height:0;\">";
+// 		echo "<ul>";
+// 		while($db->next_record()) {
+// 			$looptijd=round(($db->f("einddatum_klant")-mktime(0,0,0,date("m"),date("d"),date("Y")))/86400);
+// 			echo "<li><a href=\"cms_optieaanvragen.php?show=35&status=".$db->f("status")."&35k0=".$db->f("optieaanvraag_id")."\">";
+// 			echo htmlentities($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("naam"))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." pers)"." - ";
+// 			echo date("d-m-Y",$db->f("aankomstdatum_exact"))."</a> - ";
+// 			echo wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
+// 			echo " - ";
+// 			if($looptijd<1) echo "<span style=\"color:red;font-weight:bold;\">";
+// 			echo "looptijd: nog ".$looptijd." ";
+// 			if($looptijd==1) echo "dag"; else echo "dagen";
+// 			if($looptijd<0) echo "</span>";
+// 			echo "</li>";
+// 		}
+// 		echo "</ul>";
+// 		echo "</div>";
+// 	}
+// }
 
-
-if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["aflopend-leverancier"]) {
-	#
-	# Controle op aflopende opties (einddatum_leverancier)
-	#
-	$db->query("SELECT o.optieaanvraag_id, o.status, UNIX_TIMESTAMP(o.einddatum_leverancier) AS einddatum_leverancier, a.internenaam AS naam, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, l.begincode, p.naam AS plaats, o.aankomstdatum_exact, o.voornaam, o.tussenvoegsel, o.achternaam FROM optieaanvraag o, accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND o.type_id=t.type_id AND o.status<=7 AND o.einddatum_leverancier IS NOT NULL AND UNIX_TIMESTAMP(o.einddatum_leverancier)<='".(mktime(0,0,0,date("m"),date("d"),date("Y")))."' ORDER BY o.einddatum_leverancier, o.achternaam, a.internenaam;");
-	if($db->num_rows()) {
-		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_aflopend_optie_leverancier\">&nbsp;<span onclick=\"slidetoggle('aflopend_optie_leverancier');\" class=\"redlink\">Aflopende optie-aanvragen (leverancier)</span> <b>(".$db->num_rows().")</b>";
-#		echo "\n<hr><span onclick=\"slidetoggle('aflopend_optie_leverancier');\" class=\"redlink\">Aflopende optie-aanvragen (leverancier)</span>";
-		echo "<div id=\"aflopend_optie_leverancier\" style=\"display:none;min-height:0;\">";
-		echo "<ul>";
-		while($db->next_record()) {
-			$looptijd=round(($db->f("einddatum_leverancier")-mktime(0,0,0,date("m"),date("d"),date("Y")))/86400);
-			echo "<li><a href=\"cms_optieaanvragen.php?show=35&status=".$db->f("status")."&35k0=".$db->f("optieaanvraag_id")."\">";
-			echo htmlentities($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("naam"))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." pers)"." - ";
-			echo date("d-m-Y",$db->f("aankomstdatum_exact"))."</a> - ";
-			echo wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
-			echo " - ";
-			if($looptijd<1) echo "<span style=\"color:red;font-weight:bold;\">";
-			echo "looptijd: nog ".$looptijd." ";
-			if($looptijd==1) echo "dag"; else echo "dagen";
-			if($looptijd<0) echo "</span>";
-			echo "</li>";
-		}
-		echo "</ul>";
-		echo "</div>";
-	}
-}
+// uitgezet op 25-3-2014 (optiesysteem niet meer in gebruik)
+// if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["aflopend-leverancier"]) {
+// 	#
+// 	# Controle op aflopende opties (einddatum_leverancier)
+// 	#
+// 	$db->query("SELECT o.optieaanvraag_id, o.status, UNIX_TIMESTAMP(o.einddatum_leverancier) AS einddatum_leverancier, a.internenaam AS naam, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, l.begincode, p.naam AS plaats, o.aankomstdatum_exact, o.voornaam, o.tussenvoegsel, o.achternaam FROM optieaanvraag o, accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND o.type_id=t.type_id AND o.status<=7 AND o.einddatum_leverancier IS NOT NULL AND UNIX_TIMESTAMP(o.einddatum_leverancier)<='".(mktime(0,0,0,date("m"),date("d"),date("Y")))."' ORDER BY o.einddatum_leverancier, o.achternaam, a.internenaam;");
+// 	if($db->num_rows()) {
+// 		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_aflopend_optie_leverancier\">&nbsp;<span onclick=\"slidetoggle('aflopend_optie_leverancier');\" class=\"redlink\">Aflopende optie-aanvragen (leverancier)</span> <b>(".$db->num_rows().")</b>";
+// #		echo "\n<hr><span onclick=\"slidetoggle('aflopend_optie_leverancier');\" class=\"redlink\">Aflopende optie-aanvragen (leverancier)</span>";
+// 		echo "<div id=\"aflopend_optie_leverancier\" style=\"display:none;min-height:0;\">";
+// 		echo "<ul>";
+// 		while($db->next_record()) {
+// 			$looptijd=round(($db->f("einddatum_leverancier")-mktime(0,0,0,date("m"),date("d"),date("Y")))/86400);
+// 			echo "<li><a href=\"cms_optieaanvragen.php?show=35&status=".$db->f("status")."&35k0=".$db->f("optieaanvraag_id")."\">";
+// 			echo htmlentities($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("naam"))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." pers)"." - ";
+// 			echo date("d-m-Y",$db->f("aankomstdatum_exact"))."</a> - ";
+// 			echo wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"));
+// 			echo " - ";
+// 			if($looptijd<1) echo "<span style=\"color:red;font-weight:bold;\">";
+// 			echo "looptijd: nog ".$looptijd." ";
+// 			if($looptijd==1) echo "dag"; else echo "dagen";
+// 			if($looptijd<0) echo "</span>";
+// 			echo "</li>";
+// 		}
+// 		echo "</ul>";
+// 		echo "</div>";
+// 	}
+// }
 
 # Controle of er Top10's zijn met te weinig accommodaties
 $db->query("SELECT t.site, t.week, t.seizoen_id, t.bloknaam FROM top10_week t, seizoen s WHERE blokvolgorde>0 AND t.seizoen_id=s.seizoen_id AND t.week>'".time()."' AND t.minderdan10=1 ORDER BY s.type, t.site, t.blokvolgorde;");

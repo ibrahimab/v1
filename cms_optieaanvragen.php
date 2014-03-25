@@ -1,5 +1,10 @@
 <?php
 
+// not in use
+header("Location: /cms.php");
+exit;
+
+
 $mustlogin=true;
 $vars["types_in_vars"]=true;
 include("admin/vars.php");
@@ -27,7 +32,7 @@ if($_GET["35k0"]) {
 	while($db->next_record()) {
 		$vars["kolom_leveranciers"][$db->f("optieaanvraag_id")]=$db->f("leverancier");
 	}
-	
+
 	# Boekdatum in vars zetten
 	if($_GET["status"]==6) {
 		$db->query("SELECT o.optieaanvraag_id, UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum FROM boeking b, optieaanvraag o WHERE b.optieaanvraag_id=o.optieaanvraag_id;");

@@ -369,10 +369,10 @@ if($mustlogin) {
 	$layout->submenu_item("cms_mailteksten","","cms_mailteksten","Winter",array("wzt"=>"1"),true);
 	$layout->submenu_item("cms_mailteksten","","cms_mailteksten","Zomer",array("wzt"=>"2"),true);
 
-	$layout->menu_item("cms_optieaanvragen","Optie-aanvragen","",true,false,array("slide"=>true));
-	while(list($key,$value)=each($vars["optieaanvragen_status_menu"])) {
-		$layout->submenu_item("cms_optieaanvragen","","cms_optieaanvragen",$value,array("status"=>$key),true);
-	}
+	// $layout->menu_item("cms_optieaanvragen","Optie-aanvragen","",true,false,array("slide"=>true));
+	// while(list($key,$value)=each($vars["optieaanvragen_status_menu"])) {
+	// 	$layout->submenu_item("cms_optieaanvragen","","cms_optieaanvragen",$value,array("status"=>$key),true);
+	// }
 
 	$layout->menu_item("cms_optieleveranciers","Optieleveranciers","",true);
 
