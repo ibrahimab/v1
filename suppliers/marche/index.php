@@ -7,6 +7,7 @@ class MarcheHolidays {
     private $_API_PASS = "chalet11";
     private $_PARAMS = array();
     private $_CHAP = null;
+    const INVALID_LOGIN = "invalid login";
     public function __construct() {
         
     }
@@ -39,11 +40,10 @@ class MarcheHolidays {
     private function getChallenge($function = "get_house_availability") {
         if($this->_CHAP == null){
             $challenge = $this->file_get_contents_curl( $this->getHostUrl() );
-            if ($challenge == "") 
-                throw new Exception("the $function exposed function could not be called");
-
-            $this->_CHAP = md5($challenge.$this->_API_PASS);
+            if($challenge != "")
+                $this->_CHAP = md5($challenge.$this->_API_PASS);
         }
+        
         return $this->_CHAP;
     }
     /**
@@ -113,11 +113,11 @@ class MarcheHolidays {
     }
     
     /**
-     * Gets all information from MarcheHolidays
+     * Get data from server
      * @param type $function
      * @return type
      */
-    public function getDataFromServer($function="get_house_availability"){
+    public function getData($function){
         
         $chap = $this->getChallenge($function);
         
@@ -126,6 +126,25 @@ class MarcheHolidays {
         $response = $this->getResp($message);
 
         $object = $this->getObject($response);
+                
+        return $object;
+    }
+    
+    /**
+     * Gets all information from MarcheHolidays
+     * @param type $function
+     * @return type
+     */
+    public function getDataFromServer($function="get_house_availability"){
+        
+        $object = $this->getData($function);
+        
+        $unixdir = dirname(dirname(dirname(__FILE__))) . "/";
+                
+        if($object[0] == self::INVALID_LOGIN){
+            $this->_CHAP = null;
+            $object = $this->getData($function);
+        }
         
         return $object;
     }
@@ -183,6 +202,9 @@ class MarcheHolidays {
         }
         
         $availabilityArray = array_replace($allAccommodations, $accNotAvail);
+        
+        if($this->_CHAP == null)
+            $availabilityArray = array();
         
         return $availabilityArray;
     }
