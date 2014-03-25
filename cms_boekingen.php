@@ -179,7 +179,7 @@ $cms->settings[21]["list"]["delete_icon"]=false;
 
 if($_GET["bt"]==1) {
 	# Aangevraagd
-	$cms->db[21]["where"]="stap_voltooid=5 AND goedgekeurd=0";
+	$cms->db[21]["where"]="stap_voltooid=5 AND goedgekeurd=0 AND vervallen_aanvraag=0";
 	if($login->has_priv("2")) $cms->settings[21]["list"]["delete_icon"]=true;
 } elseif($_GET["bt"]==2) {
 	# Bevestigd
@@ -259,7 +259,7 @@ if($_GET["archief"]==1) {
 	$cms->db_field(21,"select","enquete","boeking_id",array("selection"=>$boekingsgegevens["enquete"]));
 }
 
-if($_GET["bt"]==1) {
+if($_GET["bt"]==1 or $_GET["bt"]==7) {
 	$cms->db_field(21,"select","bestelstatus","boeking_id",array("selection"=>$boekingsgegevens["bestelstatus"]));
 }
 
@@ -283,7 +283,7 @@ if($_GET["boekingsearch"]) {
 	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
 	$cms->list_sort[21]=array("aankomstdatum_exact","website");
 	$cms->list_sort_desc[21]=true;
-} elseif($_GET["bt"]==1) {
+} elseif($_GET["bt"]==1 or $_GET["bt"]==7) {
 	// aangevraagd
 	$cms->list_field(21,"website","Site");
 	$cms->list_field(21,"boeking_id","Nr");
