@@ -567,10 +567,13 @@ form {
 
 
 .aanbiedingtabel th {
-	background-color: #ffffff;
 	color: #d40139;
 }
 
+.aanbiedingtabel th, .aanbiedingtabel td {
+	background-color: #ffffff;
+	border: 0;
+}
 
 
 .img-swap {
