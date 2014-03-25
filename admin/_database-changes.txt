@@ -3,6 +3,9 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+21-mar-2014 16:39
+ALTER TABLE `boeking` ADD `vervallen_aanvraag` TINYINT( 1 ) NOT NULL AFTER `geblokkeerd` ;
+
 14-mar-2014 15:32
 ALTER TABLE `leverancier` ADD `email_lijsten_kopie` VARCHAR( 255 ) NULL DEFAULT NULL AFTER `email_lijsten` ;
 
