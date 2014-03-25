@@ -854,17 +854,10 @@ $vars["kenmerken_skigebied_1"]=array(1=>"kindvriendelijk",2=>"prijsbewust",3=>"w
 $vars["kenmerken_type_2"]=array(
 	1=>"huisje voor 2",
 	2=>"los, vrijstaand huis",
-	3=>"sauna (privé)",
 	4=>"zwembad (privé)",
 	5=>"goed voor kids",
 	6=>"voor groepen",
-	7=>"prijsbewust",
-	8=>"alleen het allerbeste (topselectie)",
-	9=>"vleugje wellness",
-	10=>"open haard/houtkachel",
 	11=>"huisdieren toegestaan",
-	12=>"allergievrij",
-	13=>"verhuur zondag t/m zondag",
 	14=>"niet vrijstaand/geschakeld/appartement",
 	15=>"vrijstaand huis (met meerdere huizen)",
 	16=>"bijzonder",
@@ -881,29 +874,35 @@ $vars["kenmerken_type_2"]=array(
 	27=>"airconditioning",
 	28=>"barbecue (gemeenschappelijk)",
 	29=>"barbecue (privé)",
+	30=>"babybed",
+	31=>"jacuzzi",
+	32=>"kinderstoel",
+	33=>"vaatwasser"
 );
+# # verwijderd: 3=>"sauna (privé)",
+# # verwijderd: 7=>"prijsbewust",
+# # verwijderd: 8=>"alleen het allerbeste (topselectie)",
+# # verwijderd: 9=>"vleugje wellness",
+# # verwijderd: 10=>"open haard/houtkachel",
+# # verwijderd: 12=>"allergievrij",
+# # verwijderd: 13=>"verhuur zondag t/m zondag",
+
+
 
 $vars["kenmerken_accommodatie_2"]=array(
 	1=>"actief in de bergen",
 	2=>"golfbaan",
-	3=>"sauna (privé)",
 	4=>"zwembad (privé)",
 	5=>"goed voor kids",
 	6=>"voor groepen",
-	7=>"prijsbewust",
 	8=>"alleen het allerbeste (topselectie)",
 	9=>"vleugje wellness",
 	10=>"sauna",
 	11=>"zwembad",
-	12=>"open haard/houtkachel",
 	13=>"huisdieren toegestaan",
-	14=>"allergievrij",
-	15=>"verhuur zondag t/m zondag",
 	16=>"stekje aan het water",
 	18=>"huisje voor 2",
 	19=>"tennisbaan (bij accommodatie)",
-	20=>"wijnstreek",
-	21=>"citytrip",
 	22=>"los, vrijstaand huis",
 	23=>"niet vrijstaand/geschakeld/appartement",
 	24=>"vakantiepark",
@@ -930,11 +929,45 @@ $vars["kenmerken_accommodatie_2"]=array(
 	45=>"airconditioning",
 	46=>"barbecue (gemeenschappelijk)",
 	47=>"barbecue (privé)",
+	48=>"babybed",
+	49=>"jacuzzi",
+	50=>"kinderstoel",
+	51=>"vaatwasser",
+	52=>"activiteiten (bijv. workshops)",
+	53=>"agriturismo klein: 1  – 10 app.",
+	54=>"agriturismo middelgroot: 10 - 20 app.",
+	55=>"agriturismo groot: 20 en meer app.",
+	56=>"animatie",
+	57=>"boerderijdieren",
+	58=>"fietsen",
+	59=>"kindvriendelijk zwembad ",
+	60=>"ontbijten is mogelijk",
 );
+# # verwijderd: 3=>"sauna (privé)",
+# # verwijderd: 7=>"prijsbewust",
+# # verwijderd: 12=>"open haard/houtkachel",
+# # verwijderd: 14=>"allergievrij",
+# # verwijderd: 15=>"verhuur zondag t/m zondag",
 # # verwijderd: 17=>"levensgenieters"
+# # verwijderd: 20=>"wijnstreek",
+# # verwijderd: 21=>"citytrip",
 
-$vars["kenmerken_plaats_2"]=array(1=>"kindvriendelijk",2=>"prijsbewust",4=>"vleugje wellness",5=>"actief in de bergen",6=>"golfbaan",7=>"stekje aan het water",9=>"wijnstreek",10=>"citytrip");  # 3 is nog leeg
+
+$vars["kenmerken_plaats_2"]=array(
+	1=>"kindvriendelijk",
+	5=>"actief in de bergen",
+	6=>"golfbaan",
+	7=>"stekje aan het water",
+	9=>"wijnstreek",
+	10=>"citytrip",
+	11=>"grote stad in de omgeving",
+	12=>"strand en zee dichtbij",
+	13=>"meren en rivieren dichtbij",
+);
 # # verwijderd: 8=>"levensgenieters"
+# # verwijderd: 2=>"prijsbewust"
+# # verwijderd: 4=>"vleugje wellness"
+
 
 $vars["kenmerken_skigebied_2"]=array(1=>"kindvriendelijk",2=>"prijsbewust",3=>"vleugje wellness",4=>"actief in de bergen",6=>"wijnstreek");
 # # verwijderd: 5=>"levensgenieters"

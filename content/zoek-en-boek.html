@@ -502,7 +502,7 @@ if($vars["seizoentype"]==1) {
 		$keuzeopsomming[6]["addwhere"][21][]="(t.kenmerken REGEXP '[[:<:]]5[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]5[[:>:]]')";
 		$keuzeopsomming[6]["addwhere"][22][]="(t.kenmerken REGEXP '[[:<:]]16[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]28[[:>:]]')";
 		$keuzeopsomming[6]["addwhere"][23][]="(a.kenmerken REGEXP '[[:<:]]17[[:>:]]' OR p.kenmerken REGEXP '[[:<:]]8[[:>:]]' OR s.kenmerken REGEXP '[[:<:]]5[[:>:]]')";
-		$keuzeopsomming[6]["addwhere"][24][]="(t.kenmerken REGEXP '[[:<:]]9[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]9[[:>:]]' OR p.kenmerken REGEXP '[[:<:]]4[[:>:]]' OR s.kenmerken REGEXP '[[:<:]]3[[:>:]]')";
+		$keuzeopsomming[6]["addwhere"][24][]="(a.kenmerken REGEXP '[[:<:]]9[[:>:]]' OR s.kenmerken REGEXP '[[:<:]]3[[:>:]]')";
 		$keuzeopsomming[6]["addwhere"][25][]="(t.kenmerken REGEXP '[[:<:]]8[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]8[[:>:]]')";
 		$keuzeopsomming[6]["addwhere"][26][]="(t.kenmerken REGEXP '[[:<:]]7[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]7[[:>:]]' OR p.kenmerken REGEXP '[[:<:]]2[[:>:]]' OR s.kenmerken REGEXP '[[:<:]]2[[:>:]]')";
 		$keuzeopsomming[6]["addwhere"][27][]="(t.kenmerken REGEXP '[[:<:]]1[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]18[[:>:]]')";
@@ -1832,7 +1832,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					}
 
 					# Verfijnd zoeken: thema vleugje welness
-					if(check_kenmerken($db->f("tkenmerken"),9) or check_kenmerken($db->f("akenmerken"),9) or check_kenmerken($db->f("pkenmerken"),4) or check_kenmerken($db->f("skenmerken"),3)) {
+					if(check_kenmerken($db->f("akenmerken"),9) or check_kenmerken($db->f("skenmerken"),3)) {
 						$verfijnd["kenmerken"][24]++;
 					}
 
