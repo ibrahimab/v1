@@ -210,20 +210,19 @@ if($form->okay) {
 		}
 
 
-		// uitgezet op 25-3-2014 (optiesysteem niet meer in gebruik)
 		# Optieaanvraag opslaan
-		// $setquery="website='".addslashes($vars["website"])."', type_id='".addslashes($accinfo["type_id"])."', aantalpersonen='".addslashes($form->input["aantalpersonen"])."'";
-		// if($accinfo["flexibel"]) {
-		// 	$form->input["aankomstdatum"]=dichtstbijzijnde_zaterdag($form->input["aankomstdatum_flex"]["unixtime"]);
-		// 	$setquery.=", aankomstdatum='".addslashes($form->input["aankomstdatum"])."', aankomstdatum_exact='".addslashes($form->input["aankomstdatum_flex"]["unixtime"])."', vertrekdatum_exact='".flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"])."'";
-		// } else {
-		// 	$setquery.=", aankomstdatum='".addslashes($form->input["aankomstdatum"])."', aankomstdatum_exact='".addslashes($accinfo["aankomstdatum_unixtime"][$form->input["aankomstdatum"]])."'";
-		// }
-		// $setquery.=", status='".addslashes($status)."', opmerkingen_intern='".addslashes($form->input["opmerkingen_intern"])."', ingevuldvia='".addslashes($ingevuldvia)."', user_id='".addslashes($userid)."', invulmoment=NOW(), voornaam='".addslashes($form->input["voornaam"])."', tussenvoegsel='".addslashes($form->input["tussenvoegsel"])."', achternaam='".addslashes($form->input["achternaam"])."', adres='".addslashes($form->input["adres"])."', postcode='".addslashes($form->input["postcode"])."', plaats='".addslashes($form->input["plaats"])."', land='".addslashes($form->input["land"])."', telefoonnummer='".addslashes($form->input["telefoonnummer"])."', mobielwerk='".addslashes($form->input["mobielwerk"])."', email='".addslashes($form->input["email"])."'";
-		// if($einddatum_klant>0) {
-		// 	 $setquery.=", einddatum_klant=FROM_UNIXTIME('".addslashes($einddatum_klant)."')";
-		// }
-		// $db->query("INSERT INTO optieaanvraag SET ".$setquery.";");
+		$setquery="website='".addslashes($vars["website"])."', type_id='".addslashes($accinfo["type_id"])."', aantalpersonen='".addslashes($form->input["aantalpersonen"])."'";
+		if($accinfo["flexibel"]) {
+			$form->input["aankomstdatum"]=dichtstbijzijnde_zaterdag($form->input["aankomstdatum_flex"]["unixtime"]);
+			$setquery.=", aankomstdatum='".addslashes($form->input["aankomstdatum"])."', aankomstdatum_exact='".addslashes($form->input["aankomstdatum_flex"]["unixtime"])."', vertrekdatum_exact='".flex_bereken_vertrekdatum($form->input["aankomstdatum_flex"]["unixtime"],$form->input["verblijfsduur"])."'";
+		} else {
+			$setquery.=", aankomstdatum='".addslashes($form->input["aankomstdatum"])."', aankomstdatum_exact='".addslashes($accinfo["aankomstdatum_unixtime"][$form->input["aankomstdatum"]])."'";
+		}
+		$setquery.=", status='".addslashes($status)."', opmerkingen_intern='".addslashes($form->input["opmerkingen_intern"])."', ingevuldvia='".addslashes($ingevuldvia)."', user_id='".addslashes($userid)."', invulmoment=NOW(), voornaam='".addslashes($form->input["voornaam"])."', tussenvoegsel='".addslashes($form->input["tussenvoegsel"])."', achternaam='".addslashes($form->input["achternaam"])."', adres='".addslashes($form->input["adres"])."', postcode='".addslashes($form->input["postcode"])."', plaats='".addslashes($form->input["plaats"])."', land='".addslashes($form->input["land"])."', telefoonnummer='".addslashes($form->input["telefoonnummer"])."', mobielwerk='".addslashes($form->input["mobielwerk"])."', email='".addslashes($form->input["email"])."'";
+		if($einddatum_klant>0) {
+			 $setquery.=", einddatum_klant=FROM_UNIXTIME('".addslashes($einddatum_klant)."')";
+		}
+		$db->query("INSERT INTO optieaanvraag SET ".$setquery.";");
 
 		if($werknemer_optieaanvraag and $db->insert_id()) {
 			header("Location: http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_optieaanvragen.php?show=35&status=2&35k0=".$db->insert_id());

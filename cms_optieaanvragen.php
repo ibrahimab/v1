@@ -1,9 +1,5 @@
 <?php
 
-// not in use
-header("Location: /cms.php");
-exit;
-
 
 $mustlogin=true;
 $vars["types_in_vars"]=true;
