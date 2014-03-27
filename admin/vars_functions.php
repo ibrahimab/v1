@@ -3337,7 +3337,7 @@ function tooninterneopmerkingen($text) {
 }
 
 function check_kenmerken($all,$one) {
-	$all_split=split(",",$all);
+	$all_split=preg_split("@,@",$all);
 	if(in_array($one,$all_split)) {
 		return true;
 	} else {

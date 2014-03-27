@@ -7,15 +7,99 @@
 echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 
-function cms_remove_kenmerk($list, $remove) {
-	$list = preg_replace("@\b".$remove."\b@i", "", $list);
-	$list = preg_replace("@,{2,}@", ",", $list);
-	$list = preg_replace("@^,$@", "", $list);
-	$list = trim($list);
-	return $list;
-}
+// function cms_remove_kenmerk($list, $remove) {
+// 	$list = preg_replace("@\b".$remove."\b@i", "", $list);
+// 	$list = preg_replace("@,{2,}@", ",", $list);
+// 	$list = preg_replace("@^,$@", "", $list);
+// 	$list = trim($list);
+// 	return $list;
+// }
 
-// kenmerken verplaatsen
+// // kenmerken verplaatsen
+
+// // acc: huisdieren toegestaan: nee omzetten naar onbekend
+// $db->query("SELECT DISTINCT a.kenmerken, a.kenmerken_nee, a.kenmerken_onbekend, a.kenmerken_irrelevant, a.accommodatie_id FROM type t, accommodatie a WHERE a.wzt=2 AND t.accommodatie_id=a.accommodatie_id AND a.kenmerken_nee REGEXP '[[:<:]]13[[:>:]]';");
+// while($db->next_record()) {
+// 	$nieuw_kenmerk = "13";
+// 	if($db->f("kenmerken_onbekend")) {
+// 		$kenmerken_onbekend=$db->f("kenmerken_onbekend").",".$nieuw_kenmerk;
+// 	} else {
+// 		$kenmerken_onbekend=$nieuw_kenmerk;
+// 	}
+// 	$query="UPDATE accommodatie SET
+// 				kenmerken_onbekend='".addslashes($kenmerken_onbekend)."',
+// 	            kenmerken='".addslashes(cms_remove_kenmerk($db->f("kenmerken"), $nieuw_kenmerk))."',
+// 	            kenmerken_nee='".addslashes(cms_remove_kenmerk($db->f("kenmerken_nee"), $nieuw_kenmerk))."',
+// 	            kenmerken_irrelevant='".addslashes(cms_remove_kenmerk($db->f("kenmerken_irrelevant"), $nieuw_kenmerk))."'
+// 	            WHERE accommodatie_id='".$db->f("accommodatie_id")."';";
+
+// 	$db2->query($query);
+// 	echo $query."<br /><br />";
+// }
+
+// // type: huisdieren toegestaan: nee omzetten naar onbekend
+// $db->query("SELECT DISTINCT t.type_id, t.kenmerken, t.kenmerken_nee, t.kenmerken_onbekend, t.kenmerken_irrelevant, t.accommodatie_id FROM type t, accommodatie a WHERE a.wzt=2 AND a.accommodatie_id=t.accommodatie_id AND t.kenmerken_nee REGEXP '[[:<:]]11[[:>:]]';");
+// while($db->next_record()) {
+// 	$nieuw_kenmerk = "11";
+// 	if($db->f("kenmerken_onbekend")) {
+// 		$kenmerken_onbekend=$db->f("kenmerken_onbekend").",".$nieuw_kenmerk;
+// 	} else {
+// 		$kenmerken_onbekend=$nieuw_kenmerk;
+// 	}
+// 	$query="UPDATE type SET
+// 				kenmerken_onbekend='".addslashes($kenmerken_onbekend)."',
+// 	            kenmerken='".addslashes(cms_remove_kenmerk($db->f("kenmerken"), $nieuw_kenmerk))."',
+// 	            kenmerken_nee='".addslashes(cms_remove_kenmerk($db->f("kenmerken_nee"), $nieuw_kenmerk))."',
+// 	            kenmerken_irrelevant='".addslashes(cms_remove_kenmerk($db->f("kenmerken_irrelevant"), $nieuw_kenmerk))."'
+// 	            WHERE type_id='".$db->f("type_id")."';";
+
+// 	$db2->query($query);
+// 	echo $query."<br /><br />";
+// }
+
+
+
+// // acc: huisdieren nee
+// $db->query("SELECT DISTINCT a.kenmerken, a.kenmerken_nee, a.kenmerken_onbekend, a.kenmerken_irrelevant, a.accommodatie_id FROM type t, accommodatie a WHERE a.wzt=2 AND t.accommodatie_id=a.accommodatie_id AND a.kenmerken REGEXP '[[:<:]]35[[:>:]]' AND a.kenmerken_nee NOT REGEXP '[[:<:]]13[[:>:]]';");
+// while($db->next_record()) {
+// 	$nieuw_kenmerk = "13";
+// 	if($db->f("kenmerken_nee")) {
+// 		$kenmerken_nee=$db->f("kenmerken_nee").",".$nieuw_kenmerk;
+// 	} else {
+// 		$kenmerken_nee=$nieuw_kenmerk;
+// 	}
+// 	$query="UPDATE accommodatie SET
+// 				kenmerken_nee='".addslashes($kenmerken_nee)."',
+// 	            kenmerken='".addslashes(cms_remove_kenmerk($db->f("kenmerken"), $nieuw_kenmerk))."',
+// 	            kenmerken_onbekend='".addslashes(cms_remove_kenmerk($db->f("kenmerken_onbekend"), $nieuw_kenmerk))."',
+// 	            kenmerken_irrelevant='".addslashes(cms_remove_kenmerk($db->f("kenmerken_irrelevant"), $nieuw_kenmerk))."'
+// 	            WHERE accommodatie_id='".$db->f("accommodatie_id")."';";
+
+// 	$db2->query($query);
+// 	echo $query."<br /><br />";
+// }
+// // type: huisdieren nee
+// $db->query("SELECT DISTINCT t.type_id, t.kenmerken, t.kenmerken_nee, t.kenmerken_onbekend, t.kenmerken_irrelevant, t.accommodatie_id FROM type t, accommodatie a WHERE a.wzt=2 AND a.accommodatie_id=t.accommodatie_id AND t.kenmerken REGEXP '[[:<:]]21[[:>:]]' AND t.kenmerken_nee NOT REGEXP '[[:<:]]11[[:>:]]';");
+// while($db->next_record()) {
+// 	$nieuw_kenmerk = "11";
+// 	if($db->f("kenmerken_nee")) {
+// 		$kenmerken_nee=$db->f("kenmerken_nee").",".$nieuw_kenmerk;
+// 	} else {
+// 		$kenmerken_nee=$nieuw_kenmerk;
+// 	}
+// 	$query="UPDATE type SET
+// 				kenmerken_nee='".addslashes($kenmerken_nee)."',
+// 	            kenmerken='".addslashes(cms_remove_kenmerk($db->f("kenmerken"), $nieuw_kenmerk))."',
+// 	            kenmerken_onbekend='".addslashes(cms_remove_kenmerk($db->f("kenmerken_onbekend"), $nieuw_kenmerk))."',
+// 	            kenmerken_irrelevant='".addslashes(cms_remove_kenmerk($db->f("kenmerken_irrelevant"), $nieuw_kenmerk))."'
+// 	            WHERE type_id='".$db->f("type_id")."';";
+
+// 	$db2->query($query);
+// 	echo $query."<br /><br />";
+// }
+
+
+
 
 
 // sauna

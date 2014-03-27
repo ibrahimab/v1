@@ -305,7 +305,7 @@ if($vars["seizoentype"]==1) {
 			"huisdierenniettoegestaan"=>20,
 		);
 		$keuzeopsomming[5]["addwhere"][19][]="(t.kenmerken REGEXP '[[:<:]]11[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
-		$keuzeopsomming[5]["addwhere"][20][]="(t.kenmerken REGEXP '[[:<:]]21[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]35[[:>:]]')";
+		$keuzeopsomming[5]["addwhere"][20][]="(t.kenmerken_nee REGEXP '[[:<:]]11[[:>:]]' OR a.kenmerken_nee REGEXP '[[:<:]]13[[:>:]]')";
 
 		# Kenmerken
 		$keuzeopsomming[6]["combinatiesmogelijk"]=1;
@@ -479,7 +479,7 @@ if($vars["seizoentype"]==1) {
 			"huisdierenniettoegestaan"=>20
 		);
 		$keuzeopsomming[5]["addwhere"][19][]="(t.kenmerken REGEXP '[[:<:]]11[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
-		$keuzeopsomming[5]["addwhere"][20][]="(t.kenmerken REGEXP '[[:<:]]21[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]35[[:>:]]')";
+		$keuzeopsomming[5]["addwhere"][20][]="(t.kenmerken_nee REGEXP '[[:<:]]11[[:>:]]' OR a.kenmerken_nee REGEXP '[[:<:]]13[[:>:]]')";
 
 		# Thema's
 		$keuzeopsomming[6]["combinatiesmogelijk"]=1;
@@ -990,7 +990,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 	$wherequery_zondertarieven=$wherequery;
 
-	$op_te_vragen_velden="a.wzt, t.type_id, t.websites, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, a.afstandpiste, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.naam".$vars["ttv"]." AS tnaam, a.zoekvolgorde AS azoekvolgorde, t.zoekvolgorde AS tzoekvolgorde, t.apart_tonen_in_zoekresultaten, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, p.kenmerken AS pkenmerken, p.afstandtotutrecht, s.kenmerken AS skenmerken, s.skigebied_id, s.naam".$vars["ttv"]." AS skigebied, s.kilometerpiste, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats";
+	$op_te_vragen_velden="a.wzt, t.type_id, t.websites, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, a.kenmerken_nee AS akenmerken_nee, a.afstandpiste, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS korteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.naam".$vars["ttv"]." AS tnaam, a.zoekvolgorde AS azoekvolgorde, t.zoekvolgorde AS tzoekvolgorde, t.apart_tonen_in_zoekresultaten, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, t.kenmerken_nee AS tkenmerken_nee, a.gps_lat, a.gps_long, t.gps_lat AS tgps_lat, t.gps_long AS tgps_long, p.kenmerken AS pkenmerken, p.afstandtotutrecht, s.kenmerken AS skenmerken, s.skigebied_id, s.naam".$vars["ttv"]." AS skigebied, s.kilometerpiste, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats";
 	if($_GET["fad"]>0 and !$_GET["altflexberekenen"]) {
 
 		# Kijken of korting van toepassing is (om "aanbieding" bij zoekresultaat te kunnen tonen)
@@ -1817,7 +1817,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					}
 
 					# Verfijnd zoeken: huisdieren niet toegestaan
-					if(check_kenmerken($db->f("tkenmerken"),21) or check_kenmerken($db->f("akenmerken"),35)) {
+					if(check_kenmerken($db->f("tkenmerken_nee"),11) or check_kenmerken($db->f("akenmerken_nee"),13)) {
 						$verfijnd["kenmerken"][20]++;
 					}
 

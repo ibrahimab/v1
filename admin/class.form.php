@@ -1888,7 +1888,11 @@ class form2 {
 								}
 							}
 						} else {
-							if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") trigger_error("WT-Error: field '".$key."': query has less or more than 1 result",E_USER_ERROR);
+							if($db0->num_rows()>1) {
+								if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") trigger_error("WT-Error: field '".$key."': query has more than 1 result (".$db0->lastquery.")",E_USER_ERROR);
+							} else {
+								if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") trigger_error("WT-Error: field '".$key."': query has less than 1 result (".$db0->lastquery.")",E_USER_ERROR);
+							}
 						}
 					}
 				}

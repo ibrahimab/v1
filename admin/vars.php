@@ -865,7 +865,6 @@ $vars["kenmerken_type_2"]=array(
 	18=>"wasmachine",
 	19=>"balkon (privé)",
 	20=>"tuin/terras of balkon",
-	21=>"huisdieren NIET toegestaan",
 	22=>"internetverbinding",
 	23=>"omheinde tuin",
 	24=>"internet via Wi-Fi",
@@ -886,6 +885,7 @@ $vars["kenmerken_type_2"]=array(
 # # verwijderd: 10=>"open haard/houtkachel",
 # # verwijderd: 12=>"allergievrij",
 # # verwijderd: 13=>"verhuur zondag t/m zondag",
+# # verwijderd: 21=>"huisdieren NIET toegestaan",
 
 
 
@@ -916,7 +916,6 @@ $vars["kenmerken_accommodatie_2"]=array(
 	32=>"wasmachine",
 	33=>"balkon (privé)",
 	34=>"tuin/terras of balkon",
-	35=>"huisdieren NIET toegestaan",
 	36=>"internetverbinding",
 	37=>"wijndomein",
 	38=>"omheinde tuin",
@@ -951,6 +950,7 @@ $vars["kenmerken_accommodatie_2"]=array(
 # # verwijderd: 17=>"levensgenieters"
 # # verwijderd: 20=>"wijnstreek",
 # # verwijderd: 21=>"citytrip",
+# # verwijderd: 35=>"huisdieren NIET toegestaan",
 
 
 $vars["kenmerken_plaats_2"]=array(
