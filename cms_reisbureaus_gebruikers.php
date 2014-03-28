@@ -175,7 +175,7 @@ function form_before_goto($form) {
 			}
 		}
 		if(!$links_naar_sites) $links_naar_sites="http://www.chalettour.nl/reisagent.php";
-		
+
 		$mail=new wt_mail;
 		$mail->fromname="Chalet.nl";
 		$mail->from="info@chalet.nl";
@@ -187,7 +187,7 @@ function form_before_goto($form) {
 
 		$mail->subject="Inloggegevens Chalettour.nl";
 
-		$mail->plaintext=txt("welkomstmail","reisbureau",array("v_websites"=>$links_naar_sites,"v_email"=>$form->input["email"],"v_wachtwoord"=>$password,"v_voornaam"=>$form->input["voornaam"]));
+		$mail->plaintext=txt("welkomstmail","reisbureau",array("v_websites"=>$links_naar_sites,"v_email"=>$form->input["email"],"v_wachtwoord"=>$password,"v_voornaam"=>trim($form->input["voornaam"])));
 		$mail->send();
 	}
 	if($_GET["edit"]==28) {

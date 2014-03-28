@@ -45,7 +45,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 
 						$mail->subject="Inloggegevens Chalettour.nl";
 
-						$mail->plaintext=txt("welkomstmail","reisbureau",array("v_websites"=>$links_naar_sites,"v_email"=>$data[0],"v_wachtwoord"=>$password,"v_voornaam"=>$data[2]));
+						$mail->plaintext=txt("welkomstmail","reisbureau",array("v_websites"=>$links_naar_sites,"v_email"=>$data[0],"v_wachtwoord"=>$password,"v_voornaam"=>trim($data[2])));
 						$mail->send();
 						echo "correct toegevoegd + mail verzonden";
 					} else {
