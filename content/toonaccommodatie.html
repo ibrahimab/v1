@@ -599,12 +599,120 @@ if($db->next_record()) {
 		echo "</h2>";
 	}
 
-	if($_GET["test"]) {
+	if($_GET["test"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
+		?>
+		<style>
+
+		.kenmerken_block {
+			margin-top: 10px;
+			margin-left: 20px;
+		}
+
+		ul.kenmerken {
+			float: left;
+			width: 200px;
+			text-align: left;
+			/*background-color: red;*/
+			margin: 0;
+			padding: 0;
+			padding-left: 4px;
+		}
+
+		ul.kenmerken li {
+			list-style-type: none;
+			background: url(<?php echo $vars["path"]; ?>pic/vinkje.gif?c=1) no-repeat 0 5px;
+			padding-left: 13px;
+			margin: 0;
+		}
+
+		.kenmerken_divider {
+			float: left;
+			width: 5px;
+			height: 10px;
+		}
+
+		</style>
+
+
+		<?php
+
+		$kenmerken_type = preg_split("@,@", $db->f("kenmerken_type"));
+		$kenmerken_accommodatie = preg_split("@,@", $db->f("kenmerken_accommodatie"));
+		$kenmerken_plaats = preg_split("@,@", $db->f("kenmerken_plaats"));
+		$kenmerken_skigebied = preg_split("@,@", $db->f("kenmerken_skigebied"));
+
+		if($vars["seizoentype"]==1) {
+			//
+			// winter
+			//
+			if(@in_array("23", $kenmerken_type) or @in_array("24", $kenmerken_accommodatie)) $toon_kenmerken["jacuzzi / bubbelbad"] = true;
+			if(@in_array("2", $kenmerken_type) or @in_array("2", $kenmerken_accommodatie)) $toon_kenmerken["aan de piste"] = true;
+
+			if(@in_array("18", $kenmerken_type) or @in_array("19", $kenmerken_accommodatie)) {
+				$toon_kenmerken["terras of balkon"] = true;
+			} elseif(@in_array("17", $kenmerken_type) or @in_array("18", $kenmerken_accommodatie)) {
+				$toon_kenmerken["balkon"] = true;
+			}
+
+			if(@in_array("1", $kenmerken_type) or @in_array("1", $kenmerken_accommodatie)) $toon_kenmerken["catering mogelijk"] = true;
+			if(@in_array("11", $kenmerken_type) or @in_array("13", $kenmerken_accommodatie)) $toon_kenmerken["huisdieren toegestaan"] = true;
+			if(@in_array("22", $kenmerken_type) or @in_array("23", $kenmerken_accommodatie)) $toon_kenmerken["internet via Wi-Fi"] = true;
+			if(@in_array("20", $kenmerken_type) or @in_array("21", $kenmerken_accommodatie)) $toon_kenmerken["internetverbinding"] = true;
+			if(@in_array("10", $kenmerken_type) or @in_array("12", $kenmerken_accommodatie)) $toon_kenmerken["open haard / houtkachel"] = true;
+			if(@in_array("10", $kenmerken_accommodatie)) $toon_kenmerken["sauna"] = true;
+			if(@in_array("3", $kenmerken_type) or @in_array("3", $kenmerken_accommodatie)) $toon_kenmerken["sauna (privé)"] = true;
+			if(@in_array("13", $kenmerken_type) or @in_array("15", $kenmerken_accommodatie)) $toon_kenmerken["verhuur zondag t/m zondag"] = true;
+			if(@in_array("16", $kenmerken_type) or @in_array("17", $kenmerken_accommodatie)) $toon_kenmerken["wasmachine"] = true;
+			if(@in_array("11", $kenmerken_accommodatie)) $toon_kenmerken["zwembad"] = true;
+			if(@in_array("4", $kenmerken_type) or @in_array("4", $kenmerken_accommodatie)) $toon_kenmerken["zwembad (privé)"] = true;
+
+
+		} else {
+
+		}
+
+		if(is_array($toon_kenmerken)) {
+
+			setlocale(LC_COLLATE, "nl_NL.ISO8859-1");
+			ksort($toon_kenmerken, SORT_LOCALE_STRING);
+			setlocale(LC_COLLATE, "C");
+
+			$aantal_kenmerken_per_kolom = round(count($toon_kenmerken) / 3);
+			$aantal_kenmerken_per_kolom = ceil(count($toon_kenmerken) / 3);
+			$aantal_kenmerken_per_kolom_eerste_kolom = ceil(count($toon_kenmerken) / 3);
+
+// echo $aantal_kenmerken_per_kolom;
+			echo "<div class=\"kenmerken_block\">";
+			echo "<ul class=\"kenmerken\">";
+			$kenmerken_kolomteller = 1;
+			foreach ($toon_kenmerken as $key => $value) {
+				$kenmerken_teller ++;
+				echo "<li>".wt_he($key)."</li>";
+
+				if($kenmerken_kolomteller==1) {
+					$check_aantal_kenmerken = $aantal_kenmerken_per_kolom_eerste_kolom;
+				} else {
+					$check_aantal_kenmerken = $aantal_kenmerken_per_kolom;
+				}
+
+				if(fmod($kenmerken_teller, $check_aantal_kenmerken)==0 and $kenmerken_teller<count($toon_kenmerken)) {
+					echo "</ul>";
+					echo "<div class=\"kenmerken_divider\"></div>";
+					echo "<ul class=\"kenmerken\">";
+
+					$kenmerken_kolomteller++;
+				}
+			}
+			echo "</ul>"; // close #kenmerken
+			echo "</div>"; // close .kenmerken_block
+			echo "<div class=\"clear\"></div>";
+
+		}
 	}
 
 	if($db->f("omschrijving") or $db->f("tomschrijving")) {
-		echo "<div style=\"margin-top:15px;\">".toon_tekst_acc_en_type($db->f("omschrijving"),$db->f("tomschrijving"))."</div>";
+		echo "<div style=\"margin-top:".($_GET["test"] ? "8" : "15")."px;\">".toon_tekst_acc_en_type($db->f("omschrijving"),$db->f("tomschrijving"))."</div>";
 	}
 	# trefwoorden uitgezet op verzoek van Grizzly (8 december 2010)
 #	if($vars["websitetype"]<>6) {
