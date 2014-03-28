@@ -48,27 +48,32 @@ if($_POST["filled"]) {
 	while(list($key,$value)=each($vars["tarief_velden"])) {
 		@reset($_POST[$value]);
 		while(list($key2,$value2)=@each($_POST[$value])) {
-			if($value=="aflopen_allotment") {
-				if($value2<>"") {
-					$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
+
+			// save only within the season
+			if(($key2>=$_POST["seizoen_begin"] or !$_POST["seizoen_begin"]) and ($key2<=$_POST["seizoen_eind"] or !$_POST["seizoen_eind"])) {
+
+				if($value=="aflopen_allotment") {
+					if($value2<>"") {
+						$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
+					} else {
+						$savequery[$key2].=", ".$value."=NULL";
+					}
 				} else {
-					$savequery[$key2].=", ".$value."=NULL";
+					$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
 				}
-			} else {
-				$savequery[$key2].=", ".$value."='".addslashes($value2)."'";
-			}
 
-			# kijken of de bruto-velden wel gevuld zijn
-			if($value=="bruto" or $value=="c_bruto") {
-				if($value2<>"" and $value2<>0) {
-					$ingevulde_waarde_opgeslagen=true;
+				# kijken of de bruto-velden wel gevuld zijn
+				if($value=="bruto" or $value=="c_bruto") {
+					if($value2<>"" and $value2<>0) {
+						$ingevulde_waarde_opgeslagen=true;
+					}
 				}
-			}
 
-			# Gegevens opslaan in tarief_archief
-			if($naam_var_bruto==$value) {
-				if($_POST["huidigbruto"][$key2]<>$_POST[$naam_var_bruto][$key2]) {
-					$db->query("INSERT INTO tarief_archief SET type_id='".addslashes($_GET["tid"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".addslashes($key2)."', datumtijd=FROM_UNIXTIME('".$datetime."'), bruto='".addslashes($_POST[$naam_var_bruto][$key2])."', user_id='".addslashes($login->user_id)."', autoxml='".($_POST["voorheen"][$key2] ? "1" : "0")."';");
+				# Gegevens opslaan in tarief_archief
+				if($naam_var_bruto==$value) {
+					if($_POST["huidigbruto"][$key2]<>$_POST[$naam_var_bruto][$key2]) {
+						$db->query("INSERT INTO tarief_archief SET type_id='".addslashes($_GET["tid"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".addslashes($key2)."', datumtijd=FROM_UNIXTIME('".$datetime."'), bruto='".addslashes($_POST[$naam_var_bruto][$key2])."', user_id='".addslashes($login->user_id)."', autoxml='".($_POST["voorheen"][$key2] ? "1" : "0")."';");
+					}
 				}
 			}
 		}
@@ -112,28 +117,33 @@ if($_POST["filled"]) {
 				// echo wt_dump($_POST["begin_".$value]);
 
 				foreach ($_POST["opmerking_".$value] as $key2 => $value2) {
-					if($value2) {
 
-						$eigenaar_blokkering_savequery="";
+					// save only within the season
+					if(($key2>=$_POST["seizoen_begin"] or !$_POST["seizoen_begin"]) and ($key2<=$_POST["seizoen_eind"] or !$_POST["seizoen_eind"])) {
 
-						if($_POST["begin_".$value][$key2]) {
-							// echo $_POST["begin_".$value][$key2];
-							$eigenaar_blokkering_begin = strtotime(preg_replace("@/@","-",$_POST["begin_".$value][$key2]));
-							$eigenaar_blokkering_savequery.=", begin=FROM_UNIXTIME(".$eigenaar_blokkering_begin.")";
-						}
-						if($_POST["eind_".$value][$key2]) {
-							$eigenaar_blokkering_eind = strtotime(preg_replace("@/@","-",$_POST["eind_".$value][$key2]));
-							$eigenaar_blokkering_savequery.=", eind=FROM_UNIXTIME(".$eigenaar_blokkering_eind.")";
-						}
-						if($_POST["deelnemers_".$value][$key2]) {
-							$eigenaar_blokkering_savequery.=", deelnemers='".addslashes($_POST["deelnemers_".$value][$key2])."'";
-						}
-						if($_POST["tekst_extra_options_".$value][$key2]) {
-							$eigenaar_blokkering_savequery.=", tekst_extra_options='".addslashes($_POST["tekst_extra_options_".$value][$key2])."'";
-						}
+						if($value2) {
 
-						$db->query("INSERT INTO eigenaar_blokkering SET type_id='".intval($_GET["tid"])."', seizoen_id='".intval($_GET["sid"])."', week='".intval($key2)."', soort='".intval($key)."', opmerking='".addslashes($value2)."'".$eigenaar_blokkering_savequery.";");
-						// echo $db->lq."<br/>";
+							$eigenaar_blokkering_savequery="";
+
+							if($_POST["begin_".$value][$key2]) {
+								// echo $_POST["begin_".$value][$key2];
+								$eigenaar_blokkering_begin = strtotime(preg_replace("@/@","-",$_POST["begin_".$value][$key2]));
+								$eigenaar_blokkering_savequery.=", begin=FROM_UNIXTIME(".$eigenaar_blokkering_begin.")";
+							}
+							if($_POST["eind_".$value][$key2]) {
+								$eigenaar_blokkering_eind = strtotime(preg_replace("@/@","-",$_POST["eind_".$value][$key2]));
+								$eigenaar_blokkering_savequery.=", eind=FROM_UNIXTIME(".$eigenaar_blokkering_eind.")";
+							}
+							if($_POST["deelnemers_".$value][$key2]) {
+								$eigenaar_blokkering_savequery.=", deelnemers='".addslashes($_POST["deelnemers_".$value][$key2])."'";
+							}
+							if($_POST["tekst_extra_options_".$value][$key2]) {
+								$eigenaar_blokkering_savequery.=", tekst_extra_options='".addslashes($_POST["tekst_extra_options_".$value][$key2])."'";
+							}
+
+							$db->query("INSERT INTO eigenaar_blokkering SET type_id='".intval($_GET["tid"])."', seizoen_id='".intval($_GET["sid"])."', week='".intval($key2)."', soort='".intval($key)."', opmerking='".addslashes($value2)."'".$eigenaar_blokkering_savequery.";");
+							// echo $db->lq."<br/>";
+						}
 					}
 				}
 			}
@@ -255,7 +265,10 @@ if($_POST["filled"]) {
 	if(is_array($savequery)) {
 		while(list($key,$value)=each($savequery)) {
 			while(list($key2,$value2)=each($value)) {
-				$db->query("INSERT INTO tarief_personen SET type_id='".addslashes($_GET["tid"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".$key."', personen='".$key2."'".$value2.";");
+				// save only within the season
+				if(($key>=$_POST["seizoen_begin"] or !$_POST["seizoen_begin"]) and ($key<=$_POST["seizoen_eind"] or !$_POST["seizoen_eind"])) {
+					$db->query("INSERT INTO tarief_personen SET type_id='".addslashes($_GET["tid"])."', seizoen_id='".addslashes($_GET["sid"])."', week='".$key."', personen='".$key2."'".$value2.";");
+				}
 			}
 		}
 	}
@@ -320,7 +333,10 @@ if($_POST["filled"]) {
 				if($inkoopkorting_percentage<>0) $setquery.=", inkoopkorting_percentage='".addslashes($inkoopkorting_percentage)."'";
 				if($inkoopkorting_euro<>0) $setquery.=", inkoopkorting_euro='".addslashes($inkoopkorting_euro)."'";
 
-				$db->query("INSERT INTO garantie SET type_id='".addslashes($_GET["tid"])."', aankomstdatum='".addslashes($key)."', aankomstdatum_exact='".addslashes($aankomstdatum_exact)."', vertrekdatum_exact='".addslashes($accinfo["vertrekdatum"])."', naam='Stock Chalet.nl', bruto='".addslashes($bruto)."', netto='".addslashes($netto)."'".$setquery.", leverancier_id='".addslashes($leverancierid)."';");
+				// save only within the season
+				if(($key>=$_POST["seizoen_begin"] or !$_POST["seizoen_begin"]) and ($key<=$_POST["seizoen_eind"] or !$_POST["seizoen_eind"])) {
+					$db->query("INSERT INTO garantie SET type_id='".addslashes($_GET["tid"])."', aankomstdatum='".addslashes($key)."', aankomstdatum_exact='".addslashes($aankomstdatum_exact)."', vertrekdatum_exact='".addslashes($accinfo["vertrekdatum"])."', naam='Stock Chalet.nl', bruto='".addslashes($bruto)."', netto='".addslashes($netto)."'".$setquery.", leverancier_id='".addslashes($leverancierid)."';");
+				}
 			}
 		}
 	}
@@ -360,16 +376,12 @@ if($_POST["filled"]) {
 	$db->query("SELECT naam, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen WHERE seizoen_id='".addslashes($_GET["sid"])."';");
 	if($db->next_record()) {
 		$seizoen["naam"]=$db->f("naam");
+
 		$seizoen["begin"]=$db->f("begin");
 		$seizoen["eind"]=$db->f("eind");
 
-		$seizoen["begin_echt"]=$db->f("begin");
-		$seizoen["eind_echt"]=$db->f("eind");
-
-
-		$seizoen["begin_overall"]=$db->f("begin");
-		$seizoen["eind_overall"]=$db->f("eind");
-
+		$seizoen["begin_complete"]=$db->f("begin");
+		$seizoen["eind_complete"]=$db->f("eind");
 	}
 
 	# Accommodatiegegevens laden
@@ -648,12 +660,8 @@ if($_POST["filled"]) {
 
 			if($db->f("begin") and $db->f("eind")) {
 				// other seizoen-begin and eind
-				// $seizoen["begin"]=$db->f("begin");
-				// $seizoen["eind"]=$db->f("eind");
-
-				$seizoen["begin_echt"]=$db->f("begin");
-				$seizoen["eind_echt"]=$db->f("eind");
-
+				$seizoen["begin"]=$db->f("begin");
+				$seizoen["eind"]=$db->f("eind");
 			}
 
 			if($db->f("hoogseizoencontrole") and $db->f("hoogseizoen_onjuiste_tarieven")) {

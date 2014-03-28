@@ -29,8 +29,8 @@ include("content/vertrekdagaanpassing.html");
 
 
 // determine season
-$week=$seizoen["begin_overall"];
-while($week<=$seizoen["eind_overall"]) {
+$week=$seizoen["begin_complete"];
+while($week<=$seizoen["eind_complete"]) {
 	if($vertrekdag[$_GET["sid"]][date("dm",$week)]) {
 		$vertrekdag_plusmin=$vertrekdag[$_GET["sid"]][date("dm",$week)];
 	} else {
@@ -172,14 +172,14 @@ if($seizoen["naam"]) {
 		echo "<div class=\"tarieven_seizoen_begin_eind\">Seizoen loopt van ";
 		echo "<select name=\"seizoen_begin\">";
 		foreach ($complete_season as $key => $value) {
-			echo "<option value=\"".$key."\"".($key==$seizoen["begin_echt"] ? " selected" : "").">".date("d/m", $value)."</option>";
+			echo "<option value=\"".$key."\"".($key==$seizoen["begin"] ? " selected" : "").">".date("d/m", $value)."</option>";
 		}
 		echo "</select>";
 		echo " tot en met ";
 
 		echo "<select name=\"seizoen_eind\">";
 		foreach ($complete_season as $key => $value) {
-			echo "<option value=\"".$key."\"".($key==$seizoen["eind_echt"] ? " selected" : "").">".date("d/m", $value)."</option>";
+			echo "<option value=\"".$key."\"".($key==$seizoen["eind"] ? " selected" : "").">".date("d/m", $value)."</option>";
 		}
 		echo "</select>";
 		echo "</div>"; // close .tarieven_seizoen_begin_eind
