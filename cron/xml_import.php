@@ -1135,6 +1135,10 @@ while(list($key,$value)=@each($soap_urls)) {
                                     if(!isset($xml_beschikbaar[$key][$accCode]))
                                         $xml_beschikbaar[$key][$accCode] = array();
 			}
+            
+	            // Update last import date for supplier.
+	            $xml_laatsteimport_leverancier[$key]=true;
+
 		}
 
 
