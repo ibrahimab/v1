@@ -2638,7 +2638,7 @@ $txt["en"]["tarieventabel"]["legenda_aanbieding"]="special offer";
 $txt["nl"]["tarieventabel"]["legenda_niet_beschikbaar"]="niet beschikbaar";
 $txt["en"]["tarieventabel"]["legenda_niet_beschikbaar"]="unavailable";
 
-$txt["nl"]["tarieventabel"]["legenda_vertrekdagaanpassing"]="afwijking in aankomstdag en/of verblijfsduur";
+$txt["nl"]["tarieventabel"]["legenda_vertrekdagaanpassing"]="afwijkende aankomstdag en/of verblijfsduur";
 $txt["en"]["tarieventabel"]["legenda_vertrekdagaanpassing"]="deviation in day of arrival and/or duration of stay";
 
 $txt["nl"]["tarieventabel"]["legenda_gekozen_datum_aantal_personen"]="geselecteerde datum/aantal personen";
