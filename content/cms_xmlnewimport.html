@@ -23,6 +23,79 @@
 #echo wt_dump($_POST);
 #exit;
 
+    /**
+     * Gets the images and differences in a table row
+     */
+    function getImagesForUpdates($images, $xml_importvalues, $type, $id) {
+        $isImagesIdentical = true;
+        $imageArray = unserialize($xml_importvalues);
+        
+        $name = ($type == "acc") ? "accommodatie" : "type";
+        
+        if(is_array($images))
+            foreach($images as $newImage){
+                 if((is_array($imageArray) && !in_array($newImage, $imageArray)) || !$imageArray){
+                    $isImagesIdentical = false;
+                    break;
+                 }
+            }
+        
+        $imagesFromXml = "Niet beschikbaar";            
+        if(is_array($images) && !empty($images)){
+            $imagesFromXml = "";
+            $diffImages = $images;
+            if(is_array($imageArray))
+                $diffImages = array_diff($images, $imageArray);
+
+            foreach($diffImages as $xml_image){
+               $imagesFromXml .= "<input type='checkbox' style='margin-top:10px; margin-bottom:10px; margin-right:10px;' name='imageFromXml-".$type."[".$id."][]' value='$xml_image' /><a href='$xml_image' target='_blank' /> $xml_image </a> <Br>";
+           }
+        }                                               
+
+        $imagesFromDb = "Niet beschikbaar";
+        if(is_array($imageArray) && !empty($imageArray)) {
+            $imagesFromDb = "";
+            foreach($imageArray as $imgArray){
+                    $imgArr = $imgArray;
+                $imagesFromDb .= "<a href='$imgArr'>$imgArr</a><br>";
+            }
+         }
+         
+        $fromXml = (isset($_GET['toonwijzigingen'])) ? $imagesFromXml : "";
+        $fromDb  = (isset($_GET['toonwijzigingen'])) ? $imagesFromDb : "";
+            
+        if(( $isImagesIdentical == false &&  isset($_GET['toonwijzigingen']))) {                                                        
+
+            echo "<tr style=\"background-color:yellow;\"><td style=\"width:200px;\">Afbeelding ($name)</td><td>".$fromXml."&nbsp;</td></tr>";
+            echo "<tr style=\"background-color:#ebebeb;\"><td style=\"width:200px;\">Afbeelding ($name) (voorheen)</td><td>".$fromDb."&nbsp;</td></tr>";
+
+        } else {
+            echo "<tr><td style=\"width:200px;\">Afbeelding ($name) </td><td >".$fromDb."&nbsp;</td></tr>";
+        }
+        unset($imagesFromDb);
+        unset($imagesFromXml);
+    }
+    
+    /**
+     * Get the last iteration of an image. 
+     * @param int $id
+     * @param string $type
+     * @return int
+     */
+    function getLastImageNumber($id, $type) {
+        global $unixdir;
+        $image = imagearray(array($type), array($id));
+        
+        if(!is_array($image['pic']))
+            return 0;    
+        
+        $lastImage = array_pop($image['pic']);
+        $lastImagArray = explode("/", $lastImage);
+        $imageName = array_pop($lastImagArray);
+        $image = explode("-", $imageName);
+        $teller = explode(".", $image[1]);
+        return $teller[0];
+    } 
 if(!$cms_xmlnewimport_init) {
 
 	function xml_striphtml($code) {
@@ -330,7 +403,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 		}
 
 		# Get images only when importing the accommodation
-		if(isset($_POST["filled"]) && !isset($_GET["checkforchanges"]) && !isset($_GET["toonwijzigingen"]) && !isset($_GET["herstel"])) {
+		if(($_GET['lev']==131 || isset($_POST["filled"])) && !isset($_GET["checkforchanges"]) && ($_GET['lev']==131 || !isset($_GET["toonwijzigingen"]) ) && !isset($_GET["herstel"])) {
 			$propertyimage=getxml("posarellivillas","http://export.posarellivillas.com/propertyImage.xml");
 			$unitimage=getxml("posarellivillas","http://export.posarellivillas.com/unitImage.xml");
 
@@ -429,7 +502,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 						}
 
 						// Get the images only when saving the accommodations
-						if(isset($_POST["filled"]) || isset($_GET["checkforchanges"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["herstel"])) {
+						if(isset($_POST["filled"]) || isset($_GET["checkforchanges"]) || isset($_GET["toonwijzigingen"]) || ($_GET['lev'] == 131) || isset($_GET["herstel"])) {
 
 							if(is_array($propertydesc_id[$value["id"]])) {
 								reset($propertydesc_id[$value["id"]]);
@@ -490,6 +563,38 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 			$new = $new + $excluded_acc;
 			unset($excluded_acc);
 		}
+                
+        if(isset($_GET['insertDefaultImages']) && ($_GET['toonwijzigingen'] == 1)){
+            $isInsertDefaultImages = false;
+           
+            foreach($new as $xmlcode=>$item){
+                $query = "SELECT COUNT(veld) AS imageNumber FROM xml_importvalues WHERE leverancier_id=131 AND veld='image' AND xmlcode=".$xmlcode;
+                $db->query($query);
+                $db->next_record();
+                if($db->f("imageNumber") == 0){
+                    $imageData = serialize($item["typeafbeelding"]);
+                    $query = "INSERT INTO xml_importvalues set leverancier_id=131, veld='image', xmlcode='$xmlcode', soort='2', content='".mysql_real_escape_string($imageData)."', datetime= NOW() ";
+                    $db->query($query);
+                    $isInsertDefaultImages = true;
+                }
+                        
+                $query = "SELECT COUNT(veld) AS imageNumber FROM xml_importvalues WHERE leverancier_id=131 AND veld='image' AND xmlcode=".$item["accid"];
+                $db->query($query);
+                $db->next_record();
+                if($db->f("imageNumber") == 0){
+                    $imageData = serialize($item["accafbeelding"]);
+                    $query = "INSERT INTO xml_importvalues set leverancier_id=131, veld='image', xmlcode='".$item["accid"]."', soort='1', content='". mysql_real_escape_string($imageData)."', datetime = NOW()";
+                    $db->query($query);     
+                    $isInsertDefaultImages = true;
+                }
+            }
+            
+            if($isInsertDefaultImages == false){
+                echo "<script>alert('The changes are up to date');</script>";
+            } else {
+                echo "<script>alert('The accommodations and types have been updated!');</script>";
+            }
+        }
 
 	} elseif($_GET["lev"]==144) {
 		#
@@ -638,7 +743,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
             $counter = 1;
 
             while(list($key,$value)=each($foundProperties)) {
-                if(!($values instanceof SoapFault)) {
+                if(!($value instanceof SoapFault) && !empty($value)) {
 
 					$check_import = check_import_stage($key, $type_xmlcode, $verberg_xmlcode, $imported_acc, $counter);
 
@@ -680,7 +785,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 						} else {
 							$accommodation = $value["info"];
 						}
-						if(!($accommodation instanceof SoapFault)) {
+						if(!($accommodation instanceof SoapFault) && !empty($accommodation)) {
 							$accommodation->setRegion($bekend_skigebied);
 							$accommodation->setPlace($bekend_plaats);
 
@@ -707,7 +812,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 							$counter++;
 						}
                     }
-                } else {
+                } elseif(!empty($value)) {
                     echo $value->getMessage();
                 }
             }
@@ -891,9 +996,14 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 			reset($new);
 			while(list($key,$value)=each($new)) {
 				if(!$verberg_xmlcode[$key]) {
-					checkforxmlchanges($xml_importvalues,array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
-					checkforxmlchanges($xml_importvalues,array("naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
-				}
+                    if($_GET["lev"] == 131){
+                        checkforxmlchanges($xml_importvalues,array("image"=>serialize($value["accafbeelding"]), "naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
+                        checkforxmlchanges($xml_importvalues,array("image"=>serialize($value["typeafbeelding"]), "naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
+                    }else { 
+                        checkforxmlchanges($xml_importvalues,array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
+                        checkforxmlchanges($xml_importvalues,array("naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
+                    }
+                }
 			}
 		}
 #		exit;
@@ -999,7 +1109,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                             $setquery_acc.=", soortaccommodatie='".addslashes($levinfo["soortaccommodatie"])."'";
                         }
 
-						if($_GET["lev"] == 421 || $_GET["lev"] == 131 || $_GET["lev"] == 35) {
+						if($_GET["lev"] == 421 || $_GET["lev"] == 35) {
 							if(isset($value["accafbeelding"]) && is_array($value["accafbeelding"])) {
 								# set the images
 								$i10 = 0;
@@ -1008,7 +1118,29 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 									$_POST["imgvolgorde"]["acc"][$value["accid"]][$img] = $i10;
 								}
 							}
-						}
+						} elseif ($_GET["lev"]==131) {
+							   
+                             if(isset($_POST['imageFromXml-acc'][$value["accid"]]) && is_array($_POST['imageFromXml-acc'][$value["accid"]]) && isset($_GET['toonwijzigingen'])) {
+								# set the images
+								$i10 = 0;
+								$accImages = array_unique($_POST['imageFromXml-acc'][$value["accid"]]);
+                                                                
+								foreach($accImages as $img) {
+									$i10 += 10;
+									if(!in_array($img, (array)unserialize($xml_importvalues[1][$value["accid"]]["image"])))
+										$_POST["imgvolgorde"]["acc"][$value["accid"]][$img] = $i10;
+								}
+							} elseif(!isset($_GET['toonwijzigingen']) && $value["accafbeelding"] && is_array($value["accafbeelding"]) ){
+								# set the images
+								$i10 = 0;                                                                
+								foreach($value["accafbeelding"] as $img) {
+									$i10 += 10;
+									if(!in_array($img, (array)unserialize($xml_importvalues[1][$value["accid"]]["image"])))
+										$_POST["imgvolgorde"]["acc"][$value["accid"]][$img] = $i10;
+								}
+							}                                                    
+                        }
+
 
                         $db->query("SELECT accommodatie_id FROM accommodatie WHERE leverancierscode='".addslashes($value["accid"])."' AND leverancier_id='".addslashes($_GET["lev"])."';");
 						if($db->next_record()) {
@@ -1022,8 +1154,20 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 								$accid=$db->insert_id();
 							}
 						}
-						savexmlfield(array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"omschrijving_en"=>$value["accomschrijving_en"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
-
+                                                
+                        if($_GET["lev"] == 131){
+                            if(unserialize($xml_importvalues[1][$value["accid"]]["image"]) != false){
+                                $savePictures = array_merge((array)unserialize($xml_importvalues[1][$value["accid"]]["image"]), array_keys((array)$_POST["imgvolgorde"]["acc"][$value["accid"]]));
+                                                        
+                            }else {
+                                $savePictures = array_keys((array)$_POST["imgvolgorde"]["acc"][$value["accid"]]);
+                            }
+                                                   
+                            savexmlfield(array("image"=>serialize($savePictures), "naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"omschrijving_en"=>$value["accomschrijving_en"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
+                        }else{
+                            savexmlfield(array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"omschrijving_en"=>$value["accomschrijving_en"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);                                                    
+                        }
+                                                
 						if($_GET["toonwijzigingen"] and $_POST["uniekeid"][$key]=="verberg") {
 							# wijziging_bekend op NULL zetten
 							$db->query("UPDATE xml_importvalues SET wijziging_bekend=NULL WHERE leverancier_id='".addslashes($_GET["lev"])."' AND xmlcode='".addslashes($value["accid"])."';");
@@ -1031,24 +1175,46 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 						if($accid) {
 							# Tabel "type"
-							if(!$_GET["toonwijzigingen"]) {
+                                                        
+							if(!$_GET["toonwijzigingen"] || ($_GET["lev"] == 131)) {
 								$setquery_type="accommodatie_id='".$accid."', leverancier_id='".addslashes($_GET["lev"])."', naam='".addslashes($value["typenaam"])."', bestelnaam='".addslashes($value["typenaam"])."', code='".addslashes($key)."', xmltarievenimport='".$levinfo["xmltarievenimport"]."', tonenzoekformulier=1, zoekvolgorde=3, kwaliteit='".addslashes($value["kwaliteit"])."', optimaalaantalpersonen='".addslashes($value["optimaalaantalpersonen"])."', maxaantalpersonen='".addslashes($value["maxaantalpersonen"])."', oppervlakte='".addslashes($value["oppervlakte"])."', slaapkamers='".addslashes($value["slaapkamers"])."', badkamers='".addslashes($value["badkamers"])."', indeling='".addslashes($value["typeindeling"])."', indeling_en='".addslashes($value["typeindeling_en"])."', exclusief='".addslashes($value["typeexclusief"])."', controleren=1, editdatetime=NOW()";
-
+                                                
                                 # Added for Interhome
                                 if($_GET["lev"] == 421) {
                                     $setquery_type.=", gps_lat='".addslashes($value["gps_lat"])."', gps_long='".addslashes($value["gps_long"])."', inclusief='".addslashes($value["inclusief"])."' ";
 								}
-
-								if($_GET["lev"] == 421 || $_GET["lev"] == 131 || $_GET["lev"] == 35) {
+                                                                
+								if($_GET["lev"] == 421 || $_GET["lev"] == 35) {
+                                                                        
 									if(isset($value["typeafbeelding"]) && is_array($value["typeafbeelding"])) {
 										# set the images
 										$i10 = 0;
 										foreach($value["typeafbeelding"] as $img) {
 											$i10 += 10;
-											$_POST["imgvolgorde"]["type"][$key][$img] = $i10;
+                                           	$_POST["imgvolgorde"]["type"][$key][$img] = $i10;
+                                                                                      
 										}
-									}
-                                }
+                                    }
+								} elseif($_GET["lev"] == 131) {
+                                        if(isset($_POST["imageFromXml-type"]) && is_array($_POST["imageFromXml-type"]) && isset($_GET['toonwijzigingen']) ) {
+                                            # set the images
+                                            $i10 = 0;
+                                            $typeImages = $_POST["imageFromXml-type"][$key];
+                                            foreach($typeImages as $img) {
+                                                $i10 += 10;
+                                                if(!in_array($img, (array)unserialize($xml_importvalues[2][$key]["image"])))
+                                                    $_POST["imgvolgorde"]["type"][$key][$img] = $i10;                                                                                      
+                                                }
+                                        } elseif (!isset($_GET['toonwijzigingen']) && isset($value["typeafbeelding"]) && is_array($value["typeafbeelding"])){
+                                            # set the images
+                                            $i10 = 0;
+                                            foreach($value["typeafbeelding"] as $img) {
+                                                $i10 += 10;
+                                                if(!in_array($img, (array)unserialize($xml_importvalues[2][$key]["image"])))
+                                                    $_POST["imgvolgorde"]["type"][$key][$img] = $i10;                                                                                      
+                                                }                        
+                                        }
+                                } 
 
                                 $db->query("SELECT t.type_id, t.accommodatie_id FROM type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancierscode='".addslashes($key)."' AND a.leverancier_id='".addslashes($_GET["lev"])."';");
 								if($db->next_record()) {
@@ -1062,9 +1228,19 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 									$db->query("INSERT INTO type SET leverancierscode='".addslashes($key)."', tonen=0, adddatetime=NOW(), websites='".addslashes($levinfo["websites"])."', ".$setquery_type);
 									$typeid=$db->insert_id();
 								}
-							}
-							savexmlfield(array("naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"indeling_en"=>$value["typeindeling_en"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
+							} 
+                            if($_GET["lev"] == 131){                            
+                                    if(unserialize($xml_importvalues[2][$key]["image"]) != false){
+                                        $savePictures = array_merge((array)unserialize($xml_importvalues[2][$key]["image"]), array_keys((array)$_POST["imgvolgorde"]["type"][$key]));
+                                    } else {
+                                        $savePictures = (array)array_keys((array)$_POST["imgvolgorde"]["type"][$key]);
+                                    }
 
+                                savexmlfield(array("image"=>serialize($savePictures), "naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"indeling_en"=>$value["typeindeling_en"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
+                            }else {
+                                   savexmlfield(array("naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"indeling_en"=>$value["typeindeling_en"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
+                            }
+                            
 							if($_GET["toonwijzigingen"] and $_POST["uniekeid"][$key]=="verberg") {
 								# wijziging_bekend op NULL zetten
 								$db->query("UPDATE xml_importvalues SET wijziging_bekend=NULL WHERE leverancier_id='".addslashes($_GET["lev"])."' AND xmlcode='".addslashes($key)."';");
@@ -1085,7 +1261,13 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 									if($value2>0) {
 										$tempfilename="tmp/".md5(uniqid()).".jpg";
 										file_put_contents($tempfilename,$file);
-
+                                        
+                                        // get last image id to avoid override                                        
+                                        $imgteller = (int) getLastImageNumber($accid, "accommodaties_aanvullend");
+                                        if($imgteller >= 1){
+                                            $hoofdafbeelding = true;
+                                        }
+                                                                                
 										$imgsize=getimagesize($tempfilename);
 										if($imgsize[0]>$imgsize[1]) {
 											# Landscape-afbeelding: opslaan
@@ -1129,6 +1311,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 									if($value2>0) {
 										$tempfilename="tmp/".md5(uniqid()).".jpg";
 										file_put_contents($tempfilename,$file);
+                                        $imgteller = (int) getLastImageNumber($typeid, "types");
 
 										$imgsize=getimagesize($tempfilename);
 										if($imgsize[0]>$imgsize[1]) {
@@ -1195,6 +1378,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 						}
 						echo "<tr><td style=\"width:200px;\">XML-code</td><td>".htmlentities($key)." (type) - ".htmlentities($value["accid"])." (accommodatie)&nbsp;</td></tr>";
 
+                        
 						# Accommodatienaam
 						if($xml_importvalues[1][$value["accid"]]["naam"] and $value["accnaam"]<>$xml_importvalues[1][$value["accid"]]["naam"] and $_GET["toonwijzigingen"]) {
 							echo "<tr style=\"background-color:yellow;\"><td style=\"width:200px;\">Accommodatienaam</td><td>".htmlentities($value["accnaam"])."&nbsp;</td></tr>";
@@ -1324,9 +1508,20 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 						} else {
 							echo "<tr><td valign=\"top\">Oppervlakte</td><td valign=\"top\">".nl2br(htmlentities($value["oppervlakte"]))."&nbsp;</td></tr>";
 						}
+                        
+                        if($_GET["lev"] == 131){
+                            # Images by accommodation
+                            getImagesForUpdates($value["accafbeelding"], $xml_importvalues[1][$value["accid"]]["image"], 'acc', $value["accid"]);
 
+                            // Images by type
+                            getImagesForUpdates($value["typeafbeelding"], $xml_importvalues[2][$key]["image"], 'type', $key);
+                        }
+                                                
 						if(!$_GET["toonwijzigingen"]) {
-
+                            if($_GET["lev"] == 131){
+                                unset($value["typeafbeelding"]);
+                                unset($value["accafbeelding"]);
+                            }
 							# Afbeeldingen (geen controle op wijzigingen)
 							if(is_array($value["typeafbeelding"])) {
 								$afbeeldingen_doorlopen["Type-afbeeldingen"]=$value["typeafbeelding"];
