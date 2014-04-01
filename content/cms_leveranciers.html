@@ -128,6 +128,9 @@ if($_GET["schoonmaakkosten"]) {
 						if($db->num_rows()) {
 							echo "<label> Wijzigingen bekijken bij XML: <input type=\"checkbox\" name=\"toonwijzigingen\" value=\"1\" /></label>";
 						}
+                        if($_GET["8k0"] == 421){
+                            echo "<label> Go to accommodation <input type='text' id='accCodeIh' name='acc_code_ih' /></label> ";
+                        }
 						echo "  <input type=\"submit\" />
 							</form>
 						</li>";

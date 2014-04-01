@@ -728,9 +728,13 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 				}
 			}
 		} elseif(isset($_GET["verborgen"])) {
-			foreach($verberg_xmlcode as $vCode => $val) {
-				$foundProperties[$vCode] = $interHome->getAccommodation($vCode);
-			}
+            if(is_array($verberg_xmlcode)){
+                foreach($verberg_xmlcode as $vCode => $val) {
+                    $foundProperties[$vCode] = $interHome->getAccommodation($vCode);
+                }
+            }
+        } elseif (!empty($_GET['acc_code_ih'])){
+            $foundProperties[$_GET['acc_code_ih']] = $interHome->getAccommodation($_GET['acc_code_ih']);
 		} else {
 			$foundProperties = $interHome->getAccommodations($countryCode, $regionCode, $placeCode = "");
 		}
@@ -754,7 +758,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					}
 
 					$tmp_value = array();
-					if(isset($_GET["checkforchanges"]) || isset($_GET["verborgen"])) {
+					if(isset($_GET["checkforchanges"]) || isset($_GET["verborgen"]) || !empty($_GET['acc_code_ih'])) {
 						$tmp_value["info"] = $value;
 						$tmp_value["region"] = $value->getRegion();
 						$tmp_value["place"] = $value->getPlace();
@@ -790,10 +794,10 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 							$accommodation->setPlace($bekend_plaats);
 
 							$property[$key] = $accommodation;
-							if(!isset($_GET["verborgen"]) && (isset($_POST["filled"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["checkforchanges"]) || isset($_GET["herstel"]))){
+							if(!isset($_GET["verborgen"]) && (isset($_GET['acc_code_ih']) || isset($_POST["filled"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["checkforchanges"]) || isset($_GET["herstel"]))){
 
 								// Get the last dates for each season type (winter=1, summer=2)
-								$q = "SELECT max(begin) as begin, type FROM `seizoen` WHERE type = '".$levinfo["wzt"]."' AND eind>NOW() AND tonen=3 LIMIT 1";
+								$q = "SELECT begin, type FROM `seizoen` WHERE type = '".$levinfo["wzt"]."' AND eind>NOW() AND begin<NOW()";
 								$db->query($q);
 								$db->next_record();
 								$startDate = $db->f("begin");
@@ -840,7 +844,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                     $new[$uniekeid]["typeindeling"] = iconv("UTF-8", "CP1252", $value->getInsideDescription());
                     $new[$uniekeid]["soortaccommodatie"] = $type_id;
 	
-					if(isset($_POST["filled"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["checkforchanges"]) || isset($_GET["herstel"])) {
+					if(isset($_POST["filled"]) || !empty($_GET['acc_code_ih']) || isset($_GET["toonwijzigingen"]) || isset($_GET["checkforchanges"]) || isset($_GET["herstel"])) {
 						$new[$uniekeid]["accnaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
 						$new[$uniekeid]["typenaam"] = iconv("UTF-8", "CP1252", $value->getHouseName());
 						$new[$uniekeid]["accomschrijving"] = iconv("UTF-8", "CP1252", $value->getOutsideDescription());
@@ -1367,7 +1371,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					if($_GET["verborgen"] and $verberg_xmlcode[$key] and !$_POST["verborgenfilled"]) {
 						$typeteller++;
 						echo "<tr><td align=\"right\">".$typeteller."</td><td>".htmlentities($value["accnaam"]." ".$value["typenaam"]." ".$plaats_naam[$value["plaats_id"]]." (".($skigebied_naam[$value["skigebied_id"]] ? $skigebied_naam[$value["skigebied_id"]] : "onbekende regio").")")." - <span class=\"grey\">".$key."</span></td><td><input type=\"checkbox\" name=\"verborgenid[".$key."]\" value=\"1\"></td></tr>\n";
-					} elseif((!$_GET["verborgen"] and !$verberg_xmlcode[$key]) or ($_GET["verborgen"] and $_POST["verborgenid"][$key]==1)) {
+					} elseif((!$_GET["verborgen"] and !$verberg_xmlcode[$key]) or ($_GET["verborgen"] and $_POST["verborgenid"][$key]==1) or ( ($_GET["lev"] == 421) && ($_GET["acc_code_ih"] == $key) )) {
 
 						$typeteller++;
 

@@ -156,7 +156,17 @@ $(document).ready(function() {
 	//
 	// jquery
 	//
-
+        $("#accCodeIh").on("focus", function() {
+            $("#ih_country").prop("disabled", true);
+            $("#ih_region").prop("disabled", true);
+        });
+        
+        $("#accCodeIh").focusout( function() {
+            if($("#accCodeIh").val() == ""){
+                $("#ih_country").prop("disabled", false);
+                $("#ih_region").prop("disabled", false);
+            }
+        });
 	$('.submenuclass_up').slideUp('normal');
 	$('#aflopend_optie_klant').slideUp('normal');
 	$('#aflopend_optie_leverancier').slideUp('normal');
