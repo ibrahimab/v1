@@ -648,13 +648,6 @@ if($db->next_record()) {
 			//
 			if(@in_array("23", $kenmerken_type) or @in_array("24", $kenmerken_accommodatie)) $toon_kenmerken["jacuzzi / bubbelbad"] = true;
 			if(@in_array("2", $kenmerken_type) or @in_array("2", $kenmerken_accommodatie)) $toon_kenmerken["aan de piste"] = true;
-
-			if(@in_array("18", $kenmerken_type) or @in_array("19", $kenmerken_accommodatie)) {
-				$toon_kenmerken["terras of balkon"] = true;
-			} elseif(@in_array("17", $kenmerken_type) or @in_array("18", $kenmerken_accommodatie)) {
-				$toon_kenmerken["balkon"] = true;
-			}
-
 			if(@in_array("1", $kenmerken_type) or @in_array("1", $kenmerken_accommodatie)) $toon_kenmerken["catering mogelijk"] = true;
 			if(@in_array("11", $kenmerken_type) or @in_array("13", $kenmerken_accommodatie)) $toon_kenmerken["huisdieren toegestaan"] = true;
 			if(@in_array("22", $kenmerken_type) or @in_array("23", $kenmerken_accommodatie)) $toon_kenmerken["internet via Wi-Fi"] = true;
