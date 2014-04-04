@@ -167,22 +167,6 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[3]["addwhere"][7][]="(t.kenmerken REGEXP '[[:<:]]10[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]12[[:>:]]')";
 	$keuzeopsomming[3]["addwhere"][43][]="(t.kenmerken REGEXP '[[:<:]]5[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]5[[:>:]]')";
 
-	# Thema's (winter)
-	$keuzeopsomming[5]["combinatiesmogelijk"]=1;
-	$keuzeopsomming[5]["name"]="themas";
-	$keuzeopsomming[5]["verfijndname"]="kenmerken";
-	$keuzeopsomming[5]["getname"]="vf_kenm";
-	$keuzeopsomming[5]["fields"]=array(
-		"charmanteskidorpen"=>44,
-		"10voorapresski"=>45,
-		"superskistations"=>47,
-		"winterwellness"=>46
-	);
-	$keuzeopsomming[5]["addwhere"][44][]="(p.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
-	$keuzeopsomming[5]["addwhere"][45][]="(p.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
-	$keuzeopsomming[5]["addwhere"][46][]="(t.kenmerken REGEXP '[[:<:]]9[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]9[[:>:]]')";
-	$keuzeopsomming[5]["addwhere"][47][]="(p.kenmerken REGEXP '[[:<:]]14[[:>:]]')";
-
 	# Aantal badkamers
 	$keuzeopsomming[4]["combinatiesmogelijk"]=0;
 	$keuzeopsomming[4]["name"]="aantalbadkamers";
@@ -204,6 +188,22 @@ if($vars["seizoentype"]==1) {
 	$keuzeopsomming[4]["addwhere"][5][]="t.badkamers>=6";
 	$keuzeopsomming[4]["addwhere"][6][]="t.badkamers>=8";
 	$keuzeopsomming[4]["addwhere"][7][]="t.badkamers>=10";
+
+	# Thema's (winter)
+	$keuzeopsomming[5]["combinatiesmogelijk"]=1;
+	$keuzeopsomming[5]["name"]="themas";
+	$keuzeopsomming[5]["verfijndname"]="kenmerken";
+	$keuzeopsomming[5]["getname"]="vf_kenm";
+	$keuzeopsomming[5]["fields"]=array(
+		"charmanteskidorpen"=>44,
+		"10voorapresski"=>45,
+		"superskistations"=>47,
+		"winterwellness"=>46
+	);
+	$keuzeopsomming[5]["addwhere"][44][]="(p.kenmerken REGEXP '[[:<:]]13[[:>:]]')";
+	$keuzeopsomming[5]["addwhere"][45][]="(p.kenmerken REGEXP '[[:<:]]6[[:>:]]')";
+	$keuzeopsomming[5]["addwhere"][46][]="(t.kenmerken REGEXP '[[:<:]]9[[:>:]]' OR a.kenmerken REGEXP '[[:<:]]9[[:>:]]')";
+	$keuzeopsomming[5]["addwhere"][47][]="(p.kenmerken REGEXP '[[:<:]]14[[:>:]]')";
 
 } else {
 	#
