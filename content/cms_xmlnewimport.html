@@ -734,7 +734,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                 }
             }
         } elseif (!empty($_GET['acc_code_ih'])){
-            $foundProperties[$_GET['acc_code_ih']] = $interHome->getAccommodation($_GET['acc_code_ih']);
+            $foundProperties[$_GET['acc_code_ih']] = $interHome->getAccommodation(trim($_GET['acc_code_ih']));
 		} else {
 			$foundProperties = $interHome->getAccommodations($countryCode, $regionCode, $placeCode = "");
 		}
@@ -751,9 +751,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 					$check_import = check_import_stage($key, $type_xmlcode, $verberg_xmlcode, $imported_acc, $counter);
 
-					if($check_import == "continue") {
+					if($check_import == "continue" && empty($_GET['acc_code_ih'])) {
 						continue;
-					} elseif($check_import == "break") {
+					} elseif($check_import == "break" && empty($_GET['acc_code_ih'])) {
 						break;
 					}
 
@@ -785,7 +785,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
                     if($bekend_skigebied && $bekend_plaats) {
 						if(!isset($_GET["verborgen"]) && (isset($_POST["filled"]) || isset($_GET["toonwijzigingen"]) || isset($_GET["herstel"]))){
-							$accommodation = $interHome->getAccommodation($key);
+                            $accommodation = $interHome->getAccommodation($key);
 						} else {
 							$accommodation = $value["info"];
 						}
@@ -1103,7 +1103,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					if($_POST["uniekeid"][$key]=="import" or ($_GET["toonwijzigingen"] and $_POST["uniekeid"][$key]=="verberg")) {
 						# Tabel "accommodatie"
 						$setquery_acc="wzt='".$levinfo["wzt"]."', naam='".addslashes($value["accnaam"])."', bestelnaam='".addslashes($value["accnaam"])."', internenaam='".addslashes($value["accnaam"])."', controleren=1, leverancier_id='".addslashes($_GET["lev"])."', skipas_id='".addslashes($levinfo["skipas_id"])."', plaats_id='".addslashes($value["plaats_id"])."', exclusief='".addslashes($value["exclusief"])."', toonper='".addslashes($levinfo["toonper"])."', omschrijving='".addslashes($value["accomschrijving"])."', omschrijving_en='".addslashes($value["accomschrijving_en"])."', indeling='".addslashes($value["accindeling"])."', optiedagen_klanten_vorig_seizoen=10, editdatetime=NOW()";
-
+                        if(isset($verberg_xmlcode[$key])){
+                            $db->query("DELETE FROM xml_verberg_accommodatie where xmlcode='".addslashes($key)."'");
+                        }
                         # Added for Interhome
                         if($_GET["lev"] == 421) {
                             $setquery_acc.=", gps_lat='".addslashes($value["gps_lat"])."', gps_long='".addslashes($value["gps_long"])."', soortaccommodatie='".addslashes($value["soortaccommodatie"])."', inclusief='".addslashes($value["inclusief"])."' ";
@@ -1371,7 +1373,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					if($_GET["verborgen"] and $verberg_xmlcode[$key] and !$_POST["verborgenfilled"]) {
 						$typeteller++;
 						echo "<tr><td align=\"right\">".$typeteller."</td><td>".htmlentities($value["accnaam"]." ".$value["typenaam"]." ".$plaats_naam[$value["plaats_id"]]." (".($skigebied_naam[$value["skigebied_id"]] ? $skigebied_naam[$value["skigebied_id"]] : "onbekende regio").")")." - <span class=\"grey\">".$key."</span></td><td><input type=\"checkbox\" name=\"verborgenid[".$key."]\" value=\"1\"></td></tr>\n";
-					} elseif((!$_GET["verborgen"] and !$verberg_xmlcode[$key]) or ($_GET["verborgen"] and $_POST["verborgenid"][$key]==1) or ( ($_GET["lev"] == 421) && ($_GET["acc_code_ih"] == $key) )) {
+					} elseif((!$_GET["verborgen"] and !$verberg_xmlcode[$key]) or ($_GET["verborgen"] and $_POST["verborgenid"][$key]==1) or ( ($_GET["lev"] == 421) && (trim($_GET["acc_code_ih"]) == $key) )) {
 
 						$typeteller++;
 
