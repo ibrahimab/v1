@@ -372,7 +372,7 @@ $cms->edit_field(1,0,"archief","Gearchiveerde accommodatie");
 $cms->edit_field(1,0,"controleren","Nog nakijken");
 $cms->edit_field(1,0,"tonen","Tonen op de website",array("selection"=>true));
 $cms->edit_field(1,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
-$cms->edit_field(1,0,"request_translation","Opnemen in vertaallijst als 'Tonen op de website' uit staat",array("selection"=>false));
+$cms->edit_field(1,0,"request_translation","Opnemen in lijst <a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(1,0,"weekendski","Weekendski");
 if($_GET["edit"]==1) {
 	$cms->edit_field(1,0,"htmlrow","<hr><i><span style=\"color:red;\"><b>Let op!</b> Bij wijzigen &quot;websites&quot; worden alle onderliggende types aangepast.</span><br>Om dat te voorkomen kun je &quot;websites&quot; aanpassen op type-niveau.</i><br/><br/>Een ingevulde waarde hier wil zeggen dat bij minstens &eacute;&eacute;n onderliggend type deze website aangevinkt staat. Het wil niet zeggen dat bij &agrave;lle onderliggende types de website aangevinkt staat.");

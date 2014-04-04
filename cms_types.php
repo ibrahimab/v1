@@ -283,7 +283,7 @@ if($db->next_record()) {
 $cms->edit_field(2,0,"controleren","Nog nakijken");
 $cms->edit_field(2,0,"tonen","Tonen op de website",array("selection"=>true));
 $cms->edit_field(2,0,"tonenzoekformulier","Tonen in de zoekresultaten",array("selection"=>true));
-$cms->edit_field(2,0,"request_translation","Opnemen in vertaallijst als 'Tonen op de website' uit staat",array("selection"=>false));
+$cms->edit_field(2,0,"request_translation","Opnemen in lijst <a href=\"".$vars["path"]."cms_overzichten_overig.php?t=3&wzt=".intval($_GET["wzt"])."&vertaalsysteem&request_translation=1\" target=\"_blank\">nieuw te vertalen accommodaties/types</a>",array("selection"=>false),"",array("title_html"=>true));
 $cms->edit_field(2,0,"verzameltype","Dit is een verzameltype");
 $cms->edit_field(2,0,"verzameltype_parent","Dit type valt onder het volgende verzameltype");
 $cms->edit_field(2,0,"apart_tonen_in_zoekresultaten","Toon dit type bij de zoekresultaten als losse accommodatie (niet als onderdeel van de bovenliggende accommodatie)");

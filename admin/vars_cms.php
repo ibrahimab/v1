@@ -177,7 +177,19 @@ if($mustlogin) {
 		$title["cms_overzichten_overig"]="Overzicht ontbrekende handtekeningen";
 		$title["cms_diversen"]="Actielijst WebTastic - archief";
 	} elseif($_GET["t"]==3) {
-		$title["cms_overzichten_overig"]="Overzicht te vertalen teksten";
+		if($_GET["request_translation"]) {
+			if($_GET["wzt"]==2) {
+				$title["cms_overzichten_overig"]="Overzicht nieuw te vertalen zomeraccommodaties en -types";
+			} else {
+				$title["cms_overzichten_overig"]="Overzicht nieuw te vertalen winteraccommodaties en -types";
+			}
+		} else {
+			if($_GET["wzt"]==2) {
+				$title["cms_overzichten_overig"]="Overzicht te vertalen zomer- en algemene teksten";
+			} else {
+				$title["cms_overzichten_overig"]="Overzicht te vertalen winter- en algemene teksten";
+			}
+		}
 		$title["cms_diversen"]="Diverse instellingen";
 	} elseif($_GET["t"]==4) {
 		$title["cms_diversen"]="Actielijst WebTastic - wensen/ideeën";
@@ -394,7 +406,8 @@ if($mustlogin) {
 		$layout->submenu_item("cms_overzichten","","cms_roomingaankomst","Aankomstlijsten",array("t"=>"2"),true);
 	}
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Ontbr. handtekeningen",array("t"=>"2"),true);
-	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Te vertalen teksten",array("t"=>"3"),true);
+	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Te vertalen winterteksten",array("t"=>"3", "wzt"=>"1", "vertaalsysteem"=>"1"),true);
+	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Te vertalen zomerteksten",array("t"=>"3", "wzt"=>"2", "vertaalsysteem"=>"1"),true);
 	$layout->submenu_item("cms_overzichten","","cms_meldingen","Indeling CMS-hoofdpagina",array("t"=>"4"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Vouchers",array("t"=>"5"),true);
 	$layout->submenu_item("cms_overzichten","","cms_overzichten_overig","Na te kijken winteracc.",array("t"=>"6"),true);
@@ -478,8 +491,13 @@ if($mustlogin) {
 	$cms->db[1]["maintable"]="accommodatie";
 
 	# 2 = type
-	$cms->settings[2]["types"]="types";
-	$cms->settings[2]["type_single"]="type";
+	if($_GET["wzt"]==2) {
+		$cms->settings[2]["types"]="zomertypes";
+		$cms->settings[2]["type_single"]="zomertype";
+	} else {
+		$cms->settings[2]["types"]="wintertypes";
+		$cms->settings[2]["type_single"]="wintertype";
+	}
 	$cms->settings[2]["file"]="cms_types.php";
 	$cms->settings[2]["log"]["active"]=true;
 	$cms->db[2]["maintable"]="type";
@@ -578,32 +596,42 @@ if($mustlogin) {
 
 	# 14 = aanbieding
 	if($_GET["wzt"]==2) {
-		if($_GET["t"]==1) {
-			$cms->settings[14]["types"]="actieve zomeraanbiedingen";
-			$cms->settings[14]["type_single"]="actieve zomeraanbieding";
-		} elseif($_GET["t"]==2) {
-			$cms->settings[14]["types"]="inactieve zomeraanbiedingen";
-			$cms->settings[14]["type_single"]="inactieve zomeraanbieding";
-		} elseif($_GET["t"]==3) {
-			$cms->settings[14]["types"]="gearchiveerde zomeraanbiedingen";
-			$cms->settings[14]["type_single"]="gearchiveerde zomeraanbieding";
-		} elseif($_GET["t"]==4) {
-			$cms->settings[14]["types"]="inactieve zomerkortingen";
-			$cms->settings[14]["type_single"]="inactieve zomerkorting";
+		if($_GET["vertaalsysteem"]==1) {
+			$cms->settings[14]["types"]="zomeraanbiedingen";
+			$cms->settings[14]["type_single"]="zomeraanbieding";
+		} else {
+			if($_GET["t"]==1) {
+				$cms->settings[14]["types"]="actieve zomeraanbiedingen";
+				$cms->settings[14]["type_single"]="actieve zomeraanbieding";
+			} elseif($_GET["t"]==2) {
+				$cms->settings[14]["types"]="inactieve zomeraanbiedingen";
+				$cms->settings[14]["type_single"]="inactieve zomeraanbieding";
+			} elseif($_GET["t"]==3) {
+				$cms->settings[14]["types"]="gearchiveerde zomeraanbiedingen";
+				$cms->settings[14]["type_single"]="gearchiveerde zomeraanbieding";
+			} elseif($_GET["t"]==4) {
+				$cms->settings[14]["types"]="inactieve zomerkortingen";
+				$cms->settings[14]["type_single"]="inactieve zomerkorting";
+			}
 		}
 	} else {
-		if($_GET["t"]==1) {
-			$cms->settings[14]["types"]="actieve winteraanbiedingen";
-			$cms->settings[14]["type_single"]="actieve winteraanbieding";
-		} elseif($_GET["t"]==2) {
-			$cms->settings[14]["types"]="inactieve winteraanbiedingen";
-			$cms->settings[14]["type_single"]="inactieve winteraanbieding";
-		} elseif($_GET["t"]==3) {
-			$cms->settings[14]["types"]="gearchiveerde winteraanbiedingen";
-			$cms->settings[14]["type_single"]="gearchiveerde winteraanbieding";
-		} elseif($_GET["t"]==4) {
-			$cms->settings[14]["types"]="inactieve winterkortingen";
-			$cms->settings[14]["type_single"]="inactieve winterkorting";
+		if($_GET["vertaalsysteem"]==1) {
+			$cms->settings[14]["types"]="winteraanbiedingen";
+			$cms->settings[14]["type_single"]="winteraanbieding";
+		} else {
+			if($_GET["t"]==1) {
+				$cms->settings[14]["types"]="actieve winteraanbiedingen";
+				$cms->settings[14]["type_single"]="actieve winteraanbieding";
+			} elseif($_GET["t"]==2) {
+				$cms->settings[14]["types"]="inactieve winteraanbiedingen";
+				$cms->settings[14]["type_single"]="inactieve winteraanbieding";
+			} elseif($_GET["t"]==3) {
+				$cms->settings[14]["types"]="gearchiveerde winteraanbiedingen";
+				$cms->settings[14]["type_single"]="gearchiveerde winteraanbieding";
+			} elseif($_GET["t"]==4) {
+				$cms->settings[14]["types"]="inactieve winterkortingen";
+				$cms->settings[14]["type_single"]="inactieve winterkorting";
+			}
 		}
 	}
 	$cms->settings[14]["file"]="cms_aanbiedingen.php";
