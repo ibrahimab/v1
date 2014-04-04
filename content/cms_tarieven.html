@@ -182,6 +182,7 @@ if($seizoen["naam"]) {
 			echo "<option value=\"".$key."\"".($key==$seizoen["eind"] ? " selected" : "").">".date("d/m", $value)."</option>";
 		}
 		echo "</select>";
+		echo " (is laatst mogelijke aankomstdatum)";
 		echo "</div>"; // close .tarieven_seizoen_begin_eind
 	}
 
