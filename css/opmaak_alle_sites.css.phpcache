@@ -1364,7 +1364,7 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 }
 
 .zoekblok_tekst_placeholder {
-	color: #444444;
+	color: #777777;
 	font-style: italic;
 }
 

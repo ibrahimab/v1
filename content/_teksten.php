@@ -971,8 +971,8 @@ $txt["en"]["zoek-en-boek"]["prijsklasse"]="Price range";
 $txt["nl"]["zoek-en-boek"]["heel"]="heel";
 $txt["en"]["zoek-en-boek"]["heel"]="entire";
 
-$txt["nl"]["zoek-en-boek"]["tekstzoeken"]="zoek op naam, accommodatiecode of andere tekst";
-$txt["en"]["zoek-en-boek"]["tekstzoeken"]="search by name, accommodation code or other text";
+$txt["nl"]["zoek-en-boek"]["tekstzoeken"]="zoek op naam of accommodatiecode";
+$txt["en"]["zoek-en-boek"]["tekstzoeken"]="search by name or accommodation code";
 
 $txt["nl"]["zoek-en-boek"]["wisdezebestemming"]="verwijder deze bestemming";
 $txt["en"]["zoek-en-boek"]["wisdezebestemming"]="delete this destination";
