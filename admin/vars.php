@@ -1037,8 +1037,8 @@ $vars["landcodes_boekhouding_btwcode"]=array(1=>"15",2=>"15",3=>"15",4=>"15",5=>
 #$vars["grootboekrekeningen"]=array(2=>"Accommodaties",3=>"Arrangement",4=>"Skipassen",5=>"Materiaalhuur",6=>"Vervoer",7=>"Overige",8=>"Annuleringsverzekering",9=>"Reisverzekering");
 
 
-$vars["annverz_soorten"]=array(1=>txt("annverz_standaard","boeken"),2=>txt("annverz_garantie","boeken"),3=>txt("annverz_standaard_waarneming","boeken"),4=>txt("annverz_garantie_waarneming","boeken"));
-$vars["annverz_soorten_kort"]=array(1=>txt("annverz_standaard_kort","boeken"),2=>txt("annverz_garantie_kort","boeken"),3=>txt("annverz_standaard_waarneming_kort","boeken"),4=>txt("annverz_garantie_waarneming_kort","boeken"));
+$vars["annverz_soorten"]=array(1=>txt("annverz_standaard","boeken"),2=>txt("annverz_garantie","boeken"),3=>txt("annverz_allrisk","boeken"),4=>txt("annverz_garantie_waarneming","boeken"));
+$vars["annverz_soorten_kort"]=array(1=>txt("annverz_standaard_kort","boeken"),2=>txt("annverz_garantie_kort","boeken"),3=>txt("annverz_allrisk_kort","boeken"),4=>txt("annverz_garantie_waarneming_kort","boeken"));
 
 #$vars["optieaanvragen_status"]=array(1=>"ingevuld door klant",2=>"Ingevuld door Chalet.nl",3=>"verstuurd aan leverancier",4=>"goedgekeurd door leverancier",5=>"afgekeurd door leverancier",6=>"teruggekoppeld aan klant",7=>"vervallen",8=>"klant heeft accommodatie geboekt");
 #$vars["optieaanvragen_status_menu"]=array(1=>"Ingevuld door klant",2=>"Ingevuld door Chalet.nl",3=>"Verstuurd aan leverancier",4=>"Goedgekeurd",5=>"Afgekeurd",6=>"Teruggekoppeld aan klant",7=>"Vervallen",8=>"Geboekt");

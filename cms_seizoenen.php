@@ -169,12 +169,12 @@ $cms->edit_field(9,1,"verzekeringen_poliskosten","Basis + assurantiebelasting");
 
 if($_GET["add"]==9 or $_GET["1k0"]<=18) {
 	# losse poliskosten reisverzekering en annuleringsverzekering niet meer van toepassing
-	$cms->edit_field(9,0,"htmlrow","<hr><b>Poliskosten reisverzekering</b> (binnenkort niet meer van toepassing)");
+	$cms->edit_field(9,0,"htmlrow","<hr><b>Poliskosten reisverzekering</b> (niet meer van toepassing, invoeren toch nog nodig)");
 	$cms->edit_field(9,1,"reisverzekering_poliskosten_basis","Basis");
 	$cms->edit_field(9,1,"reisverzekering_poliskosten_korting","Korting");
 	$cms->edit_field(9,1,"reisverzekering_poliskosten","Basis + assurantiebelasting");
 
-	$cms->edit_field(9,0,"htmlrow","<hr><b>Poliskosten annuleringsverzekering</b> (binnenkort niet meer van toepassing)");
+	$cms->edit_field(9,0,"htmlrow","<hr><b>Poliskosten annuleringsverzekering</b> (niet meer van toepassing, invoeren toch nog nodig)");
 	$cms->edit_field(9,1,"annuleringsverzekering_poliskosten_basis","Basis");
 	$cms->edit_field(9,1,"annuleringsverzekering_poliskosten_korting","Korting");
 	$cms->edit_field(9,1,"annuleringsverzekering_poliskosten","Basis + assurantiebelasting");

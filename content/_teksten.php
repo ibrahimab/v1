@@ -3507,17 +3507,23 @@ $txt["en"]["boeken"]["annverz_standaard"]="Europeesche Standard";
 $txt["nl"]["boeken"]["annverz_garantie"]="Europeesche Garantie";
 $txt["en"]["boeken"]["annverz_garantie"]="Europeesche Guarantee";
 
+$txt["nl"]["boeken"]["annverz_allrisk"]="Europeesche Allrisk";
+$txt["en"]["boeken"]["annverz_allrisk"]="Europeesche Allrisk";
+
 $txt["nl"]["boeken"]["annverz_standaard_waarneming"]="Europeesche Standaard + Waarneming 1 persoon";
 $txt["en"]["boeken"]["annverz_standaard_waarneming"]="Europeesche Standard + 1 solicitor";
 
 $txt["nl"]["boeken"]["annverz_garantie_waarneming"]="Europeesche Garantie + Waarneming 1 persoon";
-$txt["en"]["boeken"]["annverz_garantie_waarneming"]="Europeesche Guarantee + + 1 solicitor";
+$txt["en"]["boeken"]["annverz_garantie_waarneming"]="Europeesche Guarantee + 1 solicitor";
 
 $txt["nl"]["boeken"]["annverz_reissomplusperboeking"]="[[v_percentage]]% reissom + € [[v_poliskosten]] per boeking";
 $txt["en"]["boeken"]["annverz_reissomplusperboeking"]="[[v_percentage]]% Total cost of holiday + € [[v_poliskosten]] per reservation";
 
 $txt["nl"]["boeken"]["annverz_standaard_kort"]="Annuleringsverzekering Standaard";
 $txt["en"]["boeken"]["annverz_standaard_kort"]="Standard Cancellation insurance";
+
+$txt["nl"]["boeken"]["annverz_allrisk_kort"]="Annuleringsverzekering Allrisk";
+$txt["en"]["boeken"]["annverz_allrisk_kort"]="Cancellation Allrisk";
 
 $txt["nl"]["boeken"]["annverz_garantie_kort"]="Annuleringsverzekering Garantie";
 $txt["en"]["boeken"]["annverz_garantie_kort"]="Guarantee Cancellation insurance";
