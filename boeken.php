@@ -1164,8 +1164,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				}
 				if($ann_verz_checkbox_counter==$gegevens["stap1"]["aantalpersonen"]) $ann_verz_checkbox=true;
 			} else {
-				// annuleringsverzekering: disabled by default (02-04-2014)
-				$ann_verz_checkbox = false;
+				$ann_verz_checkbox=true;
 			}
 
 			if($gegevens["stap1"]["reisbureau_user_id"] or $voorkant_cms) {
@@ -1262,7 +1261,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 							$annverz_keuze=0;
 						} else {
 							# standaardkeuze: Europeesche Garantie
-							$annverz_keuze=0;
+							$annverz_keuze=2;
 						}
 					}
 					unset($annverz_array);
