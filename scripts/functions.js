@@ -180,7 +180,7 @@ function annverz(aantalpersonen,state) {
 	for(z=1;z<=aantalpersonen;z++) {
 		if(state) {
 			if(document.forms['frm'].elements['input[annverz_'+z+']'].value==0) {
-				document.forms['frm'].elements['input[annverz_'+z+']'].value=2;
+				document.forms['frm'].elements['input[annverz_'+z+']'].value=1;
 			}
 		} else {
 			document.forms['frm'].elements['input[annverz_'+z+']'].value=0;

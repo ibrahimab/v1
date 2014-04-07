@@ -297,14 +297,8 @@ if($_GET["stap"]==1) {
 	if($vars["annverzekering_mogelijk"]) {
 		$optie_soort["naam_enkelvoud"]["ann"]=txt("annuleringsverzekering","boeken");
 
-		# Europeesche Standaard: is nog niet beschikbaar
-		unset($vars["annverz_soorten"][1]);
-
 		# Europeesche Garantie: is niet meer beschikbaar
-		// unset($vars["annverz_soorten"][2]);
-
-		# Europeesche Allrisk: is nog niet beschikbaar
-		unset($vars["annverz_soorten"][3]);
+		unset($vars["annverz_soorten"][2]);
 
 		# Europeesche Garantie waarneming: is niet meer beschikbaar
 		unset($vars["annverz_soorten"][4]);

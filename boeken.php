@@ -1270,15 +1270,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 					if(!$mustlogin and !$boeking_wijzigen) {
 
-						# Europeesche Standaard: is nog niet beschikbaar
-						unset($vars["annverz_soorten"][1]);
-
 						# Europeesche Garantie: is niet meer beschikbaar
-						// unset($vars["annverz_soorten"][2]);
+						unset($vars["annverz_soorten"][2]);
 					}
-
-					# Europeesche Allrisk: is nog niet beschikbaar
-					unset($vars["annverz_soorten"][3]);
 
 					# Europeesche Garantie waarneming: is niet meer beschikbaar
 					unset($vars["annverz_soorten"][4]);
