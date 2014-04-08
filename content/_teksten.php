@@ -3988,10 +3988,10 @@ $txt["nl"]["bsys"]["letopeerstgeboortedatainvullen"]="Let op: opties toevoegen o
 $txt["en"]["bsys"]["letopeerstgeboortedatainvullen"]="Attention: you can only add or change options after you have entered the dates of birth of all participants.";
 
 $txt["nl"]["bsys"]["wijzigennietmogelijk1dag"]="Het wijzigen van je gegevens is vanaf 1 dag voor vertrek niet meer mogelijk. Voor vragen hierover kun je [[l1]]contact[[/l1]] met ons opnemen.";
-$txt["en"]["bsys"]["wijzigennietmogelijk1dag"]="You can change your details up to one day before your departure. If you have any questions about this, please [[l1]] contact [[/l1]] us.";
+$txt["en"]["bsys"]["wijzigennietmogelijk1dag"]="You can change your details up to one day before your departure. If you have any questions about this, please [[l1]]contact[[/l1]] us.";
 
 $txt["nl"]["bsys"]["wijzigennietmogelijkaantaldagen"]="Het wijzigen van je gegevens is vanaf [[v_aantal]] dagen voor vertrek niet meer mogelijk. Voor vragen hierover kun je [[l1]]contact[[/l1]] met ons opnemen.";
-$txt["en"]["bsys"]["wijzigennietmogelijkaantaldagen"]="You can change your details up to [[v_aantal]] days before your departure. If you have any questions about this, please [[l1]] contact [[/l1]] us.";
+$txt["en"]["bsys"]["wijzigennietmogelijkaantaldagen"]="You can change your details up to [[v_aantal]] days before your departure. If you have any questions about this, please [[l1]]contact[[/l1]] us.";
 
 $txt["nl"]["bsys"]["algemenegegevens"]="Algemene gegevens";
 $txt["en"]["bsys"]["algemenegegevens"]="General details";

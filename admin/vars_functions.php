@@ -672,13 +672,22 @@ function boekinginfo($boekingid) {
 			$return["stap1"]["accprijs"]=$db->f("accprijs");
 		}
 
+		$return["stap1"]["website"]=$db->f("website");
+
 		$return["stap1"]["annuleringsverzekering_poliskosten"]=$db->f("annuleringsverzekering_poliskosten");
 		$return["stap1"]["annuleringsverzekering_percentage_1"]=$db->f("annuleringsverzekering_percentage_1");
 		$return["stap1"]["annuleringsverzekering_percentage_2"]=$db->f("annuleringsverzekering_percentage_2");
 		$return["stap1"]["annuleringsverzekering_percentage_3"]=$db->f("annuleringsverzekering_percentage_3");
 		$return["stap1"]["annuleringsverzekering_percentage_4"]=$db->f("annuleringsverzekering_percentage_4");
 		$return["stap1"]["annuleringsverzekering_korting"]=$db->f("annuleringsverzekering_korting");
+
 		$return["stap1"]["schadeverzekering"]=$db->f("schadeverzekering");
+		if($db->f("schadeverzekering")) {
+			// make sure clients that already got a schadeverzekering, can still make changes
+			$vars["schadeverzekering_mogelijk"] = 1;
+			$vars["websiteinfo"]["schadeverzekering_mogelijk"][$return["stap1"]["website"]] = 1;
+		}
+
 		$return["stap1"]["schadeverzekering_percentage"]=$db->f("schadeverzekering_percentage");
 		$return["stap1"]["reisverzekering_poliskosten"]=$db->f("reisverzekering_poliskosten");
 		$return["stap1"]["verzekeringen_poliskosten"]=$db->f("verzekeringen_poliskosten");
@@ -686,7 +695,6 @@ function boekinginfo($boekingid) {
 		$return["stap1"]["log"]=$db->f("log");
 		$return["stap1"]["gezien"]=$db->f("gezien");
 		$return["stap1"]["gewijzigd"]=$db->f("gewijzigd");
-		$return["stap1"]["website"]=$db->f("website");
 		$return["stap1"]["taal"]=$db->f("taal");
 		$return["stap1"]["zit_in_beheersysteem"]=$db->f("zit_in_beheersysteem");
 		$return["stap1"]["bevestigdatum"]=$db->f("bevestigdatum");
@@ -1041,6 +1049,10 @@ function boekinginfo($boekingid) {
 			$return["stap4"][$db->f("status")]["opties_totaalprijs"]+=$db->f("verkoop");
 
 			if($db->f("reisverzekering")) {
+
+				// make sure clients that already got a reisverzekering, can still make changes
+				$vars["reisverzekering_mogelijk"]=1;
+
 				$return["stap4"][$db->f("status")]["reisverzekering"]=true;
 
 				$return["stap1"]["heeft_verzekering_per_persoon"][$db->f("persoonnummer")]=true;

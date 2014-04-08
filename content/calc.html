@@ -52,26 +52,30 @@ if($_GET["stap"]==1) {
 
 
 	# Algemene opties
-	echo "<b>".html("algemeneopties","boeken")."</b><p>";
-	echo "<table cellspacing=\"0\" class=\"tbl\">";
-	echo "<tr><td>".html("schadeverzekering","calc")."<td>";
-	echo "<select name=\"schadeverzekering\" style=\"width:100%;\"><option value=\"0\">".html("nee")."</option><option value=\"1\">".html("ja")."</option></select>";
-	echo "</td></tr>";
-	if(is_array($optie_soort_algemeen["naam_enkelvoud"]) and is_array($optie_keuzes)) {
-		reset($optie_soort_algemeen["naam_enkelvoud"]);
-		while(list($key,$value)=each($optie_soort_algemeen["naam_enkelvoud"])) {
-			if(is_array($optie_onderdeel[$key])) {
-				echo "<tr><td>".htmlentities($value)."<td>";
-				reset($optie_onderdeel[$key]);
-				echo "<select name=\"inputalg[".$key."]\" style=\"width:100%;\"><option value=\"\">&nbsp;</option>";
-				while(list($key2,$value2)=each($optie_onderdeel[$key])) {
-					echo "<option value=\"".$key2."\"".($_POST["inputalg"][$key]==$key2 ? " selected" : "").">".htmlentities($value2["naam"]).": &euro;&nbsp;".number_format($value2["verkoop"],2,",",".")."</option>";
+	if(is_array($optie_soort_algemeen["naam_enkelvoud"]) or $vars["schadeverzekering_mogelijk"]) {
+		echo "<b>".html("algemeneopties","boeken")."</b><p>";
+		echo "<table cellspacing=\"0\" class=\"tbl\">";
+		if($vars["schadeverzekering_mogelijk"]) {
+			echo "<tr><td>".html("schadeverzekering","calc")."<td>";
+			echo "<select name=\"schadeverzekering\" style=\"width:100%;\"><option value=\"0\">".html("nee")."</option><option value=\"1\">".html("ja")."</option></select>";
+			echo "</td></tr>";
+		}
+		if(is_array($optie_soort_algemeen["naam_enkelvoud"]) and is_array($optie_keuzes)) {
+			reset($optie_soort_algemeen["naam_enkelvoud"]);
+			while(list($key,$value)=each($optie_soort_algemeen["naam_enkelvoud"])) {
+				if(is_array($optie_onderdeel[$key])) {
+					echo "<tr><td>".htmlentities($value)."<td>";
+					reset($optie_onderdeel[$key]);
+					echo "<select name=\"inputalg[".$key."]\" style=\"width:100%;\"><option value=\"\">&nbsp;</option>";
+					while(list($key2,$value2)=each($optie_onderdeel[$key])) {
+						echo "<option value=\"".$key2."\"".($_POST["inputalg"][$key]==$key2 ? " selected" : "").">".htmlentities($value2["naam"]).": &euro;&nbsp;".number_format($value2["verkoop"],2,",",".")."</option>";
+					}
+					echo "</select></td></tr>";
 				}
-				echo "</select></td></tr>";
 			}
 		}
+		echo "</table><br><hr><br>";
 	}
-	echo "</table><br><hr><br>";
 
 	if(is_array($optie_soort["naam_enkelvoud"]) and is_array($optie_onderdeel)) {
 		echo "<table cellspacing=\"0\" class=\"tbl\">";

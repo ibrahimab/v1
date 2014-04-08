@@ -1147,11 +1147,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			# Vinkje standaard uitzetten bij boeken door reisagent
 			unset($schadeverzekering_checkbox);
 		}
-		if($mustlogin or !$boeking_wijzigen or !$gegevens["stap1"]["schadeverzekering"] or $gegevens["stap1"]["wijzigen_toegestaan"]) {
-			$schadeverzekering_checkbox_getoond=true;
-			$form->field_yesno("schadeverzekering","<b>".html("ikwileenschadeverzekering","boeken")."</b>","",array("selection"=>$schadeverzekering_checkbox),"",array("title_html"=>true));
-			if(!$mustlogin) {
-				$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=schadeverzekering')\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
+		if($vars["websiteinfo"]["schadeverzekering_mogelijk"][$gegevens["stap1"]["website"]]) {
+			if($mustlogin or !$boeking_wijzigen or !$gegevens["stap1"]["schadeverzekering"] or $gegevens["stap1"]["wijzigen_toegestaan"]) {
+				$schadeverzekering_checkbox_getoond=true;
+				$form->field_yesno("schadeverzekering","<b>".html("ikwileenschadeverzekering","boeken")."</b>","",array("selection"=>$schadeverzekering_checkbox),"",array("title_html"=>true));
+				if(!$mustlogin) {
+					$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=schadeverzekering')\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
+				}
 			}
 		}
 

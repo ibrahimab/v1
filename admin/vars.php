@@ -434,8 +434,8 @@ if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["l
 	}
 
 	$voorkant_cms=true;
-	$vars["annverzekering_mogelijk"]=1;
-	$vars["reisverzekering_mogelijk"]=1;
+	// $vars["annverzekering_mogelijk"]=1;
+	// $vars["reisverzekering_mogelijk"]=1;
 	if(in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
 		$cookie_expire=mktime(3,0,0,date("m"),date("d"),date("Y")+1);
 	} else {
