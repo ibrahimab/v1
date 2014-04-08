@@ -230,9 +230,10 @@ echo "</td><td>";
 echo "</td></tr></table>";
 echo "</div>\n";
 
-if($vars["website"]=="C") {
-	echo "<a href=\"http://www.zooverawards.nl/stemmen/groep/Chalet\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\"><img src=\"".wt_he($vars["path"]."pic/tijdelijk/zoover_awards.png")."\"></a>";
-}
+// // Zoover-awards
+// if($vars["website"]=="C") {
+// 	echo "<a href=\"http://www.zooverawards.nl/stemmen/groep/Chalet\" target=\"_blank\" class=\"zoover_awards analytics_track_external_click\"><img src=\"".wt_he($vars["path"]."pic/tijdelijk/zoover_awards.png")."\"></a>";
+// }
 
 echo "<div id=\"topfoto\">";
 echo "<img src=\"".$vars["path"]."pic/topfoto_";
