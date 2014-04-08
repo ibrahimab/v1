@@ -492,16 +492,20 @@ class tarieventabel {
 			$vorige_week=mktime(0,0,0,date("m",$unixtime)-1,date("d",$unixtime),date("Y",$unixtime));
 			$volgende_week=mktime(0,0,0,date("m",$unixtime)+1,date("d",$unixtime),date("Y",$unixtime));
 
-			if(!$this->binnen_seizoen[date("Ym",$vorige_week)] and !$class) {
+			if(!$this->binnen_seizoen[date("Ym",$vorige_week)] and $kolomteller>1) {
 				$class.=" tarieventabel_tarieven_kolom_begin_seizoen";
 			}
-			if(!$this->binnen_seizoen[date("Ym",$volgende_week)] and !$class) {
+			if(!$this->binnen_seizoen[date("Ym",$volgende_week)] and $kolomteller<count($this->maand)) {
 				$class.=" tarieventabel_tarieven_kolom_eind_seizoen";
 			}
 
 			$return.="<td class=\"".trim($class)."\"";
 
-			$return.=" colspan=\"".$value."\" data-jaarmaand=\"".date("Ym", $unixtime)."\" data-maand-eerste-kolom=\"".intval($kolomteller_onderliggend-$value+1)."\" data-maand-kolom=\"".$kolomteller_onderliggend."\">".DATUM("MAAND JJJJ",$unixtime,$vars["taal"])."</td>";
+			$return .= " colspan=\"".$value."\" data-jaarmaand=\"".date("Ym", $unixtime)."\" data-maand-eerste-kolom=\"".intval($kolomteller_onderliggend-$value+1)."\" data-maand-kolom=\"".$kolomteller_onderliggend."\">";
+			$return .= DATUM("MAAND JJJJ",$unixtime,$vars["taal"]);
+			// $return .= " - ".$kolomteller."==".count($this->maand);
+
+			$return .= "</td>";
 		}
 		$return.="</tr>";
 
