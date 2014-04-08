@@ -179,7 +179,19 @@ if(!$cms_xmlnewimport_init) {
 		global $teller;
 
 		$db=new DB_sql;
-
+        
+        if(is_array($allevelden['image'])){
+            $images = $allevelden['image'];
+            $imageArray = unserialize($xml_importvalues[$soort][$xmlcode]['image']);
+            foreach($images as $newImage){
+                 if((is_array($imageArray) && !in_array($newImage, $imageArray)) || !$imageArray){
+                    $changed[$xmlcode]['image'] = true;
+                    break;
+                 }
+            }
+        }
+        
+        unset($allevelden['image']);
 		while(list($veld,$content)=each($allevelden)) {
 			if($content and $xml_importvalues[$soort][$xmlcode][$veld] and only_alphanum($content)<>only_alphanum($xml_importvalues[$soort][$xmlcode][$veld])) {
 				$changed[$xmlcode][$veld]=true;
@@ -403,7 +415,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 		}
 
 		# Get images only when importing the accommodation
-		if(($_GET['lev']==131 || isset($_POST["filled"])) && !isset($_GET["checkforchanges"]) && ($_GET['lev']==131 || !isset($_GET["toonwijzigingen"]) ) && !isset($_GET["herstel"])) {
+		if(($_GET['lev']==131 || isset($_POST["filled"])) &&  ($_GET['lev']==131 || !isset($_GET["toonwijzigingen"]) ) && !isset($_GET["herstel"])) {
 			$propertyimage=getxml("posarellivillas","http://export.posarellivillas.com/propertyImage.xml");
 			$unitimage=getxml("posarellivillas","http://export.posarellivillas.com/unitImage.xml");
 
@@ -1001,8 +1013,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 			while(list($key,$value)=each($new)) {
 				if(!$verberg_xmlcode[$key]) {
                     if($_GET["lev"] == 131){
-                        checkforxmlchanges($xml_importvalues,array("image"=>serialize($value["accafbeelding"]), "naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
-                        checkforxmlchanges($xml_importvalues,array("image"=>serialize($value["typeafbeelding"]), "naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
+                        
+                        checkforxmlchanges($xml_importvalues,array("image"=>$value["accafbeelding"], "naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
+                        checkforxmlchanges($xml_importvalues,array("image"=>$value["typeafbeelding"], "naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
                     }else { 
                         checkforxmlchanges($xml_importvalues,array("naam"=>$value["accnaam"],"plaats_id"=>$value["plaats_id"],"omschrijving"=>$value["accomschrijving"],"inclusief"=>$value["inclusief"],"exclusief"=>$value["exclusief"],"accindeling"=>$value["accindeling"]),1,$value["accid"]);
                         checkforxmlchanges($xml_importvalues,array("naam"=>$value["typenaam"],"kwaliteit"=>$value["kwaliteit"],"optimaalaantalpersonen"=>$value["optimaalaantalpersonen"],"maxaantalpersonen"=>$value["maxaantalpersonen"],"oppervlakte"=>$value["oppervlakte"],"slaapkamers"=>$value["slaapkamers"],"badkamers"=>$value["badkamers"],"typeindeling"=>$value["typeindeling"],"typeinclusief"=>$value["typeinclusief"],"typeexclusief"=>$value["typeexclusief"]),2,$key);
