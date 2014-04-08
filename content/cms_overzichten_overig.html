@@ -751,6 +751,7 @@ if($_GET["t"]==1) {
 	#
 
 	echo "<ul>";
+	echo "<li><a href=\"#wifiinternet\">Zomeraccommodaties met zowel Wi-Fi als internetverbinding</a></li>";
 	echo "<li><a href=\"#beddenperseizoen\">Aantal aangeboden bedden per seizoen</a></li>";
 	// echo "<li><a href=\"#grotegroepen\">Chalet.nl-accommodaties van 10 personen of meer die niet in het thema &quot;grote groepen&quot; vallen</a></li>";
 	// echo "<li><a href=\"#grotegroepenminder\">Chalet.nl-accommodaties van minder dan 10 personen die in het thema &quot;grote groepen&quot; vallen</a></li>";
@@ -763,6 +764,26 @@ if($_GET["t"]==1) {
 	echo "</ul>";
 	echo "<hr>";
 
+	# Overzicht aantal aangeboden bedden per seizoen
+	echo "<a name=\"wifiinternet\"></a>";
+	echo "<h2>Zomeraccommodaties met zowel Wi-Fi als internetverbinding</h2>";
+
+	$db->query("SELECT t.type_id, a.accommodatie_id, a.wzt, a.kenmerken AS akenmerken, t.kenmerken AS tkenmerken FROM type t INNER JOIN accommodatie a USING (accommodatie_id) INNER JOIN plaats p USING (plaats_id) WHERE (a.kenmerken REGEXP '[[:<:]]42[[:>:]]' OR t.kenmerken REGEXP '[[:<:]]24[[:>:]]') AND (a.kenmerken REGEXP '[[:<:]]36[[:>:]]' OR t.kenmerken REGEXP '[[:<:]]22[[:>:]]') AND a.wzt=2 ORDER BY p.naam, a.naam, t.naam;");
+	if($db->num_rows()) {
+		echo "<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"cms_accommodaties.php?show=1&1k0=".$db->f("accommodatie_id")."&wzt=".$db->f("wzt")."\" target=\"_blank\">".wt_he($vars["alletypes"][$db->f("type_id")])."</a><br />";
+			if(preg_match("@\b42\b@", $db->f("akenmerken"))) echo "Wi-Fi (accommodatie)<br/>";
+			if(preg_match("@\b24\b@", $db->f("tkenmerken"))) echo "Wi-Fi (type)<br/>";
+
+			if(preg_match("@\b36\b@", $db->f("akenmerken"))) echo "internetverbinding (accommodatie)<br/>";
+			if(preg_match("@\b22\b@", $db->f("tkenmerken"))) echo "internetverbinding (type)<br/>";
+
+			echo "<br/></li>";
+		}
+		echo "</ul>";
+	}
+	echo "<hr>";
 
 	# Overzicht aantal aangeboden bedden per seizoen
 	echo "<a name=\"beddenperseizoen\"></a>";
