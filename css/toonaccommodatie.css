@@ -529,6 +529,37 @@ beoordeling_header_right {
 	line-height: 1.3em;
 }
 
+/*=========*/
+/*kenmerken*/
+/*=========*/
+.kenmerken_block {
+	margin-top: 17px;
+	margin-left: 10px;
+}
+
+ul.kenmerken {
+	float: left;
+	width: 212px;
+	text-align: left;
+	margin: 0;
+	padding: 0;
+	padding-left: 4px;
+}
+
+ul.kenmerken li {
+	list-style-type: none;
+	background: url(../pic/vinkje.gif?c=1) no-repeat 0 5px;
+	padding-left: 13px;
+	margin: 0;
+}
+
+.kenmerken_divider {
+	float: left;
+	width: 5px;
+	height: 10px;
+}
+
+
 @media print {
 	#toonaccommodatie_content {
 		float: left;

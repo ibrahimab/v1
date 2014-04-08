@@ -326,6 +326,7 @@ class form2 {
 
 		$this->settings["message"]["zie_attachment"]["nl"]="zie attachment";
 		$this->settings["message"]["zie_attachment"]["en"]="see attachment";
+		$this->settings["message"]["zie_attachment"]["fr"]="voir fichier joint";
 
 		# Error messages
 		$this->settings["message"]["error_foutform"]["nl"]="U heeft niet alle velden correct ingevuld";
