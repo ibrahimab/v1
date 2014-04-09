@@ -367,7 +367,7 @@ if($vars["verberg_linkerkolom"]) {
 		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo(txt("oostenrijk","index"))."/\">".html("oostenrijk","index")."</a><br />";
 		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo(txt("zwitserland","index"))."/\">".html("zwitserland","index")."</a><br />";
 		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo(txt("italie","index"))."/\">".html("italie","index")."</a><br />";
-		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo(txt("duitsland","index"))."/\">".html("duitsland","index")."</a><br />";
+		// echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo(txt("duitsland","index"))."/\">".html("duitsland","index")."</a><br />";
 #		echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".txt("menu_land")."/".wt_convert2url_seo(txt("frankrijk","index"))."/\">".html("overigelanden","index")."</a><br />";
 		echo "</div>\n";
 		if($id=="index") {
@@ -534,7 +534,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<li><a href=\"".$vars["path"]."land/Oostenrijk/\" rel=\"nofollow\">Chalets in Oostenrijk</a></li>";
 		echo "<li><a href=\"".$vars["path"]."land/Zwitserland/\" rel=\"nofollow\">Chalets in Zwitserland</a></li>";
 		echo "<li><a href=\"".$vars["path"]."land/Italie/\" rel=\"nofollow\">Chalets in Itali&euml;</a></li>";
-		echo "<li><a href=\"".$vars["path"]."land/Duitsland/\" rel=\"nofollow\">Chalets in Duitsland</a></li>";
+		// echo "<li><a href=\"".$vars["path"]."land/Duitsland/\" rel=\"nofollow\">Chalets in Duitsland</a></li>";
 		echo "</ul>";
 		echo "</div>";
 		echo "<div class=\"divContentIND\">";
@@ -577,7 +577,7 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo "<li><a href=\"".$vars["path"]."land/Oostenrijk/\">Chalets in Oostenrijk</a></li>";
 		echo "<li><a href=\"".$vars["path"]."land/Zwitserland/\">Chalets in Zwitserland</a></li>";
 		echo "<li><a href=\"".$vars["path"]."land/Italie/\">Chalets in Itali&euml;</a></li>";
-		echo "<li><a href=\"".$vars["path"]."land/Duitsland/\">Chalets in Duitsland</a></li>";
+		// echo "<li><a href=\"".$vars["path"]."land/Duitsland/\">Chalets in Duitsland</a></li>";
 		echo "</ul>";
 		echo "</div>";
 		echo "<div class=\"divContentIND\">";
