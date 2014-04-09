@@ -4563,8 +4563,11 @@ $txt["en"]["verzekeringen"]["inleiding"]="It's possible to get one of the follow
 $txt["nl"]["verzekeringen"]["reisverzekering"]="Reisverzekering";
 $txt["en"]["verzekeringen"]["reisverzekering"]="Travel insurance";
 
-$txt["nl"]["verzekeringen"]["10dagenreisverzekering"]="10-dagen reisverzekering Europeesche Verzekeringen Comb 2+Wintersport";
-$txt["en"]["verzekeringen"]["10dagenreisverzekering"]="10-day travel insurance Europeesche Verzekeringen Comb 2+Wintersport";
+$txt["nl"]["verzekeringen"]["10dagenreisverzekering"]="10-dagen reisverzekering Europeesche Optimaal + Wintersport";
+$txt["en"]["verzekeringen"]["10dagenreisverzekering"]="10-day travel insurance Europeesche Optimaal + Wintersport";
+
+$txt["nl_z"]["verzekeringen"]["10dagenreisverzekering"]="10-dagen reisverzekering Europeesche Optimaal";
+$txt["en_z"]["verzekeringen"]["10dagenreisverzekering"]="10-day travel insurance Europeesche Optimaal";
 
 $txt["nl"]["verzekeringen"]["kindtm4jaargratis"]="Kind t/m 4 jaar gratis meeverzekerd (max. 1 kind per volwassene)";
 $txt["en"]["verzekeringen"]["kindtm4jaargratis"]="Children up to 4 years old included on the policy for free (max. 1 child per adult)";
