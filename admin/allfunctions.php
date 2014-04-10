@@ -528,8 +528,15 @@ class wt_mail {
 				$this->send_header.="\nMIME-Version: 1.0\nContent-Type: multipart/alternative;\n	boundary=\"".$boundary0."\"";
 				$this->send_body="This is a multi-part message in MIME format.\n";
 				if(function_exists(imap_8bit) and $this->settings["imap_8bit"]) {
-					$this->send_body.="\n--".$boundary0."\nContent-Type: text/plain; charset=\"iso-8859-1\"\nContent-Transfer-Encoding: quoted-printable\n\n";
-					$this->send_body.=imap_8bit($this->send_plaintext);
+
+					if($this->settings["plaintext_utf8"]) {
+						$this->send_body.="\n--".$boundary0."\nContent-Type: text/plain; charset=\"UTF-8\"\nContent-Transfer-Encoding: quoted-printable\n\n";
+						$this->send_body.=imap_8bit($this->send_plaintext);
+					} else {
+						$this->send_body.="\n--".$boundary0."\nContent-Type: text/plain; charset=\"iso-8859-1\"\nContent-Transfer-Encoding: quoted-printable\n\n";
+						$this->send_body.=imap_8bit($this->send_plaintext);
+					}
+
 					$this->send_body.="\n--".$boundary0."\nContent-Type: text/html; charset=\"iso-8859-1\"\nContent-Transfer-Encoding: quoted-printable\n\n";
 					$this->send_body.=imap_8bit($this->send_html);
 				} else {

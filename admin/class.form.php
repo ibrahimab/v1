@@ -2384,13 +2384,13 @@ class form2 {
 
 		$return="<table class=\"wtform_table\">";
 		if($complete) {
-			$return.="<tr><td class=\"wtform_cell_left\">Formulier</td><td class=\"wtform_cell_right\">".$this->settings["fullname"]."</td></tr>";
+			$return.="<tr><td class=\"wtform_cell_left\">Formulier</td><td class=\"wtform_cell_right\">".wt_he($this->settings["fullname"])."</td></tr>";
 			$return.="<tr><td class=\"wtform_cell_left\">Ingevuld op</td><td class=\"wtform_cell_right\">".strftime("%e %B %Y, %T")."</td></tr>";
 		}
 		reset($this->fields["title"]);
 		while(list($key,$value)=each($this->fields["title"])) {
-			if(isset($this->outputtable_cell[$key])) $return.="<tr><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_left\">".ereg_replace("\*$","",$value)."</td><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_right\">".(isset($this->outputtable_cell[$key]) ? $this->outputtable_cell[$key] : "&nbsp;")."</td></tr>";
-			if(isset($this->outputtable_row[$key])) $return.="<tr><td style=\"text-align:left;vertical-align:top;\" colspan=\"2\">".$value."</td></tr>";
+			if(isset($this->outputtable_cell[$key])) $return.="<tr><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_left\">".wt_he(ereg_replace("\*$","",$value))."</td><td style=\"text-align:left;vertical-align:top;\" class=\"wtform_cell_right\">".(isset($this->outputtable_cell[$key]) ? $this->outputtable_cell[$key] : "&nbsp;")."</td></tr>";
+			if(isset($this->outputtable_row[$key])) $return.="<tr><td style=\"text-align:left;vertical-align:top;\" colspan=\"2\">".wt_he($value)."</td></tr>";
 		}
 		$return.="</td></tr>";
 		if($this->outputtable_tr) {
@@ -2412,6 +2412,10 @@ class form2 {
 		$mail->fromname=$fromname;
 		$mail->from=$from;
 		$mail->toname=$toname;
+		if($vars["wt_htmlentities_utf8"]) {
+			$mail->settings["plaintext_utf8"]=true;
+		}
+
 		if($_GET["wttest"]) {
 			$mail->to="jeroen@webtastic.nl";
 		} else {
