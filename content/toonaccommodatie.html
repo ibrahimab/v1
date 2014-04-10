@@ -666,8 +666,13 @@ if($db->next_record()) {
 		if(@in_array("40", $kenmerken_accommodatie)) $toon_kenmerken["restaurant op domein"] = true;
 		if(@in_array("26", $kenmerken_accommodatie)) $toon_kenmerken["speeltoestellen"] = true;
 		if(@in_array("19", $kenmerken_accommodatie)) $toon_kenmerken["tennisbaan"] = true;
-		if(@in_array("17", $kenmerken_type) or @in_array("30", $kenmerken_accommodatie)) $toon_kenmerken["tuin/terras (privé)"] = true;
-		if(@in_array("20", $kenmerken_type) or @in_array("34", $kenmerken_accommodatie)) $toon_kenmerken["tuin/terras of balkon"] = true;
+
+		if(@in_array("17", $kenmerken_type) or @in_array("30", $kenmerken_accommodatie)) {
+			$toon_kenmerken["tuin/terras (privé)"] = true;
+		} elseif(@in_array("20", $kenmerken_type) or @in_array("34", $kenmerken_accommodatie)) {
+			$toon_kenmerken["tuin/terras of balkon"] = true;
+		}
+
 		if(@in_array("9", $kenmerken_accommodatie)) $toon_kenmerken["wellness-faciliteiten"] = true;
 		if(@in_array("18", $kenmerken_type) or @in_array("32", $kenmerken_accommodatie)) $toon_kenmerken["wasmachine"] = true;
 	}
