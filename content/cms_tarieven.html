@@ -45,74 +45,79 @@ while($week<=$seizoen["eind_complete"]) {
 	$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 }
 
-
-function lege_regel() {
-	global $aantal_weken;
-	echo "<tr><td colspan=\"".($aantal_weken+3)."\">&nbsp;</td></tr>";
+if(!function_exists('lege_regel')){
+    function lege_regel() {
+        global $aantal_weken;
+        echo "<tr><td colspan=\"".($aantal_weken+3)."\">&nbsp;</td></tr>";
+    }
 }
 
-function datumregel($titel="") {
-	global $seizoen,$acc,$aantal_weken,$vertrekdag,$vars;
-	echo "<tr>";
-	echo "<th>".wt_he($titel)."</th>";
-	echo "<th>Kopieer</th>";
-	$week=$seizoen["begin"];
-	while($week<=$seizoen["eind"]) {
-		$temp_aantal_weken++;
-		if($vertrekdag[$_GET["sid"]][date("dm",$week)]) {
-			$vertrekdag_plusmin=$vertrekdag[$_GET["sid"]][date("dm",$week)];
-		} else {
-			$vertrekdag_plusmin=0;
-		}
+if(!function_exists('datumregel')){
+    function datumregel($titel="") {
+        global $seizoen,$acc,$aantal_weken,$vertrekdag,$vars;
+        echo "<tr>";
+        echo "<th>".wt_he($titel)."</th>";
+        echo "<th>Kopieer</th>";
+        $week=$seizoen["begin"];
+        while($week<=$seizoen["eind"]) {
+            $temp_aantal_weken++;
+            if($vertrekdag[$_GET["sid"]][date("dm",$week)]) {
+                $vertrekdag_plusmin=$vertrekdag[$_GET["sid"]][date("dm",$week)];
+            } else {
+                $vertrekdag_plusmin=0;
+            }
 
-		if($acc["aankomst_plusmin"]<>0 or $vertrekdag_plusmin<>0) {
-			$tempweek=mktime(0,0,0,date("m",$week),date("d",$week)+$acc["aankomst_plusmin"]+$vertrekdag_plusmin,date("Y",$week));
-		} else {
-			$tempweek=$week;
-		}
-		echo "<th>".date("d/m",$tempweek);
-		if(!$vars["datumregelgetoond"]) {
-			$aankomstdatum_exact_data .= "<input type=\"hidden\" name=\"aankomstdatum_exact[".$week."]\" value=\"".$tempweek."\" class=\"aankomstdatum_exact_data\">";
-		}
-		echo "</th>";
-		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
-	}
-	echo "<th>&nbsp;</th>";
-	echo "</tr>";
-	if(!$aantal_weken) $aantal_weken=$temp_aantal_weken;
+            if($acc["aankomst_plusmin"]<>0 or $vertrekdag_plusmin<>0) {
+                $tempweek=mktime(0,0,0,date("m",$week),date("d",$week)+$acc["aankomst_plusmin"]+$vertrekdag_plusmin,date("Y",$week));
+            } else {
+                $tempweek=$week;
+            }
+            echo "<th>".date("d/m",$tempweek);
+            if(!$vars["datumregelgetoond"]) {
+                $aankomstdatum_exact_data .= "<input type=\"hidden\" name=\"aankomstdatum_exact[".$week."]\" value=\"".$tempweek."\" class=\"aankomstdatum_exact_data\">";
+            }
+            echo "</th>";
+            $week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
+        }
+        echo "<th>&nbsp;</th>";
+        echo "</tr>";
+        if(!$aantal_weken) $aantal_weken=$temp_aantal_weken;
 
-	if($aankomstdatum_exact_data) {
-		echo $aankomstdatum_exact_data;
-		// laatste aankomstdatum
-		if($vertrekdag[$_GET["sid"]][date("dm",$week)]) {
-			$vertrekdag_plusmin=$vertrekdag[$_GET["sid"]][date("dm",$week)];
-		} else {
-			$vertrekdag_plusmin=0;
-		}
-		if($acc["aankomst_plusmin"]<>0 or $vertrekdag_plusmin<>0) {
-			$tempweek=mktime(0,0,0,date("m",$week),date("d",$week)+$acc["aankomst_plusmin"]+$vertrekdag_plusmin,date("Y",$week));
-		} else {
-			$tempweek=$week;
-		}
-		echo "<input type=\"hidden\" name=\"laatste_vertrek\" value=\"".$tempweek."\" class=\"aankomstdatum_exact_data\">";
-	}
-	$vars["datumregelgetoond"]=true;
+        if($aankomstdatum_exact_data) {
+            echo $aankomstdatum_exact_data;
+            // laatste aankomstdatum
+            if($vertrekdag[$_GET["sid"]][date("dm",$week)]) {
+                $vertrekdag_plusmin=$vertrekdag[$_GET["sid"]][date("dm",$week)];
+            } else {
+                $vertrekdag_plusmin=0;
+            }
+            if($acc["aankomst_plusmin"]<>0 or $vertrekdag_plusmin<>0) {
+                $tempweek=mktime(0,0,0,date("m",$week),date("d",$week)+$acc["aankomst_plusmin"]+$vertrekdag_plusmin,date("Y",$week));
+            } else {
+                $tempweek=$week;
+            }
+            echo "<input type=\"hidden\" name=\"laatste_vertrek\" value=\"".$tempweek."\" class=\"aankomstdatum_exact_data\">";
+        }
+        $vars["datumregelgetoond"]=true;
+    }
 }
 
-function kopieer($naam="",$nummer=0,$integer=false) {
-	global $kopieer_tabindex;
-	if($integer) {
-		$integer="1";
-	} else {
-		$integer="0";
-	}
-	if(eregi("[a-z]",$nummer)) $nummer="'".$nummer."'";
-	$kopieer_tabindex++;
-	if($naam) {
-		echo "<td nowrap><input type=\"text\" size=\"6\" value=\"\" id=\"kopieer_".$naam."\" onchange=\"kopieer(this,'".$naam."',".$nummer.",".$integer.")\" onkeypress=\"return disableEnterKey_kopieer(this,'".$naam."',".$nummer.",event)\" tabindex=\"".$kopieer_tabindex."\">&gt;";
-	} else {
-		echo "<td>&nbsp;</td>";
-	}
+if(!function_exists('kopieer')){
+    function kopieer($naam="",$nummer=0,$integer=false) {
+        global $kopieer_tabindex;
+        if($integer) {
+            $integer="1";
+        } else {
+            $integer="0";
+        }
+        if(eregi("[a-z]",$nummer)) $nummer="'".$nummer."'";
+        $kopieer_tabindex++;
+        if($naam) {
+            echo "<td nowrap><input type=\"text\" size=\"6\" value=\"\" id=\"kopieer_".$naam."\" onchange=\"kopieer(this,'".$naam."',".$nummer.",".$integer.")\" onkeypress=\"return disableEnterKey_kopieer(this,'".$naam."',".$nummer.",event)\" tabindex=\"".$kopieer_tabindex."\">&gt;";
+        } else {
+            echo "<td>&nbsp;</td>";
+        }
+    }
 }
 
 cmslog_pagina_title("Tarievenmodule".($seizoen["naam"] ? " - ".$seizoen["naam"] : ""));
