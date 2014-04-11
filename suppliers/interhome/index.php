@@ -28,7 +28,8 @@ class InterHome extends SoapClass {
 	private $xmlCustomerFeedback = 'customerfeedback.xml.zip'; // The zip file from FTP	containing customer feedback
 	private $xmlCountriesRegions = 'countryregionplace_nl.xml.zip'; // The zip file from FTP containing all countries, regions and places with their codes
 	private $xmlWeekPrice = 'price_4040_eur.xml.zip'; // The zip file from FTP	containing week prices
-
+	private $_DISCOUNT = null;
+    
 	function __construct() {
 
 		parent::__construct();
@@ -723,12 +724,22 @@ class InterHome extends SoapClass {
 				$arrPricesResultItems = $itemPricesResult->getPrices()->getPricesPriceItem();
 
 				if(is_array($arrPricesResultItems) && count($arrPricesResultItems) > 0) {
-					foreach ($arrPricesResultItems as $item) {
-						$arrPrices[$item->getAccommodationCode()] = $item->getPrice1();
-					}
+					foreach ($arrPricesResultItems as $item){
+	                        if($item->getPrice2() > 0){
+	                            $arrPrices[$item->getAccommodationCode()] = $item->getPrice2();
+	                            $this->_DISCOUNT[$item->getAccommodationCode()][strtotime($checkIn)] = $this->calculateDiscount($item->getPrice1(), $item->getPrice2());
+	                        }else{
+	                            $arrPrices[$item->getAccommodationCode()] = $item->getPrice1();
+	                        }
+                    	}
 				} else {
-					$arrPrices[$arrPricesResultItems->getAccommodationCode()] =  $arrPricesResultItems->getPrice1();
-				}
+	                    if($arrPricesResultItems->getPrice2() > 0){
+	                        $arrPrices[$arrPricesResultItems->getAccommodationCode()] =  $arrPricesResultItems->getPrice2();
+	                        $this->_DISCOUNT[$arrPricesResultItems->getAccommodationCode()][strtotime($checkIn)] = $this->calculateDiscount($arrPricesResultItems->getPrice1(), $arrPricesResultItems->getPrice2());
+	                    }else{
+	                        $arrPrices[$arrPricesResultItems->getAccommodationCode()] =  $arrPricesResultItems->getPrice1();
+	                    }
+                	}
 
 				return $arrPrices;
 			}
@@ -737,7 +748,30 @@ class InterHome extends SoapClass {
 		else {
 			return $ihomeServicePrices->getLastError();
 		}
-	}
+	    }
+    
+	    /**
+	     * Calculate the discount.
+	     * @param type $finalPrice
+	     * @param type $initialPrice
+	     * @return $discount|null
+	     */
+	    private function calculateDiscount($finalPrice, $initialPrice){
+	        if($initialPrice > 0){
+	            $discount = 100*($initialPrice - $finalPrice)/$initialPrice;
+	            return round($discount);
+	        }else {
+	            return null;
+	        }
+	    }
+    
+	    /**
+	     * Get all discounts for all accommodations
+	     * @return Array
+	     */
+	    public function getDiscounts() {
+	        return $this->_DISCOUNT;
+	    }
 
 	/**
 	 * The function returns the weekly prices for each accommodation
@@ -894,12 +928,28 @@ class InterHome extends SoapClass {
 
 
 // Class call examples
+/*
 #$interHome = new InterHome();
-
+#$accCode = "AT6290.530.2"; //at6370.230.1 fr7351.340.6
+#$key = 23;
 #print_r($interHome->getPriceList($accCode = "ch6612.200.3"));
-#print_r($interHome->getAvailability($accCode = "de2981.100.1"));
-#print_r($interHome->getAccommodation($accCode = "at6574.410.1"));
-#print_r($interHome->getAdditionalServices($accCode = "at6574.410.1", "2013-12-07", "2014-04-26"));
+#$availability = $interHome->getAvailability($accCode, $start_date = date("Y-m-d"), $end_date = "2014-05-03");
+#if($availability) {
+#	var_dump($availability);
+#	// Get the availability
+#	if(isset($xml_beschikbaar[$key][$accCode])) {
+#		$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+#	} else {
+#		$xml_beschikbaar[$key][$accCode] = $availability;
+#	}
+#} else {
+#	$xml_beschikbaar[$key][$accCode] = array();
+#}
+#$xml_brutoprijs[$key] = $interHome->processPrices($xml_beschikbaar);
+*/
+//$interHome = new InterHome();
+#print_r($interHome->getAccommodation($accCode = "at6290.530.2"));
+//print_r($interHome->getAdditionalServices($accCode = "at6290.530.2", "2013-12-07", "2014-06-26"));
 #print_r($interHome->getAccommodations($contryCode="AT", $regionCode="40", $placeCode = "6600"));
 #print_r($interHome->getStatus());
 #print_r($interHome->getCustomerFeedback());

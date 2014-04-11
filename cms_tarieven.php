@@ -12,7 +12,7 @@
 if(!$skipastarieven_verwerken) {
 	$mustlogin=true;
 
-	include("admin/vars.php");
+	include_once("admin/vars.php");
 
 	if($_SERVER["REMOTE_ADDR"]<>"31.223.173.113" and $_SERVER["REMOTE_ADDR"]<>"172.16.1.10") {
 #		echo "De tarievenmodule is tijdelijk niet beschikbaar (21 juni 2012, 10:00 uur)";

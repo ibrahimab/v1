@@ -156,7 +156,8 @@ $(document).ready(function() {
 	//
 	// jquery
 	//
-        $("#accCodeIh").on("focus", function() {
+        
+        $("#accCodeIh").focus(function() {
             $("#ih_country").prop("disabled", true);
             $("#ih_region").prop("disabled", true);
         });

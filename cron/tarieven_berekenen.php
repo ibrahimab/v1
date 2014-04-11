@@ -28,6 +28,8 @@ if(!$vars) {
 }
 $vandaag=mktime(0,0,0,date("m"),date("d"),date("Y"));
 
+$tarieven_berekenen_additional_condition = ($only_active_discounts) ? "AND UNIX_TIMESTAMP(k.van)<='".$vandaag."' " : "";
+
 // zorgen dat vanaf-prijzen worden doorgerekend
 $voorraad_gekoppeld=new voorraad_gekoppeld;
 $voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
@@ -35,7 +37,8 @@ $voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 
 # kortingen uit db halen
 unset($korting);
-$db->query("SELECT k.type_id, k.toonexactekorting, k.aanbiedingskleur, k.toon_abpagina, k.toon_als_aanbieding, kt.week, kt.inkoopkorting_percentage, kt.aanbieding_acc_percentage, kt.aanbieding_skipas_percentage, kt.inkoopkorting_euro, kt.aanbieding_acc_euro, kt.aanbieding_skipas_euro FROM korting k, korting_tarief kt WHERE k.actief=1 AND kt.korting_id=k.korting_id AND UNIX_TIMESTAMP(k.van)<='".$vandaag."' AND UNIX_TIMESTAMP(k.tot)>='".$vandaag."'".($typeid_berekenen_inquery ? " AND k.type_id IN (".$typeid_berekenen_inquery.")" : "").";");
+
+$db->query("SELECT k.type_id, k.toonexactekorting, k.aanbiedingskleur, k.toon_abpagina, k.toon_als_aanbieding, kt.week, kt.inkoopkorting_percentage, kt.aanbieding_acc_percentage, kt.aanbieding_skipas_percentage, kt.inkoopkorting_euro, kt.aanbieding_acc_euro, kt.aanbieding_skipas_euro FROM korting k, korting_tarief kt WHERE k.actief=1 AND kt.korting_id=k.korting_id ".$tarieven_berekenen_additional_condition." AND UNIX_TIMESTAMP(k.tot)>='".$vandaag."'".($typeid_berekenen_inquery ? " AND k.type_id IN (".$typeid_berekenen_inquery.")" : "").";");
 while($db->next_record()) {
 	$korting[$db->f("type_id")][$db->f("week")]["inkoopkorting_percentage"]+=$db->f("inkoopkorting_percentage");
 	$korting[$db->f("type_id")][$db->f("week")]["inkoopkorting_euro"]+=$db->f("inkoopkorting_euro");

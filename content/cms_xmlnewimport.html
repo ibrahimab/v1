@@ -701,7 +701,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 				}
 			}
 		}
-	} elseif($_GET["lev"] == 421) {
+	} elseif($_GET["lev"] == 421 && ((isset($_GET['country']) && isset($_GET['region'])) || !empty($_GET['acc_code_ih']) )) {
 
 		#Interhome
 
@@ -979,7 +979,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 			$new = array_merge($new, $excluded_acc);
 			unset($excluded_acc);
 		}
-	}
+	}else {
+        $new = array();
+    }
 
 	#
 	#
