@@ -931,6 +931,7 @@ function boekinginfo($boekingid) {
 		$return["stap3"][$db->f("status")][$db->f("persoonnummer")]["tussenvoegsel"]=$db->f("tussenvoegsel");
 		$return["stap3"][$db->f("status")][$db->f("persoonnummer")]["achternaam"]=$db->f("achternaam");
 		$return["stap3"][$db->f("status")][$db->f("persoonnummer")]["plaats"]=$db->f("plaats");
+		$return["stap3"][$db->f("status")][$db->f("persoonnummer")]["land"]=$db->f("land");
 		$return["stap3"][$db->f("status")][$db->f("persoonnummer")]["geslacht"]=$db->f("geslacht");
 		$return["stap3"][$db->f("status")][$db->f("persoonnummer")]["geboortedatum"]=$db->f("geboortedatum");
 
