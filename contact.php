@@ -42,7 +42,7 @@ $form->field_text(1,"naam",txt("naam","contact"));
 $form->field_email(0,"email",txt("email","contact"),"",array("text"=>$temp_naw["email"]));
 $form->field_text(0,"telefoonnummer",txt("telefoonnummer","contact"),"",array("text"=>$temp_naw["telefoonnummer"]));
 $form->field_htmlrow(0, "<div class=\"contact_mail-of-telefoon\">".html("mail-of-telefoon", "contact").".</div>");
-$form->field_textarea(0,"opmerkingen",txt("opmerkingen","contact"));
+$form->field_textarea(1,"opmerkingen",txt("opmerkingen","contact"));
 
 // $form->field_yesno("teruggebeld",txt("teruggebeld","contact"));
 // if($vars["nieuwsbrief_aanbieden"]) {
