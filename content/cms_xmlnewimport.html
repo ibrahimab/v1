@@ -314,8 +314,14 @@ while($db->next_record()) {
 	}
 }
 
+if($_GET["toonwijzigingen"]){
+    $active_accommodations = " AND a.tonen=1 AND t.tonen=1";
+}else{
+    $active_accommodations = " ";
+}
+
 # Types met XML-leverancierscode
-$db->query("SELECT t.leverancierscode, t.type_id FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id='".addslashes($_GET["lev"])."';");
+$db->query("SELECT t.leverancierscode, t.type_id FROM accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id ".$active_accommodations." AND t.leverancier_id='".addslashes($_GET["lev"])."';");
 while($db->next_record()) {
 	$type_xmlcode[$db->f("leverancierscode")]=$db->f("type_id");
 }
