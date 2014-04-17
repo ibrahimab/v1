@@ -1246,9 +1246,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
                                 $db->query("SELECT t.type_id, t.accommodatie_id FROM type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancierscode='".addslashes($key)."' AND a.leverancier_id='".addslashes($_GET["lev"])."';");
 								if($db->next_record()) {
 									$typeid=$db->f("type_id");
-									if($_GET["toonwijzigingen"]) {
+									if($_GET["toonwijzigingen"] && $_GET["lev"] != 131) {
 										$db->query("UPDATE type SET ".$setquery_type." WHERE leverancierscode='".addslashes($key)."' AND type_id='".addslashes($db->f("type_id"))."';");
-									} elseif($db->f("accommodatie_id")<>$value["accid"]) {
+									} elseif($db->f("accommodatie_id")<>$value["accid"] && !$_GET["toonwijzigingen"]) {
 										$db2->query("UPDATE type SET accommodatie_id='".$db->f("accommodatie_id")."' WHERE leverancierscode='".addslashes($key)."' AND type_id='".addslashes($db->f("type_id"))."';");
 									}
 								} else {
