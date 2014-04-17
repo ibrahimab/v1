@@ -402,7 +402,7 @@ class tarieventabel {
 			}
 
 			// check for afwijkende vertrekdag
-			if($this->show_afwijkend_legenda) {
+			if($this->show_afwijkend_legenda and $this->afwijkend_aantal_nachten) {
 				foreach ($this->aantalnachten as $key_datum => $value_nachten) {
 					if($key_datum>time()) {
 						if($value_nachten and ($value_nachten<>7 or $this->dag_van_de_week_afwijkend[$key_datum])) {
@@ -549,7 +549,7 @@ class tarieventabel {
 
 			if($this->dag_van_de_week_afwijkend[$key] and $key>time()) {
 				$class = " tarieventabel_datumbalk_opvallend";
-				if($this->show_afwijkend_legenda) {
+				if($this->show_afwijkend_legenda and $this->afwijkend_aantal_nachten) {
 					$star = "*";
 				}
 			}
@@ -577,7 +577,7 @@ class tarieventabel {
 
 			if($this->aantalnachten[$key]<>7 and $key>time()) {
 				$class.=" tarieventabel_datumbalk_opvallend";
-				if($this->show_afwijkend_legenda) {
+				if($this->show_afwijkend_legenda and $this->afwijkend_aantal_nachten) {
 					$star = "*";
 				}
 			}
@@ -1616,6 +1616,7 @@ if($this->tarief[$key]>0) {
 		while($week<=$eind) {
 			if($aantalnachten_afwijking[date("dm",$week)]) {
 				$this->aantalnachten[$week]=7-$aantalnachten_afwijking[date("dm",$week)];
+				$this->afwijkend_aantal_nachten = true;
 			} else {
 				$this->aantalnachten[$week]=7;
 			}
