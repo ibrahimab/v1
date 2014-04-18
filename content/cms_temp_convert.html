@@ -7,10 +7,10 @@
 echo "<HR><h1>LET OP! ER WORDEN GEGEVENS OVERGEZET</h1><p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<p>&nbsp;<HR>";
 
 
-$db->query("SELECT UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.boekingsnummer, b.boeking_id, b.aankomstdatum FROM boeking b INNER JOIN boeking_persoon bp USING (boeking_id) WHERE bp.annverz=4 AND b.boekingsnummer<>'' ORDER BY b.bevestigdatum DESC;");
-while($db->next_record()) {
-	echo date("d-m-Y", $db->f("aankomstdatum"))." ".date("d-m-Y", $db->f("bevestigdatum"))." ".$db->f("boekingsnummer")."<br/>";
-}
+// $db->query("SELECT UNIX_TIMESTAMP(b.bevestigdatum) AS bevestigdatum, b.boekingsnummer, b.boeking_id, b.aankomstdatum FROM boeking b INNER JOIN boeking_persoon bp USING (boeking_id) WHERE bp.annverz=4 AND b.boekingsnummer<>'' ORDER BY b.bevestigdatum DESC;");
+// while($db->next_record()) {
+// 	echo date("d-m-Y", $db->f("aankomstdatum"))." ".date("d-m-Y", $db->f("bevestigdatum"))." ".$db->f("boekingsnummer")."<br/>";
+// }
 
 // function cms_remove_kenmerk($list, $remove) {
 // 	$list = preg_replace("@\b".$remove."\b@i", "", $list);
