@@ -123,11 +123,11 @@ if($_GET["wzt"]==1) {
 $advies = array("add_html_after_field"=>"<div style=\"margin-top:4px;margin-bottom:10px;font-size:0.9em;color:blue;\">Tip: test of de URL correct werkt op alle hierboven aangevinkte websites.</div>");
 
 if($_GET["wzt"]==1) {
-	$cms->edit_field(37,1,"link","Link (zonder 'http://www.chalet.nl')", "", "", $advies);
+	$cms->edit_field(37,1,"link","Link (zonder 'https://www.chalet.nl')", "", "", $advies);
 } elseif($_GET["wzt"]==3) {
-	$cms->edit_field(37,1,"link","Link (zonder 'http://www.italissima.nl')", "", "", $advies);
+	$cms->edit_field(37,1,"link","Link (zonder 'https://www.italissima.nl')", "", "", $advies);
 } else {
-	$cms->edit_field(37,1,"link","Link (zonder 'http://www.zomerhuisje.nl')");
+	$cms->edit_field(37,1,"link","Link (zonder 'https://www.zomerhuisje.nl')");
 }
 $cms->edit_field(37,1,"volgorde","Volgorde");
 $cms->edit_field(37,0,"begindatum","Begindatum","","",array("calendar"=>true));

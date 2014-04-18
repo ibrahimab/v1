@@ -674,7 +674,7 @@ class roominglist {
 			}
 
 			$totaal_html.=": ".wt_he( $vars["roominglist_site_benaming"][$roominglist_site_benaming] )."</h3>Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
-			$totaal_html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></thead></table>";
+			$totaal_html.="<img width=92 height=79 src=\"https://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></thead></table>";
 			$totaal_html.="</td></tr>";
 			$totaal_html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th>";
 

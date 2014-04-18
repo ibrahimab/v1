@@ -117,7 +117,7 @@ if($skigebiedid) {
 
 		# Tijdelijk: doorsturen naar Italissima
 		// if($db->f("land_id")==5 and $skigebiedid<>135 and $skigebiedid<>142 and $skigebiedid<>168 and ($vars["website"]=="Z" or $vars["website"]=="N")) {
-		// 	header("Location: http://www.italissima.nl".$_SERVER["REQUEST_URI"],true,301);
+		// 	header("Location: https://www.italissima.nl".$_SERVER["REQUEST_URI"],true,301);
 		// 	exit;
 		// }
 	} else {

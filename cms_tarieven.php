@@ -352,7 +352,7 @@ if($_POST["filled"]) {
 
 	$db->query("SELECT DISTINCT ta.type_id, ta.seizoen_id FROM tarief ta, type t, accommodatie a WHERE t.tonen=1 AND a.tonen=1 AND t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND ta.c_bruto>0 AND ta.c_verkoop_site>0 AND ta.wederverkoop_verkoopprijs>0 AND (ta.wederverkoop_verkoopprijs<(ta.c_verkoop_site-10)) AND t.type_id='".addslashes($_GET["tid"])."';");
 	if($db->num_rows()) {
-		wt_mail("jeroen@webtastic.nl","Onjuiste wederverkoop-tarieven Chalet.nl","Er zijn onjuiste wederverkoop-tarieven (via cms_tarieven.php) aangetroffen op Chalet.nl.\n\nOpen de volgende pagina en wacht tot alles is verwerkt:\n\nhttp://www.chalet.nl/cms_tarieven_autosubmit.php?check=1&t=99&confirmed=1\n\n".$_SERVER["REQUEST_URI"]);
+		wt_mail("jeroen@webtastic.nl","Onjuiste wederverkoop-tarieven Chalet.nl","Er zijn onjuiste wederverkoop-tarieven (via cms_tarieven.php) aangetroffen op Chalet.nl.\n\nOpen de volgende pagina en wacht tot alles is verwerkt:\n\nhttps://www.chalet.nl/cms_tarieven_autosubmit.php?check=1&t=99&confirmed=1\n\n".$_SERVER["REQUEST_URI"]);
 
 		# Later: herstel-functie ontwikkelen (tarieven opnieuw doorrekenen)
 

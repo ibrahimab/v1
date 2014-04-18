@@ -56,9 +56,9 @@ if(!$_GET["edit"] and !$_GET["add"]) {
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 			$url="/chalet/";
 		} elseif($_GET["wzt"]==2) {
-			$url="http://www.zomerhuisje.nl/";
+			$url="https://www.zomerhuisje.nl/";
 		} else {
-			$url="http://www.chalet.nl/";
+			$url="https://www.chalet.nl/";
 		}
 		$url=$url."plaats/".wt_convert2url_seo($db->f("naam"))."/";
 		$plaatslink[$db->f("plaats_id")]="<a href=\"".htmlentities($url)."\" target=\"_blank\">".htmlentities($url)."</a>";

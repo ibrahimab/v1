@@ -21,7 +21,7 @@ if($_GET["newagent"] and (!$login_rb->logged_in or !$login_rb->vars["hoofdgebrui
 }
 
 # frm = formname (mag ook wat anders zijn)
-$form=new form2("frm"); 
+$form=new form2("frm");
 $form->settings["fullname"]="reisbureauaanmelden";
 $form->settings["layout"]["css"]=false;
 $form->settings["db"]["table"]="reisbureau_user";
@@ -29,7 +29,7 @@ $form->settings["db"]["table"]="reisbureau_user";
 
 $form->settings["message"]["submitbutton"]["nl"]="AANMELDEN";
 #$form->settings["target"]="_blank";
- 
+
 # Optionele instellingen (onderstaande regels bevatten de standaard-waarden)
 $form->settings["go_nowhere"]=false;			# bij true: ga na form=okay nergens heen
 
@@ -55,14 +55,14 @@ if(!$_GET["newagent"]) {
 	}
 	$form->field_text(1,"reisbureau_land",txt("land","reisbureau_overzicht"),"",array("text"=>$pre_land));
 	$form->field_htmlrow("","<div style=\"\">&darr;&nbsp;<a href=\"#\" onclick=\"fieldcopy('reisbureau_adres','reisbureau_post_adres');fieldcopy('reisbureau_postcode','reisbureau_post_postcode');fieldcopy('reisbureau_plaats','reisbureau_post_plaats');fieldcopy('reisbureau_land','reisbureau_post_land');return false;\">kopieer &quot;bezoekadres&quot; naar &quot;postadres&quot;</a>&nbsp;&darr;</div>");
-	
+
 	$form->field_htmlrow("","<i>".html("postadreskantoor","reisbureau_overzicht")."</i>");
 	$form->field_text(1,"reisbureau_post_adres",txt("adres","reisbureau_overzicht"));
 	$form->field_text(1,"reisbureau_post_postcode",txt("postcode","reisbureau_overzicht"));
 	$form->field_text(1,"reisbureau_post_plaats",txt("plaats","reisbureau_overzicht"));
 	$form->field_text(1,"reisbureau_post_land",txt("land","reisbureau_overzicht"),"",array("text"=>$pre_land));
 	$form->field_htmlrow("","&nbsp;");
-	
+
 	$form->field_text(1,"reisbureau_telefoonnummer",txt("telefoonnummer","reisbureau_overzicht"));
 	$form->field_text(0,"reisbureau_noodnummer",txt("noodnummer","reisbureau_overzicht"));
 	$form->field_url(0,"reisbureau_website",txt("website","reisbureau_overzicht"));
@@ -115,7 +115,7 @@ if($form->filled) {
 	if(!$form->input["voornaam"]) {
 		$form->input["voornaam"]="Collega";
 	}
-	
+
 	if($form->input["email"]) {
 		$db->query("SELECT user_id FROM reisbureau_user WHERE email='".addslashes($form->input["email"])."';");
 		if($db->next_record()) {
@@ -125,12 +125,12 @@ if($form->filled) {
 }
 
 if($form->okay) {
-	if($_GET["newagent"]) {	
+	if($_GET["newagent"]) {
 		# Gegevens opslaan in de database
 		$form->settings["db"]["set"]="reisbureau_id='".addslashes($login_rb->vars["reisbureau_id"])."', hoofdgebruiker=0, mailingmanager_gewonenieuwsbrief=1, mailingmanager_agentennieuwsbrief=1";
 		$form->save_db();
 	} else {
-	
+
 		# Gegevens opslaan in tabel reisbureau
 		$db->query("INSERT INTO reisbureau SET actief=0, websites='T,Z', reserveringskosten=1, beschikbaarheid_inzien=1, commissie_inzien=1, bevestiging_naar_reisbureau=1, aanmaning_naar_reisbureau=1, naam='".addslashes($form->input["reisbureau_naam"])."', verantwoordelijke='".addslashes($form->input["reisbureau_verantwoordelijke"])."', email_overeenkomst='".addslashes($form->input["reisbureau_email_overeenkomst"])."', anvrnummer='".addslashes($form->input["reisbureau_anvrnummer"])."', kvknummer='".addslashes($form->input["reisbureau_kvknummer"])."', btwnummer='".addslashes($form->input["reisbureau_btwnummer"])."', adres='".addslashes($form->input["reisbureau_adres"])."', postcode='".addslashes($form->input["reisbureau_postcode"])."', plaats='".addslashes($form->input["reisbureau_plaats"])."', land='".addslashes($form->input["reisbureau_land"])."', post_adres='".addslashes($form->input["reisbureau_post_adres"])."', post_postcode='".addslashes($form->input["reisbureau_post_postcode"])."', post_plaats='".addslashes($form->input["reisbureau_post_plaats"])."', post_land='".addslashes($form->input["reisbureau_post_land"])."', telefoonnummer='".addslashes($form->input["reisbureau_telefoonnummer"])."', noodnummer='".addslashes($form->input["reisbureau_noodnummer"])."', website='".addslashes($form->input["reisbureau_website"])."', email_facturen='".addslashes($form->input["reisbureau_email_facturen"])."', email_marketing='".addslashes($form->input["reisbureau_email_marketing"])."', adddatetime=NOW(), editdatetime=NOW();");
 	#	echo $db->lastquery;
@@ -140,13 +140,13 @@ if($form->okay) {
 			$form->settings["db"]["set"]="reisbureau_id='".addslashes($db->insert_id())."', hoofdgebruiker=1, mailingmanager_gewonenieuwsbrief=1, mailingmanager_agentennieuwsbrief=1";
 			$form->save_db();
 		}
-		
+
 		$mail=new wt_mail;
 		$mail->fromname="Website ".$vars["websites"][$vars["website"]];
 		$mail->from="info@chalet.nl";
 		$mail->to="info@chalet.nl";
 		$mail->subject="Aanmelding reisbureau";
-		$mail->plaintext="Er heeft zich een nieuw reisbureau aangemeld. Bezoek de volgende pagina om de gegevens goed te keuren en het reisbureau te activeren:\n\nhttp://www.chalet.nl/cms_reisbureaus.php?show=27&27k0=".$nieuwe_id."\n\n";
+		$mail->plaintext="Er heeft zich een nieuw reisbureau aangemeld. Bezoek de volgende pagina om de gegevens goed te keuren en het reisbureau te activeren:\n\nhttps://www.chalet.nl/cms_reisbureaus.php?show=27&27k0=".$nieuwe_id."\n\n";
 		$mail->send();
 	}
 }

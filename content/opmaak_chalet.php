@@ -30,7 +30,7 @@ if($vars["website"]=="E") {
 }
 
 echo "<!DOCTYPE html>\n";
-echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n prefix=\"fb: http://www.facebook.com/2008/fbml og: http://ogp.me/ns#\">\n";
+echo "<html>\n";
 echo "<head>\n";
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
@@ -189,7 +189,7 @@ while(list($key,$value)=each($submenu)) {
 		if($key=="zomerhuisje") {
 			if($vars["website"]=="C" or $vars["website"]=="T") {
 				echo "<span id=\"submenu_zomerhuisje\">";
-				echo "<a href=\"http://www.zomerhuisje.nl/";
+				echo "<a href=\"https://www.zomerhuisje.nl/";
 				if($vars["website"]=="T") echo "?fromsite=chalettour";
 				echo "\" target=\"_blank\">";
 				echo htmlentities($value);
@@ -220,9 +220,9 @@ echo "</td><td>";
 #
 #if(!$vars["wederverkoop"]) {
 #	if($vars["taal"]=="en") {
-#		echo "<a href=\"http://www.chalet.nl/\"><img src=\"".$vars["path"]."pic/vlag_nl_klein.gif\" border=\"0\" width=\"17\" height=\"11\" style=\"padding-top:0px;\"></a>";
+#		echo "<a href=\"https://www.chalet.nl/\"><img src=\"".$vars["path"]."pic/vlag_nl_klein.gif\" border=\"0\" width=\"17\" height=\"11\" style=\"padding-top:0px;\"></a>";
 #	} else {
-#		echo "<a href=\"http://www.chalet.eu/\"><img src=\"".$vars["path"]."pic/vlag_en_klein.gif\" border=\"0\" width=\"17\" height=\"11\" style=\"padding-top:0px;\"></a>";
+#		echo "<a href=\"https://www.chalet.eu/\"><img src=\"".$vars["path"]."pic/vlag_en_klein.gif\" border=\"0\" width=\"17\" height=\"11\" style=\"padding-top:0px;\"></a>";
 #	}
 #}
 echo "</td></tr></table>";

@@ -174,7 +174,7 @@ function form_before_goto($form) {
 				$links_naar_sites.=$vars["websiteinfo"]["basehref"][$value]."reisagent.php";
 			}
 		}
-		if(!$links_naar_sites) $links_naar_sites="http://www.chalettour.nl/reisagent.php";
+		if(!$links_naar_sites) $links_naar_sites="https://www.chalettour.nl/reisagent.php";
 
 		$mail=new wt_mail;
 		$mail->fromname="Chalet.nl";

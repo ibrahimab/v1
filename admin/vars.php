@@ -180,7 +180,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 
 if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
 	# bezoek op alleen IP-adres doorsturen naar juiste hostname
-	header("Location: http://www.chalet.nl/");
+	header("Location: https://www.chalet.nl/");
 	exit;
 }
 
@@ -1106,7 +1106,7 @@ if($boeking_wijzigen) {
 				$vars["chalettour_loggedin_overzichtboekingen"]=true;
 			} else {
 				if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-					$vars["websites_basehref"][$db->f("website")]=ereg_replace("http://www\.chalettour\.nl/","http://ss.postvak.net/chalet/",$vars["websites_basehref"][$db->f("website")]);
+					$vars["websites_basehref"][$db->f("website")]=ereg_replace("https://www\.chalettour\.nl/","http://ss.postvak.net/chalet/",$vars["websites_basehref"][$db->f("website")]);
 				}
 				header("Location: ".$vars["websites_basehref"][$db->f("website")]."bsys.php?".$_SERVER["QUERY_STRING"]);
 				exit;

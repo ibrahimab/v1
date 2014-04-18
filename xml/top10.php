@@ -6,7 +6,7 @@
 #
 # ?chad=KWX12 wordt overgenomen (tracker voor Snowplaza)
 #
-# voorbeeld-url: http://www.superski.nl/xml/top10.php?chad=KWX12 (is voor Snowplaza)
+# voorbeeld-url: https://www.superski.nl/xml/top10.php?chad=KWX12 (is voor Snowplaza)
 #
 
 set_time_limit(0);

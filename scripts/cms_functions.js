@@ -156,12 +156,12 @@ $(document).ready(function() {
 	//
 	// jquery
 	//
-        
+
         $("#accCodeIh").focus(function() {
             $("#ih_country").prop("disabled", true);
             $("#ih_region").prop("disabled", true);
         });
-        
+
         $("#accCodeIh").focusout( function() {
             if($("#accCodeIh").val() == ""){
                 $("#ih_country").prop("disabled", false);
@@ -206,7 +206,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	// open/close WebTastic-actions http://www.chalet.nl/cms_diversen.php?t=1
+	// open/close WebTastic-actions https://www.chalet.nl/cms_diversen.php?t=1
 	$(".open-wtactie").click(function (event) {
 		event.preventDefault();
 		var deze = $(this);
@@ -821,7 +821,7 @@ $(document).ready(function() {
 	}
 
 
-	// bij overzicht aanvragen (http://www.chalet.nl/cms_boekingen.php?bt=1&archief=0) hele tr opvallend kleuren als er nog geen bestelstatus bekend is
+	// bij overzicht aanvragen (https://www.chalet.nl/cms_boekingen.php?bt=1&archief=0) hele tr opvallend kleuren als er nog geen bestelstatus bekend is
 	$(".bestelstatus_hele_tr_opvallend").parent().parent().addClass("tr_bestelstatus_hele_tr_opvallend");
 
 

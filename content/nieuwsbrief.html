@@ -155,7 +155,7 @@ try {
 
 	echo "</div>";
 
-	# eerder verstuurde nieuwsbrieven tonen (te bewerken via http://www.chalet.nl/cms_overzichten_overig.php?t=10)
+	# eerder verstuurde nieuwsbrieven tonen (te bewerken via https://www.chalet.nl/cms_overzichten_overig.php?t=10)
 	$db->query("SELECT ".($vars["seizoentype"]==1 ? "winternieuwsbrieven" : "zomernieuwsbrieven").($vars["websiteland"]=="be" ? "_be" : "")." AS nieuwsbrief FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
 	if($db->next_record()) {
 		$nieuwsbrieven_array=preg_split("/\n/",$db->f("nieuwsbrief"));

@@ -7,10 +7,10 @@ if($_GET["show"]==4) {
 	if($db->next_record()) {
 		echo "<p>";
 		if($db->f("wzt")==1) {
-			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "http://www.chalet.nl/")."plaats/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.chalet.nl &gt;</a><br>";
-			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "http://www.chalet.eu/")."resort/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.chalet.eu &gt;</a><br>";
+			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.chalet.nl/")."plaats/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.chalet.nl &gt;</a><br>";
+			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.chalet.eu/")."resort/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.chalet.eu &gt;</a><br>";
 		} else {
-			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "http://www.zomerhuisje.nl/")."plaats/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.zomerhuisje.nl &gt;</a><br>";
+			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.zomerhuisje.nl/")."plaats/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.zomerhuisje.nl &gt;</a><br>";
 		}
 		echo "</p>";
 	}

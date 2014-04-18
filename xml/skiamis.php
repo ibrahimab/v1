@@ -4,9 +4,9 @@
 #
 # XML-export voor Ski Amis
 #
-# property list: 	http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=lotst_list@top_id='AMIS',@st='0'
-# property prices:	http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=tarif_lotref@top_id='AMIS',@lot_ref='F249'
-# property availability	http://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=extr_plng@top_id='AMIS'
+# property list: 	https://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=lotst_list@top_id='AMIS',@st='0'
+# property prices:	https://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=tarif_lotref@top_id='AMIS',@lot_ref='F249'
+# property availability	https://www.chalet.eu/xml/skiamis.php?app=LS&clt=111&top=999&qry=extr_plng@top_id='AMIS'
 #
 #
 

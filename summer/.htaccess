@@ -2,4 +2,4 @@ RewriteEngine On
 
 RewriteCond %{HTTP_HOST} ^www\.chalet\.eu [NC]
 RewriteCond %{REQUEST_URI} /summer/ [NC]
-RewriteRule ^(.*)$ http://www.chalet.eu/ [L,R=301]
+RewriteRule ^(.*)$ https://www.chalet.eu/ [L,R=301]

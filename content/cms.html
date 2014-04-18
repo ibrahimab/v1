@@ -29,7 +29,7 @@ if(!$login->logged_in) {
 	}
 
 	if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]!="/home/webtastic/html") {
-		echo "<div class=\"opmerkingbox\" style=\"padding-top:30px;padding-bottom:30px;margin-bottom:10px;\"><b>Let op!</b> Je gebruikt het CMS nu niet via Chalet.nl! Ga voor een correcte werking van het CMS naar <a href=\"http://www.chalet.nl/cms.php\">http://www.chalet.nl/cms.php</a>. Gebruik dit CMS uitsluitend om eenmalig in te loggen.</div>";
+		echo "<div class=\"opmerkingbox\" style=\"padding-top:30px;padding-bottom:30px;margin-bottom:10px;\"><b>Let op!</b> Je gebruikt het CMS nu niet via Chalet.nl! Ga voor een correcte werking van het CMS naar <a href=\"https://www.chalet.nl/cms.php\">https://www.chalet.nl/cms.php</a>. Gebruik dit CMS uitsluitend om eenmalig in te loggen.</div>";
 	}
 
 	if(!preg_match("/Chrome/",$_SERVER["HTTP_USER_AGENT"]) and !preg_match("/chromeframe/",$_SERVER["HTTP_USER_AGENT"]) and !$vars["lokale_testserver"] and $login->user_id<>1) {

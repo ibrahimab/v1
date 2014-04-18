@@ -482,7 +482,7 @@ $txt["en"]["popup"]["paginaafdrukken"]="Print page";
 
 
 #
-# Pop-up kwaliteit (http://www.chalet.nl/popup.php?id=kwaliteit)
+# Pop-up kwaliteit (https://www.chalet.nl/popup.php?id=kwaliteit)
 #
 $txt["nl"]["popup_kwaliteit"]["titel"]="Klassering [[v_websitenaam]]";
 $txt["en"]["popup_kwaliteit"]["titel"]="Classification [[v_websitenaam]]";
@@ -495,7 +495,7 @@ $txt["en"]["popup_kwaliteit"]["inleiding2"]="Stars are awarded on the basis of t
 
 
 #
-# Pop-up kwaliteit (http://www.chalet.nl/popup.php?id=stuurdoor)  NIET MEER IN GEBRUIK
+# Pop-up kwaliteit (https://www.chalet.nl/popup.php?id=stuurdoor)  NIET MEER IN GEBRUIK
 #
 $txt["nl"]["popup_stuurdoor"]["inleiding"]="Door hieronder één of meerdere mailadressen van vrienden in te voeren, ontvangen zij een link naar [[v_accnaam]].";
 $txt["en"]["popup_stuurdoor"]["inleiding"]="By filling in one or more email addresses from friends, they will receive a weblink to [[v_accnaam]].";
@@ -621,7 +621,7 @@ $txt["nl"]["vars"]["terugnaaracc"]="Terug naar [[v_accommodatienaam]]";
 $txt["en"]["vars"]["terugnaaracc"]="Back to [[v_accommodatienaam]]";
 
 #
-# Foto-tabel (bijvoorbeeld onderaan op http://www.chalet.nl/accommodatie/F265/)
+# Foto-tabel (bijvoorbeeld onderaan op https://www.chalet.nl/accommodatie/F265/)
 #
 $txt["nl"]["imagetable"]["klikopdefoto"]="Klik op de foto voor een vergroting";
 $txt["en"]["imagetable"]["klikopdefoto"]="Click on the photo to enlarge";
@@ -821,7 +821,7 @@ $txt["en"]["index"]["onze_bestemmingen"]="Our destinations";
 
 
 #
-# Accommodatie-zoekpagina (bijvoorbeeld http://www.chalet.nl/accommodaties.php?filled=1)
+# Accommodatie-zoekpagina (bijvoorbeeld https://www.chalet.nl/accommodaties.php?filled=1)
 #
 #$txt["nl"]["accommodaties"]["inleiding"]="Ons aanbod van accommodaties is te bekijken via de [[l1]]aanbiedingen[[/l1]] en de [[l2]]Top 10 per week[[/l2]]. Door middel van onderstaand formulier kun je zoeken in alle accommodaties die [[v_websitenaam]] aanbiedt. Vul de velden in waarop je wilt zoeken en klik daarna op \"ZOEKEN\"";
 #$txt["en"]["accommodaties"]["inleiding"]="Our accommodations can be viewed through our [[l1]]special offers[[/l1]] and the [[l2]]weekly top 10[[/l2]]. The form below allows you to search in all accommodations offered by [[v_websitenaam]]. Fill in the fields you want to search and then click on \"SEARCH\"";
@@ -1425,7 +1425,7 @@ $txt["en"]["zoek-en-boek"]["per_vakantiehuis"]="per holiday home";
 
 
 #
-# Aanbiedingen-pagina (http://www.chalet.nl/aanbiedingen.php)
+# Aanbiedingen-pagina (https://www.chalet.nl/aanbiedingen.php)
 #
 
 $txt["nl"]["aanbiedingen"]["aanbiedingen"]="Aanbiedingen";
@@ -1491,7 +1491,7 @@ $txt["en"]["aanbiedingen"]["bekijk-de-aanbiedingen"]="See accommodations with th
 
 
 #
-# Top 10 per week (bijvoorbeeld http://www.chalet.nl/top10.php?d=1176501600)
+# Top 10 per week (bijvoorbeeld https://www.chalet.nl/top10.php?d=1176501600)
 #
 
 $txt["nl"]["top10"]["inleiding"]="Per vakantieweek hebben wij een Top-10 samengesteld met accommodaties in verschillende groottes en prijsklassen. De beschikbaarheid wordt zoveel mogelijk up-to-date gehouden en indien iemand anders je voor is geweest proberen wij een vergelijkbaar alternatief te bieden.";
@@ -1513,7 +1513,7 @@ $txt["nl"]["top10"]["aanbieding"]="aanbieding";
 $txt["en"]["top10"]["aanbieding"]="special offer";
 
 #
-# Contactpagina (http://www.chalet.nl/contact.php)
+# Contactpagina (https://www.chalet.nl/contact.php)
 #
 
 $txt["nl"]["contact"]["ok"]="OK";
@@ -1686,7 +1686,7 @@ $txt["en"]["contact"]["mail-of-telefoon"]="To contact you we need either a telep
 
 
 #
-# Favorieten (http://www.chalet.nl/favorieten.php)
+# Favorieten (https://www.chalet.nl/favorieten.php)
 #
 $txt["nl"]["favorieten"]["jefavorietenwordenopgeslagen"]="Je favorieten worden hier opgeslagen. Hier kun je je favoriete accommodaties vergelijken, delen en afdrukken.";
 $txt["en"]["favorieten"]["jefavorietenwordenopgeslagen"]="Your favourites are saved here. This enables you to comapare, share and print them.";
@@ -1834,7 +1834,7 @@ $txt["nl"]["accommodatiemail"]["nietallevelden"]="niet alle velden zijn correct 
 $txt["en"]["accommodatiemail"]["nietallevelden"]="not all fields are filled out correctly";
 
 #
-# Accommodatiepagina (bijvoorbeeld http://www.chalet.nl/accommodatie/F265/)
+# Accommodatiepagina (bijvoorbeeld https://www.chalet.nl/accommodatie/F265/)
 #
 
 $txt["nl"]["toonaccommodatie"]["accommodatienietgevonden"]="Accommodatie niet gevonden";
@@ -2253,7 +2253,7 @@ $txt["en"]["toonaccommodatie"]["meerfotos"]="more photos";
 
 
 #
-# Beoordelingen van een accommodatie (bijv. http://www.chalet.nl/beoordelingen.php?typeid=240)
+# Beoordelingen van een accommodatie (bijv. https://www.chalet.nl/beoordelingen.php?typeid=240)
 #
 $txt["nl"]["beoordelingen"]["gemiddeldtotaaloordeel"]="Gemiddeld totaaloordeel";
 $txt["en"]["beoordelingen"]["gemiddeldtotaaloordeel"]="Average overall rating";
@@ -2388,7 +2388,7 @@ $txt["en"]["weekendski"]["alinea3"]="As a suggestion, you can find here below se
 
 
 #
-# Land-pagina (zie http://www.chalet.nl/land/Frankrijk/)
+# Land-pagina (zie https://www.chalet.nl/land/Frankrijk/)
 #
 
 $txt["nl"]["land"]["skigebied"]="Skigebied";
@@ -2414,7 +2414,7 @@ $txt["en_z"]["land"]["bekijkonzeaccommodaties"]="Have a look at our holiday home
 
 
 #
-# Thema-pagina (zie http://www.chalet.nl/thema/catering/)
+# Thema-pagina (zie https://www.chalet.nl/thema/catering/)
 #
 $txt["nl"]["thema"]["meerinformatie"]="meer informatie";
 $txt["en"]["thema"]["meerinformatie"]="more information";
@@ -2460,7 +2460,7 @@ $txt["en"]["thema"]["meeraccommodaties"]="-";
 
 
 #
-# Overzicht thema's-pagina (zie http://www.chalet.nl/themas.php)
+# Overzicht thema's-pagina (zie https://www.chalet.nl/themas.php)
 #
 $txt["nl"]["themas"]["inleiding"]="[[v_websitenaam]] biedt een grote variëteit aan chalets en luxe appartementen, maar hoe vindt u de accommodatie die bij u past? Wat zijn uw wensen? Onderstaande thema's geven alvast wat inspiratie.\n\nHeeft u specifieke wensen? Neem dan gerust [[l1]]contact[[/l1]] met ons op.";
 $txt["en"]["themas"]["inleiding"]="[[v_websitenaam]] offers a great variety of chalets and luxurious apartments, but how will you find that one accommodation that suits you perfectly? What are your wishes? The themes below can perhaps give you some inspiration.\n\nDo you have specific wishes? Please don't hesitate to [[l1]]contact us[[/l1]].";
@@ -2470,7 +2470,7 @@ $txt["en_z"]["themas"]["inleiding"]="-";
 
 
 #
-# Tarieventabel (zie ongeveer halverwege http://www.chalet.nl/accommodatie/F265/)
+# Tarieventabel (zie ongeveer halverwege https://www.chalet.nl/accommodatie/F265/)
 #
 $txt["nl"]["tarieventabel"]["tarieven"]="Prijzen";
 $txt["en"]["tarieventabel"]["tarieven"]="Prices";
@@ -2651,7 +2651,7 @@ $txt["nl"]["tarieventabel"]["legenda_gekozen_datum"]="geselecteerde datum";
 $txt["en"]["tarieventabel"]["legenda_gekozen_datum"]="selected date";
 
 #
-# Pagina Skigebied (bijvoorbeeld http://www.chalet.nl/skigebied/Alpe_d_Huez_Les_Grandes_Rousses/)
+# Pagina Skigebied (bijvoorbeeld https://www.chalet.nl/skigebied/Alpe_d_Huez_Les_Grandes_Rousses/)
 #
 
 $txt["nl"]["toonskigebied"]["piste"]="piste";
@@ -2837,7 +2837,7 @@ $txt["en"]["toonskigebied"]["accommodaties-in-regio"]="accommodations in [[v_reg
 
 
 #
-# Pagina Plaats (bijvoorbeeld http://www.chalet.nl/plaats/Alpe_d_Huez/)
+# Pagina Plaats (bijvoorbeeld https://www.chalet.nl/plaats/Alpe_d_Huez/)
 #
 $txt["nl"]["toonplaats"]["bekijkonzeaccommodatie"]="Bekijk onze [[l1]]accommodatie[[/l1]] in [[v_plaatsnaam]].";
 $txt["en"]["toonplaats"]["bekijkonzeaccommodatie"]="View our [[l1]]accommodation[[/l1]] in [[v_plaatsnaam]].";
@@ -2987,7 +2987,7 @@ $txt["nl_z"]["toonplaats"]["bekijkalleaccommodaties"]="Bekijk alle vakantiehuize
 $txt["en_z"]["toonplaats"]["bekijkalleaccommodaties"]="View all holiday homes in [[v_skigebied]]";
 
 #
-# Overzicht skigebieden (http://www.chalet.nl/skigebieden.php)
+# Overzicht skigebieden (https://www.chalet.nl/skigebieden.php)
 #
 $txt["nl"]["skigebieden"]["viaonderstaandoverzicht"]="Via onderstaand overzicht vind je uitgebreide informatie over skigebieden in [[h_landen]].";
 $txt["en"]["skigebieden"]["viaonderstaandoverzicht"]="The overview below provides detailed information about the skiing areas in [[h_landen]].";
@@ -3018,7 +3018,7 @@ $txt["en"]["skigebieden"]["accommodaties"]="Accommodations";
 
 
 #
-# Beschikbaarheid controleren (bijvoorbeeld http://www.chalet.nl/beschikbaarheid.php?tid=225)
+# Beschikbaarheid controleren (bijvoorbeeld https://www.chalet.nl/beschikbaarheid.php?tid=225)
 #
 $txt["nl"]["beschikbaarheid"]["inleiding1"]="Door onderstaand formulier in te vullen, kun je ons geheel vrijblijvend na laten gaan of een accommodatie beschikbaar is.";
 $txt["en"]["beschikbaarheid"]["inleiding1"]="If you fill in the form below, we can check if the accommodation is still available.";
@@ -3187,7 +3187,7 @@ $txt["nl"]["beschikbaarheid"]["terugnaardeaccommodatiegegevens"]="Terug naar de 
 $txt["en"]["beschikbaarheid"]["terugnaardeaccommodatiegegevens"]="Back to the accommodation data.";
 
 #
-# Pagina accommodatie boeken (bijvoorbeeld http://www.chalet.nl/boeken.php?tid=225)
+# Pagina accommodatie boeken (bijvoorbeeld https://www.chalet.nl/boeken.php?tid=225)
 #
 $txt["nl"]["boeken"]["inleiding1"]="Hier kun je in 5 stappen een accommodatie reserveren. Je kunt er voor kiezen om alleen de accommodatie vast te leggen en stap 3 en 4 voorlopig over te slaan.";
 $txt["en"]["boeken"]["inleiding1"]="Here, you can book your accommodation in 5 easy steps. If you only wish to choose your accommodation, you can skip steps 3 and 4.";
@@ -3587,7 +3587,7 @@ $txt["nl"]["boeking_bevestigd"]["terugnaaraccommodatie"]="Terug naar de accommod
 $txt["en"]["boeking_bevestigd"]["terugnaaraccommodatie"]="Back to the accommodation";
 
 #
-# Inlogpagina "Mijn boeking" (http://www.chalet.nl/inloggen.php)
+# Inlogpagina "Mijn boeking" (https://www.chalet.nl/inloggen.php)
 #
 $txt["nl"]["inloggen"]["inleiding"]="Via onderstaand formulier kun je inloggen om de gegevens van je boeking te bekijken en eventueel aan te passen. Voer hieronder het door jou opgegeven e-mailadres van de hoofdboeker in. Het wachtwoord heb je direct na de boeking per e-mail ontvangen.";
 $txt["en"]["inloggen"]["inleiding"]="The form below allows you to log in and view your booking details and change them if necessary. Enter the e-mail address of the main booker below. You have received the password by e-mail immediately after you made your booking.";
@@ -3636,7 +3636,7 @@ $txt["en"]["wachtwoord"]["mailcontent"]="Dear client,\n\nYou can log in at \"My 
 
 
 #
-# Pagina reisbureau (bijvoorbeeld http://www.chalettour.nl/reisagent.php)
+# Pagina reisbureau (bijvoorbeeld https://www.chalettour.nl/reisagent.php)
 #
 
 $txt["nl"]["reisbureau"]["inleiding"]="Via onderstaand formulier kun je inloggen als reisagent. Overige boekers kunnen terecht bij [[h_1]]Mijn boeking[[h_2]].";
@@ -3722,7 +3722,7 @@ Wanneer je ingelogd bent, heb je toegang tot de volgende extra's:
 Wanneer je ingelogd bent kun je via het systeem een optie aanvragen welke direct aan jouw gegevens gekoppeld wordt. Natuurlijk kun je ons ook bellen op tel.nr. 0348 - 43 46 49.
 
 Om ervoor te zorgen dat alles gelijk goed bij ons in het systeem staat wil ik je vragen om onderstaande pagina te bezoeken en je gegevens te controleren en eventueel aan te vullen of te corrigeren:
-http://www.chalettour.nl/reisagent_overzicht.php?mijngeg=1
+https://www.chalettour.nl/reisagent_overzicht.php?mijngeg=1
 
 Met vriendelijke groet,
 
@@ -3730,7 +3730,7 @@ Medewerkers Chalet.nl B.V.";
 $txt["en"]["reisbureau"]["welkomstmail"]="-";
 
 #
-# Pagina reisbureau_overzicht (bijvoorbeeld http://www.chalettour.nl/reisagent_overzicht.php)
+# Pagina reisbureau_overzicht (bijvoorbeeld https://www.chalettour.nl/reisagent_overzicht.php)
 #
 
 $txt["nl"]["reisbureau_overzicht"]["geenboekingen"]="Er zijn geen actuele boekingen die door [[v_websitenaam]] bevestigd zijn.";
@@ -3882,7 +3882,7 @@ $txt["en"]["reisbureau_overzicht"]["boekingenverleden"]="Old bookings";
 
 
 #
-# Pagina reisagent_aanmelden (bijvoorbeeld http://www.chalettour.nl/reisagent_aanmelden.php)
+# Pagina reisagent_aanmelden (bijvoorbeeld https://www.chalettour.nl/reisagent_aanmelden.php)
 #
 
 
@@ -3908,7 +3908,7 @@ $txt["en"]["reisagent_aanmelden"]["contactgegevensagent"]="Contactdetails agent"
 
 
 #
-# Pagina reisagent_wachtwoord (bijvoorbeeld http://www.chalettour.nl/reisagent_wachtwoord.php)
+# Pagina reisagent_wachtwoord (bijvoorbeeld https://www.chalettour.nl/reisagent_wachtwoord.php)
 #
 
 $txt["nl"]["reisagent_wachtwoord"]["inleiding"]="Ben je je wachtwoord vergeten? Als je hieronder je e-mailadres invult, ontvang je via e-mail een nieuw wachtwoord.";
@@ -4554,7 +4554,7 @@ Phone: +31 (0)348 - 43 46 49";
 
 
 #
-# Verzekeringen (http://www.chalet.nl/verzekeringen.php)
+# Verzekeringen (https://www.chalet.nl/verzekeringen.php)
 #
 
 $txt["nl"]["verzekeringen"]["inleiding"]="Het is mogelijk om via ons onderstaande verzekeringen van Europeesche Verzekeringen af te sluiten. Wanneer je één of meerdere verzekering(en) via ons afsluit wordt er éénmalig € [[v_poliskosten]] poliskosten in rekening gebracht.";
@@ -4717,7 +4717,7 @@ $txta["nl_z"]["anderesite"]="winterprogramma";
 $txta["en_z"]["anderesite"]="winter programme";
 
 #
-# "Pagina niet gevonden" (http://www.chalet.nl/404.php)
+# "Pagina niet gevonden" (https://www.chalet.nl/404.php)
 #
 $txt["nl"]["404"]["inleiding"]="Deze pagina kan helaas niet worden gevonden.\n\nGebruik ons [[l1]]zoekformulier[[/l1]] om de door jou gewenste accommodatie te vinden.";
 $txt["en"]["404"]["inleiding"]="Page not found. Please use our [[l1]]search form[[/l1]] to find a accommodation.";

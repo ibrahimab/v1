@@ -234,7 +234,7 @@ if($_GET["wzt"]==2) {
 	$cms->edit_field(14,$opval_obl,"opval_volgorde","Volgorde");
 	$cms->edit_field(14,$opval_obl,"opval_afbeelding","Afbeelding","",array("autoresize"=>true,"img_width"=>"200","img_height"=>"133","img_ratio_width"=>"3","img_ratio_height"=>"2"));
 	$cms->edit_field(14,0,"htmlrow","<br><i>Link: geef een URL op. Bij leeglaten: link gaat naar overzicht van de aanbieding.</i>");
-	$cms->edit_field(14,0,"opval_linknaar","Link (zonder 'http://www.zomerhuisje.nl')");
+	$cms->edit_field(14,0,"opval_linknaar","Link (zonder 'https://www.zomerhuisje.nl')");
 }
 
 

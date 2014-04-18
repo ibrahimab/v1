@@ -98,7 +98,7 @@ if($vars["cmstaal"]) {
 	$cms->edit_field(36,0,"url","Titel in link NL","",array("noedit"=>true));
 	$cms->edit_field(36,1,"url_".$vars["cmstaal"],"Titel in link ".strtoupper($vars["cmstaal"]));
 } else {
-	$cms->edit_field(36,1,"url","Titel in link<br>(http://www.chalet.nl/thema/titel-in-link)","","",array("title_html"=>true));
+	$cms->edit_field(36,1,"url","Titel in link<br>(https://www.chalet.nl/thema/titel-in-link)","","",array("title_html"=>true));
 }
 
 

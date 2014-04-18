@@ -58,8 +58,8 @@ if($land["id"]) {
 		$content=file_get_contents($cachefile);
 		if($voorkant_cms) {
 			# bewerk-link toevoegen
-			$content=preg_replace("/<!-- wt_bewerk_ab_([0-9]+) -->/","<div style=\"text-align:right;font-size:0.8em;\"><a href=\"http://www.chalet.nl/cms_aanbiedingen.php?show=14&14k0=\\1&wzt=2&t=1\" target=\"_blank\">bewerk</a>&nbsp;</div>",$content);
-			$content=preg_replace("/<!-- wt_bewerk_korting_([0-9]+)_([0-9]+)_([0-9]+) -->/","<div style=\"text-align:right;font-size:0.8em;\"><a href=\"http://www.chalet.nl/cms_kortingen_tarieven.php?from=%2Fcms_types.php%3Fshow%3D2%26wzt%3D1%26archief%3D0%262k0%3D\\2&sid=\\3&tid=\\2&kid=\\1&wzt=2&t=1\" target=\"_blank\">bewerk</a>&nbsp;</div>",$content);
+			$content=preg_replace("/<!-- wt_bewerk_ab_([0-9]+) -->/","<div style=\"text-align:right;font-size:0.8em;\"><a href=\"https://www.chalet.nl/cms_aanbiedingen.php?show=14&14k0=\\1&wzt=2&t=1\" target=\"_blank\">bewerk</a>&nbsp;</div>",$content);
+			$content=preg_replace("/<!-- wt_bewerk_korting_([0-9]+)_([0-9]+)_([0-9]+) -->/","<div style=\"text-align:right;font-size:0.8em;\"><a href=\"https://www.chalet.nl/cms_kortingen_tarieven.php?from=%2Fcms_types.php%3Fshow%3D2%26wzt%3D1%26archief%3D0%262k0%3D\\2&sid=\\3&tid=\\2&kid=\\1&wzt=2&t=1\" target=\"_blank\">bewerk</a>&nbsp;</div>",$content);
 		}
 		echo $content;
 	} else {

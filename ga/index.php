@@ -68,10 +68,10 @@ if($_GET["t"]==2) {
 	header("Location: /");
 } elseif($_GET["t"]==9) {
 	# Tourploeg
-	header("Location: http://www.zomerhuisje.nl/accommodatie/F849/");
+	header("Location: https://www.zomerhuisje.nl/accommodatie/F849/");
 } elseif($_GET["t"]==10) {
 	# Tourploeg
-	header("Location: http://www.zomerhuisje.nl/accommodatie/F849/");
+	header("Location: https://www.zomerhuisje.nl/accommodatie/F849/");
 } elseif($_GET["t"]==11) {
 	header("Location: /");
 } elseif($_GET["t"]==12) {

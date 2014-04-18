@@ -335,14 +335,14 @@ if($form->okay) {
 		$html.="<tr><td class=\"wtform_cell_left\">Ingevuld op</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ")." ".date("H:i")."u.</td></tr>";
 
 		if($vars["rebook"] and $vars["oud_boekingsnummer"]) {
-			$html.="<tr><td class=\"wtform_cell_left\">Boekingsnummer vorig seizoen"."</td><td class=\"wtform_cell_right\"><a href=\"http://www.chalet.nl/cms_boekingen.php?show=21&21k0=".$vars["oud_boekingid"]."\">".$vars["oud_boekingsnummer"]."</a></td></tr>";
+			$html.="<tr><td class=\"wtform_cell_left\">Boekingsnummer vorig seizoen"."</td><td class=\"wtform_cell_right\"><a href=\"https://www.chalet.nl/cms_boekingen.php?show=21&21k0=".$vars["oud_boekingid"]."\">".$vars["oud_boekingsnummer"]."</a></td></tr>";
 
 			# Opslaan bij oude boeking
 			$db2->query("UPDATE boeking SET status_klanten_vorig_seizoen=4 WHERE status_klanten_vorig_seizoen<4 AND boeking_id='".addslashes($vars["oud_boekingid"])."';");
 		}
 
 		if($wederverkoop_aanvraag) {
-			$html.="<tr><td class=\"wtform_cell_left\">Via reisagent</td><td class=\"wtform_cell_right\">".htmlentities($vars["chalettour_reisagentnaam"])." / <a href=\"http://www.chalet.nl/cms_reisbureaus.php?show=27&27k0=".$login_rb->vars["reisbureau_id"]."\">".htmlentities($vars["chalettour_naam"])."</a></td></tr>";
+			$html.="<tr><td class=\"wtform_cell_left\">Via reisagent</td><td class=\"wtform_cell_right\">".htmlentities($vars["chalettour_reisagentnaam"])." / <a href=\"https://www.chalet.nl/cms_reisbureaus.php?show=27&27k0=".$login_rb->vars["reisbureau_id"]."\">".htmlentities($vars["chalettour_naam"])."</a></td></tr>";
 		}
 		$html.="<tr><td class=\"wtform_cell_left\">Accommodatie</td><td class=\"wtform_cell_right\"><a href=\"".$accinfo["url"]."\">".$accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".htmlentities($accinfo["naam"])."</a> - ".$accinfo["aantalpersonen"]."</td></tr>";
 		$html.="<tr><td class=\"wtform_cell_left\">Plaats</td><td class=\"wtform_cell_right\">".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";

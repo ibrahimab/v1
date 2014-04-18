@@ -5,7 +5,7 @@ RewriteEngine On
 #
 RewriteCond %{HTTP_HOST} ^www[23]?\.chalet\.nl [NC]
 RewriteCond %{REQUEST_URI} /zomer/
-RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.zomerhuisje.nl/$1 [L,R=301]
 
 
 #
@@ -13,7 +13,7 @@ RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
 #
 RewriteCond %{HTTP_HOST} ^www[23]?\.chalet\.be [NC]
 RewriteCond %{REQUEST_URI} /zomer/
-RewriteRule ^(.*)$ http://www.zomerhuisje.eu/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.zomerhuisje.nl/$1 [L,R=301]
 
 #
 # www.zomerhuisje.nl/zomer doorsturen naar /
@@ -27,7 +27,7 @@ RewriteRule ^(.*)$ /$1 [L,R=301]
 #
 RewriteCond %{HTTP_HOST} ^www[23]?\.chalettour\.nl [NC]
 RewriteCond %{REQUEST_URI} /zomer/ [NC]
-RewriteRule ^(.*)$ http://www.zomerhuisje.nl/ [L,R=301]
+RewriteRule ^(.*)$ https://www.zomerhuisje.nl/ [L,R=301]
 
 #
 # ss.postvak.net/chalet/zomer doorsturen naar testsite-zomerhuisje

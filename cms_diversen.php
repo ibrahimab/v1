@@ -150,14 +150,14 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$db2=new DB_sql;
 
 		if($_GET["add"]==39 and $form->db_insert_id and $login->userlevel<10) {
-			wt_mail("jeroen@webtastic.nl","Nieuwe actie ingevoerd: ".$form->input["naam"],"Bij de Chalet.nl-actielijst is een nieuwe actie ingevoerd door ".$vars["allewerknemers"][$login->user_id].".\n\nZie: http://www.chalet.nl/cms_diversen.php?edit=39&t=1&39k0=".$form->db_insert_id,$login->vars["email"],wt_naam($login->vars["voornaam"],$login->vars["tussenvoegsel"],$login->vars["achternaam"]));
+			wt_mail("jeroen@webtastic.nl","Nieuwe actie ingevoerd: ".$form->input["naam"],"Bij de Chalet.nl-actielijst is een nieuwe actie ingevoerd door ".$vars["allewerknemers"][$login->user_id].".\n\nZie: https://www.chalet.nl/cms_diversen.php?edit=39&t=1&39k0=".$form->db_insert_id,$login->vars["email"],wt_naam($login->vars["voornaam"],$login->vars["tussenvoegsel"],$login->vars["achternaam"]));
 		}
 		if($_GET["edit"]==39 and $login->userlevel<10) {
-#			wt_mail("jeroen@webtastic.nl","Actie gewijzigd door Chalet.nl","Bij de Chalet.nl-actielijst is een actie gewijzigd door ".$vars["allewerknemers"][$login->user_id].".\n\nZie: http://www.chalet.nl/cms_diversen.php?edit=39&t=1&39k0=".$_GET["39k0"]);
+#			wt_mail("jeroen@webtastic.nl","Actie gewijzigd door Chalet.nl","Bij de Chalet.nl-actielijst is een actie gewijzigd door ".$vars["allewerknemers"][$login->user_id].".\n\nZie: https://www.chalet.nl/cms_diversen.php?edit=39&t=1&39k0=".$_GET["39k0"]);
 		}
 
 		if($_GET["add"]==39 and $form->db_insert_id and $login->userlevel>=10 and $_POST["actiemailen"]==1) {
-			wt_mail($vars["allewerknemers_mail"][$form->input["user_id"]],"Nieuwe actie ingevoerd door WebTastic","Aan de WebTastic-actielijst is een nieuwe actie toegevoegd door Jeroen.\n\nZie: http://www.chalet.nl/cms_diversen.php?edit=39&t=1&39k0=".$form->db_insert_id,"jeroen@webtastic.nl","WebTastic");
+			wt_mail($vars["allewerknemers_mail"][$form->input["user_id"]],"Nieuwe actie ingevoerd door WebTastic","Aan de WebTastic-actielijst is een nieuwe actie toegevoegd door Jeroen.\n\nZie: https://www.chalet.nl/cms_diversen.php?edit=39&t=1&39k0=".$form->db_insert_id,"jeroen@webtastic.nl","WebTastic");
 		}
 
 		$prio=0;

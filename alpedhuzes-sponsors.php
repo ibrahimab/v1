@@ -34,14 +34,14 @@ echo "<div style=\"text-align:center;font-size:1.2em;margin-bottom:20px;\"><h1>B
 <hr>
 
 <h1>Chalet.nl</h1>
-<a href="http://www.chalet.nl/" target="_blank"><img src="pic/tijdelijk/ad6_ch.gif" width="110" border="0"></a><br>
+<a href="https://www.chalet.nl/" target="_blank"><img src="pic/tijdelijk/ad6_ch.gif" width="110" border="0"></a><br>
 <p><i>Bedrijfsomschrijving:</i><br>Wintersportspecialist: chalets en appartementen voor 2 tot 50 personen onder &eacute;&eacute;n dak</p>
 <p><i>Reactie:</i><br>Zet hem op collega's en partners/vrienden van Chalet.nl!</p>
 
 <hr>
 
 <h1>Zomerhuisje.nl</h1>
-<a href="http://www.zomerhuisje.nl/" target="_blank"><img src="pic/tijdelijk/ad6_zh.gif" width="110" border="0"></a><br>
+<a href="https://www.zomerhuisje.nl/" target="_blank"><img src="pic/tijdelijk/ad6_zh.gif" width="110" border="0"></a><br>
 <p><i>Bedrijfsomschrijving:</i><br>Vakantiehuizenspecialist: Karakteristieke landhuizen, vakantieparken en luxe villa's voor levensgenieters</p>
 <p><i>Reactie:</i><br>Op naar de top! Veel succes!</p>
 

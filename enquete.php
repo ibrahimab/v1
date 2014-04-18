@@ -23,7 +23,7 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 			$mailhtml.="De volgende gegevens zijn zojuist ingevuld:<p>";
 
 			$mailhtml.="<table style=\"width:700px;\">";
-			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Boeking</td><td>&nbsp;</td><td><a href=\"http://www.chalet.nl/cms_boekingen.php?show=21&archief=0&21k0=".$gegevens["stap1"]["boekingid"]."\">".htmlentities($gegevens["stap1"]["boekingsnummer"])."</a></td></tr>";
+			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Boeking</td><td>&nbsp;</td><td><a href=\"https://www.chalet.nl/cms_boekingen.php?show=21&archief=0&21k0=".$gegevens["stap1"]["boekingid"]."\">".htmlentities($gegevens["stap1"]["boekingsnummer"])."</a></td></tr>";
 			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Plaats</td><td>&nbsp;</td><td>".htmlentities($gegevens["stap1"]["accinfo"]["plaats"].", ".$gegevens["stap1"]["accinfo"]["land"])."</td></tr>";
 			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Accommodatie</td><td>&nbsp;</td><td><a href=\"".htmlentities($gegevens["stap1"]["accinfo"]["url"])."\">".htmlentities($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"])."</a></td></tr>";
 			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Periode</td><td>&nbsp;</td><td>".htmlentities(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"]))." - ".htmlentities(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"]))."</td></tr>";
@@ -177,8 +177,8 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 					}
 					if($enquete_kortingscode_aantal<50) {
 						# Zo niet: Bjorn en Sélina mailen
-						wt_mail("bjorn@chalet.nl","Nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes","Er zijn nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes beschikbaar.\n\nVoeg z.s.m. nieuwe codes toe via http://www.chalet.nl/cms_diversen.php?t=3\n\n");
-						wt_mail("selina@chalet.nl","Nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes","Er zijn nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes beschikbaar.\n\nVoeg z.s.m. nieuwe codes toe via http://www.chalet.nl/cms_diversen.php?t=3\n\n");
+						wt_mail("bjorn@chalet.nl","Nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes","Er zijn nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes beschikbaar.\n\nVoeg z.s.m. nieuwe codes toe via https://www.chalet.nl/cms_diversen.php?t=3\n\n");
+						wt_mail("selina@chalet.nl","Nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes","Er zijn nog maar ".$enquete_kortingscode_aantal." enquête-kortingscodes beschikbaar.\n\nVoeg z.s.m. nieuwe codes toe via https://www.chalet.nl/cms_diversen.php?t=3\n\n");
 					}
 
 					$mailbody="Als dank voor het invullen van de enquête van ".$vars["websitenaam"]." ontvang je hierbij je kortingscode. Met deze kortingscode kun je op [link=http://www.fotofabriek.nl/chalet-actie/]fotofabriek.nl[/link] met 25% korting een foto-canvas bestellen!

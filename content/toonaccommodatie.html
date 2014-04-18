@@ -1357,7 +1357,7 @@ if($db->next_record()) {
 			echo "<div style=\"margin-top:5px;margin-bottom:10px;padding:5px;border:1px solid #878481;width:650px;\" class=\"noprint\">Archief tarieven en beschikbaarheid:<br>";
 			while($db2->next_record()) {
 				echo "&bull;&nbsp;&nbsp;&nbsp;";
-				echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "http://www.chalet.nl/")."cms_tarieven.php?from=".htmlentities(urlencode("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))."&sid=".$db2->f("seizoen_id")."&tid=".htmlentities($typeid)."\">".htmlentities($db2->f("naam"))."</a><br/>";
+				echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.chalet.nl/")."cms_tarieven.php?from=".htmlentities(urlencode("http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]))."&sid=".$db2->f("seizoen_id")."&tid=".htmlentities($typeid)."\">".htmlentities($db2->f("naam"))."</a><br/>";
 			}
 			echo "</div>\n";
 		}
@@ -1745,23 +1745,23 @@ if($db->next_record()) {
 				# Op Chalet.nl/be link naar zomerhuisje.nl/eu
 				if($vars["website"]=="C") {
 					if(preg_match("/Z/",$db2->f("websites"))) {
-						$beginurl="http://www.zomerhuisje.nl";
+						$beginurl="https://www.zomerhuisje.nl";
 					}
 				} elseif($vars["website"]=="B") {
 					if(preg_match("/N/",$db2->f("websites"))) {
-						$beginurl="http://www.zomerhuisje.eu";
+						$beginurl="https://www.zomerhuisje.nl";
 					}
 				} elseif($vars["website"]=="V") {
 					if(preg_match("/V/",$db2->f("websites"))) {
-						$beginurl="http://www.chaletsinvallandry.nl";
+						$beginurl="https://www.chaletsinvallandry.nl";
 					}
 				} elseif($vars["website"]=="Q") {
 					if(preg_match("/Q/",$db2->f("websites"))) {
-						$beginurl="http://www.chaletsinvallandry.com";
+						$beginurl="https://www.chaletsinvallandry.com";
 					}
 				} elseif($vars["website"]=="T") {
 					if(preg_match("/Z/",$db2->f("websites"))) {
-						$beginurl="http://www.zomerhuisje.nl";
+						$beginurl="https://www.zomerhuisje.nl";
 						$beginurl_extra="?fromsite=chalettour";
 					}
 				}
@@ -1775,24 +1775,24 @@ if($db->next_record()) {
 				if($vars["website"]=="Z") {
 					if($_GET["fromsite"]=="chalettour" or $_COOKIE["fromsite"]=="chalettour") {
 						if(preg_match("/T/",$db2->f("websites"))) {
-							$beginurl="http://www.chalettour.nl";
+							$beginurl="https://www.chalettour.nl";
 						}
 					} else {
 						if(preg_match("/C/",$db2->f("websites"))) {
-							$beginurl="http://www.chalet.nl";
+							$beginurl="https://www.chalet.nl";
 						}
 					}
 				} elseif($vars["website"]=="N") {
 					if(preg_match("/B/",$db2->f("websites"))) {
-						$beginurl="http://www.chalet.be";
+						$beginurl="https://www.chalet.be";
 					}
 				} elseif($vars["website"]=="V") {
 					if(preg_match("/V/",$db2->f("websites"))) {
-						$beginurl="http://www.chaletsinvallandry.nl";
+						$beginurl="https://www.chaletsinvallandry.nl";
 					}
 				} elseif($vars["website"]=="Q") {
 					if(preg_match("/Q/",$db2->f("websites"))) {
-						$beginurl="http://www.chaletsinvallandry.com";
+						$beginurl="https://www.chaletsinvallandry.com";
 					}
 				}
 				if($beginurl) {
@@ -1848,7 +1848,7 @@ if($db->next_record()) {
 	if($voorkant_cms) {
 		echo "<li><a href=\"";
 		if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-			echo "http://www.chalet.nl";
+			echo "https://www.chalet.nl";
 		}
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 			echo "/chalet";
@@ -1856,7 +1856,7 @@ if($db->next_record()) {
 		echo ereg_replace("[a-z]+/$","",$path)."cms_accommodaties.php?wzt=".$db->f("wzt")."&show=1&1k0=".$accinfo["accommodatie_id"]."\" target=\"_blank\">Accommodatie bewerken</a></li>";
 		echo "<li><a href=\"";
 		if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-			echo "http://www.chalet.nl";
+			echo "https://www.chalet.nl";
 		}
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 			echo "/chalet";

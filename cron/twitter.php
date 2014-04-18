@@ -64,23 +64,23 @@ foreach($username as $userAccount) {
 			$backColor="#cfbcd8";
 			$naam="Zomerhuisje.nl";
 			$kopColor="#5F227B";
-			$main_url="http://www.zomerhuisje.nl/";
+			$main_url="https://www.zomerhuisje.nl/";
 		} elseif($userAccount=='ChaletNL') {
-			$imgSrc="http://www.chalet.nl/pic/logo_chalet.gif";
+			$imgSrc="https://www.chalet.nl/pic/logo_chalet.gif";
 			$backColor="#eaf0fc";
 			$naam="Chalet.nl";
 			$kopColor="#d40139";
-			$main_url="http://www.chalet.nl/";
+			$main_url="https://www.chalet.nl/";
 		} elseif($userAccount=='Italissima') {
 			$backColor="#e0d1cc";
 			$kopColor="#D40139";
 			$naam="Italissima";
-			$main_url="http://www.italissima.nl/";
+			$main_url="https://www.italissima.nl/";
 		} elseif($userAccount=='SuperSkiNL') {
 			$naam="SuperSki";
 			$backColor="";
 			$kopColor="#003366";
-			$main_url="http://www.superski.nl/";
+			$main_url="https://www.superski.nl/";
 		}
 
 		$teller=0;

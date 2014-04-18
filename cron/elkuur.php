@@ -252,7 +252,7 @@ if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	$db->query("SELECT leverancier_id, naam, UNIX_TIMESTAMP(xml_laatsteimport) AS xml_laatsteimport FROM leverancier WHERE xml_type>0 ORDER BY naam;");
 	while($db->next_record()) {
 		if(date("Ymd",$db->f("xml_laatsteimport"))<date("Ymd",$gisteren)) {
-			$leverancier_geen_import.="<li><a href=\"http://www.chalet.nl/cms_leveranciers.php?show=8&beheerder=0&8k0=".$db->f("leverancier_id")."\" target=\"_blank\">".htmlentities($db->f("naam"))."</a></li>";
+			$leverancier_geen_import.="<li><a href=\"https://www.chalet.nl/cms_leveranciers.php?show=8&beheerder=0&8k0=".$db->f("leverancier_id")."\" target=\"_blank\">".htmlentities($db->f("naam"))."</a></li>";
 		}
 	}
 	if($leverancier_geen_import) {
@@ -339,7 +339,7 @@ while($db->next_record()) {
 #if($huidig_uur==8 or $huidig_uur==18) {
 	$db->query("SELECT DISTINCT ta.type_id, ta.seizoen_id FROM tarief ta, type t, accommodatie a WHERE t.tonen=1 AND a.tonen=1 AND t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND ta.c_bruto>0 AND ta.c_verkoop_site>0 AND ta.wederverkoop_verkoopprijs>0 AND (ta.wederverkoop_verkoopprijs<(ta.c_verkoop_site-10));");
 	if($db->num_rows()) {
-		wt_mail("jeroen@webtastic.nl","Onjuiste wederverkoop-tarieven Chalet.nl","Er zijn onjuiste wederverkoop-tarieven aangetroffen (via cron/elkuur.php) op Chalet.nl.\n\nOpen de volgende pagina en wacht tot alles is verwerkt:\n\nhttp://www.chalet.nl/cms_tarieven_autosubmit.php?check=1&t=99&confirmed=1\n\n");
+		wt_mail("jeroen@webtastic.nl","Onjuiste wederverkoop-tarieven Chalet.nl","Er zijn onjuiste wederverkoop-tarieven aangetroffen (via cron/elkuur.php) op Chalet.nl.\n\nOpen de volgende pagina en wacht tot alles is verwerkt:\n\nhttps://www.chalet.nl/cms_tarieven_autosubmit.php?check=1&t=99&confirmed=1\n\n");
 	}
 #}
 
@@ -549,15 +549,15 @@ $db->query("SELECT url, url_en FROM thema WHERE actief=1 AND wzt=1 AND tarievenb
 #echo $db->lastquery;
 if($db->next_record()) {
 #	echo $db->f("url")."\n<br>";
-	if($db->f("url")) $a=file_get_contents("http://www.chalet.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
-	if($db->f("url")) $a=file_get_contents("http://www.chalet.be/thema/".$db->f("url")."/?save_tarievenbekend=1");
-	if($db->f("url")) $a=file_get_contents("http://www.chalettour.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
-	if($db->f("url")) $a=file_get_contents("http://www.superski.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
-	if($db->f("url_en")) $a=file_get_contents("http://www.chalet.eu/theme/".$db->f("url_en")."/?save_tarievenbekend=1");
+	if($db->f("url")) $a=file_get_contents("https://www.chalet.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
+	if($db->f("url")) $a=file_get_contents("https://www.chalet.be/thema/".$db->f("url")."/?save_tarievenbekend=1");
+	if($db->f("url")) $a=file_get_contents("https://www.chalettour.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
+	if($db->f("url")) $a=file_get_contents("https://www.superski.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
+	if($db->f("url_en")) $a=file_get_contents("https://www.chalet.eu/theme/".$db->f("url_en")."/?save_tarievenbekend=1");
 }
 
 # Opslaan hoeveel accommodaties er zijn
-$a=file_get_contents("http://www.chalet.nl/zoek-en-boek.php?save_aantalaccommodaties=1");
+$a=file_get_contents("https://www.chalet.nl/zoek-en-boek.php?save_aantalaccommodaties=1");
 
 
 

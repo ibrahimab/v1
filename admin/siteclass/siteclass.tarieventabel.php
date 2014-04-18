@@ -166,7 +166,7 @@ class tarieventabel {
 			if($this->accinfo["wederverkoop"]) $return.="ja"; else $return.="nee";
 			$return.="&nbsp;&nbsp;&nbsp;<a href=\"";
 			if($vars["website"]<>"C" and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-				$return.="http://www.chalet.nl";
+				$return.="https://www.chalet.nl";
 			}
 			if($vars["lokale_testserver"]) {
 				$return.="/chalet";

@@ -10,6 +10,15 @@ AddType text/x-component .htc
 
 ErrorDocument 404 /404.php
 
+# header Strict-Transport-Security (not for testsites)
+# SetEnvIfNoCase Host postvak testsite=1
+# SetEnvIfNoCase Host webtastic testsite=1
+# SetEnvIfNoCase Host netromtest testsite=1
+# Header add X-Strict-Transport-Security: "max-age=15768000" env=!testsite
+
+
+# Header add Strict-Transport-Security: "max-age=15768000"
+
 #
 # Geen enkele pagina tonen wegens werkzaamheden
 #
@@ -73,7 +82,7 @@ RewriteCond %{HTTP_HOST} !^www[23]?\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^srv01\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalet\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalet\.eu [NC]
@@ -85,65 +94,65 @@ RewriteCond %{HTTP_HOST} chalettour\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalettour\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalettour\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.chalettour.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.chalettour.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chalet\.be [NC]
 RewriteCond %{HTTP_HOST} !^www\.chalet\.be [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.be [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.chalet.be/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.chalet.be/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} wintersportaccommodations\.eu [NC]
-RewriteRule ^(.*)$ http://www.chalet.eu/ [L,R=301]
+RewriteRule ^(.*)$ https://www.chalet.eu/ [L,R=301]
 
 RewriteCond %{HTTP_HOST} zomerhuisje\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.zomerhuisje\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.zomerhuisje.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} zomerhuisje\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.eu [NC]
 RewriteCond %{HTTP_HOST} !^test\.zomerhuisje\.eu [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.zomerhuisje.eu/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.zomerhuisje.eu/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chaletsinvallandry\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.chaletsinvallandry\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.chaletsinvallandry\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.chaletsinvallandry.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.chaletsinvallandry.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} chaletsinvallandry\.com [NC]
 RewriteCond %{HTTP_HOST} !^www\.chaletsinvallandry\.com [NC]
 RewriteCond %{HTTP_HOST} !^test\.chaletsinvallandry\.com [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.chaletsinvallandry.com/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.chaletsinvallandry.com/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} italissima\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.italissima\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.italissima\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} italissima\.be [NC]
 RewriteCond %{HTTP_HOST} !^www\.italissima\.be [NC]
 RewriteCond %{HTTP_HOST} !^test\.italissima\.be [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.italissima.be/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.italissima.be/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} italyhomes\.eu [NC]
 RewriteCond %{HTTP_HOST} !^www\.italyhomes\.eu [NC]
 RewriteCond %{HTTP_HOST} !^test\.italyhomes\.eu [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.italyhomes.eu/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.italyhomes.eu/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^partner\.venturasol\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
-RewriteRule ^(.*)$ http://www.venturasol.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.venturasol.nl/$1 [L,R=301]
 
 #
 # niet-https doorsturen naar https
@@ -194,12 +203,12 @@ RewriteCond %{REMOTE_ADDR} !^194\.102\.98\.2.*
 RewriteCond %{REMOTE_ADDR} !^213\.136\.23\.8
 # Selina
 RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238
-RewriteRule ^(.*)$ http://www.chalet.nl/error_msg.php?t=1 [L,R=301]
+RewriteRule ^(.*)$ https://www.chalet.nl/error_msg.php?t=1 [L,R=301]
 
 # Test-server: geen https toestaan
 RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
 RewriteCond %{SERVER_PORT} 443
-RewriteRule ^(.*)$ http://www.chalet.nl/error_msg.php?t=2 [L,R=301]
+RewriteRule ^(.*)$ https://www.chalet.nl/error_msg.php?t=2 [L,R=301]
 
 # Test-server: robots.txt met disallow tonen
 RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
@@ -210,14 +219,14 @@ RewriteRule ^robots\.txt$ robots_block.txt
 # Spelfout-domeinnamen doorsturen naar de juiste domeinnaam
 #
 RewriteCond %{HTTP_HOST} italisima\.nl [NC]
-RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
 
 RewriteCond %{HTTP_HOST} itallisima\.nl [NC]
-RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
 
 # Sites die nog niet online zijn doorsturen
 RewriteCond %{HTTP_HOST} italissima\.holiday [NC]
-RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
 
 # Oude seizoenspagina doorsturen naar nieuw seizoen
 RewriteRule ^zomer2013\.php$ /zomer2014.php [L,R=301]
@@ -233,15 +242,15 @@ RewriteRule (.*) /$1?%1%2 [R=301,L]
 
 # wintersportaccommodaties.nl
 RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
-RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
 
 # superski.nl
 RewriteCond %{HTTP_HOST} superski\.nl [NC]
-RewriteRule ^(.*)$ http://www.chalet.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
 
 # zomerhuisje.eu doorsturen naar zomerhuisje.nl (.eu is niet meer actief - 04-12-2012)
 RewriteCond %{HTTP_HOST} zomerhuisje\.eu [NC]
-RewriteRule ^(.*)$ http://www.zomerhuisje.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.zomerhuisje.nl/$1 [L,R=301]
 
 
 RewriteRule groepsreizen\.php$ /zoek-en-boek.php [R=301,L]
@@ -279,9 +288,9 @@ RewriteRule wintersport/?$ / [R=301,L]
 #
 # Oude grizzly-links doorsturen
 #
-RewriteRule ^chalet/zomervakantie-oostenrijk\.htm$ http://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=2-0 [R=301,L]
-RewriteRule ^chalet/zomervakantie-frankrijk\.htm$ http://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=1-0 [R=301,L]
-RewriteRule ^chalet/zomervakantie-zwitserland\.htm$ http://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=3-0 [R=301,L]
+RewriteRule ^chalet/zomervakantie-oostenrijk\.htm$ https://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=2-0 [R=301,L]
+RewriteRule ^chalet/zomervakantie-frankrijk\.htm$ https://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=1-0 [R=301,L]
+RewriteRule ^chalet/zomervakantie-zwitserland\.htm$ https://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fap=0&fas=0&fad=0&fsg=3-0 [R=301,L]
 RewriteRule ^chalet/wintersport-les-menuires\.htm$ /plaats/Les_Menuires/ [R=301,L]
 RewriteRule ^chalet/val-cenis\.htm$ /plaats/Val_Cenis/ [R=301,L]
 RewriteRule ^chalet/la-rosiere\.htm$ /plaats/La_Rosiere/ [R=301,L]
@@ -411,8 +420,8 @@ RewriteRule ^holiday-homes/place/([A-Za-z0-9_-]+)/?.*$ plaats.php?naamplaats=$1&
 
 
 # forward naar Chalet vanuit Italissima
-RewriteRule ^forward-chaletnl-italie$ http://www.chalet.nl/land/Italie/ [L,R=301]
-RewriteRule ^forward-chaletbe-italie$ http://www.chalet.be/land/Italie/ [L,R=301]
+RewriteRule ^forward-chaletnl-italie$ https://www.chalet.nl/land/Italie/ [L,R=301]
+RewriteRule ^forward-chaletbe-italie$ https://www.chalet.be/land/Italie/ [L,R=301]
 
 #
 # Tijdelijke pagina's
@@ -582,7 +591,7 @@ php_value memory_limit 256M
 	#
 	# mod_pagespeed
 	#
-	# http://www.the-art-of-web.com/system/mod-pagespeed-settings/
+	# https://www.the-art-of-web.com/system/mod-pagespeed-settings/
 	#
 	ModPagespeed off
 

@@ -211,7 +211,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	}
 
 	$ms->html.=": ".wt_he($vars["roominglist_site_benaming"][$roominglist_site_benaming])."</h3>Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
-	$ms->html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></thead></table>";
+	$ms->html.="<img width=92 height=79 src=\"https://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></thead></table>";
 	$ms->html.="</td></tr>";
 	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th>";
 
@@ -643,7 +643,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$ms->html.="<table width=100% border=0><tr><td><h3>";
 #	$ms->html.="Orderlist ".htmlentities($skipas["naam"])." - ".date("d-m-Y",$_GET["date"]);
 	$ms->html.="Chalet.nl</h3>Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands<br>Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
-	$ms->html.="<img width=92 height=79 src=\"http://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></table>";
+	$ms->html.="<img width=92 height=79 src=\"https://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></table>";
 	$ms->html.="</td></tr></thead>";
 #	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th><th>Arrival</th><th>Departure</th><th>Resort</th><th>Accommodation</th><th>Type</th><th>Cap.</th><th>Reserv.<br>Nr.</th><th>Extra<br>Options</th></tr></thead>";
 	$ms->html.="<tr><td><table border=0 width=100%><tr><td>Dear reservation team of <b>".htmlentities($skipas["naam"])."</b>,<p>We want to make the following reservation(s) for the period from the <b>".date("d-m-Y",$_GET["date"])."</b></td></tr></table></td></tr>";
@@ -1695,6 +1695,6 @@ if($_GET["t"]==5 or $_GET["t"]==8 or $_GET["t"]==9 or $_GET["t"]==10 or $_GET["t
 	$ms->create_word_document();
 }
 
-# http://www.chalet.nl/cms_overzichten_print.php?t=2&lid=159&date=1324681200
+# https://www.chalet.nl/cms_overzichten_print.php?t=2&lid=159&date=1324681200
 
 ?>

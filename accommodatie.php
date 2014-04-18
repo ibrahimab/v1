@@ -32,7 +32,7 @@ if($_POST["ookbeschikbaarkeuze"]) {
 }
 
 if($_GET["accid"]) {
-	# verwijzing uit htaccess (bijv. http://www.zomerhuisje.nl/vakantiehuizen/o7164/Vakantiepark-Schonleitn-begane-grond) goed afhandelen
+	# verwijzing uit htaccess (bijv. https://www.zomerhuisje.nl/vakantiehuizen/o7164/Vakantiepark-Schonleitn-begane-grond) goed afhandelen
 	$url[0]=$_GET["accid"];
 
 	# $_GET["accid"] hierna wissen
@@ -163,7 +163,7 @@ if($acc_aanwezig) {
 
 			$db->query("SELECT type_id FROM view_accommodatie WHERE type_id='".addslashes($typeid)."' AND atonen=1 AND ttonen=1 AND websites LIKE '%I%';");
 			if($db->next_record()) {
-				header("Location: http://www.italissima.nl".$_SERVER["REQUEST_URI"],true,301);
+				header("Location: https://www.italissima.nl".$_SERVER["REQUEST_URI"],true,301);
 				exit;
 			}
 		}
