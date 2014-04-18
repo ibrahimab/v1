@@ -105,8 +105,6 @@ echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_superski.ico\"
 
 if($vars["canonical"]) {
 	echo "<link rel=\"canonical\" href=\"".htmlentities($vars["canonical"])."\" />\n";
-} elseif($_SERVER["HTTPS"]=="on") {
-	echo "<link rel=\"canonical\" href=\"http://".htmlentities($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."\" />\n";
 }
 
 

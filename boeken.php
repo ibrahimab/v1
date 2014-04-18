@@ -10,14 +10,6 @@ if(!$mustlogin and !$boeking_wijzigen) {
 
 	include("admin/vars.php");
 
-	if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$_POST and !$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
-		# deze pagina altijd via https
-#		if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
-			header("Location: https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
-			exit;
-#		}
-	}
-
 	# Indien geen sessie maar wel een cookie: sessie vullen met cookie
 	if(!$_SESSION["boeking"]["boekingid"] and ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {
 		if($regs[2]==boeking_veiligheid($regs[1])) {

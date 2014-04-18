@@ -103,11 +103,8 @@ if($mustlogin) {
 
 	$login->settings["loginblocktime"]=600; # 10 minuten geblokkeerd
 
-	if($vars["website"]=="C" or $vars["website"]=="Z") {
-		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {
-			# Buiten kantoor
-			$login->settings["mustlogin_via_https"]=true;
-		}
+	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
+		$login->settings["mustlogin_via_https"]=true;
 	}
 
 	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !in_array($_SERVER["REMOTE_ADDR"],$vars["vertrouwde_ips"])) {

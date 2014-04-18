@@ -461,18 +461,18 @@ if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 		echo "xmlopnieuw:\n\n";
 	}
 	$doorloop_array=array(
-		"tradetracker_C"=>"http://www.chalet.nl/xml/tradetracker.php?nocache=1",
-		"tradetracker_B"=>"http://www.chalet.be/xml/tradetracker.php?nocache=1",
-		"tradetracker_W"=>"http://www.superski.nl/xml/tradetracker.php?nocache=1",
-		"tradetracker_Z"=>"http://www.zomerhuisje.nl/xml/tradetracker.php?nocache=1",
-		"tradetracker_I"=>"http://www.italissima.nl/xml/tradetracker.php?nocache=1",
-		"tradetracker_K"=>"http://www.italissima.be/xml/tradetracker.php?nocache=1",
-		"tradetracker_aanbiedingen_C"=>"http://www.chalet.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
-		"tradetracker_aanbiedingen_B"=>"http://www.chalet.be/xml/tradetracker.php?aanbiedingen=1&nocache=1",
-		"tradetracker_aanbiedingen_W"=>"http://www.superski.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
-		"tradetracker_aanbiedingen_Z"=>"http://www.zomerhuisje.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
-		"tradetracker_aanbiedingen_I"=>"http://www.italissima.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
-		"tradetracker_aanbiedingen_K"=>"http://www.italissima.be/xml/tradetracker.php?aanbiedingen=1&nocache=1"
+		"tradetracker_C"=>"https://www.chalet.nl/xml/tradetracker.php?nocache=1",
+		"tradetracker_B"=>"https://www.chalet.be/xml/tradetracker.php?nocache=1",
+		"tradetracker_W"=>"https://www.superski.nl/xml/tradetracker.php?nocache=1",
+		"tradetracker_Z"=>"https://www.zomerhuisje.nl/xml/tradetracker.php?nocache=1",
+		"tradetracker_I"=>"https://www.italissima.nl/xml/tradetracker.php?nocache=1",
+		"tradetracker_K"=>"https://www.italissima.be/xml/tradetracker.php?nocache=1",
+		"tradetracker_aanbiedingen_C"=>"https://www.chalet.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
+		"tradetracker_aanbiedingen_B"=>"https://www.chalet.be/xml/tradetracker.php?aanbiedingen=1&nocache=1",
+		"tradetracker_aanbiedingen_W"=>"https://www.superski.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
+		"tradetracker_aanbiedingen_Z"=>"https://www.zomerhuisje.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
+		"tradetracker_aanbiedingen_I"=>"https://www.italissima.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
+		"tradetracker_aanbiedingen_K"=>"https://www.italissima.be/xml/tradetracker.php?aanbiedingen=1&nocache=1"
 	);
 	while(list($key,$value)=each($doorloop_array)) {
 		if($argv[1]=="xmlopnieuw") {

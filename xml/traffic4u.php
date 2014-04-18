@@ -18,11 +18,11 @@
 
 URL's or all feeds:
 
-https://chalet.nl/xml/traffic4u.php?feed=accommodaties
-https://chalet.nl/xml/traffic4u.php?feed=bestemmingen
-https://chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen
-https://chalet.nl/xml/traffic4u.php?feed=land-aantal-personen
-https://chalet.nl/xml/traffic4u.php?feed=aantal-personen
+https://www.chalet.nl/xml/traffic4u.php?feed=accommodaties
+https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen
+https://www.chalet.nl/xml/traffic4u.php?feed=bestemmingen-aantal-personen
+https://www.chalet.nl/xml/traffic4u.php?feed=land-aantal-personen
+https://www.chalet.nl/xml/traffic4u.php?feed=aantal-personen
 
 https://www.italissima.nl/xml/traffic4u.php?feed=accommodaties
 https://www.italissima.nl/xml/traffic4u.php?feed=bestemmingen

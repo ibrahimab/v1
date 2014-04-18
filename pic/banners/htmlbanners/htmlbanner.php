@@ -271,91 +271,91 @@ function formsubmit(type) {
 
 	if(themadatum==2) {
 		<?php if($_GET["wzt"]==2) { ?>
-			url='http://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
+			url='https://www.zomerhuisje.nl/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==3) { ?>
-			url='http://www.italissima.nl/zoek-en-boek.php?filled=1&fzt=&fsg=5-'+document.frm.l.value+'&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
+			url='https://www.italissima.nl/zoek-en-boek.php?filled=1&fzt=&fsg=5-'+document.frm.l.value+'&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==4) { ?>
-			url='http://www.chalet.be/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
+			url='https://www.chalet.be/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==5) { ?>
-			url='http://www.superski.nl/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
+			url='https://www.superski.nl/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==6) { ?>
-			url='http://www.italissima.be/zoek-en-boek.php?filled=1&fzt=&fsg=5-'+document.frm.l.value+'&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
+			url='https://www.italissima.be/zoek-en-boek.php?filled=1&fzt=&fsg=5-'+document.frm.l.value+'&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } else { ?>
-			url='http://www.chalet.nl/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
+			url='https://www.chalet.nl/zoek-en-boek.php?filled=1&fzt=&fsg='+document.frm.l.value+'-0&fap='+aantalpersonen+'&fas=0&fad='+document.frm.t.value+'&<?php echo $extra_qs.$utm; ?>';
 		<?php } ?>
 	} else {
 		if(document.frm.l.value>0) {
 		<?php if($_GET["wzt"]==2) { ?>
-			if(document.frm.l.value==1) url='http://www.zomerhuisje.nl/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==2) url='http://www.zomerhuisje.nl/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==3) url='http://www.zomerhuisje.nl/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==5) url='http://www.zomerhuisje.nl/land/Italie/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==6) url='http://www.zomerhuisje.nl/land/Duitsland/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==1) url='https://www.zomerhuisje.nl/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==2) url='https://www.zomerhuisje.nl/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==3) url='https://www.zomerhuisje.nl/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==5) url='https://www.zomerhuisje.nl/land/Italie/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==6) url='https://www.zomerhuisje.nl/land/Duitsland/?<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==3) {
 			while(list($key,$value)=each($regio)) {
-				echo "if(document.frm.l.value==".$key.") url='http://www.italissima.nl/vakantiehuizen/regio/".wt_convert2url_seo($value)."/?".$extra_qs.$utm."';\n";
+				echo "if(document.frm.l.value==".$key.") url='https://www.italissima.nl/vakantiehuizen/regio/".wt_convert2url_seo($value)."/?".$extra_qs.$utm."';\n";
 			}
 		?>
 		<?php } elseif($_GET["wzt"]==4) { ?>
-			if(document.frm.l.value==1) url='http://www.chalet.be/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==2) url='http://www.chalet.be/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==3) url='http://www.chalet.be/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==5) url='http://www.chalet.be/land/Italie/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==1) url='https://www.chalet.be/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==2) url='https://www.chalet.be/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==3) url='https://www.chalet.be/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==5) url='https://www.chalet.be/land/Italie/?<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==5) { ?>
-			if(document.frm.l.value==1) url='http://www.superski.nl/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==2) url='http://www.superski.nl/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==3) url='http://www.superski.nl/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==5) url='http://www.superski.nl/land/Italie/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==1) url='https://www.superski.nl/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==2) url='https://www.superski.nl/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==3) url='https://www.superski.nl/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==5) url='https://www.superski.nl/land/Italie/?<?php echo $extra_qs.$utm; ?>';
 		<?php } else { ?>
-			if(document.frm.l.value==1) url='http://www.chalet.nl/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==2) url='http://www.chalet.nl/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==3) url='http://www.chalet.nl/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.l.value==5) url='http://www.chalet.nl/land/Italie/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==1) url='https://www.chalet.nl/land/Frankrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==2) url='https://www.chalet.nl/land/Oostenrijk/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==3) url='https://www.chalet.nl/land/Zwitserland/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.l.value==5) url='https://www.chalet.nl/land/Italie/?<?php echo $extra_qs.$utm; ?>';
 		<?php } ?>
 		} else if(document.frm.t.value>0) {
 		<?php if($_GET["wzt"]==2) { ?>
-			if(document.frm.t.value==1) url='http://www.zomerhuisje.nl/thema/vleugje-wellness/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==2) url='http://www.zomerhuisje.nl/thema/golf/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==3) url='http://www.zomerhuisje.nl/thema/water/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==4) url='http://www.zomerhuisje.nl/thema/zwembad/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==5) url='http://www.zomerhuisje.nl/thema/tegastopdeboerderij/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==6) url='http://www.zomerhuisje.nl/thema/met-zn-allen/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==7) url='http://www.zomerhuisje.nl/thema/vakantieparken/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==8) url='http://www.zomerhuisje.nl/thema/kids/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==1) url='https://www.zomerhuisje.nl/thema/vleugje-wellness/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==2) url='https://www.zomerhuisje.nl/thema/golf/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==3) url='https://www.zomerhuisje.nl/thema/water/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==4) url='https://www.zomerhuisje.nl/thema/zwembad/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==5) url='https://www.zomerhuisje.nl/thema/tegastopdeboerderij/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==6) url='https://www.zomerhuisje.nl/thema/met-zn-allen/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==7) url='https://www.zomerhuisje.nl/thema/vakantieparken/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==8) url='https://www.zomerhuisje.nl/thema/kids/?<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==4) { ?>
-			if(document.frm.t.value==1) url='http://www.chalet.be/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==2) url='http://www.chalet.be/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==3) url='http://www.chalet.be/thema/catering/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==4) url='http://www.chalet.be/thema/kids/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==5) url='http://www.chalet.be/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==6) url='http://www.chalet.be/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==7) url='http://www.chalet.be/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==1) url='https://www.chalet.be/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==2) url='https://www.chalet.be/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==3) url='https://www.chalet.be/thema/catering/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==4) url='https://www.chalet.be/thema/kids/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==5) url='https://www.chalet.be/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==6) url='https://www.chalet.be/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==7) url='https://www.chalet.be/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==5) { ?>
-			if(document.frm.t.value==1) url='http://www.superski.nl/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==2) url='http://www.superski.nl/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==3) url='http://www.superski.nl/thema/catering/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==4) url='http://www.superski.nl/thema/kids/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==5) url='http://www.superski.nl/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==6) url='http://www.superski.nl/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==7) url='http://www.superski.nl/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==1) url='https://www.superski.nl/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==2) url='https://www.superski.nl/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==3) url='https://www.superski.nl/thema/catering/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==4) url='https://www.superski.nl/thema/kids/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==5) url='https://www.superski.nl/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==6) url='https://www.superski.nl/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==7) url='https://www.superski.nl/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
 		<?php } else { ?>
-			if(document.frm.t.value==1) url='http://www.chalet.nl/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==2) url='http://www.chalet.nl/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==3) url='http://www.chalet.nl/thema/catering/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==4) url='http://www.chalet.nl/thema/kids/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==5) url='http://www.chalet.nl/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==6) url='http://www.chalet.nl/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
-			if(document.frm.t.value==7) url='http://www.chalet.nl/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==1) url='https://www.chalet.nl/thema/open-haard/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==2) url='https://www.chalet.nl/thema/apres-ski/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==3) url='https://www.chalet.nl/thema/catering/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==4) url='https://www.chalet.nl/thema/kids/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==5) url='https://www.chalet.nl/thema/groepen/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==6) url='https://www.chalet.nl/thema/sauna/?<?php echo $extra_qs.$utm; ?>';
+			if(document.frm.t.value==7) url='https://www.chalet.nl/thema/super-ski-stations/?<?php echo $extra_qs.$utm; ?>';
 		<?php } ?>
 		} else {
 		<?php if($_GET["wzt"]==2) { ?>
-			url='http://www.zomerhuisje.nl/?<?php echo $extra_qs.$utm; ?>';
+			url='https://www.zomerhuisje.nl/?<?php echo $extra_qs.$utm; ?>';
 		<?php } elseif($_GET["wzt"]==3) { ?>
-			url='http://www.italissima.nl/?<?php echo $extra_qs.$utm; ?>';
+			url='https://www.italissima.nl/?<?php echo $extra_qs.$utm; ?>';
 				<?php } elseif($_GET["wzt"]==4) { ?>
-			url='http://www.chalet.be/?<?php echo $extra_qs.$utm; ?>';
+			url='https://www.chalet.be/?<?php echo $extra_qs.$utm; ?>';
 		<?php }else { ?>
-			url='http://www.chalet.nl/?<?php echo $extra_qs.$utm; ?>';
+			url='https://www.chalet.nl/?<?php echo $extra_qs.$utm; ?>';
 		<?php } ?>
 		}
 	}
@@ -455,8 +455,8 @@ echo "</head>\n";
 echo "<body style=\"margin:0;\" onload=\"init();\">\n";
 if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	# zomerhuisje 728x90
-	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_728x90.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_728x90.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.zomerhuisje.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:22px;left:165px;\">\n";
 	zomer_land();
 	echo "</div>";
@@ -464,14 +464,14 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:50px;left:165px;\">\n";
 	zomer_thema();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:35px;left:315px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:35px;left:315px;\"><input type=\"image\" src=\"https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 
 } elseif($_GET["t"]==2 and $_GET["wzt"]==2) {
 	# zomerhuisje 468x60
-	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_468x60.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_468x60.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.zomerhuisje.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:7px;left:87px;\">\n";
 	zomer_land("113px");
 	echo "</div>";
@@ -479,13 +479,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:32px;left:87px;\">\n";
 	zomer_thema("113px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:19px;left:203px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:19px;left:203px;\"><input type=\"image\" src=\"https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==3 and $_GET["wzt"]==2) {
 	# zomerhuisje 250x250
-	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_250x250.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_250x250.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.zomerhuisje.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:118px;left:12px;\">\n";
 	zomer_land();
 	echo "</div>";
@@ -493,15 +493,15 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:143px;left:12px;\">\n";
 	zomer_thema();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:130px;left:153px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:130px;left:153px;\"><input type=\"image\" src=\"https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==4 and $_GET["wzt"]==2) {
 	# zomerhuisje 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_234x60.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_234x60.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.zomerhuisje.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:5px;left:92px;\">\n";
 	zomer_land("100px");
 	echo "</div>";
@@ -509,15 +509,15 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:33px;left:92px;\">\n";
 	zomer_thema("100px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:7px;left:199px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:7px;left:199px;\"><input type=\"image\" src=\"https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==5 and $_GET["wzt"]==2) {
 	# zomerhuisje 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_120x600.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_120x600.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.zomerhuisje.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:110px;left:3px;\">\n";
 	zomer_land("110px");
 	echo "</div>";
@@ -525,15 +525,15 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:139px;left:3px;\">\n";
 	zomer_thema("110px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:170px;left:16px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:170px;left:16px;\"><input type=\"image\" src=\"https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==6 and $_GET["wzt"]==2) {
 	# zomerhuisje 300x250
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_300x250.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.zomerhuisje.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_htmlbanner_300x250.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.zomerhuisje.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:118px;left:29px;\">\n";
 	zomer_land();
 	echo "</div>";
@@ -541,13 +541,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:141px;left:29px;\">\n";
 	zomer_thema();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:131px;left:180px;\"><input type=\"image\" src=\"http://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:131px;left:180px;\"><input type=\"image\" src=\"https://www.zomerhuisje.nl/pic/banners/htmlbanners/zomerhuisje_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==1 and $_GET["wzt"]==3) {
 	# italissima 728x90
-	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:22px;left:320px;\">\n";
 	italissima_regio();
 	echo "</div>";
@@ -555,13 +555,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:50px;left:320px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:35px;left:459px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:35px;left:459px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==2 and $_GET["wzt"]==3) {
 	# italissima 468x60
-	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_468x60.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_468x60.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:7px;left:230px;\">\n";
 	italissima_regio();
 	echo "</div>";
@@ -569,13 +569,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:32px;left:230px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:19px;left:372px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:19px;left:372px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==3 and $_GET["wzt"]==3) {
 	# italissima 250x250
-	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_250x250.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_250x250.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:133px;left:12px;\">\n";
 	italissima_regio();
 	echo "</div>";
@@ -587,15 +587,15 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:205px;left:12px;\">\n";
 	italissima_personen();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:169px;left:153px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:169px;left:153px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==4 and $_GET["wzt"]==3) {
 	# italissima 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_234x60.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_234x60.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:5px;left:92px;\">\n";
 	italissima_regio("100px");
 	echo "</div>";
@@ -603,15 +603,15 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:33px;left:92px;\">\n";
 	italissima_datum("100px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:7px;left:199px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:7px;left:199px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==5 and $_GET["wzt"]==3) {
 	# italissima 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_120x600.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_120x600.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:275px;left:3px;\">\n";
 	italissima_regio("110px");
 	echo "</div>";
@@ -624,7 +624,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	italissima_personen("110px");
 	echo "</div>\n";
 
-	echo "<div style=\"position:absolute;top:390px;left:16px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:390px;left:16px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 
@@ -798,8 +798,8 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "</div>\n";
 } elseif($_GET["t"]==1 and $_GET["wzt"]==5) {
 	# superski 728x90
-	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_728x90.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('https://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_728x90.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.superski.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:22px;left:495px;\">\n";
 	winter_land("130px");
 	echo "</div>";
@@ -807,14 +807,14 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:50px;left:495px;\">\n";
 	winter_thema("130px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:35px;left:635px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:35px;left:635px;\"><input type=\"image\" src=\"https://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 
 } elseif($_GET["t"]==2 and $_GET["wzt"]==5) {
 	# superski 468x60
-	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_468x60.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('https://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_468x60.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.superski.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:7px;left:230px;\">\n";
 	winter_land("130px");
 	echo "</div>";
@@ -822,13 +822,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:32px;left:230px;\">\n";
 	winter_thema("130px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:19px;left:373px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:19px;left:373px;\"><input type=\"image\" src=\"https://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==3 and $_GET["wzt"]==5) {
 	# superski 250x250
-	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_250x250.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('https://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_250x250.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.superski.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:193px;left:20px;\">\n";
 	winter_land("120px");
 	echo "</div>";
@@ -836,15 +836,15 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:220px;left:20px;\">\n";
 	winter_thema("120px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:208px;left:150px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:208px;left:150px;\"><input type=\"image\" src=\"https://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==4 and $_GET["wzt"]==5) {
 	# superski 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_234x60.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('https://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_234x60.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.superski.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:6px;left:95px;\">\n";
 	winter_land("100px");
 	echo "</div>";
@@ -852,15 +852,15 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:30px;left:95px;\">\n";
 	winter_thema("100px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:7px;left:198px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:7px;left:198px;\"><input type=\"image\" src=\"https://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==5 and $_GET["wzt"]==5) {
 	# superski 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_120x600.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('https://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_120x600.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.superski.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:460px;left:3px;\">\n"; #235
 	winter_land("110px");
 	echo "</div>";
@@ -868,13 +868,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:494px;left:3px;\">\n";
 	winter_thema("110px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:535px;left:16px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:535px;left:16px;\"><input type=\"image\" src=\"https://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==6 and $_GET["wzt"]==5) {
 	# superski 300x250
-	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('http://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_300x250.jpg?c=1');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.superski.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:300px;height:250px;background-image:url('https://www.superski.nl/pic/banners/htmlbanners/superski_htmlbanner_300x250.jpg?c=1');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.superski.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:188px;left:40px;\">\n";
 	winter_land("120px");
 	echo "</div>";
@@ -882,13 +882,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:219px;left:40px;\">\n";
 	winter_thema("120px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:203px;left:170px;\"><input type=\"image\" src=\"http://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:203px;left:170px;\"><input type=\"image\" src=\"https://www.superski.nl/pic/banners/htmlbanners/superski_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==1 and $_GET["wzt"]==6) {
 	# italissima.be 728x90
-	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:728px;height:90px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_728x90.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:22px;left:320px;\">\n";
 	italissima_regio();
 	echo "</div>";
@@ -896,13 +896,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:50px;left:320px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:35px;left:459px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:35px;left:459px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==2 and $_GET["wzt"]==6) {
 	# italissima.be 468x60
-	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_468x60.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:468px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_468x60.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:7px;left:230px;\">\n";
 	italissima_regio();
 	echo "</div>";
@@ -910,13 +910,13 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:32px;left:230px;\">\n";
 	italissima_datum();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:19px;left:372px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:19px;left:372px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==3 and $_GET["wzt"]==6) {
 	# italissima.be 250x250
-	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_250x250.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:250px;height:250px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_250x250.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:133px;left:12px;\">\n";
 	italissima_regio();
 	echo "</div>";
@@ -928,15 +928,15 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:205px;left:12px;\">\n";
 	italissima_personen();
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:169px;left:153px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:169px;left:153px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==4 and $_GET["wzt"]==6) {
 	# italissima.be 234x60
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_234x60.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:234px;height:60px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_234x60.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:5px;left:92px;\">\n";
 	italissima_regio("100px");
 	echo "</div>";
@@ -944,15 +944,15 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	echo "<div style=\"position:absolute;top:33px;left:92px;\">\n";
 	italissima_datum("100px");
 	echo "</div>\n";
-	echo "<div style=\"position:absolute;top:7px;left:199px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:7px;left:199px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek_klein.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 } elseif($_GET["t"]==5 and $_GET["wzt"]==6) {
 	# italissima.be 120x600
 	echo "<style>\nselect {\nfont-size:8pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('http://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_120x600.png');\">\n";
-	echo "<form name=\"frm\" method=\"get\" action=\"http://www.italissima.nl/\" target=\"_blank\">\n";
+	echo "<div style=\"position:fixed;width:120px;height:600px;background-image:url('https://www.italissima.nl/pic/banners/htmlbanners/italissima_htmlbanner_120x600.png');\">\n";
+	echo "<form name=\"frm\" method=\"get\" action=\"https://www.italissima.nl/\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:275px;left:3px;\">\n";
 	italissima_regio("110px");
 	echo "</div>";
@@ -965,7 +965,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	italissima_personen("110px");
 	echo "</div>\n";
 
-	echo "<div style=\"position:absolute;top:390px;left:16px;\"><input type=\"image\" src=\"http://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
+	echo "<div style=\"position:absolute;top:390px;left:16px;\"><input type=\"image\" src=\"https://www.italissima.nl/pic/banners/htmlbanners/italissima_zoekenboek.gif\" name=\"submit\" id=\"submit\" onclick=\"formsubmit('s');return false;\" style=\"cursor:pointer;border:none;\" alt=\"\" /></div>\n";
 	echo "</form>\n";
 	echo "</div>\n";
 

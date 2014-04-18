@@ -138,8 +138,6 @@ echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon.ico\" />\n";
 if($vars["canonical"]) {
 	echo "<link rel=\"canonical\" href=\"".htmlentities($vars["canonical"])."\" />\n";
-} elseif($_SERVER["HTTPS"]=="on") {
-	echo "<link rel=\"canonical\" href=\"http://".htmlentities($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."\" />\n";
 }
 
 # meta name robots
@@ -388,11 +386,7 @@ if($vars["verberg_linkerkolom"]) {
 			echo "<div id=\"hoofdpagina_nieuwsbrief\" class=\"noprint\">";
 			echo "<div class=\"kop\">Nieuwsbrief</div>";
 			echo "<div>Mis nooit aanbiedingen, nieuws en reistips.</div>";
-			if(($vars["website"]=="C" or $vars["website"]=="Z") and $_SERVER["HTTPS"]<>"on" and !$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
-				$nieuwsbrief_url=preg_replace("/^http:/","https:",$vars["basehref"])."nieuwsbrief.php";
-			} else {
-				$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
-			}
+			$nieuwsbrief_url=$vars["path.php"]."nieuwsbrief.php";
 			echo "<form method=\"post\" action=\"".htmlentities($nieuwsbrief_url)."\">";
 			echo "<div style=\"margin-top:5px;\"><input type=\"email\" name=\"mail\" value=\"e-mailadres\" onfocus=\"if(this.value=='e-mailadres') this.value='';\" onblur=\"if(this.value=='') this.value='e-mailadres';\"></div>";
 			echo "<div style=\"margin-top:5px;margin-bottom:5px;\"><input type=\"submit\" value=\" inschrijven \"></div>";
