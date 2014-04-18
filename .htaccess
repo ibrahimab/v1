@@ -221,6 +221,10 @@ RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
 RewriteCond %{HTTP_HOST} itallisima\.nl [NC]
 RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
 
+# Sites die nog niet online zijn doorsturen
+RewriteCond %{HTTP_HOST} italissima\.holiday [NC]
+RewriteRule ^(.*)$ http://www.italissima.nl/$1 [L,R=301]
+
 # Oude seizoenspagina doorsturen naar nieuw seizoen
 RewriteRule ^zomer2013\.php$ /zomer2014.php [L,R=301]
 
