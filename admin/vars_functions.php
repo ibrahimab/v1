@@ -3861,7 +3861,7 @@ function nieuwsbrief_inschrijven_bij_blinker($URL,$data, $referrer="") {
 
 	// making string from $data
 	foreach($data as $key=>$value)
-	  $values[]="$key=".urlencode($value);
+	$values[]="$key=".urlencode($value);
 	$data_string=implode("&",$values);
 
 	// building POST-request:
@@ -3874,7 +3874,7 @@ function nieuwsbrief_inschrijven_bij_blinker($URL,$data, $referrer="") {
 	$request.="\n";
 	$request.=$data_string."\n";
 
-	$fp = fsockopen($URL_Info["host"],80, $errno, $errstr);
+	$fp = fsockopen($URL_Info["host"], 80, $errno, $errstr, 15);
 
 	fputs($fp, $request);
 	while(!feof($fp)) {
