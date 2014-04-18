@@ -10,14 +10,9 @@ AddType text/x-component .htc
 
 ErrorDocument 404 /404.php
 
-# header Strict-Transport-Security (not for testsites)
-# SetEnvIfNoCase Host postvak testsite=1
-# SetEnvIfNoCase Host webtastic testsite=1
-# SetEnvIfNoCase Host netromtest testsite=1
-# Header add X-Strict-Transport-Security: "max-age=15768000" env=!testsite
-
-
-# Header add Strict-Transport-Security: "max-age=15768000"
+# header Strict-Transport-Security
+SetEnvIf Request_Protocol ^HTTPS.* HTTPS
+Header add Strict-Transport-Security: "max-age=15768000" env=HTTPS
 
 #
 # Geen enkele pagina tonen wegens werkzaamheden
@@ -153,17 +148,6 @@ RewriteCond %{HTTP_HOST} !^test\.venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^partner\.venturasol\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ https://www.venturasol.nl/$1 [L,R=301]
-
-#
-# niet-https doorsturen naar https
-#
-RewriteCond %{HTTPS} !=on
-RewriteCond %{HTTP_HOST} !^test\..*\..* [NC]
-RewriteCond %{HTTP_HOST} !postvak\.net [NC]
-RewriteCond %{HTTP_HOST} !netromtest [NC]
-RewriteCond %{HTTP_HOST} !webtastic\.nl [NC]
-RewriteCond %{REQUEST_METHOD}  !=POST
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 
 # #
@@ -458,6 +442,19 @@ RewriteRule ^reiskookboek$ / [L,R=301]
 RewriteRule ^facebook-actie$ / [L,R=301]
 RewriteRule ^agentenactie$ / [L,R=301]
 RewriteRule ^nieuwsbriefactie$ / [L,R=301]
+
+
+
+#
+# niet-https doorsturen naar https
+#
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} !^test\..*\..* [NC]
+RewriteCond %{HTTP_HOST} !postvak\.net [NC]
+RewriteCond %{HTTP_HOST} !netromtest [NC]
+RewriteCond %{HTTP_HOST} !webtastic\.nl [NC]
+RewriteCond %{REQUEST_METHOD}  !=POST
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 
 #
