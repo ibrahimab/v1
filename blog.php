@@ -158,7 +158,7 @@ if($_GET["b"]) {
 			}
 
 			if($inquery) {
-				$db->query("SELECT accommodatie_id, type_id, naam, skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
+				$db->query("SELECT accommodatie_id, type_id, naam, skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") AND websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
 				while($db->next_record()) {
 					$accurl=$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/";
 

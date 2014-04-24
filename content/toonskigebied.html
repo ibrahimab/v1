@@ -15,20 +15,21 @@ if(!$db->next_record()) {
 	}
 
 	if($vars["websitetype"]==7) {
-			$breadcrumbs[txt("menu_bestemmingen").".php"] = txt("bestemmingen", "vars");
-			if($landnaam) $breadcrumbs[txt("menu_land")."/".wt_convert2url_seo($landnaam)."/"]=$landnaam;
-			$breadcrumbs["last"]=$db->f("naam");
+		$breadcrumbs[txt("menu_bestemmingen").".php"] = txt("bestemmingen", "vars");
+		if($landnaam) $breadcrumbs[txt("menu_land")."/".wt_convert2url_seo($landnaam)."/"]=$landnaam;
+		$breadcrumbs["last"]=$db->f("naam");
 
-			# kleurcode Italissima bepalen
-			if($db->f("kleurcode")) {
-				$kleurcode=$db->f("kleurcode");
-			} else {
-				$kleurcode=6;
-			}
+		# kleurcode Italissima bepalen
+		if($db->f("kleurcode")) {
+			$kleurcode=$db->f("kleurcode");
+		} else {
+			$kleurcode=6;
+		}
 
-			# Italissima-specifieke CSS
-			echo "<style type=\"text/css\"><!--\n";
-			?>
+		# Italissima-specifieke CSS
+		echo "<style type=\"text/css\"><!--\n";
+
+		?>
 
 h1 {
 	color: #661700;
@@ -537,7 +538,7 @@ hr {
 			}
 
 			if($inquery) {
-				$db2->query("SELECT accommodatie_id, type_id, naam, skigebied".$vars["ttv"]." AS skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") AND websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
+				$db2->query("SELECT accommodatie_id, type_id, naam, skigebied".$vars["ttv"]." AS skigebied, plaats, begincode, soortaccommodatie FROM view_accommodatie WHERE type_id IN (".substr($inquery,1).") AND websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 ORDER BY FIND_IN_SET(type_id,'".substr($inquery,1)."');");
 				while($db2->next_record()) {
 					$accurl=$vars["path"]."accommodatie/".$db2->f("begincode").$db2->f("type_id")."/";
 
