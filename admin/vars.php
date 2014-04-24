@@ -395,7 +395,7 @@ if($vars["leverancier_mustlogin"]) {
 # 213.125.152.156 = kantoor Ziggo 3
 # 213.125.152.157 = kantoor Ziggo 4
 # 213.125.152.158 = kantoor Ziggo 5
-# 82.93.130.238   = Bert thuis
+# 83.163.123.200  = Bert thuis
 # 31.223.173.113  = WebTastic 1
 # 37.34.56.191    = WebTastic 2
 # 172.16.1.10     = t.b.v. testserver
@@ -404,7 +404,7 @@ if($vars["leverancier_mustlogin"]) {
 # 62.195.99.8     = Selma thuis (i.v.m. beenbreuk - 6 juni 2013)
 #
 
-$vars["vertrouwde_ips"]=array("213.125.152.154","213.125.152.155","213.125.152.156","213.125.152.157","213.125.152.158","82.93.130.238","31.223.173.113","62.195.99.8","172.16.1.10","172.16.1.35","127.0.0.1");
+$vars["vertrouwde_ips"]=array("213.125.152.154","213.125.152.155","213.125.152.156","213.125.152.157","213.125.152.158","83.163.123.200","31.223.173.113","62.195.99.8","172.16.1.10","172.16.1.35","127.0.0.1");
 
 # Geldigheidsduur intern FLC-cookie verlengen
 if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
