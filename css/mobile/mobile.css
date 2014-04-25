@@ -1,0 +1,1060 @@
+body {
+	background: #FFFFFF;
+	min-width: 320px;
+        overflow-y: hidden;
+}
+
+a {
+	/*text-decoration: none;*/
+        font-size: 14px;
+}
+
+/* ----- Additional ----- */
+a.popwindow {
+	padding: 5px 0;
+	display: inline-block;
+	font-size: 14px;
+}
+
+#terugnaarboven a {
+        font-size:18px;
+}
+
+#terugnaarboven {
+    margin:20px 0 20px 0px;
+}
+
+.clear {
+	clear: both;
+}
+
+.clear320 {
+	clear: none;
+	width: 0;
+	height: 0;
+}
+
+.hide {
+	display: none;
+}
+
+.mobile_button {
+	display: block;
+	margin: 10px 0;
+	padding: 5px 0;
+	text-align: center;
+	border: 1px solid #036;
+	background: #EAF0FC;
+}
+
+#kleinelogos {
+	position: static;
+	text-align: right;
+	margin-right: 0;
+        margin-top:15px;
+}
+
+#cookie_bottombar_wrapper {
+	width: 100%;
+}
+
+
+
+#fullwebsite {
+	text-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	padding-bottom: 10px;
+	margin: 0;
+}
+
+#fullwebsite a {
+	padding: 5px 20px 5px 0;
+	background: transparent url(../../pic/mobile/icon_arrow_right.png) no-repeat right 60%;
+	margin-left: 25px;
+	text-decoration: none;
+        
+        font-size: 18px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        margin-top: 20px !important;
+        padding: 5px 20px 5px 0;
+        width: 80% !important;
+}
+
+/* ----- Main Class's ----- */
+.header,
+.wrapper,
+.footer,
+.nav {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 1em;
+}
+
+
+.content {
+	padding: 10px;
+}
+
+.wrapper {
+	padding: 30px 30px 0;
+}
+
+/* ----- Header ----- */
+.header .logo {
+	padding-bottom: 3px;
+	border-bottom-right-radius: 6px;
+	border-bottom-left-radius: 6px;
+	border: 1px solid #FFF;
+	background: #FFF;
+	margin-left: 93px;
+	position: absolute;
+	top: 10px;
+}
+
+.header .logo img {
+	width: 130px;
+}
+
+.header .motto {
+	font-size: 11px;
+	margin-left: 200px;
+	display: block;
+	padding: 10px 0;
+	text-align: center;
+	height: 60px;
+	color: #D40139;
+	font-weight: normal;
+	font-variant: normal;
+
+}
+
+.header #show {
+	cursor: pointer;
+	float: left;
+	width: 50px;
+	height: 50px;
+	margin: 10px 10px 0 30px;
+	border: none;
+        font-size:50px;
+        background: #FFFFFF url(../../pic/mobile/i-ico-t.png) center top no-repeat;
+	text-decoration: none;
+        
+}
+
+.header .topfoto {
+	background: #FFFFFF url(../../pic/mobile/topfoto_640.jpg) center top no-repeat;
+	width: 100%;
+	height: 250px;
+	background-size: 100% 100%;
+}
+
+/* ----- Menu ----- */
+.nav {
+	text-align: center;
+	background: #666;
+}
+
+.nav ul {
+}
+
+.nav li {
+	text-align: left;
+	display: block;
+}
+
+.nav a {
+	display: block;
+	padding: 10px;
+	color: #7d7d7d;
+}
+
+.nav a:hover {
+	background: #ffffff;
+	color: #0079ce;
+}
+
+/* ----- Home menu ----- */
+.menu {
+	margin: 0;
+	padding: 0;
+}
+
+.menu a {
+	font-size: 20px;
+	font-weight: normal;
+	text-align: center;
+	display: block;
+	background: #D5E1F9 url(../../pic/mobile/arrow_right.png) no-repeat 97% 60%;
+	border: 1px solid #D5E1F9;
+	color: #036;
+	padding: 11px;
+	margin: 0 0 15px;
+	text-decoration: none;
+}
+
+.menu a:hover {
+	color: #D40139;
+	-moz-box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.menu .hoofdmenu_actief {
+	color: #D40139;
+}
+
+/* ----- Mmenu ----- */
+.mm-list > li:not(.mm-subtitle):not(.mm-label):not(.mm-noresults):after {
+	margin-left: 0;
+}
+
+.mm-menu > .mm-panel {
+	background: #fff;
+}
+
+.mm-list > li > a {
+	background: transparent url(../../pic/mobile/icon_arrow_right.png) no-repeat 10px 50%;
+	padding-left: 25px;
+}
+
+.mm-menu.mm-light .mm-list > li.mm-selected > a:not(.mm-subopen) {
+	background: rgba(255, 255, 255, 0.6) url(../../pic/mobile/icon_arrow_right.png) no-repeat 10px 50%;
+}
+
+.mm-list > li > a:hover {
+	background: #fff url(../../pic/mobile/icon_arrow_right.png) no-repeat 10px 50%;
+}
+
+/* ----- Footer ----- */
+.footer {
+	background: #f9f9f9;
+}
+
+.footer a {
+	display: inline-block;
+}
+
+.footer p {
+	color: #1d1d1d;
+	padding: 5px;
+}
+
+.footer #colofon {
+	background-color: #036;
+	height: 17px;
+	text-align: center;
+	color: #FFF;
+        font-size:0.85em !important;
+}
+
+/* ----- Tables ----- */
+.toonacctabel {
+	width: 100%;
+}
+
+.toonacctabel .wtform_error{
+	font-size: 0.9em;
+}
+
+.wtform_error_input {
+    color: #FF0000;
+}
+
+.wtform_table {
+	width: 100%;
+}
+
+.wtform_cell_left {
+	width: auto;
+	padding-top: 6px;
+	padding-bottom: 3px;
+}
+
+.wtform_cell_right {
+	width: auto;
+	padding-top: 0;
+	padding-bottom: 0px;
+}
+
+.toonacctabel_zonderborder {
+	width: 100%;
+	zoom: 90%;
+}
+
+.toonacctabel_zonderborder td {
+	padding-right: 4px !important;
+	vertical-align: top;
+	font-size: 12px;
+}
+
+.mobile_row {
+	background-color: #FFFFFF;
+	font-size: 0.9em;
+}
+
+.mobile_row td {
+	padding:5px 10px 5px;
+	vertical-align:top;
+}
+
+.mobile_row td .costs {
+        float:right;
+	white-space: nowrap;
+	text-align: right;
+}
+
+/* ----- Lists ----- */
+ul.mobile_list {
+	padding: 0;
+}
+
+ul.mobile_list.small {
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
+ul.mobile_list li {
+    display: block;
+    background: #eaf0fc;
+    /*#D5E1F9*/ 
+	width: 100%;
+	height: auto;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    margin: 0 0 15px;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: center;    
+}
+
+ul.mobile_list.small li {
+    margin: 5px 0 5px 10px;    
+}
+
+ul.mobile_list li a {
+    display: block;
+    padding: 0px 11px 0px 11px;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.myBookingsSmallButton{
+    font-size:14px !important;
+}
+
+ol.mobile_list li {
+    padding-bottom: 0;
+    line-height: 175%;
+    margin-bottom: 5px
+}
+
+.boekingstabel_bewerk {
+background-color: #d5e1f9;
+font-size: 0.9em;
+color: #FFFFFF;
+}
+
+#zoekblok input[name="fzt"]{
+    width:100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;  
+}
+
+/* ----- Search page ----- */
+#zoekblok,
+#zoekresultatentable,
+.zoekresultaat_block {
+	width: 100%;
+}
+
+.zoekresultaat_content {
+	width: 53%;
+}
+
+.zoekresultaat_type_typenaam {
+	width: 27%;
+        white-space: normal !important;
+}
+
+.zoekresultaat_type_typenaam,
+.zoekresultaat_type_personen
+{
+	margin-bottom: 5px;
+}
+
+.chzn-container-single .chzn-single div {
+    height:28px !important;
+}
+
+
+.zoekresultaat_type_slaapkamers {
+    overflow: normal;
+    white-space: normal;
+}
+.zoekresultaat_type_personen {
+    overflow: normal;
+    white-space: normal;
+}
+
+.submitbutton {
+    height: 36px !important;
+}
+
+.alle_selecties_wissen {
+    font-size:14px !important;
+}
+
+.zoekresultaat_type_prijs{
+    padding-top:7px;
+    display:table-cell;
+    padding-bottom:7px;
+    float:none;
+    width:25% !important;
+    vertical-align:middle;
+}
+
+#meldingen {
+	margin-top: 5px;
+	float: none;
+	text-align: right;
+	padding-right: 30px;
+	line-height: 1.5em;
+	font-size: 14px;
+}
+
+#meldingen a {
+	padding: 5px 0;
+}
+
+#toonaccommodatie_kopteksten h1 {
+    font-size:1.5em;
+    padding-bottom:15px;
+}
+
+.tarieventabel_newpricesmail_form {
+    width: 100% !important;
+    border:none !important;
+}
+
+.zoekresultaat_content {
+	width: 49%;
+}
+
+#zoekblok {
+	padding: 0;
+	margin-bottom: 10px;
+}
+
+.zoekblok_titel {
+	width: 100%;
+	margin-left: 4%;
+	text-align: left;
+}
+
+.zoekblok_field {
+	margin-left: 4%;
+        width:92%;
+}
+.zoekblok_alleswissen{
+    margin-left:20px !important;
+}
+
+
+.zoekblok_item {
+	margin-bottom: 5px;
+}
+
+#zoekblok .aantalgevonden {
+	width: 100%;
+	margin-left: 0;
+	font-size: 1em;
+	text-align: center;
+}
+
+.zoekblok_item_geen_titel {
+	margin-left: 0;
+	width: 100%;
+	text-align: center;
+}
+
+#zoekblok form {
+	display: block;
+}
+
+#geenresultaten {
+	width: auto;
+}
+
+.zoekresultaat_type, .zoekresultaat_type_een_resultaat {
+	font-size: 14px;
+        display:table;
+        width:100%;
+        border-right:none;
+}
+
+.zoekresultaat_type_titel {
+    display:table-cell;
+    padding-top:5px;
+    padding-bottom:5px;
+    font-size:14px;
+    width: 75%;
+    float:none;
+}
+
+.zoekresultaat_titel {
+	font-size: 1em;
+}
+
+#zoekenboek_overlay {
+	position: static;
+	height: auto;
+	top: 0;
+	width: auto;
+	margin-left: 0;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.option_plaats,
+.option_regio {
+	font-size: 1.1em;
+	line-height: normal !important;
+}
+
+.zoekblok_bestemming_actief_item a {
+	top: 8px;
+	right: 6px;
+}
+
+.zoekblok_bestemming_actief_item {
+	padding: 6px 22px 7px 7px;
+	margin: 6px 0 9px 10px;
+}
+
+.chzn-container .chzn-results li {
+	line-height: normal;
+	padding: 8px 6px !important;
+}
+
+.option_plaats {
+	max-height: none;
+}
+
+#verfijn {
+	width: 100%;
+	margin-left: 0;
+}
+
+#verfijn .keuzes_kopjes {
+	cursor: pointer;
+}
+
+#verfijn .keuzes_kopjes span {
+	border-left: 5px solid #FFFFFF;
+	border-top: 5px solid rgba(0, 0, 0, 0);
+	border-bottom: 5px solid rgba(0, 0, 0, 0);
+	height: 0;
+	width: 0;
+	top: 16px;
+	position: absolute;
+	left: 10px;
+}
+
+#verfijn .keuzes_kopjes span.up {
+	border-top: 5px solid #FFFFFF;
+	border-left: 5px solid rgba(0, 0, 0, 0);
+	border-right: 5px solid rgba(0, 0, 0, 0);
+	border-bottom: 0;
+	left: 6px;
+	top: 16px;
+}
+
+#verfijn #verfijntopheader {
+	font-weight: bold;
+	cursor: pointer;
+	margin: 0px;
+	padding: 12px 0;
+	position: relative;
+	color: #FFF;
+        font-size:14px;
+	background: #036;
+}
+
+#verfijn #verfijntopheader span {
+	border-top: 7px solid #fff;
+	border-right: 7px solid rgba(0, 0, 0, 0);
+	border-left: 7px solid rgba(0, 0, 0, 0);
+	height: 0;
+	width: 0;
+	top: 16px;
+	position: absolute;
+	right: 10px;
+}
+
+#verfijn #verfijntopheader span.up {
+	border-bottom: 7px solid #fff;
+	border-right: 7px solid rgba(0, 0, 0, 0);
+	border-left: 7px solid rgba(0, 0, 0, 0);
+	border-top: 0;
+	height: 0;
+	width: 0;
+	top: 16px;
+	position: absolute;
+	right: 10px;
+}
+
+#verfijn .keuzes_kopjes {
+	position: relative;
+	padding-left: 20px;
+	padding-top: 12px;
+        font-size:14px;
+	padding-bottom: 12px;
+}
+
+#verfijn .keuzeopsomming {
+	font-size: 14px;
+	margin-bottom: 10px;
+	padding-top: 7px;
+	line-height: normal;
+	padding-bottom: 7px;
+	background-position: left 7px;
+}
+
+/* ----- Aanbieding ----- */
+.zoekresultaat_type_aanbieding {
+	display: none;
+}
+
+.zoekblok_item_geen_titel {
+	margin-top: 10px;
+}
+
+.zoekblok_zoek_alleen_aanbiedingen {
+	padding: 7px 0;
+	margin-top: 15px;
+}
+
+.zoekblok_bestemming_actief {
+	width: 100%;
+	margin-left: 0;
+}
+
+/* ----- Accommodatie ----- */
+#toonaccommodatie_content {
+	float: none;
+	width: 100%;
+}
+
+#toonaccommodatie_kopteksten {
+	float: none;
+	width: 100%;
+}
+
+#toonaccommodatie_kenmerken {
+	width: auto;
+}
+
+#toonaccommodatie_kenmerken_1 {
+	width: 46%;
+}
+
+#toonaccommodatie_kenmerken_2 {
+	width: 52%;
+	margin-left: 2%;
+}
+
+#toonaccommodatie_foto {
+	margin: 0;
+	float: none;
+	padding: 10px 20px;
+	text-align: center;
+}
+
+.tarieventabel_top_right {
+    width:50% !important;
+}
+.tarieventabel_top_left {
+    width:50% !important;
+}
+.tarieventabel_top {
+    min-height: 89px !important;
+}
+.tarieventabel_top_valuta_toelichting1, .tarieventabel_top_valuta_toelichting2{
+    position:absolute;
+    width:282px;
+    top:55px;
+    left:0px;
+    font-size:0.7em !important;
+    
+}
+.tarieventabel_top_valuta_toelichting2 {
+    top: 69px !important;
+}
+.tarieventabel_top_valuta {
+    overflow:initial !important;
+}
+
+#accordion.ui-accordion .ui-accordion-content {
+	padding-left: 0;
+	padding-right: 0;
+        overflow-x: hidden;
+}
+
+#toonaccommodatie_kenmerken_klassering {
+	width: 100%;
+}
+
+#toonaccommodatie_kenmerken_2_beoordeling {
+	font-size: 1.3em;
+	font-weight: bold;
+	float: left;
+	line-height: 1em;
+	margin: 0;
+	margin-bottom: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	position: relative;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+	background: none;
+	height: auto;
+}
+
+#toonaccommodatie_kenmerken_2_beoordelinglink {
+	margin: 0;
+}
+
+#beoordeling_wrapper {
+	width: 100%;
+}
+
+.beoordeling_enquete_toelichting,
+.beoordeling_enquete_cijfers {
+	width: 100%;
+	float: none;
+	margin: 10px 0;
+}
+
+#beoordeling_header img {
+	float: none;
+	margin: 0 auto;
+}
+
+.button {
+    padding-top:11px;
+    padding-bottom:11px;
+    font-size:20px;
+    height: auto;
+}
+
+.button_accpagina {
+	width: 100%;
+	height: auto;
+    padding-top: 11px;
+    padding-bottom:11px;
+    margin: 0 0 15px;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: center;     
+}
+
+#body_toonaccommodatie #map_canvas {
+	width: 99%;
+}
+
+#googlemaps_other {
+	width: 99%;
+	margin-right: 0;
+}
+
+#body_toonaccommodatie .toonacctabel {
+	width: 100%;
+}
+
+.carousel ul li {
+	text-align: center;
+}
+
+.carousel .foto_doorklik {
+	width: 100%;
+	border: 0;
+	padding: 0;
+}
+
+.chzn-container-single .chzn-default{
+    height:28px !important;
+    line-height:28px !important;
+}
+
+.zoekblok_field input {
+    height:28px !important;
+    line-height:28px !important;
+}
+
+#body_toonaccommodatie .ui-accordion .ui-accordion-header {
+}
+
+#body_toonaccommodatie .ui-accordion .ui-accordion-header {
+    padding: 11px;
+    margin: 0 0 15px;
+    font-size: 20px;
+    font-weight: normal;
+    text-align: center;    
+}
+
+#body_toonaccommodatie .ui-icon-triangle-1-s {
+	border-bottom: 7px solid #fff;
+	border-right: 7px solid rgba(0, 0, 0, 0);
+	border-left: 7px solid rgba(0, 0, 0, 0);
+	height: 0;
+	width: 0;
+	top: 40%;
+	position: absolute;
+	right: 10px;
+}
+
+#body_toonaccommodatie .ui-state-hover .ui-icon-triangle-1-e,
+#body_toonaccommodatie .ui-state-focus .ui-icon-triangle-1-e {
+	border-top-color: #fff;
+}
+
+#body_toonaccommodatie .ui-icon-triangle-1-e {
+	border-top: 7px solid #036;
+	border-right: 7px solid rgba(0, 0, 0, 0);
+	border-left: 7px solid rgba(0, 0, 0, 0);
+	height: 0;
+	width: 0;
+	top: 40%;
+	position: absolute;
+	right: 10px;
+}
+
+#toonaccommodatie_boekbalk_alletypes {
+	border: 0;
+	margin-top: 0;
+	padding: 0 10px;
+}
+
+#toonaccommodatie_boekbalk_alletypes .alletypes_item {
+	margin-top: 0;
+}
+
+.boekbutton_tekst {
+	background-position: 96% center;
+	line-height: 22px;
+	margin-top: 0;
+}
+
+#body_toonaccommodatie .tarieventabel_wrapper {
+	width: 99%;
+}
+
+.tarieventabel_wrapper_rechts {
+	position: relative;
+}
+
+.tarieventabel_pijl {
+	top: 130px !important;
+}
+
+.tarieventabel_hulp_bij_online_boeken {
+	width: 100%;
+}
+
+.tarieventabel_maanden_leeg {
+	width: 140px !important;
+}
+
+.tarieventabel_pijl_links {
+	left: 150px;
+}
+
+#hoofdpagina_sociallinks {
+	text-align: center;
+	margin: 20px 0;
+}
+
+#hoofdpagina_sociallinks a {
+	margin: 0 20px;
+}
+
+.optietabel td {
+	padding: 4px;
+}
+
+/* ----- Accommodatie img carousel ----- */
+.scontainer {
+	max-width: 660px;
+	margin: 15px auto 0 auto;
+	max-height: 450px;
+	overflow: hidden;
+}
+.slideshow {
+	overflow: hidden;
+	padding: 0 30px;
+	margin-bottom: 20px;
+	width: 360px;
+	visibility: visible;
+	position: relative;
+	z-index: 2;
+	left: 0px;
+	margin: 0 auto;
+}
+.slides {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+.slide {
+	float: left;
+	width: 360px;
+	height: auto;
+	padding-bottom: 0;
+	min-height: 188px;
+	max-height: 450px;
+	overflow: visible;
+}
+.prev,
+.next {
+	position: absolute;
+	z-index: 10;
+	display: inline-block;
+	padding: 0 8px;
+	margin-bottom: 5px;
+	text-decoration: none;
+	background-color: #D5E1F9;
+	color: #555;
+	height: 100%;
+	width: 30px;
+	border: 0;
+	outline: 0;
+	cursor: pointer;
+}
+.prev {
+	left: 0;
+}
+
+.next {
+	right: 0;
+}
+
+.prev.disabled,
+.next.disabled {
+	cursor: default;
+}
+
+.prev.disabled span,
+.next.disabled span {
+	opacity: 0.5;
+}
+
+.next .arrow {
+	display: inline-block;
+	border-left: 10px solid #036;
+	border-bottom: 10px solid rgba(0, 0, 0, 0);
+	border-top: 10px solid rgba(0, 0, 0, 0);
+	height: 0;
+	width: 0;
+}
+
+.prev .arrow {
+	display: inline-block;
+	border-right: 10px solid #036;
+	border-bottom: 10px solid rgba(0, 0, 0, 0);
+	border-top: 10px solid rgba(0, 0, 0, 0);
+	height: 0;
+	width: 0;
+}
+
+.foto_doorklik {
+	position: relative;
+	height: 100%;
+	border: 0;
+	padding: 0;
+	width: 100%;
+}
+.foto_doorklik a {
+	display: block;
+	height: 100%;
+}
+.foto_doorklik img {
+	margin: 0 !important;
+}
+.foto_doorklik img.img {
+	width: 100%;
+}
+.foto_doorklik img.op {
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+}
+
+/* ----- Favorieten ----- */
+#options #showForm {
+	display: block;
+	text-decoration: none;
+	padding: 5px 0;
+	margin-bottom: 5px;
+}
+
+.mailForm_veld input[type=text],
+.mailForm_veld input[type=email],
+.mailForm_veld textarea {
+	width: 95%;
+}
+
+.favorieten_table {
+	display:inline-table;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	text-align: left;
+	border: 0;
+	width: 100%;
+}
+
+.favorieten_table td {
+	padding-left: 5px;
+}
+
+.favorieten_img {
+	text-align: center;
+}
+
+.favorieten_img img {
+	width: 240px;
+	height: auto;
+	margin-left: -5px;
+}
+.googlemaps_infowindow {
+	width: 100%;
+	min-width: 100px;
+}
+
+.contactTable tr td{
+    padding-top:5px;
+    padding-bottom:5px;
+    line-height:1.5;
+}
+.faq_vraag {
+    padding:11px !important;
+    font-size:18px !important;
+    margin-top:15px !important;
+    margin-bottom:15px !important;
+}
+
+#ajaxloader_page {
+    left: 40% !important;
+}
+
+.result_row {
+    display:table;
+    width:100%;
+    margin-bottom:5px;
+}
+
+#body_boeken .wtform_table .wtform_cell_right{
+    border-bottom:  1px solid #D5E1F9;
+    padding-bottom:10px;
+}

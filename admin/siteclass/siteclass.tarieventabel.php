@@ -48,7 +48,7 @@ class tarieventabel {
 
 	public function toontabel() {
 
-		global $vars;
+		global $vars, $isMobile;
 
 		$db = new DB_sql;
 
@@ -94,10 +94,18 @@ class tarieventabel {
 
 			if($kantoor_open->is_het_kantoor_geopend()) {
 				$return .= "<div class=\"tarieventabel_hulp_bij_online_boeken\">";
-				if($vars["livechat_code"]) {
-					$return .= html("hulpbijonlineboeken","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>","h_2"=>"<span class=\"trigger_livechat_button\">","h_3"=>"</span>", "h_4"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">", "h_5"=>"</a>"));
+				if($isMobile) {
+					if($vars["livechat_code"]) {
+						$return .= html("hulpbijonlineboeken","tarieventabel",array("h_1"=>"<a href=\"tel:".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."\"><b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b></a>","h_2"=>"<a onclick=\"LC_API.open_chat_window();return false;\" href=\"/\">","h_3"=>"</a>", "h_4"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">", "h_5"=>"</a>"));
+					} else {
+						$return .= html("hulpbijonlineboeken_zonderchat","tarieventabel",array("h_1"=>"<a href=\"tel:".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."\"><b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b></a>", "h_4"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">", "h_5"=>"</a>"));
+					}
 				} else {
-					$return .= html("hulpbijonlineboeken_zonderchat","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>", "h_4"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">", "h_5"=>"</a>"));
+					if($vars["livechat_code"]) {
+						$return .= html("hulpbijonlineboeken","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>","h_2"=>"<span class=\"trigger_livechat_button\">","h_3"=>"</span>", "h_4"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">", "h_5"=>"</a>"));
+					} else {
+						$return .= html("hulpbijonlineboeken_zonderchat","tarieventabel",array("h_1"=>"<b><i class=\"icon-phone\"></i>&nbsp;".preg_replace("@ @","&thinsp;",html("telefoonnummer_alleen"))."</b>", "h_4"=>"<a href=\"".$vars["path"]."veelgestelde-vragen\">", "h_5"=>"</a>"));
+					}
 				}
 				$return .= "</div>"; # afsluiten .tarieventabel_hulp_bij_online_boeken
 			}
@@ -1136,7 +1144,7 @@ if($this->tarief[$key]>0) {
 		// toon teksten "inclusief", "exclusief" en "bijkomende kosten"
 		//
 
-		global $vars;
+		global $vars, $isMobile;
 
 		$db = new DB_sql;
 
@@ -1187,13 +1195,13 @@ if($this->tarief[$key]>0) {
 		$return.="</div>";
 
 
-
-		$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
-		if(!$vars["wederverkoop"]) {
-			$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->type_id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
-		}
-		$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
-
+                if(!$isMobile){
+                    $return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
+                    if(!$vars["wederverkoop"]) {
+                            $return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->type_id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
+                    }
+                    $return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
+                }
 		return $return;
 	}
 

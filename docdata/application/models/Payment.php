@@ -33,7 +33,7 @@ class Payment extends Model {
 	 * @param string $order_reference
 	 * @return bool
 	 */
-	public function createPayment($cluster_key, $order_id, $payment_type, $amount, $order_reference) {
+	public function createPayment($cluster_key, $order_id, $payment_type, $amount, $order_reference, $css_id) {
 
 		$config = App::get('helper/config');
 		$status = $config->getItem("new", $config::GROUP_STATUS);
@@ -41,8 +41,9 @@ class Payment extends Model {
 		$sql  = "INSERT INTO `" . $this->table . "` ";
 		$sql .= "SET cluster_key = '" . mysql_real_escape_string($cluster_key) . "', ";
 		$sql .= "boeking_id = '" . mysql_real_escape_string($order_id) . "', status = '" . mysql_real_escape_string($status) . "', created_at = NOW(), ";
-		$sql .= "amount = '" . mysql_real_escape_string($amount) . "', type = '" . mysql_real_escape_string($payment_type) ."', reference = '" . mysql_real_escape_string($order_reference) . "' ;";
-
+		$sql .= "css_id = '" . mysql_real_escape_string($css_id) . "', ";
+                $sql .= "amount = '" . mysql_real_escape_string($amount) . "', type = '" . mysql_real_escape_string($payment_type) ."', reference = '" . mysql_real_escape_string($order_reference) . "' ;";
+              
 		$this->query($sql);
 
 		return (bool)$this->num_rows();
@@ -65,13 +66,16 @@ class Payment extends Model {
 	 * @param string $status The payment status
 	 * @return int
 	 */
-	public function getDocdataPaymentOrderKey($order_id, $payment_type, $status = NULL) {
+	public function getDocdataPaymentOrderKey($order_id, $payment_type, $status = NULL, $css_id = NULL) {
 
 		$sql  = "SELECT cluster_key FROM `" . $this->table . "` ";
 		$sql .= "WHERE boeking_id = '" . mysql_real_escape_string($order_id) . "' AND type = '" . mysql_real_escape_string($payment_type) ."' ";
 		if($status) {
 			$sql .= "AND status='". $status ."' ";
 		}
+                if($css_id){
+                        $sql .= "AND css_id='". $css_id . "' ";
+                }
 		$sql .= "ORDER BY id DESC LIMIT 1";
 
 		$this->query($sql);
@@ -101,6 +105,25 @@ class Payment extends Model {
 
                 return htmlspecialchars($this->f("cluster_key"));
 	}
+        
+        /**
+         * Gets the CSS ID based on cluster key.
+         * 
+         * @param type $cluster_key
+         * @return boolean
+         */
+        public function getDocdataCssId($cluster_key){
+            $sql = "SELECT css_id FROM `". $this->table . "` ";
+            $sql.= "WHERE cluster_key ='". mysql_real_escape_string($cluster_key) . "' LIMIT 1";
+            
+            $this->query($sql);
+            
+            if((int)$this->num_rows() == 0) return false;
+            
+            $this->next_record();
+            
+            return $this->f('css_id');
+        }
 
 	/**
 	 * Get Payment Type based on order id and Docdata cluster key

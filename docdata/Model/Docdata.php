@@ -91,6 +91,18 @@ class Model_Docdata implements Model_System {
 	public function translate($string) {
 		return __($string);
 	}
+        
+        /**
+         * Returns the available CSS id.
+         * @return string
+         */
+        public function getWebsiteCode(){
+                if($this->_order !== null){
+                    $css = $this->_order->getWebsiteCode();
+                    return $css;
+                    
+                }
+        }
 	
 	/**
 	 * Uses the order data to create a payment order request
@@ -148,6 +160,7 @@ class Model_Docdata implements Model_System {
 			$payment_order_key = (string)$node[0];
 			$this->_order->setClusterKey($payment_order_key);
 			$this->_order->setOrderReference($order_reference);
+                        $this->_order->setCssId($menu_pref);
 		}
 
         return $this;
@@ -423,6 +436,16 @@ class Model_Docdata implements Model_System {
 			$this->_order->setOrderReference($order_reference);
 		}
 	}
+        
+        /**
+         * Sets the available CSS on the current order.
+         * @param int $css_id
+         */
+        public function setCssId($css_id){
+                if($this->_order !== null){
+                    $this->_order->setCssId($css_id);
+                }
+        }
 
 	/**
 	 * Retrieves the WSDL of the API

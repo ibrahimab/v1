@@ -1,0 +1,25 @@
+<?php
+
+# Content
+if($_GET["fo"]=="frm") {
+	echo "<p>".html("bedankt","vraagonsadvies")."</p>";
+	affiliate_tracking(false,true,true,array("ordernummer"=>"vraagonsadvies"));
+} else {
+	/*
+	echo "<p>".html("alinea1","vraagonsadvies",array("v_websitenaam"=>$vars["websitenaam"]))."</p>";
+	echo "<p>".html("alinea2","vraagonsadvies")."</p>";
+	echo "<p style=\"margin-bottom:25px;\">";
+
+	if($vars["livechat_code"]) {
+		echo html("alinea3_chat","vraagonsadvies",array("h_1"=>"<a href=\"".$vars["path"].txt("menu_contact").".php\">","h_2"=>"</a>"));
+	} else {
+		echo html("alinea3","vraagonsadvies");
+	}
+
+	echo "</p>";
+	*/
+	$form->display_all($mobile=true);
+}
+
+
+?>

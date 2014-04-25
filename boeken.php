@@ -833,15 +833,21 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			}
 		}
 
-		$form->field_text(1,"voornaam",txt("voornaam","boeken"),"",array("text"=>$gegevens["stap2"]["voornaam"]));
-		if($boeking_wijzigen) {
-			$form->field_noedit("tussenvoegsel",txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap2"]["tussenvoegsel"]));
-			$form->field_noedit("achternaam",txt("achternaam","boeken"),"",array("text"=>$gegevens["stap2"]["achternaam"]));
-			$form->field_htmlrow("","<span style=\"font-size:0.8em;font-style:italic;\">&nbsp;&nbsp;".html("voorhetwijzigenvanachternaam","boeken")."</span>");
+		if(!$isMobile) {
+			$form->field_text(1,"voornaam",txt("voornaam","boeken"),"",array("text"=>$gegevens["stap2"]["voornaam"]));
+			if($boeking_wijzigen) {
+				$form->field_noedit("tussenvoegsel",txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap2"]["tussenvoegsel"]));
+				$form->field_noedit("achternaam",txt("achternaam","boeken"),"",array("text"=>$gegevens["stap2"]["achternaam"]));
+				$form->field_htmlrow("","<span style=\"font-size:0.8em;font-style:italic;\">&nbsp;&nbsp;".html("voorhetwijzigenvanachternaam","boeken")."</span>");
+			} else {
+				$form->field_text(0,"tussenvoegsel",txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap2"]["tussenvoegsel"]));
+				$form->field_text(1,"achternaam",txt("achternaam","boeken"),"",array("text"=>$gegevens["stap2"]["achternaam"]));
+			}
 		} else {
-			$form->field_text(0,"tussenvoegsel",txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap2"]["tussenvoegsel"]));
-			$form->field_text(1,"achternaam",txt("achternaam","boeken"),"",array("text"=>$gegevens["stap2"]["achternaam"]));
+			$naam = $gegevens["stap2"]["voornaam"] .(!empty($gegevens["stap2"]["achternaam"]) ? " ".$gegevens["stap2"]["achternaam"] : "");
+			$form->field_text(1,"naam",txt("naam","boeken"),"",array("text"=>$naam));
 		}
+
 		if(!$gegevens["stap1"]["reisbureau_user_id"]) {
 			$form->field_text(1,"adres",txt("adres","boeken"),"",array("text"=>$gegevens["stap2"]["adres"]));
 			$form->field_text(1,"postcode",txt("postcode","boeken"),"",array("text"=>$gegevens["stap2"]["postcode"]),array("maxlength"=>10));
@@ -860,8 +866,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 #			$form->field_date(0,"geboortedatum",txt("geboortedatum","boeken")."<br><span class=\"kleinfont\">(".txt("geboortedatum_verplichtbij","boeken").")</span>","",array("time"=>$gegevens["stap2"]["geboortedatum"]),array("startyear"=>date("Y"),"endyear"=>1900),array("title_html"=>true));
 			$form->field_date(($voorkant_cms ? 0 : 1),"geboortedatum",txt("geboortedatum","boeken"),"",array("time"=>$gegevens["stap2"]["geboortedatum"]),array("startyear"=>date("Y"),"endyear"=>1900),array("title_html"=>true));
 		} else {
-			$form->field_text(1,"telefoonnummer",txt("telefoonnummer","boeken"),"",array("text"=>$gegevens["stap2"]["telefoonnummer"]));
-			$form->field_text(0,"mobielwerk",txt("mobielwerk","boeken"),"",array("text"=>$gegevens["stap2"]["mobielwerk"]));
+	            	if($isMobile) {
+	                	$form->field_tel(1,"telefoonnummer",txt("telefoonnummer","boeken"),"",array("text"=>$gegevens["stap2"]["telefoonnummer"]));
+	                	$form->field_tel(0,"mobielwerk",txt("mobielwerk","boeken"),"",array("text"=>$gegevens["stap2"]["mobielwerk"]));
+	            	} else {
+	                	$form->field_text(1,"telefoonnummer",txt("telefoonnummer","boeken"),"",array("text"=>$gegevens["stap2"]["telefoonnummer"]));
+	                	$form->field_text(0,"mobielwerk",txt("mobielwerk","boeken"),"",array("text"=>$gegevens["stap2"]["mobielwerk"]));                
+	            	}
 			$form->field_email(1,"email",txt("email","boeken"),"",array("text"=>$gegevens["stap2"]["email"]));
 			$form->field_date(($voorkant_cms ? 0 : 1),"geboortedatum",txt("geboortedatum","boeken"),"",array("time"=>$gegevens["stap2"]["geboortedatum"]),array("startyear"=>date("Y"),"endyear"=>1900));
 		}
@@ -970,9 +981,14 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$form->field_htmlrow("","<span style=\"font-style:italic;\"><a href=\"".htmlentities(str_replace("stap=3","stap=2",$_SERVER["REQUEST_URI"]))."\">".html("gegevenshoofdboekerwijzigen","boeken")." &raquo;</span>");
 					$form->field_htmlrow("","<hr>");
 				} else {
-					$form->field_text(0,"voornaam".$i,txt("voornaam","boeken"),"",array("text"=>$gegevens["stap3"][$i]["voornaam"]));
-					$form->field_text(0,"tussenvoegsel".$i,txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap3"][$i]["tussenvoegsel"]));
-					$form->field_text(0,"achternaam".$i,txt("achternaam","boeken"),"",array("text"=>$gegevens["stap3"][$i]["achternaam"]));
+					if(!$isMobile) {
+						$form->field_text(0,"voornaam".$i,txt("voornaam","boeken"),"",array("text"=>$gegevens["stap3"][$i]["voornaam"]));
+						$form->field_text(0,"tussenvoegsel".$i,txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap3"][$i]["tussenvoegsel"]));
+						$form->field_text(0,"achternaam".$i,txt("achternaam","boeken"),"",array("text"=>$gegevens["stap3"][$i]["achternaam"]));
+					} else {
+						$naam = $gegevens["stap3"][$i]["voornaam"] . (!empty($gegevens["stap3"][$i]["achternaam"]) ? " ".$gegevens["stap3"][$i]["achternaam"] : "");
+						$form->field_text(0,"naam".$i,txt("naam","boeken"),"",array("text"=>$naam));
+					}
 					$form->field_text(0,"plaats".$i,txt("woonplaats","boeken"),"",array("text"=>$gegevens["stap3"][$i]["plaats"]));
 					if(!$gegevens["stap3"][$i]["land"]) {
 						$gegevens["stap3"][$i]["land"]=$gegevens["stap2"]["land"];
@@ -1149,7 +1165,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$schadeverzekering_checkbox_getoond=true;
 				$form->field_yesno("schadeverzekering","<b>".html("ikwileenschadeverzekering","boeken")."</b>","",array("selection"=>$schadeverzekering_checkbox),"",array("title_html"=>true));
 				if(!$mustlogin) {
-					$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=schadeverzekering')\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
+					if(!$isMobile) {
+						$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=schadeverzekering')\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
+					} else {
+						$form->field_htmlrow("schadeverzekering_toelichting","<span class=\"x-small\"><a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=schadeverzekering\">".html("toelichtingschadeverzekering","boeken")."</a></span><div style=\"height:15px;\"></div>");
+					}
 				}
 			}
 		}
@@ -1174,7 +1194,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_yesno("annuleringsverzekering","<b>".html("ikwileenannuleringsverzekering","boeken")."</b>","",array("selection"=>$ann_verz_checkbox),"",array("title_html"=>true,"onclick"=>"annverz(".$gegevens["stap1"]["aantalpersonen"].",this.checked)"));
 			if(!$mustlogin) {
 #				$form->field_htmlrow("ann_toelichting",html("wanneermaareendeelvandegroep","boeken")."<p><span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
-				$form->field_htmlrow("ann_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
+				if(!$isMobile) {
+					$form->field_htmlrow("ann_toelichting","<span class=\"x-small\"><a href=\"javascript:popwindow(650,0,'popup.php?id=annuleringsverzekering')\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
+				} else {
+					$form->field_htmlrow("ann_toelichting","<span class=\"x-small\"><a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=annuleringsverzekering\">".html("overigemogelijkhedenannuleringsverzekering","boeken")."</a></span>");
+				}
 			}
 		}
 
@@ -1235,7 +1259,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					if(is_array($optie_keuzes)) {
 						if($mustlogin or !$gegevens["stap_voltooid"][5] or $gegevens["stap1"]["wijzigen_toegestaan"] or $dagen_na_bevestigdatum<=3) {
 							if($optie_soort["meerinformatie"][$key] and !$mustlogin) {
-								$veldnaam=htmlentities($value)."<span class=\"x-small\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?id=opties&amp;gid=".$optie_soort["optiegroepid"][$key]."');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+								if(!$isMobile) {
+									$veldnaam=htmlentities($value)."<span class=\"x-small\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?id=opties&amp;gid=".$optie_soort["optiegroepid"][$key]."');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+								} else {
+									$veldnaam=htmlentities($value)."<span class=\"x-small\"><br><span class=\"noprint\">(<a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=opties&amp;gid=".$optie_soort["optiegroepid"][$key]."\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+								}
 							} else {
 								$veldnaam=$value;
 							}
@@ -1288,7 +1316,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					if($mustlogin) {
 						$veldnaam=html("annuleringsverzekering","boeken");
 					} else {
-						$veldnaam=html("annuleringsverzekering","boeken")."<span class=\"x-small\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(650,0,'".$vars["path"]."popup.php?id=annuleringsverzekering');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+						if(!$isMobile) {
+							$veldnaam=html("annuleringsverzekering","boeken")."<span class=\"x-small\"><br><span class=\"noprint\">(<a href=\"javascript:popwindow(650,0,'".$vars["path"]."popup.php?id=annuleringsverzekering');\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+						} else {
+							$veldnaam=html("annuleringsverzekering","boeken")."<span class=\"x-small\"><br><span class=\"noprint\">(<a class=\"popwindow\" href=\"".$vars["path"]."popup_mobile.php?id=annuleringsverzekering\">".html("meerinformatie","toonaccommodatie")."</a>)</span></span>";
+						}
 					}
 					$form->field_select(0,"annverz_".$i,$veldnaam,"",array("selection"=>$annverz_keuze),array("selection"=>$annverz_array,"empty_is_0"=>true),array("title_html"=>true));
 				}
@@ -1338,7 +1370,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		}
 
 		$reissomtabel=reissom_tabel($gegevens,$accinfo,array("tonen_verbergen"=>true));
-		$form->field_htmlrow("","<hr><b>".txt("samenstellingreissom","boeken")."</b><p><table class=\"table\" style=\"width:660px;\">".$reissomtabel."</table><hr>");
+		$form->field_htmlrow("","<hr><b>".txt("samenstellingreissom","boeken")."</b><p><table class=\"table\" style=\"width:".($isMobile?"100%":"660px").";\">".$reissomtabel."</table><hr>");
 		$reissomtabel=reissom_tabel($gegevens,$accinfo);
 
 		if($gegevens["stap1"]["opmerkingen_opties"]) {
@@ -1364,21 +1396,22 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			}
 		}
 
-		if(!$gegevens["stap1"]["reisbureau_user_id"]) {
-			$form->field_checkbox(0,"referentiekeuze",txt("referentiekeuze","boeken",array("v_websitenaam"=>$vars["websitenaam"])),"","",array("selection"=>$vars["referentiekeuze"]),array("one_per_line"=>true));
-		}
+		if(!$isMobile) {
+			if(!$gegevens["stap1"]["reisbureau_user_id"]) {
+				$form->field_checkbox(0,"referentiekeuze",txt("referentiekeuze","boeken",array("v_websitenaam"=>$vars["websitenaam"])),"","",array("selection"=>$vars["referentiekeuze"]),array("one_per_line"=>true));
+			}
 
-		if($vars["nieuwsbrief_aanbieden"]) {
-			if($vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]) {
-				# Nieuwsbrief: kiezen tussen direct/einde van het seizoen/nee
-				$form->field_radio(0,"nieuwsbrief","<div style=\"height:7px;\"></div>Wil je de ".$vars["websitenaam"]."-nieuwsbrief ontvangen?","",array("selection"=>3),array("selection"=>array(1=>"Ja, per direct",2=>"Ja, tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen",3=>"Nee, ik wil geen nieuwsbrief ontvangen")),array("one_per_line"=>true,"newline"=>true,"tr_class"=>"nieuwsbrief_per_wanneer","title_html"=>true));
-			} else {
-				# Nieuwsbrief: kiezen tussen ja/nee
-				$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
-				$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
+			if($vars["nieuwsbrief_aanbieden"]) {
+				if($vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]) {
+					# Nieuwsbrief: kiezen tussen direct/einde van het seizoen/nee
+					$form->field_radio(0,"nieuwsbrief","<div style=\"height:7px;\"></div>Wil je de ".$vars["websitenaam"]."-nieuwsbrief ontvangen?","",array("selection"=>3),array("selection"=>array(1=>"Ja, per direct",2=>"Ja, tegen het einde van dit winterseizoen, met nieuws over het volgende winterseizoen",3=>"Nee, ik wil geen nieuwsbrief ontvangen")),array("one_per_line"=>true,"newline"=>true,"tr_class"=>"nieuwsbrief_per_wanneer","title_html"=>true));
+				} else {
+					# Nieuwsbrief: kiezen tussen ja/nee
+					$nieuwsbrief_vraag=txt("nieuwsbriefvraag","contact",array("v_websitenaam"=>$vars["websitenaam"]));
+					$form->field_yesno("nieuwsbrief",$nieuwsbrief_vraag,"",array("selection"=>false));
+				}
 			}
 		}
-
 		// if($vars["taal"]=="nl" and !$gegevens["stap1"]["reisbureau_user_id"] and $vars["websitetype"]<>3 and $vars["websitetype"]<>7 and $vars["websitetype"]<>8) {
 		// 	if($vars["seizoentype"]==1 and $vars["wederverkoop"]) {
 		// 		# Bij winter-wederverkoop: geen nieuwsbrief aanbieden
@@ -1387,7 +1420,16 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		// 	}
 		// }
 
-		$form->field_yesno("akkoord",html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"javascript:popwindow(600,0,'popup.php?id=algemenevoorwaarden');","v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
+		if(!$isMobile) {
+			$form->field_yesno("akkoord",html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"javascript:popwindow(600,0,'popup.php?id=algemenevoorwaarden');","v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
+		} else {
+                        $confirmTextFromHtml = html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"popup_mobile?id=algemenevoorwaarden","v_websitenaam"=>$vars["websitenaam"]));
+                        
+                        $confirmationText = str_replace("<a ", "<a class='popwindow' ", $confirmTextFromHtml);
+                        
+			$form->field_yesno("akkoord",$confirmationText,"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
+		}
+
 
 	} elseif($_GET["stap"]==6) {
 		# Gegevens wissen
@@ -1786,6 +1828,24 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			if($form->input["adres"] and (strlen(trim($form->input["adres"]))<3 or !preg_match("@[a-zA-Z]@",$form->input["adres"]))) {
 				$form->error("adres",html("volledigadres", "boeken"));
 			}
+			
+			if($isMobile) {			
+				//check name
+				if(strlen(trim($form->input["naam"])) < 3){
+					$form->error("naam", html("vulzowelvooralsachternaamin", "boeken"));
+				}
+            
+				if(strlen(trim($form->input["postcode"])) < 3){
+					$form->error("postcode", html("invalidpostcode", "boeken"));
+				}
+            
+				if(strlen(trim($form->input["plaats"]) ) < 3){
+					$form->error("plaats", html("invalidplaats", "boeken"));
+				}
+				if(strlen(trim($form->input["land"])) < 3){
+	                		$form->error("land", html("invalidland", "boeken"));
+				}
+			}	    
 
 		} elseif($_GET["stap"]==3) {
 			for($i=2;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
@@ -2488,6 +2548,14 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			bereken_bijkomendekosten($gegevens["stap1"]["boekingid"]);
 
 		} elseif($_GET["stap"]==2) {
+
+			if($isMobile && $form->input["naam"]) {
+				$naam = explode(" ", $form->input["naam"], 2);
+				$form->input["voornaam"] = $naam[0];
+				$form->input["tussenvoegsel"] = "";
+				$form->input["achternaam"] = $naam[1];
+			}
+
 			# Cookie plaatsen
 			nawcookie($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"],$form->input["adres"],$form->input["postcode"],$form->input["plaats"],$form->input["land"],$form->input["telefoonnummer"],$form->input["mobielwerk"],$form->input["email"],$form->input["geboortedatum"]["unixtime"],$form->input["nieuwsbrief"],$form->input["geslacht"]);
 
@@ -2586,6 +2654,12 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 			# boeking_persoon opslaan
 			for($i=2;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+				if($isMobile && $form->input["naam".$i]) {
+					$naam = explode(" ", $form->input["naam".$i], 2);
+					$form->input["voornaam".$i] = $naam[0];
+					$form->input["tussenvoegsel".$i] = "";
+					$form->input["achternaam".$i] = $naam[1];
+				}
 				# kijken of er zaken zijn gewijzigd
 				if(($gegevens["stap3"][$i]["voornaam"] and $form->input["voornaam".$i]<>$gegevens["stap3"][$i]["voornaam"]) or ($gegevens["stap3"][$i]["tussenvoegsel"] and $form->input["tussenvoegsel".$i]<>$gegevens["stap3"][$i]["tussenvoegsel"]) or ($gegevens["stap3"][$i]["achternaam"] and $form->input["achternaam".$i]<>$gegevens["stap3"][$i]["achternaam"]) or ($gegevens["stap3"][$i]["plaats"] and $form->input["plaats".$i]<>$gegevens["stap3"][$i]["plaats"]) or ($gegevens["stap3"][$i]["geslacht"] and $form->input["geslacht".$i]<>$gegevens["stap3"][$i]["geslacht"]) or (isset($gegevens["stap3"][$i]["geboortedatum"]) and $form->input["geboortedatum".$i]["unixtime"]<>$gegevens["stap3"][$i]["geboortedatum"])) {
 					$tempstatus=$persoonstatus;
@@ -2810,14 +2884,15 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$db->query("UPDATE optieaanvraag SET status='6' WHERE optieaanvraag_id='".addslashes($gegevens["stap1"]["optieaanvraag_id"])."';");
 			}
 
-			# Inschrijven nieuwsbrief
-			if($form->input["nieuwsbrief"] and $form->input["nieuwsbrief"]<>"3") {
-				$nieuwsbrief_waardes=array("email"=>$gegevens["stap2"]["email"],"voornaam"=>$gegevens["stap2"]["voornaam"],"tussenvoegsel"=>$gegevens["stap2"]["tussenvoegsel"],"achternaam"=>$gegevens["stap2"]["achternaam"],"per_wanneer"=>$form->input["nieuwsbrief"]);
-				nieuwsbrief_inschrijven($vars["seizoentype"],$nieuwsbrief_waardes);
+			if(!$isMobile) {
+				# Inschrijven nieuwsbrief
+				if($form->input["nieuwsbrief"] and $form->input["nieuwsbrief"]<>"3") {
+					$nieuwsbrief_waardes=array("email"=>$gegevens["stap2"]["email"],"voornaam"=>$gegevens["stap2"]["voornaam"],"tussenvoegsel"=>$gegevens["stap2"]["tussenvoegsel"],"achternaam"=>$gegevens["stap2"]["achternaam"],"per_wanneer"=>$form->input["nieuwsbrief"]);
+					nieuwsbrief_inschrijven($vars["seizoentype"],$nieuwsbrief_waardes);
+				}
+
+				setcookie("naw[nieuwsbrief]",($form->input["nieuwsbrief"] ? "ja" : "nee"),time()+12960000);
 			}
-
-			setcookie("naw[nieuwsbrief]",($form->input["nieuwsbrief"] ? "ja" : "nee"),time()+12960000);
-
 
 			# Tabellen met boekingsinformatie opstellen
 			$tabellen="";
@@ -2993,11 +3068,43 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 #			$html="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style type=\"text/css\"><!--\na:visited:hover,a:hover {\ncolor:".$hover.";\n}\n--></style>\n</head>\n<body style=\"background-color: #F3F3F3;font-family: ".$font.";font-size: 0.8em;\">\n";
 #			$html.="<div style=\"width:630px\">";
 			$html.=html("beste","boeken")." ";
-			if($gegevens["stap1"]["reisbureau_user_id"]) {
-				$html.=htmlentities($login_rb->vars["voornaam"]);
-			} else {
-				$html.=htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
-			}
+                        if($isMobile){
+                                if($gegevens["stap1"]["reisbureau_user_id"]) {
+                                        $nameInTussenvoegsel = explode(" ", $login_rb->vars["voornaam"]);
+
+                                        foreach($nameInTussenvoegsel as $name){
+                                            if(in_array(strtolower($name), $vars["availableTussenvoegsel"])){
+                                                $names[] = lcfirst($name);
+                                            }else{
+                                                $names[] = $name;
+                                            }
+                                        }
+                                        $vornaam = implode(" ", $names);
+                                        $html.=htmlentities($vornaam);
+                                } else {
+
+                                        $tussen = explode(" ", wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
+
+                                        foreach($tussen as $tu){
+                                            if(in_array(strtolower($tu), $vars["availableTussenvoegsel"]))
+                                                $tussens[] = lcfirst($tu);
+                                            else
+                                                $tussens[] = $tu;
+                                        }
+
+                                        $tussenString = implode(" ", $tussens);
+
+                                        $html.= htmlentities($tussenString);
+                                }
+                        }else {
+                                if($gegevens["stap1"]["reisbureau_user_id"]) {
+                                    $html.=htmlentities($login_rb->vars["voornaam"]);
+                                } else {
+                                    $html.=htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
+                                }
+                        }
+                        
+                       
 			$html.=",<p>".html("wijhebbenuwboekingsaanvraag","boeken")."</p>";
 			$html.="<p>".html("nageblekenbeschikbaarheidsturenwiju","boeken")."</p>";
 

@@ -1,0 +1,303 @@
+@media screen and (min-width: 640px) {
+	.slideshow {
+		height: 450px;
+		width: 600px;
+	}
+
+	.slide {
+		height: 450px;
+		width: 600px;
+	}
+        .zoekblok_select,
+	.zoekblok_select_mobile {
+		width: 100%;
+		background-position-x: 110%;
+        height:30px !important;
+	}
+
+
+
+}
+
+@media screen and (min-width: 480px) and (max-width: 639px) {
+    	.header #show {
+		margin-left: 5px;
+	}
+        .zoekblok_field {
+            width:93% !important;
+        }
+
+	.header .logo {
+		margin-left: 58px;
+	}
+    
+	.header .topfoto {
+		background: #FFFFFF url(../../pic/mobile/topfoto_480.jpg) center top no-repeat;
+		width: 100%;
+		height: 200px;
+		background-size: 100% 100%;
+	}
+
+	.motto {
+		font-size: 18px;
+		padding: 20px 10px 10px;
+	}
+
+	.wtform_input {
+		width: 400px;
+	}
+
+	.zoekblok_select,
+	.zoekblok_select_mobile {
+		width: 100%;
+		background-position-x: 110%;
+        height:30px !important;
+	}
+
+
+
+	.zoekresultaat_type_slaapkamers,
+	.zoekresultaat_type_badkamers,
+	.zoekresultaat_type_typenaam,
+	.zoekresultaat_type_personen {
+		width: 50%;
+	}
+
+	.zoekresultaat_type_titel {
+		padding: 1%;
+	}
+
+	.zoekresultaat_type_prijs {
+		width: 25%;
+		padding: 1%;
+		padding-right: 2%;
+                padding-bottom: 8px !important;
+                padding-top: 8px !important;
+		min-height: 34px;
+	}
+
+	.zoekresultaat_prijs {
+		height: auto;
+		background-color: rgba(0, 0, 0, 0);
+	}
+    
+	.zoekresultaat_content {
+		width: 36%;
+	}
+
+	.zoekresultaat_img img {
+		width: 130px;
+	}
+
+	.zoekresultaat_omschrijving {
+		padding: 5px;
+	}
+
+	.zoekresultaat_omschrijving.small {
+		width: 72%;
+		float: left;
+	}
+
+	.zoekresultaat_aanbieding {
+		position: static;
+		float: right;
+		width: 25%;
+		text-align: center;
+		margin: 2px 0;
+	}
+
+	.zoekresultaat_aanbieding img {
+		margin-top: 0;
+		width: 36px;
+	}
+
+	.slideshow {
+		height: 270px;
+		width: 360px;
+	}
+
+	.slide {
+		height: 270px;
+		width: 360px;
+	}
+
+	.next,
+	.prev {
+		width: 30px;
+	}
+
+	.slide {
+		height: 270px;
+	}
+}
+
+@media screen and (max-width: 479px) {
+	h3#alletypes {
+		padding-right: 25px;
+		padding-left: 0;
+	}
+
+	.clear320 {
+		clear: both;
+		width: 100%;
+	}
+
+	.header .topfoto {
+		background: #FFFFFF url(../../pic/mobile/topfoto_320.jpg) center top no-repeat;
+		width: 100%;
+		height: 130px;
+		background-size: 100% 100%;
+	}
+
+	.header .motto {
+		font-size: 11px;
+		padding: 16px 5px;
+		height: 40px;
+		margin-left: 155px;
+	}
+
+	.header .logo img {
+		width: 100px;
+		height: auto;
+	}
+
+	.header .logo {
+		margin-left: 58px;
+	}
+
+	.footer #colofon, .footer a, .footer a:visited, .footer #colofon a[href^=tel] {
+		font-size: 10px !important;
+	}
+
+	.wtform_input {
+		width: 250px;
+	}
+    
+
+	.zoekblok_select,
+	.zoekblok_select_mobile {
+		width: 100%;
+		background-position-x: 116% !important;
+                height:30px !important;
+	}
+
+	.wrapper, #meldingen {
+		padding: 15px 15px 0;
+	}
+
+	.zoekresultaat_content {
+		clear: both;
+		float: none;
+		width: 100%;
+	}
+
+	.zoekresultaat_prijs {
+		width: 105px;
+		background-color: rgba(0, 0, 0, 0);
+	}
+
+	.zoekresultaat_img img {
+		width: 160px;
+	}
+
+	.zoekresultaat_content div {
+		height: 17px;
+		width: auto;
+		float: left;
+		margin-bottom: 3px;
+		margin-right: 10px;
+	}
+
+	.zoekresultaat_content_land {
+		margin-right: 10px;
+		font-size: 1em;
+	}
+
+	.zoekresultaat_content_sterren {
+		margin-top: 0px;
+		margin-right: 10px;
+		float: right !important;
+	}
+
+	.zoekresultaat_type_prijs {
+		width: 25%;
+                padding-top:8px;
+                padding-bottom: 8px;
+		min-height: 34px;
+	}
+
+	.zoekresultaat_type_titel {
+		padding: 1%;
+		padding-right: 0;
+	}
+
+	.zoekresultaat_type_slaapkamers,
+	.zoekresultaat_type_badkamers,
+	.zoekresultaat_type_typenaam,
+	.zoekresultaat_type_personen {
+		width: 50%;
+                text-align: center;
+	}
+
+	.zoekresultaat_omschrijving {
+		padding: 5px;
+	}
+
+	.zoekresultaat_omschrijving.small {
+		width: 72%;
+		float: left;
+	}
+
+	.zoekresultaat_aanbieding {
+		position: static;
+		float: right;
+		width: 24%;
+		text-align: center;
+		margin: 2px 0;
+	}
+
+	.zoekresultaat_aanbieding img {
+		margin-top: 0;
+		width: 36px;
+	}
+
+	.toonacctabel.zoom {
+		zoom: 86% !important;
+	}
+
+	.toonacctabel.mzoom {
+		zoom: 88%;
+	}
+    
+
+	.prev,
+	.next {
+		width: 20px;
+	}
+
+	.next .arrow {
+		margin-left: -2px;
+	}
+	.prev .arrow {
+		margin-left: -3px;
+	}
+
+	.slideshow {
+		padding: 0 20px;
+		height: 188px;
+		width: 250px;
+	}
+
+	.slide {
+		height: 188px;
+		width: 250px;
+	}
+
+	.header #show {
+		margin-left: 5px;
+	}
+
+	.header .logo {
+		margin-left: 58px;
+        }
+}
