@@ -53,7 +53,7 @@ while($db->next_record()) {
 				$ipadres[$db->f("user_id")]="Kantoor (Ziggo 4)";
 			} elseif($regs[1]=="213.125.152.158") {
 				$ipadres[$db->f("user_id")]="Kantoor (Ziggo 5)";
-			} elseif($regs[1]=="83.163.123.200") {
+			} elseif($regs[1]=="83.163.123.209") {
 				$ipadres[$db->f("user_id")]="Bert thuis";
 			} elseif($regs[1]=="VERBERGEN_83.215.210.75") {
 				$ipadres[$db->f("user_id")]="Bauernhaus";
