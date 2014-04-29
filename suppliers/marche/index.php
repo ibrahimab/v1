@@ -178,23 +178,29 @@ class MarcheHolidays {
         $lastWeek = strtotime($start . " +".$numweek." weeks");
 
         $accNotAvail = array();
-        foreach($accommodations->DATA_ROW as $accommodation){
-            $timeNotAvailable = strtotime($accommodation->from);
-            
-            $getThisDay = getdate($timeNotAvailable);
-            
-            if($getThisDay['weekday'] != "Saturday"){
-                $timeNotAvailable = strtotime("last Saturday", $timeNotAvailable);
+        if(is_array($accommodations->DATA_ROW)) {
+            foreach($accommodations->DATA_ROW as $accommodation){
+                $timeNotAvailable = strtotime($accommodation->from);
+
+                $getThisDay = getdate($timeNotAvailable);
+
+                if($getThisDay['weekday'] != "Saturday"){
+                    $timeNotAvailable = strtotime("last Saturday", $timeNotAvailable);
+                }
+
+                $accNotAvail[$timeNotAvailable] = 0;
+                $intervalSaturday = strtotime("next Saturday", $timeNotAvailable);
+
+                while($intervalSaturday <= strtotime($accommodation->to)){
+                    $accNotAvail[$intervalSaturday] = 0;
+                    $intervalSaturday = strtotime("next Saturday", $intervalSaturday);
+                }
             }
-            
-            $accNotAvail[$timeNotAvailable] = 0;
-            $intervalSaturday = strtotime("next Saturday", $timeNotAvailable);
-        
-            while($intervalSaturday <= strtotime($accommodation->to)){
-                $accNotAvail[$intervalSaturday] = 0;
-                $intervalSaturday = strtotime("next Saturday", $intervalSaturday);
-            }
+        } else {
+            $this->_CHAP = null;
+            $accNotAvail = array();
         }
+                
         $allAccommodations = array();
         while($lastWeek >= $nextSaturday){
             $allAccommodations[$nextSaturday] = 1;
