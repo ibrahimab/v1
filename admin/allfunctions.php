@@ -1688,8 +1688,6 @@ function wt_microtime_float() {
 }
 
 function wt_naam($voornaam='',$tussenvoegsel='',$achternaam,$achternaameerst=false,$voorletters=false) {
-        global $vars, $isMobile;
-        
 	if($voornaam) $voornaam=trim($voornaam);
 	if($tussenvoegsel) $tussenvoegsel=trim($tussenvoegsel);
 	$achternaam=trim($achternaam);
@@ -1709,22 +1707,8 @@ function wt_naam($voornaam='',$tussenvoegsel='',$achternaam,$achternaameerst=fal
 	}
 
 	$return = preg_replace("@ {2,}@"," ",$return);
-        if($isMobile){
-                $nameInTussenvoegsel = explode(" ", $return);
 
-                foreach($nameInTussenvoegsel as $name){
-                    if(in_array(strtolower($name), $vars["availableTussenvoegsel"])){
-                        $names[] = lcfirst($name);
-                    }else{
-                        $names[] = $name;
-                    }
-                }
-                $finalName = implode(" ", $names);
-
-                return $finalName;
-        }else {
-                return $return;
-        }
+	return $return;
 }
 
 function mm_connect($action,$field,$value='') {

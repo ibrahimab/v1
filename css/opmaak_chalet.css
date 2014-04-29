@@ -812,20 +812,6 @@ form {
 	opacity: 0.8;
 }
 
-#mobilewebsite {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	z-index: 5;
-}
-
-#mobilewebsite a {
-	border: 1px solid #F3F3F3;
-	text-decoration: none;
-	padding: 5px 25px 5px 20px;
-	background: #FFF url(../pic/mobile/icon_arrow_right.png) no-repeat 97% 60%;
-}
-
 @media print {
 
 	body {

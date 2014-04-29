@@ -22,7 +22,6 @@ class Model_Api_Create extends Model_Api_Abstract {
 	public function call(Model_System $api, Model_Api_Response $response_object, array $elements) {
 		$this->_api = $api;
 		$result = $response_object; 
-		$helper = App::get('helper/api_create');
 		
 		try {
 			$this->_api->log('API call Create: ', self::SEVERITY_DEBUG);
@@ -55,12 +54,6 @@ class Model_Api_Create extends Model_Api_Abstract {
 			//only 1 result so get first and extract value by converting to string (simplexmlelement)
 			$payment_order_key = (string)$node[0];
 			$api->setOrderReference($elements["merchantOrderReference"]);
-                        
-                        $css_id = $helper->getMenuPreference($api->getWebsiteCode());
-                        $css = $css_id['css']['id'];
-                    
-                        $api->setCssId($css);
-                        
 			$api->setDocdataPaymentOrderKey($payment_order_key);
 			$api->log('A payment order has been created with the key: '.$payment_order_key);
 

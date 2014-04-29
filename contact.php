@@ -37,21 +37,14 @@ if($vars["websiteland"]=="nl") {
 if($vars["website"]=="T") {
 	$form->field_text(0,"naamreisbureau",txt("naamreisbureau_chalettour","contact"));
 }
-if(!$isMobile) {
-	$form->field_text(1,"naam",txt("naam","contact"));
-	$form->field_email(0,"email",txt("email","contact"),"",array("text"=>$temp_naw["email"]));
-	$form->field_text(0,"telefoonnummer",txt("telefoonnummer","contact"),"",array("text"=>$temp_naw["telefoonnummer"]));
-	$form->field_htmlrow(0, "<div class=\"contact_mail-of-telefoon\">".html("mail-of-telefoon", "contact").".</div>");
-	$form->field_textarea(1,"opmerkingen",txt("opmerkingen","contact"));
 
-	//$form->field_yesno("teruggebeld",txt("teruggebeld","contact"));
-} else {
-	$form->field_text(1,"naam",txt("naam","contact"),"",array("text"=>$temp_naw["naam"]));
-	$form->field_text(0,"email",txt("email","contact")."*","",array("text"=>$temp_naw["email"]));
-	$form->field_tel(0,"telefoonnummer",txt("telefoonnummer","contact"),"",array("text"=>$temp_naw["telefoonnummer"]));
-	$form->field_textarea(0,"opmerkingen",txt("opmerkingen","contact"));
-}
+$form->field_text(1,"naam",txt("naam","contact"));
+$form->field_email(0,"email",txt("email","contact"),"",array("text"=>$temp_naw["email"]));
+$form->field_text(0,"telefoonnummer",txt("telefoonnummer","contact"),"",array("text"=>$temp_naw["telefoonnummer"]));
+$form->field_htmlrow(0, "<div class=\"contact_mail-of-telefoon\">".html("mail-of-telefoon", "contact").".</div>");
+$form->field_textarea(1,"opmerkingen",txt("opmerkingen","contact"));
 
+// $form->field_yesno("teruggebeld",txt("teruggebeld","contact"));
 // if($vars["nieuwsbrief_aanbieden"]) {
 // 	if($vars["nieuwsbrief_tijdelijk_kunnen_afmelden"]) {
 // 		# Nieuwsbrief: kiezen tussen direct/einde van het seizoen/nee
@@ -67,17 +60,8 @@ $form->check_input();
 
 if($form->filled) {
 	# invoer filteren op spam
-	if(!$isMobile) {
-		if(strpos(" ".$form->input["naam"],"http://")) $form->error("voornaam",txt("linkniettoegestaan","contact"));
-		if(strpos(" ".$form->input["telefoonnummer"],"http://")) $form->error("telefoonnummer",txt("linkniettoegestaan","contact"));
-	} else {
-		// Mobile form
-		if(strpos(" ".$form->input["naam"],"http://")) $form->error("naam",txt("linkniettoegestaan","contact"));
-		if(strpos(" ".$form->input["telefoonnummer"],"http://")) $form->error("telefoonnummer",txt("linkniettoegestaan","contact"));
-		if(empty($form->input["telefoonnummer"]) && empty($form->input["email"])) {
-			$form->error("email",txt("telefoonnummeroremail","contact"));
-		}
-	}
+	if(strpos(" ".$form->input["naam"],"http://")) $form->error("voornaam",txt("linkniettoegestaan","contact"));
+	if(strpos(" ".$form->input["telefoonnummer"],"http://")) $form->error("telefoonnummer",txt("linkniettoegestaan","contact"));
 
 	# opmerkingenveld filteren op <a href, [url=, [link=
 	$filter_array=array("<a href=","[url=","[link=");
@@ -95,16 +79,12 @@ if($form->filled) {
 }
 
 
-if(!$isMobile) if(eregi("^belgie$",$form->input["land"])) $form->input["land"]="België";
+if(eregi("^belgie$",$form->input["land"])) $form->input["land"]="België";
 
 if($form->okay) {
 	# "Reageren op"-link bovenaan mail aan Chalet plaatsen
-	if(!$isMobile) {
-		// $body=vtanaam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".$form->input["adres"]."%0D%0A".$form->input["postcode"]." ".ucfirst($form->input["woonplaats"])."%0D%0A".($form->input["land"]<>"Nederland" ? ucfirst($form->input["land"])."%0D%0A" : "").$form->input["telefoonnummer"]."%0D%0A".$form->input["mobielwerk"]."%0D%0A%0D%0A".$accomschrijving.ereg_replace("\n","%0D%0A",$form->input["opmerkingen"]);
-		$body = $form->input["naam"]."%0D%0A".($form->input["telefoonnummer"] ? $form->input["telefoonnummer"]."%0D%0A" : "").$accomschrijving.ereg_replace("\n","%0D%0A",$form->input["opmerkingen"]);
-	} else {
-		$body=vtanaam('', '', ucfirst($form->input["naam"]))."%0D%0A".$form->input["telefoonnummer"]."%0D%0A".$form->input["mobielwerk"]."%0D%0A%0D%0A".$accomschrijving.ereg_replace("\n","%0D%0A",$form->input["opmerkingen"]);
-	}
+	// $body=vtanaam(ucfirst($form->input["voornaam"]),$form->input["tussenvoegsel"],ucfirst($form->input["achternaam"]))."%0D%0A".$form->input["adres"]."%0D%0A".$form->input["postcode"]." ".ucfirst($form->input["woonplaats"])."%0D%0A".($form->input["land"]<>"Nederland" ? ucfirst($form->input["land"])."%0D%0A" : "").$form->input["telefoonnummer"]."%0D%0A".$form->input["mobielwerk"]."%0D%0A%0D%0A".$accomschrijving.ereg_replace("\n","%0D%0A",$form->input["opmerkingen"]);
+	$body = $form->input["naam"]."%0D%0A".($form->input["telefoonnummer"] ? $form->input["telefoonnummer"]."%0D%0A" : "").$accomschrijving.ereg_replace("\n","%0D%0A",$form->input["opmerkingen"]);
 	$subject=ereg_replace("&","%26",txt("reactieopuwvraag","contact"));
 
 	$body=ereg_replace("&","%26",$body);

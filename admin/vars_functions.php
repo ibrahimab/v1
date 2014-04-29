@@ -1389,8 +1389,7 @@ function reissom_tabel_korting_of_min_tekst($bedrag,$inkoop) {
 }
 
 function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
-	global $vars, $isMobile;
-	$return="";
+	global $vars;
 	$db=new DB_sql;
 
 	if($inkoop) {
@@ -1402,31 +1401,18 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 	}
 
 	# Tarief accommodatie/arrangement
-	if(!$isMobile) {
-		$return.="<tr style=\"background-color:#ebebeb\"><td style=\"padding-right:10px;width:70%\">";
+	$return.="<tr style=\"background-color:#ebebeb\"><td style=\"padding-right:10px;width:70%\">";
 
-		if($accinfo["toonper"]==3 or $gegevens["stap1"]["wederverkoop"]) {
-			$return.=html("accommodatie","vars");
-		} else {
-			$return.=html("accommodatieplusskipas","vars");
-		}
-
-		$return.="</td>".$extra_td."<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["accommodatie_verkoop"],2,',','.')."</td>";
-		$return.="<td style=\"padding-right:10px;white-space:nowrap;\"> x ".($accinfo["toonper"]==3||$gegevens["stap1"]["wederverkoop"] ? "1" : $gegevens["stap1"]["aantalpersonen"])."</td><td style=\"padding-right:10px\">=</td>";
-		$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["accommodatie_totaalprijs"],2,',','.')."</td><td>&nbsp;</td>";
-		$return.="</tr>";
+	if($accinfo["toonper"]==3 or $gegevens["stap1"]["wederverkoop"]) {
+		$return.=html("accommodatie","vars");
 	} else {
-		$return.="<tr class=\"mobile_row\" style=\"background-color:#ebebeb\"><td>";
-		if($accinfo["toonper"]==3 or $gegevens["stap1"]["wederverkoop"]) {
-			$return.=html("accommodatie","vars").":";
-		} else {
-			$return.=html("accommodatieplusskipas","vars").":";
-		}
-		$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["accommodatie_verkoop"],2,',','.')."";
-		$return.=" x ".($accinfo["toonper"]==3||$gegevens["stap1"]["wederverkoop"] ? "1" : $gegevens["stap1"]["aantalpersonen"])." = ";
-		$return.="&euro; ".number_format($gegevens["fin"]["accommodatie_totaalprijs"],2,',','.')."</div></td>";
-		$return.="</tr>";
+		$return.=html("accommodatieplusskipas","vars");
 	}
+
+	$return.="</td>".$extra_td."<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["accommodatie_verkoop"],2,',','.')."</td>";
+	$return.="<td style=\"padding-right:10px;white-space:nowrap;\"> x ".($accinfo["toonper"]==3||$gegevens["stap1"]["wederverkoop"] ? "1" : $gegevens["stap1"]["aantalpersonen"])."</td><td style=\"padding-right:10px\">=</td>";
+	$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["accommodatie_totaalprijs"],2,',','.')."</td><td>&nbsp;</td>";
+	$return.="</tr>";
 
 	if($inkoop) {
 		$return_inkoop.="<tr style=\"background-color:#ebebeb\"><td style=\"padding-right:10px;width:70%\">Huurprijs accommodatie";
@@ -1532,23 +1518,12 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		} else {
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
-
-			if(!$isMobile) {
-				$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]));
-				$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($bedrag),2,',','.')."</td>";
-				$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$value."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
-				$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($bedrag*$value),2,',','.')."</td>";
-				$return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($bedrag,$inkoop)."</td>";
-				$return.="</tr>";
-			} else {
-				$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : " style=\"background-color:#ffffff\"")."><td>".htmlentities(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key])).":";
-				$return.="<div class=\"costs\">&euro; ".number_format(abs($bedrag),2,',','.');
-				$return.=" x ".$value." = ";
-				$return.=" &euro; ".number_format(abs($bedrag*$value),2,',','.');
-				$return.=" ".trim(reissom_tabel_korting_of_min_tekst($bedrag,$inkoop),"&nbsp;")."</div></td>";
-				$return.="</tr>";
-			}
-
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]));
+			$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($bedrag),2,',','.')."</td>";
+			$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$value."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
+			$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($bedrag*$value),2,',','.')."</td>";
+			$return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($bedrag,$inkoop)."</td>";
+			$return.="</tr>";
 
 			# Inkoop
 			if($inkoop) {
@@ -1672,43 +1647,20 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 	if($gegevens["stap4"]["reisverzekering"] or $gegevens["stap4"]["annuleringsverzekering"]) {
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-
-		if(!$isMobile) {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
-		} else {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
-		}
-
+		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-
-		if(!$isMobile) {
-			$return.="<tr style=\"font-style:italic;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("subtotaal","vars");
-			$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]+$gegevens["stap4"]["optie_bedrag_buiten_annuleringsverzekering"],2,',','.')."</td>";
-			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
-			$return.="</tr>";
-		} else {
-			$return.="<tr class=\"mobile_row\" style=\"font-style:italic;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td>".html("subtotaal","vars").":";
-			$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]+$gegevens["stap4"]["optie_bedrag_buiten_annuleringsverzekering"],2,',','.');
-			$return.="</div></td>";
-			$return.="</tr>";
-		}
+		$return.="<tr style=\"font-style:italic;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("subtotaal","vars");
+		$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]+$gegevens["stap4"]["optie_bedrag_buiten_annuleringsverzekering"],2,',','.')."</td>";
+		$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+		$return.="</tr>";
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-
-		if(!$isMobile) {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
-		} else {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
-		}
+		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
 	} elseif($gegevens["fin"]["reserveringskosten"]>0) {
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-		if(!$isMobile) {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
-		} else {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
-		}
+		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
 	}
 	# Inkoop
 	if($inkoop) {
@@ -1723,20 +1675,13 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			# Gewone kosten reisverzekering
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
-	            if(!$isMobile){
-	                $return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($value2));
-	                $return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]),2,',','.')."</td>";
-	                $return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$reisverzekeringen["aantal"][$key2]."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
-	                $return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]*$reisverzekeringen["aantal"][$key2]),2,',','.')."</td>";
-	                $return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($reisverzekeringen["bedrag"][$key2],$inkoop)."</td>";
-	                $return.="</tr>";
-	            }else {
-	                $return.="<tr class='mobile_row' ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($value2));
-	                $return.="<div class='costs'>";
-	                $return.=number_format(abs($reisverzekeringen["bedrag"][$key2]),2,',','.')." x ".$reisverzekeringen["aantal"][$key2]. " = &euro; ".number_format(abs($reisverzekeringen["bedrag"][$key2]*$reisverzekeringen["aantal"][$key2]),2,',','.')." ".reissom_tabel_korting_of_min_tekst($reisverzekeringen["bedrag"][$key2],$inkoop);
-	                $return.="</div></td>";
-	                $return.="</tr>";
-	            }
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($value2));
+			$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]),2,',','.')."</td>";
+			$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$reisverzekeringen["aantal"][$key2]."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
+			$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]*$reisverzekeringen["aantal"][$key2]),2,',','.')."</td>";
+			$return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($reisverzekeringen["bedrag"][$key2],$inkoop)."</td>";
+			$return.="</tr>";
+
 			# Inkoop
 			if($inkoop) {
 				$db->query("SELECT inkoop, korting FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($reisverzekeringen["optieonderdeelid"][$key2])."' AND week='".addslashes($gegevens["stap1"]["aankomstdatum"])."';");
@@ -1783,32 +1728,17 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		while(list($key,$value)=each($gegevens["stap4"]["annuleringsverzekering_soorten"])) {
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
-
-			if(!$isMobile) {
-				$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("annuleringsverzekering","vars")." ".htmlentities($vars["annverz_soorten"][$key]);
-				if(abs(floatval($gegevens["stap4"]["annuleringsverzekering_bedragen"][$key]-$gegevens["fin"]["accommodatie_totaalprijs"]-$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]))<=0.03) {
-					$toon_annuleringsverzekering_bedragen=$gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"];
-				} else {
-					$toon_annuleringsverzekering_bedragen=$gegevens["stap4"]["annuleringsverzekering_bedragen"][$key];
-				}
-				$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($toon_annuleringsverzekering_bedragen,2,',','.')."</td>";
-				$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".ereg_replace("\.",",",$gegevens["stap1"]["annuleringsverzekering_percentage_".$key])."%</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
-				$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["fin"]["annuleringsverzekering_variabel_".$key],2,',','.')."</td>";
-				$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
-				$return.="</tr>";
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("annuleringsverzekering","vars")." ".htmlentities($vars["annverz_soorten"][$key]);
+			if(abs(floatval($gegevens["stap4"]["annuleringsverzekering_bedragen"][$key]-$gegevens["fin"]["accommodatie_totaalprijs"]-$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]))<=0.03) {
+				$toon_annuleringsverzekering_bedragen=$gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"];
 			} else {
-				$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>".html("annuleringsverzekering","vars")." ".htmlentities($vars["annverz_soorten"][$key]).":";
-				if(abs(floatval($gegevens["stap4"]["annuleringsverzekering_bedragen"][$key]-$gegevens["fin"]["accommodatie_totaalprijs"]-$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]))<=0.03) {
-					$toon_annuleringsverzekering_bedragen=$gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"];
-				} else {
-					$toon_annuleringsverzekering_bedragen=$gegevens["stap4"]["annuleringsverzekering_bedragen"][$key];
-				}
-				$return.="<div class=\"costs\">&euro; ".number_format($toon_annuleringsverzekering_bedragen,2,',','.');
-				$return.=" x ".ereg_replace("\.",",",$gegevens["stap1"]["annuleringsverzekering_percentage_".$key])."% = ";
-				$return.=" &euro; ".number_format($gegevens["fin"]["annuleringsverzekering_variabel_".$key],2,',','.');
-				$return.="</div></td>";
-				$return.="</tr>";
+				$toon_annuleringsverzekering_bedragen=$gegevens["stap4"]["annuleringsverzekering_bedragen"][$key];
 			}
+			$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($toon_annuleringsverzekering_bedragen,2,',','.')."</td>";
+			$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".ereg_replace("\.",",",$gegevens["stap1"]["annuleringsverzekering_percentage_".$key])."%</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
+			$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["fin"]["annuleringsverzekering_variabel_".$key],2,',','.')."</td>";
+			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+			$return.="</tr>";
 
 			# Inkoop
 			if($inkoop) {
@@ -1859,20 +1789,13 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		# schadeverzekering
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-        if(!$isMobile){
-            $return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("schadeverzekering","vars");
-            $return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["stap1"]["accprijs"],2,',','.')."</td>";
-            $return.="<td style=\"padding-right:10px;vertical-align:top;\" nowrap> x ".number_format($gegevens["stap1"]["schadeverzekering_percentage"],2,',','.')."%</td><td style=\"padding-right:10px\">=</td>";
-            $return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["schadeverzekering_variabel"],2,',','.')."</td>";
-            $return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
-            $return.="</tr>";
-        }else {
-            $return.="<tr class='mobile_row' ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("schadeverzekering","vars");
-            $return.="<div class='costs'>";
-            $return.="&euro; ".number_format($gegevens["stap1"]["accprijs"],2,',','.')." x ".number_format($gegevens["stap1"]["schadeverzekering_percentage"],2,',','.')."% = &euro; ".number_format($gegevens["fin"]["schadeverzekering_variabel"],2,',','.');
-            $return."</div></td>";
-            $return.="</tr>";
-        }
+		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("schadeverzekering","vars");
+		$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["stap1"]["accprijs"],2,',','.')."</td>";
+		$return.="<td style=\"padding-right:10px;vertical-align:top;\" nowrap> x ".number_format($gegevens["stap1"]["schadeverzekering_percentage"],2,',','.')."%</td><td style=\"padding-right:10px\">=</td>";
+		$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["schadeverzekering_variabel"],2,',','.')."</td>";
+		$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+		$return.="</tr>";
+
 		# Inkoop
 		if($inkoop) {
 			$db->query("SELECT schadeverzekering_percentage_korting AS korting, schadeverzekering_percentage_basis AS basis, schadeverzekering_percentage_berekend AS berekend FROM seizoen WHERE seizoen_id='".addslashes($gegevens["stap1"]["seizoenid"])."';");
@@ -1911,22 +1834,12 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		# Poliskosten alle verzekeringen
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-
-		if(!$isMobile) {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("poliskostenverzekeringen","vars");
-			$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["fin"]["verzekeringen_poliskosten"],2,',','.')."</td>";
-			$return.="<td style=\"padding-right:10px\"> x 1</td><td style=\"padding-right:10px\">=</td>";
-			$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["verzekeringen_poliskosten"],2,',','.')."</td>";
-			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
-			$return.="</tr>";
-		} else {
-			$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>".html("poliskostenverzekeringen","vars").":";
-			$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["verzekeringen_poliskosten"],2,',','.');
-			$return.=" x 1 = ";
-			$return.="&euro; ".number_format($gegevens["fin"]["verzekeringen_poliskosten"],2,',','.');
-			$return.="</div></td>";
-			$return.="</tr>";
-		}
+		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("poliskostenverzekeringen","vars");
+		$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["fin"]["verzekeringen_poliskosten"],2,',','.')."</td>";
+		$return.="<td style=\"padding-right:10px\"> x 1</td><td style=\"padding-right:10px\">=</td>";
+		$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["verzekeringen_poliskosten"],2,',','.')."</td>";
+		$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+		$return.="</tr>";
 
 		# Inkoop
 		if($inkoop) {
@@ -1960,18 +1873,10 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		# Reserveringskosten
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-
-		if(!$isMobile) {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("reserveringskosten","vars");
-			$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["reserveringskosten"],2,',','.')."</td>";
-			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
-			$return.="</tr>";
-		} else {
-			$return.="<tr class=\"mobile_row\" ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>".html("reserveringskosten","vars").":";
-			$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["reserveringskosten"],2,',','.');
-			$return.="</div></td>";
-			$return.="</tr>";
-		}
+		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("reserveringskosten","vars");
+		$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["reserveringskosten"],2,',','.')."</td>";
+		$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+		$return.="</tr>";
 
 		# Inkoop
 		if($inkoop) {
@@ -1991,27 +1896,13 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		# Totale reissom klant
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-
-		if(!$isMobile) {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
-		} else {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
-		}
-
+		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-
-		if(!$isMobile) {
-			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("totalereissom_klant","vars");
-			$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["totale_reissom_zonder_commissie_aftrek"],2,',','.')."</td>";
-			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
-			$return.="</tr>";
-		} else {
-			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td>".html("totalereissom_klant","vars").":";
-			$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["totale_reissom_zonder_commissie_aftrek"],2,',','.');
-			$return.="</div></td>";
-			$return.="</tr>";
-		}
+		$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("totalereissom_klant","vars");
+		$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["totale_reissom_zonder_commissie_aftrek"],2,',','.')."</td>";
+		$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+		$return.="</tr>";
 
 		if($opties["tonen_verbergen"]) {
 			$temp_class=" class=\"tonen_verbergen_1\"";
@@ -2118,27 +2009,13 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		# Totale reissom
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-
-		if(!$isMobile) {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
-		} else {
-			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>&nbsp;</td></tr>";
-		}
-
+		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td colspan=\"".(8+$extra_colspan)."\">&nbsp;</td></tr>";
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-
-		if(!$isMobile) {
-			$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("totalereissom","vars");
-			$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["totale_reissom"],2,',','.')."</td>";
-			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
-			$return.="</tr>";
-		} else {
-			$return.="<tr class=\"mobile_row\" style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td>".html("totalereissom","vars").":";
-			$return.="<div class=\"costs\">&euro; ".number_format($gegevens["fin"]["totale_reissom"],2,',','.');
-			$return.="</div></td>";
-			$return.="</tr>";
-		}
+		$return.="<tr style=\"font-weight:bold;".(!$kleurteller ? "background-color:#ebebeb" : "")."\"><td style=\"padding-right:10px;vertical-align:top;\" colspan=\"".(5+$extra_colspan)."\">".html("totalereissom","vars");
+		$return.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["totale_reissom"],2,',','.')."</td>";
+		$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+		$return.="</tr>";
 
 	}
 

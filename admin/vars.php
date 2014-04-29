@@ -73,24 +73,6 @@ require($unixdir."admin/class.tablelist.php");
 require($unixdir."admin/class.cms.layout.php");
 require($unixdir."admin/vars_functions.php");
 
-
-// Mobile detect class
-include_once($unixdir . "lib/mobile-detect/Mobile_Detect.php");
-$detect = new Mobile_Detect();
-
-if(isset($_COOKIE["siteVer"]) && ($_COOKIE["siteVer"] == "desktop")) {
-	$isMobile = false;
-} else {
-	$isMobile = (($detect->isMobile() && !$detect->isTablet()) || (isset($_COOKIE["siteVer"]) && ($_COOKIE["siteVer"] == "mobile")));
-}
-
-if(isset($_GET["m"])) {
-	setcookie("siteVer","mobile",0,"/");
-        $isMobile = true;
-}
-
-$onMobile = ($detect->isMobile() && !$detect->isTablet());
-
 // is this the acceptation-testserver?
 if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
 	$vars["acceptatie_testserver"]=true;
@@ -567,15 +549,6 @@ if($vars["websitetype"]==7) {
 		$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 	}
 	$menu["contact"]=txt("menutitle_contact");
-    
-    	$mobile_menu["home"]=txt("menutitle_home");
-	$mobile_menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
-	$mobile_menu["bsys"]=txt("menutitle_bsys");
-	$mobile_menu["favorieten"]=txt("submenutitle_favorieten");
-	$mobile_menu["contact"]=txt("menutitle_contact");
-	$mobile_menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
-	$mobile_menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
-	$mobile_menu["start-chat"]=txt("menutitle_start-chat");
 
 	if($vars["wederverkoop"]) {
 		if(!$vars["chalettour_logged_in"]) {
@@ -712,7 +685,6 @@ $title["blog"]=txt("title_blog");
 $vars["fotofabriek_code_na_enquete"]=false;
 
 $vars["referentiekeuze"]=array(1=>txt("referentie_1","vars"),2=>txt("referentie_2","vars"),3=>txt("referentie_3","vars"),4=>txt("referentie_4","vars"),9=>txt("referentie_9","vars"),10=>txt("referentie_10","vars"),5=>txt("referentie_5","vars"),6=>txt("referentie_6","vars"),8=>txt("referentie_8","vars"),7=>txt("referentie_7","vars"));
-$vars["referentiekeuze_mobile"]=array(1=>txt("referentie_1","vars"),11=>txt("referentie_11","vars"),12=>txt("referentie_12","vars"),13=>txt("referentie_13","vars"),4=>txt("referentie_4","vars"),3=>txt("referentie_3","vars"),5=>txt("referentie_5","vars"),6=>txt("referentie_6","vars"),8=>txt("referentie_8","vars"),7=>txt("referentie_7","vars"));
 
 $vars["reserveringskosten"]=20;
 
@@ -731,9 +703,6 @@ $vars["toonper_beperktekeuze"]=array(1=>"A : Prijs Arrangement (accommodatie + s
 $vars["seizoentype_namen"]=array(1=>"winter",2=>"zomer");
 $vars["sjabloon_velden"]=array("aflopen_allotment","korting_percentage","toeslag","korting_euro","vroegboekkorting_percentage","vroegboekkorting_euro","opslag_accommodatie","opslag_skipas","korting_arrangement_bed_percentage","toeslag_arrangement_euro","korting_arrangement_euro","toeslag_bed_euro","korting_bed_euro","vroegboekkorting_arrangement_percentage","vroegboekkorting_arrangement_euro","vroegboekkorting_bed_percentage","vroegboekkorting_bed_euro","opslag","c_korting_percentage","c_toeslag","c_korting_euro","c_vroegboekkorting_percentage","c_vroegboekkorting_euro","c_opslag_accommodatie","wederverkoop_opslag_euro","wederverkoop_opslag_percentage","wederverkoop_commissie_agent");
 $vars["tarief_velden"]=array("beschikbaar", "blokkeren_wederverkoop", "bruto", "korting_percentage", "toeslag", "korting_euro", "vroegboekkorting_percentage", "vroegboekkorting_euro", "opslag_accommodatie", "opslag_skipas", "arrangementsprijs", "onbezet_bed", "korting_arrangement_bed_percentage", "toeslag_arrangement_euro", "korting_arrangement_euro", "toeslag_bed_euro", "korting_bed_euro", "vroegboekkorting_arrangement_percentage", "vroegboekkorting_arrangement_euro", "vroegboekkorting_bed_percentage", "vroegboekkorting_bed_euro", "opslag", "c_bruto", "c_korting_percentage", "c_toeslag", "c_korting_euro", "c_vroegboekkorting_percentage", "c_vroegboekkorting_euro", "c_opslag_accommodatie", "c_verkoop_afwijking", "c_verkoop_site", "voorraad_garantie", "voorraad_allotment", "voorraad_vervallen_allotment", "voorraad_optie_leverancier", "voorraad_xml", "voorraad_request", "voorraad_optie_klant", "voorraad_bijwerken", "wederverkoop_opslag_euro", "wederverkoop_opslag_percentage", "wederverkoop_commissie_agent", "wederverkoop_verkoopprijs", "aanbiedingskleur", "autoimportxmltarief", "blokkeerxml", "aflopen_allotment", "aanbieding_acc_percentage", "aanbieding_acc_euro", "aanbieding_skipas_percentage", "aanbieding_skipas_euro", "inkoopkorting_percentage", "inkoopkorting_euro", "verkoop_accommodatie", "toonexactekorting");
-
-//Array with all tussenvoegsel available
-$vars['availableTussenvoegsel']= array("de", "den", "ten", "van", "het", "der", "v/d", "v.d.", "vd");
 
 #$vars["tarief_velden_nietopslaan"]=array("aanbieding_acc_percentage","aanbieding_acc_euro","aanbieding_skipas_percentage","aanbieding_skipas_euro");
 $vars["tarief_datum_velden"]=array("vroegboekkorting_percentage_datum","vroegboekkorting_euro_datum","vroegboekkorting_arrangement_percentage_datum","vroegboekkorting_arrangement_euro_datum","vroegboekkorting_bed_percentage_datum","vroegboekkorting_bed_euro_datum","c_vroegboekkorting_euro_datum","c_vroegboekkorting_percentage_datum");
@@ -1069,12 +1038,9 @@ $vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.m
 
 #$vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js";
 
-if(($id == "toonaccommodatie") && ($isMobile)){
-        # oude jquery ui-versie nodig voor zomer-tarieventabel in IE9
-        $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"; 
-}else {
-       $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js"; 
-}
+# oude jquery ui-versie nodig voor zomer-tarieventabel in IE9
+$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
+
 
 if($boeking_wijzigen) {
 	# Login-class klanten

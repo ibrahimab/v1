@@ -12,7 +12,6 @@ class Order extends Model {
 	protected $customer;
 	protected $cluster_key = null;
 	protected $order_reference = null;
-        protected $css_id = null;
 
 	private $payment_type = "advance1";
 	private $payment_amount = 0;
@@ -80,14 +79,9 @@ class Order extends Model {
 		return $data['boekingsnummer'];
 	}
 
-	public function getDocdataPaymentOrderKey($status = null, $css_id = NULL) {
-		return App::get("model/payment")->getDocdataPaymentOrderKey($this->increment_id, $this->payment_type, $status, $css_id);
+	public function getDocdataPaymentOrderKey($status = null) {
+		return App::get("model/payment")->getDocdataPaymentOrderKey($this->increment_id, $this->payment_type, $status);
 	}
-        
-        public function getDocdataCssId($cluster_key){
-                return App::get("model/payment")->getDocdataCssId($cluster_key);
-        }
-        
 
 	public function getDocdataPaymentClusterKey() {
 		return App::get("model/payment")->getDocdataPaymentClusterKey($this->getDocdataPaymentId(), $this->getPaymentType());
@@ -296,7 +290,7 @@ class Order extends Model {
 	 * @return void
 	 */
 	public function setDocdataPaymentOrderKey($payment_order_key) {
-		App::get('model/payment')->createPayment($payment_order_key, $this->increment_id, $this->payment_type, $this->payment_amount, $this->order_reference, $this->css_id);
+		App::get('model/payment')->createPayment($payment_order_key, $this->increment_id, $this->payment_type, $this->payment_amount, $this->order_reference);
 	}
 
 	/**
@@ -424,14 +418,6 @@ class Order extends Model {
 	public function setOrderReference($key) {
 		$this->order_reference = $key;
 	}
-        
-        /**
-         * Sets the current CSS.
-         * @param $css_id
-         */
-        public function setCssId($css_id){
-                $this->css_id = $css_id;
-        }
 
 	/**
 	 * Get order id
@@ -479,22 +465,5 @@ class Order extends Model {
 
 		return true;
 	}
-        
-        /**
-         * Compare the existing cluster css with the config CSS.
-         * @param type $cluster_key
-         * @return boolean
-         */
-        public function compareCssId($cluster_key){
-               if(empty($cluster_key)) return false;
-               
-               $helper = App::get('helper/api_create');
-               $cssArray = $helper->getMenuPreference($this->getWebsiteCode());
-               $css = $cssArray['css']['id'];
-               $cssFromDb = $this->getDocdataCssId($cluster_key);
-               if($css == $cssFromDb) return true;
-
-               return false;
-        }
 
 }

@@ -9,20 +9,11 @@
 $txta["nl"]["menu_accommodaties"]="accommodaties";
 $txta["en"]["menu_accommodaties"]="accommodations";
 
-$txta["nl"]["menu_home"]="";
-$txta["en"]["menu_home"]="";
-
 $txta["nl"]["menu_accommodatie"]="accommodatie";
 $txta["en"]["menu_accommodatie"]="accommodation";
 
-$txta["nl"]["menu_popup_mobile"]="popup_mobile";
-$txta["en"]["menu_popup_mobile"]="popup_mobile";
-
 $txta["nl"]["menu_aanbiedingen"]="aanbiedingen";
 $txta["en"]["menu_aanbiedingen"]="special_offers";
-
-$txta["nl"]["menu_vraag-ons-advies"]="vraag-ons-advies";
-$txta["en"]["menu_vraag-ons-advies"]="ask-our-advice";
 
 $txta["nl"]["menu_vraag-ons-advies"]="vraag-ons-advies";
 $txta["en"]["menu_vraag-ons-advies"]="ask-our-advice";
@@ -59,12 +50,6 @@ $txta["en"]["menu_bestemmingen"]="destinations";
 
 $txta["nl"]["menu_themas"]="themas";
 $txta["en"]["menu_themas"]="themes";
-
-$txta["nl"]["menu_bsys"]="bsys";
-$txta["en"]["menu_bsys"]="bsys";
-
-$txta["nl"]["menu_start-chat"]="start-chat";
-$txta["en"]["menu_start-chat"]="start-chat";
 
 if($vars["websitetype"]==3 or $vars["websitetype"]==5 or $vars["websitetype"]==7) {
 	$txta["nl"]["menu_skigebieden"]="regios";
@@ -299,14 +284,6 @@ $txta["en"]["menutitle_kort-verblijf"]="short stay";
 $txta["nl"]["menutitle_blog"]="blog";
 $txta["en"]["menutitle_blog"]="-";
 
-$txta["nl"]["menutitle_bsys"]="mijn boeking";
-$txta["en"]["menutitle_bsys"]="my bookings";
-
-$txta["nl"]["menutitle_start-chat"]="start chat";
-$txta["en"]["menutitle_start-chat"]="start chat";
-
-$txta["nl"]["menutitle_home"]="home";
-$txta["en"]["menutitle_home"]="home";
 
 #
 # Hoofdpagina-subtitel
@@ -684,9 +661,6 @@ $txta["en"]["slaapkamers"]="bedrooms";
 
 $txta["nl"]["pp"]="p.p.";
 $txta["en"]["pp"]="p.p";
-
-$txta["nl"]["pp_mobile"]="pp";
-$txta["en"]["pp_mobile"]="pp";
 
 $txta["nl"]["per"]="per";
 $txta["en"]["per"]="per";

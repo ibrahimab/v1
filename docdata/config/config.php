@@ -41,7 +41,6 @@ if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == t
 }
 
 define ('SITE_URL', $site_url);
-define ('IS_MOBILE', $isMobile);
 
 // Docdata account
 define ("TEST_MERCHANT_NAME", "chalet_nl");
@@ -91,7 +90,12 @@ class Config {
 			array('value' => 'capture', 'label' => __('Capture')),
 		);
 
-        $css_arr_desktop = array(
+		$this->general = array(
+			"version" 				=> 1.0,
+			"active"				=> 1,
+			"module_mode"	 		=> MODULE_MODE, //All values: $this->types_ModuleModes
+			"webmenu_active" 		=> 1, //All values: $this->types_WebmenuTypes
+			"webmenu_css_id" 		=> array(
 				"C" => "1", // Chalet.nl
 				"E" => "2", // Chalet.eu
 				"B" => "3", // Chalet.be
@@ -102,24 +106,7 @@ class Config {
 				"V" => "8", // chaletsinvallandry.nl
 				"Q" => "9", // chaletsinvallandry.com
 
-		);
-
-          $css_arr_mobile = array();
-          if (IS_MOBILE)         
-            $css_arr_mobile = array(
-				"C" => "10", // Chalet.nl
-				"E" => "11", // Chalet.eu
-				"B" => "12" // Chalet.be
-            );
-          
-          $css_arr = array_merge($css_arr_desktop, $css_arr_mobile);
-        
-        $this->general = array(
-			"version" 				=> 1.0,
-			"active"				=> 1,
-			"module_mode"	 		=> MODULE_MODE, //All values: $this->types_ModuleModes
-			"webmenu_active" 		=> 1, //All values: $this->types_WebmenuTypes
-			"webmenu_css_id" 		=> $css_arr,
+			),
 			"docdata_payment_title" => 'Docdata',
 			"confidence_level" 		=> 'authorization', //All values: $this->types_ConfidenceLevels
 			"test_wsdl"				=> TEST_WSDL,

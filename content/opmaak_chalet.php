@@ -54,10 +54,6 @@ if($vars["page_with_tabs"]) {
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/tabs.css.phpcache?cache=".@filemtime("css/tabs.css.phpcache")."&amp;type=".$vars["websitetype"]."\" />\n";
 }
 
-if($onMobile){
-    ?><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><?php
-}
-
 # Font Awesome-css
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/font-awesome.min.css\" />\n";
 
@@ -782,12 +778,6 @@ echo "<div id=\"ajaxloader_page\"><img src=\"".$vars["path"]."pic/ajax-loader-la
 # Balk met cookie-melding cookiebalk
 if($opmaak->toon_cookiebalk()) {
 	echo "<div id=\"cookie_bottombar\" class=\"noprint\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
-}
-
-# Load change desktop to mobile notification
-
-if($onMobile){
-	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("desktopnotification","vars",array("h_1"=>"<a href=\"".$vars["path"]."?m\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";    
 }
 
 # Balk met opvallende melding
