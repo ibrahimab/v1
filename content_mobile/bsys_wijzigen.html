@@ -1,0 +1,50 @@
+<?php
+
+if($_GET["burl"] and $boeking_wijzigen) {
+	echo "<a href=\"".$_GET["burl"]."\">";
+	if($_GET["tnvp"]) {
+		echo html("terugnaardevorigepagina","bsys_wijzigen");
+	} else {
+		echo html("terugnaardeoverzichtspagina","bsys_wijzigen");
+	}
+	echo "</a><p>";
+}
+
+if($_GET["stap"]==1) {
+	if($boeking_wijzigen and $gegevens["stap1"]["verkoop_gewijzigd"]) {
+		echo html("voorhetwijzigenvanhetaantalpersonen","bsys_wijzigen")."<p>";
+	} else {
+		$form->display_all($isMobile=true);
+	}
+} elseif($_GET["stap"]==2) {
+	$form->display_all($isMobile=true);
+} elseif($_GET["stap"]==3) {
+	$form->display_all($isMobile=true);
+} elseif($_GET["stap"]==4) {
+	if($gegevens["stap1"]["aantalpersonen"]==@count($gegevens["stap3"]["geboortedatum_ingevuld"])) {
+		$form->display_all($isMobile=true);
+	} else {
+		echo "<br><b>".html("optiestoevoegenpasmogelijk","bsys_wijzigen")."</b><ul>";
+		for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+			if(!$gegevens["stap3"]["geboortedatum_ingevuld"][$i]) {
+				echo "<li><a href=\"";
+				if($i==1) {
+					echo $path."bsys_wijzigen.php?stap=2&bid=".htmlentities($_GET["bid"])."&burl=".htmlentities($_GET["burl"]);
+				} else {
+					echo $path."bsys_wijzigen.php?stap=3&bid=".htmlentities($_GET["bid"])."&burl=".htmlentities($_GET["burl"])."#persoon".$i;
+				}
+				echo "\">";
+				if($gegevens["stap3"][$i]["voornaam"] or $gegevens["stap3"][$i]["achternaam"]) {
+					echo htmlentities(wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"]));
+				} else {
+					echo html("persoon","bsys")." ".$i;
+				}
+				echo "</a></li>";
+			}
+		}
+#echo wt_dump($gegevens["stap3"]);
+	}
+}
+
+
+?>

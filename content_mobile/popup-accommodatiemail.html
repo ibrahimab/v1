@@ -1,0 +1,277 @@
+<style type="text/css">
+
+label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+input[type=email] {
+	width: 92%;
+}
+
+textarea {
+	font-family: Verdana, Arial, Helvetica, sans-serif;;
+	font-size: 1.0em;
+	width: 100%;
+	height: 100px;
+	display: block;
+}
+
+.captcha label {
+	margin-top: 25px;
+	margin-bottom: 0px;
+}
+
+#captcha_img {
+	display: block;
+	margin-bottom: 5px;
+}
+
+#captcha_juist {
+	display: none;
+}
+
+#captcha_onjuist {
+	display: none;
+	color: red;
+}
+
+#captcha_onjuist a {
+	color: #555555;
+}
+
+#captcha_onjuist a:hover {
+	color: #000000;
+}
+
+#from_juist {
+	display: none;
+}
+
+#from_onjuist {
+	display: none;
+	color: red;
+}
+
+#to_juist {
+	display: none;
+}
+
+#to_onjuist {
+	display: none;
+	color: red;
+}
+
+#message_juist {
+
+}
+
+#message_onjuist {
+	display: none;
+	color: red;
+}
+
+#submit_onjuist {
+	display: none;
+	color: red;
+}
+
+input[name=captcha] {
+	width: 150px;
+	text-transform:uppercase;
+}
+
+</style>
+<?php
+
+
+$accinfo=accinfo($_GET["accid"]);
+
+# Vormgeving bepalen
+if($vars["websitetype"]==1 or $vars["websitetype"]==4) {
+	# Chalet.nl
+	$vars["mail_css_balkkleur"]="#d5e1f9";
+	$vars["mail_css_balktekstkleur"]="#003366";
+	$vars["mail_css_bgcolor"]="#d5e1f9";
+	$vars["mail_css_tekstkleur"]="#003366";
+	$vars["mail_css_korteomschrijvinkleur"]="#003366";
+	$vars["mail_css_leesmeer"]="background-color:#003366;color:#ffffff;";
+} elseif($vars["websitetype"]==3) {
+	# Zomerhuisje
+	$vars["mail_css_balkkleur"]="#cfbcd8";
+	$vars["mail_css_balktekstkleur"]="#5f227b";
+	$vars["mail_css_bgcolor"]="#eaeda9";
+	$vars["mail_css_tekstkleur"]="#5f227b";
+	$vars["mail_css_korteomschrijvinkleur"]="#5f227b";
+	$vars["mail_css_leesmeer"]="background-color:#cbd328;color:#5f227b;";
+} elseif($vars["websitetype"]==6) {
+	# Chalets in Vallandry
+	$vars["mail_css_balkkleur"]="#b2cce5";
+	$vars["mail_css_balktekstkleur"]="#666600";
+	$vars["mail_css_bgcolor"]="#ffd699";
+	$vars["mail_css_tekstkleur"]="#666600";
+	$vars["mail_css_korteomschrijvinkleur"]="#666600";
+	$vars["mail_css_leesmeer"]="background-color:#666600;color:#ffffff;";
+} elseif($vars["websitetype"]==7) {
+	# Italissima
+	$vars["mail_css_balkkleur"]="#ffd38f";
+	$vars["mail_css_balktekstkleur"]="#661700";
+	$vars["mail_css_bgcolor"]="#ffd699";
+	$vars["mail_css_tekstkleur"]="#661700";
+	$vars["mail_css_korteomschrijvinkleur"]="#661700";
+	$vars["mail_css_leesmeer"]="background-color:#ff9900;color:#ffffff;";
+} elseif($vars["websitetype"]==8) {
+	# SuperSki
+	$vars["mail_css_balkkleur"]="#003366";
+	$vars["mail_css_balktekstkleur"]="#ffffff";
+	$vars["mail_css_bgcolor"]="#003366";
+	$vars["mail_css_tekstkleur"]="#003366";
+	$vars["mail_css_korteomschrijvinkleur"]="#660066";
+	$vars["mail_css_leesmeer"]="background-color:#003366;color:#ffffff;";
+} elseif($vars["websitetype"]==9) {
+	# Venturasol
+	$vars["mail_css_balkkleur"]="#0412b1";
+	$vars["mail_css_balktekstkleur"]="#ffffff";
+	$vars["mail_css_bgcolor"]="#0412b1";
+	$vars["mail_css_tekstkleur"]="#0412b1";
+	$vars["mail_css_korteomschrijvinkleur"]="#660066";
+	$vars["mail_css_leesmeer"]="background-color:#0412b1;color:#ffffff;";
+}
+
+# Accommodatieblok samenstellen
+$accblok.="<table cellspacing=\"0\" cellpadding=\"0\" style=\"font-family: Verdana, Arial, Helvetica, sans-serif;width:auto;box-shadow: rgb(136, 136, 136) 5px 5px 5px 0px;\" text-align=\"left\" border=\"0\" >";
+$accblok.="<tr><td colspan=\"5\" align=\"left\">";
+$accblok.="<div style=\"background-color: white; width: auto;border:1px solid ".$vars["mail_css_balkkleur"].";-webkit-border-top-left-radius: 3px;-webkit-border-top-right-radius: 3px;-moz-border-radius-topleft: 3px;-moz-border-radius-topright: 3px;border-top-left-radius: 3px;border-top-right-radius: 3px;\">";
+$accblok.="<div style=\"background-color:".$vars["mail_css_balkkleur"].";padding: 5px;-webkit-border-top-left-radius: 3px;-webkit-border-top-right-radius: 3px;-moz-border-radius-topleft: 3px;-moz-border-radius-topright: 3px;border-top-left-radius: 3px;border-top-right-radius: 3px;\">";
+$accblok.="<div style=\"color:".$vars["mail_css_balktekstkleur"].";font-size: 11pt;font-weight: bold; font-family:Verdana, Arial, Helvetica, sans-serif;\">";
+$accblok.=wt_he($accinfo["accnaam"]);
+$accblok.="</div>";
+$accblok.="</div>";
+$accblok.="<div style=\"text-align:center;margin-top:10px;\"><img src=\"".wt_he($vars["basehref"].$accinfo["hoofdfoto"])."\" style=\"max-width:240px;\" width=\"100%\" height=\"auto\" border=\"0\"/></div>";
+$accblok.="<table style=\"display:inline-table;\" font-family: Verdana, Arial, Helvetica, sans-serif;\" text-align=\"left\" border=\"0\" width=\"100%\"><tr>";
+$accblok.="<td colspan=\"2\" style=\"font-size:14px; font-family:verdana;\">".wt_he($accinfo["land"])."</td></tr><tr>";
+$accblok.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" colspan=\"2\">".wt_he($accinfo["plaats"])."</td></tr><tr>";
+$accblok.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" colspan=\"2\">".wt_he($accinfo["skigebied"])."</td></tr><tr>";
+if($accinfo["kwaliteit"]) {
+	$accblok.="<td colspan=\"2\">";
+	for($i=0; $i<$accinfo["kwaliteit"];$i++) {
+		$accblok.= "<img src=\"".$vars["basehref"]."pic/ster_".$vars["websitetype"].".png\"/>";
+	}
+	$accblok.= "</td></tr>";
+} else {
+	$accblok.= "<td colspan=\"2\" height=\"10\"></td></tr>";
+}
+$accblok.="<tr><td valign=\"top\" colspan=\"2\" style=\"color:".$vars["mail_css_korteomschrijvinkleur"].";font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\"><i>".wt_he($accinfo["korteomschrijving"])."</i></td></tr><tr>";
+$accblok.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\" colspan=\"2\">".wt_he($accinfo["aantalpersonen"])."</td></tr><tr>";
+if($accinfo["slaapkamers"]==1) {
+	$accblok.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamer")."</td>";
+} else {
+	$accblok.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\" valign=\"top\">".wt_he($accinfo["slaapkamers"])." ".html("slaapkamers")."</td>";
+}
+
+$accblok.= "<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;\" valign=\"bottom\" rowspan=\"2\" align=\"right\"><a href=\"".$vars["basehref"]."accommodatie/".$accinfo["begincode"].$_GET["accid"]."/?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\" style=\"".$vars["mail_css_leesmeer"]."text-decoration:none;display:inline-block;font-family: Verdana, Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;padding:6px 18px;text-decoration:none;cursor:pointer;\" target=\"_blank\">".html("buttonleesmeer","accommodatiemail")."</a></td></tr><tr>";
+if($accinfo["badkamers"]==1) {
+	$accblok.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamer")."</td>";
+} else {
+	$accblok.="<td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".wt_he($accinfo["badkamers"])." ".html("badkamers")."</td>";
+}
+$accblok.= "</tr>";
+$accblok.="</table>";
+$accblok.="</td></tr>";
+$accblok.="</table>";
+
+$acclink= $vars["basehref"]."accommodatie/".$accinfo["begincode"].$_GET["accid"]."/";
+
+#echo "<h2 style=\"color:".$vars["mail_css_tekstkleur"]."\">".html("accommodatiedoormailen","accommodatiemail")."</h2>";
+
+if($_POST["filled"]) {
+
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+		# om makkelijk te kunnen testen
+		// $_SESSION["captcha_okay"]=true;
+	}
+
+	# Mail versturen
+	if($_SESSION["captcha_okay"]) {
+		echo "<!DOCTYPE html>\n";
+		echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n prefix=\"fb: http://www.facebook.com/2008/fbml og: http://ogp.me/ns#\">\n";
+		echo "<head>\n";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
+		echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1\" />";
+		echo "</head>";
+		echo "<body>";
+		echo "<p>".html("verstuurdnaar","accommodatiemail").":<ul>";
+		if(wt_validmail($_POST["from"])) {
+
+			$_SESSION["captcha_okay"]=false;
+
+			unset($mail_html);
+
+			$mail_html.="<center><table style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:9pt;\" border=\"0\" width=\"100%\">";
+#			<tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;\">";
+#			$mail_html.="<a href=\"".wt_he($vars["basehref"])."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\"><img src=".wt_he($vars['mail_topfoto'])." border=\"0\"></a></td></tr>";
+			$bericht=trim($_POST["message"]);
+			$bericht=wt_he($bericht);
+			$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\">".wt_he($vars["websitenaam"])."</a>",$bericht);
+			$mail_html.="<tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;text-align:center; color:".$vars["mail_css_tekstkleur"].";\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
+			$mail_html.="</td></tr>";
+			$mail_html.="<tr><td>";
+			$mail_html.=$accblok;
+			$mail_html.="</td></tr>";
+			$mail_html.="<tr><td>&nbsp;</td></tr>";
+
+			$mail_html.="</table></center>";
+
+			$settings["add_to_basehref"]="?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie";
+			$settings["fromname"]=$_POST["from"];
+			$settings["from"]=$_POST["from"];
+
+			$mailadressen=preg_split("/,/",trim($_POST["to"]));
+
+			if(is_array($mailadressen)) {
+
+				while(list($key,$value)=each($mailadressen)) {
+
+					if(wt_validmail($value)) {
+
+						//verstuur_opmaakmail("",$value,"",$accinfo["accnaam"],$mail_html,$settings);
+
+						echo "<li>".wt_he($value)."</li>";
+					}
+				}
+			}
+		}
+		echo "</ul>";
+
+		echo "<p><a href=\"".$acclink."\">".html("terugnaaraccommodatie","boeking_bevestigd")."</a></p>";
+
+		echo "<p>";
+		echo $accblok;
+		echo "</p>";
+		echo "</body>";
+		echo "</html>";
+	}
+
+
+	#echo wt_dump($accinfo["soortaccommodatie"]);
+} else {
+	echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" id=\"accommodatiemail\">";
+	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
+	echo "<p><label>".html("labelvan","accommodatiemail")."</label><input type=\"email\" name=\"from\" required=\"required\">&nbsp;&nbsp;&nbsp;<span id=\"from_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"from_onjuist\"></span></p>";
+	echo "<p><label>".html("labelnaar","accommodatiemail")."</label><input type=\"email\" multiple=\"multiple\" name=\"to\" required=\"required\">&nbsp;&nbsp;&nbsp;<span id=\"to_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"to_onjuist\"></span></p>";
+
+	echo "<p><label>".html("labelbericht","accommodatiemail")."</label><div style=\"float:left;width:92%;margin-top:-5px;\"><textarea name=\"message\" required=\"required\">".html("doormailtekst","accommodatiemail",array("v_websitenaam"=>$vars["websitenaam"],"v_soortaccommodatie"=>$accinfo["soortaccommodatie"]))."</textarea></div><div style=\"float:left;\">&nbsp;&nbsp;&nbsp;<span id=\"message_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"message_onjuist\"></span></div><div style=\"clear:both;\"></div></p>";
+
+	echo "<p>".$accblok."</p>";
+
+	echo "<p class=\"captcha\"><label>".html("recaptcha_uitleg","accommodatiemail").":</label><img src=\"".$vars["path"]."pic/captcha_image.php?c=1\" id=\"captcha_img\"><input type=\"text\" name=\"captcha\" maxlength=\"5\" autocomplete=\"off\">&nbsp;&nbsp;&nbsp;<span id=\"captcha_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"captcha_onjuist\">".html("captcha_onjuist","accommodatiemail",array("h_1"=>"<a href=\"#\" id=\"captcha_reload\">","h_2"=>"</a>"))."</span></p>";
+
+	echo "<p><input type=\"submit\" value=\"".html("versturen","accommodatiemail")."\" id=\"accommodatiemail_submit\">&nbsp;&nbsp;<span id=\"submit_onjuist\">".html("nietallevelden","accommodatiemail")."</span></p>";
+
+	echo "</form>";
+}
+
+
+
+
+?>

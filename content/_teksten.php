@@ -125,6 +125,15 @@ $txt["en"]["vars"]["referentie_9"]="Facebook";
 $txt["nl"]["vars"]["referentie_10"]="Twitter";
 $txt["en"]["vars"]["referentie_10"]="Twitter";
 
+$txt["nl"]["vars"]["referentie_11"]="andere website";
+$txt["en"]["vars"]["referentie_11"]="other website";
+
+$txt["nl"]["vars"]["referentie_12"]="Facebook, Twitter, Google+";
+$txt["en"]["vars"]["referentie_12"]="Facebook, Twitter, Google+";
+
+$txt["nl"]["vars"]["referentie_13"]="een buitenreclame";
+$txt["en"]["vars"]["referentie_13"]="an outdoor advertising";
+
 $txt["nl"]["vars"]["weekend"]="weekend";
 $txt["en"]["vars"]["weekend"]="weekend";
 
@@ -175,6 +184,9 @@ $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
 
 $txt["nl"]["vars"]["cookiemelding"]="Deze website plaatst cookies. Door het gebruik van onze site ga je hiermee akkoord. Zie ons [[h_1]]privacy-statement[[h_2]].";
 $txt["en"]["vars"]["cookiemelding"]="-";
+
+$txt["nl"]["vars"]["desktopnotification"] = "Je bekijkt nu de desktopversie. Ga terug [[h_1]]naar de mobiele site[[h_2]].";
+$txt["en"]["vars"]["desktopnotification"] = "You are browsing the desktop version. To change version, press [[h_1]]change[[h_2]]";
 
 $txt["nl"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: 088 - 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
 $txt["en"]["vars"]["opvalmelding"]="We are temporarily reachable on telephone number +31 88 66 44 200.\nYou can also reach us by email on [[h_1]][[v_email]][[h_2]].";
@@ -473,7 +485,10 @@ $txt["en"]["vars"]["newpricesmail_2"] = "Hello,\n\nOn [WEBSITE] you asked to be 
 $txt["nl"]["vars"]["newpricesmail_subject"] = "De prijzen van de door jou bekeken accommodatie in [PLAATS] zijn bekend!";
 $txt["en"]["vars"]["newpricesmail_subject"] = "The prices are known of the accommodation in [PLAATS] you were looking at!";
 
-
+# Mobile
+#
+$txt["nl"]["mobile"]["naar_desktopversie"]="Naar de desktopversie";
+$txt["en"]["mobile"]["naar_desktopversie"]="View the desktop version";
 #
 # Popup.php
 #
@@ -639,6 +654,9 @@ $txt["en"]["imagetable"]["fotosindicatief"]="Photos, videos and maps are indicat
 
 $txt["nl"]["index"]["koptekst"]="Chalets en appartementen voor 2 tot 50 personen";
 $txt["en"]["index"]["koptekst"]="Chalets and apartments for 2 to 50 people";
+
+$txt["nl"]["index"]["koptekst_mobile"]="Chalets en appartementen[[h_b]]voor 2 tot 50 personen";
+$txt["en"]["index"]["koptekst_mobile"]="Chalets and apartments[[h_b]]for 2 to 50 people";
 
 $txt["nl"]["index"]["linksboven"]="Ruim 1.100 chalets, appartementen en hotels voor 2 tot 50 personen in [[h_1]]Frankrijk[[h_4]], [[h_2]]Oostenrijk[[h_4]] en [[h_3]]Zwitserland[[h_4]].";
 $txt["en"]["index"]["linksboven"]="Over 1.100 chalets, apartments and hotels for 2 up to 50 persons in [[h_1]]France[[h_4]], [[h_2]]Austria[[h_4]] and [[h_3]]Switzerland[[h_4]].";
@@ -838,6 +856,12 @@ $txt["en"]["accommodaties"]["opnaam"]="by name, place, accommodation code or oth
 $txt["nl"]["accommodaties"]["aantalpersonen"]="Aantal personen";
 $txt["en"]["accommodaties"]["aantalpersonen"]="Number of persons";
 
+$txt["nl"]["accommodaties"]["personentypes"]="Personen types";
+$txt["en"]["accommodaties"]["personentypes"]="Personen types";
+
+$txt["nl"]["accommodaties"]["slaapkamersbadkamers"]="Slaapkamers badkamers";
+$txt["en"]["accommodaties"]["slaapkamersbadkamers"]="Slaapkamers badkamers";
+
 $txt["nl"]["accommodaties"]["aantalslaapkamers"]="Aantal slaapkamers";
 $txt["en"]["accommodaties"]["aantalslaapkamers"]="Number of bedrooms";
 
@@ -973,6 +997,9 @@ $txt["en"]["zoek-en-boek"]["heel"]="entire";
 
 $txt["nl"]["zoek-en-boek"]["tekstzoeken"]="zoek op naam of accommodatiecode";
 $txt["en"]["zoek-en-boek"]["tekstzoeken"]="search by name or accommodation code";
+
+$txt["nl"]["zoek-en-boek"]["tekstzoeken_mobile"]="zoeken op trefwoord";
+$txt["en"]["zoek-en-boek"]["tekstzoeken_mobile"]="search by keyword";
 
 $txt["nl"]["zoek-en-boek"]["wisdezebestemming"]="verwijder deze bestemming";
 $txt["en"]["zoek-en-boek"]["wisdezebestemming"]="delete this destination";
@@ -1684,6 +1711,8 @@ $txt["en"]["contact"]["linkniettoegestaan"]="a link is not allowed";
 $txt["nl"]["contact"]["mail-of-telefoon"]="Om contact met je op te kunnen nemen hebben wij óf een telefoonnummer óf een emailadres nodig";
 $txt["en"]["contact"]["mail-of-telefoon"]="To contact you we need either a telephone number or an email address";
 
+$txt["nl"]["contact"]["telefoonnummeroremail"]="please enter your email or phone number";
+$txt["en"]["contact"]["telefoonnummeroremail"]="please enter your email or phone number";
 
 #
 # Favorieten (https://www.chalet.nl/favorieten.php)
@@ -2149,6 +2178,9 @@ $txt["en"]["toonaccommodatie"]["alletypes"]="All types\nof this accommodation";
 $txt["nl"]["toonaccommodatie"]["alletypes2"]="Alle types van deze accommodatie";
 $txt["en"]["toonaccommodatie"]["alletypes2"]="All types of this accommodation";
 
+$txt["nl"]["toonaccommodatie"]["alletypes_mobile"]="overige types";
+$txt["en"]["toonaccommodatie"]["alletypes_mobile"]="other types";
+
 $txt["nl"]["toonaccommodatie"]["nietmeerbeschikbaarvoordezeaankomstdatum"]="niet meer beschikbaar voor deze aankomstdatum";
 $txt["en"]["toonaccommodatie"]["nietmeerbeschikbaarvoordezeaankomstdatum"]="not available for the selected date";
 
@@ -2218,6 +2250,8 @@ $txt["en"]["toonaccommodatie"][""]="";
 $txt["nl"]["toonaccommodatie"][""]="";
 $txt["en"]["toonaccommodatie"][""]="";
 
+$txt["nl"]["toonaccommodatie"]["deel"]="Deel deze accommodatie:";
+$txt["en"]["toonaccommodatie"]["deel"]="Share accommodation:";
 
 
 
@@ -3201,6 +3235,15 @@ $txt["en"]["boeken"]["inleiding3"]="You must follow these steps to book this acc
 $txt["nl"]["boeken"]["stap"]="Stap";
 $txt["en"]["boeken"]["stap"]="Step";
 
+$txt["nl"]["boeken"]["invalidpostcode"]="Please insert a postcode";
+$txt["en"]["boeken"]["invalidpostcode"]="Please insert a postcode";
+
+$txt["nl"]["boeken"]["invalidplaats"]="Please insert a place";
+$txt["en"]["boeken"]["invalidplaats"]="Please insert a place";
+
+$txt["nl"]["boeken"]["invalidland"]="Please insert a land";
+$txt["en"]["boeken"]["invalidland"]="Please insert a land";
+
 $txt["nl"]["boeken"]["helaasaccdatumnietbeschikbaar"]="Helaas, deze accommodatie is op de door jou gewenste datum niet meer beschikbaar. Onze excuses voor het ongemak.";
 $txt["en"]["boeken"]["helaasaccdatumnietbeschikbaar"]="This accommodation is unavailable on the date you selected. Our apologies for the inconvenience.";
 
@@ -3338,6 +3381,12 @@ $txt["en"]["boeken"]["wisnietbeschikbareopties"]="Delete non-available options";
 
 $txt["nl"]["boeken"]["directdoor"]="Opmerking: onderstaande gegevens kun je ook op een later moment aan ons doorgeven. Ga in dat geval direct door naar [[l1]]stap 4[[/l1]].";
 $txt["en"]["boeken"]["directdoor"]="Note: you can also send this information to us at a later date. In this case, go straight to [[l1]]step 4[[/l1]].";
+
+$txt["nl"]["boeken"]["directdoorstap"]="Ik vul dit later in – ga door naar stap [[v_stap]]";
+$txt["en"]["boeken"]["directdoorstap"]="I will fill this later - go straight to step [[v_stap]]";
+
+$txt["nl"]["boeken"]["vulditnuin"]="Ik vul dit nu in";
+$txt["en"]["boeken"]["vulditnuin"]="I will fill it now";
 
 $txt["nl"]["boeken"]["gegevenspersoon"]="Gegevens persoon";
 $txt["en"]["boeken"]["gegevenspersoon"]="Personal data";
@@ -4130,6 +4179,9 @@ $txt["en"]["bsys"]["nachten"]="nights";
 
 $txt["nl"]["bsys"]["factuur"]="Factuur";
 $txt["en"]["bsys"]["factuur"]="Invoice";
+
+$txt["nl"]["bsys"]["factuur_mobile"]="Factuur downloaden als pdf";
+$txt["en"]["bsys"]["factuur_mobile"]="Download invoice as PDF";
 
 $txt["nl"]["bsys"]["factuurgoedkeuren"]="Factuur goedkeuren";
 $txt["en"]["bsys"]["factuurgoedkeuren"]="Approve invoice";
@@ -5434,6 +5486,11 @@ $txt["en"]["vraagonsadvies"]["mail_subject"]="Advice [[v_websitenaam]]";
 $txt["nl"]["vraagonsadvies"]["bedankt"]="Bedankt voor je aanvraag. Je ontvangt binnen 24 uur (maandag t/m zaterdag) een aantal passende suggesties van ons.";
 $txt["en"]["vraagonsadvies"]["bedankt"]="Thank you for your request. We will offer you some suggestions within 24 hours (from Monday to Saturday).";
 
+$txt["nl"]["vraagonsadvies"]["verblijfsperiode"]="Verblijfsperiode";
+$txt["en"]["vraagonsadvies"]["verblijfsperiode"]="Period of stay";
+
+$txt["nl"]["vraagonsadvies"]["toelichting_mobile"]="Toelichting";
+$txt["en"]["vraagonsadvies"]["toelichting_mobile"]="Explanation";
 
 //
 // vertrekinfo

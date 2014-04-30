@@ -1983,6 +1983,60 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	color: #ffffff;
 }
 
+#notification_bottombar {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 9999;
+	background-color: #555555;
+	border-top: 1px solid #222222;
+	color: #ffffff;
+	border-bottom: none;
+	margin: 0px auto;
+	-moz-opacity: .90;
+	filter: alpha(opacity=90);
+	opacity: .90;
+	left: 0;
+	right: 0;
+	text-align: center;
+	padding: 7px;
+}
+
+#notification_bottombar a {
+	color: #d5e1f9;
+}
+
+#notification_bottombar a:hover {
+	color: #ffffff;
+}
+
+#notification_bottombar_wrapper {
+	margin-left: auto;
+	margin-right: auto;
+	width: 100%;
+	text-align: left;
+}
+
+#notification_bottombar_text {
+	float: left;
+}
+
+#notification_bottombar_close {
+	float: right;
+	display: block;
+	padding-left: 20px;
+	background-image: url('../pic/close_icon.png');
+	background-repeat: no-repeat;
+	background-position: 0px 2px;
+	cursor: pointer;
+	text-decoration: underline;
+	color: #d5e1f9;
+}
+
+#notification_bottombar_close:hover {
+	color: #ffffff;
+}
+
 #opval_bottombar {
 	position: fixed;
 	bottom: 0px;

@@ -469,6 +469,7 @@ class PaymentController extends Controller {
 	public function redirectAction() {
 
 		$request = App::getRequest();
+		$helper = App::get('helper/api_create');
 
 		// Instantiate the return page
 		$this->setReturnPage();
@@ -542,12 +543,17 @@ class PaymentController extends Controller {
 		}
 
 		App::get('helper/data')->log('Redirect Action for the order '.$order->getRealOrderId());
-                        
+                
+                $css = $helper->getMenuPreference($order->getWebsiteCode());
+                $css_id = $css['css']['id'];
 		//make sure order still needs to be placed with Docdata
-		$payment_order_key = $order->getDocdataPaymentOrderKey($status="pending");
-		$checkOtherParams = $order->matchBackOrder($payment_order_key, $request);
+		$payment_order_key = $order->getDocdataPaymentOrderKey($status="pending", $css_id);
 
-		if ($payment_order_key === null || $checkOtherParams == false) {
+                $checkOtherParams = $order->matchBackOrder($payment_order_key, $request);
+                $checkCssIds = $order->compareCssId($payment_order_key);
+               
+              
+		if ( ($payment_order_key === null) || ($checkOtherParams == false) || ($checkCssIds == false)) {
 
 			// Get payment code from the $_POST request parameters
 			$pm_code = $request->getParam('pm_code');
@@ -592,7 +598,7 @@ class PaymentController extends Controller {
 		$pm_code = $request->getParam('pm_code');
 		if(empty($pm_code)) $pm_code = "docdata_idl";
 
-		$payment_order_key = $order->getDocdataPaymentOrderKey($status="pending");
+		$payment_order_key = $order->getDocdataPaymentOrderKey($status="pending", $css_id);
 
 		$extra_paramsSO = App::get('helper/data')->removePrefix(
 			Model_Method_Abstract::PREFIX_SHOW,

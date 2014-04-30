@@ -253,8 +253,9 @@ class Login {
 		}
 	}
 
-	function loginform() {
+	function loginform($isMobile=false) {
 		if(!$this->logged_in) {
+			if($isMobile) $this->settings["width"] = "100%";
 			echo "<TABLE BORDER=\"0\" width=\"".$this->settings["width"]."\" align=\"".$this->settings["settings"]["alignloginscreen"]."\" bgcolor=\"".$this->settings["tablecolor"]."\" cellspacing=\"".intval($this->settings["tableborderwidth"]-1)."\" class=\"wtlogin_table\">";
 			echo "<FORM METHOD=\"post\" name=\"loginform\" action=\"".$this->currenturl()."\"".($this->settings["settings"]["no_autocomplete"] ? " autocomplete=\"off\"" : "").">";
 			echo "<TR><TD align=\"center\"><B>";
@@ -264,31 +265,63 @@ class Login {
 			echo "</B></TD></TR><TR><TD width=\"100%\" height=\"100%\">";
 			echo "<TABLE align=\"left\" width=\"100%\" height=\"100%\" bgcolor=\"#FFFFFF\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">";
 			echo "<TR><TD width=\"100%\" height=\"100%\">";
-			echo "<TABLE align=\"left\" width=\"100%\" height=\"100%\" bgcolor=\"#FFFFFF\" cellspacing=\"7\" border=\"0\"><TR><TD>";
+			echo "<TABLE align=\"left\" width=\"100%\" height=\"100%\" bgcolor=\"#FFFFFF\" cellspacing=\"7\" border=\"0\"><TR>";
+
+			echo "<TD".(($isMobile) ? " colspan=\"2\"" : "").">";
+
 			if($this->settings["font"]["face"]) echo "<FONT FACE=\"".$this->settings["font"]["face"]."\" SIZE=\"".$this->settings["font"]["size"]."\">";
 			if($this->settings["loginform_nobr"]) echo "<nobr>";
 			echo $this->settings["message"]["login"];
 			if($this->settings["loginform_nobr"]) echo "</nobr>";
 			if($this->settings["font"]["face"]) echo "</FONT>";
-			echo "</TD><TD width=\"99%\"><INPUT TYPE=\"text\" name=\"username[".$this->settings["name"]."]\" size=\"20\" maxlength=\"128\"";
+
+			if(!$isMobile) { echo "</TD><TD width=\"99%\">"; }
+
+			echo "<INPUT TYPE=\"".((!$isMobile)?"text":"email")."\" name=\"username[".$this->settings["name"]."]\" size=\"20\" maxlength=\"128\"";
 			if($_POST["loginfilled"]) {
 				echo " VALUE=\"".wt_he($_POST["username"][$this->settings["name"]])."\"";
 			} elseif($_GET["username"]) {
 				echo " VALUE=\"".wt_he($_GET["username"])."\"";
 			}
-			echo " style=\"width: 100%;";
+
+			echo (($isMobile) ? " style=\"width: 95%;" : " style=\"width: 100%;");
+
 			if($this->settings["font"]["face"]) echo " font-family:".$this->settings["font"]["face"];
-			echo "\"></TD></TR><TR><TD>";
-			if($this->settings["font"]["face"]) echo "<FONT FACE=\"".$this->settings["font"]["face"]."\" SIZE=\"".$this->settings["font"]["size"]."\">";
+			echo "\"></TD></TR><TR>";
+
+			echo "<TD".(($isMobile) ? " colspan=\"2\"" : "").">";
+
+			if($this->settings["font"]["face"]) echo "<FONT STYLE=\"display:block;\" FACE=\"".$this->settings["font"]["face"]."\" SIZE=\"".$this->settings["font"]["size"]."\">";
 			if($this->settings["loginform_nobr"]) echo "<nobr>";
 			echo $this->settings["message"]["password"];
 			if($this->settings["loginform_nobr"]) echo "</nobr>";
 			if($this->settings["font"]["face"]) echo "</FONT>";
-			echo "</TD><TD width=\"99%\"><INPUT TYPE=\"password\" name=\"password[".$this->settings["name"]."]\" size=\"10\" maxlength=\"32\"";
+
+			if(!$isMobile) { echo "</TD><TD width=\"99%\">"; }
+
+			echo "<INPUT TYPE=\"password\" id=\"password\" name=\"password[".$this->settings["name"]."]\" size=\"10\" maxlength=\"32\"";
 			if($_POST["loginfilled"]) {
 				echo " VALUE=\"",wt_he($_POST["password"][$this->settings["name"]]),"\"";
 			}
-			echo " style=\"width: 100%;\"></TD></TR>";
+
+			echo (($isMobile) ? " spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" style=\"width: 70%;\">" : " style=\"width: 100%;\">");
+
+			if($isMobile) {
+               		 	$togggle_hidden_field = $_POST['toggle_pwd'] ? " CHECKED ": "";
+                
+				echo "&nbsp;&nbsp;<label><input name='toggle_pwd' id=\"toggle_pwd\" ".$togggle_hidden_field." type=\"checkbox\">Hide</label>";
+				echo "<script>
+				document.getElementById('password').type = 'text';
+				$('#toggle_pwd').change(function(){
+					if($(this).is(':checked'))  document.getElementById('password').type = 'password';
+					else document.getElementById('password').type = 'text';
+				});";
+	                if(isset($_POST['toggle_pwd']))
+	                    echo "document.getElementById('password').type = 'password';";
+	                echo "</script>";
+			}
+
+			echo "</TD></TR>";
 			if($this->settings["settings"]["sendnewpassword"]) echo "<TR><TD colspan=2 align=right><FONT FACE=\"".$this->settings["font"]["face"]."\" SIZE=\"".($this->settings["font"]["size"]-1)."\"><A HREF=\"".$this->currenturl().($_SERVER["QUERY_STRING"] ? "&" : "?")."mailpassword=1\">".$this->settings["message"]["forget"]."</A></FONT></TD></TR>";
 			if($this->settings["settings"]["rememberpassword"]) {
 				echo "<TR><TD colspan=\"2\" align=\"left\"><INPUT TYPE=\"checkbox\" id=\"remember".$this->settings["name"]."\" name=\"remember\"";

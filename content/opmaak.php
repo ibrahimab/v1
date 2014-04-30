@@ -6,6 +6,13 @@
 
 $opmaak = new opmaakonderdelen;
 
+if($isMobile) {
+	$mobile = "_mobile";
+} else {
+	$mobile = '';
+}
+
+
 if($vars["websitetype"]==3) {
 	# Zomerhuisje (.nl en .eu)
 	include("content/opmaak_zomerhuisje.php");
@@ -23,7 +30,7 @@ if($vars["websitetype"]==3) {
 	include("content/opmaak_venturasol.php");
 } else {
 	# Chalet (.nl, .eu, .be), Chalettour.nl
-	include("content/opmaak_chalet.php");
+	include("content".$mobile."/opmaak_chalet.php");
 }
 
 ?>

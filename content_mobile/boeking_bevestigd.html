@@ -1,0 +1,83 @@
+<?php
+
+echo "<strong>".html("boekingsaanvraagisverzonden","boeking_bevestigd")."</strong><p>".html("uontvangtbinnenenkeleminutenmail","boeking_bevestigd")."</p><p>".html("mochtunogvragenhebben","boeking_bevestigd",array("l1"=>"contact"))."</p>";
+
+if($vars["taal"]=="nl") {
+
+	if($vars["website"]=="C" or $vars["website"]=="Z" or $vars["website"]=="I") {
+		if($vars["website"]=="C") {
+			$bordercolor="#d5e1f9";
+			$twitterlink="ChaletNL";
+			$twittercolor="#003366";
+			$twittertekst="Ik heb zojuist deze wintersportvakantie geboekt!";
+			$facebooklink="https://www.facebook.com/chalet.nl";
+			$facebooktekst="Ik heb zojuist deze wintersportvakantie geboekt!";
+		} elseif($vars["website"]=="Z") {
+			$bordercolor="#cbd328";
+			$twitterlink="Zomerhuisje";
+			$twittercolor="#5f227b";
+			$twittertekst="Ik heb zojuist deze vakantie geboekt!";
+			$facebooklink="https://www.facebook.com/pages/Zomerhuisjenl/168449903215909";
+			$facebooktekst="Ik heb zojuist deze vakantie geboekt!";
+		} elseif($vars["website"]=="I") {
+			$bordercolor="#ff9900";
+			$twitterlink="Italissima";
+			$twittercolor="#5f227b";
+			$twittertekst="Ik heb zojuist deze vakantie geboekt!";
+			$facebooklink="https://www.facebook.com/pages/Italissima/272671556122756";
+			$facebooktekst="Ik heb zojuist deze vakantie geboekt!";
+		}
+		
+		$form->display_all($isMobile=true);
+		
+		echo "&nbsp;<br><table style=\"border:1px solid ".$bordercolor.";margin-top:0px;\"><tr><td style=\"padding:3px;\" colspan=\"2\">Laat je vrienden weten dat je zojuist een vakantie hebt geboekt:</td></tr>";
+
+
+		# Twitter
+// 		echo "<tr><td style=\"padding:3px;padding-top:9px;width:110px;font-style:italic;\">Via Twitter</td><td style=\"padding:3px;padding-top:9px;width:320px;\">";
+// 		echo "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\" data-url=\"".wt_he($share_url)."\" data-text=\"".wt_he($twittertekst)."\" data-via=\"".$twitterlink."\" data-lang=\"nl\" data-count=\"none\">Tweeten</a>\n";
+// 		echo "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=\"//platform.twitter.com/widgets.js\";fjs.parentNode.insertBefore(js,fjs);}}(document,\"script\",\"twitter-wjs\");</script>\n";
+// 		echo "</td></tr>";
+// 		if($vars["googleanalytics_actief"]) {
+// 			# Tracken in Google Analytics
+// 			echo "<script type=\"text/javascript\">\ntwttr.events.bind('tweet', function(event) {\nif (event) {\nvar targetUrl;\nif (event.target && event.target.nodeName == 'IFRAME') {\ntargetUrl = extractParamFromUri(event.target.src, 'url');\n}\n_gaq.push(['_trackSocial', 'twitter', 'tweet', targetUrl]);\n}\n});\n</script>\n";
+// #			echo "<script type=\"text/javascript\">\ntwttr.events.bind('follow', function(event) {\nif (event) {\nvar targetUrl;\nif (event.target && event.target.nodeName == 'IFRAME') {\ntargetUrl = extractParamFromUri(event.target.src, 'url');\n}\n_gaq.push(['_trackSocial', 'twitter', 'follow', targetUrl]);\n}\n});\n</script>\n";
+// 		}
+
+		# Twitter
+		echo "<tr><td style=\"padding:3px;padding-top:9px;width:110px;font-style:italic;\">Via Twitter</td><td style=\"padding:3px;padding-top:9px;width:320px;\"><a href=\"".wt_he("https://twitter.com/home?status=".urlencode($twittertekst." ".$share_url))."\" title=\"Laat je Twitter-volgers weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/twitter-share_off.gif\" class=\"img-swap\" alt=\"Share on Twitter\"></a></td></tr>";
+
+		# Facebook
+		echo "<tr><td style=\"padding:3px;padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding:3px;padding-top:9px;width:320px;\"><a href=\"".htmlentities("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($facebooktekst))."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\" alt=\"Share on Facebook\"></a></td></tr>";
+#		echo "<tr><td style=\"padding:3px;padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding:3px;padding-top:9px;width:320px;\"><a href=\"".wt_he("https://www.facebook.com/sharer.php?s=100&p[title]=".wt_he($vars["websitenaam"])."&p[summary]=".urlencode(wt_he($facebooktekst))."&p[url]=".urlencode($share_url)."")."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\"></a></td></tr>";
+
+		echo "</table>";
+	}
+
+# http://www.facebook.com/sharer.php?s=100&amp;p[title]=".wt_he($vars["sitenaam"])."&amp;p[summary]=".urlencode(wt_he($socialtext))."&amp;p[url]=".urlencode($vars["officialwebsite"])."&amp;&amp;p[images][0]=".urlencode($vars["basehref_sites"]."logo_for_facebook_share.jpg")
+
+	if($vars["website"]=="Z" or $vars["website"]=="I" or $vars["website"]=="K") {
+		#
+		# Link naar Sunny Cars
+		#
+		# http://www.sunnycars.nl/booking/entry?ak=743147
+
+		# Autohuur: Ter plaatse een auto huren? Profiteer dan hier van het aanbod van Sunny Cars. Al 12 jaar op rij gekozen tot beste autoverhuurder.
+		# Ter plaatse een auto huren? Profiteer dan hier van het aanbod van Sunny Cars. Al 12 jaar op rij gekozen tot beste autoverhuurder door de Nederlandse Reisbureaus.
+
+		echo "<table class=\"sunnycar_banner\" style=\"margin-top:20px;\" onclick=\"popwindowXY(824,630,'http://www.sunnycars.nl/booking/entry?ak=743147',true);recordOutboundPopup('Externe popup','Sunny Cars');\" cellspacing=\"0\" cellpadding=\"3\"><tr><td><img src=\"".$vars["path"]."pic/sunnycars_foto.jpg\"></td><td><b><i>Ter plaatse een auto huren?</i></b><br><br>Boek dan direct bij <b>Sunny Cars</b>.";
+		if($vars["websiteland"]=="nl") {
+			echo " Al 12 jaar op rij gekozen tot beste autoverhuurder door de Nederlandse Reisbureaus.";
+		}
+		echo "</td><td><img src=\"".$vars["path"]."pic/sunnycars_logo.gif\" alt=\"Sunny Cars\" /></td></tr></table>";
+	}
+}
+
+echo "&nbsp;<p><a href=\"".wt_he($share_url)."\">&laquo;&nbsp;".html("terugnaaraccommodatie","boeking_bevestigd")."</a></p>";
+
+# Tracking
+if($_GET["aanvraagnr"]) {
+	affiliate_tracking(true,true,true,array("ordernummer"=>$_GET["aanvraagnr"],"bedrag"=>$totalereissom));
+}
+
+?>

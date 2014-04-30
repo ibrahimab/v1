@@ -55,6 +55,12 @@ var ZoomlevelBepalen = new function() {
 
 };
 
+function switch_website($mode) {
+	chalet_createCookie("siteVer",$mode,1);
+	window.location.reload();
+	return false;
+}
+
 // detecteer een mobiel apparaat (tablet of smartphone)
 function detect_mobile() {
 	return (
@@ -358,6 +364,11 @@ var absolute_path='/';
 if(location.href.indexOf("/chalet/")>1) {
 	var absolute_path='/chalet/';
 	var lokale_testserver=true;
+}
+if(typeof isMobile != "undefined" && isMobile == true) {
+	var $isMobile = true;
+} else {
+	var $isMobile = false;
 }
 
 function initialize_googlemaps(mapSettings) {
@@ -867,16 +878,17 @@ $(document).ready(function() {
 
 			// foto-popups via fancybox
 			$(".fotopopup").fancybox({
-				'transitionIn'	:	'elastic',
-				'transitionOut'	:	'elastic',
+				'transitionIn'	:	(($isMobile)?'none':'elastic'),
+				'transitionOut'	:	(($isMobile)?'none':'elastic'),
 				'speedIn'		: 300,
 				'speedOut'		: 300,
 				'padding' :		0,
-				'margin' :		0,
+				'margin' :		(($isMobile)?20:0),
 				'autoScale' :		true,
 				'overlayShow'	:	true,
 				'hideOnContentClick' :	true,
 				'overlayColor' :	'#454545',
+				'autoDimensions': true,
 				'onComplete'	:	function() {
 
 				},
@@ -887,16 +899,16 @@ $(document).ready(function() {
 			// beoordeling-popup via fancybox
 			$("#beoordeling_link").fancybox({
 				'type'			: 'inline',
-				'width'			: 830,
-				'height'		: 540,
+				'width'			: (($isMobile)?'auto':830),
+				'height'		: (($isMobile)?'auto':540),
 				'autoDimensions': false,
 				'autoScale'		: false,
-				'transitionIn'	:	'elastic',
-				'transitionOut'	:	'elastic',
+				'transitionIn'	:	(($isMobile)?'none':'elastic'),
+				'transitionOut'	:	(($isMobile)?'none':'elastic'),
 				'speedIn'		: 300,
 				'speedOut'		: 300,
 				'padding' :		0,
-				'margin' :		0,
+				'margin' :		(($isMobile)?20:0),
 				'overlayShow'	:	true,
 				'hideOnContentClick' :	true,
 				'overlayColor' :	'#454545',
@@ -909,16 +921,16 @@ $(document).ready(function() {
 			// popup_fancybox via fancybox
 			$(".popup_fancybox").fancybox({
 				'type'			: 'inline',
-				'width'			: 430,
-				'height'		: 240,
+				'width'			: (($isMobile)?'auto':430),
+				'height'		: (($isMobile)?'auto':240),
 				'autoDimensions': false,
 				'autoScale'		: false,
-				'transitionIn'	:	'elastic',
-				'transitionOut'	:	'elastic',
+				'transitionIn'	:	(($isMobile)?'none':'elastic'),
+				'transitionOut'	:	(($isMobile)?'none':'elastic'),
 				'speedIn'		: 300,
 				'speedOut'		: 300,
 				'padding' :		0,
-				'margin' :		0,
+				'margin' :		(($isMobile)?20:0),
 				'overlayShow'	:	true,
 				'hideOnContentClick' :	true,
 				'overlayColor' :	'#454545',
@@ -931,15 +943,15 @@ $(document).ready(function() {
 			// vimeo_fancybox via fancybox
 			$(".vimeo_fancybox").fancybox({
 				'type'			:   'iframe',
-				'transitionIn'	:	'elastic',
-				'transitionOut'	:	'elastic',
-				'width'			: 900,
-				'height'		: 510,
+				'transitionIn'	:	(($isMobile)?'none':'elastic'),
+				'transitionOut'	:	(($isMobile)?'none':'elastic'),
+				'width'			: (($isMobile)?'300':900),
+				'height'		: (($isMobile)?'100':510),
 				'speedIn'		: 300,
 				'speedOut'		: 300,
 				'padding' :		0,
-				'margin' :		0,
-				'autoScale' :		false,
+				'margin' :		(($isMobile)?20:0),
+				'autoScale' :		(($isMobile)?true:false),
 				'overlayShow'	:	true,
 				'hideOnContentClick' :	true,
 				'overlayColor' :	'#454545',
@@ -952,8 +964,8 @@ $(document).ready(function() {
 			});
 
 			$(".fotopopup_border").fancybox({
-				'transitionIn'	:	'elastic',
-				'transitionOut'	:	'elastic',
+				'transitionIn'	:	(($isMobile)?'none':'elastic'),
+				'transitionOut'	:	(($isMobile)?'none':'elastic'),
 				'speedIn'		: 300,
 				'speedOut'		: 300,
 				'autoScale' :		true,
@@ -1708,6 +1720,12 @@ $(document).ready(function() {
 			chalet_createCookie("cookiemelding_gelezen","1",3650);
 			return false;
 		});
+                
+                $("#notification_bottombar_close").click(function () {
+			// $("#cookie_bottombar").css("display","none");
+			$("#notification_bottombar").animate({top:"-150px"},600,function() {});
+			return false;
+		});
 
 		// sluiten opval-bar
 		$("#opval_bottombar_close").click(function () {
@@ -2179,7 +2197,7 @@ $(document).ready(function() {
 			//
 			// tarieventabel: scrollen
 			//
-			$(".tarieventabel_pijl").click(function(event) {
+			$("#prijsinformatie").on("click", ".tarieventabel_pijl",  function(event) {
 
 				var actieve_pijl=$(this);
 
@@ -2538,10 +2556,19 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 					if(chalet_getCookie("favorietenpopup")!="1"||lokale_testserver) {
 						chalet_createCookie("favorietenpopup","1",3650);
 
-						// scroll to top (to see the favorites-popup)
-						$("html, body").animate({ scrollTop: 0 }, 600,'swing',function(){
-							$("#favorieten_popup").css("display","inline");
-						});
+						if(!$isMobile) {
+							// scroll to top (to see the favorites-popup)
+							$("html, body").animate({ scrollTop: 0 }, 600,'swing',function(){
+								$("#favorieten_popup").css("display","inline");
+							});
+						} else {
+							$('body').append('<a id="tmp_fancybox" />');
+							$("#tmp_fancybox").fancybox({
+								type: 'inline',
+								href: '#favorieten_popup_mobile'
+							});
+							$("#tmp_fancybox").trigger('click');
+						}
 					}
 				} else {
 //					$("#favorietenaantal").parent("a").css("background-color","yellow");
