@@ -105,7 +105,11 @@ if($skigebiedid) {
 				$meta_description=txt("title_toonskigebied")." ".$db->f("naam")." in ".$db->f("land");
 			}
 		} else {
-			$title["toonskigebied"]=ucfirst(txt("vakantiehuizen"))." ".$db->f("naam");
+			if($vars["websitetype"]==7) {
+				$title["toonskigebied"]=txt("je-ideale-agriturismo-in","vars",array("v_locatie"=>$db->f("naam")));
+			} else {
+				$title["toonskigebied"]=ucfirst(txt("vakantiehuizen"))." ".$db->f("naam");
+			}
 			if(!$meta_description) {
 				if($vars["taal"]=="en") {
 					$meta_description="Overview of our accommodations in ".$db->f("naam").", ".$db->f("land");

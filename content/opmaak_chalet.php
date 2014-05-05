@@ -39,7 +39,7 @@ if($grizzly_title) {
 	echo $grizzly_title;
 } else {
 	if($id=="index") {
-		echo wt_he($vars["websitenaam"])." - ".wt_he(txt("subtitel"));
+		echo wt_he($vars["websitenaam"])." ".wt_he(txt("subtitel"));
 		$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("subtitel");
 	} else {
 		if($title[$id] and $id) {
@@ -787,7 +787,7 @@ if($opmaak->toon_cookiebalk()) {
 # Load change desktop to mobile notification
 
 if($onMobile){
-	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("desktopnotification","vars",array("h_1"=>"<a href=\"".$vars["path"]."?m\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";    
+	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("desktopnotification","vars",array("h_1"=>"<a href=\"".$vars["path"]."?m\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";
 }
 
 # Balk met opvallende melding

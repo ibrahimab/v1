@@ -311,7 +311,7 @@ $txta["en"]["menutitle_home"]="home";
 #
 # Hoofdpagina-subtitel
 #
-$txta["nl"]["subtitel"]="Wintersport - Chalets en overige accommodaties";
+$txta["nl"]["subtitel"]="Wintersport - Chalets en appartementen";
 $txta["en"]["subtitel"]="Wintersports - Chalets - Accommodations";
 
 #$txta["nl_z"]["subtitel"]="Zomervakantie - Chalets, vakantiewoningen en andere accommodaties";

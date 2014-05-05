@@ -278,12 +278,15 @@ class form2 {
 
 		$this->settings["message"]["u"]["nl"]="u";
 		$this->settings["message"]["u"]["en"]="h";
+		$this->settings["message"]["u"]["fr"]="h";
 
 		$this->settings["message"]["ja"]["nl"]="ja";
-		$this->settings["message"]["nee"]["nl"]="nee";
-
 		$this->settings["message"]["ja"]["en"]="yes";
+		$this->settings["message"]["ja"]["fr"]="oui";
+
+		$this->settings["message"]["nee"]["nl"]="nee";
 		$this->settings["message"]["nee"]["en"]="no";
+		$this->settings["message"]["nee"]["fr"]="non";
 
 		$this->settings["message"]["volgendegegevens"]["nl"]="De volgende gegevens zijn via [URL] ingevoerd";
 		$this->settings["message"]["volgendegegevens"]["en"]="The following data has been entered on [URL]";
@@ -291,16 +294,20 @@ class form2 {
 		$this->settings["message"]["volgendegegevens"]["fr"]="Les données suivantes ont été inscrites sur [URL]";
 
 		$this->settings["message"]["invoer"]["nl"]="Invoer";
-		$this->settings["message"]["invoer"]["en"]="Form ";
+		$this->settings["message"]["invoer"]["en"]="Form";
+		$this->settings["message"]["invoer"]["fr"]="Forme";
 
 		$this->settings["message"]["reeds_ontvangen"]["nl"]="Reeds ontvangen";
 		$this->settings["message"]["reeds_ontvangen"]["en"]="File already received";
+		$this->settings["message"]["reeds_ontvangen"]["fr"]="Déjà reçu";
 
 		$this->settings["message"]["nog_geen_gegevens"]["nl"]="nog geen gegevens in het systeem";
 		$this->settings["message"]["nog_geen_gegevens"]["en"]="no data in system";
+		$this->settings["message"]["nog_geen_gegevens"]["fr"]="pas de données dans le système";
 
 		$this->settings["message"]["pixels"]["nl"]="pixels";
 		$this->settings["message"]["pixels"]["en"]="pixels";
+		$this->settings["message"]["pixels"]["fr"]="pixels";
 
 		$this->settings["message"]["imgsize_size"]["nl"]="_VAL1_x_VAL2_ pixels";
 		$this->settings["message"]["imgsize_size"]["en"]="_VAL1_x_VAL2_ pixels";
@@ -320,9 +327,11 @@ class form2 {
 
 		$this->settings["message"]["afbeeldingvolgorde"]["nl"]="volgorde";
 		$this->settings["message"]["afbeeldingvolgorde"]["en"]="order";
+		$this->settings["message"]["afbeeldingvolgorde"]["en"]="ordre";
 
 		$this->settings["message"]["bestandwissen"]["nl"]="bestand wissen";
 		$this->settings["message"]["bestandwissen"]["en"]="delete file";
+		$this->settings["message"]["bestandwissen"]["fr"]="supprimer le fichier";
 
 		$this->settings["message"]["zie_attachment"]["nl"]="zie attachment";
 		$this->settings["message"]["zie_attachment"]["en"]="see attachment";

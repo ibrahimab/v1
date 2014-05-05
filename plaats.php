@@ -100,7 +100,12 @@ if($plaatsid) {
 			$breadcrumbs["last"]=$db->f("naam");
 		} elseif($vars["websitetype"]==7) {
 			$header["toonplaats"]=$db->f("naam");
-			$title["toonplaats"]=$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
+
+			if($vars["websitetype"]==7) {
+				$title["toonplaats"]=txt("je-ideale-agriturismo-in","vars",array("v_locatie"=>$db->f("naam")));
+			} else {
+				$title["toonplaats"]=$db->f("naam").", ".$db->f("skigebied")." - ".$db->f("land");
+			}
 
 			$breadcrumbs["bestemmingen.php"]="Bestemmingen";
 			$breadcrumbs[txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/"]=$db->f("skigebied");

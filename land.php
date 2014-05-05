@@ -78,7 +78,7 @@ while($db->next_record()) {
 #	$title["land"]=$landinfo["naam"];
 #}
 if($vars["seizoentype"]==1) {
-	$title["land"]=txt("chaletsvoorwintersportin","vars",array("v_land"=>$landinfo["naam"]));
+	$title["land"]=txt("wintersport-chalets-appartementen","vars",array("v_land"=>$landinfo["naam"]));
 } else {
 	$title["land"]=ucfirst(txt("vakantiehuizen"))." ".$landinfo["naam"];
 	$vars["jquery_maphilight"]=true;
