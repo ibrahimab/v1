@@ -485,6 +485,9 @@ $txt["en"]["vars"]["newpricesmail_2"] = "Hello,\n\nOn [WEBSITE] you asked to be 
 $txt["nl"]["vars"]["newpricesmail_subject"] = "De prijzen van de door jou bekeken accommodatie in [PLAATS] zijn bekend!";
 $txt["en"]["vars"]["newpricesmail_subject"] = "The prices are known of the accommodation in [PLAATS] you were looking at!";
 
+$txt["nl"]["vars"]["xml_discount_message"]="Profiteer nu van [DISCOUNTVALUE]% korting";
+$txt["en"]["vars"]["xml_discount_message"]="Profiteer nu van [DISCOUNTVALUE]% korting";
+
 # Mobile
 #
 $txt["nl"]["mobile"]["naar_desktopversie"]="Naar de desktopversie";

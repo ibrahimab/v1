@@ -4,6 +4,7 @@ if(!$_GET["nocache"]) {
 	# nieuw aanbiedingensysteem (via zoekformulier)
 	$vars["zoekform_aanbiedingen"]=true;
 	$otherid="zoek-en-boek";
+	$page_uniqueID = "offerspage";
 	$vars["active_menu_item"]="aanbiedingen";
 	$_GET["aab"]=1;
 	if(!$_GET["filled"]) {
