@@ -458,7 +458,7 @@ color: #FFFFFF;
     margin-right:20px !important;
 }
 
-.zoekresultaten_opmerking_tussen_resultaten{
+.zoekresultaten_opmerking_tussen_resultaten, .zoekresultaten_aantalgevonden{
     width:auto !important;
 }
 
