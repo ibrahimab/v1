@@ -563,7 +563,11 @@ class form2 {
 	}
 
 	function field_email($obl,$id,$title,$db="",$prevalue="",$options="",$layout="") {
-		$this->newfield("text","email",$obl,$id,$title,$db,$prevalue,$options,$layout);
+		$this->newfield("email","email",$obl,$id,$title,$db,$prevalue,$options,$layout);
+	}
+
+	function field_tel($obl,$id,$title,$db="",$prevalue="",$options="",$layout="") {
+		$this->newfield("tel","tel",$obl,$id,$title,$db,$prevalue,$options,$layout);
 	}
 
 	function field_float($obl,$id,$title,$db="",$prevalue="",$options="",$layout="") {
@@ -811,8 +815,10 @@ class form2 {
 	}
 
 	function display_title($id) {
-		global $vars;
-		if($this->error[$id]) $return.="<span class=\"wtform_error\">";
+		global $vars,$isMobile;
+
+		if($this->error[$id]) $return.= ($isMobile) ? "<span class=\"wtform_error_input\">" : "<span class=\"wtform_error\">";
+
 		if($this->fields["title"][$id]) {
 #			if($this->fields["checktype"][$id]=="currency") $return.="<span style=\"float:left;\">";
 			if($this->fields["layout"][$id]["title_html"]) {
@@ -835,7 +841,7 @@ class form2 {
 	}
 
 	function display_input($id,$infobox="") {
-		global $vars;
+		global $vars, $isMobile;
 		if($this->fields["type"][$id]=="checkbox") {
 			# Checkbox
 			if(!$this->filled) {
@@ -1253,6 +1259,72 @@ class form2 {
 				}
 				$return.="(".$this->message("nog_geen_gegevens").")";
 			}
+		} elseif($this->fields["type"][$id]=="email") {
+			# Email-field
+			if(!$this->filled) {
+				# Prevalue bepalen
+				if(isset($this->fields["prevalue"][$id]["force_text"])) {
+					# Force_text: altijd deze waarde gebruiken (ongeacht database-waarde)
+					$this->value[$id]=$this->fields["prevalue"][$id]["force_text"];
+				} elseif(isset($this->fields["prevalue"][$id]["text"])) {
+					$this->value[$id]=$this->fields["prevalue"][$id]["text"];
+				} elseif($_GET["pv_".$id]) {
+					$this->value[$id]=$_GET["pv_".$id];
+				}
+			}
+			$return.="<input type=\"email\" name=\"input[".$id."]\" value=\"";
+			if(isset($this->value[$id])) {
+				if(($this->fields["checktype"][$id]=="currency" or $this->fields["checktype"][$id]=="float")and !$this->filled) {
+					# Indien currency/float: punt in komma veranderen
+					$return.=ereg_replace("\.",",",$this->value[$id]);
+				} else {
+					if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+						$return.=wt_he($this->value[$id]);
+					} else {
+						$return.=htmlentities($this->value[$id],ENT_QUOTES,"iso-8859-15");
+					}
+				}
+			} elseif($this->fields["checktype"][$id]=="url") {
+				$return.="http://";
+			}
+			$return.="\"";
+			if($this->fields["options"][$id]["maxlength"]) $return.=" maxlength=\"".$this->fields["options"][$id]["maxlength"]."\"";
+			if($this->fields["options"][$id]["onkeyup"]) $return.=" onkeyup=\"".$this->fields["options"][$id]["onkeyup"]."\"";
+			if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
+			$return.=" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input")."\">";
+		} elseif($this->fields["type"][$id]=="tel") {
+			# Email-field
+			if(!$this->filled) {
+				# Prevalue bepalen
+				if(isset($this->fields["prevalue"][$id]["force_text"])) {
+					# Force_text: altijd deze waarde gebruiken (ongeacht database-waarde)
+					$this->value[$id]=$this->fields["prevalue"][$id]["force_text"];
+				} elseif(isset($this->fields["prevalue"][$id]["text"])) {
+					$this->value[$id]=$this->fields["prevalue"][$id]["text"];
+				} elseif($_GET["pv_".$id]) {
+					$this->value[$id]=$_GET["pv_".$id];
+				}
+			}
+			$return.="<input type=\"tel\" name=\"input[".$id."]\" value=\"";
+			if(isset($this->value[$id])) {
+				if(($this->fields["checktype"][$id]=="currency" or $this->fields["checktype"][$id]=="float")and !$this->filled) {
+					# Indien currency/float: punt in komma veranderen
+					$return.=ereg_replace("\.",",",$this->value[$id]);
+				} else {
+					if($vars["wt_htmlentities_cp1252"] or $vars["wt_htmlentities_utf8"]) {
+						$return.=wt_he($this->value[$id]);
+					} else {
+						$return.=htmlentities($this->value[$id],ENT_QUOTES,"iso-8859-15");
+					}
+				}
+			} elseif($this->fields["checktype"][$id]=="url") {
+				$return.="http://";
+			}
+			$return.="\"";
+			if($this->fields["options"][$id]["maxlength"]) $return.=" maxlength=\"".$this->fields["options"][$id]["maxlength"]."\"";
+			if($this->fields["options"][$id]["onkeyup"]) $return.=" onkeyup=\"".$this->fields["options"][$id]["onkeyup"]."\"";
+			if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
+			$return.=" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input")."\">";
 		} elseif($this->fields["type"][$id]=="text") {
 			# Text-field
 			if(!$this->filled) {
@@ -1432,7 +1504,12 @@ class form2 {
 			$return.="<div style=\"float:left;margin-right:10px;\"><input type=\"checkbox\" name=\"input[".$id."]\" id=\"yesno".$id."\" ".($this->value[$id]==$waarde ? "checked " : "")."value=\"".wt_he($waarde)."\"";
 			if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
 			if($this->fields["layout"][$id]["onclick"]) $return.=" onclick=\"".$this->fields["layout"][$id]["onclick"]."\"";
-			$return.="></div><div style=\"float:left;width:90%;\"><label for=\"yesno".$id."\">";
+
+						if(!$isMobile)
+							$return.="></div><div style=\"float:left;width:90%;\"><label for=\"yesno".$id."\">";
+						else
+							$return.="></div><div style=\"float:left;width:80%;\"><label for=\"yesno".$id."\">";
+
 			if($this->fields["layout"][$id]["title_html"]) {
 				$return.=$this->fields["title"][$id];
 			} else {
@@ -1487,7 +1564,7 @@ class form2 {
 		return $return;
 	}
 
-	function display_all() {
+	function display_all($isMobile=false) {
 		global $vars;
 
 		if(!$this->okay or $this->settings["type"]=="get" or $this->settings["alwaysshowform"]) {
@@ -1498,7 +1575,13 @@ class form2 {
 
 			# Toon complete tabel
 			if($this->settings["layout"]["css"]) echo $this->display_css();
-			echo "<a data-name=\"wtform_".$this->settings["formname"]."\"></a>\n";
+			if(!$isMobile) {
+				echo "<a data-name=\"wtform_".$this->settings["formname"]."\"></a>\n";
+					} else {
+				echo "<p><a data-name=\"wtform_".$this->settings["formname"]."\"></a></p>\n";
+			}
+
+
 			echo $this->display_openform()."\n";
 			echo "\n<table class=\"wtform_table".($this->settings["table_class"] ? " ".$this->settings["table_class"] : "")."\"".($this->settings["table_style"] ? " style=\"".$this->settings["table_style"]."\"" : "").">";
 			if($this->settings["html_after_open_table"]) echo $this->settings["html_after_open_table"];
@@ -1545,7 +1628,12 @@ class form2 {
 						} elseif($this->fields["layout"][$key]["newline"]) {
 							echo $tr."<td ".($this->fields["layout"][$key]["title_style"] ? "style=\"".$this->fields["layout"][$key]["title_style"]."\" " : "")."class=\"wtform_cell_colspan\" colspan=\"2\">".$this->display_title($key).$infobox."</td></tr><tr".($this->fields["layout"][$key]["tr_class"] ? " class=\"".$this->fields["layout"][$key]["tr_class"]."\"" : "")."><td class=\"wtform_cell_colspan\" colspan=\"2\">".$this->display_input($key)."</td></tr>\n";
 						} else {
-							echo $tr."<td ".($this->fields["layout"][$key]["title_style"] ? "style=\"".$this->fields["layout"][$key]["title_style"]."\" " : "")."class=\"wtform_cell_left\">".$this->display_title($key).$infobox."</td><td class=\"".($this->fields["layout"][$key]["td_cell_right_class"] ? $this->fields["layout"][$key]["td_cell_right_class"] : "wtform_cell_right")."\">".$this->display_input($key)."</td></tr>\n";
+							if($isMobile) {
+								echo $tr."<td colspan=\"2\"><div ".($this->fields["layout"][$key]["title_style"] ? "style=\"".$this->fields["layout"][$key]["title_style"]."\" " : "")."class=\"wtform_cell_left\">".$this->display_title($key).$infobox."</div><div class=\"".($this->fields["layout"][$key]["td_cell_right_class"] ? $this->fields["layout"][$key]["td_cell_right_class"] : "wtform_cell_right")."\">".$this->display_input($key)."</div></td></tr>\n";
+							} else {
+								echo $tr."<td ".($this->fields["layout"][$key]["title_style"] ? "style=\"".$this->fields["layout"][$key]["title_style"]."\" " : "")."class=\"wtform_cell_left\">".$this->display_title($key).$infobox."</td><td class=\"".($this->fields["layout"][$key]["td_cell_right_class"] ? $this->fields["layout"][$key]["td_cell_right_class"] : "wtform_cell_right")."\">".$this->display_input($key)."</td></tr>\n";
+							}
+
 						}
 					}
 				}
@@ -1876,7 +1964,10 @@ class form2 {
 								} elseif($this->fields["type"][$key2]=="text") {
 									if(!$this->filled) $this->fields["prevalue"][$key2]["text"]=$database_value;
 									$this->fields["previous"][$key2]["text"]=$database_value;
-								} elseif($this->fields["type"][$key2]=="textarea") {
+																} elseif($this->fields["type"][$key2]=="email") {
+									if(!$this->filled) $this->fields["prevalue"][$key2]["text"]=$database_value;
+									$this->fields["previous"][$key2]["text"]=$database_value;
+																} elseif($this->fields["type"][$key2]=="textarea") {
 									if(!$this->filled) $this->fields["prevalue"][$key2]["text"]=$database_value;
 									$this->fields["previous"][$key2]["text"]=$database_value;
 								} elseif($this->fields["type"][$key2]=="upload") {
@@ -1944,6 +2035,8 @@ class form2 {
 		} elseif($this->fields["checktype"][$id]=="yesno") {
 			if($this->input[$id]) $value=$this->input[$id]; else $value=$this->fields["prevalue"][$id]["selection"];
 			$return=($value ? $this->message("ja") : $this->message("nee"));
+		} elseif($this->fields["checktype"][$id]=="tel") {
+			if($this->input[$id]) $value=$this->input[$id]; else $value=$this->fields["prevalue"][$id]["text"];
 		} else {
 			trigger_error("WT-Error: Unknown checktype '".$this->fields["checktype"][$id]."' (".$id.") in function display_output_field",E_USER_ERROR);
 		}
@@ -2066,6 +2159,10 @@ class form2 {
 					$this->outputtable_cell[$key]="<a href=\"mailto:".wt_he($this->value[$key])."\">".wt_he($this->value[$key])."</a>";
 					if($this->value[$key] and !wt_validmail($this->value[$key])) $this->error[$key]=$this->message("error_email");
 					if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
+				} elseif($value=="tel") {
+					$this->input[$key]=strtolower($this->value[$key]);
+					$this->outputtable_cell[$key]="<a href=\"mailto:".wt_he($this->value[$key])."\">".wt_he($this->value[$key])."</a>";
+					if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
 				} elseif($value=="float") {
 					if(ereg("^-?[0-9]+$",$this->value[$key])) $this->value[$key].=",00";
 					if(ereg("^-?[0-9]+,[0-9]$",$this->value[$key])) $this->value[$key].="0";
@@ -2169,6 +2266,10 @@ class form2 {
 						if($this->fields["obl"][$key] and !$this->value[$key]) $this->error[$key]="obl";
 					}
 				} elseif($value=="text") {
+					$this->input[$key]=$this->value[$key];
+					$this->outputtable_cell[$key]=wt_he($this->value[$key]);
+					if($this->fields["obl"][$key] and $this->value[$key]=="") $this->error[$key]="obl";
+				} elseif($value=="email") {
 					$this->input[$key]=$this->value[$key];
 					$this->outputtable_cell[$key]=wt_he($this->value[$key]);
 					if($this->fields["obl"][$key] and $this->value[$key]=="") $this->error[$key]="obl";

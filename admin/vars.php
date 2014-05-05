@@ -64,15 +64,6 @@ if($_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["DOCUMENT_ROOT"]=="/home
 
 $unixdir = dirname(dirname(__FILE__)) . "/";
 
-# Bestanden includen
-require($unixdir."admin/allfunctions.php");
-require($unixdir."admin/class.login.php");
-require($unixdir."admin/class.cms2.php");
-require($unixdir."admin/class.form.php");
-require($unixdir."admin/class.tablelist.php");
-require($unixdir."admin/class.cms.layout.php");
-require($unixdir."admin/vars_functions.php");
-
 
 // Mobile detect class
 include_once($unixdir . "lib/mobile-detect/Mobile_Detect.php");
@@ -90,6 +81,22 @@ if(isset($_GET["m"])) {
 }
 
 $onMobile = ($detect->isMobile() && !$detect->isTablet());
+
+# Bestanden includen
+if($isMobile) {
+	require($unixdir."admin_mobile/allfunctions_mobile.php");
+	require($unixdir."admin_mobile/class.login_mobile.php");
+	require($unixdir."admin_mobile/class.form_mobile.php");
+} else {
+	require($unixdir."admin/allfunctions.php");
+	require($unixdir."admin/class.login.php");
+	require($unixdir."admin/class.form.php");
+}
+require($unixdir."admin/class.cms2.php");
+require($unixdir."admin/class.tablelist.php");
+require($unixdir."admin/class.cms.layout.php");
+require($unixdir."admin/vars_functions.php");
+
 
 // is this the acceptation-testserver?
 if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
@@ -567,7 +574,7 @@ if($vars["websitetype"]==7) {
 		$menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 	}
 	$menu["contact"]=txt("menutitle_contact");
-    
+
     	$mobile_menu["home"]=txt("menutitle_home");
 	$mobile_menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
 	$mobile_menu["bsys"]=txt("menutitle_bsys");
@@ -1071,9 +1078,9 @@ $vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.m
 
 if(($id == "toonaccommodatie") && ($isMobile)){
         # oude jquery ui-versie nodig voor zomer-tarieventabel in IE9
-        $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"; 
+        $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js";
 }else {
-       $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js"; 
+       $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
 }
 
 if($boeking_wijzigen) {
