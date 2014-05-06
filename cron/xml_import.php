@@ -14,6 +14,21 @@
 # Tijdelijk bepaalde leverancierid uitzetten
 #$vars["leverancierid_tijdelijk_niet_importeren"]="4";
 
+function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $wzt, $seizoenen){
+        if(is_array($xml[$xml_type][$value])){
+            foreach($xml[$xml_type][$value] as $week => $status){
+                $season_availability = $seizoenen[$wzt][$week];
+                if(isset($shorter_seasons[$type_id][$season_availability])){
+                    if(($week < $shorter_seasons[$type_id][$season_availability]['begin']) or ($week > $shorter_seasons[$type_id][$season_availability]['end'])){
+                        unset($xml[$xml_type][$value][$week]);
+                    }
+                }
+            }
+        }
+
+        return $xml;
+}
+
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro") {
 	# Lokaal testen
 	$testsysteem=true;
@@ -1284,6 +1299,13 @@ while($db->next_record()) {
 	}
 }
 
+$db->query("SELECT type_id, seizoen_id, begin, eind from type_seizoen WHERE eind>NOW();");
+while($db->next_record()){
+	if($db->f("begin") != null){
+		$shorter_seasons[$db->f("type_id")][$db->f("seizoen_id")]["begin"] = strtotime($db->f("begin"));
+		$shorter_seasons[$db->f("type_id")][$db->f("seizoen_id")]["end"] = strtotime($db->f("eind"));
+	}
+}
 if($testsysteem) {
 	# test-query
 #	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.type_id=3394 ORDER BY t.leverancier_id;");
@@ -1818,6 +1840,12 @@ while($db->next_record()) {
 				#
 				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale Locative de l'Immobilière des Hauts Forts (20), Ville in Italia (21) + Nexity (22), Interhome (23)
 				#
+
+				if(isset($shorter_seasons[$db->f("type_id")])){
+					//filter $xml_brutoprijs
+					$xml_brutoprijs = filter_xml_data($xml_brutoprijs, $db->f("xml_type"),$value, $db->f("type_id"), $shorter_seasons, $db->f("wzt"), $seizoenen);
+				}
+
 				if(is_array($xml_brutoprijs[$db->f("xml_type")][$value])) {
 					reset($xml_brutoprijs[$db->f("xml_type")][$value]);
 					while(list($key2,$value2)=each($xml_brutoprijs[$db->f("xml_type")][$value])) {
