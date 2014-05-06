@@ -9,9 +9,6 @@
 $txta["nl"]["menu_accommodaties"]="accommodaties";
 $txta["en"]["menu_accommodaties"]="accommodations";
 
-$txta["nl"]["menu_home"]="";
-$txta["en"]["menu_home"]="";
-
 $txta["nl"]["menu_accommodatie"]="accommodatie";
 $txta["en"]["menu_accommodatie"]="accommodation";
 

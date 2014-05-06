@@ -75,9 +75,9 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[13]]["vertalingen"]) {
 		}
 
 		while(list($key2,$value2)=each($txta["nl".$afwijking])) {
-			if(!$txta["en".$afwijking][$key2]) {
+			if($value2 and !$txta["en".$afwijking][$key2]) {
 				$onvertaald=true;
-#				echo $key2."<br>";
+				// echo $key2."<br>";
 			}
 		}
 
