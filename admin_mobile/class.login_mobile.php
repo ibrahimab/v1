@@ -79,6 +79,7 @@ class Login {
 				if(!isset($this->settings["message"]["minimaluserlevel"])) $this->settings["message"]["minimaluserlevel"]="Dit account is niet actief.";
 #				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="Om uw naam en password te kunnen onthouden, moet u cookies aanzetten.";
 				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="Om in te kunnen loggen moet u cookies aanzetten bij uw browser.";
+				if(!isset($this->settings["message"]["hide"])) $this->settings["message"]["hide"]="Verberg";
 			} elseif($this->settings["language"]=="en") {
 				if(!isset($this->settings["message"]["login"])) $this->settings["message"]["login"]="Username";
 				if(!isset($this->settings["message"]["password"])) $this->settings["message"]["password"]="Password";
@@ -101,6 +102,7 @@ class Login {
 				if(!isset($this->settings["message"]["minimaluserlevel"])) $this->settings["message"]["minimaluserlevel"]="This username is not active.";
 #				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies to remember your username and password.";
 				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="You must enable cookies in your browser to log in.";
+				if(!isset($this->settings["message"]["hide"])) $this->settings["message"]["hide"]="Hide";
 			} elseif($this->settings["language"]=="fr") {
 				if(!isset($this->settings["message"]["login"])) $this->settings["message"]["login"]="Nom d'utilisateur";
 				if(!isset($this->settings["message"]["password"])) $this->settings["message"]["password"]="Mot de passe";
@@ -122,6 +124,7 @@ class Login {
 				if(!isset($this->settings["message"]["accountblocked"])) $this->settings["message"]["accountblocked"]="Login bloqué";
 				if(!isset($this->settings["message"]["minimaluserlevel"])) $this->settings["message"]["minimaluserlevel"]="Votre login n'est pas active";
 				if(!isset($this->settings["message"]["nocookies"])) $this->settings["message"]["nocookies"]="Pour pouvoir entrer veuillez activer les cookies.";
+				if(!isset($this->settings["message"]["hide"])) $this->settings["message"]["hide"]="";
 			}
 			if(!isset($this->settings["width"])) $this->settings["width"]="350";
 			if(!isset($this->settings["tablecolor"])) $this->settings["tablecolor"]="#878481";
@@ -304,12 +307,12 @@ class Login {
 				echo " VALUE=\"",wt_he($_POST["password"][$this->settings["name"]]),"\"";
 			}
 
-			echo (($isMobile) ? " spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" style=\"width: 70%;\">" : " style=\"width: 100%;\">");
+			echo (($isMobile) ? " spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" style=\"width: 65%;\">" : " style=\"width: 100%;\">");
 
 			if($isMobile) {
 						$togggle_hidden_field = $_POST['toggle_pwd'] ? " CHECKED ": "";
 
-				echo "&nbsp;&nbsp;<label><input name='toggle_pwd' id=\"toggle_pwd\" ".$togggle_hidden_field." type=\"checkbox\">Hide</label>";
+				echo "&nbsp;&nbsp;<label><input name='toggle_pwd' id=\"toggle_pwd\" ".$togggle_hidden_field." type=\"checkbox\">".$this->settings["message"]["hide"]."</label>";
 				echo "<script>
 				document.getElementById('password').type = 'text';
 				$('#toggle_pwd').change(function(){
