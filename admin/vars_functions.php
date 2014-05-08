@@ -329,6 +329,10 @@ function accinfo($typeid,$aankomstdatum=0,$aantalpersonen=0,$options="") {
 			$weeklater=mktime(0,0,0,date("m",$aankomstdatum),date("d",$aankomstdatum)+7,date("Y",$aankomstdatum));
 			if($return["aankomstdatum_unixtime"][$weeklater]) {
 				$return["vertrekdatum"]=$return["aankomstdatum_unixtime"][$weeklater];
+			} elseif(!$return["aankomstdatum"][$weeklater] and $return["vertrek_plusmin"]<>0 and $return["aankomst_plusmin"]==$return["vertrek_plusmin"]) {
+				// end of season: Sunday-Sunday
+				$return["vertrekdatum"]=$weeklater;
+				$return["vertrekdatum"]=mktime(0,0,0,date("m",$return["vertrekdatum"]),date("d",$return["vertrekdatum"])+$return["vertrek_plusmin"],date("Y",$return["vertrekdatum"]));
 			} else {
 				$return["vertrekdatum"]=$weeklater;
 			}

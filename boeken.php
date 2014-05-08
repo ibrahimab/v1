@@ -2467,8 +2467,11 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				$setquery.=", valt_onder_bedrijf='".intval($vars["valt_onder_bedrijf"])."'";
 
 				$db->query("INSERT INTO boeking SET ".$setquery.";");
-// echo $db->lastquery;
-// exit;
+
+// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+// 	echo $db->lastquery;
+// 	exit;
+// }
 				if($db->insert_id()) {
 					$_SESSION["boeking"]["boekingid"][$db->insert_id()]=true;
 					$gegevens["stap1"]["boekingid"]=$db->insert_id();
