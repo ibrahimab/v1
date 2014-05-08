@@ -743,7 +743,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				}
 
 				# Kortingscode
-				if(!$gegevens["stap_voltooid"][5] and $_SESSION["boeking"]["kortingscode_foutief"]<5) {
+				if(!$gegevens["stap_voltooid"][5] and $_SESSION["boeking"]["kortingscode_foutief"]<20) {
 					$form->field_text(0,"kortingscode",html("kortingscodeoptioneel","boeken",array("h_1"=>"<span style=\"font-size:0.8em;\">","h_2"=>"</span>")),"",array("text"=>($gegevens["stap_voltooid"][1] ? $_SESSION["boeking"]["kortingscode"] : "")),"",array("title_html"=>true));
 				}
 
@@ -871,7 +871,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 	                	$form->field_tel(0,"mobielwerk",txt("mobielwerk","boeken"),"",array("text"=>$gegevens["stap2"]["mobielwerk"]));
 	            	} else {
 	                	$form->field_text(1,"telefoonnummer",txt("telefoonnummer","boeken"),"",array("text"=>$gegevens["stap2"]["telefoonnummer"]));
-	                	$form->field_text(0,"mobielwerk",txt("mobielwerk","boeken"),"",array("text"=>$gegevens["stap2"]["mobielwerk"]));                
+	                	$form->field_text(0,"mobielwerk",txt("mobielwerk","boeken"),"",array("text"=>$gegevens["stap2"]["mobielwerk"]));
 	            	}
 			$form->field_email(1,"email",txt("email","boeken"),"",array("text"=>$gegevens["stap2"]["email"]));
 			$form->field_date(($voorkant_cms ? 0 : 1),"geboortedatum",txt("geboortedatum","boeken"),"",array("time"=>$gegevens["stap2"]["geboortedatum"]),array("startyear"=>date("Y"),"endyear"=>1900));
@@ -1424,9 +1424,9 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			$form->field_yesno("akkoord",html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"javascript:popwindow(600,0,'popup.php?id=algemenevoorwaarden');","v_websitenaam"=>$vars["websitenaam"])),"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
 		} else {
                         $confirmTextFromHtml = html("jaikwildezeboekingplaatsen","boeken",array("h_1"=>"</label>","h_2"=>"<label for=\"yesnoakkoord\">","l1"=>"popup_mobile?id=algemenevoorwaarden","v_websitenaam"=>$vars["websitenaam"]));
-                        
+
                         $confirmationText = str_replace("<a ", "<a class='popwindow' ", $confirmTextFromHtml);
-                        
+
 			$form->field_yesno("akkoord",$confirmationText,"",array("selection"=>$voorkant_cms),"",array("title_html"=>true));
 		}
 
@@ -1828,24 +1828,24 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			if($form->input["adres"] and (strlen(trim($form->input["adres"]))<3 or !preg_match("@[a-zA-Z]@",$form->input["adres"]))) {
 				$form->error("adres",html("volledigadres", "boeken"));
 			}
-			
-			if($isMobile) {			
+
+			if($isMobile) {
 				//check name
 				if(strlen(trim($form->input["naam"])) < 3){
 					$form->error("naam", html("vulzowelvooralsachternaamin", "boeken"));
 				}
-            
+
 				if(strlen(trim($form->input["postcode"])) < 3){
 					$form->error("postcode", html("invalidpostcode", "boeken"));
 				}
-            
+
 				if(strlen(trim($form->input["plaats"]) ) < 3){
 					$form->error("plaats", html("invalidplaats", "boeken"));
 				}
 				if(strlen(trim($form->input["land"])) < 3){
 	                		$form->error("land", html("invalidland", "boeken"));
 				}
-			}	    
+			}
 
 		} elseif($_GET["stap"]==3) {
 			for($i=2;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
@@ -3103,8 +3103,8 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
                                     $html.=htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
                                 }
                         }
-                        
-                       
+
+
 			$html.=",<p>".html("wijhebbenuwboekingsaanvraag","boeken")."</p>";
 			$html.="<p>".html("nageblekenbeschikbaarheidsturenwiju","boeken")."</p>";
 
