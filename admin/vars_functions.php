@@ -823,7 +823,7 @@ function boekinginfo($boekingid) {
 		$return["stap1"]["website_specifiek"]["wederverkoop"]=$vars["websiteinfo"]["wederverkoop"][$return["stap1"]["website"]];
 		$return["stap1"]["website_specifiek"]["websiteland"]=$vars["websiteinfo"]["websiteland"][$return["stap1"]["website"]];
 		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-			$return["stap1"]["website_specifiek"]["basehref"]=ereg_replace("/www\.[a-z]+\.[a-z]+/","/".$_SERVER["HTTP_HOST"]."/chalet/",$return["stap1"]["website_specifiek"]["basehref"]);
+			$return["stap1"]["website_specifiek"]["basehref"]=ereg_replace("https://www\.[a-z]+\.[a-z]+/","http://".$_SERVER["HTTP_HOST"]."/chalet/",$return["stap1"]["website_specifiek"]["basehref"]);
 		}
 
 		# Om te testen
