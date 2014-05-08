@@ -1114,9 +1114,9 @@ if($boeking_wijzigen) {
 	$login->settings["loginform_nobr"]=true;
 	$login->settings["sysop"]="<a href=\"mailto:".$vars["email"]."\">".$vars["websitenaam"]."</a>";
 	if($vars["taal"]=="en") {
-		$login->settings["message"]["wronglogintemp"]="Account geblokkeerd: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">meer informatie</a>";
-	} else {
 		$login->settings["message"]["wronglogintemp"]="Account blocked: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">read more</a>";
+	} else {
+		$login->settings["message"]["wronglogintemp"]="Account geblokkeerd: <a href=\"".$path."inloggen_geblokkeerd.php?blocktime=\">meer informatie</a>";
 	}
 
 	if($vars["taal"]=="en") {
