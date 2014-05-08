@@ -825,7 +825,6 @@ if($db->next_record()) {
 					unset($thumbnail);
 				}
 				$size=getimagesize("pic/cms/".$value);
-				$setsize=false;
 				if($size[0]>300) {
 					if($size[0]>600 or $size[1]>450) {
 						$grotefoto=$vars["path"]."thumbnail.php?calcsize=1&file=".urlencode($value)."&cache=";
@@ -858,12 +857,39 @@ if($db->next_record()) {
 		}
 		if(is_array($foto["picbreed"])) {
 			while(list($key,$value)=@each($foto["picbreed"])) {
+				$counter++;
 				if($trcounter==1) {
-					$foto_table.="<TD colspan=\"2\" align=\"center\"><IMG SRC=\"".$path."pic/cms/".$value."\" alt=\"\" width=\"400\" height=\"150\"></TD></TR>";
+					$foto_table.="<td colspan=\"2\" align=\"center\">";
 				} else {
-					$foto_table.="</TR>";
-					$foto_table.="<tr><td colspan=\"3\" align=\"center\"><IMG SRC=\"".$path."pic/cms/".$value."\" alt=\"\" width=\"400\" height=\"150\"></TD></TR>";
+					$foto_table.="</tr>";
+					$foto_table.="<tr><td colspan=\"3\" align=\"center\">";
 				}
+
+				$size=getimagesize("pic/cms/".$value);
+				if($size[0]>500) {
+					if($size[0]>=950) {
+						$temp_w=950;
+						$temp_h=356;
+					} else {
+						$temp_w=$size[0];
+						$temp_h=$size[1];
+					}
+					$grotefoto=$vars["path"]."thumbnail.php?w=".$temp_w."&h=".$temp_h."&file=".urlencode($value)."&cache=";
+					$foto_table.="<div class=\"foto_doorklik_groot\"><a href=\"".htmlentities($grotefoto).filemtime("pic/cms/".$value)."\" class=\"fotopopup\" data-teller=\"".$counter."\" rel=\"group1\">";
+					$foto_table.="<img src=\"";
+					$foto_table.=imageurl($value, 400, 150);
+					$foto_table.="\" title=\"".html("klikopdefoto","imagetable")."\" width=\"400\" height=\"150\" border=\"0\">";
+					if(!$vars["accommodatie_word"]) {
+						$foto_table.="<br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div>";
+					}
+				} else {
+					if($size[0]>400) {
+						$foto_table.="<img src=\"".imageurl($value, 400, 150)."\" alt=\"\" width=\"400\" height=\"150\" border=\"0\">";
+					} else {
+						$foto_table.="<img src=\"".$path."pic/cms/".$value."\" alt=\"\" width=\"400\" height=\"150\">";
+					}
+				}
+				$foto_table.="</td></tr>";
 				unset($trcounter);
 			}
 		} else {
