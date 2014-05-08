@@ -306,6 +306,7 @@ RewriteRule Tsjechie /bestemmingen.php [R=301,L]
 
 # Leverancier-login
 RewriteRule ^ownerlogin/?$ /lev_login.php [R=301,L]
+RewriteRule ^huiseigenaren.php$ /lev_login.php [R=301,L]
 
 # oude tmp_verzendmethode doorsturen naar verzendmethode
 RewriteRule ^tmp_verzendmethode\.php$ /verzendmethode.php [R=301,L]

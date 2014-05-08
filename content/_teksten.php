@@ -5129,10 +5129,6 @@ $txt["en"]["chalets"]["bekijkwinter"]="winter sports";
 $txt["nl"]["chalets"]["bekijkzomer"]="overige seizoenen";
 $txt["en"]["chalets"]["bekijkzomer"]="other seasons";
 
-# Huiseigenaren (Vallandry)
-$txt["nl"]["huiseigenaren"]["inleiding"]="Dit systeem is nog in ontwikkeling.";
-$txt["en"]["huiseigenaren"]["inleiding"]="This system is under construction";
-
 # Kort verblijf (Vallandry)
 $txt["nl"]["kort-verblijf"]["alinea1"]="Wil je er even helemaal tussenuit of ben je een fanatieke wintersporter die er maar geen genoeg van kan krijgen? Denk dan eens aan een kort hotel, een paar dagen winters genieten zonder dat het je teveel vrije dagen kost!";
 $txt["en"]["kort-verblijf"]["alinea1"]="Do you just want to take a break or are you a winter sports fanatic that can't get enough? Consider a short stay: enjoying a few days of winter holiday without costing too much of your free time!";
