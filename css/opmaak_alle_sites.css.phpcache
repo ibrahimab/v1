@@ -1082,6 +1082,11 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	line-height: 0;
 }
 
+.zoekblok_field_float {
+	float: left;
+	margin-right: 10px;
+}
+
 #zoekblok input[type=checkbox] {
 	vertical-align:middle;
 	position:relative;

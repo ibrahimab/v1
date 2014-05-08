@@ -899,6 +899,16 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 		addwhere("t.leverancier_id='".addslashes($_GET["lev"])."'");
 	}
 
+	// soort accommodatie (intern)
+	if($voorkant_cms and is_array($_GET["sac"])) {
+		foreach ($_GET["sac"] as $key => $value) {
+			$soortaccommodatie_query.=" OR ".$keuzeopsomming[3]["addwhere"][$key][0];
+		}
+		if($soortaccommodatie_query) {
+			addwhere("(".substr($soortaccommodatie_query, 4).")");
+		}
+	}
+
 	if($_GET["gmaps"]) {
 		addwhere("a.gps_lat<>''");
 	}
@@ -3170,10 +3180,10 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 
 	function zoekblok_intern($settings="") {
 		#
-		# zoekformulier: interne velden (leverancier + keuze Chalet/SuperSki)
+		# zoekformulier: interne velden (leverancier + soort accommodatie)
 		#
 
-		global $vars,$voorkant_cms;
+		global $vars, $voorkant_cms, $keuzeopsomming;
 
 		$db=new DB_sql;
 
@@ -3207,24 +3217,51 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 			echo "</div>"; # afsluiten .zoekblok_item
 
 
-			// if($vars["website"]=="C" or $vars["website"]=="W") {
-			// 	# Zoeken binnen andere site (Chalet.nl <==> SuperSki)
+			if($vars["websitetype"]==7) {
+				# Soort accommodatie Italissima
 
-			// 	echo "<div class=\"zoekblok_item zoekblok_item_geen_titel intern\">";
+				echo "<div class=\"zoekblok_item zoekblok_soortaccommodatie\">";
 
-			// 	echo "<input type=\"checkbox\" name=\"allesites\" value=\"1\"".($_GET["allesites"]||!$_GET["filled"] ? " checked" : "")." id=\"allesites\" class=\"onchangesubmit\" style=\"vertical-align:middle;position:relative;bottom:1px;\">";
-			// 	echo "<label for=\"allesites\">&nbsp;Doorzoek ook ";
-			// 	if($vars["website"]=="C") {
-			// 		echo "SuperSki";
-			// 	} else {
-			// 		echo "Chalet.nl";
-			// 	}
-			// 	echo "</label>";
+				echo "<div class=\"zoekblok_titel intern\">";
+				echo "Soort accommodatie";
+				echo "</div>"; # afsluiten .zoekblok_titel
 
-			// 	echo "<div class=\"clear\"></div>";
-			// 	echo "</div>"; # afsluiten .zoekblok_item
+				echo "<div class=\"zoekblok_field\">";
 
-			// }
+
+
+				echo "<div class=\"zoekblok_field_float\">";
+
+				$doorloop_array = array(
+					"agriturismo"=>56,
+					"appartement"=>51,
+					"vakantiehuis"=>52,
+					"vakantiepark"=>55,
+					"villa"=>53,
+					"domein"=>57,
+					"kasteel"=>54,
+				);
+
+
+				foreach ($doorloop_array as $key => $value) {
+
+					if($soortaccommodatie_teller==2 or $soortaccommodatie_teller==4 or $soortaccommodatie_teller==6) {
+						echo "</div>";
+						echo "<div class=\"zoekblok_field_float\">";
+					}
+
+					echo "<input type=\"checkbox\" name=\"sac[".$value."]\" value=\"1\" id=\"soortaccommodatie_".$value."\"".($_GET["sac"][$value] ? " checked" : "")."><label for=\"soortaccommodatie_".$value."\">&nbsp;".wt_he($key)."</label><br/>";
+					$soortaccommodatie_teller++;
+				}
+				echo "<div class=\"clear\"></div>";
+
+				echo "</div>"; # afsluiten .zoekblok_field_float
+
+				echo "</div>"; # afsluiten .zoekblok_field
+
+				echo "<div class=\"clear\"></div>";
+				echo "</div>"; # afsluiten .zoekblok_item
+			}
 		}
 	}
 
@@ -3804,7 +3841,13 @@ if($vars["verfijnen_aanbieden"]) {
 				reset($_GET);
 				while(list($key,$value)=each($_GET)) {
 					if($value and !preg_match("/^vf_/",$key) and $key<>"page" and $key<>"sort" and $key<>"scrolly" and $key<>"map" and $key<>"sp" and $key<>"referer") {
-						$qs.="&".$key."=".urlencode($value);
+						if(is_array($value)) {
+							foreach ($value as $key2 => $value2) {
+								$qs.="&".$key."[".$key2."]=".urlencode($value2);
+							}
+						} else {
+							$qs.="&".$key."=".urlencode($value);
+						}
 					}
 				}
 				if($qs) {
