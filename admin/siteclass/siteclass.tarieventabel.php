@@ -63,7 +63,8 @@ class tarieventabel {
 			$db->query("SELECT seizoen_id, naam FROM seizoen WHERE show_newpricesmail=1 AND type='".intval($vars["seizoentype"])."' AND seizoen_id NOT IN (".$this->seizoen_id.") ORDER BY eind DESC LIMIT 0,1;");
 			if($db->next_record()) {
 				$seizoennaam_kort = trim(preg_replace("@winter@","",$db->f("naam")));
-//				Laat je emailadres achter en je ontvangt een bericht zodra deze accommodatie te boeken is voor
+
+				// Laat je emailadres achter en je ontvangt een bericht zodra deze accommodatie te boeken is voor
 
 				$this->mailmijvolgendseizoen_form .= "<div class=\"tarieventabel_newpricesmail\"><a href=\"#\">".html("mailmijvolgendseizoen_button", "tarieventabel", array("v_seizoennaam"=>$seizoennaam_kort))." &raquo;</a></div>";
 				$this->mailmijvolgendseizoen_form .= "<div class=\"tarieventabel_newpricesmail_form\" data-seizoen_id=\"".intval($db->f("seizoen_id"))."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_name=\"".wt_he($db->f("naam"))."\">";
@@ -81,9 +82,6 @@ class tarieventabel {
 
 			}
 		}
-
-		// $this->seizoeninfo[$db->f("seizoen_id")]["naam"] = $db->f("naam");
-
 
 		if($vars["websitetype"]<>4) {
 			//

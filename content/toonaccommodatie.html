@@ -1400,23 +1400,24 @@ if($db->next_record()) {
 #		echo "</TABLE><p>";
 #	}
 
+	if($voorkant_cms) {
+		// keuze tussen oude en nieuwe tarieventabel
+		echo "<div style=\"padding:5px;border:1px solid #878481;width:650px;margin-bottom:10px;font-weight:bold;\">";
+		$gewijzigde_url=$_SERVER["REQUEST_URI"];
+		$gewijzigde_url=preg_replace("@tarieventabelversie=[0-9]@","",$gewijzigde_url);
+		$gewijzigde_url=preg_replace("@&{2,}@","",$gewijzigde_url);
+		$gewijzigde_url=preg_replace("@&$@","",$gewijzigde_url);
+		if($nieuwe_tarieventabel) {
+			echo "<a href=\"".wt_he($gewijzigde_url.(preg_match("@\?@",$gewijzigde_url) ? "&" : "?")."tarieventabelversie=1#prijsinformatie")."\">toon oude tarieventabel &raquo;</a>";
+		} else {
+			echo "<a href=\"".wt_he($gewijzigde_url.(preg_match("@\?@",$gewijzigde_url) ? "&" : "?")."tarieventabelversie=2#prijsinformatie")."\">toon nieuwe tarieventabel &raquo;</a>";
+		}
+		echo "</div>";
+	}
+
 	# Tarieventabellen tonen
 	if($echt_tarieven_getoond) {
 
-		if($voorkant_cms) {
-			// keuze tussen oude en nieuwe tarieventabel
-			echo "<div style=\"padding:5px;border:1px solid #878481;width:650px;margin-bottom:10px;font-weight:bold;\">";
-			$gewijzigde_url=$_SERVER["REQUEST_URI"];
-			$gewijzigde_url=preg_replace("@tarieventabelversie=[0-9]@","",$gewijzigde_url);
-			$gewijzigde_url=preg_replace("@&{2,}@","",$gewijzigde_url);
-			$gewijzigde_url=preg_replace("@&$@","",$gewijzigde_url);
-			if($nieuwe_tarieventabel) {
-				echo "<a href=\"".wt_he($gewijzigde_url.(preg_match("@\?@",$gewijzigde_url) ? "&" : "?")."tarieventabelversie=1#prijsinformatie")."\">toon oude tarieventabel &raquo;</a>";
-			} else {
-				echo "<a href=\"".wt_he($gewijzigde_url.(preg_match("@\?@",$gewijzigde_url) ? "&" : "?")."tarieventabelversie=2#prijsinformatie")."\">toon nieuwe tarieventabel &raquo;</a>";
-			}
-			echo "</div>";
-		}
 
 		if($nieuwe_tarieventabel) {
 			echo "<a name=\"tar\"></a>";
@@ -1461,6 +1462,12 @@ if($db->next_record()) {
 
 
 		} else {
+
+			if($tarieventabel_object->mailmijvolgendseizoen_form) {
+				echo $tarieventabel_object->mailmijvolgendseizoen_form;
+				echo "<div style=\"margin-top:-10px;\"></div>";
+			}
+
 			echo "<p>".html("tarievennognietbekend","toonaccommodatie",array("l1"=>"contact?accid=".$typeid))."</p>";
 		}
 		echo "<br/>";
