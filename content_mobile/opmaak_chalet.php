@@ -19,7 +19,7 @@ $page_id = $id;
 //	}
 //} else {
 	// Restrict access to certain pages
-//	$allow = array("index", "zoek-en-boek", "contact", "toonaccommodatie", "vraag-ons-advies", 
+//	$allow = array("index", "zoek-en-boek", "contact", "toonaccommodatie", "vraag-ons-advies",
 //	"aanbiedingen", "veelgestelde-vragen", "boeken", "boeking_bevestigd", "bsys_selecteren", "bsys",
 //    "bsys_payments", "bsys_wijzigen", "favorieten");
 //	if(in_array($id, $allow)) {
@@ -193,16 +193,16 @@ echo "<ul>";
 			$checkid=$id;
 		}
         if($key == 'start-chat' && $vars['website'] == 'E') continue;
-		
-        
+
+
         if ($key == 'home') {
             echo "<li><a href=\"/\"";
         } else {
             echo "<li><a href=\"".$vars["path"];
         }
-        
-        
-		if($key<>"index" && $key<>"start-chat" && $key<>"home") {     
+
+
+		if($key<>"index" && $key<>"start-chat" && $key<>"home") {
 			echo txt("menu_".$key).".php";
 		}
 		if($key=="start-chat") {
@@ -291,7 +291,7 @@ if($opmaak->toon_cookiebalk()) {
 }
 
 if(!$onMobile){
-	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("mobilenotification","vars",array("h_1"=>"<a onclick=\"return switch_website('desktop');\" href=\"".$vars["path"]."\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";    
+	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("mobilenotification","vars",array("h_1"=>"<a onclick=\"return switch_website('desktop');\" href=\"".$vars["path"]."\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";
 }
 
 

@@ -191,12 +191,11 @@ $txt["en"]["vars"]["gaverdermetboeken"]="Continue booking";
 $txt["nl"]["vars"]["cookiemelding"]="Deze website plaatst cookies. Door het gebruik van onze site ga je hiermee akkoord. Zie ons [[h_1]]privacy-statement[[h_2]].";
 $txt["en"]["vars"]["cookiemelding"]="-";
 
-$txt["nl"]["vars"]["desktopnotification"] = "Je bekijkt nu de desktopversie. Ga terug [[h_1]]naar de mobiele site[[h_2]].";
-$txt["en"]["vars"]["desktopnotification"] = "You are browsing the desktop version. To change version, press [[h_1]]change[[h_2]]";
+$txt["nl"]["vars"]["desktopnotification"] = "Je bekijkt nu de desktop-website. [[h_1]]Ik wil naar de mobiele site[[h_2]].";
+$txt["en"]["vars"]["desktopnotification"] = "You are browsing the desktop website. [[h_1]]Take me to the mobile site[[h_2]].";
 
-$txt["nl"]["vars"]["mobilenotification"] = "Je bekijkt nu de mobileversie. Ga terug [[h_1]]naar de desktop site[[h_2]].";
-$txt["en"]["vars"]["mobilenotification"] = "You are browsing the mobile version. To change version, press [[h_1]]change[[h_2]]";
-
+$txt["nl"]["vars"]["mobilenotification"] = "Je bekijkt nu de mobiele website. [[h_1]]Ik wil naar de desktop-site[[h_2]].";
+$txt["en"]["vars"]["mobilenotification"] = "You are browsing the mobile website. [[h_1]]Take me to the desktop site[[h_2]].";
 
 $txt["nl"]["vars"]["opvalmelding"]="Wegens verhuizing zijn wij tijdelijk op een ander telefoonnummer bereikbaar: 088 - 66 44 200.\nJe kunt ons uiteraard ook per mail bereiken via [[h_1]][[v_email]][[h_2]].";
 $txt["en"]["vars"]["opvalmelding"]="We are temporarily reachable on telephone number +31 88 66 44 200.\nYou can also reach us by email on [[h_1]][[v_email]][[h_2]].";
