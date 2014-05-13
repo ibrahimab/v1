@@ -1733,6 +1733,12 @@ $(document).ready(function() {
 			chalet_createCookie("cookiemelding_gelezen","1",3650);
 			return false;
 		});
+                
+                $("#notification_bottombar_close").click(function () {
+			// $("#cookie_bottombar").css("display","none");
+			$("#notification_bottombar").animate({top:"-150px"},600,function() {});
+			return false;
+		});               
 
 		// sluiten opval-bar
 		$("#opval_bottombar_close").click(function () {

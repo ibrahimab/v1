@@ -75,7 +75,7 @@ if(isset($_COOKIE["siteVer"]) && ($_COOKIE["siteVer"] == "desktop")) {
 	$isMobile = (($detect->isMobile() && !$detect->isTablet()) || (isset($_COOKIE["siteVer"]) && ($_COOKIE["siteVer"] == "mobile")));
 }
 
-if(isset($_GET["m"])) {
+if(isset($_GET["setmobile"])) {
 	setcookie("siteVer","mobile",0,"/");
         $isMobile = true;
 }

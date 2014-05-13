@@ -289,6 +289,12 @@ echo "<p id=\"fullwebsite\"><a href=\"/\" onclick=\"return switch_website('deskt
 if($opmaak->toon_cookiebalk()) {
 	echo "<div id=\"cookie_bottombar\" class=\"noprint\"><div id=\"cookie_bottombar_wrapper\"><div id=\"cookie_bottombar_text\">".html("cookiemelding","vars",array("h_1"=>"<a href=\"".$vars["path"]."privacy-statement.php\">","h_2"=>"</a>"))."</div><div id=\"cookie_bottombar_close\">sluiten</div></div></div>";
 }
+
+if(!$onMobile){
+	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("mobilenotification","vars",array("h_1"=>"<a onclick=\"return switch_website('desktop');\" href=\"".$vars["path"]."\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";    
+}
+
+
 ######################### Load javascript files
 
 if($vars["googlemaps"]) {
