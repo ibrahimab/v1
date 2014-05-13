@@ -685,6 +685,8 @@ $(document).ready(function() {
 			}
 		});
 
+		var roominglist_goedgekeurd_previous='';
+
 		$("input[name='input[versturen]']").change(function() {
 			if($(this).is(":checked")) {
 
@@ -706,15 +708,18 @@ $(document).ready(function() {
 				$("select[name='input[roominglist_volgende_controle][day]']").parent().css("background-color","yellow");
 
 				if($("input[name='input[roominglist_goedgekeurd]']").val()!="") {
+					roominglist_goedgekeurd_previous = $("input[name='input[roominglist_goedgekeurd]']").val();
 					$("input[name='input[roominglist_goedgekeurd]']").val("");
-					$("input[name='input[roominglist_goedgekeurd]']").css("background-color","#ff8080");
 				}
 
 				var timeout1=setTimeout(function() {
-					$("input[name='input[roominglist_goedgekeurd]']").css("background-color","#ffffff");
 					$("select[name='input[roominglist_volgende_controle][day]']").parent().css("background-color","#ffffff");
 				},800);
 			} else {
+				if($("input[name='input[roominglist_goedgekeurd]']").val()=="" && roominglist_goedgekeurd_previous) {
+					$("input[name='input[roominglist_goedgekeurd]']").val(roominglist_goedgekeurd_previous);
+				}
+
 				$(".roomingaankomst_verzenden").css("display","none");
 				$("#submit1frm").val("OPSLAAN");
 			}
