@@ -71,9 +71,12 @@ $cms->list_field(28,"lastlogin","Laatste login",array("date_format"=>"DAG D MAAN
 
 # Controle op delete-opdracht
 if($_GET["delete"]==28 and $_GET["28k0"]) {
-	$db->query("SELECT boeking_id FROM boeking WHERE reisbureau_user_id='".addslashes($_GET["28k0"])."';");
-	if($db->next_record()) {
-		$cms->delete_error(28,"Deze reisbureau-gebruiker is nog gekoppeld aan een boeking");
+	$db->query("SELECT boekingsnummer, boeking_id FROM boeking WHERE reisbureau_user_id='".addslashes($_GET["28k0"])."';");
+	if($db->num_rows()) {
+		while($db->next_record()) {
+			$temp_boekingen_delete .= ", <a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".($db->f("boekingsnummer") ? $db->f("boekingsnummer") : "aanvraagnummer ".$db->f("boeking_id"))."</a>";
+		}
+		$cms->delete_error(28,"Deze reisbureau-gebruiker is nog gekoppeld aan boeking(en): ".substr($temp_boekingen_delete,2));
 	}
 }
 
