@@ -40,11 +40,11 @@ $page_id = $id;
 //	}
 //}
 if(!$include) {
+    header("Location: ".$vars["path"],true,301);
+    exit;
 	if($_SERVER["HTTP_REFERER"]) {
 		trigger_error("_notice: geen include-bestand bekend",E_USER_NOTICE);
 	}
-	header("Location: ".$vars["path"],true,301);
-	exit;
 }
 
 if($vars["website"]=="E") {
