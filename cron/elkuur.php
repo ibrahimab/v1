@@ -463,13 +463,11 @@ if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 	$doorloop_array=array(
 		"tradetracker_C"=>"https://www.chalet.nl/xml/tradetracker.php?nocache=1",
 		"tradetracker_B"=>"https://www.chalet.be/xml/tradetracker.php?nocache=1",
-		"tradetracker_W"=>"https://www.superski.nl/xml/tradetracker.php?nocache=1",
 		"tradetracker_Z"=>"https://www.zomerhuisje.nl/xml/tradetracker.php?nocache=1",
 		"tradetracker_I"=>"https://www.italissima.nl/xml/tradetracker.php?nocache=1",
 		"tradetracker_K"=>"https://www.italissima.be/xml/tradetracker.php?nocache=1",
 		"tradetracker_aanbiedingen_C"=>"https://www.chalet.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_B"=>"https://www.chalet.be/xml/tradetracker.php?aanbiedingen=1&nocache=1",
-		"tradetracker_aanbiedingen_W"=>"https://www.superski.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_Z"=>"https://www.zomerhuisje.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_I"=>"https://www.italissima.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_K"=>"https://www.italissima.be/xml/tradetracker.php?aanbiedingen=1&nocache=1"
@@ -552,7 +550,6 @@ if($db->next_record()) {
 	if($db->f("url")) $a=file_get_contents("https://www.chalet.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
 	if($db->f("url")) $a=file_get_contents("https://www.chalet.be/thema/".$db->f("url")."/?save_tarievenbekend=1");
 	if($db->f("url")) $a=file_get_contents("https://www.chalettour.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
-	if($db->f("url")) $a=file_get_contents("https://www.superski.nl/thema/".$db->f("url")."/?save_tarievenbekend=1");
 	if($db->f("url_en")) $a=file_get_contents("https://www.chalet.eu/theme/".$db->f("url_en")."/?save_tarievenbekend=1");
 }
 

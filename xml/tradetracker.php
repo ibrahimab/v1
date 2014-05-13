@@ -71,7 +71,7 @@ $db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.k
 while($db->next_record()) {
 
 	# Prijs bepalen
-	unset($prijs,$alleprijzen,$korting_euro,$korting_percentage);
+	unset($prijs, $alleprijzen, $korting_euro, $korting_percentage);
 	if($db->f("toonper")==3) {
 		$db2->query("SELECT c_verkoop_site AS prijs, week, seizoen_id, aanbiedingskleur_korting, aanbieding_acc_percentage, aanbieding_acc_euro, kortingactief, toonexactekorting FROM tarief WHERE type_id='".$db->f("type_id")."' AND week>'".(time()+604800)."' AND c_verkoop_site>0 AND beschikbaar=1;");
 		while($db2->next_record()) {
@@ -241,6 +241,17 @@ while($db->next_record()) {
 				echo "<field name=\"extra_image_wide_".$fototeller."\" value=\"".xml_text($vars["basehref"]."pic/cms/".$value,false)."\" />\n";
 			}
 		}
+
+		// prices and dates
+		if(!$_GET["aanbiedingen"]) {
+			$prijzen_teller=0;
+			foreach ($alleprijzen as $key => $value) {
+				$prijzen_teller++;
+				echo "<field name=\"arrival_date_".$prijzen_teller."\" value=\"".date("d-m-Y", $key)."\" />\n";
+				echo "<field name=\"price_".$prijzen_teller."\" value=\"".$value."\" />\n";
+			}
+		}
+
 
 		echo "</additional>\n";
 		echo "<categories>\n";
