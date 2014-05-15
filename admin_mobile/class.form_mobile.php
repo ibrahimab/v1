@@ -936,8 +936,8 @@ class form2 {
 			if(!$this->fields["options"][$id]["endyear"]) $this->fields["options"][$id]["endyear"]=adodb_date("Y")+4;
 
 			if($this->fields["layout"][$id]["calendar"]) {
-				$return.="<img src=\"".$this->settings["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$this->settings["path"]."class.form_calendar.php?nm=".urlencode($this->settings["formname"])."&lang=".$this->settings["language"]."&input=".$id."&month='+document.".$this->settings["formname"].".elements['input[".$id."][month]'].value+'&year='+document.".$this->settings["formname"].".elements['input[".$id."][year]'].value, '_blank', 'scrollbars=no,width=345,height=250,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"".$this->message("kalender")."\" class=\"wtform_calendar_img\" style=\"cursor: pointer\">&nbsp;";
-			}
+                		$return = "<div style='margin-top:5px; margin-right:5px; float:left;'><input id='boekendate' type='hidden' /></div>";
+            		}
 
 			# Dag
 			$return.="<select name=\"input[".$id."][day]\" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input_narrow")."\"";

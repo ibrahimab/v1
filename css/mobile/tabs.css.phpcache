@@ -112,7 +112,7 @@ header("Content-type: text/css; charset=windows-1252");
 
     /* Accordion */
     .ui-accordion .ui-accordion-header { display: block; cursor: pointer; position: relative; margin-top: 5px; padding: .75em .5em .75em .7em; zoom: 1; text-align: center; }
-    .ui-accordion .ui-accordion-header.ui-state-default { color: <?php echo $activetabcolor; ?>; }
+    .ui-accordion .ui-accordion-header.ui-state-default { color: <?php echo $inactivetabfontcolor; ?>; }
     .ui-accordion .ui-accordion-header.ui-state-active, .ui-accordion .ui-accordion-header.ui-state-hover, .ui-accordion .ui-accordion-header.ui-state-focus { color: #ffffff !important; }
     .ui-accordion .ui-accordion-icons { padding-left: 2.2em; }
     .ui-accordion .ui-accordion-noicons { padding-left: .7em; }

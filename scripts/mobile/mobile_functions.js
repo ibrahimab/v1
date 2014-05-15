@@ -179,6 +179,15 @@ $(".slideshow").jCarouselLite(carouselOptions);
             }
         });
         
+        back_url=location.href;
+        back_url = back_url.replace(location.hash,"");
+        if(back_url.indexOf('toonflex=') > -1) {
+            if($("#prijsinformatie").hasClass("accordion-content-active") == false){
+                var accordionID = parseInt(jQuery("h3[aria-controls='prijsinformatie']").attr("id").split("-")[4]);
+                $( "#accordion" ).accordion({ active: accordionID });
+            }        
+        }
+        
 	$("#verfijn #verfijntopheader").click(function(){
 		$("#verfijntopheader + div").toggle();
 		$("#verfijntopheader span").toggleClass("up");

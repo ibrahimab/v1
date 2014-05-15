@@ -1,0 +1,326 @@
+<?php
+
+
+#
+# Aanbiedingenpagina Zomerhuisje en Italissima
+#
+
+#
+#
+# Elk uur wordt de cache opgehaald (om 15 minuten over het hele uur via cron/aanbiedingen_cache.php)
+#
+#
+
+
+function ab_landenblok($land) {
+	global $vars;
+	echo "<div class=\"ab_landenkeuze\" onclick=\"document.location.href='".$vars["path"]."aanbiedingen/".wt_convert2url_seo(txt($land,"index"))."/'\">";
+	echo "<div class=\"ab_landenkeuze_top\">";
+	echo "<div style=\"position: relative\">".html($land,"index")."</div>";
+	echo "</div>";
+	echo "<img src=\"".$vars["path"]."pic/ab_".$land.".jpg?c=2\" width=\"170\" height=\"128\" alt=\"\">";
+
+	echo "</div>"; # afsluiten ab_landenkeuze
+}
+
+#echo "<h1>Aanbiedingen</h1>";
+echo "<div id=\"ab_landen\">";
+
+if($land["id"]) {
+
+	# Kijken of er een cache beschikbaar is
+	unset($cachefile);
+	if(!$_GET["nocache"] and !$_GET["aid"]) {
+		$cachefile="cache/aanbiedingen_land_".$land["id"]."_".$vars["website"].".html";
+
+		if(file_exists($cachefile)) {
+			if(filemtime($cachefile)<(time()-86400)) {
+				unset($cachefile);
+			}
+		} else {
+			unset($cachefile);
+		}
+	}
+
+	if($cachefile) {
+		if($voorkant_cms) {
+			$laatsteupdate=filemtime($cachefile);
+			echo "<div style=\"border: 1px #000000 solid;background-color:yellow;width:540px;padding:5px;margin-bottom:20px;\">Interne opmerking: deze pagina wordt 1x per uur bijgewerkt. Dit betreft de opsomming van de aanbiedingen hieronder. De opvalblokken aan de rechterkant worden in realtime getoond.<br><br><i>Laatste update: ".date("H:i",$laatsteupdate)."u.&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."?nocache=1\">Bekijk de actuele versie van deze pagina</a>";
+			if($laatsteupdate<(time()-86400)) {
+				echo ", <b>".date("d-m-Y",$laatsteupdate)."</b>";
+				trigger_error("te oude aanbiedingen-cache",E_USER_NOTICE);
+			}
+			echo "</i></div>";
+		}
+
+		# content uit cachefile halen
+		$content=file_get_contents($cachefile);
+		if($voorkant_cms) {
+			# bewerk-link toevoegen
+			$content=preg_replace("/<!-- wt_bewerk_ab_([0-9]+) -->/","<div style=\"text-align:right;font-size:0.8em;\"><a href=\"http://www.chalet.nl/cms_aanbiedingen.php?show=14&14k0=\\1&wzt=2&t=1\" target=\"_blank\">bewerk</a>&nbsp;</div>",$content);
+			$content=preg_replace("/<!-- wt_bewerk_korting_([0-9]+)_([0-9]+)_([0-9]+) -->/","<div style=\"text-align:right;font-size:0.8em;\"><a href=\"http://www.chalet.nl/cms_kortingen_tarieven.php?from=%2Fcms_types.php%3Fshow%3D2%26wzt%3D1%26archief%3D0%262k0%3D\\2&sid=\\3&tid=\\2&kid=\\1&wzt=2&t=1\" target=\"_blank\">bewerk</a>&nbsp;</div>",$content);
+		}
+		echo $content;
+	} else {
+
+		# Land is geselecteerd
+
+		#
+		# Aanbiedingen uit database halen
+		#
+		echo "<!-- WTbegin -->\n";
+
+		if($_GET["aid"]) {
+			echo "<div style=\"margin-top:-13px;margin-bottom:10px;\"><a href=\"".$vars["path"]."aanbiedingen/".wt_convert2url_seo($land["naam"])."/\">Bekijk onze andere aanbiedingen in ".htmlentities($land["naam"])." &gt;</a></div>";
+		} else {
+			if($vars["websitetype"]<>7) {
+				# link "andere landen" niet tonen bij Italissima
+				echo "<div style=\"margin-top:-13px;margin-bottom:10px;\"><a href=\"".$vars["path"]."aanbiedingen/\">Bekijk onze aanbiedingen in andere landen &gt;</a></div>";
+			}
+		}
+
+		unset($seizoen_inquery,$accommodatie_inquery,$type_inquery,$leverancier_inquery);
+
+		# actieven seizoenen bepalen
+		if($vars["websitetype"]==6) {
+			$temp_seizoentype="1,2";
+		} else {
+			$temp_seizoentype=$vars["seizoentype"];
+		}
+		$db->query("SELECT seizoen_id FROM seizoen WHERE tonen>=2 AND type IN (".addslashes($temp_seizoentype).") AND eind>='".date("Y-m-d")."' ORDER BY begin;");
+		while($db->next_record()) {
+			if($seizoen_inquery) $seizoen_inquery.=",".$db->f("seizoen_id"); else $seizoen_inquery=$db->f("seizoen_id");
+		}
+		# accommodaties, types en leveranciers bepalen
+		$db->query("SELECT type_id, accommodatie_id, leverancier_id FROM view_accommodatie WHERE wzt IN (".$temp_seizoentype.") AND websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 AND land_id='".addslashes($land["id"])."';");
+
+        while($db->next_record()) {
+			$type_inquery.=",".$db->f("type_id");
+			$accommodatie_inquery.=",".$db->f("accommodatie_id");
+			$leverancier_inquery.=",".$db->f("leverancier_id");
+		}
+
+		# types
+		if($type_inquery) {
+			$db->query("SELECT aanbieding_id, type_id FROM aanbieding_type WHERE type_id IN (".substr($type_inquery,1).");");
+			while($db->next_record()) {
+				$aanbieding_tonen[$db->f("aanbieding_id")]=true;
+				$aanbieding_type[$db->f("aanbieding_id")][$db->f("type_id")]=true;
+				$aanbieding_type_inquery[$db->f("aanbieding_id")].=",".$db->f("type_id");
+			}
+		}
+		# accommodaties
+		if($accommodatie_inquery) {
+			$db->query("SELECT aanbieding_id, accommodatie_id FROM aanbieding_accommodatie WHERE accommodatie_id IN (".substr($accommodatie_inquery,1).");");
+			while($db->next_record()) {
+				$aanbieding_tonen[$db->f("aanbieding_id")]=true;
+				$aanbieding_accommodatie[$db->f("aanbieding_id")][$db->f("accommodatie_id")]=true;
+				$aanbieding_accommodatie_inquery[$db->f("aanbieding_id")].=",".$db->f("accommodatie_id");
+			}
+		}
+		# leveranciers
+		if($leverancier_inquery) {
+	#		$db->query("SELECT aanbieding_id FROM aanbieding_leverancier WHERE leverancier_id IN (".substr($leverancier_inquery,1).");");
+	#		while($db->next_record()) {
+	#			$aanbieding_tonen[$db->f("aanbieding_id")]=true;
+	#			$aanbieding_leverancier[$db->f("aanbieding_id")][$db->f("leverancier_id")]=true;
+	#			$aanbieding_leverancier_inquery[$db->f("aanbieding_id")].=",".$db->f("leverancier_id");
+	#		}
+		}
+
+		# voorkomen dat er foute query's worden uitgevoerd
+		if(!$type_inquery) $type_inquery=",0";
+
+		if(is_array($aanbieding_tonen)) {
+
+			# Gewone aanbiedingen
+			while(list($key,$value)=each($aanbieding_tonen)) {
+				$aanbieding_inquery.=",".$key;
+			}
+			$db->query("SELECT aanbieding_id, onlinenaam".$vars["ttv"]." AS onlinenaam, omschrijving".$vars["ttv"]." AS omschrijving, bedrag_soort, volgorde1_abpagina FROM aanbieding WHERE wzt IN (".$temp_seizoentype.") AND aanbieding_id IN (".substr($aanbieding_inquery,1).") AND onlinenaam".$vars["ttv"]."<>'' AND (seizoen1_id IN (".$seizoen_inquery.") OR seizoen2_id IN (".$seizoen_inquery.") OR seizoen3_id IN (".$seizoen_inquery.") OR seizoen4_id IN (".$seizoen_inquery.")) AND begindatum<='".date("Y-m-d")."' AND (einddatum>='".date("Y-m-d")."' OR einddatum IS NULL) AND tonen=1".($_GET["aid"] ? " AND aanbieding_id='".addslashes($_GET["aid"])."' AND accommodaties_beschikbaar=1" : "")." ORDER BY volgorde1_abpagina, bedrag DESC, volgorde2_abpagina, aanbieding_id DESC;");
+			while($db->next_record()) {
+				$aanbiedingteller++;
+				$aanbiedinginfo[$db->f("aanbieding_id")]["onlinenaam"]=$db->f("onlinenaam");
+				$aanbiedinginfo[$db->f("aanbieding_id")]["omschrijving"]=$db->f("omschrijving");
+				$aanbiedinginfo[$db->f("aanbieding_id")]["bedrag_soort"]=$db->f("bedrag_soort");
+
+				$aanbieding_volgorde[$db->f("aanbieding_id")]=floatval($db->f("volgorde1_abpagina").".".substr("0000".$aanbiedingteller,-4));
+			}
+		}
+
+		# Kortingen met teksten
+		$vandaag=mktime(0,0,0,date("m"),date("d"),date("Y"));
+		$db->query("SELECT DISTINCT k.korting_id, k.naam, k.onlinenaam".$vars["ttv"]." AS onlinenaam, k.xml_korting, k.gekoppeld_code, k.omschrijving".$vars["ttv"]." AS omschrijving, k.volgorde, t.type_id FROM korting k, korting_tarief kt, type t, tarief ta, accommodatie a WHERE k.actief=1 AND t.accommodatie_id=a.accommodatie_id AND a.wzt=2 AND kt.korting_id=k.korting_id AND k.type_id=t.type_id AND ta.type_id=t.type_id AND kt.week=ta.week AND ta.beschikbaar=1 AND t.type_id IN (".substr($type_inquery,1).") AND (ta.bruto>0 OR ta.c_bruto>0) AND k.seizoen_id IN (".addslashes($seizoen_inquery).") AND k.onlinenaam<>'' AND UNIX_TIMESTAMP(k.van)<='".$vandaag."' AND UNIX_TIMESTAMP(k.tot)>='".$vandaag."' ORDER BY k.volgorde;");
+
+		while($db->next_record()) {
+			$aanbiedingteller++;
+
+			if($db->f("xml_korting")) {
+				# Zorgen dat XML-kortingen gegroepeerd worden weergegeven
+				$key="kortingxml_".$db->f("naam");
+			} else {
+				if($db->f("gekoppeld_code")) {
+					$key="korting_".$db->f("gekoppeld_code");
+				} else {
+					$key="korting_".$db->f("korting_id");
+				}
+			}
+			$aanbiedinginfo[$key]["onlinenaam"]=$db->f("onlinenaam");
+			$aanbiedinginfo[$key]["omschrijving"]=$db->f("omschrijving");
+			$aanbiedinginfo[$key]["bedrag_soort"]=99;
+			$aanbiedinginfo[$key]["kortingid"]=$db->f("korting_id");
+			$aanbieding_type_inquery[$key].=",".$db->f("type_id");
+			$aanbieding_volgorde[$key]=floatval(($db->f("volgorde")>0 ? $db->f("volgorde") : 3000).".".substr("0000".$aanbiedingteller,-4));
+		}
+
+#		if(is_array($aanbiedinginfo)) {
+#			while(list($key,$value)=each($aanbiedinginfo)) {
+
+		if(is_array($aanbieding_volgorde)) {
+			asort($aanbieding_volgorde);
+			while(list($key,$value)=each($aanbieding_volgorde)) {
+				$value=$aanbiedinginfo[$key];
+
+				if(!$aanbieding_type_inquery[$key]) $aanbieding_type_inquery[$key]=",0";
+				if(!$aanbieding_accommodatie_inquery[$key]) $aanbieding_accommodatie_inquery[$key]=",0";
+				if(!$aanbieding_leverancier_inquery[$key]) $aanbieding_leverancier_inquery[$key]=",0";
+
+				unset($accommodaties_beschikbaar,$toonlijst,$toonlijst_alleenfoto,$toonlijst_alleenfoto_teller,$accgehad,$accnaamgehad,$eerste_aanbieding_getoond,$bekijk_alle_getoond);
+				if($value["bedrag_soort"]==4) {
+					# aanbiedingen zonder aankomstdatums
+#					$db->query("SELECT accommodatie_id, begincode, type_id, naam, plaats, skigebied, MIN(optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie WHERE atonen=1 AND ttonen=1 AND (type_id IN (".substr($aanbieding_type_inquery[$key],1).") OR accommodatie_id IN (".substr($aanbieding_accommodatie_inquery[$key],1).") OR leverancier_id IN (".substr($aanbieding_leverancier_inquery[$key],1).")) GROUP BY accommodatie_id ORDER BY plaats, optimaalaantalpersonen, maxaantalpersonen;");
+
+					$db->query("SELECT DISTINCT v.accommodatie_id, v.begincode, v.type_id, v.naam, v.plaats, v.skigebied, MIN(v.optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(v.maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie v, tarief t WHERE v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND t.type_id=v.type_id AND t.week>'".time()."' AND t.beschikbaar=1 AND (t.bruto>0 OR t.c_bruto>0) AND (v.type_id IN (".substr($aanbieding_type_inquery[$key],1).") OR v.accommodatie_id IN (".substr($aanbieding_accommodatie_inquery[$key],1).")) GROUP BY v.accommodatie_id ORDER BY v.plaats, v.optimaalaantalpersonen, v.maxaantalpersonen;");
+				} elseif($value["bedrag_soort"]==99) {
+					# korting (met aankomstdatum)
+					$db->query("SELECT DISTINCT v.accommodatie_id, v.begincode, v.type_id, v.naam, v.plaats, v.skigebied, MIN(v.optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(v.maxaantalpersonen) AS maxaantalpersonen, t.seizoen_id FROM view_accommodatie v, tarief t WHERE v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND t.type_id=v.type_id AND t.week>'".time()."' AND t.beschikbaar=1 AND (t.bruto>0 OR t.c_bruto>0) AND v.type_id IN (".substr($aanbieding_type_inquery[$key],1).") GROUP BY v.accommodatie_id ORDER BY v.plaats, v.optimaalaantalpersonen, v.maxaantalpersonen;");
+				} else {
+					# aanbiedingen met aankomstdatums
+					$db->query("SELECT v.accommodatie_id, v.begincode, v.type_id, v.naam, v.plaats, v.skigebied, MIN(v.optimaalaantalpersonen) AS optimaalaantalpersonen, MAX(v.maxaantalpersonen) AS maxaantalpersonen FROM view_accommodatie v, tarief t, aanbieding_aankomstdatum a WHERE v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND a.aanbieding_id='".addslashes($key)."' AND t.week=a.week AND t.type_id=v.type_id AND t.week>'".time()."' AND t.beschikbaar=1 AND (t.bruto>0 OR t.c_bruto>0) AND (v.type_id IN (".substr($aanbieding_type_inquery[$key],1).") OR v.accommodatie_id IN (".substr($aanbieding_accommodatie_inquery[$key],1).")) GROUP BY v.accommodatie_id ORDER BY v.plaats, v.optimaalaantalpersonen, v.maxaantalpersonen;");
+				}
+				if($db->num_rows()) {
+
+					if(!$_GET["aid"]) {
+						# accommodaties_beschikbaar=1 opslaan
+						$db2->query("UPDATE aanbieding SET accommodaties_beschikbaar=1 WHERE aanbieding_id='".addslashes($key)."';");
+					}
+
+					$accommodaties_beschikbaar=true;
+					$aanbiedingen_getoond=true;
+					echo "<a name=\"cnt".$key."\"></a><div class=\"aanbieding_blok\">";
+					echo "<div class=\"aanbieding_kop\">".htmlentities($value["onlinenaam"])."</div>";
+#					if($voorkant_cms) {
+#						echo "<div style=\"text-align:right;font-size:0.8em;\"><a href=\"".$vars["path"]."cms_aanbiedingen.php?bc=38&show=14&14k0=".$key."&wzt=2&t=1\" target=\"_blank\">bewerk</a>&nbsp;</div>";
+#					} else {
+						if($value["kortingid"]) {
+							$db->next_record(); # nodig om type_id en seizoen_id op te vragen
+							echo "<!-- wt_bewerk_korting_".$value["kortingid"]."_".$db->f("type_id")."_".$db->f("seizoen_id")." -->";
+							$db->seek(); # weer terugzetten naar begin resultaten
+						} else {
+							echo "<!-- wt_bewerk_ab_".$key." -->";
+						}
+#					}
+					echo "<div style=\"padding: 5px;\">";
+					echo "<div class=\"aanbieding_omschrijving\">".wt_htmlentities($value["omschrijving"])."</div>";
+
+					while($db->next_record()) {
+						if(file_exists("pic/cms/type_specifiek_tn/".$db->f("type_id").".jpg")) {
+							$file="pic/cms/type_specifiek_tn/".$db->f("type_id").".jpg";
+						} elseif(file_exists("pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg")) {
+							$file="pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg";
+						} elseif($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+							$file="pic/cms/accommodaties_tn/15.jpg";
+						} else {
+							$file="pic/leeg.gif";
+						}
+						if(!$accgehad[$db->f("accommodatie_id")] and !$accnaamgehad[$db->f("naam")]) {
+							$accgehad[$db->f("accommodatie_id")]=true;
+							$accnaamgehad[$db->f("naam")]=true;
+							$toonlijstteller++;
+							$toonlijst[$toonlijstteller]="<div class=\"aanbieding_accommodatieblok\" onclick=\"document.location.href='".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/';\"><a name=\"aanbiedingblok".$toonlijstteller."\"></a><table cellspacing=\"0\" cellpadding=\"0\"><tr><td width=\"60\"><img src=\"".$vars["path"].$file."\"></td><td style=\"width:340px;word-break:break-all;word-wrap:break-word;padding-left:5px;padding-right:10px;\"><a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/?back=".htmlentities(urlencode($_SERVER["REQUEST_URI"])).($_GET["aid"] ? "" : "&cnt=".$key)."\">".htmlentities($db->f("naam"))."</a><br>".htmlentities($db->f("plaats")." - ".$db->f("skigebied"))."</td><td align=\"right\" style=\"padding-right:2px;\">".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." personen</td></tr></table></div>";
+							if($toonlijst_alleenfoto_teller<=7) {
+								$toonlijst_alleenfoto_teller++;
+								$toonlijst_alleenfoto.="<a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/\"><img src=\"".$vars["path"].$file."\" title=\"".htmlentities($db->f("naam")." ".$db->f("plaats")." - ".$db->f("skigebied")." ".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." personen")."\"></a>";
+							}
+
+						}
+					}
+				} else {
+					# geen beschikbare accommodaties: accommodaties_beschikbaar=0 opslaan
+					if(!$_GET["aid"]) {
+						$db2->query("UPDATE aanbieding SET accommodaties_beschikbaar=0 WHERE aanbieding_id='".addslashes($key)."';");
+					}
+				}
+				if($toonlijst) {
+					unset($toon_alsnog_eerste,$verbergnummer);
+					while(list($key2,$value2)=each($toonlijst)) {
+						if($bekijk_alle_getoond) echo "<hr>";
+						if($eerste_aanbieding_getoond) {
+							echo $value2;
+						} else {
+							if(count($toonlijst)==1) {
+								echo $value2;
+							} else {
+								echo "<div class=\"aanbieding_bekijkalle\" id=\"bekijkalle_".$key2."\">";
+								echo "<div class=\"aanbieding_toonlijst_alleenfoto\">".$toonlijst_alleenfoto."</div>";
+								echo "<hr><div style=\"text-align:right;margin-bottom:3px;\"><span class=\"aanbieding_bekijkalle_tekst\" onclick=\"aanbieding_openklap('".$key2."');\">Bekijk de accommodaties bij deze aanbieding &darr;</span></div>";
+								echo "</div>";
+								echo "<div class=\"aanbieding_openklap\" id=\"aanbieding_openklap_".$key2."\">";
+								echo $toon_alsnog_eerste;
+								$toon_alsnog_eerste=$value2;
+								echo "<hr>".$value2;
+								$bekijk_alle_getoond=true;
+
+								$verbergnummer=$key2;
+							}
+						}
+						$eerste_aanbieding_getoond=true;
+					}
+					if($bekijk_alle_getoond) {
+						if($verbergnummer) {
+							echo "<div id=\"aanbieding_verberg_".$verbergnummer."\" style=\"margin-top:13px;margin-bottom:3px;text-align:right;visibility:hidden;\"><span class=\"aanbieding_bekijkalle_tekst\" onclick=\"aanbieding_dichtklap('".$verbergnummer."');\">Verberg de accommodaties bij deze aanbieding &uarr;</span></div>";
+						}
+						echo "</div>";
+					}
+				}
+				if($accommodaties_beschikbaar) {
+					echo "</div>";
+					echo "</div>";
+				}
+			}
+			if(!$_GET["aid"] and $aanbiedingen_getoond) {
+				echo "<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>";
+			}
+		}
+		if(!$aanbiedingen_getoond) {
+			echo "Wij hebben op dit moment helaas geen aanbiedingen in ".htmlentities($land["naam"]).".<br><br>";
+	#		echo "<a href=\"".$vars["path"]."aanbiedingen/\">Bekijk onze aanbiedingen in andere landen &gt;</a>";
+		}
+		echo "<!-- WTend -->\n";
+	}
+
+} else {
+	# Overzicht landen tonen
+	$array_ab_landen=array("frankrijk","italie","oostenrijk","zwitserland","duitsland");
+	while(list($key,$value)=each($array_ab_landen)) {
+		ab_landenblok($value);
+	}
+	echo "<div class=\"clear\"></div>";
+}
+echo "</div>"; # afsluiten ab_landen
+
+#
+# Opval-blok
+#
+echo "<div id=\"ab_rechterbalk\">";
+
+
+if(!$_GET["aid"]) {
+	echo opvalblok();
+}
+
+
+echo "</div>"; # afsluiten ab_rechterbalk
+echo "<div class=\"clear\"></div>";
+
+?>

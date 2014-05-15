@@ -714,7 +714,9 @@ $(document).ready(function() {
 
 		// "Alle types van deze accommodatie" elk blokje dezelfde hoogte
 		$("div.alletypes_typenaam").each(function() {
+                        $(this).parent().parent().parent().parent().show();
 			maxHeight = Math.max(maxHeight, $(this).height());
+                        $(this).parent().parent().parent().parent().hide();
 		}).height(maxHeight);
 
 
@@ -1229,13 +1231,16 @@ $(document).ready(function() {
 				//
 				// Chosen voor mobiele apparaten
 				//
-
-				// Chosen: bestemming
-				$("#zoekblok_field_bestemming").chosen({width: "100%", disable_search_threshold:20, search_contains:true, allow_single_deselect: true, autofocus_search_field: false});
-
-				// Chosen-vormgeving toepassen op selectvelden
-				$("#zoekblok select").not(".flexibel_datum").addClass("zoekblok_select_mobile");
-
+ 				if($("div.datadiv").data("websitetype")=="7") {
+					// Italissima: zoeken via typen niet mogelijk
+					$("#zoekblok_field_bestemming").chosen({width: "100%", disable_search:20, allow_single_deselect: true});
+                                        
+				} else {
+					$("#zoekblok_field_bestemming").chosen({width: "100%", disable_search_threshold:20, search_contains:true, allow_single_deselect: true, autofocus_search_field: true});
+				}
+                                // Chosen-vormgeving toepassen op selectvelden
+				$("#zoekblok select").addClass("zoekblok_select_mobile");
+                                
 				// kalender ietsje verplaatsen
 				$(".zoekblok_aankomstdatum_calendar").css("margin-bottom","-3px");
 
@@ -1256,7 +1261,7 @@ $(document).ready(function() {
 				//
 				// Chosen voor desktop-bezoekers
 				//
-
+                                // 
 				// Chosen: bestemming
 				if($("div.datadiv").data("websitetype")=="7") {
 					// Italissima: zoeken via typen niet mogelijk
@@ -1350,16 +1355,7 @@ $(document).ready(function() {
 				});
 
 				var slider_max_en_meer=$(".zoekblok_prijsklasse").data("max")+$(".zoekblok_prijsklasse").data("stappen");
-				$(".noUiSlider").noUiSlider({
-					range: [$(".zoekblok_prijsklasse").data("min"), slider_max_en_meer],
-					start: [$("#fpk_van_hidden").val(), $("#fpk_tot_hidden").val()],
-					handles: 2,
-					step: $(".zoekblok_prijsklasse").data("stappen"),
-					serialization: {
-						to: [$("#fpk_van_hidden"),$("#fpk_tot_hidden")],
-						resolution: 1
-					},
-					slide: function() {
+				var onSlide = function() {
 						// if($("#fpk_tot").val()==="") {
 						// 	$("input[name=fpk_enmeer]").val("1");
 						// }
@@ -1395,7 +1391,26 @@ $(document).ready(function() {
 							}
 						},700);
 					}
+				$(".slidernoui").noUiSlider({
+					range: {'min': [$(".zoekblok_prijsklasse").data("min")], 'max': [slider_max_en_meer]},
+					start: [$("#fpk_van_hidden").val(), $("#fpk_tot_hidden").val()],
+					handles: 2,
+                                        connect: true,
+					step: $(".zoekblok_prijsklasse").data("stappen"),
+                                        
+					serialization: {
+                                                lower:[ $.Link({
+                                                    target: $("#fpk_van_hidden")
+                                                })],
+                                                upper:[ $.Link({
+                                                    target: $("#fpk_tot_hidden")
+                                                })],
+						resolution: 1
+					},
+                                        
+					 
 				});
+                                $(".slidernoui").on("slide", onSlide);
 			}
 
 
@@ -2401,6 +2416,7 @@ $(document).ready(function() {
 
 		return false;
 	});
+       $("#map_canvas").css("display","none").delay(2000);
 });
 
 

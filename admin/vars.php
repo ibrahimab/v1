@@ -477,6 +477,16 @@ if($vars["websitetype"]==7) {
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
+    
+	$mobile_menu["home"]=txt("menutitle_home");
+	$mobile_menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
+	$mobile_menu["bestemmingen"]=txt("menutitle_bestemmingen");
+	$mobile_menu["bsys"]=txt("menutitle_bsys");
+	$mobile_menu["favorieten"]=txt("submenutitle_favorieten");
+	$mobile_menu["contact"]=txt("menutitle_contact");
+	$mobile_menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
+	$mobile_menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
+	$mobile_menu["start-chat"]=txt("menutitle_start-chat");    
 
 } elseif($vars["seizoentype"]==2) {
 	#

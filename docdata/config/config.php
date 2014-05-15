@@ -109,7 +109,9 @@ class Config {
             $css_arr_mobile = array(
 				"C" => "10", // Chalet.nl
 				"E" => "11", // Chalet.eu
-				"B" => "12" // Chalet.be
+				"B" => "12", // Chalet.be
+		                "I" => "13", // Italissima.nl
+		                "K" => "14" // Italissima.be
             );
           
           $css_arr = array_merge($css_arr_desktop, $css_arr_mobile);

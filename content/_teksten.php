@@ -670,6 +670,9 @@ $txt["en"]["index"]["koptekst"]="Chalets and apartments for 2 to 50 people";
 $txt["nl"]["index"]["koptekst_mobile"]="Chalets en appartementen[[h_b]]voor 2 tot 50 personen";
 $txt["en"]["index"]["koptekst_mobile"]="Chalets and apartments[[h_b]]for 2 to 50 people";
 
+$txt["nl"]["index"]["koptekst_italissima_mobile"]="Agriturismi en overige vakantiehuizen in Italië";
+$txt["en"]["index"]["koptekst_italissima_mobile"]="Agriturismi and additional holiday homes in Italy";
+
 $txt["nl"]["index"]["linksboven"]="Ruim 1.100 chalets, appartementen en hotels voor 2 tot 50 personen in [[h_1]]Frankrijk[[h_4]], [[h_2]]Oostenrijk[[h_4]] en [[h_3]]Zwitserland[[h_4]].";
 $txt["en"]["index"]["linksboven"]="Over 1.100 chalets, apartments and hotels for 2 up to 50 persons in [[h_1]]France[[h_4]], [[h_2]]Austria[[h_4]] and [[h_3]]Switzerland[[h_4]].";
 

@@ -1,0 +1,35 @@
+<div class="menu">
+	<?php
+		unset($mobile_menu["favorieten"]);
+		reset($mobile_menu);
+		while(list($key,$value)=each($mobile_menu)) {
+        
+        if($key == 'start-chat' && $vars['website'] == 'E') continue;
+			if($vars["active_menu_item"]) {
+				$checkid=$vars["active_menu_item"];
+			} else {
+				$checkid=$id;
+			}
+
+			echo "<a href=\"".$vars["path"];
+			if($key<>"index" && $key<>"start-chat" && $key<>"home") {
+            echo txt("menu_".$key).".php";
+			}
+            
+			if($key=="start-chat") {
+				echo "\" onclick=\"LC_API.open_chat_window();return false;";
+			}
+			echo "\">";
+
+			if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
+				echo "<span class=\"hoofdmenu_actief\">";
+			}
+			echo htmlentities($value);
+			if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
+				echo "</span>";
+			}
+
+			echo "</a>";
+		}
+	?>
+</div>

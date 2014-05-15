@@ -1,0 +1,121 @@
+
+
+#ab_landen {
+	float: left;
+	width:100%;
+	margin-top:15px;
+}
+
+#ab_rechterbalk {
+	float: right;
+	width: 200px;
+	margin-top:15px;
+}
+
+.ab_landenkeuze {
+	border: 1px solid #ffffff;
+	width: 170px;
+	text-align: center;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	float: left;
+	color:#ffffff;
+}
+
+.ab_landenkeuze_top {
+	background-color:#cbd328;
+	height: 30px;
+	width: 170px;
+	vertical-align: middle;
+	display: table-cell;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+.ab_landenkeuze:hover {
+	border: 1px solid #ff9900;
+	cursor: pointer;
+	color: #ff9900;
+}
+
+.aanbieding_blok {
+	margin-bottom: 30px;
+	background-color: #ffffff;
+	border: 1px solid #ff9900;
+}
+
+.aanbieding_kop {
+	font-weight: bold;
+	color: #ffffff;
+	background-color: #ff9900;
+	padding: 4px;
+	margin-bottom: 5px;
+}
+
+.aanbieding_omschrijving {
+	padding-bottom: 20px;
+}
+
+.aanbieding_blok hr {
+	color: #ffffff;
+	background-color: #ffffff;
+	height: 2px;
+	border: 0px;
+}
+
+.aanbieding_accommodatieblok {
+	background-color: #ffd38f;
+}
+
+.aanbieding_accommodatieblok img {
+	width: 60px;
+	height: 45px;
+}
+
+.aanbieding_accommodatieblok table {
+	width: 100%;
+}
+
+.aanbieding_accommodatieblok:hover {
+	background-color: #e0d1cc;
+	cursor: pointer;
+}
+
+.aanbieding_accommodatieblok a:hover {
+	color: #ffffff;
+}
+
+.aanbieding_accommodatieblok_ruimte_bovenonder {
+	height:5px;
+}
+
+.aanbieding_openklap {
+	display: none;
+}
+
+.aanbieding_bekijkalle {
+	color: #ff9900;
+}
+
+.aanbieding_bekijkalle:hover {
+
+}
+
+.aanbieding_bekijkalle_tekst {
+        display:block;
+	background-color:#ffd38f;
+	border:1px solid #ff9900;
+	padding:3px;
+	cursor: pointer;
+}
+
+.aanbieding_bekijkalle_tekst:hover {
+	color: #ffffff;
+	background-color: #ff9900;
+}
+
+.aanbieding_toonlijst_alleenfoto img {
+	border: 0;
+	margin-right: 7px;
+	margin-bottom: 5px;
+}

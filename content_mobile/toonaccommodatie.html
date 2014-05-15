@@ -1102,7 +1102,7 @@ if($db->next_record()) {
 		$flex_einddatum=mktime(0,0,0,date("m",$_GET["flad"]),date("d",$_GET["flad"])+$flextarief["aantalnachten"],date("Y",$_GET["flad"]));
 
 #		echo "<a name=\"prijsinformatie_flextarieven\"></a>";
-		echo "<table width=\"100%\" class=\"toonacctabel\" cellspacing=\"0\" style=\"width:690px;\">";
+		echo "<table width=\"100%\" class=\"toonacctabel\" cellspacing=\"0\" >";
 		if($flextarief["aantalnachten"]) {
 			echo "<tr><th>Prijs bij aankomst op ".DATUM("DAG D MAAND JJJJ",$_GET["flad"])." en verblijf van ".htmlentities($flextarief["aantalnachten_text"])."</th></tr>";
 		} else {
@@ -1123,8 +1123,8 @@ if($db->next_record()) {
 			echo "<input type=\"hidden\" name=\"flad\" value=\"\">\n";
 		}
 
-		echo "<table border=\"0\" width=\"500\" cellspacing=\"0\" cellpadding=\"0\" class=\"geenbordertable\">";
-		echo "<tr><td colspan=\"2\">";
+		echo "<div class=\"geenbordertable\">";
+		echo "<div>";
 		if($flextarief["tarief"]>0) {
 			echo "<b>Prijs per accommodatie: ";
 			echo "&euro;&nbsp;".number_format($flextarief["tarief"],2,",",".");
@@ -1136,15 +1136,16 @@ if($db->next_record()) {
 #				echo "&nbsp;";
 			}
 		}
-		echo "</td></tr>";
+		echo "</div>";
 
-		echo "<tr><td><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></td></tr>";
+		echo "<div><img src=\"".$path."pic/leeg.gif\" alt=\"\" width=\"1\" height=\"4\"></div>";
 
-		echo "<tr><td valign=bottom>".html("aankomstdatum","accommodaties")."</td><td valign=top align=left width=65%>";
+		echo "<div style='margin-bottom:10px;'>".html("aankomstdatum","accommodaties")."</div>";
+        echo "<div>";
 
 		# Kalender
-		echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" border=\"0\" onClick=\"window.open('".$vars["path"]."calendar.php?accpagina=1&nm=zoeken&lang=".$vars["taal"]."&justonevar=1&input=fadf&month='+document.zoeken.elements['fadf_m'].value+'&year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=250,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" style=\"cursor: pointer\">&nbsp;";
-
+        echo "<div style='margin-top:5px; margin-right:5px; float:left;'><input type='hidden' id='toonaccommodatiedate' /></div>";
+        
 		if($_GET["flad"]) {
 			$temp_actievedatum["fadf_d"]=date("d",$_GET["flad"]);
 			$temp_actievedatum["fadf_m"]=date("m",$_GET["flad"]);
@@ -1184,9 +1185,9 @@ if($db->next_record()) {
 			echo "<option value=\"".$i."\"".($temp_actievedatum["fadf_y"]==$i ? " selected" : "").">".$i."</option>";
 		}
 		echo "</select>";
-		echo "</td></tr>";
-		echo "<tr><td valign=bottom>".html("verblijfsduur","accommodaties")."</td><td valign=top align=left width=65%>";
-
+		echo "</div>";
+		echo "<div style='margin-bottom:10px; margin-top:10px;'>".html("verblijfsduur","accommodaties")."</div>";
+        echo "<div>";
 		# Verblijfsduur
 		unset($vars["verblijfsduur"]);
 		$vars["verblijfsduur"]["1"]="1 ".txt("week","vars");
@@ -1219,9 +1220,8 @@ if($db->next_record()) {
 			echo ">".htmlentities($value)."</option>";
 		}
 		echo "</optgroup></select>";
-		echo "</td></tr>";
 
-		echo "</table>";
+        echo "</div>";
 
 		echo "</form>";
 
@@ -1256,7 +1256,7 @@ if($db->next_record()) {
 	}
 
 	if($flex_tarief_getoond) {
-		echo "<div style=\"margin-top:5px;margin-bottom:10px;width:688px;text-align:right;\" id=\"bekijkookweektarieven\">";
+		echo "<div style=\"margin-top:5px;margin-bottom:10px;text-align:right;\" id=\"bekijkookweektarieven\">";
 		if($echt_tarieven_getoond) {
 			echo "<a href=\"#\" onclick=\"return weektarieven_openklappen();\">";
 			if($_GET["toonflex"]) {
@@ -1307,7 +1307,6 @@ if($db->next_record()) {
 						}
 					}
 					echo "</th></tr>";
-					echo "<tr style=\"height:0px;padding:0px;margin:0px;border:0px;\"><th style=\"height:0px;padding:0px;margin:0px;border:0px;\"><img src=\"".$path."pic/leeg.gif\" width=\"185\" height=\"0\" alt=\"\"></th><th style=\"height:0px;padding:0px;margin:0px;border:0px;\"><img src=\"".$path."pic/leeg.gif\" width=\"475\" height=\"0\" alt=\"\"></th></tr>";
 					echo "<tr><td colspan=\"2\">";
 					if($value2["omschrijving"]) {
 						echo nl2br(wt_htmlentities($value2["omschrijving"],true));

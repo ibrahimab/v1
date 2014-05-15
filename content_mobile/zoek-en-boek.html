@@ -2926,10 +2926,10 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 			# Flexibel
 			#
 			# Kalender
-			echo "<div style=\"float:left;margin-top:5px;\">";
-			echo "<img src=\"".$vars["path"]."pic/class.form_calendar.gif\" style=\"border:0;\" onClick=\"window.open('".$vars["path"]."calendar.php?nm=zoeken&amp;lang=".$vars["taal"]."&amp;justonevar=1&amp;input=fadf&amp;month='+document.zoeken.elements['fadf_m'].value+'&amp;year='+document.zoeken.elements['fadf_y'].value, '_blank', 'scrollbars=no,width=345,height=286,left=0,top=0');\" width=\"16\" height=\"15\" alt=\"Kalender\" class=\"zoekblok_aankomstdatum_calendar\">";
-			echo "</div>";
-
+			echo "<div style=\"float:left;margin-top:5px; width:20px;\">";
+            echo "<input id='zoekenboekdate' />";
+            echo "</div>";
+            
 			# dag
 			echo "<select name=\"fadf_d\" class=\"flexibel_datum\">";
 			echo "<option value=\"\"".(!$_GET["fadf_d"] ? " selected" : "").">&nbsp;</option>";
@@ -3104,7 +3104,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		echo "<div class=\"zoekblok_field\">";
 
 		echo "<div class=\"zoekblok_prijsklasse_min\">&euro;&nbsp;".$prijsklasse_min."</div>";
-		echo "<div class=\"noUiSlider\"></div><div class=\"zoekblok_prijsklasse_max\">&euro;&nbsp;".$prijsklasse_max."</div>";
+		echo "<div class=\"slidernoui\"></div><div class=\"zoekblok_prijsklasse_max\">&euro;&nbsp;".$prijsklasse_max."</div>";
 		echo "<div class=\"clear\"></div>";
 
 		echo "<input type=\"hidden\" name=\"fpk_enmeer\" value=\"".intval($_GET["fpk_enmeer"])."\">";
@@ -3127,7 +3127,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		echo "<input type=\"hidden\" id=\"fpk_van_hidden\" value=\"".($_GET["fpk_van"] ? intval($_GET["fpk_van"]) : $prijsklasse_min)."\">";
 		echo "<input type=\"hidden\" id=\"fpk_tot_hidden\" value=\"".($_GET["fpk_tot"] ? intval($_GET["fpk_tot"]) : $prijsklasse_max+$prijsklasse_stappen)."\">";
 
-		echo "&nbsp;&nbsp;(per vakantiehuis)";
+//		echo "&nbsp;&nbsp;(per vakantiehuis)";
 
 		echo "</div>"; # afsluiten .zoekblok_field
 
@@ -3376,7 +3376,7 @@ if($aantalresultaten_zonder_gekoppeld_skigebied<count($results)) {
 }
 echo "<div class=\"aantalgevonden\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">";
 echo html("gevondenaccommodaties".($toon_aantalresultaten_verschillende_types==1 ? "_1" : ""),"zoek-en-boek",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"h_1"=>"<strong>","h_2"=>"</strong>"));
-
+/*
 if($vars["zoeken_op_kaart"] and $zoeken_op_kaart) {
 	echo "&nbsp;&nbsp;<span class=\"toonopkaart\">(<i class=\"icon-location-arrow\"></i>&nbsp;<a href=\"#kaart\" data-org=\"".html("toonopkaart","zoek-en-boek")."\" data-toggle=\"".html("verbergkaart","zoek-en-boek")."\">";
 	if($_GET["map"]) {
@@ -3385,7 +3385,7 @@ if($vars["zoeken_op_kaart"] and $zoeken_op_kaart) {
 		echo html("toonopkaart","zoek-en-boek");
 	}
 	echo "</a>)</span>";
-}
+}*/
 echo "</div>";
 
 
@@ -3524,7 +3524,7 @@ if($resultaten_tonen) {
 					echo "<option value=\"".wt_he(preg_replace("/sort=SORT/","sort=".$key,$sorteer_url))."\">".wt_he($value)."</option>";
 				}
 			}
-			echo "<select>";
+			echo "</select>";
 
 			echo "</div>";
 			echo "</td>";

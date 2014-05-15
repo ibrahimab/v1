@@ -21,7 +21,7 @@ if($vars["websitetype"]==3) {
 	include("content/opmaak_vallandry.php");
 } elseif($vars["websitetype"]==7) {
 	# Italissima.nl
-	include("content/opmaak_italissima.php");
+	include("content".$mobile."/opmaak_italissima.php");
 } elseif($vars["websitetype"]==8) {
 	# SuperSki
 	include("content/opmaak_superski.php");

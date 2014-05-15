@@ -1,0 +1,60 @@
+<?php
+
+$landinfo["id"]=5;
+
+# Regio-array vullen
+unset($tabellen,$landenteller,$landgehad);
+$db->query("SELECT DISTINCT s.naam, l.naam".$vars["ttv"]." AS land, s.skigebied_id, s.minhoogte, s.maxhoogte, s.kilometerpiste, l.land_id FROM skigebied s, plaats p, land l WHERE l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.websites LIKE '%".$vars["website"]."%' AND l.land_id='".addslashes($landinfo["id"])."' ORDER BY l.naam".$vars["ttv"].", s.naam;");
+if($db->num_rows()) {
+	while($db->next_record()) {
+		$regions[$db->f("skigebied_id")] = $db->f("naam");
+
+		# aantal accommodaties opvragen
+		$db2->query("SELECT count(t.type_id) AS aantal FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE a.weekendski=0 AND t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id AND s.skigebied_id='".$db->f("skigebied_id")."' AND l.land_id='".$db->f("land_id")."' GROUP BY l.land_id, s.skigebied_id;");
+		if($db2->next_record()) {
+			$aantal_acc=$db2->f("aantal");
+		} else {
+			$aantal_acc=0;
+		}
+
+		$regio["aantal_acc"][$db->f("skigebied_id")]=intval($aantal_acc);
+	}
+}
+
+echo "<div id=\"landkaartklikbaar\">";
+
+echo "<div id=\"landkaartklikbaar_kaart\">";
+
+
+echo "<div id=\"vmap\" style=\"float: left;\">&nbsp;</div>";
+echo "<div id=\"pin_142\" style=\"display: none;\"><div class=\"pin_content\">&nbsp;</div></div><div class=\"pin_tip jqvmap-label\"></div>";
+echo "</div>"; # afsluiten landkaartklikbaar_kaart
+
+echo "<div id=\"landkaartklikbaar_namen\">";
+
+if($regions) {
+	$disabled = array();
+	foreach($regions as $id => $name) {
+		if($regio["aantal_acc"][$id]) {
+            
+			echo "<div id=\"regio_".$id."\" class=\"landnaam\" rel=\"".$id."\" data-noacc=\"".intval($regio["aantal_acc"][$id])."\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?fsg=".$landinfo["id"]."-".$id."&fsg_invoer=".$landinfo["id"]."-".$id."\">".htmlentities($name)."</a> (".intval($regio["aantal_acc"][$id]).")</div>";
+		} else {
+			$disabled[] = "'IT-".$id."': '#e0d1cc'";
+		}
+	}
+}
+
+echo "<script>
+	var disabled_regions = {".implode(',',$disabled)."};
+</script>";
+
+
+echo "</div>"; # afsluiten landkaartklikbaar_namen
+
+echo "<div style=\"clear:both;\"></div>";
+
+echo "</div>"; # afsluiten landkaartklikbaar
+
+
+
+?>
