@@ -57,7 +57,7 @@ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/fon
 if(!$vars["page_with_tabs"]) {
 	# jQuery UI theme laden
 	//echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css?cache=".@filemtime("css/jqueryui-theme/custom-theme/jquery-ui-1.8.22.custom.css")."\" />\n";
-    echo " <link rel='stylesheet' href='http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css'>";
+    echo " <link rel='stylesheet' href='https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css'>";
 }else{
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/mobile/jqueryui-theme/custom-theme/jquery-ui-1.10.4.custom.css?cache=".@filemtime("css/mobile/jqueryui-theme/custom-theme/jquery-ui-1.10.4.custom.css")."\" />\n";
 }
