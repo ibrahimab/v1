@@ -30,6 +30,14 @@ if(isset($vars["acceptatie_testserver"]) && ($vars["acceptatie_testserver"] == t
 	// Switch to test domain
 	$site_url = str_replace("www.", "test.", $site_url);
 
+} elseif(netrom_testserver) {
+
+	// Errors display: true | false
+	define ('DEVELOPMENT_ENVIRONMENT',true);
+
+	// Payment module mode: test | production
+	define('MODULE_MODE', 'test');
+
 } else {
 
 	// Live server
@@ -73,7 +81,7 @@ class Config {
     public $pictures_path = array();
 
 	function __construct() {
-                
+
 		$this->types_WebmenuTypes = array(
 			// 1 to enable the menu (this value is used for the active state)
 			array('value' => '1', 'label' => __('Show only the Docdata Webmenu option')),
@@ -105,7 +113,7 @@ class Config {
 		);
 
           $css_arr_mobile = array();
-          if (IS_MOBILE)         
+          if (IS_MOBILE)
             $css_arr_mobile = array(
 				"C" => "10", // Chalet.nl
 				"E" => "11", // Chalet.eu
@@ -113,9 +121,9 @@ class Config {
 		                "I" => "13", // Italissima.nl
 		                "K" => "14" // Italissima.be
             );
-          
+
           $css_arr = array_merge($css_arr_desktop, $css_arr_mobile);
-        
+
         $this->general = array(
 			"version" 				=> 1.0,
 			"active"				=> 1,
