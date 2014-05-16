@@ -2,6 +2,8 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+16-may-2014 13:40
+ALTER TABLE `diverse_instellingen` ADD `tradetracker_higher_payout` TEXT NOT NULL ;
 
 21-mar-2014 16:39
 ALTER TABLE `boeking` ADD `vervallen_aanvraag` TINYINT( 1 ) NOT NULL AFTER `geblokkeerd` ;
