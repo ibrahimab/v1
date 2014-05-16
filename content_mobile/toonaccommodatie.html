@@ -743,15 +743,8 @@ if($db->next_record()) {
 		echo "</script>\n";
 
 		echo "<div id=\"map_canvas\"></div>";
-		if($vars["websitetype"]<>6) {
-			# op alle sites behalve Chalets in Vallandry de button "Bekijk al onze accommodaties in dit gebied" tonen
-			//echo "<div id=\"googlemaps_deleteother\" class=\"button noprint\" onclick=\"googlemaps_deletemarkers();\">".html("andereaccommodatieswissen","toonaccommodatie")."</div>";
-			//echo "<div id=\"googlemaps_other\" class=\"button noprint\" onclick=\"googlemaps_show_other_acc();\">".html("bekijkalonzeaccommodatiesinditgebied","toonaccommodatie")."</div>";
 
-			echo "<div style=\"clear: both;\"></div>\n";
 
-			echo "<p style=\"font-style:italic;margin-top:10px;\">".html("kaartkanafwijken","toonaccommodatie")."</p>";
-		}
 	}
 	echo "</div><!-- afsluiten_tabs_ligging -->";
 
