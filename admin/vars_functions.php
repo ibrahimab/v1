@@ -3660,6 +3660,8 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 
 	global $vars,$voorkant_cms,$gegevens;
 
+	$db=new DB_sql;
+
 	if($vars["chalettour_logged_in"] or $voorkant_cms or $gegevens["stap1"]["kortingscode_id"]) {
 		# affiliate blokkeren indien:
 		#	- boeking door reisbureau
@@ -3668,6 +3670,27 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		#	- boeking door testsysteem
 		unset($toon_tradetracker,$toon_cleafs);
 	}
+
+	// check for higher payout TradeTracker
+	if($data["ordernummer"] and is_int($data["ordernummer"])) {
+		$db->query("SELECT v.begincode, v.type_id FROM view_accommodatie v INNER JOIN boeking b USING (type_id) WHERE b.boeking_id=".intval($data["ordernummer"]).";");
+		if($db->next_record()) {
+			$accommodatiecode = $db->f("begincode").$db->f("type_id");
+			$db->query("SELECT tradetracker_higher_payout FROM diverse_instellingen WHERE diverse_instellingen_id=1;");
+			if($db->next_record()) {
+				$tradetracker_higher_payout_array = preg_split("@\n@", $db->f("tradetracker_higher_payout"));
+				if(is_array($tradetracker_higher_payout_array)) {
+					foreach ($tradetracker_higher_payout_array as $key => $value) {
+						$value = trim($value);
+						if($value and $accommodatiecode and $value==$accommodatiecode) {
+							$tradetracker_higher_payout = true;
+						}
+					}
+				}
+			}
+		}
+	}
+
 
 	// # Bepalen wie voorrang krijgt: TradeTracker of Cleafs
 	// if($toon_tradetracker and $toon_cleafs) {
@@ -3751,7 +3774,11 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		} elseif($data["ordernummer"]=="vraagonsadvies") {
 			$tradetracker_productID="16873";
 		} else {
-			$tradetracker_productID="204";
+			if($tradetracker_higher_payout) {
+				$tradetracker_productID="204";
+			} else {
+				$tradetracker_productID="204";
+			}
 		}
 
 		# bedrag

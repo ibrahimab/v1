@@ -230,7 +230,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$form->field_textarea(0,"woorden_autocomplete_winter_en","Woordenlijst winter (EN)",array("field"=>"woorden_autocomplete_winter_en"));
 	$form->field_textarea(0,"woorden_autocomplete_zomer","Woordenlijst zomer (NL)",array("field"=>"woorden_autocomplete_zomer"));
 
-	$form->field_htmlrow("","<hr><b>Accommodaties die een hogere vergoeding voor TradeTracker-affiliates (1 accommodatie-code per regel)</b>");
+	$form->field_htmlrow("","<hr><b>Accommodaties die een hogere vergoeding voor TradeTracker-affiliates (1 accommodatie-code per regel)</b><br/><i>Deze functionaliteit is nog niet actief maar invullen van de codes kan al wel.</i>");
 	$form->field_textarea(0,"tradetracker_higher_payout","Accommodatie-codes",array("field"=>"tradetracker_higher_payout"),"","",array("style"=>"height:400px"));
 
 	# aantal beschikbare kortingscodes bepalen
@@ -255,6 +255,21 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		}
 		if($form->input["zomer_vorig_seizoen_id"] and $form->input["zomer_vorig_seizoen_id"]==$form->input["zomer_huidig_seizoen_id"]) {
 			$form->error("zomer_huidig_seizoen_id","zelfde als vorig zomerseizoen");
+		}
+
+		if($form->input["tradetracker_higher_payout"]) {
+			$tradetracker_higher_payout = preg_split("@\n@", $form->input["tradetracker_higher_payout"]);
+			if(is_array($tradetracker_higher_payout)) {
+				foreach ($tradetracker_higher_payout as $key => $value) {
+					$value = trim($value);
+					if($value and !preg_match("@^[A-Z][0-9]+$@", $value)) {
+						$tradetracker_higher_payout_error .= ", ".$value;
+					}
+				}
+			}
+			if($tradetracker_higher_payout_error) {
+				$form->error("tradetracker_higher_payout", "de volgende codes zijn onjuist: ".substr($tradetracker_higher_payout_error,2));
+			}
 		}
 	}
 
