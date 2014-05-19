@@ -3060,7 +3060,7 @@ $txt["nl"]["skigebieden"]["pistes"]="Pistes";
 $txt["en"]["skigebieden"]["pistes"]="Ski runs";
 
 $txt["nl"]["skigebieden"]["hoogte"]="Hoogte";
-$txt["en"]["skigebieden"]["hoogte"]="Hight";
+$txt["en"]["skigebieden"]["hoogte"]="Height";
 
 $txt["nl"]["skigebieden"]["accommodaties"]="Accommodaties";
 $txt["en"]["skigebieden"]["accommodaties"]="Accommodations";
