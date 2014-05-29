@@ -80,6 +80,10 @@ if($_GET["schoonmaakkosten"]) {
 
                 #Interhome special links
 				if($_GET["8k0"] == 421) {
+                  $db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id='".addslashes($_GET["8k0"])."';");
+                    if($db->num_rows()) {
+                        echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."&toonwijzigingen=1\">Wijzigingen bekijken bij XML ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+                    }
                     $db->query("SELECT * FROM `interhome_countries_regions`");
 					if($db->num_rows() > 0) {
 						echo "<li><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_ih_filters\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('ih_filters');return false;\">Nieuwe accommodaties importeren voor ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
@@ -124,10 +128,7 @@ if($_GET["schoonmaakkosten"]) {
 								<label>Region: <select name=\"region\" id=\"ih_region\"></select></label>
 						";
 						echo "  <label>Season: <select name=\"wzt\" id=\"ih_season\"><option value=\"1\">Winter</option><option value=\"2\">Summer</option></select></label>";
-						$db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id='".addslashes($_GET["8k0"])."';");
-						if($db->num_rows()) {
-							echo "<label> Wijzigingen bekijken bij XML: <input type=\"checkbox\" name=\"toonwijzigingen\" value=\"1\" /></label>";
-						}
+
                         if($_GET["8k0"] == 421){
                             echo "<label> Go to accommodation <input type='text' id='accCodeIh' name='acc_code_ih' /></label> ";
                         }
