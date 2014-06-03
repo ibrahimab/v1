@@ -497,10 +497,12 @@ $txt["en"]["vars"]["newpricesmail_subject"] = "The prices are known of the accom
 $txt["nl"]["vars"]["xml_discount_message"]="Profiteer nu van [DISCOUNTVALUE]% korting";
 $txt["en"]["vars"]["xml_discount_message"]="Profiteer nu van [DISCOUNTVALUE]% korting";
 
+#
 # Mobile
 #
 $txt["nl"]["mobile"]["naar_desktopversie"]="Naar de desktopversie";
 $txt["en"]["mobile"]["naar_desktopversie"]="View the desktop version";
+
 #
 # Popup.php
 #
@@ -5627,7 +5629,27 @@ $txt["nl"]["faq"]["alleantwoordenopenen"]="Je kunt ook [[h_1]]alle antwoorden op
 $txt["en"]["faq"]["alleantwoordenopenen"]="You can also [[h_1]]open all answers[[h_2]];";
 
 
+# XML-exports
+$txt["nl"]["xml"]["vanafeuroperaccommodatie"]="vanaf [[v_bedrag]] euro per accommodatie";
+$txt["en"]["xml"]["vanafeuroperaccommodatie"]="from [[v_bedrag]] Euro per accommodation";
+
+$txt["nl"]["xml"]["vanafeuroperpersoon"]="vanaf [[v_bedrag]] euro per persoon incl. skipas";
+$txt["en"]["xml"]["vanafeuroperpersoon"]="from [[v_bedrag]] Euro per person incl. ski-lift pass";
+
+$txt["nl"]["xml"]["boek-nu-met-korting-tot"]="Boek nu met een korting tot [[v_korting]]";
+$txt["en"]["xml"]["boek-nu-met-korting-tot"]="Book now with a discount up to [[v_korting]]";
+
+$txt["nl"]["xml"]["boek-nu-met-korting"]="Boek nu met korting";
+$txt["en"]["xml"]["boek-nu-met-korting"]="Book now with a discount";
+
+$txt["nl"]["xml"]["euro"]="euro";
+$txt["en"]["xml"]["euro"]="Euro";
+
+
+
 #$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
+
+
 
 
 ?>

@@ -1459,14 +1459,18 @@ function wt_has_value($value) {
 
 function wt_he($text) {
 	global $vars;
-	if($vars["wt_htmlentities_cp1252"]) {
-		$text=htmlentities($text,ENT_COMPAT,'cp1252');
-	} elseif($vars["wt_htmlentities_utf8"]) {
-		$text=htmlentities($text,ENT_COMPAT,'UTF-8');
+	if(is_array($text)) {
+		return false;
 	} else {
-		$text=htmlentities($text);
+		if($vars["wt_htmlentities_cp1252"]) {
+			$text=htmlentities($text,ENT_COMPAT,'cp1252');
+		} elseif($vars["wt_htmlentities_utf8"]) {
+			$text=htmlentities($text,ENT_COMPAT,'UTF-8');
+		} else {
+			$text=htmlentities($text);
+		}
+		return $text;
 	}
-	return $text;
 }
 
 function wt_url_zonder_http($url) {

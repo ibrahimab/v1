@@ -462,11 +462,13 @@ if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 	}
 	$doorloop_array=array(
 		"tradetracker_C"=>"https://www.chalet.nl/xml/tradetracker.php?nocache=1",
+		"tradetracker_E"=>"https://www.chalet.eu/xml/tradetracker.php?nocache=1",
 		"tradetracker_B"=>"https://www.chalet.be/xml/tradetracker.php?nocache=1",
 		"tradetracker_Z"=>"https://www.zomerhuisje.nl/xml/tradetracker.php?nocache=1",
 		"tradetracker_I"=>"https://www.italissima.nl/xml/tradetracker.php?nocache=1",
 		"tradetracker_K"=>"https://www.italissima.be/xml/tradetracker.php?nocache=1",
 		"tradetracker_aanbiedingen_C"=>"https://www.chalet.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
+		"tradetracker_aanbiedingen_E"=>"https://www.chalet.eu/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_B"=>"https://www.chalet.be/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_Z"=>"https://www.zomerhuisje.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",
 		"tradetracker_aanbiedingen_I"=>"https://www.italissima.nl/xml/tradetracker.php?aanbiedingen=1&nocache=1",

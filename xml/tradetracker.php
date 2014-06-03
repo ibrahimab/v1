@@ -67,7 +67,7 @@ if($_GET["aanbiedingen"]) {
 	}
 }
 
-$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, t.naam AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra, a.afstandskilift, a.afstandskiliftextra, a.afstandloipe, a.afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, s.skigebied_id, s.naam AS skigebied, l.naam AS land, l.begincode, p.naam AS plaats, p.plaats_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? " LIMIT 0,10" : "").";");
+$db->query("SELECT DISTINCT t.type_id, a.accommodatie_id, a.toonper, a.naam, a.kenmerken AS akenmerken, t.naam".$vars["ttv"]." AS tnaam, a.zoekvolgorde AS azoekvolgorde, a.omschrijving".$vars["ttv"]." AS omschrijving, a.kwaliteit, a.gps_lat, a.gps_long, a.afstandwinkel, a.afstandwinkelextra".$vars["ttv"]." AS afstandwinkelextra, a.afstandrestaurant, a.afstandrestaurantextra".$vars["ttv"]." AS afstandrestaurantextra, a.afstandpiste, a.afstandpisteextra".$vars["ttv"]." AS afstandpisteextra, a.afstandskilift, a.afstandskiliftextra".$vars["ttv"]." AS afstandskiliftextra, a.afstandloipe, a.afstandloipeextra".$vars["ttv"]." AS afstandloipeextra, a.afstandskibushalte, a.afstandskibushalteextra".$vars["ttv"]." AS afstandskibushalteextra, a.afstandstrand, a.afstandstrandextra".$vars["ttv"]." AS afstandstrandextra, a.afstandzwembad, a.afstandzwembadextra".$vars["ttv"]." AS afstandzwembadextra, a.afstandzwemwater, a.afstandzwemwaterextra".$vars["ttv"]." AS afstandzwemwaterextra, a.afstandgolfbaan, a.afstandgolfbaanextra".$vars["ttv"]." AS afstandgolfbaanextra, t.kwaliteit AS tkwaliteit, t.omschrijving".$vars["ttv"]." AS tomschrijving, t.zoekvolgorde AS tzoekvolgorde, lv.zoekvolgorde AS lzoekvolgorde, t.optimaalaantalpersonen, t.maxaantalpersonen, a.soortaccommodatie, t.slaapkamers, t.badkamers, t.kenmerken AS tkenmerken, s.skigebied_id, s.naam".$vars["ttv"]." AS skigebied, l.naam".$vars["ttv"]." AS land, l.begincode, p.naam AS plaats, p.plaats_id FROM accommodatie a, plaats p, skigebied s, land l, leverancier lv, type t WHERE lv.leverancier_id=t.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND p.plaats_id=a.plaats_id AND p.skigebied_id=s.skigebied_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND a.archief=0 AND a.tonenzoekformulier=1 AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.weekendski=0".($aanbieding_inquery ? " AND t.type_id IN (".substr($aanbieding_inquery,1).")" : "").($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? " LIMIT 0,10" : "").";");
 while($db->next_record()) {
 
 	# Prijs bepalen
@@ -120,7 +120,7 @@ while($db->next_record()) {
 	if($prijs) {
 		echo "<product id=\"".$db->f("type_id")."\">\n";
 
-		$aantalpersonen=$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? "persoon" : "personen");
+		$aantalpersonen=$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? txt("persoon") : txt("personen"));
 		$accnaam=ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." - ".$aantalpersonen;
 
 		echo "<name>".xml_text($accnaam)."</name>\n";
@@ -164,18 +164,20 @@ while($db->next_record()) {
 		echo "<field name=\"persons_from\" value=\"".xml_text($db->f("optimaalaantalpersonen"),false)."\" />\n";
 		echo "<field name=\"persons_to\" value=\"".xml_text($db->f("maxaantalpersonen"),false)."\" />\n";
 		if($db->f("toonper")==3) {
-			echo "<field name=\"price_description\" value=\"".xml_text("vanaf ".number_format($prijs,2,",",".")." euro per accommodatie",false)."\" />\n";
+			echo "<field name=\"price_description\" value=\"".xml_text(txt("vanafeuroperaccommodatie", "xml", array("v_bedrag"=>number_format($prijs,2,",","."))),false)."\" />\n";
 		} else {
-			echo "<field name=\"price_description\" value=\"".xml_text("vanaf ".number_format($prijs,2,",",".")." euro per persoon incl. skipas",false)."\" />\n";
+			echo "<field name=\"price_description\" value=\"".xml_text(txt("vanafeuroperpersoon", "xml", array("v_bedrag"=>number_format($prijs,2,",","."))),false)."\" />\n";
 		}
 		if($korting_percentage) {
 			echo "<field name=\"special_offer_percentage\" value=\"".xml_text(floor($korting_percentage),false)."\" />\n";
-			echo "<field name=\"special_offer_description\" value=\"".xml_text("Boek nu met een korting tot ".floor($korting_percentage)."%",false)."\" />\n";
+			// echo "<field name=\"special_offer_description\" value=\"".xml_text("Boek nu met een korting tot ".floor($korting_percentage)."%",false)."\" />\n";
+			echo "<field name=\"special_offer_description\" value=\"".xml_text(txt("boek-nu-met-korting-tot", "xml", array("v_korting"=>floor($korting_percentage)."%")),false)."\" />\n";
 		} elseif($korting_euro) {
 			echo "<field name=\"special_offer_euro\" value=\"".xml_text($korting_euro,false)."\" />\n";
-			echo "<field name=\"special_offer_description\" value=\"".xml_text("Boek nu met een korting tot ".$korting_euro." euro",false)."\" />\n";
+			// echo "<field name=\"special_offer_description\" value=\"".xml_text("Boek nu met een korting tot ".$korting_euro." euro",false)."\" />\n";
+			echo "<field name=\"special_offer_description\" value=\"".xml_text(txt("boek-nu-met-korting-tot", "xml", array("v_korting"=>$korting_euro." ".txt("euro", "xml"))),false)."\" />\n";
 		} elseif($_GET["aanbiedingen"]) {
-			echo "<field name=\"special_offer_description\" value=\"".xml_text("Boek nu met korting",false)."\" />\n";
+			echo "<field name=\"special_offer_description\" value=\"".xml_text(txt("boek-nu-met-korting", "xml"),false)."\" />\n";
 		}
 		echo "<field name=\"number_of_nights\" value=\"".xml_text("7",false)."\" />\n";
 
