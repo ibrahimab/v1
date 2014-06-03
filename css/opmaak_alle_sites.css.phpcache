@@ -192,7 +192,7 @@ li {
 	height:32px;
 	display:inline-block;
 	background-repeat:no-repeat;
-	background-image:url('../pic/icons-sprite.png?c=1');
+	background-image:url('../pic/icons-sprite.png?c=2');
 }
 
 #hoofdpagina_sociallinks .googleplus {
@@ -224,7 +224,7 @@ li {
 /**/
 
 .paymenticons .mc, .paymenticons .idl, .paymenticons .mrc, .paymenticons .vi {
-	background-image:url('../pic/icons-sprite.png?c=1');
+	background-image:url('../pic/icons-sprite.png?c=2');
 	height:27px;
 	display:inline-block;
 	background-repeat:no-repeat;
@@ -2587,7 +2587,7 @@ blog
 .socialshare .gplus,
 .socialshare .mail,
 .socialshare .print {
-	background-image:url("../pic/icons-sprite.png?c=1");
+	background-image:url("../pic/icons-sprite.png?c=2");
 	display:inline-block;
 	background-repeat:no-repeat;
 	width:16px;
