@@ -86,6 +86,7 @@
 #hoofdpagina_trustpilot {
 	margin-top: 15px;
 	max-height: 150px;
+	overflow-y: hidden;
 }
 
 #hoofdpagina_trustpilot:hover {
