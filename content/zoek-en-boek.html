@@ -1509,22 +1509,31 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 			$accommodatie_opnemen_in_resultaten=true;
 
+			// Prijsklasse: check for which price
+			if($tarief_float) {
+				$tarief_float_prijsklasse = $tarief_float;
+			} elseif($vanafprijs_3[$db->f("type_id")]) {
+				$tarief_float_prijsklasse = $vanafprijs_3[$db->f("type_id")];
+			} else {
+				$tarief_float_prijsklasse = 0;
+			}
+
 			# Prijsklasse: accommodaties lager dan van-prijs uitsluiten
 			if($_GET["fpk_van"]) {
-				if(!$tarief_float) {
+				if(!$tarief_float_prijsklasse) {
 					$accommodatie_opnemen_in_resultaten=false;
 				}
-				if($tarief_float<$_GET["fpk_van"]) {
+				if($tarief_float_prijsklasse<$_GET["fpk_van"]) {
 					$accommodatie_opnemen_in_resultaten=false;
 				}
 			}
 
 			# Prijsklasse: accommodaties hoger dan tot-prijs uitsluiten
 			if($_GET["fpk_tot"] and !$_GET["fpk_enmeer"]) {
-				if(!$tarief_float) {
+				if(!$tarief_float_prijsklasse) {
 					$accommodatie_opnemen_in_resultaten=false;
 				}
-				if($tarief_float>$_GET["fpk_tot"]) {
+				if($tarief_float_prijsklasse>$_GET["fpk_tot"]) {
 					$accommodatie_opnemen_in_resultaten=false;
 				}
 			}
