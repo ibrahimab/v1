@@ -552,7 +552,16 @@ while(list($key,$value)=@each($xml_urls)) {
 					# Doorlopen van begin tot eind
 					$week=$datum_begin;
 					while($week<$datum_eind) {
+
+						// actual arrival date: niet_beschikbaar
 						$xml_niet_beschikbaar[$key][trim($value3->lot_ref)][$week]=true;
+
+						// also state Saturdays as niet_beschikbaar
+						if(date("w",$week)<>6) {
+							$alt_week = dichtstbijzijnde_zaterdag($week);
+							$xml_niet_beschikbaar[$key][trim($value3->lot_ref)][$alt_week]=true;
+						}
+
 						$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 						$xml_laatsteimport_leverancier[$key]=true;
 					}
@@ -1151,7 +1160,7 @@ while(list($key,$value)=@each($soap_urls)) {
                                     if(!isset($xml_beschikbaar[$key][$accCode]))
                                         $xml_beschikbaar[$key][$accCode] = array();
 			}
-            
+
 	            // Update last import date for supplier.
 	            $xml_laatsteimport_leverancier[$key]=true;
 
@@ -1964,17 +1973,17 @@ while($db->next_record()) {
 						}
 					}
 				}
-                
+
                 // Update discount percentages for interHome
                 		if(is_array($xml_discounts[$db->f("xml_type")][$value]) && ($db->f("xml_type") == 23)) {
-                    
+
                     foreach($xml_discounts[$db->f("xml_type")][$value] as $week => $lev_discount){
                         $discount_seasonid = $seizoenen[$wzt[$db->f("type_id")]][$week];
                         $new_insert[$discount_seasonid] = false;
                         $all_weeks[] = $week;
-                        
+
                         $discount_order = 100000-intval($lev_discount);
-                        
+
                         $sql_fields =     " editdatetime=NOW(), "
                                         . " seizoen_id =".$discount_seasonid .", "
                                         . " gekoppeld_code=0, "
@@ -1992,28 +2001,28 @@ while($db->next_record()) {
                                         . " onlinenaam = '".str_replace("[DISCOUNTVALUE]",$lev_discount, $txt["nl"]["vars"]["xml_discount_message"])."', "
                                         . " toon_abpagina=1, "
                                         . " naam='Import kortings percentage - " .$lev_discount. "'";
-                        
+
                         $db2->query("SELECT * from korting where xml_korting=2 AND type_id=".$db->f("type_id")." AND seizoen_id = ".$discount_seasonid);
-                                                
-                        if($db2->next_record()){                            
+
+                        if($db2->next_record()){
                             if($new_insert[$discount_seasonid] != true)
                                 $db2->query("UPDATE korting set " .$sql_fields. " WHERE type_id =".$db->f("type_id")." AND seizoen_id=".$discount_seasonid);
-                            
+
                             $discountid = $db2->f("korting_id");
                         } else {
-                            
+
                             $first_week = date("Y-m-d");
-                        
+
                             $last_discount_week = date("Y-m-d", $season_last_day[$discount_seasonid]);
 
                             $query =  "INSERT INTO korting set van='$first_week', tot='$last_discount_week', actief=1, adddatetime=NOW(), type_id=".$db->f("type_id").", ".$sql_fields;
                             $db2->query($query);
-                            
+
 		                            $new_insert[$discount_seasonid] = true;
-                            
+
 		                            $discountid = $db2->insert_id();
 		                        }
-                        
+
 		                        $all_kortings[] = $discountid;
 		                        $discount_updates[] = $db->f("type_id");
 		                        $db2->query("SELECT * from korting_tarief where korting_id = ".$discountid. " AND week=".$week);
@@ -2025,27 +2034,27 @@ while($db->next_record()) {
 
 		                        if($db2->next_record()){
 		                                $db2->query("UPDATE korting_tarief SET ".$sql_tarief_fields." WHERE korting_id = ".$discountid);
-		                        }else {
+		                        } else {
 		                            $db2->query("INSERT korting_tarief SET ".$sql_tarief_fields);
 		                        }
-                        
+
 		                    }
-                    
-		                    $xml_laatstewijziging[$db->f("type_id")]=true;                    
+
+		                    $xml_laatstewijziging[$db->f("type_id")]=true;
 		                    $all_weeks_updated = implode(", ", $all_weeks);
 		                    $all_korting_updated = implode(", ", $all_kortings);
 		                    $db2->query("DELETE FROM korting_tarief where week NOT IN ($all_weeks_updated) AND korting_id IN ($all_korting_updated) ");
-                    
+
                     		    unset($all_kortings, $all_weeks, $new_insert);
-                  
+
 		                } elseif($db->f("xml_type") == 23) {
 		                    $db2->query("SELECT korting_id from korting where xml_korting=2 AND type_id=".$db->f("type_id"));
 		                    while($db2->next_record()){
 		                        $db3->query("DELETE FROM korting_tarief where korting_id=".$db2->f("korting_id"));
 		                    }
-                    
+
 		                    $db2->query("DELETE FROM korting where xml_korting=2 AND type_id=".$db->f("type_id"));
-                    		    $discount_updates[] = $db->f("type_id");                    
+                    		    $discount_updates[] = $db->f("type_id");
 		                    $xml_laatstewijziging[$db->f("type_id")]=true;
 		                }
 			}
