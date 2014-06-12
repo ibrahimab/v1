@@ -3815,13 +3815,13 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 
 		# productID
 		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
-			$tradetracker_productID="23671";
+			$tradetracker_productID="23682";
 		} elseif($data["ordernummer"]=="contactaanvraag") {
-			$tradetracker_productID="23671";
+			$tradetracker_productID="23680";
 		} elseif($data["ordernummer"]=="vraagonsadvies") {
-			$tradetracker_productID="23671";
+			$tradetracker_productID="23679";
 		} else {
-			$tradetracker_productID="23671";
+			$tradetracker_productID="23681";
 		}
 
 		# bedrag
