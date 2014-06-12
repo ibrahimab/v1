@@ -269,12 +269,14 @@ if($_SERVER["HTTP_HOST"]=="www.superski.nl") {
 
 
 	#
-	# Chalet.nl Winter / Chalet.be Winter
+	# Chalet.nl Winter / Chalet.be Winter / Chalet.eu Winter
 	#
 
 	// configuration
 	if($_SERVER["HTTP_HOST"]=="www.chalet.be") {
 		$domainName = "chalet.be";
+	} elseif($_SERVER["HTTP_HOST"]=="www.chalet.eu") {
+		$domainName = "chalet.eu";
 	} else {
 		$domainName = "chalet.nl";
 	}

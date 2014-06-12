@@ -3805,6 +3805,28 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		# bedrag
 		$tradetracker_bedrag="";
 
+	} elseif($vars["website"]=="E") {
+
+		#
+		# TradeTracker Chalet.eu
+		#
+		# campaignID
+		$tradetracker_campaignID="15831";
+
+		# productID
+		if($data["ordernummer"]=="beschikbaarheidsaanvraag") {
+			$tradetracker_productID="23671";
+		} elseif($data["ordernummer"]=="contactaanvraag") {
+			$tradetracker_productID="23671";
+		} elseif($data["ordernummer"]=="vraagonsadvies") {
+			$tradetracker_productID="23671";
+		} else {
+			$tradetracker_productID="23671";
+		}
+
+		# bedrag
+		$tradetracker_bedrag="";
+
 	} elseif($vars["website"]=="I") {
 
 		#

@@ -363,6 +363,10 @@ RewriteRule ^italie/$ /tradetracker/ [L]
 RewriteCond %{HTTP_HOST} italissima\.be [NC]
 RewriteRule ^vakantie/$ /tradetracker/ [L]
 
+# TradeTracker Chalet.eu
+RewriteCond %{HTTP_HOST} chalet\.eu [NC]
+RewriteRule ^chalets/?$ /tradetracker/ [L]
+
 # Foute spellingen accommodatie
 RewriteRule ^acomodatie/(.*)$ /accommodatie/$1  [L,R=301]
 RewriteRule ^accomodatie/(.*)$ /accommodatie/$1  [L,R=301]
