@@ -28,6 +28,18 @@ Header add Strict-Transport-Security: "max-age=15768000" env=HTTPS
 RewriteEngine On
 
 
+#
+# niet-https doorsturen naar https
+#
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} !^test\..*\..* [NC]
+RewriteCond %{HTTP_HOST} !postvak\.net [NC]
+RewriteCond %{HTTP_HOST} !netromtest [NC]
+RewriteCond %{HTTP_HOST} !webtastic\.nl [NC]
+RewriteCond %{REQUEST_METHOD}  !=POST
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+
 # blokkeren ongewenste spider
 SetEnvIfNoCase User-Agent "80legs" bad_user
 Deny from env=bad_user
@@ -448,18 +460,6 @@ RewriteRule ^facebook-actie$ / [L,R=301]
 RewriteRule ^agentenactie$ / [L,R=301]
 RewriteRule ^nieuwsbriefactie$ / [L,R=301]
 
-
-
-#
-# niet-https doorsturen naar https
-#
-RewriteCond %{HTTPS} !=on
-RewriteCond %{HTTP_HOST} !^test\..*\..* [NC]
-RewriteCond %{HTTP_HOST} !postvak\.net [NC]
-RewriteCond %{HTTP_HOST} !netromtest [NC]
-RewriteCond %{HTTP_HOST} !webtastic\.nl [NC]
-RewriteCond %{REQUEST_METHOD}  !=POST
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 
 #
