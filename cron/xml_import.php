@@ -29,6 +29,16 @@ function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $w
         return $xml;
 }
 
+
+$track_time = microtime(true);
+function track_time($text) {
+	global $track_time_text, $track_time;
+
+	$track_time_text .= "\n".$text.": ".number_format(microtime(true)-floatval($track_time), 3, ",", ".")." seconden";
+
+	$track_time = microtime(true);
+}
+
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro") {
 	# Lokaal testen
 	$testsysteem=true;
@@ -146,6 +156,8 @@ if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
 		}
 		$csv_urls[5]=$tmpdir."dispo.csv";
 	}
+
+	track_time("P&V gedownload");
 }
 
 
@@ -897,6 +909,9 @@ while(list($key,$value)=@each($xml_urls)) {
 			trigger_error("_notice: URL ".$value2." onbereikbaar of geen valide XML",E_USER_NOTICE);
 		}
 	}
+
+	track_time("XML-url ".$vars["xml_type"][$key]." gedownload");
+
 }
 
 #echo wt_dump($xml_lastminute);
@@ -938,6 +953,9 @@ while(list($key,$value)=@each($csv_urls)) {
 	}
 	fclose($f);
 	unset($unixtime,$aantal,$value2,$split,$typeid);
+
+	track_time("CSV-url ".$vars["xml_type"][$key]." verwerkt");
+
 }
 
 
@@ -1250,6 +1268,9 @@ while(list($key,$value)=@each($soap_urls)) {
 		}
 		unset($client,$result,$datum_begin,$datum_eind,$aantal,$aantaldagen,$value3,$typeid);
 	}
+
+	track_time("SOAP-url ".$vars["xml_type"][$key]." gedownload en verwerkt");
+
 }
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
@@ -1338,6 +1359,15 @@ if($testsysteem) {
 	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, t.xmltarievenimport, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL ".$andquery.($vars["leverancierid_tijdelijk_niet_importeren"] ? " AND l.leverancier_id NOT IN (".$vars["leverancierid_tijdelijk_niet_importeren"].")" : "")." AND t.leverancierscode IS NOT NULL ORDER BY t.leverancier_id, a.wzt;");
 }
 while($db->next_record()) {
+
+	$leverancier_verwerkt_aantal[$db->f("leverancier_id")] = true;
+
+	if(count($leverancier_verwerkt_aantal)>=2 and !$leverancier_verwerkt[$db->f("leverancier_id")]) {
+		track_time("Leverancier ".$laatste_leverancier_naam." verwerkt");
+		$leverancier_verwerkt[$db->f("leverancier_id")] = true;
+	}
+	$laatste_leverancier_naam = $vars["xml_type"][$db->f("xml_type")];
+
 	unset($totaaltarief);
 	if($db->f("xml_type")==4 or $db->f("xml_type")==5 or $db->f("xml_type")==11 or $db->f("xml_type")==16) {
 		# samenvoegen accommodatiecode en typecode bij bepaalde leveranciers
@@ -2122,12 +2152,16 @@ while($db->next_record()) {
 	}
 }
 
+track_time("Leverancier ".$laatste_leverancier_naam." verwerkt + query afgerond");
 
-//Move and interhome discounts to tarief table.
+
+// Move and interhome discounts to tarief table.
 if(is_array($discount_updates)) {
-    $typeid_berekenen_inquery = implode(", ", $discount_updates);
-    include("tarieven_berekenen.php");
-    unset($typeid_berekenen_inquery);
+	$typeid_berekenen_inquery = implode(", ", $discount_updates);
+	include("tarieven_berekenen.php");
+	unset($typeid_berekenen_inquery);
+
+	track_time("Interhome-kortingen verwerkt");
 }
 
 #echo wt_dump($xml_brutoprijs[1][342]);
@@ -2226,6 +2260,7 @@ while(list($key,$value)=@each($beschikbaar)) {
 		}
 	}
 }
+track_time("voorraad aangepast op basis van 'beschikbaar'");
 
 #
 # voorraad aanpassen op basis van $nietbeschikbaar
@@ -2294,6 +2329,7 @@ while(list($key,$value)=@each($aantal_beschikbaar)) {
 		}
 	}
 }
+track_time("voorraad aangepast op basis van 'niet beschikbaar'");
 
 if(is_array($lastminute) and (date("H")==3 or date("H")==4)) {
 	#
@@ -2399,6 +2435,8 @@ if(is_array($lastminute) and (date("H")==3 or date("H")==4)) {
 				}
 			}
 		}
+		track_time("lastminute ".$key." verwerkt");
+
 	}
 
 	# xml-kortingen die niet meer actief zijn wissen
@@ -2532,6 +2570,8 @@ if(!$testsysteem) {
 		unlink($value);
 	}
 }
+
+echo "\n\n---------------------------------\n\nTrack time:\n".$track_time_text;
 
 echo "\n\nKlaar.\n";
 echo "</pre>\n\n";
