@@ -307,9 +307,12 @@ if($form->okay) {
 				$this->MultiCell(0,4,"".txt("bevestigingfactuur","factuur"),0,"R");
 				$this->Ln(3);
 				$this->SetFont('Arial','',10);
-				if($this->gegevens["stap1"]["website_specifiek"]["websitetype"]=="9") {
-					# Venturasol-gegevens
+				if($this->gegevens["stap1"]["website_specifiek"]["websitetype"]=="9" and $this->gegevens["stap1"]["website"]=="Y") {
+					# Venturasol-partner-gegevens
 					$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\n\nTel.: 0541 - 53 27 98\nKvK nr. 08116755\n\nBankrek. 43.66.72.901\nBTW NL-8121.27.377.B.01\n\nIBAN: NL77 ABNA 0436 6729 01\nBIC: ABNANL2A\n",0,"R");
+				} elseif($this->gegevens["stap1"]["website_specifiek"]["websitetype"]=="9" and $this->gegevens["stap1"]["website"]=="X") {
+					# Venturasol-gegevens
+					$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\n\nTel.: 0541 - 53 27 98\nKvK nr. 30209634\n\nBankrek. 43.66.72.901\nBTW NL-8121.27.377.B.01\n\nIBAN: NL77 ABNA 0436 6729 01\nBIC: ABNANL2A\n",0,"R");
 				} elseif($this->gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
 					# Adres voor Nederlanders
 					$this->MultiCell(0,4,"".$this->gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."\nWipmolenlaan 3\n3447 GJ Woerden\n\nTel.: 0348 434649\nFax: 0348 690752\nKvK nr. 30209634\n\nBankrek. 84.93.06.671\nBTW NL-8169.23.462.B.01\n\nIBAN: NL21 ABNA 0849 3066 71\nBIC: ABNANL2A\nABN AMRO - Woerden",0,"R");

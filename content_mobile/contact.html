@@ -76,22 +76,13 @@ if($_GET["fo"]=="frm") {
 		echo "</tr>";
 		echo "<tr>";
 		echo "<td>".html("KvK","contact")."</td><td>";
-		if($vars["websitetype"]==9) {
-			// KvK-nummer Venturasol
-			echo "08116755";
-		} else {
-			// KvK-nummer Chalet.nl BV
-			echo "30209634";
-		}
+		// KvK-nummer Chalet.nl BV
+		echo "30209634";
 		echo "</td>";
 		echo "</tr>";
 		if($vars["websiteland"]=="nl") {
 			echo "<td>SGR:</td><td>";
-			if($vars["websitetype"]==9) {
-				echo "2781";
-			} else {
-				echo "3199";
-			}
+			echo "3199";
 			echo "</td>";
 		}
 		echo "</p>";
