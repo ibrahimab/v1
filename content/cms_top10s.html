@@ -2,7 +2,9 @@
 
 if($_GET["show"]==18) {
 
-	echo "<p>XML-feed: <a href=\"https://www.superski.nl/xml/top10.php?chad=KWX12\" target=\"_blank\">https://www.superski.nl/xml/top10.php?chad=KWX12</a> (incl. trackingcode Snowplaza)</p>";
+	$top10_website = "C";
+
+	echo "<p>XML-feed: <a href=\"https://www.chalet.nl/xml/top10.php?chad=KWX12\" target=\"_blank\">https://www.chalet.nl/xml/top10.php?chad=KWX12</a> (incl. trackingcode Snowplaza)</p>";
 
 	if($_GET["week"]) {
 
@@ -21,7 +23,7 @@ if($_GET["show"]==18) {
 		echo "</style>";
 
 		# Accommodaties uit db halen
-		$db->query("SELECT DISTINCT a.naam AS accommodatie, a.soortaccommodatie, a.toonper, a.accommodatie_id, t.websites, t.type_id, t.naam AS type, t.code, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, l.naam AS land, l.begincode, tr.voorraad_garantie, tr.voorraad_allotment, tr.voorraad_vervallen_allotment, tr.voorraad_optie_leverancier, tr.voorraad_xml, tr.voorraad_request, tr.voorraad_optie_klant, tr.beschikbaar, tr.bruto, tr.c_bruto, tr.arrangementsprijs, a.tonen, t.tonen AS ttonen, tr.aanbiedingskleur, tr.toonexactekorting, tr.aanbieding_acc_percentage, tr.aanbieding_acc_euro FROM type t, accommodatie a, plaats p, land l, tarief tr WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.wzt='".$vars["tempseizoen"]["type"]."' AND tr.seizoen_id='".addslashes($_GET["18k1"])."' AND tr.week='".addslashes($_GET["week"])."' AND t.websites LIKE '%W%' AND tr.type_id=t.type_id ORDER BY p.naam, a.naam, t.type_id, t.naam, t.maxaantalpersonen;");
+		$db->query("SELECT DISTINCT a.naam AS accommodatie, a.soortaccommodatie, a.toonper, a.accommodatie_id, t.websites, t.type_id, t.naam AS type, t.code, t.optimaalaantalpersonen, t.maxaantalpersonen, p.naam AS plaats, l.naam AS land, l.begincode, tr.voorraad_garantie, tr.voorraad_allotment, tr.voorraad_vervallen_allotment, tr.voorraad_optie_leverancier, tr.voorraad_xml, tr.voorraad_request, tr.voorraad_optie_klant, tr.beschikbaar, tr.bruto, tr.c_bruto, tr.arrangementsprijs, a.tonen, t.tonen AS ttonen, tr.aanbiedingskleur, tr.toonexactekorting, tr.aanbieding_acc_percentage, tr.aanbieding_acc_euro FROM type t, accommodatie a, plaats p, land l, tarief tr WHERE t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.wzt='".$vars["tempseizoen"]["type"]."' AND tr.seizoen_id='".addslashes($_GET["18k1"])."' AND tr.week='".addslashes($_GET["week"])."' AND t.websites LIKE '%".$top10_website."%' AND tr.type_id=t.type_id ORDER BY p.naam, a.naam, t.type_id, t.naam, t.maxaantalpersonen;");
 		while($db->next_record()) {
 			$vars["top10_types"][$db->f("type_id")]=substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,80)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ";
 			$vars["top10_types_links"][$db->f("type_id")]=$vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/";
@@ -60,12 +62,12 @@ if($_GET["show"]==18) {
 						}
 					}
 
-#					if(ereg("C",$db->f("websites"))) {
-#						$vars["top10_types_beschikbaar_websites"][1][$db->f("type_id")]=true;
-#					}
-					if(ereg("W",$db->f("websites"))) {
-						$vars["top10_types_beschikbaar_websites"][2][$db->f("type_id")]=true;
+					if(ereg("C",$db->f("websites"))) {
+						$vars["top10_types_beschikbaar_websites"][1][$db->f("type_id")]=true;
 					}
+					// if(ereg("W",$db->f("websites"))) {
+					// 	$vars["top10_types_beschikbaar_websites"][2][$db->f("type_id")]=true;
+					// }
 #					if(ereg("Z",$db->f("websites"))) {
 #						$vars["top10_types_beschikbaar_websites"][3][$db->f("type_id")]=true;
 #					}
@@ -214,8 +216,8 @@ if($_GET["show"]==18) {
 		}
 	} else {
 
-		# site=2 (=SuperSki)
-		$temp_site=2;
+		# site=1 (=Chalet.nl)
+		$temp_site=1;
 
 		$db->query("SELECT week, blokvolgorde, bloknaam FROM top10_week WHERE seizoen_id='".addslashes($_GET["18k1"])."' AND site=".$temp_site.";");
 		while($db->next_record()) {
@@ -252,7 +254,7 @@ if($_GET["show"]==18) {
 	}
 } else {
 	if(!$_GET["edit"] and !$_GET["add"]) {
-		echo "<div class=\"opmerkingbox\">De Top 10's worden gebruikt voor de XML-export van SuperSki naar Snowplaza.</div>";
+		echo "<div class=\"opmerkingbox\">De Top 10's worden gebruikt voor de XML-export van Chalet.nl naar Snowplaza.</div>";
 	}
 	$cms->display_cms();
 }

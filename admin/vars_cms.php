@@ -439,7 +439,7 @@ if($mustlogin) {
 	$layout->submenu_item("cms_themas","","cms_themas","Winter",array("wzt"=>"1"),true);
 	$layout->submenu_item("cms_themas","","cms_themas","Zomer",array("wzt"=>"2"),true);
 
-	$layout->menu_item("cms_top10s","Top 10 aanbiedingen","",true);
+	$layout->menu_item("cms_top10s","Top 10-aanbiedingen","",true);
 	$layout->menu_item("cms_vertrekdagtypes","Vertrekdagtypes","",true);
 
 	if($login->has_priv("30")) {
