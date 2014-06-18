@@ -12,6 +12,13 @@ $data_onload="initialize_googlemaps";
 #$vars["jquery_scrollto"]=true;
 include_once "admin/vars.php";
 
+// 301-redirect when URL contains "?accid="
+if(preg_match("@^/accommodatie/([A-Z][0-9]+)/\?accid=[A-Z][0-9]+$@", $_SERVER["REQUEST_URI"], $regs)) {
+	header("Location: ".$vars["path"]."accommodatie/".$regs[1]."/",true,301);
+	exit;
+}
+
+
 // bewaren in cookie welke tarieventabel getoond moet worden (oud of nieuw)
 if($_GET["tarieventabelversie"]) {
 	if($_GET["tarieventabelversie"]==1) {

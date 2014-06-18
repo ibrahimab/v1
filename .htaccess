@@ -11,8 +11,8 @@ AddType text/x-component .htc
 ErrorDocument 404 /404.php
 
 # header Strict-Transport-Security
-SetEnvIf Request_Protocol ^HTTPS.* HTTPS
-Header add Strict-Transport-Security: "max-age=15768000" env=HTTPS
+# SetEnvIf Request_Protocol ^HTTPS.* HTTPS
+# Header add Strict-Transport-Security: "max-age=15768000" env=HTTPS
 
 #
 # Geen enkele pagina tonen wegens werkzaamheden

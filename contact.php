@@ -24,6 +24,9 @@ if($_GET["accid"]) {
 		$form->field_onlyinoutput("plaats",txt("plaats","contact"),"",array("text"=>$db->f("plaats").", ".$db->f("skigebied")));
 		$accomschrijving=$db->f("plaats")." / ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".txt("max")." ".$db->f("maxaantalpersonen")." ".txt("personen").")%0D%0AVoor omschrijving: ".$vars["basehref"]."accommodatie/".$db->f("begincode").$_GET["accid"]."/%0D%0A%0D%0A";
 	}
+
+	$robot_noindex=true;
+
 }
 
 $temp_naw=getnaw();
