@@ -477,7 +477,7 @@ if($vars["websitetype"]==7) {
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
-    
+
 	$mobile_menu["home"]=txt("menutitle_home");
 	$mobile_menu["zoek-en-boek"]=txt("menutitle_zoek-en-boek");
 	$mobile_menu["bestemmingen"]=txt("menutitle_bestemmingen");
@@ -486,7 +486,7 @@ if($vars["websitetype"]==7) {
 	$mobile_menu["contact"]=txt("menutitle_contact");
 	$mobile_menu["vraag-ons-advies"]=txt("menutitle_vraag-ons-advies");
 	$mobile_menu["aanbiedingen"]=txt("menutitle_aanbiedingen");
-	$mobile_menu["start-chat"]=txt("menutitle_start-chat");    
+	$mobile_menu["start-chat"]=txt("menutitle_start-chat");
 
 } elseif($vars["seizoentype"]==2) {
 	#
@@ -724,7 +724,7 @@ $title["blog"]=txt("title_blog");
 
 
 # $vars - Variabelen declareren
-// $vars["actuele_vacature"]="Productmanager Oostenrijk";
+$vars["actuele_vacature"]="multiple";
 
 $vars["fotofabriek_code_na_enquete"]=false;
 

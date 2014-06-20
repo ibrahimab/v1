@@ -107,7 +107,7 @@ form {
 	float: left;
 	margin-left: 16px;
 	margin-top: 19px;
-	background:url("../pic/logo_venturasol.png") top left no-repeat;
+	background:url("../pic/logo_venturasol.png?c=1") top left no-repeat;
 	width: 300px;
 	height: 120px;
 	text-decoration: none;
