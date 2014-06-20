@@ -749,8 +749,12 @@ if($_GET["t"]==1) {
 	#
 	# Overige overzichten (==9)
 	#
+	echo "<br/>";
+	echo "<br/>";
+	echo "<br/>";
 
 	echo "<ul>";
+	echo "<li><a href=\"#englishreviews\">Reviews via Chalet.eu</a></li>";
 	echo "<li><a href=\"#wifiinternet\">Zomeraccommodaties met zowel Wi-Fi als internetverbinding</a></li>";
 	echo "<li><a href=\"#beddenperseizoen\">Aantal aangeboden bedden per seizoen</a></li>";
 	// echo "<li><a href=\"#grotegroepen\">Chalet.nl-accommodaties van 10 personen of meer die niet in het thema &quot;grote groepen&quot; vallen</a></li>";
@@ -762,7 +766,25 @@ if($_GET["t"]==1) {
 	echo "<li><a href=\"#geenbeoordelingen\">Winteraccommodaties zonder beoordeling</a></li>";
 	echo "<li><a href=\"#geenbeoordelingenzomer\">Zomeraccommodaties zonder beoordeling</a></li>";
 	echo "</ul>";
+	echo "<br/>";
+	echo "<br/>";
+	echo "<br/>";
+
 	echo "<hr>";
+
+
+	echo "<a name=\"englishreviews\"></a>";
+	echo "<h2>Reviews via Chalet.eu</h2>";
+	$db->query("SELECT b.boeking_id, b.boekingsnummer FROM boeking b INNER JOIN boeking_enquete be USING (boeking_id) WHERE b.website='E' AND be.websitetekst<>'' ORDER BY b.boekingsnummer, b.boeking_id;");
+	if($db->num_rows()) {
+		echo "Bij de volgende Chalet.eu-boekingen is een review ingevuld:<ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$vars["path"]."cms_boekingen_enquete.php?bid=".$db->f("boeking_id")."&controleren=1\" target=\"_blank\">".$db->f("boekingsnummer")."</a></li>";
+		}
+		echo "</ul>";
+	}
+	echo "<hr>";
+
 
 	# Overzicht aantal aangeboden bedden per seizoen
 	echo "<a name=\"wifiinternet\"></a>";
