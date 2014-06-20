@@ -885,7 +885,9 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 
 						echo "<tr><td style=\"vertical-align:top;\"><input type=\"checkbox\" name=\"goedkeur1\" id=\"goedkeur1\"></td><td><label for=\"goedkeur1\">".html("akkoordfactuur","bsys",array("h_1"=>"<a href=\"".$vars["path"]."bsys.php?laatstefactuur=1&bid=".intval($_GET["bid"])."\" target=\"_blank\">","h_2"=>"</a>","v_boekingsnummer"=>$gegevens["stap1"]["boekingsnummer"]))."</label></td></tr>";
 
-						if($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
+						if($gegevens["stap1"]["website"]=="Y") {
+							$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasolvacances.pdf";
+						} elseif($gegevens["stap1"]["website"]=="X") {
 							$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasol.pdf";
 						} else {
 							$pdffile="pdf/".txt("pdf_algemene_voorwaarden").".pdf";

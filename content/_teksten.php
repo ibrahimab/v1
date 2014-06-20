@@ -212,8 +212,8 @@ $txt["en"]["vars"]["mailopties_wzt2_vakantie"]="Holiday";
 $txt["nl"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)348 - 43 46 49";
 $txt["en"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)348 - 43 46 49";
 
-$txt["nl_x"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)541 - 53 27 98";
-$txt["en_x"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)541 - 53 27 98";
+$txt["nl_y"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)541 - 53 27 98";
+$txt["en_y"]["vars"]["mailopties_wzt_telefoonnummer"]="+31 (0)541 - 53 27 98";
 
 $txt["nl"]["vars"]["mailopties_wzt1_1"]="Beste [NAAM],\n\nOp [DATUM] vertrekken jullie naar [PLAATS], dit komt al snel dichterbij. Het is dus de hoogste tijd om te controleren of je een aantal belangrijke zaken voor jullie vakantie goed geregeld hebt.";
 $txt["en"]["vars"]["mailopties_wzt1_1"]="Dear [NAAM],\n\nOn [DATUM] you will depart for [PLAATS], and this date is quickly approaching. So right now is the time to make sure you have arranged a number of important issues for your holiday.";
@@ -271,8 +271,8 @@ $txt["en"]["vars"]["mailaanmaning"]="Dear [NAAM],\n\nWhile checking our administ
 $txt["nl_t"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nBij controle van onze administratie is gebleken dat er een achterstand is in de betaling van jullie [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nWij willen je daarom vragen om het openstaande bedrag per omgaande te betalen. Ga voor alle betaalinformatie naar de volgende website:\n\n[BETAALLINK]\n\nMocht de betaling reeds voldaan zijn dan ontvangen wij graag de volgende gegevens zodat wij onze administratie kunnen controleren:\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["en_t"]["vars"]["mailaanmaning"]="-";
 
-$txt["nl_x"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nBij controle van onze administratie is gebleken dat er een achterstand is in de betaling van jullie [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nWij willen je daarom vragen om het openstaande bedrag per omgaande te betalen. Ga voor alle betaalinformatie naar de volgende website:\n\n[BETAALLINK]\n\nMocht de betaling reeds voldaan zijn dan ontvangen wij graag de volgende gegevens zodat wij onze administratie kunnen controleren:\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)541 - 53 27 98";
-$txt["en_x"]["vars"]["mailaanmaning"]="-";
+$txt["nl_y"]["vars"]["mailaanmaning"]="Beste [NAAM],\n\nBij controle van onze administratie is gebleken dat er een achterstand is in de betaling van jullie [SOORTVAKANTIE].\n\n[BETALINGSINFO]\nWij willen je daarom vragen om het openstaande bedrag per omgaande te betalen. Ga voor alle betaalinformatie naar de volgende website:\n\n[BETAALLINK]\n\nMocht de betaling reeds voldaan zijn dan ontvangen wij graag de volgende gegevens zodat wij onze administratie kunnen controleren:\n- Betaald bedrag\n- Betaaldatum\n- Betaalwijze\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)541 - 53 27 98";
+$txt["en_y"]["vars"]["mailaanmaning"]="-";
 
 $txt["nl"]["vars"]["mailaanmaning_subject_1"]="Aanbetaling [SOORTVAKANTIE]";
 $txt["en"]["vars"]["mailaanmaning_subject_1"]="Down payment [SOORTVAKANTIE]";
@@ -307,8 +307,8 @@ $txt["en"]["vars"]["mailbetaling"]="Dear [NAAM],\n\nOn [DATUM] we received a pay
 $txt["nl_t"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nNa verwerking van deze betaling wordt het nieuwe openstaande saldo:\n\n[BETALINGSINFO]\nWij willen je vragen om het resterende bedrag voor de uiterste betaaldatum naar ons over te maken. Ga voor alle betaalinformatie naar de volgende website:\n\n[BETAALLINK]\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["en_t"]["vars"]["mailbetaling"]="-";
 
-$txt["nl_x"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nNa verwerking van deze betaling wordt het nieuwe openstaande saldo:\n\n[BETALINGSINFO]\nWij willen je vragen om het resterende bedrag voor de uiterste betaaldatum naar ons over te maken. Ga voor alle betaalinformatie naar de volgende website:\n\n[BETAALLINK]\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)541 - 53 27 98";
-$txt["en_x"]["vars"]["mailbetaling"]="-";
+$txt["nl_y"]["vars"]["mailbetaling"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nNa verwerking van deze betaling wordt het nieuwe openstaande saldo:\n\n[BETALINGSINFO]\nWij willen je vragen om het resterende bedrag voor de uiterste betaaldatum naar ons over te maken. Ga voor alle betaalinformatie naar de volgende website:\n\n[BETAALLINK]\n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)541 - 53 27 98";
+$txt["en_y"]["vars"]["mailbetaling"]="-";
 
 $txt["nl"]["vars"]["mailbetaling_voldaan"]="Beste [NAAM],\n\nWij hebben op [DATUM] een betaling van € [BEDRAG] op onze rekening bijgeschreven gekregen die betrekking heeft op jullie [SOORTVAKANTIE]. Onze dank hiervoor.\n\nHiermee is het totaalbedrag van jullie reis voldaan en worden ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.\n\nMet vriendelijke groet,\nMedewerkers [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
 $txt["en"]["vars"]["mailbetaling_voldaan"]="Dear [NAAM],\n\nOn [DATUM] we received a payment of € [BEDRAG] on our bank account which is related to your [SOORTVAKANTIE]. Thank you for that.\n\nThis makes your vacation fully paid for and we will send you your travel information circa 10 days before your departure.\n\nBest regards,\nEmployees [WEBSITE]\n\nTel: +31 (0)348 - 43 46 49";
@@ -1581,8 +1581,8 @@ $txt["en"]["contact"]["tijdsat"]="From 10 am to 5:30 pm";
 $txt["nl"]["contact"]["telefoonNummerGetal"]="0348 - 43 46 49";
 $txt["en"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 
-$txt["nl_x"]["contact"]["telefoonNummerGetal"]="0541 - 53 27 98";
-$txt["en_x"]["contact"]["telefoonNummerGetal"]="+31 541 532798";
+$txt["nl_y"]["contact"]["telefoonNummerGetal"]="0541 - 53 27 98";
+$txt["en_y"]["contact"]["telefoonNummerGetal"]="+31 541 532798";
 
 $txt["nl_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
 $txt["en_b"]["contact"]["telefoonNummerGetal"]="+31 348 43 46 49";
@@ -1704,8 +1704,8 @@ $txt["en"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
 $txt["nl_b"]["contact"]["telefoonnummer_chalet"]="Telefoon: +31 348 43 46 49";
 $txt["en_b"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 348 43 46 49";
 
-$txt["nl_x"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0541 - 53 27 98";
-$txt["en_x"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 541 53 27 98";
+$txt["nl_y"]["contact"]["telefoonnummer_chalet"]="Telefoon: 0541 - 53 27 98";
+$txt["en_y"]["contact"]["telefoonnummer_chalet"]="Telephone: +31 541 53 27 98";
 
 $txt["nl"]["contact"]["fax_chalet"]="Fax: 0348 - 69 07 52";
 $txt["en"]["contact"]["fax_chalet"]="Fax: +31 348 69 07 52";
@@ -4358,8 +4358,8 @@ $txt["en"]["bsys"]["customer_country"]="Select your country";
 $txt["nl"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 84.93.06.671 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
 $txt["en"]["bsys"]["banktransfer_text"] = "You can send the money you are still due to our bank account number:\n\n IBAN: NL21 ABNA 0849 3066 71 \n BIC: ABNANL2A \n ABN AMRO - Woerden \n\n Please make sure you also state the reservation number [b][[v_resnumber]][/b] at the transaction. \n After we received the money you are still due we will send you your travel information circa 10 days before your departure.";
 
-$txt["nl_x"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 43.66.72.901 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL77 ABNA 0436 6729 01 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
-$txt["en_x"]["bsys"]["banktransfer_text"] = "-";
+$txt["nl_y"]["bsys"]["banktransfer_text"] = "Je kunt het resterende bedrag voor de uiterste betaaldatum overmaken naar bankrekeningnummer 43.66.72.901 onder vermelding van het reserveringsnummer [b][[v_resnumber]][/b]. \n\nGegevens voor internationale betaling: \n\n IBAN: NL77 ABNA 0436 6729 01 \n BIC: ABNANL2A \n ABN AMRO – Woerden \n\nNa ontvangst van het totaalbedrag krijg je ca. 10 dagen voor vertrek de reisdocumenten toegestuurd.";
+$txt["en_y"]["bsys"]["banktransfer_text"] = "-";
 
 $txt["nl"]["docdata"]["redirect"]="Als je niet automatisch wordt doorverwezen klik dan op deze knop:";
 $txt["en"]["docdata"]["redirect"]="If you are not redirected automatically click this button:";

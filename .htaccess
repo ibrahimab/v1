@@ -40,12 +40,6 @@ RewriteCond %{HTTP_HOST} ^www\..*\..* [NC]
 RewriteCond %{REQUEST_METHOD} !=POST
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# partner.venturasol.nl doorsturen naar https
-RewriteCond %{HTTPS} !=on
-RewriteCond %{HTTP_HOST} ^partner\.venturasol\.nl [NC]
-RewriteCond %{REQUEST_METHOD} !=POST
-RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
 # blokkeren ongewenste spider
 SetEnvIfNoCase User-Agent "80legs" bad_user
 Deny from env=bad_user
@@ -85,6 +79,11 @@ RewriteRule ^index\.php$ / [R=301,L]
 # secondhomes.venturasol.nl: doorsturen naar nieuwe domeinnaam venturasolsecondhomes.nl
 RewriteCond %{HTTP_HOST} secondhomes\.venturasol\.nl [NC]
 RewriteRule ^(.*)$ http://www.venturasol-secondhomes.nl/$1 [L,R=301]
+
+# partner.venturasol.nl doorsturen naar venturasolvacances.nl
+RewriteCond %{HTTP_HOST} ^partner\.venturasol\.nl [NC]
+RewriteCond %{REQUEST_METHOD} !=POST
+RewriteRule ^(.*)$ https://www.venturasolvacances.nl/$1 [L,R=301]
 
 
 #
@@ -166,6 +165,12 @@ RewriteCond %{HTTP_HOST} !^test\.venturasol\.nl [NC]
 RewriteCond %{HTTP_HOST} !^partner\.venturasol\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ https://www.venturasol.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} venturasolvacances\.nl [NC]
+RewriteCond %{HTTP_HOST} !^www\.venturasolvacances\.nl [NC]
+RewriteCond %{HTTP_HOST} !^test\.venturasolvacances\.nl [NC]
+RewriteCond %{REQUEST_URI} !google.*\.html [NC]
+RewriteRule ^(.*)$ https://www.venturasolvacances.nl/$1 [L,R=301]
 
 
 # #
