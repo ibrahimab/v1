@@ -3829,6 +3829,8 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 		# bedrag
 		$tradetracker_bedrag="";
 
+		$tradetracker_dot_net = true;
+
 	} elseif($vars["website"]=="I") {
 
 		#
@@ -3918,7 +3920,13 @@ function affiliate_tracking($sale=false,$toon_tradetracker=true,$toon_cleafs=tru
 
 		// Send the complete report to TradeTracker
 		if($vars["lokale_testserver"]) {
-			echo "<img src=\"ss.postvak.net/tradetrackertest/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&amp;conversionType=".($sale ? "sales" : "lead")."&amp;orderID=".$orderID.($sale ? "&amp;orderAmount=".$orderAmount : "")."&amp;email=$email&amp;additional=$additional\" width=\"1\" height=\"1\" style=\"border:0;\" alt=\"\" />\n";
+			if($tradetracker_dot_net) {
+				echo "<img src=\"t".($sale ? "s" : "l").".tradetracker.net/?cid=$tradetracker_campaignID&amp;pid=$tradetracker_productID&amp;tid=$orderID".($sale ? "&amp;tam=$orderAmount" : "")."&amp;eml=$email&descrMerchant=additional&descrAffiliate=additional\" width=\"1\" height=\"1\" style=\"border:0;\" alt=\"\" />\n";
+			} else {
+				echo "<img src=\"ss.postvak.net/tradetrackertest/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&amp;conversionType=".($sale ? "sales" : "lead")."&amp;orderID=".$orderID.($sale ? "&amp;orderAmount=".$orderAmount : "")."&amp;email=$email&amp;additional=$additional\" width=\"1\" height=\"1\" style=\"border:0;\" alt=\"\" />\n";
+			}
+		} elseif($tradetracker_dot_net) {
+			echo "<img src=\"https://t".($sale ? "s" : "l").".tradetracker.net/?cid=$tradetracker_campaignID&amp;pid=$tradetracker_productID&amp;tid=$orderID".($sale ? "&amp;tam=$orderAmount" : "")."&amp;eml=$email&descrMerchant=additional&descrAffiliate=additional\" width=\"1\" height=\"1\" style=\"border:0;\" alt=\"\" />\n";
 		} else {
 			echo "<img src=\"https://t".($sale ? "s" : "l").".tradetracker.nl/$tradetracker_campaignID/$tradetracker_productID/?trackingData=$trackingData&amp;conversionType=".($sale ? "sales" : "lead")."&amp;orderID=".$orderID.($sale ? "&amp;orderAmount=".$orderAmount : "")."&amp;email=$email&amp;additional=$additional\" width=\"1\" height=\"1\" style=\"border:0;\" alt=\"\" />\n";
 		}
