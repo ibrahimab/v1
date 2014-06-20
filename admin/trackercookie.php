@@ -112,6 +112,7 @@ if((!$_COOKIE["tch"] or $vars["bezoek_altijd_opslaan"]) and !$mustlogin) {
 				$db->query("INSERT INTO bezoeker SET bezoeker_id='".addslashes($code)."', site='".addslashes($_SERVER["HTTP_HOST"])."'".($tmp_lastacc ? ", last_acc='".addslashes($tmp_lastacc)."'" : "").", gewijzigd=NOW();");
 				setcookie("sch",$code,time()+(86400*365*10),"/");
 				$_COOKIE["sch"]=$code;
+				$_SESSION["sch_when_cookies_disabled"] = $code;
 #			}
 		}
 	}

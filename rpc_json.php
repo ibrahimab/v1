@@ -282,15 +282,21 @@ if ( $_GET["t"]==1 ) {
 	//
 	// Favorietenfunctie
 	//
-	if ( $_GET["action"]=="insert" ) {
-		if($_COOKIE["sch"]) {
-			$db->query( "INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime, editdatetime) VALUES ('".addslashes( $_COOKIE["sch"] )."','".addslashes( $_GET["typeid"] )."',NOW(), NOW());" );
-		}
-	} elseif ( $_GET["action"]=="delete" ) {
-		$db->query( "DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes( $_COOKIE["sch"] )."' AND type_id='".addslashes( $_GET["typeid"] )."';" );
+	if($_COOKIE["sch"]) {
+		$sch_value = $_COOKIE["sch"];
+	} elseif($_SESSION["sch_when_cookies_disabled"]) {
+		$sch_value = $_SESSION["sch_when_cookies_disabled"];
 	}
 
-	$db->query( "SELECT COUNT(b.type_id) AS aantal FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes( $_COOKIE["sch"] )."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;" );
+	if ( $_GET["action"]=="insert" ) {
+		if($sch_value) {
+			$db->query( "INSERT INTO bezoeker_favoriet(bezoeker_id, type_id, adddatetime, editdatetime) VALUES ('".addslashes( $sch_value )."','".addslashes( $_GET["typeid"] )."',NOW(), NOW());" );
+		}
+	} elseif ( $_GET["action"]=="delete" ) {
+		$db->query( "DELETE FROM bezoeker_favoriet WHERE bezoeker_id='".addslashes( $sch_value )."' AND type_id='".addslashes( $_GET["typeid"] )."';" );
+	}
+
+	$db->query( "SELECT COUNT(b.type_id) AS aantal FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes( $sch_value )."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;" );
 	if ( $db->next_record() ) {
 		$return["aantal"]=$db->f( "aantal" );
 	}
