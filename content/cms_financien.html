@@ -1772,10 +1772,10 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 		while(list($key,$value)=each($grootboekrekeningnummers->grootboekrekeningnummers)) {
 			if(!$vars["websites_inactief"][$key]) {
-				if($_GET["bedrijf"]=="venturasol" and $key<>"X" and $key<>"Y") {
+				if($_GET["bedrijf"]=="venturasol" and $key<>"Y") {
 					continue;
 				}
-				if($_GET["bedrijf"]=="chalet" and ($key=="X" or $key=="Y")) {
+				if($_GET["bedrijf"]=="chalet" and ($key=="Y")) {
 					continue;
 				}
 				echo "<tr>";

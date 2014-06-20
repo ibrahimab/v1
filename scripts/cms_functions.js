@@ -816,10 +816,10 @@ $(document).ready(function() {
 
 
 	if($("body#cms_body_cms_boekingen").length!==0) {
-		// Venturasol-boekingen in boekingen-CMS andere kleur geven
+		// Venturasol-Vacances boekingen in boekingen-CMS andere kleur geven
 		$("table.tbl tr").each(function() {
 			var site_letter = $(this).find("td:nth-child(3)").text();
-			if(site_letter.indexOf("X")>-1 || site_letter.indexOf("Y")>-1) {
+			if(site_letter.indexOf("Y")>-1) {
 				$(this).addClass("tr_venturasol_boeking");
 			}
 		});

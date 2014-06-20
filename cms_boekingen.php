@@ -141,7 +141,7 @@ if($_GET["21k0"]) {
 		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and $login->userlevel<10) {
 			if($vars["websites_wzt"][2][$db->f("website")]) {
 				$layout->settings["extra_cssfiles"][]="css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
-			} elseif($db->f("website")=="X" or $db->f("website")=="Y") {
+			} elseif($db->f("website")=="Y") {
 				$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=fff093";
 			}
 		}

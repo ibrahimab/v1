@@ -109,6 +109,10 @@ span.x-small {
 	font-variant: small-caps;
 }
 
+.nowrap {
+	white-space: nowrap;
+}
+
 .gekleurdetekst {
 	color: <?php echo $rood; ?>;
 }

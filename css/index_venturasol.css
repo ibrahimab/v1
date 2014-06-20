@@ -182,6 +182,26 @@
 	box-shadow: 2px 2px 2px #888;
 }
 
+#hoofdpagina_banner_particulieren {
+	display: block;
+	background: url(../pic/venturasol_hoofdpagina/banner_particulieren.png) no-repeat 0 0px;
+	width: 182px;
+	height: 250px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border: 1px solid #0412b1;
+    border-radius: 10px;
+	behavior: url(/PIE.htc);
+	position: relative;
+	margin-top: 30px;
+}
+
+#hoofdpagina_banner_particulieren:hover {
+	-moz-box-shadow: 2px 2px 2px #888;
+	-webkit-box-shadow: 2px 2px 2px #888;
+	box-shadow: 2px 2px 2px #888;
+}
+
 #hoofdpagina_banner_rechts {
 	margin-top: 25px;
 	display: block;

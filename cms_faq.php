@@ -32,7 +32,7 @@ $volgorde=$volgorde+10;
 if($_GET["wzt"]==2) {
 	$te_tonen_websites = array("I"=>"Italissima.nl", "K"=>"Italissima.be", "Z"=>"Zomerhuisje.nl");
 } else {
-	$te_tonen_websites = array("C"=>"Chalet.nl", "B"=>"Chalet.be", "T"=>"Chalettour.nl","V"=>"Chalets in Vallandry (.nl)","X"=>"Venturasol","Y"=>"Venturasol-partner");
+	$te_tonen_websites = array("C"=>"Chalet.nl", "B"=>"Chalet.be", "T"=>"Chalettour.nl","V"=>"Chalets in Vallandry (.nl)","X"=>"Venturasol Wintersport","Y"=>"Venturasol Vacances");
 }
 
 

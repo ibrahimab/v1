@@ -6,10 +6,12 @@ function txt($id,$page="",$settings="",$html=false) {
 		$taal=$gegevens["stap1"]["taal"];
 		$websitetype=$gegevens["stap1"]["website_specifiek"]["websitetype"];
 		$websiteland=$gegevens["stap1"]["website_specifiek"]["websiteland"];
+		$website=$gegevens["stap1"]["website"];
 	} else {
 		$taal=$vars["taal"];
 		$websitetype=$vars["websitetype"];
 		$websiteland=$vars["websiteland"];
+		$website=$vars["website"];
 	}
 	if(!$id) {
 		trigger_error("op page ".$page." wordt een lege \$id aangeroepen",E_USER_NOTICE);
@@ -21,9 +23,9 @@ function txt($id,$page="",$settings="",$html=false) {
 		if($websitetype==5 and isset($txt[$taal."_z_t"][$page][$id])) {
 			# Chalettour zomer (niet in gebruik)
 			$return=$txt[$taal."_z_t"][$page][$id];
-		} elseif($websitetype==9 and isset($txt[$taal."_x"][$page][$id])) {
-			# Venturasol
-			$return=$txt[$taal."_x"][$page][$id];
+		} elseif($websitetype==9 and $website=="Y" and isset($txt[$taal."_y"][$page][$id])) {
+			# Venturasol Vacances
+			$return=$txt[$taal."_y"][$page][$id];
 		} elseif($websitetype==8 and isset($txt[$taal."_w"][$page][$id])) {
 			# SuperSki
 			$return=$txt[$taal."_w"][$page][$id];
@@ -52,9 +54,9 @@ function txt($id,$page="",$settings="",$html=false) {
 		if($websitetype==5 and isset($txta[$taal."_z_t"][$id])) {
 			# Chalettour zomer (niet in gebruik)
 			$return=$txta[$taal."_z_t"][$id];
-		} elseif($websitetype==9 and isset($txta[$taal."_x"][$id])) {
+		} elseif($websitetype==9 and $website=="Y" and isset($txta[$taal."_y"][$id])) {
 			# Venturasol
-			$return=$txta[$taal."_x"][$id];
+			$return=$txta[$taal."_y"][$id];
 		} elseif($websitetype==8 and isset($txta[$taal."_w"][$id])) {
 			# SuperSki
 			$return=$txta[$taal."_w"][$id];
@@ -3624,11 +3626,11 @@ function facebook_opengraph($info="") {
 				# Italyhomes
 				$logo_afbeelding="logo_italyhomes.gif";
 			} elseif($vars["website"]=="X") {
-				# Venturasol
+				# Venturasol Wintersport
 				$logo_afbeelding="logo_venturasol.png";
 			} elseif($vars["website"]=="Y") {
-				# Venturasol-partner
-				$logo_afbeelding="logo_venturasol.png";
+				# Venturasol Vacances
+				$logo_afbeelding="logo_venturasolvacances.png";
 			}
 			if($logo_afbeelding) {
 				$return.="<meta property=\"og:image\" content=\"".wt_he($vars["basehref"]."pic/".$logo_afbeelding)."\" />\n";

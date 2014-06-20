@@ -245,7 +245,7 @@ if($mustlogin) {
 
 	// bij financieel: logo Chalet of Venturasol tonen
 	if($_GET["bedrijf"]=="venturasol") {
-		$layout->settings["html_bottom"]="<div class=\"financieel_logo_rechts financieel_venturasol\">Venturasol Vacances B.V.<img src=\"".$vars["path"]."pic/logo_venturasol.png\"></div>";
+		$layout->settings["html_bottom"]="<div class=\"financieel_logo_rechts financieel_venturasol\">Venturasol Vacances B.V.<img src=\"".$vars["path"]."pic/logo_venturasolvacances.png\"></div>";
 		$layout->settings["content_class"]="financieel_venturasol";
 	} elseif($_GET["bedrijf"]=="chalet") {
 		$layout->settings["html_bottom"]="<div class=\"financieel_logo_rechts financieel_chalet\">Chalet.nl B.V.<img src=\"".$vars["path"]."pic/logo_chalet.gif\"></div>";
@@ -269,7 +269,7 @@ if($mustlogin) {
 			if($db->next_record()) {
 				if($vars["websites_wzt"][2][$db->f("website")]) {
 					$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
-				} elseif($db->f("website")=="X" or $db->f("website")=="Y") {
+				} elseif($db->f("website")=="Y") {
 					$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=fff093";
 				}
 			}
@@ -1202,8 +1202,8 @@ function mailtekst_opties($boekingid) {
 			$return["body"]=ereg_replace("\[VERZEKERINGLINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_verzekeringen"].".php",$return["body"]);
 			$return["body"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["body"]);
 
-			if($gegevens["stap1"]["website"]=="X" or $gegevens["stap1"]["website"]=="Y") {
-				$telefoonnummer=$txt[$taal."_x"]["vars"]["mailopties_wzt_telefoonnummer"];
+			if($gegevens["stap1"]["website"]=="Y") {
+				$telefoonnummer=$txt[$taal."_y"]["vars"]["mailopties_wzt_telefoonnummer"];
 			} else {
 				$telefoonnummer=$txt[$taal]["vars"]["mailopties_wzt_telefoonnummer"];
 			}
@@ -1348,8 +1348,8 @@ function mailtekst_verzendmethode_reisdocumenten($boekingid) {
 			$return["body"]=ereg_replace("\[LINK\]",$vars["websites_basehref"][$gegevens["stap1"]["website"]].$txta[$taal]["menu_inloggen"].".php",$return["body"]);
 			$return["body"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["body"]);
 
-			if($gegevens["stap1"]["website"]=="X" or $gegevens["stap1"]["website"]=="Y") {
-				$telefoonnummer=$txt[$taal."_x"]["vars"]["mailopties_wzt_telefoonnummer"];
+			if($gegevens["stap1"]["website"]=="Y") {
+				$telefoonnummer=$txt[$taal."_y"]["vars"]["mailopties_wzt_telefoonnummer"];
 			} else {
 				$telefoonnummer=$txt[$taal]["vars"]["mailopties_wzt_telefoonnummer"];
 			}
@@ -1467,9 +1467,9 @@ function mailtekst_aanmaning($boekingid,$soortbetaling,$bedrag,$voldaan) {
 			$return["body"].=$gegevens["stap1"]["aanmaning_tekst"];
 			$return["bewerkt"]=true;
 		} else {
-			if($gegevens["stap1"]["website"]=="X" or $gegevens["stap1"]["website"]=="Y") {
+			if($gegevens["stap1"]["website"]=="Y") {
 				// aanmaning-tekst Venturasol
-				$return["body"]=$txt[$taal."_x"]["vars"]["mailaanmaning"]."\n\n";
+				$return["body"]=$txt[$taal."_y"]["vars"]["mailaanmaning"]."\n\n";
 			} else {
 				// aanmaning-tekst alle andere sites
 				$return["body"]=$txt[$taal]["vars"]["mailaanmaning"]."\n\n";
@@ -2569,8 +2569,13 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 		# SuperSki
 		$logo="factuur_logo_superski.png";
 	} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
-		# Venturasol
-		$logo="factuur_logo_venturasol.png";
+		if($gegevens["stap1"]["website"]=="Y") {
+			# Venturasol Vacances
+			$logo="factuur_logo_venturasolvacances.png";
+		} else {
+			# Venturasol Wintersport
+			$logo="factuur_logo_venturasol.png";
+		}
 	} else {
 		# Chalet Winter
 		if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="be") {
@@ -2589,8 +2594,14 @@ function vertrekinfo_boeking($gegevens,$save_pdffile="") {
 	$content.="<td style=\"text-align:right;\">";
 	if($gegevens["stap1"]["website_specifiek"]["websiteland"]=="nl") {
 		if($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
-			# Adres voor Venturasol
-			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0541 532798</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+
+			if($gegevens["stap1"]["website"]=="Y") {
+				# Adres voor Venturasol Vacances
+				$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0541 532798</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+			} else {
+				# Adres voor Venturasol Wintersport
+				$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 088 8112233</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";
+			}
 		} else {
 			# Adres voor Nederlanders
 			$content.=$gegevens["stap1"]["website_specifiek"]["langewebsitenaam"]."<br/>Wipmolenlaan 3<br/>3447 GJ Woerden<br/><br/><b>Tel.: 0348 434649</b><br/><b>Fax: 0348 690752</b><br/><b>E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"]."</b>";

@@ -367,9 +367,9 @@ if($_GET["uitgaand"]==1) {
 
 	// boekingen bij juiste B.V. zoeken
 	if($_GET["bedrijf"]=="venturasol") {
-		$andq.=" AND (b.website='X' OR b.website='Y')";
+		$andq.=" AND (b.website='Y')";
 	} else {
-		$andq.=" AND b.website!='X' AND b.website!='Y'";
+		$andq.=" AND b.website!='Y'";
 	}
 
 	# Laatste factuur bepalen

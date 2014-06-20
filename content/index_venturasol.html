@@ -61,20 +61,22 @@ echo "<li>14 jaar winterspecialist</li>";
 echo "<li>Kwaliteit</li>";
 echo "<li>Persoonlijke service</li>";
 echo "<li>Prijsbewust</li>";
-echo "<li>Lid SGR-Garantiefonds</li>";
+if($vars["website"]=="X") {
+	echo "<li>Lid SGR-Garantiefonds</li>";
+}
 echo "</ul></div>"; # afsluiten naamloze div
 echo "</div>\n"; # afsluiten hoofdpagina_waarom
 // echo "</a>\n"; # afsluiten hoofdpagina_waarom
 
-if($vars["website"]=="X") {
-	echo "<div id=\"hoofdpagina_sociallinks\">";
-	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
-	echo "<a href=\"https://www.facebook.com/Venturasol.Vacances\" title=\"Volg Venturasol via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
-	echo "<a href=\"https://twitter.com/Venturasol_nl\" title=\"Volg Venturasol via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
-	// echo "<a href=\"https://plus.google.com/102617791232710517310/\" title=\"Volg SuperSki via Google+\" target=\"_blank\" class=\"googleplus\"></a>\n";
-	echo "<div style=\"clear: both;\"></div>\n";
-	echo "</div>"; # afsluiten hoofdpagina_sociallinks
-}
+// if($vars["website"]=="X") {
+// 	echo "<div id=\"hoofdpagina_sociallinks\">";
+// 	echo "<div style=\"margin-bottom:3px;\">Volg ons:</div>";
+// 	echo "<a href=\"https://www.facebook.com/Venturasol.Vacances\" title=\"Volg Venturasol via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
+// 	echo "<a href=\"https://twitter.com/Venturasol_nl\" title=\"Volg Venturasol via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
+// 	// echo "<a href=\"https://plus.google.com/102617791232710517310/\" title=\"Volg SuperSki via Google+\" target=\"_blank\" class=\"googleplus\"></a>\n";
+// 	echo "<div style=\"clear: both;\"></div>\n";
+// 	echo "</div>"; # afsluiten hoofdpagina_sociallinks
+// }
 
 echo "<a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&amp;fsg=pl1\" id=\"hoofdpagina_banner_rechts\" ".($vars["website"]=="Y" ? "style=\"margin-top:20px;\"" : "")."><b>Wintersport</b><br/>in Les Menuires</a>";
 

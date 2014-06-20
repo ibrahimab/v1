@@ -113,6 +113,10 @@ form {
 	text-decoration: none;
 }
 
+.logo-vacances {
+	background-image:url("../pic/logo_venturasolvacances.png") !important;
+}
+
 #balkbovencontent {
 	height: 20px;
 	margin-right: 3px;

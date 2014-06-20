@@ -180,9 +180,9 @@ if($_GET["marges"]) {
 	$temp_websites_actief=$vars["websites_actief"];
 	unset($vars["websites_actief"]);
 	foreach ($temp_websites_actief as $key => $value) {
-		if($_GET["bedrijf"]=="venturasol" and ($key=="X" or $key=="Y")) {
+		if($_GET["bedrijf"]=="venturasol" and ($key=="Y")) {
 			$vars["websites_actief"][$key]=$value;
-		} elseif($_GET["bedrijf"]=="chalet" and $key!="X" and $key!="Y") {
+		} elseif($_GET["bedrijf"]=="chalet" and $key!="Y") {
 			$vars["websites_actief"][$key]=$value;
 		}
 	}

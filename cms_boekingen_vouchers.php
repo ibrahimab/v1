@@ -570,8 +570,13 @@ if($form->okay) {
 					# SuperSki-logo
 					$pdf->Image("pic/factuur_logo_superski.png",155,3+$y,45);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
-					# Venturasol-logo
-					$pdf->Image("pic/factuur_logo_venturasol.png",155,3+$y,45);
+					if($gegevens["stap1"]["website"]=="Y") {
+						# Venturasol Vacances
+						$pdf->Image('pic/factuur_logo_venturasolvacances.png',155,3+$y,45);
+					} else {
+						# Venturasol Wintersport
+						$pdf->Image('pic/factuur_logo_venturasol.png',155,3+$y,45);
+					}
 				} else {
 					if($gegevens["stap1"]["website"]=="B") {
 						# Chalet.be-logo
@@ -787,10 +792,15 @@ if($form->okay) {
 					$pdf->Ln(4);
 					$pdf->Cell(0,4,"Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel.: +31 348 43 46 49 - Emergency: +31 616 45 73 34 - Fax: +31 348 69 07 52 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
 				} elseif($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
+
 					# Venturasol-mailadres
 					$pdf->SetFont('Arial','B',6);
 					$pdf->Ln(4);
-					$pdf->Cell(0,4,"Venturasol Vacances - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel.: +31 541 53 27 98 - Emergency: +31 616 45 73 34 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
+					if($gegevens["stap1"]["website"]=="Y") {
+						$pdf->Cell(0,4,"Venturasol Vacances - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel.: +31 541 53 27 98 - Emergency: +31 616 45 73 34 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
+					} else {
+						$pdf->Cell(0,4,"Venturasol Wintersport - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands - Tel.: +31 888 11 22 33 - Emergency: +31 616 45 73 34 - E-mail: ".$gegevens["stap1"]["website_specifiek"]["email"],0,0,'C',0);
+					}
 				} else {
 					$pdf->SetFont('Arial','B',7);
 					$pdf->Ln(4);

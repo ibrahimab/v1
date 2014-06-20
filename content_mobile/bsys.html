@@ -570,7 +570,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						echo "&nbsp;";
 					}
 					echo "</td></tr>";
-                    
+
 					if($i==1) {
 						echo "<tr><td width=\"165\" valign=\"top\">".html("naam","bsys")."</td><td valign=\"top\" width=\"350\">".htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."&nbsp;</td><td>&nbsp;</td></tr>";
 						echo "<tr><td valign=\"top\">".html("adres","bsys")."</td><td valign=\"top\">".($gegevens["stap2"]["adres"] ? htmlentities($gegevens["stap2"]["adres"]) : "&nbsp;")."</td><td>&nbsp;</td></tr>";
@@ -597,7 +597,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						}
 						echo "&nbsp;</td><td>&nbsp;</td></tr>";
 					} else {
-                    
+
 						echo "<tr><td width=\"165\" valign=\"top\">".html("naam","bsys")."</td><td valign=\"top\" width=\"450\">";
 						if($gegevens["stap3"][$i]["voornaam"] or $gegevens["stap3"][$i]["achternaam"]) {
 							echo htmlentities(wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"]));
@@ -904,7 +904,9 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
                         }
 						echo "<tr><td style=\"vertical-align:top;\"><input type=\"checkbox\" name=\"goedkeur1\" id=\"goedkeur1\"></td><td><label for=\"goedkeur1\">".html("akkoordfactuur","bsys",array("h_1"=>"<a href=\"".$vars["path"]."bsys.php?laatstefactuur=1&bid=".intval($_GET["bid"])."\" target=\"_blank\">","h_2"=>"</a>","v_boekingsnummer"=>$gegevens["stap1"]["boekingsnummer"]))."</label></td></tr>";
 
-						if($gegevens["stap1"]["website_specifiek"]["websitetype"]==9) {
+						if($gegevens["stap1"]["website"]=="Y") {
+							$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasolvacances.pdf";
+						} elseif($gegevens["stap1"]["website"]=="X") {
 							$pdffile="pdf/".txt("pdf_algemene_voorwaarden")."_venturasol.pdf";
 						} else {
 							$pdffile="pdf/".txt("pdf_algemene_voorwaarden").".pdf";

@@ -152,11 +152,13 @@ echo "</td></tr></table>";
 echo "</div>\n"; # afsluiten submenu
 
 echo "<div id=\"topfoto\" class=\"noprint\" style=\"background-image:url('".$vars["path"].($vars["venturasol_topfoto"] ? $vars["venturasol_topfoto"] : "pic/topfoto_venturasol_1.jpg")."');\">";
-echo "<a href=\"".$vars["path"]."\" id=\"logo\">&nbsp;</a>";
+echo "<a href=\"".$vars["path"]."\" id=\"logo\" class=\"".($vars["website"]=="Y" ? "logo-vacances" : "")."\">&nbsp;</a>";
 echo "<div id=\"tagline\" class=\"noprint\"><h1><b>Chalets en<br/>appartementen</b><br/>in Frankrijk</h1></div>";
 echo "<div style=\"clear: both;\"></div>\n";
 echo "<div class=\"paymenticons\" id=\"kleinelogos\">";
-echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" style=\"border:0;\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+if($vars["website"]=="X") {
+	echo "<a href=\"".$vars["path"]."algemenevoorwaarden.php#sgr\" class=\"sgrlogo_hoofdmenu\"><img src=\"".$vars["path"]."pic/sgr_hoofdmenu.png\" style=\"border:0;\" height=\"27\" alt=\"Stichting Garantiefonds Reisgelden\" /></a>";
+}
 
 # Docdata payment logos
 if($vars["docdata_payments"]) {
@@ -175,7 +177,6 @@ echo "<div style=\"clear: both;\"></div>\n";
 
 # alleen voor print
 echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
-#echo "<div id=\"menubalk_print_logo\"><img src=\"".$vars["path"]."pic/factuur_logo_venturasol.png\"></div>";
 echo "<div id=\"menubalk_print_info\">";
 echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
 echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
@@ -266,6 +267,8 @@ if($vars["verberg_linkerkolom"]) {
 		// second-homes-banner
 		if($vars["website"]=="X") {
 			echo "<a href=\"http://www.venturasol-secondhomes.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_secondhomes\" class=\"analytics_track_external_click\"></a>";
+		} elseif($vars["website"]=="Y") {
+			echo "<a href=\"https://www.venturasol.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_particulieren\" class=\"analytics_track_external_click\"></a>";
 		}
 	}
 
@@ -338,7 +341,7 @@ if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcru
 	echo "</div>"; # afsluiten breadcrumb_wrapper
 }
 echo "<div id=\"colofon_wrapper\" class=\"noprint\">";
-echo "<div id=\"colofon\" class=\"noprint\">Venturasol - <a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</a> - ".html("telefoonnummer_colofon"). "</div>";
+echo "<div id=\"colofon\" class=\"noprint\">".wt_he($vars["websitenaam"])." - <a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</a> - ".html("telefoonnummer_colofon"). "</div>";
 
 
 
