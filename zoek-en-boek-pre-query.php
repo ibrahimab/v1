@@ -24,18 +24,18 @@ if($_GET["pagetype"]=="landing-italissima") {
 		<li>Comfortabele vakantiehuizen in landelijke stijl</li>
 		<li>Een agriturismo is omgeven door veel ruimte</li>
 		<li>De gemoedelijke sfeer van het platteland van Itali&euml;</li>
-		<li>De gastvrijheid waar Itali&euml; bekend om staat</li>
+		<li>Op een agriturismo ervaar je de gastvrijheid waar Itali&euml; bekend om staat</li>
 		<li>Genieten van de streekproducten die geproduceerd zijn op de eigen agriturismo</li>
 		<li>Panoramisch uitzicht vanaf de agriturismo over het glooiende landschap van Itali&euml;</li>
 		<li>Een agriturismo in Itali&euml; is een perfecte uitvalsbasis om de omgeving te verkennen.</li></ul></p>";
 
 		$landing_moretext = "meer over onze agriturismi in Italië";
 		$landing_content_slide_html="<h2>Onze agriturismi in Itali&euml;</h2>
-		<p>Er zijn veel verschillende soorten agriturismi, van eenvoudig tot super-de-luxe. Italissima beschikt dan ook over een gevarieerd aanbod van vakantiehuizen op agriturismi door heel Itali&euml;. Vrijwel iedere agriturismo beschikt over een (soms priv&eacute;-)zwembad en je kunt in veel gevallen de ter plekke verbouwde producten van de agriturismo ook proeven en/of kopen.</p>
+		<p>De agriturismo is er in veel verschillende soorten, van eenvoudig tot super-de-luxe. Italissima beschikt dan ook over een gevarieerd aanbod van vakantiehuizen op agriturismi door heel Itali&euml;. Vrijwel iedere agriturismo beschikt over een (soms priv&eacute;-)zwembad en je kunt in veel gevallen de ter plekke verbouwde producten van de agriturismo ook proeven en/of kopen.</p>
 		<p>Let ook op de uitstekende prijs/kwaliteitsverhouding van een agriturismo! Een weekverblijf op een agriturismo begint bij zo&rsquo;n 300 euro in het laagseizoen en vaak kun je tegen schappelijke prijzen met de eigenaren van de agriturismo mee-eten, wat natuurlijk ook weer geld scheelt.</p>
 		<p>Veel succes met de zoektocht naar je ideale agriturismo in Itali&euml;! En mocht je vragen hebben: aarzel dan niet om <a href=\"".$vars["path"]."contact.php\">contact</a> met ons op te nemen.</p>";
 
-		$landing_searchtext = "Bekijk en doorzoek onze agriturismi in Italië";
+		$landing_searchtext = "Bekijk en doorzoek ons agriturismo-aanbod in Italië";
 
 		$landing_canonical = "agriturismo-italie";
 
