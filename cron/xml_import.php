@@ -14,21 +14,45 @@
 # Tijdelijk bepaalde leverancierid uitzetten
 #$vars["leverancierid_tijdelijk_niet_importeren"]="4";
 
-function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $wzt, $seizoenen){
-        if(is_array($xml[$xml_type][$value])){
-            foreach($xml[$xml_type][$value] as $week => $status){
-                $season_availability = $seizoenen[$wzt][$week];
-                if(isset($shorter_seasons[$type_id][$season_availability])){
-                    if(($week < $shorter_seasons[$type_id][$season_availability]['begin']) or ($week > $shorter_seasons[$type_id][$season_availability]['end'])){
-                        unset($xml[$xml_type][$value][$week]);
-                    }
-                }
-            }
-        }
+$current_hour = date("H");
 
-        return $xml;
+function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $wzt, $seizoenen){
+	if(is_array($xml[$xml_type][$value])) {
+		foreach($xml[$xml_type][$value] as $week => $status){
+			$season_availability = $seizoenen[$wzt][$week];
+			if(isset($shorter_seasons[$type_id][$season_availability])){
+				if(($week < $shorter_seasons[$type_id][$season_availability]['begin']) or ($week > $shorter_seasons[$type_id][$season_availability]['end'])){
+					unset($xml[$xml_type][$value][$week]);
+				}
+			}
+		}
+	}
+
+	return $xml;
 }
 
+function get_slow_suppliers($xml_type) {
+	//
+	// Determine if Marche Holiday (14) and Direkt Holidays (24) should be downloaded (because downloading these suppliers takes a long time)
+	//
+	global $current_hour;
+
+	if($xml_type==14) {
+		// Marche Holiday (14)
+		if($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==9 or $current_hour==12 or $current_hour==15 or $current_hour==18 or $current_hour==22) {
+			return true;
+		} else {
+			return false;
+		}
+	} elseif($xml_type==24) {
+		// Direkt Holidays (24)
+		if($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==10 or $current_hour==13 or $current_hour==16 or $current_hour==19 or $current_hour==22) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
 
 $track_time = microtime(true);
 function track_time($text) {
@@ -96,10 +120,12 @@ $voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 # Vaste run, of handmatig gestarte run via https://www.chalet.nl/cms_diversen.php?t=3?
 #
 if(!$argv[1] and !$testsysteem) {
-	if(date("i")==5 and (date("H")==0 or date("H")==3 or date("H")==9 or date("H")==12 or date("H")==15 or date("H")==18 or date("H")==21)) {
-		# Alle leveranciers worden doorlopen
-	} elseif(date("H")==10 and date("i")==11 and $NU_EVEN_NIET) {
-		# Om alle leveranciers als test allemaal te kunnen nalopen: (testtijd staat op 10:11 uur, zie date("H") en date("i"))
+	if(date("i")==5 and $current_hour>=8 and $current_hour<=20) {
+		# Alle leveranciers worden doorlopen tussen 8 en 20 uur
+	} elseif(date("i")==5 and ($current_hour==0 or $current_hour==3  or $current_hour==6 or $current_hour==22)) {
+		# Alle leveranciers worden doorlopen om 0, 3, 6 en 22 uur
+	} elseif($current_hour==10 and date("i")==11 and $NU_EVEN_NIET) {
+		# Om alle leveranciers als test allemaal te kunnen nalopen: (testtijd staat op 10:11 uur, zie $current_hour en date("i") op de regel hierboven)
 
 	} else {
 		$db->query("SELECT handmatige_xmlimport_id FROM diverse_instellingen WHERE handmatige_xmlimport_id>0;");
@@ -126,7 +152,7 @@ if(!$testsysteem) {
 	$db->query("DELETE FROM xml_import_flex_temp;");
 }
 
-if((date("H")==9 and !$argv[1]) or $argv[1]=="5") {
+if(($current_hour==9 and !$argv[1]) or $argv[1]=="5") {
 	if(!$testsysteem) {
 		#
 		# CSV downloaden bij P&V Pierre & Vacances (pas beschikbaar vanaf de ochtend)
@@ -248,8 +274,9 @@ $xml_urls[12][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=122&top=3037&qry=
 $soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
 
 # Marche Holiday
-#$xml_urls[14][1]="Marche Holiday beschikbaarheid: werkt met losse XML's per accommodatie";
-#$xml_urls[14][2]="Marche Holiday tarieven: werkt met losse XML's per accommodatie";
+if(get_slow_suppliers(14)) {
+	$soap_urls[14] = $unixdir."suppliers/marche/index.php";
+}
 
 # Des Neiges MET SOAP
 $soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
@@ -293,10 +320,9 @@ $xml_urls[22][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=ex
 $soap_urls[23] = $unixdir."suppliers/interhome/index.php";
 
 # Direkt Holidays
-$soap_urls[24] = $unixdir."suppliers/direktholidays/index.php";
-
-//Marche Holidays
-$soap_urls[25] = $unixdir."suppliers/marche/index.php";
+if(get_slow_suppliers(24)) {
+	$soap_urls[24] = $unixdir."suppliers/direktholidays/index.php";
+}
 
 #
 # Voor testsysteem
@@ -965,12 +991,157 @@ while(list($key,$value)=@each($csv_urls)) {
 @reset($soap_urls);
 while(list($key,$value)=@each($soap_urls)) {
 
-	if($key == 24) {
+	if($key == 14) {
+		//
+		// Class Marche Holiday
+		//
+		if(file_exists($value)) {
+
+			// Marche Holiday
+			require_once($value);
+
+			$marcheHolidays = new MarcheHolidays();
+
+			// Get the last dates for each season type (winter=1, summer=2)
+			$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
+
+			$db->query($q);
+			while($db->next_record()) {
+				$endDate[$db->f("type")][] = $db->f("end");
+				$startDate[$db->f("type")][] = $db->f("begin");
+			}
+
+			// Get all accommodations from Marche Holiday (229)
+			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '229' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
+			$db->query($q);
+
+			// Loop through all the database accommodations
+			while($db->next_record()) {
+
+				if($db->f("leverancierscode_negeertarief") != NULL) {
+					$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
+					$leverancierscode = explode(",",$db->f("leverancierscode"));
+
+					$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
+					$accCode = array_shift($accCode);
+				} else {
+					$accCode = $db->f("leverancierscode");
+				}
+
+				$seasonId = $db->f("wzt");
+
+				foreach($endDate[$seasonId] as $endDatekey => $endDateValue) {
+					$x = strtotime($endDateValue);
+					$end_date = strtotime("+ 7 days", $x);
+					$end_date = date("Y-m-d", $end_date);
+
+					$start_date = $startDate[$seasonId][$endDatekey];
+					if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+						$start_date = date("Y-m-d");
+					}
+
+					if($availability = $marcheHolidays->getAvailability($accCode, $start_date, $end_date)) {
+						// Get the availability
+						if(isset($xml_beschikbaar[$key][$accCode])) {
+								$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+						} else {
+								$xml_beschikbaar[$key][$accCode] = $availability;
+						}
+					}
+				}
+				if(!isset($xml_beschikbaar[$key][$accCode])) $xml_beschikbaar[$key][$accCode] = array();
+			}
+
+			// Update last import date for supplier.
+			$xml_laatsteimport_leverancier[$key]=true;
+		}
+	} elseif($key == 23) {
+		//
+		// Class Interhome
+		//
 		if(file_exists($value)) {
 
 			require_once($value);
 
 			// Instantiate the Interhome class
+			$interHome = new InterHome();
+
+			// Get the Interhome server status
+			$iHomeServerStatus = current($interHome->getStatus())->getCheckServerHealthResult();
+
+			// Check for SOAP server services
+			if($iHomeServerStatus->getAvailability() != "OK" || $iHomeServerStatus->getPriceCheck() != "OK"){
+				print_r($iHomeServerStatus->getMessages());
+				die();
+			}
+			// Get the last dates for each season type (winter=1, summer=2)
+						$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
+
+						$db->query($q);
+			while($db->next_record()) {
+				$endDate[$db->f("type")][] = $db->f("end");
+				$startDate[$db->f("type")][] = $db->f("begin");
+						}
+
+			// Get all accommodations from Interhome (421)
+			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '421' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
+			$db->query($q);
+
+			// Loop through all the database accommodations
+			while($db->next_record()) {
+
+				if($db->f("leverancierscode_negeertarief") != NULL) {
+					$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
+					$leverancierscode = explode(",",$db->f("leverancierscode"));
+
+					$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
+					$accCode = array_shift($accCode);
+				} else {
+					$accCode = $db->f("leverancierscode");
+				}
+
+				$seasonId = $db->f("wzt");
+
+				foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
+					$x = strtotime($endDateValue);
+					$end_date = strtotime("+ 7 days", $x);
+					$end_date = date("Y-m-d", $end_date);
+
+					$start_date = $startDate[$seasonId][$endDatekey];
+					if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+						$start_date = date("Y-m-d");
+					}
+
+					if($availability = $interHome->getAvailability($accCode, $start_date, $end_date)) {
+						// Get the availability
+						if(isset($xml_beschikbaar[$key][$accCode])) {
+							$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+						} else {
+							$xml_beschikbaar[$key][$accCode] = $availability;
+						}
+					}
+				}
+				if(!isset($xml_beschikbaar[$key][$accCode])) $xml_beschikbaar[$key][$accCode] = array();
+			}
+
+			file_put_contents($unixdir."tmp/availabilities_1.txt", var_export($xml_beschikbaar[23], true));
+
+			// Get the prices
+			$xml_brutoprijs[$key] = $interHome->processPrices($xml_beschikbaar[$key]);
+
+			$xml_laatsteimport_leverancier[$key]=true;
+			$xml_discounts[$key] = $interHome->getDiscounts();
+
+		}
+	} elseif($key == 24) {
+		//
+		// Class Direkt Holidays
+		//
+		if(file_exists($value)) {
+
+			require_once($value);
+
+			// Instantiate the DirektHolidays class
 			$direktHolidays = new DirektHolidays("http://www.direktholidays.at/index.php?id=3&L=2");
 
 			// Get the last dates for each season type (winter=1, summer=2)
@@ -998,196 +1169,43 @@ while(list($key,$value)=@each($soap_urls)) {
 				}
 
 				$seasonId = $db->f("wzt");
-                                foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
-                                    $x = strtotime($endDateValue);
-                                    $end_date = strtotime("+ 7 days", $x);
-                                    $end_date = date("Y-m-d", $end_date);
+				foreach($endDate[$seasonId] as $endDatekey => $endDateValue) {
+					$x = strtotime($endDateValue);
+					$end_date = strtotime("+ 7 days", $x);
+					$end_date = date("Y-m-d", $end_date);
 
-                                    $url = $direktHolidays->getAccommodationURL($accCode);
-                                    $html = $direktHolidays->curlPricesRequest($url);
-                                    $start_date = $startDate[$seasonId][$endDatekey];
-                                    if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
-                                            $start_date = date("Y-m-d");
-                                    }
+					$url = $direktHolidays->getAccommodationURL($accCode);
+					$html = $direktHolidays->curlPricesRequest($url);
+					$start_date = $startDate[$seasonId][$endDatekey];
+					if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+						$start_date = date("Y-m-d");
+					}
 
-                                    if($availability = $direktHolidays->getAvailability($html, $start_date, $end_date)) {
-                                            // Get the availability
-                                            if(isset($xml_beschikbaar[$key][$accCode])) {
-                                                    $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-                                            } else {
-                                                    $xml_beschikbaar[$key][$accCode] = $availability;
-                                            }
-                                    }
+					if($availability = $direktHolidays->getAvailability($html, $start_date, $end_date)) {
+						// Get the availability
+						if(isset($xml_beschikbaar[$key][$accCode])) {
+								$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+						} else {
+								$xml_beschikbaar[$key][$accCode] = $availability;
+						}
+					}
 
-                                    if($prices = $direktHolidays->getPrices($html, $start_date, $end_date)) {
-                                            // Get the prices
-                                            if(isset($xml_brutoprijs[$key][$accCode])) {
-                                                    $xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
-                                            } else {
-                                                    $xml_brutoprijs[$key][$accCode] = $prices;
-                                            }
-                                   }
-                                }
-
+					if($prices = $direktHolidays->getPrices($html, $start_date, $end_date)) {
+						// Get the prices
+						if(isset($xml_brutoprijs[$key][$accCode])) {
+								$xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
+						} else {
+								$xml_brutoprijs[$key][$accCode] = $prices;
+						}
+					}
+				}
 			}
 			$xml_laatsteimport_leverancier[$key]=true;
 		}
-	} elseif($key == 23) {
-		if(file_exists($value)) {
-
-			require_once($value);
-
-			// Instantiate the Interhome class
-			$interHome = new InterHome();
-
-			// Get the Interhome server status
-			$iHomeServerStatus = current($interHome->getStatus())->getCheckServerHealthResult();
-
-			// Check for SOAP server services
-			if($iHomeServerStatus->getAvailability() != "OK" || $iHomeServerStatus->getPriceCheck() != "OK"){
-				print_r($iHomeServerStatus->getMessages());
-				die();
-			}
-			// Get the last dates for each season type (winter=1, summer=2)
-                        $q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
-
-                        $db->query($q);
-			while($db->next_record()) {
-				$endDate[$db->f("type")][] = $db->f("end");
-				$startDate[$db->f("type")][] = $db->f("begin");
-                        }
-
-			// Get all accommodations from Interhome (421)
-			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '421' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
-			$db->query($q);
-
-			// Loop through all the database accommodations
-			while($db->next_record()) {
-
-				if($db->f("leverancierscode_negeertarief") != NULL) {
-					$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
-					$leverancierscode = explode(",",$db->f("leverancierscode"));
-
-					$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
-					$accCode = array_shift($accCode);
-				} else {
-					$accCode = $db->f("leverancierscode");
-				}
-
-				$seasonId = $db->f("wzt");
-
-                                foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
-                                    $x = strtotime($endDateValue);
-                                    $end_date = strtotime("+ 7 days", $x);
-                                    $end_date = date("Y-m-d", $end_date);
-
-                                    $start_date = $startDate[$seasonId][$endDatekey];
-                                    if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
-                                            $start_date = date("Y-m-d");
-                                    }
-
-
-
-                                    if($availability = $interHome->getAvailability($accCode, $start_date, $end_date)) {
-                                            // Get the availability
-                                            if(isset($xml_beschikbaar[$key][$accCode])) {
-                                                    $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-                                            } else {
-                                                    $xml_beschikbaar[$key][$accCode] = $availability;
-                                            }
-                                    }
-                                }
-                                if(!isset($xml_beschikbaar[$key][$accCode]))
-                                        $xml_beschikbaar[$key][$accCode] = array();
-
-			}
-
-            file_put_contents($unixdir."tmp/availabilities_1.txt", var_export($xml_beschikbaar[23], true));
-
-			// Get the prices
-			$xml_brutoprijs[$key] = $interHome->processPrices($xml_beschikbaar[$key]);
-
-			$xml_laatsteimport_leverancier[$key]=true;
-            $xml_discounts[$key] = $interHome->getDiscounts();
-
-		}
-
-        } elseif($key == 25) {
-		if(file_exists($value)) {
-                        //Marche Holidays
-                        require_once($value);
-
-                        $marcheHolidays = new MarcheHolidays();
-
-			// Get the last dates for each season type (winter=1, summer=2)
-                        $q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
-
-                        $db->query($q);
-			while($db->next_record()) {
-
-
-				$endDate[$db->f("type")][] = $db->f("end");
-				$startDate[$db->f("type")][] = $db->f("begin");
-
-                        }
-
-			// Get all accommodations from Marche Holidays (229)
-			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '229' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
-
-                        $db->query($q);
-
-			// Loop through all the database accommodations
-			while($db->next_record()) {
-
-				if($db->f("leverancierscode_negeertarief") != NULL) {
-					$leverancierscode_negeertarief = explode(",",$db->f("leverancierscode_negeertarief"));
-					$leverancierscode = explode(",",$db->f("leverancierscode"));
-
-					$accCode = array_diff($leverancierscode, $leverancierscode_negeertarief);
-					$accCode = array_shift($accCode);
-				} else {
-					$accCode = $db->f("leverancierscode");
-				}
-
-				$seasonId = $db->f("wzt");
-
-
-                                foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
-                                    $x = strtotime($endDateValue);
-                                    $end_date = strtotime("+ 7 days", $x);
-                                    $end_date = date("Y-m-d", $end_date);
-
-                                    $start_date = $startDate[$seasonId][$endDatekey];
-                                    if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
-                                            $start_date = date("Y-m-d");
-                                    }
-
-
-
-                                    if($availability = $marcheHolidays->getAvailability($accCode, $start_date, $end_date)) {
-                                            // Get the availability
-                                            if(isset($xml_beschikbaar[$key][$accCode])) {
-                                                    $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
-                                            } else {
-                                                    $xml_beschikbaar[$key][$accCode] = $availability;
-                                            }
-                                    }
-
-                                    }
-
-                                    if(!isset($xml_beschikbaar[$key][$accCode]))
-                                        $xml_beschikbaar[$key][$accCode] = array();
-			}
-
-	            // Update last import date for supplier.
-	            $xml_laatsteimport_leverancier[$key]=true;
-
-		}
-
-
-
-        } else {
-
+	} else {
+		//
+		// Other SOAP suppliers (Eurogroup and Des Neiges)
+		//
 		@unlink($tmpdir."soapfile_".$key.".txt");
 		$opts = stream_context_create(array(
 			'http' => array(
@@ -1301,7 +1319,7 @@ $geen_vertrekdagaanpassing_leverancier=array(6);
 # Seizoenen koppelen aan datums
 $db->query("SELECT seizoen_id, type, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind, type FROM seizoen WHERE UNIX_TIMESTAMP(eind)>'".time()."' ORDER BY begin;");
 while($db->next_record()) {
-    $season_last_day[$db->f("seizoen_id")] = $db->f("eind");
+	$season_last_day[$db->f("seizoen_id")] = $db->f("eind");
 	if(!$eerste_datum_alle_seizoenen) $eerste_datum_alle_seizoenen=$db->f("begin");
 	$week=$db->f("begin");
 
@@ -1722,41 +1740,6 @@ while($db->next_record()) {
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
-		} elseif($db->f("xml_type")==14) {
-			#
-			# Leverancier Marche Holiday
-			#
-
-
-			# Beschikbaarheid en tarieven uit XML halen
-
-			# Alle seizoenen doorlopen
-			reset($beginseizoen[$db->f("wzt")]);
-			while(list($key3,$value3)=each($beginseizoen[$db->f("wzt")])) {
-				$res=marche_RPC_get_house_calendar("chaletmh","chalet11",$value,date("Y-m-d",$value3),54);
-				// $res=marche_RPC_get_house_availability("chaletmh","chalet11",$value,date("Y-m-d",$value3),54);
-
-// if(is_array($res)) {
-// 	echo wt_dump($res,false);
-// 	exit;
-// }
-
-				while(list($key4,$value4)=@each($res)) {
-					$week=strtotime($value4["week"]);
-					if($week>time()) {
-						if($value4["available"]=="free") {
-							$beschikbaar[$db->f("xml_type")][$db->f("type_id")][$week]=1;
-							$xml_laatsteimport_leverancier[$db->f("xml_type")]=true;
-							$xml_laatsteimport[$db->f("type_id")]=true;
-						}
-						if($value4["suggestedprice"]>0) {
-							$xml_brutoprijs[$db->f("xml_type")][$value][$week]=$value4["suggestedprice"];
-							$xml_laatsteimport_leverancier[$db->f("xml_type")]=true;
-							$xml_laatsteimport[$db->f("type_id")]=true;
-						}
-					}
-				}
-			}
 		} elseif($db->f("xml_type")==15) {
 			#
 			# Leverancier Den Neiges
@@ -1851,7 +1834,7 @@ while($db->next_record()) {
 			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
 
 
-                } elseif($db->f("xml_type")==25) {
+				} elseif($db->f("xml_type")==25) {
 
 			#
 			# Leverancier MacheHolidays
@@ -2004,89 +1987,89 @@ while($db->next_record()) {
 					}
 				}
 
-                // Update discount percentages for interHome
-                		if(is_array($xml_discounts[$db->f("xml_type")][$value]) && ($db->f("xml_type") == 23)) {
+				// Update discount percentages for interHome
+						if(is_array($xml_discounts[$db->f("xml_type")][$value]) && ($db->f("xml_type") == 23)) {
 
-                    foreach($xml_discounts[$db->f("xml_type")][$value] as $week => $lev_discount){
-                        $discount_seasonid = $seizoenen[$wzt[$db->f("type_id")]][$week];
-                        $new_insert[$discount_seasonid] = false;
-                        $all_weeks[] = $week;
+					foreach($xml_discounts[$db->f("xml_type")][$value] as $week => $lev_discount){
+						$discount_seasonid = $seizoenen[$wzt[$db->f("type_id")]][$week];
+						$new_insert[$discount_seasonid] = false;
+						$all_weeks[] = $week;
 
-                        $discount_order = 100000-intval($lev_discount);
+						$discount_order = 100000-intval($lev_discount);
 
-                        $sql_fields =     " editdatetime=NOW(), "
-                                        . " seizoen_id =".$discount_seasonid .", "
-                                        . " gekoppeld_code=0, "
-                                        . " xml_korting=2, "
-                                        . " delete_after_xml_korting=0, "
-                                        . " volgorde='".$discount_order."', "
-                                        . " toonexactekorting=1, "
-                                        . " aanbiedingskleur=1, "
-                                        . " interne_opmerkingen='', "
-                                        . " toon_als_aanbieding=1, "
-                                        . " onlinenaam_de='', "
-                                        . " onlinenaam_en='".$txt["en"]["vars"]["xml_discount_message"]."$lev_discount %', "
-                                        . " onlinenaam_fr ='', "
-                                        . " omschrijving = '', "
-                                        . " onlinenaam = '".str_replace("[DISCOUNTVALUE]",$lev_discount, $txt["nl"]["vars"]["xml_discount_message"])."', "
-                                        . " toon_abpagina=1, "
-                                        . " naam='Import kortings percentage - " .$lev_discount. "'";
+						$sql_fields =     " editdatetime=NOW(), "
+										. " seizoen_id =".$discount_seasonid .", "
+										. " gekoppeld_code=0, "
+										. " xml_korting=2, "
+										. " delete_after_xml_korting=0, "
+										. " volgorde='".$discount_order."', "
+										. " toonexactekorting=1, "
+										. " aanbiedingskleur=1, "
+										. " interne_opmerkingen='', "
+										. " toon_als_aanbieding=1, "
+										. " onlinenaam_de='', "
+										. " onlinenaam_en='".$txt["en"]["vars"]["xml_discount_message"]."$lev_discount %', "
+										. " onlinenaam_fr ='', "
+										. " omschrijving = '', "
+										. " onlinenaam = '".str_replace("[DISCOUNTVALUE]",$lev_discount, $txt["nl"]["vars"]["xml_discount_message"])."', "
+										. " toon_abpagina=1, "
+										. " naam='Import kortings percentage - " .$lev_discount. "'";
 
-                        $db2->query("SELECT * from korting where xml_korting=2 AND type_id=".$db->f("type_id")." AND seizoen_id = ".$discount_seasonid);
+						$db2->query("SELECT * from korting where xml_korting=2 AND type_id=".$db->f("type_id")." AND seizoen_id = ".$discount_seasonid);
 
-                        if($db2->next_record()){
-                            if($new_insert[$discount_seasonid] != true)
-                                $db2->query("UPDATE korting set " .$sql_fields. " WHERE type_id =".$db->f("type_id")." AND seizoen_id=".$discount_seasonid);
+						if($db2->next_record()){
+							if($new_insert[$discount_seasonid] != true)
+								$db2->query("UPDATE korting set " .$sql_fields. " WHERE type_id =".$db->f("type_id")." AND seizoen_id=".$discount_seasonid);
 
-                            $discountid = $db2->f("korting_id");
-                        } else {
+							$discountid = $db2->f("korting_id");
+						} else {
 
-                            $first_week = date("Y-m-d");
+							$first_week = date("Y-m-d");
 
-                            $last_discount_week = date("Y-m-d", $season_last_day[$discount_seasonid]);
+							$last_discount_week = date("Y-m-d", $season_last_day[$discount_seasonid]);
 
-                            $query =  "INSERT INTO korting set van='$first_week', tot='$last_discount_week', actief=1, adddatetime=NOW(), type_id=".$db->f("type_id").", ".$sql_fields;
-                            $db2->query($query);
+							$query =  "INSERT INTO korting set van='$first_week', tot='$last_discount_week', actief=1, adddatetime=NOW(), type_id=".$db->f("type_id").", ".$sql_fields;
+							$db2->query($query);
 
-		                            $new_insert[$discount_seasonid] = true;
+									$new_insert[$discount_seasonid] = true;
 
-		                            $discountid = $db2->insert_id();
-		                        }
+									$discountid = $db2->insert_id();
+								}
 
-		                        $all_kortings[] = $discountid;
-		                        $discount_updates[] = $db->f("type_id");
-		                        $db2->query("SELECT * from korting_tarief where korting_id = ".$discountid. " AND week=".$week);
-		                        $sql_tarief_fields =  "inkoopkorting_percentage = $lev_discount,"
-		                                            . "week = $week, "
-		                                            . "korting_id=$discountid, "
-		                                            . "aanbieding_acc_percentage = $lev_discount, "
-		                                            . "opgeslagen = NOW() ";
+								$all_kortings[] = $discountid;
+								$discount_updates[] = $db->f("type_id");
+								$db2->query("SELECT * from korting_tarief where korting_id = ".$discountid. " AND week=".$week);
+								$sql_tarief_fields =  "inkoopkorting_percentage = $lev_discount,"
+													. "week = $week, "
+													. "korting_id=$discountid, "
+													. "aanbieding_acc_percentage = $lev_discount, "
+													. "opgeslagen = NOW() ";
 
-		                        if($db2->next_record()){
-		                                $db2->query("UPDATE korting_tarief SET ".$sql_tarief_fields." WHERE korting_id = ".$discountid);
-		                        } else {
-		                            $db2->query("INSERT korting_tarief SET ".$sql_tarief_fields);
-		                        }
+								if($db2->next_record()){
+										$db2->query("UPDATE korting_tarief SET ".$sql_tarief_fields." WHERE korting_id = ".$discountid);
+								} else {
+									$db2->query("INSERT korting_tarief SET ".$sql_tarief_fields);
+								}
 
-		                    }
+							}
 
-		                    $xml_laatstewijziging[$db->f("type_id")]=true;
-		                    $all_weeks_updated = implode(", ", $all_weeks);
-		                    $all_korting_updated = implode(", ", $all_kortings);
-		                    $db2->query("DELETE FROM korting_tarief where week NOT IN ($all_weeks_updated) AND korting_id IN ($all_korting_updated) ");
+							$xml_laatstewijziging[$db->f("type_id")]=true;
+							$all_weeks_updated = implode(", ", $all_weeks);
+							$all_korting_updated = implode(", ", $all_kortings);
+							$db2->query("DELETE FROM korting_tarief where week NOT IN ($all_weeks_updated) AND korting_id IN ($all_korting_updated) ");
 
-                    		    unset($all_kortings, $all_weeks, $new_insert);
+								unset($all_kortings, $all_weeks, $new_insert);
 
-		                } elseif($db->f("xml_type") == 23) {
-		                    $db2->query("SELECT korting_id from korting where xml_korting=2 AND type_id=".$db->f("type_id"));
-		                    while($db2->next_record()){
-		                        $db3->query("DELETE FROM korting_tarief where korting_id=".$db2->f("korting_id"));
-		                    }
+						} elseif($db->f("xml_type") == 23) {
+							$db2->query("SELECT korting_id from korting where xml_korting=2 AND type_id=".$db->f("type_id"));
+							while($db2->next_record()){
+								$db3->query("DELETE FROM korting_tarief where korting_id=".$db2->f("korting_id"));
+							}
 
-		                    $db2->query("DELETE FROM korting where xml_korting=2 AND type_id=".$db->f("type_id"));
-                    		    $discount_updates[] = $db->f("type_id");
-		                    $xml_laatstewijziging[$db->f("type_id")]=true;
-		                }
+							$db2->query("DELETE FROM korting where xml_korting=2 AND type_id=".$db->f("type_id"));
+								$discount_updates[] = $db->f("type_id");
+							$xml_laatstewijziging[$db->f("type_id")]=true;
+						}
 			}
 
 			#
@@ -2331,7 +2314,7 @@ while(list($key,$value)=@each($aantal_beschikbaar)) {
 }
 track_time("voorraad aangepast op basis van 'niet beschikbaar'");
 
-if(is_array($lastminute) and (date("H")==3 or date("H")==4)) {
+if(is_array($lastminute) and $current_hour==3) {
 	#
 	# lastminutes vewerken (bestaat alleen voor Posarelli)
 	#
