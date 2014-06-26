@@ -272,7 +272,7 @@ class cms2 {
 		if($options) $this->db[$counter]["options"][$id]=$options;
 
 		# Gegevens uit andere tabel
-		if($options["othertable"] and !$options["selection"]) {
+		if(isset($options["othertable"]) and $options["othertable"] and !$options["selection"]) {
 			if($options["otherfield"]=="wt_naam" or $options["otherfield"]=="wt_naam2") {
 				if($options["encode_otherfield"]) {
 					$options["otherfield"]="DECODE(achternaam,'".md5($options["encode_otherfield"])."') AS achternaam, DECODE(voornaam,'".md5($options["encode_otherfield"])."') AS voornaam, DECODE(tussenvoegsel,'".md5($options["encode_otherfield"])."') AS tussenvoegsel";

@@ -130,7 +130,7 @@ class tablelist {
 		} else {
 			if(strlen($sortvalue)<12 and ereg("^[0-9\.]+$",$sortvalue)) $sortvalue=substr("000000000000000".$sortvalue,-14);
 		}
-		if($options["html"]) $this->fields["options"][$id][$key]=$options;
+		if(isset($options["html"]) and $options["html"]) $this->fields["options"][$id][$key]=$options;
 
 		$this->fields["content"][$id][$key]=$value;
 		$this->fields["sortcontent"][$id][$key]=$sortvalue;

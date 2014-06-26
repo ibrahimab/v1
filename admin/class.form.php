@@ -2461,7 +2461,7 @@ class form2 {
 		}
 
 		# Andere reply-to?
-		if($special_settings["replyto"]) {
+		if(isset($special_settings["replyto"]) and $special_settings["replyto"]) {
 			$mail->replyto=$special_settings["replyto"];
 		}
 

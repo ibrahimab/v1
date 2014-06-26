@@ -154,7 +154,9 @@ class Login {
 
 			# session starten
 			session_start();
-			session_register("LOGIN");
+			if (function_exists("session_register")) {
+				session_register("LOGIN");
+			}
 
 			# Zet een cookie om te kijken of cookies aan staan
 			setcookie("checklong","on",time()+315360000,"/");

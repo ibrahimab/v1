@@ -244,7 +244,7 @@ class cms_layout {
 				}
 
 				if(!$this->menu_item[$key]["clickable"]) {
-					if($this->menu_item[$key]["child"] and $this->menu_item[$key]["options"]["slide"]) {
+					if(isset($this->menu_item[$key]["child"]) and $this->menu_item[$key]["child"] and isset($this->menu_item[$key]["options"]["slide"]) and $this->menu_item[$key]["options"]["slide"]) {
 						echo "<a href=\"javascript:togglesubmenu('submenudiv_".ereg_replace("-","_",$key)."',".$this->menu_item[$key]["number_of_submenu_items"].");\">";
 						$slide_href=true;
 					} else {
@@ -270,7 +270,7 @@ class cms_layout {
 						}
 					}
 					echo "\"";
-					if($this->menu_item[$key]["options"]["target"]) {
+					if(isset($this->menu_item[$key]["options"]["target"]) and $this->menu_item[$key]["options"]["target"]) {
 						echo " target=\"".$this->menu_item[$key]["options"]["target"]."\"";
 					}
 					echo ">";
