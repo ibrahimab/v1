@@ -117,69 +117,83 @@ if($login->has_priv("5") and !$_GET["overbetaling"]) {
 	echo "<hr>";
 	$cms->display_cms();
 
-    #Docdata payments history table
-    $db->query("SELECT * FROM `docdata_payments` WHERE boeking_id = '". $_GET["bid"] ."' ORDER BY id DESC;");
-    if($db->num_rows() > 0) {
+	# Docdata payments history table
+	$db->query("SELECT * FROM `docdata_payments` WHERE boeking_id = '". $_GET["bid"] ."' ORDER BY id DESC;");
+	if($db->num_rows() > 0) {
 
-        echo "<p>
-            <a href=\"javascript:void(0)\" onclick=\"showPaymentsHistory('history');\">Payments history</a> &nbsp;
-            <a href=\"javascript:void(0)\" onclick=\"showPaymentsHistory('log');\">Payments log</a>
-        </p>";
+		echo "<p><a href=\"javascript:void(0)\" onclick=\"showPaymentsHistory('history');\">Payments history</a> &nbsp; <a href=\"javascript:void(0)\" onclick=\"showPaymentsHistory('log');\">Payments log</a></p>";
 
-        echo "<script>
-            function showPaymentsHistory(div) {
-                $('#payments_' + div).toggle();
-                setHgt2();
-            }
-        </script>";
-        echo "<br />";
-        echo "<table id=\"payments_history\" cellspacing=\"0\" style=\"width:100%;display:none;\" class=\"toonacctabel\">";
-        echo "<thead><tr><th colspan=\"9\">Payments history</th></tr></thead>";
-        echo "<tbody><tr>
-            <td><strong>Cluster Key</strong></td>
-            <td><strong>Amount</strong></td>
-            <td><strong>Type</strong></td>
-            <td><strong>Status</strong></td>
-            <td><strong>Message</strong></td>
-            <td><strong>Created time</strong></td>
-            <td><strong>Updated time</strong></td>
-            <td><strong>Docdata payment id</strong></td>
-            <td><strong>Payment method</strong></td>
-        </tr>";
-        while($db->next_record()) {
-            echo "<tr>
-                <td>". $db->f("cluster_key") ."</td>
-                <td>". $db->f("amount") ."</td>
-                <td>". $db->f("type") ."</td>
-                <td>". $db->f("status") ."</td>
-                <td>". $db->f("message") ."</td>
-                <td>". $db->f("created_at") ."</td>
-                <td>". $db->f("updated_at") ."</td>
-                <td>". $db->f("docdata_payment_id") ."</td>
-                <td>". $db->f("payment_method") ."</td>
-            </tr>";
-        }
-        echo "</tbody></table>";
-    }
+		echo "<script>
+			function showPaymentsHistory(div) {
+				$('#payments_' + div).toggle();
+				setHgt2();
+			}
+		</script>";
 
-    #Docdata payments log table
-    $db->query("SELECT * FROM `docdata_log` WHERE boeking_id = '". $_GET["bid"] ."' ORDER BY time DESC;");
-    if($db->num_rows() > 0) {
-        echo "<br />";
-        echo "<table id=\"payments_log\" cellspacing=\"0\" style=\"width:100%;display:none;\" class=\"toonacctabel\">";
-        echo "<thead><tr><th colspan=\"9\">Payments log</th></tr></thead>";
-        echo "<tbody><tr>
-            <td><strong>Message</strong></td>
-            <td><strong>Time</strong></td>
-        </tr>";
-        while($db->next_record()) {
-            echo "<tr>
-                <td>". $db->f("message") ."</td>
-                <td>". date("d/m/Y H:i:s", $db->f("time")) ."</td>
-            </tr>";
-        }
-        echo "</tbody></table>";
-    }
+		$docdata_payments_shown = true;
+
+		echo "<br />";
+		echo "<table id=\"payments_history\" cellspacing=\"0\" style=\"width:100%;display:none;\" class=\"toonacctabel\">";
+		echo "<thead><tr><th colspan=\"9\">Payments history</th></tr></thead>";
+		echo "<tbody><tr>
+			<td><strong>Cluster Key</strong></td>
+			<td><strong>Amount</strong></td>
+			<td><strong>Type</strong></td>
+			<td><strong>Status</strong></td>
+			<td><strong>Message</strong></td>
+			<td><strong>Created time</strong></td>
+			<td><strong>Updated time</strong></td>
+			<td><strong>Docdata payment id</strong></td>
+			<td><strong>Payment method</strong></td>
+		</tr>";
+		while($db->next_record()) {
+			echo "<tr>
+				<td>". $db->f("cluster_key") ."</td>
+				<td>". $db->f("amount") ."</td>
+				<td>". $db->f("type") ."</td>
+				<td>". $db->f("status") ."</td>
+				<td>". nl2br(wt_he($db->f("message"))) ."</td>
+				<td>". $db->f("created_at") ."</td>
+				<td>". $db->f("updated_at") ."</td>
+				<td>". $db->f("docdata_payment_id") ."</td>
+				<td>". $db->f("payment_method") ."</td>
+			</tr>";
+		}
+		echo "</tbody></table>";
+	}
+
+	# Docdata payments log table
+	$db->query("SELECT * FROM `docdata_log` WHERE boeking_id = '". $_GET["bid"] ."' ORDER BY time DESC;");
+
+	if($db->num_rows() > 0) {
+
+		if(!$docdata_payments_shown) {
+			echo "<p><a href=\"javascript:void(0)\" onclick=\"showPaymentsHistory('history');\">Payments history</a> &nbsp; <a href=\"javascript:void(0)\" onclick=\"showPaymentsHistory('log');\">Payments log</a></p>";
+
+			echo "<script>
+				function showPaymentsHistory(div) {
+					$('#payments_' + div).toggle();
+					setHgt2();
+				}
+			</script>";
+
+		}
+
+		echo "<br />";
+		echo "<table id=\"payments_log\" cellspacing=\"0\" style=\"width:100%;display:none;\" class=\"toonacctabel\">";
+		echo "<thead><tr><th colspan=\"9\">Payments log</th></tr></thead>";
+		echo "<tbody><tr>
+			<td><strong>Message</strong></td>
+			<td><strong>Time</strong></td>
+		</tr>";
+		while($db->next_record()) {
+			echo "<tr>
+				<td>". nl2br(wt_he($db->f("message"))) ."</td>
+				<td>". date("d/m/Y H:i:s", $db->f("time")) ."</td>
+			</tr>";
+		}
+		echo "</tbody></table>";
+	}
 
 }
 ?>
