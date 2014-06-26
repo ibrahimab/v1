@@ -22,6 +22,10 @@ while($db->next_record()) {
 			$browser[$db->f("user_id")]="IE9";
 		} elseif(preg_match("/MSIE 10/",$a[0])) {
 			$browser[$db->f("user_id")]="IE10";
+		} elseif(preg_match("/Trident\/7\.0; rv:11\.0/",$a[0])) {
+			$browser[$db->f("user_id")]="IE11";
+		} elseif(preg_match("/Trident\/7\.0; rv:12\.0/",$a[0])) {
+			$browser[$db->f("user_id")]="IE12";
 		} elseif(preg_match("/iPad/",$a[0]) and preg_match("/CPU OS ([0-9]+)_/",$a[0],$regs)) {
 			$browser[$db->f("user_id")]="iPad (iOS ".$regs[1].")";
 		} elseif(preg_match("/iPhone/",$a[0]) and preg_match("/CPU iPhone OS ([0-9]+)_/",$a[0],$regs)) {
