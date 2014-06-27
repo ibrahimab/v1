@@ -1720,7 +1720,7 @@ $(document).ready(function() {
 			chalet_createCookie("cookiemelding_gelezen","1",3650);
 			return false;
 		});
-                
+
                 $("#notification_bottombar_close").click(function () {
 			// $("#cookie_bottombar").css("display","none");
 			$("#notification_bottombar").animate({top:"-150px"},600,function() {});
@@ -2801,7 +2801,10 @@ $(document).ready(function() {
 			if($("input[name=fzt]").length!==0 && $("input[name=fzt]").val()!=="" && $("input[name=fzt]").val()!==$("input[name=fzt]").data("placeholder")) {
 				analytics_tekstzoeken=$("input[name=fzt]").val();
 
-				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Tekstzoeken: "+analytics_tekstzoeken;
+				// replace %20 with spaces
+				analytics_tekstzoeken = analytics_tekstzoeken.replace(/%20/g, " ");
+
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Tekstzoeken2: "+analytics_tekstzoeken;
 			}
 
 			// verfijnen: categorie
