@@ -379,8 +379,12 @@ class tarieventabel {
 			}
 
 
+
 			// legenda
 			$return.="<div class=\"tarieventabel_legenda\">";
+
+			$return .= $this->button_to_other_website($this->accinfo["zomerwinterkoppeling_accommodatie_id"]);
+
 			if($this->aanbieding_actief) {
 				$return.="<div><span class=\"tarieventabel_legenda_kleurenblokje tarieventabel_legenda_kleurenblokje_aanbieding tarieventabel_tarieven_aanbieding\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = ".html("legenda_aanbieding","tarieventabel")."</div>";
 			}
@@ -420,7 +424,7 @@ class tarieventabel {
 					}
 				}
 				if($afwijkend) {
-					$return .= "<div><span class=\"tarieventabel_legenda_kleurenblokje\">*</span> = ".html("legenda_vertrekdagaanpassing","tarieventabel").":</div>";
+					$return .= "<div class=\"tarieventabel_legenda_vertrekdagaanpassing_div\"><span class=\"tarieventabel_legenda_kleurenblokje\">*</span><span>&nbsp;=&nbsp;</span><span>".html("legenda_vertrekdagaanpassing","tarieventabel").":</span></div>";
 					$return .= "<div class=\"tarieventabel_legenda_vertrekdagaanpassing\">";
 					$return .= $afwijkend;
 					$return .= "</div>"; // close .tarieventabel_legenda_vertrekdagaanpassing
@@ -428,6 +432,8 @@ class tarieventabel {
 			}
 
 			$return.="</div>"; // close .tarieventabel_legenda
+
+			$return .= "<div class=\"clear\"></div>";
 
 
 			$return.="<div class=\"tarieventabel_pijl tarieventabel_pijl_boven tarieventabel_pijl_links\">";
@@ -1650,6 +1656,87 @@ if($this->tarief[$key]>0) {
 		} else {
 			return nl2br(wt_htmlentities($tekst2));
 		}
+	}
+
+	private function button_to_other_website($zomerwinterkoppeling_accommodatie_id) {
+		//
+		// Button to other website (summer/winter)
+		//
+
+		global $vars, $isMobile;
+
+		$db = new DB_sql;
+
+		if($zomerwinterkoppeling_accommodatie_id) {
+			$db->query("SELECT t.websites FROM type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.type_id='".intval($zomerwinterkoppeling_accommodatie_id)."' AND a.tonen=1 AND t.tonen=1;");
+			if($db->next_record()) {
+				if($vars["websitetype"]==1 or $vars["websitetype"]==4 or ($vars["websitetype"]==6 and $vars["seizoentype"]==1)) {
+					# Op Chalet.nl/be link naar zomerhuisje.nl/eu
+					if($vars["website"]=="C") {
+						if(preg_match("/Z/",$db->f("websites"))) {
+							$beginurl="https://www.zomerhuisje.nl";
+						}
+					} elseif($vars["website"]=="B") {
+						if(preg_match("/N/",$db->f("websites"))) {
+							$beginurl="https://www.zomerhuisje.nl";
+						}
+					} elseif($vars["website"]=="V") {
+						if(preg_match("/V/",$db->f("websites"))) {
+							$beginurl="https://www.chaletsinvallandry.nl";
+						}
+					} elseif($vars["website"]=="Q") {
+						if(preg_match("/Q/",$db->f("websites"))) {
+							$beginurl="https://www.chaletsinvallandry.com";
+						}
+					} elseif($vars["website"]=="T") {
+						if(preg_match("/Z/",$db->f("websites"))) {
+							$beginurl="https://www.zomerhuisje.nl";
+							$beginurl_extra="?fromsite=chalettour";
+						}
+					}
+					if($beginurl) {
+						$return .= "<a href=\"".wt_he($beginurl.ereg_replace("[a-z]+/$","",$vars["path"]).txt("menu_accommodatie")."/".$this->accinfo["begincode"].$zomerwinterkoppeling_accommodatie_id."/".$beginurl_extra)."\" class=\"button_to_other_website analytics_track_external_click\" target=\"_blank\">";
+						$return .= nl2br(html("accommodatieopanderesite_2","toonaccommodatie",array("h_1"=>"<b>","h_2"=>"</b>")));
+						$return .= "</a>";
+					}
+				} elseif($vars["websitetype"]==3 or $vars["websitetype"]==5 or ($vars["websitetype"]==6 and $vars["seizoentype"]==2)) {
+					# Op Zomerhuisje.nl/eu link naar winterpagina
+					if($vars["website"]=="Z") {
+						if($_GET["fromsite"]=="chalettour" or $_COOKIE["fromsite"]=="chalettour") {
+							if(preg_match("/T/",$db->f("websites"))) {
+								$beginurl="https://www.chalettour.nl";
+							}
+						} else {
+							if(preg_match("/C/",$db->f("websites"))) {
+								$beginurl="https://www.chalet.nl";
+							}
+						}
+					} elseif($vars["website"]=="N") {
+						if(preg_match("/B/",$db->f("websites"))) {
+							$beginurl="https://www.chalet.be";
+						}
+					} elseif($vars["website"]=="V") {
+						if(preg_match("/V/",$db->f("websites"))) {
+							$beginurl="https://www.chaletsinvallandry.nl";
+						}
+					} elseif($vars["website"]=="Q") {
+						if(preg_match("/Q/",$db->f("websites"))) {
+							$beginurl="https://www.chaletsinvallandry.com";
+						}
+					}
+					if($beginurl) {
+						$return .= "<a href=\"".wt_he($beginurl.ereg_replace("[a-z]+/$","",$vars["path"]).txt("menu_accommodatie")."/".$this->accinfo["begincode"].$zomerwinterkoppeling_accommodatie_id."/")."\" class=\"button_to_other_website analytics_track_external_click\" target=\"_blank\">";
+						if($vars["websitetype"]==6) {
+							$return .= nl2br(html("accommodatieopanderesite_vallandry","toonaccommodatie"));
+						} else {
+							$return .= nl2br(html("accommodatieopanderesite_2","toonaccommodatie",array("h_1"=>"<b>","h_2"=>"</b>")));
+						}
+						$return .= "</a>";
+					}
+				}
+			}
+		}
+		return $return;
 	}
 
 

@@ -372,6 +372,17 @@ form {
 	color: #ffffff;
 }
 
+.button_to_other_website {
+	background-color: #cbd328;
+	border: 1px solid #cbd328;
+	color: #5f227b;
+}
+
+.button_to_other_website:hover {
+	border: 1px solid #5f227b;
+	color: #5f227b;
+}
+
 .boekbutton {
 	background-color: #fb6703;
 	border: 1px solid #fb6703;

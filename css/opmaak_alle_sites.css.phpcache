@@ -302,6 +302,36 @@ a.button:hover {
 	height: 28px;
 }
 
+.button_to_other_website {
+	display: block;
+
+	width: 168px;
+	background-color: #d5e1f9;
+	border: 1px solid #d5e1f9;
+	color: #003366;
+	cursor: pointer;
+	text-align: center;
+	padding-top: 4px;
+
+	margin-top: 0px;
+	font-size: 0.85em;
+
+	height: 30px;
+
+	float: right;
+
+	margin-bottom: 10px;
+	margin-right: 5px;
+
+	text-decoration: none;
+}
+
+.button_to_other_website:hover {
+	color: #003366;
+	border-color: #003366;
+}
+
+
 #toonaccommodatie_boekbalk_bovenkant {
 	min-height: 216px;
 }
@@ -3294,6 +3324,15 @@ nieuwe tarieventabel
 
 .tarieventabel_legenda_vertrekdagaanpassing div {
 
+}
+
+.tarieventabel_legenda_vertrekdagaanpassing_div span {
+	font-size: 1.0em !important;
+	display: table-cell;
+}
+
+.tarieventabel_legenda_vertrekdagaanpassing_div .tarieventabel_legenda_kleurenblokje {
+	font-weight: normal;
 }
 
 .tarieventabel_legenda_kleurenblokje_aanbieding {
