@@ -633,8 +633,9 @@ function googlemaps_show_other_acc() {
 
 function recordOutboundPopup(category, action) {
 	try {
-		var myTracker=_gat._getTrackerByName();
-		_gaq.push(['myTracker._trackEvent',category,action]);
+		if (typeof ga != "undefined") {
+			ga('send', 'event', category, action);
+		}
 	} catch(err) {}
 }
 
@@ -791,8 +792,10 @@ $(document).ready(function() {
 							canonical_link=canonical_link+ '/tab-' + window.location.hash.substr(1);
 						}
 						if($("#body_toonaccommodatie").length!==0 || google_analytics_tab_verstuurd===false) {
-							_gaq.push(['_trackPageview', canonical_link]);
-							google_analytics_tab_verstuurd=true;
+							if (typeof ga != "undefined") {
+								ga('send', 'pageview', canonical_link);
+								google_analytics_tab_verstuurd=true;
+							}
 						}
 					}
 
@@ -1133,24 +1136,27 @@ $(document).ready(function() {
 		// Facebook share-window
 		$(".facebook_share_window").click( function() {
 			popwindowXY(700,450,$(this).attr("href"),true);
-			var _gaq = _gaq || [];
-			_gaq.push(['_trackSocial', 'facebook', 'share', '']);
+			if (typeof ga != "undefined") {
+				ga('send', 'social', 'facebook', 'share', '');
+			}
 			return false;
 		});
 
 		// Twitter share-window
 		$(".twitter_share_window").click( function() {
 			popwindowXY(700,450,$(this).attr("href"),true);
-			var _gaq = _gaq || [];
-			_gaq.push(['_trackSocial', 'twitter', 'share', '']);
+			if (typeof ga != "undefined") {
+				ga('send', 'social', 'twitter', 'share', '');
+			}
 			return false;
 		});
 
 		// Google+ share-window
 		$(".googleplus_share_window").click( function() {
 			popwindowXY(700,450,$(this).attr("href"),true);
-			var _gaq = _gaq || [];
-			_gaq.push(['_trackSocial', 'googleplus', 'share', '']);
+			if (typeof ga != "undefined") {
+				ga('send', 'social', 'googleplus', 'share', '');
+			}
 			return false;
 		});
 
@@ -2279,8 +2285,8 @@ $(document).ready(function() {
 
 			var external_url=$(this).attr("href");
 
-			if (typeof _gaq != "undefined") {
-				_gaq.push(["_trackEvent", "doorklik naar externe site", "url", external_url]);
+			if (typeof ga != "undefined") {
+				ga('send', 'event', 'doorklik naar externe site', 'url', external_url);
 			}
 
 			return true;
@@ -2594,8 +2600,8 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 				}
 				var google_analytics_event="favoriet verwijderen";
 			}
-			if (typeof _gaq != "undefined") {
-				_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, begincode+typeid]);
+			if (typeof ga != "undefined") {
+				ga('send', 'event', 'bezoekers-acties', 'url', google_analytics_event, begincode+typeid);
 			}
 		}
 	});
@@ -2604,26 +2610,25 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 
 function zoekopdracht_naar_analytics_sturen(omschrijving,zoekopdracht) {
 	// stuur de zoekopdracht naar Google Analytics
-	if (typeof _gaq != "undefined") {
-		_gaq.push(['_trackEvent', 'zoekfunctie', omschrijving, zoekopdracht]);
+	if (typeof ga != "undefined") {
+		ga('send', 'event', 'zoekfunctie', omschrijving, zoekopdracht);
 	}
 }
 
 function zoekopdracht_naar_analytics_sturen_inclusief_aantal(omschrijving,zoekopdracht,aantal) {
 	// stuur de zoekopdracht naar Google Analytics (en neem een aantal op als extra Value)
-
-	if (typeof _gaq != "undefined") {
-		_gaq.push(['_trackEvent', 'zoekfunctie', omschrijving, zoekopdracht, aantal]);
+	if (typeof ga != "undefined") {
+		ga('send', 'event', 'zoekfunctie', omschrijving, zoekopdracht, aantal);
 	}
 }
 
 function event_naar_analytics_sturen(categorie, omschrijving, waarde, aantal) {
 	// stuur de zoekopdracht naar Google Analytics
-	if (typeof _gaq != "undefined") {
+	if (typeof ga != "undefined") {
 		if(typeof(aantal)==="undefined") {
-			_gaq.push(['_trackEvent', categorie, omschrijving, waarde]);
+			ga('send', 'event', categorie, omschrijving, waarde);
 		} else {
-			_gaq.push(['_trackEvent', categorie, omschrijving, waarde, aantal]);
+			ga('send', 'event', categorie, omschrijving, waarde, aantal);
 		}
 	}
 }
@@ -2802,9 +2807,9 @@ $(document).ready(function() {
 				analytics_tekstzoeken=$("input[name=fzt]").val();
 
 				// replace %20 with spaces
-				analytics_tekstzoeken = analytics_tekstzoeken.replace(/%20/g, " ");
+				// analytics_tekstzoeken = analytics_tekstzoeken.replace(/%20/g, " ");
 
-				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Tekstzoeken2: "+analytics_tekstzoeken;
+				analytics_complete_zoekopdracht=analytics_complete_zoekopdracht+" - Tekstzoeken: "+analytics_tekstzoeken;
 			}
 
 			// verfijnen: categorie

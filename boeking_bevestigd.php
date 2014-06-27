@@ -16,25 +16,27 @@ if($_GET["aanvraagnr"]) {
 	$share_url=$vars["basehref"];
 }
 if($totalereissom>0) {
-	$vars["googleanalytics_extra"]="_gaq.push(['_addTrans',
-    '".htmlentities($_GET["aanvraagnr"])."',           // order ID - required
-    '',  // affiliation or store name
-    '".htmlentities($totalereissom)."',          // total - required
-    '',           // tax
-    '',              // shipping
-    '',       // city
-    '',     // state or province
-    ''             // country
-  ]);
-  _gaq.push(['_addItem',
-    '".htmlentities($_GET["aanvraagnr"])."',           // order ID - required
-    '1',           // SKU/code - required
-    '".htmlentities($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["typeid"])."',        // product name
-    '',   // category or variation
-    '".htmlentities($totalereissom)."',          // unit price - required
-    '1'               // quantity - required
-  ]);
-  _gaq.push(['_trackTrans']); //submits transaction to the Analytics servers";
+
+	// Google Analytics Ecommerce
+	$vars["googleanalytics_extra"]="
+
+ga('ecommerce:addTransaction', {
+	id: '".wt_he($_GET["aanvraagnr"])."',
+	affiliation: '',
+	revenue: '".wt_he($totalereissom)."',
+	shipping: '',
+	tax: ''
+});
+
+ga('ecommerce:addItem', {
+	id: '".wt_he($_GET["aanvraagnr"])."',        // Transaction ID*
+	sku: '1',
+	name: '".wt_he($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["typeid"])."',
+	category: '',
+	price: '".wt_he($totalereissom)."',
+	quantity: '1'
+});
+ga('ecommerce:send');";
 
 }
 

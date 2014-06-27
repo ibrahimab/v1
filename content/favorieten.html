@@ -1,8 +1,7 @@
 <script type="text/javascript">
 function printAndTrack(){
-	var google_analytics_event="favoriet uitprinten";
-	if (typeof _gaq != "undefined") {
-		_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, "Favorieten pagina"]);
+	if (typeof ga != "undefined") {
+		ga('send', 'event', 'bezoekers-acties', 'favoriet uitprinten', 'Favorieten pagina');
 	}
 	return print();
 }
@@ -68,9 +67,8 @@ function controlEnSend() {
 }
 
 function ajaxMailFunction() {
-	var google_analytics_event="favoriet doormailen";
-	if (typeof _gaq != "undefined") {
-		_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, "Favorieten pagina"]);
+	if (typeof ga != "undefined") {
+		ga('send', 'event', 'bezoekers-acties', 'favoriet doormailen', 'Favorieten pagina');
 	}
 	$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
 

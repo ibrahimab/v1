@@ -60,9 +60,8 @@ function controlEnSend() {
 }
 
 function ajaxMailFunction() {
-	var google_analytics_event="favoriet doormailen";
-	if (typeof _gaq != "undefined") {
-		_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, "Favorieten pagina"]);
+	if (typeof ga != "undefined") {
+		ga('send', 'event', 'bezoekers-acties', 'favoriet doormailen', 'Favorieten pagina');
 	}
 	$.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
 
@@ -86,7 +85,7 @@ function ajaxMailFunction() {
                 d = new Date();
                 $("#captcha_img").attr("src", "/pic/captcha_image.php?c=1&"+d.getTime());
                 $("input[name='captcha']").val("");
-                                
+
 			});
             $("html,body").animate({ scrollTop: 0 }, "slow");
 			return false;

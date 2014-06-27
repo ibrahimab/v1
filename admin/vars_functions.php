@@ -4214,7 +4214,7 @@ function inkoopprijs_opslaan($boekingid) {
 	}
 }
 
-function googleanalytics() {
+function googleanalytics_old() {
 	global $vars,$voorkant_cms,$id;
 
 	$test_analytics=true;
@@ -4281,6 +4281,66 @@ function googleanalytics() {
 		})();
 
 		</script>\n";
+		$vars["googleanalytics_actief"]=true;
+	}
+	return $return;
+}
+
+function googleanalytics() {
+	global $vars,$voorkant_cms,$id;
+
+	$test_analytics=true;
+
+	if($test_analytics)	{
+		if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+			$vars["googleanalytics"]="UA-2078202-12";
+		} else {
+			$test_analytics=false;
+		}
+	}
+
+	$vertrouwde_ips = $vars["vertrouwde_ips"];
+	if($_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
+		// IP Jeroen: ignore vertrouwde_ips
+		$vertrouwde_ips = array("");
+	}
+
+	if($test_analytics or ($vars["googleanalytics"] and !$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vertrouwde_ips) and !$vars["lokale_testserver"] and !$_GET["wtfatalerror"])) {
+
+		if($_COOKIE["abt"]) {
+			$extra.="ga('set', 'AB-testing', '".$_COOKIE["abt"]."');\n";
+		}
+
+		$return = "<script>
+
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		var page_with_tabs=false;
+
+		var canonical_link;
+		try {
+			canonical_link = $('link[rel=canonical]').attr('href').split(location.hostname)[1] || undefined;
+		} catch(e) {
+			canonical_link = undefined;
+		}
+
+		// bij zoek-en-boek: toch de complete URL
+		".($id=="zoek-en-boek" ? "\ncanonical_link = undefined;\n" : "").($vars["page_with_tabs"] ? "page_with_tabs=true;\n" : "")."
+
+		ga('create', '".$vars["googleanalytics"]."', 'auto');
+		ga('require', 'displayfeatures');".$vars["googleanalytics_extra"].$extra."
+
+		if(page_with_tabs) {
+			// tabs: niks doen (wordt via tabfunctie geregeld)
+		} else {
+			ga('send', 'pageview', canonical_link);
+		}
+
+		</script>";
+
 		$vars["googleanalytics_actief"]=true;
 	}
 	return $return;

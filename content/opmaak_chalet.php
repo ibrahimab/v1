@@ -163,6 +163,7 @@ if($vars["website"]=="C") {
 
 echo "</head>\n";
 echo $opmaak->body_tag();
+echo $opmaak->google_tag_manager();
 echo "<div id=\"wrapper\">";
 echo "<div id=\"top\">";
 echo "<div id=\"logo\">";
@@ -788,7 +789,7 @@ if($opmaak->toon_cookiebalk()) {
 # Load change desktop to mobile notification
 
 if($onMobile and !$_COOKIE['desktopnotification']){
-	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("desktopnotification","vars",array("h_1"=>"<a href=\"".$vars["path"]."?setmobile\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";    
+	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("desktopnotification","vars",array("h_1"=>"<a href=\"".$vars["path"]."?setmobile\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";
 }
 
 # Balk met opvallende melding

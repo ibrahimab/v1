@@ -629,8 +629,9 @@ function googlemaps_show_other_acc() {
 
 function recordOutboundPopup(category, action) {
 	try {
-		var myTracker=_gat._getTrackerByName();
-		_gaq.push(['myTracker._trackEvent',category,action]);
+		if (typeof ga != "undefined") {
+			ga('send', 'event', category, action);
+		}
 	} catch(err) {}
 }
 
@@ -697,10 +698,10 @@ $(document).ready(function() {
 	}
 
         if($(".wtform_error").scrollTop() != null) {
-                    
+
                     $("#hide_form").css("display", "block");
-                    
-                   
+
+
                     position =  $(".wtform_error").offset().top;
 
                     $("html, body").animate({ scrollTop: position }, 600,'swing');
@@ -799,7 +800,7 @@ $(document).ready(function() {
 							canonical_link=canonical_link+ '/tab-' + window.location.hash.substr(1);
 						}
 						if($("#body_toonaccommodatie").length!==0 || google_analytics_tab_verstuurd===false) {
-							_gaq.push(['_trackPageview', canonical_link]);
+							ga('send', 'pageview', canonical_link);
 							google_analytics_tab_verstuurd=true;
 						}
 					}
@@ -1142,24 +1143,27 @@ $(document).ready(function() {
 		// Facebook share-window
 		$(".facebook_share_window").click( function() {
 			popwindowXY(700,450,$(this).attr("href"),true);
-			var _gaq = _gaq || [];
-			_gaq.push(['_trackSocial', 'facebook', 'share', '']);
+			if (typeof ga != "undefined") {
+				ga('send', 'social', 'facebook', 'share', '');
+			}
 			return false;
 		});
 
 		// Twitter share-window
 		$(".twitter_share_window").click( function() {
 			popwindowXY(700,450,$(this).attr("href"),true);
-			var _gaq = _gaq || [];
-			_gaq.push(['_trackSocial', 'twitter', 'share', '']);
+			if (typeof ga != "undefined") {
+				ga('send', 'social', 'twitter', 'share', '');
+			}
 			return false;
 		});
 
 		// Google+ share-window
 		$(".googleplus_share_window").click( function() {
 			popwindowXY(700,450,$(this).attr("href"),true);
-			var _gaq = _gaq || [];
-			_gaq.push(['_trackSocial', 'googleplus', 'share', '']);
+			if (typeof ga != "undefined") {
+				ga('send', 'social', 'googleplus', 'share', '');
+			}
 			return false;
 		});
 
@@ -1234,13 +1238,13 @@ $(document).ready(function() {
  				if($("div.datadiv").data("websitetype")=="7") {
 					// Italissima: zoeken via typen niet mogelijk
 					$("#zoekblok_field_bestemming").chosen({width: "100%", disable_search:20, allow_single_deselect: true});
-                                        
+
 				} else {
 					$("#zoekblok_field_bestemming").chosen({width: "100%", disable_search_threshold:20, search_contains:true, allow_single_deselect: true, autofocus_search_field: true});
 				}
                                 // Chosen-vormgeving toepassen op selectvelden
 				$("#zoekblok select").addClass("zoekblok_select_mobile");
-                                
+
 				// kalender ietsje verplaatsen
 				$(".zoekblok_aankomstdatum_calendar").css("margin-bottom","-3px");
 
@@ -1261,7 +1265,7 @@ $(document).ready(function() {
 				//
 				// Chosen voor desktop-bezoekers
 				//
-                                // 
+                                //
 				// Chosen: bestemming
 				if($("div.datadiv").data("websitetype")=="7") {
 					// Italissima: zoeken via typen niet mogelijk
@@ -1397,7 +1401,7 @@ $(document).ready(function() {
 					handles: 2,
                                         connect: true,
 					step: $(".zoekblok_prijsklasse").data("stappen"),
-                                        
+
 					serialization: {
                                                 lower:[ $.Link({
                                                     target: $("#fpk_van_hidden")
@@ -1407,8 +1411,8 @@ $(document).ready(function() {
                                                 })],
 						resolution: 1
 					},
-                                        
-					 
+
+
 				});
                                 $(".slidernoui").on("slide", onSlide);
 			}
@@ -1551,7 +1555,7 @@ $(document).ready(function() {
 				$(this).attr("href",nieuwe_url);
 				return true;
 			});
-                        
+
                         $(".alle_selecties_wissen").unbind('click');
 
 			// scroll-y-positie opslaan (vanuit zoekresultaat-klik)
@@ -1748,12 +1752,12 @@ $(document).ready(function() {
 			chalet_createCookie("cookiemelding_gelezen","1",3650);
 			return false;
 		});
-                
+
                 $("#notification_bottombar_close").click(function () {
 			// $("#cookie_bottombar").css("display","none");
 			$("#notification_bottombar").animate({top:"-150px"},600,function() {});
 			return false;
-		});               
+		});
 
 		// sluiten opval-bar
 		$("#opval_bottombar_close").click(function () {
@@ -2303,8 +2307,8 @@ $(document).ready(function() {
 
 			var external_url=$(this).attr("href");
 
-			if (typeof _gaq != "undefined") {
-				_gaq.push(["_trackEvent", "doorklik naar externe site", "url", external_url]);
+			if (typeof ga != "undefined") {
+				ga('send', 'event', 'doorklik naar externe site', 'url', external_url);
 			}
 
 			return true;
@@ -2615,8 +2619,8 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 				}
 				var google_analytics_event="favoriet verwijderen";
 			}
-			if (typeof _gaq != "undefined") {
-				_gaq.push(['_trackEvent', 'bezoekers-acties', google_analytics_event, begincode+typeid]);
+			if (typeof ga != "undefined") {
+				ga('send', 'event', 'bezoekers-acties', 'url', google_analytics_event, begincode+typeid);
 			}
 		}
 	});
@@ -2625,26 +2629,25 @@ function favorieten_opslaan_verwijderen(begincode, typeid, action) {
 
 function zoekopdracht_naar_analytics_sturen(omschrijving,zoekopdracht) {
 	// stuur de zoekopdracht naar Google Analytics
-	if (typeof _gaq != "undefined") {
-		_gaq.push(['_trackEvent', 'zoekfunctie', omschrijving, zoekopdracht]);
+	if (typeof ga != "undefined") {
+		ga('send', 'event', 'zoekfunctie', omschrijving, zoekopdracht);
 	}
 }
 
 function zoekopdracht_naar_analytics_sturen_inclusief_aantal(omschrijving,zoekopdracht,aantal) {
 	// stuur de zoekopdracht naar Google Analytics (en neem een aantal op als extra Value)
-
-	if (typeof _gaq != "undefined") {
-		_gaq.push(['_trackEvent', 'zoekfunctie', omschrijving, zoekopdracht, aantal]);
+	if (typeof ga != "undefined") {
+		ga('send', 'event', 'zoekfunctie', omschrijving, zoekopdracht, aantal);
 	}
 }
 
 function event_naar_analytics_sturen(categorie, omschrijving, waarde, aantal) {
 	// stuur de zoekopdracht naar Google Analytics
-	if (typeof _gaq != "undefined") {
+	if (typeof ga != "undefined") {
 		if(typeof(aantal)==="undefined") {
-			_gaq.push(['_trackEvent', categorie, omschrijving, waarde]);
+			ga('send', 'event', categorie, omschrijving, waarde);
 		} else {
-			_gaq.push(['_trackEvent', categorie, omschrijving, waarde, aantal]);
+			ga('send', 'event', categorie, omschrijving, waarde, aantal);
 		}
 	}
 }
