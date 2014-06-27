@@ -13,6 +13,16 @@ if($vars["websitetype"]==7) {
 	$meta_description="Op dit blog vind je artikelen die te maken hebben met Italië en het aanbod van Italissima, aanbieder van agriturismi en overige vakantiehuizen in Italië.";
 }
 
+// when was the last blog-atricle posted?
+$db->query("SELECT MAX(UNIX_TIMESTAMP(plaatsingsdatum)) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."';");
+if($db->next_record()) {
+	$last_atricle_time = $db->f("plaatsingsdatum");
+
+	if($last_atricle_time<mktime(0, 0, 0, date("m")-3, date("d"), date("Y"))) {
+		$hide_dates = true;
+	}
+}
+
 $vars["verberg_directnaar"]=true;
 
 if($_GET["b"]) {

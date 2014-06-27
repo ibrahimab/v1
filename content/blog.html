@@ -6,7 +6,9 @@ if($_GET["b"]) {
 	#
 	echo "<div id=\"blog_content_links\">";
 
-	echo "<div class=\"blogitem_datum\">".DATUM("DAG D MAAND JJJJ",$blog["plaatsingsdatum"])."</div>";
+	if(!$hide_dates) {
+		echo "<div class=\"blogitem_datum\">".DATUM("DAG D MAAND JJJJ",$blog["plaatsingsdatum"])."</div>";
+	}
 
 	echo "<div class=\"blogitem_inleiding\">".nl2br(wt_he($blog["inleiding"]))."</div>";
 
@@ -174,10 +176,12 @@ if($_GET["b"]) {
 	echo "<ul>";
 	while(list($key,$value)=each($vars["blogcategorie"][$vars["websitetype"]])) {
 		if($cat_aantal[$key]>0) {
-			echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($value))."</a> (".$cat_aantal[$key].")</li>";
+			echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($value))." (".$cat_aantal[$key].")</a></li>";
 		}
 	}
-	echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."reisblog\">Reisblog Toscane</a> (18)</li>";
+	if($vars["websitetype"]==7) {
+		echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."reisblog\">Reisblog Toscane (18)</a></li>";
+	}
 
 	echo "</ul></div>";
 	echo "</div>";
@@ -187,7 +191,9 @@ if($_GET["b"]) {
 		if($blogitem_gehad) echo "<hr>";
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
 		echo "<div class=\"blog_titel\"><h1><a href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></h1></div>";
-		echo "<div class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
+		if(!$hide_dates) {
+			echo "<div class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
+		}
 		$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
 		if(file_exists($file)) {
 			echo "<a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
@@ -205,7 +211,9 @@ if($_GET["b"]) {
 	while($db->next_record()){
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
 		echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></div>";
-		echo "<div style=\"height:20px;\" class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
+		if(!$hide_dates) {
+			echo "<div style=\"height:20px;\" class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
+		}
 	}
 } else {
 	#
@@ -220,10 +228,12 @@ if($_GET["b"]) {
 	echo "<ul>";
 	while(list($key,$value)=each($vars["blogcategorie"][$vars["websitetype"]])) {
 		if($cat_aantal[$key]>0) {
-			echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($value))."</a> (".$cat_aantal[$key].")</li>";
+			echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."blog.php?cat=".$key."\">".wt_he(ucfirst($value))." (".$cat_aantal[$key].")</a></li>";
 		}
 	}
-	echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."reisblog\">Reisblog Toscane</a> (18)</li>";
+	if($vars["websitetype"]==7) {
+		echo "<li><a style=\"text-decoration:none;\" href=\"".$vars["path"]."reisblog\">Reisblog Toscane (18)</a></li>";
+	}
 	echo "</ul></div>";
 	echo "</div>";
 	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,10");
@@ -232,7 +242,9 @@ if($_GET["b"]) {
 		if($blogitem_gehad) echo "<hr>";
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
 		echo "<div class=\"blog_titel\"><h1><a href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></h1></div>";
-		echo "<div class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
+		if(!$hide_dates) {
+			echo "<div class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
+		}
 		$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
 		if(file_exists($file)) {
 			echo "<a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
@@ -250,7 +262,9 @@ if($_GET["b"]) {
 	while($db->next_record()){
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
 		echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></div>";
-		echo "<div style=\"height:20px;\" class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
+		if(!$hide_dates) {
+			echo "<div style=\"height:20px;\" class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
+		}
 	}
 	//if($_GET["cat"]) {
 		//echo "Bekijk de overige categorie&euml;n";
