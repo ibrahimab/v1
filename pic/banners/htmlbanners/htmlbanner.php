@@ -4,6 +4,8 @@ $geen_tracker_cookie=true;
 $banner_size["728x90"]  = array(1, 10, 13, 16, 19, 22, 25, 28, 31);
 $banner_size["120x600"] = array(5, 11, 14, 17, 20, 23, 26, 29, 32);
 $banner_size["300x250"] = array(6, 12, 15, 18, 21, 24, 27, 30, 33);
+// $banner_size["300x600"] = array(6, 12, 15, 18, 21, 24, 27, 30, 33);
+// $banner_size["970x250"] = array(6, 12, 15, 18, 21, 24, 27, 30, 33);
 
 $unixdir="../../../";
 include("../../../admin/vars.php");
@@ -242,7 +244,7 @@ if($_GET["n"]==2) {
     $utm9 = "utm_source=wintersporters.nl&utm_medium=wintersporters.nl&utm_campaign=wintersporters.nl-lesmenuires-banner";
     $utm = ($_GET["t"] == 8) ? $utm8 : $utm9;
 }elseif($_GET["n"]==5){
-    
+
     $region_url["zellamsell"]   = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-zellamsee-banner";
     $region_url["Kaprun"]       = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-kaprun-banner";
     $region_url["lesmenui"]     = "utm_source=zoover.nl&utm_medium=zoover.nl&utm_campaign=zoover.nl-lesmenuires-banner";
@@ -260,13 +262,13 @@ if($_GET["n"]==2) {
     $region_by_utm["vallandry"] = array("25", "26", "27");
     $region_by_utm["valthorens"]= array("28", "29", "30");
     $region_by_utm["chatel"]    = array("31", "32", "33");
-    
+
     foreach($region_by_utm as $regionName => $region){
         if(in_array($_GET["t"], $region)){
             $utm = $region_url[$regionName];
         }
     }
-    
+
 }
 
 ?>
