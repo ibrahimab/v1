@@ -25,7 +25,7 @@ if($_GET["t"]==1) {
 	}
 } elseif($_GET["t"]==2) {
 	#
-	# Vertaling afvinken 
+	# Vertaling afvinken
 	#
 	$db->query("SELECT table_name, record_id FROM cmslog WHERE cmslog_id='".addslashes($_GET["cmslog_id"])."'");
 	if($db->next_record()) {
@@ -42,9 +42,9 @@ if($_GET["t"]==1) {
 	if($_GET["leverancier_id"] and $_GET["aankomstdatum_exact"]) {
 		$json["leverancier_id"]=$_GET["leverancier_id"];
 		$json["aankomstdatum_exact"]=$_GET["aankomstdatum_exact"];
-		
+
 		$lev_nr=substr("000".$_GET["leverancier_id"],-3);
-		
+
 #		$json["reserveringsnummer_2"]=get_reserveringsnummer_2($_GET["leverancier_id"],$_GET["aankomstdatum_exact"]);
 
 		if(boekjaar($_GET["aankomstdatum_exact"])==2011) {
@@ -81,7 +81,7 @@ if($_GET["t"]==1) {
 			}
 		}
 #echo $db->f("reserveringsnummer_extern")." ".$boekingsnummer;
-	
+
 		if($boekingsnummer) {
 			$garantienummer=$lev_nr.$begincijfer.substr("000".strval($boekingsnummer),-3);
 		} else {
@@ -90,6 +90,29 @@ if($_GET["t"]==1) {
 		$json["garantienummer"]=$garantienummer;
 		echo json_encode($json);
 	}
+} elseif($_GET["t"]==4) {
+	//
+	// copy prices on the fly
+	//
+
+	$json["ok"] = true;
+
+	if($_GET["toonper"]==1) {
+		$db->query("SELECT week, bruto FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
+	} else {
+		$db->query("SELECT week, c_bruto FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
+	}
+	if($db->num_rows()) {
+		$json["prices"] = true;
+		while($db->next_record()) {
+			foreach ($db->Record as $key => $value) {
+				if(!is_int($key) and $key!="week") {
+					$json["week"][$db->f("week")][$key] = $value;
+				}
+			}
+		}
+	}
+	echo json_encode($json);
 }
 
 ?>

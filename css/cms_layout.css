@@ -966,6 +966,36 @@ a.opm {
 	hyphens: auto;
 }
 
+.copy_from_type {
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+	background-color: #95dbfe;
+	width: 400px;
+	padding: 3px;
+	border: 1px solid #448fb4;
+}
+
+.copy_from_type button {
+	line-height: 12px;
+	font-size: 12px;
+}
+
+.copy_from_type input[type=text] {
+	vertical-align: middle;
+	position: relative;
+	margin-bottom: 2px;
+	text-transform: uppercase;
+}
+
+
+.copy_from_type img {
+	margin-bottom: -3px;
+	display: none;
+}
+
+.field_from_copy {
+	background-color: #95dbfe;
+}
 
 @media print {
 

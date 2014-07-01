@@ -264,6 +264,9 @@ function bereken(dit,week) {
 	if(dit=='kopieer') {
 
 	} else {
+
+		$(dit).parent().removeClass("field_from_copy");
+
 		dit.value=dit.value.replace(',','.');
 		if(dit.value) {
 			dit.value=parseFloat(dit.value).toFixed(2);
@@ -1198,7 +1201,9 @@ function blokkeerxml(dit,week) {
 }
 
 $(document).ready(function() {
+	//
 	// jquery
+	//
 
 	// verzameltype: buttons uitschakelen
 	if($("input[name=verzameltype]").length!=0) {
@@ -1531,4 +1536,54 @@ $(document).ready(function() {
 		});
 	}
 
+	$(".copy_from_type button").click(function(event) {
+
+		//
+		// copy prices from other type (on the fly, via rpcjson)
+		//
+
+		event.preventDefault();
+
+		$(".copy_from_type button").prop("disabled", true);
+		$(".copy_from_type img").show();
+
+		// strip out non-numerical characters
+		var type_id = $(".copy_from_type input").val().replace(/\D/g,'');
+
+		var last_used_field = '';
+
+		if(type_id) {
+
+			$.getJSON(
+				'cms/wtjson.php?t=4&tid='+type_id+"&sid="+wt_getParameterByName("sid")+"&toonper="+$("input[name=toonper]").val(),
+				function(data) {
+					if(data.prices==1) {
+						$.each(data.week, function(key, value) {
+							$.each(value, function(key2, value2) {
+								// console.log(key+" "+key2+" "+value2);
+								last_used_field="input[name='"+key2+"["+key+"]']";
+								$(last_used_field).val(value2);
+								$(last_used_field).parent().addClass("field_from_copy");
+							});
+							if($(last_used_field).length!==0) {
+								bereken('kopieer',key);
+							}
+						});
+					}
+					$(".copy_from_type button").prop("disabled", false);
+					$(".copy_from_type img").hide();
+					$(".copy_from_type input").val("");
+					if($("input[name=toonper]").val()==1) {
+						optellen('bruto');
+					} else {
+						optellen('c_bruto');
+					}
+				}
+			);
+		} else {
+			$(".copy_from_type button").prop("disabled", false);
+			$(".copy_from_type img").hide();
+			// $(".copy_from_type input").val("");
+		}
+	});
 });
