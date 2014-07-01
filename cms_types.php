@@ -12,6 +12,22 @@ $mustlogin=true;
 
 include("admin/vars.php");
 
+if($_GET["copy_type"] and $_GET["confirmed"]) {
+
+	// copy accommodation
+
+	$copydatabaserecord = new copydatabaserecord;
+	$copydatabaserecord->copy_type($_GET["2k0"]);
+
+	$_SESSION["wt_popupmsg"]="type correct gekopieerd";
+
+	$url=ereg_replace("&copy_type=1","",$_SERVER["REQUEST_URI"]);
+	$url=ereg_replace("&confirmed=1","",$url);
+	$url=ereg_replace("&2k0=([0-9]+)","&2k0=".$copydatabaserecord->new_type_id,$url);
+	header("Location: ".$url);
+	exit;
+}
+
 if(!$_GET["1k0"] and $_GET["2k0"]) {
 	$db->query("SELECT accommodatie_id FROM type WHERE type_id='".addslashes($_GET["2k0"])."';");
 	if($db->next_record()) {

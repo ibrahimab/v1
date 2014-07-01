@@ -57,6 +57,22 @@ if($_GET["xmlvoorraadreset"]) {
 	exit;
 }
 
+if($_GET["copy_accommodation"] and $_GET["confirmed"]) {
+
+	// copy accommodation
+
+	$copydatabaserecord = new copydatabaserecord;
+	$copydatabaserecord->copy_accommodatie($_GET["1k0"]);
+
+	$_SESSION["wt_popupmsg"]="accommodatie correct gekopieerd";
+
+	$url=ereg_replace("&copy_accommodation=1","",$_SERVER["REQUEST_URI"]);
+	$url=ereg_replace("&confirmed=1","",$url);
+	$url=ereg_replace("&1k0=([0-9]+)","&1k0=".$copydatabaserecord->new_accommodatie_id,$url);
+	header("Location: ".$url);
+	exit;
+}
+
 # wzt opvragen indien niet meegegeven met query_string
 if(!$_GET["wzt"]) {
 	if($_GET["1k0"]) {
