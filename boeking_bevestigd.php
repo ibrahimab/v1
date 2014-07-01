@@ -20,6 +20,7 @@ if($totalereissom>0) {
 	// Google Analytics Ecommerce
 	$vars["googleanalytics_extra"]="
 
+ga('require', 'ecommerce', 'ecommerce.js');
 ga('ecommerce:addTransaction', {
 	id: '".wt_he($_GET["aanvraagnr"])."',
 	affiliation: '',
