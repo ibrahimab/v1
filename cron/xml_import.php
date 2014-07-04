@@ -3,8 +3,16 @@
 # /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 23...)
 
 #
-# Script wordt elke minuut gerund, maar alleen volledig afgelopen om: 5 minuten over 0,3,9,12,15,18,21 uur
+# Script wordt elke minuut gerund, maar alleen volledig afgelopen om:
 #
+
+/*
+
+Marche Holiday om 0, 3, 6, 9, 12, 15, 18 en 22 uur
+Direkt Holidays om 0, 3, 6, 10, 13, 16, 19 en 22 uur
+Alle andere leveranciers: tussen 8 en 20 uur elk uur, daarnaast ook om 0, 3, 6 en 22 uur.
+
+*/
 
 #
 # IP-adres server bij opvragen XML: 87.250.137.106
