@@ -354,6 +354,11 @@ RewriteRule ^sitemap/$ /sitemap [L,R=301]
 RewriteRule ^sitemap$ sitemap.php?%{QUERY_STRING}
 RewriteRule ^veelgestelde-vragen$ veelgestelde-vragen.php?%{QUERY_STRING}
 
+# Werken bij
+RewriteRule ^vacatures$ /werkenbij [L,R=301]
+# RewriteRule ^werkenbij\.php$ /werkenbij [L,R=301]
+RewriteRule ^vacatures\.php$ /werkenbij [L,R=301]
+RewriteRule ^werkenbij$ werkenbij.php
 
 # landingspagin's Italissima
 RewriteRule ^vakantiehuizen-gardameer$ /vakantiehuizen/regio/Gardameer/ [L,R=301]

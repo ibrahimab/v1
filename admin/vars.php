@@ -475,6 +475,9 @@ if($vars["websitetype"]==7) {
 		$submenu["reisagent"]=txt("submenutitle_reisagent");
 	}
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+	if($vars["website"]=="I") {
+		$submenu["werkenbij"]=txt("submenutitle_werkenbij");
+	}
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 
@@ -608,6 +611,9 @@ if($vars["websitetype"]==7) {
 	}
 	$submenu["favorieten"]=txt("submenutitle_favorieten");
 	$submenu["wie-zijn-wij"]=txt("submenutitle_wiezijnwij");
+	if($vars["website"]=="C") {
+		$submenu["werkenbij"]=txt("submenutitle_werkenbij");
+	}
 	$submenu["verzekeringen"]=txt("submenutitle_verzekeringen");
 
 	if($vars["website"]=="C" or $vars["website"]=="B") {

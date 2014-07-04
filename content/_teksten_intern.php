@@ -104,6 +104,9 @@ $txta["en"]["menu_veelgestelde-vragen"]="faq";
 $txta["nl"]["menu_wie-zijn-wij"]="wie-zijn-wij";
 $txta["en"]["menu_wie-zijn-wij"]="about-us";
 
+$txta["nl"]["menu_werkenbij"]="werkenbij";
+$txta["en"]["menu_werkenbij"]="-";
+
 $txta["nl"]["menu_zoek-en-boek"]="zoek-en-boek";
 $txta["en"]["menu_zoek-en-boek"]="search-and-book";
 
@@ -248,6 +251,9 @@ $txta["en"]["submenutitle_veelgesteldevragen"]="faq";
 
 $txta["nl"]["submenutitle_wiezijnwij"]="wie zijn wij?";
 $txta["en"]["submenutitle_wiezijnwij"]="about us";
+
+$txta["nl"]["submenutitle_werkenbij"]="werken bij ons";
+$txta["en"]["submenutitle_werkenbij"]="-";
 
 $txta["nl"]["submenutitle_zomerhuisje"]="Zomerhuisje.nl";
 $txta["en"]["submenutitle_zomerhuisje"]="-";
