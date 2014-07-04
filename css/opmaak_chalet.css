@@ -839,6 +839,20 @@ form {
 	opacity: 0.8;
 }
 
+.wij-zoeken-collegas {
+	position: absolute;
+	top: 47px;
+	right: 20px;
+}
+
+.wij-zoeken-collegas a {
+	color: #d40139;
+}
+
+.wij-zoeken-collegas a:hover {
+	color: #003366;
+}
+
 #mobilewebsite {
 	position: fixed;
 	bottom: 0;
