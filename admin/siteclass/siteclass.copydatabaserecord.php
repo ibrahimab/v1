@@ -145,6 +145,9 @@ class copydatabaserecord {
 		}
 		$copydatabaserecord->ignore["zomerwinterkoppeling_accommodatie_id"] = true;
 		$copydatabaserecord->ignore["oude_accommodatie_id"] = true;
+		$copydatabaserecord->ignore["leverancierscode"] = true;
+		$copydatabaserecord->ignore["leverancierscode_negeertarief"] = true;
+		$copydatabaserecord->ignore["voorraad_gekoppeld_type_id"] = true;
 		$copydatabaserecord->copy_record();
 		$this->new_type_id = $copydatabaserecord->new_id;
 
