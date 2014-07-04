@@ -748,12 +748,8 @@ if($seizoen["naam"]) {
 	echo "<td nowrap>".wt_he($titel)."</td>";
 	echo "</tr>";
 
-	if($vars["acceptatie_testserver"] or $vars["lokale_testserver"] or $_GET["test"]) {
-		// copy prices
-		echo "<tr><td colspan=\"".($aantal_weken+3)."\"><div class=\"copy_from_type\">Kopieer tarieven van: <input type=\"text\" name=\"copy_from_type\" autocomplete=\"off\" placeholder=\"type-code\">&nbsp;&nbsp;<button>kopieer tarieven &raquo;</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-95dbfe.gif\"></div></td></tr>";
-	} else {
-		lege_regel();
-	}
+	// copy prices
+	echo "<tr><td colspan=\"".($aantal_weken+3)."\"><div class=\"copy_from_type\">Kopieer tarieven van: <input type=\"text\" name=\"copy_from_type\" autocomplete=\"off\" placeholder=\"type-code\">&nbsp;&nbsp;<button>kopieer tarieven &raquo;</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-95dbfe.gif\"></div></td></tr>";
 
 
 	datumregel("Calculatie");

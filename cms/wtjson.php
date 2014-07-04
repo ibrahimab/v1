@@ -97,10 +97,23 @@ if($_GET["t"]==1) {
 
 	$json["ok"] = true;
 
-	if($_GET["toonper"]==1) {
-		$db->query("SELECT week, bruto FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
+	$db->query("SELECT toonper FROM view_accommodatie WHERE type_id='".intval($_GET["tid"])."';");
+	if($db->next_record()) {
+		$toonper = $db->f("toonper");
 	} else {
-		$db->query("SELECT week, c_bruto FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
+		$toonper = $_GET["toonper"];
+	}
+
+	if($_GET["toonper"]==1) {
+		$as_name = "bruto";
+	} else {
+		$as_name = "c_bruto";
+	}
+
+	if($toonper==1) {
+		$db->query("SELECT week, bruto AS ".$as_name." FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
+	} else {
+		$db->query("SELECT week, c_bruto AS ".$as_name." FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
 	}
 	if($db->num_rows()) {
 		$json["prices"] = true;

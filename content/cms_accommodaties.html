@@ -174,12 +174,10 @@ if($_GET["show"]==1) {
 	$cms->display_list(48);
 
 
-	if($vars["acceptatie_testserver"] or $vars["lokale_testserver"] or $_GET["test"]) {
-		echo "<hr><h2>Accommodatie kopi&euml;ren</h2>";
-		echo "<p>";
-		echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"]."&copy_accommodation=1")."\" onclick=\"return confirmClick(this,'Zeker weten dat je deze accommodatie wilt kopi&euml;ren?');\">Maak kopie van deze accommodatie &raquo;</a></p>";
-		echo "<p>Alle gegevens (inclusief onderliggende types) worden gekopieerd, behalve de tarieven en beschikbaarheid.</p>";
-	}
+	echo "<hr><h2>Accommodatie kopi&euml;ren</h2>";
+	echo "<p>";
+	echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"]."&copy_accommodation=1")."\" onclick=\"return confirmClick(this,'Zeker weten dat je deze accommodatie wilt kopi&euml;ren?');\">Maak kopie van deze accommodatie &raquo;</a></p>";
+	echo "<p>Alle gegevens (inclusief onderliggende types) worden gekopieerd, behalve de tarieven en beschikbaarheid.</p>";
 
 	$cms->display_log(1);
 } elseif($_GET["add"]==1 or $_GET["edit"]==1) {
