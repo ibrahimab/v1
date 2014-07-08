@@ -254,9 +254,9 @@ if($vars["bezoeker_is_jeroen"] or $vars["testsite"]) {
 # Leveranciers waarbij het mogelijk is nieuwe accommodaties te importeren (levcode+naam)
 # Maisons Vacances uitgezet op verzoek van Barteld (27-11-2012)
 if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",421=>"Interhome",35=>"Direkt Holidays");
+	$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",421=>"Interhome",35=>"Direkt Holidays", 245=>"Alpin Rentals");
 } else {
-	$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",421=>"Interhome",35=>"Direkt Holidays");
+	$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",421=>"Interhome",35=>"Direkt Holidays", 245=>"Alpin Rentals");
 }
 
 

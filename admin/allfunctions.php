@@ -1416,18 +1416,18 @@ function wt_he_forumpost($text,$settings="") {
 	# http klikbaar maken
 #	$text=eregi_replace("^(https?://[a-z0-9\./?&%=\-]+)","<a href=\"\\1\" target=\"_blank\" rel=\"nofollow\">\\1</a>",$text);
 #	$text=eregi_replace("([^=>\"]|^)(https?://[a-z0-9\./?&%=\-_\(\)]+)","\\1<a href=\"\\2\" target=\"_blank\" rel=\"nofollow\">\\2</a>",$text);
-	$text=preg_replace("@([^=>\"]|^)(https?://[a-zA-Z0-9\./?&%=\-_\(\)]+)@","\\1<a href=\"\\2\" target=\"_blank\" rel=\"nofollow\">\\2</a>",$text);
+	$text=preg_replace("@([^=>\"]|^)(https?://[a-zA-Z0-9\./?&%=\-_\(\)#!]+)@","\\1<a href=\"\\2\" target=\"_blank\" rel=\"nofollow\" class=\"analytics_forumpost_external\">\\2</a>",$text);
 
 	if($settings["twitter"]) {
 		# Twitter-handles klikbaar maken
-		$text=ereg_replace("([^=>\"a-zA-Z0-9]|^)@([a-zA-Z0-9_]+)([^a-z0-9_]|$)","\\1<a href=\"https://twitter.com/\\2\" target=\"_blank\" rel=\"nofollow\">@\\2</a>\\3",$text);
+		$text=ereg_replace("([^=>\"a-zA-Z0-9]|^)@([a-zA-Z0-9_]+)([^a-z0-9_]|$)","\\1<a href=\"https://twitter.com/\\2\" target=\"_blank\" rel=\"nofollow\" class=\"analytics_forumpost_external\">@\\2</a>\\3",$text);
 	}
 
 	# E-mail klikbaar maken
-	$text=eregi_replace("([^a-z0-9]|^)([0-9a-z][-_0-9a-z.+]*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,4})([^a-z]|$)","\\1<a href=\"mailto:\\2\">\\2</a>\\4",$text);
+	$text=eregi_replace("([^a-z0-9]|^)([0-9a-z][-_0-9a-z.+]*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,4})([^a-z]|$)","\\1<a href=\"mailto:\\2\" class=\"analytics_forumpost_external\">\\2</a>\\4",$text);
 
 	# www klikbaar maken
-	$text=ereg_replace("([^/]|^)(www\.[a-z0-9-]+\.[a-z]{1,4})([^a-z0-9]|$)","\\1<a href=\"http://\\2/\" target=\"_blank\" rel=\"nofollow\">\\2</a>\\3",$text);
+	$text=ereg_replace("([^/]|^)(www\.[a-z0-9-]+\.[a-z]{1,4})([^a-z0-9]|$)","\\1<a href=\"http://\\2/\" target=\"_blank\" rel=\"nofollow\" class=\"analytics_forumpost_external\">\\2</a>\\3",$text);
 
 	if($settings["opmaakcodes"]) {
 
@@ -1435,7 +1435,7 @@ function wt_he_forumpost($text,$settings="") {
 		// $text=ereg_replace("\[link=(https://movieyell\.com/[^]]+)\]([^[]+)\[/link\]","<a href=\"\\1\">\\2</a>",$text);
 
 		# externe [link=http://url/]tekst[/link] omzetten
-		$text=ereg_replace("\[link=(http[^]]+)\]([^[]+)\[/link\]","<a href=\"\\1\" target=\"_blank\" rel=\"nofollow\">\\2</a>",$text);
+		$text=ereg_replace("\[link=(http[^]]+)\]([^[]+)\[/link\]","<a href=\"\\1\" target=\"_blank\" rel=\"nofollow\" class=\"analytics_forumpost_external\">\\2</a>",$text);
 
 		# [b] bold maken
 		$text=ereg_replace("\[b\]([^[]+)\[/b\]","<b>\\1</b>",$text);

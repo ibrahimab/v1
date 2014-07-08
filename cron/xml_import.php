@@ -332,6 +332,9 @@ if(get_slow_suppliers(24)) {
 	$soap_urls[24] = $unixdir."suppliers/direktholidays/index.php";
 }
 
+# Alpin Rentals
+$soap_urls[25] = $unixdir."suppliers/newyseservice/index.php";
+
 #
 # Voor testsysteem
 #
@@ -1210,6 +1213,66 @@ while(list($key,$value)=@each($soap_urls)) {
 			}
 			$xml_laatsteimport_leverancier[$key]=true;
 		}
+	} elseif($key==25) {
+		//
+		// Class Alpin Rentals
+		//
+		if(file_exists($value)) {
+			require_once($value);
+			$alpinRentals = new AlpinRentals();
+			$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
+
+			$db->query($q);
+
+
+			while($db->next_record()) {
+				$endDate[$db->f("type")][] = $db->f("end");
+				$startDate[$db->f("type")][] = $db->f("begin");
+			}
+
+			 // Get all accommodations from AlpinRentals (245)
+			 $q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`tonen`=1 AND t.`leverancier_id` = '245' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
+
+			 $db->query($q);
+			 // Loop through all the database accommodations
+			 while($db->next_record()) {
+				 $accCode = $db->f("leverancierscode");
+				 $seasonId = $db->f("wzt");
+
+				 foreach($endDate[$seasonId] as $endDatekey => $endDateValue){
+					 $x = strtotime($endDateValue);
+					 $end_date = strtotime("+ 7 days", $x);
+					 $end_date = date("Y-m-d", $end_date);
+
+					 $start_date = $startDate[$seasonId][$endDatekey];
+					 if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
+							 $start_date = date("Y-m-d");
+					 }
+
+					 if($availability = $alpinRentals->getAvailability($accCode, $start_date, $end_date)) {
+							 // Get the availability
+							 if(isset($xml_beschikbaar[$key][$accCode])) {
+									 $xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
+							 } else {
+									 $xml_beschikbaar[$key][$accCode] = $availability;
+							 }
+					 }
+
+
+					 $prices = $alpinRentals->getPrices($accCode, $start_date, $end_date);
+					 if(isset($xml_brutoprijs[$key][$accCode])){
+						 $xml_brutoprijs[$key][$accCode] =$xml_brutoprijs[$key][$accCode] + $prices;
+					 }else {
+						 $xml_brutoprijs[$key][$accCode] = $prices;
+					 }
+
+				 }
+				 if(!isset($xml_beschikbaar[$key][$accCode])) {
+				 	$xml_beschikbaar[$key][$accCode] = array();
+				 }
+			 }
+			 $xml_laatsteimport_leverancier[$key]=true;
+		 }
 	} else {
 		//
 		// Other SOAP suppliers (Eurogroup and Des Neiges)
@@ -1841,11 +1904,10 @@ while($db->next_record()) {
 			}
 			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
 
-
-				} elseif($db->f("xml_type")==25) {
+		} elseif($db->f("xml_type")==25) {
 
 			#
-			# Leverancier MacheHolidays
+			# Leverancier AlpinRentals
 			#
 			# Beschikbaarheid
 			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
@@ -1858,6 +1920,7 @@ while($db->next_record()) {
 			# Tarieven: verwerking gebeurt onderaan bij het algemene gedeelte "Tarieven bijwerken"
 
 		}
+
 		#
 		# Tarieven bijwerken
 		#
@@ -1866,7 +1929,7 @@ while($db->next_record()) {
 			#
 			# week-tarieven
 			#
-			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17" or $db->f("xml_type")=="18" or $db->f("xml_type")=="19" or $db->f("xml_type")=="20" or $db->f("xml_type")=="21" or $db->f("xml_type")=="22" or $db->f("xml_type")=="23" or $db->f("xml_type")=="24") {
+			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17" or $db->f("xml_type")=="18" or $db->f("xml_type")=="19" or $db->f("xml_type")=="20" or $db->f("xml_type")=="21" or $db->f("xml_type")=="22" or $db->f("xml_type")=="23" or $db->f("xml_type")=="24" or $db->f("xml_type")=="25") {
 				#
 				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale Locative de l'Immobilière des Hauts Forts (20), Ville in Italia (21) + Nexity (22), Interhome (23)
 				#
