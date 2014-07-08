@@ -192,6 +192,13 @@ if($id<>"index") echo "</a>";
 echo "</div>\n"; # afsluiten logo
 
 echo "<div id=\"topfoto\" class=\"noprint\">";
+
+// if($vars["website"]=="I" and $id<>"werkenbij" and ($_GET["test"] or $vars["lokale_testserver"])) {
+// 	echo "<div class=\"wij-zoeken-collegas\">";
+// 	echo "<a href=\"".$vars["path"]."werkenbij\">Wij zoeken collega's &raquo;</a>";
+// 	echo "</div>\n"; // close .wij-zoeken-collegas
+// }
+
 echo "<img src=\"".$vars["path"];
 
 if($vars["italissima_topfoto"]) {
@@ -730,7 +737,7 @@ if($opmaak->toon_cookiebalk()) {
 # Load change desktop to mobile notification
 
 if($onMobile and !$_COOKIE['desktopnotification']){
-	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("desktopnotification","vars",array("h_1"=>"<a href=\"".$vars["path"]."?setmobile\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";    
+	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("desktopnotification","vars",array("h_1"=>"<a href=\"".$vars["path"]."?setmobile\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";
 }
 
 # Balk met opvallende melding
