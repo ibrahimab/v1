@@ -943,7 +943,7 @@ while(list($key,$value)=@each($xml_urls)) {
 				}
 			}
 		} else {
-			trigger_error("_notice: URL ".$value2." onbereikbaar of geen valide XML",E_USER_NOTICE);
+			// trigger_error("_notice: URL ".$value2." onbereikbaar of geen valide XML",E_USER_NOTICE);
 		}
 	}
 
@@ -1326,7 +1326,7 @@ while(list($key,$value)=@each($soap_urls)) {
 							#echo($e->getMessage());
 
 							if(!$soap_error_getoond[$key]) {
-								trigger_error("_notice: SOAP-id ".$key." onbereikbaar: ".$e->getMessage(),E_USER_NOTICE);
+								// trigger_error("_notice: SOAP-id ".$key." onbereikbaar: ".$e->getMessage(),E_USER_NOTICE);
 								$soap_error_getoond[$key]=true;
 							}
 							$soap_error=true;
