@@ -416,7 +416,6 @@ li {
 	padding: 3px;
 }
 
-
 .frm_tbl .cell_colspan {
 
 }
@@ -633,6 +632,31 @@ li {
 .tr_bestelstatus_hele_tr_opvallend {
 	background-color: #94d3ff;
 }
+
+.cms_backup_block {
+	background-color: yellow;
+	border: 2px solid #b31aff;
+	padding: 5px;
+	margin-bottom: 20px;
+	color: #b31aff;
+	font-size: 1.3em;
+	font-weight: bold;
+}
+
+.cms_backup_block a {
+	font-size: 0.8em;
+	color: #b31aff;
+}
+
+.cms_backup_block a:hover {
+	color: #000000;
+}
+
+.cms_backup_block span {
+	font-size: 0.9em;
+	color: #000000;
+}
+
 
 
 /* ----------------------- */

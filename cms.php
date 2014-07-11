@@ -38,6 +38,16 @@ if($_GET["delflc"]==1) {
 $mustlogin=true;
 include("admin/vars.php");
 
+if($_GET["turn_backup_off"]) {
+	unlink("/home/chaletnl/backup-status/active");
+	header("Location: ".$vars["path"]."cms.php");
+	exit;
+} elseif($_GET["turn_backup_on"]) {
+	touch("/home/chaletnl/backup-status/active");
+	header("Location: ".$vars["path"]."cms.php");
+	exit;
+}
+
 # eenmaliggecontroleerd
 if($_GET["eenmaliggecontroleerd"]) {
 	$_GET["meldingen"]=1;

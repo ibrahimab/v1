@@ -16,10 +16,19 @@ if($_SERVER["HTTP_HOST"]=="chalet-nl-dev.web.netromtest.ro") {
 	define("netrom_testserver",false);
 }
 
+// is this the backup-server?
+if($_SERVER["SERVER_ADDR"]=="149.210.172.200") {
+	$vars["backup_server"] = true;
+}
+
 # diverse $vars
 # zoekvolgorde mag maximaal 8 zijn
 $vars["zoekvolgorde"]=array(1=>"Categorie 1 (hoogst)",2=>"Categorie 2 (hoger)",3=>"Categorie 3 (neutraal)",4=>"Categorie 4 (lager)",5=>"Categorie 5 (laagst)");
-$vars["wt_htmlentities_cp1252"]=true;
+if($vars["backup_server"]) {
+	$vars["wt_htmlentities_utf8"] = true;
+} else {
+	$vars["wt_htmlentities_cp1252"]=true;
+}
 $vars["wt_mail_https_bcc"]=true;
 $vars["salt"]="Ml3k39jj302kdpqQM";
 $vars["wt_mysql_lost_nolog"]=true;
@@ -44,10 +53,10 @@ if(ereg("(winter|zomer|summer)/",$_SERVER["REDIRECT_URL"])) {
 $vars["id"]=$id;
 if(isset($url[(count($url)-1)]) and !$url[(count($url)-1)]) unset($url[(count($url)-1)]);
 
-if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
-	$vars["bezoeker_is_jeroen"]=true;
-#	$vars["wt_disable_error_handler"]=true;
-}
+// if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
+	// $vars["bezoeker_is_jeroen"]=true;
+	// $vars["wt_disable_error_handler"]=true;
+// }
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or netrom_testserver) {
 	$vars["lokale_testserver"]=true;
@@ -58,7 +67,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or netrom_testserver) {
 	}
 }
 
-if($_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$vars["webtastic"]=true;
 }
 
@@ -120,7 +129,11 @@ if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$
 # MySQL
 #
 require($unixdir."admin/vars_db.php");
+if($vars["wt_htmlentities_utf8"]) {
+	$mysqlsettings["charset"]="utf8";
+}
 require($unixdir."admin/class.mysql.php");
+
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$db->query("SET CHARACTER SET 'latin1';");
@@ -254,9 +267,9 @@ if($vars["bezoeker_is_jeroen"] or $vars["testsite"]) {
 # Leveranciers waarbij het mogelijk is nieuwe accommodaties te importeren (levcode+naam)
 # Maisons Vacances uitgezet op verzoek van Barteld (27-11-2012)
 if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-	$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",421=>"Interhome",35=>"Direkt Holidays", 245=>"Alpin Rentals");
+	$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",421=>"Interhome",35=>"Direkt Holidays", 245=>"Alpin Rentals Kaprun");
 } else {
-	$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",421=>"Interhome",35=>"Direkt Holidays", 245=>"Alpin Rentals");
+	$vars["xmlnewimport_leveranciers"]=array(131=>"Posarelli Villas",421=>"Interhome",35=>"Direkt Holidays");
 }
 
 
@@ -430,6 +443,15 @@ if($vars["leverancier_mustlogin"]) {
 #
 
 $vars["vertrouwde_ips"]=array("213.125.152.154","213.125.152.155","213.125.152.156","213.125.152.157","213.125.152.158","83.163.123.209","31.223.173.113","37.34.56.191","62.195.99.8","172.16.1.10","172.16.1.35","127.0.0.1");
+
+// backup-server only available for vertrouwde_ips
+if($vars["backup_server"]) {
+	if(!in_array($_SERVER["REMOTE_ADDR"], $vars["vertrouwde_ips"])) {
+		$www_url = preg_replace("@www2@", "www", "https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+		header("Location: ".$www_url);
+		exit;
+	}
+}
 
 # Geldigheidsduur intern FLC-cookie verlengen
 if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {

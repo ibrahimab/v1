@@ -866,7 +866,7 @@ $vars["websitetype_namen"]=array(1=>"Chalet.nl/.eu/.be",2=>"SuperSki",3=>"Zomerh
 $vars["websitetype_namen_wzt"]=array(1=>1,2=>1,3=>2,4=>1,5=>2,6=>1,7=>2,9=>1);
 
 
-// Acceptance-server: change URL's ("www" becomes "test")
+// Acceptance-server: change URL's ("https://www" becomes "http://test")
 if($vars["acceptatie_testserver"]) {
 	foreach ($vars["websiteinfo"]["basehref"] as $key => $value) {
 		$vars["websiteinfo"]["basehref"][$key] = preg_replace("@^https?://www\.@","http://test.",$value);
@@ -875,7 +875,17 @@ if($vars["acceptatie_testserver"]) {
 	foreach ($vars["websites_basehref"] as $key => $value) {
 		$vars["websites_basehref"][$key] = preg_replace("@^https?://www\.@","http://test.",$value);
 	}
+}
 
+// Backup-server: change URL's ("https://www" becomes "http://www2")
+if($vars["backup_server"]) {
+	foreach ($vars["websiteinfo"]["basehref"] as $key => $value) {
+		$vars["websiteinfo"]["basehref"][$key] = preg_replace("@^https?://www\.@","http://www2.",$value);
+	}
+
+	foreach ($vars["websites_basehref"] as $key => $value) {
+		$vars["websites_basehref"][$key] = preg_replace("@^https?://www\.@","http://www2.",$value);
+	}
 }
 
 ?>

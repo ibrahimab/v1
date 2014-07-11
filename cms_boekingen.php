@@ -138,7 +138,7 @@ if($_GET["21k0"]) {
 		$seizoenid=$db->f("seizoen_id");
 		$vars["log"]=$db->f("log");
 
-		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and $login->userlevel<10) {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and $login->userlevel<10) {
 			if($vars["websites_wzt"][2][$db->f("website")]) {
 				$layout->settings["extra_cssfiles"][]="css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
 			} elseif($db->f("website")=="Y") {

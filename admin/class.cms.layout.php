@@ -355,6 +355,10 @@ class cms_layout {
 		}
 		echo "</h1>";
 
+		if($this->settings["extra_content_code"]) {
+			echo $this->settings["extra_content_code"];
+		}
+
 		if(!$this->menu_item[$this->pageid]["login"] or $login->logged_in) {
 			if(file_exists("content/".$this->pageid.".html")) {
 				# Pagina tonen

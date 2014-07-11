@@ -154,7 +154,7 @@ function html($id,$page="",$settings="") {
 	return txt($id,$page,$settings,true);
 }
 
-function accinfo($typeid,$aankomstdatum=0,$aantalpersonen=0,$options="") {
+function accinfo($typeid,$aankomstdatum=0,$aantalpersonen=0,$options=array()) {
 	global $vars,$mustlogin,$unixdir;
 	if($options["gebruik_gegevensvar_niet"]) {
 

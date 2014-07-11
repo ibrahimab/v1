@@ -103,7 +103,7 @@ if($mustlogin) {
 
 	$login->settings["loginblocktime"]=600; # 10 minuten geblokkeerd
 
-	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
+	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
 		$login->settings["mustlogin_via_https"]=true;
 	}
 
@@ -231,7 +231,7 @@ if($mustlogin) {
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.js";
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.tablescroll.js";
 
-	if($login->logged_in and $id<>"cms" and $_SERVER["HTTP_HOST"]<>"www.chalet.nl" and $_SERVER["HTTP_HOST"]<>"test.chalet.nl" and !$vars["lokale_testserver"]) {
+	if($login->logged_in and $id<>"cms" and $_SERVER["HTTP_HOST"]<>"www.chalet.nl" and $_SERVER["HTTP_HOST"]<>"test.chalet.nl" and $_SERVER["HTTP_HOST"]<>"www2.chalet.nl" and !$vars["lokale_testserver"]) {
 		$layout->settings["cms_via_verkeerde_site"]=true;
 	}
 
@@ -258,13 +258,15 @@ if($mustlogin) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=878481";
 	} elseif($vars["acceptatie_testserver"]) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=f6adba";
+	} elseif($vars["backup_server"]) {
+		$layout->settings["extra_cssfiles"][]="css/cms_layout_bgcolor.css.phpcache?bg=b31aff";
 	} elseif($login->userlevel>=10 and !preg_match("/Chrome/",$_SERVER["HTTP_USER_AGENT"])) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=ff1844";
 	} elseif($_GET["wzt"]==2) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
 	}
 	if($_GET["bid"]) {
-		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and $login->userlevel<10) {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and $login->userlevel<10) {
 			$db->query("SELECT website FROM boeking WHERE boeking_id='".addslashes($_GET["bid"])."';");
 			if($db->next_record()) {
 				if($vars["websites_wzt"][2][$db->f("website")]) {
@@ -275,6 +277,24 @@ if($mustlogin) {
 			}
 		}
 	}
+
+	if($vars["backup_server"]) {
+		$layout->settings["extra_content_code"] .= "<div class=\"cms_backup_block\">";
+		if(file_exists("/var/www/chalet.nl/html/tmp/timer")) {
+			$layout->settings["extra_content_code"] .= "<span>Laatste backup vanaf www: ".datum("DAG D MAAND JJJJ, UU:ZZ", filemtime("/var/www/chalet.nl/html/tmp/timer"))."u.</span>";
+		}
+
+		if(file_exists("/home/chaletnl/backup-status/active")) {
+			$layout->settings["extra_content_code"] .= "<p>Dit is de backup-server (www2).<br/>LET OP! Wijzigingen in dit CMS worden overschreven door de automatische backups.</p>";
+			$layout->settings["extra_content_code"] .= "<p><a href=\"".$vars["path"]."cms.php?turn_backup_off=1\">Automatische backups uitzetten &raquo;</a></p>";
+		} else {
+			$layout->settings["extra_content_code"] .= "<p>Dit is de backup-server (www2). De backup staat uit, dus wijzigingen in dit CMS blijven bewaard.</p>";
+			$layout->settings["extra_content_code"] .= "<p><a href=\"".$vars["path"]."cms.php?turn_backup_on=1\">Automatische backups weer aanzetten &raquo;</a></p>";
+		}
+
+		$layout->settings["extra_content_code"] .= "</div>";
+	}
+
 
 	if($vars["cmstaal"] and $vars["cmstaal"]<>"nl") $layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_anderetaal.css";
 	if($login->logged_in) $layout->settings["logout_extra"]="<div style=\"margin-top:3px;\"><form method=\"get\" style=\"margin:0px;\" action=\"".$vars["path"]."cms.php\"><input type=\"hidden\" name=\"bc\" value=\"".htmlentities($_GET["bc"])."\"><input type=\"text\" name=\"cmssearch\">&nbsp;<input type=\"submit\" value=\" OK \"></form></div>";
