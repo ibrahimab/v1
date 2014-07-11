@@ -322,7 +322,7 @@ if($vars["wederverkoop"]) {
 		} else {
 			$login_rb->settings["mustlogin"]=false;
 		}
-		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
 			$login_rb->settings["mustlogin_via_https"]=true;
 		}
 
@@ -394,7 +394,7 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["mustlogin"]=true;
 		$login_lev->settings["salt"]=$vars["salt"];
 
-		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
 			$login_lev->settings["mustlogin_via_https"]=true;
 		}
 
@@ -456,7 +456,7 @@ if($vars["backup_server"]) {
 # Geldigheidsduur intern FLC-cookie verlengen
 if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
 
-	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
+	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
 		ini_set("session.cookie_secure",1);
 	}
 
@@ -1141,7 +1141,7 @@ if($boeking_wijzigen) {
 	} else {
 		$login->settings["mustlogin"]=true;
 	}
-	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"]) {
+	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
 		$login->settings["mustlogin_via_https"]=true;
 	}
 	$login->settings["loginpage"]=$path.txt("menu_inloggen").".php";

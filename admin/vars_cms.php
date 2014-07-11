@@ -278,7 +278,7 @@ if($mustlogin) {
 		}
 	}
 
-	if($vars["backup_server"]) {
+	if($vars["backup_server"] and $login->logged_in) {
 		$layout->settings["extra_content_code"] .= "<div class=\"cms_backup_block\">";
 		if(file_exists("/var/www/chalet.nl/html/tmp/timer")) {
 			$layout->settings["extra_content_code"] .= "<span>Laatste backup vanaf www: ".datum("DAG D MAAND JJJJ, UU:ZZ", filemtime("/var/www/chalet.nl/html/tmp/timer"))."u.</span>";
