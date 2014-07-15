@@ -994,7 +994,7 @@ a.opm {
 	margin-top: 1em;
 	margin-bottom: 0.5em;
 	background-color: #95dbfe;
-	width: 400px;
+	width: 700px;
 	padding: 3px;
 	border: 1px solid #448fb4;
 }
@@ -1009,6 +1009,12 @@ a.opm {
 	position: relative;
 	margin-bottom: 2px;
 	text-transform: uppercase;
+}
+
+.copy_from_type input[type=checkbox] {
+	vertical-align: middle;
+	position: relative;
+	margin-bottom: 4px;
 }
 
 

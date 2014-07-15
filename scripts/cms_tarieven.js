@@ -1555,7 +1555,7 @@ $(document).ready(function() {
 		if(type_id) {
 
 			$.getJSON(
-				'cms/wtjson.php?t=4&tid='+type_id+"&sid="+wt_getParameterByName("sid")+"&toonper="+$("input[name=toonper]").val(),
+				'cms/wtjson.php?t=4&tid='+type_id+"&sid="+wt_getParameterByName("sid")+"&toonper="+$("input[name=toonper]").val()+"&bruto="+($("input[name=copy_from_type_bruto_acc]").attr("checked") ? 1 : 0)+"&toeslag="+($("input[name=copy_from_type_toeslag]").attr("checked") ? 1 : 0)+"&korting="+($("input[name=copy_from_type_korting]").attr("checked") ? 1 : 0),
 				function(data) {
 					if(data.prices==1) {
 						$.each(data.week, function(key, value) {

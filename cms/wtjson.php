@@ -105,26 +105,39 @@ if($_GET["t"]==1) {
 	}
 
 	if($_GET["toonper"]==1) {
-		$as_name = "bruto";
+		$as_name = "";
 	} else {
-		$as_name = "c_bruto";
+		$as_name = "c_";
 	}
 
 	if($toonper==1) {
-		$db->query("SELECT week, bruto AS ".$as_name." FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
+		$db->query("SELECT week, bruto AS ".$as_name."bruto, toeslag AS ".$as_name."toeslag, korting_euro AS ".$as_name."korting_euro FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
 	} else {
-		$db->query("SELECT week, c_bruto AS ".$as_name." FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
+		$db->query("SELECT week, c_bruto AS ".$as_name."bruto, c_toeslag AS ".$as_name."toeslag, c_korting_euro AS ".$as_name."korting_euro FROM tarief WHERE type_id='".intval($_GET["tid"])."' AND seizoen_id='".intval($_GET["sid"])."' ORDER BY week;");
 	}
 	if($db->num_rows()) {
-		$json["prices"] = true;
 		while($db->next_record()) {
 			foreach ($db->Record as $key => $value) {
 				if(!is_int($key) and $key!="week") {
-					$json["week"][$db->f("week")][$key] = $value;
+					$include_field = false;
+
+					if(($key=="bruto" or $key=="c_bruto") and $_GET["bruto"]) $include_field = true;
+					if(($key=="toeslag" or $key=="c_toeslag") and $_GET["toeslag"]) $include_field = true;
+					if(($key=="korting_euro" or $key=="c_korting_euro") and $_GET["korting"]) $include_field = true;
+
+					if($include_field) {
+						$json["week"][$db->f("week")][$key] = $value;
+						$prices = true;
+					}
 				}
 			}
 		}
 	}
+
+	if($prices) {
+		$json["prices"] = true;
+	}
+
 	echo json_encode($json);
 }
 
