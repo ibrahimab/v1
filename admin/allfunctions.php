@@ -1416,7 +1416,7 @@ function wt_he_forumpost($text,$settings="") {
 	# http klikbaar maken
 #	$text=eregi_replace("^(https?://[a-z0-9\./?&%=\-]+)","<a href=\"\\1\" target=\"_blank\" rel=\"nofollow\">\\1</a>",$text);
 #	$text=eregi_replace("([^=>\"]|^)(https?://[a-z0-9\./?&%=\-_\(\)]+)","\\1<a href=\"\\2\" target=\"_blank\" rel=\"nofollow\">\\2</a>",$text);
-	$text=preg_replace("@([^=>\"]|^)(https?://[a-zA-Z0-9\./?&%=\-_\(\)#!]+)@","\\1<a href=\"\\2\" target=\"_blank\" rel=\"nofollow\" class=\"analytics_forumpost_external\">\\2</a>",$text);
+	$text=preg_replace("@([^=>\"]|^)(https?://[a-zA-Z0-9\./?&%=\-_\(\)#!\@]+)@","\\1<a href=\"\\2\" target=\"_blank\" rel=\"nofollow\" class=\"analytics_forumpost_external\">\\2</a>",$text);
 
 	if($settings["twitter"]) {
 		# Twitter-handles klikbaar maken

@@ -23,7 +23,7 @@ class copydatabaserecord {
 			foreach ( $db->Record as $key => $value ) {
 				if ( $key and !is_int( $key ) and !$this->ignore[$key] ) {
 
-					// echo $key."<br/>";
+					$this->last_record[$key] = $value;
 
 					if ( $this->append[$key] ) {
 						$value .= $this->append[$key];
@@ -48,13 +48,8 @@ class copydatabaserecord {
 
 			if ( $setquery ) {
 				$db2->query( "INSERT INTO `".$this->table."` SET ".substr( $setquery, 1 ) );
-				// echo $db2->lq;
 				$this->new_id = $db2->insert_id();
-
 			}
-
-			// echo $setquery;
-
 		}
 	}
 
@@ -74,8 +69,9 @@ class copydatabaserecord {
 
 	public function copy_accommodatie( $accommodatie_id ) {
 
-		global $vars;
+		global $vars, $login;
 		$db = new DB_sql;
+		$db2 = new DB_sql;
 
 		// accommodatie
 		$copydatabaserecord = new copydatabaserecord;
@@ -127,10 +123,20 @@ class copydatabaserecord {
 			// copy pdf's
 			$this->copy_files( $vars["unixdir"]."pdf/accommodatie_aanvullende_informatie/", "pdf", $accommodatie_id, $this->new_accommodatie_id );
 
+			// log copy-action
+			$db->query("SELECT naam, begincode, type_id, wzt FROM view_accommodatie WHERE accommodatie_id='".intval($accommodatie_id)."';");
+			if($db->next_record()) {
+				$db2->query("INSERT INTO cmslog SET user_id='".intval($login->user_id)."', cms_id=1, cms_name='".($db->f("wzt")==1 ? "winter" : "zomer")."accommodatie', table_name='accommodatie', specialtype=4, specialtext='accommodatie gekopieerd van \'".addslashes($db->f("naam"))."\'', record_id='".intval($this->new_accommodatie_id)."', savedate=NOW();");
+			}
 		}
 	}
 
 	public function copy_type( $type_id ) {
+
+		global $vars, $login;
+
+		$db = new DB_sql;
+		$db2 = new DB_sql;
 
 		// type
 		$copydatabaserecord = new copydatabaserecord;
@@ -165,8 +171,12 @@ class copydatabaserecord {
 		$this->copy_files( $vars["unixdir"]."pic/cms/types_specifiek_tn/", "jpg", $type_id, $this->new_type_id );
 		$this->copy_files( $vars["unixdir"]."pic/cms/hoofdfoto_type/", "jpg", $type_id, $this->new_type_id );
 
+		// log copy-action
+		$db->query("SELECT begincode, type_id, wzt FROM view_accommodatie WHERE type_id='".intval($type_id)."';");
+		if($db->next_record()) {
+			$db2->query("INSERT INTO cmslog SET user_id='".intval($login->user_id)."', cms_id=2, cms_name='".($db->f("wzt")==1 ? "winter" : "zomer")."type', table_name='type', specialtype=4, specialtext='type gekopieerd van ".$db->f("begincode").$db->f("type_id")."', record_id='".intval($this->new_type_id)."', savedate=NOW();");
+		}
 	}
 }
-
 
 ?>

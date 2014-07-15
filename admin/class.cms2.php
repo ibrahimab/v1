@@ -1600,7 +1600,7 @@ class cms2 {
 	function display_log($counter,$showall=false) {
 
 		$db=new DB_sql;
-		$db->query("SELECT UNIX_TIMESTAMP(savedate) AS savedate, user_id, specialtype, field_name, previous, now FROM cmslog WHERE cms_id='".addslashes($counter)."' AND record_id='".addslashes($_GET[$counter."k0"])."' AND hide=0 ORDER BY savedate DESC, cmslog_id DESC;");
+		$db->query("SELECT UNIX_TIMESTAMP(savedate) AS savedate, user_id, specialtype, specialtext, field_name, previous, now FROM cmslog WHERE cms_id='".addslashes($counter)."' AND record_id='".addslashes($_GET[$counter."k0"])."' AND hide=0 ORDER BY savedate DESC, cmslog_id DESC;");
 		echo "<br><a name=\"displaylog".$counter."\"></a><hr><br>";
 		echo "<table cellspacing=\"0\" class=\"tbl logtbl difftbl\">";
 		echo "<tr><th colspan=\"5\">Logboek";
@@ -1614,7 +1614,11 @@ class cms2 {
 			echo "<tr style=\"font-weight:bold;\"><td style=\"width:150px;\">wijzigdatum</td><td>door</td><td>veld</td><td style=\"width:30%;\">van</td><td style=\"width:30%;\">naar</td></tr>";
 			while($db->next_record()) {
 				if($db->f("specialtype")==1) {
+					// new record
 					echo "<tr><td>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".wt_he($this->vars["users"][$db->f("user_id")])."</td><td colspan=\"3\"><i>".$this->message("record_toegevoegd")."</i></td></tr>";
+				} elseif($db->f("specialtype")==4) {
+					// specialtext
+					echo "<tr><td>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".wt_he($this->vars["users"][$db->f("user_id")])."</td><td colspan=\"3\"><i>".wt_he($db->f("specialtext"))."</i></td></tr>";
 				} else {
 					if(strlen($db->f("previous"))>0 and strlen($db->f("now"))>0 and (strlen($db->f("previous"))>10 or strlen($db->f("now"))>10)) {
 						$now=nl2br(wt_diff($db->f("previous"),$db->f("now")));
