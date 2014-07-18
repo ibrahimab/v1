@@ -1,7 +1,7 @@
 <?php
 
 
-include("../admin/allfunctions.php");
+include_once("../admin/allfunctions.php");
 
 #
 #
@@ -9,8 +9,8 @@ include("../admin/allfunctions.php");
 #
 #
 
-$marche_server="oorl.iwlab.com"; 
-$marche_script="/holiday/bin/mh/APIserver.php"; 
+$marche_server="oorl.iwlab.com";
+$marche_script="/holiday/bin/mh/APIserver.php";
 
 
 function marche_RPC_get_season($date,$idls){
@@ -27,53 +27,53 @@ function marche_RPC_get_costi_sta_set($idls,$date,$dateb,$ids) {
 function marche_get_info($function, $pars, $vals) {
 global $marche_server,$marche_script;
   if ($pars[0]=="RPC_login")
-  { $challenge=file_get_contents("http://".$marche_server.$marche_script."?challenge=1"); 
-    if ($challenge =="") return ""; 
-    $chap=md5($challenge.$vals[1]); 
+  { $challenge=file_get_contents("http://".$marche_server.$marche_script."?challenge=1");
+    if ($challenge =="") return "";
+    $chap=md5($challenge.$vals[1]);
   };
-  //Qui genero l'xml da inviare al server 
+  //Qui genero l'xml da inviare al server
   $start=0; $xm="<REQUEST>\n  <FUNCTION>".$function."</FUNCTION>\n";
-  if ($chap) 
-  { $xm.="  <AUTH>\n    <CHAP>$chap</CHAP>\n    <USER>".$vals[0]."</USER>\n  </AUTH>\n"; 
-    $start=2; 
+  if ($chap)
+  { $xm.="  <AUTH>\n    <CHAP>$chap</CHAP>\n    <USER>".$vals[0]."</USER>\n  </AUTH>\n";
+    $start=2;
   };
-  $xm.="  <FIELDS>\n"; 
-  for ($i=$start; $pars[$i]!=""; $i++) $xm.="    <".$pars[$i].">".$vals[$i]."</".$pars[$i].">\n"; 
-  $xm.="  </FIELDS>\n"; 
-  $xm.="</REQUEST>\n"; 
+  $xm.="  <FIELDS>\n";
+  for ($i=$start; $pars[$i]!=""; $i++) $xm.="    <".$pars[$i].">".$vals[$i]."</".$pars[$i].">\n";
+  $xm.="  </FIELDS>\n";
+  $xm.="</REQUEST>\n";
   $req= "POST $marche_script HTTP/1.0\r\nHost: ".$marche_server."\r\nContent-Type: text/xml; charset=utf-8\r\nContent-Length: ".strlen($xm)."\r\n\r\n".$xm;
 
-global $use_debug; 
+global $use_debug;
 #$use_debug=1;
-if ($use_debug >0) echo "Request:<br><textarea rows=18 cols=80>$req</textarea><br>"; 
+if ($use_debug >0) echo "Request:<br><textarea rows=18 cols=80>$req</textarea><br>";
   $fs=fsockopen($marche_server,80);
-  if ($fs) 
+  if ($fs)
   { fputs($fs,$req);
-    while ($l=fgets($fs)) $reply.=$l; 
+    while ($l=fgets($fs)) $reply.=$l;
   };
-if ($use_debug >0) echo "Reply:<br><textarea rows=18 cols=80>$reply</textarea><br>";   
+if ($use_debug >0) echo "Reply:<br><textarea rows=18 cols=80>$reply</textarea><br>";
 
-  //.. Qui devo togliere l'header e restituire l'xml. 
-  //magari gia' sotto forma di array di array. Fico. 
-  $rp=explode("\n", $reply); 
-  $a=Array(); 
-  $res=Array(); $i=-1; 
-  $perf=""; 
-  foreach ($rp as $line) 
-  { if (strstr($line, "<PERFORMED")!="") $perf="OK"; 
-    if (substr($line, 0, 12) == "  <DATA_ROW>") 
+  //.. Qui devo togliere l'header e restituire l'xml.
+  //magari gia' sotto forma di array di array. Fico.
+  $rp=explode("\n", $reply);
+  $a=Array();
+  $res=Array(); $i=-1;
+  $perf="";
+  foreach ($rp as $line)
+  { if (strstr($line, "<PERFORMED")!="") $perf="OK";
+    if (substr($line, 0, 12) == "  <DATA_ROW>")
     { $a=Array(); $i++;
     };
-    if (substr($line, 0, 13) == "  </DATA_ROW>") $res[$i]=$a;  
+    if (substr($line, 0, 13) == "  </DATA_ROW>") $res[$i]=$a;
     if(substr($line,0,5) == "    <")
     { $name = substr($line, 5, strpos($line, ">")-5);
       $val=substr($line, strlen($name)+6);
-      $val=substr($val, 0, strlen($val)-(strlen($name)+3)); 
-      $a[$name]=$val; 
+      $val=substr($val, 0, strlen($val)-(strlen($name)+3));
+      $a[$name]=$val;
     };
   };
-  if ($perf!="") return "Ok"; 
-  if ($i<0) { return ""; } else return $res; 
+  if ($perf!="") return "Ok";
+  if ($i<0) { return ""; } else return $res;
 }
 
 
@@ -92,10 +92,10 @@ function marche_tariefopvragen($idls, $date, $persone) {
 
     //Pesco dal listino tutti i costi applicabili
     $a=marche_RPC_get_costi_sta_set($idls, $date, $dateb, $ids);
-    
+
 #    echo wt_dump($a);
 #    echo $idls." - ".$date." - ".$dateb." ".$ids."<br>";
-    
+
     //$l="select costo, guadagno, guadagnoriv, costogio, guadagnogio, guadagnorivgio,
     //  obbligatorio, apersona from listini where idls='$idls'
     //  and (da_data='' or da_data<='$date') and ( a_data='' or  a_data>='$dateb')

@@ -3,7 +3,7 @@
 $cronmap=true;
 
 echo "<html><font size=\"2\" face=\"Verdana\">";
-include("../admin/allfunctions.php");
+include_once("../admin/allfunctions.php");
 
 $tempxml=simplexml_load_file("betalingen.xml");
 $xml=object2array($tempxml);
@@ -14,15 +14,15 @@ while(list($key,$value)=each($xml["GLEntries"]["GLEntry"][0]["FinEntryLine"])) {
 		echo "<b>Regel ".$teller."</b><br>";
 		echo "Datum: ".$value["Date"];
 		echo "<br>";
-		echo "Reserveringsnummer:  ".htmlentities($value["FinReferences"]["YourRef"]);
+		echo "Reserveringsnummer:  ".wt_he($value["FinReferences"]["YourRef"]);
 		echo "<br>";
-		echo "Naam:  ".htmlentities($value["Debtor"]["Name"]);
+		echo "Naam:  ".wt_he($value["Debtor"]["Name"]);
 		echo "<br>";
 		echo "Bedrag:  &euro;&nbsp;".number_format($value["Amount"]["Credit"],2,",",".");
 		echo "<br>";
-		echo "Banktransactie-id: ".htmlentities($value["Payment"]["BankTransactionID"]);
+		echo "Banktransactie-id: ".wt_he($value["Payment"]["BankTransactionID"]);
 		echo "<br>";
-		echo "Omschrijving: ".htmlentities($value["Description"]);
+		echo "Omschrijving: ".wt_he($value["Description"]);
 		echo "<hr>";
 	}
 }
@@ -30,7 +30,7 @@ while(list($key,$value)=each($xml["GLEntries"]["GLEntry"][0]["FinEntryLine"])) {
 function object2array($object)
 {
    $return = NULL;
-     
+
    if(is_array($object))
    {
        foreach($object as $key => $value)
@@ -39,7 +39,7 @@ function object2array($object)
    else
    {
        $var = get_object_vars($object);
-         
+
        if($var)
        {
            foreach($var as $key => $value)

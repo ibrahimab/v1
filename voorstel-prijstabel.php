@@ -22,7 +22,7 @@
 // curl_close($ch);
 
 // #var_dump($info);
-// echo htmlentities($output);
+// echo wt_he($output);
 
 $robot_noindex=true;
 $vars["verberg_linkerkolom"]=true;

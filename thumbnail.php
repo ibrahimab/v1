@@ -1,6 +1,6 @@
 <?php
 
-include("admin/allfunctions.php");
+include_once("admin/allfunctions.php");
 
 $openfile="pic/cms/".$_GET["file"];
 $openfile=str_replace("%2F","/",$openfile);

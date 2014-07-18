@@ -55,7 +55,7 @@ if($login_lev->logged_in) {
 
 	# uitlog-link bovenaan tonen
 	unset($helemaalboven);
-	$helemaalboven=htmlentities($login_lev->vars["naam"])."&nbsp;&nbsp;";
+	$helemaalboven=wt_he($login_lev->vars["naam"])."&nbsp;&nbsp;";
 	if($_GET["t"]) {
 		$helemaalboven.="<a href=\"".$vars["path"]."lev_login.php\">".html("hoofdmenu","lev_login")."</a>&nbsp;&nbsp;&nbsp;";
 	}

@@ -4,7 +4,7 @@
 // script to autopull Git commits
 //
 
-include("/var/www/chalet.nl/html_test/admin/allfunctions.php");
+include_once("/var/www/chalet.nl/html_test/admin/allfunctions.php");
 
 $checkfile = "/var/www/chalet.nl/html_test/tmp/git-autopull-acceptance-test.txt";
 

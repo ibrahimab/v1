@@ -25,7 +25,8 @@ if($_SERVER["SERVER_ADDR"]=="149.210.172.200") {
 # zoekvolgorde mag maximaal 8 zijn
 $vars["zoekvolgorde"]=array(1=>"Categorie 1 (hoogst)",2=>"Categorie 2 (hoger)",3=>"Categorie 3 (neutraal)",4=>"Categorie 4 (lager)",5=>"Categorie 5 (laagst)");
 if($vars["backup_server"]) {
-	$vars["wt_htmlentities_utf8"] = true;
+	// $vars["wt_htmlentities_utf8"] = true;
+	$vars["wt_htmlentities_cp1252"] = true;
 } else {
 	$vars["wt_htmlentities_cp1252"]=true;
 }
@@ -93,11 +94,11 @@ $onMobile = ($detect->isMobile() && !$detect->isTablet());
 
 # Bestanden includen
 if($isMobile) {
-	require($unixdir."admin_mobile/allfunctions_mobile.php");
+	require_once($unixdir."admin_mobile/allfunctions_mobile.php");
 	require($unixdir."admin_mobile/class.login_mobile.php");
 	require($unixdir."admin_mobile/class.form_mobile.php");
 } else {
-	require($unixdir."admin/allfunctions.php");
+	require_once($unixdir."admin/allfunctions.php");
 	require($unixdir."admin/class.login.php");
 	require($unixdir."admin/class.form.php");
 }
@@ -347,7 +348,7 @@ if($vars["wederverkoop"]) {
 			$vars["chalettour_logged_in"]=true;
 			$db->query("SELECT naam, beschikbaarheid_inzien, commissie_inzien, aanpassing_commissie, telefoonnummer FROM reisbureau WHERE reisbureau_id='".addslashes($login_rb->vars["reisbureau_id"])."' AND actief=1 AND websites LIKE '%".$vars["website"]."%';");
 			if($db->next_record()) {
-				$helemaalboven=htmlentities($db->f("naam"))."&nbsp;&nbsp;<a href=\"".$vars["path"]."reisagent.php?logout=45\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"])))."</a>";
+				$helemaalboven=wt_he($db->f("naam"))."&nbsp;&nbsp;<a href=\"".$vars["path"]."reisagent.php?logout=45\">".html("gebruikersnaamuitloggen","vars",array("v_gebruiker"=>wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"])))."</a>";
 				if($id=="reisagent") {
 					$helemaalboven.="&nbsp;&nbsp;".html("hoofdmenu_reisagent");
 				} else {
@@ -1258,13 +1259,13 @@ if($boeking_wijzigen) {
 		}
 
 		if(!$helemaalboven and !$_GET["cmsuit"]) {
-			$helemaalboven="Intern ingelogd: ".htmlentities($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://".($vars["acceptatie_testserver"] ? "test" : "www").".chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
+			$helemaalboven="Intern ingelogd: ".wt_he($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://".($vars["acceptatie_testserver"] ? "test" : "www").".chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
 		}
 
 		if($vars["chalettour_logged_in"] and $login->logged_in and !$css) {
 			$login_rb->logout();
 			trigger_error("dubbele login (CMS en reisagent)",E_USER_NOTICE);
-			echo "<div style=\"font-family:Verdana;font-size:0.8em;width:600px;border: 1px solid #000000;background-color: yellow;padding: 5px;margin-top: 10px;margin-bottom: 10px;\">Het is niet toegestaan tegelijk in het CMS als in het reisagentensysteem ingelogd te zijn.<br><br>Je bent nu uitgelogd uit het reisagenten-systeem.<br><br><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\">Ga verder &gt;</a></div";
+			echo "<div style=\"font-family:Verdana;font-size:0.8em;width:600px;border: 1px solid #000000;background-color: yellow;padding: 5px;margin-top: 10px;margin-bottom: 10px;\">Het is niet toegestaan tegelijk in het CMS als in het reisagentensysteem ingelogd te zijn.<br><br>Je bent nu uitgelogd uit het reisagenten-systeem.<br><br><a href=\"".wt_he($_SERVER["REQUEST_URI"])."\">Ga verder &gt;</a></div";
 			exit;
 		}
 	}
@@ -1324,7 +1325,7 @@ if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET
 					if($verder["tonen"] and !$voorkant_cms) {
 						$rechtsboven.="<span class=\"x-small\"><a href=\"".$path."boeken.php?bfbid=".$regs[1]."\">".html("gaverdermetboeken","vars")." ";
 						if(!$vars["wederverkoop"]) {
-							$rechtsboven.=htmlentities(ucfirst($verder["soortaccommodatie"])." ".$verder["accommodatie"]);
+							$rechtsboven.=wt_he(ucfirst($verder["soortaccommodatie"])." ".$verder["accommodatie"]);
 						}
 						$rechtsboven.=" &gt;</a></span>";
 					}
@@ -1415,7 +1416,7 @@ if($_COOKIE["sch"]) {
 				$db->query("SELECT t.type_id, a.accommodatie_id, a.naam, a.soortaccommodatie, t.naam AS tnaam, l.begincode, p.naam AS plaats FROM accommodatie a, type t, plaats p, land l WHERE t.type_id IN (".$last_acc_inquery.") AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND a.wzt='".addslashes($vars["seizoentype"])."' AND a.tonen=1 AND t.tonen=1;");
 		#		echo $db->lastquery;
 				while($db->next_record()) {
-					$last_acc_array[$db->f("type_id")]="<a href=\"".$vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/\" title=\"".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "").", ".$db->f("plaats"))."\"><img src=\"".$vars["basehref"]."pic/cms/";
+					$last_acc_array[$db->f("type_id")]="<a href=\"".$vars["basehref"].txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/\" title=\"".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "").", ".$db->f("plaats"))."\"><img src=\"".$vars["basehref"]."pic/cms/";
 					if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
 						$last_acc_array[$db->f("type_id")].="types_specifiek_tn/".$db->f("type_id");
 					} elseif(file_exists("pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg")) {
@@ -1477,7 +1478,7 @@ if($vars["types_in_vars"]) {
 				$externelink="http://".$_SERVER["HTTP_HOST"]."/chalet/";
 			}
 			$externelink.="accommodatie/".$db->f("begincode").$db->f("type_id")."/";
-			$vars["alletypes_externelink"][$db->f("type_id")]="<a href=\"".$externelink."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers. - ".$db->f("begincode").$db->f("type_id").")")."</a>";
+			$vars["alletypes_externelink"][$db->f("type_id")]="<a href=\"".$externelink."\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers. - ".$db->f("begincode").$db->f("type_id").")")."</a>";
 			if($db->f("archief")==0) {
 				$vars["alletypes_zonderarchief"][$db->f("type_id")]=$vars["alletypes"][$db->f("type_id")];
 			}
@@ -1521,7 +1522,7 @@ if($_GET["fromsite"]) {
 #	if(!file_exists("tmp/requesturi.php")) $topregel=true;
 #	$fp=@fopen("tmp/requesturi.php","a");
 #	if($topregel) @fwrite($fp,"<table style=\"font:Verdana;font-size:0.9em;\" border=\"1\" cellspacing=\"0\" cellpadding=\"6\">");
-#	@fwrite($fp,"<tr><td>".date("d-m-Y H:i")."</td><td>".$_SERVER["REMOTE_ADDR"]."</td><td><a href=\"".$_SERVER["REQUEST_URI"]."\" target=\"_blank\">ID ".$id." - ".htmlentities($title[$id])."</a>&nbsp;</td><td>".$_SERVER["REDIRECT_STATUS"]."&nbsp;</td></tr>\n");
+#	@fwrite($fp,"<tr><td>".date("d-m-Y H:i")."</td><td>".$_SERVER["REMOTE_ADDR"]."</td><td><a href=\"".$_SERVER["REQUEST_URI"]."\" target=\"_blank\">ID ".$id." - ".wt_he($title[$id])."</a>&nbsp;</td><td>".$_SERVER["REDIRECT_STATUS"]."&nbsp;</td></tr>\n");
 #	@fclose($fp);
 #}
 

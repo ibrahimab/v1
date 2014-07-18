@@ -9,7 +9,7 @@ if($_POST["optieonderdeel_kopieer"]==1) {
 	if($_POST["seizoen"] and $_POST["optieonderdeel"]) {
 		# Eerst oude tarieven wissen
 		$db->query("DELETE FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($_POST["optieonderdeel"])."' AND seizoen_id='".addslashes($_POST["seizoen"])."';");
-		
+
 		# Dan kopiëren
 		$db->query("SELECT week, beschikbaar, verkoop, netto_ink, inkoop, korting, korting_euro, omzetbonus, wederverkoop_commissie_agent FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($_GET["13k0"])."' AND seizoen_id='".addslashes($_POST["seizoen"])."';");
 		while($db->next_record()) {
@@ -118,13 +118,13 @@ if($cms_form[13]->filled) {
 	if($cms_form[13]->input["voucher"] and !$cms_form[13]->input["omschrijving_voucher"]) {
 		$cms_form[13]->error("omschrijving_voucher","obl");
 	}
-	
+
 	if(!$cms_form[13]->input["actief"]) {
 		$db->query("SELECT DISTINCT SUBSTR(b.boekingsnummer,2), b.boeking_id, b.boekingsnummer, s.naam FROM boeking b, boeking_optie bo, view_optie v, seizoen s WHERE b.seizoen_id=s.seizoen_id AND s.eind>NOW() AND v.optie_onderdeel_id='".addslashes($_GET["13k0"])."' AND bo.optie_onderdeel_id=v.optie_onderdeel_id AND bo.boeking_id=b.boeking_id AND boekingsnummer<>'' ORDER BY 1;");
 		if($db->num_rows()) {
 			$melding="de-activeren niet mogelijk: er zijn nog actuele boekingen aan dit optie-onderdeel gekoppeld:<ul>";
 			while($db->next_record()) {
-				$melding.="<li><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities($db->f("boekingsnummer"))."</a> (".$db->f("naam").")</li>";
+				$melding.="<li><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a> (".$db->f("naam").")</li>";
 			}
 			$melding.="</ul>";
 			$cms_form[13]->error("actief",$melding);
@@ -141,7 +141,7 @@ function form_before_goto($form) {
 	global $login,$vars;
 	$db=new DB_sql;
 	$db2=new DB_sql;
-	
+
 	if($_GET["12k0"]) {
 		$volgorde=0;
 		$db->query("SELECT optie_onderdeel_id FROM optie_onderdeel WHERE optie_groep_id='".addslashes($_GET["12k0"])."' ORDER BY volgorde;");

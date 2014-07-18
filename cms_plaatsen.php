@@ -61,7 +61,7 @@ if(!$_GET["edit"] and !$_GET["add"]) {
 			$url="https://www.chalet.nl/";
 		}
 		$url=$url."plaats/".wt_convert2url_seo($db->f("naam"))."/";
-		$plaatslink[$db->f("plaats_id")]="<a href=\"".htmlentities($url)."\" target=\"_blank\">".htmlentities($url)."</a>";
+		$plaatslink[$db->f("plaats_id")]="<a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($url)."</a>";
 	}
 }
 

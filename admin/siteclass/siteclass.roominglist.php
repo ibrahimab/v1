@@ -336,7 +336,7 @@ class roominglist {
 				$accnaam_kort=$db->f( "abestelnaam" )." ".( $db->f( "type" ) ? $db->f( "type" )." " : "" );
 				$accnaam_kort_aanvullend="";
 				if ( $db->f( "accommodatie" )<>$db->f( "abestelnaam" ) ) {
-					$accnaam_kort_aanvullend.=" <i>(our name: ".htmlentities( $db->f( "accommodatie" ).( $db->f( "type" ) ? " ".$db->f( "type" ) : "" ) ).")</i>";
+					$accnaam_kort_aanvullend.=" <i>(our name: ".wt_he( $db->f( "accommodatie" ).( $db->f( "type" ) ? " ".$db->f( "type" ) : "" ) ).")</i>";
 				}
 				$tempplaatsid[$sortkey]=$db->f( "plaats_id" );
 
@@ -401,15 +401,15 @@ class roominglist {
 				if ( $roominglist_toontelefoonnummer ) {
 					$regels[$sortkey].="<td valign=\"top\">";
 					if ( $db->f( "mobielwerk" ) ) {
-						$regels[$sortkey].=htmlentities( $db->f( "mobielwerk" ) );
+						$regels[$sortkey].=wt_he( $db->f( "mobielwerk" ) );
 					} elseif ( $db->f( "telefoonnummer" ) ) {
-						$regels[$sortkey].=htmlentities( $db->f( "telefoonnummer" ) );
+						$regels[$sortkey].=wt_he( $db->f( "telefoonnummer" ) );
 					} else {
 						$regels[$sortkey].="&nbsp;";
 					}
 					$regels[$sortkey].="</td>";
 				}
-				$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".htmlentities( $db->f( "plaats" ) )."</td><td valign=\"top\">".htmlentities( $accnaam_kort ).$accnaam_kort_aanvullend."</td><td valign=\"top\">".( $db->f( "code" ) ? htmlentities( $db->f( "code" ) ) : "&nbsp;" )."</td>";
+				$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".wt_he( $db->f( "plaats" ) )."</td><td valign=\"top\">".wt_he( $accnaam_kort ).$accnaam_kort_aanvullend."</td><td valign=\"top\">".( $db->f( "code" ) ? wt_he( $db->f( "code" ) ) : "&nbsp;" )."</td>";
 				if ( $roominglist_toonaantaldeelnemers ) {
 					$db2->query( "SELECT COUNT(boeking_id) AS aantal FROM boeking_persoon WHERE boeking_id='".$db->f( "boeking_id" )."';" );
 					if ( $db2->next_record() ) {
@@ -421,7 +421,7 @@ class roominglist {
 				} else {
 					$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
 				}
-				$regels[$sortkey].="<td valign=\"top\">".( $db->f( "leverancierscode" ) ? htmlentities( $db->f( "leverancierscode" ) ) : "&nbsp;" )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( htmlentities( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
+				$regels[$sortkey].="<td valign=\"top\">".( $db->f( "leverancierscode" ) ? wt_he( $db->f( "leverancierscode" ) ) : "&nbsp;" )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( wt_he( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
 			}
 		}
 
@@ -520,13 +520,13 @@ class roominglist {
 			if ( $roominglist_toontelefoonnummer ) {
 				$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
 			}
-			$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".htmlentities( $db->f( "plaats" ) )."</td><td valign=\"top\">".htmlentities( $accnaam_kort )."</td><td valign=\"top\">".( $db->f( "code" ) ? htmlentities( $db->f( "code" ) ) : "&nbsp;" )."</td>";
+			$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".wt_he( $db->f( "plaats" ) )."</td><td valign=\"top\">".wt_he( $accnaam_kort )."</td><td valign=\"top\">".( $db->f( "code" ) ? wt_he( $db->f( "code" ) ) : "&nbsp;" )."</td>";
 			if ( $roominglist_toonaantaldeelnemers ) {
 				$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
 			} else {
 				$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
 			}
-			$regels[$sortkey].="<td valign=\"top\">".( $db->f( "factuurnummer" ) ? htmlentities( $db->f( "factuurnummer" ) ) : ( $db->f( "inkoopdatum" )>0 ? "OK ".date( "d-m-Y", $db->f( "inkoopdatum" ) ) : "&nbsp;" ) )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( htmlentities( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
+			$regels[$sortkey].="<td valign=\"top\">".( $db->f( "factuurnummer" ) ? wt_he( $db->f( "factuurnummer" ) ) : ( $db->f( "inkoopdatum" )>0 ? "OK ".date( "d-m-Y", $db->f( "inkoopdatum" ) ) : "&nbsp;" ) )."</td><td valign=\"top\">".( $db->f( "opmerkingen_voucher" ) ? nl2br( wt_he( $db->f( "opmerkingen_voucher" ) ) ) : "&nbsp;" )."</td></tr>";
 		}
 
 
@@ -562,13 +562,13 @@ class roominglist {
 			if ( $roominglist_toontelefoonnummer ) {
 				$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
 			}
-			$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".htmlentities( $db->f( "plaats" ) )."</td><td valign=\"top\">".wt_he($accnaam_kort)."</td><td valign=\"top\">".( $db->f( "code" ) ? htmlentities( $db->f( "code" ) ) : "&nbsp;" )."</td>";
+			$regels[$sortkey].="<td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "aankomstdatum_exact" ) )."</td><td valign=\"top\" nowrap>".date( "d-m-y", $db->f( "vertrekdatum_exact" ) )."</td><td valign=\"top\">".wt_he( $db->f( "plaats" ) )."</td><td valign=\"top\">".wt_he($accnaam_kort)."</td><td valign=\"top\">".( $db->f( "code" ) ? wt_he( $db->f( "code" ) ) : "&nbsp;" )."</td>";
 			if ( $roominglist_toonaantaldeelnemers ) {
 				$regels[$sortkey].="<td valign=\"top\">".$db->f("deelnemers")."</td>";
 			} else {
 				$regels[$sortkey].="<td valign=\"top\">".$db->f( "maxaantalpersonen" )."</td>";
 			}
-			$regels[$sortkey].="<td valign=\"top\">&nbsp;</td><td valign=\"top\">".( $db->f( "tekst_extra_options" ) ? nl2br( htmlentities( $db->f( "tekst_extra_options" ) ) ) : "&nbsp;" )."</td></tr>";
+			$regels[$sortkey].="<td valign=\"top\">&nbsp;</td><td valign=\"top\">".( $db->f( "tekst_extra_options" ) ? nl2br( wt_he( $db->f( "tekst_extra_options" ) ) ) : "&nbsp;" )."</td></tr>";
 
 		}
 

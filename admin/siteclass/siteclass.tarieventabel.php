@@ -1070,7 +1070,7 @@ if($this->tarief[$key]>0) {
 						// $bijkomendekosten_table.="<tr><td>";
 						$bijkomendekosten_table.="<table cellspacing=\"0\" border=\"0\">";
 						$bijkomendekosten_table.="<tr>";
-						$bijkomendekosten_table.="<td width=\"440\">".htmlentities($db2->f("naam"));
+						$bijkomendekosten_table.="<td width=\"440\">".wt_he($db2->f("naam"));
 						if($db2->f("omschrijving")) {
 							$bijkomendekosten_table.="&nbsp;<a href=\"javascript:popwindow(500,0,'".$vars["path"]."popup.php?id=bijkomendekosten&bkid=".$db2->f("bijkomendekosten_id")."');\">&#187;</a>";
 						}
@@ -1123,7 +1123,7 @@ if($this->tarief[$key]>0) {
 
 				@reset($_GET);
 				while(list($key2,$value2)=@each($_GET)) {
-					if($key2<>"optie_datum" and $key2<>"selecttab" and !is_array($value2)) $return.="<input type=\"hidden\" name=\"".$key2."\" value=\"".htmlentities($value2)."\">\n";
+					if($key2<>"optie_datum" and $key2<>"selecttab" and !is_array($value2)) $return.="<input type=\"hidden\" name=\"".$key2."\" value=\"".wt_he($value2)."\">\n";
 				}
 				$return.=ereg_replace("optietabel".$seizoenid,"bijkomendekostentabel2".$seizoenid,ereg_replace(html("optietarieven","toonaccommodatie")." ","",$optie_pulldown_html));
 			} else {

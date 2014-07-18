@@ -172,12 +172,12 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 		}
 
 		# Koptekst
-		$ms->html.="<h3>".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " - ".$db->f("tnaam") : ""))."</h3>";
+		$ms->html.="<h3>".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " - ".$db->f("tnaam") : ""))."</h3>";
 
-		$ms->html.="<br><b><i>".htmlentities($db->f("land"))." - ".htmlentities($db->f("skigebied"))." - ".htmlentities($db->f("plaats"))."</i></b><br><br>";
+		$ms->html.="<br><b><i>".wt_he($db->f("land"))." - ".wt_he($db->f("skigebied"))." - ".wt_he($db->f("plaats"))."</i></b><br><br>";
 
 		# Kenmerken
-		$ms->html.="<table><tr><td><img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127\" alt=\"".htmlentities($db->f("naam"))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\"></td><td><ul>";
+		$ms->html.="<table><tr><td><img src=\"".$vars["path"]."thumbnail.php?file=".urlencode($afbeelding.".jpg")."&w=170&h=127\" alt=\"".wt_he($db->f("naam"))."\" width=\"170\" height=\"127\" style=\"".($afbeeldingborder ? "border: 1px solid #000000;" : "")."\"></td><td><ul>";
 
 		# aantal personen
 		$ms->html.=$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ";
@@ -197,7 +197,7 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 				$ms->html.=html("slaapkamers");
 			}
 			if($db->f("slaapkamersextra")) {
-				$ms->html.=" (".htmlentities($db->f("slaapkamersextra")).")";
+				$ms->html.=" (".wt_he($db->f("slaapkamersextra")).")";
 			}
 			$ms->html.="<br>";
 		}
@@ -211,12 +211,12 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 				$ms->html.=html("badkamers");
 			}
 			if($db->f("badkamersextra")) {
-				$ms->html.=" (".htmlentities($db->f("badkamersextra")).")";
+				$ms->html.=" (".wt_he($db->f("badkamersextra")).")";
 			}
 			$ms->html.="<br>";
 		}
 		if($db->f("oppervlakte")) {
-			$ms->html.=$db->f("oppervlakte")." m&#178;".($db->f("oppervlakteextra") ? " - ".htmlentities($db->f("oppervlakteextra")) : "")."<br>";
+			$ms->html.=$db->f("oppervlakte")." m&#178;".($db->f("oppervlakteextra") ? " - ".wt_he($db->f("oppervlakteextra")) : "")."<br>";
 		}
 
 		if($db->f("akwaliteit") or $db->f("kwaliteit")) {

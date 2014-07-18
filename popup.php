@@ -105,9 +105,9 @@ echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\
 echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">\n";
 echo "<meta name=\"robots\" content=\"noindex,follow\">";
 # JQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jquery_url"])."\" ></script>\n";
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
-echo "<title>".htmlentities($title[$_GET["id"]])."</title>";
+echo "<title>".wt_he($title[$_GET["id"]])."</title>";
 ?>
 <style type="text/css">
 
@@ -283,7 +283,7 @@ if($_GET["id"]=="tarieventabel") {
 <BODY bgcolor="<?php echo $bodybgcolor; ?>"><TABLE border="0" style="background-color:<?php echo $table; ?>;border: solid 2px <?php echo $table; ?>" width="100%" height="100%" cellspacing="0" cellpadding="5">
 <?php
 
-echo "<TR><TD height=\"30\"><TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><TR><TD style=\"font-size:10pt;\"><FONT color=\"".$thfontcolor."\"><B>".htmlentities($title[$_GET["id"]])."&nbsp;</B></FONT></TD><TD width=\"20\">";
+echo "<TR><TD height=\"30\"><TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\"><TR><TD style=\"font-size:10pt;\"><FONT color=\"".$thfontcolor."\"><B>".wt_he($title[$_GET["id"]])."&nbsp;</B></FONT></TD><TD width=\"20\">";
 if($noprint[$_GET["id"]]) {
 	echo "&nbsp;";
 } else {
@@ -291,7 +291,7 @@ if($noprint[$_GET["id"]]) {
 }
 echo "</TD><TD width=\"75\" align=\"right\"><FONT SIZE=\"1\">&nbsp;<A HREF=\"javascript:self.close();\" class=\"venstersluiten\">".ereg_replace(" ","&nbsp;",html("venstersluiten"))."</A></FONT></TD></TR></TABLE></TD></TR>";
 echo "<TR><TD bgcolor=\"#FFFFFF\" valign=\"top\" align=\"left\" class=\"content\">";
-#echo "&nbsp;<BR><B>".htmlentities($title[$_GET["id"]])."</B><P>";
+#echo "&nbsp;<BR><B>".wt_he($title[$_GET["id"]])."</B><P>";
 
 if($_GET["id"]) {
 	if(in_array($_GET["id"],$meertalig_array)) {

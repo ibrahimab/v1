@@ -375,12 +375,12 @@ if($temp["toonper"]<>3) {
 }
 $cms->edit_field(2,1,"htmlrow","<hr>");
 if($vars["cmstaal"]) {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-omschrijving NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["omschrijving"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-omschrijving NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["omschrijving"]))."</span>"));
 	$cms->edit_field(2,0,"omschrijving","Type-omschrijving NL","",array("noedit"=>true));
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-omschrijving ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["omschrijving_".$vars["cmstaal"]]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-omschrijving ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["omschrijving_".$vars["cmstaal"]]))."</span>"));
 	$cms->edit_field(2,0,"omschrijving_".$vars["cmstaal"],"Type-omschrijving ".strtoupper($vars["cmstaal"]));
 } else {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-omschrijving",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["omschrijving"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-omschrijving",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["omschrijving"]))."</span>"));
 	$cms->edit_field(2,0,"omschrijving","Type-omschrijving");
 }
 $cms->edit_field(2,1,"htmlrow","<hr>");
@@ -412,46 +412,46 @@ if($vars["cmstaal"]) {
 $cms->edit_field(2,1,"htmlrow","<hr>");
 
 if($vars["cmstaal"]) {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-indeling NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["indeling"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-indeling NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["indeling"]))."</span>"));
 	$cms->edit_field(2,0,"indeling","Type-indeling NL","",array("noedit"=>true));
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-indeling ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["indeling_".$vars["cmstaal"]]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-indeling ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["indeling_".$vars["cmstaal"]]))."</span>"));
 	$cms->edit_field(2,0,"indeling_".$vars["cmstaal"],"Type-indeling ".strtoupper($vars["cmstaal"]),"","",array("rows"=>25));
 } else {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-indeling",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["indeling"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-indeling",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["indeling"]))."</span>"));
 	$cms->edit_field(2,0,"indeling","Type-indeling","","",array("rows"=>25));
 }
 
 $cms->edit_field(2,1,"htmlrow","<hr>");
 
 if($vars["cmstaal"]) {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-inclusief NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["inclusief"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-inclusief NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["inclusief"]))."</span>"));
 	$cms->edit_field(2,0,"inclusief","Type-inclusief NL","",array("noedit"=>true));
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-inclusief ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["inclusief_".$vars["cmstaal"]]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-inclusief ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["inclusief_".$vars["cmstaal"]]))."</span>"));
 	$cms->edit_field(2,0,"inclusief_".$vars["cmstaal"],"Type-inclusief ".strtoupper($vars["cmstaal"]));
 } else {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-inclusief",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["inclusief"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-inclusief",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["inclusief"]))."</span>"));
 	$cms->edit_field(2,0,"inclusief","Type-inclusief");
 }
 $cms->edit_field(2,1,"htmlrow","<hr>");
 
 if($vars["cmstaal"]) {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-exclusief NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["exclusief"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-exclusief NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["exclusief"]))."</span>"));
 	$cms->edit_field(2,0,"exclusief","Type-exclusief NL","",array("noedit"=>true));
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-exclusief ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["exclusief_".$vars["cmstaal"]]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-exclusief ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["exclusief_".$vars["cmstaal"]]))."</span>"));
 	$cms->edit_field(2,0,"exclusief_".$vars["cmstaal"],"Type-exclusief ".strtoupper($vars["cmstaal"]));
 } else {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-exclusief",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["exclusief"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-exclusief",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["exclusief"]))."</span>"));
 	$cms->edit_field(2,0,"exclusief","Type-exclusief");
 }
 $cms->edit_field(2,1,"htmlrow","<hr>");
 
 if($vars["cmstaal"]) {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["voucherinfo"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo"]))."</span>"));
 	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst NL","",array("noedit"=>true));
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["voucherinfo_".$vars["cmstaal"]]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo_".$vars["cmstaal"]]))."</span>"));
 	$cms->edit_field(2,0,"voucherinfo_".$vars["cmstaal"],"Type-vouchertekst ".strtoupper($vars["cmstaal"]));
 } else {
-	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["voucherinfo"]))."</span>"));
+	$cms->edit_field(2,1,"htmlcol","Accommodatie-vouchertekst",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["voucherinfo"]))."</span>"));
 	$cms->edit_field(2,0,"voucherinfo","Type-vouchertekst");
 }
 $cms->edit_field(2,1,"htmlrow","<hr>");

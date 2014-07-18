@@ -6,7 +6,7 @@ if(ereg("/ga/%3Ft%3D([0-9]+)$",$_SERVER["REQUEST_URI"],$regs)) {
 	exit;
 }
 
-include("../admin/allfunctions.php");
+include_once("../admin/allfunctions.php");
 
 #	 1=>"Google AdWords algemeen",
 #	 2=>"Google AdWords Oostenrijk",

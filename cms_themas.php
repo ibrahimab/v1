@@ -172,7 +172,7 @@ if($_GET["wzt"]==2) {
 
 	# Kleurcodes verwerken
 	while(list($key,$value)=each($vars["themakleurcode"])) {
-		$kleurcodehtml.="<span style=\"background-color:".$value.";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;<span style=\"background-color:".$vars["themakleurcode_licht"][$key].";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;".htmlentities($vars["themakleurencombinatie"][$key])."<p>\n";
+		$kleurcodehtml.="<span style=\"background-color:".$value.";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;<span style=\"background-color:".$vars["themakleurcode_licht"][$key].";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;".wt_he($vars["themakleurencombinatie"][$key])."<p>\n";
 	}
 
 	$cms->edit_field(36,0,"htmlrow","<hr><b>Kleuren</b><p>".$kleurcodehtml);

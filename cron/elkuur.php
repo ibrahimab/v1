@@ -252,7 +252,7 @@ if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 	$db->query("SELECT leverancier_id, naam, UNIX_TIMESTAMP(xml_laatsteimport) AS xml_laatsteimport FROM leverancier WHERE xml_type>0 ORDER BY naam;");
 	while($db->next_record()) {
 		if(date("Ymd",$db->f("xml_laatsteimport"))<date("Ymd",$gisteren)) {
-			$leverancier_geen_import.="<li><a href=\"https://www.chalet.nl/cms_leveranciers.php?show=8&beheerder=0&8k0=".$db->f("leverancier_id")."\" target=\"_blank\">".htmlentities($db->f("naam"))."</a></li>";
+			$leverancier_geen_import.="<li><a href=\"https://www.chalet.nl/cms_leveranciers.php?show=8&beheerder=0&8k0=".$db->f("leverancier_id")."\" target=\"_blank\">".wt_he($db->f("naam"))."</a></li>";
 		}
 	}
 	if($leverancier_geen_import) {

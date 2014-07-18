@@ -114,22 +114,22 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$accnaam_kort=$db->f("abestelnaam")." ".($db->f("type") ? $db->f("type")." " : "");
 		$accnaam_kort_aanvullend="";
 		if($db->f("accommodatie")<>$db->f("abestelnaam")) {
-			$accnaam_kort_aanvullend.=" <i>(our name: ".htmlentities($db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : "")).")</i>";
+			$accnaam_kort_aanvullend.=" <i>(our name: ".wt_he($db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : "")).")</i>";
 		}
 		$tempplaatsid[$sortkey]=$db->f("plaats_id");
-		$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td>";
+		$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td>";
 		if($roominglist_toontelefoonnummer) {
 			$regels[$sortkey].="<td valign=\"top\">";
 			if($db->f("mobielwerk")) {
-				$regels[$sortkey].=htmlentities($db->f("mobielwerk"));
+				$regels[$sortkey].=wt_he($db->f("mobielwerk"));
 			} elseif($db->f("telefoonnummer")) {
-				$regels[$sortkey].=htmlentities($db->f("telefoonnummer"));
+				$regels[$sortkey].=wt_he($db->f("telefoonnummer"));
 			} else {
 				$regels[$sortkey].="&nbsp;";
 			}
 			$regels[$sortkey].="</td>";
 		}
-		$regels[$sortkey].="<td valign=\"top\" nowrap>".date("d-m-y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\" nowrap>".date("d-m-y",$db->f("vertrekdatum_exact"))."</td><td valign=\"top\">".htmlentities($db->f("plaats"))."</td><td valign=\"top\">".htmlentities($accnaam_kort).$accnaam_kort_aanvullend."</td><td valign=\"top\">".($db->f("code") ? htmlentities($db->f("code")) : "&nbsp;")."</td>";
+		$regels[$sortkey].="<td valign=\"top\" nowrap>".date("d-m-y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\" nowrap>".date("d-m-y",$db->f("vertrekdatum_exact"))."</td><td valign=\"top\">".wt_he($db->f("plaats"))."</td><td valign=\"top\">".wt_he($accnaam_kort).$accnaam_kort_aanvullend."</td><td valign=\"top\">".($db->f("code") ? wt_he($db->f("code")) : "&nbsp;")."</td>";
 		if($roominglist_toonaantaldeelnemers) {
 			$db2->query("SELECT COUNT(boeking_id) AS aantal FROM boeking_persoon WHERE boeking_id='".$db->f("boeking_id")."';");
 			if($db2->next_record()) {
@@ -141,7 +141,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		} else {
 			$regels[$sortkey].="<td valign=\"top\">".$db->f("maxaantalpersonen")."</td>";
 		}
-		$regels[$sortkey].="<td valign=\"top\">".($db->f("leverancierscode") ? htmlentities($db->f("leverancierscode")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("opmerkingen_voucher") ? nl2br(htmlentities($db->f("opmerkingen_voucher"))) : "&nbsp;")."</td></tr>";
+		$regels[$sortkey].="<td valign=\"top\">".($db->f("leverancierscode") ? wt_he($db->f("leverancierscode")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("opmerkingen_voucher") ? nl2br(wt_he($db->f("opmerkingen_voucher"))) : "&nbsp;")."</td></tr>";
 	}
 
 	# Garanties
@@ -161,17 +161,17 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$accnaam=$db->f("accommodatie")." ".($db->f("type") ? $db->f("type")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." p)";
 		$accnaam_kort=$db->f("accommodatie")." ".($db->f("type") ? $db->f("type")." " : "");
 		$tempplaatsid[$sortkey]=$db->f("plaats_id");
-		$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("naam"))."</td>";
+		$regels[$sortkey].="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".wt_he($db->f("naam"))."</td>";
 		if($roominglist_toontelefoonnummer) {
 			$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
 		}
-		$regels[$sortkey].="<td valign=\"top\" nowrap>".date("d-m-y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\" nowrap>".date("d-m-y",$db->f("vertrekdatum_exact"))."</td><td valign=\"top\">".htmlentities($db->f("plaats"))."</td><td valign=\"top\">".htmlentities($accnaam_kort)."</td><td valign=\"top\">".($db->f("code") ? htmlentities($db->f("code")) : "&nbsp;")."</td>";
+		$regels[$sortkey].="<td valign=\"top\" nowrap>".date("d-m-y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\" nowrap>".date("d-m-y",$db->f("vertrekdatum_exact"))."</td><td valign=\"top\">".wt_he($db->f("plaats"))."</td><td valign=\"top\">".wt_he($accnaam_kort)."</td><td valign=\"top\">".($db->f("code") ? wt_he($db->f("code")) : "&nbsp;")."</td>";
 		if($roominglist_toonaantaldeelnemers) {
 			$regels[$sortkey].="<td valign=\"top\">&nbsp;</td>";
 		} else {
 			$regels[$sortkey].="<td valign=\"top\">".$db->f("maxaantalpersonen")."</td>";
 		}
-		$regels[$sortkey].="<td valign=\"top\">".($db->f("factuurnummer") ? htmlentities($db->f("factuurnummer")) : ($db->f("inkoopdatum")>0 ? "OK ".date("d-m-Y",$db->f("inkoopdatum")) : "&nbsp;"))."</td><td valign=\"top\">".($db->f("opmerkingen_voucher") ? nl2br(htmlentities($db->f("opmerkingen_voucher"))) : "&nbsp;")."</td></tr>";
+		$regels[$sortkey].="<td valign=\"top\">".($db->f("factuurnummer") ? wt_he($db->f("factuurnummer")) : ($db->f("inkoopdatum")>0 ? "OK ".date("d-m-Y",$db->f("inkoopdatum")) : "&nbsp;"))."</td><td valign=\"top\">".($db->f("opmerkingen_voucher") ? nl2br(wt_he($db->f("opmerkingen_voucher"))) : "&nbsp;")."</td></tr>";
 	}
 
 	if(is_array($regels)) {
@@ -282,7 +282,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 // 				$contactpersoon.=": ".$db->f("lvertrekinfo_soortbeheer_aanvulling");
 // 			}
 
-// 			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("plaats"))."</td><td valign=\"top\">".htmlentities($db->f("accommodatie")).($db->f("accommodatie")<>$db->f("bestelnaam") ? " <i>(".htmlentities($db->f("bestelnaam")).")</i>" : "")."</td><td valign=\"top\">".($contactpersoon ? wt_he($contactpersoon) : "&nbsp;")."</td><td valign=\"top\">".($telefoonnummer ? wt_he($telefoonnummer) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? htmlentities($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? htmlentities($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
+// 			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".wt_he($db->f("plaats"))."</td><td valign=\"top\">".wt_he($db->f("accommodatie")).($db->f("accommodatie")<>$db->f("bestelnaam") ? " <i>(".wt_he($db->f("bestelnaam")).")</i>" : "")."</td><td valign=\"top\">".($contactpersoon ? wt_he($contactpersoon) : "&nbsp;")."</td><td valign=\"top\">".($telefoonnummer ? wt_he($telefoonnummer) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? wt_he($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? wt_he($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
 // 		}
 // 		$ms->html.="</table>";
 // 	}
@@ -296,7 +296,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 		$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Skipas</th><th>Contactpersoon</th><th>Telefoonnummer</th><th>Faxnummer</th><th>Noodnummer</th></tr></thead>";
 		while($db->next_record()) {
-			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("naam").$db->f("optie_groep_id"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? htmlentities($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? htmlentities($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? htmlentities($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? htmlentities($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
+			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".wt_he($db->f("naam").$db->f("optie_groep_id"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? wt_he($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? wt_he($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? wt_he($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? wt_he($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
 		}
 		$ms->html.="</table>";
 	}
@@ -307,7 +307,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$ms->html.="<br>&nbsp;<br><table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
 		$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Optie</th><th>Contactpersoon</th><th>Telefoonnummer</th><th>Faxnummer</th><th>Noodnummer</th></tr></thead>";
 		while($db->next_record()) {
-			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("naam"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? htmlentities($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? htmlentities($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? htmlentities($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? htmlentities($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
+			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".wt_he($db->f("naam"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? wt_he($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? wt_he($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? wt_he($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? wt_he($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
 		}
 		$ms->html.="</table>";
 	}
@@ -409,18 +409,18 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 
 			if($db->f("accommodatie")<>$db->f("abestelnaam")) {
-				$accnaam_toevoeging=" <i>(".htmlentities($db->f("abestelnaam").($db->f("type") ? " ".$db->f("type") : "")).")</i>";
+				$accnaam_toevoeging=" <i>(".wt_he($db->f("abestelnaam").($db->f("type") ? " ".$db->f("type") : "")).")</i>";
 			} else {
 				$accnaam_toevoeging="";
 			}
 			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'>";
 			$ms->html.="<td valign=\"top\">".($db->f("boekingsnummer2") ? $db->f("boekingsnummer1") : $db->f("boekingsnummer"))."</td>";
-			$ms->html.="<td valign=\"top\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))).($db->f("opmerkingen_vertreklijst") ? " (".htmlentities(trim($db->f("opmerkingen_vertreklijst"))).")" : "").($vars["reisbureau_naam"][$db->f("reisbureau_user_id")] ? htmlentities(" (via ".$vars["reisbureau_naam"][$db->f("reisbureau_user_id")].")") : "")."</td>";
+			$ms->html.="<td valign=\"top\">".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))).($db->f("opmerkingen_vertreklijst") ? " (".wt_he(trim($db->f("opmerkingen_vertreklijst"))).")" : "").($vars["reisbureau_naam"][$db->f("reisbureau_user_id")] ? wt_he(" (via ".$vars["reisbureau_naam"][$db->f("reisbureau_user_id")].")") : "")."</td>";
 			$ms->html.="<td valign=\"top\">".$telefoon_hoofdboeker."</td>";
 			$ms->html.="<td valign=\"top\" nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
-			$ms->html.="<td valign=\"top\">".htmlentities($db->f("plaats"))."</td>";
+			$ms->html.="<td valign=\"top\">".wt_he($db->f("plaats"))."</td>";
 			$ms->html.="<td valign=\"top\" style=\"max-width:10px;overflow-x:hidden;\">".$accnaam.$accnaam_toevoeging."</td>";
-			$ms->html.="<td valign=\"top\">".($db->f("code") ? htmlentities($db->f("code")) : "&nbsp;")."</td>";
+			$ms->html.="<td valign=\"top\">".($db->f("code") ? wt_he($db->f("code")) : "&nbsp;")."</td>";
 			$ms->html.="<td valign=\"top\">".$db->f("maxaantalpersonen")."</td>";
 			// $ms->html.="<td valign=\"top\">".$db->f("aantalpersonen")."</td>";
 
@@ -433,9 +433,9 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 			$ms->html.="<td valign=\"top\">".($leverancierscode ? $leverancierscode : "&nbsp;")."</td>";
 
-			$ms->html.="<td valign=\"top\">".($contactpersoon ? htmlentities($contactpersoon) : "&nbsp;")."</td>";
-			$ms->html.="<td valign=\"top\">".($telefoonnummer ? htmlentities($telefoonnummer) : "&nbsp;")."</td>";
-			$ms->html.="<td valign=\"top\">".htmlentities($db->f("leverancier"))."</td>";
+			$ms->html.="<td valign=\"top\">".($contactpersoon ? wt_he($contactpersoon) : "&nbsp;")."</td>";
+			$ms->html.="<td valign=\"top\">".($telefoonnummer ? wt_he($telefoonnummer) : "&nbsp;")."</td>";
+			$ms->html.="<td valign=\"top\">".wt_he($db->f("leverancier"))."</td>";
 
 			$noodnummer = wt_he($db->f("noodnummer"));
 			$noodnummer = preg_replace("@/@", "/ ", $noodnummer);
@@ -456,7 +456,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 
 		$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Skipas</th><th>Contactpersoon</th><th>Telefoonnummer</th><th>Faxnummer</th><th>Noodnummer</th></tr></thead>";
 		while($db->next_record()) {
-			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("naam").$db->f("optie_groep_id"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? htmlentities($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? htmlentities($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? htmlentities($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? htmlentities($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
+			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".wt_he($db->f("naam").$db->f("optie_groep_id"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? wt_he($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? wt_he($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? wt_he($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? wt_he($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
 		}
 		$ms->html.="</table>";
 	}
@@ -467,7 +467,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$ms->html.="<br>&nbsp;<br><table border=\"1\" bordercolor=\"#000000\" cellpadding=\"5\" cellspacing=\"0\"><thead>";
 		$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Optie</th><th>Contactpersoon</th><th>Telefoonnummer</th><th>Faxnummer</th><th>Noodnummer</th></tr></thead>";
 		while($db->next_record()) {
-			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".htmlentities($db->f("naam"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? htmlentities($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? htmlentities($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? htmlentities($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? htmlentities($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
+			$ms->html.="<tr style='mso-yfti-irow:1;page-break-inside:avoid'><td valign=\"top\">".wt_he($db->f("naam"))."</td><td valign=\"top\">".($db->f("contactpersoon") ? wt_he($db->f("contactpersoon")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("telefoonnummer") ? wt_he($db->f("telefoonnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("faxnummer") ? wt_he($db->f("faxnummer")) : "&nbsp;")."</td><td valign=\"top\">".($db->f("noodnummer") ? wt_he($db->f("noodnummer")) : "&nbsp;")."</td></tr>";
 		}
 		$ms->html.="</table>";
 	}
@@ -641,12 +641,12 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	$ms->html.="<table width=100% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><thead>";
 	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><td>";
 	$ms->html.="<table width=100% border=0><tr><td><h3>";
-#	$ms->html.="Orderlist ".htmlentities($skipas["naam"])." - ".date("d-m-Y",$_GET["date"]);
+#	$ms->html.="Orderlist ".wt_he($skipas["naam"])." - ".date("d-m-Y",$_GET["date"]);
 	$ms->html.="Chalet.nl</h3>Chalet.nl B.V. - Wipmolenlaan 3 - 3447 GJ Woerden - The Netherlands<br>Tel: +31 348 - 43 46 49 - Fax: +31 348 - 69 07 52 - info@chalet.nl</td><td align=right>";
 	$ms->html.="<img width=92 height=79 src=\"https://www.chalet.nl/pic/factuur_logo_vakantiewoningen.png\"></td></tr></table>";
 	$ms->html.="</td></tr></thead>";
 #	$ms->html.="<tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'><th>Clientsname</th><th>Arrival</th><th>Departure</th><th>Resort</th><th>Accommodation</th><th>Type</th><th>Cap.</th><th>Reserv.<br>Nr.</th><th>Extra<br>Options</th></tr></thead>";
-	$ms->html.="<tr><td><table border=0 width=100%><tr><td>Dear reservation team of <b>".htmlentities($skipas["naam"])."</b>,<p>We want to make the following reservation(s) for the period from the <b>".date("d-m-Y",$_GET["date"])."</b></td></tr></table></td></tr>";
+	$ms->html.="<tr><td><table border=0 width=100%><tr><td>Dear reservation team of <b>".wt_he($skipas["naam"])."</b>,<p>We want to make the following reservation(s) for the period from the <b>".date("d-m-Y",$_GET["date"])."</b></td></tr></table></td></tr>";
 
 	# Gewone skipassen
 	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.aankomstdatum_exact, b.aantalpersonen, b.seizoen_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, p.naam AS plaats, p.plaats_id, land.begincode, s.begindag, st.bruto, st.korting, st.netto FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, land, leverancier l, skipas s, skipas_tarief st WHERE b.wederverkoop=0 AND st.skipas_id=s.skipas_id AND st.seizoen_id=b.seizoen_id AND st.week='".addslashes($_GET["date"])."' AND p.land_id=land.land_id AND bp.persoonnummer=1 AND bp.boeking_id=b.boeking_id AND a.skipas_id=s.skipas_id AND s.skipas_id='".addslashes($_GET["spid"])."' AND b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.goedgekeurd=1 AND b.geannuleerd=0 ORDER BY b.boekingsnummer;");
@@ -690,7 +690,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$deelnemersteller++;
 				$deelnemer="<br>".substr("0".$deelnemersteller,-2)." ";
 				if($db2->f("achternaam")) {
-					$deelnemer.=htmlentities(wt_naam($db2->f("voornaam"),$db2->f("tussenvoegsel"),$db2->f("achternaam")));
+					$deelnemer.=wt_he(wt_naam($db2->f("voornaam"),$db2->f("tussenvoegsel"),$db2->f("achternaam")));
 				} else {
 					$deelnemer.=" --- ";
 				}
@@ -704,8 +704,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			$deelnemers2=substr($deelnemers2,4);
 
 			$ms->html.="<tr><td colspan=2><hr></td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_reservering"][$db->f("begincode")])."</td><td>".$db->f("boekingsnummer")." - ".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_plaats"][$db->f("begincode")])."</td><td>".htmlentities($db->f("plaats"))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_reservering"][$db->f("begincode")])."</td><td>".$db->f("boekingsnummer")." - ".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_plaats"][$db->f("begincode")])."</td><td>".wt_he($db->f("plaats"))."</td></tr>";
 			$ms->html.="<tr><td colspan=2>&nbsp;</td></tr>";
 
 
@@ -715,8 +715,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$aanvangsdatum=$db->f("aankomstdatum_exact");
 			}
 
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_eerstedag"][$db->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_type"][$db->f("begincode")])."</td><td>".($db->f("aantalpersonen")-@count($afwijkende_skipas))."x ".htmlentities($skipas["omschrijving_voucher"])."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_eerstedag"][$db->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_type"][$db->f("begincode")])."</td><td>".($db->f("aantalpersonen")-@count($afwijkende_skipas))."x ".wt_he($skipas["omschrijving_voucher"])."</td></tr>";
 
 			if($db->f("korting")<>0) {
 				$price=number_format($db->f("bruto"),2,',','.');
@@ -724,8 +724,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			} else {
 				$price=number_format($db->f("netto"),2,',','.');
 			}
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_prijs"][$db->f("begincode")])."</td><td>EURO&nbsp;".$price."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_deelnemers"][$db->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_prijs"][$db->f("begincode")])."</td><td>EURO&nbsp;".$price."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_deelnemers"][$db->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
 			$ms->html.="</table></td></tr>";
 		}
 
@@ -740,7 +740,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$deelnemersteller++;
 				$deelnemer="<br>".substr("0".$deelnemersteller,-2)." ";
 				if($db3->f("achternaam")) {
-					$deelnemer.=htmlentities(wt_naam($db3->f("voornaam"),$db3->f("tussenvoegsel"),$db3->f("achternaam")));
+					$deelnemer.=wt_he(wt_naam($db3->f("voornaam"),$db3->f("tussenvoegsel"),$db3->f("achternaam")));
 				} else {
 					$deelnemer.=" --- ";
 				}
@@ -758,8 +758,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			$ms->html.="<table border=0 width=100%>";
 
 			$ms->html.="<tr><td colspan=2><hr></td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_reservering"][$db->f("begincode")])."</td><td>".$db->f("boekingsnummer")." - ".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_plaats"][$db->f("begincode")])."</td><td>".htmlentities($db->f("plaats"))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_reservering"][$db->f("begincode")])."</td><td>".$db->f("boekingsnummer")." - ".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_plaats"][$db->f("begincode")])."</td><td>".wt_he($db->f("plaats"))."</td></tr>";
 			$ms->html.="<tr><td colspan=2>&nbsp;</td></tr>";
 
 			if($db2->f("begindag")) {
@@ -768,8 +768,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$aanvangsdatum=$db->f("aankomstdatum_exact");
 			}
 
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_eerstedag"][$db->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_type"][$db->f("begincode")])."</td><td>".$db2->f("aantalpersonen")."x ".($db2->f("omschrijving_voucher") ? htmlentities($db2->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".htmlentities($db2->f("naam")))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_eerstedag"][$db->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_type"][$db->f("begincode")])."</td><td>".$db2->f("aantalpersonen")."x ".($db2->f("omschrijving_voucher") ? wt_he($db2->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".wt_he($db2->f("naam")))."</td></tr>";
 
 			$db3->query("SELECT inkoop, korting, netto_ink FROM optie_tarief WHERE optie_onderdeel_id='".$db2->f("optie_onderdeel_id")."' AND seizoen_id='".$db->f("seizoen_id")."' AND week='".addslashes($_GET["date"])."';");
 			if($db3->next_record()) {
@@ -788,8 +788,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			} else {
 				$price2="[NIET INGEVOERD]";
 			}
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_prijs"][$db->f("begincode")])."</td><td>".$price2."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_deelnemers"][$db->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_prijs"][$db->f("begincode")])."</td><td>".$price2."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_deelnemers"][$db->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
 			$ms->html.="</table></td></tr>";
 		}
 
@@ -807,7 +807,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 					$deelnemersteller++;
 					$deelnemer="<br>".substr("0".$deelnemersteller,-2)." ";
 					if($db3->f("achternaam")) {
-						$deelnemer.=htmlentities(wt_naam($db3->f("voornaam"),$db3->f("tussenvoegsel"),$db3->f("achternaam")));
+						$deelnemer.=wt_he(wt_naam($db3->f("voornaam"),$db3->f("tussenvoegsel"),$db3->f("achternaam")));
 					} else {
 						$deelnemer.=" --- ";
 					}
@@ -825,8 +825,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			$ms->html.="<table border=0 width=100%>";
 
 			$ms->html.="<tr><td colspan=2><hr></td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_reservering"][$db->f("begincode")])."</td><td>".$db->f("boekingsnummer")." - ".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_plaats"][$db->f("begincode")])."</td><td>".htmlentities($db->f("plaats"))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_reservering"][$db->f("begincode")])."</td><td>".$db->f("boekingsnummer")." - ".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_plaats"][$db->f("begincode")])."</td><td>".wt_he($db->f("plaats"))."</td></tr>";
 			$ms->html.="<tr><td colspan=2>&nbsp;</td></tr>";
 
 			if($db2->f("begindag")) {
@@ -835,14 +835,14 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$aanvangsdatum=$db->f("aankomstdatum_exact");
 			}
 
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_eerstedag"][$db->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_type"][$db->f("begincode")])."</td><td>".$deelnemersteller."x ".($db2->f("omschrijving_voucher") ? htmlentities($db2->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".htmlentities($db2->f("naam")))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_eerstedag"][$db->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_type"][$db->f("begincode")])."</td><td>".$deelnemersteller."x ".($db2->f("omschrijving_voucher") ? wt_he($db2->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".wt_he($db2->f("naam")))."</td></tr>";
 
 			$price2="EURO&nbsp;".number_format($db2->f("inkoop"),2,',','.');
 			if($db2->f("korting")>0) $price2.=" -/- ".number_format($db2->f("korting"),2,',','.')."%";
 
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_prijs"][$db->f("begincode")])."</td><td>".$price2."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_deelnemers"][$db->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_prijs"][$db->f("begincode")])."</td><td>".$price2."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_deelnemers"][$db->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
 			$ms->html.="</table></td></tr>";
 		}
 	}
@@ -859,7 +859,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$deelnemersteller++;
 				$deelnemer="<br>".substr("0".$deelnemersteller,-2)." ";
 				if($db3->f("achternaam")) {
-					$deelnemer.=htmlentities(wt_naam($db3->f("voornaam"),$db3->f("tussenvoegsel"),$db3->f("achternaam")));
+					$deelnemer.=wt_he(wt_naam($db3->f("voornaam"),$db3->f("tussenvoegsel"),$db3->f("achternaam")));
 				} else {
 					$deelnemer.=" --- ";
 				}
@@ -877,8 +877,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		$ms->html.="<table border=0 width=100%>";
 
 		$ms->html.="<tr><td colspan=2><hr></td></tr>";
-		$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_reservering"][$db->f("begincode")])."</td><td>".$db->f("boekingsnummer")." - ".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td></tr>";
-		$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_plaats"][$db->f("begincode")])."</td><td>".htmlentities($db->f("plaats"))."</td></tr>";
+		$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_reservering"][$db->f("begincode")])."</td><td>".$db->f("boekingsnummer")." - ".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td></tr>";
+		$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_plaats"][$db->f("begincode")])."</td><td>".wt_he($db->f("plaats"))."</td></tr>";
 		$ms->html.="<tr><td colspan=2>&nbsp;</td></tr>";
 
 		if($db->f("begindag")) {
@@ -887,13 +887,13 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			$aanvangsdatum=$db->f("aankomstdatum_exact");
 		}
 
-		$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_eerstedag"][$db->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
-		$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_type"][$db->f("begincode")])."</td><td>".$deelnemersteller."x ".($db->f("omschrijving_voucher") ? htmlentities($db->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".htmlentities($db->f("naam")))."</td></tr>";
+		$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_eerstedag"][$db->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
+		$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_type"][$db->f("begincode")])."</td><td>".$deelnemersteller."x ".($db->f("omschrijving_voucher") ? wt_he($db->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".wt_he($db->f("naam")))."</td></tr>";
 
 		$price2="EURO&nbsp;".number_format($db->f("inkoop"),2,',','.');
 		if($db->f("korting")>0) $price2.=" -/- ".number_format($db->f("korting"),2,',','.')."%";
-		$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_prijs"][$db->f("begincode")])."</td><td>".$price2."</td></tr>";
-		$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_deelnemers"][$db->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
+		$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_prijs"][$db->f("begincode")])."</td><td>".$price2."</td></tr>";
+		$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_deelnemers"][$db->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
 		$ms->html.="</table></td></tr>";
 	}
 
@@ -936,7 +936,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$deelnemersteller++;
 				$deelnemer="<br>".substr("0".$deelnemersteller,-2)." ";
 				if($db3->f("achternaam")) {
-					$deelnemer.=htmlentities(wt_naam($db3->f("voornaam"),$db3->f("tussenvoegsel"),$db3->f("achternaam")));
+					$deelnemer.=wt_he(wt_naam($db3->f("voornaam"),$db3->f("tussenvoegsel"),$db3->f("achternaam")));
 				} else {
 					$deelnemer.=" --- ";
 				}
@@ -954,8 +954,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			$ms->html.="<table border=0 width=100%>";
 
 			$ms->html.="<tr><td colspan=2><hr></td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_reservering"][$db2->f("begincode")])."</td><td>".$db2->f("boekingsnummer")." - ".htmlentities(wt_naam($db2->f("voornaam"),$db2->f("tussenvoegsel"),$db2->f("achternaam")))."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_plaats"][$db2->f("begincode")])."</td><td>".htmlentities($db2->f("plaats"))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_reservering"][$db2->f("begincode")])."</td><td>".$db2->f("boekingsnummer")." - ".wt_he(wt_naam($db2->f("voornaam"),$db2->f("tussenvoegsel"),$db2->f("achternaam")))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_plaats"][$db2->f("begincode")])."</td><td>".wt_he($db2->f("plaats"))."</td></tr>";
 			$ms->html.="<tr><td colspan=2>&nbsp;</td></tr>";
 
 			if($db2->f("begindag")) {
@@ -964,8 +964,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$aanvangsdatum=$db2->f("aankomstdatum_exact");
 			}
 
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_eerstedag"][$db2->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_type"][$db2->f("begincode")])."</td><td>".$deelnemersteller."x ".($db2->f("omschrijving_voucher") ? htmlentities($db2->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".htmlentities($db2->f("naam")))."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_eerstedag"][$db2->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_type"][$db2->f("begincode")])."</td><td>".$deelnemersteller."x ".($db2->f("omschrijving_voucher") ? wt_he($db2->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".wt_he($db2->f("naam")))."</td></tr>";
 
 			$db4->query("SELECT verkoop, inkoop, korting FROM optie_tarief WHERE optie_onderdeel_id='".$db2->f("optie_onderdeel_id")."' AND seizoen_id='".$db2->f("seizoen_id")."' AND week='".addslashes($_GET["date"])."';");
 			if($db4->next_record()) {
@@ -978,8 +978,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			} else {
 				$price2="[NIET INGEVOERD]";
 			}
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_prijs"][$db2->f("begincode")])."</td><td>".$price2."</td></tr>";
-			$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_deelnemers"][$db2->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_prijs"][$db2->f("begincode")])."</td><td>".$price2."</td></tr>";
+			$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_deelnemers"][$db2->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
 			$ms->html.="</table></td></tr>";
 		}
 
@@ -994,7 +994,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$deelnemersteller++;
 				$deelnemer="<br>".substr("0".$deelnemersteller,-2)." ";
 				if($db4->f("achternaam")) {
-					$deelnemer.=htmlentities(wt_naam($db4->f("voornaam"),$db4->f("tussenvoegsel"),$db4->f("achternaam")));
+					$deelnemer.=wt_he(wt_naam($db4->f("voornaam"),$db4->f("tussenvoegsel"),$db4->f("achternaam")));
 				} else {
 					$deelnemer.=" --- ";
 				}
@@ -1012,8 +1012,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$ms->html.="<table border=0 width=100%>";
 
 				$ms->html.="<tr><td colspan=2><hr></td></tr>";
-				$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_reservering"][$db2->f("begincode")])."</td><td>".$db2->f("boekingsnummer")." - ".htmlentities(wt_naam($db2->f("voornaam"),$db2->f("tussenvoegsel"),$db2->f("achternaam")))."</td></tr>";
-				$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_plaats"][$db2->f("begincode")])."</td><td>".htmlentities($db2->f("plaats"))."</td></tr>";
+				$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_reservering"][$db2->f("begincode")])."</td><td>".$db2->f("boekingsnummer")." - ".wt_he(wt_naam($db2->f("voornaam"),$db2->f("tussenvoegsel"),$db2->f("achternaam")))."</td></tr>";
+				$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_plaats"][$db2->f("begincode")])."</td><td>".wt_he($db2->f("plaats"))."</td></tr>";
 				$ms->html.="<tr><td colspan=2>&nbsp;</td></tr>";
 
 				if($db3->f("begindag")) {
@@ -1022,8 +1022,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 					$aanvangsdatum=$db2->f("aankomstdatum_exact");
 				}
 
-				$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_eerstedag"][$db2->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
-				$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_type"][$db2->f("begincode")])."</td><td>".$db3->f("aantalpersonen")."x ".($db3->f("omschrijving_voucher") ? htmlentities($db3->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".htmlentities($db3->f("naam")))."</td></tr>";
+				$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_eerstedag"][$db2->f("begincode")])."</td><td>".date("d-m-Y",$aanvangsdatum)."</td></tr>";
+				$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_type"][$db2->f("begincode")])."</td><td>".$db3->f("aantalpersonen")."x ".($db3->f("omschrijving_voucher") ? wt_he($db3->f("omschrijving_voucher")) : "GEEN VOUCHEROMSCHRIJVING INGEVOERD: ".wt_he($db3->f("naam")))."</td></tr>";
 
 				$db0->query("SELECT inkoop, korting FROM optie_tarief WHERE optie_onderdeel_id='".$db3->f("optie_onderdeel_id")."' AND seizoen_id='".$db2->f("seizoen_id")."' AND week='".addslashes($_GET["date"])."';");
 				if($db0->next_record()) {
@@ -1032,8 +1032,8 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				} else {
 					$price2="[NIET INGEVOERD]";
 				}
-				$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_prijs"][$db2->f("begincode")])."</td><td>".$price2."</td></tr>";
-				$ms->html.="<tr><td width=150 valign=top>".htmlentities($vars["voucher_deelnemers"][$db2->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
+				$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_prijs"][$db2->f("begincode")])."</td><td>".$price2."</td></tr>";
+				$ms->html.="<tr><td width=150 valign=top>".wt_he($vars["voucher_deelnemers"][$db2->f("begincode")])."</td><td><table width=100% cellspacing=0 cellpadding=0><tr><td width=50% valign=top>".$deelnemers1."</td><td>&nbsp;</td><td width=50% valign=top>".$deelnemers2."</td></tr></table></td></tr>";
 				$ms->html.="</table></td></tr>";
 			}
 		}
@@ -1098,7 +1098,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				$plaats=$db->f("plaats");
 				$land=$db->f("land");
 			}
-			$ms->html.="<td width=264 style='width:198.35pt;padding:0cm .75pt 0cm .75pt;height:".$height."'><div style=\"text-align:right;\"><font style=\"font-size:0.7em;\">".($db->f("boekingsnummeroud") ? $db->f("boekingsnummeroud") : $db->f("boekingsnummer"))."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></div><p>".htmlentities($naam)."<br>".htmlentities($adres)."<br>".htmlentities($postcode." ".$plaats).(!eregi("nederland",$land) ? "<br>".htmlentities($land) : "")."</p></td>";
+			$ms->html.="<td width=264 style='width:198.35pt;padding:0cm .75pt 0cm .75pt;height:".$height."'><div style=\"text-align:right;\"><font style=\"font-size:0.7em;\">".($db->f("boekingsnummeroud") ? $db->f("boekingsnummeroud") : $db->f("boekingsnummer"))."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></div><p>".wt_he($naam)."<br>".wt_he($adres)."<br>".wt_he($postcode." ".$plaats).(!eregi("nederland",$land) ? "<br>".wt_he($land) : "")."</p></td>";
 			if($col==3) {
 				unset($col);
 				$ms->html.="</tr>\n";

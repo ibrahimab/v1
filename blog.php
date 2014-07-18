@@ -188,7 +188,7 @@ if($_GET["b"]) {
 						$blog["blok_rechts"].="<div class=\"blog_opval_regel2\">".wt_he($db->f("plaats"))."</div>";
 
 						$blog["blok_rechts"].="<div class=\"overlay_foto\">";
-						$blog["blok_rechts"].="<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\">";
+						$blog["blok_rechts"].="<img src=\"".wt_he($vars["path"].$file)."\" width=\"200\">";
 						$blog["blok_rechts"].="<div class=\"blog_opval_regel3\">";
 						if($vars["websitetype"]==7) {
 							$blog["blok_rechts"].=wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ");

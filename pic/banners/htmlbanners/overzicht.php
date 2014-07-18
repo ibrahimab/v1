@@ -1,5 +1,9 @@
 <?php
 
+$vars["wt_htmlentities_cp1252"] = true;
+include_once("../../../admin/allfunctions.php");
+
+
 echo "<!DOCTYPE html>\n<html>\n<head><title></title></head>\n";
 echo "<body style=\"font-family:Verdana;font-size:0.8em;\">\n";
 
@@ -137,7 +141,7 @@ for ( $i=1;$i<=5;$i++ ) {
 	}
 
 	if ( $i>1 ) echo "<hr>";
-	echo "<h2>HTML-banners voor ".htmlentities( $netwerken[$i] )."</h2>Kies een banner:<ul>";
+	echo "<h2>HTML-banners voor ".wt_he( $netwerken[$i] )."</h2>Kies een banner:<ul>";
 	reset( $keuzes );
 	while ( list( $key, $value )=each( $keuzes ) ) {
 		if ( !in_array( $key, $netwerk_wzt_niet_tonen[$i] ) ) {
@@ -155,7 +159,7 @@ for ( $i=1;$i<=5;$i++ ) {
 					}
 
 					if ( $maat_tonen ) {
-						echo "<li><a href=\"htmlbanner.php?wzt=".$key."&t=".$key2."&themadatum=".$key3."&n=".$i."\" target=\"_blank\">".htmlentities( $value3 )."</a></li>";
+						echo "<li><a href=\"htmlbanner.php?wzt=".$key."&t=".$key2."&themadatum=".$key3."&n=".$i."\" target=\"_blank\">".wt_he( $value3 )."</a></li>";
 					}
 				}
 			}

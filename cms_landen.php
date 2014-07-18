@@ -147,7 +147,7 @@ if($_GET["wzt"]==1) {
 
 	# Kleurcodes verwerken
 	while(list($key,$value)=each($vars["themakleurcode"])) {
-		$kleurcodehtml.="<span style=\"background-color:".$value.";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;<span style=\"background-color:".$vars["themakleurcode_licht"][$key].";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;".htmlentities($vars["themakleurencombinatie"][$key])."<p>\n";
+		$kleurcodehtml.="<span style=\"background-color:".$value.";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;<span style=\"background-color:".$vars["themakleurcode_licht"][$key].";\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;".wt_he($vars["themakleurencombinatie"][$key])."<p>\n";
 	}
 
 	$cms->edit_field(6,0,"htmlrow","<hr><b>Te tonen accommodaties</b> (3 accommodatiecodes, gescheiden door komma's)");
@@ -215,7 +215,7 @@ if($cms_form[6]->filled) {
 	if($cms_form[6]->input["begincode"]) {
 		$db->query("SELECT naam FROM land WHERE begincode='".addslashes($cms_form[6]->input["begincode"])."' AND land_id<>'".addslashes($_GET["6k0"])."';");
 		if($db->next_record()) {
-			$cms_form[6]->error("begincode",htmlentities($db->f("naam"))." heeft deze code al");
+			$cms_form[6]->error("begincode",wt_he($db->f("naam"))." heeft deze code al");
 		}
 	}
 	if(!ereg("^[A-Z]+$",$cms_form[6]->input["begincode"])) {

@@ -55,7 +55,7 @@ if($gegevens["stap1"]["boekingid"]) {
 function voucher_form($voucher,$voucherteller) {
 	global $form,$gegevens,$accinfo,$skipas_dubbele_voucher;
 
-	$form->field_htmlrow("","<hr><b>Voucher ".htmlentities($voucher["soort_voucher"]));
+	$form->field_htmlrow("","<hr><b>Voucher ".wt_he($voucher["soort_voucher"]));
 
 	if($voucher["soort_voucher_key"]=="acc") {
 		$form->field_yesno("accommodatievoucher_sturen","Accommodatievoucher meesturen","",array("selection"=>$gegevens["stap1"]["accommodatievoucher_sturen"]));
@@ -93,9 +93,9 @@ function voucher_form($voucher,$voucherteller) {
 		ksort($voucher_sort);
 		while(list($key,$value)=each($voucher_sort)) {
 			if($skipas_dubbele_voucher[$value] and $voucher["skipas"]) {
-				$voucher["alledeelnemers"][$value]=htmlentities($voucher_unsort[$value])." <b style=\"color:red\">(meervoudige skipas-afwijking)</b>";
+				$voucher["alledeelnemers"][$value]=wt_he($voucher_unsort[$value])." <b style=\"color:red\">(meervoudige skipas-afwijking)</b>";
 			} else {
-				$voucher["alledeelnemers"][$value]=htmlentities($voucher_unsort[$value]);
+				$voucher["alledeelnemers"][$value]=wt_he($voucher_unsort[$value]);
 			}
 		}
 		$form->field_checkbox(0,"deelnemers".$voucherteller,"Personnes","",array("selection"=>$voucher["deelnemers"]),array("selection"=>$voucher["alledeelnemers"]),array("content_html"=>true,"one_per_line"=>true));
@@ -321,7 +321,7 @@ $vars["temp_pdfprinttable"].="</td></tr>";
 # Voorbrief-pdf
 $pdffile_voorbrief="pdf/voorbrief_".$gegevens["stap1"]["website"]."/".$gegevens["stap1"]["seizoenid"].".pdf";
 if(file_exists($pdffile_voorbrief)) {
-	$htmlrow="<a href=\"".htmlentities($pdffile_voorbrief)."\" target=\"_blank\">Print de bijbehorende voorbrief &raquo;</a>";
+	$htmlrow="<a href=\"".wt_he($pdffile_voorbrief)."\" target=\"_blank\">Print de bijbehorende voorbrief &raquo;</a>";
 } else {
 	$htmlrow="<b>Let op! voorbrief-PDF ontbreekt. Uploaden via <a href=\"cms_seizoenen.php?edit=9&9k0=".$gegevens["stap1"]["seizoenid"]."\" target=\"_blank\">seizoen</a>.</b>";
 	unset($pdffile_voorbrief);
@@ -374,7 +374,7 @@ if($plaats_pdfplattegrond_nietnodig) {
 	$htmlrow="Plattegrond-PDF is bij <a href=\"cms_boekingen_facturen.php?bid=".$gegevens["stap1"]["boekingid"]."\">deze boeking</a> niet nodig bij de reisdocumenten";
 	unset($pdffile_plattegrond);
 } elseif(file_exists($pdffile_plattegrond)) {
-	$htmlrow="<a href=\"".htmlentities($pdffile_plattegrond)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
+	$htmlrow="<a href=\"".wt_he($pdffile_plattegrond)."\" target=\"_blank\">Print de bijbehorende plattegrond &raquo;</a>";
 } else {
 	$htmlrow="<b>Let op! plattegrond-PDF ontbreekt. Uploaden via <a href=\"cms_plaatsen.php?edit=4&wzt=".$gegevens["stap1"]["accinfo"]["wzt"]."&4k0=".$gegevens["stap1"]["accinfo"]["plaats_id"]."\" target=\"_blank\">plaats</a>.</b>";
 	unset($pdffile_plattegrond);

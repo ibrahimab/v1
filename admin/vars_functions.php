@@ -1479,7 +1479,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 					$korting_percentage=$db->f("korting");
 					$korting_euro=$db->f("verkoopkorting");
 				}
-				$return_inkoop.="<tr style=\"background-color:#ffffff;\"><td style=\"padding-right:10px;width:70%\">".$gegevens["stap1"]["accinfo"]["skipas_aantaldagen"]."-daagse skipas ".htmlentities($gegevens["stap1"]["accinfo"]["skipas_naam"]);
+				$return_inkoop.="<tr style=\"background-color:#ffffff;\"><td style=\"padding-right:10px;width:70%\">".$gegevens["stap1"]["accinfo"]["skipas_aantaldagen"]."-daagse skipas ".wt_he($gegevens["stap1"]["accinfo"]["skipas_naam"]);
 				$return_inkoop.="</td><td style=\"vertical-align:top;white-space:nowrap;\">(".bedrag_korting_tekst($bruto,$korting_percentage,0,$korting_euro).")</td><td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($netto,2,',','.')."</td>";
 				$return_inkoop.="<td style=\"padding-right:10px;white-space:nowrap;\"> x ".($gegevens["stap1"]["aantalpersonen"]-$afwijkende_skipas)."</td><td style=\"padding-right:10px\">=</td>";
 				$return_inkoop.="<td style=\"padding-right:10px\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($netto*($gegevens["stap1"]["aantalpersonen"]-$afwijkende_skipas),2,',','.')."</td><td>&nbsp;</td>";
@@ -1497,7 +1497,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 	while(list($key,$value)=@each($gegevens["stap4"]["algemene_optie"]["soort"])) {
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(($value ? ucfirst($value).": " : "").$gegevens["stap4"]["algemene_optie"]["naam"][$key]);
+		$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(($value ? ucfirst($value).": " : "").$gegevens["stap4"]["algemene_optie"]["naam"][$key]);
 		$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($gegevens["stap4"]["algemene_optie"]["verkoop"][$key]),2,',','.')."</td>";
 		$return.="<td nowrap style=\"padding-right:10px;vertical-align:top;\"> x 1</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
 		$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($gegevens["stap4"]["algemene_optie"]["verkoop"][$key]),2,',','.')."</td>";
@@ -1508,7 +1508,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 		if($inkoop) {
 			$kleurteller_inkoop++;
 			if($kleurteller_inkoop>1) unset($kleurteller_inkoop);
-			$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(($value ? ucfirst($value).": " : "").$gegevens["stap4"]["algemene_optie"]["naam"][$key]);
+			$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(($value ? ucfirst($value).": " : "").$gegevens["stap4"]["algemene_optie"]["naam"][$key]);
 			$inkoopbedrag=$gegevens["stap4"]["algemene_optie"]["inkoop"][$key];
 			$korting=$gegevens["stap4"]["algemene_optie"]["korting"][$key];
 			$inkoop_netto=round($inkoopbedrag*(1-$korting/100),2);
@@ -1540,14 +1540,14 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			if($kleurteller>1) unset($kleurteller);
 
 			if(!$isMobile) {
-				$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]));
+				$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]));
 				$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($bedrag),2,',','.')."</td>";
 				$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$value."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
 				$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($bedrag*$value),2,',','.')."</td>";
 				$return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($bedrag,$inkoop)."</td>";
 				$return.="</tr>";
 			} else {
-				$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : " style=\"background-color:#ffffff\"")."><td>".htmlentities(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key])).":";
+				$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : " style=\"background-color:#ffffff\"")."><td>".wt_he(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key])).":";
 				$return.="<div class=\"costs\">&euro; ".number_format(abs($bedrag),2,',','.');
 				$return.=" x ".$value." = ";
 				$return.=" &euro; ".number_format(abs($bedrag*$value),2,',','.');
@@ -1574,7 +1574,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 							$korting=$db->f("korting");
 						}
 						$inkoop_netto=round($inkoopbedrag*(1-$korting/100),2);
-						$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]));
+						$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]));
 						$return_inkoop.="</td><td style=\"vertical-align:top;\">(".bedrag_korting_tekst($inkoopbedrag,$korting,0,0).")</td><td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($inkoop_netto),2,',','.')."</td>";
 						$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$value."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
 						$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($inkoop_netto*$value),2,',','.')."</td>";
@@ -1604,7 +1604,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 						}
 						$inkoop_netto=round($inkoopbedrag*(1-$korting/100),2);
 
-						$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]));
+						$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($gegevens["stap4"]["optie_onderdeelid_naam"][$key]));
 						$return_inkoop.="</td><td style=\"vertical-align:top;\">(".bedrag_korting_tekst($inkoopbedrag,$korting,0,0).")</td><td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($inkoop_netto),2,',','.')."</td>";
 						$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$value."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
 						$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($inkoop_netto*$value),2,',','.')."</td>";
@@ -1631,7 +1631,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 				if($db->f("persoonnummer")=="alg") {
 					$kleurteller_inkoop++;
 					if($kleurteller_inkoop>1) unset($kleurteller_inkoop);
-					$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities($db->f("soort").": ".$db->f("naam"));
+					$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he($db->f("soort").": ".$db->f("naam"));
 					$inkoopbedrag=$db->f("inkoop");
 					$korting=$db->f("korting");
 					$inkoop_netto=round($inkoopbedrag*(1-$korting/100),2);
@@ -1657,7 +1657,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 						$inkoopbedrag=$db->f("inkoop");
 						$korting=$db->f("korting");
 						$inkoop_netto=round($inkoopbedrag*(1-$korting/100),2);
-						$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities($db->f("soort").": ".$db->f("naam"));
+						$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he($db->f("soort").": ".$db->f("naam"));
 						$return_inkoop.="</td><td style=\"vertical-align:top;\">(".bedrag_korting_tekst($inkoopbedrag,$korting,0,0).")</td><td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($inkoop_netto),2,',','.')."</td>";
 						$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$tempaantaldeelnemers."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
 						$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($inkoop_netto*$tempaantaldeelnemers),2,',','.')."</td>";
@@ -1730,14 +1730,14 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
 	            if(!$isMobile){
-	                $return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($value2));
+	                $return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($value2));
 	                $return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]),2,',','.')."</td>";
 	                $return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$reisverzekeringen["aantal"][$key2]."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
 	                $return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]*$reisverzekeringen["aantal"][$key2]),2,',','.')."</td>";
 	                $return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($reisverzekeringen["bedrag"][$key2],$inkoop)."</td>";
 	                $return.="</tr>";
 	            }else {
-	                $return.="<tr class='mobile_row' ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($value2));
+	                $return.="<tr class='mobile_row' ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($value2));
 	                $return.="<div class='costs'>";
 	                $return.=number_format(abs($reisverzekeringen["bedrag"][$key2]),2,',','.')." x ".$reisverzekeringen["aantal"][$key2]. " = &euro; ".number_format(abs($reisverzekeringen["bedrag"][$key2]*$reisverzekeringen["aantal"][$key2]),2,',','.')." ".reissom_tabel_korting_of_min_tekst($reisverzekeringen["bedrag"][$key2],$inkoop);
 	                $return.="</div></td>";
@@ -1754,7 +1754,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 					$korting=$db->f("korting");
 					$inkoop_netto=round($inkoopbedrag*(1-$korting/100),2);
 
-					$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".htmlentities(ucfirst($value2));
+					$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($value2));
 					$return_inkoop.="</td><td style=\"vertical-align:top;\">(".bedrag_korting_tekst($inkoopbedrag,$korting,0,0).")</td><td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($inkoop_netto),2,',','.')."</td>";
 					$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$reisverzekeringen["aantal"][$key2]."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
 					$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($inkoop_netto*$reisverzekeringen["aantal"][$key2]),2,',','.')."</td>";
@@ -1791,7 +1791,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			if($kleurteller>1) unset($kleurteller);
 
 			if(!$isMobile) {
-				$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("annuleringsverzekering","vars")." ".htmlentities($vars["annverz_soorten"][$key]);
+				$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("annuleringsverzekering","vars")." ".wt_he($vars["annverz_soorten"][$key]);
 				if(abs(floatval($gegevens["stap4"]["annuleringsverzekering_bedragen"][$key]-$gegevens["fin"]["accommodatie_totaalprijs"]-$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]))<=0.03) {
 					$toon_annuleringsverzekering_bedragen=$gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"];
 				} else {
@@ -1803,7 +1803,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 				$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
 				$return.="</tr>";
 			} else {
-				$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>".html("annuleringsverzekering","vars")." ".htmlentities($vars["annverz_soorten"][$key]).":";
+				$return.="<tr class=\"mobile_row\"".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td>".html("annuleringsverzekering","vars")." ".wt_he($vars["annverz_soorten"][$key]).":";
 				if(abs(floatval($gegevens["stap4"]["annuleringsverzekering_bedragen"][$key]-$gegevens["fin"]["accommodatie_totaalprijs"]-$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"]))<=0.03) {
 					$toon_annuleringsverzekering_bedragen=$gegevens["fin"]["accommodatie_totaalprijs"]+$gegevens["stap4"]["optie_bedrag_binnen_annuleringsverzekering"];
 				} else {
@@ -1832,7 +1832,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 
 					$kleurteller_inkoop++;
 					if($kleurteller_inkoop>1) unset($kleurteller_inkoop);
-					$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("annuleringsverzekering","vars")." ".htmlentities($vars["annverz_soorten"][$key]);
+					$return_inkoop.="<tr".(!$kleurteller_inkoop ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("annuleringsverzekering","vars")." ".wt_he($vars["annverz_soorten"][$key]);
 					$return_inkoop.="</td><td>&nbsp;</td><td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($toon_annuleringsverzekering_bedragen,2,',','.')."</td>";
 					$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".ereg_replace("\.",",",$percentage)."%</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
 					$return_inkoop.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($inkoopbedrag,2,',','.')."</td>";
@@ -2250,9 +2250,9 @@ function getreferer($bezoeker_id) {
 
 				# Tekstuele opsomming
 				$return["opsomming"].=datum("DAG D MAAND JJJJ, UU:ZZ",$db->f("datumtijd"))."u: ";
-				if($db->f("referer")) $return["opsomming"].="<a href=\"".htmlentities($db->f("referer"))."\" target=\"_blank\">";
+				if($db->f("referer")) $return["opsomming"].="<a href=\"".wt_he($db->f("referer"))."\" target=\"_blank\">";
 				if($db->f("ad")) {
-					$return["opsomming"].=htmlentities($vars["ads"][$db->f("ad")]);
+					$return["opsomming"].=wt_he($vars["ads"][$db->f("ad")]);
 				} elseif(ereg("http://www\.google\.",$db->f("referer"))) {
 					$return["opsomming"].="Google";
 				} else {
@@ -2612,7 +2612,7 @@ function seo_acc_url($typecode,$soortaccommodatie,$accnaam,$typenaam) {
 
 function htmlentities_uitgebreid($text,$li=false) {
 	global $vars;
-	$text=htmlentities($text,ENT_COMPAT,cp1252);
+	$text=wt_he($text,ENT_COMPAT,cp1252);
 	$text=ereg_replace("&euro; ","&euro;&nbsp;",$text);
 
 	if($li) {
@@ -2765,7 +2765,7 @@ function imageurl($file,$width="",$height="") {
 			}
 		}
 	}
-	$return=htmlentities($return);
+	$return=wt_he($return);
 	return $return;
 }
 
@@ -3472,7 +3472,7 @@ function tooninterneopmerkingen($text) {
 	$return=$text;
 #	"<wbr>";
 	$return=wt_htmlent($return,true);
-#	$return=htmlentities($return);
+#	$return=wt_he($return);
 #	$return=ereg_replace("/","/<wbr>",$return);
 	$return=nl2br($return);
 	return $return;

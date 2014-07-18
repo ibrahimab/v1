@@ -1,5 +1,9 @@
 <?php
 
+
+// echo htmlspecialchars("Hé €", ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+
+
 // include("admin/vars.php");
 
 

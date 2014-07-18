@@ -2,18 +2,18 @@
 if (!$_SESSION) session_start();
 
 $server="oorl.iwlab.com";
-$script="/holiday/bin/mh/APIserver.php"; 
+$script="/holiday/bin/mh/APIserver.php";
 
-$use_debug=0; 
+$use_debug=0;
 function RPC_set_server($srv, $script_page, $debug)
-{ global $server; $server=$srv; 
-  global $script; $script=$script_page; 
-  global $use_debug; $use_debug=$debug; 
+{ global $server; $server=$srv;
+  global $script; $script=$script_page;
+  global $use_debug; $use_debug=$debug;
 };
 
 //Libreria di gestione conto IWsmile
-//Fatta per poter ricevere pagamenti su carta di credito. 
-//Ovviamente questi dati qui sotto sono tarocchi... 
+//Fatta per poter ricevere pagamenti su carta di credito.
+//Ovviamente questi dati qui sotto sono tarocchi...
 
 //$_SESSION['MY_ACCOUNT']  = "701001443"; // vecchia      //Da valorizzare con il proprio conto
 $_SESSION['MY_ACCOUNT'] = "71004644"; // nuova
@@ -37,9 +37,9 @@ $_SESSION['iwsmile_reply']="";
 
 //Controlla se la pagina e' stata richiamata al ritorno da una transazione di
 //pagamento e se questa e' andata a buon fine.
-//Nella stessa pagina, in testa, inserire: 
-//    - if (iwsmile_payd())  echo "pagato, grassie..."; 
-//    - if (iwsmile_error()) echo "Non pagato.. non ci hai una lira."; 
+//Nella stessa pagina, in testa, inserire:
+//    - if (iwsmile_payd())  echo "pagato, grassie...";
+//    - if (iwsmile_error()) echo "Non pagato.. non ci hai una lira.";
 //    echo $iwsmile_reply;
 //    o qualcosa del genere :)
 //function iwsmile_payd();
@@ -49,32 +49,32 @@ $_SESSION['iwsmile_reply']="";
 //*                      Da qui il codice.. non toccare                     *//
 //***************************************************************************//
 
-//Questa per poter configurare dall'esterno e criptare il tutto. 
+//Questa per poter configurare dall'esterno e criptare il tutto.
 function iwsmile_init($account,$key,$timeout)
-{ $_SESSION['MY_ACCOUNT']=$account; 
-  $_SESSION['IWSMILE_KEY']=$key; 
-  $_SESSION['MY_TIMEOUT']=$timeout; 
+{ $_SESSION['MY_ACCOUNT']=$account;
+  $_SESSION['IWSMILE_KEY']=$key;
+  $_SESSION['MY_TIMEOUT']=$timeout;
 };
 
-//Paypage serve se voglio mandare la risposta al pagamento su una pagina in particolare. 
-//Mi serve per poter mostrare nuovamente la pagina della casa se il pagamento non e' 
-//andato a buon fine, senza forzare il form di iwsmile nel rettangolino. 
+//Paypage serve se voglio mandare la risposta al pagamento su una pagina in particolare.
+//Mi serve per poter mostrare nuovamente la pagina della casa se il pagamento non e'
+//andato a buon fine, senza forzare il form di iwsmile nel rettangolino.
 function iwsmile_pay($amount, $quantity, $itemname, $itemnum, $lang, $paypage='')
 { $quantity= (intval( ($quantity+0)*100 )) / 100;
-  $lang=strtoupper($lang); 
+  $lang=strtoupper($lang);
   if (($lang != "IT") && ($lang != "DE") && ($lang != "FR") && ($lang != "ES"))
-     $lang="EN"; 
-  if ($quantity >0) 
+     $lang="EN";
+  if ($quantity >0)
   { $qs=$_SERVER['QUERY_STRING'];
-    if ($qs == "") $qs="none=";   
-    $url_ok  = "http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']."?".$qs."&iwsmiletr=1"; 
-    $url_bad = "http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']."?".$qs."&iwsmiletr=2"; 
+    if ($qs == "") $qs="none=";
+    $url_ok  = "http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']."?".$qs."&iwsmiletr=1";
+    $url_bad = "http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']."?".$qs."&iwsmiletr=2";
     //$url_callback="http://".$_SERVER['SERVER_NAME'].$_SESSION['THIS_PAGE']."?iwsmileback=1"; // vecchia
     $url_callback="http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']."?".$qs."&iwsmileback=1";
 
-    if ($paypage!="") 
-    { $url_ok  = "$paypage&iwsmiletr=1"; 
-      $url_bad = "$paypage&iwsmiletr=2"; 
+    if ($paypage!="")
+    { $url_ok  = "$paypage&iwsmiletr=1";
+      $url_bad = "$paypage&iwsmiletr=2";
     };
 
     $r= '<form id="fpay" action="https://checkout.iwsmile.it/Pagamenti/" method="post">
@@ -92,92 +92,92 @@ function iwsmile_pay($amount, $quantity, $itemname, $itemnum, $lang, $paypage=''
           <input type="hidden" name="IMAGE_CODE" value="'.$_SESSION['IMAGE_CODE'].'">
           <input type="image" src="http://'.$_SERVER['SERVER_NAME'].'/images/loadingAnimation.gif" border="0" name="submit" alt="Paga adesso">
           </form>';
-    return $r; 
-  } else return "";  
+    return $r;
+  } else return "";
 };
 
 //Controlla se la pagina e' stata richiamata al ritorno da una transazione di
 //pagamento e se questa e' andata a buon fine.
-//Nella stessa pagina, in testa, inserire: 
-//    - if (iwsmile_payd())  echo "pagato, grassie..."; 
-//    - if (iwsmile_error()) echo "Non pagato.. non ci hai una lira."; 
+//Nella stessa pagina, in testa, inserire:
+//    - if (iwsmile_payd())  echo "pagato, grassie...";
+//    - if (iwsmile_error()) echo "Non pagato.. non ci hai una lira.";
 //    o qualcosa del genere :)
-function iwsmile_payd() 
+function iwsmile_payd()
 { if (intval($_GET['iwsmiletr'] + 0) == 1)
   { $_SESSION['iwsmile_reply']="Transazione numero <b>".$_POST['thx_id']."</b><br>".
                    "Nome <b>".$_POST['payer_name']."</b>, ".
-                    "mail <b>".$_POST['payer_email']."</b><br>". 
-                   "data <b>".$_POST['payment_date']."</b>, ". 
-//                   "dal conto <b>".$_POST['payer_id']."</b><br>". 
-//                   "cifra <b>".$_POST['amount ']."</b>, ". 
+                    "mail <b>".$_POST['payer_email']."</b><br>".
+                   "data <b>".$_POST['payment_date']."</b>, ".
+//                   "dal conto <b>".$_POST['payer_id']."</b><br>".
+//                   "cifra <b>".$_POST['amount ']."</b>, ".
 //                   "per <b>".$_POST['qta']."</b> oggetti<p>".
                    "stato <b>".$_POST['payment_status']."</b><p>";
     //if (iwsmile_wait_confirm($_POST['thx_id']))
-      $_SESSION['iwsmile_reply'].="Completamento operazione confermato</b>"; 
-      return 1; 
-    //else 
-    //{ $_SESSION['iwsmile_reply'].="Completamento operazione non confermato (timeout)</b>"; 
-    //  return ""; 
+      $_SESSION['iwsmile_reply'].="Completamento operazione confermato</b>";
+      return 1;
+    //else
+    //{ $_SESSION['iwsmile_reply'].="Completamento operazione non confermato (timeout)</b>";
+    //  return "";
     //};
-  }; 
+  };
 };
 
-function iwsmile_error() 
+function iwsmile_error()
 { if (intval($_GET['iwsmiletr']+0) == 2)
-  { $_SESSION['iwsmile_reply']="Errore: <b>Transazione non completata o timeout</b>"; 
-    return 1; 
-  }; return ""; 
+  { $_SESSION['iwsmile_reply']="Errore: <b>Transazione non completata o timeout</b>";
+    return 1;
+  }; return "";
 };
 
-function iwsmile_wait_confirm($trnum) //Aspetto la conferma di pagamento 
+function iwsmile_wait_confirm($trnum) //Aspetto la conferma di pagamento
 { $res="";        //Leggo il file ogni cinque secondi.. portate pazienza
-  $ftouch = fopen($_SESSION['MY_INFO_FILE'], 'a'); fclose($ftouch);          //touch 
+  $ftouch = fopen($_SESSION['MY_INFO_FILE'], 'a'); fclose($ftouch);          //touch
   for ($i=0; $i<($_SESSION['MY_TIMEOUT']+1); $i=$i+5)
   { $fh = fopen($_SESSION['MY_INFO_FILE'], 'r');
     if ($fh)
     { while ($a=fgets($fh))
-      { if (strstr($a, "\r")) $a=substr($a, 0, strlen($a)-1); 
-        if (strstr($a, "\n")) $a=substr($a, 0, strlen($a)-1); 
-        if ($trnum == $a) { $res=1; $i=$_SESSION['MY_TIMEOUT'] + 1; }; 
-      }; fclose($fh); 
+      { if (strstr($a, "\r")) $a=substr($a, 0, strlen($a)-1);
+        if (strstr($a, "\n")) $a=substr($a, 0, strlen($a)-1);
+        if ($trnum == $a) { $res=1; $i=$_SESSION['MY_TIMEOUT'] + 1; };
+      }; fclose($fh);
     };
-    if ($i<($_SESSION['MY_TIMEOUT']+1)) sleep(5); 
-  }; return $res; 
+    if ($i<($_SESSION['MY_TIMEOUT']+1)) sleep(5);
+  }; return $res;
 };
 
 
-if ($_GET['iwsmileback']==1) //Sono il processo che gestisce la richiesta di callback. 
-{ //mi preparo le info da reinviare al server. 
-outlog("doing back check\n"); 
-  $ch = curl_init(); 
+if ($_GET['iwsmileback']==1) //Sono il processo che gestisce la richiesta di callback.
+{ //mi preparo le info da reinviare al server.
+outlog("doing back check\n");
+  $ch = curl_init();
 
   $post="thx_id=".$_REQUEST['thx_id']."&amount=".$_REQUEST['amount']."&verify_sign=".$_REQUEST['verify_sign'].
-  "&payer_id=".$_REQUEST['payer_id']."&merchant_key=".$_SESSION['IWSMILE_KEY']; 
+  "&payer_id=".$_REQUEST['payer_id']."&merchant_key=".$_SESSION['IWSMILE_KEY'];
 
-outlog("post is ".$post."\n"); 
+outlog("post is ".$post."\n");
 
-  curl_setopt($ch, CURLOPT_URL, "https://checkout.iwsmile.it/Pagamenti/trx.check"); 
-  curl_setopt($ch, CURLOPT_SSL, VERIFYPEER, FALSE); 
+  curl_setopt($ch, CURLOPT_URL, "https://checkout.iwsmile.it/Pagamenti/trx.check");
+  curl_setopt($ch, CURLOPT_SSL, VERIFYPEER, FALSE);
   curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
   curl_setopt($ch, CURLOPT_POST, TRUE);
 
-  $content=curl_exec($ch); 
- 
-outlog("CURL result is ".$content."\n"); 
+  $content=curl_exec($ch);
+
+outlog("CURL result is ".$content."\n");
 
   if (strstr($content, "OK")>=0)
     { //Ordine verificato. Salvo le informazioni su un file, possibilmente temporaneo.
-outlog("file saved\n");     
+outlog("file saved\n");
       $fw = fopen($_SESSION['MY_INFO_FILE'], 'a');
-      fwrite($fw, $_REQUEST['thx_id']."\n"); 
-      fclose($fw);     
-    }; 
+      fwrite($fw, $_REQUEST['thx_id']."\n");
+      fclose($fw);
+    };
 };
 function outlog($a)
 {  $fl=fopen("/tmp/transazione.log", "a");
-   fwrite($fl, $a); 
-   fclose($fl); 
+   fwrite($fl, $a);
+   fclose($fl);
 };
 
 
@@ -201,7 +201,7 @@ function inner_text($x) //Prende il testo fino al prossimo tag. Supporta escapes
       { $i=strlen($x); } else { $r=substr($r, 0, strlen($r)-1)."<"; };
     } else $r.=substr($x, $i,1);
   };
-  echo "INNER TEXT [$r]\n"; 
+  echo "INNER TEXT [$r]\n";
   return $r;
 };
 function get_xml($x, $p) //Vedo cosa posso fare per semplificarmi il lavoro.
@@ -213,55 +213,55 @@ function get_xml($x, $p) //Vedo cosa posso fare per semplificarmi il lavoro.
   };
   $r=inner_text($a); return $r;
 };
-function get_info($function, $pars, $vals) //$pars e' un array, $vals i valori, separati. 
+function get_info($function, $pars, $vals) //$pars e' un array, $vals i valori, separati.
 { global $server,$script;
   if ($pars[0]=="RPC_login")
-  { $challenge=file_get_contents("http://".$server.$script."?challenge=1"); 
-    if ($challenge =="") return ""; 
-    $chap=md5($challenge.$vals[1]); 
+  { $challenge=file_get_contents("http://".$server.$script."?challenge=1");
+    if ($challenge =="") return "";
+    $chap=md5($challenge.$vals[1]);
   };
-  //Qui genero l'xml da inviare al server 
+  //Qui genero l'xml da inviare al server
   $start=0; $xm="<REQUEST>\n  <FUNCTION>".$function."</FUNCTION>\n";
-  if ($chap) 
-  { $xm.="  <AUTH>\n    <CHAP>$chap</CHAP>\n    <USER>".$vals[0]."</USER>\n  </AUTH>\n"; 
-    $start=2; 
+  if ($chap)
+  { $xm.="  <AUTH>\n    <CHAP>$chap</CHAP>\n    <USER>".$vals[0]."</USER>\n  </AUTH>\n";
+    $start=2;
   };
-  $xm.="  <FIELDS>\n"; 
-  for ($i=$start; $pars[$i]!=""; $i++) $xm.="    <".$pars[$i].">".$vals[$i]."</".$pars[$i].">\n"; 
-  $xm.="  </FIELDS>\n"; 
-  $xm.="</REQUEST>\n"; 
+  $xm.="  <FIELDS>\n";
+  for ($i=$start; $pars[$i]!=""; $i++) $xm.="    <".$pars[$i].">".$vals[$i]."</".$pars[$i].">\n";
+  $xm.="  </FIELDS>\n";
+  $xm.="</REQUEST>\n";
   $req= "POST $script HTTP/1.0\r\nHost: ".$server."\r\nContent-Type: text/xml; charset=utf-8\r\nContent-Length: ".strlen($xm)."\r\n\r\n".$xm;
 
-global $use_debug; 
-if ($use_debug >0) echo "Request:<br><textarea rows=18 cols=80>$req</textarea><br>"; 
+global $use_debug;
+if ($use_debug >0) echo "Request:<br><textarea rows=18 cols=80>$req</textarea><br>";
   $fs=fsockopen($server,80);
-  if ($fs) 
+  if ($fs)
   { fputs($fs,$req);
-    while ($l=fgets($fs)) $reply.=$l; 
+    while ($l=fgets($fs)) $reply.=$l;
   };
-if ($use_debug >0) echo "Reply:<br><textarea rows=18 cols=80>$reply</textarea><br>";   
+if ($use_debug >0) echo "Reply:<br><textarea rows=18 cols=80>$reply</textarea><br>";
 
-  //.. Qui devo togliere l'header e restituire l'xml. 
-  //magari gia' sotto forma di array di array. Fico. 
-  $rp=explode("\n", $reply); 
-  $a=Array(); 
-  $res=Array(); $i=-1; 
-  $perf=""; 
-  foreach ($rp as $line) 
-  { if (strstr($line, "<PERFORMED")!="") $perf="OK"; 
-    if (substr($line, 0, 12) == "  <DATA_ROW>") 
+  //.. Qui devo togliere l'header e restituire l'xml.
+  //magari gia' sotto forma di array di array. Fico.
+  $rp=explode("\n", $reply);
+  $a=Array();
+  $res=Array(); $i=-1;
+  $perf="";
+  foreach ($rp as $line)
+  { if (strstr($line, "<PERFORMED")!="") $perf="OK";
+    if (substr($line, 0, 12) == "  <DATA_ROW>")
     { $a=Array(); $i++;
     };
-    if (substr($line, 0, 13) == "  </DATA_ROW>") $res[$i]=$a;  
+    if (substr($line, 0, 13) == "  </DATA_ROW>") $res[$i]=$a;
     if(substr($line,0,5) == "    <")
     { $name = substr($line, 5, strpos($line, ">")-5);
       $val=substr($line, strlen($name)+6);
-      $val=substr($val, 0, strlen($val)-(strlen($name)+3)); 
-      $a[$name]=$val; 
+      $val=substr($val, 0, strlen($val)-(strlen($name)+3));
+      $a[$name]=$val;
     };
   };
-  if ($perf!="") return "Ok"; 
-  if ($i<0) { return ""; } else return $res; 
+  if ($perf!="") return "Ok";
+  if ($i<0) { return ""; } else return $res;
 };
 
 
@@ -485,7 +485,7 @@ function RPC_add_book($RPC_login,$RPC_pass,$idls,$tipo,$dal,$al,$scade,$idutente
 };
 
 function RPC_update_book($RPC_login, $RPC_pass, $id, $saldo_pagato, $modopagamentosaldo)
-{ $l=get_info("update_book", Array("RPC_login","RPC_pass","id","saldo_pagato","modopagamentosaldo"), Array($RPC_login, $RPC_pass, $id, $saldo_pagato, $modopagamentosaldo)); 
+{ $l=get_info("update_book", Array("RPC_login","RPC_pass","id","saldo_pagato","modopagamentosaldo"), Array($RPC_login, $RPC_pass, $id, $saldo_pagato, $modopagamentosaldo));
   return ($l != "");
 };
 
@@ -660,8 +660,8 @@ function RPC_get_service_details($RPC_login,$RPC_pass,$lang,$id)
 };
 
 function RPC_get_service_option_prices($idls)
-{ $l=get_info("get_service_option_prices", Array("idls"), Array($idls)); 
-  return $l; 
+{ $l=get_info("get_service_option_prices", Array("idls"), Array($idls));
+  return $l;
 };
 function RPC_add_booking_service($RPC_login,$RPC_pass,$idls,$user,$data,$quantity,$opt1,$opt2,$cost)
 { $l=get_info("add_booking_service", Array("RPC_login","RPC_pass","idls","user","data","quantity","opt1","opt2","cost"), Array($RPC_login,$RPC_pass,$idls,$user,$data,$quantity,$opt1,$opt2,$cost));
@@ -672,8 +672,8 @@ function RPC_del_booking_service($RPC_login,$RPC_pass,$id)
 { $l=get_info("del_booking_service", Array("RPC_login","RPC_pass","id"), Array($RPC_login,$RPC_pass,$id));
   return ($l != "");
 };
-function RPC_get_booking_service($RPC_login, $RPC_pass, $user, $data) 
-{ $l=get_info("get_booking_service", Array("RPC_login","RPC_pass","user","data"), Array($RPC_login,$RPC_pass,$user,$data)); 
+function RPC_get_booking_service($RPC_login, $RPC_pass, $user, $data)
+{ $l=get_info("get_booking_service", Array("RPC_login","RPC_pass","user","data"), Array($RPC_login,$RPC_pass,$user,$data));
   return $l;
 };
 
@@ -724,8 +724,8 @@ RPC_set_server("oorl.iwlab.com","/holiday/bin/mh/APIserver.php", 0); //(*1)
 #		echo "<pre>";
 #		var_dump($v);
 #		echo "House: ".$v['nome']."<br>".$v['testo']."<br><br>";
-		
-		echo htmlentities(($v['comune'] ? $v['comune'] : "onbekende plaats")." - ".$v['nome']." - ".$v['posti'])." pers - XML-typecode: ".$v['id']."<br>";
+
+		echo wt_he(($v['comune'] ? $v['comune'] : "onbekende plaats")." - ".$v['nome']." - ".$v['posti'])." pers - XML-typecode: ".$v['id']."<br>";
 		if($id_gehad[intval($v['id'])]) {
 			echo "FOUT!!!<br>";
 		}
@@ -737,7 +737,7 @@ RPC_set_server("oorl.iwlab.com","/holiday/bin/mh/APIserver.php", 0); //(*1)
 
 exit;
 
-include("../admin/allfunctions.php");
+include_once("../admin/allfunctions.php");
 #$a=RPC_get_season_between("2011-03-27","2011-04-01","76");
 #echo wt_dump($a);
 
@@ -756,10 +756,10 @@ function calcolacostiset($idls, $date, $persone) {
 
     //Pesco dal listino tutti i costi applicabili
     $a=RPC_get_costi_sta_set($idls, $date, $dateb, $ids);
-    
+
 #    echo wt_dump($a);
     echo $idls." - ".$date." - ".$dateb." ".$ids."<br>";
-    
+
     //$l="select costo, guadagno, guadagnoriv, costogio, guadagnogio, guadagnorivgio,
     //  obbligatorio, apersona from listini where idls='$idls'
     //  and (da_data='' or da_data<='$date') and ( a_data='' or  a_data>='$dateb')
@@ -783,10 +783,10 @@ function calcolacostiset($idls, $date, $persone) {
     };
     $ra[]=$rs[2]; $ra[]=$rs[3]; $ra[]=$rs[4]; $ra[]=$rs[5]; return $ra;
   };
- 
- 
- 
- 
+
+
+
+
 
 
 $a=calcolacostiset("100","2011-06-25",0);
@@ -814,8 +814,8 @@ RPC_set_server("oorl.iwlab.com","/holiday/bin/mh/APIserver.php", 0); //(*1)
      //$pdf=RPC_get_sorted_pdf($APIUSER, $APIPASS, $v['idimmagini']); ...
      echo "<hr>";
    }
- } else echo "No houses"; 
- 
- 
+ } else echo "No houses";
+
+
 
 ?>

@@ -23,7 +23,7 @@ if($_GET["11k0"]) {
 	while($db->next_record()) {
 		$sz_controle[$db->f("seizoen_id")]=$db->f("naam");
 	}
-	
+
 	while(list($key,$value)=@each($sz_controle)) {
 		$db->query("SELECT DISTINCT oo.optie_groep_id, oo.optie_onderdeel_id FROM optie_onderdeel oo, optie_tarief ot WHERE ot.optie_onderdeel_id=oo.optie_onderdeel_id AND ot.seizoen_id='".$key."';");
 		while($db->next_record()) {
@@ -86,7 +86,7 @@ $cms->list_field(11,"optiecategorie","Categorie");
 
 
 if($koptekst) {
-	$cms->edit_field(11,0,"htmlrow","<b>".htmlentities($koptekst)."</b>");
+	$cms->edit_field(11,0,"htmlrow","<b>".wt_he($koptekst)."</b>");
 }
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 $cms->edit_field(11,1,"internenaam","Interne naam");
@@ -131,7 +131,7 @@ if($cms_form[11]->filled) {
 	if($cms_form[11]->input["reisverzekering"]) {
 		$db->query("SELECT naam FROM optie_soort WHERE reisverzekering=1 AND optie_soort_id<>'".addslashes($_GET["11k0"])."';");
 		if($db->next_record()) {
-			$cms_form[11]->error("reisverzekering","er is al een reisverzekering-optie-soort aanwezig (&quot;".htmlentities($db->f("naam"))."&quot; genaamd)");
+			$cms_form[11]->error("reisverzekering","er is al een reisverzekering-optie-soort aanwezig (&quot;".wt_he($db->f("naam"))."&quot; genaamd)");
 		}
 	}
 	if($cms_form[11]->input["voucher"] and ($cms_form[11]->input["algemeneoptie"] or $algemeneoptie)) {
@@ -142,7 +142,7 @@ if($cms_form[11]->filled) {
 		if($db->num_rows()) {
 			$melding="verbegen in het CMS niet mogelijk: er zijn nog actuele boekingen aan dit optie-onderdeel gekoppeld:<ul>";
 			while($db->next_record()) {
-				$melding.="<li><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities($db->f("boekingsnummer"))."</a> (".$db->f("naam").")</li>";
+				$melding.="<li><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a> (".$db->f("naam").")</li>";
 			}
 			$melding.="</ul>";
 			$cms_form[11]->error("verbergen_in_cms",$melding);

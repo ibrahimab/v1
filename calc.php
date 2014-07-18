@@ -406,13 +406,13 @@ if($_GET["stap"]==1) {
 
 	unset($overzicht);
 	$overzicht.="<table cellspacing=\"0\" cellpadding=\"4\" style=\"width: 700px;background-color: #FFFFFF;border: 1px solid ".$table.";\">";
-	$overzicht.="<tr><td>".html("accommodatie","boeken")."</td><td><a href=\"".$accinfo["url"]."\" target=\"_blank\">".htmlentities(ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</a></td></tr>";
-	$overzicht.="<tr><td>".html("plaats","boeken")."</td><td>".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
-	$overzicht.="<tr><td>".html("aantalpersonen","boeken")."</td><td>".htmlentities($gegevens["stap1"]["aantalpersonen"])."</td></tr>";
+	$overzicht.="<tr><td>".html("accommodatie","boeken")."</td><td><a href=\"".$accinfo["url"]."\" target=\"_blank\">".wt_he(ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</a></td></tr>";
+	$overzicht.="<tr><td>".html("plaats","boeken")."</td><td>".wt_he($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
+	$overzicht.="<tr><td>".html("aantalpersonen","boeken")."</td><td>".wt_he($gegevens["stap1"]["aantalpersonen"])."</td></tr>";
 	if($gegevens["stap1"]["flexibel"] or $gegevens["stap1"]["verblijfsduur"]>1) {
-		$overzicht.="<tr><td>".html("verblijfsperiode","boeken")."</td><td>".htmlentities(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]))."</td></tr>";
+		$overzicht.="<tr><td>".html("verblijfsperiode","boeken")."</td><td>".wt_he(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]))."</td></tr>";
 	} else {
-		$overzicht.="<tr><td>".html("verblijfsperiode","boeken")."</td><td>".htmlentities($accinfo["aankomstdatum"][$gegevens["stap1"]["aankomstdatum"]]." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum"],$vars["taal"]))."</td></tr>";
+		$overzicht.="<tr><td>".html("verblijfsperiode","boeken")."</td><td>".wt_he($accinfo["aankomstdatum"][$gegevens["stap1"]["aankomstdatum"]]." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum"],$vars["taal"]))."</td></tr>";
 	}
 	$overzicht.="<tr><td colspan=\"2\"><hr style=\"color: ".$hr.";background-color:".$hr.";height: 1px;border: 0px;\"><b>".txt("samenstellingreissom","boeken")."</b><p><table cellspacing=\"0\" width=\"100%\">";
 	$overzicht.="_WT_REISSOM_TABEL_";
@@ -429,11 +429,11 @@ if($_GET["stap"]==1) {
 	$overzicht.="</table>";
 	$overzicht.="<p>";
 	if($gegevens["stap1"]["flexibel"]) {
-		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".htmlentities($_GET["tid"])."&flad=".$gegevens["stap1"]["aankomstdatum_exact"]."&fldu=".$gegevens["stap1"]["verblijfsduur"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
+		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".wt_he($_GET["tid"])."&flad=".$gegevens["stap1"]["aankomstdatum_exact"]."&fldu=".$gegevens["stap1"]["verblijfsduur"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
 	} elseif($gegevens["stap1"]["verblijfsduur"]>1) {
-		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".htmlentities($_GET["tid"])."&d=".$gegevens["stap1"]["aankomstdatum"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."&fldu=".$gegevens["stap1"]["verblijfsduur"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
+		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".wt_he($_GET["tid"])."&d=".$gegevens["stap1"]["aankomstdatum"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."&fldu=".$gegevens["stap1"]["verblijfsduur"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
 	} else {
-		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".htmlentities($_GET["tid"])."&d=".$gegevens["stap1"]["aankomstdatum"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
+		$overzicht.="<a href=\"".$vars["basehref"].txt("menu_boeken").".php?tid=".wt_he($_GET["tid"])."&d=".$gegevens["stap1"]["aankomstdatum"]."&ap=".$gegevens["stap1"]["aantalpersonen"]."\">".html("boekdeze","calc")."&nbsp;&gt;</a><p>";
 	}
 
 	if(($_POST["mail"] and $_POST["filled"] and wt_validmail($_POST["mail"])) or ($vars["wederverkoop"] and $login_rb->logged_in)) {
@@ -454,20 +454,20 @@ if($_GET["stap"]==1) {
 			if($vars["wederverkoop"] and $login_rb->logged_in) {
 				$db->query("SELECT r.naam FROM reisbureau r, reisbureau_user ru WHERE ru.reisbureau_id=r.reisbureau_id AND ru.user_id='".addslashes($login_rb->user_id)."';");
 				if($db->next_record()) {
-					$rbnaam="<b>".htmlentities(wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"]))."</b> van <b>".htmlentities($db->f("naam"))."</b>";
+					$rbnaam="<b>".wt_he(wt_naam($login_rb->vars["voornaam"],$login_rb->vars["tussenvoegsel"],$login_rb->vars["achternaam"]))."</b> van <b>".wt_he($db->f("naam"))."</b>";
 				} else {
-					$rbnaam=htmlentities($_POST["mail"]);
+					$rbnaam=wt_he($_POST["mail"]);
 				}
 				$mail->html=$rbnaam." heeft via de site de volgende prijsberekening uitgevoerd:<p>";
 				if($_SESSION["calc"][$_GET["tid"]]["referentie"] or $_SESSION["calc"][$_GET["tid"]]["opmerkingen"]) {
 					$mail->html.="<table cellspacing=\"0\" cellpadding=\"4\" style=\"width: 700px;background-color: #FFFFFF;border: 1px solid ".$table.";\">";
-					if($_SESSION["calc"][$_GET["tid"]]["referentie"]) $mail->html.="<tr><td valign=\"top\" style=\"width:165px;\">Referentie</td><td valign=\"top\">".htmlentities($_SESSION["calc"][$_GET["tid"]]["referentie"])."</td></tr>";
-					if($_SESSION["calc"][$_GET["tid"]]["opmerkingen"]) $mail->html.="<tr><td valign=\"top\" style=\"width:165px;\" nowrap>Vragen of opmerkingen</td><td valign=\"top\">".nl2br(htmlentities($_SESSION["calc"][$_GET["tid"]]["opmerkingen"]))."</td></tr>";
+					if($_SESSION["calc"][$_GET["tid"]]["referentie"]) $mail->html.="<tr><td valign=\"top\" style=\"width:165px;\">Referentie</td><td valign=\"top\">".wt_he($_SESSION["calc"][$_GET["tid"]]["referentie"])."</td></tr>";
+					if($_SESSION["calc"][$_GET["tid"]]["opmerkingen"]) $mail->html.="<tr><td valign=\"top\" style=\"width:165px;\" nowrap>Vragen of opmerkingen</td><td valign=\"top\">".nl2br(wt_he($_SESSION["calc"][$_GET["tid"]]["opmerkingen"]))."</td></tr>";
 					$mail->html.="</table><p>";
 				}
 				$mail->html.=ereg_replace("_WT_REISSOM_TABEL_",$reissomtabel_zonder_javascript,$overzicht);
 			} else {
-				$mail->html="<a href=\"mailto:".htmlentities($_POST["mail"])."\">".htmlentities($_POST["mail"])."</a> heeft via de site het volgende totaalbedrag laten berekenen:<p>".ereg_replace("_WT_REISSOM_TABEL_",$reissomtabel_zonder_javascript,$overzicht);
+				$mail->html="<a href=\"mailto:".wt_he($_POST["mail"])."\">".wt_he($_POST["mail"])."</a> heeft via de site het volgende totaalbedrag laten berekenen:<p>".ereg_replace("_WT_REISSOM_TABEL_",$reissomtabel_zonder_javascript,$overzicht);
 			}
 			$mail->send();
 

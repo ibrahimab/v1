@@ -16,7 +16,7 @@ if($vars["websitetype"]<>2) {
 include_once "admin/vars.php";
 $print=true;
 
-?><HTML><HEAD><TITLE><?php echo htmlentities($vars["websitenaam"]); ?></TITLE>
+?><HTML><HEAD><TITLE><?php echo wt_he($vars["websitenaam"]); ?></TITLE>
 <meta name="robots" content="noindex,nofollow" />
 <script type="text/javascript" language="JavaScript1.2" src="functions.js"></script>
 <script type="text/javascript" language="JavaScript">
@@ -112,5 +112,5 @@ LI {
 
 @include "content/".$_GET["id"].".html";
 
-?></TD></TR><TR><TD align="center"><B><?php echo htmlentities($vars["websitenaam"]); ?> - Wipmolenlaan 3 - 3447 GJ Woerden - <?php if($vars["websiteland"]<>"nl") echo html("nederland","contact")." - "; echo txt("telefoonnummer"); ?></B></TD></TR></TABLE></BODY>
+?></TD></TR><TR><TD align="center"><B><?php echo wt_he($vars["websitenaam"]); ?> - Wipmolenlaan 3 - 3447 GJ Woerden - <?php if($vars["websiteland"]<>"nl") echo html("nederland","contact")." - "; echo txt("telefoonnummer"); ?></B></TD></TR></TABLE></BODY>
 </HTML>

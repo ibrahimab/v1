@@ -1,5 +1,8 @@
 <?php
 
+$vars["wt_htmlentities_cp1252"] = true;
+include_once("admin/allfunctions.php");
+
 $geen_tracker_cookie=true;
 
 if(ereg("/pic/chalets/",$_SERVER["REQUEST_URI"])) {
@@ -94,7 +97,7 @@ if(ereg("/pic/chalets/",$_SERVER["REQUEST_URI"])) {
 		include("admin/vars.php");
 		$_SERVER["REDIRECT_STATUS"]="404";
 		wt_404();
-		header("Location: ".$path.txt("menu_zoek-en-boek").".php?filled=1&fzt=".htmlentities(urlencode($regs404[1])),true,302); # geen 301-redirect!!
+		header("Location: ".$path.txt("menu_zoek-en-boek").".php?filled=1&fzt=".wt_he(urlencode($regs404[1])),true,302); # geen 301-redirect!!
 		exit;
 	}
 

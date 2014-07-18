@@ -428,11 +428,11 @@ $cms->edit_field(1,0,"gps_long","GPS longitude","","",array("info"=>"Vul de leng
 $cms->edit_field(1,1,"soortaccommodatie","Soort accommodatie");
 if($accommodatie_heeft_boekingen) {
 	if($login->userlevel>=10) {
-		$cms->edit_field(1,0,"htmlrow","<hr><b>LET OP:</b> <i>Alleen WebTastic - Er zijn <a href=\"cms_boekingen.php?boekingsearch=_".htmlentities($_GET["1k0"])."\" target=\"_blank\">boekingen aan deze accommodatie gekoppeld</a>. - wijzigen alleen mogelijk door WebTastic. Boekingen worden gewist.</i>");
+		$cms->edit_field(1,0,"htmlrow","<hr><b>LET OP:</b> <i>Alleen WebTastic - Er zijn <a href=\"cms_boekingen.php?boekingsearch=_".wt_he($_GET["1k0"])."\" target=\"_blank\">boekingen aan deze accommodatie gekoppeld</a>. - wijzigen alleen mogelijk door WebTastic. Boekingen worden gewist.</i>");
 		$cms->edit_field(1,1,"toonper","Noteer tarieven per","",array("noedit"=>false));
 		$cms->edit_field(1,0,"htmlrow","<hr>");
 	} else {
-		$cms->edit_field(1,0,"htmlrow","<hr><i>Er zijn <a href=\"cms_boekingen.php?boekingsearch=_".htmlentities($_GET["1k0"])."\" target=\"_blank\">boekingen aan deze accommodatie gekoppeld</a>. Wijzigen van onderstaand veld is alleen mogelijk door WebTastic. Boekingen moeten in dat geval worden gewist.</i>");
+		$cms->edit_field(1,0,"htmlrow","<hr><i>Er zijn <a href=\"cms_boekingen.php?boekingsearch=_".wt_he($_GET["1k0"])."\" target=\"_blank\">boekingen aan deze accommodatie gekoppeld</a>. Wijzigen van onderstaand veld is alleen mogelijk door WebTastic. Boekingen moeten in dat geval worden gewist.</i>");
 		$cms->edit_field(1,1,"toonper","Noteer tarieven per","",array("noedit"=>true));
 		$cms->edit_field(1,0,"htmlrow","<hr>");
 	}

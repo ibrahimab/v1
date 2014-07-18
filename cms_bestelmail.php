@@ -234,41 +234,41 @@ if($form->okay) {
 
 	unset($html);
 	$html.="<html><body style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 0.8em;\">";
-	$html.="<p>".nl2br(htmlentities($vars["temp_leverancier"]["adresregels"]))."<p>";
-	$html.=htmlentities($vars["bestelmailfax_beste"][$bmftaal])." ".htmlentities($form->input["contactpersoon"]).",<p>";
-	$html.=htmlentities($vars["bestelmailfax_hierbijwillenwe"][$bmftaal]);
+	$html.="<p>".nl2br(wt_he($vars["temp_leverancier"]["adresregels"]))."<p>";
+	$html.=wt_he($vars["bestelmailfax_beste"][$bmftaal])." ".wt_he($form->input["contactpersoon"]).",<p>";
+	$html.=wt_he($vars["bestelmailfax_hierbijwillenwe"][$bmftaal]);
 	if($_GET["reserveringsnummer"]) {
 		$html.=": ".wt_he($vars["bestelmailfax_soort"][$bmftaal][4]." ".$_GET["reserveringsnummer"]);
 	} else {
 		$html.=".";
 	}
 	$html.="<p>";
-	$html.=htmlentities($vars["bestelmailfax_dezeacchebbenwij"][$bmftaal])." ".htmlentities($vars["bestelmailfax_soort"][$bmftaal][$form->input["soort"]]);
-	if($form->input["geldig"]) $html.=" ".htmlentities($vars["bestelmailfax_tot"][$bmftaal])." ".htmlentities($form->input["geldig"]);
+	$html.=wt_he($vars["bestelmailfax_dezeacchebbenwij"][$bmftaal])." ".wt_he($vars["bestelmailfax_soort"][$bmftaal][$form->input["soort"]]);
+	if($form->input["geldig"]) $html.=" ".wt_he($vars["bestelmailfax_tot"][$bmftaal])." ".wt_he($form->input["geldig"]);
 	$html.=":<p>";
 	$html.="<table cellspacing=\"0\" cellpadding=\"0\" style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-size: 1.0em;\">";
-	$html.="<tr><td>".htmlentities($vars["bestelmailfax_klantnaam"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["clientsname"])."</td></tr>";
+	$html.="<tr><td>".wt_he($vars["bestelmailfax_klantnaam"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["clientsname"])."</td></tr>";
 	$html.="<tr><td colspan=\"3\">&nbsp;</td></tr>";
-	$html.="<tr><td>".htmlentities($vars["bestelmailfax_aankomst"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["dateofarrival"])."</td></tr>";
-	$html.="<tr><td>".htmlentities($vars["bestelmailfax_verblijfsduur"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["stayingtime"])."</td></tr>";
+	$html.="<tr><td>".wt_he($vars["bestelmailfax_aankomst"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["dateofarrival"])."</td></tr>";
+	$html.="<tr><td>".wt_he($vars["bestelmailfax_verblijfsduur"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["stayingtime"])."</td></tr>";
 	$html.="<tr><td colspan=\"3\">&nbsp;</td></tr>";
-	$html.="<tr><td>".htmlentities($vars["bestelmailfax_plaats"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["resort"])."</td></tr>";
-	$html.="<tr><td>".htmlentities($vars["bestelmailfax_accommodatie"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["accommodation"])."</td></tr>";
-	$html.="<tr><td>".htmlentities($vars["bestelmailfax_type"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["type"])."</td></tr>";
-	$html.="<tr><td>".htmlentities($vars["bestelmailfax_maxcapaciteit"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["maxcapacity"])."</td></tr>";
+	$html.="<tr><td>".wt_he($vars["bestelmailfax_plaats"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["resort"])."</td></tr>";
+	$html.="<tr><td>".wt_he($vars["bestelmailfax_accommodatie"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["accommodation"])."</td></tr>";
+	$html.="<tr><td>".wt_he($vars["bestelmailfax_type"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["type"])."</td></tr>";
+	$html.="<tr><td>".wt_he($vars["bestelmailfax_maxcapaciteit"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["maxcapacity"])."</td></tr>";
 	$html.="<tr><td colspan=\"3\">&nbsp;</td></tr>";
-	$html.="<tr><td>".htmlentities($vars["bestelmailfax_prijs"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["price"])."</td></tr>";
-	$html.="<tr><td>".htmlentities($vars["bestelmailfax_korting"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["commission"])."</td></tr>";
-	if($form->input["vroegboekkorting"]) $html.="<tr><td>".htmlentities($vars["bestelmailfax_vroegboekkorting"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".htmlentities($form->input["vroegboekkorting"])."</td></tr>";
+	$html.="<tr><td>".wt_he($vars["bestelmailfax_prijs"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["price"])."</td></tr>";
+	$html.="<tr><td>".wt_he($vars["bestelmailfax_korting"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["commission"])."</td></tr>";
+	if($form->input["vroegboekkorting"]) $html.="<tr><td>".wt_he($vars["bestelmailfax_vroegboekkorting"][$bmftaal])."</td><td>&nbsp;&nbsp;&nbsp;:&nbsp;</td><td>".wt_he($form->input["vroegboekkorting"])."</td></tr>";
 
 	if($form->input["extra"]) {
 		$html.="<tr><td colspan=\"3\">&nbsp;</td></tr>";
-		$html.="<tr><td valign=\"top\">".htmlentities($vars["bestelmailfax_extra"][$bmftaal])."</td><td valign=\"top\">&nbsp;&nbsp;&nbsp;:&nbsp;</td><td valign=\"top\">".nl2br(htmlentities($form->input["extra"]))."</td></tr>";
+		$html.="<tr><td valign=\"top\">".wt_he($vars["bestelmailfax_extra"][$bmftaal])."</td><td valign=\"top\">&nbsp;&nbsp;&nbsp;:&nbsp;</td><td valign=\"top\">".nl2br(wt_he($form->input["extra"]))."</td></tr>";
 	}
 	$html.="</table><p>";
-	$html.=htmlentities($vars["bestelmailfax_graagpermailoffaxbevestigen"][$bmftaal])."<p>";
-	$html.=htmlentities($vars["bestelmailfax_metvriendelijkegroet"][$bmftaal]).",<br><br>";
-	$html.=htmlentities($form->input["ondertekennaam"])."<p>";
+	$html.=wt_he($vars["bestelmailfax_graagpermailoffaxbevestigen"][$bmftaal])."<p>";
+	$html.=wt_he($vars["bestelmailfax_metvriendelijkegroet"][$bmftaal]).",<br><br>";
+	$html.=wt_he($form->input["ondertekennaam"])."<p>";
 	if($gegevens["stap1"]["accinfo"]["wzt"]==2) {
 		$temp_websitenaam="Chalet.nl / Zomerhuisje.nl";
 	} else {

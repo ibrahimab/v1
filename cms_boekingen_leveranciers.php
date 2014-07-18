@@ -102,7 +102,7 @@ $form->settings["submitbutton"]["no_action"]="true";
 
 #_field: (obl),id,title,db,prevalue,options,layout
 
-$form->field_htmlrow("","<b>Bestelgegevens leverancier <i>".htmlentities($temp["leverancier_naam"]).($temp["garantie"] ? $temp["garantie"] : "")."</i></b>");
+$form->field_htmlrow("","<b>Bestelgegevens leverancier <i>".wt_he($temp["leverancier_naam"]).($temp["garantie"] ? $temp["garantie"] : "")."</i></b>");
 $form->field_select(1,"bestelstatus","Bestelstatus",array("field"=>"bestelstatus"),"",array("selection"=>$vars["bestelstatus"]),array("input_class"=>"wtform_input bestelstatus_besteldatum","td_cell_right_class"=>"wtform_cell_right bestelstatus_td"));
 $form->field_yesno("bestelstatus_schriftelijk_later","Schriftelijke bevestiging volgt binnen enkele dagen",array("field"=>"bestelstatus_schriftelijk_later"),"","",array("info"=>"Aankruisen wanneer telefonisch of per mail akkoord is gegaan, maar leverancier doorgaans direct een schriftelijke bevestiging stuurt."));
 $form->field_date(0,"besteldatum","Besteldatum",array("field"=>"besteldatum"),"",array("startyear"=>date("Y")-1,"endyear"=>date("Y")),array("calendar"=>true,"td_cell_right_class"=>"wtform_cell_right besteldatum_td"));
@@ -112,13 +112,13 @@ if($temp["leverancier_aanbetaling_dagen"]<>"" or $temp["leverancier_eindbetaling
 }
 
 if($gegevens["stap1"]["leverancierscode_oud"]) {
-	$form->field_htmlcol("","Reserveringsnummer<br><span style=\"font-size:0.8em;\">(volgens oude methode)</span>",array("html"=>htmlentities($gegevens["stap1"]["leverancierscode_oud"])),"",array("tr_style"=>"color:grey;","title_html"=>true));
+	$form->field_htmlcol("","Reserveringsnummer<br><span style=\"font-size:0.8em;\">(volgens oude methode)</span>",array("html"=>wt_he($gegevens["stap1"]["leverancierscode_oud"])),"",array("tr_style"=>"color:grey;","title_html"=>true));
 }
 
 if($temp["leverancier_bevestigmethode"]) {
-	$form->field_htmlcol("","Bevestigmethode",array("html"=>$temp["leverancier_naam"]." ".htmlentities($vars["bevestigmethode"][$temp["leverancier_bevestigmethode"]])),"",array("tr_style"=>"color:grey;font-style:italic;","title_html"=>true));
+	$form->field_htmlcol("","Bevestigmethode",array("html"=>$temp["leverancier_naam"]." ".wt_he($vars["bevestigmethode"][$temp["leverancier_bevestigmethode"]])),"",array("tr_style"=>"color:grey;font-style:italic;","title_html"=>true));
 } else {
-	$form->field_htmlcol("","Bevestigmethode",array("html"=>"<span style=\"background-color:yellow;\">Er is bij <a href=\"".$vars["path"]."cms_leveranciers.php?edit=8&beheerder=0&8k0=".$temp["leverancier_id"]."\" target=\"_blank\">".htmlentities($temp["leverancier_naam"])."</a> nog geen bevestigmethode aangegeven.</span>"),"",array("tr_style"=>"color:grey;","title_html"=>true));
+	$form->field_htmlcol("","Bevestigmethode",array("html"=>"<span style=\"background-color:yellow;\">Er is bij <a href=\"".$vars["path"]."cms_leveranciers.php?edit=8&beheerder=0&8k0=".$temp["leverancier_id"]."\" target=\"_blank\">".wt_he($temp["leverancier_naam"])."</a> nog geen bevestigmethode aangegeven.</span>"),"",array("tr_style"=>"color:grey;","title_html"=>true));
 }
 
 if($temp["leverancier_bevestigmethode"]==1) {
@@ -141,7 +141,7 @@ if($temp["leverancier_bevestigmethode"]==1) {
 # aparte factuurgegevens
 $form->field_text(0,"factuurnummer_leverancier","Factuurnummer leverancier",array("field"=>"factuurnummer_leverancier"),"","",array("input_class"=>"wtform_input leverancierscode_keydown"));
 if($temp["leverancier_opmerkingen_facturen"]) {
-	$form->field_htmlcol(""," ",array("html"=>"<div style=\"font-size:0.8em;\">".nl2br(htmlentities($temp["leverancier_opmerkingen_facturen"]))."</div>"));
+	$form->field_htmlcol(""," ",array("html"=>"<div style=\"font-size:0.8em;\">".nl2br(wt_he($temp["leverancier_opmerkingen_facturen"]))."</div>"));
 }
 
 
@@ -162,7 +162,7 @@ $form->field_htmlcol("","Inkoop -/- commissie €",array("html"=>wt_cur($gegevens[
 $form->field_currency(0,"inkoopkorting","Korting/Toeslag €",array("field"=>"inkoopkorting"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens","add_html_after_field"=>inkoopgegevens_actueel("inkoopkorting",$inkoop_actueel["inkoopkorting"],$gegevens["stap1"]["inkoopkorting"])));
 $form->field_float(0,"inkoopkorting_percentage","Inkoopkorting accommodatie %",array("field"=>"inkoopkorting_percentage"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens","add_html_after_field"=>inkoopgegevens_actueel("inkoopkorting_percentage",$inkoop_actueel["inkoopkorting_percentage"],$gegevens["stap1"]["inkoopkorting_percentage"])));
 $form->field_currency(0,"inkoopkorting_euro","Inkoopkorting accommodatie €",array("field"=>"inkoopkorting_euro"),"",array("negative"=>true),array("input_class"=>"wtform_input inkoopgegevens","add_html_after_field"=>inkoopgegevens_actueel("inkoopkorting_euro",$inkoop_actueel["inkoopkorting_euro"],$gegevens["stap1"]["inkoopkorting_euro"])));
-$form->field_htmlrow("","&nbsp;<input type=\"hidden\" name=\"input[inkoopnetto]\" value=\"".htmlentities(wt_cur($gegevens["stap1"]["inkoopnetto"],false))."\"><input type=\"hidden\" name=\"input[totaalfactuurbedrag]\" value=\"\">","",array("tr_style"=>"display:none;"));
+$form->field_htmlrow("","&nbsp;<input type=\"hidden\" name=\"input[inkoopnetto]\" value=\"".wt_he(wt_cur($gegevens["stap1"]["inkoopnetto"],false))."\"><input type=\"hidden\" name=\"input[totaalfactuurbedrag]\" value=\"\">","",array("tr_style"=>"display:none;"));
 
 $temp_totaalbedrag=$gegevens["stap1"]["inkoopnetto"];
 $temp_extraopties_totaal=0;
@@ -224,7 +224,7 @@ if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gege
 		$bedrag=$gegevens["stap4"]["algemene_optie"]["inkoop"][$key]*(1-$gegevens["stap4"]["algemene_optie"]["korting"][$key]/100);
 		$temp_totaalbedrag+=$bedrag;
 		$temp_extraopties_totaal+=$bedrag;
-		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">1 x ".htmlentities($gegevens["stap4"]["algemene_optie"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"0\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"));
+		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">1 x ".wt_he($gegevens["stap4"]["algemene_optie"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"0\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"));
 	}
 
 	# extra opties: algemeen: inactief
@@ -236,7 +236,7 @@ if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gege
 			$titel_bijkomend_getoond=true;
 		}
 		$bedrag=$gegevens["stap4"]["algemene_optie"]["inkoop"][$key]*(1-$gegevens["stap4"]["algemene_optie"]["korting"][$key]/100);
-		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">1 x ".htmlentities($gegevens["stap4"]["algemene_optie"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"1\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"),"",array("tr_class"=>"bijkomend_doorstrepen"));
+		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">1 x ".wt_he($gegevens["stap4"]["algemene_optie"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"1\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"),"",array("tr_class"=>"bijkomend_doorstrepen"));
 	}
 
 	# extra opties: per persoon: actief
@@ -250,7 +250,7 @@ if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gege
 		$bedrag=$gegevens["stap4"]["persoonsoptie_fin"]["inkoop"][$key]*(1-$gegevens["stap4"]["persoonsoptie_fin"]["korting"][$key]/100);
 		$temp_totaalbedrag+=$bedrag;
 		$temp_extraopties_totaal+=$bedrag;
-		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">".$gegevens["stap4"]["persoonsoptie_fin"]["aantal"][$key]." x ".htmlentities($gegevens["stap4"]["persoonsoptie_fin"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"0\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"));
+		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">".$gegevens["stap4"]["persoonsoptie_fin"]["aantal"][$key]." x ".wt_he($gegevens["stap4"]["persoonsoptie_fin"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"0\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"));
 	}
 
 	# extra opties: per persoon: inactief
@@ -262,13 +262,13 @@ if($gegevens["stap4"]["algemene_optie"]["hoort_bij_accommodatieinkoop"] or $gege
 			$titel_bijkomend_getoond=true;
 		}
 		$bedrag=$gegevens["stap4"]["persoonsoptie_fin"]["inkoop"][$key]*(1-$gegevens["stap4"]["persoonsoptie_fin"]["korting"][$key]/100);
-		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">".$gegevens["stap4"]["persoonsoptie_fin"]["aantal"][$key]." x ".htmlentities($gegevens["stap4"]["persoonsoptie_fin"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"1\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"),"",array("tr_class"=>"bijkomend_doorstrepen"));
+		$form->field_htmlcol("",$titel_bijkomend,array("html"=>"<div style=\"width:100px;float:left;\">".wt_cur($bedrag,false)."</div><div style=\"float:left;\">".$gegevens["stap4"]["persoonsoptie_fin"]["aantal"][$key]." x ".wt_he($gegevens["stap4"]["persoonsoptie_fin"]["naam"][$key])."</div><div style=\"float:right;\"><input type=\"hidden\" name=\"wis_leverancierfactuur_extraoptie[".$key."]\" value=\"1\"><a href=\"#\" onclick=\"inkoopgegevens_bijkomend_factuur_wissen(this,".floatval($bedrag).");return false;\" class=\"noactive\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" border=\"0\" width=\"14\" title=\"Deze kosten aan- en uitzetten bij de leveranciersfactuur\"></a></div>"),"",array("tr_class"=>"bijkomend_doorstrepen"));
 	}
 } else {
 	$form->field_htmlcol("","Netto-accommodatie €",array("html"=>wt_cur($gegevens["stap1"]["inkoopnetto"],false)),"",array("tr_class"=>"inkoopgegevens_opvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_inkoopnetto","tr_style"=>"display:none;"));
 }
 
-$form->field_htmlrow("","&nbsp;<input type=\"hidden\" name=\"input[extraopties_totaal]\" value=\"".htmlentities(wt_cur($temp_extraopties_totaal,false))."\">","",array("tr_style"=>"display:none;"));
+$form->field_htmlrow("","&nbsp;<input type=\"hidden\" name=\"input[extraopties_totaal]\" value=\"".wt_he(wt_cur($temp_extraopties_totaal,false))."\">","",array("tr_style"=>"display:none;"));
 $form->field_htmlcol("","Totaalfactuurbedrag €",array("html"=>wt_cur($temp_totaalbedrag,false)),"",array("tr_class"=>"inkoopgegevens_opvallend","td_cell_right_class"=>"wtform_cell_right uitkomst_totaalfactuurbedrag"));
 $form->field_yesno("inkoop_van_0_toegestaan","Inkoop van 0 is toegestaan",array("field"=>"inkoop_van_0_toegestaan"),"","",array("tr_class"=>"inkoop_van_0_toegestaan","tr_style"=>"display:none;"));
 

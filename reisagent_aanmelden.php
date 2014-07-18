@@ -119,7 +119,7 @@ if($form->filled) {
 	if($form->input["email"]) {
 		$db->query("SELECT user_id FROM reisbureau_user WHERE email='".addslashes($form->input["email"])."';");
 		if($db->next_record()) {
-			$form->error("email","het mailadres <i>".htmlentities($form->input["email"])."</i> heeft al een account");
+			$form->error("email","het mailadres <i>".wt_he($form->input["email"])."</i> heeft al een account");
 		}
 	}
 }

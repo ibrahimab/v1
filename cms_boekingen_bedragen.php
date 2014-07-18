@@ -126,7 +126,7 @@ if(is_array($gegevens["stap4"]["algemene_optie_zelfgekozen"])) {
 $form->field_htmlrow("","<hr>");
 for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 	unset($optie_geselecteerd);
-	$form->field_htmlrow("","<strong>Opties ".($i==1 ? "hoofdboeker" : "persoon ".$i)." (".($gegevens["stap3"][$i]["voornaam"]||$gegevens["stap3"][$i]["achternaam"] ? htmlentities(wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"])) : "<i>naam niet ingevoerd</i>").")</strong>");
+	$form->field_htmlrow("","<strong>Opties ".($i==1 ? "hoofdboeker" : "persoon ".$i)." (".($gegevens["stap3"][$i]["voornaam"]||$gegevens["stap3"][$i]["achternaam"] ? wt_he(wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"])) : "<i>naam niet ingevoerd</i>").")</strong>");
 	if(is_array($gegevens["stap4"]["opties"][$i])) {
 		$optie_geselecteerd=true;
 		while(list($key,$value)=each($gegevens["stap4"]["opties"][$i])) {
@@ -189,7 +189,7 @@ if($form->filled) {
 		} else {
 			$db->query("SELECT voornaam FROM user WHERE user_id='".addslashes($gegevens["stap1"]["lasteditor"])."';");
 			if($db->next_record()) {
-				$lasteditortxt=" door ".htmlentities($db->f("voornaam"));
+				$lasteditortxt=" door ".wt_he($db->f("voornaam"));
 			}
 		}
 		$bewerkdatetime_verschilt="Deze boeking is na het openen van dit formulier nog gewijzigd".$lasteditortxt.". Opslaan van de gegevens is nu niet mogelijk. <a href=\"".$_SERVER["REQUEST_URI"]."\">Herlaad dit formulier<a/> of klik nogmaals op OPSLAAN om de gegevens toch op te slaan";

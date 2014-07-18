@@ -25,7 +25,7 @@ if($_GET["t"]==1) {
 	cmslog_pagina_title("Boeking - Voucherstatus");
 	echo "<table><tr><td><b>Voucherstatus met 1 klik wijzigen en opslaan:</b></td><td>";
 	echo "</td>";
-	echo "<form id=\"frm\" method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\">";
+	echo "<form id=\"frm\" method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
 	echo "<td>";
 	echo "<select name=\"voucherstatus\" onchange=\"document.getElementById('frm').submit();\" class=\"wtform_input\" style=\"width:500px;\">";
 	if(isset($_POST["voucherstatus"])) {
@@ -34,7 +34,7 @@ if($_GET["t"]==1) {
 			# Opslaan in tabel boeking
 			$db->query("UPDATE boeking SET voucherstatus='".addslashes($_POST["voucherstatus"])."' WHERE boeking_id='".addslashes($_GET["bid"])."';");
 			$saved=true;
-			
+
 			# Loggen
 			$gegevens=get_boekinginfo($_GET["bid"]);
 			chalet_log("voucherstatus: ".$vars["voucherstatus"][$_POST["voucherstatus"]],false,true);
@@ -48,7 +48,7 @@ if($_GET["t"]==1) {
 		$doorloop_array=$vars["voucherstatus_zonderwijzigingen"];
 	}
 	while(list($key,$value)=each($doorloop_array)) {
-		echo "<option value=\"".$key."\"".($voucherstatus==$key ? " selected" : "").">".htmlentities($value)."</option>\n";
+		echo "<option value=\"".$key."\"".($voucherstatus==$key ? " selected" : "").">".wt_he($value)."</option>\n";
 	}
 	echo "</select>";
 	echo "</td><td>&nbsp;</td>";

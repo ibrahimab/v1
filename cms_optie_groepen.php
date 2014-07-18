@@ -224,14 +224,14 @@ if($db->next_record()) {
 $cms->edit_field(12,1,"naam");
 $cms->edit_field(12,0,"optieleverancier_id","Leverancier");
 if($vars["cmstaal"]) {
-	$cms->edit_field(12,1,"htmlcol","Soort-omschrijving NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["soort_omschrijving"]))."</span>"));
+	$cms->edit_field(12,1,"htmlcol","Soort-omschrijving NL",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["soort_omschrijving"]))."</span>"));
 	$cms->edit_field(12,0,"omschrijving","Groep-omschrijving NL","",array("noedit"=>true));
-	$cms->edit_field(12,1,"htmlcol","Soort-omschrijving ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["soort_omschrijving_".$vars["cmstaal"]]))."</span>"));
+	$cms->edit_field(12,1,"htmlcol","Soort-omschrijving ".strtoupper($vars["cmstaal"]),array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["soort_omschrijving_".$vars["cmstaal"]]))."</span>"));
 	$cms->edit_field(12,0,"omschrijving_".$vars["cmstaal"],"Groep-omschrijving ".strtoupper($vars["cmstaal"]));
 } else {
-#	$cms->edit_field(2,1,"htmlcol","Accommodatie-omschrijving",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["omschrijving"]))."</span>"));
+#	$cms->edit_field(2,1,"htmlcol","Accommodatie-omschrijving",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["omschrijving"]))."</span>"));
 #	$cms->edit_field(2,0,"omschrijving","Type-omschrijving");
-	$cms->edit_field(12,1,"htmlcol","Soort-omschrijving",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(htmlentities($temp["soort_omschrijving"]))."</span>"));
+	$cms->edit_field(12,1,"htmlcol","Soort-omschrijving",array("html"=>"<span class=\"accinfo__in_typeform\">".nl2br(wt_he($temp["soort_omschrijving"]))."</span>"));
 	$cms->edit_field(12,0,"omschrijving","Groep-omschrijving");
 }
 

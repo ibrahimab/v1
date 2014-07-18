@@ -34,11 +34,11 @@ if($vars["wederverkoop"]) {
 			$reisbureau["email_facturen"]=$db->f("email_facturen");
 			$reisbureau["email_marketing"]=$db->f("email_marketing");
 
-			$htmlcontact=htmlentities($reisbureau["adres"])."<br>".htmlentities($reisbureau["postcode"]." ".$reisbureau["plaats"])."<br>".htmlentities($reisbureau["land"])."<br>".htmlentities($reisbureau["telefoonnummer"]);
-			if($reisbureau["website"]) $htmlcontact.="<br><a href=\"".htmlentities($reisbureau["website"])."\" target=\"_blank\">".htmlentities($reisbureau["website"])."</a>";
+			$htmlcontact=wt_he($reisbureau["adres"])."<br>".wt_he($reisbureau["postcode"]." ".$reisbureau["plaats"])."<br>".wt_he($reisbureau["land"])."<br>".wt_he($reisbureau["telefoonnummer"]);
+			if($reisbureau["website"]) $htmlcontact.="<br><a href=\"".wt_he($reisbureau["website"])."\" target=\"_blank\">".wt_he($reisbureau["website"])."</a>";
 			if($reisbureau["post_adres"]<>$reisbureau["adres"] or $reisbureau["post_plaats"]<>$reisbureau["plaats"]) {
 				$htmlcontact.="<br><br><b>".html("postadres","reisbureau_overzicht").":</b><br>";
-				$htmlcontact.=htmlentities($reisbureau["post_adres"])."<br>".htmlentities($reisbureau["post_postcode"]." ".$reisbureau["post_plaats"])."<br>".htmlentities($reisbureau["post_land"]);
+				$htmlcontact.=wt_he($reisbureau["post_adres"])."<br>".wt_he($reisbureau["post_postcode"]." ".$reisbureau["post_plaats"])."<br>".wt_he($reisbureau["post_land"]);
 
 			}
 		}
@@ -62,7 +62,7 @@ if($vars["wederverkoop"]) {
 		if($login_rb->vars["hoofdgebruiker"]) {
 
 			$form->field_htmlrow("","<b>".html("organisatiegegevens","reisbureau_overzicht")."</b>");
-			$form->field_htmlcol("",txt("naamorganisatie","reisbureau_overzicht"),array("html"=>htmlentities($reisbureau["naam"])));
+			$form->field_htmlcol("",txt("naamorganisatie","reisbureau_overzicht"),array("html"=>wt_he($reisbureau["naam"])));
 			$form->field_text(($reisbureau["verantwoordelijke"] ? 1 : 0),"reisbureau_verantwoordelijke",txt("verantwoordelijke","reisbureau_overzicht"),"",array("text"=>$reisbureau["verantwoordelijke"]));
 			$form->field_email(($reisbureau["email_overeenkomst"] ? 1 : 0),"reisbureau_email_overeenkomst",txt("emailovereenkomst","reisbureau_overzicht"),"",array("text"=>$reisbureau["email_overeenkomst"]));
 			$form->field_text(($reisbureau["anvrnummer"] ? 1 : 0),"reisbureau_anvrnummer",txt("anvrnummer","reisbureau_overzicht"),"",array("text"=>$reisbureau["anvrnummer"]));

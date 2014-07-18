@@ -1,5 +1,20 @@
 <?php
 
+
+
+#
+#
+# XML-export voor HomeAway
+#
+#
+#
+
+
+set_time_limit(0);
+$geen_tracker_cookie=true;
+$unixdir="../";
+include("../admin/vars.php");
+
 function wt_dump_with_unixtime($array,$html=true) {
 	ob_start();
 	if(is_array($array)) {
@@ -20,25 +35,10 @@ function wt_dump_with_unixtime($array,$html=true) {
 		$return=$aanpassen;
 	}
 	if($html) {
-		$return="<hr><PRE>".nl2br(htmlentities($return))."</PRE><hr>";
+		$return="<hr><PRE>".nl2br(wt_he($return))."</PRE><hr>";
 	}
 	return $return;
 }
-
-
-
-#
-#
-# XML-export voor HomeAway
-#
-#
-#
-
-
-set_time_limit(0);
-$geen_tracker_cookie=true;
-$unixdir="../";
-include("../admin/vars.php");
 
 $wzt=$vars["seizoentype"];
 

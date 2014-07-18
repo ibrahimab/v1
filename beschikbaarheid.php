@@ -255,7 +255,7 @@ if($form->okay) {
 		while(list($key,$value)=each($form->input)) {
 			if(ereg("^inclusief_optie_[0-9]+$",$key)) {
 				if($value==1) {
-					$inclusief_optie_html.="<tr><td class=\"wtform_cell_left\">".htmlentities($form->fields["title"][$key])."</td><td class=\"wtform_cell_right\">ja</td></tr>";
+					$inclusief_optie_html.="<tr><td class=\"wtform_cell_left\">".wt_he($form->fields["title"][$key])."</td><td class=\"wtform_cell_right\">ja</td></tr>";
 					$omschrijving_inclusief.=" + ".$inclusief_optie_array[$key];
 				}
 			}
@@ -342,40 +342,40 @@ if($form->okay) {
 		}
 
 		if($wederverkoop_aanvraag) {
-			$html.="<tr><td class=\"wtform_cell_left\">Via reisagent</td><td class=\"wtform_cell_right\">".htmlentities($vars["chalettour_reisagentnaam"])." / <a href=\"https://www.chalet.nl/cms_reisbureaus.php?show=27&27k0=".$login_rb->vars["reisbureau_id"]."\">".htmlentities($vars["chalettour_naam"])."</a></td></tr>";
+			$html.="<tr><td class=\"wtform_cell_left\">Via reisagent</td><td class=\"wtform_cell_right\">".wt_he($vars["chalettour_reisagentnaam"])." / <a href=\"https://www.chalet.nl/cms_reisbureaus.php?show=27&27k0=".$login_rb->vars["reisbureau_id"]."\">".wt_he($vars["chalettour_naam"])."</a></td></tr>";
 		}
-		$html.="<tr><td class=\"wtform_cell_left\">Accommodatie</td><td class=\"wtform_cell_right\"><a href=\"".$accinfo["url"]."\">".$accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".htmlentities($accinfo["naam"])."</a> - ".$accinfo["aantalpersonen"]."</td></tr>";
-		$html.="<tr><td class=\"wtform_cell_left\">Plaats</td><td class=\"wtform_cell_right\">".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
-		$html.="<tr><td class=\"wtform_cell_left\">Aantal personen</td><td class=\"wtform_cell_right\">".htmlentities($form->input["aantalpersonen"])."</td></tr>";
+		$html.="<tr><td class=\"wtform_cell_left\">Accommodatie</td><td class=\"wtform_cell_right\"><a href=\"".$accinfo["url"]."\">".$accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".wt_he($accinfo["naam"])."</a> - ".$accinfo["aantalpersonen"]."</td></tr>";
+		$html.="<tr><td class=\"wtform_cell_left\">Plaats</td><td class=\"wtform_cell_right\">".wt_he($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
+		$html.="<tr><td class=\"wtform_cell_left\">Aantal personen</td><td class=\"wtform_cell_right\">".wt_he($form->input["aantalpersonen"])."</td></tr>";
 		if($accinfo["wzt"]==2) {
 			if($accinfo["flexibel"]) {
 				$html.="<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"])."</td></tr>";
 			} else {
 				$html.="<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"])."</td></tr>";
 			}
-			$html.="<tr><td class=\"wtform_cell_left\">Verblijfsduur</td><td class=\"wtform_cell_right\">".htmlentities($vars["verblijfsduur"][$form->input["verblijfsduur"]])."</td></tr>";
+			$html.="<tr><td class=\"wtform_cell_left\">Verblijfsduur</td><td class=\"wtform_cell_right\">".wt_he($vars["verblijfsduur"][$form->input["verblijfsduur"]])."</td></tr>";
 		} else {
-			$html.="<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".htmlentities($accinfo["aankomstdatum"][$form->input["aankomstdatum"]])."</td></tr>";
+			$html.="<tr><td class=\"wtform_cell_left\">Aankomstdatum</td><td class=\"wtform_cell_right\">".wt_he($accinfo["aankomstdatum"][$form->input["aankomstdatum"]])."</td></tr>";
 		}
 		$html.=$inclusief_optie_html;
 
-		$html.="<tr><td class=\"wtform_cell_left\">Voornaam</td><td class=\"wtform_cell_right\">".htmlentities($form->input["voornaam"])."</td></tr>";
-		$html.="<tr><td class=\"wtform_cell_left\">Tussenvoegsel</td><td class=\"wtform_cell_right\">".htmlentities($form->input["tussenvoegsel"])."</td></tr>";
-		$html.="<tr><td class=\"wtform_cell_left\">Achternaam</td><td class=\"wtform_cell_right\">".htmlentities($form->input["achternaam"])."</td></tr>";
-		if($form->input["adres"]) $html.="<tr><td class=\"wtform_cell_left\">Adres</td><td class=\"wtform_cell_right\">".htmlentities($form->input["adres"])."</td></tr>";
-		if($form->input["postcode"]) $html.="<tr><td class=\"wtform_cell_left\">Postcode</td><td class=\"wtform_cell_right\">".htmlentities($form->input["postcode"])."</td></tr>";
-		$html.="<tr><td class=\"wtform_cell_left\">Plaats</td><td class=\"wtform_cell_right\">".htmlentities($form->input["plaats"])."</td></tr>";
-		if($form->input["land"]) $html.="<tr><td class=\"wtform_cell_left\">Land</td><td class=\"wtform_cell_right\">".htmlentities($form->input["land"])."</td></tr>";
-		if($form->input["telefoonnummer"]) $html.="<tr><td class=\"wtform_cell_left\">Telefoonnummer</td><td class=\"wtform_cell_right\">".htmlentities($form->input["telefoonnummer"])."</td></tr>";
-		if($form->input["mobielwerk"]) $html.="<tr><td class=\"wtform_cell_left\">Mobiel of werktelefoonnummer</td><td class=\"wtform_cell_right\">".htmlentities($form->input["mobielwerk"])."</td></tr>";
-		if($form->input["email"]) $html.="<tr><td class=\"wtform_cell_left\">E-mailadres</td><td class=\"wtform_cell_right\"><a href=\"mailto:".$form->input["email"]."\">".htmlentities($form->input["email"])."</a></td></tr>";
+		$html.="<tr><td class=\"wtform_cell_left\">Voornaam</td><td class=\"wtform_cell_right\">".wt_he($form->input["voornaam"])."</td></tr>";
+		$html.="<tr><td class=\"wtform_cell_left\">Tussenvoegsel</td><td class=\"wtform_cell_right\">".wt_he($form->input["tussenvoegsel"])."</td></tr>";
+		$html.="<tr><td class=\"wtform_cell_left\">Achternaam</td><td class=\"wtform_cell_right\">".wt_he($form->input["achternaam"])."</td></tr>";
+		if($form->input["adres"]) $html.="<tr><td class=\"wtform_cell_left\">Adres</td><td class=\"wtform_cell_right\">".wt_he($form->input["adres"])."</td></tr>";
+		if($form->input["postcode"]) $html.="<tr><td class=\"wtform_cell_left\">Postcode</td><td class=\"wtform_cell_right\">".wt_he($form->input["postcode"])."</td></tr>";
+		$html.="<tr><td class=\"wtform_cell_left\">Plaats</td><td class=\"wtform_cell_right\">".wt_he($form->input["plaats"])."</td></tr>";
+		if($form->input["land"]) $html.="<tr><td class=\"wtform_cell_left\">Land</td><td class=\"wtform_cell_right\">".wt_he($form->input["land"])."</td></tr>";
+		if($form->input["telefoonnummer"]) $html.="<tr><td class=\"wtform_cell_left\">Telefoonnummer</td><td class=\"wtform_cell_right\">".wt_he($form->input["telefoonnummer"])."</td></tr>";
+		if($form->input["mobielwerk"]) $html.="<tr><td class=\"wtform_cell_left\">Mobiel of werktelefoonnummer</td><td class=\"wtform_cell_right\">".wt_he($form->input["mobielwerk"])."</td></tr>";
+		if($form->input["email"]) $html.="<tr><td class=\"wtform_cell_left\">E-mailadres</td><td class=\"wtform_cell_right\"><a href=\"mailto:".$form->input["email"]."\">".wt_he($form->input["email"])."</a></td></tr>";
 		if($vars["rebook"]) {
 			$html.="<tr><td class=\"wtform_cell_left\">Optie van ".$accinfo["optiedagen_klanten_vorig_seizoen"]." dagen</td><td class=\"wtform_cell_right\">ja</td></tr>";
 		} else {
 			if($form->input["optie"] or $_GET["o"]) $html.="<tr><td class=\"wtform_cell_left\">Optie van 3 dagen</td><td class=\"wtform_cell_right\">ja</td></tr>";
 		}
-		if($form->input["wensenbezet"]) $html.="<tr><td class=\"wtform_cell_left\">Wensen indien bezet</td><td class=\"wtform_cell_right\">".nl2br(htmlentities($form->input["wensenbezet"]))."</td></tr>";
-		if($form->input["vraag"]) $html.="<tr><td class=\"wtform_cell_left\">Vragen en opmerkingen</td><td class=\"wtform_cell_right\">".nl2br(htmlentities($form->input["vraag"]))."</td></tr>";
+		if($form->input["wensenbezet"]) $html.="<tr><td class=\"wtform_cell_left\">Wensen indien bezet</td><td class=\"wtform_cell_right\">".nl2br(wt_he($form->input["wensenbezet"]))."</td></tr>";
+		if($form->input["vraag"]) $html.="<tr><td class=\"wtform_cell_left\">Vragen en opmerkingen</td><td class=\"wtform_cell_right\">".nl2br(wt_he($form->input["vraag"]))."</td></tr>";
 
 		$referer=getreferer($_COOKIE["sch"]);
 		if($referer["opsomming"]) $html.="<tr><td class=\"wtform_cell_left\">Referentielink</td><td class=\"wtform_cell_right\">".$referer["opsomming"]."</td></tr>";
@@ -399,39 +399,39 @@ if($form->okay) {
 		$naam=wt_naam($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"]);
 
 		$html="<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n<html><head><meta http-equiv=\"content-type\" content=\"text/html; charset=iso-8859-1\"/><style type=\"text/css\"><!--\na:visited:hover,a:hover {\ncolor:".$hover.";\n}\n--></style>\n</head>\n<body style=\"background-color: #F3F3F3;font-family: ".$font.";font-size: 0.8em;\">\n";
-		$html.="<div style=\"width:660px\">".html("beste","beschikbaarheid")." ".htmlentities($naam).",<P>".html("ingoedeordeontvangen".($_GET["o"] ? "_optie" : ""),"beschikbaarheid")."<br><br>";
+		$html.="<div style=\"width:660px\">".html("beste","beschikbaarheid")." ".wt_he($naam).",<P>".html("ingoedeordeontvangen".($_GET["o"] ? "_optie" : ""),"beschikbaarheid")."<br><br>";
 		$html.="<table style=\"background-color: #FFFFFF;width: 660px;font-family: ".$font.";font-size: 1.0em;border:solid ".$table." 1px;\" cellspacing=\"0\" cellpadding=\"3\">";
-		$html.="<tr><td style=\"font-weight: bold;width:145px;border:solid ".$table." 1px\">".html("accommodatie","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["url"]."\">".ucfirst($accinfo["soortaccommodatie"])." ".htmlentities($accinfo["naam"])."</a></td></tr>";
-		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("plaats","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["plaats_url"]."\">".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</a></td></tr>";
-		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aantalpersonen","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($form->input["aantalpersonen"])."</td></tr>";
+		$html.="<tr><td style=\"font-weight: bold;width:145px;border:solid ".$table." 1px\">".html("accommodatie","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["url"]."\">".ucfirst($accinfo["soortaccommodatie"])." ".wt_he($accinfo["naam"])."</a></td></tr>";
+		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("plaats","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\"><a href=\"".$accinfo["plaats_url"]."\">".wt_he($accinfo["plaats"].", ".$accinfo["land"])."</a></td></tr>";
+		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aantalpersonen","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($form->input["aantalpersonen"])."</td></tr>";
 		if($accinfo["wzt"]==2) {
 			if($accinfo["flexibel"]) {
-				$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities(DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"],$vars["taal"]))."</td></tr>";
+				$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he(DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum_flex"]["unixtime"],$vars["taal"]))."</td></tr>";
 			} else {
-				$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities(DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"],$vars["taal"]))."</td></tr>";
+				$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he(DATUM("DAG D MAAND JJJJ",$form->input["aankomstdatum"],$vars["taal"]))."</td></tr>";
 			}
-			$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("verblijfsduur","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($vars["verblijfsduur"][$form->input["verblijfsduur"]])."</td></tr>";
+			$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("verblijfsduur","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($vars["verblijfsduur"][$form->input["verblijfsduur"]])."</td></tr>";
 		} else {
-			$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($accinfo["aankomstdatum"][$form->input["aankomstdatum"]])."</td></tr>";
+			$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("aankomstdatum","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($accinfo["aankomstdatum"][$form->input["aankomstdatum"]])."</td></tr>";
 		}
 
 		reset($form->input);
 		while(list($key,$value)=each($form->input)) {
 			if(ereg("^inclusief_optie_[0-9]+$",$key)) {
-				if($value==1) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".htmlentities($form->fields["title"][$key])."</td><td style=\"border:solid ".$table." 1px\">".html("ja")."</td></tr>";
+				if($value==1) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".wt_he($form->fields["title"][$key])."</td><td style=\"border:solid ".$table." 1px\">".html("ja")."</td></tr>";
 			}
 		}
 
 		if($form->input["optie"] or $_GET["o"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("optievan3dagen","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".html("ja")."</td></tr>";
-		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("naam","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($naam)."</td></tr>";
-		if($form->input["adres"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("adres","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($form->input["adres"])."</td></tr>";
-		if($form->input["postcode"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("postcode","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($form->input["postcode"])."</td></tr>";
-		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("woonplaats","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($form->input["plaats"])."</td></tr>";
-		if($form->input["land"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("land","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($form->input["land"])."</td></tr>";
-		if($form->input["telefoonnummer"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("telefoon","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($form->input["telefoonnummer"])."</td></tr>";
-		if($form->input["mobielwerk"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("mobielwerk_kort","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".htmlentities($form->input["mobielwerk"])."</td></tr>";
-		if($form->input["wensenbezet"]) $html.="<tr><td valign=\"top\" style=\"font-weight: bold;border:solid ".$table." 1px\">".html("wensenindienbezet","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(htmlentities($form->input["wensenbezet"]))."</td></tr>";
-		if($form->input["vraag"]) $html.="<tr><td valign=\"top\" style=\"font-weight: bold;border:solid ".$table." 1px\">".html("vragenopmerkingen","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(htmlentities($form->input["vraag"]))."</td></tr>";
+		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("naam","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($naam)."</td></tr>";
+		if($form->input["adres"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("adres","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($form->input["adres"])."</td></tr>";
+		if($form->input["postcode"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("postcode","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($form->input["postcode"])."</td></tr>";
+		$html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("woonplaats","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($form->input["plaats"])."</td></tr>";
+		if($form->input["land"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("land","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($form->input["land"])."</td></tr>";
+		if($form->input["telefoonnummer"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("telefoon","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($form->input["telefoonnummer"])."</td></tr>";
+		if($form->input["mobielwerk"]) $html.="<tr><td style=\"font-weight: bold;border:solid ".$table." 1px\">".html("mobielwerk_kort","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".wt_he($form->input["mobielwerk"])."</td></tr>";
+		if($form->input["wensenbezet"]) $html.="<tr><td valign=\"top\" style=\"font-weight: bold;border:solid ".$table." 1px\">".html("wensenindienbezet","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(wt_he($form->input["wensenbezet"]))."</td></tr>";
+		if($form->input["vraag"]) $html.="<tr><td valign=\"top\" style=\"font-weight: bold;border:solid ".$table." 1px\">".html("vragenopmerkingen","beschikbaarheid")."</td><td style=\"border:solid ".$table." 1px\">".nl2br(wt_he($form->input["vraag"]))."</td></tr>";
 		$html.="</table>";
 
 		$html.="<br><br>".html("vooreengrootdeel","beschikbaarheid")."<p>".html("uontvangtzospoedigmogelijk","beschikbaarheid")." ";

@@ -18,7 +18,7 @@ $mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
 
 $mysqlsettings["halt_on_error"]="yes";		# Wat te doen bij MySQL-foutmelding bij provider ("yes" = foutmelding weergeven en stoppen, "no" = geen foutmelding en gewoon doorgaan, "mail" = geen foutmelding op het scherm maar wel een melding aan jeroen@webtastic.nl
 require("../admin/class.mysql.php");
-require("../admin/allfunctions.php");
+require_once("../admin/allfunctions.php");
 
 # trackercookie opslaan
 $_GET["chad"]=20;

@@ -187,8 +187,8 @@ if($cms->set_delete_init(35)) {
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
 if($_GET["35k0"]) {
-	$cms->edit_field(35,1,"htmlcol","Accommodatie",array("html"=>htmlentities($vars["alletypes"][$vars["temp_optieaanvraag"]["acc"]["type_id"]])));
-	$cms->edit_field(35,1,"htmlcol","Aankomstdatum",array("html"=>htmlentities(DATUM("DAG D MAAND JJJJ",$vars["temp_optieaanvraag"]["aankomstdatum_exact"]))));
+	$cms->edit_field(35,1,"htmlcol","Accommodatie",array("html"=>wt_he($vars["alletypes"][$vars["temp_optieaanvraag"]["acc"]["type_id"]])));
+	$cms->edit_field(35,1,"htmlcol","Aankomstdatum",array("html"=>wt_he(DATUM("DAG D MAAND JJJJ",$vars["temp_optieaanvraag"]["aankomstdatum_exact"]))));
 }
 $cms->edit_field(35,1,"status","Status");
 $cms->edit_field(35,1,"einddatum_klant","Einddatum klant","","",array("calendar"=>true));

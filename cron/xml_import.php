@@ -1478,8 +1478,8 @@ while($db->next_record()) {
 	}
 
 	while(list($key,$value)=each($leverancierscodes)) {
-#		$type_namen[$db->f("type_id")]="<a href=\"http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_tarieven.php?xmlgoedkeuren=1&from=%2Fcms_types.php%3Fshow%3D2%26wzt%3D".$db->f("wzt")."%261k0%3D".$db->f("accommodatie_id")."%262k0%3D".$db->f("type_id")."&sid=_SEIZOEN_ID_&tid=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a>";
-		$type_namen[$db->f("type_id")]="<a href=\"http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_tarieven.php?xmlgoedkeuren=1&sid=_SEIZOEN_ID_&tid=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." - ".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a>";
+#		$type_namen[$db->f("type_id")]="<a href=\"http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_tarieven.php?xmlgoedkeuren=1&from=%2Fcms_types.php%3Fshow%3D2%26wzt%3D".$db->f("wzt")."%261k0%3D".$db->f("accommodatie_id")."%262k0%3D".$db->f("type_id")."&sid=_SEIZOEN_ID_&tid=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." - ".wt_he($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a>";
+		$type_namen[$db->f("type_id")]="<a href=\"http://".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "ss.postvak.net/chalet" : "www.chalet.nl")."/cms_tarieven.php?xmlgoedkeuren=1&sid=_SEIZOEN_ID_&tid=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." - ".wt_he($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a>";
 		$wzt[$db->f("type_id")]=$db->f("wzt");
 
 
@@ -2546,7 +2546,7 @@ if($mailtxt or $tarievenbijgewerkt) {
 	while(list($key,$value)=@each($mailtxt)) {
 		if(!$xmltype_gehad[$key]) {
 			if(ereg("^([0-9]+)_([0-9]+)$",$key,$regs)) {
-				$sendmailtxt1.="&nbsp;<br><b>".htmlentities($vars["xml_type"][$regs[1]])." - ".($regs[2]==2 ? "zomer" : "winter")."</b><br>\n";
+				$sendmailtxt1.="&nbsp;<br><b>".wt_he($vars["xml_type"][$regs[1]])." - ".($regs[2]==2 ? "zomer" : "winter")."</b><br>\n";
 				$xmltype_gehad[$key]=true;
 			}
 		}
@@ -2570,7 +2570,7 @@ if($mailtxt or $tarievenbijgewerkt) {
 					# Leverancier tonen
 					if(!$xmltypetarief_gehad[$key]) {
 						if(ereg("^([0-9]+)_([0-9]+)$",$key,$regs)) {
-							$sendmailtxt2.="&nbsp;<br><b>".htmlentities($vars["xml_type"][$regs[1]])." - ".($regs[2]==2 ? "zomer" : "winter")."</b><br>\n";
+							$sendmailtxt2.="&nbsp;<br><b>".wt_he($vars["xml_type"][$regs[1]])." - ".($regs[2]==2 ? "zomer" : "winter")."</b><br>\n";
 							$xmltypetarief_gehad[$key]=true;
 						}
 					}
@@ -2650,7 +2650,7 @@ function wt_dump_with_unixtime($array,$html=true) {
 		$return=$aanpassen;
 	}
 	if($html) {
-		$return="<hr><PRE>".nl2br(htmlentities($return))."</PRE><hr>";
+		$return="<hr><PRE>".nl2br(wt_he($return))."</PRE><hr>";
 	}
 	return $return;
 }

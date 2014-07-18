@@ -23,10 +23,10 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 			$mailhtml.="De volgende gegevens zijn zojuist ingevuld:<p>";
 
 			$mailhtml.="<table style=\"width:700px;\">";
-			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Boeking</td><td>&nbsp;</td><td><a href=\"https://www.chalet.nl/cms_boekingen.php?show=21&archief=0&21k0=".$gegevens["stap1"]["boekingid"]."\">".htmlentities($gegevens["stap1"]["boekingsnummer"])."</a></td></tr>";
-			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Plaats</td><td>&nbsp;</td><td>".htmlentities($gegevens["stap1"]["accinfo"]["plaats"].", ".$gegevens["stap1"]["accinfo"]["land"])."</td></tr>";
-			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Accommodatie</td><td>&nbsp;</td><td><a href=\"".htmlentities($gegevens["stap1"]["accinfo"]["url"])."\">".htmlentities($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"])."</a></td></tr>";
-			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Periode</td><td>&nbsp;</td><td>".htmlentities(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"]))." - ".htmlentities(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"]))."</td></tr>";
+			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Boeking</td><td>&nbsp;</td><td><a href=\"https://www.chalet.nl/cms_boekingen.php?show=21&archief=0&21k0=".$gegevens["stap1"]["boekingid"]."\">".wt_he($gegevens["stap1"]["boekingsnummer"])."</a></td></tr>";
+			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Plaats</td><td>&nbsp;</td><td>".wt_he($gegevens["stap1"]["accinfo"]["plaats"].", ".$gegevens["stap1"]["accinfo"]["land"])."</td></tr>";
+			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Accommodatie</td><td>&nbsp;</td><td><a href=\"".wt_he($gegevens["stap1"]["accinfo"]["url"])."\">".wt_he($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"])."</a></td></tr>";
+			$mailhtml.="<tr><td width=\"200\" valign=\"top\">Periode</td><td>&nbsp;</td><td>".wt_he(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"]))." - ".wt_he(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"]))."</td></tr>";
 			$mailhtml.="<tr><td colspan=\"3\">&nbsp;</td></tr>";
 
 			# Vraag 1
@@ -34,26 +34,26 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 			for($i=1;$i<=6;$i++) {
 				if($_POST["vraag1_".$i]) {
 					$setquery.=", vraag1_".$i."='".addslashes($_POST["vraag1_".$i])."'";
-					$mailhtml.="<tr><td width=\"200\">".html("vraag1_".$i,"enquete")."</td><td>&nbsp;</td><td>".($_POST["vraag1_".$i]==11 ? "n.v.t." : htmlentities($_POST["vraag1_".$i]))."</td></tr>";
+					$mailhtml.="<tr><td width=\"200\">".html("vraag1_".$i,"enquete")."</td><td>&nbsp;</td><td>".($_POST["vraag1_".$i]==11 ? "n.v.t." : wt_he($_POST["vraag1_".$i]))."</td></tr>";
 				}
 			}
 			if($_POST["toelichting1"]) {
 				$setquery.=", vraag1_toelichting='".addslashes($_POST["toelichting1"])."'";
-				$mailhtml.="<tr><td width=\"200\" valign=\"top\">".html("toelichtingbij","enquete")."</td><td>&nbsp;</td><td>".nl2br(htmlentities($_POST["toelichting1"]))."</td></tr>";
+				$mailhtml.="<tr><td width=\"200\" valign=\"top\">".html("toelichtingbij","enquete")."</td><td>&nbsp;</td><td>".nl2br(wt_he($_POST["toelichting1"]))."</td></tr>";
 			}
 
 			# Vraag 2
 			$mailhtml.="<tr><td colspan=\"3\">&nbsp;</td></tr>";
 			$mailhtml.="<tr><td colspan=\"3\"><b><i>".html("totaaloordeel","enquete")."</i></b></td></tr>";
-			$mailhtml.="<tr><td width=\"200\">".html("vraag1_7","enquete")."</td><td>&nbsp;</td><td>".htmlentities($_POST["vraag1_7"])."</td></tr>";
+			$mailhtml.="<tr><td width=\"200\">".html("vraag1_7","enquete")."</td><td>&nbsp;</td><td>".wt_he($_POST["vraag1_7"])."</td></tr>";
 			if($_POST["vraag1_7"]) {
 				$setquery.=", vraag1_7='".addslashes($_POST["vraag1_7"])."'";
 			}
-			$mailhtml.="<tr><td width=\"200\">Naam voor op website</td><td>&nbsp;</td><td>".($_POST["websitetekst_naam"] ? htmlentities($_POST["websitetekst_naam"]) : "<i>anoniem</i>")."</td></tr>";
+			$mailhtml.="<tr><td width=\"200\">Naam voor op website</td><td>&nbsp;</td><td>".($_POST["websitetekst_naam"] ? wt_he($_POST["websitetekst_naam"]) : "<i>anoniem</i>")."</td></tr>";
 			if($_POST["websitetekst_naam"]) {
 				$setquery.=", websitetekst_naam='".addslashes($_POST["websitetekst_naam"])."'";
 			}
-			$mailhtml.="<tr><td colspan=\"3\">".nl2br(htmlentities($_POST["websitetekst"]))."</td></tr>";
+			$mailhtml.="<tr><td colspan=\"3\">".nl2br(wt_he($_POST["websitetekst"]))."</td></tr>";
 			if($_POST["websitetekst"]) {
 				$setquery.=", websitetekst='".addslashes($_POST["websitetekst"])."', websitetekst_gewijzigd='".addslashes($_POST["websitetekst"])."'";
 			}
@@ -66,7 +66,7 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 					$setquery.=", vraag2_".$i."='".addslashes($_POST["vraag2_".$i])."'";
 					$mailhtml.="<tr><td colspan=\"3\">".html("vraag2_".$i,"enquete");
 					if($_POST["andersnamelijk2"] and $i==7) {
-						$mailhtml.=": ".htmlentities($_POST["andersnamelijk2"]);
+						$mailhtml.=": ".wt_he($_POST["andersnamelijk2"]);
 					}
 					$mailhtml.="</td></tr>";
 				}
@@ -81,12 +81,12 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 			for($i=1;$i<=9;$i++) {
 				if($_POST["vraag3_".$i]) {
 					$setquery.=", vraag3_".$i."='".addslashes($_POST["vraag3_".$i])."'";
-					$mailhtml.="<tr><td width=\"200\">".html("vraag3_".$i,"enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</td><td>&nbsp;</td><td>".($_POST["vraag3_".$i]==11 ? "n.v.t." : htmlentities($_POST["vraag3_".$i]))."</td></tr>";
+					$mailhtml.="<tr><td width=\"200\">".html("vraag3_".$i,"enquete",array("v_websitenaam"=>$vars["websitenaam"]))."</td><td>&nbsp;</td><td>".($_POST["vraag3_".$i]==11 ? "n.v.t." : wt_he($_POST["vraag3_".$i]))."</td></tr>";
 				}
 			}
 			if($_POST["toelichting3"]) {
 				$setquery.=", vraag3_toelichting='".addslashes($_POST["toelichting3"])."'";
-				$mailhtml.="<tr><td width=\"200\" valign=\"top\">".html("toelichtingbij","enquete")."</td><td>&nbsp;</td><td>".nl2br(htmlentities($_POST["toelichting3"]))."</td></tr>";
+				$mailhtml.="<tr><td width=\"200\" valign=\"top\">".html("toelichtingbij","enquete")."</td><td>&nbsp;</td><td>".nl2br(wt_he($_POST["toelichting3"]))."</td></tr>";
 			}
 
 			# Vraag 4
@@ -109,7 +109,7 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 #				$setquery.=", vraag5='".addslashes($_POST["vraag5"])."'";
 #				$mailhtml.="<tr><td colspan=\"3\">".html("vraag5_".$_POST["vraag5"],"enquete");
 #				if($_POST["vraag5"]==1 and $_POST["toelichting5"]) {
-#					$mailhtml.=": ".nl2br(htmlentities($_POST["toelichting5"]));
+#					$mailhtml.=": ".nl2br(wt_he($_POST["toelichting5"]));
 #				}
 #				$mailhtml.="</td></tr>";
 #			}
@@ -152,7 +152,7 @@ if($_GET["bid"] and $_GET["ch"]==substr(sha1($_GET["bid"]."kkSLlejkd"),0,8)) {
 			# Overige toelichting
 			if($_POST["overigetoelichting"]) {
 #				$setquery.=", overig='".addslashes($_POST["overigetoelichting"])."'";
-#				$mailhtml.="<tr><td valign=\"top\">".html("overigetoelichting","enquete")."</td><td>&nbsp;</td><td>".nl2br(htmlentities($_POST["overigetoelichting"]))."</td></tr>";
+#				$mailhtml.="<tr><td valign=\"top\">".html("overigetoelichting","enquete")."</td><td>&nbsp;</td><td>".nl2br(wt_he($_POST["overigetoelichting"]))."</td></tr>";
 			}
 
 			# Mail met kortingscode sturen

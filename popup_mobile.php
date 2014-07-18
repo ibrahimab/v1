@@ -230,7 +230,7 @@ if($_GET["id"]=="tarieventabel") {
 echo "<TR><TD height=\"30\">
 <TABLE width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
 <TR>
-<TD style=\"font-size:10pt;\"><FONT color=\"".$thfontcolor."\"><B>".htmlentities($title[$_GET["id"]])."&nbsp;</B></FONT></TD>
+<TD style=\"font-size:10pt;\"><FONT color=\"".$thfontcolor."\"><B>".wt_he($title[$_GET["id"]])."&nbsp;</B></FONT></TD>
 <TD width=\"20\"></TD>
 </TR>
 </TABLE></TD></TR>";

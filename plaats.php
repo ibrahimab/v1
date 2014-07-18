@@ -144,7 +144,7 @@ if($plaatsid) {
 			header("Location: https://www.italissima.nl".$_SERVER["REQUEST_URI"],true,301);
 			exit;
 		}
-		$toplinks="<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/\">".htmlentities($db->f("land"))."</a> - <a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/#beschrijving\">".htmlentities($db->f("skigebied"))."</a> - ".htmlentities($db->f("naam"));
+		$toplinks="<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db->f("land"))."/\">".wt_he($db->f("land"))."</a> - <a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/#beschrijving\">".wt_he($db->f("skigebied"))."</a> - ".wt_he($db->f("naam"));
 
 	} else {
 		$db->query("SELECT s.naam".$vars["ttv"]." AS naam FROM plaats p, skigebied s WHERE p.plaats_id='".addslashes($plaatsid)."' AND p.wzt='".addslashes($vars["seizoentype"])."' AND p.skigebied_id=s.skigebied_id;");

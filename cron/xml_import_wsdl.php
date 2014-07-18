@@ -108,7 +108,7 @@ exit;
 #		if(!$keygehad[$key]) {
 #			$sortkey=utf8_decode($value3->station)."_".utf8_decode($value3->etab_name)."_".utf8_decode($value3->room_type_label);
 #			$teller++;
-#			$trregel[$sortkey."_".$teller]="<tr><td>".htmlentities(utf8_decode($value3->station))."</td><td>".htmlentities(utf8_decode($value3->etab_name))."</td><td>".htmlentities(utf8_decode($value3->room_type_label))."</td><td>".htmlentities($key)."</td></tr>\n";
+#			$trregel[$sortkey."_".$teller]="<tr><td>".wt_he(utf8_decode($value3->station))."</td><td>".wt_he(utf8_decode($value3->etab_name))."</td><td>".wt_he(utf8_decode($value3->room_type_label))."</td><td>".wt_he($key)."</td></tr>\n";
 #			$keygehad[$key]=true;
 #		}
 #	}
@@ -121,8 +121,8 @@ exit;
 #	$result=$client->getAllEtabs("eurogroup","chaletnl","partner","nl");
 #	print_r($result);
 
-	echo "REQUEST:\n" . htmlentities($client->__getLastRequest(),ENT_QUOTES, 'UTF-8') . "\n";
-	echo "RESPONSE:\n" . htmlentities($client->__getLastResponse(),ENT_QUOTES, 'UTF-8') . "\n";
+	echo "REQUEST:\n" . wt_he($client->__getLastRequest(),ENT_QUOTES, 'UTF-8') . "\n";
+	echo "RESPONSE:\n" . wt_he($client->__getLastResponse(),ENT_QUOTES, 'UTF-8') . "\n";
 
 
 } elseif($t==2) {
@@ -138,8 +138,8 @@ exit;
 
 	$result=$client->CrearIdSesion($params);
 	print_r($result);
-	echo "REQUEST:\n" . htmlentities($client->__getLastRequest(),ENT_QUOTES, 'UTF-8') . "\n";
-	echo "RESPONSE:\n" . htmlentities($client->__getLastResponse(),ENT_QUOTES, 'UTF-8') . "\n";
+	echo "REQUEST:\n" . wt_he($client->__getLastRequest(),ENT_QUOTES, 'UTF-8') . "\n";
+	echo "RESPONSE:\n" . wt_he($client->__getLastResponse(),ENT_QUOTES, 'UTF-8') . "\n";
 }
 
 ?>

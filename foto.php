@@ -6,7 +6,7 @@ include("admin/vars.php");
 <HEAD>
  <TITLE><?
 
-echo htmlentities($vars["websitenaam"]);
+echo wt_he($vars["websitenaam"]);
 
 if($_GET["sw"] and $_GET["sh"]) {
 	$maxwidth=round($_GET["sw"]*.8);
@@ -45,7 +45,7 @@ if($_GET["sw"] and $_GET["sh"]) {
      };
  </script>
 </HEAD>
-<BODY onload='FitPic();FitPic();' topmargin="0" marginheight="0" leftmargin="0" marginwidth="0"><IMG name="FullImage" SRC="<?php echo htmlentities($file); ?>" alt=""<?
+<BODY onload='FitPic();FitPic();' topmargin="0" marginheight="0" leftmargin="0" marginwidth="0"><IMG name="FullImage" SRC="<?php echo wt_he($file); ?>" alt=""<?
 
 if($width and $height) {
 	echo " width=\"".$width."\" height=\"".$height."\"";

@@ -297,7 +297,7 @@ if($mustlogin) {
 
 
 	if($vars["cmstaal"] and $vars["cmstaal"]<>"nl") $layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_anderetaal.css";
-	if($login->logged_in) $layout->settings["logout_extra"]="<div style=\"margin-top:3px;\"><form method=\"get\" style=\"margin:0px;\" action=\"".$vars["path"]."cms.php\"><input type=\"hidden\" name=\"bc\" value=\"".htmlentities($_GET["bc"])."\"><input type=\"text\" name=\"cmssearch\">&nbsp;<input type=\"submit\" value=\" OK \"></form></div>";
+	if($login->logged_in) $layout->settings["logout_extra"]="<div style=\"margin-top:3px;\"><form method=\"get\" style=\"margin:0px;\" action=\"".$vars["path"]."cms.php\"><input type=\"hidden\" name=\"bc\" value=\"".wt_he($_GET["bc"])."\"><input type=\"text\" name=\"cmssearch\">&nbsp;<input type=\"submit\" value=\" OK \"></form></div>";
 	$layout->menu_item("cms","Hoofdpagina","",false);
 
 	$layout->menu_item("cms_aanbiedingen","Aanbiedingen","",true,false,array("slide"=>true));
@@ -1553,8 +1553,8 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 		} else {
 			$return.="Aanvraagnummer ".$gegevens["stap1"]["boekingid"];
 		}
-		if($gegevens["stap2"]["achternaam"]) $return.=" - ".htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
-		if($gegevens["stap1"]["reisbureau_naam"]) $return.=" (via ".htmlentities($gegevens["stap1"]["reisbureau_naam"]).")";
+		if($gegevens["stap2"]["achternaam"]) $return.=" - ".wt_he(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
+		if($gegevens["stap1"]["reisbureau_naam"]) $return.=" (via ".wt_he($gegevens["stap1"]["reisbureau_naam"]).")";
 
 		# Laatste wijziging
 		$db->query("SELECT UNIX_TIMESTAMP(datum) AS datum FROM factuur WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."' ORDER BY datum DESC LIMIT 0,1;");
@@ -1563,14 +1563,14 @@ function boekingkoptekst($gegevens,$voucherstatus=true) {
 		}
 		if(!$laatstefactuur) $laatstefactuur="-";
 
-		$return.="</td><td align=\"right\">Laatste factuur</td><td>&nbsp;&nbsp;</td><td>".htmlentities($laatstefactuur)."</td></tr>";
+		$return.="</td><td align=\"right\">Laatste factuur</td><td>&nbsp;&nbsp;</td><td>".wt_he($laatstefactuur)."</td></tr>";
 		$return.="<tr><td style=\"width:700px;\">";
-		$return.=htmlentities($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." - ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam"]." (".$gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"].($gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"]<>$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] ? "-".$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] : "")."p.)");
-#		if($temp["leverancier_naam"]) $return.=" - ".htmlentities($temp["leverancier_naam"]);
-		$return.="</td><td align=\"right\" nowrap>Mail optiesbijboeken</td><td>&nbsp;&nbsp;</td><td>".htmlentities(($gegevens["stap1"]["mailverstuurd_opties"] ? date("d-m-Y",$gegevens["stap1"]["mailverstuurd_opties"]) : "-"))."</td></tr>";
+		$return.=wt_he($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." - ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam"]." (".$gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"].($gegevens["stap1"]["accinfo"]["optimaalaantalpersonen"]<>$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] ? "-".$gegevens["stap1"]["accinfo"]["maxaantalpersonen"] : "")."p.)");
+#		if($temp["leverancier_naam"]) $return.=" - ".wt_he($temp["leverancier_naam"]);
+		$return.="</td><td align=\"right\" nowrap>Mail optiesbijboeken</td><td>&nbsp;&nbsp;</td><td>".wt_he(($gegevens["stap1"]["mailverstuurd_opties"] ? date("d-m-Y",$gegevens["stap1"]["mailverstuurd_opties"]) : "-"))."</td></tr>";
 		$return.="<tr><td style=\"width:700px;\">";
 #		$return.=DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]);
-		if($temp["leverancier_naam"]) $return.="Leverancier: ".htmlentities($temp["leverancier_naam"]); else $return.="&nbsp;";
+		if($temp["leverancier_naam"]) $return.="Leverancier: ".wt_he($temp["leverancier_naam"]); else $return.="&nbsp;";
 		$return.="</td>";
 
 		# Openstaand bedrag

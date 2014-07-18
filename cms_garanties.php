@@ -192,8 +192,8 @@ if($_GET["34k0"]) {
 		}
 	}
 
-	$cms->edit_field(34,1,"htmlcol","Accommodatie",array("html"=>"<a href=\"".$url."accommodatie/".$acc["begincode"].$acc["type_id"]."/\" target=\"_blank\">".htmlentities($vars["alletypes"][$acc["type_id"]])."</a>"));
-	$cms->edit_field(34,1,"htmlcol","Aankomstdatum",array("html"=>htmlentities(DATUM("DAG D MAAND JJJJ",$aankomstdatum_exact))));
+	$cms->edit_field(34,1,"htmlcol","Accommodatie",array("html"=>"<a href=\"".$url."accommodatie/".$acc["begincode"].$acc["type_id"]."/\" target=\"_blank\">".wt_he($vars["alletypes"][$acc["type_id"]])."</a>"));
+	$cms->edit_field(34,1,"htmlcol","Aankomstdatum",array("html"=>wt_he(DATUM("DAG D MAAND JJJJ",$aankomstdatum_exact))));
 }
 $cms->edit_field(34,1,"naam","Naam");
 $cms->edit_field(34,1,"leverancier_id","Leverancier");
@@ -223,9 +223,9 @@ if($temp["leverancier_aanbetaling_dagen"]<>"" or $temp["leverancier_eindbetaling
 }
 
 if($temp["leverancier_bevestigmethode"]) {
-	$cms->edit_field(34,0,"htmlcol","Bevestigmethode",array("html"=>$temp["leverancier_naam"]." ".htmlentities($vars["bevestigmethode"][$temp["leverancier_bevestigmethode"]])),"",array("tr_style"=>"color:grey;font-style:italic;","title_html"=>true));
+	$cms->edit_field(34,0,"htmlcol","Bevestigmethode",array("html"=>$temp["leverancier_naam"]." ".wt_he($vars["bevestigmethode"][$temp["leverancier_bevestigmethode"]])),"",array("tr_style"=>"color:grey;font-style:italic;","title_html"=>true));
 } else {
-	$cms->edit_field(34,0,"htmlcol","Bevestigmethode",array("html"=>"<span style=\"background-color:yellow;\">Er is bij <a href=\"".$vars["path"]."cms_leveranciers.php?edit=8&beheerder=0&8k0=".$temp["leverancier_id"]."\" target=\"_blank\">".htmlentities($temp["leverancier_naam"])."</a> nog geen bevestigmethode aangegeven.</span>"),"",array("tr_style"=>"color:grey;","title_html"=>true));
+	$cms->edit_field(34,0,"htmlcol","Bevestigmethode",array("html"=>"<span style=\"background-color:yellow;\">Er is bij <a href=\"".$vars["path"]."cms_leveranciers.php?edit=8&beheerder=0&8k0=".$temp["leverancier_id"]."\" target=\"_blank\">".wt_he($temp["leverancier_naam"])."</a> nog geen bevestigmethode aangegeven.</span>"),"",array("tr_style"=>"color:grey;","title_html"=>true));
 }
 
 if($temp["leverancier_bevestigmethode"]==1) {

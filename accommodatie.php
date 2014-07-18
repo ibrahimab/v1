@@ -73,7 +73,7 @@ if($url[0]) {
 	}
 	$db->query("SELECT a.accommodatie_id, a.naam, a.wzt, a.weekendski, t.naam".$vars["ttv"]." AS tnaam, t.websites, a.toonper, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied, s.skigebied_id, a.tonen, t.tonen AS ttonen, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, plaats p, land l, type t, skigebied s WHERE p.skigebied_id=s.skigebied_id AND t.accommodatie_id=a.accommodatie_id AND l.land_id=p.land_id AND t.type_id='".addslashes($typeid)."' AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id;");
 	if($db->next_record()) {
-		$title["toonaccommodatie"]=htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")]))." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".txt("pers").") - ".$db->f("plaats");
+		$title["toonaccommodatie"]=wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")]))." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." ".txt("pers").") - ".$db->f("plaats");
 		if($db->f("tonen")==1 and $db->f("ttonen")==1) {
 			$acc_aanwezig=true;
 			$temp_accid=$db->f("accommodatie_id");
