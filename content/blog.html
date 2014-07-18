@@ -129,7 +129,7 @@ if($_GET["b"]) {
 		while($db->next_record()) {
 			echo "<div class=\"blogitem_reactie_item\">";
 			echo "<h2>Op ".DATUM("D MAAND JJJJ",$db->f("adddatetime"))." om ".DATUM("UU:ZZ",$db->f("adddatetime"))." uur schreef ".wt_he($db->f("naam")).":</h2>";
-			echo nl2br(wt_htmlentities($db->f("inhoud"),true));
+			echo nl2br(wt_htmlent($db->f("inhoud"),true));
 			echo "</div>"; # afsluiten class blogitem_reactie_item
 		}
 	} else {

@@ -3471,7 +3471,7 @@ function blokkenhoofdpagina($checkdate="") {
 function tooninterneopmerkingen($text) {
 	$return=$text;
 #	"<wbr>";
-	$return=wt_htmlentities($return,true);
+	$return=wt_htmlent($return,true);
 #	$return=htmlentities($return);
 #	$return=ereg_replace("/","/<wbr>",$return);
 	$return=nl2br($return);

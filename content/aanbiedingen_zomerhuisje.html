@@ -221,7 +221,7 @@ if($land["id"]) {
 						}
 #					}
 					echo "<div style=\"padding: 5px;\">";
-					echo "<div class=\"aanbieding_omschrijving\">".wt_htmlentities($value["omschrijving"])."</div>";
+					echo "<div class=\"aanbieding_omschrijving\">".wt_htmlent($value["omschrijving"])."</div>";
 
 					while($db->next_record()) {
 						if(file_exists("pic/cms/type_specifiek_tn/".$db->f("type_id").".jpg")) {

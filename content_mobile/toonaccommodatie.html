@@ -487,8 +487,8 @@ if($db->next_record()) {
 
 	}
 
-	echo "</form>";    
-    
+	echo "</form>";
+
 	# Tabs
 	echo "<div id=\"accordion\" class=\"ui-accordion ui-widget ui-helper-reset ui-accordion-icons\">";
 
@@ -682,7 +682,7 @@ if($db->next_record()) {
 		echo "<tr><td width=\"175\" nowrap>".html("skigebied","toonaccommodatie")."</TD><TD>".htmlentities($db->f("skigebied"))." - ".htmlentities($db->f("land"))."</TD></TR>";
 	}
 #	if($vars["seizoentype"]==2) {
-#		if($db->f("plaatsomschrijving")) echo "<tr><td valign=\"top\" width=\"175\" nowrap>".html("omschrijving","toonaccommodatie")."</TD><TD>".nl2br(wt_htmlentities($db->f("plaatsomschrijving")))."</TD></TR>";
+#		if($db->f("plaatsomschrijving")) echo "<tr><td valign=\"top\" width=\"175\" nowrap>".html("omschrijving","toonaccommodatie")."</TD><TD>".nl2br(wt_htmlent($db->f("plaatsomschrijving")))."</TD></TR>";
 #	}
 	if($vars["taal"]=="nl") echo "<tr><td width=\"175\" nowrap>Afstand tot Utrecht</TD><TD>".$db->f("afstandtotutrecht")." ".html("kilometer","toonaccommodatie")."</TD></TR>";
 	if($db->f("afstandwinkel")) echo "<tr><td width=\"175\" nowrap>".html("afstandtotwinkels","toonaccommodatie")."</TD><TD>".htmlentities(toonafstand($db->f("afstandwinkel"),$db->f("afstandwinkelextra"),html("meter","toonaccommodatie")))."</TD></TR>";
@@ -884,7 +884,7 @@ if($db->next_record()) {
 		}
 	}
 	if($db->f("extraopties")) {
-		echo "<div style=\"padding-top:15px;\">".nl2br(wt_htmlentities($db->f("extraopties")))."</div>";
+		echo "<div style=\"padding-top:15px;\">".nl2br(wt_htmlent($db->f("extraopties")))."</div>";
 	}
 
 	if(!$optie_tabel_html_getoond and !$db->f("extraopties")) {
@@ -1138,7 +1138,7 @@ if($db->next_record()) {
 
 		# Kalender
         echo "<div style='margin-top:5px; margin-right:5px; float:left;'><input type='hidden' id='toonaccommodatiedate' /></div>";
-        
+
 		if($_GET["flad"]) {
 			$temp_actievedatum["fadf_d"]=date("d",$_GET["flad"]);
 			$temp_actievedatum["fadf_m"]=date("m",$_GET["flad"]);
@@ -1302,7 +1302,7 @@ if($db->next_record()) {
 					echo "</th></tr>";
 					echo "<tr><td colspan=\"2\">";
 					if($value2["omschrijving"]) {
-						echo nl2br(wt_htmlentities($value2["omschrijving"],true));
+						echo nl2br(wt_htmlent($value2["omschrijving"],true));
 						if($value2["einddatum"] and $value2["einddatum"]<(time()+86400*7)) {
 							echo "<br><br><i>".html("geldigtotenmet","toonaccommodatie")." ";
 							echo DATUM("DAG D MAAND JJJJ",$value2["einddatum"],$vars["taal"])." (".html("zolangdevoorraadstrekt","toonaccommodatie").")</i>";
@@ -1660,11 +1660,11 @@ function toon_tekst_acc_en_type($tekst1,$tekst2="") {
 	$tekst2=trim($tekst2);
 
 	if($tekst1 and $tekst2) {
-		return nl2br(wt_htmlentities($tekst1))."<br/><br/>".nl2br(wt_htmlentities($tekst2));
+		return nl2br(wt_htmlent($tekst1))."<br/><br/>".nl2br(wt_htmlent($tekst2));
 	} elseif($tekst1) {
-		return nl2br(wt_htmlentities($tekst1));
+		return nl2br(wt_htmlent($tekst1));
 	} else {
-		return nl2br(wt_htmlentities($tekst2));
+		return nl2br(wt_htmlent($tekst2));
 	}
 }
 

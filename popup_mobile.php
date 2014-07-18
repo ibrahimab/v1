@@ -17,15 +17,15 @@ if($_GET["typeid"]) {
 if($_GET["gid"]) {
 	$db->query("SELECT s.naam, s.omschrijving".$vars["ttv"]." AS omschrijving1, g.omschrijving".$vars["ttv"]." AS omschrijving2 FROM optie_soort s, optie_groep g WHERE g.optie_groep_id='".addslashes($_GET["gid"])."' AND g.optie_soort_id=s.optie_soort_id;");
 	if($db->next_record()) {
-		if($db->f("omschrijving1")) $omschrijving=nl2br(wt_htmlentities($db->f("omschrijving1"),true,true))."<br>";
-		if($db->f("omschrijving2")) $omschrijving.=nl2br(wt_htmlentities($db->f("omschrijving2"),true,true));
+		if($db->f("omschrijving1")) $omschrijving=nl2br(wt_htmlent($db->f("omschrijving1"),true,true))."<br>";
+		if($db->f("omschrijving2")) $omschrijving.=nl2br(wt_htmlent($db->f("omschrijving2"),true,true));
 	}
 }
 
 if($_GET["bkid"]) {
 	$db->query("SELECT b.naam, b.omschrijving".$vars["ttv"]." AS omschrijving FROM bijkomendekosten b WHERE b.bijkomendekosten_id='".addslashes($_GET["bkid"])."';");
 	if($db->next_record()) {
-		$omschrijving=nl2br(wt_htmlentities($db->f("omschrijving"),true,true))."<br>";
+		$omschrijving=nl2br(wt_htmlent($db->f("omschrijving"),true,true))."<br>";
 	}
 }
 

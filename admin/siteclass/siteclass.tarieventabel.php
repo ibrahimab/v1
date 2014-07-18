@@ -1650,11 +1650,11 @@ if($this->tarief[$key]>0) {
 		$tekst2=trim($tekst2);
 
 		if($tekst1 and $tekst2) {
-			return nl2br(wt_htmlentities($tekst1))."<br/><br/>".nl2br(wt_htmlentities($tekst2));
+			return nl2br(wt_htmlent($tekst1))."<br/><br/>".nl2br(wt_htmlent($tekst2));
 		} elseif($tekst1) {
-			return nl2br(wt_htmlentities($tekst1));
+			return nl2br(wt_htmlent($tekst1));
 		} else {
-			return nl2br(wt_htmlentities($tekst2));
+			return nl2br(wt_htmlent($tekst2));
 		}
 	}
 

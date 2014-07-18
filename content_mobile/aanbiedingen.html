@@ -223,7 +223,7 @@ if($cachefile) {
 						if($onderdeel_teller) echo "<br>";
 						echo "<h3>".htmlentities($value["naam"])."</h3>";
 						if($value["omschrijving"]) {
-							echo nl2br(wt_htmlentities($value["omschrijving"]))."<p>";
+							echo nl2br(wt_htmlent($value["omschrijving"]))."<p>";
 						}
 						$onderdeel_teller++;
 					} else {

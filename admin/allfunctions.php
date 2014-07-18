@@ -1370,7 +1370,7 @@ if(!function_exists("checkbox2db")) {
 #	}
 #}
 
-function wt_htmlentities($text,$clicklinks=false,$li=false) {
+function wt_htmlent($text,$clicklinks=false,$li=false) {
 	$text=wt_he($text);
 	$text=ereg_replace("&euro; ","&euro;&nbsp;",$text);
 

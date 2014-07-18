@@ -108,7 +108,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			echo "<tr><td valign=\"top\">Toegevoegd op</td><td valign=\"top\">".DATUM("DAG D MAAND JJJJ", $db->f("adddatetime"))."</td></tr>";
 
 
-			$omschrijving = nl2br(wt_htmlentities($db->f("omschrijving"),true));
+			$omschrijving = nl2br(wt_htmlent($db->f("omschrijving"),true));
 
 			$omschrijving = preg_replace("@\bWT([0-9]+)\b@", "<a href=\"#WT\\1\" class=\"open-wtactie\" data-id=\"\\1\">WT\\1</a>", $omschrijving);
 
@@ -138,10 +138,10 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				echo "</td></tr>";
 			}
 			if($db->f("opmerkingen")) {
-				echo "<tr><td valign=\"top\">Opmerkingen</td><td valign=\"top\">".nl2br(wt_htmlentities($db->f("opmerkingen"),true))."</td></tr>";
+				echo "<tr><td valign=\"top\">Opmerkingen</td><td valign=\"top\">".nl2br(wt_htmlent($db->f("opmerkingen"),true))."</td></tr>";
 			}
 			if($db->f("interne_notities") and $login->userlevel>=10) {
-				echo "<tr><td valign=\"top\">Interne notities</td><td valign=\"top\">".nl2br(wt_htmlentities($db->f("interne_notities"),true))."</td></tr>";
+				echo "<tr><td valign=\"top\">Interne notities</td><td valign=\"top\">".nl2br(wt_htmlent($db->f("interne_notities"),true))."</td></tr>";
 			}
 
 			echo "</table>";

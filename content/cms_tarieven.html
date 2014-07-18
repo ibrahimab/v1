@@ -549,7 +549,7 @@ if($seizoen["naam"]) {
 	$week=$seizoen["begin"];
 	while($week<=$seizoen["eind"]) {
 		$regelteller++;
-		echo "<td align=\"right\" nowrap>".($archief_beschikbaarheid[$week] ? "<a href=\"#\" onclick=\"return false;\" class=\"opm\"><span class=\"balloon_fullwidth\">".nl2br(wt_htmlentities($archief_beschikbaarheid[$week]))."</span>".date("d-m-Y",$archief_beschikbaarheid_laatstewijziging[$week])."</a>" : "&nbsp;")."</td>";
+		echo "<td align=\"right\" nowrap>".($archief_beschikbaarheid[$week] ? "<a href=\"#\" onclick=\"return false;\" class=\"opm\"><span class=\"balloon_fullwidth\">".nl2br(wt_htmlent($archief_beschikbaarheid[$week]))."</span>".date("d-m-Y",$archief_beschikbaarheid_laatstewijziging[$week])."</a>" : "&nbsp;")."</td>";
 		$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 	}
 	echo "<td nowrap>&nbsp;</td>";
@@ -764,7 +764,7 @@ if($seizoen["naam"]) {
 		$week=$seizoen["begin"];
 		while($week<=$seizoen["eind"]) {
 			$regelteller++;
-			echo "<td align=\"right\" nowrap>".($archief_laatstewijziging[$week]>0 ? "<a href=\"#\" onclick=\"return false;\" class=\"opm\"><span class=\"balloon\">".nl2br(wt_htmlentities($archief[$week]))."</span>".date("d-m-Y",$archief_laatstewijziging[$week])."</a>" : "&nbsp;")."</td>";
+			echo "<td align=\"right\" nowrap>".($archief_laatstewijziging[$week]>0 ? "<a href=\"#\" onclick=\"return false;\" class=\"opm\"><span class=\"balloon\">".nl2br(wt_htmlent($archief[$week]))."</span>".date("d-m-Y",$archief_laatstewijziging[$week])."</a>" : "&nbsp;")."</td>";
 			$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 		}
 		echo "<td nowrap>&nbsp;</td>";
