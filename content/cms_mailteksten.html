@@ -5,7 +5,7 @@ if(!$_GET["edit"] and !$_GET["show"] and !$_GET["add"]) {
 	if($_GET["wzt"]==1) {
 		echo "<a href=\"".$path."cms_mailteksten_versturen.php\">Wintermailteksten nu versturen &gt; &gt; &gt;</a>";
 	} else {
-		echo "<hr><i>Zomerboekingen ontvangen automatisch een optie-bijboeken-mailtje (50 dagen voor vertrek).</i><br><br><b>De volgende tekst is van toepassing als er geen specifieke mailtekst aan een accommodatie wordt gekoppeld:</b><br><div style=\"margin-top:5px;width:700px;border:1px solid #878481;padding:3px;font-size:0.8em;\">".nl2br(htmlentities($txt["nl"]["vars"]["mailopties_wzt2_1"]."\n\n".$txt["nl"]["vars"]["mailopties_wzt2_2"]))."</div>";
+		echo "<hr><i>Zomerboekingen ontvangen automatisch een optie-bijboeken-mailtje (50 dagen voor vertrek).</i><br><br><b>De volgende tekst is van toepassing als er geen specifieke mailtekst aan een accommodatie wordt gekoppeld:</b><br><div style=\"margin-top:5px;width:700px;border:1px solid #878481;padding:3px;font-size:0.8em;\">".nl2br(wt_he($txt["nl"]["vars"]["mailopties_wzt2_1"]."\n\n".$txt["nl"]["vars"]["mailopties_wzt2_2"]))."</div>";
 	}
 	echo "<hr>";
 #	echo "Taal:".$vars["taal"];
@@ -19,7 +19,7 @@ if($_GET["add"] or $_GET["edit"]) {
 		if($db->num_rows()) {
 			echo "<hr>De volgende accommodaties zijn aan deze mailtekst gekoppeld:<ul>";
 			while($db->next_record()) {
-				echo "<li><a href=\"cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a>";
+				echo "<li><a href=\"cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("naam"))."</a>";
 				if($db->f("archief")) echo " <i>(archief)</i>";
 				echo "</li>";
 			}
@@ -31,7 +31,7 @@ if($_GET["add"] or $_GET["edit"]) {
 	if($db->num_rows()) {
 		echo "<hr>Aan de volgende accommodaties is nog geen mailtekst gekoppeld:<ul>";
 		while($db->next_record()) {
-			echo "<li><a href=\"cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+			echo "<li><a href=\"cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
 		}
 		echo "</ul>";
 	}

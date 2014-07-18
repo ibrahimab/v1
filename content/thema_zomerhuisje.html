@@ -43,15 +43,15 @@ if($themalandinfo) {
 		if($accthema[2] and $accthema[3]) {
 			echo "<div style=\"padding-bottom:7px;\">".html("accommodaties","thema").":</div>";
 			echo "<div style=\"float:left;\">";
-			echo "<div class=\"overlay_foto\" onclick=\"document.location.href='".htmlentities($accthema[2]["url"])."'\">";
-			echo "<img src=\"".$vars["path"].htmlentities($accthema[2]["pic"])."\" width=\"115\" style=\"border:0;\" alt=\"\" />";
-			echo "<div class=\"fotoinfo_2\">".htmlentities($accthema[2]["toontekst"])."</div>";
+			echo "<div class=\"overlay_foto\" onclick=\"document.location.href='".wt_he($accthema[2]["url"])."'\">";
+			echo "<img src=\"".$vars["path"].wt_he($accthema[2]["pic"])."\" width=\"115\" style=\"border:0;\" alt=\"\" />";
+			echo "<div class=\"fotoinfo_2\">".wt_he($accthema[2]["toontekst"])."</div>";
 			echo "</div>";
 			echo "</div>";
 			echo "<div style=\"float:right;\">";
-			echo "<div class=\"overlay_foto\" onclick=\"document.location.href='".htmlentities($accthema[3]["url"])."'\">";
-			echo "<img src=\"".$vars["path"].htmlentities($accthema[3]["pic"])."\" width=\"115\" style=\"border:0;\" alt=\"\" />";
-			echo "<div class=\"fotoinfo_2\">".htmlentities($accthema[3]["toontekst"])."</div>";
+			echo "<div class=\"overlay_foto\" onclick=\"document.location.href='".wt_he($accthema[3]["url"])."'\">";
+			echo "<img src=\"".$vars["path"].wt_he($accthema[3]["pic"])."\" width=\"115\" style=\"border:0;\" alt=\"\" />";
+			echo "<div class=\"fotoinfo_2\">".wt_he($accthema[3]["toontekst"])."</div>";
 			echo "</div>";
 			echo "</div>";
 
@@ -65,12 +65,12 @@ if($themalandinfo) {
 	}
 	echo "<div id=\"thematekst\">";
 	if($themalandinfo["soort"]=="land") {
-		echo "<h1 class=\"landentitle\">".htmlentities(ucfirst(txt("vakantiehuizen"))." ".$themalandinfo["naam"])."</h1>";
+		echo "<h1 class=\"landentitle\">".wt_he(ucfirst(txt("vakantiehuizen"))." ".$themalandinfo["naam"])."</h1>";
 	} else {
-		echo "<h1>".htmlentities($themalandinfo["naam"])."</h1>";
+		echo "<h1>".wt_he($themalandinfo["naam"])."</h1>";
 	}
 
-#	echo "<h1>".htmlentities($themalandinfo["naam"])."</h1>";
+#	echo "<h1>".wt_he($themalandinfo["naam"])."</h1>";
 	echo htmlentities_uitgebreid(trim($themalandinfo["toelichting"]));
 
 	echo "</div>";
@@ -98,9 +98,9 @@ if($themalandinfo) {
 	if($accthema[1]) {
 		echo "<div id=\"accommodatietip\" style=\"background-color:".$vars["themakleurcode"][$themalandinfo["kleurcode"]]."\">";
 		echo "<div style=\"padding-bottom:5px;\">".html("accommodatietip","thema").":</div>";
-		echo "<div class=\"overlay_foto\" style=\"".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "height:114px;" : "")."\" onclick=\"document.location.href='".htmlentities($accthema[1]["url"])."'\">";
-		echo "<img src=\"".$vars["path"].htmlentities($accthema[1]["pic"])."\" width=\"150\" style=\"border:0;\" alt=\"\" >";
-		echo "<div class=\"fotoinfo_1\">".htmlentities($accthema[1]["toontekst"])."</div>";
+		echo "<div class=\"overlay_foto\" style=\"".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "height:114px;" : "")."\" onclick=\"document.location.href='".wt_he($accthema[1]["url"])."'\">";
+		echo "<img src=\"".$vars["path"].wt_he($accthema[1]["pic"])."\" width=\"150\" style=\"border:0;\" alt=\"\" >";
+		echo "<div class=\"fotoinfo_1\">".wt_he($accthema[1]["toontekst"])."</div>";
 		echo "</div>";
 		echo "</div>";
 	}
@@ -110,7 +110,7 @@ if($themalandinfo) {
 		if($db2->num_rows()) {
 			echo "<div style=\"margin-top:10px;margin-bottom:7px;font-size:1.1em;\">".html("anderethemas","thema").":</div>";
 			while($db2->next_record()) {
-				echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_thema")."/".$db2->f("url")."/\">".htmlentities($db2->f("naam"))."</a><br />";
+				echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_thema")."/".$db2->f("url")."/\">".wt_he($db2->f("naam"))."</a><br />";
 			}
 		}
 	} else {
@@ -118,7 +118,7 @@ if($themalandinfo) {
 		if($db2->num_rows()) {
 			echo "<div style=\"margin-top:10px;margin-bottom:7px;font-size:1.1em;\">".html("anderelanden","thema").":</div>";
 			while($db2->next_record()) {
-				echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db2->f("naam"))."/\">".htmlentities($db2->f("naam"))."</a><br />";
+				echo "<span class=\"redtext\">&bull;</span>&nbsp;<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db2->f("naam"))."/\">".wt_he($db2->f("naam"))."</a><br />";
 			}
 		}
 	}
@@ -130,7 +130,7 @@ if($themalandinfo) {
 	if($themalandinfo["uitgebreid"]) {
 		echo "<div style=\"padding-top:10px;text-align:right;\"><a href=\"#\" class=\"showhidelink\">".html("meerinformatie","thema")." &gt;</a></div>";
 		echo "<div id=\"\" class=\"showhide\" style=\"display:none;\">";
-		echo nl2br(htmlentities(trim($themalandinfo["uitgebreid"])));
+		echo nl2br(wt_he(trim($themalandinfo["uitgebreid"])));
 		echo "</div>";
 		$uitgebreid=true;
 	}

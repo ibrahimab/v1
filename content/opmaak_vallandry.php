@@ -7,12 +7,12 @@ echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\
 echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
 echo "<title>";
 if($id=="index") {
-	echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("sitetitel"));
+	echo wt_he($vars["websitenaam"])." - ".wt_he(txt("sitetitel"));
 } else {
 	if($title[$id] and $id) {
-		echo htmlentities($title[$id])." - ";
+		echo wt_he($title[$id])." - ";
 	}
-	echo htmlentities($vars["websitenaam"]);
+	echo wt_he($vars["websitenaam"]);
 }
 echo "</title>";
 
@@ -79,13 +79,13 @@ echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek { visibility: 
 echo "</script>";
 
 # JQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jquery_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jqueryui_url"])."\" ></script>\n";
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_vallandry.ico\" />\n";
 
 if($vars["canonical"]) {
-	echo "<link rel=\"canonical\" href=\"".htmlentities($vars["canonical"])."\" />\n";
+	echo "<link rel=\"canonical\" href=\"".wt_he($vars["canonical"])."\" />\n";
 }
 
 # meta name robots
@@ -97,7 +97,7 @@ if($robot_noindex or $robot_nofollow) {
 }
 
 #echo "<meta name=\"keywords\" content=\"\" />\n";
-#echo "<meta name=\"description\" content=\"".htmlentities(txt("subtitel"))."\" />";
+#echo "<meta name=\"description\" content=\"".wt_he(txt("subtitel"))."\" />";
 echo "<meta name=\"description\" content=\"".wt_he(($meta_description ? $meta_description : ($title[$id]&&$id&&$id<>"index" ? $title[$id] : txt("subtitel"))))."\" />\n";
 
 echo "</head>\n";
@@ -109,15 +109,15 @@ echo "<div id=\"wrapper\">";
 echo "<div id=\"top\">";
 
 echo "<div id=\"menubalk_print\" style=\"margin-bottom:100px;\" class=\"onlyprint\">";
-echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
-echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
+echo "<h2>".wt_he($vars["websitenaam"])."</h2>";
+echo "<b>".wt_he(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
 echo "</div>";
 
 echo "<div id=\"submenu\">";
 while(list($key,$value)=each($submenu)) {
 	if($value<>"-") {
 		echo "<a href=\"".$vars["path"].txt("menu_".$key).".php\">";
-		echo htmlentities($value);
+		echo wt_he($value);
 		echo "</a>";
 		echo "&nbsp;&nbsp;|&nbsp;&nbsp;";
 	}
@@ -150,7 +150,7 @@ while(list($key,$value)=each($menu)) {
 	if($key==$id or ($id=="accommodaties" and $key=="zoek-en-boek")) {
 		echo "<span class=\"hoofdmenu_actief\">";
 	}
-	echo htmlentities($value);
+	echo wt_he($value);
 	if($key==$id or ($id=="accommodaties" and $key=="zoek-en-boek")) {
 		echo "</span>";
 	}
@@ -237,7 +237,7 @@ if($vars["verberg_linkerkolom"]) {
 	echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 
 #	if(!$vars["wederverkoop"]) {
-#		echo "<div id=\"contactgegevens\">".htmlentities($vars["websitenaam"])."&nbsp;&nbsp;&nbsp;".html("telefoonnummer")."&nbsp;&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a></div>";
+#		echo "<div id=\"contactgegevens\">".wt_he($vars["websitenaam"])."&nbsp;&nbsp;&nbsp;".html("telefoonnummer")."&nbsp;&nbsp;&nbsp;<a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</a></div>";
 #	}
 
 	echo "</div>\n";
@@ -288,7 +288,7 @@ if($vars["verberg_linkerkolom"]) {
 		while(list($key,$value)=each($vars["aantalpersonen"])) {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
-			echo ">".htmlentities($value)."</option>";
+			echo ">".wt_he($value)."</option>";
 		}
 		echo "</select>";
 		echo "</div>";
@@ -307,7 +307,7 @@ if($vars["verberg_linkerkolom"]) {
 #		while(list($key,$value)=each($vars["verblijfsduur"])) {
 #			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 #			if($key==="-") echo " selected";
-#			echo ">".htmlentities($value)."</option>";
+#			echo ">".wt_he($value)."</option>";
 #		}
 #		echo "</select>";
 #		echo "</div>";
@@ -336,9 +336,9 @@ if($vars["verberg_linkerkolom"]) {
 
 	if($id<>"index" and $id<>"toonaccommodatie" and !$laat_titel_weg) {
 		if($header[$id]) {
-			echo "<h1>".htmlentities($header[$id])."</h1>";
+			echo "<h1>".wt_he($header[$id])."</h1>";
 		} else {
-			echo "<h1>".htmlentities($title[$id])."</h1>";
+			echo "<h1>".wt_he($title[$id])."</h1>";
 		}
 	}
 
@@ -356,7 +356,7 @@ if($vars["verberg_linkerkolom"]) {
 	echo "<div style=\"clear: both;\"></div>\n";
 }
 
-echo "<div id=\"colofon\" class=\"noprint\">".html("chaletsinvallandry")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".ereg_replace("invallandry","<i>in</i>vallandry",htmlentities($vars["email"]))."</a>&nbsp;&nbsp;-&nbsp;&nbsp;".html("telefoonnummer")."</div>\n";
+echo "<div id=\"colofon\" class=\"noprint\">".html("chaletsinvallandry")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".wt_he($vars["email"])."\">".ereg_replace("invallandry","<i>in</i>vallandry",wt_he($vars["email"]))."</a>&nbsp;&nbsp;-&nbsp;&nbsp;".html("telefoonnummer")."</div>\n";
 echo "<div id=\"submenu_footer\" class=\"noprint\" style=\"text-align:center;\"> <a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 
 echo "</div>\n"; # "content" afsluiten

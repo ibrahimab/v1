@@ -10,14 +10,14 @@ if($grizzly_title) {
 	echo $grizzly_title;
 } else {
 	if($id=="index") {
-		echo htmlentities($vars["websitenaam"])." ".htmlentities(txt("sitetitel"));
+		echo wt_he($vars["websitenaam"])." ".wt_he(txt("sitetitel"));
 		$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("sitetitel");
 	} else {
 		if($title[$id] and $id) {
-			echo htmlentities($title[$id])." - ";
+			echo wt_he($title[$id])." - ";
 			$vars["facebook_title"]=$title[$id];
 		}
-		echo htmlentities($vars["websitenaam"]);
+		echo wt_he($vars["websitenaam"]);
 	}
 }
 echo "</title>";
@@ -83,13 +83,13 @@ echo 'document.write(\'<style type="text/css">	#tabs, #zoekenboek { visibility: 
 echo "</script>";
 
 # jQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jquery_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jqueryui_url"])."\" ></script>\n";
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_zomerhuisje.ico\" />\n";
 
 if($vars["canonical"]) {
-	echo "<link rel=\"canonical\" href=\"".htmlentities($vars["canonical"])."\" />\n";
+	echo "<link rel=\"canonical\" href=\"".wt_he($vars["canonical"])."\" />\n";
 }
 
 
@@ -119,8 +119,8 @@ echo "<div id=\"wrapper\">";
 echo "<div id=\"top\">";
 
 echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
-echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
-echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
+echo "<h2>".wt_he($vars["websitenaam"])."</h2>";
+echo "<b>".wt_he(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."</b><p><b>".html("telefoonnummer")."</b></p>";
 echo "</div>";
 
 echo "<div id=\"submenu\">";
@@ -130,13 +130,13 @@ while(list($key,$value)=each($submenu)) {
 			echo "<span id=\"submenu_zomerhuisje\">";
 			if($vars["websiteland"]=="be") {
 				echo "<a href=\"https://www.chalet.be/\" target=\"_blank\">";
-				echo htmlentities("Chalet.be wintersport");
+				echo wt_he("Chalet.be wintersport");
 			} else {
 				if($_GET["fromsite"]=="chalettour" or $_COOKIE["fromsite"]=="chalettour") {
 					echo "<a href=\"https://www.chalettour.nl/\" target=\"_blank\">Chalettour.nl wintersport";
 				} else {
 					echo "<a href=\"https://www.chalet.nl/\" target=\"_blank\">";
-					echo htmlentities($value);
+					echo wt_he($value);
 				}
 			}
 			echo "</a>";
@@ -174,7 +174,7 @@ while(list($key,$value)=each($vars["topfoto"])) {
 	}
 }
 echo "<div style=\"position:absolute;top:0px;left:0px;\">";
-echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."?c=1\" width=\"970\" height=\"179\" alt=\"".htmlentities($vars["websitenaam"])."\" style=\"border:0;\" />";
+echo "<img src=\"".$vars["path"]."pic/zomerhuisje_topbalk".($vars["websiteland"]=="be" ? "_eu" : "").".".(ereg("MSIE 6",$_SERVER["HTTP_USER_AGENT"]) ? "gif" : "png")."?c=1\" width=\"970\" height=\"179\" alt=\"".wt_he($vars["websitenaam"])."\" style=\"border:0;\" />";
 echo "</div>";
 
 # Link naar hoofdpagina
@@ -213,7 +213,7 @@ while(list($key,$value)=each($menu)) {
 	if($key==$id or ($id=="accommodaties" and $key=="zoek-en-boek") or ($id=="aanbiedingen_zomerhuisje" and $key=="aanbiedingen")) {
 		echo "<span class=\"hoofdmenu_actief\">";
 	}
-	echo htmlentities($value);
+	echo wt_he($value);
 	if($key==$id or ($id=="accommodaties" and $key=="zoek-en-boek") or ($id=="aanbiedingen_zomerhuisje" and $key=="aanbiedingen")) {
 		echo "</span>";
 	}
@@ -294,7 +294,7 @@ if($vars["verberg_linkerkolom"]) {
 	echo "<div id=\"terugnaarboven\" class=\"noprint\" style=\"visibility:hidden;\"><a href=\"#top\">".html("terugnaarboven")."</a></div>";
 
 #	if(!$vars["wederverkoop"]) {
-#		echo "<div id=\"contactgegevens\">".htmlentities($vars["websitenaam"])."&nbsp;&nbsp;&nbsp;".html("telefoonnummer")."&nbsp;&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a></div>";
+#		echo "<div id=\"contactgegevens\">".wt_he($vars["websitenaam"])."&nbsp;&nbsp;&nbsp;".html("telefoonnummer")."&nbsp;&nbsp;&nbsp;<a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</a></div>";
 #	}
 
 	echo "</div>\n";
@@ -375,7 +375,7 @@ if($vars["verberg_linkerkolom"]) {
 	// 		}
 	// 		if(ereg("^([0-9]+)-0$",$value,$regs)) {
 	// 			if($optgroup_open) echo "</OPTGROUP>\n";
-	// 			echo "<OPTGROUP LABEL=\"".htmlentities($landnaam[$regs[1]])."\">\n";
+	// 			echo "<OPTGROUP LABEL=\"".wt_he($landnaam[$regs[1]])."\">\n";
 	// 			$optgroup_open=true;
 	// 		}
 	// 		echo "<option value=\"".$value."\"";
@@ -389,7 +389,7 @@ if($vars["verberg_linkerkolom"]) {
 	// 			echo " selected";
 	// 		}
 	// 		echo ">";
-	// 		echo htmlentities(ereg_replace("^.*___","",$key))."</OPTION>";
+	// 		echo wt_he(ereg_replace("^.*___","",$key))."</OPTION>";
 	// 	}
 	// 	if($optgroup_open) echo "</OPTGROUP>\n";
 
@@ -415,7 +415,7 @@ if($vars["verberg_linkerkolom"]) {
 		while(list($key,$value)=each($vars["aantalpersonen"])) {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
-			echo ">".htmlentities($value)."</option>";
+			echo ">".wt_he($value)."</option>";
 		}
 		echo "</select>";
 		echo "</div>";
@@ -454,7 +454,7 @@ if($vars["verberg_linkerkolom"]) {
 		while(list($key,$value)=each($vars["verblijfsduur"])) {
 			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 			if($key==="-") echo " selected";
-			echo ">".htmlentities($value)."</option>";
+			echo ">".wt_he($value)."</option>";
 		}
 		echo "</select>";
 		echo "</div>";
@@ -524,9 +524,9 @@ if($vars["verberg_linkerkolom"]) {
 
 	if($id<>"index" and $id<>"toonaccommodatie" and !$laat_titel_weg) {
 		if($header[$id]) {
-			echo "<h1>".htmlentities($header[$id])."</h1>";
+			echo "<h1>".wt_he($header[$id])."</h1>";
 		} else {
-			echo "<h1>".htmlentities($title[$id])."</h1>";
+			echo "<h1>".wt_he($title[$id])."</h1>";
 		}
 	}
 
@@ -559,7 +559,7 @@ if($vars["verberg_linkerkolom"]) {
 	echo "<div style=\"clear: both;\"></div>\n";
 }
 
-echo "<div id=\"colofon\" class=\"noprint\">".html("handelsnaam_zomerhuisje")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a>&nbsp;&nbsp;-&nbsp;&nbsp;tel:&nbsp;".html("telefoonnummer_alleen")."</div>\n";
+echo "<div id=\"colofon\" class=\"noprint\">".html("handelsnaam_zomerhuisje")."&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</a>&nbsp;&nbsp;-&nbsp;&nbsp;tel:&nbsp;".html("telefoonnummer_alleen")."</div>\n";
 
 echo "<div id=\"submenu_footer\" style=\"text-align:center;\"><a href=\"".$vars["path"]."disclaimer.php\">Disclaimer</a> - <a href=\"".$vars["path"]."privacy-statement.php\">Privacy statement</a></div>";
 
@@ -570,14 +570,14 @@ echo "</div>\n"; # "content" afsluiten
 if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcrumbs"]) {
 	echo "<div id=\"breadcrumb_wrapper\" class=\"noprint\">";
 	echo "<div id=\"breadcrumb_overlay\" class=\"noprint\">";
-	echo "<a href=\"".$vars["path"]."\">".htmlentities(ucfirst(txt("menutitle_index")))."</a>";
+	echo "<a href=\"".$vars["path"]."\">".wt_he(ucfirst(txt("menutitle_index")))."</a>";
 	if(!is_array($breadcrumbs)) {
 		$breadcrumbs["last"]=$title[$id];
 	}
 	while(list($key,$value)=each($breadcrumbs)) {
 		echo "&nbsp;&nbsp;&gt;&nbsp;&nbsp;";
-		if($key<>"last") echo "<a href=\"".htmlentities($vars["path"].$key)."\">";
-		echo htmlentities($value);
+		if($key<>"last") echo "<a href=\"".wt_he($vars["path"].$key)."\">";
+		echo wt_he($value);
 		if($key<>"last") echo "</a>";
 	}
 	echo "</div>"; # afsluiten breadcrumb_overlay

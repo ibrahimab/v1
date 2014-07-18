@@ -5,7 +5,7 @@ $cms->display_cms();
 if($_GET["show"]==25 and $_GET["25k0"]) {
 	#
 	# cmslog_pagina tonen
-	#	
+	#
 	if(!$_GET["cmslog"]) {
 		$db->query("SELECT url, title, UNIX_TIMESTAMP(savedate) AS savedate FROM cmslog_pagina WHERE user_id='".addslashes($_GET["25k0"])."' ORDER BY savedate DESC".($_GET["cmslog_pagina"] ? " LIMIT 0,5000" : " LIMIT 0,11").";");
 		if($db->num_rows()) {
@@ -29,64 +29,64 @@ if($_GET["show"]==25 and $_GET["25k0"]) {
 				} else {
 					$showurl=$url;
 				}
-				echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td style=\"width:300px;\">".htmlentities($db->f("title"))."</td><td title=\"".htmlentities($db->f("url"))."\">".($link ? "<a href=\"".htmlentities($url)."\" target=\"_blank\">" : "").htmlentities($showurl).($link ? "</a>" : "")."</td></tr>";
+				echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td style=\"width:300px;\">".wt_he($db->f("title"))."</td><td title=\"".wt_he($db->f("url"))."\">".($link ? "<a href=\"".wt_he($url)."\" target=\"_blank\">" : "").wt_he($showurl).($link ? "</a>" : "")."</td></tr>";
 				if($regelteller>=10 and !$_GET["cmslog_pagina"]) {
 					break;
 				}
 			}
 			if($regelteller>=10 and !$_GET["cmslog_pagina"]) {
-				echo "<tr><td colspan=\"3\"><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&cmslog_pagina=1#cmslog_pagina\">Bekijk de laatste 5000 regels van het logbestand &gt;</a></td></tr>";
+				echo "<tr><td colspan=\"3\"><a href=\"".wt_he($_SERVER["REQUEST_URI"])."&cmslog_pagina=1#cmslog_pagina\">Bekijk de laatste 5000 regels van het logbestand &gt;</a></td></tr>";
 			}
 			echo "</table>";
 		}
-	}	
+	}
 	#
 	# cmslog tonen
 	#
 	if(!$_GET["cmslog_pagina"]) {
 		$db->query("SELECT UNIX_TIMESTAMP(savedate) AS savedate, user_id, cms_name, specialtype, field_name, record_id, record_name, previous, now, boekinglogtekst, url FROM cmslog WHERE user_id='".addslashes($_GET["25k0"])."' AND hide=0 ORDER BY savedate DESC, cmslog_id DESC".($_GET["cmslog"] ? " LIMIT 0,5000" : " LIMIT 0,11").";");
 		if($db->num_rows()) {
-	
+
 			echo "<br><a name=\"cmslog\"></a><hr><br><b>Logbestand wijzigingen</b><br><br>";
 			echo "<table cellspacing=\"0\" class=\"tbl logtbl difftbl\">";
-	
+
 			echo "<tr style=\"font-weight:bold;\"><th>datum/tijd</th><th>onderdeel</th><th>record</th><th>veld</th><th style=\"width:30%;\">van</th><th style=\"width:30%;\">naar</th></tr>";
 			$regelteller=0;
 			while($db->next_record()) {
 				$regelteller++;
-				
+
 				if($db->f("specialtype")==1) {
 					# records aangemaakt
-					echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".htmlentities($db->f("cms_name"))."</td><td colspan=\"4\"><i>Nieuw record aangemaakt</i></td></tr>";
+					echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".wt_he($db->f("cms_name"))."</td><td colspan=\"4\"><i>Nieuw record aangemaakt</i></td></tr>";
 				} elseif($db->f("specialtype")==2) {
 					# boeking-log
-					echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".htmlentities($db->f("cms_name"))."</td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("record_id")."\" target=\"_blank\">".htmlentities($db->f("record_name"))."</a></td><td colspan=\"3\">".htmlentities($db->f("boekinglogtekst"))."</td></tr>";
+					echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".wt_he($db->f("cms_name"))."</td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("record_id")."\" target=\"_blank\">".wt_he($db->f("record_name"))."</a></td><td colspan=\"3\">".wt_he($db->f("boekinglogtekst"))."</td></tr>";
 				} elseif($db->f("specialtype")==3) {
 					# beschikbaarheid-log
-					echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".htmlentities($db->f("cms_name"))."</td><td nowrap><a href=\"".$db->f("url")."\" target=\"_blank\">".htmlentities($db->f("record_name"))."</a></td><td colspan=\"3\">".htmlentities($db->f("boekinglogtekst"))."</td></tr>";
+					echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".wt_he($db->f("cms_name"))."</td><td nowrap><a href=\"".$db->f("url")."\" target=\"_blank\">".wt_he($db->f("record_name"))."</a></td><td colspan=\"3\">".wt_he($db->f("boekinglogtekst"))."</td></tr>";
 				} else {
-	
-					$previous=nl2br(htmlentities($db->f("previous")));
+
+					$previous=nl2br(wt_he($db->f("previous")));
 					$replace=array("/([A-Za-z0-9]\/)([A-Za-z0-9])/","/(-)/","/(_)/","/(\.)/","/(%)/");
 					$previous=preg_replace($replace,"\\1&#8203;<wbr>\\2",$previous);
-	
+
 					if(strlen($db->f("previous"))>0 and strlen($db->f("now"))>0 and (strlen($db->f("previous"))>10 or strlen($db->f("now"))>10)) {
 						$now=nl2br(wt_diff($db->f("previous"),$db->f("now")));
 					} else {
-						$now=nl2br(htmlentities($db->f("now")));
+						$now=nl2br(wt_he($db->f("now")));
 					}
 					$replace=array("/([A-Za-z0-9]\/)([A-Za-z0-9])/","/(-)/","/(_)/","/(\.)/","/(%)/");
 					$now=preg_replace($replace,"\\1&#8203;<wbr>\\2",$now);
-					
-					
-					echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".htmlentities($db->f("cms_name"))."</td><td>".htmlentities($db->f("record_name"))."</td><td>".htmlentities($db->f("field_name"))."</td><td>".$previous."</td><td>".$now."</td></tr>";
+
+
+					echo "<tr><td nowrap>".date("d-m-Y, H:i",$db->f("savedate"))."u.</td><td>".wt_he($db->f("cms_name"))."</td><td>".wt_he($db->f("record_name"))."</td><td>".wt_he($db->f("field_name"))."</td><td>".$previous."</td><td>".$now."</td></tr>";
 				}
 				if($regelteller>=10 and !$_GET["cmslog"]) {
 					break;
 				}
 			}
 			if($regelteller>=10 and !$_GET["cmslog"]) {
-				echo "<tr><td colspan=\"6\"><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&cmslog=1#cmslog\">Bekijk de laatste 5000 regels van het logbestand &gt;</a></td></tr>";
+				echo "<tr><td colspan=\"6\"><a href=\"".wt_he($_SERVER["REQUEST_URI"])."&cmslog=1#cmslog\">Bekijk de laatste 5000 regels van het logbestand &gt;</a></td></tr>";
 			}
 			echo "</table>";
 		}

@@ -1,9 +1,9 @@
 <?php
 
 if($gegevens) {
-	echo "<b>".html("boeking","verzendmethode")." ".htmlentities($gegevens["stap1"]["boekingsnummer"])."</b><br>";
-	echo "<b>".htmlentities($gegevens["stap1"]["accinfo"]["accnaam"]." (".$gegevens["stap1"]["accinfo"]["aantalpersonen"]."), ".$gegevens["stap1"]["accinfo"]["plaats"])."</b><br>";
-	echo "<b>".htmlentities(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]))."</b><br><br>";
+	echo "<b>".html("boeking","verzendmethode")." ".wt_he($gegevens["stap1"]["boekingsnummer"])."</b><br>";
+	echo "<b>".wt_he($gegevens["stap1"]["accinfo"]["accnaam"]." (".$gegevens["stap1"]["accinfo"]["aantalpersonen"]."), ".$gegevens["stap1"]["accinfo"]["plaats"])."</b><br>";
+	echo "<b>".wt_he(DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"]))."</b><br><br>";
 
 	$uiterlijke_datum=mktime(0,0,0,date("m",$gegevens["stap1"]["aankomstdatum_exact"]),date("d",$gegevens["stap1"]["aankomstdatum_exact"])-intval($gegevens["stap1"]["wijzigen_dagen"])+1,date("Y",$gegevens["stap1"]["aankomstdatum_exact"]));
 	if(time()>$uiterlijke_datum) {

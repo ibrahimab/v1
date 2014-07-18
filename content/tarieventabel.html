@@ -353,7 +353,7 @@ if($db2->next_record()) {
 			if($voorkant_cms and !$tarievenpopup) {
 				echo "<div style=\"float:left;width:500px;\">";
 			}
-			echo html("tarieven","tarieventabel")." ".htmlentities(str_replace("zomer ","",$seizoen["naam"]))." - ".html("ineuros","tarieventabel").", ";
+			echo html("tarieven","tarieventabel")." ".wt_he(str_replace("zomer ","",$seizoen["naam"]))." - ".html("ineuros","tarieventabel").", ";
 			if($toonper==3 or $vars["wederverkoop"]) {
 				echo html("peraccommodatie","tarieventabel");
 			} elseif($vars["seizoentype"]==1) {
@@ -394,7 +394,7 @@ if($db2->next_record()) {
 			if($voorkant_cms and !$tarievenpopup) {
 				echo "<div style=\"float:left;width:500px;\">";
 			}
-			echo html("tarieven","tarieventabel")." ".htmlentities($seizoen["naam"])." - ".html("ineuros","tarieventabel").", ";
+			echo html("tarieven","tarieventabel")." ".wt_he($seizoen["naam"])." - ".html("ineuros","tarieventabel").", ";
 			if($toonper==3 or $vars["wederverkoop"]) {
 				echo html("peraccommodatie","tarieventabel");
 			} elseif($vars["seizoentype"]==1) {
@@ -922,7 +922,7 @@ if($db2->next_record()) {
 			if($vars["vertrekdagtype"][$seizoenid]["toelichting"]) {
 				echo "<tr><td nowrap class=\"afwijkingenaankomstdatum\" style=\"background-color:#ccffff;padding-top:4px;padding-bottom:4px;\" colspan=\"".(count($dag)+1)."\">";
 				echo "<b>".html("vertrekdagafwijking","tarieventabel").":</b>";
-				echo "<br>".nl2br(htmlentities($vars["vertrekdagtype"][$seizoenid]["toelichting"]));
+				echo "<br>".nl2br(wt_he($vars["vertrekdagtype"][$seizoenid]["toelichting"]));
 				echo "</td></tr>";
 			}
 
@@ -941,7 +941,7 @@ if($db2->next_record()) {
 				echo " - <a href=\"javascript:toggle_tonen_verbergen('tonen_verbergen_".$seizoenteller."');\"><span id=\"toon_tekst\">".html("wederverkoop_tooncommissie","tarieventabel")."</span></a>";
 			}
 			if(!$vars["wederverkoop"] and !$tarievenpopup) {
-				echo " - <a href=\"".$path."calc.php?tid=".htmlentities($typeid)."&ap=".htmlentities($_GET["ap"])."&d=".htmlentities($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")."</a>";
+				echo " - <a href=\"".$path."calc.php?tid=".wt_he($typeid)."&ap=".wt_he($_GET["ap"])."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")."</a>";
 			}
 			echo "</td></tr>";
 		}

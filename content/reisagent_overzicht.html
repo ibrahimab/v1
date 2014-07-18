@@ -47,7 +47,7 @@ if($_GET["mijngeg"]) {
 			while(list($key,$value)=each($sites)) {
 				if($value<>$vars["website"]) {
 					$url=$vars["websiteinfo"]["basehref"][$value]."reisagent_overzicht.php?calculations=1";
-					echo "<li><a href=\"".htmlentities($url)."\" target=\"_blank\">".htmlentities($vars["websiteinfo"]["websitenaam"][$value])."</a></li>";
+					echo "<li><a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($vars["websiteinfo"]["websitenaam"][$value])."</a></li>";
 				}
 			}
 			echo "</ul>";
@@ -93,16 +93,16 @@ if($_GET["mijngeg"]) {
 			} else {
 				$factuur="";
 			}
-			echo "<tr><td valign=\"top\">".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\">".htmlentities($db->f("boekingsnummer"))."</td><td valign=\"top\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")).", ".$db->f("plaats").(!eregi("nederland",$db->f("land")) ? " / ".$db->f("land") : ""))."</td><td align=\"right\" valign=\"top\">".number_format($db->f("totale_reissom"),2,",",".")."</td><td align=\"right\" valign=\"top\">".($voldaan_array[$db->f("boeking_id")]<>0 ? number_format($voldaan_array[$db->f("boeking_id")],2,",",".") : "-")."</td><td align=\"right\" valign=\"top\">".($openstaand<>0 ? number_format($openstaand,2,",",".") : "-")."</td><td align=\"center\" valign=\"top\">".($factuur ? "<a href=\"".$vars["path"]."reisagent_factuur_dl.php?f=".$factuur."\"><img src=\"".$vars["path"]."pic/pdflogo.gif\" border=\"0\" target=\"_blank\"></a>" : "&nbsp;")."</td></tr>";
+			echo "<tr><td valign=\"top\">".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\">".wt_he($db->f("boekingsnummer"))."</td><td valign=\"top\">".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")).", ".$db->f("plaats").(!eregi("nederland",$db->f("land")) ? " / ".$db->f("land") : ""))."</td><td align=\"right\" valign=\"top\">".number_format($db->f("totale_reissom"),2,",",".")."</td><td align=\"right\" valign=\"top\">".($voldaan_array[$db->f("boeking_id")]<>0 ? number_format($voldaan_array[$db->f("boeking_id")],2,",",".") : "-")."</td><td align=\"right\" valign=\"top\">".($openstaand<>0 ? number_format($openstaand,2,",",".") : "-")."</td><td align=\"center\" valign=\"top\">".($factuur ? "<a href=\"".$vars["path"]."reisagent_factuur_dl.php?f=".$factuur."\"><img src=\"".$vars["path"]."pic/pdflogo.gif\" border=\"0\" target=\"_blank\"></a>" : "&nbsp;")."</td></tr>";
 		}
 		echo "</table>";
 	} else {
 		echo html("geenboekingen","reisbureau_overzicht",array("v_websitenaam"=>$vars["websitenaam"]));
 	}
 	if($_GET["boekingenarchief"]) {
-		echo "<p><a href=\"".htmlentities(str_replace("&boekingenarchief=1","",$_SERVER["REQUEST_URI"]))."\">".html("bekijkboekingenactueel","reisbureau_overzicht")."</a></p>";
+		echo "<p><a href=\"".wt_he(str_replace("&boekingenarchief=1","",$_SERVER["REQUEST_URI"]))."\">".html("bekijkboekingenactueel","reisbureau_overzicht")."</a></p>";
 	} else {
-		echo "<p><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&boekingenarchief=1\">".html("bekijkboekingenverleden","reisbureau_overzicht")."</a></p>";
+		echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"])."&boekingenarchief=1\">".html("bekijkboekingenverleden","reisbureau_overzicht")."</a></p>";
 	}
 } else {
 	if($login_rb->vars["inzicht_boekingen"]) {
@@ -148,7 +148,7 @@ if($_GET["mijngeg"]) {
 			while(list($key,$value)=each($sites)) {
 				if($value<>$vars["website"]) {
 					$url=$vars["websiteinfo"]["basehref"][$value]."reisagent_overzicht.php";
-					echo "<li><a href=\"".htmlentities($url)."\" target=\"_blank\">".htmlentities($vars["websiteinfo"]["websitenaam"][$value])."</a></li>";
+					echo "<li><a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($vars["websiteinfo"]["websitenaam"][$value])."</a></li>";
 				}
 			}
 			echo "</ul>";

@@ -112,7 +112,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 
 		echo "</ul>";
 	}
-	echo "<p><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\">Terug naar lijst</a>";
+	echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"])."\">Terug naar lijst</a>";
 } else {
 
 	# Boekingen die op "gemaild" staan automatisch op "nabellen" zetten na 7 dagen
@@ -241,7 +241,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 			# Niet geblokkeerde mailtjes altijd tonen, geblokkeerde mailtjes alleen tonen tot 6 weken voor vertrek
 			if(!$db->f("mailblokkeren_opties") or ($db->f("mailblokkeren_opties") and $db->f("aankomstdatum")>=$vars["zaterdag_over_6_weken"])) {
 				$regelteller++;
-				$select_table[$use_key] .= "<tr><td align=\"center\"><a name=\"regel".$regelteller."\"></a><input type=\"checkbox\" name=\"verwijderboeking[".$db->f("boeking_id")."]\" value=\"1\"></td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."&bestaande=1&back=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&regel=".$regelteller."\"".($_GET["status"]==2 ? " target=\"_blank\"" : "").">".htmlentities($db->f("boekingsnummer"))."</a></td>";
+				$select_table[$use_key] .= "<tr><td align=\"center\"><a name=\"regel".$regelteller."\"></a><input type=\"checkbox\" name=\"verwijderboeking[".$db->f("boeking_id")."]\" value=\"1\"></td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."&bestaande=1&back=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&regel=".$regelteller."\"".($_GET["status"]==2 ? " target=\"_blank\"" : "").">".wt_he($db->f("boekingsnummer"))."</a></td>";
 				if($_GET["status"]==2) {
 					if(!$_GET["accid"]) {
 						if($db->f("atonen") and $db->f("ttonen") and preg_match("/".$db->f("website")."/",$db->f("websites"))) {
@@ -249,16 +249,16 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 						} else {
 							$type_bgcolor="#ffa9a9;";
 						}
-						$select_table[$use_key] .= "<td style=\"background-color:".$type_bgcolor."\"><a href=\"cms_types.php?show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)")."</a></td>";
+						$select_table[$use_key] .= "<td style=\"background-color:".$type_bgcolor."\"><a href=\"cms_types.php?show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)")."</a></td>";
 					}
-					$select_table[$use_key] .= "<td>".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td align=\"center\"><a href=\"javascript:popwindowXY(750,540,'".$vars["path"]."popup.php?id=cms_mail_klanten_vorig_seizoen_bewerken&bid=".$db->f("boeking_id")."','center');\">bewerken</a></td><td align=\"center\">&nbsp;";
+					$select_table[$use_key] .= "<td>".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td align=\"center\"><a href=\"javascript:popwindowXY(750,540,'".$vars["path"]."popup.php?id=cms_mail_klanten_vorig_seizoen_bewerken&bid=".$db->f("boeking_id")."','center');\">bewerken</a></td><td align=\"center\">&nbsp;";
 					$select_table[$use_key] .= "<span id=\"bewerk".$db->f("boeking_id")."\" style=\"".($db->f("mailtekst_klanten_vorig_seizoen")=="" ? "display:none;" : "")."\">";
 					$select_table[$use_key] .= "ja";
 					$select_table[$use_key] .= "</span>";
 					$select_table[$use_key] .= "&nbsp;</td><td align=\"center\"".($db->f("mailblokkeren_klanten_vorig_seizoen") ? "style=\"background-color:#ffa9a9;\"" : "")."><input type=\"checkbox\" name=\"boeking[".$db->f("boeking_id")."]\" value=\"1\" class=\"checkbox_versturen\">";
 					$select_table[$use_key] .= "</td></tr>\n";
 				} else {
-					$select_table[$use_key] .= "<td>".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td><td align=\"center\" title=\"".htmlentities($db->f("opmerkingen_klanten_vorig_seizoen"))."\">".($db->f("opmerkingen_klanten_vorig_seizoen") ? "ja" : "&nbsp;")."</td><td>".($db->f("mailverstuurd_klanten_vorig_seizoen")>0 ? date("d-m-Y",$db->f("mailverstuurd_klanten_vorig_seizoen")) : "&nbsp;").($db->f("mailverstuurd2_klanten_vorig_seizoen")>0 ? "<br>".date("d-m-Y",$db->f("mailverstuurd2_klanten_vorig_seizoen")) : "")."</td><td>".htmlentities($vars["status_bestaandeklanten"][$db->f("status_klanten_vorig_seizoen")])."</td></tr>\n";
+					$select_table[$use_key] .= "<td>".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td><td align=\"center\" title=\"".wt_he($db->f("opmerkingen_klanten_vorig_seizoen"))."\">".($db->f("opmerkingen_klanten_vorig_seizoen") ? "ja" : "&nbsp;")."</td><td>".($db->f("mailverstuurd_klanten_vorig_seizoen")>0 ? date("d-m-Y",$db->f("mailverstuurd_klanten_vorig_seizoen")) : "&nbsp;").($db->f("mailverstuurd2_klanten_vorig_seizoen")>0 ? "<br>".date("d-m-Y",$db->f("mailverstuurd2_klanten_vorig_seizoen")) : "")."</td><td>".wt_he($vars["status_bestaandeklanten"][$db->f("status_klanten_vorig_seizoen")])."</td></tr>\n";
 				}
 			}
 		}
@@ -280,7 +280,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 				} else {
 					$type_bgcolor="#ffa9a9;";
 				}
-				$select_table[$use_key] .= "<td style=\"background-color:".$type_bgcolor."\"><a href=\"cms_types.php?show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)")."</a></td>";
+				$select_table[$use_key] .= "<td style=\"background-color:".$type_bgcolor."\"><a href=\"cms_types.php?show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)")."</a></td>";
 			}
 			$select_table[$use_key] .= "<td><a href=\"mailto:".wt_he($db->f("email"))."\">".wt_he($db->f("email"))."</a></td><td nowrap>&nbsp;</td><td align=\"center\"><a href=\"javascript:popwindowXY(750,540,'".$vars["path"]."popup.php?id=cms_mail_klanten_vorig_seizoen_bewerken&newpricesmail_id=".$db->f("newpricesmail_id")."','center');\">bewerken</a></td><td align=\"center\">&nbsp;";
 			$select_table[$use_key] .= "<span id=\"bewerk_np_".$db->f("newpricesmail_id")."\" style=\"".($db->f("mailtekst")=="" ? "display:none;" : "")."\">";
@@ -298,7 +298,7 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 		if($_GET["accid"]) {
 			$db->query("SELECT plaats, naam FROM view_accommodatie WHERE accommodatie_id='".intval($_GET["accid"])."' LIMIT 0,1;");
 			if($db->next_record()) {
-				echo "Accommodatie: <a href=\"cms_accommodaties.php?show=1&1k0=".htmlentities($_GET["accid"])."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a><p>";
+				echo "Accommodatie: <a href=\"cms_accommodaties.php?show=1&1k0=".wt_he($_GET["accid"])."\">".wt_he($db->f("plaats")." - ".$db->f("naam"))."</a><p>";
 			}
 		} else {
 			echo "<div style=\"margin-top:10px;margin-bottom:10px;\"><span style=\"background-color:#ffa9a9;\">rode types</span> zijn niet meer op de website van de betreffende boeking aanwezig.</div>";
@@ -307,11 +307,11 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 			if($_GET["showmailuitgezet"]) {
 				echo "<span style=\"background-color:#ffa9a9;\">rode boekingen</span> = boeking waarbij mail m.b.t. volgend seizoen is uitgezet<p>";
 			} else {
-				echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&showmailuitgezet=1\">Bekijk boekingen waarbij mail m.b.t. volgend seizoen is uitgezet &raquo;</a><p>";
+				echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&showmailuitgezet=1\">Bekijk boekingen waarbij mail m.b.t. volgend seizoen is uitgezet &raquo;</a><p>";
 			}
 		}
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
-		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 
 		if($_GET["status"]==2) {
 			echo "<tr><th title=\"Verwijder de boeking uit deze lijst\" style=\"width:10px;\">Wis</th><th>Boeking</th>";

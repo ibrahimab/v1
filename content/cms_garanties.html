@@ -134,13 +134,13 @@ if($_GET["status"]==4) {
 } else {
 
 	if($_GET["34k0"]) {
-		echo "<p><a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?gar_id=".htmlentities($_GET["34k0"])."\">Inkoopbetalingen van deze garantie &raquo;</a></p>";
+		echo "<p><a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?gar_id=".wt_he($_GET["34k0"])."\">Inkoopbetalingen van deze garantie &raquo;</a></p>";
 	}
 
 	$cms->display_cms();
 
 	if($_GET["edit"]==34) {
-		echo "<p><a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?gar_id=".htmlentities($_GET["34k0"])."\">Inkoopbetalingen van deze garantie &raquo;</a></p>";
+		echo "<p><a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?gar_id=".wt_he($_GET["34k0"])."\">Inkoopbetalingen van deze garantie &raquo;</a></p>";
 		$cms->display_log(34);
 	}
 }

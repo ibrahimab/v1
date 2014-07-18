@@ -155,14 +155,14 @@ if($_GET["voorwaarden"]) {
 		echo "<div class=\"blog_item\" style=\"width:500px\">";
 		if($blogitem_gehad) echo "<hr>";
 		$url=$vars["path"]."reisblog?b=".$db->f("reisblog_id");
-		echo "<div class=\"blog_titel\"><h1><a href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></h1></div>";
+		echo "<div class=\"blog_titel\"><h1><a href=\"".wt_he($url)."\">".wt_he($db->f("titel"))."</a></h1></div>";
 		echo "<div class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
 		$file="pic/cms/reisblog_tn/".$db->f("reisblog_id").".jpg";
 		if(file_exists($file)) {
-			echo "<a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
+			echo "<a href=\"".wt_he($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
 		}
 		echo "<div class=\"blog_inleiding\">".nl2br(wt_he(trim($db->f("inleiding"))));
-		echo " <span class=\"blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></span>";
+		echo " <span class=\"blog_link\"><a href=\"".wt_he($url)."\">Lees verder &raquo;</a></span>";
 		echo "</div>"; # afsluiten blog_inleiding
 		echo "<div style=\"clear: both;\"></div>";
 		echo "</div>"; # afsluiten class blog_item

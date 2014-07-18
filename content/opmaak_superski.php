@@ -33,14 +33,14 @@ echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\
 echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
 echo "<title>";
 if($id=="index") {
-	echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("subtitel"));
+	echo wt_he($vars["websitenaam"])." - ".wt_he(txt("subtitel"));
 	$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("subtitel");
 } else {
 	if($title[$id] and $id) {
-		echo htmlentities($title[$id])." - ";
+		echo wt_he($title[$id])." - ";
 		$vars["facebook_title"]=$title[$id];
 	}
-	echo htmlentities($vars["websitenaam"]);
+	echo wt_he($vars["websitenaam"]);
 }
 echo "</title>";
 
@@ -100,13 +100,13 @@ echo 'document.write(\'<style type="text/css">	#tabs { visibility: hidden; } #bo
 echo "</script>";
 
 # JQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\" ></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jquery_url"])."\" ></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jqueryui_url"])."\" ></script>\n";
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_superski.ico\" />\n";
 
 if($vars["canonical"]) {
-	echo "<link rel=\"canonical\" href=\"".htmlentities($vars["canonical"])."\" />\n";
+	echo "<link rel=\"canonical\" href=\"".wt_he($vars["canonical"])."\" />\n";
 }
 
 
@@ -170,8 +170,8 @@ echo "<div style=\"clear: both;\"></div>\n";
 echo "<div id=\"menubalk_print\" class=\"onlyprint\">";
 echo "<div id=\"menubalk_print_logo\"><img src=\"".$vars["path"]."pic/factuur_logo_superski.png\"></div>";
 echo "<div id=\"menubalk_print_info\">";
-echo "<h2>".htmlentities($vars["websitenaam"])."</h2>";
-echo "<b>".htmlentities(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</p></b>";
+echo "<h2>".wt_he($vars["websitenaam"])."</h2>";
+echo "<b>".wt_he(ereg_replace("http://([a-z0-9\.]*)/.*","\\1",$vars["basehref"]))."<p>".html("telefoonnummer")."</p></b>";
 echo "</div>"; # afsluiten #menubalk_print_info
 echo "<div style=\"clear: both;\"></div>\n";
 echo "</div>"; # afsluiten #menubalk_print
@@ -197,7 +197,7 @@ while(list($key,$value)=each($menu)) {
 	if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
 		echo "<span class=\"hoofdmenu_actief\">";
 	}
-	echo htmlentities($value);
+	echo wt_he($value);
 	if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
 		echo "</span>";
 	}
@@ -289,9 +289,9 @@ if($vars["verberg_linkerkolom"]) {
 
 	if($id<>"index" and $id<>"toonaccommodatie" and !$laat_titel_weg) {
 		if($header[$id]) {
-			echo "<h1>".htmlentities($header[$id])."</h1>";
+			echo "<h1>".wt_he($header[$id])."</h1>";
 		} else {
-			echo "<h1>".htmlentities($title[$id])."</h1>";
+			echo "<h1>".wt_he($title[$id])."</h1>";
 		}
 	}
 
@@ -336,14 +336,14 @@ if(!$vars["verberg_linkerkolom"] and (!$vars["verberg_linkerkolom"] or $id=="too
 if($id<>"index" and !$vars["leverancier_mustlogin"] and !$vars["verberg_breadcrumbs"]) {
 	echo "<div id=\"breadcrumb_wrapper\" class=\"noprint\">";
 	echo "<div id=\"breadcrumb_overlay\" class=\"noprint\">";
-	echo "<a href=\"".$vars["path"]."\">".htmlentities(ucfirst(txt("menutitle_index")))."</a>";
+	echo "<a href=\"".$vars["path"]."\">".wt_he(ucfirst(txt("menutitle_index")))."</a>";
 	if(!is_array($breadcrumbs)) {
 		$breadcrumbs["last"]=$title[$id];
 	}
 	while(list($key,$value)=each($breadcrumbs)) {
 		echo "&nbsp;&nbsp;&gt;&nbsp;&nbsp;";
-		if($key<>"last") echo "<a href=\"".htmlentities($vars["path"].$key)."\">";
-		echo htmlentities($value);
+		if($key<>"last") echo "<a href=\"".wt_he($vars["path"].$key)."\">";
+		echo wt_he($value);
 		if($key<>"last") echo "</a>";
 	}
 	echo "</div>"; # afsluiten breadcrumb_overlay
@@ -463,7 +463,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	// while(list($key,$value)=each($vars["skigebied"])) {
 	// 	if(ereg("^([0-9]+)-0$",$value,$regs)) {
 	// 		if($optgroup_open) echo "</optgroup>\n";
-	// 		echo "<optgroup label=\"".htmlentities($landnaam[$regs[1]])."\">\n";
+	// 		echo "<optgroup label=\"".wt_he($landnaam[$regs[1]])."\">\n";
 	// 		$optgroup_open=true;
 	// 	}
 	// 	if(preg_match("/^([0-9]+)-([0-9]+)/",$value,$regs)) {
@@ -479,7 +479,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	// 		}
 	// 	}
 	// 	echo ">";
-	// 	echo htmlentities(ereg_replace("^.*___","",$key))."</option>";
+	// 	echo wt_he(ereg_replace("^.*___","",$key))."</option>";
 	// }
 	// if($optgroup_open) echo "</optgroup>\n";
 
@@ -501,7 +501,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	while(list($key,$value)=each($vars["aantalpersonen"])) {
 		echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 		if($key==="-") echo " selected";
-		echo ">".htmlentities($value)."</option>";
+		echo ">".wt_he($value)."</option>";
 	}
 	echo "</select>";
 	echo "</div>";

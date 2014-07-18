@@ -37,12 +37,12 @@ if($onjuisteurl) {
 		echo nl2br(html("alingevuld","enquete"))."<p>";
 	} else {
 		echo nl2br(html("inleiding1","enquete"))."<p>";
-		echo nl2br(html("inleiding2","enquete",array("h_1"=>"<a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</a>")))."<p>";
+		echo nl2br(html("inleiding2","enquete",array("h_1"=>"<a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</a>")))."<p>";
 		echo nl2br(html("inleiding3","enquete"))."<p>";
-		echo "<hr><b>".html("boeking","enquete")." ".htmlentities($gegevens["stap1"]["boekingsnummer"]." - ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"])."</b>";
+		echo "<hr><b>".html("boeking","enquete")." ".wt_he($gegevens["stap1"]["boekingsnummer"]." - ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"])."</b>";
 
 		echo "<hr>&nbsp;<br>";
-		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 		echo "<input type=\"hidden\" name=\"enqfilled\" value=\"1\">";
 
 		# Vraag 1: Wat is je mening over de accommodatie waar je bent geweest?

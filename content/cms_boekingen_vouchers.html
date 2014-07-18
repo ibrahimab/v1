@@ -6,9 +6,9 @@ if($mustlogin) {
 
 if($_GET["burl"]) {
 	if(preg_match("/cms_overzichten_overig/",$_GET["burl"])) {
-		echo "<a href=\"".htmlentities($_GET["burl"])."\">terug naar overzicht vouchers</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"]."\">ga naar boekingsgegevens ".$gegevens["stap1"]["boekingsnummer"]."</a><p>";
+		echo "<a href=\"".wt_he($_GET["burl"])."\">terug naar overzicht vouchers</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"]."\">ga naar boekingsgegevens ".$gegevens["stap1"]["boekingsnummer"]."</a><p>";
 	} else {
-		echo "<a href=\"".htmlentities($_GET["burl"])."\">terug naar boekingsgegevens</a><p>";
+		echo "<a href=\"".wt_he($_GET["burl"])."\">terug naar boekingsgegevens</a><p>";
 	}
 } elseif($_GET["bid"]) {
 	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";

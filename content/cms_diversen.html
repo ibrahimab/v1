@@ -46,7 +46,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 		while($db->next_record()) {
 			if(!$status_gehad[$db->f("status")]) {
 				if($status_gehad) echo "<br><br>";
-				echo "<h1>".htmlentities($vars["actielijst_status"][$db->f("status")]).":</h1>";
+				echo "<h1>".wt_he($vars["actielijst_status"][$db->f("status")]).":</h1>";
 				$status_gehad[$db->f("status")]=true;
 				unset($bgcolor);
 			}
@@ -66,12 +66,12 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			echo "<div id=\"row2_".$db->f("status").$db->f("actie_id")."\" style=\"padding:2px;\">";
 			echo "<div id=\"row_".$db->f("status")."_".$db->f("actie_id")."\" style=\"background-color:".($extracolor ? $extracolor : $bgcolor).";padding-top:6px;\">";
 			echo "<div style=\"float:left;width:20px;padding-top:3px;padding-left:2px;\"><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" border=\"0\"></div>";
-			echo "<div class=\"openklappen openklappen_actie\" rel=\"row3_".$db->f("status").$db->f("actie_id")."\" data-actieid=\"".$db->f("actie_id")."\" style=\"width:760px;float:left;\"><b>WT".$db->f("actie_id")."</b> <a href=\"#\" onclick=\"return false;\">".htmlentities($db->f("naam"))."</a></div>";
+			echo "<div class=\"openklappen openklappen_actie\" rel=\"row3_".$db->f("status").$db->f("actie_id")."\" data-actieid=\"".$db->f("actie_id")."\" style=\"width:760px;float:left;\"><b>WT".$db->f("actie_id")."</b> <a href=\"#\" onclick=\"return false;\">".wt_he($db->f("naam"))."</a></div>";
 			if($login->userlevel>=10 or $login->has_priv(26)) {
-				echo "<div style=\"float:right;width:30px;margin-bottom:4px;margin-top:-3px;\"><a href=\"cms_diversen.php?bc=".intval($_GET["bc"]+1)."&delete=39&t=".htmlentities($_GET["t"])."&39k0=".$db->f("actie_id")."\" onclick=\"return confirmLink('row_".$db->f("status")."_".$db->f("actie_id")."',this,'Actie  wissen?')\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
+				echo "<div style=\"float:right;width:30px;margin-bottom:4px;margin-top:-3px;\"><a href=\"cms_diversen.php?bc=".intval($_GET["bc"]+1)."&delete=39&t=".wt_he($_GET["t"])."&39k0=".$db->f("actie_id")."\" onclick=\"return confirmLink('row_".$db->f("status")."_".$db->f("actie_id")."',this,'Actie  wissen?')\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
 			}
-			echo "<div style=\"float:right;width:30px;margin-bottom:4px;margin-top:-3px;\"><a href=\"".$vars["path"]."cms_diversen.php?bc=".intval($_GET["bc"]+1)."&t=".htmlentities($_GET["t"])."&edit=39&39k0=".$db->f("actie_id")."\"><img src=\"".$vars["path"]."pic/class.cms_edit.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
-			echo "<div style=\"float:right;width:50px;\">".($db->f("alleenwebtastic")==1 ? "<i>intern</i>" : htmlentities($db->f("voornaam")))."</div>";
+			echo "<div style=\"float:right;width:30px;margin-bottom:4px;margin-top:-3px;\"><a href=\"".$vars["path"]."cms_diversen.php?bc=".intval($_GET["bc"]+1)."&t=".wt_he($_GET["t"])."&edit=39&39k0=".$db->f("actie_id")."\"><img src=\"".$vars["path"]."pic/class.cms_edit.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
+			echo "<div style=\"float:right;width:50px;\">".($db->f("alleenwebtastic")==1 ? "<i>intern</i>" : wt_he($db->f("voornaam")))."</div>";
 			if($_GET["t"]<>2) {
 				echo "<div style=\"float:right;width:90px;\">";
 				if($db->f("prioriteit")) {
@@ -120,7 +120,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 				if($betrokkenen_getoond) {
 					echo ", ";
 				}
-				echo htmlentities($vars["allewerknemers"][$value]);
+				echo wt_he($vars["allewerknemers"][$value]);
 				$betrokkenen_getoond=true;
 			}
 			echo "</td></tr>";
@@ -130,10 +130,10 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 			if($db->f("geschattetijd_min") or $db->f("geschattetijd")) {
 				echo "<tr><td>Geschatte ontwikkeltijd</td><td>";
 				if($db->f("geschattetijd_min")) {
-					echo htmlentities($db->f("geschattetijd_min").($db->f("geschattetijd_max") ? " - ".$db->f("geschattetijd_max") : ""))." uur ";
+					echo wt_he($db->f("geschattetijd_min").($db->f("geschattetijd_max") ? " - ".$db->f("geschattetijd_max") : ""))." uur ";
 				}
 				if($db->f("geschattetijd")) {
-					echo htmlentities($db->f("geschattetijd"));
+					echo wt_he($db->f("geschattetijd"));
 				}
 				echo "</td></tr>";
 			}
@@ -169,7 +169,7 @@ if($_GET["t"]==1 or $_GET["t"]==2) {
 	echo "De volgende termen worden gebruikt bij de vouchers:<ol>";
 	while(list($key,$value)=each($vars)) {
 		if(preg_match("/^voucher_/",$key)) {
-			echo "<li>".htmlentities($value["N"])."</li>";
+			echo "<li>".wt_he($value["N"])."</li>";
 		}
 	}
 	echo "</ol>";

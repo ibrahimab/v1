@@ -13,12 +13,12 @@ if($_GET["show"]==24) {
 	$db->query("SELECT DISTINCT b.aankomstdatum FROM boeking b, accommodatie a, type t WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id ORDER BY aankomstdatum;");
 	while($db->next_record()) {
 		if(mktime(0,0,0,date("m"),date("d")-8,date("Y"))<=$db->f("aankomstdatum")) {
-			echo "<option value=\"".$db->f("aankomstdatum")."\">".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$db->f("aankomstdatum")])."</option>";
+			echo "<option value=\"".$db->f("aankomstdatum")."\">".wt_he($vars["aankomstdatum_weekend_alleseizoenen"][$db->f("aankomstdatum")])."</option>";
 		}
 	}
 	echo "</select></li>";
 	echo "</ul></form>";
-	
+
 	$cms->display_log(24);
 }
 

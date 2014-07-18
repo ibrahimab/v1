@@ -20,7 +20,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		// $db->query("DELETE FROM boeking_betaling WHERE boeking_id=244050;");
 	}
 
-	echo "<b>".htmlentities("Bestand \"".$_FILES["xmlbetalingen"]["name"]."\" (".$_FILES["xmlbetalingen"]["type"].")")." ontvangen</b><p>";
+	echo "<b>".wt_he("Bestand \"".$_FILES["xmlbetalingen"]["name"]."\" (".$_FILES["xmlbetalingen"]["type"].")")." ontvangen</b><p>";
 
 	unset($betaling);
 
@@ -219,7 +219,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		echo "<div style=\"margin-bottom:10px;\"><span style=\"background-color:#ffa9a9;\">Rood</span> = aanbetaling wijkt af van het ge&iuml;mporteerde bedrag</div>";
 
 #		echo "<span style=\"background-color:yellow;\">geel</span> = import via nieuw systeem (even in de gaten houden)<p>";
-		echo "<form method=\"post\" name=\"frm\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\">";
+		echo "<form method=\"post\" name=\"frm\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
 		echo "<input type=\"hidden\" name=\"ontvangstbevestigingmailen\" value=\"1\">";
 		$table.="<table class=\"tbl\" cellspacing=\"0\" cellpadding=\"0\">";
 		$table.="<tr id=\"fixedtable_header\"><th>&nbsp;</th><th>Reserveringsnummer&nbsp;</th><th>Datum</th><th>Ontvangen</th><th>Openstaand</th><th nowrap>P.direct</th><th>Melding</th><th>&nbsp;</th><!-- _WT_WIS --><th title=\"Stuur ontvangstbevestiging\">Ontv.bev.</th><th title=\"Vraag om aanbetaling\">Aanbet.</th><!-- _WT_WIS --></tr>\n";
@@ -358,14 +358,14 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($value["banktransactieid"]) {
 				$db->query("SELECT boeking_id FROM boeking_betaling WHERE banktransactieid='".addslashes($value["banktransactieid"])."';");
 				if($db->next_record()) {
-					$foutmelding[]="banktransactieid ".htmlentities($value["banktransactieid"])." al in <a href=\"".ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"])."cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"])."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">systeem</a>";
+					$foutmelding[]="banktransactieid ".wt_he($value["banktransactieid"])." al in <a href=\"".ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"])."cms_boekingen_betalingen.php?burl=".urlencode(ereg_replace("/[a-z0-9]+/$","/",$vars["basehref"])."cms_boekingen.php?show=21&21k0=".$velden["boekingid"])."&bid=".$velden["boekingid"]."\" target=\"_blank\">systeem</a>";
 				} else {
 					$velden["banktransactieid"]=$value["banktransactieid"];
 				}
 			} else {
 				$foutmelding[]="geen banktransactieid aanwezig in import-bestand";
 			}
-			$regel.="<tr><td align=\"right\" valign=\"top\">".$teller."</td><td valign=\"top\">".htmlentities($value["boekingsnummer"])."&nbsp;</td><td valign=\"top\">".($velden["datum"]>0 ? date("d-m-Y",$velden["datum"]) : "&nbsp;")."</td><td valign=\"top\">&euro;&nbsp;".number_format($velden["bedrag"],2,",",".")."</td>";
+			$regel.="<tr><td align=\"right\" valign=\"top\">".$teller."</td><td valign=\"top\">".wt_he($value["boekingsnummer"])."&nbsp;</td><td valign=\"top\">".($velden["datum"]>0 ? date("d-m-Y",$velden["datum"]) : "&nbsp;")."</td><td valign=\"top\">&euro;&nbsp;".number_format($velden["bedrag"],2,",",".")."</td>";
 
 			# kolom openstaand
 			$regel.="<td>".($toonopenstaand<>0 ? number_format($toonopenstaand,2,",",".") : "&nbsp;")."</td>";
@@ -495,7 +495,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		$mail->html=ereg_replace("<\!-- _WT_WIS -->[^\n]+<\!-- _WT_WIS -->","",$mail->html);
 
 		$mail->send();
-		echo "<p><b>Logbestand gemaild aan <i>".htmlentities($mail->to)."</i>.</b>";
+		echo "<p><b>Logbestand gemaild aan <i>".wt_he($mail->to)."</i>.</b>";
 	}
 } elseif($_POST["ontvangstbevestigingmailen"]==1) {
 	if(is_array($_POST["mail"])) {
@@ -922,7 +922,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 								$losseboeking["marge_percentage"]=-100;
 							}
 							unset($losseregel);
-							$losseregel.="<tr><td><a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">garantie ".htmlentities($db->f("reserveringsnummer_extern"))."</a></td>";
+							$losseregel.="<tr><td><a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\">garantie ".wt_he($db->f("reserveringsnummer_extern"))."</a></td>";
 
 							# Aankomstdatum
 							if($form->input["losseboekingen"] or $_GET["csv"]) {
@@ -990,28 +990,28 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 								$losseregel.="<td>".wt_cur($losseboeking_betaling["gar_".$db->f("garantie_id")])."</td>";
 							}
 							if($kolom["boeking_leverancier"]) {
-								$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("leverancier"))."</td>";
+								$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("leverancier"))."</td>";
 							}
 							if($kolom["boeking_plaats"]) {
-								$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("plaats"))."</td>";
+								$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("plaats"))."</td>";
 							}
 							if($kolom["boeking_accommodatie"]) {
 								$accnaam=$db->f("abestelnaam")." ".($db->f("tbestelnaam") ? $db->f("tbestelnaam")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)";
-								$losseregel.="<td style=\"text-align:left;\">".htmlentities($accnaam)."</td>";
+								$losseregel.="<td style=\"text-align:left;\">".wt_he($accnaam)."</td>";
 							}
 							if($kolom["boeking_nachten"]) {
 								$aantalnachten=round(($db->f("vertrekdatum_exact")-$db->f("aankomstdatum_exact"))/86400);
-								$losseregel.="<td>".htmlentities($aantalnachten)."</td>";
+								$losseregel.="<td>".wt_he($aantalnachten)."</td>";
 							}
 							if($kolom["boeking_aankomstdatum"]) {
 								$losseregel.="<td>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
 							}
 							if($kolom["boeking_resnr"]) {
-		#						$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("reserveringsnummer_extern"))."</td>";
-								$losseregel.="<td style=\"text-align:left;\">".($db->f("factuurnummer") ? htmlentities($db->f("factuurnummer")) : ($db->f("inkoopdatum")>0 ? "OK ".date("d-m-Y",$db->f("inkoopdatum")) : "&nbsp;"))."</td>";
+		#						$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("reserveringsnummer_extern"))."</td>";
+								$losseregel.="<td style=\"text-align:left;\">".($db->f("factuurnummer") ? wt_he($db->f("factuurnummer")) : ($db->f("inkoopdatum")>0 ? "OK ".date("d-m-Y",$db->f("inkoopdatum")) : "&nbsp;"))."</td>";
 							}
 							if($kolom["boeking_klantnaam"]) {
-								$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("naam"))."</td>";
+								$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("naam"))."</td>";
 							}
 							if($kolom["boeking_grootboekrekeningnummer"]) {
 								$losseregel.="<td style=\"text-align:left;\">".wt_he($grootboek)."</td>";
@@ -1137,7 +1137,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$bgcolor="#bae9ff";
 			}
 			unset($losseregel);
-			$losseregel.="<tr".($bgcolor ? " style=\"background-color:".$bgcolor.";\"" : "")."><td><a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities($db->f("boekingsnummer"))."</a></td>";
+			$losseregel.="<tr".($bgcolor ? " style=\"background-color:".$bgcolor.";\"" : "")."><td><a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a></td>";
 
 			# Aankomstdatum
 			if($form->input["losseboekingen"] or $_GET["csv"]) {
@@ -1212,27 +1212,27 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$losseregel.="<td>".wt_cur($losseboeking_betaling[$db->f("boeking_id")])."</td>";
 			}
 			if($kolom["boeking_leverancier"]) {
-				$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("leverancier"))."</td>";
+				$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("leverancier"))."</td>";
 			}
 			if($kolom["boeking_plaats"]) {
-				$losseregel.="<td style=\"text-align:left;\">".htmlentities($db->f("plaats"))."</td>";
+				$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("plaats"))."</td>";
 			}
 			if($kolom["boeking_accommodatie"]) {
 				$accnaam=$db->f("abestelnaam")." ".($db->f("tbestelnaam") ? $db->f("tbestelnaam")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)";
-				$losseregel.="<td style=\"text-align:left;\">".htmlentities($accnaam)."</td>";
+				$losseregel.="<td style=\"text-align:left;\">".wt_he($accnaam)."</td>";
 			}
 			if($kolom["boeking_nachten"]) {
 				$aantalnachten=round(($db->f("vertrekdatum_exact")-$db->f("aankomstdatum_exact"))/86400);
-				$losseregel.="<td>".htmlentities($aantalnachten)."</td>";
+				$losseregel.="<td>".wt_he($aantalnachten)."</td>";
 			}
 			if($kolom["boeking_aankomstdatum"]) {
 				$losseregel.="<td>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
 			}
 			if($kolom["boeking_resnr"]) {
-				$losseregel.="<td style=\"text-align:left;\">".($db->f("leverancierscode") ? htmlentities($db->f("leverancierscode")) : "&nbsp;")."</td>";
+				$losseregel.="<td style=\"text-align:left;\">".($db->f("leverancierscode") ? wt_he($db->f("leverancierscode")) : "&nbsp;")."</td>";
 			}
 			if($kolom["boeking_klantnaam"]) {
-				$losseregel.="<td style=\"text-align:left;\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td>";
+				$losseregel.="<td style=\"text-align:left;\">".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")))."</td>";
 			}
 			if($kolom["boeking_grootboekrekeningnummer"]) {
 				$losseregel.="<td style=\"text-align:left;\">".wt_he($grootboek)."</td>";
@@ -1285,7 +1285,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 		echo "<tr><td colspan=\"".$colspan."\" style=\"text-align:left;\">";
 		if($seizoenteller>1) echo "<br><br>";
-		echo "<i>Seizoen: ".htmlentities($value)."</i></td></tr>";
+		echo "<i>Seizoen: ".wt_he($value)."</i></td></tr>";
 
 
 		# t.b.v. CSV-export
@@ -1318,31 +1318,31 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			echo "<th title=\"Netto-inkoopwaarde van de accommodatie\">Inkoop acc.</th>";
 		}
 		if($kolom["opties_bijkomende_kosten_verblijf"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_bijkomende_kosten_verblijf"])."\">Bijk.k.</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["opties_bijkomende_kosten_verblijf"])."\">Bijk.k.</th>";
 		}
 		if($kolom["opties_skipassen"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_skipassen"])."\">Skipas</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["opties_skipassen"])."\">Skipas</th>";
 		}
 		if($kolom["opties_huurmateriaal"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_huurmateriaal"])."\">Huurmat.</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["opties_huurmateriaal"])."\">Huurmat.</th>";
 		}
 		if($kolom["opties_skilessen"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_skilessen"])."\">Skiles</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["opties_skilessen"])."\">Skiles</th>";
 		}
 		if($kolom["opties_catering"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_catering"])."\">Catering</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["opties_catering"])."\">Catering</th>";
 		}
 		if($kolom["opties_vervoer"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_vervoer"])."\">Vervoer</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["opties_vervoer"])."\">Vervoer</th>";
 		}
 		if($kolom["opties_verzekeringen"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_verzekeringen"])."\">Verz.</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["opties_verzekeringen"])."\">Verz.</th>";
 		}
 		if($kolom["opties_kortingen"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_kortingen"])."\">Korting</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["opties_kortingen"])."\">Korting</th>";
 		}
 		if($kolom["opties_overig"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["opties_overig"])."\">Borg</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["opties_overig"])."\">Borg</th>";
 		}
 		if($kolom["commissie_btw"]) {
 			echo "<th title=\"BTW over commissie\">BTW</th>";
@@ -1360,28 +1360,28 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			echo "<th>Betaald</th>";
 		}
 		if($kolom["boeking_leverancier"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_plaats"])."\">B: Leverancier</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_plaats"])."\">B: Leverancier</th>";
 		}
 		if($kolom["boeking_plaats"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_plaats"])."\">B: Plaats</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_plaats"])."\">B: Plaats</th>";
 		}
 		if($kolom["boeking_accommodatie"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_accommodatie"])."\">B: Acc</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_accommodatie"])."\">B: Acc</th>";
 		}
 		if($kolom["boeking_nachten"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_nachten"])."\">B: Nachten</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_nachten"])."\">B: Nachten</th>";
 		}
 		if($kolom["boeking_aankomstdatum"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_aankomstdatum"])."\">B: Aankomst</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_aankomstdatum"])."\">B: Aankomst</th>";
 		}
 		if($kolom["boeking_resnr"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_resnr"])."\">B: Resnr.</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_resnr"])."\">B: Resnr.</th>";
 		}
 		if($kolom["boeking_klantnaam"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_klantnaam"])."\">B: Klantnaam</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_klantnaam"])."\">B: Klantnaam</th>";
 		}
 		if($kolom["boeking_grootboekrekeningnummer"]) {
-			echo "<th title=\"".htmlentities($vars["totaaloverzicht_kolommen"]["boeking_grootboekrekeningnummer"])."\">B: Grootboek</th>";
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_grootboekrekeningnummer"])."\">B: Grootboek</th>";
 		}
 		if($kolom["boeking_garantie"]) {
 			echo "<th title=\"Garantie\">Gar.</th>";
@@ -1413,7 +1413,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$totalen[$key2]["marge_percentage"][$key]=0;
 			}
 
-			echo "<tr style=\"color:#ffffff;background-color:grey;\"><td><b>".htmlentities($value2)."</b></td>";
+			echo "<tr style=\"color:#ffffff;background-color:grey;\"><td><b>".wt_he($value2)."</b></td>";
 
 			if($form->input["losseboekingen"] or $_GET["csv"]) {
 				# Lege cel i.v.m. kolom "aankomst"

@@ -14,13 +14,13 @@ if($accinfo["tonen"] and !$niet_beschikbaar) {
 		if($_GET["stap"]==$key) echo "<strong>";
 #		if($gegevens["stap_voltooid"][$key-1] and $_GET["stap"]<>$key) echo "<a href=\"boeken.php?".$querystring."&stap=".$key."&r=".$_GET["stap"]."\">";
 		if($gegevens["stap_voltooid"][$key-1] and $_GET["stap"]<>$key) echo "<a href=\"".txt("menu_boeken").".php?bfbid=".$_GET["bfbid"]."&amp;stap=".$key."&amp;r=".$_GET["stap"]."\">";
-		echo htmlentities($value);
+		echo wt_he($value);
 		if($gegevens["stap_voltooid"][$key-1] and $_GET["stap"]<>$key) echo "</a>";
 		if($_GET["stap"]==$key) echo "</strong>";
 		echo "</li>";
 	}
 	echo "</ol><hr>";
-	echo "<h3>".html("stap","boeken")." ".$_GET["stap"]." - ".htmlentities($vars["boeken"][$_GET["stap"]])."</h3>";
+	echo "<h3>".html("stap","boeken")." ".$_GET["stap"]." - ".wt_he($vars["boeken"][$_GET["stap"]])."</h3>";
 	if($_GET["stap"]==1) {
 		$form->display_all($isMobile=true);
 	} elseif($_GET["stap"]==2) {

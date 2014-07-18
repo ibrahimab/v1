@@ -26,7 +26,7 @@ $leveranciercodes=split(",",$gegevens["stap1"]["accinfo"]["leverancierscode"]);
 
 $db->query("SELECT naam, xml_type FROM leverancier WHERE leverancier_id='".addslashes($gegevens["stap1"]["leverancierid"])."';");
 if($db->next_record()) {
-	echo "<h2>Boeken via XML bij ".htmlentities($db->f("naam"))."</h2>";
+	echo "<h2>Boeken via XML bij ".wt_he($db->f("naam"))."</h2>";
 	$xml_type=$db->f("xml_type");
 }
 
@@ -38,7 +38,7 @@ if($_GET["burl"]) {
 }
 
 if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/webtastic/html") {
-	echo "<span class=\"error\">Bestellen via XML niet mogelijk: er is al een <a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".htmlentities(urlencode($_GET["burl"]))."&bid=".htmlentities($_GET["bid"])."\">Reserveringsnummer leverancier</a> bij deze boeking bekend.</span>";
+	echo "<span class=\"error\">Bestellen via XML niet mogelijk: er is al een <a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".wt_he(urlencode($_GET["burl"]))."&bid=".wt_he($_GET["bid"])."\">Reserveringsnummer leverancier</a> bij deze boeking bekend.</span>";
 } else {
 	if(is_array($leveranciercodes)) {
 		while(list($key,$value)=each($leveranciercodes)) {
@@ -57,7 +57,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 
 				$xml=@simplexml_load_file($xml_url);
 				if($xml->error) {
-					echo "<b>Foutmelding bij leverancierscode ".$value.":</b> <span class=\"error\">".htmlentities(utf8_decode($xml->error))."</span><br>";
+					echo "<b>Foutmelding bij leverancierscode ".$value.":</b> <span class=\"error\">".wt_he(utf8_decode($xml->error))."</span><br>";
 				} else {
 					$bestelnummer=trim(utf8_decode($xml->booking_info->attributes()->booking_number));
 #					wt_mail("jeroen@webtastic.nl","Huetten-XML-bestelling","Boeking: ".$gegevens["stap1"]["boekingid"]."\nBestelnummer: ".$bestelnummer);
@@ -89,7 +89,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 
 				$xml=simplexml_load_file($xml_url);
 				if($xml->error) {
-					echo "<b>Foutmelding bij leverancierscode ".$value.":</b> <span class=\"error\">".htmlentities(utf8_decode($xml->error))."</span><br>";
+					echo "<b>Foutmelding bij leverancierscode ".$value.":</b> <span class=\"error\">".wt_he(utf8_decode($xml->error))."</span><br>";
 				} else {
 					echo "<pre>";
 					print_r($xml);
@@ -168,7 +168,7 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 					}
 
 					if($xml->LINE->err) {
-						echo "<b>Foutmelding bij accommodatie ".$value.":</b> <span class=\"error\">".htmlentities(utf8_decode($xml->LINE->err))."</span><br>";
+						echo "<b>Foutmelding bij accommodatie ".$value.":</b> <span class=\"error\">".wt_he(utf8_decode($xml->LINE->err))."</span><br>";
 					} else {
 						$reserveringsnummer=trim(utf8_decode($xml->LINE->resa_no));
 						// echo "Dit reserveringsnummer is opgeslagen in het CMS en de bestelstatus is gewijzigd in &quot;bevestigd&quot;.<br><br>";
@@ -334,20 +334,20 @@ if($gegevens["stap1"]["leverancierscode"] and $_SERVER["DOCUMENT_ROOT"]<>"/home/
 								chalet_log("besteldatum op ".date("d-m-Y")." gezet, bestelstatus veranderd in 'bevestigd'",false,true);
 								save_aan_leverancier_doorgegeven_naam();
 							} else {
-								echo "<span class=\"error\">Boeken niet gelukt.<br><br>Foutmelding van het ".$soap_systeemnaam."-systeem: ".htmlentities(($error ? $error : "onbekende fout"))."</span><p>";
+								echo "<span class=\"error\">Boeken niet gelukt.<br><br>Foutmelding van het ".$soap_systeemnaam."-systeem: ".wt_he(($error ? $error : "onbekende fout"))."</span><p>";
 								trigger_error("notice: ".$soap_systeemnaam."-foutmelding ".$error,E_USER_NOTICE);
 							}
 
 	#						echo "<pre>";
 	#						print_r($result);
-	#						echo "REQUEST:\n" . htmlentities($client->__getLastRequest(),ENT_QUOTES, 'UTF-8') . "\n";
-	#						echo "RESPONSE:\n" . htmlentities($client->__getLastResponse(),ENT_QUOTES, 'UTF-8') . "\n";
+	#						echo "REQUEST:\n" . wt_he($client->__getLastRequest(),ENT_QUOTES, 'UTF-8') . "\n";
+	#						echo "RESPONSE:\n" . wt_he($client->__getLastResponse(),ENT_QUOTES, 'UTF-8') . "\n";
 	#						echo "</pre>";
 						} else {
 							echo "<span class=\"error\">Boeken niet gelukt.<br><br>Foutmelding van het ".$soap_systeemnaam."-systeem: geen achternaam bekend (is een verplicht veld bij ".$soap_systeemnaam.").</span><p>";
 						}
 					} else {
-						echo "<span class=\"error\">Boeken niet gelukt.<br><br>Foutmelding van het ".$soap_systeemnaam."-systeem: ophalen &quot;base_product_code&quot; niet gelukt. (".htmlentities($error).")</span><p>";
+						echo "<span class=\"error\">Boeken niet gelukt.<br><br>Foutmelding van het ".$soap_systeemnaam."-systeem: ophalen &quot;base_product_code&quot; niet gelukt. (".wt_he($error).")</span><p>";
 					}
 					exit;
 				} else {

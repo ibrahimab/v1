@@ -13,28 +13,28 @@ if($_GET["c"]) {
 }
 
 if($reisbureau["reisbureau_id"]) {
-	echo "<h1>Manual XML export ".htmlentities($vars["websitenaam"])."</h1><b>Only valid for: ".htmlentities($reisbureau["naam"])."</b><br><br>";
+	echo "<h1>Manual XML export ".wt_he($vars["websitenaam"])."</h1><b>Only valid for: ".wt_he($reisbureau["naam"])."</b><br><br>";
 	if($_GET["table"]) {
-	
-		echo "<a href=\"".$vars["path"]."xmlmanual.php?c=".htmlentities($reisbureau["xmlfeed_toegangscode"])."\">&lt; Back to list of feeds</a><br><br>";
-	
+
+		echo "<a href=\"".$vars["path"]."xmlmanual.php?c=".wt_he($reisbureau["xmlfeed_toegangscode"])."\">&lt; Back to list of feeds</a><br><br>";
+
 
 		if($_GET["table"]=="accommodations") {
-			$url=$vars["basehref"]."xml/accommodations.xml?c=".htmlentities($reisbureau["xmlfeed_toegangscode"]);
+			$url=$vars["basehref"]."xml/accommodations.xml?c=".wt_he($reisbureau["xmlfeed_toegangscode"]);
 			echo "<b>Feed: Accommodations</b><br>";
 			echo "This feed contains semi-static information about the accommodations.<br><br>";
 		} elseif($_GET["table"]=="accommodationunits") {
-			$url=$vars["basehref"]."xml/accommodation-units.xml?c=".htmlentities($reisbureau["xmlfeed_toegangscode"]);
+			$url=$vars["basehref"]."xml/accommodation-units.xml?c=".wt_he($reisbureau["xmlfeed_toegangscode"]);
 			echo "<b>Feed: Accommodation-units</b><br>";
 			echo "This feed contains semi-static information about the units; each unit is part of an accommodation.<br><br>";
 		} elseif($_GET["table"]=="availabilityprices") {
-			$url=$vars["basehref"]."xml/availability-and-prices.xml?c=".htmlentities($reisbureau["xmlfeed_toegangscode"]);
+			$url=$vars["basehref"]."xml/availability-and-prices.xml?c=".wt_he($reisbureau["xmlfeed_toegangscode"]);
 			echo "<b>Feed: Availability and Prices</b><br>";
 			echo "This feed contains frequently updated information about the availability and prices of the accommodation-units.<br><br>";
-		}	
+		}
 		if($url) {
-			echo "<b>URL:</b>&nbsp;&nbsp;<a href=\"".htmlentities($url)."\" target=\"_blank\">".htmlentities($url)."</a><br><br>";
-			
+			echo "<b>URL:</b>&nbsp;&nbsp;<a href=\"".wt_he($url)."\" target=\"_blank\">".wt_he($url)."</a><br><br>";
+
 			echo "<table class=\"tbl xmlmanualtable\" cellspacing=\"0\">";
 			echo "<tr><th>Field name</th><th>Data type</th><th>Description</th><th>Optional</th><th style=\"width:150px;\">Remarks</th></tr>";
 			if($_GET["table"]=="accommodations") {
@@ -69,7 +69,7 @@ if($reisbureau["reisbureau_id"]) {
 					echo "<tr><td>distance_skibusstop</td><td>meters</td><td>distance to ski-bus stop</td><td>yes</td><td>".$remarks."</td></tr>";
 					echo "<tr><td>distance_skibusstop_extra</td><td>text</td><td>distance to ski-bus stop - extra info</td><td>yes</td><td>".$remarks."</td></tr>";
 				}
-				
+
 				if($vars["seizoentype"]==2 or $vars["websitetype"]=="6") {
 					if($vars["websitetype"]=="6") {
 						$remarks="only for summer accommodations";
@@ -118,20 +118,20 @@ if($reisbureau["reisbureau_id"]) {
 				echo "<tr><td>nights</td><td>number</td><td>number of nights</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 				echo "<tr><td>price</td><td>price in euro's</td><td>price of this date</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 				echo "<tr><td>availability</td><td>possible values:<br>- directly<br>- request<br>- unavailable</td><td>availability of this date</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
-			}	
+			}
 			echo "</table>";
 		}
-	
+
 	} else {
 		echo "The XML export is based on 3 XML feeds:<br><br><ul>";
-		echo "<li><a href=\"".$vars["path"]."xmlmanual.php?c=".htmlentities($reisbureau["xmlfeed_toegangscode"])."&table=accommodations\">Accommodations</a>: semi-static information about the accommodations;</li>";
-		echo "<li><a href=\"".$vars["path"]."xmlmanual.php?c=".htmlentities($reisbureau["xmlfeed_toegangscode"])."&table=accommodationunits\">Accommodation-units</a>: semi-static information about the units; each unit is part of an accommodation;</li>";
-		echo "<li><a href=\"".$vars["path"]."xmlmanual.php?c=".htmlentities($reisbureau["xmlfeed_toegangscode"])."&table=availabilityprices\">Availability and Prices</a>: frequently updated information about the availability and prices of the accommodation-units.</li>";
+		echo "<li><a href=\"".$vars["path"]."xmlmanual.php?c=".wt_he($reisbureau["xmlfeed_toegangscode"])."&table=accommodations\">Accommodations</a>: semi-static information about the accommodations;</li>";
+		echo "<li><a href=\"".$vars["path"]."xmlmanual.php?c=".wt_he($reisbureau["xmlfeed_toegangscode"])."&table=accommodationunits\">Accommodation-units</a>: semi-static information about the units; each unit is part of an accommodation;</li>";
+		echo "<li><a href=\"".$vars["path"]."xmlmanual.php?c=".wt_he($reisbureau["xmlfeed_toegangscode"])."&table=availabilityprices\">Availability and Prices</a>: frequently updated information about the availability and prices of the accommodation-units.</li>";
 		echo "</ul>";
 		echo "<br>Click on each feed for the structure and the exact URL.";
 	}
 } else {
 	echo "This page is not available. Please contact us for more information.";
-}	
+}
 
 ?>

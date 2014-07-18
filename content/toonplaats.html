@@ -118,11 +118,11 @@ if(!$db->next_record()) {
 // 				$url=seo_acc_url($db2->f("begincode").$db2->f("type_id"),$db2->f("soortaccommodatie"),$db2->f("naam"),$db2->f("type"));
 
 // 				if(file_exists($pic)) {
-// 					echo "<a href=\"".htmlentities($url)."\"><img src=\"".$path.$pic."\" alt=\"".wt_he($naam)."\" border=\"0\"></A>";
+// 					echo "<a href=\"".wt_he($url)."\"><img src=\"".$path.$pic."\" alt=\"".wt_he($naam)."\" border=\"0\"></A>";
 // 				} else {
 // 					echo "<img src=\"".$path."pic/cms/accommodaties_tn/0.jpg\" alt=\"Geen afbeelding beschikbaar\" border=\"0\">";
 // 				}
-// 				echo "</TD><TD><a href=\"".htmlentities($url)."\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$naam)."</A>";
+// 				echo "</TD><TD><a href=\"".wt_he($url)."\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$naam)."</A>";
 // 				echo "<BR>".wt_he($db2->f("plaats")." - ".$db2->f("skigebied")." - ".$db2->f("land"));
 // 				echo "</TD><TD align=\"right\"><NOBR>".($db2->f("soortaccommodatie")<>5 ? $db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? " - ".$db2->f("maxaantalpersonen") : "")." ".html("personen") : "")."</NOBR></TD><TD>".($db2->f("slaapkamers") ? $db2->f("slaapkamers")."&nbsp;".($db2->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."<BR>" : "").($db2->f("badkamers") ? $db2->f("badkamers")."&nbsp;".($db2->f("badkamers")==1 ? html("badkamer") : html("badkamers")) : "")."</TD></TR>";
 // 				echo balk();
@@ -209,16 +209,16 @@ if(!$db->next_record()) {
 				$url=$vars["path"]."blog.php?b=".$db2->f("blog_id");
 
 				if($algehad) {
-					echo "<h1>Blog Italissima: <a href=\"".htmlentities($url)."\">".wt_he($db2->f("titel"))."</a></h1>";
+					echo "<h1>Blog Italissima: <a href=\"".wt_he($url)."\">".wt_he($db2->f("titel"))."</a></h1>";
 				} else {
 					$file="pic/cms/blog_homepage/".$db2->f("blog_id").".jpg";
 					if(file_exists($file)) {
-						echo "<a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db2->f("titel"))."\" style=\"float:right\"></a>";
+						echo "<a href=\"".wt_he($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db2->f("titel"))."\" style=\"float:right\"></a>";
 					}
-					echo "<h1>Blog Italissima: <a href=\"".htmlentities($url)."\">".wt_he($db2->f("titel"))."</a></h1>";
+					echo "<h1>Blog Italissima: <a href=\"".wt_he($url)."\">".wt_he($db2->f("titel"))."</a></h1>";
 
 					echo "<div class=\"blog_inleiding\">".nl2br(wt_he($db2->f("inleiding")));
-					echo " <span class=\"blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></span>";
+					echo " <span class=\"blog_link\"><a href=\"".wt_he($url)."\">Lees verder &raquo;</a></span>";
 					echo "</div>"; # afsluiten blog_inleiding
 					echo "<div style=\"clear: both;\"></div>";
 				}

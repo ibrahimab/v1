@@ -46,7 +46,7 @@ if($land["id"]) {
 	if($cachefile) {
 		if($voorkant_cms) {
 			$laatsteupdate=filemtime($cachefile);
-			echo "<div style=\"border: 1px #000000 solid;background-color:yellow;width:540px;padding:5px;margin-bottom:20px;\">Interne opmerking: deze pagina wordt 1x per uur bijgewerkt. Dit betreft de opsomming van de aanbiedingen hieronder. De opvalblokken aan de rechterkant worden in realtime getoond.<br><br><i>Laatste update: ".date("H:i",$laatsteupdate)."u.&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."?nocache=1\">Bekijk de actuele versie van deze pagina</a>";
+			echo "<div style=\"border: 1px #000000 solid;background-color:yellow;width:540px;padding:5px;margin-bottom:20px;\">Interne opmerking: deze pagina wordt 1x per uur bijgewerkt. Dit betreft de opsomming van de aanbiedingen hieronder. De opvalblokken aan de rechterkant worden in realtime getoond.<br><br><i>Laatste update: ".date("H:i",$laatsteupdate)."u.&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".wt_he($_SERVER["REQUEST_URI"])."?nocache=1\">Bekijk de actuele versie van deze pagina</a>";
 			if($laatsteupdate<(time()-86400)) {
 				echo ", <b>".date("d-m-Y",$laatsteupdate)."</b>";
 				trigger_error("te oude aanbiedingen-cache",E_USER_NOTICE);
@@ -72,7 +72,7 @@ if($land["id"]) {
 		echo "<!-- WTbegin -->\n";
 
 		if($_GET["aid"]) {
-			echo "<div style=\"margin-top:-13px;margin-bottom:10px;\"><a href=\"".$vars["path"]."aanbiedingen/".wt_convert2url_seo($land["naam"])."/\">Bekijk onze andere aanbiedingen in ".htmlentities($land["naam"])." &gt;</a></div>";
+			echo "<div style=\"margin-top:-13px;margin-bottom:10px;\"><a href=\"".$vars["path"]."aanbiedingen/".wt_convert2url_seo($land["naam"])."/\">Bekijk onze andere aanbiedingen in ".wt_he($land["naam"])." &gt;</a></div>";
 		} else {
 			if($vars["websitetype"]<>7) {
 				# link "andere landen" niet tonen bij Italissima
@@ -208,7 +208,7 @@ if($land["id"]) {
 					$accommodaties_beschikbaar=true;
 					$aanbiedingen_getoond=true;
 					echo "<a name=\"cnt".$key."\"></a><div class=\"aanbieding_blok\">";
-					echo "<div class=\"aanbieding_kop\">".htmlentities($value["onlinenaam"])."</div>";
+					echo "<div class=\"aanbieding_kop\">".wt_he($value["onlinenaam"])."</div>";
 #					if($voorkant_cms) {
 #						echo "<div style=\"text-align:right;font-size:0.8em;\"><a href=\"".$vars["path"]."cms_aanbiedingen.php?bc=38&show=14&14k0=".$key."&wzt=2&t=1\" target=\"_blank\">bewerk</a>&nbsp;</div>";
 #					} else {
@@ -237,10 +237,10 @@ if($land["id"]) {
 							$accgehad[$db->f("accommodatie_id")]=true;
 							$accnaamgehad[$db->f("naam")]=true;
 							$toonlijstteller++;
-							$toonlijst[$toonlijstteller]="<div class=\"aanbieding_accommodatieblok\" onclick=\"document.location.href='".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/';\"><a name=\"aanbiedingblok".$toonlijstteller."\"></a><table cellspacing=\"0\" cellpadding=\"0\"><tr><td width=\"60\"><img src=\"".$vars["path"].$file."\"></td><td style=\"width:340px;padding-left:5px;padding-right:5px;\"><a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/?back=".htmlentities(urlencode($_SERVER["REQUEST_URI"])).($_GET["aid"] ? "" : "&cnt=".$key)."\">".htmlentities($db->f("naam"))."</a><br>".htmlentities($db->f("plaats")." - ".$db->f("skigebied"))."</td><td align=\"right\" style=\"padding-right:2px;\">".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".html("personen")."</td></tr></table></div>";
+							$toonlijst[$toonlijstteller]="<div class=\"aanbieding_accommodatieblok\" onclick=\"document.location.href='".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/';\"><a name=\"aanbiedingblok".$toonlijstteller."\"></a><table cellspacing=\"0\" cellpadding=\"0\"><tr><td width=\"60\"><img src=\"".$vars["path"].$file."\"></td><td style=\"width:340px;padding-left:5px;padding-right:5px;\"><a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/?back=".wt_he(urlencode($_SERVER["REQUEST_URI"])).($_GET["aid"] ? "" : "&cnt=".$key)."\">".wt_he($db->f("naam"))."</a><br>".wt_he($db->f("plaats")." - ".$db->f("skigebied"))."</td><td align=\"right\" style=\"padding-right:2px;\">".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".html("personen")."</td></tr></table></div>";
 							if($toonlijst_alleenfoto_teller<=7) {
 								$toonlijst_alleenfoto_teller++;
-								$toonlijst_alleenfoto.="<a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/\"><img src=\"".$vars["path"].$file."\" title=\"".htmlentities($db->f("naam")." ".$db->f("plaats")." - ".$db->f("skigebied")." ".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".html("personen"))."\"></a>";
+								$toonlijst_alleenfoto.="<a href=\"".$vars["path"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/\"><img src=\"".$vars["path"].$file."\" title=\"".wt_he($db->f("naam")." ".$db->f("plaats")." - ".$db->f("skigebied")." ".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".html("personen"))."\"></a>";
 							}
 						}
 					}

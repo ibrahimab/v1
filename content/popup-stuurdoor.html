@@ -101,7 +101,7 @@ if($accinfo["naam"]) {
 			echo "<ul>";
 			@reset($mailadressen);
 			while(list($key,$value)=@each($mailadressen)) {
-				echo "<li>".htmlentities($key)."</li>";
+				echo "<li>".wt_he($key)."</li>";
 			}
 			echo "</ul>";
 

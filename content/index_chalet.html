@@ -18,7 +18,7 @@ if(is_array($blokkenhoofdpagina)) {
 		$blokkenhoofdpagina_teller++;
 		echo "<div class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "")." data-teller=\"".$blokkenhoofdpagina_teller."\">";
 		$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
-		echo "<div class=\"hoofdpagina_blok_image\"><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"\"/></a></div>";
+		echo "<div class=\"hoofdpagina_blok_image\"><a href=\"".wt_he($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"\"/></a></div>";
 		echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";
 		echo "<div class=\"hoofdpagina_blok_omschrijving\">".wt_he($value["omschrijving"])."</div>";
 		echo "</div>";
@@ -71,15 +71,15 @@ while($db->next_record()) {
 		unset($url);
 	}
 	if($db->f("titelhoofdpagina") and $url and $themateller<6) {
-#		echo "<a href=\"".htmlentities($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" height=\"68\" border=\"0\"></a><br>";
-#		echo "<div style=\"padding-bottom:11px;\"><a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("titelhoofdpagina"))." &gt;&gt;</a></div>";
+#		echo "<a href=\"".wt_he($url)."\"".$blank."><img src=\"".$vars["path"]."pic/cms/themas_hoofdpagina/".$db->f("thema_id").".jpg\" height=\"68\" border=\"0\"></a><br>";
+#		echo "<div style=\"padding-bottom:11px;\"><a href=\"".wt_he($url)."\"".$blank.">".wt_he($db->f("titelhoofdpagina"))." &gt;&gt;</a></div>";
 
-		echo "<div class=\"button\"><a href=\"".htmlentities($url)."\"".$blank.">".htmlentities($db->f("titelhoofdpagina"))."</a></div>";
+		echo "<div class=\"button\"><a href=\"".wt_he($url)."\"".$blank.">".wt_he($db->f("titelhoofdpagina"))."</a></div>";
 		$themateller++;
 	}
 }
 #echo "<div class=\"button\" style=\"text-align:center;\" onclick=\"document.location.href='".$vars["path"].txt("menu_themas").".php'\">".html("meerinspiratie","index")."</div>";
-echo "<div class=\"button\"><a href=\"".htmlentities($vars["path"].txt("menu_themas").".php")."\">".html("meerinspiratie","index")."</a></div>";
+echo "<div class=\"button\"><a href=\"".wt_he($vars["path"].txt("menu_themas").".php")."\">".html("meerinspiratie","index")."</a></div>";
 
 echo "<div style=\"clear:both;\"></div>";
 

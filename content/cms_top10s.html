@@ -87,9 +87,9 @@ if($_GET["show"]==18) {
 			if($vars["top10_types_beschikbaar_websites"][$key]) {
 				unset($top10_teller);
 				if($vars["websitetype_namen_wzt"][$key]==$vars["tempseizoen"]["type"]) {
-					echo "<span style=\"font-weight:bold;font-size:1.1em;\">Top 10 ".htmlentities($value)."</span><p>";
+					echo "<span style=\"font-weight:bold;font-size:1.1em;\">Top 10 ".wt_he($value)."</span><p>";
 
-					echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"volgorde".$key."\">";
+					echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"volgorde".$key."\">";
 					echo "<input type=\"hidden\" name=\"acctoevoegen\" value=\"1\">";
 					echo "<input type=\"hidden\" name=\"site\" value=\"".$key."\">";
 					echo "Accommodatie toevoegen:&nbsp;&nbsp;";
@@ -98,7 +98,7 @@ if($_GET["show"]==18) {
 					reset($vars["top10_types_beschikbaar"]);
 					while(list($key2,$value2)=each($vars["top10_types_beschikbaar"])) {
 						if($vars["top10_types_beschikbaar_websites"][$key][$key2]) {
-							echo "<option value=\"".$key2."\" class=\"".$vars["top10_types_voorraad"][$key2]."\">".htmlentities($value2)."</option>\n";
+							echo "<option value=\"".$key2."\" class=\"".$vars["top10_types_voorraad"][$key2]."\">".wt_he($value2)."</option>\n";
 						}
 					}
 					echo "</select>";
@@ -109,7 +109,7 @@ if($_GET["show"]==18) {
 						$top10_teller;
 						echo "<table class=\"tbl\" cellspacing=\"0\">";
 						echo "<tr><th colspan=\"2\" style=\"text-align:right\">Nr</th><th>Accommodatie</th><th>&nbsp;</th><th>Volgorde</th></tr>";
-						echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"volgorde".$key."\">";
+						echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"volgorde".$key."\">";
 						echo "<input type=\"hidden\" name=\"volgordeveranderen\" value=\"1\">";
 						echo "<input type=\"hidden\" name=\"site\" value=\"".$key."\">";
 						$regelteller=0;
@@ -147,14 +147,14 @@ if($_GET["show"]==18) {
 							} else {
 								echo "<td>";
 							}
-							echo htmlentities($vars["top10_types"][$db->f("type_id")]);
+							echo wt_he($vars["top10_types"][$db->f("type_id")]);
 #							if($aanbieding["typeid_sort"][$db->f("type_id")]["bedrag"][$_GET["week"]] or $db->f("aanbiedingskleur") or $db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0) {
 							if($aanbieding["typeid_sort"][$db->f("type_id")]["bedrag"][$_GET["week"]] or $db->f("aanbiedingskleur") or ($db->f("toonexactekorting") and ($db->f("aanbieding_acc_percentage")>0 or $db->f("aanbieding_acc_euro")>0))) {
 								echo " (AANBIEDING)";
 							}
 							$regelteller++;
 							echo "</td>";
-							echo "<td><a href=\"".htmlentities($vars["top10_types_links"][$db->f("type_id")])."\" target=\"_blank\">website</a></td>";
+							echo "<td><a href=\"".wt_he($vars["top10_types_links"][$db->f("type_id")])."\" target=\"_blank\">website</a></td>";
 
 							echo "<td style=\"width:20px;\"><input type=\"text\" name=\"type[".$db->f("type_id")."]\" value=\"".($regelteller*10)."\" size=\"5\"></td></tr>\n";
 						}
@@ -166,7 +166,7 @@ if($_GET["show"]==18) {
 						echo "</form>";
 						echo "</table>";
 						if($key==1) {
-							echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frmcopydate\">";
+							echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frmcopydate\">";
 							echo "<input type=\"hidden\" name=\"copydate_fromsite\" value=\"1\">";
 							echo "<p><b>Kopi&euml;ren</b><ul>";
 #							echo "<li><a href=\"".$_SERVER["REQUEST_URI"]."&kopieer=4&from=1\">Kopieer bovenstaande Top 10 naar Chalettour.nl &gt; &gt;</a> (Top 10 Chalettour.nl wordt overschreven)</li>";
@@ -185,7 +185,7 @@ if($_GET["show"]==18) {
 							echo "</ul>";
 							echo "</form>";
 						} elseif($key==3) {
-							echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frmcopydate\">";
+							echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frmcopydate\">";
 							echo "<input type=\"hidden\" name=\"copydate_fromsite\" value=\"3\">";
 							echo "<p><b>Kopi&euml;ren</b><ul>";
 							echo "<li><a href=\"".$_SERVER["REQUEST_URI"]."&kopieer=5&from=3\">Kopieer bovenstaande Top 10 naar Chalettour.nl &gt; &gt;</a> (Top 10 Chalettour.nl wordt overschreven)</li>";
@@ -231,7 +231,7 @@ if($_GET["show"]==18) {
 		}
 
 		echo "<p>Klik op een aankomstdatum of bewerk de blok-gegevens:</p>";
-		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\">";
+		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
 		echo "<input type=\"hidden\" name=\"blokgegevens_filled\" value=\"1\">";
 		echo "<input type=\"hidden\" name=\"site\" value=\"".$temp_site."\">";
 		echo "<table class=\"tbl\" cellspacing=\"0\" style=\"width:550px;\">";
@@ -241,8 +241,8 @@ if($_GET["show"]==18) {
 		while($timeteller<=$vars["tempseizoen"]["eind"]) {
 			echo "<tr>";
 			echo "<td><a href=\"".$vars["path"]."cms_top10s.php?".$_SERVER["QUERY_STRING"]."&week=".$timeteller."\">".DATUM("D MAAND JJJJ",$timeteller)."</a></td>";
-			echo "<td align=\"center\"><input type=\"text\" maxlength=\"3\" style=\"width:20px;\" value=\"".htmlentities($blokvolgorde[$timeteller])."\" name=\"blokvolgorde[".$timeteller."]\"></td>";
-			echo "<td><input type=\"text\" maxlength=\"35\" style=\"width:250px;\" value=\"".htmlentities($bloknaam[$timeteller])."\" name=\"bloknaam[".$timeteller."]\"></td>";
+			echo "<td align=\"center\"><input type=\"text\" maxlength=\"3\" style=\"width:20px;\" value=\"".wt_he($blokvolgorde[$timeteller])."\" name=\"blokvolgorde[".$timeteller."]\"></td>";
+			echo "<td><input type=\"text\" maxlength=\"35\" style=\"width:250px;\" value=\"".wt_he($bloknaam[$timeteller])."\" name=\"bloknaam[".$timeteller."]\"></td>";
 			echo "<input type=\"hidden\" name=\"blokweken[".$timeteller."]\" value=\"1\">";
 
 			echo "</tr>";

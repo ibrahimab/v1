@@ -70,7 +70,7 @@ if($_GET["internelijst"]) {
 				echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"tbl\" style=\"margin-left:40px;width:560px;\">";
 				echo "<tr><th colspan=\"2\">Skipassen</th></tr>";
 				while($db->next_record()) {
-					echo "<tr><td width=\"470\">".htmlentities($db->f("naam"))."</td>";
+					echo "<tr><td width=\"470\">".wt_he($db->f("naam"))."</td>";
 #					echo "<td><a href=\"cms_overzichten_print.php?t=6&spid=".$db->f("skipas_id")."&date=".$_GET["date"]."\">bestellijst</a></td>";
 					echo "<td><a href=\"cms_overzichten_print.php?t=8&spid=".$db->f("skipas_id")."&bdate=".$form->input["begindatum"]["unixtime"]."&edate=".$form->input["einddatum"]["unixtime"]."\">interne lijst</a></td></tr>";
 				}
@@ -99,7 +99,7 @@ if($_GET["internelijst"]) {
 				echo "<p><table cellspacing=\"0\" cellpadding=\"0\" class=\"tbl\" style=\"margin-left:40px;width:560px;\">";
 				echo "<tr><th colspan=\"2\">Opties</th></tr>";
 				while($db->next_record()) {
-					echo "<tr><td width=\"470\">".htmlentities($db->f("naam"))."</td>";
+					echo "<tr><td width=\"470\">".wt_he($db->f("naam"))."</td>";
 #					echo "<td><a href=\"cms_overzichten_print.php?t=5&olid=".$db->f("optieleverancier_id")."&date=".$_GET["date"]."\">bestellijst</a></td>";
 					echo "<td><a href=\"cms_overzichten_print.php?t=9&olid=".$db->f("optieleverancier_id")."&bdate=".$form->input["begindatum"]["unixtime"]."&edate=".$form->input["einddatum"]["unixtime"]."\">interne lijst</a></td></tr>";
 				}
@@ -118,7 +118,7 @@ if($_GET["internelijst"]) {
 #
 	# Maand/jaar-selectie tonen
 	echo "<form method=\"get\" action=\"cms_overzichten_print.php\" name=\"overzicht_form\">";
-	echo "<input type=\"hidden\" name=\"verz\" value=\"".htmlentities($_GET["verz"])."\">";
+	echo "<input type=\"hidden\" name=\"verz\" value=\"".wt_he($_GET["verz"])."\">";
 	$db->query("SELECT ddd FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.annverz>0 ORDER BY aankomstdatum;");
 
 	echo "</form>";
@@ -131,7 +131,7 @@ if($_GET["internelijst"]) {
 		while($db->next_record()) {
 			if(!$db->f("reisbureau_user_id")) {
 				if($getoond) echo "; ";
-				echo htmlentities($db->f("email"));
+				echo wt_he($db->f("email"));
 				$getoond=true;
 			}
 		}
@@ -163,7 +163,7 @@ if($_GET["internelijst"]) {
 		echo "Aankomstdatum&nbsp;&nbsp;<select name=\"date\" onchange=\"submit();\">";
 		echo "<option value=\"0\">-- selecteer een aankomstdatum --</option>";
 		while(list($key,$value)=@each($keuze_aankomstdatums)) {
-			echo "<option ".($_GET["date"]==$key ? " selected" : "")." value=\"".$key."\">".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$key])."</option>";
+			echo "<option ".($_GET["date"]==$key ? " selected" : "")." value=\"".$key."\">".wt_he($vars["aankomstdatum_weekend_alleseizoenen"][$key])."</option>";
 			if($_GET["date"]==$key) $actieve_datum=true;
 		}
 		echo "</select>";
@@ -172,7 +172,7 @@ if($_GET["internelijst"]) {
 
 	if($_GET["date"]) {
 		if($actieve_datum) {
-			echo "<hr><h2>Overzichten ".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$_GET["date"]])."</h2><ul>";
+			echo "<hr><h2>Overzichten ".wt_he($vars["aankomstdatum_weekend_alleseizoenen"][$_GET["date"]])."</h2><ul>";
 			echo "<li><a href=\"cms_overzichten_print.php?t=3&date=".$_GET["date"]."\">Gegevens optieleveranciers</a></li>";
 			echo "<li><a href=\"cms_overzichten_print.php?t=4&date=".$_GET["date"]."\">Vertreklijst</a></li>";
 			echo "<li><a href=\"cms_overzichten.php?mailadressen=1&date=".$_GET["date"]."\">Alle e-mailadressen van klanten</a></li>";
@@ -185,7 +185,7 @@ if($_GET["internelijst"]) {
 		$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.leverancier_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
 		while($db->next_record()) {
 			$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
-			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=2&lid=".$db->f("leverancier_id")."&date=".$_GET["date"]."\">".htmlentities($db->f("naam"))."</a></li>";
+			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=2&lid=".$db->f("leverancier_id")."&date=".$_GET["date"]."\">".wt_he($db->f("naam"))."</a></li>";
 		}
 
 		# Gewone boekingen (via beheerder)
@@ -193,14 +193,14 @@ if($_GET["internelijst"]) {
 		$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.aankomstdatum='".addslashes($_GET["date"])."' AND b.beheerder_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
 		while($db->next_record()) {
 			$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
-			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=2&lid=".$db->f("leverancier_id")."&date=".$_GET["date"]."\">".htmlentities($db->f("naam"))."</a></li>";
+			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=2&lid=".$db->f("leverancier_id")."&date=".$_GET["date"]."\">".wt_he($db->f("naam"))."</a></li>";
 		}
 
 		# Garanties
 		$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM garantie g, accommodatie a, type t, leverancier l WHERE g.aankomstdatum='".addslashes($_GET["date"])."' AND g.leverancier_id=l.leverancier_id AND g.boeking_id=0 AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id;");
 		while($db->next_record()) {
 			$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
-			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=2&lid=".$db->f("leverancier_id")."&date=".$_GET["date"]."\">".htmlentities($db->f("naam"))."</a></li>";
+			$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=2&lid=".$db->f("leverancier_id")."&date=".$_GET["date"]."\">".wt_he($db->f("naam"))."</a></li>";
 		}
 
 		// if(is_array($roominglistlijst)) {
@@ -241,7 +241,7 @@ if($_GET["internelijst"]) {
 				echo "<table cellspacing=\"0\" cellpadding=\"0\" class=\"tbl\" style=\"margin-left:40px;width:560px;\">";
 				echo "<tr><th colspan=\"3\">Skipassen</th></tr>";
 				while($db->next_record()) {
-					echo "<tr><td width=\"400\">".htmlentities($db->f("naam"))."</td><td><a href=\"cms_overzichten_print.php?t=6&spid=".$db->f("skipas_id")."&date=".$_GET["date"]."\">bestellijst</a></td><td><a href=\"cms_overzichten_print.php?t=8&spid=".$db->f("skipas_id")."&date=".$_GET["date"]."\">interne lijst</a></td></tr>";
+					echo "<tr><td width=\"400\">".wt_he($db->f("naam"))."</td><td><a href=\"cms_overzichten_print.php?t=6&spid=".$db->f("skipas_id")."&date=".$_GET["date"]."\">bestellijst</a></td><td><a href=\"cms_overzichten_print.php?t=8&spid=".$db->f("skipas_id")."&date=".$_GET["date"]."\">interne lijst</a></td></tr>";
 				}
 				echo "</table>";
 			}
@@ -269,7 +269,7 @@ if($_GET["internelijst"]) {
 				echo "<p><table cellspacing=\"0\" cellpadding=\"0\" class=\"tbl\" style=\"margin-left:40px;width:560px;\">";
 				echo "<tr><th colspan=\"3\">Opties</th></tr>";
 				while($db->next_record()) {
-					echo "<tr><td width=\"400\">".htmlentities($db->f("naam"))."</td><td><a href=\"cms_overzichten_print.php?t=5&olid=".$db->f("optieleverancier_id")."&date=".$_GET["date"]."\">bestellijst</a></td><td><a href=\"cms_overzichten_print.php?t=9&olid=".$db->f("optieleverancier_id")."&date=".$_GET["date"]."\">interne lijst</a></td></tr>";
+					echo "<tr><td width=\"400\">".wt_he($db->f("naam"))."</td><td><a href=\"cms_overzichten_print.php?t=5&olid=".$db->f("optieleverancier_id")."&date=".$_GET["date"]."\">bestellijst</a></td><td><a href=\"cms_overzichten_print.php?t=9&olid=".$db->f("optieleverancier_id")."&date=".$_GET["date"]."\">interne lijst</a></td></tr>";
 				}
 				echo "</table>";
 			}
@@ -299,7 +299,7 @@ if($_GET["internelijst"]) {
 	$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.leverancier_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND b.aankomstdatum_exact>'".time()."';");
 	while($db->next_record()) {
 		$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
-		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</a></li>";
 	}
 
 	# Gewone boekingen (via beheerder)
@@ -308,14 +308,14 @@ if($_GET["internelijst"]) {
 	$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM boeking b, accommodatie a, type t, leverancier l WHERE b.beheerder_id=l.leverancier_id AND b.goedgekeurd=1 AND b.geannuleerd=0 AND b.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND b.aankomstdatum_exact>'".time()."';");
 	while($db->next_record()) {
 		$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
-		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</a></li>";
 	}
 
 	# Garanties
 	$db->query("SELECT DISTINCT l.naam, l.leverancier_id FROM garantie g, accommodatie a, type t, leverancier l WHERE g.leverancier_id=l.leverancier_id AND g.boeking_id=0 AND g.type_id=t.type_id AND t.accommodatie_id=a.accommodatie_id AND g.aankomstdatum_exact>'".time()."';");
 	while($db->next_record()) {
 		$sortkey=$db->f("naam")."_".$db->f("leverancier_id");
-		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+		$roominglistlijst[$sortkey]="<li><a href=\"cms_overzichten_print.php?t=1&lid=".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</a></li>";
 	}
 
 	// if(is_array($roominglistlijst)) {

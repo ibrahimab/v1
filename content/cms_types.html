@@ -9,7 +9,7 @@ if($_GET["show"]==2) {
 	# Kijken of er garanties zijn zonder leveranciers-volgnummer
 	$db->query("SELECT garantie_id FROM garantie WHERE (reserveringsnummer_extern IS NULL OR reserveringsnummer_extern='') AND type_id='".addslashes($_GET["2k0"])."' AND boeking_id=0 AND aankomstdatum>'".time()."';");
 	if($db->num_rows()) {
-		echo "<li><span class=\"error\"><b>Aantal garanties zonder leveranciers-volgnummer: ".$db->num_rows()."</b></span> (<a href=\"cms_garanties.php?status=1&tid=".htmlentities($_GET["2k0"])."\">nu invullen</a>)</li>";
+		echo "<li><span class=\"error\"><b>Aantal garanties zonder leveranciers-volgnummer: ".$db->num_rows()."</b></span> (<a href=\"cms_garanties.php?status=1&tid=".wt_he($_GET["2k0"])."\">nu invullen</a>)</li>";
 	}
 
 	if($vars["accinfo"]["verzameltype"]) {
@@ -18,7 +18,7 @@ if($_GET["show"]==2) {
 		if($db->num_rows()) {
 			echo "Onderliggende types:<ul>";
 			while($db->next_record()) {
-				echo "<li><a href=\"".$vars["path"]."cms_types.php?show=2&bc=".($_GET["bc"]+1)."&1k0=".$db->f("accommodatie_id")."&wzt=".$db->f("wzt")."&2k0=".$db->f("type_id")."\">".$db->f("begincode").$db->f("type_id")." ".htmlentities($db->f("naam")." ".$db->f("tnaam"))." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a></li>";
+				echo "<li><a href=\"".$vars["path"]."cms_types.php?show=2&bc=".($_GET["bc"]+1)."&1k0=".$db->f("accommodatie_id")."&wzt=".$db->f("wzt")."&2k0=".$db->f("type_id")."\">".$db->f("begincode").$db->f("type_id")." ".wt_he($db->f("naam")." ".$db->f("tnaam"))." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a></li>";
 			}
 			echo "</ul>";
 		} else {
@@ -29,7 +29,7 @@ if($_GET["show"]==2) {
 		$db->query("SELECT begincode, type_id, accommodatie_id, wzt, naam, tnaam, optimaalaantalpersonen, maxaantalpersonen FROM view_accommodatie WHERE type_id='".addslashes($vars["accinfo"]["verzameltype_parent"])."' ORDER BY naam, tnaam, optimaalaantalpersonen, maxaantalpersonen;");
 		if($db->next_record()) {
 			echo "<li><b>Dit type valt onder het volgende verzameltype:</b> ";
-			echo "<a href=\"".$vars["path"]."cms_types.php?show=2&bc=".($_GET["bc"]+1)."&1k0=".$db->f("accommodatie_id")."&wzt=".$db->f("wzt")."&2k0=".$db->f("type_id")."\">".$db->f("begincode").$db->f("type_id")." ".htmlentities($db->f("naam")." ".$db->f("tnaam"))." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a>";
+			echo "<a href=\"".$vars["path"]."cms_types.php?show=2&bc=".($_GET["bc"]+1)."&1k0=".$db->f("accommodatie_id")."&wzt=".$db->f("wzt")."&2k0=".$db->f("type_id")."\">".$db->f("begincode").$db->f("type_id")." ".wt_he($db->f("naam")." ".$db->f("tnaam"))." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")." pers.)</a>";
 			echo "</li>";
 		}
 	}
@@ -59,12 +59,12 @@ if($_GET["show"]==2) {
 		while($db->next_record()) {
 			echo "<li>";
 			if($calculatiesjabloon[$db->f("seizoen_id")]) {
-				echo "<a href=\"cms_tarieven.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."\">".htmlentities($db->f("naam"))."</a>";
+				echo "<a href=\"cms_tarieven.php?from=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."\">".wt_he($db->f("naam"))."</a>";
 				if($vars["accinfo"]["verzameltype"]) {
 					echo " <i>alleen bekijken</i>";
 				}
 				if($vars["accinfo"]["flexibel"] and $vars["accinfo"]["toonper"]==3) {
-					echo "&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"cms_tarieven_flex.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."\">".htmlentities("flexibel ".$db->f("naam"))."</a>";
+					echo "&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"cms_tarieven_flex.php?from=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."\">".wt_he("flexibel ".$db->f("naam"))."</a>";
 				}
 
 				if($huidigeseizoen_array[$db->f("seizoen_id")]) {
@@ -85,13 +85,13 @@ if($_GET["show"]==2) {
 							$db2->query("SELECT korting_id, naam, gekoppeld_code, UNIX_TIMESTAMP(van) AS van, UNIX_TIMESTAMP(tot) AS tot FROM korting WHERE type_id='".addslashes($_GET["2k0"])."' AND seizoen_id='".$db->f("seizoen_id")."' ORDER BY van, tot, korting_id;");
 							while($db2->next_record()) {
 								$naam=($db2->f("naam") ? $db2->f("naam")." - " : "").date("d/m/Y",$db2->f("van"))." t/m ".date("d/m/Y",$db2->f("tot"));
-								echo "<li style=\"margin-bottom:4px;\"><a href=\"cms_kortingen_tarieven.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."&kid=".$db2->f("korting_id")."\">".htmlentities($naam)."</a>";
+								echo "<li style=\"margin-bottom:4px;\"><a href=\"cms_kortingen_tarieven.php?from=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."&kid=".$db2->f("korting_id")."\">".wt_he($naam)."</a>";
 								echo "&nbsp;&nbsp;<span class=\"kleinwis\">";
 								if($db2->f("gekoppeld_code")) echo " (geldt voor alle types van deze accommodatie)";
-								echo "&nbsp;&nbsp;<a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&delkid=".$db2->f("korting_id")."\" onclick=\"return confirmClick(this,'".htmlentities($naam)." wissen? (de tarieven van de betreffende types worden direct bijgewerkt)');\">wis</a></span>";
+								echo "&nbsp;&nbsp;<a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&delkid=".$db2->f("korting_id")."\" onclick=\"return confirmClick(this,'".wt_he($naam)." wissen? (de tarieven van de betreffende types worden direct bijgewerkt)');\">wis</a></span>";
 								echo "</li>";
 							}
-							echo "<li><a href=\"cms_kortingen_tarieven.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."\">nieuwe korting &gt;</a>";
+							echo "<li><a href=\"cms_kortingen_tarieven.php?from=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."\">nieuwe korting &gt;</a>";
 #							if($toonper==3) echo "&nbsp;&nbsp;<span class=\"error\">(testfase - kortingsysteem nog niet gebruiken)</span>";
 							echo "</li>";
 							echo "</ul>";
@@ -99,7 +99,7 @@ if($_GET["show"]==2) {
 					}
 				}
 			} else {
-				echo htmlentities($db->f("naam"));
+				echo wt_he($db->f("naam"));
 				if($db->f("eind")>time()) {
 					echo " (<span class=\"error\">seizoen heeft nog geen <a href=\"cms_calculatiesjablonen.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&lid=".$db->f("leverancier_id")."\">calculatiesjabloon</a> voor deze <a href=\"cms_leveranciers.php?show=8&beheerder=0&8k0=".$db->f("leverancier_id")."\">leverancier</a></span>)";
 				}
@@ -119,7 +119,7 @@ if($_GET["show"]==2) {
 
 	$db->query("SELECT a.accommodatie_id, a.naam, l.begincode, a.wzt, a.tonen, t.tonen AS ttonen FROM land l, type t, accommodatie a, plaats p WHERE t.type_id='".addslashes($_GET["2k0"])."' AND p.plaats_id=a.plaats_id AND l.land_id=p.land_id AND a.accommodatie_id=t.accommodatie_id;");
 	if($db->next_record()) {
-		echo "<li><a href=\"".$path."cms_accommodaties.php?show=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."&wzt=".htmlentities($_GET["wzt"])."\">Accommodatiegegevens ".htmlentities($db->f("naam"))."</a></li>";
+		echo "<li><a href=\"".$path."cms_accommodaties.php?show=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."&wzt=".wt_he($_GET["wzt"])."\">Accommodatiegegevens ".wt_he($db->f("naam"))."</a></li>";
 		if($db->f("tonen") and $db->f("ttonen")) {
 			if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 				$link=$path;
@@ -157,17 +157,17 @@ if($_GET["show"]==2) {
 #		while($db->next_record()) {
 #			echo "<li>";
 #			if($accinfo["verzameltype"]) {
-#				echo htmlentities($db->f("naam"))." <i>bewerken niet mogelijk (verzameltype)</i>";
+#				echo wt_he($db->f("naam"))." <i>bewerken niet mogelijk (verzameltype)</i>";
 #			} else {
 #				if($calculatiesjabloon[$db->f("seizoen_id")]) {
-#					echo "<a href=\"cms_tarieven_new.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."\">".htmlentities($db->f("naam"))."</a>";
+#					echo "<a href=\"cms_tarieven_new.php?from=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."\">".wt_he($db->f("naam"))."</a>";
 #					if($db->f("eind")>time()) {
 #						echo "<ul>";
-#						echo "<li><a href=\"cms_tarieven_new.php?from=".htmlentities(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."&ab=new\">nieuwe aanbieding &gt;</a></li>";
+#						echo "<li><a href=\"cms_tarieven_new.php?from=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$_GET["2k0"]."&ab=new\">nieuwe aanbieding &gt;</a></li>";
 #						echo "</ul>";
 #					}
 #				} else {
-#					echo htmlentities($db->f("naam"));
+#					echo wt_he($db->f("naam"));
 #					if($db->f("eind")>time()) {
 #						echo " (<span class=\"error\">seizoen heeft nog geen <a href=\"cms_calculatiesjablonen.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&lid=".$db->f("leverancier_id")."\">calculatiesjabloon</a> voor deze <a href=\"cms_leveranciers.php?show=8&beheerder=0&8k0=".$db->f("leverancier_id")."\">leverancier</a></span>)";
 #					}

@@ -5,7 +5,7 @@ echo "<br><hr><span style=\"font-size:0.8em;\">bericht geplaatst: 3 februari 201
 echo "<h2>Nieuwe functie: onze informatie met jouw logo!</h2>";
 
 echo "<p>Regelmatig krijgen wij het verzoek van reisagenten om een mogelijkheid in ons systeem te bouwen om productinformatie te downloaden en te voorzien van logo en n.a.w. gegevens van het reisbureau. Dit voorkomt veel tijdrovend knip- en plakwerk.</p>";
- 
+
 echo "<p>Onlangs hebben wij deze functie voor jullie ontwikkeld. Het is vanaf nu mogelijk om productinformatie van Chalettour en Zomerhuisje te downloaden in een Word-bestand en hierbij je eigen logo te plaatsen.</p>";
 
 echo "<i>Om welke informatie gaat het?</i><br>&nbsp;<ul>";
@@ -37,7 +37,7 @@ if($vars["website"]=="T") {
 }
 if($accid) {
 	$link=$vars["basehref"].txt("menu_accommodatie")."/".$accid."/";
-	echo " (bijvoorbeeld <a href=\"".htmlentities($link)."\" target=\"_blank\">accommodatie ".htmlentities($accid)."</a>)";	
+	echo " (bijvoorbeeld <a href=\"".wt_he($link)."\" target=\"_blank\">accommodatie ".wt_he($accid)."</a>)";
 }
 
 echo " dan zie je aan de rechterkant de functie &quot;Word-bestand downloaden&quot;</li>";

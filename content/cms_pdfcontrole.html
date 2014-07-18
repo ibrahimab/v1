@@ -57,7 +57,7 @@ if(is_array($kolom1)) {
 	echo "<table class=\"tbl\" cellspacing=\"0\">";
 	echo "<tr><th>Laatste controle</th><th>Door</th><th>Omschrijving</th><th>&nbsp;</th><th>Opnieuw gecontroleerd</th></tr>";
 	while(list($key,$value)=each($kolom1)) {
-		echo "<tr><td valign=\"top\">".date("d-m-Y",$value)."</td><td valign=\"top\">".htmlentities($kolom2[$key])."</td><td valign=\"top\">".htmlentities($kolom3[$key])."</td><td valign=\"top\"><a href=\"".$path."pdf/".$kolom4[$key]."\" target=\"_blank\"><img src=\"pic/pdflogo.gif\" border=\"0\" width=\"18\" height=\"18\"></a></td><td valign=\"top\" align=\"center\"><input type=\"checkbox\" name=\"input[".htmlentities($kolom5[$key])."]\"></td></tr>";
+		echo "<tr><td valign=\"top\">".date("d-m-Y",$value)."</td><td valign=\"top\">".wt_he($kolom2[$key])."</td><td valign=\"top\">".wt_he($kolom3[$key])."</td><td valign=\"top\"><a href=\"".$path."pdf/".$kolom4[$key]."\" target=\"_blank\"><img src=\"pic/pdflogo.gif\" border=\"0\" width=\"18\" height=\"18\"></a></td><td valign=\"top\" align=\"center\"><input type=\"checkbox\" name=\"input[".wt_he($kolom5[$key])."]\"></td></tr>";
 	}
 	echo "</table>";
 	echo "<p><input type=\"submit\" value=\" CONTROLE OPSLAAN \" id=\"submit2frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit2frm.disabled=1;document.frm.submit();\">";

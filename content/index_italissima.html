@@ -18,7 +18,7 @@ if(is_array($blokkenhoofdpagina)) {
 		$blokkenhoofdpagina_teller++;
 		echo "<div class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "").">";
 		$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
-		echo "<div class=\"hoofdpagina_blok_image\"><a href=\"".htmlentities($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" alt=\"\" /></a></div>";
+		echo "<div class=\"hoofdpagina_blok_image\"><a href=\"".wt_he($value["link"])."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" alt=\"\" /></a></div>";
 		echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";
 		echo "<div class=\"hoofdpagina_blok_omschrijving\">".wt_he($value["omschrijving"])."</div>";
 		echo "</div>";
@@ -89,11 +89,11 @@ if($vars["taal"]=="nl") {
 		if($blogitem_gehad) echo "<hr>";
 		$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
 		if(file_exists($file)) {
-			echo "<div><a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"".wt_he($db->f("homepage_titel"))."\" /></a></div>";
+			echo "<div><a href=\"".wt_he($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"".wt_he($db->f("homepage_titel"))."\" /></a></div>";
 		}
-		echo "<div class=\"hoofdpagina_blog_titel\"><a href=\"".htmlentities($url)."\">".wt_he($db->f("homepage_titel"))."</a></div>";
+		echo "<div class=\"hoofdpagina_blog_titel\"><a href=\"".wt_he($url)."\">".wt_he($db->f("homepage_titel"))."</a></div>";
 		echo "<div class=\"hoofdpagina_blog_inleiding\">".wt_he($db->f("homepage_inleiding"))."</div>";
-		echo "<div class=\"hoofdpagina_blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></div>";
+		echo "<div class=\"hoofdpagina_blog_link\"><a href=\"".wt_he($url)."\">Lees verder &raquo;</a></div>";
 
 		echo "</div>"; # afsluiten class hoofdpagina_blog_item
 		$blogitem_gehad=true;

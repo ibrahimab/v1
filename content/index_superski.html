@@ -12,7 +12,7 @@ if(is_array($blokkenhoofdpagina)) {
 			break;
 		}
 		$blokkenhoofdpagina_teller++;
-		echo "<a href=\"".htmlentities($value["link"])."\" class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "").">";
+		echo "<a href=\"".wt_he($value["link"])."\" class=\"hoofdpagina_blok_content\" id=\"blok_".$blokkenhoofdpagina_teller."\"".($blokkenhoofdpagina_teller>1 ? " style=\"display:none;\"" : "").">";
 		$file="pic/cms/blokkenhoofdpagina/".$value["id"].".jpg";
 		echo "<div class=\"hoofdpagina_blok_image\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\"/></div>";
 		echo "<div class=\"hoofdpagina_blok_titel\">".wt_he($value["titel"])."</div>";

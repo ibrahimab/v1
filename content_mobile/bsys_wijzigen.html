@@ -29,13 +29,13 @@ if($_GET["stap"]==1) {
 			if(!$gegevens["stap3"]["geboortedatum_ingevuld"][$i]) {
 				echo "<li><a href=\"";
 				if($i==1) {
-					echo $path."bsys_wijzigen.php?stap=2&bid=".htmlentities($_GET["bid"])."&burl=".htmlentities($_GET["burl"]);
+					echo $path."bsys_wijzigen.php?stap=2&bid=".wt_he($_GET["bid"])."&burl=".wt_he($_GET["burl"]);
 				} else {
-					echo $path."bsys_wijzigen.php?stap=3&bid=".htmlentities($_GET["bid"])."&burl=".htmlentities($_GET["burl"])."#persoon".$i;
+					echo $path."bsys_wijzigen.php?stap=3&bid=".wt_he($_GET["bid"])."&burl=".wt_he($_GET["burl"])."#persoon".$i;
 				}
 				echo "\">";
 				if($gegevens["stap3"][$i]["voornaam"] or $gegevens["stap3"][$i]["achternaam"]) {
-					echo htmlentities(wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"]));
+					echo wt_he(wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"]));
 				} else {
 					echo html("persoon","bsys")." ".$i;
 				}

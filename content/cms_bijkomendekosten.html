@@ -7,11 +7,11 @@ if($_GET["show"]==33) {
 	if($db->num_rows()) {
 		echo "<p>Tarieven bewerken:<ul>";
 		while($db->next_record()) {
-			echo "<li><a href=\"cms_optie_tarieven.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&bkid=".$_GET["33k0"]."\">".htmlentities($db->f("naam"))."</a></li>";
+			echo "<li><a href=\"cms_optie_tarieven.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&bkid=".$_GET["33k0"]."\">".wt_he($db->f("naam"))."</a></li>";
 		}
 		echo "</ul>";
 	}
-	
+
 	# Gekoppelde accommodaties/types tonen
 	$db->query("SELECT a.wzt, a.accommodatie_id, l.begincode, t.type_id, a.naam, t.naam AS tnaam, p.naam AS plaats FROM accommodatie a, type t, plaats p, land l WHERE t.accommodatie_id=a.accommodatie_id AND p.land_id=l.land_id AND a.plaats_id=p.plaats_id AND (a.bijkomendekosten1_id='".addslashes($_GET["33k0"])."' OR a.bijkomendekosten2_id='".addslashes($_GET["33k0"])."' OR a.bijkomendekosten3_id='".addslashes($_GET["33k0"])."' OR a.bijkomendekosten4_id='".addslashes($_GET["33k0"])."' OR a.bijkomendekosten5_id='".addslashes($_GET["33k0"])."' OR a.bijkomendekosten6_id='".addslashes($_GET["33k0"])."' OR t.bijkomendekosten1_id='".addslashes($_GET["33k0"])."' OR t.bijkomendekosten2_id='".addslashes($_GET["33k0"])."' OR t.bijkomendekosten3_id='".addslashes($_GET["33k0"])."' OR t.bijkomendekosten4_id='".addslashes($_GET["33k0"])."' OR t.bijkomendekosten5_id='".addslashes($_GET["33k0"])."' OR t.bijkomendekosten5_id='".addslashes($_GET["33k0"])."') ORDER BY a.wzt, p.naam, a.naam;");
 	if($db->num_rows()) {
@@ -21,17 +21,17 @@ if($_GET["show"]==33) {
 				echo "<br><b>".$vars["seizoentype_namen"][$db->f("wzt")]."</b><br>";
 				$wzt_gehad[$db->f("wzt")]=true;
 			}
-			echo "<li><a href=\"cms_types.php?show=2&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".htmlentities($db->f("plaats")." - ".$db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a></li>";
+			echo "<li><a href=\"cms_types.php?show=2&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".wt_he($db->f("plaats")." - ".$db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a></li>";
 		}
 		echo "</ul>";
 	}
-	
+
 	# Gekoppelde skipassen tonen
 	$db->query("SELECT skipas_id, naam FROM skipas WHERE bijkomendekosten_id='".addslashes($_GET["33k0"])."';");
 	if($db->num_rows()) {
 		echo "&nbsp;<hr><b>De volgende skipassen zijn aan deze bijkomende kosten gekoppeld:</b><ul>";
 		while($db->next_record()) {
-			echo "<li><a href=\"cms_skipassen.php?show=10&bc=".$_GET["bc"]."&10k0=".$db->f("skipas_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+			echo "<li><a href=\"cms_skipassen.php?show=10&bc=".$_GET["bc"]."&10k0=".$db->f("skipas_id")."\">".wt_he($db->f("naam"))."</a></li>";
 		}
 		echo "</ul>";
 	}
@@ -41,7 +41,7 @@ if($_GET["show"]==33) {
 	if($db->num_rows()) {
 		echo "&nbsp;<hr><b>De volgende opties zijn aan deze bijkomende kosten gekoppeld:</b><ul>";
 		while($db->next_record()) {
-			echo "<li><a href=\"cms_optie_onderdelen.php?show=13&bc=".$_GET["bc"]."&11k0=".$db->f("optie_soort_id")."&12k0=".$db->f("optie_groep_id")."&13k0=".$db->f("optie_onderdeel_id")."\">".htmlentities($db->f("ognaam")." - ".$db->f("osnaam").": ".$db->f("naam"))."</a></li>";
+			echo "<li><a href=\"cms_optie_onderdelen.php?show=13&bc=".$_GET["bc"]."&11k0=".$db->f("optie_soort_id")."&12k0=".$db->f("optie_groep_id")."&13k0=".$db->f("optie_onderdeel_id")."\">".wt_he($db->f("ognaam")." - ".$db->f("osnaam").": ".$db->f("naam"))."</a></li>";
 		}
 		echo "</ul>";
 	}
@@ -54,7 +54,7 @@ if($_GET["show"]==33) {
 		while($db->next_record()) {
 			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">";
 			if($db->f("boekingsnummer")) echo $db->f("boekingsnummer")." - ";
-			echo htmlentities($db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"));
+			echo wt_he($db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"));
 			echo "</a></li>";
 		}
 		echo "</ul>";

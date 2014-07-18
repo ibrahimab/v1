@@ -11,27 +11,27 @@ if($_GET["chaletpark"]) {
 	}
 	echo "</div>"; # afsluiten naamloze div
 	echo "</div>"; # afsluiten naamloze div
-	
+
 	echo "<div style=\"position:absolute;top:9px;right:20px;\">";
-	echo "<img src=\"".$vars["path"]."pic/vallandry_".htmlentities($_GET["seizoen"])."_".htmlentities($_GET["chaletpark"]).".jpg?cache=1\" width=\"141\" height=\"141\" style=\"border:1px solid #ffffff;\">";
+	echo "<img src=\"".$vars["path"]."pic/vallandry_".wt_he($_GET["seizoen"])."_".wt_he($_GET["chaletpark"]).".jpg?cache=1\" width=\"141\" height=\"141\" style=\"border:1px solid #ffffff;\">";
 	echo "</div>"; # afsluiten naamloze div
 	echo "</div>"; # afsluiten naamloze div
-	
+
 	# Zoekform embedden
 	$vars["zoekform_vallandrychalets"]=true;
 	echo "<a name=\"acc\"></a>";
 	include("content/zoek-en-boek.html");
-	
+
 } else {
-	
-	
+
+
 	$doorloop_array=array("bellecote","vallandry","overigechalets");
 	echo "<table cellspacing=\"0\" cellpadding=\"0\" width=\"100%\" style=\"padding-right:5px;\">";
-	
+
 	while(list($key,$value)=each($doorloop_array)) {
 		echo "<tr><td colspan=\"3\"><br><hr class=\"dunnehr\"><br></td></tr>";
 		echo "<tr><td>";
-		echo "<h2>".htmlentities(ucfirst(txt($value,"chalets")))."</h2>";
+		echo "<h2>".wt_he(ucfirst(txt($value,"chalets")))."</h2>";
 		echo html($value."_kort","chalets");
 		echo "<table cellspacing=\"0\" cellpadding=\"0\" style=\"padding-right:5px;\">";
 		echo "<tr><td>";
@@ -45,7 +45,7 @@ if($_GET["chaletpark"]) {
 	}
 	echo "<tr><td colspan=\"3\"><br><hr class=\"dunnehr\"><br></td></tr>";
 	echo "</table>";
-	
+
 }
 
 

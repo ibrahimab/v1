@@ -8,12 +8,12 @@ if($_GET["show"]==7) {
 	if($db->num_rows()) {
 		echo "De volgende accommodaties maken gebruik van dit vertrekdagtype:<ul>";
 		while($db->next_record()) {
-			echo "<li><a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</a></li>";
+			echo "<li><a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\">".wt_he($db->f("plaats")." - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam"))."</a></li>";
 		}
 		echo "</ul>";
-		
-		
-	
+
+
+
 	} else {
 		echo "Er zijn nog geen accommodaties aan dit vertrekdagtype gekoppeld.";
 	}

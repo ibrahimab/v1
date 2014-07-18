@@ -289,7 +289,7 @@ if($login_lev->logged_in) {
 							echo "</table>";
 							echo "</div>";
 						}
-						echo "<div class=\"boekingen_kop\" rel=\"seizoen_".$db->f("seizoen_id")."\"><img src=\"".$vars["path"]."pic/minicon.gif\" width=\"11\" height=\"11\"><span>".htmlentities($db->f("seizoen"))."</span></div>";
+						echo "<div class=\"boekingen_kop\" rel=\"seizoen_".$db->f("seizoen_id")."\"><img src=\"".$vars["path"]."pic/minicon.gif\" width=\"11\" height=\"11\"><span>".wt_he($db->f("seizoen"))."</span></div>";
 						echo "<div id=\"seizoen_".$db->f("seizoen_id")."\">";
 						echo "<table cellspacing=\"0\" class=\"tbl\" style=\"margin-top:4px;\">";
 						echo "<tr>";
@@ -390,7 +390,7 @@ if($login_lev->logged_in) {
 							echo "</table>";
 							echo "</div>";
 						}
-						echo "<div class=\"boekingen_kop\" rel=\"seizoen_".$db->f("seizoen_id")."\"><img src=\"".$vars["path"]."pic/minicon.gif\" width=\"11\" height=\"11\"><span>".htmlentities($db->f("seizoen"))."</span></div>";
+						echo "<div class=\"boekingen_kop\" rel=\"seizoen_".$db->f("seizoen_id")."\"><img src=\"".$vars["path"]."pic/minicon.gif\" width=\"11\" height=\"11\"><span>".wt_he($db->f("seizoen"))."</span></div>";
 						echo "<div id=\"seizoen_".$db->f("seizoen_id")."\">";
 						echo "<table cellspacing=\"0\" class=\"tbl\" style=\"margin-top:4px;\">";
 						echo "<tr>";

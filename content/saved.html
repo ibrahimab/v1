@@ -23,12 +23,12 @@ if($last_acc) {
 			// }
 			// $naam=$db->f("naam").($db->f("type") ? " ".$db->f("type") : "");
 			// if(file_exists($pic)) {
-			// 	$results[$db->f("type_id")].="<A HREF=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/\"><IMG SRC=\"".$path.$pic."\" alt=\"".htmlentities($naam)."\" border=\"0\"></A>";
+			// 	$results[$db->f("type_id")].="<A HREF=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/\"><IMG SRC=\"".$path.$pic."\" alt=\"".wt_he($naam)."\" border=\"0\"></A>";
 			// } else {
 			// 	$results[$db->f("type_id")].="<IMG SRC=\"".$path."pic/cms/accommodaties_tn/0.jpg\" alt=\"Geen afbeelding beschikbaar\" border=\"0\">";
 			// }
-			// $results[$db->f("type_id")].="</TD><TD><A HREF=\"".$path."accommodatie/".$db->f("begincode").$db->f("type_id")."/\">".htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$naam)."</A>";
-			// $results[$db->f("type_id")].="<BR>".htmlentities($db->f("plaats")." - ".$db->f("skigebied")." - ".$db->f("land"));
+			// $results[$db->f("type_id")].="</TD><TD><A HREF=\"".$path."accommodatie/".$db->f("begincode").$db->f("type_id")."/\">".wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$naam)."</A>";
+			// $results[$db->f("type_id")].="<BR>".wt_he($db->f("plaats")." - ".$db->f("skigebied")." - ".$db->f("land"));
 			// $results[$db->f("type_id")].="</TD><TD align=\"right\"><NOBR>".($db->f("soortaccommodatie")<>5 ? $db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".html("personen") : "")."</NOBR></TD><TD>".($db->f("slaapkamers") ? $db->f("slaapkamers")."&nbsp;".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."<BR>" : "").($db->f("badkamers") ? $db->f("badkamers")."&nbsp;".($db->f("badkamers")==1 ? html("badkamer") : html("badkamers")) : "")."</TD></TR>";
 			// $results[$db->f("type_id")].=balk();
 

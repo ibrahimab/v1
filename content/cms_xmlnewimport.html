@@ -1299,7 +1299,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 				echo "<hr>";
 				echo "<b>De volgende regio's zijn onbekend:</b><ol>";
 				while(list($key,$value)=each($onbekend_skigebied)) {
-					echo "<li>".htmlentities($key)."</li>";
+					echo "<li>".wt_he($key)."</li>";
 				}
 				echo "</ol>Voeg deze regio's toe aan het CMS (en neem de hierboven getoonde naam op in het veld &quot;XML-namen&quot;):";
 			}
@@ -1308,7 +1308,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 				echo "<hr>";
 				echo "<b>De volgende plaatsen zijn onbekend:</b><ol>";
 				while(list($key,$value)=each($onbekend_plaats)) {
-					echo "<li>".htmlentities($key)."</li>";
+					echo "<li>".wt_he($key)."</li>";
 				}
 				echo "</ol>Voeg deze plaatsen toe aan het CMS (en neem de hierboven getoonde naam op in het veld &quot;XML-namen&quot;):";
 			}
@@ -1340,14 +1340,14 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 								if(!$type_xmlcode[$key]) $aantal_in_verberglijst++;
 							}
 						}
-						echo "<br><a href=\"".htmlentities($_SERVER["REQUEST_URI"]."&verborgen=1")."\">Accommodaties van verberglijst bekijken</a><br>";
+						echo "<br><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&verborgen=1")."\">Accommodaties van verberglijst bekijken</a><br>";
 						echo "<br>";
 					}
 				}
 				$no_submit_disableClass = ($_GET['lev'] == 245) ? "class='no_submit_disable'": "";
 				if($_GET["verborgen"] and !$_POST) {
 					echo "<b>Geef via vinkjes aan van welke verborgen accommodaties je de gegevens wilt bekijken:</b><p>";
-					echo "<form ".$no_submit_disableClass." method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+					echo "<form ".$no_submit_disableClass." method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 					echo "<input type=\"hidden\" name=\"verborgenfilled\" value=\"1\">";
 				} else {
 					if($_GET["toonwijzigingen"]) {
@@ -1355,7 +1355,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 					} else {
 						echo "<b>De volgende accommodaties/types kunnen worden ge&iuml;mporteerd:</b><p>";
 					}
-					echo "<form ".$no_submit_disableClass." method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+					echo "<form ".$no_submit_disableClass." method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 					echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 				}
 			}
@@ -1617,9 +1617,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 						}
 						if($typeid and $accid) {
 							echo "<tr><th colspan=\"2\">&nbsp;</th></tr>";
-							echo "<tr><td style=\"width:200px;\">XML-code</td><td>".htmlentities($key)."&nbsp;</td></tr>";
-							echo "<tr><td style=\"width:200px;\">Accommodatienaam</td><td>".htmlentities($value["accnaam"])."&nbsp;</td></tr>";
-							echo "<tr><td valign=\"top\">Typenaam</td><td valign=\"top\">".htmlentities($value["typenaam"])."&nbsp;</td></tr>";
+							echo "<tr><td style=\"width:200px;\">XML-code</td><td>".wt_he($key)."&nbsp;</td></tr>";
+							echo "<tr><td style=\"width:200px;\">Accommodatienaam</td><td>".wt_he($value["accnaam"])."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Typenaam</td><td valign=\"top\">".wt_he($value["typenaam"])."&nbsp;</td></tr>";
 							echo "<tr><td colspan=\"2\"><a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$levinfo["wzt"]."&archief=0&1k0=".$accid."\" target=\"_blank\">Link naar CMS</a></td></tr>";
 							echo "<tr><td colspan=\"2\">&nbsp;</td></tr>\n\n";
 							flush();
@@ -1654,7 +1654,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 					if($_GET["verborgen"] and $verberg_xmlcode[$key] and !$_POST["verborgenfilled"]) {
 						$typeteller++;
-						echo "<tr><td align=\"right\">".$typeteller."</td><td>".htmlentities($value["accnaam"]." ".$value["typenaam"]." ".$plaats_naam[$value["plaats_id"]]." (".($skigebied_naam[$value["skigebied_id"]] ? $skigebied_naam[$value["skigebied_id"]] : "onbekende regio").")")." - <span class=\"grey\">".$key."</span></td><td><input type=\"checkbox\" name=\"verborgenid[".$key."]\" value=\"1\"></td></tr>\n";
+						echo "<tr><td align=\"right\">".$typeteller."</td><td>".wt_he($value["accnaam"]." ".$value["typenaam"]." ".$plaats_naam[$value["plaats_id"]]." (".($skigebied_naam[$value["skigebied_id"]] ? $skigebied_naam[$value["skigebied_id"]] : "onbekende regio").")")." - <span class=\"grey\">".$key."</span></td><td><input type=\"checkbox\" name=\"verborgenid[".$key."]\" value=\"1\"></td></tr>\n";
 					} elseif((!$_GET["verborgen"] and !$verberg_xmlcode[$key]) or ($_GET["verborgen"] and $_POST["verborgenid"][$key]==1) or ( ($_GET["lev"] == 421) && (trim($_GET["acc_code_ih"]) == $key) )) {
 
 						$typeteller++;
@@ -1662,32 +1662,32 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 						# Tonen in tabel
 						echo "<tr><th colspan=\"2\">&nbsp;</th></tr>";
 						if(!$_GET["toonwijzigingen"]) {
-							echo "<tr><td style=\"width:200px;\">Volgnummer van deze import</td><td>".htmlentities($typeteller)."&nbsp;</td></tr>";
+							echo "<tr><td style=\"width:200px;\">Volgnummer van deze import</td><td>".wt_he($typeteller)."&nbsp;</td></tr>";
 						}
-						$accname = (isset($value["accid"])) ?  " - ".htmlentities($value["accid"])." (accommodatie)&nbsp;" : "";
-						echo "<tr><td style=\"width:200px;\">XML-code</td><td>".htmlentities($key)." (type) ".$accname."</td></tr>";
+						$accname = (isset($value["accid"])) ?  " - ".wt_he($value["accid"])." (accommodatie)&nbsp;" : "";
+						echo "<tr><td style=\"width:200px;\">XML-code</td><td>".wt_he($key)." (type) ".$accname."</td></tr>";
 
 
 						# Accommodatienaam
 						if($xml_importvalues[1][$value["accid"]]["naam"] and $value["accnaam"]<>$xml_importvalues[1][$value["accid"]]["naam"] and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td style=\"width:200px;\">Accommodatienaam</td><td>".htmlentities($value["accnaam"])."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td style=\"width:200px;\">Accommodatienaam (voorheen)</td><td>".htmlentities($xml_importvalues[1][$value["accid"]]["naam"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td style=\"width:200px;\">Accommodatienaam</td><td>".wt_he($value["accnaam"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td style=\"width:200px;\">Accommodatienaam (voorheen)</td><td>".wt_he($xml_importvalues[1][$value["accid"]]["naam"])."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td style=\"width:200px;\">Accommodatienaam</td><td>".htmlentities($value["accnaam"])."&nbsp;</td></tr>";
+							echo "<tr><td style=\"width:200px;\">Accommodatienaam</td><td>".wt_he($value["accnaam"])."&nbsp;</td></tr>";
 						}
 
 						# Typenaam
 						if($xml_importvalues[2][$key]["naam"] and $value["typenaam"]<>$xml_importvalues[2][$key]["naam"] and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Typenaam</td><td valign=\"top\">".htmlentities($value["typenaam"])."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Typenaam (voorheen)</td><td valign=\"top\">".htmlentities($xml_importvalues[2][$key]["naam"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Typenaam</td><td valign=\"top\">".wt_he($value["typenaam"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Typenaam (voorheen)</td><td valign=\"top\">".wt_he($xml_importvalues[2][$key]["naam"])."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Typenaam</td><td valign=\"top\">".htmlentities($value["typenaam"])."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Typenaam</td><td valign=\"top\">".wt_he($value["typenaam"])."&nbsp;</td></tr>";
 						}
 
 						$regio = $value["skigebied_id"];
 						$place = $value["plaats_id"];
-						if (isset($skigebied_naam[$value["skigebied_id"]])) $regio = htmlentities($skigebied_naam[$value["skigebied_id"]]);
-						if (isset($plaats_naam[$value["plaats_id"]])) $place = htmlentities($plaats_naam[$value["plaats_id"]]);
+						if (isset($skigebied_naam[$value["skigebied_id"]])) $regio = wt_he($skigebied_naam[$value["skigebied_id"]]);
+						if (isset($plaats_naam[$value["plaats_id"]])) $place = wt_he($plaats_naam[$value["plaats_id"]]);
 
 						# Regio (kan niet gewijzigd worden; dat gebeurt via "plaats")
 						echo "<tr><td valign=\"top\">Regio</td><td valign=\"top\">". $regio ."&nbsp;</td></tr>";
@@ -1695,118 +1695,118 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 						# Plaats
 						if($xml_importvalues[1][$value["accid"]]["plaats_id"] and $value["plaats_id"]<>$xml_importvalues[1][$value["accid"]]["plaats_id"] and $_GET["toonwijzigingen"]) {
 							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Plaats</td><td valign=\"top\">".$place."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Plaats (voorheen)</td><td valign=\"top\">".htmlentities($plaats_naam[$value["plaats_id"]])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Plaats (voorheen)</td><td valign=\"top\">".wt_he($plaats_naam[$value["plaats_id"]])."&nbsp;</td></tr>";
 						} else {
 							echo "<tr><td valign=\"top\">Plaats</td><td valign=\"top\">".$place."&nbsp;</td></tr>";
 						}
 
 						# Optimaalaantalpersonen
 						if($xml_importvalues[2][$key]["optimaalaantalpersonen"] and $value["optimaalaantalpersonen"]<>$xml_importvalues[2][$key]["optimaalaantalpersonen"] and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Capaciteit</td><td valign=\"top\">".htmlentities($value["optimaalaantalpersonen"])."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Capaciteit (voorheen)</td><td valign=\"top\">".htmlentities($xml_importvalues[2][$key]["optimaalaantalpersonen"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Capaciteit</td><td valign=\"top\">".wt_he($value["optimaalaantalpersonen"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Capaciteit (voorheen)</td><td valign=\"top\">".wt_he($xml_importvalues[2][$key]["optimaalaantalpersonen"])."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Capaciteit</td><td valign=\"top\">".htmlentities($value["optimaalaantalpersonen"])."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Capaciteit</td><td valign=\"top\">".wt_he($value["optimaalaantalpersonen"])."&nbsp;</td></tr>";
 						}
 
 						# Maxaantalpersonen
 						if($xml_importvalues[2][$key]["maxaantalpersonen"] and $value["maxaantalpersonen"]<>$xml_importvalues[2][$key]["maxaantalpersonen"] and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Maximale capaciteit</td><td valign=\"top\">".htmlentities($value["maxaantalpersonen"])."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Maximale capaciteit (voorheen)</td><td valign=\"top\">".htmlentities($xml_importvalues[2][$key]["maxaantalpersonen"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Maximale capaciteit</td><td valign=\"top\">".wt_he($value["maxaantalpersonen"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Maximale capaciteit (voorheen)</td><td valign=\"top\">".wt_he($xml_importvalues[2][$key]["maxaantalpersonen"])."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Maximale capaciteit</td><td valign=\"top\">".htmlentities($value["maxaantalpersonen"])."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Maximale capaciteit</td><td valign=\"top\">".wt_he($value["maxaantalpersonen"])."&nbsp;</td></tr>";
 						}
 
 						# Slaapkamers
 						if($xml_importvalues[2][$key]["slaapkamers"] and $value["slaapkamers"]<>$xml_importvalues[2][$key]["slaapkamers"] and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Aantal slaapkamers</td><td valign=\"top\">".htmlentities($value["slaapkamers"])."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Aantal slaapkamers (voorheen)</td><td valign=\"top\">".htmlentities($xml_importvalues[2][$key]["slaapkamers"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Aantal slaapkamers</td><td valign=\"top\">".wt_he($value["slaapkamers"])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Aantal slaapkamers (voorheen)</td><td valign=\"top\">".wt_he($xml_importvalues[2][$key]["slaapkamers"])."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Aantal slaapkamers</td><td valign=\"top\">".htmlentities($value["slaapkamers"])."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Aantal slaapkamers</td><td valign=\"top\">".wt_he($value["slaapkamers"])."&nbsp;</td></tr>";
 						}
 
 						if($_GET['lev'] != 421){
 							# Badkamers
 							if($xml_importvalues[2][$key]["badkamers"] and $value["badkamers"]<>$xml_importvalues[2][$key]["badkamers"] and $_GET["toonwijzigingen"]) {
-								echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Aantal badkamers</td><td valign=\"top\">".htmlentities($value["badkamers"])."&nbsp;</td></tr>";
-								echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Aantal badkamers (voorheen)</td><td valign=\"top\">".htmlentities($xml_importvalues[2][$key]["badkamers"])."&nbsp;</td></tr>";
+								echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Aantal badkamers</td><td valign=\"top\">".wt_he($value["badkamers"])."&nbsp;</td></tr>";
+								echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Aantal badkamers (voorheen)</td><td valign=\"top\">".wt_he($xml_importvalues[2][$key]["badkamers"])."&nbsp;</td></tr>";
 							} else {
-								echo "<tr><td valign=\"top\">Aantal badkamers</td><td valign=\"top\">".htmlentities($value["badkamers"])."&nbsp;</td></tr>";
+								echo "<tr><td valign=\"top\">Aantal badkamers</td><td valign=\"top\">".wt_he($value["badkamers"])."&nbsp;</td></tr>";
 							}
 						}
 
 						# Kwaliteit
 						if($xml_importvalues[2][$key]["kwaliteit"] and $value["kwaliteit"]<>$xml_importvalues[2][$key]["kwaliteit"] and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Kwaliteit</td><td valign=\"top\">".htmlentities($vars["kwaliteit"][$value["kwaliteit"]])."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Kwaliteit (voorheen)</td><td valign=\"top\">".htmlentities($vars["kwaliteit"][$xml_importvalues[2][$key]["kwaliteit"]])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Kwaliteit</td><td valign=\"top\">".wt_he($vars["kwaliteit"][$value["kwaliteit"]])."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Kwaliteit (voorheen)</td><td valign=\"top\">".wt_he($vars["kwaliteit"][$xml_importvalues[2][$key]["kwaliteit"]])."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Kwaliteit</td><td valign=\"top\">".htmlentities($vars["kwaliteit"][$value["kwaliteit"]])."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Kwaliteit</td><td valign=\"top\">".wt_he($vars["kwaliteit"][$value["kwaliteit"]])."&nbsp;</td></tr>";
 						}
 						# Omschrijving (acc)
 						if($xml_importvalues[1][$value["accid"]]["omschrijving"] and only_alphanum($value["accomschrijving"])<>only_alphanum($xml_importvalues[1][$value["accid"]]["omschrijving"]) and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Omschrijving (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["accomschrijving"]))."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Omschrijving (accommodatie) (voorheen)</td><td valign=\"top\">".nl2br(htmlentities($xml_importvalues[1][$value["accid"]]["omschrijving"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Omschrijving (accommodatie)</td><td valign=\"top\">".nl2br(wt_he($value["accomschrijving"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Omschrijving (accommodatie) (voorheen)</td><td valign=\"top\">".nl2br(wt_he($xml_importvalues[1][$value["accid"]]["omschrijving"]))."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Omschrijving (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["accomschrijving"]))."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Omschrijving (accommodatie)</td><td valign=\"top\">".nl2br(wt_he($value["accomschrijving"]))."&nbsp;</td></tr>";
 						}
 
 						if($_GET['lev'] != 421){
 							# Indeling (acc)
 							if($xml_importvalues[2][$key]["accindeling"] and only_alphanum($value["accindeling"])<>only_alphanum($xml_importvalues[2][$key]["accindeling"]) and $_GET["toonwijzigingen"]) {
-								echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Indeling (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["accindeling"]))."&nbsp;</td></tr>";
-								echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Indeling (accommodatie) (voorheen)</td><td valign=\"top\">".nl2br(htmlentities($xml_importvalues[1][$key]["accindeling"]))."&nbsp;</td></tr>";
+								echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Indeling (accommodatie)</td><td valign=\"top\">".nl2br(wt_he($value["accindeling"]))."&nbsp;</td></tr>";
+								echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Indeling (accommodatie) (voorheen)</td><td valign=\"top\">".nl2br(wt_he($xml_importvalues[1][$key]["accindeling"]))."&nbsp;</td></tr>";
 							} else {
-								echo "<tr><td valign=\"top\">Indeling (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["accindeling"]))."&nbsp;</td></tr>";
+								echo "<tr><td valign=\"top\">Indeling (accommodatie)</td><td valign=\"top\">".nl2br(wt_he($value["accindeling"]))."&nbsp;</td></tr>";
 							}
 						}
 
 						# Indeling (type)
 						if($xml_importvalues[2][$key]["typeindeling"] and only_alphanum($value["typeindeling"])<>only_alphanum($xml_importvalues[2][$key]["typeindeling"]) and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Indeling (type)</td><td valign=\"top\">".nl2br(htmlentities($value["typeindeling"]))."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Indeling (type) (voorheen)</td><td valign=\"top\">".nl2br(htmlentities($xml_importvalues[1][$key]["typeindeling"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Indeling (type)</td><td valign=\"top\">".nl2br(wt_he($value["typeindeling"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Indeling (type) (voorheen)</td><td valign=\"top\">".nl2br(wt_he($xml_importvalues[1][$key]["typeindeling"]))."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Indeling (type)</td><td valign=\"top\">".nl2br(htmlentities($value["typeindeling"]))."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Indeling (type)</td><td valign=\"top\">".nl2br(wt_he($value["typeindeling"]))."&nbsp;</td></tr>";
 						}
 
 						if($_GET['lev'] != 421){
 							# Inclusief (acc)
 							if($xml_importvalues[1][$value["accid"]]["inclusief"] and only_alphanum($value["inclusief"])<>only_alphanum($xml_importvalues[1][$value["accid"]]["inclusief"]) and $_GET["toonwijzigingen"]) {
-								echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Inclusief (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["inclusief"]))."&nbsp;</td></tr>";
-								echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Inclusief (accommodatie) (voorheen)</td><td valign=\"top\">".nl2br(htmlentities($xml_importvalues[1][$value["accid"]]["inclusief"]))."&nbsp;</td></tr>";
+								echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Inclusief (accommodatie)</td><td valign=\"top\">".nl2br(wt_he($value["inclusief"]))."&nbsp;</td></tr>";
+								echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Inclusief (accommodatie) (voorheen)</td><td valign=\"top\">".nl2br(wt_he($xml_importvalues[1][$value["accid"]]["inclusief"]))."&nbsp;</td></tr>";
 							} else {
-								echo "<tr><td valign=\"top\">Inclusief (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["inclusief"]))."&nbsp;</td></tr>";
+								echo "<tr><td valign=\"top\">Inclusief (accommodatie)</td><td valign=\"top\">".nl2br(wt_he($value["inclusief"]))."&nbsp;</td></tr>";
 							}
 						}
 						# Inclusief (type)
 						if($xml_importvalues[2][$key]["typeinclusief"] and only_alphanum($value["typeinclusief"])<>only_alphanum($xml_importvalues[2][$key]["typeinclusief"]) and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Inclusief (type)</td><td valign=\"top\">".nl2br(htmlentities($value["typeinclusief"]))."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Inclusief (type) (voorheen)</td><td valign=\"top\">".nl2br(htmlentities($xml_importvalues[2][$key]["typeinclusief"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Inclusief (type)</td><td valign=\"top\">".nl2br(wt_he($value["typeinclusief"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Inclusief (type) (voorheen)</td><td valign=\"top\">".nl2br(wt_he($xml_importvalues[2][$key]["typeinclusief"]))."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Inclusief (type)</td><td valign=\"top\">".nl2br(htmlentities($value["typeinclusief"]))."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Inclusief (type)</td><td valign=\"top\">".nl2br(wt_he($value["typeinclusief"]))."&nbsp;</td></tr>";
 						}
 						if($_GET['lev'] !=421){
 							# Exclusief (acc)
 							if($xml_importvalues[1][$value["accid"]]["exclusief"] and only_alphanum($value["exclusief"])<>only_alphanum($xml_importvalues[1][$value["accid"]]["exclusief"]) and $_GET["toonwijzigingen"]) {
-								echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Exclusief (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["exclusief"]))."&nbsp;</td></tr>";
-								echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Exclusief (accommodatie) (voorheen)</td><td valign=\"top\">".nl2br(htmlentities($xml_importvalues[1][$value["accid"]]["exclusief"]))."&nbsp;</td></tr>";
+								echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Exclusief (accommodatie)</td><td valign=\"top\">".nl2br(wt_he($value["exclusief"]))."&nbsp;</td></tr>";
+								echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Exclusief (accommodatie) (voorheen)</td><td valign=\"top\">".nl2br(wt_he($xml_importvalues[1][$value["accid"]]["exclusief"]))."&nbsp;</td></tr>";
 							} else {
-								echo "<tr><td valign=\"top\">Exclusief (accommodatie)</td><td valign=\"top\">".nl2br(htmlentities($value["exclusief"]))."&nbsp;</td></tr>";
+								echo "<tr><td valign=\"top\">Exclusief (accommodatie)</td><td valign=\"top\">".nl2br(wt_he($value["exclusief"]))."&nbsp;</td></tr>";
 							}
 						}
 
 						# Exclusief (type)
 						if($xml_importvalues[2][$key]["typeexclusief"] and only_alphanum($value["typeexclusief"])<>only_alphanum($xml_importvalues[2][$key]["typeexclusief"]) and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Exclusief (type)</td><td valign=\"top\">".nl2br(htmlentities($value["typeexclusief"]))."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Exclusief (type) (voorheen)</td><td valign=\"top\">".nl2br(htmlentities($xml_importvalues[2][$key]["typeexclusief"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Exclusief (type)</td><td valign=\"top\">".nl2br(wt_he($value["typeexclusief"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Exclusief (type) (voorheen)</td><td valign=\"top\">".nl2br(wt_he($xml_importvalues[2][$key]["typeexclusief"]))."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Exclusief (type)</td><td valign=\"top\">".nl2br(htmlentities($value["typeexclusief"]))."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Exclusief (type)</td><td valign=\"top\">".nl2br(wt_he($value["typeexclusief"]))."&nbsp;</td></tr>";
 						}
 
 						# Oppervlakte
 						if($xml_importvalues[2][$key]["oppervlakte"] and only_alphanum($value["oppervlakte"])<>only_alphanum($xml_importvalues[2][$key]["oppervlakte"]) and $_GET["toonwijzigingen"]) {
-							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Oppervlakte</td><td valign=\"top\">".nl2br(htmlentities($value["oppervlakte"]))."&nbsp;</td></tr>";
-							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Oppervlakte (voorheen)</td><td valign=\"top\">".nl2br(htmlentities($xml_importvalues[2][$key]["oppervlakte"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:yellow;\"><td valign=\"top\">Oppervlakte</td><td valign=\"top\">".nl2br(wt_he($value["oppervlakte"]))."&nbsp;</td></tr>";
+							echo "<tr style=\"background-color:#ebebeb;\"><td valign=\"top\">Oppervlakte (voorheen)</td><td valign=\"top\">".nl2br(wt_he($xml_importvalues[2][$key]["oppervlakte"]))."&nbsp;</td></tr>";
 						} else {
-							echo "<tr><td valign=\"top\">Oppervlakte</td><td valign=\"top\">".nl2br(htmlentities($value["oppervlakte"]))."&nbsp;</td></tr>";
+							echo "<tr><td valign=\"top\">Oppervlakte</td><td valign=\"top\">".nl2br(wt_he($value["oppervlakte"]))."&nbsp;</td></tr>";
 						}
 
 						// Accommodation dropdown for Alpinrentals
@@ -1846,7 +1846,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 							if(is_array($afbeeldingen_doorlopen)) {
 								while(list($key2,$value2)=each($afbeeldingen_doorlopen)) {
 									unset($imgteller);
-									echo "<tr><td valign=\"top\">".htmlentities($key2)."</td><td valign=\"top\">";
+									echo "<tr><td valign=\"top\">".wt_he($key2)."</td><td valign=\"top\">";
 									echo "<i>Staande afbeeldingen worden niet ge&iuml;mporteerd.</i><br>";
 									echo "<i>Gebruik bij volgorde &quot;0&quot; om afbeeldingen niet te importeren.</i><br>";
 									if(eregi("Accommodatie",$key2)) {
@@ -1866,8 +1866,8 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 										if($accafbeelding_gehad[$value["accid"]] and $imgkey1=="acc") {
 
 										} else {
-											echo "<tr><td><img src=\"".htmlentities($value3)."\" width=\"150\"></td>";
-											echo "<td>Volgorde: <input type=\"text\" name=\"imgvolgorde[".$imgkey1."][".$imgkey2."][".htmlentities($value3)."]\" value=\"".($imgteller*10)."\"></td>\n";
+											echo "<tr><td><img src=\"".wt_he($value3)."\" width=\"150\"></td>";
+											echo "<td>Volgorde: <input type=\"text\" name=\"imgvolgorde[".$imgkey1."][".$imgkey2."][".wt_he($value3)."]\" value=\"".($imgteller*10)."\"></td>\n";
 											echo "</tr>";
 										}
 									}
@@ -1928,9 +1928,9 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 
 			if($_POST["filled"]) {
 				if($_GET["toonwijzigingen"]) {
-					echo "<p><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\">Bekijk de wijzigingspagina opnieuw</a>";
+					echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"])."\">Bekijk de wijzigingspagina opnieuw</a>";
 				} else {
-					echo "<p><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\">Beoordeel meer accommodaties (terug naar overzicht te importeren accommodaties)</a>";
+					echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"])."\">Beoordeel meer accommodaties (terug naar overzicht te importeren accommodaties)</a>";
 				}
 			}
 		}

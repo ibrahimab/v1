@@ -34,7 +34,7 @@ if($db->num_rows()) {
 
 				$alle_landen[$db->f("land_id")]=$db->f("land");
 			}
-			$tabellen.="<tr><td valign=\"top\" width=\"340\" nowrap><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("naam"))."/\">".htmlentities($db->f("naam"))."</a></td>";
+			$tabellen.="<tr><td valign=\"top\" width=\"340\" nowrap><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("naam"))."/\">".wt_he($db->f("naam"))."</a></td>";
 
 			$tabellen.="<td nowrap align=\"right\">".($db->f("kilometerpiste") ? $db->f("kilometerpiste")." km" : "&nbsp;")."</td>";
 			$tabellen.="<td nowrap align=\"right\">".$db->f("minhoogte")." m - ".$db->f("maxhoogte")." m</td>";
@@ -56,8 +56,8 @@ if($db->num_rows()) {
 unset($landen);
 while(list($key,$value)=@each($alle_landen)) {
 	$landenteller++;
-#	$landen.="<a href=\"#".wt_convert2url_seo($value)."\">".htmlentities($value)."</a>";
-	$landen.=htmlentities($value);
+#	$landen.="<a href=\"#".wt_convert2url_seo($value)."\">".wt_he($value)."</a>";
+	$landen.=wt_he($value);
 	if(count($alle_landen)==$landenteller) {
 
 	} elseif(count($alle_landen)==$landenteller+1) {
@@ -78,7 +78,7 @@ unset($tabteller);
 reset($alle_landen);
 while(list($key,$value)=@each($alle_landen)) {
 	$tabteller++;
-	echo "<li><a href=\"#".wt_convert2url_seo($value)."\">".htmlentities($value)."</a></li>";
+	echo "<li><a href=\"#".wt_convert2url_seo($value)."\">".wt_he($value)."</a></li>";
 }
 
 echo "</ul>";

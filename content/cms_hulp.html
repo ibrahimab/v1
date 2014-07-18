@@ -34,9 +34,9 @@ for($i=1;$i<=2;$i++) {
 	echo "<tr><th>Letter</th><th style=\"width:350px;\">Naam</th><th style=\"width:400px;\">URL</th><th>Wederverkoop-site</th></tr>";
 	while(list($key,$value)=each($vars["websites_wzt"][$i])) {
 		if($vars["websites_inactief"][$key]) {
-			echo "<tr style=\"color:#888888;\"><td>".htmlentities($key)."</td><td>".htmlentities($value)."</td><td>&nbsp;</td><td align=\"center\">".($vars["websiteinfo"]["wederverkoop"][$key] ? "ja" : "&nbsp;")."</td></tr>";
+			echo "<tr style=\"color:#888888;\"><td>".wt_he($key)."</td><td>".wt_he($value)."</td><td>&nbsp;</td><td align=\"center\">".($vars["websiteinfo"]["wederverkoop"][$key] ? "ja" : "&nbsp;")."</td></tr>";
 		} else {
-			echo "<tr><td>".htmlentities($key)."</td><td>".htmlentities($value)."</td><td><a href=\"".htmlentities($vars["websiteinfo"]["basehref"][$key])."\" target=\"_blank\">".htmlentities($vars["websiteinfo"]["basehref"][$key])."</a></td><td align=\"center\">".($vars["websiteinfo"]["wederverkoop"][$key] ? "ja" : "&nbsp;")."</td></tr>";
+			echo "<tr><td>".wt_he($key)."</td><td>".wt_he($value)."</td><td><a href=\"".wt_he($vars["websiteinfo"]["basehref"][$key])."\" target=\"_blank\">".wt_he($vars["websiteinfo"]["basehref"][$key])."</a></td><td align=\"center\">".($vars["websiteinfo"]["wederverkoop"][$key] ? "ja" : "&nbsp;")."</td></tr>";
 		}
 	}
 	echo "</table>";
@@ -45,7 +45,7 @@ for($i=1;$i<=2;$i++) {
 echo "<br><hr><br>";
 echo "<b>Verschillende soorten accommodaties:</b><ul>";
 while(list($key,$value)=each($vars["soortaccommodatie"])) {
-	echo "<li>".htmlentities($value)."</li>";
+	echo "<li>".wt_he($value)."</li>";
 }
 echo "</ul>";
 

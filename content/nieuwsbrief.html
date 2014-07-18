@@ -10,9 +10,9 @@ if($_GET["ok"]==1) {
 	} else {
 		echo "<div style=\"width:612px;\">";
 		if($vars["seizoentype"]==1) {
-			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
+			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".wt_he($vars["websitenaam"])." en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
 		} else {
-			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".htmlentities($vars["websitenaam"])." en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
+			echo "<p>Schrijf jezelf hier in voor de nieuwsbrief van ".wt_he($vars["websitenaam"])." en ontvang regelmatig aanbiedingen, nieuws en reistips.</p>";
 		}
 		echo "</div>";
 	}
@@ -116,7 +116,7 @@ try {
 		<table class="mpFormTable" border="0" cellpadding="5" cellspacing="0">
 		<tr class="mpFormRow">
 			<td class="mpFormLabel">E-mailadres *</td>
-			<td class="mpFormField" id="<?php echo $blinker_fields["email"]; ?>TD"><input type="text" name="<?php echo $blinker_fields["email"]; ?>" value="<?php if($_POST["mail"] and $_POST["mail"]<>"e-mailadres") echo htmlentities($_POST["mail"]); ?>">
+			<td class="mpFormField" id="<?php echo $blinker_fields["email"]; ?>TD"><input type="text" name="<?php echo $blinker_fields["email"]; ?>" value="<?php if($_POST["mail"] and $_POST["mail"]<>"e-mailadres") echo wt_he($_POST["mail"]); ?>">
 		</td>
 		</tr>
 		<tr class="mpFormRow">
@@ -146,7 +146,7 @@ try {
 
 		<tr><td class="submitCellSpacer">&nbsp;</td><td class="submitCell"><input type="submit" value="Aanmelden"></td></tr></table>
 		<input type="hidden" name="serviceInstanceId" id="serviceInstanceId" value="31302289">
-		<input type="hidden" name="okLink" id="okLink" value="<?php echo htmlentities($vars["basehref"]."nieuwsbrief.php?ok=1"); ?>">
+		<input type="hidden" name="okLink" id="okLink" value="<?php echo wt_he($vars["basehref"]."nieuwsbrief.php?ok=1"); ?>">
 		<input type="hidden" name="redir" id="redir" value="formAdmin">
 		<input type="hidden" name="formEncId" id="formEncId" value="<?php echo $blinker_fields["formEncId"]; ?>">
 

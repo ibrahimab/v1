@@ -36,14 +36,14 @@ echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, use
 echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
 echo "<title>";
 if($id=="index") {
-	echo htmlentities($vars["websitenaam"])." - ".htmlentities(txt("subtitel"));
+	echo wt_he($vars["websitenaam"])." - ".wt_he(txt("subtitel"));
 	$vars["facebook_title"]=$vars["websitenaam"]." - ".txt("subtitel");
 } else {
 	if($title[$id] and $id) {
-		echo htmlentities($title[$id])." - ";
+		echo wt_he($title[$id])." - ";
 		$vars["facebook_title"]=$title[$id];
 	}
-	echo htmlentities($vars["websitenaam"]);
+	echo wt_he($vars["websitenaam"]);
 }
 echo "</title>";
 
@@ -119,15 +119,15 @@ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/mob
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/mobile/responsive.css?cache=".@filemtime("css/mobile/responsive.css")."\" />\n";
 
 # JQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\"></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\"></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jquery_url"])."\"></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jqueryui_url"])."\"></script>\n";
 
 echo "<link rel=\"shortcut icon\" href=\"".$vars["path"]."favicon_italissima.ico\" />\n";
 
 if($vars["canonical"]) {
-	echo "<link rel=\"canonical\" href=\"".htmlentities($vars["canonical"])."\" />\n";
+	echo "<link rel=\"canonical\" href=\"".wt_he($vars["canonical"])."\" />\n";
 } elseif($_SERVER["HTTPS"]=="on") {
-	echo "<link rel=\"canonical\" href=\"http://".htmlentities($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."\" />\n";
+	echo "<link rel=\"canonical\" href=\"http://".wt_he($_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"])."\" />\n";
 }
 
 #echo "<script type=\"text/javascript\" src=\"http://labs.juliendecaudin.com/barousel/js/jquery.thslide.js\"></script>\n";
@@ -139,7 +139,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	# $.inlog(true);
 	# $.("").....;
 	# $.inlog(false);
-#	echo "<script type=\"text/javascript\" src=\"".htmlentities("http://ss.postvak.net/_intern/extra/jquery.inlog.js")."\" ></script>\n";
+#	echo "<script type=\"text/javascript\" src=\"".wt_he("http://ss.postvak.net/_intern/extra/jquery.inlog.js")."\" ></script>\n";
 }
 
 # meta name robots
@@ -176,7 +176,7 @@ echo "<div onclick='' class=\"header\">\n";
 
 echo "<div class=\"logo\">";
 if($id<>"index") echo "<a href=\"".$vars["path"]."\">";
-echo "<img src=\"".$vars["path"]."pic/logo_italissima.gif\"  style=\"border:0;\" alt=\"".htmlentities($vars["websitenaam"])."\" /></a>";
+echo "<img src=\"".$vars["path"]."pic/logo_italissima.gif\"  style=\"border:0;\" alt=\"".wt_he($vars["websitenaam"])."\" /></a>";
 echo "</div>\n"; #close .logo
 echo "<div class=\"motto\">".html("koptekst_italissima_mobile","index",array("h_b" => "<br />"))."</div>\n";
 echo "<div class=\"clear\"></div>\n";
@@ -194,16 +194,16 @@ echo "<ul>";
 			$checkid=$id;
 		}
         if($key == 'start-chat' && $vars['website'] == 'E') continue;
-		
-        
+
+
         if ($key == 'home') {
             echo "<li><a href=\"/\"";
         } else {
             echo "<li><a href=\"".$vars["path"];
         }
-        
-        
-		if($key<>"index" && $key<>"start-chat" && $key<>"home") {     
+
+
+		if($key<>"index" && $key<>"start-chat" && $key<>"home") {
 			echo txt("menu_".$key).".php";
 		}
 		if($key=="start-chat") {
@@ -217,7 +217,7 @@ echo "<ul>";
 		if($key=="favorieten") {
 			echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">".intval($vars["bezoeker_aantal_favorieten"])."</span>)";
 		} else {
-			echo htmlentities($value);
+			echo wt_he($value);
 		}
 		if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
 			echo "</span>";
@@ -251,14 +251,14 @@ echo "<div onclick='' class=\"wrapper\">";
 
 	if($id<>"index" and $id<>"toonaccommodatie" and !$laat_titel_weg) {
 		if($header[$id]) {
-			echo "<h1>".htmlentities($header[$id])."</h1>";
+			echo "<h1>".wt_he($header[$id])."</h1>";
 		} else {
-			echo "<h1>".htmlentities($title[$id])."</h1>";
+			echo "<h1>".wt_he($title[$id])."</h1>";
 		}
 	}
 
 	# Content includen
-	
+
     include($include);
 
 #echo "</div>\n";
@@ -289,7 +289,7 @@ echo "<div style=\"clear: both;\"></div>\n";
 
 
 echo "<div class=\"footer\" class=\"noprint\">";
-echo "<p id=\"colofon\" class=\"noprint\">".html("handelsnaam")." - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon"). "</p>";
+echo "<p id=\"colofon\" class=\"noprint\">".html("handelsnaam")." - <a href=\"mailto:".wt_he($vars["websiteinfo"]["email"][$vars["website"]])."\">".wt_he($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon"). "</p>";
 
 
 if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
@@ -316,7 +316,7 @@ if($opmaak->toon_cookiebalk()) {
 }
 
 if(!$onMobile){
-	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("mobilenotification","vars",array("h_1"=>"<a onclick=\"return switch_website('desktop');\" href=\"".$vars["path"]."\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";    
+	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("mobilenotification","vars",array("h_1"=>"<a onclick=\"return switch_website('desktop');\" href=\"".$vars["path"]."\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";
 }
 
 # Balk met opvallende melding

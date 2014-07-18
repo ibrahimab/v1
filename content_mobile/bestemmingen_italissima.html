@@ -36,8 +36,8 @@ if($regions) {
 	$disabled = array();
 	foreach($regions as $id => $name) {
 		if($regio["aantal_acc"][$id]) {
-            
-			echo "<div id=\"regio_".$id."\" class=\"landnaam\" rel=\"".$id."\" data-noacc=\"".intval($regio["aantal_acc"][$id])."\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?fsg=".$landinfo["id"]."-".$id."&fsg_invoer=".$landinfo["id"]."-".$id."\">".htmlentities($name)."</a> (".intval($regio["aantal_acc"][$id]).")</div>";
+
+			echo "<div id=\"regio_".$id."\" class=\"landnaam\" rel=\"".$id."\" data-noacc=\"".intval($regio["aantal_acc"][$id])."\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?fsg=".$landinfo["id"]."-".$id."&fsg_invoer=".$landinfo["id"]."-".$id."\">".wt_he($name)."</a> (".intval($regio["aantal_acc"][$id]).")</div>";
 		} else {
 			$disabled[] = "'IT-".$id."': '#e0d1cc'";
 		}

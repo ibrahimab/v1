@@ -29,26 +29,26 @@ if($_GET["show"]==11) {
 							echo "<ul>";
 							$wzt_gehad[$db->f("wzt")]=true;
 						}
-						echo "<li><a href=\"cms_accommodaties.php?show=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+						echo "<li><a href=\"cms_accommodaties.php?show=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."\">".wt_he($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
 					}
 					echo "</ul></div>";
 				}
 			}
 		}
 	}
-	
+
 	# Overzicht van boekingen waaraan deze optiesoort is gekoppeld
 	$db->query("SELECT DISTINCT SUBSTR(b.boekingsnummer,2), b.boeking_id, b.boekingsnummer, s.naam FROM boeking b, boeking_optie bo, view_optie v, seizoen s WHERE b.seizoen_id=s.seizoen_id AND s.eind>NOW() AND v.optie_soort_id='".addslashes($_GET["11k0"])."' AND bo.optie_onderdeel_id=v.optie_onderdeel_id AND bo.boeking_id=b.boeking_id AND boekingsnummer<>'' ORDER BY 1;");
 	if($db->num_rows()) {
 		echo "<br><hr><br>Deze optie-soort is aan de volgende actuele boekingen gekoppeld:<ul>";
 		while($db->next_record()) {
-			echo "<li><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer"))."</a> (".$db->f("naam").")</li>";
+			echo "<li><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\">".wt_he($db->f("boekingsnummer"))."</a> (".$db->f("naam").")</li>";
 		}
 		echo "</ul>";
 	} else {
 		echo "<hr>Deze optie-soort is niet aan actuele boekingen gekoppeld.";
 	}
-	
+
 	$cms->display_log(11);
 }
 

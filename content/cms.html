@@ -53,7 +53,7 @@ if(!$login->logged_in) {
 		} else {
 			echo "<a href=\"cms.php?cmstaal=".$key."\">";
 		}
-		echo htmlentities($value);
+		echo wt_he($value);
 		if($key==$vars["cmstaal"]) {
 			echo "</b>";
 		} else {
@@ -73,7 +73,7 @@ if(!$login->logged_in) {
 			if($vars["testsite"]==$key) {
 				echo "<span style=\"font-weight:bold;\">";
 			}
-			echo htmlentities($value);
+			echo wt_he($value);
 			if($vars["testsite"]==$key) {
 				echo "</span>";
 			}

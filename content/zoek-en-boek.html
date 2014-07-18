@@ -2592,7 +2592,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 
 	if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $vars["themainfo"]["toelichting"]) {
 		# Inleidende tekst bij tarieven volgend seizoen tonen
-		echo "<h1>".htmlentities($vars["themainfo"]["naam"])."</h1>\n";
+		echo "<h1>".wt_he($vars["themainfo"]["naam"])."</h1>\n";
 		echo htmlentities_uitgebreid(trim($vars["themainfo"]["toelichting"]));
 	}
 

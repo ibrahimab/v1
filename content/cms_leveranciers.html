@@ -21,9 +21,9 @@ if($_GET["schoonmaakkosten"]) {
 				echo "<table cellspacing=\"0\" class=\"tbl\"><tr><th>Accommodatie</th><th>Final cleaning</th><th>Final cleaning per person</th></tr>";
 				while($db->next_record()) {
 					echo "<tr><td>";
-					echo "<a href=\"cms_types.php?wzt=".$db->f("wzt")."&bc=".$_GET["bc"]."&show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." ".htmlentities($db->f("plaats")."  - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")).($db->f("tnaam") ? " ".$db->f("tnaam") : "");
+					echo "<a href=\"cms_types.php?wzt=".$db->f("wzt")."&bc=".$_GET["bc"]."&show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".$db->f("begincode").$db->f("type_id")." ".wt_he($db->f("plaats")."  - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")).($db->f("tnaam") ? " ".$db->f("tnaam") : "");
 					if($db->f("naam")<>$db->f("abestelnaam")) {
-						echo " <i>(".htmlentities($db->f("abestelnaam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")).")</i>";
+						echo " <i>(".wt_he($db->f("abestelnaam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")).")</i>";
 					}
 					echo "</a></td>";
 					echo "<td align=\"right\">&euro;&nbsp;".number_format($final_cleaning[$db->f("leverancierscode")],2,",",".")."</td>";
@@ -60,14 +60,14 @@ if($_GET["schoonmaakkosten"]) {
 			$db->query("SELECT DISTINCT s.seizoen_id, s.naam FROM seizoen s, leverancier l, accommodatie a, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.wzt=s.type AND t.leverancier_id=l.leverancier_id AND l.leverancier_id='".addslashes($_GET["8k0"])."' AND UNIX_TIMESTAMP(s.eind)>".(time()-86400*360)." ORDER BY s.type, s.begin;");
 			if($db->num_rows()) {
 				while($db->next_record()) {
-					echo "<li><a href=\"cms_calculatiesjablonen.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&lid=".$_GET["8k0"]."\">".htmlentities($db->f("naam"))."</a></li>";
+					echo "<li><a href=\"cms_calculatiesjablonen.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&lid=".$_GET["8k0"]."\">".wt_he($db->f("naam"))."</a></li>";
 				}
 			} else {
 				# Nog geen accommodaties bij deze leverancier: alle seizoenen tonen
 				$db->query("SELECT DISTINCT s.seizoen_id, s.naam FROM seizoen s WHERE UNIX_TIMESTAMP(s.eind)>".(time()-86400*360)." ORDER BY s.type, s.begin;");
 				if($db->num_rows()) {
 					while($db->next_record()) {
-						echo "<li><a href=\"cms_calculatiesjablonen.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&lid=".$_GET["8k0"]."\">".htmlentities($db->f("naam"))."</a></li>";
+						echo "<li><a href=\"cms_calculatiesjablonen.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&lid=".$_GET["8k0"]."\">".wt_he($db->f("naam"))."</a></li>";
 					}
 				}
 			}
@@ -82,11 +82,11 @@ if($_GET["schoonmaakkosten"]) {
 				if($_GET["8k0"] == 421) {
 				  $db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id='".addslashes($_GET["8k0"])."';");
 					if($db->num_rows()) {
-						echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."&toonwijzigingen=1\">Wijzigingen bekijken bij XML ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+						echo "<li><a href=\"cms_xmlnewimport.php?lev=".wt_he($_GET["8k0"])."&toonwijzigingen=1\">Wijzigingen bekijken bij XML ".wt_he($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
 					}
 					$db->query("SELECT * FROM `interhome_countries_regions`");
 					if($db->num_rows() > 0) {
-						echo "<li><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_ih_filters\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('ih_filters');return false;\">Nieuwe accommodaties importeren voor ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+						echo "<li><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_ih_filters\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('ih_filters');return false;\">Nieuwe accommodaties importeren voor ".wt_he($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
 						$countries=array();
 						$regions=array();
 						while($db->next_record()) {
@@ -116,7 +116,7 @@ if($_GET["schoonmaakkosten"]) {
 						</script>";
 						echo "<li style=\"display: none;\" class=\"showhide\" id=\"ih_filters\">
 							<form method=\"get\" action=\"cms_xmlnewimport.php\">
-								<input type=\"hidden\" name=\"lev\" value=\"". htmlentities($_GET["8k0"]) ."\" />
+								<input type=\"hidden\" name=\"lev\" value=\"". wt_he($_GET["8k0"]) ."\" />
 								<label>Country: <select name=\"country\" id=\"ih_country\">
 						";
 
@@ -137,11 +137,11 @@ if($_GET["schoonmaakkosten"]) {
 						</li>";
 					}
 				} else {
-					echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."\">Nieuwe accommodaties importeren voor ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+					echo "<li><a href=\"cms_xmlnewimport.php?lev=".wt_he($_GET["8k0"])."\">Nieuwe accommodaties importeren voor ".wt_he($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
 
 					$db->query("SELECT DISTINCT leverancier_id FROM xml_importvalues WHERE wijziging_bekend IS NOT NULL AND leverancier_id='".addslashes($_GET["8k0"])."';");
 					if($db->num_rows()) {
-						echo "<li><a href=\"cms_xmlnewimport.php?lev=".htmlentities($_GET["8k0"])."&toonwijzigingen=1\">Wijzigingen bekijken bij XML ".htmlentities($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
+						echo "<li><a href=\"cms_xmlnewimport.php?lev=".wt_he($_GET["8k0"])."&toonwijzigingen=1\">Wijzigingen bekijken bij XML ".wt_he($vars["xmlnewimport_leveranciers"][$_GET["8k0"]])."</a></li>";
 					}
 				}
 
@@ -189,7 +189,7 @@ if($_GET["schoonmaakkosten"]) {
 				ksort($roominglistlijst);
 				while(list($key,$value)=each($roominglistlijst)) {
 					if(mktime(0,0,0,date("m"),date("d")-8,date("Y"))<=$key) {
-						echo "<option value=\"".$key."\">".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$key])."</option>";
+						echo "<option value=\"".$key."\">".wt_he($vars["aankomstdatum_weekend_alleseizoenen"][$key])."</option>";
 					}
 				}
 			}
@@ -202,7 +202,7 @@ if($_GET["schoonmaakkosten"]) {
 			if($_GET["8k0"]==4 or $_GET["8k0"]==55 or $_GET["8k0"]==124) {
 				echo "<hr>";
 				echo "<b>XML-import beschikbaarheid/types</b><p>";
-				echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&xmloverzicht=1\">Bekijk het overzicht van XML-leveranciercodes</a><p>";
+				echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&xmloverzicht=1\">Bekijk het overzicht van XML-leveranciercodes</a><p>";
 			}
 
 			# Overzicht types
@@ -218,7 +218,7 @@ if($_GET["schoonmaakkosten"]) {
 				unset($seizoenheader);
 				while($db->next_record()) {
 					if(!$seizoenheader[$db->f("wzt")]) {
-						echo "<br><b>".htmlentities($vars["seizoentype_namen"][$db->f("wzt")])."</b>";
+						echo "<br><b>".wt_he($vars["seizoentype_namen"][$db->f("wzt")])."</b>";
 						$seizoenheader[$db->f("wzt")]=true;
 					}
 					echo "<li>";
@@ -227,19 +227,19 @@ if($_GET["schoonmaakkosten"]) {
 						echo "background-color:#f4f38d;";
 					}
 					echo "\">";
-					echo "<a href=\"cms_types.php?wzt=".$db->f("wzt")."&bc=".$_GET["bc"]."&show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".$db->f("begincode").$db->f("type_id")." ".htmlentities($db->f("plaats")."  - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")).($db->f("tnaam") ? " ".$db->f("tnaam") : "");
+					echo "<a href=\"cms_types.php?wzt=".$db->f("wzt")."&bc=".$_GET["bc"]."&show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\">".$db->f("begincode").$db->f("type_id")." ".wt_he($db->f("plaats")."  - ".ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam")).($db->f("tnaam") ? " ".$db->f("tnaam") : "");
 					if($db->f("naam")<>$db->f("abestelnaam")) {
-						echo " <i>(".htmlentities($db->f("abestelnaam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")).")</i>";
+						echo " <i>(".wt_he($db->f("abestelnaam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")).")</i>";
 					}
 					echo "</a>";
 					if($db->f("aleverancierscode") or $db->f("leverancierscode")) {
 						echo " (XML: ";
 						if($db->f("aleverancierscode")) {
-							echo "acc ".htmlentities($db->f("aleverancierscode"));
+							echo "acc ".wt_he($db->f("aleverancierscode"));
 							echo " / ";
 						}
 						if($db->f("leverancierscode")) {
-							echo "type ".htmlentities($db->f("leverancierscode"));
+							echo "type ".wt_he($db->f("leverancierscode"));
 						} else {
 							echo "<i>niet ingevuld</i>";
 						}
@@ -282,7 +282,7 @@ if($_GET["schoonmaakkosten"]) {
 					if(!$keygehad[$key]) {
 						$sortkey=utf8_decode($value3->station)."_".utf8_decode($value3->etab_name)."_".utf8_decode($value3->room_type_label);
 						$teller++;
-						$trregel[$sortkey."_".$teller]="<tr><td>".htmlentities(utf8_decode($value3->station))."</td><td>".htmlentities(utf8_decode($value3->etab_name))."</td><td>".htmlentities(utf8_decode($value3->room_type_label))."</td><td>".htmlentities($key)."</td></tr>\n";
+						$trregel[$sortkey."_".$teller]="<tr><td>".wt_he(utf8_decode($value3->station))."</td><td>".wt_he(utf8_decode($value3->etab_name))."</td><td>".wt_he(utf8_decode($value3->room_type_label))."</td><td>".wt_he($key)."</td></tr>\n";
 						$keygehad[$key]=true;
 					}
 				}
@@ -318,11 +318,11 @@ if($_GET["schoonmaakkosten"]) {
 				foreach($xml->Segments->Segment as $value3) {
 					$acc_leverancierscode=trim($value3->Code->attributes()->Value);
 					$acc_naam=utf8_decode(trim($value3));
-					echo "<b>".htmlentities($acc_naam).": <i>".$acc_leverancierscode."</i></b><p>";
+					echo "<b>".wt_he($acc_naam).": <i>".$acc_leverancierscode."</i></b><p>";
 		#			echo "<i>Leverancierscode accommodatie (voor XML): ".<ul>";
 					echo "<ul>";
 					foreach($value3->Segments->Segment as $value4) {
-						echo "<li>".htmlentities($type_namen[substr(trim($value4->attributes()->Ref),1)]).": <i>".substr(trim($value4->attributes()->Ref),1)."</i></li>";
+						echo "<li>".wt_he($type_namen[substr(trim($value4->attributes()->Ref),1)]).": <i>".substr(trim($value4->attributes()->Ref),1)."</i></li>";
 					}
 					echo "</ul>";
 					echo "<hr>";

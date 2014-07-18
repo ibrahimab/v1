@@ -57,7 +57,7 @@ if($_GET["levid"]) {
 			echo "Aankomstdatum&nbsp;&nbsp;<select name=\"date\" onchange=\"submit();\">";
 			echo "<option value=\"0\">-- selecteer een aankomstdatum --</option>";
 			while(list($key,$value)=@each($keuze_aankomstdatums)) {
-				echo "<option ".($_GET["date"]==$key ? " selected" : "")." value=\"".$key."\">".htmlentities($vars["aankomstdatum_weekend_alleseizoenen"][$key])."</option>";
+				echo "<option ".($_GET["date"]==$key ? " selected" : "")." value=\"".$key."\">".wt_he($vars["aankomstdatum_weekend_alleseizoenen"][$key])."</option>";
 				if($_GET["date"]==$key) $actieve_datum=true;
 			}
 			echo "</select>";

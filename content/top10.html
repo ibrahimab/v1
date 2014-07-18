@@ -13,13 +13,13 @@ if($_GET["d"]) {
 		echo balk();
 		while($db->next_record()) {
 			unset($querystring,$soort_aanbieding,$tarief);
-			
+
 			$seizoenid=$db->f("seizoen_id");
-			
+
 			if(!$aanbieding[$db->f("seizoen_id")]) {
 				$aanbieding[$db->f("seizoen_id")]=aanbiedinginfo(0,$db->f("seizoen_id"),$_GET["d"]);
 			}
-		
+
 
 			# Tarieven
 			if($db->f("toonper")==3 or $vars["wederverkoop"]) {
@@ -40,7 +40,7 @@ if($_GET["d"]) {
 					$tarief=$db2->f("prijs");
 				}
 			}
-			
+
 			# Zijn er aanbiedingen van toepassing?
 			if($aanbieding[$db->f("seizoen_id")]["typeid_sort"][$db->f("type_id")]["bedrag"][$_GET["d"]]) {
 				$tarief_org=$tarief;
@@ -58,19 +58,19 @@ if($_GET["d"]) {
 						$querystring.="&d=".$_GET["d"];
 						$ahref="<A HREF=\"".$path.txt("menu_accommodatie")."/".$db->f("begincode").$db->f("type_id")."/".$querystring."\">";
 						if(file_exists("pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg")) {
-							echo $ahref."<IMG SRC=\"".$path."pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg\" alt=\"".htmlentities($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></A>";
+							echo $ahref."<IMG SRC=\"".$path."pic/cms/types_specifiek_tn/".$db->f("type_id").".jpg\" alt=\"".wt_he($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></A>";
 						} elseif(file_exists("pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg")) {
-							echo $ahref."<IMG SRC=\"".$path."pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg\" alt=\"".htmlentities($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></A>";
+							echo $ahref."<IMG SRC=\"".$path."pic/cms/accommodaties_tn/".$db->f("accommodatie_id").".jpg\" alt=\"".wt_he($db->f("naam"))."\" width=\"60\" height=\"45\" border=\"0\"></A>";
 						} else {
 							echo "<IMG SRC=\"".$path."pic/cms/accommodaties_tn/0.jpg\" alt=\"".html("geenafbeelding")."\" border=\"0\" width=\"60\" height=\"45\" >";
 						}
-						echo "</TD><TD><B>".$ahref.htmlentities(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""))."</A></B><BR>".htmlentities($db->f("plaats")." - ".$db->f("skigebied")." - ".$db->f("land"))."</TD><TD align=\"right\"><NOBR>";
+						echo "</TD><TD><B>".$ahref.wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""))."</A></B><BR>".wt_he($db->f("plaats")." - ".$db->f("skigebied")." - ".$db->f("land"))."</TD><TD align=\"right\"><NOBR>";
 						if($db->f("soortaccommodatie")<>5) {
 							echo $db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." ".($db->f("maxaantalpersonen")==1 ? html("persoon") : html("personen"));
 						}
 						echo "</NOBR></TD>";
 						echo "<TD align=\"right\">";
-						if($soort_aanbieding) echo "<span class=\"aanbieding_klein\">&nbsp;".htmlentities($soort_aanbieding)."&nbsp;</span><br>";
+						if($soort_aanbieding) echo "<span class=\"aanbieding_klein\">&nbsp;".wt_he($soort_aanbieding)."&nbsp;</span><br>";
 						if($db->f("toonper")==3 or $vars["wederverkoop"]) {
 							echo "<NOWRAP>&euro;&nbsp;".$tarief."&nbsp;";
 							echo html("per")."</NOWRAP><br>".html("accommodatie")."</TD>";
@@ -86,7 +86,7 @@ if($_GET["d"]) {
 					}
 				}
 			}
-		}	
+		}
 		echo "</TABLE>";
 
 	} else {

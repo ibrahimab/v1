@@ -8,7 +8,7 @@ if($boekingid_inquery) {
 		while($db->next_record()) {
 #			$temp_accinfo=accinfo($db->f("type_id"),$db->f("aankomstdatum"),$db->f("aantalpersonen"));
 			$temp_accinfo=accinfo($db->f("type_id"),$db->f("aankomstdatum"));
-			echo "<li><a class=\"myBookingsSmallButton\" href=\"".$_GET["back"].(ereg("\?",$_GET["back"]) ? "&" : "?")."bid=".$db->f("boeking_id")."\">".$temp_accinfo["aankomstdatum"][$db->f("aankomstdatum")]." - ".htmlentities($temp_accinfo["plaats"]." - ".ucfirst($temp_accinfo["soortaccommodatie"])." ".$temp_accinfo["naam"])." - ".$db->f("aantalpersonen")." ".($db->f("aantalpersonen")==1 ? "persoon" : "personen")."</a></li>";
+			echo "<li><a class=\"myBookingsSmallButton\" href=\"".$_GET["back"].(ereg("\?",$_GET["back"]) ? "&" : "?")."bid=".$db->f("boeking_id")."\">".$temp_accinfo["aankomstdatum"][$db->f("aankomstdatum")]." - ".wt_he($temp_accinfo["plaats"]." - ".ucfirst($temp_accinfo["soortaccommodatie"])." ".$temp_accinfo["naam"])." - ".$db->f("aantalpersonen")." ".($db->f("aantalpersonen")==1 ? "persoon" : "personen")."</a></li>";
 		}
 		echo "</ul>";
 	}

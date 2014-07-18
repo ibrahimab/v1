@@ -39,7 +39,7 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 					# Database opslaan
 					$db->query("UPDATE boeking SET mailverstuurd_opties=NOW() WHERE boeking_id='".addslashes($key)."';");
 
-					echo "<li>".htmlentities($mail->to.": ".$mail->subject)."</li>";
+					echo "<li>".wt_he($mail->to.": ".$mail->subject)."</li>";
 					flush();
 				}
 			}
@@ -77,10 +77,10 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 	// echo $db->lastquery;
 	if($db->num_rows()) {
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
-		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 		echo "<tr><th>Wis</th><th>Boeking</th><th>Accommodatie</th><th>Aankomst</th><th>Tekst</th><th>Bewerkt</th><th>Versturen</th></tr>";
 		while($db->next_record()) {
-			echo "<tr><td><input type=\"checkbox\" name=\"hide_boeking[".$db->f("boeking_id")."]\" value=\"1\"></td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities($db->f("boekingsnummer"))."</a></td>";
+			echo "<tr><td><input type=\"checkbox\" name=\"hide_boeking[".$db->f("boeking_id")."]\" value=\"1\"></td><td nowrap><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a></td>";
 			echo "<td style=\"";
 			if($db->f("mailtekst_id")==0) {
 				echo "background-color:#fdff86;";
@@ -88,7 +88,7 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 				echo "background-color:#e587f6;";
 			}
 			echo "\">";
-			echo "<a href=\"".$vars["websites_basehref"][$db->f("website")]."accommodatie/".$db->f("begincode").$db->f("type_id")."/\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a></td><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td align=\"center\">";
+			echo "<a href=\"".$vars["websites_basehref"][$db->f("website")]."accommodatie/".$db->f("begincode").$db->f("type_id")."/\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a></td><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td align=\"center\">";
 			if($seizoengoedgekeurd[$db->f("mailtekst_id")][$db->f("seizoen_id")]) {
 				echo "<a href=\"javascript:popwindowXY(750,500,'".$vars["path"]."popup.php?id=cms_mailtekst_bewerken&bid=".$db->f("boeking_id")."','center');\">bewerken</a>";
 			} elseif($db->f("mailtekst_id")) {

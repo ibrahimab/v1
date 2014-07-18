@@ -190,16 +190,16 @@ if($_GET["b"]) {
 		echo "<div class=\"blog_item\" style=\"width:500px\">";
 		if($blogitem_gehad) echo "<hr>";
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
-		echo "<div class=\"blog_titel\"><h1><a href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></h1></div>";
+		echo "<div class=\"blog_titel\"><h1><a href=\"".wt_he($url)."\">".wt_he($db->f("titel"))."</a></h1></div>";
 		if(!$hide_dates) {
 			echo "<div class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
 		}
 		$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
 		if(file_exists($file)) {
-			echo "<a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
+			echo "<a href=\"".wt_he($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
 		}
 		echo "<div class=\"blog_inleiding\">".nl2br(wt_he($db->f("inleiding")));
-		echo " <span class=\"blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></span>";
+		echo " <span class=\"blog_link\"><a href=\"".wt_he($url)."\">Lees verder &raquo;</a></span>";
 		echo "</div>"; # afsluiten blog_inleiding
 		echo "<div style=\"clear: both;\"></div>";
 		echo "</div>"; # afsluiten class blog_item
@@ -210,7 +210,7 @@ if($_GET["b"]) {
 	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 10,18446744073709551615");
 	while($db->next_record()){
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
-		echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></div>";
+		echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".wt_he($url)."\">".wt_he($db->f("titel"))."</a></div>";
 		if(!$hide_dates) {
 			echo "<div style=\"height:20px;\" class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
 		}
@@ -241,16 +241,16 @@ if($_GET["b"]) {
 		echo "<div class=\"blog_item\" style=\"width:500px\">";
 		if($blogitem_gehad) echo "<hr>";
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
-		echo "<div class=\"blog_titel\"><h1><a href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></h1></div>";
+		echo "<div class=\"blog_titel\"><h1><a href=\"".wt_he($url)."\">".wt_he($db->f("titel"))."</a></h1></div>";
 		if(!$hide_dates) {
 			echo "<div class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
 		}
 		$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
 		if(file_exists($file)) {
-			echo "<a href=\"".htmlentities($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
+			echo "<a href=\"".wt_he($url)."\"><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" border=\"0\" alt=\"".wt_he($db->f("titel"))."\" style=\"float:left;padding-right:10px;\"></a>";
 		}
 		echo "<div class=\"blog_inleiding\">".nl2br(wt_he($db->f("inleiding")));
-		echo " <span class=\"blog_link\"><a href=\"".htmlentities($url)."\">Lees verder &raquo;</a></span>";
+		echo " <span class=\"blog_link\"><a href=\"".wt_he($url)."\">Lees verder &raquo;</a></span>";
 		echo "</div>"; # afsluiten blog_inleiding
 		echo "<div style=\"clear: both;\"></div>";
 		echo "</div>"; # afsluiten class blog_item
@@ -261,7 +261,7 @@ if($_GET["b"]) {
 	$db->query("SELECT blog_id, titel, inleiding, UNIX_TIMESTAMP(plaatsingsdatum) AS plaatsingsdatum FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND plaatsingsdatum<NOW()".($_GET["cat"] ? " AND categorie='".intval($_GET["cat"])."'" : "")." ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 10,18446744073709551615");
 	while($db->next_record()){
 		$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
-		echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".htmlentities($url)."\">".wt_he($db->f("titel"))."</a></div>";
+		echo "<div style=\"font-size:14px;\" class=\"blog_titel\"><a style=\"text-decoration:none;\" href=\"".wt_he($url)."\">".wt_he($db->f("titel"))."</a></div>";
 		if(!$hide_dates) {
 			echo "<div style=\"height:20px;\" class=\"blog_datum\">".DATUM("DAG D MAAND JJJJ",$db->f("plaatsingsdatum"))."</div>";
 		}

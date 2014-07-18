@@ -21,7 +21,7 @@ $cms->display_cms();
 if($_GET["show"]==1) {
 	$db2->query("SELECT t.type_id FROM accommodatie a, type t, leverancier l WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=l.leverancier_id AND a.accommodatie_id='".addslashes($_GET["1k0"])."' AND (t.leverancierscode<>'' OR a.leverancierscode<>'') AND l.xml_type>0;");
 	if($db2->num_rows()) {
-		echo "<p><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&xmlvoorraadreset=1\" onclick=\"return confirmClick(this,'De XML-voorraad van alle types van deze accommodatie zullen op 0 worden gezet. Doorgaan?')\";>Zet bij alle bovenstaande types de XML-voorraad op 0</a>";
+		echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"])."&xmlvoorraadreset=1\" onclick=\"return confirmClick(this,'De XML-voorraad van alle types van deze accommodatie zullen op 0 worden gezet. Doorgaan?')\";>Zet bij alle bovenstaande types de XML-voorraad op 0</a>";
 	}
 
 	echo "<p><hr><h2>Beschikbare opties</h2>";
@@ -67,20 +67,20 @@ if($_GET["show"]==1) {
 				echo "<tr>";
 				echo "<td>";
 				if($vars["temp"]["niet_wijzigen"][$key] and $login->has_priv("6")) echo "<span class=\"error\">";
-				echo htmlentities($value)."</td>";
+				echo wt_he($value)."</td>";
 				if($vars["temp"]["niet_wijzigen"][$key] and $login->has_priv("6")) echo "</span>";
 				echo "<td>";
 				if(!$vars["temp"]["niet_wijzigen"][$key] or $login->has_priv("6")) {
 					echo "<select name=\"groep[".$key."]\" onchange=\"document.opties.submitfrm.disabled=0;\" class=\"wtform_input\" style=\"width:450px\">";
 					echo "<option value=\"0\"></option>";
 					while($db->next_record()) {
-						echo "<option".($optie_accommodatie[$key]==$db->f("optie_groep_id") ? " selected" : "")." value=\"".$db->f("optie_groep_id")."\">".htmlentities($db->f("naam"))."</option>\n";
+						echo "<option".($optie_accommodatie[$key]==$db->f("optie_groep_id") ? " selected" : "")." value=\"".$db->f("optie_groep_id")."\">".wt_he($db->f("naam"))."</option>\n";
 					}
 					echo "</select>";
 				} else {
 					echo "<select name=\"niet_groep[".$key."]\" disabled class=\"wtform_input\">";
 					while($db->next_record()) {
-						if($optie_accommodatie[$key]==$db->f("optie_groep_id")) echo "<option value=\"0\">".htmlentities($db->f("naam"))."</option>";
+						if($optie_accommodatie[$key]==$db->f("optie_groep_id")) echo "<option value=\"0\">".wt_he($db->f("naam"))."</option>";
 					}
 				}
 				if($optie_soort_directeverkoop_wederverkoop[$key]) echo "&nbsp;&nbsp;<span style=\"font-size:0.8em;\">".$optie_soort_directeverkoop_wederverkoop[$key]."</span>";
@@ -106,7 +106,7 @@ if($_GET["show"]==1) {
 		echo "<tr><th>Seizoen</th><th>Vertrekdagtype</th></tr>";
 		while($db->next_record()) {
 			unset($vertrekdagtypeid_bekend);
-			echo "<tr><td>".htmlentities($db->f("naam"))."</td><td>";
+			echo "<tr><td>".wt_he($db->f("naam"))."</td><td>";
 			$db2->query("SELECT vertrekdagtype_id FROM accommodatie_seizoen WHERE seizoen_id='".$db->f("seizoen_id")."' AND accommodatie_id='".addslashes($_GET["1k0"])."';");
 			if($db2->next_record()) {
 				$vertrekdagtypeid=$db2->f("vertrekdagtype_id");
@@ -121,7 +121,7 @@ if($_GET["show"]==1) {
 			}
 			echo "<option value=\"0\">A: Geen afwijking op seizoensniveau</option>";
 			while($db2->next_record()) {
-				echo "<option".($vertrekdagtypeid==$db2->f("vertrekdagtype_id") ? " selected" : "")." value=\"".$db2->f("vertrekdagtype_id")."\">".htmlentities($db2->f("naam"))."</option>\n";
+				echo "<option".($vertrekdagtypeid==$db2->f("vertrekdagtype_id") ? " selected" : "")." value=\"".$db2->f("vertrekdagtype_id")."\">".wt_he($db2->f("naam"))."</option>\n";
 			}
 			echo "</select>";
 			echo "</td></tr>";
@@ -151,12 +151,12 @@ if($_GET["show"]==1) {
 		reset($gekoppeld);
 		while(list($key,$value)=each($gekoppeld)) {
 			if($key<>$_GET["1k0"]) {
-				echo "<tr><td width=\"15\"><a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&acckoppelen_delete=1&acc1=".$key."&acc2=".$value."\" onclick=\"return confirmClick(this,'Koppeling wissen?');\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" alt=\"Koppeling wissen\" title=\"Type wissen\" width=\"20\" height=\"20\" border=\"0\"></a></td><td>".htmlentities($vars["gekoppeld_acc"][$key])."</td></tr>";
+				echo "<tr><td width=\"15\"><a href=\"".wt_he($_SERVER["REQUEST_URI"])."&acckoppelen_delete=1&acc1=".$key."&acc2=".$value."\" onclick=\"return confirmClick(this,'Koppeling wissen?');\"><img src=\"".$vars["path"]."pic/class.cms_delete.gif\" alt=\"Koppeling wissen\" title=\"Type wissen\" width=\"20\" height=\"20\" border=\"0\"></a></td><td>".wt_he($vars["gekoppeld_acc"][$key])."</td></tr>";
 			}
 		}
 		echo "</table><p>";
 	}
-	echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frmacckoppelen\">";
+	echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frmacckoppelen\">";
 	echo "<input type=\"hidden\" name=\"acckoppelen_filled\" value=\"1\">";
 	echo "Koppelen:&nbsp;&nbsp;";
 	echo "<select name=\"accid\" onchange=\"document.frmacckoppelen.submit();\">";
@@ -164,7 +164,7 @@ if($_GET["show"]==1) {
 	$db->query("SELECT DISTINCT a.accommodatie_id, a.naam, l.naam AS leverancier FROM accommodatie a, leverancier l, type t WHERE t.accommodatie_id=a.accommodatie_id AND a.archief=0 AND t.leverancier_id=l.leverancier_id AND a.plaats_id=(SELECT plaats_id FROM accommodatie WHERE accommodatie_id='".addslashes($_GET["1k0"])."') ORDER BY l.naam, a.naam;");
 	while($db->next_record()) {
 		if(!$gekoppeld[$db->f("accommodatie_id")]) {
-			echo "<option value=\"".$db->f("accommodatie_id")."\">".htmlentities($db->f("leverancier")." - ".$db->f("naam"))."</option>\n";
+			echo "<option value=\"".$db->f("accommodatie_id")."\">".wt_he($db->f("leverancier")." - ".$db->f("naam"))."</option>\n";
 		}
 	}
 	echo "</select>";

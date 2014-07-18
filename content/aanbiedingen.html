@@ -112,15 +112,15 @@ if($cachefile) {
 									$results[$abnaam]["lijst"][$sorteer].="<TR><TD width=\"1%\"><a name=\"cnt".$aanbiedingenteller."\"></a>";
 									$ahref="<A HREF=\"".$url."\">";
 									if(file_exists("pic/cms/types_specifiek_tn/".$key2.".jpg")) {
-										$results[$abnaam]["lijst"][$sorteer].=$ahref."<img src=\"".$vars["path"]."pic/cms/types_specifiek_tn/".$key2.".jpg\" alt=\"".htmlentities($accinfo["accnaam"])."\" width=\"60\" height=\"45\" border=\"0\"></A>";
+										$results[$abnaam]["lijst"][$sorteer].=$ahref."<img src=\"".$vars["path"]."pic/cms/types_specifiek_tn/".$key2.".jpg\" alt=\"".wt_he($accinfo["accnaam"])."\" width=\"60\" height=\"45\" border=\"0\"></A>";
 									} elseif(file_exists("pic/cms/accommodaties_tn/".$accinfo["accommodatieid"].".jpg")) {
-										$results[$abnaam]["lijst"][$sorteer].=$ahref."<img src=\"".$vars["path"]."pic/cms/accommodaties_tn/".$accinfo["accommodatieid"].".jpg\" alt=\"".htmlentities($accinfo["accnaam"])."\" width=\"60\" height=\"45\" border=\"0\"></A>";
+										$results[$abnaam]["lijst"][$sorteer].=$ahref."<img src=\"".$vars["path"]."pic/cms/accommodaties_tn/".$accinfo["accommodatieid"].".jpg\" alt=\"".wt_he($accinfo["accnaam"])."\" width=\"60\" height=\"45\" border=\"0\"></A>";
 									} else {
 										$results[$abnaam]["lijst"][$sorteer].="<img src=\"".$vars["path"]."pic/cms/accommodaties_tn/0.jpg\" alt=\"".html("geenafbeelding")."\" border=\"0\" width=\"60\" height=\"45\" >";
 									}
-									$results[$abnaam]["lijst"][$sorteer].="</TD><TD width=\"80%\">".$bold1.$ahref.htmlentities($accinfo["accnaam"])."</A>".$bold2."<BR>".htmlentities($accinfo["plaats"]." - ".$accinfo["skigebied"]." - ".$accinfo["land"])."</TD><TD align=\"right\"><NOBR>";
+									$results[$abnaam]["lijst"][$sorteer].="</TD><TD width=\"80%\">".$bold1.$ahref.wt_he($accinfo["accnaam"])."</A>".$bold2."<BR>".wt_he($accinfo["plaats"]." - ".$accinfo["skigebied"]." - ".$accinfo["land"])."</TD><TD align=\"right\"><NOBR>";
 									if($accinfo["soortaccommodatie"]<>5) {
-										$results[$abnaam]["lijst"][$sorteer].=htmlentities($accinfo["aantalpersonen"]);
+										$results[$abnaam]["lijst"][$sorteer].=wt_he($accinfo["aantalpersonen"]);
 									}
 									$results[$abnaam]["lijst"][$sorteer].="&nbsp;&nbsp;";
 
@@ -221,7 +221,7 @@ if($cachefile) {
 				if(is_array($value["lijst"]) and @count($value["lijst"])>0) {
 					if($value["naam"] and $value["naam"]<>"zzzz_overig") {
 						if($onderdeel_teller) echo "<br>";
-						echo "<h3>".htmlentities($value["naam"])."</h3>";
+						echo "<h3>".wt_he($value["naam"])."</h3>";
 						if($value["omschrijving"]) {
 							echo nl2br(wt_htmlent($value["omschrijving"]))."<p>";
 						}
@@ -289,7 +289,7 @@ if($cachefile) {
 			echo "<p><a name=\"lmd\"></a>".html("kiesdegewensteaankomstdatum","aanbiedingen");
 			echo "<ul>";
 			while(list($key,$value)=each($aanbieding_datum)) {
-				echo "<li><a href=\"".txt("menu_aanbiedingen").".php?d=".$key."\">".htmlentities(weekend_voluit($key))."</a></li>";
+				echo "<li><a href=\"".txt("menu_aanbiedingen").".php?d=".$key."\">".wt_he(weekend_voluit($key))."</a></li>";
 			}
 			echo "</ul>";
 		} else {

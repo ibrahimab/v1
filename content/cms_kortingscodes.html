@@ -15,7 +15,7 @@ if($_GET["show"]==29) {
 		echo "<select name=\"accommodaties\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
 		echo "<option value=\"0\"></option>";
 		while($db->next_record()) {
-			echo "<option value=\"".$db->f("accommodatie_id")."\">".($db->f("wzt")==1 ? "W" : "Z").": ".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</option>";
+			echo "<option value=\"".$db->f("accommodatie_id")."\">".($db->f("wzt")==1 ? "W" : "Z").": ".wt_he($db->f("plaats")." - ".$db->f("naam"))."</option>";
 		}
 		echo "</select>";
 	} else {
@@ -29,7 +29,7 @@ if($_GET["show"]==29) {
 		echo "<select name=\"types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
 		echo "<option value=\"0\"></option>";
 		while($db->next_record()) {
-			echo "<option value=\"".$db->f("type_id")."\">".($db->f("wzt")==1 ? "W" : "Z").": ".htmlentities(substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ")."</option>";
+			echo "<option value=\"".$db->f("type_id")."\">".($db->f("wzt")==1 ? "W" : "Z").": ".wt_he(substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ")."</option>";
 		}
 		echo "</select>";
 	} else {
@@ -47,7 +47,7 @@ if($_GET["show"]==29) {
 			echo "<div style=\"border:1px solid #878481;padding:5px;width:400px;margin-top:10px;margin-bottom:10px;\">";
 			echo "<b>Nieuwe codes aanmaken</b><br>";
 			echo "<table cellspacing=\"0\" cellpadding=\"0\">";
-			echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\"><input type=\"hidden\" name=\"filled_aantalcodes\" value=\"1\">";
+			echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\"><input type=\"hidden\" name=\"filled_aantalcodes\" value=\"1\">";
 			echo "<tr><td>Aantal nieuwe codes:</td><td>&nbsp;</td><td><input type=\"text\" name=\"aantalcodes\" value=\"10\"></td></tr>";
 			echo "<tr><td>Aantal karakters:</td><td>&nbsp;</td><td><input type=\"text\" name=\"lengte\" value=\"6\"></td></tr>";
 			echo "<tr><td colspan=\"3\"><input type=\"checkbox\" name=\"vergeven\" value=\"1\" id=\"vergeven\"><label for=\"vergeven\">&nbsp;Aangemaakte codes meteen als vergeven markeren</label></td></tr>";
@@ -74,7 +74,7 @@ if($_GET["show"]==29) {
 					}
 					if($okay) {
 						$db->query("INSERT INTO kortingscode_eenmalig SET kortingscode_id='".addslashes($_GET["29k0"])."', code='".addslashes($id)."', ".($_POST["vergeven"]==1 ? "status=1, " : "")."adddatetime=NOW(), editdatetime=NOW();");
-						echo htmlentities($id)."<br>";
+						echo wt_he($id)."<br>";
 					}
 				}
 				echo "</div>";
@@ -83,9 +83,9 @@ if($_GET["show"]==29) {
 			$db->query("SELECT kortingscode_eenmalig_id, code, status, boeking_id FROM kortingscode_eenmalig WHERE kortingscode_id='".addslashes($_GET["29k0"])."' ORDER BY status, kortingscode_eenmalig_id DESC;");
 			if($db->num_rows()) {
 				echo "<b>Alle aangemaakte codes</b></p>";
-				echo "<table cellspacing=\"0\" class=\"tbl\" style=\"width:250px;\"><tr><th>code</th><th>status</th></tr><form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\"><input type=\"hidden\" name=\"status_filled\" value=\"1\">";
+				echo "<table cellspacing=\"0\" class=\"tbl\" style=\"width:250px;\"><tr><th>code</th><th>status</th></tr><form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\"><input type=\"hidden\" name=\"status_filled\" value=\"1\">";
 				while($db->next_record()) {
-					echo "<tr style=\"height:25px;".($db->f("status")==0 ? "background-color:yellow;" : ($db->f("status")==2 ? "background-color:#cccccc;" : ""))."\"><td>".htmlentities($db->f("code"))."</td><td>";
+					echo "<tr style=\"height:25px;".($db->f("status")==0 ? "background-color:yellow;" : ($db->f("status")==2 ? "background-color:#cccccc;" : ""))."\"><td>".wt_he($db->f("code"))."</td><td>";
 					if($db->f("status")==0) {
 						echo "<select name=\"status[".$db->f("kortingscode_eenmalig_id")."]\"><option value=\"0\"".($db->f("status")==0 ? " selected" : "").">nieuw</option><option value=\"1\"".($db->f("status")==1 ? " selected" : "").">vergeven</option></select>";
 					} elseif($db->f("status")==1) {

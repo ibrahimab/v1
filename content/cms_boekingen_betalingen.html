@@ -7,11 +7,11 @@ if($mustlogin) {
 
 if($_GET["burl"]) {
 	if(preg_match("/cms_overzichten_overig/",$_GET["burl"])) {
-		echo "<a href=\"".htmlentities($_GET["burl"])."\">terug naar overzicht vouchers</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"]."\">ga naar boekingsgegevens ".$gegevens["stap1"]["boekingsnummer"]."</a><p>";
+		echo "<a href=\"".wt_he($_GET["burl"])."\">terug naar overzicht vouchers</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"]."\">ga naar boekingsgegevens ".$gegevens["stap1"]["boekingsnummer"]."</a><p>";
 	} elseif(preg_match("/cms_reisbureau/",$_GET["burl"])) {
-		echo "<a href=\"".htmlentities($_GET["burl"])."\">terug naar financieel overzicht reisbureau</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"]."\">ga naar boekingsgegevens ".$gegevens["stap1"]["boekingsnummer"]."</a><p>";
+		echo "<a href=\"".wt_he($_GET["burl"])."\">terug naar financieel overzicht reisbureau</a>&nbsp;&nbsp;-&nbsp;&nbsp;<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".$gegevens["stap1"]["boekingid"]."\">ga naar boekingsgegevens ".$gegevens["stap1"]["boekingsnummer"]."</a><p>";
 	} else {
-		echo "<a href=\"".htmlentities($_GET["burl"])."\">terug naar boekingsgegevens</a><p>";
+		echo "<a href=\"".wt_he($_GET["burl"])."\">terug naar boekingsgegevens</a><p>";
 	}
 } elseif($_GET["bid"]) {
 	echo "<a href=\"".$vars["path"]."cms_boekingen.php?show=21&21k0=".wt_he($_GET["bid"])."\">bekijk de bijbehorende boeking</a><p>";
@@ -37,7 +37,7 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 				$openstaand=round($openstaand-$db2->f("totaal"),2);
 			}
 			if($openstaand>0) {
-				echo "<tr><td>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td>".htmlentities($db->f("boekingsnummer"))."</td><td align=\"right\">&euro;&nbsp;".number_format($db->f("totale_reissom"),2,',','.')."</td>";
+				echo "<tr><td>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td>".wt_he($db->f("boekingsnummer"))."</td><td align=\"right\">&euro;&nbsp;".number_format($db->f("totale_reissom"),2,',','.')."</td>";
 				echo "<td align=\"right\">&euro;&nbsp;".number_format($openstaand,2,',','.')."</td>";
 				if($openstaand<$nog_te_verdelen) {
 					$bedrag=$openstaand;
@@ -60,7 +60,7 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 
 
 	#	if($gegevens["stap1"]["opmerkingen_intern"]) {
-			echo "<b>Interne opmerkingen:</b><p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\"><input type=\"hidden\" name=\"opmfilled\" value=\"1\"><textarea name=\"opmerkingen\" cols=70 rows=10 onfocus=\"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')\">".htmlentities($gegevens["stap1"]["opmerkingen_intern"])."</textarea><br><input type=\"submit\" value=\" OPMERKINGEN OPSLAAN \"></form><hr>";
+			echo "<b>Interne opmerkingen:</b><p><form method=\"post\" action=\"".$_SERVER["REQUEST_URI"]."\"><input type=\"hidden\" name=\"opmfilled\" value=\"1\"><textarea name=\"opmerkingen\" cols=70 rows=10 onfocus=\"naamdatum_toevoegen(this,'".date("d/m/Y")." (".$login->vars["voornaam"]."):')\">".wt_he($gegevens["stap1"]["opmerkingen_intern"])."</textarea><br><input type=\"submit\" value=\" OPMERKINGEN OPSLAAN \"></form><hr>";
 	#	}
 		echo "&nbsp;<br><table border=\"0\">";
 		echo "<tr><td>Totale reissom (op basis van laatst verstuurde factuur)&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["totale_reissom"],2,',','.')."</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
@@ -70,7 +70,7 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 		while($db->next_record()) {
 			echo "<tr><td style=\"white-space:nowrap;\">";
 			if($db->f("toon_opmerkingen_in_overzicht")) {
-				echo htmlentities($db->f("opmerkingen"));
+				echo wt_he($db->f("opmerkingen"));
 			} else {
 				echo ($db->f("bedrag")<0 && $db->f("type")<>3 ? "Terugstorting" : wt_he($vars["boeking_betaling_type"][$db->f("type")]));
 			}
@@ -84,10 +84,10 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 
 		echo "<td>";
 		if($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_betaling"]>0) {
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\" onclick=\"return betaling_goedkeuren(this,'De volgende betaling goedkeuren:','".number_format($nog_te_betalen,2,",","")."');\">betaling goedkeuren &raquo;</a>";
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".wt_he($_SERVER["REQUEST_URI"])."\" onclick=\"return betaling_goedkeuren(this,'De volgende betaling goedkeuren:','".number_format($nog_te_betalen,2,",","")."');\">betaling goedkeuren &raquo;</a>";
 		} else {
 			if($nog_te_betalen<0) {
-				echo "&nbsp;&nbsp;&nbsp;<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&overbetaling=".urlencode(abs($nog_te_betalen))."\">overbetaling verdelen over andere boekingen van deze debiteur</a>";
+				echo "&nbsp;&nbsp;&nbsp;<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&overbetaling=".urlencode(abs($nog_te_betalen))."\">overbetaling verdelen over andere boekingen van deze debiteur</a>";
 			} else {
 				echo "&nbsp;";
 			}
@@ -100,7 +100,7 @@ if($_GET["edit"]<>26 and $_GET["add"]<>26) {
 			echo "<tr><td colspan=\"3\">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
 			echo "<tr style=\"color:#878481;\"><td>Waarvan goedgekeurd&nbsp;&nbsp;&nbsp;</td><td>&euro;</td><td align=\"right\">".number_format($gegevens["stap1"]["goedgekeurde_betaling"],2,',','.')."</td><td>&nbsp;</td>";
 			echo "<td>";
-			echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&goedgekeurde_betaling=0\" onclick=\"confirmClick(this,'Goedkeuring t.w.v. ".number_format($gegevens["stap1"]["goedgekeurde_betaling"],2,',','.')." intrekken?');\">goedkeuring intrekken &raquo;</a>";
+			echo "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&goedgekeurde_betaling=0\" onclick=\"confirmClick(this,'Goedkeuring t.w.v. ".number_format($gegevens["stap1"]["goedgekeurde_betaling"],2,',','.')." intrekken?');\">goedkeuring intrekken &raquo;</a>";
 			echo "</td>";
 			echo "</tr>";
 			if($nog_te_betalen-$gegevens["stap1"]["goedgekeurde_betaling"]>0) {

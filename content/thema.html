@@ -30,13 +30,13 @@ if($db->next_record()) {
 		echo "</tr></table>";
 	}
 
-	echo "<h1>".htmlentities($vars["themainfo"]["naam"])."</h1>\n";
+	echo "<h1>".wt_he($vars["themainfo"]["naam"])."</h1>\n";
 	echo htmlentities_uitgebreid(trim($db->f("toelichting")));
 
 	if($db->f("uitgebreid")) {
 		echo "<div style=\"padding-top:10px;text-align:right;\"><a href=\"#\" class=\"showhidelink\">".html("meerinformatie","thema")." &gt;</a></div>";
 		echo "<div id=\"\" class=\"showhide\" style=\"display:none;\">";
-		echo nl2br(htmlentities(trim($db->f("uitgebreid"))));
+		echo nl2br(wt_he(trim($db->f("uitgebreid"))));
 		echo "</div>";
 		$uitgebreid=true;
 	}

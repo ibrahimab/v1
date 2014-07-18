@@ -40,7 +40,7 @@ if($_GET["show"]==14) {
 	// 	}
 	// }
 	// if($link) {
-	// 	echo "Link: <a href=\"".htmlentities($link)."\" target=\"_blank\">".htmlentities($link)."</a><br>";
+	// 	echo "Link: <a href=\"".wt_he($link)."\" target=\"_blank\">".wt_he($link)."</a><br>";
 	// } else {
 	// 	echo "<i>Aanbieding tonen bij zoekformulier is alleen mogelijk als deze een naam heeft.</i><br>";
 	// }
@@ -65,7 +65,7 @@ if($_GET["show"]==14) {
 		echo "<select name=\"accommodaties\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
 		echo "<option value=\"0\"></option>";
 		while($db->next_record()) {
-			echo "<option value=\"".$db->f("accommodatie_id")."\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</option>";
+			echo "<option value=\"".$db->f("accommodatie_id")."\">".wt_he($db->f("plaats")." - ".$db->f("naam"))."</option>";
 		}
 		echo "</select>";
 	} else {
@@ -80,7 +80,7 @@ if($_GET["show"]==14) {
 		echo "<option value=\"0\"></option>";
 		while($db->next_record()) {
 #			$vars["top10_types"][$db->f("type_id")]=substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ";
-			echo "<option value=\"".$db->f("type_id")."\">".htmlentities(substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ")."</option>";
+			echo "<option value=\"".$db->f("type_id")."\">".wt_he(substr($db->f("plaats")." - ".$db->f("accommodatie").($db->f("type") ? " ".$db->f("type") : ""),0,50)." (".$db->f("optimaalaantalpersonen").($db->f("maxaantalpersonen")>$db->f("optimaalaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p - ".$db->f("begincode").$db->f("type_id").") ")."</option>";
 		}
 		echo "</select>";
 	} else {
@@ -94,7 +94,7 @@ if($_GET["show"]==14) {
 #		echo "<select name=\"leveranciers\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
 #		echo "<option value=\"0\"></option>";
 #		while($db->next_record()) {
-#			echo "<option value=\"".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</option>";
+#			echo "<option value=\"".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</option>";
 #		}
 #		echo "</select>";
 #	} else {
@@ -108,7 +108,7 @@ if($_GET["show"]==14) {
 		echo "<select name=\"leveranciers_types\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
 		echo "<option value=\"0\"></option>";
 		while($db->next_record()) {
-			echo "<option value=\"".$db->f("leverancier_id")."\">".htmlentities($db->f("naam"))."</option>";
+			echo "<option value=\"".$db->f("leverancier_id")."\">".wt_he($db->f("naam"))."</option>";
 		}
 		echo "</select>";
 	} else {
@@ -122,7 +122,7 @@ if($_GET["show"]==14) {
 		echo "<select name=\"landen\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
 		echo "<option value=\"0\"></option>";
 		while($db->next_record()) {
-			echo "<option value=\"".$db->f("land_id")."\">".htmlentities($db->f("naam"))."</option>";
+			echo "<option value=\"".$db->f("land_id")."\">".wt_he($db->f("naam"))."</option>";
 		}
 		echo "</select>";
 	} else {
@@ -134,7 +134,7 @@ if($_GET["show"]==14) {
 
 	# CSV uploaden
 	echo "<tr><td>Types uploaden via CSV-bestand<br><br><span style=\"font-size:0.8em;\">kolom 1: typecode, bijv. F240<br>kolom 2: alle types van zelfde accommodatie toevoegen (ja/nee)</span></td><td>";
-	echo "<form method=\"post\" name=\"frm_csvimport\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" enctype=\"multipart/form-data\">";
+	echo "<form method=\"post\" name=\"frm_csvimport\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" enctype=\"multipart/form-data\">";
 	echo "<input type=\"file\" name=\"csv\" size=\"60\">";
 	echo "<input type=\"hidden\" name=\"csvimport\" value=\"1\">";
 	echo "<input type=\"submit\" value=\" CSV UPLOADEN \" id=\"sbmt\" onclick=\"document.frm_csvimport.sbmt.disabled=1;document.frm_csvimport.submit();\">";
@@ -178,7 +178,7 @@ if($_GET["show"]==14) {
 		echo "<p><hr><h2>Aankomstdata</h2><table cellspacing=\"0\" class=\"tbl\">";
 		echo "<form name=\"aankomstdata\" action=\"".$_SERVER["REQUEST_URI"]."\" method=\"post\">";
 		echo "<input type=\"hidden\" name=\"aankomstdata_filled\" value=\"1\">";
-	#	echo "<tr><th>".htmlentities($ab["seizoen"])."</th></tr>";
+	#	echo "<tr><th>".wt_he($ab["seizoen"])."</th></tr>";
 		echo "<tr><td align=\"center\"><input type=\"submit\" value=\" AANKOMSTDATA OPSLAAN \" id=\"opslaan1\" onclick=\"document.aankomstdata.opslaan1.disabled=1;document.aankomstdata.submit();\"></td></tr>";
 		echo "<tr><td><input type=\"checkbox\" name=\"allemaal\" onclick=\"checkUncheckAll(this)\" id=\"allemaal\"><label for=\"allemaal\">Alle aankomstdata aan/uit</label></td></tr>";
 		while(list($key,$value)=@each($abdata)) {

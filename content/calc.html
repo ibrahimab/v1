@@ -5,7 +5,7 @@ for($i=0;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 }
 
 if($_GET["back"]) {
-	echo "<a href=\"".htmlentities($_GET["back"])."\">".html("terugnaardeaccommodatiegegevens","calc")."</a><p>";
+	echo "<a href=\"".wt_he($_GET["back"])."\">".html("terugnaardeaccommodatiegegevens","calc")."</a><p>";
 }
 
 if($_GET["stap"]==1) {
@@ -21,11 +21,11 @@ if($_GET["stap"]==1) {
 	if((is_array($optie_soort["naam_enkelvoud"]) and is_array($optie_onderdeel)) or is_array($optie_keuzes)) {
 		echo "<p>".html("inleiding","calc")."</p>";
 	}
-	echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+	echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 
 	echo "<table cellspacing=\"0\" cellpadding=\"0\" style=\"width:100%;border:1px solid ".$bordercolor.";padding:3px;\">";
-	echo "<tr><td style=\"padding-bottom:4px;\"><b>".html("accommodatie","boeken")."</b>&nbsp;</td><td style=\"padding-bottom:4px;\">".htmlentities($accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</td></tr>";
-	echo "<tr><td><b>".html("plaats","boeken")."</b>&nbsp;</td><td>".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
+	echo "<tr><td style=\"padding-bottom:4px;\"><b>".html("accommodatie","boeken")."</b>&nbsp;</td><td style=\"padding-bottom:4px;\">".wt_he($accinfo["begincode"].$accinfo["type_id"]." ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</td></tr>";
+	echo "<tr><td><b>".html("plaats","boeken")."</b>&nbsp;</td><td>".wt_he($accinfo["plaats"].", ".$accinfo["land"])."</td></tr>";
 	if($vars["wederverkoop"] and $login_rb->logged_in) {
 		echo "<tr><td colspan=\"2\">&nbsp;</td></tr>";
 		echo "<tr><td><b>".html("referentie","calc")."</b>&nbsp;(".html("optioneel","calc").")</td><td><input type=\"text\" name=\"referentie\" value=\"\" class=\"wtform_input\"></td></tr>";
@@ -45,7 +45,7 @@ if($_GET["stap"]==1) {
 	if(is_array($error)) {
 		echo "<span class=\"wtform_error\"><ul>";
 		while(list($key,$value)=each($error)) {
-			echo "<li>".htmlentities($value)."</li>";
+			echo "<li>".wt_he($value)."</li>";
 		}
 		echo "</ul></span><p>";
 	}
@@ -64,11 +64,11 @@ if($_GET["stap"]==1) {
 			reset($optie_soort_algemeen["naam_enkelvoud"]);
 			while(list($key,$value)=each($optie_soort_algemeen["naam_enkelvoud"])) {
 				if(is_array($optie_onderdeel[$key])) {
-					echo "<tr><td>".htmlentities($value)."<td>";
+					echo "<tr><td>".wt_he($value)."<td>";
 					reset($optie_onderdeel[$key]);
 					echo "<select name=\"inputalg[".$key."]\" style=\"width:100%;\"><option value=\"\">&nbsp;</option>";
 					while(list($key2,$value2)=each($optie_onderdeel[$key])) {
-						echo "<option value=\"".$key2."\"".($_POST["inputalg"][$key]==$key2 ? " selected" : "").">".htmlentities($value2["naam"]).": &euro;&nbsp;".number_format($value2["verkoop"],2,",",".")."</option>";
+						echo "<option value=\"".$key2."\"".($_POST["inputalg"][$key]==$key2 ? " selected" : "").">".wt_he($value2["naam"]).": &euro;&nbsp;".number_format($value2["verkoop"],2,",",".")."</option>";
 					}
 					echo "</select></td></tr>";
 				}
@@ -85,14 +85,14 @@ if($_GET["stap"]==1) {
 			if(is_array($optie_onderdeel[$key])) {
 				echo "<tr><td colspan=\"3\"><b>";
 				if($teveel[$key]) echo "<span class=\"wtform_error\">";
-				echo htmlentities($value);
+				echo wt_he($value);
 				if($teveel[$key]) echo "</span>";
 				echo "</b></td></tr>";
 				while(list($key2,$value2)=each($optie_onderdeel[$key])) {
 					if($key=="ann") {
-						echo "<tr><td colspan=\"2\">".htmlentities($value2["naam"])."</td>";
+						echo "<tr><td colspan=\"2\">".wt_he($value2["naam"])."</td>";
 					} else {
-						echo "<tr><td>".htmlentities($value2["naam"])."</td><td align=\"right\">&euro;&nbsp;".number_format(abs($value2["verkoop"]),2,",",".").($value2["verkoop"]<0 ? " ".html("korting","vars") : "")."</td>";
+						echo "<tr><td>".wt_he($value2["naam"])."</td><td align=\"right\">&euro;&nbsp;".number_format(abs($value2["verkoop"]),2,",",".").($value2["verkoop"]<0 ? " ".html("korting","vars") : "")."</td>";
 					}
 					echo "<td align=\"center\"><select name=\"input[".$key."][".$key2."]\">";
 					for($i=0;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
@@ -121,14 +121,14 @@ if($_GET["stap"]==1) {
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
 
 	if($vars["wederverkoop"] and $login_rb->logged_in) {
-		echo "<a href=\"#\" onclick=\"document.frm.submit();return false;\">".html("mailditoverzicht_wederverkoop","calc")." &gt;</a>&nbsp;(".htmlentities($login_rb->vars["email"]).")";
-		echo "<input type=\"hidden\" name=\"mail\" value=\"".htmlentities($login_rb->vars["email"])."\"><p>";
+		echo "<a href=\"#\" onclick=\"document.frm.submit();return false;\">".html("mailditoverzicht_wederverkoop","calc")." &gt;</a>&nbsp;(".wt_he($login_rb->vars["email"]).")";
+		echo "<input type=\"hidden\" name=\"mail\" value=\"".wt_he($login_rb->vars["email"])."\"><p>";
 
 		if($gegevens["stap1"]["calc_bewaren"]) {
 			echo "<b>".html("calcisopgeslagen_wederverkoop","calc")."</b> - ";
-			echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&wissen=1\">".html("calcwis_wederverkoop","calc")." &gt;</a><p>";
+			echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&wissen=1\">".html("calcwis_wederverkoop","calc")." &gt;</a><p>";
 		} else {
-			echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&bewaren=1\">".html("calcopslaan_wederverkoop","calc")." &gt;</a><p>";
+			echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&bewaren=1\">".html("calcopslaan_wederverkoop","calc")." &gt;</a><p>";
 		}
 
 	} else {
@@ -141,7 +141,7 @@ if($_GET["stap"]==1) {
 		} else {
 			$mailvalue="";
 		}
-		echo "<input type=\"text\" name=\"mail\" value=\"".htmlentities($mailvalue)."\" style=\"width:270px;\">&nbsp;&nbsp;&nbsp;";
+		echo "<input type=\"text\" name=\"mail\" value=\"".wt_he($mailvalue)."\" style=\"width:270px;\">&nbsp;&nbsp;&nbsp;";
 		echo "<input type=\"submit\" value=\" ".strtoupper(html("verzenden","calc"))." \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\"><br>";
 	}
 	if($error) {

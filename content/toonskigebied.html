@@ -108,11 +108,11 @@ hr {
 					echo " / ";
 				}
 				$landenteller++;
-				echo "<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db2->f("land"))."/\">".htmlentities($db2->f("land"))."</a>";
+				echo "<a href=\"".$vars["path"].txt("menu_land")."/".wt_convert2url_seo($db2->f("land"))."/\">".wt_he($db2->f("land"))."</a>";
 				$landid=$db2->f("land_id");
 				$landnaam=$db2->f("land");
 			}
-			echo " - ".htmlentities($db->f("naam"));
+			echo " - ".wt_he($db->f("naam"));
 
 			if($voorkant_cms) {
 				echo "&nbsp;&nbsp;<span class=\"kleinfont\"><a href=\"".wt_he("https://www.chalet.nl/cms_skigebieden.php?show=5&wzt=".$vars["seizoentype"]."&5k0=".$skigebiedid)."\" target=\"_blank\">".($vars["seizoentype"]==1 ? "skigebied" : "regio")." bewerken</a></span>";
@@ -134,7 +134,7 @@ hr {
 	if($vars["seizoentype"]==1) {
 		echo "<div id=\"toonskigebied_kenmerken\">";
 		echo "<div id=\"toonskigebied_kenmerken_1\">";
-		if($db->f("kilometerpiste")) echo "<div>".htmlentities($db->f("kilometerpiste"))." ".html("kilometer","toonskigebied")." ".html("piste","toonskigebied")."</div>";
+		if($db->f("kilometerpiste")) echo "<div>".wt_he($db->f("kilometerpiste"))." ".html("kilometer","toonskigebied")." ".html("piste","toonskigebied")."</div>";
 		echo "</div>";
 		echo "<div id=\"toonskigebied_kenmerken_2\">";
 		if($db->f("minhoogte") and $db->f("maxhoogte")) echo "<div>".$db->f("minhoogte")." ".html("meter","toonskigebied")." - ".$db->f("maxhoogte")." ".html("meter","toonskigebied")."</div>";
@@ -157,7 +157,7 @@ hr {
 				unset($algehad);
 				while($db2->next_record()) {
 					$url=$vars["path"]."blog.php?b=".$db2->f("blog_id");
-					$blog_html.="<div>".date("d-m-Y",$db2->f("plaatsingsdatum"))." - <a href=\"".htmlentities($url)."\">".wt_he($db2->f("titel"))."</a></div>";
+					$blog_html.="<div>".date("d-m-Y",$db2->f("plaatsingsdatum"))." - <a href=\"".wt_he($url)."\">".wt_he($db2->f("titel"))."</a></div>";
 				}
 				$blog_html.="</div>"; # afsluiten blogverwijzing
 			}
@@ -302,7 +302,7 @@ hr {
 					$aantal_acc=0;
 				}
 				if($aantal_acc) {
-					echo "<tr><td valign=\"top\" nowrap><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db2->f("naam"))."/\">".htmlentities($db2->f("naam"))." - ".htmlentities($db2->f("land"))."</a></td>";
+					echo "<tr><td valign=\"top\" nowrap><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db2->f("naam"))."/\">".wt_he($db2->f("naam"))." - ".wt_he($db2->f("land"))."</a></td>";
 					echo "<td><a href=\"".$vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_plaats")."/".wt_convert2url_seo($db2->f("naam"))."/\">".$aantal_acc." ";
 					if($vars["seizoentype"]==2) {
 						echo ($aantal_acc==1 ? html("vakantiehuis") : html("vakantiehuizen"));
@@ -382,7 +382,7 @@ hr {
 	echo "</p>";
 
 	echo "<div>".htmlentities_uitgebreid($db->f("omschrijving"))."</div>";
-	if($db->f("altnaam_zichtbaar")) echo "<p><div>".html("alternatievespelling","toonskigebied").": ".htmlentities($db->f("altnaam_zichtbaar"))."</div>";
+	if($db->f("altnaam_zichtbaar")) echo "<p><div>".html("alternatievespelling","toonskigebied").": ".wt_he($db->f("altnaam_zichtbaar"))."</div>";
 
 	echo "</div>";
 
@@ -390,23 +390,23 @@ hr {
 	if($vars["seizoentype"]==1) {
 		echo "<div id=\"pistes\">";
 		echo "<TABLE width=\"660\" border=\"0\" class=\"toonacctabel\" cellspacing=\"0\">";
-		if($db->f("aantalliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalliften","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalliften"))."</TD></TR>";
-		if($db->f("aantalstoeltjesliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalstoeltjesliften","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalstoeltjesliften"))."</TD></TR>";
-		if($db->f("aantalsleepliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalsleepliften","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalsleepliften"))."</TD></TR>";
-		if($db->f("aantalcabineliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalgondelscabineliften","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalcabineliften"))."</TD></TR>";
-		if($db->f("kilometerpiste")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengtepistes","toonskigebied")."</TD><TD>".htmlentities($db->f("kilometerpiste"))." ".html("kilometer","toonskigebied")."</TD></TR>";
-		if($db->f("aantalgroenepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalgroenepistes","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalgroenepistes"))."</TD></TR>";
-		if($db->f("kmgroenepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengtegroenepistes","toonskigebied")."</TD><TD>".htmlentities($db->f("kmgroenepistes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
-		if($db->f("aantalblauwepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalblauwepistes","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalblauwepistes"))."</TD></TR>";
-		if($db->f("kmblauwepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengteblauwepistes","toonskigebied")."</TD><TD>".htmlentities($db->f("kmblauwepistes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
-		if($db->f("aantalrodepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalrodepistes","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalrodepistes"))."</TD></TR>";
-		if($db->f("kmrodepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengterodepistes","toonskigebied")."</TD><TD>".htmlentities($db->f("kmrodepistes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
-		if($db->f("aantalzwartepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalzwartepistes","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalzwartepistes"))."</TD></TR>";
-		if($db->f("kmzwartepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengtezwartepistes","toonskigebied")."</TD><TD>".htmlentities($db->f("kmzwartepistes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
-		if($db->f("aantalloipes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalloipes","toonskigebied")."</TD><TD>".htmlentities($db->f("aantalloipes"))."</TD></TR>";
-		if($db->f("kmloipes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengteloipes","toonskigebied")."</TD><TD>".htmlentities($db->f("kmloipes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
-		if($db->f("omschrijvingskipasbasis")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("omschrijvingskipasbasis","toonskigebied")."</TD><TD>".nl2br(htmlentities($db->f("omschrijvingskipasbasis")))."</TD></TR>";
-		if($db->f("omschrijvingskipasuitgebreid")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("omschrijvingskipasuitgebreid","toonskigebied")."</TD><TD>".nl2br(htmlentities($db->f("omschrijvingskipasuitgebreid")))."</TD></TR>";
+		if($db->f("aantalliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalliften","toonskigebied")."</TD><TD>".wt_he($db->f("aantalliften"))."</TD></TR>";
+		if($db->f("aantalstoeltjesliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalstoeltjesliften","toonskigebied")."</TD><TD>".wt_he($db->f("aantalstoeltjesliften"))."</TD></TR>";
+		if($db->f("aantalsleepliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalsleepliften","toonskigebied")."</TD><TD>".wt_he($db->f("aantalsleepliften"))."</TD></TR>";
+		if($db->f("aantalcabineliften")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalgondelscabineliften","toonskigebied")."</TD><TD>".wt_he($db->f("aantalcabineliften"))."</TD></TR>";
+		if($db->f("kilometerpiste")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengtepistes","toonskigebied")."</TD><TD>".wt_he($db->f("kilometerpiste"))." ".html("kilometer","toonskigebied")."</TD></TR>";
+		if($db->f("aantalgroenepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalgroenepistes","toonskigebied")."</TD><TD>".wt_he($db->f("aantalgroenepistes"))."</TD></TR>";
+		if($db->f("kmgroenepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengtegroenepistes","toonskigebied")."</TD><TD>".wt_he($db->f("kmgroenepistes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
+		if($db->f("aantalblauwepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalblauwepistes","toonskigebied")."</TD><TD>".wt_he($db->f("aantalblauwepistes"))."</TD></TR>";
+		if($db->f("kmblauwepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengteblauwepistes","toonskigebied")."</TD><TD>".wt_he($db->f("kmblauwepistes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
+		if($db->f("aantalrodepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalrodepistes","toonskigebied")."</TD><TD>".wt_he($db->f("aantalrodepistes"))."</TD></TR>";
+		if($db->f("kmrodepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengterodepistes","toonskigebied")."</TD><TD>".wt_he($db->f("kmrodepistes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
+		if($db->f("aantalzwartepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalzwartepistes","toonskigebied")."</TD><TD>".wt_he($db->f("aantalzwartepistes"))."</TD></TR>";
+		if($db->f("kmzwartepistes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengtezwartepistes","toonskigebied")."</TD><TD>".wt_he($db->f("kmzwartepistes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
+		if($db->f("aantalloipes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("aantalloipes","toonskigebied")."</TD><TD>".wt_he($db->f("aantalloipes"))."</TD></TR>";
+		if($db->f("kmloipes")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("lengteloipes","toonskigebied")."</TD><TD>".wt_he($db->f("kmloipes"))." ".html("kilometer","toonskigebied")."</TD></TR>";
+		if($db->f("omschrijvingskipasbasis")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("omschrijvingskipasbasis","toonskigebied")."</TD><TD>".nl2br(wt_he($db->f("omschrijvingskipasbasis")))."</TD></TR>";
+		if($db->f("omschrijvingskipasuitgebreid")) echo "<TR><TD valign=\"top\" width=\"190\" nowrap>".html("omschrijvingskipasuitgebreid","toonskigebied")."</TD><TD>".nl2br(wt_he($db->f("omschrijvingskipasuitgebreid")))."</TD></TR>";
 		echo "</TABLE>";
 		echo "</div>";
 
@@ -467,7 +467,7 @@ hr {
 				$size=getimagesize("pic/cms/".$value);
 				if($size[0]>300) {
 #					$foto_table.="<div class=\"foto_doorklik\"><a href=\"javascript:fotopopup(".($size[0]+0).",".($size[1]+0).",'".$path."foto.php?f=".urlencode("pic/cms/".$value)."',true)\">";
-					$foto_table.="<div class=\"foto_doorklik\"><a href=\"".htmlentities($vars["path"]."thumbnail.php?calcsize=1&file=".urlencode($value))."\" class=\"fotopopup\" data-teller=\"".$counter."\" rel=\"group1\">";
+					$foto_table.="<div class=\"foto_doorklik\"><a href=\"".wt_he($vars["path"]."thumbnail.php?calcsize=1&file=".urlencode($value))."\" class=\"fotopopup\" data-teller=\"".$counter."\" rel=\"group1\">";
 #					$foto_table.="<img src=\"".$path."thumbnail.php?file=".urlencode($value)."\" title=\"".html("klikopdefoto","imagetable")."\" width=\"200\" height=\"150\" border=\"0\">";
 					$foto_table.="<img src=\"".imageurl($value)."\" title=\"".html("klikopdefoto","imagetable")."\" width=\"200\" height=\"150\" border=\"0\">";
 					$foto_table.="<br><img src=\"".$path."pic/foto_doorklik.png\" alt=\"\" width=\"15\" height=\"11\" align=\"right\" border=\"0\" style=\"margin-top:2px;margin-right:4px\" class=\"noprint\"></a>&nbsp;</div>";
@@ -553,12 +553,12 @@ hr {
 					}
 
 					if(file_exists($file)) {
-						echo "<div class=\"skigebied_opvalblok\" onclick=\"document.location.href='".htmlentities($accurl)."'\">";
+						echo "<div class=\"skigebied_opvalblok\" onclick=\"document.location.href='".wt_he($accurl)."'\">";
 						echo "<div class=\"skigebied_opval_regel1\">".wt_he($db2->f("plaats"))."</div>";
 #						echo "<div class=\"skigebied_opval_regel2\">".wt_he($db2->f("plaats"))."</div>";
 						echo "<div class=\"overlay_foto\">";
 
-						echo "<img src=\"".htmlentities($vars["path"].$file)."\" width=\"200\" alt=\"\" />";
+						echo "<img src=\"".wt_he($vars["path"].$file)."\" width=\"200\" alt=\"\" />";
 						echo "<div class=\"skigebied_opval_regel3\">".wt_he(ucfirst($vars["soortaccommodatie"][$db2->f("soortaccommodatie")])." ".$db2->f("naam"))."</div>";
 						echo "</div>";
 						echo "</div>"; # afsluiten class blog_opvalblok

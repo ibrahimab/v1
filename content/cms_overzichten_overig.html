@@ -13,12 +13,12 @@ if($_GET["t"]==1) {
 		$db->query("SELECT DISTINCT s.naam AS seizoen, l.naam AS land, lev.naam AS leverancier, a.naam, t.naam AS type, t.type_id, t.maxaantalpersonen, a.wzt, p.naam AS plaats, l.begincode FROM accommodatie a, type t, leverancier lev, plaats p, land l, seizoen s, tarief ta WHERE t.accommodatie_id=a.accommodatie_id AND t.leverancier_id=lev.leverancier_id AND a.plaats_id=p.plaats_id AND p.land_id=l.land_id AND ta.type_id=t.type_id AND ta.seizoen_id=s.seizoen_id AND s.seizoen_id='".addslashes($_GET["sid"])."' ORDER BY a.wzt, lev.naam, p.naam, a.naam, t.naam, t.maxaantalpersonen;");
 		if($db->num_rows()) {
 			$db->next_record();
-			echo "<b>Overzicht aantal bedden - ".htmlentities($vars["seizoentype_namen"][$db->f("wzt")])." - ".htmlentities($db->f("seizoen"))."</b><p>";
+			echo "<b>Overzicht aantal bedden - ".wt_he($vars["seizoentype_namen"][$db->f("wzt")])." - ".wt_he($db->f("seizoen"))."</b><p>";
 			$db->seek();
 			echo "<table cellspacing=\"0\" class=\"tbl\">";
 			echo "<tr><th>Leverancier</th><th>Land</th><th>Plaats</th><th>Accommodatie</th><th>Type</th><th>Bedden</th></tr>";
 			while($db->next_record()) {
-				echo "<tr><td>".htmlentities($db->f("leverancier"))."</td><td>".htmlentities($db->f("land"))."</td><td>".htmlentities($db->f("plaats"))."</td><td>".htmlentities($db->f("naam"))."</td><td>".htmlentities($db->f("begincode").$db->f("type_id").($db->f("type") ? " - ".$db->f("type") : ""))."</td><td align=\"right\">".htmlentities($db->f("maxaantalpersonen"))."</td></tr>\n";
+				echo "<tr><td>".wt_he($db->f("leverancier"))."</td><td>".wt_he($db->f("land"))."</td><td>".wt_he($db->f("plaats"))."</td><td>".wt_he($db->f("naam"))."</td><td>".wt_he($db->f("begincode").$db->f("type_id").($db->f("type") ? " - ".$db->f("type") : ""))."</td><td align=\"right\">".wt_he($db->f("maxaantalpersonen"))."</td></tr>\n";
 				$aantalbedden=$aantalbedden+$db->f("maxaantalpersonen");
 			}
 			echo "</table>";
@@ -126,13 +126,13 @@ if($_GET["t"]==1) {
 			$openstaand=$totaal-$voldaan;
 			$openstaand=round($openstaand,2);
 
-			echo "<tr><td nowrap><a href=\"cms_boekingen.php?show=21&archief=0&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a></td><td style=\"width:250px;\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")));
+			echo "<tr><td nowrap><a href=\"cms_boekingen.php?show=21&archief=0&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a></td><td style=\"width:250px;\">".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")));
 			if($db->f("reisbureau_user_id")) {
 				echo " (via ".$reisbureau_namen[$db->f("reisbureau_user_id")].")";
 			}
 			echo "</td>";
 			if($db->f("opmerkingen_intern_gewijzigd")>0) {
-				echo "<td nowrap title=\"".htmlentities(ereg_replace("\n"," ",$db->f("opmerkingen_intern")))."\">".strftime("%e %b",$db->f("opmerkingen_intern_gewijzigd"))."</td>";
+				echo "<td nowrap title=\"".wt_he(ereg_replace("\n"," ",$db->f("opmerkingen_intern")))."\">".strftime("%e %b",$db->f("opmerkingen_intern_gewijzigd"))."</td>";
 			} else {
 				echo "<td>&nbsp;</td>";
 			}
@@ -314,7 +314,7 @@ if($_GET["t"]==1) {
 						$db->query("SELECT cmslog_id, table_name, cms_id, cms_name, record_id, record_name, hide, field, field_name, previous, now, url FROM cmslog WHERE field<>'vertrekinfo_goedgekeurd_seizoen' AND field<>'vertrekinfo_goedgekeurd_datetime' AND cms_name<>'Gearchiveerde zomeraanbiedingen' AND table_name='".addslashes($key)."' AND vertaald_".$vars["cmstaal"]."=0 AND field IN (".substr($value["inquery"],1).")".($alleen_inquery[$key] ? " AND record_id IN (".substr($alleen_inquery[$key],1).") ORDER BY FIELD(record_id,".substr($alleen_inquery[$key],1)."), hide" : " ORDER BY record_id, hide").";");
 						// echo "QUERY1:".$db->lq;
 						if($db->num_rows()) {
-							echo "\n<br><h2>".htmlentities(ucfirst($cms_name[$key]))."</h2>\n";
+							echo "\n<br><h2>".wt_he(ucfirst($cms_name[$key]))."</h2>\n";
 
 							unset($record_gehad,$table_geopend);
 							while($db->next_record()) {
@@ -344,16 +344,16 @@ if($_GET["t"]==1) {
 									echo "<div id=\"row2_".$key.$db->f("record_id")."\" style=\"padding:2px;\">";
 									if($db->f("hide")==1) {
 										echo "<div style=\"float:left;width:20px;padding-top:2px;\"></div>";
-										echo "<div style=\"float:left;\">".htmlentities($naam)."</div>";
+										echo "<div style=\"float:left;\">".wt_he($naam)."</div>";
 									} else {
 										echo "<div style=\"float:left;width:20px;padding-top:2px;\"><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" border=\"0\"></div>";
-										echo "<div style=\"float:left;\"><a href=\"#\" class=\"openklappen\" rel=\"row3_".$key.$db->f("record_id")."\">".htmlentities($naam)."</a></div>";
+										echo "<div style=\"float:left;\"><a href=\"#\" class=\"openklappen\" rel=\"row3_".$key.$db->f("record_id")."\">".wt_he($naam)."</a></div>";
 									}
 									echo "<div style=\"float:right;width:30px;\"><img src=\"".$vars["path"]."pic/icon_okay.png\" width=\"20\" height=\"20\" border=\"0\" class=\"vertalingafvinken\" rel=\"".$key.$db->f("record_id").",".$db->f("cmslog_id")."\"></div>";
 									$url=$db->f("url");
 									$url=preg_replace("/&add=".$db->f("cms_id")."/","&edit=".$db->f("cms_id")."&".$db->f("cms_id")."k0=".$db->f("record_id"),$url);
 									$url=preg_replace("/\?add=".$db->f("cms_id")."/","&edit=".$db->f("cms_id")."&".$db->f("cms_id")."k0=".$db->f("record_id"),$url);
-									echo "<div style=\"float:right;width:30px;\"><a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet" : "").htmlentities(ereg_replace("\&bc=[0-9]+","",$url))."&cmstaal=".$vars["cmstaal"]."&hidecmsmenu=1\" class=\"vertalingbewerken\" rel=\"row3_".$key.$db->f("record_id")."\"><img src=\"".$vars["path"]."pic/class.cms_edit.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
+									echo "<div style=\"float:right;width:30px;\"><a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet" : "").wt_he(ereg_replace("\&bc=[0-9]+","",$url))."&cmstaal=".$vars["cmstaal"]."&hidecmsmenu=1\" class=\"vertalingbewerken\" rel=\"row3_".$key.$db->f("record_id")."\"><img src=\"".$vars["path"]."pic/class.cms_edit.gif\" width=\"20\" height=\"20\" border=\"0\"></a></div>";
 									echo "<div style=\"clear:both;\"></div>\n";
 									echo "<div id=\"row3_".$key.$db->f("record_id")."\" style=\"display:none;padding-left:20px;\">\n";
 									if($db->f("hide")==0) {
@@ -365,7 +365,7 @@ if($_GET["t"]==1) {
 								if($table_geopend) {
 									if($db->f("hide")==0) {
 										if($need_field) {
-											echo "<tr><td valign=\"top\">".htmlentities($db->f("field_name"))."</td><td valign=\"top\">".nl2br(htmlentities($db->f("previous")))."</td><td valign=\"top\">".nl2br(wt_diff($db->f("previous"),$db->f("now")))."</td></tr>";
+											echo "<tr><td valign=\"top\">".wt_he($db->f("field_name"))."</td><td valign=\"top\">".nl2br(wt_he($db->f("previous")))."</td><td valign=\"top\">".nl2br(wt_diff($db->f("previous"),$db->f("now")))."</td></tr>";
 										}
 									} else {
 										echo "<tr><td valign=\"top\" colspan=\"3\"> + Controleer alle velden</td></tr>";
@@ -446,13 +446,13 @@ if($_GET["t"]==1) {
 
 		echo "Sorteervolgorde: ";
 		if($_GET["sort"]=="factuur") {
-			echo "<a href=\"".htmlentities(wt_stripurl(array("sort")))."\">datum/factuurnummer</a>";
+			echo "<a href=\"".wt_he(wt_stripurl(array("sort")))."\">datum/factuurnummer</a>";
 			echo " - ";
 			echo "<b>factuurnummer</b>";
 		} else {
 			echo "<b>datum/factuurnummer</b>";
 			echo " - ";
-			echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."&sort=factuur\">factuurnummer</a>";
+			echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"])."&sort=factuur\">factuurnummer</a>";
 		}
 		echo "<br><br>";
 
@@ -465,7 +465,7 @@ if($_GET["t"]==1) {
 
 		# alles
 		if($_GET["verzendmethode"]<>"0") {
-			echo "<a href=\"".htmlentities(wt_stripurl(array("verzendmethode")))."&verzendmethode=0\">";
+			echo "<a href=\"".wt_he(wt_stripurl(array("verzendmethode")))."&verzendmethode=0\">";
 		} else {
 			echo "<b>";
 		}
@@ -480,7 +480,7 @@ if($_GET["t"]==1) {
 		# e-mail
 		echo "&nbsp;&nbsp;-&nbsp;&nbsp;";
 		if($_GET["verzendmethode"]<>"1") {
-			echo "<a href=\"".htmlentities(wt_stripurl(array("verzendmethode")))."&verzendmethode=1\">";
+			echo "<a href=\"".wt_he(wt_stripurl(array("verzendmethode")))."&verzendmethode=1\">";
 		} else {
 			echo "<b>";
 		}
@@ -495,7 +495,7 @@ if($_GET["t"]==1) {
 		# post
 		echo "&nbsp;&nbsp;-&nbsp;&nbsp;";
 		if($_GET["verzendmethode"]<>"2") {
-			echo "<a href=\"".htmlentities(wt_stripurl(array("verzendmethode")))."&verzendmethode=2\">";
+			echo "<a href=\"".wt_he(wt_stripurl(array("verzendmethode")))."&verzendmethode=2\">";
 		} else {
 			echo "<b>";
 		}
@@ -510,7 +510,7 @@ if($_GET["t"]==1) {
 		# n.v.t.
 		echo "&nbsp;&nbsp;-&nbsp;&nbsp;";
 		if($_GET["verzendmethode"]<>"3") {
-			echo "<a href=\"".htmlentities(wt_stripurl(array("verzendmethode")))."&verzendmethode=3\">";
+			echo "<a href=\"".wt_he(wt_stripurl(array("verzendmethode")))."&verzendmethode=3\">";
 		} else {
 			echo "<b>";
 		}
@@ -525,7 +525,7 @@ if($_GET["t"]==1) {
 		# onbekend
 		echo "&nbsp;&nbsp;-&nbsp;&nbsp;";
 		if($_GET["verzendmethode"]<>"4") {
-			echo "<a href=\"".htmlentities(wt_stripurl(array("verzendmethode")))."&verzendmethode=4\">";
+			echo "<a href=\"".wt_he(wt_stripurl(array("verzendmethode")))."&verzendmethode=4\">";
 		} else {
 			echo "<b>";
 		}
@@ -539,7 +539,7 @@ if($_GET["t"]==1) {
 		echo "<br><br>";
 
 		echo "<table class=\"tbl\" cellspacing=\"0\">";
-		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm2\">";
+		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm2\">";
 		echo "<tr><th>Aankomst</th><th>Boeking</th><th>Accommodatie</th><th nowrap>Voucherstatus</th><th>Openstaand</th><th title=\"Verzendmethode\">V</th></tr>";
 		while($db->next_record()) {
 
@@ -553,7 +553,7 @@ if($_GET["t"]==1) {
 			$voucherteller++;
 			echo "<tr>";
 			echo "<td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td>";
-			echo "<td nowrap><a name=\"vnr".$voucherteller."\"></a><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities($db->f("boekingsnummer"))."</a></td>";
+			echo "<td nowrap><a name=\"vnr".$voucherteller."\"></a><a href=\"cms_boekingen.php?show=21&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he($db->f("boekingsnummer"))."</a></td>";
 			echo "<td style=\"";
 
 			// # achtergrondkleur bepalen
@@ -586,10 +586,10 @@ if($_GET["t"]==1) {
 			}
 
 			echo "\">";
-			echo "<a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&1k0=".$db->f("accommodatie_id")."&burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]."#vnr".($voucherteller-1)))."#vertrekinfo\">".htmlentities($db->f("plaats")." - ".$db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a> (".htmlentities($db->f("leverancier")).")</td>";
-			echo "<td nowrap style=\"".($db->f("voucherstatus")==1||$db->f("voucherstatus")==4||$db->f("voucherstatus")==7||$db->f("voucherstatus")==8||$db->f("voucherstatus")==13 ? "background-color:#a6ffb3;" : "")."\"><a href=\"".$vars["path"]."cms_boekingen_vouchers.php?burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]."#vnr".($voucherteller-1)))."&bid=".$db->f("boeking_id")."\">".htmlentities($vars["voucherstatus"][$db->f("voucherstatus")])."</a></td>";
+			echo "<a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&1k0=".$db->f("accommodatie_id")."&burl=".wt_he(urlencode($_SERVER["REQUEST_URI"]."#vnr".($voucherteller-1)))."#vertrekinfo\">".wt_he($db->f("plaats")." - ".$db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""))."</a> (".wt_he($db->f("leverancier")).")</td>";
+			echo "<td nowrap style=\"".($db->f("voucherstatus")==1||$db->f("voucherstatus")==4||$db->f("voucherstatus")==7||$db->f("voucherstatus")==8||$db->f("voucherstatus")==13 ? "background-color:#a6ffb3;" : "")."\"><a href=\"".$vars["path"]."cms_boekingen_vouchers.php?burl=".wt_he(urlencode($_SERVER["REQUEST_URI"]."#vnr".($voucherteller-1)))."&bid=".$db->f("boeking_id")."\">".wt_he($vars["voucherstatus"][$db->f("voucherstatus")])."</a></td>";
 			if($nog_te_betalen>0) {
-				echo "<td align=\"center\" style=\"background-color:".($nog_te_betalen-$db->f("goedgekeurde_betaling")>0 ? "#ffa9a9" : "#a6ffb3").";\"><a href=\"".$vars["path"]."cms_boekingen_betalingen.php?burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]."#vnr".($voucherteller-1)))."&bid=".$db->f("boeking_id")."\">".number_format($nog_te_betalen,2,",",".")."</a></td>";
+				echo "<td align=\"center\" style=\"background-color:".($nog_te_betalen-$db->f("goedgekeurde_betaling")>0 ? "#ffa9a9" : "#a6ffb3").";\"><a href=\"".$vars["path"]."cms_boekingen_betalingen.php?burl=".wt_he(urlencode($_SERVER["REQUEST_URI"]."#vnr".($voucherteller-1)))."&bid=".$db->f("boeking_id")."\">".number_format($nog_te_betalen,2,",",".")."</a></td>";
 			} else {
 				echo "<td align=\"center\" style=\"background-color:#a6ffb3;\">&nbsp;</td>";
 			}
@@ -648,8 +648,8 @@ if($_GET["t"]==1) {
 					}
 				}
 			}
-			if($seizoengoedgekeurd) $seizoengoedgekeurd=htmlentities($seizoengoedgekeurd); else $seizoengoedgekeurd="&nbsp;";
-			echo "<tr><td><a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".htmlentities($db->f("plaats")." - ".$db->f("naam"))."</a></td><td>".$seizoengoedgekeurd."</td></tr>\n";
+			if($seizoengoedgekeurd) $seizoengoedgekeurd=wt_he($seizoengoedgekeurd); else $seizoengoedgekeurd="&nbsp;";
+			echo "<tr><td><a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("naam"))."</a></td><td>".$seizoengoedgekeurd."</td></tr>\n";
 		}
 		echo "</table>";
 	}
@@ -818,7 +818,7 @@ if($_GET["t"]==1) {
 			echo "<p><i>".$vars["seizoentype_namen"][$db->f("type")].":</i></p>";
 			$seizoengehad[$db->f("type")]=true;
 		}
-		echo "<li><a href=\"cms_overzichten_overig.php?t=1&sid=".$db->f("seizoen_id")."\">".htmlentities($db->f("naam"))."</a></li>";
+		echo "<li><a href=\"cms_overzichten_overig.php?t=1&sid=".$db->f("seizoen_id")."\">".wt_he($db->f("naam"))."</a></li>";
 	}
 	echo "</ul>";
 	echo "</li>";
@@ -942,12 +942,12 @@ if($_GET["t"]==1) {
 		echo "<hr>";
 		echo "<a name=\"zomerzonderwinterkoppeling\"></a>";
 		echo "<h2>Zomeraccommodaties zonder winter-koppeling (aantal: ".$db->num_rows().")</h2>";
-		echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm3\">";
+		echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm3\">";
 		echo "<input type=\"hidden\" name=\"winterkoppeling\" value=\"1\">";
 		echo "<table cellspacing=\"0\" class=\"tbl\" style=\"width:800px;\">";
 		echo "<tr><th>Type</th><th>Geen winterkoppeling</th></tr>";
 		while($db->next_record()) {
-			echo "<tr><td><a href=\"cms_types.php?show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".htmlentities($db->f("leverancier")." - ".$db->f("plaats")." - ".$db->f("naam").($db->f("type") ? " ".$db->f("type") : ""))."</a></td><td align=\"center\"><input type=\"checkbox\" name=\"geenkoppeling[".$db->f("type_id")."]\"></td></tr>";
+			echo "<tr><td><a href=\"cms_types.php?show=2&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."\" target=\"_blank\">".wt_he($db->f("leverancier")." - ".$db->f("plaats")." - ".$db->f("naam").($db->f("type") ? " ".$db->f("type") : ""))."</a></td><td align=\"center\"><input type=\"checkbox\" name=\"geenkoppeling[".$db->f("type_id")."]\"></td></tr>";
 		}
 		echo "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\" OPSLAAN \" id=\"submit1frm3\" onclick=\"document.frm3.submit1frm3.disabled=1;document.frm3.submit();\"></td></tr>";
 		echo "</table>";

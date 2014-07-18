@@ -197,7 +197,7 @@ if($_GET["uitgaand"]==1) {
 						}
 					}
 				} else {
-					$melding_lev[$db->f("leverancier_id")]="nog geen betalingsgegevens ingevoerd bij leverancier <a href=\"".$vars["path"]."cms_leveranciers.php?edit=8&beheerder=0&8k0=".$db->f("leverancier_id")."\" target=\"_blank\">".htmlentities($lev[$db->f("leverancier_id")]["naam"])."</a>";
+					$melding_lev[$db->f("leverancier_id")]="nog geen betalingsgegevens ingevoerd bij leverancier <a href=\"".$vars["path"]."cms_leveranciers.php?edit=8&beheerder=0&8k0=".$db->f("leverancier_id")."\" target=\"_blank\">".wt_he($lev[$db->f("leverancier_id")]["naam"])."</a>";
 				}
 
 				if($eindbetaling_unixtime<$einddatum and $eindbetaling_unixtime>=$begindatum) {
@@ -238,12 +238,12 @@ if($_GET["uitgaand"]==1) {
 							if($bedrag_eindbetaling_openstaand<0) {
 								$bgcolor="#bae9ff";
 							}
-							$regel[$use_key]="<tr style=\"height:27px;background-color:".$bgcolor."\"><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td>".htmlentities($db->f("factuurnummer_leverancier"))."</td><td nowrap>";
+							$regel[$use_key]="<tr style=\"height:27px;background-color:".$bgcolor."\"><td nowrap>".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td>".wt_he($db->f("factuurnummer_leverancier"))."</td><td nowrap>";
 							if($key0=="garanties") {
-								$regel[$use_key].="<a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\" title=\"".wt_he($naam_hoofdboeker)."\">garantie ".htmlentities($db->f("boekingsnummer"))."</a>";
+								$regel[$use_key].="<a href=\"".$vars["path"]."cms_garanties.php?edit=34&status=1&34k0=".$db->f("garantie_id")."\" target=\"_blank\" title=\"".wt_he($naam_hoofdboeker)."\">garantie ".wt_he($db->f("boekingsnummer"))."</a>";
 							} else {
-#								$regel[$use_key].="<a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">".htmlentities(substr($db->f("boekingsnummer"),1))."</a>";
-								$regel[$use_key].="<a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\" title=\"".wt_he($naam_hoofdboeker)."\">".htmlentities(substr($db->f("boekingsnummer"),1))."</a>";
+#								$regel[$use_key].="<a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">".wt_he(substr($db->f("boekingsnummer"),1))."</a>";
+								$regel[$use_key].="<a href=\"".$vars["path"]."cms_boekingen_leveranciers.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\" title=\"".wt_he($naam_hoofdboeker)."\">".wt_he(substr($db->f("boekingsnummer"),1))."</a>";
 							}
 							$regel[$use_key].="</td><td align=\"right\"><a href=\"".$vars["path"]."cms_boekingen_betalingen_lev.php?burl=".urlencode($vars["path"])."cms_boekingen.php%3Fshow%3D21%2621k0%3D".$db->f("boeking_id")."&bid=".$db->f("boeking_id")."\" target=\"_blank\">".number_format($bedrag_eindbetaling_openstaand,2,",",".")."</a></td>";
 							if($login->has_priv(5)) {
@@ -308,8 +308,8 @@ if($_GET["uitgaand"]==1) {
 						if($al_gehad) {
 							echo "</form>";
 						}
-						echo "<tr><td colspan=\"13\"><a name=\"lev_".$regs[2]."\"></a><br><br><b>Leverancier: <a href=\"".$vars["path"]."cms_leveranciers.php?show=8&beheerder=0&8k0=".$regs[2]."\" target=\"_blank\">".htmlentities($regs[1])."</a></b>";
-						echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"lev_form_".$regs[2]."\"><input type=\"hidden\" name=\"inkoopbetalingen_filled\" value=\"1\"><input type=\"hidden\" name=\"leverancier_id\" value=\"".$regs[2]."\">";
+						echo "<tr><td colspan=\"13\"><a name=\"lev_".$regs[2]."\"></a><br><br><b>Leverancier: <a href=\"".$vars["path"]."cms_leveranciers.php?show=8&beheerder=0&8k0=".$regs[2]."\" target=\"_blank\">".wt_he($regs[1])."</a></b>";
+						echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"lev_form_".$regs[2]."\"><input type=\"hidden\" name=\"inkoopbetalingen_filled\" value=\"1\"><input type=\"hidden\" name=\"leverancier_id\" value=\"".$regs[2]."\">";
 						echo "</tr>";
 						echo "<tr><th>aankomst</th><th>factuurnummer</th><th>reserveringsnr</th><th>openstaand</th>";
 						if($login->has_priv(5)) {
@@ -350,7 +350,7 @@ if($_GET["uitgaand"]==1) {
 			# Geen boekingen geselecteerd
 			$andq=" AND b.boeking_id=0";
 		}
-		echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\">Terug naar overzicht betalingen en aanmaningen</a><p>";
+		echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"])."\">Terug naar overzicht betalingen en aanmaningen</a><p>";
 	} else {
 		if($_GET["actueel"]) {
 			$andq=" AND b.aankomstdatum_exact>'".(time()-86400*8)."' AND b.aankomstdatum_exact<'".(time()+86400*20)."'";
@@ -470,7 +470,7 @@ if($_GET["uitgaand"]==1) {
 			}
 
 			echo "<p>";
-			echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+			echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
 			echo "<input type=\"hidden\" name=\"aanmaningenversturen\" value=\"1\">";
 
 			echo "<div style=\"position:fixed;top:0px;left:189px;display:none;\" id=\"fixedtable_header_div\">";
@@ -630,13 +630,13 @@ if($_GET["uitgaand"]==1) {
 
 			} else {
 				if($regeltonen) {
-					echo "<tr><td nowrap><a href=\"cms_boekingen.php?show=21&archief=0&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a></td><td>".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")));
+					echo "<tr><td nowrap><a href=\"cms_boekingen.php?show=21&archief=0&21k0=".$db->f("boeking_id")."\" target=\"_blank\">".$db->f("boekingsnummer")."</a></td><td>".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")));
 					if($db->f("reisbureau_user_id")) {
 						echo " (".$reisbureau_namen[$db->f("reisbureau_user_id")].")";
 					}
 					echo "</td>";
 					if($db->f("opmerkingen_intern") and $db->f("opmerkingen_intern_gewijzigd")>0) {
-						echo "<td nowrap title=\"".htmlentities(ereg_replace("\n"," ",$db->f("opmerkingen_intern")))."\">".strftime("%e %b",$db->f("opmerkingen_intern_gewijzigd"))."</td>";
+						echo "<td nowrap title=\"".wt_he(ereg_replace("\n"," ",$db->f("opmerkingen_intern")))."\">".strftime("%e %b",$db->f("opmerkingen_intern_gewijzigd"))."</td>";
 					} else {
 						echo "<td>&nbsp;</td>";
 					}

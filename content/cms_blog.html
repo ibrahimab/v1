@@ -29,7 +29,7 @@ if($_GET["show"]==44) {
 				echo "<optgroup label=\"".wt_he($db->f("regio"))."\">";
 				$algehad[$db->f("regio")]=true;
 			}
-			echo "<option value=\"".$db->f("plaats_id")."\">".htmlentities($db->f("naam"))."</option>";
+			echo "<option value=\"".$db->f("plaats_id")."\">".wt_he($db->f("naam"))."</option>";
 		}
 		echo "</optgroup>";
 		echo "</select>";
@@ -44,7 +44,7 @@ if($_GET["show"]==44) {
 		echo "<select name=\"skigebieden\" onchange=\"document.toevoegen.submit();\" style=\"width:550px\">";
 		echo "<option value=\"0\"></option>";
 		while($db->next_record()) {
-			echo "<option value=\"".$db->f("skigebied_id")."\">".htmlentities($db->f("naam"))."</option>";
+			echo "<option value=\"".$db->f("skigebied_id")."\">".wt_he($db->f("naam"))."</option>";
 		}
 		echo "</select>";
 	} else {

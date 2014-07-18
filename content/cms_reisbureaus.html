@@ -26,7 +26,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 			$data[15]=strtolower($data[15]);
 			$data[16]=strtolower($data[16]);
 			$data[17]=strtolower($data[17]);
-			echo "<li>".htmlentities($data[0]).": ";
+			echo "<li>".wt_he($data[0]).": ";
 			if(wt_validmail($data[0])) {
 				$db->query("SELECT user_id FROM reisbureau_user WHERE email='".addslashes($data[0])."';");
 				if($db->num_rows()) {
@@ -59,7 +59,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 		}
 	}
 	echo "</ul>";
-	echo "<a href=\"".htmlentities($_SERVER["REQUEST_URI"])."\">Alle ge&iuml;mporteerde gebruikers bekijken &gt;</a><p>";
+	echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"])."\">Alle ge&iuml;mporteerde gebruikers bekijken &gt;</a><p>";
 } else {
 
 	if($_GET["show"]<>27 and $_GET["edit"]<>27 and $_GET["add"]<>27) {
@@ -103,7 +103,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 					echo "<p><b>".$db->f("leverancier")."</b>";
 					$lastleverancier=$db->f("leverancier_id");
 				}
-				echo "<li><a href=\"cms_tarieven.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$seizoenid."&tid=".$db->f("type_id")."\">".htmlentities(volledigeaccnaam($db->f("type_id")))."</a></li>";
+				echo "<li><a href=\"cms_tarieven.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$seizoenid."&tid=".$db->f("type_id")."\">".wt_he(volledigeaccnaam($db->f("type_id")))."</a></li>";
 			}
 			echo "</ul>";
 		}
@@ -118,7 +118,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 			echo "<br><b>Reisbureau-gebruikers importeren via CSV</b><p>";
 			echo "<a href=\"".$vars["path"]."xml/voorbeeld_gebruikers.csv\" target=\"_blank\">voorbeeld-CSV downloaden</a><br>";
 
-			echo "<form method=\"post\" name=\"frm\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" enctype=\"multipart/form-data\"><input type=\"file\" name=\"gebruikersimport\" size=\"60\"><p><input type=\"submit\" value=\" Gebruikers importeren \" id=\"sbmt\" onclick=\"document.frm.sbmt.disabled=1;document.frm.submit();\"></form><p>";
+			echo "<form method=\"post\" name=\"frm\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" enctype=\"multipart/form-data\"><input type=\"file\" name=\"gebruikersimport\" size=\"60\"><p><input type=\"submit\" value=\" Gebruikers importeren \" id=\"sbmt\" onclick=\"document.frm.sbmt.disabled=1;document.frm.submit();\"></form><p>";
 			echo "<i>Na importeren ontvangen de nieuwe gebruikers automatisch een e-mail met hun inloggegevens.</i>";
 
 			echo "<hr>";
@@ -180,7 +180,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 					# tijdelijk? uit (alle accommodaties in een feed maakt het systeem te traag)
 #					echo " <b>(laat je alles leeg dan bevat de feed alle accommodaties)</b>";
 					echo "<br><br><table cellspacing=\"0\" class=\"tbl\" style=\"width:800px;\">";
-					echo "<form name=\"toevoegen".$key."\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" method=\"post\">";
+					echo "<form name=\"toevoegen".$key."\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" method=\"post\">";
 					echo "<input type=\"hidden\" name=\"toevoegen_filled\" value=\"1\">";
 					echo "<input type=\"hidden\" name=\"wzt\" value=\"".$key."\">";
 					echo "<tr><th>Soort</th><th>Accommodatie/type</th></tr>";
@@ -196,14 +196,14 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 						echo "Toevoegen:&nbsp;&nbsp;<select name=\"landen\" onchange=\"document.toevoegen".$key.".submit();\" style=\"width:550px\">";
 						echo "<option value=\"0\"></option>";
 						while($db2->next_record()) {
-							echo "<option value=\"".$db2->f("land_id")."\"".($xmlselectie[$db2->f("land_id")] ? " disabled" : "").">".htmlentities($db2->f("land"))."</option>";
+							echo "<option value=\"".$db2->f("land_id")."\"".($xmlselectie[$db2->f("land_id")] ? " disabled" : "").">".wt_he($db2->f("land"))."</option>";
 						}
 						echo "</select>";
 					}
 					if(is_array($xmlselectie)) {
 						echo "<br><ul>";
 						while(list($key2,$value2)=each($xmlselectie)) {
-							echo "<li>".htmlentities($value2)."&nbsp;&nbsp;<span class=\"kleinwis\"><a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&deltable=land&delrecord=".$key2."\">wis</a></span></li>";
+							echo "<li>".wt_he($value2)."&nbsp;&nbsp;<span class=\"kleinwis\"><a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&deltable=land&delrecord=".$key2."\">wis</a></span></li>";
 						}
 						echo "</ul>";
 					}
@@ -220,14 +220,14 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 						echo "Toevoegen:&nbsp;&nbsp;<select name=\"leveranciers\" onchange=\"document.toevoegen".$key.".submit();\" style=\"width:550px\">";
 						echo "<option value=\"0\"></option>";
 						while($db2->next_record()) {
-							echo "<option value=\"".$db2->f("leverancier_id")."\"".($xmlselectie[$db2->f("leverancier_id")] ? " disabled" : "").">".htmlentities($db2->f("leverancier"))."</option>";
+							echo "<option value=\"".$db2->f("leverancier_id")."\"".($xmlselectie[$db2->f("leverancier_id")] ? " disabled" : "").">".wt_he($db2->f("leverancier"))."</option>";
 						}
 						echo "</select>";
 					}
 					if(is_array($xmlselectie)) {
 						echo "<br><ul>";
 						while(list($key2,$value2)=each($xmlselectie)) {
-							echo "<li>".htmlentities($value2)."&nbsp;&nbsp;<span class=\"kleinwis\"><a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&deltable=leverancier&delrecord=".$key2."\">wis</a></span></li>";
+							echo "<li>".wt_he($value2)."&nbsp;&nbsp;<span class=\"kleinwis\"><a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&deltable=leverancier&delrecord=".$key2."\">wis</a></span></li>";
 						}
 						echo "</ul>";
 					}
@@ -245,14 +245,14 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 						echo "Toevoegen:&nbsp;&nbsp;<select name=\"accommodaties\" onchange=\"document.toevoegen".$key.".submit();\" style=\"width:550px\">";
 						echo "<option value=\"0\"></option>";
 						while($db2->next_record()) {
-							echo "<option value=\"".$db2->f("accommodatie_id")."\"".($xmlselectie[$db2->f("accommodatie_id")] ? " disabled" : "").">".htmlentities($db2->f("plaats")." - ".$db2->f("naam"))."</option>";
+							echo "<option value=\"".$db2->f("accommodatie_id")."\"".($xmlselectie[$db2->f("accommodatie_id")] ? " disabled" : "").">".wt_he($db2->f("plaats")." - ".$db2->f("naam"))."</option>";
 						}
 						echo "</select>";
 					}
 					if(is_array($xmlselectie)) {
 						echo "<br><ul>";
 						while(list($key2,$value2)=each($xmlselectie)) {
-							echo "<li>".htmlentities($value2)."&nbsp;&nbsp;".($is_wederverkoop_acc[$key2] ? "" : "<span class=\"error\">geen wederverkoop-tarieven</span>&nbsp;&nbsp;")."<span class=\"kleinwis\"><a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&deltable=accommodatie&delrecord=".$key2."\">wis</a></span></li>";
+							echo "<li>".wt_he($value2)."&nbsp;&nbsp;".($is_wederverkoop_acc[$key2] ? "" : "<span class=\"error\">geen wederverkoop-tarieven</span>&nbsp;&nbsp;")."<span class=\"kleinwis\"><a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&deltable=accommodatie&delrecord=".$key2."\">wis</a></span></li>";
 						}
 						echo "</ul>";
 					}
@@ -270,14 +270,14 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 						echo "Toevoegen:&nbsp;&nbsp;<select name=\"types\" onchange=\"document.toevoegen".$key.".submit();\" style=\"width:550px\">";
 						echo "<option value=\"0\"></option>";
 						while($db2->next_record()) {
-							echo "<option value=\"".$db2->f("type_id")."\"".($xmlselectie[$db2->f("type_id")] ? " disabled" : "").">".htmlentities(substr($db2->f("plaats")." - ".$db2->f("accommodatie").($db2->f("type") ? " ".$db2->f("type") : ""),0,50)." (".$db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? "-".$db2->f("maxaantalpersonen") : "")."p - ".$db2->f("begincode").$db2->f("type_id").") ")."</option>";
+							echo "<option value=\"".$db2->f("type_id")."\"".($xmlselectie[$db2->f("type_id")] ? " disabled" : "").">".wt_he(substr($db2->f("plaats")." - ".$db2->f("accommodatie").($db2->f("type") ? " ".$db2->f("type") : ""),0,50)." (".$db2->f("optimaalaantalpersonen").($db2->f("maxaantalpersonen")>$db2->f("optimaalaantalpersonen") ? "-".$db2->f("maxaantalpersonen") : "")."p - ".$db2->f("begincode").$db2->f("type_id").") ")."</option>";
 						}
 						echo "</select>";
 					}
 					if(is_array($xmlselectie)) {
 						echo "<br><ul>";
 						while(list($key2,$value2)=each($xmlselectie)) {
-							echo "<li>".htmlentities($value2)."&nbsp;&nbsp;".($is_wederverkoop_type[$key2] ? "" : "<span class=\"error\">geen wederverkoop-tarieven</span>&nbsp;&nbsp;")."<span class=\"kleinwis\"><a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&deltable=type&delrecord=".$key2."\">wis</a></span></li>";
+							echo "<li>".wt_he($value2)."&nbsp;&nbsp;".($is_wederverkoop_type[$key2] ? "" : "<span class=\"error\">geen wederverkoop-tarieven</span>&nbsp;&nbsp;")."<span class=\"kleinwis\"><a href=\"".$_SERVER["REQUEST_URI"]."&wzt=".$key."&deltable=type&delrecord=".$key2."\">wis</a></span></li>";
 						}
 						echo "</ul>";
 					}
@@ -320,7 +320,7 @@ if($_FILES["gebruikersimport"]["tmp_name"]) {
 #				} else {
 #					$factuur="";
 #				}
-				echo "<tr><td valign=\"top\">".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\"><a href=\"cms_boekingen_betalingen.php?burl=".htmlentities(urlencode($_SERVER["REQUEST_URI"]."#finoverzicht"))."&bid=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer"))."</a></td><td valign=\"top\">".htmlentities(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")).", ".$db->f("plaats").(!eregi("nederland",$db->f("land")) ? " / ".$db->f("land") : ""))."</td><td align=\"right\" valign=\"top\">".number_format($db->f("totale_reissom"),2,",",".")."</td><td align=\"right\" valign=\"top\">".($voldaan_array[$db->f("boeking_id")]<>0 ? number_format($voldaan_array[$db->f("boeking_id")],2,",",".") : "-")."</td><td align=\"right\" valign=\"top\">".($openstaand<>0 ? number_format($openstaand,2,",",".") : "-")."</td>";
+				echo "<tr><td valign=\"top\">".date("d-m-Y",$db->f("aankomstdatum_exact"))."</td><td valign=\"top\"><a href=\"cms_boekingen_betalingen.php?burl=".wt_he(urlencode($_SERVER["REQUEST_URI"]."#finoverzicht"))."&bid=".$db->f("boeking_id")."\">".wt_he($db->f("boekingsnummer"))."</a></td><td valign=\"top\">".wt_he(wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam")).", ".$db->f("plaats").(!eregi("nederland",$db->f("land")) ? " / ".$db->f("land") : ""))."</td><td align=\"right\" valign=\"top\">".number_format($db->f("totale_reissom"),2,",",".")."</td><td align=\"right\" valign=\"top\">".($voldaan_array[$db->f("boeking_id")]<>0 ? number_format($voldaan_array[$db->f("boeking_id")],2,",",".") : "-")."</td><td align=\"right\" valign=\"top\">".($openstaand<>0 ? number_format($openstaand,2,",",".") : "-")."</td>";
 				$totaal_reissom+=$db->f("totale_reissom");
 				$totaal_voldaan+=$voldaan_array[$db->f("boeking_id")];
 				$totaal_openstaand+=$openstaand;
@@ -343,10 +343,10 @@ function xmlurlstable($title,$url,$xmlfeed_toegangscode) {
 	}
 	echo "<br><b>".$title.":</b><br><br>";
 	echo "<table cellspacing=\"0\" cellpadding=\"3\" style=\"width:800px;border:1px solid #878481;background-color:#ebebeb;padding:5px;\">";
-	echo "<tr><td><b>Handleiding</b></td><td>&nbsp;&nbsp;&nbsp;</td><td><b><a href=\"".$url."xmlmanual.php?c=".htmlentities($xmlfeed_toegangscode)."\" target=\"_blank\">".$url."xmlmanual.php?c=".htmlentities($xmlfeed_toegangscode)."</b></a></td></tr>";
-	echo "<tr><td>URL Accommodations</td><td>&nbsp;&nbsp;&nbsp;</td><td><a href=\"".$url."xml/accommodations.xml?c=".htmlentities($xmlfeed_toegangscode)."\" target=\"_blank\">".$url."xml/accommodations.xml?c=".htmlentities($xmlfeed_toegangscode)."</a></td></tr>";
-	echo "<tr><td>URL Accommodation-units</td><td>&nbsp;&nbsp;&nbsp;</td><td><a href=\"".$url."xml/accommodation-units.xml?c=".htmlentities($xmlfeed_toegangscode)."\" target=\"_blank\">".$url."xml/accommodation-units.xml?c=".htmlentities($xmlfeed_toegangscode)."</a></td></tr>";
-	echo "<tr><td>URL Availability and Prices</td><td>&nbsp;&nbsp;&nbsp;</td><td><a href=\"".$url."xml/availability-and-prices.xml?c=".htmlentities($xmlfeed_toegangscode)."\" target=\"_blank\">".$url."xml/availability-and-prices.xml?c=".htmlentities($xmlfeed_toegangscode)."</a></td></tr>";
+	echo "<tr><td><b>Handleiding</b></td><td>&nbsp;&nbsp;&nbsp;</td><td><b><a href=\"".$url."xmlmanual.php?c=".wt_he($xmlfeed_toegangscode)."\" target=\"_blank\">".$url."xmlmanual.php?c=".wt_he($xmlfeed_toegangscode)."</b></a></td></tr>";
+	echo "<tr><td>URL Accommodations</td><td>&nbsp;&nbsp;&nbsp;</td><td><a href=\"".$url."xml/accommodations.xml?c=".wt_he($xmlfeed_toegangscode)."\" target=\"_blank\">".$url."xml/accommodations.xml?c=".wt_he($xmlfeed_toegangscode)."</a></td></tr>";
+	echo "<tr><td>URL Accommodation-units</td><td>&nbsp;&nbsp;&nbsp;</td><td><a href=\"".$url."xml/accommodation-units.xml?c=".wt_he($xmlfeed_toegangscode)."\" target=\"_blank\">".$url."xml/accommodation-units.xml?c=".wt_he($xmlfeed_toegangscode)."</a></td></tr>";
+	echo "<tr><td>URL Availability and Prices</td><td>&nbsp;&nbsp;&nbsp;</td><td><a href=\"".$url."xml/availability-and-prices.xml?c=".wt_he($xmlfeed_toegangscode)."\" target=\"_blank\">".$url."xml/availability-and-prices.xml?c=".wt_he($xmlfeed_toegangscode)."</a></td></tr>";
 	echo "</table><br>";
 }
 

@@ -33,7 +33,7 @@ if($vars["taal"]=="nl") {
 		echo "<tr><td style=\"padding:3px;padding-top:9px;width:110px;font-style:italic;\">Via Twitter</td><td style=\"padding:3px;padding-top:9px;width:320px;\"><a href=\"".wt_he("https://twitter.com/home?status=".urlencode($twittertekst." ".$share_url))."\" title=\"Laat je Twitter-volgers weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/twitter-share_off.gif\" class=\"img-swap\" alt=\"Share on Twitter\"></a></td></tr>";
 
 		# Facebook
-		echo "<tr><td style=\"padding:3px;padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding:3px;padding-top:9px;width:320px;\"><a href=\"".htmlentities("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($facebooktekst))."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\" alt=\"Share on Facebook\"></a></td></tr>";
+		echo "<tr><td style=\"padding:3px;padding-top:9px;width:90px;font-style:italic;\">Via Facebook</td><td style=\"padding:3px;padding-top:9px;width:320px;\"><a href=\"".wt_he("https://www.facebook.com/sharer.php?u=".urlencode($share_url)."&t=".urlencode($facebooktekst))."\" title=\"Laat je Facebook-vrienden weten dat je zojuist een vakantie hebt geboekt\" class=\"facebook_share_window\"><img src=\"".$vars["path"]."pic/facebook-share_off.gif\" id=\"facebookfollow\" class=\"img-swap\" alt=\"Share on Facebook\"></a></td></tr>";
 
 		echo "</table>";
 	}

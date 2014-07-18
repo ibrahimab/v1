@@ -7,10 +7,10 @@ if($_GET["show"]==4) {
 	if($db->next_record()) {
 		echo "<p>";
 		if($db->f("wzt")==1) {
-			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.chalet.nl/")."plaats/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.chalet.nl &gt;</a><br>";
-			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.chalet.eu/")."resort/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.chalet.eu &gt;</a><br>";
+			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.chalet.nl/")."plaats/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".wt_he($db->f("naam"))." op www.chalet.nl &gt;</a><br>";
+			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.chalet.eu/")."resort/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".wt_he($db->f("naam"))." op www.chalet.eu &gt;</a><br>";
 		} else {
-			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.zomerhuisje.nl/")."plaats/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".htmlentities($db->f("naam"))." op www.zomerhuisje.nl &gt;</a><br>";
+			echo "<a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? "/chalet/" : "https://www.zomerhuisje.nl/")."plaats/".wt_convert2url_seo($db->f("naam"))."/\" target=\"_blank\">Ga naar ".wt_he($db->f("naam"))." op www.zomerhuisje.nl &gt;</a><br>";
 		}
 		echo "</p>";
 	}
@@ -25,7 +25,7 @@ if($_GET["show"]==4) {
 		echo "<input type=\"hidden\" name=\"leverancierscode_filled\" value=\"1\">";
 		echo "<tr><th>Optieleverancier</th><th>Code</th><th>Vertrekinfo-variabele</th></tr>";
 		while($db->next_record()) {
-			echo "<tr style=\"".($_GET["highlight_optieleverancier_id"]==$db->f("optieleverancier_id") ? "background-color:yellow;" : "")."\"><td>".htmlentities($db->f("naam"))."</td><td><input type=\"text\" name=\"lev[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($leverancierscode[$db->f("optieleverancier_id")])."\"></td><td><input type=\"text\" style=\"width:400px;\" name=\"vertrekinfo_var[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($vertrekinfo_optiegroep_variabele[$db->f("optieleverancier_id")])."\"></td></tr>";
+			echo "<tr style=\"".($_GET["highlight_optieleverancier_id"]==$db->f("optieleverancier_id") ? "background-color:yellow;" : "")."\"><td>".wt_he($db->f("naam"))."</td><td><input type=\"text\" name=\"lev[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($leverancierscode[$db->f("optieleverancier_id")])."\"></td><td><input type=\"text\" style=\"width:400px;\" name=\"vertrekinfo_var[".$db->f("optieleverancier_id")."]\" value=\"".wt_he($vertrekinfo_optiegroep_variabele[$db->f("optieleverancier_id")])."\"></td></tr>";
 		}
 		echo "<tr><td align=\"center\" colspan=\"3\"><input type=\"submit\" value=\" GEGEVENS OPSLAAN \"></td></tr>";
 		echo "</form></table>";

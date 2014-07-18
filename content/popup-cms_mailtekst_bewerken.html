@@ -3,9 +3,9 @@
 cmslog_pagina_title("Opties-bijboeken-mail - tekst specifieke boeking bewerken");
 
 $mailtekst_opties=mailtekst_opties($_GET["bid"]);
-echo "<b>Mailtekst boeking <a href=\"cms_boekingen.php?show=21&bt=2&archief=0&21k0=".htmlentities($_GET["bid"])."\" target=\"_blank\">".htmlentities($mailtekst_opties["boekingsnummer"])."</a> - ".htmlentities($mailtekst_opties["plaats"])."</b><p>";
-echo "<form method=\"post\" action=\"".htmlentities($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
-echo "<textarea name=\"mailtekst_opties\" cols=\"76\" rows=\"20\">".htmlentities($mailtekst_opties["body"])."</textarea><p>";
+echo "<b>Mailtekst boeking <a href=\"cms_boekingen.php?show=21&bt=2&archief=0&21k0=".wt_he($_GET["bid"])."\" target=\"_blank\">".wt_he($mailtekst_opties["boekingsnummer"])."</a> - ".wt_he($mailtekst_opties["plaats"])."</b><p>";
+echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" name=\"frm\">";
+echo "<textarea name=\"mailtekst_opties\" cols=\"76\" rows=\"20\">".wt_he($mailtekst_opties["body"])."</textarea><p>";
 echo "<input type=\"submit\" value=\" TEKST OPSLAAN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\">";
 echo "</form>";
 

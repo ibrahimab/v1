@@ -24,7 +24,7 @@ if($_GET["show"]==21) {
 					} elseif($regs[2]=="s") {
 						echo "systeem";
 					} elseif($regs[3]) {
-						echo htmlentities($vars["werknemer"][$regs[3]]);
+						echo wt_he($vars["werknemer"][$regs[3]]);
 					} else {
 						echo "Chalet.nl";
 					}
@@ -39,11 +39,11 @@ if($_GET["show"]==21) {
 		if(ereg("^_?([0-9]+)$",$_GET["boekingsearch"],$regs)) {
 			$db->query("SELECT naam FROM accommodatie WHERE accommodatie_id='".addslashes($regs[1])."';");
 			if($db->next_record()) {
-				echo "<i>Boekingen van accommodatie ".htmlentities($db->f("naam")).".</i><p>";
+				echo "<i>Boekingen van accommodatie ".wt_he($db->f("naam")).".</i><p>";
 				$overzicht_per_accommodatie=$regs[1];
 			}
 		} else {
-			echo "<i>Boekingen doorzocht op: ".htmlentities($_GET["boekingsearch"]).".</i><p>";
+			echo "<i>Boekingen doorzocht op: ".wt_he($_GET["boekingsearch"]).".</i><p>";
 		}
 	}
 	if($_GET["bt"]==3) {

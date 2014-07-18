@@ -16,7 +16,7 @@ $persbericht["2009-06-08_persbericht_nieuwe_marketingmanager"]="Sélina Sijtsma n
 echo "<ul>";
 while(list($key,$value)=each($persbericht)) {
 	$datum=strtotime(substr($key,0,10));
-	echo "<li><a href=\"pdf/persberichten/".$key.".pdf\" title=\"Download persbericht als PDF-bestand\" target=\"_blank\">".htmlentities($value)."</a> <img src=\"".$vars["path"]."pic/pdflogo.gif\" width=\"18\" height=\"18\" style=\"margin-bottom:-4px;\" alt=\"PDF-bestand\"> (".datum("D MAAND JJJJ",$datum).")</li>";
+	echo "<li><a href=\"pdf/persberichten/".$key.".pdf\" title=\"Download persbericht als PDF-bestand\" target=\"_blank\">".wt_he($value)."</a> <img src=\"".$vars["path"]."pic/pdflogo.gif\" width=\"18\" height=\"18\" style=\"margin-bottom:-4px;\" alt=\"PDF-bestand\"> (".datum("D MAAND JJJJ",$datum).")</li>";
 }
 echo "</ul>";
 

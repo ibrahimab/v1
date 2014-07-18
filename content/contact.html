@@ -22,7 +22,7 @@ if($_GET["fo"]=="frm") {
 		echo "</tr>";
 		echo "<tr>";
 		echo "<td valign=\"top\" width=\"200\">".html("postadres","contact").":</td>";
-		echo "<td width=\"400\">".htmlentities($vars["websitenaam"])."<br/>";
+		echo "<td width=\"400\">".wt_he($vars["websitenaam"])."<br/>";
 		echo "Wipmolenlaan 3<br/>";
 		echo "3447 GJ Woerden";
 		if($vars["websiteland"]<>"nl") {
@@ -44,7 +44,7 @@ if($_GET["fo"]=="frm") {
 
 		echo "<tr>";
 		echo "<td>".html("email_kort","contact").":</td>";
-		echo "<td><a href=\"mailto:".htmlentities($vars["email"])."\">".htmlentities($vars["email"])."</A></td>";
+		echo "<td><a href=\"mailto:".wt_he($vars["email"])."\">".wt_he($vars["email"])."</A></td>";
 
 		echo "</tr>";
 

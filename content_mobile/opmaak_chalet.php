@@ -159,8 +159,8 @@ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/mob
 echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/mobile/responsive.css?cache=".@filemtime("css/mobile/responsive.css")."\" />\n";
 
 # JQuery
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jquery_url"])."\"></script>\n";
-echo "<script type=\"text/javascript\" src=\"".htmlentities($vars["jqueryui_url"])."\"></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jquery_url"])."\"></script>\n";
+echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jqueryui_url"])."\"></script>\n";
 
 echo "</head>";
 
@@ -175,7 +175,7 @@ echo "\n";
 if($vars["taal"]<>"nl") echo "_eu";
 if($vars["websiteland"]=="be") echo "_be";
 if($vars["websitetype"]==4 or $vars["websitetype"]==5) echo "_tour";
-echo ".gif?c=2\" width=\"130\" height=\"97\" alt=\"".htmlentities($vars["websitenaam"])."\" /></a>\n";
+echo ".gif?c=2\" width=\"130\" height=\"97\" alt=\"".wt_he($vars["websitenaam"])."\" /></a>\n";
 	echo "</div>\n"; #close .logo
 	echo "<div class=\"motto\">".html("koptekst_mobile","index",array("h_b" => "<br />"))."</div>\n";
 	echo "<div class=\"clear\"></div>\n";
@@ -218,7 +218,7 @@ echo "<ul>";
 		if($key=="favorieten") {
 			echo html("submenutitle_favorieten")." (<span id=\"favorietenaantal\">".intval($vars["bezoeker_aantal_favorieten"])."</span>)";
 		} else {
-			echo htmlentities($value);
+			echo wt_he($value);
 		}
 		if($key==$checkid or ($checkid=="accommodaties" and $key=="zoek-en-boek")) {
 			echo "</span>";
@@ -244,9 +244,9 @@ echo "<div onclick='' class=\"wrapper\">";
 
 	if($id<>"index" and $id<>"toonaccommodatie" and !$laat_titel_weg) {
 		if($header[$id]) {
-			echo "<h1>".htmlentities($header[$id])."</h1>";
+			echo "<h1>".wt_he($header[$id])."</h1>";
 		} else {
-			echo "<h1>".htmlentities($title[$id])."</h1>";
+			echo "<h1>".wt_he($title[$id])."</h1>";
 		}
 	}
 
@@ -280,7 +280,7 @@ if($vars["website"]=="C") {
 } else {
 	echo wt_he($vars["websiteinfo"]["websitenaam"][$vars["website"]]);
 }
-echo " - <a href=\"mailto:".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."\">".htmlentities($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon");
+echo " - <a href=\"mailto:".wt_he($vars["websiteinfo"]["email"][$vars["website"]])."\">".wt_he($vars["websiteinfo"]["email"][$vars["website"]])."</a> - ".html("telefoonnummer_colofon");
 echo "</p>";
 echo "</div>\n";
 

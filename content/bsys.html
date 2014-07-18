@@ -111,8 +111,8 @@ if($login->logged_in) {
 						$temp["leverancier_naam"]=$db2->f("naam");
 					}
 
-#					echo "<h2>".($gegevens["stap1"]["boekingsnummer"] ? $gegevens["stap1"]["boekingsnummer"]." - " : "").htmlentities($temp["leverancier_naam"])." - ".htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
-#					if($gegevens["stap1"]["reisbureau_naam"]) echo " (via ".htmlentities($gegevens["stap1"]["reisbureau_naam"]).")";
+#					echo "<h2>".($gegevens["stap1"]["boekingsnummer"] ? $gegevens["stap1"]["boekingsnummer"]." - " : "").wt_he($temp["leverancier_naam"])." - ".wt_he(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]));
+#					if($gegevens["stap1"]["reisbureau_naam"]) echo " (via ".wt_he($gegevens["stap1"]["reisbureau_naam"]).")";
 #					echo "</h2>";
 #if($gegevens["stap1"]["voucherstatus"]) echo "<b>Voucherstatus: ".$vars["voucherstatus"][$gegevens["stap1"]["voucherstatus"]]."</b><p>";
 
@@ -142,7 +142,7 @@ if($login->logged_in) {
 						if($_GET["bestaande"] or $gegevens["stap1"]["status_klanten_vorig_seizoen"]>0) {
 							# Gegevens bestaande klanten (mail n.a.v. boeking vorig seizoen) tonen/bewerken
 							echo "<b>Werving bestaande klanten:</b><br>";
-							echo "<form method=\"post\" action=\"".htmlentities(($_GET["back"] ? $_GET["back"] : "cms_mail_klanten_vorig_seizoen.php?status=1"))."#regel".htmlentities($_GET["regel"])."\" name=\"frm\">";
+							echo "<form method=\"post\" action=\"".wt_he(($_GET["back"] ? $_GET["back"] : "cms_mail_klanten_vorig_seizoen.php?status=1"))."#regel".wt_he($_GET["regel"])."\" name=\"frm\">";
 							echo "<input type=\"hidden\" name=\"boekingsgegevens\" value=\"1\">";
 							echo "<input type=\"hidden\" name=\"boekingid\" value=\"".$gegevens["stap1"]["boekingid"]."\">";
 							echo "<table cellspacing=\"0\" cellpadding=\"0\"><tr><td>";
@@ -150,7 +150,7 @@ if($login->logged_in) {
 							echo "<select name=\"status_klanten_vorig_seizoen\" onchange=\"if(document.frm.status_klanten_vorig_seizoen.value==2||document.frm.status_klanten_vorig_seizoen.value==3) document.getElementById('status_vanaf_klanten_vorig_seizoen').style.display=''; else document.getElementById('status_vanaf_klanten_vorig_seizoen').style.display='none';\">";
 							if($gegevens["stap1"]["status_klanten_vorig_seizoen"]>0) unset($vars["status_bestaandeklanten"][0]);
 							while(list($key,$value)=each($vars["status_bestaandeklanten"])) {
-								echo "<option value=\"".$key."\"".($gegevens["stap1"]["status_klanten_vorig_seizoen"]==$key ? " selected" : "").">".htmlentities($value)."</option>";
+								echo "<option value=\"".$key."\"".($gegevens["stap1"]["status_klanten_vorig_seizoen"]==$key ? " selected" : "").">".wt_he($value)."</option>";
 							}
 							echo "</select>";
 							echo "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>";
@@ -177,7 +177,7 @@ if($login->logged_in) {
 							echo "<div>";
 							echo "</td></tr></table>";
 							echo "<p>Opmerkingen:<br>";
-							echo "<textarea name=\"opmerkingen_klanten_vorig_seizoen\" style=\"width:700px;height:100px;\">".htmlentities($gegevens["stap1"]["opmerkingen_klanten_vorig_seizoen"])."</textarea>";
+							echo "<textarea name=\"opmerkingen_klanten_vorig_seizoen\" style=\"width:700px;height:100px;\">".wt_he($gegevens["stap1"]["opmerkingen_klanten_vorig_seizoen"])."</textarea>";
 							echo "<p><input type=\"submit\" value=\" OPSLAAN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\">";
 							echo "</form>";
 							echo "<hr><p>";
@@ -269,7 +269,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 										echo "<ul>";
 										if(!$db2->f("standaardbestelmanier") or $db2->f("standaardbestelmanier")==1) {
 											if($db2->f("email")) {
-												echo "<li><a href=\"".$path."cms_bestelmail.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\">Via e-mail</a> (vanaf <i>".htmlentities($login->vars["email"])."</i>)</li>";
+												echo "<li><a href=\"".$path."cms_bestelmail.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\">Via e-mail</a> (vanaf <i>".wt_he($login->vars["email"])."</i>)</li>";
 												echo "<li><a href=\"".$path."cms_bestelmail.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."&info=1\">Via e-mail</a> (vanaf <i>info@chalet.nl</i>)</li>";
 											} elseif($db2->f("standaardbestelmanier")) {
 												echo "<li>Via e-mail: er is geen mailadres aan deze leverancier gekoppeld</li>";
@@ -288,9 +288,9 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 										}
 										if($db2->f("standaardbestelmanier")==4) {
 											if($db2->f("url")) {
-												echo "<li><a href=\"".htmlentities($db2->f("url"))."\" target=\"_blank\">Via inlog op website</a>";
+												echo "<li><a href=\"".wt_he($db2->f("url"))."\" target=\"_blank\">Via inlog op website</a>";
 												if($gegevens["stap1"]["accinfo"]["bestelnaam"]) {
-													echo " <i>(".htmlentities($gegevens["stap1"]["accinfo"]["bestelnaam"]).")</i>";
+													echo " <i>(".wt_he($gegevens["stap1"]["accinfo"]["bestelnaam"]).")</i>";
 												}
 												echo "</li>";
 											} elseif($db2->f("standaardbestelmanier")) {
@@ -306,13 +306,13 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 #										echo "<b> is pas mogelijk na het invullen van het veld &quot;akkoord&quot; bij de <a href=\"".$path."cms_boekingen_leveranciers.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\">inkoopgegevens</a></b><br><br>";
 #									}
 									if(trim($db2->f("opmerkingen_intern"))<>"") {
-										echo "Opmerkingen leverancier:<br><ul><li>".nl2br(htmlentities($db2->f("opmerkingen_intern")))."</li></ul>";
+										echo "Opmerkingen leverancier:<br><ul><li>".nl2br(wt_he($db2->f("opmerkingen_intern")))."</li></ul>";
 									}
 								}
 							}
 						}
 						if($gegevens["stap1"]["opmerkingen_intern"]) {
-							echo "</td><td valign=\"top\" width=\"40%\"><div style=\"border: solid #D40139 2px;padding:4px;\"><b>Interne opmerkingen:</b><p><font size=1>".nl2br(htmlentities($gegevens["stap1"]["opmerkingen_intern"]))."</font></div></td></tr></table>";
+							echo "</td><td valign=\"top\" width=\"40%\"><div style=\"border: solid #D40139 2px;padding:4px;\"><b>Interne opmerkingen:</b><p><font size=1>".nl2br(wt_he($gegevens["stap1"]["opmerkingen_intern"]))."</font></div></td></tr></table>";
 						}
 
 					}
@@ -424,7 +424,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 				}
 
 				if($gegevens["stap1"]["reisbureau_user_id"]) {
-					echo "<tr><td width=\"165\" valign=\"top\">".html("reisbureau","bsys")."</td><td><a href=\"".$vars["path"]."cms_reisbureaus.php?show=27&27k0=".$gegevens["stap1"]["reisbureau_id"]."\">".htmlentities($gegevens["stap1"]["reisbureau_naam"])."</a> - ".htmlentities($gegevens["stap1"]["reisbureau_usernaam"])."</td></tr>";
+					echo "<tr><td width=\"165\" valign=\"top\">".html("reisbureau","bsys")."</td><td><a href=\"".$vars["path"]."cms_reisbureaus.php?show=27&27k0=".$gegevens["stap1"]["reisbureau_id"]."\">".wt_he($gegevens["stap1"]["reisbureau_naam"])."</a> - ".wt_he($gegevens["stap1"]["reisbureau_usernaam"])."</td></tr>";
 				}
 
 
@@ -432,9 +432,9 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 					echo "<tr><td width=\"165\" valign=\"top\">".html("reserveringsnummer","bsys")."</td><td>".$gegevens["stap1"]["boekingsnummer"]."</td></tr>";
 				}
 				if($mustlogin) {
-					echo "<tr><td width=\"165\" valign=\"top\">".html("hoofdboeker","bsys")."</td><td>".htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."&nbsp;(<a href=\"mailto:".$gegevens["stap2"]["email"]."\">".htmlentities($gegevens["stap2"]["email"])."</a>)</td></tr>";
+					echo "<tr><td width=\"165\" valign=\"top\">".html("hoofdboeker","bsys")."</td><td>".wt_he(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."&nbsp;(<a href=\"mailto:".$gegevens["stap2"]["email"]."\">".wt_he($gegevens["stap2"]["email"])."</a>)</td></tr>";
 				} else {
-					echo "<tr><td width=\"165\" valign=\"top\">".html("hoofdboeker","bsys")."</td><td>".htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."&nbsp;</td></tr>";
+					echo "<tr><td width=\"165\" valign=\"top\">".html("hoofdboeker","bsys")."</td><td>".wt_he(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."&nbsp;</td></tr>";
 				}
 
 				if($mustlogin) {
@@ -443,26 +443,26 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						echo "<tr><td width=\"165\" valign=\"top\">Afgerond tot en met</td><td>Stap ".$gegevens["stap1"]["stap_voltooid"]."</td></tr>";
 					} else {
 						echo "<tr><td width=\"165\" valign=\"top\">Geboekt op</td><td>".DATUM("DAG D MAAND JJJJ, UU:ZZ",$gegevens["stap1"]["bevestigdatum"])."u.</td></tr>";
-						echo "<tr><td width=\"165\" valign=\"top\">Via website</td><td>".htmlentities($vars["websites"][$gegevens["stap1"]["website"]])."</td></tr>";
+						echo "<tr><td width=\"165\" valign=\"top\">Via website</td><td>".wt_he($vars["websites"][$gegevens["stap1"]["website"]])."</td></tr>";
 					}
 				}
-				echo "<tr><td width=\"165\" valign=\"top\">".html("accommodatie","bsys")."</td><td><a href=\"".$gegevens["stap1"]["website_specifiek"]["basehref"].$accinfo["url_zonderpad"]."\" target=\"_blank\">".htmlentities($accinfo["begincode"].$accinfo["type_id"]." - ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</a>".($mustlogin ? " - <a href=\"cms_types.php?wzt=".$accinfo["wzt"]."&show=2&2k0=".$accinfo["type_id"]."\">CMS</a>" : "")."</td></tr>";
-				echo "<tr><td width=\"165\" valign=\"top\">".html("plaats","bsys")."</td><td><a href=\"".$gegevens["stap1"]["website_specifiek"]["basehref"].$accinfo["plaats_url_zonderpad"]."\" target=\"_blank\">".htmlentities($accinfo["plaats"].", ".$accinfo["land"])."</a>".($mustlogin ? " - <a href=\"cms_plaatsen.php?wzt=".$accinfo["wzt"]."&show=4&4k0=".$accinfo["plaats_id"]."\">CMS</a>" : "")."</td></tr>";
+				echo "<tr><td width=\"165\" valign=\"top\">".html("accommodatie","bsys")."</td><td><a href=\"".$gegevens["stap1"]["website_specifiek"]["basehref"].$accinfo["url_zonderpad"]."\" target=\"_blank\">".wt_he($accinfo["begincode"].$accinfo["type_id"]." - ".ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</a>".($mustlogin ? " - <a href=\"cms_types.php?wzt=".$accinfo["wzt"]."&show=2&2k0=".$accinfo["type_id"]."\">CMS</a>" : "")."</td></tr>";
+				echo "<tr><td width=\"165\" valign=\"top\">".html("plaats","bsys")."</td><td><a href=\"".$gegevens["stap1"]["website_specifiek"]["basehref"].$accinfo["plaats_url_zonderpad"]."\" target=\"_blank\">".wt_he($accinfo["plaats"].", ".$accinfo["land"])."</a>".($mustlogin ? " - <a href=\"cms_plaatsen.php?wzt=".$accinfo["wzt"]."&show=4&4k0=".$accinfo["plaats_id"]."\">CMS</a>" : "")."</td></tr>";
 				if($mustlogin) {
-					echo "<tr><td width=\"165\" valign=\"top\">Tarievenoptie</td><td>".htmlentities(($gegevens["stap1"]["wederverkoop"] ? "Wederverkoop" : $vars["toonper"][$accinfo["toonper"]]))."</td></tr>";
+					echo "<tr><td width=\"165\" valign=\"top\">Tarievenoptie</td><td>".wt_he(($gegevens["stap1"]["wederverkoop"] ? "Wederverkoop" : $vars["toonper"][$accinfo["toonper"]]))."</td></tr>";
 					$db2->query("SELECT leverancier_id, naam FROM leverancier WHERE leverancier_id='".addslashes($gegevens["stap1"]["leverancierid"])."';");
 					if($db2->next_record()) {
-						echo "<tr><td width=\"165\" valign=\"top\">Leverancier</td><td><a href=\"".$path."cms_leveranciers.php?show=8&bc=".$_GET["bc"]."&8k0=".$db2->f("leverancier_id")."\">".htmlentities($db2->f("naam"))."</a> (".$db2->f("leverancier_id").")</td></tr>";
+						echo "<tr><td width=\"165\" valign=\"top\">Leverancier</td><td><a href=\"".$path."cms_leveranciers.php?show=8&bc=".$_GET["bc"]."&8k0=".$db2->f("leverancier_id")."\">".wt_he($db2->f("naam"))."</a> (".$db2->f("leverancier_id").")</td></tr>";
 					}
 					if($gegevens["stap1"]["accinfo"]["skipasid"]) {
 						$db2->query("SELECT skipas_id, naam FROM skipas WHERE skipas_id='".addslashes($gegevens["stap1"]["accinfo"]["skipasid"])."';");
 						if($db2->next_record()) {
-							echo "<tr><td width=\"165\" valign=\"top\">Skipasleverancier</td><td><a href=\"".$path."cms_skipassen.php?show=10&bc=".$_GET["bc"]."&10k0=".$db2->f("skipas_id")."\">".htmlentities($db2->f("naam"))."</a></td></tr>";
+							echo "<tr><td width=\"165\" valign=\"top\">Skipasleverancier</td><td><a href=\"".$path."cms_skipassen.php?show=10&bc=".$_GET["bc"]."&10k0=".$db2->f("skipas_id")."\">".wt_he($db2->f("naam"))."</a></td></tr>";
 						}
 					}
 				}
-				echo "<tr><td valign=\"top\">".html("aantalpersonen","bsys")."</td><td>".htmlentities($gegevens["stap1"]["aantalpersonen"])."</td></tr>";
-#				echo "<tr><td valign=\"top\">Verblijfsperiode</td><td>".htmlentities($accinfo["aankomstdatum"][$gegevens["stap1"]["aankomstdatum"]]." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum"]))."</td></tr>";
+				echo "<tr><td valign=\"top\">".html("aantalpersonen","bsys")."</td><td>".wt_he($gegevens["stap1"]["aantalpersonen"])."</td></tr>";
+#				echo "<tr><td valign=\"top\">Verblijfsperiode</td><td>".wt_he($accinfo["aankomstdatum"][$gegevens["stap1"]["aankomstdatum"]]." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum"]))."</td></tr>";
 				echo "<tr><td valign=\"top\">".html("verblijfsperiode","bsys")."</td><td>".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$vars["taal"])." - ".DATUM("DAG D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$vars["taal"])." (".$gegevens["stap1"]["aantalnachten"]." ".html("nachten","bsys").")</td></tr>";
 
 				if(!$mustlogin or $_GET["bt"]<>3) {
@@ -479,7 +479,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						unset($referentiekeuze_aantal);
 						while(list($key,$value)=each($referentiekeuze_array)) {
 							if($referentiekeuze_aantal) echo "<br>";
-							echo htmlentities($vars["referentiekeuze"][$value]);
+							echo wt_he($vars["referentiekeuze"][$value]);
 							$referentiekeuze_aantal++;
 						}
 						echo "</td></tr>";
@@ -538,7 +538,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						echo "<tr><td valign=\"top\" width=\"175\">Aantal personen</td><td>".$gegevens["stap1"]["aantalpersonen"]."</td></tr>";
 					}
 					echo "<tr".(ereg("ANN_",$gegevens["stap1"]["gewijzigd"]) ?  " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Annuleringsverzekering</td><td>".($gegevens["stap1"]["annverz_aantalpersonen"] ? "ja" : "nee")."</td></tr>";
-					echo "<tr".(ereg("OPM_OPTIES",$gegevens["stap1"]["gewijzigd"]) ?  " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Opmerkingen m.b.t. opties</td><td>".nl2br(htmlentities($gegevens["stap1"]["opmerkingen_opties"]))."&nbsp;</td></tr>";
+					echo "<tr".(ereg("OPM_OPTIES",$gegevens["stap1"]["gewijzigd"]) ?  " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Opmerkingen m.b.t. opties</td><td>".nl2br(wt_he($gegevens["stap1"]["opmerkingen_opties"]))."&nbsp;</td></tr>";
 					echo "<tr><td valign=\"top\" width=\"175\">Opmerkingen stap 5</td><td>".nl2br(wt_he($gegevens["stap1"]["opmerkingen_boeker"]))."&nbsp;</td></tr>";
 					echo "<tr".(ereg("SCHADEVERZEKERING",$gegevens["stap1"]["gewijzigd"]) ?  " style=\"background-color:#FFA6AA\"" : "")."><td valign=\"top\" width=\"175\">Schade Logies Verblijven</td><td>".($gegevens["stap1"]["schadeverzekering"] ? "ja" : "nee")."&nbsp;</td></tr>";
 					if(ereg("OPTIES_NA_GEBOORTEDATUM",$gegevens["stap1"]["gewijzigd"])) {
@@ -564,11 +564,11 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 					}
 					echo "</td></tr>";
 					if($i==1) {
-						echo "<tr><td width=\"165\" valign=\"top\">".html("naam","bsys")."</td><td valign=\"top\" width=\"350\">".htmlentities(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."&nbsp;</td><td>&nbsp;</td></tr>";
-						echo "<tr><td valign=\"top\">".html("adres","bsys")."</td><td valign=\"top\">".($gegevens["stap2"]["adres"] ? htmlentities($gegevens["stap2"]["adres"]) : "&nbsp;")."</td><td>&nbsp;</td></tr>";
-						echo "<tr><td valign=\"top\">".html("postcode","bsys")."</td><td valign=\"top\">".htmlentities($gegevens["stap2"]["postcode"])."&nbsp;</td><td>&nbsp;</td></tr>";
-						echo "<tr><td valign=\"top\">".html("woonplaats","bsys")."</td><td valign=\"top\">".htmlentities($gegevens["stap2"]["plaats"])."&nbsp;</td><td>&nbsp;</td></tr>";
-						echo "<tr><td valign=\"top\">".html("land","bsys")."</td><td valign=\"top\">".htmlentities($gegevens["stap2"]["land"])."&nbsp;</td><td>&nbsp;</td></tr>";
+						echo "<tr><td width=\"165\" valign=\"top\">".html("naam","bsys")."</td><td valign=\"top\" width=\"350\">".wt_he(wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]))."&nbsp;</td><td>&nbsp;</td></tr>";
+						echo "<tr><td valign=\"top\">".html("adres","bsys")."</td><td valign=\"top\">".($gegevens["stap2"]["adres"] ? wt_he($gegevens["stap2"]["adres"]) : "&nbsp;")."</td><td>&nbsp;</td></tr>";
+						echo "<tr><td valign=\"top\">".html("postcode","bsys")."</td><td valign=\"top\">".wt_he($gegevens["stap2"]["postcode"])."&nbsp;</td><td>&nbsp;</td></tr>";
+						echo "<tr><td valign=\"top\">".html("woonplaats","bsys")."</td><td valign=\"top\">".wt_he($gegevens["stap2"]["plaats"])."&nbsp;</td><td>&nbsp;</td></tr>";
+						echo "<tr><td valign=\"top\">".html("land","bsys")."</td><td valign=\"top\">".wt_he($gegevens["stap2"]["land"])."&nbsp;</td><td>&nbsp;</td></tr>";
 						echo "<tr><td valign=\"top\">".html("geboortedatum","bsys")."</td><td valign=\"top\">".(isset($gegevens["stap2"]["geboortedatum"]) ? wt_adodb_date("d-m-Y",$gegevens["stap2"]["geboortedatum"]) : "<i class=\"wtform_error\">".html("nognietingevoerd","bsys")."</i>")."</td><td>&nbsp;</td></tr>";
 
 						echo "<tr><td valign=\"top\">".html("geslacht","bsys")."</td><td valign=\"top\">";
@@ -578,27 +578,27 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 							echo html("vrouw","vars");
 						}
 						echo "&nbsp;</td><td>&nbsp;</td></tr>";
-						echo "<tr><td valign=\"top\">".html("telefoon","bsys")."</td><td valign=\"top\">".htmlentities($gegevens["stap2"]["telefoonnummer"]);
-						if($gegevens["stap2"]["mobielwerk"]) echo " / ".htmlentities($gegevens["stap2"]["mobielwerk"]);
+						echo "<tr><td valign=\"top\">".html("telefoon","bsys")."</td><td valign=\"top\">".wt_he($gegevens["stap2"]["telefoonnummer"]);
+						if($gegevens["stap2"]["mobielwerk"]) echo " / ".wt_he($gegevens["stap2"]["mobielwerk"]);
 						echo "&nbsp;</td><td>&nbsp;</td></tr>";
 						echo "<tr><td valign=\"top\">".html("email","bsys")."</td><td valign=\"top\">";
 						if($mustlogin) {
-							echo "<a href=\"mailto:".$gegevens["stap2"]["email"]."\">".htmlentities($gegevens["stap2"]["email"])."</a>";
+							echo "<a href=\"mailto:".$gegevens["stap2"]["email"]."\">".wt_he($gegevens["stap2"]["email"])."</a>";
 						} else {
-							echo htmlentities($gegevens["stap2"]["email"]);
+							echo wt_he($gegevens["stap2"]["email"]);
 						}
 						echo "&nbsp;</td><td>&nbsp;</td></tr>";
 					} else {
 						echo "<tr><td width=\"165\" valign=\"top\">".html("naam","bsys")."</td><td valign=\"top\">";
 						if($gegevens["stap3"][$i]["voornaam"] or $gegevens["stap3"][$i]["achternaam"]) {
-							echo htmlentities(wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"]));
+							echo wt_he(wt_naam($gegevens["stap3"][$i]["voornaam"],$gegevens["stap3"][$i]["tussenvoegsel"],$gegevens["stap3"][$i]["achternaam"]));
 						} else {
 							echo "<i class=\"wtform_error\">".html("nognietingevoerd","bsys")."</i>";
 						}
 						echo "</td><td>&nbsp;</td></tr>";
 						echo "<tr><td valign=\"top\">".html("woonplaats","bsys")."</td><td valign=\"top\">";
 						if($gegevens["stap3"][$i]["plaats"]) {
-							echo htmlentities($gegevens["stap3"][$i]["plaats"]);
+							echo wt_he($gegevens["stap3"][$i]["plaats"]);
 						} else {
 							echo "<i class=\"wtform_error\">".html("nognietingevoerd","bsys")."</i>";
 						}
@@ -623,13 +623,13 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 
 					# Accommodatie / arrangement
 					if($accinfo["toonper"]==3 or $gegevens["stap1"]["wederverkoop"]) {
-						echo "<tr><td valign=\"top\">".html("accommodatie","bsys")."</td><td valign=\"top\">".htmlentities(ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</td>";
+						echo "<tr><td valign=\"top\">".html("accommodatie","bsys")."</td><td valign=\"top\">".wt_he(ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</td>";
 						echo "<td nowrap width=\"".$celbreedte."\" valign=\"top\">";
 						echo "<span style=\"float:left;\">&euro;&nbsp;</span><span style=\"float:right;\">".number_format($gegevens["stap1"]["verkoop"]/$gegevens["stap1"]["aantalpersonen"],2,',','.')."</span>";
 						echo "</td></tr>";
 						$totaal_persoon+=$gegevens["stap1"]["verkoop"]/$gegevens["stap1"]["aantalpersonen"];
 					} else {
-						echo "<tr><td valign=\"top\">".html("accommodatieplusskipas","bsys")."</td><td valign=\"top\">".htmlentities(ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</td>";
+						echo "<tr><td valign=\"top\">".html("accommodatieplusskipas","bsys")."</td><td valign=\"top\">".wt_he(ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"])."</td>";
 						echo "<td nowrap width=\"".$celbreedte."\" valign=\"top\">";
 						echo "<span style=\"float:left;\">&euro;&nbsp;</span><span style=\"float:right;\">".number_format($gegevens["stap1"]["verkoop"],2,',','.')."</span>";
 						echo "</td></tr>";
@@ -653,10 +653,10 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						while(list($key,$value)=@each($temp_gegevens["stap4"][1]["algemene_optie"]["soort"])) {
 							if($opties_goedkeuren and !$temp_gegevens["stap4"][2]["algemene_optie"]["naam"][$key]) {
 								# Optie is uitgezet
-								echo "<tr style=\"background-color:#FFA6AA\"><td valign=\"top\">".htmlentities(ucfirst($value))."</td><td valign=\"top\"><i>Uitgezet</i></td><td>&nbsp;</td></tr>";
+								echo "<tr style=\"background-color:#FFA6AA\"><td valign=\"top\">".wt_he(ucfirst($value))."</td><td valign=\"top\"><i>Uitgezet</i></td><td>&nbsp;</td></tr>";
 								$factuur_tewijzigen=true;
 							} else {
-								echo "<tr".($gewijzigde_opties && !$temp_gegevens["stap4"][2]["algemene_optie"]["naam_op_onderdeel_id"][$temp_gegevens["stap4"][1]["algemene_optie"]["optie_onderdeel_id"][$key]] ? " style=\"background-color:#AAFFA6\"" : "")."><td valign=\"top\">".htmlentities(($value ? ucfirst($value) : $temp_gegevens["stap4"][1]["algemene_optie"]["naam"][$key]))."</td><td valign=\"top\">".($value ? htmlentities($temp_gegevens["stap4"][1]["algemene_optie"]["naam"][$key]) : "&nbsp;")."</td>";
+								echo "<tr".($gewijzigde_opties && !$temp_gegevens["stap4"][2]["algemene_optie"]["naam_op_onderdeel_id"][$temp_gegevens["stap4"][1]["algemene_optie"]["optie_onderdeel_id"][$key]] ? " style=\"background-color:#AAFFA6\"" : "")."><td valign=\"top\">".wt_he(($value ? ucfirst($value) : $temp_gegevens["stap4"][1]["algemene_optie"]["naam"][$key]))."</td><td valign=\"top\">".($value ? wt_he($temp_gegevens["stap4"][1]["algemene_optie"]["naam"][$key]) : "&nbsp;")."</td>";
 								echo "<td nowrap width=\"".$celbreedte."\" valign=\"top\">";
 								echo "<span style=\"float:left;\">&euro;&nbsp;</span><span style=\"float:right;\">".number_format($temp_gegevens["stap4"][1]["algemene_optie"]["verkoop"][$key]/$temp_gegevens["stap1"]["aantalpersonen"],2,',','.')."</span>";
 								echo "</td></tr>";
@@ -669,7 +669,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						@reset($temp_gegevens["stap4"][2]["algemene_optie"]["soort"]);
 						while(list($key,$value)=@each($temp_gegevens["stap4"][2]["algemene_optie"]["soort"])) {
 							if($temp_gegevens["stap4"][2]["algemene_optie"]["naam"][$key] and !$temp_gegevens["stap4"][1]["algemene_optie"]["naam_op_onderdeel_id"][$temp_gegevens["stap4"][2]["algemene_optie"]["optie_onderdeel_id"][$key]]) {
-								echo "<tr style=\"background-color:#FFA6AA\"><td valign=\"top\">".htmlentities(($value ? ucfirst($value) : $temp_gegevens["stap4"][2]["algemene_optie"]["naam"][$key]))."</td><td valign=\"top\">".($value ? htmlentities($temp_gegevens["stap4"][2]["algemene_optie"]["naam"][$key]) : "&nbsp;")."</td>";
+								echo "<tr style=\"background-color:#FFA6AA\"><td valign=\"top\">".wt_he(($value ? ucfirst($value) : $temp_gegevens["stap4"][2]["algemene_optie"]["naam"][$key]))."</td><td valign=\"top\">".($value ? wt_he($temp_gegevens["stap4"][2]["algemene_optie"]["naam"][$key]) : "&nbsp;")."</td>";
 								echo "<td nowrap width=\"".$celbreedte."\" valign=\"top\">";
 								echo "<span style=\"float:left;\">&euro;&nbsp;</span><span style=\"float:right;\">".number_format($temp_gegevens["stap4"][2]["algemene_optie"]["verkoop"][$key]/$temp_gegevens["stap1"]["aantalpersonen"],2,',','.')."</span>";
 								echo "</td></tr>";
@@ -688,12 +688,12 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 							while(list($key,$value)=@each($temp_gegevens["stap4"][1][$i]["optiesoort_perpersoon"])) {
 								if($opties_goedkeuren and !$temp_gegevens["stap4"][2][$i]["optieonderdeel_id"][$key] and !$temp_gegevens["stap4"][1][$i]["optieonderdeel_extra"][$key]) {
 									# Optie is uitgezet
-									echo "<tr style=\"background-color:#FFA6AA\"><td valign=\"top\">".htmlentities(ucfirst($value))."</td><td valign=\"top\"><i>Uitgezet</i></td><td>&nbsp;</td></tr>";
+									echo "<tr style=\"background-color:#FFA6AA\"><td valign=\"top\">".wt_he(ucfirst($value))."</td><td valign=\"top\"><i>Uitgezet</i></td><td>&nbsp;</td></tr>";
 									$factuur_tewijzigen=true;
 								} else {
-									echo "<tr".($gewijzigde_opties && !$temp_gegevens["stap4"][2]["optie_onderdeelid"][$i][$temp_gegevens["stap4"][1][$i]["optieonderdeel_id"][$key]] && !$temp_gegevens["stap4"][1][$i]["optieonderdeel_extra"][$key] ? " style=\"background-color:#AAFFA6\"" : "")."><td valign=\"top\">".htmlentities(($value ? ucfirst($value) : $temp_gegevens["stap4"][1][$i]["optieonderdeel_perpersoon"][$key]))."</td><td valign=\"top\">";
+									echo "<tr".($gewijzigde_opties && !$temp_gegevens["stap4"][2]["optie_onderdeelid"][$i][$temp_gegevens["stap4"][1][$i]["optieonderdeel_id"][$key]] && !$temp_gegevens["stap4"][1][$i]["optieonderdeel_extra"][$key] ? " style=\"background-color:#AAFFA6\"" : "")."><td valign=\"top\">".wt_he(($value ? ucfirst($value) : $temp_gegevens["stap4"][1][$i]["optieonderdeel_perpersoon"][$key]))."</td><td valign=\"top\">";
 									if($value) {
-										echo htmlentities($temp_gegevens["stap4"][1][$i]["optieonderdeel_perpersoon"][$key]);
+										echo wt_he($temp_gegevens["stap4"][1][$i]["optieonderdeel_perpersoon"][$key]);
 									} else {
 										echo "&nbsp;";
 									}
@@ -710,8 +710,8 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						if(is_array($temp_gegevens["stap4"][2][$i]["optiesoort_perpersoon"])) {
 							while(list($key,$value)=@each($temp_gegevens["stap4"][2][$i]["optiesoort_perpersoon"])) {
 								if($temp_gegevens["stap4"][2][$i]["optieonderdeel_id"][$key] and !$temp_gegevens["stap4"][1]["optie_onderdeelid"][$i][$temp_gegevens["stap4"][2][$i]["optieonderdeel_id"][$key]]) {
-									echo "<tr style=\"background-color:#FFA6AA\"><td valign=\"top\">".htmlentities(ucfirst($value))."</td><td valign=\"top\">";
-									echo htmlentities($temp_gegevens["stap4"][2][$i]["optieonderdeel_perpersoon"][$key]);
+									echo "<tr style=\"background-color:#FFA6AA\"><td valign=\"top\">".wt_he(ucfirst($value))."</td><td valign=\"top\">";
+									echo wt_he($temp_gegevens["stap4"][2][$i]["optieonderdeel_perpersoon"][$key]);
 									echo "</td>";
 									echo "<td nowrap width=\"".$celbreedte."\" valign=\"top\"><span style=\"float:left;\">".($temp_gegevens["stap4"][2][$i]["optieonderdeel_verkoop"][$key]<0 ? html("korting","bsys")."&nbsp;" : "")."&euro;&nbsp;</span><span style=\"float:right;\">".number_format(abs($temp_gegevens["stap4"][2][$i]["optieonderdeel_verkoop"][$key]),2,',','.')."</span></td>";
 									echo "</tr>";
@@ -724,7 +724,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						# Algemene opties
 						@reset($gegevens["stap4"]["algemene_optie"]["soort"]);
 						while(list($key,$value)=@each($gegevens["stap4"]["algemene_optie"]["soort"])) {
-							echo "<tr><td valign=\"top\">".htmlentities(($value ? ucfirst($value) : $gegevens["stap4"]["algemene_optie"]["naam"][$key]))."</td><td valign=\"top\">".($value ? htmlentities($gegevens["stap4"]["algemene_optie"]["naam"][$key]) : "&nbsp;")."</td>";
+							echo "<tr><td valign=\"top\">".wt_he(($value ? ucfirst($value) : $gegevens["stap4"]["algemene_optie"]["naam"][$key]))."</td><td valign=\"top\">".($value ? wt_he($gegevens["stap4"]["algemene_optie"]["naam"][$key]) : "&nbsp;")."</td>";
 							echo "<td nowrap width=\"".$celbreedte."\" valign=\"top\">";
 							echo "<span style=\"float:left;\">&euro;&nbsp;</span><span style=\"float:right;\">".number_format($gegevens["stap4"]["algemene_optie"]["verkoop"][$key]/$gegevens["stap1"]["aantalpersonen"],2,',','.')."</span>";
 							echo "</td></tr>";
@@ -734,8 +734,8 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 						# Gewone opties
 						if(is_array($gegevens["stap4"][$i]["optiesoort_perpersoon"])) {
 							while(list($key,$value)=@each($gegevens["stap4"][$i]["optiesoort_perpersoon"])) {
-								echo "<tr><td valign=\"top\">".htmlentities(ucfirst($value))."</td><td valign=\"top\">";
-								echo htmlentities($gegevens["stap4"][$i]["optieonderdeel_perpersoon"][$key]);
+								echo "<tr><td valign=\"top\">".wt_he(ucfirst($value))."</td><td valign=\"top\">";
+								echo wt_he($gegevens["stap4"][$i]["optieonderdeel_perpersoon"][$key]);
 								echo "</td>";
 								if($gegevens["stap4"][$i]["optieonderdeel_reisverzekering"][$key]) {
 									$optie_bedrag=$gegevens["stap4"][$i]["optieonderdeel_verkoop"][$key]+($gegevens["fin"]["reisverzekering_poliskosten"]/count($gegevens["stap4"]["reisverzekering_per_persoon"]));
@@ -769,7 +769,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 							} else {
 								echo "<tr>";
 							}
-							echo "<td valign=\"top\">".html("annuleringsverzekering","bsys")."</td><td valign=\"top\">".htmlentities($vars["annverz_soorten"][$gegevens["stap3"][$i]["annverz"]])."</td>";
+							echo "<td valign=\"top\">".html("annuleringsverzekering","bsys")."</td><td valign=\"top\">".wt_he($vars["annverz_soorten"][$gegevens["stap3"][$i]["annverz"]])."</td>";
 							echo "<td nowrap width=\"".$celbreedte."\" valign=\"top\">";
 							if($gegevens["stap1"]["annverz_aantalpersonen"]) {
 								$ann_temp_bedrag=round($gegevens["stap4"][$i]["annverz_persoon"]+($gegevens["fin"]["annuleringsverzekering_poliskosten"]/$gegevens["stap1"]["annverz_aantalpersonen"]),2);
@@ -928,7 +928,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 			if($db->num_rows()) {
 				echo "<p>".html("ganaar","bsys")."<ul>";
 				while($db->next_record()) {
-					echo "<li><a href=\"".$vars["websites_basehref"][$db->f("website")].txt("menu_inloggen").".php\">".htmlentities($vars["websites_basehref"][$db->f("website")].txt("menu_inloggen")).".php</li>";
+					echo "<li><a href=\"".$vars["websites_basehref"][$db->f("website")].txt("menu_inloggen").".php\">".wt_he($vars["websites_basehref"][$db->f("website")].txt("menu_inloggen")).".php</li>";
 				}
 				echo "</ul>";
 			}

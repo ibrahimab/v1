@@ -1451,9 +1451,9 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					}
 				}
 			}
-            
+
             if(!$soort_aanbieding and !isset($page_uniqueID)){
-                
+
                 if(isset($discount_list[$db->f("type_id")]) and ($discount_list[$db->f("type_id")]["percentage"] > 0)){
                     $soort_aanbieding["percentage"] = $discount_list[$db->f("type_id")]["percentage"];
                 }
@@ -1461,7 +1461,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
                     $soort_aanbieding["euro"] = $discount_list[$db->f("type_id")]["euro"];
                 }
             }
-            
+
 			unset($tarief_float);
 			if($tarief>0) {
 				$tarief_float=$tarief;
@@ -2561,7 +2561,7 @@ if($vars["zoekform_thema"] or $vars["zoekform_weekendski"] or $vars["zoekform_va
 
 	if($vars["themainfo"]["tarievenbekend_seizoen_id"] and $vars["themainfo"]["toelichting"]) {
 		# Inleidende tekst bij tarieven volgend seizoen tonen
-		echo "<h1>".htmlentities($vars["themainfo"]["naam"])."</h1>\n";
+		echo "<h1>".wt_he($vars["themainfo"]["naam"])."</h1>\n";
 		echo htmlentities_uitgebreid(trim($vars["themainfo"]["toelichting"]));
 	}
 
@@ -2929,7 +2929,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 			echo "<div style=\"float:left;margin-top:5px; width:20px;\">";
             echo "<input id='zoekenboekdate' />";
             echo "</div>";
-            
+
 			# dag
 			echo "<select name=\"fadf_d\" class=\"flexibel_datum\">";
 			echo "<option value=\"\"".(!$_GET["fadf_d"] ? " selected" : "").">&nbsp;</option>";
@@ -3538,7 +3538,7 @@ if($resultaten_tonen) {
 			if($results) {
 				$lhtml="<div id=\"verfijn\" class=\"\">";
 				$lhtml.="<div id=\"verfijntopheader\">".html("verfijnzoekopdracht","zoek-en-boek")."<span></span></div>";
-				
+
                                 reset($keuzeopsomming);
                                 while(list($key2,$value2)=each($keuzeopsomming)) {
                                     		$group_id = '';
@@ -3554,11 +3554,11 @@ if($resultaten_tonen) {
                                                         if(isset($_GET[$value2["getname"].$getnumber])){
                                                             $displayblock = "style='display:block;'";
                                                         }
-                                                        
+
                                                 }
                                 }
-                                
-                                
+
+
                                 $lhtml.="<div class=\"hide\" ".$displayblock.">";
 				if(is_array($verfijnd["kenmerken"])) {
 
@@ -3608,7 +3608,7 @@ if($resultaten_tonen) {
                             if($_GET[$getname.$getnumber]){
                             $hideblock = "style='display:block;'";
                             }
-                                                        
+
 							$keuzes.="</div>";
 						}
 						if($keuzes) {
@@ -3715,7 +3715,7 @@ if($resultaten_tonen) {
 			while(list($key,$value)=each($vars["aantalpersonen"])) {
 				echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
 				if($key==="-") echo " selected";
-				echo ">".htmlentities($value)."</option>";
+				echo ">".wt_he($value)."</option>";
 			}
 			echo "</select>";
 			echo "</div>";
