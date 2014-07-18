@@ -62,6 +62,31 @@ if($_GET["show"]==21) {
 	echo "<span class=\"tr_venturasol_boeking\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> = Venturasol Vacances-boeking<br/>";
 	echo "</p>";
 
+	if($_GET["bt"]==8) {
+		// $vars["bestelstatus"]
+
+		echo "<div class=\"boekingen_bestelstatus_keuze\"><b>Bestelstatus:</b>&nbsp;&nbsp;&nbsp;";
+
+		foreach ($vars["bestelstatus"] as $key => $value) {
+			if($key>1) {
+				echo "&nbsp;&nbsp;-&nbsp;&nbsp;";
+			}
+			echo "<span>";
+			if($key<>$_GET["bestelstatus"]) {
+				echo "<a href=\"".$vars["path"]."cms_boekingen.php?bt=8&archief=0&bestelstatus=".$key."\">";
+			} else {
+				echo "<b>";
+			}
+			echo wt_he($value);
+			if($key<>$_GET["bestelstatus"]) {
+				echo "</a>";
+			} else {
+				echo "</b>";
+			}
+			echo "</span>";
+		}
+		echo "</div>";
+	}
 
 
 	$cms->display_cms();

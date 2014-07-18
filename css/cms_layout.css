@@ -657,6 +657,13 @@ li {
 	color: #000000;
 }
 
+.boekingen_bestelstatus_keuze {
+	padding: 5px;
+	border: 1px solid #888888;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
 
 
 /* ----------------------- */

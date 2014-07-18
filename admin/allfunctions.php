@@ -1458,6 +1458,9 @@ function wt_has_value($value) {
 }
 
 function wt_he($text) {
+	//
+	// htmlentities with correct character encoding
+	//
 	global $vars;
 	if(is_array($text)) {
 		return false;
@@ -1470,6 +1473,21 @@ function wt_he($text) {
 			$text=htmlentities($text);
 		}
 		return $text;
+	}
+}
+
+function wt_as($string) {
+	//
+	// addslashes / mysql_real_escape_string
+	//
+	global $db;
+	if($GLOBALS["mysqlsettings"]["charset"] and class_exists("DB_Sql")) {
+		if(!$db->Link_ID) {
+			$db->connect();
+		}
+		return mysql_real_escape_string($string);
+	} else {
+		return addslashes($string);
 	}
 }
 

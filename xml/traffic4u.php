@@ -14,6 +14,10 @@
 #
 
 
+// Premature end of script headers
+// mod_fcgid: read data timeout in 40 seconds
+// http://expressionengine.stackexchange.com/questions/7467/mod-fcgid-read-data-timeout-in-45-seconds-premature-end-of-script-headers
+
 /*
 
 URL's or all feeds:

@@ -204,6 +204,16 @@ if($_GET["bt"]==1) {
 } elseif($_GET["bt"]==7) {
 	// vervallen aanvragen
 	$cms->db[21]["where"]="vervallen_aanvraag=1";
+} elseif($_GET["bt"]==8) {
+	// bestelstatus tonen
+	if(!$_GET["bestelstatus"]) {
+		$_GET["bestelstatus"] = 1;
+	}
+	$cms->db[21]["where"] = "bestelstatus='".intval($_GET["bestelstatus"])."' AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1";
+	if($_GET["bestelstatus"]==3) {
+		$cms->db[21]["where"] .= " AND aankomstdatum_exact>'".(time()-86400*15)."'";
+	}
+	$cms->settings[21]["list"]["delete_icon"]=false;
 } elseif($_GET["boekingsearch"]) {
 	if(ereg("@",$_GET["boekingsearch"])) {
 		$db->query("SELECT boeking_id FROM boeking_persoon WHERE email LIKE '%".addslashes(strtolower($_GET["boekingsearch"]))."%';");
@@ -311,6 +321,12 @@ if($_GET["boekingsearch"]) {
 	// actueel
 	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
 	$cms->list_sort[21]=array("aankomstdatum_exact");
+	$cms->list_sort_desc[21]=false;
+} elseif($_GET["bt"]==8) {
+	// bestelstatus
+	$cms->list_field(21,"website","Site");
+	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
+	$cms->list_sort[21]=array("aankomstdatum_exact","website");
 	$cms->list_sort_desc[21]=false;
 } else {
 	// alle andere

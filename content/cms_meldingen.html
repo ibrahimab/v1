@@ -242,18 +242,20 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["boekingen"]["gewijzigd"]) {
 		echo "</ul>";
 	}
 
-	#
-	# Zijn er boekingen waarbij het inkoop-factuurbedrag nog niet akkoord is?
-	#
-	$db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.factuurbedrag_gecontroleerd IN (0) AND b.seizoen_id>=17 ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
-	if($db->num_rows()) {
-		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_inkoopgegevens_akkoord\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('inkoopgegevens_akkoord');return false;\"><b>Bij de volgende boekingen is het inkoop-factuurbedrag nog niet akkoord</a> (".$db->num_rows().")</b>";
-		echo "<div id=\"inkoopgegevens_akkoord\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
-		while($db->next_record()) {
-			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
-		}
-		echo "</ul></div>";
-	}
+	// #
+	// # Zijn er boekingen waarbij het inkoop-factuurbedrag nog niet akkoord is?
+	// #
+	// $db->query("SELECT DISTINCT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.factuurbedrag_gecontroleerd IN (0) AND b.seizoen_id>=17 ORDER BY b.aankomstdatum_exact, b.naam_accommodatie;");
+	// if($db->num_rows()) {
+	// 	echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_inkoopgegevens_akkoord\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('inkoopgegevens_akkoord');return false;\"><b>Bij de volgende boekingen is het inkoop-factuurbedrag nog niet akkoord</a> (".$db->num_rows().")</b>";
+	// 	echo "<div id=\"inkoopgegevens_akkoord\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+	// 	while($db->next_record()) {
+	// 		echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+	// 	}
+	// 	echo "</ul></div>";
+	// }
+
+
 	#
 	# Zijn er boekingen waarbij de eindbevestiging van de inkoopgegevens later volgt?
 	#
