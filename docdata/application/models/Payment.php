@@ -17,7 +17,7 @@ class Payment extends Model {
 			$this->query($sql);
 
 			$this->next_record();
-			$this->paymentId = htmlspecialchars($this->f("id"));
+			$this->paymentId = htmlspecialchars($this->f("id"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 		}
 		parent::__construct();
 	}
@@ -43,7 +43,7 @@ class Payment extends Model {
 		$sql .= "boeking_id = '" . mysql_real_escape_string($order_id) . "', status = '" . mysql_real_escape_string($status) . "', created_at = NOW(), ";
 		$sql .= "css_id = '" . mysql_real_escape_string($css_id) . "', ";
                 $sql .= "amount = '" . mysql_real_escape_string($amount) . "', type = '" . mysql_real_escape_string($payment_type) ."', reference = '" . mysql_real_escape_string($order_reference) . "' ;";
-              
+
 		$this->query($sql);
 
 		return (bool)$this->num_rows();
@@ -83,7 +83,7 @@ class Payment extends Model {
 
         $this->next_record();
 
-        return htmlspecialchars($this->f("cluster_key"));
+        return htmlspecialchars($this->f("cluster_key"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 	}
 
 	/**
@@ -103,25 +103,25 @@ class Payment extends Model {
 
                 $this->next_record();
 
-                return htmlspecialchars($this->f("cluster_key"));
+                return htmlspecialchars($this->f("cluster_key"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 	}
-        
+
         /**
          * Gets the CSS ID based on cluster key.
-         * 
+         *
          * @param type $cluster_key
          * @return boolean
          */
         public function getDocdataCssId($cluster_key){
             $sql = "SELECT css_id FROM `". $this->table . "` ";
             $sql.= "WHERE cluster_key ='". mysql_real_escape_string($cluster_key) . "' LIMIT 1";
-            
+
             $this->query($sql);
-            
+
             if((int)$this->num_rows() == 0) return false;
-            
+
             $this->next_record();
-            
+
             return $this->f('css_id');
         }
 
@@ -143,7 +143,7 @@ class Payment extends Model {
 		$this->next_record();
 
 
-		return htmlspecialchars($this->f("type"));
+		return htmlspecialchars($this->f("type"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 	}
 
 	/**
@@ -161,7 +161,7 @@ class Payment extends Model {
 		if((int)$this->num_rows() == 0) return null;
 
 		$this->next_record();
-		return htmlspecialchars($this->f("boeking_id"));
+		return htmlspecialchars($this->f("boeking_id"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 	}
 
 	/**
@@ -210,7 +210,7 @@ class Payment extends Model {
 		if((int)$this->num_rows() == 0) return null;
 
 		$this->next_record();
-		return htmlspecialchars($this->f("status"));
+		return htmlspecialchars($this->f("status"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 	}
 
 	/**
@@ -247,7 +247,7 @@ class Payment extends Model {
 		if((int)$this->num_rows() == 0) return null;
 
 		$this->next_record();
-		return htmlspecialchars($this->f("docdata_payment_id"));
+		return htmlspecialchars($this->f("docdata_payment_id"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 	}
 
 	/**
@@ -265,7 +265,7 @@ class Payment extends Model {
 		if((int)$this->num_rows() == 0) return null;
 
 		$this->next_record();
-		return htmlspecialchars($this->f("payment_method"));
+		return htmlspecialchars($this->f("payment_method"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 	}
 
 	/**

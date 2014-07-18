@@ -34,13 +34,13 @@ class Order extends Model {
 		$booking_payment = new booking_payment($data);
 		$booking_payment->get_amounts();
 
-		$this->increment_id = htmlspecialchars($data["stap1"]["boekingid"]);
+		$this->increment_id = htmlspecialchars($data["stap1"]["boekingid"], ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 
-		$this->data[$this->increment_id]['boekingsnummer'] = htmlspecialchars($data["stap1"]["boekingsnummer"]); // Booking number
-		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"]); // Order status
-		$this->data[$this->increment_id]['naam_accommodatie'] = htmlspecialchars($acc_name); // Accommodation name
-		$this->data[$this->increment_id]['website'] = htmlspecialchars($data["stap1"]["website"]); // Booking website code
-		$this->data[$this->increment_id]['taal'] = htmlspecialchars($data["stap1"]["taal"]); // Booking language
+		$this->data[$this->increment_id]['boekingsnummer'] = htmlspecialchars($data["stap1"]["boekingsnummer"], ENT_COMPAT | ENT_HTML401, 'ISO-8859-1'); // Booking number
+		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"], ENT_COMPAT | ENT_HTML401, 'ISO-8859-1'); // Order status
+		$this->data[$this->increment_id]['naam_accommodatie'] = htmlspecialchars($acc_name, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1'); // Accommodation name
+		$this->data[$this->increment_id]['website'] = htmlspecialchars($data["stap1"]["website"], ENT_COMPAT | ENT_HTML401, 'ISO-8859-1'); // Booking website code
+		$this->data[$this->increment_id]['taal'] = htmlspecialchars($data["stap1"]["taal"], ENT_COMPAT | ENT_HTML401, 'ISO-8859-1'); // Booking language
 
 		$this->data[$this->increment_id]['totale_reissom'] = $booking_payment->amount["totaal"]; // Final total
 		$this->data[$this->increment_id]['aanbetaling1'] = $booking_payment->amount["aanbetaling1"]; // Advance payment #1
@@ -61,15 +61,15 @@ class Order extends Model {
 
 		$orderId = $this->f("boeking_id");
 
-		$this->increment_id = htmlspecialchars($orderId);
-		$this->cluster_key = htmlspecialchars($this->f("cluster_key"));
+		$this->increment_id = htmlspecialchars($orderId, ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
+		$this->cluster_key = htmlspecialchars($this->f("cluster_key"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 
 		$data = get_boekinginfo($orderId);
 
 		$booking_payment = new booking_payment($data);
 		$booking_payment->get_amounts();
 
-		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"]); // Order status
+		$this->data[$this->increment_id]['bestelstatus'] = htmlspecialchars($data["stap1"]["bestelstatus"], ENT_COMPAT | ENT_HTML401, 'ISO-8859-1'); // Order status
 		$this->data[$this->increment_id]['totale_reissom'] = $booking_payment->amount["totaal"]; // Final total
 
 		return $this;
@@ -83,11 +83,11 @@ class Order extends Model {
 	public function getDocdataPaymentOrderKey($status = null, $css_id = NULL) {
 		return App::get("model/payment")->getDocdataPaymentOrderKey($this->increment_id, $this->payment_type, $status, $css_id);
 	}
-        
+
         public function getDocdataCssId($cluster_key){
                 return App::get("model/payment")->getDocdataCssId($cluster_key);
         }
-        
+
 
 	public function getDocdataPaymentClusterKey() {
 		return App::get("model/payment")->getDocdataPaymentClusterKey($this->getDocdataPaymentId(), $this->getPaymentType());
@@ -101,7 +101,7 @@ class Order extends Model {
 	 */
 	private function getPaymentType() {
 		$this->payment_type = App::get("model/payment")->getDocdataPaymentType($this->increment_id, $this->cluster_key);
-                
+
         return (!empty($this->payment_type)) ? $this->payment_type : self::FULL_PAYMENT;
 	}
 
@@ -138,7 +138,7 @@ class Order extends Model {
 
 		if(empty(self::$customer_id)) {
 			$this->getCustomer($this->increment_id);
-			$user_id = htmlspecialchars($this->f("user_id"));
+			$user_id = htmlspecialchars($this->f("user_id"), ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 			self::$customer_id = $user_id;
 		} else {
 			$user_id = self::$customer_id;
@@ -364,7 +364,7 @@ class Order extends Model {
 	 */
 	public function setInvoice($captured) {
 		App::get('model/payment')->setInvoice($this->increment_id, $this->getDocdataPaymentId() , $this->getDocdataPaymentMethod(), $captured);
-	}        
+	}
 
 	/**
 	 * Update docdata payment with the Docdata Payment ID
@@ -382,11 +382,11 @@ class Order extends Model {
 	 */
 	public function getDocdataPaymentId() {
             return App::get('model/payment')->getDocdataPaymentId($this->cluster_key);
-	}        
-        
+	}
+
 	public function getDocdataPaymentMethod() {
             return App::get('model/payment')->getDocdataPaymentMethod($this->cluster_key);
-	}          
+	}
 
 	/**
 	 * Function that returns the difference between order total amount and order payments
@@ -399,13 +399,13 @@ class Order extends Model {
 
 		return $this->payment_amount;
 	}
-        
+
 	public function getBaseTotal() {
 		// Select payments totals
 		$payments_total = App::get('model/payment')->getPayments($this->increment_id);
 
 		return $payments_total;
-	}        
+	}
 
 	/**
 	 * Set payment cluster key
@@ -424,7 +424,7 @@ class Order extends Model {
 	public function setOrderReference($key) {
 		$this->order_reference = $key;
 	}
-        
+
         /**
          * Sets the current CSS.
          * @param $css_id
@@ -479,7 +479,7 @@ class Order extends Model {
 
 		return true;
 	}
-        
+
         /**
          * Compare the existing cluster css with the config CSS.
          * @param type $cluster_key
@@ -487,7 +487,7 @@ class Order extends Model {
          */
         public function compareCssId($cluster_key){
                if(empty($cluster_key)) return false;
-               
+
                $helper = App::get('helper/api_create');
                $cssArray = $helper->getMenuPreference($this->getWebsiteCode());
                $css = $cssArray['css']['id'];
