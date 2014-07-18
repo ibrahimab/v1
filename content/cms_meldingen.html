@@ -270,6 +270,38 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["boekingen"]["gewijzigd"]) {
 	}
 
 	#
+	# Zijn er boekingen die nog niet besteld zijn?
+	#
+	$db->query("SELECT SUBSTRING(b.boekingsnummer,2), b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND (b.besteldatum IS NULL OR b.bestelstatus=1) AND b.seizoen_id>=17 ORDER BY 1, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_bestelstatus_nog_geen_besteldatum\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('bestelstatus_nog_geen_besteldatum');return false;\"><b>De volgende boekingen moeten nog besteld worden</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"bestelstatus_nog_geen_besteldatum\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
+		}
+		echo "</ul></div>";
+	}
+
+	#
+	# Zijn er boekingen die nog niet zijn bevestigd?
+	#
+	$db->query("SELECT SUBSTRING(b.boekingsnummer,2), b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd, UNIX_TIMESTAMP(b.besteldatum) AS besteldatum FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.bestelstatus=2 ORDER BY b.besteldatum, 1, b.naam_accommodatie;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_bestelstatus_niet_bevestigd\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('bestelstatus_niet_bevestigd');return false;\"><b>De volgende boekingen zijn besteld maar nog niet door de leverancier bevestigd</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"bestelstatus_niet_bevestigd\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+		while($db->next_record()) {
+			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"));
+			echo "</a>";
+			$dagen_geleden = floor((mktime(0,0,0,date("m"),date("d"),date("Y"))-$db->f("besteldatum"))/86400);
+			echo "<span class=\"".($dagen_geleden>=7 ? "error" : "")."\">";
+			echo " (".$dagen_geleden." dag".($dagen_geleden==1 ? "" : "en")." geleden)";
+			echo "</span>";
+			echo "</li>";
+		}
+		echo "</ul></div>";
+	}
+
+	#
 	# Zijn er boekingen waarbij de schriftelijke bevestiging nog moet komen?
 	#
 	$db->query("SELECT b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.geannuleerd=0 AND b.stap_voltooid=5 AND b.bestelstatus_schriftelijk_later=1 AND UNIX_TIMESTAMP(b.bestelstatus_schriftelijk_later_aanvinkmoment)<'".(time()-86400)."' ORDER BY b.besteldatum, b.naam_accommodatie;");
@@ -282,18 +314,6 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["boekingen"]["gewijzigd"]) {
 		echo "</ul></div>";
 	}
 
-	#
-	# Zijn er boekingen die nog niet besteld zijn?
-	#
-	$db->query("SELECT SUBSTRING(b.boekingsnummer,2), b.boeking_id, b.boekingsnummer, b.naam_accommodatie, b.aankomstdatum_exact, b.goedgekeurd FROM boeking b WHERE b.goedgekeurd=1 AND b.geannuleerd=0 AND b.stap_voltooid=5 AND b.besteldatum IS NULL AND b.seizoen_id>=17 ORDER BY 1, b.naam_accommodatie;");
-	if($db->num_rows()) {
-		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_bestelstatus_nog_geen_besteldatum\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('bestelstatus_nog_geen_besteldatum');return false;\"><b>De volgende boekingen moeten nog besteld worden / hebben nog geen besteldatum</a> (".$db->num_rows().")</b>";
-		echo "<div id=\"bestelstatus_nog_geen_besteldatum\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
-		while($db->next_record()) {
-			echo "<li><a href=\"".$path."cms_boekingen.php?show=21&bt=".($db->f("goedgekeurd") ? "2" : "1")."&21k0=".$db->f("boeking_id")."\">".htmlentities($db->f("boekingsnummer")." - ".$db->f("naam_accommodatie"))." - ".date("d-m-Y",$db->f("aankomstdatum_exact"))."</a></li>";
-		}
-		echo "</ul></div>";
-	}
 }
 
 if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["nietbekeken"]) {
