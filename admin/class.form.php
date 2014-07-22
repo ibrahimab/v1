@@ -255,6 +255,10 @@ class form2 {
 		$this->settings["bcc_mail_https"]=false;
 		$this->settings["download_uploaded_files"]=true;
 
+		$this->settings["add_to_filesync_table"] = false;
+		$this->settings["add_to_filesync_table_source"] = 1;
+
+
 		// Cross-site request forgery - http://css-tricks.com/serious-form-security/
 		$this->settings["prevent_csrf"]=false;
 
@@ -2413,6 +2417,17 @@ class form2 {
 		return $return;
 	}
 
+	function add_to_filesync_table($file, $delete=false) {
+		// save file to table `filesync`
+
+		if( $this->settings["add_to_filesync_table"] ) {
+			$db=new DB_sql;
+
+			$db->query("INSERT INTO `filesync` SET `source`='".intval($this->settings["add_to_filesync_table_source"])."', `file`='".wt_as($file)."', `delete`='".intval($delete)."', `added`=NOW();");
+		}
+	}
+
+
 	function mail($to,$toname,$subject,$fullbody="",$topbody="",$bottombody="",$from="formmail@webtastic.nl",$fromname="WebTastic FormMail",$special_settings="") {
 		global $vars;
 
@@ -2548,6 +2563,7 @@ class form2 {
 							$temp["filename"]=$this->fields["options"][$key]["move_file_to"].$this->fields["options"][$key]["rename_file_to"]."-".basename($key2).".".$this->fields["options"][$key]["must_be_filetype"];
 							if($this->fields["options"][$key]["move_file_to"] and file_exists($temp["filename"])) {
 								unlink($temp["filename"]);
+								$this->add_to_filesync_table($temp["filename"], true);
 								$this->deleted_images[$temp["filename"]]=true;
 							}
 						}
@@ -2557,6 +2573,7 @@ class form2 {
 						$temp["filename"]=$this->fields["options"][$key]["move_file_to"].$this->fields["options"][$key]["rename_file_to"].".".$this->fields["options"][$key]["must_be_filetype"];
 						if($this->fields["options"][$key]["move_file_to"] and file_exists($temp["filename"])) {
 							unlink($temp["filename"]);
+							$this->add_to_filesync_table($temp["filename"], true);
 							$this->deleted_images[$temp["filename"]]=true;
 						}
 					}
@@ -2596,6 +2613,7 @@ class form2 {
 							if(file_exists($this->fields["options"][$key]["move_file_to"]."_temp_".$key2)) {
 								rename($this->fields["options"][$key]["move_file_to"]."_temp_".$key2,$this->fields["options"][$key]["move_file_to"].$value2);
 								touch($this->fields["options"][$key]["move_file_to"].$value2);
+								$this->add_to_filesync_table($this->fields["options"][$key]["move_file_to"].$value2);
 							}
 						}
 					}
@@ -2635,9 +2653,12 @@ class form2 {
 								$temp["newfilename"]=$this->fields["options"][$key]["move_file_to"].$temp["filename"].($temp["extension"] ? ".".$temp["extension"] : "");
 								copy("tmp/".$value2["tmp_name"],$temp["newfilename"]);
 								@chmod($temp["newfilename"],0666);
+
 								if(file_exists($temp["newfilename"])) {
 									$this->upload_okay[$key]=true;
 									$this->upload_filename[$temp["newfilename"]]=true;
+
+									$this->add_to_filesync_table($temp["newfilename"]);
 
 									if($this->settings["show_upload_message"]) {
 										$_SESSION["wt_popupmsg"]="bestand(en) correct ontvangen";

@@ -846,6 +846,7 @@ if($form->okay) {
 
 		$pdf->Output($archieffile);
 		chmod($archieffile,0666);
+		filesync::add_to_filesync_table($archieffile);
 
 
 		if($form->input["vouchersmailen"]) {

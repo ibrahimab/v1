@@ -491,6 +491,11 @@ if($mustlogin) {
 	$cms=new cms2;
 
 	$cms->settings["show_upload_message"]=true;
+
+	// filesync-settings
+	$cms->settings["add_to_filesync_table"] = true;
+	$cms->settings["add_to_filesync_table_source"] = 1;
+
 	$cms->vars["users"]=$werknemer;
 
 	# 1 = accommodatie

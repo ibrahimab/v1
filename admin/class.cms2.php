@@ -71,6 +71,11 @@ class cms2 {
 			unset($_SESSION["CMS2"]["back"],$_GET["bc"]);
 		}
 
+		// general settings
+		$this->settings["add_to_filesync_table"] = false;
+		$this->settings["add_to_filesync_table_source"] = 1;
+
+
 		# Messages
 		$this->settings["message"]["nognietaanweziginsysteem"]["nl"]="er zijn nog geen _VALveldnaam_ aanwezig in het systeem";
 		$this->settings["message"]["nognietaanweziginsysteem"]["en"]="no _VALveldnaam_ in the system yet";
@@ -874,6 +879,12 @@ class cms2 {
 			$cms_form[$counter]->settings["show_save_message"]=$this->settings["show_save_message"];
 			$cms_form[$counter]->settings["show_upload_message"]=$this->settings["show_upload_message"];
 			$cms_form[$counter]->settings["download_uploaded_files"]=$this->settings[$counter]["download_uploaded_files"];
+
+			if($this->settings["add_to_filesync_table"]) {
+				// filesync-settings
+				$cms_form[$counter]->settings["add_to_filesync_table"] = true;
+				$cms_form[$counter]->settings["add_to_filesync_table_source"] = $this->settings["add_to_filesync_table_source"];
+			}
 
 			if($add) {
 				$cms_form[$counter]->settings["message"]["submitbutton"][$this->settings["language"]]=$this->message("toevoegen",false);

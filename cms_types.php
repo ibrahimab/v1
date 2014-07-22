@@ -653,6 +653,7 @@ function form_before_goto($form) {
 				# thumbnail aanmaken
 				wt_create_thumbnail("pic/cms/types_specifiek/".basename($key),"pic/cms/types_specifiek_tn/".basename($key),60,45);
 				chmod("pic/cms/types_specifiek_tn/".basename($key),0666);
+				filesync::add_to_filesync_table("pic/cms/types_specifiek_tn/".basename($key));
 
 				# afbeelding naar juiste maat omzetten
 				wt_create_thumbnail("pic/cms/types_specifiek/".basename($key),"pic/cms/types_specifiek/".basename($key),240,180);

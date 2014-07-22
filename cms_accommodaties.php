@@ -920,6 +920,7 @@ function form_before_goto($form) {
 				# thumbnail aanmaken
 				wt_create_thumbnail("pic/cms/accommodaties/".basename($key),"pic/cms/accommodaties_tn/".basename($key),60,45);
 				chmod("pic/cms/accommodaties_tn/".basename($key),0666);
+				filesync::add_to_filesync_table("pic/cms/accommodaties_tn/".basename($key));
 
 				# afbeelding naar juiste maat omzetten
 				wt_create_thumbnail("pic/cms/accommodaties/".basename($key),"pic/cms/accommodaties/".basename($key),240,180);
