@@ -3,6 +3,21 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+
+22-jul-2014 15:21
+CREATE TABLE IF NOT EXISTS `filesync` (
+  `filesync_id` int(11) NOT NULL AUTO_INCREMENT,
+  `source` tinyint(1) NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `delete` tinyint(1) NOT NULL,
+  `sync_start` datetime NOT NULL,
+  `sync_finish` datetime NOT NULL,
+  `error` varchar(255) NOT NULL,
+  `added` datetime NOT NULL,
+  PRIMARY KEY (`filesync_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
 15-jul-2014 16:03
 ALTER TABLE `cmslog` ADD `specialtext` VARCHAR(255) NOT NULL AFTER `specialtype`;
 
