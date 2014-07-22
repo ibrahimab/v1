@@ -492,7 +492,7 @@ php_value memory_limit 384M
 </Files>
 
 <Files cms_boekingen.php>
-php_value memory_limit 128M
+php_value memory_limit 256M
 </Files>
 
 <Files cms_boekingen_wijzigen.php>
