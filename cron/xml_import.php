@@ -195,35 +195,6 @@ if(($current_hour==9 and !$argv[1]) or $argv[1]=="5") {
 }
 
 
-if($NU_EVEN_NIET and (!$argv[1] or $argv[1]=="17")) {
-
-// uitgezet: XML-koppeling werkt nog niet goed
-
-	# XML downloaden bij Alpin Rentals Kaprun
-	$tmp_insert = array(
-	'user' => 'chaletnl',
-	'pass' => 'aTL9!32',
-	);
-
-	$tmp_insertStr = http_build_query($tmp_insert, '', '&');
-
-	$tmp_url = "http://www.alpinrentals.com/api/get";
-
-	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-	curl_setopt($ch, CURLOPT_URL, $tmp_url);
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_POSTFIELDS, $tmp_insertStr);
-	curl_setopt($ch, CURLOPT_POST, 1);
-	$tmp_results = curl_exec($ch);
-	curl_close($ch);
-
-	$temp_filename[17]=$tmpdir."alpin_rentals_kaprun_".date("Y-m-d-H-i").".xml";
-	file_put_contents($temp_filename[17],$tmp_results);
-	unset($tmp_results,$ch,$tmp_insert,$tmp_insertStr);
-}
-
-
 #
 # XML-gegevens ophalen van sites die de gegevens via 1 XML-bestand aanleveren
 #
@@ -296,14 +267,11 @@ $xml_urls[16][2]="http://www.almliesl.com/export_chalet_nl_prices_de_w.xml"; # p
 $xml_urls[16][4]="http://www.almliesl.com/export_chalet_nl_prices_de_s.xml"; # prijzen zomer
 # http://www.almliesl.com/export_chalel_nl_verfuegbarkeiten_so_wi_occupancy_de_w.xml
 
+# Flaine Immobilier (via Arkiane)
+$xml_urls[17][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=142&top=227&qry=extr_plng@top_id='FICHA'";
+#$xml_urls[17][2]="Flaine Immobilier" (tarieven werken met losse XML's per accommodatie)
 
-
-# Alpin Rentals Kaprun
-if(file_exists($temp_filename[17])) {
-	$xml_urls[17][1]=$temp_filename[17];
-}
-
-# Agence des Belleville
+# Agence des Belleville (via Arkiane)
 $xml_urls[18][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&top=58&qry=extr_plng@top_id='CHALE'";
 #$xml_urls[18][2]="Agence des Belleville" (tarieven werken met losse XML's per accommodatie)
 
@@ -311,9 +279,9 @@ $xml_urls[18][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=141&to
 $xml_urls[19][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=23&top=6&qry=extr_plng@top_id='CHANL'";
 #$xml_urls[19][2]="Oxygène Immobilier" (tarieven werken met losse XML's per accommodatie)
 
-# Centrale Locative de l'Immobilière des Hauts Forts (via Arkiane)
+# Centrale des Hauts Forts (via Arkiane)
 $xml_urls[20][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=169&top=7&qry=extr_plng@top_id='CHALE'";
-#$xml_urls[20][2]="Centrale Locative de l'Immobilière des Hauts Forts" (tarieven werken met losse XML's per accommodatie)
+#$xml_urls[20][2]="Centrale des Hauts Forts" (tarieven werken met losse XML's per accommodatie)
 
 # Ville in Italia
 $xml_urls[21][1]="https://secure.villeinitalia.com/protAgency/AvailableFile.jsp"; # beschikbaarheid
@@ -364,13 +332,13 @@ if($testsysteem) {
 #	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
 #	$xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
 #	$xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
-#	$xml_urls[17][1]=$temp_filename[17];
+	$xml_urls[17][1]=$test_tmpdir."lev.xml";
 #	$xml_urls[18][1]=$test_tmpdir."agence.xml";
 #	$xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
 #	$xml_urls[20][1]="/tmp/locative.xml";
 #	$xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
 #	$xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
-	$xml_urls[22][1]="/tmp/nexity.xml"; # prijzen
+	// $xml_urls[22][1]="/tmp/nexity.xml"; # prijzen
 	unset($http_login[21]);
 }
 
@@ -398,7 +366,7 @@ if($testsysteem) {
 			$test_leverancierids.=",".$db->f("leverancier_id");
 		}
 	}
-	$test_leverancierids="325";
+	// $test_leverancierids="325";
 }
 
 
@@ -545,21 +513,22 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
-			} elseif($key==7 or $key==10 or $key==12 or $key==18 or $key==19 or $key==20 or $key==22) {
-				#
-				# Arkiane-leveranciers
-				#
+			} elseif($key==7 or $key==10 or $key==12 or $key==17 or $key==18 or $key==19 or $key==20 or $key==22) {
 
 				/*
-					CIS / Bellecôte Chalets (VVE) +
-					CIS Immobilier +
-					Deux Alpes Voyages +
-					Agence des Belleville +
-					Oxygène Immobilier +
-					Centrale Locative de l'Immobilière des Hauts Forts +
-					Nexity
 
-				 */
+				Arkiane-leveranciers:
+
+				Leverancier CIS / Bellecôte Chalets (VVE)
+				CIS Immobilier
+				Flaine Immobilier
+				Deux Alpes Voyages
+				Agence des Belleville
+				Oxygène Immobilier
+				Centrale des Hauts Forts
+				Nexity
+
+				*/
 
 				foreach($xml->LINE as $value3) {
 					$datum_begin=strtotime(ereg_replace("/","-",$value3->ocpt_debut));
@@ -881,16 +850,6 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
-			} elseif($key==17) {
-				#
-				#
-				# Leverancier Alpin Rentals Kaprun
-				#
-				#
-
-				# werkt niet (ooit door Miguel ontwikkeld)
-
-
 			} elseif($key==21) {
 				#
 				# Leverancier Ville in Italia
@@ -1086,13 +1045,13 @@ while(list($key,$value)=@each($soap_urls)) {
 				die();
 			}
 			// Get the last dates for each season type (winter=1, summer=2)
-						$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
+			$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
 
-						$db->query($q);
+			$db->query($q);
 			while($db->next_record()) {
 				$endDate[$db->f("type")][] = $db->f("end");
 				$startDate[$db->f("type")][] = $db->f("begin");
-						}
+			}
 
 			// Get all accommodations from Interhome (421)
 			$q = "SELECT t.leverancierscode, t.leverancierscode_negeertarief, a.wzt FROM `type` t JOIN `accommodatie` a USING(accommodatie_id) WHERE t.`leverancier_id` = '421' AND t.`leverancierscode` IS NOT NULL AND t.`leverancierscode` <> ''";
@@ -1436,8 +1395,8 @@ if($testsysteem) {
 #	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.xmltarievenimport, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND t.leverancier_id IN (30) ORDER BY t.leverancier_id;");
 
 #	$db->query("SELECT la.begincode, t.type_id, t.leverancierscode, t.leverancierscode_negeertarief, t.xmltarievenimport, a.leverancierscode AS aleverancierscode, t.leverancier_id, a.naam, a.flexibel, a.accommodatie_id, a.aankomst_plusmin, t.naam AS tnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, a.wzt, l.xml_type, p.naam AS plaats, l.naam AS leverancier FROM type t, accommodatie a, leverancier l, land la, plaats p WHERE a.tonen=1 AND t.tonen=1 AND a.archief=0 AND a.plaats_id=p.plaats_id AND p.land_id=la.land_id AND t.leverancier_id=l.leverancier_id AND t.accommodatie_id=a.accommodatie_id AND l.xml_type IS NOT NULL AND t.leverancierscode IS NOT NULL AND a.accommodatie_id=2015 ORDER BY t.leverancier_id, a.wzt;");
-#	echo $db->lastquery."<p>kk";
-#	exit;
+	// echo $db->lq."<p>kk";
+	// exit;
 } else {
 	# echte query
 	if(intval($argv[1])>0) {
@@ -1652,10 +1611,22 @@ while($db->next_record()) {
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
-		} elseif($db->f("xml_type")==7 or $db->f("xml_type")==10 or $db->f("xml_type")==12 or $db->f("xml_type")==18 or $db->f("xml_type")==19 or $db->f("xml_type")==20 or $db->f("xml_type")==22) {
-			#
-			# Leverancier CIS / Bellecôte Chalets (VVE) + CIS Immobilier + Deux Alpes Voyages + Agence des Belleville + Oxygène Immobilier + Centrale Locative de l'Immobilière des Hauts Forts + Nexity
-			#
+		} elseif($db->f("xml_type")==7 or $db->f("xml_type")==10 or $db->f("xml_type")==12 or $db->f("xml_type")==17 or $db->f("xml_type")==18 or $db->f("xml_type")==19 or $db->f("xml_type")==20 or $db->f("xml_type")==22) {
+			/*
+
+			Arkiane-leveranciers:
+
+			Leverancier CIS / Bellecôte Chalets (VVE)
+			CIS Immobilier
+			Flaine Immobilier
+			Deux Alpes Voyages
+			Agence des Belleville
+			Oxygène Immobilier
+			Centrale des Hauts Forts
+			Nexity
+
+			*/
+
 
 			$aantal_beschikbaar[$db->f("xml_type")][$db->f("type_id")]++;
 
@@ -1680,6 +1651,9 @@ while($db->next_record()) {
 			} elseif($db->f("xml_type")==12) {
 				# Deux Alpes Voyages
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=122&top=3037&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
+			} elseif($db->f("xml_type")==17) {
+				# Flaine Immobilier
+				$xml_url="http://resa.alpes-skiresa.com/xml/xml_v1.asp?app=LS&clt=142&top=227&qry=tarif_lotref@top_id='FICHA',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==18) {
 				# Agence des Belleville
 				$xml_url="http://resa.alpes-skiresa.com/xml/xml_v1.asp?app=LS&clt=141&top=58&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
@@ -1687,7 +1661,7 @@ while($db->next_record()) {
 				# Oxygène Immobilier
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=23&top=6&qry=tarif_lotref@top_id='CHANL',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==20) {
-				# Centrale Locative de l'Immobilière des Hauts Forts
+				# Centrale des Hauts Forts
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=169&top=7&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			} elseif($db->f("xml_type")==22) {
 				# Nexity
@@ -1931,7 +1905,7 @@ while($db->next_record()) {
 			#
 			if($db->f("xml_type")==1 or $db->f("xml_type")==2 or $db->f("xml_type")==3 or $db->f("xml_type")==5 or $db->f("xml_type")==6 or $db->f("xml_type")==7 or $db->f("xml_type")==8 or $db->f("xml_type")==9 or $db->f("xml_type")==10 or $db->f("xml_type")==11 or $db->f("xml_type")==12 or $db->f("xml_type")==13 or $db->f("xml_type")==14 or $db->f("xml_type")==15 or $db->f("xml_type")=="16" or $db->f("xml_type")=="17" or $db->f("xml_type")=="18" or $db->f("xml_type")=="19" or $db->f("xml_type")=="20" or $db->f("xml_type")=="21" or $db->f("xml_type")=="22" or $db->f("xml_type")=="23" or $db->f("xml_type")=="24" or $db->f("xml_type")=="25") {
 				#
-				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Alpin Rentals Kaprun (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale Locative de l'Immobilière des Hauts Forts (20), Ville in Italia (21) + Nexity (22), Interhome (23)
+				# Leveranciers Huetten (1), Alpenchalets (2), Ski France (3), P&V Pierre et Vacances (5), Frosch (6), Bellecôte (7), Posarelli Villas (8), Maisons Vacances Ann Giraud (9) , CIS Immobilier (10), Odalys Résidences (11), Deux Alpes Voyages (12), Eurogroup (13), Marche Holiday (14), Des Neiges (15), Almliesl (16), Flaine Immobilier (17), Agence des Belleville (18), Oxygène Immobilier (19), Centrale des Hauts Forts (20), Ville in Italia (21), Nexity (22), Interhome (23), Direkt Holidays (24), Alpin Rentals Kaprun (25)
 				#
 
 				if(isset($shorter_seasons[$db->f("type_id")])){
