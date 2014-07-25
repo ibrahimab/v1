@@ -3,6 +3,8 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+25-jul-2014 15:44
+ALTER TABLE `boeking` ADD `besteluser_id` INT NULL DEFAULT NULL AFTER `besteldatum` ;
 
 22-jul-2014 15:21
 CREATE TABLE IF NOT EXISTS `filesync` (
