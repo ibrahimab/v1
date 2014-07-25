@@ -836,13 +836,13 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 		if(!$isMobile) {
 			$form->field_text(1,"voornaam",txt("voornaam","boeken"),"",array("text"=>$gegevens["stap2"]["voornaam"]));
 			if($boeking_wijzigen) {
-				if($vars["taal"]<>"en") {
+				if($gegevens["stap1"]["taal"]<>"en") {
 					$form->field_noedit("tussenvoegsel",txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap2"]["tussenvoegsel"]));
 				}
 				$form->field_noedit("achternaam",txt("achternaam","boeken"),"",array("text"=>$gegevens["stap2"]["achternaam"]));
 				$form->field_htmlrow("","<span style=\"font-size:0.8em;font-style:italic;\">&nbsp;&nbsp;".html("voorhetwijzigenvanachternaam","boeken")."</span>");
 			} else {
-				if($vars["taal"]<>"en") {
+				if($gegevens["stap1"]["taal"]<>"en") {
 					$form->field_text(0,"tussenvoegsel",txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap2"]["tussenvoegsel"]));
 				}
 				$form->field_text(1,"achternaam",txt("achternaam","boeken"),"",array("text"=>$gegevens["stap2"]["achternaam"]));
@@ -976,7 +976,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				}
 				if($i==1) {
 					$form->field_noedit("voornaam",txt("voornaam","boeken"),"",array("text"=>$gegevens["stap2"]["voornaam"]));
-					if($vars["taal"]<>"en") {
+					if($gegevens["stap1"]["taal"]<>"en") {
 						$form->field_noedit("tussenvoegsel",txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap2"]["tussenvoegsel"]));
 					}
 					$form->field_noedit("achternaam",txt("achternaam","boeken"),"",array("text"=>$gegevens["stap2"]["achternaam"]));
@@ -989,7 +989,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 				} else {
 					if(!$isMobile) {
 						$form->field_text(0,"voornaam".$i,txt("voornaam","boeken"),"",array("text"=>$gegevens["stap3"][$i]["voornaam"]));
-						if($vars["taal"]<>"en") {
+						if($gegevens["stap1"]["taal"]<>"en") {
 							$form->field_text(0,"tussenvoegsel".$i,txt("tussenvoegsel","boeken"),"",array("text"=>$gegevens["stap3"][$i]["tussenvoegsel"]));
 						}
 						$form->field_text(0,"achternaam".$i,txt("achternaam","boeken"),"",array("text"=>$gegevens["stap3"][$i]["achternaam"]));
