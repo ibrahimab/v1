@@ -440,13 +440,15 @@ class form2 {
 
 		$this->settings["message"]["error_password_spaces"]["nl"]="spaties zijn niet toegestaan";
 		$this->settings["message"]["error_password_spaces"]["en"]="spaces are not allowed";
+		$this->settings["message"]["error_password_spaces"]["fr"]="espaces ne sont pas autorisés";
 
 		$this->settings["message"]["error_csrf"]["nl"]="Verzendfout - probeer het opnieuw";
 		$this->settings["message"]["error_csrf"]["en"]="Send error - please try again";
+		$this->settings["message"]["error_csrf"]["fr"]="Envoyer erreur - s'il vous plaît essayer à nouveau";
 
 		$this->settings["message"]["enable_javascript"]["nl"]="Verzendfout - uw browser ondersteunt geen JavaScript";
 		$this->settings["message"]["enable_javascript"]["en"]="Send error - your browser doesn't support JavaScript";
-
+		$this->settings["message"]["enable_javascript"]["fr"]="Envoyer erreur - votre navigateur ne supporte pas le JavaScript";
 
 
 		if($_POST["pg"]) {

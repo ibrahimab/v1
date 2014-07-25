@@ -289,19 +289,21 @@ function wt_mktime () {
 }
 
 function testgegevens() {
-	document.forms['frm'].elements['input[voornaam]'].value='Jan';
-	document.forms['frm'].elements['input[tussenvoegsel]'].value='de';
-	document.forms['frm'].elements['input[achternaam]'].value='Boer';
-	document.forms['frm'].elements['input[plaats]'].value='Amsterdam';
-	document.forms['frm'].elements['input[telefoonnummer]'].value='020-1234567';
-	document.forms['frm'].elements['input[geboortedatum][day]'].value='15';
-	document.forms['frm'].elements['input[geboortedatum][month]'].value='5';
-	document.forms['frm'].elements['input[geboortedatum][year]'].value='1985';
-	document.forms['frm'].elements['input[geslacht]'][0].checked=true;
-	document.forms['frm'].elements['input[mobielwerk]'].value='06-12345678';
-	document.forms['frm'].elements['input[email]'].value='noreply@webtastic.nl';
-	document.forms['frm'].elements['input[adres]'].value='Testpad 11';
-	document.forms['frm'].elements['input[postcode]'].value='1111 AA';
+	$("input[name='input[voornaam]']").val('ATest');
+	$("input[name='input[tussenvoegsel]']").val('de');
+	$("input[name='input[achternaam]']").val('Boer');
+	$("input[name='input[plaats]']").val('Utrecht');
+	$("input[name='input[land]']").val('Nederland');
+	$("input[name='input[telefoonnummer]']").val('030-1234567');
+	$("select[name='input[geboortedatum][day]']").val('15');
+	$("select[name='input[geboortedatum][month]']").val('5');
+	$("select[name='input[geboortedatum][year]']").val('1985');
+	$("#radiogeslacht1").attr("checked", true);
+	// $("input[name='input[geslacht]'][0].checked=true;
+	$("input[name='input[mobielwerk]']").val('06-12345678');
+	$("input[name='input[email]']").val('noreply@webtastic.nl');
+	$("input[name='input[adres]']").val('Testpad 11');
+	$("input[name='input[postcode]']").val('1111 AA');
 }
 
 

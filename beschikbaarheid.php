@@ -120,7 +120,9 @@ if($vars["wederverkoop"] and $vars["chalettour_logged_in"]) {
 	$wederverkoop_aanvraag=true;
 } else {
 	$form->field_text($obl,"voornaam",txt("voornaam","beschikbaarheid"),"",array("text"=>$temp_naw["voornaam"]));
-	$form->field_text(0,"tussenvoegsel",txt("tussenvoegsel","beschikbaarheid"),"",array("text"=>$temp_naw["tussenvoegsel"]));
+	if($vars["taal"]<>"en") {
+		$form->field_text(0,"tussenvoegsel",txt("tussenvoegsel","beschikbaarheid"),"",array("text"=>$temp_naw["tussenvoegsel"]));
+	}
 	$form->field_text($obl,"achternaam",txt("achternaam","beschikbaarheid"),"",array("text"=>$temp_naw["achternaam"]));
 	$form->field_text($obl,"adres",txt("adres","beschikbaarheid"),"",array("text"=>$temp_naw["adres"]));
 	$form->field_text($obl,"postcode",txt("postcode","beschikbaarheid"),"",array("text"=>$temp_naw["postcode"]));

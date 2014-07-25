@@ -554,7 +554,7 @@ $txt["nl"]["popup_stuurdoor"]["bedankt_meervoud"]="Bedankt! De link is naar de v
 $txt["en"]["popup_stuurdoor"]["bedankt_meervoud"]="Thank you! The link has been sent to:";
 
 $txt["nl"]["popup_stuurdoor"]["volledigenaam"]="Vul je volledige naam in (voor- en achternaam)";
-$txt["en"]["popup_stuurdoor"]["volledigenaam"]="Enter your full name (first and last name)";
+$txt["en"]["popup_stuurdoor"]["volledigenaam"]="Enter your full name (first name and surname)";
 
 $txt["nl"]["popup_stuurdoor"]["ongeldig"]="Ongeldig mailadres";
 $txt["en"]["popup_stuurdoor"]["ongeldig"]="Invalid email address";
