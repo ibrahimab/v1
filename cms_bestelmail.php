@@ -304,7 +304,7 @@ if($form->okay) {
 	} else {
 
 		# bestelstatus op 'bevestiging afwachten' zetten en besteldatum op vandaag zetten
-		$db->query("UPDATE boeking SET bestelstatus=2, besteldatum=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
+		$db->query("UPDATE boeking SET bestelstatus=2, besteldatum=NOW(), besteluser_id='".intval($login->user_id)."' WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
 
 		# Loggen bij boeking
 		chalet_log("bestelmail ".$vars["bestelmailfax_soort"]["N"][$form->input["soort"]]." verzonden naar ".$vars["temp_leverancier"]["email"],false,true);
