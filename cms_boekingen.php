@@ -82,11 +82,15 @@ if(!$_GET["21k0"] and $_GET["bt"]==3) {
 	}
 }
 
-function bestelstatus_tekst($bestelstatus,$opmerkingen_intern) {
+function bestelstatus_tekst($bestelstatus, $opmerkingen_intern, $besteluser_id) {
 
-	global $vars;
+	global $vars, $werknemer;
 
-	if($bestelstatus<>1) {
+	if($_GET["bt"]==8) {
+		if($besteluser_id) {
+			$return.=wt_he($werknemer[$besteluser_id]);
+		}
+	} elseif($bestelstatus<>1) {
 		$return.=preg_replace("@ @","&nbsp;",$vars["bestelstatus"][$bestelstatus]);
 	}
 	if($opmerkingen_intern) {
@@ -96,7 +100,7 @@ function bestelstatus_tekst($bestelstatus,$opmerkingen_intern) {
 		$return.="<a href=\"#\" onclick=\"return false;\" class=\"opm\"><span class=\"balloon_small2\">".nl2br(wt_he($opmerkingen_intern))."</span>opmerking</a>";
 	}
 
-	if(!$return) {
+	if(!$return and $_GET["bt"]<>8) {
 		$return="<span class=\"bestelstatus_hele_tr_opvallend\"></span>";
 	}
 
@@ -106,19 +110,19 @@ function bestelstatus_tekst($bestelstatus,$opmerkingen_intern) {
 
 if($_GET["show"]<>21) {
 	# Boekingsgegevens laden (gewone boekingen)
-	$db->query("SELECT bp.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, b.toonper, b.wederverkoop, b.bestelstatus, b.opmerkingen_intern FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.reisbureau_user_id IS NULL;");
+	$db->query("SELECT bp.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, b.toonper, b.wederverkoop, b.bestelstatus, b.besteluser_id, b.opmerkingen_intern FROM boeking b, boeking_persoon bp WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.reisbureau_user_id IS NULL;");
 	while($db->next_record()) {
 		$boekingsgegevens["hoofdboeker"][$db->f("boeking_id")]=wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))." (".$db->f("email").")";
 		$boekingsgegevens["acc_of_arrangement"][$db->f("boeking_id")]=($db->f("toonper")==3||$db->f("wederverkoop") ? "Acc" : "Arr");
-		$boekingsgegevens["bestelstatus"][$db->f("boeking_id")]=bestelstatus_tekst($db->f("bestelstatus"),$db->f("opmerkingen_intern"));
+		$boekingsgegevens["bestelstatus"][$db->f("boeking_id")]=bestelstatus_tekst($db->f("bestelstatus"), $db->f("opmerkingen_intern"), $db->f("besteluser_id"));
 	}
 
 	# Boekingsgegevens laden (wederverkoop-boekingen)
-	$db->query("SELECT bp.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, r.naam, b.reisbureau_user_id, b.bestelstatus, b.opmerkingen_intern FROM boeking b, boeking_persoon bp, reisbureau r, reisbureau_user ru WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.reisbureau_user_id=ru.user_id AND ru.reisbureau_id=r.reisbureau_id;");
+	$db->query("SELECT bp.boeking_id, bp.voornaam, bp.tussenvoegsel, bp.achternaam, bp.email, r.naam, b.reisbureau_user_id, b.bestelstatus, b.besteluser_id, b.opmerkingen_intern FROM boeking b, boeking_persoon bp, reisbureau r, reisbureau_user ru WHERE bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND b.reisbureau_user_id=ru.user_id AND ru.reisbureau_id=r.reisbureau_id;");
 	while($db->next_record()) {
 		$boekingsgegevens["hoofdboeker"][$db->f("boeking_id")]=wt_naam($db->f("voornaam"),$db->f("tussenvoegsel"),$db->f("achternaam"))." (".$db->f("naam").")";
 		$boekingsgegevens["acc_of_arrangement"][$db->f("boeking_id")]=($db->f("reisbureau_user_id") ? "Acc + Com" : "Acc");
-		$boekingsgegevens["bestelstatus"][$db->f("boeking_id")]=bestelstatus_tekst($db->f("bestelstatus"),$db->f("opmerkingen_intern"));
+		$boekingsgegevens["bestelstatus"][$db->f("boeking_id")]=bestelstatus_tekst($db->f("bestelstatus"), $db->f("opmerkingen_intern"), $db->f("besteluser_id"));
 	}
 
 	# Boekingsgegevens laden (enquetes)
@@ -210,9 +214,6 @@ if($_GET["bt"]==1) {
 		$_GET["bestelstatus"] = 1;
 	}
 	$cms->db[21]["where"] = "bestelstatus='".intval($_GET["bestelstatus"])."' AND geannuleerd=0 AND stap_voltooid=5 AND goedgekeurd=1";
-	if($_GET["bestelstatus"]==3) {
-		$cms->db[21]["where"] .= " AND aankomstdatum_exact>'".(time()-86400*15)."'";
-	}
 	$cms->settings[21]["list"]["delete_icon"]=false;
 } elseif($_GET["boekingsearch"]) {
 	if(ereg("@",$_GET["boekingsearch"])) {
@@ -271,6 +272,8 @@ if($_GET["archief"]==1) {
 
 if($_GET["bt"]==1 or $_GET["bt"]==7) {
 	$cms->db_field(21,"select","bestelstatus","boeking_id",array("selection"=>$boekingsgegevens["bestelstatus"]));
+} elseif($_GET["bt"]==8) {
+	$cms->db_field(21,"select","besteluser_id","boeking_id",array("selection"=>$boekingsgegevens["bestelstatus"]));
 }
 
 
@@ -282,6 +285,9 @@ $cms->db_field(21,"date","aankomstdatum_exact");
 $cms->db_field(21,"date","invuldatum");
 $cms->db_field(21,"select","aantalpersonen","",array("selection"=>$accinfo["aantalpersonen"]));
 $cms->db_field(21,"select","stap_voltooid","",array("selection"=>$vars["boeken"]));
+if($_GET["bt"]==8) {
+	// $cms->db_field(21,"select","besteluser_id","",array("othertable"=>"25","otherkeyfield"=>"user_id","otherfield"=>"voornaam"));
+}
 
 #$cms->list_sort[21]=array("boeking_id");
 $cms->list_sort_desc[21]=true;
@@ -326,6 +332,11 @@ if($_GET["boekingsearch"]) {
 	// bestelstatus
 	$cms->list_field(21,"website","Site");
 	$cms->list_field(21,"boekingsnummer","Nr",array("sort_substring"=>array(1)));
+
+	if($_GET["bestelstatus"]==2) {
+		$cms->list_field(21,"besteluser_id","Besteld door","",array("html"=>true));
+	}
+
 	$cms->list_sort[21]=array("aankomstdatum_exact","website");
 	$cms->list_sort_desc[21]=false;
 } else {
