@@ -1,5 +1,12 @@
 <?php
 
+echo "Test 1";
+if(defined("wt_server_name")) {
+	echo "NAME:".wt_server_name;
+}
+phpinfo();
+
+exit;
 
 // echo htmlspecialchars("Hé €", ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 

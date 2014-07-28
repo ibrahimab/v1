@@ -1485,11 +1485,13 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 											# set the images
 											$i10 = 0;
 											$typeImages = $_POST["imageFromXml-type"][$key];
-											foreach($typeImages as $img) {
-												$i10 += 10;
-												if(!in_array($img, (array)unserialize($xml_importvalues[2][$key]["image"])))
-													$_POST["imgvolgorde"]["type"][$key][$img] = $i10;
+											if(is_array($typeImages)) {
+												foreach($typeImages as $img) {
+													$i10 += 10;
+													if(!in_array($img, (array)unserialize($xml_importvalues[2][$key]["image"])))
+														$_POST["imgvolgorde"]["type"][$key][$img] = $i10;
 												}
+											}
 										} elseif (!isset($_GET['toonwijzigingen']) && isset($value["typeafbeelding"]) && is_array($value["typeafbeelding"])){
 											# set the images
 											$i10 = 0;
