@@ -24,7 +24,7 @@ Alle andere leveranciers: tussen 8 en 20 uur elk uur, daarnaast ook om 0, 3, 6 e
 
 $current_hour = date("H");
 
-function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $wzt, $seizoenen){
+function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $wzt, $seizoenen) {
 	if(is_array($xml[$xml_type][$value])) {
 		foreach($xml[$xml_type][$value] as $week => $status){
 			$season_availability = $seizoenen[$wzt][$week];
@@ -2033,7 +2033,7 @@ while($db->next_record()) {
 				}
 
 				// Update discount percentages for interHome
-						if(is_array($xml_discounts[$db->f("xml_type")][$value]) && ($db->f("xml_type") == 23)) {
+				if(is_array($xml_discounts[$db->f("xml_type")][$value]) && ($db->f("xml_type") == 23)) {
 
 					foreach($xml_discounts[$db->f("xml_type")][$value] as $week => $lev_discount){
 						$discount_seasonid = $seizoenen[$wzt[$db->f("type_id")]][$week];
@@ -2043,7 +2043,7 @@ while($db->next_record()) {
 						$discount_order = 100000-intval($lev_discount);
 
 						$sql_fields =     " editdatetime=NOW(), "
-										. " seizoen_id =".$discount_seasonid .", "
+										. " seizoen_id ='".intval($discount_seasonid) ."', "
 										. " gekoppeld_code=0, "
 										. " xml_korting=2, "
 										. " delete_after_xml_korting=0, "
@@ -2060,11 +2060,11 @@ while($db->next_record()) {
 										. " toon_abpagina=1, "
 										. " naam='Import kortings percentage - " .$lev_discount. "'";
 
-						$db2->query("SELECT * from korting where xml_korting=2 AND type_id=".$db->f("type_id")." AND seizoen_id = ".$discount_seasonid);
+						$db2->query("SELECT * from korting where xml_korting=2 AND type_id=".$db->f("type_id")." AND seizoen_id = '".intval($discount_seasonid)."'");
 
 						if($db2->next_record()){
 							if($new_insert[$discount_seasonid] != true)
-								$db2->query("UPDATE korting set " .$sql_fields. " WHERE type_id =".$db->f("type_id")." AND seizoen_id=".$discount_seasonid);
+								$db2->query("UPDATE korting set " .$sql_fields. " WHERE type_id =".$db->f("type_id")." AND seizoen_id='".$discount_seasonid."'");
 
 							$discountid = $db2->f("korting_id");
 						} else {
