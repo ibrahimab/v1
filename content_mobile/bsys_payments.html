@@ -344,7 +344,7 @@ if($login->logged_in) {
 						$payments_overview .= "<tr><td width=\"80%\">" . $booking_payment->text["eindbetaling"] ."</td><td style=\"white-space:nowrap;\" align=\"right\"> &euro; " . number_format($booking_payment->amount["eindbetaling"],2,',','.') ."</td></tr>";
 						$payments_overview .= "</table>";
 
-						$payments_text = "<p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
+						$payments_text = "<br/><p>". htmlentities_uitgebreid(html("banktransfer_text","bsys",array("v_resnumber"=> $gegevens["stap1"]["boekingsnummer"]))) ."</p>";
 
 						echo $payments_overview;
 						echo $payments_text;
