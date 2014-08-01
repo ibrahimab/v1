@@ -168,7 +168,9 @@ if($form->filled) {
 		if($flextarief["tarief"]>0) {
 
 		} else {
-			$form->error("aankomstdatum_flex",txt("gekozenperiodenietbeschikbaar","beschikbaarheid"));
+			if($accinfo["flexibel"]) {
+				$form->error("aankomstdatum_flex",txt("gekozenperiodenietbeschikbaar","beschikbaarheid"));
+			}
 			$form->error("verblijfsduur",txt("gekozenperiodenietbeschikbaar","beschikbaarheid"));
 		}
 	}
