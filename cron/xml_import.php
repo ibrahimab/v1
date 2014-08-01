@@ -1,6 +1,6 @@
 <?php
 
-# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 23...)
+# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/xml_import.php [leverancier-xml-nummer] (optioneel: 1 t/m 26...)
 
 #
 # Script wordt elke minuut gerund, maar alleen volledig afgelopen om:
@@ -303,6 +303,12 @@ if(get_slow_suppliers(24)) {
 # Alpin Rentals
 $soap_urls[25] = $unixdir."suppliers/newyseservice/index.php";
 
+
+# 3 Vallées Immobilier (via Arkiane)
+$xml_urls[26][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=264&top=58&qry=extr_plng@top_id='CHALE'";
+#$xml_urls[26][2]="3 Vallées Immobilier" (tarieven werken met losse XML's per accommodatie)
+
+
 #
 # Voor testsysteem
 #
@@ -515,7 +521,7 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
-			} elseif($key==7 or $key==10 or $key==12 or $key==17 or $key==18 or $key==19 or $key==20 or $key==22) {
+			} elseif($key==7 or $key==10 or $key==12 or $key==17 or $key==18 or $key==19 or $key==20 or $key==22 or $key==26) {
 
 				/*
 
@@ -529,6 +535,7 @@ while(list($key,$value)=@each($xml_urls)) {
 				Oxygène Immobilier
 				Centrale des Hauts Forts
 				Nexity
+				3 Vallées Immobilier
 
 				*/
 
@@ -1613,7 +1620,7 @@ while($db->next_record()) {
 					$xml_laatsteimport[$db->f("type_id")]=true;
 				}
 			}
-		} elseif($db->f("xml_type")==7 or $db->f("xml_type")==10 or $db->f("xml_type")==12 or $db->f("xml_type")==17 or $db->f("xml_type")==18 or $db->f("xml_type")==19 or $db->f("xml_type")==20 or $db->f("xml_type")==22) {
+		} elseif($db->f("xml_type")==7 or $db->f("xml_type")==10 or $db->f("xml_type")==12 or $db->f("xml_type")==17 or $db->f("xml_type")==18 or $db->f("xml_type")==19 or $db->f("xml_type")==20 or $db->f("xml_type")==22 or $db->f("xml_type")==26) {
 			/*
 
 			Arkiane-leveranciers:
@@ -1626,6 +1633,7 @@ while($db->next_record()) {
 			Oxygène Immobilier
 			Centrale des Hauts Forts
 			Nexity
+			3 Vallées Immobilier
 
 			*/
 
@@ -1668,6 +1676,9 @@ while($db->next_record()) {
 			} elseif($db->f("xml_type")==22) {
 				# Nexity
 				$xml_url="http://xml.arkiane.com/xml_v1.asp?app=LS&clt=238&top=22&qry=tarif_lotref@top_id='CHANL',@lot_ref='".$value."'";
+			} elseif($db->f("xml_type")==26) {
+				# 3 Vallées Immobilier
+				$xml_url="http://resa.alpes-skiresa.com/xml/xml_v1.asp?app=LS&clt=264&top=58&qry=tarif_lotref@top_id='CHALE',@lot_ref='".$value."'";
 			}
 			if($xml=@simplexml_load_file($xml_url)) {
 

@@ -1122,7 +1122,8 @@ $vars["xml_type"]=array(
 	22=>"Nexity - Arkiane (22)",
 	23=>"Interhome (23)",
 	24=>"Direkt Holidays (24)",
-	25=>"Alpin Rentals Kaprun (25)"
+	25=>"Alpin Rentals Kaprun (25)",
+	26=>"3 Vallées Immobilier - Arkiane (26)"
 );
 asort($vars["xml_type"]);
 
