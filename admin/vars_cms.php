@@ -297,7 +297,13 @@ if($mustlogin) {
 
 
 	if($vars["cmstaal"] and $vars["cmstaal"]<>"nl") $layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_anderetaal.css";
-	if($login->logged_in) $layout->settings["logout_extra"]="<div style=\"margin-top:3px;\"><form method=\"get\" style=\"margin:0px;\" action=\"".$vars["path"]."cms.php\"><input type=\"hidden\" name=\"bc\" value=\"".wt_he($_GET["bc"])."\"><input type=\"text\" name=\"cmssearch\">&nbsp;<input type=\"submit\" value=\" OK \"></form></div>";
+	if($login->logged_in) {
+		if(defined("wt_server_name") and $login->userlevel>=5) {
+			$layout->settings["logout_extra"] .= " - server: ".wt_server_name;
+		}
+
+		$layout->settings["logout_extra"] .= "<div style=\"margin-top:3px;\"><form method=\"get\" style=\"margin:0px;\" action=\"".$vars["path"]."cms.php\"><input type=\"hidden\" name=\"bc\" value=\"".wt_he($_GET["bc"])."\"><input type=\"text\" name=\"cmssearch\">&nbsp;<input type=\"submit\" value=\" OK \"></form></div>";
+	}
 	$layout->menu_item("cms","Hoofdpagina","",false);
 
 	$layout->menu_item("cms_aanbiedingen","Aanbiedingen","",true,false,array("slide"=>true));
@@ -494,7 +500,11 @@ if($mustlogin) {
 
 	// filesync-settings
 	$cms->settings["add_to_filesync_table"] = true;
-	$cms->settings["add_to_filesync_table_source"] = 1;
+	if(defined("wt_server_id")) {
+		$cms->settings["add_to_filesync_table_source"] = wt_server_id;
+	} else {
+		$cms->settings["add_to_filesync_table_source"] = 0;
+	}
 
 	$cms->vars["users"]=$werknemer;
 

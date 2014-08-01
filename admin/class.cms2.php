@@ -73,7 +73,7 @@ class cms2 {
 
 		// general settings
 		$this->settings["add_to_filesync_table"] = false;
-		$this->settings["add_to_filesync_table_source"] = 1;
+		$this->settings["add_to_filesync_table_source"] = 0;
 
 
 		# Messages

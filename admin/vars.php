@@ -1259,7 +1259,10 @@ if($boeking_wijzigen) {
 		}
 
 		if(!$helemaalboven and !$_GET["cmsuit"]) {
-			$helemaalboven="Intern ingelogd: ".wt_he($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://".($vars["acceptatie_testserver"] ? "test" : ($vars["backup_server"] ? "www2" : "www")).".chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
+			if(defined("wt_server_name") and $login->userlevel>=5) {
+				$helemaalboven .= "Server: ".wt_server_name." - ";
+			}
+			$helemaalboven .= "Intern ingelogd: ".wt_he($login->vars["voornaam"])." - <a href=\"".($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" ? $vars["path"] : "http://".($vars["acceptatie_testserver"] ? "test" : ($vars["backup_server"] ? "www2" : "www")).".chalet.nl/")."cms.php\" target=\"_blank\">cms</a> - <a href=\"".$vars["path"]."cms.php?logout=1\">uitloggen</a>";
 		}
 
 		if($vars["chalettour_logged_in"] and $login->logged_in and !$css) {

@@ -1,9 +1,16 @@
 <?php
 
-echo "Test 1";
-if(defined("wt_server_name")) {
-	echo "NAME:".wt_server_name;
+include("admin/vars.php");
+
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	$filesync = new filesync;
+	$filesync->sync_files();
 }
+
+// echo "Test 1";
+// if(defined("wt_server_name")) {
+// 	echo "NAME:".wt_server_name;
+// }
 phpinfo();
 
 exit;
@@ -11,7 +18,6 @@ exit;
 // echo htmlspecialchars("Hé €", ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
 
 
-// include("admin/vars.php");
 
 
 // $mailadres="bjorn@chalet.nl";

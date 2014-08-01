@@ -2,21 +2,26 @@
 
 
 /**
-* sync files
+* sync files from web01 to web02 (and vice versa)
 */
+
 class filesync {
 
 	function __construct() {
-		$this->source = 1;
+
 	}
 
 
 	function add_to_filesync_table($file, $delete=false) {
 		// save file to table `filesync`
 
-		$source = 1;
-
 		$db=new DB_sql;
+
+		if(defined("wt_server_id")) {
+			$source = wt_server_id;
+		} else {
+			$source = 0;
+		}
 
 		$db->query("INSERT INTO `filesync` SET `source`='".intval($source)."', `file`='".wt_as($file)."', `delete`='".intval($delete)."', `added`=NOW();");
 
@@ -27,30 +32,33 @@ class filesync {
 
 		$db=new DB_sql;
 
+		if(defined("wt_server_id")) {
+			$source = wt_server_id;
+		} else {
+			$source = 0;
+		}
+
 		// new files
 		$db->query("SELECT `filesync_id`, `file`, `delete` FROM `filesync` WHERE `source`='".intval($source)."' AND `sync_start` IS NULL ORDER BY `added`, `filesync_id`;");
 		while($db->next_record()) {
 
-			$this->ftp($db->f("file"), $db->f("delete"), $db->f("filesync_id"));
+			$this->handle_file($db->f("file"), $db->f("delete"), $db->f("filesync_id"));
 
 		}
 
 		// previously failed files (after 1 minute)
-		$db->query("SELECT `filesync_id`, `file`, `delete` FROM `filesync` WHERE `source`='".intval($source)."' AND `sync_start` IS NOT NULL AND `sync_start`<(NOW() - INTERVAL 2 MINUTE) AND `sync_start` IS NULL ORDER BY `added`, `filesync_id`;");
+		$db->query("SELECT `filesync_id`, `file`, `delete` FROM `filesync` WHERE `source`='".intval($source)."' AND `sync_start` IS NOT NULL AND `sync_start`<(NOW() - INTERVAL 1 MINUTE) AND `sync_finish` IS NULL ORDER BY `added`, `filesync_id`;");
 		while($db->next_record()) {
 
-			$this->ftp($db->f("file"), $db->f("delete"), $db->f("filesync_id"));
+			// trigger_error("handle_file ".$db->f("file"),E_USER_NOTICE);
+
+			$this->handle_file($db->f("file"), $db->f("delete"), $db->f("filesync_id"));
 
 		}
-
-		if($this->conn_id) {
-			ftp_close($this->conn_id);
-		}
-
 	}
 
 
-	function ftp($file, $delete, $filesync_id) {
+	function handle_file($file, $delete, $filesync_id) {
 
 		global $vars, $unixdir;
 
@@ -58,47 +66,90 @@ class filesync {
 
 		$db=new DB_sql;
 
-		if(!$this->conn_id) {
-			$this->ftp_connect();
+
+		$db->query("UPDATE `filesync` SET `sync_start`=NOW() WHERE `filesync_id`='".intval($filesync_id)."';");
+
+		if( $delete ) {
+			$result = $this->delete_file($file);
+			if($result===0) {
+				$sync_succeed = true;
+			}
+		} else {
+			$result = $this->transfer_file($file);
+			if($result===0) {
+				$sync_succeed = true;
+			}
 		}
 
-		if($this->conn_id) {
-
-			$db->query("UPDATE `filesync` SET `sync_start`=NOW() WHERE `filesync_id`='".intval($filesync_id)."';");
-
-			if( $delete ) {
-				if (ftp_delete($this->conn_id, $unixdir.$file)) {
-					$sync_succeed = true;
-				}
-			} else {
-				if (ftp_put($this->conn_id, $unixdir.$file, $unixdir.$file,  FTP_BINARY)) {
-					$sync_succeed = true;
-				}
-			}
-
-			if($sync_succeed) {
-				$db->query("UPDATE `filesync` SET `sync_finish`=NOW() WHERE `filesync_id`='".intval($filesync_id)."';");
-			}
+		if($sync_succeed) {
+			$db->query("UPDATE `filesync` SET `sync_finish`=NOW() WHERE `filesync_id`='".intval($filesync_id)."';");
+		} else {
+			$db->query("UPDATE `filesync` SET `error`='".wt_as($result)."' WHERE `filesync_id`='".intval($filesync_id)."';");
 		}
 	}
 
-	function ftp_connect() {
+	function transfer_file($file) {
 
-		if($this->source==1) {
-			$ftp_server="web02.chalet.nl";
-		} elseif($this->source==2) {
-			$ftp_server="web01.chalet.nl";
+
+// http://wpkg.org/Rsync_exit_codes
+
+
+		global $unixdir;
+
+		$return = 999991;
+
+		if(wt_server_id==1) {
+			$server="web02.chalet.nl";
+		} elseif(wt_server_id==2) {
+			$server="web01.chalet.nl";
 		}
-		if($ftp_server) {
-			$ftp_user_name="chalet01";
-			$ftp_user_pass="lKwkejJ9e";
+		if($server) {
+			$command = "rsync -avzh --numeric-ids -e 'ssh' --rsync-path='sudo rsync' ".$unixdir.$file." chalet01@".$server.":".$unixdir.$file;
+			exec($command, $output, $return_var);
+			// exec("rsync -avzh --numeric-ids -e ssh ".$unixdir.$file." chalet01@".$server.":".$unixdir.$file, $output, $return_var);
+//			rsync -avzh --numeric-ids -e ssh /var/www/chalet.nl/html/pic/cms/hoofdfoto_accommodatie/319.jpg chalet01@web02.chalet.nl:/var/www/chalet.nl/html/pic/cms/hoofdfoto_accommodatie/319.jpg
 
-			// set up basic connection
-			$this->conn_id = ftp_connect($ftp_server);
+			if(is_array($output)) {
+				$output_string = implode($output);
+			}
 
-			// login with username and password
-			$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
+			// trigger_error($command." - return melding ".$unixdir.$file.": ".$return_var,E_USER_NOTICE);
+			$return = $return_var;
 		}
+
+		return $return;
+	}
+
+	function delete_file($file) {
+
+		global $unixdir;
+
+		$return = 999992;
+
+		if(defined("wt_server_id")) {
+			if(wt_server_id==1) {
+				$server="web02.chalet.nl";
+			} elseif(wt_server_id==2) {
+				$server="web01.chalet.nl";
+			}
+		}
+		if($server) {
+
+			if(!file_exists($unixdir.$file)) {
+
+				$command = "ssh chalet01@".$server." 'sudo rm ".$unixdir.$file."'";
+				exec($command, $output, $return_var);
+
+				if(is_array($output)) {
+					$output_string = implode($output);
+				}
+				// trigger_error($command." - return melding ".$unixdir.$file.": ".$return_var,E_USER_NOTICE);
+				$return = $return_var;
+			}
+
+		}
+
+		return $return;
 	}
 }
 

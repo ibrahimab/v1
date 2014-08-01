@@ -256,7 +256,7 @@ class form2 {
 		$this->settings["download_uploaded_files"]=true;
 
 		$this->settings["add_to_filesync_table"] = false;
-		$this->settings["add_to_filesync_table_source"] = 1;
+		$this->settings["add_to_filesync_table_source"] = 0;
 
 
 		// Cross-site request forgery - http://css-tricks.com/serious-form-security/
