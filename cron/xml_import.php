@@ -313,8 +313,8 @@ if($testsysteem) {
 #	$xml_urls[3][]=$test_tmpdir."skifrance.xml";
 #	$xml_urls[4][]=$test_tmpdir."results.xml";
 #	$csv_urls[5]=$test_tmpdir."dispo.csv";
-#	$xml_urls[6][1]=$test_tmpdir."Vakanzen.xml";
-#	$xml_urls[6][2]=$test_tmpdir."Preise.xml";
+	$xml_urls[6][1]=$test_tmpdir."Vakanzen.xml";
+	$xml_urls[6][2]=$test_tmpdir."Preise.xml";
 #	$xml_urls[7][1]=$test_tmpdir."bel.xml";
 #	$xml_urls[7][2]=$test_tmpdir."belt.xml";
 #	$xml_urls[8][1]=$test_tmpdir."availability.xml.1";
@@ -332,7 +332,7 @@ if($testsysteem) {
 #	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
 #	$xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
 #	$xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
-	$xml_urls[17][1]=$test_tmpdir."lev.xml";
+	// $xml_urls[17][1]=$test_tmpdir."lev.xml";
 #	$xml_urls[18][1]=$test_tmpdir."agence.xml";
 #	$xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
 #	$xml_urls[20][1]="/tmp/locative.xml";
@@ -506,7 +506,9 @@ while(list($key,$value)=@each($xml_urls)) {
 							# Doorlopen van begin tot eind
 							$week=$datum_begin;
 							while($week<$datum_eind) {
-								$xml_brutoprijs[$key][trim($value3->ObjektId)][$week]=trim($value3->FFHVKPreis);
+								if($value3->ZPersPreis==0) {
+									$xml_brutoprijs[$key][trim($value3->ObjektId)][$week]=trim($value3->Preis);
+								}
 								$week=mktime(0,0,0,date("m",$week),date("d",$week)+7,date("Y",$week));
 								$xml_laatsteimport_leverancier[$key]=true;
 							}
