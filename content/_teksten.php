@@ -5649,6 +5649,39 @@ $txt["en"]["xml"]["euro"]="Euro";
 
 #$nieuwe_vertaling["en"]["boeken"]["wijhebbenuwboekingsaanvraag"]=true;
 
+# htmlbanners
+$txt["nl"]["htmlbanner"]["kies-aantal-personen"]="Kies aantal personen";
+$txt["en"]["htmlbanner"]["kies-aantal-personen"]="Select number of persons";
+
+$txt["nl"]["htmlbanner"]["zoek-op-aantal-personen"]="Zoek op aantal personen";
+$txt["en"]["htmlbanner"]["zoek-op-aantal-personen"]="Search for number of persons";
+
+$txt["nl"]["htmlbanner"]["persoon"]="persoon";
+$txt["en"]["htmlbanner"]["persoon"]="person";
+
+$txt["nl"]["htmlbanner"]["personen"]="personen";
+$txt["en"]["htmlbanner"]["personen"]="persons";
+
+$txt["nl"]["htmlbanner"]["kies-land"]="Kies land";
+$txt["en"]["htmlbanner"]["kies-land"]="Select country";
+
+$txt["nl"]["htmlbanner"]["zoek-op-land"]="Zoek op land";
+$txt["en"]["htmlbanner"]["zoek-op-land"]="Search for country";
+
+$txt["nl"]["htmlbanner"]["frankrijk"]="Frankrijk";
+$txt["en"]["htmlbanner"]["frankrijk"]="France";
+
+$txt["nl"]["htmlbanner"]["italie"]="Italië";
+$txt["en"]["htmlbanner"]["italie"]="Italy";
+
+$txt["nl"]["htmlbanner"]["oostenrijk"]="Oostenrijk";
+$txt["en"]["htmlbanner"]["oostenrijk"]="Austria";
+
+$txt["nl"]["htmlbanner"]["zwitserland"]="Zwitserland";
+$txt["en"]["htmlbanner"]["zwitserland"]="Switzerland";
+
+$txt["nl"]["htmlbanner"]["kies-datum"]="Kies datum";
+$txt["en"]["htmlbanner"]["kies-datum"]="Select date";
 
 
 

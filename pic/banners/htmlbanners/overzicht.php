@@ -24,6 +24,9 @@ $keuzes[1][7][2]="Chalet.nl htmlbanner land-datum-aantal personen 120x450";
 // $keuzes[1][8][2]="Chalet.nl htmlbanner land-datum-aantal personen 300x600";
 // $keuzes[1][9][2]="Chalet.nl htmlbanner land-datum-aantal personen 970x250";
 
+$keuzes[1][34][2]="Chalet.nl htmlbanner land-datum-aantal personen 300x600";
+$keuzes[1][35][2]="Chalet.nl htmlbanner land-datum-aantal personen 970x250";
+
 //#$keuzes[4][1][1]="Chalet.be htmlbanner land-thema 728x90";
 //$keuzes[4][2][1]="Chalet.be htmlbanner land-thema 468x60";
 //#$keuzes[4][3][1]="Chalet.be htmlbanner land-thema 250x250";
@@ -40,6 +43,12 @@ $keuzes[4][6][2]="Chalet.be htmlbanner land-datum 300x250";
 $keuzes[4][7][2]="Chalet.be htmlbanner land-datum-aantal personen 120x450";
 // $keuzes[4][8][2]="Chalet.be htmlbanner land-datum-aantal personen 300x600";
 // $keuzes[4][9][2]="Chalet.be htmlbanner land-datum-aantal personen 970x250";
+$keuzes[4][34][2]="Chalet.be htmlbanner land-datum-aantal personen 300x600";
+$keuzes[4][35][2]="Chalet.be htmlbanner land-datum-aantal personen 970x250";
+
+$keuzes[9][34][2]="Chalet.eu htmlbanner land-datum-aantal personen 300x600";
+$keuzes[9][35][2]="Chalet.eu htmlbanner land-datum-aantal personen 970x250";
+
 
 //$keuzes[5][1][1]="SuperSki htmlbanner land-thema 728x90";
 //$keuzes[5][2][1]="SuperSki htmlbanner land-thema 468x60";
