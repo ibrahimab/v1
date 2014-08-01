@@ -120,7 +120,7 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 
 	if($vars["website"]=="C") {
 
-		// Trustpilot
+		// Trustpilot Chalet.nl
 
 		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">";
 		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:1238875,showReviews:False,width:170;\">\n";
@@ -131,6 +131,21 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 		echo "</script>\n";
 		echo "</div>\n"; // close #hoofdpagina_trustpilot
 	}
+
+	if($vars["website"]=="B" and $_GET["test"]) {
+
+		// Trustpilot Chalet.be
+
+		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">";
+		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:7558878,showReviews:False,width:170\">\n";
+		echo "<a href=\"https://www.trustpilot.nl/review/chalet.be\" rel=\"nofollow\" hidden>Chalet.be Wintersport Beoordelingen</a>\n";
+		echo "</div>\n";
+		echo "<script type=\"text/javascript\">\n";
+		echo "(function () { var a = \"https:\" == document.location.protocol ? \"https://ssl.trustpilot.com\" : \"http://s.trustpilot.com\", b = document.createElement(\"script\"); b.type = \"text/javascript\"; b.async = true; b.src = a + \"/tpelements/tp_elements_all.js\"; var c = document.getElementsByTagName(\"script\")[0]; c.parentNode.insertBefore(b, c) })();";
+		echo "</script>";
+		echo "</div>\n"; // close #hoofdpagina_trustpilot
+	}
+
 }
 
 // if($vars["website"]=="T" and $id<>"alpedhuzes") {
