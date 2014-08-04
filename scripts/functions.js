@@ -55,6 +55,11 @@ var ZoomlevelBepalen = new function() {
 
 };
 
+function getQueryStringValueOfURL (key, url) {
+	// get certain query string of a url
+	return unescape(url.replace(new RegExp("^(?:.*[&\\?]" + escape(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+}
+
 function switch_website($mode) {
 	chalet_createCookie("siteVer",$mode,1);
 	window.location.reload();
@@ -1549,34 +1554,74 @@ $(document).ready(function() {
 
 				var nieuwe_url=$(this).attr("href");
 
-				// get-value scrolly updaten
-				if(/scrolly%3D/.test(nieuwe_url)) {
-					nieuwe_url = nieuwe_url.replace(/scrolly%3D[0-9]+/,"scrolly%3D"+$(window).scrollTop());
+
+
+
+				var back_url = getQueryStringValueOfURL("back", nieuwe_url);
+
+				// change scrolly-querystring in back_url
+				if(/scrolly/.test(back_url)) {
+					back_url = updateURLParameter(back_url,"scrolly",$(window).scrollTop());
 				} else {
-					if(/%3F/.test(nieuwe_url)) {
-						// back-url bevat al een vraagteken
-						nieuwe_url = nieuwe_url+"%26scrolly%3D"+$(window).scrollTop();
-					} else {
-						// back-url bevat nog geen vraagteken
-						nieuwe_url = nieuwe_url+"%3Fscrolly%3D"+$(window).scrollTop();
-					}
+					back_url = back_url+"&scrolly="+$(window).scrollTop();
 				}
 
-				// get-value map updaten
-				nieuwe_url=nieuwe_url.replace("%26map%3D1","");
-				if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
-					if(/map%3D1/.test(nieuwe_url)) {
-						// back-url bevat al map=1
-					} else {
-						if(/%3F/.test(nieuwe_url)) {
-							// back-url bevat al een vraagteken
-							nieuwe_url = nieuwe_url+"%26map%3D1";
+				// change map-querystring in back_url
+				if($(".zoekresultaten_zoeken_op_kaart_map").length!==0) {
+					if(/map=/.test(back_url)) {
+						if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
+							back_url = updateURLParameter(back_url,"map",1);
 						} else {
-							// back-url bevat nog geen vraagteken
-							nieuwe_url = nieuwe_url+"%3Fmap%3D1";
+							back_url = updateURLParameter(back_url,"map",0);
+						}
+
+					} else {
+						if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
+							back_url = back_url+"&map=1";
+						} else {
+							back_url = back_url+"&map=0";
 						}
 					}
 				}
+
+				nieuwe_url = updateURLParameter(nieuwe_url,"back",encodeURIComponent(back_url));
+
+				// if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
+				// 	back_url = updateURLParameter(back_url,"map",1);
+				// } else {
+				// 	back_url = updateURLParameter(back_url,"map",1);
+				// }
+
+
+
+				// // get-value scrolly updaten
+				// if(/scrolly%3D/.test(nieuwe_url)) {
+				// 	nieuwe_url = nieuwe_url.replace(/scrolly%3D[0-9]+/,"scrolly%3D"+$(window).scrollTop());
+				// } else {
+				// 	if(/%3F/.test(nieuwe_url)) {
+				// 		// back-url bevat al een vraagteken
+				// 		nieuwe_url = nieuwe_url+"%26scrolly%3D"+$(window).scrollTop();
+				// 	} else {
+				// 		// back-url bevat nog geen vraagteken
+				// 		nieuwe_url = nieuwe_url+"%3Fscrolly%3D"+$(window).scrollTop();
+				// 	}
+				// }
+
+				// // get-value map updaten
+				// nieuwe_url=nieuwe_url.replace("%26map%3D1","");
+				// if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
+				// 	if(/map%3D1/.test(nieuwe_url)) {
+				// 		// back-url bevat al map=1
+				// 	} else {
+				// 		if(/%3F/.test(nieuwe_url)) {
+				// 			// back-url bevat al een vraagteken
+				// 			// nieuwe_url = nieuwe_url+"%26map%3D1";
+				// 		} else {
+				// 			// back-url bevat nog geen vraagteken
+				// 			// nieuwe_url = nieuwe_url+"%3Fmap%3D1";
+				// 		}
+				// 	}
+				// }
 
 				$(this).attr("href",nieuwe_url);
 
