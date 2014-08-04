@@ -56,30 +56,32 @@ class tarieventabel {
 
 
 		// link to new season
-		if($this->seizoen_counter>1) {
-			$return .= "<div class=\"tarieventabel_nextseason\"><a href=\"#\" class=\"tarieventabel_jump_jaarmaand\" data-jaarmaand=\"".date("Ym", $this->seizoeninfo[$this->last_seizoen_id]["begin"])."\">".html("nualteboeken", "tarieventabel", array("v_seizoennaam"=>$this->seizoeninfo[$this->last_seizoen_id]["naam"]))." &raquo;</a></div>";
-		} else {
-			// check for seasons without prices
-			$db->query("SELECT seizoen_id, naam FROM seizoen WHERE show_newpricesmail=1 AND type='".intval($vars["seizoentype"])."' AND seizoen_id NOT IN (".$this->seizoen_id.") ORDER BY eind DESC LIMIT 0,1;");
-			if($db->next_record()) {
-				$seizoennaam_kort = trim(preg_replace("@winter@","",$db->f("naam")));
+		if($vars["seizoentype"]==1) {
+			if($this->seizoen_counter>1) {
+				$return .= "<div class=\"tarieventabel_nextseason\"><a href=\"#\" class=\"tarieventabel_jump_jaarmaand\" data-jaarmaand=\"".date("Ym", $this->seizoeninfo[$this->last_seizoen_id]["begin"])."\">".html("nualteboeken", "tarieventabel", array("v_seizoennaam"=>$this->seizoeninfo[$this->last_seizoen_id]["naam"]))." &raquo;</a></div>";
+			} else {
+				// check for seasons without prices
+				$db->query("SELECT seizoen_id, naam FROM seizoen WHERE show_newpricesmail=1 AND type='".intval($vars["seizoentype"])."' AND seizoen_id NOT IN (".$this->seizoen_id.") ORDER BY eind DESC LIMIT 0,1;");
+				if($db->next_record()) {
+					$seizoennaam_kort = trim(preg_replace("@winter@","",$db->f("naam")));
 
-				// Laat je emailadres achter en je ontvangt een bericht zodra deze accommodatie te boeken is voor
+					// Laat je emailadres achter en je ontvangt een bericht zodra deze accommodatie te boeken is voor
 
-				$this->mailmijvolgendseizoen_form .= "<div class=\"tarieventabel_newpricesmail\"><a href=\"#\">".html("mailmijvolgendseizoen_button", "tarieventabel", array("v_seizoennaam"=>$seizoennaam_kort))." &raquo;</a></div>";
-				$this->mailmijvolgendseizoen_form .= "<div class=\"tarieventabel_newpricesmail_form\" data-seizoen_id=\"".intval($db->f("seizoen_id"))."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_name=\"".wt_he($db->f("naam"))."\">";
-				$this->mailmijvolgendseizoen_form .= "<h1>".html("mailmijvolgendseizoen_button", "tarieventabel", array("v_seizoennaam"=>$seizoennaam_kort))."</h1>";
-				$this->mailmijvolgendseizoen_form .= "<p>".html("mailmijvolgendseizoen_inleiding", "tarieventabel", array("v_seizoennaam"=>$db->f("naam")))."</p>";
-				$this->mailmijvolgendseizoen_form .= "<form method=\"post\">";
-				$this->mailmijvolgendseizoen_form .= "<label>".html("mailmijvolgendseizoen_email", "tarieventabel").":</label>";
-				$this->mailmijvolgendseizoen_form .= "<input type=\"email\">";
-				$this->mailmijvolgendseizoen_form .= "&nbsp;&nbsp;&nbsp;<input type=\"submit\" value=\"".html("mailmijvolgendseizoen_send", "tarieventabel")."\">";
-				$this->mailmijvolgendseizoen_form .= "<img src=\"".$vars["path"]."pic/icon_okay.png\" class=\"okay\"><img src=\"".$vars["path"]."pic/icon_notokay.png\" class=\"notokay\">";
-				$this->mailmijvolgendseizoen_form .= "</form>";
-				$this->mailmijvolgendseizoen_form .= "</div>"; // close
+					$this->mailmijvolgendseizoen_form .= "<div class=\"tarieventabel_newpricesmail\"><a href=\"#\">".html("mailmijvolgendseizoen_button", "tarieventabel", array("v_seizoennaam"=>$seizoennaam_kort))." &raquo;</a></div>";
+					$this->mailmijvolgendseizoen_form .= "<div class=\"tarieventabel_newpricesmail_form\" data-seizoen_id=\"".intval($db->f("seizoen_id"))."\" data-type_id=\"".intval($this->type_id)."\" data-seizoen_name=\"".wt_he($db->f("naam"))."\">";
+					$this->mailmijvolgendseizoen_form .= "<h1>".html("mailmijvolgendseizoen_button", "tarieventabel", array("v_seizoennaam"=>$seizoennaam_kort))."</h1>";
+					$this->mailmijvolgendseizoen_form .= "<p>".html("mailmijvolgendseizoen_inleiding", "tarieventabel", array("v_seizoennaam"=>$db->f("naam")))."</p>";
+					$this->mailmijvolgendseizoen_form .= "<form method=\"post\">";
+					$this->mailmijvolgendseizoen_form .= "<label>".html("mailmijvolgendseizoen_email", "tarieventabel").":</label>";
+					$this->mailmijvolgendseizoen_form .= "<input type=\"email\">";
+					$this->mailmijvolgendseizoen_form .= "&nbsp;&nbsp;&nbsp;<input type=\"submit\" value=\"".html("mailmijvolgendseizoen_send", "tarieventabel")."\">";
+					$this->mailmijvolgendseizoen_form .= "<img src=\"".$vars["path"]."pic/icon_okay.png\" class=\"okay\"><img src=\"".$vars["path"]."pic/icon_notokay.png\" class=\"notokay\">";
+					$this->mailmijvolgendseizoen_form .= "</form>";
+					$this->mailmijvolgendseizoen_form .= "</div>"; // close
 
-				$return .= $this->mailmijvolgendseizoen_form;
+					$return .= $this->mailmijvolgendseizoen_form;
 
+				}
 			}
 		}
 
