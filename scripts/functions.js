@@ -774,7 +774,7 @@ $(document).ready(function() {
 				$.address.change(function(event) {
 
 					// Google Analytics bij switchen tussen tabs
-					if (typeof _gaq != "undefined") {
+					if (typeof ga != "undefined") {
 
 						var canonical_link;
 						if($("#body_toonaccommodatie").length!==0) {
