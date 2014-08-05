@@ -644,7 +644,7 @@ function wt_jabber($to,$msg) {
 
 function wt_validmail($mail="") {
 	# Controleer of een mailadres klopt
-	if(eregi("^[0-9a-z][-_+0-9a-z.&']*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,8}$",$mail)) {
+	if(eregi("^[0-9a-z][-_+0-9a-z.&'=]*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,8}$",$mail)) {
 		return true;
 	} else {
 		return false;

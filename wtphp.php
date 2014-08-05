@@ -1,6 +1,6 @@
 <?php
 
-include("admin/vars.php");
+// include("admin/vars.php");
 
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	$filesync = new filesync;
@@ -12,7 +12,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 // 	echo "NAME:".wt_server_name;
 // }
 phpinfo();
-
+// http://wwwtest.chalet.nl/wtphp.php
 exit;
 
 // echo htmlspecialchars("Hé €", ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');

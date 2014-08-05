@@ -46,7 +46,7 @@ if($vars["lokale_testserver"]) {
 $_SERVER["HTTP_HOST"]=strtolower($_SERVER["HTTP_HOST"]);
 if(substr($_SERVER["HTTP_HOST"],-3)==":80") $_SERVER["HTTP_HOST"]=substr($_SERVER["HTTP_HOST"],0,-3);
 if(substr($_SERVER["HTTP_HOST"],-1)==".") $_SERVER["HTTP_HOST"]=substr($_SERVER["HTTP_HOST"],0,-1);
-if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="www3.chalet.nl" or $_SERVER["HTTP_HOST"]=="test.chalet.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="C")) {
+if($cron or $_SERVER["HTTP_HOST"]=="www.chalet.nl" or $_SERVER["HTTP_HOST"]=="www2.chalet.nl" or $_SERVER["HTTP_HOST"]=="wwwtest.chalet.nl" or $_SERVER["HTTP_HOST"]=="test.chalet.nl" or ($vars["lokale_testserver"] and $vars["testsite"]=="C")) {
 	# Chalet.nl Winter
 	$vars["websitetype"]=1;
 	$vars["websitenaam"]="Chalet.nl";
@@ -885,6 +885,17 @@ if($vars["backup_server"]) {
 
 	foreach ($vars["websites_basehref"] as $key => $value) {
 		$vars["websites_basehref"][$key] = preg_replace("@^https?://www\.@","http://www2.",$value);
+	}
+}
+
+// Live-test-server: change URL's ("https://www" becomes "http://wwwtest")
+if($vars["wwwtest"]) {
+	foreach ($vars["websiteinfo"]["basehref"] as $key => $value) {
+		$vars["websiteinfo"]["basehref"][$key] = preg_replace("@^https?://www\.@","http://wwwtest.",$value);
+	}
+
+	foreach ($vars["websites_basehref"] as $key => $value) {
+		$vars["websites_basehref"][$key] = preg_replace("@^https?://www\.@","http://wwwtest.",$value);
 	}
 }
 

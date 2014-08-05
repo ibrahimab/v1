@@ -125,7 +125,6 @@ if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$
 	}
 }
 
-
 #
 # MySQL
 #
@@ -181,6 +180,7 @@ spl_autoload_register('__autoload');
 # jquery/fancybox
 #
 $vars["jquery_fancybox"]=true;
+
 
 #
 # Tracker / advertenties
@@ -323,7 +323,7 @@ if($vars["wederverkoop"]) {
 		} else {
 			$login_rb->settings["mustlogin"]=false;
 		}
-		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and !$vars["wwwtest"]) {
 			$login_rb->settings["mustlogin_via_https"]=true;
 		}
 
@@ -395,7 +395,7 @@ if($vars["leverancier_mustlogin"]) {
 		$login_lev->settings["mustlogin"]=true;
 		$login_lev->settings["salt"]=$vars["salt"];
 
-		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and !$vars["wwwtest"]) {
 			$login_lev->settings["mustlogin_via_https"]=true;
 		}
 
@@ -454,10 +454,20 @@ if($vars["backup_server"]) {
 	}
 }
 
+// test of new server-serup only available for vertrouwde_ips
+if($_SERVER["HTTP_HOST"]=="wwwtest.chalet.nl") {
+	$vars["wwwtest"] = true;
+	if(!in_array($_SERVER["REMOTE_ADDR"], $vars["vertrouwde_ips"])) {
+		$www_url = preg_replace("@wwwtest@", "www", "https://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]);
+		header("Location: ".$www_url);
+		exit;
+	}
+}
+
 # Geldigheidsduur intern FLC-cookie verlengen
 if($_COOKIE["flc"]==substr(md5($_SERVER["REMOTE_ADDR"]."XhjL"),0,8) and $_GET["logout"]<>1) {
 
-	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
+	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and !$vars["wwwtest"]) {
 		ini_set("session.cookie_secure",1);
 	}
 
@@ -1142,7 +1152,7 @@ if($boeking_wijzigen) {
 	} else {
 		$login->settings["mustlogin"]=true;
 	}
-	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
+	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and !$vars["wwwtest"]) {
 		$login->settings["mustlogin_via_https"]=true;
 	}
 	$login->settings["loginpage"]=$path.txt("menu_inloggen").".php";

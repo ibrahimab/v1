@@ -36,6 +36,7 @@ $boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
 
 touch("/tmp/last-filesync");
+// wt_mail("jeroen@webtastic.nl","Chalet-upstart filesync ".wt_server_id,"Upstart-script draait om ".date("r"));
 
 
 for($i=1; $i<=6; $i++) {
@@ -46,9 +47,11 @@ for($i=1; $i<=6; $i++) {
 
 
 	sleep(10);
-	// wt_mail("chaletmailbackup+systemlog@gmail.com","Chalet-upstart filesync","Upstart-script draait om ".date("r"));
 
 }
 
+
+// exit with exit code to make sure the upstart-script respawns the script
+exit(0);
 
 ?>

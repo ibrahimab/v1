@@ -103,7 +103,7 @@ if($mustlogin) {
 
 	$login->settings["loginblocktime"]=600; # 10 minuten geblokkeerd
 
-	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"]) {
+	if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and !$vars["wwwtest"]) {
 		$login->settings["mustlogin_via_https"]=true;
 	}
 
@@ -231,7 +231,7 @@ if($mustlogin) {
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.js";
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.tablescroll.js";
 
-	if($login->logged_in and $id<>"cms" and $_SERVER["HTTP_HOST"]<>"www.chalet.nl" and $_SERVER["HTTP_HOST"]<>"test.chalet.nl" and $_SERVER["HTTP_HOST"]<>"www2.chalet.nl" and !$vars["lokale_testserver"]) {
+	if($login->logged_in and $id<>"cms" and $_SERVER["HTTP_HOST"]<>"www.chalet.nl" and $_SERVER["HTTP_HOST"]<>"test.chalet.nl" and $_SERVER["HTTP_HOST"]<>"www2.chalet.nl" and $_SERVER["HTTP_HOST"]<>"wwwtest.chalet.nl" and !$vars["lokale_testserver"]) {
 		$layout->settings["cms_via_verkeerde_site"]=true;
 	}
 
@@ -260,13 +260,15 @@ if($mustlogin) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=f6adba";
 	} elseif($vars["backup_server"]) {
 		$layout->settings["extra_cssfiles"][]="css/cms_layout_bgcolor.css.phpcache?bg=b31aff";
+	} elseif($vars["wwwtest"]) {
+		$layout->settings["extra_cssfiles"][]="css/cms_layout_bgcolor.css.phpcache?bg=0eff2a";
 	} elseif($login->userlevel>=10 and !preg_match("/Chrome/",$_SERVER["HTTP_USER_AGENT"])) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=ff1844";
 	} elseif($_GET["wzt"]==2) {
 		$layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_bgcolor.css.phpcache?bg=95ddec";
 	}
 	if($_GET["bid"]) {
-		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and $login->userlevel<10) {
+		if(!$vars["lokale_testserver"] and !$vars["acceptatie_testserver"] and !$vars["backup_server"] and !$vars["wwwtest"] and $login->userlevel<10) {
 			$db->query("SELECT website FROM boeking WHERE boeking_id='".addslashes($_GET["bid"])."';");
 			if($db->next_record()) {
 				if($vars["websites_wzt"][2][$db->f("website")]) {

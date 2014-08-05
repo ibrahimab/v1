@@ -29,6 +29,7 @@ RewriteEngine On
 #
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} !^test\..*\..* [NC]
+RewriteCond %{HTTP_HOST} !^wwwtest\..*\..* [NC]
 RewriteCond %{HTTP_HOST} !postvak\.net [NC]
 RewriteCond %{HTTP_HOST} !netromtest [NC]
 RewriteCond %{HTTP_HOST} !webtastic\.nl [NC]
@@ -87,6 +88,7 @@ RewriteRule ^(.*)$ https://www.venturasolvacances.nl/$1 [L,R=301]
 #
 RewriteCond %{HTTP_HOST} chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www[23]?\.chalet\.nl [NC]
+RewriteCond %{HTTP_HOST} !^wwwtest\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^srv01\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
