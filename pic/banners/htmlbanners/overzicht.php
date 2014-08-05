@@ -133,11 +133,11 @@ $netwerken[3]="Snowplaza";
 $netwerken[4]="wintersporters.nl";
 $netwerken[5]="Zoover.nl";
 
-$netwerk_wzt_niet_tonen[1]=array( "0", "7", "8" );
-$netwerk_wzt_niet_tonen[2]=array( "2", "3", "6", "7", "8" );
+$netwerk_wzt_niet_tonen[1]=array( "0", "7", "8" , "9");
+$netwerk_wzt_niet_tonen[2]=array( "2", "3", "6", "7", "8", "9");
 $netwerk_wzt_niet_tonen[3]=array( "2", "3", "6", "7", "8" );
-$netwerk_wzt_niet_tonen[4]=array( "1", "2", "3", "4", "6", "8" );
-$netwerk_wzt_niet_tonen[5]=array( "1", "2", "3", "4", "6", "7" );
+$netwerk_wzt_niet_tonen[4]=array( "1", "2", "3", "4", "6", "8", "9" );
+$netwerk_wzt_niet_tonen[5]=array( "1", "2", "3", "4", "6", "7", "9" );
 
 // Sneeuwhoogte.nl: alleen 728x90-banners
 $netwerk_alleen_deze_maten_tonen[2]=array( "728x90" );
