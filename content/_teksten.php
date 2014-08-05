@@ -5651,10 +5651,10 @@ $txt["en"]["xml"]["euro"]="Euro";
 
 # htmlbanners
 $txt["nl"]["htmlbanner"]["kies-aantal-personen"]="Kies aantal personen";
-$txt["en"]["htmlbanner"]["kies-aantal-personen"]="Select number of persons";
+$txt["en"]["htmlbanner"]["kies-aantal-personen"]="Select no. of persons";
 
 $txt["nl"]["htmlbanner"]["zoek-op-aantal-personen"]="Zoek op aantal personen";
-$txt["en"]["htmlbanner"]["zoek-op-aantal-personen"]="Search for number of persons";
+$txt["en"]["htmlbanner"]["zoek-op-aantal-personen"]="Search for no. of persons";
 
 $txt["nl"]["htmlbanner"]["persoon"]="persoon";
 $txt["en"]["htmlbanner"]["persoon"]="person";
