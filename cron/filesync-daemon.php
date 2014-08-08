@@ -5,7 +5,7 @@
 #
 # Dit script wordt als daemon op beide webservers gedraaid met het account chalet01.
 #
-# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/filesync.php test
+# /usr/bin/php /var/www/chalet.nl/html/cron/filesync.php
 #
 
 /*
@@ -49,9 +49,5 @@ for($i=1; $i<=6; $i++) {
 	sleep(10);
 
 }
-
-
-// exit with exit code to make sure the upstart-script respawns the script
-exit(0);
 
 ?>
