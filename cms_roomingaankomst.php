@@ -298,12 +298,9 @@ if($_GET["levid"]) {
 						$mail->from=$login->vars["email"];
 						$mail->to=$form->input["email"];
 						if($roominglist->totaal) {
-							$mail->subject="Roominglist";
+							$mail->subject="Roominglist ".$leveranciersnaam;
 						} else {
-							$mail->subject="Arrivals ".date("d/m/Y",$_GET["date"]);
-						}
-						if($form->input["email"]=="danielle@chalet.nl") {
-							$mail->subject.=" ".$leveranciersnaam;
+							$mail->subject="Arrivals ".date("d/m/Y",$_GET["date"])." ".$leveranciersnaam;
 						}
 
 						if($roominglist->regels) {
