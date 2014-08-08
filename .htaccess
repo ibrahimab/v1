@@ -23,6 +23,48 @@ ErrorDocument 404 /404.php
 
 RewriteEngine On
 
+#
+# Sites die niet meer bestaan forwarden met een 301
+#
+
+# wintersportaccommodaties.nl
+RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
+RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
+
+# superski.nl
+RewriteCond %{HTTP_HOST} superski\.nl [NC]
+RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
+
+# zomerhuisje.eu doorsturen naar zomerhuisje.nl (.eu is niet meer actief - 04-12-2012)
+RewriteCond %{HTTP_HOST} zomerhuisje\.eu [NC]
+RewriteRule ^(.*)$ https://www.zomerhuisje.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} wintersportaccommodations\.eu [NC]
+RewriteRule ^(.*)$ https://www.chalet.eu/ [L,R=301]
+
+# secondhomes.venturasol.nl: doorsturen naar nieuwe domeinnaam venturasolsecondhomes.nl
+RewriteCond %{HTTP_HOST} secondhomes\.venturasol\.nl [NC]
+RewriteRule ^(.*)$ http://www.venturasol-secondhomes.nl/$1 [L,R=301]
+
+# partner.venturasol.nl doorsturen naar venturasolvacances.nl
+RewriteCond %{HTTP_HOST} ^partner\.venturasol\.nl [NC]
+RewriteCond %{REQUEST_METHOD} !=POST
+RewriteRule ^(.*)$ https://www.venturasolvacances.nl/$1 [L,R=301]
+
+
+#
+# Spelfout-domeinnamen doorsturen naar de juiste domeinnaam
+#
+RewriteCond %{HTTP_HOST} italisima\.nl [NC]
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
+
+RewriteCond %{HTTP_HOST} itallisima\.nl [NC]
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
+
+# Sites die nog niet online zijn doorsturen
+RewriteCond %{HTTP_HOST} italissima\.holiday [NC]
+RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
+
 
 #
 # niet-https doorsturen naar https
@@ -73,15 +115,6 @@ RewriteRule ^chalet/(.*)$ /chalet/$1 [R=301,L]
 RewriteRule ^index\.php$ / [R=301,L]
 
 
-# secondhomes.venturasol.nl: doorsturen naar nieuwe domeinnaam venturasolsecondhomes.nl
-RewriteCond %{HTTP_HOST} secondhomes\.venturasol\.nl [NC]
-RewriteRule ^(.*)$ http://www.venturasol-secondhomes.nl/$1 [L,R=301]
-
-# partner.venturasol.nl doorsturen naar venturasolvacances.nl
-RewriteCond %{HTTP_HOST} ^partner\.venturasol\.nl [NC]
-RewriteCond %{REQUEST_METHOD} !=POST
-RewriteRule ^(.*)$ https://www.venturasolvacances.nl/$1 [L,R=301]
-
 
 #
 # zonder www doorsturen naar met www
@@ -111,9 +144,6 @@ RewriteCond %{HTTP_HOST} !^www\.chalet\.be [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.be [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
 RewriteRule ^(.*)$ https://www.chalet.be/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} wintersportaccommodations\.eu [NC]
-RewriteRule ^(.*)$ https://www.chalet.eu/ [L,R=301]
 
 RewriteCond %{HTTP_HOST} zomerhuisje\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www\.zomerhuisje\.nl [NC]
@@ -220,18 +250,6 @@ RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
 RewriteRule ^robots\.txt$ robots_block.txt
 
 
-#
-# Spelfout-domeinnamen doorsturen naar de juiste domeinnaam
-#
-RewriteCond %{HTTP_HOST} italisima\.nl [NC]
-RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
-
-RewriteCond %{HTTP_HOST} itallisima\.nl [NC]
-RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
-
-# Sites die nog niet online zijn doorsturen
-RewriteCond %{HTTP_HOST} italissima\.holiday [NC]
-RewriteRule ^(.*)$ https://www.italissima.nl/$1 [L,R=301]
 
 # Oude seizoenspagina doorsturen naar nieuw seizoen
 RewriteRule ^zomer2013\.php$ /zomer2014.php [L,R=301]
@@ -239,23 +257,6 @@ RewriteRule ^zomer2013\.php$ /zomer2014.php [L,R=301]
 # Facebook-fout (fb_xd_fragment) redirecten
 RewriteCond %{QUERY_STRING} ^(.*)fb_xd_fragment=?[A-Za-z0-9]*&?(.*)$
 RewriteRule (.*) /$1?%1%2 [R=301,L]
-
-
-#
-# Sites die niet meer bestaan forwarden met een 301
-#
-
-# wintersportaccommodaties.nl
-RewriteCond %{HTTP_HOST} wintersportaccommodaties\.nl [NC]
-RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
-
-# superski.nl
-RewriteCond %{HTTP_HOST} superski\.nl [NC]
-RewriteRule ^(.*)$ https://www.chalet.nl/$1 [L,R=301]
-
-# zomerhuisje.eu doorsturen naar zomerhuisje.nl (.eu is niet meer actief - 04-12-2012)
-RewriteCond %{HTTP_HOST} zomerhuisje\.eu [NC]
-RewriteRule ^(.*)$ https://www.zomerhuisje.nl/$1 [L,R=301]
 
 
 RewriteRule groepsreizen\.php$ /zoek-en-boek.php [R=301,L]
