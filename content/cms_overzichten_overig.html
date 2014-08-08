@@ -162,7 +162,7 @@ if($_GET["t"]==1) {
 				$translations_wanted = true;
 				echo "Nieuw te vertalen ".$vars["seizoentype_namen"][$_GET["wzt"]]."accommodaties:<ul>";
 				while($db->next_record()) {
-					echo "<li><a href=\"".$vars["path"]."cms_accommodaties.php?edit=1&wzt=".intval($_GET["wzt"])."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".wt_he($vars["alleacc"][$db->f("accommodatie_id")])."</a></li>";
+					echo "<li><a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".intval($_GET["wzt"])."&archief=0&1k0=".$db->f("accommodatie_id")."\" target=\"_blank\">".wt_he($vars["alleacc"][$db->f("accommodatie_id")])."</a></li>";
 				}
 				echo "</ul>";
 			}
