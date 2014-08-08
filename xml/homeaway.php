@@ -209,8 +209,13 @@ while($db->next_record()) {
 
 			echo "<dateRange>\n";
 			echo "		<beginDate>".xml_text(date("Y-m-d",$exacte_unixtime))."</beginDate>\n";
+
 			$enddate=mktime(0,0,0,date("m",$exacte_unixtime),date("d",$exacte_unixtime)+$nachten,date("Y",$exacte_unixtime));
-			echo "		<endDate>".xml_text(date("Y-m-d",$enddate))."</endDate>\n";
+
+			// HomeAway uses "nights" and thus wants a week to end on Friday (Saturday-Friday): use -1
+			$show_enddate = mktime(0, 0, 0, date("m",$enddate), date("d",$enddate)-1, date("Y",$enddate));
+
+			echo "		<endDate>".xml_text(date("Y-m-d",$show_enddate))."</endDate>\n";
 			echo "</dateRange>\n";
 
 			echo "<minimumStay>ONE_WEEK</minimumStay>\n";
@@ -328,7 +333,12 @@ if($rates) {
 			while(!$beschikbaar[$key][$time] and $time<$eind) {
 				$time=mktime(0,0,0,date("m",$time),date("d",$time)+1,date("Y",$time));
 			}
-			echo "<endDate>".date("Y-m-d",$time)."</endDate>\n";
+
+
+			// HomeAway uses "nights" and thus wants a week to end on Friday (Saturday-Friday): use -1
+			$show_enddate = mktime(0, 0, 0, date("m",$time), date("d",$time)-1, date("Y",$time));
+
+			echo "<endDate>".date("Y-m-d",$show_enddate)."</endDate>\n";
 
 			echo "</reservationDates>\n";
 			echo "</reservation>\n";

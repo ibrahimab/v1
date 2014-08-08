@@ -9,7 +9,6 @@
 db01.chalet.nl/87.250.157.200 (Echte IP voor database server 1)
 db02.chalet.nl/87.250.157.201 (Echte IP voor database server 2)
 87.250.157.202 (Virtuele IP voor CRUD)
-87.250.157.203 (Virtuele IP voor readonly)
 
 */
 
