@@ -42,6 +42,11 @@ $page_id = $id;
 if(!$include) {
     header("Location: ".$vars["path"],true,301);
     exit;
+
+    // include("content/opmaak_chalet.php");
+    // exit;
+
+
 	if($_SERVER["HTTP_REFERER"]) {
 		if(!preg_match("@\.php/@",$_SERVER["REQUEST_URI"])) {
 			trigger_error("_notice: geen include-bestand bekend",E_USER_NOTICE);

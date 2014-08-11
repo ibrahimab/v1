@@ -529,9 +529,12 @@ if($mustlogin) {
 	if($_GET["wzt"]==2) {
 		$cms->settings[2]["types"]="zomertypes";
 		$cms->settings[2]["type_single"]="zomertype";
-	} else {
+	} elseif($_GET["wzt"]==1) {
 		$cms->settings[2]["types"]="wintertypes";
 		$cms->settings[2]["type_single"]="wintertype";
+	} else {
+		$cms->settings[2]["types"]="types";
+		$cms->settings[2]["type_single"]="type";
 	}
 	$cms->settings[2]["file"]="cms_types.php";
 	$cms->settings[2]["log"]["active"]=true;
