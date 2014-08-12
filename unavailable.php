@@ -28,9 +28,9 @@
 <body>
 	<div id="tekst">
 		<p>Wegens werkzaamheden zijn wij tijdelijk niet bereikbaar.</p>
-		<!-- <p>Probeer het over 30 minuten nog eens.</p> -->
+		<p>Probeer het over 30 minuten nog eens.</p>
 		<p>Onze excuses voor het ongemak.</p>
-		<!-- <p>Telefonisch zijn wij wel gewoon bereikbaar: <b>0348 - 43 46 49</b></p> -->
+		<p>Telefonisch zijn wij wel gewoon bereikbaar: <b>0348 - 43 46 49</b></p>
 	</div>
 </body>
 </html>

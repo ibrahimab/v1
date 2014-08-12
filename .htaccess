@@ -123,7 +123,7 @@ RewriteRule ^index\.php$ / [R=301,L]
 #
 RewriteCond %{HTTP_HOST} chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^www[23]?\.chalet\.nl [NC]
-RewriteCond %{HTTP_HOST} !^wwwtest\.chalet\.nl [NC]
+#RewriteCond %{HTTP_HOST} !^wwwtest\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^srv01\.chalet\.nl [NC]
 RewriteCond %{HTTP_HOST} !^test\.chalet\.nl [NC]
 RewriteCond %{REQUEST_URI} !google.*\.html [NC]
@@ -225,6 +225,7 @@ RewriteRule ^(.*)$ https://www.venturasolvacances.nl/$1 [L,R=301]
 #
 RewriteCond %{HTTP_HOST} ^test\..*\..* [NC]
 RewriteCond %{REQUEST_URI} !wt_git_autopull\.php [NC]
+RewriteCond %{REQUEST_URI} !wtphp\.php [NC]
 RewriteCond %{REQUEST_URI} !robots\.txt [NC]
 # WebTastic-IP 1
 RewriteCond %{REMOTE_ADDR} !^31\.223\.173\.113

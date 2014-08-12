@@ -288,7 +288,9 @@ if($_GET["levid"]) {
 					}
 
 
-					@unlink($vars["unixdir"]."tmp/".$filename);
+					if(file_exists($vars["unixdir"]."tmp/".$filename)) {
+						delete_file($vars["unixdir"]."tmp/".$filename);
+					}
 					$roominglist->word_bestand(array("save_filename"=>$vars["unixdir"]."tmp/".$filename));
 
 					if(file_exists($vars["unixdir"]."tmp/".$filename)) {

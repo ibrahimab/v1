@@ -1395,7 +1395,7 @@ function reissom_tabel_korting_of_min_tekst($bedrag,$inkoop) {
 	return $return;
 }
 
-function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
+function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 	global $vars, $isMobile;
 	$return="";
 	$db=new DB_sql;
@@ -2020,7 +2020,7 @@ function reissom_tabel($gegevens,$accinfo,$opties="",$inkoop=false) {
 			$return.="</tr>";
 		}
 
-		if($opties["tonen_verbergen"]) {
+		if(isset($opties["tonen_verbergen"]) and $opties["tonen_verbergen"]) {
 			$temp_class=" class=\"tonen_verbergen_1\"";
 		} else {
 			$temp_class="";
@@ -2659,6 +2659,13 @@ function save_data_to_file($filename, $data) {
 	// save to database-table `filesync`
 	filesync::add_to_filesync_table($filename);
 
+}
+
+function delete_file($filename) {
+	if(file_exists($filename)) {
+		unlink($filename);
+		filesync::add_to_filesync_table($filename, true);
+	}
 }
 
 function imagetable($onderdeel,$id) {

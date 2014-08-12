@@ -2,7 +2,7 @@
 
 #
 #
-# Dit script wordt op elke dag om 12.30u. gerund op de server srv01.chalet.nl met het account chalet01.
+# Dit script wordt op elke dag om 12.30u. gerund op de server web01.chalet.nl met het account chalet01.
 #
 # /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkedag.php test
 #

@@ -1563,14 +1563,17 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 												$imgteller++;
 												$filename="pic/cms/accommodaties_aanvullend/".$accid."-".$imgteller.".jpg";
 												rename($tempfilename,$filename);
+												filesync::add_to_filesync_table($filename);
 											} else {
 												# Thumbnail 240x180
 												$filename="pic/cms/accommodaties/".$accid.".jpg";
 												wt_create_thumbnail($tempfilename,$filename,240,0);
+												filesync::add_to_filesync_table($filename);
 
 												# Thumbnail 60x45
 												$filename="pic/cms/accommodaties_tn/".$accid.".jpg";
 												wt_create_thumbnail($tempfilename,$filename,60,45);
+												filesync::add_to_filesync_table($filename);
 
 												unlink($tempfilename);
 												$hoofdafbeelding=true;
@@ -1607,6 +1610,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 											$imgteller++;
 											$filename="pic/cms/types/".$typeid."-".$imgteller.".jpg";
 											rename($tempfilename,$filename);
+											filesync::add_to_filesync_table($filename);
 										} else {
 											# Portrait-afbeelding: wissen
 											unlink($tempfilename);

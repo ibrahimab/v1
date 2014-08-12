@@ -658,6 +658,7 @@ function form_before_goto($form) {
 				# afbeelding naar juiste maat omzetten
 				wt_create_thumbnail("pic/cms/types_specifiek/".basename($key),"pic/cms/types_specifiek/".basename($key),240,180);
 				chmod("pic/cms/types_specifiek/".basename($key),0666);
+				filesync::add_to_filesync_table("pic/cms/types_specifiek/".basename($key));
 			}
 		}
 	}
@@ -669,7 +670,7 @@ function form_after_imagedelete($form) {
 		while(list($key,$value)=each($form->deleted_images)) {
 			if(preg_match("/pic\/cms\/types_specifiek\//",$key)) {
 				# hoofdfoto: thumbnail wissen
-				unlink("pic/cms/types_specifiek_tn/".basename($key));
+				delete_file("pic/cms/types_specifiek_tn/".basename($key));
 			}
 		}
 	}

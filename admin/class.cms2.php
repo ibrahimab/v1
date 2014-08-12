@@ -501,6 +501,9 @@ class cms2 {
 								$file=$this->db[$counter]["options"][$key]["savelocation"].$this->delete_key[$counter].".".$this->db[$counter]["options"][$key]["filetype"];
 								if(file_exists($file)) {
 									unlink($file);
+									if($this->settings["add_to_filesync_table"]) {
+										filesync::add_to_filesync_table($file, true);
+									}
 								}
 							}
 						}

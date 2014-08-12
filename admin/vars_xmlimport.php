@@ -8,7 +8,7 @@
 
 
 
-function xml_tempsave( $xml_type, $xmlcode, $dag, $var, $waarde ) {
+function oud_xml_tempsave( $xml_type, $xmlcode, $dag, $var, $waarde ) {
 	global $db0;
 	$db0->query( "INSERT INTO xml_import_flex_temp SET xml_type='".addslashes( $xml_type )."', xmlcode='".addslashes( $xmlcode )."', dag='".addslashes( $dag )."', var='".addslashes( $var )."', waarde='".addslashes( $waarde )."';" );
 	if ( $db0->Errno>0 ) {
@@ -17,6 +17,50 @@ function xml_tempsave( $xml_type, $xmlcode, $dag, $var, $waarde ) {
 		return true;
 	}
 }
+
+function xml_tempsave( $xml_type, $xmlcode, $dag, $var, $waarde ) {
+
+	global $db0, $xml_tempsave_teller, $xml_tempsave_query, $xml_tempsave_teller_overall;
+
+	if($xml_type=="save_last_values") {
+		if($xml_tempsave_query) {
+			$db0->query("INSERT INTO xml_import_flex_temp (xml_type, xmlcode, dag, var, waarde) VALUES ".substr($xml_tempsave_query,1).";");
+
+			$xml_tempsave_teller = 0;
+			$xml_tempsave_query = "";
+
+			if ( $db0->Errno>0 ) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+
+	} else {
+
+		$xml_tempsave_teller++;
+		$xml_tempsave_query .= ", ('".addslashes( $xml_type )."', '".addslashes( $xmlcode )."', '".addslashes( $dag )."', '".addslashes( $var )."', '".addslashes( $waarde )."')";
+
+		if($xml_tempsave_teller>=5000) {
+
+			$db0->query("INSERT INTO xml_import_flex_temp (xml_type, xmlcode, dag, var, waarde) VALUES ".substr($xml_tempsave_query,1).";");
+
+			$xml_tempsave_teller = 0;
+			$xml_tempsave_query = "";
+
+			if ( $db0->Errno>0 ) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return true;
+		}
+	}
+}
+
 
 
 //

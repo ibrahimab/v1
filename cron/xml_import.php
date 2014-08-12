@@ -15,7 +15,7 @@ Alle andere leveranciers: tussen 8 en 20 uur elk uur, daarnaast ook om 0, 3, 6 e
 */
 
 #
-# IP-adres server bij opvragen XML: 87.250.137.106
+# IP-adres server bij opvragen XML: 87.250.157.198
 #
 
 
@@ -66,7 +66,8 @@ $track_time = microtime(true);
 function track_time($text) {
 	global $track_time_text, $track_time;
 
-	$track_time_text .= "\n".$text.": ".number_format(microtime(true)-floatval($track_time), 3, ",", ".")." seconden";
+	// $track_time_text .= "\n".$text.": ".number_format(microtime(true)-floatval($track_time), 3, ",", ".")." seconden";
+	$track_time_text .= "\n".$text.": ".ceil(microtime(true)-floatval($track_time))." seconden";
 
 	$track_time = microtime(true);
 }
@@ -127,21 +128,31 @@ $voorraad_gekoppeld->koppeling_uitvoeren_na_einde_script();
 #
 # Vaste run, of handmatig gestarte run via https://www.chalet.nl/cms_diversen.php?t=3?
 #
-if(!$argv[1] and !$testsysteem) {
-	if(date("i")==5 and $current_hour>=8 and $current_hour<=20) {
-		# Alle leveranciers worden doorlopen tussen 8 en 20 uur
-	} elseif(date("i")==5 and ($current_hour==0 or $current_hour==3  or $current_hour==6 or $current_hour==22)) {
-		# Alle leveranciers worden doorlopen om 0, 3, 6 en 22 uur
-	} elseif($current_hour==10 and date("i")==11 and $NU_EVEN_NIET) {
-		# Om alle leveranciers als test allemaal te kunnen nalopen: (testtijd staat op 10:11 uur, zie $current_hour en date("i") op de regel hierboven)
-
+if($argv[1]=="test.chalet.nl") {
+	$db->query("SELECT handmatige_xmlimport_id FROM diverse_instellingen WHERE handmatige_xmlimport_id>0;");
+	if($db->next_record()) {
+		$argv[1]=$db->f("handmatige_xmlimport_id");
+		$db->query("UPDATE diverse_instellingen SET handmatige_xmlimport_id=0;");
 	} else {
-		$db->query("SELECT handmatige_xmlimport_id FROM diverse_instellingen WHERE handmatige_xmlimport_id>0;");
-		if($db->next_record()) {
-			$argv[1]=$db->f("handmatige_xmlimport_id");
-			$db->query("UPDATE diverse_instellingen SET handmatige_xmlimport_id=0;");
+		exit;
+	}
+} else {
+	if(!$argv[1] and !$testsysteem) {
+		if(date("i")==5 and $current_hour>=8 and $current_hour<=20) {
+			# Alle leveranciers worden doorlopen tussen 8 en 20 uur
+		} elseif(date("i")==5 and ($current_hour==0 or $current_hour==3  or $current_hour==6 or $current_hour==22)) {
+			# Alle leveranciers worden doorlopen om 0, 3, 6 en 22 uur
+		} elseif($current_hour==10 and date("i")==11 and $NU_EVEN_NIET) {
+			# Om alle leveranciers als test allemaal te kunnen nalopen: (testtijd staat op 10:11 uur, zie $current_hour en date("i") op de regel hierboven)
+
 		} else {
-			exit;
+			$db->query("SELECT handmatige_xmlimport_id FROM diverse_instellingen WHERE handmatige_xmlimport_id>0;");
+			if($db->next_record()) {
+				$argv[1]=$db->f("handmatige_xmlimport_id");
+				$db->query("UPDATE diverse_instellingen SET handmatige_xmlimport_id=0;");
+			} else {
+				exit;
+			}
 		}
 	}
 }
@@ -155,10 +166,8 @@ if($argv[1]) {
 echo "\n\n\n";
 flush();
 
-if(!$testsysteem) {
-	# Temp-gegevens wissen
-	$db->query("DELETE FROM xml_import_flex_temp;");
-}
+# Temp-gegevens wissen
+$db->query("DELETE FROM xml_import_flex_temp;");
 
 if(($current_hour==9 and !$argv[1]) or $argv[1]=="5") {
 	if(!$testsysteem) {
@@ -315,35 +324,35 @@ $xml_urls[26][1]="http://resa.alpes-skiresa.com/xml/xml_v2.asp?app=LS&clt=264&to
 if($testsysteem) {
 	unset($xml_urls);
 	unset($soap_urls);
-#	$xml_urls[2][]=$test_tmpdir."alpenchalets.xml";
-#	$xml_urls[3][]=$test_tmpdir."skifrance.xml";
-#	$xml_urls[4][]=$test_tmpdir."results.xml";
-#	$csv_urls[5]=$test_tmpdir."dispo.csv";
-	$xml_urls[6][1]=$test_tmpdir."Vakanzen.xml";
-	$xml_urls[6][2]=$test_tmpdir."Preise.xml";
-#	$xml_urls[7][1]=$test_tmpdir."bel.xml";
-#	$xml_urls[7][2]=$test_tmpdir."belt.xml";
-#	$xml_urls[8][1]=$test_tmpdir."availability.xml.1";
-#	$xml_urls[8][2]=$test_tmpdir."unitrates.xml";
-#	$xml_urls[8][3]=$test_tmpdir."unit.xml";
-#	$xml_urls[9][2]=$test_tmpdir."nl";
-#	$xml_urls[10][1]=$test_tmpdir."1.xml";
-#	$xml_urls[11][1]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
-#	$xml_urls[11][2]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
-#	$xml_urls[12][1]=$test_tmpdir."deuxalpes.xml";
-#	$soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
-#	$xml_urls[14][1]=$test_tmpdir."deuxalpes.xml";
-#	$soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
-#	$xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
-#	$xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
-#	$xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
-#	$xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
+	// $xml_urls[2][]=$test_tmpdir."alpenchalets.xml";
+	// $xml_urls[3][]=$test_tmpdir."skifrance.xml";
+	// $xml_urls[4][]=$test_tmpdir."results.xml";
+	// $csv_urls[5]=$test_tmpdir."dispo.csv";
+	// $xml_urls[6][1]=$test_tmpdir."Vakanzen.xml";
+	// $xml_urls[6][2]=$test_tmpdir."Preise.xml";
+	// $xml_urls[7][1]=$test_tmpdir."bel.xml";
+	// $xml_urls[7][2]=$test_tmpdir."belt.xml";
+	$xml_urls[8][1]=$test_tmpdir."availability.xml";
+	$xml_urls[8][2]=$test_tmpdir."unitrates.xml";
+	$xml_urls[8][3]=$test_tmpdir."unit.xml";
+	// $xml_urls[9][2]=$test_tmpdir."nl";
+	// $xml_urls[10][1]=$test_tmpdir."1.xml";
+	// $xml_urls[11][1]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
+	// $xml_urls[11][2]=$test_tmpdir."PAC_CHALET_NL.xml"; # Odalys
+	// $xml_urls[12][1]=$test_tmpdir."deuxalpes.xml";
+	// $soap_urls[13]="http://www.eto.madamevacances.resalys.com/rsl/wsdl_distrib";
+	// $xml_urls[14][1]=$test_tmpdir."deuxalpes.xml";
+	// $soap_urls[15]="http://chaletdesneiges.resalys.com/rsl/wsdl_distrib";
+	// $xml_urls[16][1]=$test_tmpdir."export_chalet_nl_occupancy_de_w.xml";
+	// $xml_urls[16][2]=$test_tmpdir."export_chalet_nl_prices_de_w.xml";
+	// $xml_urls[16][3]=$test_tmpdir."export_chalet_nl_occupancy_de_s.xml";
+	// $xml_urls[16][4]=$test_tmpdir."export_chalet_nl_prices_de_s.xml";
 	// $xml_urls[17][1]=$test_tmpdir."lev.xml";
-#	$xml_urls[18][1]=$test_tmpdir."agence.xml";
-#	$xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
-#	$xml_urls[20][1]="/tmp/locative.xml";
-#	$xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
-#	$xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
+	// $xml_urls[18][1]=$test_tmpdir."agence.xml";
+	// $xml_urls[19][1]=$test_tmpdir."/tmp/oxy.xml";
+	// $xml_urls[20][1]="/tmp/locative.xml";
+	// $xml_urls[21][1]="/tmp/ville_avail.xml"; # beschikbaarheid
+	// $xml_urls[21][2]="/tmp/ville_prices.xml"; # prijzen
 	// $xml_urls[22][1]="/tmp/nexity.xml"; # prijzen
 	unset($http_login[21]);
 }
@@ -621,16 +630,16 @@ while(list($key,$value)=@each($xml_urls)) {
 								# wel beschikbaar
 								$temp_beschikbaar[$week]++;
 								if($flexibele_xmlcodes[$key][trim($value3["unique_serial"])]) {
-									if(!$testsysteem) {
+									// if(!$testsysteem) {
 										xml_tempsave($key,trim($value3["unique_serial"]),$dag,"beschikbaar","1");
-									}
+									// }
 								}
 							} else {
 								# niet beschikbaar
 								if($flexibele_xmlcodes[$key][trim($value3["unique_serial"])]) {
-									if(!$testsysteem) {
+									// if(!$testsysteem) {
 										xml_tempsave($key,trim($value3["unique_serial"]),$dag,"beschikbaar","0");
-									}
+									// }
 								}
 							}
 							if(date("w",$dag)==5) {
@@ -670,10 +679,10 @@ while(list($key,$value)=@each($xml_urls)) {
 							# Doorlopen van begin tot eind
 							$dag=$datum_begin;
 							while($dag<$datum_eind) {
-								if(!$testsysteem) {
+								// if(!$testsysteem) {
 									xml_tempsave($key,trim($value3["unique_serial"]),$dag,"minnachten",trim($value3["minimum"]));
 									xml_tempsave($key,trim($value3["unique_serial"]),$dag,"brutoprijs",trim($value3["daily"]));
-								}
+								// }
 								$dag=mktime(0,0,0,date("m",$dag),date("d",$dag)+1,date("Y",$dag));
 							}
 						}
@@ -689,6 +698,7 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
+				xml_tempsave("save_last_values", "", "", "", "");
 			} elseif($key==9) {
 				#
 				# Leverancier Maisons Vacances
@@ -859,6 +869,7 @@ while(list($key,$value)=@each($xml_urls)) {
 						}
 					}
 				}
+				xml_tempsave("save_last_values", "", "", "", "");
 			} elseif($key==21) {
 				#
 				# Leverancier Ville in Italia
@@ -1494,7 +1505,7 @@ while($db->next_record()) {
 					$xml["buchungs_liste"]["huette"]["booking_info"]["trip"][0]=$xml["buchungs_liste"]["huette"]["booking_info"]["trip"];
 				}
 				while(list($key2,$value2)=each($xml["buchungs_liste"]["huette"]["booking_info"]["trip"])) {
-					if(ereg("([0-9][0-9])\.([0-9][0-9])\.([0-9][0-9][0-9][0-9])",$value2["anreise"],$regs)) {
+					if(is_array($value2) and ereg("([0-9][0-9])\.([0-9][0-9])\.([0-9][0-9][0-9][0-9])",$value2["anreise"],$regs)) {
 						$datum_begin=mktime(0,0,0,$regs[2],$regs[1],$regs[3]);
 						if(ereg("([0-9][0-9])\.([0-9][0-9])\.([0-9][0-9][0-9][0-9])",$value2["abreise"],$regs)) {
 							$datum_eind=mktime(0,0,0,$regs[2],$regs[1],$regs[3]);

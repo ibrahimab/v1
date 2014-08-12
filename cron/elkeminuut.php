@@ -2,7 +2,7 @@
 
 #
 #
-# Dit script wordt op elke minuut gerund op de server srv01.chalet.nl met het account chalet01.
+# Dit script wordt op elke minuut gerund op de server web01.chalet.nl met het account chalet01.
 #
 # /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkeminuut.php test
 #

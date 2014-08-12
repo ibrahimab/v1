@@ -4,6 +4,9 @@
 // script to autopull Git commits
 //
 
+// webhook: http://test.chalet.nl/wt_git_autopull.php
+
+
 include_once("/var/www/chalet.nl/html_test/admin/allfunctions.php");
 
 $checkfile = "/var/www/chalet.nl/html_test/tmp/git-autopull-acceptance-test.txt";
@@ -23,7 +26,7 @@ if($argv[1]=="cron") {
 
 		if(preg_match("@acceptance-test@",$obj["ref"])) {
 			touch($checkfile);
-			wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false));
+			// wt_mail("jeroen@webtastic.nl","POST guthub",wt_dump($obj,false));
 		}
 
 	}

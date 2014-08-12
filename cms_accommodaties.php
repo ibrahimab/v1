@@ -925,6 +925,7 @@ function form_before_goto($form) {
 				# afbeelding naar juiste maat omzetten
 				wt_create_thumbnail("pic/cms/accommodaties/".basename($key),"pic/cms/accommodaties/".basename($key),240,180);
 				chmod("pic/cms/accommodaties/".basename($key),0666);
+				filesync::add_to_filesync_table("pic/cms/accommodaties/".basename($key));
 			}
 		}
 	}
@@ -936,7 +937,7 @@ function form_after_imagedelete($form) {
 		while(list($key,$value)=each($form->deleted_images)) {
 			if(preg_match("/pic\/cms\/accommodaties\//",$key)) {
 				# hoofdfoto: thumbnail wissen
-				unlink("pic/cms/accommodaties_tn/".basename($key));
+				delete_file("pic/cms/accommodaties_tn/".basename($key));
 			}
 		}
 	}
