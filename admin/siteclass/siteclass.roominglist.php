@@ -791,7 +791,7 @@ class roominglist {
 			$ms->create_word_document();
 			$output = ob_get_clean();
 
-			file_put_contents( $settings["save_filename"], $output );
+			save_data_to_file( $settings["save_filename"], $output );
 
 		} else {
 			$ms->create_word_document();

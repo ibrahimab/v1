@@ -43,7 +43,7 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 			$opsomming=@file_get_contents($url);
 			if(preg_match("/<!-- WTbegin -->(.*)<!-- WTend -->/s",$opsomming,$regs)) {
 				$filename=$unixdir."cache/aanbiedingen_land_".$db->f("land_id")."_".$key.".html";
-				file_put_contents($filename,$regs[1]);
+				save_data_to_file($filename,$regs[1]);
 				echo "Opgeslagen: ".$filename."\n";
 				flush();
 				sleep(1);
@@ -56,7 +56,7 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 		$opsomming=@file_get_contents($url);
 		if(preg_match("/<!-- WTbegin -->(.*)<!-- WTend -->/s",$opsomming,$regs)) {
 			$filename=$unixdir."cache/aanbiedingen_land_5_".$key.".html";
-			file_put_contents($filename,$regs[1]);
+			save_data_to_file($filename,$regs[1]);
 			echo "Opgeslagen: ".$filename."\n";
 			flush();
 			sleep(1);
@@ -68,7 +68,7 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 		$opsomming=@file_get_contents($url);
 		if(preg_match("/<!-- WTbegin -->(.*)<!-- WTend -->/s",$opsomming,$regs)) {
 			$filename=$unixdir."cache/aanbiedingen_land_5_".$key.".html";
-			file_put_contents($filename,$regs[1]);
+			save_data_to_file($filename,$regs[1]);
 			echo "Opgeslagen: ".$filename."\n";
 			flush();
 			sleep(1);
@@ -80,7 +80,7 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 		$opsomming=@file_get_contents($url);
 		if(preg_match("/<!-- WTbegin -->(.*)<!-- WTend -->/s",$opsomming,$regs)) {
 			$filename=$unixdir."cache/aanbiedingen_land_5_".$key.".html";
-			file_put_contents($filename,$regs[1]);
+			save_data_to_file($filename,$regs[1]);
 			echo "Opgeslagen: ".$filename."\n";
 			flush();
 			sleep(1);
@@ -96,7 +96,7 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 		$opsomming=@file_get_contents($value."aanbiedingen.php?nocache=1");
 		if(preg_match("/<!-- WTbegin -->(.*)<!-- WTend -->/s",$opsomming,$regs)) {
 			$filename=$unixdir."cache/aanbiedingen_".$key.".html";
-			file_put_contents($filename,$regs[1]);
+			save_data_to_file($filename,$regs[1]);
 			echo "Opgeslagen: ".$filename."\n";
 
 			# Alle datums doorlopen
@@ -105,7 +105,7 @@ while(list($key,$value)=each($vars["websiteinfo"]["basehref"])) {
 					$aanbiedingen=@file_get_contents($url."?nocache=1&d=".$value2);
 					if(preg_match("/<!-- WTbegin -->(.*)<!-- WTend -->/s",$aanbiedingen,$regs3)) {
 						$filename=$unixdir."cache/aanbiedingen_".$key."_".$value2.".html";
-						file_put_contents($filename,$regs3[1]);
+						save_data_to_file($filename,$regs3[1]);
 						echo "Opgeslagen: ".$filename."\n";
 						flush();
 						sleep(1);

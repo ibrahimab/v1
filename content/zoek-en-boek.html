@@ -3493,7 +3493,7 @@ if($resultaten_tonen) {
 				if($totaal_tarievenbekend_percentage<1) $totaal_tarievenbekend_percentage=1;
 				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\">".html("aantalaccommodatiesmettarieven","thema",array("v_aantal"=>number_format($toon_aantalresultaten_verschillende_types,0,",","."),"v_totaal"=>$totaal_tarievenbekend_seizoen_id,"v_percentage"=>$totaal_tarievenbekend_percentage."%"))."</div>";
 				if($_GET["save_tarievenbekend"]) {
-					file_put_contents($unixdir."cache/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
+					save_data_to_file($unixdir."cache/tarievenbekend_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types."-".$totaal_tarievenbekend_percentage);
 				}
 			} else {
 				echo "<div class=\"zoekresultaten_aantalgevonden boxshadow\" id=\"aantalgevonden\" data-aantalgevonden=\"".intval($toon_aantalresultaten_verschillende_types)."\">".html("aantalgevonden","accommodaties").": ".number_format($toon_aantalresultaten_verschillende_types,0,",",".")."</div>";
@@ -3518,7 +3518,7 @@ if($resultaten_tonen) {
 
 		if($_GET["save_aantalaccommodaties"] and $toon_aantalresultaten_verschillende_types>0) {
 			# Opslaan hoeveel accommodaties er zijn
-			file_put_contents($unixdir."cache/aantal_accommodaties_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types);
+			save_data_to_file($unixdir."cache/aantal_accommodaties_".$vars["website"].".txt",$toon_aantalresultaten_verschillende_types);
 		}
 
 		echo "<table id=\"zoekresultatentable\" class=\"table\">";

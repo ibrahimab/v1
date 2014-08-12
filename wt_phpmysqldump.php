@@ -11,14 +11,15 @@ if(!isset($_SERVER["PHP_AUTH_USER"])) {
 	exit;
 }
 
+
 ini_set('zlib.output_compression', 'On');
 ini_set('zlib.output_compression_level', '9');
 
 
 $host="87.250.157.202";
 $base="db_chalet";
-$login="admin";
-$password="Ll2k9qjdjp";
+$login="chaletdb";
+$password="kskL2K2kaQ";
 
 require("admin/class.phpmysqldump.php");
 

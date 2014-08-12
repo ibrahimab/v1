@@ -58,7 +58,7 @@ if($_GET["lev"]==362) {
 					echo "<li>".$key2."</li>";
 
 					$foto_data=file_get_contents($key2);
-					file_put_contents($vars["unixdir"]."pic/cms/accommodaties_aanvullend/".$key."-".$teller.".jpg",$foto_data);
+					save_data_to_file($vars["unixdir"]."pic/cms/accommodaties_aanvullend/".$key."-".$teller.".jpg",$foto_data);
 
 					// opslaan in database dat deze foto is binnengehaald
 					$db->query("INSERT INTO diverse_data SET soort='xml_imageimport', veldnaam='".intval($_GET["lev"])."', inhoud='".addslashes(trim($key2))."';");

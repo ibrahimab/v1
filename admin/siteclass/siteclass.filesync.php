@@ -36,6 +36,8 @@ class filesync {
 	function add_to_filesync_table($file, $delete=false) {
 		// save file to table `filesync`
 
+		$file = preg_replace("@/var/www/chalet.nl/html/@", "", $file);
+
 		$db=new DB_sql;
 
 		if(defined("wt_server_id")) {
@@ -59,12 +61,14 @@ class filesync {
 			$source = 0;
 		}
 
+		unset($inquery_filesync_id);
+
 		// new files
 		// $db->query("SELECT `filesync_id`, `file`, `delete` FROM `filesync` WHERE `source`='".intval($source)."' AND `sync_start` IS NULL ORDER BY `added`, `filesync_id`;");
 		$db->query("SELECT `filesync_id`, `file`, `delete` FROM `filesync` WHERE `source`='".intval($source)."' AND `sync_finish` IS NULL ORDER BY `added`, `filesync_id`;");
 		while($db->next_record()) {
 
-			$inquery_filesync_id .= $db->f("filesync_id");
+			$inquery_filesync_id .= ",".$db->f("filesync_id");
 
 			$this->handle_file($db->f("file"), $db->f("delete"), $db->f("filesync_id"));
 
@@ -119,9 +123,9 @@ class filesync {
 			$db->query("UPDATE `filesync` SET `sync_finish`=NOW() WHERE `filesync_id`='".intval($filesync_id)."';");
 		} else {
 			if( $delete ) {
-				trigger_error("sync-fout ".$file." - exit-code: ".$result,E_USER_NOTICE);
-			} else {
 				trigger_error("sync-fout (delete) ".$file." - exit-code: ".$result,E_USER_NOTICE);
+			} else {
+				trigger_error("sync-fout ".$file." - exit-code: ".$result,E_USER_NOTICE);
 			}
 			$db->query("UPDATE `filesync` SET `error`='".wt_as($result)."' WHERE `filesync_id`='".intval($filesync_id)."';");
 		}

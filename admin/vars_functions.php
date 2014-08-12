@@ -2651,6 +2651,16 @@ function htmlentities_uitgebreid($text,$li=false) {
 	return $text;
 }
 
+function save_data_to_file($filename, $data) {
+
+	// save to file
+	file_put_contents($filename, $data);
+
+	// save to database-table `filesync`
+	filesync::add_to_filesync_table($filename);
+
+}
+
 function imagetable($onderdeel,$id) {
 	global $path;
 	$mappen=array("","_breed");

@@ -118,7 +118,7 @@ if(!$cms_xmlnewimport_init) {
 
 			} else {
 				if($xmlfile=@file_get_contents($url)) {
-					file_put_contents($filename,$xmlfile);
+					save_data_to_file($filename,$xmlfile);
 					@chmod($filename,0666);
 				}
 			}
@@ -160,7 +160,6 @@ if(!$cms_xmlnewimport_init) {
 
 		$db=new DB_sql;
 
-	   // file_put_contents("tmp/import.log",var_export($allevelden, true), FILE_APPEND);
 		# soort:
 		#	1 = accommodatie
 		#	2 = type
@@ -1549,7 +1548,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 								if($file) {
 									if($value2>0) {
 										$tempfilename="tmp/".md5(uniqid()).".jpg";
-										file_put_contents($tempfilename,$file);
+										save_data_to_file($tempfilename,$file);
 
 										// get last image id to avoid override
 										$imgteller = (int) getLastImageNumber($accid, "accommodaties_aanvullend");
@@ -1599,7 +1598,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 								if($file) {
 									if($value2>0) {
 										$tempfilename="tmp/".md5(uniqid()).".jpg";
-										file_put_contents($tempfilename,$file);
+										save_data_to_file($tempfilename,$file);
 										$imgteller = (int) getLastImageNumber($typeid, "types");
 
 										$imgsize=getimagesize($tempfilename);

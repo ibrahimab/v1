@@ -1528,18 +1528,4 @@ if($_GET["fromsite"]) {
 }
 
 
-#
-# Bezoekstatistieken bijhouden
-#
-#if(!$voorkant_cms) {
-#	if(!file_exists("tmp/requesturi.php")) $topregel=true;
-#	$fp=@fopen("tmp/requesturi.php","a");
-#	if($topregel) @fwrite($fp,"<table style=\"font:Verdana;font-size:0.9em;\" border=\"1\" cellspacing=\"0\" cellpadding=\"6\">");
-#	@fwrite($fp,"<tr><td>".date("d-m-Y H:i")."</td><td>".$_SERVER["REMOTE_ADDR"]."</td><td><a href=\"".$_SERVER["REQUEST_URI"]."\" target=\"_blank\">ID ".$id." - ".wt_he($title[$id])."</a>&nbsp;</td><td>".$_SERVER["REDIRECT_STATUS"]."&nbsp;</td></tr>\n");
-#	@fclose($fp);
-#}
-
-#echo wt_dump($_SESSION);
-
-
 ?>

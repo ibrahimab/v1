@@ -180,6 +180,10 @@ foreach($username as $userAccount) {
 		fwrite($handle, $data);
 		$content="";
 		echo "success\n";
+
+		// save to database-table `filesync`
+		filesync::add_to_filesync_table($toWrite);
+
 	}
 }
 

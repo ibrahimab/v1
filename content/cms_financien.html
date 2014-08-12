@@ -1695,7 +1695,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			} else {
 				$filename=$vars["unixdir"]."csv/".$key."---".date("Y-m-d").".csv";
 			}
-			file_put_contents($filename,$value);
+			save_data_to_file($filename,$value);
 			echo "Opgeslagen: ".$filename."<br>\n";
 		}
 #		echo wt_dump($csvoutput);

@@ -480,7 +480,7 @@ if($huidig_uur==4 or $huidig_uur==18 or $argv[1]=="xmlopnieuw") {
 		}
 		$feed=file_get_contents($value);
 		$filename=$unixdir."cache/feed_".$key.".xml";
-		file_put_contents($filename,$feed);
+		save_data_to_file($filename,$feed);
 
 		unset($filename,$feed);
 	}
@@ -503,7 +503,7 @@ if(($huidig_uur==2 and date("w")==1) or $argv[1]=="traffic4u") {
 		$feed=file_get_contents($value);
 		$filename=$unixdir."cache/".$key.".csv";
 		if(strlen($feed)>10) {
-			file_put_contents($filename,$feed);
+			save_data_to_file($filename,$feed);
 		} else {
 			trigger_error("feed ".$value." is leeg",E_USER_NOTICE);
 		}

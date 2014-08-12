@@ -21,7 +21,13 @@ if(netrom_testserver) {
 	$mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider
 	$mysqlsettings["user"]="chaletdb";		# Username bij provider
 	$mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider
-	$mysqlsettings["host"]="87.250.157.202";# Hostname bij provider
+	if(defined("wt_server_name") and wt_server_name=="backup") {
+		// backup-server
+		$mysqlsettings["host"]="localhost";# Hostname bij provider
+	} else {
+		// all other servers
+		$mysqlsettings["host"]="87.250.157.202";# Hostname bij provider
+	}
 }
 if($vars["acceptatie_testserver"]) {
 	$mysqlsettings["name"]["remote"]="dbtest_chalet"; # database-name for acceptance-server
