@@ -15,7 +15,7 @@ ini_set('zlib.output_compression', 'On');
 ini_set('zlib.output_compression_level', '9');
 
 
-$host="localhost";
+$host="87.250.157.202";
 $base="db_chalet";
 $login="admin";
 $password="Ll2k9qjdjp";

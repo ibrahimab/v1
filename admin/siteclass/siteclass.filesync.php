@@ -64,9 +64,21 @@ class filesync {
 		$db->query("SELECT `filesync_id`, `file`, `delete` FROM `filesync` WHERE `source`='".intval($source)."' AND `sync_finish` IS NULL ORDER BY `added`, `filesync_id`;");
 		while($db->next_record()) {
 
+			$inquery_filesync_id .= $db->f("filesync_id");
+
 			$this->handle_file($db->f("file"), $db->f("delete"), $db->f("filesync_id"));
 
 		}
+
+		// check if all files have been synced
+		if($inquery_filesync_id) {
+			$db->query("SELECT `filesync_id`, `file`, `delete` FROM `filesync` WHERE `source`='".intval($source)."' AND `sync_finish` IS NULL AND `filesync_id` IN (".substr($inquery_filesync_id, 1).") ORDER BY `added`, `filesync_id`;");
+			while($db->next_record()) {
+				trigger_error("filesync-error ".$db->f("file"). "(id ".$db->f("filesync_id").")",E_USER_NOTICE);
+			}
+		}
+
+
 
 		// // previously failed files (after 1 minute)
 		// $db->query("SELECT `filesync_id`, `file`, `delete` FROM `filesync` WHERE `source`='".intval($source)."' AND `sync_start` IS NOT NULL AND `sync_start`<(NOW() - INTERVAL 1 MINUTE) AND `sync_finish` IS NULL ORDER BY `added`, `filesync_id`;");
@@ -115,11 +127,9 @@ class filesync {
 		}
 	}
 
+
+
 	function transfer_file($file) {
-
-
-// http://wpkg.org/Rsync_exit_codes
-
 
 		global $unixdir;
 

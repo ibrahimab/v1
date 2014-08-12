@@ -30,13 +30,13 @@ header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 # Bezoekers-statistieken opslaan
 #$mysqlsettings["name"]["remote"]="chalet";	# Databasenaam bij provider
 $mysqlsettings["name"]["local"]="dbtest_chalet";		# Optioneel: Databasenaam lokaal (alleen invullen indien anders dan database bij provider)
-$mysqlsettings["host"]="localhost";# Hostname bij provider
+$mysqlsettings["host"]="87.250.157.202";# Hostname bij provider
 $mysqlsettings["localhost"]="ss.postvak.net";# Hostname voor lokaal gebruik
 #$mysqlsettings["user"]="chalet";		# Username bij provider
 #$mysqlsettings["password"]="20012002";		# Password bij provider
 
 
-$mysqlsettings["host"]="localhost";# Hostname bij provider
+$mysqlsettings["host"]="87.250.157.202";# Hostname bij provider
 $mysqlsettings["name"]["remote"]="db_chalet";	# Databasenaam bij provider
 $mysqlsettings["user"]="chaletdb";		# Username bij provider
 $mysqlsettings["password"]="kskL2K2kaQ";		# Password bij provider

@@ -300,7 +300,7 @@ if($mustlogin) {
 
 	if($vars["cmstaal"] and $vars["cmstaal"]<>"nl") $layout->settings["extra_cssfiles"][]=$vars["path"]."css/cms_layout_anderetaal.css";
 	if($login->logged_in) {
-		if(defined("wt_server_name") and $login->userlevel>=5) {
+		if(defined("wt_server_name")) {
 			$layout->settings["logout_extra"] .= " - server: ".wt_server_name;
 		}
 
