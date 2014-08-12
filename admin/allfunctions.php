@@ -1397,7 +1397,7 @@ function wt_htmlent($text,$clicklinks=false,$li=false) {
 	return $text;
 }
 
-function wt_he_forumpost($text,$settings="") {
+function wt_he_forumpost($text,$settings=array("")) {
 	//
 	// comment tonen met klikbare links
 	//

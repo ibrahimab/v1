@@ -702,7 +702,7 @@ class roominglist {
 
 	}
 
-	public function word_bestand( $settings="" ) {
+	public function word_bestand( $settings=array("") ) {
 
 		global $vars;
 
@@ -798,7 +798,7 @@ class roominglist {
 		}
 	}
 
-	public function overzicht_te_verzenden( $settings="" ) {
+	public function overzicht_te_verzenden( $settings=array("") ) {
 
 		global $vars;
 
@@ -846,7 +846,7 @@ class roominglist {
 		return $return;
 	}
 
-	public function overzicht_goedgekeurd( $settings="" ) {
+	public function overzicht_goedgekeurd( $settings=array("") ) {
 
 		global $vars;
 
@@ -898,7 +898,7 @@ class roominglist {
 	}
 
 
-	public function overzicht_aankomstlijsten( $settings="" ) {
+	public function overzicht_aankomstlijsten( $settings=array("") ) {
 
 		global $vars;
 

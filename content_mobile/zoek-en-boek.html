@@ -2689,7 +2689,7 @@ if($vars["verfijnen_aanbieden"]) {
 
 if(!$vars["zoek-en-boek-functions-init"]) {
 
-	function zoekblok_tekst($settings="") {
+	function zoekblok_tekst($settings=array("")) {
 		# zoekformulier: zoeken op tekst
 
 		echo "<div class=\"zoekblok_item zoekblok_tekst\">";
@@ -2838,7 +2838,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	function zoekblok_aantalpersonen($settings="") {
+	function zoekblok_aantalpersonen($settings=array("")) {
 		#
 		# zoekformulier: aantal personen
 		#
@@ -2872,7 +2872,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	function zoekblok_aantalslaapkamers($settings="") {
+	function zoekblok_aantalslaapkamers($settings=array("")) {
 		#
 		# zoekformulier: aantal slaapkamers
 		#
@@ -2905,7 +2905,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	function zoekblok_aankomstdatum($settings="") {
+	function zoekblok_aankomstdatum($settings=array("")) {
 		#
 		#
 		# zoekformulier: aankomstdatum
@@ -2998,7 +2998,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	function zoekblok_verblijfsduur($settings="") {
+	function zoekblok_verblijfsduur($settings=array("")) {
 		#
 		# zoekformulier: verblijfsduur
 		#
@@ -3055,7 +3055,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	function zoekblok_prijsklasse($settings="") {
+	function zoekblok_prijsklasse($settings=array("")) {
 		#
 		# zoekformulier: prijsklasse (via slider)
 		#
@@ -3136,7 +3136,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		echo "</div>"; # afsluiten .zoekblok_item
 	}
 
-	function zoekblok_intern($settings="") {
+	function zoekblok_intern($settings=array("")) {
 		#
 		# zoekformulier: interne velden (leverancier + keuze Chalet/SuperSki)
 		#
@@ -3196,7 +3196,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		}
 	}
 
-	function zoekblok_verfijnd_gekozen($settings="") {
+	function zoekblok_verfijnd_gekozen($settings=array("")) {
 		#
 		# zoekformulier: opsomming verfijnde zoekopdracht
 		#
@@ -3245,7 +3245,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		}
 	}
 
-	function zoekblok_alleen_aanbiedingen($settings="") {
+	function zoekblok_alleen_aanbiedingen($settings=array("")) {
 		if($_GET["aab"]) {
 			# keuze "zoek alleen naar aanbiedingen" tonen
 			echo "<div class=\"zoekblok_item zoekblok_item_geen_titel\">";
@@ -3258,7 +3258,7 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		}
 	}
 
-	function zoekblok_submit($settings="") {
+	function zoekblok_submit($settings=array("")) {
 		#
 		# zoekformulier: submit
 		#

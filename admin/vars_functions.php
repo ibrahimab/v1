@@ -1,6 +1,6 @@
 <?php
 
-function txt($id,$page="",$settings="",$html=false) {
+function txt($id,$page="",$settings=array(""),$html=false) {
 	global $vars,$txt,$txta,$path,$gegevens,$boeking_bepaalt_taal,$txt_al_getoond,$woorden_toegestaan;
 	if($boeking_bepaalt_taal and is_array($gegevens)) {
 		$taal=$gegevens["stap1"]["taal"];
@@ -4285,7 +4285,7 @@ function googleanalytics() {
 	return $return;
 }
 
-function acc_zoekresultaat($data,$newresultsminmax,$newresults_multiple,$aanbieding_acc,$settings="") {
+function acc_zoekresultaat($data,$newresultsminmax,$newresults_multiple,$aanbieding_acc,$settings=array("")) {
 	global $vars;
 	if($settings["url"]) {
 		$url=$settings["url"];
