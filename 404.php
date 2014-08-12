@@ -1,7 +1,7 @@
 <?php
 
 $vars["wt_htmlentities_cp1252"] = true;
-include_once("admin/allfunctions.php");
+require_once("admin/allfunctions.php");
 
 $geen_tracker_cookie=true;
 
