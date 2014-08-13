@@ -1693,8 +1693,15 @@ $(document).ready(function() {
 
 			// zoektijd tonen aan ingelogde CMS-gebruikers
 			if($("div#page_load_time").length!==0 && $("span#zoektijd").length!==0) {
-				// alert('a');
 				$("span#zoektijd").text($("div#page_load_time").data("time"));
+			}
+
+			if($("div#page_load_time").length!==0 && $("div#page_load_time").data("zonder-variabelen")=="1") {
+				var zoektijd_in_milliseconds = parseFloat($("div#page_load_time").data("time").replace(",", "."),10) * 1000;
+				var zoektijd_in_seconds_text = "van "+Math.floor(zoektijd_in_milliseconds/1000)+" tot "+(Math.floor(zoektijd_in_milliseconds/1000)+1);
+
+				// send zoektijd to Analytics
+				zoekopdracht_naar_analytics_sturen_inclusief_aantal("zoektijd in seconden",zoektijd_in_seconds_text,zoektijd_in_milliseconds);
 			}
 		}
 
