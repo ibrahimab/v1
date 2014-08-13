@@ -6,7 +6,7 @@ if(!$_GET["bedrijf"]) {
 	$_GET["bedrijf"]="chalet";
 }
 
-if($_GET["csv"] and ($_SERVER["REMOTE_ADDR"]=="87.250.153.107" or $_SERVER["REMOTE_ADDR"]=="87.250.153.108")) {
+if($_GET["csv"] and ($_SERVER["REMOTE_ADDR"]=="87.250.157.198" or $_SERVER["REMOTE_ADDR"]=="87.250.157.199")) {
 	$vars["mustlogin_cms_cron_false"]=true;
 #	mail("jeroen@webtastic.nl","cms_financien.php",$_SERVER["REMOTE_ADDR"]);
 }

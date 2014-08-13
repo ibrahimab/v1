@@ -17,7 +17,7 @@ if(($vars["chalettour_logged_in"] or $voorkant_cms) and $_GET["accid"]) {
 		$ms->company=$vars["websitenaam"];
 #		$ms->margin="0cm 0cm 0cm 0cm;";
 #		$ms->landscape=true;
-#		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["REMOTE_ADDR"]=="82.173.186.80NOT") $ms->test=true;
+#		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") $ms->test=true;
 		$ms->filename=txt("menu_accommodatie")."_".$db->f("begincode").$db->f("type_id");
 		$ms->css="body {
 		background-color: white;

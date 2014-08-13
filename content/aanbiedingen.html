@@ -22,11 +22,6 @@ if(!$_GET["nocache"]) {
 	}
 }
 
-#if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
-#	# Vanaf pc Jeroen: altijd rechtstreeks laden (geen cache)
-#	unset($cachefile);
-#}
-
 if($cachefile) {
 	if($voorkant_cms) {
 		$laatsteupdate=filemtime($cachefile);

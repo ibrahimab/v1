@@ -4,7 +4,7 @@
 # Reisbureaus exporteren naar Mailingmanager
 #
 
-if($_GET["t"] and ($_SERVER["REMOTE_ADDR"]=="172.16.1.10" or $_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["REMOTE_ADDR"]=="87.250.136.101")) {
+if($_GET["t"] and ($_SERVER["REMOTE_ADDR"]=="172.16.1.10" or $_SERVER["REMOTE_ADDR"]=="87.250.136.101")) {
 	$geen_tracker_cookie=true;
 	$unixdir="../";
 	include("../admin/vars.php");
@@ -16,19 +16,19 @@ if($_GET["t"] and ($_SERVER["REMOTE_ADDR"]=="172.16.1.10" or $_SERVER["REMOTE_AD
 		# gewone nieuwsbrief (t=1)
 		$wherequery=" AND ru.mailingmanager_gewonenieuwsbrief=1";
 	}
-	
+
 	$db->query("SELECT ru.user_id, ru.email, ru.voornaam, ru.tussenvoegsel, ru.achternaam FROM reisbureau r, reisbureau_user ru WHERE ru.reisbureau_id=r.reisbureau_id AND r.actief=1".$wherequery.";");
 #	echo $db->lastquery;
 	if($db->num_rows()) {
-	
+
 		$xmlcontent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<userlist></userlist>\n";
-		
+
 		$xml = new SimpleXMLElement($xmlcontent);
-	
+
 		$info = $xml->addChild("info");
 		$info->addChild("exportunixtime",time());
 		$info->addChild("aantalleden",$db->num_rows());
-	
+
 		while($db->next_record()) {
 			$user = $xml->addChild("user");
 			$user->addChild("lidnummer",utf8_encode($db->f("user_id")));

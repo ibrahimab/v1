@@ -9,6 +9,8 @@ deny from all
 allow from 127.0.0.1
 allow from 172.16.1.
 allow from 87.250.135.71
+allow from 87.250.157.198
+allow from 87.250.157.199
 
 allow from 213.125.152.154
 allow from 213.125.152.155

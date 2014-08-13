@@ -30,16 +30,14 @@ if($_GET["c"]) {
 if($reisbureau["reisbureau_id"] and $_GET["feedtype"]) {
 
 	# Loggen
-	if($_SERVER["REMOTE_ADDR"]<>"82.173.186.80") {
-		$reisbureau["xmlfeed_log"]=date("d-m-Y H:i:s")." - ".$_GET["feedtype"]." - ".$_SERVER["REMOTE_ADDR"]." - ".$_SERVER["HTTP_USER_AGENT"]."\n".$reisbureau["xmlfeed_log"];
-		$new_xmlfeed_log_array=split("\n",$reisbureau["xmlfeed_log"]);
-		while(list($key,$value)=each($new_xmlfeed_log_array)) {
-			if($key<10) {
-				$new_xmlfeed_log.=$value."\n";
-			}
+	$reisbureau["xmlfeed_log"]=date("d-m-Y H:i:s")." - ".$_GET["feedtype"]." - ".$_SERVER["REMOTE_ADDR"]." - ".$_SERVER["HTTP_USER_AGENT"]."\n".$reisbureau["xmlfeed_log"];
+	$new_xmlfeed_log_array=split("\n",$reisbureau["xmlfeed_log"]);
+	while(list($key,$value)=each($new_xmlfeed_log_array)) {
+		if($key<10) {
+			$new_xmlfeed_log.=$value."\n";
 		}
-		$db->query("UPDATE reisbureau SET xmlfeed_log='".addslashes($new_xmlfeed_log)."' WHERE reisbureau_id='".addslashes($reisbureau["reisbureau_id"])."';");
 	}
+	$db->query("UPDATE reisbureau SET xmlfeed_log='".addslashes($new_xmlfeed_log)."' WHERE reisbureau_id='".addslashes($reisbureau["reisbureau_id"])."';");
 
 	$wzt=0;
 	if($vars["websitetype"]=="6") {

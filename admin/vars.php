@@ -54,7 +54,7 @@ if(ereg("(winter|zomer|summer)/",$_SERVER["REDIRECT_URL"])) {
 $vars["id"]=$id;
 if(isset($url[(count($url)-1)]) and !$url[(count($url)-1)]) unset($url[(count($url)-1)]);
 
-// if($_SERVER["REMOTE_ADDR"]=="82.173.186.80") {
+// if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" and $_COOKIE["jeroen"]==1) {
 	// $vars["bezoeker_is_jeroen"]=true;
 	// $vars["wt_disable_error_handler"]=true;
 // }

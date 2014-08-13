@@ -1685,7 +1685,7 @@ function wt_sort($array,$desc=false) {
 }
 
 function wt_debugtimer($pointer="") {
-	if($_SERVER["REMOTE_ADDR"]=="82.173.186.80" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		global $wt_debugtimer;
 		$wt_debugtimer["counter"]++;
 		if(!$pointer) $pointer=$wt_debugtimer["counter"];

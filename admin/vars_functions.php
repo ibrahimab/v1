@@ -454,11 +454,6 @@ function aanbiedinginfo($typeid,$seizoenid,$aankomstdatum=0) {
 	$korting_query_from["types"]="aanbieding_type at";
 	$korting_query_where["types"]="at.aanbieding_id=a.aanbieding_id AND at.type_id=t.type_id";
 
-#	if($_SERVER["REMOTE_ADDR"]<>"82.173.186.802") {
-#		$korting_query_from["leveranciers"]="aanbieding_leverancier al";
-#		$korting_query_where["leveranciers"]="al.aanbieding_id=a.aanbieding_id AND al.leverancier_id=t.leverancier_id";
-#	}
-
 	if($aankomstdatum) {
 #		$extra_where.=" AND ta.week='".addslashes($aankomstdatum)."' AND ta.beschikbaar=1 AND (ta.bruto>0 OR ta.c_bruto>0)";
 		$extra_where.=" AND ta.week='".addslashes($aankomstdatum)."'";
