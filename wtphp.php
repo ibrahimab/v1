@@ -1,11 +1,14 @@
 <?php
 
-// include("admin/vars.php");
+include("admin/vars.php");
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	$filesync = new filesync;
-	$filesync->sync_files();
-}
+// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+// 	$filesync = new filesync;
+// 	$filesync->sync_files();
+// }
+
+// wt_mail("check-auth-jeroen=webtastic.nl@verifier.port25.com","Testmail anti-spammaatregelen","Testmail anti-spammaatregelen", "info@chalet.nl", "Chalet.nl");
+
 
 // echo "Test 1";
 // if(defined("wt_server_name")) {
