@@ -87,7 +87,7 @@ class filesync {
 			$this->handle_file($db->f("file"), $db->f("delete"), $db->f("filesync_id"));
 
 			if(!$db->f("sync_start")) {
-				$newfile[$db->f("filesync_id")] = true;
+				$this->newfile[$db->f("filesync_id")] = true;
 			}
 
 		}
@@ -96,8 +96,8 @@ class filesync {
 		if($inquery_filesync_id) {
 			$db->query("SELECT `filesync_id`, `file`, `delete` FROM `filesync` WHERE `source`='".intval($source)."' AND `sync_finish` IS NULL AND `filesync_id` IN (".substr($inquery_filesync_id, 1).") ORDER BY `added`, `filesync_id`;");
 			while($db->next_record()) {
-				if($newfile[$db->f("filesync_id")]) {
-					trigger_error("filesync-error ".$db->f("file"). "(id ".$db->f("filesync_id").")",E_USER_NOTICE);
+				if($this->newfile[$db->f("filesync_id")]) {
+					trigger_error("filesync-error ".$db->f("file"). " (id ".$db->f("filesync_id").")",E_USER_NOTICE);
 				}
 			}
 		}
@@ -142,10 +142,12 @@ class filesync {
 		if($sync_succeed) {
 			$db->query("UPDATE `filesync` SET `sync_finish`=NOW() WHERE `filesync_id`='".intval($filesync_id)."';");
 		} else {
-			if( $delete ) {
-				trigger_error("sync-fout (delete) ".$file." - exit-code: ".$result,E_USER_NOTICE);
-			} else {
-				trigger_error("sync-fout ".$file." - exit-code: ".$result,E_USER_NOTICE);
+			if($this->newfile[$filesync_id]) {
+				if( $delete ) {
+					trigger_error("sync-fout (delete) ".$file." - exit-code: ".$result,E_USER_NOTICE);
+				} else {
+					trigger_error("sync-fout ".$file." - exit-code: ".$result,E_USER_NOTICE);
+				}
 			}
 			$db->query("UPDATE `filesync` SET `error`='".wt_as($result)."' WHERE `filesync_id`='".intval($filesync_id)."';");
 		}

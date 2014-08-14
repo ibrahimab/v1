@@ -791,7 +791,11 @@ class roominglist {
 			$ms->create_word_document();
 			$output = ob_get_clean();
 
-			save_data_to_file( $settings["save_filename"], $output );
+			if(preg_match("@/tmp/@", $settings["save_filename"])) {
+				file_put_contents( $settings["save_filename"], $output );
+			} else {
+				save_data_to_file( $settings["save_filename"], $output );
+			}
 
 		} else {
 			$ms->create_word_document();

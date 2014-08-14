@@ -287,9 +287,8 @@ if($_GET["levid"]) {
 						$filename="arrivals_".date("Y_m_d",$_POST["date"]).".doc";
 					}
 
-
 					if(file_exists($vars["unixdir"]."tmp/".$filename)) {
-						delete_file($vars["unixdir"]."tmp/".$filename);
+						unlink($vars["unixdir"]."tmp/".$filename);
 					}
 					$roominglist->word_bestand(array("save_filename"=>$vars["unixdir"]."tmp/".$filename));
 
