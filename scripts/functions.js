@@ -1691,18 +1691,26 @@ $(document).ready(function() {
 				}
 			});
 
-			// zoektijd tonen aan ingelogde CMS-gebruikers
-			if($("div#page_load_time").length!==0 && $("span#zoektijd").length!==0) {
-				$("span#zoektijd").text($("div#page_load_time").data("time"));
-			}
+			// zoektijd (search time)
+			if($("div#page_load_time").length!==0) {
 
-			if($("div#page_load_time").length!==0 && $("div#page_load_time").data("zonder-variabelen")=="1") {
+				// zoektijd tonen aan ingelogde CMS-gebruikers
+				if($("span#zoektijd").length!==0) {
+					$("span#zoektijd").text($("div#page_load_time").data("time"));
+				}
+
 				var zoektijd_in_milliseconds = parseFloat($("div#page_load_time").data("time").replace(",", "."),10) * 1000;
 				var zoektijd_in_seconds_text = "van "+Math.floor(zoektijd_in_milliseconds/1000)+" tot "+(Math.floor(zoektijd_in_milliseconds/1000)+1);
 
-				// send zoektijd to Analytics
-				zoekopdracht_naar_analytics_sturen_inclusief_aantal("zoektijd in seconden",zoektijd_in_seconds_text,zoektijd_in_milliseconds);
+				// send zoektijd to Analytics for empty search query (no filled fields)
+				if($("div#page_load_time").data("zonder-variabelen")=="1") {
+					zoekopdracht_naar_analytics_sturen_inclusief_aantal("zoektijd in seconden",zoektijd_in_seconds_text,zoektijd_in_milliseconds);
+				}
+
+				// send zoektijd to Analytics for all search queries
+				zoekopdracht_naar_analytics_sturen_inclusief_aantal("zoektijd in seconden (alle zoekopdrachten)",zoektijd_in_seconds_text,zoektijd_in_milliseconds);
 			}
+
 		}
 
 		// zoeken binnen andere site: kijken of alle resultaten extern zijn (van Chalet.nl naar SuperSki)
