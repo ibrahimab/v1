@@ -869,7 +869,7 @@ $vars["landcodes"]=array("D"=>"de","E"=>"en","F"=>"fr","I"=>"","N"=>"nl","O"=>"d
 
 $vars["bestelmailfax_taal"]=array("D"=>"Duits","E"=>"Engels","N"=>"Nederlands");
 
-$vars["bestelmailfax_beste"]=array("D"=>"Sehr Geehrte(r)","E"=>"Dear","N"=>"Beste");
+$vars["bestelmailfax_beste"]=array("D"=>"Sehr geehrte(r)","E"=>"Dear","N"=>"Beste");
 $vars["bestelmailfax_hierbijwillenwe"]=array("D"=>"Wir möchten gerne nachfolgende Fixreservierung machen","E"=>"We would like to make the next definitive reservation","N"=>"Hierbij willen wij onderstaande accommodatie definitief boeken");
 $vars["bestelmailfax_dezeacchebbenwij"]=array("D"=>"Zur Ihrer Information: Wir haben es","E"=>"This accommodation is","N"=>"Deze accommodatie hebben wij");
 $vars["bestelmailfax_soort"]["D"]=array(1=>"auf Anfrage",2=>"in Kontingent",3=>"in Garantie",4=>"in Option");
@@ -883,11 +883,11 @@ $vars["bestelmailfax_soort"]["N"]=array(1=>"op aanvraag",2=>"in allotment",3=>"i
 $vars["bestelmailfax_tot"]=array("D"=>"bis","E"=>"until","N"=>"tot");
 $vars["bestelmailfax_klantnaam"]=array("D"=>"Kunde Name","E"=>"Clients name","N"=>"Klantnaam");
 $vars["bestelmailfax_aankomst"]=array("D"=>"Anreise","E"=>"Date of Arrival","N"=>"Aankomst");
-$vars["bestelmailfax_verblijfsduur"]=array("D"=>"Aufentheltsdauern","E"=>"Staying time","N"=>"Verblijfsduur");
+$vars["bestelmailfax_verblijfsduur"]=array("D"=>"Aufenthaltsdauer","E"=>"Staying time","N"=>"Verblijfsduur");
 $vars["bestelmailfax_nachten"]=array("D"=>"Nachten","E"=>"nights","N"=>"nachten");
 $vars["bestelmailfax_plaats"]=array("D"=>"Ort","E"=>"Resort","N"=>"Plaats");
 $vars["bestelmailfax_accommodatie"]=array("D"=>"Akkommodation","E"=>"Accommodation","N"=>"Accommodatie");
-$vars["bestelmailfax_type"]=array("D"=>"Type","E"=>"Type","N"=>"Type");
+$vars["bestelmailfax_type"]=array("D"=>"Typ","E"=>"Type","N"=>"Type");
 $vars["bestelmailfax_maxcapaciteit"]=array("D"=>"Max. Kapazität","E"=>"Max. capacity","N"=>"Max. capaciteit");
 $vars["bestelmailfax_persoon"]=array("D"=>"Personen","E"=>"person","N"=>"persoon");
 $vars["bestelmailfax_personen"]=array("D"=>"Personen","E"=>"persons","N"=>"personen");
