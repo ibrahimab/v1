@@ -4544,7 +4544,12 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 	}
 
-	$mail=new wt_mail;
+	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
+		$mail=new wt_mail2;
+	} else {
+		$mail=new wt_mail;
+	}
+	// $mail=new wt_mail;
 
 	# header-attachment toevoegen
 	if(!$settings["no_header_image"]) {

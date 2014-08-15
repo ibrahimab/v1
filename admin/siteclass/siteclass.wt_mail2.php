@@ -1,4 +1,92 @@
 <?php
+
+
+/**
+*
+*/
+
+class wt_mail2 {
+
+	function __construct() {
+		# code...
+
+		$this->mail = new PHPMailer;
+
+	}
+
+
+	function attachment($file,$mimetype="",$inline=false,$otherfilename="") {
+		if($otherfilename) {
+			$this->mail->addAttachment($file, $otherfilename);    // Optional name
+		} else {
+			$this->mail->addAttachment($file);         // Add attachments
+		}
+	}
+
+	// $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+
+
+	function send() {
+
+
+
+		$this->mail->From = $this->from;
+		$this->mail->FromName = $this->fromname;
+		// $this->mail->addAddress('jeroen_boschman@hotmail.com', 'Jeroen Boschman');     // Add a recipient
+		// $this->mail->addAddress('boschman@gmail.com', 'Jeroen Boschman');     // Add a recipient
+		$this->mail->addAddress($this->to);               // Name is optional
+		// $this->mail->addReplyTo('info@example.com', 'Information');
+		// $this->mail->addCC('cc@example.com');
+		// $this->mail->addBCC('bcc@example.com');
+
+		$this->mail->WordWrap = 50;                                 // Set word wrap to 50 characters
+		// $this->mail->addAttachment('/var/www/chalet.nl/html/pdf/algemene_voorwaarden.pdf');         // Add attachments
+		// $this->mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+		$this->mail->isHTML(true);                                  // Set email format to HTML
+
+		$this->mail->Subject = $this->subject;
+		$this->mail->Body    = $this->html;
+		// $this->mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+		if(!$this->mail->send()) {
+		    echo 'Message could not be sent.';
+		    echo 'Mailer Error: ' . $this->mail->ErrorInfo;
+		    exit;
+		} else {
+		    // echo 'Message has been sent';
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * PHPMailer - PHP email creation and transport class.
  * PHP Version 5
@@ -3458,152 +3546,5 @@ class phpmailerException extends Exception
         return $errorMsg;
     }
 }
-
-
-$mail = new PHPMailer;
-
-// $mail->isSMTP();                                      // Set mailer to use SMTP
-// $mail->Host = 'smtp1.example.com;smtp2.example.com';  // Specify main and backup SMTP servers
-// $mail->SMTPAuth = true;                               // Enable SMTP authentication
-// $mail->Username = 'user@example.com';                 // SMTP username
-// $mail->Password = 'secret';                           // SMTP password
-// $mail->SMTPSecure = 'tls';                            // Enable encryption, 'ssl' also accepted
-
-// $mail->isSendmail();
-
-$mail->From = 'info@chalet.nl';
-$mail->FromName = 'Chalet.nl';
-// $mail->addAddress('jeroen_boschman@hotmail.com', 'Jeroen Boschman');     // Add a recipient
-$mail->addAddress('boschman@gmail.com', 'Jeroen Boschman');     // Add a recipient
-// $mail->addAddress('ellen@example.com');               // Name is optional
-// $mail->addReplyTo('info@example.com', 'Information');
-// $mail->addCC('cc@example.com');
-// $mail->addBCC('bcc@example.com');
-
-$mail->WordWrap = 50;                                 // Set word wrap to 50 characters
-$mail->addAttachment('/var/www/chalet.nl/html/pdf/algemene_voorwaarden.pdf');         // Add attachments
-// $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-$mail->isHTML(true);                                  // Set email format to HTML
-
-$mail->Subject = 'Here is the subject';
-$mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-// $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-if(!$mail->send()) {
-    echo 'Message could not be sent.';
-    echo 'Mailer Error: ' . $mail->ErrorInfo;
-} else {
-    echo 'Message has been sent';
-}
-
-
-exit;
-
-
-include("admin/vars.php");
-
-// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-// 	$filesync = new filesync;
-// 	$filesync->sync_files();
-// }
-
-// wt_mail("check-auth-jeroen=webtastic.nl@verifier.port25.com","Testmail anti-spammaatregelen","Testmail anti-spammaatregelen", "info@chalet.nl", "Chalet.nl");
-// wt_mail("sa-test@sendmail.net","Testmail anti-spammaatregelen","Testmail anti-spammaatregelen", "wouter@chalet.nl", "Chalet.nl");
-
-
-// echo "Test 1";
-// if(defined("wt_server_name")) {
-// 	echo "NAME:".wt_server_name;
-// }
-phpinfo();
-// http://wwwtest.chalet.nl/wtphp.php
-exit;
-
-// echo htmlspecialchars("Hé €", ENT_COMPAT | ENT_HTML401, 'ISO-8859-1');
-
-
-
-
-// $mailadres="bjorn@chalet.nl";
-// $naam="Bjorn den Blanken";
-
-// $mailadres="jeroen@webtastic.nl";
-// $naam="André Test";
-
-// $order_number="B10000002";
-
-// echo "Testmail is naar Trustpilot verzonden.<br/><br/>Klantgegevens: [".$order_number."] ".$naam." - ".$mailadres;
-
-// $mail=new wt_mail;
-
-// $mail->from=$vars["email"];
-// $mail->fromname=$vars["websitenaam"];
-
-// $mail->to=$vars["trustpilot_code"];
-// // $mail->to="jeroen@webtastic.nl";
-// $mail->subject="Order number ".$order_number;
-
-// $mail->html="<!--
-// tp_lang: nl-NL
-// tp_tld: nl
-// -->
-// Customer Email: ".wt_he($mailadres)."\n<br/>Customer Name: ".wt_he($naam)."<br/>\n";
-
-// // $mail->html_top="";
-// // $mail->html="<B>Hallo</B>";
-// // $mail->html_bottom="";
-
-// $mail->send();
-
-// exit;
-
-
-// $mail=new wt_mail;
-// $mail->fromname="Testmailër";
-// $mail->from="test@webtastic.nl";
-// $mail->toname="Jeroën";
-// $mail->to="jeroen@webtastic.nl";
-// $mail->subject="Onderwerp hé ga je?";
-
-// $mail->plaintext="Hallo";
-
-// $mail->html_top="";
-// $mail->html="<B>Hallo</B>";
-// $mail->html_bottom="";
-
-// $mail->send();
-
-// exit;
-
-
-if($_GET["errortest"]) {
-	echo "Errortest has been sent...";
-	sort($empty_test_array);
-} else {
-	// if($_COOKIE["flc"]) {
-		phpinfo();
-	// }
-}
-
-# test 12
-# test
-# TEST 15-11-2013
-
-// ksort($a);
-
-// echo "TT";
-#include("admin/vars.php");
-
-#verstuur_opmaakmail("I","boschman@gmail.com","Jeroen","Onderwerp testmail","Hallo, hier de body","");
-
-#error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
-
-
-
-//http://chalet-dev.web.netromtest.ro/error_log.php?error=
-
-// $a=file_get_contents("http://www.webtastic.nl/ipadres/direct.php");
-// echo "IPADRES:".$a;
-
 
 ?>
