@@ -1563,7 +1563,11 @@ $(document).ready(function() {
 				if(/scrolly/.test(back_url)) {
 					back_url = updateURLParameter(back_url,"scrolly",$(window).scrollTop());
 				} else {
-					back_url = back_url+"&scrolly="+$(window).scrollTop();
+					if(/\?/.test(back_url)) {
+						back_url = back_url+"&scrolly="+$(window).scrollTop();
+					} else {
+						back_url = back_url+"?scrolly="+$(window).scrollTop();
+					}
 				}
 
 				// change map-querystring in back_url
