@@ -591,7 +591,7 @@ if($db->next_record()) {
 	$kenmerken_plaats = preg_split("@,@", $db->f("kenmerken_plaats"));
 	$kenmerken_skigebied = preg_split("@,@", $db->f("kenmerken_skigebied"));
 
-	if($vars["seizoentype"]==1 and ($_GET["test"] or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html")) {
+	if($vars["seizoentype"]==1 and $vars["taal"]=="nl") {
 		//
 		// winter
 		//
