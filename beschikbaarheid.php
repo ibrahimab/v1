@@ -398,7 +398,6 @@ if($form->okay) {
 		$mail->subject=txt(($_GET["o"]||$form->input["optie"] ? "optieaanvraag" : "beschikbaarheidaanvraag"),"beschikbaarheid")." ".$vars["websitenaam"];
 		$mail->from=$vars["email"];
 		$mail->fromname=$vars["websitenaam"];
-	#	$mail->returnpath=$vars["email"];
 
 		$naam=wt_naam($form->input["voornaam"],$form->input["tussenvoegsel"],$form->input["achternaam"]);
 

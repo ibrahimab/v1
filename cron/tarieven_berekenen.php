@@ -76,7 +76,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2" or $argv[1]=="test") {
 	$db3->query("SELECT DISTINCT t.type_id, ta.seizoen_id, a.toonper FROM tarief ta, type t, accommodatie a WHERE (ta.kortingactief=1 OR ta.week>='".(time())."') AND t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND a.toonper IN (1,3) AND t.verzameltype=0".($typeid_berekenen_inquery ? " AND ta.type_id IN (".$typeid_berekenen_inquery.")" : "")." ORDER BY ta.type_id;");
 }
 while($db3->next_record()) {
-	if($cron) {
+	if($cron and !$cron_xml_import) {
 		echo "Bereken type_id ".$db3->f("type_id")." (seizoen_id ".$db3->f("seizoen_id").")<br>\n";
 		flush();
 	}

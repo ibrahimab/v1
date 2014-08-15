@@ -147,6 +147,21 @@ class DB_Sql {
 		$this->lastquery=$Query_String;
 		$this->lq=$Query_String;
 
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+			if(preg_match("@^SELECT @", $Query_String)) {
+				$this->querycounter["select"]++;
+			}
+			if(preg_match("@^UPDATE `?([a-zA-Z0-9_]+)`?@", $Query_String, $regs)) {
+				$this->querycounter["update"][$regs[1]]++;
+			}
+			if(preg_match("@^INSERT @", $Query_String)) {
+				$this->querycounter["insert"]++;
+			}
+			if(preg_match("@^DELETE @", $Query_String)) {
+				$this->querycounter["delete"]++;
+			}
+		}
+
 		/* No empty queries, please, since PHP4 chokes on them. */
 		if ( $Query_String == "" )
 			/* The empty query string is passed on from the constructor,
