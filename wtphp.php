@@ -8,6 +8,7 @@ include("admin/vars.php");
 // }
 
 // wt_mail("check-auth-jeroen=webtastic.nl@verifier.port25.com","Testmail anti-spammaatregelen","Testmail anti-spammaatregelen", "info@chalet.nl", "Chalet.nl");
+// wt_mail("sa-test@sendmail.net","Testmail anti-spammaatregelen","Testmail anti-spammaatregelen", "wouter@chalet.nl", "Chalet.nl");
 
 
 // echo "Test 1";

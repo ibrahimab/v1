@@ -109,7 +109,7 @@ $cms->db_field(34,"select","boeking_id","",array("selection"=>$vars["alleboeking
 $cms->db_field(34,"select","leverancier_id","",array("othertable"=>"3","otherkeyfield"=>"leverancier_id","otherfield"=>"naam","otherwhere"=>"beheerder=0"));
 $cms->db_field(34,"textarea","opmerkingen");
 $cms->db_field(34,"select","garantie_id","",array("selection"=>$verkoopprijs));
-$cms->db_field(34,"select","soort_garantie","",array("selection"=>$vars["soort_garantie"]));
+$cms->db_field(34,"select","soort_garantie","",array("selection"=>$vars["soort_garantie_uitgebreid"]));
 $cms->db_field(34,"text","aan_leverancier_doorgegeven_naam");
 
 

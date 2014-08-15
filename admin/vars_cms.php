@@ -1096,6 +1096,7 @@ $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nit
 $vars["accommodatie_review_bron"]=array(2=>"Posarelli");
 $vars["enquetestatus"]=array(0=>"nog controleren",2=>"nog controleren door Bert/Barteld",1=>"goedgekeurd",3=>"afgekeurd");
 $vars["soort_garantie"]=array(1=>"seizoen en bulk",2=>"op naam en losse weken");
+$vars["soort_garantie_uitgebreid"]=array(1=>"seizoen en bulk (handmatig tonen op roominglist)",2=>"op naam en losse weken (automatisch tonen op roominglist)");
 $vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina's",4=>"tonen op de accommodatiepagina's en bij intern gebruik het zoekformulier",3=>"tonen op de accommodatiepagina's en het zoekformulier");
 $vars["eigenaar_blokkering"] = array(1=>"bezeteigenaar", 2=>"boekingderden", 3=>"nietbeschikbaarverhuur");
 $vars["eigenaar_blokkering_naam"] = array(1=>"Geblokkeerd door eigenaar", 2=>"Boeking via derden", 3=>"Niet beschikbaar voor verhuur");
