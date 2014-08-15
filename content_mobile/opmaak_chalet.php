@@ -23,28 +23,30 @@ $page_id = $id;
 //	"aanbiedingen", "veelgestelde-vragen", "boeken", "boeking_bevestigd", "bsys_selecteren", "bsys",
 //    "bsys_payments", "bsys_wijzigen", "favorieten");
 //	if(in_array($id, $allow)) {
-    if($language_content) {
-        if(file_exists("content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html")) {
-            $include="content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html";
-        }
-    } else {
+	if($language_content) {
+		if(file_exists("content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html")) {
+			$include="content".$mobile."/_meertalig/".$id."_".$vars["taal"].".html";
+		}
+	} else {
 
-        if(file_exists("content".$mobile."/".$id."_chalet.html")) {
-            $include="content".$mobile."/".$id."_chalet.html";
-        } elseif(file_exists("content".$mobile."/".$id."_nieuw.html")) {
-            $include="content".$mobile."/".$id."_nieuw.html";
-        } elseif(file_exists("content".$mobile."/".$id.".html")) {
-            $include="content".$mobile."/".$id.".html";
-        }
-    }
+		if(file_exists("content".$mobile."/".$id."_chalet.html")) {
+			$include="content".$mobile."/".$id."_chalet.html";
+		} elseif(file_exists("content".$mobile."/".$id."_nieuw.html")) {
+			$include="content".$mobile."/".$id."_nieuw.html";
+		} elseif(file_exists("content".$mobile."/".$id.".html")) {
+			$include="content".$mobile."/".$id.".html";
+		}
+	}
 //	}
 //}
 if(!$include) {
-    header("Location: ".$vars["path"],true,301);
-    exit;
+	// header("Location: ".$vars["path"],true,301);
+	// exit;
 
-    // include("content/opmaak_chalet.php");
-    // exit;
+	$vars["only_for_desktop_available"] = true;
+
+	include("content/opmaak_chalet.php");
+	exit;
 
 
 	if($_SERVER["HTTP_REFERER"]) {
@@ -199,14 +201,14 @@ echo "<ul>";
 		} else {
 			$checkid=$id;
 		}
-        if($key == 'start-chat' && $vars['website'] == 'E') continue;
+		if($key == 'start-chat' && $vars['website'] == 'E') continue;
 
 
-        if ($key == 'home') {
-            echo "<li><a href=\"/\"";
-        } else {
-            echo "<li><a href=\"".$vars["path"];
-        }
+		if ($key == 'home') {
+			echo "<li><a href=\"/\"";
+		} else {
+			echo "<li><a href=\"".$vars["path"];
+		}
 
 
 		if($key<>"index" && $key<>"start-chat" && $key<>"home") {
@@ -403,6 +405,3 @@ echo "</body>";
 echo "</html>";
 
 ?>
-
-
-

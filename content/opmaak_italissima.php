@@ -736,7 +736,7 @@ if($opmaak->toon_cookiebalk()) {
 
 # Load change desktop to mobile notification
 
-if($onMobile and !$_COOKIE['desktopnotification']){
+if($onMobile and !$_COOKIE['desktopnotification'] and !$vars["only_for_desktop_available"]){
 	echo "<div id=\"notification_bottombar\" class=\"noprint\"><div id=\"notification_bottombar_wrapper\"><div id=\"notification_bottombar_text\">".html("desktopnotification","vars",array("h_1"=>"<a href=\"".$vars["path"]."?setmobile\">","h_2"=>"</a>"))."</div><div id=\"notification_bottombar_close\">sluiten</div></div></div>";
 }
 
