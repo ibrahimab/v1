@@ -23,6 +23,8 @@ Alle andere leveranciers: tussen 8 en 20 uur elk uur, daarnaast ook om 0, 3, 6 e
 #$vars["leverancierid_tijdelijk_niet_importeren"]="4";
 
 $current_hour = date("H");
+$cron_xml_import = true;
+
 
 function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $wzt, $seizoenen) {
 	if(is_array($xml[$xml_type][$value])) {
@@ -157,7 +159,11 @@ if($argv[1]=="test.chalet.nl") {
 	}
 }
 
-echo date("r")." <pre>\nChalet.nl XML Import - ";
+if($testsysteem) {
+	echo "<pre>";
+}
+
+echo "Start: ".date("r")."\nChalet.nl XML Import - ";
 if($argv[1]) {
 	echo $vars["xml_type"][$argv[1]];
 } else {
@@ -1491,7 +1497,7 @@ while($db->next_record()) {
 			$aantal_beschikbaar[$db->f("xml_type")][$db->f("type_id")]++;
 
 			$xml_url="https://cst-sync-hms.viomassl.com/xml_booking_overview.php?PartnerId=info@chalet.nl&Pwd=6LSuMaJ4&xmlFile=%3Cparameter%3E%3CLodgeId%3E".$value."%3C/LodgeId%3E%3CPeriod%20StartDate=%22".date("d-m-Y",time()+86400)."%22%20EndDate=%2201-01-".(date("Y")+3)."%22/%3E%3C/parameter%3E";
-			echo "Beschikbaarheid: ".$xml_url."\n";
+			// echo "Beschikbaarheid: ".$xml_url."\n";
 #			echo $db->f("begincode").$db->f("type_id")." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "")." leverancierid ".$value.":\n".$xml_url."\n";
 
 			flush();
@@ -2165,9 +2171,18 @@ while($db->next_record()) {
 						if($welk_seizoen>0) {
 							$tarievenquery="week='".addslashes($key2)."', bruto='".addslashes($nieuwxmltarief)."', type_id='".addslashes($db->f("type_id"))."', seizoen_id='".addslashes($seizoen_opslaan)."', importmoment=NOW()";
 
-							$db3->query("INSERT INTO xml_tarievenimport_flex SET type_id='".$db->f("type_id")."', dag='".addslashes($db2->f("dag"))."', bruto='".addslashes($db2->f("waarde"))."', seizoen_id='".addslashes($welk_seizoen)."', importmoment=NOW();");
-							if($db3->Errno==1062) {
-								$db3->query("UPDATE xml_tarievenimport_flex SET bruto='".addslashes($db2->f("waarde"))."', seizoen_id='".addslashes($welk_seizoen)."', importmoment=NOW() WHERE type_id='".$db->f("type_id")."' AND dag='".addslashes($db2->f("dag"))."';");
+							// $db3->query("INSERT INTO xml_tarievenimport_flex SET type_id='".$db->f("type_id")."', dag='".addslashes($db2->f("dag"))."', bruto='".addslashes($db2->f("waarde"))."', seizoen_id='".addslashes($welk_seizoen)."', importmoment=NOW();");
+							// if($db3->Errno==1062) {
+							// 	$db3->query("UPDATE xml_tarievenimport_flex SET bruto='".addslashes($db2->f("waarde"))."', seizoen_id='".addslashes($welk_seizoen)."', importmoment=NOW() WHERE type_id='".$db->f("type_id")."' AND dag='".addslashes($db2->f("dag"))."';");
+							// }
+
+							$db3->query("SELECT bruto, seizoen_id FROM xml_tarievenimport_flex WHERE type_id='".$db->f("type_id")."' AND dag='".addslashes($db2->f("dag"))."'");
+							if($db3->next_record()) {
+								if($db3->f("bruto")<>$db2->f("waarde") or $db3->f("seizoen_id")<>$welk_seizoen) {
+									$db3->query("UPDATE xml_tarievenimport_flex SET bruto='".addslashes($db2->f("waarde"))."', seizoen_id='".addslashes($welk_seizoen)."', importmoment=NOW() WHERE type_id='".$db->f("type_id")."' AND dag='".addslashes($db2->f("dag"))."';");
+								}
+							} else {
+								$db3->query("INSERT INTO xml_tarievenimport_flex SET type_id='".$db->f("type_id")."', dag='".addslashes($db2->f("dag"))."', bruto='".addslashes($db2->f("waarde"))."', seizoen_id='".addslashes($welk_seizoen)."', importmoment=NOW();");
 							}
 						}
 					}
@@ -2196,7 +2211,7 @@ while($db->next_record()) {
 						} else {
 							$db3->query("UPDATE tarief_flex SET voorraad_xml='".addslashes(intval($db2->f("waarde")))."' WHERE type_id='".$db->f("type_id")."' AND dag='".addslashes($db2->f("dag"))."';");
 						}
-						echo $db3->lastquery."<br>";
+						// echo $db3->lastquery."<br>";
 					}
 				}
 			}
@@ -2610,7 +2625,11 @@ if($mailtxt or $tarievenbijgewerkt) {
 
 		$mail->send();
 
-		echo "\n\n---------------------------------\n\nXML-import - naar info@chalet.nl gemaild:\n\n".$mail->html;
+		if($testsysteem) {
+			echo "\n\n---------------------------------\n\nXML-import - naar info@chalet.nl gemaild:\n\n".$mail->html;
+		} else {
+			echo "\nXML-import - naar info@chalet.nl gemaild\n\n";
+		}
 	}
 }
 
@@ -2621,12 +2640,13 @@ if(!$testsysteem) {
 	while(list($key,$value)=@each($temp_filename)) {
 		unlink($value);
 	}
+	echo "\n\nTrack time:\n".$track_time_text;
+} else {
+	echo "\n\n---------------------------------\n\nTrack time:\n".$track_time_text;
+
+	echo "\n\nKlaar.\n";
+	echo "</pre>\n\n";
 }
-
-echo "\n\n---------------------------------\n\nTrack time:\n".$track_time_text;
-
-echo "\n\nKlaar.\n";
-echo "</pre>\n\n";
 
 function wt_dump_with_unixtime($array,$html=true) {
 	ob_start();
@@ -2653,5 +2673,14 @@ function wt_dump_with_unixtime($array,$html=true) {
 	return $return;
 }
 
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	echo "0: ".wt_dump($db0->querycounter)."<br/>";
+	echo "1: ".wt_dump($db->querycounter)."<br/>";
+	echo "2: ".wt_dump($db2->querycounter)."<br/>";
+	echo "3: ".wt_dump($db3->querycounter)."<br/>";
+	echo "4: ".wt_dump($db4->querycounter)."<br/>";
+}
+
+echo "Finish: ".date("r")."\n";
 
 ?>
