@@ -6,9 +6,11 @@ if(!$_GET["bedrijf"]) {
 	$_GET["bedrijf"]="chalet";
 }
 
-if($_GET["csv"] and ($_SERVER["REMOTE_ADDR"]=="87.250.157.198" or $_SERVER["REMOTE_ADDR"]=="87.250.157.199")) {
-	$vars["mustlogin_cms_cron_false"]=true;
-#	mail("jeroen@webtastic.nl","cms_financien.php",$_SERVER["REMOTE_ADDR"]);
+if($_GET["csv"]) {
+	if($_SERVER["REMOTE_ADDR"]=="87.250.157.198" or $_SERVER["REMOTE_ADDR"]=="87.250.157.199" or $_SERVER["REMOTE_ADDR"]=="87.250.157.205") {
+		$vars["mustlogin_cms_cron_false"]=true;
+	}
+	// mail("jeroen@webtastic.nl","cms_financien.php remote addr",$_SERVER["REMOTE_ADDR"]);
 }
 
 $mustlogin=true;
