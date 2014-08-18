@@ -167,7 +167,7 @@ class filesync {
 			$server="web01.chalet.nl";
 		}
 		if($server) {
-			$command = "rsync -avzh --numeric-ids -e 'ssh' --rsync-path='sudo rsync' ".$unixdir.$file." chalet01@".$server.":".$unixdir.$file;
+			$command = "sudo rsync -avzh --numeric-ids -e 'ssh' --rsync-path='sudo rsync' ".$unixdir.$file." chalet01@".$server.":".$unixdir.$file;
 			exec($command, $output, $return_var);
 			// exec("rsync -avzh --numeric-ids -e ssh ".$unixdir.$file." chalet01@".$server.":".$unixdir.$file, $output, $return_var);
 //			rsync -avzh --numeric-ids -e ssh /var/www/chalet.nl/html/pic/cms/hoofdfoto_accommodatie/319.jpg chalet01@web02.chalet.nl:/var/www/chalet.nl/html/pic/cms/hoofdfoto_accommodatie/319.jpg
