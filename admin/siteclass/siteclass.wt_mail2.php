@@ -2,18 +2,14 @@
 
 
 /**
-*
+* test for mailing with PHPMailer via wt_mail2
 */
 
 class wt_mail2 {
 
 	function __construct() {
-		# code...
-
 		$this->mail = new PHPMailer;
-
 	}
-
 
 	function attachment($file,$mimetype="",$inline=false,$otherfilename="") {
 		if($otherfilename) {
@@ -22,9 +18,6 @@ class wt_mail2 {
 			$this->mail->addAttachment($file);         // Add attachments
 		}
 	}
-
-	// $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
-
 
 	function send() {
 
