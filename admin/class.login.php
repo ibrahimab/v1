@@ -21,7 +21,6 @@ class Login {
 #		ini_set("session.name","SID");
 		ini_set("session.use_cookies",1);
 		ini_set("session.use_only_cookies",1);
-#		ini_set("session.enable_trans_sid",1);
 		@ini_set("session.use_trans_sid",0);
 		ini_set("session.cookie_httponly",1);
 		header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
@@ -153,7 +152,11 @@ class Login {
 			}
 
 			# session starten
-			session_start();
+			if (function_exists("wt_session_start")) {
+				wt_session_start();
+			} else {
+				session_start();
+			}
 			if (function_exists("session_register")) {
 				session_register("LOGIN");
 			}

@@ -1046,6 +1046,29 @@ if (!function_exists("printarray")) {
 	}
 }
 
+if (!function_exists("wt_session_start")) {
+	//
+	// session_start without the possibility for the error:
+	// "The session id is too long or contains illegal characters, valid characters are a-z, A-Z, 0-9 and '-,'"
+	//
+	function wt_session_start() {
+		$sn = session_name();
+		if (isset($_COOKIE[$sn])) {
+			$sessid = $_COOKIE[$sn];
+		} else {
+			session_start();
+		}
+
+		if (!preg_match('/^[a-zA-Z0-9,\-]{22,40}$/', $sessid)) {
+			session_id( uniqid() );
+			session_start();
+			session_regenerate_id();
+		} else {
+			session_start();
+		}
+	}
+}
+
 if (!function_exists("vtanaam")) {
 	# Functie om voornaam, tussenvoegsel, achternaam weer te geven
 	function vtanaam($voornaam='',$tussenvoegsel='',$achternaam) {
