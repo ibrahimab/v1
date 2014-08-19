@@ -8,9 +8,18 @@
 
 /*
 
+
+Temporarily: every supplier at 03, 11, 15 and 19 h. Posarelli only at 03h.
+
+
+
+Not right now:
+-----------------------
 Marche Holiday om 0, 3, 6, 9, 12, 15, 18 en 22 uur
 Direkt Holidays om 0, 3, 6, 10, 13, 16, 19 en 22 uur
+Posarelli om 3 uur
 Alle andere leveranciers: tussen 8 en 20 uur elk uur, daarnaast ook om 0, 3, 6 en 22 uur.
+-----------------------
 
 */
 
@@ -43,23 +52,34 @@ function filter_xml_data($xml, $xml_type, $value, $type_id, $shorter_seasons, $w
 
 function get_slow_suppliers($xml_type) {
 	//
-	// Determine if Marche Holiday (14) and Direkt Holidays (24) should be downloaded (because downloading these suppliers takes a long time)
+	// Determine if Posarelli (8), Marche Holiday (14) and Direkt Holidays (24) should be downloaded (because downloading these suppliers takes a long time)
 	//
+
+	// temporaily: Marche Holiday (14) and Direkt Holidays (24): always true
 	global $current_hour;
 
-	if($xml_type==14) {
+	if($xml_type==8) {
+		// Posarelli (8)
+		if($current_hour==3) {
+			return true;
+		} else {
+			return false;
+		}
+	} elseif($xml_type==14) {
 		// Marche Holiday (14)
 		if($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==9 or $current_hour==12 or $current_hour==15 or $current_hour==18 or $current_hour==22) {
 			return true;
 		} else {
-			return false;
+			// return false;
+			return true;
 		}
 	} elseif($xml_type==24) {
 		// Direkt Holidays (24)
 		if($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==10 or $current_hour==13 or $current_hour==16 or $current_hour==19 or $current_hour==22) {
 			return true;
 		} else {
-			return false;
+			// return false;
+			return true;
 		}
 	}
 }
@@ -140,9 +160,11 @@ if($argv[1]=="test.chalet.nl") {
 	}
 } else {
 	if(!$argv[1] and !$testsysteem) {
-		if(date("i")==5 and $current_hour>=8 and $current_hour<=20) {
+		if(date("i")==5 and $current_hour>=8 and $current_hour<=20 and $NU_EVEN_NIET) {
 			# Alle leveranciers worden doorlopen tussen 8 en 20 uur
-		} elseif(date("i")==5 and ($current_hour==0 or $current_hour==3  or $current_hour==6 or $current_hour==22)) {
+		} elseif(date("i")==5 and ($current_hour==3 or $current_hour==11 or $current_hour==15 or $current_hour==19)) {
+			// temporarily: only import at 3, 11, 15 and 19 h
+		} elseif(date("i")==5 and ($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==22)) {
 			# Alle leveranciers worden doorlopen om 0, 3, 6 en 22 uur
 		} elseif($current_hour==10 and date("i")==11 and $NU_EVEN_NIET) {
 			# Om alle leveranciers als test allemaal te kunnen nalopen: (testtijd staat op 10:11 uur, zie $current_hour en date("i") op de regel hierboven)
@@ -244,9 +266,11 @@ $xml_urls[7][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=112&top=8700&qry=e
 #$xml_urls[7][2]="CIS / Bellecôte Chalets (VVE)" (tarieven werken met losse XML's per accommodatie)
 
 # Posarelli
-$xml_urls[8][1]="http://export.posarellivillas.com/availability.xml";
-$xml_urls[8][2]="http://export.posarellivillas.com/unitrates.xml";
-$xml_urls[8][3]="http://export.posarellivillas.com/unit.xml"; # lastminutes
+if(get_slow_suppliers(8)) {
+	$xml_urls[8][1]="http://export.posarellivillas.com/availability.xml";
+	$xml_urls[8][2]="http://export.posarellivillas.com/unitrates.xml";
+	$xml_urls[8][3]="http://export.posarellivillas.com/unit.xml"; # lastminutes
+}
 
 # Maisons Vacances
 #$xml_urls[9][1]="Maisons Vacances tarieven (beschikbaarheid werkt met losse XML's per accommodatie)";
@@ -1538,7 +1562,7 @@ while($db->next_record()) {
 
 			# Tarieven Huetten
 			$xml_url="https://cst-sync-hms.viomassl.com/xml_masterdata.php?PartnerId=info@chalet.nl&Pwd=6LSuMaJ4&xmlFile=%3Cparameter%3E%3CLodgeId%3E".$value."%3C/LodgeId%3E%3C/parameter%3E";
-			echo "Tarieven typeid ".$db->f("type_id").": ".$xml_url."\n";
+			// echo "Tarieven typeid ".$db->f("type_id").": ".$xml_url."\n";
 			unset($xml,$season);
 
 			if($xml=@simplexml_load_file($xml_url)) {
@@ -2681,6 +2705,6 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	echo "4: ".wt_dump($db4->querycounter)."<br/>";
 }
 
-echo "Finish: ".date("r")."\n";
+echo "\n\nFinish: ".date("r")."\n";
 
 ?>
