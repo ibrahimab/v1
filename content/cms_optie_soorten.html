@@ -18,7 +18,7 @@ if($_GET["show"]==11) {
 		for($i=1;$i<=2;$i++) {
 			for($j=1;$j<=2;$j++) {
 			unset($wzt_gehad);
-				$db->query("SELECT a.wzt, a.accommodatie_id, a.naam, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.wzt='".$j."' AND a.plaats_id=p.plaats_id AND a.accommodatie_id ".($i==1 ? "NOT " : "")."IN (".$inquery.") ORDER BY a.wzt, p.naam, a.naam;");
+				$db->query("SELECT a.wzt, a.accommodatie_id, a.naam, p.naam AS plaats FROM accommodatie a, plaats p WHERE a.archief=0 AND a.wzt='".$j."' AND a.plaats_id=p.plaats_id AND a.accommodatie_id ".($i==1 ? "NOT " : "")."IN (".$inquery.") ORDER BY a.wzt, p.naam, a.naam;");
 #				echo $db->lastquery."<br>";
 				if($db->num_rows()) {
 					while($db->next_record()) {
