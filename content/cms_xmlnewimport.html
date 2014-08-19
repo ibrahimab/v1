@@ -1365,7 +1365,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 			reset($new);
 			while(list($key,$value)=each($new)) {
 				unset($afbeeldingen_doorlopen,$typeid,$accid);
-				$xmlcode_parameters[] = "'".$value['accid']."'";
+				if(is_array($value)) $xmlcode_parameters[] = "'".$value['accid']."'";
 				$xmlcode_parameters[] = "'".$key."'";
 				if($_POST["filled"] ) {
 					# Opslaan in database
