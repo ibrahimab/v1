@@ -260,7 +260,7 @@ class wt_mail {
 
 	function wt_mail() {
 		global $vars;
-		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or $GLOBALS["vars"]["acceptatie_testserver"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"])) or (defined("wt_test") and constant("wt_test") === true)) $this->test=true;
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or $GLOBALS["vars"]["acceptatie_testserverNU_EVEN_NIET"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"])) or (defined("wt_test") and constant("wt_test") === true)) $this->test=true;
 		if($GLOBALS["vars"]["acceptatie_testserver"] and $_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
 			$this->test=false;
 		}

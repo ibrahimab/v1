@@ -4570,6 +4570,12 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 		$mail->from=$vars["websiteinfo"]["email"][$website];
 	}
 
+	// return-path
+	if($website and $vars["websiteinfo"]["email"][$website]) {
+		$mail->returnpath=$vars["websiteinfo"]["email"][$website];
+	}
+
+
 	# fromname
 	if($settings["fromname"]) {
 		$mail->fromname=$settings["fromname"];
