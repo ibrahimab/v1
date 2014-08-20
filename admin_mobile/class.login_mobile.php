@@ -155,7 +155,11 @@ class Login {
 			}
 
 			# session starten
-			session_start();
+			if (function_exists("wt_session_start")) {
+				wt_session_start();
+			} else {
+				session_start();
+			}
 			if (function_exists("session_register")) {
 				session_register("LOGIN");
 			}

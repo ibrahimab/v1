@@ -45,7 +45,14 @@ class search {
 		$this->settings["message"]["vorige"]["en"]="Previous";
 		list($usec,$sec)=explode(" ",microtime());
 		$this->starttime=((float)$usec+(float)$sec);
-		if(!session_id()) session_start();
+		if(!session_id()) {
+			# session starten
+			if (function_exists("wt_session_start")) {
+				wt_session_start();
+			} else {
+				session_start();
+			}
+		}
 		if($_SERVER["HTTP_REFERER"] and !$_SESSION["wt_search"]["referer"]) $_SESSION["wt_search"]["referer"]=$_SERVER["HTTP_REFERER"];
 		return true;
 	}

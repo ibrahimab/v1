@@ -6,7 +6,8 @@
 #
 #
 
-session_start();
+require_once("../admin/allfunctions.php");
+wt_session_start();
 
 $string = '';
 

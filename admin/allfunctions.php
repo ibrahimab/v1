@@ -41,17 +41,6 @@ if (!function_exists("remove_magic_quotes")) {
 	}
 }
 
-if(get_magic_quotes_gpc() and !$magicquotesremoved and $NU_EVEN_NIET) {
-	// uitgezet omdat chalet.eu (met mod_fcgid) een fout genereerde met deze functie
-	remove_magic_quotes('_POST');
-	@reset($_POST);
-	remove_magic_quotes('_COOKIE');
-	@reset($_COOKIE);
-	remove_magic_quotes('_GET');
-	$magicquotesremoved=true;
-	@reset($_GET);
-}
-
 if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	# Zorgen dat errors lokaal getoond worden
 	error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_USER_DEPRECATED);
@@ -260,7 +249,7 @@ class wt_mail {
 
 	function wt_mail() {
 		global $vars;
-		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or $GLOBALS["vars"]["acceptatie_testserverNU_EVEN_NIET"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"])) or (defined("wt_test") and constant("wt_test") === true)) $this->test=true;
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $GLOBALS["vars"]["lokale_testserver"] or $GLOBALS["vars"]["acceptatie_testserver"] or ($_SERVER["USER"]=="root" and ereg("\.postvak\.net$",$_SERVER["HOSTNAME"])) or (defined("wt_test") and constant("wt_test") === true)) $this->test=true;
 		if($GLOBALS["vars"]["acceptatie_testserver"] and $_SERVER["REMOTE_ADDR"]=="31.223.173.113") {
 			$this->test=false;
 		}

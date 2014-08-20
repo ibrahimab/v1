@@ -13,7 +13,7 @@ $geen_tracker_cookie=true;
 
 include "admin/vars.php";
 
-session_start();
+wt_session_start();
 
 if($vars["lokale_testserver"]) {
 #	wt_mail( "jeroen@webtastic.nl", "rpc_json.php", "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"] );

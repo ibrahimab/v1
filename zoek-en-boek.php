@@ -8,7 +8,16 @@ if($_GET["pagetype"]) {
 	include_once("zoek-en-boek-pre-query.php");
 }
 
-if(!session_id()) session_start();
+if(!session_id()) {
+
+	# session starten
+	if (function_exists("wt_session_start")) {
+		wt_session_start();
+	} else {
+		session_start();
+		trigger_error("geen wt_session_start beschikbaar ".$_SERVER["HTTP_USER_AGENT"],E_USER_NOTICE);
+	}
+}
 
 if($vars["zoekform_aanbiedingen"] and $vars["seizoentype"]==2) {
 	# Zomer: doorsturen naar zomer-aanbiedingensysteem

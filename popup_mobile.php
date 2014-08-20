@@ -2,12 +2,15 @@
 
 if(ereg("^cms_",$_GET["id"])) {
 	$mustlogin=true;
+	include("admin/vars.php");
 } else {
+
+	include("admin/vars.php");
+
 	# session starten (nodig voor CAPTCHA van accommodatiemail)
-	session_start();
+	wt_session_start();
 }
 
-include("admin/vars.php");
 
 if($_GET["typeid"]) {
 	$accinfo=accinfo($_GET["typeid"]);

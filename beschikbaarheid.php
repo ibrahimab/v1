@@ -3,7 +3,7 @@
 include("admin/vars.php");
 
 # Session starten voor TradeTracker
-session_start();
+wt_session_start();
 
 # Kijken of het een rebook betreft (boeker van vorig jaar)
 if($_COOKIE["rebook"] and ereg("^([0-9]+)_(.+)$",$_COOKIE["rebook"],$regs)) {

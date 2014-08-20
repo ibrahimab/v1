@@ -507,7 +507,12 @@ class form2 {
 				setlocale(LC_MONETARY,"nl_NL.ISO_8859-1");
 
 				if(!session_id()) {
-					session_start();
+					# session starten
+					if (function_exists("wt_session_start")) {
+						wt_session_start();
+					} else {
+						session_start();
+					}
 				}
 
 			}

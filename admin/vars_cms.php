@@ -13,7 +13,7 @@ if($mustlogin) {
 	ini_set("session.use_trans_sid",0);
 	ini_set("session.cookie_httponly",1);
 
-	session_start();
+	wt_session_start();
 
 	if(!$cron and !$cronmap and !$css) {
 		include_once "Text/Diff.php";

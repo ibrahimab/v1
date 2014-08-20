@@ -4,11 +4,12 @@
 $init_loginclass_voor_chaletmedewerkers=true;
 
 if(!$mustlogin and !$boeking_wijzigen) {
-	session_start();
 	$vars["verberg_zoekenboeklinks"]=true;
 	$vars["verberg_directnaar"]=true;
 
 	include("admin/vars.php");
+
+	wt_session_start();
 
 	# Indien geen sessie maar wel een cookie: sessie vullen met cookie
 	if(!$_SESSION["boeking"]["boekingid"] and ereg("^([0-9]+)_([a-z0-9]{8})$",$_COOKIE["CHALET"]["boeking"]["boekingid"],$regs)) {

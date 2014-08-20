@@ -72,7 +72,7 @@ if($_SERVER["HTTP_HOST"]=="www.superski.nl") {
 	}
 
 	// Create tracking session
-	session_start();
+	wt_session_start();
 
 
 	// Set session data
@@ -126,7 +126,7 @@ if($_SERVER["HTTP_HOST"]=="www.superski.nl") {
 	}
 
 	// Create tracking session
-	session_start();
+	wt_session_start();
 
 	// Set session data
 	$_SESSION[$cookieName] = $cookieValue;
@@ -190,7 +190,7 @@ if($_SERVER["HTTP_HOST"]=="www.superski.nl") {
 		setcookie($cookieName, $cookieValue, (time() + 31536000), '/', !empty($domainName) ? '.' . $domainName : null);
 
 		// Create tracking session.
-		session_start();
+		wt_session_start();
 
 		// Set session data.
 		$_SESSION[$cookieName] = $cookieValue;
@@ -254,7 +254,7 @@ if($_SERVER["HTTP_HOST"]=="www.superski.nl") {
 		setcookie($cookieName, $cookieValue, (time() + 31536000), '/', !empty($domainName) ? '.' . $domainName : null);
 
 		// Create tracking session.
-		session_start();
+		wt_session_start();
 
 		// Set session data.
 		$_SESSION[$cookieName] = $cookieValue;
@@ -282,7 +282,7 @@ if($_SERVER["HTTP_HOST"]=="www.superski.nl") {
 	}
 
 	// create session
-	session_start();
+	wt_session_start();
 
 	// define arguments
 	$campaignID = $_GET["campaignID"];

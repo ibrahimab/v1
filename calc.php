@@ -4,12 +4,13 @@
 # Totaalbedrag van een vakantie berekenen zonder boeken
 #
 
-session_start();
 
 $robot_nofollow=true;
 $robot_noindex=true;
 
 include("admin/vars.php");
+
+wt_session_start();
 
 if($_GET["calcid"] and $vars["wederverkoop"] and $login_rb->logged_in) {
 	$_GET["calcid"]=intval($_GET["calcid"]);

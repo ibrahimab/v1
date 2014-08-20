@@ -2,9 +2,8 @@
 
 $vars["cmslog_pagina_niet_opslaan"]=true;
 $mustlogin=true;
-#session_start();
 include("admin/vars.php");
-session_start();
+wt_session_start();
 
 if($_GET["boekingid"]) {
 	$gegevens=get_boekinginfo($_GET["boekingid"]);
@@ -17,7 +16,7 @@ if($_GET["boekingid"]) {
 
 	# Oude sessie wissen
 	unset($_SESSION["boeking"]["boekingid"]);
-	
+
 	# Cookie plaatsen
 	setcookie("CHALET[boeking][boekingid]",$_GET["boekingid"]."_".boeking_veiligheid($_GET["boekingid"]),time()+259200);
 	header("Location: ".$gegevens["stap1"]["website_specifiek"]["basehref"]."boeken.php?bfbid=".$_GET["boekingid"]);

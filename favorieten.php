@@ -2,7 +2,7 @@
 
 include "admin/vars.php";
 
-session_start();
+wt_session_start();
 
 if ( $vars["websitetype"]==1 or $vars["websitetype"]==4 ) {
 	$vars["balkkleur"]="#d5e1f9";

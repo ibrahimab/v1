@@ -5,7 +5,7 @@ include_once "admin/vars.php";
 $vars["canonical"]=$vars["path"]."contact.php";
 
 # Session starten voor TradeTracker
-session_start();
+wt_session_start();
 
 # frm = formname (mag ook wat anders zijn)
 $form=new form2("frm");
