@@ -3,6 +3,46 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+
+22-aug-2014 17:05
+
+DROP TABLE IF EXISTS `bk_soort`;
+CREATE TABLE IF NOT EXISTS `bk_soort` (
+`bk_soort_id` int(11) NOT NULL,
+  `volgorde` int(11) NOT NULL,
+  `naam` varchar(255) NOT NULL,
+  `naam_en` varchar(255) NOT NULL,
+  `naam_de` varchar(255) NOT NULL,
+  `naam_fr` varchar(255) NOT NULL,
+  `vouchernaam` varchar(255) NOT NULL,
+  `vouchernaam_en` varchar(255) NOT NULL,
+  `vouchernaam_de` varchar(255) NOT NULL,
+  `vouchernaam_fr` varchar(255) NOT NULL,
+  `toelichting` text NOT NULL,
+  `toelichting_en` text NOT NULL,
+  `toelichting_de` text NOT NULL,
+  `toelichting_fr` text NOT NULL,
+  `eenheden` varchar(255) NOT NULL,
+  `altijd_invullen` tinyint(1) NOT NULL,
+  `altijd_diversen` tinyint(1) NOT NULL,
+  `prijs_per_nacht` tinyint(1) NOT NULL,
+  `borg` tinyint(1) NOT NULL,
+  `hoort_bij_accommodatieinkoop` tinyint(1) NOT NULL,
+  `optiecategorie` tinyint(4) NOT NULL,
+  `adddatetime` datetime NOT NULL,
+  `editdatetime` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+ALTER TABLE `bk_soort`
+ ADD PRIMARY KEY (`bk_soort_id`);
+
+ALTER TABLE `bk_soort`
+MODIFY `bk_soort_id` int(11) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
 25-jul-2014 15:44
 ALTER TABLE `boeking` ADD `besteluser_id` INT NULL DEFAULT NULL AFTER `besteldatum` ;
 
