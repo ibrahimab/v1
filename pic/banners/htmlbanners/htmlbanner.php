@@ -873,7 +873,7 @@ if($_GET["t"]==1 and $_GET["wzt"]==2) {
 	# chalet 336x280
 	echo "<style>\nselect {\nfont-size:10pt;\n}\n</style>\n";
 
-	echo "<div style=\"position:fixed;width:336px;height:280px;background-image:url('".$siteurl."pic/banners/htmlbanners/chalet".($_GET["wzt"]==4 ? "be" : "")."_htmlbanner_336x280.jpg?c=1');\">\n";
+	echo "<div style=\"position:fixed;width:336px;height:280px;background-image:url('".$siteurl."pic/banners/htmlbanners/chalet".($_GET["wzt"]==4 ? "be" : "")."_htmlbanner_336x280.jpg?c=2');\">\n";
 	echo "<form name=\"frm\" method=\"get\" action=\"".$siteurl."\" target=\"_blank\">\n";
 	echo "<div style=\"position:absolute;top:190px;left:10px;\">\n";
 	winter_land("150px");
