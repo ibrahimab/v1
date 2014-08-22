@@ -200,18 +200,17 @@ class filesync {
 		}
 		if($server) {
 
-			if(!file_exists($unixdir.$file)) {
-
+			if(file_exists($unixdir.$file)) {
+				$return = 0;
+			} else {
 				$command = "ssh chalet01@".$server." 'sudo rm ".$unixdir.$file."'";
 				exec($command, $output, $return_var);
 
 				if(is_array($output)) {
 					$output_string = implode($output);
 				}
-				// trigger_error($command." - return melding ".$unixdir.$file.": ".$return_var,E_USER_NOTICE);
 				$return = $return_var;
 			}
-
 		}
 
 		return $return;

@@ -283,6 +283,7 @@ $form->settings["message"]["submitbutton"]["nl"]="VOUCHERS AANMAKEN";
 $form->settings["layout"]["top_submit_button"]=true;
 
 $form->settings["layout"]["goto_aname"]=false;
+$form->settings["add_to_filesync_table"] = true;
 
 
 # Voucher-bestanden in $vars["temp_voucherfiles"] zetten

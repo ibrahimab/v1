@@ -32,7 +32,7 @@ flush();
 
 
 # Opruimen filesync
-$db->query("DELETE FROM filesync WHERE added<(NOW() - INTERVAL 1 DAY) AND sync_finish IS NOT NULL;");
+$db->query("DELETE FROM filesync WHERE added<(NOW() - INTERVAL 10 DAY) AND sync_finish IS NOT NULL;");
 
 
 

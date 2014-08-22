@@ -2429,6 +2429,10 @@ class form2 {
 		if( $this->settings["add_to_filesync_table"] ) {
 			$db=new DB_sql;
 
+			if(!$this->settings["add_to_filesync_table_source"] and defined("wt_server_id")) {
+				$this->settings["add_to_filesync_table_source"] = wt_server_id;
+			}
+
 			$db->query("INSERT INTO `filesync` SET `source`='".intval($this->settings["add_to_filesync_table_source"])."', `file`='".wt_as($file)."', `delete`='".intval($delete)."', `added`=NOW();");
 		}
 	}

@@ -52,6 +52,8 @@ if($vars["wederverkoop"]) {
 		$form->settings["db"]["table"]="reisbureau_user";
 		$form->settings["db"]["where"]="user_id='".addslashes($login_rb->user_id)."'";
 
+		$form->settings["add_to_filesync_table"] = true;
+
 		$form->settings["message"]["submitbutton"]["nl"]="OPSLAAN";
 		#$form->settings["target"]="_blank";
 
