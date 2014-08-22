@@ -11,7 +11,7 @@ $mail->returnpath="info@chalet.be";
 $mail->toname="Jeroen";
 $mail->to="boschman@gmail.com";
 $mail->to="check-auth-jeroen=webtastic.nl@verifier.port25.com";
-$mail->to="jeroen_boschman@hotmail.com";
+// $mail->to="jeroen_boschman@hotmail.com";
 $mail->subject="Testmail ".date("H:i");
 
 $mail->plaintext="Hallo";
