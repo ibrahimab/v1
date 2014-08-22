@@ -277,7 +277,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 										}
 
 										# Boeken via XML: aangeven welke xml-types hier gebruik van maken (o.a. Arkiane)
-										if($db2->f("xml_type")==1 or $db2->f("xml_type")==12 or $db2->f("xml_type")==13 or $db2->f("xml_type")==15 or $db2->f("xml_type")==17 or $db2->f("xml_type")==18 or $db2->f("xml_type")==19 or $db2->f("xml_type")==20 or $db2->f("xml_type")==22) {
+										if($db2->f("xml_type")==1 or $db2->f("xml_type")==12 or $db2->f("xml_type")==13 or $db2->f("xml_type")==15 or $db2->f("xml_type")==17 or $db2->f("xml_type")==18 or $db2->f("xml_type")==19 or $db2->f("xml_type")==20 or $db2->f("xml_type")==22 or $db2->f("xml_type")==26) {
 											if(!$db2->f("standaardbestelmanier") or $db2->f("standaardbestelmanier")==3) {
 												if($gegevens["stap1"]["accinfo"]["leverancierscode"]) {
 													echo "<li><a href=\"".$path."cms_boeken_xml.php?burl=".urlencode($_SERVER["REQUEST_URI"])."&bid=".$gegevens["stap1"]["boekingid"]."\" onclick=\"return confirmClick(this,'Deze boeking bestellen via XML?');\">Via XML</a></li>";
