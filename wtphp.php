@@ -1,6 +1,9 @@
 <?php
 
-// exit;
+echo "TT2";
+phpinfo();
+
+exit;
 
 include("admin/vars.php");
 

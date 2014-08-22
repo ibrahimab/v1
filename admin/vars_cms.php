@@ -331,7 +331,13 @@ if($mustlogin) {
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Afgehandeld",array("status"=>"4"),true);
 	}
 
-	$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true);
+	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true,false,array("slide"=>true));
+		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","huidig systeem",array("cmsversie"=>"huidig"),true);
+		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw systeem",array("cmsversie"=>"nieuw"),true);
+	} else {
+		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true);
+	}
 
 #	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true);
 	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true,false,array("slide"=>true));
@@ -1021,6 +1027,13 @@ if($mustlogin) {
 	$cms->settings[56]["log"]["active"]=true;
 	$cms->db[56]["maintable"]="faq";
 
+	# 57 = bijkomende kosten - soort
+	$cms->settings[57]["types"]="bijkomende kosten";
+	$cms->settings[57]["type_single"]="bijkomende kosten";
+	$cms->settings[57]["file"]="cms_bijkomendekosten2.php";
+	$cms->settings[57]["log"]["active"]=true;
+	$cms->db[57]["maintable"]="bk_soort";
+
 	# Aankomstdata vullen (voor CMS)
 	$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");
 	if($db->num_rows()) {
@@ -1090,6 +1103,7 @@ $vars["nummers_voorraad_velden"]=array("voorraad_garantie","voorraad_allotment",
 $vars["bestelstatus"]=array(1=>"nog niet besteld",2=>"bevestiging afwachten",3=>"bevestigd");
 $vars["factuurbedrag_gecontroleerd"]=array(1=>"ja, alles klopt",2=>"nee, bedrag komt niet overeen");
 $vars["optiecategorie"]=array(1=>"n.v.t.",2=>"bijkomende kosten verblijf",3=>"skipassen",4=>"huurmateriaal",5=>"skilessen",6=>"catering/maaltijden",7=>"vervoer",8=>"verzekeringen",9=>"aanbiedingskortingen + klachtafhandeling",20=>"borg");
+$vars["bk_eenheden"]=array(1=>"per accommodatie",2=>"per persoon",3=>"per stuk");
 $vars["inkoopbetaling_status"]=array(1=>"onderweg",2=>"ingeboekt");
 $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nitalics: [i]tekst[/i]\n\ninterne link: [link=/accommodatie/I4529/]tekst[/link]\n\nexterne link: [link=http://www.test.com/]tekst[/link]\n\n";
 $vars["accommodatie_review_bron"]=array(2=>"Posarelli");

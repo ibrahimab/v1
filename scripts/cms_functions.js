@@ -867,6 +867,20 @@ $(document).ready(function() {
 		}
 	});
 
+
+	//
+	// copy filled field to other field (if empty)
+	//
+	$("input.copy_field").change(function(event) {
+		if($(this).data("copy_field_to")) {
+			var copy_field_to = $("input[name='input["+$(this).data("copy_field_to")+"]']");
+			if(copy_field_to.length!==0 && copy_field_to.val()=="") {
+				copy_field_to.val($(this).val());
+			}
+		}
+	});
+
+
 });
 
 function goedkeuringen_benodigd_uitzetten() {

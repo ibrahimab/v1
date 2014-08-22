@@ -1304,6 +1304,13 @@ class form2 {
 			if($this->fields["options"][$id]["maxlength"]) $return.=" maxlength=\"".$this->fields["options"][$id]["maxlength"]."\"";
 			if($this->fields["options"][$id]["onkeyup"]) $return.=" onkeyup=\"".$this->fields["options"][$id]["onkeyup"]."\"";
 			if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
+
+			if(is_array($this->fields["options"][$id]["data_field"])) {
+				foreach ($this->fields["options"][$id]["data_field"] as $key => $value) {
+					$return.=" data-".$key."=\"".wt_he($value)."\"";
+				}
+			}
+
 			$return.=" class=\"".($this->fields["layout"][$id]["input_class"] ? $this->fields["layout"][$id]["input_class"] : "wtform_input")."\">";
 		} elseif($this->fields["type"][$id]=="textarea") {
 			# Textarea

@@ -59,7 +59,7 @@ if(isset($url[(count($url)-1)]) and !$url[(count($url)-1)]) unset($url[(count($u
 	// $vars["wt_disable_error_handler"]=true;
 // }
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or netrom_testserver) {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or netrom_testserver or (defined("wt_test") and wt_test===true)) {
 	$vars["lokale_testserver"]=true;
 
 	if(netrom_testserver) {
