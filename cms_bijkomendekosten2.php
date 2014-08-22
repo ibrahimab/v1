@@ -4,6 +4,13 @@ $mustlogin=true;
 include("admin/vars.php");
 
 
+// nieuwe waarde volgorde bepalen
+$db->query("SELECT MAX(volgorde) AS volgorde FROM bk_soort WHERE 1=1;");
+if($db->next_record()) {
+	$volgorde = $db->f("volgorde");
+}
+$volgorde=$volgorde+10;
+
 
 #
 # Database-declaratie
@@ -36,8 +43,8 @@ $cms->settings[57]["show"]["goto_new_record"]=true;
 
 # List list_field($counter,$id,$title="",$options="",$layout="")
 $cms->list_sort[57]=array("volgorde","naam");
-$cms->list_field(57,"volgorde","Volgorde");
 $cms->list_field(57,"naam","Naam");
+$cms->list_field(57,"volgorde","Volgorde");
 
 
 # Show show_field($counter,$id,$title="",$options="",$layout=""))
@@ -62,7 +69,7 @@ if($cms->set_delete_init(57)) {
 #
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
-$cms->edit_field(57,1,"volgorde","Volgorde in CMS");
+$cms->edit_field(57,1,"volgorde","Volgorde in CMS", array("text"=>$volgorde));
 
 if($vars["cmstaal"]) {
 
@@ -82,7 +89,7 @@ $cms->edit_field(57,1,"altijd_invullen","Deze kosten moeten bij iedere accommoda
 $cms->edit_field(57,1,"altijd_diversen","Deze kosten vallen altijd onder het kopje \"Diversen\"");
 $cms->edit_field(57,1,"prijs_per_nacht","Het ingevoerde tarief is een prijs per nacht (systeem rekent dit automatisch om naar weekprijs)");
 $cms->edit_field(57,1,"borg","Dit is een borg");
-$cms->edit_field(57,1,"eenheden","Beschikbare eenheden", "", "", array("one_per_line"=>true));
+$cms->edit_field(57,0,"eenheden","Te selecteren eenheden", "", "", array("one_per_line"=>true));
 
 
 $cms->edit_field(57,0,"hoort_bij_accommodatieinkoop","Deze kosten worden berekend op de factuur van de accommodatie-leverancier");
@@ -101,16 +108,16 @@ if($cms_form[57]->filled) {
 
 # functie na opslaan form
 function form_before_goto($form) {
-	// $db=new DB_sql;
-	// $db2=new DB_sql;
-	// global $login,$vars;
+	$db=new DB_sql;
+	$db2=new DB_sql;
+	global $login,$vars;
 
-	// $volgorde=0;
-	// $db->query("SELECT blokaccommodatie_id FROM blokaccommodatie WHERE websites='".addslashes($_GET["websites"])."' ORDER BY volgorde;");
-	// while($db->next_record()) {
-	// 	$volgorde=$volgorde+10;
-	// 	$db2->query("UPDATE blokaccommodatie SET volgorde='".$volgorde."' WHERE blokaccommodatie_id='".$db->f("blokaccommodatie_id")."';");
-	// }
+	$volgorde=0;
+	$db->query("SELECT bk_soort_id FROM bk_soort WHERE 1=1 ORDER BY volgorde;");
+	while($db->next_record()) {
+		$volgorde=$volgorde+10;
+		$db2->query("UPDATE bk_soort SET volgorde='".$volgorde."' WHERE bk_soort_id='".$db->f("bk_soort_id")."';");
+	}
 }
 
 

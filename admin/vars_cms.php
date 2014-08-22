@@ -1103,7 +1103,9 @@ $vars["nummers_voorraad_velden"]=array("voorraad_garantie","voorraad_allotment",
 $vars["bestelstatus"]=array(1=>"nog niet besteld",2=>"bevestiging afwachten",3=>"bevestigd");
 $vars["factuurbedrag_gecontroleerd"]=array(1=>"ja, alles klopt",2=>"nee, bedrag komt niet overeen");
 $vars["optiecategorie"]=array(1=>"n.v.t.",2=>"bijkomende kosten verblijf",3=>"skipassen",4=>"huurmateriaal",5=>"skilessen",6=>"catering/maaltijden",7=>"vervoer",8=>"verzekeringen",9=>"aanbiedingskortingen + klachtafhandeling",20=>"borg");
-$vars["bk_eenheden"]=array(1=>"per accommodatie",2=>"per persoon",3=>"per stuk");
+$vars["bk_eenheden"]=array(1=>"per verblijf",2=>"per persoon", 3=>"per dag", 4=>"per item", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak", );
+
+
 $vars["inkoopbetaling_status"]=array(1=>"onderweg",2=>"ingeboekt");
 $vars["wysiwyg_info"]="gebruik voor speciale opmaak:\n\nbold: [b]tekst[/b]\n\nitalics: [i]tekst[/i]\n\ninterne link: [link=/accommodatie/I4529/]tekst[/link]\n\nexterne link: [link=http://www.test.com/]tekst[/link]\n\n";
 $vars["accommodatie_review_bron"]=array(2=>"Posarelli");

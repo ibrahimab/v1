@@ -1,11 +1,13 @@
 <?php
 
-echo "TT2";
-phpinfo();
-
-exit;
-
 include("admin/vars.php");
+
+
+// // echo "TT3";
+// phpinfo();
+
+// exit;
+
 
 $mail=new wt_mail;
 $mail->fromname="Chalet.be";
