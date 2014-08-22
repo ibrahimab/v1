@@ -67,6 +67,8 @@ class filesync {
 
 	function sync_files() {
 
+		// trigger_error("filesync-error-test",E_USER_NOTICE);
+
 		$db=new DB_sql;
 
 		if(defined("wt_server_id")) {

@@ -35,6 +35,7 @@ $huidig_uur = date("H");
 
 #wt_mail("jeroen@webtastic.nl","elk uur","mail elk uur");
 
+
 # Wisselkoers pond opvragen
 if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
 	$koers_json=file_get_contents("http://rate-exchange.appspot.com/currency?from=EUR&to=GBP");
@@ -624,6 +625,45 @@ if($huidig_uur==5) {
 }
 
 #wt_mail("jeroen@webtastic.nl","elk uur afgerond","mail elk uur");
+
+for($i=1;$i<=5;$i++) {
+
+	$mail=new wt_mail;
+	$mail->fromname="Chalet.be";
+	$mail->from="info@chalet.be";
+	$mail->returnpath="info@chalet.be";
+
+	$mail->subject="Testmail ".date("H:i");
+
+	$mail->plaintext="";
+
+	$mail->html_top="";
+	$mail->html="<B>Hallo, dit is een test.</B><br/>".date("H:i");
+	$mail->html_bottom="";
+
+	$mail->toname="Jeroen Boschman";
+	$mail->to="boschman@outlook.com";
+	$mail->send();
+
+	$mail->toname="Jeroen Boschman";
+	$mail->to="jeroen_boschman@hotmail.com";
+	$mail->send();
+
+	$mail->toname="Jeroen Boschman";
+	$mail->to="boschman@live.nl";
+	$mail->send();
+
+	$mail->toname="Robert Jansen";
+	$mail->to="fastjansen@hotmail.com";
+	$mail->send();
+
+	// $mail->toname="Jeroen Boschman";
+	// $mail->to="boschman@gmail.com";
+	// $mail->send();
+
+	sleep(90);
+
+}
 
 
 ?>

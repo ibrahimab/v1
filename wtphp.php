@@ -11,6 +11,7 @@ $mail->returnpath="info@chalet.be";
 $mail->toname="Jeroen";
 $mail->to="boschman@gmail.com";
 $mail->to="check-auth-jeroen=webtastic.nl@verifier.port25.com";
+$mail->to="jeroen_boschman@hotmail.com";
 $mail->subject="Testmail ".date("H:i");
 
 $mail->plaintext="Hallo";
@@ -19,7 +20,12 @@ $mail->html_top="";
 $mail->html="<B>Hallo</B>";
 $mail->html_bottom="";
 
+$mail->test = false;
+
+$mail->mail_proxy=true;
 $mail->send();
+
+echo "OK";
 
 exit;
 
