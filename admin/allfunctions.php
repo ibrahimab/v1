@@ -129,7 +129,7 @@ function errorHandler($errno,$errstr,$errfile,$errline,$errcontext) {
 			}
 
 			$url="http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
-			$fp=@fopen("http://owp.webtastic.nl/error_log.php?l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script),"r");
+			$fp=@fopen("http://owp.webtastic.nl/error_log.php?req=".$_SERVER["REQUEST_METHOD"]."&l=".urlencode($errline)."&n=".urlencode($errno)."&f=".urlencode($errfile)."&u=".urlencode($url)."&s=".urlencode($errstr)."&r=".urlencode($_SERVER["HTTP_REFERER"])."&i=".urlencode($_SERVER["REMOTE_ADDR"])."&sc=".urlencode($script),"r");
 			$GLOBALS["errorcounter"]++;
 		}
 	}
@@ -598,6 +598,40 @@ class wt_mail {
 					} else {
 						echo "Mail sent succesfully!";
 					}
+				} elseif($this->mail_proxy) {
+
+					// $service_url = 'http://ss.postvak.net/mailingmanager/mailproxy.php';
+					$service_url = 'https://www.mailingmanager.nl/mailproxy.php';
+					$curl = curl_init($service_url);
+
+					$curl_post_data = array(
+					        'to' => $this->send_to,
+					        'subject' => $this->send_subject,
+					        'body' => $this->send_body,
+					        'headers' => $bcc.$this->send_header,
+					        'return-path' => $this->returnpath,
+					        'apikey' => 'key001'
+					);
+					curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt($curl, CURLOPT_POST, true);
+					curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
+					$curl_response = curl_exec($curl);
+					if ($curl_response === false) {
+					    $info = curl_getinfo($curl);
+					    curl_close($curl);
+					    // die('error occured during curl exec. Additioanl info: ' . var_export($info));
+					    trigger_error("mailproxy curl-error 1",E_USER_NOTICE);
+					}
+					curl_close($curl);
+
+					// $decoded = json_decode($curl_response);
+					// if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
+					//     die('error occured: ' . $decoded->response->errormessage);
+					// }
+					// echo 'response ok!';
+					// var_export($decoded->response);
+					// exit;
+
 				} else {
 					if($this->returnpath) {
 						mail($this->send_to,$this->send_subject,$this->send_body,$bcc.$this->send_header,"-f".$this->returnpath);
