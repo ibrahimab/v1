@@ -9,7 +9,7 @@
 /*
 
 
-Temporarily: every supplier at 03, 11, 15 and 19 h. Posarelli only at 03h.
+Temporarily: every supplier at 03, 11, 15 and 19 h. Posarelli and Interhome only at 03h.
 
 
 
@@ -72,6 +72,13 @@ function get_slow_suppliers($xml_type) {
 		} else {
 			// return false;
 			return true;
+		}
+	} elseif($xml_type==23) {
+		// Interhome (23)
+		if($current_hour==3) {
+			return true;
+		} else {
+			return false;
 		}
 	} elseif($xml_type==24) {
 		// Direkt Holidays (24)
@@ -332,7 +339,9 @@ $xml_urls[22][1]="http://xml.arkiane.com/xml_v2.asp?app=LS&clt=238&top=22&qry=ex
 #$xml_urls[22][2]="Nexity" (tarieven werken met losse XML's per accommodatie)
 
 #Interhome
-$soap_urls[23] = $unixdir."suppliers/interhome/index.php";
+if(get_slow_suppliers(23)) {
+	$soap_urls[23] = $unixdir."suppliers/interhome/index.php";
+}
 
 # Direkt Holidays
 if(get_slow_suppliers(24)) {
