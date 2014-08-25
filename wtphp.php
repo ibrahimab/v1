@@ -10,9 +10,6 @@ include("admin/vars.php");
 
 
 $mail=new wt_mail;
-$mail->fromname="Chalet.be";
-$mail->from="info@chalet.be";
-$mail->returnpath="info@chalet.be";
 $mail->toname="Jeroen";
 $mail->to="boschman@gmail.com";
 $mail->to="check-auth-jeroen=webtastic.nl@verifier.port25.com";
@@ -28,7 +25,25 @@ $mail->html_bottom="";
 $mail->test = false;
 
 $mail->mail_proxy=true;
-$mail->send();
+
+foreach ($vars["websiteinfo"]["email"] as $key => $value) {
+
+	if(!$vars["websites_inactief"][$key]) {
+		$mail->fromname=$vars["websiteinfo"]["websitenaam"][$key];
+		$mail->from=$value;
+		$mail->returnpath=$value;
+
+		$mail->send();
+
+		echo "verzonden aan: ".$value."<br/>\n";
+
+		// exit;
+
+	}
+
+
+}
+
 
 echo "OK";
 
