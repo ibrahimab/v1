@@ -2445,7 +2445,7 @@ class form2 {
 	}
 
 
-	function mail($to,$toname,$subject,$fullbody="",$topbody="",$bottombody="",$from="formmail@webtastic.nl",$fromname="WebTastic FormMail",$special_settings="") {
+	function mail($to,$toname,$subject,$fullbody="",$topbody="",$bottombody="",$from="formmail@webtastic.nl",$fromname="WebTastic FormMail",$special_settings=array("")) {
 		global $vars;
 
 		$mail=new wt_mail;
