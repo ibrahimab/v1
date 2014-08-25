@@ -4,6 +4,7 @@ if(!$cron and !$css) {
 	header('P3P: CP="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"');
 }
 
+
 // constants
 define("WT_trackmailaddress","chaletmailbackup+track@gmail.com");
 define("wt_mail_fromname","Chalet.nl");
@@ -134,16 +135,20 @@ require($unixdir."admin/vars_db.php");
 if($vars["wt_htmlentities_utf8"]) {
 	$mysqlsettings["charset"]="utf8";
 }
+if($vars["lokale_testserver"]) {
+	$mysqlsettings["charset"]="latin1";
+}
+
 require($unixdir."admin/class.mysql.php");
 
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	$db->query("SET CHARACTER SET 'latin1';");
+if($vars["lokale_testserver"]) {
 
 	// log slow queries
 	// $db->log_slow_queries="/tmp/slow_query.txt";
 	// $db->log_slow_queries_time=.1;
 }
+
 
 if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	// // log slow queries
@@ -215,8 +220,8 @@ if($boeking_bepaalt_taal and $_GET["bid"]) {
 }
 
 # Testsite bepalen
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-	$vars["testsite"]=file_get_contents("/home/webtastic/html/chalet/tmp/testsite.txt");
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or (defined("wt_test") and wt_test===true)) {
+	$vars["testsite"]=file_get_contents($unixdir."tmp/testsite.txt");
 }
 
 if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
@@ -225,10 +230,16 @@ if(preg_match("/87\.250/",$_SERVER["HTTP_HOST"])) {
 	exit;
 }
 
+
 #
 # Websitetype en seizoentype bepalen
 #
 require($unixdir."admin/vars_websitetype.php");
+
+if(defined("wt_test") and $vars["livechat_code"]) {
+	unset($vars["livechat_code"]);
+	unset($vars["googleanalytics"]);
+}
 
 # Cookiebalk tonen?
 $vars["cookiemelding_tonen"]=true;
@@ -446,6 +457,7 @@ if($vars["leverancier_mustlogin"]) {
 #
 
 $vars["vertrouwde_ips"]=array("213.125.152.154","213.125.152.155","213.125.152.156","213.125.152.157","213.125.152.158","83.163.123.209","31.223.173.113","37.34.56.191","62.195.99.8","172.16.1.10","172.16.1.35","127.0.0.1");
+
 
 // backup-server only available for vertrouwde_ips
 if($vars["backup_server"]) {
@@ -1130,9 +1142,15 @@ $vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.m
 if(($id == "toonaccommodatie") && ($isMobile)){
         # oude jquery ui-versie nodig voor zomer-tarieventabel in IE9
         $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js";
-}else {
+} else {
        $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
 }
+
+if(defined("wt_test")) {
+	$vars["jquery_url"]=$vars["path"]."scripts/jquery-1.8.3.min.js";
+	$vars["jqueryui_url"]=$vars["path"]."scripts/jquery-ui-1.8.24.min.js";
+}
+
 
 if($boeking_wijzigen) {
 	# Login-class klanten

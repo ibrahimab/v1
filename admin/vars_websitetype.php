@@ -7,7 +7,7 @@
 #
 #
 
-if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="chalet-dev.web.netromtest.ro" or defined("wt_test")) {
 	$vars["lokale_testserver"]=true;
 }
 
@@ -22,6 +22,15 @@ if($vars["lokale_testserver"]) {
 
 		if(!$vars["testsite"]) {
 			$vars["testsite"]=@file_get_contents("/home/webtastic/html/chalet/tmp/testsite.txt");
+		}
+	}
+
+	# Testsite bepalen indien niet bekend
+	if(defined("wt_test")) {
+		$vars["cms_basehref"]="http://dev.webtastic.nl/chalet/";
+
+		if(!$vars["testsite"]) {
+			$vars["testsite"]=@file_get_contents("/Users/jeroen/Sites/chalet/tmp/testsite.txt");
 		}
 	}
 

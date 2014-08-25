@@ -4233,7 +4233,7 @@ function googleanalytics() {
 	$test_analytics=true;
 
 	if($test_analytics)	{
-		if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+		if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and !defined("wt_test")) {
 			$vars["googleanalytics"]="UA-2078202-12";
 		} else {
 			$test_analytics=false;

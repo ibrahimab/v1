@@ -87,7 +87,8 @@ class opmaakonderdelen {
 
 	function google_tag_manager() {
 
-		$return = <<<EOT
+		if(!defined("wt_test")) {
+			$return = <<<EOT
 
 <!-- Google Tag Manager -->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5CPQNN"
@@ -101,7 +102,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 EOT;
 
-		return $return;
+			return $return;
+		}
 
 	}
 }

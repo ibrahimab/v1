@@ -59,6 +59,13 @@ class DB_Sql {
 
 	/* public: connection management */
 	function connect( $Database = "", $Host = "", $User = "", $Password = "" ) {
+
+		if(defined("wt_test") and wt_test===true) {
+			if(defined("wt_db_host")) $GLOBALS["mysqlsettings"]["host"]=wt_db_host;
+			if(defined("wt_db_user")) $GLOBALS["mysqlsettings"]["user"]=wt_db_user;
+			if(defined("wt_db_password")) $GLOBALS["mysqlsettings"]["password"]=wt_db_password;
+		}
+
 		/* Handle defaults */
 		if ( is_array( $GLOBALS["mysqlsettings"] ) ) {
 			if ( ereg( "/home/webtastic/html", $_SERVER["DOCUMENT_ROOT"] ) or $_SERVER["HOSTNAME"]=="ss.postvak.net" or $_SERVER["HOSTNAME"]=="vpn.postvak.net" or $_SERVER["HOSTNAME"]=="vpnonline.postvak.net" or substr( $_SERVER["PHP_SELF"], 0, 21 )=="/home/webtastic/html/" ) {
