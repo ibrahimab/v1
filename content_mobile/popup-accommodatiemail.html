@@ -5,7 +5,7 @@ label {
 	margin-bottom: 5px;
 }
 
-input[type=email] {
+input[type=email],input[type=text] {
 	width: 92%;
 }
 
@@ -223,8 +223,6 @@ if($_POST["filled"]) {
 			$mail_html.="</table></center>";
 
 			$settings["add_to_basehref"]="?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie";
-			$settings["fromname"]=$_POST["from"];
-			$settings["from"]=$_POST["from"];
 
 			$mailadressen=preg_split("/,/",trim($_POST["to"]));
 
@@ -257,7 +255,7 @@ if($_POST["filled"]) {
 } else {
 	echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" id=\"accommodatiemail\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
-	echo "<p><label>".html("labelvan","accommodatiemail")."</label><input type=\"email\" name=\"from\" required=\"required\">&nbsp;&nbsp;&nbsp;<span id=\"from_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"from_onjuist\"></span></p>";
+	echo "<p><label>".html("labelvan","accommodatiemail")."</label><input type=\"text\" name=\"from\" required=\"required\">&nbsp;&nbsp;&nbsp;<span id=\"from_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"from_onjuist\"></span></p>";
 	echo "<p><label>".html("labelnaar","accommodatiemail")."</label><input type=\"email\" multiple=\"multiple\" name=\"to\" required=\"required\">&nbsp;&nbsp;&nbsp;<span id=\"to_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"to_onjuist\"></span></p>";
 
 	echo "<p><label>".html("labelbericht","accommodatiemail")."</label><div style=\"float:left;width:92%;margin-top:-5px;\"><textarea name=\"message\" required=\"required\">".html("doormailtekst","accommodatiemail",array("v_websitenaam"=>$vars["websitenaam"],"v_soortaccommodatie"=>$accinfo["soortaccommodatie"]))."</textarea></div><div style=\"float:left;\">&nbsp;&nbsp;&nbsp;<span id=\"message_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"message_onjuist\"></span></div><div style=\"clear:both;\"></div></p>";
