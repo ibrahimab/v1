@@ -29,10 +29,6 @@ function controlEnSend() {
 				document.getElementById("errorLabel").style.backgroundColor = 'red';
 				document.getElementById("errorLabel").style.color = 'white';
 				document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresnietingevuld","favorieten"); ?>";
-			} else if(!validateEmail(document.getElementById("verzenderAdres").value)) {
-				document.getElementById("errorLabel").style.backgroundColor = 'red';
-				document.getElementById("errorLabel").style.color = 'white';
-				document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresnietcorrect","favorieten"); ?>";
 			} else if(document.getElementById("EmailOntvanger").value == "") {
 				document.getElementById("errorLabel").style.backgroundColor = 'red';
 				document.getElementById("errorLabel").style.color = 'white';
@@ -70,7 +66,7 @@ function ajaxMailFunction() {
 		"verzenderAdres": document.getElementById('verzenderAdres').value,
 		"EmailOntvanger": document.getElementById('EmailOntvanger').value,
 		"bericht": document.getElementById('presentatiebericht').value,
-		"kopie": (document.getElementById("jaNee").checked ? "1" : "0")
+		"kopie": "0"
 	}, function(data) {
 		if(data.ok) {
 			document.getElementById("errorLabel").style.backgroundColor = '<?php echo $vars["balkkleur"]; ?>';
@@ -117,7 +113,7 @@ if($db->num_rows()) {
 
 	echo "<p class=\"captcha\"><label>".html("recaptcha_uitleg","accommodatiemail")."</label><img src=\"".$vars["path"]."pic/captcha_image.php?c=1\" id=\"captcha_img\"><input type=\"text\" name=\"captcha\" maxlength=\"5\" autocomplete=\"off\">&nbsp;&nbsp;&nbsp;<span id=\"captcha_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"captcha_onjuist\">".html("captcha_onjuist","accommodatiemail",array("h_1"=>"<a href=\"#\" id=\"captcha_reload\">","h_2"=>"</a>"))."</span></p>";
 
-	echo "<div class=\"mailForm_veld\"><input type=\"checkbox\" name=\"jaNee\" value=\"1\" id=\"jaNee\"/><label for=\"jaNee\"> ".html("stuurkopie","favorieten")."</label></div>";
+	// echo "<div class=\"mailForm_veld\"><input type=\"checkbox\" name=\"jaNee\" value=\"1\" id=\"jaNee\"/><label for=\"jaNee\"> ".html("stuurkopie","favorieten")."</label></div>";
 
 	echo "<div class=\"mailForm_veldnaam\"><input type=\"button\" name=\"verzenden\" id=\"verzenden\" onclick=\"controlEnSend();\" value=\"".html("versturen","favorieten")."\" />&nbsp;";
 	echo "<input type=\"button\" name=\"Annuleren\" id=\"Annuleren\" value=\"".html("annuleren","favorieten")."\" /></div>";

@@ -1800,8 +1800,8 @@ $txt["en"]["favorieten"]["recaptchanietcorrect"]="The typed words aren't correct
 $txt["nl"]["favorieten"]["uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
 $txt["en"]["favorieten"]["uitmijnfavorietenhalen"]="Remove from my favourites";
 
-$txt["nl"]["favorieten"]["LabelVan"]="Van: (E-mailadres)";
-$txt["en"]["favorieten"]["LabelVan"]="From: (E-mail)";
+$txt["nl"]["favorieten"]["LabelVan"]="Van: (jouw naam)";
+$txt["en"]["favorieten"]["LabelVan"]="From: (your name)";
 
 $txt["nl"]["favorieten"]["LabelNaar"]="Naar: (Meerdere e-mailadressen scheiden met een spatie)";
 $txt["en"]["favorieten"]["LabelNaar"]="To: (use space as a separation for the e-mails)";
@@ -1840,8 +1840,8 @@ $txt["en"]["accommodatiemail"]["doormailtekst"]="You have to see this! I have fo
 $txt["nl_z"]["accommodatiemail"]["doormailtekst"]="Dit moet je zien! Ik heb een leuk vakantiehuis gevonden op [[v_websitenaam]].";
 $txt["en_z"]["accommodatiemail"]["doormailtekst"]="You have to see this! I have found an interesting [[v_soortaccommodatie]] on [[v_websitenaam]].";
 
-$txt["nl"]["accommodatiemail"]["labelvan"]="Van: (e-mailadres)";
-$txt["en"]["accommodatiemail"]["labelvan"]="From: (email)";
+$txt["nl"]["accommodatiemail"]["labelvan"]="Van: (jouw naam)";
+$txt["en"]["accommodatiemail"]["labelvan"]="From: (your name)";
 
 $txt["nl"]["accommodatiemail"]["labelnaar"]="Naar: (meerdere e-mailadressen scheiden met een spatie)";
 $txt["en"]["accommodatiemail"]["labelnaar"]="To: (use space as a separation for the e-mails)";

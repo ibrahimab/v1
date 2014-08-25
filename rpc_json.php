@@ -466,7 +466,7 @@ if ( $_GET["t"]==1 ) {
 		for($i = 0; $i<sizeof($emails); $i++) {
 
 			$mail=new wt_mail;
-			$mail->from=$_GET["verzenderAdres"];
+			$mail->from=$vars["email"];
 			$mail->fromname=$_GET["verzenderAdres"];
 			$mail->subject=html("mailonderwerp","favorieten");
 			$mail->to=$emails[$i];
@@ -484,7 +484,7 @@ if ( $_GET["t"]==1 ) {
 			# Kopie naar afzender sturen
 			#
 			$mail=new wt_mail;
-			$mail->from=$_GET["verzenderAdres"];
+			$mail->from=$vars["email"];
 			$mail->fromname=$_GET["verzenderAdres"];
 			$mail->subject=html("mailonderwerp","favorieten");
 			$mail->to=$_GET["verzenderAdres"];
@@ -595,7 +595,7 @@ if ( $_GET["t"]==1 ) {
 	# Controleren invoer formulier accommodatiemail
 	#
 	if($_GET["name"]=="from") {
-		if(wt_validmail($_GET["input"])) {
+		if($_GET["input"]) {
 			$return["field_okay"]=true;
 		} elseif($_GET["input"]) {
 			$return["foutmelding"]=html("onjuistmailadres","accommodatiemail");

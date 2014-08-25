@@ -5,7 +5,7 @@ label {
 	margin-bottom: 5px;
 }
 
-input[type=email] {
+input[type=email],input[type=text] {
 	width: 450px;
 }
 
@@ -192,46 +192,45 @@ if($_POST["filled"]) {
 	if($_SESSION["captcha_okay"]) {
 
 		echo "<p>".html("verstuurdnaar","accommodatiemail").":<ul>";
-		if(wt_validmail($_POST["from"])) {
 
-			$_SESSION["captcha_okay"]=false;
+		$_SESSION["captcha_okay"]=false;
 
-			unset($mail_html);
+		unset($mail_html);
 
-			$mail_html.="<center><table style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:9pt;\" border=\"0\" width=\"681\">";
+		$mail_html.="<center><table style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:9pt;\" border=\"0\" width=\"681\">";
 #			<tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;\">";
 #			$mail_html.="<a href=\"".wt_he($vars["basehref"])."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\"><img src=".wt_he($vars['mail_topfoto'])." border=\"0\"></a></td></tr>";
-			$bericht=trim($_POST["message"]);
-			$bericht=wt_he($bericht);
-			$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\">".wt_he($vars["websitenaam"])."</a>",$bericht);
-			$mail_html.="<tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;text-align:center; color:".$vars["mail_css_tekstkleur"].";\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
-			$mail_html.="</td></tr>";
-			$mail_html.="<tr><td>";
-			$mail_html.=$accblok;
-			$mail_html.="</td></tr>";
-			$mail_html.="<tr><td>&nbsp;</td></tr>";
+		$bericht=trim($_POST["message"]);
+		$bericht=wt_he($bericht);
+		$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/","<a href=\"".$vars["basehref"]."?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie\">".wt_he($vars["websitenaam"])."</a>",$bericht);
+		$mail_html.="<tr><td style=\"font-family: Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:11pt;text-align:center; color:".$vars["mail_css_tekstkleur"].";\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
+		$mail_html.="</td></tr>";
+		$mail_html.="<tr><td>";
+		$mail_html.=$accblok;
+		$mail_html.="</td></tr>";
+		$mail_html.="<tr><td>&nbsp;</td></tr>";
 
-			$mail_html.="</table></center>";
+		$mail_html.="</table></center>";
 
-			$settings["add_to_basehref"]="?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie";
-			$settings["fromname"]=$_POST["from"];
-			$settings["from"]=$_POST["from"];
+		$settings["add_to_basehref"]="?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie";
 
-			$mailadressen=preg_split("/,/",trim($_POST["to"]));
+		$settings["fromname"]=$_POST["from"];
 
-			if(is_array($mailadressen)) {
+		$mailadressen=preg_split("/,/",trim($_POST["to"]));
 
-				while(list($key,$value)=each($mailadressen)) {
+		if(is_array($mailadressen)) {
 
-					if(wt_validmail($value)) {
+			while(list($key,$value)=each($mailadressen)) {
 
-						verstuur_opmaakmail("",$value,"",$accinfo["accnaam"],$mail_html,$settings);
+				if(wt_validmail($value)) {
 
-						echo "<li>".wt_he($value)."</li>";
-					}
+					verstuur_opmaakmail("",$value,"",$accinfo["accnaam"],$mail_html,$settings);
+
+					echo "<li>".wt_he($value)."</li>";
 				}
 			}
 		}
+
 		echo "</ul>";
 
 		echo "<p><a href=\"#\" onclick=\"window.close();return false;\">".html("venstersluiten","accommodatiemail")."</a></p>";
@@ -246,7 +245,7 @@ if($_POST["filled"]) {
 } else {
 	echo "<form method=\"post\" action=\"".wt_he($_SERVER["REQUEST_URI"])."\" id=\"accommodatiemail\">";
 	echo "<input type=\"hidden\" name=\"filled\" value=\"1\">";
-	echo "<p><label>".html("labelvan","accommodatiemail")."</label><input type=\"email\" name=\"from\" required=\"required\">&nbsp;&nbsp;&nbsp;<span id=\"from_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"from_onjuist\"></span></p>";
+	echo "<p><label>".html("labelvan","accommodatiemail")."</label><input type=\"text\" name=\"from\" required=\"required\">&nbsp;&nbsp;&nbsp;<span id=\"from_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"from_onjuist\"></span></p>";
 	echo "<p><label>".html("labelnaar","accommodatiemail")."</label><input type=\"email\" multiple=\"multiple\" name=\"to\" required=\"required\">&nbsp;&nbsp;&nbsp;<span id=\"to_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"to_onjuist\"></span></p>";
 
 	echo "<p><label>".html("labelbericht","accommodatiemail")."</label><div style=\"float:left;margin-top:-5px;\"><textarea name=\"message\" required=\"required\">".html("doormailtekst","accommodatiemail",array("v_websitenaam"=>$vars["websitenaam"],"v_soortaccommodatie"=>$accinfo["soortaccommodatie"]))."</textarea></div><div style=\"float:left;\">&nbsp;&nbsp;&nbsp;<span id=\"message_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"message_onjuist\"></span></div><div style=\"clear:both;\"></div></p>";
