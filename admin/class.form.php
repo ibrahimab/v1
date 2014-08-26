@@ -2623,6 +2623,7 @@ class form2 {
 						while(list($key2,$value2)=@each($nieuwevolgorde_nieuwenaam)) {
 							if(file_exists($this->fields["options"][$key]["move_file_to"].$key2)) {
 								rename($this->fields["options"][$key]["move_file_to"].$key2,$this->fields["options"][$key]["move_file_to"]."_temp_".$key2);
+								$this->add_to_filesync_table($this->fields["options"][$key]["move_file_to"].$key2, true);
 							}
 						}
 						@reset($nieuwevolgorde_nieuwenaam);

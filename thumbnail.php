@@ -1,6 +1,6 @@
 <?php
 
-include_once("admin/allfunctions.php");
+require_once("admin/allfunctions.php");
 
 $openfile="pic/cms/".$_GET["file"];
 $openfile=str_replace("%2F","/",$openfile);
@@ -196,6 +196,10 @@ if($_GET["lk"]) {
 			# thumbnail opslaan?
 			if(preg_match("/accommodaties_aanvullend\/(.*.jpg)/",$_GET["file"],$regs)) {
 				$savefile="pic/cms/accommodaties_aanvullend_tn/".$regs[1];
+
+				// sync file
+				include_once("admin/vars.php");
+				filesync::add_to_filesync_table($savefile);
 			}
 		}
 
