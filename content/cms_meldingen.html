@@ -346,6 +346,27 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[11]]["optie-aanvragen"]["nietbekeken"]) {
 		echo "</ul></div>";
 	}
 
+	# overzicht: openstaande tarievenmodules met voorraad_optie_leverancier>0
+	#
+	$db->query("SELECT DISTINCT a.accommodatie_id, a.internenaam, a.wzt, t.naam AS type, p.naam AS plaats, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, l.begincode, ta.seizoen_id, s.naam AS seizoen FROM accommodatie a, type t, plaats p, land l, seizoen s, tarief ta WHERE t.accommodatie_id=a.accommodatie_id AND p.land_id=l.land_id AND t.accommodatie_id=a.accommodatie_id AND ta.type_id=t.type_id AND a.plaats_id=p.plaats_id AND ta.seizoen_id=s.seizoen_id AND ta.voorraad_optie_leverancier>0 AND s.eind>NOW() ORDER BY a.wzt, s.begin, ta.week, p.naam, a.internenaam, t.naam;");
+	if($db->num_rows()) {
+		echo "\n<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_openstaandeopties_lev\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('openstaandeopties_lev');return false;\"><b>Bij de volgende types zijn er openstaande 'In optie bij leverancier'-velden</a> (".$db->num_rows().")</b>";
+		echo "<div id=\"openstaandeopties_lev\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+
+		unset($algehad);
+
+		while($db->next_record()) {
+			if(!$algehad[$db->f("wzt")]) {
+				$algehad[$db->f("wzt")]=true;
+				echo "<br><b>";
+				if($db->f("wzt")==1) echo "winter"; else echo "zomer";
+				echo "</b>";
+			}
+
+			echo "<li><a href=\"cms_tarieven.php?from=".wt_he(urlencode($_SERVER["REQUEST_URI"]))."&sid=".$db->f("seizoen_id")."&tid=".$db->f("type_id")."\">".wt_he($db->f("begincode").$db->f("type_id")." - ".$db->f("plaats")." - ".$db->f("internenaam"))." (".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? " - ".$db->f("maxaantalpersonen") : "")." pers)</a> - ".wt_he($db->f("seizoen"))."</li>";
+		}
+		echo "</ul></div>";
+	}
 
 
 
