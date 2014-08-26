@@ -13,7 +13,8 @@ $mail=new wt_mail;
 $mail->toname="Jeroen";
 $mail->to="boschman@gmail.com";
 $mail->to="check-auth-jeroen=webtastic.nl@verifier.port25.com";
-// $mail->to="jeroen_boschman@hotmail.com";
+$mail->to="jeroen_boschman@hotmail.com";
+$mail->to="boschman@gmail.com";
 $mail->subject="Testmail ".date("H:i");
 
 $mail->plaintext="Hallo";
@@ -22,9 +23,9 @@ $mail->html_top="";
 $mail->html="<B>Hallo</B>";
 $mail->html_bottom="";
 
-$mail->test = false;
+// $mail->test = false;
 
-$mail->mail_proxy=true;
+$mail->settings["mail_proxy_microsoftmail"] = true;
 
 foreach ($vars["websiteinfo"]["email"] as $key => $value) {
 
@@ -35,13 +36,11 @@ foreach ($vars["websiteinfo"]["email"] as $key => $value) {
 
 		$mail->send();
 
-		echo "verzonden aan: ".$value."<br/>\n";
+		echo "verzonden van: ".$value." (aan ".$mail->to.")<br/>\n";
 
-		// exit;
+		exit;
 
 	}
-
-
 }
 
 

@@ -274,6 +274,9 @@ class wt_mail {
 		$this->settings["plaintext_utf8"]=false; # werkt nog niet met attachments!
 		$this->settings["utf8_headers"]=false;
 
+		$this->settings["mail_proxy"] = false;
+		$this->settings["mail_proxy_microsoftmail"] = false;
+
 		return true;
 	}
 
@@ -561,6 +564,17 @@ class wt_mail {
 			$bcc.="Bcc: ".$this->bcc."\n";
 		}
 
+		// use mail proxy?
+		$this->send_mail_proxy = false;
+		if($this->settings["mail_proxy"]) {
+			$this->send_mail_proxy = true;
+		} elseif($this->settings["mail_proxy_microsoftmail"]) {
+			if(preg_match("/@(hotmail|live|outlook)\./",$this->to)) {
+				$this->send_mail_proxy = true;
+			}
+		}
+
+
 		# Mail verzenden
 		if($this->send_mail) {
 			if($this->test) {
@@ -598,7 +612,7 @@ class wt_mail {
 					} else {
 						echo "Mail sent succesfully!";
 					}
-				} elseif($this->mail_proxy) {
+				} elseif($this->send_mail_proxy) {
 
 					// $service_url = 'http://ss.postvak.net/mailingmanager/mailproxy.php';
 					$service_url = 'https://www.mailingmanager.nl/mailproxy.php';
