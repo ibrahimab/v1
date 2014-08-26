@@ -60,9 +60,16 @@ class copydatabaserecord {
 			if ( $value==$source_id.".".$extension ) {
 				// copy file (e.g. 1.jpg)
 				copy( $folder.$value , $folder.$destination_id.".".$extension );
+
+				// filesync
+				filesync::add_to_filesync_table($folder.$destination_id.".".$extension);
+
 			} elseif ( preg_match( "@^".$source_id."-([0-9]+)\.".$extension."$@", $value, $regs ) ) {
 				// copy file (e.g. 1-1.jpg)
 				copy( $folder.$value , $folder.$destination_id."-".$regs[1].".".$extension );
+
+				// filesync
+				filesync::add_to_filesync_table($folder.$destination_id."-".$regs[1].".".$extension);
 			}
 		}
 	}
