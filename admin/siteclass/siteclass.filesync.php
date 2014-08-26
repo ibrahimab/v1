@@ -8,6 +8,14 @@
 
 /*
 
+
+sync pic-dir:
+
+	sudo rsync -avzh --numeric-ids -e 'ssh' --dry-run --exclude '_imgcache' --rsync-path='sudo rsync' /var/www/chalet.nl/html/pic/cms chalet01@web02.chalet.nl:/var/www/chalet.nl/html/pic/
+	sudo rsync -avzh --numeric-ids -e 'ssh' --exclude '_imgcache' --rsync-path='sudo rsync' /var/www/chalet.nl/html/pic/cms chalet01@web02.chalet.nl:/var/www/chalet.nl/html/pic/
+
+
+
 Het sync-script werkt als volgt:
 
     - Zodra een nieuw bestand (afbeelding of pdf) wordt geüpload/aangemaakt in het CMS komt de locatie van dit nieuwe bestand
