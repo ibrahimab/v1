@@ -4,7 +4,7 @@
 #
 # Dit script wordt op elk heel uur gerund op de server web01.chalet.nl met het account chalet01.
 #
-# /usr/bin/php --php-ini /var/www/chalet.nl/php_cli.ini /var/www/chalet.nl/html/cron/elkuur.php test
+# /usr/bin/php /var/www/chalet.nl/html/cron/elkuur.php test
 #
 
 
@@ -184,7 +184,7 @@ if(($huidig_uur>12 and $huidig_uur<20 and date("w")==4) or $_SERVER["DOCUMENT_RO
 				flush();
 
 				$db2->query("UPDATE boeking SET mailverstuurd_enquete=NOW() WHERE boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."';");
-				chalet_log("enquête-verzoek verstuurd aan ".$mail->to,false,true);
+				chalet_log("enquête-verzoek verstuurd aan ".$gegevens["stap2"]["email"],false,true);
 			}
 		}
 	}
@@ -626,12 +626,15 @@ if($huidig_uur==5) {
 
 #wt_mail("jeroen@webtastic.nl","elk uur afgerond","mail elk uur");
 
-for($i=1;$i<=5;$i++) {
+for($i=1;$i<=1;$i++) {
 
 	$mail=new wt_mail;
 	$mail->fromname="Chalet.be";
 	$mail->from="info@chalet.be";
 	$mail->returnpath="info@chalet.be";
+
+	# geen BCC-trackmail
+	$mail->send_bcc=false;
 
 	$mail->subject="Testmail ".date("H:i");
 
@@ -657,11 +660,12 @@ for($i=1;$i<=5;$i++) {
 	$mail->to="fastjansen@hotmail.com";
 	$mail->send();
 
-	// $mail->toname="Jeroen Boschman";
-	// $mail->to="boschman@gmail.com";
-	// $mail->send();
+	sleep(10);
+	$mail->toname="Jeroen Boschman";
+	$mail->to="boschman@outlook.com";
+	$mail->send();
 
-	sleep(90);
+	// sleep(90);
 
 }
 
