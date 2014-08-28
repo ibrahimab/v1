@@ -7,7 +7,7 @@
 #$niet_beschikbaar=true;
 #$accinfo["tonen"]=false;
 
-if($accinfo["tonen"] and !$niet_beschikbaar) {
+if($accinfo["tonen"] and $accinfo["correct_website"] and !$niet_beschikbaar) {
 	echo html("inleiding1","boeken")."<p>".html("inleiding2","boeken")."<p>".html("inleiding3","boeken")."<ol>";
 	while(list($key,$value)=each($vars["boeken"])) {
 		echo "<li>";
