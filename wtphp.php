@@ -3,10 +3,18 @@
 include("admin/vars.php");
 
 
+
+$bijkomendekosten = new bijkomendekosten(3512, "accommodatie");
+$bijkomendekosten->cms_all_rows();
+echo wt_dump($bijkomendekosten->data);
+echo wt_dump($bijkomendekosten->cms_data);
+// exit;
+
+
 // // echo "TT3";
 // phpinfo();
 
-// exit;
+exit;
 
 
 $mail=new wt_mail;
@@ -14,7 +22,7 @@ $mail->toname="Jeroen";
 $mail->to="boschman@gmail.com";
 $mail->to="check-auth-jeroen=webtastic.nl@verifier.port25.com";
 $mail->to="jeroen_boschman@hotmail.com";
-$mail->to="boschman@gmail.com";
+// $mail->to="boschman@gmail.com";
 $mail->subject="Testmail ".date("H:i");
 
 $mail->plaintext="Hallo";

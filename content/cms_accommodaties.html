@@ -96,6 +96,20 @@ if($_GET["show"]==1) {
 	} else {
 		echo "Er zijn nog geen optie-soorten in het systeem aanwezig.";
 	}
+
+	//
+
+	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+		// echo "<p><hr><br/><h2>Bijkomende kosten (nieuw systeem)</h2>";
+
+		$bijkomendekosten = new bijkomendekosten($_GET["1k0"], "accommodatie");
+		echo $bijkomendekosten->cms_enter_costs_per_acc_type();
+		// echo wt_dump($bijkomendekosten->data);
+		// echo wt_dump($bijkomendekosten->cms_data);
+
+		echo "<p>&nbsp;</p>";
+	}
+
 	echo "<p><hr><h2>Vertrekdagtypes</h2>";
 	echo "<b>Let op!</b> Alleen invullen als de vertrekdagen per seizoen wisselen. Indien de verblijfsduur bij deze accommodatie altijd afwijkt (bijvoorbeeld altijd zondag-zondag) dan kan dat bij de <a href=\"cms_accommodaties.php?edit=1&bc=".($_GET["bc"]+1)."&1k0=".$_GET["1k0"]."&wzt=".$_GET["wzt"]."#verblijfsduur\">accommodatiegegevens</a> ingevoerd worden.</a><p>";
 	$db->query("SELECT naam, seizoen_id, verplichtekeuze_vertrekdagtype FROM seizoen WHERE type='".addslashes($_GET["wzt"])."' AND UNIX_TIMESTAMP(eind)>'".(time()-2592000)."' ORDER BY begin, eind, naam;");
