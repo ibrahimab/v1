@@ -745,7 +745,10 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 
 				# Kortingscode
 				if(!$gegevens["stap_voltooid"][5] and $_SESSION["boeking"]["kortingscode_foutief"]<20) {
-					$form->field_text(0,"kortingscode",html("kortingscodeoptioneel","boeken",array("h_1"=>"<span style=\"font-size:0.8em;\">","h_2"=>"</span>")),"",array("text"=>($gegevens["stap_voltooid"][1] ? $_SESSION["boeking"]["kortingscode"] : "")),"",array("title_html"=>true));
+					$db->query("SELECT kortingscode_id FROM kortingscode WHERE websites LIKE '%".$vars["website"]."%' AND (UNIX_TIMESTAMP(einddatum)>='".mktime(0,0,0,date("m"),date("d"),date("Y"))."' OR einddatum IS NULL) AND archief=0;");
+					if($db->next_record()) {
+						$form->field_text(0,"kortingscode",html("kortingscodeoptioneel","boeken",array("h_1"=>"<span style=\"font-size:0.8em;\">","h_2"=>"</span>")),"",array("text"=>($gegevens["stap_voltooid"][1] ? $_SESSION["boeking"]["kortingscode"] : "")),"",array("title_html"=>true));
+					}
 				}
 
 				if($voorkant_cms and $vars["wederverkoop"]) {
