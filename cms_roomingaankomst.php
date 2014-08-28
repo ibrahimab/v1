@@ -381,6 +381,7 @@ if($_GET["levid"]) {
 
 							}
 						}
+						unlink($vars["unixdir"]."tmp/".$filename);
 
 					} else {
 						trigger_error("tmp/".$filename." niet gevonden",E_USER_NOTICE);

@@ -110,6 +110,7 @@ if($_GET["printvertrekinfo"]) {
 
 	if($vars["vertrekinfo_boeking"]["error"]) {
 		echo $vars["vertrekinfo_boeking"]["error"];
+		unlink($tmpfile);
 		exit;
 	} else {
 		header("Expires: 0");
