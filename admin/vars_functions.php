@@ -220,6 +220,10 @@ function accinfo($typeid,$aankomstdatum=0,$aantalpersonen=0,$options=array()) {
 			$return["kwaliteit"]=$return["akwaliteit"];
 		}
 
+		if(preg_match("@".$vars["website"]."@",$return["websites"])) {
+			$return["correct_website"]=true;
+		}
+
 #		$return["leverancierscode"]=$return["leverancierscode"];
 
 		if($db->f("atonen") and $db->f("ttonen")) $return["tonen"]=true;
