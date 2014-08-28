@@ -624,7 +624,8 @@ class wt_mail {
 					        'body' => $this->send_body,
 					        'headers' => $bcc.$this->send_header,
 					        'return-path' => $this->returnpath,
-					        'apikey' => 'key001'
+					        'apikey' => 'key001',
+					        'url' => "http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]
 					);
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 					curl_setopt($curl, CURLOPT_POST, true);
@@ -657,7 +658,7 @@ class wt_mail {
 				$file="/var/log/sites/wt_mail.log";
 				if(@file_exists($file)) {
 					$fp=@fopen($file,'a');
-					@fwrite($fp,date("M d H:i:s")."	http://".($_SERVER["HTTPS"]=="on" ? "s" : "").$_SERVER["HTTP_HOST"].$_SERVER["PHP_SELF"].($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."	".$this->send_to."	".$this->send_subject."	".($this->html ? "html" : "plaintext")."\n");
+					@fwrite($fp,date("M d H:i:s")."	http".($_SERVER["HTTPS"]=="on" ? "s" : "")."://".$_SERVER["HTTP_HOST"].$_SERVER["PHP_SELF"].($_SERVER["QUERY_STRING"] ? "?".$_SERVER["QUERY_STRING"] : "")."	".$this->send_to."	".$this->send_subject."	".($this->html ? "html" : "plaintext")."\n");
 					@fclose($fp);
 				}
 			}
