@@ -3487,10 +3487,7 @@ function blokkenhoofdpagina($checkdate="") {
 
 function tooninterneopmerkingen($text) {
 	$return=$text;
-#	"<wbr>";
 	$return=wt_htmlent($return,true);
-#	$return=wt_he($return);
-#	$return=ereg_replace("/","/<wbr>",$return);
 	$return=nl2br($return);
 	return $return;
 }
@@ -3502,10 +3499,6 @@ function check_kenmerken($all,$one) {
 	} else {
 		return false;
 	}
-}
-
-function cmshoofdpagina_inuitklappen($title,$html) {
-
 }
 
 function laatstezaterdag($time=0) {
