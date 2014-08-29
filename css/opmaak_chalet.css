@@ -353,6 +353,10 @@ form {
 	padding-bottom: 5px;
 }
 
+#hoofdpagina_nieuwsbrief input[type=email] {
+	width: 150px;
+}
+
 #hoofdpagina_blog {
 	background-color: #eaf0fc;
 	padding: 10px;
