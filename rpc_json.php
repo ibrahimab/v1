@@ -594,8 +594,14 @@ if ( $_GET["t"]==1 ) {
 	#
 	# Controleren invoer formulier accommodatiemail
 	#
-	if($_GET["name"]=="from") {
+	if($_GET["name"]=="fromnaam") {
 		if($_GET["input"]) {
+			$return["field_okay"]=true;
+		} else {
+			$return["foutmelding"]=html("verplichtveld","accommodatiemail");
+		}
+	} elseif($_GET["name"]=="from") {
+		if(wt_validmail($_GET["input"])) {
 			$return["field_okay"]=true;
 		} elseif($_GET["input"]) {
 			$return["foutmelding"]=html("onjuistmailadres","accommodatiemail");
