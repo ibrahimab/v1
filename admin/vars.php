@@ -95,9 +95,8 @@ $onMobile = ($detect->isMobile() && !$detect->isTablet());
 
 # Bestanden includen
 if($isMobile) {
-	if(!isset($allfuntions_version)) {
-		require_once($unixdir."admin_mobile/allfunctions_mobile.php");
-	}
+	require_once($unixdir."admin_mobile/allfunctions_mobile.php");
+	require_once($unixdir."admin/allfunctions.php");
 	require($unixdir."admin_mobile/class.login_mobile.php");
 	require($unixdir."admin_mobile/class.form_mobile.php");
 } else {

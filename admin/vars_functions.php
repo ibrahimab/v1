@@ -4589,6 +4589,11 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 		$mail->fromname=$vars["websiteinfo"]["websitenaam"][$website];
 	}
 
+	# reply-to
+	if($settings["replyto"]) {
+		$mail->replyto = $settings["replyto"];
+	}
+
 	# subject
 	$mail->subject=$subject;
 

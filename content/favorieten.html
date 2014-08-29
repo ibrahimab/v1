@@ -42,7 +42,7 @@ function controlEnSend() {
 				document.getElementById("errorLabel").innerHTML = "<?php echo html("mailadresontvangernietingevuld","favorieten"); ?>";
 			} else {
 				var container = document.getElementById("EmailOntvanger").value;
-				var emailAdressen = container.split(" ");
+				var emailAdressen = container.split(",");
 				errors=0;
 				for(var i =0; i < emailAdressen.length; i++) {
 					if(!validateEmail(emailAdressen[i])) {
@@ -70,10 +70,11 @@ function ajaxMailFunction() {
 
 	$.getJSON(absolute_path+"rpc_json.php", {
 		"t": 7,
+		"verzenderAdresnaam": document.getElementById('verzenderAdresnaam').value,
 		"verzenderAdres": document.getElementById('verzenderAdres').value,
 		"EmailOntvanger": document.getElementById('EmailOntvanger').value,
 		"bericht": document.getElementById('presentatiebericht').value,
-		"kopie": "0"
+		"kopie": (document.getElementById("jaNee").checked ? "1" : "0")
 	}, function(data) {
 		if(data.ok) {
 			document.getElementById("errorLabel").style.backgroundColor = '<?php echo $vars["balkkleur"]; ?>';
@@ -106,16 +107,20 @@ if($db->num_rows()) {
 	echo "<div style=\"clear:both;\"></div>";
 	echo "<div id=\"mailForm\" style=\"display:none;\" class=\"noprint\">";
 	echo "<form action=\"".wt_he($_SERVER["REQUEST_URI"])."\">";
+	echo "<div class=\"mailForm_veldnaam\">".html("LabelVanNaam","favorieten")."</div>";
+	echo "<div class=\"mailForm_veld\"><input type=\"text\" name=\"verzenderAdresnaam\" required=\"required\" id=\"verzenderAdresnaam\" /></div>";
+
 	echo "<div class=\"mailForm_veldnaam\">".html("LabelVan","favorieten")."</div>";
-	echo "<div class=\"mailForm_veld\"><input type=\"text\" name=\"verzenderAdres\" id=\"verzenderAdres\" /></div>";
+	echo "<div class=\"mailForm_veld\"><input type=\"email\" name=\"verzenderAdres\" required=\"required\" id=\"verzenderAdres\" /></div>";
+
 	echo "<div class=\"mailForm_veldnaam\">".html("LabelNaar","favorieten")."</div>";
-	echo "<div class=\"mailForm_veld\"><input type=\"text\" name=\"EmailOntvanger\" id=\"EmailOntvanger\" size=\"56\" /></div>";
+	echo "<div class=\"mailForm_veld\"><input type=\"email\" multiple=\"multiple\" name=\"EmailOntvanger\" required=\"required\" id=\"EmailOntvanger\" size=\"56\" /></div>";
 	echo "<div class=\"mailForm_veldnaam\">".html("LabelBericht","favorieten")."</div>";
-	echo "<div class=\"mailForm_veld\"><textarea style=\"font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px;\" name=\"presentatiebericht\" rows=\"5\" cols=\"50\" id=\"presentatiebericht\" />".html("doormailtekst","favorieten",array("v_websitenaam"=>$vars["websitenaam"]))."</textarea></div>";
+	echo "<div class=\"mailForm_veld\"><textarea style=\"font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px;\" required=\"required\" name=\"presentatiebericht\" rows=\"5\" cols=\"50\" id=\"presentatiebericht\" />".html("doormailtekst","favorieten",array("v_websitenaam"=>$vars["websitenaam"]))."</textarea></div>";
 
 	echo "<p class=\"captcha\"><label>".html("recaptcha_uitleg","accommodatiemail")."</label><img src=\"".$vars["path"]."pic/captcha_image.php?c=1\" id=\"captcha_img\"><input type=\"text\" name=\"captcha\" maxlength=\"5\" autocomplete=\"off\">&nbsp;&nbsp;&nbsp;<span id=\"captcha_juist\"><img src=\"".$vars["path"]."pic/vinkje_goedgekeurd.gif\" class=\"vinkje_goedgekeurd\"></span><span id=\"captcha_onjuist\">".html("captcha_onjuist","accommodatiemail",array("h_1"=>"<a href=\"#\" id=\"captcha_reload\">","h_2"=>"</a>"))."</span></p>";
 
-	// echo "<div class=\"mailForm_veld\"><input type=\"checkbox\" name=\"jaNee\" value=\"1\" id=\"jaNee\"/><label for=\"jaNee\"> ".html("stuurkopie","favorieten")."</label></div>";
+	echo "<div class=\"mailForm_veld\"><input type=\"checkbox\" name=\"jaNee\" value=\"1\" id=\"jaNee\"/><label for=\"jaNee\"> ".html("stuurkopie","favorieten")."</label></div>";
 
 	echo "<div class=\"mailForm_veldnaam\"><input type=\"button\" name=\"verzenden\" id=\"verzenden\" onclick=\"controlEnSend();\" value=\"".html("versturen","favorieten")."\" />&nbsp;";
 	echo "<input type=\"button\" name=\"Annuleren\" id=\"Annuleren\" value=\"".html("annuleren","favorieten")."\" /></div>";

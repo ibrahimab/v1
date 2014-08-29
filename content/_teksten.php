@@ -1800,11 +1800,14 @@ $txt["en"]["favorieten"]["recaptchanietcorrect"]="The typed words aren't correct
 $txt["nl"]["favorieten"]["uitmijnfavorietenhalen"]="Uit mijn favorieten halen";
 $txt["en"]["favorieten"]["uitmijnfavorietenhalen"]="Remove from my favourites";
 
-$txt["nl"]["favorieten"]["LabelVan"]="Van: (jouw naam)";
-$txt["en"]["favorieten"]["LabelVan"]="From: (your name)";
+$txt["nl"]["favorieten"]["LabelVanNaam"]="Van: (jouw naam)";
+$txt["en"]["favorieten"]["LabelVanNaam"]="From: (your name)";
 
-$txt["nl"]["favorieten"]["LabelNaar"]="Naar: (Meerdere e-mailadressen scheiden met een spatie)";
-$txt["en"]["favorieten"]["LabelNaar"]="To: (use space as a separation for the e-mails)";
+$txt["nl"]["favorieten"]["LabelVan"]="Van: (jouw e-mailadres)";
+$txt["en"]["favorieten"]["LabelVan"]="From: (your e-mail address)";
+
+$txt["nl"]["favorieten"]["LabelNaar"]="Naar: (Meerdere e-mailadressen scheiden met een komma)";
+$txt["en"]["favorieten"]["LabelNaar"]="To: (use a comma as a separation for the e-mails)";
 
 $txt["nl"]["favorieten"]["LabelBericht"]="Bericht:";
 $txt["en"]["favorieten"]["LabelBericht"]="Message:";
@@ -1846,8 +1849,8 @@ $txt["en"]["accommodatiemail"]["labelvannaam"]="From: (your name)";
 $txt["nl"]["accommodatiemail"]["labelvan"]="Van: (jouw e-mailadres)";
 $txt["en"]["accommodatiemail"]["labelvan"]="From: (your e-mail address)";
 
-$txt["nl"]["accommodatiemail"]["labelnaar"]="Naar: (meerdere e-mailadressen scheiden met een spatie)";
-$txt["en"]["accommodatiemail"]["labelnaar"]="To: (use space as a separation for the e-mails)";
+$txt["nl"]["accommodatiemail"]["labelnaar"]="Naar: (meerdere e-mailadressen scheiden met een komma)";
+$txt["en"]["accommodatiemail"]["labelnaar"]="To: (use a comma as a separation for the e-mails)";
 
 $txt["nl"]["accommodatiemail"]["labelbericht"]="Bericht:";
 $txt["en"]["accommodatiemail"]["labelbericht"]="Message:";

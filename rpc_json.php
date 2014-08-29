@@ -462,42 +462,53 @@ if ( $_GET["t"]==1 ) {
 		$mail_content.="</body>";
 		$mail_content.="</html>";
 
-		$emails = explode(" ",$_GET["EmailOntvanger"]);
+		$emails = explode(",",$_GET["EmailOntvanger"]);
 		for($i = 0; $i<sizeof($emails); $i++) {
 
-			$mail=new wt_mail;
-			$mail->from=$vars["email"];
-			$mail->fromname=$_GET["verzenderAdres"];
-			$mail->subject=html("mailonderwerp","favorieten");
-			$mail->to=$emails[$i];
+			$emails[$i] = trim($emails[$i]);
 
-			$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-			$mail->html_top="";
-			$mail->html_bottom="";
+			if(wt_validmail($emails[$i])) {
 
-			$mail->html=$mail_content;
-			$mail->send();
+				$mail=new wt_mail;
+				$mail->from=$vars["email"];
+				$mail->fromname=$_GET["verzenderAdresnaam"];
+				$mail->subject=html("mailonderwerp","favorieten");
+				$mail->to=$emails[$i];
+
+				$mail->replyto=$_GET["verzenderAdres"];
+
+				$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
+				$mail->html_top="";
+				$mail->html_bottom="";
+
+				$mail->html=$mail_content;
+				$mail->send();
+			}
 		}
 
 		if($_GET["kopie"]=="1") {
 			#
 			# Kopie naar afzender sturen
 			#
-			$mail=new wt_mail;
-			$mail->from=$vars["email"];
-			$mail->fromname=$_GET["verzenderAdres"];
-			$mail->subject=html("mailonderwerp","favorieten");
-			$mail->to=$_GET["verzenderAdres"];
+			if(wt_validmail($_GET["verzenderAdres"])) {
+				$mail=new wt_mail;
+				$mail->from=$vars["email"];
+				$mail->fromname=$_GET["verzenderAdresnaam"];
+				$mail->subject=html("mailonderwerp","favorieten");
+				$mail->to=$_GET["verzenderAdres"];
 
-			$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
-			$mail->html_top="";
-			$mail->html_bottom="";
+				$mail->replyto=$_GET["verzenderAdres"];
 
-			# melding over kopie toevoegen
-			$mail_content=str_replace("<!-- kopiemelding -->","<table style=\"font-family:Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:14px;\" border=\"0\" width=\"681\"><tr><td><i>".html("kopie", "favorieten")." ".wt_he($vars["websitenaam"])."</i><br/><br><br></td></tr><tr><td>",$mail_content);
+				$mail->plaintext=""; # deze leeg laten bij een opmaak-mailtje
+				$mail->html_top="";
+				$mail->html_bottom="";
 
-			$mail->html=$mail_content;
-			$mail->send();
+				# melding over kopie toevoegen
+				$mail_content=str_replace("<!-- kopiemelding -->","<table style=\"font-family:Verdana, Arial, Helvetica, sans-serif;color:#003366;font-size:14px;\" border=\"0\" width=\"681\"><tr><td><i>".html("kopie", "favorieten")." ".wt_he($vars["websitenaam"])."</i><br/><br><br></td></tr><tr><td>",$mail_content);
+
+				$mail->html=$mail_content;
+				$mail->send();
+			}
 		}
 	}
 

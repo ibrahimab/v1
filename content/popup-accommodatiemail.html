@@ -223,13 +223,17 @@ if($_POST["filled"]) {
 
 		$settings["add_to_basehref"]="?utm_source=Doormailfunctie&utm_medium=Doormailfunctie&utm_campaign=Doormailfunctie";
 
-		$settings["fromname"]=$_POST["from"];
+		$settings["fromname"]=$_POST["fromnaam"];
+		$settings["replyto"]=$_POST["from"];
+
 
 		$mailadressen=preg_split("/,/",trim($_POST["to"]));
 
 		if(is_array($mailadressen)) {
 
 			while(list($key,$value)=each($mailadressen)) {
+
+				$value = trim($value);
 
 				if(wt_validmail($value)) {
 
