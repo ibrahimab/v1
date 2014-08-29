@@ -1774,28 +1774,30 @@ function wt_microtime_float() {
 	return ((float)$usec + (float)$sec);
 }
 
-function wt_naam($voornaam='',$tussenvoegsel='',$achternaam,$achternaameerst=false,$voorletters=false) {
-	if($voornaam) $voornaam=trim($voornaam);
-	if($tussenvoegsel) $tussenvoegsel=trim($tussenvoegsel);
-	$achternaam=trim($achternaam);
+if (!function_exists("wt_naam")) {
+	function wt_naam($voornaam='',$tussenvoegsel='',$achternaam,$achternaameerst=false,$voorletters=false) {
+		if($voornaam) $voornaam=trim($voornaam);
+		if($tussenvoegsel) $tussenvoegsel=trim($tussenvoegsel);
+		$achternaam=trim($achternaam);
 
-	if($voorletters and $voornaam) {
-		if(substr($voornaam,-1)<>".") $voornaam.=".";
-	}
-	if($achternaameerst) {
-		$return=ucfirst($achternaam);
-		if($voornaam or $tussenvoegsel) $return.=", ".($voornaam ? ucfirst($voornaam)." " : "").($tussenvoegsel ? $tussenvoegsel : "");
-	} else {
-		$return=ucfirst($voornaam);
-		if($tussenvoegsel) {
-			if($return) $return.=" ".$tussenvoegsel; else $return=$tussenvoegsel;
+		if($voorletters and $voornaam) {
+			if(substr($voornaam,-1)<>".") $voornaam.=".";
 		}
-		if($return) $return.=" ".ucfirst($achternaam); else $return=ucfirst($achternaam);
+		if($achternaameerst) {
+			$return=ucfirst($achternaam);
+			if($voornaam or $tussenvoegsel) $return.=", ".($voornaam ? ucfirst($voornaam)." " : "").($tussenvoegsel ? $tussenvoegsel : "");
+		} else {
+			$return=ucfirst($voornaam);
+			if($tussenvoegsel) {
+				if($return) $return.=" ".$tussenvoegsel; else $return=$tussenvoegsel;
+			}
+			if($return) $return.=" ".ucfirst($achternaam); else $return=ucfirst($achternaam);
+		}
+
+		$return = preg_replace("@ {2,}@"," ",$return);
+
+		return $return;
 	}
-
-	$return = preg_replace("@ {2,}@"," ",$return);
-
-	return $return;
 }
 
 function mm_connect($action,$field,$value='') {
