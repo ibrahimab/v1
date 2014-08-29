@@ -87,7 +87,9 @@ class opmaakonderdelen {
 
 	function google_tag_manager() {
 
-		if(!defined("wt_test")) {
+		global $voorkant_cms;
+
+		if(!defined("wt_test") and !$voorkant_cms) {
 			$return = <<<EOT
 
 <!-- Google Tag Manager -->
