@@ -97,15 +97,11 @@ if($_GET["show"]==1) {
 		echo "Er zijn nog geen optie-soorten in het systeem aanwezig.";
 	}
 
-	//
-
+	// bijkomende kosten
 	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
-		// echo "<p><hr><br/><h2>Bijkomende kosten (nieuw systeem)</h2>";
 
 		$bijkomendekosten = new bijkomendekosten($_GET["1k0"], "accommodatie");
 		echo $bijkomendekosten->cms_enter_costs_per_acc_type();
-		// echo wt_dump($bijkomendekosten->data);
-		// echo wt_dump($bijkomendekosten->cms_data);
 
 		echo "<p>&nbsp;</p>";
 	}

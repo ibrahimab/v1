@@ -27,7 +27,7 @@ $cms->db_field(57,"yesno","altijd_invullen");
 $cms->db_field(57,"yesno","altijd_diversen");
 $cms->db_field(57,"yesno","prijs_per_nacht");
 $cms->db_field(57,"yesno","borg");
-$cms->db_field(57,"checkbox","eenheden","",array("selection"=>$vars["bk_eenheden"]));
+$cms->db_field(57,"checkbox","eenheden","",array("selection"=>$vars["bk_eenheid"]));
 $cms->db_field(57,"yesno","hoort_bij_accommodatieinkoop");
 $cms->db_field(57,"select","optiecategorie","",array("selection"=>$vars["optiecategorie"]));
 

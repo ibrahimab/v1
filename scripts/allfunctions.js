@@ -1,6 +1,6 @@
 
 function wt_popupmsg(text) {
-	div = $("<div id='wt_popupmsg' style='display:none;position:absolute;padding-top:17px;border-bottom:1px solid #000000;font-size:1.4em;font-style:italic;padding-bottom:17px;text-align:center;top:0px;left:0px;width:100%;background-color:yellow;'>").html(text);
+	div = $("<div id='wt_popupmsg' style='display:none;position:fixed;padding-top:17px;border-bottom:1px solid #000000;font-size:1.4em;font-style:italic;padding-bottom:17px;text-align:center;top:0px;left:0px;width:100%;background-color:yellow;'>").html(text);
 	$("body").append(div);
 	setTimeout(function(){
 		$("#wt_popupmsg").slideDown();

@@ -1034,6 +1034,100 @@ a.opm {
 	background-color: #95dbfe;
 }
 
+
+/*bijkomende kosten*/
+
+.cms_bk_seizoen {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 10px;
+	border-top: 1px solid #d40139;
+}
+
+.cms_bk_all_rows {
+	margin-top: 15px;
+	border: 1px solid #003366;
+	display: table;
+}
+
+.cms_bk_row {
+	display: table-row;
+}
+
+.cms_bk_row > div {
+	display: table-cell;
+	padding: 5px;
+}
+
+.cms_bk_row input[type=text] {
+	width: 50px;
+}
+
+.cms_bk_row > div:nth-child(1) {
+	min-width: 250px;
+}
+
+.cms_bk_row > div:nth-child(2) {
+	width: 150px;
+}
+
+.cms_bk_row > div:nth-child(3) {
+	width: 150px;
+}
+
+.cms_bk_row > div:nth-child(4) {
+	width: 155px;
+}
+
+.cms_bk_row > div:nth-child(5) {
+	width: 60px;
+}
+
+.cms_bk_row > div:nth-child(6) {
+	width: 150px;
+}
+
+.cms_bk_row > div:nth-child(7) {
+	width: 20px;
+}
+
+.cms_bk_row:nth-child(odd) {
+	background-color: #ebebeb;
+}
+
+.cms_bk_row_header {
+	font-weight: bold;
+}
+
+.cms_bk_new_row {
+
+}
+
+.cms_bk_row .delete {
+	cursor: pointer;
+	font-size: 1.1em;
+}
+
+.cms_bk_row .delete:hover {
+	color: red;
+}
+
+.cms_bk_seizoen input[type=submit] {
+	display: block;
+	margin-top: 10px;
+	/*margin-right: 190px;*/
+	float: right;
+}
+
+.cms_bk_seizoen .ajaxloader {
+	visibility: hidden;
+	display: block;
+	float: right;
+	margin-top: 14px;
+	margin-right: 14px;
+}
+
+
 @media print {
 
 	body {

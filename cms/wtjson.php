@@ -4,9 +4,13 @@
 # JSON communicatie met de database voor het Chalet.nl-CMS
 #
 
+if($_GET["t"]=="bk_new" or $_GET["t"]=="bk_save") {
+	$vars["cms_geen_aankomstdata_nodig"]=true;
+}
 
 $vars["cmslog_pagina_niet_opslaan"]=true;
 $mustlogin=true;
+$geen_tracker_cookie = true;
 $unixdir="../";
 include("../admin/vars.php");
 
@@ -139,6 +143,84 @@ if($_GET["t"]==1) {
 	}
 
 	echo json_encode($json);
+
+} elseif($_GET["t"]=="bk_new") {
+
+	// add bijkomende kosten-item
+
+
+	$json["ok"] = true;
+
+
+	$bijkomendekosten = new bijkomendekosten($_GET["id"], $_GET["soort"]);
+	// $bijkomendekosten->seizoen_id = $_GET["seizoen_id"];
+	$json["html"] = $bijkomendekosten->cms_new_row($_GET["bk_soort_id"], true);
+
+	echo json_encode($json);
+} elseif($_GET["t"]=="bk_save") {
+	//
+	// save bijkomende kosten
+	//
+
+	$json["ok"] = true;
+
+	if($_GET["soort"]=="accommodatie" or $_GET["soort"]=="type") {
+		if($_GET["start"]) {
+			$db->query("UPDATE bk_".$_GET["soort"]." SET delete_after=1 WHERE ".$_GET["soort"]."_id='".intval($_GET["id"])."' AND seizoen_id='".intval($_GET["seizoen_id"])."';");
+			if($_GET["soort"]=="accommodatie") {
+				$db->query("UPDATE bk_type SET delete_after=1 WHERE type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."') AND seizoen_id='".intval($_GET["seizoen_id"])."';");
+			}
+			$json["saved"] = true;
+		} elseif($_GET["stop"]) {
+			$db->query("DELETE FROM bk_".$_GET["soort"]." WHERE delete_after=1 AND ".$_GET["soort"]."_id='".intval($_GET["id"])."' AND seizoen_id='".intval($_GET["seizoen_id"])."';");
+			if($_GET["soort"]=="accommodatie") {
+				$db->query("DELETE FROM bk_type WHERE delete_after=1 AND type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."') AND seizoen_id='".intval($_GET["seizoen_id"])."';");
+			}
+			$json["saved"] = true;
+		} else {
+
+			$query_key .= ", bk_soort_id='".intval($_GET["bk_soort_id"])."'";
+			$query_key .= ", ".$_GET["soort"]."_id='".intval($_GET["id"])."'";
+			$query_key .= ", seizoen_id='".intval($_GET["seizoen_id"])."'";
+
+			$query .= ", delete_after=0";
+
+			$query .= ", inclusief='".($_GET["inclusief"]=="undefined" ? "NULL" : intval($_GET["inclusief"]))."'";
+			$query .= ", verplicht='".($_GET["verplicht"]=="undefined" ? "NULL" : intval($_GET["verplicht"]))."'";
+			$query .= ", ter_plaatse='".($_GET["ter_plaatse"]=="undefined" ? "NULL" : intval($_GET["ter_plaatse"]))."'";
+			$query .= ", eenheid='".($_GET["eenheid"]=="undefined" ? "NULL" : intval($_GET["eenheid"]))."'";
+			$query .= ", borg_soort='".($_GET["borg_soort"]=="undefined" ? "NULL" : intval($_GET["borg_soort"]))."'";
+
+			if($_GET["bedrag"]=="undefined" or !isset($_GET["bedrag"])) {
+				$query .= ", bedrag=NULL";
+			} else {
+				$_GET["bedrag"] = preg_replace("@,@", ".", $_GET["bedrag"]);
+				$query .= ", bedrag='".addslashes($_GET["bedrag"])."'";
+			}
+
+			$db->query("INSERT INTO bk_".$_GET["soort"]." SET ".substr($query_key,1).$query.", adddatetime=NOW(), editdatetime=NOW() ON DUPLICATE KEY UPDATE ".substr($query,1).", editdatetime=NOW()");
+
+			if($_GET["soort"]=="accommodatie") {
+
+				$db->query("SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."';");
+				while($db->next_record()) {
+					unset($query_key);
+					$query_key .= ", bk_soort_id='".intval($_GET["bk_soort_id"])."'";
+					$query_key .= ", type_id='".intval($db->f("type_id"))."'";
+					$query_key .= ", seizoen_id='".intval($_GET["seizoen_id"])."'";
+
+					$db2->query("INSERT INTO bk_type SET ".substr($query_key,1).$query.", adddatetime=NOW(), editdatetime=NOW() ON DUPLICATE KEY UPDATE ".substr($query,1).", editdatetime=NOW()");
+
+				}
+
+			}
+			$json["saved"] = true;
+		}
+
+	}
+
+	echo json_encode($json);
+
 }
 
 ?>

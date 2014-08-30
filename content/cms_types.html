@@ -139,6 +139,15 @@ if($_GET["show"]==2) {
 	}
 	echo "</ul>";
 
+	// bijkomende kosten
+	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+
+		$bijkomendekosten = new bijkomendekosten($_GET["2k0"], "type");
+		echo $bijkomendekosten->cms_enter_costs_per_acc_type();
+
+		echo "<p>&nbsp;</p>";
+	}
+
 	echo "<hr><h2>Type kopi&euml;ren</h2>";
 	echo "<p>";
 	echo "<a href=\"".wt_he($_SERVER["REQUEST_URI"]."&copy_type=1")."\" onclick=\"return confirmClick(this,'Zeker weten dat je dit type wilt kopi&euml;ren?');\">Maak kopie van dit type &raquo;</a></p>";

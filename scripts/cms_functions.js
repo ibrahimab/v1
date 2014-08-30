@@ -98,16 +98,16 @@ function checkUncheckAll(theElement) {
 
 function getStyleClass (className) {
   if (document.all) {
-    for (var s = 0; s < document.styleSheets.length; s++)
-      for (var r = 0; r < document.styleSheets[s].rules.length; r++)
-        if (document.styleSheets[s].rules[r].selectorText == '.' + className)
-          return document.styleSheets[s].rules[r];
+	for (var s = 0; s < document.styleSheets.length; s++)
+	  for (var r = 0; r < document.styleSheets[s].rules.length; r++)
+		if (document.styleSheets[s].rules[r].selectorText == '.' + className)
+		  return document.styleSheets[s].rules[r];
   }
   else if (document.getElementById) {
-    for (var s = 0; s < document.styleSheets.length; s++)
-      for (var r = 0; r < document.styleSheets[s].cssRules.length; r++)
-        if (document.styleSheets[s].cssRules[r].selectorText == '.' + className)
-          return document.styleSheets[s].cssRules[r];
+	for (var s = 0; s < document.styleSheets.length; s++)
+	  for (var r = 0; r < document.styleSheets[s].cssRules.length; r++)
+		if (document.styleSheets[s].cssRules[r].selectorText == '.' + className)
+		  return document.styleSheets[s].cssRules[r];
   }
   return null;
 }
@@ -157,17 +157,19 @@ $(document).ready(function() {
 	// jquery
 	//
 
-        $("#accCodeIh").focus(function() {
-            $("#ih_country").prop("disabled", true);
-            $("#ih_region").prop("disabled", true);
-        });
+	$("#accCodeIh").focus(function() {
+		$("#ih_country").prop("disabled", true);
+		$("#ih_region").prop("disabled", true);
+	});
 
-        $("#accCodeIh").focusout( function() {
-            if($("#accCodeIh").val() == ""){
-                $("#ih_country").prop("disabled", false);
-                $("#ih_region").prop("disabled", false);
-            }
-        });
+	$("#accCodeIh").focusout( function() {
+		if($("#accCodeIh").val() == ""){
+			$("#ih_country").prop("disabled", false);
+			$("#ih_region").prop("disabled", false);
+		}
+	});
+
+
 	$('.submenuclass_up').slideUp('normal');
 	$('#aflopend_optie_klant').slideUp('normal');
 	$('#aflopend_optie_leverancier').slideUp('normal');
@@ -881,7 +883,131 @@ $(document).ready(function() {
 	});
 
 
+	//
+	// Bijkomende kosten-cms
+	//
+
+	$("select[name=bk_new]").change(function(event) {
+
+		var bk_soort_id = $(this).val();
+		var form = $(this).parent("form");
+		var seizoen_id = form.find("input[name='seizoen_id']").val();
+		var cms_bk_seizoen = $("div.cms_bk_seizoen[data-seizoen_id='" + seizoen_id + "']");
+
+		form.find("select[name=bk_new]").val("");
+
+		$.getJSON(
+			"cms/wtjson.php?t=bk_new&bk_soort_id="+bk_soort_id+"&soort="+form.find("input[name='soort']").val()+"&id="+form.find("input[name='id']").val(),
+			function(data) {
+				if(data.ok) {
+					cms_bk_seizoen.find(".cms_bk_all_rows").append(data.html);
+					bk_keuzes_actief_inactief();
+					setHgt2();
+				}
+			}
+		);
+	});
+
+	// bk: onload: bk_keuzes_actief_inactief
+	bk_keuzes_actief_inactief();
+
+	// bk: inclusief => hide other select-fields
+	$(document).on("change", ".cms_bk_seizoen select[name^=inclusief]", function(event) {
+		bk_keuzes_actief_inactief();
+	});
+
+	// bk: delete row
+	$(document).on("click", ".cms_bk_row .delete", function(event) {
+		$(this).closest(".cms_bk_row").remove();
+		bk_keuzes_actief_inactief();
+	});
+
+
+	$(".cms_bk_seizoen form").submit(function(event) {
+		event.preventDefault();
+
+		$(".cms_bk_seizoen .ajaxloader").css("visibility", "visible");
+
+		var form = $(this);
+		var seizoen_id = form.find("input[name='seizoen_id']").val();
+
+		var cms_bk_row;
+
+		$.getJSON(
+			"cms/wtjson.php?t=bk_save&start=1"
+			+"&soort="+form.find("input[name='soort']").val()
+			+"&id="+form.find("input[name='id']").val()
+			+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
+			,
+			function(data) {
+				if(data.saved) {
+
+					$(".cms_bk_row[data-soort_id]").each(function() {
+
+						cms_bk_row = $(this);
+
+						$.getJSON(
+							"cms/wtjson.php?t=bk_save&bk_soort_id="+$(this).data("soort_id")
+							+"&soort="+form.find("input[name='soort']").val()
+							+"&id="+form.find("input[name='id']").val()
+							+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
+							+"&inclusief="+cms_bk_row.find("select[name^='inclusief']").val()
+							+"&verplicht="+cms_bk_row.find("select[name^='verplicht']").val()
+							+"&ter_plaatse="+cms_bk_row.find("select[name^='ter_plaatse']").val()
+							+"&eenheid="+cms_bk_row.find("select[name^='eenheid']").val()
+							+"&borg_soort="+cms_bk_row.find("select[name^='borg_soort']").val()
+							+"&bedrag="+cms_bk_row.find("input[name^='bedrag']").val()
+							,
+							function(data) {
+								if(data.saved) {
+
+									$.getJSON(
+										"cms/wtjson.php?t=bk_save&stop=1"
+										+"&soort="+form.find("input[name='soort']").val()
+										+"&id="+form.find("input[name='id']").val()
+										+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
+										,
+										function(data) {
+											if(data.saved) {
+												wt_popupmsg("De bijkomende kosten zijn correct opgeslagen.");
+												form.find("input[type=submit]").prop("disabled", false);
+											}
+											$(".cms_bk_seizoen .ajaxloader").css("visibility", "hidden");
+										}
+									);
+								}
+							}
+						);
+					});
+				}
+			}
+		);
+	});
 });
+
+function bk_keuzes_actief_inactief() {
+
+	$("select[name=bk_new] > option").prop("disabled", false);
+
+	var cms_bk_seizoen;
+
+	$(".cms_bk_row[data-soort_id]").each(function() {
+		$(this).closest(".cms_bk_seizoen").find("select[name=bk_new] > option[value="+$(this).data("soort_id")+"]").prop("disabled", true);
+		// alert(seizoen_id);
+		// alert($(this).closest(".cms_bk_seizoen").find("select[name^=inclusief]").val());
+		if($(this).find("select[name^=inclusief]").val()==1) {
+			$(this).find("select[name^=verplicht]").prop("disabled", true).css("visibility", "hidden");
+			$(this).find("select[name^=ter_plaatse]").prop("disabled", true).css("visibility", "hidden")
+			$(this).find("select[name^=eenheid]").prop("disabled", true).css("visibility", "hidden")
+			$(this).find("input[name^=bedrag]").prop("disabled", true).css("visibility", "hidden")
+		} else {
+			$(this).find("select[name^=verplicht]").prop("disabled", false).css("visibility", "visible");
+			$(this).find("select[name^=ter_plaatse]").prop("disabled", false).css("visibility", "visible")
+			$(this).find("select[name^=eenheid]").prop("disabled", false).css("visibility", "visible")
+			$(this).find("input[name^=bedrag]").prop("disabled", false).css("visibility", "visible")
+		}
+	});
+}
 
 function goedkeuringen_benodigd_uitzetten() {
 	// checkbox "Goedkeuring benodigd: vraag om goedkeuring/ondertekening door de klant" uitzetten
@@ -1397,22 +1523,22 @@ function betaling_goedkeuren(theLink, msg, bedrag) {
 }
 
 function wt_number_format (number, decimals, dec_point, thousands_sep) {
-    // Formats a number with grouped thousands
-    // Strip all characters but numerical ones.
-    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
-    var n = !isFinite(+number) ? 0 : +number,
-        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-        s = '',
-        toFixedFix = function (n, prec) {
-            var k = Math.pow(10, prec);            return '' + Math.round(n * k) / k;
-        };
-    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
-    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
-    if (s[0].length > 3) {        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
-    }
-    if ((s[1] || '').length < prec) {
-        s[1] = s[1] || '';
-        s[1] += new Array(prec - s[1].length + 1).join('0');    }
-    return s.join(dec);
+	// Formats a number with grouped thousands
+	// Strip all characters but numerical ones.
+	number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+	var n = !isFinite(+number) ? 0 : +number,
+		prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+		dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+		s = '',
+		toFixedFix = function (n, prec) {
+			var k = Math.pow(10, prec);            return '' + Math.round(n * k) / k;
+		};
+	// Fix for IE parseFloat(0.55).toFixed(0) = 0;
+	s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+	if (s[0].length > 3) {        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+	}
+	if ((s[1] || '').length < prec) {
+		s[1] = s[1] || '';
+		s[1] += new Array(prec - s[1].length + 1).join('0');    }
+	return s.join(dec);
 }

@@ -1035,18 +1035,21 @@ if($mustlogin) {
 	$cms->db[57]["maintable"]="bk_soort";
 
 	# Aankomstdata vullen (voor CMS)
-	$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");
-	if($db->num_rows()) {
-		if($id=="accommodaties") $vars["aankomstdatum_weekend"][0]=$vars["geenvoorkeur"];
-		while($db->next_record()) {
-			# Aankomstdatum-array vullen
-			$timeteller=$db->f("begin");
-			while($timeteller<=$db->f("eind")) {
-				$vars["aankomstdatum"][$db->f("seizoen_id")][$timeteller]=datum("DAG D MAAND JJJJ",$timeteller);
-				$vars["aankomstdatum_kort"][$db->f("seizoen_id")][$timeteller]=datum("D MAAND JJJJ",$timeteller);
-				$vars["aankomstdatum_weekend"][$db->f("seizoen_id")][$timeteller]="Weekend ".date("j",$timeteller)." ".datum("MAAND JJJJ",$timeteller);
-				$vars["aankomstdatum_weekend_alleseizoenen"][$timeteller]="weekend ".date("j",$timeteller)." ".datum("MAAND JJJJ",$timeteller);
-				$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
+
+	if(!$vars["cms_geen_aankomstdata_nodig"]) {
+		$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");
+		if($db->num_rows()) {
+			if($id=="accommodaties") $vars["aankomstdatum_weekend"][0]=$vars["geenvoorkeur"];
+			while($db->next_record()) {
+				# Aankomstdatum-array vullen
+				$timeteller=$db->f("begin");
+				while($timeteller<=$db->f("eind")) {
+					$vars["aankomstdatum"][$db->f("seizoen_id")][$timeteller]=datum("DAG D MAAND JJJJ",$timeteller);
+					$vars["aankomstdatum_kort"][$db->f("seizoen_id")][$timeteller]=datum("D MAAND JJJJ",$timeteller);
+					$vars["aankomstdatum_weekend"][$db->f("seizoen_id")][$timeteller]="Weekend ".date("j",$timeteller)." ".datum("MAAND JJJJ",$timeteller);
+					$vars["aankomstdatum_weekend_alleseizoenen"][$timeteller]="weekend ".date("j",$timeteller)." ".datum("MAAND JJJJ",$timeteller);
+					$timeteller=mktime(0,0,0,date("n",$timeteller),date("j",$timeteller)+7,date("Y",$timeteller));
+				}
 			}
 		}
 	}
@@ -1103,7 +1106,6 @@ $vars["nummers_voorraad_velden"]=array("voorraad_garantie","voorraad_allotment",
 $vars["bestelstatus"]=array(1=>"nog niet besteld",2=>"bevestiging afwachten",3=>"bevestigd");
 $vars["factuurbedrag_gecontroleerd"]=array(1=>"ja, alles klopt",2=>"nee, bedrag komt niet overeen");
 $vars["optiecategorie"]=array(1=>"n.v.t.",2=>"bijkomende kosten verblijf",3=>"skipassen",4=>"huurmateriaal",5=>"skilessen",6=>"catering/maaltijden",7=>"vervoer",8=>"verzekeringen",9=>"aanbiedingskortingen + klachtafhandeling",20=>"borg");
-$vars["bk_eenheden"]=array(1=>"per verblijf",2=>"per persoon", 3=>"per dag", 4=>"per item", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak", );
 
 
 $vars["inkoopbetaling_status"]=array(1=>"onderweg",2=>"ingeboekt");
@@ -1116,6 +1118,14 @@ $vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina'
 $vars["eigenaar_blokkering"] = array(1=>"bezeteigenaar", 2=>"boekingderden", 3=>"nietbeschikbaarverhuur");
 $vars["eigenaar_blokkering_naam"] = array(1=>"Geblokkeerd door eigenaar", 2=>"Boeking via derden", 3=>"Niet beschikbaar voor verhuur");
 $vars["voorraad_afboeken"] = array(1=>"niet bijgewerkt", 2=>"garantie", 3=>"allotment", 4=>"vervallen allotment", 5=>"request", 6=>"optie leverancier");
+
+
+// bijkomende kosten
+$vars["bk_inclusief"] = array(1=>"inclusief", 0=>"exclusief");
+$vars["bk_verplicht"] = array(0=>"optioneel", 1=>"verplicht");
+$vars["bk_ter_plaatse"] = array(0=>"vooraf", 1=>"ter plaatse");
+$vars["bk_eenheid"] = array(1=>"per verblijf",2=>"per persoon", 3=>"per dag", 4=>"per item", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak");
+$vars["bk_borg_soort"] = array(1=>"contant",2=>"creditcard", 3=>"contant of creditcard", 4=>"niet van toepassing");
 
 // XML-leveranciers
 $vars["xml_type"]=array(

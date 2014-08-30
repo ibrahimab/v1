@@ -1763,7 +1763,7 @@ function wt_debugtimer($pointer="") {
 		}
 		$timedif=round($timenow-$wt_debugtimer["time"],4);
 		if($timedif>0.2) echo "<B>";
-		echo "<FONT FACE=\"Courier\">".$pointer." === ".sprintf("%02.4f\n",round($timenow-$wt_debugtimer["start"],4))." === ".$timedif."</FONT><BR>";
+		echo "<FONT FACE=\"Courier\">".$pointer." === ".sprintf("%02.2f\n",round($timenow-$wt_debugtimer["start"],2))." === ".round($timedif,2)."</FONT><BR>";
 		if($timedif>0.2) echo "</B>";
 		$wt_debugtimer["time"]=$timenow;
 	}
