@@ -177,6 +177,7 @@ if($_GET["t"]==1) {
 				$db->query("DELETE FROM bk_type WHERE delete_after=1 AND type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."') AND seizoen_id='".intval($_GET["seizoen_id"])."';");
 			}
 			$json["saved"] = true;
+
 		} else {
 
 			$query_key .= ", bk_soort_id='".intval($_GET["bk_soort_id"])."'";
@@ -186,16 +187,24 @@ if($_GET["t"]==1) {
 			$query .= ", delete_after=0";
 
 			$query .= ", inclusief='".($_GET["inclusief"]=="undefined" ? "NULL" : intval($_GET["inclusief"]))."'";
-			$query .= ", verplicht='".($_GET["verplicht"]=="undefined" ? "NULL" : intval($_GET["verplicht"]))."'";
-			$query .= ", ter_plaatse='".($_GET["ter_plaatse"]=="undefined" ? "NULL" : intval($_GET["ter_plaatse"]))."'";
-			$query .= ", eenheid='".($_GET["eenheid"]=="undefined" ? "NULL" : intval($_GET["eenheid"]))."'";
-			$query .= ", borg_soort='".($_GET["borg_soort"]=="undefined" ? "NULL" : intval($_GET["borg_soort"]))."'";
-
-			if($_GET["bedrag"]=="undefined" or !isset($_GET["bedrag"])) {
+			if($_GET["inclusief"]==1) {
+				$query .= ", verplicht=NULL";
+				$query .= ", ter_plaatse=NULL";
+				$query .= ", eenheid=NULL";
+				$query .= ", borg_soort=NULL";
 				$query .= ", bedrag=NULL";
 			} else {
-				$_GET["bedrag"] = preg_replace("@,@", ".", $_GET["bedrag"]);
-				$query .= ", bedrag='".addslashes($_GET["bedrag"])."'";
+				$query .= ", verplicht='".($_GET["verplicht"]=="undefined" ? "NULL" : intval($_GET["verplicht"]))."'";
+				$query .= ", ter_plaatse='".($_GET["ter_plaatse"]=="undefined" ? "NULL" : intval($_GET["ter_plaatse"]))."'";
+				$query .= ", eenheid='".($_GET["eenheid"]=="undefined" ? "NULL" : intval($_GET["eenheid"]))."'";
+				$query .= ", borg_soort='".($_GET["borg_soort"]=="undefined" ? "NULL" : intval($_GET["borg_soort"]))."'";
+
+				if($_GET["bedrag"]=="undefined" or !isset($_GET["bedrag"])) {
+					$query .= ", bedrag=NULL";
+				} else {
+					$_GET["bedrag"] = preg_replace("@,@", ".", $_GET["bedrag"]);
+					$query .= ", bedrag='".addslashes($_GET["bedrag"])."'";
+				}
 			}
 
 			$db->query("INSERT INTO bk_".$_GET["soort"]." SET ".substr($query_key,1).$query.", adddatetime=NOW(), editdatetime=NOW() ON DUPLICATE KEY UPDATE ".substr($query,1).", editdatetime=NOW()");

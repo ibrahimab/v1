@@ -208,7 +208,7 @@ li {
 	min-height: 300px;
 }
 
-#clear {
+#clear, .clear {
 	clear: both;
 }
 
@@ -1116,6 +1116,11 @@ a.opm {
 	display: block;
 	margin-top: 10px;
 	/*margin-right: 190px;*/
+	float: right;
+}
+
+.cms_bk_type_afwijkingen_overschrijven {
+	display: block;
 	float: right;
 }
 

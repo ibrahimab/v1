@@ -890,7 +890,7 @@ $(document).ready(function() {
 	$("select[name=bk_new]").change(function(event) {
 
 		var bk_soort_id = $(this).val();
-		var form = $(this).parent("form");
+		var form = $(this).closest("form");
 		var seizoen_id = form.find("input[name='seizoen_id']").val();
 		var cms_bk_seizoen = $("div.cms_bk_seizoen[data-seizoen_id='" + seizoen_id + "']");
 
@@ -908,6 +908,18 @@ $(document).ready(function() {
 		);
 	});
 
+
+	$("#type_afwijkingen_overschrijven").change(function(event) {
+
+		var form = $(this).closest("form");
+
+		if($(this).is(':checked')) {
+			form.find("input[type=submit]").prop("disabled", false);
+		} else {
+			form.find("input[type=submit]").prop("disabled", true);
+		}
+	});
+
 	// bk: onload: bk_keuzes_actief_inactief
 	bk_keuzes_actief_inactief();
 
@@ -918,7 +930,11 @@ $(document).ready(function() {
 
 	// bk: delete row
 	$(document).on("click", ".cms_bk_row .delete", function(event) {
-		$(this).closest(".cms_bk_row").remove();
+		var soort_id = $(this).closest(".cms_bk_row").data("soort_id");
+		// alert(soort_id);
+		// remove();
+		$(".cms_bk_row[data-soort_id="+soort_id+"]").remove();
+
 		bk_keuzes_actief_inactief();
 	});
 
@@ -969,7 +985,9 @@ $(document).ready(function() {
 										,
 										function(data) {
 											if(data.saved) {
-												wt_popupmsg("De bijkomende kosten zijn correct opgeslagen.");
+												$(".cms_bk_row_afwijkend_type").remove();
+												wt_popupmsg("De bijkomende kosten zijn opgeslagen.");
+												$(".cms_bk_type_afwijkingen_overschrijven").css("visibility", "hidden");
 												form.find("input[type=submit]").prop("disabled", false);
 											}
 											$(".cms_bk_seizoen .ajaxloader").css("visibility", "hidden");
@@ -991,10 +1009,8 @@ function bk_keuzes_actief_inactief() {
 
 	var cms_bk_seizoen;
 
-	$(".cms_bk_row[data-soort_id]").each(function() {
+	$(".cms_bk_row[data-soort_id]:not(.cms_bk_row_afwijkend_type)").each(function() {
 		$(this).closest(".cms_bk_seizoen").find("select[name=bk_new] > option[value="+$(this).data("soort_id")+"]").prop("disabled", true);
-		// alert(seizoen_id);
-		// alert($(this).closest(".cms_bk_seizoen").find("select[name^=inclusief]").val());
 		if($(this).find("select[name^=inclusief]").val()==1) {
 			$(this).find("select[name^=verplicht]").prop("disabled", true).css("visibility", "hidden");
 			$(this).find("select[name^=ter_plaatse]").prop("disabled", true).css("visibility", "hidden")
