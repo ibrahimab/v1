@@ -106,7 +106,7 @@ if($_COOKIE["tch"] and !$voorkant_cms and ($vars["zoekform_aanbiedingen"] or str
 	#
 	# Zoekopdracht bewaren
 	#
-	$te_bewaren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fzt","fdu");
+	$te_bewaren_velden=array("fsg","fad","fadf_d","fadf_m","fadf_y","fap","fas","fdu");
 
 	if(preg_match("/\?/",$_SERVER["REQUEST_URI"])) {
 		# Zoekopdracht opslaan
