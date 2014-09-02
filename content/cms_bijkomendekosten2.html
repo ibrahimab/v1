@@ -3,6 +3,37 @@
 $cms->display_cms();
 
 if($_GET["show"]==57) {
+
+	$accommodatie_id_inquery = "0";
+	$db->query("SELECT accommodatie_id FROM bk_accommodatie WHERE bk_soort_id='".intval($_GET["57k0"])."';");
+	while($db->next_record()) {
+		$accommodatie_id_inquery .= ",".$db->f("accommodatie_id");
+	}
+
+	$type_id_inquery = "0";
+	$db->query("SELECT type_id FROM bk_type WHERE bk_soort_id='".intval($_GET["57k0"])."';");
+	while($db->next_record()) {
+		$type_id_inquery .= ",".$db->f("type_id");
+	}
+
+	unset($wzt_gehad);
+	for ($i=0; $i <= 2 ; $i++) {
+		$db->query("SELECT DISTINCT wzt, plaats, naam, accommodatie_id FROM view_accommodatie WHERE (accommodatie_id IN (".$accommodatie_id_inquery.") OR type_id IN(".$type_id_inquery.")) AND wzt='".$i."' ORDER BY wzt, plaats, naam;");
+		if($db->num_rows()) {
+			while($db->next_record()) {
+				if(!$wzt_gehad[$db->f("wzt")]) {
+					if($wzt_gehad) echo "</ul></div>";
+					echo "&nbsp;<hr><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_acc_".$i."_".$db->f("wzt")."\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('acc_".$i."_".$db->f("wzt")."');return false;\">De volgende ".($db->num_rows()>1 ? $db->num_rows() : "")." ".($db->f("wzt")==1 ? "winter" : "zomer")."accommodatie".($db->num_rows()>1 ? "s zijn" : " is")." aan deze optiesoort gekoppeld:</a>";
+					echo "<div id=\"acc_".$i."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\">";
+					echo "<ul>";
+					$wzt_gehad[$db->f("wzt")]=true;
+				}
+				echo "<li><a href=\"cms_accommodaties.php?show=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."#bijkomendekosten\">".wt_he($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
+			}
+		}
+	}
+	echo "</ul></div>";
+
 	$cms->display_log(57);
 }
 

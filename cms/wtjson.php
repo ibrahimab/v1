@@ -176,6 +176,8 @@ if($_GET["t"]==1) {
 			if($_GET["soort"]=="accommodatie") {
 				$db->query("DELETE FROM bk_type WHERE delete_after=1 AND type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."') AND seizoen_id='".intval($_GET["seizoen_id"])."';");
 			}
+
+			$db->query("UPDATE ".$_GET["soort"]." SET tmp_teksten_omgezet='".intval($_GET["tmp_teksten_omgezet"])."' WHERE ".$_GET["soort"]."_id='".intval($_GET["id"])."';");
 			$json["saved"] = true;
 
 		} else {

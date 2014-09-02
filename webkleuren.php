@@ -51,6 +51,7 @@
 <br><b>Alle sites</b><br>
 <span style="background-color:#ffa73f;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#ffa73f&nbsp;&nbsp;(aanbiedingen - oud!)<br>
 <span style="background-color:#fb6703;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#fb6703&nbsp;&nbsp;(boekbutton)<br>
+<span style="background-color:#FFFBBA;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>&nbsp;&nbsp;=&nbsp;&nbsp;#fffbba&nbsp;&nbsp;(.opvalblok)<br>
 
 
 </body>

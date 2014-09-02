@@ -1044,6 +1044,19 @@ a.opm {
 	border-top: 1px solid #d40139;
 }
 
+.cms_bk_seizoen input[type=checkbox] {
+	vertical-align:middle;
+	position:relative;
+	bottom:1px;
+}
+
+.cms_bk_add {
+	border: 1px solid #003366;
+	padding: 7px;
+	width: 500px;
+	background-color: #ebebeb;
+}
+
 .cms_bk_all_rows {
 	margin-top: 15px;
 	border: 1px solid #003366;
@@ -1061,6 +1074,7 @@ a.opm {
 
 .cms_bk_row input[type=text] {
 	width: 50px;
+	text-align: right;
 }
 
 .cms_bk_row > div:nth-child(1) {
@@ -1099,9 +1113,8 @@ a.opm {
 	font-weight: bold;
 }
 
-.cms_bk_new_row {
-	background-color: red !important;
-	/*display: none;*/
+.cms_bk_to_be_filled {
+	background-color: #FFFBBA !important;
 }
 
 .cms_bk_row .delete {
@@ -1120,7 +1133,6 @@ a.opm {
 .cms_bk_seizoen input[type=submit] {
 	display: block;
 	margin-top: 10px;
-	/*margin-right: 190px;*/
 	float: right;
 }
 
@@ -1137,6 +1149,33 @@ a.opm {
 	margin-right: 14px;
 }
 
+.cms_bk_oude_teksten {
+	font-size: 0.9em;
+	margin-top: 15px;
+	margin-bottom: 25px;
+	color: #555555;
+}
+
+.cms_bk_oude_teksten td {
+	vertical-align: top;
+	width: 450px;
+	border: 1px solid #878481;
+	padding: 10px;
+}
+
+.cms_bk_oude_teksten h5 {
+	font-size: 1.1em;
+	margin: 0;
+	padding: 0;
+}
+
+.cms_bk_oude_teksten h5 a {
+	font-weight: normal;
+}
+
+.cms_bk_bedrag {
+	text-align: right;
+}
 
 @media print {
 

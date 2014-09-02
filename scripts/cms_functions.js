@@ -938,14 +938,18 @@ $(document).ready(function() {
 		bk_keuzes_actief_inactief();
 	});
 
+	// bk: change field
+	$(document).on("change", ".cms_bk_row select, .cms_bk_row input[type=text]", function(event) {
+		bk_row_yellow_or_not($(this).closest(".cms_bk_row"));
+	});
 
 	$(".cms_bk_seizoen form").submit(function(event) {
 		event.preventDefault();
 
-		$(".cms_bk_seizoen .ajaxloader").css("visibility", "visible");
-
 		var form = $(this);
 		var seizoen_id = form.find("input[name='seizoen_id']").val();
+
+		$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .ajaxloader").css("visibility", "visible");
 
 		var cms_bk_row;
 
@@ -958,7 +962,7 @@ $(document).ready(function() {
 			function(data) {
 				if(data.saved) {
 
-					$(".cms_bk_row[data-soort_id]").each(function() {
+					$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row[data-soort_id]:not(.cms_bk_row_afwijkend_type)").each(function() {
 
 						cms_bk_row = $(this);
 
@@ -982,15 +986,17 @@ $(document).ready(function() {
 										+"&soort="+form.find("input[name='soort']").val()
 										+"&id="+form.find("input[name='id']").val()
 										+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
+										+"&tmp_teksten_omgezet="+form.find("input[name='tmp_teksten_omgezet']").val()
 										,
 										function(data) {
 											if(data.saved) {
 												$(".cms_bk_row_afwijkend_type").remove();
+												$(".cms_bk_row_afwijkend_accommodatie").remove();
 												wt_popupmsg("De bijkomende kosten zijn opgeslagen.");
 												$(".cms_bk_type_afwijkingen_overschrijven").css("visibility", "hidden");
 												form.find("input[type=submit]").prop("disabled", false);
 											}
-											$(".cms_bk_seizoen .ajaxloader").css("visibility", "hidden");
+											$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .ajaxloader").css("visibility", "hidden");
 										}
 									);
 								}
@@ -1022,7 +1028,23 @@ function bk_keuzes_actief_inactief() {
 			$(this).find("select[name^=eenheid]").prop("disabled", false).css("visibility", "visible")
 			$(this).find("input[name^=bedrag]").prop("disabled", false).css("visibility", "visible")
 		}
+		bk_row_yellow_or_not($(this));
 	});
+}
+
+function bk_row_yellow_or_not(deze) {
+	// check if .cms_bk_row must be yellow (through .cms_bk_to_be_filled)
+	var yellow = false;
+	$(deze).find("select").each(function() {
+		if($(this).prop("disabled")==false && $(this).val()=="") {
+			yellow = true;
+		}
+	});
+	if(yellow) {
+		deze.addClass("cms_bk_to_be_filled");
+	} else {
+		deze.removeClass("cms_bk_to_be_filled");
+	}
 }
 
 function goedkeuringen_benodigd_uitzetten() {

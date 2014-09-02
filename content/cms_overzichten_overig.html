@@ -754,6 +754,7 @@ if($_GET["t"]==1) {
 	echo "<br/>";
 
 	echo "<ul>";
+	echo "<li><a href=\"#tekstenomzetten\">Om te zetten in- en exclusief-teksten</a></li>";
 	echo "<li><a href=\"#englishreviews\">Reviews via Chalet.eu</a></li>";
 	echo "<li><a href=\"#wifiinternet\">Zomeraccommodaties met zowel Wi-Fi als internetverbinding</a></li>";
 	echo "<li><a href=\"#beddenperseizoen\">Aantal aangeboden bedden per seizoen</a></li>";
@@ -771,6 +772,42 @@ if($_GET["t"]==1) {
 	echo "<br/>";
 
 	echo "<hr>";
+
+
+	echo "<a name=\"tekstenomzetten\"></a>";
+	echo "<h2>Om te zetten in- en exclusief-teksten (winter)</h2>";
+	$db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, t.tmp_teksten_omgezet AS ttmp_teksten_omgezet, a.tmp_teksten_omgezet, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND ( ((t.inclusief<>'' OR t.exclusief<>'') AND t.tmp_teksten_omgezet=0) OR ((a.inclusief<>'' OR a.exclusief<>'') AND a.tmp_teksten_omgezet=0) ) AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt=1 ORDER BY v.plaats, v.naam, v.accommodatie_id, t.type_id;");
+	if($db->num_rows()) {
+		echo "<div style=\"margin-left: 20px;\">";
+		echo "<ul>";
+		while($db->next_record()) {
+			if(!$al_gehad[$db->f("accommodatie_id")]) {
+				$al_gehad[$db->f("accommodatie_id")] = true;
+				if($al_gehad) echo "</li></ul>";
+				echo "<li>";
+				if(!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) {
+					echo "<a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."#bijkomendekosten\" target=\"_blank\">";
+				}
+				echo wt_he($db->f("plaats")." - ".$db->f("naam"));
+				if(!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) {
+					echo "</a>";
+				}
+				echo "<ul>";
+			}
+			if(!$db->f("ttmp_teksten_omgezet") and ($db->f("tinclusief") or $db->f("texclusief"))) {
+				echo "<li>";
+				echo "<a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."&2k0=".$db->f("type_id")."#bijkomendekosten\" target=\"_blank\">";
+				echo wt_he($db->f("begincode").$db->f("type_id"));
+				echo "</a>";
+				echo "</li>";
+			}
+		}
+		echo "</ul>";
+		echo "</div>";
+	} else {
+		echo "<p>Alles is omgezet.</p>";
+	}
+	unset($al_gehad);
 
 
 	echo "<a name=\"englishreviews\"></a>";

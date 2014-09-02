@@ -8,21 +8,18 @@
 /*
 
 todo:
-- gekleurde balk bij nog in te vullen types
-- controle type/accommodatie
-- controle op delete-opdracht bk_soort
-- Engelse invoer bk_soort
-- gegevens overnemen bij "accommodatie kopieren"
-- Deze kosten moeten bij iedere accommodatie worden ingevuld
-- accommodatie-niveau per regel opslaan
 - doorlezen PRO-27 en vergelijken met ontwikkelde functionaliteit: alles afgedekt?
-- ook afwijkingen met ontbrekende gegevens bouwen
 
-zoek-en-boek: tekstzoeken niet onthouden
+
+
+eventueel later:
+- accommodatie-niveau per regel opslaan
+- kopieren vanaf ander seizoen
 
 
 bespreken:
 - waar is "borg" "niet van toepassing" voor nodig?
+- gegevens overnemen bij "accommodatie kopieren" nodig?
 
 */
 
@@ -61,16 +58,13 @@ class bijkomendekosten {
 			}
 
 
-			$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, ba.".$this->soort."_id, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag FROM bk_soort bs LEFT JOIN bk_".$this->soort." ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.".$this->soort."_id='".intval($this->id)."') WHERE ((ba.".$this->soort."_id IS NOT NULL AND ba.seizoen_id IN (".substr($this->seizoen_inquery,1).")) OR bs.altijd_invullen=1)
-			           ORDER BY ba.inclusief DESC, bs.volgorde;");
+			foreach ($this->cms_data_seizoenen as $key => $value) {
+				$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, ba.".$this->soort."_id, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag FROM bk_soort bs LEFT JOIN bk_".$this->soort." ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.".$this->soort."_id='".intval($this->id)."' AND ba.seizoen_id='".intval($key)."') WHERE (ba.".$this->soort."_id IS NOT NULL OR bs.altijd_invullen=1)
+				           ORDER BY ba.inclusief DESC, bs.volgorde;");
 
-			while($db->next_record()) {
-				foreach ($this->cms_data_seizoenen as $key => $value) {
-					if($db->f("seizoen_id")) {
-						$seizoen_id = $db->f("seizoen_id");
-					} else {
-						$seizoen_id = $key;
-					}
+
+				while($db->next_record()) {
+					$seizoen_id = $key;
 
 					$this->data[$seizoen_id][$db->f("bk_soort_id")]["naam"] = $db->f("naam");
 					$this->data[$seizoen_id][$db->f("bk_soort_id")]["inclusief"] = $db->f("inclusief");
@@ -79,10 +73,11 @@ class bijkomendekosten {
 					$this->data[$seizoen_id][$db->f("bk_soort_id")]["eenheid"] = $db->f("eenheid");
 					$this->data[$seizoen_id][$db->f("bk_soort_id")]["borg_soort"] = $db->f("borg_soort");
 					$this->data[$seizoen_id][$db->f("bk_soort_id")]["bedrag"] = $db->f("bedrag");
-
+					if($db->f("seizoen_id")) {
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["filled"] = true;
+					}
 				}
 			}
-
 
 			$this->get_data_done = true;
 		}
@@ -101,6 +96,13 @@ class bijkomendekosten {
 			global $vars;
 
 			$db = new DB_sql;
+
+
+			// get tmp_teksten_omgezet
+			$db->query("SELECT tmp_teksten_omgezet FROM ".$this->soort." WHERE ".$this->soort."_id='".intval($this->id)."';");
+			if($db->next_record()) {
+				$this->cms_data_tmp_teksten_omgezet = $db->f("tmp_teksten_omgezet");
+			}
 
 			$db->query("SELECT bk_soort_id, volgorde, naam".$vars["ttv"]." AS naam, eenheden, altijd_invullen, prijs_per_nacht, borg, hoort_bij_accommodatieinkoop FROM bk_soort ORDER BY volgorde, bk_soort_id;");
 			while($db->next_record()) {
@@ -127,6 +129,13 @@ class bijkomendekosten {
 				// echo $db->lq;
 
 
+				// get all types
+				$db->query("SELECT begincode, type_id FROM view_accommodatie WHERE accommodatie_id='".intval($this->id)."';");
+				while($db->next_record()) {
+					$this->all_types[$db->f("type_id")] = $db->f("begincode").$db->f("type_id");
+				}
+
+
 				$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bt.seizoen_id, bt.inclusief, bt.verplicht, bt.ter_plaatse, bt.eenheid, bt.borg_soort, bt.bedrag, t.type_id, t.begincode FROM bk_type bt INNER JOIN bk_soort bs USING (bk_soort_id) INNER JOIN view_accommodatie t USING (type_id) WHERE t.accommodatie_id='".intval($this->id)."' AND bt.seizoen_id IN (".substr($this->seizoen_inquery,1).")
 				           ORDER BY bt.type_id, bt.inclusief DESC, bs.volgorde;");
 
@@ -137,6 +146,9 @@ class bijkomendekosten {
 						} else {
 							$seizoen_id = $key;
 						}
+
+						$this->cms_data_bk_soorten_type[$db->f("bk_soort_id")]["naam"] = $db->f("naam");
+
 
 						$this->type_data[$seizoen_id][$db->f("bk_soort_id")][$db->f("type_id")]["naam"] = $db->f("naam");
 						$this->type_data[$seizoen_id][$db->f("bk_soort_id")][$db->f("type_id")]["type"] = $db->f("begincode").$db->f("type_id");
@@ -149,9 +161,6 @@ class bijkomendekosten {
 
 					}
 				}
-
-				// echo wt_dump($this->type_data);
-
 			}
 
 			$this->get_cms_data_done = true;
@@ -159,7 +168,8 @@ class bijkomendekosten {
 	}
 
 	private function cms_add_cost_type() {
-		$return .= "Bijkomende kosten toevoegen: <select name=\"bk_new\">";
+		$return .= "<div class=\"cms_bk_add\">";
+		$return .= "Bijkomende kosten toevoegen:&nbsp;&nbsp;<select name=\"bk_new\">";
 		$return .= "<option value=\"0\">-- kies toe te voegen kostensoort --</option>";
 
 		foreach ($this->cms_data_bk_soorten as $key => $value) {
@@ -167,6 +177,7 @@ class bijkomendekosten {
 		}
 
 		$return .= "</select>";
+		$return .= "</div>"; // close .cms_bk_add
 
 
 		return $return;
@@ -184,7 +195,78 @@ class bijkomendekosten {
 
 			$this->seizoen_id = $key;
 
-			$return .= "<div class=\"cms_bk_seizoen\" data-seizoen_id=\"".$key."\"><h2>Bijkomende kosten ".wt_he($value).($this->soort=="type" ? " - type-niveau" : "")."</h2>";
+			$return .= "<div class=\"cms_bk_seizoen\" data-seizoen_id=\"".$key."\" id=\"bijkomendekosten\"><h2>Bijkomende kosten ".wt_he($value).($this->soort=="type" ? " - type-niveau" : "")."</h2>";
+
+
+
+			$db = new DB_sql;
+
+			if($this->soort=="type") {
+				$db->query("SELECT inclusief, exclusief FROM accommodatie WHERE accommodatie_id=(SELECT accommodatie_id FROM type WHERE type_id='".intval($this->id)."');");
+			} else {
+				$db->query("SELECT inclusief, exclusief FROM accommodatie WHERE accommodatie_id='".intval($this->id)."';");
+			}
+			if($db->next_record()) {
+				if($db->f("inclusief")) {
+					$inclusief_tekst_html .= "<h5>Inclusief-tekst accommodatie-niveau</h5>".nl2br(wt_htmlent($db->f("inclusief")))."<br/>";
+					if($this->soort=="accommodatie") {
+						$in_exclusief_tekst = true;
+					}
+				}
+				if($db->f("exclusief")) {
+					$exclusief_tekst_html .= "<h5>Exclusief-tekst accommodatie-niveau</h5>".nl2br(wt_htmlent($db->f("exclusief")))."<br/>";
+					if($this->soort=="accommodatie") {
+						$in_exclusief_tekst = true;
+					}
+				}
+			}
+			if($this->soort=="type") {
+				$db->query("SELECT inclusief, exclusief FROM type WHERE type_id='".intval($this->id)."';");
+				if($db->next_record()) {
+					if($db->f("inclusief")) {
+						if($inclusief_tekst_html) {
+							$inclusief_tekst_html .= "<br/><br/>";
+						}
+						$inclusief_tekst_html .= "<h5>Inclusief-tekst type-niveau</h5>".nl2br(wt_htmlent($db->f("inclusief")))."<br/>";
+						$in_exclusief_tekst = true;
+					}
+					if($db->f("exclusief")) {
+						if($exclusief_tekst_html) {
+							$exclusief_tekst_html .= "<br/><br/>";
+						}
+						$exclusief_tekst_html .= "<h5>Exclusief-tekst type-niveau</h5>".nl2br(wt_htmlent($db->f("exclusief")))."<br/>";
+						$in_exclusief_tekst = true;
+					}
+				}
+
+			} else {
+				$db->query("SELECT type_id, inclusief, exclusief FROM type WHERE accommodatie_id='".intval($this->id)."' ORDER BY type_id;");
+				while($db->next_record()) {
+					if($db->f("inclusief")) {
+						if($inclusief_tekst_html) {
+							$inclusief_tekst_html .= "<br/>";
+						}
+						$inclusief_tekst_html .= "<h5>Inclusief-tekst type-niveau: <a href=\"".$vars["path"]."cms_types.php?show=2&1k0=".intval($this->id)."&2k0=".$db->f("type_id")."#bijkomendekosten\" target=\"_blank\">".$this->all_types[$db->f("type_id")]."</a></h5>";
+					}
+					if($db->f("exclusief")) {
+						if($exclusief_tekst_html) {
+							$exclusief_tekst_html .= "<br/>";
+						}
+						$exclusief_tekst_html .= "<h5>Exclusief-tekst type-niveau: <a href=\"".$vars["path"]."cms_types.php?show=2&1k0=".intval($this->id)."&2k0=".$db->f("type_id")."#bijkomendekosten\" target=\"_blank\">".$this->all_types[$db->f("type_id")]."</a></h5>";
+					}
+				}
+			}
+
+			if($inclusief_tekst_html or $exclusief_tekst_html) {
+				$return .= "<table class=\"cms_bk_oude_teksten\"><tr>";
+				if($inclusief_tekst_html) {
+					$return .= "<td>".$inclusief_tekst_html."</td>";
+				}
+				if($exclusief_tekst_html) {
+					$return .= "<td>".$exclusief_tekst_html."</td>";
+				}
+				$return .= "</tr></table>";
+			}
 
 			$return .= "<form method=\"post\">";
 			$return .= "<input type=\"hidden\" name=\"seizoen_id\" value=\"".$key."\" />";
@@ -195,9 +277,13 @@ class bijkomendekosten {
 
 			$return .= $this->cms_all_rows();
 
+			if($in_exclusief_tekst) {
+				$return .= "<div style=\"text-align:right;margin-top:5px;margin-bottom:5px;\"><input type=\"checkbox\" name=\"tmp_teksten_omgezet\" value=\"1\" id=\"tmp_teksten_omgezet\"".($this->cms_data_tmp_teksten_omgezet ? " checked" : "")."><label for=\"tmp_teksten_omgezet\">&nbsp;alle in- en exclusief-teksten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." zijn verwerkt</label></div>";
+			}
 			$return .= "<input type=\"submit\" value=\"OPSLAAN\"".($this->other_type_data ? " disabled=\"disabled\"" : "")."><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
+			$return .= "<div class=\"clear\"></div>";
+
 			if($this->other_type_data) {
-				$return .= "<div class=\"clear\"></div>";
 				$return .= "<div class=\"cms_bk_type_afwijkingen_overschrijven\"><input type=\"checkbox\" name=\"type_afwijkingen_overschrijven\" id=\"type_afwijkingen_overschrijven\"><label for=\"type_afwijkingen_overschrijven\">&nbsp;type-afwijkingen overschrijven</label></div>";
 			}
 
@@ -229,36 +315,40 @@ class bijkomendekosten {
 		$return .= "</div>"; // close .cms_bk_row
 
 
-		$check_fields_other_type_data = [ "inclusief", "verplicht", "ter_plaatse", "eenheid", "borg_soort", "bedrag" ];
+		$check_fields_other_type_data = array( "inclusief", "verplicht", "ter_plaatse", "eenheid", "borg_soort", "bedrag" );
+
 
 		if(is_array($this->data[$this->seizoen_id])) {
 			foreach ($this->data[$this->seizoen_id] as $key => $value) {
-				// echo wt_dump($value);
-				// exit;
-				// $return .= wt_he($value["naam"]);
 				$return .= $this->cms_new_row($key);
 
+				$soort_id_gehad[$key] = true;
 
-				if(is_array($this->type_data[$this->seizoen_id][$key])) {
-					foreach ($this->type_data[$this->seizoen_id][$key] as $key2 => $value2) {
+				if(is_array($this->all_types)) {
+					foreach ($this->all_types as $key2 => $value2) {
 						$other_type_data = false;
-						// $other_type_data = true;
-						foreach ($value2 as $key3 => $value3) {
-							// echo $value3." == ".$value[$key3]." == ".$key3."<br/>";
-							if(in_array($key3, $check_fields_other_type_data) and $value3<>$value[$key3]) {
-								$other_type_data = true;
-								// echo $key3.": ".$value3." <> ".$value[$key3]."<br/>";
+						$other_type_empty = false;
+
+// echo wt_dump($this->type_data[$this->seizoen_id][$key][$key2]);
+
+						if(is_array($this->type_data[$this->seizoen_id][$key][$key2])) {
+							foreach ($this->type_data[$this->seizoen_id][$key][$key2] as $key3 => $value3) {
+								if(in_array($key3, $check_fields_other_type_data) and $value3<>$value[$key3]) {
+									$other_type_data = true;
+									// echo $key2.": ".$key3." ==".$value3."== ==".$value[$key3]."==<br/>";
+								}
 							}
+						} elseif($this->data[$this->seizoen_id][$key]["filled"]) {
+							$other_type_data = true;
+							$other_type_empty = true;
 						}
 
-						// echo wt_dump($this->type_data[$this->seizoen_id][$key]);
-						// exit;
-
-
 						if($other_type_data) {
+							// costs that differ from type-level
+
 							$this->other_type_data = true;
 							$return .= "<div class=\"cms_bk_row cms_bk_row_afwijkend_type\" data-soort_id=\"".$key."\">";
-							$return .= "<div>&nbsp;&nbsp;&nbsp;afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."\" target=\"_blank\">".$value2["type"]."</a></div>";
+							$return .= "<div>&nbsp;&nbsp;&nbsp;afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."#bijkomendekosten\" target=\"_blank\">".$value2."</a>".($other_type_empty ? ": kosten gewist" : "")."</div>";
 							$return .= "<div>".wt_he($vars["bk_inclusief"][$this->check_for_differences_type_accommodation("inclusief", $key, $key2)])."</div>";
 							$return .= "<div>".wt_he($vars["bk_verplicht"][$this->check_for_differences_type_accommodation("verplicht", $key, $key2)])."</div>";
 							if($this->cms_data_bk_soorten[$key]["borg"]) {
@@ -266,18 +356,56 @@ class bijkomendekosten {
 							} else {
 								$return .= "<div>".wt_he($vars["bk_ter_plaatse"][$this->check_for_differences_type_accommodation("ter_plaatse", $key, $key2)])."</div>";
 							}
-							$return .= "<div>".wt_he($this->check_for_differences_type_accommodation("bedrag", $key, $key2))."</div>";
+							$return .= "<div class=\"cms_bk_bedrag\">".wt_he($this->check_for_differences_type_accommodation("bedrag", $key, $key2))."</div>";
 							$return .= "<div>".wt_he($vars["bk_eenheid"][$this->check_for_differences_type_accommodation("eenheid", $key, $key2)])."</div>";
 							$return .= "<div>&nbsp;</div>";
 							$return .= "</div>"; // close .cms_bk_row
-
 						}
 					}
-					// [$db->f("type_id")]["naam"] = $db->f("naam");
-
 				}
 			}
 		}
+
+		// costs that exist on type-level but not on accommodation-level
+		if(is_array($this->type_data[$this->seizoen_id])) {
+			foreach ($this->type_data[$this->seizoen_id] as $key => $value) {
+				if(!$soort_id_gehad[$key]) {
+
+					// $return .= "<div class=\"cms_bk_row".($empty ? " cms_bk_new_row cms_bk_to_be_filled" : "")."\" data-soort_id=\"".$bk_soort_id."\">";
+					$return .= "<div class=\"cms_bk_row cms_bk_row_afwijkend_accommodatie\">";
+					$return .= "<div>".wt_he($this->cms_data_bk_soorten_type[$key]["naam"])."</div>";
+
+					$return .= "<div>&nbsp;</div>";
+					$return .= "<div>&nbsp;</div>";
+					$return .= "<div>&nbsp;</div>";
+					$return .= "<div>&nbsp;</div>";
+					$return .= "<div>&nbsp;</div>";
+					$return .= "<div>&nbsp;</div>";
+
+					$return .= "</div>";
+
+
+					foreach ($value as $key2 => $value2) {
+
+						$this->other_type_data = true;
+						$return .= "<div class=\"cms_bk_row cms_bk_row_afwijkend_type\" data-soort_id=\"".$key."\">";
+						$return .= "<div>&nbsp;&nbsp;&nbsp;afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."\" target=\"_blank\">".$value2["type"]."</a>".($other_type_empty ? ": kosten gewist" : "")."</div>";
+						$return .= "<div>".wt_he($vars["bk_inclusief"][$this->check_for_differences_type_accommodation("inclusief", $key, $key2)])."</div>";
+						$return .= "<div>".wt_he($vars["bk_verplicht"][$this->check_for_differences_type_accommodation("verplicht", $key, $key2)])."</div>";
+						if($this->cms_data_bk_soorten[$key]["borg"]) {
+							$return .= "<div>".wt_he($vars["bk_borg_soort"][$this->check_for_differences_type_accommodation("borg_soort", $key, $key2)])."</div>";
+						} else {
+							$return .= "<div>".wt_he($vars["bk_ter_plaatse"][$this->check_for_differences_type_accommodation("ter_plaatse", $key, $key2)])."</div>";
+						}
+						$return .= "<div>".wt_he($this->check_for_differences_type_accommodation("bedrag", $key, $key2))."</div>";
+						$return .= "<div>".wt_he($vars["bk_eenheid"][$this->check_for_differences_type_accommodation("eenheid", $key, $key2)])."</div>";
+						$return .= "<div>&nbsp;</div>";
+						$return .= "</div>"; // close .cms_bk_row
+					}
+				}
+			}
+		}
+
 		$return .= "</div>"; // close .cms_bk_all_rows
 
 		return $return;
@@ -322,7 +450,7 @@ class bijkomendekosten {
 			$data = $this->data[$this->seizoen_id][$bk_soort_id];
 		}
 
-		$return .= "<div class=\"cms_bk_row".($empty ? " cms_bk_new_row" : "")."\" data-soort_id=\"".$bk_soort_id."\">";
+		$return .= "<div class=\"cms_bk_row".($empty ? " cms_bk_new_row cms_bk_to_be_filled" : "")."\" data-soort_id=\"".$bk_soort_id."\">";
 		$return .= "<div>".wt_he($this->cms_data_bk_soorten[$bk_soort_id]["naam"])."</div>";
 
 		if($this->cms_data_bk_soorten[$bk_soort_id]["borg"]) {

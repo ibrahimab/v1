@@ -56,7 +56,15 @@ $cms->show_field(57,"naam","Naam");
 # Controle op delete-opdracht
 if($_GET["delete"]==57 and $_GET["57k0"]) {
 
+	$db->query("SELECT accommodatie_id FROM bk_accommodatie WHERE bk_soort_id='".addslashes($_GET["57k0"])."';");
+	if($db->next_record()) {
+		$cms->delete_error(57,"Deze kostensoort bevat nog gekoppelde accommodaties");
+	}
 
+	$db->query("SELECT type_id FROM bk_type WHERE bk_soort_id='".addslashes($_GET["57k0"])."';");
+	if($db->next_record()) {
+		$cms->delete_error(57,"Deze kostensoort bevat nog gekoppelde types");
+	}
 }
 
 # Bij wissen record: DELETEn van andere tabellen
@@ -69,15 +77,18 @@ if($cms->set_delete_init(57)) {
 #
 
 # Edit edit_field($counter,$obl,$id,$title="",$prevalue="",$options="",$layout="")
-$cms->edit_field(57,1,"volgorde","Volgorde in CMS", array("text"=>$volgorde));
+$cms->edit_field(57,1,"volgorde","Volgorde op accommodatiepagina", array("text"=>$volgorde));
 
 if($vars["cmstaal"]) {
 
-	// $cms->edit_field(57,1,"naam","Omschrijving (voor klant) NL","",array("noedit"=>true));
-	// $cms->edit_field(57,1,"naam_".$vars["cmstaal"],"Omschrijving (voor klant) ".strtoupper($vars["cmstaal"]));
+	$cms->edit_field(57,1,"naam","Naam NL","",array("noedit"=>true));
+	$cms->edit_field(57,1,"naam_".$vars["cmstaal"],"Naam ".strtoupper($vars["cmstaal"]), "", array("data_field"=>array("copy_field_to"=>"vouchernaam_".$vars["cmstaal"])),array("input_class"=>"wtform_input copy_field"));
 
-	// $cms->edit_field(57,0,"omschrijving","Toelichting (voor klant, na doorklikken) NL","",array("noedit"=>true));
-	// $cms->edit_field(57,0,"omschrijving_".$vars["cmstaal"],"Toelichting (voor klant, na doorklikken) ".strtoupper($vars["cmstaal"]));
+	$cms->edit_field(57,1,"vouchernaam","Naam op voucher NL","",array("noedit"=>true));
+	$cms->edit_field(57,1,"vouchernaam_".$vars["cmstaal"],"Naam op voucher ".strtoupper($vars["cmstaal"]));
+
+	$cms->edit_field(57,0,"toelichting","Toelichting NL","",array("noedit"=>true));
+	$cms->edit_field(57,0,"toelichting_".$vars["cmstaal"],"Toelichting  (accommodatiepagina, na doorklikken) ".strtoupper($vars["cmstaal"]));
 } else {
 
 	$cms->edit_field(57,1,"naam","Naam","",array("data_field"=>array("copy_field_to"=>"vouchernaam")),array("input_class"=>"wtform_input copy_field"));
@@ -87,13 +98,17 @@ if($vars["cmstaal"]) {
 
 $cms->edit_field(57,1,"altijd_invullen","Deze kosten moeten bij iedere accommodatie worden ingevuld");
 $cms->edit_field(57,1,"altijd_diversen","Deze kosten vallen altijd onder het kopje \"Diversen\"");
-$cms->edit_field(57,1,"prijs_per_nacht","Het ingevoerde tarief is een prijs per nacht (systeem rekent dit automatisch om naar weekprijs)");
-$cms->edit_field(57,1,"borg","Dit is een borg");
 $cms->edit_field(57,0,"eenheden","Te selecteren eenheden", "", "", array("one_per_line"=>true));
 
 
+$cms->edit_field(57,0,"htmlrow","<br/><hr><br/><i>Verrekening kosten</i>");
+
 $cms->edit_field(57,0,"hoort_bij_accommodatieinkoop","Deze kosten worden berekend op de factuur van de accommodatie-leverancier");
 $cms->edit_field(57,1,"optiecategorie","Optie-categorie");
+
+$cms->edit_field(57,0,"htmlrow","<br/><hr><br/><i>Specifieke instellingen (alleen nodig voor borg en toeristenbelasting)</i>");
+$cms->edit_field(57,1,"prijs_per_nacht","Het ingevoerde tarief is een prijs per nacht (systeem rekent dit automatisch om naar weekprijs)");
+$cms->edit_field(57,1,"borg","Dit is een borg");
 
 
 
