@@ -18,6 +18,9 @@ todo:
 - doorlezen PRO-27 en vergelijken met ontwikkelde functionaliteit: alles afgedekt?
 - ook afwijkingen met ontbrekende gegevens bouwen
 
+zoek-en-boek: tekstzoeken niet onthouden
+
+
 bespreken:
 - waar is "borg" "niet van toepassing" voor nodig?
 

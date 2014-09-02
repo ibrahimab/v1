@@ -1100,7 +1100,8 @@ a.opm {
 }
 
 .cms_bk_new_row {
-
+	background-color: red !important;
+	/*display: none;*/
 }
 
 .cms_bk_row .delete {
@@ -1110,6 +1111,10 @@ a.opm {
 
 .cms_bk_row .delete:hover {
 	color: red;
+}
+
+.cms_bk_row_afwijkend_type {
+	font-style: italic;
 }
 
 .cms_bk_seizoen input[type=submit] {
