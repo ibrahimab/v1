@@ -3,12 +3,30 @@ When this file is updated in Git it means there are changes to the database-stru
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
 
+2-sep-2014 17:16
+ALTER TABLE `accommodatie` ADD `tmp_teksten_omgezet` TINYINT( 1 ) NOT NULL AFTER `video_url` ;
+ALTER TABLE `type` ADD `tmp_teksten_omgezet` TINYINT( 1 ) NOT NULL AFTER `video_url` ;
 
-22-aug-2014 17:05
+DROP TABLE IF EXISTS `bk_accommodatie`;
+CREATE TABLE IF NOT EXISTS `bk_accommodatie` (
+  `bk_soort_id` int(11) NOT NULL,
+  `accommodatie_id` int(11) NOT NULL,
+  `seizoen_id` int(11) NOT NULL,
+  `inclusief` tinyint(1) DEFAULT NULL,
+  `verplicht` tinyint(1) DEFAULT NULL,
+  `ter_plaatse` tinyint(1) DEFAULT NULL,
+  `eenheid` tinyint(4) DEFAULT NULL,
+  `borg_soort` tinyint(4) DEFAULT NULL,
+  `bedrag` decimal(10,2) DEFAULT NULL,
+  `delete_after` tinyint(1) NOT NULL,
+  `adddatetime` datetime NOT NULL,
+  `editdatetime` datetime NOT NULL,
+  PRIMARY KEY (`bk_soort_id`,`accommodatie_id`,`seizoen_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `bk_soort`;
 CREATE TABLE IF NOT EXISTS `bk_soort` (
-`bk_soort_id` int(11) NOT NULL,
+  `bk_soort_id` int(11) NOT NULL AUTO_INCREMENT,
   `volgorde` int(11) NOT NULL,
   `naam` varchar(255) NOT NULL,
   `naam_en` varchar(255) NOT NULL,
@@ -30,17 +48,28 @@ CREATE TABLE IF NOT EXISTS `bk_soort` (
   `hoort_bij_accommodatieinkoop` tinyint(1) NOT NULL,
   `optiecategorie` tinyint(4) NOT NULL,
   `adddatetime` datetime NOT NULL,
-  `editdatetime` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `editdatetime` datetime NOT NULL,
+  PRIMARY KEY (`bk_soort_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
-ALTER TABLE `bk_soort`
- ADD PRIMARY KEY (`bk_soort_id`);
+DROP TABLE IF EXISTS `bk_type`;
+CREATE TABLE IF NOT EXISTS `bk_type` (
+  `bk_soort_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `seizoen_id` int(11) NOT NULL,
+  `inclusief` tinyint(1) DEFAULT NULL,
+  `verplicht` tinyint(1) DEFAULT NULL,
+  `ter_plaatse` tinyint(1) DEFAULT NULL,
+  `eenheid` tinyint(4) DEFAULT NULL,
+  `borg_soort` tinyint(4) DEFAULT NULL,
+  `bedrag` decimal(10,2) DEFAULT NULL,
+  `delete_after` tinyint(1) NOT NULL,
+  `adddatetime` datetime NOT NULL,
+  `editdatetime` datetime NOT NULL,
+  PRIMARY KEY (`bk_soort_id`,`type_id`,`seizoen_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-ALTER TABLE `bk_soort`
-MODIFY `bk_soort_id` int(11) NOT NULL AUTO_INCREMENT;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
 
 
 25-jul-2014 15:44
