@@ -483,6 +483,7 @@ if($_GET["stap"]==1) {
 		if(wt_validmail($_POST["mail"])) {
 
 			$mail=new wt_mail;
+			$mail->settings["mail_proxy_microsoftmail"] = true;
 			$mail->from=$vars["email"];
 			$mail->fromname=$vars["websitenaam"];
 			$mail->to=$_POST["mail"];

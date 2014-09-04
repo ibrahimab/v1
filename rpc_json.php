@@ -470,6 +470,7 @@ if ( $_GET["t"]==1 ) {
 			if(wt_validmail($emails[$i])) {
 
 				$mail=new wt_mail;
+				$mail->settings["mail_proxy_microsoftmail"] = true;
 				$mail->from=$vars["email"];
 				$mail->fromname=$_GET["verzenderAdresnaam"];
 				$mail->subject=html("mailonderwerp","favorieten");
@@ -492,6 +493,7 @@ if ( $_GET["t"]==1 ) {
 			#
 			if(wt_validmail($_GET["verzenderAdres"])) {
 				$mail=new wt_mail;
+				$mail->settings["mail_proxy_microsoftmail"] = true;
 				$mail->from=$vars["email"];
 				$mail->fromname=$_GET["verzenderAdresnaam"];
 				$mail->subject=html("mailonderwerp","favorieten");

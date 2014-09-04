@@ -28,6 +28,7 @@ class paymentmail {
 		$mailtekst_ontvangenbetaling = $this->get_mailtext($boeking_id, $amount, $date);
 
 		$mail = new wt_mail;
+		$mail->settings["mail_proxy_microsoftmail"] = true;
 		$mail->from=$mailtekst_ontvangenbetaling["from"];
 		$mail->fromname=$mailtekst_ontvangenbetaling["fromname"];
 		$mail->subject=$mailtekst_ontvangenbetaling["subject"];

@@ -395,6 +395,7 @@ if($form->okay) {
 
 		# Mail aan klant
 		$mail=new wt_mail;
+		$mail->settings["mail_proxy_microsoftmail"] = true;
 		$mail->subject=txt(($_GET["o"]||$form->input["optie"] ? "optieaanvraag" : "beschikbaarheidaanvraag"),"beschikbaarheid")." ".$vars["websitenaam"];
 		$mail->from=$vars["email"];
 		$mail->fromname=$vars["websitenaam"];

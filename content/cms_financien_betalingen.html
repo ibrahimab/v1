@@ -596,6 +596,7 @@ if($_GET["uitgaand"]==1) {
 
 				# Mail versturen aan klant
 				$mail=new wt_mail;
+				$mail->settings["mail_proxy_microsoftmail"] = true;
 				if($login->vars["email"]) {
 					$mail->from=$login->vars["email"];
 					$mail->fromname=$mailtekst_aanmaning["fromname"].": ".$login->vars["voornaam"];

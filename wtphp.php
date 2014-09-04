@@ -1,5 +1,15 @@
 <?php
 
+// each client should remember their session id for EXACTLY 1 hour
+ini_set('session.gc_maxlifetime', 10800);
+session_set_cookie_params(10800);
+
+phpinfo();
+exit;
+
+
+
+
 include("admin/vars.php");
 
 
