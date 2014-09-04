@@ -34,27 +34,6 @@ if($mustlogin) {
 
 	}
 
-	# Taal bepalen
-	if($_GET["cmstaal"]) {
-		if($_GET["cmstaal"]=="nl") {
-			$vars["cmstaal"]="";
-		} else {
-			$vars["cmstaal"]=$_GET["cmstaal"];
-			if($vars["cmstaal"]) {
-				$vars["ttv_cms"]="_".$vars["cmstaal"];
-			}
-		}
-	} else {
-		if($_SESSION["cmstaal"]=="nl") {
-			$vars["cmstaal"]="";
-		} else {
-			$vars["cmstaal"]=$_SESSION["cmstaal"];
-			if($vars["cmstaal"]) {
-				$vars["ttv_cms"]="_".$vars["cmstaal"];
-			}
-		}
-	}
-
 	# wzt bepalen
 	if(!$_GET["wzt"] and $_GET["edit"] and ($id=="cms_accommodaties" or $id=="cms_plaatsen" or $id=="cms_skigebieden")) {
 		if($id=="cms_accommodaties" and ($_GET["edit"]==1 or $_GET["show"]==1) and $_GET["1k0"]) {
@@ -130,6 +109,32 @@ if($mustlogin) {
 		}
 	}
 	$login->end_declaration();
+
+	# Taal bepalen
+	if($_GET["cmstaal"]) {
+		if($_GET["cmstaal"]=="nl") {
+			$vars["cmstaal"]="";
+		} else {
+			$vars["cmstaal"]=$_GET["cmstaal"];
+			if($vars["cmstaal"]) {
+				$vars["ttv_cms"]="_".$vars["cmstaal"];
+			}
+		}
+	} else {
+
+		if($login->vars["cmstaal"]) {
+			$_SESSION["cmstaal"]=$login->vars["cmstaal"];
+		}
+
+		if($_SESSION["cmstaal"]=="nl") {
+			$vars["cmstaal"]="";
+		} else {
+			$vars["cmstaal"]=$_SESSION["cmstaal"];
+			if($vars["cmstaal"]) {
+				$vars["ttv_cms"]="_".$vars["cmstaal"];
+			}
+		}
+	}
 
 	# zorgen dat cookie ook gevuld is indien er van buiten kantoor is ingelogd ($login->settings["settings"]["rememberpassword"] staat dan uit)
 	if($login->user_id and !$_COOKIE["loginuser"]["chalet"]) {

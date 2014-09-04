@@ -67,14 +67,16 @@ if($_GET["hoogseizoenlev"]) {
 # CMS-taal
 if($_GET["cmstaal"]) {
 #	setcookie("cmstaal",$_GET["cmstaal"]);
+	$db->query("UPDATE user SET cmstaal='".addslashes($_GET["cmstaal"])."' WHERE user_id='".intval($login->user_id)."';");
 	$_SESSION["cmstaal"]=$_GET["cmstaal"];
 	header("Location: ".$vars["path"]."cms.php");
 	exit;
-} elseif(!$_SESSION["cmstaal"]) {
-#	setcookie("cmstaal","nl");
-	$_SESSION["cmstaal"]="nl";
-	header("Location: ".$_SERVER["REQUEST_URI"]);
-	exit;
+} elseif(!$_SESSION["cmstaal"] and !$_SERVER["REQUEST_METHOD"]<>"POST") {
+	if($login->vars["cmstaal"]) {
+		$_SESSION["cmstaal"]=$login->vars["cmstaal"];
+		header("Location: ".$_SERVER["REQUEST_URI"]);
+		exit;
+	}
 }
 
 # Cookie plaatsen
