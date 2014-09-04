@@ -13,6 +13,10 @@ if($mustlogin) {
 	ini_set("session.use_trans_sid",0);
 	ini_set("session.cookie_httponly",1);
 
+	// each client should remember their session id for EXACTLY 3 hours
+	ini_set('session.gc_maxlifetime', 10800);
+	session_set_cookie_params(10800);
+
 	wt_session_start();
 
 	if(!$cron and !$cronmap and !$css) {
