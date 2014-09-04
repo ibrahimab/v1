@@ -166,7 +166,7 @@ function __autoload($classname) {
 		require_once $unixdir."admin/siteclass/siteclass.".$classname . ".php";
 		return true;
 	} else {
-		if($classname!="MYPDF") {
+		if($classname!="MYPDF" and !preg_match("@Horde@", $classname)) {
 
 			$debug=@debug_backtrace();
 

@@ -18,11 +18,20 @@ if($mustlogin) {
 	session_set_cookie_params(10800);
 
 	wt_session_start();
+	if(!$_SESSION["wt_session_start_time"]) {
+		$_SESSION["wt_session_start_time"] = time();
+	}
 
 	if(!$cron and !$cronmap and !$css) {
-		include_once "Text/Diff.php";
-		include_once "Text/Diff/Renderer.php";
-		include_once "Text/Diff/Renderer/inline.php";
+
+		require_once 'Horde/Autoloader.php';
+		require_once 'Horde/Autoloader/ClassPathMapper.php';
+		require_once 'Horde/Autoloader/ClassPathMapper/Default.php';
+
+		$autoloader = new Horde_Autoloader();
+		$autoloader->addClassPathMapper(new Horde_Autoloader_ClassPathMapper_Default('/usr/share/php'));
+		$autoloader->registerAutoloader();
+
 	}
 
 	# Taal bepalen
@@ -305,6 +314,9 @@ if($mustlogin) {
 	if($login->logged_in) {
 		if(defined("wt_server_name")) {
 			$layout->settings["logout_extra"] .= " - server: ".wt_server_name;
+		}
+		if($login->userlevel>=5) {
+			$layout->settings["logout_extra"] .= " - sessieduur: ".(time()-$_SESSION["wt_session_start_time"]);
 		}
 
 		$layout->settings["logout_extra"] .= "<div style=\"margin-top:3px;\"><form method=\"get\" style=\"margin:0px;\" action=\"".$vars["path"]."cms.php\"><input type=\"hidden\" name=\"bc\" value=\"".wt_he($_GET["bc"])."\"><input type=\"text\" name=\"cmssearch\">&nbsp;<input type=\"submit\" value=\" OK \"></form></div>";
@@ -2054,12 +2066,20 @@ function xml_structure_convert($tempxml) {
 }
 
 function wt_diff($old, $new) {
+
+	$old = utf8_encode($old);
+	$new = utf8_encode($new);
+
 	$tekst1=split("\n",trim($old));
 	$tekst2=split("\n",trim($new));
-	$diff = &new Text_Diff($tekst1,$tekst2);
-	$renderer = &new Text_Diff_Renderer_inline();
-	$return=$renderer->render($diff);
+
+	$check_diff = new Horde_Text_Diff( $engine = 'auto', $params = array( $tekst1, $tekst2 ) );
+	$renderer = new Horde_Text_Diff_Renderer_Inline();
+	$return = $renderer->render($check_diff);
+
+	$return = utf8_decode($return);
 	return $return;
+
 }
 
 function verzameltype_berekenen($seizoenid, $typeid) {
