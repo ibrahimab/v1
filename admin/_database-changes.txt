@@ -2,6 +2,8 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+4-sep-2014 18:47
+ALTER TABLE `user` ADD `cmstaal` CHAR( 2 ) NOT NULL DEFAULT 'nl' AFTER `cmslog_pagina` ;
 
 2-sep-2014 17:16
 ALTER TABLE `accommodatie` ADD `tmp_teksten_omgezet` TINYINT( 1 ) NOT NULL AFTER `video_url` ;
