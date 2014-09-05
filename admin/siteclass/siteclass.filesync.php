@@ -36,7 +36,8 @@ Het sync-script werkt als volgt:
       kan ik nagaan wat er mis is gegaan. Hier een overzicht van de mogelijke exit-codes van rsync: http://wpkg.org/Rsync_exit_codes
 
     - Indien de bestemming-server offline is op het moment van syncen dan wordt bij de volgende run (10 seconden later) opnieuw
-      geprobeerd het betreffende bestand te syncen, net zo lang totdat de sync geslaagd is. Hierbij wordt exact de volgorde aangehouden van het aanmaken/wissen van de bronbestanden.
+      geprobeerd het betreffende bestand te syncen, net zo lang totdat de sync geslaagd is. Hierbij wordt exact de volgorde aangehouden
+      van het aanmaken/wissen van de bronbestanden.
 
     - Omdat bij PHP-daemons de kans bestaat dat langzaamaan het geheugen volloopt zal /var/www/chalet.nl/html/cron/filesync-daemon.php
       regelmatig beëindigd worden. Het upstart-script zal er via de respawn-parameter voor zorgen dat het script in dat geval opnieuw wordt gestart.

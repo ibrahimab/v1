@@ -259,6 +259,11 @@ $cms->show_name[9]="seizoen";
 $cms->show_mainfield[9]="naam";
 $cms->show_field(9,"naam");
 
+function form_before_goto($form) {
+	$wt_redis = new wt_redis;
+	$wt_redis->array_group_delete("vars_aankomstdatum");
+}
+
 # End declaration
 $cms->end_declaration();
 

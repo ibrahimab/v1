@@ -1,5 +1,52 @@
 <?php
 
+// echo wt_redis_host;
+// exit;
+// 87.250.157.203
+
+
+include("admin/vars.php");
+
+$wt_redis = new wt_redis;
+
+$a["test"][1]="test1";
+$a["test"][2]="test2";
+$a["test2"][1]="test2-1";
+$a["test2"][2]="test2-2";
+
+// $wt_redis->store_array("testarray", "a", $a);
+
+
+$b = $wt_redis->get_array("testarray", "a");
+echo wt_dump($a);
+echo wt_dump($b);
+
+
+// echo wt_dump(get_defined_constants());
+
+
+$redis = new Redis() or die("Cannot load Redis module.");
+
+// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	$redis->connect('87.250.157.203', 6379);
+// }
+
+// $redis->connect('localhost');
+// $redis->set('random', rand(5000,6000));
+echo $redis->get('random');
+
+
+// $redis = new Redis();
+// // $redis->connect('87.250.157.203', 6379);
+// $redis->connect('127.0.0.1', 6379);
+
+// phpinfo();
+
+echo "OK";
+
+
+
+exit;
 // each client should remember their session id for EXACTLY 1 hour
 ini_set('session.gc_maxlifetime', 10800);
 session_set_cookie_params(10800);
@@ -10,7 +57,6 @@ exit;
 
 
 
-include("admin/vars.php");
 
 
 
