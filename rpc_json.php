@@ -27,7 +27,13 @@ if ( $_GET["test"] ) {
 	header( 'Content-type: application/json; charset=UTF-8' );
 }
 
-if ( $_GET["t"]==1 ) {
+if ( $_GET["t"]=="keep_session_alive" ) {
+	// keep PHP-session alive (functions.js connects to this every 5 minutes)
+
+	$return["ok"]=true;
+	// wt_mail("systeembeheer@webtastic.nl", "keep_session_alive (test)", date("r")." ".$_SERVER["REQUEST_URI"]."\n".$_SERVER["REMOTE_ADDR"]);
+
+} elseif ( $_GET["t"]==1 ) {
 
 	//
 	// Op Google Maps accommodaties plaatsen

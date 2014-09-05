@@ -713,7 +713,6 @@ $(document).ready(function() {
 		// jquery
 		//
 
-
 		// "Alle types van deze accommodatie" elk blokje dezelfde hoogte
 		$("div.alletypes_typenaam").each(function() {
 			maxHeight = Math.max(maxHeight, $(this).height());
@@ -1793,7 +1792,7 @@ $(document).ready(function() {
 			return false;
 		});
 
-                $("#notification_bottombar_close").click(function () {
+				$("#notification_bottombar_close").click(function () {
 			// $("#cookie_bottombar").css("display","none");
 			$("#notification_bottombar").animate({top:"-150px"},600,function() {});
 				chalet_createCookie("desktopnotification","1",3650);
@@ -2939,5 +2938,17 @@ $(document).ready(function() {
 				zoekopdracht_naar_analytics_sturen("gebruikte zoekfunctie","klik op 'uitgebreid zoeken' bij een thema");
 			}
 		}
+
+
+		// keep PHP-session alive (connect to rpc_json.php every 5 minutes)
+		var keep_session_alive = setInterval(function () {
+
+			$.getJSON(absolute_path+"rpc_json.php", {"t": "keep_session_alive"},
+				function(data) {
+
+				}
+			);
+		}, 300000);
+
 	}
 });
