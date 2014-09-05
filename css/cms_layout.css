@@ -1130,6 +1130,14 @@ a.opm {
 	font-style: italic;
 }
 
+.cms_bk_save_row > div:nth-child(1) {
+
+}
+
+.cms_bk_row_overwrite {
+	color: red;
+}
+
 .cms_bk_seizoen input[type=submit] {
 	display: block;
 	margin-top: 10px;
@@ -1139,6 +1147,7 @@ a.opm {
 .cms_bk_type_afwijkingen_overschrijven {
 	display: block;
 	float: right;
+	visibility: hidden;
 }
 
 .cms_bk_seizoen .ajaxloader {

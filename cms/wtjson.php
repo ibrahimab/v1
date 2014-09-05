@@ -4,7 +4,7 @@
 # JSON communicatie met de database voor het Chalet.nl-CMS
 #
 
-if($_GET["t"]=="bk_new" or $_GET["t"]=="bk_save") {
+if($_GET["t"]=="keep_session_alive" or $_GET["t"]=="bk_new" or $_GET["t"]=="bk_save") {
 	$vars["cms_geen_aankomstdata_nodig"]=true;
 }
 
@@ -17,7 +17,16 @@ include("../admin/vars.php");
 #wt_jabber("boschman@gmail.com",$vars["basehref"].$_SERVER["REQUEST_URI"]);
 #mail("jeroen@webtastic.nl","json","json ".wt_dump($_GET,false));
 
-if($_GET["t"]==1) {
+
+if($_GET["t"]=="keep_session_alive") {
+	// keep PHP-session alive (cms_functions.js connects to this every 5 minutes)
+
+	$json["ok"] = true;
+
+	echo json_encode($json);
+	// wt_mail("systeembeheer@webtastic.nl", "keep_session_alive (test)", date("r")." ".$login->vars["voornaam"]." ".$_SERVER["REQUEST_URI"]);
+
+} elseif($_GET["t"]==1) {
 	#
 	# Beschikbaar reserveringsnummer_2 opvragen bij garanties
 	#
@@ -166,9 +175,9 @@ if($_GET["t"]==1) {
 
 	if($_GET["soort"]=="accommodatie" or $_GET["soort"]=="type") {
 		if($_GET["start"]) {
-			$db->query("UPDATE bk_".$_GET["soort"]." SET delete_after=1 WHERE ".$_GET["soort"]."_id='".intval($_GET["id"])."' AND seizoen_id='".intval($_GET["seizoen_id"])."';");
+			$db->query("UPDATE bk_".$_GET["soort"]." SET delete_after=1 WHERE ".$_GET["soort"]."_id='".intval($_GET["id"])."' AND seizoen_id='".intval($_GET["seizoen_id"])."' AND bk_soort_id NOT IN (".addslashes($_GET["not_inquery"]).");");
 			if($_GET["soort"]=="accommodatie") {
-				$db->query("UPDATE bk_type SET delete_after=1 WHERE type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."') AND seizoen_id='".intval($_GET["seizoen_id"])."';");
+				$db->query("UPDATE bk_type SET delete_after=1 WHERE type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."') AND seizoen_id='".intval($_GET["seizoen_id"])."' AND bk_soort_id NOT IN (".addslashes($_GET["not_inquery"]).");");
 			}
 			$json["saved"] = true;
 		} elseif($_GET["stop"]) {
@@ -182,48 +191,51 @@ if($_GET["t"]==1) {
 
 		} else {
 
-			$query_key .= ", bk_soort_id='".intval($_GET["bk_soort_id"])."'";
-			$query_key .= ", ".$_GET["soort"]."_id='".intval($_GET["id"])."'";
-			$query_key .= ", seizoen_id='".intval($_GET["seizoen_id"])."'";
+			if($_GET["bk_soort_id"]>0) {
 
-			$query .= ", delete_after=0";
+				$query_key .= ", bk_soort_id='".intval($_GET["bk_soort_id"])."'";
+				$query_key .= ", ".$_GET["soort"]."_id='".intval($_GET["id"])."'";
+				$query_key .= ", seizoen_id='".intval($_GET["seizoen_id"])."'";
 
-			$query .= ", inclusief='".($_GET["inclusief"]=="undefined" ? "NULL" : intval($_GET["inclusief"]))."'";
-			if($_GET["inclusief"]==1) {
-				$query .= ", verplicht=NULL";
-				$query .= ", ter_plaatse=NULL";
-				$query .= ", eenheid=NULL";
-				$query .= ", borg_soort=NULL";
-				$query .= ", bedrag=NULL";
-			} else {
-				$query .= ", verplicht='".($_GET["verplicht"]=="undefined" ? "NULL" : intval($_GET["verplicht"]))."'";
-				$query .= ", ter_plaatse='".($_GET["ter_plaatse"]=="undefined" ? "NULL" : intval($_GET["ter_plaatse"]))."'";
-				$query .= ", eenheid='".($_GET["eenheid"]=="undefined" ? "NULL" : intval($_GET["eenheid"]))."'";
-				$query .= ", borg_soort='".($_GET["borg_soort"]=="undefined" ? "NULL" : intval($_GET["borg_soort"]))."'";
+				$query .= ", delete_after=0";
 
-				if($_GET["bedrag"]=="undefined" or !isset($_GET["bedrag"])) {
+				$query .= ", inclusief='".($_GET["inclusief"]=="undefined" ? "NULL" : intval($_GET["inclusief"]))."'";
+				if($_GET["inclusief"]==1) {
+					$query .= ", verplicht=NULL";
+					$query .= ", ter_plaatse=NULL";
+					$query .= ", eenheid=NULL";
+					$query .= ", borg_soort=NULL";
 					$query .= ", bedrag=NULL";
 				} else {
-					$_GET["bedrag"] = preg_replace("@,@", ".", $_GET["bedrag"]);
-					$query .= ", bedrag='".addslashes($_GET["bedrag"])."'";
-				}
-			}
+					$query .= ", verplicht='".($_GET["verplicht"]=="undefined" ? "NULL" : intval($_GET["verplicht"]))."'";
+					$query .= ", ter_plaatse='".($_GET["ter_plaatse"]=="undefined" ? "NULL" : intval($_GET["ter_plaatse"]))."'";
+					$query .= ", eenheid='".($_GET["eenheid"]=="undefined" ? "NULL" : intval($_GET["eenheid"]))."'";
+					$query .= ", borg_soort='".($_GET["borg_soort"]=="undefined" ? "NULL" : intval($_GET["borg_soort"]))."'";
 
-			$db->query("INSERT INTO bk_".$_GET["soort"]." SET ".substr($query_key,1).$query.", adddatetime=NOW(), editdatetime=NOW() ON DUPLICATE KEY UPDATE ".substr($query,1).", editdatetime=NOW()");
-
-			if($_GET["soort"]=="accommodatie") {
-
-				$db->query("SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."';");
-				while($db->next_record()) {
-					unset($query_key);
-					$query_key .= ", bk_soort_id='".intval($_GET["bk_soort_id"])."'";
-					$query_key .= ", type_id='".intval($db->f("type_id"))."'";
-					$query_key .= ", seizoen_id='".intval($_GET["seizoen_id"])."'";
-
-					$db2->query("INSERT INTO bk_type SET ".substr($query_key,1).$query.", adddatetime=NOW(), editdatetime=NOW() ON DUPLICATE KEY UPDATE ".substr($query,1).", editdatetime=NOW()");
-
+					if($_GET["bedrag"]=="undefined" or !isset($_GET["bedrag"])) {
+						$query .= ", bedrag=NULL";
+					} else {
+						$_GET["bedrag"] = preg_replace("@,@", ".", $_GET["bedrag"]);
+						$query .= ", bedrag='".addslashes($_GET["bedrag"])."'";
+					}
 				}
 
+				$db->query("INSERT INTO bk_".$_GET["soort"]." SET ".substr($query_key,1).$query.", adddatetime=NOW(), editdatetime=NOW() ON DUPLICATE KEY UPDATE ".substr($query,1).", editdatetime=NOW()");
+
+				if($_GET["soort"]=="accommodatie") {
+
+					$db->query("SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."';");
+					while($db->next_record()) {
+						unset($query_key);
+						$query_key .= ", bk_soort_id='".intval($_GET["bk_soort_id"])."'";
+						$query_key .= ", type_id='".intval($db->f("type_id"))."'";
+						$query_key .= ", seizoen_id='".intval($_GET["seizoen_id"])."'";
+
+						$db2->query("INSERT INTO bk_type SET ".substr($query_key,1).$query.", adddatetime=NOW(), editdatetime=NOW() ON DUPLICATE KEY UPDATE ".substr($query,1).", editdatetime=NOW()");
+
+					}
+
+				}
 			}
 			$json["saved"] = true;
 		}

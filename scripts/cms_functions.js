@@ -157,6 +157,17 @@ $(document).ready(function() {
 	// jquery
 	//
 
+	// keep PHP-session alive (connect to wtjson.php every 5 minutes)
+	var keep_session_alive = setInterval(function () {
+		$.getJSON(
+			'cms/wtjson.php?t=keep_session_alive',
+			function(data) {
+
+			}
+		);
+	}, 300000);
+
+
 	$("#accCodeIh").focus(function() {
 		$("#ih_country").prop("disabled", true);
 		$("#ih_region").prop("disabled", true);
@@ -887,6 +898,26 @@ $(document).ready(function() {
 	// Bijkomende kosten-cms
 	//
 
+
+	// track changes
+	$(".cms_bk_row select, .cms_bk_row input[type=text]").change(function(event) {
+
+		var form = $(this).closest("form");
+		var seizoen_id = form.find("input[name='seizoen_id']").val();
+
+		var row = $(this).closest(".cms_bk_row");
+		var bk_soort_id = row.data("soort_id");
+
+		row.addClass("cms_bk_save_row");
+
+		$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row_afwijkend_type[data-soort_id="+bk_soort_id+"]").addClass("cms_bk_row_overwrite");
+
+		if($(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row_afwijkend_type.cms_bk_row_overwrite").length!==0) {
+			$(".cms_bk_type_afwijkingen_overschrijven").css("visibility", "visible");
+			form.find("input[type=submit]").prop("disabled" , true);
+		}
+	});
+
 	$("select[name=bk_new]").change(function(event) {
 
 		var bk_soort_id = $(this).val();
@@ -948,26 +979,42 @@ $(document).ready(function() {
 
 		var form = $(this);
 		var seizoen_id = form.find("input[name='seizoen_id']").val();
+		var cms_bk_row;
+		var not_inquery = "0";
 
 		$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .ajaxloader").css("visibility", "visible");
 
-		var cms_bk_row;
+		// determine which rows should not be saved
+		$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row[data-soort_id]:not(.cms_bk_row_afwijkend_type):not(.cms_bk_save_row)").each(function() {
+			not_inquery = not_inquery + "%2C"+$(this).data("soort_id");
+		});
+
+		// alert(not_inquery);
 
 		$.getJSON(
 			"cms/wtjson.php?t=bk_save&start=1"
 			+"&soort="+form.find("input[name='soort']").val()
 			+"&id="+form.find("input[name='id']").val()
 			+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
+			+"&not_inquery="+not_inquery
 			,
 			function(data) {
 				if(data.saved) {
+
+					var soort_id=0;
 
 					$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row[data-soort_id]:not(.cms_bk_row_afwijkend_type)").each(function() {
 
 						cms_bk_row = $(this);
 
+						if (cms_bk_row.hasClass("cms_bk_save_row")) {
+							soort_id = cms_bk_row.data("soort_id");
+						} else {
+							soort_id = 0;
+						}
+
 						$.getJSON(
-							"cms/wtjson.php?t=bk_save&bk_soort_id="+$(this).data("soort_id")
+							"cms/wtjson.php?t=bk_save&bk_soort_id="+soort_id
 							+"&soort="+form.find("input[name='soort']").val()
 							+"&id="+form.find("input[name='id']").val()
 							+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
@@ -990,10 +1037,9 @@ $(document).ready(function() {
 										,
 										function(data) {
 											if(data.saved) {
-												$(".cms_bk_row_afwijkend_type").remove();
-												$(".cms_bk_row_afwijkend_accommodatie").remove();
+												$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row_afwijkend_type.cms_bk_row_overwrite").remove();
 												wt_popupmsg("De bijkomende kosten zijn opgeslagen.");
-												$(".cms_bk_type_afwijkingen_overschrijven").css("visibility", "hidden");
+												$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_type_afwijkingen_overschrijven").css("visibility", "hidden");
 												form.find("input[type=submit]").prop("disabled", false);
 											}
 											$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .ajaxloader").css("visibility", "hidden");
@@ -1035,7 +1081,7 @@ function bk_keuzes_actief_inactief() {
 function bk_row_yellow_or_not(deze) {
 	// check if .cms_bk_row must be yellow (through .cms_bk_to_be_filled)
 	var yellow = false;
-	$(deze).find("select").each(function() {
+	$(deze).find("select, input[type=text]").each(function() {
 		if($(this).prop("disabled")==false && $(this).val()=="") {
 			yellow = true;
 		}

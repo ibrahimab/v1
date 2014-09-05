@@ -280,11 +280,12 @@ class bijkomendekosten {
 			if($in_exclusief_tekst) {
 				$return .= "<div style=\"text-align:right;margin-top:5px;margin-bottom:5px;\"><input type=\"checkbox\" name=\"tmp_teksten_omgezet\" value=\"1\" id=\"tmp_teksten_omgezet\"".($this->cms_data_tmp_teksten_omgezet ? " checked" : "")."><label for=\"tmp_teksten_omgezet\">&nbsp;alle in- en exclusief-teksten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." zijn verwerkt</label></div>";
 			}
-			$return .= "<input type=\"submit\" value=\"OPSLAAN\"".($this->other_type_data ? " disabled=\"disabled\"" : "")."><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
+			// $return .= "<input type=\"submit\" value=\"OPSLAAN\"".($this->other_type_data ? " disabled=\"disabled\"" : "")."><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
+			$return .= "<input type=\"submit\" value=\"OPSLAAN\"><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
 			$return .= "<div class=\"clear\"></div>";
 
 			if($this->other_type_data) {
-				$return .= "<div class=\"cms_bk_type_afwijkingen_overschrijven\"><input type=\"checkbox\" name=\"type_afwijkingen_overschrijven\" id=\"type_afwijkingen_overschrijven\"><label for=\"type_afwijkingen_overschrijven\">&nbsp;type-afwijkingen overschrijven</label></div>";
+				$return .= "<div class=\"cms_bk_type_afwijkingen_overschrijven\"><input type=\"checkbox\" name=\"type_afwijkingen_overschrijven\" id=\"type_afwijkingen_overschrijven\"><label for=\"type_afwijkingen_overschrijven\">&nbsp;rode type-afwijkingen overschrijven</label></div>";
 			}
 
 			$return .= "</form>";
@@ -304,7 +305,7 @@ class bijkomendekosten {
 
 		$return .= "<div class=\"cms_bk_all_rows\">";
 
-		$return .= "<div class=\"cms_bk_row cms_bk_row_header\">";
+		$return .= "<div class=\"cms_bk_row cms_bk_row_header\" data-soort_id=\"0\">";
 		$return .= "<div>Optie</div>";
 		$return .= "<div>Incl./Excl.</div>";
 		$return .= "<div>Verplicht</div>";
@@ -372,7 +373,7 @@ class bijkomendekosten {
 				if(!$soort_id_gehad[$key]) {
 
 					// $return .= "<div class=\"cms_bk_row".($empty ? " cms_bk_new_row cms_bk_to_be_filled" : "")."\" data-soort_id=\"".$bk_soort_id."\">";
-					$return .= "<div class=\"cms_bk_row cms_bk_row_afwijkend_accommodatie\">";
+					$return .= "<div class=\"cms_bk_row cms_bk_row_afwijkend_accommodatie\" data-soort_id=\"".$key."\">";
 					$return .= "<div>".wt_he($this->cms_data_bk_soorten_type[$key]["naam"])."</div>";
 
 					$return .= "<div>&nbsp;</div>";
@@ -380,7 +381,8 @@ class bijkomendekosten {
 					$return .= "<div>&nbsp;</div>";
 					$return .= "<div>&nbsp;</div>";
 					$return .= "<div>&nbsp;</div>";
-					$return .= "<div>&nbsp;</div>";
+					$return .= "<div class=\"delete\" title=\"regel wissen\">&#xd7;</div>";
+					// $return .= "<div>&nbsp;</div>";
 
 					$return .= "</div>";
 
@@ -450,7 +452,7 @@ class bijkomendekosten {
 			$data = $this->data[$this->seizoen_id][$bk_soort_id];
 		}
 
-		$return .= "<div class=\"cms_bk_row".($empty ? " cms_bk_new_row cms_bk_to_be_filled" : "")."\" data-soort_id=\"".$bk_soort_id."\">";
+		$return .= "<div class=\"cms_bk_row".($empty ? " cms_bk_save_row cms_bk_new_row cms_bk_to_be_filled" : "")."\" data-soort_id=\"".$bk_soort_id."\">";
 		$return .= "<div>".wt_he($this->cms_data_bk_soorten[$bk_soort_id]["naam"])."</div>";
 
 		if($this->cms_data_bk_soorten[$bk_soort_id]["borg"]) {
