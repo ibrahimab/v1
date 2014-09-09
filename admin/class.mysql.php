@@ -86,8 +86,8 @@ class DB_Sql {
 						$GLOBALS["mysqlsettings"]["host"]="127.0.0.1:13306";
 					}
 				}
-				$GLOBALS["mysqlsettings"]["user"]="dbmysql";
-				$GLOBALS["mysqlsettings"]["password"]="sh47fm9G";
+				if(!defined("wt_db_user")) $GLOBALS["mysqlsettings"]["user"]="dbmysql";
+				if(!defined("wt_db_password")) $GLOBALS["mysqlsettings"]["password"]="sh47fm9G";
 			}
 
 			if($GLOBALS["mysqlsettings"]["not_pconnect"]) {

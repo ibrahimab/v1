@@ -385,6 +385,7 @@ class form2 {
 
 		$this->settings["message"]["error_onvolledigedatum"]["nl"]="onvolledige datum";
 		$this->settings["message"]["error_onvolledigedatum"]["en"]="incomplete date";
+		$this->settings["message"]["error_onvolledigedatum"]["fr"]="date incomplète";
 
 		$this->settings["message"]["error_onvolledigedatumtijd"]["nl"]="onvolledige datum/tijd";
 		$this->settings["message"]["error_onvolledigedatumtijd"]["en"]="incomplete date/time";
