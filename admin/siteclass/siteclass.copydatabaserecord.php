@@ -112,6 +112,14 @@ class copydatabaserecord {
 			$copydatabaserecord->change["accommodatie_id"] = $this->new_accommodatie_id;
 			$copydatabaserecord->copy_record();
 
+			// bk_accommodatie
+			$copydatabaserecord = new copydatabaserecord;
+			$copydatabaserecord->table = "bk_accommodatie";
+			$copydatabaserecord->key = "accommodatie_id";
+			$copydatabaserecord->id = $accommodatie_id;
+			$copydatabaserecord->change["accommodatie_id"] = $this->new_accommodatie_id;
+			$copydatabaserecord->copy_record();
+
 			// types below accommodation
 			$db->query( "SELECT type_id FROM type WHERE accommodatie_id='".intval( $accommodatie_id )."' ORDER BY type_id;" );
 			while ( $db->next_record() ) {
@@ -167,6 +175,14 @@ class copydatabaserecord {
 		// type_seizoen
 		$copydatabaserecord = new copydatabaserecord;
 		$copydatabaserecord->table = "type_seizoen";
+		$copydatabaserecord->key = "type_id";
+		$copydatabaserecord->id = $type_id;
+		$copydatabaserecord->change["type_id"] = $this->new_type_id;
+		$copydatabaserecord->copy_record();
+
+		// bk_type
+		$copydatabaserecord = new copydatabaserecord;
+		$copydatabaserecord->table = "bk_type";
 		$copydatabaserecord->key = "type_id";
 		$copydatabaserecord->id = $type_id;
 		$copydatabaserecord->change["type_id"] = $this->new_type_id;
