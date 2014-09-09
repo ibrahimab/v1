@@ -30,9 +30,9 @@ if($_GET["show"]==57) {
 				}
 				echo "<li><a href=\"cms_accommodaties.php?show=1&bc=".$_GET["bc"]."&1k0=".$db->f("accommodatie_id")."#bijkomendekosten\">".wt_he($db->f("plaats")." - ".$db->f("naam"))."</a></li>";
 			}
+			echo "</ul></div>";
 		}
 	}
-	echo "</ul></div>";
 
 	$cms->display_log(57);
 }
