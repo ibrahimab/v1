@@ -171,6 +171,10 @@ if($_GET["t"]=="keep_session_alive") {
 	// save bijkomende kosten
 	//
 
+// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+// 	sleep(1);
+// }
+
 	$json["ok"] = true;
 
 	if($_GET["soort"]=="accommodatie" or $_GET["soort"]=="type") {
@@ -209,14 +213,20 @@ if($_GET["t"]=="keep_session_alive") {
 				} else {
 					$query .= ", verplicht='".($_GET["verplicht"]=="undefined" ? "NULL" : intval($_GET["verplicht"]))."'";
 					$query .= ", ter_plaatse='".($_GET["ter_plaatse"]=="undefined" ? "NULL" : intval($_GET["ter_plaatse"]))."'";
-					$query .= ", eenheid='".($_GET["eenheid"]=="undefined" ? "NULL" : intval($_GET["eenheid"]))."'";
 					$query .= ", borg_soort='".($_GET["borg_soort"]=="undefined" ? "NULL" : intval($_GET["borg_soort"]))."'";
 
-					if($_GET["bedrag"]=="undefined" or !isset($_GET["bedrag"])) {
+					if($_GET["borg_soort"]==4) {
+						$query .= ", eenheid=NULL";
 						$query .= ", bedrag=NULL";
 					} else {
-						$_GET["bedrag"] = preg_replace("@,@", ".", $_GET["bedrag"]);
-						$query .= ", bedrag='".addslashes($_GET["bedrag"])."'";
+						$query .= ", eenheid='".($_GET["eenheid"]=="undefined" ? "NULL" : intval($_GET["eenheid"]))."'";
+
+						if($_GET["bedrag"]=="undefined" or !isset($_GET["bedrag"])) {
+							$query .= ", bedrag=NULL";
+						} else {
+							$_GET["bedrag"] = preg_replace("@,@", ".", $_GET["bedrag"]);
+							$query .= ", bedrag='".addslashes($_GET["bedrag"])."'";
+						}
 					}
 				}
 

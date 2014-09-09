@@ -955,7 +955,7 @@ $(document).ready(function() {
 	bk_keuzes_actief_inactief();
 
 	// bk: inclusief => hide other select-fields
-	$(document).on("change", ".cms_bk_seizoen select[name^=inclusief]", function(event) {
+	$(document).on("change", ".cms_bk_seizoen select[name^=inclusief], .cms_bk_seizoen select[name^=borg_soort]", function(event) {
 		bk_keuzes_actief_inactief();
 	});
 
@@ -990,6 +990,7 @@ $(document).ready(function() {
 		});
 
 		// alert(not_inquery);
+		// console.log('start');
 
 		$.getJSON(
 			"cms/wtjson.php?t=bk_save&start=1"
@@ -1013,6 +1014,8 @@ $(document).ready(function() {
 							soort_id = 0;
 						}
 
+						// console.log('getjson');
+
 						$.getJSON(
 							"cms/wtjson.php?t=bk_save&bk_soort_id="+soort_id
 							+"&soort="+form.find("input[name='soort']").val()
@@ -1028,24 +1031,28 @@ $(document).ready(function() {
 							function(data) {
 								if(data.saved) {
 
-									$.getJSON(
-										"cms/wtjson.php?t=bk_save&stop=1"
-										+"&soort="+form.find("input[name='soort']").val()
-										+"&id="+form.find("input[name='id']").val()
-										+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
-										+"&tmp_teksten_omgezet="+(form.find("input[name='tmp_teksten_omgezet']").is(":checked") ? "1" : "0")
-										,
-										function(data) {
-											if(data.saved) {
-												$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row_afwijkend_type.cms_bk_row_overwrite").remove();
-												wt_popupmsg("De bijkomende kosten zijn opgeslagen.");
-												$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_type_afwijkingen_overschrijven").css("visibility", "hidden");
-												form.find("input[type=submit]").prop("disabled", false);
-											}
-											$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .ajaxloader").css("visibility", "hidden");
-										}
-									);
 								}
+							}
+						);
+					}).promise().done(function(){
+						// console.log('done');
+
+						$.getJSON(
+							"cms/wtjson.php?t=bk_save&stop=1"
+							+"&soort="+form.find("input[name='soort']").val()
+							+"&id="+form.find("input[name='id']").val()
+							+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
+							+"&tmp_teksten_omgezet="+(form.find("input[name='tmp_teksten_omgezet']").is(":checked") ? "1" : "0")
+							,
+							function(data) {
+								if(data.saved) {
+									$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row_afwijkend_type.cms_bk_row_overwrite").remove();
+									wt_popupmsg("De bijkomende kosten zijn opgeslagen.");
+									$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_type_afwijkingen_overschrijven").css("visibility", "hidden");
+									form.find("input[type=submit]").prop("disabled", false);
+									// console.log('helemaal klaar');
+								}
+								$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .ajaxloader").css("visibility", "hidden");
 							}
 						);
 					});
@@ -1127,6 +1134,18 @@ function bk_keuzes_actief_inactief() {
 			$(this).find("select[name^=eenheid]").prop("disabled", false).css("visibility", "visible")
 			$(this).find("input[name^=bedrag]").prop("disabled", false).css("visibility", "visible")
 		}
+
+		if($(this).find("select[name^=borg_soort]").length!==0) {
+			// borg: niet van toepassing
+			if($(this).find("select[name^=borg_soort]").val()==4) {
+				$(this).find("select[name^=eenheid]").prop("disabled", true).css("visibility", "hidden")
+				$(this).find("input[name^=bedrag]").prop("disabled", true).css("visibility", "hidden")
+			} else {
+				$(this).find("select[name^=eenheid]").prop("disabled", false).css("visibility", "visible")
+				$(this).find("input[name^=bedrag]").prop("disabled", false).css("visibility", "visible")
+			}
+		}
+
 		bk_row_yellow_or_not($(this));
 	});
 }
