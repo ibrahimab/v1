@@ -352,9 +352,13 @@ if($mustlogin) {
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Afgehandeld",array("status"=>"4"),true);
 	}
 
-	$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true,false,array("slide"=>true));
-	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","huidig systeem",array("cmsversie"=>"huidig"),true);
-	$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw systeem",array("cmsversie"=>"nieuw"),true);
+	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $login->user_id==6 or $login->user_id==10) {
+		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true,false,array("slide"=>true));
+		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","huidig systeem",array("cmsversie"=>"huidig"),true);
+		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw systeem",array("cmsversie"=>"nieuw"),true);
+	} else {
+		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true);
+	}
 
 #	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true);
 	$layout->menu_item("cms_blokkenhoofdpagina","Blokken hoofdpagina","",true,false,array("slide"=>true));
@@ -1055,7 +1059,7 @@ if($mustlogin) {
 
 	if(!$vars["cms_geen_aankomstdata_nodig"]) {
 
-		if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+		if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $login->user_id==10) {
 			$wt_redis = new wt_redis;
 
 			if($wt_redis->array_group_exists("vars_aankomstdatum")) {

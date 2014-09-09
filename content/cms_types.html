@@ -140,12 +140,14 @@ if($_GET["show"]==2) {
 	echo "</ul>";
 
 	// bijkomende kosten
-	if($_GET["wzt"]==1) {
+	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $login->user_id==6 or $login->user_id==10) {
+		if($_GET["wzt"]==1) {
 
-		$bijkomendekosten = new bijkomendekosten($_GET["2k0"], "type");
-		echo $bijkomendekosten->cms_enter_costs_per_acc_type();
+			$bijkomendekosten = new bijkomendekosten($_GET["2k0"], "type");
+			echo $bijkomendekosten->cms_enter_costs_per_acc_type();
 
-		echo "<p>&nbsp;</p>";
+			echo "<p>&nbsp;</p>";
+		}
 	}
 
 	echo "<hr><h2>Type kopi&euml;ren</h2>";
