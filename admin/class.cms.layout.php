@@ -149,15 +149,18 @@ class cms_layout {
 
 		# jQuery via Google
 		if($this->settings["jquery_google_api"]) {
-			echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js\"></script>\n";
+			// echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js\"></script>\n";
+			echo "<script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js\"></script>\n";
 		}
 
 		# jQueryUI via Google
 		if($this->settings["jqueryui_google_api"]) {
 			if($this->settings["jqueryui_google_api_theme"]) {
-				echo "<link rel=\"stylesheet\" href=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/".$this->settings["jqueryui_google_api_theme"]."/jquery-ui.css\" type=\"text/css\" />\n";
+				// echo "<link rel=\"stylesheet\" href=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/".$this->settings["jqueryui_google_api_theme"]."/jquery-ui.css\" type=\"text/css\" />\n";
+				echo "<link rel=\"stylesheet\" href=\"//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/".$this->settings["jqueryui_google_api_theme"]."/jquery-ui.css\" />";
 			}
-			echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js\"></script>\n";
+			// echo "<script type=\"text/javascript\" src=\"https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js\"></script>\n";
+			echo "<script src=\"//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js\"></script>\n";
 		}
 
 		# Google Chromeframe
