@@ -352,7 +352,7 @@ if($mustlogin) {
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Afgehandeld",array("status"=>"4"),true);
 	}
 
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $login->user_id==6 or $login->user_id==10) {
+	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $login->user_id==1 or $login->user_id==6 or $login->user_id==10) {
 		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true,false,array("slide"=>true));
 		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","huidig systeem",array("cmsversie"=>"huidig"),true);
 		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw systeem",array("cmsversie"=>"nieuw"),true);
