@@ -1548,7 +1548,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 								if($file) {
 									if($value2>0) {
 										$tempfilename="tmp/".md5(uniqid()).".jpg";
-										save_data_to_file($tempfilename,$file);
+										file_put_contents($tempfilename,$file);
 
 										// get last image id to avoid override
 										$imgteller = (int) getLastImageNumber($accid, "accommodaties_aanvullend");
@@ -1601,7 +1601,7 @@ if($vars["xmlnewimport_leveranciers"][$_GET["lev"]] and $levinfo) {
 								if($file) {
 									if($value2>0) {
 										$tempfilename="tmp/".md5(uniqid()).".jpg";
-										save_data_to_file($tempfilename,$file);
+										file_put_contents($tempfilename,$file);
 										$imgteller = (int) getLastImageNumber($typeid, "types");
 
 										$imgsize=getimagesize($tempfilename);
