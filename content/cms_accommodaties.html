@@ -98,7 +98,7 @@ if($_GET["show"]==1) {
 	}
 
 	// bijkomende kosten
-	if($_GET["wzt"]==1 and ($vars["lokale_testserver"] or $vars["acceptatie_testserver"])) {
+	if($_GET["wzt"]==1) {
 
 		$bijkomendekosten = new bijkomendekosten($_GET["1k0"], "accommodatie");
 		echo $bijkomendekosten->cms_enter_costs_per_acc_type();

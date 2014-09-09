@@ -130,9 +130,10 @@ class bijkomendekosten {
 
 
 				// get all types
-				$db->query("SELECT begincode, type_id FROM view_accommodatie WHERE accommodatie_id='".intval($this->id)."';");
+				$db->query("SELECT begincode, type_id, optimaalaantalpersonen, maxaantalpersonen FROM view_accommodatie WHERE accommodatie_id='".intval($this->id)."';");
 				while($db->next_record()) {
 					$this->all_types[$db->f("type_id")] = $db->f("begincode").$db->f("type_id");
+					$this->all_types_aantalpersonen[$db->f("type_id")] = $db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : ""). " p";
 				}
 
 
@@ -172,8 +173,10 @@ class bijkomendekosten {
 		$return .= "Bijkomende kosten toevoegen:&nbsp;&nbsp;<select name=\"bk_new\">";
 		$return .= "<option value=\"0\">-- kies toe te voegen kostensoort --</option>";
 
-		foreach ($this->cms_data_bk_soorten as $key => $value) {
-			$return .= "<option value=\"".$key."\">".wt_he($value["naam"])."</option>";
+		if(is_array($this->cms_data_bk_soorten)) {
+			foreach ($this->cms_data_bk_soorten as $key => $value) {
+				$return .= "<option value=\"".$key."\">".wt_he($value["naam"])."</option>";
+			}
 		}
 
 		$return .= "</select>";
@@ -268,17 +271,25 @@ class bijkomendekosten {
 				$return .= "</tr></table>";
 			}
 
+			$return .= "<div class=\"cms_bk_kopieer\">";
+			$return .= "Kopieer bijkomende kosten van: <input type=\"text\" name=\"copy_from_type\" autocomplete=\"off\" placeholder=\"type-code\">";
+			$return .= "<button>kopieer kosten &raquo;</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-ebebeb.gif\">";
+			$return .= "</div>";
+
 			$return .= "<form method=\"post\">";
 			$return .= "<input type=\"hidden\" name=\"seizoen_id\" value=\"".$key."\" />";
 			$return .= "<input type=\"hidden\" name=\"soort\" value=\"".$this->soort."\" />";
 			$return .= "<input type=\"hidden\" name=\"id\" value=\"".$this->id."\" />";
 
+
 			$return .= $this->cms_add_cost_type();
 
+			$return .= "<div class=\"cms_bk_all_rows_wrapper\">";
 			$return .= $this->cms_all_rows();
+			$return .= "</div>"; // close .cms_bk_all_rows_wrapper
 
 			if($in_exclusief_tekst) {
-				$return .= "<div style=\"text-align:right;margin-top:5px;margin-bottom:5px;\"><input type=\"checkbox\" name=\"tmp_teksten_omgezet\" value=\"1\" id=\"tmp_teksten_omgezet\"".($this->cms_data_tmp_teksten_omgezet ? " checked" : "")."><label for=\"tmp_teksten_omgezet\">&nbsp;alle in- en exclusief-teksten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." zijn verwerkt</label></div>";
+				$return .= "<div style=\"text-align:right;margin-top:15px;margin-bottom:15px;\"><input type=\"checkbox\" name=\"tmp_teksten_omgezet\" value=\"1\" id=\"tmp_teksten_omgezet\"".($this->cms_data_tmp_teksten_omgezet ? " checked" : "")."><label for=\"tmp_teksten_omgezet\">&nbsp;alle in- en exclusief-teksten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." zijn verwerkt</label></div>";
 			}
 			// $return .= "<input type=\"submit\" value=\"OPSLAAN\"".($this->other_type_data ? " disabled=\"disabled\"" : "")."><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
 			$return .= "<input type=\"submit\" value=\"OPSLAAN\"><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
@@ -300,6 +311,9 @@ class bijkomendekosten {
 	}
 
 	public function cms_all_rows() {
+
+		$this->get_cms_data();
+
 
 		global $vars;
 
@@ -330,13 +344,10 @@ class bijkomendekosten {
 						$other_type_data = false;
 						$other_type_empty = false;
 
-// echo wt_dump($this->type_data[$this->seizoen_id][$key][$key2]);
-
 						if(is_array($this->type_data[$this->seizoen_id][$key][$key2])) {
 							foreach ($this->type_data[$this->seizoen_id][$key][$key2] as $key3 => $value3) {
 								if(in_array($key3, $check_fields_other_type_data) and $value3<>$value[$key3]) {
 									$other_type_data = true;
-									// echo $key2.": ".$key3." ==".$value3."== ==".$value[$key3]."==<br/>";
 								}
 							}
 						} elseif($this->data[$this->seizoen_id][$key]["filled"]) {
@@ -349,7 +360,7 @@ class bijkomendekosten {
 
 							$this->other_type_data = true;
 							$return .= "<div class=\"cms_bk_row cms_bk_row_afwijkend_type\" data-soort_id=\"".$key."\">";
-							$return .= "<div>&nbsp;&nbsp;&nbsp;afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."#bijkomendekosten\" target=\"_blank\">".$value2."</a>".($other_type_empty ? ": kosten gewist" : "")."</div>";
+							$return .= "<div>&nbsp;&nbsp;&nbsp;afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."#bijkomendekosten\" target=\"_blank\">".$value2."</a> (".$this->all_types_aantalpersonen[$key2].")".($other_type_empty ? ": kosten gewist" : "")."</div>";
 							$return .= "<div>".wt_he($vars["bk_inclusief"][$this->check_for_differences_type_accommodation("inclusief", $key, $key2)])."</div>";
 							$return .= "<div>".wt_he($vars["bk_verplicht"][$this->check_for_differences_type_accommodation("verplicht", $key, $key2)])."</div>";
 							if($this->cms_data_bk_soorten[$key]["borg"]) {
@@ -391,7 +402,7 @@ class bijkomendekosten {
 
 						$this->other_type_data = true;
 						$return .= "<div class=\"cms_bk_row cms_bk_row_afwijkend_type\" data-soort_id=\"".$key."\">";
-						$return .= "<div>&nbsp;&nbsp;&nbsp;afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."\" target=\"_blank\">".$value2["type"]."</a>".($other_type_empty ? ": kosten gewist" : "")."</div>";
+						$return .= "<div>&nbsp;&nbsp;&nbsp;afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."#bijkomendekosten\" target=\"_blank\">".$value2["type"]."</a> (".$this->all_types_aantalpersonen[$key2].") ".($other_type_empty ? ": kosten gewist" : "")."</div>";
 						$return .= "<div>".wt_he($vars["bk_inclusief"][$this->check_for_differences_type_accommodation("inclusief", $key, $key2)])."</div>";
 						$return .= "<div>".wt_he($vars["bk_verplicht"][$this->check_for_differences_type_accommodation("verplicht", $key, $key2)])."</div>";
 						if($this->cms_data_bk_soorten[$key]["borg"]) {

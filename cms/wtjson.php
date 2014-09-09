@@ -243,6 +243,15 @@ if($_GET["t"]=="keep_session_alive") {
 	}
 
 	echo json_encode($json);
+} elseif($_GET["t"]=="bk_copy") {
+
+	$bijkomendekosten = new bijkomendekosten(intval($_GET["type_id"]), "type");
+	$bijkomendekosten->seizoen_id = intval($_GET["sid"]);
+
+	$json["cms_bk_all_rows"] = $bijkomendekosten->cms_all_rows();
+
+
+	echo json_encode($json);
 
 }
 

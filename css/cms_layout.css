@@ -1057,6 +1057,28 @@ a.opm {
 	background-color: #ebebeb;
 }
 
+.cms_bk_kopieer {
+	border: 1px solid #003366;
+	padding: 7px;
+	width: 500px;
+	background-color: #ebebeb;
+	margin-bottom: 15px;
+}
+
+.cms_bk_kopieer input {
+	width: 100px;
+}
+
+.cms_bk_kopieer button {
+	margin-left: 5px;
+}
+
+.cms_bk_kopieer img {
+	margin-left: 5px;
+	margin-bottom: -3px;
+	display: none;
+}
+
 .cms_bk_all_rows {
 	margin-top: 15px;
 	border: 1px solid #003366;

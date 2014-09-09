@@ -1053,6 +1053,59 @@ $(document).ready(function() {
 			}
 		);
 	});
+
+
+	$(".cms_bk_kopieer button").click(function(event) {
+
+		//
+		// copy bk from other type (on the fly, via rpcjson)
+		//
+
+		event.preventDefault();
+
+		var cms_bk_kopieer = $(this).closest(".cms_bk_kopieer");
+
+		// cms_bk_kopieer
+
+		cms_bk_kopieer.find("button").prop("disabled", true);
+		cms_bk_kopieer.find("img").show();
+
+		// strip out non-numerical characters
+		var type_id = cms_bk_kopieer.find("input").val().replace(/\D/g,'');
+
+		var seizoen_id = cms_bk_kopieer.closest(".cms_bk_seizoen").data("seizoen_id");
+
+		var last_used_field = '';
+
+		var cms_bk_all_rows = $(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_all_rows")
+		var cms_bk_all_rows_wrapper = $(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_all_rows_wrapper")
+
+		if(type_id) {
+
+			$.getJSON(
+				'cms/wtjson.php?t=bk_copy&type_id='+type_id+"&sid="+seizoen_id,
+				function(data) {
+					if(data.cms_bk_all_rows) {
+						cms_bk_all_rows_wrapper.slideUp("normal", function(){
+							cms_bk_all_rows.replaceWith(data.cms_bk_all_rows);
+							bk_keuzes_actief_inactief();
+							cms_bk_all_rows_wrapper.slideDown("normal", function(){
+								setHgt2();
+							});
+						});
+					}
+					cms_bk_kopieer.find("input").val("");
+					cms_bk_kopieer.find("button").prop("disabled", false);
+					cms_bk_kopieer.find("img").hide();
+
+				}
+			);
+		} else {
+			cms_bk_kopieer.find("button").prop("disabled", false);
+			cms_bk_kopieer.find("img").hide();
+		}
+	});
+
 });
 
 function bk_keuzes_actief_inactief() {

@@ -140,7 +140,7 @@ if($_GET["show"]==2) {
 	echo "</ul>";
 
 	// bijkomende kosten
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	if($_GET["wzt"]==1) {
 
 		$bijkomendekosten = new bijkomendekosten($_GET["2k0"], "type");
 		echo $bijkomendekosten->cms_enter_costs_per_acc_type();
