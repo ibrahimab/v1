@@ -47,7 +47,19 @@ class wt_redis {
 
 	}
 
+	private function groupname($group) {
+		global $vars;
+		if($vars["acceptatie_testserver"] or (defined("wt_test") and wt_test===true)) {
+			$return = "chalettest_".$group;
+		} else {
+			$return = $group;
+		}
+		return $return;
+	}
+
 	public function store_array($group, $key, $data) {
+
+		$group = $this->groupname($group);
 
 		try {
 			$this->redis->hSet($group, $key, serialize($data));
@@ -58,6 +70,8 @@ class wt_redis {
 	}
 
 	public function get_array($group, $key) {
+
+		$group = $this->groupname($group);
 
 		try {
 			$data = $this->redis->hGet($group, $key);
@@ -75,6 +89,9 @@ class wt_redis {
 	}
 
 	public function array_group_exists($group) {
+
+		$group = $this->groupname($group);
+
 		try {
 			$return = $this->redis->exists($group);
 		}
@@ -85,6 +102,9 @@ class wt_redis {
 	}
 
 	public function array_group_delete($group) {
+
+		$group = $this->groupname($group);
+
 		try {
 			$return = $this->redis->del($group);
 		}
