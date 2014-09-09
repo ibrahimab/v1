@@ -28,6 +28,9 @@ $cms->db_field(57,"yesno","altijd_diversen");
 $cms->db_field(57,"yesno","prijs_per_nacht");
 $cms->db_field(57,"yesno","borg");
 $cms->db_field(57,"checkbox","eenheden","",array("selection"=>$vars["bk_eenheid"]));
+$cms->db_field(57,"integer","min_leeftijd");
+$cms->db_field(57,"integer","max_leeftijd");
+$cms->db_field(57,"yesno","zonderleeftijd");
 $cms->db_field(57,"yesno","hoort_bij_accommodatieinkoop");
 $cms->db_field(57,"select","optiecategorie","",array("selection"=>$vars["optiecategorie"]));
 
@@ -100,11 +103,14 @@ $cms->edit_field(57,1,"altijd_invullen","Deze kosten moeten bij iedere accommoda
 $cms->edit_field(57,1,"altijd_diversen","Deze kosten vallen altijd onder het kopje \"Diversen\"");
 $cms->edit_field(57,0,"eenheden","Te selecteren eenheden", "", "", array("one_per_line"=>true));
 
-
 $cms->edit_field(57,0,"htmlrow","<br/><hr><br/><i>Verrekening kosten</i>");
-
 $cms->edit_field(57,0,"hoort_bij_accommodatieinkoop","Deze kosten worden berekend op de factuur van de accommodatie-leverancier");
 $cms->edit_field(57,1,"optiecategorie","Optie-categorie");
+
+$cms->edit_field(57,0,"htmlrow","<br/><hr><br/><i>Leeftijdscontrole</i>");
+$cms->edit_field(57,0,"min_leeftijd","Minimale leeftijd (in jaren)");
+$cms->edit_field(57,0,"max_leeftijd","Maximale leeftijd (in jaren)");
+$cms->edit_field(57,0,"zonderleeftijd","Kosten toevoegen aan persoon indien geboortedatum niet bekend is");
 
 $cms->edit_field(57,0,"htmlrow","<br/><hr><br/><i>Specifieke instellingen (alleen nodig voor borg en toeristenbelasting)</i>");
 $cms->edit_field(57,1,"prijs_per_nacht","Het ingevoerde tarief is een prijs per nacht (systeem rekent dit automatisch om naar weekprijs)");
@@ -118,6 +124,15 @@ $cms->set_edit_form_init(57);
 if($cms_form[57]->filled) {
 	if($cms_form[57]->input["hoort_bij_accommodatieinkoop"] and $cms_form[57]->input["optiecategorie"]>2) {
 		$cms_form[57]->error("optiecategorie","niet van toepassing op de factuur van de accommodatie-leverancier");
+	}
+	if($cms_form[57]->input["min_leeftijd"] and $cms_form[57]->input["eenheden"]<>"2") {
+		$cms_form[57]->error("min_leeftijd","alleen mogelijk bij &quot;per persoon&quot;");
+	}
+	if($cms_form[57]->input["max_leeftijd"] and $cms_form[57]->input["eenheden"]<>"2") {
+		$cms_form[57]->error("max_leeftijd","alleen mogelijk bij &quot;per persoon&quot;");
+	}
+	if($cms_form[57]->input["zonderleeftijd"] and !$cms_form[57]->input["min_leeftijd"] and !$cms_form[57]->input["max_leeftijd"]) {
+		$cms_form[57]->error("zonderleeftijd","Kosten zonder geboortedatum: alleen mogelijk bij gebruik minimale of maximale leeftijd");
 	}
 }
 
