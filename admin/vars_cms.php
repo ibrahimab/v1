@@ -247,6 +247,7 @@ if($mustlogin) {
 	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/cms.layout.js";
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.js";
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.tablescroll.js";
+	// $layout->settings["extra_javascriptfiles"][]="http://code.jquery.com/jquery-migrate-1.2.1.js";
 
 	if($login->logged_in and $id<>"cms" and $_SERVER["HTTP_HOST"]<>"www.chalet.nl" and $_SERVER["HTTP_HOST"]<>"test.chalet.nl" and $_SERVER["HTTP_HOST"]<>"www2.chalet.nl" and $_SERVER["HTTP_HOST"]<>"wwwtest.chalet.nl" and !$vars["lokale_testserver"]) {
 		$layout->settings["cms_via_verkeerde_site"]=true;
@@ -255,6 +256,9 @@ if($mustlogin) {
 	$layout->settings["jquery_google_api"]=true;
 	$layout->settings["jqueryui_google_api"]=true;
 	$layout->settings["jqueryui_google_api_theme"]="smoothness";
+
+	$layout->settings["jquery_version"]="1.11.1";
+	$layout->settings["jqueryui_version"]="1.11.1";
 
 	if($id=="cms_financien_betalingen" or $id=="cms_overzichten_overig") {
 		$layout->settings["render_as_ie7"]=true;
@@ -1173,7 +1177,7 @@ $vars["bk_inclusief"] = array(1=>"inclusief", 0=>"exclusief");
 $vars["bk_verplicht"] = array(0=>"optioneel", 1=>"verplicht", 2=>"naar verbruik", 3=>"zelf te verzorgen");
 $vars["bk_ter_plaatse"] = array(0=>"vooraf", 1=>"ter plaatse");
 $vars["bk_eenheid"] = array(1=>"per verblijf",2=>"per persoon", 3=>"per dag", 4=>"per item", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak");
-$vars["bk_borg_soort"] = array(1=>"contant",2=>"creditcard", 3=>"contant of creditcard", 4=>"niet van toepassing");
+$vars["bk_borg_soort"] = array(1=>"contant",2=>"creditcard", 3=>"contant of creditcard", 4=>"niet van toepassing", 5=>"bedrag onbekend");
 
 // XML-leveranciers
 $vars["xml_type"]=array(

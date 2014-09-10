@@ -559,7 +559,7 @@ $(document).ready(function() {
 		$("#fixedtable_header_div").css("display","block");
 	}
 
-	// jQuery UI Datepicker
+	// jQuery UI Datepicker / Calendar jQueryUI
 	if($().datepicker) {
 
 		$.datepicker.regional['nl'] = {
@@ -1136,8 +1136,8 @@ function bk_keuzes_actief_inactief() {
 		}
 
 		if($(this).find("select[name^=borg_soort]").length!==0) {
-			// borg: niet van toepassing
-			if($(this).find("select[name^=borg_soort]").val()==4) {
+			// borg: niet van toepassing of onbekend
+			if($(this).find("select[name^=borg_soort]").val()==4 || $(this).find("select[name^=borg_soort]").val()==5) {
 				$(this).find("select[name^=eenheid]").prop("disabled", true).css("visibility", "hidden")
 				$(this).find("input[name^=bedrag]").prop("disabled", true).css("visibility", "hidden")
 			} else {

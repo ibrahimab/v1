@@ -1139,10 +1139,10 @@ $vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.m
 #$vars["jquery_url"]="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js";
 
 if(($id == "toonaccommodatie") && ($isMobile)){
-        # oude jquery ui-versie nodig voor zomer-tarieventabel in IE9
-        $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js";
+	# oude jquery ui-versie nodig voor zomer-tarieventabel in IE9
+	$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js";
 } else {
-       $vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
+	$vars["jqueryui_url"]="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js";
 }
 
 if(defined("wt_test")) {

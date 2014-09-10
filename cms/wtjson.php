@@ -215,7 +215,7 @@ if($_GET["t"]=="keep_session_alive") {
 					$query .= ", ter_plaatse='".($_GET["ter_plaatse"]=="undefined" ? "NULL" : intval($_GET["ter_plaatse"]))."'";
 					$query .= ", borg_soort='".($_GET["borg_soort"]=="undefined" ? "NULL" : intval($_GET["borg_soort"]))."'";
 
-					if($_GET["borg_soort"]==4) {
+					if($_GET["borg_soort"]==4 or $_GET["borg_soort"]==5) {
 						$query .= ", eenheid=NULL";
 						$query .= ", bedrag=NULL";
 					} else {
@@ -257,6 +257,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 	$bijkomendekosten = new bijkomendekosten(intval($_GET["type_id"]), "type");
 	$bijkomendekosten->seizoen_id = intval($_GET["sid"]);
+	$bijkomendekosten->copy = true;
 
 	$json["cms_bk_all_rows"] = $bijkomendekosten->cms_all_rows();
 

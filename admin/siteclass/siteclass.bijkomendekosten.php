@@ -463,7 +463,7 @@ class bijkomendekosten {
 			$data = $this->data[$this->seizoen_id][$bk_soort_id];
 		}
 
-		$return .= "<div class=\"cms_bk_row".($empty ? " cms_bk_save_row cms_bk_new_row cms_bk_to_be_filled" : "")."\" data-soort_id=\"".$bk_soort_id."\">";
+		$return .= "<div class=\"cms_bk_row".($empty ? " cms_bk_save_row cms_bk_new_row cms_bk_to_be_filled" : "").($this->copy ? " cms_bk_save_row" : "")."\" data-soort_id=\"".$bk_soort_id."\">";
 		$return .= "<div>".wt_he($this->cms_data_bk_soorten[$bk_soort_id]["naam"])."</div>";
 
 		if($this->cms_data_bk_soorten[$bk_soort_id]["borg"]) {
