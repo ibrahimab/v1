@@ -177,12 +177,13 @@ if($_POST["boeking"] or $_POST["verwijderboeking"] or $_POST["newpricesmail"]) {
 		$andere_accommodaties_inquery.=",".$db->f("boeking_id");
 	}
 
-	# Boekingen zonder enquete: ook "mail me over andere accommodaties/bestemmingen" toepassen
-	$db->query("SELECT boeking_id FROM boeking WHERE seizoen_id IN (".$vorigeseizoen.") AND vertrekdatum_exact<".(time()-86400*8)." AND boeking_id NOT IN (SELECT boeking_id FROM boeking_enquete WHERE boeking_id IS NOT NULL);");
-	while($db->next_record()) {
-		$andere_accommodaties[$db->f("boeking_id")]=true;
-		$andere_accommodaties_inquery.=",".$db->f("boeking_id");
-	}
+	// # Boekingen zonder enquete: ook "mail me over andere accommodaties/bestemmingen" toepassen
+	// $db->query("SELECT boeking_id FROM boeking WHERE seizoen_id IN (".$vorigeseizoen.") AND vertrekdatum_exact<".(time()-86400*8)." AND boeking_id NOT IN (SELECT boeking_id FROM boeking_enquete WHERE boeking_id IS NOT NULL);");
+	// while($db->next_record()) {
+	// 	$andere_accommodaties[$db->f("boeking_id")]=true;
+	// 	$andere_accommodaties_inquery.=",".$db->f("boeking_id");
+	// }
+
 
 	// if($_GET["andere_accommodaties"]==0 or $_GET["andere_accommodaties"]==0) {
 	// 	// eigen accommodatie: alleen indien enquete vraag4 = 1
