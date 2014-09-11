@@ -933,7 +933,7 @@ $(document).ready(function() {
 			"cms/wtjson.php?t=bk_new&bk_soort_id="+bk_soort_id+"&soort="+form.find("input[name='soort']").val()+"&id="+form.find("input[name='id']").val(),
 			function(data) {
 				if(data.ok) {
-					cms_bk_seizoen.find(".cms_bk_all_rows").append(data.html);
+					cms_bk_seizoen.find(".cms_bk_row_header").after(data.html);
 					bk_keuzes_actief_inactief();
 					setHgt2();
 				}
