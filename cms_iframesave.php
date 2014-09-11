@@ -16,7 +16,10 @@ if($_GET["t"]==1) {
 <meta name="robots" content="noindex,nofollow" />
 <link href="css/cms_layout.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-<script type="text/javascript" language="JavaScript1.2" src="scripts/cms_functions.js?t=1"></script>
+<script type="text/javascript" src="scripts/cms_functions.js?t=1"></script>
+<script type="text/javascript">
+	gebruik_jquery=false;
+</script>
 </head>
 <?php
 echo "<body style=\"background-color:#ffffff;\"".($onload ? " onload=\"".$onload."\"" : "").">";
