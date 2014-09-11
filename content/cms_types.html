@@ -140,7 +140,7 @@ if($_GET["show"]==2) {
 	echo "</ul>";
 
 	// bijkomende kosten
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $login->user_id==1 or $login->user_id==6 or $login->user_id==10) {
+	if($login->has_priv("31")) {
 		if($_GET["wzt"]==1) {
 
 			$bijkomendekosten = new bijkomendekosten($_GET["2k0"], "type");

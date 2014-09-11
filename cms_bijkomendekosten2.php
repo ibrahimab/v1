@@ -3,6 +3,12 @@
 $mustlogin=true;
 include("admin/vars.php");
 
+if(!$login->has_priv("31")) {
+	// only users with the right privileges
+	header("Location: cms.php");
+	exit;
+}
+
 
 // nieuwe waarde volgorde bepalen
 $db->query("SELECT MAX(volgorde) AS volgorde FROM bk_soort WHERE 1=1;");

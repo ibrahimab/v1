@@ -356,7 +356,7 @@ if($mustlogin) {
 		$layout->submenu_item("cms_mail_klanten_vorig_seizoen","","cms_mail_klanten_vorig_seizoen","Afgehandeld",array("status"=>"4"),true);
 	}
 
-	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"] or $login->user_id==1 or $login->user_id==6 or $login->user_id==10) {
+	if($login->has_priv("31")) {
 		$layout->menu_item("cms_bijkomendekosten","Bijkomende kosten","",true,false,array("slide"=>true));
 		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten","huidig systeem",array("cmsversie"=>"huidig"),true);
 		$layout->submenu_item("cms_bijkomendekosten","","cms_bijkomendekosten2","nieuw systeem",array("cmsversie"=>"nieuw"),true);
@@ -1248,6 +1248,7 @@ $vars["priv"]=array(
 	28=>"Totaaloverzicht financiën kunnen opvragen (buiten kantoor)",
 	29=>"Evenementen beheren",
 	30=>"Vertrekinfo-sjablonen beheren",
+	31=>"Bijkomende kosten beheren (nieuw systeem)",
 ); # LET OP! Bij doortellen rekening houden met $vars["cms_hoofdpagina_soorten"] (dus 11 t/m 20 niet gebruiken)
 
 while(list($key,$value)=each($vars["cms_hoofdpagina_soorten"])) {
