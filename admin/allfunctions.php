@@ -275,7 +275,12 @@ class wt_mail {
 		$this->settings["utf8_headers"]=false;
 
 		$this->settings["mail_proxy"] = false;
-		$this->settings["mail_proxy_microsoftmail"] = false;
+
+		if(defined("wt_mail_proxy_microsoftmail_always") and wt_mail_proxy_microsoftmail_always===true) {
+			$this->settings["mail_proxy_microsoftmail"] = true;
+		} else {
+			$this->settings["mail_proxy_microsoftmail"] = false;
+		}
 
 		return true;
 	}
