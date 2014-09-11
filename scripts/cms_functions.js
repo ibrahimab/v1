@@ -984,6 +984,10 @@ $(document).ready(function() {
 		var cms_bk_row;
 		var not_inquery = "0";
 
+		// disable button
+		$("input[type=submit]").prop("disabled", true);
+
+		// show ajaxloader
 		$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .ajaxloader").css("visibility", "visible");
 
 		// determine which rows should not be saved
@@ -993,6 +997,13 @@ $(document).ready(function() {
 
 		// alert(not_inquery);
 		// console.log('start');
+
+		$.post( "cms/wtjson.php?t=bk_opmerkingen_intern"
+		       +"&soort="+form.find("input[name='soort']").val()
+		       +"&id="+form.find("input[name='id']").val()
+		       ,
+				{ "bk_opmerkingen_intern": $(".cms_bk_opmerkingen_intern textarea").val() }
+		);
 
 		$.getJSON(
 			"cms/wtjson.php?t=bk_save&start=1"
@@ -1051,8 +1062,9 @@ $(document).ready(function() {
 									$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row_afwijkend_type.cms_bk_row_overwrite").remove();
 									wt_popupmsg("De bijkomende kosten zijn opgeslagen.");
 									$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_type_afwijkingen_overschrijven").css("visibility", "hidden");
-									form.find("input[type=submit]").prop("disabled", false);
-									// console.log('helemaal klaar');
+
+									// enable button
+									$("input[type=submit]").prop("disabled", false);
 								}
 								$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .ajaxloader").css("visibility", "hidden");
 							}

@@ -1079,6 +1079,33 @@ a.opm {
 	display: none;
 }
 
+.cms_bk_header_left {
+	float: left;
+}
+
+.cms_bk_opmerkingen_intern {
+	float: right;
+}
+
+.cms_bk_opmerkingen_intern h3 {
+	font-size: 1.0em;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+	/*display: none;*/
+	margin-top: -16px;
+	text-align: right;
+}
+
+.cms_bk_opmerkingen_intern textarea {
+	width: 450px;
+	height: 103px;
+	font-size: 0.9em;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	/*background-color: #ebebeb;*/
+	border: 1px solid #003366;
+}
+
 .cms_bk_all_rows {
 	margin-top: 15px;
 	border: 1px solid #003366;

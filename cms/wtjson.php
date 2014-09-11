@@ -264,6 +264,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 	echo json_encode($json);
 } elseif($_GET["t"]=="bk_copy") {
+	// copy bijkomende kosten from other type
 
 	$bijkomendekosten = new bijkomendekosten(intval($_GET["type_id"]), "type");
 	$bijkomendekosten->seizoen_id = intval($_GET["sid"]);
@@ -273,7 +274,26 @@ if($_GET["t"]=="keep_session_alive") {
 
 
 	echo json_encode($json);
+} elseif($_GET["t"]=="bk_opmerkingen_intern") {
 
+	if($_GET["soort"]=="type") {
+		$db->query("SELECT accommodatie_id FROM type WHERE type_id='".intval($_GET["id"])."';");
+		if($db->next_record()) {
+			$accommodatie_id = $db->f("accommodatie_id");
+		}
+
+	} else {
+		$accommodatie_id = $_GET["id"];
+	}
+	$a = iconv("CP1252", "UTF-8", $a);
+
+
+	if($accommodatie_id and $_POST["bk_opmerkingen_intern"]) {
+		$db->query("UPDATE accommodatie SET bk_opmerkingen_intern='".addslashes(wt_utf8_decode($_POST["bk_opmerkingen_intern"]))."' WHERE accommodatie_id='".intval($accommodatie_id)."';");
+	}
+
+	$json["saved"] = true;
+	echo json_encode($json);
 }
 
 ?>
