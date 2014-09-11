@@ -2,6 +2,10 @@
 When this file is updated in Git it means there are changes to the database-structure. Please run these queries to change the structure of your test-database.
 
 ===========>>>>> Please add new queries to the top of this document (sort order: new-old) <<<<<===========
+11-sep-2014 12:48
+ALTER TABLE `accommodatie` ADD `bk_opmerkingen_intern` TEXT NULL DEFAULT NULL AFTER `bijkomendekosten6_id` ;
+
+
 9-sep-2014 13:35
 ALTER TABLE `bk_soort` ADD `min_leeftijd` TINYINT NULL DEFAULT NULL AFTER `borg` ,
 ADD `max_leeftijd` TINYINT NULL DEFAULT NULL AFTER `min_leeftijd` ,
