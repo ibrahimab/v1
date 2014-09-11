@@ -30,6 +30,8 @@ if ( $_GET["test"] ) {
 if ( $_GET["t"]=="keep_session_alive" ) {
 	// keep PHP-session alive (functions.js connects to this every 5 minutes)
 
+	$_SESSION["keep_session_alive"] = $_SERVER["REQUEST_TIME_FLOAT"];
+
 	$return["ok"]=true;
 	// wt_mail("systeembeheer@webtastic.nl", "keep_session_alive (test)", date("r")." ".$_SERVER["REQUEST_URI"]."\n".$_SERVER["REMOTE_ADDR"]);
 

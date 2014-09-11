@@ -1,5 +1,9 @@
 <?php
 
+
+phpinfo();
+exit;
+
 // echo wt_redis_host;
 // exit;
 // 87.250.157.203

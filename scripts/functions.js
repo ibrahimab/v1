@@ -713,6 +713,8 @@ $(document).ready(function() {
 		// jquery
 		//
 
+		$.ajaxSetup({ cache: false });
+
 		// "Alle types van deze accommodatie" elk blokje dezelfde hoogte
 		$("div.alletypes_typenaam").each(function() {
 			maxHeight = Math.max(maxHeight, $(this).height());

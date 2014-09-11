@@ -21,6 +21,8 @@ include("../admin/vars.php");
 if($_GET["t"]=="keep_session_alive") {
 	// keep PHP-session alive (cms_functions.js connects to this every 5 minutes)
 
+	$_SESSION["keep_session_alive"] = $_SERVER["REQUEST_TIME_FLOAT"];
+
 	$json["ok"] = true;
 
 	echo json_encode($json);
@@ -205,6 +207,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 				$query .= ", inclusief='".($_GET["inclusief"]=="undefined" ? "NULL" : intval($_GET["inclusief"]))."'";
 				if($_GET["inclusief"]==1) {
+					// inclusief
 					$query .= ", verplicht=NULL";
 					$query .= ", ter_plaatse=NULL";
 					$query .= ", eenheid=NULL";
@@ -212,13 +215,20 @@ if($_GET["t"]=="keep_session_alive") {
 					$query .= ", bedrag=NULL";
 				} else {
 					$query .= ", verplicht='".($_GET["verplicht"]=="undefined" ? "NULL" : intval($_GET["verplicht"]))."'";
-					$query .= ", ter_plaatse='".($_GET["ter_plaatse"]=="undefined" ? "NULL" : intval($_GET["ter_plaatse"]))."'";
 					$query .= ", borg_soort='".($_GET["borg_soort"]=="undefined" ? "NULL" : intval($_GET["borg_soort"]))."'";
 
-					if($_GET["borg_soort"]==4 or $_GET["borg_soort"]==5) {
+					if($_GET["verplicht"]==3) {
+						// zelf te verzorgen
+						$query .= ", ter_plaatse=NULL";
+						$query .= ", eenheid=NULL";
+						$query .= ", bedrag=NULL";
+					} elseif($_GET["borg_soort"]==4 or $_GET["borg_soort"]==5) {
+						// borg: niet van toepassing / bedrag onbekend
+						$query .= ", ter_plaatse=NULL";
 						$query .= ", eenheid=NULL";
 						$query .= ", bedrag=NULL";
 					} else {
+						$query .= ", ter_plaatse='".($_GET["ter_plaatse"]=="undefined" ? "NULL" : intval($_GET["ter_plaatse"]))."'";
 						$query .= ", eenheid='".($_GET["eenheid"]=="undefined" ? "NULL" : intval($_GET["eenheid"]))."'";
 
 						if($_GET["bedrag"]=="undefined" or !isset($_GET["bedrag"])) {
