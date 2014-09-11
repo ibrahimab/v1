@@ -420,14 +420,14 @@ We hope you have fun your search for a good accommodation!
 # winter NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Beste [NAAM],
 
-Deze winter ben je via [WEBSITE] op wintersport geweest. Je hebt aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2014/2015. Daarom willen we je graag als eerste laten weten dat een groot deel hiervan nu al te reserveren is.
+Ga jij dit jaar ook weer op wintersport via [WEBSITE]?
+
+Na je vorige wintersportvakantie heb je aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2014/2015. Daarom nodigen we je hierbij uit om onze accommodaties te bekijken. We hebben weer een mooi aanbod kunnen samenstellen met onder meer veel extra mogelijkheden voor cateringservice.
 
 [b]Klantvoordeel[/b]
-Elk jaar constateren we weer dat vooral de grote accommodaties erg populair zijn en vroeg geboekt worden. Dit geldt vooral voor de kerst- en krokusvakantie waar momenteel al veel vraag naar is, daarom raden we je aan niet te lang te wachten met oriënteren.
-
 Om je de kans te geven rustig met je reisgenoten te overleggen, geven we je als klant nu een [b]extra lange optie[/b] in plaats van de gebruikelijke 3-daagse optie. De lengte van de optie is afhankelijk van de accommodatie en de verblijfsperiode. Via onderstaande link kun je gebruik maken van dit voordeel:
 
-[link=[LINK_ALGEMEEN]]Een accommodatie zoeken voor winter 2014/2015 en profiteren van de extra lange optie[/link]
+[link=[LINK_ALGEMEEN]]Een accommodatie zoeken voor winter 2014/2015 en profiteren van de extra lange optie.[/link]
 
 Natuurlijk is het ook mogelijk om ons je wensen te [link=[LINK_CONTACT]]mailen[/link]. Wij geven je graag vrijblijvend een passend advies.
 
