@@ -776,7 +776,7 @@ if($_GET["t"]==1) {
 
 	echo "<a name=\"tekstenomzetten\"></a>";
 	echo "<h2>Om te zetten in- en exclusief-teksten (winter)</h2>";
-	$db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, t.tmp_teksten_omgezet AS ttmp_teksten_omgezet, a.tmp_teksten_omgezet, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND ( ((t.inclusief<>'' OR t.exclusief<>'') AND t.tmp_teksten_omgezet=0) OR ((a.inclusief<>'' OR a.exclusief<>'') AND a.tmp_teksten_omgezet=0) ) AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt=1 ORDER BY v.plaats, v.naam, v.accommodatie_id, t.type_id;");
+	$db->query("SELECT v.wzt, v.naam, v.plaats, v.type_id, v.accommodatie_id, v.begincode, t.tmp_teksten_omgezet AS ttmp_teksten_omgezet, a.tmp_teksten_omgezet, a.inclusief, a.exclusief, t.inclusief AS tinclusief, t.exclusief AS texclusief, a.bk_opmerkingen_intern FROM view_accommodatie v, type t, accommodatie a WHERE t.type_id=v.type_id AND a.accommodatie_id=v.accommodatie_id AND ( ((t.inclusief<>'' OR t.exclusief<>'') AND t.tmp_teksten_omgezet=0) OR ((a.inclusief<>'' OR a.exclusief<>'') AND a.tmp_teksten_omgezet=0) OR (a.bk_opmerkingen_intern<>'' AND a.bk_opmerkingen_intern IS NOT NULL)) AND v.archief=0 AND v.atonen=1 AND v.ttonen=1 AND v.wzt=1 ORDER BY a.bk_opmerkingen_intern, v.plaats, v.naam, v.accommodatie_id, t.type_id;");
 	if($db->num_rows()) {
 		echo "<div style=\"margin-left: 20px;\">";
 		echo "<ul>";
@@ -785,13 +785,17 @@ if($_GET["t"]==1) {
 				$al_gehad[$db->f("accommodatie_id")] = true;
 				if($al_gehad) echo "</li></ul>";
 				echo "<li>";
-				if(!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) {
+				if((!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) or $db->f("bk_opmerkingen_intern")) {
 					echo "<a href=\"".$vars["path"]."cms_accommodaties.php?show=1&wzt=".$db->f("wzt")."&archief=0&1k0=".$db->f("accommodatie_id")."#bijkomendekosten\" target=\"_blank\">";
 				}
 				echo wt_he($db->f("plaats")." - ".$db->f("naam"));
-				if(!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) {
+				if((!$db->f("tmp_teksten_omgezet") and ($db->f("inclusief") or $db->f("exclusief"))) or $db->f("bk_opmerkingen_intern")) {
 					echo "</a>";
 				}
+				if($db->f("bk_opmerkingen_intern")) {
+					echo "&nbsp;&nbsp;(<b>interne opmerkingen</b>)";
+				}
+
 				echo "<ul>";
 			}
 			if(!$db->f("ttmp_teksten_omgezet") and ($db->f("tinclusief") or $db->f("texclusief"))) {

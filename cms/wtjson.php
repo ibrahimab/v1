@@ -288,7 +288,7 @@ if($_GET["t"]=="keep_session_alive") {
 	$a = iconv("CP1252", "UTF-8", $a);
 
 
-	if($accommodatie_id and $_POST["bk_opmerkingen_intern"]) {
+	if($accommodatie_id) {
 		$db->query("UPDATE accommodatie SET bk_opmerkingen_intern='".addslashes(wt_utf8_decode($_POST["bk_opmerkingen_intern"]))."' WHERE accommodatie_id='".intval($accommodatie_id)."';");
 	}
 

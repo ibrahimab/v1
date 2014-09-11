@@ -278,6 +278,11 @@ class bijkomendekosten {
 					$return .= "</tr></table>";
 				}
 
+				$return .= "<form method=\"post\">";
+				$return .= "<input type=\"hidden\" name=\"seizoen_id\" value=\"".$key."\" />";
+				$return .= "<input type=\"hidden\" name=\"soort\" value=\"".$this->soort."\" />";
+				$return .= "<input type=\"hidden\" name=\"id\" value=\"".$this->id."\" />";
+
 				$return .= "<div class=\"cms_bk_header_left\">";
 
 				$return .= "<div class=\"cms_bk_kopieer\">";
@@ -285,10 +290,6 @@ class bijkomendekosten {
 				$return .= "<button>kopieer kosten &raquo;</button>&nbsp;&nbsp;<img src=\"".$vars["path"]."pic/ajax-loader-ebebeb.gif\">";
 				$return .= "</div>";
 
-				$return .= "<form method=\"post\">";
-				$return .= "<input type=\"hidden\" name=\"seizoen_id\" value=\"".$key."\" />";
-				$return .= "<input type=\"hidden\" name=\"soort\" value=\"".$this->soort."\" />";
-				$return .= "<input type=\"hidden\" name=\"id\" value=\"".$this->id."\" />";
 
 
 				$return .= $this->cms_add_cost_type();
@@ -310,6 +311,7 @@ class bijkomendekosten {
 
 				if($in_exclusief_tekst) {
 					$return .= "<div style=\"text-align:right;margin-top:15px;margin-bottom:15px;\"><input type=\"checkbox\" name=\"tmp_teksten_omgezet\" value=\"1\" id=\"tmp_teksten_omgezet\"".($this->cms_data_tmp_teksten_omgezet ? " checked" : "")."><label for=\"tmp_teksten_omgezet\">&nbsp;alle in- en exclusief-teksten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." zijn verwerkt</label></div>";
+					// $return .= "<input type=\"checkbox\" name=\"tmp_teksten_omgezet\" value=\"1\" id=\"tmp_teksten_omgezet\"".($this->cms_data_tmp_teksten_omgezet ? " checked" : "")."><label for=\"tmp_teksten_omgezet\">&nbsp;alle in- en exclusief-teksten van ".($this->soort=="type" ? "dit type" : "deze accommodatie")." zijn verwerkt</label>";
 				}
 				// $return .= "<input type=\"submit\" value=\"OPSLAAN\"".($this->other_type_data ? " disabled=\"disabled\"" : "")."><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";
 				$return .= "<input type=\"submit\" value=\"OPSLAAN\"><img src=\"".$vars["path"]."pic/ajax-loader.gif\" class=\"ajaxloader\">";

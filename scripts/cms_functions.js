@@ -995,9 +995,6 @@ $(document).ready(function() {
 			not_inquery = not_inquery + "%2C"+$(this).data("soort_id");
 		});
 
-		// alert(not_inquery);
-		// console.log('start');
-
 		$.post( "cms/wtjson.php?t=bk_opmerkingen_intern"
 		       +"&soort="+form.find("input[name='soort']").val()
 		       +"&id="+form.find("input[name='id']").val()
@@ -1027,8 +1024,6 @@ $(document).ready(function() {
 							soort_id = 0;
 						}
 
-						// console.log('getjson');
-
 						$.getJSON(
 							"cms/wtjson.php?t=bk_save&bk_soort_id="+soort_id
 							+"&soort="+form.find("input[name='soort']").val()
@@ -1048,7 +1043,6 @@ $(document).ready(function() {
 							}
 						);
 					}).promise().done(function(){
-						// console.log('done');
 
 						$.getJSON(
 							"cms/wtjson.php?t=bk_save&stop=1"
