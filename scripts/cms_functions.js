@@ -1138,27 +1138,27 @@ function bk_keuzes_actief_inactief() {
 			$(this).find("select[name^=ter_plaatse]").prop("disabled", false).css("visibility", "visible")
 			$(this).find("select[name^=eenheid]").prop("disabled", false).css("visibility", "visible")
 			$(this).find("input[name^=bedrag]").prop("disabled", false).css("visibility", "visible")
-		}
 
-		if($(this).find("select[name^=borg_soort]").length!==0) {
-			// borg: niet van toepassing of onbekend
-			if($(this).find("select[name^=borg_soort]").val()==4 || $(this).find("select[name^=borg_soort]").val()==5) {
-				$(this).find("select[name^=eenheid]").prop("disabled", true).css("visibility", "hidden")
-				$(this).find("input[name^=bedrag]").prop("disabled", true).css("visibility", "hidden")
+			if($(this).find("select[name^=borg_soort]").length!==0) {
+				// borg: niet van toepassing of onbekend
+				if($(this).find("select[name^=borg_soort]").val()==4 || $(this).find("select[name^=borg_soort]").val()==5) {
+					$(this).find("select[name^=eenheid]").prop("disabled", true).css("visibility", "hidden")
+					$(this).find("input[name^=bedrag]").prop("disabled", true).css("visibility", "hidden")
+				} else {
+					$(this).find("select[name^=eenheid]").prop("disabled", false).css("visibility", "visible")
+					$(this).find("input[name^=bedrag]").prop("disabled", false).css("visibility", "visible")
+				}
 			} else {
-				$(this).find("select[name^=eenheid]").prop("disabled", false).css("visibility", "visible")
-				$(this).find("input[name^=bedrag]").prop("disabled", false).css("visibility", "visible")
-			}
-		} else {
-			// zelf te verzorgen
-			if($(this).find("select[name^=verplicht]").val()==3) {
-				$(this).find("select[name^=ter_plaatse]").prop("disabled", true).css("visibility", "hidden")
-				$(this).find("select[name^=eenheid]").prop("disabled", true).css("visibility", "hidden")
-				$(this).find("input[name^=bedrag]").prop("disabled", true).css("visibility", "hidden")
-			} else {
-				$(this).find("select[name^=ter_plaatse]").prop("disabled", false).css("visibility", "visible")
-				$(this).find("select[name^=eenheid]").prop("disabled", false).css("visibility", "visible")
-				$(this).find("input[name^=bedrag]").prop("disabled", false).css("visibility", "visible")
+				// zelf te verzorgen
+				if($(this).find("select[name^=verplicht]").val()==3) {
+					$(this).find("select[name^=ter_plaatse]").prop("disabled", true).css("visibility", "hidden")
+					$(this).find("select[name^=eenheid]").prop("disabled", true).css("visibility", "hidden")
+					$(this).find("input[name^=bedrag]").prop("disabled", true).css("visibility", "hidden")
+				} else {
+					$(this).find("select[name^=ter_plaatse]").prop("disabled", false).css("visibility", "visible")
+					$(this).find("select[name^=eenheid]").prop("disabled", false).css("visibility", "visible")
+					$(this).find("input[name^=bedrag]").prop("disabled", false).css("visibility", "visible")
+				}
 			}
 		}
 
