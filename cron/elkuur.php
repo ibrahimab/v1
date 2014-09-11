@@ -626,7 +626,7 @@ if($huidig_uur==5) {
 
 #wt_mail("jeroen@webtastic.nl","elk uur afgerond","mail elk uur");
 
-for($i=1;$i<=1;$i++) {
+for($i=1;$i<=0;$i++) {
 
 	$mail=new wt_mail;
 	$mail->fromname="Chalet.be";

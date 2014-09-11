@@ -32,7 +32,7 @@ echo date("d-m-Y H:i")."u.<pre>\n\nChalet.nl elke uur web02\n\n\n";
 flush();
 
 
-for($i=1;$i<=1;$i++) {
+for($i=1;$i<=0;$i++) {
 
 	$mail=new wt_mail;
 	$mail->fromname="Chalet.be";
