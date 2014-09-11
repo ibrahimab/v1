@@ -62,7 +62,7 @@ class roominglist {
 				if ( $value ) {
 					$value = preg_replace( "@&nbsp;@", " ", $value );
 					$value = preg_replace( "@ {2,}@", " ", $value );
-					$value = trim( html_entity_decode( strip_tags( $value ) ) );
+					$value = trim( wt_he_decode( strip_tags( $value ) ) );
 					if ( $value ) {
 						$roominglist_inhoud_laatste_verzending_stripped_array[$value]=true;
 					}
@@ -77,7 +77,7 @@ class roominglist {
 				if ( $value ) {
 					$value = preg_replace( "@&nbsp;@", " ", $value );
 					$value = preg_replace( "@ {2,}@", " ", $value );
-					$value = trim( html_entity_decode( strip_tags( $value ) ) );
+					$value = trim( wt_he_decode( strip_tags( $value ) ) );
 					if ( $value ) {
 						$roominglist_inhoud_nieuwe_verzending_stripped_array[$value]=true;
 					}
@@ -116,7 +116,7 @@ class roominglist {
 				if ( $value ) {
 					$value = preg_replace( "@&nbsp;@", " ", $value );
 					$value = preg_replace( "@ {2,}@", " ", $value );
-					$value = trim( html_entity_decode( strip_tags( $value ) ) );
+					$value = trim( wt_he_decode( strip_tags( $value ) ) );
 					if ( $value ) {
 						$inhoud_laatste_verzending_stripped_array[$value]=true;
 					}
@@ -134,7 +134,7 @@ class roominglist {
 				if ( $value ) {
 					$value = preg_replace( "@&nbsp;@", " ", $value );
 					$value = preg_replace( "@ {2,}@", " ", $value );
-					$value = trim( html_entity_decode( strip_tags( $value ) ) );
+					$value = trim( wt_he_decode( strip_tags( $value ) ) );
 					if ( $value ) {
 						$inhoud_nieuwe_verzending_stripped_array[$value]=true;
 					}
@@ -235,7 +235,7 @@ class roominglist {
 					if ( $data_list_id ) {
 						$value = preg_replace( "@&nbsp;@", " ", $value );
 						$value = preg_replace( "@ {2,}@", " ", $value );
-						$value = trim( html_entity_decode( strip_tags( $value ) ) );
+						$value = trim( wt_he_decode( strip_tags( $value ) ) );
 						if ( $value ) {
 							$inhoud_laatste_verzending_stripped_array[$value]=$data_list_id;
 						}
@@ -611,7 +611,7 @@ class roominglist {
 						if ( $data_list_id ) {
 							$value = preg_replace( "@&nbsp;@", " ", $value );
 							$value = preg_replace( "@ {2,}@", " ", $value );
-							$value = trim( html_entity_decode( strip_tags( $value ) ) );
+							$value = trim( wt_he_decode( strip_tags( $value ) ) );
 							if ( $value ) {
 								$inhoud_nieuwe_verzending_stripped_array[$value]=$data_list_id;
 							}

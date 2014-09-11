@@ -1208,7 +1208,7 @@ class cms2 {
 										$this->tempvar[$counter]["addlog"]=true;
 									}
 									if($cms_form[$counter]->fields["layout"][$key]["title_html"]) {
-										$field_name=trim(strip_tags(html_entity_decode($cms_form[$counter]->fields["title"][$key])));
+										$field_name=trim(strip_tags(wt_he_decode($cms_form[$counter]->fields["title"][$key])));
 									} else {
 										$field_name=$cms_form[$counter]->fields["title"][$key];
 									}
@@ -1551,7 +1551,7 @@ class cms2 {
 
 			# Naam (mainfield) van het show-record bepalen (geldt voor alle $counters)
 			if($this->show_mainfield[$counter] and $this->show_rightcell[$this->show_mainfield[$counter]]) {
-				$this->show_mainfield_value=strip_tags(html_entity_decode($this->show_rightcell[$this->show_mainfield[$counter]]));
+				$this->show_mainfield_value=strip_tags(wt_he_decode($this->show_rightcell[$this->show_mainfield[$counter]]));
 			}
 			$this->back_link($counter);
 

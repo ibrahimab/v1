@@ -1541,6 +1541,25 @@ function wt_he($text) {
 	}
 }
 
+function wt_he_decode($text) {
+	//
+	// html_entity_decode with correct character encoding
+	//
+	global $vars;
+	if(is_array($text)) {
+		return false;
+	} else {
+		if($vars["wt_htmlentities_cp1252"]) {
+			$text=html_entity_decode($text,ENT_COMPAT,'cp1252');
+		} elseif($vars["wt_htmlentities_utf8"]) {
+			$text=html_entity_decode($text,ENT_COMPAT,'UTF-8');
+		} else {
+			$text=html_entity_decode($text);
+		}
+		return $text;
+	}
+}
+
 function wt_as($string) {
 	//
 	// addslashes / mysql_real_escape_string
