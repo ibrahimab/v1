@@ -36,7 +36,6 @@ while($db->next_record()) {
 		$mailtekst_persoonsgegevens=mailtekst_persoonsgegevens($gegevens["stap1"]["boekingid"],$gewenst);
 
 		$mail=new wt_mail;
-		$mail->settings["mail_proxy_microsoftmail"] = true;
 		$mail->fromname=$mailtekst_persoonsgegevens["fromname"];
 		$mail->from=$mailtekst_persoonsgegevens["from"];
 		$mail->to=$mailtekst_persoonsgegevens["to"];
@@ -78,7 +77,6 @@ while($db->next_record()) {
 		$mailtekst_persoonsgegevens=mailtekst_persoonsgegevens($gegevens["stap1"]["boekingid"],$gewenst,true);
 
 		$mail=new wt_mail;
-		$mail->settings["mail_proxy_microsoftmail"] = true;
 		$mail->fromname=$mailtekst_persoonsgegevens["fromname"];
 		$mail->from=$mailtekst_persoonsgegevens["from"];
 		$mail->to=$mailtekst_persoonsgegevens["to"];
@@ -120,7 +118,6 @@ while($db->next_record()) {
 	$mailtekst=mailtekst_verzendmethode_reisdocumenten($gegevens["stap1"]["boekingid"]);
 
 	$mail=new wt_mail;
-	$mail->settings["mail_proxy_microsoftmail"] = true;
 	$mail->fromname=$mailtekst["fromname"];
 	$mail->from=$mailtekst["from"];
 	$mail->to=$mailtekst["to"];

@@ -93,7 +93,6 @@ $mail->html_bottom="";
 
 // $mail->test = false;
 
-$mail->settings["mail_proxy_microsoftmail"] = true;
 
 foreach ($vars["websiteinfo"]["email"] as $key => $value) {
 

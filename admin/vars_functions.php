@@ -4548,8 +4548,6 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 	// }
 	$mail=new wt_mail;
 
-	$mail->settings["mail_proxy_microsoftmail"] = true;
-
 	# header-attachment toevoegen
 	if(!$settings["no_header_image"]) {
 		$cid=$mail->attachment($unixdir.$topfoto,"image/jpeg",true);
