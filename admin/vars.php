@@ -133,8 +133,7 @@ if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$
 require($unixdir."admin/vars_db.php");
 if($vars["wt_htmlentities_utf8"]) {
 	$mysqlsettings["charset"]="utf8";
-}
-if($vars["lokale_testserver"]) {
+} else {
 	$mysqlsettings["charset"]="latin1";
 }
 
