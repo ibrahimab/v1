@@ -328,8 +328,14 @@ $txt["en"]["vars"]["mailbetalingsinfo_totaalnogteontvangen"]="€ [BEDRAG] is the 
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="De prijzen van de door jou bezochte accommodatie in [PLAATS] zijn bekend!";
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_1"]="The prices of the accommodation you visited in [PLAATS] are now known";
 
+$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_subject_1"]="Komend seizoen weer op wintersport met [WEBSITE]?";
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_subject_1"]="Coming season another ski trip with [WEBSITE]?";
+
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="De prijzen van de door jou bezochte accommodatie in [PLAATS] zijn bekend!";
 $txt["en"]["vars"]["mail_klanten_vorig_seizoen_subject_2"]="The prices of the accommodation you visited in [PLAATS] are now known";
+
+$txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_subject_2"]="Komend seizoen weer op vakantie met [WEBSITE]?";
+$txt["en"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_subject_2"]="Coming season another holiday with [WEBSITE]?";
 
 $txt["nl"]["vars"]["hetteamvan"]="Het team van [[h_1]][[v_websitenaam]][[h_2]]";
 $txt["en"]["vars"]["hetteamvan"]="The [[h_1]][[v_websitenaam]][[h_2]] team";
@@ -420,7 +426,7 @@ We hope you have fun your search for a good accommodation!
 # winter NL
 $txt["nl"]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_1"]="Beste [NAAM],
 
-Ga jij dit jaar ook weer op wintersport via [WEBSITE]?
+Ga jij komend seizoen ook weer op wintersport via [WEBSITE]?
 
 Na je vorige wintersportvakantie heb je aangegeven geïnformeerd te willen worden over ons wintersportaanbod voor winter 2014/2015. Daarom nodigen we je hierbij uit om onze accommodaties te bekijken. We hebben weer een mooi aanbod kunnen samenstellen met onder meer veel extra mogelijkheden voor cateringservice.
 

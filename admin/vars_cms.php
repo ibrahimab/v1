@@ -1388,7 +1388,6 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 			$seizoennaam=$db->f("naam");
 		}
 
-		$return["subject"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_subject_".$gegevens["stap1"]["accinfo"]["wzt"]];
 		$return["from"]=$gegevens["stap1"]["website_specifiek"]["email"];
 		$return["fromname"]=$gegevens["stap1"]["website_specifiek"]["websitenaam"];
 		$return["boekingsnummer"]=$gegevens["stap1"]["boekingsnummer"];
@@ -1400,8 +1399,6 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 		$return["website"]=$gegevens["stap1"]["website"];
 
 
-		$return["subject"]=ereg_replace("\[SEIZOEN\]",$seizoennaam,$return["subject"]);
-		$return["subject"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["subject"]);
 
 		if($gegevens["stap1"]["mailtekst_klanten_vorig_seizoen"]) {
 			$return["body"].=$gegevens["stap1"]["mailtekst_klanten_vorig_seizoen"];
@@ -1412,9 +1409,12 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 			if($db->next_record()) {
 				# "Ja, mail me over andere accommodaties/bestemmingen"
 				$return["body"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_".$gegevens["stap1"]["accinfo"]["wzt"]];
+				$return["subject"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_geen_specifieke_accommodatie_subject_".$gegevens["stap1"]["accinfo"]["wzt"]];
+
 			} else {
 				# "Ja, mail me over deze accommodatie"
 				$return["body"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_".$gegevens["stap1"]["accinfo"]["wzt"]];
+				$return["subject"]=$txt[$taal]["vars"]["mail_klanten_vorig_seizoen_subject_".$gegevens["stap1"]["accinfo"]["wzt"]];
 
 
 			}
@@ -1439,6 +1439,11 @@ function mailtekst_klanten_vorig_seizoen($boekingid) {
 			// $return["body"]=ereg_replace("\[BASEHREF\]",$gegevens["stap1"]["website_specifiek"]["basehref"],$return["body"]);
 #			$return["body"]=ereg_replace("\[NAAM_MEDEWERKER\]",wt_naam($login->vars["voornaam"],$login->vars["tussenvoegsel"],$login->vars["achternaam"]),$return["body"]);
 		}
+
+		$return["subject"]=ereg_replace("\[SEIZOEN\]",$seizoennaam,$return["subject"]);
+		$return["subject"]=ereg_replace("\[PLAATS\]",$gegevens["stap1"]["accinfo"]["plaats"],$return["subject"]);
+		$return["subject"]=ereg_replace("\[WEBSITE\]",$gegevens["stap1"]["website_specifiek"]["websitenaam"],$return["subject"]);
+
 		return $return;
 	} else {
 		return false;
