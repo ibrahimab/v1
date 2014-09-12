@@ -32,16 +32,19 @@ EOT;
 
 	private function datalayer_push($array) {
 
-		$return .= "<script>
+		if(is_array($array)) {
 
-		try {
-			dataLayer.push (".json_encode($array).");
+			$return .= "<script>
+
+			try {
+				dataLayer.push (".json_encode($array).");
+			}
+			catch(err) {
+
+			}
+
+			</script>";
 		}
-		catch(err) {
-
-		}
-
-		</script>";
 
 		return $return;
 	}
@@ -69,8 +72,10 @@ EOT;
 				}
 				$send["dlvBoekingen"] = $db->f("aantal");
 				$send["dlvLaatsteBoeking"] = date("dmY", $db->f("laatsteboeking"));
+
+				$return = $this->datalayer_push($send);
+
 			}
-			$return = $this->datalayer_push($send);
 		}
 
 		return $return;

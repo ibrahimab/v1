@@ -111,9 +111,6 @@ echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jquery_url"])."\" ><
 echo "<script type=\"text/javascript\" src=\"".$vars["path"]."scripts/functions.js?cache=".@filemtime("scripts/functions.js")."\" ></script>\n";
 echo "<title>".wt_he($title[$_GET["id"]])."</title>";
 ?>
-<script type="text/javascript">
-	gebruik_jquery=false;
-</script>
 <style type="text/css">
 
 html {
