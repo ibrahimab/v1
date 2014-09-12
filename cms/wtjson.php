@@ -193,6 +193,16 @@ if($_GET["t"]=="keep_session_alive") {
 
 			$db->query("UPDATE ".$_GET["soort"]." SET tmp_teksten_omgezet='".intval($_GET["tmp_teksten_omgezet"])."' WHERE ".$_GET["soort"]."_id='".intval($_GET["id"])."';");
 
+
+			// recalculate Redis-cache
+			$bijkomendekosten = new bijkomendekosten();
+			if($_GET["soort"]=="accommodatie") {
+				$bijkomendekosten->pre_calculate_accommodation($_GET["id"]);
+			} else {
+				$bijkomendekosten->pre_calculate_type($_GET["id"]);
+			}
+
+
 			// save log
 			$bijkomendekosten = new bijkomendekosten($_GET["id"], $_GET["soort"]);
 			$bijkomendekosten->seizoen_id = $_GET["seizoen_id"];

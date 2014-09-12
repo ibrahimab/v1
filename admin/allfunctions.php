@@ -1811,7 +1811,7 @@ function wt_debugtimer($pointer="", $decimals=2) {
 		}
 		$timedif=round($timenow-$wt_debugtimer["time"],4);
 		if($timedif>0.2) echo "<B>";
-		echo "<FONT FACE=\"Courier\">".$pointer." === ".sprintf("%02.".$decimals."f\n",round($timenow-$wt_debugtimer["start"],$decimals))." === ".round($timedif,$decimals)."</FONT><BR>";
+		echo "<div style=\"margin-top:10px;margin-bottom:10px;width:270px;background-color:#ebebeb;font-family: monospace;\">".$pointer." === ".sprintf("%02.".$decimals."f\n",round($timenow-$wt_debugtimer["start"],$decimals))." === ".round($timedif,$decimals)."</div>";
 		if($timedif>0.2) echo "</B>";
 		$wt_debugtimer["time"]=$timenow;
 	}

@@ -1184,6 +1184,10 @@ a.opm {
 	font-style: italic;
 }
 
+.cms_bk_row_afwijkend_type > div:nth-child(1) {
+	padding-left: 20px;
+}
+
 .cms_bk_save_row > div:nth-child(1) {
 
 }

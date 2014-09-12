@@ -15,9 +15,17 @@ class wt_redis {
 	public $retry = 0;
 
 	function __construct() {
+
+		global $vars;
+
 		if(!$this->connect()) {
 			$this->connect();
 		}
+
+		if($vars["acceptatie_testserver"] or $vars["lokale_testserver"] or (defined("wt_test") and wt_test===true)) {
+			$this->prefix = "chalettest_";
+		}
+
 	}
 
 	private function connect() {
@@ -47,22 +55,10 @@ class wt_redis {
 
 	}
 
-	private function groupname($group) {
-		global $vars;
-		if($vars["acceptatie_testserver"] or (defined("wt_test") and wt_test===true)) {
-			$return = "chalettest_".$group;
-		} else {
-			$return = $group;
-		}
-		return $return;
-	}
-
 	public function store_array($group, $key, $data) {
 
-		$group = $this->groupname($group);
-
 		try {
-			$this->redis->hSet($group, $key, serialize($data));
+			$this->redis->hSet($this->prefix.$group, $key, serialize($data));
 		}
 		catch (Exception $e) {
 			$this->error("error redis store_array:". $e->getMessage());
@@ -71,10 +67,8 @@ class wt_redis {
 
 	public function get_array($group, $key) {
 
-		$group = $this->groupname($group);
-
 		try {
-			$data = $this->redis->hGet($group, $key);
+			$data = $this->redis->hGet($this->prefix.$group, $key);
 		}
 		catch (Exception $e) {
 			$this->error("error redis get_array:". $e->getMessage());
@@ -90,10 +84,8 @@ class wt_redis {
 
 	public function array_group_exists($group) {
 
-		$group = $this->groupname($group);
-
 		try {
-			$return = $this->redis->exists($group);
+			$return = $this->redis->exists($this->prefix.$group);
 		}
 		catch (Exception $e) {
 			$this->error("error redis array_group_exists:". $e->getMessage());
@@ -103,16 +95,83 @@ class wt_redis {
 
 	public function array_group_delete($group) {
 
-		$group = $this->groupname($group);
-
 		try {
-			$return = $this->redis->del($group);
+			$return = $this->redis->del($this->prefix.$group);
 		}
 		catch (Exception $e) {
 			$this->error("error redis array_group_delete:". $e->getMessage());
 		}
 		return $return;
 	}
+
+	public function hset($key, $field, $value) {
+
+		try {
+			$return = $this->redis->hset($this->prefix.$key, $field, $value);
+		}
+		catch (Exception $e) {
+			$this->error("error redis hset:". $e->getMessage());
+		}
+		return $return;
+	}
+
+	public function hget($key, $field) {
+
+echo $this->prefix.$key;
+
+		try {
+			$return = $this->redis->hget($this->prefix.$key, $field);
+		}
+		catch (Exception $e) {
+			$this->error("error redis hget:". $e->getMessage());
+		}
+		return $return;
+	}
+
+	public function hexists($key, $field) {
+
+		try {
+			$return = $this->redis->hexists($this->prefix.$key, $field);
+		}
+		catch (Exception $e) {
+			$this->error("error redis hexists:". $e->getMessage());
+		}
+		return $return;
+	}
+
+	public function del($key) {
+
+		try {
+			$return = $this->redis->del($this->prefix.$key);
+		}
+		catch (Exception $e) {
+			$this->error("error redis del:". $e->getMessage());
+		}
+		return $return;
+	}
+
+	public function exists($key) {
+
+		try {
+			$return = $this->redis->exists($this->prefix.$key);
+		}
+		catch (Exception $e) {
+			$this->error("error redis exists:". $e->getMessage());
+		}
+		return $return;
+	}
+
+	public function keys($query) {
+
+		try {
+			$return = $this->redis->keys($this->prefix.$query);
+		}
+		catch (Exception $e) {
+			$this->error("error redis exists:". $e->getMessage());
+		}
+		return $return;
+	}
+
 }
 
 ?>

@@ -662,6 +662,33 @@ function form_before_goto($form) {
 			}
 		}
 	}
+
+	//  new type: bijkomendekosten
+	if($form->db_insert_id) {
+
+		// copy bijkomendekosten from accommodation
+		$db->query("SELECT * FROM bk_accommodatie WHERE accommodatie_id='".intval($_GET["1k0"])."';");
+		while($db->next_record()) {
+			unset($setquery);
+			foreach ($db->Record as $key => $value) {
+				if($key<>"accommodatie_id" and !is_int($key)) {
+					if($value=="") {
+						$setquery .= ", ".$key."=NULL";
+					} else {
+						$setquery .= ", ".$key."='".addslashes($value)."'";
+					}
+				}
+			}
+			if($setquery) {
+				$db2->query("INSERT INTO bk_type SET type_id='".intval($form->db_insert_id)."'".$setquery.";");
+			}
+		}
+
+		// calculate bijkomendekosten
+		$bijkomendekosten = new bijkomendekosten;
+		$bijkomendekosten->pre_calculate_type($form->db_insert_id);
+	}
+
 }
 
 function form_after_imagedelete($form) {

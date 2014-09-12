@@ -36,7 +36,7 @@ $huidig_uur = date("H");
 #wt_mail("jeroen@webtastic.nl","elk uur","mail elk uur");
 
 
-# Wisselkoers pond opvragen
+// Wisselkoers pond opvragen
 if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test2") {
 	$koers_json=file_get_contents("http://rate-exchange.appspot.com/currency?from=EUR&to=GBP");
 	if($koers_json) {
@@ -47,6 +47,12 @@ if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[
 			$db->query("UPDATE diverse_instellingen SET wisselkoers_pond=".addslashes($koers_array["rate"])." WHERE diverse_instellingen_id=1;");
 		}
 	}
+}
+
+// Types without bijkomendekosten in Redis: calculate
+if($huidig_uur>0) {
+	$bijkomendekosten = new bijkomendekosten;
+	$bijkomendekosten->pre_calculate_all_types();
 }
 
 // aanbetaling1 vastzetten na 15 dagen

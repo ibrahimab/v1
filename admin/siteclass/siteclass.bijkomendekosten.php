@@ -28,9 +28,23 @@ class bijkomendekosten {
 	private $combine_all_rows_for_log_first_item = true;
 	public $arrangement = false;
 
-	function __construct($id, $soort="type") {
+	function __construct($id=0, $soort="type") {
 		$this->id = $id;
 		$this->soort = $soort;
+
+		$this->wt_redis = new wt_redis;
+
+	}
+
+	private function clear() {
+		//
+		// delete all vars of this class
+		//
+		foreach ($this as &$value) {
+			if(!is_object($value)) {
+				$value = null;
+			}
+		}
 
 	}
 
@@ -47,9 +61,10 @@ class bijkomendekosten {
 			// get data from database
 
 			// wzt
-			$db->query("SELECT wzt FROM view_accommodatie WHERE ".$this->soort."_id='".intval($this->id)."';");
+			$db->query("SELECT wzt, maxaantalpersonen FROM view_accommodatie WHERE ".$this->soort."_id='".intval($this->id)."';");
 			if($db->next_record()) {
 				$this->wzt = $db->f("wzt");
+				$this->maxaantalpersonen = $db->f("maxaantalpersonen");
 			}
 
 			// get seasons
@@ -390,7 +405,7 @@ class bijkomendekosten {
 
 							$this->other_type_data = true;
 							$return .= "<div class=\"cms_bk_row cms_bk_row_afwijkend_type\" data-soort_id=\"".$key."\">";
-							$return .= "<div>&nbsp;&nbsp;&nbsp;afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."#bijkomendekosten\" target=\"_blank\">".$value2."</a> (".$this->all_types_aantalpersonen[$key2].")".($other_type_empty ? ": kosten gewist" : "")."</div>";
+							$return .= "<div>afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."#bijkomendekosten\" target=\"_blank\">".$value2."</a> (".$this->all_types_aantalpersonen[$key2].")".($other_type_empty ? ": kosten gewist" : "")."</div>";
 							$return .= "<div>".wt_he($vars["bk_inclusief"][$this->check_for_differences_type_accommodation("inclusief", $key, $key2)])."</div>";
 							$return .= "<div>".wt_he($vars["bk_verplicht"][$this->check_for_differences_type_accommodation("verplicht", $key, $key2)])."</div>";
 							if($this->cms_data_bk_soorten[$key]["borg"]) {
@@ -432,7 +447,7 @@ class bijkomendekosten {
 
 						$this->other_type_data = true;
 						$return .= "<div class=\"cms_bk_row cms_bk_row_afwijkend_type\" data-soort_id=\"".$key."\">";
-						$return .= "<div>&nbsp;&nbsp;&nbsp;afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."#bijkomendekosten\" target=\"_blank\">".$value2["type"]."</a> (".$this->all_types_aantalpersonen[$key2].") ".($other_type_empty ? ": kosten gewist" : "")."</div>";
+						$return .= "<div>afwijking type <a href=\"".$vars["path"]."cms_types.php?show=2&wzt=".intval($_GET["wzt"])."&archief=".intval($_GET["archief"])."&1k0=".intval($_GET["1k0"])."&2k0=".$key2."#bijkomendekosten\" target=\"_blank\">".$value2["type"]."</a> (".$this->all_types_aantalpersonen[$key2].") ".($other_type_empty ? ": kosten gewist" : "")."</div>";
 						$return .= "<div>".wt_he($vars["bk_inclusief"][$this->check_for_differences_type_accommodation("inclusief", $key, $key2)])."</div>";
 						$return .= "<div>".wt_he($vars["bk_verplicht"][$this->check_for_differences_type_accommodation("verplicht", $key, $key2)])."</div>";
 						if($this->cms_data_bk_soorten[$key]["borg"]) {
@@ -564,8 +579,123 @@ class bijkomendekosten {
 
 		return $return;
 
+	}
+
+	public function pre_calculate_all_types($refresh_all = false) {
+
+		$db = new DB_sql;
+
+		$db->query("SELECT type_id FROM type WHERE 1=1 ORDER BY type_id;");
+		while($db->next_record()) {
+			if(!$this->wt_redis->hexists("bk_".$db->f("type_id"), "saved") or $refresh_all) {
+				$this->pre_calculate_type($db->f("type_id"));
+
+				if(defined("wt_server_name")) {
+					usleep(10000);
+				}
+				// $counter ++;
+				// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+				// 	echo "<br/>".$counter."<hr>";
+				// 	flush();
+				// }
+			}
+		}
+
+		if(!$refresh_all) {
+			//
+			// delete old entries (with "saved" older than 2 days)
+			//
+			$all_bk = $this->wt_redis->keys("bk_*");
+			if(is_array($all_bk)) {
+				foreach ($all_bk as $key => $value) {
+					$save_time = $this->wt_redis->hget($value, "saved");
+					if($save_time and $save_time<(time()-172800)) {
+						$this->wt_redis->del($value);
+					}
+				}
+			}
+		}
+	}
+
+	public function pre_calculate_accommodation($accommodatie_id) {
+
+		$db = new DB_sql;
+
+		$db->query("SELECT type_id FROM view_accommodatie WHERE accommodatie_id='".intval($accommodatie_id)."';");
+		while($db->next_record()) {
+			$this->pre_calculate_type($db->f("type_id"));
+		}
+	}
+
+	public function pre_calculate_type($type_id) {
+		//
+		// calculate bijkomendekosten per type and save in Redis
+		//
+
+		global $vars;
+
+		$this->clear();
+
+		$this->id = $type_id;
+		$this->soort = "type";
+
+		$this->get_data();
+
+
+		$this->wt_redis->del("bk_".$type_id);
+
+		foreach ($this->data as $seizoen_id => $data) {
+
+			unset($per_person, $per_accommodation);
+
+			// reservation costs
+			$per_accommodation += $vars["reserveringskosten"];
+
+			foreach ($data as $key => $value) {
+
+				if($value["filled"] and $value["verplicht"]==1 and $value["inclusief"]<>1 and $value["bedrag"]>0 and !$value["borg_soort"]) {
+
+					if($value["prijs_per_nacht"]) {
+						$value["bedrag"] = $value["bedrag"] * 7;
+					}
+
+					if($value["eenheid"]==2) {
+						// per person
+						$per_person += $value["bedrag"];
+					} else {
+						// per accommodation
+						$per_accommodation += $value["bedrag"];
+					}
+				}
+			}
+
+			for($i=$this->maxaantalpersonen;$i>=1;$i--) {
+				$total = $per_accommodation + $i * $per_person;
+				$this->wt_redis->hset("bk_".$type_id, $seizoen_id.":".$i, $total);
+				// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+				// 	echo "bk_".$type_id." - ".$seizoen_id.":".$i." - ".$total."<br/>";
+				// }
+			}
+		}
+		$this->wt_redis->hset("bk_".$type_id, "saved", time());
+	}
+
+	public function get_type_from_cache($type_id, $seizoen_id, $aantalpersonen) {
+		if(!$aantalpersonen) {
+			$aantalpersonen = 1;
+		}
+		$return = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$aantalpersonen);
+		if(!$return) {
+			$this->pre_calculate_type($type_id);
+		}
+		$return = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$aantalpersonen);
+		if(!$return) {
+			trigger_error("geen bijkomende kosten gevonden voor type_id ".$type_id.", seizoen_id ".$seizoen_id.", ".$aantalpersonen." personen", E_USER_NOTICE);
+		}
+		return $return;
 
 	}
+
 
 	private function toonbedrag($bedrag) {
 		$return = number_format($bedrag, 2, ",", ".");
