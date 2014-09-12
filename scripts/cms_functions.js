@@ -927,7 +927,7 @@ $(document).ready(function() {
 		var seizoen_id = form.find("input[name='seizoen_id']").val();
 		var cms_bk_seizoen = $("div.cms_bk_seizoen[data-seizoen_id='" + seizoen_id + "']");
 
-		form.find("select[name=bk_new]").val("");
+		form.find("select[name=bk_new]").val("0");
 
 		$.getJSON(
 			"cms/wtjson.php?t=bk_new&bk_soort_id="+bk_soort_id+"&soort="+form.find("input[name='soort']").val()+"&id="+form.find("input[name='id']").val(),
@@ -1050,12 +1050,16 @@ $(document).ready(function() {
 							+"&id="+form.find("input[name='id']").val()
 							+"&seizoen_id="+form.find("input[name='seizoen_id']").val()
 							+"&tmp_teksten_omgezet="+(form.find("input[name='tmp_teksten_omgezet']").is(":checked") ? "1" : "0")
+							+"&all_rows_for_log="+encodeURIComponent(form.find("input[name='all_rows_for_log']").val())
 							,
 							function(data) {
 								if(data.saved) {
 									$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_row_afwijkend_type.cms_bk_row_overwrite").remove();
 									wt_popupmsg("De bijkomende kosten zijn opgeslagen.");
 									$(".cms_bk_seizoen[data-seizoen_id="+seizoen_id+"] .cms_bk_type_afwijkingen_overschrijven").css("visibility", "hidden");
+
+									// set all_rows_for_log
+									form.find("input[name='all_rows_for_log']").val(data.all_rows_for_log);
 
 									// enable button
 									$("input[type=submit]").prop("disabled", false);

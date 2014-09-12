@@ -193,6 +193,25 @@ if($_GET["t"]=="keep_session_alive") {
 			}
 
 			$db->query("UPDATE ".$_GET["soort"]." SET tmp_teksten_omgezet='".intval($_GET["tmp_teksten_omgezet"])."' WHERE ".$_GET["soort"]."_id='".intval($_GET["id"])."';");
+
+			// save log
+			$bijkomendekosten = new bijkomendekosten($_GET["id"], $_GET["soort"]);
+			$bijkomendekosten->seizoen_id = $_GET["seizoen_id"];
+			$all_rows = $bijkomendekosten->cms_all_rows();
+			$json["all_rows_for_log"] = $bijkomendekosten->all_rows_for_log[$_GET["seizoen_id"]];
+
+			if($_GET["soort"]=="accommodatie") {
+				$cms_id=1;
+			} else {
+				$cms_id=2;
+			}
+
+			$_GET["all_rows_for_log"] = wt_utf8_decode($_GET["all_rows_for_log"]);
+
+			if($_GET["all_rows_for_log"]<>$bijkomendekosten->all_rows_for_log[$_GET["seizoen_id"]]) {
+				$db->query("INSERT INTO cmslog SET user_id='".addslashes($login->user_id)."', cms_id='".intval($cms_id)."', cms_name='".addslashes($cms->settings[$cms_id]["type_single"])."', record_id='".intval($_GET["id"])."', record_name='".addslashes($cmslog_recordname)."', table_name='".addslashes($cms->db[$counter]["maintable"])."', field='', field_name='bijkomende kosten', field_type='', previous='".addslashes($_GET["all_rows_for_log"])."', now='".addslashes($bijkomendekosten->all_rows_for_log[$_GET["seizoen_id"]])."', url='".addslashes($_SERVER["REQUEST_URI"])."', savedate=NOW();");
+			}
+
 			$json["saved"] = true;
 
 		} else {

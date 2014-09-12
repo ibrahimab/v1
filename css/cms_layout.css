@@ -1050,17 +1050,22 @@ a.opm {
 	bottom:1px;
 }
 
+.cms_bk_seizoen select[name=bk_new] {
+	margin-top: 5px;
+	max-width: 480px;
+}
+
 .cms_bk_add {
 	border: 1px solid #003366;
 	padding: 7px;
-	width: 500px;
+	width: 478px;
 	background-color: #ebebeb;
 }
 
 .cms_bk_kopieer {
 	border: 1px solid #003366;
 	padding: 7px;
-	width: 500px;
+	width: 478px;
 	background-color: #ebebeb;
 	margin-bottom: 15px;
 }
@@ -1093,13 +1098,13 @@ a.opm {
 	margin: 0;
 	padding: 0;
 	/*display: none;*/
-	margin-top: -16px;
+	margin-top: -15px;
 	text-align: right;
 }
 
 .cms_bk_opmerkingen_intern textarea {
-	width: 450px;
-	height: 103px;
+	width: 489px;
+	height: 107px;
 	font-size: 0.9em;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	/*background-color: #ebebeb;*/
@@ -1216,7 +1221,7 @@ a.opm {
 
 .cms_bk_oude_teksten td {
 	vertical-align: top;
-	width: 450px;
+	width: 471px;
 	border: 1px solid #878481;
 	padding: 10px;
 }

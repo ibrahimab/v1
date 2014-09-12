@@ -25,6 +25,8 @@ bespreken:
 
 class bijkomendekosten {
 
+	private $combine_all_rows_for_log_first_item = true;
+
 	function __construct($id, $soort="type") {
 		$this->id = $id;
 		$this->soort = $soort;
@@ -173,7 +175,7 @@ class bijkomendekosten {
 
 	private function cms_add_cost_type() {
 		$return .= "<div class=\"cms_bk_add\">";
-		$return .= "Bijkomende kosten toevoegen:&nbsp;&nbsp;<select name=\"bk_new\">";
+		$return .= "Bijkomende kosten toevoegen:<br/><select name=\"bk_new\">";
 		$return .= "<option value=\"0\">-- kies toe te voegen kostensoort --</option>";
 
 		if(is_array($this->cms_data_bk_soorten)) {
@@ -321,6 +323,8 @@ class bijkomendekosten {
 					$return .= "<div class=\"cms_bk_type_afwijkingen_overschrijven\"><input type=\"checkbox\" name=\"type_afwijkingen_overschrijven\" id=\"type_afwijkingen_overschrijven\"><label for=\"type_afwijkingen_overschrijven\">&nbsp;rode type-afwijkingen overschrijven</label></div>";
 				}
 
+				$return .= "<input type=\"hidden\" name=\"all_rows_for_log\" value=\"".wt_he($this->all_rows_for_log[$this->seizoen_id])."\" />";
+
 				$return .= "</form>";
 
 				$return .= "</div>"; // close .cms_bk_seizoen
@@ -443,6 +447,10 @@ class bijkomendekosten {
 
 		$return .= "</div>"; // close .cms_bk_all_rows
 
+		if($this->all_rows_for_log[$this->seizoen_id]) {
+			$this->all_rows_for_log[$this->seizoen_id] = trim($this->all_rows_for_log[$this->seizoen_id]);
+		}
+
 		return $return;
 	}
 
@@ -475,6 +483,20 @@ class bijkomendekosten {
 		return $return;
 	}
 
+	private function combine_all_rows_for_log($text, $line_end=false) {
+		if($line_end) {
+			$new_text .= $text."\n\n";
+			$this->combine_all_rows_for_log_first_item = true;
+		} elseif($text) {
+			if(!$this->combine_all_rows_for_log_first_item) {
+				$new_text .= " - ";
+			}
+			$new_text .= $text;
+			$this->combine_all_rows_for_log_first_item = false;
+		}
+		$this->all_rows_for_log[$this->seizoen_id] .= $new_text;
+	}
+
 	public function cms_new_row($bk_soort_id, $empty=false) {
 
 		global $vars;
@@ -488,16 +510,28 @@ class bijkomendekosten {
 		$return .= "<div class=\"cms_bk_row".($empty ? " cms_bk_save_row cms_bk_new_row cms_bk_to_be_filled" : "").($this->copy ? " cms_bk_save_row" : "")."\" data-soort_id=\"".$bk_soort_id."\">";
 		$return .= "<div>".wt_he($this->cms_data_bk_soorten[$bk_soort_id]["naam"])."</div>";
 
+		$this->combine_all_rows_for_log($this->cms_data_bk_soorten[$bk_soort_id]["naam"]);
+
 		if($this->cms_data_bk_soorten[$bk_soort_id]["borg"]) {
 			$return .= "<div>&nbsp;</div>";
 			$return .= "<div>&nbsp;</div>";
 			$return .= "<div>".$this->select_field("borg_soort[".$bk_soort_id."]", $vars["bk_borg_soort"], $data["borg_soort"])."</div>";
+
+			$this->combine_all_rows_for_log($vars["bk_borg_soort"][$data["borg_soort"]]);
+
 		} else {
 			$return .= "<div>".$this->select_field("inclusief[".$bk_soort_id."]", $vars["bk_inclusief"], $data["inclusief"])."</div>";
 			$return .= "<div>".$this->select_field("verplicht[".$bk_soort_id."]", $vars["bk_verplicht"], $data["verplicht"])."</div>";
 			$return .= "<div>".$this->select_field("ter_plaatse[".$bk_soort_id."]", $vars["bk_ter_plaatse"], $data["ter_plaatse"])."</div>";
+
+			$this->combine_all_rows_for_log($vars["bk_inclusief"][$data["inclusief"]]);
+			$this->combine_all_rows_for_log($vars["bk_verplicht"][$data["verplicht"]]);
+			$this->combine_all_rows_for_log($vars["bk_ter_plaatse"][$data["ter_plaatse"]]);
+
 		}
-		$return .= "<div><input type=\"text\" name=\"bedrag\" value=\"".wt_he(preg_replace("@\.@", ",", $data["bedrag"]))."\" required=\"required\" pattern=\"^\d+(\.|\,)?\d{0,2}$\" autocomplete=\"off\"></div>";
+		$bedrag = preg_replace("@\.@", ",", $data["bedrag"]);
+		$return .= "<div><input type=\"text\" name=\"bedrag\" value=\"".wt_he($bedrag)."\" required=\"required\" pattern=\"^\d+(\.|\,)?\d{0,2}$\" autocomplete=\"off\"></div>";
+		$this->combine_all_rows_for_log($bedrag);
 
 
 		unset($eenheden);
@@ -508,6 +542,7 @@ class bijkomendekosten {
 		}
 		if(is_array($eenheden)) {
 			$return .= "<div>".$this->select_field("eenheid[".$bk_soort_id."]", $eenheden, $data["eenheid"])."</div>";
+			$this->combine_all_rows_for_log($eenheden[$data["eenheid"]]);
 		} else {
 			$return .= "<div>&nbsp;</div>";
 		}
@@ -517,6 +552,8 @@ class bijkomendekosten {
 		} else {
 			$return .= "<div class=\"delete\" title=\"regel wissen\">&#xd7;</div>";
 		}
+
+		$this->combine_all_rows_for_log("", true);
 
 
 		$return .= "</div>"; // close .cms_bk_row
