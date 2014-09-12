@@ -644,6 +644,14 @@ class wt_mail {
 					}
 					curl_close($curl);
 
+					if(defined("wt_mail_proxy_microsoftmail_copy")) {
+						if($this->returnpath) {
+							mail(wt_mail_proxy_microsoftmail_copy,$this->send_subject,$this->send_body,$this->send_header,"-f".$this->returnpath);
+						} else {
+							mail(wt_mail_proxy_microsoftmail_copy,$this->send_subject,$this->send_body,$this->send_header);
+						}
+					}
+
 					// $decoded = json_decode($curl_response);
 					// if (isset($decoded->response->status) && $decoded->response->status == 'ERROR') {
 					//     die('error occured: ' . $decoded->response->errormessage);
