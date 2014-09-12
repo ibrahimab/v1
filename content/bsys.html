@@ -332,6 +332,11 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 					} else {
 						echo html("inleiding","bsys",array("v_websitenaam"=>$vars["websitenaam"]))."<p>";
 					}
+
+					// track login in Google Tag Manager
+					$google_tagmanager = new google_tagmanager;
+					echo $google_tagmanager->mijnboeking_login($login);
+
 					echo html("bekijken","bsys").":<ul>\n";
 					echo "<li><a href=\"".$path."bsys.php?menu=1&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("samenstellingreissom","bsys")."</a></li>";
 					echo "<li><a href=\"".$path."bsys.php?menu=2&bid=".$gegevens["stap1"]["boekingid"]."&burl=".urlencode($_SERVER["REQUEST_URI"])."\">".html("gegevensdeelnemers","bsys")."</a></li>";
