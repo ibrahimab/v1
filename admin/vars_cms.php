@@ -235,6 +235,10 @@ if($mustlogin) {
 	$layout->settings["logo"]="pic/cms_logo_".$vars["cmstaal"].".gif";
 #	echo 	$layout->settings["logo"];exit;
 	$layout->settings["mainpage"]="cms";
+	$layout->settings["google_analytics_id"]="UA-2078202-19";
+
+
+
 	$layout->settings["loginname_field"]="voornaam";
 	$layout->settings["css_cacheversion"]=@filemtime("css/cms_layout.css");
 	$layout->settings["chromeframe"]=true;

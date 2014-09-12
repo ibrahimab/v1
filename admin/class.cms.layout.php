@@ -11,6 +11,7 @@ class cms_layout {
 		$this->settings["jquery_version"]="1.7.1";
 		$this->settings["jqueryui_version"]="1.8.16";
 		$this->settings["jqueryui_google_api_theme"]="";
+		$this->settings["google_analytics_id"]="";
 
 		$this->settings["message"]["gebruikersnaamuitloggen"]["nl"]="_VALgebruikersnaam_ uitloggen";
 		$this->settings["message"]["gebruikersnaamuitloggen"]["en"]="log out _VALgebruikersnaam_";
@@ -386,6 +387,18 @@ class cms_layout {
 		}
 		if($this->settings["html_bottom"]) {
 			echo $this->settings["html_bottom"];
+		}
+		if($this->settings["google_analytics_id"] and $_SERVER["DOCUMENT_ROOT"]!="/home/webtastic/html") {
+			?><script>
+			  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			  ga('create', '<?php echo $this->settings["google_analytics_id"]; ?>', 'auto');
+			  ga('send', 'pageview');
+
+			</script><?php
 		}
 		echo "</body></html>";
 	}
