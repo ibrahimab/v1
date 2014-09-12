@@ -241,6 +241,9 @@ RewriteCond %{REMOTE_ADDR} !^194\.102\.98\.2.*
 RewriteCond %{REMOTE_ADDR} !^213\.136\.23\.8
 # Selina
 RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238
+# Storm Insights
+RewriteCond %{REMOTE_ADDR} !^89\.200\.202\.34
+
 RewriteRule ^(.*)$ https://www.chalet.nl/error_msg.php?t=1 [L,R=301]
 
 # Test-server: geen https toestaan
