@@ -1796,7 +1796,7 @@ function wt_sort($array,$desc=false) {
 	return $return;
 }
 
-function wt_debugtimer($pointer="") {
+function wt_debugtimer($pointer="", $decimals=2) {
 	if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 		global $wt_debugtimer;
 		$wt_debugtimer["counter"]++;
@@ -1811,7 +1811,7 @@ function wt_debugtimer($pointer="") {
 		}
 		$timedif=round($timenow-$wt_debugtimer["time"],4);
 		if($timedif>0.2) echo "<B>";
-		echo "<FONT FACE=\"Courier\">".$pointer." === ".sprintf("%02.2f\n",round($timenow-$wt_debugtimer["start"],2))." === ".round($timedif,2)."</FONT><BR>";
+		echo "<FONT FACE=\"Courier\">".$pointer." === ".sprintf("%02.".$decimals."f\n",round($timenow-$wt_debugtimer["start"],$decimals))." === ".round($timedif,$decimals)."</FONT><BR>";
 		if($timedif>0.2) echo "</B>";
 		$wt_debugtimer["time"]=$timenow;
 	}
