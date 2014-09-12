@@ -1176,13 +1176,6 @@ $vars["eigenaar_blokkering_naam"] = array(1=>"Geblokkeerd door eigenaar", 2=>"Bo
 $vars["voorraad_afboeken"] = array(1=>"niet bijgewerkt", 2=>"garantie", 3=>"allotment", 4=>"vervallen allotment", 5=>"request", 6=>"optie leverancier");
 
 
-// bijkomende kosten
-$vars["bk_inclusief"] = array(1=>"inclusief", 0=>"exclusief");
-$vars["bk_verplicht"] = array(0=>"optioneel", 1=>"verplicht", 2=>"naar verbruik", 3=>"zelf te verzorgen");
-$vars["bk_ter_plaatse"] = array(0=>"vooraf", 1=>"ter plaatse");
-$vars["bk_eenheid"] = array(1=>"per verblijf",2=>"per persoon", 3=>"per dag", 4=>"per item", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak");
-$vars["bk_borg_soort"] = array(1=>"contant",2=>"creditcard", 3=>"contant of creditcard", 4=>"niet van toepassing", 5=>"bedrag onbekend");
-
 // XML-leveranciers
 $vars["xml_type"]=array(
 	1=>"Huetten (1)",

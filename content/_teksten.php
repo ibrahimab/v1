@@ -2610,11 +2610,20 @@ $txt["en"]["tarieventabel"]["groterlettertype"]="Larger font";
 $txt["nl"]["tarieventabel"]["berekentotaalbedrag"]="Bereken totaalbedrag inclusief opties";
 $txt["en"]["tarieventabel"]["berekentotaalbedrag"]="Calculate total price including options";
 
+$txt["nl"]["tarieventabel"]["getoonde-prijs-inclusief"]="Getoonde prijs is inclusief";
+$txt["en"]["tarieventabel"]["getoonde-prijs-inclusief"]="";
+
 $txt["nl"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Uitbreidingsmogelijkheden";
 $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
 
+$txt["nl"]["tarieventabel"]["diversen"]="Diversen";
+$txt["en"]["tarieventabel"]["diversen"]="";
+
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
 $txt["en"]["tarieventabel"]["bekijkdeextraopties"]="Look at [[h_1]]our possibilities[[h_2]]";
+
+$txt["nl"]["tarieventabel"]["bekijk-ook-extra-opties"]="Bekijk ook onze [[h_1]]extra opties[[h_2]]";
+$txt["en"]["tarieventabel"]["bekijk-ook-extra-opties"]="Look at [[h_1]]our other possibilities[[h_2]]";
 
 $txt["nl"]["tarieventabel"]["nualteboeken"]="Nu al te boeken: [[v_seizoennaam]]";
 $txt["en"]["tarieventabel"]["nualteboeken"]="Already bookable: [[v_seizoennaam]]";

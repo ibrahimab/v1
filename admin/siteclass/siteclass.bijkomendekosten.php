@@ -15,7 +15,7 @@ todo:
 eventueel later:
 - accommodatie-niveau per regel opslaan
 - kopieren vanaf ander seizoen
-
+- tabellen inclusief en exclusief bij accommodaties zonder tarieven (en bij tonen oude tarieventabel)
 
 bespreken:
 - waar is "borg" "niet van toepassing" voor nodig?
@@ -26,6 +26,7 @@ bespreken:
 class bijkomendekosten {
 
 	private $combine_all_rows_for_log_first_item = true;
+	public $arrangement = false;
 
 	function __construct($id, $soort="type") {
 		$this->id = $id;
@@ -63,8 +64,9 @@ class bijkomendekosten {
 
 			if(is_array($this->cms_data_seizoenen)) {
 				foreach ($this->cms_data_seizoenen as $key => $value) {
-					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, ba.".$this->soort."_id, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag FROM bk_soort bs LEFT JOIN bk_".$this->soort." ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.".$this->soort."_id='".intval($this->id)."' AND ba.seizoen_id='".intval($key)."') WHERE (ba.".$this->soort."_id IS NOT NULL OR bs.altijd_invullen=1)
-					           ORDER BY ba.inclusief DESC, bs.volgorde;");
+					$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bs.altijd_diversen, bs.prijs_per_nacht, ba.".$this->soort."_id, ba.seizoen_id, ba.inclusief, ba.verplicht, ba.ter_plaatse, ba.eenheid, ba.borg_soort, ba.bedrag
+							   FROM bk_soort bs LEFT JOIN bk_".$this->soort." ba ON (bs.bk_soort_id=ba.bk_soort_id AND ba.".$this->soort."_id='".intval($this->id)."' AND ba.seizoen_id='".intval($key)."') WHERE (ba.".$this->soort."_id IS NOT NULL OR bs.altijd_invullen=1)
+							   ORDER BY ba.inclusief DESC, bs.volgorde;");
 
 
 					while($db->next_record()) {
@@ -77,6 +79,8 @@ class bijkomendekosten {
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["eenheid"] = $db->f("eenheid");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["borg_soort"] = $db->f("borg_soort");
 						$this->data[$seizoen_id][$db->f("bk_soort_id")]["bedrag"] = $db->f("bedrag");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["altijd_diversen"] = $db->f("altijd_diversen");
+						$this->data[$seizoen_id][$db->f("bk_soort_id")]["prijs_per_nacht"] = $db->f("prijs_per_nacht");
 						if($db->f("seizoen_id")) {
 							$this->data[$seizoen_id][$db->f("bk_soort_id")]["filled"] = true;
 						}
@@ -143,7 +147,7 @@ class bijkomendekosten {
 
 
 				$db->query("SELECT bs.bk_soort_id, bs.naam".$vars["ttv"]." AS naam, bs.altijd_invullen, bt.seizoen_id, bt.inclusief, bt.verplicht, bt.ter_plaatse, bt.eenheid, bt.borg_soort, bt.bedrag, t.type_id, t.begincode FROM bk_type bt INNER JOIN bk_soort bs USING (bk_soort_id) INNER JOIN view_accommodatie t USING (type_id) WHERE t.accommodatie_id='".intval($this->id)."' AND bt.seizoen_id IN (".substr($this->seizoen_inquery,1).")
-				           ORDER BY bt.type_id, bt.inclusief DESC, bs.volgorde;");
+						   ORDER BY bt.type_id, bt.inclusief DESC, bs.volgorde;");
 
 				while($db->next_record()) {
 					foreach ($this->cms_data_seizoenen as $key => $value) {
@@ -390,12 +394,12 @@ class bijkomendekosten {
 							$return .= "<div>".wt_he($vars["bk_inclusief"][$this->check_for_differences_type_accommodation("inclusief", $key, $key2)])."</div>";
 							$return .= "<div>".wt_he($vars["bk_verplicht"][$this->check_for_differences_type_accommodation("verplicht", $key, $key2)])."</div>";
 							if($this->cms_data_bk_soorten[$key]["borg"]) {
-								$return .= "<div>".wt_he($vars["bk_borg_soort"][$this->check_for_differences_type_accommodation("borg_soort", $key, $key2)])."</div>";
+								$return .= "<div>".wt_he($vars["bk_borg_soort_cms"][$this->check_for_differences_type_accommodation("borg_soort", $key, $key2)])."</div>";
 							} else {
-								$return .= "<div>".wt_he($vars["bk_ter_plaatse"][$this->check_for_differences_type_accommodation("ter_plaatse", $key, $key2)])."</div>";
+								$return .= "<div>".wt_he($vars["bk_ter_plaatse_cms"][$this->check_for_differences_type_accommodation("ter_plaatse", $key, $key2)])."</div>";
 							}
 							$return .= "<div class=\"cms_bk_bedrag\">".wt_he($this->check_for_differences_type_accommodation("bedrag", $key, $key2))."</div>";
-							$return .= "<div>".wt_he($vars["bk_eenheid"][$this->check_for_differences_type_accommodation("eenheid", $key, $key2)])."</div>";
+							$return .= "<div>".wt_he($vars["bk_eenheid_cms"][$this->check_for_differences_type_accommodation("eenheid", $key, $key2)])."</div>";
 							$return .= "<div>&nbsp;</div>";
 							$return .= "</div>"; // close .cms_bk_row
 						}
@@ -432,12 +436,12 @@ class bijkomendekosten {
 						$return .= "<div>".wt_he($vars["bk_inclusief"][$this->check_for_differences_type_accommodation("inclusief", $key, $key2)])."</div>";
 						$return .= "<div>".wt_he($vars["bk_verplicht"][$this->check_for_differences_type_accommodation("verplicht", $key, $key2)])."</div>";
 						if($this->cms_data_bk_soorten[$key]["borg"]) {
-							$return .= "<div>".wt_he($vars["bk_borg_soort"][$this->check_for_differences_type_accommodation("borg_soort", $key, $key2)])."</div>";
+							$return .= "<div>".wt_he($vars["bk_borg_soort_cms"][$this->check_for_differences_type_accommodation("borg_soort", $key, $key2)])."</div>";
 						} else {
-							$return .= "<div>".wt_he($vars["bk_ter_plaatse"][$this->check_for_differences_type_accommodation("ter_plaatse", $key, $key2)])."</div>";
+							$return .= "<div>".wt_he($vars["bk_ter_plaatse_cms"][$this->check_for_differences_type_accommodation("ter_plaatse", $key, $key2)])."</div>";
 						}
 						$return .= "<div>".wt_he($this->check_for_differences_type_accommodation("bedrag", $key, $key2))."</div>";
-						$return .= "<div>".wt_he($vars["bk_eenheid"][$this->check_for_differences_type_accommodation("eenheid", $key, $key2)])."</div>";
+						$return .= "<div>".wt_he($vars["bk_eenheid_cms"][$this->check_for_differences_type_accommodation("eenheid", $key, $key2)])."</div>";
 						$return .= "<div>&nbsp;</div>";
 						$return .= "</div>"; // close .cms_bk_row
 					}
@@ -515,18 +519,18 @@ class bijkomendekosten {
 		if($this->cms_data_bk_soorten[$bk_soort_id]["borg"]) {
 			$return .= "<div>&nbsp;</div>";
 			$return .= "<div>&nbsp;</div>";
-			$return .= "<div>".$this->select_field("borg_soort[".$bk_soort_id."]", $vars["bk_borg_soort"], $data["borg_soort"])."</div>";
+			$return .= "<div>".$this->select_field("borg_soort[".$bk_soort_id."]", $vars["bk_borg_soort_cms"], $data["borg_soort"])."</div>";
 
-			$this->combine_all_rows_for_log($vars["bk_borg_soort"][$data["borg_soort"]]);
+			$this->combine_all_rows_for_log($vars["bk_borg_soort_cms"][$data["borg_soort"]]);
 
 		} else {
 			$return .= "<div>".$this->select_field("inclusief[".$bk_soort_id."]", $vars["bk_inclusief"], $data["inclusief"])."</div>";
 			$return .= "<div>".$this->select_field("verplicht[".$bk_soort_id."]", $vars["bk_verplicht"], $data["verplicht"])."</div>";
-			$return .= "<div>".$this->select_field("ter_plaatse[".$bk_soort_id."]", $vars["bk_ter_plaatse"], $data["ter_plaatse"])."</div>";
+			$return .= "<div>".$this->select_field("ter_plaatse[".$bk_soort_id."]", $vars["bk_ter_plaatse_cms"], $data["ter_plaatse"])."</div>";
 
 			$this->combine_all_rows_for_log($vars["bk_inclusief"][$data["inclusief"]]);
 			$this->combine_all_rows_for_log($vars["bk_verplicht"][$data["verplicht"]]);
-			$this->combine_all_rows_for_log($vars["bk_ter_plaatse"][$data["ter_plaatse"]]);
+			$this->combine_all_rows_for_log($vars["bk_ter_plaatse_cms"][$data["ter_plaatse"]]);
 
 		}
 		$bedrag = preg_replace("@\.@", ",", $data["bedrag"]);
@@ -535,7 +539,7 @@ class bijkomendekosten {
 
 
 		unset($eenheden);
-		foreach ($vars["bk_eenheid"] as $key => $value) {
+		foreach ($vars["bk_eenheid_cms"] as $key => $value) {
 			if($this->cms_data_bk_soorten[$bk_soort_id]["eenheden"][$key]) {
 				$eenheden[$key] = $value;
 			}
@@ -563,7 +567,147 @@ class bijkomendekosten {
 
 	}
 
+	private function toonbedrag($bedrag) {
+		$return = number_format($bedrag, 2, ",", ".");
+		$return = preg_replace("@,00$@", ",-", $return);
+		return $return;
+	}
 
+	public function toon_type() {
+
+
+
+		//
+		// toon teksten "inclusief", "exclusief" en "bijkomende kosten"
+		//
+
+		global $vars, $isMobile;
+
+		$this->get_data();
+
+		$db = new DB_sql;
+
+		// get accinfo
+		if(!$this->accinfo) {
+			$this->accinfo=accinfo($this->type_id);
+		}
+
+		if($this->arrangement) {
+			# Skipasgegevens uit database halen
+			$db->query("SELECT s.website_omschrijving".$vars["ttv"]." AS website_omschrijving FROM skipas s, accommodatie a WHERE a.skipas_id=s.skipas_id AND a.accommodatie_id='".intval($this->accinfo["accommodatie_id"])."';");
+			if($db->next_record()) {
+				if($db->f("website_omschrijving")) $skipas_website_omschrijving=$db->f("website_omschrijving");
+			}
+		}
+		if(!$vars["wederverkoop"] and $skipas_website_omschrijving) {
+			$inclusief["skipas"] = wt_he($skipas_website_omschrijving);
+		}
+
+		foreach ($this->data[$this->seizoen_id] as $key => $value) {
+
+			if($value["filled"]) {
+
+				if($value["altijd_diversen"]) {
+					$cat = "diversen";
+				} elseif($value["inclusief"]==1 or $value["verplicht"]==1) {
+					$cat = "inclusief";
+				} else {
+					$cat = "uitbreiding";
+				}
+
+				$kosten[$cat][$key] = $value["naam"];
+
+				if($value["borg_soort"]) {
+					//
+					// borg
+					//
+					if($value["borg_soort"]==1 or $value["borg_soort"]==2 or $value["borg_soort"]==3) {
+						$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"]==2 ? " ".$vars["bk_eenheid"][$value["eenheid"]].", " : "").$vars["bk_borg_soort"][$value["borg_soort"]].")");
+					} elseif($value["borg_soort"]==4) {
+						$kosten[$cat][$key] .= ": geen borg verschuldigd";
+					} elseif($value["borg_soort"]==5) {
+						$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+					}
+				} elseif($value["prijs_per_nacht"]) {
+					//
+					// toeristenbelasting
+					//
+					$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
+					if($value["ter_plaatse"]==1) {
+						$kosten[$cat][$key] .= ", ".$vars["bk_ter_plaatse"][$value["ter_plaatse"]];
+					}
+					$kosten[$cat][$key] .= ")";
+				} else {
+					//
+					// other costs
+					//
+					if($value["bedrag"]=="0.00") {
+						$kosten[$cat][$key] .= " (tegen betaling)";
+					} elseif($value["bedrag"]>0) {
+						$kosten[$cat][$key] .= " (";
+						if($value["verplicht"]==2) {
+							$kosten[$cat][$key] .= wt_he($vars["bk_verplicht"][2].": ");
+						}
+						$kosten[$cat][$key] .= wt_he("€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"] ? $vars["bk_eenheid"][$value["eenheid"]] : ""));
+						if($value["ter_plaatse"]==1) {
+							if($value["eenheid"]) {
+								$kosten[$cat][$key] .= ", ";
+							}
+							$kosten[$cat][$key] .= $vars["bk_ter_plaatse"][$value["ter_plaatse"]];
+						}
+
+						$kosten[$cat][$key] .= ")";
+					} elseif($value["verplicht"]==3) {
+						$kosten[$cat][$key] .= " (".$vars["bk_verplicht"][3].")";
+					}
+				}
+
+			}
+		}
+
+		$kosten["inclusief"]["reserveringskosten"] = wt_he(txt("reserveringskosten", "vars")." (€ ".$vars["reserveringskosten"].",- ".txt("perboeking", "vars").")");
+
+
+		$kosten["uitbreiding"]["extraopties"] = html("bekijk-ook-extra-opties","tarieventabel",array("h_1"=>"<a href=\"#extraopties\">","h_2"=>" &raquo;</a>"));
+
+
+		if(is_array($kosten["inclusief"])) {
+			$return .= "<h1>".html("getoonde-prijs-inclusief","tarieventabel").":</h1>";
+			$return .= "<ul>";
+			foreach ($kosten["inclusief"] as $key => $value) {
+				$return .= "<li>".$value."</li>";
+			}
+			$return .= "</ul>";
+		}
+		if(is_array($kosten["uitbreiding"])) {
+			$return .= "<h1>".html("uitbreidingsmogelijkheden","tarieventabel").":</h1>";
+			$return .= "<ul>";
+			foreach ($kosten["uitbreiding"] as $key => $value) {
+				$return .= "<li>".$value."</li>";
+			}
+			$return .= "</ul>";
+		}
+		if(is_array($kosten["diversen"])) {
+			$return .= "<h1>".html("diversen","tarieventabel").":</h1>";
+			$return .= "<ul>";
+			foreach ($kosten["diversen"] as $key => $value) {
+				$return .= "<li>".$value."</li>";
+			}
+			$return .= "</ul>";
+		}
+
+
+		if(!$isMobile){
+			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
+			if(!$vars["wederverkoop"]) {
+					$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->type_id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
+			}
+			$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
+		}
+
+		return $return;
+
+	}
 
 }
 

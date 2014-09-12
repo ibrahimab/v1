@@ -123,7 +123,18 @@ class tarieventabel {
 		$return .= $this->tabel_content();
 		$return .= $this->tabel_bottom();
 
-		$toelichting = $this->toelichting();
+		if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+
+			$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
+			$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
+			$bijkomendekosten->arrangement = $this->arrangement;
+			$bijkomendekosten->accinfo = $this->accinfo;
+
+			$toelichting = $bijkomendekosten->toon_type();
+
+		} else {
+			$toelichting = $this->toelichting();
+		}
 
 		if($toelichting) {
 			$return .= "<div class=\"tarieventabel_toelichting\">";
@@ -1201,13 +1212,14 @@ if($this->tarief[$key]>0) {
 		$return.="</div>";
 
 
-                if(!$isMobile){
-                    $return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
-                    if(!$vars["wederverkoop"]) {
-                            $return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->type_id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
-                    }
-                    $return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
-                }
+		if(!$isMobile){
+			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
+			if(!$vars["wederverkoop"]) {
+					$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->type_id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
+			}
+			$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
+		}
+
 		return $return;
 	}
 
@@ -1225,9 +1237,6 @@ if($this->tarief[$key]>0) {
 		} else {
 			$this->accinfo=accinfo($this->type_id);
 		}
-
-// echo wt_dump($this->accinfo);
-// exit;
 
 		if($this->accinfo["toonper"]==3 or $vars["wederverkoop"]) {
 
@@ -1756,7 +1765,6 @@ if($this->tarief[$key]>0) {
 	}
 
 }
-
 
 
 ?>

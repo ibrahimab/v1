@@ -164,7 +164,6 @@ if($_GET["t"]=="keep_session_alive") {
 
 
 	$bijkomendekosten = new bijkomendekosten($_GET["id"], $_GET["soort"]);
-	// $bijkomendekosten->seizoen_id = $_GET["seizoen_id"];
 	$json["html"] = $bijkomendekosten->cms_new_row($_GET["bk_soort_id"], true);
 
 	echo json_encode($json);

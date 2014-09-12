@@ -64,11 +64,6 @@ exit;
 
 
 
-// $bijkomendekosten = new bijkomendekosten(3512, "accommodatie");
-// $bijkomendekosten->cms_all_rows();
-// echo wt_dump($bijkomendekosten->data);
-// echo wt_dump($bijkomendekosten->cms_data);
-// exit;
 
 
 // // echo "TT3";

@@ -872,6 +872,15 @@ $vars["vertrekinfo_soortbeheer"]=array(1=>txt("receptie","vertrekinfo"),2=>txt("
 $vars["vertrekinfo_soortbeheer_sjabloontekst"]=array(1=>txt("dereceptie","vertrekinfo"),2=>txt("hetagentschap","vertrekinfo"),3=>txt("deeigenaar","vertrekinfo"),4=>txt("decontactpersoon","vertrekinfo"));
 $vars["vertrekinfo_soortadres"]=array(1=>"adres accommodatie",2=>"sleuteladres");
 
+// bijkomende kosten
+$vars["bk_inclusief"] = array(1=>"inclusief", 0=>"exclusief");
+$vars["bk_verplicht"] = array(0=>"optioneel", 1=>"verplicht", 2=>"naar verbruik", 3=>"zelf te verzorgen");
+$vars["bk_ter_plaatse"] = array(0=>"vooraf te voldoen", 1=>"ter plaatse te voldoen");
+$vars["bk_ter_plaatse_cms"] = array(0=>"vooraf", 1=>"ter plaatse");
+$vars["bk_eenheid"] = array(1=>"per verblijf",2=>"p.p.", 3=>"per dag", 4=>"per item", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak");
+$vars["bk_eenheid_cms"] = array(1=>"per verblijf",2=>"per persoon", 3=>"per dag", 4=>"per item", 5=>"per keer", 6=>"per kWh", 7=>"per liter", 8=>"per nacht", 9=>"per set", 10=>"per week", 11=>"per zak");
+$vars["bk_borg_soort"] = array(1=>"contant te voldoen",2=>"per creditcard te voldoen", 3=>"contant of per creditcard te voldoen", 4=>"niet van toepassing", 5=>"bedrag onbekend");
+$vars["bk_borg_soort_cms"] = array(1=>"contant",2=>"creditcard", 3=>"contant of creditcard", 4=>"niet van toepassing", 5=>"bedrag onbekend");
 
 
 # Welke taal in welk land?

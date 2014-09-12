@@ -1586,7 +1586,7 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 							$inkoop_opties[$db->f("optiecategorie")]+=$inkoop_netto*$value;
 						}
 					} else {
-						trigger_error("geen optietarief (extra_optie_id".$key.") gevonden",E_USER_NOTICE);
+						trigger_error("geen optietarief (extra_optie_id ".$key.") gevonden",E_USER_NOTICE);
 					}
 				} else {
 					$db->query("SELECT inkoop, korting, netto_ink FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($key)."' AND week='".addslashes($gegevens["stap1"]["aankomstdatum"])."'");
@@ -1616,7 +1616,7 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 							$inkoop_opties[$gegevens["stap4"]["optie_onderdeelid_optiecategorie"][$key]]+=$inkoop_netto*$value;
 						}
 					} else {
-						trigger_error("geen optietarief (optie_id".$key.") gevonden",E_USER_NOTICE);
+						trigger_error("geen optietarief (optie_id ".$key.") gevonden",E_USER_NOTICE);
 					}
 				}
 			}
