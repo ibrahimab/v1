@@ -2611,13 +2611,13 @@ $txt["nl"]["tarieventabel"]["berekentotaalbedrag"]="Bereken totaalbedrag inclusi
 $txt["en"]["tarieventabel"]["berekentotaalbedrag"]="Calculate total price including options";
 
 $txt["nl"]["tarieventabel"]["getoonde-prijs-inclusief"]="Getoonde prijs is inclusief";
-$txt["en"]["tarieventabel"]["getoonde-prijs-inclusief"]="";
+$txt["en"]["tarieventabel"]["getoonde-prijs-inclusief"]="Shown price includes";
 
 $txt["nl"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Uitbreidingsmogelijkheden";
 $txt["en"]["tarieventabel"]["uitbreidingsmogelijkheden"]="Extra options";
 
 $txt["nl"]["tarieventabel"]["diversen"]="Diversen";
-$txt["en"]["tarieventabel"]["diversen"]="";
+$txt["en"]["tarieventabel"]["diversen"]="Miscellaneous";
 
 $txt["nl"]["tarieventabel"]["bekijkdeextraopties"]="Bekijk onze [[h_1]]extra opties[[h_2]]";
 $txt["en"]["tarieventabel"]["bekijkdeextraopties"]="Look at [[h_1]]our possibilities[[h_2]]";
