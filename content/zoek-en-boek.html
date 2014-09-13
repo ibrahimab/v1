@@ -1503,6 +1503,31 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
             }
 			unset($tarief_float);
 			if($tarief>0) {
+
+				if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+
+					$temp_seizoen_id = $db->f("seizoen_id");
+					if(!$temp_seizoen_id) {
+						$temp_seizoen_id="24";
+					}
+
+					if($db->f("toonper")==1) {
+						// arrangement
+						$bk_add_to_price = $bijkomendekosten->get_type_from_cache($db->f("type_id"), $temp_seizoen_id, ($_GET["fap"] ? $_GET["fap"] : $db->f("maxaantalpersonen")), true);
+					} else {
+						$bk_add_to_price = $bijkomendekosten->get_type_from_cache($db->f("type_id"), $temp_seizoen_id, ($_GET["fap"] ? $_GET["fap"] : 1), true);
+					}
+
+
+					if($bk_add_to_price>0) {
+						$tarief = $tarief + $bk_add_to_price;
+						$tarief = ceil($tarief);
+					}
+
+					// echo "T:".$db->f("type_id")."<br/>";
+				}
+
+
 				$tarief_float=$tarief;
 				$tarief=number_format($tarief,0,",",".");
 			}
@@ -2298,8 +2323,13 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 	#			if($newresultsminmax[$accid]["maxbadkamers"]<$db->f("badkamers")) $newresultsminmax[$accid]["maxbadkamers"]=$db->f("badkamers");
 
 				if($tarief_float>0) {
-					if(!$newresultsminmax[$accid]["mintarief"] or $newresultsminmax[$accid]["mintarief"]>$tarief_float) $newresultsminmax[$accid]["mintarief"]=$tarief_float;
-					if($newresultsminmax[$accid]["maxtarief"]<$tarief_float) $newresultsminmax[$accid]["maxtarief"]=$tarief_float;
+					if(!$newresultsminmax[$accid]["mintarief"] or $newresultsminmax[$accid]["mintarief"]>$tarief_float) {
+						$newresultsminmax[$accid]["mintarief"]=$tarief_float;
+						$newresults_cheapest[$accid]=$db->f("begincode").$db->f("type_id");
+					}
+					if($newresultsminmax[$accid]["maxtarief"]<$tarief_float) {
+						$newresultsminmax[$accid]["maxtarief"]=$tarief_float;
+					}
 				}
 
 				if($db->f("tkwaliteit")) {
@@ -2411,7 +2441,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 
 				# resultaat (gehele accommodatie)
-				$results[$results_teller].="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".$value2["begincode"].$value2["type_id"])."/".wt_he($querystring)."\" class=\"zoekresultaat\">";
+				$results[$results_teller].="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".($newresults_cheapest[$value] ? $newresults_cheapest[$value] : $value2["begincode"].$value2["type_id"]))."/".wt_he($querystring)."\" class=\"zoekresultaat\">";
 					$results[$results_teller].="<div class=\"zoekresultaat_top\">";
 						$results[$results_teller].="<div class=\"zoekresultaat_titel\">".wt_he(ucfirst($vars["soortaccommodatie"][$value2["soortaccommodatie"]])." ".$value2["naam"].(!$newresults_multiple&&$value2["tnaam"] ? " ".$value2["tnaam"] : ""))."</div>";
 					$results[$results_teller].="</div>";

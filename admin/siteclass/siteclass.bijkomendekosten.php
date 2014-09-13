@@ -680,20 +680,47 @@ class bijkomendekosten {
 		$this->wt_redis->hset("bk_".$type_id, "saved", time());
 	}
 
-	public function get_type_from_cache($type_id, $seizoen_id, $aantalpersonen) {
+	public function get_type_from_cache($type_id, $seizoen_id, $aantalpersonen, $per_person=false) {
 		if(!$aantalpersonen) {
 			$aantalpersonen = 1;
 		}
 		$return = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$aantalpersonen);
 		if(!$return) {
 			$this->pre_calculate_type($type_id);
+
+			$return = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$aantalpersonen);
+			if(!$return) {
+				trigger_error("geen bijkomende kosten gevonden voor type_id ".$type_id.", seizoen_id ".$seizoen_id.", ".$aantalpersonen." personen", E_USER_NOTICE);
+			}
+
 		}
-		$return = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$aantalpersonen);
-		if(!$return) {
-			trigger_error("geen bijkomende kosten gevonden voor type_id ".$type_id.", seizoen_id ".$seizoen_id.", ".$aantalpersonen." personen", E_USER_NOTICE);
+		if($per_person) {
+			$return = round($return / $aantalpersonen, 2);
 		}
 		return $return;
 
+	}
+
+	public function get_type_from_cache_all_persons($type_id, $seizoen_id, $maxaantalpersonen, $per_person) {
+
+		for($i=1;$i<=$maxaantalpersonen;$i++) {
+			$bedrag = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$i);
+			if(!$bedrag) {
+				$this->pre_calculate_type($type_id);
+
+				$bedrag = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$i);
+				if(!$bedrag) {
+					trigger_error("geen bijkomende kosten gevonden voor type_id ".$type_id.", seizoen_id ".$seizoen_id.", ".$i." personen", E_USER_NOTICE);
+				}
+
+			}
+			if($per_person) {
+				$bedrag = round($bedrag / $i, 2);
+			}
+
+			$return[$i] = $bedrag;
+		}
+		return $return;
 	}
 
 

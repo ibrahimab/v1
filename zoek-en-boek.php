@@ -226,6 +226,12 @@ if($vars["websitetype"]<>6) {
 	$laat_titel_weg=true;
 }
 
+// bijkomendekosten
+if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	$bijkomendekosten = new bijkomendekosten;
+}
+
+
 include "content/opmaak.php";
 
 ?>

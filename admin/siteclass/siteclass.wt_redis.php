@@ -117,8 +117,6 @@ class wt_redis {
 
 	public function hget($key, $field) {
 
-echo $this->prefix.$key;
-
 		try {
 			$return = $this->redis->hget($this->prefix.$key, $field);
 		}

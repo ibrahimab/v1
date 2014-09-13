@@ -1230,6 +1230,11 @@ if($this->tarief[$key]>0) {
 		$db = new DB_sql;
 		$db2 = new DB_sql;
 
+		if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+			$bijkomendekosten = new bijkomendekosten;
+		}
+
+
 
 		# Accinfo
 		if($accinfo) {
@@ -1300,6 +1305,7 @@ if($this->tarief[$key]>0) {
 		// tarieven uit database halen
 		if($this->arrangement) {
 
+
 			//
 			// arrangement
 			//
@@ -1315,6 +1321,17 @@ if($this->tarief[$key]>0) {
 
 				# seizoen_id bij een bepaalde week bepalen
 				$this->week_seizoen_id[$db->f("week")]=$db->f("seizoen_id");
+
+				if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+
+					if(!$seizoen_cache_fetched[$db->f("seizoen_id")]) {
+						$seizoen_cache_fetched[$db->f("seizoen_id")] = true;
+
+						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $db->f("seizoen_id"), $accinfo["maxaantalpersonen"], true);
+
+					}
+				}
+
 
 				if($this->toon_interne_informatie) {
 					$this->voorraad["garantie"][$db->f("week")]=$db->f("voorraad_garantie");
@@ -1362,6 +1379,14 @@ if($this->tarief[$key]>0) {
 				if($db->f("week")>=time() and $db->f("prijs")>0 and $db->f("beschikbaar") and ($db->f("bruto")>0 or $db->f("arrangementsprijs")>0)) {
 
 					$this->tarief[$db->f("personen")][$db->f("week")]=$db->f("prijs");
+
+					if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+						// add bijkomende kosten
+						$this->tarief[$db->f("personen")][$db->f("week")] += $bk_add_to_price[$db->f("personen")];
+
+						// round with ceil()
+						$this->tarief[$db->f("personen")][$db->f("week")] = ceil($this->tarief[$db->f("personen")][$db->f("week")]);
+					}
 
 					$this->aantal_personen[$db->f("personen")]=true;
 

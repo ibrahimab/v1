@@ -86,7 +86,7 @@ class voorraad_gekoppeld {
 			// $start_time=microtime(true);
 
 			// tarievenbekend nieuw seizoen: zomer
-			$tarievenbekend_seizoen_id.=",23"; // Italissima
+			$tarievenbekend_seizoen_id.=",25"; // Italissima
 
 			// tarievenbekend nieuw seizoen: winter
 			$db->query("SELECT DISTINCT tarievenbekend_seizoen_id FROM thema WHERE actief=1;");
@@ -165,7 +165,7 @@ class voorraad_gekoppeld {
 				$update.=", prijs_intern='".addslashes($prijs["intern"])."'";
 				$update.=", prijs_wederverkoop='".addslashes($prijs["wederverkoop"])."'";
 				$update.=", prijs_wederverkoop_intern='".addslashes($prijs["wederverkoop_intern"])."'";
-				$update.=", prijs_nieuw_seizoen='".addslashes($prijs["wederverkoop_intern"])."'";
+				$update.=", prijs_nieuw_seizoen='".addslashes($prijs["normaal_nieuw_seizoen"])."'";
 				$update.=", wis=0";
 
 				$update=substr($update,2);
