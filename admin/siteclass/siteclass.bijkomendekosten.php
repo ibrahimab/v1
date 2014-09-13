@@ -678,6 +678,11 @@ class bijkomendekosten {
 			}
 		}
 		$this->wt_redis->hset("bk_".$type_id, "saved", time());
+
+		if(!$GLOBALS["class_bijkomendekosten_register_shutdown"]) {
+			register_shutdown_function(array($this, "store_complete_cache"));
+			$GLOBALS["class_bijkomendekosten_register_shutdown"]=true;
+		}
 	}
 
 	public function get_type_from_cache($type_id, $seizoen_id, $aantalpersonen, $per_person=false) {
@@ -719,6 +724,55 @@ class bijkomendekosten {
 			}
 
 			$return[$i] = $bedrag;
+		}
+		return $return;
+	}
+
+	public function store_complete_cache() {
+
+		$all_bk = $this->wt_redis->keys("bk_*");
+		if(is_array($all_bk)) {
+			foreach ($all_bk as $key => $value) {
+				$content=$this->wt_redis->hgetall($value, false);
+				foreach ($content as $key2 => $value2) {
+
+					if(preg_match("@bk_([0-9]+)$@", $value, $regs)) {
+
+						$type_id = $regs[1];
+
+						if(preg_match("@^([0-9]+):([0-9]+)$@", $key2, $regs)) {
+							$bk[$type_id][$regs[1]][$regs[2]] = $value2;
+						}
+					}
+				}
+			}
+		}
+
+		if(is_array($bk)) {
+			$this->wt_redis->store_array("bk", "all", $bk);
+		}
+	}
+
+	public function get_complete_cache() {
+
+		$return = $this->wt_redis->get_array("bk", "all");
+
+		return $return;
+
+		// $r = new Redis;
+		// $r->connect(wt_redis_host, 6379);
+		// echo wt_dump($r->hgetall("chalettest_bk_4492"));
+		// exit;
+
+
+
+		$all_bk = $this->wt_redis->keys("bk_*");
+		if(is_array($all_bk)) {
+			foreach ($all_bk as $key => $value) {
+				$a=$this->wt_redis->hgetall($value, false);
+				echo wt_dump($a);
+				exit;
+			}
 		}
 		return $return;
 	}

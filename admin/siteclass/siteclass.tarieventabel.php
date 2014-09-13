@@ -123,7 +123,7 @@ class tarieventabel {
 		$return .= $this->tabel_content();
 		$return .= $this->tabel_bottom();
 
-		if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+		if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
 
 			$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
 			$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
@@ -1230,7 +1230,7 @@ if($this->tarief[$key]>0) {
 		$db = new DB_sql;
 		$db2 = new DB_sql;
 
-		if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+		if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
 			$bijkomendekosten = new bijkomendekosten;
 		}
 
@@ -1380,7 +1380,7 @@ if($this->tarief[$key]>0) {
 
 					$this->tarief[$db->f("personen")][$db->f("week")]=$db->f("prijs");
 
-					if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+					if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
 						// add bijkomende kosten
 						$this->tarief[$db->f("personen")][$db->f("week")] += $bk_add_to_price[$db->f("personen")];
 
@@ -1450,6 +1450,15 @@ if($this->tarief[$key]>0) {
 				}
 			}
 			while($db->next_record()) {
+
+				if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+
+					if(!$seizoen_cache_fetched[$db->f("seizoen_id")]) {
+						$seizoen_cache_fetched[$db->f("seizoen_id")] = true;
+
+						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $db->f("seizoen_id"), $accinfo["maxaantalpersonen"], false);
+					}
+				}
 
 				if($db->f("week")>=time() and $db->f("c_bruto")>0) {
 					$this->tarief_ingevoerd[$db->f("week")] = true;
@@ -1523,6 +1532,16 @@ if($this->tarief[$key]>0) {
 				if($db->f("week")>=time() and $temp_verkoop_site>0 and $temp_beschikbaar and $temp_bruto>0) {
 
 					$this->tarief[$db->f("week")]=$temp_verkoop_site;
+
+					if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+						// add bijkomende kosten
+						// $this->tarief[$db->f("week")] += $bk_add_to_price[($_GET["ap"] ? $_GET["ap"] : $accinfo["optimaalaantalpersonen"])];
+						$this->tarief[$db->f("week")] += $bk_add_to_price[($_GET["ap"] ? $_GET["ap"] : 1)];
+
+						// round with ceil()
+						$this->tarief[$db->f("week")] = ceil($this->tarief[$db->f("week")]);
+					}
+
 
 					if($this->tarief[$db->f("week")]>0) {
 						// $tarieventabel_tonen[$db->f("week")]=1;

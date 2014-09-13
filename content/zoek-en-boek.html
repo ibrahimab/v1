@@ -1513,9 +1513,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 					if($db->f("toonper")==1) {
 						// arrangement
-						$bk_add_to_price = $bijkomendekosten->get_type_from_cache($db->f("type_id"), $temp_seizoen_id, ($_GET["fap"] ? $_GET["fap"] : $db->f("maxaantalpersonen")), true);
+						$temp_aantalpersonen = ($_GET["fap"] ? $_GET["fap"] : $db->f("maxaantalpersonen"));
+						$bk_add_to_price = $bk[$db->f("type_id")][$temp_seizoen_id][$temp_aantalpersonen] / $temp_aantalpersonen;
 					} else {
-						$bk_add_to_price = $bijkomendekosten->get_type_from_cache($db->f("type_id"), $temp_seizoen_id, ($_GET["fap"] ? $_GET["fap"] : 1), true);
+						// losse accommodatie
+						$temp_aantalpersonen = ($_GET["fap"] ? $_GET["fap"] : 1);
+						$bk_add_to_price = $bk[$db->f("type_id")][$temp_seizoen_id][$temp_aantalpersonen];
 					}
 
 
@@ -1523,8 +1526,6 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$tarief = $tarief + $bk_add_to_price;
 						$tarief = ceil($tarief);
 					}
-
-					// echo "T:".$db->f("type_id")."<br/>";
 				}
 
 

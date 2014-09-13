@@ -229,8 +229,8 @@ if($vars["websitetype"]<>6) {
 // bijkomendekosten
 if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
 	$bijkomendekosten = new bijkomendekosten;
+	$bk = $bijkomendekosten->get_complete_cache();
 }
-
 
 include "content/opmaak.php";
 
