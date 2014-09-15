@@ -13,8 +13,11 @@ class wt_redis {
 	private $redis;
 
 	public $retry = 0;
+	public $expire_time = 604800; // expire every key after 7 days
 
 	function __construct() {
+
+
 
 		global $vars;
 
@@ -59,6 +62,10 @@ class wt_redis {
 
 		try {
 			$this->redis->hSet($this->prefix.$group, $key, serialize($data));
+
+			if($this->expire_time) {
+				$this->redis->expire($this->prefix.$group, $this->expire_time);
+			}
 		}
 		catch (Exception $e) {
 			$this->error("error redis store_array:". $e->getMessage());
@@ -104,10 +111,26 @@ class wt_redis {
 		return $return;
 	}
 
+	public function get($key) {
+
+		try {
+			$return = $this->redis->get($this->prefix.$key);
+		}
+		catch (Exception $e) {
+			$this->error("error redis get:". $e->getMessage());
+		}
+		return $return;
+	}
+
 	public function hset($key, $field, $value) {
 
 		try {
 			$return = $this->redis->hset($this->prefix.$key, $field, $value);
+
+			if($this->expire_time) {
+				$this->redis->expire($this->prefix.$group, $this->expire_time);
+			}
+
 		}
 		catch (Exception $e) {
 			$this->error("error redis hset:". $e->getMessage());
@@ -122,6 +145,21 @@ class wt_redis {
 		}
 		catch (Exception $e) {
 			$this->error("error redis hget:". $e->getMessage());
+		}
+		return $return;
+	}
+
+	public function hgetall($key, $use_prefix=true) {
+
+		try {
+			if($use_prefix) {
+				$return = $this->redis->hgetall($this->prefix.$key);
+			} else {
+				$return = $this->redis->hgetall($key);
+			}
+		}
+		catch (Exception $e) {
+			$this->error("error redis hgetall:". $e->getMessage());
 		}
 		return $return;
 	}
