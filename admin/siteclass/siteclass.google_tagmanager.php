@@ -73,7 +73,9 @@ EOT;
 				$send["dlvBoekingen"] = $db->f("aantal");
 				$send["dlvLaatsteBoeking"] = date("dmY", $db->f("laatsteboeking"));
 
-				$return = $this->datalayer_push($send);
+				if($db->f("aantal")>0) {
+					$return = $this->datalayer_push($send);
+				}
 
 			}
 		}
