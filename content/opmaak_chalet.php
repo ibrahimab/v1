@@ -280,11 +280,11 @@ while(list($key,$value)=each($menu)) {
 }
 echo "</div><!--END #hoofdmenu-->\n";
 
-if($vars["website"]=="C" and $id<>"werkenbij") {
-	echo "<div class=\"wij-zoeken-collegas\">";
-	echo "<a href=\"".$vars["path"]."werkenbij\">Wij zoeken collega's &raquo;</a>";
-	echo "</div>\n"; // close .wij-zoeken-collegas
-}
+// if($vars["website"]=="C" and $id<>"werkenbij") {
+// 	echo "<div class=\"wij-zoeken-collegas\">";
+// 	echo "<a href=\"".$vars["path"]."werkenbij\">Wij zoeken collega's &raquo;</a>";
+// 	echo "</div>\n"; // close .wij-zoeken-collegas
+// }
 
 
 echo "<div class=\"paymenticons\" id=\"kleinelogos\">";
