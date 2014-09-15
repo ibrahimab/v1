@@ -1159,6 +1159,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 					$prijs_field="prijs";
 				}
 				$db->query("SELECT t.type_id, a.toonper, c.".$prijs_field." AS prijs FROM accommodatie a, type t, cache_vanafprijs_type c WHERE t.accommodatie_id=a.accommodatie_id AND c.type_id=t.type_id AND a.wzt IN (".$temp_seizoentype.");");
+
 				while($db->next_record()) {
 					if($db->f("toonper")==1) {
 						$vanafprijs_12[$db->f("type_id")]=$db->f("prijs");
@@ -2827,9 +2828,6 @@ if(!$vars["zoek-en-boek-functions-init"]) {
 		} else {
 			$placeholder="- ".txt("geenvoorkeur","vars")." -";
 		}
-
-// echo wt_dump($vars["skigebied"]);
-
 
 		echo "<select name=\"fsg_invoer\" class=\"zoekblok_select\" id=\"zoekblok_field_bestemming\" data-placeholder=\"".wt_he($placeholder)."\" data-no_results_text=\"".html("geenresultatenmet","zoek-en-boek")."\">";
 		echo "<option> </option>";

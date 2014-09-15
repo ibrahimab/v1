@@ -4,7 +4,7 @@ if(!isset($_SERVER["PHP_AUTH_USER"])) {
 	header("WWW-Authenticate: Basic realm=\"You must Log In!\"");
 	header("HTTP/1.0 401 Unauthorized");
 	exit;
-} elseif($_SERVER["PHP_AUTH_USER"]=="wtmysql" and $_SERVER["PHP_AUTH_PW"]=="k333232fdj2383289shaskjl3kl33i0934jjh84" and ($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="87.250.157.198" or $_SERVER["REMOTE_ADDR"]=="87.250.157.199" or $_SERVER["REMOTE_ADDR"]=="37.34.56.191" or $_SERVER["REMOTE_ADDR"]=="149.210.172.200")) {
+} elseif($_SERVER["PHP_AUTH_USER"]=="wtmysql" and $_SERVER["PHP_AUTH_PW"]=="k333232fdj2383289shaskjl3kl33i0934jjh84" and ($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="87.250.157.198" or $_SERVER["REMOTE_ADDR"]=="87.250.157.199" or $_SERVER["REMOTE_ADDR"]=="37.34.56.191" or $_SERVER["REMOTE_ADDR"]=="149.210.172.200" or $_SERVER["REMOTE_ADDR"]=="87.250.157.205")) {
 	# okay!
 } else {
 	echo "Error!\npw: ".$_SERVER["PHP_AUTH_PW"]."\nREMOTE_ADDR:".$_SERVER["REMOTE_ADDR"]."\n";

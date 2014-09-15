@@ -1,8 +1,8 @@
 <?php
 
 
-phpinfo();
-exit;
+// phpinfo();
+// exit;
 
 // echo wt_redis_host;
 // exit;
@@ -10,6 +10,29 @@ exit;
 
 
 include("admin/vars.php");
+
+
+$bijkomendekosten = new bijkomendekosten;
+$bijkomendekosten->store_complete_cache();
+
+exit;
+
+
+// $bijkomendekosten->pre_calculate_all_types();
+
+wt_debugtimer("start", 5);
+echo $bijkomendekosten->get_type_from_cache(6755, 24, 5);
+wt_debugtimer("eind", 5);
+
+
+// $db->query("SELECT * FROM bk_accommodatie WHERE accommodatie_id='2977';");
+// $db->next_record();
+// var_dump($db);
+
+
+
+exit;
+
 
 $wt_redis = new wt_redis;
 
