@@ -4,6 +4,9 @@
 # JSON communicatie met de database voor het Chalet.nl-CMS
 #
 
+// start output-buffering (to be able to catch errors)
+ob_start();
+
 if($_GET["t"]=="keep_session_alive" or $_GET["t"]=="bk_new" or $_GET["t"]=="bk_save") {
 	$vars["cms_geen_aankomstdata_nodig"]=true;
 }
@@ -17,6 +20,24 @@ include("../admin/vars.php");
 #wt_jabber("boschman@gmail.com",$vars["basehref"].$_SERVER["REQUEST_URI"]);
 #mail("jeroen@webtastic.nl","json","json ".wt_dump($_GET,false));
 
+function wt_echo_json($array) {
+
+	$unwanted_output = ob_get_contents();
+	ob_end_clean();
+	ob_start();
+
+	if($unwanted_output) {
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+			wt_jabber("boschmanusa@gmail.com", "wtjson unwanted output: ".$unwanted_output." (".$_SERVER["HTTP_REFERER"].")");
+		} else {
+			trigger_error("unwanted output: ".substr($unwanted_output, 0, 70)." - call from ".$_SERVER["HTTP_REFERER"] ,E_USER_NOTICE);
+		}
+	}
+
+	ob_end_clean();
+	echo json_encode($array);
+}
+
 
 if($_GET["t"]=="keep_session_alive") {
 	// keep PHP-session alive (cms_functions.js connects to this every 5 minutes)
@@ -25,7 +46,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 	$json["ok"] = true;
 
-	echo json_encode($json);
+	wt_echo_json($json);
 	// wt_mail("systeembeheer@webtastic.nl", "keep_session_alive (test)", date("r")." ".$login->vars["voornaam"]." ".$_SERVER["REQUEST_URI"]);
 
 } elseif($_GET["t"]==1) {
@@ -36,7 +57,7 @@ if($_GET["t"]=="keep_session_alive") {
 		$json["leverancier_id"]=$_GET["leverancier_id"];
 		$json["aankomstdatum_exact"]=$_GET["aankomstdatum_exact"];
 		$json["reserveringsnummer_2"]=get_reserveringsnummer_2($_GET["leverancier_id"],$_GET["aankomstdatum_exact"]);
-		echo json_encode($json);
+		wt_echo_json($json);
 	}
 } elseif($_GET["t"]==2) {
 	#
@@ -49,7 +70,7 @@ if($_GET["t"]=="keep_session_alive") {
 	}
 
 	$json["afgevinkt"]=1;
-	echo json_encode($json);
+	wt_echo_json($json);
 } elseif($_GET["t"]==3) {
 	#
 	# Garantienummer bepalen
@@ -103,7 +124,7 @@ if($_GET["t"]=="keep_session_alive") {
 			$garantienummer=$lev_nr.$begincijfer."001";
 		}
 		$json["garantienummer"]=$garantienummer;
-		echo json_encode($json);
+		wt_echo_json($json);
 	}
 } elseif($_GET["t"]==4) {
 	//
@@ -153,7 +174,7 @@ if($_GET["t"]=="keep_session_alive") {
 		$json["prices"] = true;
 	}
 
-	echo json_encode($json);
+	wt_echo_json($json);
 
 } elseif($_GET["t"]=="bk_new") {
 
@@ -166,7 +187,7 @@ if($_GET["t"]=="keep_session_alive") {
 	$bijkomendekosten = new bijkomendekosten($_GET["id"], $_GET["soort"]);
 	$json["html"] = $bijkomendekosten->cms_new_row($_GET["bk_soort_id"], true);
 
-	echo json_encode($json);
+	wt_echo_json($json);
 } elseif($_GET["t"]=="bk_save") {
 	//
 	// save bijkomende kosten
@@ -180,12 +201,14 @@ if($_GET["t"]=="keep_session_alive") {
 
 	if($_GET["soort"]=="accommodatie" or $_GET["soort"]=="type") {
 		if($_GET["start"]) {
+			// start
 			$db->query("UPDATE bk_".$_GET["soort"]." SET delete_after=1 WHERE ".$_GET["soort"]."_id='".intval($_GET["id"])."' AND seizoen_id='".intval($_GET["seizoen_id"])."' AND bk_soort_id NOT IN (".addslashes($_GET["not_inquery"]).");");
 			if($_GET["soort"]=="accommodatie") {
 				$db->query("UPDATE bk_type SET delete_after=1 WHERE type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."') AND seizoen_id='".intval($_GET["seizoen_id"])."' AND bk_soort_id NOT IN (".addslashes($_GET["not_inquery"]).");");
 			}
 			$json["saved"] = true;
 		} elseif($_GET["stop"]) {
+			// stop
 			$db->query("DELETE FROM bk_".$_GET["soort"]." WHERE delete_after=1 AND ".$_GET["soort"]."_id='".intval($_GET["id"])."' AND seizoen_id='".intval($_GET["seizoen_id"])."';");
 			if($_GET["soort"]=="accommodatie") {
 				$db->query("DELETE FROM bk_type WHERE delete_after=1 AND type_id IN (SELECT type_id FROM type WHERE accommodatie_id='".intval($_GET["id"])."') AND seizoen_id='".intval($_GET["seizoen_id"])."';");
@@ -290,7 +313,7 @@ if($_GET["t"]=="keep_session_alive") {
 
 	}
 
-	echo json_encode($json);
+	wt_echo_json($json);
 } elseif($_GET["t"]=="bk_copy") {
 	// copy bijkomende kosten from other type
 
@@ -301,7 +324,7 @@ if($_GET["t"]=="keep_session_alive") {
 	$json["cms_bk_all_rows"] = $bijkomendekosten->cms_all_rows();
 
 
-	echo json_encode($json);
+	wt_echo_json($json);
 } elseif($_GET["t"]=="bk_opmerkingen_intern") {
 
 	if($_GET["soort"]=="type") {
@@ -321,7 +344,7 @@ if($_GET["t"]=="keep_session_alive") {
 	}
 
 	$json["saved"] = true;
-	echo json_encode($json);
+	wt_echo_json($json);
 }
 
 ?>
