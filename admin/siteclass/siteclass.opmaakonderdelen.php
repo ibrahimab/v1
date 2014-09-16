@@ -94,6 +94,11 @@ class opmaakonderdelen {
 			return $return;
 		}
 	}
+
+	public function html_at_the_bottom($html) {
+		$this->html_at_the_bottom .= $html;
+	}
+
 }
 
 

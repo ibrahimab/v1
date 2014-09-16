@@ -227,9 +227,11 @@ if($vars["websitetype"]<>6) {
 }
 
 // bijkomendekosten
-if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
 	$bijkomendekosten = new bijkomendekosten;
 	$bk = $bijkomendekosten->get_complete_cache();
+
+	// $vars["toon_bijkomendekosten"] = true;
 }
 
 include "content/opmaak.php";

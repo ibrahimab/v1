@@ -23,6 +23,12 @@ if($_GET["fzt"]==html("zoekoptekst","index")) {
 }
 
 
+if($vars["toon_bijkomendekosten"]) {
+	// zoekresultaat_prijs_info_bijkomendekosten_popup (hide by default)
+	$opmaak->html_at_the_bottom("<div class=\"zoekresultaat_prijs_info_bijkomendekosten_popup zoekresultaat_prijs_info_bijkomendekosten_empty\"><img src=\"".$vars["path"]."pic/close_icon.png\" class=\"close\" /><div></div></div>");
+}
+
+
 # Tekstzoeken: termen omzetten naar verfijningen
 include_once($unixdir."content/vars/autocomplete.php");
 if ( is_array( $autocomplete ) ) {
@@ -1505,10 +1511,12 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 			unset($tarief_float);
 			if($tarief>0) {
 
-				if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+				if($vars["toon_bijkomendekosten"]) {
 
 					$temp_seizoen_id = $db->f("seizoen_id");
 					if(!$temp_seizoen_id) {
+
+						// TODO: use the actuel seizoen_id
 						$temp_seizoen_id="24";
 					}
 
@@ -1521,6 +1529,8 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 						$temp_aantalpersonen = ($_GET["fap"] ? $_GET["fap"] : 1);
 						$bk_add_to_price = $bk[$db->f("type_id")][$temp_seizoen_id][$temp_aantalpersonen];
 					}
+
+					$bk_used_seizoen_id[$db->f("type_id")] = $temp_seizoen_id;
 
 
 					if($bk_add_to_price>0) {
@@ -2327,7 +2337,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 				if($tarief_float>0) {
 					if(!$newresultsminmax[$accid]["mintarief"] or $newresultsminmax[$accid]["mintarief"]>$tarief_float) {
 						$newresultsminmax[$accid]["mintarief"]=$tarief_float;
-						$newresults_cheapest[$accid]=$db->f("begincode").$db->f("type_id");
+						$newresults_cheapest[$accid]=$db->f("type_id");
 					}
 					if($newresultsminmax[$accid]["maxtarief"]<$tarief_float) {
 						$newresultsminmax[$accid]["maxtarief"]=$tarief_float;
@@ -2443,7 +2453,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 
 				# resultaat (gehele accommodatie)
-				$results[$results_teller].="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".($newresults_cheapest[$value] ? $newresults_cheapest[$value] : $value2["begincode"].$value2["type_id"]))."/".wt_he($querystring)."\" class=\"zoekresultaat\">";
+				$results[$results_teller].="<a href=\"".wt_he($vars["path"].txt("menu_accommodatie")."/".($newresults_cheapest[$value] ? $value2["begincode"].$newresults_cheapest[$value] : $value2["begincode"].$value2["type_id"]))."/".wt_he($querystring)."\" class=\"zoekresultaat\">";
 					$results[$results_teller].="<div class=\"zoekresultaat_top\">";
 						$results[$results_teller].="<div class=\"zoekresultaat_titel\">".wt_he(ucfirst($vars["soortaccommodatie"][$value2["soortaccommodatie"]])." ".$value2["naam"].(!$newresults_multiple&&$value2["tnaam"] ? " ".$value2["tnaam"] : ""))."</div>";
 					$results[$results_teller].="</div>";
@@ -2495,6 +2505,11 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 
 						$results[$results_teller].="<div class=\"zoekresultaat_prijs\">";
 							if($value2["tarief"]) {
+
+								if($vars["toon_bijkomendekosten"]) {
+									$results[$results_teller].="<div class=\"zoekresultaat_prijs_info_bijkomendekosten\" data-type_id=\"".($newresults_cheapest[$value] ? $newresults_cheapest[$value] : $value2["type_id"])."\" data-seizoen_id=\"".intval($bk_used_seizoen_id[$value2["type_id"]])."\" data-arrangement=\"".($value2["toonper"]==3 or $vars["wederverkoop"] ? "0" : "1")."\"></div>";
+								}
+
 								unset($zoekresultaat_prijs_periode);
 								$zoekresultaat_prijs_periode.="<div class=\"zoekresultaat_prijs_periode\">";
 								if($vars["zoekform_weekendski"]) {
@@ -2523,6 +2538,7 @@ if($vars["verfijnen_aanbieden"] or $_GET["filled"] or ($vars["websitetype"]==6 a
 									$results[$results_teller].="<div class=\"zoekresultaat_prijs_vanaf\">&nbsp;</div>";
 									$results[$results_teller].=$zoekresultaat_prijs_periode;
 								}
+
 								$results[$results_teller].="<div class=\"zoekresultaat_prijs_bedrag".($aanbieding_acc ? " zoekresultaat_prijs_bedrag_aanbieding" : "")."\">&euro;&nbsp;".number_format($newresultsminmax[$value]["mintarief"],0,",",".")."</div>";
 								$results[$results_teller].="<div class=\"zoekresultaat_prijs_per\">";
 								if($value2["toonper"]==3 or $vars["wederverkoop"]) {
@@ -3899,6 +3915,5 @@ if($vars["verfijnen_aanbieden"]) {
 if($vars["page_starttime"]) {
 	echo "<div class=\"data-div\" id=\"page_load_time\" data-time=\"".number_format(microtime(true)-$vars["page_starttime"],2,",",".")."\" data-zonder-variabelen=\"".($_SERVER["REQUEST_URI"]==$vars["path"].txt("menu_zoek-en-boek").".php" ? "1" : "0")."\"></div>";
 }
-
 
 ?>

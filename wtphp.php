@@ -1,21 +1,14 @@
 <?php
 
 
-// phpinfo();
-// exit;
+phpinfo();
+exit;
 
 // echo wt_redis_host;
 // exit;
 // 87.250.157.203
 
 
-include("admin/vars.php");
-
-
-$bijkomendekosten = new bijkomendekosten;
-$bijkomendekosten->store_complete_cache();
-
-exit;
 
 
 // $bijkomendekosten->pre_calculate_all_types();

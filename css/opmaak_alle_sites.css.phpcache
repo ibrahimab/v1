@@ -1790,6 +1790,65 @@ a.fotopopup_tab_overzicht:hover img, a.fotopopup:hover img {
 	height: 113px;
 	text-align: center;
 	width: 98px;
+	position: relative;
+}
+
+.zoekresultaat_prijs_info_bijkomendekosten {
+	position: absolute;
+	top: 35px;
+	right: 2px;
+	background:url("../pic/information_icon_with_padding.png") top left no-repeat;
+	width: 18px;
+	height:18px;
+}
+
+.zoekresultaat_prijs_info_bijkomendekosten:hover {
+	opacity: 0.6;
+}
+
+.zoekresultaat_prijs_info_bijkomendekosten_popup {
+	position: absolute;
+	z-index: 500;
+	font-size: 0.9em;
+	top: -100px;
+	left: -1000px;
+	width: 450px;
+	min-height: 100px;
+	border: 1px solid #003366;
+	background-color: #d5e1f9;
+	-moz-box-shadow: 5px 5px 5px #888;
+	-webkit-box-shadow: 5px 5px 5px #888;
+	box-shadow: 5px 5px 5px #888;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#888888')";
+	filter: progid:DXImageTransform.Microsoft.Shadow(Strength=5, Direction=135, Color='#888888');
+	display: none;
+
+
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	padding: 10px;
+}
+
+.zoekresultaat_prijs_info_bijkomendekosten_popup ul {
+	margin:0;
+	padding: 0;
+	margin-left: 15px;
+	margin-top: 10px;
+}
+
+.zoekresultaat_prijs_info_bijkomendekosten_popup h2 {
+	font-size: 1.0em;
+	color: #003366;
+}
+
+.zoekresultaat_prijs_info_bijkomendekosten_popup img.close {
+	float: right;
+	cursor: pointer;
+}
+
+.zoekresultaat_prijs_info_bijkomendekosten_popup img.close:hover {
+	opacity: 0.6;
 }
 
 .zoekresultaat_prijs_periode {

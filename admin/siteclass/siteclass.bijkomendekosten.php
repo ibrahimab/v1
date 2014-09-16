@@ -784,15 +784,13 @@ class bijkomendekosten {
 		return $return;
 	}
 
-	public function toon_type() {
-
-
+	public function get_costs() {
 
 		//
-		// toon teksten "inclusief", "exclusief" en "bijkomende kosten"
+		// get all costs for 1 specific type
 		//
 
-		global $vars, $isMobile;
+		global $vars;
 
 		$this->get_data();
 
@@ -800,7 +798,7 @@ class bijkomendekosten {
 
 		// get accinfo
 		if(!$this->accinfo) {
-			$this->accinfo=accinfo($this->type_id);
+			$this->accinfo=accinfo($this->id);
 		}
 
 		if($this->arrangement) {
@@ -811,68 +809,70 @@ class bijkomendekosten {
 			}
 		}
 		if(!$vars["wederverkoop"] and $skipas_website_omschrijving) {
-			$inclusief["skipas"] = wt_he($skipas_website_omschrijving);
+			$kosten["inclusief"]["skipas"] = wt_he($skipas_website_omschrijving);
 		}
 
-		foreach ($this->data[$this->seizoen_id] as $key => $value) {
+		if(is_array($this->data[$this->seizoen_id])) {
+			foreach ($this->data[$this->seizoen_id] as $key => $value) {
 
-			if($value["filled"]) {
+				if($value["filled"]) {
 
-				if($value["altijd_diversen"]) {
-					$cat = "diversen";
-				} elseif($value["inclusief"]==1 or $value["verplicht"]==1) {
-					$cat = "inclusief";
-				} else {
-					$cat = "uitbreiding";
-				}
-
-				$kosten[$cat][$key] = $value["naam"];
-
-				if($value["borg_soort"]) {
-					//
-					// borg
-					//
-					if($value["borg_soort"]==1 or $value["borg_soort"]==2 or $value["borg_soort"]==3) {
-						$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"]==2 ? " ".$vars["bk_eenheid"][$value["eenheid"]].", " : "").$vars["bk_borg_soort"][$value["borg_soort"]].")");
-					} elseif($value["borg_soort"]==4) {
-						$kosten[$cat][$key] .= ": geen borg verschuldigd";
-					} elseif($value["borg_soort"]==5) {
-						$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+					if($value["altijd_diversen"]) {
+						$cat = "diversen";
+					} elseif($value["inclusief"]==1 or $value["verplicht"]==1) {
+						$cat = "inclusief";
+					} else {
+						$cat = "uitbreiding";
 					}
-				} elseif($value["prijs_per_nacht"]) {
-					//
-					// toeristenbelasting
-					//
-					$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
-					if($value["ter_plaatse"]==1) {
-						$kosten[$cat][$key] .= ", ".$vars["bk_ter_plaatse"][$value["ter_plaatse"]];
-					}
-					$kosten[$cat][$key] .= ")";
-				} else {
-					//
-					// other costs
-					//
-					if($value["bedrag"]=="0.00") {
-						$kosten[$cat][$key] .= " (tegen betaling)";
-					} elseif($value["bedrag"]>0) {
-						$kosten[$cat][$key] .= " (";
-						if($value["verplicht"]==2) {
-							$kosten[$cat][$key] .= wt_he($vars["bk_verplicht"][2].": ");
+
+					$kosten[$cat][$key] = wt_he($value["naam"]);
+
+					if($value["borg_soort"]) {
+						//
+						// borg
+						//
+						if($value["borg_soort"]==1 or $value["borg_soort"]==2 or $value["borg_soort"]==3) {
+							$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"]==2 ? " ".$vars["bk_eenheid"][$value["eenheid"]].", " : "").$vars["bk_borg_soort"][$value["borg_soort"]].")");
+						} elseif($value["borg_soort"]==4) {
+							$kosten[$cat][$key] .= ": geen borg verschuldigd";
+						} elseif($value["borg_soort"]==5) {
+							$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
 						}
-						$kosten[$cat][$key] .= wt_he("€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"] ? $vars["bk_eenheid"][$value["eenheid"]] : ""));
+					} elseif($value["prijs_per_nacht"]) {
+						//
+						// toeristenbelasting
+						//
+						$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
 						if($value["ter_plaatse"]==1) {
-							if($value["eenheid"]) {
-								$kosten[$cat][$key] .= ", ";
-							}
-							$kosten[$cat][$key] .= $vars["bk_ter_plaatse"][$value["ter_plaatse"]];
+							$kosten[$cat][$key] .= ", ".$vars["bk_ter_plaatse"][$value["ter_plaatse"]];
 						}
-
 						$kosten[$cat][$key] .= ")";
-					} elseif($value["verplicht"]==3) {
-						$kosten[$cat][$key] .= " (".$vars["bk_verplicht"][3].")";
-					}
-				}
+					} else {
+						//
+						// other costs
+						//
+						if($value["bedrag"]=="0.00") {
+							$kosten[$cat][$key] .= " (tegen betaling)";
+						} elseif($value["bedrag"]>0) {
+							$kosten[$cat][$key] .= " (";
+							if($value["verplicht"]==2) {
+								$kosten[$cat][$key] .= wt_he($vars["bk_verplicht"][2].": ");
+							}
+							$kosten[$cat][$key] .= wt_he("€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"] ? $vars["bk_eenheid"][$value["eenheid"]] : ""));
+							if($value["ter_plaatse"]==1) {
+								if($value["eenheid"]) {
+									$kosten[$cat][$key] .= ", ";
+								}
+								$kosten[$cat][$key] .= wt_he($vars["bk_ter_plaatse"][$value["ter_plaatse"]]);
+							}
 
+							$kosten[$cat][$key] .= ")";
+						} elseif($value["verplicht"]==3) {
+							$kosten[$cat][$key] .= " (".$vars["bk_verplicht"][3].")";
+						}
+					}
+
+				}
 			}
 		}
 
@@ -881,6 +881,20 @@ class bijkomendekosten {
 
 		$kosten["uitbreiding"]["extraopties"] = html("bekijk-ook-extra-opties","tarieventabel",array("h_1"=>"<a href=\"#extraopties\">","h_2"=>" &raquo;</a>"));
 
+		return $kosten;
+	}
+
+	public function toon_type() {
+
+
+
+		//
+		// toon teksten "inclusief", "exclusief" en "bijkomende kosten"
+		//
+
+		global $vars, $isMobile;
+
+		$kosten = $this->get_costs();
 
 		if(is_array($kosten["inclusief"])) {
 			$return .= "<h1>".html("getoonde-prijs-inclusief","tarieventabel").":</h1>";
@@ -911,7 +925,7 @@ class bijkomendekosten {
 		if(!$isMobile){
 			$return .= "<div class=\"toelichting_bereken_totaalbedrag\">";
 			if(!$vars["wederverkoop"]) {
-					$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->type_id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
+					$return.="<a href=\"".$vars["path"]."calc.php?tid=".intval($this->id)."&ap=".wt_he($this->get_aantal_personen)."&d=".wt_he($_GET["d"])."&back=".urlencode($_SERVER["REQUEST_URI"])."\">".html("berekentotaalbedrag","tarieventabel")." &raquo;</a>";
 			}
 			$return .= "</div>"; # afsluiten .toelichting_bereken_totaalbedrag
 		}

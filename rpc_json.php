@@ -669,6 +669,29 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 		}
 	}
 	usleep(500000);
+} elseif($_GET["t"]=="get_content_zoekresultaat_prijs_info_bijkomendekosten_popup") {
+	// get content for zoekresultaat_prijs_info_bijkomendekosten_popup
+
+	$bijkomendekosten = new bijkomendekosten($_GET["type_id"], "type");
+	$bijkomendekosten->seizoen_id = $_GET["seizoen_id"];
+	if($_GET["arrangement"]) {
+		$bijkomendekosten->arrangement = true;
+	}
+
+	$kosten = $bijkomendekosten->get_costs();
+
+	if(is_array($kosten["inclusief"])) {
+
+		// echo wt_dump($kosten["inclusief"]);
+
+		$return["html"] .= "<h2>".html("getoonde-prijs-inclusief","tarieventabel").":</h2>";
+
+		$return["html"] .= "<ul>";
+		foreach ($kosten["inclusief"] as $key => $value) {
+			$return["html"] .= "<li>".$value."</li>";
+		}
+		$return["html"] .= "</ul>";
+	}
 }
 
 $return["ok"]=true;

@@ -698,6 +698,7 @@ var landkaartklikbaar_info_hoverkleur="#636f07";
 var eerste_tab_getoond=false;
 var google_analytics_tab_verstuurd=false;
 var maxHeight = 0;
+var zoek_en_boek_links_active = true;
 
 $(document).ready(function() {
 
@@ -1547,108 +1548,78 @@ $(document).ready(function() {
 			// scroll-y-positie opslaan (vanuit zoekresultaat-klik)
 			$("a.zoekresultaat, a.zoekresultaat_type").click(function(event) {
 
-				if(event.ctrlKey||event.which==2) {
-					// link openen in nieuw venster: geen ajaxloader tonen
-				} else {
-					show_ajaxloader(true);
-				}
+				if(zoek_en_boek_links_active==false) {
 
-				var nieuwe_url=$(this).attr("href");
-
-
-
-
-				var back_url = getQueryStringValueOfURL("back", nieuwe_url);
-
-				// change scrolly-querystring in back_url
-				if(/scrolly/.test(back_url)) {
-					back_url = updateURLParameter(back_url,"scrolly",$(window).scrollTop());
-				} else {
-					if(/\?/.test(back_url)) {
-						back_url = back_url+"&scrolly="+$(window).scrollTop();
-					} else {
-						back_url = back_url+"?scrolly="+$(window).scrollTop();
-					}
-				}
-
-				// change map-querystring in back_url
-				if($(".zoekresultaten_zoeken_op_kaart_map").length!==0) {
-					if(/map=/.test(back_url)) {
-						if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
-							back_url = updateURLParameter(back_url,"map",1);
-						} else {
-							back_url = updateURLParameter(back_url,"map",0);
-						}
-
-					} else {
-						if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
-							back_url = back_url+"&map=1";
-						} else {
-							back_url = back_url+"&map=0";
-						}
-					}
-				}
-
-				nieuwe_url = updateURLParameter(nieuwe_url,"back",encodeURIComponent(back_url));
-
-				// if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
-				// 	back_url = updateURLParameter(back_url,"map",1);
-				// } else {
-				// 	back_url = updateURLParameter(back_url,"map",1);
-				// }
-
-
-
-				// // get-value scrolly updaten
-				// if(/scrolly%3D/.test(nieuwe_url)) {
-				// 	nieuwe_url = nieuwe_url.replace(/scrolly%3D[0-9]+/,"scrolly%3D"+$(window).scrollTop());
-				// } else {
-				// 	if(/%3F/.test(nieuwe_url)) {
-				// 		// back-url bevat al een vraagteken
-				// 		nieuwe_url = nieuwe_url+"%26scrolly%3D"+$(window).scrollTop();
-				// 	} else {
-				// 		// back-url bevat nog geen vraagteken
-				// 		nieuwe_url = nieuwe_url+"%3Fscrolly%3D"+$(window).scrollTop();
-				// 	}
-				// }
-
-				// // get-value map updaten
-				// nieuwe_url=nieuwe_url.replace("%26map%3D1","");
-				// if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
-				// 	if(/map%3D1/.test(nieuwe_url)) {
-				// 		// back-url bevat al map=1
-				// 	} else {
-				// 		if(/%3F/.test(nieuwe_url)) {
-				// 			// back-url bevat al een vraagteken
-				// 			// nieuwe_url = nieuwe_url+"%26map%3D1";
-				// 		} else {
-				// 			// back-url bevat nog geen vraagteken
-				// 			// nieuwe_url = nieuwe_url+"%3Fmap%3D1";
-				// 		}
-				// 	}
-				// }
-
-				$(this).attr("href",nieuwe_url);
-
-				// klik doorgeven aan Analytics
-				if($(this).attr('class')=="zoekresultaat") {
-					zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via accommodatie-blok");
-				} else if($(this).attr('class')=="zoekresultaat_type") {
-					zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via type-regel onder accommodatie-blok");
-				}
-
-				if(event.ctrlKey||event.which==2) {
-					// link is geklikt via CTRL-click: laat de link z'n gang gaan
-					return true;
-				} else {
-					// anders: even wachten om Analytics te kunnen sturen
-					setTimeout(function() {
-						// heel even wachten zodat Analytics kan laden
-						document.location.href = nieuwe_url;
-					},100);
-
+					// click on info-icon: no action
+					event.preventDefault();
 					return false;
+
+				} else {
+
+					if(event.ctrlKey||event.which==2) {
+						// link openen in nieuw venster: geen ajaxloader tonen
+					} else {
+						show_ajaxloader(true);
+					}
+
+					var nieuwe_url=$(this).attr("href");
+
+					var back_url = getQueryStringValueOfURL("back", nieuwe_url);
+
+					// change scrolly-querystring in back_url
+					if(/scrolly/.test(back_url)) {
+						back_url = updateURLParameter(back_url,"scrolly",$(window).scrollTop());
+					} else {
+						if(/\?/.test(back_url)) {
+							back_url = back_url+"&scrolly="+$(window).scrollTop();
+						} else {
+							back_url = back_url+"?scrolly="+$(window).scrollTop();
+						}
+					}
+
+					// change map-querystring in back_url
+					if($(".zoekresultaten_zoeken_op_kaart_map").length!==0) {
+						if(/map=/.test(back_url)) {
+							if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
+								back_url = updateURLParameter(back_url,"map",1);
+							} else {
+								back_url = updateURLParameter(back_url,"map",0);
+							}
+
+						} else {
+							if($(".zoekresultaten_zoeken_op_kaart_map").is(":visible")) {
+								back_url = back_url+"&map=1";
+							} else {
+								back_url = back_url+"&map=0";
+							}
+						}
+					}
+
+					nieuwe_url = updateURLParameter(nieuwe_url,"back",encodeURIComponent(back_url));
+
+					$(this).attr("href",nieuwe_url);
+
+					// klik doorgeven aan Analytics
+					if($(this).attr('class')=="zoekresultaat") {
+						zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via accommodatie-blok");
+					} else if($(this).attr('class')=="zoekresultaat_type") {
+						zoekopdracht_naar_analytics_sturen("doorklik naar accommodatiepagina","via type-regel onder accommodatie-blok");
+					}
+
+					if(event.ctrlKey||event.which==2) {
+						// link is geklikt via CTRL-click: laat de link z'n gang gaan
+						return true;
+					} else {
+						// anders: even wachten om Analytics te kunnen sturen
+						setTimeout(function() {
+							// heel even wachten zodat Analytics kan laden
+							document.location.href = nieuwe_url;
+						},100);
+
+						return false;
+					}
 				}
+
 			});
 
 			// naar de juiste positie scrollen
@@ -1715,6 +1686,82 @@ $(document).ready(function() {
 				// send zoektijd to Analytics for all search queries
 				zoekopdracht_naar_analytics_sturen_inclusief_aantal("zoektijd in seconden (alle zoekopdrachten)",zoektijd_in_seconds_text,zoektijd_in_milliseconds);
 			}
+
+			$( "div.zoekresultaat_prijs_info_bijkomendekosten" ).hover(
+				function() {
+					zoek_en_boek_links_active = false;
+				}, function() {
+					zoek_en_boek_links_active = true;
+				}
+			);
+
+			// show bijkomende kosten
+			$("div.zoekresultaat_prijs_info_bijkomendekosten").click(function(event) {
+
+				var popup = $("div.zoekresultaat_prijs_info_bijkomendekosten_popup");
+				var new_popup = $("div.zoekresultaat_prijs_info_bijkomendekosten_empty").clone();
+				var icon = $(this);
+
+				if(icon.data("active")==="1") {
+					popup.fadeOut("fast");
+					icon.data("active", "0");
+				} else {
+
+					// hide all active popups
+					popup.hide();
+					$("div.zoekresultaat_prijs_info_bijkomendekosten").data("active", "0");
+
+
+					$.getJSON(absolute_path+"rpc_json.php", {"t": "get_content_zoekresultaat_prijs_info_bijkomendekosten_popup","type_id":icon.data("type_id"),"seizoen_id":icon.data("seizoen_id"),"arrangement":icon.data("arrangement")}, function(data) {
+						if(data.ok) {
+							if(data.html) {
+
+								icon.data("active", "1");
+
+								new_popup.removeClass("zoekresultaat_prijs_info_bijkomendekosten_empty");
+
+								new_popup.find("div").html(data.html);
+								new_popup.appendTo("html");
+
+								var position_left = icon.offset().left - $(window).scrollLeft(); //get the offset top of the element
+								var position_top = icon.offset().top;
+
+								// have the popup show at the lower right corner
+								position_left = position_left - new_popup.outerWidth();
+								position_top = position_top - new_popup.outerHeight();
+
+								new_popup.css("top", position_top+"px");
+								new_popup.css("left", position_left+"px");
+								new_popup.fadeIn("normal");
+
+								if(new_popup.offset().top - $(window).scrollTop() - 10 < 0) {
+									console.log("buiten");
+									$('html, body').animate({scrollTop: new_popup.offset().top - 10}, 500);
+								}
+							} else {
+
+							}
+						}
+					});
+				}
+			});
+
+			// click somewhere: hide zoekresultaat_prijs_info_bijkomendekosten_popup
+			$("html").click(function(event) {
+
+				if (!$(event.target).hasClass("close") && $(event.target).closest(".zoekresultaat_prijs_info_bijkomendekosten_popup").length) {
+					return false;
+				}
+				var popup = $("div.zoekresultaat_prijs_info_bijkomendekosten_popup");
+				popup.fadeOut("fast");
+				$("div.zoekresultaat_prijs_info_bijkomendekosten").data("active", "0");
+			});
+
+			$(document).on("click","div.zoekresultaat_prijs_info_bijkomendekosten_popup img.close",function(event) {
+				var popup = $("div.zoekresultaat_prijs_info_bijkomendekosten_popup");
+				popup.fadeOut("fast");
+				$("div.zoekresultaat_prijs_info_bijkomendekosten").data("active", "0");
+			});
 
 		}
 

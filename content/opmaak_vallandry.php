@@ -383,6 +383,9 @@ if($voorkant_cms and !$_GET["cmsuit"] and $interneinfo) {
 		echo "</div>"; # interneinfo_rechts
 }
 
+// show html that has to be at the bottom of the page
+echo $opmaak->html_at_the_bottom;
+
 ######################### Load javascript files
 
 if($vars["googlemaps"]) {
