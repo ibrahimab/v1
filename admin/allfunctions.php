@@ -686,7 +686,7 @@ function wt_jabber($to,$msg) {
 	$dataFile=@fopen($filename,"r");
 #	echo "\n\n".$filename."\n\n";
 	if($dataFile) {
-		$buffer=fgets($dataFile,4096);
+		$buffer=fgets($dataFile,2);
 		fclose($dataFile);
 		return trim($buffer);
 	} else {
