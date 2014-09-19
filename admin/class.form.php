@@ -1302,6 +1302,9 @@ class form2 {
 				$return.="http://";
 			}
 			$return.="\"";
+			if($this->fields["layout"][$id]["placeholder"]) {
+				$return .= " placeholder=\"".wt_he($this->fields["layout"][$id]["placeholder"])."\"";
+			}
 			if($this->fields["options"][$id]["maxlength"]) $return.=" maxlength=\"".$this->fields["options"][$id]["maxlength"]."\"";
 			if($this->fields["options"][$id]["onkeyup"]) $return.=" onkeyup=\"".$this->fields["options"][$id]["onkeyup"]."\"";
 			if($this->fields["layout"][$id]["onchange"]) $return.=" onchange=\"".$this->fields["layout"][$id]["onchange"]."\"";
