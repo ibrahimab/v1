@@ -825,12 +825,12 @@ class bijkomendekosten {
 						$cat = "uitbreiding";
 					}
 
-					$kosten[$cat][$key] = wt_he($value["naam"]);
 
 					if($value["borg_soort"]) {
 						//
 						// borg
 						//
+						$kosten[$cat][$key] = wt_he($value["naam"]);
 						if($value["borg_soort"]==1 or $value["borg_soort"]==2 or $value["borg_soort"]==3) {
 							$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"]==2 ? " ".$vars["bk_eenheid"][$value["eenheid"]].", " : "").$vars["bk_borg_soort"][$value["borg_soort"]].")");
 						} elseif($value["borg_soort"]==4) {
@@ -842,15 +842,23 @@ class bijkomendekosten {
 						//
 						// toeristenbelasting
 						//
-						$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
-						if($value["ter_plaatse"]==1) {
-							$kosten[$cat][$key] .= ", ".$vars["bk_ter_plaatse"][$value["ter_plaatse"]];
+						if($value["bedrag"]=="0.00") {
+							$cat = "diversen";
+							$kosten[$cat][$key] = wt_he($value["naam"]);
+							$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+						} else {
+							$kosten[$cat][$key] = wt_he($value["naam"]);
+							$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
+							if($value["ter_plaatse"]==1) {
+								$kosten[$cat][$key] .= ", ".$vars["bk_ter_plaatse"][$value["ter_plaatse"]];
+							}
+							$kosten[$cat][$key] .= ")";
 						}
-						$kosten[$cat][$key] .= ")";
 					} else {
 						//
 						// other costs
 						//
+						$kosten[$cat][$key] = wt_he($value["naam"]);
 						if($value["bedrag"]=="0.00") {
 							$kosten[$cat][$key] .= " (tegen betaling)";
 						} elseif($value["bedrag"]>0) {
