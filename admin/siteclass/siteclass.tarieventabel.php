@@ -125,6 +125,39 @@ class tarieventabel {
 
 		if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
 
+			if($this->type_id==240) {
+				$totaalprijs_div .= "<div style=\"height:10px;\"></div>";
+				$totaalprijs_div .= "<div class=\"tarieventabel_totaalprijs\">";
+
+
+				$totaalprijs_div .= "<div style=\"margin-bottom:10px;\">";
+				$totaalprijs_div .= "<div style=\"display:inline-block;width:285px;\">Geselecteerde aankomstdatum:</div><span style=\"color:#000000;font-weight:normal;\">13 december 2014</span>";
+				$totaalprijs_div .= "</div>";
+
+				$totaalprijs_div .= "Totaalprijs op basis van ";
+
+				// $totaalprijs_div .= "<select name=\"pers\">";
+				// if($_GET["ap"]) {
+				// 	$preselected_aantalpersonen = $_GET["ap"];
+				// } else {
+				// 	$preselected_aantalpersonen = $this->accinfo["optimaalaantalpersonen"];
+				// }
+				// for($i=$this->accinfo["maxaantalpersonen"]; $i>=1; $i--) {
+				// 	$totaalprijs_div .= "<option value=\"".$i."\"".($i==$preselected_aantalpersonen ? " selected" : "").">".$i."</option>";
+				// }
+				// $totaalprijs_div .= "</select>";
+				$totaalprijs_div .= " 10 personen: <span class=\"tarieventabel_totaalprijs_bedrag\">&euro;&nbsp;".number_format(10*321, 2, ",", ".")."</span>";
+
+				// $totaalprijs_div .= "&nbsp;<span style=\"font-weight: normal;\">(aankomst 13 dec 2014)</span>&nbsp;";
+				$totaalprijs_div .= "<button>Boek nu &raquo;</button>";
+				$totaalprijs_div .= "<span style=\"display:block;font-weight:normal;margin-top:10px;font-style:italic;\">Klik in bovenstaande prijstabel om aankomstdatum/aantal personen te wijzigen.</span>";
+
+				$totaalprijs_div .= "</div>"; // close .
+			}
+
+
+
+
 			$bijkomendekosten = new bijkomendekosten($this->type_id, "type");
 			$bijkomendekosten->seizoen_id = $this->first_seizoen_id;
 			$bijkomendekosten->arrangement = $this->arrangement;
@@ -138,6 +171,11 @@ class tarieventabel {
 
 		if($toelichting) {
 			$return .= "<div class=\"tarieventabel_toelichting\">";
+
+			if($totaalprijs_div) {
+				$return .= $totaalprijs_div;
+			}
+
 			$return .= $toelichting;
 			$return .= "</div>"; # afsluiten .tarieventabel_toelichting
 		}

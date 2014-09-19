@@ -2923,6 +2923,33 @@ nieuwe tarieventabel
 	color: #003366;
 }
 
+.tarieventabel_totaalprijs {
+	border: 1px solid #003366;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	padding: 5px;
+	font-weight: bold;
+	color: #003366;
+}
+
+.tarieventabel_totaalprijs button {
+	border: 1px solid #fb6703;
+	display: inline-block;
+	background-color: #fb6703;
+	color: #ffffff;
+	margin-left: 30px;
+	cursor: pointer;
+}
+
+.tarieventabel_totaalprijs_bedrag {
+	color: #000000;
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.tarieventabel_totaalprijs button:hover {
+	border: 1px solid #003366;
+}
 .toelichting_onderdeel {
 	margin-left: 20px;
 }

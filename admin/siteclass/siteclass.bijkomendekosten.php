@@ -56,6 +56,8 @@ class bijkomendekosten {
 
 			global $vars;
 
+			unset($this->wzt, $this->maxaantalpersonen, $this->cms_data_seizoenen, $this->seizoen_inquery, $this->data);
+
 			$db = new DB_sql;
 
 			// get data from database
@@ -102,6 +104,40 @@ class bijkomendekosten {
 					}
 				}
 			}
+
+			if($this->soort == "type" and $NU_EVEN_NIET) {
+
+				// toeslagen extra personen
+				$db->query("SELECT
+				           a.bijkomendekosten1_id, t.bijkomendekosten1_id AS tbijkomendekosten1_id,
+				           a.bijkomendekosten2_id, t.bijkomendekosten2_id AS tbijkomendekosten2_id,
+				           a.bijkomendekosten3_id, t.bijkomendekosten3_id AS tbijkomendekosten3_id,
+				           a.bijkomendekosten4_id, t.bijkomendekosten4_id AS tbijkomendekosten4_id,
+				           a.bijkomendekosten5_id, t.bijkomendekosten5_id AS tbijkomendekosten5_id,
+				           a.bijkomendekosten6_id, t.bijkomendekosten6_id AS tbijkomendekosten6_id
+
+				           FROM type t INNER JOIN accommodatie a USING (accommodatie_id)
+				           WHERE t.type_id='".intval($this->id)."';");
+				if($db->next_record()) {
+					for($i=1;$i<=6;$i++) {
+						if($db->f("bijkomendekosten".$i."_id")) {
+							$bijkomendekosten_id_inquery .= ",".$db->f("bijkomendekosten".$i."_id");
+						}
+						if($db->f("tbijkomendekosten".$i."_id")) {
+							$bijkomendekosten_id_inquery .= ",".$db->f("tbijkomendekosten".$i."_id");
+						}
+					}
+				}
+
+				if($bijkomendekosten_id_inquery) {
+
+					$db->query("SELECT bt.verkoop, bt.seizoen_id, bt.week, b.min_personen, b.max_personen FROM bijkomendekosten_tarief bt INNER JOIN bijkomendekosten b USING (bijkomendekosten_id) WHERE seizoen_id IN (".substr($this->seizoen_inquery,1).");");
+					while($db->next_record()) {
+
+					}
+				}
+			}
+
 
 			$this->get_data_done = true;
 		}
@@ -639,6 +675,8 @@ class bijkomendekosten {
 		$this->id = $type_id;
 		$this->soort = "type";
 
+
+		$this->get_data_done = false;
 		$this->get_data();
 
 
@@ -672,10 +710,18 @@ class bijkomendekosten {
 			for($i=$this->maxaantalpersonen;$i>=1;$i--) {
 				$total = $per_accommodation + $i * $per_person;
 				$this->wt_redis->hset("bk_".$type_id, $seizoen_id.":".$i, $total);
-				// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-				// 	echo "bk_".$type_id." - ".$seizoen_id.":".$i." - ".$total."<br/>";
-				// }
+				if($vars["tmp_info_tonen"]) {
+					echo "bk_".$type_id." - ".$seizoen_id.":".$i." - ".$total."<br/>";
+					flush();
+				}
 			}
+
+
+			// toeslag extra personen
+
+
+
+
 		}
 		$this->wt_redis->hset("bk_".$type_id, "saved", time());
 
@@ -802,7 +848,7 @@ class bijkomendekosten {
 		}
 
 		if($this->arrangement) {
-			# Skipasgegevens uit database halen
+			// Skipasgegevens uit database halen
 			$db->query("SELECT s.website_omschrijving".$vars["ttv"]." AS website_omschrijving FROM skipas s, accommodatie a WHERE a.skipas_id=s.skipas_id AND a.accommodatie_id='".intval($this->accinfo["accommodatie_id"])."';");
 			if($db->next_record()) {
 				if($db->f("website_omschrijving")) $skipas_website_omschrijving=$db->f("website_omschrijving");
@@ -831,7 +877,7 @@ class bijkomendekosten {
 						// borg
 						//
 						$kosten[$cat][$key] = wt_he($value["naam"]);
-						if($value["borg_soort"]==1 or $value["borg_soort"]==2 or $value["borg_soort"]==3) {
+						if($value["borg_soort"]==1 or $value["borg_soort"]==2 or $value["borg_soort"]==3 or $value["borg_soort"]==6) {
 							$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." ".($value["eenheid"]==2 ? " ".$vars["bk_eenheid"][$value["eenheid"]].", " : "").$vars["bk_borg_soort"][$value["borg_soort"]].")");
 						} elseif($value["borg_soort"]==4) {
 							$kosten[$cat][$key] .= ": geen borg verschuldigd";
@@ -842,17 +888,21 @@ class bijkomendekosten {
 						//
 						// toeristenbelasting
 						//
-						if($value["bedrag"]=="0.00") {
-							$cat = "diversen";
+						if($value["inclusief"]==1) {
 							$kosten[$cat][$key] = wt_he($value["naam"]);
-							$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
 						} else {
-							$kosten[$cat][$key] = wt_he($value["naam"]);
-							$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
-							if($value["ter_plaatse"]==1) {
-								$kosten[$cat][$key] .= ", ".$vars["bk_ter_plaatse"][$value["ter_plaatse"]];
+							if($value["bedrag"]=="0.00") {
+								$cat = "diversen";
+								$kosten[$cat][$key] = wt_he($value["naam"]);
+								$kosten[$cat][$key] .= " (ter plaatse te voldoen)";
+							} else {
+								$kosten[$cat][$key] = wt_he($value["naam"]);
+								$kosten[$cat][$key] .= " ".wt_he("(€ ".$this->toonbedrag($value["bedrag"])." p.p.p.n.");
+								if($value["ter_plaatse"]==1) {
+									$kosten[$cat][$key] .= ", ".$vars["bk_ter_plaatse"][$value["ter_plaatse"]];
+								}
+								$kosten[$cat][$key] .= ")";
 							}
-							$kosten[$cat][$key] .= ")";
 						}
 					} else {
 						//
@@ -893,8 +943,6 @@ class bijkomendekosten {
 	}
 
 	public function toon_type() {
-
-
 
 		//
 		// toon teksten "inclusief", "exclusief" en "bijkomende kosten"

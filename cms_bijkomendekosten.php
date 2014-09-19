@@ -9,7 +9,7 @@ if(!$_GET["33k0"]) {
 	while($db->next_record()) {
 		$sz_controle[$db->f("seizoen_id")]=$db->f("naam");
 	}
-	
+
 	while(list($key,$value)=@each($sz_controle)) {
 		$db->query("SELECT DISTINCT bijkomendekosten_id FROM bijkomendekosten_tarief WHERE seizoen_id='".$key."';");
 		while($db->next_record()) {
@@ -35,6 +35,8 @@ $cms->db_field(33,"select","gekoppeldaan","",array("selection"=>$vars["bijkomend
 $cms->db_field(33,"integer","min_leeftijd");
 $cms->db_field(33,"integer","max_leeftijd");
 $cms->db_field(33,"yesno","zonderleeftijd");
+$cms->db_field(33,"integer","min_personen");
+$cms->db_field(33,"integer","max_personen");
 $cms->db_field(33,"yesno","hoort_bij_accommodatieinkoop");
 $cms->db_field(33,"select","optiecategorie","",array("selection"=>$vars["optiecategorie"]));
 if($sz_controle) {
@@ -127,12 +129,16 @@ if($vars["cmstaal"]) {
 $cms->edit_field(33,0,"hoort_bij_accommodatieinkoop","Deze kosten worden berekend op de factuur van de accommodatie-leverancier");
 $cms->edit_field(33,1,"optiecategorie","Optie-categorie");
 
-
-
-$cms->edit_field(33,0,"htmlrow","<hr><b>Leeftijdscontrole</b>");
+$cms->edit_field(33,0,"htmlrow","<br/><hr><br/><b>Leeftijdscontrole</b>");
 $cms->edit_field(33,0,"min_leeftijd","Minimale leeftijd (in jaren)");
 $cms->edit_field(33,0,"max_leeftijd","Maximale leeftijd (in jaren)");
 $cms->edit_field(33,0,"zonderleeftijd","Kosten toevoegen aan persoon indien geboortedatum niet bekend is");
+
+if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+	$cms->edit_field(33,0,"htmlrow","<br/><hr><br/><b>Aantal personen gehele boeking</b><i> (t.b.v. toeslagen extra personen)<br/><br/>De kosten worden alleen toegepast bij:</i>");
+	$cms->edit_field(33,0,"min_personen","Minimaal aantal personen gehele boeking");
+	$cms->edit_field(33,0,"max_personen","Maximaal aantal personen gehele boeking");
+}
 
 
 # Controle op ingevoerde formuliergegevens
@@ -158,6 +164,22 @@ if($cms_form[33]->filled) {
 	}
 	if($cms_form[33]->input["hoort_bij_accommodatieinkoop"] and $cms_form[33]->input["optiecategorie"]>2) {
 		$cms_form[33]->error("optiecategorie","niet van toepassing op de factuur van de accommodatie-leverancier");
+	}
+	if($cms_form[33]->input["min_personen"]) {
+		if($cms_form[33]->input["perboekingpersoon"]<>1) {
+			$cms_form[33]->error("min_personen","alleen mogelijk bij &quot;per boeking&quot;");
+		}
+		if($cms_form[33]->input["gekoppeldaan"]<>1) {
+			$cms_form[33]->error("min_personen","alleen mogelijk bij &quot;accommodaties/types&quot;");
+		}
+	}
+	if($cms_form[33]->input["max_personen"]) {
+		if($cms_form[33]->input["perboekingpersoon"]<>1) {
+			$cms_form[33]->error("max_personen","alleen mogelijk bij &quot;per boeking&quot;");
+		}
+		if($cms_form[33]->input["gekoppeldaan"]<>1) {
+			$cms_form[33]->error("max_personen","alleen mogelijk bij &quot;accommodaties/types&quot;");
+		}
 	}
 }
 

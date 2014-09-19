@@ -1,5 +1,7 @@
 <?php
 
+set_time_limit(0);
+
 
 phpinfo();
 exit;
@@ -8,6 +10,17 @@ exit;
 // exit;
 // 87.250.157.203
 
+// $vars["tmp_info_tonen"] = true;
+
+// include("admin/vars.php");
+
+// // update bijkomende kosten Redis
+// $bijkomendekosten = new bijkomendekosten;
+// $bijkomendekosten->pre_calculate_all_types(true);
+
+
+
+// exit;
 
 
 
