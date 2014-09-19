@@ -80,11 +80,12 @@
 }
 
 #hoofdpagina_sociallinks a {
-	margin-right: 7px;
+	margin-left: 7px;
 }
 
 #hoofdpagina_trustpilot {
 	margin-top: 15px;
+	margin-bottom: 15px;
 	/*max-height: 200px;*/
 	overflow-y: hidden;
 }

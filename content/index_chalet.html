@@ -126,7 +126,7 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 		// Trustpilot Chalet.nl
 
 		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">";
-		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:1238875,numOfReviews:1,width:170;\">\n";
+		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:1238875,numOfReviews:1,width:170,height:300;\">\n";
 		echo "<a href=\"http://www.trustpilot.nl/review/chalet.nl\" rel=\"nofollow\" hidden>Chalet.nl Wintersport Beoordelingen</a>\n";
 		echo "</div>\n";
 		echo "<script type=\"text/javascript\">\n";
@@ -140,7 +140,7 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 		// Trustpilot Chalet.be
 
 		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">";
-		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:7558878,locale:nl-NL,numOfReviews:1,width:170\">\n";
+		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:7558878,locale:nl-NL,numOfReviews:1,width:170,height:300\">\n";
 		echo "<a href=\"https://www.trustpilot.nl/review/chalet.be\" rel=\"nofollow\" hidden>Chalet.be Wintersport Beoordelingen</a>\n";
 		echo "</div>\n";
 		echo "<script type=\"text/javascript\">\n";
@@ -148,6 +148,20 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 		echo "</script>";
 		echo "</div>\n"; // close #hoofdpagina_trustpilot
 	}
+
+	if($vars["website"]=="C") {
+		echo "<div id=\"hoofdpagina_sociallinks\">";
+		echo "<div style=\"float:right;\">";
+		echo "<div style=\"margin-bottom:3px;text-align:right;\">Volg ons:</div>";
+		echo "<a href=\"https://www.facebook.com/chalet.nl\" title=\"Volg Chalet.nl via Facebook\" target=\"_blank\" class=\"facebook\"></a>";
+		echo "<a href=\"https://twitter.com/@ChaletNL\" title=\"Volg Chalet.nl via Twitter\" target=\"_blank\" class=\"twitter\"></a>";
+		echo "<a href=\"https://plus.google.com/+ChaletNLWintersport\" title=\"Volg Chalet.nl via Google+\" target=\"_blank\" class=\"googleplus\"></a>";
+		echo "</div>\n";
+		echo "<div style=\"float:right;\"></div>";
+		echo "<div style=\"clear: both;\"></div>\n";
+		echo "</div>\n"; # afsluiten #hoofdpagina_sociallinks
+	}
+
 
 }
 
