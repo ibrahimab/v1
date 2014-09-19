@@ -1388,7 +1388,11 @@ class form2 {
 						$ext=strtolower(substr($value,strrpos($value,".")+1,strlen($value)-strrpos($value,".")-1));
 						if($ext=="jpg" or $ext=="gif" or $ext=="png") {
 							$return.="<table class=\"wtform_img_tbl\">";
-							$return.="<tr><td style=\"text-align:center;\"><img src=\"".($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value)."?anticache=".time()."\" width=\"".$temp["width"]."\" height=\"".$temp["height"]."\" border=\"0\" alt=\"".wt_he($value)."\" title=\"".wt_he($value)."\"><br>";
+							$return.="<tr><td style=\"text-align:center;\"><img src=\"".($this->fields["options"][$id]["requestfilevia"] ? $this->fields["options"][$id]["requestfilevia"] : $value).(strpos($this->fields["options"][$id]["requestfilevia"],"?")===false ? "?" : "&amp;")."anticache=".time()."\"";
+							if(!$this->fields["layout"][$id]["show_without_width_height"]) {
+								$return.=" width=\"".$temp["width"]."\" height=\"".$temp["height"]."\"";
+							}
+							$return.=" border=\"0\" alt=\"".($this->fields["options"][$id]["hide_location"] ? "" : wt_he($value))."\" title=\"".($this->fields["options"][$id]["hide_location"] ? "" : wt_he($value))."\"><br>";
 							if(!$this->fields["layout"][$id]["verberg_imgsize"]) $return.="<span style=\"font-size:0.8em;\">".$temp["filesize"][0]." x ".$temp["filesize"][1]." ".$this->message("pixels")."</span><br>";
 							if(!$this->fields["obl"][$id] and !$this->fields["layout"][$id]["verberg_afbeeldingwissen"]) $return.="<input type=\"checkbox\" name=\"imagedelete[".$id."]".($this->fields["options"][$id]["multiple"] ? "[".$key."]" : "")."\" id=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\"><label for=\"imagedelete".$id.($this->fields["options"][$id]["multiple"] ? "_".$key : "")."\">&nbsp;".$this->message("afbeeldingwissen")."</label>";
 							if($this->fields["options"][$id]["multiple"] and @count($temp["filename"])>1 and !$this->fields["options"][$id]["blokkeer_volgorde"]) {
@@ -1739,9 +1743,6 @@ class form2 {
 					if($setquery) $setquery.=", editdatetime='".time()."'"; else $setquery="editdatetime='".time()."'";
 				}
 				$query="UPDATE ".$key." SET ".$setquery." WHERE ".$value["where"].";";
-
-#echo $query;
-#exit;
 
 				$db0->query($query);
 				if($db0->Errno) {

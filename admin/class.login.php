@@ -574,7 +574,7 @@ class Login {
 		}
 	}
 
-	function log_user_in($userid) {
+	function log_user_in($userid, $remember_login = true) {
 
 		//
 		// user inloggen op basis van userid (wachtwoord niet nodig)
@@ -610,7 +610,11 @@ class Login {
 
 
 		# cookies plaatsen
-		$time=time()+($this->settings["cookie"]["timeinminutes"]*60);
+		if($remember_login) {
+			$time=time()+($this->settings["cookie"]["timeinminutes"]*60);
+		} else {
+			$time=0;
+		}
 		if(floatval(phpversion())>5.2) {
 			setcookie("loginuser[".$this->settings["name"]."]",$userid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
 			setcookie("loginsessionid[".$this->settings["name"]."]",$uniqueid,$time,"/","",$this->settings["cookies"]["secure"],$this->settings["cookies"]["httponly"]);
