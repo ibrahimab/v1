@@ -45,3 +45,6 @@ docdata/log/*.log
 
 # ssh-files
 .ssh/
+
+# never ignore any php-file
+!*.php
