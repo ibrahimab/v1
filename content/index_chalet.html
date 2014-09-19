@@ -95,27 +95,30 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 	echo "<div class=\"bloklinks_blauwelijn\"></div>";
 
 
-	$db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,1;");
-	if($db->num_rows()) {
-		echo "<div id=\"hoofdpagina_blog\">";
-		echo "<h2><a href=\"".$vars["path"]."blog.php\">Blog ".wt_he($vars["websitenaam"])."</a></h2>";
-		while($db->next_record()) {
-			$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
-			echo "<a href=\"".wt_he($url)."\" class=\"hoofdpagina_blog_item\">";
-			if($blogitem_gehad) echo "<hr>";
-			$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
-			if(file_exists($file)) {
-				echo "<div><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"".wt_he($db->f("homepage_titel"))."\" /></div>";
-			}
-			echo "<div class=\"hoofdpagina_blog_titel\">".wt_he($db->f("homepage_titel"))."</div>";
-			echo "<div class=\"hoofdpagina_blog_inleiding\">".wt_he($db->f("homepage_inleiding"))."</div>";
-			echo "<div class=\"hoofdpagina_blog_link\">Lees verder &raquo;</div>";
+	if($NU_EVEN_NIET) {
+		// hide blog (as requested by Bjorn on 18-9-2014)
+		$db->query("SELECT blog_id, homepage_titel, homepage_inleiding FROM blog WHERE websitetype='".intval($vars["websitetype"])."' AND actief=1 AND homepage_actief=1 AND plaatsingsdatum<NOW() ORDER BY plaatsingsdatum DESC, adddatetime DESC LIMIT 0,1;");
+		if($db->num_rows()) {
+			echo "<div id=\"hoofdpagina_blog\">";
+			echo "<h2><a href=\"".$vars["path"]."blog.php\">Blog ".wt_he($vars["websitenaam"])."</a></h2>";
+			while($db->next_record()) {
+				$url=$vars["path"]."blog.php?b=".$db->f("blog_id");
+				echo "<a href=\"".wt_he($url)."\" class=\"hoofdpagina_blog_item\">";
+				if($blogitem_gehad) echo "<hr>";
+				$file="pic/cms/blog_homepage/".$db->f("blog_id").".jpg";
+				if(file_exists($file)) {
+					echo "<div><img src=\"".$vars["path"].$file."?c=".@filemtime($file)."\" style=\"border:0;\" alt=\"".wt_he($db->f("homepage_titel"))."\" /></div>";
+				}
+				echo "<div class=\"hoofdpagina_blog_titel\">".wt_he($db->f("homepage_titel"))."</div>";
+				echo "<div class=\"hoofdpagina_blog_inleiding\">".wt_he($db->f("homepage_inleiding"))."</div>";
+				echo "<div class=\"hoofdpagina_blog_link\">Lees verder &raquo;</div>";
 
-			echo "</a>"; # afsluiten class hoofdpagina_blog_item
-			$blogitem_gehad=true;
+				echo "</a>"; # afsluiten class hoofdpagina_blog_item
+				$blogitem_gehad=true;
+			}
+			#hoofdpagina_blog_titel
+			echo "</div>"; # afsluiten hoofdpagina_blog
 		}
-		#hoofdpagina_blog_titel
-		echo "</div>"; # afsluiten hoofdpagina_blog
 	}
 
 	if($vars["website"]=="C") {
@@ -123,7 +126,7 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 		// Trustpilot Chalet.nl
 
 		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">";
-		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:1238875,showReviews:False,width:170;\">\n";
+		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:1238875,numOfReviews:1,width:170;\">\n";
 		echo "<a href=\"http://www.trustpilot.nl/review/chalet.nl\" rel=\"nofollow\" hidden>Chalet.nl Wintersport Beoordelingen</a>\n";
 		echo "</div>\n";
 		echo "<script type=\"text/javascript\">\n";
@@ -137,7 +140,7 @@ if($vars["website"]=="C" or $vars["website"]=="B") {
 		// Trustpilot Chalet.be
 
 		echo "<div id=\"hoofdpagina_trustpilot\" class=\"hide_during_pageload\">";
-		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:7558878,locale:nl-NL,showReviews:False,width:170\">\n";
+		echo "<div class=\"tp_-_box\" data-tp-settings=\"domainId:7558878,locale:nl-NL,numOfReviews:1,width:170\">\n";
 		echo "<a href=\"https://www.trustpilot.nl/review/chalet.be\" rel=\"nofollow\" hidden>Chalet.be Wintersport Beoordelingen</a>\n";
 		echo "</div>\n";
 		echo "<script type=\"text/javascript\">\n";
