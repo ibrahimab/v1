@@ -260,11 +260,13 @@ if($_GET["t"]==1) {
 					ELSE 3 END ASC
 					, table_name ASC;");
 				while($db->next_record()) {
-					$db2->query("SHOW COLUMNS FROM ".$db->f("table_name").";");
-					while($db2->next_record()) {
-						if(ereg("^(.*)_".$vars["cmstaal"]."$",$db2->f("Field"),$regs)) {
-							$onvertaald[$db->f("table_name")]["inquery"].=",'".$regs[1]."'";
-							$cms_name[$db->f("table_name")]=$cms->settings[$db->f("cms_id")]["types"];
+					if($db->f("table_name")) {
+						$db2->query("SHOW COLUMNS FROM ".$db->f("table_name").";");
+						while($db2->next_record()) {
+							if(ereg("^(.*)_".$vars["cmstaal"]."$",$db2->f("Field"),$regs)) {
+								$onvertaald[$db->f("table_name")]["inquery"].=",'".$regs[1]."'";
+								$cms_name[$db->f("table_name")]=$cms->settings[$db->f("cms_id")]["types"];
+							}
 						}
 					}
 				}

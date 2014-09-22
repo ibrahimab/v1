@@ -189,6 +189,9 @@ class Login {
 	}
 
 	function logout($logoutall=false) {
+
+		$db=new DB_sql;
+
 		$this->logged_in=false;
 		$this->delete_all_cookies();
 		setcookie("checklong","",time()-864000);

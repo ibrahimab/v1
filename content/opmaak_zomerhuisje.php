@@ -1,5 +1,31 @@
 <?php
 $page_id = $id;
+# Te includen bestand bepalen
+if($language_content) {
+	if(file_exists("content/_meertalig/".$id."_zomerhuisje_".$vars["taal"].".html")) {
+		$include="content/_meertalig/".$id."_zomerhuisje_".$vars["taal"].".html";
+	} elseif(file_exists("content/_meertalig/".$id."_".$vars["taal"].".html")) {
+		$include="content/_meertalig/".$id."_".$vars["taal"].".html";
+	}
+} else {
+	if(file_exists("content/".$id."_zomerhuisje.html") and $id<>"aanbiedingen") {
+		$include="content/".$id."_zomerhuisje.html";
+	} elseif(file_exists("content/".$id."_nieuw.html")) {
+		$include="content/".$id."_nieuw.html";
+	} elseif(file_exists("content/".$id.".html")) {
+		$include="content/".$id.".html";
+	}
+}
+if(!$include) {
+	if($_SERVER["HTTP_REFERER"]) {
+		if(!preg_match("@\.php/@",$_SERVER["REQUEST_URI"])) {
+			trigger_error("_notice: geen include-bestand bekend",E_USER_NOTICE);
+		}
+	}
+	header("Location: ".$vars["path"],true,301);
+	exit;
+}
+
 echo "<!DOCTYPE html>\n";
 echo "<html>\n";
 echo "<head>\n";
@@ -252,32 +278,6 @@ echo "</div>"; # afsluiten breadcrumbbalk
 
 # Content
 echo "<div id=\"content\">";
-
-# Te includen bestand bepalen
-if($language_content) {
-	if(file_exists("content/_meertalig/".$id."_zomerhuisje_".$vars["taal"].".html")) {
-		$include="content/_meertalig/".$id."_zomerhuisje_".$vars["taal"].".html";
-	} elseif(file_exists("content/_meertalig/".$id."_".$vars["taal"].".html")) {
-		$include="content/_meertalig/".$id."_".$vars["taal"].".html";
-	}
-} else {
-	if(file_exists("content/".$id."_zomerhuisje.html") and $id<>"aanbiedingen") {
-		$include="content/".$id."_zomerhuisje.html";
-	} elseif(file_exists("content/".$id."_nieuw.html")) {
-		$include="content/".$id."_nieuw.html";
-	} elseif(file_exists("content/".$id.".html")) {
-		$include="content/".$id.".html";
-	}
-}
-if(!$include) {
-	if($_SERVER["HTTP_REFERER"]) {
-		if(!preg_match("@\.php/@",$_SERVER["REQUEST_URI"])) {
-			trigger_error("_notice: geen include-bestand bekend",E_USER_NOTICE);
-		}
-	}
-	header("Location: ".$vars["path"],true,301);
-	exit;
-}
 
 if($vars["verberg_linkerkolom"]) {
 	echo "<div id=\"contentvolledig\">";
