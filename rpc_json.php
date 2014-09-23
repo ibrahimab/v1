@@ -330,7 +330,16 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	if ($_SESSION["captcha_okay"]) {
 
 		# ReCAPTCHA maximaal 1x geldig
-		unset($_SESSION["captcha_okay"]);
+		if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+
+		} else {
+			unset($_SESSION["captcha_okay"]);
+		}
+
+		$dataLayer_array["event"]="favorieten";
+		$dataLayer_array["dlvSharings"] = array();
+		$datetime_utm = date("dmYHis");
+
 
 		$db->query("SELECT DISTINCT b.type_id FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
 		$klantfavs=array();
@@ -386,14 +395,14 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 			$topfoto_size=getimagesize($vars["unixtime"]."pic/mailheader/".$vars["website"].".jpg");
 		}
 
-		$mail_content.="<a href=\"".$vars["basehref"]."?utm_source=Favorietenfunctie&utm_medium=Favorietenfunctie&utm_campaign=Favorietenfunctie\"><img src=\"".wt_he($vars["basehref"]."pic/mailheader/".$vars["website"].".jpg")."\" border=\"0\" ".$topfoto_size[3]."></a></td></tr>";
+		$mail_content.="<a href=\"".$vars["basehref"]."?utm_source=Favorietenfunctie&utm_medium=Favorietenfunctie&utm_campaign=Favorietenfunctie&event=favorieten&time=".$datetime_utm."\"><img src=\"".wt_he($vars["basehref"]."pic/mailheader/".$vars["website"].".jpg")."\" border=\"0\" ".$topfoto_size[3]."></a></td></tr>";
 		$bericht=$_GET["bericht"];
 		$bericht=trim($_GET["bericht"]);
 		$bericht=utf8_decode($bericht);
 		$bericht=wt_he($bericht);
 
 		# sitenaam klikbaar maken
-		$link_naar_site="<a href=\"".$vars["basehref"]."?utm_source=Favorietenfunctie&utm_medium=Favorietenfunctie&utm_campaign=Favorietenfunctie\" style=\"".($vars["linkkleur"] ? "color:".$vars["linkkleur"].";" : "")."\">".wt_he($vars["websitenaam"])."</a>";
+		$link_naar_site="<a href=\"".$vars["basehref"]."?utm_source=Favorietenfunctie&utm_medium=Favorietenfunctie&utm_campaign=Favorietenfunctie&event=favorieten&time=".$datetime_utm."\" style=\"".($vars["linkkleur"] ? "color:".$vars["linkkleur"].";" : "")."\">".wt_he($vars["websitenaam"])."</a>";
 		$bericht=preg_replace("/\b".str_replace("\.","\.",$vars["websitenaam"])."\b/",$link_naar_site,$bericht);
 
 		$mail_content.="<tr><td style=\"text-align:center; color:".$vars["textColor_bericht"].";font-size:14px;\"><br/><br/>".nl2br($bericht)."<br/><br/><br/>";
@@ -403,6 +412,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 		$db->query("SELECT b.type_id, a.accommodatie_id, a.kwaliteit AS akwaliteit, t.kwaliteit AS tkwaliteit, a.korteomschrijving".$vars["ttv"]." AS akorteomschrijving, t.korteomschrijving".$vars["ttv"]." AS tkorteomschrijving, t.optimaalaantalpersonen, t.maxaantalpersonen, t.slaapkamers,t.badkamers, a.naam, a.wzt, t.naam".$vars["ttv"]." AS tnaam, a.soortaccommodatie, p.naam AS plaats, l.begincode, l.naam".$vars["ttv"]." AS land, s.naam AS skigebied FROM bezoeker_favoriet b, type t, accommodatie a, plaats p, skigebied s, land l WHERE t.accommodatie_id=a.accommodatie_id AND b.type_id=t.type_id AND a.plaats_id=p.plaats_id AND p.skigebied_id=s.skigebied_id AND p.land_id=l.land_id AND t.websites LIKE '%".$vars["website"]."%' AND a.tonen=1 AND t.tonen=1 AND a.archief=0 AND b.bezoeker_id='".addslashes($_COOKIE["sch"])."';");
 
 		while($db->next_record()) {
+
 			$accid=$db->f("accommodatie_id");
 			if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
 				$afbeelding="types_specifiek/".$db->f("type_id");
@@ -411,14 +421,21 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 			} else {
 				$afbeelding="accommodaties/0";
 			}
+
+			$acc_naam = ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : "");
+			$acc_naam_converted = $db->f("begincode").$db->f("type_id")."_".preg_replace("@[^A-Za-z0-9]@", "_", wt_stripaccents($acc_naam));
+			array_push($dataLayer_array["dlvSharings"], array("Accommodation"=>$acc_naam_converted));
+
 			$mail_content.="<table cellspacing=\"0\" cellpadding=\"0\" width=\"681\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">";
 			$mail_content.="<tr><td colspan=\"5\" align=\"left\">";
 			$mail_content.="<div style=\"background-color: white; width: 681px;border:1px solid ".$vars["balkkleur"].";\">";
 			$mail_content.="<div style=\"background-color:".$vars["balkkleur"].";padding: 5px;\">";
 			$mail_content.="<div style=\"color:".$vars["textColor"].";font-size: 1.2em;font-weight: bold; font-family:Verdana, Arial, Helvetica, sans-serif;\">";
-			$mail_content.=wt_he(ucfirst($vars["soortaccommodatie"][$db->f("soortaccommodatie")])." ".$db->f("naam").($db->f("tnaam") ? " ".$db->f("tnaam") : ""));
+			$mail_content.=wt_he($acc_naam);
 			$mail_content.="</div>";
 			$mail_content.="</div>";
+
+
 
 			$mail_content.="<table style=\"display:inline-table;\" font-family:Verdana, Arial, Helvetica, sans-serif;\" text-align=\"left\" border=\"0\" width=\"100%\">";
 			$mail_content.="<tr><td valign=\"top\" rowspan=\"8\"><img style=\"padding-right:5px;\" src=\"".$vars["basehref"]."pic/cms/".$afbeelding.".jpg\" width=\"200\" height=\"150\" border=\"0\"></td>";
@@ -457,7 +474,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 				$rev=$db->f("optimaalaantalpersonen")."-".$db->f("maxaantalpersonen");
 			}
 			$mail_content.="<tr><td valign=\"top\" colspan=\"2\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px;\">".$rev." ".html("personen")."</td></tr>";
-			$mail_content.="<tr><td valign=\"top\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("slaapkamers")." ".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."text-decoration:none;\" href=\"".wt_he($vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/?utm_source=Favorietenfunctie&utm_medium=Favorietenfunctie&utm_campaign=Favorietenfunctie")."\">".html("buttonLeesmeer","favorieten")."</a></td></tr>";
+			$mail_content.="<tr><td valign=\"top\" style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("slaapkamers")." ".($db->f("slaapkamers")==1 ? html("slaapkamer") : html("slaapkamers"))."</td><td valign=\"top\" rowspan=\"2\" align=\"right\"><a style=\"".$leesmeerKnopMail."text-decoration:none;\" href=\"".wt_he($vars["basehref"]."accommodatie/".$db->f("begincode").$db->f("type_id")."/?utm_source=Favorietenfunctie&utm_medium=Favorietenfunctie&utm_campaign=Favorietenfunctie&event=favorieten&accommodation=".$acc_naam_converted."&time=".$datetime_utm)."\">".html("buttonLeesmeer","favorieten")."</a></td></tr>";
 			$mail_content.="<tr><td style=\"font-family:Verdana, Arial, Helvetica, sans-serif;font-size:12px\">".$db->f("badkamers")." ".($db->f("badkamers")==1 ? html("badkamer") : html("badkamers"))."</td></tr>";
 			$mail_content.="</table>";
 			$mail_content.= "<br />";
@@ -466,6 +483,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 			$mail_content.="</table>";
 			$mail_content.="<br />";
 		}
+
 		$mail_content.="</div>";
 		$mail_content.="</body>";
 		$mail_content.="</html>";
@@ -518,6 +536,10 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 				$mail->send();
 			}
 		}
+	}
+	if($dataLayer_array) {
+		$dataLayer_array["dlvTime"] = $datetime_utm;
+		$return["dataLayer"] = $dataLayer_array;
 	}
 
 } elseif($_GET["t"]==8) {

@@ -80,12 +80,21 @@ function ajaxMailFunction() {
 			document.getElementById("errorLabel").style.backgroundColor = '<?php echo $vars["balkkleur"]; ?>';
 			document.getElementById("errorLabel").style.color = 'black';
 			document.getElementById('errorLabel').innerHTML='<?php echo html("emailszijnverzonden","favorieten"); ?>';
+
+			// send Google Tag Manager-tracking
+			try {
+				dataLayer.push (data.dataLayer);
+			}
+			catch(err) {
+
+			}
+
 			$("#mailForm").slideUp("normal",function() {
 				document.getElementById('verzenderAdres').value="";
 				document.getElementById('EmailOntvanger').value="";
 				document.getElementById("verzenden").disabled=false;
 				document.getElementById("Annuleren").disabled=false;
-				Recaptcha.reload();
+				// Recaptcha.reload();
 			});
 			return false;
 		}
@@ -131,6 +140,7 @@ if($db->num_rows()) {
 
 	# alle accommodaties tonen
 	while($db->next_record()) {
+
 		if(file_exists("pic/cms/types_specifiek/".$db->f("type_id").".jpg")) {
 			$afbeelding="types_specifiek/".$db->f("type_id");
 		} elseif(file_exists("pic/cms/accommodaties/".$db->f("accommodatie_id").".jpg")) {
