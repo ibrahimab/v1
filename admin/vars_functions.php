@@ -1051,6 +1051,8 @@ function boekinginfo($boekingid) {
 				$return["stap4"][$db->f("status")]["optie_bedrag_buiten_annuleringsverzekering"]+=$db->f("verkoop");
 			}
 			$return["stap4"][$db->f("status")]["optie_onderdeelid_naam"][$db->f("optie_onderdeel_id")]=$db->f("naam_enkelvoud").": ".$db->f("onderdeelnaam");
+			$return["stap4"][$db->f("status")]["optie_onderdeelid_soort"][$db->f("optie_onderdeel_id")]=$db->f("naam_enkelvoud");
+			$return["stap4"][$db->f("status")]["optie_onderdeelid_onderdeel"][$db->f("optie_onderdeel_id")]=$db->f("onderdeelnaam");
 			$return["stap4"][$db->f("status")]["optie_onderdeelid_verkoop_persoonnummer"][$db->f("optie_onderdeel_id")][$db->f("persoonnummer")]=$db->f("verkoop");
 			$return["stap4"][$db->f("status")]["opties_namen"][$db->f("naam_enkelvoud")]=true;
 			$return["stap4"][$db->f("status")]["opties_totaalprijs"]+=$db->f("verkoop");
@@ -1729,20 +1731,20 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 			# Gewone kosten reisverzekering
 			$kleurteller++;
 			if($kleurteller>1) unset($kleurteller);
-	            if(!$isMobile){
-	                $return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($value2));
-	                $return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]),2,',','.')."</td>";
-	                $return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$reisverzekeringen["aantal"][$key2]."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
-	                $return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]*$reisverzekeringen["aantal"][$key2]),2,',','.')."</td>";
-	                $return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($reisverzekeringen["bedrag"][$key2],$inkoop)."</td>";
-	                $return.="</tr>";
-	            }else {
-	                $return.="<tr class='mobile_row' ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($value2));
-	                $return.="<div class='costs'>";
-	                $return.=number_format(abs($reisverzekeringen["bedrag"][$key2]),2,',','.')." x ".$reisverzekeringen["aantal"][$key2]. " = &euro; ".number_format(abs($reisverzekeringen["bedrag"][$key2]*$reisverzekeringen["aantal"][$key2]),2,',','.')." ".reissom_tabel_korting_of_min_tekst($reisverzekeringen["bedrag"][$key2],$inkoop);
-	                $return.="</div></td>";
-	                $return.="</tr>";
-	            }
+			if(!$isMobile){
+				$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($value2));
+				$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]),2,',','.')."</td>";
+				$return.="<td style=\"padding-right:10px;vertical-align:top;white-space:nowrap;\"> x ".$reisverzekeringen["aantal"][$key2]."</td><td style=\"padding-right:10px;vertical-align:top;\">=</td>";
+				$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format(abs($reisverzekeringen["bedrag"][$key2]*$reisverzekeringen["aantal"][$key2]),2,',','.')."</td>";
+				$return.="<td style=\"vertical-align:top;white-space:nowrap;\">".reissom_tabel_korting_of_min_tekst($reisverzekeringen["bedrag"][$key2],$inkoop)."</td>";
+				$return.="</tr>";
+			} else {
+				$return.="<tr class='mobile_row' ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".wt_he(ucfirst($value2));
+				$return.="<div class='costs'>";
+				$return.=number_format(abs($reisverzekeringen["bedrag"][$key2]),2,',','.')." x ".$reisverzekeringen["aantal"][$key2]. " = &euro; ".number_format(abs($reisverzekeringen["bedrag"][$key2]*$reisverzekeringen["aantal"][$key2]),2,',','.')." ".reissom_tabel_korting_of_min_tekst($reisverzekeringen["bedrag"][$key2],$inkoop);
+				$return.="</div></td>";
+				$return.="</tr>";
+			}
 			# Inkoop
 			if($inkoop) {
 				$db->query("SELECT inkoop, korting FROM optie_tarief WHERE optie_onderdeel_id='".addslashes($reisverzekeringen["optieonderdeelid"][$key2])."' AND week='".addslashes($gegevens["stap1"]["aankomstdatum"])."';");
@@ -1865,20 +1867,20 @@ function reissom_tabel($gegevens,$accinfo,$opties=array(""),$inkoop=false) {
 		# schadeverzekering
 		$kleurteller++;
 		if($kleurteller>1) unset($kleurteller);
-        if(!$isMobile){
-            $return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("schadeverzekering","vars");
-            $return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["stap1"]["accprijs"],2,',','.')."</td>";
-            $return.="<td style=\"padding-right:10px;vertical-align:top;\" nowrap> x ".number_format($gegevens["stap1"]["schadeverzekering_percentage"],2,',','.')."%</td><td style=\"padding-right:10px\">=</td>";
-            $return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["schadeverzekering_variabel"],2,',','.')."</td>";
-            $return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
-            $return.="</tr>";
-        }else {
-            $return.="<tr class='mobile_row' ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("schadeverzekering","vars");
-            $return.="<div class='costs'>";
-            $return.="&euro; ".number_format($gegevens["stap1"]["accprijs"],2,',','.')." x ".number_format($gegevens["stap1"]["schadeverzekering_percentage"],2,',','.')."% = &euro; ".number_format($gegevens["fin"]["schadeverzekering_variabel"],2,',','.');
-            $return."</div></td>";
-            $return.="</tr>";
-        }
+		if(!$isMobile){
+			$return.="<tr".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("schadeverzekering","vars");
+			$return.="</td>".$extra_td."<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;vertical-align:top;text-align:right;\">".number_format($gegevens["stap1"]["accprijs"],2,',','.')."</td>";
+			$return.="<td style=\"padding-right:10px;vertical-align:top;\" nowrap> x ".number_format($gegevens["stap1"]["schadeverzekering_percentage"],2,',','.')."%</td><td style=\"padding-right:10px\">=</td>";
+			$return.="<td style=\"padding-right:10px;vertical-align:top;\">&euro;</td><td style=\"padding-right:10px;text-align:right;\">".number_format($gegevens["fin"]["schadeverzekering_variabel"],2,',','.')."</td>";
+			$return.="<td style=\"vertical-align:top;\">&nbsp;</td>";
+			$return.="</tr>";
+		}else {
+			$return.="<tr class='mobile_row' ".(!$kleurteller ? " style=\"background-color:#ebebeb\"" : "")."><td style=\"padding-right:10px;vertical-align:top;\">".html("schadeverzekering","vars");
+			$return.="<div class='costs'>";
+			$return.="&euro; ".number_format($gegevens["stap1"]["accprijs"],2,',','.')." x ".number_format($gegevens["stap1"]["schadeverzekering_percentage"],2,',','.')."% = &euro; ".number_format($gegevens["fin"]["schadeverzekering_variabel"],2,',','.');
+			$return."</div></td>";
+			$return.="</tr>";
+		}
 		# Inkoop
 		if($inkoop) {
 			$db->query("SELECT schadeverzekering_percentage_korting AS korting, schadeverzekering_percentage_basis AS basis, schadeverzekering_percentage_berekend AS berekend FROM seizoen WHERE seizoen_id='".addslashes($gegevens["stap1"]["seizoenid"])."';");

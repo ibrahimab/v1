@@ -84,6 +84,89 @@ EOT;
 
 	}
 
+	public function boeking_bevestigd($gegevens) {
+		global $vars;
+
+		$send["event"] = "TrackTrans";
+
+		$send["transactionId"] = $gegevens["stap1"]["boekingid"];
+		$send["transactionAffiliation"] = "";
+		$send["transactionTotal"] = $gegevens["fin"]["totale_reissom"];
+		$send["transactionTax"] = "";
+		$send["transactionShipping"] = "";
+
+		$send["transactionProducts"] = array();
+		array_push($send["transactionProducts"], array(
+			"sku"=>"1",
+			"name"=>wt_utf8_decode($gegevens["stap1"]["accinfo"]["begincode"].$gegevens["stap1"]["accinfo"]["type_id"]." ".ucfirst($gegevens["stap1"]["accinfo"]["soortaccommodatie"])." ".$gegevens["stap1"]["accinfo"]["naam_ap"]),
+			"category"=>wt_utf8_decode($gegevens["stap1"]["accinfo"]["plaats"]),
+			"price"=>$gegevens["fin"]["accommodatie_totaalprijs"],
+			"quantity"=>"1"
+		));
+
+		// opties per persoon
+		if(is_array($gegevens["stap4"]["optie_onderdeelid_teller"])) {
+			foreach ($gegevens["stap4"]["optie_onderdeelid_teller"] as $key => $value) {
+
+				$bedrag=$gegevens["stap4"]["optie_onderdeelid_verkoop_key_verkoop"][$key];
+				$key=$gegevens["stap4"]["optie_onderdeelid_verkoop_key"][$key];
+
+				if($gegevens["stap4"]["optie_onderdeelid_reisverzekering"][$key]) {
+					// reisverzekering
+					array_push($send["transactionProducts"], array(
+						"sku"=>"1",
+						"name"=>wt_utf8_decode($gegevens["stap4"]["optie_onderdeelid_naam"][$key]),
+						"category"=>wt_utf8_decode($gegevens["stap4"]["optie_onderdeelid_naam"][$key]),
+						"price"=>$gegevens["stap4"]["optie_onderdeelid_verkoop_key_verkoop"][$key],
+						"quantity"=>$value
+					));
+				} elseif($gegevens["stap4"]["optie_onderdeelid_onderdeel"][$key]) {
+					// other options
+					array_push($send["transactionProducts"], array(
+						"sku"=>"1",
+						"name"=>wt_utf8_decode($gegevens["stap4"]["optie_onderdeelid_onderdeel"][$key]),
+						"category"=>wt_utf8_decode(ucfirst($gegevens["stap4"]["optie_onderdeelid_soort"][$key])),
+						"price"=>$bedrag,
+						"quantity"=>$value
+					));
+				} else {
+					array_push($send["transactionProducts"], array(
+						"sku"=>"1",
+						"name"=>wt_utf8_decode($gegevens["stap4"]["optie_onderdeelid_naam"][$key]),
+						"category"=>wt_utf8_decode($gegevens["stap4"]["optie_onderdeelid_naam"][$key]),
+						"price"=>$bedrag,
+						"quantity"=>$value
+					));
+				}
+			}
+		}
+
+		// annuleringsverzekering
+		if(is_array($gegevens["stap4"]["annuleringsverzekering_soorten"])) {
+			foreach ($gegevens["stap4"]["annuleringsverzekering_soorten"] as $key => $value) {
+				array_push($send["transactionProducts"], array(
+					"sku"=>"1",
+					"name"=>wt_utf8_decode($vars["annverz_soorten"][$key]),
+					"category"=>wt_utf8_decode(txt("annuleringsverzekering","vars")),
+					"price"=>$gegevens["fin"]["annuleringsverzekering_variabel_".$key],
+					"quantity"=>1
+				));
+			}
+		}
+
+		// $send["transactionProducts"] = "";
+
+		// echo json_encode($send);
+
+		// echo wt_dump($send);
+		// echo wt_dump($gegevens);
+
+		$return = $this->datalayer_push($send);
+
+		return $return;
+
+	}
+
 }
 
 
