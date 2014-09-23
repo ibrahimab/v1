@@ -65,11 +65,8 @@ if($_GET["aanvraagnr"]) {
 	affiliate_tracking(true,true,true,array("ordernummer"=>$_GET["aanvraagnr"],"bedrag"=>$totalereissom));
 
 	// Google Tag Manager
-
-	// $google_tagmanager = new google_tagmanager;
-	// echo $google_tagmanager->boeking_bevestigd($gegevens);
-
-
+	$google_tagmanager = new google_tagmanager;
+	echo $google_tagmanager->boeking_bevestigd($gegevens);
 
 }
 

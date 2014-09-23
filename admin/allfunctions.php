@@ -1604,6 +1604,22 @@ function wt_utf8_decode($text) {
 	return $text;
 }
 
+function wt_utf8_encode($text) {
+	//
+	// utf8_decode with correct character encoding
+	//
+	global $vars;
+
+	if($vars["wt_htmlentities_cp1252"]) {
+		$text = iconv("CP1252", "UTF-8", $text);
+	} elseif($vars["wt_htmlentities_utf8"]) {
+		// do nothing
+	} else {
+		$text = utf8_encode($text);
+	}
+	return $text;
+}
+
 function wt_url_zonder_http($url) {
 
 	// zet een volledige URL om in een mooi toonbare URL
