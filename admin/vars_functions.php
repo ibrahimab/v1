@@ -4227,16 +4227,13 @@ function inkoopprijs_opslaan($boekingid) {
 }
 
 function googleanalytics() {
-	global $vars,$voorkant_cms,$id;
+	global $vars, $voorkant_cms, $id;
 
-	$test_analytics=true;
-
-	if($test_analytics)	{
-		if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and !defined("wt_test")) {
-			$vars["googleanalytics"]="UA-2078202-12";
-		} else {
-			$test_analytics=false;
-		}
+	if($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) {
+		$vars["googleanalytics"]="UA-2078202-12";
+		$test_analytics=true;
+	} else {
+		$test_analytics=false;
 	}
 
 	$vertrouwde_ips = $vars["vertrouwde_ips"];
@@ -4245,10 +4242,10 @@ function googleanalytics() {
 		$vertrouwde_ips = array("");
 	}
 
-	if($test_analytics or ($vars["googleanalytics"] and !$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"],$vertrouwde_ips) and !$vars["lokale_testserver"] and !$_GET["wtfatalerror"])) {
+	if($test_analytics or ($vars["googleanalytics"] and !$voorkant_cms and !in_array($_SERVER["REMOTE_ADDR"], $vertrouwde_ips) and !$_GET["wtfatalerror"])) {
 
 		if($_COOKIE["abt"]) {
-			$extra.="ga('set', 'AB-testing', '".$_COOKIE["abt"]."');\n";
+			$extra.="\nga('set', 'AB-testing', '".$_COOKIE["abt"]."');\n";
 		}
 
 		$return = "<script>
@@ -4256,7 +4253,7 @@ function googleanalytics() {
 		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		})(window,document,'script','//www.google-analytics.com/analytics".($test_analytics ? "_debug" : "").".js','ga');
 
 		var page_with_tabs=false;
 
