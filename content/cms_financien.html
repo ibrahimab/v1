@@ -861,7 +861,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 	}
 
 	# Garanties
-	$db->query("SELECT g.garantie_id, g.boeking_id, g.netto, g.bruto, g.naam, g.leverancier_id, g.aankomstdatum, g.aankomstdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, g.aankomstdatum_exact, g.vertrekdatum_exact, a.wzt, a.bestelnaam AS abestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, p.naam AS plaats, l.naam AS leverancier FROM garantie g, type t, accommodatie a, plaats p, skigebied s, leverancier l WHERE p.skigebied_id=s.skigebied_id AND g.leverancier_id=l.leverancier_id AND a.plaats_id=p.plaats_id AND t.accommodatie_id=a.accommodatie_id AND g.type_id=t.type_id AND CHAR_LENGTH(g.reserveringsnummer_extern)>0".$andquery_gar.$andquery_gar_hoofdquery." ORDER BY g.reserveringsnummer_extern;");
+	$db->query("SELECT g.garantie_id, g.boeking_id, g.netto, g.bruto, g.naam, g.leverancier_id, g.aankomstdatum, g.aankomstdatum_exact, g.factuurnummer, UNIX_TIMESTAMP(g.inkoopdatum) AS inkoopdatum, g.aankomstdatum_exact, g.vertrekdatum_exact, a.wzt, a.bestelnaam AS abestelnaam, t.type_id, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, t.code, p.naam AS plaats, l.naam AS leverancier, land.begincode FROM garantie g, type t, accommodatie a, plaats p, skigebied s, leverancier l, land WHERE p.land_id=land.land_id AND p.skigebied_id=s.skigebied_id AND g.leverancier_id=l.leverancier_id AND a.plaats_id=p.plaats_id AND t.accommodatie_id=a.accommodatie_id AND g.type_id=t.type_id AND CHAR_LENGTH(g.reserveringsnummer_extern)>0".$andquery_gar.$andquery_gar_hoofdquery." ORDER BY g.reserveringsnummer_extern;");
 	while($db->next_record()) {
 		if($db->f("boeking_id")) {
 			$fin["garantieboeking"][$db->f("boeking_id")]=true;
@@ -999,6 +999,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 								$accnaam=$db->f("abestelnaam")." ".($db->f("tbestelnaam") ? $db->f("tbestelnaam")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)";
 								$losseregel.="<td style=\"text-align:left;\">".wt_he($accnaam)."</td>";
 							}
+							if($kolom["boeking_typeid"]) {
+								$losseregel.="<td style=\"text-align:right;\">".wt_he($db->f("begincode").$db->f("type_id"))."</td>";
+							}
+							if($kolom["boeking_typecode"]) {
+								$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("code"))."</td>";
+							}
 							if($kolom["boeking_nachten"]) {
 								$aantalnachten=round(($db->f("vertrekdatum_exact")-$db->f("aankomstdatum_exact"))/86400);
 								$losseregel.="<td>".wt_he($aantalnachten)."</td>";
@@ -1032,7 +1038,7 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 
 
 	# Gewone boekingen
-	$db->query("SELECT SUBSTR(b.boekingsnummer,2) AS sortboekingsnummer, b.seizoen_id, b.boeking_id, UNIX_TIMESTAMP(b.factuurdatum) AS factuurdatum, b.website, b.reisbureau_user_id, b.boekingsnummer, b.leverancier_id, b.type_id, b.aantalpersonen, b.aankomstdatum, b.totale_reissom, b.totale_reissom_inkoop, b.inkoopbruto, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.btw_over_commissie, b.btw_over_commissie_percentage, b.verkoop, b.commissie, b.voorraad_afboeken, a.bestelnaam AS abestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, p.naam AS plaats, l.naam AS leverancier, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, skigebied s, leverancier l WHERE p.skigebied_id=s.skigebied_id AND b.leverancier_id=l.leverancier_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.totale_reissom_inkoop IS NOT NULL AND b.seizoen_id IN (".$seizoen_id.") AND CHAR_LENGTH(b.boekingsnummer)>0 AND b.type_id=t.type_id".$andquery.$andquery_hoofdquery." ORDER BY 1;");
+	$db->query("SELECT SUBSTR(b.boekingsnummer,2) AS sortboekingsnummer, b.seizoen_id, b.boeking_id, UNIX_TIMESTAMP(b.factuurdatum) AS factuurdatum, b.website, b.reisbureau_user_id, b.boekingsnummer, b.leverancier_id, b.type_id, b.aantalpersonen, b.aankomstdatum, b.totale_reissom, b.totale_reissom_inkoop, b.inkoopbruto, b.totaalfactuurbedrag, b.aankomstdatum_exact, b.vertrekdatum_exact, b.leverancierscode, b.btw_over_commissie, b.btw_over_commissie_percentage, b.verkoop, b.commissie, b.voorraad_afboeken, a.bestelnaam AS abestelnaam, t.optimaalaantalpersonen, t.maxaantalpersonen, t.bestelnaam AS tbestelnaam, t.code, p.naam AS plaats, l.naam AS leverancier, land.begincode, bp.voornaam, bp.tussenvoegsel, bp.achternaam FROM boeking b, boeking_persoon bp, type t, accommodatie a, plaats p, skigebied s, leverancier l, land WHERE p.land_id=land.land_id AND p.skigebied_id=s.skigebied_id AND b.leverancier_id=l.leverancier_id AND bp.boeking_id=b.boeking_id AND bp.persoonnummer=1 AND t.accommodatie_id=a.accommodatie_id AND a.plaats_id=p.plaats_id AND b.totale_reissom_inkoop IS NOT NULL AND b.seizoen_id IN (".$seizoen_id.") AND CHAR_LENGTH(b.boekingsnummer)>0 AND b.type_id=t.type_id".$andquery.$andquery_hoofdquery." ORDER BY 1;");
 	while($db->next_record()) {
 
 		if($kolom["boeking_grootboekrekeningnummer"] or $form->input["grootboek"]) {
@@ -1221,6 +1227,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 				$accnaam=$db->f("abestelnaam")." ".($db->f("tbestelnaam") ? $db->f("tbestelnaam")." " : "")."(".$db->f("optimaalaantalpersonen").($db->f("optimaalaantalpersonen")<>$db->f("maxaantalpersonen") ? "-".$db->f("maxaantalpersonen") : "")."p)";
 				$losseregel.="<td style=\"text-align:left;\">".wt_he($accnaam)."</td>";
 			}
+			if($kolom["boeking_typeid"]) {
+				$losseregel.="<td style=\"text-align:right;\">".wt_he($db->f("begincode").$db->f("type_id"))."</td>";
+			}
+			if($kolom["boeking_typecode"]) {
+				$losseregel.="<td style=\"text-align:left;\">".wt_he($db->f("code"))."</td>";
+			}
 			if($kolom["boeking_nachten"]) {
 				$aantalnachten=round(($db->f("vertrekdatum_exact")-$db->f("aankomstdatum_exact"))/86400);
 				$losseregel.="<td>".wt_he($aantalnachten)."</td>";
@@ -1368,6 +1380,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 		if($kolom["boeking_accommodatie"]) {
 			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_accommodatie"])."\">B: Acc</th>";
 		}
+		if($kolom["boeking_typeid"]) {
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_typeid"])."\">B: Type-id</th>";
+		}
+		if($kolom["boeking_typecode"]) {
+			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_typecode"])."\">B: Code</th>";
+		}
 		if($kolom["boeking_nachten"]) {
 			echo "<th title=\"".wt_he($vars["totaaloverzicht_kolommen"]["boeking_nachten"])."\">B: Nachten</th>";
 		}
@@ -1489,6 +1507,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 			if($kolom["boeking_accommodatie"]) {
 				echo "<td>&nbsp;</td>";
 			}
+			if($kolom["boeking_typeid"]) {
+				echo "<td>&nbsp;</td>";
+			}
+			if($kolom["boeking_typecode"]) {
+				echo "<td>&nbsp;</td>";
+			}
 			if($kolom["boeking_nachten"]) {
 				echo "<td>&nbsp;</td>";
 			}
@@ -1595,6 +1619,12 @@ if($_FILES["xmlbetalingen"]["tmp_name"]) {
 					echo "<td>&nbsp;</td>";
 				}
 				if($kolom["boeking_accommodatie"]) {
+					echo "<td>&nbsp;</td>";
+				}
+				if($kolom["boeking_typeid"]) {
+					echo "<td>&nbsp;</td>";
+				}
+				if($kolom["boeking_typecode"]) {
 					echo "<td>&nbsp;</td>";
 				}
 				if($kolom["boeking_nachten"]) {

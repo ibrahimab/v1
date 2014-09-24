@@ -72,6 +72,8 @@ if($_GET["marges"]) {
 		"boeking_leverancier"=>"Details boeking: leverancier",
 		"boeking_plaats"=>"Details boeking: plaats",
 		"boeking_accommodatie"=>"Details boeking: accommodatie",
+		"boeking_typeid"=>"Details boeking: type-id (intern)",
+		"boeking_typecode"=>"Details boeking: code",
 		"boeking_nachten"=>"Details boeking: aantal nachten",
 		"boeking_aankomstdatum"=>"Details boeking: aankomstdatum",
 		"boeking_resnr"=>"Details boeking: reserveringsnummer",
