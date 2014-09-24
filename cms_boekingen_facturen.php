@@ -77,6 +77,10 @@ $form->field_yesno("ondertekenen","Goedkeuring benodigd: vraag om goedkeuring/on
 #_field: (obl),id,title,db,prevalue,options,layout
 
 if($gegevens["stap1"]["factuurdatum"]) {
+	// if($gegevens["stap1"]["factuur_ondertekendatum"]) {
+	// 	$add_html_after_field="<div style=\"margin-bottom:-20px;padding-top: 5px;color:#888888;\">(niet zelf invullen)</div>";
+	// }
+	// $form->field_date(0,"factuur_ondertekendatum","Factuur goedgekeurd door de klant (via website of ondertekening)","",array("time"=>$gegevens["stap1"]["factuur_ondertekendatum"]),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true, "add_html_after_field"=>$add_html_after_field));
 	$form->field_date(0,"factuur_ondertekendatum","Factuur goedgekeurd door de klant (via website of ondertekening)","",array("time"=>$gegevens["stap1"]["factuur_ondertekendatum"]),array("startyear"=>date("Y")-1,"endyear"=>date("Y")+1),array("calendar"=>true));
 }
 $form->field_htmlrow("","<hr><b>Mailinstellingen</b>");

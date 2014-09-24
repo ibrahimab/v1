@@ -582,6 +582,10 @@ php_value memory_limit 128M
 php_value memory_limit 256M
 </Files>
 
+<Files wtphp.php>
+php_value memory_limit 256M
+</Files>
+
 <IfModule mod_expires.c>
 	#
 	# mod_headers en mod_expires

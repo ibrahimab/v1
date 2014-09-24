@@ -28,6 +28,20 @@ $geen_tracker_cookie=true;
 $boeking_bepaalt_taal=true;
 include($unixdir."admin/vars.php");
 
+$huidig_uur = date("H");
+
+if($huidig_uur>0 and $huidig_uur<6) {
+	// $bijkomendekosten = new bijkomendekosten;
+	// $bijkomendekosten->pre_calculate_all_types(100);
+}
+
+// Types without bijkomendekosten in Redis: calculate
+if($huidig_uur>0) {
+	// $bijkomendekosten = new bijkomendekosten;
+	// $bijkomendekosten->pre_calculate_missing_types();
+}
+
+
 #
 # Controle op onjuiste wederverkoop-tarieven (elke 15 minuten)
 #

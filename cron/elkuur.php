@@ -49,12 +49,6 @@ if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[
 	}
 }
 
-// Types without bijkomendekosten in Redis: calculate
-if($huidig_uur>0) {
-	$bijkomendekosten = new bijkomendekosten;
-	$bijkomendekosten->pre_calculate_all_types();
-}
-
 // aanbetaling1 vastzetten na 15 dagen
 if($huidig_uur==0 or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $argv[1]=="test12") {
 	$vijftien_dagen_geleden = date("Y-m-d", mktime(0,0,0,date("m"), date("d")-15, date("Y")));

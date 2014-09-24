@@ -228,8 +228,23 @@ if($vars["websitetype"]<>6) {
 
 // bijkomendekosten
 if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+
+	// echo number_format(memory_get_usage()/1024, 0, ",", ".")."<br/>";
 	$bijkomendekosten = new bijkomendekosten;
-	$bk = $bijkomendekosten->get_complete_cache();
+	$bk = $bijkomendekosten->get_complete_cache($vars["seizoentype"]);
+
+	// echo number_format(memory_get_usage()/1024, 0, ",", ".")."<br/>";
+
+	// unset($bijkomendekosten);
+	// echo number_format(memory_get_usage()/1024, 0, ",", ".")."<br/>";
+
+	// echo wt_dump($bk);
+	// exit;
+
+	// echo "<pre>";
+	// echo count($bk);
+	// var_dump($bk);
+	// exit;
 
 	$vars["toon_bijkomendekosten"] = true;
 }

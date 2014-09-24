@@ -128,7 +128,7 @@ class wt_redis {
 			$return = $this->redis->hset($this->prefix.$key, $field, $value);
 
 			if($this->expire_time) {
-				$this->redis->expire($this->prefix.$group, $this->expire_time);
+				$this->redis->expire($this->prefix.$key, $this->expire_time);
 			}
 
 		}

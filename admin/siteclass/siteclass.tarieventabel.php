@@ -1365,7 +1365,7 @@ if($this->tarief[$key]>0) {
 					if(!$seizoen_cache_fetched[$db->f("seizoen_id")]) {
 						$seizoen_cache_fetched[$db->f("seizoen_id")] = true;
 
-						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $db->f("seizoen_id"), $accinfo["maxaantalpersonen"], true);
+						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $accinfo["maxaantalpersonen"], true);
 
 					}
 				}
@@ -1494,7 +1494,7 @@ if($this->tarief[$key]>0) {
 					if(!$seizoen_cache_fetched[$db->f("seizoen_id")]) {
 						$seizoen_cache_fetched[$db->f("seizoen_id")] = true;
 
-						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $db->f("seizoen_id"), $accinfo["maxaantalpersonen"], false);
+						$bk_add_to_price = $bijkomendekosten->get_type_from_cache_all_persons($this->type_id, $vars["seizoentype"], $db->f("seizoen_id"), $accinfo["maxaantalpersonen"], false);
 					}
 				}
 

@@ -617,39 +617,65 @@ class bijkomendekosten {
 
 	}
 
-	public function pre_calculate_all_types($refresh_all = false) {
+	public function pre_calculate_all_types($limit=0) {
+
+		global $cron;
 
 		$db = new DB_sql;
 
-		$db->query("SELECT type_id FROM type WHERE 1=1 ORDER BY type_id;");
+		$db->query("SELECT DISTINCT type_id, wzt FROM view_accommodatie WHERE 1=1 ORDER BY type_id;");
 		while($db->next_record()) {
-			if(!$this->wt_redis->hexists("bk_".$db->f("type_id"), "saved") or $refresh_all) {
+
+			$last_save_time = $this->wt_redis->hget("bk:".$db->f("wzt").":".$db->f("type_id"), "saved");
+
+			// echo "LAST:".$last_save_time."<br/>";
+
+			if($last_save_time<(time()-108000)) {
+
+				$counter++;
+
+				if($cron) {
+					echo "\n".$counter.". - ".microtime(true)." pre_calculate_type ".$db->f("type_id")."\n";
+					flush();
+				}
+
 				$this->pre_calculate_type($db->f("type_id"));
 
-				if(defined("wt_server_name")) {
-					usleep(10000);
+				$new[$db->f("wzt")] = true;
+
+				if($limit and $counter>$limit) {
+					break;
 				}
-				// $counter ++;
-				// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-				// 	echo "<br/>".$counter."<hr>";
-				// 	flush();
-				// }
 			}
 		}
+		if($new[1]) {
+			// winter cache
+			$this->store_complete_cache(1);
+		}
+		if($new[2]) {
+			// summer cache
+			$this->store_complete_cache(2);
+		}
+	}
 
-		if(!$refresh_all) {
-			//
-			// delete old entries (with "saved" older than 2 days)
-			//
-			$all_bk = $this->wt_redis->keys("bk_*");
-			if(is_array($all_bk)) {
-				foreach ($all_bk as $key => $value) {
-					$save_time = $this->wt_redis->hget($value, "saved");
-					if($save_time and $save_time<(time()-172800)) {
-						$this->wt_redis->del($value);
-					}
-				}
+	public function pre_calculate_missing_types() {
+
+		$db = new DB_sql;
+
+		$db->query("SELECT DISTINCT type_id, wzt FROM view_accommodatie WHERE 1=1 ORDER BY type_id;");
+		while($db->next_record()) {
+			if(!$this->wt_redis->hexists("bk:".$db->f("wzt").":".$db->f("type_id"), "saved")) {
+				$this->pre_calculate_type($db->f("type_id"));
+				$new[$db->f("wzt")] = true;
 			}
+		}
+		if($new[1]) {
+			// winter cache
+			$this->store_complete_cache(1);
+		}
+		if($new[2]) {
+			// summer cache
+			$this->store_complete_cache(2);
 		}
 	}
 
@@ -680,7 +706,7 @@ class bijkomendekosten {
 		$this->get_data();
 
 
-		$this->wt_redis->del("bk_".$type_id);
+		$this->wt_redis->del("bk:".$this->wzt.":".$type_id);
 
 		foreach ($this->data as $seizoen_id => $data) {
 
@@ -709,9 +735,9 @@ class bijkomendekosten {
 
 			for($i=$this->maxaantalpersonen;$i>=1;$i--) {
 				$total = $per_accommodation + $i * $per_person;
-				$this->wt_redis->hset("bk_".$type_id, $seizoen_id.":".$i, $total);
+				$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, $seizoen_id.":".$i, $total);
 				if($vars["tmp_info_tonen"]) {
-					echo "bk_".$type_id." - ".$seizoen_id.":".$i." - ".$total."<br/>";
+					echo "bk:".$this->wzt.":".$type_id." - ".$seizoen_id.":".$i." - ".$total."<br/>";
 					flush();
 				}
 			}
@@ -723,27 +749,26 @@ class bijkomendekosten {
 
 
 		}
-		$this->wt_redis->hset("bk_".$type_id, "saved", time());
+		$this->wt_redis->hset("bk:".$this->wzt.":".$type_id, "saved", time());
 
-		if(!$GLOBALS["class_bijkomendekosten_register_shutdown"]) {
-			register_shutdown_function(array($this, "store_complete_cache"));
-			$GLOBALS["class_bijkomendekosten_register_shutdown"]=true;
+		if(!$GLOBALS["class_bijkomendekosten_register_shutdown_".$this->wzt]) {
+			register_shutdown_function(array($this, "store_complete_cache"), $this->wzt);
+			$GLOBALS["class_bijkomendekosten_register_shutdown_".$this->wzt]=true;
 		}
 	}
 
-	public function get_type_from_cache($type_id, $seizoen_id, $aantalpersonen, $per_person=false) {
+	public function get_type_from_cache($type_id, $wzt, $seizoen_id, $aantalpersonen, $per_person=false) {
 		if(!$aantalpersonen) {
 			$aantalpersonen = 1;
 		}
-		$return = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$aantalpersonen);
+		$return = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$aantalpersonen);
 		if(!$return) {
 			$this->pre_calculate_type($type_id);
 
-			$return = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$aantalpersonen);
+			$return = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$aantalpersonen);
 			if(!$return) {
 				trigger_error("geen bijkomende kosten gevonden voor type_id ".$type_id.", seizoen_id ".$seizoen_id.", ".$aantalpersonen." personen", E_USER_NOTICE);
 			}
-
 		}
 		if($per_person) {
 			$return = round($return / $aantalpersonen, 2);
@@ -752,14 +777,14 @@ class bijkomendekosten {
 
 	}
 
-	public function get_type_from_cache_all_persons($type_id, $seizoen_id, $maxaantalpersonen, $per_person) {
+	public function get_type_from_cache_all_persons($type_id, $wzt, $seizoen_id, $maxaantalpersonen, $per_person) {
 
 		for($i=1;$i<=$maxaantalpersonen;$i++) {
-			$bedrag = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$i);
+			$bedrag = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$i);
 			if(!$bedrag) {
 				$this->pre_calculate_type($type_id);
 
-				$bedrag = $this->wt_redis->hget("bk_".$type_id, $seizoen_id.":".$i);
+				$bedrag = $this->wt_redis->hget("bk:".$wzt.":".$type_id, $seizoen_id.":".$i);
 				if(!$bedrag) {
 					trigger_error("geen bijkomende kosten gevonden voor type_id ".$type_id.", seizoen_id ".$seizoen_id.", ".$i." personen", E_USER_NOTICE);
 				}
@@ -774,20 +799,25 @@ class bijkomendekosten {
 		return $return;
 	}
 
-	public function store_complete_cache() {
+	public function store_complete_cache($wzt) {
 
-		$all_bk = $this->wt_redis->keys("bk_*");
+		$all_bk = $this->wt_redis->keys("bk:".$wzt.":*");
 		if(is_array($all_bk)) {
 			foreach ($all_bk as $key => $value) {
 				$content=$this->wt_redis->hgetall($value, false);
 				foreach ($content as $key2 => $value2) {
 
-					if(preg_match("@bk_([0-9]+)$@", $value, $regs)) {
+					if(preg_match("@bk:([12]):([0-9]+)$@", $value, $regs)) {
 
-						$type_id = $regs[1];
+						$wzt = $regs[1];
+						$type_id = $regs[2];
 
 						if(preg_match("@^([0-9]+):([0-9]+)$@", $key2, $regs)) {
-							$bk[$type_id][$regs[1]][$regs[2]] = $value2;
+
+							$seizoen_id = $regs[1];
+							$aantalpersonen = $regs[2];
+
+							$bk[$type_id][$seizoen_id][$aantalpersonen] = $value2;
 						}
 					}
 				}
@@ -795,32 +825,16 @@ class bijkomendekosten {
 		}
 
 		if(is_array($bk)) {
-			$this->wt_redis->store_array("bk", "all", $bk);
+			$this->wt_redis->store_array("bk:".$wzt, "all", $bk);
 		}
 	}
 
-	public function get_complete_cache() {
+	public function get_complete_cache($wzt) {
 
-		$return = $this->wt_redis->get_array("bk", "all");
+		$return = $this->wt_redis->get_array("bk:".$wzt, "all");
 
 		return $return;
 
-		// $r = new Redis;
-		// $r->connect(wt_redis_host, 6379);
-		// echo wt_dump($r->hgetall("chalettest_bk_4492"));
-		// exit;
-
-
-
-		$all_bk = $this->wt_redis->keys("bk_*");
-		if(is_array($all_bk)) {
-			foreach ($all_bk as $key => $value) {
-				$a=$this->wt_redis->hgetall($value, false);
-				echo wt_dump($a);
-				exit;
-			}
-		}
-		return $return;
 	}
 
 

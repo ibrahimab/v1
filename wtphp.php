@@ -1,5 +1,20 @@
 <?php
 
+// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+	set_time_limit(0);
+	include("admin/vars.php");
+
+	echo time()."<br/>";
+	// update bijkomende kosten Redis
+	$bijkomendekosten = new bijkomendekosten;
+	$bijkomendekosten->pre_calculate_all_types(100);
+	echo time()."<br/>";
+
+
+	exit;
+
+// }
+
 set_time_limit(0);
 
 
@@ -12,11 +27,7 @@ exit;
 
 // $vars["tmp_info_tonen"] = true;
 
-// include("admin/vars.php");
 
-// // update bijkomende kosten Redis
-// $bijkomendekosten = new bijkomendekosten;
-// $bijkomendekosten->pre_calculate_all_types(true);
 
 
 
