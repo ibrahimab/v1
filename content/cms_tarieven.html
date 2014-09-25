@@ -567,7 +567,7 @@ if($seizoen["naam"]) {
 
 		# Kijken of beschikbaarheid aan moet staan bij (i.v.m. koppeling met skipastarieven)
 		unset($temp_beschikbaarheid_checkbox);
-		if($seizoen["weken"][$week]["beschikbaar"] or ($seizoen["leeg"] and !$acc["xml_leverancierscode"])) {
+		if($seizoen["weken"][$week]["beschikbaar"]) {
 			$temp_beschikbaarheid_checkbox=true;
 		}
 		if($acc["toonper"]==1 and !$skipas["weken"][$week]["bruto"]) {
