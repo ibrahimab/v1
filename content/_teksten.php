@@ -2640,7 +2640,6 @@ $txt["en"]["tarieventabel"]["mailmijvolgendseizoen_email"]="Email address";
 $txt["nl"]["tarieventabel"]["mailmijvolgendseizoen_send"]="Verzenden";
 $txt["en"]["tarieventabel"]["mailmijvolgendseizoen_send"]="Send";
 
-
 $txt["nl"]["tarieventabel"]["hulpbijonlineboeken"]="Hulp bij online boeken? Bel [[h_1]], [[h_2]]chat met ons[[h_3]] of bekijk onze [[h_4]]veelgestelde vragen[[h_5]].";
 $txt["en"]["tarieventabel"]["hulpbijonlineboeken"]="Need help with booking online? Call [[h_1]] or [[h_2]]chat with us[[h_3]].";
 
@@ -2721,6 +2720,14 @@ $txt["en"]["tarieventabel"]["legenda_gekozen_aantal_personen"]="selected number 
 
 $txt["nl"]["tarieventabel"]["legenda_gekozen_datum"]="geselecteerde datum";
 $txt["en"]["tarieventabel"]["legenda_gekozen_datum"]="selected date";
+
+$txt["nl"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Geselecteerde aankomstdatum";
+$txt["en"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Selected arrival date";
+
+$txt["nl"]["tarieventabel"]["klik-op-datum-personen"]="Klik in bovenstaande prijstabel om aankomstdatum/aantal personen te wijzigen.";
+$txt["en"]["tarieventabel"]["klik-op-datum-personen"]="";
+
+
 
 #
 # Pagina Skigebied (bijvoorbeeld https://www.chalet.nl/skigebied/Alpe_d_Huez_Les_Grandes_Rousses/)

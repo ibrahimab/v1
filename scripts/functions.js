@@ -2302,24 +2302,39 @@ $(document).ready(function() {
 			$(".tarieventabel_verbergen").hide();
 
 
-			if($(".tarieventabel_totaalprijs_bedrag").length!==0) {
+			if($(".tarieventabel_totaalprijs").length!==0) {
 				//
 				// tarieventabel: click to show total amount
 				//
 				$("td.tarieventabel_tarieven_beschikbaar").click(function(event) {
 					event.preventDefault();
-
-					$.getJSON(absolute_path+"rpc_json.php", {
-						"t": "tarieventabel_totaalprijs_bedrag",
-						"ap": $(this).parent().data("aantalpersonen"),
-						"d": $(this).data("week"),
-						"type_id": $(".tarieventabel_wrapper").data("type_id"),
-						"seizoen_id_inquery": $(".tarieventabel_wrapper").data("seizoen_id_inquery")
-					}, function(data) {
-						if(data.ok) {
-							$( "div.tarieventabel_totaalprijs" ).replaceWith(data.html);
-						}
+					var new_html;
+					$.when(
+							$("div.tarieventabel_totaalprijs_wrapper").animate({ opacity: 0 })
+						,
+							$.getJSON(absolute_path+"rpc_json.php", {
+								"t": "tarieventabel_totaalprijs",
+								"ap": $(this).parent().data("aantalpersonen"),
+								"d": $(this).data("week"),
+								"type_id": $(".tarieventabel_wrapper").data("type_id"),
+								"seizoen_id_inquery": $(".tarieventabel_wrapper").data("seizoen_id_inquery")
+							}, function(data) {
+								if(data.ok) {
+									new_html = data.html;
+								}
+							})
+					).done(function() {
+						$( "div.tarieventabel_totaalprijs" ).replaceWith(new_html);
+						$( "div.tarieventabel_totaalprijs_wrapper" ).animate({ opacity: 1 })
 					});
+				});
+
+				// click on small "book now" button
+				$(document).on("click", ".tarieventabel_totaalprijs button", function(event) {
+					event.preventDefault();
+
+					var url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week")+"&ap="+$(this).data("aantalpersonen");
+					document.location.href=url;
 
 				});
 

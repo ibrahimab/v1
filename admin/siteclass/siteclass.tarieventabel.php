@@ -140,15 +140,15 @@ class tarieventabel {
 			$return .= "<div class=\"tarieventabel_toelichting\">";
 
 
+			// info totaalprijs
 			if($this->toon_bijkomendekosten and $_GET["ap"] and $_GET["d"]) {
+				$return .= "<div class=\"tarieventabel_totaalprijs_wrapper\">";
 				$return .= $this->info_totaalprijs($_GET["ap"], $_GET["d"]);
-			}
-
-			if($totaalprijs_div) {
-				$return .= $totaalprijs_div;
+				$return .= "</div>";
 			}
 
 			$return .= $toelichting;
+
 			$return .= "</div>"; # afsluiten .tarieventabel_toelichting
 		}
 
@@ -164,26 +164,18 @@ class tarieventabel {
 
 		$this->tarieven_uit_database();
 
-
-		// echo wt_dump($this->tarief);
-
-		// $return .= "<div style=\"height:10px;\"></div>";
 		$return .= "<div class=\"tarieventabel_totaalprijs\">";
 
+		$return .= "<div class=\"tarieventabel_totaalprijs_left\">".html("geselecteerde-aankomstdatum", "tarieventabel").":</div>";
+		$return .= "<span class=\"tarieventabel_totaalprijs_right datum\">".datum("DAG D MAAND JJJJ", $this->unixtime_week[$aankomstdatum], $vars["taal"])."</span>";
 
-		$return .= "<div style=\"margin-bottom:10px;\">";
-		$return .= "<div style=\"display:inline-block;width:290px;\">Geselecteerde aankomstdatum:</div><span style=\"color:#000000;font-weight:normal;\">".datum("DAG D MAAND JJJJ", $this->unixtime_week[$aankomstdatum], $vars["taal"])."</span>";
-		$return .= "</div>";
+		$return .= "<div class=\"tarieventabel_totaalprijs_left\">Totaalprijs op basis van ";
+		$return .= " ".$aantalpersonen." ".($aantalpersonen==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel")).":</div>";
+		$return .= "<span class=\"tarieventabel_totaalprijs_right\">&euro;&nbsp;".number_format($aantalpersonen*$this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")."</span>";
+		$return .= "<button data-aantalpersonen=\"".$aantalpersonen."\" data-week=\"".$aankomstdatum."\">".html("boeknu", "toonaccommodatie")." &raquo;</button>";
+		$return .= "<div class=\"tarieventabel_totaalprijs_klik\">".html("klik-op-datum-personen", "tarieventabel")."</div>";
 
-		$return .= "<div style=\"display:inline-block;width:290px;\">Totaalprijs op basis van ";
-
-		$return .= " ".$aantalpersonen." ".($aantalpersonen==1 ? html("persoon","tarieventabel") : html("personen","tarieventabel")).":</div><span class=\"tarieventabel_totaalprijs_bedrag\">&euro;&nbsp;".number_format($aantalpersonen*$this->tarief_exact[$aantalpersonen][$aankomstdatum], 2, ",", ".")."</span>";
-
-		// $return .= "&nbsp;<span style=\"font-weight: normal;\">(aankomst 13 dec 2014)</span>&nbsp;";
-		$return .= "<button>Boek nu &raquo;</button>";
-		$return .= "<span style=\"display:block;font-weight:normal;margin-top:10px;font-style:italic;\">Klik in bovenstaande prijstabel om aankomstdatum/aantal personen te wijzigen.</span>";
-
-		$return .= "</div>"; // close .
+		$return .= "</div>"; // close .tarieventabel_totaalprijs
 
 		return $return;
 
@@ -1782,7 +1774,7 @@ class tarieventabel {
 	}
 
 	private function tabel_bottom() {
-		$return .= "</td></tr></table>";
+		// $return .= "</td></tr></table>";
 		return $return;
 	}
 

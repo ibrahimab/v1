@@ -2911,6 +2911,7 @@ nieuwe tarieventabel
 	padding-left: 10px;
 	padding-right: 10px;
 	padding-bottom: 15px;
+	overflow: auto;
 }
 
 .tarieventabel_toelichting h1 {
@@ -2925,11 +2926,26 @@ nieuwe tarieventabel
 
 .tarieventabel_totaalprijs {
 	border: 1px solid #003366;
-	margin-top: 20px;
-	margin-bottom: 10px;
+	margin-top: 25px;
+	margin-bottom: 5px;
 	padding: 5px;
 	font-weight: bold;
 	color: #003366;
+}
+
+.tarieventabel_totaalprijs_left {
+	display:inline-block;
+	width:290px;
+	margin-bottom: 10px;
+}
+
+.tarieventabel_totaalprijs_right {
+	color: #000000;
+	display: inline-block;
+}
+
+.tarieventabel_totaalprijs_right.datum {
+	font-weight: normal;
 }
 
 .tarieventabel_totaalprijs button {
@@ -2941,14 +2957,15 @@ nieuwe tarieventabel
 	cursor: pointer;
 }
 
-.tarieventabel_totaalprijs_bedrag {
-	color: #000000;
-	display: inline-block;
-}
-
 .tarieventabel_totaalprijs button:hover {
 	border: 1px solid #003366;
 }
+
+.tarieventabel_totaalprijs_klik {
+	font-weight: normal;
+	font-style: italic;
+}
+
 .toelichting_onderdeel {
 	margin-left: 20px;
 }

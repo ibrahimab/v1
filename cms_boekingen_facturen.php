@@ -155,12 +155,8 @@ if($form->okay) {
 			if(!$gegevens["stap1"]["vraag_ondertekening"]) chalet_log("\"vraag om goedkeuring/ondertekening door de klant\" opnieuw aangezet",true,true);
 			$setquery.=", vraag_ondertekening=1";
 		} else {
-			if($form->input["factuur_ondertekendatum"]["unixtime"]>0) {
-
-			} else {
-				if($gegevens["stap1"]["vraag_ondertekening"]) chalet_log("\"vraag om goedkeuring/ondertekening door de klant\" uitgezet",true,true);
-				$setquery.=", vraag_ondertekening=0";
-			}
+			if($gegevens["stap1"]["vraag_ondertekening"]) chalet_log("\"vraag om goedkeuring/ondertekening door de klant\" uitgezet",true,true);
+			$setquery.=", vraag_ondertekening=0";
 		}
 		if(!$gegevens["stap1"]["aanbetaling1_vastgezet"]) {
 			$setquery.=", aanbetaling1='".addslashes($gegevens["fin"]["aanbetaling_ongewijzigd"])."'";

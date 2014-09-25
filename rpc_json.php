@@ -714,7 +714,7 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 		}
 		$return["html"] .= "</ul>";
 	}
-} elseif($_GET["t"]=="tarieventabel_totaalprijs_bedrag") {
+} elseif($_GET["t"]=="tarieventabel_totaalprijs") {
 	//
 	// tarieventabel: click to show total amount
 	//
@@ -723,11 +723,6 @@ if ( $_GET["t"]=="keep_session_alive" ) {
 	$tarieventabel_object->toon_accommodatie_per_persoon = true;
 	$tarieventabel_object->type_id=$_GET["type_id"];
 	$tarieventabel_object->seizoen_id=$_GET["seizoen_id_inquery"];
-	// $tarieventabel_object_content = $tarieventabel_object->toontabel();
-
-
-	// echo wt_dump($tarieventabel_object->seizoeninfo);
-
 
 	$return["html"]=$tarieventabel_object->info_totaalprijs($_GET["ap"], $_GET["d"]);
 }
