@@ -2944,7 +2944,6 @@ nieuwe tarieventabel
 .tarieventabel_totaalprijs_bedrag {
 	color: #000000;
 	display: inline-block;
-	margin-left: 10px;
 }
 
 .tarieventabel_totaalprijs button:hover {

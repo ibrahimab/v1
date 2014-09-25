@@ -7,7 +7,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	echo time()."<br/>";
 	// update bijkomende kosten Redis
 	$bijkomendekosten = new bijkomendekosten;
-	$bijkomendekosten->pre_calculate_all_types(100);
+	$bijkomendekosten->pre_calculate_all_types();
 	echo time()."<br/>";
 
 

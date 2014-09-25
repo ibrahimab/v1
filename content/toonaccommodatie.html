@@ -149,6 +149,11 @@ if($nieuwe_tarieventabel) {
 
 
 	$tarieventabel_object = new tarieventabel;
+	if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+		$tarieventabel_object->toon_bijkomendekosten = true;
+		$tarieventabel_object->toon_accommodatie_per_persoon = true;
+	}
+
 	$tarieventabel_object->show_afwijkend_legenda = true;
 	if($weekendski) {
 		$tarieventabel_object->show_afwijkend_legenda = false;

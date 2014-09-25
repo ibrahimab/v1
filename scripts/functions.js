@@ -2301,19 +2301,45 @@ $(document).ready(function() {
 			// tarieventabel: te verbergen tr's verbergen (laag aantal personen/commissie bij reisagent)
 			$(".tarieventabel_verbergen").hide();
 
-			// tarieventabel: klikken op bedrag naar boeken leiden
-			$("td.tarieventabel_tarieven_beschikbaar").click(function(event){
-				event.preventDefault();
 
-				var url='';
-				if($(this).parent().data("aantalpersonen")>0) {
-					url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week")+"&ap="+$(this).parent().data("aantalpersonen");
-				} else {
-					url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week");
-				}
-				document.location.href=url;
+			if($(".tarieventabel_totaalprijs_bedrag").length!==0) {
+				//
+				// tarieventabel: click to show total amount
+				//
+				$("td.tarieventabel_tarieven_beschikbaar").click(function(event) {
+					event.preventDefault();
 
-			});
+					$.getJSON(absolute_path+"rpc_json.php", {
+						"t": "tarieventabel_totaalprijs_bedrag",
+						"ap": $(this).parent().data("aantalpersonen"),
+						"d": $(this).data("week"),
+						"type_id": $(".tarieventabel_wrapper").data("type_id"),
+						"seizoen_id_inquery": $(".tarieventabel_wrapper").data("seizoen_id_inquery")
+					}, function(data) {
+						if(data.ok) {
+							$( "div.tarieventabel_totaalprijs" ).replaceWith(data.html);
+						}
+					});
+
+				});
+
+			} else {
+				//
+				// tarieventabel: click to book
+				//
+				$("td.tarieventabel_tarieven_beschikbaar").click(function(event) {
+					event.preventDefault();
+
+					var url='';
+					if($(this).parent().data("aantalpersonen")>0) {
+						url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week")+"&ap="+$(this).parent().data("aantalpersonen");
+					} else {
+						url=$(".tarieventabel_wrapper").data("boek-url")+"&d="+$(this).data("week");
+					}
+					document.location.href=url;
+
+				});
+			}
 
 			//
 			// tarieventabel: scrollen
