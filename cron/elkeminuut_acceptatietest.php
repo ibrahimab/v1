@@ -31,8 +31,8 @@ include($unixdir."admin/vars.php");
 $huidig_uur = date("H");
 
 
-$bijkomendekosten = new bijkomendekosten;
-$bijkomendekosten->pre_calculate_all_types(100);
+// $bijkomendekosten = new bijkomendekosten;
+// $bijkomendekosten->pre_calculate_all_types(100);
 
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-// if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
+if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	set_time_limit(0);
 	include("admin/vars.php");
 
@@ -13,7 +13,7 @@
 
 	exit;
 
-// }
+}
 
 set_time_limit(0);
 

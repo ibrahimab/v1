@@ -773,7 +773,7 @@ $(document).ready(function() {
 				//
 
 				// lege function zodat address-plugin niet zelf Google Analytics gebruikt
-				$.address.tracker(function(){
+				$.address.tracker(function() {
 
 				});
 

@@ -634,16 +634,16 @@ class bijkomendekosten {
 
 				$counter++;
 
-				if($cron) {
-					echo "\n".$counter.". - ".microtime(true)." pre_calculate_type ".$db->f("type_id")."\n";
-					flush();
-				}
+				// if($cron) {
+				// 	echo $counter.". - ".microtime(true)." pre_calculate_type ".$db->f("type_id")."\n";
+				// 	flush();
+				// }
 
 				$this->pre_calculate_type($db->f("type_id"));
 
 				$new[$db->f("wzt")] = true;
 
-				if($limit and $counter>$limit) {
+				if($limit and $counter>=$limit) {
 					break;
 				}
 			}
