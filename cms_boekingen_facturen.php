@@ -370,43 +370,54 @@ if($form->okay) {
 		$pdf->Ln();
 
 		if($gegevens["stap1"]["reisbureau_user_id"]) {
+			// Reisagent / Filiaal
 			$pdf->Cell(35,4,txt("reisagentfiliaal","factuur"),0,0,'L',0);
 			$pdf->Cell(5,4,":",0,0,'L',0);
 			$pdf->Cell(50,4,$gegevens["stap1"]["reisbureau_usernaam"].($gegevens["stap1"]["reisbureau_usercode"] ? " (".$gegevens["stap1"]["reisbureau_usercode"].")" : ""),0,0,'L',0);
 			$pdf->Ln();
 		}
 
+		// reserveringsnummer
 		$pdf->Cell(35,4,txt("reserveringsnummer","factuur"),0,0,'L',0);
 		$pdf->Cell(5,4,":",0,0,'L',0);
 		$pdf->Cell(50,4,$gegevens["stap1"]["boekingsnummer"],0,0,'L',0);
 		$pdf->Ln();
 
 		if($gegevens["stap1"]["reisbureau_user_id"]) {
+			// hoofdboeker
 			$pdf->Cell(35,4,txt("hoofdboeker","factuur"),0,0,'L',0);
 			$pdf->Cell(5,4,":",0,0,'L',0);
 			$pdf->Cell(50,4,wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]),0,0,'L',0);
 			$pdf->Ln();
 		}
 
-		$pdf->Cell(35,4,txt("plaats","factuur"),0,0,'L',0);
-		$pdf->Cell(5,4,":",0,0,'L',0);
-		$pdf->Cell(50,4,$accinfo["plaats"],0,0,'L',0);
-		$pdf->Ln();
-		$pdf->Cell(35,4,txt("accommodatie","factuur"),0,0,'L',0);
-		$pdf->Cell(5,4,":",0,0,'L',0);
-		$pdf->MultiCell(150,4,ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"],0,'L',0);
-
-		$pdf->Cell(35,4,txt("deelnemers","factuur"),0,0,'L',0);
-		$pdf->Cell(5,4,":",0,0,'L',0);
-		$pdf->Cell(50,4,$gegevens["stap1"]["aantalpersonen"]." ".($gegevens["stap1"]["aantalpersonen"]==1 ? txt("persoon") : txt("personen")),0,0,'L',0);
-		$pdf->Ln();
-
+		// verblijfsperiode
 		$pdf->Cell(35,4,txt("verblijfsperiode","factuur"),0,0,'L',0);
 		$pdf->Cell(5,4,":",0,0,'L',0);
 		$pdf->Cell(50,4,DATUM("D MAAND JJJJ",$gegevens["stap1"]["aankomstdatum_exact"],$gegevens["stap1"]["taal"])." - ".DATUM("D MAAND JJJJ",$gegevens["stap1"]["vertrekdatum_exact"],$gegevens["stap1"]["taal"]),0,0,'L',0);
 		$pdf->Ln();
 
+		// plaats
+		$pdf->Cell(35,4,txt("plaats","factuur"),0,0,'L',0);
+		$pdf->Cell(5,4,":",0,0,'L',0);
+		$pdf->Cell(50,4,$accinfo["plaats"],0,0,'L',0);
+		$pdf->Ln();
+
+		// accommodatie
+		$pdf->Cell(35,4,txt("accommodatie","factuur"),0,0,'L',0);
+		$pdf->Cell(5,4,":",0,0,'L',0);
+		$pdf->MultiCell(150,4,ucfirst($accinfo["soortaccommodatie"])." ".$accinfo["naam_ap"],0,'L',0);
+
+		// deelnemers
+		$pdf->Cell(35,4,txt("deelnemers","factuur"),0,0,'L',0);
+		$pdf->Cell(5,4,":",0,0,'L',0);
+		$pdf->Cell(50,4,$gegevens["stap1"]["aantalpersonen"]." ".($gegevens["stap1"]["aantalpersonen"]==1 ? txt("persoon") : txt("personen")),0,0,'L',0);
+		$pdf->Ln();
+
+
 		if($gegevens["stap1"]["opmerkingen_klant"]) {
+			// opmerkingen klant
+			$pdf->Ln();
 			$pdf->Cell(35,4,txt("extra","factuur"),0,0,'L',0);
 			$pdf->Cell(5,4,":",0,0,'L',0);
 			$pdf->MultiCell(0,4,$gegevens["stap1"]["opmerkingen_klant"]);
