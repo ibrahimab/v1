@@ -2725,7 +2725,7 @@ $txt["nl"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Geselecteerde aankom
 $txt["en"]["tarieventabel"]["geselecteerde-aankomstdatum"]="Selected arrival date";
 
 $txt["nl"]["tarieventabel"]["klik-op-datum-personen"]="Klik in bovenstaande prijstabel om aankomstdatum/aantal personen te wijzigen.";
-$txt["en"]["tarieventabel"]["klik-op-datum-personen"]="";
+$txt["en"]["tarieventabel"]["klik-op-datum-personen"]="Click in the above pricing table to change the date of arrival / number of people.";
 
 
 
