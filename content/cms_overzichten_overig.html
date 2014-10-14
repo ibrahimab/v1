@@ -757,6 +757,7 @@ if($_GET["t"]==1) {
 
 	echo "<ul>";
 	echo "<li><a href=\"#tekstenomzetten\">Om te zetten in- en exclusief-teksten</a></li>";
+	echo "<li><a href=\"#naamleverancier\">Accommodaties met een verschil tussen 'Naam op website' en 'Naam volgens leverancier'</a></li>";
 	echo "<li><a href=\"#englishreviews\">Reviews via Chalet.eu</a></li>";
 	echo "<li><a href=\"#wifiinternet\">Zomeraccommodaties met zowel Wi-Fi als internetverbinding</a></li>";
 	echo "<li><a href=\"#beddenperseizoen\">Aantal aangeboden bedden per seizoen</a></li>";
@@ -774,6 +775,8 @@ if($_GET["t"]==1) {
 	echo "<br/>";
 
 	echo "<hr>";
+
+
 
 
 	echo "<a name=\"tekstenomzetten\"></a>";
@@ -814,6 +817,28 @@ if($_GET["t"]==1) {
 		echo "<p>Alles is omgezet.</p>";
 	}
 	unset($al_gehad);
+
+
+
+	echo "<hr>";
+	echo "<a name=\"naamleverancier\"></a>";
+	echo "<h2>Accommodaties met een verschil tussen 'Naam op website' en 'Naam volgens leverancier'</h2>";
+
+	$db->query("SELECT a.wzt, a.accommodatie_id, a.naam, a.bestelnaam, p.naam AS plaats FROM accommodatie a INNER JOIN plaats p USING (plaats_id) WHERE a.naam<>a.bestelnaam AND a.archief=0 ORDER BY a.wzt, p.naam, a.naam;");
+	if($db->num_rows()) {
+		echo "<ul>";
+		while($db->next_record()) {
+			if(!$algehad[$db->f("wzt")]) {
+				echo "<br><b>".$vars["seizoentype_namen"][$db->f("wzt")]."</b><br>";
+				$algehad[$db->f("wzt")]=true;
+			}
+			echo "<li><a href=\"cms_accommodaties.php?edit=1&1k0=".$db->f("accommodatie_id")."&wzt=".$db->f("wzt")."\" target=\"_blank\">".wt_he($db->f("plaats")." - ".$db->f("naam")." => ".$db->f("bestelnaam"))."</a></li>";
+		}
+		echo "</ul>";
+	}
+	unset($al_gehad);
+
+
 
 
 	echo "<a name=\"englishreviews\"></a>";
