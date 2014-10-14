@@ -1,4 +1,5 @@
 <?php
+
 $page_id = $id;
 # Te includen bestand bepalen
 if($language_content) {
@@ -506,19 +507,19 @@ if($vars["taal"]=="nl") {
 	$footer_opsomming["http://www.chalet.".($vars["website"]=="K" ? "be" : "nl")."/land/Italie/"]="Wintersport in Italië";
 } elseif($vars["taal"]=="en") {
 	$footer_opsomming["holiday-homes/region/Basilicata/"]="Holiday homes in Basilicata";
-	$footer_opsomming["holiday-homes/region/Campanie/"]="Holiday homes in Campanië";
-	$footer_opsomming["holiday-homes/region/Trentino-Dolomieten/"]="Holiday homes in Trentino/Dolomieten";
+	$footer_opsomming["holiday-homes/region/Campanie/"]="Holiday homes in Campania";
+	$footer_opsomming["holiday-homes/region/Trentino-Dolomieten/"]="Holiday homes in Trentino/Dolomites";
 	$footer_opsomming["holiday-homes/region/Emilia_Romagna/"]="Holiday homes in Emilia Romagna";
 	$footer_opsomming["holiday-homes/region/Lazio/"]="Holiday homes in Lazio";
 	$footer_opsomming["holiday-homes/region/Le_Marche/"]="Holiday homes in Le Marche";
-	$footer_opsomming["holiday-homes/region/Ligurie/"]="Holiday homes in Ligurië";
-	$footer_opsomming["holiday-homes/region/Merengebied_Lombardije/"]="Holiday homes in Merengebied";
+	$footer_opsomming["holiday-homes/region/Ligurie/"]="Holiday homes in Liguria";
+	$footer_opsomming["holiday-homes/region/Merengebied_Lombardije/"]="Holiday homes in Lake District / Lombardy ";
 	$footer_opsomming["holiday-homes/region/Piemonte/"]="Holiday homes in Piemonte";
 	$footer_opsomming["holiday-homes/region/Puglia/"]="Holiday homes in Puglia";
-	$footer_opsomming["holiday-homes/region/Sardinie/"]="Holiday homes in Sardinië";
-	$footer_opsomming["holiday-homes/region/Sicilie/"]="Holiday homes in Sicilië";
-	$footer_opsomming["holiday-homes/region/Toscane/"]="Holiday homes in Toscane";
-	$footer_opsomming["holiday-homes/region/Umbrie/"]="Holiday homes in Umbrië";
+	$footer_opsomming["holiday-homes/region/Sardinie/"]="Holiday homes in Sardinia";
+	$footer_opsomming["holiday-homes/region/Sicilie/"]="Holiday homes in Sicily";
+	$footer_opsomming["holiday-homes/region/Toscane/"]="Holiday homes in Toscany";
+	$footer_opsomming["holiday-homes/region/Umbrie/"]="Holiday homes in Umbria";
 	$footer_opsomming["holiday-homes/region/Veneto/"]="Holiday homes in Veneto";
 	$footer_opsomming["holiday-homes/region/Gardameer/"]="Holiday homes Lake Garda";
 }
@@ -583,7 +584,7 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	$vars["skigebied"]["AAAAA___-- ".txt("bestemming","index")." --"]=0;
 	$vars["skigebied"]["AAAAB___".txt("geenvoorkeur","index")]=0;
 
-	$db->query("SELECT DISTINCT s.skigebied_id, s.naam, s.kortenaam1, s.kortenaam2, s.kortenaam3, s.kortenaam4, l.naam".$vars["ttv"]." AS land, l.naam AS landnl, l.land_id, s.koppeling_1_1, s.koppeling_1_2, s.koppeling_1_3, s.koppeling_1_4, s.koppeling_1_5, s.koppeling_2_1, s.koppeling_2_2, s.koppeling_2_3, s.koppeling_2_4, s.koppeling_2_5, s.koppeling_3_1, s.koppeling_3_2, s.koppeling_3_3, s.koppeling_3_4, s.koppeling_3_5, s.koppeling_4_1, s.koppeling_4_2, s.koppeling_4_3, s.koppeling_4_4, s.koppeling_4_5, s.koppeling_5_1, s.koppeling_5_2, s.koppeling_5_3, s.koppeling_5_4, s.koppeling_5_5 FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id ORDER BY l.naam".$vars["ttv"].", s.naam;");
+	$db->query("SELECT DISTINCT s.skigebied_id, s.naam".$vars["ttv"]." AS naam, s.kortenaam1, s.kortenaam2, s.kortenaam3, s.kortenaam4, l.naam".$vars["ttv"]." AS land, l.naam AS landnl, l.land_id, s.koppeling_1_1, s.koppeling_1_2, s.koppeling_1_3, s.koppeling_1_4, s.koppeling_1_5, s.koppeling_2_1, s.koppeling_2_2, s.koppeling_2_3, s.koppeling_2_4, s.koppeling_2_5, s.koppeling_3_1, s.koppeling_3_2, s.koppeling_3_3, s.koppeling_3_4, s.koppeling_3_5, s.koppeling_4_1, s.koppeling_4_2, s.koppeling_4_3, s.koppeling_4_4, s.koppeling_4_5, s.koppeling_5_1, s.koppeling_5_2, s.koppeling_5_3, s.koppeling_5_4, s.koppeling_5_5 FROM skigebied s, plaats p, land l, type t, accommodatie a WHERE t.accommodatie_id=a.accommodatie_id AND t.tonen=1 AND t.tonenzoekformulier=1 AND a.tonen=1 AND a.tonenzoekformulier=1 AND t.websites LIKE '%".$vars["website"]."%' AND a.plaats_id=p.plaats_id AND l.land_id=p.land_id AND s.skigebied_id=p.skigebied_id ORDER BY l.naam".$vars["ttv"].", s.naam;");
 	while($db->next_record()) {
 		$landen[$db->f("land")]=true;
 		if(!$landgehad[$db->f("land")]) {
