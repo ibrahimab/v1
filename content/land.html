@@ -386,8 +386,8 @@ if($FUNCTIE_UITGEZET and $vars["seizoentype"]==2 and ($themalandinfo["naam"]=="F
 	echo "</div>";
 } else {
 
-	if($landinfo["id"]) {
-		// echo "<div style=\"margin-top:1.5em;margin-bottom:2em;font-weight:bold;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landinfo["id"]."-0\">".html("bekijkonzeaccommodaties","land",array("v_land"=>$landinfo["naam"]))." &raquo;</a></div>";
+	if($vars["seizoentype"]==1 and $landinfo["id"]) {
+		echo "<div style=\"margin-top:1.5em;margin-bottom:2em;\"><a href=\"".$vars["path"].txt("menu_zoek-en-boek").".php?filled=1&fsg=".$landinfo["id"]."-0\">".html("bekijkonzeaccommodaties","land",array("v_land"=>$landinfo["naam"]))." &raquo;</a></div>";
 	}
 	echo $tabellen;
 
