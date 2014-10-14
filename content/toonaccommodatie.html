@@ -149,7 +149,7 @@ if($nieuwe_tarieventabel) {
 
 
 	$tarieventabel_object = new tarieventabel;
-	if(($vars["lokale_testserver"] or $vars["acceptatie_testserver"]) and $vars["seizoentype"]==1) {
+	if($vars["toon_bijkomendekosten"]) {
 		$tarieventabel_object->toon_bijkomendekosten = true;
 		$tarieventabel_object->toon_accommodatie_per_persoon = true;
 	}
@@ -1867,10 +1867,7 @@ if($db->next_record()) {
 				$alletypes_prijs[$db2->f("type_id")]=$db2->f("prijs_per_persoon");
 			}
 		}
-
-// echo wt_dump($alletypes_prijs);
-
-		$db2->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam".$vars["ttv"]." AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, ta.beschikbaar, ta.bruto, ta.c_bruto, ta.c_verkoop_site, ta.wederverkoop_verkoopprijs FROM accommodatie a, type t, plaats p, skigebied s, land l, tarief ta WHERE ta.week='".addslashes($_GET["d"])."' AND ta.type_id=t.type_id AND a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id IN(".addslashes($gekoppeld_inquery).") ORDER BY ".$gekoppeld_order."t.optimaalaantalpersonen, t.maxaantalpersonen, a.naam, t.naam".$vars["ttv"].";");
+		$db2->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam".$vars["ttv"]." AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen, ta.seizoen_id, ta.beschikbaar, ta.bruto, ta.c_bruto, ta.c_verkoop_site, ta.wederverkoop_verkoopprijs FROM accommodatie a, type t, plaats p, skigebied s, land l, tarief ta WHERE ta.week='".addslashes($_GET["d"])."' AND ta.type_id=t.type_id AND a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id IN(".addslashes($gekoppeld_inquery).") ORDER BY ".$gekoppeld_order."t.optimaalaantalpersonen, t.maxaantalpersonen, a.naam, t.naam".$vars["ttv"].";");
 	} else {
 		$db2->query("SELECT DISTINCT a.accommodatie_id, a.soortaccommodatie, t.type_id, t.badkamers, t.slaapkamers, p.naam AS plaats, l.naam".$vars["ttv"]." AS land, l.begincode, s.naam".$vars["ttv"]." AS skigebied, a.toonper, a.naam, t.naam".$vars["ttv"]." AS type, t.optimaalaantalpersonen, t.maxaantalpersonen FROM accommodatie a, type t, plaats p, skigebied s, land l WHERE a.accommodatie_id=t.accommodatie_id AND a.tonen=1 AND t.websites LIKE '%".$vars["website"]."%' AND t.tonen=1 AND p.land_id=l.land_id AND p.skigebied_id=s.skigebied_id AND a.plaats_id=p.plaats_id AND a.accommodatie_id IN(".addslashes($gekoppeld_inquery).") ORDER BY ".$gekoppeld_order."t.optimaalaantalpersonen, t.maxaantalpersonen, a.naam, t.naam".$vars["ttv"].";");
 	}
@@ -1896,10 +1893,17 @@ if($db->next_record()) {
 		echo html("alletypes2","toonaccommodatie");
 		echo "</div>";
 
+
+		if($vars["toon_bijkomendekosten"]) {
+			$bijkomendekosten = new bijkomendekosten;
+			$bk = $bijkomendekosten->get_complete_cache($vars["seizoentype"]);
+		}
+
+
 		while($db2->next_record()) {
 
 			// prijs berekenen
-			unset($prijs);
+			unset($prijs, $bk_add_to_price);
 			$alletypes_beschikbaar_class="";
 			if($_GET["d"]) {
 				if($db2->f("beschikbaar") and ($db2->f("bruto")>0 or $db2->f("c_bruto")>0)) {
@@ -1910,6 +1914,26 @@ if($db->next_record()) {
 						$prijs=$alletypes_prijs[$db2->f("type_id")];
 					} else {
 						$prijs=$db2->f("c_verkoop_site");
+					}
+					if($vars["toon_bijkomendekosten"] and $prijs) {
+						// bijkomende kosten other types
+						if($db2->f("toonper")==1) {
+							// arrangement
+							$temp_aantalpersonen = ($_GET["ap"] ? $_GET["ap"] : $db2->f("maxaantalpersonen"));
+							$bk_add_to_price = $bk[$db2->f("type_id")][$db2->f("seizoen_id")][$temp_aantalpersonen] / $temp_aantalpersonen;
+						} else {
+							// losse accommodatie
+							$temp_aantalpersonen = ($_GET["ap"] ? $_GET["ap"] : 1);
+							$bk_add_to_price = $bk[$db2->f("type_id")][$db2->f("seizoen_id")][$temp_aantalpersonen];
+						}
+
+						if($bk_add_to_price>0) {
+							$prijs = $prijs + $bk_add_to_price;
+							$prijs = ceil($prijs);
+						} else {
+							unset($prijs);
+							// trigger_error("prijs zonder bijkomende kosten (alle types van deze accommodatie)",E_USER_NOTICE);
+						}
 					}
 				} else {
 					$alletypes_beschikbaar_class="alletypes_niet_beschikbaar";
