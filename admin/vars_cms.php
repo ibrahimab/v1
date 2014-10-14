@@ -1067,19 +1067,17 @@ if($mustlogin) {
 
 	if(!$vars["cms_geen_aankomstdata_nodig"]) {
 
-		if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $login->user_id==10) {
-			$wt_redis = new wt_redis;
+		$wt_redis = new wt_redis;
 
-			if($wt_redis->array_group_exists("vars_aankomstdatum")) {
+		if($wt_redis->array_group_exists("vars_aankomstdatum")) {
 
-				$vars["aankomstdatum"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum");
-				$vars["aankomstdatum_kort"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_kort");
-				$vars["aankomstdatum_weekend"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend");
-				$vars["aankomstdatum_weekend_alleseizoenen"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend_alleseizoenen");
+			$vars["aankomstdatum"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum");
+			$vars["aankomstdatum_kort"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_kort");
+			$vars["aankomstdatum_weekend"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend");
+			$vars["aankomstdatum_weekend_alleseizoenen"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend_alleseizoenen");
 
-				if(is_array($vars["aankomstdatum_weekend_alleseizoenen"])) {
-					$vars_aankomstdatum_redis = true;
-				}
+			if(is_array($vars["aankomstdatum_weekend_alleseizoenen"])) {
+				$vars_aankomstdatum_redis = true;
 			}
 		}
 
