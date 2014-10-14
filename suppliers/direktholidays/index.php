@@ -103,7 +103,7 @@ class DirektHolidays {
 		$data = curl_exec($ch);
 		curl_close($ch);
 		if($data) {
-			foreach(json_decode($data) as $code) {
+			@foreach(json_decode($data) as $code) {
 				$links[$code] = $this->getAccommodationURL($code);
 			}
 		}
