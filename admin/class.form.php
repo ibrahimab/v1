@@ -1372,7 +1372,21 @@ class form2 {
 					}
 					$d->close();
 				} else {
-					$temp["filename"][1]=$this->fields["options"][$id]["move_file_to"].$this->fields["options"][$id]["rename_file_to"].".".$this->fields["options"][$id]["must_be_filetype"];
+					if(preg_match("@,@", $this->fields["options"][$id]["must_be_filetype"])) {
+						$file_extensions = preg_split("@,@", $this->fields["options"][$id]["must_be_filetype"]);
+						foreach ($file_extensions as $key5 => $value5) {
+							$temp_filename = $this->fields["options"][$id]["move_file_to"].$this->fields["options"][$id]["rename_file_to"].".".$value5;
+							if(file_exists($temp_filename)) {
+								$temp["filename"][1] = $temp_filename;
+								break;
+							}
+						}
+						if(!$temp["filename"][1]) {
+							$temp["filename"][1] = $this->fields["options"][$id]["move_file_to"].$this->fields["options"][$id]["rename_file_to"].".".$file_extensions[0];
+						}
+					} else {
+						$temp["filename"][1]=$this->fields["options"][$id]["move_file_to"].$this->fields["options"][$id]["rename_file_to"].".".$this->fields["options"][$id]["must_be_filetype"];
+					}
 				}
 				@ksort($temp["filename"]);
 				unset($afbeeldingteller);
@@ -1404,7 +1418,7 @@ class form2 {
 							}
 							$return.="</td></tr>";
 							$return.="</table><br>";
-						} elseif($ext=="pdf" or $ext=="doc" or $ext=="pps") {
+						} elseif($ext=="pdf" or $ext=="doc" or $ext=="docx" or $ext=="pps") {
 							$return.="<table class=\"wtform_img_tbl\">";
 							$return.="<tr><td style=\"text-align:center;\">";
 							if($this->settings["download_uploaded_files"]) {
@@ -2592,11 +2606,24 @@ class form2 {
 					}
 				} else {
 					if($value=="on") {
-						$temp["filename"]=$this->fields["options"][$key]["move_file_to"].$this->fields["options"][$key]["rename_file_to"].".".$this->fields["options"][$key]["must_be_filetype"];
-						if($this->fields["options"][$key]["move_file_to"] and file_exists($temp["filename"])) {
-							unlink($temp["filename"]);
-							$this->add_to_filesync_table($temp["filename"], true);
-							$this->deleted_images[$temp["filename"]]=true;
+						if(preg_match("@,@", $this->fields["options"][$key]["must_be_filetype"])) {
+							// multiple filetypes: delete all extensions
+							$file_extensions = preg_split("@,@", $this->fields["options"][$key]["must_be_filetype"]);
+							foreach ($file_extensions as $key5 => $value5) {
+								$temp["filename"]=$this->fields["options"][$key]["move_file_to"].$this->fields["options"][$key]["rename_file_to"].".".$value5;
+								if($this->fields["options"][$key]["move_file_to"] and file_exists($temp["filename"])) {
+									unlink($temp["filename"]);
+									$this->add_to_filesync_table($temp["filename"], true);
+									$this->deleted_images[$temp["filename"]]=true;
+								}
+							}
+						} else {
+							$temp["filename"]=$this->fields["options"][$key]["move_file_to"].$this->fields["options"][$key]["rename_file_to"].".".$this->fields["options"][$key]["must_be_filetype"];
+							if($this->fields["options"][$key]["move_file_to"] and file_exists($temp["filename"])) {
+								unlink($temp["filename"]);
+								$this->add_to_filesync_table($temp["filename"], true);
+								$this->deleted_images[$temp["filename"]]=true;
+							}
 						}
 					}
 				}

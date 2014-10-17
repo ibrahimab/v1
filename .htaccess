@@ -259,6 +259,8 @@ RewriteRule ^robots\.txt$ robots_block.txt
 
 # Oude seizoenspagina doorsturen naar nieuw seizoen
 RewriteRule ^zomer2013\.php$ /zomer2014.php [L,R=301]
+RewriteRule ^zomer2014\.php$ /zomer2015.php [L,R=301]
+
 
 # Facebook-fout (fb_xd_fragment) redirecten
 RewriteCond %{QUERY_STRING} ^(.*)fb_xd_fragment=?[A-Za-z0-9]*&?(.*)$

@@ -3,12 +3,12 @@
 //
 //
 //
-// LET OP!!!! Na opzetten van deze pagina voor een nieuw seizoen: ook .htaccess aanpassen (zorgen voor 301 van oud naar nieuw): RewriteRule ^zomer2013\.php$ /zomer2014.php [L,R=301]
+// LET OP!!!! Na opzetten van deze pagina voor een nieuw seizoen: ook .htaccess aanpassen (zorgen voor 301 van oud naar nieuw): RewriteRule ^zomer2013\.php$ /zomer2015.php [L,R=301]
 //
 //
 //
 
-$title["zomer2014"]="Nu al te boeken voor 2014";
+$title["zomer2015"]="Nu al te boeken voor 2015";
 $vars["zoekform_italissima_nieuwe_tarieven"]=true;
 
 $laat_titel_weg=true;
@@ -27,7 +27,7 @@ if($vars["websitetype"]<>7) {
 #
 # seizoen_id van het te tonen seizoen (ook aanpassen in siteclass.voorraad_gekoppeld)
 #
-$vars["themainfo"]["tarievenbekend_seizoen_id"]=23;
+$vars["themainfo"]["tarievenbekend_seizoen_id"]=25;
 
 if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 	# $vars["aankomstdatum_weekend"] opnieuw vullen (met het specifieke seizoen voor dit thema)
@@ -55,8 +55,8 @@ if($vars["themainfo"]["tarievenbekend_seizoen_id"]) {
 		$totaal_tarievenbekend_seizoen_id=$db->f("aantal");
 	}
 
-	$vars["themainfo"]["naam"]=$title["zomer2014"];
-	$vars["themainfo"]["toelichting"]="Onderstaande vakantiehuizen zijn nu al te boeken voor de zomer van 2014! Deze pagina zal de komende periode regelmatig worden uitgebreid met meer vakantiehuizen.";
+	$vars["themainfo"]["naam"]=$title["zomer2015"];
+	$vars["themainfo"]["toelichting"]="Onderstaande vakantiehuizen zijn nu al te boeken voor de zomer van 2015! Deze pagina zal de komende periode regelmatig worden uitgebreid met meer vakantiehuizen.";
 
 	$vars["zoekform_thema"]=true;
 	$id="zoek-en-boek";
