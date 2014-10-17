@@ -743,11 +743,16 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					$form->field_select(1,"aankomstdatum",txt("aankomstdatum","boeken"),"",array("selection"=>$gegevens["stap1"]["aankomstdatum"]),array("selection"=>$temp_aankomstdata));
 				}
 
-				# Kortingscode
+				// Kortingscode
 				if(!$gegevens["stap_voltooid"][5] and $_SESSION["boeking"]["kortingscode_foutief"]<20) {
-					$db->query("SELECT kortingscode_id FROM kortingscode WHERE websites LIKE '%".$vars["website"]."%' AND (UNIX_TIMESTAMP(einddatum)>='".mktime(0,0,0,date("m"),date("d"),date("Y"))."' OR einddatum IS NULL) AND archief=0;");
+					$db->query("SELECT kortingscode_id FROM kortingscode WHERE websites LIKE '%".$vars["website"]."%' AND (UNIX_TIMESTAMP(einddatum)>='".mktime(0,0,0,date("m"),date("d"),date("Y"))."' OR einddatum IS NULL) AND archief=0 AND code<>'ELKEBOEKING';");
 					if($db->next_record()) {
-						$form->field_text(0,"kortingscode",html("kortingscodeoptioneel","boeken",array("h_1"=>"<span style=\"font-size:0.8em;\">","h_2"=>"</span>")),"",array("text"=>($gegevens["stap_voltooid"][1] ? $_SESSION["boeking"]["kortingscode"] : "")),"",array("title_html"=>true));
+
+						// only show kortingscode if no 'ELKEBOEKING' is active
+						$db2->query("SELECT kortingscode_id FROM kortingscode WHERE websites LIKE '%".$vars["website"]."%' AND (UNIX_TIMESTAMP(einddatum)>='".mktime(0,0,0,date("m"),date("d"),date("Y"))."' OR einddatum IS NULL) AND archief=0 AND code='ELKEBOEKING';");
+						if(!$db2->num_rows()) {
+							$form->field_text(0,"kortingscode",html("kortingscodeoptioneel","boeken",array("h_1"=>"<span style=\"font-size:0.8em;\">","h_2"=>"</span>")),"",array("text"=>($gegevens["stap_voltooid"][1] ? $_SESSION["boeking"]["kortingscode"] : "")),"",array("title_html"=>true));
+						}
 					}
 				}
 
@@ -1163,7 +1168,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 			}
 		} else {
 			if($vars["seizoentype"]==2) {
-				$schadeverzekering_checkbox=true;
+				$schadeverzekering_checkbox=false;
 			} else {
 				$schadeverzekering_checkbox=false;
 			}
@@ -1713,7 +1718,19 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					}
 				}
 
-				# Kortingscode
+				//
+				// Kortingscode
+				//
+
+				// check for ELKEBOEKING
+				if(!$_SESSION["boeking"]["kortingscode"] and !$form->input["kortingscode"]) {
+					$db->query("SELECT kortingscode_id FROM kortingscode WHERE websites LIKE '%".$vars["website"]."%' AND (UNIX_TIMESTAMP(einddatum)>='".mktime(0,0,0,date("m"),date("d"),date("Y"))."' OR einddatum IS NULL) AND archief=0 AND code='ELKEBOEKING';");
+					if($db->next_record()) {
+						$form->input["kortingscode"] = "ELKEBOEKING";
+					}
+				}
+
+
 				if($form->input["kortingscode"]) {
 					$_SESSION["boeking"]["kortingscode"]=strtoupper($form->input["kortingscode"]);
 					$db->query("SELECT kortingscode_eenmalig_id, kortingscode_id, status FROM kortingscode_eenmalig WHERE code='".addslashes($form->input["kortingscode"])."';");
@@ -2547,7 +2564,7 @@ if($mustlogin or $boeking_wijzigen or ($accinfo["tonen"] and !$niet_beschikbaar)
 					}
 
 					# Korting opslaan
-					$db2->query("INSERT INTO extra_optie SET soort='".addslashes(txt("kortingscode_extraoptiesoort","boeken"))."', naam='".addslashes($save_actietekst)."', persoonnummer='alg', verkoop='".addslashes($temp_kortingscode["save_korting_bedrag"])."', boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', kortingscode=1;");
+					$db2->query("INSERT INTO extra_optie SET soort='".addslashes(txt("kortingscode_extraoptiesoort","boeken"))."', naam='".addslashes($save_actietekst)."', persoonnummer='alg', verkoop='".addslashes($temp_kortingscode["save_korting_bedrag"])."', boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', kortingscode=1, optiecategorie=9;");
 				} elseif($temp_kortingscode["save_actietekst"]) {
 					# Actietekst opslaan
 					$db2->query("INSERT INTO extra_optie SET soort='".addslashes(txt("kortingscode_extraoptiesoort_actie","boeken"))."', naam='".addslashes($temp_kortingscode["save_actietekst"])."', persoonnummer='alg', verkoop='0.00', boeking_id='".addslashes($gegevens["stap1"]["boekingid"])."', kortingscode=1;");

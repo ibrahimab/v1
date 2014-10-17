@@ -83,7 +83,7 @@ $cms->list_field(29,"aantal_boekingen","Boekingen");
 $cms->edit_field(29,1,"archief","Archief");
 $cms->edit_field(29,1,"websites","Geldig voor","","",array("one_per_line"=>true));
 $cms->edit_field(29,1,"omschrijving","Omschrijving (intern)");
-$cms->edit_field(29,1,"code","Code","","",array("info"=>"Vul hier de gewenste code in, of vul AUTOMATISCH in om het systeem meerdere (eenmalig te gebruiken) codes te laten genereren."));
+$cms->edit_field(29,1,"code","Code","","",array("info"=>"Vul hier de gewenste code in, of vul AUTOMATISCH in om het systeem meerdere (eenmalig te gebruiken) codes te laten genereren.\n\nVul ELKEBOEKING in om de korting op elke boeking van toepassing te laten zijn. De klant hoeft daarbij geen kortingscode in te voeren."));
 $cms->edit_field(29,0,"einddatum","Geldig tot en met","","",array("calendar"=>true));
 $cms->edit_field(29,0,"htmlrow","<hr><b>Korting</b>");
 $cms->edit_field(29,0,"korting_euro","Korting in euro's");

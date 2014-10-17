@@ -953,7 +953,7 @@ class cms2 {
 	 				$options["must_be_filetype"]=$this->db[$counter]["options"][$key]["filetype"];
 	 				$options["multiple"]=$this->db[$counter]["options"][$key]["multiple"];
 	 				if($_GET[$counter."k0"]) {
-	 					$options["rename_file_to"]=$_GET[$counter."k0"];
+	 					$options["rename_file_to"]=intval($_GET[$counter."k0"]);
 	 				} else {
 		 				$options["rename_file_to"]="";
 		 			}
