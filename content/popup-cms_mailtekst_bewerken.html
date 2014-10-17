@@ -9,4 +9,19 @@ echo "<textarea name=\"mailtekst_opties\" cols=\"76\" rows=\"20\">".wt_he($mailt
 echo "<input type=\"submit\" value=\" TEKST OPSLAAN \" id=\"submit1frm\" onclick=\"document.frm.submit1frm.disabled=1;document.frm.submit();\">";
 echo "</form>";
 
+
+if($_GET["testmail"]) {
+
+	$mailtekst_opties["to"]=$login->vars["email"];
+
+	if($mailtekst_opties["body"]) {
+		$settings["convert_to_html"] = true;
+		$settings["make_clickable"] = true;
+		verstuur_opmaakmail($mailtekst_opties["website"], $mailtekst_opties["to"], $mailtekst_opties["toname"], $mailtekst_opties["subject"], $mailtekst_opties["body"], $settings);
+		echo "<p><b>Testmail verstuurd aan: <i>".wt_he($login->vars["email"])."</i></b></p>";
+	}
+} else {
+	echo "<p><a href=\"".wt_he($_SERVER["REQUEST_URI"]."&testmail=1")."\">Stuur testmail aan <i>".wt_he($login->vars["email"])."</i> &raquo;</a><br/>(let op: eventuele wijzigingen in de tekst moeten eerst worden opgeslagen)</p>";
+}
+
 ?>

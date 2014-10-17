@@ -1273,7 +1273,9 @@ function mailtekst_opties($boekingid) {
 		$return["boekingsnummer"]=$gegevens["stap1"]["boekingsnummer"];
 		$return["plaats"]=$gegevens["stap1"]["accinfo"]["plaats"];
 		$return["to"]=$gegevens["stap2"]["email"];
+		$return["toname"]=wt_naam($gegevens["stap2"]["voornaam"],$gegevens["stap2"]["tussenvoegsel"],$gegevens["stap2"]["achternaam"]);
 		$return["mailverstuurd_opties"]=$gegevens["stap1"]["mailverstuurd_opties"];
+		$return["website"]=$gegevens["stap1"]["website"];
 
 		if($gegevens["stap1"]["mailtekst_opties"]) {
 			$return["body"].=$gegevens["stap1"]["mailtekst_opties"];

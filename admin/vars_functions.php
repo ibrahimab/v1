@@ -4505,6 +4505,10 @@ function verstuur_opmaakmail($website,$to,$toname,$subject,$body,$settings) {
 
 	if($settings["convert_to_html"]) {
 
+		if($settings["make_clickable"]) {
+			$body = preg_replace("@([^=>\"]|^)(https?://[a-zA-Z0-9\./?&%=\-_\(#!\@]+)@","\\1[link=\\2]\\2[/link]",$body);
+		}
+
 		$body=wt_he($body);
 
 		$body=nl2br($body);

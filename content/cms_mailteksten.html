@@ -3,7 +3,7 @@
 if(!$_GET["edit"] and !$_GET["show"] and !$_GET["add"]) {
 	echo "Mailteksten worden 8 weken voor vertrek aan klanten gemaild, en bevatten een uitnodiging om in te loggen in &quot;Mijn boeking&quot; en opties bij te boeken.<p>Een aangemaakte mailtekst kan worden gekoppeld aan een accommodatie.<p>";
 	if($_GET["wzt"]==1) {
-		echo "<a href=\"".$path."cms_mailteksten_versturen.php\">Wintermailteksten nu versturen &gt; &gt; &gt;</a>";
+		echo "<a href=\"".$path."cms_mailteksten_versturen.php\">Wintermailteksten nu versturen &raquo;</a>";
 	} else {
 		echo "<hr><i>Zomerboekingen ontvangen automatisch een optie-bijboeken-mailtje (50 dagen voor vertrek).</i><br><br><b>De volgende tekst is van toepassing als er geen specifieke mailtekst aan een accommodatie wordt gekoppeld:</b><br><div style=\"margin-top:5px;width:700px;border:1px solid #878481;padding:3px;font-size:0.8em;\">".nl2br(wt_he($txt["nl"]["vars"]["mailopties_wzt2_1"]."\n\n".$txt["nl"]["vars"]["mailopties_wzt2_2"]))."</div>";
 	}

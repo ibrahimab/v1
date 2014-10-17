@@ -22,24 +22,36 @@ if($_POST["boeking"] or $_POST["hide_boeking"]) {
 				$mailtekst_opties=mailtekst_opties($key);
 
 				if(!$mailtekst_opties["mailverstuurd_opties"]) {
-					$mail=new wt_mail;
-					$mail->fromname=$mailtekst_opties["fromname"];
-					$mail->from=$mailtekst_opties["from"];
-					$mail->to=$mailtekst_opties["to"];
+
+					// $mail=new wt_mail;
+					// $mail->fromname=$mailtekst_opties["fromname"];
+					// $mail->from=$mailtekst_opties["from"];
+					// $mail->to=$mailtekst_opties["to"];
+					// if($mailtekst_opties["bewerkt"] and $login->vars["email"]) {
+					// 	$mail->bcc=$login->vars["email"];
+					// }
+					// $mail->subject=$mailtekst_opties["subject"];
+					// $mail->plaintext=$mailtekst_opties["body"];
+					// $mail->send();
+
+					# Mail versturen (met opmaak)
+					unset($settings);
 					if($mailtekst_opties["bewerkt"] and $login->vars["email"]) {
-						$mail->bcc=$login->vars["email"];
+						$settings["bcc"]=$login->vars["email"];
 					}
-					$mail->subject=$mailtekst_opties["subject"];
-					$mail->plaintext=$mailtekst_opties["body"];
-					$mail->send();
+					$settings["convert_to_html"] = true;
+					$settings["make_clickable"] = true;
+					verstuur_opmaakmail($mailtekst_opties["website"], $mailtekst_opties["to"], $mailtekst_opties["toname"], $mailtekst_opties["subject"], $mailtekst_opties["body"], $settings);
+
+
 
 					# Loggen
-					chalet_log("opties-bijboeken-mailtje verstuurd aan ".$mail->to,false,true);
+					chalet_log("opties-bijboeken-mailtje verstuurd aan ".$mailtekst_opties["to"],false,true);
 
 					# Database opslaan
 					$db->query("UPDATE boeking SET mailverstuurd_opties=NOW() WHERE boeking_id='".addslashes($key)."';");
 
-					echo "<li>".wt_he($mail->to.": ".$mail->subject)."</li>";
+					echo "<li>".wt_he($mailtekst_opties["to"].": ".$mailtekst_opties["subject"])."</li>";
 					flush();
 				}
 			}
