@@ -118,7 +118,7 @@ if($cms_form[29]->filled) {
 #		$cms_form[29]->error("actietekst","kies voor korting of andere actie (niet allebei)");
 	}
 
-	if($cms_form[29]->input["code"] and $cms_form[29]->input["code"]<>"AUTOMATISCH") {
+	if($cms_form[29]->input["code"] and $cms_form[29]->input["code"]<>"AUTOMATISCH" and $cms_form[29]->input["code"]<>"ELKEBOEKING") {
 		if(ereg("^[A-Z0-9]+$",$cms_form[29]->input["code"])) {
 			if($_GET["29k0"]) {
 				$db->query("SELECT kortingscode_id FROM kortingscode WHERE kortingscode_id<>'".addslashes($_GET["29k0"])."' AND code='".addslashes($cms_form[29]->input["code"])."';");
