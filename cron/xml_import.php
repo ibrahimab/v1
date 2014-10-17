@@ -116,7 +116,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html" or $_SERVER["HTTP_HOST"]=="
 		}
 	}
 	if($pidteller>1) {
-#		echo "xml_import.php draait al\n";
+		// echo "xml_import.php draait al\n";
 		exit;
 	}
 	sleep(1);
@@ -173,8 +173,8 @@ if($argv[1]=="test.chalet.nl") {
 			// temporarily: only import at 3, 11, 15 and 19 h
 		} elseif(date("i")==5 and ($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==22)) {
 			# Alle leveranciers worden doorlopen om 0, 3, 6 en 22 uur
-		} elseif($current_hour==10 and date("i")==11 and $NU_EVEN_NIET) {
-			# Om alle leveranciers als test allemaal te kunnen nalopen: (testtijd staat op 10:11 uur, zie $current_hour en date("i") op de regel hierboven)
+		} elseif($current_hour==10 and date("i")==20 and $NU_EVEN_NIET) {
+			# Om alle leveranciers als test allemaal te kunnen nalopen
 
 		} else {
 			$db->query("SELECT handmatige_xmlimport_id FROM diverse_instellingen WHERE handmatige_xmlimport_id>0;");

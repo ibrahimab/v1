@@ -90,6 +90,11 @@ class DirektHolidays {
 	/* gets the data from a URL */
 	function getAjaxAccommodations() {
 
+		// 17 October 2014:
+		// this function generates an error, so return without doing anything
+		return false;
+
+
 		$links = false;
 
 		$url = $this->_url . "?eID=ajaxReq";
@@ -103,7 +108,7 @@ class DirektHolidays {
 		$data = curl_exec($ch);
 		curl_close($ch);
 		if($data) {
-			@foreach(json_decode($data) as $code) {
+			foreach(json_decode($data) as $code) {
 				$links[$code] = $this->getAccommodationURL($code);
 			}
 		}
