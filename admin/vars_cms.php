@@ -1067,19 +1067,21 @@ if($mustlogin) {
 
 	if(!$vars["cms_geen_aankomstdata_nodig"]) {
 
-		$wt_redis = new wt_redis;
+		// TODO: tijdelijk uit vanwege omzetten Redis-setup door Netground
 
-		if($wt_redis->array_group_exists("vars_aankomstdatum")) {
+		// $wt_redis = new wt_redis;
 
-			$vars["aankomstdatum"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum");
-			$vars["aankomstdatum_kort"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_kort");
-			$vars["aankomstdatum_weekend"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend");
-			$vars["aankomstdatum_weekend_alleseizoenen"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend_alleseizoenen");
+		// if($wt_redis->array_group_exists("vars_aankomstdatum")) {
 
-			if(is_array($vars["aankomstdatum_weekend_alleseizoenen"])) {
-				$vars_aankomstdatum_redis = true;
-			}
-		}
+		// 	$vars["aankomstdatum"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum");
+		// 	$vars["aankomstdatum_kort"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_kort");
+		// 	$vars["aankomstdatum_weekend"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend");
+		// 	$vars["aankomstdatum_weekend_alleseizoenen"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend_alleseizoenen");
+
+		// 	if(is_array($vars["aankomstdatum_weekend_alleseizoenen"])) {
+		// 		$vars_aankomstdatum_redis = true;
+		// 	}
+		// }
 
 		if(!$vars_aankomstdatum_redis) {
 			$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");
