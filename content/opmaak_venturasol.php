@@ -124,6 +124,8 @@ echo facebook_opengraph();
 # Google+
 // echo "<link href=\"https://plus.google.com/118061823772005667855\" rel=\"publisher\" />\n";
 
+echo $opmaak->header_end();
+
 echo "</head>\n";
 
 echo $opmaak->body_tag();

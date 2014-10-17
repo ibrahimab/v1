@@ -163,6 +163,8 @@ if($vars["website"]=="C") {
 	echo "<link href=\"https://plus.google.com/+ChaletNlWintersport\" rel=\"publisher\" />\n";
 }
 
+echo $opmaak->header_end();
+
 echo "</head>\n";
 echo $opmaak->body_tag();
 echo $opmaak->google_tag_manager();

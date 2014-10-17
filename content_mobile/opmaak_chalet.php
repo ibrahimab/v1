@@ -169,6 +169,8 @@ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$vars["path"]."css/mob
 echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jquery_url"])."\"></script>\n";
 echo "<script type=\"text/javascript\" src=\"".wt_he($vars["jqueryui_url"])."\"></script>\n";
 
+echo $opmaak->header_end();
+
 echo "</head>";
 
 echo $opmaak->body_tag();

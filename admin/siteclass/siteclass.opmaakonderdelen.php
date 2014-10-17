@@ -95,6 +95,14 @@ class opmaakonderdelen {
 		}
 	}
 
+	public function header_end() {
+		global $vars;
+
+		if($vars["acceptatie_testserver"]) {
+			echo "<script src=\"https://www.chalet.nl/acceptancetest-cookie.php\"></script>\n";
+		}
+	}
+
 	public function html_at_the_bottom($html) {
 		$this->html_at_the_bottom .= $html;
 	}

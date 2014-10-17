@@ -126,6 +126,8 @@ if($robot_noindex or $robot_nofollow) {
 #echo "<meta name=\"description\" content=\"".wt_he(txt("subtitel"))."\" />";
 echo "<meta name=\"description\" content=\"".wt_he(($meta_description ? $meta_description : ($title[$id]&&$id&&$id<>"index" ? $title[$id] : txt("subtitel"))))."\" />\n";
 
+echo $opmaak->header_end();
+
 echo "</head>\n";
 
 echo $opmaak->body_tag();

@@ -251,6 +251,9 @@ if($mustlogin) {
 	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/cms.layout.js";
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.js";
 #	$layout->settings["extra_javascriptfiles"][]=$vars["path"]."scripts/jquery.tablescroll.js";
+	if($vars["acceptatie_testserver"]) {
+		$layout->settings["extra_javascriptfiles"][]="https://www.chalet.nl/acceptancetest-cookie.php";
+	}
 	// $layout->settings["extra_javascriptfiles"][]="http://code.jquery.com/jquery-migrate-1.2.1.js";
 
 	if($login->logged_in and $id<>"cms" and $_SERVER["HTTP_HOST"]<>"www.chalet.nl" and $_SERVER["HTTP_HOST"]<>"test.chalet.nl" and $_SERVER["HTTP_HOST"]<>"www2.chalet.nl" and $_SERVER["HTTP_HOST"]<>"wwwtest.chalet.nl" and !$vars["lokale_testserver"]) {

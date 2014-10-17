@@ -114,7 +114,10 @@ require($unixdir."admin/vars_functions.php");
 if(preg_match("@^test\.@",$_SERVER["HTTP_HOST"]) or preg_match("@/html_test/@",$_SERVER["SCRIPT_FILENAME"])) {
 	$vars["acceptatie_testserver"]=true;
 
-	if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="37.34.56.191") {
+	if($_COOKIE["acceptance_email"]) {
+		// logged in user at Chalet.nl
+		$vars["lokale_testserver_mailadres"]=$_COOKIE["acceptance_email"];
+	} elseif($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["REMOTE_ADDR"]=="37.34.56.191") {
 		// IP WebTastic
 		$vars["lokale_testserver_mailadres"]="testform_ss@webtastic.nl";
 	} elseif($_SERVER["REMOTE_ADDR"]=="213.125.152.154") {

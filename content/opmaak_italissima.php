@@ -152,6 +152,8 @@ echo "<meta property=\"fb:app_id\" content=\"317521581710031\"/>\n";
 # Google+
 echo "<link href=\"https://plus.google.com/118061823772005667855\" rel=\"publisher\" />\n";
 
+echo $opmaak->header_end();
+
 echo "</head>\n";
 
 echo $opmaak->body_tag();
