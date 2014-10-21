@@ -664,7 +664,9 @@ li {
 	margin-bottom: 20px;
 }
 
-
+a.target_blank {
+	cursor: url(../pic/icons/mousecursor-target-blank.png), auto;
+}
 
 /* ----------------------- */
 /*   tarievenmodule        */

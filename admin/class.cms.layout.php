@@ -135,7 +135,9 @@ class cms_layout {
 			echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" />\n";
 		}
 		echo "<meta name=\"robots\" content=\"noindex,nofollow\" />\n";
-		echo "<link href=\"".($this->settings["css_folder"] ? $this->settings["css_folder"] : "")."cms_layout.css".($this->settings["css_cacheversion"] ? "?cache=".$this->settings["css_cacheversion"] : "")."\" rel=\"stylesheet\" type=\"text/css\" />\n";
+
+		$css_cachetime = @filemtime($this->settings["css_folder"]."cms_layout.css");
+		echo "<link href=\"".($this->settings["css_folder"] ? $this->settings["css_folder"] : "")."cms_layout.css".($css_cachetime ? "?c=".$css_cachetime : "")."\" rel=\"stylesheet\" type=\"text/css\" />\n";
 		if(is_array($this->settings["extra_cssfiles"])) {
 			while(list($key,$value)=each($this->settings["extra_cssfiles"])) {
 				echo "<link href=\"".$value."\" rel=\"stylesheet\" type=\"text/css\" />\n";
