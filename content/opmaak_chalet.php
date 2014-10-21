@@ -633,7 +633,6 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo"<li><a href=\"".$vars["path"]."country/Austria/\" rel=\"nofollow\">Chalets in Austria</a></li>";
 		echo "<li><a href=\"".$vars["path"]."country/Switzerland/\" rel=\"nofollow\">Chalets in Switzerland</a></li>";
 		echo "<li><a href=\"".$vars["path"]."country/Italy/\" rel=\"nofollow\">Chalets in Italy</a></li>";
-		echo "<li><a href=\"".$vars["path"]."country/Germany/\" rel=\"nofollow\">Chalets in Germany</a></li>";
 		echo "</ul>";
 		echo "</div>";
 		echo "<div class=\"divContentIND\">";
@@ -673,7 +672,6 @@ if($vars["website"]=="C" or $vars["website"]=="B" or $vars["website"]=="T") {
 		echo"<li><a href=\"".$vars["path"]."country/Austria/\">Chalets in Austria</a></li>";
 		echo "<li><a href=\"".$vars["path"]."country/Switzerland/\">Chalets in Switzerland</a></li>";
 		echo "<li><a href=\"".$vars["path"]."country/Italy/\">Chalets in Italy</a></li>";
-		echo "<li><a href=\"".$vars["path"]."country/Germany/\">Chalets in Germany</a></li>";
 		echo "</ul>";
 		echo "</div>";
 		echo "<div class=\"divContentIND\">";
