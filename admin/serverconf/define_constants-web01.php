@@ -12,8 +12,8 @@ define("wt_server_id", 1);
 define("wt_redis_host", "87.250.157.203");
 
 // always use WebTastic-mailproxy for Microsoft-mail
-// define("wt_mail_proxy_microsoftmail_always", true);
-// define("wt_mail_proxy_microsoftmail_copy", "testchalet@outlook.com");
+define("wt_mail_proxy_microsoftmail_always", true);
+define("wt_mail_proxy_microsoftmail_copy", "testchalet@outlook.com");
 
 
 ?>
