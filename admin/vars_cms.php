@@ -1177,6 +1177,7 @@ $vars["seizoen_tonen"]=array(1=>"niet tonen",2=>"tonen op de accommodatiepagina'
 $vars["eigenaar_blokkering"] = array(1=>"bezeteigenaar", 2=>"boekingderden", 3=>"nietbeschikbaarverhuur");
 $vars["eigenaar_blokkering_naam"] = array(1=>"Geblokkeerd door eigenaar", 2=>"Boeking via derden", 3=>"Niet beschikbaar voor verhuur");
 $vars["voorraad_afboeken"] = array(1=>"niet bijgewerkt", 2=>"garantie", 3=>"allotment", 4=>"vervallen allotment", 5=>"request", 6=>"optie leverancier");
+$vars["vertaal_talen"]=array("en"=>"Engels","de"=>"Duits");
 
 
 // XML-leveranciers
