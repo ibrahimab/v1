@@ -1,5 +1,8 @@
 <?php
 
+phpinfo();
+exit;
+
 echo intval("113l");
 exit;
 

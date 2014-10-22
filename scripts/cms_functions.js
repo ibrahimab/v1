@@ -183,7 +183,7 @@ $(document).ready(function() {
 	});
 
 	// other cursor for links with target=_blank
-	$("a[target='_blank']").addClass("target_blank");
+	// $("a[target='_blank']").addClass("target_blank");
 
 
 	$('.submenuclass_up').slideUp('normal');
