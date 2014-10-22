@@ -1,7 +1,7 @@
 <?php
 
 
-$db->query("SELECT DISTINCT skigebied_id, skigebied, land_id, land FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' ORDER BY FIND_IN_SET(land_id,'1,2,3,5,4'), skigebied;");
+$db->query("SELECT DISTINCT skigebied_id, skigebied, land_id, land FROM view_accommodatie WHERE websites LIKE '%".$vars["website"]."%' AND atonen=1 AND ttonen=1 AND archief=0 ORDER BY FIND_IN_SET(land_id,'1,2,3,5,4'), skigebied;");
 while($db->next_record()) {
 	$file="pic/cms/bestemmingen_zomerhuisje/".$db->f("skigebied_id").".jpg";
 	if(file_exists($file)) {
@@ -9,7 +9,7 @@ while($db->next_record()) {
 		echo "<a href=\"".wt_he($vars["path"].txt("canonical_accommodatiepagina")."/".txt("menu_skigebied")."/".wt_convert2url_seo($db->f("skigebied"))."/")."#beschrijving\" class=\"bestemmingen_regio\">";
 		echo "<div class=\"bestemmingen_regio_kop bestemmingen_regio_kop_land_".$db->f("land_id")."\">";
 		echo "<h1>".wt_he($db->f("land"))."</h1>";
-		if($db->f("skigebied")=="Merengebied / Lombardije") {
+		if($db->f("skigebied")=="Merengebied/Lombardije") {
 			echo "Lombardije";
 		} else {
 			echo wt_he($db->f("skigebied"));
@@ -24,5 +24,7 @@ while($db->next_record()) {
 		}
 	}
 }
+
+echo "<div style=\"clear: both;\"></div>\n";
 
 ?>
