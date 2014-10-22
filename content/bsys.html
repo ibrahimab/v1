@@ -898,7 +898,7 @@ if($_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html2") {
 							$pdffile="pdf/".txt("pdf_algemene_voorwaarden").".pdf";
 						}
 
-						echo "<tr><td style=\"vertical-align:top;\"><input type=\"checkbox\" name=\"goedkeur2\" id=\"goedkeur2\"></td><td><label for=\"goedkeur2\">".html("akkoordvoorwaarden","bsys",array("v_websitenaam"=>$vars["websitenaam"],"h_1"=>"<a href=\"".$vars["path"].$pdffile."\" target=\"_blank\">","h_2"=>"</a>"))."</label>:";
+						echo "<tr><td style=\"vertical-align:top;\"><input type=\"checkbox\" name=\"goedkeur2\" id=\"goedkeur2\"></td><td><label for=\"goedkeur2\">".html("akkoordvoorwaarden","bsys",array("v_websitenaam"=>$vars["websitenaam"],"h_1"=>"<a href=\"".$vars["path"].$pdffile."\" target=\"_blank\">","h_2"=>"</a>", "h_3"=>"<b>", "h_4"=>"</b>", "h_5"=>"<br />"))."</label>:";
 						echo "<ol>";
 
 						if(txt("pdf_voorwaarden_europeesche_annverz")<>"NA") {
