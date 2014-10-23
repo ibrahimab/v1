@@ -9,17 +9,9 @@
 /*
 
 
-Temporarily: every supplier at 03, 11, 15 and 19 h. Posarelli and Interhome only at 03h.
+every supplier at 03, 11, 15 and 19 h. Posarelli and Interhome only at 03h.
 
 
-
-Not right now:
------------------------
-Marche Holiday om 0, 3, 6, 9, 12, 15, 18 en 22 uur
-Direkt Holidays om 0, 3, 6, 10, 13, 16, 19 en 22 uur
-Posarelli om 3 uur
-Alle andere leveranciers: tussen 8 en 20 uur elk uur, daarnaast ook om 0, 3, 6 en 22 uur.
------------------------
 
 */
 
@@ -204,7 +196,7 @@ flush();
 # Temp-gegevens wissen
 $db->query("DELETE FROM xml_import_flex_temp;");
 
-if(($current_hour==9 and !$argv[1]) or $argv[1]=="5") {
+if(($current_hour==11 and !$argv[1]) or $argv[1]=="5") {
 	if(!$testsysteem) {
 		#
 		# CSV downloaden bij P&V Pierre & Vacances (pas beschikbaar vanaf de ochtend)
