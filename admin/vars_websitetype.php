@@ -26,8 +26,8 @@ if($vars["lokale_testserver"]) {
 	}
 
 	# Testsite bepalen indien niet bekend
-	if(defined("wt_test")) {
-		$vars["cms_basehref"]="http://dev.webtastic.nl/chalet/";
+	if(defined("wt_test_hostname")) {
+		$vars["cms_basehref"]="http://".constant("wt_test_hostname")."/chalet/";
 
 		if(!$vars["testsite"]) {
 			$vars["testsite"]=@file_get_contents("/Users/jeroen/Sites/chalet/tmp/testsite.txt");

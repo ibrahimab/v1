@@ -469,7 +469,7 @@ if($vars["backup_server"]) {
 	}
 }
 
-// test of new server-serup only available for vertrouwde_ips
+// test of new server-setup only available for vertrouwde_ips
 if($_SERVER["HTTP_HOST"]=="wwwtest.chalet.nl") {
 	$vars["wwwtest"] = true;
 	if(!in_array($_SERVER["REMOTE_ADDR"], $vars["vertrouwde_ips"])) {
