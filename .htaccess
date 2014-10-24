@@ -44,9 +44,9 @@ RewriteRule ^(.*)$ https://www.zomerhuisje.nl/$1 [L,R=301]
 RewriteCond %{HTTP_HOST} wintersportaccommodations\.eu [NC]
 RewriteRule ^(.*)$ https://www.chalet.eu/ [L,R=301]
 
-# secondhomes.venturasol.nl: doorsturen naar nieuwe domeinnaam venturasolsecondhomes.nl
+# secondhomes.venturasol.nl: doorsturen naar nieuwe domeinnaam venturasol-vastgoed.nl
 RewriteCond %{HTTP_HOST} secondhomes\.venturasol\.nl [NC]
-RewriteRule ^(.*)$ http://www.venturasol-secondhomes.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ http://www.venturasol-vastgoed.nl/$1 [L,R=301]
 
 # partner.venturasol.nl doorsturen naar venturasolvacances.nl
 RewriteCond %{HTTP_HOST} ^partner\.venturasol\.nl [NC]
@@ -243,6 +243,8 @@ RewriteCond %{REMOTE_ADDR} !^213\.136\.23\.8
 RewriteCond %{REMOTE_ADDR} !^83\.85\.233\.238
 # Storm Insights
 RewriteCond %{REMOTE_ADDR} !^89\.200\.202\.34
+# BuroDMG
+RewriteCond %{REMOTE_ADDR} !^62\.194\.11\.6
 
 RewriteRule ^(.*)$ https://www.chalet.nl/error_msg.php?t=1 [L,R=301]
 

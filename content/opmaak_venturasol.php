@@ -270,7 +270,7 @@ if($vars["verberg_linkerkolom"]) {
 	if($id=="index") {
 		// second-homes-banner
 		if($vars["website"]=="X") {
-			echo "<a href=\"http://www.venturasol-secondhomes.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_secondhomes\" class=\"analytics_track_external_click\"></a>";
+			echo "<a href=\"http://www.venturasol-vastgoed.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_secondhomes\" class=\"analytics_track_external_click\"></a>";
 		} elseif($vars["website"]=="Y") {
 			echo "<a href=\"https://www.venturasol.nl/\" target=\"_blank\" id=\"hoofdpagina_banner_particulieren\" class=\"analytics_track_external_click\"></a>";
 		}
