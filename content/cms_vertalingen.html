@@ -7,7 +7,9 @@ if($_GET["fo"]=="frm") {
 	if(!$vars["onvertaald"]) {
 		echo "Alle teksten zijn vertaald.";
 	} else {
-		echo "Voer hieronder de vertalingen in. Neem alle variabelen (herkenbaar aan vierkante haken) exact over.<p>"; 
+		echo "<p><a href=\"".$vars["path"]."cms_vertalingen.php?taal=".wt_he($_GET["taal"])."&download=1\" download>Download te vertalen teksten als Excel-bestand</a></p>";
+
+		echo "Voer hieronder de vertalingen in. Neem alle variabelen (herkenbaar aan vierkante haken) exact over.<p>";
 		$form->display_all();
 	}
 }
