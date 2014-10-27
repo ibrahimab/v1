@@ -52,6 +52,7 @@ Disallow: /*?thema=
 Disallow: /*?network=
 Disallow: /*?filled=1
 Disallow: /*&filled=1
+Disallow: /error_msg.php
 
 User-agent: 008
 Disallow: /
