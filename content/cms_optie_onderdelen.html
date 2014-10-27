@@ -37,7 +37,7 @@ if($_GET["show"]==13) {
 	if($db->num_rows()) {
 		echo "<p>Tarieven bewerken:<ul>";
 		while($db->next_record()) {
-			if($db->f("eind")>(time()-86400*182)) {
+			if($db->f("eind")>(time()-86400*365)) {
 				echo "<li><a href=\"cms_optie_tarieven.php?from=".urlencode($_SERVER["REQUEST_URI"])."&sid=".$db->f("seizoen_id")."&ooid=".$_GET["13k0"]."\">".wt_he($db->f("naam"))."</a></li>";
 				$kopieer_seizoenen[$db->f("seizoen_id")]=$db->f("naam");
 			}
