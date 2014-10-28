@@ -34,6 +34,9 @@ if($vars["website"]=="E") {
 echo "<!DOCTYPE html>\n";
 echo "<html>\n";
 echo "<head>\n";
+
+echo $opmaak->header_begin();
+
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
 echo "<title>";
@@ -899,6 +902,9 @@ if($vars["livechat_code"] and preg_match("@^([0-9])-(.*)$@",$vars["livechat_code
 </script>
 
 <?php
+
+
+echo $opmaak->body_end();
 
 echo "</body>";
 echo "</html>";

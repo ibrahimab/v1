@@ -95,12 +95,32 @@ class opmaakonderdelen {
 		}
 	}
 
+	public function header_begin() {
+		global $vars, $debugbarRenderer;
+
+		if($vars["lokale_testserver"] and is_object($debugbarRenderer)) {
+			$return .=  $debugbarRenderer->renderHead();
+		}
+		return $return;
+	}
+
+
 	public function header_end() {
 		global $vars;
 
 		if($vars["acceptatie_testserver"]) {
-			echo "<script src=\"https://www.chalet.nl/acceptancetest-cookie.php\"></script>\n";
+			$return .= "<script src=\"https://www.chalet.nl/acceptancetest-cookie.php\"></script>\n";
 		}
+		return $return;
+	}
+
+	public function body_end() {
+		global $vars, $debugbarRenderer;
+
+		if($vars["lokale_testserver"] and is_object($debugbarRenderer)) {
+			$return .= $debugbarRenderer->render();
+		}
+		return $return;
 	}
 
 	public function html_at_the_bottom($html) {

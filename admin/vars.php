@@ -187,6 +187,12 @@ spl_autoload_register('__autoload');
 // Include "Composer" autoloader.
 include $unixdir."vendor/autoload.php";
 
+
+// DebugBar
+if($vars["lokale_testserver"]) {
+	include $unixdir."admin/debug.php";
+}
+
 #
 # jquery/fancybox
 #

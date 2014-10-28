@@ -66,6 +66,9 @@ if($vars["website"]=="E") {
 echo "<!DOCTYPE html>\n";
 echo "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n prefix=\"fb: http://www.facebook.com/2008/fbml og: http://ogp.me/ns#\">\n";
 echo "<head>\n";
+
+echo $opmaak->header_begin();
+
 echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n";
 echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1\" />";
 echo "<!--[if IE]><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\" /><![endif]-->\n";
@@ -402,6 +405,8 @@ $lazyLoadJs[] = "'".$vars["path"]."scripts/mobile/mobile_functions.js?cache=".@f
 </script>
 
 <?php
+
+echo $opmaak->body_end();
 
 echo "</body>";
 echo "</html>";
