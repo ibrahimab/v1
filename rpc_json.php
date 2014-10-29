@@ -13,6 +13,10 @@ $geen_tracker_cookie=true;
 
 include "admin/vars.php";
 
+if(is_object($wt_debugbar)) {
+	$wt_debugbar->sendDataInHeaders();
+}
+
 wt_session_start();
 
 if($vars["lokale_testserver"]) {

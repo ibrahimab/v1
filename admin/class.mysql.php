@@ -151,6 +151,9 @@ class DB_Sql {
 
 	/* public: perform a query */
 	function query( $Query_String ) {
+
+		global $wt_debugbar;
+
 		$this->lastquery=$Query_String;
 		$this->lq=$Query_String;
 
@@ -189,7 +192,7 @@ class DB_Sql {
 		if ( $this->Debug )
 			printf( "Debug: query = %s<br>\n", $Query_String );
 
-		if($this->log_slow_queries) {
+		if($this->log_slow_queries or is_object($wt_debugbar)) {
 			$this->log_slow_queries_start=microtime(true);
 		}
 
@@ -215,12 +218,21 @@ class DB_Sql {
 			$this->halt( "Invalid SQL: ".$Query_String );
 		}
 
-		if($this->log_slow_queries) {
+		if($this->log_slow_queries_start) {
 			$query_time=microtime(true)-$this->log_slow_queries_start;
+		}
+
+		if($this->log_slow_queries) {
 			if($query_time>=$this->log_slow_queries_time) {
 				file_put_contents($this->log_slow_queries,date("r",$this->log_slow_queries_start)." - ".number_format($query_time,5)." seconds - ".$Query_String."\n",FILE_APPEND);
 			}
 		}
+
+		if(is_object($wt_debugbar) and $Query_String) {
+			$number_of_results = @mysql_num_rows( $this->Query_ID );
+			$wt_debugbar->getCollector("Database")->addMessage($Query_String." (results: ".intval($number_of_results)." - ".number_format($query_time, 4)." sec.)", "query");
+		}
+
 
 		// Will return nada if it fails. That's fine.
 		return $this->Query_ID;

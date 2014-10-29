@@ -189,7 +189,7 @@ include $unixdir."vendor/autoload.php";
 
 
 // DebugBar
-if($vars["lokale_testserver"]) {
+if($vars["lokale_testserver"] and $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
 	include $unixdir."admin/debug.php";
 }
 
