@@ -166,20 +166,24 @@ if($cms_form[33]->filled) {
 		$cms_form[33]->error("optiecategorie","niet van toepassing op de factuur van de accommodatie-leverancier");
 	}
 	if($cms_form[33]->input["min_personen"]) {
-		if($cms_form[33]->input["perboekingpersoon"]<>1) {
-			$cms_form[33]->error("min_personen","alleen mogelijk bij &quot;per boeking&quot;");
+		if($cms_form[33]->input["perboekingpersoon"]<>2) {
+			$cms_form[33]->error("min_personen","alleen mogelijk bij &quot;per persoon&quot;");
 		}
 		if($cms_form[33]->input["gekoppeldaan"]<>1) {
 			$cms_form[33]->error("min_personen","alleen mogelijk bij &quot;accommodaties/types&quot;");
 		}
 	}
 	if($cms_form[33]->input["max_personen"]) {
-		if($cms_form[33]->input["perboekingpersoon"]<>1) {
-			$cms_form[33]->error("max_personen","alleen mogelijk bij &quot;per boeking&quot;");
+		if($cms_form[33]->input["perboekingpersoon"]<>2) {
+			$cms_form[33]->error("max_personen","alleen mogelijk bij &quot;per persoon&quot;");
 		}
 		if($cms_form[33]->input["gekoppeldaan"]<>1) {
 			$cms_form[33]->error("max_personen","alleen mogelijk bij &quot;accommodaties/types&quot;");
 		}
+	}
+
+	if($cms_form[33]->input["min_personen"] and $cms_form[33]->input["max_personen"] and $cms_form[33]->input["min_personen"]>$cms_form[33]->input["max_personen"]) {
+		$cms_form[33]->error("max_personen","ingevoerde waarde kan niet lager zijn dan \"Minimaal aantal personen\"");
 	}
 }
 
