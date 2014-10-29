@@ -4,113 +4,81 @@ if(!defined('SITE_ROOT')) define('SITE_ROOT', dirname(dirname(dirname(__FILE__))
 
 class DirektHolidays {
 
-	private $_url = "http://www.direktholidays.at/";
-	private $_region = "Zillertal"; // We assume that all the accommodations are in the Zillertal region
 	private $_xpath = null;
 	private $_session = array();
 	private $_links = array();
+	private $_codes = array();
+	private $_short_descriptions = array();
+	private $_de_months = array(1 => "Januar", 
+								2 => "Februar",
+								3 => "März",
+								4 => "April",
+								5 => "Mai",
+								6 => "Juni",
+								7 => "Juli",
+								8 => "August",
+								9 => "September",
+								10 => "Oktober",
+								11 => "November",
+								12 => "Dezember");
+	
+	CONST ROOT_PAGE = "http://www.direktholidays.at/WebCenter/listView/sort:VOStamm.objektname/direction:asc/page:";
+	CONST CHECK_AVAILABILITY_URL = "http://www.direktholidays.at/Ajax/checkArrivalDepartureOnObject";
+	CONST DETAIL_VIEW_URL = "http://www.direktholidays.at/WebCenter/detailView/";
+	CONST ZILLERTAL_REGION = "Zillertal"; // We assume that all the accommodations are in the Zillertal region
+	CONST ROOT_URL = "http://www.direktholidays.at/";
+	CONST AJAX_FILTER_URL = "http://www.direktholidays.at/Ajax/objFilter";
+	
 
-	public function __construct($startPageURL = NULL) {
-		// default start page is: http://www.direktholidays.at/index.php?id=3&L=2
-		if($startPageURL) {
-			$this->processDirektHolidays($startPageURL);
-		}
+	public function __construct($process = false) {	
+		if($process)
+			$this->processDirektHolidays();
 	}
-
+	
 	/**
 	 * Function goes parses all the accommodations pages and retrieves their URLs
 	 *
 	 * @param string $url;	The URL of the first page
 	 */
-	public function processDirektHolidays($url) {
-		$ajaxLinks = $this->getAjaxAccommodations();
-		if(!$ajaxLinks) {
-			// Get all accommodations links from page
-			$this->getNextLinks($url);
+	public function processDirektHolidays() {
+		$first_page_url = self::ROOT_PAGE . "1";
+		$output = $this->execute($first_page_url);
+		$xPath = $this->getXPath();
+		$page_node = $xPath->query("//div[@class='container']/div[@class='container pagecontainer offset-0']/div[@class='col-md-3 col-md-pull-9 filters offset-0']/div[@class='filtertip']/div[@class='padding20']/p[@class='size13']/span[@class='size28 bold counthotel']");
 
-			// get all elements with a particular id and then loop through and print the href attribute
-			$elements = $this->execute($url, "//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-right']/div[@id='c312']/div[@id='atonfewo_pi3-listview']/div[@id='atonfewo_pi3-listview-pagebrowser'][1]/div[@class='browseBoxWrap']/div[@class='browseLinksWrap']/span[@class='inactiveLinkWrap']/a/@href");
-			if($elements) {
-				foreach ($elements as $e) {
+		$pages = floor((int)$page_node->item(0)->nodeValue / 20);
 
-					parse_str($e->nodeValue, $output);
-
-					if(!isset($output["tx_atonfewo_pi3"])) {
-						continue;
-					}
-
-					if(isset($output["cHash"])) {
-						unset($output["cHash"]);
-					}
-
-					if(isset($output["no_cache"])) {
-						unset($output["no_cache"]);
-					}
-
-					$link = http_build_query($output);
-					$link = urldecode($link);
-					$link = str_replace(array("[", "]", "index_php"), array("%5B", "%5D", "index.php"), $link);
-
-					if( !isset($this->_session["direktholidays"][$link]) ) {
-						$this->_session["direktholidays"][$link] = 1;
-						$this->processDirektHolidays($this->_url . $link);
-					}
-				}
-			}
-		} else {
-			$this->_links = $ajaxLinks;
-		}
-	}
-
-	/**
-	 * Gets all the accommodations URLs from a page
-	 *
-	 * @param $url
-	 */
-	private function getNextLinks($url) {
-
-		// get all links to the accommodations
-		$output = $this->execute($url, "//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-right']/div[@id='c312']/div[@id='atonfewo_pi3-listview']/div[@class='atonfewo_pi3-listview-item']/div[@class='atonfewo_pi3-listview-item-image']/a/@href");
-		if($output) {
-			foreach ($output as $node) {
-
-				$acc_url = $this->_url . $node->nodeValue;
-
-				$query_str = parse_url($acc_url, PHP_URL_QUERY);
-				parse_str($query_str, $query_params);
-
-				// Accommodation code
-				$code = $query_params["tx_atonfewo_pi1"]["ve"];
-
-				$this->_links[$code] = $acc_url;
+		$links = array();
+		for($i = 0; $i <= $pages; $i++) {
+			$page_links = $this->getAjaxAccommodations($i+1);
+			foreach($page_links as $item) {
+				array_push($links, $item);
 			}
 		}
+		$this->_links = $links;
 	}
 
 	/* gets the data from a URL */
-	function getAjaxAccommodations() {
+	function getAjaxAccommodations($page) {
 
-		// 17 October 2014:
-		// this function generates an error, so return without doing anything
-		return false;
+		$url = self::ROOT_PAGE . $page;
 
+		$accs = $this->execute($url, "//div[@class='container']/div[@class='container pagecontainer offset-0']/div[@class='rightcontent col-md-9 col-md-push-3 offset-0']/div[@class='itemscontainer offset-1 paddingtp20']/div[@class='offset-2']");
+		$xPath = $this->getXPath();
+		$link_nodes = $xPath->query(".//div[@class='col-md-4 offset-0']/div[@class='listitem']/a");
+		$short_description_nodes = $xPath->query(".//div[@class='col-md-8 offset-0']/div[@class='col-sm-9 labelleft2']/p");
 
-		$links = false;
+		$links = array();
+		$short_descriptions = array();
 
-		$url = $this->_url . "?eID=ajaxReq";
-		$ch = curl_init();
-		$timeout = 5;
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "tx_atonfewo_sv2[type]=0&tx_atonfewo_sv2[searchbox-destination][1]=true&tx_atonfewo_sv2[searchbox-destination][2]=true&tx_atonfewo_sv2[searchbox-destination][3]=true&tx_atonfewo_sv2[searchbox-destination][4]=true&tx_atonfewo_sv2[searchbox-destination][5]=true&tx_atonfewo_sv2[searchbox-destination][6]=true");
-		$data = curl_exec($ch);
-		curl_close($ch);
-		if($data) {
-			foreach(json_decode($data) as $code) {
-				$links[$code] = $this->getAccommodationURL($code);
-			}
+		foreach ($link_nodes as $node) {
+			$node_url = explode("/",$node->getAttribute('href'));
+			$this->_codes[$page][] = $node_url[3];
+			$links[$node_url[3]] = $this->getAccommodationURL($node_url[3]);
+		}
+
+		foreach ($short_description_nodes as $key=>$node){
+			$this->_short_descriptions[$this->_codes[$page][$key]] =$node->nodeValue;
 		}
 
 		return $links;
@@ -122,8 +90,19 @@ class DirektHolidays {
 	 * @param string $code
 	 * @return string
 	 */
-	public function getAccommodationURL($code) {
-		return $this->_url . "index.php?id=119&L=2&tx_atonfewo_pi1[ve]=" . $code;
+	public function getAccommodationURL($code){
+		return self::DETAIL_VIEW_URL . $code;
+	}
+
+	/**
+	 * Get accomodation code based on available url
+	 *
+	 * @param string $url
+	 * @return string
+	 */
+	public function getAccommodationCode($url){
+		$code = str_replace(self::DETAIL_VIEW_URL, '', $url);
+		return $code;
 	}
 
 	/**
@@ -132,7 +111,7 @@ class DirektHolidays {
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getAccommodations($limit = 0) {
+	public function getAccommodations($limit = 0){
 		// get the details of each accommodation
 		$i=1;
 		$urls = array();
@@ -140,7 +119,7 @@ class DirektHolidays {
 
 		foreach ($links as $key => $url) {
 
-			$urls[$key] = $url;
+			$urls[$this->getAccommodationCode($url)] = $url;
 
 			if($limit != 0 && $i >= $limit) {
 				break;
@@ -161,57 +140,42 @@ class DirektHolidays {
 
 		$acc = array();
 
-		$name = $this->execute($url, "//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-facts']/div[@id='atonfewo_pi1-detailview-facts-headline']/h1");
+		$details_node = $this->execute($url, "//div[@class='container']/div[@class='container pagecontainer offset-0']/div[@class='col-md-5 detailsright offset-0']");
+		$xPath = $this->getXPath();
+		$name_node = $xPath->query(".//div[@class='padding20']/h3");
+		$person_node1 = $xPath->query(".//div[@class='col-md-6 bordertype1 padding5-20']/span[@class='opensans size30 bold grey2']");
+		$person_node2 = $xPath->query(".//div[@class='col-md-6 bordertype2 padding5-20']/span[@class='opensans size30 bold grey2']");
+		$place_node = $xPath->query(".//div[@class='padding20']/span[@class='grey']");
+		$place = explode(',',$place_node->item(0)->nodeValue);
 
-		if($name) {
+		if($details_node) {
 			// Accommodation name
-			$acc["name"] = trim($name->item(0)->nodeValue);
+			$acc["name"] = trim($name_node->item(0)->nodeValue);
 
+			$accommodation_code = $this->getAccommodationCode($url);
 			// Get current xPath
-			$xPath = $this->getXPath();
-
-			$short_description = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-facts']/div[@id='atonfewo_pi1-detailview-facts-shortdescription']/p");
 
 			// Accommodation short description
-			$acc["short_description"] = trim($short_description->item(0)->nodeValue);
-
-			$details = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-facts']/div[@class='atonfewo_pi1-detailview-facts-table']/table/tr");
-
-			//when we process the nodes below, we will be cycling through
+			//$acc["short_description"] = $this->_short_descriptions[$accommodation_code];
+			$acc["short_description"] = '';
+			//retriving the accomodation details
 			$result = array();
-
-			//perform our xpath sub-queries to get the data
-			foreach ($details as $node)
-			{
-				//we are now using each 'node' as the limit for the new xpath query to search within
-				//Make the queries relative... start them with a dot (e.g. ".//…").
-				$details = $xPath->query(".//td[@class='td-key']", $node);
-				$values = $xPath->query(".//td[@class='td-value']", $node);
-
-				$i = 0;
-				foreach ($details as $detail){
-					$result[trim($detail->nodeValue)] = trim($values->item($i)->nodeValue);
-					$i++;
-				}
-			}
+			$result['Persoon'] = $person_node1->item(0)->nodeValue;
+			$result['Badkamer'] = $person_node1->item(1)->nodeValue;
+			$result['Objekttype'] = $person_node2->item(0)->nodeValue;
+			$result['Slaapkamer'] = $person_node2->item(1)->nodeValue;
+			$result['Wijk'] = $place[0];
 
 			// Accommodation details
 			$acc["details"] = $result;
 
-			$images = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-image']/a/@href");
-
 			// Accommodation images
+			$images = $xPath->query("//div[@class='container']/div[@class='container pagecontainer offset-0']/div[@class='col-md-7 details-slider']/div[@id='c-carousel']/div[@id='wrapper']/div[@id='inner']/div[@id='pager-wrapper']/div[@id='pager']/img/@src");
 			$acc["images"] = $this->getNodesValues($images, true);
 
-			$description = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-tabs']/div[@id='atonfewo_pi1-detailview-tabs-1']/p");
-
-			// Accommodation description
-			$acc["description"] = trim($description->item(0)->nodeValue);
-
-			$place_description = $xPath->query("//div[@id='container']/div[@id='container-listview']/div[@id='container-listview-content']/div[@id='container-listview-content-left']/div[@id='c579']/div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-tabs']/div[@id='atonfewo_pi1-detailview-tabs-3']/p[1]");
-
-			// Place description
-			$acc["place_description"] = trim($place_description->item(0)->nodeValue);
+			// Accommodation description			
+			$description_node = $xPath->query("//div[@class='container']/div[@class='mt25 offset-0']/div[@class='col-md-8 pagecontainer2 offset-0']/div[@class='paddingtp20']/div[@class='tab-pane fade active in']/p");
+			$acc["description"] = trim($description_node->item(0)->nodeValue);
 
 			return $this->formatValues($acc);
 		} else {
@@ -234,14 +198,14 @@ class DirektHolidays {
 
 		$new["accnaam"] = trim($this->formatSpecialCharacters(substr($value["name"],0,$first_number)));
 		$new["typenaam"] = $this->formatSpecialCharacters($value["name"]);
-		$new["skigebied_id"] = $this->_region;
+		$new["skigebied_id"] = self::ZILLERTAL_REGION;
 		$new["plaats_id"] = $value["details"]["Wijk"];
 		$new["optimaalaantalpersonen"] = $value["details"]["Persoon"];
 		$new["maxaantalpersonen"] = $value["details"]["Persoon"];
 		$new["slaapkamers"] = $value["details"]["Slaapkamer"];
 		$new["badkamers"] = $value["details"]["Badkamer"];
 		$new["accindeling"] = iconv("UTF-8", "CP1252", $value["description"]);
-		$new["accomschrijving"] =  iconv("UTF-8", "CP1252", $value["short_description"]) . " " . iconv("UTF-8", "CP1252", $value["place_description"]);
+		$new["accomschrijving"] =  iconv("UTF-8", "CP1252", $value["short_description"]);
 		$new["accafbeelding"] = $value["images"];
 		$new["typeafbeelding"] = $value["images"];
 		$new["soortaccommodatie"] = strtolower($value["details"]["Objekttype"]);
@@ -267,7 +231,7 @@ class DirektHolidays {
 		$return = array();
 
 		foreach ($domnodelist as $node) {
-			$return[] = ($prependURL) ? $this->_url . $node->nodeValue : $node->nodeValue;
+			$return[] = ($prependURL) ? self::ROOT_URL . $node->nodeValue : $node->nodeValue;
 		}
 
 		if(count($return) == 1) {
@@ -372,108 +336,27 @@ class DirektHolidays {
 	 * @return string
 	 */
 	public function formatSpecialCharacters($subject) {
-
-		$search = array("Â²", "Ã«", "Ã¶", "Ã©", "Ã¤", "Ã¼", "Ã¯", "Ã¨", "éÂ");
+		$search = array("Â²", "Ã«", "Ã¶", "Ã©", "Ã¤", "Ã¼", "Ã¯", "Ã¨", "éÂ", "?¤");
 		$replace = array("2", "ë", "ö", "é", "ä", "ü", "ï", "è", "és");
-
 		$text = str_replace($search, $replace, $subject);
-
 		return $text;
 	}
-
+	
 	/**
-	 * Extract prices from the accommodation HTML page
-	 *
-	 * @param string $html
-	 * @param date $start_date; 	Season start date
-	 * @param date $end_date; 	Season end date
-	 * @return array
+	 * Retrieves the HML based on the given URL
+	 * @param type $accURL
+	 * @return string $html
 	 */
-	public function getPrices($html, $start_date, $end_date) {
-
-		$result = array();
-
-		$start_date = strtotime($start_date);
-		$end_date = strtotime($end_date);
-
-		$query = "//div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-bookingarea']/div[@id='atonfewo_pi1-detailview-bookingarea-alternativedate']/table/tr";
-		$details = $this->load($html, $query);
-
-		$xPath = $this->getXPath();
-
-		//perform our xpath sub-queries to get the data
-		foreach ($details as $node)
-		{
-			//we are now using each 'node' as the limit for the new xpath query to search within
-			//Make the queries relative... start them with a dot (e.g. ".//…").
-			$button = $xPath->query(".//td[@class='button']/div", $node);
-
-			$accId = $button->item(0)->getAttribute("id");
-			$id = $button->item(0)->getAttribute("name");
-			$arrival = $button->item(0)->getAttribute("arrival");
-			$duration = $button->item(0)->getAttribute("duration");
-			$d = getdate($arrival);
-			$week = strtotime($d["year"]."-".$d["mon"]."-".$d["mday"]);
-
-			if($duration == 604800 && date("w", $arrival) == "6" && $start_date <= $week && $week <= $end_date) {
-				// Create page link
-				$pageLink = $this->_url . "index.php?id=".$id."&L=2&tx_atonfewo_pi4[v_nr]=".$accId."&tx_atonfewo_pi4[arrival]=".$arrival."&tx_atonfewo_pi4[duration]=".$duration;
-				$result[$week] = $this->extractPrice($pageLink);
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Extract the price from the Accommodation booking page
-	 *
-	 * @param string $url
-	 * @return float
-	 */
-	private function extractPrice($url) {
-
-		$query = "//div[@id='atonfewo_pi4-checkout']/div[@id='atonfewo_pi4-checkout-tabs']/div[@id='atonfewo_pi4-checkout-tabs-1']/div[@id='atonfewo_pi4-checkout-tabs-1-rightcol']/div[@id='atonfewo_pi4-checkout-tabs-1-rightcol-prices']/table/tr[2]/td[@class='td-1']";
-		$output = $this->execute($url, $query);
-		$price = false;
-
-		if($output) {
-			$price = trim(utf8_decode($output->item(0)->nodeValue));
-			$price = preg_replace("/([^0-9])/i", "", $price);
-			$price = round($price/100, 2);
-		}
-		return $price;
-	}
-
-	/**
-	 * Performs a CURL request to get the accommodation page including the prices as well
-	 * @param $accURL
-	 * @return mixed
-	 */
-	public function curlPricesRequest($accURL) {
-
-		$url = $this->_url . "?eID=ajaxReq";
-
+	public function getAccomodationHTML($accURL) {
 		$ch = curl_init();
-
-		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_COOKIEJAR, SITE_ROOT . DS . "tmp" . DS . "direktholidays_cookies.txt");
-		curl_setopt($ch, CURLOPT_POST, true);
-
-		curl_setopt($ch, CURLOPT_POSTFIELDS, "tx_atonfewo_sv2[type]=0&tx_atonfewo_sv2[searchbox-destination][1]=true&tx_atonfewo_sv2[searchbox-destination][2]=true&tx_atonfewo_sv2[searchbox-destination][3]=true&tx_atonfewo_sv2[searchbox-destination][4]=true&tx_atonfewo_sv2[searchbox-destination][5]=true&tx_atonfewo_sv2[searchbox-destination][6]=true&tx_atonfewo_sv2[searchbox-datechooser-arrival]=&tx_atonfewo_sv2[searchbox-select-duration]=7&tx_atonfewo_sv2[searchbox-select-adults]=2&tx_atonfewo_sv2[searchbox-select-children]=0&tx_atonfewo_sv2[searchbox-checkbox-pet]=false&tx_atonfewo_sv2[searchbox-select-objecttype]=0&tx_atonfewo_sv2[searchbox-checkbox-smoke]=false");
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_exec($ch);
-
-		curl_setopt($ch, CURLOPT_COOKIEFILE, SITE_ROOT . DS . "tmp" . DS . "direktholidays_cookies.txt");
-		curl_setopt($ch, CURLOPT_POST, false);
-
+		$timeout = 5;
 		curl_setopt($ch, CURLOPT_URL, $accURL);
-		$data = curl_exec($ch);
-
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+		$html = curl_exec($ch);
+		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE); // find HTTP status
 		curl_close($ch);
-
-		return $data;
+		return $html;
 	}
 
 	/**
@@ -484,17 +367,14 @@ class DirektHolidays {
 	 * @param date $end_date
 	 * @return array
 	 */
-	public function getAvailability($html, $start_date, $end_date) {
-
+	public function getAvailability($html, $start_date, $end_date, $accCode) {
 		$result = array();
 
 		$start_date = strtotime($start_date);
 		$end_date = strtotime($end_date);
 
-		$query = "//div[@id='atonfewo_pi1-detailview']/div[@id='atonfewo_pi1-detailview-tabs']/div[@id='atonfewo_pi1-detailview-tabs-2']/div[@class='atonfewo_pi1-detailview-tabs-2-calendar']/table";
+		$query = "//div[@class='container']/div[@class='mt25 offset-0']/div[@class='col-md-8 pagecontainer2 offset-0']/div[@class='paddingtp20']/div[@class='tab-pane fade active in']/div[@id='collapse3']/div[@class='hpadding20']/div[@class='col-md-4 center']/div[@class='booking-schedule']/table";
 		$details = $this->load($html, $query);
-
-		$nl_months = array(1 => "januari", 2 => "februari", 3 => "maart", 4 => "april", 5 => "mei", 6 => "juni", 7 => "juli", 8 => "augustus", 9 => "september", 10 => "oktober", 11 => "november", 12 => "december");
 
 		$xPath = $this->getXPath();
 
@@ -504,30 +384,27 @@ class DirektHolidays {
 			$th = $xPath->query(".//tr/th/text()", $table);
 			$tmp = $this->getNodesValues($th);
 			$tmp = explode(" ", $tmp);
-
-			$month = array_search($tmp[0], $nl_months);
+			$month = array_search($this->formatSpecialCharacters($tmp[0]), $this->_de_months);
 			$year = $tmp[1];
 
 			// get sub-queries for each table row
 			$node = $xPath->query(".//tr", $table);
-			foreach($node as $tr) {
 
+
+			foreach($node as $tr) {
 				// get each td in the table row
 				$td = $xPath->query(".//td[6]", $tr);
-
 				foreach ($td as $detail){
 					$day = $detail->nodeValue;
 					if($day != "Sa" && $day != "") {
 						$week = strtotime($year."-".$month."-".$day);
 						if($start_date <= $week && $week < $end_date) {
 							if(date("w", $week) == 6) {
-								$available = trim($detail->getAttribute('class'));
-								$available = explode(" ", $available);
-								if(array_search("dayinpast", $available) === false && array_search("reservation", $available) === false && array_search("reservation-start", $available) === false) {
-									$result[$week] = 1;
-								} elseif(array_search("reservation", $available) !== false) {
-									$last_week = strtotime("-7 days", $week);
-									if(isset($result[$last_week])) unset($result[$last_week]);
+								$availability = $this->getAjaxAvailability($year."-".$month."-".$day, $accCode);
+								if($availability) {
+									$result['availability'][$week] = 1;
+									$price = $this->getAvailablePrice($year."-".$month."-".$day, $accCode);
+									$result['price'][$week] = str_replace('.', '', $price);
 								}
 							}
 						} else {
@@ -537,15 +414,79 @@ class DirektHolidays {
 				}
 			}
 		}
-
 		// Accommodation availability
 		return $result;
 	}
 
+	public function getAjaxAvailability($start_date, $accCode) {
+
+		$end_date = date("Y-m-d",strtotime(date("Y-m-d", strtotime($start_date)) . " +1 week"));
+
+		$ch = curl_init();
+		$url = self::CHECK_AVAILABILITY_URL;
+		$timeout = 5;
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_POST, true);
+
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "data[redirect]=detailView&data[anchor]=bookingSchedule&data[text]=" . $accCode ."&data[arrival]=".$start_date."&data[departure]=" . $end_date . "&data[adults]=0&data[children]=0&data[type]=0&data[props]=&data[regions]=");
+		curl_setopt($ch, CURLOPT_URL, $url);
+		$data = curl_exec($ch);
+
+		$result = json_decode($data);
+		return $result->ok;
+	}
+
+	/**
+	 * Performs a CURL request to get the accommodation page including the prices as well
+	 * @param $accURL
+	 * @return mixed
+	 */
+	public function getAvailablePrice($start_date, $accCode) {
+
+		$url = self::AJAX_FILTER_URL;
+		$accURL = self::DETAIL_VIEW_URL.$accCode;
+
+		$end_date = date("Y-m-d",strtotime(date("Y-m-d", strtotime($start_date)) . " +1 week"));
+
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_COOKIEJAR, SITE_ROOT . DS . "tmp" . DS . "direktholidays_cookies.txt");
+		curl_setopt($ch, CURLOPT_POST, true);
+
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "data[redirect]=detailView&data[anchor]=bookingSchedule&data[text]=" . $accCode ."&data[arrival]=".$start_date."&data[departure]=" . $end_date . "&data[adults]=0&data[children]=0&data[type]=0&data[props]=&data[regions]=");
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_exec($ch);
+
+		curl_setopt($ch, CURLOPT_COOKIEFILE, SITE_ROOT . DS . "tmp" . DS . "direktholidays_cookies.txt");
+		curl_setopt($ch, CURLOPT_POST, false);
+		curl_setopt($ch, CURLOPT_URL, $accURL);
+		$html = curl_exec($ch);
+
+		curl_close($ch);
+
+		$query = "//div[@class='container']/div[@class='container pagecontainer offset-0']/div[@class='col-md-5 detailsright offset-0']/div[@class='hpadding20']/span[@class='size30 magenta bold']/b";
+		$details = $this->load($html, $query);
+		$price = explode(" ", $details->item(0)->nodeValue);
+
+		return $price[1];
+	}
+	/**
+	 * Set the related links based on the provided accommodation code.
+	 * 
+	 * @param type $code
+	 */
 	public function setLinks($code) {
 		$this->_links[$code] = $this->getAccommodationURL($code);
 	}
-
+	
+	/**
+	 * Get the current available links
+	 * 
+	 * @return array
+	 */
 	private function getLinks() {
 		return $this->_links;
 	}

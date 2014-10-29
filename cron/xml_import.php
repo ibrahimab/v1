@@ -77,8 +77,8 @@ function get_slow_suppliers($xml_type) {
 		if($current_hour==0 or $current_hour==3 or $current_hour==6 or $current_hour==10 or $current_hour==13 or $current_hour==16 or $current_hour==19 or $current_hour==22) {
 			return true;
 		} else {
-			// return false;
-			return true;
+			return false;
+			//return true;
 		}
 	}
 }
@@ -1163,7 +1163,7 @@ while(list($key,$value)=@each($soap_urls)) {
 			require_once($value);
 
 			// Instantiate the DirektHolidays class
-			$direktHolidays = new DirektHolidays("http://www.direktholidays.at/index.php?id=3&L=2");
+			$direktHolidays = new DirektHolidays(true);
 
 			// Get the last dates for each season type (winter=1, summer=2)
 			$q = "SELECT eind AS end, begin as begin, type FROM `seizoen` WHERE eind>NOW()";
@@ -1196,13 +1196,17 @@ while(list($key,$value)=@each($soap_urls)) {
 					$end_date = date("Y-m-d", $end_date);
 
 					$url = $direktHolidays->getAccommodationURL($accCode);
-					$html = $direktHolidays->curlPricesRequest($url);
+					$html = $direktHolidays->getAccomodationHTML($url);
 					$start_date = $startDate[$seasonId][$endDatekey];
 					if(strtotime($startDate[$seasonId][$endDatekey]) < time()) {
 						$start_date = date("Y-m-d");
 					}
 
-					if($availability = $direktHolidays->getAvailability($html, $start_date, $end_date)) {
+					$availabilities = $direktHolidays->getAvailability($html, $start_date, $end_date, $accCode);
+					
+					$availability = $availabilities['availability'];
+					$prices = $availabilities['price'];
+					if(isset($availability)) {
 						// Get the availability
 						if(isset($xml_beschikbaar[$key][$accCode])) {
 								$xml_beschikbaar[$key][$accCode] = $xml_beschikbaar[$key][$accCode] + $availability;
@@ -1211,7 +1215,7 @@ while(list($key,$value)=@each($soap_urls)) {
 						}
 					}
 
-					if($prices = $direktHolidays->getPrices($html, $start_date, $end_date)) {
+					if(isset($prices)) {
 						// Get the prices
 						if(isset($xml_brutoprijs[$key][$accCode])) {
 								$xml_brutoprijs[$key][$accCode] = $xml_brutoprijs[$key][$accCode] + $prices;
@@ -1921,7 +1925,7 @@ while($db->next_record()) {
 		} elseif($db->f("xml_type")==24) {
 
 			#
-			# Leverancier Interhome
+			# Leverancier Direkt Holidays
 			#
 			# Beschikbaarheid
 			if(is_array($xml_beschikbaar[$db->f("xml_type")][$value])) {
