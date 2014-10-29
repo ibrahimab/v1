@@ -257,6 +257,8 @@ class bijkomendekosten {
 		if(is_array($this->cms_data_seizoenen))	{
 			foreach ($this->cms_data_seizoenen as $key => $value) {
 
+				unset($inclusief_tekst_html, $exclusief_tekst_html, $in_exclusief_tekst);
+
 				$this->seizoen_id = $key;
 
 				$return .= "<div class=\"cms_bk_seizoen\" data-seizoen_id=\"".$key."\" id=\"bijkomendekosten\"><h2>Bijkomende kosten ".wt_he($value).($this->soort=="type" ? " - type-niveau" : "")."</h2>";

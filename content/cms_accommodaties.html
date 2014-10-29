@@ -99,13 +99,11 @@ if($_GET["show"]==1) {
 
 	// bijkomende kosten
 	if($login->has_priv("31")) {
-		if($_GET["wzt"]==1) {
 
-			$bijkomendekosten = new bijkomendekosten($_GET["1k0"], "accommodatie");
-			echo $bijkomendekosten->cms_enter_costs_per_acc_type();
+		$bijkomendekosten = new bijkomendekosten($_GET["1k0"], "accommodatie");
+		echo $bijkomendekosten->cms_enter_costs_per_acc_type();
 
-			echo "<p>&nbsp;</p>";
-		}
+		echo "<p>&nbsp;</p>";
 	}
 
 	echo "<p><hr><h2>Vertrekdagtypes</h2>";
