@@ -719,8 +719,8 @@ if($cmshoofdpagina[$cmshoofdpagina_rol[12]]["xml"]["tarieven"]) {
 				if(!$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]) {
 					if($algehad) echo "</ul></div></p>";
 
-					echo "<p><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_xmlnieuw".$db->f("leverancier_id")."_".$db->f("wzt")."\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('xmlnieuw".$db->f("leverancier_id")."_".$db->f("wzt")."');return false;\"><b>".wt_he($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")])."</a> (".$tellerperleverancier[$db->f("leverancier_id")."_".$db->f("wzt")].")</b>";
-					echo "<div id=\"xmlnieuw".$db->f("leverancier_id")."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
+					echo "<p><img src=\"".$vars["path"]."pic/plusicon.gif\" width=\"11\" height=\"11\" style=\"margin-bottom:-1px;\" id=\"plusmin_xmlnieuw_flex_".$db->f("leverancier_id")."_".$db->f("wzt")."\">&nbsp;<a href=\"#\" onclick=\"slidetoggle('xmlnieuw_flex_".$db->f("leverancier_id")."_".$db->f("wzt")."');return false;\"><b>".wt_he($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")])."</a> (".$tellerperleverancier[$db->f("leverancier_id")."_".$db->f("wzt")].")</b>";
+					echo "<div id=\"xmlnieuw_flex_".$db->f("leverancier_id")."_".$db->f("wzt")."\" class=\"showhide\" style=\"background-color:#ffffff;display:none;\"><ul>";
 #					echo "<b>".wt_he($db->f("leverancier")." - ".$vars["seizoentype_namen"][$db->f("wzt")]).":</b><ul>";
 
 					$algehad[$db->f("leverancier_id")."_".$db->f("wzt")]=true;
