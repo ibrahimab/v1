@@ -1277,8 +1277,12 @@ if($boeking_wijzigen) {
 	}
 } elseif($mustlogin or $cron) {
 	require($unixdir."admin/vars_cms.php");
-} else {
-	# Login-class voor Chalet-medewerkers (andere pagina's dan CMS-pagina's)
+} elseif(!$geen_tracker_cookie) {
+	//
+	// front-end website
+	//
+
+	// Login-class voor Chalet-medewerkers (andere pagina's dan CMS-pagina's)
 	if($voorkant_cms) {
 		$login = new Login;
 		$login->settings["logout_number"]=1;
@@ -1388,7 +1392,7 @@ if(($boeking_wijzigen and $login->logged_in) or (ereg("^[0-9]+",$_COOKIE["CHALET
 }
 
 # Favorieten en Laatst bekeken accommodaties uit database halen
-if($_COOKIE["sch"]) {
+if($_COOKIE["sch"] and !$geen_tracker_cookie) {
 	$db->query("SELECT COUNT(b.type_id) AS aantal FROM bezoeker_favoriet b, view_accommodatie v WHERE b.bezoeker_id='".addslashes($_COOKIE["sch"])."' AND b.type_id=v.type_id AND v.websites LIKE '%".$vars["website"]."%' AND v.atonen=1 AND v.ttonen=1 AND v.archief=0;");
 	if($db->next_record()) {
 		$vars["bezoeker_aantal_favorieten"]=$db->f("aantal");
