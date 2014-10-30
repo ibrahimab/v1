@@ -1070,21 +1070,20 @@ if($mustlogin) {
 
 	if(!$vars["cms_geen_aankomstdata_nodig"]) {
 
-		// TODO: tijdelijk uit vanwege omzetten Redis-setup door Netground
 
-		// $wt_redis = new wt_redis;
+		$wt_redis = new wt_redis;
 
-		// if($wt_redis->array_group_exists("vars_aankomstdatum")) {
+		if($wt_redis->array_group_exists("vars_aankomstdatum")) {
 
-		// 	$vars["aankomstdatum"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum");
-		// 	$vars["aankomstdatum_kort"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_kort");
-		// 	$vars["aankomstdatum_weekend"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend");
-		// 	$vars["aankomstdatum_weekend_alleseizoenen"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend_alleseizoenen");
+			$vars["aankomstdatum"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum");
+			$vars["aankomstdatum_kort"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_kort");
+			$vars["aankomstdatum_weekend"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend");
+			$vars["aankomstdatum_weekend_alleseizoenen"] = $wt_redis->get_array("vars_aankomstdatum", "aankomstdatum_weekend_alleseizoenen");
 
-		// 	if(is_array($vars["aankomstdatum_weekend_alleseizoenen"])) {
-		// 		$vars_aankomstdatum_redis = true;
-		// 	}
-		// }
+			if(is_array($vars["aankomstdatum_weekend_alleseizoenen"])) {
+				$vars_aankomstdatum_redis = true;
+			}
+		}
 
 		if(!$vars_aankomstdatum_redis) {
 			$db->query("SELECT seizoen_id, UNIX_TIMESTAMP(begin) AS begin, UNIX_TIMESTAMP(eind) AS eind FROM seizoen ORDER BY begin, eind;");
@@ -1103,13 +1102,12 @@ if($mustlogin) {
 					}
 				}
 			}
-			if($_SERVER["REMOTE_ADDR"]=="31.223.173.113" or $_SERVER["DOCUMENT_ROOT"]=="/home/webtastic/html") {
-				$wt_redis = new wt_redis;
-				$wt_redis->store_array("vars_aankomstdatum", "aankomstdatum", $vars["aankomstdatum"]);
-				$wt_redis->store_array("vars_aankomstdatum", "aankomstdatum_kort", $vars["aankomstdatum_kort"]);
-				$wt_redis->store_array("vars_aankomstdatum", "aankomstdatum_weekend", $vars["aankomstdatum_weekend"]);
-				$wt_redis->store_array("vars_aankomstdatum", "aankomstdatum_weekend_alleseizoenen", $vars["aankomstdatum_weekend_alleseizoenen"]);
-			}
+			$wt_redis = new wt_redis;
+			$wt_redis->expire_time = 2592000; // 30 days
+			$wt_redis->store_array("vars_aankomstdatum", "aankomstdatum", $vars["aankomstdatum"]);
+			$wt_redis->store_array("vars_aankomstdatum", "aankomstdatum_kort", $vars["aankomstdatum_kort"]);
+			$wt_redis->store_array("vars_aankomstdatum", "aankomstdatum_weekend", $vars["aankomstdatum_weekend"]);
+			$wt_redis->store_array("vars_aankomstdatum", "aankomstdatum_weekend_alleseizoenen", $vars["aankomstdatum_weekend_alleseizoenen"]);
 		}
 	}
 }
