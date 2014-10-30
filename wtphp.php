@@ -1,5 +1,13 @@
 <?php
 
+if(defined("wt_test_name") and wt_test_name=="macbook") {
+	include("admin/vars.php");
+
+	$bijkomendekosten = new bijkomendekosten;
+	$bijkomendekosten->pre_calculate_all_types();
+}
+
+
 phpinfo();
 exit;
 
