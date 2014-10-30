@@ -1232,9 +1232,6 @@ $txt["en_i"]["zoek-en-boek"]["priveterras"]="private garden / terrace";
 $txt["nl"]["zoek-en-boek"]["internetwifi"]="internet / Wi-Fi";
 $txt["en"]["zoek-en-boek"]["internetwifi"]="internet / Wi-Fi";
 
-$txt["nl"]["zoek-en-boek"]["wifi"]="internet via Wi-Fi";
-$txt["en"]["zoek-en-boek"]["wifi"]="internet via Wi-Fi";
-
 $txt["nl"]["zoek-en-boek"]["balkon"]="balkon";
 $txt["en"]["zoek-en-boek"]["balkon"]="balcony";
 
