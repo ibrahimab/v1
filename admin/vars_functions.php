@@ -3300,7 +3300,7 @@ function bereken_bijkomendekosten($boekingid) {
 	}
 
 	if($bijkomendekosten_inquery) {
-		$db->query("SELECT b.bijkomendekosten_id, b.gekoppeldaan, b.hoort_bij_accommodatieinkoop, b.optiecategorie, bt.verkoop, bt.inkoop, bt.korting, bt.omzetbonus, b.naam".$gegevens["stap1"]["website_specifiek"]["ttv"]." AS naam, b.perboekingpersoon, b.min_leeftijd, b.max_leeftijd, b.zonderleeftijd FROM bijkomendekosten b, bijkomendekosten_tarief bt WHERE bt.bijkomendekosten_id=b.bijkomendekosten_id AND bt.seizoen_id='".$gegevens["stap1"]["seizoenid"]."' AND bt.week='".$gegevens["stap1"]["aankomstdatum"]."' AND b.bijkomendekosten_id IN (".$bijkomendekosten_inquery.");");
+		$db->query("SELECT b.bijkomendekosten_id, b.gekoppeldaan, b.hoort_bij_accommodatieinkoop, b.optiecategorie, bt.verkoop, bt.inkoop, bt.korting, bt.omzetbonus, b.naam".$gegevens["stap1"]["website_specifiek"]["ttv"]." AS naam, b.perboekingpersoon, b.min_leeftijd, b.max_leeftijd, b.zonderleeftijd, b.min_personen, b.max_personen FROM bijkomendekosten b, bijkomendekosten_tarief bt WHERE bt.bijkomendekosten_id=b.bijkomendekosten_id AND bt.seizoen_id='".$gegevens["stap1"]["seizoenid"]."' AND bt.week='".$gegevens["stap1"]["aankomstdatum"]."' AND b.bijkomendekosten_id IN (".$bijkomendekosten_inquery.");");
 		while($db->next_record()) {
 			unset($save);
 			if($db->f("perboekingpersoon")==1) {
@@ -3310,7 +3310,19 @@ function bereken_bijkomendekosten($boekingid) {
 				if($db->f("gekoppeldaan")==3) {
 					$save["deelnemers"]=$gegevens["stap4"]["bijkomendekosten"][$db->f("bijkomendekosten_id")];
 				} else {
-					if($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
+					if($db->f("min_personen") and $db->f("max_personen")) {
+						//
+						// check for number of persons for this booking (min_personen / max_personen)
+						//
+						for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
+							if($i>=$db->f("min_personen") and $i<=$db->f("max_personen")) {
+								if($save["deelnemers"]) $save["deelnemers"].=",".$i; else $save["deelnemers"]=$i;
+							}
+						}
+					} elseif($db->f("min_leeftijd") or $db->f("max_leeftijd")) {
+						//
+						// check for age
+						//
 						for($i=1;$i<=$gegevens["stap1"]["aantalpersonen"];$i++) {
 							if(isset($gegevens["stap3"][$i]["geboortedatum"])) {
 								$leeftijd=wt_leeftijd($gegevens["stap3"][$i]["geboortedatum"],mktime(0,0,0,date("m",$gegevens["stap1"]["vertrekdatum_exact"]),date("d",$gegevens["stap1"]["vertrekdatum_exact"])-1,date("Y",$gegevens["stap1"]["vertrekdatum_exact"])));
@@ -3336,6 +3348,7 @@ function bereken_bijkomendekosten($boekingid) {
 					}
 				}
 			}
+
 			if($voorheen[$db->f("bijkomendekosten_id")]) {
 				$save["naam"]=$voorheen[$db->f("bijkomendekosten_id")]["naam"];
 				$save["verkoop"]=$voorheen[$db->f("bijkomendekosten_id")]["verkoop"];

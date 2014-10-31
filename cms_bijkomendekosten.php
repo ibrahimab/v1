@@ -182,6 +182,13 @@ if($cms_form[33]->filled) {
 		}
 	}
 
+	if($cms_form[33]->input["min_personen"] and !$cms_form[33]->input["max_personen"]) {
+		$cms_form[33]->error("max_personen","ook invullen bij gebruik \"Minimaal aantal personen\"");
+	}
+	if($cms_form[33]->input["max_personen"] and !$cms_form[33]->input["min_personen"]) {
+		$cms_form[33]->error("min_personen","ook invullen bij gebruik \"Maximaal aantal personen\"");
+	}
+
 	if($cms_form[33]->input["min_personen"] and $cms_form[33]->input["max_personen"] and $cms_form[33]->input["min_personen"]>$cms_form[33]->input["max_personen"]) {
 		$cms_form[33]->error("max_personen","ingevoerde waarde kan niet lager zijn dan \"Minimaal aantal personen\"");
 	}
