@@ -508,17 +508,21 @@ if(!$vars["verberg_linkerkolom"] and !$vars["verberg_zoekenboeklinks"]) {
 	# Aankomstdatum vullen
 #	$vars["aankomstdatum_weekend_afkorting"]["-"]="-- ".txt("aankomstdatum","index")." --";
 #	$vars["aankomstdatum_weekend_afkorting"][0]=txt("geenvoorkeur","index");
-	ksort($vars["aankomstdatum_weekend_afkorting"]);
+	if(is_array($vars["aankomstdatum_weekend_afkorting"])) {
+		ksort($vars["aankomstdatum_weekend_afkorting"]);
+	}
 
 	echo "<div class=\"zoekenboek_invulveld\">";
 	echo "<select name=\"fad\" class=\"selectbox\" data-placeholder=\"".html("aankomstdatum","index")."\">";
 	echo "<option value=\"\"> </option>";
-	while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
-		# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
-		if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
-			echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
-			if($key==="-") echo " selected";
-			echo ">".$value."</option>\n";
+	if(is_array($vars["aankomstdatum_weekend_afkorting"])) {
+		while(list($key,$value)=each($vars["aankomstdatum_weekend_afkorting"])) {
+			# Weken die al voorbij zijn niet tonen (2 dagen na aankomstdatum niet meer tonen)
+			if(mktime(0,0,0,date("m"),date("d")-2,date("Y"))<$key or !$key or $key==="-") {
+				echo "<option value=\"".($key=="-" ? "0" : $key)."\"";
+				if($key==="-") echo " selected";
+				echo ">".$value."</option>\n";
+			}
 		}
 	}
 	echo "</select>";
